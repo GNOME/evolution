@@ -125,8 +125,9 @@ init_with_seekable_stream_and_bounds (CamelSeekableSubstream *seekable_substream
  * @sup_bound: an upper bound
  *
  * Creates a new CamelSeekableSubstream that references the portion
- * of @parent_stream from @inf_bound to @sup_bound. (If @sup_bound is -1,
- * it references to the end of stream, even if the stream grows.)
+ * of @parent_stream from @inf_bound to @sup_bound. (If @sup_bound is
+ * #CAMEL_STREAM_UNBOUND, it references to the end of stream, even if
+ * the stream grows.)
  *
  * While the substream is open, the caller cannot assume anything about
  * the current position of @parent_stream. After the substream has been

@@ -47,8 +47,9 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 	off_t start, end;
 	CamelMimeFilter *fdec = NULL, *fch = NULL;
 	struct _header_content_type *ct;
-	int decid=-1, chrid=-1, cache=FALSE;
+	int decid=-1, chrid=-1, cache=TRUE;
 	CamelStream *source;
+	CamelSeekableStream *seekable_source;
 	char *encoding;
 
 	d(printf("constructing data-wrapper\n"));
@@ -59,10 +60,13 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 
 		/* if we can't seek, dont have a stream/etc, then we must cache it */
 	source = camel_mime_parser_stream(mp);
-	gtk_object_ref((GtkObject *)source);
-	if (source == NULL
-	    || !CAMEL_IS_SEEKABLE_STREAM(source))
-		cache = TRUE;
+	if (source) {
+		gtk_object_ref((GtkObject *)source);
+		if (CAMEL_IS_SEEKABLE_STREAM (source)) {
+			seekable_source = CAMEL_SEEKABLE_STREAM (source);
+			cache = FALSE;
+		}
+	}
 
 	/* first, work out conversion, if any, required, we dont care about what we dont know about */
 	encoding = header_content_encoding_decode(camel_mime_parser_header(mp, "content-transfer-encoding", NULL));
@@ -99,7 +103,10 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 
 	buffer = g_byte_array_new();
 
-	start = camel_mime_parser_tell(mp);
+	if (!cache) {
+		start = camel_mime_parser_tell(mp) +
+			seekable_source->bound_start;
+	}
 	while ( camel_mime_parser_step(mp, &buf, &len) != HSCAN_BODY_END ) {
 		if (buffer) {
 			if (buffer->len > 20480 && !cache) {
@@ -122,15 +129,16 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 		mem = camel_stream_mem_new_with_byte_array(buffer);
 		camel_data_wrapper_set_output_stream (dw, mem);
 	} else {
-		CamelSeekableSubstream *sub;
+		CamelStream *sub;
 		CamelStreamFilter *filter;
 
 		d(printf("Big message part, left on disk ...\n"));
 
-		end = camel_mime_parser_tell(mp);
-		sub = (CamelSeekableSubstream *)camel_seekable_substream_new_with_seekable_stream_and_bounds ((CamelSeekableStream *)source, start, end);
+		end = camel_mime_parser_tell(mp) +
+			seekable_source->bound_start;
+		sub = camel_seekable_substream_new_with_seekable_stream_and_bounds (seekable_source, start, end);
 		if (fdec || fch) {
-			filter = camel_stream_filter_new_with_stream((CamelStream *)sub);
+			filter = camel_stream_filter_new_with_stream(sub);
 			if (fdec) {
 				camel_mime_filter_reset(fdec);
 				camel_stream_filter_add(filter, fdec);
@@ -141,7 +149,7 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 			}
 			camel_data_wrapper_set_output_stream (dw, (CamelStream *)filter);
 		} else {
-			camel_data_wrapper_set_output_stream (dw, (CamelStream *)sub);
+			camel_data_wrapper_set_output_stream (dw, sub);
 		}
 	}
 
@@ -152,7 +160,8 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 		gtk_object_unref((GtkObject *)fdec);
 	if (fch)
 		gtk_object_unref((GtkObject *)fch);
-	gtk_object_unref((GtkObject *)source);
+	if (source)
+		gtk_object_unref((GtkObject *)source);
 
 }
 

@@ -1,3 +1,20 @@
+2000-04-29  Dan Winship  <danw@helixcode.com>
+
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser):
+	camel_mime_parser_tell() returns an offset from where it started
+	parsing, not necessarily from the start of data. Since we're
+	parsing a bounded seekable_stream, we need to add the stream's
+	starting bound to camel_mime_parser_tell's return value to
+	create the substream in the right place.
+
+	* camel-seekable-substream.c
+	(camel_seekable_substream_new_with_seekable_stream_and_bounds):
+	say CAMEL_STREAM_UNBOUND rather than -1 in doc.
+
+	* camel-seekable-stream.c (camel_seekable_stream_seek): Add more
+	info to docs.
+
 2000-04-28  Dan Winship  <danw@helixcode.com>
 
 	* camel-mime-parser.c (folder_scan_header): fix a bug that would

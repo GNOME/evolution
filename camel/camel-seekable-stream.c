@@ -106,7 +106,18 @@ seek (CamelSeekableStream *stream,
  * @offset: offset value
  * @policy: what to do with the offset
  * 
- * 
+ * Seek to the specified position in @stream.
+ *
+ * If @policy is CAMEL_STREAM_SET, seeks to @offset.
+ *
+ * If @policy is CAMEL_STREAM_CUR, seeks to the current position plus
+ * @offset.
+ *
+ * If @policy is CAMEL_STREAM_END, seeks to the end of the stream plus
+ * @offset.
+ *
+ * Regardless of @policy, the stream's final position will be clamped
+ * to the range specified by its lower and upper bounds.
  * 
  * Return value: new position, -1 if operation failed.
  **/
