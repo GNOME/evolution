@@ -228,12 +228,14 @@ emif_scan(CamelMimeFilter *f, char *in, size_t len, int final)
 				int len, linelen;
 
 				/* check the length byte matches the data, if not, output what we have and re-scan this line */
-				len = ((start[0] - ' ') & 077) * 4 / 3;
+				len = ((start[0] - ' ') & 077);
 				linelen = inptr-start-1;
 				while (linelen > 0 && (start[linelen] == '\r' || start[linelen] == '\n'))
 					linelen--;
 				linelen--;
-				if (linelen != len) {
+				linelen /= 4;
+				linelen *= 3;
+				if (!(len == linelen || len == linelen-1 || len == linelen-2)) {
 					inptr[-1] = '\n';
 					emif_add_part(emif, data_start, start-data_start);
 					data_start = start;

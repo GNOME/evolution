@@ -1,5 +1,8 @@
 2004-04-21  Not Zed  <NotZed@Ximian.com>
 
+	* em-inline-filter.c (emif_scan): use a better test for non-full
+	lines.
+
 	* em-folder-browser.c (emfb_activate): dont desensitise
 	HideDeleted just 'cause we have no folder, it needs to depend on
 	Trash folder only.
