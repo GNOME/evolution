@@ -1,5 +1,14 @@
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (impl_finalize): Use
+	bonobo_activation_unregister_active_server() instead of
+	bonobo_activatino_active_server_unregister().
+	(e_shell_construct): Use
+	bonobo_activation_register_active_server() instead of
+	bonobo_activation_active_server_register().
+
+2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-importer.c (IN): Use G_GNUC_FUNCTION instead of
 	__FUNCTION__.
 	(OUT): Likewise.

@@ -1149,7 +1149,7 @@ impl_finalize (GObject *object)
 	priv = shell->priv;
 
 	if (priv->iid != NULL)
-		bonobo_activation_active_server_unregister (priv->iid,
+		bonobo_activation_unregister_active_server (priv->iid,
 							    bonobo_object_corba_objref (BONOBO_OBJECT (shell)));
 
 	g_free (priv->local_directory);
@@ -1319,7 +1319,7 @@ e_shell_construct (EShell *shell,
 	
 	/* FIXME: Multi-display stuff.  */
 	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
-	if (bonobo_activation_active_server_register (iid, corba_object) != Bonobo_ACTIVATION_REG_SUCCESS)
+	if (bonobo_activation_register_active_server (iid, corba_object, NULL) != Bonobo_ACTIVATION_REG_SUCCESS)
 		return E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER;
 
 	if (! show_splash) {
