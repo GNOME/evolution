@@ -1002,7 +1002,7 @@ e_address_popup_cardify (EAddressPopup *pop, ECard *card)
 }
 
 static void
-add_contacts_cb (EAddressPopup *pop)
+add_contacts_cb (GtkWidget *button, EAddressPopup *pop)
 {
 	if (pop->email && *pop->email) {
 		if (pop->name && *pop->name)

@@ -1,3 +1,9 @@
+2003-02-19  Chris Toshok  <toshok@ximian.com>
+
+	[ fix #38074 ]
+	* gui/component/e-address-popup.c (add_contacts_cb): first arg is
+	a GtkWidget.  duh.
+
 2003-02-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/contact-editor/Makefile.am (INCLUDES): Use $(evolutionuidir)
