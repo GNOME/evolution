@@ -1,3 +1,7 @@
+2001-09-19  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: Remove dead directory from AC_OUTPUT
+
 2001-09-16  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Updated required version of gal to 0.11.99.4.

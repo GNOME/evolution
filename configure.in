@@ -1086,7 +1086,6 @@ camel/tests/stream/Makefile
 composer/Makefile
 widgets/Makefile
 widgets/e-timezone-dialog/Makefile
-widgets/meeting-time-sel/Makefile
 widgets/misc/Makefile
 widgets/menus/Makefile
 addressbook/Makefile
