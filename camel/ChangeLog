@@ -1,3 +1,8 @@
+2001-04-23  Mikael Hallendal  <micke@codefactory.se>
+
+	* providers/nntp/Makefile.am (INCLUDES): 
+	Changed GTK_INCLUDEDIR to EXTRA_GNOME_CFLAGS.
+
 2001-04-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-smime-context.c (smime_sign): Implemented using the
