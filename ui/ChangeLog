@@ -1,3 +1,8 @@
+2001-01-19  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-mail.xml: Added a temporary button to test new receive
+	code.
+
 2001-01-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mail.xml: Added Next/Previous toolbar buttons.
