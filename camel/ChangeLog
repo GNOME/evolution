@@ -1,3 +1,24 @@
+2004-04-06  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #56464.
+
+	* camel-folder.c (camel_folder_transfer_messages_to): do not lock
+	the source here.
+	(transfer_message_to): call the main entry point for get message
+	and append message.
+
+	** See bug #56050.
+
+	* camel-vee-store.c (vee_delete_folder): delete the state file if
+	it exists.
+
+	* camel-object.c (camel_object_state_write): create the parent dir
+	if we need to.  Also spit a warning if we fail in the end.
+
+	* camel-vee-folder.c (camel_vee_folder_new): set the persistent
+	state file location.
+	(vee_sync): write the state file when we sync.
+
 2004-04-05  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (get_folders): dont add

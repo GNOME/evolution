@@ -28,6 +28,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <semaphore.h>
+#include <errno.h>
 
 #include "camel-object.h"
 #include "camel-file-utils.h"
@@ -1514,7 +1515,7 @@ int camel_object_state_write(void *vo)
 {
 	CamelObject *obj = vo;
 	int res = -1;
-	char *file, *savename;
+	char *file, *savename, *tmp;
 	FILE *fp;
 
 	camel_object_get(vo, NULL, CAMEL_OBJECT_STATE_FILE, &file, NULL);
@@ -1522,6 +1523,12 @@ int camel_object_state_write(void *vo)
 		return 0;
 
 	savename = camel_file_util_savename(file);
+	tmp = strrchr(savename, '/');
+	if (tmp) {
+		*tmp = 0;
+		camel_mkdir(savename, 0777);
+		*tmp = '/';
+	}
 	fp = fopen(savename, "w");
 	if (fp != NULL) {
 		if (fwrite(CAMEL_OBJECT_STATE_FILE_MAGIC, 4, 1, fp) == 1
@@ -1533,6 +1540,8 @@ int camel_object_state_write(void *vo)
 		} else {
 			fclose(fp);
 		}
+	} else {
+		g_warning("Could not save object state file to '%s': %s", savename, g_strerror(errno));
 	}
 
 	g_free(savename);

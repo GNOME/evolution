@@ -357,6 +357,15 @@ vee_delete_folder(CamelStore *store, const char *folder_name, CamelException *ex
 
 	folder = camel_object_bag_get(store->folders, folder_name);
 	if (folder) {
+		char *statefile;
+
+		camel_object_get(folder, NULL, CAMEL_OBJECT_STATE_FILE, &statefile, NULL);
+		if (statefile) {
+			unlink(statefile);
+			camel_object_free(folder, CAMEL_OBJECT_STATE_FILE, statefile);
+			camel_object_set(folder, NULL, CAMEL_OBJECT_STATE_FILE, NULL, NULL);
+		}
+
 		if ((((CamelVeeFolder *)folder)->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0) {
 			/* what about now-empty parents?  ignore? */
 			change_folder(store, folder_name, CHANGE_DELETE, -1);

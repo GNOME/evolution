@@ -1326,13 +1326,12 @@ transfer_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
 	
 	/* Default implementation. */
 	
-	/* we alredy have the lock, dont deadlock */
-	msg = CF_CLASS (source)->get_message (source, uid, ex);
+	msg = camel_folder_get_message(source, uid, ex);
 	if (!msg)
 		return;
 	
 	if (source->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY)
-		info = CF_CLASS (source)->get_message_info (source, uid);
+		info = camel_folder_get_message_info(source, uid);
 	else
 		info = camel_message_info_new_from_header (((CamelMimePart *)msg)->headers);
 	
@@ -1350,7 +1349,7 @@ transfer_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
 	
 	if (info) {
 		if (source->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY)
-			CF_CLASS (source)->free_message_info (source, info);
+			camel_folder_free_message_info(source, info);
 		else
 			camel_message_info_free (info);
 	}
@@ -1423,8 +1422,6 @@ camel_folder_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
 		return;
 	}
 	
-	CAMEL_FOLDER_LOCK(source, lock);
-	
 	if (source->parent_store == dest->parent_store) {
 		/* If either folder is a vtrash, we need to use the
 		 * vtrash transfer method.
@@ -1435,8 +1432,6 @@ camel_folder_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
 			CF_CLASS (source)->transfer_messages_to (source, uids, dest, transferred_uids, delete_originals, ex);
 	} else
 		transfer_messages_to (source, uids, dest, transferred_uids, delete_originals, ex);
-	
-	CAMEL_FOLDER_UNLOCK(source, lock);
 }
 
 static void

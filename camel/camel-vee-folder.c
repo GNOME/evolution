@@ -213,7 +213,7 @@ vee_folder_construct (CamelVeeFolder *vf, CamelStore *parent_store, const char *
 {
 	CamelFolder *folder = (CamelFolder *)vf;
 	char *tmp;
-	
+
 	vf->flags = flags;
 	vf->vname = g_strdup(name);
 	tmp = strrchr(vf->vname, '/');
@@ -261,6 +261,7 @@ CamelFolder *
 camel_vee_folder_new(CamelStore *parent_store, const char *name, guint32 flags)
 {
 	CamelVeeFolder *vf;
+	char *tmp;
 
 	UNMATCHED_LOCK();
 
@@ -275,15 +276,21 @@ camel_vee_folder_new(CamelStore *parent_store, const char *name, guint32 flags)
 	UNMATCHED_UNLOCK();
 
 	if (strcmp(name, CAMEL_UNMATCHED_NAME) == 0) {
-		camel_object_ref((CamelObject *)folder_unmatched);
-		d(printf("returning unmatched %p, count = %d\n", folder_unmatched, camel_folder_get_message_count((CamelFolder *)folder_unmatched)));
-		return (CamelFolder *)folder_unmatched;
+		vf = folder_unmatched;
+		camel_object_ref(vf);
+	} else {
+		vf = (CamelVeeFolder *)camel_object_new(camel_vee_folder_get_type());
+		vee_folder_construct(vf, parent_store, name, flags);
 	}
 
-	vf = (CamelVeeFolder *)camel_object_new(camel_vee_folder_get_type());
-	vee_folder_construct(vf, parent_store, name, flags);
-
 	d(printf("returning folder %s %p, count = %d\n", name, vf, camel_folder_get_message_count((CamelFolder *)vf)));
+
+	tmp = g_strdup_printf("%s/%s.cmeta", ((CamelService *)parent_store)->url->path, name);
+	camel_object_set(vf, NULL, CAMEL_OBJECT_STATE_FILE, tmp, NULL);
+	g_free(tmp);
+	if (camel_object_state_read(vf) == -1) {
+		/* setup defaults: we have none currently */
+	}
 
 	return (CamelFolder *)vf;
 }
@@ -626,6 +633,8 @@ vee_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 	}
 
 	CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
+
+	camel_object_state_write(vf);
 }
 
 static void
