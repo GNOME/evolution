@@ -296,7 +296,7 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
 		*diagnostics = g_strdup_printf ("Couldn't create pipe to %s: "
 						"%s", path,
 						g_strerror (errno));
-		return 0;
+		return -1;
 	}
 	
 	if (!(child = fork ())) {
@@ -326,7 +326,7 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
 	} else if (child < 0) {
 		*diagnostics = g_strdup_printf ("Cannot fork %s: %s",
 						argv[0], g_strerror (errno));
-		return 0;
+		return -1;
 	}
 	
 	/* Parent */
@@ -1329,7 +1329,7 @@ pgp_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 	g_free (passphrase);
 	
 	/* gpg returns '1' if it succeedes in decrypting but can't verify the signature */
-	if (!(retval == 0 || (context->priv->type == CAMEL_PGP_TYPE_GPG && retval == 1)) || !*plaintext) {
+	if (retval != 0 || (context->priv->type == CAMEL_PGP_TYPE_GPG && retval == 1) || !*plaintext) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "%s", diagnostics);
 		g_free (plaintext);
