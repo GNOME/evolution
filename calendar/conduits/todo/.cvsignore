@@ -4,5 +4,5 @@ Makefile
 .libs
 *.lo
 *.la
-todo-conduit-control-applet
-todo.conduit
+e-todo-conduit-control-applet
+e-todo.conduit

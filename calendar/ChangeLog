@@ -1,5 +1,9 @@
 2000-09-14  JP Rosevear  <jpr@helixcode.com>
 
+	* conduits/todo/.cvsignore: Shush
+	
+2000-09-14  JP Rosevear  <jpr@helixcode.com>
+
 	* Add headers with GPL notice and credit copyright to those appropriate
 
 	* conduits/todo/todo-conduit-control-applet.c (doHelp): Update name,
