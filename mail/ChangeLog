@@ -1,5 +1,10 @@
 2001-05-16  Dan Winship  <danw@ximian.com>
 
+	* mail-format.c (mail_format_raw_message): add
+	E_TEXT_TO_HTML_ESCAPE_8BIT to the flags
+
+2001-05-16  Dan Winship  <danw@ximian.com>
+
 	* folder-browser.c (folder_browser_is_drafts,
 	folder_browser_is_sent, folder_browser_is_outbox): Functions to
 	determine if a folderbrowser is one of the drafts, sent, or outbox

@@ -189,7 +189,7 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md)
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (mime_message));
 	
 	text = get_data_wrapper_text (CAMEL_DATA_WRAPPER (mime_message));
-	html = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_SPACES);
+	html = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_SPACES | E_TEXT_TO_HTML_ESCAPE_8BIT);
 	gtk_html_write (md->html, md->stream, "<tt>", 4);
 	gtk_html_write (md->html, md->stream, html, strlen (html));
 	gtk_html_write (md->html, md->stream, "</tt>", 5);
