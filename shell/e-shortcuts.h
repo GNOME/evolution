@@ -24,10 +24,6 @@
 #ifndef _E_SHORTCUTS_H_
 #define _E_SHORTCUTS_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gtk/gtkwidget.h>
 
 #include "e-folder-type-registry.h"

@@ -24,10 +24,6 @@
 #ifndef __EVOLUTION_SESSION_H__
 #define __EVOLUTION_SESSION_H__
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <bonobo.h>
 
 #ifdef __cplusplus

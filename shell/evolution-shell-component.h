@@ -24,10 +24,6 @@
 #ifndef EVOLUTION_SHELL_COMPONENT_H
 #define EVOLUTION_SHELL_COMPONENT_H
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-control.h>
 

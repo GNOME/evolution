@@ -24,10 +24,6 @@
 #ifndef __E_COMPONENT_REGISTRY_H__
 #define __E_COMPONENT_REGISTRY_H__
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gtk/gtkobject.h>
 
 #include "e-shell.h"

@@ -24,10 +24,6 @@
 #ifndef __E_CORBA_STORAGE_REGISTRY_H__
 #define __E_CORBA_STORAGE_REGISTRY_H__
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <bonobo/bonobo-object.h>
 
 #include "Evolution.h"

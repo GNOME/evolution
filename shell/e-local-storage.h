@@ -24,10 +24,6 @@
 #ifndef _E_LOCAL_STORAGE_H_
 #define _E_LOCAL_STORAGE_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-folder-type-registry.h"
 #include "e-storage.h"
 

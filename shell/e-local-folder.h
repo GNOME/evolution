@@ -24,10 +24,6 @@
 #ifndef _E_LOCAL_FOLDER_H_
 #define _E_LOCAL_FOLDER_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gtk/gtkobject.h>
 
 #include "e-folder.h"

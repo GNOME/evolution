@@ -1,3 +1,29 @@
+2001-02-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-component-registry.h: Don't #include <config.h>.
+	* e-corba-storage-registry.h: Likewise.
+	* e-corba-storage.h: Likewise.
+	* e-folder-type-registry.h: Likewise.
+	* e-folder.h: Likewise.
+	* e-local-folder.h: Likewise.
+	* e-local-storage.h: Likewise.
+	* e-shell-folder-title-bar.h: Likewise.
+	* e-shell-view.h: Likewise.
+	* e-shell.h: Likewise.
+	* e-shortcuts-view.h: Likewise.
+	* e-shortcuts.h: Likewise.
+	* e-splash.h: Likewise.
+	* e-storage-set-view.h: Likewise.
+	* e-storage-set.h: Likewise.
+	* e-storage.h: Likewise.
+	* evolution-local-storage.h: Likewise.
+	* evolution-session.h: Likewise.
+	* evolution-shell-client.h: Likewise.
+	* evolution-shell-component.h: Likewise.
+	* evolution-shell-view.h: Likewise.
+	* evolution-storage-listener.h: Likewise.
+	* evolution-storage.h: Likewise.
+
 2001-02-02  Iain Holmes  <iain@ximian.com>
 
 	* importer/evolution-importer-client.c:

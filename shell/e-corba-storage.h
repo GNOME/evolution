@@ -24,10 +24,6 @@
 #ifndef __E_CORBA_STORAGE_H__
 #define __E_CORBA_STORAGE_H__
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-storage.h"
 
 #include "Evolution.h"

@@ -24,10 +24,6 @@
 #ifndef __EVOLUTION_LOCAL_STORAGE_H__
 #define __EVOLUTION_LOCAL_STORAGE_H__
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gnome.h>
 
 #include "evolution-storage.h"

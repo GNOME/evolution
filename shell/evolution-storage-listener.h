@@ -24,10 +24,6 @@
 #ifndef __EVOLUTION_STORAGE_LISTENER_H__
 #define __EVOLUTION_STORAGE_LISTENER_H__
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gnome.h>
 
 #include "Evolution.h"

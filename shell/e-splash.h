@@ -24,10 +24,6 @@
 #ifndef _E_SPLASH_H_
 #define _E_SPLASH_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtkwindow.h>
 

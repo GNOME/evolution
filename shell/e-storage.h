@@ -24,10 +24,6 @@
 #ifndef _E_STORAGE_H_
 #define _E_STORAGE_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gtk/gtkobject.h>
 
 #include "evolution-shell-component-client.h"

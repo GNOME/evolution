@@ -24,10 +24,6 @@
 #ifndef _E_SHELL_H_
 #define _E_SHELL_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <bonobo/bonobo-object.h>
 
 #include <liboaf/liboaf.h>	/* For the registration stuff.  */

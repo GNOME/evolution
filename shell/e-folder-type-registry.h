@@ -24,10 +24,6 @@
 #ifndef _E_FOLDER_TYPE_REGISTRY_H_
 #define _E_FOLDER_TYPE_REGISTRY_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gtk/gtkobject.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 

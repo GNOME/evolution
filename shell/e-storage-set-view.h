@@ -24,10 +24,6 @@
 #ifndef __E_STORAGE_SET_VIEW_H__
 #define __E_STORAGE_SET_VIEW_H__
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gal/e-table/e-table.h>
 #include "e-storage-set.h"
 

@@ -24,10 +24,6 @@
 #ifndef __E_SHELL_FOLDER_TITLE_BAR_H__
 #define __E_SHELL_FOLDER_TITLE_BAR_H__
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gtk/gtkeventbox.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 

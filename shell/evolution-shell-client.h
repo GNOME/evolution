@@ -24,10 +24,6 @@
 #ifndef __EVOLUTION_SHELL_CLIENT_H__
 #define __EVOLUTION_SHELL_CLIENT_H__
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <bonobo/bonobo-object-client.h>
 
 #include "Evolution.h"
