@@ -1,4 +1,4 @@
-2001-12-11  JP Rosevear  <jpr@ximian.com>
+2001-12-12  JP Rosevear  <jpr@ximian.com>
  
  	* gui/e-day-view.c (e_day_view_on_top_canvas_button_release):
  	ungrab the pointer before calling
