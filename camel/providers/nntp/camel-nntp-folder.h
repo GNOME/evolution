@@ -66,6 +66,8 @@ CamelType camel_nntp_folder_get_type (void);
 
 CamelFolder *camel_nntp_folder_new (CamelStore *parent, const char *folder_name, CamelException *ex);
 
+void camel_nntp_folder_selected(CamelNNTPFolder *folder, char *line, CamelException *ex);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

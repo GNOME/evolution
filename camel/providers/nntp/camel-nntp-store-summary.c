@@ -19,8 +19,6 @@
  * Boston, MA 02111-1307, USA.
  */
 
-/* currently, this is just a straigt s/imap/nntp from the IMAP file*/ 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -45,8 +43,9 @@
 #define io(x)			/* io debug */
 
 #define CAMEL_NNTP_STORE_SUMMARY_VERSION_0 (0)
+#define CAMEL_NNTP_STORE_SUMMARY_VERSION_1 (1)
 
-#define CAMEL_NNTP_STORE_SUMMARY_VERSION (0)
+#define CAMEL_NNTP_STORE_SUMMARY_VERSION (1)
 
 #define _PRIVATE(o) (((CamelNNTPStoreSummary *)(o))->priv)
 
@@ -362,7 +361,14 @@ store_info_load (CamelStoreSummary *s, FILE *in)
 	if (ni) {
 		if (camel_file_util_decode_string (in, &ni->full_name) == -1) {
 			camel_store_summary_info_free (s, (CamelStoreInfo *) ni);
-			ni = NULL;
+			return NULL;
+		}
+		if (((CamelNNTPStoreSummary *)s)->version >= CAMEL_NNTP_STORE_SUMMARY_VERSION_1) {
+			if (camel_file_util_decode_uint32(in, &ni->first) == -1
+			    || camel_file_util_decode_uint32(in, &ni->last) == -1) {
+				camel_store_summary_info_free (s, (CamelStoreInfo *) ni);
+				return NULL;
+			}
 		}
 		/* set the URL */
 	}
@@ -376,7 +382,9 @@ store_info_save (CamelStoreSummary *s, FILE *out, CamelStoreInfo *mi)
 	CamelNNTPStoreInfo *isi = (CamelNNTPStoreInfo *)mi;
 	
 	if (camel_nntp_store_summary_parent->store_info_save (s, out, mi) == -1
-	    || camel_file_util_encode_string (out, isi->full_name) == -1)
+	    || camel_file_util_encode_string (out, isi->full_name) == -1
+	    || camel_file_util_encode_uint32(out, isi->first) == -1
+	    || camel_file_util_encode_uint32(out, isi->last) == -1)
 		return -1;
 	
 	return 0;

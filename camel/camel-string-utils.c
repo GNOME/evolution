@@ -108,3 +108,36 @@ camel_strdown (char *str)
 	
 	return str;
 }
+
+/**
+ * camel_tolower:
+ * @c: 
+ * 
+ * ASCII to-lower function.
+ * 
+ * Return value: 
+ **/
+char camel_tolower(char c)
+{
+	if (c >= 'A' && c <= 'Z')
+		c |= 0x20;
+
+	return c;
+}
+
+/**
+ * camel_toupper:
+ * @c: 
+ * 
+ * ASCII to-upper function.
+ * 
+ * Return value: 
+ **/
+char camel_toupper(char c)
+{
+	if (c >= 'a' && c <= 'z')
+		c &= ~0x20;
+
+	return c;
+}
+

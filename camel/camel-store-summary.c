@@ -47,9 +47,10 @@
 
 /* possible versions, for versioning changes */
 #define CAMEL_STORE_SUMMARY_VERSION_0 (1)
+#define CAMEL_STORE_SUMMARY_VERSION_2 (2)
 
 /* current version */
-#define CAMEL_STORE_SUMMARY_VERSION (1)
+#define CAMEL_STORE_SUMMARY_VERSION (2)
 
 #define _PRIVATE(o) (((CamelStoreSummary *)(o))->priv)
 
@@ -821,6 +822,23 @@ store_info_load(CamelStoreSummary *s, FILE *in)
 	camel_file_util_decode_uint32(in, &mi->flags);
 	camel_file_util_decode_uint32(in, &mi->unread);
 	camel_file_util_decode_uint32(in, &mi->total);
+
+	/* Ok, brown paper bag bug - prior to version 2 of the file, flags are
+	   stored using the bit number, not the bit. Try to recover as best we can */
+	if (s->version < CAMEL_STORE_SUMMARY_VERSION_2) {
+		guint32 flags = 0;
+
+		if (mi->flags & 1)
+			flags |= CAMEL_STORE_INFO_FOLDER_NOSELECT;
+		if (mi->flags & 2)
+			flags |= CAMEL_STORE_INFO_FOLDER_READONLY;
+		if (mi->flags & 3)
+			flags |= CAMEL_STORE_INFO_FOLDER_SUBSCRIBED;
+		if (mi->flags & 4)
+			flags |= CAMEL_STORE_INFO_FOLDER_FLAGGED;
+
+		mi->flags = flags;
+	}
 
 	if (!ferror(in))
 		return mi;
