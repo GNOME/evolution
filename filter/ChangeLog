@@ -1,3 +1,8 @@
+2003-03-11  Not Zed  <NotZed@Ximian.com>
+
+	* rule-context.c (revert): go to the proper level of child node
+	before looking for rule sets, fix for #39165 to make 'cancel' work.
+
 2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes for bug #39170
