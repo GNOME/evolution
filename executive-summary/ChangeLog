@@ -1,3 +1,8 @@
+2001-02-14  Iain Holmes  <iain@ximian.com>
+
+	* component/e-summary-url.c (e_summary_url_click): Remove the new
+	OTHER uri stuff.
+
 2001-02-14  Christopher James Lahey  <clahey@ximian.com>
 
 	* component/component-factory.c (component_destroy_cb): Removed

@@ -599,13 +599,6 @@ e_summary_url_click (GtkWidget *widget,
 		break;
 
 	case PROTOCOL_OTHER:
-		/* Pass it to the parent component */
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Summary_HTMLView_handleURI (window->html,
-							    url, &ev);
-		CORBA_exception_free (&ev);
-		break;
-
 	case PROTOCOL_NONE:
 	case PROTOCOL_HTTP:
 	case PROTOCOL_FILE:
