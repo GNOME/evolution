@@ -1,3 +1,10 @@
+2005-01-26  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	Fixes #71774
+	* em-folder-tree.c: (emft_popup_rename_folder):
+	we should check whether the 'new_name' is a NULL pointer to avoid
+	Evolution crashes.
+
 2005-01-25  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* em-mailer-prefs.c: (restore_labels_clicked),
