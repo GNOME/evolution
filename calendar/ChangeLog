@@ -1,3 +1,9 @@
+2003-05-21  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #41234
+
+	* gui/dialogs/e-delegate-dialog.glade: changed button ordering.
+
 2003-05-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_setup_view_menus): Removed
