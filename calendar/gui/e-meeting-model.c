@@ -466,7 +466,8 @@ set_value_at (ETableModel *etm, int col, int row, const void *val)
 	
 	switch (col) {
 	case E_MEETING_MODEL_ADDRESS_COL:
-		e_meeting_attendee_set_address (ia, g_strdup_printf ("MAILTO:%s", (char *) val));
+		if (val != NULL && *((char *)val))
+			e_meeting_attendee_set_address (ia, g_strdup_printf ("MAILTO:%s", (char *) val));
 		break;
 	case E_MEETING_MODEL_MEMBER_COL:
 		e_meeting_attendee_set_member (ia, g_strdup (val));

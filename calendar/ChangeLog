@@ -1,3 +1,8 @@
+2002-09-26  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-model.c (set_value_at): only change the attendee
+	value if it isn't empty
+
 2002-09-26  Rodrigo Moya <rodrigo@ximian.com>
 
 	Should fix once for all #24210
