@@ -1,3 +1,11 @@
+2002-09-04  Chris Toshok  <toshok@ximian.com>
+
+	[ Fixes #29904 ]
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_activate_obj): we need to activate
+	either a contact list editor or contact editor depending on if
+	it's a list (this screams for a utility function.)
+
 2002-09-04  Dan Winship  <danw@ximian.com>
 
 	* gui/component/addressbook-storage.c

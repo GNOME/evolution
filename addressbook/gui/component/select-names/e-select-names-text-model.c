@@ -760,7 +760,6 @@ static void
 e_select_names_text_model_activate_obj (ETextModel *model, gint n)
 {
 	ESelectNamesModel *source = E_SELECT_NAMES_TEXT_MODEL (model)->source;
-	EContactEditor *contact_editor;
 	ECard *card;
 	gint i;
 
@@ -771,8 +770,16 @@ e_select_names_text_model_activate_obj (ETextModel *model, gint n)
 	g_return_if_fail (card != NULL);
 	
 	/* present read-only contact editor when someone double clicks from here */
-	contact_editor = e_addressbook_show_contact_editor (e_card_get_book (card), card, FALSE, FALSE);
-	e_contact_editor_raise (contact_editor);
+	if (e_card_evolution_list (card)) {
+		EContactListEditor *ce;
+		ce = e_addressbook_show_contact_list_editor (e_card_get_book(card), card, FALSE, FALSE);
+		e_contact_list_editor_raise (ce);
+	}
+	else {
+		EContactEditor *ce;
+		ce = e_addressbook_show_contact_editor (e_card_get_book(card), card, FALSE, FALSE);
+		e_contact_editor_raise (ce);
+	}
 }
 
 
