@@ -1,3 +1,15 @@
+2001-09-18  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-weather.c (e_summary_weather_add_location): Append the
+	weather locations so they are in the right order.
+
+	* e-summary-tasks.c (generate_html): If the text is null, don't print
+	(null). Print "No description" instead.
+
+	* e-summary-rdf.c (e_summary_rdf_add_uri): Append here as well.
+
+	* e-summary-mail.c (maybe_add_to_shown): Append ici.
+
 2001-09-17  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-weather.c (weather_make_html): Don't make the confusing

@@ -273,8 +273,6 @@ mail_change_notify (BonoboListener *listener,
 		char *uri;
 		
 		uri = g_strconcat ("file://", p->data, NULL);
-
-		g_print ("uri: %s\t%s\n", uri, folder->path);
 		if (strcmp (uri, folder->path) == 0) {
 			/* Regen HTML */
 			e_summary_mail_generate_html (summary);
@@ -417,7 +415,7 @@ maybe_add_to_shown (gpointer key,
 		
 		uri = g_strconcat ("file://", p->data, NULL);
 		if (strcmp (uri, folder->path) == 0) {
-			mail->shown = g_list_prepend (mail->shown, folder);
+			mail->shown = g_list_append (mail->shown, folder);
 		}
 		
 		g_free (uri);

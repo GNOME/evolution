@@ -395,7 +395,7 @@ e_summary_weather_add_location (ESummary *summary,
 	w = g_new0 (Weather, 1);
 	w->summary = summary;
 	w->location = g_strdup (location);
-	summary->weather->weathers = g_list_prepend (summary->weather->weathers, w);
+	summary->weather->weathers = g_list_append (summary->weather->weathers, w);
 }
 
 static gboolean

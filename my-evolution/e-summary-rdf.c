@@ -422,7 +422,7 @@ e_summary_rdf_add_uri (ESummary *summary,
 	r->summary = summary;
 	r->uri = g_strdup (uri);
 	r->shown = TRUE;
-	summary->rdf->rdfs = g_list_prepend (summary->rdf->rdfs, r);
+	summary->rdf->rdfs = g_list_append (summary->rdf->rdfs, r);
 }
 
 static void

@@ -249,7 +249,7 @@ generate_html (gpointer data)
 				tmp = g_strdup_printf ("<img align=\"middle\" src=\"task.xpm\" "
 						       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
 						       "<font size=\"-1\"><a href=\"evolution:/local/Tasks\">%s</a></font><br>", 
-						       text.value);
+						       text.value ? text.value : _("(No Description)"));
 			} else {
 #if 0
 				tmp = g_strdup_printf ("<img align=\"middle\" src=\"task.xpm\" "
