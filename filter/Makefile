@@ -1,15 +1,12 @@
 
-OBJS = filter-arg-types.lo filter-arg.lo filter-xml.lo filter-format.lo filter-druid.lo
-SRCS = filter-arg-types.c filter-arg.c filter-xml.c filter-format.c filter-druid.c
-
-LIBFILTEROBJS = filter-sexp.lo
-LIBFILTERSRCS = filter-sexp.c
+LIBFILTEROBJS = filter-arg-types.lo filter-arg.lo filter-xml.lo filter-format.lo filter-druid.lo
+LIBFILTERSRCS = filter-arg-types.c filter-arg.c filter-xml.c filter-format.c filter-druid.c
 
 LIBTOOL=sh ../libtool
 #CC=insure gcc
 
-CFLAGS = `gnome-config --cflags xml gnome gtk gtkhtml gnomeui` -g -I../camel -I .. -I../libibex
-LDFLAGS = `gnome-config --libs xml gnome gtk gtkhtml gnomeui` ../camel/libcamel.la -lpthread
+CFLAGS = `gnome-config --cflags xml gnome gtk gtkhtml gnomeui` -g -I .. -I../libibex
+LDFLAGS = `gnome-config --libs xml gnome gtk gtkhtml gnomeui`
 
 all: libfilter.la filter-editor
 

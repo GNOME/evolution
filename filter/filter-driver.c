@@ -393,8 +393,8 @@ void create_dialogue(void)
 
 int main(int argc, char **argv)
 {
-	FilterSEXP *f;
-	FilterSEXPResult *r;
+	ESExp *f;
+	ESExpResult *r;
 	GList *rules, *options, *options2;
 	xmlDocPtr doc, out, optionset, filteroptions;
 	GString *s;
@@ -448,25 +448,25 @@ int main(int argc, char **argv)
 
 	printf("total rule = '%s'\n", s->str);
 
-	f = filter_sexp_new();
-	filter_sexp_add_variable(f, 0, "sender", NULL);
-	filter_sexp_add_variable(f, 0, "receipient", NULL);
-	filter_sexp_add_variable(f, 0, "folder", NULL);
+	f = e_sexp_new();
+	e_sexp_add_variable(f, 0, "sender", NULL);
+	e_sexp_add_variable(f, 0, "receipient", NULL);
+	e_sexp_add_variable(f, 0, "folder", NULL);
 
 	/* simple functions */
-	filter_sexp_add_function(f, 0, "header-get", NULL, NULL);
-	filter_sexp_add_function(f, 0, "header-contains", NULL, NULL);
-	filter_sexp_add_function(f, 0, "copy-to", NULL, NULL);
+	e_sexp_add_function(f, 0, "header-get", NULL, NULL);
+	e_sexp_add_function(f, 0, "header-contains", NULL, NULL);
+	e_sexp_add_function(f, 0, "copy-to", NULL, NULL);
 
-	filter_sexp_add_ifunction(f, 0, "set", NULL, NULL);
+	e_sexp_add_ifunction(f, 0, "set", NULL, NULL);
 
 	/* control functions */
-	filter_sexp_add_ifunction(f, 0, "match-all", NULL, NULL);
-	filter_sexp_add_ifunction(f, 0, "match", NULL, NULL);
-	filter_sexp_add_ifunction(f, 0, "action", NULL, NULL);
-	filter_sexp_add_ifunction(f, 0, "except", NULL, NULL);
+	e_sexp_add_ifunction(f, 0, "match-all", NULL, NULL);
+	e_sexp_add_ifunction(f, 0, "match", NULL, NULL);
+	e_sexp_add_ifunction(f, 0, "action", NULL, NULL);
+	e_sexp_add_ifunction(f, 0, "except", NULL, NULL);
 
-	filter_sexp_input_text(f, s->str, strlen(s->str));
-	filter_sexp_parse(f);
+	e_sexp_input_text(f, s->str, strlen(s->str));
+	e_sexp_parse(f);
 	
 }

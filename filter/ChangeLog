@@ -1,3 +1,10 @@
+2000-02-28  NotZed  <NotZed@HelixCode.com>
+
+	* Makefile: Removed references to filter-sexp.[ch].
+
+	* filter-sexp.[ch]: Removed some unecessary includes.  Moved to
+	e-util.  Renamed callers.
+
 2000-02-24  NotZed  <NotZed@HelixCode.com>
 
 	* filter-xml.c (filter_description_free): 
