@@ -1,5 +1,9 @@
 2001-05-16  JP Rosevear  <jpr@ximian.com>
 
+	* POTFILES.in: Remove importers/evolution-gnomecard-importer.c
+	
+2001-05-16  JP Rosevear  <jpr@ximian.com>
+
 	* POTFILES.in: Remove camel/camel-pkcs7-context.c
 
 2001-05-16  Kjartan Maraas  <kmaraas@gnome.org>

@@ -169,7 +169,6 @@ importers/GNOME_Evolution_Elm_Intelligent_Importer.oaf.in
 importers/GNOME_Evolution_Netscape_Intelligent_Importer.oaf.in
 importers/GNOME_Evolution_Pine_Intelligent_Importer.oaf.in
 importers/elm-importer.c
-importers/evolution-gnomecard-importer.c
 importers/netscape-importer.c
 importers/pine-importer.c
 mail/component-factory.c
