@@ -36,6 +36,65 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     - #31360 -- Crash when using the folder selection button.  (Dan)
     - #31690 -- Importer crash.  (Ettore)
 
+  * Mailer
+
+    - #31655 -- Don't strip 8bit characters from text attachments  (Jeff)
+    - #31693 -- try harder to pick the correct From-account to use when 
+                replying  (Jeff)
+    - #31553 -- Next button disabled in Identity window of setup assistant
+                (Jeff)
+    - #31554 -- Cannot run evolution if Reply-to: is set to an invalid address
+                (Jeff)
+    - #31559 -- Evolution crashes when going to Tools -> preferences
+                (Jeff)
+    - #31555 -- Account editor mangling reply-to: extended ASCII characters
+                (Jeff)
+    - #31547 -- Quote the decrypted text when replying to encrypted messages
+                (Jeff)
+    - #24732 -- importing mailman mbox files doesn't work  (Ettore)
+    - #29808 -- ctl+k to mark read broken when preview not shown  (Michael)
+    - #31365 -- Enter password dialog not displaying extended ASCII chars 
+                correctly  (Michael)
+    - #30915 -- Crash when upgrading from 1.0.x to 1.1.1  (Jeff)
+    - #30827 -- Delete on Deleted Message Does not move to next  (Jeff)
+    - #31060 -- Advanced Search no longer works  (Michael)
+    - #29625 -- Cannot clear a saved search  (Michael)
+    - #30731 -- "automatically detect links" checkbox doesn't work  (Jeff)
+    - #30580 -- Closing drafts message asks to save again.  (Jeff)
+    - #29293 -- Back button on final page of new account doesn't work  
+                (Michael)
+    - #28209 -- Error messages for Offline folder operations misleading  
+                (Michael)
+    - #29933 -- mailer loses paned size sometimes  (Dan)
+    - #30269 -- Crash appending to an mbox that is too large (>2GB)  (Jeff)
+    - #30183 -- Advanced search broken  (Jeff)
+    - #20849 -- Folder Properties should be on right click menu  (Michael)
+    - #28834 -- threaded+hide deleted messes up clear search  (Michael)
+    - #29965 -- crashed in background  (Jeff)
+    - #31379 -- Can't see encrypted mail to myself (and maybe others?)  (Jeff)
+    - #236   -- composer attachment bar wraps lines annoyingly  (Ettore)
+    - #28453 -- forwarding pgp-signed message inline should discard signature
+                (Jeff)
+    - #31752 -- no EHLO to re-check AUTH capabilities after a STARTTLS has 
+                been issued  (Jeff)
+    - #31681 -- Mail filter problem in 1.1.1.99  (Jeff)
+    - #31572 -- valgrind detects a deadlock  (Michael)
+    - #31031 -- Random crashes -- possible memory corruption bug on SMP box
+                (Michael)
+    - #31000 -- evolution-mail random core dumps  (Michael)
+    - #27391 -- New Message Count not updated in vFolders  (Michael)
+    - #31456 -- Evolution does not see IMAPd mailboxes  (Jeff)
+    - #31331 -- Crash upon opening a mail message  (Michael)
+    - #30399 -- vfolders of imap don't update  (Michael)
+    - #30877 -- Improper IMAP folder behavior  (Michael)
+    - #30873 -- cannot display many mails in zh_CN.GB2312  (Jeff)
+    - #31087 -- mailing list filters fail for yahoogroups.com  (Michael)
+    - #30876 -- drag and drop a mail from Trash duplicates it  (Jeff)
+    - #22496 -- Evolution does not appear to support ALERT messages  (Michael)
+    - #21027 -- accept broken content-ids  (Jeff)
+    - #29731 -- another crash in soup  (Michael)
+    - #4224  -- camel-imap-cache needs better error checking  (Jeff)
+
 Other fixes:
 
   * Shell
