@@ -239,7 +239,7 @@ table_browser_test (void)
 	 * Setup GUI
 	 */
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	canvas = gnome_canvas_new ();
+	canvas = e_canvas_new ();
 
 	gtk_signal_connect (GTK_OBJECT (canvas), "size_allocate",
 			    GTK_SIGNAL_FUNC (set_canvas_size), NULL);

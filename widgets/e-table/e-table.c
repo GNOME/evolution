@@ -140,7 +140,7 @@ e_table_setup_header (ETable *e_table)
 {
 	xmlNode *root;
 	xmlNode *grouping;
-	e_table->header_canvas = GNOME_CANVAS (gnome_canvas_new ());
+	e_table->header_canvas = GNOME_CANVAS (e_canvas_new ());
 	
 	gtk_widget_show (GTK_WIDGET (e_table->header_canvas));
 

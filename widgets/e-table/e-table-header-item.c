@@ -118,7 +118,7 @@ ethi_font_load (ETableHeaderItem *ethi, char *font)
 	
 	ethi->font = gdk_fontset_load (font);
 	if (ethi->font == NULL)
-		ethi->font = gdk_font_load ("fixed");
+		ethi->font = gdk_font_load ("-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-iso8859-1");
 	
 	ethi->height = ethi->font->ascent + ethi->font->descent + PADDING;
 	if ( ethi->height < MIN_ARROW_SIZE + 4 + PADDING )
@@ -469,10 +469,8 @@ ethi_realize (GnomeCanvasItem *item)
 	gnome_canvas_get_color (item->canvas, "black", &c);
 	gdk_gc_set_foreground (ethi->gc, &c);
 
-	if (!ethi->font){
-		g_warning ("Font had not been set for this ETableHeader");
-		ethi_font_load (ethi, "fixed");
-	}
+	if (!ethi->font)
+		ethi_font_load (ethi, "-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-iso8859-1");
 
 	/*
 	 * Now, configure DnD

@@ -1,3 +1,15 @@
+2000-03-26  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-header-item.c (ethi_realize): Remove warning from here.
+
+	* test-table.c (table_browser_test): Use ECanvas, not GnomeCanvas,
+	to support reflow.
+	* test-cols.c (multi_cols_test): ditto
+	* e-table.c (e_table_setup_header): ditto
+
+	* e-table-header-item.c (ethi_font_load): Replace font.
+	(ethi_realize): ditto.
+
 2000-03-22  Matt Loper  <matt@helixcode.com>
 
 	* e-table-text-model.c (e_table_text_model_destroy): Added some
