@@ -1,3 +1,9 @@
+2004-09-13  Not Zed  <NotZed@Ximian.com>
+
+	* configure.in: change the way ipv6 stuff is done.  separate ipv6
+	setting from getaddrinfo call check, and default to on if the
+	interfaces are available.
+
 2004-09-14  Danilo Šegan  <dsegan@gmx.net>
 
 	* configure.in: Added "bs" to ALL_LINGUAS.
