@@ -33,10 +33,12 @@
 #include <bonobo/bonobo-socket.h>
 #include <libgnomeui/gnome-window-icon.h>
 
-#include "widgets/misc/e-clipped-label.h"
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/widgets/e-scroll-frame.h>
+
+#include "widgets/misc/e-clipped-label.h"
 
 #include "evolution-shell-view.h"
 
@@ -187,6 +189,8 @@ storage_set_view_box_button_release_event_cb (GtkWidget *widget,
 
 	shell_view = E_SHELL_VIEW (data);
 
+	puts (__FUNCTION__);
+
 	popdown_transient_folder_bar (shell_view);
 }
 
@@ -215,6 +219,8 @@ storage_set_view_box_map_cb (GtkWidget *widget,
 {
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
+	GtkWidget *horizontal_scrollbar;
+	GtkWidget *vertical_scrollbar;
 
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
@@ -395,7 +401,7 @@ setup_storage_set_subwindow (EShellView *shell_view)
 	EShellViewPrivate *priv;
 	GtkWidget *storage_set_view;
 	GtkWidget *vbox;
-	GtkWidget *scrolled_window;
+	GtkWidget *scroll_frame;
 
 	priv = shell_view->priv;
 
@@ -403,17 +409,17 @@ setup_storage_set_subwindow (EShellView *shell_view)
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_selected",
 			    GTK_SIGNAL_FUNC (folder_selected_cb), shell_view);
 
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	scroll_frame = e_scroll_frame_new (NULL, NULL);
+	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll_frame), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll_frame), GTK_SHADOW_IN);
 
-	gtk_container_add (GTK_CONTAINER (scrolled_window), storage_set_view);
+	gtk_container_add (GTK_CONTAINER (scroll_frame), storage_set_view);
 
 	vbox = gtk_vbox_new (FALSE, 0);
 	priv->storage_set_title_bar = e_title_bar_new (_("Folders"));
 
 	gtk_box_pack_start (GTK_BOX (vbox), priv->storage_set_title_bar, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), scroll_frame, TRUE, TRUE, 0);
 
 	gtk_signal_connect (GTK_OBJECT (priv->storage_set_title_bar), "button_clicked",
 			    GTK_SIGNAL_FUNC (storage_set_view_button_clicked_cb), shell_view);
@@ -421,7 +427,7 @@ setup_storage_set_subwindow (EShellView *shell_view)
 	gtk_widget_show (vbox);
 	gtk_widget_show (storage_set_view);
 	gtk_widget_show (priv->storage_set_title_bar);
-	gtk_widget_show (scrolled_window);
+	gtk_widget_show (scroll_frame);
 
 	priv->storage_set_view_box = vbox;
 	priv->storage_set_view = storage_set_view;
@@ -435,10 +441,8 @@ setup_progress_bar (EShellViewPrivate *priv)
 
 	progress_bar = (GTK_PROGRESS_BAR (gtk_progress_bar_new ()));
 
-	gtk_progress_bar_set_orientation (
-		progress_bar, GTK_PROGRESS_LEFT_TO_RIGHT);
-	gtk_progress_bar_set_bar_style (
-		progress_bar, GTK_PROGRESS_CONTINUOUS);
+	gtk_progress_bar_set_orientation (progress_bar, GTK_PROGRESS_LEFT_TO_RIGHT);
+	gtk_progress_bar_set_bar_style (progress_bar, GTK_PROGRESS_CONTINUOUS);
 	
 	priv->progress_bar = GTK_WIDGET (progress_bar);
 	gtk_widget_show (priv->progress_bar);
@@ -446,10 +450,9 @@ setup_progress_bar (EShellViewPrivate *priv)
 	control = bonobo_control_new (priv->progress_bar);
 	g_return_if_fail (control != NULL);
 
-	bonobo_ui_component_object_set (
-		priv->ui_component, "/status/Progress",
-		bonobo_object_corba_objref (BONOBO_OBJECT (control)),
-		NULL);
+	bonobo_ui_component_object_set (priv->ui_component, "/status/Progress",
+					bonobo_object_corba_objref (BONOBO_OBJECT (control)),
+					NULL);
 }
 
 static void
@@ -525,9 +528,7 @@ setup_widgets (EShellView *shell_view)
 	priv->folder_bar_mode   = E_SHELL_VIEW_SUBWINDOW_STICKY;
 
 	/* FIXME: Session management and stuff?  */
-	gtk_window_set_default_size (
-		GTK_WINDOW (shell_view),
-		DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	gtk_window_set_default_size (GTK_WINDOW (shell_view), DEFAULT_WIDTH, DEFAULT_HEIGHT);
 }
 
 
@@ -715,9 +716,7 @@ start_progress_bar (EShellView *shell_view)
 	if (priv->progress_bar_timeout_id != 0)
 		return;
 
-	priv->progress_bar_timeout_id = gtk_timeout_add (
-		PROGRESS_BAR_TIMEOUT, progress_bar_timeout_cb,
-		shell_view);
+	priv->progress_bar_timeout_id = gtk_timeout_add (PROGRESS_BAR_TIMEOUT, progress_bar_timeout_cb, shell_view);
 
 	gtk_progress_set_activity_mode (progress, TRUE);
 	gtk_progress_set_value (progress, priv->progress_bar_value);
@@ -757,20 +756,19 @@ shell_view_interface_set_message_cb (EvolutionShellView *shell_view,
 
 	g_return_if_fail (view != NULL);
 
-	if (message) {
+	if (message != NULL) {
 		const char *newline;
 		
 		newline = strchr (message, '\n');
-
-		if (!newline)
+		if (newline == NULL)
 			status = g_strdup (message);
 		else
 			status = g_strndup (message, newline - message);
-	} else
+	} else {
 		status = g_strdup ("");
+	}
 
-	bonobo_ui_component_set_status (
-		view->priv->ui_component, status, NULL);
+	bonobo_ui_component_set_status (view->priv->ui_component, status, NULL);
 
 	g_free (status);
 
@@ -790,8 +788,7 @@ shell_view_interface_unset_message_cb (EvolutionShellView *shell_view,
 
 	g_return_if_fail (view != NULL);
 
-	bonobo_ui_component_set_status (
-		view->priv->ui_component, "", NULL);
+	bonobo_ui_component_set_status (view->priv->ui_component, "", NULL);
 
 	stop_progress_bar (E_SHELL_VIEW (data));
 }
@@ -813,8 +810,7 @@ e_shell_view_construct (EShellView *shell_view,
 
 	priv = shell_view->priv;
 
-	view = E_SHELL_VIEW (bonobo_win_construct (
-		BONOBO_WIN (shell_view), "evolution", "Evolution"));
+	view = E_SHELL_VIEW (bonobo_win_construct (BONOBO_WIN (shell_view), "evolution", "Evolution"));
 
 	if (!view) {
 		gtk_object_unref (GTK_OBJECT (shell_view));
@@ -834,9 +830,8 @@ e_shell_view_construct (EShellView *shell_view,
 	bonobo_ui_container_set_win (container, BONOBO_WIN (shell_view));
 
 	priv->ui_component = bonobo_ui_component_new ("evolution");
-	bonobo_ui_component_set_container (
-		priv->ui_component,
-		bonobo_object_corba_objref (BONOBO_OBJECT (container)));
+	bonobo_ui_component_set_container (priv->ui_component,
+					   bonobo_object_corba_objref (BONOBO_OBJECT (container)));
 
 	bonobo_ui_component_freeze (priv->ui_component, NULL);
 
@@ -922,11 +917,9 @@ update_window_icon (EShellView *shell_view,
 	}
 
 	if (icon_path == NULL) {
-		gnome_window_icon_set_from_default (
-			GTK_WINDOW (shell_view));
+		gnome_window_icon_set_from_default (GTK_WINDOW (shell_view));
 	} else {
-		gnome_window_icon_set_from_file (
-			GTK_WINDOW (shell_view), icon_path);
+		gnome_window_icon_set_from_file (GTK_WINDOW (shell_view), icon_path);
 		g_free (icon_path);
 	}
 }
@@ -1192,8 +1185,8 @@ get_control_for_uri (EShellView *shell_view,
 
 	CORBA_exception_init (&ev);
 
-	corba_control = Evolution_ShellComponent_create_view (
-		handler, e_folder_get_physical_uri (folder), folder_type, &ev);
+	corba_control = Evolution_ShellComponent_create_view (handler, e_folder_get_physical_uri (folder),
+							      folder_type, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
