@@ -672,6 +672,67 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 	mail_do_edit_messages (fb->folder, uids, (GtkSignalFunc) composer_send_cb);
 }
 
+static void
+save_msg_ok (GtkWidget *widget, gpointer user_data)
+{
+	CamelFolder *folder;
+	GPtrArray *uids;
+	char *path;
+	
+	/* FIXME: is path an allocated string? */
+	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (user_data));
+	
+	folder = gtk_object_get_data (GTK_OBJECT (user_data), "folder");
+	uids = gtk_object_get_data (GTK_OBJECT (user_data), "uids");
+	gtk_object_remove_no_notify (GTK_OBJECT (user_data), "uids");
+	mail_do_save_messages (folder, uids, path);
+	
+	gtk_widget_destroy (GTK_WIDGET (user_data));
+}
+
+static void
+save_msg_destroy (gpointer user_data)
+{
+	GPtrArray *uids = user_data;
+	
+	if (uids) {
+		int i;
+		
+		for (i = 0; i < uids->len; i++)
+			g_free (uids->pdata[i]);
+		
+		g_ptr_array_free (uids, TRUE);
+	}
+}
+
+void
+save_msg (GtkWidget *widget, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	GtkFileSelection *filesel;
+	GPtrArray *uids;
+	char *title;
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (fb->message_list, enumerate_msg, uids);
+	
+	if (uids->len == 1)
+		title = _("Save Message As...");
+	else
+		title = _("Save Messages As...");
+	
+	filesel = GTK_FILE_SELECTION (gtk_file_selection_new (title));
+	gtk_object_set_data_full (GTK_OBJECT (filesel), "uids", uids, save_msg_destroy);
+	gtk_object_set_data (GTK_OBJECT (filesel), "folder", fb->folder);
+	gtk_signal_connect (GTK_OBJECT (filesel->ok_button),
+			    "clicked", GTK_SIGNAL_FUNC (save_msg_ok), filesel);
+	gtk_signal_connect_object (GTK_OBJECT (filesel->cancel_button),
+				   "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy),
+				   GTK_OBJECT (filesel));
+	
+	gtk_widget_show (GTK_WIDGET (filesel));
+}
+
 void
 delete_msg (GtkWidget *button, gpointer user_data)
 {

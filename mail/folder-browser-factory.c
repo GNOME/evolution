@@ -54,6 +54,7 @@ BonoboUIVerb verbs [] = {
 	/* Message Menu */
 	BONOBO_UI_UNSAFE_VERB ("MessageOpenNewWnd", view_message),
 	BONOBO_UI_UNSAFE_VERB ("MessageEdit", edit_message),
+	BONOBO_UI_UNSAFE_VERB ("MessageSaveAs", save_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessagePrint", print_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplySndr", reply_to_sender),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", reply_to_all),

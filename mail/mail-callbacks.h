@@ -53,6 +53,7 @@ void apply_filters         (GtkWidget *widget, gpointer user_data);
 void print_msg             (GtkWidget *widget, gpointer user_data);
 void print_preview_msg     (GtkWidget *widget, gpointer user_data);
 void edit_msg              (GtkWidget *widget, gpointer user_data);
+void save_msg              (GtkWidget *widget, gpointer user_data);
 void view_msg              (GtkWidget *widget, gpointer user_data);
 void view_source           (GtkWidget *widget, gpointer user_data);
 

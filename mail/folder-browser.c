@@ -477,6 +477,7 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Fold
 	EPopupMenu menu[] = {
 		{ _("Open"),                       NULL, GTK_SIGNAL_FUNC (view_msg),          NULL,  0 },
 		{ _("Edit"),                       NULL, GTK_SIGNAL_FUNC (edit_msg),          NULL,  1 },
+		{ _("Save As..."),                 NULL, GTK_SIGNAL_FUNC (save_msg),          NULL,  0 },
 		{ _("Print"),                      NULL, GTK_SIGNAL_FUNC (print_msg),         NULL,  0 },
 		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
 		{ _("Reply to Sender"),            NULL, GTK_SIGNAL_FUNC (reply_to_sender),   NULL,  0 },

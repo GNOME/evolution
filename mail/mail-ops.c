@@ -2397,7 +2397,6 @@ typedef struct save_messages_input_s {
 } save_messages_input_t;
 
 typedef struct save_messages_data_s {
-	GPtrArray *messages;
 } save_messages_data_t;
 
 static gchar *
@@ -2425,10 +2424,11 @@ static void
 do_save_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	save_messages_input_t *input = (save_messages_input_t *) in_data;
-	save_messages_data_t *data = (save_messages_data_t *) op_data;
+	CamelStream *stream;
 	int i;
 	
-	data->messages = g_ptr_array_new ();
+	mail_tool_camel_lock_up ();
+	stream = camel_stream_fs_new_with_name (input->path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	
 	for (i = 0; i < input->uids->len; i++) {
 		CamelMimeMessage *message;
@@ -2436,12 +2436,21 @@ do_save_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 		mail_op_set_message (_("Retrieving message %d of %d (uid \"%s\")"),
 				     i + 1, input->uids->len, (char *)input->uids->pdata[i]);
 		
-		mail_tool_camel_lock_up ();
 		message = camel_folder_get_message (input->folder, input->uids->pdata[i], ex);
-		mail_tool_camel_lock_down ();
+		if (message) {
+			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
+			camel_object_unref (CAMEL_OBJECT (message));
+		}
 		
-		g_ptr_array_add (data->messages, message);
+		g_free (input->uids->pdata[i]);
 	}
+	
+	g_ptr_array_free (input->uids, TRUE);
+	
+	camel_stream_flush (stream);
+	camel_object_unref (CAMEL_OBJECT (stream));
+	
+	mail_tool_camel_lock_down ();
 }
 
 static void
@@ -2449,39 +2458,9 @@ cleanup_save_messages (gpointer in_data, gpointer op_data,
 		       CamelException *ex)
 {
 	save_messages_input_t *input = (save_messages_input_t *) in_data;
-	save_messages_data_t *data = (save_messages_data_t *) op_data;
-	int i;
 	
-	for (i = 0; i < data->messages->len; i++) {
-		CamelMimeMessage *msg;
-		CamelStream *stream;
-		char *filename;
-		
-		if (data->messages->pdata[i] == NULL)
-			continue;
-		
-		msg = data->messages->pdata[i];
-		
-		/* if we are saving a single message, use the filename the user selected */
-		if (input->uids->len == 1)
-			filename = g_strdup (input->path);
-		else
-			filename = g_strdup_printf ("%s/[%s] %s.eml", input->path,
-						    camel_mime_message_get_subject (msg),
-						    (char *) input->uids->pdata[i]);
-		
-		stream = camel_stream_fs_new_with_name (filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (msg), stream);
-		camel_stream_flush (stream);
-		g_free (filename);
-		
-		camel_object_unref (CAMEL_OBJECT (stream));
-		camel_object_unref (CAMEL_OBJECT (data->messages->pdata[i]));
-		g_free (input->uids->pdata[i]);
-	}
+	g_free (input->path);
 	
-	g_ptr_array_free (input->uids, TRUE);
-	g_ptr_array_free (data->messages, TRUE);
 	camel_object_unref (CAMEL_OBJECT (input->folder));
 }
 
@@ -2505,7 +2484,7 @@ mail_do_save_messages (CamelFolder *folder, GPtrArray *uids, gchar *path)
 	input = g_new (save_messages_input_t, 1);
 	input->folder = folder;
 	input->uids = uids;
-	input->path = path;
+	input->path = g_strdup (path);
 	
 	mail_operation_queue (&op_save_messages, input, TRUE);
 }
