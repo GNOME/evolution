@@ -1,3 +1,12 @@
+2004-05-19  Jeffrey Stedfast  <fejj@novell.com>
+
+	* README: New file explaining how to add icons to the build, etc.
+
+	* broken-image-*.xpm: Added for use with e-icon-factory.c so we
+	can return a "bropken image" icon for any icon we can't find/load.
+
+	* .: Removed many *many* icons that are no longer used.
+
 2004-03-09  Jakub Steiner <jimmac@ximian.com>
 
 	* autocompletion.png:
