@@ -1,3 +1,11 @@
+2001-02-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.c (construct): init the vTrash folder here instead
+	of in store_init.
+	(camel_store_class_init): init service_class->construct.
+	(camel_store_finalize): We only need to unref the vtrash folder.
+	(init_trash): don't create a vstore since we don't need it.
+
 2001-02-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-store.c (camel_store_class_init): init get_trash and

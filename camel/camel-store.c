@@ -27,6 +27,8 @@
 #include <config.h>
 #include <string.h>
 
+#include "camel-session.h"
+
 #include "camel-store.h"
 #include "camel-folder.h"
 #include "camel-vee-store.h"
@@ -39,6 +41,10 @@ static CamelServiceClass *parent_class = NULL;
 
 /* Returns the class for a CamelStore */
 #define CS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+
+static void construct (CamelService *service, CamelSession *session,
+		       CamelProvider *provider, CamelURL *url,
+		       CamelException *ex);
 
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
 				guint32 flags, CamelException *ex);
@@ -72,10 +78,14 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 {
 	CamelObjectClass *camel_object_class =
 		CAMEL_OBJECT_CLASS (camel_store_class);
+	CamelServiceClass *camel_service_class =
+		CAMEL_SERVICE_CLASS (camel_store_class);
 	
 	parent_class = CAMEL_SERVICE_CLASS (camel_type_get_global_classfuncs (camel_service_get_type ()));
 	
 	/* virtual method definition */
+	camel_service_class->construct = construct;
+	
 	camel_store_class->hash_folder_name = g_str_hash;
 	camel_store_class->compare_folder_name = g_str_equal;
 	camel_store_class->get_folder = get_folder;
@@ -113,8 +123,6 @@ camel_store_init (void *o)
 	
 	store->flags = 0;
 	
-	store_class->init_trash (store);
-	
 	store->priv = g_malloc0 (sizeof (*store->priv));
 #ifdef ENABLE_THREADS
 	store->priv->folder_lock = g_mutex_new();
@@ -123,10 +131,23 @@ camel_store_init (void *o)
 }
 
 static void
+construct (CamelService *service, CamelSession *session, CamelProvider *provider,
+	   CamelURL *url, CamelException *ex)
+{
+	CamelStoreClass *store_class;
+	
+	parent_class->construct (service, session, provider, url, ex);
+	
+	/* initialize the vTrash folder */
+	store_class = (CamelStoreClass *) CAMEL_OBJECT_GET_CLASS (service);
+	store_class->init_trash (CAMEL_STORE (service));
+}
+
+static void
 camel_store_finalize (CamelObject *object)
 {
 	CamelStore *store = CAMEL_STORE (object);
-
+	
 	if (store->folders) {
 		if (g_hash_table_size (store->folders) != 0) {
 			g_warning ("Folder cache for store %p contains "
@@ -136,12 +157,8 @@ camel_store_finalize (CamelObject *object)
 		g_hash_table_destroy (store->folders);
 	}
 	
-	if (store->vtrash) {
-		CamelStore *vstore = camel_folder_get_parent_store (store->vtrash);
-		
+	if (store->vtrash)
 		camel_object_unref (CAMEL_OBJECT (store->vtrash));
-		camel_object_unref (CAMEL_OBJECT (vstore));
-	}
 	
 #ifdef ENABLE_THREADS
 	g_mutex_free (store->priv->folder_lock);
@@ -366,20 +383,13 @@ static void
 init_trash (CamelStore *store)
 {
 	CamelStore *vstore;
-	char *uri, *name;
-	CamelURL *url;
+	char *name;
 	
-	uri = g_strdup_printf ("vfolder:%p/%s", store, "vTrash");
 	name = g_strdup_printf ("%s?(match-all (system-flag \"Deleted\"))", "vTrash");
 	
-	vstore = CAMEL_STORE (camel_vee_store_new ());
+	store->vtrash = camel_vee_folder_new (store, name, CAMEL_STORE_FOLDER_CREATE |
+					      CAMEL_STORE_VEE_FOLDER_AUTO, NULL);
 	
-	url = camel_url_new (uri, NULL);
-	g_free (uri);
-	CAMEL_SERVICE (vstore)->url = url;
-	
-	store->vtrash = camel_store_get_folder (vstore, name, CAMEL_STORE_FOLDER_CREATE |
-						CAMEL_STORE_VEE_FOLDER_AUTO, NULL);
 	g_free (name);
 }
 
