@@ -1,5 +1,9 @@
 2002-05-20  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/alarm-notify/alarm-notify.c:
+	* gui/alarm-notify/notify-main.c: ported changes from evolution-1-0
+	to make it work with reminders on remote backends.
+
 	* pcs/cal-backend-file.c (cal_backend_file_open): check the string
 	returned by gnome_vfs_uri_to_string, which can be empty. If so,
 	return an error.
