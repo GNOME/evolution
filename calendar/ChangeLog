@@ -1,5 +1,13 @@
 2002-08-13  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/gnome-cal.c (gnome_calendar_open): set status message on
+	ECalendarTable when opening the tasks.
+	(client_cal_opened_cb): set ECalendarTable status message to NULL
+	when we open the tasks folder. Also, clear up calendar status message
+	in all cases, not only if the folder was opened successfully.
+
+2002-08-13  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/gnome-cal.c (gnome_calendar_open): set status message to NULL
 	if there is an error opening the calendar.
 	(client_cal_opened_cb): set status message to NULL only when we have

@@ -1556,11 +1556,18 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
+	if (client == priv->client) {
+		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
+	}
+	else if (client == priv->task_pad_client) {
+		calendar_model_set_status_message (
+			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), NULL);
+	}
+
 	switch (status) {
 	case CAL_CLIENT_OPEN_SUCCESS:
 		/* If this is the main CalClient, update the Date Navigator. */
 		if (client == priv->client) {
-			e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
 			update_query (gcal);
 		}
 
@@ -1931,16 +1938,29 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 
 	if (!uri) {
 		tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
+		message = g_strdup_printf (_("Opening tasks at %s"), tasks_uri);
+		calendar_model_set_status_message (
+			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), message);
+		g_free (message);
+
 		success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
 		g_free (tasks_uri);
 	}
 	else {
 		if (!g_strncasecmp (uri->protocol, "file", 4)) {
 			tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
+			message = g_strdup_printf (_("Opening tasks at %s"), tasks_uri);
+			calendar_model_set_status_message (
+				e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), message);
+			g_free (message);
+
 			success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
 			g_free (tasks_uri);
 		}
 		else {
+			calendar_model_set_status_message (
+				e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)),
+				_("Opening default tasks folder"));
 			success = cal_client_open_default_tasks (priv->task_pad_client, FALSE);
 		}
 	}
@@ -1950,6 +1970,8 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 
 	if (!success) {
 		g_message ("gnome_calendar_open(): Could not issue the request");
+		calendar_model_set_status_message (
+			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), NULL);
 		return FALSE;
 	}
 
