@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The actual preface tag is in the evolution.xml file -->
+      <sect1 id="organization">
+        <title>Organización</title>
+      <para> Este libro se divide en dos partes, más varios anexos. La primera parte es una <link linkend="usage">guía paso a paso</link> que le explicará cómo utilizar <application>Evolution</application>.  Si no está familiarizado con <application>Evolution</application> o las aplicaciones de trabajo en grupo en general, esta sección es para usted. La segunda parte describe la configuración y está orientada a usuarios más avanzados, pero cualquiera que quiera cambiar la apariencia o comportamiento de <application>Evolution</application> sacará provecho de su lectura.
+      </para>
+      </sect1>
+
+      <sect1 id="typography">
+        <title>Convenciones tipográficas</title>
+        <para> Determinadas palabras de este documento utilizan una tipografía particular:
+          <simplelist>
+	    <member><application>Aplicaciones</application></member>
+	    <member><command>Órdenes</command> que se escriben en la línea de órdenes</member>
+	    <member><guilabel>Etiquetas</guilabel> para botones y otras partes del interfaz gráfico</member>
+
+            <member>Las referencias a menús se parecerán a esto: <menuchoice> <guimenu>Menú</guimenu> <guisubmenu>Submenú</guisubmenu> <guimenuitem>Elemento del menú</guimenuitem> </menuchoice>
+            </member> <member><guibutton>Botones</guibutton> en los que puede hacer clic</member> <member><userinput>Cualquier cosa que pueda escribir</userinput></member> <member> <computeroutput> Texto escrito en la pantalla</computeroutput></member>
+	  <member><glossterm linkend="apx-gloss">Palabras</glossterm> que puedan estar definidas en el <xref linkend="apx-gloss" />.</member>
+	  </simplelist>
+</para>
+<para> También se ofrecen numerosos detalles adicionales en consejos diferenciados del resto del libro.
+
+	  <tip id="example-tip">
+	      <title>Consejo</title>
+	      <para> Los consejos y detalles de información adicionales tendrán una apariencia como esta.
+	      </para>
+	    </tip>
+</para>
+
+<para> Los ejemplos también se diferencian del resto del libro. Tienen una apariencia como esta:
+
+	  <example>
+	    <title>Ejemplo de ejemplo</title>
+	    <para> Este es el aspecto de un ejemplo. Ofreceremos ejemplos para algunas de las tareas más complicadas que podría realizar.
+	    </para>
+	  </example>
+</para>
+<para> Finalmente, encontrará advertencias para casos en los es necesario prestar especial atención:
+
+	    <warning id="example-warning">
+	      <title>Ejemplo de advertencia</title>
+	      <para> Este es el aspecto de una advertencia. Si existe algún riesgo de problema, se lo avisamos de antemano.
+	      </para> </warning>
+        </para>
+    </sect1>
+
+    <sect1 id="other-help">
+      <title>Fuentes adicionales de ayuda </title>
+      <para> Dispone de tres fuentes de ayuda. Para informarse de las opciones de la línea de órdenes, abra una ventana de una terminal y escriba <command> man evolution</command> o <command>evolution --help</command>.  Para acceder a la asistencia técnica, noticias de última hora y erratas, visite el centro de asistencia de Ximian en  <ulink         url="http://support.ximian.com">support.ximian.com</ulink>.
+
+      </para>
+    </sect1>
+    
+
+
+
+
+
+
+
+
+
+
+    
+    <sect1 id="whats-new-in-one-two">
+      <title>Novedades en Evolution &appversion;</title>
+      <para>
+      
+        Si ya está familiarizado con Ximian Evolution 1.2, hay algunas novedades en esta versión
+        La mayoría, sin embargo, son entre bambalinas, ya que hemos migrado a la plataforma
+        GNOME 2. Ximian Connector for Microsoft Exchange tiene algunas funciones nuevas que se 
+        describen en <xref linkend="new-in-connector" />. Puede encontrar una lista completa
+        de todos los fallos resueltos y las funciones incorporadas en las notas de publicación de Evolution
+        en el <ulink url="http://developer.ximian.com">web de desarrolladores de Ximian</ulink>. Algunas de
+        las funciones son:
+    </para>
+        <variablelist>
+	  <varlistentry>
+	    <term>Mejor tipografía</term>
+	    <listitem>
+	      <para>
+                Ximian Evolution &appversion; usa la misma técnica de suavizado que el resto del escritorio GNOME 2.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Paradas más limpias</term>
+	    <listitem>
+	      <para>
+                Hemos resueslto algunos fallos que causaban que Evolution continuara consumiendo
+		recursos del sistema cuando ya no se estaba ejecutando.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term>Mejoras en el editor de correo HTML</term>
+	    <listitem>
+	      <para>
+                 El editor de mensajes sigue siendo mejorado.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Nuevos gráficos y nuevos iconos</term>
+	    <listitem>
+	      <para>
+                Hemos añadido nuevos gráficos y nuevos iconos.
+              </para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+    </sect1>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <sect1 id="preface-for-experts">
+      <title>Notas introductorias para usuarios avanzados</title>
+      <para>
+        Esta sección tiene algunos trucos para usuarios avanzados de sistemas Linux o UNIX:
+      </para>
+      <variablelist>
+        <varlistentry>
+          <term>Copias de seguridad y localización de archivos</term>
+          <listitem>
+            <para>
+              Para hacer una copia de seguridad de sus datos en Evolution copie el directorio
+              <guilabel>~/evolution/local/</guilabel> a su unidad de respaldo. Para acceder
+              desde Evolution a la información respaldada use la herramienta <guilabel>Importar</guilabel> para 
+              restaurar ficheros individuales según los necesite.
+            </para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Navegadores predeterminados</term>
+          <listitem>
+            <para>
+              Para definir qué navegador debe abrirse cuando pinche sobre un enlace en un mensaje de correo, abra
+              la herramienta de configuración de GNOME (<menuchoice><guimenu>Sistema</guimenu><guimenuitem>Configuración</guimenuitem></menuchoice>
+ <guilabel>World wide web (http)</guilabel>
+              y elija el navegador de su elección. Si quiere usar otro que no está listado, tendrá que escribir la orden shell completa.
+              Por ejemplo, puede usar <userinput>mybrowser "%s"</userinput> para lanzar la aplicación mybrowser y ver la página en cuestión.
+           </para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Hacer de Evolution su cliente de correo predeterminado</term>
+          <listitem>
+            <para>
+              En los escritorios GNOME puede configurar que sea 
+              <application>Evolution</application> el cliente de correo predeterminado, de manera que se abra cuando en una página web o 
+              en una de ayuda pinche en un enlace mailto:. Para conseguirlo, abra la herramienta de configuración de GNOME
+              y lance la herramienta <guilabel>Asociación de ficheros</guilabel>. Aquí, mire dentro de <guilabel>Servicios de
+              Internet</guilabel>, elija <guilabel>Transmisión de correo electrónico (mailto)</guilabel>, y elija 
+              <application>Evolution</application> de la lista desplegable.
+            </para>
+            <para>
+              Para aplicaciones como Mozilla y Netscape, que no usan las herramientas de configuración de GNOME, necesitará
+              localizar la herramienta de gestión de preferencias para los protocolos e introducir <userinput>evolution
+            "%s"</userinput> como su preferencia para manejar enlaces de tipo mailto:.
+            </para>
+          </listitem>
+        </varlistentry>
+
+      </variablelist>
+    </sect1>
+  
