@@ -193,10 +193,9 @@ impl_StorageRegistry_getStorageByName (PortableServer_Servant servant,
 		return CORBA_OBJECT_NIL;
 	}
 
-	corba_storage = CORBA_Object_duplicate (e_corba_storage_get_corba_objref
-						(E_CORBA_STORAGE (storage)), ev);
+	corba_storage = e_corba_storage_get_corba_objref (E_CORBA_STORAGE (storage));
 
-	return corba_storage;
+	return bonobo_object_dup_ref (corba_storage, NULL);
 }
 
 static void

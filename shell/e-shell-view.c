@@ -66,6 +66,7 @@
 #include <gtk/gtkscrolledwindow.h>
 #include <gconf/gconf-client.h>
 
+#include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-socket.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-ui-container.h>
@@ -91,7 +92,7 @@ struct _EShellViewPrivate {
 
 	/* EvolutionShellView Bonobo object for implementing the
            Evolution::ShellView interface.  */
-	EvolutionShellView *corba_interface;
+	GNOME_Evolution_ShellView corba_interface;
 
 	/* The UI handler & container.  */
 	BonoboUIComponent *ui_component;
@@ -1464,9 +1465,9 @@ impl_dispose (GObject *object)
 		priv->shell = NULL;
 	}
 
-	if (priv->corba_interface != NULL) {
-		bonobo_object_unref (BONOBO_OBJECT (priv->corba_interface));
-		priv->corba_interface = NULL;
+	if (priv->corba_interface != CORBA_OBJECT_NIL) {
+		bonobo_object_release_unref (priv->corba_interface, NULL);
+		priv->corba_interface = CORBA_OBJECT_NIL;
 	}
 
 	if (priv->folder_bar_popup != NULL) {
@@ -1582,7 +1583,7 @@ init (EShellView *shell_view)
 	priv = g_new (EShellViewPrivate, 1);
 
 	priv->shell                   = NULL;
-	priv->corba_interface         = NULL;
+	priv->corba_interface         = CORBA_OBJECT_NIL;
 	priv->ui_component            = NULL;
 	priv->history                 = e_history_new ((EHistoryItemFreeFunc) g_free);
 	priv->uri                     = NULL;
@@ -1900,7 +1901,7 @@ e_shell_view_get_corba_interface (EShellView *shell_view)
 
 	priv = shell_view->priv;
 
-	return bonobo_object_corba_objref (BONOBO_OBJECT (priv->corba_interface));
+	return priv->corba_interface;
 }
 
 
@@ -2167,7 +2168,8 @@ setup_corba_interface (EShellView *shell_view,
 	EShellViewPrivate *priv;
 	BonoboControlFrame *control_frame;
 	EvolutionShellView *corba_interface;
-
+	CORBA_Environment ev;
+	
 	g_return_if_fail (control != NULL);
 
 	priv = shell_view->priv;
@@ -2191,8 +2193,18 @@ setup_corba_interface (EShellView *shell_view,
 	bonobo_object_add_interface (BONOBO_OBJECT (control_frame),
 				     BONOBO_OBJECT (corba_interface));
 
-	bonobo_object_ref (BONOBO_OBJECT (corba_interface));
-	priv->corba_interface = corba_interface;
+
+	/* Get rid of the existing one first */
+	bonobo_object_release_unref (priv->corba_interface, NULL);
+
+	/* Now find the existing one */
+	CORBA_exception_init (&ev);
+	priv->corba_interface = Bonobo_Unknown_queryInterface (BONOBO_OBJREF (control_frame),
+							       "IDL:GNOME/Evolution/ShellView:1.0",
+							       &ev);
+	if (BONOBO_EX (&ev))
+		priv->corba_interface = CORBA_OBJECT_NIL;
+	CORBA_exception_free (&ev);
 }
 
 
@@ -2339,6 +2351,7 @@ get_view_for_uri (EShellView *shell_view,
 
 	container = bonobo_ui_component_get_container (priv->ui_component);
 	control = bonobo_widget_new_control_from_objref (corba_control, container);
+	bonobo_object_release_unref (corba_control, NULL);
 
 	socket = find_socket (GTK_CONTAINER (control));
 	destroy_connection_id = g_signal_connect (socket, "destroy",

@@ -1632,6 +1632,8 @@ save_settings_for_component (EShell *shell,
 
 	CORBA_exception_free (&ev);
 
+	bonobo_object_release_unref (session_interface, NULL);
+
 	return retval;
 }
 

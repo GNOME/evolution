@@ -598,6 +598,8 @@ setup_toolbar_button (EShellUserCreatableItemsHandler *handler,
 	bonobo_ui_component_object_set (ui_component, "/Toolbar/NewComboButton",
 					BONOBO_OBJREF (control), NULL);
 
+	bonobo_object_unref (control);
+	
 	g_object_set_data (G_OBJECT (shell_view), COMBO_BUTTON_WIDGET_KEY, combo_button);
 
 	tooltips = gtk_tooltips_new ();
@@ -679,6 +681,7 @@ impl_dispose (GObject *object)
 	g_slist_free (priv->components);
 	priv->components = NULL;
 
+	
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 

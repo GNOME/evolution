@@ -77,7 +77,6 @@ storage_listener_servant_new (ECorbaStorage *corba_storage)
 
 	servant->servant.vepv = &storage_listener_vepv;
 
-	g_object_ref (corba_storage);
 	servant->storage = E_STORAGE (corba_storage);
 
 	return servant;
@@ -86,8 +85,6 @@ storage_listener_servant_new (ECorbaStorage *corba_storage)
 static void
 storage_listener_servant_free (StorageListenerServant *servant)
 {
-	g_object_unref (servant->storage);
-
 	g_free (servant);
 }
 
@@ -272,6 +269,7 @@ impl_dispose (GObject *object)
 
 		CORBA_free (object_id);
 
+		storage_listener_servant_free (priv->storage_listener_servant);
 		priv->storage_listener_servant = NULL;
 	}
 

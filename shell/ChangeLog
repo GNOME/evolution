@@ -1,3 +1,25 @@
+2003-05-14  JP Rosevear  <jpr@ximian.com>
+
+	* e-shell.c (save_settings_for_component): release the interface
+	if we got it
+
+	* e-shell-view.c: include bonobo-exception.h
+	(impl_dispose): release and unref the shell view corba interface
+	(init): init to CORBA_OBJECT_NIL
+	(e_shell_view_get_corba_interface): return the corba interface
+	(setup_corba_interface): release the existing shell view, add as
+	an interface and then query to get it back
+	(get_view_for_uri): release and unref the control once we create
+	the widget with it
+
+	* e-corba-storage.c (storage_listener_servant_new): don't ref ourselves
+	(storage_listener_servant_free): don't unref ourselves
+	(impl_dispose): free the servant info
+
+	* e-corba-storage-registry.c
+	(impl_StorageRegistry_getStorageByName): we need to ref as well as
+	duplicate since we didn't create the storage here
+
 2003-05-09  Jeremy Katz  <katzj@redhat.com>
 
 	* main.c: Add a #include to fix a warning.
