@@ -291,18 +291,14 @@ destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *f
 	return TRUE;
 }
 
-static gboolean
-message_rfc822_dnd (CamelFolder *dest, CamelStream *stream)
+static void
+message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
 {
-	gboolean retval = FALSE;
 	CamelMimeParser *mp;
-	CamelException *ex;
 	
 	mp = camel_mime_parser_new ();
 	camel_mime_parser_scan_from (mp, TRUE);
 	camel_mime_parser_init_with_stream (mp, stream);
-	
-	ex = camel_exception_new ();
 	
 	while (camel_mime_parser_step (mp, 0, 0) == HSCAN_FROM) {
 		CamelMessageInfo *info;
@@ -312,25 +308,21 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream)
 		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg), mp) == -1) {
 			camel_object_unref (CAMEL_OBJECT (msg));
 			break;
-		} else {
-			/* we got at least 1 message so we will return TRUE */
-			retval = TRUE;
 		}
 		
 		/* append the message to the folder... */
 		info = g_new0 (CamelMessageInfo, 1);
 		camel_folder_append_message (dest, msg, info, ex);
-		camel_exception_clear (ex);
 		camel_object_unref (CAMEL_OBJECT (msg));
+		
+		if (camel_exception_is_set (ex))
+			break;
 		
 		/* skip over the FROM_END state */
 		camel_mime_parser_step (mp, 0, 0);
 	}
 	
 	camel_object_unref (CAMEL_OBJECT (mp));
-	camel_exception_free (ex);
-	
-	return retval;
 }
 
 static CORBA_boolean
@@ -345,6 +337,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 	gboolean retval = FALSE;
 	CamelFolder *source;
 	CamelStream *stream;
+	CamelException ex;
 	GPtrArray *uids;
 	CamelURL *uri;
 	int type, fd;
@@ -357,6 +350,8 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 	for (type = 0; accepted_dnd_types[type]; type++)
 		if (!strcmp (destination_context->dndType, accepted_dnd_types[type]))
 			break;
+	
+	camel_exception_init (&ex);
 	
 	switch (type) {
 	case ACCEPTED_DND_TYPE_TEXT_URI_LIST:
@@ -384,11 +379,13 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		}
 		
 		stream = camel_stream_fs_new_with_fd (fd);
-		retval = message_rfc822_dnd (source, stream);
+		message_rfc822_dnd (source, stream, &ex);
 		camel_object_unref (CAMEL_OBJECT (stream));
 		camel_object_unref (CAMEL_OBJECT (source));
 		
-		if (action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE)
+		retval = !camel_exception_is_set (&ex);
+		
+		if (action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE && retval)
 			unlink (url);
 		
 		g_free (url);
@@ -403,7 +400,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		camel_stream_write (stream, data->bytes._buffer, data->bytes._length);
 		camel_stream_reset (stream);
 		
-		retval = message_rfc822_dnd (source, stream);
+		message_rfc822_dnd (source, stream, &ex);
 		camel_object_unref (CAMEL_OBJECT (stream));
 		camel_object_unref (CAMEL_OBJECT (source));
 		break;
@@ -449,6 +446,8 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 	default:
 		break;
 	}
+	
+	camel_exception_clear (&ex);
 	
 	return retval;
 }

@@ -1,5 +1,18 @@
 2001-06-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* component-factory.c (message_rfc822_dnd): No longer returns a
+	gboolean and also takes a CamelException.
+	(destination_folder_handle_drop): Do better error checking.
+
+	* folder-browser.c (my_folder_browser_init): Connect to the
+	tree-drag-data-recieved signal.
+	(message_list_drag_data_recieved): New function that handles the
+	recieving end of the DnD event.
+	(x_evolution_message_parse): New convenience function to parse the
+	x-evolution-message type so that the cut/paste and DnD code can
+	share it.
+	(selection_received): Use x_evolution_message_parse().
+
 	* mail-config.c (config_read): Read in the default show_preview
 	value.
 	(mail_config_write_on_exit): Save the default show_preview value

@@ -384,6 +384,154 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 }
 
 static void
+message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
+{
+	CamelMimeParser *mp;
+	
+	mp = camel_mime_parser_new ();
+	camel_mime_parser_scan_from (mp, TRUE);
+	camel_mime_parser_init_with_stream (mp, stream);
+	
+	while (camel_mime_parser_step (mp, 0, 0) == HSCAN_FROM) {
+		CamelMessageInfo *info;
+		CamelMimeMessage *msg;
+		
+		msg = camel_mime_message_new ();
+		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg), mp) == -1) {
+			camel_object_unref (CAMEL_OBJECT (msg));
+			break;
+		}
+		
+		/* append the message to the folder... */
+		info = g_new0 (CamelMessageInfo, 1);
+		camel_folder_append_message (dest, msg, info, ex);
+		camel_object_unref (CAMEL_OBJECT (msg));
+		
+		if (camel_exception_is_set (ex))
+			break;
+		
+		/* skip over the FROM_END state */
+		camel_mime_parser_step (mp, 0, 0);
+	}
+	
+	camel_object_unref (CAMEL_OBJECT (mp));
+}
+
+static CamelFolder *
+x_evolution_message_parse (char *in, unsigned int inlen, GPtrArray **uids)
+{
+	/* format: "url folder_name uid1\0uid2\0uid3\0...\0uidn" */
+	char *inptr, *inend, *name, *url;
+	CamelFolder *folder;
+	
+	inend = in + inlen;
+	
+	inptr = strchr (in, ' ');
+	url = g_strndup (in, inptr - in);
+	
+	name = inptr + 1;
+	inptr = strchr (name, ' ');
+	name = g_strndup (name, inptr - name);
+	
+	folder = mail_tool_get_folder_from_urlname (url, name, 0, NULL);
+	g_free (name);
+	g_free (url);
+	
+	if (!folder)
+		return NULL;
+	
+	/* split the uids */
+	inptr++;
+	*uids = g_ptr_array_new ();
+	while (inptr < inend) {
+		char *start = inptr;
+		
+		while (inptr < inend && *inptr)
+			inptr++;
+		
+		g_ptr_array_add (*uids, g_strndup (start, inptr - start));
+		inptr++;
+	}
+	
+	return folder;
+}
+
+static void
+message_list_drag_data_recieved (ETree *tree, int row, ETreePath path, int col,
+				 GdkDragContext *context, gint x, gint y,
+				 GtkSelectionData *selection_data, guint info,
+				 guint time, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	CamelFolder *folder = NULL;
+	GPtrArray *uids = NULL;
+	CamelStream *stream;
+	CamelException ex;
+	char *inend, *url;
+	CamelURL *uri;
+	int fd;
+	
+	camel_exception_init (&ex);
+	
+	switch (info) {
+	case DND_TARGET_TYPE_TEXT_URI_LIST:
+		url = g_strndup (selection_data->data, selection_data->length);
+		inend = strchr (url, '\n');
+		if (inend)
+			*inend = '\0';
+		
+		/* get the path component */
+		g_strstrip (url);
+		uri = camel_url_new (url, NULL);
+		g_free (url);
+		url = uri->path;
+		uri->path = NULL;
+		camel_url_free (uri);
+		
+		fd = open (url, O_RDONLY);
+		if (fd == -1) {
+			g_free (url);
+			return;
+		}
+		
+		stream = camel_stream_fs_new_with_fd (fd);
+		message_rfc822_dnd (fb->folder, stream, &ex);
+		camel_object_unref (CAMEL_OBJECT (stream));
+		
+		if (context->action == GDK_ACTION_MOVE && !camel_exception_is_set (&ex))
+			unlink (url);
+		
+		g_free (url);
+		break;
+	case DND_TARGET_TYPE_MESSAGE_RFC822:
+		/* write the message(s) out to a CamelStream so we can use it */
+		stream = camel_stream_mem_new ();
+		camel_stream_write (stream, selection_data->data, selection_data->length);
+		camel_stream_reset (stream);
+		
+		message_rfc822_dnd (fb->folder, stream, &ex);
+		camel_object_unref (CAMEL_OBJECT (stream));
+		break;
+	case DND_TARGET_TYPE_X_EVOLUTION_MESSAGE:
+		folder = x_evolution_message_parse (selection_data->data, selection_data->length, &uids);
+		if (folder == NULL)
+			return;
+		
+		if (uids == NULL) {
+			camel_object_unref (CAMEL_OBJECT (folder));
+			return;
+		}
+		
+		mail_do_transfer_messages (folder, uids, context->action == GDK_ACTION_MOVE, fb->uri);
+		
+		camel_object_unref (CAMEL_OBJECT (folder));
+		break;
+	}
+	
+	camel_exception_clear (&ex);
+}
+
+static void
 selection_get (GtkWidget *widget, GtkSelectionData *selection_data,
 	       guint info, guint time_stamp, FolderBrowser *fb)
 {
@@ -409,40 +557,16 @@ static void
 selection_received (GtkWidget *widget, GtkSelectionData *selection_data,
 		    guint time, FolderBrowser *fb)
 {
-	char *url, *name, *in, *inptr, *inend;
-	CamelFolder *source;
-	GPtrArray *uids;
+	CamelFolder *source = NULL;
+	GPtrArray *uids = NULL;
 	
-	/* format: "url folder_name uid1\0uid2\0uid3\0...\0uidn" */
-	
-	in = selection_data->data;
-	inend = in + selection_data->length;
-	
-	inptr = strchr (in, ' ');
-	url = g_strndup (in, inptr - in);
-	
-	name = inptr + 1;
-	inptr = strchr (name, ' ');
-	name = g_strndup (name, inptr - name);
-	
-	source = mail_tool_get_folder_from_urlname (url, name, 0, NULL);
-	g_free (name);
-	g_free (url);
-	
-	if (!source)
+	source = x_evolution_message_parse (selection_data->data, selection_data->length, &uids);
+	if (source == NULL)
 		return;
 	
-	/* split the uids */
-	inptr++;
-	uids = g_ptr_array_new ();
-	while (inptr < inend) {
-		char *start = inptr;
-		
-		while (inptr < inend && *inptr)
-			inptr++;
-		
-		g_ptr_array_add (uids, g_strndup (start, inptr - start));
-		inptr++;
+	if (uids == NULL) {
+		camel_object_unref (CAMEL_OBJECT (source));
+		return;
 	}
 	
 	mail_do_transfer_messages (source, uids, FALSE, fb->uri);
@@ -1564,7 +1688,7 @@ static gboolean
 do_message_selected(FolderBrowser *fb)
 {
 	d(printf ("selecting uid %s (delayed)\n", fb->new_uid ? fb->new_uid : "NONE"));
-
+	
 	/* keep polling if we are busy */
 	if (fb->reconfigure) {
 		if (fb->new_uid == NULL) {
@@ -1573,9 +1697,9 @@ do_message_selected(FolderBrowser *fb)
 		}
 		return TRUE;
 	}
-
+	
 	fb->loading_id = 0;
-
+	
 	/* if we are loading, then set a pending, but leave the loading, coudl cancel here (?) */
 	if (fb->loading_uid) {
 		g_free(fb->pending_uid);
@@ -1588,7 +1712,7 @@ do_message_selected(FolderBrowser *fb)
 			mail_display_set_message(fb->mail_display, NULL);
 		}
 	}
-
+	
 	return FALSE;
 }
 
@@ -1660,6 +1784,12 @@ my_folder_browser_init (GtkObject *object)
 	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree), "tree_drag_data_get",
 			    GTK_SIGNAL_FUNC (message_list_drag_data_get), fb);
+	
+	e_tree_drag_dest_set (fb->message_list->tree, GTK_DEST_DEFAULT_ALL,
+			      drag_types, num_drag_types, GDK_ACTION_MOVE | GDK_ACTION_COPY);
+	
+	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree), "tree_drag_data_recieved",
+			    GTK_SIGNAL_FUNC (message_list_drag_data_recieved), fb);
 	
 	/* cut, copy & paste */
 	if (!invisible) {
