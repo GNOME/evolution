@@ -1823,6 +1823,7 @@ add_new_store (char *uri, CamelStore *store, void *user_data)
 gboolean
 mail_account_gui_save (MailAccountGui *gui)
 {
+	EAccountList *accounts;
 	EAccount *account, *new;
 	CamelProvider *provider = NULL;
 	CamelURL *source_url = NULL, *url;
@@ -1953,8 +1954,12 @@ mail_account_gui_save (MailAccountGui *gui)
 	e_account_import (account, new);
 	g_object_unref (new);
 	
-	if (is_new)
+	if (is_new) {
 		mail_config_add_account (account);
+	} else {
+		accounts = mail_config_get_accounts ();
+		g_signal_emit_by_name (accounts, "account-changed", account);
+	}
 	
 	/* if the account provider is something we can stick
 	   in the folder-tree and not added by some other

@@ -1,7 +1,20 @@
 2003-01-27  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-identify.c (mail_identify_mime_part): Fixed a #warning by
+	converting a local path into a file: uri before feeding it to
+	gnome-vfs.
+
 	* message-list.c (message_list_set_folder): Removed a FIXME that
 	I've decided is no longer needed.
+
+2003-01-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_add_account): Emit the account-added
+	event.
+	(mail_config_remove_account): Emit the account-removed event.
+
+	* mail-account-gui.c (mail_account_gui_save): Emit the changed
+	event on the account-list for the changed account.
 
 2003-01-24  Jeffrey Stedfast  <fejj@ximian.com>
 

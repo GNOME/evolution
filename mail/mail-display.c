@@ -506,7 +506,7 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 					name = prop->v._u.value_string;
 				else
 					name = "bonobo";
-				menu[1].name = g_strdup_printf(_("View Inline (via %s)"), name);
+				menu[1].name = g_strdup_printf (_("View Inline (via %s)"), name);
 			} else
 				menu[1].name = g_strdup (_(menu[1].name));
 		} else

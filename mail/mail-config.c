@@ -766,6 +766,7 @@ void
 mail_config_add_account (EAccount *account)
 {
 	e_list_append ((EList *) config->accounts, account);
+	g_signal_emit_by_name (config->accounts, "account-added", account);
 	
 	mail_config_save_accounts ();
 }
@@ -802,7 +803,10 @@ mail_config_remove_account (EAccount *account)
 			gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", cur - 1, NULL);
 	}
 	
+	g_object_ref (account);
 	e_list_remove ((EList *) config->accounts, account);
+	g_signal_emit_by_name (config->accounts, "account-removed", account);
+	g_object_unref (account);
 	
 	mail_config_save_accounts ();
 }

@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include <glib.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
 #include "mail.h"
 
@@ -52,15 +53,17 @@ mail_identify_mime_part (CamelMimePart *part, MailDisplay *md)
 	const char *filename, *magic_type = NULL;
 	CamelDataWrapper *data;
 	char *name_type = NULL;
-
+	char *uri;
+	
 	filename = camel_mime_part_get_filename (part);
 	if (filename) {
 		/* GNOME-VFS will misidentify TNEF attachments as MPEG */
 		if (!strcmp (filename, "winmail.dat"))
 			return g_strdup ("application/vnd.ms-tnef");
-
-#warning "does gnome_vfs_get_mime_type handle a plain filename as the 'text_uri'?"
-		name_type = gnome_vfs_get_mime_type(filename);
+		
+		uri = gnome_vfs_get_uri_from_local_path (filename);
+		name_type = gnome_vfs_get_mime_type (uri);
+		g_free (uri);
 	}
 
 	data = camel_medium_get_content_object (CAMEL_MEDIUM (part));
