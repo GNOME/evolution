@@ -111,7 +111,7 @@ setup_name_selector (GladeXML *glade_xml,
 
 	CORBA_exception_init (&ev);
 
-	corba_iface = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Addressbook_SelectNames",
+	corba_iface = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Addressbook_SelectNames_2",
 							  0, NULL, &ev);
 	if (corba_iface == CORBA_OBJECT_NIL || BONOBO_EX (&ev)) {
 		g_warning ("Cannot activate SelectNames -- %s", BONOBO_EX_REPOID (&ev));
