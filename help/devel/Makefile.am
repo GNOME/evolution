@@ -22,6 +22,7 @@ content_files =				\
 # are used for dependency tracking.
 
 local_entities =					\
+	calendar/alarm-generation.sgml			\
 	calendar/architecture.sgml			\
 	calendar/evolution-calendar.sgml		\
 	calendar/public-reference.sgml			\
@@ -36,18 +37,15 @@ local_entities =					\
 EXTRA_DIST =			\
 	$(content_files)
 
-all: evolution-devel-guide.html
+all: html/index.html
 
 if ENABLE_GTK_DOC
-evolution-devel-guide.html: html/index.html
-	-cd $(srcdir) && cp html/index.html evolution-devel-guide.html
-else
-evolution-devel-guide.html:
-endif
-
 html/index.html: $(content_files) $(local_entities)
 	test -d $(srcdir)/html || mkdir $(srcdir)/html
 	-cd $(srcdir)/html && gtkdoc-mkhtml $(DOC_MODULE) ../$(DOC_MAIN_SGML_FILE)
+else
+html/index.html:
+endif
 
 clean-local:
 	rm -f *~ *.bak *.signals *-unused.txt

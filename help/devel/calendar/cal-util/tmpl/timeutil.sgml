@@ -14,67 +14,12 @@ timeutil
 
 </para>
 
-<!-- ##### FUNCTION time_from_icaltimetype ##### -->
-<para>
-
-</para>
-
-@itt: 
-@Returns: 
-
-
-<!-- ##### FUNCTION time_from_isodate ##### -->
-<para>
-
-</para>
-
-@str: 
-@Returns: 
-
-
-<!-- ##### FUNCTION time_from_start_duration ##### -->
-<para>
-
-</para>
-
-@start: 
-@duration: 
-@Returns: 
-
-
 <!-- ##### FUNCTION isodate_from_time_t ##### -->
 <para>
 
 </para>
 
 @t: 
-@Returns: 
-
-
-<!-- ##### FUNCTION get_time_t_hour ##### -->
-<para>
-
-</para>
-
-@t: 
-@Returns: 
-
-
-<!-- ##### FUNCTION isodiff_to_secs ##### -->
-<para>
-
-</para>
-
-@str: 
-@Returns: 
-
-
-<!-- ##### FUNCTION isodiff_from_secs ##### -->
-<para>
-
-</para>
-
-@secs: 
 @Returns: 
 
 
@@ -128,16 +73,6 @@ timeutil
 @Returns: 
 
 
-<!-- ##### FUNCTION format_simple_hour ##### -->
-<para>
-
-</para>
-
-@hour: 
-@use_am_pm: 
-@Returns: 
-
-
 <!-- ##### FUNCTION time_days_in_month ##### -->
 <para>
 
@@ -156,16 +91,6 @@ timeutil
 @year: 
 @month: 
 @day: 
-@Returns: 
-
-
-<!-- ##### FUNCTION time_day_hour ##### -->
-<para>
-
-</para>
-
-@t: 
-@hour: 
 @Returns: 
 
 
@@ -238,15 +163,6 @@ timeutil
 </para>
 
 @t: 
-@Returns: 
-
-
-<!-- ##### FUNCTION parse_date ##### -->
-<para>
-
-</para>
-
-@str: 
 @Returns: 
 
 

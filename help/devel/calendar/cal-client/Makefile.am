@@ -1,10 +1,5 @@
-## Process this file with automake to produce Makefile.in
-
 # The name of the module.
 DOC_MODULE=evolution-cal-client
-
-# The top-level SGML file.
-DOC_MAIN_SGML_FILE=evolution-cal-client.sgml
 
 # The directory containing the source code (if it contains documentation).
 DOC_SOURCE_DIR=$(EVOLUTION_DIR)/calendar/cal-client
@@ -22,41 +17,87 @@ LDFLAGS="								\
 	$(BONOBO_VFS_GNOME_LIBS)					\
 	$(top_builddir)/calendar/cal-client/.libs/libcal-client.a	\
 	$(top_builddir)/calendar/cal-util/.libs/libcal-util.a		\
-	$(top_builddir)/libical/src/libical/libical.a			\
+	$(top_builddir)/libical/src/libical/.libs/libical.a		\
 	$(top_builddir)/libversit/.libs/libversit.al			\
 	"
 
-HTML_DIR=$(datadir)/gnome/html
+DOC_DIR=$(datadir)/gnome/html
 
-TARGET_DIR=$(HTML_DIR)/$(DOC_MODULE)
+DOC_DIR_INSTALL_FILES =				\
+	 evolution-cal-client.args		\
+	 evolution-cal-client.hierarchy		\
+	 evolution-cal-client.signals		\
+	 evolution-cal-client.types		\
+	 evolution-cal-client-decl.txt		\
+	 evolution-cal-client-sections.txt
+
+SOURCE_FILES =							\
+	$(top_srcdir)/calendar/cal-client/cal-client.c		\
+	$(top_srcdir)/calendar/cal-client/cal-client.h		\
+	$(top_srcdir)/calendar/cal-client/cal-client-types.c	\
+	$(top_srcdir)/calendar/cal-client/cal-client-types.h
+
+IGNORED_HEADER_FILES =		\
+	cal-listener.h		\
+	evolution-calendar.h
+
+scan_generated =				\
+	evolution-cal-client-decl.txt		\
+	evolution-cal-client.args		\
+	evolution-cal-client.hierarchy		\
+	evolution-cal-client.signals		\
+	evolution-cal-client.types
+
+tmpl_dependencies =				\
+	evolution-cal-client-decl.txt		\
+	evolution-cal-client-sections.txt	\
+	evolution-cal-client.args		\
+	evolution-cal-client.hierarchy		\
+	evolution-cal-client.signals
 
 tmpl_sources =					\
 	tmpl/cal-client.sgml			\
 	tmpl/evolution-cal-client-unused.sgml
 
-evolution_cal_client_docdir = $(HTML_DIR)
-evolution_cal_client_doc_DATA =			\
-	evolution-cal-client.hierarchy		\
-	evolution-cal-client.types		\
+tmpl_generated =				\
+	evolution-cal-client-unused.txt
+
+sgml_dependencies =				\
 	evolution-cal-client-decl.txt		\
-	evolution-cal-client-sections.txt
+	evolution-cal-client-sections.txt	\
+	evolution-cal-client.args		\
+	evolution-cal-client.hierarchy		\
+	evolution-cal-client.signals		\
+	tmpl/cal-client.sgml
+
+sgml_generated = 				\
+	sgml/cal-client.sgml			\
+	sgml/evolution-cal-client-doc.bottom	\
+	sgml/evolution-cal-client-doc.top	\
+	sgml/object_index.sgml			\
+	sgml/tree_index.sgml
 
 EXTRA_DIST = 					\
-	$(evolution_cal_client_doc_DATA)
+	 evolution-cal-client.args		\
+	 evolution-cal-client.hierarchy		\
+	 evolution-cal-client.signals		\
+	 evolution-cal-client.types		\
+	 evolution-cal-client-decl.txt		\
+	 evolution-cal-client-sections.txt
 
-sgml/evolution-cal-client-doc.bottom: $(tmpl_sources)
-	$(MAKE) sgml
+all: $(sgml_generated)
 
-scan:
-	-(cd $(srcdir) \
-	&& env CFLAGS=$(CFLAGS) LDFLAGS=$(LDFLAGS) \
-		 gtkdoc-scanobj --module=$(DOC_MODULE) \
-	&& gtkdoc-scan --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR) --ignore-headers="cal-listener.h evolution-calendar.h" )
+scan $(scan_generated): $(SOURCE_FILES)
+	-(cd $(srcdir)									\
+	  && env CFLAGS=$(CFLAGS) LDFLAGS=$(LDFLAGS)					\
+		 gtkdoc-scanobj --module=$(DOC_MODULE)					\
+	  && gtkdoc-scan --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR)		\
+			 --ignore-headers="$(IGNORED_HEADER_FILES)" )
 
-templates: scan
+templates $(tmpl_sources) $(tmpl_generated): $(tmpl_dependencies)
 	cd $(srcdir) && gtkdoc-mktmpl --module=$(DOC_MODULE)
 
-sgml:
+sgml $(sgml_generated): $(sgml_dependencies)
 	cd $(srcdir) \
 	&& gtkdoc-mkdb --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR)
 
@@ -66,6 +107,12 @@ clean-local:
 maintainer-clean-local: clean
 	cd $(srcdir) && rm -rf sgml $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt
 
+install-data-local:
+	$(mkinstalldirs) $(DOC_DIR)
+	for i in $(DOC_DIR_INSTALL_FILES); do		\
+		$(INSTALL_DATA) $$i $(DOC_DIR);		\
+	done
+
 dist-hook:
 	mkdir $(distdir)/sgml
 	mkdir $(distdir)/tmpl
@@ -73,4 +120,4 @@ dist-hook:
 	-cp $(srcdir)/sgml/*.sgml $(distdir)/sgml
 	-cp $(srcdir)/sgml/*.bottom $(srcdir)/sgml/*.top $(distdir)/sgml
 
-.PHONY : sgml templates scan
+.PHONY: scan templates sgml

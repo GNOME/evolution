@@ -14,37 +14,6 @@ cal-recur
 
 </para>
 
-<!-- ##### ENUM CalRecurType ##### -->
-<para>
-
-</para>
-
-@CAL_RECUR_YEARLY: 
-@CAL_RECUR_MONTHLY: 
-@CAL_RECUR_WEEKLY: 
-@CAL_RECUR_DAILY: 
-@CAL_RECUR_HOURLY: 
-@CAL_RECUR_MINUTELY: 
-@CAL_RECUR_SECONDLY: 
-
-<!-- ##### TYPEDEF CalRecurrence ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### STRUCT CalObjTime ##### -->
-<para>
-
-</para>
-
-@year: 
-@month: 
-@day: 
-@hour: 
-@minute: 
-@second: 
-
 <!-- ##### USER_FUNCTION CalRecurInstanceFn ##### -->
 <para>
 
@@ -52,9 +21,11 @@ cal-recur
 
 @comp: 
 @instance_start: 
-@instace_end: 
+@instance_end: 
 @data: 
 @Returns: 
+<!-- # Unused Parameters # -->
+@instace_end: 
 
 
 <!-- ##### FUNCTION cal_recur_generate_instances ##### -->
@@ -67,22 +38,5 @@ cal-recur
 @end: 
 @cb: 
 @cb_data: 
-
-
-<!-- ##### FUNCTION cal_recur_from_icalrecurrencetype ##### -->
-<para>
-
-</para>
-
-@ir: 
-@Returns: 
-
-
-<!-- ##### FUNCTION cal_recur_free ##### -->
-<para>
-
-</para>
-
-@r: 
 
 

@@ -11,8 +11,6 @@ CalComponentPeriodType
 CalComponentPeriod
 CalComponentText
 CalComponentTransparency
-CalComponentAlarm
-CalComponentPrivate
 
 cal_component_gen_uid
 cal_component_new
@@ -47,8 +45,12 @@ cal_component_get_due
 cal_component_set_due
 cal_component_get_exdate_list
 cal_component_set_exdate_list
+cal_component_has_exdates
 cal_component_get_exrule_list
+cal_component_get_exrule_property_list
 cal_component_set_exrule_list
+cal_component_has_exrules
+cal_component_has_exceptions
 cal_component_get_geo
 cal_component_set_geo
 cal_component_get_last_modified
@@ -61,21 +63,22 @@ cal_component_get_rdate_list
 cal_component_set_rdate_list
 cal_component_has_rdates
 cal_component_get_rrule_list
+cal_component_get_rrule_property_list
 cal_component_set_rrule_list
 cal_component_has_rrules
+cal_component_has_recurrences
 cal_component_get_sequence
 cal_component_set_sequence
+cal_component_get_status
+cal_component_set_status
 cal_component_get_summary
 cal_component_set_summary
 cal_component_get_transparency
 cal_component_set_transparency
 cal_component_get_url
 cal_component_set_url
-cal_component_get_pilot_id
-cal_component_set_pilot_id
-cal_component_get_pilot_status
-cal_component_set_pilot_status
 
+<SUBSECTION Functions to free returned values>
 cal_component_free_categories_list
 cal_component_free_datetime
 cal_component_free_exdate_list
@@ -88,19 +91,24 @@ cal_component_free_recur_list
 cal_component_free_sequence
 cal_component_free_text_list
 
-CalComponentAlarmAction
-CalComponentAlarmTriggerType
-CalComponentAlarmTriggerRelated
-CalComponentAlarmTrigger
+<SUBSECTION Alarms>
+CalComponentAlarm
+CalAlarmInstance
+CalComponentAlarms
+CalAlarmAction
+CalAlarmTriggerType
+CalAlarmTrigger
 
-cal_component_get_first_alarm
-cal_component_get_next_alarm
+cal_component_has_alarms
+cal_component_get_alarm_uids
+cal_component_get_alarm
 cal_component_alarm_free
+cal_component_alarms_free
+cal_component_alarm_get_uid
 cal_component_alarm_get_action
 cal_component_alarm_set_action
 cal_component_alarm_get_trigger
 cal_component_alarm_set_trigger
-cal_component_alarm_free_trigger
 
 <SUBSECTION Standard>
 CAL_COMPONENT_TYPE
@@ -111,48 +119,34 @@ cal_component_get_type
 
 <SUBSECTION Private>
 CalComponent
+CalComponentPrivate
 
 </SECTION>
 
 <SECTION>
 <FILE>cal-recur</FILE>
-CalRecurType
-CalRecurrence
-CalObjTime
 CalRecurInstanceFn
 cal_recur_generate_instances
-cal_recur_from_icalrecurrencetype
-cal_recur_free
 </SECTION>
 
 <SECTION>
 <FILE>cal-util</FILE>
 CalObjInstance
 cal_obj_instance_list_free
-CalAlarmInstance
-cal_alarm_instance_list_free
 CalObjType
 cal_obj_uid_list_free
 </SECTION>
 
 <SECTION>
 <FILE>timeutil</FILE>
-time_from_icaltimetype
-time_from_isodate
-time_from_start_duration
 isodate_from_time_t
-get_time_t_hour
-isodiff_to_secs
-isodiff_from_secs
 time_add_minutes
 time_add_day
 time_add_week
 time_add_month
 time_add_year
-format_simple_hour
 time_days_in_month
 time_from_day
-time_day_hour
 time_year_begin
 time_year_end
 time_month_begin
@@ -161,6 +155,5 @@ time_week_begin
 time_week_end
 time_day_begin
 time_day_end
-parse_date
 print_time_t
 </SECTION>

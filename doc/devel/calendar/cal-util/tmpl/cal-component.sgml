@@ -85,7 +85,6 @@ RFC 2445 iCalendar component object.
 
 @CAL_COMPONENT_NO_TYPE: Returned from cal_component_get_vtype() to
   indicate an uninitialized #CalComponent object.
-
 @CAL_COMPONENT_EVENT: Indicates a VEVENT component.
 @CAL_COMPONENT_TODO: Indicates a VTODO component.
 @CAL_COMPONENT_JOURNAL: Indicates a VJOURNAL component.
@@ -126,11 +125,9 @@ RFC 2445 iCalendar component object.
 
 @CAL_COMPONENT_CLASS_NONE: Indicates that no access classification has
     been set for the corresponding component.
-
 @CAL_COMPONENT_CLASS_PUBLIC: Public access.
 @CAL_COMPONENT_CLASS_PRIVATE: Private access.
 @CAL_COMPONENT_CLASS_CONFIDENTIAL: Confidential access.
-
 @CAL_COMPONENT_CLASS_UNKNOWN: Unknown access classification value,
   used when &libical; returns something #CalComponent does not know
   about.
@@ -148,7 +145,6 @@ RFC 2445 iCalendar component object.
 
 @CAL_COMPONENT_PERIOD_DATETIME: Indicates that the period is specified
   by starting and ending date/time values.
-
 @CAL_COMPONENT_PERIOD_DURATION: Indicates that the period is specified
   as a starding date/time and a duration value.
 
@@ -174,18 +170,6 @@ RFC 2445 iCalendar component object.
 @CAL_COMPONENT_TRANSP_TRANSPARENT: 
 @CAL_COMPONENT_TRANSP_OPAQUE: 
 @CAL_COMPONENT_TRANSP_UNKNOWN: 
-
-<!-- ##### STRUCT CalComponentAlarm ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### STRUCT CalComponentPrivate ##### -->
-<para>
-
-</para>
-
 
 <!-- ##### FUNCTION cal_component_gen_uid ##### -->
 <para>
@@ -482,7 +466,25 @@ RFC 2445 iCalendar component object.
 @exdate_list: 
 
 
+<!-- ##### FUNCTION cal_component_has_exdates ##### -->
+<para>
+
+</para>
+
+@comp: 
+@Returns: 
+
+
 <!-- ##### FUNCTION cal_component_get_exrule_list ##### -->
+<para>
+
+</para>
+
+@comp: 
+@recur_list: 
+
+
+<!-- ##### FUNCTION cal_component_get_exrule_property_list ##### -->
 <para>
 
 </para>
@@ -498,6 +500,24 @@ RFC 2445 iCalendar component object.
 
 @comp: 
 @recur_list: 
+
+
+<!-- ##### FUNCTION cal_component_has_exrules ##### -->
+<para>
+
+</para>
+
+@comp: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_component_has_exceptions ##### -->
+<para>
+
+</para>
+
+@comp: 
+@Returns: 
 
 
 <!-- ##### FUNCTION cal_component_get_geo ##### -->
@@ -608,6 +628,15 @@ RFC 2445 iCalendar component object.
 @recur_list: 
 
 
+<!-- ##### FUNCTION cal_component_get_rrule_property_list ##### -->
+<para>
+
+</para>
+
+@comp: 
+@recur_list: 
+
+
 <!-- ##### FUNCTION cal_component_set_rrule_list ##### -->
 <para>
 
@@ -618,6 +647,15 @@ RFC 2445 iCalendar component object.
 
 
 <!-- ##### FUNCTION cal_component_has_rrules ##### -->
+<para>
+
+</para>
+
+@comp: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_component_has_recurrences ##### -->
 <para>
 
 </para>
@@ -642,6 +680,24 @@ RFC 2445 iCalendar component object.
 
 @comp: 
 @sequence: 
+
+
+<!-- ##### FUNCTION cal_component_get_status ##### -->
+<para>
+
+</para>
+
+@comp: 
+@status: 
+
+
+<!-- ##### FUNCTION cal_component_set_status ##### -->
+<para>
+
+</para>
+
+@comp: 
+@status: 
 
 
 <!-- ##### FUNCTION cal_component_get_summary ##### -->
@@ -696,42 +752,6 @@ RFC 2445 iCalendar component object.
 
 @comp: 
 @url: 
-
-
-<!-- ##### FUNCTION cal_component_get_pilot_id ##### -->
-<para>
-
-</para>
-
-@comp: 
-@pilot_id: 
-
-
-<!-- ##### FUNCTION cal_component_set_pilot_id ##### -->
-<para>
-
-</para>
-
-@comp: 
-@pilot_id: 
-
-
-<!-- ##### FUNCTION cal_component_get_pilot_status ##### -->
-<para>
-
-</para>
-
-@comp: 
-@pilot_status: 
-
-
-<!-- ##### FUNCTION cal_component_set_pilot_status ##### -->
-<para>
-
-</para>
-
-@comp: 
-@pilot_status: 
 
 
 <!-- ##### FUNCTION cal_component_free_categories_list ##### -->
@@ -822,41 +842,53 @@ RFC 2445 iCalendar component object.
 @text_list: 
 
 
-<!-- ##### ENUM CalComponentAlarmAction ##### -->
-<para>
-
-</para>
-
-@CAL_COMPONENT_ALARM_NONE: 
-@CAL_COMPONENT_ALARM_AUDIO: 
-@CAL_COMPONENT_ALARM_DISPLAY: 
-@CAL_COMPONENT_ALARM_EMAIL: 
-@CAL_COMPONENT_ALARM_PROCEDURE: 
-@CAL_COMPONENT_ALARM_UNKNOWN: 
-
-<!-- ##### ENUM CalComponentAlarmTriggerType ##### -->
-<para>
-
-</para>
-
-@CAL_COMPONENT_ALARM_TRIGGER_RELATIVE: 
-@CAL_COMPONENT_ALARM_TRIGGER_ABSOLUTE: 
-
-<!-- ##### ENUM CalComponentAlarmTriggerRelated ##### -->
-<para>
-
-</para>
-
-@CAL_COMPONENT_ALARM_TRIGGER_RELATED_START: 
-@CAL_COMPONENT_ALARM_TRIGGER_RELATED_END: 
-
-<!-- ##### TYPEDEF CalComponentAlarmTrigger ##### -->
+<!-- ##### STRUCT CalComponentAlarm ##### -->
 <para>
 
 </para>
 
 
-<!-- ##### FUNCTION cal_component_get_first_alarm ##### -->
+<!-- ##### TYPEDEF CalAlarmInstance ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### TYPEDEF CalComponentAlarms ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ENUM CalAlarmAction ##### -->
+<para>
+
+</para>
+
+@CAL_ALARM_NONE: 
+@CAL_ALARM_AUDIO: 
+@CAL_ALARM_DISPLAY: 
+@CAL_ALARM_EMAIL: 
+@CAL_ALARM_PROCEDURE: 
+@CAL_ALARM_UNKNOWN: 
+
+<!-- ##### ENUM CalAlarmTriggerType ##### -->
+<para>
+
+</para>
+
+@CAL_ALARM_TRIGGER_NONE: 
+@CAL_ALARM_TRIGGER_RELATIVE_START: 
+@CAL_ALARM_TRIGGER_RELATIVE_END: 
+@CAL_ALARM_TRIGGER_ABSOLUTE: 
+
+<!-- ##### TYPEDEF CalAlarmTrigger ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION cal_component_has_alarms ##### -->
 <para>
 
 </para>
@@ -865,12 +897,22 @@ RFC 2445 iCalendar component object.
 @Returns: 
 
 
-<!-- ##### FUNCTION cal_component_get_next_alarm ##### -->
+<!-- ##### FUNCTION cal_component_get_alarm_uids ##### -->
 <para>
 
 </para>
 
 @comp: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_component_get_alarm ##### -->
+<para>
+
+</para>
+
+@comp: 
+@auid: 
 @Returns: 
 
 
@@ -880,6 +922,23 @@ RFC 2445 iCalendar component object.
 </para>
 
 @alarm: 
+
+
+<!-- ##### FUNCTION cal_component_alarms_free ##### -->
+<para>
+
+</para>
+
+@alarms: 
+
+
+<!-- ##### FUNCTION cal_component_alarm_get_uid ##### -->
+<para>
+
+</para>
+
+@alarm: 
+@Returns: 
 
 
 <!-- ##### FUNCTION cal_component_alarm_get_action ##### -->
@@ -918,17 +977,3 @@ RFC 2445 iCalendar component object.
 @trigger: 
 
 
-<!-- ##### FUNCTION cal_component_alarm_free_trigger ##### -->
-<para>
-
-</para>
-
-@trigger: 
-
-
-<!--
-Local variables:
-mode: sgml
-sgml-parent-document: ("../../../evolution-devel-guide.sgml" "book" "refsect2" "")
-End:
--->

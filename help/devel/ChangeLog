@@ -1,3 +1,34 @@
+2000-12-19  Federico Mena Quintero  <federico@helixcode.com>
+
+	Added proper dependency lists to the gtk-doc mess.
+
+	* calendar/cal-client/Makefile.am (TARGET_DIR): Removed unused
+	variable.
+	(SOURCE_FILES): New variable with the list of source files we
+	depend on.
+	(IGNORED_SOURCE_HEADERS): New variable with the headers we ignore
+	for the gtkdoc-scan phase.
+	(scan_generated):
+	(tmpl_dependencies):
+	(tmpl_sources):
+	(tmpl_generated);
+	(sgml_dependencies):
+	(sgml_generated): Lists of stuff that is generated and that other
+	stuff depends on.
+	(all): Added the $(sgml_generated) as the final target.
+	(install-data-local): Added an installation hook; gtk-doc seems to
+	want some of its generated files to be installed.
+
+	* calendar/cal-client/evolution-cal-client-sections.txt: Updated.
+
+	* calendar/cal-util/Makefile.am: Made the same changes as for
+	calendar/cal-client/Makefile.am.
+
+	* calendar/cal-util/evolution-cal-util-sections.txt: Updated.
+
+	* Makefile.am (local_entities): Added alarm-generation.sgml.
+	(all): Made the main target be the html/index.html.
+
 2000-12-18  Federico Mena Quintero  <federico@helixcode.com>
 
 	* calendar/alarm-generation.sgml: New file with a description of

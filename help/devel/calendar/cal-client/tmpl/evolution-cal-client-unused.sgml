@@ -1,3 +1,13 @@
+<!-- ##### FUNCTION cal_client_update_pilot_id ##### -->
+<para>
+
+</para>
+
+@client: 
+@uid: 
+@pilot_id: 
+@pilot_status: 
+
 <!-- ##### FUNCTION cal_client_get_events_in_range ##### -->
 <para>
 
@@ -6,5 +16,15 @@
 @client: 
 @start: 
 @end: 
+@Returns: 
+
+<!-- ##### FUNCTION cal_client_get_uid_by_pilot_id ##### -->
+<para>
+
+</para>
+
+@client: 
+@pilot_id: 
+@uid: 
 @Returns: 
 

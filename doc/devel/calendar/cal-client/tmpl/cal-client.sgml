@@ -84,6 +84,15 @@ GTK+ object for communication with personal calendar server.
   the requested object.  This could indicate a bug in the calendar
   client libraries or in the Wombat server.
 
+<!-- ##### ENUM CalClientChangeType ##### -->
+<para>
+
+</para>
+
+@CAL_CLIENT_CHANGE_ADDED: 
+@CAL_CLIENT_CHANGE_MODIFIED: 
+@CAL_CLIENT_CHANGE_DELETED: 
+
 <!-- ##### FUNCTION cal_client_new ##### -->
 <para>
 
@@ -112,7 +121,26 @@ GTK+ object for communication with personal calendar server.
 @Returns: 
 
 
+<!-- ##### FUNCTION cal_client_is_loaded ##### -->
+<para>
+
+</para>
+
+@client: 
+@Returns: 
+
+
 <!-- ##### FUNCTION cal_client_get_n_objects ##### -->
+<para>
+
+</para>
+
+@client: 
+@type: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_client_get_uids ##### -->
 <para>
 
 </para>
@@ -133,6 +161,25 @@ GTK+ object for communication with personal calendar server.
 @Returns: 
 <!-- # Unused Parameters # -->
 @ico: 
+
+
+<!-- ##### FUNCTION cal_client_get_changes ##### -->
+<para>
+
+</para>
+
+@client: 
+@type: 
+@change_id: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_client_change_list_free ##### -->
+<para>
+
+</para>
+
+@list: 
 
 
 <!-- ##### FUNCTION cal_client_get_objects_in_range ##### -->
@@ -160,38 +207,6 @@ GTK+ object for communication with personal calendar server.
 @cb_data: 
 
 
-<!-- ##### FUNCTION cal_client_get_uid_by_pilot_id ##### -->
-<para>
-
-</para>
-
-@client: 
-@pilot_id: 
-@uid: 
-@Returns: 
-
-
-<!-- ##### FUNCTION cal_client_update_pilot_id ##### -->
-<para>
-
-</para>
-
-@client: 
-@uid: 
-@pilot_id: 
-@pilot_status: 
-
-
-<!-- ##### FUNCTION cal_client_get_uids ##### -->
-<para>
-
-</para>
-
-@client: 
-@type: 
-@Returns: 
-
-
 <!-- ##### FUNCTION cal_client_get_alarms_in_range ##### -->
 <para>
 
@@ -201,6 +216,14 @@ GTK+ object for communication with personal calendar server.
 @start: 
 @end: 
 @Returns: 
+
+
+<!-- ##### FUNCTION cal_client_free_alarms ##### -->
+<para>
+
+</para>
+
+@comp_alarms: 
 
 
 <!-- ##### FUNCTION cal_client_get_alarms_for_object ##### -->

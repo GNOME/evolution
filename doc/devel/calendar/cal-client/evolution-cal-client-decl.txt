@@ -24,6 +24,9 @@
 <STRUCT>
 <NAME>CalClientClass</NAME>
 </STRUCT>
+<STRUCT>
+<NAME>CalClientPrivate</NAME>
+</STRUCT>
 <ENUM>
 <NAME>CalClientLoadStatus</NAME>
 typedef enum {
@@ -47,7 +50,7 @@ struct CalClient {
 	GtkObject object;
 
 	/* Private data */
-	gpointer priv;
+	CalClientPrivate *priv;
 };
 </STRUCT>
 <FUNCTION>
@@ -76,6 +79,11 @@ CalClient *client, const char *str_uri
 CalClient *client, const char *str_uri
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_client_is_loaded</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalClient *client
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_client_get_n_objects</NAME>
 <RETURNS>int  </RETURNS>
 CalClient *client, CalObjType type
@@ -86,19 +94,14 @@ CalClient *client, CalObjType type
 CalClient *client,const char *uid,CalComponent **comp
 </FUNCTION>
 <FUNCTION>
-<NAME>cal_client_get_uid_by_pilot_id</NAME>
-<RETURNS>CalClientGetStatus  </RETURNS>
-CalClient *client,unsigned long pilot_id,char **uid
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_client_update_pilot_id</NAME>
-<RETURNS>void  </RETURNS>
-CalClient *client, char *uid,unsigned long pilot_id,unsigned long pilot_status
-</FUNCTION>
-<FUNCTION>
 <NAME>cal_client_get_uids</NAME>
 <RETURNS>GList  *</RETURNS>
 CalClient *client, CalObjType type
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_changes</NAME>
+<RETURNS>GList  *</RETURNS>
+CalClient *client, CalObjType type, const char *change_id
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_get_objects_in_range</NAME>
@@ -112,13 +115,18 @@ CalClient *client, CalObjType type,time_t start, time_t end,CalRecurInstanceFn c
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_get_alarms_in_range</NAME>
-<RETURNS>GList  *</RETURNS>
+<RETURNS>GSList  *</RETURNS>
 CalClient *client, time_t start, time_t end
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_free_alarms</NAME>
+<RETURNS>void  </RETURNS>
+GSList *comp_alarms
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_get_alarms_for_object</NAME>
 <RETURNS>gboolean  </RETURNS>
-CalClient *client, const char *uid,time_t start, time_t end,GList **alarms
+CalClient *client, const char *uid,time_t start, time_t end,CalComponentAlarms **alarms
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_update_object</NAME>
@@ -129,4 +137,17 @@ CalClient *client, CalComponent *comp
 <NAME>cal_client_remove_object</NAME>
 <RETURNS>gboolean  </RETURNS>
 CalClient *client, const char *uid
+</FUNCTION>
+<ENUM>
+<NAME>CalClientChangeType</NAME>
+typedef enum {
+	CAL_CLIENT_CHANGE_ADDED = 1 << 0,
+	CAL_CLIENT_CHANGE_MODIFIED = 1 << 1,
+	CAL_CLIENT_CHANGE_DELETED = 1 << 2
+} CalClientChangeType;
+</ENUM>
+<FUNCTION>
+<NAME>cal_client_change_list_free</NAME>
+<RETURNS>void  </RETURNS>
+GList *list
 </FUNCTION>

@@ -7,17 +7,22 @@ CAL_CLIENT
 
 CalClientLoadStatus
 CalClientGetStatus
+
+CalClientChangeType
+
 cal_client_new
 cal_client_load_calendar
 cal_client_create_calendar
+cal_client_is_loaded
 cal_client_get_n_objects
+cal_client_get_uids
 cal_client_get_object
+cal_client_get_changes
+cal_client_change_list_free
 cal_client_get_objects_in_range
 cal_client_generate_instances
-cal_client_get_uid_by_pilot_id
-cal_client_update_pilot_id
-cal_client_get_uids
 cal_client_get_alarms_in_range
+cal_client_free_alarms
 cal_client_get_alarms_for_object
 cal_client_update_object
 cal_client_remove_object
@@ -33,5 +38,6 @@ cal_client_construct
 
 <SUBSECTION Private>
 CalClient
+CalClientPrivate
 
 </SECTION>

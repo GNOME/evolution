@@ -28,20 +28,6 @@ Miscellaneous utilities
 @list: 
 
 
-<!-- ##### TYPEDEF CalAlarmInstance ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### FUNCTION cal_alarm_instance_list_free ##### -->
-<para>
-
-</para>
-
-@list: 
-
-
 <!-- ##### ENUM CalObjType ##### -->
 <para>
 

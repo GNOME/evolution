@@ -1,10 +1,5 @@
-## Process this file with automake to produce Makefile.in
-
 # The name of the module.
 DOC_MODULE=evolution-cal-util
-
-# The top-level SGML file.
-DOC_MAIN_SGML_FILE=evolution-cal-util.sgml
 
 # The directory containing the source code (if it contains documentation).
 DOC_SOURCE_DIR=$(EVOLUTION_DIR)/calendar/cal-util
@@ -21,41 +16,99 @@ CFLAGS ="						\
 LDFLAGS="								\
 	$(BONOBO_VFS_GNOME_LIBS)					\
 	$(top_builddir)/calendar/cal-util/.libs/libcal-util.a		\
-	$(top_builddir)/libical/src/libical/libical.a			\
+	$(top_builddir)/libical/src/libical/.libs/libical.a		\
 	$(top_builddir)/libversit/.libs/libversit.al			\
 	"
 
-HTML_DIR=$(datadir)/gnome/html
+DOC_DIR=$(datadir)/gnome/html
 
-TARGET_DIR=$(HTML_DIR)/$(DOC_MODULE)
+DOC_DIR_INSTALL_FILES =				\
+	 evolution-cal-util.args		\
+	 evolution-cal-util.hierarchy		\
+	 evolution-cal-util.signals		\
+	 evolution-cal-util.types		\
+	 evolution-cal-util-decl.txt		\
+	 evolution-cal-util-sections.txt
+
+SOURCE_FILES =							\
+	$(top_srcdir)/calendar/cal-util/cal-component.c		\
+	$(top_srcdir)/calendar/cal-util/cal-component.h		\
+	$(top_srcdir)/calendar/cal-util/cal-recur.c		\
+	$(top_srcdir)/calendar/cal-util/cal-recur.h		\
+	$(top_srcdir)/calendar/cal-util/cal-util.c		\
+	$(top_srcdir)/calendar/cal-util/cal-util.h		\
+	$(top_srcdir)/calendar/cal-util/timeutil.c		\
+	$(top_srcdir)/calendar/cal-util/timeutil.h
+
+IGNORED_HEADER_FILES =	\
+	calobj.h
+
+scan_generated =				\
+	evolution-cal-util-decl.txt		\
+	evolution-cal-util.args			\
+	evolution-cal-util.hierarchy		\
+	evolution-cal-util.signals		\
+	evolution-cal-util.types
+
+tmpl_dependencies =				\
+	evolution-cal-util-decl.txt		\
+	evolution-cal-util-sections.txt		\
+	evolution-cal-util.args			\
+	evolution-cal-util.hierarchy		\
+	evolution-cal-util.signals
 
 tmpl_sources =					\
+	tmpl/cal-component.sgml			\
+	tmpl/cal-recur.sgml			\
 	tmpl/cal-util.sgml			\
-	tmpl/evolution-cal-util-unused.sgml
+	tmpl/evolution-cal-util-unused.sgml	\
+	tmpl/timeutil.sgml
 
-evolution_cal_util_docdir = $(HTML_DIR)
-evolution_cal_util_doc_DATA =			\
-	evolution-cal-util.hierarchy		\
-	evolution-cal-util.types		\
+tmpl_generated =				\
+	evolution-cal-util-unused.txt
+
+sgml_dependencies =				\
 	evolution-cal-util-decl.txt		\
-	evolution-cal-util-sections.txt
+	evolution-cal-util-sections.txt		\
+	evolution-cal-util.args			\
+	evolution-cal-util.hierarchy		\
+	evolution-cal-util.signals		\
+	tmpl/cal-component.sgml			\
+	tmpl/cal-recur.sgml			\
+	tmpl/cal-util.sgml			\
+	tmpl/timeutil.sgml
+
+sgml_generated = 				\
+	sgml/cal-component.sgml			\
+	sgml/cal-recur.sgml			\
+	sgml/cal-util.sgml			\
+	sgml/evolution-cal-util-doc.bottom	\
+	sgml/evolution-cal-util-doc.top		\
+	sgml/object_index.sgml			\
+	sgml/timeutil.sgml			\
+	sgml/tree_index.sgml
 
 EXTRA_DIST = 					\
-	$(evolution_cal_util_doc_DATA)
+	 evolution-cal-util.args		\
+	 evolution-cal-util.hierarchy		\
+	 evolution-cal-util.signals		\
+	 evolution-cal-util.types		\
+	 evolution-cal-util-decl.txt		\
+	 evolution-cal-util-sections.txt
 
-sgml/evolution-cal-util-doc.bottom: $(tmpl_sources)
-	$(MAKE) sgml
+all: $(sgml_generated)
 
-scan:
-	-(cd $(srcdir) \
-	&& env CFLAGS=$(CFLAGS) LDFLAGS=$(LDFLAGS) \
-		 gtkdoc-scanobj --module=$(DOC_MODULE) \
-	&& gtkdoc-scan --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR) --ignore-headers="calobj.h icalendar-save.h icalendar.h" )
+scan $(scan_generated): $(SOURCE_FILES)
+	-(cd $(srcdir)									\
+	  && env CFLAGS=$(CFLAGS) LDFLAGS=$(LDFLAGS)					\
+		 gtkdoc-scanobj --module=$(DOC_MODULE)					\
+	  && gtkdoc-scan --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR)		\
+			 --ignore-headers="$(IGNORED_HEADER_FILES)" )
 
-templates: scan
+templates $(tmpl_sources) $(tmpl_generated): $(tmpl_dependencies)
 	cd $(srcdir) && gtkdoc-mktmpl --module=$(DOC_MODULE)
 
-sgml:
+sgml $(sgml_generated): $(sgml_dependencies)
 	cd $(srcdir) \
 	&& gtkdoc-mkdb --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR)
 
@@ -65,6 +118,12 @@ clean-local:
 maintainer-clean-local: clean
 	cd $(srcdir) && rm -rf sgml $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt
 
+install-data-local:
+	$(mkinstalldirs) $(DOC_DIR)
+	for i in $(DOC_DIR_INSTALL_FILES); do		\
+		$(INSTALL_DATA) $$i $(DOC_DIR);		\
+	done
+
 dist-hook:
 	mkdir $(distdir)/sgml
 	mkdir $(distdir)/tmpl
@@ -72,4 +131,4 @@ dist-hook:
 	-cp $(srcdir)/sgml/*.sgml $(distdir)/sgml
 	-cp $(srcdir)/sgml/*.bottom $(srcdir)/sgml/*.top $(distdir)/sgml
 
-.PHONY : sgml templates scan
+.PHONY: scan templates sgml
