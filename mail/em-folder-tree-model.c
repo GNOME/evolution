@@ -1072,7 +1072,7 @@ em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderT
 			    COL_STRING_FOLDER_PATH, &folder_path,
 			    COL_BOOL_IS_STORE, &is_store, -1);
 	
-	if ((row = g_hash_table_lookup (si->path_hash, folder_path))) {
+	if (folder_path && (row = g_hash_table_lookup (si->path_hash, folder_path))) {
 		g_hash_table_remove (si->path_hash, folder_path);
 		gtk_tree_row_reference_free (row);
 	}

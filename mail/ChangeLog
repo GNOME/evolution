@@ -1,9 +1,15 @@
 2003-12-04  Jeffrey Stedfast  <fejj@ximian.com>
 
-	Fixes bug #51618
+	* em-folder-tree-model.c (em_folder_tree_model_remove_folders):
+	Make sure folder_path is non-NULL ("Loading..." nodes will have a
+	NULL path). Fixes bug #51731.
+
+2003-12-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (empty_trash_empty): Get the proper local folders
-	store uri (it's not file:/ anymore).
+	store uri (it's not file:/ anymore). Fixes bug #51618.
+
+2003-12-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes bug #51605.
 
