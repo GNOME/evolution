@@ -823,7 +823,8 @@ get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExceptio
 			fi->child = scan_dir (store, url, visited, fi, subdir, top, flags, ex);
 		else
 			fill_fi(store, fi, flags);
-	}
+	} else
+		fill_fi(store, fi, flags);
 	
 	camel_url_free (url);
 	

@@ -1,3 +1,21 @@
+2004-05-04  Not Zed  <NotZed@Ximian.com>
+
+	** See #57979.
+
+	* camel-vee-folder.c (subfolder_renamed_update): when the
+	subfolder gets renamed, remove all the old uid's and add the new
+	ones (since the uid is based on the subordinate folder name).
+	(subfolder_renamed): listen to renamed folder events.
+
+	* providers/local/camel-mbox-store.c (get_folder_info): if we're
+	getting a single folder with no children, make sure we fill the
+	counts out.  Fixes some rename strangeness.
+
+	* camel-vee-folder.c (camel_vee_folder_add_folder): hook onto the
+	folder renamed signal.
+	(camel_vee_folder_finalise): unhook folder_renamed signal.
+	(camel_vee_folder_remove_folder): same.
+
 2004-05-03  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #57881.

@@ -270,6 +270,7 @@ void camel_folder_summary_remove(CamelFolderSummary *s, CamelMessageInfo *info);
 void camel_folder_summary_remove_uid(CamelFolderSummary *s, const char *uid);
 void camel_folder_summary_remove_index(CamelFolderSummary *s, int);
 void camel_folder_summary_remove_range(CamelFolderSummary *s, int start, int end);
+
 /* remove all items */
 void camel_folder_summary_clear(CamelFolderSummary *s);
 

@@ -45,7 +45,7 @@
 #include "e-util/e-memory.h"
 #endif
 
-#define d(x)
+#define d(x) 
 #define dd(x) (camel_debug("vfolder")?(x):0)
 
 #define _PRIVATE(o) (((CamelVeeFolder *)(o))->priv)
@@ -79,6 +79,7 @@ static void vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *source, in
 
 static void folder_changed(CamelFolder *sub, CamelFolderChangeInfo *changes, CamelVeeFolder *vf);
 static void subfolder_deleted(CamelFolder *f, void *event_data, CamelVeeFolder *vf);
+static void subfolder_renamed(CamelFolder *f, void *event_data, CamelVeeFolder *vf);
 
 static void folder_changed_remove_uid(CamelFolder *sub, const char *uid, const char hash[8], int keep, CamelVeeFolder *vf);
 
@@ -181,6 +182,7 @@ camel_vee_folder_finalise (CamelObject *obj)
 		if (vf != folder_unmatched) {
 			camel_object_unhook_event((CamelObject *)f, "folder_changed", (CamelObjectEventHookFunc) folder_changed, vf);
 			camel_object_unhook_event((CamelObject *)f, "deleted", (CamelObjectEventHookFunc) subfolder_deleted, vf);
+			camel_object_unhook_event((CamelObject *)f, "renamed", (CamelObjectEventHookFunc) subfolder_renamed, vf);
 			/* this updates the vfolder */
 			if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0)
 				vee_folder_remove_folder(vf, f, FALSE);
@@ -382,6 +384,7 @@ camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub)
 
 	camel_object_hook_event((CamelObject *)sub, "folder_changed", (CamelObjectEventHookFunc)folder_changed, vf);
 	camel_object_hook_event((CamelObject *)sub, "deleted", (CamelObjectEventHookFunc)subfolder_deleted, vf);
+	camel_object_hook_event((CamelObject *)sub, "renamed", (CamelObjectEventHookFunc)subfolder_renamed, vf);
 
 	vee_folder_build_folder(vf, sub, NULL);
 }
@@ -413,6 +416,7 @@ camel_vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *sub)
 	
 	camel_object_unhook_event((CamelObject *)sub, "folder_changed", (CamelObjectEventHookFunc) folder_changed, vf);
 	camel_object_unhook_event((CamelObject *)sub, "deleted", (CamelObjectEventHookFunc) subfolder_deleted, vf);
+	camel_object_unhook_event((CamelObject *)sub, "renamed", (CamelObjectEventHookFunc) subfolder_renamed, vf);
 
 	p->folders = g_list_remove(p->folders, sub);
 	
@@ -1657,6 +1661,79 @@ static void
 subfolder_deleted(CamelFolder *f, void *event_data, CamelVeeFolder *vf)
 {
 	camel_vee_folder_remove_folder(vf, f);
+}
+
+static void
+subfolder_renamed_update(CamelVeeFolder *vf, CamelFolder *sub, char hash[8])
+{
+	int count, i;
+	CamelFolderChangeInfo *changes = NULL;
+
+	CAMEL_VEE_FOLDER_LOCK(vf, summary_lock);
+
+	count = camel_folder_summary_count(((CamelFolder *)vf)->summary);
+	for (i=0;i<count;i++) {
+		CamelVeeMessageInfo *mi = (CamelVeeMessageInfo *)camel_folder_summary_index(((CamelFolder *)vf)->summary, i);
+		CamelVeeMessageInfo *vinfo;
+
+		if (mi == NULL)
+			continue;
+
+		if (mi->folder == sub) {
+			char *uid = (char *)camel_message_info_uid(mi);
+			char *oldkey;
+			void *oldval;
+
+			camel_folder_change_info_remove_uid(vf->changes, uid);
+			camel_folder_summary_remove(((CamelFolder *)vf)->summary, (CamelMessageInfo *)mi);
+
+			/* works since we always append on the end */
+			i--;
+			count--;
+
+			vinfo = vee_folder_add_uid(vf, sub, uid+8, hash);
+			if (vinfo)
+				camel_folder_change_info_add_uid(vf->changes, camel_message_info_uid(vinfo));
+
+			/* check unmatched uid's table for any matches */
+			if (vf == folder_unmatched
+			    && g_hash_table_lookup_extended(unmatched_uids, uid, (void **)&oldkey, &oldval)) {
+				g_hash_table_remove(unmatched_uids, oldkey);
+				g_hash_table_insert(unmatched_uids, g_strdup(camel_message_info_uid(vinfo)), oldval);
+				g_free(oldkey);
+			}
+		}
+
+		camel_folder_summary_info_free(((CamelFolder *)vf)->summary, (CamelMessageInfo *)mi);
+	}
+
+	if (camel_folder_change_info_changed(vf->changes)) {
+		changes = vf->changes;
+		vf->changes = camel_folder_change_info_new();
+	}
+
+	CAMEL_VEE_FOLDER_UNLOCK(vf, summary_lock);
+
+	if (changes) {
+		camel_object_trigger_event((CamelObject *)vf, "folder_changed", changes);
+		camel_folder_change_info_free(changes);
+	}
+}
+
+static void
+subfolder_renamed(CamelFolder *f, void *event_data, CamelVeeFolder *vf)
+{
+	char hash[8];
+
+	/* TODO: This could probably be done in another thread, tho it is pretty quick/memory bound */
+
+	/* Life just got that little bit harder, if the folder is renamed, it means it breaks all of our uid's.
+	   We need to remove the old uid's, fix them up, then release the new uid's, for the uid's that match this folder */
+
+	camel_vee_folder_hash_folder(f, hash);
+
+	subfolder_renamed_update(vf, f, hash);
+	subfolder_renamed_update(folder_unmatched, f, hash);
 }
 
 static void
