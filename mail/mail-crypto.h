@@ -33,8 +33,10 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 gboolean mail_crypto_is_rfc2015_signed (CamelMimePart *part);
-
 gboolean mail_crypto_is_rfc2015_encrypted (CamelMimePart *part);
+
+gboolean mail_crypto_is_smime_v3_signed (CamelMimePart *mime_part);
+gboolean mail_crypto_is_pkcs7_mime (CamelMimePart *mime_part);
 
 void pgp_mime_part_sign (CamelMimePart **mime_part,
 			 const gchar *userid,

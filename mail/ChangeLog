@@ -1,5 +1,11 @@
 2001-03-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-crypto.c (mail_crypto_is_smime_v3_signed): New function to
+	decide if a mime part is an S/MIME v3 signed part.
+	(mail_crypto_is_pkcs7_mime): New function to decide if a mime part
+	is an application/pkcs7-mime part (or an application/octet-stream
+	part with application/pkcs7-mime data).
+
 	* mail-account-editor.c (source_auth_init): Move the signal
 	emittion to after the set_menu call so that it actually works.
 	(transport_type_changed): Updated to manipulate the user/passwd

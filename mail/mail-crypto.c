@@ -29,25 +29,9 @@
 #include "mail-crypto.h"
 #include "mail-session.h"
 
-#include <dirent.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-
-#include <signal.h>
-#include <stdio.h>
-#include <sys/ioctl.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <termios.h>
-#include <unistd.h>
-#include <signal.h>
-
 #include <camel/camel-mime-filter-from.h>
 
-/** rfc2015 stuff *******************************/
+/** rfc2015 stuff (aka PGP/MIME) *******************************/
 
 gboolean
 mail_crypto_is_rfc2015_signed (CamelMimePart *mime_part)
@@ -56,7 +40,7 @@ mail_crypto_is_rfc2015_signed (CamelMimePart *mime_part)
 	CamelMultipart *mp;
 	CamelMimePart *part;
 	CamelContentType *type;
-	const gchar *param;
+	const gchar *param, *micalg;
 	int nparts;
 	
 	/* check that we have a multipart/signed */
@@ -67,6 +51,11 @@ mail_crypto_is_rfc2015_signed (CamelMimePart *mime_part)
 	/* check that we have a protocol param with the value: "application/pgp-signed" */
 	param = header_content_type_param (type, "protocol");
 	if (!param || g_strcasecmp (param, "application/pgp-signature"))
+		return FALSE;
+	
+	/* check that we have a micalg parameter */
+	micalg = header_content_type_param (type, "micalg");
+	if (!micalg)
 		return FALSE;
 	
 	/* check that we have exactly 2 subparts */
@@ -88,8 +77,6 @@ mail_crypto_is_rfc2015_signed (CamelMimePart *mime_part)
 	type = camel_mime_part_get_content_type (part);
 	if (!header_content_type_is (type, "application", "pgp-signature"))
 		return FALSE;
-	
-	/* FIXME: Implement multisig stuff */	
 	
 	return TRUE;
 }
@@ -136,6 +123,97 @@ mail_crypto_is_rfc2015_encrypted (CamelMimePart *mime_part)
 	
 	return TRUE;
 }
+
+
+/** rfc2633 stuff (aka S/MIME v3) ********************************/
+
+gboolean
+mail_crypto_is_smime_v3_signed (CamelMimePart *mime_part)
+{
+	CamelDataWrapper *wrapper;
+	CamelMultipart *mp;
+	CamelMimePart *part;
+	CamelContentType *type;
+	const gchar *param, *micalg;
+	int nparts;
+	
+	/* check that we have a multipart/signed */
+	type = camel_mime_part_get_content_type (mime_part);
+	if (!header_content_type_is (type, "multipart", "signed"))
+		return FALSE;
+	
+	/* check that we have a protocol param with the value: "application/pgp-signed" */
+	param = header_content_type_param (type, "protocol");
+	if (!param || g_strcasecmp (param, "application/pkcs7-signature"))
+		return FALSE;
+	
+	/* check that we have a micalg parameter */
+	micalg = header_content_type_param (type, "micalg");
+	if (!micalg)
+		return FALSE;
+	
+	/* check that we have exactly 2 subparts */
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+	mp = CAMEL_MULTIPART (wrapper);
+	nparts = camel_multipart_get_number (mp);
+	if (nparts != 2)
+		return FALSE;
+	
+	/* The first part may be of any type except for 
+	 * application/pkcs7-signature - check it. */
+	part = camel_multipart_get_part (mp, 0);
+	type = camel_mime_part_get_content_type (part);
+	if (header_content_type_is (type, "application", "pkcs7-signature"))
+		return FALSE;
+	
+	/* The second part should be application/pkcs7-signature. */
+	part = camel_multipart_get_part (mp, 1);
+	type = camel_mime_part_get_content_type (part);
+	if (!header_content_type_is (type, "application", "pkcs7-signature"))
+		return FALSE;
+	
+	return TRUE;
+}
+
+gboolean
+mail_crypto_is_pkcs7_mime (CamelMimePart *mime_part)
+{
+	char *types[] = { "p7m", "p7c", "p7s", NULL };
+	const gchar *param, *filename;
+	CamelContentType *type;
+	int i;
+	
+	/* check that we have a application/pkcs7-mime part */
+	type = camel_mime_part_get_content_type (mime_part);
+	if (header_content_type_is (type, "application", "pkcs7-mime"))
+		return TRUE;
+	
+	if (header_content_type_is (type, "application", "octent-stream")) {
+		/* check to see if we have a paremeter called "smime-type" */
+		param = header_content_type_param (type, "smime-type");
+		if (param)
+			return TRUE;
+		
+		/* check to see if there is a name param and if it has a smime extension */
+		param = header_content_type_param (type, "smime-type");
+		if (param && *param && strlen (param) > 4) {
+			for (i = 0; types[i]; i++)
+				if (!g_strcasecmp (param + strlen (param)-4, types[i]))
+					return TRUE;
+		}
+		
+		/* check to see if there is a name param and if it has a smime extension */
+		filename = camel_mime_part_get_filename (mime_part);
+		if (filename && *filename && strlen (filename) > 4) {
+			for (i = 0; types[i]; i++)
+				if (!g_strcasecmp (filename + strlen (filename)-4, types[i]))
+					return TRUE;
+		}
+	}
+	
+	return FALSE;
+}
+
 
 /**
  * pgp_mime_part_sign:
