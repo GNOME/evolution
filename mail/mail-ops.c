@@ -329,3 +329,45 @@ forward_msg (GtkWidget *button, gpointer user_data)
 
 	gtk_widget_show (GTK_WIDGET (composer));	
 }
+
+void
+delete_msg (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = user_data;
+
+	if (fb->mail_display->current_message) {
+		guint32 flags;
+
+		/* FIXME: table should watch the message with a signal and update display! */
+
+		flags = camel_mime_message_get_flags(fb->mail_display->current_message);
+		camel_mime_message_set_flags(fb->mail_display->current_message, CAMEL_MESSAGE_DELETED, ~flags);
+		printf("Message %s set to %s\n", fb->mail_display->current_message->message_uid, flags&CAMEL_MESSAGE_DELETED?"UNDELETED":"DELETED");
+	}
+}
+
+void
+expunge_folder (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER(user_data);
+	CamelException ex;
+
+	if (fb->message_list->folder) {
+		camel_exception_init(&ex);
+
+		camel_folder_expunge(fb->message_list->folder, &ex);
+
+		/* FIXME: is there a better way to force an update? */
+		/* FIXME: Folder should raise a signal to say its contents has changed ... */
+		e_table_model_changed (fb->message_list->table_model);
+
+/* this always throws an error, when it shouldn't? */
+#if 0
+		if (camel_exception_get_id (&ex) != CAMEL_EXCEPTION_NONE) {
+			GtkWindow *window = GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW));
+			mail_exception_dialog ("Unable to expunge deleted messages", &ex, window);
+		}
+#endif
+	}
+}
+

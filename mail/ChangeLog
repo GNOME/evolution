@@ -1,5 +1,13 @@
 2000-05-01  NotZed  <NotZed@HelixCode.com>
 
+	* folder-browser-factory.c: Setup callback for actual delete op.
+	(control_activate): Setup a tool menu item to expnge deleted
+	messages.
+
+	* mail-ops.c (delete_msg): Toggle the delete flag on a message.
+	(expunge_folder): New function to expunge deleted messages from
+	the current folder.
+
 	* folder-browser.c (folder_browser_gui_init): A hackish little
 	quick-search entry.
 	(search_activate): Perform a quick-search on the folder subject

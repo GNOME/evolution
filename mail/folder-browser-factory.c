@@ -126,7 +126,7 @@ static GnomeUIInfo gnome_toolbar [] = {
 
 	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print the selected message"), random_cb, GNOME_STOCK_PIXMAP_PRINT),
 
-	GNOMEUIINFO_ITEM_STOCK (N_("Delete"), N_("Delete this message"), random_cb, GNOME_STOCK_PIXMAP_TRASH),
+	GNOMEUIINFO_ITEM_STOCK (N_("Delete"), N_("Delete this message"), delete_msg, GNOME_STOCK_PIXMAP_TRASH),
 
 	GNOMEUIINFO_END
 };
@@ -141,12 +141,17 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
 	bonobo_ui_handler_set_container (uih, remote_uih);		
 
+	folder_browser = bonobo_control_get_widget (control);
+
 	bonobo_ui_handler_menu_new_item (uih, "/File/Mail", N_("_Mail"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0, send_msg, NULL);
 
-	folder_browser = bonobo_control_get_widget (control);
+	bonobo_ui_handler_menu_new_item (uih, "/Tools/Expunge", N_("_Expunge"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TRASH,
+					 0, 0, expunge_folder, folder_browser);
 
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);
@@ -170,6 +175,7 @@ static void
 control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 {
 	bonobo_ui_handler_menu_remove (uih, "/File/Mail");
+	bonobo_ui_handler_menu_remove (uih, "/Tools/Expunge");
 	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
 }
 
