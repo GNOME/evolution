@@ -35,6 +35,7 @@
 #include <libgnomevfs/gnome-vfs-mime-info.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/util/e-iconv.h>
 
 #include <camel/camel-mime-utils.h>
 #include <camel/camel-pgp-mime.h>
@@ -995,7 +996,7 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 
 		ct = camel_mime_part_get_content_type(CAMEL_MIME_PART(message));
 		charset = header_content_type_param(ct, "charset");
-		charset = camel_charset_to_iconv(charset);
+		charset = e_iconv_charset_name(charset);
 
 		header = CAMEL_MIME_PART(message)->headers;
 		while (header) {

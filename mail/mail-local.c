@@ -569,7 +569,7 @@ mail_local_folder_construct(MailLocalFolder *mlf, MailLocalStore  *parent_store,
 }
 
 static gboolean
-mail_local_folder_reconfigure (MailLocalFolder *mlf, const char *new_format, CamelException *ex)
+mail_local_folder_reconfigure (MailLocalFolder *mlf, const char *new_format, int index_body, CamelException *ex)
 {
 	CamelStore *fromstore = NULL;
 	CamelFolder *fromfolder = NULL;
@@ -578,6 +578,13 @@ mail_local_folder_reconfigure (MailLocalFolder *mlf, const char *new_format, Cam
 	char *store_uri;
 	GPtrArray *uids;
 	int real_folder_frozen = FALSE;
+	int format_change, index_changed;
+
+	format_change = strcmp(mlf->meta->format, new_format) != 0;
+	index_changed = mlf->meta->indexed != index_body;
+
+	if (format_change == FALSE && index_changed == FALSE)
+		return TRUE;
 
 	camel_operation_start(NULL, _("Reconfiguring folder"));
 
@@ -591,6 +598,14 @@ mail_local_folder_reconfigure (MailLocalFolder *mlf, const char *new_format, Cam
 		if (camel_exception_is_set (ex))
 			goto cleanup;
 		mlf_unset_folder(mlf);
+	}
+
+	/* only indexed change, just re-open with new flags */
+	if (!format_change) {
+		mlf->meta->indexed = index_body;
+		mlf_set_folder(mlf, CAMEL_STORE_FOLDER_CREATE, ex);
+		save_metainfo(mlf->meta);
+		goto cleanup;
 	}
 
 	store_uri = g_strdup_printf("%s:%s%s", mlf->meta->format,
@@ -1101,9 +1116,11 @@ struct _reconfigure_msg {
 
 	FolderBrowser *fb;
 	char *newtype;
+	unsigned int index_body:1;
 	GtkWidget *frame;
 	GtkWidget *apply;
 	GtkWidget *cancel;
+	GtkWidget *check_index_body;
 	GtkOptionMenu *optionlist;
 	CamelFolder *folder_out;
 };
@@ -1142,7 +1159,7 @@ reconfigure_folder_reconfigure (struct _mail_msg *mm)
 		return;
 	}
 
-	mail_local_folder_reconfigure (MAIL_LOCAL_FOLDER (local_folder), m->newtype, &mm->ex);
+	mail_local_folder_reconfigure (MAIL_LOCAL_FOLDER (local_folder), m->newtype, m->index_body, &mm->ex);
 	m->folder_out = local_folder;
 }
 
@@ -1200,6 +1217,7 @@ reconfigure_clicked (GnomeDialog *dialog, int button, struct _reconfigure_msg *m
 		menu = gtk_option_menu_get_menu(m->optionlist);
 		item = gtk_menu_get_active(GTK_MENU(menu));
 		m->newtype = g_strdup(gtk_object_get_data((GtkObject *)item, "type"));
+		m->index_body = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(m->check_index_body));
 
 		gtk_widget_set_sensitive (m->frame, FALSE);
 		gtk_widget_set_sensitive (m->apply, FALSE);
@@ -1259,6 +1277,7 @@ mail_local_reconfigure_folder (FolderBrowser *fb)
 	m->apply = glade_xml_get_widget (gui, "apply_format");
 	m->cancel = glade_xml_get_widget (gui, "cancel_format");
 	m->optionlist = (GtkOptionMenu *)glade_xml_get_widget (gui, "option_format");
+	m->check_index_body = glade_xml_get_widget (gui, "check_index_body");
 	m->newtype = NULL;
 	m->fb = fb;
 	m->folder_out = NULL;
@@ -1293,6 +1312,7 @@ mail_local_reconfigure_folder (FolderBrowser *fb)
 	gtk_option_menu_remove_menu (GTK_OPTION_MENU(m->optionlist));
 	gtk_option_menu_set_menu (GTK_OPTION_MENU(m->optionlist), menu);
 	gtk_option_menu_set_history(GTK_OPTION_MENU(m->optionlist), history);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(m->check_index_body), MAIL_LOCAL_FOLDER (fb->folder)->meta->indexed);
 
 	gtk_label_set_text ((GtkLabel *)glade_xml_get_widget (gui, "label_format"),
 			    MAIL_LOCAL_FOLDER (fb->folder)->meta->format);
