@@ -2261,38 +2261,26 @@ struct _PopupInfo {
 static GtkWidget *the_popup = NULL;
 
 static void
-popup_info_free (PopupInfo *pop)
-{
-	if (pop) {
-		if (pop->destroy_timeout)
-			gtk_timeout_remove (pop->destroy_timeout);
-		
-		bonobo_event_source_client_remove_listener (bonobo_widget_get_objref (BONOBO_WIDGET (pop->w)),
-							    pop->listener,
-							    NULL);
-		CORBA_Object_release (pop->listener, NULL);
-		g_free (pop);
-	}
-}
-
-static void
 popup_window_destroy_cb (PopupInfo *pop, GObject *deadbeef)
 {
 	the_popup = NULL;
-	
-	if (pop->destroy_timeout != 0) {
-		gtk_timeout_remove (pop->destroy_timeout);
-		pop->destroy_timeout = 0;
-	}
-	
-	popup_info_free (pop);
+
+	if (pop->destroy_timeout != 0)
+		g_source_remove(pop->destroy_timeout);
+
+	bonobo_event_source_client_remove_listener (bonobo_widget_get_objref (BONOBO_WIDGET (pop->w)),
+						    pop->listener,
+						    NULL);
+	CORBA_Object_release (pop->listener, NULL);
+	g_object_unref(pop->w);
+	g_free (pop);
 }
 
 static int
 popup_timeout_cb (gpointer user_data)
 {
 	PopupInfo *pop = (PopupInfo *) user_data;
-	
+
 	pop->destroy_timeout = 0;
 	gtk_widget_destroy (pop->win);
 	
@@ -2358,6 +2346,7 @@ make_popup_window (GtkWidget *w)
 		gtk_widget_destroy (the_popup);
 	
 	pop->w = w;
+	g_object_ref(w);
 	the_popup = pop->win = gtk_window_new (GTK_WINDOW_POPUP);
 	fr = gtk_frame_new (NULL);
 	

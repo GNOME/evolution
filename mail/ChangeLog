@@ -1,3 +1,13 @@
+2003-03-26  Not Zed  <NotZed@Ximian.com>
+
+	* mail-display.c (popup_window_destroy_cb): Undo jeff's patch
+	below for #40275, the destroy timeout is already removed in
+	popup_info_free.  Unref the widget 'w' when we're done with it.
+	(popup_info_free): Move everything in here to popup_window_destroy
+	and remove, since nothing else uses it.
+	(make_popup_window): Ref the widget so it doesn't go away before
+	we're finished with it.  Really fixes bug #40275/40188.
+
 2003-03-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (popup_window_destroy_cb): Remove the
