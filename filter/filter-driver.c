@@ -362,15 +362,9 @@ do_delete(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *
 	printf("doing delete\n");
 	m = p->matches;
 	while (m) {
-		CamelMimeMessage *mm;
-
 		printf(" %s\n", (char *)m->data);
 
-		mm = camel_folder_get_message_by_uid(p->source, m->data, p->ex);
-		if (mm) {
-			camel_mime_message_set_flags(mm, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
-			gtk_object_unref((GtkObject *)mm);
-		}
+		camel_folder_set_message_flags (p->source, m->data, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED, p->ex);
 
 		m = m->next;
 	}
@@ -614,8 +608,8 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 
 				mm = camel_folder_get_message_by_uid(p->source, all->pdata[i], p->ex);
 				camel_folder_append_message(inbox, mm, p->ex);
-				camel_mime_message_set_flags(mm, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
 				gtk_object_unref((GtkObject *)mm);
+				camel_folder_set_message_flags(p->source, all->pdata[i], CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED, p->ex);
 			}
 		} else {
 			camel_folder_delete_message_by_uid(p->source, uid, p->ex);
