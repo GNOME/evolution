@@ -2005,10 +2005,16 @@ mail_config_apply_clicked (GnomePropertyBox *property_box,
 
 	/* News */
 	for (i = 0; i <= dialog->maxnrow; i++) {	
+		GSList *mini;
+
 		clist = GTK_CLIST (dialog->clistNews);
 
 		data = gtk_clist_get_row_data (clist, i);
 		mail_config_add_news ((MailConfigService *) data);
+
+		mini = g_slist_prepend (NULL, data);
+		mail_load_storages (dialog->shell, mini);
+		g_slist_free (mini);
 	}
 	
 	/* Format */

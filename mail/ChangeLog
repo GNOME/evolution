@@ -1,3 +1,8 @@
+2000-08-28  Peter Williams  <peterw@helixcode.com>
+
+	* mail-config-gui.c (mail_config_apply_clicked): Add new news sources,
+	not only stores.
+
 2000-08-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c (composer_send_cb): Free the from address when
