@@ -413,7 +413,6 @@ get_normalised_string (MessageList *message_list, CamelMessageInfo *info, int co
 	
 	normalised = g_utf8_collate_key (string, -1);
 	e_poolv_set (poolv, index, normalised, TRUE);
-	g_free(normalised);
 
 	return e_poolv_get (poolv, index);
 }

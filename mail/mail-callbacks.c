@@ -151,7 +151,7 @@ configure_mail (FolderBrowser *fb)
 	GtkWidget *dialog;
 	int resp;
 
-	dialog = gtk_message_dialog_new (FB_WINDOW (fb), GTK_DIALOG_MODAL,
+	dialog = gtk_message_dialog_new (FB_WINDOW (fb), GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
 					 GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, "%s",
 					 _("You have not configured the mail client.\n"
 					   "You need to do this before you can send,\n"
@@ -194,7 +194,7 @@ check_send_configuration (FolderBrowser *fb)
 	
 	/* Check for an identity */
 	if (!account) {
-		dialog = gtk_message_dialog_new (FB_WINDOW (fb), GTK_DIALOG_MODAL,
+		dialog = gtk_message_dialog_new (FB_WINDOW (fb), GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
 						 GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
 						 "%s", _("You need to configure an identity\n"
 							 "before you can compose mail."));
@@ -207,7 +207,7 @@ check_send_configuration (FolderBrowser *fb)
 	
 	/* Check for a transport */
 	if (!account->transport || !account->transport->url) {
-		dialog = gtk_message_dialog_new (FB_WINDOW (fb), GTK_DIALOG_MODAL,
+		dialog = gtk_message_dialog_new (FB_WINDOW (fb), GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
 						 GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
 						 "%s", _("You need to configure a mail transport\n"
 							 "before you can compose mail."));
@@ -457,11 +457,9 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	if (num == 0 && !post) {
 		GtkWidget *dialog;
 		
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_WARNING,
-						 GTK_BUTTONS_CLOSE, "%s",
-						 _("You must specify recipients in order to "
-						   "send this message."));
-		
+		dialog = gtk_message_dialog_new ((GtkWindow *)composer, GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE, "%s",
+						 _("You must specify recipients in order to send this message."));		
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 		goto finished;
@@ -720,7 +718,7 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user_data)
 			GtkWidget *dialog;
 			int response;
 			
-			dialog = gtk_message_dialog_new (GTK_WINDOW (composer), GTK_DIALOG_MODAL,
+			dialog = gtk_message_dialog_new (GTK_WINDOW (composer), GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
 							 GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
 							 "%s", _("Unable to open the drafts folder for this account.\n"
 								 "Would you like to use the default drafts folder?"));
@@ -3034,7 +3032,7 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 		dialog = GNOME_PRINT_DIALOG (gnome_print_dialog_new (_("Print Message"),
 								     GNOME_PRINT_DIALOG_COPIES));
 		gtk_dialog_set_default_response((GtkDialog *)dialog, GNOME_PRINT_DIALOG_RESPONSE_PRINT);
-		e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), FB_WINDOW (fb));
+		gtk_window_set_transient_for((GtkWindow *)dialog, (GtkWindow *)fb);
 		
 		switch(gtk_dialog_run((GtkDialog *)dialog)) {
 		case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
@@ -3224,7 +3222,7 @@ local_configure_done(const char *uri, CamelFolder *folder, void *data)
 	FolderBrowser *fb = data;
 
 	if (FOLDER_BROWSER_IS_DESTROYED (fb)) {
-		g_object_unref((GtkObject *)fb);
+		g_object_unref(fb);
 		return;
 	}
 
@@ -3232,7 +3230,7 @@ local_configure_done(const char *uri, CamelFolder *folder, void *data)
 		folder = fb->folder;
 
 	message_list_set_folder(fb->message_list, folder, FALSE);
-	g_object_unref((GtkObject *)fb);
+	g_object_unref(fb);
 }
 
 void
@@ -3331,7 +3329,7 @@ stop_threads (BonoboUIComponent *uih, void *user_data, const char *path)
 static void
 empty_trash_expunged_cb (CamelFolder *folder, void *data)
 {
-	camel_object_unref (CAMEL_OBJECT (folder));
+	camel_object_unref (folder);
 }
 
 void

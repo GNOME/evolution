@@ -1,5 +1,21 @@
 2002-11-26  Not Zed  <NotZed@Ximian.com>
 
+	* message-list.c (get_normalised_string): Duh idiot, "un-fixed"
+	the memleak i added.
+
+	* mail-callbacks.c (composer_get_message): Set parent window in
+	message dialogue & DESTROY_WITH_PARENT flag.
+	(composer_save_draft_cb):
+	(configure_mail):
+	(check_send_configuration): Add DESTROY_WITH_PARENT flag to
+	gtk_message_dialog's
+	(local_configure_done): remove some unecessary/wrong casts.
+	(empty_trash_expunged_cb): "
+	(do_mail_print): use gtk_window_set_transient_for instead of
+	e_dialog_set_parent.
+
+2002-11-26  Not Zed  <NotZed@Ximian.com>
+
 	* mail-account-editor.c (mail_account_editor_new):
 	gtk_widget_set_parent_window -> gtk_window_set_transient_for.
 
