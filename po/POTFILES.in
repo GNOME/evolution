@@ -57,6 +57,7 @@ calendar/gui/main.c
 calendar/gui/popup-menu.c
 calendar/gui/print.c
 calendar/gui/tasks-control.c
+calendar/gui/tasks-migrate.c
 calendar/gui/weekday-picker.c
 camel/camel-filter-driver.c
 camel/camel-filter-search.c
@@ -183,3 +184,4 @@ widgets/misc/e-clipped-label.c
 widgets/misc/e-dateedit.c
 widgets/misc/e-messagebox.c
 widgets/misc/e-search-bar.c
+wombat/wombat.c
