@@ -1,3 +1,15 @@
+2000-10-30  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-input.c: 
+	* filter-option.c: 
+	* filter-part.c: Pure formatting changes, no actual code
+	changes. Since I know I'm going to get flamed for this, I'm sorry
+	but I'll probably have to modify code in these files and it's
+	easier if the code is quickly readable by me.
+
+	* filter-rule.c (get_widget): Set the "remove" button insensitive
+	for <= 1 instead of == 1.
+
 2000-10-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-driver.c (filter_driver_filter_message): Copy the message

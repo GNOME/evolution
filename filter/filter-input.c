@@ -122,22 +122,24 @@ filter_input_finalise(GtkObject *obj)
  * Return value: A new #FilterInput object.
  **/
 FilterInput *
-filter_input_new(void)
+filter_input_new (void)
 {
 	FilterInput *o = (FilterInput *)gtk_type_new(filter_input_get_type ());
 	return o;
 }
 
-FilterInput	*filter_input_new_type_name	(const char *type)
+FilterInput *
+filter_input_new_type_name (const char *type)
 {
 	FilterInput *o = filter_input_new();
 	o->type = g_strdup(type);
-
+	
 	d(printf("new type %s = %p\n", type, o));
 	return o;
 }
 
-void		filter_input_set_value(FilterInput *fi, const char *value)
+void
+filter_input_set_value (FilterInput *fi, const char *value)
 {
 	GList *l;
 
@@ -151,112 +153,124 @@ void		filter_input_set_value(FilterInput *fi, const char *value)
 	fi->values = g_list_append(NULL, g_strdup(value));
 }
 
-static void xml_create(FilterElement *fe, xmlNodePtr node)
+static void
+xml_create (FilterElement *fe, xmlNodePtr node)
 {
 	/* parent implementation */
         ((FilterElementClass *)(parent_class))->xml_create(fe, node);
 	
 }
 
-static xmlNodePtr xml_encode(FilterElement *fe)
+static xmlNodePtr
+xml_encode (FilterElement *fe)
 {
 	xmlNodePtr value;
 	GList *l;
 	FilterInput *fi = (FilterInput *)fe;
 	char *type;
-
-	type = fi->type?fi->type:"string";
-
-	d(printf("Encoding %s as xml\n", type));
-
-	value = xmlNewNode(NULL, "value");
-	xmlSetProp(value, "name", fe->name);
-	xmlSetProp(value, "type", type);
+	
+	type = fi->type ? fi->type : "string";
+	
+	d(printf ("Encoding %s as xml\n", type));
+	
+	value = xmlNewNode (NULL, "value");
+	xmlSetProp (value, "name", fe->name);
+	xmlSetProp (value, "type", type);
 	l = fi->values;
 	while (l) {
                 xmlNodePtr cur;
 		char *str = l->data;
-
-                cur = xmlNewChild(value, NULL, type, NULL);
-		xmlNodeSetContent(cur, str);
-                l = g_list_next(l);
+		
+                cur = xmlNewChild (value, NULL, type, NULL);
+		xmlNodeSetContent (cur, str);
+                l = g_list_next (l);
 	}
+	
 	return value;
 }
 
-static int xml_decode(FilterElement *fe, xmlNodePtr node)
+static int
+xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterInput *fi = (FilterInput *)fe;
 	char *name, *str, *type;
 	xmlNodePtr n;
-
-	type = fi->type?fi->type:"string";
-
+	
+	type = fi->type ? fi->type : "string";
+	
 	d(printf("Decoding %s from xml %p\n", type, fe));
-
-	name = xmlGetProp(node, "name");
-	d(printf("Name = %s\n", name));
+	
+	name = xmlGetProp (node, "name");
+	d(printf ("Name = %s\n", name));
 	fe->name = name;
-	fi->type = xmlGetProp(node, "type");
+	fi->type = xmlGetProp (node, "type");
 	n = node->childs;
 	while (n) {
-		if (!strcmp(n->name, type)) {
-			str = xmlNodeGetContent(n);
-			d(printf("  '%s'\n", str));
-			fi->values = g_list_append(fi->values, str);
+		if (!strcmp (n->name, type)) {
+			str = xmlNodeGetContent (n);
+			d(printf ("  '%s'\n", str));
+			fi->values = g_list_append (fi->values, str);
 		} else {
-			g_warning("Unknown node type '%s' encountered decoding a %s\n", n->name, type);
+			g_warning ("Unknown node type '%s' encountered decoding a %s\n", n->name, type);
 		}
 		n = n->next;
 	}
+	
 	return 0;
 }
 
-static void entry_changed(GtkEntry *entry, FilterElement *fe)
+static void
+entry_changed (GtkEntry *entry, FilterElement *fe)
 {
 	char *new;
 	FilterInput *fi = (FilterInput *)fe;
 	GList *l;
-
+	
 	new = e_utf8_gtk_entry_get_text(entry);
-
+	
 	/* NOTE: entry only supports a single value ... */
 	l = fi->values;
 	while (l) {
-		g_free(l->data);
-		l = g_list_next(l);
+		g_free (l->data);
+		l = g_list_next (l);
 	}
-	g_list_free(fi->values);
-
-	fi->values = g_list_append(NULL, new);
+	
+	g_list_free (fi->values);
+	
+	fi->values = g_list_append (NULL, new);
 }
 
-static GtkWidget *get_widget(FilterElement *fe)
+static GtkWidget *
+get_widget (FilterElement *fe)
 {
-	GtkEntry *entry;
+	GtkWidget *entry;
 	FilterInput *fi = (FilterInput *)fe;
-
-	entry = (GtkEntry *)gtk_entry_new();
+	
+	entry = gtk_entry_new ();
 	if (fi->values && fi->values->data) {
-		e_utf8_gtk_entry_set_text(entry, fi->values->data);
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (entry), fi->values->data);
 	}
-	gtk_signal_connect((GtkObject *)entry, "changed", entry_changed, fe);
-	return (GtkWidget *)entry;
+	
+	gtk_signal_connect (GTK_OBJECT (entry), "changed", entry_changed, fe);
+	
+	return entry;
 }
 
-static void build_code(FilterElement *fe, GString *out, struct _FilterPart *ff)
+static void
+build_code (FilterElement *fe, GString *out, struct _FilterPart *ff)
 {
 	return;
 }
 
-static void format_sexp(FilterElement *fe, GString *out)
+static void
+format_sexp (FilterElement *fe, GString *out)
 {
 	GList *l;
 	FilterInput *fi = (FilterInput *)fe;
-
+	
 	l = fi->values;
 	while (l) {
-		e_sexp_encode_string(out, l->data);
-		l = g_list_next(l);
+		e_sexp_encode_string (out, l->data);
+		l = g_list_next (l);
 	}
 }

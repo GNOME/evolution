@@ -448,7 +448,7 @@ less_parts (GtkWidget *button, struct _rule_data *data)
 	gtk_container_remove (GTK_CONTAINER (data->parts), w);
 	
 	/* if there's only 1 criterion, we can't remove anymore so set insensitive */
-	if (g_list_length (data->fr->parts) == 1)
+	if (g_list_length (data->fr->parts) <= 1)
 		gtk_widget_set_sensitive (button, FALSE);
 }
 
@@ -574,7 +574,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gtk_box_pack_start (GTK_BOX (hbox), remove, FALSE, FALSE, 3);
 	
 	/* if we only have 1 criterion, then we can't remove any more so disable this */
-	if (g_list_length (fr->parts) == 1)
+	if (g_list_length (fr->parts) <= 1)
 		gtk_widget_set_sensitive (remove, FALSE);
 	
 	gtk_box_pack_end (GTK_BOX (hbox), omenu, FALSE, FALSE, 0);
