@@ -69,6 +69,11 @@ Mailer:
     reconnect. This was part of Camel operation cancellation support,
     which unfortunately didn't make it into 0.5. (Peter)
 
+  - Sent and Outbox folders are now functional. You now have 2 options
+    when sending a message - "Send Now" which will send the message 
+    imediately and "Send Later" which will queue the message in Outbox 
+    for later sending. When a message is successfully sent, it is copied 
+    to the Sent folder for your records. (Jeff)
 
 ETable:
 

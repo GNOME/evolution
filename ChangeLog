@@ -1,3 +1,7 @@
+2000-09-12  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* NEWS (Mailer): Added Sent/Outbox feature descriptions
+
 2000-09-12  Dan Winship  <danw@helixcode.com>
 
 	* NEWS (Mailer): add most (but not all) 0.5 Mailer features
