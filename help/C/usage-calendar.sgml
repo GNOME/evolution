@@ -82,7 +82,7 @@
         multiple columns in the day view of the calendar.
       </para>
       <note>
-       <title>Doing Two Things At Once</title>
+       <title>Multiple Simultanious Appointments</title>
          <para>
            If you create calendar appointments that overlap,
            <application>Evolution</application> will display them side
@@ -157,7 +157,7 @@
       </para>
       
       <tip>
-      <title>Adding a New Category</title>
+      <title>Adding a New Appointment Category</title>
 	<para>
 	 You can add a new category to your category list by clicking on
          <guibutton>Edit Master Category List...</guibutton> and single-clicking
@@ -204,7 +204,7 @@
       </para>
     </sect2>
     <sect2 id="usage-calendar-rsvp">
-      <title>RSVPs with the Calendar</title>
+      <title>Sending a RSVP with the Calendar</title>
       <para>
 	<application>Evolution</application> can be used to setup group appointments
 	and help you manage RSVPs.

@@ -324,11 +324,12 @@
           too much to do with each other.
           <variablelist>
 
-             <varlistentry>
+	  <varlistentry>
 	    <term> 
 	      <guilabel>Send messages in HTML format</guilabel>
 	    </term>
-	    <listitem><para>
+	    <listitem>
+	      <para>
 		If you check this box, you will send
 		messages as HTML by default.  If you leave it unchecked, your
 		messages will be sent without HTML formatting unless you select 
@@ -336,36 +337,41 @@
 		</menuchoice> in the message composer.
 		See <xref linkend="usage-mail-getnsend-send-html">
 		  for more information about HTML mail.
-	      </para></listitem>
+	      </para>
+	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-                <term> 
-                   <guilabel>Mark Messages as Read After</guilabel>
-                </term>
-                <listitem><para> 
-                    When you click on a message,
-                    <application>Evolution</application> will wait a
-                    moment before marking it as read. You can set the
-                    delay, in milliseconds, here.
-                 </para></listitem>
-              </varlistentry>
-              <varlistentry>
-                <term>
-                   <guilabel>Folder Format</guilabel>
-                </term>
-                <listitem> <para> By default,
-                   <application>Evolution</application> saves its mail
-                   in the
-                   <systemitem><filename>mbox</filename></systemitem>
-                   format. You can switch to the
-                   <systemitem><filename>mh</filename></systemitem>
-                   format if you like.  Note that this is an advanced
-                   feature and may cause you to lose some messages, so
-                   you should probably make a backup of your
-                   <systemitem><filename>evolution</filename></systemitem>
-                   directory first. In addition, it will take quite
-                   some time if you have a large mailbox.
-               </para></listitem>
+	    <term> 
+	      <guilabel>Mark Messages as Read After</guilabel>
+	    </term>
+	    <listitem>
+	      <para> 
+		When you click on a message,
+		<application>Evolution</application> will wait a
+		moment before marking it as read. You can set the
+		delay, in milliseconds, here.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>
+	      <guilabel>Folder Format</guilabel>
+	    </term>
+	    <listitem> 
+	      <para> 
+		By default,
+		<application>Evolution</application> saves its mail
+		in the
+		<systemitem><filename>mbox</filename></systemitem>
+		format. You can switch to the
+		<systemitem><filename>mh</filename></systemitem>
+		format if you like.  Note that this is an advanced
+		feature and may cause you to lose some messages, so
+		you should probably make a backup of your
+		<systemitem><filename>evolution</filename></systemitem>
+		directory first. In addition, it will take quite
+		some time if you have a large mailbox.
+	      </para></listitem>
              </varlistentry>
            </variablelist>
         </para>

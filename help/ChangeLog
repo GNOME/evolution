@@ -1,3 +1,9 @@
+2001-08-24  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-mail.sgml: Added info about tables, rules, and images
+
+	* C/usage-calendar.sgml: Rename a few titles
+
 2001-08-22  Aaron Weber  <aaron@ximian.com>
 
 	* C/apx-gloss.sgml: public key.

@@ -5,35 +5,35 @@
 <chapter id="usage-mail">
   <title>Using Evolution for Email</title>
   <para>
-     This chapter, and <xref linkend="usage-mail-organize">, will
-     provide you with an in-depth guide to the capabilities of
-     Evolution as a mail client.  For information about how to set up
-     your mail account, see <xref linkend="config-prefs-mail">.
+    This chapter, and <xref linkend="usage-mail-organize">, will
+      provide you with an in-depth guide to the capabilities of
+      Evolution as a mail client.  For information about how to set up
+      your mail account, see <xref linkend="config-prefs-mail">.
   </para>
-
-<note>
-<title>If you use IMAP Mail</title>
-<para>
-If you chose IMAP mail during the setup process, you must subscribe to
-your mail folders before you can read mail in them. Read <xref
-linkend="usage-mail-subscriptions"> to find out how.
-</para>
-</note>
-
-
-  <sect1 id="usage-mail-getnsend-read">
-      <title>Reading Mail</title>    
+  
+  <note>
+    <title>If you use IMAP Mail</title>
     <para>
-        Start the mail client by clicking on the
-        <guibutton>Inbox</guibutton> icon in the shortcut bar, or by
-        selecting a mail folder in the folder bar.  To read a message,
-        select it in the message list; if you'd like to see it in its
-        own window, double-click on it or press
-          <keycombo action="simul">
-		<keycap>Ctrl</keycap>
-		<keycap>O</keycap>
-	      </keycombo>.
-     </para>
+      If you chose IMAP mail during the setup process, you must subscribe to
+      your mail folders before you can read mail in them. Read <xref
+								     linkend="usage-mail-subscriptions"> to find out how.
+    </para>
+  </note>
+  
+  
+  <sect1 id="usage-mail-getnsend-read">
+    <title>Reading Mail</title>    
+    <para>
+      Start the mail client by clicking on the
+      <guibutton>Inbox</guibutton> icon in the shortcut bar, or by
+      selecting a mail folder in the folder bar.  To read a message,
+      select it in the message list; if you'd like to see it in its
+      own window, double-click on it or press
+      <keycombo action="simul">
+	<keycap>Ctrl</keycap>
+	<keycap>O</keycap>
+      </keycombo>.
+    </para>
 
       <tip id="spaceandbs">
 	<title>Reading Mail with the Keyboard</title>
@@ -946,6 +946,40 @@ with quoted materials and the relevant replies interspersed-->
 	      <para>
 		Lets you put an image alongside text.
 	      </para>
+	      <para>
+		To insert an image into your email:
+		<orderedlist numeration="arabic">
+		  <listitem>
+		    <para>
+		      Open a new email by clicking <guibutton>New Message</guibutton>
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Make the email HTML mail by clicking
+		      <menuchoice>
+			<guimenu>Format</guimenu>
+			<guimenuitem>HTML</guimenuitem>
+		      </menuchoice>
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Click the <guibutton>Image</guibutton> button in the <guilabel>Toolbar</guilabel>.
+		      </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Choose your image by clicking the <guibutton>Browse</guibutton> button.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Press <guibutton>Insert</guibutton> to insert the image.
+		    </para>
+		  </listitem>
+		</orderedlist>
+	      </para>
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
@@ -954,6 +988,40 @@ with quoted materials and the relevant replies interspersed-->
 	      <para>
 		Inserts a horizontal line into the text to help divide two
 		sections.
+	      </para>
+	      <para>
+		To insert a rule:
+		<orderedlist numeration="arabic">
+		  <listitem>
+		    <para>
+		      Open a new email by clicking <guibutton>New Message</guibutton>
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Make the email HTML mail by clicking
+		      <menuchoice>
+			<guimenu>Format</guimenu>
+			<guimenuitem>HTML</guimenuitem>
+		      </menuchoice>
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Click the <guibutton>Rule</guibutton> button in the <guilabel>Toolbar</guilabel>.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Select the template to use for the rule.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Click <guibutton>Insert</guibutton> to insert the rule.
+		    </para>
+		  </listitem>
+		</orderedlist>
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -1003,7 +1071,7 @@ with quoted materials and the relevant replies interspersed-->
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Select the image you want
+	      Select the image you want to include in your email.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -1045,6 +1113,11 @@ with quoted materials and the relevant replies interspersed-->
 	  <orderedlist numeration="arabic">
 	    <listitem>
 	      <para>
+		Create a new email by clicking <guibutton>New Message</guibutton>.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
 		Enable HTML in your email by clicking
 		<menuchoice>
 		  <guimenu>
@@ -1083,9 +1156,58 @@ with quoted materials and the relevant replies interspersed-->
 	  </orderedlist>
 	</para>
       </sect3>
-      </sect2>
-
-      <sect2 id="usage-mail-getnsend-fwd">
+      <sect3 id="composer-tables">
+	<title>Tables in Email</title>
+	<para>
+	  <application>Evolution</application> allows you to put tables in your HTML email to help organize your thoughts.  These tables are a simplified version of what you might find in a spreadsheet program such as <application>Gnumeric</application>.
+	</para>
+	<para>
+	  To include a table in your email:
+	  <orderedlist numeration="arabic">
+	    <listitem>
+	      <para>
+		Create a new email by clicking <guibutton>New Message</guibutton>.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Enable HTML in your email by clicking
+		<menuchoice>
+		  <guimenu>
+		    Format
+		  </guimenu>
+		  <guimenuitem>
+		    HTML
+		  </guimenuitem>
+		</menuchoice>
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Select the template to use for the table.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Set up how many rows and columns you want.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Click the <guibutton>Insert</guibutton> button.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Click in a cell and type to insert text into the table.
+	      </para>
+	    </listitem>
+	  </orderedlist>
+	</para>
+      </sect3>
+    </sect2>
+    
+    <sect2 id="usage-mail-getnsend-fwd">
         <title>Forwarding Mail</title>
         <para>
           The post office forwards your mail for you when you change
