@@ -1,3 +1,9 @@
+2000-06-14  Dan Winship  <danw@helixcode.com>
+
+	* providers/mbox/camel-mbox-folder.c (mbox_append_message): if the
+	mbox doesn't end with a '\n', write one before appending the new
+	message.
+
 2000-06-14  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-mime-filter-crlf.c (filter): Updated the encoder to allocate more

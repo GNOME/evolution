@@ -299,7 +299,7 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	CamelMimeFilter *filter_from = NULL;
 	struct stat st;
 	off_t seek = -1;
-	char *xev;
+	char *xev, last;
 	guint32 uid;
 
 	if (stat(mbox_folder->folder_file_path, &st) != 0)
@@ -309,9 +309,17 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	if (output_stream == NULL)
 		goto fail;
 
-	seek = camel_seekable_stream_seek((CamelSeekableStream *)output_stream, st.st_size, SEEK_SET);
-	if (seek != st.st_size)
-		goto fail;
+	if (st.st_size) {
+		seek = camel_seekable_stream_seek((CamelSeekableStream *)output_stream, st.st_size - 1, SEEK_SET);
+		if (seek != st.st_size - 1)
+			goto fail;
+
+		/* If the mbox doesn't end with a newline, fix that. */
+		if (camel_stream_read (output_stream, &last, 1) != 1)
+			goto fail;
+		if (last != '\n')
+			camel_stream_write (output_stream, "\n", 1);
+	}
 
 	/* assign a new x-evolution header/uid */
 	camel_medium_remove_header((CamelMedium *)message, "X-Evolution");
