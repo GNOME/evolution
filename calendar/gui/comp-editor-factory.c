@@ -324,15 +324,13 @@ get_default_event (gboolean all_day)
 		cal_component_set_dtend (comp, &dt);		
 	} else {
 		itt = icaltime_current_time_with_zone (zone);
-		itt.hour++;
-		itt.minute = 0;
-		itt.second = 0;
+		icaltime_adjust (&itt, 0, 1, -itt.minute, -itt.second);
 		
 		dt.value = &itt;
 		dt.tzid = icaltimezone_get_tzid (zone);
 		
 		cal_component_set_dtstart (comp, &dt);
-		itt.hour++;
+		icaltime_adjust (&itt, 0, 1, 0, 0);
 		cal_component_set_dtend (comp, &dt);
 	}
 

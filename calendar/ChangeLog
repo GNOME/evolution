@@ -1,3 +1,11 @@
+2002-09-10  JP Rosevear  <jpr@ximian.com>
+
+	* gui/comp-editor-factory.c (get_default_event): duh, don't
+	blindly increment the hour without adjusting for the day
+	boundaries
+
+	Fixes #29983
+	
 2002-09-10  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #24032
