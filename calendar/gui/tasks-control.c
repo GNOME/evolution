@@ -250,7 +250,7 @@ sensitize_commands (ETasks *tasks, BonoboControl *control, int n_selected)
 				      n_selected == 0 ? "0" : "1",
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/TasksPaste", "sensitive",
-				      n_selected == 0 || read_only ? "0" : "1",
+				      read_only ? "0" : "1",
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/TasksDelete", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",
