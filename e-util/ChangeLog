@@ -1,3 +1,12 @@
+2002-07-31  Dan Winship  <danw@ximian.com>
+
+	* e-html-utils.c (is_addr_char, is_trailing_garbage): Don't use
+	"isprint(c)" to mean "c >= 32 && c < 128" since it doesn't in most
+	locales.
+	(is_domain_name_char): new macro for dns-valid characters
+	(email_address_extract): Use is_domain_name_char rather than
+	is_addr_char for the part after the @.
+
 2002-07-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-host-utils.c (e_gethostbyname_r): If the user has enabled IPv6

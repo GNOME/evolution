@@ -39,21 +39,23 @@ check_size (char **buffer, int *buffer_size, char *out, int len)
 	return out;
 }
 
-/* 1 = non-email-address chars: ()<>@,;:\"[]`'|  */
-/* 2 = trailing url garbage:    ,.!?;:>)]}`'-_|  */
+/* 1 = non-email-address chars: ()<>@,;:\"[]`'{}| */
+/* 2 = trailing url garbage:    ,.!?;:>)]}`'-_|   */
+/* 4 = dns chars                                  */
 static int special_chars[] = {
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    /*  nul - 0x0f */
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    /* 0x10 - 0x1f */
-	1, 2, 1, 0, 0, 0, 0, 3, 1, 3, 0, 0, 3, 2, 2, 0,    /*   sp - /    */
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1, 0, 3, 2,    /*    0 - ?    */
-	1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    /*    @ - O    */
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 0, 2,    /*    P - _    */
-	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    /*    ` - o    */
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 2, 0, 0     /*    p - del  */
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,    /*  nul - 0x0f */
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,    /* 0x10 - 0x1f */
+	1, 2, 1, 0, 0, 0, 0, 3, 1, 3, 0, 0, 3, 6, 6, 0,    /*   sp - /    */
+	4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 1, 0, 3, 2,    /*    0 - ?    */
+	1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,    /*    @ - O    */
+	4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 3, 0, 2,    /*    P - _    */
+	3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,    /*    ` - o    */
+	4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 3, 3, 0, 3     /*    p - del  */
 };
 
-#define is_addr_char(c) (isprint (c) && !(special_chars[c] & 1))
-#define is_trailing_garbage(c) (!isprint(c) || (special_chars[c] & 2))
+#define is_addr_char(c) (c < 128 && !(special_chars[c] & 1))
+#define is_trailing_garbage(c) (c > 127 || (special_chars[c] & 2))
+#define is_domain_name_char(c) (c < 128 && (special_chars[c] & 4))
 
 static char *
 url_extract (const unsigned char **text, gboolean check)
@@ -93,7 +95,7 @@ email_address_extract (const unsigned char **cur, char **out, const unsigned cha
 		return NULL;
 
 	/* Now look forward for a valid domain part */
-	for (end = *cur + 1, dot = NULL; is_addr_char (*end); end++) {
+	for (end = *cur + 1, dot = NULL; is_domain_name_char (*end); end++) {
 		if (*end == '.' && !dot)
 			dot = end;
 	}
