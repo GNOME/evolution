@@ -1,3 +1,10 @@
+2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (build_message): Wrap the S/MIME code in ifdef
+	SMIME_SUPPORTED which isn't defined but by some later version will
+	be.
+	(setup_ui): And again here.
+
 2001-09-09  Maciej Stachowiak  <mjs@noisehavoc.org>
 
 	* Makefile.am: Add VFS_CFLAGS so things don't break when the

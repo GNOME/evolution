@@ -511,7 +511,7 @@ build_message (EMsgComposer *composer)
 		camel_mime_part_set_encoding (CAMEL_MIME_PART (new), plain_encoding);
 	camel_object_unref (CAMEL_OBJECT (current));
 	
-#ifdef HAVE_NSS
+#if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
 	if (composer->smime_sign) {
 		CamelInternetAddress *from = NULL;
 		CamelMimeMessage *smime_mesg;
@@ -1798,7 +1798,7 @@ setup_ui (EMsgComposer *composer)
 		composer->uic, "SecurityPGPEncrypt",
 		menu_security_pgp_encrypt_cb, composer);
 	
-#ifdef HAVE_NSS
+#if defined(HAVE_NSS) && defined(SMIME_SUPPORTED)
 	hide_smime = FALSE;
 #else
 	hide_smime = TRUE;
