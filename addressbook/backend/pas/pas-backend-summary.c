@@ -187,6 +187,7 @@ pas_backend_summary_init (PASBackendSummary *summary)
 	priv->summary_path = NULL;
 	priv->fp = NULL;
 	priv->dirty = FALSE;
+	priv->upgraded = FALSE;
 	priv->items = g_ptr_array_new();
 	priv->id_to_item = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->flush_timeout_millis = 0;
