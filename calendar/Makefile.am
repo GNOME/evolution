@@ -5,6 +5,8 @@ idl_DATA = 			\
 	GnomeCal.idl		\
 	evolution-calendar.idl
 
+idl_flags = `$(GNOME_CONFIG) --cflags idl`
+
 gnorbadir = $(sysconfdir)/CORBA/servers
 gnorba_DATA =			\
 	gnomecal.gnorba		\
@@ -19,6 +21,8 @@ extra_pilot_bins = 				\
 endif
 
 bin_PROGRAMS = gnomecal tlacuache $(extra_pilot_bins)
+
+lib_LTLIBRARIES = libcal-client.la
 
 ICAL_LINK_FLAGS = ../libical/src/libical/libical.la
 
@@ -38,7 +42,7 @@ GNOMECAL_CORBA_GENERATED =	\
 	GnomeCal-stubs.c
 
 $(GNOMECAL_CORBA_GENERATED): GnomeCal.idl
-	orbit-idl $(srcdir)/GnomeCal.idl
+	$(ORBIT_IDL) $(idl_flags) $(srcdir)/GnomeCal.idl
 
 corba-cal.c		\
 corba-cal.h		\
@@ -52,7 +56,7 @@ EVOLUTION_CALENDAR_CORBA_GENERATED =		\
 	evolution-calendar-stubs.c
 
 $(EVOLUTION_CALENDAR_CORBA_GENERATED): evolution-calendar.idl
-	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl $(srcdir)/evolution-calendar.idl
+	$(ORBIT_IDL) $(idl_flags) $(srcdir)/evolution-calendar.idl
 
 gnomecal_SOURCES =				\
 	$(EVOLUTION_CALENDAR_CORBA_GENERATED)	\
@@ -128,6 +132,27 @@ calendar_pilot_sync_SOURCES =	\
 	calendar.h		\
 	timeutil.c		\
 	timeutil.h
+
+#
+# cal-client library
+#
+
+libcal_clientincludedir = $(includedir)/cal-client
+
+libcal_client_la_SOURCES =			\
+	$(EVOLUTION_CALENDAR_CORBA_GENERATED)	\
+	cal-client.c				\
+	cal-listener.c				\
+	cal-util.c
+
+libcal_clientinclude_HEADERS =	\
+	cal-client.h		\
+	cal-listener.h		\
+	cal-util.h
+
+#
+# tlacuache personal calendar server
+#
 
 tlacuache_SOURCES =				\
 	$(EVOLUTION_CALENDAR_CORBA_GENERATED)	\
