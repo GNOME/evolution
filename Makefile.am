@@ -3,7 +3,7 @@ changelogs =				\
 	ChangeLog.pre-1-4
 
 %-$(BASE_VERSION).pc: %.pc
-	 mv $< $@
+	 cp $< $@
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = 				\

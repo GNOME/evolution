@@ -1,3 +1,9 @@
+2004-02-12  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (%-$(BASE_VERSION).pc): cp the unversioned file
+	rather than mv'ing it so it doesn't get regenerated at install
+	time.
+
 2004-02-11  Not Zed  <NotZed@Ximian.com>
 
 	* configure.in (IMPORTERS_*): Added libebook-1.0.  Added back
