@@ -42,7 +42,7 @@ static CamelObjectClass *parent_class = NULL;
 #define CS_CLASS(so) CAMEL_NNTP_STREAM_CLASS(CAMEL_OBJECT_GET_CLASS(so))
 
 #define CAMEL_NNTP_STREAM_SIZE (4096)
-#define CAMEL_NNTP_STREAM_LINE (1024) /* maximum line size */
+#define CAMEL_NNTP_STREAM_LINE_SIZE (1024) /* maximum line size */
 
 static int
 stream_fill(CamelNNTPStream *is)
@@ -198,8 +198,8 @@ camel_nntp_stream_init(CamelNNTPStream *is, CamelNNTPStreamClass *isclass)
 {
 	/* +1 is room for appending a 0 if we need to for a line */
 	is->ptr = is->end = is->buf = g_malloc(CAMEL_NNTP_STREAM_SIZE+1);
-	is->lineptr = is->linebuf = g_malloc(CAMEL_NNTP_STREAM_LINE+1);
-	is->lineend = is->linebuf + CAMEL_NNTP_STREAM_LINE;
+	is->lineptr = is->linebuf = g_malloc(CAMEL_NNTP_STREAM_LINE_SIZE+1);
+	is->lineend = is->linebuf + CAMEL_NNTP_STREAM_LINE_SIZE;
 
 	/* init sentinal */
 	is->ptr[0] = '\n';
