@@ -1,3 +1,10 @@
+2004-01-16  JP Rosevear  <jpr@novell.com>
+ 
+ 	Fixes #41624
+ 	
+ 	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
+ 	append the exceptions, don't keep overwriting the first
+	
 2005-01-08  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-day-view.c (e_day_view_finish_resize): set
