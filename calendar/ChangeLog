@@ -1,6 +1,21 @@
+2004-08-05  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #62030
+
+	* gui/alarm-notify/alarm-queue.c (tray_icon_destroyed_cb):
+	only remove the tray icon blinking timeout if we installed
+	it.
+	(display_notification): only install the tray icon blinking
+	timeout if using the system tray.
+	(tray_icon_blink_cb): use g_object_unref instead of the
+	deprecated gdk_pixbuf_unref.
+
+	* gui/alarm-notify/alarm.c (alarm_add): added missing argument
+	documentation.
+
 2004-08-03  JP Rosevear  <jpr@novell.com>
  
- 	* gui/gnome-cal.c (gnome_calendar_destroy): clean up all the
+	* gui/gnome-cal.c (gnome_calendar_destroy): clean up all the
  	default clients
  	(default_client_cal_opened_cb): change the if statement to a
  	switch to be consistent with the other code bits and set the
@@ -11,15 +26,15 @@
  	source type
  	(gnome_calendar_new_task): bail out if we have no ecal
  
- 	* gui/gnome-cal.c (set_timezone): set the timezone for all the
+	* gui/gnome-cal.c (set_timezone): set the timezone for all the
  	default clients
  
- 	* gui/calendar-component.c (update_primary_task_selection): look
+	* gui/calendar-component.c (update_primary_task_selection): look
 	in the task source list, not the plain source list
 	
 2004-08-05  JP Rosevear  <jpr@novell.com>
 
- 	* gui/tasks-control.c (tasks_control_sensitize_commands): kill
+	* gui/tasks-control.c (tasks_control_sensitize_commands): kill
  	warning by checking if there is a default client first (can happen
  	when first starting up)
 	

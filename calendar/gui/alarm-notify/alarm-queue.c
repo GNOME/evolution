@@ -236,7 +236,7 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 	if (remove_alarm) {
 		cqa->expecting_update = TRUE;
 		e_cal_discard_alarm (cqa->parent_client->client, cqa->alarms->comp,
-					  qa->instance->auid, NULL);
+				     qa->instance->auid, NULL);
 		cqa->expecting_update = FALSE;
 	}
 
@@ -776,7 +776,8 @@ tray_icon_destroyed_cb (GtkWidget *tray, gpointer user_data)
 		tray_data->message = NULL;
 	}
 
-	g_source_remove (tray_data->blink_id);
+	if (tray_data->blink_id)
+		g_source_remove (tray_data->blink_id);
 
 	g_object_unref (tray_data->comp);
 	g_object_unref (tray_data->client);
@@ -901,11 +902,12 @@ tray_icon_blink_cb (gpointer data)
 
 	tray_data->blink_state = tray_data->blink_state == TRUE ? FALSE : TRUE;
 	pixbuf = e_icon_factory_get_icon  (tray_data->blink_state == TRUE ?
-				 	   "stock_appointment-reminder-excl" :
-				 	   "stock_appointment-reminder",
+					   "stock_appointment-reminder-excl" :
+					   "stock_appointment-reminder",
 					   E_ICON_SIZE_LARGE_TOOLBAR);
+
 	gtk_image_set_from_pixbuf (GTK_IMAGE (tray_data->image), pixbuf);
-	gdk_pixbuf_unref (pixbuf);
+	g_object_unref (pixbuf);
 
 	return TRUE;
 }
@@ -1003,13 +1005,13 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	g_signal_connect (G_OBJECT (tray_data->query), "objects_removed",
 			  G_CALLBACK (on_dialog_objs_removed_cb), tray_data);
 
-	tray_data->blink_id = g_timeout_add (500, tray_icon_blink_cb, tray_data);
-
 	if (!config_data_get_notify_with_tray ()) {
+		tray_data->blink_id = -1;
 		open_alarm_dialog (tray_data);
 	} else {
+		tray_data->blink_id = g_timeout_add (500, tray_icon_blink_cb, tray_data);
 		gtk_widget_show (tray_icon);
-	}	
+	}
 }
 
 /* Performs notification of an audio alarm */
