@@ -1,3 +1,9 @@
+2001-09-14  Dan Winship  <danw@ximian.com>
+
+	* camel-file-utils.c (camel_file_util_encode_string,
+	camel_file_util_decode_string): Don't claim failure when
+	reading/writing the empty string.
+
 2001-09-14  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: use install hook instead of install rule to

@@ -237,7 +237,7 @@ camel_file_util_encode_string (FILE *out, const char *str)
 	len = strlen (str);
 	if (camel_file_util_encode_uint32 (out, len+1) == -1)
 		return -1;
-	if (fwrite (str, len, 1, out) == 1)
+	if (len == 0 || fwrite (str, len, 1, out) == 1)
 		return 0;
 	return -1;
 }
@@ -269,7 +269,7 @@ camel_file_util_decode_string (FILE *in, char **str)
 	}
 
 	ret = g_malloc (len+1);
-	if (fread (ret, len, 1, in) != 1) {
+	if (len > 0 && fread (ret, len, 1, in) != 1) {
 		g_free (ret);
 		*str = NULL;
 		return -1;
