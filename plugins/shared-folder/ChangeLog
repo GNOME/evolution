@@ -1,3 +1,8 @@
+2005-01-18  Vivek Jain <jvivek@novell.com>
+	*install-shared.c
+	(org_gnome_popup_wizard): removed unnecessary stuff for the display of
+	wizard
+
 2005-01-18  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	*install-shared.c
