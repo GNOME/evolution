@@ -1911,7 +1911,7 @@ save_messages_save (struct _mail_msg *mm)
 	int fd, i;
 	char *from;
 	
-	fd = open (m->path, O_WRONLY | O_CREAT | O_TRUNC);
+	fd = open (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (fd == -1) {
 		camel_exception_setv(&mm->ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Unable to create output file: %s\n %s"), m->path, strerror(errno));
@@ -2048,8 +2048,10 @@ save_part_save (struct _mail_msg *mm)
 	    && g_strcasecmp (charset, "utf-8") != 0) {
 		charsetfilter = camel_mime_filter_charset_new_convert ("utf-8", charset);
 		filtered_stream = camel_stream_filter_new_with_stream (stream_fs);
-		camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (charsetfilter));
-		camel_object_unref (CAMEL_OBJECT (charsetfilter));
+		if (charsetfilter) {
+			camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (charsetfilter));
+			camel_object_unref (CAMEL_OBJECT (charsetfilter));
+		}
 	} else {
 		/* no we can't use a CAMEL_BLAH() cast here, since its not true, HOWEVER
 		   we only treat it as a normal stream from here on, so it is OK */

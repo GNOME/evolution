@@ -1,3 +1,13 @@
+2001-08-14  Dan Winship  <danw@ximian.com>
+
+	* folder-browser.c (message_list_drag_data_get): Fix the fix for
+	#6722.
+
+	* mail-ops.c (save_messages_save): Likewise.
+	(save_part_save): Deal with the possibility that
+	camel_mime_filter_charset_new_convert will return NULL (bad
+	charset name). Fixes #6611.
+
 2001-08-13  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-search.c (mail_search_construct): Disable the "search
