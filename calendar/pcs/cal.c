@@ -697,7 +697,7 @@ cal_get_password (Cal *cal, const char *prompt, const char *key)
  * a new one.
  */
 void
-cal_client_forget_password (Cal *cal, const char *key)
+cal_forget_password (Cal *cal, const char *key)
 {
 	CalPrivate *priv;
 	CORBA_Environment ev;

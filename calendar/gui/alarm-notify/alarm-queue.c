@@ -27,6 +27,7 @@
 #include <gtk/gtksignal.h>
 #include <cal-util/timeutil.h>
 #include "alarm.h"
+#include "alarm-notify-dialog.h"
 #include "alarm-queue.h"
 
 
@@ -135,17 +136,61 @@ lookup_client (CalClient *client)
 	return g_hash_table_lookup (client_alarms_hash, client);
 }
 
+/* Callback used from the alarm notify dialog */
+static void
+notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
+{
+	switch (result) {
+	case ALARM_NOTIFY_SNOOZE:
+		/* FIXME */
+		break;
+
+	case ALARM_NOTIFY_EDIT:
+		/* FIXME */
+		break;
+
+	case ALARM_NOTIFY_CLOSE:
+	default:
+		break;
+	}
+}
+
 /* Callback used when an alarm triggers */
 static void
 alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 {
 	CompQueuedAlarms *cqa;
+	CalComponent *comp;
+	GSList *l;
+	QueuedAlarm *qa;
+	const char *auid;
+	time_t occur;
 
 	cqa = data;
+	comp = cqa->alarms->comp;
 
-	/* FIXME */
+	/* Look for the queued alarm so that we can identify its occurrence */
 
-	g_message ("alarm_trigger_cb(): Triggered!");
+	qa = NULL;
+
+	for (l = cqa->queued_alarms; l; l = l->next) {
+		qa = l->data;
+		if (qa->alarm_id == alarm_id)
+			break;
+	}
+
+	g_assert (qa != NULL);
+
+	/* Fetch the alarm information.  We use the trigger time passed to us
+	 * instead of the one in the instance structure because this may not be
+	 * the actual computed trigger but a snoozed one instead.
+	 */
+
+	auid = qa->instance->auid;
+	occur = qa->instance->occur;
+
+	if (!alarm_notify_dialog (trigger, occur, comp, notify_dialog_cb, comp))
+		g_message ("alarm_trigger_cb(): Could not create the alarm notify dialog");
 }
 
 /* Callback used when an alarm must be destroyed */

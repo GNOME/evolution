@@ -28,6 +28,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-init.h>
+#include <libgnomevfs/gnome-vfs-init.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <liboaf/liboaf.h>
@@ -51,7 +52,7 @@ funny_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	struct tm *tm;
 
 	tm = localtime (&trigger);
-	strftime (str, sizeof (str), "%x %X", tm);
+	strftime (str, sizeof (str), "%Y/%m/%d %H:%M:%S", tm);
 
 	msg = g_strdup_printf (_("It is %s.  The Unix time is %ld right now.  We just thought "
 				 "you may like to know."), str, (long) trigger);
@@ -97,12 +98,15 @@ main (int argc, char **argv)
 	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
 
+	if (!gnome_vfs_init ())
+		g_error (_("Could not initialize gnome-vfs"));
+
 	alarm_init ();
 	alarm_queue_init ();
 
 	funny_times_init ();
 
-	factory = bonobo_generic_factory_new ("OAFID:GNOME_Evolution_Calendar_AlarmNotify_Factory",
+	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory",
 					      alarm_notify_factory_fn, NULL);
 	if (!factory)
 		g_error (_("Could not create the alarm notify service factory"));
@@ -114,6 +118,8 @@ main (int argc, char **argv)
 
 	alarm_queue_done ();
 	alarm_done ();
+
+	gnome_vfs_shutdown ();
 
 	return 0;
 }

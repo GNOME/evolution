@@ -29,6 +29,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-init.h>
+#include <libgnomevfs/gnome-vfs-init.h>
 #include <glade/glade.h>
 
 #include <liboaf/liboaf.h>
@@ -64,6 +65,10 @@ main (int argc, char **argv)
 	textdomain(PACKAGE);
 
 	init_bonobo (argc, argv);
+
+	if (!gnome_vfs_init ())
+		g_error (_("Could not initialize gnome-vfs"));
+
 	glade_gnome_init ();
 	alarm_init ();
 	e_cursors_init ();
@@ -84,6 +89,8 @@ main (int argc, char **argv)
 
 	alarm_done ();
 	calendar_config_write_on_exit ();
+
+	gnome_vfs_shutdown ();
 
 	return 0;
 }

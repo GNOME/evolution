@@ -36,10 +36,15 @@ INCLUDES = 						\
 
 gladedir   = $(datadir)/evolution/glade
 
+glade_DATA =		\
+	alarm-notify.glade
+
 evolution_alarm_notify_SOURCES =	\
 	$(CORBA_GENERATED)		\
 	alarm-notify.c			\
 	alarm-notify.h			\
+	alarm-notify-dialog.c		\
+	alarm-notify-dialog.h		\
 	alarm-queue.c			\
 	alarm-queue.h			\
 	notify-main.c
@@ -73,7 +78,8 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
 EXTRA_DIST =		\
 	$(oaf_DATA)	\
-	$(oaf_in_files)
+	$(oaf_in_files)	\
+	$(glade_DATA)
 
 BUILT_SOURCES = $(CORBA_GENERATED)
 CLEANFILES += $(BUILT_SOURCES)

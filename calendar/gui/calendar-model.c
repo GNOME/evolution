@@ -1415,9 +1415,13 @@ calendar_model_duplicate_value (ETableModel *etm, int col, const void *value)
 	case CAL_COMPONENT_FIELD_COLOR:
 		return (void *) value;
 
-	case CAL_COMPONENT_FIELD_COMPONENT:
-		gtk_object_ref (GTK_OBJECT (value));
-		return;
+	case CAL_COMPONENT_FIELD_COMPONENT: {
+		CalComponent *comp;
+
+		comp = CAL_COMPONENT (value);
+		gtk_object_ref (GTK_OBJECT (comp));
+		return comp;
+	}
 
 	default:
 		g_message ("calendar_model_duplicate_value(): Requested invalid column %d", col);

@@ -1,3 +1,32 @@
+2001-06-24  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/alarm-notify/alarm-notify.c: Converted to use BonoboXObject.
+
+	* gui/gnome-cal.c (gnome_calendar_open): Ask the alarm
+	notification service to add the calendar and tasks URIs.
+	(add_alarms): New function.
+
+	* gui/alarm-notify/notify-main.c (main): Doh, fixed typo in the
+	OAFIID.
+	(main): Initialize and shut down gnome-vfs.
+
+	* gui/Makefile.am (IDLS): Added evolution-calendar.idl, sigh.
+	(evolution_calendar_SOURCES): Added the files generated from the IDL.
+
+	* gui/alarm-notify/alarm-queue.c (alarm_trigger_cb): New function
+	used when an alarm is triggered.
+
+	* gui/dialogs/Makefile.am: Removed the alarm-notify-dialog files;
+	they are now in gui/alarm-notify.
+
+	* gui/alarm-notify/Makefile.am: Added the alarm-notify-dialog
+	files.
+
+	* pcs/cal.c (cal_forget_password): This was incorrectly named
+	cal_client_forget_password(); renamed it.
+
+	* gui/main.c (main): Initialize and shut down gnome-vfs.
+
 2001-06-23  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/e-calendar-table.c (task_compare_cb): New function to

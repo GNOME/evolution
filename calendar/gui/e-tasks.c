@@ -233,10 +233,6 @@ e_tasks_construct (ETasks *tasks)
 	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
 			    GTK_SIGNAL_FUNC (obj_removed_cb), tasks);
 
-#if 0
-	alarm_notify_add_client (priv->client);
-#endif
-
 	e_calendar_table_set_cal_client (E_CALENDAR_TABLE (priv->tasks_view),
 					 priv->client);
 
@@ -283,9 +279,6 @@ e_tasks_destroy (GtkObject *object)
 	g_free (config_filename);
 
 	if (priv->client) {
-#if 0
-		alarm_notify_remove_client (priv->client);
-#endif
 		gtk_object_unref (GTK_OBJECT (priv->client));
 		priv->client = NULL;
 	}

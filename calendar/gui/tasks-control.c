@@ -29,6 +29,7 @@
 #include <libgnome/gnome-util.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-util.h>
+#include "calendar-config.h"
 #include "e-tasks.h"
 #include "tasks-control.h"
 #include "evolution-shell-component-utils.h"

@@ -35,17 +35,18 @@
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
+#include <liboaf/liboaf.h>
 #include <gal/e-paned/e-hpaned.h>
 #include <gal/e-paned/e-vpaned.h>
 #include <cal-util/timeutil.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "widgets/misc/e-search-bar.h"
 #include "widgets/misc/e-filter-bar.h"
-#include "dialogs/alarm-notify-dialog.h"
 #include "dialogs/event-editor.h"
 #include "e-calendar-table.h"
 #include "e-day-view.h"
 #include "e-week-view.h"
+#include "evolution-calendar.h"
 #include "gnome-cal.h"
 #include "component-factory.h"
 #include "calendar-commands.h"
@@ -503,17 +504,11 @@ gnome_calendar_destroy (GtkObject *object)
 	g_free (filename);
 
 	if (priv->client) {
-#if 0
-		alarm_notify_remove_client (priv->client);
-#endif
 		gtk_object_unref (GTK_OBJECT (priv->client));
 		priv->client = NULL;
 	}
 
 	if (priv->task_pad_client) {
-#if 0
-		alarm_notify_remove_client (priv->task_pad_client);
-#endif
 		gtk_object_unref (GTK_OBJECT (priv->task_pad_client));
 		priv->task_pad_client = NULL;
 	}
@@ -1120,10 +1115,6 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
 			    GTK_SIGNAL_FUNC (obj_removed_cb), gcal);
 
-#if 0
-	alarm_notify_add_client (priv->client);
-#endif
-
 	e_day_view_set_cal_client (E_DAY_VIEW (priv->day_view),
 				   priv->client);
 	e_day_view_set_cal_client (E_DAY_VIEW (priv->work_week_view),
@@ -1143,13 +1134,8 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 	gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "cal_opened",
 			    GTK_SIGNAL_FUNC (cal_opened_cb), gcal);
 
-#if 0
-	alarm_notify_add_client (priv->task_pad_client);
-#endif
-
 	e_calendar_table_set_cal_client (E_CALENDAR_TABLE (priv->todo),
 					 priv->task_pad_client);
-
 
 	/* Get the default view to show. */
 	view_type = calendar_config_get_default_view ();
@@ -1220,6 +1206,56 @@ gnome_calendar_get_task_pad_cal_client (GnomeCalendar *gcal)
 	return priv->task_pad_client;
 }
 
+/* Adds the specified URI to the alarm notification service */
+static void
+add_alarms (const char *uri)
+{
+	CORBA_Environment ev;
+	GNOME_Evolution_Calendar_AlarmNotify an;
+
+	/* Activate the alarm notification service */
+
+	CORBA_exception_init (&ev);
+	an = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify", 0, NULL, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("add_alarms(): Could not activate the alarm notification service");
+		CORBA_exception_free (&ev);
+		return;
+	}
+	CORBA_exception_free (&ev);
+
+	/* Ask the service to load the URI */
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_AlarmNotify_addCalendar (an, uri, &ev);
+
+	if (ev._major == CORBA_USER_EXCEPTION) {
+		char *ex_id;
+
+		ex_id = CORBA_exception_id (&ev);
+		if (strcmp (ex_id, ex_GNOME_Evolution_Calendar_AlarmNotify_InvalidURI) == 0)
+			g_message ("add_calendar(): Invalid URI reported from the "
+				   "alarm notification service");
+		else if (strcmp (ex_id,
+				 ex_GNOME_Evolution_Calendar_AlarmNotify_BackendContactError) == 0)
+			g_message ("add_calendar(): The alarm notification service could "
+				   "not contact the backend");
+	} else if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("add_calendar(): Could not issue the addCalendar request");
+
+	CORBA_exception_free (&ev);
+
+	/* Get rid of the service */
+
+	CORBA_exception_init (&ev);
+	bonobo_object_release_unref (an, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("add_alarms(): Could not unref the alarm notification service");
+
+	CORBA_exception_free (&ev);
+}
+
 gboolean
 gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 {
@@ -1246,12 +1282,16 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 		return FALSE;
 	}
 
+	add_alarms (str_uri);
+
 	/* Open the appropriate Tasks folder to show in the TaskPad.
 	   Currently we just show the folder named "Tasks", but it will be
 	   a per-calendar option in future. */
 
 	tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
 	success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
+
+	add_alarms (tasks_uri);
 	g_free (tasks_uri);
 
 	if (!success) {
