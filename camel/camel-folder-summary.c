@@ -361,7 +361,8 @@ camel_folder_summary_array(CamelFolderSummary *s)
 {
 	CamelMessageInfo *info;
 	GPtrArray *res = g_ptr_array_new();
-
+	int i;
+	
 	CAMEL_SUMMARY_LOCK(s, ref_lock);
 	CAMEL_SUMMARY_LOCK(s, summary_lock);
 
