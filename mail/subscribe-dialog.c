@@ -952,7 +952,7 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 
 	gtk_object_sink (GTK_OBJECT (extras));
 
-	gtk_signal_connect (GTK_OBJECT (E_TABLE_SCROLLED (sc->store_etable)->table),
+	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table(E_TABLE_SCROLLED (sc->store_etable))),
 			    "cursor_change", GTK_SIGNAL_FUNC (storage_selected_cb),
 			    sc);
 
@@ -999,7 +999,7 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	gdk_pixbuf_unref(toggles[0]);
 	gdk_pixbuf_unref(toggles[1]);
 
-	gtk_signal_connect (GTK_OBJECT (E_TABLE_SCROLLED (sc->folder_etable)->table),
+	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table(E_TABLE_SCROLLED (sc->folder_etable))),
 			    "double_click", GTK_SIGNAL_FUNC (folder_toggle_cb),
 			    sc);
 	gtk_table_attach (

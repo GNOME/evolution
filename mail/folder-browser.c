@@ -723,14 +723,14 @@ my_folder_browser_init (GtkObject *object)
 	fb->message_list = (MessageList *)message_list_new ();
 	fb->mail_display = (MailDisplay *)mail_display_new ();
 	
-	gtk_signal_connect (GTK_OBJECT (fb->message_list->etable),
+	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table(E_TABLE_SCROLLED(fb->message_list->etable))),
 			    "key_press", GTK_SIGNAL_FUNC (etable_key), fb);
 
-	gtk_signal_connect (GTK_OBJECT (fb->message_list->etable), "right_click",
-			    GTK_SIGNAL_FUNC (on_right_click), fb);
+	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table(E_TABLE_SCROLLED(fb->message_list->etable))),
+			    "right_click", GTK_SIGNAL_FUNC (on_right_click), fb);
 	
-	gtk_signal_connect (GTK_OBJECT (fb->message_list->etable), "double_click",
-			    GTK_SIGNAL_FUNC (on_double_click), fb);
+	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table(E_TABLE_SCROLLED(fb->message_list->etable))),
+			    "double_click", GTK_SIGNAL_FUNC (on_double_click), fb);
 
 	gtk_signal_connect (GTK_OBJECT(fb->message_list), "message_selected",
 			    on_message_selected, fb);
