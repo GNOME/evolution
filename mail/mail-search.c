@@ -160,12 +160,14 @@ toggled_case_cb (GtkToggleButton *b, MailSearch *ms)
 	
 }
 
+#if 0
 static void
 toggled_fwd_cb (GtkToggleButton *b, MailSearch *ms)
 {
 	ms->search_forward = gtk_toggle_button_get_active (b);
 	gtk_html_engine_search_set_forward (ms->mail->html, ms->search_forward);
 }
+#endif
 
 static void
 dialog_clicked_cb (GtkWidget *w, gint button_number, MailSearch *ms)
@@ -268,7 +270,9 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	GtkWidget *entry;
 	GtkWidget *count_label;
 	GtkWidget *case_check;
+#if 0
 	GtkWidget *fwd_check;
+#endif
 
 	GtkWidget *msg_hbox;
 	GtkWidget *msg_frame;
@@ -312,7 +316,9 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	msg_frame   = gtk_frame_new (NULL);	
 
 	case_check  = gtk_check_button_new_with_label (_("Case Sensitive"));
+#if 0
 	fwd_check   = gtk_check_button_new_with_label (_("Search Forward"));
+#endif
 
 	ms->entry       = entry;
 	ms->count_label = count_label;
@@ -324,7 +330,9 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	else
 		mail_search_set_subject (ms, NULL);
 
+#if 0
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (fwd_check),  ms->search_forward);
+#endif
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (case_check), ms->case_sensitive);
 
   	gtk_box_pack_start (GTK_BOX (msg_hbox), GTK_WIDGET (msg_frame), FALSE, FALSE, 3);
@@ -337,7 +345,17 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	gtk_box_pack_start (GTK_BOX (matches_hbox), gtk_hbox_new (FALSE, 0), TRUE, TRUE, 0);
 
 	gtk_box_pack_start (GTK_BOX (toggles_hbox), case_check, FALSE, FALSE, 4);
+
+	/*
+	 * Disabling the forward/backward search button because there are problems with it
+	 * (related to how gtkhtml handles searches), the GUI freeze is upon us, and I
+	 * don't know if they'll get resolved for 1.0.  Hopefully getting this fixed can
+	 * be a 1.1 item.
+	 */
+
+#if 0
 	gtk_box_pack_start (GTK_BOX (toggles_hbox), fwd_check,  FALSE, FALSE, 4);
+#endif
 
 	gtk_box_pack_start (GTK_BOX (frame_vbox), find_hbox, TRUE, TRUE, 8);
   	gtk_box_pack_start (GTK_BOX (frame_vbox), matches_hbox, TRUE, TRUE, 0); 
@@ -364,10 +382,12 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 			    "toggled",
 			    GTK_SIGNAL_FUNC (toggled_case_cb),
 			    ms);
+#if 0
 	gtk_signal_connect (GTK_OBJECT (fwd_check),
 			    "toggled",
 			    GTK_SIGNAL_FUNC (toggled_fwd_cb),
 			    ms);
+#endif
 	gtk_signal_connect (GTK_OBJECT (ms),
 			    "clicked",
 			    GTK_SIGNAL_FUNC (dialog_clicked_cb),

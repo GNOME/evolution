@@ -1,3 +1,14 @@
+2001-08-13  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-search.c (mail_search_construct): Disable the "search
+	forward/backward" option in the search dialog.  Why?  Well, it
+	doesn't work properly (bug #4869), and the reason it doesn't work
+	is because of some scary stuff deep inside of gtkhtml that I don't
+	understand at all.  So since I'm paranoid, and since the GUI
+	freeze is tomorrow, and since it isn't really an important feature
+	at all, I'm #if 0-ing it out.  If the gtkhtml stuff gets sorted
+	out, we can slip it back in for 1.1.
+
 2001-08-13  Peter Williams  <peterw@ximian.com>
 
 	* component-factory.c (user_create_new_item_cb): New function,
