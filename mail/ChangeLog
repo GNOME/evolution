@@ -1,3 +1,10 @@
+2002-03-07  Radek Doulik  <rodo@ximian.com>
+
+	* mail-signature-editor.c (mail_signature_editor): set initial
+	focus to editor
+	(do_exit): use hasUndo to avoid question dialog when content is
+	unchanged
+
 2002-03-07  Dan Winship  <danw@ximian.com>
 
 	* component-factory.c (add_storage): Update for storage changes:

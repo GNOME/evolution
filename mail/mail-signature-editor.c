@@ -17,7 +17,8 @@ struct _ESignatureEditor {
 	
 	gchar *filename;
 	gboolean html;
-	gboolean has_changed;
+
+	GNOME_GtkHTML_Editor_Engine engine;
 };
 typedef struct _ESignatureEditor ESignatureEditor;
 
@@ -111,7 +112,10 @@ exit_dialog_cb (int reply, ESignatureEditor *editor)
 static void
 do_exit (ESignatureEditor *editor)
 {
-	if (editor->has_changed) {
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	if (GNOME_GtkHTML_Editor_Engine_hasUndo (editor->engine, &ev)) {
 		GtkWidget *dialog;
 		GtkWidget *label;
 		gint button;
@@ -133,6 +137,7 @@ do_exit (ESignatureEditor *editor)
 		exit_dialog_cb (button, editor);
 	} else
 		destroy_editor (editor);
+	CORBA_exception_free (&ev);
 }
 
 static int
@@ -224,6 +229,7 @@ load_signature (ESignatureEditor *editor)
 void
 mail_signature_editor (const gchar *filename, gboolean html)
 {
+	CORBA_Environment ev;
 	ESignatureEditor *editor;
 	BonoboUIComponent *component;
 	BonoboUIContainer *container;
@@ -236,7 +242,6 @@ mail_signature_editor (const gchar *filename, gboolean html)
 	
 	editor->html     = html;
 	editor->filename = g_strdup (filename);
-	editor->has_changed = TRUE;
 
 	title       = g_strdup_printf ("Edit %ssignature (%s)", html ? "HTML " : "", filename);
 	editor->win = bonobo_window_new ("e-sig-editor", title);
@@ -262,6 +267,9 @@ mail_signature_editor (const gchar *filename, gboolean html)
 		destroy_editor (editor);
 		return;
 	}
+
+	editor->engine = (GNOME_GtkHTML_Editor_Engine) bonobo_object_client_query_interface
+		(bonobo_widget_get_server (BONOBO_WIDGET (editor->control)), "IDL:GNOME/GtkHTML/Editor/Engine:1.0", NULL);
 	
 	load_signature (editor);
 
@@ -272,5 +280,8 @@ mail_signature_editor (const gchar *filename, gboolean html)
 	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", html, NULL);
 	gtk_widget_show (GTK_WIDGET (editor->win));
 	gtk_widget_show (GTK_WIDGET (editor->control));
-	gtk_widget_grab_focus (editor->control);
+
+	CORBA_exception_init (&ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (editor->engine, "grab-focus", &ev);
+	CORBA_exception_free (&ev);
 }
