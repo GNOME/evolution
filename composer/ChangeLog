@@ -1,3 +1,8 @@
+2003-08-13  Lorenzo Gil Sanchez  <lgs@sicem.biz>
+
+	* e-msg-composer-hdrs.c (account_removed_cb): fixed an insulting
+	error message.
+
 2003-07-31  Antonio Xu  <antonio.xu@sun.com>
 
 	* e-msg-composer.c (drag_data_received): add the drop type of
@@ -19,8 +24,8 @@
 
 2003-07-28  Antonio Xu <antonio.xu@sun.com>
 
-       * e-msg-composer-attachment-bar.c  (update): add
-       gdk_pixbuf_loader_close to close pix buffer loading.  [#45908]
+	* e-msg-composer-attachment-bar.c (update): add
+	gdk_pixbuf_loader_close to close pix buffer loading.  [#45908]
 
 2003-07-17  Michel DÃ¤nzer  <michel@daenzer.net>
 
