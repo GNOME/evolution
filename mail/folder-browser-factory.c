@@ -77,8 +77,7 @@ development_warning ()
 
 	warning_dialog = gnome_dialog_new (
 		"Evolution 0.0",
-		"I know what I'm doing,\nI want to lose mail!",
-		"I'll try it later",
+		GNOME_STOCK_OK,
 		NULL);
 
 	label = gtk_label_new (
