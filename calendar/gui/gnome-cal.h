@@ -24,6 +24,8 @@ BEGIN_GNOME_DECLS
 #define GNOME_CALENDAR_CLASS(class) GTK_CHECK_CAST_CLASS(class, gnome_calendar_get_type(), GnomeCalendarClass)
 #define GNOME_IS_CALENDAR(obj)      GTK_CHECK_TYPE(obj, gnome_calendar_get_type())
 
+#define GNOME_CALENDAR_NUM_VIEWS	4
+
 typedef struct {
 	GtkVBox      vbox;
 
@@ -47,6 +49,8 @@ typedef struct {
 	GtkWidget   *work_week_view;
 	GtkWidget   *week_view;
 	GtkWidget   *month_view;
+
+	GtkWidget   *view_toolbar_buttons[GNOME_CALENDAR_NUM_VIEWS];
 
 	void        *event_editor;
 

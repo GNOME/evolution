@@ -161,6 +161,8 @@ struct _EWeekView
 	GtkWidget *main_canvas;
 	GnomeCanvasItem *main_canvas_item;
 
+	GnomeCanvasItem *jump_buttons[E_WEEK_VIEW_MAX_WEEKS * 7];
+
 	GtkWidget *vscrollbar;
 
 	/* The calendar we are associated with. */
@@ -202,6 +204,9 @@ struct _EWeekView
 	/* The number of rows of events in each cell. */
 	gint rows_per_cell;
 	gint rows_per_compressed_cell;
+
+	/* The number of rows we have used for each day (i.e. each cell) */
+	gint rows_per_day[E_WEEK_VIEW_MAX_WEEKS * 7];
 
 	/* If the small font is used for displaying the minutes. */
 	gboolean use_small_font;

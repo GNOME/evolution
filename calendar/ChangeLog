@@ -1,3 +1,21 @@
+2000-06-17  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-week-view.c: added little buttons which are shown when there
+	are more events than will fit in a day. Clicking on the button takes
+	the user to the 1-Day view and shows the full day.
+
+	* gui/e-day-view.c: 
+	* gui/e-week-view.c: set the "use_ellipsis" arg to TRUE for the EText
+	items so we get tooltips automatically. Though we may want to use our
+	own code to show tooltips so we can show the tips when the mouse is
+	around the edges of the event box, and we may want to show the start
+	and end times of the event in full.
+
+	* gui/calendar-commands.c (calendar_control_activate): 
+	* gui/gnome-cal.h: added view_toolbar_buttons[] so we can access the
+	radio buttons in the code easily. We need this if we want to jump to
+	another view programmatically.
+
 2000-06-16  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/jump.xpm: new icon for the EWeekView to jump to the day.

@@ -594,7 +594,7 @@ calendar_control_activate (BonoboControl *control,
 	GnomeUIBuilderData uibdata;
 	BonoboUIHandler *uih = bonobo_control_get_ui_handler (control);
 	gchar *page_name;
-	gint button;
+	gint button, i;
 	g_assert (uih);
 
 	uibdata.connect_func = do_ui_signal_connect;
@@ -616,6 +616,9 @@ calendar_control_activate (BonoboControl *control,
 
 	/*gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));*/
 
+	for (i = 0; i < GNOME_CALENDAR_NUM_VIEWS; i++)
+		cal->view_toolbar_buttons[i] = gnome_toolbar_view_buttons[i].widget;
+
 	/* Note that these indices should correspond with the button indices
 	   in gnome_toolbar_view_buttons. */
 	page_name = gnome_calendar_get_current_view_name (cal);
@@ -634,7 +637,7 @@ calendar_control_activate (BonoboControl *control,
 		button = 0;
 	}
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gnome_toolbar_view_buttons[button].widget), TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cal->view_toolbar_buttons[i]), TRUE);
 
 	gtk_widget_show_all (toolbar);
 

@@ -29,6 +29,8 @@
 #include <config.h>
 #include <math.h>
 #include <gnome.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include "calendar-commands.h"
 #include "e-week-view.h"
 #include "e-week-view-event-item.h"
@@ -43,6 +45,8 @@
 #include "bell.xpm"
 #include "recur.xpm"
 
+#include "jump.xpm"
+
 #define E_WEEK_VIEW_SMALL_FONT	\
 	"-adobe-utopia-regular-r-normal-*-*-100-*-*-p-*-iso8859-*"
 #define E_WEEK_VIEW_SMALL_FONT_FALLBACK	\
@@ -52,6 +56,12 @@
    maximum number or rows we can allow is 127. It is very unlikely to be
    reached anyway. */
 #define E_WEEK_VIEW_MAX_ROWS_PER_CELL	127
+
+#define E_WEEK_VIEW_JUMP_BUTTON_WIDTH	16
+#define E_WEEK_VIEW_JUMP_BUTTON_HEIGHT	8
+
+#define E_WEEK_VIEW_JUMP_BUTTON_X_PAD	3
+#define E_WEEK_VIEW_JUMP_BUTTON_Y_PAD	3
 
 static void e_week_view_class_init (EWeekViewClass *class);
 static void e_week_view_init (EWeekView *week_view);
@@ -138,6 +148,9 @@ static void e_week_view_foreach_event_with_uid (EWeekView *week_view,
 static gboolean e_week_view_on_text_item_event (GnomeCanvasItem *item,
 						GdkEvent *event,
 						EWeekView *week_view);
+static gboolean e_week_view_on_jump_button_event (GnomeCanvasItem *item,
+						  GdkEvent *event,
+						  EWeekView *week_view);
 static gint e_week_view_key_press (GtkWidget *widget, GdkEventKey *event);
 static void e_week_view_on_new_appointment (GtkWidget *widget,
 					    gpointer data);
@@ -218,6 +231,8 @@ e_week_view_init (EWeekView *week_view)
 	gint nfailed;
 	GnomeCanvasGroup *canvas_group;
 	GtkObject *adjustment;
+	GdkPixbuf *pixbuf;
+	gint i;
 
 	GTK_WIDGET_SET_FLAGS (week_view, GTK_CAN_FOCUS);
 
@@ -328,6 +343,23 @@ e_week_view_init (EWeekView *week_view)
 				  "motion_notify_event",
 				  GTK_SIGNAL_FUNC (e_week_view_on_motion),
 				  week_view);
+
+	/* Create the buttons to jump to each days. */
+	pixbuf = gdk_pixbuf_new_from_xpm_data ((const char**) jump_xpm);
+
+	for (i = 0; i < E_WEEK_VIEW_MAX_WEEKS * 7; i++) {
+		week_view->jump_buttons[i] = gnome_canvas_item_new
+			(canvas_group,
+			 gnome_canvas_pixbuf_get_type (),
+			 "GnomeCanvasPixbuf::pixbuf", pixbuf,
+			 NULL);
+
+		gtk_signal_connect (GTK_OBJECT (week_view->jump_buttons[i]),
+				    "event",
+				    GTK_SIGNAL_FUNC (e_week_view_on_jump_button_event),
+				    week_view);
+	}
+
 
 	/*
 	 * Scrollbar.
@@ -1634,7 +1666,7 @@ e_week_view_layout_events (EWeekView *week_view)
 {
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
-	gint event_num, span_num;
+	gint num_days, day, event_num, span_num;
 	guint8 *grid;
 	GArray *spans, *old_spans;
 
@@ -1647,6 +1679,12 @@ e_week_view_layout_events (EWeekView *week_view)
 
 	/* We create a new array of spans, which will replace the old one. */
 	spans = g_array_new (FALSE, FALSE, sizeof (EWeekViewEventSpan));
+
+	/* Clear the number of rows used per day. */
+	num_days = week_view->display_month ? E_WEEK_VIEW_MAX_WEEKS * 7 : 7;
+	for (day = 0; day <= num_days; day++) {
+		week_view->rows_per_day[day] = 0;
+	}
 
 	/* Iterate over the events, finding which weeks they cover, and putting
 	   them in the first free row available. */
@@ -1736,6 +1774,7 @@ e_week_view_layout_event (EWeekView	   *week_view,
 			for (day = span_start_day; day <= span_end_day;
 			     day++) {
 				grid[day * rows_per_cell + free_row] = 1;
+				week_view->rows_per_day[day] = MAX (week_view->rows_per_day[day], free_row + 1);
 			}
 #if 0
 			g_print ("  Span start:%i end:%i row:%i\n",
@@ -1811,6 +1850,8 @@ e_week_view_reshape_events (EWeekView *week_view)
 {
 	EWeekViewEvent *event;
 	gint event_num, span_num;
+	gint num_days, day, day_x, day_y, day_w, day_h, max_rows;
+	gboolean is_weekend;
 
 	for (event_num = 0; event_num < week_view->events->len; event_num++) {
 		event = &g_array_index (week_view->events, EWeekViewEvent,
@@ -1819,6 +1860,42 @@ e_week_view_reshape_events (EWeekView *week_view)
 			e_week_view_reshape_event_span (week_view, event_num,
 							span_num);
 		}
+	}
+
+	/* Reshape the jump buttons and show/hide them as appropriate. */
+	num_days = week_view->display_month ? E_WEEK_VIEW_MAX_WEEKS * 7 : 7;
+	for (day = 0; day < num_days; day++) {
+
+		is_weekend = (day % 7 >= 5) ? TRUE : FALSE;
+		if (!is_weekend || (week_view->display_month
+				    && !week_view->compress_weekend))
+			max_rows = week_view->rows_per_cell;
+		else
+			max_rows = week_view->rows_per_compressed_cell;
+
+		g_print ("rows in the day:%i max rows:%i\n",
+			 week_view->rows_per_day[day], max_rows);
+
+		/* Determine whether the jump button should be shown. */
+		if (week_view->rows_per_day[day] <= max_rows) {
+			gnome_canvas_item_hide (week_view->jump_buttons[day]);
+		} else {
+			e_week_view_get_day_position (week_view, day,
+						      &day_x, &day_y,
+						      &day_w, &day_h);
+
+			gnome_canvas_item_set (week_view->jump_buttons[day],
+					       "GnomeCanvasPixbuf::x", (gdouble) (day_x + day_w - E_WEEK_VIEW_JUMP_BUTTON_X_PAD - E_WEEK_VIEW_JUMP_BUTTON_WIDTH),
+					       "GnomeCanvasPixbuf::y", (gdouble) (day_y + day_h - E_WEEK_VIEW_JUMP_BUTTON_Y_PAD - E_WEEK_VIEW_JUMP_BUTTON_HEIGHT),
+					       NULL);
+
+			gnome_canvas_item_show (week_view->jump_buttons[day]);
+			gnome_canvas_item_raise_to_top (week_view->jump_buttons[day]);
+		}
+	}
+
+	for (day = num_days; day < E_WEEK_VIEW_MAX_WEEKS * 7; day++) {
+		gnome_canvas_item_hide (week_view->jump_buttons[day]);
 	}
 }
 
@@ -1902,6 +1979,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 #endif
 					       "editable", TRUE,
 					       "text", ico->summary ? ico->summary : "",
+					       "use_ellipsis", TRUE,
 					       NULL);
 		gtk_signal_connect (GTK_OBJECT (span->text_item), "event",
 				    GTK_SIGNAL_FUNC (e_week_view_on_text_item_event),
@@ -2724,4 +2802,29 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 
 	gnome_calendar_update_object (week_view->calendar, new_ico);
 	ical_object_unref (new_ico);
+}
+
+
+static gboolean
+e_week_view_on_jump_button_event (GnomeCanvasItem *item,
+				  GdkEvent *event,
+				  EWeekView *week_view)
+{
+	gint day;
+
+	if (event->type == GDK_BUTTON_PRESS) {
+		for (day = 0; day < E_WEEK_VIEW_MAX_WEEKS * 7; day++) {
+			if (item == week_view->jump_buttons[day]) {
+				gnome_calendar_dayjump (week_view->calendar,
+							week_view->day_starts[day]);
+				/* A quick hack to make the 'Day' toolbar
+				   button active. */
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (week_view->calendar->view_toolbar_buttons[0]), TRUE);
+				return TRUE;
+			}
+		}
+
+	}
+
+	return FALSE;
 }
