@@ -96,6 +96,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 		if (!fmt)
 			return response;
 
+		camel_imap_folder_selected (folder, response, ex);
 		camel_imap_response_free (response);
 	}
 

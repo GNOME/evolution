@@ -207,6 +207,78 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 	return folder;
 }
 
+/* Called with the store's command_lock locked */
+void
+camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
+			    CamelException *ex)
+{
+	unsigned long exists, val, uid;
+	CamelMessageInfo *info;
+	int i, count;
+	char *resp;
+
+	for (i = 0; i < response->untagged->len; i++) {
+		resp = response->untagged->pdata[i] + 2;
+
+		exists = strtoul (resp, &resp, 10);
+		if (!g_strncasecmp (resp, " EXISTS", 7))
+			break;
+	}
+	if (i == response->untagged->len) {
+		g_warning ("Server response did not include EXISTS info");
+		return;
+	}
+
+	count = camel_folder_summary_count (folder->summary);
+
+	/* If we've lost messages, we have to rescan everything */
+	if (exists < count) {
+		imap_rescan (folder, count, ex);
+		return;
+	}
+
+	/* Similarly, if the UID of the highest message we know about
+	 * has changed, then that indicates that messages have been
+	 * both added and removed, so we have to rescan to find the
+	 * removed ones. (We pass NULL for the folder since we know
+	 * that this folder is selected, and we don't want
+	 * camel_imap_command to worry about it.)
+	 */
+	response = camel_imap_command (CAMEL_IMAP_STORE (folder->parent_store),
+				       NULL, ex, "FETCH %d UID", count);
+	if (!response)
+		return;
+	uid = 0;
+	for (i = 0; i < response->untagged->len; i++) {
+		resp = response->untagged->pdata[i];
+		val = strtoul (resp + 2, &resp, 10);
+		if (val != count || g_strncasecmp (resp, " FETCH (", 8) != 0)
+			continue;
+		resp = e_strstrcase (resp, "UID ");
+		if (!resp)
+			continue;
+		uid = strtoul (resp + 4, NULL, 10);
+		break;
+	}
+	camel_imap_response_free (response);
+
+	info = camel_folder_summary_index (folder->summary, count - 1);
+	val = strtoul (camel_message_info_uid (info), NULL, 10);
+	camel_folder_summary_info_free (folder->summary, info);
+	if (uid == 0 || uid != val) {
+		imap_rescan (folder, exists, ex);
+		return;
+	}
+
+	/* OK. So now we know that no messages have been expunged. Whew.
+	 * Now see if messages have been added.
+	 */
+	if (exists > count)
+		camel_imap_folder_changed (folder, exists, NULL, ex);
+
+	/* And we're done. */
+}	
+
 static void           
 imap_finalize (CamelObject *object)
 {
@@ -224,9 +296,12 @@ imap_finalize (CamelObject *object)
 static void
 imap_refresh_info (CamelFolder *folder, CamelException *ex)
 {
+	CAMEL_IMAP_STORE_LOCK (folder->parent_store, command_lock);
 	imap_rescan (folder, camel_folder_summary_count (folder->summary), ex);
+	CAMEL_IMAP_STORE_UNLOCK (folder->parent_store, command_lock);
 }
 
+/* Called with the store's command_lock locked */
 static void
 imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 {
@@ -245,11 +320,9 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 
 	/* Get UIDs and flags of all messages. */
 	if (exists > 0) {
-		CAMEL_IMAP_STORE_LOCK(store, command_lock);
 		response = camel_imap_command (store, folder, ex,
 					       "FETCH 1:%d (UID FLAGS)",
 					       exists);
-		CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
 		if (!response)
 			return;
 
@@ -570,6 +643,7 @@ imap_protocol_get_summary_specifier (CamelImapStore *store)
 				headers_wanted, sect_end);
 }
 
+/* Called with the store's command_lock locked */
 static void
 imap_update_summary (CamelFolder *folder, int first, int last,
 		     CamelFolderChangeInfo *changes, CamelException *ex)
@@ -583,7 +657,7 @@ imap_update_summary (CamelFolder *folder, int first, int last,
 	int i;
 
 	summary_specifier = imap_protocol_get_summary_specifier (store);
-	CAMEL_IMAP_STORE_LOCK(store, command_lock);
+	/* We already have the command lock */
 	if (first == last) {
 		response = camel_imap_command (store, folder, ex,
 					       "FETCH %d (%s)", first,
@@ -593,7 +667,6 @@ imap_update_summary (CamelFolder *folder, int first, int last,
 					       "FETCH %d:%d (%s)", first,
 					       last, summary_specifier);
 	}
-	CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
 	g_free (summary_specifier);
 
 	if (!response)
@@ -708,6 +781,7 @@ imap_search_free (CamelFolder *folder, GPtrArray *uids)
 	CAMEL_IMAP_FOLDER_UNLOCK(folder, search_lock);
 }
 
+/* Called with the store's command_lock locked */
 void
 camel_imap_folder_changed (CamelFolder *folder, int exists,
 			   GArray *expunged, CamelException *ex)

@@ -1,5 +1,15 @@
 2001-01-11  Dan Winship  <danw@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_selected):
+	New function to check for added/deleted messages when re-selecting
+	a folder.
+	(imap_refresh_info, imap_rescan, imap_update_summary): Various
+	locking tweaks that turn out to be irrelevant since command_lock
+	is recursive, but whatever.
+
+	* providers/imap/camel-imap-command.c (camel_imap_command): When
+	selecting a new folder, call camel_imap_folder_selected on it.
+
 	* camel-folder.c (camel_folder_copy_message_to): Fix a locking
 	problem. (One branch of an if statement was returning with the
 	lock still locked.) Also remove the deprecation comments, to match

@@ -66,6 +66,10 @@ CamelFolder *camel_imap_folder_new (CamelStore *parent,
 				    const char *summary_file,
 				    CamelException *ex);
 
+void camel_imap_folder_selected (CamelFolder *folder,
+				 CamelImapResponse *response,
+				 CamelException *ex);
+
 void camel_imap_folder_changed (CamelFolder *folder, int exists,
 				GArray *expunged, CamelException *ex);
 
