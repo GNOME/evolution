@@ -97,6 +97,16 @@ typedef struct oe_msg_segmentheader oe_msg_segmentheader;
 static void
 process_item_fn(EvolutionImporter *eimporter, CORBA_Object listener, void *data, CORBA_Environment *ev)
 {
+	GNOME_Evolution_ImporterListener_ImporterResult result;
+#if 0
+	if (camel_exception_is_set(importer->ex))
+		result = GNOME_Evolution_ImporterListener_BAD_FILE;
+	else
+#endif
+		result = GNOME_Evolution_ImporterListener_OK;
+
+	GNOME_Evolution_ImporterListener_notifyResult(listener, result, FALSE, ev);
+	bonobo_object_unref(BONOBO_OBJECT(eimporter));
 }
 
 
@@ -240,7 +250,7 @@ outlook_importer_new(void)
 	OutlookImporter *oli;
 
 	oli = g_new0 (OutlookImporter, 1);
-
+	oli->status_lock = g_mutex_new();
 	importer = evolution_importer_new (NULL, support_format_fn, load_file_fn, process_item_fn, NULL, oli);
 	g_object_weak_ref((GObject *)importer, importer_destroy_cb, oli);
 

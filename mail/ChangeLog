@@ -1,3 +1,15 @@
+2004-03-05  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #55096.
+
+	* importers/evolution-mbox-importer.c (process_item_fn): hack,
+	unref when complete
+
+	* importers/evolution-outlook-importer.c (outlook_importer_new):
+	init status lock.
+	(process_item_fn): hack, unref ourselves when we're complete.  i
+	think the shell leaks the ref.
+
 2004-03-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-view.c (emfv_popup): If event == NULL, don't try to

@@ -96,6 +96,7 @@ process_item_fn(EvolutionImporter *eimporter, CORBA_Object listener, void *data,
 		result = GNOME_Evolution_ImporterListener_OK;
 
 	GNOME_Evolution_ImporterListener_notifyResult(listener, result, FALSE, ev);
+	bonobo_object_unref(BONOBO_OBJECT(eimporter));
 }
 
 static void
