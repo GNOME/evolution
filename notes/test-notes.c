@@ -24,8 +24,8 @@ main (gint argc, gchar **argv)
 
 	note = e_note_new ();
 	e_note_set_text (E_NOTE (note), "This is a text note widget");
-	gtk_signal_connect (GTK_OBJECT (note), "changed",
-			    GTK_SIGNAL_FUNC (text_changed), NULL);
+	g_signal_connect((note), "changed",
+			    G_CALLBACK (text_changed), NULL);
 	
 	gtk_widget_show (note);
 	gtk_main ();

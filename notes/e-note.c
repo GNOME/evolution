@@ -181,7 +181,7 @@ e_note_canvas_size_allocate (GtkWidget *widget, GtkAllocation *allocation, gpoin
 	gnome_canvas_item_set (note->priv->text_item,
 			       "width", (gdouble) allocation->width - 10,
 			       NULL);
-	gtk_object_get (GTK_OBJECT (note->priv->text_item),
+	g_object_get((note->priv->text_item),
 			"height", &height,
 			NULL);
 	height = MAX (height, allocation->height);
@@ -223,7 +223,7 @@ e_note_class_init (ENoteClass *klass)
 	
 	object_class = (GtkObjectClass *)klass;
 	widget_class = (GtkWidgetClass *)klass;
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 	
 	widget_class->realize = e_note_realize;
 
@@ -231,7 +231,7 @@ e_note_class_init (ENoteClass *klass)
 		gtk_signal_new ("changed",
 				GTK_RUN_LAST,
 				object_class->type,
-				GTK_SIGNAL_OFFSET (ENoteClass, text_changed),
+				G_STRUCT_OFFSET (ENoteClass, text_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
@@ -256,8 +256,8 @@ e_note_init (ENote *note)
 	gtk_widget_pop_visual ();
 	gtk_widget_pop_colormap ();
 	
-	gtk_signal_connect (GTK_OBJECT (priv->canvas), "size_allocate",
-			    GTK_SIGNAL_FUNC (e_note_canvas_size_allocate), note);
+	g_signal_connect((priv->canvas), "size_allocate",
+			    G_CALLBACK (e_note_canvas_size_allocate), note);
 	gtk_widget_show (priv->canvas);
 	gtk_container_add (GTK_CONTAINER (note), priv->canvas);
 
@@ -292,16 +292,16 @@ e_note_init (ENote *note)
 	e_canvas_item_move_absolute(priv->text_item,
 				    5.0, 25.0);
 
-	gtk_signal_connect (GTK_OBJECT (E_TEXT (priv->text_item)->model), "changed",
-			    GTK_SIGNAL_FUNC (e_note_text_changed), note);
+	g_signal_connect((E_TEXT (priv->text_item)->model), "changed",
+			    G_CALLBACK (e_note_text_changed), note);
 					
 	button = e_bevel_button_new ();
-	gtk_signal_connect (GTK_OBJECT (button), "button_press_event",
-			    GTK_SIGNAL_FUNC (e_note_move_button_changed), note);
-	gtk_signal_connect (GTK_OBJECT (button), "button_release_event",
-			    GTK_SIGNAL_FUNC (e_note_move_button_changed), note);
-	gtk_signal_connect (GTK_OBJECT (button), "motion_notify_event",
-			    GTK_SIGNAL_FUNC (e_note_move_motion_event), note);
+	g_signal_connect((button), "button_press_event",
+			    G_CALLBACK (e_note_move_button_changed), note);
+	g_signal_connect((button), "button_release_event",
+			    G_CALLBACK (e_note_move_button_changed), note);
+	g_signal_connect((button), "motion_notify_event",
+			    G_CALLBACK (e_note_move_motion_event), note);
 	gtk_widget_show (button);
 	priv->move_button = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (priv->canvas)), 
   						   gnome_canvas_widget_get_type (), 
@@ -323,12 +323,12 @@ e_note_init (ENote *note)
 						    NULL);
 
 	button = e_bevel_button_new ();
-	gtk_signal_connect (GTK_OBJECT (button), "button_press_event",
-			    GTK_SIGNAL_FUNC (e_note_resize_button_changed), note);
-	gtk_signal_connect (GTK_OBJECT (button), "button_release_event",
-			    GTK_SIGNAL_FUNC (e_note_resize_button_changed), note);
-	gtk_signal_connect (GTK_OBJECT (button), "motion_notify_event",
-			    GTK_SIGNAL_FUNC (e_note_resize_motion_event), note);	
+	g_signal_connect((button), "button_press_event",
+			    G_CALLBACK (e_note_resize_button_changed), note);
+	g_signal_connect((button), "button_release_event",
+			    G_CALLBACK (e_note_resize_button_changed), note);
+	g_signal_connect((button), "motion_notify_event",
+			    G_CALLBACK (e_note_resize_motion_event), note);	
 	gtk_widget_show (button);
 	priv->resize_button = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (priv->canvas)),
 						     gnome_canvas_widget_get_type (),
@@ -361,7 +361,7 @@ e_note_get_text (ENote *note)
 	g_return_val_if_fail (E_IS_NOTE (note), NULL);
 	g_return_val_if_fail (text != NULL, NULL);
 
-	gtk_object_get (GTK_OBJECT (note->priv->text_item),
+	g_object_get((note->priv->text_item),
 			"text", &text,
 			NULL);
 

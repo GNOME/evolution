@@ -97,7 +97,7 @@ create_view (EvolutionShellComponent *shell_component,
 	control = notes_factory_new_control ();
 
 #ifdef THIS_CODE_IS_TOTALY_DEAD
-	gtk_signal_connect (GTK_OBJECT (control), "activate",
+	g_signal_connect((control), "activate",
 			    control_activate_cb, NULL);
 #endif
 	
@@ -128,10 +128,10 @@ notes_component_factory (BonoboGenericFactory *factory,
 
 	shell_component = evolution_shell_component_new (folder_types, create_view, NULL);
 
-	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
-			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
-			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
+	g_signal_connect((shell_component), "owner_set",
+			    G_CALLBACK (owner_set_cb), NULL);
+	g_signal_connect((shell_component), "owner_unset",
+			    G_CALLBACK (owner_unset_cb), NULL);
 	
 	return BONOBO_OBJECT (shell_component);
 }
@@ -148,7 +148,7 @@ component_factory_init (void)
 	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, notes_component_factory, NULL);
 
 	if (factory == NULL) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("Cannot initialize Evolution's notes component."));
 		exit (1);
 	}

@@ -26,7 +26,7 @@ static void
 init_bonobo (void)
 {
 	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("Notes Component: Could not initialize bonobo"));
 		exit (1);
 	}

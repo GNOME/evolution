@@ -131,7 +131,7 @@ e_bevel_button_class_init (EBevelButtonClass *klass)
 
 	widget_class = (GtkWidgetClass *)klass;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 	
 	widget_class->draw = e_bevel_button_draw;
 	widget_class->expose_event = e_bevel_button_expose;

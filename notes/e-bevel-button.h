@@ -9,10 +9,10 @@
 #include <gtk/gtkbutton.h>
 
 #define E_TYPE_BEVEL_BUTTON            (e_bevel_button_get_type ())
-#define E_BEVEL_BUTTON(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_BEVEL_BUTTON, EBevelButton))
-#define E_BEVEL_BUTTON_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_BEVEL_BUTTON, EBevelButtonClass))
-#define E_IS_BEVEL_BUTTON(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_BEVEL_BUTTON))
-#define E_IS_BEVEL_BUTTON_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_BEVEL_BUTTON))
+#define E_BEVEL_BUTTON(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_BEVEL_BUTTON, EBevelButton))
+#define E_BEVEL_BUTTON_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_BEVEL_BUTTON, EBevelButtonClass))
+#define E_IS_BEVEL_BUTTON(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_BEVEL_BUTTON))
+#define E_IS_BEVEL_BUTTON_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_BEVEL_BUTTON))
 
 typedef struct _EBevelButton        EBevelButton;
 typedef struct _EBevelButtonPrivate EBevelButtonPrivate;
