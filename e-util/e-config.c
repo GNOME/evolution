@@ -363,7 +363,7 @@ ec_druid_prev(GnomeDruidPage *page, GnomeDruid *druid, struct _widget_node *wn)
 	d(printf("prev page from '%s'\n", wn->item->path));
 	if (wn->prev) {
 		for (wn = wn->prev;wn->prev;wn=wn->prev) {
-			if (!wn->empty
+			if (!wn->empty && wn->frame != NULL
 			    && (wn->item->type == E_CONFIG_PAGE
 				|| wn->item->type == E_CONFIG_PAGE_START
 				|| wn->item->type == E_CONFIG_PAGE_FINISH))
@@ -391,7 +391,7 @@ ec_druid_next(GnomeDruidPage *page, GnomeDruid *druid, struct _widget_node *wn)
 	d(printf("next page from '%s'\n", wn->item->path));
 	if (wn->next) {
 		for (wn = wn->next;wn->next;wn=wn->next) {
-			if (!wn->empty
+			if (!wn->empty && wn->frame != NULL
 			    && (wn->item->type == E_CONFIG_PAGE
 				|| wn->item->type == E_CONFIG_PAGE_START
 				|| wn->item->type == E_CONFIG_PAGE_FINISH))
@@ -434,6 +434,7 @@ ec_rebuild(EConfig *emp)
 
 		/* If the last section doesn't contain anything, hide it */
 		if (sectionnode != NULL
+		    && sectionnode->frame != NULL
 		    && (item->type == E_CONFIG_PAGE_START
 			|| item->type == E_CONFIG_PAGE_FINISH
 			|| item->type == E_CONFIG_PAGE
@@ -449,6 +450,7 @@ ec_rebuild(EConfig *emp)
 
 		/* If the last page doesn't contain anything, hide it */
 		if (pagenode != NULL
+		    && pagenode->frame != NULL
 		    && (item->type == E_CONFIG_PAGE_START
 			|| item->type == E_CONFIG_PAGE_FINISH
 			|| item->type == E_CONFIG_PAGE)) {
@@ -486,6 +488,7 @@ ec_rebuild(EConfig *emp)
 					gtk_widget_show(book);
 				} else if (item->type == E_CONFIG_DRUID) {
 					root = druid = gnome_druid_new();
+					gtk_widget_show(druid);
 				} else
 					abort();
 
@@ -573,6 +576,8 @@ ec_rebuild(EConfig *emp)
 						wn->frame = page;
 				} else {
 					wn->frame = page;
+					if (page)
+						gtk_notebook_reorder_child((GtkNotebook *)book, page, pageno);
 				}
 				if (page)
 					sectionno = 1;
@@ -616,6 +621,8 @@ ec_rebuild(EConfig *emp)
 			section = NULL;
 			sectionnode = NULL;
 			wn->widget = page;
+			if (page)
+				g_signal_connect(page, "destroy", G_CALLBACK(gtk_widget_destroyed), &wn->widget);
 			break; }
 		case E_CONFIG_SECTION:
 		case E_CONFIG_SECTION_TABLE:
@@ -623,8 +630,10 @@ ec_rebuild(EConfig *emp)
 			   the parent vbox object.  Even for druid
 			   pages. */
 			if (page == NULL) {
-				g_warning("EConfig section '%s' has no parent page", item->path);
+				/*g_warning("EConfig section '%s' has no parent page", item->path);*/
 				section = NULL;
+				wn->widget = NULL;
+				wn->frame = NULL;
 				goto nopage;
 			}
 
@@ -690,6 +699,8 @@ ec_rebuild(EConfig *emp)
 
 			sectionno++;
 			wn->widget = section;
+			if (section)
+				g_signal_connect(section, "destroy", G_CALLBACK(gtk_widget_destroyed), &wn->widget);
 			sectionnode = wn;
 			break;
 		case E_CONFIG_ITEM:
@@ -702,9 +713,11 @@ ec_rebuild(EConfig *emp)
 			   The type depends on the section type,
 			   either a GtkTable, or a GtkVBox */
 			w = NULL;
-			if (section == NULL)
+			if (section == NULL) {
+				wn->widget = NULL;
+				wn->frame = NULL;
 				g_warning("EConfig item has no parent section: %s", item->path);
-			else if ((item->type == E_CONFIG_ITEM && !GTK_IS_BOX(section))
+			} else if ((item->type == E_CONFIG_ITEM && !GTK_IS_BOX(section))
 				 || (item->type == E_CONFIG_ITEM_TABLE && !GTK_IS_TABLE(section)))
 				g_warning("EConfig item parent type is incorrect: %s", item->path);
 			else if (item->factory)
@@ -718,14 +731,16 @@ ec_rebuild(EConfig *emp)
 			}
 
 			wn->widget = w;
-			if (w)
+			if (w) {
+				g_signal_connect(w, "destroy", G_CALLBACK(gtk_widget_destroyed), &wn->widget);
 				itemno++;
+			}
 			break;
 		}
 	}
 
 	/* If the last section doesn't contain anything, hide it */
-	if (sectionnode != NULL) {
+	if (sectionnode != NULL && sectionnode->frame != NULL) {
 		if ( (sectionnode->empty = itemno == 0) ) {
 			gtk_widget_hide(sectionnode->frame);
 			sectionno--;
@@ -735,7 +750,7 @@ ec_rebuild(EConfig *emp)
 	}
 
 	/* If the last page doesn't contain anything, hide it */
-	if (pagenode != NULL) {
+	if (pagenode != NULL && pagenode->frame != NULL) {
 		if ( (pagenode->empty = sectionno == 0) ) {
 			gtk_widget_hide(pagenode->frame);
 			pageno--;
@@ -927,8 +942,10 @@ void e_config_target_changed(EConfig *emp, e_config_target_change_t how)
 		ec_rebuild(emp);
 
 	if (emp->type == E_CONFIG_DRUID) {
-		if (emp->priv->druid_page)
+		if (emp->priv->druid_page) {
+			gnome_druid_set_page((GnomeDruid *)emp->widget, (GnomeDruidPage *)emp->priv->druid_page->frame);
 			ec_druid_check_current(emp);
+		}
 	} else {
 		if (emp->window) {
 			if (e_config_page_check(emp, NULL)) {

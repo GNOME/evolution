@@ -1,3 +1,15 @@
+2005-02-10  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #61363 & mail/ChangeLog
+
+	* e-config.c (ec_rebuild): work properly if the page factory
+	returns NULL, so the code can selectivly turn off pages.
+	(ec_druid_next, ec_druid_prev): skip non-created pages.
+
+	* e-config.c (ec_rebuild): re-order notebook child properly.
+	Connect to destroy events so we update the widget-node widget
+	pointer properly for linked ui reconfigures.
+
 2005-02-17  Not Zed  <NotZed@Ximian.com>
 
 	* e-popup.c (ep_prune_tree, ep_build_tree, e_popup_create_menu):
