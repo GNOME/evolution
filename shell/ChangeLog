@@ -1,3 +1,13 @@
+2002-09-24  Dan Winship  <danw@ximian.com>
+
+	* e-shell.c (folder_selection_dialog_folder_selected_cb): Don't
+	destroy the dialog. It does that itself whenever it emits
+	folder_selected.
+
+	* e-shell-folder-selection-dialog.c (double_click_cb): Don't close
+	the dialog if the user double-clicks a bad folder. Just ignore it
+	(like we do when they click OK on a bad folder).
+
 2002-09-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	[#14019]

@@ -325,9 +325,9 @@ double_click_cb (EStorageSetView *essv,
 		gtk_signal_emit (GTK_OBJECT (folder_selection_dialog),
 				 signals[FOLDER_SELECTED],
 				 e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog));
-	}
 
-	gnome_dialog_close (GNOME_DIALOG (folder_selection_dialog));
+		gnome_dialog_close (GNOME_DIALOG (folder_selection_dialog));
+	}
 }
 
 

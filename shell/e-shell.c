@@ -289,8 +289,6 @@ folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_
 	g_free (corba_folder.evolutionUri);
 
 	CORBA_exception_free (&ev);
-
-	gtk_widget_destroy (GTK_WIDGET (folder_selection_dialog));
 }
 
 
