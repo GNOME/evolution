@@ -1,3 +1,10 @@
+2004-05-20  Not Zed  <NotZed@Ximian.com>
+
+	* providers/nntp/camel-nntp-folder.c (nntp_folder_get_message):
+	oops, poke the right uid to get the article number.
+	(nntp_folder_cache_message): & here too.  Somehow fixes #58700,
+	but i don't know why.
+
 2004-05-19  Not Zed  <NotZed@Ximian.com>
 
 	* camel-folder.c (transfer_message_to): copy the messageinfo
