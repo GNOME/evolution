@@ -1,5 +1,13 @@
 1999-04-23  bertrand <Bertrand.Guiheneuf@inria.fr>
 
+	* camel/url-util.[ch]:
+	Utility functions to parse URLs.
+	Stolen shamelessly from gzilla (www.gzilla.com)
+	written by Raph Levien <raph@acm.org>
+	
+	* camel/Makefile.am: added url-util.[ch]
+	compilation.
+
 	* Makefile.am (SUBDIRS): removed devel-docs
 	until I come up with a correct Makefile.am
 

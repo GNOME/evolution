@@ -16,14 +16,16 @@ libcamel_la_SOURCES = 				\
 	camel-folder.c				\
 	camel-service.c				\
 	camel-store.c				\
-	gstring-util.c
+	gstring-util.c				\
+	url-util.c
 
 libcamelinclude_HEADERS =			\
 	camel-log.h				\
 	camel-folder.h				\
 	camel-service.h				\
 	camel-store.h				\
-	gstring-util.h
+	gstring-util.h			\
+	url-util.h
 
 
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
