@@ -396,7 +396,7 @@ gboolean
 camel_search_header_match (const char *value, const char *match, camel_search_match_t how, camel_search_t type, const char *default_charset)
 {
 	const char *name, *addr;
-	int truth = FALSE;
+	int truth = FALSE, i;
 	CamelInternetAddress *cia;
 	char *v;
 
@@ -425,11 +425,9 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 		else
 			camel_address_unformat((CamelAddress *)cia, value);
 
-		if (camel_address_length((CamelAddress *)cia) == 1) {
-			camel_internet_address_get(cia, 0, &name, &addr);
-			truth = (name && header_match(name, match, how))
-				|| (addr && header_match(addr, match, how));
-		}
+		for (i=; !truth && camel_internet_address_get(cia, i, &name, &addr);i++)
+			truth = (name && header_match(name, match, how)) || (addr && header_match(addr, match, how));
+
 		camel_object_unref((CamelObject *)cia);
 		break;
 	}
