@@ -1,3 +1,8 @@
+2004-01-05  Rodrigo Moya <rodrigo@ximian.com>
+
+	* providers/groupwise/camel-groupwise-provider.c (groupwise_url_hash,
+	groupwise_url_equal): renamed from imap_*.
+
 2004-01-05  Not Zed  <NotZed@Ximian.com>
 
 	* camel-tcp-stream-raw.c (socket_connect): check the right return

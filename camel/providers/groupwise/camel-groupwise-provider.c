@@ -38,9 +38,9 @@
 #include "camel-sasl.h"
 
 static void add_hash (guint *hash, char *s);
-static guint imap_url_hash (gconstpointer key);
+static guint groupwise_url_hash (gconstpointer key);
 static gint check_equal (char *s1, char *s2);
-static gint imap_url_equal (gconstpointer a, gconstpointer b);
+static gint groupwise_url_equal (gconstpointer a, gconstpointer b);
 
 CamelProviderConfEntry groupwise_conf_entries[] = {
 	/* override the labels/defaults of the standard settings */
@@ -115,8 +115,8 @@ camel_provider_module_init (CamelSession *session)
 
 	groupwise_provider.object_types[CAMEL_PROVIDER_STORE] = camel_imap_store_get_type ();
 	groupwise_provider.object_types[CAMEL_PROVIDER_TRANSPORT] = camel_smtp_transport_get_type ();
-	groupwise_provider.url_hash = imap_url_hash;
-	groupwise_provider.url_equal = imap_url_equal;
+	groupwise_provider.url_hash = groupwise_url_hash;
+	groupwise_provider.url_equal = groupwise_url_equal;
 	groupwise_provider.authtypes = g_list_prepend (groupwise_provider.authtypes,
 						  &camel_groupwise_password_authtype);
 
@@ -131,7 +131,7 @@ add_hash (guint *hash, char *s)
 }
 
 static guint
-imap_url_hash (gconstpointer key)
+groupwise_url_hash (gconstpointer key)
 {
 	const CamelURL *u = (CamelURL *)key;
 	guint hash = 0;
@@ -161,7 +161,7 @@ check_equal (char *s1, char *s2)
 }
 
 static gint
-imap_url_equal (gconstpointer a, gconstpointer b)
+groupwise_url_equal (gconstpointer a, gconstpointer b)
 {
 	const CamelURL *u1 = a, *u2 = b;
 	
