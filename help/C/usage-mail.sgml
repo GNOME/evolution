@@ -1957,7 +1957,7 @@
       </para>
 
 	<example> 
-         <title>Sending an Encrypted Messagee</title>
+         <title>Sending an Encrypted Message</title>
 	  <para>
 	    Kevin wants to send an encrypted message to his friend
 	    Rachel.  He looks up her public key on a general key
@@ -1972,7 +1972,8 @@
       <tip id="always-sign">
 	<title>Always Sign</title>
 	<para>
-	  You can set <application>Evolution</application> to always sign your email messages:
+	  You can set <application>Evolution</application> to always
+	  sign your email messages:
 	  <orderedlist numeration="arabic">
 	    <listitem>
 	      <para>
@@ -1986,7 +1987,8 @@
 	    </listitem>
 	    <listitem>
 	      <para>
-		Click the <guibutton>Always sign outgoing messages when using this account</guibutton> button.
+		Click the <guibutton>Always sign outgoing messages
+		when using this account</guibutton> button.
 	      </para>
 	    </listitem>
 	  </orderedlist>
@@ -2026,7 +2028,7 @@
 	  <listitem>
       	   <para>
             Choose a key length. The default, 1024 bits, should be
-            long enough.
+            long enough.  Some say that 2048 should be used.
 	  </para>
          </listitem>
 

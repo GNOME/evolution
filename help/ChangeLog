@@ -1,3 +1,7 @@
+2002-03-25  Kevin Breit  <mrproper@ximian.com>
+
+	* C/usage-mail.sgml: Added mention that 2048 maybe recommended by some people.  Fixed a typo.
+
 2002-03-23  Kevin Breit  <mrproper@ximian.com>
 
 	* C/usage-print.sgml: I fixed a typo which caused the documentation to not build.
