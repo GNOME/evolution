@@ -636,7 +636,7 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 			       TRUE, md->html, md->stream);
 	
 	mail_html_write (md->html, md->stream,
-			 "</table></td></tr></table></td></tr></table></font></center><p>");
+			 "</table></td></tr></table></td></tr></table></font>");
 }
 
 

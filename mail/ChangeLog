@@ -1,3 +1,7 @@
+2001-01-09  Radek Doulik  <rodo@helixcode.com>
+
+	* mail-format.c (write_headers): remove </center><p>
+
 2001-01-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-accounts.c (mail_default): Write the config data and reload
