@@ -76,15 +76,39 @@ typedef struct {
 	EBook *book;
 
 	Bonobo_ConfigDatabase db;
+
+	/* GUI */
+	GtkWidget *dialog;
+	GtkWidget *label;
+	GtkWidget *progressbar;
 } PineImporter;
 
 typedef struct {
 	char *parent;
 	char *foldername;
 	char *path;
+	gboolean folder;
 } PineFolder;
 
 static void import_next (PineImporter *importer);
+
+static GtkWidget *
+create_importer_gui (PineImporter *importer)
+{
+	GtkWidget *dialog;
+
+	dialog = gnome_message_box_new (_("Evolution is importer your old Pine data"), GNOME_MESSAGE_BOX_INFO, NULL);
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Importing..."));
+
+	importer->label = gtk_label_new (_("Please wait"));
+	importer->progressbar = gtk_progress_bar_new ();
+	gtk_progress_set_activity_mode (GTK_PROGRESS (importer->progressbar), TRUE);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
+			    importer->label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
+			    importer->progressbar, FALSE, FALSE, 0);
+	return dialog;
+}
 
 static void
 pine_store_settings (PineImporter *importer)
@@ -364,6 +388,16 @@ importer_cb (EvolutionImporterListener *listener,
 	}
 
 	if (more_items) {
+		GtkAdjustment *adj;
+		float newval;
+
+		adj = GTK_PROGRESS (importer->progressbar)->adjustment;
+		newval = adj->value + 1;
+		if (newval > adj->upper) {
+			newval = adj->lower;
+		}
+
+		gtk_progress_set_value (GTK_PROGRESS (importer->progressbar), newval);
 		CORBA_exception_init (&ev);
 		objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
 		GNOME_Evolution_Importer_processItem (importer->importer,
@@ -391,13 +425,22 @@ importer_cb (EvolutionImporterListener *listener,
 static gboolean
 pine_import_file (PineImporter *importer,
 		  const char *path,
-		  const char *folderpath)
+		  const char *folderpath,
+		  gboolean folder)
 {
 	CORBA_boolean result;
 	CORBA_Environment ev;
 	CORBA_Object objref;
+	char *str;
 
 	CORBA_exception_init (&ev);
+
+	str = g_strdup_printf (_("Importing %s as %s"), path, folderpath);
+	gtk_label_set_text (GTK_LABEL (importer->label), str);
+	g_free (str);
+	while (gtk_events_pending ()) {
+		gtk_main_iteration ();
+	}
 	result = GNOME_Evolution_Importer_loadFile (importer->importer, path,
 						    folderpath, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION || result == FALSE) {
@@ -467,7 +510,24 @@ import_next (PineImporter *importer)
 		data = importer->dir_list->data;
 
 		folder = g_concat_dir_and_file (data->parent, data->foldername);
-		pine_import_file (importer, data->path, folder);
+#if 0
+		while (pine_import_file (importer, data->path, folder, data->folder) == FALSE) {
+			g_free (folder);
+			g_free (data->parent);
+			g_free (data->path);
+			g_free (data->foldername);
+			g_free (data);
+			importer->dir_list = importer->dir_list->next;
+
+			if (importer->dir_list == NULL) {
+				break;
+			}
+
+			data = importer->dir_list->data;
+			folder = g_concat_dir_and_file (data->parent, data->foldername);
+		}
+#endif
+		pine_import_file (importer, data->path, folder, data->folder);
 		g_free (folder);
 		g_free (data->parent);
 		g_free (data->path);
@@ -499,6 +559,7 @@ scan_dir (PineImporter *importer,
 	DIR *maildir;
 	struct stat buf;
 	struct dirent *current;
+	char *str;
 	
 	maildir = opendir (dirname);
 	if (maildir == NULL) {
@@ -507,6 +568,14 @@ scan_dir (PineImporter *importer,
 		return;
 	}
 	
+	str = g_strdup_printf (_("Scanning %s"), dirname);
+	gtk_label_set_text (GTK_LABEL (importer->label), str);
+	g_free (str);
+
+	while (gtk_events_pending ()) {
+		gtk_main_iteration ();
+	}
+
 	current = readdir (maildir);
 	while (current) {
 		PineFolder *pf;
@@ -541,15 +610,17 @@ scan_dir (PineImporter *importer,
 			pf->path = g_strdup (fullname);
 			pf->parent = g_strdup (orig_parent);
 			pf->foldername = g_strdup (foldername);
+			pf->folder = FALSE;
 			importer->dir_list = g_list_append (importer->dir_list, pf);
 		} else if (S_ISDIR (buf.st_mode)) {
 			char *subdir;
 
 			pf = g_new (PineFolder, 1);
-			pf->path = NULL;
+			pf->path = g_strdup (fullname);
 			pf->parent = g_strdup (orig_parent);
 			pf->foldername = g_strdup (foldername);
-/*  			importer->dir_list = g_list_append (importer->dir_list, pf); */
+			pf->folder = TRUE;
+  			importer->dir_list = g_list_append (importer->dir_list, pf);
 
 			subdir = g_concat_dir_and_file (orig_parent, foldername);
 			scan_dir (importer, fullname, subdir);
@@ -573,6 +644,13 @@ pine_create_structure (EvolutionIntelligentImporter *ii,
 	bonobo_object_ref (BONOBO_OBJECT (ii));
 	pine_store_settings (importer);
 
+	/* Create a dialog */
+	importer->dialog = create_importer_gui (importer);
+	gtk_widget_show_all (importer->dialog);
+	while (gtk_events_pending ()) {
+		gtk_main_iteration ();
+	}
+
 	if (importer->do_address == TRUE) {
 		bonobo_config_set_boolean (importer->db, 
                 "/Importer/Pine/address-imported", TRUE, NULL);
@@ -585,6 +663,12 @@ pine_create_structure (EvolutionIntelligentImporter *ii,
                 "/Importer/Pine/mail-imported", TRUE, NULL);
 
 		maildir = gnome_util_prepend_user_home ("mail");
+		gtk_label_set_text (GTK_LABEL (importer->label),
+				    _("Scanning directory"));
+		while (gtk_events_pending ()) {
+			gtk_main_iteration ();
+		}
+
 		scan_dir (importer, maildir, "/");
 		g_free (maildir);
 

@@ -1,3 +1,21 @@
+2001-08-29  Iain Holmes  <iain@ximian.com>
+
+	* e-local-storage.c (notify_listener): Function to create CORBAany
+	and notify listeners.
+	(component_async_create_folder_callback): Notify the listener again.
+	(create_folder): Handle the Bonobo_Listener again and make it async.
+	(impl_async_create_folder): Pass CORBA_OBJECT_NIL as the listener.
+	(bonobo_interface_create_folder_cb): Make async.
+
+	* evolution-storage.c (notify_bonobo_listener): Removed this broken
+	broken function.
+	(impl_Storage_async_create_folder): Make async, duplicate the listener
+	instead of notifying it.
+	(impl_Storage_async_remove_folder): Notify listener by hand.
+	(e_marshal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER): Return of the
+	worst signal marshaller in Scotland.
+	(class_init): Use the above marshaller for the create_folder signal.
+
 2001-08-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-shell-folder-creation-dialog.c (entry_name_is_valid): Check

@@ -43,7 +43,7 @@
 
 #include "e-util/e-path.h"
 
-#define IMPORTER_DEBUG
+/*  #define IMPORTER_DEBUG */
 #ifdef IMPORTER_DEBUG
 #define IN g_print ("=====> %s (%d)\n", __FUNCTION__, __LINE__)
 #define OUT g_print ("<==== %s (%d)\n", __FUNCTION__, __LINE__)
@@ -60,6 +60,7 @@ typedef struct {
 	char *filename;
 	int num;
 	CamelMimeParser *mp;
+	gboolean is_folder;
 } MboxImporter;
 
 void mail_importer_module_init (void);
@@ -77,6 +78,20 @@ process_item_fn (EvolutionImporter *eimporter,
 	gboolean done = FALSE;
 	CamelException *ex;
 
+	if (importer->folder == NULL) {
+		GNOME_Evolution_ImporterListener_notifyResult (listener,
+							       GNOME_Evolution_ImporterListener_NOT_READY,
+							       TRUE, ev);
+		return;
+	}
+
+	if (mbi->is_folder == TRUE) {
+		GNOME_Evolution_ImporterListener_notifyResult (listener,
+							       GNOME_Evolution_ImporterListener_OK,
+							       FALSE, ev);
+		return;
+	}
+		
 	ex = camel_exception_new ();
 	if (camel_mime_parser_step (mbi->mp, 0, 0) == HSCAN_FROM) {
 		/* Import the next message */
@@ -117,7 +132,6 @@ process_item_fn (EvolutionImporter *eimporter,
 	}
 
 	camel_exception_free (ex);
-	g_print ("Notifying...\n");
 	GNOME_Evolution_ImporterListener_notifyResult (listener,
 						       GNOME_Evolution_ImporterListener_OK,
 						       !done, ev);
@@ -200,7 +214,6 @@ folder_created_cb (BonoboListener *listener,
 		return;
 	}
 
-	g_warning ("%s created", fullpath);
 	g_free (fullpath);
 	bonobo_object_unref (BONOBO_OBJECT (listener));
 }
@@ -213,9 +226,10 @@ load_file_fn (EvolutionImporter *eimporter,
 {
 	MboxImporter *mbi;
 	MailImporter *importer;
+	gboolean delayed = FALSE;
+	struct stat buf;
 	int fd;
 
-	g_warning ("%s", __FUNCTION__);
 	mbi = (MboxImporter *) closure;
 	importer = (MailImporter *) mbi;
 
@@ -227,11 +241,17 @@ load_file_fn (EvolutionImporter *eimporter,
 		return FALSE;
 	}
 
-	mbi->mp = camel_mime_parser_new ();
-	camel_mime_parser_scan_from (mbi->mp, TRUE);
-	if (camel_mime_parser_init_with_fd (mbi->mp, fd) == -1) {
-		g_warning ("Unable to process spool folder");
-		goto fail;
+	fstat (fd, &buf);
+	if (S_ISREG (buf.st_mode)) {
+		mbi->mp = camel_mime_parser_new ();
+		camel_mime_parser_scan_from (mbi->mp, TRUE);
+		if (camel_mime_parser_init_with_fd (mbi->mp, fd) == -1) {
+			g_warning ("Unable to process spool folder");
+			goto fail;
+		}
+		mbi->is_folder = FALSE;
+	} else {
+		mbi->is_folder = TRUE;
 	}
 
 	importer->mstream = NULL;
@@ -268,21 +288,26 @@ load_file_fn (EvolutionImporter *eimporter,
 					    importer);
 			
 			mail_importer_create_folder (parent, name, NULL, listener);
+			camel_exception_free (ex);
+			ex = camel_exception_new ();
+			importer->folder = mail_tool_uri_to_folder (fullpath, ex);
+			delayed = TRUE;
 			g_free (parent);
 		}
 		camel_exception_free (ex);
 		g_free (fullpath);
 	}
 
-	if (importer->folder == NULL){
+	if (importer->folder == NULL && delayed == FALSE){
 		g_print ("Bad folder\n");
 		goto fail;
 	}
 
-	camel_folder_freeze (importer->folder);
-	importer->frozen = TRUE;
+	if (importer->folder != NULL) { 
+		camel_folder_freeze (importer->folder);
+		importer->frozen = TRUE;
+	}
 
-	g_warning ("Okay, so everything is now ready to import that mbox file!");
 	return TRUE;
 
  fail:

@@ -1,3 +1,18 @@
+2001-08-30  Iain Holmes  <iain@ximian.com>
+
+	* importer/evolution-mbox-importer.c: (load_file_fn): Check if it's a
+	folder, if so, create a folder.
+	(process_item_fn): If it was a folder created, just finish up importing
+
+2001-08-29  Iain Holmes  <iain@ximian.com>
+
+	* importers/evolution-mbox-importer.c: Turn off debugging, remove
+	spewage.
+	(process_item_fn): Notify the importer if the folder isn't opened or
+	created yet.
+	(load_file_fn): Allow the function to continue if the folder is being
+	created.
+
 2001-08-30  Peter Williams  <peterw@ximian.com>
 
 	Due to the introduction of mail_folder_cache_remove(), we can no

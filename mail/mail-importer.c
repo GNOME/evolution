@@ -84,8 +84,10 @@ mail_importer_create_folder (const char *parent_path,
 				    parent_path);
 
 	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
+
 	/* Darn CORBA wanting non-NULL values for strings */
 	real_description = CORBA_string_dup (description ? description : "");
+
 	
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Storage_asyncCreateFolder (local_storage, 

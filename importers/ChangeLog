@@ -1,3 +1,9 @@
+2001-08-30  Iain Holmes  <iain@ximian.com>
+
+	* pine-importer.c (create_importer_gui): Add a messagebox.
+	(importer_cb): Update GUI
+	(pine_import_file): Upidate gui.
+
 2001-08-29  Iain Holmes  <iain@ximian.com>
 
 	* netscape-importer.c (importer_cb): Handle the case if the importer
