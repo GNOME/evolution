@@ -1,3 +1,37 @@
+2002-03-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #20234, Deleting Folder gratuitiously causes /local to open.]
+
+	* e-shell-view.c (find_inbox_in_storage): New helper function to
+	heuristically find an Inbox folder.
+	(handle_current_folder_removed): New function to handle the
+	removal of the currently displayed folder in a slightly smarter
+	way than before.  It tries to display the parent folder of the
+	folder that got deleted and, if not possible, the Inbox in the
+	same storage.  If neither of this is possible, it displays the
+	default local Inbox.  [It still doesn't handle the case where you
+	have no Inbox gracefully, but that can come later.]
+	(storage_set_removed_folder_callback): Call
+	`handle_current_folder_removed'.
+
+2002-03-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #20237, Shell silently drops xfer_folder errors.]
+
+	* e-shell-folder-commands.c (xfer_result_callback): Display an
+	error message if the operation failed.
+
+2002-03-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	[This gets rid of some spurious "could not find handler" messages
+	on exit.  What happened is that the signal would be disconnected
+	twice, once by cleanup_delayed_selection() and once by the
+	while_alive handler.]
+
+	* e-shell-view.c (destroy): Call cleanup_delayed_selection() here.
+	(e_shell_view_display_uri): Use gtk_signal_connect_full(), not
+	e_gtk_signal_connect_full_while_alive().
+
 2002-02-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #20311, new window from Shortcuts should not show the folder

@@ -33,8 +33,7 @@
 #include <ctype.h>
 
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
+#include <libgnome/libgnome.h>
 #include <libgnomeui/gnome-window.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnomeui/gnome-app.h>
@@ -44,6 +43,7 @@
 
 #include <gal/e-paned/e-hpaned.h>
 #include <gal/util/e-util.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-scroll-frame.h>
@@ -161,6 +161,10 @@ static guint signals[LAST_SIGNAL] = { 0 };
 #define DEFAULT_HEIGHT 550
 
 #define SET_FOLDER_DELAY 250
+
+/* URI to display when the currently displayed folder is removed from the
+   storage.  */
+#define FALLBACK_URI "evolution:/local/Inbox"
 
 
 /* The icons for the offline/online status.  */
@@ -311,6 +315,126 @@ setup_verb_sensitivity_for_folder (EShellView *shell_view,
 }
 
 
+/* This implements the behavior for when the folder which is currently displayed
+   gets deleted.  */
+
+/* Find the path for an Inbox in the specified storage.  This is not really
+   100% correct, but should work for most cases.  */
+static char *
+find_inbox_in_storage (EShellView *shell_view,
+		       const char *storage_name)
+{
+	EShellViewPrivate *priv;
+	EStorageSet *storage_set;
+	EStorage *storage;
+	GList *subfolder_paths;
+	GList *p;
+
+	priv = shell_view->priv;
+	storage_set = e_shell_get_storage_set (priv->shell);
+	storage = e_storage_set_get_storage (storage_set, storage_name);
+
+	subfolder_paths = e_storage_get_subfolder_paths (storage, "/");
+	for (p = subfolder_paths; p != NULL; p = p->next) {
+		const char *path;
+
+		path = (const char *) p->data;
+		if (g_utf8_strcasecmp (path, "/inbox") == 0
+		    || g_utf8_strcasecmp (path + 1, U_("Inbox")) == 0) {
+			char *return_path;
+
+			return_path = g_strconcat ("/", storage_name, "/", path,
+						   NULL);
+			e_free_string_list (subfolder_paths);
+			return return_path;
+		}
+	}
+
+	e_free_string_list (subfolder_paths);
+
+	return NULL;
+}
+
+static void
+handle_current_folder_removed (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+	const char *current_path;
+	const char *p;
+	char *new_path;
+
+	/* Note: we assume that priv->uri is an evolution: URI.  */
+
+	priv = shell_view->priv;
+
+	current_path = priv->uri + E_SHELL_URI_PREFIX_LEN;
+
+	g_assert (*current_path == G_DIR_SEPARATOR);
+
+	new_path = NULL;
+
+	/* If we have a parent folder (not a parent storage), try to display
+	   that one.  */
+
+	p = strrchr (current_path + 1, G_DIR_SEPARATOR);
+	if (p != NULL && p[1] != '\0' && strchr (current_path + 1, G_DIR_SEPARATOR) != p) {
+		new_path = g_strndup (current_path, p - current_path);
+	} else {
+		/* We don't have a parent folder, so try to see if there is an
+		   Inbox folder in the same storage.  */
+
+		/* Extract the storage name.  */
+		p = strchr (current_path + 1, G_DIR_SEPARATOR);
+		if (p == NULL) {
+			/* The URL points itself to a storage, so just redirect
+			   to the default case.  */
+			new_path = NULL;
+		} else {
+			char *storage_name;
+
+			storage_name = g_strndup (current_path + 1, p - current_path - 1);
+
+			new_path = find_inbox_in_storage (shell_view, storage_name);
+			if (new_path == NULL) {
+				char *storage_uri;
+
+				/* No Inbox in this storage -- fallback to the storage.  */
+				storage_uri = g_strconcat (E_SHELL_URI_PREFIX, storage_name, NULL);
+				e_shell_view_display_uri (shell_view, storage_uri);
+
+				g_free (storage_uri);
+				g_free (storage_name);
+				return;
+			}
+
+			g_free (storage_name);
+		}
+	}
+
+	if (new_path == NULL) {
+		e_shell_view_display_uri (shell_view, FALLBACK_URI);
+	} else {
+		EFolder *folder;
+
+		/* Check that the folder we have chosen exists; if it doesn't,
+		   we just use the fallback URI.  */
+
+		folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), new_path);
+		if (folder == NULL) {
+			e_shell_view_display_uri (shell_view, FALLBACK_URI);
+		} else {
+			char *new_uri;
+
+			new_uri = g_strconcat (E_SHELL_URI_PREFIX, new_path, NULL);
+			e_shell_view_display_uri (shell_view, new_uri);
+			g_free (new_uri);
+		}
+
+		g_free (new_path);
+	}
+}
+
+
 /* Callbacks for the EStorageSet.  */
 
 static void
@@ -345,9 +469,10 @@ storage_set_removed_folder_callback (EStorageSet *storage_set,
 
 	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), view->control);
 
+	/* Check if it's the URI that we are currently displaying.  */
 	if (strncmp (priv->uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0
 	    && strcmp (priv->uri + E_SHELL_URI_PREFIX_LEN, path) == 0) {
-		e_shell_view_display_uri (shell_view, "evolution:/local/Inbox");
+		handle_current_folder_removed (shell_view);
 	}
 
 	bonobo_control_frame_control_deactivate (BONOBO_CONTROL_FRAME (bonobo_widget_get_control_frame (BONOBO_WIDGET (view->control))));
@@ -1096,6 +1221,10 @@ destroy (GtkObject *object)
 
 	shell_view = E_SHELL_VIEW (object);
 	priv = shell_view->priv;
+
+	/* This is necessary to remove the signal handler for folder_new on the
+	   storage set used for the delayed selection mechanism.  */
+	cleanup_delayed_selection (shell_view);
 
 	gtk_object_unref (GTK_OBJECT (priv->tooltips));
 
@@ -2023,11 +2152,9 @@ e_shell_view_display_uri (EShellView *shell_view,
 	} else if (! create_new_view_for_uri (shell_view, uri)) {
 		cleanup_delayed_selection (shell_view);
 		priv->delayed_selection = g_strdup (uri);
-		e_gtk_signal_connect_full_while_alive (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "new_folder",
-						       GTK_SIGNAL_FUNC (new_folder_cb), NULL,
-						       shell_view, NULL,
-						       FALSE, TRUE,
-						       GTK_OBJECT (shell_view));
+		gtk_signal_connect_full (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
+					 "new_folder", GTK_SIGNAL_FUNC (new_folder_cb), NULL,
+					 shell_view, NULL, FALSE, TRUE);
 		retval = FALSE;
 		goto end;
 	}
