@@ -1,3 +1,7 @@
+2003-07-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-crypto.c: Removed smime functions as they were stale.
+
 2003-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-browser.c (message_browser_new): Handle our own Delete
