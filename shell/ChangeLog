@@ -1,3 +1,10 @@
+2002-04-22  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-storage.c (evolution_storage_update_folder,
+	evolution_storage_removed_folder): We are successful when ev.major
+	== CORBA_NO_EXCEPTION, not the other way around.  For 'the shell
+	code is solid' #23538.
+
 2002-04-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #22047, Crash after running the start-up wizard.]
