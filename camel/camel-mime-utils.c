@@ -3354,10 +3354,11 @@ header_fold(const char *in, int headerlen)
 	while (*p) {
 		n = strchr(p, '\n');
 		if (n == NULL) {
-			n = p+strlen(p);
-		} else {
-			needunfold = TRUE;
+			len += strlen (p);
+			break;
 		}
+
+		needunfold = TRUE;
 		len += n-p;
 		
 		if (len >= CAMEL_FOLD_SIZE)
