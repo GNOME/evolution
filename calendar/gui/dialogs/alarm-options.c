@@ -35,6 +35,7 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-widget.h>
+#include <libgnomeui/gnome-file-entry.h>
 #include <glade/glade.h>
 #include <ebook/e-destination.h>
 #include "Evolution-Addressbook-SelectNames.h"
@@ -461,13 +462,18 @@ alarm_to_repeat_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 	e_dialog_option_menu_set (dialog->repeat_unit, units, duration_units_map);
 }
 
+
 /* Fills the widgets with the values from the alarm component */
 static void
 alarm_to_dialog (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	CalAlarmAction action;
+	GnomeFileEntry *file_entry;
 
 	alarm_to_repeat_widgets (dialog, alarm);
+
+	file_entry = glade_xml_get_widget (dialog->xml, "file-entry1");
+	gnome_file_entry_set_modal (file_entry, TRUE);
 
 	cal_component_alarm_get_action (alarm, &action);
 
