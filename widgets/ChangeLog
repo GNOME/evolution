@@ -1,3 +1,8 @@
+2000-11-05  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-paned/.cvsignore, e-table/.cvsignore, e-text/.cvsignore:
+	Removed unnecessary .cvsignore files.
+
 2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Removed directories that have been moved to gal.
