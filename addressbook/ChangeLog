@@ -1,3 +1,36 @@
+2004-04-14  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook.c: rip out tons of functions - they
+	all live in addressbook-view.c now.  the only thing left in this
+	file is the addressbook_load* calls that do authentication.
+
+	* gui/component/addressbook.h: remove prototypes for
+	addressbook_new_control and addressbook_load_uri (it was #if 0'ed
+	anyway.)
+
+	* gui/component/addressbook-component.h: remove prototypes for
+	_peek_activity_handler and _peek_source_list.
+
+	* gui/component/addressbook-component.c: rip out tons of functions
+	- they all live in addressbook-view.c now.
+	(impl_createControls): simplify this immensely.  we just create an
+	AddressbookView and get the various widgets/controls from it.
+	(impl_requestCreateItem): this function loses slightly - it needs
+	per-window info (the selected source) but there's no way to get
+	it.  So we load the default book.  Also, this uses a synchronous
+	e_book call to load the book, which is not good.
+	(addressbook_component_peek_source_list): nuke, not used by
+	anything anyway.
+	(addressbook_component_peek_activity_handler): nuked, not used by
+	anything - and it's per-window anyway.
+
+	* gui/component/Makefile.am (libevolution_addressbook_la_SOURCES):
+	add addressbook-view.[ch].
+
+	* gui/component/addressbook-view.[ch]: rip out all of the per
+	window stuff from addressbook.[ch] and addressbook-component.[ch]
+	and put it here.
+
 2004-04-13  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/eab-contact-display.c (accum_address): disable the

@@ -35,6 +35,8 @@ libevolution_addressbook_la_SOURCES = 	\
 	autocompletion-config.h		\
 	addressbook.c			\
 	addressbook.h			\
+	addressbook-view.c		\
+	addressbook-view.h		\
 	component-factory.c
 
 #	$(top_builddir)/addressbook/printing/libecontactprint.la
