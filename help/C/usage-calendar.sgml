@@ -219,25 +219,15 @@
     <sect2 id="usage-calendar-apts-group">
       <title>Appointments for Groups</title>
       <para>
-	If you have your calendar set up to work with other
-	calendars over a network, you can see when others are
-	available to meet with you. 
-      </para>
-      <note>
-	<title>Unimplemented Feature</title>
-	<para>This feature is not yet implemented.</para>
-      </note>
-
-      <para>
-	In addition, you can use <application>Evolution</application>
-	to mark a meeting request on another person's calendar.  To do
-	it, click <guibutton>New</guibutton> in the calendar toolbar,
-	or select <menuchoice> <guimenu>File</guimenu>
+	You can use <application>Evolution</application> to mark a
+	meeting request on another person's calendar.  To do it, click
+	<guibutton>New</guibutton> in the calendar toolbar, or select
+	<menuchoice> <guimenu>File</guimenu>
 	<guisubmenu>New</guisubmenu>
 	<guimenuitem>Appointment</guimenuitem> </menuchoice> to bring
-	up the <interface>new appointment</interface> window.  Then describe
-	the appointment as you would any other.  Before you click
-	<guibutton>OK</guibutton>, (INSERT DESCRIPTION HERE...).
+	up the <interface>new appointment</interface> window.  Then
+	describe the appointment as you would any other. When you are
+	ready to send the invitation <guibutton>OK</guibutton>
 	<application>Evolution</application> will automatically send
 	email to each person on the request list, notifying of the
 	time and date of the meeting you have requested with them.  In
@@ -253,6 +243,18 @@
 	window, click the "tentative" button to De-select the
 	appointment.
       </para>
+      <para>
+        When your meeting attendees get the email inviting them to the
+        meeting, they'll be able to enter the information into their
+        calendars and let you know if they'll be able to attend; if
+        they use <application>Ximian Evolution</application> or
+        another iCal compliant mail client, they can do this with just
+        one click. When you get a response from them, it will include
+        an iCal attachment. Opening and accepting this attachment will
+        change the meeting data in your calendar to indicate that they
+        have responded to your invitation, and whether they will be in
+        attendance.
+     </para>
     </sect2>
 
 

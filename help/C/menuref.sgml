@@ -150,7 +150,20 @@
         mouse:
          <variablelist>
 
-          <varlistentry>
+  
+        <varlistentry>
+	    <term>Send and Receive Mail</term>
+	    <listitem>
+	      <para>
+                Press <keycap>F9</keycap>, click the
+                <guibutton>Send/Receive</guibutton> button in the
+                toolbar, or choose
+                <menuchoice><guimenu>Actions</guimenu> 
+                 <guimenuitem>Send/Receive</guimenuitem></menuchoice>.
+                </para>
+	    </listitem>
+	  </varlistentry>
+        <varlistentry>
 	    <term>Navigating the Message List with the Keyboard</term>
 	    <listitem>
 	      <para>

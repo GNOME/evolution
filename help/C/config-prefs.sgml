@@ -132,6 +132,21 @@
              connection.  To turn SSL connections on, just click the
              <guibutton>Use Secure Connection (SSL)</guibutton>
              button.
+
+<note id="config-arbitrary-port">
+<title>Specifying Port Numbers</title>
+<para>
+Your system administrator may ask you to connect to a specific port on
+a mail server. To specify which port you use, just type a colon and
+the port number after the server name. For example, to connect to port
+143 on the server smtp.omniport.com, you would enter
+as
+<userinput>
+smtp.omniport.com:143
+</userinput> as the server name.
+</para>
+</note>
+
 	  </para>
 	  </listitem>
 	  </varlistentry>

@@ -1,3 +1,21 @@
+2001-09-19  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-calendar.sgml: more meetings-by-mail additions. Had no
+	idea this needed so much work.
+
+	* C/usage-mail.sgml: Added info about meetings-by-mail.
+	
+	* C/menuref.sgml: added F9 instructions.
+
+	* C/config-prefs.sgml: added info on how to connect to an arbitrary port.
+
+	* C/usage-mail.sgml: Revised gnome-vfs-http-proxy info.
+
+	* C/usage-exec-summary.sgml: added gnome-vfs-http-proxy
+	info. Almost the same as the stuff in usage-mail.
+
+	* C/usage-mail-org.sgml: removed regex item.
+
 2001-09-18  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-mail.sgml: Added a tip about the always encrypt button.

@@ -422,8 +422,10 @@
            If you use an HTTP proxy,
            <application>Evolution</application> must be able to find
            it through the <systemitem>gnome-vfs</systemitem> subsystem
-           before it can load images from the Internet.  You can set
-           this in one of two ways:
+           before it can load images from the Internet.  This is also
+           the case if you wish to access weather and news information
+           through the Summary tool. You can tell the GNOME Virtual
+           File System about your HTTP proxy in one of two ways:
             <variablelist>
 	    <varlistentry>
 	      <term>Configure it with Nautilus</term>
@@ -753,9 +755,6 @@
            with the quoted material as shown in <xref
            linkend="usage-mail-getnsend-reply-fig">.
 
-<!-- note that this figure should have a reply message ready to send,
-with quoted materials and the relevant replies interspersed-->
-<!-- I want to wait for the formatting bugs to be fixed first -->
  <!-- ==============Figure=================================== -->
        <figure id="usage-mail-getnsend-reply-fig">
          <title>Reply Message Window</title>
@@ -1536,17 +1535,68 @@ with quoted materials and the relevant replies interspersed-->
   <sect1 id="rsvp-stuff">
     <title>RSVPs in Mail</title>
     <para>
-      If an event is created in the calendar component, an attendee list can be used to invite users to the event.  The invite card is sent as an attachment in iCal format.
+      If you create an event in the calendar component, you can then
+      send invitations to the attendee list through the
+      <application>Ximian Evolution</application> email tool.  The
+      invitation card is sent as an attachment in iCal format.
     </para>
     <para>
-      If you click on the attachment button and click the  <guibutton>View Inline</guibutton>, the card will show up in your email.  It gives information about:
-      <itemizedlist>
-	<listitem>
-	  <para>
-	    Meeting hours
-	  </para>
-	</listitem>
-      </itemizedlist>
+      If you click on the attachment button and click the
+      <guibutton>View Inline</guibutton>, <application>Ximian
+      Evolution</application> will show you information about the
+      meeting, and let you respond to the meeting in several ways.
+      Select the response that you would like, and then click the
+      <guibutton>OK</guibutton> button.
+   </para>
+   <para>
+  Your options are:
+      <variablelist>
+	<varlistentry>
+	  <term>Accept</term>
+	  <listitem>
+	    <para>
+	  Select this entry if you will attend the meeting.  When you
+	  click the <guibutton>OK</guibutton> button, the meeting will
+	  be entered into your calendar.
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>>Accept</term>
+	  <listitem>
+	    <para>
+	  Select this entry if you will probably attend the meeting.
+	  When you click the <guibutton>OK</guibutton> button, the
+	  meeting will be entered into your calendar, but marked as
+	  tentative.
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>Decline</term>
+	  <listitem>
+	    <para>
+	  Select this item if you will be unable to attend the
+	  meeting. The meeting will not be entered into your calendar
+	  when you click the <guibutton>OK</guibutton>, although your
+	  response will be sent to the meeting host if you have
+	  checked the <guilabel>RSVP</guilabel> box.
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>RSVP</term>
+	  <listitem>
+	    <para>
+	     Check this box if you would like your response sent to
+	     the meeting organizers.
+	    </para>
+	  </listitem>
+	</varlistentry>
+     </variablelist>
     </para>
   </sect1>
 

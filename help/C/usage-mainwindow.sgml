@@ -138,8 +138,9 @@
 	<itemizedlist>
 	  <listitem>
 	    <para>
-	      Server Type &mdash; There are numerous types of servers which
-	      <application>Ximian Evolution</application> can download your email from:
+	      Server Type &mdash; There are numerous types of servers
+	      from which <application>Ximian Evolution</application>
+	      can fetch your mail:
 	      <itemizedlist>
 		<listitem>
 		  <para>
@@ -159,14 +160,16 @@
 		</listitem>
 		<listitem>
 		  <para>
-		    Unix mbox spool-format file &mdash; Bad description, we're
-		    getting a better definition shortly.
+		    Unix mail spool file &mdash; If you run a mail
+		    server on your desktop computer, choose this optino.
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
-		    Standard Unix mailbox file &mdash; Bad description, we're
-		    getting a better definition shortly.
+		    Standard Unix .mbox file &mdash; If you want
+		    <application>Ximian Evolution</application> to
+		    read mail from a specific file, or if you download
+		    mail with another application, choose this option.
 		  </para>
 		</listitem>
 		<listitem>
@@ -1019,8 +1022,10 @@
       <para>
         The <guilabel>Task List</guilabel> compliments the
         <guilabel>Appointment List </guilabel> as it keeps track of
-        tasks which don't have any time associated with them.  These
-        may include "" or "Call Repairman".  </para>
+        tasks which don't have a time associated with them. Tasks can
+        have complex notes associated with them, and you can also note
+        their completeness on a percentage scale.
+      </para>
 
       <para>
 	<inlinegraphic fileref="figures/full-3" format="png"></inlinegraphic>

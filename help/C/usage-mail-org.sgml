@@ -702,14 +702,6 @@
 		
 		<listitem>
 		  <para>
-		    Regex Match - If you know your way around a <glossterm
-									   linkend="regular-expression">regex</glossterm>, or
-		    regular expression, put your knowledge to use here.
-		  </para>
-		</listitem>
-		
-		<listitem>
-		  <para>
 		    Source Account - Search messages according the server you got them from.
 		    You can enter a URL or choose one from the drop-down
 		    list.  This ability is only relevant if you use more
