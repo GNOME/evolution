@@ -1,3 +1,7 @@
+2003-04-16  Rodney Dawes  <dobey@ximian.com>
+
+	* Makefile.am: Fix misplaced -O in INCLUDES
+	
 2003-03-04  Rodney Dawes  <dobey@ximian.com>
 
 	* shell/Evolution-Offline.idl:

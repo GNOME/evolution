@@ -1,6 +1,6 @@
 SUBDIRS = glade importer
 
-INCLUDES = -O							\
+INCLUDES = \
 	-I$(top_srcdir)/widgets					\
 	-I$(top_srcdir)/widgets/misc				\
 	-I$(top_srcdir)/libical/src/libical			\
