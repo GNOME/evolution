@@ -1,3 +1,9 @@
+2004-01-28  Rodney Dawes  <dobey@ximian.com>
+
+	* configure.in: Disable the possibility of using OpenSSL until someone
+	decides it is worthy and ends up maintaining the code, though porting
+	to GNUTLS would probably be a better option, if that happens
+
 2004-01-26  David Trowbridge <trowbrds@cs.colorado.edu>
  
  	* configure.in: add facilities for installing a help dir
