@@ -114,18 +114,17 @@ sort_uids (gconstpointer a,
 	   gpointer user_data)
 {
 	CalComponent *comp_a, *comp_b;
-	ESummary *summary = user_data;
-	ESummaryTasks *tasks = summary->tasks;
+	CalClient *client = user_data;
 	CalClientGetStatus status;
 	CalComponentDateTime start_a, start_b;
 
 	/* a after b then return > 0 */
 
-	status = cal_client_get_object (tasks->client, a, &comp_a);
+	status = cal_client_get_object (client, a, &comp_a);
 	if (status != CAL_CLIENT_GET_SUCCESS)
 		return -1;
 
-	status = cal_client_get_object (tasks->client, b, &comp_b);
+	status = cal_client_get_object (client, b, &comp_b);
 	if (status != CAL_CLIENT_GET_SUCCESS)
 		return 1;
 
@@ -133,6 +132,50 @@ sort_uids (gconstpointer a,
 	cal_component_get_dtstart (comp_b, &start_b);
 
 	return icaltime_compare (*start_a.value, *start_b.value);
+}
+
+static GList *
+get_todays_uids (CalClient *client,
+		 GList *uids)
+{
+	GList *today = NULL, *p;
+	time_t todays_end, todays_start;
+
+	todays_start = time_day_begin (time (NULL));
+	todays_end = time_day_end (time (NULL));
+
+	for (p = uids; p; p = p->next) {
+		char *uid;
+		CalComponent *comp;
+		CalClientGetStatus status;
+		CalComponentDateTime end;
+		time_t endt;
+
+		uid = p->data;
+		status = cal_client_get_object (client, uid, &comp);
+		if (status != CAL_CLIENT_GET_SUCCESS) {
+			continue;
+		}
+
+		cal_component_get_dtend (comp, &end);
+		if (end.value != 0) {
+			endt = icaltime_as_timet (*end.value);
+
+			if (endt >= todays_start && endt <= todays_end) {
+				today = g_list_append (today, g_strdup (uid));
+			}
+			g_print ("Check da mic\n");
+		} else {
+			g_print ("Duff\n");
+		}
+	}
+
+	if (today == NULL) {
+		return NULL;
+	}
+
+	today = cal_list_sort (today, sort_uids, client);
+	return today;
 }
 
 static gboolean
@@ -150,6 +193,15 @@ generate_html (gpointer data)
 	day_end = time_day_end (t);
 
 	uids = cal_client_get_uids (tasks->client, CALOBJ_TYPE_TODO);
+	if (summary->preferences->show_tasks == E_SUMMARY_CALENDAR_TODAYS_TASKS && uids != NULL) {
+		GList *tmp;
+		
+		tmp = get_todays_uids (tasks->client, uids);
+		cal_obj_uid_list_free (uids);
+
+		uids = tmp;
+	}
+
 	if (uids == NULL) {
 		char *s1, *s2;
 
@@ -285,7 +337,7 @@ e_summary_tasks_init (ESummary *summary)
 void
 e_summary_tasks_reconfigure (ESummary *summary)
 {
-
+	generate_html (summary);
 }
 
 void

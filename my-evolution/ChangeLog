@@ -1,5 +1,12 @@
 2001-07-18  Iain Holmes  <iain@ximian.com>
 
+	* e-summary.c (e_summary_reconfigure): Reconfigure the tasks.
+
+	* e-summary-tasks.c (generate_html): Obtain todays tasks.
+	(get_todays_uids): Make a list of todays uids.
+
+2001-07-18  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-preferences.c (make_property_dialog): Create the image 
 	buttons.
 	(construct_pixmap_button): Create a box with an image and text.

@@ -630,6 +630,10 @@ e_summary_reconfigure (ESummary *summary)
 	if (summary->calendar != NULL) {
 		e_summary_calendar_reconfigure (summary);
 	}
+
+	if (summary->tasks != NULL) {
+		e_summary_tasks_reconfigure (summary);
+	}
 }
 
 int 
