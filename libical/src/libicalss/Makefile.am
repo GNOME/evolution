@@ -19,5 +19,5 @@ include_HEADERS =\
 
 INCLUDES =					\
 	-I $(srcdir)/../libical/		\
-	-I $(builddir)/../libicalss
+	-I ../libical
 
