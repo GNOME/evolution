@@ -9,8 +9,6 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Calendar
 
-  * Calendar
-
     #29032 - "% finished" changes if status is touched (Hans Petter)
     #43558 - Validation error in non-ASCII locales (Suresh
              Chandrasekharan)
