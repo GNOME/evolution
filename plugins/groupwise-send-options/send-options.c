@@ -133,7 +133,7 @@ org_gnome_compose_send_options (EPlugin *ep, EMMenuTargetWidget *t)
 	}
 	if (dialog->data->sopts->declined) {
 		temp = g_strdup_printf ("%d",dialog->data->sopts->declined) ;
-		e_msg_composer_add_header (comp, X_RETURN_NOTIFY_DECLINE, temp) ;
+		e_msg_composer_add_header (comp, X_RETURN_NOTIFY_DELETE, temp) ;
 		g_free (temp) ;
 	}
 

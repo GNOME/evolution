@@ -35,6 +35,6 @@
 #define	X_TRACK_WHEN		"X-track-when"
 #define	X_AUTODELETE		"X-auto-delete"
 #define	X_RETURN_NOTIFY_OPEN	"X-return-notify-open"
-#define	X_RETURN_NOTIFY_DECLINE	"X-return-notify-decline"
+#define	X_RETURN_NOTIFY_DELETE	"X-return-notify-delete"
 
 #endif /*__GW_SEND_OPTIONS__*/
