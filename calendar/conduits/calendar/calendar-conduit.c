@@ -926,20 +926,18 @@ update_comp (GnomePilotConduitSyncAbs *conduit, CalComponent *comp,
 static void
 check_for_slow_setting (GnomePilotConduit *c, ECalConduitContext *ctxt)
 {
-	int count, map_count;
+	GnomePilotConduitStandard *conduit = GNOME_PILOT_CONDUIT_STANDARD (c);
+	int map_count;
 
-	count = g_list_length (ctxt->uids);
+	/* If there are objects but no log */
 	map_count = g_hash_table_size (ctxt->map->pid_map);
-	
-	/* If there are no objects or objects but no log */
-	if (map_count == 0) {
-		GnomePilotConduitStandard *conduit;
-		LOG ("    doing slow sync\n");
-		conduit = GNOME_PILOT_CONDUIT_STANDARD (c);
+	if (map_count == 0)
 		gnome_pilot_conduit_standard_set_slow (conduit, TRUE);
-	} else {
+
+	if (gnome_pilot_conduit_standard_get_slow (conduit))
+		LOG ("    doing slow sync\n");
+	else
 		LOG ("    doing fast sync\n");
-	}
 }
 
 /* Pilot syncing callbacks */

@@ -1,5 +1,12 @@
 2001-10-26  JP Rosevear  <jpr@ximian.com>
 
+	* conduits/calendar/calendar-conduit.c (check_for_slow_setting):
+	make debug output more accurate
+
+	* conduits/todo/todo-conduit.c (check_for_slow_setting): ditto
+
+2001-10-26  JP Rosevear  <jpr@ximian.com>
+	
 	* conduits/todo/todo-conduit.c (pre_sync): remove the uid from the
 	map if was archived and is now deleted
 
