@@ -1,15 +1,13 @@
-toolsdir = $(privdatadir)/tools
-
-tools_SCRIPTS =				\
+privlibexec_SCRIPTS =			\
 	csv2vcard			\
-	evolution-move-tasks		\
-	evolution-addressbook-clean	\
-	killev
+	evolution-addressbook-clean
 
-tools_PROGRAMS =			\
+privlibexec_PROGRAMS =			\
 	evolution-addressbook-import	\
 	evolution-addressbook-export	\
-	evolution-launch-composer
+	evolution-launch-composer	\
+	killev
+
 
 noinst_PROGRAMS = evolution-addressbook-abuse
 
@@ -56,8 +54,8 @@ evolution_addressbook_export_LDADD =				\
 evolution_addressbook_abuse_LDADD =				\
 	$(evolution_addressbook_import_LDADD)
 
-evolution_launch_composer_SOURCES =                     \
-        $(CORBA_SOURCE)                                 \
+evolution_launch_composer_SOURCES =				\
+        $(CORBA_SOURCE)						\
         evolution-launch-composer.c
 
 evolution_launch_composer_LDADD =                               \
@@ -65,11 +63,17 @@ evolution_launch_composer_LDADD =                               \
         $(top_builddir)/addressbook/backend/ebook/libebook.la   \
         $(top_builddir)/widgets/menus/libmenus.la
 
-CLEANFILES = evolution-addressbook-clean $(BUILD_SOURCES)
+killev_SOURCES =						\
+	killev.c
+
+killev_LDADD =							\
+	$(top_builddir)/e-util/libeutil.la
+
+CLEANFILES = evolution-addressbook-clean $(BUILT_SOURCES)
 
 
 evolution-addressbook-clean: evolution-addressbook-clean.in Makefile
 ## Use sed and then mv to avoid problems if the user interrupts.
-	sed -e 's?\@EVOLUTION_TOOLSDIR\@?$(toolsdir)?g' \
+	sed -e 's?\@EVOLUTION_TOOLSDIR\@?$(privlibexecdir)?g' \
 	   < $(srcdir)/evolution-addressbook-clean.in > evolution-addressbook-clean.tmp \
 	  && mv evolution-addressbook-clean.tmp evolution-addressbook-clean

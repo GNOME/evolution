@@ -1,3 +1,20 @@
+2003-04-07  Dan Winship  <danw@ximian.com>
+
+	* tools/Makefile.am (privlibexec_SCRIPTS, privlibexec_PROGRAMS):
+	Install these in privlibexecdir, not privdatadir. Move killev from
+	SCRIPTS to PROGRAMS.
+	(killev_SOURCES, killev_LDADD): Add
+
+	* tools/killev.c: New C port of killev, since
+	"bonobo-activation-query" does not return as much information as
+	"oaf-client" did. Also has prettier output. (Still shells out to
+	killall/pkill to do the actual killing.)
+
+	* tools/killev: Gone
+
+	* tools/evolution-move-tasks: Removed since the evolution-calendar
+	code that called it is also gone now.
+
 2003-04-07  Not Zed  <NotZed@Ximian.com>
 
 	* NEWS: Updated for mail/camel/composer/filter for 1.3.2
