@@ -371,11 +371,14 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		camel_stream_write (fstream, "From - \n", 8);
 		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
 		camel_object_unref (message);
+		camel_stream_flush (stream);
+		
 		for (i = 1; i < uids->len; i++) {
 			message = camel_folder_get_message (fb->folder, uids->pdata[i], NULL);
 			camel_stream_write (fstream, "From - \n", 8);
 			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
 			camel_object_unref (message);
+			camel_stream_flush (stream);
 			g_free (uids->pdata[i]);
 		}
 		
@@ -409,9 +412,10 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 			g_free (uids->pdata[i]);
 			
 			if (message) {			
-				camel_stream_write (stream, "From - \n", 8);
+				camel_stream_write (mem, "From - \n", 8);
 				camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
 				camel_object_unref (message);
+				camel_stream_flush (stream);
 			}
 		}
 		
