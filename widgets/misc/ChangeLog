@@ -1,3 +1,7 @@
+2002-11-07  JP Rosevear  <jpr@ximian.com>
+
+	* e-filter-bar.c: include gnome-dialog.h
+
 2002-11-06  Chris Toshok  <toshok@ximian.com>
 
 	* .cvsignore: ignore the generated marshal source.

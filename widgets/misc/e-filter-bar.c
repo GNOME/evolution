@@ -27,6 +27,7 @@
 #include <glib.h>
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-dialog.h>
 
 #include "e-dropdown-button.h"
 #include "e-filter-bar.h"
