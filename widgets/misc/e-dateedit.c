@@ -67,6 +67,7 @@ struct _EDateEditPrivate {
 	GtkWidget *today_button;
 	GtkWidget *none_button;
 
+	gboolean show_date;
 	gboolean show_time;
 	gboolean use_24_hour_format;
 
@@ -197,6 +198,7 @@ e_date_edit_init (EDateEdit *dedit)
 
 	dedit->_priv = priv = g_new0 (EDateEditPrivate, 1);
 
+	priv->show_date = TRUE;
 	priv->show_time = TRUE;
 	priv->use_24_hour_format = TRUE;
 
@@ -240,7 +242,6 @@ create_children (EDateEdit *dedit)
 	priv->date_entry  = gtk_entry_new ();
 	gtk_widget_set_usize (priv->date_entry, 90, 0);
 	gtk_box_pack_start (GTK_BOX (dedit), priv->date_entry, FALSE, TRUE, 0);
-	gtk_widget_show (priv->date_entry);
 	
 	priv->date_button = gtk_button_new ();
 	gtk_signal_connect (GTK_OBJECT (priv->date_button), "clicked",
@@ -252,7 +253,10 @@ create_children (EDateEdit *dedit)
 	gtk_container_add (GTK_CONTAINER (priv->date_button), arrow);
 	gtk_widget_show (arrow);
 
-	gtk_widget_show (priv->date_button);
+	if (priv->show_date) {
+		gtk_widget_show (priv->date_entry);
+		gtk_widget_show (priv->date_button);
+	}
 
 	/* This is just to create a space between the date & time parts. */
 	priv->space = gtk_drawing_area_new ();
@@ -264,10 +268,11 @@ create_children (EDateEdit *dedit)
 	gtk_box_pack_start (GTK_BOX (dedit), priv->time_combo, FALSE, TRUE, 0);
 	rebuild_time_popup (dedit);
 
-	if (priv->show_time) {
-		gtk_widget_show (priv->space);
+	if (priv->show_time)
 		gtk_widget_show (priv->time_combo);
-	}
+
+	if (priv->show_date && priv->show_time)
+		gtk_widget_show (priv->space);
 
 	priv->cal_popup = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_widget_set_events (priv->cal_popup,
@@ -735,6 +740,142 @@ e_date_edit_set_time (EDateEdit *dedit, time_t the_time)
 
 
 /**
+ * e_date_edit_get_time_of_day:
+ * @dedit: an #EDateEdit widget.
+ * @hour: returns the hour set.
+ * @minute: returns the minute set.
+ * @Returns: TRUE if the time could be parsed.
+ *
+ * Description: Returns the current time in the time field.
+ */
+gboolean
+e_date_edit_get_time_of_day		(EDateEdit	*dedit,
+					 gint		*hour,
+					 gint		*minute)
+{
+	EDateEditPrivate *priv;
+	struct tm time_tm = { 0 };
+	char *time_text, *format;
+
+	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), FALSE);
+
+	priv = dedit->_priv;
+
+	time_text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry));
+
+	if (priv->use_24_hour_format)
+		/* This is a strptime() format. %H = hour (0-23), %M = minute. */
+		format = _("%H:%M");
+	else
+		/* This is a strptime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
+		format = _("%I:%M %p");
+
+	if (!strptime (time_text, format, &time_tm))
+		return FALSE;
+
+	*hour = time_tm.tm_hour;
+	*minute = time_tm.tm_min;
+
+	return TRUE;
+}
+
+
+/**
+ * e_date_edit_set_time_of_day:
+ * @dedit: an #EDateEdit widget.
+ * @hour: the hour to set.
+ * @minute: the minute to set.
+ *
+ * Description: Sets the time in the time field.
+ */
+void
+e_date_edit_set_time_of_day		(EDateEdit	*dedit,
+					 gint		 hour,
+					 gint		 minute)
+{
+	EDateEditPrivate *priv;
+	struct tm mytm = { 0 };
+	char buffer[40], *format;
+
+	g_return_if_fail (E_IS_DATE_EDIT (dedit));
+
+	priv = dedit->_priv;
+
+	mytm.tm_year = 2000;
+	mytm.tm_mon = 0;
+	mytm.tm_mday = 1;
+	mytm.tm_hour = hour;
+	mytm.tm_min = minute;
+	mytm.tm_sec = 0;
+
+	if (priv->use_24_hour_format)
+		/* This is a strftime() format. %H = hour (0-23), %M = minute. */
+		format = _("%H:%M");
+	else
+		/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
+		format = _("%I:%M %p");
+
+	strftime (buffer, sizeof (buffer), format, &mytm);
+	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry),
+			    buffer);
+}
+
+
+/**
+ * e_date_edit_get_show_date:
+ * @dedit: an #EDateEdit widget.
+ * @Returns: Whether the date field is shown.
+ *
+ * Description: Returns TRUE if the date field is currently shown.
+ */
+gboolean
+e_date_edit_get_show_date		(EDateEdit	*dedit)
+{
+	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), TRUE);
+
+	return dedit->_priv->show_date;
+}
+
+
+/**
+ * e_date_edit_set_show_date:
+ * @dedit: an #EDateEdit widget.
+ * @show_time: TRUE if the date field should be shown.
+ *
+ * Description: Specifies whether the date field should be shown. The date
+ * field would be hidden if only a time needed to be entered.
+ */
+void
+e_date_edit_set_show_date		(EDateEdit	*dedit,
+					 gboolean	 show_date)
+{
+	EDateEditPrivate *priv;
+
+	g_return_if_fail (E_IS_DATE_EDIT (dedit));
+
+	priv = dedit->_priv;
+
+	if (priv->show_date == show_date)
+		return;
+
+	priv->show_date = show_date;
+
+	if (show_date) {
+		gtk_widget_show (priv->date_entry);
+		gtk_widget_show (priv->date_button);
+	} else {
+		gtk_widget_hide (priv->date_entry);
+		gtk_widget_hide (priv->date_button);
+	}
+
+	if (priv->show_date && priv->show_time)
+		gtk_widget_show (priv->space);
+	else
+		gtk_widget_hide (priv->space);
+}
+
+
+/**
  * e_date_edit_get_show_time:
  * @dedit: an #EDateEdit widget
  * @Returns: Whether the time field is shown.
@@ -774,13 +915,16 @@ e_date_edit_set_show_time		(EDateEdit	*dedit,
 	priv->show_time = show_time;
 
 	if (show_time) {
-		gtk_widget_show (priv->space);
 		gtk_widget_show (priv->time_combo);
 	} else {
-		gtk_widget_hide (priv->space);
 		gtk_widget_hide (priv->time_combo);
 		gtk_widget_hide (priv->now_button);
 	}
+
+	if (priv->show_date && priv->show_time)
+		gtk_widget_show (priv->space);
+	else
+		gtk_widget_hide (priv->space);
 }
 
 

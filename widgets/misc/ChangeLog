@@ -1,3 +1,12 @@
+2000-10-11  Damon Chaplin  <damon@helixcode.com>
+
+	* e-calendar-item.c (e_calendar_item_recalc_sizes): fixed to
+	recalculate min_cell_width/height in case the show_week_numbers option
+	is changed.
+
+	* e-dateedit.c: added support for hiding the date field, and added
+	get/set_time_of_day() functions to get/set just the time.
+
 2000-09-30  Damon Chaplin  <damon@helixcode.com>
 
 	* e-calendar-item.c: 

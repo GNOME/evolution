@@ -1502,53 +1502,52 @@ e_calendar_item_recalc_sizes		(ECalendarItem *calitem)
 	g_return_if_fail (wkfont != NULL);
 
 	/* If both fonts are the same, just return. */
-	if (font == calitem->old_font
-	    && wkfont == calitem->old_week_number_font)
-		return;
+	if (font != calitem->old_font
+	    || wkfont != calitem->old_week_number_font) {
+		if (calitem->old_font)
+			gdk_font_unref (calitem->old_font);
+		calitem->old_font = font;
+		gdk_font_ref (font);
 
-	if (calitem->old_font)
-		gdk_font_unref (calitem->old_font);
-	calitem->old_font = font;
-	gdk_font_ref (font);
+		if (calitem->old_week_number_font)
+			gdk_font_unref (calitem->old_week_number_font);
+		calitem->old_week_number_font = wkfont;
+		gdk_font_ref (wkfont);
 
-	if (calitem->old_week_number_font)
-		gdk_font_unref (calitem->old_week_number_font);
-	calitem->old_week_number_font = wkfont;
-	gdk_font_ref (wkfont);
+		for (day = 0; day < 7; day++)
+			calitem->day_widths[day] = gdk_char_width (font, calitem->days[day]);
 
-	for (day = 0; day < 7; day++)
-		calitem->day_widths[day] = gdk_char_width (font,
-							   calitem->days[day]);
+		max_digit_width = 0;
+		max_week_number_digit_width = 0;
+		for (digit = 0; digit < 10; digit++) {
+			width = gdk_char_width (font, digits[digit]);
+			calitem->digit_widths[digit] = width;
+			max_digit_width = MAX (max_digit_width, width);
 
-	max_digit_width = 0;
-	max_week_number_digit_width = 0;
-	for (digit = 0; digit < 10; digit++) {
-		width = gdk_char_width (font, digits[digit]);
-		calitem->digit_widths[digit] = width;
-		max_digit_width = MAX (max_digit_width, width);
-
-		if (wkfont) {
-			width = gdk_char_width (wkfont, digits[digit]);
-			calitem->week_number_digit_widths[digit] = width;
-			max_week_number_digit_width = MAX (max_week_number_digit_width, width);
-		} else {
-			calitem->week_number_digit_widths[digit] = width;
-			max_week_number_digit_width = max_digit_width;
+			if (wkfont) {
+				width = gdk_char_width (wkfont, digits[digit]);
+				calitem->week_number_digit_widths[digit] = width;
+				max_week_number_digit_width = MAX (max_week_number_digit_width, width);
+			} else {
+				calitem->week_number_digit_widths[digit] = width;
+				max_week_number_digit_width = max_digit_width;
+			}
 		}
+		calitem->max_digit_width = max_digit_width;
+		calitem->max_week_number_digit_width = max_week_number_digit_width;
 	}
-	calitem->max_digit_width = max_digit_width;
-	calitem->max_week_number_digit_width = max_week_number_digit_width;
 
-
-	min_cell_width = max_digit_width * 2 + E_CALENDAR_ITEM_MIN_CELL_XPAD;
+	min_cell_width = calitem->max_digit_width * 2
+		+ E_CALENDAR_ITEM_MIN_CELL_XPAD;
 	min_cell_height = char_height + E_CALENDAR_ITEM_MIN_CELL_YPAD;
 
 	calitem->min_month_width = E_CALENDAR_ITEM_XPAD_BEFORE_WEEK_NUMBERS
 		+ E_CALENDAR_ITEM_XPAD_BEFORE_CELLS + min_cell_width * 7
 		+ E_CALENDAR_ITEM_XPAD_AFTER_CELLS;
-	if (calitem->show_week_numbers)
-		calitem->min_month_width += max_week_number_digit_width * 2
+	if (calitem->show_week_numbers) {
+		calitem->min_month_width += calitem->max_week_number_digit_width * 2
 			+ E_CALENDAR_ITEM_XPAD_AFTER_WEEK_NUMBERS + 1;
+	}
 
 	calitem->min_month_height = style->klass->ythickness * 2
 		+ E_CALENDAR_ITEM_YPAD_ABOVE_MONTH_NAME + char_height

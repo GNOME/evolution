@@ -71,6 +71,20 @@ time_t     e_date_edit_get_time			(EDateEdit	*dedit);
 void       e_date_edit_set_time			(EDateEdit	*dedit,
 						 time_t		 the_time);
 
+/* These get or set the value in the time field, useful if only a time is
+   being edited. */
+gboolean   e_date_edit_get_time_of_day		(EDateEdit	*dedit,
+						 gint		*hour,
+						 gint		*minute);
+void       e_date_edit_set_time_of_day		(EDateEdit	*dedit,
+						 gint		 hour,
+						 gint		 minute);
+
+/* Whether we show the date field. */
+gboolean   e_date_edit_get_show_date		(EDateEdit	*dedit);
+void       e_date_edit_set_show_date		(EDateEdit	*dedit,
+						 gboolean	 show_date);
+
 /* Whether we show the time field. */
 gboolean   e_date_edit_get_show_time		(EDateEdit	*dedit);
 void       e_date_edit_set_show_time		(EDateEdit	*dedit,
