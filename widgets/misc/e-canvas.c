@@ -26,6 +26,7 @@
 #include "gal/util/e-util.h"
 #include <X11/Xlib.h>
 #include <gtk/gtkmain.h>
+#include <gtk/gtkimmulticontext.h>
 
 static void e_canvas_init           (ECanvas         *card);
 static void e_canvas_dispose        (GObject        *object);
@@ -112,10 +113,7 @@ e_canvas_init (ECanvas *canvas)
 {
 	canvas->selection = NULL;
 	canvas->cursor = NULL;
-#ifdef GAL_GDK_IM
-	canvas->ic = NULL;
-	canvas->ic_attr = NULL;
-#endif
+	canvas->im_context = gtk_im_multicontext_new ();
 	canvas->tooltip_window = NULL;
 }
 
@@ -620,10 +618,7 @@ e_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
 
-#ifdef GAL_GDK_IM
-	if (ecanvas->ic)
-		gdk_im_begin (ecanvas->ic, canvas->layout.bin_window);
-#endif
+	gtk_im_context_focus_in (ecanvas->im_context);
 
 	if (canvas->focused_item) {
 		full_event.focus_change = *event;
@@ -646,10 +641,7 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 
 	GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
 
-#ifdef GAL_GDK_IM
-	if (ecanvas->ic)
-		gdk_im_end ();
-#endif
+	gtk_im_context_focus_out (ecanvas->im_context);
 
 	if (canvas->focused_item) {
 		full_event.focus_change = *event;
@@ -688,71 +680,14 @@ e_canvas_style_set (GtkWidget *widget, GtkStyle *previous_style)
 static void
 e_canvas_realize (GtkWidget *widget)
 {
-#ifdef GAL_GDK_IM
-	gint width, height;
 	ECanvas *ecanvas = E_CANVAS (widget);
-#endif
 
 	if (GTK_WIDGET_CLASS (parent_class)->realize)
 		(* GTK_WIDGET_CLASS (parent_class)->realize) (widget);
 
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
 
-#ifdef GAL_GDK_IM
-	if (gdk_im_ready () && (ecanvas->ic_attr = gdk_ic_attr_new ()) != NULL) {
-		GdkEventMask mask;
-		GdkICAttr *attr = ecanvas->ic_attr;
-		GdkICAttributesType attrmask = GDK_IC_ALL_REQ;
-		GdkIMStyle style;
-		GdkIMStyle supported_style = GDK_IM_PREEDIT_NONE |
-			GDK_IM_PREEDIT_NOTHING |
-			GDK_IM_PREEDIT_POSITION |
-			GDK_IM_STATUS_NONE |
-			GDK_IM_STATUS_NOTHING;
-
-		if(widget->style && widget->style->font->type != GDK_FONT_FONTSET)
-			supported_style &= ~GDK_IM_PREEDIT_POSITION;
-
-		attr->style = style = gdk_im_decide_style (supported_style);
-		attr->client_window = ecanvas->parent.layout.bin_window;
-
-		switch (style & GDK_IM_PREEDIT_MASK)
-			{
-			case GDK_IM_PREEDIT_POSITION:
-				if (widget->style && widget->style->font->type != GDK_FONT_FONTSET)
-					{
-						g_warning ("over-the-spot style requires fontset");
-						break;
-					}
-				
-				gdk_window_get_size (attr->client_window, &width, &height);
-				height = widget->style->font->ascent +
-					widget->style->font->descent;
-
-				attrmask |= GDK_IC_PREEDIT_POSITION_REQ;
-				attr->spot_location.x = 0;
-				attr->spot_location.y = height;
-				attr->preedit_area.x = 0;
-				attr->preedit_area.y = 0;
-				attr->preedit_area.width = width;
-				attr->preedit_area.height = height;
-				attr->preedit_fontset = widget->style->font;
-
-				break;
-			}
-
-		ecanvas->ic = gdk_ic_new (attr, attrmask);
-		if (ecanvas->ic != NULL) {
-			mask = gdk_window_get_events (attr->client_window);
-			mask |= gdk_ic_get_events (ecanvas->ic);
-			gdk_window_set_events (attr->client_window, mask);
-
-			if (GTK_WIDGET_HAS_FOCUS (widget))
-				gdk_im_begin (ecanvas->ic, attr->client_window);
-		} else
-			g_warning ("Can't create input context.");
-	}
-#endif
+	gtk_im_context_set_client_window (ecanvas->im_context, widget->window);
 }
 
 static void
@@ -765,16 +700,8 @@ e_canvas_unrealize (GtkWidget *widget)
 		ecanvas->idle_id = 0;
 	}
 
-#ifdef GAL_GDK_IM
-	if (ecanvas->ic) {
-		gdk_ic_destroy (ecanvas->ic);
-		ecanvas->ic = NULL;
-	}
-	if (ecanvas->ic_attr) {
-		gdk_ic_attr_destroy (ecanvas->ic_attr);
-		ecanvas->ic_attr = NULL;
-	}
-#endif
+	gtk_im_context_set_client_window (ecanvas->im_context, widget->window);
+
 	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
 		(* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
 }

@@ -24,6 +24,7 @@
 #ifndef __E_CANVAS_H__
 #define __E_CANVAS_H__
 
+#include <gtk/gtkimcontext.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
 #ifdef __cplusplus
@@ -79,7 +80,6 @@ typedef void (*ECanvasItemGrabCancelled) (ECanvas *canvas, GnomeCanvasItem *item
 struct _ECanvas
 {
 	GnomeCanvas parent;
-		             
 	int                   idle_id;
 	GList                *selection;
 	ECanvasSelectionInfo *cursor;
@@ -87,12 +87,11 @@ struct _ECanvas
 	GtkWidget            *tooltip_window;
 	int                   visibility_notify_id;
 	GtkWidget            *toplevel;
+
 	guint visibility_first : 1;
-#ifdef GAL_GDK_IM
+
 	/* Input context for dead key support */
-	GdkIC     *ic;
-	GdkICAttr *ic_attr;
-#endif
+	GtkIMContext *im_context;
 
 	ECanvasItemGrabCancelled grab_cancelled_cb;
 	guint grab_cancelled_check_id;
