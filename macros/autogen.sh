@@ -44,9 +44,13 @@ if test "$DIE" -eq 1; then
 fi
 
 test -f /opt/lib/libgtk.a \
+  || test -f /opt/lib/libgtk.so \
   || test -f /opt/gnome/lib/libgtk.a \
+  || test -f /opt/gnome/lib/libgtk.so \
   || test -f /usr/lib/libgtk.a \
+  || test -f /usr/lib/libgtk.so \
   || test -f /usr/local/lib/libgtk.a \
+  || test -f /usr/local/lib/libgtk.so \
   || cat <<EOF
 **Warning**: You must have Gtk installed to compile Gnome.  I cannot
 find it installed in the usual places.  "configure" may do a better
