@@ -1,6 +1,6 @@
 2002-12-06  Hans Petter Jansson  <hpj@ximian.com>
 
-	* gui/component-factory.c (): Pass the env argument to
+	* gui/component-factory.c (create_view): Pass the env argument to
 	bonobo_control_set_property ().
 
 	* gui/e-meeting-model.c (class_init): We're no longer derived from
