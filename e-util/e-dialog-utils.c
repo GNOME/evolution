@@ -192,8 +192,8 @@ e_gnome_warning_dialog_parented (const char *warning, GtkWindow *parent)
 	GtkWidget *dialog;
 	
 	dialog = gnome_warning_dialog_parented (warning, parent);
-	gtk_signal_connect (GTK_OBJECT (parent), "destroy",
-			    e_gnome_dialog_parent_destroyed, dialog);
+	gtk_signal_connect_while_alive (GTK_OBJECT (parent), "destroy",
+					e_gnome_dialog_parent_destroyed, dialog, GTK_OBJECT(dialog));
 	
 	return dialog;
 }
@@ -205,8 +205,8 @@ e_gnome_ok_cancel_dialog_parented (const char *message, GnomeReplyCallback callb
 	GtkWidget *dialog;
 	
 	dialog = gnome_ok_cancel_dialog_parented (message, callback, data, parent);
-	gtk_signal_connect (GTK_OBJECT (parent), "destroy",
-			    e_gnome_dialog_parent_destroyed, dialog);
+	gtk_signal_connect_while_alive (GTK_OBJECT (parent), "destroy",
+					e_gnome_dialog_parent_destroyed, dialog, GTK_OBJECT(dialog));
 	
 	return dialog;
 }
