@@ -1377,7 +1377,7 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 static GPtrArray *
 imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex)
 {
-	return NULL;
+	return g_ptr_array_new ();
 #if 0
 	/* NOTE: This is experimental code... */
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
