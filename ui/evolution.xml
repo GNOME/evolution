@@ -3,34 +3,34 @@
 		<submenu name="File" _label="_File">
 			<submenu name="New" _label="_New">
 				<menuitem name="View" verb="NewView" _label="_View"
-				accel="&lt;Control&gt;&lt;Shift&gt;v"
+				accel="*Control**Shift*v"
 				pixtype="stock" pixname="Menu_New"/>
 
 				<menuitem name="Folder" verb="NewFolder"
 				_label="_Folder"
-				accel="&lt;Control&gt;&lt;Shift&gt;f"/>
+				accel="*Control**Shift*f"/>
 
 				<menuitem name="Shortcut" verb="NewBarShortcut"
 				_label="Evolution bar _shortcut"
-				accel="&lt;Control&gt;&lt;Shift&gt;s"/>
+				accel="*Control**Shift*s"/>
 
 				<menuitem/>
 
 				<menuitem name="Mail" verb="NewMailMessage"
 				_label="_Mail message (FIXME)"
-				accel="&lt;Control&gt;&lt;Shift&gt;m"/>
+				accel="*Control**Shift*m"/>
 
 				<menuitem name="Appointment" verb="NewAppointment"
 				_label="_Appointment (FIXME)"
-				accel="&lt;Control&gt;&lt;Shift&gt;a"/>
+				accel="*Control**Shift*a"/>
 
 				<menuitem name="Contact" verb="NewContact"
 				_label="_Contact (FIXME)"
-				accel="&lt;Control&gt;&lt;Shift&gt;c"/>
+				accel="*Control**Shift*c"/>
 
 				<menuitem name="Task" verb="NewTask"
 				_label="_Task (FIXME)"
-				accel="&lt;Control&gt;&lt;Shift&gt;t"/>
+				accel="*Control**Shift*t"/>
 			</submenu>
 
 			<menuitem/>
@@ -48,7 +48,7 @@
 			<menuitem name="FileExit" verb=""
 			_label="E_xit" _descr="Exit the program"
 			pixtype="stock" pixname="Menu_Quit"
-			accel="&lt;Control&gt;q"/>
+			accel="*Control*q"/>
 			
 		</submenu>
 

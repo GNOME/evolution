@@ -47,7 +47,7 @@
 
 				<menuitem name="MessageOpenNewWnd" verb=""
 				_label="_Open in New Window"
-				accel="&lt;Control&gt;o"/>
+				accel="*Control*o"/>
 
 				<menuitem name="MessageEdit" verb=""
 				_label="_Edit Message"/>
