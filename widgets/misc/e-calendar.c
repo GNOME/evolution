@@ -358,6 +358,8 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 			       "width", arrow_button_size,
 			       "height", arrow_button_size,
 			       NULL);
+
+	pango_font_metrics_unref (font_metrics);
 }
 
 void

@@ -1,3 +1,17 @@
+2003-04-15  Hans Petter Jansson  <hpj@ximian.com>
+
+	* e-calendar-item.c (e_calendar_item_update): Unref the metrics.
+	(e_calendar_item_draw): Re-use the widget's context instead of
+	creating a new one. Unref the metrics.
+	(e_calendar_item_draw_month): Unref the metrics. Don't create the
+	layout where it might be leaked by an early return. Unref the layout
+	before returning if we're outside the clip area.
+	(e_calendar_item_draw_day_numbers): Unref the metrics.
+	(e_calendar_item_recalc_sizes): Unref the metrics.
+	(e_calendar_item_convert_position_to_day): Unref the metrics.
+
+	* e-calendar.c (e_calendar_size_allocate): Unref the metrics.
+
 2003-04-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-filter-bar.c (do_advanced): Change the border width and

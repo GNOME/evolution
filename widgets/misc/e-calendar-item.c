@@ -891,6 +891,8 @@ e_calendar_item_update		(GnomeCanvasItem *item,
 
 	gnome_canvas_request_redraw (item->canvas, item->x1, item->y1,
 				     item->x2, item->y2);
+
+	pango_font_metrics_unref (font_metrics);
 }
 
 
@@ -926,7 +928,7 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 	font_desc = calitem->font_desc;
 	if (!font_desc)
 		font_desc = style->font_desc;
-	pango_context = gtk_widget_create_pango_context (GTK_WIDGET (canvas_item->canvas));
+	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (canvas_item->canvas));
 	font_metrics = pango_context_get_metrics (pango_context, font_desc,
 						  pango_context_get_language (pango_context));
 
@@ -993,6 +995,8 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 
 		row_y += calitem->month_height;
 	}
+
+	pango_font_metrics_unref (font_metrics);
 }
 
 
@@ -1046,7 +1050,8 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	xthickness = style->xthickness;
 	ythickness = style->ythickness;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
-	layout = gtk_widget_create_pango_layout (widget, NULL);
+
+	pango_font_metrics_unref (font_metrics);
 
 	/* Calculate the top-left position of the entire month display. */
 	month_x = item->x1 + xthickness + calitem->x_offset
@@ -1068,6 +1073,9 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 
 	/* Draw the month name & year, with clipping. Note that the top row
 	   needs extra space around it for the buttons. */
+
+	layout = gtk_widget_create_pango_layout (widget, NULL);
+
 	if (row == 0 && col == 0)
 		min_x = E_CALENDAR_ITEM_XPAD_BEFORE_MONTH_NAME_WITH_BUTTON;
 	else
@@ -1122,8 +1130,10 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	clip_width = month_x + month_w - clip_rect.x;
 	clip_height = month_y + month_h - clip_rect.y;
 
-	if (clip_width <= 0 || clip_height <= 0)
+	if (clip_width <= 0 || clip_height <= 0) {
+		g_object_unref (layout);
 		return;
+	}
 
 	clip_rect.width = clip_width;
 	clip_rect.height = clip_height;
@@ -1492,6 +1502,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 	gdk_gc_set_foreground (fg_gc, &style->fg[GTK_STATE_NORMAL]);
 
 	g_object_unref (layout);
+	pango_font_metrics_unref (font_metrics);
 }
 
 
@@ -1668,6 +1679,7 @@ e_calendar_item_recalc_sizes		(ECalendarItem *calitem)
 
 	g_object_unref (layout);
 	g_object_unref (pango_context);
+	pango_font_metrics_unref (font_metrics);
 }
 
 
@@ -2056,6 +2068,8 @@ e_calendar_item_convert_position_to_day	(ECalendarItem	*calitem,
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
 	xthickness = style->xthickness;
 	ythickness = style->ythickness;
+
+	pango_font_metrics_unref (font_metrics);
 
 	*entire_week = FALSE;
 
