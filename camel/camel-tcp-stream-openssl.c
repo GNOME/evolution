@@ -53,6 +53,9 @@ static gpointer stream_get_socket (CamelTcpStream *stream);
 struct _CamelTcpStreamOpenSSLPrivate {
 	int sockfd;
 	SSL *ssl;
+	
+	CamelService *service;
+	char *expected_host;
 };
 
 static void
@@ -82,9 +85,8 @@ camel_tcp_stream_openssl_init (gpointer object, gpointer klass)
 {
 	CamelTcpStreamOpenSSL *stream = CAMEL_TCP_STREAM_OPENSSL (object);
 	
-	stream->priv = g_new (struct _CamelTcpStreamOpenSSLPrivate, 1);
+	stream->priv = g_new0 (struct _CamelTcpStreamOpenSSLPrivate, 1);
 	stream->priv->sockfd = -1;
-	stream->priv->ssl = NULL;
 }
 
 static void
@@ -103,6 +105,8 @@ camel_tcp_stream_openssl_finalize (CamelObject *object)
 	
 	if (stream->priv->sockfd != -1)
 		close (stream->priv->sockfd);
+	
+	g_free (stream->priv->expected_host);
 	
 	g_free (stream->priv);
 }
@@ -130,15 +134,24 @@ camel_tcp_stream_openssl_get_type (void)
 
 /**
  * camel_tcp_stream_openssl_new:
+ * @service: camel service
+ * @expected_host: host that the stream is expecting to connect with.
+ *
+ * Since the SSL certificate authenticator may need to prompt the
+ * user, a CamelService is needed. @expected_host is needed as a
+ * protection against an MITM attack.
  *
  * Return value: a tcp stream
  **/
 CamelStream *
-camel_tcp_stream_openssl_new ()
+camel_tcp_stream_openssl_new (CamelService *service, const char *expected_host)
 {
 	CamelTcpStreamOpenSSL *stream;
 	
 	stream = CAMEL_TCP_STREAM_OPENSSL (camel_object_new (camel_tcp_stream_openssl_get_type ()));
+	
+	stream->priv->service = service;
+	stream->priv->expected_host = g_strdup (expected_host);
 	
 	return CAMEL_STREAM (stream);
 }
@@ -360,7 +373,7 @@ socket_connect (struct hostent *h, int port)
 }
 
 static int
-verify_callback (int ok, X509_STORE_CTX *ctx) 
+ssl_verify (int ok, X509_STORE_CTX *ctx)
 {
 	char *str, buf[256];
 	X509 *cert;
@@ -392,7 +405,7 @@ verify_callback (int ok, X509_STORE_CTX *ctx)
 }
 
 static SSL *
-open_ssl_connection (int sockfd)
+open_ssl_connection (CamelService *service, int sockfd)
 {
 	SSL_CTX *ssl_ctx = NULL;
 	SSL *ssl = NULL;
@@ -400,7 +413,7 @@ open_ssl_connection (int sockfd)
 	
 	/* SSLv23_client_method will negotiate with SSL v2, v3, or TLS v1 */
 	ssl_ctx = SSL_CTX_new (SSLv23_client_method ());
-	SSL_CTX_set_verify (ssl_ctx, SSL_VERIFY_PEER, &verify_cb);
+	SSL_CTX_set_verify (ssl_ctx, SSL_VERIFY_PEER, &ssl_verify);
 	ssl = SSL_new (ssl_ctx);
 	SSL_set_fd (ssl, sockfd);
 	
@@ -431,7 +444,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	if (fd == -1)
 		return -1;
 	
-	ssl = open_ssl_connection (sockfd);
+	ssl = open_ssl_connection (stream->priv->service, sockfd);
 	if (!ssl)
 		return -1;
 	

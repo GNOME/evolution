@@ -20,6 +20,8 @@
  *  USA
  */
 
+#include <config.h>
+
 #include "camel-exception.h"
 #include "camel-vee-folder.h"
 #include "camel-store.h"

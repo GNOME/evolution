@@ -1,3 +1,19 @@
+2001-03-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_filter_message):
+	Return -1 on fail.
+	(camel_filter_driver_filter_folder): Same.
+	(camel_filter_driver_filter_mbox): Same.
+	(camel_filter_driver_filter_folder): Return -1 if an exception was
+	set as well.
+
+2001-03-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-openssl.c (camel_tcp_stream_openssl_finalize):
+	Free the expected host.
+	(camel_tcp_stream_openssl_new): Now takes a Service and an
+	expected_host. Set them.
+
 2001-03-20  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-store.c

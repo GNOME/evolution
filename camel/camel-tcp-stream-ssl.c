@@ -131,7 +131,7 @@ camel_tcp_stream_ssl_get_type (void)
  * @expected_host: host that the stream is expected to connect with.
  *
  * Since the SSL certificate authenticator may need to prompt the
- * user, a CamelService is needed. #expected_host is needed as a
+ * user, a CamelService is needed. @expected_host is needed as a
  * protection against an MITM attack.
  *
  * Return value: a tcp stream

@@ -72,13 +72,13 @@ void 	camel_filter_driver_add_rule		(CamelFilterDriver *d, const char *name, con
 
 /*void camel_filter_driver_set_global(CamelFilterDriver *, const char *name, const char *value);*/
 
-gboolean camel_filter_driver_filter_message      (CamelFilterDriver *driver, CamelMimeMessage *message,
+int      camel_filter_driver_filter_message      (CamelFilterDriver *driver, CamelMimeMessage *message,
 						  CamelMessageInfo *info, const char *uri,
 						  CamelFolder *source, const char *source_url,
 						  CamelException *ex);
-gboolean camel_filter_driver_filter_mbox         (CamelFilterDriver *driver, const char *mbox,
+int      camel_filter_driver_filter_mbox         (CamelFilterDriver *driver, const char *mbox,
 						  CamelException *ex);
-gboolean camel_filter_driver_filter_folder       (CamelFilterDriver *driver, CamelFolder *folder,
+int      camel_filter_driver_filter_folder       (CamelFilterDriver *driver, CamelFolder *folder,
 						  GPtrArray *uids, gboolean remove, CamelException *ex);
 
 #if 0

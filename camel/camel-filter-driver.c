@@ -608,11 +608,11 @@ camel_filter_driver_log (CamelFilterDriver *driver, enum filter_log_t status, co
  * object. Is more efficient as it doesn't need to open the folder
  * through Camel directly.
  *
- * Returns FALSE if errors were encountered during filtering,
- * otherwise returns TRUE.
+ * Returns -1 if errors were encountered during filtering,
+ * otherwise returns 0.
  *
  **/
-gboolean
+int
 camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, CamelException *ex)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
@@ -621,7 +621,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 	int fd = -1;
 	int i = 0;
 	struct stat st;
-	gboolean status;
+	int status;
 	
 	fd = open (mbox, O_RDONLY);
 	if (fd == -1) {
@@ -660,7 +660,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 		
 		status = camel_filter_driver_filter_message (driver, msg, NULL, NULL, NULL, source_url, ex);
 		camel_object_unref (CAMEL_OBJECT (msg));
-		if (camel_exception_is_set (ex) || !status) {
+		if (camel_exception_is_set (ex) || status == -1) {
 			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed message %d", i);
 			goto fail;
 		}
@@ -678,7 +678,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 
 	report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Complete");
 	
-	return TRUE;
+	return 0;
 	
 fail:
 	g_free (source_url);
@@ -687,7 +687,7 @@ fail:
 	if (mp)
 		camel_object_unref (CAMEL_OBJECT (mp));
 	
-	return FALSE;
+	return -1;
 }
 
 
@@ -702,11 +702,11 @@ fail:
  * Filters a folder based on rules defined in the FilterDriver
  * object.
  *
- * Returns FALSE if errors were encountered during filtering,
- * otherwise returns TRUE.
+ * Returns -1 if errors were encountered during filtering,
+ * otherwise returns 0.
  *
  **/
-gboolean
+int
 camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folder,
 				   GPtrArray *uids, gboolean remove, CamelException *ex)
 {
@@ -716,7 +716,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
 	char *source_url, *service_url;
-	gboolean status = TRUE;
+	int status = 0;
 	
 	service_url = camel_service_get_url (CAMEL_SERVICE (camel_folder_get_parent_store (folder)));
 	source_url = g_strdup_printf ("%s%s", service_url, camel_folder_get_full_name (folder));
@@ -737,6 +737,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 		if (!message || camel_exception_is_set (ex)) {
 			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed at message %d of %d",
 				       i+1, uids->len);
+			status = -1;
 			break;
 		}
 		
@@ -751,9 +752,10 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 		if (camel_folder_has_summary_capability (folder))
 			camel_folder_free_message_info (folder, info);
 
-		if (camel_exception_is_set (ex) || !status) {
+		if (camel_exception_is_set (ex) || status == -1) {
 			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed at message %d of %d",
 				       i+1, uids->len);
+			status = -1;
 			break;
 		}
 		
@@ -797,11 +799,11 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
  * certain cases is more efficient than using the default
  * camel_folder_append_message() function).
  *
- * Returns FALSE if errors were encountered during filtering,
- * otherwise returns TRUE.
+ * Returns -1 if errors were encountered during filtering,
+ * otherwise returns 0.
  *
  **/
-gboolean
+int
 camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage *message,
 				    CamelMessageInfo *info, const char *uid,
 				    CamelFolder *source, const char *source_url,
@@ -820,7 +822,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		freeinfo = TRUE;
 	} else {
 		if (info->flags & CAMEL_MESSAGE_DELETED)
-			return TRUE;
+			return 0;
 	}
 	
 	p->ex = ex;
@@ -839,7 +841,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		if (camel_filter_search_match(p->message, p->info, source_url, node->match, p->ex)) {
 			filtered = TRUE;
 			camel_filter_driver_log (driver, FILTER_LOG_START, node->name);
-
+			
 			/* perform necessary filtering actions */
 			e_sexp_input_text (p->eval, node->action, strlen (node->action));
 			if (e_sexp_parse (p->eval) == -1) {
@@ -873,7 +875,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 			camel_folder_append_message (p->defaultfolder, p->message, p->info, p->ex);
 	}
 	
-	return TRUE;
+	return 0;
 	
 error:	
 	if (filtered)
@@ -882,5 +884,5 @@ error:
 	if (freeinfo)
 		camel_message_info_free (info);
 	
-	return FALSE;
+	return -1;
 }
