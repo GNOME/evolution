@@ -1,5 +1,11 @@
 2003-11-18  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-tree.c (em_copy_folders): Execute asynchronously by
+	queueing the copy in another thread.
+	(em_copy_folders__copy): Moved the original logic here.
+
+2003-11-18  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-folder-tree.c (tree_row_expanded): Queue the
 	camel_store_get_folder_info() call in another thread.
 	(em_folder_tree_get_folder_info__got): Moved all the logic of
