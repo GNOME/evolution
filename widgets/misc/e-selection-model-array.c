@@ -134,7 +134,7 @@ esma_dispose (GObject *object)
 	esma = E_SELECTION_MODEL_ARRAY (object);
 
 	if (esma->eba) {
-		gtk_object_unref(GTK_OBJECT(esma->eba));
+		g_object_unref (esma->eba);
 		esma->eba = NULL;
 	}
 
