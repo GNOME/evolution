@@ -49,6 +49,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
+#include "e-util/e-path.h"
 #include "e-local-folder.h"
 
 #include "evolution-local-storage.h"
@@ -58,9 +59,6 @@
 
 #define PARENT_TYPE E_TYPE_STORAGE
 static EStorageClass *parent_class = NULL;
-
-#define SUBFOLDER_DIR_NAME     "subfolders"
-#define SUBFOLDER_DIR_NAME_LEN 10
 
 struct _ELocalStoragePrivate {
 	EFolderTypeRegistry *folder_type_registry;
@@ -130,88 +128,6 @@ shell_component_result_to_storage_result (EvolutionShellComponentResult result)
 
 /* Utility functions.  */
 
-/* Translate a storage path into a physical path on the file system.  */
-static char *
-get_physical_path (ELocalStorage *local_storage,
-		   const char *path)
-{
-	EStorage *storage;
-	ELocalStoragePrivate *priv;
-	const char *p, *newp;
-	char *dp;
-	char *real_path;
-	int real_path_len;
-	int base_path_len;
-
-	storage = E_STORAGE (local_storage);
-	priv = local_storage->priv;
-
-	/* @path is always absolute, so it starts with a slash.  The base class should
-           make sure this is the case; if not, it's broken.  */
-	g_assert (*path == G_DIR_SEPARATOR);
-	path++;
-
-	/* Calculate the length of the real path. */
-
-	real_path_len = strlen (path);
-	real_path_len++;	/* For the ending zero.  */
-
-	base_path_len = strlen (priv->base_path);
-	real_path_len += base_path_len;
-	real_path_len++;	/* For the separating slash.  */
-
-	/* Take account for the fact that we need to translate every separator into
-           `subfolders/'. */
-	p = path;
-	while (1) {
-		newp = strchr (p, G_DIR_SEPARATOR);
-		if (newp == NULL)
-			break;
-
-		real_path_len += SUBFOLDER_DIR_NAME_LEN;
-		real_path_len++; /* For the separating slash.  */
-
-		/* Skip consecutive slashes.  */
-		while (*newp == G_DIR_SEPARATOR)
-			newp++;
-
-		p = newp;
-	};
-
-	real_path = g_malloc (real_path_len);
-	dp = real_path;
-
-	memcpy (dp, priv->base_path, base_path_len);
-	dp += base_path_len;
-	*(dp++) = G_DIR_SEPARATOR;
-
-	/* Copy the mangled path.  */
-	p = path;
- 	while (1) {
-		newp = strchr (p, G_DIR_SEPARATOR);
-		if (newp == NULL) {
-			strcpy (dp, p);
-			break;
-		}
-
-		memcpy (dp, p, newp - p + 1); /* `+ 1' to copy the slash too.  */
-		dp += newp - p + 1;
-
-		memcpy (dp, SUBFOLDER_DIR_NAME, SUBFOLDER_DIR_NAME_LEN);
-		dp += SUBFOLDER_DIR_NAME_LEN;
-
-		*(dp++) = G_DIR_SEPARATOR;
-
-		/* Skip consecutive slashes.  */
-		while (*newp == G_DIR_SEPARATOR)
-			newp++;
-
-		p = newp;
-	}
-
-	return real_path;
-}
-
 static void
 new_folder (ELocalStorage *local_storage,
 	    const char *path,
@@ -233,79 +149,16 @@ new_folder (ELocalStorage *local_storage,
 }
 
 static gboolean
-load_folders (ELocalStorage *local_storage,
-	      const char *parent_path,
-	      const char *path,
-	      const char *physical_path)
+load_folder (const char *physical_path, const char *path, gpointer data)
 {
-	DIR *dir;
-	char *subfolder_directory_path;
+	ELocalStorage *local_storage = data;
+	EFolder *folder;
 
-	if (parent_path == NULL) {
-		/* On the top level, we don't have any folders and, consequently, no
-		   subfolder directory.  */
-
-		subfolder_directory_path = g_strdup (physical_path);
-	} else {
-		EFolder *folder;
-
-		/*  Otherwise, we have to load the corresponding folder.  */
-
-		folder = e_local_folder_new_from_path (physical_path);
-		if (folder == NULL)
-			return FALSE;
-
-		new_folder (local_storage, path, folder);
-
-		subfolder_directory_path = g_concat_dir_and_file (physical_path, SUBFOLDER_DIR_NAME);
-	}
-
-	/* Now scan the subfolders and load them.  The subfolders are represented by
-           directories under the "SUBFOLDER_DIR_NAME" directory.  */
-
-	dir = opendir (subfolder_directory_path);
-
-	if (dir == NULL) {
-		g_free (subfolder_directory_path);
+	folder = e_local_folder_new_from_path (physical_path);
+	if (folder == NULL)
 		return FALSE;
-	}
 
-	while (1) {
-		struct stat file_stat;
-		struct dirent *dirent;
-		char *file_path;
-		char *new_path;
-
-		dirent = readdir (dir);
-		if (dirent == NULL)
-			break;
-
-		if (strcmp (dirent->d_name, ".") == 0 || strcmp (dirent->d_name, "..") == 0)
-			continue;
-
-		file_path = g_concat_dir_and_file (subfolder_directory_path,
-						   dirent->d_name);
-
-		if (stat (file_path, &file_stat) < 0) {
-			g_free (file_path);
-			continue;
-		}
-		if (! S_ISDIR (file_stat.st_mode)) {
-			g_free (file_path);
-			continue;
-		}
-
-		new_path = g_concat_dir_and_file (path, dirent->d_name);
-
-		load_folders (local_storage, path, new_path, file_path);
-
-		g_free (file_path);
-		g_free (new_path);
-	}
-
-	closedir (dir);
-	g_free (subfolder_directory_path);
-
+	new_folder (local_storage, path, folder);
 	return TRUE;
 }
 
@@ -316,7 +169,7 @@ load_all_folders (ELocalStorage *local_storage)
 
 	base_path = e_local_storage_get_base_path (local_storage);
 
-	return load_folders (local_storage, NULL, G_DIR_SEPARATOR_S, base_path);
+	return e_path_find_folders (base_path, load_folder, local_storage);
 }
 
 static void
@@ -435,38 +288,27 @@ create_folder_directory (ELocalStorage *local_storage,
 	
 	folder_name = g_basename (path);
 
-	if (folder_name == path + 1) {
-		/* We want a direct child of the root, so we don't need to create a
-		   `subfolders' directory.  */
-		physical_path = get_physical_path (local_storage, path);
-	} else {
-		char *parent_physical_path;
+	if (folder_name != path + 1) {
 		char *subfolders_directory_physical_path;
 		char *parent_path;
 		
 		/* Create the `subfolders' subdirectory under the parent.  */
 		
-		parent_path = g_strndup (path, folder_name - path - 1);
-		parent_physical_path = get_physical_path (local_storage, parent_path);
+		parent_path = g_strndup (path, folder_name - path);
+		subfolders_directory_physical_path = e_path_to_physical (priv->base_path, parent_path);
 		g_free (parent_path);
-
-		subfolders_directory_physical_path = g_concat_dir_and_file (parent_physical_path,
-									    SUBFOLDER_DIR_NAME);
 
 		if (! g_file_exists (subfolders_directory_physical_path)) {
 			if (mkdir (subfolders_directory_physical_path, 0700) == -1) {
 				g_free (subfolders_directory_physical_path);
-				g_free (parent_physical_path);
 				return errno_to_storage_result ();
 			}
 		}
-
-		physical_path = g_concat_dir_and_file (subfolders_directory_physical_path,
-						       folder_name);
 		g_free (subfolders_directory_physical_path);
-		g_free (parent_physical_path);
 	}
-	
+
+	physical_path = e_path_to_physical (priv->base_path, path);
+
 	/* Create the directory that holds the folder.  */
 	
 	*physical_path_return = physical_path;
@@ -554,19 +396,27 @@ static EStorageResult
 remove_folder_directory (ELocalStorage *local_storage,
 			 const char *path)
 {
-	char *physical_path;
-	char *file_name;
+	ELocalStoragePrivate *priv;
+	char *physical_path, *subfolder_physical_path;
+	char *file_name, *subfolder_path;
 
-	physical_path = get_physical_path (local_storage, path);
+	priv = local_storage->priv;
+
+	subfolder_path = g_strdup_printf ("%s/", path);
+	subfolder_physical_path = e_path_to_physical (priv->base_path, subfolder_path);
+	g_free (subfolder_path);
 
 	/* 1. Delete the subfolder directory.  If this fails, it means that we
 	   have subfolders.  */
-	file_name = g_concat_dir_and_file (physical_path, SUBFOLDER_DIR_NAME);
-	if (g_file_exists (file_name) && rmdir (file_name) == -1)
+	if (g_file_exists (subfolder_physical_path) &&
+	    rmdir (subfolder_physical_path) == -1) {
+		g_free (subfolder_physical_path);
 		return E_STORAGE_NOTEMPTY; /* FIXME? */
-	g_free (file_name);
+	}
+	g_free (subfolder_physical_path);
 
 	/* 2. Delete the metadata file associated with this folder.  */
+	physical_path = e_path_to_physical (priv->base_path, path);
 	file_name = g_concat_dir_and_file (physical_path, E_LOCAL_FOLDER_METADATA_FILE_NAME);
 	unlink (file_name);
 	g_free (file_name);
