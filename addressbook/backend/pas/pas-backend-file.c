@@ -1104,8 +1104,18 @@ pas_backend_file_process_get_supported_fields (PASBackend *backend,
 					       PASRequest *req)
 {
 	EList *fields = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
+	ECardSimple *card;
+	int i;
 
-	printf ("in pas_backend_file_get_supported_fields\n");
+	/* we support everything, so instantiate an e-card, and loop
+           through all fields, adding their ecard_fields. */
+
+	card = e_card_simple_new (e_card_new (""));
+
+	for (i = 0; i < E_CARD_SIMPLE_FIELD_LAST; i ++)
+		e_list_append (fields, e_card_simple_get_ecard_field (card, i));
+
+	gtk_object_unref (GTK_OBJECT (card));
 
 	pas_book_respond_get_supported_fields (book,
 					       GNOME_Evolution_Addressbook_BookListener_Success,

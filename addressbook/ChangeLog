@@ -1,3 +1,9 @@
+2001-03-02  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_process_get_supported_fields): implement
+	properly, we support everything.
+
 2001-03-01  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-bonobo.c
