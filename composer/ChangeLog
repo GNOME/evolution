@@ -1,3 +1,8 @@
+2000-04-27  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer.c (e_msg_composer_new_from_url): New routine, to
+	process mailto URLs.
+
 2000-04-26  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer.c (build_message): Only generate a multipart

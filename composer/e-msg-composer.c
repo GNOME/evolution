@@ -38,6 +38,7 @@
 #include <libgnorba/gnorba.h>
 #include <bonobo.h>
 #include <bonobo/bonobo-stream-memory.h>
+#include "e-util/e-html-utils.h"
 
 #include <glade/glade.h>
 
@@ -662,6 +663,130 @@ e_msg_composer_new (void)
 
 	return new;
 }
+
+
+static GList *
+add_recipients (GList *list, const char *recips, gboolean decode)
+{
+	int len;
+	char *addr;
+
+	while (*recips) {
+		len = strcspn (recips, ",");
+		if (len) {
+			addr = g_strndup (recips, len);
+			if (decode)
+				camel_url_decode (addr);
+			list = g_list_append (list, addr);
+		}
+		recips += len;
+		if (*recips == ',')
+			recips++;
+	}
+
+	return list;
+}
+
+static void
+free_recipients (GList *list)
+{
+	GList *l;
+
+	for (l = list; l; l = l->next)
+		g_free (l->data);
+	g_list_free (list);
+}
+
+/**
+ * e_msg_composer_new_from_url:
+ * @url: a mailto URL
+ *
+ * Create a new message composer widget, and fill in fields as
+ * defined by the provided URL.
+ **/
+GtkWidget *
+e_msg_composer_new_from_url (const char *url)
+{
+	EMsgComposer *composer;
+	EMsgComposerHdrs *hdrs;
+	GList *to = NULL, *cc = NULL, *bcc = NULL;
+	char *subject = NULL, *body = NULL;
+	const char *p, *header;
+	int len, clen;
+	char *content;
+
+	g_return_val_if_fail (strncasecmp (url, "mailto:", 7) == 0, NULL);
+
+	/* Parse recipients (everything after ':' until '?' or eos. */
+	p = url + 7;
+	len = strcspn (p, "?,");
+	if (len) {
+		content = g_strndup (p, len);
+		to = add_recipients (to, content, TRUE);
+		g_free (content);
+	}
+
+	p += len;
+	if (*p == '?') {
+		p++;
+
+		while (*p) {
+			len = strcspn (p, "=&");
+
+			/* If it's malformed, give up. */
+			if (p[len] != '=')
+				break;
+
+			header = p;
+			p += len + 1;
+
+			clen = strcspn (p, "&");
+			content = g_strndup (p, clen);
+			camel_url_decode (content);
+
+			if (!strncasecmp (header, "to", len))
+				to = add_recipients (to, content, FALSE);
+			else if (!strncasecmp (header, "cc", len))
+				cc = add_recipients (cc, content, FALSE);
+			else if (!strncasecmp (header, "bcc", len))
+				bcc = add_recipients (bcc, content, FALSE);
+			else if (!strncasecmp (header, "subject", len))
+				subject = g_strdup (content);
+			else if (!strncasecmp (header, "body", len))
+				body = g_strdup (content);
+
+			g_free (content);
+			p += clen;
+			if (*p == '&') {
+				p++;
+				if (!strcmp (p, "amp;"))
+					p += 4;
+			}
+		}
+	}
+		
+	composer = E_MSG_COMPOSER (e_msg_composer_new ());
+	hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
+	e_msg_composer_hdrs_set_to (hdrs, to);
+	free_recipients (to);
+	e_msg_composer_hdrs_set_cc (hdrs, cc);
+	free_recipients (cc);
+	e_msg_composer_hdrs_set_bcc (hdrs, bcc);
+	free_recipients (bcc);
+	if (subject) {
+		e_msg_composer_hdrs_set_subject (hdrs, subject);
+		g_free (subject);
+	}
+
+	if (body) {
+		char *htmlbody = e_text_to_html (body, E_TEXT_TO_HTML_PRE);
+		set_editor_text (BONOBO_WIDGET (composer->editor), htmlbody);
+		g_free (htmlbody);
+	}
+
+	return GTK_WIDGET (composer);
+}
+
 
 
 /**
