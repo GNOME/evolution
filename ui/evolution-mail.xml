@@ -103,14 +103,21 @@
         <menuitem name="MessageMarkAsUnRead" verb=""
         _label="Mark As U_nread"/>
 
+        <menuitem/>
+
+        <menuitem name="MessageMove" verb=""
+        _label="_Move to Folder..."/>
+
+        <menuitem name="MessageCopy" verb=""
+        _label="_Copy to Folder..."/>
+
         <menuitem name="MessageDelete" verb=""
         _label="_Delete"/>
 
-        <menuitem name="MessageMove" verb=""
-        _label="_Move to Folder"/>
+        <menuitem name="MessageUndelete" verb=""
+        _label="_Undelete"/>
 
-        <menuitem name="MessageCopy" verb=""
-        _label="_Copy to Folder"/>
+        <menuitem/>
 
         <menuitem name="MessageApplyFilters" verb=""
         _label="_Apply Filters"/>
