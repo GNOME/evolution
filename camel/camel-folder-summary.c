@@ -23,6 +23,7 @@
 #include <netinet/in.h>
 #include <ctype.h>
 #include <string.h>
+#include <errno.h>
 
 #include "camel-folder-summary.h"
 
@@ -468,7 +469,9 @@ camel_folder_summary_encode_fixed_int32(FILE *out, gint32 value)
 	guint32 save;
 
 	save = htonl(value);
-	return fwrite(&save, sizeof(save), 1, out);
+	if (fwrite(&save, sizeof(save), 1, out) != 1)
+		return -1;
+	return 0;
 }
 
 int
@@ -476,7 +479,7 @@ camel_folder_summary_decode_fixed_int32(FILE *in, gint32 *dest)
 {
 	guint32 save;
 
-	if (fread(&save, sizeof(save), 1, in) != -1) {
+	if (fread(&save, sizeof(save), 1, in) == 1) {
 		*dest = ntohl(save);
 		return 0;
 	} else {
@@ -549,7 +552,8 @@ camel_folder_summary_encode_token(FILE *out, char *str)
 		} else {
 			if (camel_folder_summary_encode_uint32(out, len+32) == -1)
 				return -1;
-			return fwrite(str, len, 1, out);
+			if (fwrite(str, len, 1, out) != 1)
+				return -1;
 		}
 	}
 	return 0;
@@ -583,7 +587,7 @@ camel_folder_summary_decode_token(FILE *in, char **str)
 	} else {
 		len -= 32;
 		ret = g_malloc(len+1);
-		if (fread(ret, len, 1, in) == -1) {
+		if (fread(ret, len, 1, in) != 1) {
 			g_free(ret);
 			*str = NULL;
 			return -1;
@@ -606,7 +610,9 @@ camel_folder_summary_encode_string(FILE *out, char *str)
 	len = strlen(str);
 	if (camel_folder_summary_encode_uint32(out, len+1) == -1)
 		return -1;
-	return fwrite(str, len, 1, out);	
+	if (fwrite(str, len, 1, out) == 1)
+		return 0;
+	return -1;
 }
 
 
@@ -628,7 +634,7 @@ camel_folder_summary_decode_string(FILE *in, char **str)
 	}
 
 	ret = g_malloc(len+1);
-	if (fread(ret, len, 1, in) == -1) {
+	if (fread(ret, len, 1, in) != 1) {
 		g_free(ret);
 		*str = NULL;
 		return -1;
@@ -1045,7 +1051,6 @@ int main(int argc, char **argv)
 	CamelFolderSummary *s;
 	char *buffer;
 	int len;
-	extern int strdup_count, malloc_count, free_count;
 	ibex *index;
 
 	gtk_init(&argc, &argv);
@@ -1094,6 +1099,10 @@ int main(int argc, char **argv)
 			break;
 		}
 	}
+
+	printf("Saivng summary\n");
+	camel_folder_summary_set_filename(s, "index.summary");
+	camel_folder_summary_save(s);
 
 	gtk_object_unref(mp);
 	gtk_object_unref(s);

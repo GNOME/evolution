@@ -1,6 +1,10 @@
 2000-05-05  NotZed  <NotZed@HelixCode.com>
 
 	* camel-folder-summary.c: And same here ...
+	(camel_folder_summary_encode_fixed_int32): Ugh, fwrite doesn't
+	return -1 on error ..
+	(camel_folder_summary_decode_fixed_int32): Neither deos fread.
+	(camel_folder_summary_encode_token): Fix here too.
 
 	* camel-mime-utils.c: Defined out some memory profiling stuff I
 	left there by mistake.
