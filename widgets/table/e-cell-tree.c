@@ -179,9 +179,14 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 		node = e_cell_tree_get_node (ecell_view->e_table_model, row);
 
-		offset = offset_of_node (tree_model, node);
 		expandable = e_tree_model_node_is_expandable (tree_model, node);
 		expanded = e_tree_model_node_is_expanded (tree_model, node);
+
+		if (visible_depth_of_node (tree_model, node) > 0 || expandable) {
+			offset = offset_of_node (tree_model, node);
+		} else {
+			offset = 0;
+		}
 		subcell_offset = offset;
 
 		node_image = e_tree_model_icon_of_node (tree_model, node);
