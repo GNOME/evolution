@@ -96,7 +96,7 @@
 <!-- ==============End of Figure============================== -->
 
       <para>
-	<inlinegraphic fileref="fig/full-1"></inlinegraphic>
+	<inlinegraphic fileref="fig/full-1" format="png"></inlinegraphic>
 	<guimenu>Menu Bar</guimenu>
       </para>
 

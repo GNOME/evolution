@@ -38,6 +38,25 @@
   <sect1 id="usage-contact-basic">
     <title>Getting Started With the Address Book</title>	
     
+    <figure id="usage-contact-fig">
+      <title>Evolution Contact Interface</title>
+      <screenshot>
+	<screeninfo>Evolution Contact List Window</screeninfo>
+	<graphic fileref="fig/contact" format="png" srccredit="Kevin Breit">
+	</graphic>
+      </screenshot>
+    </figure>
+
+    <para>
+      <inlinegraphic fileref="fig/fill-1"></inlinegraphic>
+      <guilabel>Contact List</guilabel>
+    </para>
+
+    <para>
+      The <guilabel>Contact List</guilabel> lists your contacts which you
+      entered.
+    </para>
+
     <para>
        To open up your address book, click on
        <guibutton>Contacts</guibutton> in the shortcut bar, or select
@@ -50,16 +69,6 @@
        the width of the columns by clicking and dragging the grey
        column dividers.
     </para>
-
-
-    <figure id="usage-contact-fig">
-      <title>Evolution Address Book</title>
-      <screenshot>
-	<screeninfo>Evolution Address Book Window</screeninfo>
-	<graphic fileref="fig/contact" format="png" srccredit="Aaron Weber">
-	    </graphic>
-      </screenshot>
-    </figure>
 
     <para>
        The toolbar for the address book is quite simple:
