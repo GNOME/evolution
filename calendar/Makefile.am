@@ -1,2 +1,2 @@
-SUBDIRS = doc idl cal-util pcs cal-client gui 
-#SUBDIRS = doc idl cal-util pcs cal-client gui conduits
+SUBDIRS = idl cal-util pcs cal-client gui 
+#SUBDIRS = idl cal-util pcs cal-client gui conduits
