@@ -1,0 +1,198 @@
+/* Day view notebook panel for gncal
+ *
+ * Copyright (C) 1998 The Free Software Foundation
+ *
+ * Author: Federico Mena <quartic@gimp.org>
+ */
+
+#include "gncal-day-panel.h"
+#include "main.h"
+#include "timeutil.h"
+
+
+guint
+gncal_day_panel_get_type (void)
+{
+	static guint day_panel_type = 0;
+
+	if (!day_panel_type) {
+		GtkTypeInfo day_panel_info = {
+			"GncalDayPanel",
+			sizeof (GncalDayPanel),
+			sizeof (GncalDayPanelClass),
+			(GtkClassInitFunc) NULL,
+			(GtkObjectInitFunc) NULL,
+			(GtkArgSetFunc) NULL,
+			(GtkArgGetFunc) NULL
+		};
+
+		day_panel_type = gtk_type_unique (gtk_table_get_type (), &day_panel_info);
+	}
+
+	return day_panel_type;
+}
+
+static void
+day_view_range_activated (GncalFullDay *fullday, GncalDayPanel *dpanel)
+{
+	iCalObject *ical;
+
+	ical = ical_new ("", user_name, "");
+	ical->new = 1;
+
+	gncal_full_day_selection_range (fullday, &ical->dtstart, &ical->dtend);
+
+	gnome_calendar_add_object (dpanel->calendar, ical);
+	gncal_full_day_focus_child (fullday, ical);
+}
+
+static void
+full_day_mapped (GtkWidget *widget, GncalDayPanel *dpanel)
+{
+	GtkAdjustment *adj;
+
+	adj = gtk_scrolled_window_get_vadjustment (dpanel->fullday_sw);
+
+	adj->value = gncal_full_day_get_day_start_yoffset (GNCAL_FULL_DAY (widget));
+	gtk_signal_emit_by_name (GTK_OBJECT (adj), "value_changed");
+}
+
+static void
+calendar_day_selected (GtkCalendar *calendar, GncalDayPanel *dpanel)
+{
+	gint y, m, d;
+	struct tm tm;
+
+	gtk_calendar_get_date (calendar, &y, &m, &d);
+
+	tm.tm_year = y;
+	tm.tm_mon  = m;
+	tm.tm_mday = d;
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+
+	gnome_calendar_goto (dpanel->calendar, mktime (&tm));
+}
+
+GtkWidget *
+gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
+{
+	GncalDayPanel *dpanel;
+	GtkWidget *w;
+
+	g_return_val_if_fail (calendar != NULL, NULL);
+
+	dpanel = gtk_type_new (gncal_day_panel_get_type ());
+
+	gtk_container_border_width (GTK_CONTAINER (dpanel), 4);
+	gtk_table_set_row_spacings (GTK_TABLE (dpanel), 4);
+	gtk_table_set_col_spacings (GTK_TABLE (dpanel), 4);
+
+	dpanel->calendar = calendar;
+
+	/* Date label */
+
+	w = gtk_label_new ("");
+	dpanel->date_label = GTK_LABEL (w);
+	gtk_table_attach (GTK_TABLE (dpanel), w,
+			  1, 2, 0, 1,
+			  GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
+	gtk_widget_show (w);
+
+	/* Full day */
+
+	w = gtk_scrolled_window_new (NULL, NULL);
+	dpanel->fullday_sw = GTK_SCROLLED_WINDOW (w);
+	gtk_scrolled_window_set_policy (dpanel->fullday_sw,
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+	gtk_table_attach (GTK_TABLE (dpanel), w,
+			  1, 2, 1, 3,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  0, 0);
+	gtk_widget_show (w);
+
+	w = gncal_full_day_new (calendar, time_start_of_day (start_of_day), time_end_of_day (start_of_day));
+	dpanel->fullday = GNCAL_FULL_DAY (w);
+	gtk_signal_connect (GTK_OBJECT (dpanel->fullday), "range_activated",
+			    (GtkSignalFunc) day_view_range_activated,
+			    dpanel);
+	gtk_container_add (GTK_CONTAINER (dpanel->fullday_sw), w);
+	gtk_widget_show (w);
+
+	/* When the full day widget gets mapped, we'll scroll the list to the proper initial position */
+
+	gtk_signal_connect (GTK_OBJECT (dpanel->fullday), "map",
+			    (GtkSignalFunc) full_day_mapped,
+			    dpanel);
+
+	/* Gtk calendar */
+
+	w = gtk_calendar_new ();
+	dpanel->gtk_calendar = GTK_CALENDAR (w);
+	gtk_calendar_display_options (dpanel->gtk_calendar,
+				      GTK_CALENDAR_SHOW_HEADING | GTK_CALENDAR_SHOW_DAY_NAMES);
+	dpanel->day_selected_id = gtk_signal_connect (GTK_OBJECT (dpanel->gtk_calendar), "day_selected",
+						      (GtkSignalFunc) calendar_day_selected,
+						      dpanel);
+	gtk_table_attach (GTK_TABLE (dpanel), w,
+			  0, 1, 1, 2,
+			  GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
+	gtk_widget_show (w);
+
+	/* To-do */
+
+	w = gtk_button_new_with_label ("TODO");
+	dpanel->todo_list = w;
+	gtk_table_attach (GTK_TABLE (dpanel), w,
+			  0, 1, 2, 3,
+			  GTK_FILL | GTK_SHRINK,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  0, 0);
+	gtk_widget_show (w);
+
+	/* Done */
+
+	gncal_day_panel_set (dpanel, start_of_day);
+
+	return GTK_WIDGET (dpanel);
+}
+
+void
+gncal_day_panel_update (GncalDayPanel *dpanel, iCalObject *ico, int flags)
+{
+	g_return_if_fail (dpanel != NULL);
+	g_return_if_fail (GNCAL_IS_DAY_PANEL (dpanel));
+
+	gncal_full_day_update (dpanel->fullday, ico, flags);
+}
+
+void
+gncal_day_panel_set (GncalDayPanel *dpanel, time_t start_of_day)
+{
+	char buf[256];
+	struct tm *tm;
+
+	g_return_if_fail (dpanel != NULL);
+	g_return_if_fail (GNCAL_IS_DAY_PANEL (dpanel));
+
+	dpanel->start_of_day = time_start_of_day (start_of_day);
+
+	strftime (buf, sizeof (buf), "%a %b %d %Y", localtime (&dpanel->start_of_day));
+	gtk_label_set (GTK_LABEL (dpanel->date_label), buf);
+
+	gncal_full_day_set_bounds (dpanel->fullday, dpanel->start_of_day, time_end_of_day (dpanel->start_of_day));
+
+	tm = localtime (&dpanel->start_of_day);
+	gtk_calendar_select_month (dpanel->gtk_calendar, tm->tm_mon, tm->tm_year + 1900);
+
+	gtk_signal_handler_block (GTK_OBJECT (dpanel->gtk_calendar), dpanel->day_selected_id);
+	gtk_calendar_select_day (dpanel->gtk_calendar, tm->tm_mday);
+	gtk_signal_handler_unblock (GTK_OBJECT (dpanel->gtk_calendar), dpanel->day_selected_id);
+}

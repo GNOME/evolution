@@ -12,8 +12,8 @@
 #include <gtk/gtktable.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnomeui/gtkcalendar.h>
-#include "gncal-day-view.h"
 #include "gnome-cal.h"
+#include "gncal-day-view.h"
 
 BEGIN_GNOME_DECLS
 

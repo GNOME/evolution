@@ -298,6 +298,7 @@ static GnomeUIInfo gnome_cal_file_menu [] = {
 static GnomeUIInfo gnome_cal_about_menu [] = {
 	{ GNOME_APP_UI_ITEM, N_("About"), NULL, about_calendar_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_ABOUT },
+	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_HELP ("cal"),
 	GNOMEUIINFO_END
 };

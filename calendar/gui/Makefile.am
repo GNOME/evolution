@@ -16,6 +16,8 @@ gnomecal_SOURCES = \
 	calendar.h		\
 	calobj.c		\
 	calobj.h		\
+	gncal-day-panel.c	\
+	gncal-day-panel.h	\
 	gncal-day-view.c	\
 	gncal-day-view.h	\
 	gncal-full-day.c	\

@@ -25,10 +25,8 @@ typedef struct {
 	time_t      current_display;
 	
 	GtkWidget   *notebook;
-	GtkWidget   *week_view;
 	GtkWidget   *day_view;
-	GtkWidget   *day_view_container;
-	GtkWidget   *day_view_label;
+	GtkWidget   *week_view;
 	GtkWidget   *year_view;
 	GtkWidget   *task_view;
 	void        *event_editor;

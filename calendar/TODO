@@ -1,16 +1,8 @@
-Calendar object:
-
-- The warnings spitted when you open the event editor to edit an
-  existing calendar object happen because the alarm loading code is
-  not yet finished.
-
 Gnome date selection widget:
 
 - Make the displayed date be localized properly -- use strftime().
 
-Full day view widget:
-
-- Eliminate flicker when dragging a selection.
+Full day widget:
 
 - Display alarm/whatever flags somewhere.
 
@@ -27,10 +19,10 @@ Week view:
 
 Day view:
 
-- Add a calendar and a to-do list widget.
+- Highlight the days with appointments in the calendar.
 
 General:
 
-- Ask the user whether to save the calendar when he quits the program.
+- See that the views synchronize when you do a gnome_calendar_goto().
 
 - Write online help.  Nice help.  Lots of help.
