@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "POT-Creation-Date: 2002-12-05 17:57-0500\n"
-"PO-Revision-Date: 2002-01-30 02:21+03:00\n"
-"Last-Translator: Valek Filippov <frob@df.ru>\n"
-"Language-Team:  <ru@li.org>\n"
+"PO-Revision-Date: 2003-01-08 10:40+02:00\n"
+"Last-Translator: Andrew V. Samoilov <sav@bcs.zp.ua>\n"
+"Language-Team: <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=KOI8-R\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -171,7 +171,7 @@ msgstr "Другой факс"
 #: addressbook/gui/contact-editor/e-contact-editor.c:1758
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:32
 msgid "Pager"
-msgstr "Пэйджер"
+msgstr "Пейджер"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
 #: addressbook/gui/contact-editor/e-contact-editor.c:1760
@@ -248,7 +248,7 @@ msgstr "Проф."
 #: addressbook/backend/ebook/e-card-simple.c:93
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 msgid "Manager"
-msgstr "Мeнеджер"
+msgstr "Менеджер"
 
 #: addressbook/backend/ebook/e-card-simple.c:93
 msgid "Man"
@@ -322,9 +322,8 @@ msgstr "%x"
 
 #: addressbook/backend/ebook/e-card-simple.c:853
 #: addressbook/backend/ebook/e-destination.c:706
-#, fuzzy
 msgid "Unnamed List"
-msgstr "Безымянный список контактов"
+msgstr "Безымянный список"
 
 #: addressbook/backend/ebook/e-card.c:2683
 msgid "Multiple VCards"
@@ -360,13 +359,12 @@ msgid "Loading..."
 msgstr "Загрузка..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:719
-#, fuzzy
 msgid "Reconnecting to LDAP server..."
-msgstr "Подключение к серверу LDAP..."
+msgstr "Переподключение к серверу LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1262
 msgid "Adding card to LDAP server..."
-msgstr "Создание карточки на сервере LDAP..."
+msgstr "Добавление карточки на сервере LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1368
 msgid "Removing card from LDAP server..."
@@ -514,7 +512,6 @@ msgstr "Контакт"
 
 #: addressbook/gui/component/addressbook-component.c:568
 #: ui/evolution-addressbook.h:15
-#, fuzzy
 msgid "Create a new contact"
 msgstr "Создать новый контакт"
 
@@ -527,21 +524,16 @@ msgid "Contact _List"
 msgstr "Список контактов"
 
 #: addressbook/gui/component/addressbook-component.c:572
-#, fuzzy
 msgid "Create a new contact list"
-msgstr "Создать список контактов"
+msgstr "Создать новый список контактов"
 
 #: addressbook/gui/component/addressbook-config.c:197
 msgid "Failed to connect to LDAP server"
 msgstr "Невозможно подключиться к серверу LDAP."
 
 #: addressbook/gui/component/addressbook-config.c:216
-#, fuzzy
 msgid "Failed to authenticate with LDAP server"
-msgstr ""
-"Сбой аутентификации на сервере IMAP.\n"
-"%s\n"
-"\n"
+msgstr "Сбой аутентификации сервером LDAP"
 
 #: addressbook/gui/component/addressbook-config.c:239
 msgid "Could not perform query on Root DSE"
@@ -557,11 +549,8 @@ msgid "This server does not support LDAPv3 schema information"
 msgstr "Ответ сервера IMAP не содержит информации о %s"
 
 #: addressbook/gui/component/addressbook-config.c:1176
-#, fuzzy
 msgid "Error retrieving schema information"
-msgstr ""
-"Ошибка при загрузке информации фильтра:\n"
-"%s"
+msgstr "Ошибка при загрузке информации о схеме"
 
 #: addressbook/gui/component/addressbook-config.c:1184
 #, fuzzy
@@ -569,12 +558,10 @@ msgid "Server did not respond with valid schema information"
 msgstr "Ответ сервера IMAP не содержит информации о %s"
 
 #: addressbook/gui/component/addressbook-config.c:1630
-#, fuzzy
 msgid "LDAP was not enabled in this build of Evolution"
-msgstr "(В этой сборке Evolution SSL не поддерживается)"
+msgstr "В этой сборке Evolution LDAP не поддерживается"
 
 #: addressbook/gui/component/addressbook-config.etspec.h:1
-#, fuzzy
 msgid "Account Name"
 msgstr "Название учётной записи"
 
@@ -588,9 +575,8 @@ msgid "Could not initialize gnome-vfs"
 msgstr "Не удалось инициализировать gnome-vfs"
 
 #: addressbook/gui/component/addressbook-storage.c:168
-#, fuzzy
 msgid "Other Contacts"
-msgstr "Контакты"
+msgstr "Другие контакты"
 
 #: addressbook/gui/component/addressbook.c:474
 msgid "Unable to open addressbook"
@@ -605,7 +591,6 @@ msgstr ""
 "и что у вас имеются необходимые права доступа."
 
 #: addressbook/gui/component/addressbook.c:490
-#, fuzzy
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or the LDAP server\n"
@@ -613,7 +598,7 @@ msgid ""
 msgstr ""
 "Не удалось открыть эту адресную книгу. Это значит,\n"
 "что либо вы ввели неверный URI, либо сервер LDAP\n"
-"не отвечает"
+"недоступен"
 
 #: addressbook/gui/component/addressbook.c:495
 msgid ""
@@ -629,43 +614,37 @@ msgstr ""
 "ниже ссылке.\n"
 
 #: addressbook/gui/component/addressbook.c:504
-#, fuzzy
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or the server\n"
 "is unreachable."
 msgstr ""
 "Не удалось открыть эту адресную книгу. Это значит,\n"
-"что либо вы ввели неверный URI, либо сервер LDAP\n"
-"не отвечает"
+"что либо вы ввели неверный URI, либо сервер\n"
+"недоступен"
 
 #. the user clicked cancel in the password dialog
 #: addressbook/gui/component/addressbook.c:582
 msgid "Accessing LDAP Server anonymously"
-msgstr ""
+msgstr "Обращаться к серверу LDAP анонимно"
 
 #: addressbook/gui/component/addressbook.c:625
-#, fuzzy
 msgid "Failed to authenticate.\n"
-msgstr ""
-"Сбой аутентификации на сервере IMAP.\n"
-"%s\n"
-"\n"
+msgstr "Сбой аутентификации.\n"
 
 #: addressbook/gui/component/addressbook.c:633
 #: addressbook/gui/component/addressbook.c:636
-#, fuzzy, c-format
+#, c-format
 msgid "%sEnter password for %s (user %s)"
-msgstr "Введите пароль для %s (пользователь %s)"
+msgstr "%sВведите пароль для %s (пользователь %s)"
 
 #: addressbook/gui/component/addressbook.c:782
 msgid "Name begins with"
 msgstr "Имя начинается с"
 
 #: addressbook/gui/component/addressbook.c:783
-#, fuzzy
 msgid "Email begins with"
-msgstr "Имя начинается с"
+msgstr "Письмо начинается с"
 
 #: addressbook/gui/component/addressbook.c:784
 #: calendar/gui/cal-search-bar.c:53
@@ -697,6 +676,10 @@ msgid ""
 "more specific or raise the time limit in the directory server\n"
 "preferences for this addressbook."
 msgstr ""
+"Время исполнения этого запроса превышает предел сервера или предел,\n"
+"установленный вами для этой адресной книги.  Пожалуйста, сделайте поиск\n"
+"более избирательным или увеличьте предел времени в настройках сервера\n"
+"каталогов для этой адресной книги."
 
 #: addressbook/gui/component/addressbook.c:968
 msgid "The backend for this addressbook was unable to parse this query."
@@ -708,7 +691,7 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook.c:975
 msgid "This query did not complete successfully."
-msgstr ""
+msgstr "Этот запрос завершился неудачно"
 
 #. All, unmatched, separator
 #: addressbook/gui/component/addressbook.c:1050
@@ -792,16 +775,15 @@ msgstr "1:00"
 
 #: addressbook/gui/component/ldap-config.glade.h:4
 msgid "2:30"
-msgstr ""
+msgstr "2:30"
 
 #: addressbook/gui/component/ldap-config.glade.h:5
 msgid "3268"
-msgstr ""
+msgstr "3268"
 
 #: addressbook/gui/component/ldap-config.glade.h:6
-#, fuzzy
 msgid "380"
-msgstr "389"
+msgstr "380"
 
 #: addressbook/gui/component/ldap-config.glade.h:7
 msgid "389"
@@ -809,18 +791,17 @@ msgstr "389"
 
 #: addressbook/gui/component/ldap-config.glade.h:8
 msgid "5:00"
-msgstr ""
+msgstr "5:00"
 
 #: addressbook/gui/component/ldap-config.glade.h:9
 msgid "636"
-msgstr ""
+msgstr "636"
 
 #: addressbook/gui/component/ldap-config.glade.h:10
 msgid "666"
-msgstr ""
+msgstr "666"
 
 #: addressbook/gui/component/ldap-config.glade.h:11
-#, fuzzy
 msgid "<- _Remove"
 msgstr "<- Удалить"
 
@@ -862,15 +843,19 @@ msgid ""
 "Please click the \"Finish\" button to save the settings you have entered "
 "here."
 msgstr ""
+"Поздравляем, вы закончили настройку этого сервера LDAP.\n"
+"Теперь вы можете обращаться к этому каталогу.\n"
+"\n"
+"Пожалуйста, щелкните по кнопке \"Завершить\" для сохранения введенных "
+"настроек."
 
 #: addressbook/gui/component/ldap-config.glade.h:23
-#, fuzzy
 msgid "Connecting"
-msgstr "Коннектикут"
+msgstr "Соединение"
 
 #: addressbook/gui/component/ldap-config.glade.h:24
 msgid "Corresponding Evolution Attribute"
-msgstr ""
+msgstr "Соответствующий атрибут Evolution"
 
 #: addressbook/gui/component/ldap-config.glade.h:25
 #, fuzzy
@@ -891,14 +876,12 @@ msgid "Email Address:"
 msgstr "Эл.адрес:"
 
 #: addressbook/gui/component/ldap-config.glade.h:29
-#, fuzzy
 msgid "Evolution Attribute"
-msgstr "Evolution "
+msgstr "Атрибут Evolution"
 
 #: addressbook/gui/component/ldap-config.glade.h:30
-#, fuzzy
 msgid "Evolution will use this DN to authenticate you with the server"
-msgstr "Будет использоваться этот эл.адрес для идентификации Вас на сервере"
+msgstr "Этот DN будет использоваться для идентификации Вас на сервере"
 
 #: addressbook/gui/component/ldap-config.glade.h:31
 msgid ""
@@ -906,9 +889,8 @@ msgid ""
 msgstr "Будет использоваться этот эл.адрес для идентификации Вас на сервере"
 
 #: addressbook/gui/component/ldap-config.glade.h:32
-#, fuzzy
 msgid "Finished"
-msgstr "Найти"
+msgstr "Готово"
 
 #: addressbook/gui/component/ldap-config.glade.h:33
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
@@ -917,12 +899,11 @@ msgstr "Общие"
 
 #: addressbook/gui/component/ldap-config.glade.h:34
 msgid "LDAP Attribute"
-msgstr ""
+msgstr "Атрибут LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:35
-#, fuzzy
 msgid "LDAP Configuration Assistant"
-msgstr "Настройка"
+msgstr "Ассистент настройки LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:36
 #, fuzzy
@@ -943,6 +924,12 @@ msgid ""
 "your connection. Ask your system administrator if your LDAP server uses "
 "these protocols."
 msgstr ""
+"Теперь вы должны указать, как вы хотите соединяться с этим сервером LDAP.\n"
+"Некоторые сервера используют протоколы SSL (Secure Sockets Layer)\n"
+"и TLS  (Transport Layer Security) для криптографической защиты вашего "
+"соединения.\n"
+"Спросите своего системного администратора, использует ли ваш сервер LDAP\n"
+"эти протоколы."
 
 #: addressbook/gui/component/ldap-config.glade.h:41
 msgid "Objectclasses"
@@ -965,22 +952,24 @@ msgid ""
 "Please select an Evolution attribute and an\n"
 "LDAP attribute to associate with it."
 msgstr ""
+"Пожалуйста, выберите атрибут Evolution\n"
+"и атрибут LDAP, связанный с ним."
 
 #: addressbook/gui/component/ldap-config.glade.h:47
 msgid ""
 "Please select and Evolution attribute and an\n"
 "LDAP attribute to associate with it."
 msgstr ""
+"Пожалуйста, выберите атрибут Evolution\n"
+"и атрибут LDAP, связанный с ним."
 
 #: addressbook/gui/component/ldap-config.glade.h:49
-#, fuzzy
 msgid "R_estore Defaults"
-msgstr "Сделать основной"
+msgstr "Восстановить умолчания"
 
 #: addressbook/gui/component/ldap-config.glade.h:50
-#, fuzzy
 msgid "Re_store Defaults"
-msgstr "Сделать основной"
+msgstr "Восстановить умолчания"
 
 #: addressbook/gui/component/ldap-config.glade.h:51
 #, fuzzy
@@ -995,9 +984,8 @@ msgid "Searching"
 msgstr "Поиск"
 
 #: addressbook/gui/component/ldap-config.glade.h:53
-#, fuzzy
 msgid "Select"
-msgstr "Выбрать всё"
+msgstr "Выбрать"
 
 #: addressbook/gui/component/ldap-config.glade.h:54
 #, fuzzy
@@ -1010,6 +998,8 @@ msgid ""
 "server if\n"
 "your LDAP server supports SSL or TLS."
 msgstr ""
+"Выбор этого параметра значит, что Evolution будет соединяться с вашим\n"
+"сервером LDAP только если он поддерживает SSL или TLS."
 
 #: addressbook/gui/component/ldap-config.glade.h:57
 msgid ""
@@ -1083,6 +1073,9 @@ msgid ""
 "information. Please ask your system administrator if you are unsure of this "
 "information."
 msgstr ""
+"Первым шагом при настройке сервера LDAP является указание его имени и вашей\n"
+"учетной записи. Если вы не уверены, свяжитесь с вашим системным "
+"администратором."
 
 #: addressbook/gui/component/ldap-config.glade.h:77
 msgid ""
@@ -1125,7 +1118,7 @@ msgstr ""
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
-msgstr ""
+msgstr "Полное имя вашего сервера LDAP. Например, \"ldap.mycompany.com\"."
 
 #: addressbook/gui/component/ldap-config.glade.h:92
 msgid ""
@@ -1199,7 +1192,6 @@ msgid "_Add"
 msgstr "Добавить"
 
 #: addressbook/gui/component/ldap-config.glade.h:109
-#, fuzzy
 msgid "_Add ->"
 msgstr "Добавить ->"
 
@@ -1215,7 +1207,7 @@ msgstr "Добавить действие"
 
 #: addressbook/gui/component/ldap-config.glade.h:112
 msgid "_Always"
-msgstr "Вседа"
+msgstr "Всегда"
 
 #: addressbook/gui/component/ldap-config.glade.h:113
 #, fuzzy
@@ -1255,9 +1247,8 @@ msgid "_Edit Mapping"
 msgstr "Правка встречи"
 
 #: addressbook/gui/component/ldap-config.glade.h:120
-#, fuzzy
 msgid "_Evolution attribute:"
-msgstr "Evolution "
+msgstr "Атрибут _Evolution:"
 
 #: addressbook/gui/component/ldap-config.glade.h:121
 msgid "_If necessary "
@@ -1265,11 +1256,11 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:122
 msgid "_LDAP attribute:"
-msgstr ""
+msgstr "Атрибут _LDAP:"
 
 #: addressbook/gui/component/ldap-config.glade.h:123
 msgid "_LDAP attributes:"
-msgstr ""
+msgstr "Атрибуты _LDAP:"
 
 #: addressbook/gui/component/ldap-config.glade.h:124
 msgid "_Log in method:"
@@ -1285,9 +1276,8 @@ msgid "_Port number:"
 msgstr "Порт:"
 
 #: addressbook/gui/component/ldap-config.glade.h:127
-#, fuzzy
 msgid "_Restore Defaults"
-msgstr "Сделать основной"
+msgstr "Восстановить умолчания"
 
 #: addressbook/gui/component/ldap-config.glade.h:128
 #, fuzzy
@@ -1396,9 +1386,8 @@ msgid "Select Contacts from Addressbook"
 msgstr "Выбрать контакты из адресной книги"
 
 #: addressbook/gui/component/select-names/e-select-names.c:572
-#, fuzzy
 msgid "Find contact in"
-msgstr "\"Отправитель\" содержит"
+msgstr "Найти контакт в"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:1
 #: ui/evolution-addressbook.h:16
@@ -1411,14 +1400,12 @@ msgid "Select Names"
 msgstr "Выбрать имена"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:3
-#, fuzzy
 msgid "Selected Contacts:"
-msgstr "Удалить контакт?"
+msgstr "Выбранные контакты:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:4
-#, fuzzy
 msgid "Show Contacts"
-msgstr "Контакты"
+msgstr "Показать контакты"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid ""
@@ -2591,11 +2578,10 @@ msgid "Zimbabwe"
 msgstr "Зимбабве"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:1
-#, fuzzy
 msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
-msgstr "Вы уверены что хотите удалить эту учётную запись?"
+msgstr "Вы уверены что хотите удалить этот контакт?"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:3
 msgid "Delete Contact?"
@@ -2659,16 +2645,15 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/file-exists.glade.h:1
 msgid "Confirm Overwrite"
-msgstr ""
+msgstr "Подтвердить перезапись"
 
 #: addressbook/gui/contact-editor/file-exists.glade.h:2
 msgid "Don't bother translating this string.  It's not used."
 msgstr ""
 
 #: addressbook/gui/contact-editor/file-exists.glade.h:3
-#, fuzzy
 msgid "Overwrite"
-msgstr "Перезаписать файл?"
+msgstr "Перезаписать"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Address _2:"
@@ -2805,9 +2790,8 @@ msgid "Save List as VCard"
 msgstr "Сохранить список как VCard"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
-#, fuzzy
 msgid "Contact"
-msgstr "Контакты"
+msgstr "Контакт"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 msgid "Add Anyway"
@@ -2934,23 +2918,20 @@ msgid "Cancelled"
 msgstr "Отменено"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:43
-#, fuzzy
 msgid "Authentication Failed"
-msgstr "Сбой аутентификации."
+msgstr "Сбой аутентификации"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:44
-#, fuzzy
 msgid "Authentication Required"
 msgstr "Требуется аутентификация"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:45
 msgid "TLS not Available"
-msgstr ""
+msgstr "TLS недоступен"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:46
-#, fuzzy
 msgid "Addressbook does not exist"
-msgstr "Файл \"%s\" не существует."
+msgstr "Адресная книга не существует"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:47
 msgid "Other error"
@@ -2998,6 +2979,8 @@ msgid ""
 "Opening %d cards will open %d new windows as well.\n"
 "Do you really want to display all of these cards?"
 msgstr ""
+"Открытие %d карточек приведет к открытию %d новых окон.\n"
+"Вы действительно хотите показать все эти карточки?"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:348
 msgid "Move card to"
@@ -3475,9 +3458,8 @@ msgid "Could not read pilot's Calendar application block"
 msgstr "Не удалось прочитать блок приложения календарь Пилота"
 
 #: calendar/conduits/todo/todo-conduit.c:206
-#, fuzzy
 msgid "Default Priority:"
-msgstr "Приоритет:"
+msgstr "Приоритет по умолчанию:"
 
 #: calendar/conduits/todo/todo-conduit.c:951
 #: calendar/conduits/todo/todo-conduit.c:954
@@ -3938,13 +3920,12 @@ msgid "Alarm Repeat"
 msgstr "Повторение сигнала"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:2
-#, fuzzy
 msgid ""
 "Evolution does not yet support email notification for reminders.  You will "
 "not be able to edit the options for this reminder."
 msgstr ""
 "Это напоминание по эл.почте, но Evolution ещё не поддерживает такой тип "
-"напоминаний. Вы не сможете редактировать параметры."
+"напоминаний.  Вы не сможете редактировать параметры."
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
 msgid "Message to Display"
@@ -4211,7 +4192,6 @@ msgid "Monday"
 msgstr "Понедельник"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
-#, fuzzy
 msgid "S_un"
 msgstr "Вск"
 
@@ -4223,7 +4203,7 @@ msgstr "Суббота"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 msgid "Sh_ow a reminder"
-msgstr ""
+msgstr "Показать напоминание"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 msgid "Show week _numbers in date navigator"
@@ -4273,7 +4253,7 @@ msgstr "Вторник"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "W_eek starts:"
-msgstr ""
+msgstr "Неделя начинается с:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 #: calendar/gui/dialogs/recurrence-page.c:1133
@@ -4288,7 +4268,7 @@ msgstr "Рабочая неделя"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Work days:"
-msgstr ""
+msgstr "Рабочие дни:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "_12 hour (AM/PM)"
@@ -4349,7 +4329,6 @@ msgid "_Time divisions:"
 msgstr "Разделители времени:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
-#, fuzzy
 msgid "_Tue"
 msgstr "Втр"
 
@@ -4468,16 +4447,15 @@ msgstr "Не удалось обновить объект!"
 
 #: calendar/gui/dialogs/comp-editor.c:346
 msgid "Object not found, not updated"
-msgstr ""
+msgstr "Объект не найден, не изменен"
 
 #: calendar/gui/dialogs/comp-editor.c:349
 msgid "You don't have permissions to update this object"
-msgstr ""
+msgstr "Недостаточно прав для изменения этого объекта"
 
 #: calendar/gui/dialogs/comp-editor.c:352
-#, fuzzy
 msgid "Could not update object"
-msgstr "Не удалось обновить объект!"
+msgstr "Не удалось обновить объект"
 
 #: calendar/gui/dialogs/comp-editor.c:798
 msgid "Edit Appointment"
@@ -5029,57 +5007,57 @@ msgstr "Условленная дата:"
 #: calendar/gui/e-calendar-table.c:440
 #, c-format
 msgid "0%"
-msgstr ""
+msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:441
 #, c-format
 msgid "10%"
-msgstr ""
+msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:442
 #, c-format
 msgid "20%"
-msgstr ""
+msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:443
-#, fuzzy, c-format
+#, c-format
 msgid "30%"
-msgstr "389"
+msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:444
 #, c-format
 msgid "40%"
-msgstr ""
+msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:445
 #, c-format
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:446
 #, c-format
 msgid "60%"
-msgstr ""
+msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:447
 #, c-format
 msgid "70%"
-msgstr ""
+msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:448
-#, fuzzy, c-format
+#, c-format
 msgid "80%"
-msgstr "389"
+msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:449
 #, c-format
 msgid "90%"
-msgstr ""
+msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:450
-#, fuzzy, c-format
+#, c-format
 msgid "100%"
-msgstr "1:00"
+msgstr "100%"
 
 #: calendar/gui/e-calendar-table.c:753 calendar/gui/e-day-view.c:2865
 #: calendar/gui/e-week-view.c:1917
@@ -5294,9 +5272,8 @@ msgstr "Опубликовать информацию о занятости"
 
 #: calendar/gui/e-day-view.c:3740 calendar/gui/e-week-view.c:3539
 #: ui/evolution.xml.h:62
-#, fuzzy
 msgid "_Settings..."
-msgstr "Настроить почту..."
+msgstr "Настройки..."
 
 #: calendar/gui/e-day-view.c:3749 calendar/gui/e-week-view.c:3546
 #: mail/folder-browser.c:1731 ui/evolution-mail-message.xml.h:112
@@ -5409,9 +5386,8 @@ msgid "<b>Ends:</b> "
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:831
-#, fuzzy
 msgid "<b>Completed:</b> "
-msgstr "Выполнено "
+msgstr "<b>Выполнено:</b> "
 
 #: calendar/gui/e-itip-control.c:841
 msgid "<b>Due:</b> "
@@ -5430,9 +5406,8 @@ msgstr "Календарь"
 
 #: calendar/gui/e-itip-control.c:959 calendar/gui/e-itip-control.c:975
 #: calendar/gui/e-itip-control.c:986 calendar/gui/e-itip-control.c:1003
-#, fuzzy
 msgid "An unknown person"
-msgstr "Неизвестная причина"
+msgstr "Неизвестная личность"
 
 #. Describe what the user can do
 #: calendar/gui/e-itip-control.c:1010
@@ -5440,6 +5415,8 @@ msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
+"<br>Пожалуйста, просмотрите следующую информацию и выдерите действие из меню "
+"ниже."
 
 #: calendar/gui/e-itip-control.c:1025
 msgid "<i>None</i>"
@@ -5451,7 +5428,6 @@ msgid "Location:"
 msgstr "Геогр.расположение: "
 
 #: calendar/gui/e-itip-control.c:1049
-#, fuzzy
 msgid "Status:"
 msgstr "Состояние:"
 
@@ -5486,14 +5462,12 @@ msgstr "Неизвестное"
 #: calendar/gui/e-itip-control.c:1119 calendar/gui/e-itip-control.c:1147
 #: calendar/gui/e-itip-control.c:1173 calendar/gui/e-itip-control.c:1186
 #: calendar/gui/e-itip-control.c:1199 calendar/gui/e-itip-control.c:1212
-#, fuzzy
 msgid "Choose an action:"
-msgstr "Выбрать действие"
+msgstr "Выбрать действие:"
 
 #: calendar/gui/e-itip-control.c:1120
-#, fuzzy
 msgid "Update"
-msgstr "Обновить сейчас"
+msgstr "Обновить"
 
 #: calendar/gui/e-itip-control.c:1121 calendar/gui/e-itip-control.c:1152
 #: calendar/gui/e-itip-control.c:1175 calendar/gui/e-itip-control.c:1188
@@ -5503,9 +5477,8 @@ msgid "OK"
 msgstr "Ок"
 
 #: calendar/gui/e-itip-control.c:1148
-#, fuzzy
 msgid "Accept"
-msgstr "Принято"
+msgstr "Принять"
 
 #: calendar/gui/e-itip-control.c:1149
 #, fuzzy
@@ -5596,9 +5569,8 @@ msgid "<b>%s</b> has cancelled a meeting."
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1329
-#, fuzzy
 msgid "Meeting Cancellation"
-msgstr "Выбрать действие"
+msgstr "Отменить встречу"
 
 #: calendar/gui/e-itip-control.c:1336 calendar/gui/e-itip-control.c:1403
 #: calendar/gui/e-itip-control.c:1438
@@ -5710,9 +5682,8 @@ msgid "Free/Busy Reply"
 msgstr "URL \"свободен/занят\":"
 
 #: calendar/gui/e-itip-control.c:1439
-#, fuzzy
 msgid "Bad Free/Busy Message"
-msgstr "Предыдущему сообщению"
+msgstr ""
 
 #: calendar/gui/e-itip-control.c:1513
 #, fuzzy
@@ -5720,7 +5691,6 @@ msgid "The message does not appear to be properly formed"
 msgstr "Видимо, папка невостановимо испорчена."
 
 #: calendar/gui/e-itip-control.c:1575
-#, fuzzy
 msgid "The message contains only unsupported requests."
 msgstr "Это сообщение содержит только получателей скрытой копии."
 
@@ -5741,14 +5711,12 @@ msgid "There was an error on the CORBA system\n"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1862 calendar/gui/e-itip-control.c:1954
-#, fuzzy
 msgid "Object could not be found\n"
-msgstr "Элемент не может быть послан!\n"
+msgstr "Элемент не может быть найден!\n"
 
 #: calendar/gui/e-itip-control.c:1865
-#, fuzzy
 msgid "You do not have the right permissions to update the calendar\n"
-msgstr "Не удалось открыть папку \"%s\""
+msgstr "Недостаточно прав для изменения календаря\n"
 
 #: calendar/gui/e-itip-control.c:1868
 msgid "Update complete\n"
@@ -5774,9 +5742,8 @@ msgstr ""
 "Статус участника не может быть обновлён из-за неверного текущего статуса!\n"
 
 #: calendar/gui/e-itip-control.c:1957
-#, fuzzy
 msgid "You don't have the right permissions to update the calendar\n"
-msgstr "Не удалось открыть папку \"%s\""
+msgstr "Недостаточно прав для изменения календаря\n"
 
 #: calendar/gui/e-itip-control.c:1960
 msgid "Attendee status updated\n"
@@ -6178,9 +6145,8 @@ msgid "Updated"
 msgstr "Обновить сейчас"
 
 #: calendar/gui/itip-utils.c:514
-#, fuzzy
 msgid "Refresh"
-msgstr "Обновить список"
+msgstr "Обновить"
 
 #: calendar/gui/itip-utils.c:518
 msgid "Counter-proposal"
@@ -6201,9 +6167,8 @@ msgid "You must be an attendee of the event."
 msgstr "Вы должны быть участником события."
 
 #: calendar/gui/main.c:70
-#, fuzzy
 msgid "Could not activate Bonobo"
-msgstr "Не удалось инициализировать Bonobo"
+msgstr "Невозможно активировать Bonobo"
 
 #: calendar/gui/main.c:99
 msgid "Could not create the component editor factory"
@@ -6395,41 +6360,37 @@ msgid "Selected year (%Y)"
 msgstr "Выбранный год (%Y)"
 
 #: calendar/gui/print.c:2249
-#, fuzzy
 msgid "Task"
 msgstr "Задача"
 
 #: calendar/gui/print.c:2306
-#, fuzzy, c-format
+#, c-format
 msgid "Status: %s"
-msgstr "Состояние:"
+msgstr "Состояние: %s"
 
 #: calendar/gui/print.c:2324
-#, fuzzy, c-format
+#, c-format
 msgid "Priority: %s"
-msgstr "Приоритет:"
+msgstr "Приоритет: %s"
 
 #: calendar/gui/print.c:2338
-#, fuzzy, c-format
+#, c-format
 msgid "Percent Complete: %i"
-msgstr "Дата выполнения:"
+msgstr "Процент выполнения: %i"
 
 #: calendar/gui/print.c:2350
-#, fuzzy, c-format
+#, c-format
 msgid "URL: %s"
-msgstr "URL:"
+msgstr "URL: %s"
 
 #: calendar/gui/print.c:2364
-#, fuzzy, c-format
+#, c-format
 msgid "Categories: %s"
-msgstr ""
-"\n"
-"Категории: "
+msgstr "Категории: %s"
 
 #: calendar/gui/print.c:2375
-#, fuzzy
 msgid "Contacts: "
-msgstr "Контакты"
+msgstr "Контакты:"
 
 #: calendar/gui/print.c:2430
 msgid "Print Calendar"
@@ -6545,9 +6506,8 @@ msgid "Can't call getFolderAtPath on storage: %s"
 msgstr "Невозможно подключиться к серверу: %s"
 
 #: calendar/importers/icalendar-importer.c:483
-#, fuzzy
 msgid "Reminder!!"
-msgstr "Напоминание"
+msgstr "Напоминание!!"
 
 #: calendar/importers/icalendar-importer.c:697
 #, fuzzy
@@ -6555,12 +6515,11 @@ msgid "Calendar Events"
 msgstr "Сообщение календаря"
 
 #: calendar/importers/icalendar-importer.c:722
-#, fuzzy
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
 msgstr ""
-"Обнаружены почтовые файлы Pine.\n"
+"Обнаружены файлы Gnome Calendar.\n"
 "Хотите импортировать их в Evolution?"
 
 #: calendar/importers/icalendar-importer.c:729
@@ -6915,7 +6874,7 @@ msgstr ""
 
 #: calendar/zones.h:64
 msgid "America/Aruba"
-msgstr ""
+msgstr "Америка/Аруба"
 
 #: calendar/zones.h:65
 msgid "America/Asuncion"
@@ -7219,7 +7178,7 @@ msgstr ""
 
 #: calendar/zones.h:140
 msgid "America/Nome"
-msgstr ""
+msgstr "Америка/Ном"
 
 #: calendar/zones.h:141
 msgid "America/Noronha"
@@ -7359,7 +7318,7 @@ msgstr ""
 
 #: calendar/zones.h:175
 msgid "America/Winnipeg"
-msgstr ""
+msgstr "Америка/Виннипег"
 
 #: calendar/zones.h:176
 msgid "America/Yakutat"
@@ -7575,7 +7534,7 @@ msgstr "Азия/Кувейт"
 
 #: calendar/zones.h:229
 msgid "Asia/Macao"
-msgstr ""
+msgstr "Азия/Макао"
 
 #: calendar/zones.h:230
 #, fuzzy
@@ -7601,7 +7560,7 @@ msgstr "Азия/Мускат"
 
 #: calendar/zones.h:235
 msgid "Asia/Nicosia"
-msgstr ""
+msgstr "Азия/Никосия"
 
 #: calendar/zones.h:236
 msgid "Asia/Novosibirsk"
@@ -7958,7 +7917,7 @@ msgstr "Европа/Симферополь"
 
 #: calendar/zones.h:324
 msgid "Europe/Skopje"
-msgstr ""
+msgstr "Европа/Скопье"
 
 #: calendar/zones.h:325
 msgid "Europe/Sofia"
@@ -7974,7 +7933,7 @@ msgstr "Европа/Таллин"
 
 #: calendar/zones.h:328
 msgid "Europe/Tirane"
-msgstr ""
+msgstr "Европа/Тирана"
 
 #: calendar/zones.h:329
 msgid "Europe/Uzhgorod"
@@ -7982,7 +7941,7 @@ msgstr "Европа/Ужгород"
 
 #: calendar/zones.h:330
 msgid "Europe/Vaduz"
-msgstr ""
+msgstr "Европа/Вадуц"
 
 #: calendar/zones.h:331
 msgid "Europe/Vatican"
@@ -8030,7 +7989,7 @@ msgstr ""
 
 #: calendar/zones.h:342
 msgid "Indian/Comoro"
-msgstr "Европа/Коморо"
+msgstr ""
 
 #: calendar/zones.h:343
 msgid "Indian/Kerguelen"
@@ -8342,9 +8301,9 @@ msgid "Failed to create pipe to '%s': %s"
 msgstr "Сбой при кэшировании сообщения %s: %s"
 
 #: camel/camel-filter-search.c:550
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create create child process '%s': %s"
-msgstr "Сбой при кэшировании сообщения %s: %s"
+msgstr "Сбой при создании дочернего процесса '%s': %s"
 
 #: camel/camel-filter-search.c:656 camel/camel-filter-search.c:664
 #, c-format
@@ -8399,9 +8358,8 @@ msgid "Moving messages"
 msgstr "Перемещение сообщений"
 
 #: camel/camel-folder.c:1319
-#, fuzzy
 msgid "Copying messages"
-msgstr "Копирование сообщений в %s"
+msgstr "Копирование сообщений"
 
 #: camel/camel-gpg-context.c:697
 #, c-format
@@ -8437,9 +8395,9 @@ msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr ""
 
 #: camel/camel-gpg-context.c:777
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected response from GnuPG: %s"
-msgstr "Неожиданный ответ от сервера POP: %s"
+msgstr "Неожиданный ответ GnuPG: %s"
 
 #: camel/camel-gpg-context.c:787
 #, fuzzy
@@ -8477,10 +8435,9 @@ msgid "Failed to execute gpg."
 msgstr "Не удалось декодировать сообщение."
 
 #: camel/camel-gpg-context.c:1290
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr ""
-"Невозможно проверить это сообщение: не удалось создать временный файл: %s"
+msgstr "Невозможно проверить сообщение: не удалось создать временный файл: %s"
 
 #: camel/camel-lock-client.c:111
 #, c-format
@@ -8953,9 +8910,8 @@ msgid "Error in CRL"
 msgstr "Ошибка при загрузке %s"
 
 #: camel/camel-tcp-stream-openssl.c:593
-#, fuzzy
 msgid "Out of memory"
-msgstr "Вне офиса"
+msgstr "Недостаточно памяти"
 
 #: camel/camel-tcp-stream-openssl.c:595
 msgid "Zero-depth self-signed certificate"
@@ -9002,9 +8958,8 @@ msgid "Certificate untrusted"
 msgstr "Идентификатор сертификата:"
 
 #: camel/camel-tcp-stream-openssl.c:615
-#, fuzzy
 msgid "Certificate rejected"
-msgstr "Идентификатор сертификата:"
+msgstr "Сертификат отвергнут"
 
 #: camel/camel-tcp-stream-openssl.c:618
 msgid "Subject/Issuer mismatch"
@@ -9044,7 +8999,7 @@ msgid "BAD"
 msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:702
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Bad certificate from %s:\n"
 "\n"
@@ -9055,6 +9010,8 @@ msgid ""
 "Do you wish to accept anyway?"
 msgstr ""
 "Неверный сертификат от %s:\n"
+"\n"
+"%s\n"
 "\n"
 "%s\n"
 "\n"
@@ -9110,9 +9067,9 @@ msgid "Could not parse URL `%s'"
 msgstr "Не удалось разобрать URL \"%s\""
 
 #: camel/camel-vee-folder.c:618
-#, fuzzy, c-format
+#, c-format
 msgid "Error storing `%s': %s"
-msgstr "Ошибка при загрузке %s"
+msgstr "Ошибка при сохранении '%s': %s"
 
 #: camel/camel-vee-folder.c:656
 #, c-format
@@ -9209,9 +9166,9 @@ msgid "Scanning for changed messages"
 msgstr "Поиск изменённых сообщений"
 
 #: camel/providers/imap/camel-imap-folder.c:1872
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to retrieve message: %s"
-msgstr "Не удалось получить сообщение"
+msgstr "Не удалось получить сообщение: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:1908
 #: camel/providers/local/camel-maildir-folder.c:212
@@ -9264,9 +9221,9 @@ msgid "Failed to cache message %s: %s"
 msgstr "Сбой при кэшировании сообщения %s: %s"
 
 #: camel/providers/imap/camel-imap-message-cache.c:417
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to cache %s: %s"
-msgstr "Сбой при кэшировании сообщения %s: %s"
+msgstr "Сбой при кэшировании %s: %s"
 
 #: camel/providers/imap/camel-imap-provider.c:43
 msgid "Checking for new mail"
@@ -9318,14 +9275,14 @@ msgstr ""
 "незашифрованного пароля."
 
 #: camel/providers/imap/camel-imap-store.c:457
-#, fuzzy, c-format
+#, c-format
 msgid "IMAP server %s"
-msgstr "SMTP сервер %s"
+msgstr "IMAP сервер %s"
 
 #: camel/providers/imap/camel-imap-store.c:459
-#, fuzzy, c-format
+#, c-format
 msgid "IMAP service for %s on %s"
-msgstr "%s сервис для %s на %s"
+msgstr "IMAP сервис для %s на %s"
 
 #: camel/providers/imap/camel-imap-store.c:584
 #: camel/providers/nntp/camel-nntp-store.c:130
@@ -9343,9 +9300,9 @@ msgstr "Не удалось подключиться к %s (порт %d): %s"
 
 #: camel/providers/imap/camel-imap-store.c:646
 #: camel/providers/imap/camel-imap-store.c:677
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
-msgstr "Не удалось подключиться к серверу SMTP %s в защищенном режиме: %s"
+msgstr "Не удалось подключиться к серверу IMAP %s в защищенном режиме: %s"
 
 #: camel/providers/imap/camel-imap-store.c:647
 #: camel/providers/pop3/camel-pop3-store.c:213
@@ -9397,10 +9354,10 @@ msgid "No such folder %s"
 msgstr "Нет такой папки %s"
 
 #: camel/providers/imap/camel-imap-store.c:1848
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it containes the character \"%c\""
-msgstr "Название папки не может содержать символ возврата каретки."
+msgstr "Название папки \"%s\" неверно поскольку содержит символ \"%c\"."
 
 #: camel/providers/imap/camel-imap-store.c:1860
 #, fuzzy, c-format
@@ -9413,9 +9370,9 @@ msgstr "Эта папка не может содержать подпапки"
 
 #. $HOME relative path + protocol string
 #: camel/providers/local/camel-local-folder.c:352
-#, fuzzy, c-format
+#, c-format
 msgid "~%s (%s)"
-msgstr "%s (%d)"
+msgstr "~%s (%s)"
 
 #. /var/spool/mail relative path + protocol
 #: camel/providers/local/camel-local-folder.c:356
@@ -9426,9 +9383,9 @@ msgstr "Невозможно открыть почтовый ящик: %s: %s\n"
 
 #. a full path + protocol
 #: camel/providers/local/camel-local-folder.c:363
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%s)"
-msgstr "%s (%d)"
+msgstr "%s (%s)"
 
 #: camel/providers/local/camel-local-provider.c:43
 msgid "Use the `.folders' folder summary file (exmh)"
@@ -9618,9 +9575,8 @@ msgid "Checking folder consistency"
 msgstr "Проверка целостности папки"
 
 #: camel/providers/local/camel-maildir-summary.c:640
-#, fuzzy
 msgid "Checking for new messages"
-msgstr "Поиск новых сообщений"
+msgstr "Проверка новых сообщений"
 
 #: camel/providers/local/camel-maildir-summary.c:729
 #: camel/providers/local/camel-mbox-summary.c:345
@@ -9766,9 +9722,9 @@ msgid "Unknown error: %s"
 msgstr "Неизвестная ошибка: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:883
-#, fuzzy, c-format
+#, c-format
 msgid "Could not store folder: %s"
-msgstr "Не удалось переименовать папку: %s"
+msgstr "Не удалось сохранить папку: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:976
 #: camel/providers/local/camel-mbox-summary.c:1001
@@ -9801,14 +9757,14 @@ msgid "Cannot open MH directory path: %s: %s"
 msgstr "Невозможно открыть MH каталог: %s: %s"
 
 #: camel/providers/local/camel-spool-store.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Spool `%s' cannot be opened: %s"
-msgstr "Папки спула не могут быть переименованы"
+msgstr "Невозможно открыть хранилище '%s': %s"
 
 #: camel/providers/local/camel-spool-store.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "Spool `%s' is not a regular file or directory"
-msgstr "Хранилище %s не является каталогом"
+msgstr "Хранилище '%s' не является обычным файлом или каталогом"
 
 #: camel/providers/local/camel-spool-store.c:150
 #, c-format
@@ -9882,7 +9838,7 @@ msgstr "Не удалось создать каталог %s: %s"
 #: camel/providers/nntp/camel-nntp-store.c:163
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
-msgstr ""
+msgstr "NNTP сервер %s вернул код ошибки %d: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:262
 #, c-format
@@ -10017,9 +9973,9 @@ msgstr ""
 "на серверах, которые якобы поддерживают это."
 
 #: camel/providers/pop3/camel-pop3-store.c:183
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server %s (port %d): %s"
-msgstr "Не удалось подключиться к %s (порт %d): %s"
+msgstr "Не удалось подключиться к серверу POP %s (порт %d): %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:212
 #: camel/providers/pop3/camel-pop3-store.c:241
@@ -10029,18 +9985,18 @@ msgid "Failed to connect to POP server %s in secure mode: %s"
 msgstr "Не удалось подключиться к серверу POP %s в защищенном режиме: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:351
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server %s"
-msgstr "Не удалось подключиться к серверу POP на %s."
+msgstr "Не удалось подключиться к серверу POP %s."
 
 #: camel/providers/pop3/camel-pop3-store.c:392
 #: camel/providers/pop3/camel-pop3-store.c:502
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
 "mechanism."
 msgstr ""
-"Не удалось подключиться к серверу POP.\n"
+"Не удалось подключиться к серверу POP %s.\n"
 "Не поддерживается затребованный механизм идентификации."
 
 #: camel/providers/pop3/camel-pop3-store.c:408
@@ -10051,12 +10007,12 @@ msgstr "Сбой команды IMAP: %s"
 #: camel/providers/pop3/camel-pop3-store.c:420
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
-msgstr ""
+msgstr "Невозможно зарегистрироваться на сервере POP %s: ошибка протокола SASL"
 
 #: camel/providers/pop3/camel-pop3-store.c:439
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to authenticate on POP server %s: %s"
-msgstr "Не удалось аутентифицироваться на сервере KPOP: %s"
+msgstr "Не удалось аутентифицироваться на сервере POP %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:462
 #, c-format
@@ -10065,12 +10021,12 @@ msgstr "%sПожалуйста, введите пароль POP для %s@%s"
 
 #: camel/providers/pop3/camel-pop3-store.c:516
 #: camel/providers/pop3/camel-pop3-store.c:522
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
 "Error sending password: %s"
 msgstr ""
-"Не удалось подключиться к серверу POP.\n"
+"Не удалось подключиться к серверу POP %s.\n"
 "Ошибка отправки пароля: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:614
@@ -10269,7 +10225,7 @@ msgid "STARTTLS response error"
 msgstr "Ошибка при ответе на 'DATA'"
 
 #: camel/providers/smtp/camel-smtp-transport.c:472
-#, fuzzy, c-format
+#, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP сервер %s не поддерживает затребованный тип аутентификации %s"
 
@@ -10321,14 +10277,13 @@ msgid "SMTP Greeting"
 msgstr "Приветствие SMTP"
 
 #: camel/providers/smtp/camel-smtp-transport.c:927
-#, fuzzy, c-format
+#, c-format
 msgid "HELO request timed out: %s"
-msgstr "Превышено время ожидания ответа на RSET: %s"
+msgstr "Превышено время ожидания ответа на HELO: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:949
-#, fuzzy
 msgid "HELO response error"
-msgstr "Ошибка при ответе на 'RSET'"
+msgstr "Ошибка при ответе на 'HELO'"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1015
 msgid "SMTP Authentication"
@@ -10404,9 +10359,9 @@ msgid "RSET response error"
 msgstr "Ошибка при ответе на 'RSET'"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1422
-#, fuzzy, c-format
+#, c-format
 msgid "QUIT request timed out: %s"
-msgstr "Превышено время ожидания ответа на запрос AUTH: %s"
+msgstr "Превышено время ожидания ответа на запрос QUIT: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1442
 msgid "QUIT response error"
@@ -10548,7 +10503,6 @@ msgid "Attach a file"
 msgstr "Присоединить файл"
 
 #: composer/e-msg-composer.c:514
-#, fuzzy
 msgid "Could not create a PGP signature context"
 msgstr "Не удалось создать контекст подписи PGP"
 
@@ -10624,13 +10578,13 @@ msgstr ""
 "Произвести попытку восстановления?"
 
 #: composer/e-msg-composer.c:1525
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
-"Это сообщение не было отправлено.\n"
+"Сообщение  \"%s\" не было отправлено.\n"
 "\n"
 "Сохранить изменения?"
 
@@ -10643,7 +10597,6 @@ msgid "Open file"
 msgstr "Открыть файл"
 
 #: composer/e-msg-composer.c:1927
-#, fuzzy
 msgid "Signature:"
 msgstr "Подпись"
 
@@ -10664,7 +10617,6 @@ msgstr ""
 "Невозможно активировать управляющий элемент выбора адреса."
 
 #: composer/e-msg-composer.c:2822
-#, fuzzy
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10672,7 +10624,9 @@ msgid ""
 "of gtkhtml and libgtkhtml installed.\n"
 msgstr ""
 "Не удалось создать окно редактора:\n"
-"Невозможно активировать компонент редактора HTML."
+"Невозможно активировать компонент редактора HTML.\n"
+"Пожалуйста проверьте, что установлены правильные версии\n"
+"gtkhtml и libgtkhtml.\n"
 
 #: composer/e-msg-composer.c:2879
 msgid ""
@@ -10687,6 +10641,8 @@ msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
 msgstr ""
+"<b>(Редактор содержит нетекстовое тело письма, которое не может быть "
+"отредактировано.)<b>"
 
 #: composer/evolution-composer.c:394
 msgid ""
@@ -10695,7 +10651,6 @@ msgid ""
 msgstr "Не удалось создать окно редактора - не настроен почтовый компонент."
 
 #: composer/evolution-composer.c:413
-#, fuzzy
 msgid "Cannot initialize the Evolution composer."
 msgstr "Невозможно инициализировать редактор почты Evolution."
 
@@ -10900,7 +10855,6 @@ msgid "years"
 msgstr "годы"
 
 #: filter/filter-datespec.c:174
-#, fuzzy
 msgid "You must choose a date."
 msgstr "Вы забыли выбрать дату."
 
@@ -10920,9 +10874,9 @@ msgstr "%a, %d %b %Y"
 
 #. 1 (minute|day|...) ago (singular time ago)
 #: filter/filter-datespec.c:292 filter/filter-datespec.c:295
-#, fuzzy, c-format
+#, c-format
 msgid "%d %s ago"
-msgstr " назад"
+msgstr "%d %s назад"
 
 #: filter/filter-datespec.c:407
 msgid "Select a time to compare against"
@@ -10933,19 +10887,17 @@ msgid "Filter Rules"
 msgstr "Правила фильтра"
 
 #: filter/filter-file.c:178
-#, fuzzy
 msgid "You must specify a file name"
-msgstr "Указать имя файла:"
+msgstr "Вы должны указать имя файла"
 
 #: filter/filter-file.c:190
-#, fuzzy, c-format
+#, c-format
 msgid "File '%s' does not exist or is not a regular file."
-msgstr "Файл спула \"%s\" не существует или не является обычным файлом"
+msgstr "Файл \"%s\" не существует или не является обычным файлом"
 
 #: filter/filter-file.c:307
-#, fuzzy
 msgid "Choose a file"
-msgstr "Открыть файл"
+msgstr "Выберите файл"
 
 #. and now for the action area
 #: filter/filter-filter.c:513
@@ -10957,9 +10909,8 @@ msgid "Add action"
 msgstr "Добавить действие"
 
 #: filter/filter-folder.c:149
-#, fuzzy
 msgid "You must specify a folder.\n"
-msgstr "Указать имя файла:"
+msgstr "Вы должны указать папку.\n"
 
 #: filter/filter-folder.c:236 filter/vfolder-rule.c:391
 #: mail/mail-account-gui.c:1464 mail/mail-account-gui.c:1478
@@ -11034,7 +10985,6 @@ msgid "if all criteria are met"
 msgstr "если удовлетворяет всем критериям"
 
 #: filter/filter-rule.c:812
-#, fuzzy
 msgid "if any criteria are met"
 msgstr "если удовлетворяет любому из критериев"
 
@@ -11119,7 +11069,6 @@ msgid "the current time"
 msgstr "текущее время"
 
 #: filter/filter.glade.h:27
-#, fuzzy
 msgid "the time you specify"
 msgstr "указанное вами время"
 
@@ -11340,9 +11289,8 @@ msgid "Set Status"
 msgstr "Установить состояние"
 
 #: filter/libfilter-i18n.h:52
-#, fuzzy
 msgid "Shell Command"
-msgstr "Компания"
+msgstr "Команда shell"
 
 #: filter/libfilter-i18n.h:53
 msgid "Size (kB)"
@@ -11385,7 +11333,7 @@ msgstr "Правила"
 #: filter/rule-editor.c:239 filter/rule-editor.c:335
 #, c-format
 msgid "Rule name '%s' is not unique, choose another"
-msgstr ""
+msgstr "Имя правила '%s' не уникально, выберите другое"
 
 #: filter/rule-editor.c:299
 msgid "Add Rule"
@@ -11552,7 +11500,7 @@ msgstr "Pine"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:1
 msgid "Composer Preferences"
-msgstr ""
+msgstr "Настройки редактора почты"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:2
 #, fuzzy
@@ -11631,7 +11579,7 @@ msgstr "Учётные записи"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:19 mail/mail-config.glade.h:69
 msgid "Mail Preferences"
-msgstr ""
+msgstr "Настройки почты"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:20
 msgid "Mail configuration interface"
@@ -11685,12 +11633,11 @@ msgstr "Вы не установили метод транспортировки почты"
 
 #: mail/component-factory.c:998
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "Есть неотправленные сообщения, всё равно выйти?"
 
 #: mail/component-factory.c:1004
-#, fuzzy
 msgid "Warning: Unsent Messages"
-msgstr "Внимание: Изменённое сообщение"
+msgstr "Внимание: неотправленные сообщения"
 
 #: mail/component-factory.c:1046
 msgid "New Mail Message"
@@ -11701,9 +11648,8 @@ msgid "_Mail Message"
 msgstr "Почтовое сообщение..."
 
 #: mail/component-factory.c:1047
-#, fuzzy
 msgid "Compose a new mail message"
-msgstr "Создать сообщение"
+msgstr "Создать новое сообщение"
 
 #: mail/component-factory.c:1055
 #, fuzzy
@@ -11721,7 +11667,6 @@ msgid "Post a new mail message"
 msgstr "Новое почтовое сообщение"
 
 #: mail/component-factory.c:1084
-#, fuzzy
 msgid "Cannot initialize the Evolution mail component."
 msgstr "Невозможно инициализировать почтовый компонент Evolution."
 
@@ -12057,14 +12002,14 @@ msgid "Mail to %s"
 msgstr "Фильтры почты"
 
 #: mail/mail-autofilter.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Subject is %s"
-msgstr "Тема"
+msgstr "Тема %s"
 
 #: mail/mail-autofilter.c:258
-#, fuzzy, c-format
+#, c-format
 msgid "Mail from %s"
-msgstr "Из %s:"
+msgstr "Сообщение от %s"
 
 #: mail/mail-autofilter.c:275
 #, fuzzy, c-format
@@ -12121,13 +12066,12 @@ msgstr ""
 
 #. FIXME: this wording sucks
 #: mail/mail-callbacks.c:255
-#, fuzzy
 msgid ""
 "You are sending an HTML-formatted message. Please make sure that\n"
 "the following recipients are willing and able to receive HTML mail:\n"
 msgstr ""
-"Вы посылаете сообщение в HTML формате, но следующие получатели не хотят "
-"получать почту в HTML формате:\n"
+"Вы посылаете сообщение в HTML формате. Пожалуйста, убедитесь, что следующие\n"
+"получатели хотят и могут получать почту в HTML формате:\n"
 
 #: mail/mail-callbacks.c:270
 msgid "Send anyway?"
@@ -12242,6 +12186,8 @@ msgid ""
 "There are no more new messages in this folder.\n"
 "Would you like to go to the next folder?"
 msgstr ""
+"Нет новых сообщений в этой папке.\n"
+"Хотите перейти в следующую папку?"
 
 #: mail/mail-callbacks.c:2931
 msgid ""
@@ -12291,38 +12237,36 @@ msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Вы уверены что хотите открыть все %d сообщений в отдельных окнах?"
 
 #: mail/mail-composer-prefs.c:223
+#, fuzzy
 msgid ""
 "Please specify signature filename\n"
 "in Advanced section of signature settings."
 msgstr ""
+"Пожалуйста укажите файл подписи в секции\n"
+"Расширенные... настроек подписи."
 
 #: mail/mail-composer-prefs.c:243 mail/mail-composer-prefs.c:368
 #: mail/mail-composer-prefs.c:416
-#, fuzzy
 msgid " [script]"
-msgstr "Нет описания"
+msgstr " [сценарий]"
 
 #: mail/mail-composer-prefs.c:309
 msgid "Please specify a valid script name"
-msgstr ""
+msgstr "Пожалуйста, укажите верное имя сценария"
 
 #: mail/mail-composer-prefs.c:325 mail/mail-config.c:2629
-#, fuzzy
 msgid "Unnamed"
-msgstr "Безымянный контакт"
+msgstr "Безымянный"
 
 #: mail/mail-composer-prefs.c:880
-#, fuzzy
 msgid "Add script signature"
-msgstr "Добавить критерий"
+msgstr "Добавить сценарий подписи"
 
 #: mail/mail-composer-prefs.c:881
-#, fuzzy
 msgid "Add Signature"
-msgstr "Подпись"
+msgstr "Добавить подпись"
 
 #: mail/mail-config-druid.c:146
-#, fuzzy
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -12333,7 +12277,6 @@ msgstr ""
 "эту информацию в отправляемую вами почту."
 
 #: mail/mail-config-druid.c:148
-#, fuzzy
 msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
@@ -12347,17 +12290,15 @@ msgid "Please select among the following options"
 msgstr "Пожалуйста, выберите из следующих возможностей"
 
 #: mail/mail-config-druid.c:152
-#, fuzzy
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
 "Пожалуйста, введите ниже информацию о том каким образом вы будете отправлять "
-"почту. Если вы не знаете,\n"
+"почту.  Если вы не знаете,\n"
 "свяжитесь с вашим системным администратором или провайдером услуг Интернет."
 
 #: mail/mail-config-druid.c:154
-#, fuzzy
 msgid ""
 "You are almost done with the mail configuration process. The identity, "
 "incoming mail server and outgoing mail transport method which you provided "
@@ -12377,9 +12318,9 @@ msgid "Evolution Account Assistant"
 msgstr "Помощник по учётным записям Evolution"
 
 #: mail/mail-config.c:622
-#, fuzzy, c-format
+#, c-format
 msgid "Account %d"
-msgstr "Редактор учётных записей"
+msgstr "Учётная запись %d"
 
 #: mail/mail-config.c:2316
 msgid "Checking Service"
@@ -12422,17 +12363,14 @@ msgid "Account Management"
 msgstr "Управление учётными записями"
 
 #: mail/mail-config.glade.h:9
-#, fuzzy
 msgid "Add Sc_ript"
-msgstr "Добавить критерий"
+msgstr "Добавить сценарий"
 
 #: mail/mail-config.glade.h:10
-#, fuzzy
 msgid "Add new signature..."
-msgstr "Сохранить подпись"
+msgstr "Добавить новую подпись..."
 
 #: mail/mail-config.glade.h:11
-#, fuzzy
 msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr "Всегда шифровать моим ключом, когда посылается шифрованная почта"
 
@@ -12487,14 +12425,13 @@ msgstr "Цвета"
 
 #: mail/mail-config.glade.h:26
 msgid "Check spelling while I _type"
-msgstr ""
+msgstr "Проверка орфографии во время набора"
 
 #: mail/mail-config.glade.h:27
 msgid "Checking for New Mail"
 msgstr "Проверка новой почты"
 
 #: mail/mail-config.glade.h:28
-#, fuzzy
 msgid "Color for _misspelled words:"
 msgstr "Цвет для слов с ошибками: "
 
@@ -12535,9 +12472,8 @@ msgid "Default character _encoding:"
 msgstr "Кодировка символов по-умолчанию:"
 
 #: mail/mail-config.glade.h:41
-#, fuzzy
 msgid "Deleting Mail"
-msgstr "Получение эл.почты"
+msgstr "Удаление эл.почты"
 
 #: mail/mail-config.glade.h:43
 msgid "Digital IDs..."
@@ -12703,9 +12639,8 @@ msgid "Qmail maildir "
 msgstr "Почтовый каталог Qmail "
 
 #: mail/mail-config.glade.h:92
-#, fuzzy
 msgid "Quote original message"
-msgstr "Невозможно открыть сообщение"
+msgstr "Цитировать исходное сообщение"
 
 #: mail/mail-config.glade.h:93
 msgid "Quoted"
@@ -12736,9 +12671,8 @@ msgid "Required Information"
 msgstr "Необходимая информация"
 
 #: mail/mail-config.glade.h:100
-#, fuzzy
 msgid "Restore Defaults"
-msgstr "Сделать основной"
+msgstr "Восстановить умолчания"
 
 #: mail/mail-config.glade.h:102
 msgid "S_ecurity"
@@ -12803,7 +12737,6 @@ msgid "Spell Checking Language"
 msgstr "Проверка орфографии"
 
 #: mail/mail-config.glade.h:118
-#, fuzzy
 msgid "Spell _Checking"
 msgstr "Проверка орфографии"
 
@@ -12851,9 +12784,8 @@ msgid "XEmacs"
 msgstr "XEmacs"
 
 #: mail/mail-config.glade.h:136
-#, fuzzy
 msgid "_Add Signature"
-msgstr "Подписи"
+msgstr "Добавить подпись"
 
 #: mail/mail-config.glade.h:137
 msgid "_Always load images off the net"
@@ -12899,9 +12831,8 @@ msgid "_Default signature:"
 msgstr "Файл подписи в текстовом формате "
 
 #: mail/mail-config.glade.h:147
-#, fuzzy
 msgid "_Defaults"
-msgstr "Сделать основной"
+msgstr "Умолчания"
 
 #: mail/mail-config.glade.h:149
 msgid "_Do not notify me when new mail arrives"
@@ -12977,12 +12908,11 @@ msgstr "Ответить всем"
 
 #: mail/mail-config.glade.h:170
 msgid "_Restore defaults"
-msgstr ""
+msgstr "Восстановить умолчания"
 
 #: mail/mail-config.glade.h:171
-#, fuzzy
 msgid "_Script:"
-msgstr "Безопасность"
+msgstr "Сценарий:"
 
 #: mail/mail-config.glade.h:172
 msgid "_Sending Mail"
@@ -13056,9 +12986,8 @@ msgid "Could not create temporary file '%s': %s"
 msgstr "Не удалось создать временный файл '%s': %s"
 
 #: mail/mail-display.c:437
-#, fuzzy
 msgid "Save Attachment..."
-msgstr "Сохранить присоединённый файл"
+msgstr "Сохранить присоединённый файл..."
 
 #: mail/mail-display.c:438
 msgid "View Inline"
@@ -13083,7 +13012,6 @@ msgid "External Viewer"
 msgstr "Внешняя программа просмотра"
 
 #: mail/mail-display.c:1320
-#, fuzzy
 msgid "Downloading images"
 msgstr "Загрузить изображения"
 
@@ -13171,7 +13099,6 @@ msgid ""
 msgstr ""
 
 #: mail/mail-format.c:1875
-#, fuzzy
 msgid "Could not create a PGP verfication context"
 msgstr "Не удалось создать контекст проверки PGP"
 
@@ -13213,16 +13140,16 @@ msgid "Malformed external-body part."
 msgstr "Часть external-body неверно сформирована"
 
 #: mail/mail-local.c:539 mail/mail-local.c:541
-#, fuzzy, c-format
+#, c-format
 msgid "Local folders/%s"
-msgstr "Локальные папки"
+msgstr "Локальные папки/%s"
 
 #: mail/mail-local.c:671
 msgid "Reconfiguring folder"
 msgstr "Перенастройка папки"
 
 #: mail/mail-local.c:752
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot save folder metainfo; you may find you can't\n"
 "open this folder anymore: %s: %s"
@@ -13507,7 +13434,6 @@ msgid "_Remember this password"
 msgstr "Запомнить этот пароль"
 
 #: mail/mail-session.c:273
-#, fuzzy
 msgid "_Remember this password for the remainder of this session"
 msgstr "Запомнить этот пароль до окончания этой сессии"
 
@@ -13540,14 +13466,12 @@ msgstr ""
 "Вы хотите сохранить изменения?"
 
 #: mail/mail-signature-editor.c:333
-#, fuzzy
 msgid "Edit signature"
-msgstr "Добавить критерий"
+msgstr "Редактировать подпись"
 
 #: mail/mail-signature-editor.c:372
-#, fuzzy
 msgid "Enter a name for this signature."
-msgstr "Использовать формат _HTML для этой подписи"
+msgstr "Введите наименование для этой подписи."
 
 #: mail/mail-signature-editor.c:375 my-evolution/e-summary-preferences.c:852
 msgid "Name:"
@@ -13758,7 +13682,6 @@ msgid "Flag to Follow Up"
 msgstr ""
 
 #: mail/message-tags.glade.h:1
-#, fuzzy
 msgid "C_ompleted"
 msgstr "Выполнено"
 
@@ -13779,9 +13702,8 @@ msgid "_Due by:"
 msgstr "Условленная дата"
 
 #: mail/message-tags.glade.h:9
-#, fuzzy
 msgid "_Flag:"
-msgstr "Имя файла:"
+msgstr "Флаг:"
 
 #: mail/subscribe-dialog.c:231
 #, c-format
@@ -13857,9 +13779,8 @@ msgid "Refresh List"
 msgstr "Обновить список"
 
 #: mail/subscribe-dialog.glade.h:8
-#, fuzzy
 msgid "S_elect server: "
-msgstr "Выбрать сервис"
+msgstr "Выбрать сервер:"
 
 #: mail/subscribe-dialog.glade.h:9
 #, fuzzy
@@ -14800,7 +14721,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:241
 msgid "Beverly"
-msgstr ""
+msgstr "Беверли"
 
 #: my-evolution/Locations.h:242
 msgid "Biarritz-Bayonne"
@@ -14848,11 +14769,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:253
 msgid "Bishop"
-msgstr ""
+msgstr "Бишоп"
 
 #: my-evolution/Locations.h:254
 msgid "Bismark"
-msgstr ""
+msgstr "Бисмарк"
 
 #: my-evolution/Locations.h:255
 msgid "Blackpool"
@@ -15028,7 +14949,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:300
 msgid "Brisbane"
-msgstr ""
+msgstr "Брисбейн"
 
 #: my-evolution/Locations.h:301
 msgid "Bristol"
@@ -15692,7 +15613,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:471
 msgid "Clinton"
-msgstr ""
+msgstr "Клинтон"
 
 #: my-evolution/Locations.h:472
 msgid "Clovis-Cannon AFB"
@@ -16184,7 +16105,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:601
 msgid "District of Columbia"
-msgstr ""
+msgstr "Округ Колумбия"
 
 #: my-evolution/Locations.h:602
 msgid "Diyarbakir"
@@ -16192,7 +16113,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:603
 msgid "Dnipropetrovsk"
-msgstr ""
+msgstr "Днепропетровск"
 
 #: my-evolution/Locations.h:604
 msgid "Dobbiaco"
@@ -16980,7 +16901,7 @@ msgstr "Гданьск"
 
 #: my-evolution/Locations.h:807
 msgid "Geneve"
-msgstr ""
+msgstr "Женева"
 
 #: my-evolution/Locations.h:808
 msgid "Genova"
@@ -17773,7 +17694,7 @@ msgstr "Итака"
 
 #: my-evolution/Locations.h:1018
 msgid "Ivano-Frankivsk"
-msgstr ""
+msgstr "Ивано-Франковск"
 
 #: my-evolution/Locations.h:1019
 msgid "Iwakuni MCAS"
@@ -18133,7 +18054,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1111
 msgid "Kishineu"
-msgstr ""
+msgstr "Кишинев"
 
 #: my-evolution/Locations.h:1112
 msgid "Kitakyushu Airport"
@@ -18201,7 +18122,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1128
 msgid "Koln/Bonn"
-msgstr ""
+msgstr "Кёльн/Бонн"
 
 #: my-evolution/Locations.h:1129
 msgid "Komatsu Ab"
@@ -18257,7 +18178,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1142
 msgid "Kryviy Rig/Lozovatka"
-msgstr ""
+msgstr "Кривой Рог/Лозоватка"
 
 #: my-evolution/Locations.h:1143
 msgid "Kumamoto Airport"
@@ -18273,11 +18194,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:1147
 msgid "Kyiv/Boryspil"
-msgstr ""
+msgstr "Киев/Борисполь"
 
 #: my-evolution/Locations.h:1148
 msgid "Kyiv/Zhulyany"
-msgstr ""
+msgstr "Киев/Жуляны"
 
 #: my-evolution/Locations.h:1149
 msgid "La Ceiba"
@@ -18597,7 +18518,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1230
 msgid "Lisboa"
-msgstr ""
+msgstr "Лиссабон"
 
 #: my-evolution/Locations.h:1231
 msgid "Lista"
@@ -19005,7 +18926,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1335
 msgid "Maryland"
-msgstr ""
+msgstr "Мэриленд"
 
 #: my-evolution/Locations.h:1336
 msgid "Marysville"
@@ -19029,7 +18950,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1341
 msgid "Massachusetts"
-msgstr ""
+msgstr "Массачусетс"
 
 #: my-evolution/Locations.h:1342
 msgid "Massena"
@@ -19613,7 +19534,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1489
 msgid "Munchen"
-msgstr ""
+msgstr "Мюнхен"
 
 #: my-evolution/Locations.h:1490
 msgid "Muncie"
@@ -19729,7 +19650,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1518
 msgid "Napoli"
-msgstr ""
+msgstr "Неаполь"
 
 #: my-evolution/Locations.h:1519
 msgid "Narvik"
@@ -19821,7 +19742,7 @@ msgstr "Ньюфаундленд"
 
 #: my-evolution/Locations.h:1542
 msgid "New Hampshire"
-msgstr ""
+msgstr "Нью-Гэмпшир"
 
 #: my-evolution/Locations.h:1543
 msgid "New Haven"
@@ -19833,7 +19754,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1545
 msgid "New Jersey"
-msgstr ""
+msgstr "Нью-Джерси"
 
 #: my-evolution/Locations.h:1546
 msgid "New Mexico"
@@ -19853,7 +19774,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1550
 msgid "Newport"
-msgstr ""
+msgstr "Ньюпорт"
 
 #: my-evolution/Locations.h:1551
 msgid "Newport News"
@@ -19873,7 +19794,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1555
 msgid "Newton"
-msgstr ""
+msgstr "Ньютон"
 
 #: my-evolution/Locations.h:1556
 msgid "New York"
@@ -19929,7 +19850,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1571
 msgid "Nome"
-msgstr ""
+msgstr "Ном"
 
 #: my-evolution/Locations.h:1572
 msgid "Norfolk"
@@ -20257,7 +20178,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1656
 msgid "Ostrava"
-msgstr ""
+msgstr "Острава"
 
 #: my-evolution/Locations.h:1657
 msgid "Ottawa"
@@ -20489,7 +20410,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1718
 msgid "Perm"
-msgstr ""
+msgstr "Пермь"
 
 #: my-evolution/Locations.h:1719
 msgid "Perpignan-Rivesaltes"
@@ -20501,7 +20422,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1721
 msgid "Perth"
-msgstr ""
+msgstr "Перт"
 
 #: my-evolution/Locations.h:1723
 msgid "Perugia"
@@ -20633,7 +20554,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1755
 msgid "Podgorica"
-msgstr ""
+msgstr "Подгорица"
 
 #: my-evolution/Locations.h:1756
 msgid "Podgorica Titograd"
@@ -21429,7 +21350,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1959
 msgid "Salt Lake City"
-msgstr ""
+msgstr "Солт-Лейк-Сити"
 
 #: my-evolution/Locations.h:1960
 msgid "Salto"
@@ -21473,7 +21394,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1970
 msgid "San Antonio"
-msgstr ""
+msgstr "Сан-Антонио"
 
 #: my-evolution/Locations.h:1971
 msgid "San Antonio Del Tachira"
@@ -21505,7 +21426,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1978
 msgid "San Diego"
-msgstr ""
+msgstr "Сан-Диего"
 
 #: my-evolution/Locations.h:1979
 msgid "San Diego-Brown"
@@ -21545,7 +21466,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1988
 msgid "San Francisco"
-msgstr ""
+msgstr "Сан-Франциско"
 
 #: my-evolution/Locations.h:1989
 msgid "Sangju"
@@ -21617,11 +21538,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:2006
 msgid "Santa Barbara"
-msgstr ""
+msgstr "Санта-Барбара"
 
 #: my-evolution/Locations.h:2007
 msgid "Santa Cruz"
-msgstr ""
+msgstr "Санта-Круз"
 
 #: my-evolution/Locations.h:2008
 msgid "Santa Fe"
@@ -21637,7 +21558,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2011
 msgid "Santa Monica"
-msgstr ""
+msgstr "Санта-Моника"
 
 #: my-evolution/Locations.h:2012
 msgid "Santander"
@@ -21949,7 +21870,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2091
 msgid "Sitka"
-msgstr ""
+msgstr "Ситка"
 
 #: my-evolution/Locations.h:2092
 msgid "Sivas"
@@ -21977,7 +21898,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2098
 msgid "Skopje"
-msgstr ""
+msgstr "Скопье"
 
 #: my-evolution/Locations.h:2099
 msgid "Skwentna"
@@ -22085,7 +22006,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2129
 msgid "Split"
-msgstr ""
+msgstr "Сплит"
 
 #: my-evolution/Locations.h:2130
 msgid "Spokane"
@@ -22101,7 +22022,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2133
 msgid "Springfield"
-msgstr ""
+msgstr "Спрингфилд"
 
 #: my-evolution/Locations.h:2134
 msgid "Stampede Pass"
@@ -22396,7 +22317,6 @@ msgid "Tallahassee"
 msgstr ""
 
 #: my-evolution/Locations.h:2211
-#, fuzzy
 msgid "Tallinn"
 msgstr "Таллин"
 
@@ -22498,7 +22418,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2236
 msgid "Tennessee"
-msgstr ""
+msgstr "Теннесси"
 
 #: my-evolution/Locations.h:2237
 msgid "Tepic"
@@ -22686,7 +22606,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2283
 msgid "Toulouse"
-msgstr "Тулуз"
+msgstr "Тулуза"
 
 #: my-evolution/Locations.h:2284
 msgid "Toul-Rosieres"
@@ -22742,7 +22662,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2297
 msgid "Trieste"
-msgstr ""
+msgstr "Триест"
 
 #: my-evolution/Locations.h:2298
 msgid "Trinidad"
@@ -22750,7 +22670,7 @@ msgstr "Тринидад"
 
 #: my-evolution/Locations.h:2299
 msgid "Tripoli"
-msgstr ""
+msgstr "Триполи"
 
 #: my-evolution/Locations.h:2300
 msgid "Tromso/Langnes"
@@ -23282,7 +23202,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2439
 msgid "Wellington"
-msgstr ""
+msgstr "Веллингтон"
 
 #: my-evolution/Locations.h:2440
 msgid "Wenatchee"
@@ -23430,7 +23350,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2476
 msgid "Winnipeg"
-msgstr ""
+msgstr "Виннипег"
 
 #: my-evolution/Locations.h:2477
 msgid "Winslow"
@@ -23610,7 +23530,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2523
 msgid "Yukon"
-msgstr ""
+msgstr "Юкон"
 
 #: my-evolution/Locations.h:2524
 msgid "Yuma MCAS"
@@ -23622,7 +23542,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2526
 msgid "Yuzhno-Sakhalinsk"
-msgstr ""
+msgstr "Южно-Сахалинск"
 
 #: my-evolution/Locations.h:2527
 msgid "Zacatecas"
@@ -23737,7 +23657,6 @@ msgstr "Все"
 
 #. Fixme: nice GFX version
 #: my-evolution/e-summary-shown.c:531
-#, fuzzy
 msgid "Add"
 msgstr "Добавить"
 
@@ -23760,7 +23679,7 @@ msgstr "Моя погода"
 
 #: my-evolution/e-summary-weather.c:268
 msgid "There was an error downloading data for"
-msgstr ""
+msgstr "Ошибка при загрузке данных для"
 
 #: my-evolution/e-summary-weather.c:489
 msgid "Weather"
@@ -23795,9 +23714,8 @@ msgid " C"
 msgstr " С"
 
 #: my-evolution/metar.c:33
-#, fuzzy
 msgid "knots"
-msgstr "Шрифты..."
+msgstr "узлы"
 
 #: my-evolution/metar.c:33
 msgid "kph"
@@ -24970,9 +24888,8 @@ msgid "C_elsius"
 msgstr "градусах Цельсия"
 
 #: my-evolution/my-evolution.glade.h:4
-#, fuzzy
 msgid "Delete news feed"
-msgstr "Все источники новостей"
+msgstr "Удалить источник новостей"
 
 #: my-evolution/my-evolution.glade.h:5
 msgid "How many days should the calendar display at once?"
@@ -25023,7 +24940,6 @@ msgid "Tasks "
 msgstr "Задачи "
 
 #: my-evolution/my-evolution.glade.h:17
-#, fuzzy
 msgid "Weather Settings"
 msgstr "Настройки погоды"
 
@@ -25065,9 +24981,8 @@ msgid "Configure special folders and offline folder behavior here"
 msgstr ""
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:3
-#, fuzzy
 msgid "Folder Settings"
-msgstr "Настройки почты"
+msgstr "Настройки папки"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:4
 msgid "The Evolution shell."
@@ -25091,14 +25006,13 @@ msgstr ""
 "%s"
 
 #: shell/e-folder-list.c:113 shell/evolution-folder-selector-button.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" in \"%s\""
-msgstr "Открыть в %s..."
+msgstr "\"%s\" в \"%s\""
 
 #: shell/e-folder-list.c:312
-#, fuzzy
 msgid "Add a Folder"
-msgstr "Выбрать папку"
+msgstr "Добавить папку"
 
 #: shell/e-local-storage.c:178
 msgid "Drafts"
@@ -25185,6 +25099,9 @@ msgid ""
 "should be removed to allow Evolution to work correctly.\n"
 "Please remove this file and restart Evolution."
 msgstr ""
+"Файл %s\n"
+"должен быть удален для правильной работы Evolution.\n"
+"Пожалуйста, удалите этот файл и запустите Evolution снова."
 
 #: shell/e-setup.c:329
 #, c-format
@@ -25232,9 +25149,8 @@ msgid "Extra Completion folders"
 msgstr "Очищение папки"
 
 #: shell/e-shell-config-default-folders.c:133
-#, fuzzy
 msgid "Select Default Folder"
-msgstr "Выбрать папку"
+msgstr "Выбрать папку по умолчанию"
 
 #: shell/e-shell-config-folder-settings.c:71
 #, fuzzy
@@ -25306,11 +25222,9 @@ msgid "Delete \"%s\""
 msgstr "Удалить \"%s\""
 
 #: shell/e-shell-folder-commands.c:407
-#, fuzzy, c-format
+#, c-format
 msgid "Really delete folder \"%s\"?"
-msgstr ""
-"Невозможно удалить папку:\n"
-"%s"
+msgstr "Действительно удалить папку \"%s\"?"
 
 #: shell/e-shell-folder-commands.c:488
 #, c-format
@@ -25341,7 +25255,7 @@ msgid "Selected folder does not belong to another user"
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:589
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot remove folder:\n"
 "%s"
@@ -25359,9 +25273,8 @@ msgstr ""
 "%s"
 
 #: shell/e-shell-folder-creation-dialog.c:288
-#, fuzzy
 msgid "Create New Folder"
-msgstr "Создать новую папку..."
+msgstr "Создать новую папку"
 
 #: shell/e-shell-folder-selection-dialog.c:393
 msgid "New..."
@@ -25403,9 +25316,8 @@ msgstr ""
 "Импортирование элемента %d."
 
 #: shell/e-shell-importer.c:355
-#, fuzzy
 msgid "Select importer"
-msgstr "Выбрать папку"
+msgstr "Выбрать импортёр"
 
 #: shell/e-shell-importer.c:487
 #, c-format
@@ -25516,16 +25428,15 @@ msgid "Closing connections..."
 msgstr "Закрытие соединений..."
 
 #: shell/e-shell-offline-sync.c:161
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error synchronizing \"%s\":\n"
 "%s"
 msgstr ""
-"Ошибка при \"%s\":\n"
+"Ошибка синхронизации  \"%s\":\n"
 "%s"
 
 #: shell/e-shell-offline-sync.c:239
-#, fuzzy
 msgid "Syncing Folder"
 msgstr "Синхронизация папки"
 
@@ -25533,27 +25444,25 @@ msgstr "Синхронизация папки"
 #: shell/e-shell-offline-sync.c:317
 #, c-format
 msgid "Synchronizing \"%s\" (%d of %d) ..."
-msgstr ""
+msgstr "Синхронизация \"%s\" (%d из %d) ..."
 
 #: shell/e-shell-settings-dialog.c:327
-#, fuzzy
 msgid "Evolution Settings"
-msgstr "Evolution "
+msgstr "Настройки Evolution"
 
 #: shell/e-shell-shared-folder-picker-dialog.c:357
-#, fuzzy
 msgid "Opening Folder"
-msgstr "Открытие папки \"%s\""
+msgstr "Открытие папки"
 
 #: shell/e-shell-shared-folder-picker-dialog.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "Opening Folder \"%s\""
 msgstr "Открытие папки \"%s\""
 
 #: shell/e-shell-shared-folder-picker-dialog.c:369
-#, fuzzy, c-format
+#, c-format
 msgid "in \"%s\" ..."
-msgstr "Открыть в %s..."
+msgstr "в \"%s\" ..."
 
 #: shell/e-shell-shared-folder-picker-dialog.c:455
 #, fuzzy, c-format
@@ -25632,7 +25541,6 @@ msgid "Select the folder that you want to open"
 msgstr "Выберите папку, которую вы хотите открыть"
 
 #: shell/e-shell-view-menu.c:625
-#, fuzzy
 msgid "Create New Shortcut"
 msgstr "Создать новый ярлык"
 
@@ -25684,13 +25592,13 @@ msgstr ""
 "для перехода в режим работы в сети."
 
 #: shell/e-shell.c:175
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot activate component %s :\n"
 "The error from the activation system is:\n"
 "%s"
 msgstr ""
-"%s\n"
+"Сбой активации компонента %s.\n"
 "\n"
 "Ошибка системы активации:\n"
 "%s"
@@ -26050,24 +25958,20 @@ msgid "The following connections are currently active:"
 msgstr "В настоящий момент активны следующие соединения:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:1
-#, fuzzy
 msgid "C_alendar:"
-msgstr "Календарь"
+msgstr "Календарь:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:2
-#, fuzzy
 msgid "_Contacts:"
-msgstr "Контакты"
+msgstr "Контакты:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:3
-#, fuzzy
 msgid "_Mail:"
-msgstr "Почта"
+msgstr "Почта:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:4
-#, fuzzy
 msgid "_Tasks:"
-msgstr "Задачи"
+msgstr "Задачи:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "Folder name:"
@@ -26087,17 +25991,14 @@ msgid "Open Other User's Folder"
 msgstr "Создать новую папку..."
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:2
-#, fuzzy
 msgid "_Account:"
-msgstr "Редактор учётных записей"
+msgstr "Учётная запись:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:3
-#, fuzzy
 msgid "_Folder Name:"
 msgstr "Название папки:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:4
-#, fuzzy
 msgid "_User:"
 msgstr "Имя пользователя:"
 
@@ -26133,7 +26034,6 @@ msgstr ""
 "Нажмите кнопку \"Далее\" для продолжения. "
 
 #: shell/glade/evolution-startup-wizard.glade.h:15
-#, fuzzy
 msgid ""
 "You have successfully entered all of the information\n"
 "needed to set up Evolution. \n"
@@ -26241,6 +26141,8 @@ msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
+"%s: --online и --offline не могут использоваться вместе.\n"
+"  Используйте %s --help для получения дополнительной информации.\n"
 
 #: shell/main.c:478
 msgid "Cannot initialize the Bonobo component system."
@@ -26300,7 +26202,7 @@ msgstr "Найти контакты"
 #: ui/evolution-addressbook.h:17
 #, fuzzy
 msgid "Find a contact"
-msgstr "\"Отправитель\" содержит"
+msgstr "Найти контакт в"
 
 #: ui/evolution-addressbook.h:19
 #, fuzzy
@@ -26331,9 +26233,8 @@ msgid "Stop Loading"
 msgstr "Остановить загрузку"
 
 #: ui/evolution-addressbook.xml.h:3
-#, fuzzy
 msgid "Copy Contact(s) to Another Folder..."
-msgstr "Скопировать выбранные сообщения в другую папку"
+msgstr "Копировать контакт(ы) в другую папку..."
 
 #: ui/evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
@@ -26352,9 +26253,8 @@ msgid "Delete selected contacts"
 msgstr "Удалить выбранные контакты"
 
 #: ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "Move Contact(s) to Another Folder..."
-msgstr "Переместить выбранные сообщения в другую папку"
+msgstr "Переместить контакты в другую папку"
 
 #: ui/evolution-addressbook.xml.h:12
 msgid "Move to Folder..."
@@ -26640,7 +26540,6 @@ msgid "Schedule a meeting for this item"
 msgstr "Вставить совещание в расписание для этого элемента"
 
 #: ui/evolution-executive-summary.xml.h:1
-#, fuzzy
 msgid "Customize My Evolution"
 msgstr "Настроить по вкусу My Evolution"
 
@@ -26691,7 +26590,6 @@ msgid "Post a message to a Public folder"
 msgstr "Сохранение сообщения в папке"
 
 #: ui/evolution-mail-global.xml.h:13
-#, fuzzy
 msgid "S_ubscribe to Folders..."
 msgstr "Подписаться на папки..."
 
@@ -26720,18 +26618,16 @@ msgid "Change the properties of this folder"
 msgstr "Изменить свойства этой папки"
 
 #: ui/evolution-mail-list.xml.h:2
-#, fuzzy
 msgid "Copy selected message(s) to the clipboard"
-msgstr "Скопировать выбранные сообщения в другую папку"
+msgstr "Скопировать выбранные сообщения в буфер обмена"
 
 #: ui/evolution-mail-list.xml.h:3
 msgid "Cu_t"
 msgstr "Вырезать"
 
 #: ui/evolution-mail-list.xml.h:4
-#, fuzzy
 msgid "Cut selected message(s) to the clipboard"
-msgstr "Вставить сообщение в буфер обмена"
+msgstr "Вырезать выбранное сообщение(я) в буфер обмена"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
@@ -26759,9 +26655,8 @@ msgid "Mark all visible messages as read"
 msgstr "Пометить все видимые сообщения как прочитанные"
 
 #: ui/evolution-mail-list.xml.h:11
-#, fuzzy
 msgid "Paste message(s) from the clipboard"
-msgstr "Вставить сообщение в буфер обмена"
+msgstr "Вставить сообщение(я) из буфера обмена"
 
 #: ui/evolution-mail-list.xml.h:12
 msgid "Permanently remove all deleted messages from this folder"
@@ -27112,7 +27007,6 @@ msgid "Search for text in the body of the displayed message"
 msgstr "Поиск в тексте отображаемого сообщения"
 
 #: ui/evolution-mail-message.xml.h:81
-#, fuzzy
 msgid "Set up the page settings for your current printer"
 msgstr "Настроить параметры страницы для вашего текущего принтера"
 
@@ -27300,7 +27194,7 @@ msgstr "Отправить"
 #: ui/evolution-message-composer.h:22
 #, fuzzy
 msgid "Send the message now"
-msgstr "Отправить это сообщение сейчас"
+msgstr "Отправить это сообщение"
 
 #: ui/evolution-message-composer.h:23
 msgid "Send _later"
@@ -27376,7 +27270,7 @@ msgstr ""
 #: ui/evolution-message-composer.h:47
 #, fuzzy
 msgid "Send this message now"
-msgstr "Отправить это сообщение сейчас"
+msgstr "Отправить это сообщение"
 
 #: ui/evolution-message-composer.h:48
 #, fuzzy
@@ -27404,9 +27298,8 @@ msgid "For_mat"
 msgstr "Формат"
 
 #: ui/evolution-message-composer.xml.h:9
-#, fuzzy
 msgid "HT_ML"
-msgstr "HTML"
+msgstr "HT_ML"
 
 #: ui/evolution-message-composer.xml.h:12
 msgid "PGP Encrypt"
@@ -27429,9 +27322,8 @@ msgid "Save _Draft"
 msgstr "Сохранить черновиком"
 
 #: ui/evolution-message-composer.xml.h:26
-#, fuzzy
 msgid "Send this message"
-msgstr "Отправить это сообщение сейчас"
+msgstr "Отправить это сообщение"
 
 #: ui/evolution-message-composer.xml.h:30
 msgid "Sign this message with your PGP key"
@@ -27495,14 +27387,12 @@ msgid "H_TML"
 msgstr "HTML"
 
 #: ui/evolution-signature-editor.xml.h:8
-#, fuzzy
 msgid "Save the current file and close the window"
-msgstr "Сохранить этот элемент и закрыть окно диалога"
+msgstr "Сохранить текущий файл и закрыть окно"
 
 #: ui/evolution-signature-editor.xml.h:16
-#, fuzzy
 msgid "_Signature editor"
-msgstr "Подпись"
+msgstr "Редактор подписи"
 
 #: ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
@@ -27593,9 +27483,8 @@ msgid "Add to _Shortcut Bar"
 msgstr "Добавить к панели ярлыков"
 
 #: ui/evolution.xml.h:3
-#, fuzzy
 msgid "Change Evolution's settings"
-msgstr "Evolution "
+msgstr "Изменить настройки Evolution"
 
 #: ui/evolution.xml.h:4
 msgid "Change the name of this folder"
@@ -27672,9 +27561,8 @@ msgid "Open this folder in an other window"
 msgstr "Открыть эту папку в новом окне"
 
 #: ui/evolution.xml.h:26
-#, fuzzy
 msgid "Pi_lot Settings..."
-msgstr "Настроить Pilot..."
+msgstr "Настройки Pi_lot..."
 
 #: ui/evolution.xml.h:27
 #, fuzzy
@@ -27757,9 +27645,8 @@ msgid "_Folder Bar"
 msgstr "Панель папок"
 
 #: ui/evolution.xml.h:52
-#, fuzzy
 msgid "_Folder..."
-msgstr "Папка"
+msgstr "Папка..."
 
 #: ui/evolution.xml.h:53
 msgid "_Go to Folder..."
@@ -27799,9 +27686,8 @@ msgid "_Shortcut Bar"
 msgstr "Панель ярлыков"
 
 #: ui/evolution.xml.h:64
-#, fuzzy
 msgid "_Shortcut..."
-msgstr "Ярлык"
+msgstr "Ярлык..."
 
 #: ui/my-evolution.xml.h:3
 msgid "Print summary"
@@ -27826,7 +27712,6 @@ msgid "_Address Cards"
 msgstr "Визитные карточки"
 
 #: views/addressbook/galview.xml.h:3
-#, fuzzy
 msgid "_Phone List"
 msgstr "Список телефонов"
 
@@ -27881,9 +27766,8 @@ msgid "With _Category"
 msgstr "C категорией:"
 
 #: views/tasks/galview.xml.h:2
-#, fuzzy
 msgid "_Tasks"
-msgstr "Задача"
+msgstr "Задачи"
 
 #. Check for UTC.
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:209
@@ -28059,7 +27943,6 @@ msgid "_Edit Saved Searches..."
 msgstr "Добавить к сохранённым результатам поиска"
 
 #: widgets/misc/e-filter-bar.h:93 widgets/misc/e-filter-bar.h:100
-#, fuzzy
 msgid "_Advanced..."
 msgstr "Расширенные..."
 
@@ -28123,1075 +28006,1069 @@ msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Не удалось инициализировать Bonobo"
 
 #, fuzzy
-#~ msgid "Configuration control for the Evolution Summary."
-#~ msgstr "Папка, содержащая Evolution Summary"
+msgid "Configuration control for the Evolution Summary."
+msgstr "Папка, содержащая Evolution Summary"
 
 #, fuzzy
-#~ msgid "Configure the appearance of the Evolution Summary here"
-#~ msgstr "Папка, содержащая Evolution Summary"
+msgid "Configure the appearance of the Evolution Summary here"
+msgstr "Папка, содержащая Evolution Summary"
 
 #, fuzzy
-#~ msgid "Evolution Summary component."
-#~ msgstr "Компонент редактора писем Evolution."
+msgid "Evolution Summary component."
+msgstr "Компонент редактора писем Evolution."
 
 #, fuzzy
-#~ msgid "Factory for Evolution Summary's configuration control."
-#~ msgstr "Фабрика для управляющего элемента Evolution Задачи"
+msgid "Factory for Evolution Summary's configuration control."
+msgstr "Фабрика для управляющего элемента Evolution Задачи"
 
 #, fuzzy
-#~ msgid "Factory for the Evolution Summary component."
-#~ msgstr "Фабрика для компонента Mail Summary программы Evolution."
+msgid "Factory for the Evolution Summary component."
+msgstr "Фабрика для компонента Mail Summary программы Evolution."
 
-#~ msgid "Summary Preferences"
-#~ msgstr "Настройки Сводки"
-
-#, fuzzy
-#~ msgid ""
-#~ "Thanks\n"
-#~ "The Ximian Evolution Team\n"
-#~ msgstr "Ximian Evolution"
+msgid "Summary Preferences"
+msgstr "Настройки Сводки"
 
 #, fuzzy
-#~ msgid "Don't tell me again"
-#~ msgstr "Не спрашивать снова"
+msgid ""
+"Thanks\n"
+"The Ximian Evolution Team\n"
+msgstr "Ximian Evolution"
 
-#~ msgid "_Configure..."
-#~ msgstr "Настроить..."
+msgid "Don't tell me again"
+msgstr "Не спрашивать снова"
 
-#~ msgid "_Configure Pilot..."
-#~ msgstr "Настроить Pilot..."
+msgid "_Configure..."
+msgstr "Настроить..."
 
-#, fuzzy
-#~ msgid "en"
-#~ msgstr "Отправленные"
-
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid "Select PGP program"
-#~ msgstr "Выбрать программу PGP"
+msgid "_Configure Pilot..."
+msgstr "Настроить Pilot..."
 
 #, fuzzy
-#~ msgid "Signature #1"
-#~ msgstr "Подпись"
+msgid "en"
+msgstr "Отправленные"
+
+msgid " "
+msgstr " "
+
+msgid "Select PGP program"
+msgstr "Выбрать программу PGP"
 
 #, fuzzy
-#~ msgid "Signature #2"
-#~ msgstr "Подпись"
-
-#~ msgid "_PGP binary path:"
-#~ msgstr "Путь к программе PGP:"
-
-#~ msgid "Copy selected messages"
-#~ msgstr "Скопировать выбранные сообщения"
-
-#~ msgid "Cut selected messages"
-#~ msgstr "Вырезать выбранные сообщения"
+msgid "Signature #1"
+msgstr "Подпись"
 
 #, fuzzy
-#~ msgid "&lt;- _Remove"
-#~ msgstr "<- Удалить"
+msgid "Signature #2"
+msgstr "Подпись"
+
+msgid "_PGP binary path:"
+msgstr "Путь к программе PGP:"
+
+msgid "Copy selected messages"
+msgstr "Скопировать выбранные сообщения"
+
+msgid "Cut selected messages"
+msgstr "Вырезать выбранные сообщения"
 
 #, fuzzy
-#~ msgid "_Add -&gt;"
-#~ msgstr "Добавить ->"
-
-#~ msgid "Scanning for new messages"
-#~ msgstr "Поиск новых сообщений"
+msgid "&lt;- _Remove"
+msgstr "<- Удалить"
 
 #, fuzzy
-#~ msgid "The folder %s no longer exists"
-#~ msgstr "Папка не пуста"
+msgid "_Add -&gt;"
+msgstr "Добавить ->"
 
-#~ msgid "1 byte"
-#~ msgstr "1 байт"
-
-#~ msgid "%u bytes"
-#~ msgstr "%u байт"
-
-#~ msgid ""
-#~ "You forgot to choose a folder.\n"
-#~ "Please go back and specify a valid folder to deliver mail to."
-#~ msgstr ""
-#~ "Вы забыли выбрать папку.\n"
-#~ "Пожалуйста, вернитесь и укажите правильную папку для доставки почты."
-
-#~ msgid "%s may not be reconfigured because it is not a local folder"
-#~ msgstr ""
-#~ "%s может не подлежать перенастройке, так как не является локальной папкой"
-
-#~ msgid ""
-#~ "Importing %s\n"
-#~ "Importer not ready.\n"
-#~ "Waiting 5 seconds to retry."
-#~ msgstr ""
-#~ "Импортирование %s\n"
-#~ "Импортер не готов.\n"
-#~ "5 секунд ожидания перед повтором."
-
-#~ msgid "Evolution Importer Assistant"
-#~ msgstr "Помощник по импортированию Evolution"
+msgid "Scanning for new messages"
+msgstr "Поиск новых сообщений"
 
 #, fuzzy
-#~ msgid "_Preferences..."
-#~ msgstr "Настройки шрифтов"
+msgid "The folder %s no longer exists"
+msgstr "Папка не пуста"
 
-#~ msgid "Error in search expression."
-#~ msgstr "Ошибка в выражении."
+msgid "1 byte"
+msgstr "1 байт"
 
-#~ msgid "Restarting search."
-#~ msgstr "Перезапуск поиска."
+msgid "%u bytes"
+msgstr "%u байт"
 
-#~ msgid "Could not parse query string"
-#~ msgstr "Не удалось разобрать строку запроса"
+msgid ""
+"You forgot to choose a folder.\n"
+"Please go back and specify a valid folder to deliver mail to."
+msgstr ""
+"Вы забыли выбрать папку.\n"
+"Пожалуйста, вернитесь и укажите правильную папку для доставки почты."
 
-#~ msgid "Email is"
-#~ msgstr "Эл.адрес"
+msgid "%s may not be reconfigured because it is not a local folder"
+msgstr ""
+"%s может не подлежать перенастройке, так как не является локальной папкой"
 
-#~ msgid "Could not create the alarm notify service"
-#~ msgstr "Не удалось создать сервис уведомления о сигнале"
+msgid ""
+"Importing %s\n"
+"Importer not ready.\n"
+"Waiting 5 seconds to retry."
+msgstr ""
+"Импортирование %s\n"
+"Импортер не готов.\n"
+"5 секунд ожидания перед повтором."
 
-#, fuzzy
-#~ msgid "Free/Busy info begins: <b>"
-#~ msgstr "Информация о занятости (с %s до %s)"
-
-#, fuzzy
-#~ msgid "Meeting ends: <b>"
-#~ msgstr "Время завершения собрания:"
-
-#, fuzzy
-#~ msgid "Free/Busy info ends: <b>"
-#~ msgstr "Информация о занятости (с %s до %s)"
-
-#, fuzzy
-#~ msgid "Task Completed: <b>"
-#~ msgstr " (Выполнено "
-
-#~ msgid "Non-Participants"
-#~ msgstr "Не участвуют"
+msgid "Evolution Importer Assistant"
+msgstr "Помощник по импортированию Evolution"
 
 #, fuzzy
-#~ msgid "Set as default"
-#~ msgstr " (основная)"
+msgid "_Preferences..."
+msgstr "Настройки шрифтов"
+
+msgid "Error in search expression."
+msgstr "Ошибка в выражении."
+
+msgid "Restarting search."
+msgstr "Перезапуск поиска."
+
+msgid "Could not parse query string"
+msgstr "Не удалось разобрать строку запроса"
+
+msgid "Email is"
+msgstr "Эл.адрес"
+
+msgid "Could not create the alarm notify service"
+msgstr "Не удалось создать сервис уведомления о сигнале"
 
 #, fuzzy
-#~ msgid "Signature hint"
-#~ msgstr "Подпись"
+msgid "Free/Busy info begins: <b>"
+msgstr "Информация о занятости (с %s до %s)"
 
 #, fuzzy
-#~ msgid "Hide signature hint"
-#~ msgstr "Файл подписи в формате HTML:"
-
-#~ msgid " _Refresh List "
-#~ msgstr "Обновить список"
-
-#~ msgid "Show _folders from server: "
-#~ msgstr "Показать папки с сервера: "
+msgid "Meeting ends: <b>"
+msgstr "Время завершения собрания:"
 
 #, fuzzy
-#~ msgid "_Server:"
-#~ msgstr "Название сервера:"
-
-#~ msgid ""
-#~ "Evolution is unable to get the addressbook local storage.\n"
-#~ "This may have been caused by the evolution-addressbook component "
-#~ "crashing.\n"
-#~ "To help us better understand and ultimately resolve this problem,\n"
-#~ "please send an e-mail to Jon Trowbridge <trow@ximian.com> with a\n"
-#~ "detailed description of the circumstances under which this error\n"
-#~ "occurred.  Thank you."
-#~ msgstr ""
-#~ "Evolution не в состоянии работать с локальной адресной книгой.\n"
-#~ "Это может быть вызвано сбоем компонента адресной книги.\n"
-#~ "Чтобы помочь авторам лучше понять и быстрее решить эту проблему,\n"
-#~ "пожалуйста, пошлите письмо для Jon Trowbridge <trow@ximian.com>\n"
-#~ "с детальным описанием условий, при которых данная ошибка\n"
-#~ "произошла. Спасибо."
-
-#~ msgid ""
-#~ "Evolution is unable to get the addressbook local storage.\n"
-#~ "Under normal circumstances, this should never happen.\n"
-#~ "You may need to exit and restart Evolution in order to\n"
-#~ "correct this problem."
-#~ msgstr ""
-#~ "Evolution не в состоянии работать с локальной адресной книгой.\n"
-#~ "В нормальных условиях это никогда не должно случаться.\n"
-#~ "Необходимо завершить работу Evolution и запустить его заново."
+msgid "Free/Busy info ends: <b>"
+msgstr "Информация о занятости (с %s до %s)"
 
 #, fuzzy
-#~ msgid "_Browse..."
-#~ msgstr "Переместить..."
+msgid "Task Completed: <b>"
+msgstr " (Выполнено "
 
-#~ msgid "The meeting status has changed. Send an updated version?"
-#~ msgstr "Статус совещания изменился. Отправить обновлённую версию?"
-
-#~ msgid "_Delete this Appointment"
-#~ msgstr "Удалить эту встречу"
-
-#~ msgid "I/O Error: %s"
-#~ msgstr "Ошибка ввода/вывода: %s"
-
-#~ msgid "Welcome response error: %s: possibly non-fatal"
-#~ msgstr "Ошибка на стадии соединения: %s: скорее всего, это не фатально"
-
-#~ msgid "HELO request timed out: %s: non-fatal"
-#~ msgstr "Превышено время ожидания ответа на HELO: %s: не фатально"
-
-#~ msgid "HELO response error: %s: non-fatal"
-#~ msgstr "Ошибка ответа HELO: %s: не фатально"
-
-#~ msgid "QUIT request timed out: %s: non-fatal"
-#~ msgstr "Превышено время ожидания ответа на QUIT: %s: не фатально"
-
-#~ msgid "Insert File"
-#~ msgstr "Вставить файл"
-
-#~ msgid "You have chosen an invalid date."
-#~ msgstr "Вы выбрали недопустимую дату."
-
-#~ msgid ""
-#~ "The message's date will be compared against\n"
-#~ "whatever the time is when the filter is run\n"
-#~ "or vfolder is opened."
-#~ msgstr ""
-#~ "Дата сообщения будет сравниваться либо\n"
-#~ "со временем запуска фильтра, либо \n"
-#~ "со временем открытия виртуальной папки."
-
-#~ msgid "Evolution News Editor"
-#~ msgstr "Редактор новостей Evolution"
-
-#~ msgid "Are you sure you want to delete this news account?"
-#~ msgstr "Вы уверены что хотите удалить эту учётную запись новостей?"
-
-#~ msgid "You must configure an account before you can send this email."
-#~ msgstr ""
-#~ "Вы должны настроить учётную запись до того, как сможете отправлять почту."
-
-#~ msgid "NNTP Server:"
-#~ msgstr "Сервер NNTP"
-
-#~ msgid "News Servers"
-#~ msgstr "Серверы новостей"
-
-#~ msgid "Source"
-#~ msgstr "Источник"
-
-#~ msgid "Source Information"
-#~ msgstr "Информация об источнике"
-
-#~ msgid "newswindow1"
-#~ msgstr "newswindow1"
-
-#~ msgid "Save to Disk..."
-#~ msgstr "Сохранить на диске..."
+msgid "Non-Participants"
+msgstr "Не участвуют"
 
 #, fuzzy
-#~ msgid "View messages..."
-#~ msgstr "Сохранить сообщение как..."
-
-#~ msgid "Executing shell command: %s"
-#~ msgstr "Выполнение команды оболочки: %s"
-
-#~ msgid "Evolution - Create new folder"
-#~ msgstr "Evolution - новая папка"
-
-#~ msgid ""
-#~ "The type of the selected folder is not valid for\n"
-#~ "the requested operation."
-#~ msgstr ""
-#~ "Тип выбранной папки не подходит для\n"
-#~ "запрошенного действия."
-
-#~ msgid "You may only import to local folders"
-#~ msgstr "Вы можете импортировать только локальные папки"
-
-#~ msgid "_Contact List"
-#~ msgstr "Список контактов"
-
-#~ msgid "Inline Text _File..."
-#~ msgstr "Вставить текстовый файл..."
-
-#~ msgid "_Pilot Settings..."
-#~ msgstr "Настроить Pilot..."
-
-#~ msgid "Addressbook Settings"
-#~ msgstr "Настройки адресных книг"
+msgid "Set as default"
+msgstr " (основная)"
 
 #, fuzzy
-#~ msgid "Could not query for schema information"
-#~ msgstr ""
-#~ "Неверная скрытая трассировочная информация:\n"
-#~ "%s"
-
-#~ msgid "Evolution calendar executive summary component."
-#~ msgstr "Компонент Executive Summary календаря программы Evolution."
-
-#~ msgid "Factory for the Calendar Summary component."
-#~ msgstr "Фабрика для компонента \"Календарь коротко\"."
-
-#~ msgid "Sta_rt of day:"
-#~ msgstr "Начало дня:"
-
-#~ msgid "_End of day:"
-#~ msgstr "Конец дня:"
-
-#~ msgid "_Other Organizer"
-#~ msgstr "Другой организатор"
-
-#~ msgid "Clearsigning is not supported by this cipher"
-#~ msgstr "Прозрачная подпись не поддерживается этим шифром"
-
-#~ msgid "Please enter your %s passphrase for %s"
-#~ msgstr "Пожалуйста, введите ваш %s пароль для %s"
-
-#~ msgid "Please enter your %s passphrase"
-#~ msgstr "Пожалуйста, введите ваш %s пароль."
-
-#~ msgid "Cannot sign this message: no plaintext to sign"
-#~ msgstr "Невозможно подписать это сообщение: нет текста для подписи"
-
-#~ msgid "Cannot sign this message: no password provided"
-#~ msgstr "Невозможно подписать это сообщение: не введён пароль"
-
-#~ msgid "Cannot sign this message: couldn't create pipe to GPG/PGP: %s"
-#~ msgstr ""
-#~ "Невозможно подписать это сообщение: не удалось создать канал к GPG/PGP: %s"
-
-#~ msgid "Cannot sign this message: no plaintext to clearsign"
-#~ msgstr ""
-#~ "Невозможно подписать это сообщение: нет текста для прозрачной подписи"
-
-#~ msgid "Cannot verify this message: no plaintext to verify"
-#~ msgstr "Невозможно проверить это сообщение: нет текста для проверки"
-
-#~ msgid "Cannot verify this message: couldn't create pipe to GPG/PGP: %s"
-#~ msgstr ""
-#~ "Невозможно проверить это сообщение: не удалось создать канал к GPG/PGP: %s"
-
-#~ msgid "Cannot encrypt this message: no plaintext to encrypt"
-#~ msgstr "Невозможно зашифровать это сообщение: нет текста для шифрования"
-
-#~ msgid "Cannot encrypt this message: no password provided"
-#~ msgstr "Невозможно зашифровать это сообщение: не введён пароль"
-
-#~ msgid "Cannot encrypt this message: couldn't create pipe to GPG/PGP: %s"
-#~ msgstr ""
-#~ "Невозможно зашифровать это сообщение: не удалось создать канал к GPG/PGP: "
-#~ "%s"
-
-#~ msgid "Cannot decrypt this message: no ciphertext to decrypt"
-#~ msgstr ""
-#~ "Невозможно расшифровать это сообщение: нет зашифрованного текста для "
-#~ "расшифровки"
-
-#~ msgid "Cannot decrypt this message: no password provided"
-#~ msgstr "Невозможно расшифровать это сообщение: не введён пароль"
-
-#~ msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
-#~ msgstr ""
-#~ "Невозможно расшифровать это сообщение: не удалось создать канал к GPG/"
-#~ "PGP: %s"
-
-#~ msgid "%s server %s"
-#~ msgstr "%s сервер %s"
-
-#~ msgid "(unknown host)"
-#~ msgstr "(узел неизвестен)"
-
-#~ msgid "No such message: %s"
-#~ msgstr "Нет такого сообщения: %s"
-
-#~ msgid "You cannot copy messages from this trash folder."
-#~ msgstr "Вы не можете скопировать сообщения из этой мусорной корзины."
-
-#~ msgid "Cannot append message to spool file: %s: %s"
-#~ msgstr "Невозможно добавить сообщение к файлу спула: %s: %s"
-
-#~ msgid "Could not file: %s: %s"
-#~ msgstr "Не удалось записать: %s: %s"
-
-#~ msgid "Store `%s' does not exist or is not a directory"
-#~ msgstr "Файл спула \"%s\" не существует или не является обычным файлом"
+msgid "Signature hint"
+msgstr "Подпись"
 
 #, fuzzy
-#~ msgid "Random"
-#~ msgstr "Радио"
+msgid "Hide signature hint"
+msgstr "Файл подписи в формате HTML:"
 
-#~ msgid ""
-#~ "Could not get inbox for new mail store:\n"
-#~ "%s\n"
-#~ "No shortcut will be created."
-#~ msgstr ""
-#~ "Не удалось получить \"Входящие\" для нового хранилища почты:\n"
-#~ "%s\n"
-#~ "Ярлык не будет создан."
+msgid " _Refresh List "
+msgstr "Обновить список"
 
-#~ msgid " Edit "
-#~ msgstr " Правка "
-
-#~ msgid " New "
-#~ msgstr " Новая "
+msgid "Show _folders from server: "
+msgstr "Показать папки с сервера: "
 
 #, fuzzy
-#~ msgid "Advanced Options"
-#~ msgstr "Отменить операцию"
+msgid "_Server:"
+msgstr "Название сервера:"
+
+msgid ""
+"Evolution is unable to get the addressbook local storage.\n"
+"This may have been caused by the evolution-addressbook component crashing.\n"
+"To help us better understand and ultimately resolve this problem,\n"
+"please send an e-mail to Jon Trowbridge <trow@ximian.com> with a\n"
+"detailed description of the circumstances under which this error\n"
+"occurred.  Thank you."
+msgstr ""
+"Evolution не в состоянии работать с локальной адресной книгой.\n"
+"Это может быть вызвано сбоем компонента адресной книги.\n"
+"Чтобы помочь авторам лучше понять и быстрее решить эту проблему,\n"
+"пожалуйста, пошлите письмо для Jon Trowbridge <trow@ximian.com>\n"
+"с детальным описанием условий, при которых данная ошибка\n"
+"произошла. Спасибо."
+
+msgid ""
+"Evolution is unable to get the addressbook local storage.\n"
+"Under normal circumstances, this should never happen.\n"
+"You may need to exit and restart Evolution in order to\n"
+"correct this problem."
+msgstr ""
+"Evolution не в состоянии работать с локальной адресной книгой.\n"
+"В нормальных условиях это никогда не должно случаться.\n"
+"Необходимо завершить работу Evolution и запустить его заново."
 
 #, fuzzy
-#~ msgid "Afrikaans"
-#~ msgstr "Арканзас"
+msgid "_Browse..."
+msgstr "Переместить..."
 
-#~ msgid "Arabic"
-#~ msgstr "Арабский"
+msgid "The meeting status has changed. Send an updated version?"
+msgstr "Статус совещания изменился. Отправить обновлённую версию?"
+
+msgid "_Delete this Appointment"
+msgstr "Удалить эту встречу"
+
+msgid "I/O Error: %s"
+msgstr "Ошибка ввода/вывода: %s"
+
+msgid "Welcome response error: %s: possibly non-fatal"
+msgstr "Ошибка на стадии соединения: %s: скорее всего, это не фатально"
+
+msgid "HELO request timed out: %s: non-fatal"
+msgstr "Превышено время ожидания ответа на HELO: %s: не фатально"
+
+msgid "HELO response error: %s: non-fatal"
+msgstr "Ошибка ответа HELO: %s: не фатально"
+
+msgid "QUIT request timed out: %s: non-fatal"
+msgstr "Превышено время ожидания ответа на QUIT: %s: не фатально"
+
+msgid "Insert File"
+msgstr "Вставить файл"
+
+msgid "You have chosen an invalid date."
+msgstr "Вы выбрали недопустимую дату."
+
+msgid ""
+"The message's date will be compared against\n"
+"whatever the time is when the filter is run\n"
+"or vfolder is opened."
+msgstr ""
+"Дата сообщения будет сравниваться либо\n"
+"со временем запуска фильтра, либо \n"
+"со временем открытия виртуальной папки."
+
+msgid "Evolution News Editor"
+msgstr "Редактор новостей Evolution"
+
+msgid "Are you sure you want to delete this news account?"
+msgstr "Вы уверены что хотите удалить эту учётную запись новостей?"
+
+msgid "You must configure an account before you can send this email."
+msgstr ""
+"Вы должны настроить учётную запись до того, как сможете отправлять почту."
+
+msgid "NNTP Server:"
+msgstr "Сервер NNTP"
+
+msgid "News Servers"
+msgstr "Серверы новостей"
+
+msgid "Source"
+msgstr "Источник"
+
+msgid "Source Information"
+msgstr "Информация об источнике"
+
+msgid "newswindow1"
+msgstr "newswindow1"
+
+msgid "Save to Disk..."
+msgstr "Сохранить на диске..."
 
 #, fuzzy
-#~ msgid "Dari"
-#~ msgstr "Дубаи"
+msgid "View messages..."
+msgstr "Сохранить сообщение как..."
+
+msgid "Executing shell command: %s"
+msgstr "Выполнение команды оболочки: %s"
+
+msgid "Evolution - Create new folder"
+msgstr "Evolution - новая папка"
+
+msgid ""
+"The type of the selected folder is not valid for\n"
+"the requested operation."
+msgstr ""
+"Тип выбранной папки не подходит для\n"
+"запрошенного действия."
+
+msgid "You may only import to local folders"
+msgstr "Вы можете импортировать только локальные папки"
+
+msgid "_Contact List"
+msgstr "Список контактов"
+
+msgid "Inline Text _File..."
+msgstr "Вставить текстовый файл..."
+
+msgid "_Pilot Settings..."
+msgstr "Настроить Pilot..."
+
+msgid "Addressbook Settings"
+msgstr "Настройки адресных книг"
 
 #, fuzzy
-#~ msgid "Hulu"
-#~ msgstr "Гонолулу"
+msgid "Could not query for schema information"
+msgstr ""
+"Неверная скрытая трассировочная информация:\n"
+"%s"
+
+msgid "Evolution calendar executive summary component."
+msgstr "Компонент Executive Summary календаря программы Evolution."
+
+msgid "Factory for the Calendar Summary component."
+msgstr "Фабрика для компонента \"Календарь коротко\"."
+
+msgid "Sta_rt of day:"
+msgstr "Начало дня:"
+
+msgid "_End of day:"
+msgstr "Конец дня:"
+
+msgid "_Other Organizer"
+msgstr "Другой организатор"
+
+msgid "Clearsigning is not supported by this cipher"
+msgstr "Прозрачная подпись не поддерживается этим шифром"
+
+msgid "Please enter your %s passphrase for %s"
+msgstr "Пожалуйста, введите ваш %s пароль для %s"
+
+msgid "Please enter your %s passphrase"
+msgstr "Пожалуйста, введите ваш %s пароль."
+
+msgid "Cannot sign this message: no plaintext to sign"
+msgstr "Невозможно подписать это сообщение: нет текста для подписи"
+
+msgid "Cannot sign this message: no password provided"
+msgstr "Невозможно подписать это сообщение: не введён пароль"
+
+msgid "Cannot sign this message: couldn't create pipe to GPG/PGP: %s"
+msgstr ""
+"Невозможно подписать это сообщение: не удалось создать канал к GPG/PGP: %s"
+
+msgid "Cannot sign this message: no plaintext to clearsign"
+msgstr "Невозможно подписать это сообщение: нет текста для прозрачной подписи"
+
+msgid "Cannot verify this message: no plaintext to verify"
+msgstr "Невозможно проверить это сообщение: нет текста для проверки"
+
+msgid "Cannot verify this message: couldn't create pipe to GPG/PGP: %s"
+msgstr ""
+"Невозможно проверить это сообщение: не удалось создать канал к GPG/PGP: %s"
+
+msgid "Cannot encrypt this message: no plaintext to encrypt"
+msgstr "Невозможно зашифровать это сообщение: нет текста для шифрования"
+
+msgid "Cannot encrypt this message: no password provided"
+msgstr "Невозможно зашифровать это сообщение: не введён пароль"
+
+msgid "Cannot encrypt this message: couldn't create pipe to GPG/PGP: %s"
+msgstr ""
+"Невозможно зашифровать это сообщение: не удалось создать канал к GPG/PGP: %s"
+
+msgid "Cannot decrypt this message: no ciphertext to decrypt"
+msgstr ""
+"Невозможно расшифровать это сообщение: нет зашифрованного текста для "
+"расшифровки"
+
+msgid "Cannot decrypt this message: no password provided"
+msgstr "Невозможно расшифровать это сообщение: не введён пароль"
+
+msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
+msgstr ""
+"Невозможно расшифровать это сообщение: не удалось создать канал к GPG/PGP: %s"
+
+msgid "%s server %s"
+msgstr "%s сервер %s"
+
+msgid "(unknown host)"
+msgstr "(узел неизвестен)"
+
+msgid "No such message: %s"
+msgstr "Нет такого сообщения: %s"
+
+msgid "You cannot copy messages from this trash folder."
+msgstr "Вы не можете скопировать сообщения из этой мусорной корзины."
+
+msgid "Cannot append message to spool file: %s: %s"
+msgstr "Невозможно добавить сообщение к файлу спула: %s: %s"
+
+msgid "Could not file: %s: %s"
+msgstr "Не удалось записать: %s: %s"
+
+msgid "Store `%s' does not exist or is not a directory"
+msgstr "Файл спула \"%s\" не существует или не является обычным файлом"
 
 #, fuzzy
-#~ msgid "Select a signature script"
-#~ msgstr "Удалить всё кроме подписи"
+msgid "Random"
+msgstr "Радио"
 
-#~ msgid "_HTML Signature:"
-#~ msgstr "Файл подписи в формате HTML:"
+msgid ""
+"Could not get inbox for new mail store:\n"
+"%s\n"
+"No shortcut will be created."
+msgstr ""
+"Не удалось получить \"Входящие\" для нового хранилища почты:\n"
+"%s\n"
+"Ярлык не будет создан."
 
-#~ msgid "_Language:"
-#~ msgstr "Язык"
+msgid " Edit "
+msgstr " Правка "
 
-#, fuzzy
-#~ msgid "_Random"
-#~ msgstr "Радио"
-
-#~ msgid "Could not create a PGP encryption context."
-#~ msgstr "Не удалось создать контекст шифрования PGP"
-
-#~ msgid "Could not create a PGP decryption context."
-#~ msgstr "Не удалось создать контекст дешифрования PGP"
-
-#~ msgid "Moving"
-#~ msgstr "Перемещение"
-
-#~ msgid "Copying"
-#~ msgstr "Копирование"
+msgid " New "
+msgstr " Новая "
 
 #, fuzzy
-#~ msgid "Signature name:"
-#~ msgstr "Файл подписи:"
-
-#~ msgid "Riga"
-#~ msgstr "Рига"
-
-#~ msgid "Are you sure you want to remove the \"%s\" folder?"
-#~ msgstr "Вы уверены в том, что хотите удалить папку \"%s\"?"
-
-#~ msgid "Card: "
-#~ msgstr "Карточка: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Name: "
-#~ msgstr ""
-#~ "\n"
-#~ "Имя: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Prefix:     "
-#~ msgstr ""
-#~ "\n"
-#~ "  Префикс:    "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Given:      "
-#~ msgstr ""
-#~ "\n"
-#~ "  Имя: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Additional: "
-#~ msgstr ""
-#~ "\n"
-#~ "  Добавочный: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Family:     "
-#~ msgstr ""
-#~ "\n"
-#~ "  Фамилия:    "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Suffix:     "
-#~ msgstr ""
-#~ "\n"
-#~ "  Суффикс:     "
-
-#~ msgid ""
-#~ "\n"
-#~ "Birth Date: "
-#~ msgstr ""
-#~ "\n"
-#~ "Дата рождения: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Address:"
-#~ msgstr ""
-#~ "\n"
-#~ "Адрес:"
-
-#~ msgid ""
-#~ "\n"
-#~ "  Postal Box:  "
-#~ msgstr ""
-#~ "\n"
-#~ "Почтовый ящик:  "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Ext:         "
-#~ msgstr ""
-#~ "\n"
-#~ "  Расш.:        "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Street:      "
-#~ msgstr ""
-#~ "\n"
-#~ "  Улица:     "
-
-#~ msgid ""
-#~ "\n"
-#~ "  City:        "
-#~ msgstr ""
-#~ "\n"
-#~ "  Город:      "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Region:      "
-#~ msgstr ""
-#~ "\n"
-#~ "  Область:      "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Postal Code: "
-#~ msgstr ""
-#~ "\n"
-#~ "  Почтовый код (Индекс): "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Country:     "
-#~ msgstr ""
-#~ "\n"
-#~ "  Страна:     "
-
-#~ msgid ""
-#~ "\n"
-#~ "Delivery Label: "
-#~ msgstr ""
-#~ "\n"
-#~ "Метка для доставки:"
-
-#~ msgid ""
-#~ "\n"
-#~ "Telephones:\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Телефоны:\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Telephone:"
-#~ msgstr ""
-#~ "\n"
-#~ "Телефон:"
-
-#~ msgid ""
-#~ "\n"
-#~ "E-mail:\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Эл.адрес:\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "E-mail:"
-#~ msgstr ""
-#~ "\n"
-#~ "Эл.адрес:"
-
-#~ msgid ""
-#~ "\n"
-#~ "Time Zone: "
-#~ msgstr ""
-#~ "\n"
-#~ "Часовой пояс: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Geo Location: "
-#~ msgstr ""
-#~ "\n"
-#~ "Геогр.положение: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Business Role: "
-#~ msgstr ""
-#~ "\n"
-#~ "Должность: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Org: "
-#~ msgstr ""
-#~ "\n"
-#~ "Организация: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Name:  "
-#~ msgstr ""
-#~ "\n"
-#~ "  Имя:  "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Unit:  "
-#~ msgstr ""
-#~ "\n"
-#~ "Единица:  "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Unit2: "
-#~ msgstr ""
-#~ "\n"
-#~ "Единица2: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Unit3: "
-#~ msgstr ""
-#~ "\n"
-#~ "Единица3: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Unit4: "
-#~ msgstr ""
-#~ "\n"
-#~ "Единица4: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Comment: "
-#~ msgstr ""
-#~ "\n"
-#~ "Комментарии: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Unique String: "
-#~ msgstr ""
-#~ "\n"
-#~ "Уникальная строка: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Public Key: "
-#~ msgstr ""
-#~ "\n"
-#~ "Публичный ключ: "
-
-#~ msgid "Waiting for connection to LDAP server..."
-#~ msgstr "Ожидание подключения к серверу LDAP..."
-
-#~ msgid "New _Contact"
-#~ msgstr "Новый контакт"
-
-#~ msgid "New Contact _List"
-#~ msgstr "Новый список контактов"
-
-#~ msgid "Edit Addressbook"
-#~ msgstr "Правка адресной книги"
-
-#~ msgid "A_uthenticate with server using:"
-#~ msgstr "Идентификация на сервере с использованием:"
-
-#~ msgid "Add Addressbook"
-#~ msgstr "Новая адресная книга"
-
-#~ msgid "Advanced"
-#~ msgstr "Расширенные"
-
-#~ msgid "Base"
-#~ msgstr "Основное"
-
-#~ msgid "Check this if the server requires you to authenticate."
-#~ msgstr "Сервер требует идентификации."
-
-#~ msgid "The information below is required in order to add an addressbook.  "
-#~ msgstr "Приведённая ниже информация необходима для создания адресной книги."
-
-#~ msgid "This information is not required for most ldap servers. "
-#~ msgstr "Эта информация не требуется для большинства серверов LDAP."
-
-#~ msgid ""
-#~ "This information is used by your ldap server to specify which nodes are "
-#~ "used in a search. Contact your server administrator for more information."
-#~ msgstr ""
-#~ "Эта информация используется Вашим сервером LDAP для определения того, "
-#~ "какие узлы используются в поиске. Свяжитесь с администратором Вашего "
-#~ "сервера для получения дополнительной информации."
-
-#~ msgid ""
-#~ "This is the base node for all your searches on the ldap server. Contact "
-#~ "your server administrator for more information."
-#~ msgstr ""
-#~ "Это основной узел для произведения поиска на сервере LDAP. Свяжитесь с "
-#~ "администратором Вашего сервера для получения дополнительной информации."
-
-#~ msgid "This is the name of the server where your addressbook is located."
-#~ msgstr "Это имя сервера, на котором располагается Ваша адресная книга."
-
-#~ msgid "This is the port that your ldap server uses."
-#~ msgstr "Это номер порта, который использует Ваш сервер LDAP."
-
-#~ msgid "label19"
-#~ msgstr "метка"
-
-#~ msgid "label20"
-#~ msgstr "метка"
-
-#~ msgid "label47"
-#~ msgstr "метка"
-
-#~ msgid "label50"
-#~ msgstr "метка"
-
-#~ msgid "label52"
-#~ msgstr "метка"
-
-#~ msgid "label53"
-#~ msgstr "метка"
-
-#~ msgid "label56"
-#~ msgstr "метка"
-
-#~ msgid "label58"
-#~ msgstr "метка"
-
-#~ msgid "label60"
-#~ msgstr "метка"
-
-#~ msgid "Name contains"
-#~ msgstr "Имя содержит"
-
-#~ msgid "C_ontaining:"
-#~ msgstr "Содержит:"
-
-#~ msgid "Show contacts matching the following criteria:"
-#~ msgstr "Показать контакты, удовлетворяющие следующим критериям:"
-
-#~ msgid "label26"
-#~ msgstr "метка"
-
-#~ msgid "New _Task"
-#~ msgstr "Новую задачу"
-
-#~ msgid "label55"
-#~ msgstr "метка"
-
-#~ msgid "Create new appointments with a default _reminder"
-#~ msgstr "Создавать новую встречу с напоминанием по умолчанию"
-
-#~ msgid "First day of wee_k:"
-#~ msgstr "Первый день недели:"
-
-#~ msgid "_Other"
-#~ msgstr "Другие"
-
-#~ msgid "label21"
-#~ msgstr "метка"
-
-#~ msgid "_Delete this Task"
-#~ msgstr "Удалить эту задачу"
-
-#~ msgid "Unable to find any of your identities in the attendees list!\n"
-#~ msgstr "Невозможно идентифицировать Вас в списке участников!\n"
-
-#~ msgid "Invalid type in body-contains, expecting string"
-#~ msgstr "Недопустимый тип в тело-содержит, ожидается строка"
-
-#~ msgid "Error hashing password."
-#~ msgstr "Ошибка хэширования пароля."
-
-#~ msgid "Invalid password."
-#~ msgstr "Неправильный пароль."
-
-#~ msgid "Could not sign: certificate not found for \"%s\"."
-#~ msgstr "Не удалось подписать: сертификат для \"%s\" не найден."
-
-#~ msgid "NT Login"
-#~ msgstr "Пользователь NT"
-
-#~ msgid "Please enter the NNTP password for %s@%s"
-#~ msgstr "Пожалуйста, введите пароль NNTP для %s@%s"
-
-#~ msgid "Server rejected username"
-#~ msgstr "Сервер не принял имя пользователя"
-
-#~ msgid "Failed to send username to server"
-#~ msgstr "Сбой при отправке имени пользователя на сервер"
-
-#~ msgid "Server rejected username/password"
-#~ msgstr "Сервер не принял имя пользователя/пароль"
-
-#~ msgid "Could not get group list from server."
-#~ msgstr "Не удалось получить с сервера список групп."
-
-#~ msgid "Unable to load grouplist file for %s: %s"
-#~ msgstr "Не удалось загрузить файл списка групп для %s: %s"
-
-#~ msgid "Unable to save grouplist file for %s: %s"
-#~ msgstr "Не удалось сохранить файл списка групп для %s: %s"
+msgid "Advanced Options"
+msgstr "Отменить операцию"
+
+#, fuzzy
+msgid "Afrikaans"
+msgstr "Арканзас"
+
+msgid "Arabic"
+msgstr "Арабский"
+
+#, fuzzy
+msgid "Dari"
+msgstr "Дубаи"
+
+#, fuzzy
+msgid "Hulu"
+msgstr "Гонолулу"
+
+#, fuzzy
+msgid "Select a signature script"
+msgstr "Удалить всё кроме подписи"
+
+msgid "_HTML Signature:"
+msgstr "Файл подписи в формате HTML:"
+
+msgid "_Language:"
+msgstr "Язык"
+
+#, fuzzy
+msgid "_Random"
+msgstr "Радио"
+
+msgid "Could not create a PGP encryption context."
+msgstr "Не удалось создать контекст шифрования PGP"
+
+msgid "Could not create a PGP decryption context."
+msgstr "Не удалось создать контекст дешифрования PGP"
+
+msgid "Moving"
+msgstr "Перемещение"
+
+msgid "Copying"
+msgstr "Копирование"
+
+#, fuzzy
+msgid "Signature name:"
+msgstr "Файл подписи:"
+
+msgid "Riga"
+msgstr "Рига"
+
+msgid "Are you sure you want to remove the \"%s\" folder?"
+msgstr "Вы уверены в том, что хотите удалить папку \"%s\"?"
+
+msgid "Card: "
+msgstr "Карточка: "
+
+msgid ""
+"\n"
+"Name: "
+msgstr ""
+"\n"
+"Имя: "
+
+msgid ""
+"\n"
+"  Prefix:     "
+msgstr ""
+"\n"
+"  Префикс:    "
+
+msgid ""
+"\n"
+"  Given:      "
+msgstr ""
+"\n"
+"  Имя: "
+
+msgid ""
+"\n"
+"  Additional: "
+msgstr ""
+"\n"
+"  Добавочный: "
+
+msgid ""
+"\n"
+"  Family:     "
+msgstr ""
+"\n"
+"  Фамилия:    "
+
+msgid ""
+"\n"
+"  Suffix:     "
+msgstr ""
+"\n"
+"  Суффикс:     "
+
+msgid ""
+"\n"
+"Birth Date: "
+msgstr ""
+"\n"
+"Дата рождения: "
+
+msgid ""
+"\n"
+"Address:"
+msgstr ""
+"\n"
+"Адрес:"
+
+msgid ""
+"\n"
+"  Postal Box:  "
+msgstr ""
+"\n"
+"Почтовый ящик:  "
+
+msgid ""
+"\n"
+"  Ext:         "
+msgstr ""
+"\n"
+"  Расш.:        "
+
+msgid ""
+"\n"
+"  Street:      "
+msgstr ""
+"\n"
+"  Улица:     "
+
+msgid ""
+"\n"
+"  City:        "
+msgstr ""
+"\n"
+"  Город:      "
+
+msgid ""
+"\n"
+"  Region:      "
+msgstr ""
+"\n"
+"  Область:      "
+
+msgid ""
+"\n"
+"  Postal Code: "
+msgstr ""
+"\n"
+"  Почтовый код (Индекс): "
+
+msgid ""
+"\n"
+"  Country:     "
+msgstr ""
+"\n"
+"  Страна:     "
+
+msgid ""
+"\n"
+"Delivery Label: "
+msgstr ""
+"\n"
+"Метка для доставки:"
+
+msgid ""
+"\n"
+"Telephones:\n"
+msgstr ""
+"\n"
+"Телефоны:\n"
+
+msgid ""
+"\n"
+"Telephone:"
+msgstr ""
+"\n"
+"Телефон:"
+
+msgid ""
+"\n"
+"E-mail:\n"
+msgstr ""
+"\n"
+"Эл.адрес:\n"
+
+msgid ""
+"\n"
+"E-mail:"
+msgstr ""
+"\n"
+"Эл.адрес:"
+
+msgid ""
+"\n"
+"Time Zone: "
+msgstr ""
+"\n"
+"Часовой пояс: "
+
+msgid ""
+"\n"
+"Geo Location: "
+msgstr ""
+"\n"
+"Геогр.положение: "
+
+msgid ""
+"\n"
+"Business Role: "
+msgstr ""
+"\n"
+"Должность: "
+
+msgid ""
+"\n"
+"Org: "
+msgstr ""
+"\n"
+"Организация: "
+
+msgid ""
+"\n"
+"  Name:  "
+msgstr ""
+"\n"
+"  Имя:  "
+
+msgid ""
+"\n"
+"  Unit:  "
+msgstr ""
+"\n"
+"Единица:  "
+
+msgid ""
+"\n"
+"  Unit2: "
+msgstr ""
+"\n"
+"Единица2: "
+
+msgid ""
+"\n"
+"  Unit3: "
+msgstr ""
+"\n"
+"Единица3: "
+
+msgid ""
+"\n"
+"  Unit4: "
+msgstr ""
+"\n"
+"Единица4: "
+
+msgid ""
+"\n"
+"Comment: "
+msgstr ""
+"\n"
+"Комментарии: "
+
+msgid ""
+"\n"
+"Unique String: "
+msgstr ""
+"\n"
+"Уникальная строка: "
+
+msgid ""
+"\n"
+"Public Key: "
+msgstr ""
+"\n"
+"Публичный ключ: "
+
+msgid "Waiting for connection to LDAP server..."
+msgstr "Ожидание подключения к серверу LDAP..."
+
+msgid "New _Contact"
+msgstr "Новый контакт"
+
+msgid "New Contact _List"
+msgstr "Новый список контактов"
+
+msgid "Edit Addressbook"
+msgstr "Правка адресной книги"
+
+msgid "A_uthenticate with server using:"
+msgstr "Идентификация на сервере с использованием:"
+
+msgid "Add Addressbook"
+msgstr "Новая адресная книга"
+
+msgid "Advanced"
+msgstr "Расширенные"
+
+msgid "Base"
+msgstr "Основное"
+
+msgid "Check this if the server requires you to authenticate."
+msgstr "Сервер требует идентификации."
+
+msgid "The information below is required in order to add an addressbook.  "
+msgstr "Приведённая ниже информация необходима для создания адресной книги."
+
+msgid "This information is not required for most ldap servers. "
+msgstr "Эта информация не требуется для большинства серверов LDAP."
+
+msgid ""
+"This information is used by your ldap server to specify which nodes are used "
+"in a search. Contact your server administrator for more information."
+msgstr ""
+"Эта информация используется Вашим сервером LDAP для определения того, какие "
+"узлы используются в поиске. Свяжитесь с администратором Вашего сервера для "
+"получения дополнительной информации."
+
+msgid ""
+"This is the base node for all your searches on the ldap server. Contact your "
+"server administrator for more information."
+msgstr ""
+"Это основной узел для произведения поиска на сервере LDAP. Свяжитесь с "
+"администратором Вашего сервера для получения дополнительной информации."
+
+msgid "This is the name of the server where your addressbook is located."
+msgstr "Это имя сервера, на котором располагается Ваша адресная книга."
+
+msgid "This is the port that your ldap server uses."
+msgstr "Это номер порта, который использует Ваш сервер LDAP."
+
+msgid "label19"
+msgstr "метка"
+
+msgid "label20"
+msgstr "метка"
+
+msgid "label47"
+msgstr "метка"
+
+msgid "label50"
+msgstr "метка"
+
+msgid "label52"
+msgstr "метка"
+
+msgid "label53"
+msgstr "метка"
+
+msgid "label56"
+msgstr "метка"
+
+msgid "label58"
+msgstr "метка"
+
+msgid "label60"
+msgstr "метка"
+
+msgid "Name contains"
+msgstr "Имя содержит"
+
+msgid "C_ontaining:"
+msgstr "Содержит:"
+
+msgid "Show contacts matching the following criteria:"
+msgstr "Показать контакты, удовлетворяющие следующим критериям:"
+
+msgid "label26"
+msgstr "метка"
+
+msgid "New _Task"
+msgstr "Новую задачу"
+
+msgid "label55"
+msgstr "метка"
+
+msgid "Create new appointments with a default _reminder"
+msgstr "Создавать новую встречу с напоминанием по умолчанию"
+
+msgid "First day of wee_k:"
+msgstr "Первый день недели:"
+
+msgid "_Other"
+msgstr "Другие"
+
+msgid "label21"
+msgstr "метка"
+
+msgid "_Delete this Task"
+msgstr "Удалить эту задачу"
+
+msgid "Unable to find any of your identities in the attendees list!\n"
+msgstr "Невозможно идентифицировать Вас в списке участников!\n"
+
+msgid "Invalid type in body-contains, expecting string"
+msgstr "Недопустимый тип в тело-содержит, ожидается строка"
+
+msgid "Error hashing password."
+msgstr "Ошибка хэширования пароля."
+
+msgid "Invalid password."
+msgstr "Неправильный пароль."
+
+msgid "Could not sign: certificate not found for \"%s\"."
+msgstr "Не удалось подписать: сертификат для \"%s\" не найден."
+
+msgid "NT Login"
+msgstr "Пользователь NT"
+
+msgid "Please enter the NNTP password for %s@%s"
+msgstr "Пожалуйста, введите пароль NNTP для %s@%s"
+
+msgid "Server rejected username"
+msgstr "Сервер не принял имя пользователя"
+
+msgid "Failed to send username to server"
+msgstr "Сбой при отправке имени пользователя на сервер"
+
+msgid "Server rejected username/password"
+msgstr "Сервер не принял имя пользователя/пароль"
+
+msgid "Could not get group list from server."
+msgstr "Не удалось получить с сервера список групп."
+
+msgid "Unable to load grouplist file for %s: %s"
+msgstr "Не удалось загрузить файл списка групп для %s: %s"
+
+msgid "Unable to save grouplist file for %s: %s"
+msgstr "Не удалось сохранить файл списка групп для %s: %s"
+
+msgid "Could not check POP server for new messages: %s"
+msgstr "Не удалось проверить наличие новых сообщений на сервере: POP %s"
+
+msgid "Could not open folder: message listing was incomplete."
+msgstr "Не удалось открыть папку: список сообщений был неполон."
+
+msgid "Could not fetch message: %s"
+msgstr "Не удалось получить сообщение: %s"
+
+msgid "Could not retrieve message from POP server %s: %s"
+msgstr "Не удалось получить сообщение с сервера POP %s: %s"
+
+msgid ""
+"This will connect to the POP server and use Kerberos 4 to authenticate to it."
+msgstr ""
+"Подключение к серверу POP будет производиться с использованием "
+"аутентификации Kerberos 4."
+
+msgid "Could not connect to server: %s"
+msgstr "Не удалось подключиться к серверу: %s"
+
+msgid "(Unknown)"
+msgstr "(Неизвестно)"
+
+msgid "Could not find 'From' address in message"
+msgstr "В сообщении отсутствует поле \"From\""
+
+msgid "Cannot send message: sender address not defined."
+msgstr "Невозможно отправить сообщение: не определен адрес отправителя."
+
+msgid "Evolution component for the executive summary."
+msgstr "Компонент Evolution для Executive Summary."
+
+msgid "Send an email to %s"
+msgstr "Отправить почту %s"
+
+msgid "Run %s"
+msgstr "Запустить %s"
+
+msgid "Close %s"
+msgstr "Закрыть %s"
+
+msgid "Move %s to the left"
+msgstr "Переместить %s влево"
+
+msgid "Move %s to the right"
+msgstr "Переместить %s вправо"
+
+msgid "Move %s into the previous row"
+msgstr "Переместить %s в предыдущую строку"
+
+msgid "Move %s into the next row"
+msgstr "Переместить %s в следующую строку"
+
+msgid "page"
+msgstr "страница"
+
+msgid ""
+"Cannot open the HTML file:\n"
+"%s"
+msgstr ""
+"Невозможно открыть файл HTML:\n"
+"%s"
+
+msgid ""
+"Error reading data:\n"
+"%s"
+msgstr ""
+"Ошибка чтения данных:\n"
+"%s"
 
-#~ msgid "Could not check POP server for new messages: %s"
-#~ msgstr "Не удалось проверить наличие новых сообщений на сервере: POP %s"
+msgid "Update automatically"
+msgstr "Обновить автоматически"
 
-#~ msgid "Could not open folder: message listing was incomplete."
-#~ msgstr "Не удалось открыть папку: список сообщений был неполон."
+msgid "Update every "
+msgstr "Обновлять каждые"
 
-#~ msgid "Could not fetch message: %s"
-#~ msgstr "Не удалось получить сообщение: %s"
+msgid "Enter folder URI"
+msgstr "Ввести URI папки"
 
-#~ msgid "Could not retrieve message from POP server %s: %s"
-#~ msgstr "Не удалось получить сообщение с сервера POP %s: %s"
+msgid "Mail storage folder (internal)"
+msgstr "Папка для хранения почты (внутренняя)"
 
-#~ msgid ""
-#~ "This will connect to the POP server and use Kerberos 4 to authenticate to "
-#~ "it."
-#~ msgstr ""
-#~ "Подключение к серверу POP будет производиться с использованием "
-#~ "аутентификации Kerberos 4."
+msgid "New _Mail Message"
+msgstr "Новое почтовое сообщение"
 
-#~ msgid "Could not connect to server: %s"
-#~ msgstr "Не удалось подключиться к серверу: %s"
+msgid "Create vFolder from Search"
+msgstr "Создать виртуальную папку по поиску"
 
-#~ msgid "(Unknown)"
-#~ msgstr "(Неизвестно)"
+msgid "Mark as Not Needing Reply"
+msgstr "Пометить как нетребующее ответа"
 
-#~ msgid "Could not find 'From' address in message"
-#~ msgstr "В сообщении отсутствует поле \"From\""
+msgid "Filter on Mailing List"
+msgstr "Фильтр по списку рассылки"
 
-#~ msgid "Cannot send message: sender address not defined."
-#~ msgstr "Невозможно отправить сообщение: не определен адрес отправителя."
+msgid "Mailbox Format"
+msgstr "Формат почтового ящика"
 
-#~ msgid "Evolution component for the executive summary."
-#~ msgstr "Компонент Evolution для Executive Summary."
+msgid "Always _encrypt to myself when sending encrypted mail"
+msgstr "Всегда шифровать моим ключом, когда посылается шифрованная почта"
 
-#~ msgid "Send an email to %s"
-#~ msgstr "Отправить почту %s"
+msgid "Composer"
+msgstr "Редактор"
 
-#~ msgid "Run %s"
-#~ msgstr "Запустить %s"
+msgid "Default Forward style is: "
+msgstr "Стиль пересылки по-умолчанию: "
 
-#~ msgid "Close %s"
-#~ msgstr "Закрыть %s"
+msgid "Display"
+msgstr "Отображение"
 
-#~ msgid "Move %s to the left"
-#~ msgstr "Переместить %s влево"
+msgid "Edit..."
+msgstr "Правка..."
 
-#~ msgid "Move %s to the right"
-#~ msgstr "Переместить %s вправо"
+msgid "News"
+msgstr "Новости"
 
-#~ msgid "Move %s into the previous row"
-#~ msgstr "Переместить %s в предыдущую строку"
+msgid "Select Filter Log file..."
+msgstr "Выбрать файл журнала для фильтров..."
 
-#~ msgid "Move %s into the next row"
-#~ msgstr "Переместить %s в следующую строку"
+msgid "Sources"
+msgstr "Источники"
 
-#~ msgid "page"
-#~ msgstr "страница"
+msgid "_Log filter actions to:"
+msgstr "Регистрировать действия фильтров в:"
 
-#~ msgid ""
-#~ "Cannot open the HTML file:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Невозможно открыть файл HTML:\n"
-#~ "%s"
+msgid "_Organization:"
+msgstr "Организация:"
 
-#~ msgid ""
-#~ "Error reading data:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ошибка чтения данных:\n"
-#~ "%s"
+msgid "_Send mail in HTML format by default."
+msgstr "По умолчанию отправлять почту в формате HTML."
 
-#~ msgid "Update automatically"
-#~ msgstr "Обновить автоматически"
+msgid "_Server Type: "
+msgstr "Тип сервера:"
 
-#~ msgid "Update every "
-#~ msgstr "Обновлять каждые"
+msgid "_Signature file:"
+msgstr "Файл подписи:"
 
-#~ msgid "Enter folder URI"
-#~ msgstr "Ввести URI папки"
+msgid "placeholder"
+msgstr "placeholder"
 
-#~ msgid "Mail storage folder (internal)"
-#~ msgstr "Папка для хранения почты (внутренняя)"
+msgid "seconds."
+msgstr "секунд."
 
-#~ msgid "New _Mail Message"
-#~ msgstr "Новое почтовое сообщение"
+msgid "Mail Summary"
+msgstr "Краткая информация о почте"
 
-#~ msgid "Create vFolder from Search"
-#~ msgstr "Создать виртуальную папку по поиску"
+msgid "Cannot initialize Evolution's Summary component."
+msgstr "Невозможно инициализировать компонент Summary программы Evolution."
 
-#~ msgid "Mark as Not Needing Reply"
-#~ msgstr "Пометить как нетребующее ответа"
+msgid "Regions"
+msgstr "Регионы"
 
-#~ msgid "Filter on Mailing List"
-#~ msgstr "Фильтр по списку рассылки"
+msgid "Al_l stations:"
+msgstr "Все станции:"
 
-#~ msgid "Mailbox Format"
-#~ msgstr "Формат почтового ящика"
+msgid "All _folders:"
+msgstr "Все папки:"
 
-#~ msgid "Always _encrypt to myself when sending encrypted mail"
-#~ msgstr "Всегда шифровать моим ключом, когда посылается шифрованная почта"
+msgid "_Display folders:"
+msgstr "Показывать папки:"
 
-#~ msgid "Composer"
-#~ msgstr "Редактор"
+msgid "_Displayed feeds:"
+msgstr "Показываемые источники"
 
-#~ msgid "Default Forward style is: "
-#~ msgstr "Стиль пересылки по-умолчанию: "
+msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
+msgstr "Copyright (C) 1999-2001 Ximian, Inc."
 
-#~ msgid "Display"
-#~ msgstr "Отображение"
+msgid "(No name)"
+msgstr "(Без имени)"
 
-#~ msgid "Edit..."
-#~ msgstr "Правка..."
+msgid "New List"
+msgstr "Создать список"
 
-#~ msgid "News"
-#~ msgstr "Новости"
+msgid "Configure the calendar's settings"
+msgstr "Настроить календарь"
 
-#~ msgid "Select Filter Log file..."
-#~ msgstr "Выбрать файл журнала для фильтров..."
+msgid "Create a New All Day _Event"
+msgstr "Создать новое ежедневное событие"
 
-#~ msgid "Sources"
-#~ msgstr "Источники"
+msgid "Create a New _Task"
+msgstr "Создать новую задачу"
 
-#~ msgid "_Log filter actions to:"
-#~ msgstr "Регистрировать действия фильтров в:"
+msgid "Create a _New Appointment"
+msgstr "Создать новую встречу"
 
-#~ msgid "_Organization:"
-#~ msgstr "Организация:"
+msgid "Create an event for the whole day"
+msgstr "Создать событие на целый день"
 
-#~ msgid "_Send mail in HTML format by default."
-#~ msgstr "По умолчанию отправлять почту в формате HTML."
+msgid "_Appointment..."
+msgstr "Встречу..."
 
-#~ msgid "_Server Type: "
-#~ msgstr "Тип сервера:"
+msgid "_Calendar Settings..."
+msgstr "Настроить календарь..."
 
-#~ msgid "_Signature file:"
-#~ msgstr "Файл подписи:"
+msgid "_Task..."
+msgstr "Задачу..."
 
-#~ msgid "placeholder"
-#~ msgstr "placeholder"
+msgid "Forward _Attached"
+msgstr "Переслать присоединённым"
 
-#~ msgid "seconds."
-#~ msgstr "секунд."
+msgid "Forward _Inline"
+msgstr "Переслать встроенным"
 
-#~ msgid "Mail Summary"
-#~ msgstr "Краткая информация о почте"
+msgid "Forward _Quoted"
+msgstr "Переслать процитированным"
 
-#~ msgid "Cannot initialize Evolution's Summary component."
-#~ msgstr "Невозможно инициализировать компонент Summary программы Evolution."
+msgid "_Apply Filters"
+msgstr "Профильтровать"
 
-#~ msgid "Regions"
-#~ msgstr "Регионы"
+msgid "Configure the task view's settings"
+msgstr "Настроить просмотр задач"
 
-#~ msgid "Al_l stations:"
-#~ msgstr "Все станции:"
+msgid "Tasks Settings..."
+msgstr "Настроить задачи..."
 
-#~ msgid "All _folders:"
-#~ msgstr "Все папки:"
+msgid "Change the settings for the summary"
+msgstr "Изменить настройки Сводки"
 
-#~ msgid "_Display folders:"
-#~ msgstr "Показывать папки:"
+msgid "_Summary Settings..."
+msgstr "Настроить Сводку..."
 
-#~ msgid "_Displayed feeds:"
-#~ msgstr "Показываемые источники"
+msgid "Show All"
+msgstr "Показывать все"
 
-#~ msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
-#~ msgstr "Copyright (C) 1999-2001 Ximian, Inc."
-
-#~ msgid "(No name)"
-#~ msgstr "(Без имени)"
-
-#~ msgid "New List"
-#~ msgstr "Создать список"
-
-#~ msgid "Configure the calendar's settings"
-#~ msgstr "Настроить календарь"
-
-#~ msgid "Create a New All Day _Event"
-#~ msgstr "Создать новое ежедневное событие"
-
-#~ msgid "Create a New _Task"
-#~ msgstr "Создать новую задачу"
-
-#~ msgid "Create a _New Appointment"
-#~ msgstr "Создать новую встречу"
-
-#~ msgid "Create an event for the whole day"
-#~ msgstr "Создать событие на целый день"
-
-#~ msgid "_Appointment..."
-#~ msgstr "Встречу..."
-
-#~ msgid "_Calendar Settings..."
-#~ msgstr "Настроить календарь..."
-
-#~ msgid "_Task..."
-#~ msgstr "Задачу..."
-
-#~ msgid "Forward _Attached"
-#~ msgstr "Переслать присоединённым"
-
-#~ msgid "Forward _Inline"
-#~ msgstr "Переслать встроенным"
-
-#~ msgid "Forward _Quoted"
-#~ msgstr "Переслать процитированным"
-
-#~ msgid "_Apply Filters"
-#~ msgstr "Профильтровать"
-
-#~ msgid "Configure the task view's settings"
-#~ msgstr "Настроить просмотр задач"
-
-#~ msgid "Tasks Settings..."
-#~ msgstr "Настроить задачи..."
-
-#~ msgid "Change the settings for the summary"
-#~ msgstr "Изменить настройки Сводки"
-
-#~ msgid "_Summary Settings..."
-#~ msgstr "Настроить Сводку..."
-
-#~ msgid "Show All"
-#~ msgstr "Показывать все"
-
-#~ msgid "Sear_ch"
-#~ msgstr "Поиск"
+msgid "Sear_ch"
+msgstr "Поиск"

@@ -1,3 +1,7 @@
+2003-01-08  Andrew V. Samoilov  <sav@bcs.zp.ua>
+
+	* ru.po: Updated Russian translation.
+
 2003-01-06  Andras Timar <timar@gnome.hu>
 
         * hu.po: Updated Hungarian translation.
@@ -66,11 +70,11 @@
 
 	* no.po: Updated Norwegian translation.
 	* POTFILES.in: Added new etspec files.
-	
+
 2002-10-04  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian translation.
-	
+
 2002-09-25  Changwoo Ryu  <cwryu@debian.org>
 
         * ko.po: Updated Korean translation by Young-Ho Cha 
@@ -97,15 +101,15 @@
 
 	* POTFILES.in: Added a couple of missing .glade files.
 	* no.po: Updated Norwegian translation.
-	
+
 2002-09-10  Fatih Demir	<kabalak@gtranslator.org>
-	
+
 	* tr.po: Committed updated Turkish translation by Gorkem...
 
 2002-09-05  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian (bokmål) translation.
-	
+
 2002-09-01  Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>
 
 	* pt_BR.po: Updated Brazilian Portuguese translation
@@ -122,25 +126,25 @@
 2002-08-20  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian (bokmål) translation.
-	
+
 2002-08-20  Yanko Kaneti <yaneti@declera.com>
 
-	* bg.po: Updated Bulgarian translation. 
+	* bg.po: Updated Bulgarian translation.
 	Not full: +~300 location places to 4305 translated.
 
 2002-08-16  Yanko Kaneti <yaneti@declera.com>
 
-	* bg.po: Updated Bulgarian translation. 
+	* bg.po: Updated Bulgarian translation.
 	Not full: +~400 location places to 3991.
 
 2002-07-30  Hector Garcia Alvarez  <hector@scouts-es.org>
 
     * es.po: Updated Spanish translation.
-		
+
 2002-07-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian (bokmål) translation.
-	
+
 2002-07-23  Simos Xenitellis  <simos@hellug.gr>
 
 	* el.po: Updated Greek translation.
@@ -148,7 +152,7 @@
 2002-07-22  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian (bokmål) translation.
-	
+
 2002-07-19  Andras Timar <timar@gnome.hu>
 
         * hu.po: Updated Hungarian translation.
@@ -164,7 +168,7 @@
 2002-07-03  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian (bokmål) translation.
-	
+
 2002-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* POTFILES.in: Removed camel/camel-pgp-context.c and added
@@ -174,7 +178,7 @@
 2002-06-23  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian (bokmål) translation.
-	
+
 2002-06-21  Abel Cheung  <maddog@linux.org.hk>
 
 	* .cvsignore: Ignore more files.
@@ -209,7 +213,7 @@
 2002-05-23  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian (bokmål) translation.
-	
+
 2002-05-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* POTFILES.in: Removed references to camel-remote-store.c
