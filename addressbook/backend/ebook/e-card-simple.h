@@ -148,7 +148,7 @@ struct _ECardSimpleClass {
 
 typedef void (*ECardSimpleArbitraryCallback) (const ECardArbitrary *arbitrary, gpointer closure);
 ECardSimple                *e_card_simple_new                   (ECard                        *card);
-char                       *e_card_simple_get_id                (ECardSimple                  *simple);
+const char                 *e_card_simple_get_id                (ECardSimple                  *simple);
 void                        e_card_simple_set_id                (ECardSimple                  *simple,
 								 const gchar                  *character);
 char                       *e_card_simple_get_vcard             (ECardSimple                  *simple);

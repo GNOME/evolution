@@ -121,10 +121,11 @@ e_cardlist_model_add(ECardlistModel *model,
 	model->data = g_realloc(model->data, model->data_count + count * sizeof(ECard *));
 	for (i = 0; i < count; i++) {
 		gboolean found = FALSE;
-		gchar *id = e_card_get_id(cards[i]);
+		const gchar *id = e_card_get_id(cards[i]);
 		for ( i = 0; i < model->data_count; i++) {
 			if ( !strcmp(e_card_simple_get_id(model->data[i]), id) ) {
 				found = TRUE;
+				break;
 			}
 		}
 		if (!found) {

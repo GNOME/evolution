@@ -802,7 +802,7 @@ e_minicard_reflow( GnomeCanvasItem *item, int flags )
 	}
 }
 
-char *
+const char *
 e_minicard_get_card_id (EMinicard *minicard)
 {
 	g_return_val_if_fail(minicard != NULL, NULL);

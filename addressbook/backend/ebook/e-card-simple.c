@@ -253,7 +253,7 @@ ECardSimple *e_card_simple_duplicate(ECardSimple *simple)
  * Returns: a string representing the id of the simple, which is unique
  * within its book.
  */
-char *
+const char *
 e_card_simple_get_id (ECardSimple *simple)
 {
 	if (simple->card)

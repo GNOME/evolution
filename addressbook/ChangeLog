@@ -1,5 +1,20 @@
 2001-06-11  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h:
+	Made e_card_simple_get_id return const char *.
+
+	* backend/ebook/e-card.c, backend/ebook/e-card.h: Made
+	e_card_get_id return const char *.
+
+	* gui/component/e-cardlist-model.c (e_cardlist_model_add): Made id
+	variable const here.  Added a break to make it slightly more
+	efficient.
+
+	* gui/widgets/e-minicard.c, gui/widgets/e-minicard.h: Made
+	e_minicard_get_card_id return const char *.
+
+2001-06-11  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/pas/pas-backend-file.c (entry_compare): Made this handle
 	the "id" property in searches.
 	(pas_backend_file_process_modify_card): Made id variable const

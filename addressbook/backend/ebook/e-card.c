@@ -222,7 +222,7 @@ ECard *e_card_duplicate(ECard *card)
  * Returns: a string representing the id of the card, which is unique
  * within its book.
  */
-char *
+const char *
 e_card_get_id (ECard *card)
 {
 	return card->id;

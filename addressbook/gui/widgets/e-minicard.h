@@ -101,11 +101,13 @@ struct _EMinicardClass
 };
 
 
-GtkType    e_minicard_get_type    (void);
-char      *e_minicard_get_card_id (EMinicard *minicard);
-int        e_minicard_compare     (EMinicard *minicard1, EMinicard *minicard2);
+GtkType     e_minicard_get_type     (void);
+const char *e_minicard_get_card_id  (EMinicard *minicard);
+int         e_minicard_compare      (EMinicard *minicard1,
+				     EMinicard *minicard2);
 
-int        e_minicard_selected    (EMinicard *minicard, GdkEvent *event);
+int         e_minicard_selected     (EMinicard *minicard,
+				     GdkEvent  *event);
 
 #ifdef __cplusplus
 }

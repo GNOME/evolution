@@ -107,7 +107,7 @@ struct _ECardClass {
 
 /* Simple functions */
 ECard                *e_card_new                          (char                       *vcard);
-char                 *e_card_get_id                       (ECard                      *card);
+const char           *e_card_get_id                       (ECard                      *card);
 void                  e_card_set_id                       (ECard                      *card,
 							   const char                 *character);
 
