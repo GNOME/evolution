@@ -1,5 +1,12 @@
 2000-08-25  Christopher James Lahey  <clahey@helixcode.com>
 
+	* examples/access_properties_and_parameters.c,
+	src/libicalvcal/vcc.y: Got rid of some warnings.
+
+	* src/libicalvcal/vcc.c: Checking in generated C file.
+
+2000-08-25  Christopher James Lahey  <clahey@helixcode.com>
+
 	* src/libical/icalcomponent.c: Fixed an incorrect struct name.
 
 2000-08-25  Peter Williams  <peterw@helixcode.com>

@@ -139,7 +139,7 @@ extern "C" {
 #endif
 
     extern void Parse_Debug(const char *s);
-    extern void yyerror(char *s);
+    static void yyerror(char *s);
 
 #if __CPLUSPLUS__
     };
@@ -997,7 +997,7 @@ EndString:
     return lexStr();
     } /* LexQuotedPrintable */
 
-static int yylex() {
+int yylex() {
     int token = 0;
 
     int lexmode = LEXMODE();
