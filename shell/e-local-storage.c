@@ -583,8 +583,6 @@ remove_folder_step (AsyncRemoveFolderCallbackData *callback_data)
 
 	bonobo_object_ref (BONOBO_OBJECT (client));
 
-	g_print ("Removing %s...\n", path);
-
 	evolution_shell_component_client_async_remove_folder (client, physical_uri, type,
 							      component_async_remove_folder_callback,
 							      callback_data);

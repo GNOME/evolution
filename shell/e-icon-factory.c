@@ -30,7 +30,6 @@
 
 
 /* One icon.  Keep both a small (16x16) and a large (48x48) version around.  */
-
 struct _Icon {
 	char *name;
 	GdkPixbuf *small_pixbuf;

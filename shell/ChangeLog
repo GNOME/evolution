@@ -1,5 +1,16 @@
 2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shortcuts-view.c (impl_shortcut_drag_motion): Remove debugging
+	message.
+	(impl_shortcut_drag_motion): Likewise.
+
+	* e-local-storage.c (remove_folder_step): Remove debugging message.
+
+	* e-folder-dnd-bridge.c (e_folder_dnd_bridge_data_received):
+	Remove debugging message.
+
+2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (main): Call e_icon_factory_init().
 
 	* e-local-storage.c (setup_folder_as_stock): New arg @icon_name;

@@ -461,7 +461,6 @@ e_folder_dnd_bridge_data_received (GtkWidget *widget,
 	target_type = gdk_atom_name (selection_data->target);
 
 	if (strcmp (target_type, E_FOLDER_DND_PATH_TARGET_TYPE) != 0) {
-		g_print ("drop data received -- target_type %s\n", target_type);
 		handled = handle_data_received_non_path (context, selection_data, storage_set,
 							 path, target_type);
 	} else {

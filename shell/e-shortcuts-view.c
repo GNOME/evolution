@@ -595,16 +595,11 @@ impl_shortcut_drag_motion (EShortcutBar *shortcut_bar,
 	view = E_SHORTCUTS_VIEW (shortcut_bar);
 	priv = view->priv;
 
-	g_print ("%s -- %d %d\n", __FUNCTION__, group_num, item_num);
-
 	shortcut = e_shortcuts_get_shortcut (priv->shortcuts, group_num, item_num);
 	if (shortcut == NULL)
 		return FALSE;
 	if (strncmp (shortcut->uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0)
 		return FALSE;
-
-	g_print ("%s -- Handling the motion! %s\n", __FUNCTION__,
-		 shortcut->uri + E_SHELL_URI_PREFIX_LEN);
 
 	if (! e_folder_dnd_bridge_motion (widget, context, time,
 				    e_shortcuts_get_storage_set (priv->shortcuts),
