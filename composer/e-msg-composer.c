@@ -1552,41 +1552,6 @@ menu_view_attachments_activate_cb (BonoboUIComponent           *component,
 }
 
 static void
-menu_file_insert_file_cb (BonoboUIComponent *uic,
-			  void *data,
-			  const char *path)
-{
-	EMsgComposer *composer;
-	char *file_name;
-	char *html;
-	CORBA_Environment ev;
-	
-	composer = E_MSG_COMPOSER (data);
-	
-	file_name = e_msg_composer_select_file (composer, _("Insert File"));
-	if (file_name == NULL)
-		return;
-	
-	html = get_file_content (composer, file_name, TRUE, E_TEXT_TO_HTML_PRE, TRUE);
-	if (html == NULL)
-		return;
-	
-	CORBA_exception_init (&ev);
-	GNOME_GtkHTML_Editor_Engine_freeze (composer->editor_engine, &ev);
-	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-position-save", &ev);
-	GNOME_GtkHTML_Editor_Engine_undoBegin (composer->editor_engine, "Insert file", "Uninsert file", &ev);
-	if (!GNOME_GtkHTML_Editor_Engine_isParagraphEmpty (composer->editor_engine, &ev))
-		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "insert-paragraph", &ev);
-	GNOME_GtkHTML_Editor_Engine_insertHTML (composer->editor_engine, html, &ev);
-	GNOME_GtkHTML_Editor_Engine_undoEnd (composer->editor_engine, &ev);
-	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-position-restore", &ev);
-	GNOME_GtkHTML_Editor_Engine_thaw (composer->editor_engine, &ev);
-	CORBA_exception_free (&ev);
-	
-	g_free (html);
-}
-
-static void
 menu_format_html_cb (BonoboUIComponent           *component,
 		     const char                  *path,
 		     Bonobo_UIComponent_EventType type,
@@ -1735,7 +1700,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("FileSaveDraft", menu_file_save_draft_cb),
 	BONOBO_UI_VERB ("FileClose",  menu_file_close_cb),
 	
-	BONOBO_UI_VERB ("FileInsertFile", menu_file_insert_file_cb),
 	BONOBO_UI_VERB ("FileAttach",     menu_file_add_attachment_cb),
 	
 	BONOBO_UI_VERB ("FileSend",       menu_file_send_cb),

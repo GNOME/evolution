@@ -1,3 +1,7 @@
+2002-07-22  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c: removed Insert File menu item
+
 2002-07-19  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_to_message_internal):
