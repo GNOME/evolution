@@ -41,6 +41,7 @@ evolution_executive_summary_SOURCES =		\
 	e-summary-mail.h		\
 	e-summary-rdf.h			\
 	e-summary-rdf.c			\
+	e-summary-type.h		\
 	e-summary-weather.c		\
 	e-summary-weather.h		\
 	main.c				\
