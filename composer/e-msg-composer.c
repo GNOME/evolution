@@ -1166,6 +1166,39 @@ delete_event (GtkWidget *widget,
 	return TRUE;
 }
 
+static void
+drag_data_received (EMsgComposer *composer,
+		    GdkDragContext *context,
+		    gint x,
+		    gint y,
+		    GtkSelectionData *selection,
+		    guint info,
+		    guint time)
+{
+	gchar *temp, *filename;
+
+	filename = g_strdup (selection->data);
+	temp = strchr (filename, '\n');
+	if (temp) {
+		if (*(temp - 1) == '\r')
+			*(temp - 1) = '\0';
+		*temp = '\0';
+	}
+
+	/* Chop the file: part off */
+	if (strncasecmp (filename, "file:", 5) == 0) {
+		temp = g_strdup (filename + 5);
+		g_free (filename);
+		filename = temp;
+	}
+
+	e_msg_composer_attachment_bar_attach
+		(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
+		 filename);
+
+	g_free (filename);
+}
+
 
 static void
 class_init (EMsgComposerClass *klass)
@@ -1259,7 +1292,11 @@ e_msg_composer_construct (EMsgComposer *composer)
 {
 	GtkWidget *vbox;
 	BonoboObject *editor_server;
-	
+
+	static GtkTargetEntry drop_types[] = {
+		{"text/uri-list", 0, 1}
+	};
+
 	g_return_if_fail (gtk_main_level () > 0);
 	
 	gtk_window_set_default_size (GTK_WINDOW (composer),
@@ -1267,6 +1304,12 @@ e_msg_composer_construct (EMsgComposer *composer)
 	
 	bonobo_win_construct (BONOBO_WIN (composer), "e-msg-composer",
 			     _("Compose a message"));
+	
+	/* DND support */
+	gtk_drag_dest_set (GTK_WIDGET (composer), GTK_DEST_DEFAULT_ALL,
+			   drop_types, 1, GDK_ACTION_COPY);
+	gtk_signal_connect (GTK_OBJECT (composer), "drag_data_received",
+			    GTK_SIGNAL_FUNC (drag_data_received), NULL);
 	
 	composer->uih = bonobo_ui_handler_new ();
 	bonobo_ui_handler_set_app (composer->uih, BONOBO_WIN (composer));
@@ -1406,6 +1449,8 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	EMsgComposer *new;
 	char *text, *final_text;
 	guint len, i;
+	
+	g_return_val_if_fail (gtk_main_level () > 0, NULL);
 	
 	new = create_composer ();
 	if (!new)

@@ -84,6 +84,8 @@ destroy (GtkObject *object)
 	attachment = E_MSG_COMPOSER_ATTACHMENT (object);
 
 	camel_object_unref (CAMEL_OBJECT (attachment->body));
+	if (attachment->pixbuf_cache != NULL)
+		gdk_pixbuf_unref (attachment->pixbuf_cache);
 }
 
 
@@ -129,6 +131,7 @@ init (EMsgComposerAttachment *msg_composer_attachment)
 	msg_composer_attachment->editor_gui = NULL;
 	msg_composer_attachment->body = NULL;
 	msg_composer_attachment->size = 0;
+	msg_composer_attachment->pixbuf_cache = NULL;
 }
 
 GtkType

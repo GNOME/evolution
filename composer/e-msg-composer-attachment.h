@@ -26,6 +26,7 @@
 #include <gnome.h>
 #include <glade/glade-xml.h>
 #include <camel/camel-mime-part.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,6 +51,8 @@ struct _EMsgComposerAttachment {
 	CamelMimePart *body;
 	gboolean guessed_type;
 	gulong size;
+
+	GdkPixbuf *pixbuf_cache;
 };
 
 struct _EMsgComposerAttachmentClass {

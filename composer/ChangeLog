@@ -1,3 +1,20 @@
+2000-10-01  Iain Holmes  <iain@helixcode.com>
+
+	* e-msg-composer-attachment-bar.[ch] (update): If the attachment is
+	an image, then make a thumbnail for it.
+	Base the attachment bar on e-icon-list instead of gnome-icon-list.
+
+	* e-icon-list.[ch]: New files. These are modified versions of 
+	gnome-icon-list from gnome-libs HEAD that uses gdk-pixbuf instead
+	of the evil Imlib.
+
+	* e-msg-composer-attachment.[ch]: Add a pixbuf_cache member, to
+	save us having to generate a thumbnail for the attachment every
+	time the bar changes.
+	
+	* e-msg-composer.c (e_msg_composer_construct): Add dnd support for
+	files. Drag a file to the composer to add it as an attachment.
+
 2000-09-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer.c (build_message): Check to see if the body has

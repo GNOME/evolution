@@ -25,6 +25,7 @@
 #define __E_MSG_COMPOSER_ATTACHMENT_BAR_H__
 
 #include <gnome.h>
+#include "e-icon-list.h"
 #include <camel/camel-multipart.h>
 
 #ifdef __cplusplus
@@ -47,14 +48,14 @@ extern "C" {
 typedef struct _EMsgComposerAttachmentBarPrivate EMsgComposerAttachmentBarPrivate;
 
 struct _EMsgComposerAttachmentBar {
-	GnomeIconList parent;
+	EIconList parent;
 
 	EMsgComposerAttachmentBarPrivate *priv;
 };
 typedef struct _EMsgComposerAttachmentBar       EMsgComposerAttachmentBar;
 
 struct _EMsgComposerAttachmentBarClass {
-	GnomeIconListClass parent_class;
+	EIconListClass parent_class;
 
 	void (* changed) (EMsgComposerAttachmentBar *bar);
 };
