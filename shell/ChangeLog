@@ -1,3 +1,10 @@
+2004-01-28  JP Rosevear <jpr@ximian.com>
+
+	* main.c (kill_dataserver): g_message this
+	(destroy_config): remove the various pieces to create a cleanish
+	state for re-migrating from 1.4.x
+	(main): add --force-migrate option when in development mode
+
 2004-01-28  Rodney Dawes  <dobey@ximian.com>
 
 	* e-task-bar.c (init): First argument to gtk_hbox_new () is a boolean,

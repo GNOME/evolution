@@ -80,7 +80,7 @@
 #include <pthread.h>
 
 
-#define DEVELOPMENT_WARNING
+//#define DEVELOPMENT
 
 
 static EShell *shell = NULL;
@@ -90,8 +90,11 @@ static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
 static gboolean setup_only = FALSE;
 static gboolean killev = FALSE;
-static char *default_component_id = NULL;
+#ifdef DEVELOPMENT
+static gboolean force_migrate = FALSE;
+#endif
 
+static char *default_component_id = NULL;
 static char *evolution_debug_log = NULL;
 
 
@@ -172,7 +175,7 @@ shell_weak_notify (void *data,
 static void
 kill_dataserver (void)
 {
-	g_print ("(Killing old version of evolution-data-server...)\n");
+	g_message ("Killing old version of evolution-data-server...");
 
 	system (KILL_PROCESS_CMD " -9 lt-evolution-data-server 2> /dev/null");
 	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.0 2> /dev/null");
@@ -190,6 +193,7 @@ kill_old_dataserver (void)
 
 	CORBA_exception_init (&ev);
 
+	/* FIXME Should we really kill it off?  We also shouldn't hard code the version */
 	iface = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_DataServer_InterfaceCheck", 0, NULL, &ev);
 	if (BONOBO_EX (&ev) || iface == CORBA_OBJECT_NIL) {
 		kill_dataserver ();
@@ -220,7 +224,7 @@ kill_old_dataserver (void)
 #endif
 
 
-#ifdef DEVELOPMENT_WARNING
+#ifdef DEVELOPMENT
 
 /* Warning dialog to scare people off a little bit.  */
 
@@ -338,7 +342,29 @@ new_window_created_callback (EShell *shell,
 	g_signal_connect (window, "map", G_CALLBACK (window_map_callback), NULL);
 }
 
-#endif /* DEVELOPMENT_WARNING */
+static void
+destroy_config (void)
+{
+	GConfClient *gconf;
+	
+	gconf = gconf_client_get_default ();
+
+	/* Unset the source stuff */
+	gconf_client_unset (gconf, "/apps/evolution/calendar/sources", NULL);
+	gconf_client_unset (gconf, "/apps/evolution/tasks/sources", NULL);
+	gconf_client_unset (gconf, "/apps/evolution/addressbook/sources", NULL);
+	gconf_client_unset (gconf, "/apps/evolution/addressbook/sources", NULL);
+
+	/* Reset the version */
+	gconf_client_set_string (gconf, "/apps/evolution/version", "1.4.0", NULL);
+
+	/* Clear the dir */
+	system ("rm -Rf ~/.evolution");
+	
+	g_object_unref (gconf);
+}
+
+#endif /* DEVELOPMENT */
 
 static void
 open_uris (GNOME_Evolution_Shell corba_shell, GSList *uri_list)
@@ -396,7 +422,7 @@ idle_cb (void *data)
 		g_signal_connect (shell, "no_windows_left", G_CALLBACK (no_windows_left_cb), NULL);
 		g_object_weak_ref (G_OBJECT (shell), shell_weak_notify, NULL);
 
-#ifdef DEVELOPMENT_WARNING
+#ifdef DEVELOPMENT
 		if (!getenv ("EVOLVE_ME_HARDER"))
 			g_signal_connect (shell, "new_window_created",
 					  G_CALLBACK (new_window_created_callback), NULL);
@@ -525,6 +551,10 @@ main (int argc, char **argv)
 		{ "force-shutdown", '\0', POPT_ARG_NONE, &killev, 0, 
 		  N_("Forcibly shut down all evolution components"), NULL },
 #endif
+#ifdef DEVELOPMENT
+		{ "force-migrate", '\0', POPT_ARG_NONE, &force_migrate, 0, 
+		  N_("Forcibly re-migrate from Evolution 1.4"), NULL },
+#endif
 		{ "debug", '\0', POPT_ARG_STRING, &evolution_debug_log, 0, 
 		  N_("Send the debugging output of all components to a file."), NULL },
 		{ "setup-only", '\0', POPT_ARG_NONE | POPT_ARGFLAG_DOC_HIDDEN,
@@ -564,6 +594,12 @@ main (int argc, char **argv)
 		exit (0);
 	}
 
+#ifdef DEVELOPMENT
+	if (force_migrate) {
+		destroy_config ();
+	}
+#endif
+	
 	setup_segv_redirect ();
 	
 	if (evolution_debug_log) {
