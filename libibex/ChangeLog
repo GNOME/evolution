@@ -1,3 +1,7 @@
+2001-10-29    <NotZed@Ximian.com>
+
+	* ibex_block.c (ibex_move): Always rename file even if mv failed.
+
 2001-10-28    <NotZed@Ximian.com>
 
 	* ibex_block.c (ibex_move): New api entry to move an ibex file in

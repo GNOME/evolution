@@ -494,22 +494,25 @@ int ibex_close (ibex *ib)
 /* rename/move the ibex file */
 int ibex_move(ibex *ib, const char *newname)
 {
-	int ret = -1;
+	int ret = 0, error;
 
 	IBEX_LOCK(ib);
 
 	if (ib->blocks)
 		close_backend(ib);
 
-	if (rename(ib->name, newname) == -1)
-		goto error;
+	if (rename(ib->name, newname) == -1) {
+		ret = -1;
+		error = errno;
+	}
 
 	g_free(ib->name);
 	ib->name = g_strdup(newname);
-	ret = 0;
 
-error:
 	IBEX_UNLOCK(ib);
+
+	if (ret == -1)
+		errno = error;
 
 	return ret;
 }
