@@ -68,13 +68,14 @@ static gboolean save_ldap_data (const char *file_path);
 
 GHashTable *servers;
 EvolutionStorage *storage;
+static char *ldapservers;
 
 void
-setup_ldap_storage (EvolutionShellComponent *shell_component)
+setup_ldap_storage (EvolutionShellComponent *shell_component,
+		    const char *evolution_homedir)
 {
 	EvolutionShellClient *shell_client;
 	Evolution_Shell corba_shell;
-	char *path;
 
 	shell_client = evolution_shell_component_get_owner (shell_component);
 	if (shell_client == CORBA_OBJECT_NIL) {
@@ -95,9 +96,10 @@ setup_ldap_storage (EvolutionShellComponent *shell_component)
 
 	gtk_object_set_data (GTK_OBJECT (shell_component), "e-storage", storage);
 
-	path = g_strdup_printf ("%s/evolution/" LDAPSERVER_XML, g_get_home_dir());
-	load_ldap_data (storage, path);
-	g_free (path);
+	if (ldapservers)
+		g_free (ldapservers);
+	ldapservers = g_strdup_printf ("%s/" LDAPSERVER_XML, evolution_homedir);
+	load_ldap_data (storage, ldapservers);
 }
 
 static char *
@@ -279,9 +281,7 @@ e_ldap_storage_add_server (ELDAPServer *server)
 
 	g_free (path);
 
-	path = g_strdup_printf ("%s/evolution/" LDAPSERVER_XML, g_get_home_dir());
-	save_ldap_data (path);
-	g_free (path);
+	save_ldap_data (ldapservers);
 }
 
 void
@@ -310,7 +310,5 @@ e_ldap_storage_remove_server (char *name)
 
 	g_free (path);
 
-	path = g_strdup_printf ("%s/evolution/" LDAPSERVER_XML, g_get_home_dir());
-	save_ldap_data (path);
-	g_free (path);
+	save_ldap_data (ldapservers);
 }

@@ -80,11 +80,12 @@ static int owner_count = 0;
 static void
 owner_set_cb (EvolutionShellComponent *shell_component,
 	      EvolutionShellClient *shell_client,
+	      const char *evolution_homedir,
 	      gpointer user_data)
 {
 	owner_count ++;
 
-	setup_ldap_storage (shell_component);
+	setup_ldap_storage (shell_component, evolution_homedir);
 }
 
 static void

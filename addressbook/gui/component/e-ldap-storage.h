@@ -36,7 +36,8 @@ typedef struct {
 	char *uri; /* filled in from the above */
 } ELDAPServer;
 
-void setup_ldap_storage (EvolutionShellComponent *shell_component);
+void setup_ldap_storage (EvolutionShellComponent *shell_component,
+			 const char *evolution_homedir);
 void e_ldap_storage_add_server (ELDAPServer *server);
 void e_ldap_storage_remove_server (char *name);
 

@@ -1,3 +1,15 @@
+2000-08-10  Dan Winship  <danw@helixcode.com>
+
+	* gui/component/addressbook-component.c (owner_set_cb): Update for
+	changed prototype, pass evolution_homedir arg to
+	setup_ldap_storage.
+
+	* gui/component/e-ldap-storage.c (setup_ldap_storage): Now takes
+	an evolution_homedir arg, uses that to generate the path to the
+	ldapservers.xml file, and stores the result in a static variable.
+	(e_ldap_storage_add_server, e_ldap_storage_remove_server): Use that
+	static variable rather than hardcoding the path to the file.
+
 2000-08-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/pas/pas-backend-file.c: Fixed any search to not crash on
