@@ -32,6 +32,8 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 	if (folder_browser == NULL)
 		return NULL;
 
+	folder_browser_set_uri (FOLDER_BROWSER (folder_browser), "inbox");
+	
 	control = bonobo_control_new (folder_browser);
 	if (control == NULL){
 		gtk_object_destroy (GTK_OBJECT (folder_browser));

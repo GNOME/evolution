@@ -111,6 +111,8 @@ dnl libunicode checking
 dnl ******************************
 AC_MSG_CHECKING(For libunicode)
 if unicode-config --libs > /dev/null 2>&1; then 
+    UNICODE_LIBS=`unicode-config --libs`
+    AC_SUBST(UNICODE_LIBS)
     AC_MSG_RESULT(found)
 else
     AC_MSG_ERROR(libunicode not found)

@@ -12,4 +12,6 @@ libeutil_a_SOURCES = \
 	e-cursors.h	\
 	e-gui-utils.c	\
 	e-gui-utils.h	\
-	e-util.h
+	e-util.h	\
+	e-setup.c	\
+	e-setup.h

@@ -22,6 +22,8 @@ typedef struct {
 	 * The current URI being displayed by the FolderBrowser
 	 */
 	char        *uri;
+	CamelFolder *folder;
+	
 	MessageList *message_list;
 	GtkWidget   *message_list_w;
 	MailDisplay *mail_display;

@@ -38,11 +38,12 @@ static CamelProvider _mbox_provider = {
 	(GModule *) NULL
 };
 
-
-
 CamelProvider *
 camel_provider_module_init ()
 {
 	_mbox_provider.object_type = camel_mbox_store_get_type();
 	return &_mbox_provider;
 }
+
+
+

@@ -11,6 +11,7 @@
 #include <gnome.h>
 #include "e-util/e-util.h"
 #include "folder-browser.h"
+#include "session.h"
 
 #define PARENT_TYPE (gtk_table_get_type ())
 
@@ -27,6 +28,9 @@ folder_browser_destroy (GtkObject *object)
 	if (folder_browser->uri)
 		g_free (folder_browser->uri);
 
+	if (folder_browser->folder)
+		gtk_object_unref (GTK_OBJECT (folder_browser->folder));
+	
 	if (folder_browser->message_list)
 		bonobo_object_unref (BONOBO_OBJECT (folder_browser->message_list));
 
@@ -41,14 +45,43 @@ folder_browser_class_init (GtkObjectClass *object_class)
 	folder_browser_parent_class = gtk_type_class (PARENT_TYPE);
 }
 
+static gboolean
+folder_browser_load_folder (FolderBrowser *fb, const char *name)
+{
+	CamelFolder *new_folder;
+	CamelException *ex;
+
+	ex = camel_exception_new ();
+	new_folder = camel_store_get_folder (default_session->store, name, ex);
+
+	if (camel_exception_get_id (ex)){
+		camel_exception_free (ex);
+		return FALSE;
+	}
+	camel_exception_free (ex);
+	
+	if (fb->folder)
+		gtk_object_unref (GTK_OBJECT (fb->folder));
+	
+	fb->folder = new_folder;
+
+	message_list_set_folder (fb->message_list, new_folder);
+
+	return TRUE;
+}
+
 #define EQUAL(a,b) (strcmp (a,b) == 0)
 
 void
 folder_browser_set_uri (FolderBrowser *folder_browser, const char *uri)
 {
+	/* FIXME: hardcoded uri */
+	if (!folder_browser_load_folder (folder_browser, "inbox"))
+		return;
+	
 	if (folder_browser->uri)
 		g_free (folder_browser->uri);
-	
+
 	folder_browser->uri = g_strdup (uri);
 }
 

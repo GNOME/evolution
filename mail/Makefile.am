@@ -1,10 +1,13 @@
 bin_PROGRAMS =	evolution-mail test-mail
 
+providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
+
 INCLUDES = \
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\
+	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"	\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/e-text			\
 	$(BONOBO_HTML_GNOME_CFLAGS)
@@ -27,7 +30,9 @@ evolution_mail_SOURCES =		\
 	mail-display.c			\
 	main.c				\
 	message-list.c			\
-	message-list.h
+	message-list.h			\
+	session.c			\
+	session.h
 
 evolution_mail_LDADD = 					\
 	../widgets/e-table/libetable.a			\

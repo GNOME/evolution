@@ -55,18 +55,24 @@ static int
 ml_row_count (ETableModel *etm, void *data)
 {
 	MessageList *message_list = data;
-	CamelException ex;
-
-	if (!message_list->folder)
-		return 1;
+	CamelException *ex;
+	int v;
 	
-	return camel_folder_get_message_count (message_list->folder, &ex);
+	if (!message_list->folder)
+		return 0;
+
+	ex = camel_exception_new ();
+	v = camel_folder_get_message_count (message_list->folder, ex);
+	camel_exception_free (ex);
+	
+	return v;
 }
 
 static void *
 ml_value_at (ETableModel *etm, int col, int row, void *data)
 {
 	static char buffer [10];
+
 	
 	switch (col){
 	case COL_ONLINE_STATUS:
@@ -465,6 +471,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	
 	gtk_object_ref (GTK_OBJECT (camel_folder));
 
+	printf ("Modelo cambio!\n");
 	e_table_model_changed (message_list->table_model);
 }
 

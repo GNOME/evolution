@@ -105,6 +105,7 @@ camel_provider_register_as_module (const gchar *module_path)
 
 	new_module = g_module_open (module_path, 0);
 	if (!new_module) {
+		printf ("g_module_open reports: %s\n", g_module_error ());
 		CAMEL_LOG_WARNING ("CamelProvider::register_as_module Unable to load module %s\n", module_path);
 		CAMEL_LOG_FULL_DEBUG ("Leaving CamelProvider::register_as_module\n");
 		return NULL;

@@ -4,8 +4,9 @@ SUBDIRS =
 
 libcamelmboxincludedir = $(includedir)/camel
 
+providerdir = $(libdir)/evolution/camel-providers/$(VERSION) 
 
-lib_LTLIBRARIES = libcamelmbox.la
+provider_LTLIBRARIES = libcamelmbox.la
 
 INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 	-I$(top_srcdir)/intl			\
@@ -30,9 +31,9 @@ libcamelmboxinclude_HEADERS =			\
 	camel-mbox-utils.h
 
 
-libcamelmbox_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
+libcamelmbox_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 
 
 #libcamelmbox_la_LIBADD = -L$(top_srcdir)/libibex -libex
-libcamelmbox_la_LIBADD = $(top_srcdir)/libibex/libibex.la
+libcamelmbox_la_LIBADD = $(top_srcdir)/libibex/libibex.la $(UNICODE_LIBS)
 
 EXTRA_DIST = 

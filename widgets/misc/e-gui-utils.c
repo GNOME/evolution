@@ -14,12 +14,18 @@
 #include "e-gui-utils.h"
 
 void
-e_notice (GtkWindow *window, const char *type, const char *str)
+e_notice (GtkWindow *window, const char *type, const char *format, ...)
 {
 	GtkWidget *dialog;
+	va_list args;
+	char *str;
 
+	va_start (args, format);
+	str = g_strdup_vprintf (format, args);
 	dialog = gnome_message_box_new (str, type, GNOME_STOCK_BUTTON_OK, NULL);
-
+	va_end (args);
+	g_free (str);
+	
 	if (window)
 		gnome_dialog_set_parent (GNOME_DIALOG (dialog), window);
 

@@ -13,12 +13,15 @@
 #include "e-util/e-gui-utils.h"
 #include "main.h"
 
-CORBA_Environment ev;
 CORBA_ORB orb;
 
 static void
 init_bonobo (int argc, char **argv)
 {
+	CORBA_Environment ev;
+	
+	CORBA_exception_init (&ev);
+
 	gnome_CORBA_init_with_popt_table (
 		"evolution-mail-component", "1.0",
 		&argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
@@ -30,6 +33,8 @@ init_bonobo (int argc, char **argv)
 			  _("Mail Component: I could not initialize Bonobo"));
 		exit (1);
 	}
+
+	CORBA_exception_free (&ev);
 }
 
 int
@@ -38,9 +43,9 @@ main (int argc, char *argv [])
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 
-	CORBA_exception_init (&ev);
-
 	init_bonobo (argc, argv);
+
+	session_init ();
 
 	folder_browser_factory_init ();
 
@@ -48,3 +53,7 @@ main (int argc, char *argv [])
 
 	return 0;
 }
+
+
+
+

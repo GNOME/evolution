@@ -1,3 +1,20 @@
+2000-02-14  Miguel de Icaza  <miguel@gnu.org>
+
+	* camel/providers/mbox/Makefile.am (libcamelmbox_la_LIBADD): Add
+	the unicode libraries as well.
+
+	* camel/camel-provider.c (camel_provider_register_as_module): Add
+	error reporting here.  Desire to use Solaris increases.  Hair loss
+	in the last two hours: 5,400.
+
+	* camel/providers/mbox/camel-mbox-provider.c
+	(camel_mbox_get_provider): Renamed function.
+
+	* camel/camel.h: All include files use camel/ now here.
+
+	* camel/providers/mbox/Makefile.am: Drop all the dynamism from
+	Camel, and make this a standard library.
+
 2000-02-15  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-part.c: include gmime-base64.h
@@ -58,8 +75,6 @@
 	New function. Allows to get the current position 
 	of a seekable stream.
 	
-
-
 2000-02-14  NotZed  <notzed@zedzone.helixcode.com>
 
 	* configure.in (EXTRA_GNOME_CFLAGS): Add libunicode to CFLAGS/LIBS.

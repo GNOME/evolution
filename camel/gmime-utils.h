@@ -36,7 +36,7 @@ extern "C" {
 
 #include <glib.h>
 #include <stdio.h>
-#include <camel-stream.h>
+#include <camel/camel-stream.h>
 
 typedef struct 
 {

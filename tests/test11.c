@@ -38,7 +38,7 @@ main (int argc, char**argv)
 	gtk_init (&argc, &argv);
 	camel_init ();		
 	ex = camel_exception_new ();
-	camel_provider_register_as_module ("/opt/gnome/lib/libcamelmbox.so.0");
+	camel_provider_register_as_module ("./libcamelmbox.so.0");
 	
 	session = camel_session_new ();
 	store = camel_session_get_store (session, store_url);
