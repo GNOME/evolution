@@ -9,11 +9,20 @@
 #include <config.h>
 #include <gnome.h>
 #include "mail.h"
+#include "mail-threads.h"
 #include "e-util/e-setup.h"
 
 CamelSession *session;
 GHashTable *passwords;
 
+/* FIXME: Will this ever be called in a non-async
+ * manner? Better hope not, cause if that happens
+ * we deadlock....
+ */
+
+#define ASYNC_AUTH_CALLBACK
+
+#ifndef ASYNC_AUTH_CALLBACK
 static void
 request_callback (gchar *string, gpointer data)
 {
@@ -24,13 +33,17 @@ request_callback (gchar *string, gpointer data)
 	else
 		*ans = NULL;
 }
+#endif
 
 static char *
 evolution_auth_callback (CamelAuthCallbackMode mode, char *data,
 			 gboolean secret, CamelService *service, char *item,
 			 CamelException *ex)
 {
+#ifndef ASYNC_AUTH_CALLBACK
 	GtkWidget *dialog;
+#endif
+
 	char *key, *ans;
 
 	if (!passwords)
@@ -66,6 +79,7 @@ evolution_auth_callback (CamelAuthCallbackMode mode, char *data,
 		return g_strdup (ans);
 	}
 
+#ifndef ASYNC_AUTH_CALLBACK
 	/* XXX parent window? */
 	dialog = gnome_request_dialog (secret, data, NULL, 0,
 				       request_callback, &ans, NULL);
@@ -82,6 +96,13 @@ evolution_auth_callback (CamelAuthCallbackMode mode, char *data,
 		g_free (key);
 		return NULL;
 	}
+#else
+	if( mail_op_get_password( data, secret, &ans ) == FALSE ) {
+		camel_exception_set( ex, CAMEL_EXCEPTION_USER_CANCEL, ans );
+		g_free( key );
+		return NULL;
+	}
+#endif
 
 	g_hash_table_insert (passwords, key, g_strdup (ans));
 	return ans;

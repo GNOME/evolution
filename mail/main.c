@@ -66,6 +66,8 @@ main (int argc, char *argv [])
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 
+	g_thread_init( NULL );
+
 	init_corba (&argc, argv);
 	init_bonobo ();
 	gtkhtmllib_init (argc, argv);

@@ -98,6 +98,14 @@ static GtkWidget *queue_window_message = NULL;
 static GtkWidget *queue_window_progress = NULL;
 
 /**
+ * @progress_timeout_handle: the handle to our timer
+ * function so that we can remove it when the progress bar
+ * mode changes.
+ **/
+
+static int progress_timeout_handle = -1;
+
+/**
  * @op_queue: The list of operations the are scheduled
  * to proceed after the currently executing one. When
  * only one operation is going, this is NULL.
@@ -146,6 +154,7 @@ static void create_queue_window( void );
 static void dispatch( closure_t *clur );
 static void *dispatch_func( void *data );
 static void check_compipe( void );
+static void check_cond( void );
 static gboolean read_msg( GIOChannel *source, GIOCondition condition, gpointer userdata );
 static void remove_next_pending( void );
 static void show_error( com_msg_t *msg );
@@ -153,6 +162,8 @@ static void show_error_clicked( void );
 static void get_password( com_msg_t *msg );
 static void get_password_cb( gchar *string, gpointer data );
 static void get_password_clicked( GnomeDialog *dialog, gint button, gpointer user_data );
+static gboolean progress_timeout( gpointer data );
+static void timeout_toggle( gboolean active );
 
 /* Pthread code */
 /* FIXME: support other thread types!!!! */
@@ -183,7 +194,8 @@ choke on this: no thread type defined
  * mail_operation_try:
  * @description: A user-friendly string describing the operation.
  * @callback: the function to call in another thread to start the operation
- * @cleanup: the function to call in the main thread when the callback is finished
+ * @cleanup: the function to call in the main thread when the callback is finished.
+ *    NULL is allowed.
  * @user_data: extra data passed to the callback
  *
  * Runs a mail operation asynchronously. If no other operation is running,
@@ -354,6 +366,8 @@ gboolean mail_op_get_password( gchar *prompt, gboolean secret, gchar **dest )
 	com_msg_t msg;
 	gboolean result;
 
+	check_cond();
+
 	msg.type = PASSWORD;
 	msg.secret = secret;
 	msg.message = prompt;
@@ -388,7 +402,9 @@ void mail_op_error( gchar *fmt, ... )
 {
 	com_msg_t msg;
 	va_list val;
-	
+
+	check_cond();
+
 	va_start( val, fmt );
 	msg.type = ERROR;
 	msg.message = g_strdup_vprintf( fmt, val );
@@ -508,10 +524,18 @@ static void check_compipe( void )
 
 	chan_reader = g_io_channel_unix_new( READER );
 	g_io_add_watch( chan_reader, G_IO_IN, read_msg, NULL );
+}
 
-	/* Misc */
-	modal_cond = g_cond_new();
+/**
+ * check_cond:
+ *
+ * See if our condition is initialized and do so if necessary
+ **/
 
+static void check_cond( void )
+{
+	if( modal_cond == NULL )
+		modal_cond = g_cond_new();
 }
 
 /**
@@ -610,11 +634,15 @@ static gboolean read_msg( GIOChannel *source, GIOCondition condition, gpointer u
 		g_free( msg );
 		break;
 	case HIDE_PBAR:
-		gtk_widget_hide( GTK_WIDGET( queue_window_progress ) );
+		gtk_progress_set_activity_mode( GTK_PROGRESS( queue_window_progress ), TRUE );
+		timeout_toggle( TRUE );
+
 		g_free( msg );
 		break;
 	case SHOW_PBAR:
-		gtk_widget_show( GTK_WIDGET( queue_window_progress ) );
+		timeout_toggle( FALSE );
+		gtk_progress_set_activity_mode( GTK_PROGRESS( queue_window_progress ), FALSE );
+
 		g_free( msg );
 		break;
 	case MESSAGE:
@@ -716,8 +744,8 @@ static void show_error( com_msg_t *msg )
 
 	G_LOCK( modal_lock );
 
+	timeout_toggle( FALSE );
 	modal_may_proceed = FALSE;
-	/*gnome_dialog_run_and_close( GNOME_DIALOG( err_dialog ) );*/
 	gtk_widget_show( GTK_WIDGET( err_dialog ) );
 }
 
@@ -731,6 +759,7 @@ static void show_error( com_msg_t *msg )
 static void show_error_clicked( void )
 {
 	modal_may_proceed = TRUE;
+	timeout_toggle( TRUE );
 	g_cond_signal( modal_cond );
 	G_UNLOCK( modal_lock );
 }
@@ -763,7 +792,7 @@ static void get_password( com_msg_t *msg )
 		G_UNLOCK( modal_lock );
 	} else {
 		*(msg->reply) = NULL;
-		/*ret = gnome_dialog_run_and_close( GNOME_DIALOG(dialog) );*/
+		timeout_toggle( FALSE );
 		gtk_widget_show( GTK_WIDGET( dialog ) );
 	}
 }
@@ -785,14 +814,56 @@ static void get_password_clicked( GnomeDialog *dialog, gint button, gpointer use
 	if( button == 1 || *(msg->reply) == NULL ) {
 		*(msg->success) = FALSE;
 		*(msg->reply) = g_strdup( _("User cancelled query.") );
-		goto done;
-	}
+	} else
+		*(msg->success) = TRUE;
 
-	*(msg->success) = TRUE;
-
- done:
 	g_free( msg );
 	modal_may_proceed = TRUE;
+	timeout_toggle( TRUE );
 	g_cond_signal( modal_cond );
 	G_UNLOCK( modal_lock );
+}
+
+/* NOT totally copied from gtk+/gtk/testgtk.c, really! */
+
+static gboolean
+progress_timeout (gpointer data)
+{
+	gfloat new_val;
+	GtkAdjustment *adj;
+
+	adj = GTK_PROGRESS (data)->adjustment;
+  
+	new_val = adj->value + 1;
+	if (new_val > adj->upper)
+		new_val = adj->lower;
+
+	gtk_progress_set_value (GTK_PROGRESS (data), new_val);
+
+	return TRUE;
+}
+
+/**
+ * timeout_toggle:
+ *
+ * Turn on and off our timeout to zip the progressbar along,
+ * protecting against recursion (Ie, call with TRUE twice
+ * in a row.
+ **/
+
+static void
+timeout_toggle( gboolean active )
+{
+	if( (GTK_PROGRESS( queue_window_progress ))->activity_mode == 0 )
+		return;
+
+	if( active ) {
+		if( progress_timeout_handle < 0 )
+			progress_timeout_handle = gtk_timeout_add( 80, progress_timeout, queue_window_progress );
+	} else {
+		if( progress_timeout_handle >= 0 ) {
+			gtk_timeout_remove( progress_timeout_handle );
+			progress_timeout_handle = -1;
+		}
+	}
 }

@@ -2,7 +2,40 @@
 
 	* component-factory.c: Include e-util/e-setup.h for the
 	prototype of evolution_dir; prototype create_news_storage.
+	(real_create_imap_storage, real_create_news_storage): New
+	functions moving the camel stuff into the async callback.
+	(create_imap_storage, create_news_storage): Chopped in
+	half to move camel stuff as above.
 
+	* mail-ops.c: Include "mail-threads.h" for threading protos.
+	(real_fetch_mail, real_send_mail, real_expunge_folder): 
+	New functions moving the camel stuff into the async callback.
+	(async_mail_exception_dialog): A version of mail_exception_dialog
+	to be called from the async handlers (just calls mail_op_error())
+	(fetch_mail, expunge_folder, composer_send_cb): Cut in half to
+	move camel stuff as above.
+	(cleanup_send_mail): Clean up after the async real_send_mail
+	with the gtk_object_destroys et al.
+
+	* mail-threads.c: Instead of hiding the progress bar, make it
+	zip back and forth constantly.
+	(progress_timeout): New func. Timeout called to make the pbar
+	shimmy.
+	(timeout_toggle): New func. Turn on and off the shimmy effect.
+	(check_cond): New func. Make sure that the GCond for modal
+	operation is initialized before mail_op_{error,get_password}.
+	(show_error_clicked, read_msg, get_password_clicked): Move
+	over to timeout_toggle.
+	(mail_op_error,mail_op_get_password): Add check_cond() call.
+
+	* main.c: (main) Call g_thread_init.
+
+	* session.c: Change auth_callback stuff over to assume that it's
+	being called async. Note: no real good way to tell if this is
+	the case or not.
+	(request_callback): ifdef'ed out
+	(evolution_auth_callback): Use mail_op_get_password.
+	
 2000-06-22  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* folder-browser.c (folder_browser_load_folder): Now should

@@ -27,6 +27,7 @@
 #include <errno.h>
 #include <gnome.h>
 #include "mail.h"
+#include "mail-threads.h"
 #include "folder-browser.h"
 #include "e-util/e-setup.h"
 #include "filter/filter-editor.h"
@@ -42,6 +43,36 @@
 #include <sys/stat.h>
 #endif
 
+struct post_send_data {
+	CamelFolder *folder;
+	const char *uid;
+	guint32 flags;
+};
+
+typedef struct rfm_s { 
+	FolderBrowser *fb; 
+	char *source_url; 
+} rfm_t;
+
+typedef struct rsm_s {
+	EMsgComposer *composer;
+	CamelTransport *transport;
+	CamelMimeMessage *message;
+	const char *subject;
+	char *from;
+	struct post_send_data *psd;
+	gboolean ok;
+} rsm_t;
+
+static void
+real_fetch_mail( gpointer user_data );
+
+static void
+real_send_mail( gpointer user_data );
+
+static void
+cleanup_send_mail( gpointer userdata );
+
 static void
 mail_exception_dialog (char *head, CamelException *ex, gpointer widget)
 {
@@ -53,6 +84,12 @@ mail_exception_dialog (char *head, CamelException *ex, gpointer widget)
 			       camel_exception_get_description (ex));
 	gnome_error_dialog_parented (msg, window);
 	g_free (msg);
+}
+
+static void
+async_mail_exception_dialog (char *head, CamelException *ex, gpointer unused )
+{
+	mail_op_error( "%s: %s", head, camel_exception_get_description( ex ) );
 }
 
 static gboolean
@@ -74,13 +111,11 @@ check_configured (void)
 	return configured;
 }
 
-/* FIXME: This is BROKEN! It fetches mail into whatever folder you're
- * currently viewing.
- */
 void
-fetch_mail (GtkWidget *button, gpointer user_data)
+real_fetch_mail (gpointer user_data )
 {
-	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	rfm_t *info;
+	FolderBrowser *fb = NULL;
 	CamelException *ex;
 	CamelStore *store = NULL;
 	CamelFolder *folder = NULL;
@@ -89,20 +124,9 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	char *userrules, *systemrules;
 	char *tmp_mbox = NULL, *source;
 
-	if (!check_configured ())
-		return;
-
-	path = g_strdup_printf ("=%s/config=/mail/source", evolution_dir);
-	url = gnome_config_get_string (path);
-	g_free (path);
-	if (!url) {
-		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (fb),
-							  GTK_TYPE_WINDOW);
-
-		gnome_error_dialog_parented ("You have no remote mail source "
-					     "configured", GTK_WINDOW (win));
-		return;
-	}
+	info = (rfm_t *) user_data;
+	fb = info->fb;
+	url = info->source_url;
 
 	path = CAMEL_SERVICE (fb->folder->parent_store)->url->path;
 	ex = camel_exception_new ();
@@ -123,7 +147,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "Couldn't create temporary "
 					      "mbox: %s", g_strerror (errno));
-			mail_exception_dialog ("Unable to move mail", ex, fb);
+			async_mail_exception_dialog ("Unable to move mail", ex, fb );
 			goto cleanup;
 		}
 		close (tmpfd);
@@ -135,7 +159,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 
 		switch (camel_movemail (source, tmp_mbox, ex)) {
 		case -1:
-			mail_exception_dialog ("Unable to move mail", ex, fb);
+			async_mail_exception_dialog ("Unable to move mail", ex, fb);
 			/* FALL THROUGH */
 
 		case 0:
@@ -146,7 +170,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 						 strrchr (tmp_mbox, '/') + 1,
 						 FALSE, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-			mail_exception_dialog ("Unable to move mail", ex, fb);
+			async_mail_exception_dialog ("Unable to move mail", ex, fb);
 			goto cleanup;
 		}
 	} else {
@@ -154,20 +178,20 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 
 		store = camel_session_get_store (session, url, ex);
 		if (!store) {
-			mail_exception_dialog ("Unable to get new mail", ex, fb);
+			async_mail_exception_dialog ("Unable to get new mail", ex, fb);
 			goto cleanup;
 		}
 		camel_service_connect (CAMEL_SERVICE (store), ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 			if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_USER_CANCEL)
-				mail_exception_dialog ("Unable to get new mail", ex, fb);
+				async_mail_exception_dialog ("Unable to get new mail", ex, fb);
 			goto cleanup;
 		}
 
 		sourcefolder = camel_store_get_folder (store, "inbox",
 						       FALSE, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-			mail_exception_dialog ("Unable to get new mail", ex, fb);
+			async_mail_exception_dialog ("Unable to get new mail", ex, fb);
 			goto cleanup;
 		}
 
@@ -183,7 +207,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 							 strrchr (tmp_mbox, '/') + 1,
 							 TRUE, ex);
 			if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-				mail_exception_dialog ("Unable to move mail", ex, fb);
+				async_mail_exception_dialog ("Unable to move mail", ex, fb);
 				goto cleanup;
 			}
 			
@@ -194,7 +218,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 				printf("copying message %d to dest\n", i + 1);
 				msg = camel_folder_get_message_by_uid (sourcefolder, uids->pdata[i], ex);
 				if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-					mail_exception_dialog ("Unable to read message", ex, fb);
+					async_mail_exception_dialog ("Unable to read message", ex, fb);
 					gtk_object_unref((GtkObject *)msg);
 					gtk_object_unref((GtkObject *)sourcefolder);
 					goto cleanup;
@@ -202,7 +226,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 
 				camel_folder_append_message (folder, msg, ex);
 				if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-					mail_exception_dialog ("Unable to write message", ex, fb);
+					async_mail_exception_dialog ("Unable to write message", ex, fb);
 					gtk_object_unref((GtkObject *)msg);
 					gtk_object_unref((GtkObject *)sourcefolder);
 					goto cleanup;
@@ -214,7 +238,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 			camel_folder_free_uids (sourcefolder, uids);
 			camel_folder_sync (sourcefolder, TRUE, ex);
 			if (camel_exception_is_set (ex))
-				mail_exception_dialog ("", ex, fb);
+				async_mail_exception_dialog ("", ex, fb);
 			gtk_object_unref((GtkObject *)sourcefolder);
 		} else {
 			printf("we can search on this folder, performing search!\n");
@@ -226,7 +250,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		gnome_ok_dialog ("No new messages.");
 		goto cleanup;
 	} else if (camel_exception_is_set (ex)) {
-		mail_exception_dialog ("Unable to get new mail", ex, fb);
+		async_mail_exception_dialog ("Unable to get new mail", ex, fb);
 		goto cleanup;
 	}
 
@@ -242,7 +266,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	g_free(systemrules);
 
 	if (filter_driver_run(filter, folder, fb->folder) == -1) {
-		mail_exception_dialog ("Unable to get new mail", ex, fb);
+		async_mail_exception_dialog ("Unable to get new mail", ex, fb);
 		goto cleanup;
 	}
 
@@ -269,12 +293,41 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	camel_exception_free (ex);
 }
 
+/* FIXME: This is BROKEN! It fetches mail into whatever folder you're
+ * currently viewing.
+ */
+void
+fetch_mail (GtkWidget *button, gpointer user_data)
+{
+	char *path, *url = NULL;
+	rfm_t *info;
 
-struct post_send_data {
-	CamelFolder *folder;
-	const char *uid;
-	guint32 flags;
-};
+	if (!check_configured ())
+		return;
+
+	path = g_strdup_printf ("=%s/config=/mail/source", evolution_dir);
+	url = gnome_config_get_string (path);
+	g_free (path);
+
+	if (!url) {
+		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
+							  GTK_TYPE_WINDOW);
+
+		gnome_error_dialog_parented ("You have no remote mail source "
+					     "configured", GTK_WINDOW (win));
+		return;
+	}
+
+	/* This must be dynamically allocated so as not to be clobbered
+	 * when we return. Actually, making it static in the whole file
+	 * would probably work.
+	 */
+
+	info = g_new( rfm_t, 1 );
+	info->fb = FOLDER_BROWSER( user_data );
+	info->source_url = url;
+	mail_operation_try( _("Fetching mail"), real_fetch_mail, NULL, info );
+}
 
 static gboolean
 ask_confirm_for_empty_subject (EMsgComposer *composer)
@@ -296,10 +349,83 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 }
 
 static void
+real_send_mail( gpointer user_data )
+{
+	rsm_t *info = (rsm_t *) user_data;
+	EMsgComposer *composer = NULL;
+	CamelTransport *transport = NULL;
+	CamelException *ex = NULL;
+	CamelMimeMessage *message = NULL;
+	const char *subject = NULL;
+	char *from = NULL;
+	struct post_send_data *psd = NULL;
+
+	mail_op_hide_progressbar();
+	mail_op_set_message( "Connecting to transport..." );
+
+	ex = camel_exception_new ();
+	composer = info->composer;
+	transport = info->transport;
+	message = info->message;
+	subject = info->subject;
+	from = info->from;
+	psd = info->psd;
+
+	camel_mime_message_set_from (message, from);
+	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer",
+				 "Evolution (Developer Preview)");
+	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+
+	camel_service_connect (CAMEL_SERVICE (transport), ex);
+
+	mail_op_set_message( "Connected. Sending..." );
+
+	if (!camel_exception_is_set (ex))
+		camel_transport_send (transport, CAMEL_MEDIUM (message), ex);
+
+	if (!camel_exception_is_set (ex)) {
+		mail_op_set_message( "Sent. Disconnecting..." );
+		camel_service_disconnect (CAMEL_SERVICE (transport), ex);
+	}
+
+	if (camel_exception_is_set (ex)) {
+		async_mail_exception_dialog ("Could not send message", ex, composer);
+		info->ok = FALSE;
+	} else {
+		if (psd) {
+			guint32 set;
+
+			set = camel_folder_get_message_flags (psd->folder,
+							      psd->uid, ex);
+			camel_folder_set_message_flags (psd->folder, psd->uid,
+							psd->flags, ~set, ex);
+		}
+		info->ok = TRUE;
+
+	}
+
+	camel_exception_free (ex);
+}
+
+static void
+cleanup_send_mail( gpointer userdata )
+{
+	rsm_t *info = (rsm_t *) userdata;
+	
+	if( info->ok ) {
+		gtk_object_destroy (GTK_OBJECT (info->composer));
+	}
+
+	gtk_object_unref (GTK_OBJECT (info->message));
+	g_free( info );
+}
+
+static void
 composer_send_cb (EMsgComposer *composer, gpointer data)
 {
 	static CamelTransport *transport = NULL;
 	struct post_send_data *psd = data;
+	rsm_t *info;
 	static char *from = NULL;
 	const char *subject;
 	CamelException *ex;
@@ -356,32 +482,15 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 		}
 	}
 
-	camel_mime_message_set_from (message, from);
-	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer",
-				 "Evolution (Developer Preview)");
-	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+	info = g_new0( rsm_t, 1 );
+	info->composer = composer;
+	info->transport = transport;
+	info->message = message;
+	info->subject = subject;
+	info->from = from;
+	info->psd = psd;
 
-	camel_service_connect (CAMEL_SERVICE (transport), ex);
-	if (!camel_exception_is_set (ex))
-		camel_transport_send (transport, CAMEL_MEDIUM (message), ex);
-	if (!camel_exception_is_set (ex))
-		camel_service_disconnect (CAMEL_SERVICE (transport), ex);
-	if (camel_exception_is_set (ex))
-		mail_exception_dialog ("Could not send message", ex, composer);
-	else {
-		if (psd) {
-			guint32 set;
-
-			set = camel_folder_get_message_flags (psd->folder,
-							      psd->uid, ex);
-			camel_folder_set_message_flags (psd->folder, psd->uid,
-							psd->flags, ~set, ex);
-		}
-		gtk_object_destroy (GTK_OBJECT (composer));
-	}
-
-	camel_exception_free (ex);
-	gtk_object_unref (GTK_OBJECT (message));
+	mail_operation_try( "Send Message", real_send_mail, cleanup_send_mail, info );
 }
 
 static void
@@ -517,24 +626,34 @@ delete_msg (GtkWidget *button, gpointer user_data)
 	e_table_select_row (E_TABLE (ml->etable), ml->selected_row + 1);
 }
 
-void
-expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path)
+static void real_expunge_folder( gpointer user_data )
 {
 	FolderBrowser *fb = FOLDER_BROWSER(user_data);
 	CamelException ex;
 
+	mail_op_hide_progressbar();
+	mail_op_set_message( "Expunging %s...", fb->message_list->folder->full_name );
+
+	camel_exception_init(&ex);
+
+	camel_folder_expunge(fb->message_list->folder, &ex);
+
+	/* FIXME: is there a better way to force an update? */
+	/* FIXME: Folder should raise a signal to say its contents has changed ... */
+	e_table_model_changed (fb->message_list->table_model);
+
+	if (camel_exception_get_id (&ex) != CAMEL_EXCEPTION_NONE) {
+		async_mail_exception_dialog ("Unable to expunge deleted messages", &ex, fb);
+	}
+}
+
+void
+expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	FolderBrowser *fb = FOLDER_BROWSER(user_data);
+
 	if (fb->message_list->folder) {
-		camel_exception_init(&ex);
-
-		camel_folder_expunge(fb->message_list->folder, &ex);
-
-		/* FIXME: is there a better way to force an update? */
-		/* FIXME: Folder should raise a signal to say its contents has changed ... */
-		e_table_model_changed (fb->message_list->table_model);
-
-		if (camel_exception_get_id (&ex) != CAMEL_EXCEPTION_NONE) {
-			mail_exception_dialog ("Unable to expunge deleted messages", &ex, fb);
-		}
+		mail_operation_try( "Expunge Folder", real_expunge_folder, NULL, fb );
 	}
 }
 
