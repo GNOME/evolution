@@ -10,6 +10,8 @@ a shared folder is created so that different icons are displayed
 (get_container_id):to get the container id of the folder user selects
 * share-folder.c : minor changes to fix the crash
 * Makefile.am : including install-shared.c in sources
+* org-gnome-shared-folder.eplug.in : added a plugin to the e-plugin list for
+ the message-read event
 
 2004-12-15 Vivek Jain <jvivek@novell.com>
 

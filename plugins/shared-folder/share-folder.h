@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifndef __SHARE_FOLDER_H__
 #define __SHARE_FOLDER_H__
 
@@ -32,7 +31,9 @@ extern "C" {
 #include <glib.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtk.h>
+#include <camel/camel-store.h>
 #include <e-gw-connection.h>
+#include <libedataserverui/e-name-selector.h>
 
 #define _SHARE_FOLDER_TYPE    	      (share_folder_get_type ())
 #define SHARE_FOLDER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), SHARE_FOLDER, ShareFolder))
@@ -81,7 +82,7 @@ struct _ShareFolder {
 	struct _GtkEntry *subject;
 	struct _GtkRadioButton *shared;
 	struct _GtkRadioButton *not_shared;
-	struct _GtkWidget *scrolledwindow;
+	struct _GtkWidget *scrolled_window;
 	struct _GtkWidget *table;
 	struct _GtkListStore *model;
 	struct _GtkCellRenderer *cell;
@@ -107,19 +108,20 @@ struct _ShareFolder {
 	gchar *mesg;
 	GList *container_list;
 	GtkTreeIter iter;
+	ENameSelector *name_selector;
+	
 };
 
 struct _ShareFolderClass {
 	GtkVBoxClass parent_class;
 	
-	
 };
 
 GType share_folderget_type (void);
-
-struct _ShareFolder * share_folder_new (gchar *ccnc, gchar *id);
-
+struct _ShareFolder * share_folder_new (EGwConnection *ccnc, gchar *id);
 void share_folder(struct _ShareFolder *sf);
+gchar * get_container_id (EGwConnection *cnc, gchar *fname);
+EGwConnection * get_cnc (CamelStore *store);
 
 #ifdef __cplusplus
 }
