@@ -1,3 +1,11 @@
+2001-08-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #8125, Evolution crashes while starting.]
+
+	* e-shortcuts.c (load_shortcuts): Handle the case when there is no
+	URI without crashing.  Only add shortcuts when they are evolution:
+	URIs.
+
 2001-08-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Evolution-ShellComponent.idl: Studlycapsize all the IDs that are
