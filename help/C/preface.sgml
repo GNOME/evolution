@@ -1,6 +1,3 @@
-<!--
-<!DOCTYPE preface PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
--->
   <preface id="introduction">
     <title>About this Book</title> 
       <sect1 id="organization">
@@ -78,6 +75,149 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	      </para>
 	  </warning>
         </para>
+    </sect1>
+    <sect1 id="whats-new-in-one-two">
+      <title>What's New in Evolution 1.2</title>
+      <para>
+        If you're already familiar with Ximian Evolution 1.0, you may
+        want to know what has changed in this release. Aside from
+        performance benefits like faster POP server interaction, there
+        are new features and options, including some that may surprise
+        or confuse you. Here is a list of new and changed features:
+      <variablelist>
+
+	  <varlistentry>
+	    <term>Configuration Interface</term>
+	    <listitem>
+	      <para>
+                The preferences dialogs have been completely
+                overhauled. There is now a single configuration dialog
+                window for all components of the program, and you can
+                access it from anywhere. To change your preferences,
+                select 
+                 <menuchoice>
+		  <guimenu>
+                      Tools
+                  </guimenu>
+		  <guimenuitem>
+                     Configure
+                  </guimenuitem>
+		</menuchoice>.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Folder Preferences for Autocompletion and Offline Mode</term>
+	    <listitem>
+              <para>
+               You may now select which network folders which will be
+               cached locally when you go into Offline mode. Offline
+               mode now works better in general.
+             </para>
+	      <para>
+                You may also select which contact folders will be used
+                to autocomplete addresses in the mail composer.
+             </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Redirect (Bounce) Feature Added</term>
+	    <listitem>
+	      <para>
+               To redirect a message with all its headers instead of
+               merely forwarding it, select the message and choose     
+                 <menuchoice>
+		  <guimenu>
+                      Actions
+                  </guimenu>
+		  <guisubmenu>
+                     Forward
+                  </guisubmenu>
+		  <guimenuitem>
+                      Redirect
+                  </guimenuitem>
+		</menuchoice>.
+             </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Digest-mode Display of Forwarded Messages</term>
+	    <listitem>
+	      <para>
+                Messages that have been forwarded to you as
+                attachments are now displayed in "Digest Mode" rather
+                than inline.
+             </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>New Mail Notification</term>
+	    <listitem>
+	      <para>
+                When new mail arrives, you may opt to have Evolution
+                beep or play a sound file that you specify.
+             </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Letter Keyboard Shortcuts</term>
+	    <listitem>
+	      <para>
+                Pressing an unmodified letter key in the Folder Bar
+                now takes you to the next folder that starts with that
+                letter; if there are several, you can press the key
+                again and it will go to the next folder that starts
+                with that letter.  Similarly, you can press a letter
+                key in the message list and the message selection will
+                move to the next message whose sender begins with that
+                letter. For example, you could press the
+                <keycap>r</keycap> key to go to the next message that
+                Russell sent you.
+              </para>
+	      <para>
+                That means that unmodified letter shortcuts from
+                Evolution 1.0 won't work any more. The changes are:
+                <simplelist>
+		  <member>
+                    <keycap>,</keycap> (comma) and <keycap>.</keycap>
+                    (period) are now the keyboard shortcuts for Next
+                    and Previous unread messages
+                 </member>
+		 <member>
+                   <keycap>'</keycap> (the single apostrophe) toggles
+                   the message preview pane.
+                 </member>
+		</simplelist>
+                Shortcuts that used the <keycap>Control</keycap> key
+                are not affected.
+             </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Added Functionality for the "New" Button</term>
+	    <listitem>
+	      <para>
+                The <guibutton>New</guibutton> now has a menu next to
+                it. As in Evolution 1.0, you can click the button once
+                to get a new item for the Evolution tool you're
+                using. However, if you click the small arrow menu to
+                the right of the button, you will find a menu that
+                allows you to create new items for the rest of
+                Evolution: All day appointments, regular appointments,
+                tasks and meetings for the calendar; mail messages for
+                the mail tool; and contacts and contact lists for the
+                address book.
+               </para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
     </sect1>
 </preface>
 

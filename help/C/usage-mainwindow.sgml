@@ -1,3 +1,5 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+
 <chapter id="usage-mainwindow">
 
   <title>Getting Started with Ximian Evolution</title>
@@ -95,8 +97,9 @@
 	The Identity window is the first step in the assistant. Here,
 	you will enter some basic personal information.  You can
 	define multiple identities later on with the
-	<menuchoice><guimenu>Tools</guimenu> <guimenuitem>Mail
-	Settings</guimenuitem></menuchoice> tool.
+	<menuchoice><guimenu>Tools</guimenu>
+	<guimenuitem>Configure</guimenuitem></menuchoice> tool and
+	clicking the <guibutton>Mail Accounts</guibutton> button.
 	<itemizedlist>
 	  <listitem>
 	    <para>
@@ -269,10 +272,11 @@
         especially if you've chosen POP, Microsoft Exchange, or IMAP
         as incoming mail server type.  If you want to set these
         options after you've created the account, you can select
-        <menuchoice><guimenu>Tools</guimenu> <guimenuitem>Mail
-        Settings</guimenuitem></menuchoice>, click on the account you
-        want to change, and then click the <guibutton>Edit</guibutton>
-        button. See <xref linkend="config-prefs-mail"> for details.
+        <menuchoice><guimenu>Tools</guimenu> <guimenuitem>Configure
+        </guimenuitem></menuchoice>, click the <guibutton>Mail
+        Accounts</guibutton> button. Then, select the account you want
+        to change and click <guibutton>Edit</guibutton>. See <xref
+        linkend="config-prefs-mail"> for details.
       </para>
         <variablelist>
 	 <varlistentry>
@@ -1146,8 +1150,8 @@ the workaround described in the note below.
           <term> <guimenu>Tools</guimenu>:</term>
           <listitem><para>
              Tools for configuring, changing, and
-          setting up preferences go here.  For mail, that means things like
-          <guimenuitem>Mail Configuration</guimenuitem> and the
+          setting up  go here.  For mail, that means things like
+           and the
           <guimenuitem>Virtual Folder Editor</guimenuitem>.  For the
           <interface>Calendar</interface> and the <interface>Contact
           Manager</interface>, it's color, network, and layout
@@ -1232,9 +1236,9 @@ Shows your pending tasks
         To add additional services to your Summary, or to edit the
         existing services, select
         <menuchoice>
-	  <guimenu>Tools</guimenu> 
-	  <guimenuitem>Summary Settings</guimenuitem> 
-	</menuchoice>.
+	  <guimenu>Tools</guimenu>
+	  <guimenuitem>Configure</guimenuitem> </menuchoice> and click
+	  the <guibutton>Summary Settings</guibutton> button.
       </para>
 
     </sect2>

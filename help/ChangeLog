@@ -1,3 +1,18 @@
+2002-05-30  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail.sgml: links to conf.
+
+	* C/usage-mainwindow.sgml: updated for links to configuration.
+
+	* C/preface.sgml: added "What's new?" section with a few entries.
+
+	* C/evolution.sgml: Minor stylistic tweaks, updated version
+	numbers.
+
+	* C/Makefile.am: Removed evolution-faq.sgml and usage-notes.sgml,
+	and cvs removed them. These files are vestiges of the distant
+	past.
+
 2002-05-06  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mainwindow.sgml: minor feature change in Evolution w/r/t Exchange calendars.

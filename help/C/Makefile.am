@@ -39,7 +39,6 @@ sgml_ents =	\
 	apx-gloss.sgml		\
 	config-prefs.sgml	\
 	config-sync.sgml	\
-	evolution-faq.sgml	\
 	menuref.sgml		\
 	preface.sgml		\
 	usage-calendar.sgml	\

@@ -264,12 +264,12 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      In <application>Evolution</application>
-	      <menuchoice><guimenu>Tools</guimenu><guimenuitem>Mail
-		  Settings</guimenuitem></menuchoice>, and pick the account
-	      you'd like to use to share mail. You may want to
-	      create a new account just for this source of
-	      mail.
+              Select
+	      <menuchoice><guimenu>Tools</guimenu><guimenuitem>Configure</guimenuitem></menuchoice>,
+	      click the <guibutton>Mail Accounts</guibutton> button,
+	      and pick the account you'd like to use to share
+	      mail. You may want to create a new account just for this
+	      source of mail.
 	    </para>
 	  </listitem>                     
 	  <listitem>
@@ -407,12 +407,15 @@
          </menuchoice>.  
 
          If you want <application>Ximian Evolution</application> to
-         load remotely hosted images more often, go to the
-         <guilabel>Display</guilabel> tab of the
+         load remotely hosted images more often, select the
          <menuchoice>
 	   <guimenu>Tools</guimenu>
-	   <guimenuitem>Mail Settings</guimenuitem>
-         </menuchoice> dialog.
+	   <guimenuitem>Configure</guimenuitem> </menuchoice> menu
+	   item and click the <guibutton>Mail Preferences</guibutton>
+	   button in the configuration tool. There, select the
+	   <guibutton>HTML Mail</guibutton> tab and choose
+	   <guilabel>Load images if sender is in
+	   addressbook</guilabel> or <guilabel>Always load images off the net</guilabel>
       </para>
       <note id="http-proxy">
 	<title>Loading Images from the Net through an HTTP Proxy</title>
@@ -423,8 +426,46 @@
            before it can load images from the Internet.  This is also
            the case if you wish to access weather and news information
            through the Summary tool. You can tell the GNOME Virtual
-           File System about your HTTP proxy in one of two ways:
+           File System about your HTTP proxy in one of three
+           ways. From easiest to most complicated, they are:
             <variablelist>
+
+	      <varlistentry>
+	      <term>Configure it with the Gnome-VFS Proxy Configuration Tool</term>
+	      <listitem>
+		<para>
+                  Ximian ships a small utility called the Gnome-VFS
+                  Proxy Configuration Tool, which you can run from the
+                  <guimenu>Desktop Preferences</guimenu> menu or with
+                  the <command>gnome-vfs-proxy-capplet</command>
+                  command. All it does is let you tell GNOME what your
+                  HTTP proxy is:
+         <orderedlist numeration="arabic">
+		    <listitem>
+		      <para>
+	               Run the configuration tool with the
+	               <command>gnome-vfs-proxy-capplet</command>
+	               command or by selecting it from the
+	               <guimenu>Desktop Preferences</guimenu> menu.
+	               </para>
+		    </listitem>
+      		    <listitem>
+		      <para>
+                          Enter the name of your HTTP proxy where
+                          indicated. If you are not sure what it is,
+                          ask your system administrator.
+	               </para>
+		    </listitem>
+      		    <listitem>
+		      <para>
+                        Click OK. You're done.
+	               </para>
+		    </listitem>
+		  </orderedlist>
+                </para>
+	      </listitem>
+	    </varlistentry>
+
 	      <varlistentry>
 	      <term>Configure it with Nautilus</term>
 	      <listitem>
@@ -460,44 +501,19 @@
 	      </listitem>
 	    </varlistentry>
 	    <varlistentry>
-	      <term>Configure it with the gconftool command</term>
+	      <term>Configure it with gconftool or gconf-editor </term>
 	      <listitem>
 	      <para>
-                 <orderedlist numeration="arabic">
-		    <listitem>
-		      <para>
-                        Open a terminal.
-                      </para>
-		    </listitem>
-		    <listitem>
-		      <para>
-                        Enter the command 
-                        <command>
-                        gconftool --type=bool --set /system/gnome-vfs/use-http-proxy "TRUE"
-                        </command>
-                      </para>
-		    </listitem>
-		    <listitem>
-		      <para>
-                        Enter the command 
-                        <command>
-      gconftool --type=string --set /system/gnome-vfs/http-proxy-host "your-proxy-url"
-                        </command>
-                      </para>
-		    </listitem>
-		    <listitem>
-		      <para>
-                        Enter the command 
-                        <command>
-                        gconftool --type=int --set /system/gnome-vfs/http-proxy-port "8080"
-                        </command>                  
-                      </para>
-		    </listitem>
-		  </orderedlist>
-                </para>
-		<para>
-                  For more information about the gconftool command,
-                  read the gconftool man page.
+                  There are two tools you can use to edit the GNOME
+                  configuration system directly:
+                  <command>gconftool</command> is a command-line
+                  application for experts only, and
+                  <application>gconf-editor</application> is a
+                  graphical tool that is easier to use, but is still
+                  strictly a power-user application. Both programs are
+                  beyond the scope of this manual.  For more
+                  information about gconftool and gconf-editor, read
+                  their man pages.
                 </para>
 	      </listitem>
 	    </varlistentry>
@@ -1733,23 +1749,23 @@
 	  <orderedlist numeration="arabic">
 	    <listitem>
 	      <para>
-		Click
+                Select
 		<menuchoice>
 		  <guimenu>Tools</guimenu>
-		  <guimenuitem>Mail Settings</guimenuitem>
-		</menuchoice>
-		while in the mail component.
+		  <guimenuitem>Configure</guimenuitem>
+		</menuchoice>.
 	      </para>
 	    </listitem>
 	    <listitem>
 	      <para>
-		Select the account you wish to associate the signature
-		to and click <guibutton>Edit</guibutton>.
+		Click the <guibutton>Mail Accounts</guibutton> button
+		and choose the account for which you are creating a
+		signature.
 	      </para>
 	    </listitem>
 	    <listitem>
 	      <para>
-		At the bottom you'll see a field for a <guilabel>HTML
+		At the bottom you'll see a field for an <guilabel>HTML
 		Signature</guilabel>.  Click the box next to it to
 		enable a signature.
 	      </para>
