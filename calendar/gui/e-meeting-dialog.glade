@@ -50,15 +50,31 @@
       <widget>
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
-	<name>send_button</name>
-	<label>Send
-Updates</label>
+	<name>publish_button</name>
+	<label>Publish
+Event</label>
 	<stock_pixmap>GNOME_STOCK_PIXMAP_MAIL_SND</stock_pixmap>
       </widget>
 
       <widget>
 	<class>GtkVSeparator</class>
 	<name>vseparator1</name>
+	<width>13</width>
+	<height>58</height>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<child_name>Toolbar:button</child_name>
+	<name>request_button</name>
+	<label>Request
+Meeting</label>
+	<stock_pixmap>GNOME_STOCK_PIXMAP_REFRESH</stock_pixmap>
+      </widget>
+
+      <widget>
+	<class>GtkVSeparator</class>
+	<name>vseparator3</name>
 	<width>13</width>
 	<height>58</height>
       </widget>

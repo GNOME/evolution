@@ -22,26 +22,31 @@
 
 
 #define DEFAULT_WIDTH 500
-#define DEFAULT_HEIGHT 400
+#define DEFAULT_HEIGHT 300
 
 extern gchar *evolution_dir;
 
 typedef struct _EItipControlPrivate EItipControlPrivate;
 
 struct _EItipControlPrivate {
-	GladeXML *xml;
+	GladeXML *xml, *xml2;
 	GtkWidget *main_frame;
 	GtkWidget *text_box;
 	GtkWidget *organizer_entry, *dtstart_label, *dtend_label;
-	GtkWidget *summary_entry, *description_box;
+	GtkWidget *summary_entry, *description_box, *type_entry;
+	GtkWidget *address_entry;
 	GtkWidget *add_button;
 	GtkWidget *loading_window;
 	GtkWidget *loading_progress;
 
 	icalcomponent *main_comp, *comp;
 	CalComponent *cal_comp;
+	gchar *from_address;
 };
 
+enum E_ITIP_BONOBO_ARGS {
+	FROM_ADDRESS_ARG_ID	
+};
 
 #if 0
 static icalparameter *
@@ -64,6 +69,8 @@ itip_control_destroy_cb (GtkObject *object,
 	EItipControlPrivate *priv = data;
 
 	gtk_object_unref (GTK_OBJECT (priv->xml));
+	gtk_object_unref (GTK_OBJECT (priv->xml2));
+
 	if (priv->main_comp != NULL) {
 		icalcomponent_free (priv->main_comp);
 	}
@@ -71,6 +78,10 @@ itip_control_destroy_cb (GtkObject *object,
 	if (priv->cal_comp != NULL) {
 		gtk_object_unref (GTK_OBJECT (priv->cal_comp));
 	}
+
+	if (priv->from_address != NULL)
+		g_free (priv->from_address);
+
 	g_free (priv);
 }
 	
@@ -338,6 +349,19 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 
 		gtk_label_set_text (GTK_LABEL (priv->dtstart_label), ctime (&tstart));
 		gtk_label_set_text (GTK_LABEL (priv->dtend_label), ctime (&tend));
+
+		prop = icalcomponent_get_first_property (priv->main_comp, ICAL_METHOD_PROPERTY);
+		switch (icalproperty_get_method (prop)) {
+		case ICAL_METHOD_PUBLISH:
+			gtk_entry_set_text (GTK_ENTRY (priv->type_entry), "Published information");
+			break;
+		case ICAL_METHOD_REQUEST:
+			gtk_entry_set_text (GTK_ENTRY (priv->type_entry), "Meeting Request");
+			break;
+		default:
+			gtk_entry_set_text (GTK_ENTRY (priv->type_entry), "Unknown");
+		}
+			
 	}
 	
 	pos = 0;
@@ -404,10 +428,41 @@ pstream_get_content_types (BonoboPersistStream *ps, void *closure,
 	return bonobo_persist_generate_content_types (2, "text/calendar", "text/x-calendar");
 }
 
+static void
+get_prop ( BonoboPropertyBag *bag, BonoboArg *arg,
+	   guint arg_id, gpointer user_data )
+{
+	EItipControlPrivate *priv = user_data;
+
+	BONOBO_ARG_SET_STRING (arg, priv->from_address);
+}
+
+static void
+set_prop ( BonoboPropertyBag *bag, const BonoboArg *arg,
+	   guint arg_id, gpointer user_data )
+{
+	EItipControlPrivate *priv = user_data;
+
+	if (arg_id == FROM_ADDRESS_ARG_ID) {
+		if (priv->from_address)
+			g_free (priv->from_address);
+	
+		
+		priv->from_address = g_strdup (BONOBO_ARG_GET_STRING (arg));
+
+		/* Let's set the widget here, though I'm not sure if
+		   it will work. */
+		gtk_entry_set_text (GTK_ENTRY (priv->address_entry), priv->from_address);
+		
+	}
+}
+
+
 static BonoboObject *
 e_itip_control_factory (BonoboGenericFactory *Factory, void *closure)
 {
 	BonoboControl      *control;
+	BonoboPropertyBag *prop_bag;
 	BonoboPersistStream *stream;
 	EItipControlPrivate *priv;
 
@@ -423,9 +478,12 @@ e_itip_control_factory (BonoboGenericFactory *Factory, void *closure)
 	priv->dtend_label = glade_xml_get_widget (priv->xml, "dtend_label");
 	priv->summary_entry = glade_xml_get_widget (priv->xml, "summary_entry");
 	priv->description_box = glade_xml_get_widget (priv->xml, "description_box");
-	priv->add_button = glade_xml_get_widget (priv->xml, "add_button");
-	priv->loading_progress = glade_xml_get_widget (priv->xml, "loading_progress");
-	priv->loading_window = glade_xml_get_widget (priv->xml, "loading_window");
+	/* priv->add_button = glade_xml_get_widget (priv->xml, "add_button"); */
+	priv->address_entry = glade_xml_get_widget (priv->xml, "address_entry");
+	
+	priv->xml2 = glade_xml_new (EVOLUTION_GLADEDIR "/" "e-itip-control.glade", "loading_window");
+	priv->loading_progress = glade_xml_get_widget (priv->xml2, "loading_progress");
+	priv->loading_window = glade_xml_get_widget (priv->xml2, "loading_window");
 
 	gtk_text_set_editable (GTK_TEXT (priv->text_box), FALSE);
 	
@@ -433,13 +491,24 @@ e_itip_control_factory (BonoboGenericFactory *Factory, void *closure)
 			    GTK_SIGNAL_FUNC (itip_control_destroy_cb), priv);
 	gtk_signal_connect (GTK_OBJECT (priv->main_frame), "size_request",
 			    GTK_SIGNAL_FUNC (itip_control_size_request_cb), priv);
-	gtk_signal_connect (GTK_OBJECT (priv->add_button), "clicked",
-			    GTK_SIGNAL_FUNC (add_button_clicked_cb), priv);
+	/********
+	 * gtk_signal_connect (GTK_OBJECT (priv->add_button), "clicked",
+	 * 		    GTK_SIGNAL_FUNC (add_button_clicked_cb), priv);
+	 ********/
 
 	gtk_widget_show (priv->text_box);
 	gtk_widget_show (priv->main_frame);
 
 	control = bonobo_control_new (priv->main_frame);
+
+	/* create a property bag */
+	prop_bag = bonobo_property_bag_new ( get_prop, set_prop, priv );
+	bonobo_control_set_properties (control, prop_bag);
+
+	bonobo_property_bag_add (prop_bag, "from_address", FROM_ADDRESS_ARG_ID, BONOBO_ARG_STRING, NULL,
+				 "from_address", 0 );
+
+	bonobo_control_set_automerge (control, TRUE);	
 
 	stream = bonobo_persist_stream_new (pstream_load, pstream_save,
 					    pstream_get_max_size,

@@ -44,7 +44,7 @@ struct _EMeetingEditorPrivate {
 	GtkWidget *organizer_entry;
 	GtkWidget *role_entry;
 	GtkWidget *rsvp_check;
-	GtkWidget *send_button, *schedule_button;
+	GtkWidget *publish_button, *request_button, *schedule_button;
 	
 	gint changed_signal_id;
 
@@ -500,21 +500,20 @@ schedule_button_clicked_cb (GtkWidget *widget, gpointer data)
 
 
 static gchar *itip_methods[] = {
-	"REQUEST"
+	"REQUEST",
+	"PUBLISH"
 };
 
 enum itip_method_enum {
-	METHOD_REQUEST
+	METHOD_REQUEST,
+	METHOD_PUBLISH
 };
 
-/********
- * This routine is called when the send button is clicked. Duh. 
- * Actually, I'm just testing my commenting macros.
- ********/
+typedef enum itip_method_enum itip_method_enum;
+
 static void
-send_button_clicked_cb (GtkWidget *widget, gpointer data)
+send_calendar_info (itip_method_enum method, EMeetingEditorPrivate *priv)
 {
-	EMeetingEditorPrivate *priv;
 	BonoboObjectClient *bonobo_server;
 	Evolution_Composer composer_server;
 	CORBA_Environment ev;
@@ -529,13 +528,7 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 	CORBA_boolean show_inline;
 	CORBA_char tempstr[200];
 
-
-	/********
-	 * CODE
-	 ********/
-
-	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
-
+	
 	CORBA_exception_init (&ev);
 
 	/* First, I obtain an object reference that represents the Composer. */
@@ -581,7 +574,7 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 		return;
 	}
 
-	sprintf (tempstr, "text/calendar;METHOD=%s", itip_methods[METHOD_REQUEST]);
+	sprintf (tempstr, "text/calendar;METHOD=%s", itip_methods[method]);
 	content_type = CORBA_string_alloc (strlen (tempstr));
 	strcpy (content_type, tempstr);
 	filename = CORBA_string_alloc (0);
@@ -614,7 +607,7 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 		icalcomponent_add_property (comp, prop);
 
 		prop = icalproperty_new (ICAL_METHOD_PROPERTY);
-		value = icalvalue_new_text ("REQUEST");
+		value = icalvalue_new_text (itip_methods[method]);
 		icalproperty_set_value (prop, value);
 		icalcomponent_add_property (comp, prop);
 
@@ -691,7 +684,35 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 	/* bonobo_object_unref (BONOBO_OBJECT (bonobo_server));   */
 }
 
-	
+/********
+ * This routine is called when the publish button is clicked. Duh. 
+ * Actually, I'm just testing my commenting macros.
+ ********/
+static void
+publish_button_clicked_cb (GtkWidget *widget, gpointer data)
+{
+	EMeetingEditorPrivate *priv;
+
+
+	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
+
+	send_calendar_info (METHOD_PUBLISH, priv);
+
+}
+
+static void
+request_button_clicked_cb (GtkWidget *widget, gpointer data)
+{
+	EMeetingEditorPrivate *priv;
+
+	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
+
+	send_calendar_info (METHOD_REQUEST, priv);
+
+}
+
+
+
 static void 
 add_button_clicked_cb (GtkWidget *widget, gpointer data)
 {
@@ -900,7 +921,8 @@ e_meeting_edit (EMeetingEditor *editor)
 	priv->role_entry = glade_xml_get_widget (priv->xml, "role_entry");
 	priv->rsvp_check = glade_xml_get_widget (priv->xml, "rsvp_check");
 	priv->schedule_button = glade_xml_get_widget (priv->xml, "schedule_button");
-	priv->send_button = glade_xml_get_widget (priv->xml, "send_button");
+	priv->publish_button = glade_xml_get_widget (priv->xml, "publish_button");
+	priv->request_button = glade_xml_get_widget (priv->xml, "request_button");
 
 	gtk_clist_set_column_justification (GTK_CLIST (priv->attendee_list), ROLE_COL, GTK_JUSTIFY_CENTER);
 	gtk_clist_set_column_justification (GTK_CLIST (priv->attendee_list), RSVP_COL, GTK_JUSTIFY_CENTER);
@@ -921,9 +943,11 @@ e_meeting_edit (EMeetingEditor *editor)
 	gtk_signal_connect (GTK_OBJECT (priv->schedule_button), "clicked",
 			    GTK_SIGNAL_FUNC (schedule_button_clicked_cb), editor);
 	
-	gtk_signal_connect (GTK_OBJECT (priv->send_button), "clicked",
-			    GTK_SIGNAL_FUNC (send_button_clicked_cb), editor);
+	gtk_signal_connect (GTK_OBJECT (priv->publish_button), "clicked",
+			    GTK_SIGNAL_FUNC (publish_button_clicked_cb), editor);
 
+	gtk_signal_connect (GTK_OBJECT (priv->request_button), "clicked",
+			    GTK_SIGNAL_FUNC (request_button_clicked_cb), editor);
 
 	add_button = glade_xml_get_widget (priv->xml, "add_button");
 	delete_button = glade_xml_get_widget (priv->xml, "delete_button");

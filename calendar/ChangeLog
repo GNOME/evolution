@@ -1,3 +1,12 @@
+2000-11-06   Jesse Pavel   <jpavel@helixcode.com>
+
+	*gui/e-itip-control.c, gui/e-itip-control.glade: changed to GUI to
+	accomodate dynamically generated buttons, which will be tailored to
+	the type of iTip message that is incoming.
+	
+	*gui/e-meeting-dialog.glade gui/e-meeting-edit.c: added a new button
+	to publish events, in addition to requesting meetings.
+
 2000-11-05  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/event-editor-dialog.glade: Removed the old recurrence page.
