@@ -204,6 +204,7 @@ data/evolution.desktop.in
 data/evolution.keys.in
 default_user/searches.xml
 e-util/e-categories-config.c
+e-util/e-dialog-utils.c
 e-util/e-passwords.c
 e-util/e-pilot-settings.c
 e-util/e-time-utils.c
@@ -251,8 +252,8 @@ mail/local-config.glade
 mail/mail-account-editor-news.c
 mail/mail-account-editor.c
 mail/mail-account-gui.c
-mail/mail-accounts.etspec
 mail/mail-accounts.c
+mail/mail-accounts.etspec
 mail/mail-autofilter.c
 mail/mail-callbacks.c
 mail/mail-config-druid.c
