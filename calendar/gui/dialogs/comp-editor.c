@@ -522,6 +522,13 @@ close_dialog (CompEditor *editor)
 
 	priv = editor->priv;
 
+	/* FIXME Unfortunately we do this here because otherwise corba
+	   calls happen during destruction and we might get a change
+	   notification back when we are in an inconsistent state */
+	if (priv->view)
+		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
+						      G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor); 
+	
 	gtk_widget_destroy (GTK_WIDGET (editor));
 }
 

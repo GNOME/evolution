@@ -27,19 +27,16 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtk.h>
+#include <glib-object.h>
 #include <dialogs/comp-editor.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
-#define E_TYPE_COMP_EDITOR_REGISTRY			(e_comp_editor_registry_get_type ())
-#define E_COMP_EDITOR_REGISTRY(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_COMP_EDITOR_REGISTRY, ECompEditorRegistry))
-#define E_COMP_EDITOR_REGISTRY_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_COMP_EDITOR_REGISTRY, ECompEditorRegistryClass))
-#define E_IS_COMP_EDITOR_REGISTRY(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_COMP_EDITOR_REGISTRY))
-#define E_IS_COMP_EDITOR_REGISTRY_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_COMP_EDITOR_REGISTRY))
+#define E_TYPE_COMP_EDITOR_REGISTRY            (e_comp_editor_registry_get_type ())
+#define E_COMP_EDITOR_REGISTRY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_COMP_EDITOR_REGISTRY, ECompEditorRegistry))
+#define E_COMP_EDITOR_REGISTRY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_COMP_EDITOR_REGISTRY, ECompEditorRegistryClass))
+#define E_IS_COMP_EDITOR_REGISTRY(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_COMP_EDITOR_REGISTRY))
+#define E_IS_COMP_EDITOR_REGISTRY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_COMP_EDITOR_REGISTRY))
 
 
 typedef struct _ECompEditorRegistry        ECompEditorRegistry;
@@ -47,13 +44,13 @@ typedef struct _ECompEditorRegistryPrivate ECompEditorRegistryPrivate;
 typedef struct _ECompEditorRegistryClass   ECompEditorRegistryClass;
 
 struct _ECompEditorRegistry {
-	GtkObject parent;
+	GObject parent;
 
 	ECompEditorRegistryPrivate *priv;
 };
 
 struct _ECompEditorRegistryClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 };
 
 typedef void (* ECompEditorRegistryForeachFn) (CompEditor *editor, gpointer data);
@@ -61,8 +58,8 @@ typedef void (* ECompEditorRegistryForeachFn) (CompEditor *editor, gpointer data
 
 
 
-GtkType     e_comp_editor_registry_get_type  (void);
-GtkObject  *e_comp_editor_registry_new       (void);
+GType     e_comp_editor_registry_get_type  (void);
+GObject  *e_comp_editor_registry_new       (void);
 void        e_comp_editor_registry_add       (ECompEditorRegistry *reg,
 					      CompEditor          *editor,
 					      gboolean             remote);
@@ -70,9 +67,7 @@ CompEditor *e_comp_editor_registry_find      (ECompEditorRegistry *reg,
 					      const char          *uid);
 gboolean    e_comp_editor_registry_close_all (ECompEditorRegistry *reg);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_COMP_EDITOR_REGISTRY_H_ */
 
