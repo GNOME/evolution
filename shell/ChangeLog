@@ -1,5 +1,11 @@
 2001-08-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-local-storage.c (remove_folder): Don't remove the folder
+	directory here.
+	(component_async_remove_folder_callback): Remove it here instead.
+
+2001-08-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fix #7775, crash trying to do New Task]
 
 	* e-shell-user-creatable-items-handler.c (verb_fn): Make sure we

@@ -411,40 +411,6 @@ struct _AsyncRemoveFolderCallbackData {
 };
 typedef struct _AsyncRemoveFolderCallbackData AsyncRemoveFolderCallbackData;
 
-static void
-component_async_remove_folder_callback (EvolutionShellComponentClient *shell_component_client,
-					EvolutionShellComponentResult result,
-					void *data)
-{
-	AsyncRemoveFolderCallbackData *callback_data;
-	EStorageResult storage_result;
-
-	callback_data = (AsyncRemoveFolderCallbackData *) data;
-
-	storage_result = shell_component_result_to_storage_result (result);
-
-	/* If result == HASSUBFOLDERS then recurse delete the subfolders dir? */
-
-	/* FIXME: Handle errors */
-	if (result == EVOLUTION_SHELL_COMPONENT_OK) {
-		ELocalStoragePrivate *priv;
-
-		priv = E_LOCAL_STORAGE (callback_data->storage)->priv;
-
-		e_storage_removed_folder (E_STORAGE (callback_data->storage),
-					  callback_data->path);
-
-		evolution_storage_removed_folder (EVOLUTION_STORAGE (priv->bonobo_interface),
-						  callback_data->path);
-	}
-
-	bonobo_object_unref (BONOBO_OBJECT (shell_component_client));
-
-	g_free (callback_data->path);
-	g_free (callback_data->physical_path);
-	g_free (callback_data);
-}
-				
 static EStorageResult
 remove_folder_directory (ELocalStorage *local_storage,
 			 const char *path)
@@ -490,6 +456,43 @@ remove_folder_directory (ELocalStorage *local_storage,
 	return E_STORAGE_OK;
 }
 
+static void
+component_async_remove_folder_callback (EvolutionShellComponentClient *shell_component_client,
+					EvolutionShellComponentResult result,
+					void *data)
+{
+	AsyncRemoveFolderCallbackData *callback_data;
+	EStorageResult storage_result;
+
+	callback_data = (AsyncRemoveFolderCallbackData *) data;
+
+	result = remove_folder_directory (E_LOCAL_STORAGE (callback_data->storage),
+					  callback_data->path);
+
+	storage_result = shell_component_result_to_storage_result (result);
+
+	/* If result == HASSUBFOLDERS then recurse delete the subfolders dir? */
+
+	/* FIXME: Handle errors */
+	if (result == EVOLUTION_SHELL_COMPONENT_OK) {
+		ELocalStoragePrivate *priv;
+
+		priv = E_LOCAL_STORAGE (callback_data->storage)->priv;
+
+		e_storage_removed_folder (E_STORAGE (callback_data->storage),
+					  callback_data->path);
+
+		evolution_storage_removed_folder (EVOLUTION_STORAGE (priv->bonobo_interface),
+						  callback_data->path);
+	}
+
+	bonobo_object_unref (BONOBO_OBJECT (shell_component_client));
+
+	g_free (callback_data->path);
+	g_free (callback_data->physical_path);
+	g_free (callback_data);
+}
+				
 static EStorageResult
 remove_folder (ELocalStorage *local_storage,
 	       const char *path,
@@ -542,9 +545,7 @@ remove_folder (ELocalStorage *local_storage,
 							      component_async_remove_folder_callback,
 							      callback_data);
 
-	result = remove_folder_directory (E_LOCAL_STORAGE (local_storage), path);
-
-	return result;
+	return EVOLUTION_SHELL_COMPONENT_OK;
 }
 
 
