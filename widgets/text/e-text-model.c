@@ -1,20 +1,25 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* ETextModel - Text item model for evolution.
- * Copyright (C) 2000 Helix Code, Inc.
+/* 
+ * e-text-model.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author: Chris Lahey <clahey@umich.edu>
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
  *
- * A majority of code taken from:
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
- * Text item type for GnomeCanvas widget
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
  *
- * GnomeCanvas is basically a port of the Tk toolkit's most excellent
- * canvas widget.  Tk is copyrighted by the Regents of the University
- * of California, Sun Microsystems, and other parties.
- *
- * Copyright (C) 1998 The Free Software Foundation
- *
- * Author: Federico Mena <federico@nuclecu.unam.mx> */
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
 
 #undef  PARANOID_DEBUGGING
 
@@ -271,7 +276,12 @@ e_text_model_real_insert (ETextModel *model, gint position, const gchar *text)
 	if (length <= 0)
 		return;
 
-	new_text = g_strdup_printf ("%.*s%.*s%s", position, model->priv->text, length, text, model->priv->text + position);
+	/* Can't use g_strdup_printf here because on some systems
+           printf ("%.*s"); is locale dependent. */
+	new_text = e_strdup_append_strings (model->priv->text, position,
+					    text, length,
+					    model->priv->text + position, -1,
+					    NULL);
 
 	if (model->priv->text)
 		g_free (model->priv->text);
@@ -304,7 +314,12 @@ e_text_model_real_insert_length (ETextModel *model, gint position, const gchar *
 	if (length <= 0)
 		return;
 
-	new_text = g_strdup_printf ("%.*s%.*s%s", position, model->priv->text, length, text, model->priv->text + position);
+	/* Can't use g_strdup_printf here because on some systems
+           printf ("%.*s"); is locale dependent. */
+	new_text = e_strdup_append_strings (model->priv->text, position,
+					    text, length,
+					    model->priv->text + position, -1,
+					    NULL);
 
 	if (model->priv->text)
 		g_free (model->priv->text);

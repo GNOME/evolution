@@ -1,31 +1,31 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
+ * e-cell-combo.h: Combo cell renderer
+ * Copyright 2001, Ximian, Inc.
+ *
  * Author :
  *  Damon Chaplin <damon@ximian.com>
  *
- * Copyright 2001, Ximian, Inc.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 
 /*
  * ECellCombo - a subclass of ECellPopup used to support popup lists like a
  * GtkCombo widget. It only supports a basic popup list of strings at present,
- * with no auto-completion.
+ * with no auto-completion. The child ECell of the ECellPopup must be an
+ * ECellText or subclass.
  */
 
 #ifndef _E_CELL_COMBO_H_
@@ -56,6 +56,7 @@ typedef struct {
 GtkType    e_cell_combo_get_type		(void);
 ECell     *e_cell_combo_new			(void);
 
+/* These must be UTF-8. */
 void       e_cell_combo_set_popdown_strings	(ECellCombo	*ecc, 
 						 GList		*strings);
 

@@ -1,4 +1,27 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* 
+ * e-tree-model.h
+ * Copyright 2000, 2001, Ximian, Inc.
+ *
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
+ *   Chris Toshok <toshok@ximian.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+
 #ifndef _E_TREE_MODEL_H_
 #define _E_TREE_MODEL_H_
 
@@ -74,13 +97,22 @@ struct ETreeModelClass {
 	/*
 	 * Signals
 	 */
+	/* During remove, the ETreePath of the child is removed from
+	 * the tree but is still valid.  At node_deleted, the
+	 * ETreePath is no longer valid.
+	 */
+
 	void       (*pre_change)           (ETreeModel *etm);
+	void       (*no_change)            (ETreeModel *etm);
 	void       (*node_changed)         (ETreeModel *etm, ETreePath node);
 	void       (*node_data_changed)    (ETreeModel *etm, ETreePath node);
 	void       (*node_col_changed)     (ETreeModel *etm, ETreePath node,   int col);
 	void       (*node_inserted)        (ETreeModel *etm, ETreePath parent, ETreePath inserted_node);
 	void       (*node_removed)         (ETreeModel *etm, ETreePath parent, ETreePath removed_node, int old_position);
+	void       (*node_deleted)         (ETreeModel *etm, ETreePath deleted_node);
 };
+
+
 GtkType     e_tree_model_get_type              (void);
 ETreeModel *e_tree_model_new                   (void);
 
@@ -111,18 +143,13 @@ GdkPixbuf  *e_tree_model_icon_at               (ETreeModel     *etree,
 						ETreePath       path);
 gboolean    e_tree_model_get_expanded_default  (ETreeModel     *model);
 gint        e_tree_model_column_count          (ETreeModel     *model);
-
-
 gboolean    e_tree_model_has_save_id           (ETreeModel     *model);
 gchar      *e_tree_model_get_save_id           (ETreeModel     *model,
 						ETreePath       node);
-
 gboolean    e_tree_model_has_get_node_by_id    (ETreeModel     *model);
 ETreePath   e_tree_model_get_node_by_id        (ETreeModel     *model,
 						const char     *save_id);
-
 gboolean    e_tree_model_has_change_pending    (ETreeModel     *model);
-
 void       *e_tree_model_value_at              (ETreeModel     *etree,
 						ETreePath       node,
 						int             col);
@@ -157,11 +184,18 @@ void        e_tree_model_node_traverse_preorder (ETreeModel     *model,
 						 ETreePath       path,
 						 ETreePathFunc   func,
 						 gpointer        data);
+ETreePath   e_tree_model_node_find               (ETreeModel     *model,
+						  ETreePath       path,
+						  ETreePath       end_path,
+						  gboolean        forward_direction,
+						  ETreePathFunc   func,
+						  gpointer        data);
 	
 /*
 ** Routines for emitting signals on the ETreeModel
 */
 void        e_tree_model_pre_change            (ETreeModel     *tree_model);
+void        e_tree_model_no_change               (ETreeModel     *tree_model);
 void        e_tree_model_node_changed          (ETreeModel     *tree_model,
 						ETreePath       node);
 void        e_tree_model_node_data_changed     (ETreeModel     *tree_model,
@@ -176,6 +210,8 @@ void        e_tree_model_node_removed          (ETreeModel     *tree_model,
 						ETreePath       parent_node,
 						ETreePath       removed_node,
 						int             old_position);
+void        e_tree_model_node_deleted            (ETreeModel     *tree_model,
+						  ETreePath       deleted_node);
 
 #ifdef __cplusplus
 }

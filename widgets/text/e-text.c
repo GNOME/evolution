@@ -1,9 +1,11 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* EText - Text item for evolution.
- * Copyright (C) 2000, 2001 Ximian Inc.
+/* 
+ * e-text.c - Text item for evolution.
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author: Chris Lahey <clahey@ximian.com>
- * Further hacking by Jon Trowbridge <trow@ximian.com>
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
+ *   Jon Trowbridge <trow@ximian.com>
  *
  * A majority of code taken from:
  *
@@ -15,7 +17,22 @@
  *
  * Copyright (C) 1998 The Free Software Foundation
  *
- * Author: Federico Mena <federico@nuclecu.unam.mx> */
+ * Author: Federico Mena <federico@nuclecu.unam.mx>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
 
 #include <config.h>
 
@@ -100,6 +117,7 @@ enum {
 	ARG_DRAW_BORDERS,
 	ARG_ALLOW_NEWLINES,
 	ARG_DRAW_BACKGROUND,
+	ARG_DRAW_BUTTON,
 	ARG_CURSOR_POS
 };
 
@@ -108,10 +126,12 @@ enum {
 	E_SELECTION_PRIMARY,
 	E_SELECTION_CLIPBOARD
 };
-enum {
+enum _TargetInfo {  
+	TARGET_UTF8_STRING,
+	TARGET_UTF8,
+	TARGET_COMPOUND_TEXT,
   TARGET_STRING,
-  TARGET_TEXT,
-  TARGET_COMPOUND_TEXT
+	TARGET_TEXT
 };
 
 static void e_text_class_init (ETextClass *class);
@@ -325,6 +345,8 @@ e_text_class_init (ETextClass *klass)
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_ALLOW_NEWLINES);
 	gtk_object_add_arg_type ("EText::draw_background",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BACKGROUND);
+	gtk_object_add_arg_type ("EText::draw_button",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BUTTON);
 	gtk_object_add_arg_type ("EText::cursor_pos",
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_CURSOR_POS);
 
@@ -356,6 +378,8 @@ e_text_init (EText *text)
 {
 	text->model                   = e_text_model_new ();
 	text->text                    = e_text_model_get_text (text->model);
+
+	text->revert                  = NULL;
 
 	gtk_object_ref (GTK_OBJECT (text->model));
 	gtk_object_sink (GTK_OBJECT (text->model));
@@ -425,12 +449,17 @@ e_text_init (EText *text)
 	text->tpl_timeout             = 0;
 
 	text->draw_background         = FALSE;
+	text->draw_button             = FALSE;
 
 	text->bold                    = FALSE;
 	text->strikeout               = FALSE;
 
 	text->style                   = E_FONT_PLAIN;
 	text->allow_newlines          = TRUE;
+
+	text->last_type_request       = -1;
+	text->last_time_request       = 0;
+	text->queued_requests         = NULL;
 
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
 }
@@ -486,6 +515,9 @@ e_text_destroy (GtkObject *object)
 	g_free (text->clipboard_selection);
 	text->clipboard_selection = NULL;
 
+	g_free (text->revert);
+	text->revert = NULL;
+
 	if (text->font)
 		e_font_unref (text->font);
 	text->font = NULL;
@@ -536,14 +568,16 @@ e_text_text_model_changed (ETextModel *model, EText *text)
 	text->text = e_text_model_get_text(model);
 	e_text_free_lines(text);
 
-	gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_CHANGED]);
-
 	/* Make sure our selection doesn't extend past the bounds of our text. */
 	text->selection_start = CLAMP (text->selection_start, 0, model_len);
 	text->selection_end   = CLAMP (text->selection_end,   0, model_len);
 
 	text->needs_split_into_lines = 1;
+	text->needs_redraw = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (text));
+
+	gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_CHANGED]);
 }
 
 static void
@@ -877,7 +911,7 @@ text_width_with_objects (ETextModel *model,
 			 EFont *font, EFontStyle style,
 			 const gchar *text, gint numbytes)
 {
-	return e_font_utf8_text_width (font, style, text, numbytes);
+	return text && *text ? e_font_utf8_text_width (font, style, text, numbytes) : 0;
 }
 
 static void
@@ -889,6 +923,9 @@ text_draw_with_objects (ETextModel *model,
 			const gchar *text, gint numbytes)
 {
 	const gchar *c;
+	
+	if (text == NULL)
+		return;
 	
 	while (*text && numbytes > 0) {
 		gint obj_num = -1;
@@ -927,201 +964,132 @@ text_draw_with_objects (ETextModel *model,
 	}
 }
 
-#define IS_BREAKCHAR(text,c) ((text)->break_characters && \
-	g_utf8_strchr ((text)->break_characters, strlen ((text)->break_characters), c))
-/* Splits the text of the text item into lines */
+typedef void (*LineSplitterFn) (int line_num, const char *start, int length, gpointer user_data);
+
+#define IS_BREAK_CHAR(break_chars, c) (g_unichar_isspace (c) || ((break_chars) && g_utf8_strchr ((break_chars), -1, (c))))
+
+static gint
+line_splitter (ETextModel *model, EFont *font, EFontStyle style,
+	       const char *break_characters,
+	       gboolean wrap_lines, double clip_width, gint max_lines,
+	       LineSplitterFn split_cb, gpointer user_data)
+{
+	const char *curr;
+	const char *text;
+	const char *linestart;
+	const char *last_breakpoint;
+	gint line_count = 0;
+
+	gunichar unival;
+
+	if (max_lines < 1)
+		max_lines = G_MAXINT;
+
+	text = e_text_model_get_text (model);
+	linestart = NULL;
+	last_breakpoint = text;
+
+	for (curr = text; curr && *curr && line_count < max_lines; curr = g_utf8_next_char (curr)) {
+
+		unival = g_utf8_get_char (curr);
+
+		if (linestart == NULL)
+			linestart = curr;
+
+		if (unival == '\n') { /* We always break on newline */
+
+			if (split_cb)
+				split_cb (line_count, linestart, curr - linestart, user_data);
+			++line_count;
+			linestart = NULL;
+
+		} else if (wrap_lines) {
+				
+			if (clip_width < text_width_with_objects (model, font, style, linestart, curr - linestart)
+			    && last_breakpoint > linestart) {
+				
+				if (split_cb)
+					split_cb (line_count, linestart, last_breakpoint - linestart, user_data);
+				++line_count;
+				linestart = NULL;
+				curr = last_breakpoint;
+
+			} else if (IS_BREAK_CHAR (break_characters, unival)
+				   && e_text_model_get_object_at_pointer (model, curr) == -1) { /* don't break mid-object */
+				last_breakpoint = curr;
+			}
+		}
+	}
+
+	/* Handle any leftover text. */
+	if (linestart) {
+
+		if (clip_width < text_width_with_objects (model, font, style, linestart, strlen (linestart))
+		    && last_breakpoint > linestart) {
+
+			if (split_cb)
+				split_cb (line_count, linestart, last_breakpoint - linestart, user_data);
+
+			++line_count;
+			linestart = g_utf8_next_char (last_breakpoint);
+		}
+
+		if (split_cb)
+			split_cb (line_count, linestart, strlen (linestart), user_data);
+		++line_count;
+
+	}
+
+	if (line_count == 0) {
+		if (split_cb)
+			split_cb (0, text, strlen (text), user_data);
+		line_count ++;
+			}
+	
+	return line_count;
+		} 
+
+static void
+line_split_cb (int line_num, const char *start, int length, gpointer user_data)
+{
+	EText *text = user_data;
+	struct line *line = &((struct line *)text->lines)[line_num];
+			
+	line->text = start;
+	line->length = length;
+	}
+
 static void
 split_into_lines (EText *text)
 {
-	const char *p, *cp;
-	struct line *lines;
-	int len;
-	int line_num;
-	const char *laststart;
-	const char *lastend;
-	const char *linestart;
 	double clip_width;
-	gunichar unival;
-
 
 	if (text->text == NULL)
 		return;
 
 	/* Free old array of lines */
-	e_text_free_lines(text);
-
-	/* First, count the number of lines */
-
-	lastend = text->text;
-	laststart = text->text;
-	linestart = text->text;
+	e_text_free_lines (text);
 
 	clip_width = text->clip_width;
 	if (clip_width >= 0 && text->draw_borders) {
 		clip_width -= 6;
 		if (clip_width < 0)
 			clip_width = 0;
-	}
-
-	cp = text->text;
-
-	for (p = e_unicode_get_utf8 (cp, &unival); (unival && p); cp = p, p = e_unicode_get_utf8 (p, &unival)) {
-		if (text->line_wrap
-		    && (g_unichar_isspace (unival) || unival == '\n')
-		    && e_text_model_get_object_at_pointer (text->model, cp) == -1) { /* don't break mid-object */
-			if (laststart != lastend
-			    && clip_width < text_width_with_objects (text->model,
-								     text->font, text->style,
-								     linestart, cp - linestart)) {
-				text->num_lines ++;
-				
-				linestart = laststart;
-				laststart = p;
-				lastend = cp;
-			} else if (g_unichar_isspace (unival)) {
-				laststart = p;
-				lastend = cp;
-			}
-		} else if (text->line_wrap
-			   && IS_BREAKCHAR (text, unival)) {
-			
-			if (laststart != lastend
-			    && g_utf8_pointer_to_offset (linestart, cp) != 1
-			    && clip_width < text_width_with_objects (text->model,
-								     text->font, text->style,
-								     linestart, p - linestart)) {
-				text->num_lines ++;
-				
-				linestart = laststart;
-				laststart = p;
-				lastend = p;
-			} else {
-				laststart = p;
-				lastend = p;
-			}
-		}
-
-		if (unival == '\n') {
-			text->num_lines ++;
-
-			lastend = p;
-			laststart = p;
-			linestart = p;
-		} 
-	}
-
-	if ( text->line_wrap
-	     && p
-	     && laststart != lastend
-	     && clip_width < text_width_with_objects (text->model,
-						      text->font, text->style, 
-						      linestart, cp - linestart)) {
-		text->num_lines ++;
-	}
-
-	text->num_lines++;
-
-	if ( (!text->editing) && text->max_lines != -1 && text->num_lines > text->max_lines ) {
-		text->num_lines = text->max_lines;
-	}
-
-	/* Allocate array of lines and calculate split positions */
-
-	text->lines = lines = g_new0 (struct line, text->num_lines);
-	len = 0;
-	line_num = 1;
-	lastend = text->text;
-	laststart = text->text;
-
-	cp = text->text;
-
-	for (p = e_unicode_get_utf8 (cp, &unival); p && unival && line_num < text->num_lines; cp = p, p = e_unicode_get_utf8 (p, &unival)) {
-		gboolean handled = FALSE;
-
-		if (len == 0)
-			lines->text = cp;
-		if (text->line_wrap
-		    && (g_unichar_isspace (unival) || unival == '\n')
-		    && e_text_model_get_object_at_pointer (text->model, cp) == -1) { /* don't break mid-object */
-			if (clip_width < text_width_with_objects (text->model,
-								  text->font, text->style,
-								  lines->text, cp - lines->text)
-			    && laststart != lastend) {
-
-				lines->length = lastend - lines->text;
-
-				lines++;
-				line_num++;
-				len = cp - laststart;
-				lines->text = laststart;
-				laststart = p;
-				lastend = cp;
-			} else if (g_unichar_isspace (unival)) {
-				laststart = p;
-				lastend = cp;
-				len ++;
-			}
-			handled = TRUE;
-		} else if (text->line_wrap
-			   && IS_BREAKCHAR(text, unival) 
-			   && e_text_model_get_object_at_pointer (text->model, cp) == -1) {
-			if (laststart != lastend
-			    && g_utf8_pointer_to_offset (lines->text, cp) != 1
-			    && clip_width < text_width_with_objects (text->model,
-								     text->font, text->style,
-								     lines->text, p - lines->text)) {
-
-				lines->length = lastend - lines->text;
-
-				lines++;
-				line_num++;
-				len = p - laststart;
-				lines->text = laststart;
-				laststart = p;
-				lastend = p;
-			} else {
-				laststart = p;
-				lastend = p;
-				len ++;
-			}
-		} 
-		if (line_num >= text->num_lines)
-			break;
-		if (unival == '\n') {
-
-			lines->length = cp - lines->text;
-			
-			lines++;
-			line_num++;
-			len = 0;
-			lastend = p;
-			laststart = p;
-			handled = TRUE;
-		} 
-		if (!handled)
-			len++;
-	}
-
-	if ( line_num < text->num_lines && text->line_wrap ) {
-		if (clip_width < text_width_with_objects (text->model,
-							  text->font, text->style,
-							  lines->text, cp - lines->text)
-		    && laststart != lastend ) {
-
-			lines->length = lastend - lines->text;
-
-			lines++;
-			line_num++;
-			len = cp - laststart;
-			lines->text = laststart;
-			laststart = p;
-			lastend = cp;
-		}
 	} 
 	
-	if (len == 0)
-		lines->text = cp;
-	lines->length = strlen (lines->text);
+	/* First, count the number of lines */
+	text->num_lines = line_splitter (text->model, text->font, text->style,
+					 text->break_characters,
+					 text->line_wrap, text->clip_width, -1,
+					 NULL, NULL);
+
+	/* Allocate our array of lines */
+	text->lines = g_new0 (struct line, text->num_lines);
+
+	text->num_lines = line_splitter (text->model, text->font, text->style,
+					 text->break_characters,
+					 text->line_wrap, text->clip_width, text->num_lines,
+					 line_split_cb, text);
 }
 
 /* Convenience function to set the text's GC's foreground color */
@@ -1231,7 +1199,6 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_TEXT:
-		text->num_lines = 1;
 		e_text_model_set_text(text->model, GTK_VALUE_STRING (*arg));
 		break;
 
@@ -1496,6 +1463,13 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 
+	case ARG_DRAW_BUTTON:
+		if (text->draw_button != GTK_VALUE_BOOL (*arg)){
+			text->draw_button = GTK_VALUE_BOOL (*arg);
+			text->needs_redraw = 1;
+		}
+		break;
+
 	case ARG_ALLOW_NEWLINES:
 		text->allow_newlines = GTK_VALUE_BOOL (*arg);
 		_get_tep(text);
@@ -1667,6 +1641,10 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_BOOL (*arg) = text->draw_background;
 		break;
 		
+	case ARG_DRAW_BUTTON:
+		GTK_VALUE_BOOL (*arg) = text->draw_button;
+		break;
+		
 	case ARG_ALLOW_NEWLINES:
 		GTK_VALUE_BOOL (*arg) = text->allow_newlines;
 		break;
@@ -1739,6 +1717,13 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 
 		if (e_font_height (text->font) * i < text->yofs_edit)
 			text->yofs_edit = e_font_height (text->font) * i;
+
+		if ( text->needs_calc_height ) {
+			calc_height (text);
+			gnome_canvas_item_request_update(item);
+			text->needs_calc_height = 0;
+			text->needs_recalc_bounds = 1;
+		}
 
 		if (e_font_height (text->font) * (i + 1) -
 		     (text->clip_height != -1 ? text->clip_height : text->height) > text->yofs_edit)
@@ -1987,7 +1972,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	int start_char, end_char;
 	int sel_start, sel_end;
 	GdkRectangle sel_rect;
-	GdkGC *fg_gc;
+	GdkGC *fg_gc, *main_gc;
 	GnomeCanvas *canvas;
 	GtkWidget *widget;
 
@@ -1996,6 +1981,11 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	widget = GTK_WIDGET(canvas);
 
 	fg_gc = widget->style->fg_gc[text->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
+	if (text->draw_background || text->draw_button) {
+		main_gc = widget->style->text_gc[GTK_STATE_NORMAL];
+	} else {
+		main_gc = text->gc;
+	}
 	
 	if (text->draw_borders || text->draw_background) {
 		gdouble thisx = item->x1 - x;
@@ -2034,8 +2024,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				 * me as to whether it should be:
 				 * thiswidth + 2 or thiswidth + 1.
 				 */
-				gtk_paint_focus (widget->style, drawable, 
-						 GTK_STATE_NORMAL, NULL, widget, "entry",
+				gtk_paint_focus (widget->style, drawable, GTK_STATE_NORMAL,
+						 NULL, widget, "entry",
 						 thisx, thisy, thiswidth - 1, thisheight - 1);
 			}
 		}
@@ -2050,6 +2040,100 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 					    thisheight - widget->style->ythickness * 2);
 		}
 	}
+	if (text->draw_button) {
+		GtkWidget *widget;
+		int xoff = item->x1 - x;
+		int yoff = item->y1 - y;
+
+		widget = GTK_WIDGET (item->canvas);
+
+		xoff -= widget->allocation.x;
+		yoff -= widget->allocation.y;
+
+		widget = widget->parent;
+
+		while (widget && !GTK_IS_BUTTON(widget)) {
+			if (!GTK_WIDGET_NO_WINDOW (widget)) {
+				widget = NULL;
+				break;
+			}
+			widget = widget->parent;
+		}
+		if (widget) {
+			GtkButton *button = GTK_BUTTON (widget);
+			GtkShadowType shadow_type;
+			int thisx, thisy, thisheight, thiswidth;
+			int default_spacing;
+			GdkRectangle area;
+			area.x = 0;
+			area.y = 0;
+			area.width = width;
+			area.height = height;
+
+#define DEFAULT_SPACING   7
+#if 0
+			default_spacing = gtk_style_get_prop_experimental (widget->style,
+									   "GtkButton::default_spacing",
+									   DEFAULT_SPACING);
+#endif
+			default_spacing = 7;
+
+			thisx = 0;
+			thisy = 0;
+			thiswidth = widget->allocation.width - GTK_CONTAINER (widget)->border_width * 2;
+			thisheight = widget->allocation.height - GTK_CONTAINER (widget)->border_width * 2;
+
+			if (GTK_WIDGET_HAS_DEFAULT (widget) &&
+			    GTK_BUTTON (widget)->relief == GTK_RELIEF_NORMAL)
+				{
+					gtk_paint_box (widget->style, drawable,
+						       GTK_STATE_NORMAL, GTK_SHADOW_IN,
+						       &area, widget, "buttondefault",
+						       thisx + xoff, thisy + yoff, thiswidth, thisheight);
+				}
+
+			if (GTK_WIDGET_CAN_DEFAULT (widget)) {
+				thisx += widget->style->xthickness;
+				thisy += widget->style->ythickness;
+				thiswidth -= 2 * thisx + default_spacing;
+				thisheight -= 2 * thisy + default_spacing;
+				thisx += (1 + default_spacing) / 2;
+				thisy += (1 + default_spacing) / 2;
+			}
+
+			if (GTK_WIDGET_HAS_FOCUS (widget)) {
+				thisx += 1;
+				thisy += 1;
+				thiswidth -= 2;
+				thisheight -= 2;
+			}
+
+			if (GTK_WIDGET_STATE (widget) == GTK_STATE_ACTIVE)
+				shadow_type = GTK_SHADOW_IN;
+			else
+				shadow_type = GTK_SHADOW_OUT;
+
+			if ((button->relief != GTK_RELIEF_NONE) ||
+			    ((GTK_WIDGET_STATE(widget) != GTK_STATE_NORMAL) &&
+			     (GTK_WIDGET_STATE(widget) != GTK_STATE_INSENSITIVE)))
+			gtk_paint_box (widget->style, drawable,
+				       GTK_WIDGET_STATE (widget),
+				       shadow_type, &area, widget, "button",
+				       thisx + xoff, thisy + yoff, thiswidth, thisheight);
+
+			if (GTK_WIDGET_HAS_FOCUS (widget)) {
+				thisx -= 1;
+				thisy -= 1;
+				thiswidth += 2;
+				thisheight += 2;
+
+				gtk_paint_focus (widget->style, widget->window, GTK_WIDGET_STATE (widget),
+						 &area, widget, "button",
+						 thisx + xoff, thisy + yoff, thiswidth - 1, thisheight - 1);
+			}
+		}
+	}
+
 
 	if (!text->text || !text->font)
 		return;
@@ -2068,7 +2152,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		rect.width = text->clip_cwidth;
 		rect.height = text->clip_cheight;
 		
-		gdk_gc_set_clip_rectangle (text->gc, &rect);
+		gdk_gc_set_clip_rectangle (main_gc, &rect);
 		gdk_gc_set_clip_rectangle (fg_gc, &rect);
 		clip_rect = &rect;
 	}
@@ -2080,7 +2164,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		ypos -= text->yofs_edit;
 
 	if (text->stipple)
-		gnome_canvas_set_stipple_origin (item->canvas, text->gc);
+		gnome_canvas_set_stipple_origin (item->canvas, main_gc);
 
 	for (i = 0; i < text->num_lines; i++) {
 
@@ -2127,7 +2211,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				text_draw_with_objects (text->model,
 							drawable,
 							text->font, text->style,
-							text->gc,
+							main_gc,
 							xpos - x,
 							ypos - y,
 							lines->text,
@@ -2146,7 +2230,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				text_draw_with_objects (text->model,
 							drawable,
 							text->font, text->style,
-							text->gc,
+							main_gc,
 							xpos - x + text_width_with_objects (text->model,
 											    text->font, text->style,
 											    lines->text,
@@ -2158,7 +2242,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				text_draw_with_objects (text->model,
 							drawable,
 							text->font, text->style,
-							text->gc,
+							main_gc,
 							xpos - x,
 							ypos - y,
 							lines->text,
@@ -2169,7 +2253,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			    text->selection_start <= end_char &&
 			    text->show_cursor) {
 				gdk_draw_rectangle (drawable,
-						    text->gc,
+						    main_gc,
 						    TRUE,
 						    xpos - x + text_width_with_objects (text->model,
 											text->font, text->style,
@@ -2184,14 +2268,14 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				text_draw_with_objects (text->model,
 							drawable,
 							text->font, text->style,
-							text->gc,
+							main_gc,
 							xpos - x,
 							ypos - y,
 							lines->text,
 							lines->ellipsis_length);
 				e_font_draw_utf8_text (drawable,
 						       text->font, text->style,
-						       text->gc,
+						       main_gc,
 						       xpos - x + lines->width - text->ellipsis_width,
 						       ypos - y,
 						       text->ellipsis ? text->ellipsis : "...",
@@ -2200,7 +2284,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				text_draw_with_objects (text->model,
 							drawable,
 							text->font, text->style,
-							text->gc,
+							main_gc,
 							xpos - x,
 							ypos - y,
 							lines->text,
@@ -2210,7 +2294,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 		if (text->strikeout)
 			gdk_draw_rectangle (drawable,
-					    text->gc,
+					    main_gc,
 					    TRUE,
 					    xpos - x,
 					    ypos - y - e_font_ascent (text->font) / 2,
@@ -2220,7 +2304,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	}
 
 	if (text->clip) {
-		gdk_gc_set_clip_rectangle (text->gc, NULL);
+		gdk_gc_set_clip_rectangle (main_gc, NULL);
 		gdk_gc_set_clip_rectangle (fg_gc, NULL);
 	}
 }
@@ -2940,6 +3024,9 @@ start_editing (EText *text)
 	if (text->editing)
 		return;
 
+	g_free (text->revert);
+	text->revert = g_strdup (text->text);
+
 	text->editing = TRUE;
 	if (text->pointer_in) {
 		if (text->default_cursor_shown && (!text->draw_borders)) {
@@ -2957,11 +3044,14 @@ start_editing (EText *text)
 	g_timer_start(text->timer);
 }
 
-static void
-stop_editing (EText *text)
+void
+e_text_stop_editing (EText *text)
 {
 	if (!text->editing)
 		return;
+
+	g_free (text->revert);
+	text->revert = NULL;
 
 	text->editing = FALSE;
 	if ( (!text->default_cursor_shown) && (!text->draw_borders) ) {
@@ -2973,6 +3063,14 @@ stop_editing (EText *text)
 		g_timer_destroy(text->timer);
 		text->timer = NULL;
 	}
+}
+
+void
+e_text_cancel_editing (EText *text)
+{
+	if (text->revert)
+		e_text_model_set_text(text->model, text->revert);
+	e_text_stop_editing (text);
 }
 
 static gboolean
@@ -3002,7 +3100,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			if (focus_event->in) {
 				start_editing (text);
 			} else {
-				stop_editing (text);
+				e_text_stop_editing (text);
 				if (text->timeout_id) {
 					g_source_remove(text->timeout_id);
 					text->timeout_id = 0;
@@ -3026,8 +3124,6 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_tep_event.key.state = key.state;
 			e_tep_event.key.keyval = key.keyval;
 			
-			// g_print ("etext got keyval \"%s\"\n", gdk_keyval_name (key.keyval));
-
 			/* This is probably ugly hack, but we have to handle UTF-8 input somehow */
 #if 0
 			e_tep_event.key.length = key.length;
@@ -3664,17 +3760,24 @@ e_text_get_invisible(EText *text)
 	if (text->invisible) {
 		invisible = text->invisible;
 	} else {
+		static const GtkTargetEntry targets[] = {
+			{ "UTF8_STRING", 0, TARGET_UTF8_STRING },
+			{ "UTF-8", 0, TARGET_UTF8 },
+			{ "COMPOUND_TEXT", 0, TARGET_COMPOUND_TEXT },
+			{ "STRING", 0, TARGET_STRING },
+			{ "TEXT",   0, TARGET_TEXT }
+		};
+		static const gint n_targets = sizeof(targets) / sizeof(targets[0]);
+
 		invisible = gtk_invisible_new();
 		text->invisible = invisible;
 		
-		gtk_selection_add_target (invisible,
+		gtk_selection_add_targets (invisible,
 					  GDK_SELECTION_PRIMARY,
-					  GDK_SELECTION_TYPE_STRING,
-					  E_SELECTION_PRIMARY);
-		gtk_selection_add_target (invisible,
+					   targets, n_targets);
+		gtk_selection_add_targets (invisible,
 					  clipboard_atom,
-					  GDK_SELECTION_TYPE_STRING,
-					  E_SELECTION_CLIPBOARD);
+					   targets, n_targets);
 		
 		gtk_signal_connect (GTK_OBJECT(invisible), "selection_get",
 				    GTK_SIGNAL_FUNC (_selection_get), 
@@ -3721,16 +3824,121 @@ _selection_get (GtkInvisible *invisible,
 		guint time_stamp,
 		EText *text)
 {
-	switch (info) {
-	case E_SELECTION_PRIMARY:
-		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING,
-					8, text->primary_selection, text->primary_length);
-		break;
-	case E_SELECTION_CLIPBOARD:
-		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING,
-					8, text->clipboard_selection, text->clipboard_length);
-		break;
+	char *selection_string;
+	int selection_length;
+	if (selection_data->selection == GDK_SELECTION_PRIMARY) {
+		selection_string = text->primary_selection;
+		selection_length = text->primary_length;
+	} else /* CLIPBOARD */ {
+		selection_string = text->clipboard_selection;
+		selection_length = text->clipboard_length;
 	}
+
+	if (selection_string != NULL) {
+		if (info == TARGET_UTF8_STRING) {
+			gtk_selection_data_set (selection_data,
+						gdk_atom_intern ("UTF8_STRING", FALSE), 8,
+						(const guchar *) selection_string,
+						selection_length);
+		} else if (info == TARGET_UTF8) {
+			gtk_selection_data_set (selection_data,
+						gdk_atom_intern ("UTF-8", FALSE), 8,
+						(const guchar *) selection_string,
+						selection_length);
+		} else if (info == TARGET_STRING || info == TARGET_TEXT || info == TARGET_COMPOUND_TEXT) {
+			gchar *localized_string;
+
+			localized_string = e_utf8_to_gtk_string (GTK_WIDGET (GNOME_CANVAS_ITEM(text)->canvas),
+								 selection_string);
+
+			if (info == TARGET_STRING) {
+				gtk_selection_data_set (selection_data,
+							GDK_SELECTION_TYPE_STRING, 8,
+							(const guchar *) localized_string, 
+							strlen (localized_string));
+			} else {
+				guchar *text;
+				GdkAtom encoding;
+				gint format;
+				gint new_length;
+
+				gdk_string_to_compound_text (localized_string, 
+							     &encoding, &format,
+							     &text, &new_length);
+
+				gtk_selection_data_set (selection_data,
+							encoding, format,
+							text, new_length);
+				gdk_free_compound_text (text);
+			}
+			g_free (localized_string);
+	}
+}
+}
+
+typedef struct {
+	guint32 time;
+	GdkAtom selection;
+} SelectionAndTime;
+
+static const char *formats[] = {"UTF8_STRING", "UTF-8", "STRING"};
+#define E_STRING_ATOM 2
+static const int format_count = sizeof (formats) / sizeof (formats[0]);
+static GdkAtom atoms[sizeof (formats) / sizeof (formats[0])];
+static int initialized = FALSE;
+
+static inline void
+init_atoms (void)
+{
+	int type;
+	if (!initialized) {
+		for (type = 0; type < format_count; type++) 
+			atoms[type] = gdk_atom_intern (formats[type], FALSE);
+		initialized = TRUE;
+	}
+}
+
+static void
+e_text_request_paste (EText *text)
+{
+	GdkAtom format_atom;
+	GtkWidget *invisible;
+	int type = text->last_type_request;
+
+	init_atoms ();
+
+	format_atom = GDK_NONE;
+
+	while (format_atom == GDK_NONE) {
+		type ++;
+
+		if (type >= format_count) {
+			if (text->queued_requests) {
+				guint32 *new_time = text->queued_requests->data;
+				text->queued_requests = g_list_remove_link (text->queued_requests, text->queued_requests);
+				text->last_time_request = *new_time;
+				g_free (new_time);
+
+				type = -1;
+			} else {
+				text->last_type_request = -1;
+				text->last_time_request = 0;
+				return;
+			}
+		}
+
+		format_atom = atoms [type];
+	}
+
+	/* And request the format target for the required selection */
+	invisible = e_text_get_invisible(text);
+	gtk_selection_convert(invisible,
+			      text->last_selection_request,
+			      format_atom,
+			      text->last_time_request);
+
+	text->last_type_request = type;
+	return;
 }
 
 static void
@@ -3739,8 +3947,24 @@ _selection_received (GtkInvisible *invisible,
 		     guint time,
 		     EText *text)
 {
-	if (selection_data->length < 0 || selection_data->type != GDK_SELECTION_TYPE_STRING) {
+	init_atoms ();
+	if (selection_data->length < 0) {
+		e_text_request_paste (text);
 		return;
+	} else if (selection_data->type == atoms[E_STRING_ATOM]) {
+		ETextEventProcessorCommand command;
+		char *string;
+
+		string = e_utf8_from_gtk_string_sized (GTK_WIDGET (GNOME_CANVAS_ITEM(text)->canvas),
+						       selection_data->data,
+						       selection_data->length);
+		command.action = E_TEP_INSERT;
+		command.position = E_TEP_SELECTION;
+		command.string = string;
+		command.value = strlen (string);
+		command.time = time;
+		e_text_command(text->tep, &command, text);
+		g_free (string);
 	} else {
 		ETextEventProcessorCommand command;
 		command.action = E_TEP_INSERT;
@@ -3749,6 +3973,33 @@ _selection_received (GtkInvisible *invisible,
 		command.value = selection_data->length;
 		command.time = time;
 		e_text_command(text->tep, &command, text);
+	}
+	text->last_type_request = -1;
+	if (text->queued_requests) {
+		SelectionAndTime *new_request = text->queued_requests->data;
+		text->queued_requests = g_list_remove_link (text->queued_requests, text->queued_requests);
+		text->last_time_request = new_request->time;
+		text->last_selection_request = new_request->selection;
+		g_free (new_request);
+		e_text_request_paste (text);
+	}
+}
+
+
+
+static void 
+e_text_get_selection(EText *text, GdkAtom selection, guint32 time)
+{
+	if (text->last_type_request == -1) {
+		text->last_time_request = time;
+		text->last_selection_request = selection;
+		e_text_request_paste (text);
+	} else {
+		SelectionAndTime *new_request = g_new (SelectionAndTime, 1);
+		new_request->time = time;
+		new_request->selection = selection;
+		/* FIXME: Queue the selection request type as well. */
+		text->queued_requests = g_list_append (text->queued_requests, new_request);
 	}
 }
 
@@ -3776,17 +4027,6 @@ e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *dat
 	
 	if (selection == GDK_SELECTION_PRIMARY)
 		text->has_selection = successful;
-}
-
-static void
-e_text_get_selection(EText *text, GdkAtom selection, guint32 time)
-{
-	GtkWidget *invisible;
-	invisible = e_text_get_invisible(text);
-	gtk_selection_convert(invisible,
-			      selection,
-			      GDK_SELECTION_TYPE_STRING,
-			      time);
 }
 
 #if 0

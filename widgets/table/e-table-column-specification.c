@@ -1,12 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * E-table-column-specification.c: Savable specification of a column.
+ * e-table-column-specification.c - Savable specification of a column.
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author:
+ * Authors:
  *   Chris Lahey <clahey@ximian.com>
  *
- * (C) 2000 Ximian, Inc.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 #include <stdlib.h>
 #include <gtk/gtksignal.h>
@@ -61,6 +75,7 @@ etcs_init (ETableColumnSpecification *specification)
 	specification->expansion     = 0;
 	specification->minimum_width = 0;
 	specification->resizable     = FALSE;
+	specification->disabled      = FALSE;
 	
 	specification->cell          = NULL;
 	specification->compare       = NULL;
@@ -90,6 +105,7 @@ e_table_column_specification_load_from_node (ETableColumnSpecification *etcs,
 	etcs->expansion     = e_xml_get_double_prop_by_name(node, "expansion");
 	etcs->minimum_width = e_xml_get_integer_prop_by_name(node, "minimum_width");
 	etcs->resizable     = e_xml_get_bool_prop_by_name(node, "resizable");
+	etcs->disabled      = e_xml_get_bool_prop_by_name (node, "disabled");
 
 	etcs->cell          = e_xml_get_string_prop_by_name(node, "cell");
 	etcs->compare       = e_xml_get_string_prop_by_name(node, "compare");
@@ -116,6 +132,7 @@ e_table_column_specification_save_to_node (ETableColumnSpecification *specificat
 	e_xml_set_double_prop_by_name(node, "expansion", specification->expansion);
 	e_xml_set_integer_prop_by_name(node, "minimum_width", specification->minimum_width);
 	e_xml_set_bool_prop_by_name(node, "resizable", specification->resizable);
+	e_xml_set_bool_prop_by_name(node, "disabled", specification->disabled);
 
 	e_xml_set_string_prop_by_name(node, "cell", specification->cell);
 	e_xml_set_string_prop_by_name(node, "compare", specification->compare);

@@ -1,26 +1,24 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
- * Author :
- *  Damon Chaplin <damon@ximian.com>
- *
+ * e-cell-popup.c: Popup cell renderer
  * Copyright 2001, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * Authors:
+ *   Damon Chaplin <damon@ximian.com>
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
- */
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.  */
 
 /*
  * ECellPopup - an abstract ECell class used to support popup selections like
@@ -105,9 +103,12 @@ static void	ecp_show_tooltip	(ECellView	*ecv,
 					 int		 row,
 					 int		 col_width,
 					 ETableTooltip	*tooltip);
+static char *ecp_get_bg_color (ECellView *ecell_view, int row);
 
 static gint e_cell_popup_do_popup	(ECellPopupView	*ecp_view,
-					 GdkEvent	*event);
+					 GdkEvent	*event,
+					 int             row,
+					 int             model_col);
 
 static ECellClass *parent_class;
 
@@ -136,6 +137,7 @@ e_cell_popup_class_init		(GtkObjectClass	*object_class)
 	ecc->print_height = ecp_print_height;
 	ecc->max_width	  = ecp_max_width;
 	ecc->show_tooltip = ecp_show_tooltip;
+	ecc->get_bg_color = ecp_get_bg_color;
 
 	parent_class = gtk_type_class (e_cell_get_type ());
 }
@@ -145,6 +147,7 @@ static void
 e_cell_popup_init		(ECellPopup	*ecp)
 {
 	ecp->popup_shown = FALSE;
+	ecp->popup_model = NULL;
 }
 
 
@@ -259,26 +262,21 @@ ecp_draw (ECellView *ecv, GdkDrawable *drawable,
 	  int x1, int y1, int x2, int y2)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecv->ecell);
-	ETableItem *eti = E_TABLE_ITEM (ecv->e_table_item_view);
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (ecv->e_table_item_view)->canvas);
 	GtkShadowType shadow;
 	GdkRectangle rect;
 	gboolean show_popup_arrow = FALSE;
 
-	/* Display the popup arrow if we are editing this cell, or the popup
+	/* Display the popup arrow if we are the cursor cell, or the popup
 	   is shown for this cell. */
-	if (eti->editing_col == view_col && eti->editing_row == row) {
+	if (flags & E_CELL_CURSOR) {
 		show_popup_arrow = TRUE;
 		ecp->popup_arrow_shown = TRUE;
-
 	} else if (ecp->popup_shown && ecp->popup_view_col == view_col
-		   && ecp->popup_row == row) {
+		   && ecp->popup_row == row && ecp->popup_model == ((ECellView *) ecp_view)->e_table_model) {
 		show_popup_arrow = TRUE;
 	}
-
-	if (eti->editing_col == -1)
-		ecp->popup_arrow_shown = FALSE;
 
 #if 0
 	g_print ("In ecp_draw row:%i col: %i %i,%i %i,%i Show Arrow:%i\n",
@@ -333,7 +331,7 @@ ecp_event (ECellView *ecv, GdkEvent *event, int model_col, int view_col,
 
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
-		if (eti->editing_col == view_col && eti->editing_row == row
+		if (flags & E_CELL_CURSOR
 		    && ecp->popup_arrow_shown) {
 			width = e_table_header_col_diff (eti->header, view_col,
 							 view_col + 1);
@@ -344,7 +342,7 @@ ecp_event (ECellView *ecv, GdkEvent *event, int model_col, int view_col,
 			/* FIXME: The event coords seem to be relative to the
 			   text within the cell, so we have to add 4. */
 			if (event->button.x + 4 >= width - E_CELL_POPUP_ARROW_WIDTH) {
-				return e_cell_popup_do_popup (ecp_view, event);
+				return e_cell_popup_do_popup (ecp_view, event, row, view_col);
 			}
 		}
 		break;
@@ -354,7 +352,7 @@ ecp_event (ECellView *ecv, GdkEvent *event, int model_col, int view_col,
 		if (event->key.state & GDK_MOD1_MASK
 		    && event->key.keyval == GDK_Down) {
 			g_print ("## Alt-Down pressed\n");
-			return e_cell_popup_do_popup (ecp_view, event);
+			return e_cell_popup_do_popup (ecp_view, event, row, view_col);
 		}
 		g_print ("Key Press Event ECellPopup\n");
 		break;
@@ -386,16 +384,9 @@ static void *
 ecp_enter_edit (ECellView *ecv, int model_col, int view_col, int row)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
-	ECellPopup *ecp = E_CELL_POPUP (ecp_view->cell_view.ecell);
 
 	g_print ("In ecp_enter_edit model_col: %i view_col: %i row: %i\n",
 		 model_col, view_col, row);
-
-	if (ecp->popup_view_col != view_col || ecp->popup_row != row)
-		ecp->popup_arrow_shown = FALSE;
-
-	ecp->popup_view_col = view_col;
-	ecp->popup_row = row;
 
 	return e_cell_enter_edit (ecp_view->child_view, model_col, view_col, row);
 }
@@ -466,6 +457,14 @@ ecp_show_tooltip (ECellView *ecv,
 			     col_width, tooltip);
 }
 
+static char *
+ecp_get_bg_color (ECellView *ecell_view, int row)
+{		
+	ECellPopupView *ecp_view = (ECellPopupView *) ecell_view;
+
+	return e_cell_get_bg_color (ecp_view->child_view, row);
+}
+
 
 
 ECell*
@@ -493,14 +492,39 @@ e_cell_popup_set_child			(ECellPopup	*ecp,
 
 static gint
 e_cell_popup_do_popup			(ECellPopupView	*ecp_view,
-					 GdkEvent	*event)
+					 GdkEvent	*event,
+					 int             row,
+					 int             view_col)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecp_view->cell_view.ecell);
-	gint (*popup_func) (ECellPopup *ecp, GdkEvent *event);
+	gint (*popup_func) (ECellPopup *ecp, GdkEvent *event, int row, int view_col);
 
 	ecp->popup_cell_view = ecp_view;
 
 	popup_func = E_CELL_POPUP_CLASS (GTK_OBJECT_GET_CLASS (ecp))->popup;
 
-	return popup_func ? popup_func (ecp, event) : FALSE;
+	ecp->popup_view_col = view_col;
+	ecp->popup_row = row;
+	ecp->popup_model = ((ECellView *) ecp_view)->e_table_model;
+
+	return popup_func ? popup_func (ecp, event, row, view_col) : FALSE;
+}
+
+/* This redraws the popup cell. Only use this if you know popup_view_col and
+   popup_row are valid. */
+void
+e_cell_popup_queue_cell_redraw (ECellPopup *ecp)
+{
+       ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
+
+       e_table_item_redraw_range (eti, ecp->popup_view_col, ecp->popup_row,
+                                  ecp->popup_view_col, ecp->popup_row);
+}
+
+void
+e_cell_popup_set_shown  (ECellPopup *ecp,
+			 gboolean    shown)
+{
+	ecp->popup_shown = shown;
+	e_cell_popup_queue_cell_redraw (ecp);
 }

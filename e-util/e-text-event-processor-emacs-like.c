@@ -1,22 +1,24 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* e-text-event-processor.c
- * Copyright (C) 2000  Helix Code, Inc.
- * Author: Chris Lahey <clahey@helixcode.com>
+/* 
+ * e-text-event-processor-emacs-like.c
+ * Copyright 2000, 2001, Ximian, Inc.
+ *
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ * Library General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 
 #include <string.h>
@@ -59,7 +61,7 @@ static const ETextEventProcessorCommand control_keys[26] =
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* t */
 	{ E_TEP_START_OF_LINE,      E_TEP_DELETE, 0, "" }, /* u */
 	{ E_TEP_SELECTION,          E_TEP_PASTE, 0, "" }, /* v */
-	{ E_TEP_SELECTION,          E_TEP_DELETE, 0, "" }, /* w */
+	{ E_TEP_SELECTION,          E_TEP_NOP, 0, "" }, /* w */
 	{ E_TEP_SELECTION,          E_TEP_DELETE, 0, "" }, /* x */
 	{ E_TEP_SELECTION,          E_TEP_PASTE, 0, "" }, /* y */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" }           /* z */
@@ -180,10 +182,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 		if (event->button.button == 1) {
 			command.action = E_TEP_UNGRAB;
 			command.time = event->button.time;
-			gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);
-			command.time = event->button.time;
 			tep_el->mouse_down = FALSE;
-			command.action = E_TEP_NOP;
 		} else if (event->button.button == 2) {
 			command.action = E_TEP_MOVE;
 			command.position = E_TEP_VALUE;
@@ -435,7 +434,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				break;
 
 			default:
-				if (key.state & GDK_CONTROL_MASK) {
+				if ((key.state & GDK_CONTROL_MASK) && !(key.state & GDK_MOD1_MASK)) {
 					if ((key.keyval >= 'A') && (key.keyval <= 'Z'))
 						key.keyval -= 'A' - 'a';
 					
@@ -447,7 +446,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 						command.string = control_keys[(int) (key.keyval - 'a')].string;
 					}
 
-					if (key.keyval == 'x' || key.keyval == 'w') {
+					if (key.keyval == 'x') {
 						command.action = E_TEP_COPY;
 						command.position = E_TEP_SELECTION;
 						gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);
@@ -457,7 +456,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 					}
 					
 					break;
-				} else if (key.state & GDK_MOD1_MASK) {
+				} else if ((key.state & GDK_MOD1_MASK) && !(key.state & GDK_CONTROL_MASK)) {
 					if ((key.keyval >= 'A') && (key.keyval <= 'Z'))
 						key.keyval -= 'A' - 'a';
 					
@@ -468,7 +467,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 						command.value = alt_keys[(int) (key.keyval - 'a')].value;
 						command.string = alt_keys[(int) (key.keyval - 'a')].string;
 					}
-				} else if (key.length > 0) {
+				} else if (!(key.state & GDK_MOD1_MASK) && !(key.state & GDK_CONTROL_MASK) && key.length > 0) {
 					if (key.keyval >= GDK_KP_0 && key.keyval <= GDK_KP_9) {
 						key.keyval = '0';
 						key.string = "0";

@@ -1,12 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * E-table-col.c: ETableCol implementation
+ * e-table-col.c
+ * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
- * Author:
- *   Miguel de Icaza (miguel@gnu.org)
+ * Authors:
+ *   Miguel de Icaza <miguel@ximian.com>
  *
- * (C) 1999 Ximian, Inc
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 #include <gtk/gtkobject.h>
 #include <gtk/gtksignal.h>
@@ -104,6 +118,7 @@ E_MAKE_TYPE(e_table_col, "ETableCol", ETableCol, e_table_col_class_init, e_table
  * @ecell: the renderer to be used for this column
  * @compare: comparision function for the elements stored in this column
  * @resizable: whether the column can be resized interactively by the user
+ * @priority: FIXME
  *
  * The ETableCol represents a column to be used inside an ETable.  The
  * ETableCol objects are inserted inside an ETableHeader (which is just a collection
@@ -123,7 +138,7 @@ E_MAKE_TYPE(e_table_col, "ETableCol", ETableCol, e_table_col_class_init, e_table
  */
 ETableCol *
 e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
-		 ECell *ecell, GCompareFunc compare, gboolean resizable, int priority)
+		 ECell *ecell, GCompareFunc compare, gboolean resizable, gboolean disabled, int priority)
 {
 	ETableCol *etc;
 	
@@ -144,6 +159,7 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
 	etc->min_width = min_width;
 	etc->ecell = ecell;
 	etc->compare = compare;
+	etc->disabled = disabled;
 	etc->priority = priority;
 
 	etc->selected = 0;
@@ -182,7 +198,7 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
  */
 ETableCol *
 e_table_col_new_with_pixbuf (int col_idx, const char *text, GdkPixbuf *pixbuf, double expansion, int min_width,
-			     ECell *ecell, GCompareFunc compare, gboolean resizable, int priority)
+			     ECell *ecell, GCompareFunc compare, gboolean resizable, gboolean disabled, int priority)
 {
 	ETableCol *etc;
 	
@@ -203,6 +219,7 @@ e_table_col_new_with_pixbuf (int col_idx, const char *text, GdkPixbuf *pixbuf, d
 	etc->min_width = min_width;
 	etc->ecell = ecell;
 	etc->compare = compare;
+	etc->disabled = disabled;
 	etc->priority = priority;
 
 	etc->selected = 0;

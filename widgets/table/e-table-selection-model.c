@@ -1,17 +1,33 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * e-table-selection-model.c: a Table Selection Model
+ * e-table-selection-model.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author:
- *   Christopher James Lahey <clahey@ximian.com>
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
  *
- * (C) 2000, 2001 Ximian, Inc.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
+#include "e-table-selection-model.h"
+
 #include <string.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
-#include "e-table-selection-model.h"
+
 #include "gal/util/e-util.h"
 
 #define ETSM_CLASS(e) ((ETableSelectionModelClass *)((GtkObject *)e)->klass)
@@ -25,6 +41,7 @@ static gint etsm_get_row_count (ESelectionModelArray *esm);
 enum {
 	ARG_0,
 	ARG_MODEL,
+	ARG_HEADER,
 };
 
 static void
@@ -97,6 +114,12 @@ model_changed_idle(ETableSelectionModel *etsm)
 			if (etsm->cursor_id && !strcmp(etsm->cursor_id, save_id)) {
 				cursor_row = i;
 				cursor_col = e_selection_model_cursor_col(E_SELECTION_MODEL(etsm));
+				if (cursor_col == -1) {
+					if (etsm->eth) {
+						cursor_col = e_table_header_prioritized_column (etsm->eth);
+					} else
+						cursor_col = 0;
+				}
 				e_selection_model_change_cursor(E_SELECTION_MODEL(etsm), cursor_row, cursor_col);
 				g_free(etsm->cursor_id);
 				etsm->cursor_id = NULL;
@@ -233,6 +256,9 @@ etsm_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_MODEL:
 		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(etsm->model);
 		break;
+	case ARG_HEADER:
+		GTK_VALUE_OBJECT (*arg) = (GtkObject *)etsm->eth;
+		break;
 	}
 }
 
@@ -245,6 +271,9 @@ etsm_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_MODEL:
 		drop_model(etsm);
 		add_model(etsm, GTK_VALUE_OBJECT (*arg) ? E_TABLE_MODEL(GTK_VALUE_OBJECT (*arg)) : NULL);
+		break;
+	case ARG_HEADER:
+		etsm->eth = (ETableHeader *)GTK_VALUE_OBJECT (*arg);
 		break;
 	}
 }
@@ -278,6 +307,8 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 
 	gtk_object_add_arg_type ("ETableSelectionModel::model", GTK_TYPE_OBJECT,
 				 GTK_ARG_READWRITE, ARG_MODEL);
+	gtk_object_add_arg_type ("ETableSelectionModel::header", E_TABLE_HEADER_TYPE,
+				 GTK_ARG_READWRITE, ARG_HEADER);
 }
 
 E_MAKE_TYPE(e_table_selection_model, "ETableSelectionModel", ETableSelectionModel,

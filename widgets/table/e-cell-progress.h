@@ -25,11 +25,11 @@
 #ifndef _E_CELL_PROGRESS_H_
 #define _E_CELL_PROGRESS_H_
 
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gal/e-table/e-cell.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_CELL_PROGRESS_TYPE        (e_cell_progress_get_type ())
 #define E_CELL_PROGRESS(o)          (GTK_CHECK_CAST ((o), E_CELL_PROGRESS_TYPE, ECellProgress))
@@ -67,7 +67,7 @@ void	   e_cell_progress_set_padding (ECellProgress *eprog, int padding);
 void	   e_cell_progress_set_border (ECellProgress *eprog, int border);
 void	   e_cell_progress_set_color (ECellProgress *eprog, guchar red, guchar green, guchar blue);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_CELL_PROGRESS_H_ */
 

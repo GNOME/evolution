@@ -1,24 +1,30 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* ETableTextModel - Text item model for evolution.
- * Copyright (C) 2000 Ximian, Inc.
+/* 
+ * e-table-text-model.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author: Chris Lahey <clahey@umich.edu>
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
  *
- * A majority of code taken from:
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
- * Text item type for GnomeCanvas widget
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
  *
- * GnomeCanvas is basically a port of the Tk toolkit's most excellent
- * canvas widget.  Tk is copyrighted by the Regents of the University
- * of California, Sun Microsystems, and other parties.
- *
- * Copyright (C) 1998 The Free Software Foundation
- *
- * Author: Federico Mena <federico@nuclecu.unam.mx> */
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
 
 #include <config.h>
 #include <ctype.h>
 #include <gtk/gtksignal.h>
+#include <gal/util/e-util.h>
 #include "e-table-text-model.h"
 
 static void e_table_text_model_class_init (ETableTextModelClass *class);
@@ -154,7 +160,12 @@ e_table_text_model_insert (ETextModel *text_model, gint position, const gchar *t
 	ETableTextModel *model = E_TABLE_TEXT_MODEL(text_model);
 	if (model->model){
 		gchar *temp = (gchar *)e_table_model_value_at (model->model, model->model_col, model->row);
-		temp = g_strdup_printf ("%.*s%s%s", position, temp, text, temp + position);
+		/* Can't use g_strdup_printf here because on some
+		   systems printf ("%.*s"); is locale dependent. */
+		temp = e_strdup_append_strings (temp, position,
+						text, -1,
+						temp + position, -1,
+						NULL);
 		e_table_model_set_value_at (model->model, model->model_col, model->row, temp);
 		g_free (temp);
 	}
@@ -166,7 +177,12 @@ e_table_text_model_insert_length (ETextModel *text_model, gint position, const g
 	ETableTextModel *model = E_TABLE_TEXT_MODEL(text_model);
 	if (model->model){
 		gchar *temp = (gchar *)e_table_model_value_at (model->model, model->model_col, model->row);
-		temp = g_strdup_printf ("%.*s%.*s%s", position, temp, length, text, temp + position);
+		/* Can't use g_strdup_printf here because on some
+		   systems printf ("%.*s"); is locale dependent. */
+		temp = e_strdup_append_strings (temp, position,
+						text, length,
+						temp + position, -1,
+						NULL);
 		e_table_model_set_value_at (model->model, model->model_col, model->row, temp);
 		g_free (temp);
 	}
@@ -178,7 +194,11 @@ e_table_text_model_delete (ETextModel *text_model, gint position, gint length)
 	ETableTextModel *model = E_TABLE_TEXT_MODEL(text_model);
 	if (model->model){
 		gchar *temp = (gchar *)e_table_model_value_at (model->model, model->model_col, model->row);
-		temp = g_strdup_printf ("%.*s%s", position, temp, temp + position + length);
+		/* Can't use g_strdup_printf here because on some
+		   systems printf ("%.*s"); is locale dependent. */
+		temp = e_strdup_append_strings (temp, position,
+						temp + position + length, -1,
+						NULL);
 		e_table_model_set_value_at (model->model, model->model_col, model->row, temp);
 		g_free (temp);
 	}

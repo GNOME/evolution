@@ -1,25 +1,24 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
- * Author :
- *  Damon Chaplin <damon@ximian.com>
- *
+ * e-cell-popup.h: Popup cell renderer
  * Copyright 2001, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * Authors:
+ *   Damon Chaplin <damon@ximian.com>
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 
 /*
@@ -64,6 +63,7 @@ typedef struct {
 
 	gint		 popup_view_col;
 	gint		 popup_row;
+	ETableModel	*popup_model;
 } ECellPopup;
 
 
@@ -71,7 +71,7 @@ typedef struct {
 	ECellClass parent_class;
 
 	/* Virtual function for subclasses to override. */
-	gint   	   (*popup)        (ECellPopup *ecp, GdkEvent *event);
+	gint   	   (*popup)        (ECellPopup *ecp, GdkEvent *event, int row, int view_col);
 } ECellPopupClass;
 
 
@@ -89,5 +89,9 @@ ECell     *e_cell_popup_new			(void);
 ECell	  *e_cell_popup_get_child		(ECellPopup	*ecp);
 void       e_cell_popup_set_child		(ECellPopup	*ecp,
 						 ECell		*child);
+
+void     e_cell_popup_set_shown          (ECellPopup *ecp,
+					  gboolean    shown);
+void     e_cell_popup_queue_cell_redraw  (ECellPopup *ecp);
 
 #endif /* _E_CELL_POPUP_H_ */

@@ -1,4 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* 
+ * e-tree.h
+ * Copyright 2000, 2001, Ximian, Inc.
+ *
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+
 #ifndef _E_TREE_H_
 #define _E_TREE_H_
 
@@ -259,8 +281,20 @@ void            e_tree_load_expanded_state        (ETree                *et,
 int             e_tree_row_count                  (ETree                *et);
 GtkWidget      *e_tree_get_tooltip                (ETree                *et);
 
+typedef enum {
+	E_TREE_FIND_NEXT_BACKWARD = 0,
+	E_TREE_FIND_NEXT_FORWARD  = 1 << 0,
+	E_TREE_FIND_NEXT_WRAP     = 1 << 1
+} ETreeFindNextParams;
+
+gboolean        e_tree_find_next                  (ETree                *et,
+						   ETreeFindNextParams   params,
+						   ETreePathFunc         func,
+						   gpointer              data);
+
 /* This function is only needed in single_selection_mode. */
 void            e_tree_right_click_up             (ETree                *et);
+
 
 G_END_DECLS
 

@@ -1,12 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * E-table-sorted.c: Implements a table that sorts another table
+ * e-table-sorter.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author:
- *   Miguel de Icaza (miguel@gnu.org)
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
  *
- * (C) 1999 Ximian, Inc.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 #include <stdlib.h>
 #include <string.h>
@@ -196,7 +210,7 @@ ets_model_cell_changed (ETableModel *etm, int col, int row, ETableSorter *ets)
 static void
 ets_sort_info_changed (ETableSortInfo *info, ETableSorter *ets)
 {
-	printf ("sort info changed\n");
+	d(g_print ("sort info changed\n"));
 	ets_clean(ets);
 }
 

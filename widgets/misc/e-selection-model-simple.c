@@ -1,12 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * e-selection-model-simple.c: a Table Selection Model
+ * e-selection-model-simple.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author:
- *   Christopher James Lahey <clahey@ximian.com>
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
  *
- * (C) 2000, 2001 Ximian, Inc.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 #include <gal/util/e-util.h>
 #include "e-selection-model-array.h"
@@ -63,6 +77,8 @@ e_selection_model_simple_set_row_count (ESelectionModelSimple *esms,
 		if (esma->eba)
 			gtk_object_unref(GTK_OBJECT(esma->eba));
 		esma->eba = NULL;
+		esma->selected_row = -1;
+		esma->selected_range_end = -1;
 	}
 	esms->row_count = row_count;
 }

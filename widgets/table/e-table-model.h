@@ -1,4 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* 
+ * e-table-model.h
+ * Copyright 2000, 2001, Ximian, Inc.
+ *
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+
 #ifndef _E_TABLE_MODEL_H_
 #define _E_TABLE_MODEL_H_
 
@@ -55,6 +77,7 @@ typedef struct {
 
 	/*
 	 * These all come after the change has been made.
+	 * No changes, cancel pre_change: no_change
 	 * Major structural changes: model_changed
 	 * Changes only in a row: row_changed
 	 * Only changes in a cell: cell_changed
@@ -63,6 +86,7 @@ typedef struct {
 	 */
 	void        (*model_pre_change)    (ETableModel *etm);
 
+	void        (*model_no_change)     (ETableModel *etm);
 	void        (*model_changed)       (ETableModel *etm);
 	void        (*model_row_changed)   (ETableModel *etm, int row);
 	void        (*model_cell_changed)  (ETableModel *etm, int col, int row);
@@ -122,6 +146,7 @@ char       *e_table_model_value_to_string     (ETableModel *e_table_model,
  * Routines for emitting signals on the e_table
  */
 void        e_table_model_pre_change          (ETableModel *e_table_model);
+void        e_table_model_no_change           (ETableModel *e_table_model);
 void        e_table_model_changed             (ETableModel *e_table_model);
 void        e_table_model_row_changed         (ETableModel *e_table_model,
 					       int          row);

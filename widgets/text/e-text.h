@@ -1,9 +1,11 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* EText - Text item for evolution.
- * Copyright (C) 2000, 2001 Ximian Inc.
+/* 
+ * e-text.h - Text item for evolution.
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author: Chris Lahey <clahey@ximian.com>
- * Further hacking by Jon Trowbridge <trow@ximian.com>
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
+ *   Jon Trowbridge <trow@ximian.com>
  *
  * A majority of code taken from:
  *
@@ -15,7 +17,22 @@
  *
  * Copyright (C) 1998 The Free Software Foundation
  *
- * Author: Federico Mena <federico@nuclecu.unam.mx> */
+ * Author: Federico Mena <federico@nuclecu.unam.mx>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
 
 #ifndef E_TEXT_H
 #define E_TEXT_H
@@ -74,6 +91,7 @@ G_BEGIN_DECLS
  * max_lines            int                     RW              Number of lines possible when doing line wrap.
  * draw_borders         boolean                 RW              Whether to draw borders.
  * draw_background      boolean                 RW              Whether to draw the background.
+ * draw_button          boolean                 RW              This makes EText handle being the child of a button properly and highlighting as it should.
  */
 
 #define E_TYPE_TEXT            (e_text_get_type ())
@@ -119,6 +137,8 @@ struct _EText {
 	gpointer lines;			/* Text split into lines (private field) */
 	int num_lines;			/* Number of lines of text */
 
+	gchar *revert;                  /* Text to revert to */
+
 #if 0
 	GdkFont *font;			/* Font for text */
 #else
@@ -152,10 +172,6 @@ struct _EText {
 
 	char *ellipsis;                 /* The ellipsis characters.  NULL = "...". */
 	double ellipsis_width;          /* The width of the ellipsis. */
-	gboolean use_ellipsis;          /* Whether to use the ellipsis. */
-
-	gboolean editable;              /* Item is editable */
-	gboolean editing;               /* Item is currently being edited */
 
 	int xofs_edit;                  /* Offset because of editing */
 	int yofs_edit;                  /* Offset because of editing */
@@ -193,6 +209,7 @@ struct _EText {
 	guint default_cursor_shown : 1; /* Is the default cursor currently shown? */
 	guint draw_borders : 1;         /* Draw borders? */
 	guint draw_background : 1;      /* Draw background? */
+	guint draw_button : 1;          /* Draw button? */
 
 	guint line_wrap : 1;            /* Do line wrap */
 
@@ -208,6 +225,11 @@ struct _EText {
 	guint tooltip_owner : 1;
 	guint allow_newlines : 1;
 
+	guint use_ellipsis : 1;         /* Whether to use the ellipsis. */
+
+	guint editable : 1;             /* Item is editable */
+	guint editing : 1;              /* Item is currently being edited */
+
 	EFontStyle     style;
 
 	gchar *break_characters;        /* Characters to optionally break after */
@@ -222,6 +244,11 @@ struct _EText {
 
 	gint dbl_timeout;               /* Double click timeout */
 	gint tpl_timeout;               /* Triple click timeout */
+
+	gint     last_type_request;       /* Last selection type requested. */
+	guint32  last_time_request;       /* The time of the last selection request. */
+	GdkAtom  last_selection_request;  /* The time of the last selection request. */
+	GList   *queued_requests;         /* Queued selection requests. */
 };
 
 struct _ETextClass {
@@ -236,6 +263,8 @@ struct _ETextClass {
 
 /* Standard Gtk function */
 GtkType e_text_get_type (void);
+void     e_text_cancel_editing  (EText *text);
+void     e_text_stop_editing    (EText *text);
 
 G_END_DECLS
 

@@ -1,10 +1,23 @@
 /*
- * e-cell-pixbuf.c: An ECell that displays a GdkPixbuf
+ * e-cell-pixbuf.c - An ECell that displays a GdkPixbuf
+ * Copyright 2001, Ximian, Inc.
  *
- * Copyright (C) 2001  Ximian, Inc.
+ * Authors:
+ *  Vladimir Vukicevic <vladimir@ximian.com>
  *
- * Authors: Vladimir Vukicevic <vladimir@ximian.com>
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 
 #include <stdio.h>
@@ -136,6 +149,13 @@ static gint
 pixbuf_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
     GdkPixbuf *pixbuf;
+    if (row == -1) {
+      if (e_table_model_row_count (ecell_view->e_table_model) > 0) {
+        row = 0;
+      } else {
+	return 6;
+      }
+    }
 
     pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, model_col, row);
     if (!pixbuf)

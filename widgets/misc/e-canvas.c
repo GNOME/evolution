@@ -1,23 +1,24 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * e-canvas.c
- * Copyright (C) 2000  Helix Code, Inc.
- * Author: Chris Lahey <clahey@helixcode.com>
+ * Copyright 2000, 2001, Ximian, Inc.
+ *
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ * Library General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 
 #include <gtk/gtksignal.h>
@@ -610,7 +611,7 @@ e_canvas_item_grab_focus (GnomeCanvasItem *item, gboolean widget_too)
 		gtk_widget_grab_focus (GTK_WIDGET (item->canvas));
 	}
 
-	if (focused_item) {
+	if (item) {
 		ev.focus_change.type = GDK_FOCUS_CHANGE;
 		ev.focus_change.window = GTK_LAYOUT (item->canvas)->bin_window;
 		ev.focus_change.send_event = FALSE;
@@ -675,6 +676,7 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 static void
 e_canvas_realize (GtkWidget *widget)
 {
+	gint width, height;
 #ifdef GAL_GDK_IM
 	ECanvas *ecanvas = E_CANVAS (widget);
 #endif
@@ -692,11 +694,40 @@ e_canvas_realize (GtkWidget *widget)
 		GdkIMStyle style;
 		GdkIMStyle supported_style = GDK_IM_PREEDIT_NONE |
 			GDK_IM_PREEDIT_NOTHING |
+			GDK_IM_PREEDIT_POSITION |
 			GDK_IM_STATUS_NONE |
 			GDK_IM_STATUS_NOTHING;
 
+		if(widget->style && widget->style->font->type != GDK_FONT_FONTSET)
+			supported_style &= ~GDK_IM_PREEDIT_POSITION;
+
 		attr->style = style = gdk_im_decide_style (supported_style);
 		attr->client_window = ecanvas->parent.layout.bin_window;
+
+		switch (style & GDK_IM_PREEDIT_MASK)
+			{
+			case GDK_IM_PREEDIT_POSITION:
+				if (widget->style && widget->style->font->type != GDK_FONT_FONTSET)
+					{
+						g_warning ("over-the-spot style requires fontset");
+						break;
+					}
+				
+				gdk_window_get_size (attr->client_window, &width, &height);
+				height = widget->style->font->ascent +
+					widget->style->font->descent;
+
+				attrmask |= GDK_IC_PREEDIT_POSITION_REQ;
+				attr->spot_location.x = 0;
+				attr->spot_location.y = height;
+				attr->preedit_area.x = 0;
+				attr->preedit_area.y = 0;
+				attr->preedit_area.width = width;
+				attr->preedit_area.height = height;
+				attr->preedit_fontset = widget->style->font;
+
+				break;
+			}
 
 		ecanvas->ic = gdk_ic_new (attr, attrmask);
 		if (ecanvas->ic != NULL) {
@@ -715,9 +746,14 @@ e_canvas_realize (GtkWidget *widget)
 static void
 e_canvas_unrealize (GtkWidget *widget)
 {
-#ifdef GAL_GDK_IM
 	ECanvas * ecanvas = E_CANVAS (widget);
 
+	if (ecanvas->idle_id) {
+		g_source_remove(ecanvas->idle_id);
+		ecanvas->idle_id = 0;
+	}
+
+#ifdef GAL_GDK_IM
 	if (ecanvas->ic) {
 		gdk_ic_destroy (ecanvas->ic);
 		ecanvas->ic = NULL;

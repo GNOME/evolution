@@ -1,12 +1,27 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * E-table-subset.c: Implements a table that contains a subset of another table.
+ * e-table-subset.c - Implements a table that contains a subset of another table.
+ * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
- * Author:
- *   Miguel de Icaza (miguel@gnu.org)
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
+ *   Miguel de Icaza <miguel@ximian.com>
  *
- * (C) 1999 Ximian, Inc.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 #include <stdlib.h>
 #include <gtk/gtksignal.h>
@@ -14,9 +29,12 @@
 #include "e-table-subset.h"
 
 static void etss_proxy_model_pre_change_real (ETableSubset *etss, ETableModel *etm);
+static void etss_proxy_model_no_change_real (ETableSubset *etss, ETableModel *etm);
 static void etss_proxy_model_changed_real (ETableSubset *etss, ETableModel *etm);
 static void etss_proxy_model_row_changed_real (ETableSubset *etss, ETableModel *etm, int row);
 static void etss_proxy_model_cell_changed_real (ETableSubset *etss, ETableModel *etm, int col, int row);
+static void etss_proxy_model_rows_inserted_real (ETableSubset *etss, ETableModel *etm, int row, int count);
+static void etss_proxy_model_rows_deleted_real (ETableSubset *etss, ETableModel *etm, int row, int count);
 
 #define PARENT_TYPE E_TABLE_MODEL_TYPE
 #define d(x)
@@ -28,13 +46,15 @@ static ETableModelClass *etss_parent_class;
 static gint
 etss_get_view_row (ETableSubset *etss, int row)
 {
-	int limit;
 	const int n = etss->n_map;
 	const int * const map_table = etss->map_table;
 	int i;
 
-	limit = MIN(n, etss->last_access + 10);
-	for (i = etss->last_access; i < limit; i++) {
+	int end = MIN(etss->n_map, etss->last_access + 10);
+	int start = MAX(0, etss->last_access - 10);
+	int initial = MAX (MIN (etss->last_access, end), start);
+
+	for (i = initial; i < end; i++) {
 		if (map_table [i] == row){
 			d(g_print("a) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
@@ -42,10 +62,8 @@ etss_get_view_row (ETableSubset *etss, int row)
 		}
 	}
 
-	limit = MAX(0, etss->last_access - 10);
-	for (i = etss->last_access - 1; i >= limit; i--) {
+	for (i = initial - 1; i >= start; i--) {
 		if (map_table [i] == row){
-			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
 			d(g_print("b) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return i;
@@ -54,7 +72,6 @@ etss_get_view_row (ETableSubset *etss, int row)
 
 	for (i = 0; i < n; i++){
 		if (map_table [i] == row){
-			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
 			d(g_print("c) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return i;
@@ -71,6 +88,8 @@ etss_destroy (GtkObject *object)
 	if (etss->source) {
 		gtk_signal_disconnect (GTK_OBJECT (etss->source),
 				       etss->table_model_pre_change_id);
+		gtk_signal_disconnect (GTK_OBJECT (etss->source),
+				       etss->table_model_no_change_id);
 		gtk_signal_disconnect (GTK_OBJECT (etss->source),
 				       etss->table_model_changed_id);
 		gtk_signal_disconnect (GTK_OBJECT (etss->source),
@@ -233,11 +252,12 @@ etss_class_init (GtkObjectClass *object_class)
 	table_class->value_to_string    = etss_value_to_string;
 
 	klass->proxy_model_pre_change   = etss_proxy_model_pre_change_real;
+	klass->proxy_model_no_change     = etss_proxy_model_no_change_real;
 	klass->proxy_model_changed      = etss_proxy_model_changed_real;
 	klass->proxy_model_row_changed  = etss_proxy_model_row_changed_real;
 	klass->proxy_model_cell_changed = etss_proxy_model_cell_changed_real;
-	klass->proxy_model_rows_inserted = NULL;
-	klass->proxy_model_rows_deleted  = NULL;
+	klass->proxy_model_rows_inserted = etss_proxy_model_rows_inserted_real;
+	klass->proxy_model_rows_deleted  = etss_proxy_model_rows_deleted_real;
 }
 
 static void
@@ -255,6 +275,12 @@ etss_proxy_model_pre_change_real (ETableSubset *etss, ETableModel *etm)
 }
 
 static void
+etss_proxy_model_no_change_real (ETableSubset *etss, ETableModel *etm)
+{
+	e_table_model_no_change (E_TABLE_MODEL (etss));
+}
+
+static void
 etss_proxy_model_changed_real (ETableSubset *etss, ETableModel *etm)
 {
 	e_table_model_changed (E_TABLE_MODEL (etss));
@@ -266,6 +292,8 @@ etss_proxy_model_row_changed_real (ETableSubset *etss, ETableModel *etm, int row
 	int view_row = etss_get_view_row (etss, row);
 	if (view_row != -1)
 		e_table_model_row_changed (E_TABLE_MODEL (etss), view_row);
+	else
+		e_table_model_no_change (E_TABLE_MODEL (etss));
 }
 
 static void
@@ -274,6 +302,20 @@ etss_proxy_model_cell_changed_real (ETableSubset *etss, ETableModel *etm, int co
 	int view_row = etss_get_view_row (etss, row);
 	if (view_row != -1)
 		e_table_model_cell_changed (E_TABLE_MODEL (etss), col, view_row);
+	else
+		e_table_model_no_change (E_TABLE_MODEL (etss));
+}
+
+static void
+etss_proxy_model_rows_inserted_real (ETableSubset *etss, ETableModel *etm, int row, int count)
+{
+	e_table_model_no_change (E_TABLE_MODEL (etss));
+}
+
+static void
+etss_proxy_model_rows_deleted_real (ETableSubset *etss, ETableModel *etm, int row, int count)
+{
+	e_table_model_no_change (E_TABLE_MODEL (etss));
 }
 
 static void
@@ -281,6 +323,13 @@ etss_proxy_model_pre_change (ETableModel *etm, ETableSubset *etss)
 {
 	if (ETSS_CLASS(etss)->proxy_model_pre_change)
 		(ETSS_CLASS(etss)->proxy_model_pre_change) (etss, etm);
+}
+
+static void
+etss_proxy_model_no_change (ETableModel *etm, ETableSubset *etss)
+{
+	if (ETSS_CLASS(etss)->proxy_model_no_change)
+		(ETSS_CLASS(etss)->proxy_model_no_change) (etss, etm);
 }
 
 static void
@@ -341,6 +390,8 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, int nvals)
 
 	etss->table_model_pre_change_id = gtk_signal_connect (GTK_OBJECT (source), "model_pre_change",
 							      GTK_SIGNAL_FUNC (etss_proxy_model_pre_change), etss);
+	etss->table_model_no_change_id     = gtk_signal_connect (GTK_OBJECT (source), "model_no_change",
+								 GTK_SIGNAL_FUNC (etss_proxy_model_no_change), etss);
 	etss->table_model_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_changed",
 						     GTK_SIGNAL_FUNC (etss_proxy_model_changed), etss);
 	etss->table_model_row_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_row_changed",

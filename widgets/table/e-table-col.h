@@ -1,4 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* 
+ * e-table-col.h
+ * Copyright 1999, 2000, 2001, Ximian, Inc.
+ *
+ * Authors:
+ *   Miguel de Icaza <miguel@ximian.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+
 #ifndef _E_TABLE_COL_H_
 #define _E_TABLE_COL_H_
 
@@ -36,6 +58,7 @@ typedef struct {
 	unsigned int is_pixbuf:1;
 	unsigned int selected:1;
 	unsigned int resizable:1;
+	unsigned int disabled:1;
 	unsigned int sortable:1;
 	unsigned int groupable:1;
 	int          col_idx;
@@ -51,15 +74,25 @@ typedef struct {
 } ETableColClass;
 
 GtkType        e_table_col_get_type        (void);
-ETableCol     *e_table_col_new             (int col_idx, const char *text,
-					    double expansion, int min_width,
-					    ECell *ecell, GCompareFunc compare,
-					    gboolean resizable, int priority);
-ETableCol     *e_table_col_new_with_pixbuf (int col_idx, const char *text, 
+ETableCol *e_table_col_new              (int           col_idx,
+					 const char   *text,
+					 double        expansion,
+					 int           min_width,
+					 ECell        *ecell,
+					 GCompareFunc  compare,
+					 gboolean      resizable,
+					 gboolean      disabled,
+					 int           priority);
+ETableCol *e_table_col_new_with_pixbuf  (int           col_idx,
+					 const char   *text,
 					    GdkPixbuf *pixbuf,
-					    double expansion, int min_width,
-					    ECell *ecell, GCompareFunc compare,
-					    gboolean resizable, int priority);
+					 double        expansion,
+					 int           min_width,
+					 ECell        *ecell,
+					 GCompareFunc  compare,
+					 gboolean      resizable,
+					 gboolean      disabled,
+					 int           priority);
 void           e_table_col_destroy         (ETableCol *etc);
 
 

@@ -1,25 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* ETable widget - utilities for drawing table header buttons
+/* 
+ * e-table-header-utils.h
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Copyright (C) 2000 Ximian, Inc.
- *
- * Authors: Chris Lahey <clahey@ximian.com>
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
  *          Miguel de Icaza <miguel@ximian.com>
  *          Federico Mena-Quintero <federico@ximian.com>
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 
 #ifdef HAVE_CONFIG_H
@@ -28,6 +29,8 @@
 
 #include <string.h> /* strlen() */
 #include <glib.h>
+#include <gtk/gtkbutton.h>
+#include <gtk/gtkwindow.h>
 #include "e-table-defines.h"
 #include "e-table-header-utils.h"
 
@@ -191,6 +194,8 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 	return pixmap;
 }
 
+static GtkWidget *g_label;
+
 /**
  * e_table_header_draw_button:
  * @drawable: Destination drawable.
@@ -213,7 +218,7 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 void
 e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 			    GtkStyle *style, GdkFont *font, GtkStateType state,
-			    GtkWidget *widget, GdkGC *gc,
+			    GtkWidget *widget,
 			    int x, int y, int width, int height,
 			    int button_width, int button_height,
 			    ETableColArrow arrow)
@@ -221,6 +226,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	int xthick, ythick;
 	int inner_x, inner_y;
 	int inner_width, inner_height;
+	GdkGC *gc;
 
 	g_return_if_fail (drawable != NULL);
 	g_return_if_fail (ecol != NULL);
@@ -230,6 +236,18 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GTK_IS_WIDGET (widget));
 	g_return_if_fail (button_width > 0 && button_height > 0);
+
+	if (g_label == NULL) {
+		GtkWidget *button = gtk_button_new_with_label("Hi");
+		GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+		g_label = GTK_BIN(button)->child;
+		gtk_container_add (GTK_CONTAINER (window), button);
+		gtk_widget_ensure_style (window);
+		gtk_widget_ensure_style (button);
+		gtk_widget_ensure_style (g_label);
+	}
+
+	gc = g_label->style->fg_gc[GTK_STATE_NORMAL];
 
 	xthick = style->xthickness;
 	ythick = style->ythickness;

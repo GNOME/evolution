@@ -1,4 +1,27 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* 
+ * e-table-header-item.h
+ * Copyright 1999, 2000, 2001, Ximian, Inc.
+ *
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
+ *   Miguel de Icaza (miguel@gnu.org)
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+
 #ifndef _E_TABLE_HEADER_ITEM_H_
 #define _E_TABLE_HEADER_ITEM_H_
 
@@ -21,7 +44,6 @@ typedef struct {
 	GnomeCanvasItem  parent;
 	ETableHeader    *eth;
 
-	GdkGC           *gc;
 	GdkCursor       *change_cursor;
 
 	short            height, width;
@@ -62,6 +84,13 @@ typedef struct {
 	 */
 	ETableSortInfo  *sort_info;
 	
+	guint scroll_direction : 4;
+	int last_drop_x;
+	int last_drop_y;
+	int last_drop_time;
+	GdkDragContext *last_drop_context;
+	int scroll_idle_id;
+
 	/* For adding fields. */
 	ETableHeader    *full_header;
 	ETable          *table;

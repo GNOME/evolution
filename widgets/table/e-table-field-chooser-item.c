@@ -1,12 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * E-table-column-view.c: A canvas item based view of the ETableColumn.
+ * e-table-field-chooser-item.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author:
- *   Miguel de Icaza (miguel@gnu.org)
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
  *
- * Copyright 1999, 2000 Ximian, Inc.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 #include <string.h>
 #include <gtk/gtksignal.h>
@@ -90,6 +104,8 @@ etfci_find_button (ETableFieldChooserItem *etfci, double loc)
 		ETableCol *ecol;
 
 		ecol = e_table_header_get_column (etfci->combined_header, i);
+		if (ecol->disabled)
+			continue;
 		height += e_table_header_compute_height (ecol, style, etfci->font);
 		if (height > loc)
 			return i;
@@ -114,12 +130,16 @@ etfci_rebuild_combined (ETableFieldChooserItem *etfci)
 	count = e_table_header_count (etfci->header);
 	for (i = 0; i < count; i++) {
 		ETableCol *ecol = e_table_header_get_column (etfci->header, i);
+		if (ecol->disabled)
+			continue;
 		g_hash_table_insert (hash, GINT_TO_POINTER (ecol->col_idx), GINT_TO_POINTER (1));
 	}
 
 	count = e_table_header_count (etfci->full_header);
 	for (i = 0; i < count; i++) {
 		ETableCol *ecol = e_table_header_get_column (etfci->full_header, i);
+		if (ecol->disabled)
+			continue;
 		if (! (GPOINTER_TO_INT (g_hash_table_lookup (hash, GINT_TO_POINTER (ecol->col_idx)))))
 			e_table_header_add_column (etfci->combined_header, ecol, -1);
 	}
@@ -148,6 +168,8 @@ etfci_reflow (GnomeCanvasItem *item, gint flags)
 		ETableCol *ecol;
 
 		ecol = e_table_header_get_column (etfci->combined_header, i);
+		if (ecol->disabled)
+			continue;
 		height += e_table_header_compute_height (ecol, style, etfci->font);
 	}
 
@@ -196,19 +218,13 @@ etfci_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flag
 }
 
 static void
-etfci_font_load (ETableFieldChooserItem *etfci, char *font)
+etfci_font_load (ETableFieldChooserItem *etfci)
 {
 	if (etfci->font)
 		gdk_font_unref (etfci->font);
-	etfci->font = NULL;
-	
-	if (font)
-		etfci->font = gdk_fontset_load (font);
 
-	if (etfci->font == NULL) {
-		etfci->font = gtk_style_get_font (GTK_WIDGET(GNOME_CANVAS_ITEM(etfci)->canvas)->style);
-		gdk_font_ref(etfci->font);
-	}
+	etfci->font = gtk_style_get_font (GTK_WIDGET(GNOME_CANVAS_ITEM(etfci)->canvas)->style);
+	gdk_font_ref(etfci->font);
 }
 
 static void
@@ -410,7 +426,7 @@ etfci_realize (GnomeCanvasItem *item)
 	window = GTK_WIDGET (item->canvas)->window;
 
 	if (!etfci->font)
-		etfci_font_load (etfci, NULL);
+		etfci_font_load (etfci);
 
 	etfci->drag_end_id = gtk_signal_connect (
 		GTK_OBJECT (item->canvas), "drag_end",
@@ -464,6 +480,9 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int widt
 
 		ecol = e_table_header_get_column (etfci->combined_header, row);
 
+		if (ecol->disabled)
+			continue;
+
 		y2 += e_table_header_compute_height (ecol, style, etfci->font);
 		
 		if (y1 > (y + height))
@@ -474,7 +493,7 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int widt
 
 		e_table_header_draw_button (drawable, ecol,
 					    style, etfci->font, state,
-					    GTK_WIDGET (canvas), style->fg_gc[GTK_STATE_NORMAL],
+					    GTK_WIDGET (canvas),
 					    -x, y1 - y,
 					    width, height,
 					    etfci->width, y2 - y1,
@@ -528,6 +547,9 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 
 	ecol = e_table_header_get_column (etfci->combined_header, drag_col);
 
+	if (ecol->disabled)
+		return;
+
 	etfci->drag_col = ecol->col_idx;
 
 	etfci_drag_types[0].target = g_strdup_printf("%s-%s", etfci_drag_types[0].target, etfci->dnd_code);
@@ -538,9 +560,9 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 	button_height = e_table_header_compute_height (ecol, widget->style, etfci->font);
 	pixmap = gdk_pixmap_new (widget->window, etfci->width, button_height, -1);
 
-	e_table_header_draw_button (pixmap, e_table_header_get_column (etfci->combined_header, drag_col),
+	e_table_header_draw_button (pixmap, ecol,
 				    widget->style, etfci->font, GTK_WIDGET_STATE (widget),
-				    widget, widget->style->fg_gc[GTK_STATE_NORMAL],
+				    widget,
 				    0, 0,
 				    etfci->width, button_height,
 				    etfci->width, button_height,

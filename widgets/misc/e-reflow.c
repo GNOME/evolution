@@ -1,23 +1,24 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
  * e-reflow.c
- * Copyright (C) 2000, 2001  Ximian, Inc.
- * Author: Chris Lahey <clahey@helixcode.com>
+ * Copyright 2000, 2001, Ximian, Inc.
+ *
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ * Library General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 
 #include <config.h>
@@ -62,6 +63,7 @@ enum {
 	ARG_HEIGHT,
 	ARG_EMPTY_MESSAGE,
 	ARG_MODEL,
+	ARG_COLUMN_WIDTH,
 };
 
 enum {
@@ -115,6 +117,22 @@ e_reflow_resize_children (GnomeCanvasItem *item)
 	}
 }
 
+static inline void
+e_reflow_update_selection_row (EReflow *reflow, int row)
+{
+	if (reflow->items[row]) {
+		gtk_object_set(GTK_OBJECT(reflow->items[row]),
+			       "selected", e_selection_model_is_row_selected(E_SELECTION_MODEL(reflow->selection), row),
+			       NULL);
+	} else if (e_selection_model_is_row_selected (E_SELECTION_MODEL (reflow->selection), row)) {
+		reflow->items[row] = e_reflow_model_incarnate (reflow->model, row, GNOME_CANVAS_GROUP (reflow));
+		gtk_object_set (GTK_OBJECT (reflow->items[row]),
+				"selected", e_selection_model_is_row_selected(E_SELECTION_MODEL(reflow->selection), row),
+				"width", (double) reflow->column_width,
+				NULL);
+	}
+}
+
 static void
 e_reflow_update_selection (EReflow *reflow)
 {
@@ -123,17 +141,7 @@ e_reflow_update_selection (EReflow *reflow)
 
 	count = reflow->count;
 	for (i = 0; i < count; i++) {
-		if (reflow->items[i]) {
-			gtk_object_set(GTK_OBJECT(reflow->items[i]),
-     				       "selected", e_selection_model_is_row_selected(E_SELECTION_MODEL(reflow->selection), i),
-				       NULL);
-		} else if (e_selection_model_is_row_selected (E_SELECTION_MODEL (reflow->selection), i)) {
-			reflow->items[i] = e_reflow_model_incarnate (reflow->model, i, GNOME_CANVAS_GROUP (reflow));
-			gtk_object_set (GTK_OBJECT (reflow->items[i]),
-					"selected", e_selection_model_is_row_selected(E_SELECTION_MODEL(reflow->selection), i),
-					"width", (double) reflow->column_width,
-					NULL);
-		}
+		e_reflow_update_selection_row (reflow, i);
 	}
 }
 
@@ -141,6 +149,43 @@ static void
 selection_changed (ESelectionModel *selection, EReflow *reflow)
 {
 	e_reflow_update_selection (reflow);
+}
+
+static void
+selection_row_changed (ESelectionModel *selection, int row, EReflow *reflow)
+{
+	e_reflow_update_selection_row (reflow, row);
+}
+
+static void
+cursor_changed (ESelectionModel *selection, int row, int col, EReflow *reflow)
+{
+	int count = reflow->count;
+	int old_cursor = reflow->cursor_row;
+
+	if (old_cursor < count && old_cursor >= 0) {
+		if (reflow->items[old_cursor]) {
+			gtk_object_set (GTK_OBJECT (reflow->items[old_cursor]),
+					"has_cursor", FALSE,
+					NULL);
+		}
+	}
+
+	reflow->cursor_row = row;
+
+	if (row < count && row >= 0) {
+		if (reflow->items[row]) {
+			gtk_object_set (GTK_OBJECT (reflow->items[row]),
+					"has_cursor", TRUE,
+					NULL);
+		} else {
+			reflow->items[row] = e_reflow_model_incarnate (reflow->model, row, GNOME_CANVAS_GROUP (reflow));
+			gtk_object_set (GTK_OBJECT (reflow->items[row]),
+					"has_cursor", TRUE,
+					"width", (double) reflow->column_width,
+					NULL);
+		}
+	}
 }
 
 static void
@@ -419,9 +464,15 @@ disconnect_selection (EReflow *reflow)
 
 	gtk_signal_disconnect (GTK_OBJECT (reflow->selection),
 			       reflow->selection_changed_id);
+	gtk_signal_disconnect (GTK_OBJECT (reflow->selection),
+			       reflow->selection_row_changed_id);
+	gtk_signal_disconnect (GTK_OBJECT (reflow->selection),
+			       reflow->cursor_changed_id);
 	gtk_object_unref (GTK_OBJECT (reflow->selection));
 
 	reflow->selection_changed_id = 0;
+	reflow->selection_row_changed_id = 0;
+	reflow->cursor_changed_id = 0;
 	reflow->selection            = NULL;
 }
 
@@ -491,18 +542,11 @@ connect_adjustment (EReflow *reflow, GtkAdjustment *adjustment)
 	gtk_object_ref (GTK_OBJECT (adjustment));
 }
 
+#if 0
 static void
 set_scroll_adjustments (GtkLayout *layout, GtkAdjustment *hadj, GtkAdjustment *vadj, EReflow *reflow)
 {
 	connect_adjustment (reflow, hadj);
-}
-
-static void
-disconnect_set_adjustment (EReflow *reflow)
-{
-	gtk_signal_disconnect (GTK_OBJECT (GNOME_CANVAS_ITEM (reflow)->canvas),
-			       reflow->set_scroll_adjustments_id);
-	reflow->set_scroll_adjustments_id = 0;
 }
 
 static void
@@ -512,6 +556,17 @@ connect_set_adjustment (EReflow *reflow)
 		gtk_signal_connect (GTK_OBJECT (GNOME_CANVAS_ITEM (reflow)->canvas),
 				    "set_scroll_adjustments",
 				    GTK_SIGNAL_FUNC (set_scroll_adjustments), reflow);
+}
+#endif
+
+static void
+disconnect_set_adjustment (EReflow *reflow)
+{
+	if (reflow->set_scroll_adjustments_id != 0) {
+		gtk_signal_disconnect (GTK_OBJECT (GNOME_CANVAS_ITEM (reflow)->canvas),
+				       reflow->set_scroll_adjustments_id);
+		reflow->set_scroll_adjustments_id = 0;
+	}
 }
 
 
@@ -548,6 +603,21 @@ e_reflow_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_MODEL:
 		connect_model (reflow, (EReflowModel *) GTK_VALUE_OBJECT (*arg));
 		break;
+	case ARG_COLUMN_WIDTH:
+		if (reflow->column_width != GTK_VALUE_INT (*arg)) {
+			GtkAdjustment *adjustment = gtk_layout_get_hadjustment(GTK_LAYOUT(item->canvas));
+
+			reflow->column_width = GTK_VALUE_INT (*arg);
+			adjustment->step_increment = (reflow->column_width + E_REFLOW_FULL_GUTTER) / 2;
+			adjustment->page_increment = adjustment->page_size - adjustment->step_increment;
+			gtk_adjustment_changed(adjustment);
+			e_reflow_resize_children(item);
+			e_canvas_item_request_reflow(item);
+
+			reflow->need_column_resize = TRUE;
+			gnome_canvas_item_request_update(item);
+		}
+		break;
 	}
 }
 
@@ -573,6 +643,9 @@ e_reflow_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_MODEL:
 		GTK_VALUE_OBJECT (*arg) = (GtkObject *) reflow->model;
+		break;
+	case ARG_COLUMN_WIDTH:
+		GTK_VALUE_INT (*arg) = reflow->column_width;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
@@ -641,7 +714,9 @@ e_reflow_realize (GnomeCanvasItem *item)
 
 	adjustment = gtk_layout_get_hadjustment(GTK_LAYOUT(item->canvas));
 
+#if 0
 	connect_set_adjustment (reflow);
+#endif
 	connect_adjustment (reflow, adjustment);
 
 	adjustment->step_increment = (reflow->column_width + E_REFLOW_FULL_GUTTER) / 2;
@@ -1139,7 +1214,7 @@ e_reflow_selection_event_real (EReflow *reflow, GnomeCanvasItem *item, GdkEvent 
 			break;
 		case 3:
 			row = er_find_item (reflow, item);
-			e_selection_model_maybe_do_something(reflow->selection, row, 0, event->button.state);
+			e_selection_model_right_click_down(reflow->selection, row, 0, 0);
 			break;
 		default:
 			return_val = FALSE;
@@ -1178,6 +1253,8 @@ e_reflow_class_init (EReflowClass *klass)
 				 GTK_ARG_READWRITE, ARG_EMPTY_MESSAGE);
 	gtk_object_add_arg_type ("EReflow::model", E_REFLOW_MODEL_TYPE,
 				 GTK_ARG_READWRITE, ARG_MODEL);
+	gtk_object_add_arg_type ("EReflow::column_width", GTK_TYPE_INT,
+				 GTK_ARG_READWRITE, ARG_COLUMN_WIDTH);
 
 	signals [SELECTION_EVENT] =
 		gtk_signal_new ("selection_event",
@@ -1234,7 +1311,10 @@ e_reflow_init (EReflow *reflow)
 	reflow->arrow_cursor         = NULL;
 	reflow->default_cursor       = NULL;
 
+	reflow->cursor_row                = -1;
+
 	reflow->incarnate_idle_id    = 0;
+	reflow->set_scroll_adjustments_id = 0;
 
 	reflow->selection            = E_SELECTION_MODEL (e_selection_model_simple_new());
 	reflow->sorter               = e_sorter_array_new (er_compare, reflow);
@@ -1246,6 +1326,12 @@ e_reflow_init (EReflow *reflow)
 	reflow->selection_changed_id = 
 		gtk_signal_connect(GTK_OBJECT(reflow->selection), "selection_changed",
 				   GTK_SIGNAL_FUNC(selection_changed), reflow);
+	reflow->selection_row_changed_id = 
+		gtk_signal_connect(GTK_OBJECT(reflow->selection), "selection_row_changed",
+				   GTK_SIGNAL_FUNC(selection_row_changed), reflow);
+	reflow->cursor_changed_id = 
+		gtk_signal_connect(GTK_OBJECT(reflow->selection), "cursor_changed",
+				   GTK_SIGNAL_FUNC(cursor_changed), reflow);
 
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(reflow), e_reflow_reflow);
 }

@@ -69,17 +69,11 @@ enum {
 static void
 get_color(ECanvasBackground *ecb)
 {
-	int n;
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ecb);
-
-	n = 0;
-	gdk_color_context_get_pixels (item->canvas->cc,
-				      &ecb->priv->color.red,
-				      &ecb->priv->color.green,
-				      &ecb->priv->color.blue,
-				      1,
-				      &ecb->priv->color.pixel,
-				      &n);
+	ecb->priv->color.pixel = gnome_canvas_get_color_pixel (item->canvas,
+		GNOME_CANVAS_COLOR (ecb->priv->color.red >> 8,
+				   ecb->priv->color.green>> 8,
+				   ecb->priv->color.blue>> 8));
 }
 
 static void
@@ -424,11 +418,11 @@ ecb_class_init (GtkObjectClass *object_class)
 
 	gtk_object_add_arg_type ("ECanvasBackground::fill_color", GTK_TYPE_STRING,
 				 GTK_ARG_WRITABLE, ARG_FILL_COLOR);
-	gtk_object_add_arg_type ("ECanvasBackground::fill_color_gdk", GTK_TYPE_GDK_COLOR,
+	gtk_object_add_arg_type ("ECanvasBackground::fill_color_gdk", GDK_TYPE_COLOR,
 				 GTK_ARG_READWRITE, ARG_FILL_COLOR_GDK);
 	gtk_object_add_arg_type ("ECanvasBackground::fill_color_rgba", GTK_TYPE_UINT,
 				 GTK_ARG_READWRITE, ARG_FILL_COLOR_RGBA);
-	gtk_object_add_arg_type ("ECanvasBackground::fill_stipple", GTK_TYPE_GDK_WINDOW,
+	gtk_object_add_arg_type ("ECanvasBackground::fill_stipple", GDK_TYPE_WINDOW,
 				 GTK_ARG_READWRITE, ARG_FILL_STIPPLE);
 	gtk_object_add_arg_type ("ECanvasBackground::x1", GTK_TYPE_DOUBLE,
 				 GTK_ARG_READWRITE, ARG_X1);

@@ -1,4 +1,27 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* 
+ * e-table.h - A graphical view of a Table.
+ * Copyright 1999, 2000, 2001, Ximian, Inc.
+ *
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
+ *   Miguel de Icaza <miguel@ximian.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+
 #ifndef _E_TABLE_H_
 #define _E_TABLE_H_
 
@@ -16,6 +39,7 @@
 #include <gal/e-table/e-table-specification.h>
 #include <gal/widgets/e-printable.h>
 #include <gal/e-table/e-table-state.h>
+#include <gal/e-table/e-table-sorter.h>
 
 G_BEGIN_DECLS
 
@@ -85,9 +109,12 @@ typedef struct {
 
 	guint is_grouped : 1;
 
-	guint scroll_down : 1;
+	guint scroll_direction : 4;
 
 	guint do_drag : 1;
+	
+	guint uniform_row_height : 1;
+	guint allow_grouping : 1;
 	
 	char *click_to_add_message;
 	GnomeCanvasItem *click_to_add;
@@ -179,9 +206,7 @@ typedef struct {
 						  guint               info,
 						  guint               time);
 } ETableClass;
-
 GtkType         e_table_get_type                  (void);
-
 ETable         *e_table_construct                 (ETable               *e_table,
 						   ETableModel          *etm,
 						   ETableExtras         *ete,
@@ -216,7 +241,6 @@ void            e_table_set_state_object          (ETable               *e_table
 						   ETableState          *state);
 void            e_table_load_state                (ETable               *e_table,
 						   const gchar          *filename);
-
 void            e_table_set_cursor_row            (ETable               *e_table,
 						   int                   row);
 
@@ -227,24 +251,29 @@ void            e_table_selected_row_foreach      (ETable               *e_table
 						   gpointer              closure);
 gint            e_table_selected_count            (ETable               *e_table);
 EPrintable     *e_table_get_printable             (ETable               *e_table);
-
 gint            e_table_get_next_row              (ETable               *e_table,
 						   gint                  model_row);
 gint            e_table_get_prev_row              (ETable               *e_table,
 						   gint                  model_row);
-
 gint            e_table_model_to_view_row         (ETable               *e_table,
 						   gint                  model_row);
 gint            e_table_view_to_model_row         (ETable               *e_table,
 						   gint                  view_row);
 void            e_table_get_cell_at               (ETable *table,
-						   int x, int y,
-						   int *row_return, int *col_return);
-
+						    int                   x,
+						    int                   y,
+						    int                  *row_return,
+						    int                  *col_return);
 void            e_table_get_cell_geometry         (ETable *table,
-						   int row, int col,
-						   int *x_return, int *y_return,
-						   int *width_return, int *height_return);
+						    int                   row,
+						    int                   col,
+						    int                  *x_return,
+						    int                  *y_return,
+						    int                  *width_return,
+						    int                  *height_return);
+
+/* Useful accessor functions. */
+ESelectionModel *e_table_get_selection_model       (ETable               *table);
 
 /* Drag & drop stuff. */
 /* Target */
@@ -298,6 +327,8 @@ void            e_table_invert_selection          (ETable               *table);
 
 /* This function is only needed in single_selection_mode. */
 void            e_table_right_click_up            (ETable               *table);
+
+void             e_table_commit_click_to_add       (ETable               *table);
 
 G_END_DECLS
 

@@ -1,27 +1,31 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* ETableTextModel - Text item for evolution.
- * Copyright (C) 2000 Ximian, Inc.
+/* 
+ * e-table-text-model.h
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author: Chris Lahey <clahey@umich.edu>
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
  *
- * A majority of code taken from:
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
- * Text item type for GnomeCanvas widget
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
  *
- * GnomeCanvas is basically a port of the Tk toolkit's most excellent
- * canvas widget.  Tk is copyrighted by the Regents of the University
- * of California, Sun Microsystems, and other parties.
- *
- * Copyright (C) 1998 The Free Software Foundation
- *
- * Author: Federico Mena <federico@nuclecu.unam.mx> */
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
 
 #ifndef E_TABLE_TEXT_MODEL_H
 #define E_TABLE_TEXT_MODEL_H
 
 #include <gal/e-text/e-text-model.h>
 #include <gal/e-table/e-table-model.h>
-
 
 G_BEGIN_DECLS
 

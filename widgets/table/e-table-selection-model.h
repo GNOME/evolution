@@ -1,12 +1,33 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* 
+ * e-table-selection-model.h
+ * Copyright 2000, 2001, Ximian, Inc.
+ *
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+
 #ifndef _E_TABLE_SELECTION_MODEL_H_
 #define _E_TABLE_SELECTION_MODEL_H_
 
 #include <gtk/gtkobject.h>
 #include <gal/widgets/e-selection-model-array.h>
 #include <gal/e-table/e-table-model.h>
-#include <gal/e-table/e-table-defines.h>
-#include <gal/e-table/e-table-sorter.h>
+#include <gal/e-table/e-table-header.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -22,6 +43,7 @@ typedef struct {
 	ESelectionModelArray base;
 
 	ETableModel  *model;
+	ETableHeader *eth;
 
 	guint model_pre_change_id;
 	guint model_changed_id;
@@ -32,7 +54,6 @@ typedef struct {
 
 	guint model_changed_idle_id;
 
-	guint frozen : 1;
 	guint selection_model_changed : 1;
 	guint group_info_changed : 1;
 

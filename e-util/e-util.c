@@ -1,24 +1,28 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
- * e-xml-utils.c
- * Copyright (C) 2000  Helix Code, Inc.
- * Author: Chris Lahey <clahey@helixcode.com>
+ * e-util.c
+ * Copyright 2000, 2001, Ximian, Inc.
+ *
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ * Library General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
+#include <config.h>
+#include "e-util.h"
 
 #include <glib.h>
 #include <gtk/gtkobject.h>
@@ -33,7 +37,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "e-util.h"
 #if 0
 #include <libgnomevfs/gnome-vfs.h>
 #endif
@@ -195,7 +198,37 @@ e_write_file(const char *filename, const char *data, int flags)
 			}
 		}
 	}
+	if (close(fd) != 0) {
+		return errno;
+	}
+	return 0;
+}
+
+gint
+e_write_file_mkstemp(char *filename, const char *data)
+{
+	int fd;
+	int length = strlen(data);
+	int bytes;
+	fd = mkstemp (filename);
+	if (fd == -1)
+		return errno;
+	while (length > 0) {
+		bytes = write(fd, data, length);
+		if (bytes > 0) {
+			length -= bytes;
+			data += bytes;
+		} else {
+			if (errno != EINTR && errno != EAGAIN) {
+				int save_errno = errno;
 	close(fd);
+				return save_errno;
+			}
+		}
+	}
+	if (close(fd) != 0) {
+		return errno;
+	}
 	return 0;
 }
 
@@ -395,11 +428,9 @@ e_format_number (gint number)
 	int divider;
 	char *value;
 	char *value_iterator;
-	int initial_grouping;
 
 	locality = localeconv();
 	grouping = locality->grouping;
-	initial_grouping = *grouping;
 	while (number) {
 		char *group;
 		switch (*grouping) {
@@ -408,8 +439,8 @@ e_format_number (gint number)
 			grouping++;
 		case 0:
 			divider = epow10(last_count);
-			if((!list && (number/divider) > 0) || number > divider) {
-				group = g_strdup_printf("%0*d", initial_grouping, number % divider);
+			if (number >= divider) {
+				group = g_strdup_printf("%0*d", last_count, number % divider);
 			} else {
 				group = g_strdup_printf("%d", number % divider);
 			}
@@ -654,6 +685,34 @@ e_sort (void             *base,
 #endif
 }
 
+size_t e_strftime(char *s, size_t max, const char *fmt, const struct tm *tm)
+{
+#ifdef HAVE_LKSTRFTIME
+	return strftime(s, max, fmt, tm);
+#else
+	char *c, *ffmt, *ff;
+	size_t ret;
+
+	ffmt = g_strdup(fmt);
+	ff = ffmt;
+	while ((c = strstr(ff, "%l")) != NULL) {
+		c[1] = 'I';
+		ff = c;
+	}
+
+	ff = fmt;
+	while ((c = strstr(ff, "%k")) != NULL) {
+		c[1] = 'H';
+		ff = c;
+	}
+
+	ret = strftime(s, max, ffmt, tm);
+	g_free(ffmt);
+	return ret;
+#endif
+}
+
+
 /**
  * Function to do a last minute fixup of the AM/PM stuff if the locale
  * and gettext haven't done it right. Most English speaking countries
@@ -681,17 +740,17 @@ size_t e_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct t
 
 	if (strstr(fmt, "%p")==NULL && strstr(fmt, "%P")==NULL) {
 		/* No AM/PM involved - can use the fmt string directly */
-		ret=strftime(s, max, fmt, tm);
+		ret=e_strftime(s, max, fmt, tm);
 	} else {
 		/* Get the AM/PM symbol from the locale */
-		strftime (buf, 10, "%p", tm);
+		e_strftime (buf, 10, "%p", tm);
 
 		if (buf[0]) {
 			/**
 			 * AM/PM have been defined in the locale
 			 * so we can use the fmt string directly
 			 **/
-			ret=strftime(s, max, fmt, tm);
+			ret=e_strftime(s, max, fmt, tm);
 		} else {
 			/**
 			 * No AM/PM defined by locale
@@ -708,10 +767,287 @@ size_t e_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct t
 			for (sp=ffmt; (sp=strstr(sp, "%I")); sp++) {
 				sp[1]='H';
 			}
-			ret=strftime(s, max, ffmt, tm);
+			ret=e_strftime(s, max, ffmt, tm);
 			g_free(ffmt);
 		}
 	}
 	return(ret);
 }
 
+/**
+ * e_flexible_strtod:
+ * @nptr:    the string to convert to a numeric value.
+ * @endptr:  if non-NULL, it returns the character after
+ *           the last character used in the conversion.
+ * 
+ * Converts a string to a gdouble value.  This function detects
+ * strings either in the standard C locale or in the current locale.
+ *
+ * This function is typically used when reading configuration files or
+ * other non-user input that should not be locale dependent, but may
+ * have been in the past.  To handle input from the user you should
+ * normally use the locale-sensitive system strtod function.
+ *
+ * To convert from a double to a string in a locale-insensitive way, use
+ * @g_ascii_dtostr.
+ * 
+ * Return value: the gdouble value.
+ **/
+gdouble
+e_flexible_strtod (const gchar *nptr,
+		   gchar      **endptr)
+{
+	gchar *fail_pos;
+	gdouble val;
+	struct lconv *locale_data;
+	const char *decimal_point;
+	int decimal_point_len;
+	const char *p, *decimal_point_pos;
+	const char *end = NULL; /* Silence gcc */
+	char *copy, *c;
+
+	g_return_val_if_fail (nptr != NULL, 0);
+
+	fail_pos = NULL;
+
+	locale_data = localeconv ();
+	decimal_point = locale_data->decimal_point;
+	decimal_point_len = strlen (decimal_point);
+
+	g_assert (decimal_point_len != 0);
+
+	decimal_point_pos = NULL;
+	if (!strcmp (decimal_point, "."))
+		return strtod (nptr, endptr);
+
+	p = nptr;
+
+	/* Skip leading space */
+	while (isspace ((guchar)*p))
+		p++;
+
+	/* Skip leading optional sign */
+	if (*p == '+' || *p == '-')
+		p++;
+
+	if (p[0] == '0' &&
+	    (p[1] == 'x' || p[1] == 'X')) {
+		p += 2;
+		/* HEX - find the (optional) decimal point */
+
+		while (isxdigit ((guchar)*p))
+			p++;
+
+		if (*p == '.') {
+			decimal_point_pos = p++;
+             
+			while (isxdigit ((guchar)*p))
+				p++;
+             
+			if (*p == 'p' || *p == 'P')
+				p++;
+			if (*p == '+' || *p == '-')
+				p++;
+			while (isdigit ((guchar)*p))
+				p++;
+			end = p;
+		} else if (strncmp (p, decimal_point, decimal_point_len) == 0) {
+			return strtod (nptr, endptr);
+		}
+	} else {
+		while (isdigit ((guchar)*p))
+			p++;
+
+		if (*p == '.') {
+			decimal_point_pos = p++;
+
+			while (isdigit ((guchar)*p))
+				p++;
+
+			if (*p == 'e' || *p == 'E')
+				p++;
+			if (*p == '+' || *p == '-')
+				p++;
+			while (isdigit ((guchar)*p))
+				p++;
+			end = p;
+		} else if (strncmp (p, decimal_point, decimal_point_len) == 0) {
+			return strtod (nptr, endptr);
+		}
+	}
+	/* For the other cases, we need not convert the decimal point */
+  
+	if (!decimal_point_pos)
+		return strtod (nptr, endptr);
+
+	/* We need to convert the '.' to the locale specific decimal point */
+	copy = g_malloc (end - nptr + 1 + decimal_point_len);
+
+	c = copy;
+	memcpy (c, nptr, decimal_point_pos - nptr);
+	c += decimal_point_pos - nptr;
+	memcpy (c, decimal_point, decimal_point_len);
+	c += decimal_point_len;
+	memcpy (c, decimal_point_pos + 1, end - (decimal_point_pos + 1));
+	c += end - (decimal_point_pos + 1);
+	*c = 0;
+
+	val = strtod (copy, &fail_pos);
+
+	if (fail_pos) {
+		if (fail_pos > decimal_point_pos)
+			fail_pos = (char *)nptr + (fail_pos - copy) - (decimal_point_len - 1);
+		else
+			fail_pos = (char *)nptr + (fail_pos - copy);
+	}
+
+	g_free (copy);
+
+	if (endptr)
+		*endptr = fail_pos;
+
+	return val;
+}
+
+/**
+ * e_ascii_dtostr:
+ * @buffer: A buffer to place the resulting string in
+ * @buf_len: The length of the buffer.
+ * @format: The printf-style format to use for the
+ *          code to use for converting. 
+ * @d: The double to convert
+ *
+ * Converts a double to a string, using the '.' as
+ * decimal_point. To format the number you pass in
+ * a printf-style formating string. Allowed conversion
+ * specifiers are eEfFgG. 
+ * 
+ * If you want to generates enough precision that converting
+ * the string back using @g_strtod gives the same machine-number
+ * (on machines with IEEE compatible 64bit doubles) use the format
+ * string "%.17g". If you do this it is guaranteed that the size
+ * of the resulting string will never be larger than
+ * @G_ASCII_DTOSTR_BUF_SIZE bytes.
+ *
+ * Return value: The pointer to the buffer with the converted string.
+ **/
+gchar *
+e_ascii_dtostr (gchar       *buffer,
+		gint         buf_len,
+		const gchar *format,
+		gdouble      d)
+{
+	struct lconv *locale_data;
+	const char *decimal_point;
+	int decimal_point_len;
+	gchar *p;
+	int rest_len;
+	gchar format_char;
+
+	g_return_val_if_fail (buffer != NULL, NULL);
+	g_return_val_if_fail (format[0] == '%', NULL);
+	g_return_val_if_fail (strpbrk (format + 1, "'l%") == NULL, NULL);
+ 
+	format_char = format[strlen (format) - 1];
+  
+	g_return_val_if_fail (format_char == 'e' || format_char == 'E' ||
+			      format_char == 'f' || format_char == 'F' ||
+			      format_char == 'g' || format_char == 'G',
+			      NULL);
+
+	if (format[0] != '%')
+		return NULL;
+
+	if (strpbrk (format + 1, "'l%"))
+		return NULL;
+
+	if (!(format_char == 'e' || format_char == 'E' ||
+	      format_char == 'f' || format_char == 'F' ||
+	      format_char == 'g' || format_char == 'G'))
+		return NULL;
+
+
+	g_snprintf (buffer, buf_len, format, d);
+
+	locale_data = localeconv ();
+	decimal_point = locale_data->decimal_point;
+	decimal_point_len = strlen (decimal_point);
+
+	g_assert (decimal_point_len != 0);
+
+	if (strcmp (decimal_point, ".")) {
+		p = buffer;
+
+		if (*p == '+' || *p == '-')
+			p++;
+
+		while (isdigit ((guchar)*p))
+			p++;
+
+		if (strncmp (p, decimal_point, decimal_point_len) == 0) {
+			*p = '.';
+			p++;
+			if (decimal_point_len > 1) {
+				rest_len = strlen (p + (decimal_point_len-1));
+				memmove (p, p + (decimal_point_len-1),
+					 rest_len);
+				p[rest_len] = 0;
+			}
+		}
+	}
+
+	return buffer;
+}
+
+gchar *
+e_strdup_append_strings (gchar *first_string, ...)
+{
+	gchar *buffer;
+	gchar *current;
+	gint length;
+	va_list args1;
+	va_list args2;
+	char *v_string;
+	int v_int;
+
+	va_start (args1, first_string);
+	G_VA_COPY (args2, args1);
+
+	length = 0;
+
+	v_string = first_string;
+	while (v_string) {
+		v_int = va_arg (args1, int);
+		if (v_int >= 0)
+			length += v_int;
+		else
+			length += strlen (v_string);
+		v_string = va_arg (args1, char *);
+	}
+
+	buffer  = g_new (char, length + 1);
+	current = buffer;
+
+	v_string = first_string;
+	while (v_string) {
+		v_int = va_arg (args2, int);
+		if (v_int < 0) {
+			int i;
+			for (i = 0; v_string[i]; i++) {
+				*(current++) = v_string[i];
+			}
+		} else {
+			int i;
+			for (i = 0; v_string[i] && i < v_int; i++) {
+				*(current++) = v_string[i];
+			}
+		}
+		v_string = va_arg (args2, char *);
+	}
+	*(current++) = 0;
+
+	va_end (args1);
+	va_end (args2);
+
+	return buffer;
+}

@@ -1,12 +1,24 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * E-Table-Group.c: Implements the grouping objects for elements on a table
+ * e-table-group-container.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author:
+ * Authors:
  *   Chris Lahey <clahey@ximian.com>
- *   Miguel de Icaza (miguel@gnu.org)
  *
- * Copyright 1999, 2000 Ximian, Inc.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 
 #include <config.h>
@@ -18,6 +30,7 @@
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
 #include "gal/util/e-util.h"
+#include "gal/util/e-unicode-i18n.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/widgets/e-unicode.h"
@@ -44,6 +57,7 @@ enum {
 	ARG_CURSOR_MODE,
 	ARG_SELECTION_MODEL,
 	ARG_LENGTH_THRESHOLD,
+	ARG_UNIFORM_ROW_HEIGHT,
 };
 
 typedef struct {
@@ -152,13 +166,10 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 	etgc->n = n;
 	etgc->ascending = column.ascending;
 
+	etgc->font = gtk_style_get_font (GTK_WIDGET (GNOME_CANVAS_ITEM (etgc)->canvas)->style);
 	
-	etgc->font = gdk_font_load ("lucidasans-10");
-	if (!etgc->font){
-		etgc->font = gtk_style_get_font (GTK_WIDGET (GNOME_CANVAS_ITEM (etgc)->canvas)->style);
-		
-		gdk_font_ref (etgc->font);
-	}
+	gdk_font_ref (etgc->font);
+
 	etgc->open = TRUE;
 }
 
@@ -337,26 +348,20 @@ etgc_unrealize (GnomeCanvasItem *item)
 static void
 compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_node)
 {
-	gchar *text, *s1, *s2;
+	gchar *text;
 
 	if (etgc->ecol->text) {
-		s1 = e_utf8_to_locale_string (etgc->ecol->text);
-		s2 = e_utf8_to_locale_string (child_node->string);
 		text = g_strdup_printf ((child_node->count == 1)
-					? _("%s : %s (%d item)")
-					: _("%s : %s (%d items)"),
-					s1, s2,
+					? U_("%s : %s (%d item)")
+					: U_("%s : %s (%d items)"),
+					etgc->ecol->text, child_node->string,
 					(gint) child_node->count);
-		g_free (s1);
-		g_free (s2);
 	} else {
-		s1 = e_utf8_to_locale_string (child_node->string);
 		text = g_strdup_printf ((child_node->count == 1)
-					? _("%s (%d item)")
-					: _("%s (%d items)"),
-					s1,
+					? U_("%s (%d item)")
+					: U_("%s (%d items)"),
+					child_node->string,
 					(gint) child_node->count);
-		g_free (s1);
 	}
 	gnome_canvas_item_set (child_node->text, 
 			       "text", text,
@@ -443,6 +448,7 @@ create_child_node (ETableGroupContainer *etgc, void *val)
 			      "cursor_mode", etgc->cursor_mode,
 			      "selection_model", etgc->selection_model,
 			      "length_threshold", etgc->length_threshold,
+			      "uniform_row_height", etgc->uniform_row_height,
 			      "minimum_width", etgc->minimum_width - GROUP_INDENT,
 			      NULL);
 
@@ -761,6 +767,15 @@ etgc_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 					NULL);
 		}
 		break;
+	case ARG_UNIFORM_ROW_HEIGHT:
+		etgc->uniform_row_height = GTK_VALUE_BOOL (*arg);
+		for (list = etgc->children; list; list = g_list_next (list)) {
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			gtk_object_set (GTK_OBJECT(child_node->child),
+					"uniform_row_height", GTK_VALUE_BOOL (*arg),
+					NULL);
+		}
+		break;
 
 	case ARG_SELECTION_MODEL:
 		if (etgc->selection_model)
@@ -847,7 +862,10 @@ etgc_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_DOUBLE (*arg) = etgc->width;
 		break;
 	case ARG_MINIMUM_WIDTH:
-		etgc->minimum_width = GTK_VALUE_DOUBLE(*arg);
+		GTK_VALUE_DOUBLE(*arg) = etgc->minimum_width;
+		break;
+	case ARG_UNIFORM_ROW_HEIGHT:
+		GTK_VALUE_BOOL(*arg) = etgc->uniform_row_height;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
@@ -898,6 +916,8 @@ etgc_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_SELECTION_MODEL);
 	gtk_object_add_arg_type ("ETableGroupContainer::length_threshold", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
+	gtk_object_add_arg_type ("ETableGroupContainer::uniform_row_height", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_UNIFORM_ROW_HEIGHT);
 
 	gtk_object_add_arg_type ("ETableGroupContainer::frozen", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_FROZEN);
@@ -1005,6 +1025,7 @@ etgc_init (GtkObject *object)
 	container->cursor_mode = E_CURSOR_SIMPLE;
 	container->length_threshold = -1;
 	container->selection_model = NULL;
+	container->uniform_row_height = FALSE;
 }
 
 E_MAKE_TYPE (e_table_group_container, "ETableGroupContainer", ETableGroupContainer, etgc_class_init, etgc_init, PARENT_TYPE);

@@ -1,31 +1,25 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
- * EEntry: An EText-based entry widget
+ * e-entry.c - An EText-based entry widget
+ * Copyright 2000, 2001, Ximian, Inc.
  *
  * Authors:
- *   Miguel de Icaza <miguel@helixcode.com>
- *   Chris Lahey     <clahey@helixcode.com>
+ *   Chris Lahey     <clahey@ximian.com>
  *   Jon Trowbridge  <trow@ximian.com>
  *
- * Copyright (C) 1999, 2000, 2001 Ximian Inc.
- */
-
-/*
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 
 #include <config.h>
@@ -55,6 +49,8 @@
 #endif
 
 #define MIN_ENTRY_WIDTH  150
+
+#define d(x)
 
 #define PARENT_TYPE gtk_table_get_type ()
 
@@ -96,7 +92,9 @@ enum {
 	ARG_ALLOW_NEWLINES,
 	ARG_DRAW_BORDERS,
 	ARG_DRAW_BACKGROUND,
-	ARG_CURSOR_POS
+	ARG_DRAW_BUTTON,
+	ARG_EMULATE_LABEL_RESIZE,
+	ARG_CURSOR_POS,
 };
 
 typedef struct _EEntryPrivate EEntryPrivate;
@@ -106,7 +104,6 @@ struct _EEntryPrivate {
 	guint changed_proxy_tag;
 	guint activate_proxy_tag;
 	guint popup_proxy_tag;
-
 	/* Data related to completions */
 	ECompletion *completion;
 	EEntryCompletionHandler handler;
@@ -128,6 +125,9 @@ struct _EEntryPrivate {
 	gint last_completion_pos;
 
 	guint draw_borders : 1;
+	guint emulate_label_resize : 1;
+	guint have_set_transient : 1;
+	gint last_width;
 };
 
 static gboolean e_entry_is_empty              (EEntry *entry);
@@ -180,7 +180,21 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 		xthick = ythick = 0;
 	}
 	
-	requisition->width = 2 + MIN_ENTRY_WIDTH + xthick;
+	if (entry->priv->emulate_label_resize) {
+		gdouble width;
+		gtk_object_get (GTK_OBJECT (entry->item),
+				"text_width", &width,
+				NULL);
+		requisition->width = 2 + xthick + width;
+	} else {
+		requisition->width = 2 + MIN_ENTRY_WIDTH + xthick;
+	}
+	if (entry->priv->last_width != requisition->width)
+		gtk_widget_queue_resize (widget);
+	entry->priv->last_width = requisition->width;
+
+	d(g_print("%s: width = %d\n", __FUNCTION__, requisition->width));
+
 	requisition->height = (2 + gtk_style_get_font (widget->style)->ascent +
 			       gtk_style_get_font (widget->style)->descent +
 			       ythick);
@@ -259,6 +273,8 @@ e_entry_init (GtkObject *object)
 
 	entry->priv = g_new0 (EEntryPrivate, 1);
 	
+	entry->priv->emulate_label_resize = FALSE;
+	
 	entry->canvas = GNOME_CANVAS (e_canvas_new ());
 
 	gtk_signal_connect (GTK_OBJECT (entry->canvas),
@@ -277,6 +293,7 @@ e_entry_init (GtkObject *object)
 			   entry);
 
 	entry->priv->draw_borders = TRUE;
+	entry->priv->last_width = -1;
 
 	entry->item = E_TEXT(gnome_canvas_item_new(
 		gnome_canvas_root (entry->canvas),
@@ -286,6 +303,7 @@ e_entry_init (GtkObject *object)
 		"anchor", GTK_ANCHOR_NW,
 		"draw_borders", TRUE,
 		"draw_background", TRUE,
+		"draw_button", FALSE,
 		"max_lines", 1,
 		"editable", TRUE,
 		"allow_newlines", FALSE,
@@ -611,8 +629,10 @@ static void
 full_cb (ECompletionView *view, gpointer user_data)
 {
 	EEntry *entry = E_ENTRY (user_data);
+	gboolean show;
 
-	e_entry_show_popup (entry, view->choices->len > 0);
+	show = GTK_WIDGET_HAS_FOCUS (GTK_WIDGET (entry->canvas)) && view->choices->len > 0;
+	e_entry_show_popup (entry, show);
 }
 
 static void
@@ -730,6 +750,25 @@ key_release_cb (GtkWidget *w, GdkEventKey *ev, gpointer user_data)
 	return rv;
 }
 
+static void
+e_entry_make_completion_window_transient (EEntry *entry)
+{
+	GtkWidget *w;
+
+	if (entry->priv->have_set_transient || entry->priv->completion_view_popup == NULL)
+		return;
+	
+	w = GTK_WIDGET (entry)->parent;
+	while (w && ! GTK_IS_WINDOW (w))
+		w = w->parent;
+
+	if (w) {
+		gtk_window_set_transient_for (GTK_WINDOW (entry->priv->completion_view_popup),
+					      GTK_WINDOW (w));
+		entry->priv->have_set_transient = 1;
+	}
+}
+
 void
 e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint delay, EEntryCompletionHandler handler)
 {
@@ -788,6 +827,8 @@ e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint del
 
 	entry->priv->completion_view_popup = gtk_window_new (GTK_WINDOW_POPUP);
 
+	e_entry_make_completion_window_transient (entry);
+
 	gtk_signal_connect (GTK_OBJECT (entry->item->model),
 			    "cancel_completion",
 			    GTK_SIGNAL_FUNC (cancel_completion_cb),
@@ -802,14 +843,14 @@ e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint del
 			    GTK_SIGNAL_FUNC (key_release_cb),
 			    entry->canvas);
 
+	e_completion_view_connect_keys (E_COMPLETION_VIEW (entry->priv->completion_view),
+					GTK_WIDGET (entry->canvas));
+
 	gtk_object_ref (GTK_OBJECT (entry->priv->completion_view_popup));
 	gtk_object_sink (GTK_OBJECT (entry->priv->completion_view_popup));
 	gtk_window_set_policy (GTK_WINDOW (entry->priv->completion_view_popup), TRUE, TRUE, TRUE);
 	gtk_container_add (GTK_CONTAINER (entry->priv->completion_view_popup), entry->priv->completion_view);
 	gtk_widget_show (entry->priv->completion_view);
-
-	e_completion_view_connect_keys (E_COMPLETION_VIEW (entry->priv->completion_view),
-					GTK_WIDGET (entry->canvas));
 }
 
 gboolean
@@ -928,6 +969,16 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 				NULL);
 		break;
 
+	case ARG_DRAW_BUTTON:
+		gtk_object_get (item,
+				"draw_button", &GTK_VALUE_BOOL (*arg),
+				NULL);
+		break;
+
+	case ARG_EMULATE_LABEL_RESIZE:
+		GTK_VALUE_BOOL (*arg) = entry->priv->emulate_label_resize;
+		break;
+
 	case ARG_CURSOR_POS:
 		gtk_object_get (item,
 				"cursor_pos", &GTK_VALUE_INT (*arg),
@@ -950,11 +1001,15 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	gint ythick;
 	GtkWidget *widget = GTK_WIDGET(entry->canvas);
 	
+	d(g_print("%s: arg_id: %d\n", __FUNCTION__, arg_id));
+
 	switch (arg_id){
 	case ARG_MODEL:
 		gtk_object_set(item,
 			       "model", GTK_VALUE_OBJECT (*arg),
 			       NULL);
+		if (entry->priv->emulate_label_resize)
+			gtk_widget_queue_resize (widget);
 		break;
 
 	case ARG_EVENT_PROCESSOR:
@@ -964,28 +1019,37 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_TEXT:
-
 		gtk_object_set(item,
 			       "text", GTK_VALUE_STRING (*arg),
 			       NULL);
+		d(g_print("%s: text: %s\n", __FUNCTION__, GTK_VALUE_STRING (*arg)));
+		if (entry->priv->emulate_label_resize)
+			gtk_widget_queue_resize (widget);
 		break;
 
 	case ARG_FONT:
 		gtk_object_set(item,
 			       "font", GTK_VALUE_STRING (*arg),
 			       NULL);
+		d(g_print("%s: font: %s\n", __FUNCTION__, GTK_VALUE_STRING (*arg)));
+		if (entry->priv->emulate_label_resize)
+			gtk_widget_queue_resize (widget);
 		break;
 
 	case ARG_FONTSET:
 		gtk_object_set(item,
 			       "fontset", GTK_VALUE_STRING (*arg),
 			       NULL);
+		if (entry->priv->emulate_label_resize)
+			gtk_widget_queue_resize (widget);
 		break;
 
 	case ARG_FONT_GDK:
 		gtk_object_set(item,
 			       "font_gdk", GTK_VALUE_BOXED (*arg),
 			       NULL);
+		if (entry->priv->emulate_label_resize)
+			gtk_widget_queue_resize (widget);
 		break;
 
 	case ARG_JUSTIFICATION:
@@ -1057,30 +1121,40 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		gtk_object_set(item,
 			       "use_ellipsis", GTK_VALUE_BOOL (*arg),
 			       NULL);
+		if (entry->priv->emulate_label_resize)
+			gtk_widget_queue_resize (widget);
 		break;
 
 	case ARG_ELLIPSIS:
 		gtk_object_set(item,
 			       "ellipsis", GTK_VALUE_STRING (*arg),
 			       NULL);
+		if (entry->priv->emulate_label_resize)
+			gtk_widget_queue_resize (widget);
 		break;
 
 	case ARG_LINE_WRAP:
 		gtk_object_set(item,
 			       "line_wrap", GTK_VALUE_BOOL (*arg),
 			       NULL);
+		if (entry->priv->emulate_label_resize)
+			gtk_widget_queue_resize (widget);
 		break;
 		
 	case ARG_BREAK_CHARACTERS:
 		gtk_object_set(item,
 			       "break_characters", GTK_VALUE_STRING (*arg),
 			       NULL);
+		if (entry->priv->emulate_label_resize)
+			gtk_widget_queue_resize (widget);
 		break;
 
 	case ARG_MAX_LINES:
 		gtk_object_set(item,
 			       "max_lines", GTK_VALUE_INT (*arg),
 			       NULL);
+		if (entry->priv->emulate_label_resize)
+			gtk_widget_queue_resize (widget);
 		break;
 
 	case ARG_ALLOW_NEWLINES:
@@ -1088,17 +1162,16 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			       "allow_newlines", GTK_VALUE_BOOL (*arg),
 			       NULL);
 		break;
-
-	case ARG_DRAW_BORDERS: {
-		gboolean need_queue;
 		
-		need_queue = (entry->priv->draw_borders ^ GTK_VALUE_BOOL (*arg));
-		gtk_object_set (item, "draw_borders", GTK_VALUE_BOOL (*arg), NULL);
+	case ARG_DRAW_BORDERS:
+		if (entry->priv->draw_borders != GTK_VALUE_BOOL (*arg)) {
 		entry->priv->draw_borders = GTK_VALUE_BOOL (*arg);
-		if (need_queue)
+			gtk_object_set (item,
+					"draw_borders", entry->priv->draw_borders,
+					NULL);
 			gtk_widget_queue_resize (GTK_WIDGET (entry));
-		break;
 	}
+		break;
 
 	case ARG_CURSOR_POS:
 		gtk_object_set (item,
@@ -1108,6 +1181,18 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_DRAW_BACKGROUND:
 		gtk_object_set (item, "draw_background",
 				GTK_VALUE_BOOL (*arg), NULL);
+		break;
+
+	case ARG_DRAW_BUTTON:
+		gtk_object_set (item, "draw_button",
+				GTK_VALUE_BOOL (*arg), NULL);
+		break;
+
+	case ARG_EMULATE_LABEL_RESIZE:
+		if (entry->priv->emulate_label_resize != GTK_VALUE_BOOL (*arg)) {
+			entry->priv->emulate_label_resize = GTK_VALUE_BOOL (*arg);
+			gtk_widget_queue_resize (widget);
+	}
 		break;
 	}
 }
@@ -1123,8 +1208,10 @@ e_entry_destroy (GtkObject *object)
 
 		if (entry->priv->completion)
 			gtk_object_unref (GTK_OBJECT (entry->priv->completion));
-		if (entry->priv->completion_view_popup)
+		if (entry->priv->completion_view_popup) {
+			gtk_widget_destroy (GTK_WIDGET (entry->priv->completion_view_popup));
 			gtk_object_unref (GTK_OBJECT (entry->priv->completion_view_popup));
+		}
 		g_free (entry->priv->pre_browse_text);
 
 		if (entry->priv->changed_since_keypress_tag)
@@ -1142,15 +1229,36 @@ e_entry_destroy (GtkObject *object)
 }
 
 static void
+e_entry_realize (GtkWidget *widget)
+{
+	EEntry *entry;
+
+	if (GTK_WIDGET_CLASS (parent_class)->realize)
+		(* GTK_WIDGET_CLASS (parent_class)->realize) (widget);
+
+	entry = E_ENTRY (widget);
+
+	e_entry_make_completion_window_transient (entry);
+
+	if (entry->priv->emulate_label_resize) {
+		d(g_print("%s: queue_resize\n", __FUNCTION__));
+		gtk_widget_queue_resize (GTK_WIDGET (entry->canvas));
+	}
+}
+
+static void
 e_entry_class_init (GtkObjectClass *object_class)
 {
 	EEntryClass *klass = E_ENTRY_CLASS(object_class);
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(object_class);
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class->set_arg = et_set_arg;
 	object_class->get_arg = et_get_arg;
 	object_class->destroy = e_entry_destroy;
+
+	widget_class->realize = e_entry_realize;
 
 	klass->changed = NULL;
 	klass->activate = NULL;
@@ -1230,6 +1338,10 @@ e_entry_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BORDERS);
 	gtk_object_add_arg_type ("EEntry::draw_background",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BACKGROUND);
+	gtk_object_add_arg_type ("EEntry::draw_button",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BUTTON);
+	gtk_object_add_arg_type ("EEntry::emulate_label_resize",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_EMULATE_LABEL_RESIZE);
 	gtk_object_add_arg_type ("EEntry::cursor_pos",
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_CURSOR_POS);
 }

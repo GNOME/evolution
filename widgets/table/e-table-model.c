@@ -1,13 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * e-table-model.c: a Table Model
+ * e-table-model.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
  * Authors:
- *   Miguel de Icaza (miguel@gnu.org)
- *   Chris Lahey (clahey@ximian.com)
+ *   Chris Lahey <clahey@ximian.com>
  *
- * (C) 1999, 2000 Ximian, Inc.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include "e-table-model.h"
@@ -25,6 +38,7 @@ d(static gint depth = 0);
 static GtkObjectClass *e_table_model_parent_class;
 
 enum {
+	MODEL_NO_CHANGE,
 	MODEL_CHANGED,
 	MODEL_PRE_CHANGE,
 	MODEL_ROW_CHANGED,
@@ -259,6 +273,15 @@ e_table_model_class_init (GtkObjectClass *object_class)
 	
 	object_class->destroy = e_table_model_destroy;
 
+	e_table_model_signals [MODEL_NO_CHANGE] =
+		gtk_signal_new ("model_no_change",
+				GTK_RUN_LAST,
+				E_OBJECT_CLASS_TYPE (object_class),
+				GTK_SIGNAL_OFFSET (ETableModelClass, model_no_change),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+
 	e_table_model_signals [MODEL_CHANGED] =
 		gtk_signal_new ("model_changed",
 				GTK_RUN_LAST,
@@ -328,6 +351,7 @@ e_table_model_class_init (GtkObjectClass *object_class)
 	klass->value_is_empty      = NULL;   
 	klass->value_to_string     = NULL;
 
+	klass->model_no_change     = NULL;    
 	klass->model_changed       = NULL;    
 	klass->model_row_changed   = NULL;
 	klass->model_cell_changed  = NULL;
@@ -378,10 +402,37 @@ e_table_model_pre_change (ETableModel *e_table_model)
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 	
 	d(print_tabs());
-	d(g_print("Emitting pre_change on model 0x%p.\n", e_table_model));
+	d(g_print("Emitting pre_change on model 0x%p, a %s.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type)));
 	d(depth++);
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
 			 e_table_model_signals [MODEL_PRE_CHANGE]);
+	d(depth--);
+}
+
+/**
+ * e_table_model_no_change:
+ * @e_table_model: the table model to notify of the lack of a change
+ *
+ * Use this function to notify any views of this table model that
+ * the contents of the table model have changed.  This will emit
+ * the signal "model_no_change" on the @e_table_model object.
+ *
+ * It is preferable to use the e_table_model_row_changed() and
+ * the e_table_model_cell_changed() to notify of smaller changes
+ * than to invalidate the entire model, as the views might have
+ * ways of caching the information they render from the model.
+ */
+void
+e_table_model_no_change (ETableModel *e_table_model)
+{
+	g_return_if_fail (e_table_model != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
+	
+	d(print_tabs());
+	d(g_print("Emitting model_no_change on model 0x%p, a %s.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type)));
+	d(depth++);
+	gtk_signal_emit (GTK_OBJECT (e_table_model),
+			 e_table_model_signals [MODEL_NO_CHANGE]);
 	d(depth--);
 }
 
@@ -405,7 +456,7 @@ e_table_model_changed (ETableModel *e_table_model)
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 	
 	d(print_tabs());
-	d(g_print("Emitting model_changed on model 0x%p.\n", e_table_model));
+	d(g_print("Emitting model_changed on model 0x%p, a %s.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type)));
 	d(depth++);
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
 			 e_table_model_signals [MODEL_CHANGED]);
@@ -429,7 +480,7 @@ e_table_model_row_changed (ETableModel *e_table_model, int row)
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
 	d(print_tabs());
-	d(g_print("Emitting row_changed on model 0x%p, row %d.\n", e_table_model, row));
+	d(g_print("Emitting row_changed on model 0x%p, a %s, row %d.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type), row));
 	d(depth++);
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
 			 e_table_model_signals [MODEL_ROW_CHANGED], row);
@@ -454,7 +505,7 @@ e_table_model_cell_changed (ETableModel *e_table_model, int col, int row)
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
 	d(print_tabs());
-	d(g_print("Emitting cell_changed on model 0x%p, row %d, col %d.\n", e_table_model, row, col));
+	d(g_print("Emitting cell_changed on model 0x%p, a %s, row %d, col %d.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type), row, col));
 	d(depth++);
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
 			 e_table_model_signals [MODEL_CELL_CHANGED], col, row);
@@ -479,7 +530,7 @@ e_table_model_rows_inserted (ETableModel *e_table_model, int row, int count)
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
 	d(print_tabs());
-	d(g_print("Emitting row_inserted on model 0x%p, row %d.\n", e_table_model, row));
+	d(g_print("Emitting row_inserted on model 0x%p, a %s, row %d.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type), row));
 	d(depth++);
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
 			 e_table_model_signals [MODEL_ROWS_INSERTED], row, count);
@@ -519,7 +570,7 @@ e_table_model_rows_deleted (ETableModel *e_table_model, int row, int count)
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
 	d(print_tabs());
-	d(g_print("Emitting row_deleted on model 0x%p, row %d.\n", e_table_model, row));
+	d(g_print("Emitting row_deleted on model 0x%p, a %s, row %d.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type), row));
 	d(depth++);
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
 			 e_table_model_signals [MODEL_ROWS_DELETED], row, count);

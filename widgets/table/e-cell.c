@@ -1,17 +1,34 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * e-cell.c: base class for cell renderers in e-table
+ * e-cell.c - base class for cell renderers in e-table
+ * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
- * Author:
- *   Miguel de Icaza (miguel@kernel.org)
+ * Authors:
+ *   Miguel de Icaza <miguel@ximian.com>
+ *   Chris Lahey <clahey@ximian.com>
  *
- * (C) 1999 Ximian, Inc
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 #include "e-cell.h"
 #include "gal/util/e-util.h"
 
 #define PARENT_TYPE gtk_object_get_type ()
+
+#define ECVIEW_EC_CLASS(v) (E_CELL_GET_CLASS (v->ecell))
 
 static ECellView *
 ec_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
@@ -89,6 +106,22 @@ ec_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void
 {
 }
 
+static void *
+ec_save_state (ECellView *ecell_view, int model_col, int view_col, int row, void *context)
+{
+	return NULL;
+}
+
+static void
+ec_load_state (ECellView *ecell_view, int model_col, int view_col, int row, void *context, void *save_state)
+{
+}
+
+static void
+ec_free_state (ECellView *ecell_view, int model_col, int view_col, int row, void *save_state)
+{
+}
+
 static void
 ec_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row, int col_width, ETableTooltip *tooltip)
 {
@@ -111,9 +144,13 @@ e_cell_class_init (GtkObjectClass *object_class)
 	ecc->height = ec_height;
 	ecc->enter_edit = ec_enter_edit;
 	ecc->leave_edit = ec_leave_edit;
+	ecc->save_state = ec_save_state;
+	ecc->load_state = ec_load_state;
+	ecc->free_state = ec_free_state;
 	ecc->print = NULL;
 	ecc->print_height = NULL;
 	ecc->max_width = NULL;
+	ecc->max_width_by_row = NULL;
 	ecc->show_tooltip = ec_show_tooltip;
 }
 
@@ -141,7 +178,7 @@ E_MAKE_TYPE(e_cell, "ECell", ECell, e_cell_class_init, e_cell_init, PARENT_TYPE)
 gint
 e_cell_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions)
 {
-	return E_CELL_GET_CLASS (ecell_view->ecell)->event (
+	return ECVIEW_EC_CLASS(ecell_view)->event (
 		ecell_view, event, model_col, view_col, row, flags, actions);
 }
 
@@ -178,7 +215,7 @@ e_cell_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view
 void
 e_cell_realize (ECellView *ecell_view)
 {
-	E_CELL_GET_CLASS (ecell_view->ecell)->realize (ecell_view);
+	ECVIEW_EC_CLASS(ecell_view)->realize (ecell_view);
 }
 
 /**
@@ -190,7 +227,7 @@ e_cell_realize (ECellView *ecell_view)
 void
 e_cell_kill_view (ECellView *ecell_view)
 {
-	E_CELL_GET_CLASS (ecell_view->ecell)->kill_view (ecell_view);
+	ECVIEW_EC_CLASS(ecell_view)->kill_view (ecell_view);
 }
 
 /**
@@ -204,7 +241,7 @@ e_cell_kill_view (ECellView *ecell_view)
 void
 e_cell_unrealize (ECellView *ecell_view)
 {
-	E_CELL_GET_CLASS (ecell_view->ecell)->unrealize (ecell_view);
+	ECVIEW_EC_CLASS(ecell_view)->unrealize (ecell_view);
 }
 
 /**
@@ -235,8 +272,7 @@ e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	g_return_if_fail (row >= 0);
 	g_return_if_fail (row < e_table_model_row_count(ecell_view->e_table_model));
 
-	E_CELL_GET_CLASS (ecell_view->ecell)->draw (
-		ecell_view, drawable, model_col, view_col, row, flags, x1, y1, x2, y2);
+	ECVIEW_EC_CLASS(ecell_view)->draw (ecell_view, drawable, model_col, view_col, row, flags, x1, y1, x2, y2);
 }
 
 /**
@@ -256,8 +292,7 @@ e_cell_print (ECellView *ecell_view, GnomePrintContext *context,
 	      int model_col, int view_col, int row,
 	      double width, double height)
 {
-	E_CELL_GET_CLASS (ecell_view->ecell)->print
-		(ecell_view, context, model_col, view_col, row, width, height);
+	ECVIEW_EC_CLASS(ecell_view)->print (ecell_view, context, model_col, view_col, row, width, height);
 }
 
 /**
@@ -270,8 +305,8 @@ e_cell_print_height (ECellView *ecell_view, GnomePrintContext *context,
 		     int model_col, int view_col, int row,
 		     double width)
 {
-	if (E_CELL_GET_CLASS (ecell_view->ecell)->print_height)
-		return E_CELL_GET_CLASS (ecell_view->ecell)->print_height
+	if (ECVIEW_EC_CLASS(ecell_view)->print_height)
+		return ECVIEW_EC_CLASS(ecell_view)->print_height
 			(ecell_view, context, model_col, view_col, row, width);
 	else
 		return 0.0;
@@ -290,8 +325,7 @@ e_cell_print_height (ECellView *ecell_view, GnomePrintContext *context,
 int
 e_cell_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
-	return E_CELL_GET_CLASS (ecell_view->ecell)->height (
-		ecell_view, model_col, view_col, row);
+	return ECVIEW_EC_CLASS(ecell_view)->height (ecell_view, model_col, view_col, row);
 }
 
 /**
@@ -307,8 +341,7 @@ e_cell_height (ECellView *ecell_view, int model_col, int view_col, int row)
 void *
 e_cell_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 {
-	return E_CELL_GET_CLASS (ecell_view->ecell)->enter_edit (
-		ecell_view, model_col, view_col, row);
+	return ECVIEW_EC_CLASS(ecell_view)->enter_edit (ecell_view, model_col, view_col, row);
 }
 
 /**
@@ -325,8 +358,66 @@ e_cell_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 void
 e_cell_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context)
 {
-	E_CELL_GET_CLASS (ecell_view->ecell)->leave_edit (
-		ecell_view, model_col, view_col, row, edit_context);
+	ECVIEW_EC_CLASS(ecell_view)->leave_edit (ecell_view, model_col, view_col, row, edit_context);
+}
+
+/**
+ * e_cell_save_state:
+ * @ecell_view: the ECellView to save
+ * @model_col: the column in the model
+ * @view_col: the column in the view
+ * @row: the row
+ * @edit_context: the editing context
+ *
+ * Returns: The save state.
+ *
+ * Requests that the ECellView return a void * representing the state
+ * of the ECell.  This is primarily intended for things like selection
+ * or scrolling.
+ */
+void *
+e_cell_save_state (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context)
+{
+	if (ECVIEW_EC_CLASS(ecell_view)->save_state)
+		return ECVIEW_EC_CLASS(ecell_view)->save_state (ecell_view, model_col, view_col, row, edit_context);
+	else
+		return NULL;
+}
+
+/**
+ * e_cell_load_state:
+ * @ecell_view: the ECellView to load
+ * @model_col: the column in the model
+ * @view_col: the column in the view
+ * @row: the row
+ * @edit_context: the editing context
+ * @save_state: the save state to load from
+ *
+ * Requests that the ECellView load from the given save state.
+ */
+void
+e_cell_load_state (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context, void *save_state)
+{
+	if (ECVIEW_EC_CLASS(ecell_view)->load_state)
+		ECVIEW_EC_CLASS(ecell_view)->load_state (ecell_view, model_col, view_col, row, edit_context, save_state);
+}
+
+/**
+ * e_cell_load_state:
+ * @ecell_view: the ECellView
+ * @model_col: the column in the model
+ * @view_col: the column in the view
+ * @row: the row
+ * @edit_context: the editing context
+ * @save_state: the save state to free
+ *
+ * Requests that the ECellView free the given save state.
+ */
+void
+e_cell_free_state (ECellView *ecell_view, int model_col, int view_col, int row, void *save_state)
+{
+	if (ECVIEW_EC_CLASS(ecell_view)->free_state)
+		ECVIEW_EC_CLASS(ecell_view)->free_state (ecell_view, model_col, view_col, row, save_state);
 }
 
 /**
@@ -341,14 +432,59 @@ e_cell_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, 
 int
 e_cell_max_width (ECellView *ecell_view, int model_col, int view_col)
 {
-	return E_CELL_GET_CLASS (ecell_view->ecell)->max_width 
+	return ECVIEW_EC_CLASS(ecell_view)->max_width 
 		(ecell_view, model_col, view_col);
+}
+	      
+/**
+ * e_cell_max_width_by_row:
+ * @ecell_view: the ECellView that we are curious about
+ * @model_col: the column in the model
+ * @view_col: the column in the view.
+ * @row: The row in the model.
+ *
+ * Returns: the maximum width for the ECellview at @model_col which
+ * is being rendered as @view_col for the data in @row.
+ */
+int
+e_cell_max_width_by_row (ECellView *ecell_view, int model_col, int view_col, int row)
+{
+	if (ECVIEW_EC_CLASS(ecell_view)->max_width_by_row)
+		return ECVIEW_EC_CLASS(ecell_view)->max_width_by_row
+			(ecell_view, model_col, view_col, row);
+	else
+		return e_cell_max_width (ecell_view, model_col, view_col);
+}
+
+/**
+ * e_cell_max_width_by_row_implemented:
+ * @ecell_view: the ECellView that we are curious about
+ * @model_col: the column in the model
+ * @view_col: the column in the view.
+ * @row: The row in the model.
+ *
+ * Returns: the maximum width for the ECellview at @model_col which
+ * is being rendered as @view_col for the data in @row.
+ */
+gboolean
+e_cell_max_width_by_row_implemented (ECellView *ecell_view)
+{
+	return (ECVIEW_EC_CLASS(ecell_view)->max_width_by_row != NULL);
 }
 	      
 void
 e_cell_show_tooltip (ECellView *ecell_view, int model_col, int view_col, 
 		     int row, int col_width, ETableTooltip *tooltip)
 {
-	E_CELL_GET_CLASS (ecell_view->ecell)->show_tooltip
+	ECVIEW_EC_CLASS(ecell_view)->show_tooltip
 		(ecell_view, model_col, view_col, row, col_width, tooltip);
+}
+
+gchar *
+e_cell_get_bg_color(ECellView *ecell_view, int row)
+{
+	if (ECVIEW_EC_CLASS(ecell_view)->get_bg_color)
+		return ECVIEW_EC_CLASS(ecell_view)->get_bg_color (ecell_view, row);
+	else
+		return NULL;
 }

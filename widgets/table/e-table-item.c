@@ -1,16 +1,30 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * E-table-item.c: A GnomeCanvasItem that is a view of an ETableModel.
- *
- * Author:
- *   Christopher James Lahey <clahey@ximian.com>
- *   Miguel de Icaza (miguel@gnu.org)
- *
+ * e-table-item.c
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
+ *   Miguel de Icaza <miguel@gnu.org>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+
+/*
  * TODO:
  *   Add a border to the thing, so that focusing works properly.
- *
  */
 #include <config.h>
 
@@ -28,6 +42,7 @@
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/util/e-util.h"
 #include <string.h>
+#include <stdlib.h>
 
 #define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
 
@@ -36,6 +51,12 @@
 #define DO_TOOLTIPS 1
 
 #define d(x)
+
+#if d(!)0
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
+#else
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
+#endif
 
 /* FIXME: Do an analysis of which cell functions are needed before
    realize and make sure that all of them are doable by all the cells
@@ -68,6 +89,7 @@ enum {
 	ARG_CURSOR_MODE,
 	ARG_LENGTH_THRESHOLD,
 	ARG_CURSOR_ROW,
+	ARG_UNIFORM_ROW_HEIGHT,
 	
 	ARG_MINIMUM_WIDTH,
 	ARG_WIDTH,
@@ -84,8 +106,12 @@ static void e_table_item_focus (ETableItem *eti, int col, int row, GdkModifierTy
 static void eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti);
 static void eti_cursor_activated (ESelectionModel *selection, int row, int col, ETableItem *eti);
 static void eti_selection_change (ESelectionModel *selection, ETableItem *eti);
+static void eti_selection_row_change (ESelectionModel *selection, int row, ETableItem *eti);
+static void e_table_item_redraw_row (ETableItem *eti, int row);
 
-#define ETI_ROW_HEIGHT(eti,row) ((eti)->height_cache && (eti)->height_cache[(row)] != -1 ? (eti)->height_cache[(row)] : eti_row_height((eti),(row)))
+#define ETI_SINGLE_ROW_HEIGHT(eti) ((eti)->uniform_row_height_cache != -1 ? (eti)->uniform_row_height_cache : eti_row_height((eti), -1))
+#define ETI_MULTIPLE_ROW_HEIGHT(eti,row) ((eti)->height_cache && (eti)->height_cache[(row)] != -1 ? (eti)->height_cache[(row)] : eti_row_height((eti),(row)))
+#define ETI_ROW_HEIGHT(eti,row) ((eti)->uniform_row_height ? ETI_SINGLE_ROW_HEIGHT ((eti)) : ETI_MULTIPLE_ROW_HEIGHT((eti),(row)))
 
 inline static gint
 model_to_view_row(ETableItem *eti, int row)
@@ -144,9 +170,45 @@ view_to_model_col(ETableItem *eti, int col)
 	return ecol ? ecol->col_idx : -1;
 }
 
+inline static void
+eti_grab (ETableItem *eti, guint32 time)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
+	d(g_print ("%s: time: %d\n", __FUNCTION__, time));
+	if (eti->grabbed_count == 0) {
+		eti->gtk_grabbed = FALSE;
+		if (!gnome_canvas_item_grab(item,
+					    GDK_BUTTON1_MOTION_MASK | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK
+					    | GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK,
+					    NULL, time)) {
+			d(g_print ("%s: gtk_grab_add\n", __FUNCTION__));
+			gtk_grab_add (GTK_WIDGET (item->canvas));
+			eti->gtk_grabbed = TRUE;
+		}
+	}
+	eti->grabbed_count ++;
+}
+
+inline static void
+eti_ungrab (ETableItem *eti, guint32 time)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
+	d(g_print ("%s: time: %d\n", __FUNCTION__, time));
+	eti->grabbed_count --;
+	if (eti->grabbed_count == 0) {
+		if (eti->gtk_grabbed) {
+			d(g_print ("%s: gtk_grab_remove\n", __FUNCTION__));
+			gtk_grab_remove (GTK_WIDGET (item->canvas));
+		}
+		gnome_canvas_item_ungrab(item, time);
+	}
+}
+
 inline static gboolean
 eti_editing (ETableItem *eti)
 {
+	d(g_print("%s: %s\n", __FUNCTION__, (eti->editing_col == -1) ? "false":"true"));
+	
 	if (eti->editing_col == -1)
 		return FALSE;
 	else
@@ -154,13 +216,13 @@ eti_editing (ETableItem *eti)
 }
 
 inline static GdkColor *
-eti_get_cell_background_color (ETableItem *eti, int row, int col, gboolean selected, gboolean *allocated)
+eti_get_cell_background_color (ETableItem *eti, int row, int col, gboolean selected, gboolean *allocatedp)
 {
+  	ECellView *ecell_view = eti->cell_views [col];
 	GtkWidget *canvas = GTK_WIDGET(GNOME_CANVAS_ITEM(eti)->canvas);
-	GdkColor *background;
-
-	if (allocated)
-		*allocated = FALSE;
+	GdkColor *background, bg;
+	gchar *color_spec = NULL;
+	gboolean allocated = FALSE;
 
 	if (selected){
 		if (GTK_WIDGET_HAS_FOCUS(canvas))
@@ -171,17 +233,29 @@ eti_get_cell_background_color (ETableItem *eti, int row, int col, gboolean selec
 		background = &canvas->style->base [GTK_STATE_NORMAL];
 	}
 
+	color_spec = e_cell_get_bg_color (ecell_view, row);
+
+	if (color_spec != NULL) {
+		if (gdk_color_parse (color_spec, &bg)) {
+			background = gdk_color_copy (&bg);
+			allocated = TRUE;
+		}
+	}
+
 	if (eti->alternating_row_colors) {
 		if (row % 2) {
 		
 		} else {
-			if (allocated)
-				*allocated = TRUE;
+			if (!allocated) {
 			background = gdk_color_copy (background);
+				allocated = TRUE;
+			}
 			e_hsv_tweak (background, 0.0f, 0.0f, -0.05f);
 			gdk_color_alloc (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background);
 		}
 	}
+	if (allocatedp)
+		*allocatedp = allocated;
 
 	return background;
 }
@@ -205,6 +279,20 @@ eti_get_cell_foreground_color (ETableItem *eti, int row, int col, gboolean selec
 	}
 
 	return foreground;
+}
+
+static void
+eti_free_save_state (ETableItem *eti)
+{
+	if (eti->save_row == -1 ||
+	    !eti->cell_views_realized)
+		return;
+
+	e_cell_free_state (eti->cell_views [eti->save_col], view_to_model_col(eti, eti->save_col),
+			   eti->save_col, eti->save_row, eti->save_state);
+	eti->save_row = -1;
+	eti->save_col = -1;
+	eti->save_state = NULL;
 }
 
 /*
@@ -269,6 +357,8 @@ eti_unrealize_cell_views (ETableItem *eti)
 	if (eti->cell_views_realized == 0)
 		return;
 	
+	eti_free_save_state (eti);
+
 	for (i = 0; i < eti->n_cells; i++)
 		e_cell_unrealize (eti->cell_views [i]);
 	eti->cell_views_realized = 0;
@@ -279,6 +369,8 @@ eti_detach_cell_views (ETableItem *eti)
 {
 	int i;
 	
+	eti_free_save_state (eti);
+
 	for (i = 0; i < eti->n_cells; i++){
 		e_cell_kill_view (eti->cell_views [i]);
 		eti->cell_views [i] = NULL;
@@ -388,6 +480,8 @@ eti_remove_table_model (ETableItem *eti)
 	gtk_signal_disconnect (GTK_OBJECT (eti->table_model),
 			       eti->table_model_pre_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (eti->table_model),
+			       eti->table_model_no_change_id);
+	gtk_signal_disconnect (GTK_OBJECT (eti->table_model),
 			       eti->table_model_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (eti->table_model),
 			       eti->table_model_row_change_id);
@@ -402,6 +496,7 @@ eti_remove_table_model (ETableItem *eti)
 		gtk_object_unref (GTK_OBJECT (eti->source_model));
 
 	eti->table_model_pre_change_id = 0;
+	eti->table_model_no_change_id = 0;
 	eti->table_model_change_id = 0;
 	eti->table_model_row_change_id = 0;
 	eti->table_model_cell_change_id = 0;
@@ -426,12 +521,15 @@ eti_remove_selection_model (ETableItem *eti)
 	gtk_signal_disconnect (GTK_OBJECT (eti->selection),
 			       eti->selection_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (eti->selection),
+			       eti->selection_row_change_id);
+	gtk_signal_disconnect (GTK_OBJECT (eti->selection),
 			       eti->cursor_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (eti->selection),
 			       eti->cursor_activated_id);
 	gtk_object_unref (GTK_OBJECT (eti->selection));
 
 	eti->selection_change_id = 0;
+	eti->selection_row_change_id = 0;
 	eti->cursor_activated_id = 0;
 	eti->selection = NULL;
 }
@@ -498,7 +596,7 @@ confirm_height_cache (ETableItem *eti)
 {
 	int i;
 
-	if (eti->height_cache)
+	if (eti->uniform_row_height || eti->height_cache)
 		return;
 	eti->height_cache = g_new(int, eti->rows);
 	for (i = 0; i < eti->rows; i++) {
@@ -531,13 +629,21 @@ height_cache_idle(ETableItem *eti)
 static void
 free_height_cache (ETableItem *eti)
 {
+	if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS (eti)) {
 	if (eti->height_cache)
 		g_free (eti->height_cache);
 	eti->height_cache = NULL;
 	eti->height_cache_idle_count = 0;
+		eti->uniform_row_height_cache = -1;
+
+		if (eti->uniform_row_height && eti->height_cache_idle_id != 0) {
+			g_source_remove(eti->height_cache_idle_id);
+			eti->height_cache_idle_id = 0;
+		}
 	
-	if (eti->height_cache_idle_id == 0)
+		if ((!eti->uniform_row_height) && eti->height_cache_idle_id == 0)
 		eti->height_cache_idle_id = g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) height_cache_idle, eti, NULL);
+}
 }
 
 static void
@@ -557,6 +663,10 @@ calculate_height_cache (ETableItem *eti)
 static int
 eti_row_height (ETableItem *eti, int row)
 {
+	if (eti->uniform_row_height) {
+		eti->uniform_row_height_cache = eti_row_height_real (eti, -1);
+		return eti->uniform_row_height_cache;
+	} else {
 	if (!eti->height_cache) {
 		calculate_height_cache (eti);
 	}
@@ -571,6 +681,7 @@ eti_row_height (ETableItem *eti, int row)
 		}
 	}
 	return eti->height_cache[row];
+}
 }
 
 /*
@@ -589,13 +700,17 @@ static int
 eti_get_height (ETableItem *eti)
 {
 	const int rows = eti->rows;
-	int row;
-	int height;
 	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
 
 	if (rows == 0)
 		return 0;
 
+	if (eti->uniform_row_height) {
+		int row_height = eti_row_height(eti, -1);
+		return ((row_height + height_extra) * rows + height_extra);
+	} else {
+		int height;
+		int row;
 	if (eti->length_threshold != -1){
 		if (rows > eti->length_threshold){
 			int row_height = eti_row_height(eti, 0);
@@ -625,6 +740,7 @@ eti_get_height (ETableItem *eti)
 
 	return height;
 }
+}
 
 static void
 eti_item_region_redraw (ETableItem *eti, int x0, int y0, int x1, int y1)
@@ -650,19 +766,23 @@ eti_item_region_redraw (ETableItem *eti, int x0, int y0, int x1, int y1)
 int
 e_table_item_row_diff (ETableItem *eti, int start_row, int end_row)
 {
-	int row, total;
 	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
 
-	total = 0;
 	if (start_row < 0)
 		start_row = 0;
 	if (end_row > eti->rows)
 		end_row = eti->rows;
 
+	if (eti->uniform_row_height) {
+		return ((end_row - start_row) * (eti_row_height(eti, -1) + height_extra));
+	} else {
+		int row, total;
+		total = 0;
 	for (row = start_row; row < end_row; row++)
 		total += eti_row_height (eti, row) + height_extra;
 
 	return total;
+}
 }
 
 static void
@@ -748,15 +868,24 @@ eti_show_cursor (ETableItem *eti, int delay)
 {
 	int cursor_row;
 	
+	if (!((GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED) && eti->cell_views_realized))
+		return;
+
+	if (eti->frozen_count > 0) {
+		eti->queue_show_cursor = TRUE;
+		return;
+	}
+	
 	gtk_object_get(GTK_OBJECT(eti->selection),
 		       "cursor_row", &cursor_row,
 		       NULL);
 
+	d(g_print ("%s: cursor row: %d\n", __FUNCTION__, cursor_row));
+
 	if (cursor_row != -1) {
 		cursor_row = model_to_view_row (eti, cursor_row);
-		d(g_print ("%s: cursor row: %d\n", __FUNCTION__, cursor_row));
 		eti_request_region_show (eti,
-					 0, cursor_row, eti->cols + 1, cursor_row + 1,
+					 0, cursor_row, eti->cols - 1, cursor_row,
 					 delay);
 	}
 }
@@ -764,6 +893,12 @@ eti_show_cursor (ETableItem *eti, int delay)
 static void
 eti_check_cursor_on_screen (ETableItem *eti)
 {
+	if (eti->cursor_x1 == -1 ||
+	    eti->cursor_y1 == -1 ||
+	    eti->cursor_x2 == -1 ||
+	    eti->cursor_y2 == -1)
+		return;
+
 	eti->cursor_on_screen = e_canvas_item_area_shown (GNOME_CANVAS_ITEM(eti),
 							  eti->cursor_x1,
 							  eti->cursor_y1,
@@ -779,6 +914,13 @@ eti_check_cursor_bounds (ETableItem *eti)
 	int x1, y1, x2, y2;
 	int cursor_row;
 	
+	if (!((GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED) && eti->cell_views_realized))
+		return;
+
+	if (eti->frozen_count > 0) {
+		return;
+	}
+	
 	gtk_object_get(GTK_OBJECT(eti->selection),
 		       "cursor_row", &cursor_row,
 		       NULL);
@@ -788,16 +930,18 @@ eti_check_cursor_bounds (ETableItem *eti)
 		eti->cursor_y1 = -1;
 		eti->cursor_x2 = -1;
 		eti->cursor_y2 = -1;
-		eti->cursor_on_screen = FALSE;
+		eti->cursor_on_screen = TRUE;
 		return;
 	}
+
+	d(g_print ("%s: model cursor row: %d\n", __FUNCTION__, cursor_row));
 
 	cursor_row = model_to_view_row (eti, cursor_row);
 
 	d(g_print ("%s: cursor row: %d\n", __FUNCTION__, cursor_row));
 
 	eti_get_region (eti,
-			0, cursor_row, eti->cols + 1, cursor_row + 1,
+			0, cursor_row, eti->cols - 1, cursor_row,
 			&x1, &y1, &x2, &y2);
 	eti->cursor_x1 = x1;
 	eti->cursor_y1 = y1;
@@ -818,12 +962,14 @@ eti_maybe_show_cursor(ETableItem *eti, int delay)
 }
 
 static gboolean
-eti_idle_maybe_show_cursor_cb (gpointer data)
+eti_idle_show_cursor_cb (gpointer data)
 {
 	ETableItem *eti = data;
 
-	if (eti->selection)
-		eti_maybe_show_cursor (eti, 0);
+	if (eti->selection) {
+		eti_show_cursor (eti, 0);
+		eti_check_cursor_bounds (eti);
+	}
 
 	gtk_object_unref (GTK_OBJECT (eti));
 	return FALSE;
@@ -832,33 +978,85 @@ eti_idle_maybe_show_cursor_cb (gpointer data)
 static void
 eti_idle_maybe_show_cursor(ETableItem *eti)
 {
+	d(g_print ("%s: cursor on screen: %s\n", __FUNCTION__, eti->cursor_on_screen ? "TRUE" : "FALSE"));
+	if (eti->cursor_on_screen) {
 	gtk_object_ref (GTK_OBJECT (eti));
-	g_idle_add (eti_idle_maybe_show_cursor_cb, eti);
+		g_idle_add (eti_idle_show_cursor_cb, eti);
+	}
+}
+
+static void
+eti_cancel_drag_due_to_model_change (ETableItem *eti)
+{
+	if (eti->maybe_in_drag) {
+		eti->maybe_in_drag = FALSE;
+		if (!eti->maybe_did_something)
+			e_selection_model_do_something(E_SELECTION_MODEL (eti->selection), eti->drag_row, eti->drag_col, eti->drag_state);
+	}
+	if (eti->in_drag) {
+		eti->in_drag = FALSE;
+	}
+}
+
+static void
+eti_freeze (ETableItem *eti)
+{
+	eti->frozen_count ++;
+	d(g_print ("%s: %d\n", __FUNCTION__, eti->frozen_count));
+}
+
+static void
+eti_unfreeze (ETableItem *eti)
+{
+	g_return_if_fail (eti->frozen_count > 0);
+	eti->frozen_count --;
+	d(g_print ("%s: %d\n", __FUNCTION__, eti->frozen_count));
+	if (eti->frozen_count == 0 && eti->queue_show_cursor) {
+		eti_show_cursor (eti, 0);
+		eti_check_cursor_bounds (eti);
+		eti->queue_show_cursor = FALSE;
+	}
 }
 
 /*
- * Callback routine: invoked before the ETableModel has suffers a change
+ * Callback routine: invoked before the ETableModel suffers a change
  */
 static void
 eti_table_model_pre_change (ETableModel *table_model, ETableItem *eti)
 {
+	eti_cancel_drag_due_to_model_change (eti);
 	eti_check_cursor_bounds (eti);
 	if (eti_editing (eti))
-		e_table_item_leave_edit (eti);
+		e_table_item_leave_edit_(eti);
+	eti_freeze (eti);
+}
+
+/*
+ * Callback routine: invoked when the ETableModel has not suffered a change
+ */
+static void
+eti_table_model_no_change (ETableModel *table_model, ETableItem *eti)
+{
+	eti_unfreeze (eti);
 }
 
 /*
  * Callback routine: invoked when the ETableModel has suffered a change
  */
+
 static void
 eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 {
-	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+ 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
+		eti_unfreeze (eti);
 		return;
+	}
 
 	eti->rows = e_table_model_row_count (eti->table_model);
 
 	free_height_cache(eti);
+
+	eti_unfreeze (eti);
 
 	eti->needs_compute_height = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
@@ -871,38 +1069,46 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 static void
 eti_table_model_row_changed (ETableModel *table_model, int row, ETableItem *eti)
 {
-	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+ 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
+		eti_unfreeze (eti);
 		return;
-	if (eti->renderers_can_change_size &&
-	    eti->height_cache && eti->height_cache[row] != -1 &&
-	    eti_row_height_real(eti, row) != eti->height_cache[row]) {
+	}
+
+	if ((!eti->uniform_row_height) && eti->height_cache && eti->height_cache[row] != -1 && eti_row_height_real(eti, row) != eti->height_cache[row]) {
 		eti_table_model_changed (table_model, eti);
 		return;
 	}
 
-	eti_request_region_redraw (eti, 0, row, eti->cols - 1, row, 0);
+	eti_unfreeze (eti);
+
+	e_table_item_redraw_row (eti, row);
 }
 
 static void
 eti_table_model_cell_changed (ETableModel *table_model, int col, int row, ETableItem *eti)
 {
-	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+ 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
+		eti_unfreeze (eti);
 		return;
-	if (eti->renderers_can_change_size &&
-	    eti->height_cache && eti->height_cache[row] != -1 &&
-	    eti_row_height_real(eti, row) != eti->height_cache[row]) {
+	}
+
+	if ((!eti->uniform_row_height) && eti->height_cache && eti->height_cache[row] != -1 && eti_row_height_real(eti, row) != eti->height_cache[row]) {
 		eti_table_model_changed (table_model, eti);
 		return;
 	}
 
-	eti_request_region_redraw (eti, 0, row, eti->cols - 1, row, 0);
+	eti_unfreeze (eti);
+
+	e_table_item_redraw_row (eti, row);
 }
 
 static void
 eti_table_model_rows_inserted (ETableModel *table_model, int row, int count, ETableItem *eti)
 {
-	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+ 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
+		eti_unfreeze (eti);
 		return;
+	}
 	eti->rows = e_table_model_row_count (eti->table_model);
 
 	if (eti->height_cache) {
@@ -912,6 +1118,8 @@ eti_table_model_rows_inserted (ETableModel *table_model, int row, int count, ETa
 		for (i = row; i < row + count; i++)
 			eti->height_cache[i] = -1;
 	}
+
+	eti_unfreeze (eti);
 
 	eti_idle_maybe_show_cursor(eti);
 
@@ -924,8 +1132,10 @@ eti_table_model_rows_inserted (ETableModel *table_model, int row, int count, ETa
 static void
 eti_table_model_rows_deleted (ETableModel *table_model, int row, int count, ETableItem *eti)
 {
-	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+ 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
+		eti_unfreeze (eti);
 		return;
+	}
 
 	g_assert (eti->rows == -1 || row + count <= eti->rows);
 
@@ -936,6 +1146,8 @@ eti_table_model_rows_deleted (ETableModel *table_model, int row, int count, ETab
 	if (eti->height_cache) {
 		memmove(eti->height_cache + row, eti->height_cache + row + count, (eti->rows - row) * sizeof(int));
 	}
+
+	eti_unfreeze (eti);
 
 	eti_idle_maybe_show_cursor(eti);
 
@@ -984,6 +1196,13 @@ e_table_item_redraw_range (ETableItem *eti,
 }
 
 static void
+e_table_item_redraw_row (ETableItem *eti,
+			 int row)
+{
+	e_table_item_redraw_range (eti, 0, row, eti->cols - 1, row);
+}
+
+static void
 eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 {
 	g_assert (eti->table_model == NULL);
@@ -994,6 +1213,10 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 	eti->table_model_pre_change_id = gtk_signal_connect (
 		GTK_OBJECT (table_model), "model_pre_change",
 		GTK_SIGNAL_FUNC (eti_table_model_pre_change), eti);
+
+	eti->table_model_no_change_id = gtk_signal_connect (
+		GTK_OBJECT (table_model), "model_no_change",
+		GTK_SIGNAL_FUNC (eti_table_model_no_change), eti);
 
 	eti->table_model_change_id = gtk_signal_connect (
 		GTK_OBJECT (table_model), "model_changed",
@@ -1027,6 +1250,7 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 			gtk_object_ref(GTK_OBJECT(eti->source_model));
 	}
 	
+	eti_freeze (eti);
 	eti_table_model_changed (table_model, eti);
 }
 
@@ -1041,6 +1265,10 @@ eti_add_selection_model (ETableItem *eti, ESelectionModel *selection)
 	eti->selection_change_id = gtk_signal_connect (
 		GTK_OBJECT (selection), "selection_changed",
 		GTK_SIGNAL_FUNC (eti_selection_change), eti);
+
+	eti->selection_row_change_id = gtk_signal_connect (
+		GTK_OBJECT (selection), "selection_row_changed",
+		GTK_SIGNAL_FUNC (eti_selection_row_change), eti);
 
 	eti->cursor_change_id = gtk_signal_connect (
 		GTK_OBJECT (selection), "cursor_changed",
@@ -1234,6 +1462,18 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 		e_table_item_focus (eti, cursor_col != -1 ? cursor_col : 0, view_to_model_row(eti, GTK_VALUE_INT (*arg)), 0);
 		break;
+	case ARG_UNIFORM_ROW_HEIGHT:
+		if (eti->uniform_row_height != GTK_VALUE_BOOL (*arg)) {
+			eti->uniform_row_height = GTK_VALUE_BOOL (*arg);
+			if (GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED) {
+				free_height_cache(eti);
+				eti->needs_compute_height = 1;
+				e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
+				eti->needs_redraw = 1;
+				gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
+			}
+	}
+		break;
 	}
 	eti->needs_redraw = 1;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(eti));
@@ -1265,8 +1505,12 @@ eti_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			       NULL);
 		GTK_VALUE_INT (*arg) = model_to_view_row(eti, row);
 		break;
+	case ARG_UNIFORM_ROW_HEIGHT:
+		GTK_VALUE_BOOL (*arg) = eti->uniform_row_height;
+		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
+		break;
 	}
 }
 
@@ -1281,6 +1525,10 @@ eti_init (GnomeCanvasItem *item)
 	eti->width                     = 0;
 	eti->minimum_width             = 0;
 
+	eti->save_col                  = -1;
+	eti->save_row                  = -1;
+	eti->save_state                = NULL;
+
 	eti->click_count               = 0;
 
 	eti->height_cache              = NULL;
@@ -1288,7 +1536,7 @@ eti_init (GnomeCanvasItem *item)
 	eti->height_cache_idle_count   = 0;
 	
 	eti->length_threshold          = -1;
-	eti->renderers_can_change_size = 1;
+	eti->uniform_row_height        = FALSE;
 
 	eti->uses_source_model         = 0;
 	eti->source_model              = NULL;
@@ -1297,9 +1545,12 @@ eti_init (GnomeCanvasItem *item)
 	eti->cursor_mode               = E_CURSOR_SIMPLE;
 
 	eti->selection_change_id       = 0;
+	eti->selection_row_change_id   = 0;
 	eti->cursor_change_id          = 0;
 	eti->cursor_activated_id       = 0;
 	eti->selection                 = NULL;
+
+	eti->old_cursor_row            = -1;
 
 	eti->needs_redraw              = 0;
 	eti->needs_compute_height      = 0;
@@ -1314,12 +1565,15 @@ eti_init (GnomeCanvasItem *item)
 
 	eti->maybe_did_something       = TRUE;
 
-	eti->grabbed_col               = -1;
-	eti->grabbed_row               = -1;
+	eti->grabbed_count             = 0;
+	eti->gtk_grabbed               = 0;
 
 	eti->in_drag                   = 0;
 	eti->maybe_in_drag             = 0;
 	eti->grabbed                   = 0;
+
+	eti->grabbed_col               = -1;
+	eti->grabbed_row               = -1;
 
 	eti->cursor_on_screen          = FALSE;
  	eti->cursor_x1                 = -1;
@@ -1328,6 +1582,9 @@ eti_init (GnomeCanvasItem *item)
 	eti->cursor_y2                 = -1;
 
 	eti->rows                      = -1;
+
+	eti->frozen_count              = 0;
+	eti->queue_show_cursor         = FALSE;
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (eti), eti_reflow);
 }
@@ -1406,12 +1663,23 @@ eti_unrealize (GnomeCanvasItem *item)
 	ETableItem *eti = E_TABLE_ITEM (item);
 
 	if (eti->grabbed) {
-		gtk_grab_remove (GTK_WIDGET (item->canvas));
 		eti->grabbed = FALSE;
+		d(g_print ("%s: eti_ungrab\n", __FUNCTION__));
+		eti_ungrab (eti, -1);
 	}
 
 	if (eti_editing (eti))
-		e_table_item_leave_edit (eti);
+		e_table_item_leave_edit_(eti);
+
+	if (eti->height_cache_idle_id) {
+		g_source_remove(eti->height_cache_idle_id);
+		eti->height_cache_idle_id = 0;
+	}
+
+	if (eti->height_cache)
+		g_free (eti->height_cache);
+	eti->height_cache = NULL;
+	eti->height_cache_idle_count = 0;
 
 	gdk_gc_unref (eti->fill_gc);
 	eti->fill_gc = NULL;
@@ -1447,7 +1715,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	ETableItem *eti = E_TABLE_ITEM (item);
 	const int rows = eti->rows;
 	const int cols = eti->cols;
-	int row, col, y1, y2;
+	int row, col;
 	int first_col, last_col, x_offset;
 	int first_row, last_row, y_offset, yd;
 	int x1, x2;
@@ -1501,8 +1769,22 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	/*
 	 * Compute row span.
 	 */
-	first_row = -1;
+	if (eti->uniform_row_height) {
+		first_row = (y          - floor (eti_base.y) - height_extra) / (eti_row_height (eti, -1) + height_extra);
+		last_row  = (y + height - floor (eti_base.y)               ) / (eti_row_height (eti, -1) + height_extra) + 1;
+		if (first_row > last_row)
+			return;
+		y_offset = floor (eti_base.y) - y + height_extra + first_row * (eti_row_height (eti, -1) + height_extra);
+		if (first_row < 0)
+			first_row = 0;
+		if (last_row > eti->rows)
+			last_row = eti->rows;
+	} else {
+		int y1, y2;
+
 	y_offset = 0;
+		first_row = -1;
+
 	y1 = y2 = floor (eti_base.y) + height_extra;
 	for (row = 0; row < rows; row++, y1 = y2){
 
@@ -1523,6 +1805,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 
 	if (first_row == -1)
 		return;
+	}
 
 	/*
 	 * Draw cells
@@ -1560,6 +1843,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			ETableCol *ecol = e_table_header_get_column (eti->header, col);
 			ECellView *ecell_view = eti->cell_views [col];
 			gboolean col_selected = selected;
+			gboolean cursor = FALSE;
 			ECellFlags flags;
 			gboolean free_background;
 			GdkColor *background;
@@ -1567,8 +1851,10 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			switch (eti->cursor_mode) {
 			case E_CURSOR_SIMPLE:
 			case E_CURSOR_SPREADSHEET:
-				if (cursor_col == ecol->col_idx && cursor_row == view_to_model_row(eti, row))
+				if (cursor_col == ecol->col_idx && cursor_row == view_to_model_row(eti, row)) {
 					col_selected = !col_selected;
+					cursor = TRUE;
+				}
 				break;
 			case E_CURSOR_LINE:
 				/* Nothing */
@@ -1586,6 +1872,8 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 
 			flags = col_selected ? E_CELL_SELECTED : 0;
 			flags |= GTK_WIDGET_HAS_FOCUS(canvas) ? E_CELL_FOCUSED : 0;
+			flags |= cursor ? E_CELL_CURSOR : 0;
+
 			switch (ecol->justification) {
 			case GTK_JUSTIFY_LEFT:
 				flags |= E_CELL_JUSTIFY_LEFT;
@@ -1717,15 +2005,23 @@ find_cell (ETableItem *eti, double x, double y, int *view_col_res, int *view_row
 			break;
 	}
 
-	y1 = y2 = 0;
-	for (row = 0; row < rows - 1; row++, y1 = y2){
-		if (y < y1)
+	if (eti->uniform_row_height) {
+		if (y < height_extra)
 			return FALSE;
-		
+		row = (y - height_extra) / (eti_row_height (eti, -1) + height_extra);
+		y1 = row * (eti_row_height (eti, -1) + height_extra) + height_extra;
+		if (row >= eti->rows)
+			return FALSE;
+	} else {
+		y1 = y2 = height_extra;
+		if (y < height_extra) 
+			return FALSE;
+		for (row = 0; row < rows - 1; row++, y1 = y2){
 		y2 += ETI_ROW_HEIGHT (eti, row) + height_extra;
 
 		if (y <= y2)
 			break;
+	}
 	}
 	*view_col_res = col;
 	if (x1_res)
@@ -1739,7 +2035,7 @@ find_cell (ETableItem *eti, double x, double y, int *view_col_res, int *view_row
 static void
 eti_cursor_move (ETableItem *eti, gint row, gint column)
 {
-	e_table_item_leave_edit (eti);
+	e_table_item_leave_edit_(eti);
 	e_table_item_focus (eti, view_to_model_col(eti, column), view_to_model_row(eti, row), 0);
 }
 
@@ -1772,9 +2068,6 @@ static int
 _do_tooltip (ETableItem *eti)
 {
 	ECellView *ecell_view;
-	int x = 0, y = 0;
-	int i;
-	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
 	gboolean free_color;
 	ETableCol *ecol;
 	gboolean selected;
@@ -1787,14 +2080,10 @@ _do_tooltip (ETableItem *eti)
 
 	ecell_view = eti->cell_views[eti->tooltip->col];
 
-	for (i = 0; i < eti->tooltip->col; i++)
-		x += eti->header->columns[i]->width;
-	eti->tooltip->x = x;
+	eti->tooltip->x = e_table_header_col_diff (eti->header, 0, eti->tooltip->col);
 
-	for (i = 0; i < eti->tooltip->row; i++)
-		y += (ETI_ROW_HEIGHT (eti, i) + height_extra);
-	eti->tooltip->y = y;
-	eti->tooltip->row_height = ETI_ROW_HEIGHT (eti, i);
+	eti->tooltip->y = e_table_item_row_diff (eti, 0, eti->tooltip->row);
+	eti->tooltip->row_height = ETI_ROW_HEIGHT (eti, eti->tooltip->row);
 
 	selected = e_selection_model_is_row_selected(E_SELECTION_MODEL (eti->selection), view_to_model_row(eti,eti->tooltip->row));
 
@@ -1848,13 +2137,15 @@ eti_e_cell_event     (ETableItem *item, ECellView *ecell_view, GdkEvent *event, 
 	ret_val = e_cell_event (ecell_view, event, model_col, view_col, row, flags, &actions);
 
 	if (actions & E_CELL_GRAB) {
-		gnome_canvas_item_grab(GNOME_CANVAS_ITEM(item), GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK, NULL, time);
+		d(g_print ("%s: eti_grab\n", __FUNCTION__));
+		eti_grab (item, time);
 		item->grabbed_col = view_col;
 		item->grabbed_row = row;
 	}
 
 	if (actions & E_CELL_UNGRAB) {
-		gnome_canvas_item_ungrab(GNOME_CANVAS_ITEM(item), time);
+		d(g_print ("%s: eti_ungrab\n", __FUNCTION__));
+		eti_ungrab (item, time);
 		item->grabbed_col = -1;
 		item->grabbed_row = -1;
 	}
@@ -1869,6 +2160,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	ETableItem *eti = E_TABLE_ITEM (item);
 	ECellView *ecell_view;
 	gint return_val = TRUE;
+#if d(!)0
+	gboolean leave = FALSE;
+#endif
 
 	switch (e->type){
 	case GDK_BUTTON_PRESS: {
@@ -1878,6 +2172,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		int col, row;
 		gint cursor_row, cursor_col;
 		gint new_cursor_row, new_cursor_col;
+		ECellFlags flags = 0;
+
+		d(g_print("%s: GDK_BUTTON_PRESS received, button %d\n", __FUNCTION__, e->button.button));
 
 		if (eti->tooltip->timer) {
 			gtk_timeout_remove (eti->tooltip->timer);
@@ -1895,7 +2192,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			if (!find_cell (eti, realx, realy, &col, &row, &x1, &y1)) {
 				if (eti_editing (eti))
-					e_table_item_leave_edit (eti);
+					e_table_item_leave_edit_(eti);
 				return TRUE;
 			}
 
@@ -1904,7 +2201,18 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			button.x = x1;
 			button.y = y1;
 
-			return_val = eti_e_cell_event (eti, ecell_view, (GdkEvent *) &button, button.time, view_to_model_col(eti, col), col, row, 0);
+			gtk_object_get(GTK_OBJECT(eti->selection),
+				       "cursor_row", &cursor_row,
+				       "cursor_col", &cursor_col,
+				       NULL);
+
+			if (cursor_col == view_to_model_col (eti, col) && cursor_row == view_to_model_row(eti, row)) {
+				flags = E_CELL_CURSOR;
+			} else {
+				flags = 0;
+			}
+
+			return_val = eti_e_cell_event (eti, ecell_view, (GdkEvent *) &button, button.time, view_to_model_col(eti, col), col, row, flags);
 			if (return_val)
 				return TRUE;
 
@@ -1945,13 +2253,15 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 				if (eti_editing (eti)) {
 					return_val = eti_e_cell_event (eti, ecell_view, (GdkEvent *) &button, button.time, 
-								       view_to_model_col(eti, col), col, row, E_CELL_EDITING);
+								       view_to_model_col(eti, col), col, row, E_CELL_EDITING | E_CELL_CURSOR);
 					if (return_val)
 						return TRUE;
 				}
 			}
 
 			if (e->button.button == 1) {
+				return_val = TRUE;
+
 				eti->maybe_in_drag = TRUE;
 				eti->drag_row      = new_cursor_row;
 				eti->drag_col      = new_cursor_col;
@@ -1959,13 +2269,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				eti->drag_y        = realy;
 				eti->drag_state    = e->button.state;
 				eti->grabbed       = TRUE;
-				if (!gnome_canvas_item_grab(item,
-							    (1 << (4 + e->button.button)) | GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK, 
-							    NULL, e->button.time))
-					gtk_grab_add (GTK_WIDGET (item->canvas));
+				d(g_print ("%s: eti_grab\n", __FUNCTION__));
+				eti_grab (eti, e->button.time);
 			}
-
-			d(g_print("Single click\n"));
 
 			break;
 		case 3:
@@ -1995,12 +2301,15 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		int col, row;
 		gint cursor_row, cursor_col;
 
-		if (e->button.button == 1) {
+		d(g_print("%s: GDK_BUTTON_RELEASE received, button %d\n", __FUNCTION__, e->button.button));
+
 			if (eti->grabbed) {
-				gtk_grab_remove (GTK_WIDGET (item->canvas));
-				gnome_canvas_item_ungrab(item, e->button.time);
-			}
+			d(g_print ("%s: eti_ungrab\n", __FUNCTION__));
+			eti_ungrab (eti, e->button.time);
 			eti->grabbed = FALSE;
+		}
+
+		if (e->button.button == 1) {
 			if (eti->maybe_in_drag) {
 				eti->maybe_in_drag = FALSE;
 				if (!eti->maybe_did_something)
@@ -2021,6 +2330,13 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		case 2:
 
 			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
+#if d(!)0
+			{
+				gboolean cell_found = find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1);
+				g_print("%s: find_cell(%f, %f) = %s(%d, %d, %f, %f)\n", __FUNCTION__, e->button.x, e->button.y,
+					cell_found?"true":"false", col, row, x1, y1);
+			}
+#endif
 
 			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 				return TRUE;
@@ -2030,7 +2346,15 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				       "cursor_col", &cursor_col,
 				       NULL);
 
+
+			d(g_print("%s: GDK_BUTTON_RELEASE received, button %d, line: %d\n"
+				  "eti_editing: %s, row:%d:%d, col:%d:%d\n", __FUNCTION__, e->button.button, __LINE__,
+				  eti_editing(eti)?"true":"false", cursor_row, view_to_model_row(eti, row), cursor_col, view_to_model_col(eti, col)));
+
 			if (eti_editing (eti) && cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)){
+
+				d(g_print("%s: GDK_BUTTON_RELEASE received, button %d, line: %d\n", __FUNCTION__, e->button.button, __LINE__))
+;
 
 				ecell_view = eti->cell_views [col];
 
@@ -2041,9 +2365,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				e->button.y = y1;
 
 				return_val = eti_e_cell_event (eti, ecell_view, e, e->button.time,
-							       view_to_model_col(eti, col), col, row, E_CELL_EDITING);
+							       view_to_model_col(eti, col), col, row, E_CELL_EDITING | E_CELL_CURSOR);
 			}
-			d(g_print ("Release\n"));
 			break;
 		case 3:
 			e_selection_model_right_click_up(E_SELECTION_MODEL (eti->selection));
@@ -2063,7 +2386,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 #if 0
 		double x1, y1;
 #endif
-		GdkEventButton button;
+
+		d(g_print("%s: GDK_2BUTTON_PRESS received, button %d\n", __FUNCTION__, e->button.button));
 
 		if (e->button.button == 5 ||
 		    e->button.button == 4)
@@ -2088,19 +2412,34 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				       "cursor_col", &model_col,
 				       NULL);
 
-			button.x -= e_table_header_col_diff (eti->header, 0, model_to_view_col (eti, model_col));
-			button.y -= e_table_item_row_diff (eti, 0, model_to_view_row (eti, model_row));
+			e->button.x -= e_table_header_col_diff (eti->header, 0, model_to_view_col (eti, model_col));
+			e->button.y -= e_table_item_row_diff (eti, 0, model_to_view_row (eti, model_row));
 
 #if 0
-			button = *(GdkEventButton *)e;
 			button.x = x1;
 			button.y = y1;
 #endif
 
+			if (e->button.button == 1) {
+				if (eti->maybe_in_drag) {
+					eti->maybe_in_drag = FALSE;
+					if (!eti->maybe_did_something)
+						e_selection_model_do_something(E_SELECTION_MODEL (eti->selection), eti->drag_row, eti->drag_col, eti->drag_state);
+				}
+				if (eti->in_drag) {
+					eti->in_drag = FALSE;
+				}
+			}
+
+			if (eti->grabbed) {
+				d(g_print ("%s: eti_ungrab\n", __FUNCTION__));
+				eti_ungrab (eti, e->button.time);
+				eti->grabbed = FALSE;
+			}
+
 			if (model_row != -1 && model_col != -1) {
 				gtk_signal_emit (GTK_OBJECT (eti), eti_signals [DOUBLE_CLICK],
-						 model_row, model_col, &button);
-				d(g_print("Double click\n"));
+						 model_row, model_col, e);
 			}
 		}
 		break;
@@ -2159,7 +2498,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			e->motion.y = y1;
 
 			return_val = eti_e_cell_event (eti, ecell_view, e, e->motion.time,
-						       view_to_model_col(eti, col), col, row, E_CELL_EDITING);
+						       view_to_model_col(eti, col), col, row, E_CELL_EDITING | E_CELL_CURSOR);
 		}
 		break;
 	}
@@ -2167,6 +2506,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_KEY_PRESS: {
 		gint cursor_row, cursor_col;
 		gint handled = TRUE;
+
+		d(g_print("%s: GDK_KEY_PRESS received, keyval: %d\n", __FUNCTION__, (int) e->key.keyval));
 
 		gtk_object_get(GTK_OBJECT(eti->selection),
 			       "cursor_row", &cursor_row,
@@ -2276,12 +2617,12 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		case GDK_ISO_Enter:
 		case GDK_3270_Enter:
 			if (eti_editing (eti)){
-				e_table_item_leave_edit (eti);
+				e_table_item_leave_edit_(eti);
 #if 0
 				ecell_view = eti->cell_views [eti->editing_col];
 				return_val = eti_e_cell_event (eti, ecell_view, e, e->key.time,
 							       view_to_model_col(eti, eti->editing_col),
-							       eti->editing_col, eti->editing_row, E_CELL_EDITING);
+							       eti->editing_col, eti->editing_row, E_CELL_EDITING | E_CELL_CURSOR);
 #endif
 			}
 			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [KEY_PRESS],
@@ -2334,7 +2675,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 					ecell_view = eti->cell_views [eti->editing_col];
 					return_val = eti_e_cell_event (eti, ecell_view, e, e->key.time,
 								       view_to_model_col(eti, eti->editing_col),
-								       eti->editing_col, eti->editing_row, E_CELL_EDITING);
+								       eti->editing_col, eti->editing_row, E_CELL_EDITING | E_CELL_CURSOR);
 					if (!return_val)
 						e_selection_model_key_press(E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
 				}
@@ -2348,6 +2689,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_KEY_RELEASE: {
 		gint cursor_row, cursor_col;
 
+		d(g_print("%s: GDK_KEY_RELEASE received, keyval: %d\n", __FUNCTION__, (int) e->key.keyval));
+
 		gtk_object_get(GTK_OBJECT(eti->selection),
 			       "cursor_row", &cursor_row,
 			       "cursor_col", &cursor_col,
@@ -2360,27 +2703,49 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			ecell_view = eti->cell_views [eti->editing_col];
 			return_val = eti_e_cell_event (eti, ecell_view, e, e->key.time,
 						       view_to_model_col(eti, eti->editing_col),
-						       eti->editing_col, eti->editing_row, E_CELL_EDITING);
+						       eti->editing_col, eti->editing_row, E_CELL_EDITING | E_CELL_CURSOR);
 		}
 		break;
 	}
 
 	case GDK_LEAVE_NOTIFY:
+		d(leave = TRUE);
 	case GDK_ENTER_NOTIFY:
+		d(g_print("%s: %s received\n", __FUNCTION__, leave ? "GDK_LEAVE_NOTIFY" : "GDK_ENTER_NOTIFY"));
 		if (eti->tooltip->timer > 0)
 			gtk_timeout_remove (eti->tooltip->timer);
 		eti->tooltip->timer = 0;
 		break;
 
 	case GDK_FOCUS_CHANGE:
-		if (! e->focus_change.in) {
-			if (eti_editing (eti))
-				e_table_item_leave_edit (eti);
+		d(g_print("%s: GDK_FOCUS_CHANGE received, %s\n", __FUNCTION__, e->focus_change.in ? "in": "out"));
+		if (e->focus_change.in) {
+			if (eti->save_row != -1 &&
+			    eti->save_col != -1 &&
+			    !eti_editing (eti) &&
+			    e_table_model_is_cell_editable(eti->table_model, view_to_model_col (eti, eti->save_col), eti->save_row)) { 
+				e_table_item_enter_edit (eti, eti->save_col, eti->save_row);
+				e_cell_load_state (eti->cell_views [eti->editing_col], view_to_model_col(eti, eti->save_col),
+						   eti->save_col, eti->save_row, eti->edit_ctx, eti->save_state);
+				eti_free_save_state (eti);
+		}
+		} else {
+			if (eti_editing (eti)) {
+				eti_free_save_state (eti);
+
+				eti->save_row   = eti->editing_row;
+				eti->save_col   = eti->editing_col;
+				eti->save_state = e_cell_save_state (eti->cell_views [eti->editing_col], view_to_model_col(eti, eti->editing_col),
+								     eti->editing_col, eti->editing_row, eti->edit_ctx);
+				e_table_item_leave_edit_(eti);
+			}
 		}
 
 	default:
 		return_val = FALSE;
 	}
+	/* d(g_print("%s: returning: %s\n", __FUNCTION__, return_val?"true":"false"));*/
+
 	return return_val;
 	}
 
@@ -2438,6 +2803,8 @@ eti_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_READABLE, ARG_HEIGHT);
 	gtk_object_add_arg_type ("ETableItem::cursor_row", GTK_TYPE_INT,
 				 GTK_ARG_READWRITE, ARG_CURSOR_ROW);
+	gtk_object_add_arg_type ("ETableItem::uniform_row_height", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_UNIFORM_ROW_HEIGHT);
 
 	eti_signals [CURSOR_CHANGE] =
 		gtk_signal_new ("cursor_change",
@@ -2597,7 +2964,8 @@ eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti
 	view_col = model_to_view_col(eti, col);
 	
 	if (view_row == -1 || view_col == -1) {
-		e_table_item_leave_edit (eti);
+		e_table_item_leave_edit_(eti);
+		eti->old_cursor_row = -1;
 		return;
 	}
 
@@ -2611,11 +2979,17 @@ eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti
 
 	e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti), FALSE);
 	if (eti_editing(eti))
-		e_table_item_leave_edit (eti);
+		e_table_item_leave_edit_(eti);
 	gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CURSOR_CHANGE],
 			 view_row);
+	if (eti->old_cursor_row != -1) {
+		e_table_item_redraw_row (eti, eti->old_cursor_row);
+		e_table_item_redraw_row (eti, view_row);
+	} else {
 	eti->needs_redraw = TRUE;
 	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
+}
+	eti->old_cursor_row = view_row;
 }
 
 static void
@@ -2630,21 +3004,19 @@ eti_cursor_activated (ESelectionModel *selection, int row, int col, ETableItem *
 	view_row = model_to_view_row(eti, row);
 	view_col = model_to_view_col(eti, col);
 	
-	if (view_row == -1 || view_col == -1) {
-		e_table_item_leave_edit (eti);
-		return;
-	}
-
+	if (view_row != -1 && view_col != -1) {
 	if (! e_table_model_has_change_pending (eti->table_model)) {
 		if (!eti->in_key_press) {
 			eti_show_cursor(eti, DOUBLE_CLICK_TIME + 10);
 		} else {
 			eti_show_cursor(eti, 0);
 		}
+			eti_check_cursor_bounds (eti);
+		}
 	}
 
 	if (eti_editing(eti))
-		e_table_item_leave_edit (eti);
+		e_table_item_leave_edit_(eti);
 	gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CURSOR_ACTIVATED],
 			 view_row);
 }
@@ -2657,6 +3029,17 @@ eti_selection_change (ESelectionModel *selection, ETableItem *eti)
 
 	eti->needs_redraw = TRUE;
 	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
+}
+
+static void
+eti_selection_row_change (ESelectionModel *selection, int row, ETableItem *eti)
+{
+	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+		return;
+
+	if (!eti->needs_redraw) {
+		e_table_item_redraw_row (eti, model_to_view_row(eti, row));
+	}
 }
 
 
@@ -2675,8 +3058,10 @@ e_table_item_enter_edit (ETableItem *eti, int col, int row)
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
 	
+	d(g_print("%s: %d, %d, eti_editing() = %s\n", __FUNCTION__, col, row, eti_editing(eti)?"true":"false"));
+
 	if (eti_editing (eti))
-		e_table_item_leave_edit(eti);
+		e_table_item_leave_edit_(eti);
 
 	eti->editing_col = col;
 	eti->editing_row = row;
@@ -2685,7 +3070,7 @@ e_table_item_enter_edit (ETableItem *eti, int col, int row)
 }
 
 /** 
- * e_table_item_leave_edit
+ * e_table_item_leave_edit_
  * @eti: %ETableItem which will stop being edited
  *
  * This routine stops the given %ETableItem from editing.
@@ -2698,6 +3083,8 @@ e_table_item_leave_edit (ETableItem *eti)
 	
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
+
+	d(g_print("%s: eti_editing() = %s\n", __FUNCTION__, eti_editing(eti)?"true":"false"));
 
 	if (!eti_editing (eti))
 		return;

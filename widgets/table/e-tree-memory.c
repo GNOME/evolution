@@ -1,15 +1,27 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * e-tree-memory.c: a Tree Model implementation that the programmer builds in memory.
+ * e-tree-memory.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author:
- *   Chris Toshok (toshok@ximian.com)
+ * Authors:
  *   Chris Lahey <clahey@ximian.com>
+ *   Chris Toshok <toshok@ximian.com>
  *
- * Adapted from the gtree code and ETableModel.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
- * (C) 2000, 2001 Ximian, Inc.
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 
 #include <stdio.h>
@@ -151,6 +163,7 @@ e_tree_memory_freeze(ETreeMemory *etmm)
 {
 	ETreeMemoryPriv *priv = etmm->priv;
 
+	if (priv->frozen == 0)
 	e_tree_model_pre_change(E_TREE_MODEL(etmm));
 
 	priv->frozen ++;
@@ -451,8 +464,7 @@ e_tree_memory_node_insert (ETreeMemory *tree_model,
 		e_tree_memory_path_insert (parent_path, position, new_path);
 		if (!tree_model->priv->frozen)
 			e_tree_model_node_inserted (E_TREE_MODEL(tree_model), parent_path, new_path);
-	}
-	else {
+	} else {
 		priv->root = new_path;
 		if (!tree_model->priv->frozen)
 			e_tree_model_node_changed(E_TREE_MODEL(tree_model), new_path);
@@ -563,6 +575,9 @@ e_tree_memory_node_remove (ETreeMemory *etree, ETreePath node)
 	if (path == etree->priv->root)
 		etree->priv->root = NULL;
 
+	if (!etree->priv->frozen)
+		e_tree_model_node_deleted(E_TREE_MODEL(etree), path);
+
 	return ret;
 }
 
@@ -594,6 +609,8 @@ e_tree_memory_sort_node             (ETreeMemory             *etmm,
 	ETreeMemoryPath *path = node;
 	MemoryAndClosure mac;
 	ETreeMemoryPath *last;
+
+	e_tree_model_pre_change (E_TREE_MODEL (etmm));
 	
 	i = 0;
 	for (child = path->first_child; child; child = child->next_sibling)

@@ -1,16 +1,30 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * E-table-config.c: The ETable config dialog.
+ * e-table-config.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
  * Authors:
  *   Chris Lahey <clahey@ximian.com>
- *   Miguel de Icaza (miguel@ximian.com)
+ *   Miguel de Icaza <miguel@ximian.com>
  *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+/*
  * FIXME:
  *    Sort Dialog: when text is selected, the toggle button switches state.
  *    Make Clear all work.
- *
- * (C) 2000, 2001 Ximian, Inc.
  */
 
 #include <config.h>
@@ -61,6 +75,10 @@ config_destroy (GtkObject *object)
 	if (config->source_spec)
 		gtk_object_unref (GTK_OBJECT (config->source_spec));
 	config->source_spec = NULL;
+
+	if (config->header)
+		g_free (config->header);
+	config->header = NULL;
 
 	GTK_OBJECT_CLASS (config_parent_class)->destroy (object);
 }
@@ -136,6 +154,8 @@ find_column_in_spec (ETableSpecification *spec, int model_col)
 	ETableColumnSpecification **column;
 
 	for (column = spec->columns; *column; column++){
+		if ((*column)->disabled)
+			continue;
 		if ((*column)->model_col != model_col)
 			continue;
 
@@ -152,6 +172,8 @@ find_model_column_by_name (ETableSpecification *spec, const char *s)
 
 	for (column = spec->columns; *column; column++){
 
+		if ((*column)->disabled)
+			continue;
 		if (g_strcasecmp ((*column)->title, s) == 0)
 			return (*column)->model_col;
 	}
@@ -296,6 +318,9 @@ config_group_info_update (ETableConfig *config)
 	GString *res;
 	int count, i;
 
+	if (!e_table_sort_info_get_can_group (info))
+		return;
+
 	count = e_table_sort_info_grouping_get_count (info);
 	res = g_string_new ("");
 
@@ -333,8 +358,13 @@ config_fields_info_update (ETableConfig *config)
 	GString *res = g_string_new ("");
 	int i;
 
+	return;
+
 	for (i = 0; i < config->state->col_count; i++){
 		for (column = config->source_spec->columns; *column; column++){
+
+			if ((*column)->disabled)
+				continue;
 
 			if (config->state->columns [i] != (*column)->model_col)
 				continue;
@@ -411,13 +441,13 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		config_group_info_update (config);
 }
 
-#if 0
-static GtkWidget *
+GtkWidget *e_table_proxy_etable_new (void);
+
+GtkWidget *
 e_table_proxy_etable_new (void)
 {
-	return gtk_label_new ("Waiting for the ETable/ETree\nmerger to be commited");
+	return gtk_label_new ("Field selection dialog not\nimplemented here yet.");
 }
-#endif
 
 static void
 config_button_fields (GtkWidget *widget, ETableConfig *config)
@@ -718,6 +748,11 @@ setup_gui (ETableConfig *config)
 	config->dialog_toplevel = glade_xml_get_widget (
 		gui, "e-table-config");
 
+	if (config->header)
+		gtk_window_set_title (GTK_WINDOW (config->dialog_toplevel), config->header);
+
+	gtk_widget_hide (GNOME_PROPERTY_BOX(config->dialog_toplevel)->help_button);
+
 	gtk_notebook_set_show_tabs (
 		GTK_NOTEBOOK (GNOME_PROPERTY_BOX (
 			config->dialog_toplevel)->notebook),
@@ -776,6 +811,7 @@ e_table_config_construct (ETableConfig        *config,
 	
 	config->source_spec = spec;
 	config->source_state = state;
+	config->header = g_strdup (header);
 
 	gtk_object_ref (GTK_OBJECT (config->source_spec));
 	gtk_object_ref (GTK_OBJECT (config->source_state));
@@ -784,6 +820,9 @@ e_table_config_construct (ETableConfig        *config,
 
 	for (column = config->source_spec->columns; *column; column++){
 		char *label = (*column)->title;
+
+		if ((*column)->disabled)
+			continue;
 
 		config->column_names = g_slist_append (
 			config->column_names, label);

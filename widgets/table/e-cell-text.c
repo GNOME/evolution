@@ -1,11 +1,11 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* e-cell-text.c - Text cell renderer
- * Copyright (C) 2000 Ximian, Inc.
+/*
+ * e-cell-text.c: Text cell renderer.
+ * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
- * Authors: Miguel de Icaza <miguel@ximian.com>
+ * Authors:
+ *   Miguel de Icaza <miguel@ximian.com>
  *          Chris Lahey <clahey@ximian.com>
- *
- * (C) 1999, 2000 Ximian, Inc.
  *
  * A lot of code taken from:
  *
@@ -19,9 +19,19 @@
  *
  * Author: Federico Mena <federico@nuclecu.unam.mx>
  *
- * TODO:
- *   Clean up UTF-8 handling
- *   UTF-8 selection
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 
 #include <config.h>
@@ -45,6 +55,13 @@
 #include "gal/util/e-text-event-processor-emacs-like.h"
 #include "e-table-tooltip.h"
 
+#define d(x)
+
+#if d(!)0
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
+#else
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
+#endif
 
 #define ECT_CLASS(c) (E_CELL_TEXT_CLASS(GTK_OBJECT_GET_CLASS ((c))))
 
@@ -64,6 +81,7 @@ enum {
 	ARG_BOLD_COLUMN,
 	ARG_COLOR_COLUMN,
 	ARG_EDITABLE,
+	ARG_BG_COLOR_COLUMN
 };
 
 
@@ -152,8 +170,6 @@ struct _CellEdit {
 
 	ETextEventProcessor *tep;       /* Text Event Processor */
 
-	/* Hmmm... this should probably be in native encoding? */
-
 	GtkWidget *invisible;           /* For selection handling */
 	gboolean has_selection;         /* TRUE if we have the selection */
 	gchar *primary_selection;       /* Primary selection text */
@@ -205,8 +221,8 @@ static GdkColor* e_cell_text_get_color (ECellTextView *cell_view, gchar *color_s
 
 static ECellClass *parent_class;
 
-static char *
-ect_get_text (ECellText *cell, ETableModel *model, int col, int row)
+char *
+e_cell_text_get_text (ECellText *cell, ETableModel *model, int col, int row)
 {
 	if (ECT_CLASS(cell)->get_text)
 		return ECT_CLASS(cell)->get_text (cell, model, col, row);
@@ -214,11 +230,19 @@ ect_get_text (ECellText *cell, ETableModel *model, int col, int row)
 		return NULL;
 }
 
-static void
-ect_free_text (ECellText *cell, char *text)
+void
+e_cell_text_free_text (ECellText *cell, char *text)
 {
 	if (ECT_CLASS(cell)->free_text)
 		ECT_CLASS(cell)->free_text (cell, text);
+}
+
+void
+e_cell_text_set_value (ECellText *cell, ETableModel *model, int col, int row,
+		       const char *text)
+{
+	if (ECT_CLASS(cell)->set_value)
+		ECT_CLASS(cell)->set_value (cell, model, col, row, text);
 }
 
 static char *
@@ -232,6 +256,17 @@ ect_real_free_text (ECellText *cell, char *text)
 {
 }
 
+/* This is the default method for setting the ETableModel value based on
+   the text in the ECellText. This simply uses the text as it is - it assumes
+   the value in the model is a char*. Subclasses may parse the text into
+   data structures to pass to the model. */
+static void
+ect_real_set_value (ECellText *cell, ETableModel *model, int col, int row,
+		    const char *text)
+{
+	e_table_model_set_value_at (model, col, row, text);
+}
+
 static void
 ect_queue_redraw (ECellTextView *text_view, int view_col, int view_row)
 {
@@ -241,38 +276,25 @@ ect_queue_redraw (ECellTextView *text_view, int view_col, int view_row)
 }
 
 /*
- * Accept the currently edited text.  if it's the same as what's in the cell, do nothing.
- */
-static void
-ect_accept_edits (ECellTextView *text_view)
-{
-	CurrentCell *cell = (CurrentCell *) text_view->edit;
-
-	if (strcmp (text_view->edit->old_text, cell->text)) {
-		e_table_model_set_value_at (text_view->cell_view.e_table_model,
-					    cell->model_col, cell->row, cell->text);
-	}
-}
-
-/*
  * Shuts down the editing process
  */
 static void
-ect_stop_editing (ECellTextView *text_view)
+ect_stop_editing (ECellTextView *text_view, gboolean commit)
 {
 	CellEdit *edit = text_view->edit;
-	int row, view_col;
+	int row, view_col, model_col;
+	char *old_text, *text;
+	CurrentCell *cell = (CurrentCell *) text_view->edit;
 
 	if (!edit)
 		return;
 
-	row = edit->cell.row;
-	view_col = edit->cell.view_col;
+	row = cell->row;
+	view_col = cell->view_col;
+	model_col = cell->model_col;
 	
-	g_free (edit->old_text);
-	edit->old_text = NULL;
-	g_free (edit->cell.text);
-	edit->cell.text = NULL;
+	old_text = edit->old_text;
+	text = cell->text;
 	if (edit->invisible)
 		gtk_widget_unref (edit->invisible);
 	if (edit->tep)
@@ -298,6 +320,21 @@ ect_stop_editing (ECellTextView *text_view)
 	g_free (edit);
 	
 	text_view->edit = NULL;
+	if (commit) {
+		/*
+		 * Accept the currently edited text.  if it's the same as what's in the cell, do nothing.
+		 */
+		ECellView *ecell_view = (ECellView *) text_view;
+		ECellText *ect = (ECellText *) ecell_view->ecell;
+
+		if (strcmp (old_text, text)) {
+			e_cell_text_set_value (ect, ecell_view->e_table_model,
+					       model_col, row, text);
+		}
+	}
+	g_free (text);
+	g_free (old_text);
+
 	ect_queue_redraw (text_view, view_col, row);
 }
 
@@ -307,8 +344,8 @@ ect_stop_editing (ECellTextView *text_view)
 static void
 ect_cancel_edit (ECellTextView *text_view)
 {
-	ect_stop_editing (text_view);
-	e_table_item_leave_edit (text_view->cell_view.e_table_item_view);
+	ect_stop_editing (text_view, FALSE);
+	e_table_item_leave_edit_ (text_view->cell_view.e_table_item_view);
 }
 
 /*
@@ -690,6 +727,27 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	gdk_gc_set_clip_rectangle (fg_gc, NULL);
 }
 
+
+/*
+ * Get the background color
+ */
+static gchar *
+ect_get_bg_color(ECellView *ecell_view, int row)
+{
+	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
+	gchar *color_spec;
+
+	if (ect->bg_color_column == -1)
+		return NULL;
+
+	color_spec = e_table_model_value_at (ecell_view->e_table_model,
+	                                     ect->bg_color_column, row);
+
+	return color_spec;
+}
+					 			 		  			
+
+
 /*
  * Selects the entire string
  */
@@ -724,8 +782,9 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 	GtkWidget *canvas = GTK_WIDGET (text_view->canvas);
 	gint return_val = 0;
 	CurrentCell cell, *cellptr;
+	d(gboolean press = FALSE);
 
-	if (flags & !E_CELL_EDITING)
+	if (!(flags & E_CELL_EDITING))
 		return 0;
 
 	build_current_cell (&cell, text_view, model_col, view_col, row);
@@ -768,7 +827,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		if (edit_display) {
 			GdkEventKey key = event->key;
 			if (key.keyval == GDK_KP_Enter || key.keyval == GDK_Return){
-				e_table_item_leave_edit (text_view->cell_view.e_table_item_view);
+				e_table_item_leave_edit_ (text_view->cell_view.e_table_item_view);
 			} else {
 				e_tep_event.key.time = key.time;
 				e_tep_event.key.state = key.state;
@@ -788,6 +847,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 #endif
 
 				_get_tep (edit);
+				edit->actions = 0;
 				return_val = e_text_event_processor_handle_event (edit->tep, &e_tep_event);
 				*actions = edit->actions;
 				if (e_tep_event.key.string) g_free (e_tep_event.key.string);
@@ -797,7 +857,9 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 
 		break;
 	case GDK_BUTTON_PRESS: /* Fall Through */
+		d(press = TRUE);
 	case GDK_BUTTON_RELEASE:
+		d(g_print ("%s: %s\n", __FUNCTION__, press ? "GDK_BUTTON_PRESS" : "GDK_BUTTON_RELEASE"));
 		event->button.x -= 4;
 		event->button.y -= 1;
 		if ((!edit_display) 
@@ -817,6 +879,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			e_tep_event.button.button = button.button;
 			e_tep_event.button.position = _get_position_from_xy (cellptr, button.x, button.y);
 			_get_tep (edit);
+			edit->actions = 0;
 			return_val = e_text_event_processor_handle_event (edit->tep,
 									  &e_tep_event);
 			*actions = edit->actions;
@@ -839,6 +902,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			e_tep_event.button.button = button.button;
 			e_tep_event.button.position = _get_position_from_xy (cellptr, button.x, button.y);
 			_get_tep (edit);
+			edit->actions = 0;
 			return_val = e_text_event_processor_handle_event (edit->tep,
 									  &e_tep_event);
 			*actions = edit->actions;
@@ -862,6 +926,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			e_tep_event.motion.state = motion.state;
 			e_tep_event.motion.position = _get_position_from_xy (cellptr, motion.x, motion.y);
 			_get_tep (edit);
+			edit->actions = 0;
 			return_val = e_text_event_processor_handle_event (edit->tep,
 									  &e_tep_event);
 			*actions = edit->actions;
@@ -922,9 +987,13 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 	
 	font = text_view->font;
 
-	string = ect_get_text(ect, ecell_view->e_table_model, model_col, row);
+	if (row == -1) {
+		value = e_font_height (font) + TEXT_PAD;
+	} else {
+		string = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
 	value = e_font_height (font) * number_of_lines(string) + TEXT_PAD;
-	ect_free_text(ect, string);
+		e_cell_text_free_text(ect, string);
+	}
 
 	return value;
 }
@@ -980,9 +1049,9 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	edit->pointer_in = FALSE;
 	edit->default_cursor_shown = TRUE;
 	
-	temp = ect_get_text(ect, ecell_view->e_table_model, model_col, row);
+	temp = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
 	edit->old_text = g_strdup (temp);
-	ect_free_text(ect, temp);
+	e_cell_text_free_text(ect, temp);
 	edit->cell.text = g_strdup (edit->old_text);
 
 #if 0
@@ -1009,8 +1078,7 @@ ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 	CellEdit *edit = text_view->edit;
 
 	if (edit){
-		ect_accept_edits (text_view);
-		ect_stop_editing (text_view);
+		ect_stop_editing (text_view, TRUE);
 		/* FIXME: edit is freed in ect_stop_editing() so I've
 		   commented this out - Damon. */
 		/*unbuild_current_cell (CURRENT_CELL(edit));*/
@@ -1021,6 +1089,50 @@ ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 	}
 }
 
+/*
+ * ECellView::save_state method
+ */
+static void *
+ect_save_state (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context)
+{
+	ECellTextView *text_view = (ECellTextView *) ecell_view;
+	CellEdit *edit = text_view->edit;
+
+	int *save_state = g_new (int, 2);
+
+	save_state[0] = edit->selection_start;
+	save_state[1] = edit->selection_end;
+	return save_state;
+}
+
+/*
+ * ECellView::load_state method
+ */
+static void
+ect_load_state (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context, void *save_state)
+{
+	ECellTextView *text_view = (ECellTextView *) ecell_view;
+	CellEdit *edit = text_view->edit;
+	int length;
+	int *selection = save_state;
+
+	length = strlen (edit->cell.text);
+
+	edit->selection_start = MIN (selection[0], length);
+	edit->selection_end = MIN (selection[1], length);
+
+	ect_queue_redraw (text_view, view_col, row);
+}
+
+/*
+ * ECellView::free_state method
+ */
+static void
+ect_free_state (ECellView *ecell_view, int model_col, int view_col, int row, void *save_state)
+{
+	g_free (save_state);
+}
+
 static void
 ect_print (ECellView *ecell_view, GnomePrintContext *context, 
 	   int model_col, int view_col, int row,
@@ -1029,7 +1141,7 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	GnomeFont *font = gnome_font_find ("Helvetica", 12);
 	char *string;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
-	string = ect_get_text(ect, ecell_view->e_table_model, model_col, row);
+	string = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
 	gnome_print_gsave(context);
 	if (gnome_print_moveto(context, 2, 2) == -1)
 				/* FIXME */;
@@ -1047,7 +1159,7 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	gnome_print_setfont(context, font);
 	gnome_print_show(context, string);
 	gnome_print_grestore(context);
-	ect_free_text(ect, string);
+	e_cell_text_free_text(ect, string);
 }
 
 static gdouble
@@ -1091,6 +1203,34 @@ ect_max_width (ECellView *ecell_view,
 	}
 	
 	return max_width;
+}
+
+static int
+ect_max_width_by_row (ECellView *ecell_view,
+		      int model_col,
+		      int view_col,
+		      int row)
+{
+	/* New ECellText */
+	ECellTextView *text_view = (ECellTextView *) ecell_view;
+	CurrentCell cell;
+	struct line *line;
+	int width;
+
+	if (row >= e_table_model_row_count (ecell_view->e_table_model))
+		return 0;
+
+	build_current_cell (&cell, text_view, model_col, view_col, row);
+	split_into_lines (&cell);
+	calc_line_widths (&cell);
+
+	line = (struct line *)cell.breaks->lines;
+	width = e_font_utf8_text_width (text_view->font, cell.style,
+					line->text, line->length);
+	unref_lines (&cell);
+	unbuild_current_cell (&cell);
+	
+	return width;
 }
 
 static gint
@@ -1322,6 +1462,10 @@ ect_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		text->editable = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
 		break;
 
+	case ARG_BG_COLOR_COLUMN:
+		text->bg_color_column = GTK_VALUE_INT (*arg);
+		break;
+
 	default:
 		return;
 	}
@@ -1352,6 +1496,10 @@ ect_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_BOOL (*arg) = text->editable ? TRUE : FALSE;
 		break;
 
+	case ARG_BG_COLOR_COLUMN:
+		GTK_VALUE_INT (*arg) = text->bg_color_column;
+		break;
+
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -1375,13 +1523,19 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	ecc->height     = ect_height;
 	ecc->enter_edit = ect_enter_edit;
 	ecc->leave_edit = ect_leave_edit;
+	ecc->save_state = ect_save_state;
+ 	ecc->load_state = ect_load_state;
+	ecc->free_state = ect_free_state;
 	ecc->print      = ect_print;
 	ecc->print_height = ect_print_height;
 	ecc->max_width = ect_max_width;
+	ecc->max_width_by_row = ect_max_width_by_row;
 	ecc->show_tooltip = ect_show_tooltip;
+	ecc->get_bg_color = ect_get_bg_color;
 
 	ectc->get_text = ect_real_get_text;
 	ectc->free_text = ect_real_free_text;
+	ectc->set_value = ect_real_set_value;
 
 	object_class->get_arg = ect_get_arg;
 	object_class->set_arg = ect_set_arg;
@@ -1396,6 +1550,8 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_COLOR_COLUMN);
 	gtk_object_add_arg_type ("ECellText::editable",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_EDITABLE);
+	gtk_object_add_arg_type ("ECellText::bg_color_column",
+				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_BG_COLOR_COLUMN);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
@@ -1409,6 +1565,7 @@ e_cell_text_init (ECellText *ect)
 	ect->strikeout_column = -1;
 	ect->bold_column = -1;
 	ect->color_column = -1;
+	ect->bg_color_column = -1;
 	ect->editable = TRUE;
 }
 
@@ -1980,7 +2137,7 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 		e_cell_text_view_get_selection (edit, GDK_SELECTION_PRIMARY, command->time);
 		break;
 	case E_TEP_ACTIVATE:
-		e_table_item_leave_edit (text_view->cell_view.e_table_item_view);
+		e_table_item_leave_edit_ (text_view->cell_view.e_table_item_view);
 		break;
 	case E_TEP_SET_SELECT_BY_WORD:
 		edit->select_by_word = command->value;
@@ -2373,9 +2530,9 @@ build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, 
 	cell->row = row;
 	cell->breaks = NULL;
 
-	temp = ect_get_text(ect, ecell_view->e_table_model, model_col, row);
+	temp = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
 	cell->text = g_strdup(temp);
-	ect_free_text(ect, temp);
+	e_cell_text_free_text(ect, temp);
 
 	cell->width = e_table_header_get_column (
 		((ETableItem *)ecell_view->e_table_item_view)->header,

@@ -1,23 +1,24 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
  * e-xml-utils.c
- * Copyright (C) 2000  Helix Code, Inc.
- * Author: Chris Lahey <clahey@helixcode.com>
+ * Copyright 2000, 2001, Ximian, Inc.
+ *
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ * Library General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 
 #include <config.h>
@@ -30,6 +31,7 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 #include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
 
 xmlNode *
 e_xml_get_child_by_name (const xmlNode *parent, const xmlChar *child_name)
@@ -329,7 +331,7 @@ e_xml_get_double_prop_by_name_with_default (const xmlNode *parent, const xmlChar
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {
-		(void) sscanf (prop, "%lf", &ret_val);
+		ret_val = e_flexible_strtod (prop, NULL);
 		xmlFree (prop);
 	}
 	return ret_val;
@@ -338,18 +340,17 @@ e_xml_get_double_prop_by_name_with_default (const xmlNode *parent, const xmlChar
 void
 e_xml_set_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name, gdouble value)
 {
-	gchar *valuestr;
+	char buffer[E_ASCII_DTOSTR_BUF_SIZE];
 
 	g_return_if_fail (parent != NULL);
 	g_return_if_fail (prop_name != NULL);
 
 	if (fabs (value) < 1e9 && fabs (value) > 1e-5) {
-		valuestr = g_strdup_printf ("%f", value);
+		e_ascii_dtostr (buffer, sizeof (buffer), "%.17f", value);
 	} else {
-		valuestr = g_strdup_printf ("%.*g", DBL_DIG, value);
+		e_ascii_dtostr (buffer, sizeof (buffer), "%.17g", value);
 	}
-	xmlSetProp (parent, prop_name, valuestr);
-	g_free (valuestr);
+	xmlSetProp (parent, prop_name, buffer);
 }
 
 gchar *

@@ -1,13 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * E-table-specification.c: Implements a savable description of the inital state of a table.
+ * e-table-specification.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
  * Authors:
  *   Chris Lahey <clahey@ximian.com>
- *   Miguel de Icaza (miguel@ximian.com)
  *
- * (C) 2000, 2001 Ximian, Inc.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 
 #include "e-table-specification.h"
@@ -70,6 +83,7 @@ etsp_init (ETableSpecification *etsp)
 	etsp->vertical_draw_grid     = FALSE;
 	etsp->draw_focus             = TRUE;
 	etsp->horizontal_scrolling   = FALSE;
+	etsp->allow_grouping         = TRUE;
 
 	etsp->cursor_mode           = E_CURSOR_SIMPLE;
 	etsp->selection_mode        = GTK_SELECTION_MULTIPLE;
@@ -177,6 +191,7 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	}
 	specification->draw_focus = e_xml_get_bool_prop_by_name_with_default (node, "draw-focus", TRUE);
 	specification->horizontal_scrolling = e_xml_get_bool_prop_by_name_with_default (node, "horizontal-scrolling", FALSE);
+	specification->allow_grouping = e_xml_get_bool_prop_by_name_with_default (node, "allow-grouping", TRUE);
 
 	specification->selection_mode = GTK_SELECTION_MULTIPLE;
 	temp = e_xml_get_string_prop_by_name (node, "selection-mode");
@@ -223,6 +238,7 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 		} else if (specification->state == NULL && !strcmp (children->name, "ETableState")) {
 			specification->state = e_table_state_new ();
 			e_table_state_load_from_node (specification->state, children);
+			e_table_sort_info_set_can_group (specification->state->sort_info, specification->allow_grouping);
 		}
 	}
 
@@ -319,6 +335,7 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 	e_xml_set_bool_prop_by_name (node, "vertical-draw-grid", specification->vertical_draw_grid);
 	e_xml_set_bool_prop_by_name (node, "draw-focus", specification->draw_focus);
 	e_xml_set_bool_prop_by_name (node, "horizontal-scrolling", specification->horizontal_scrolling);
+	e_xml_set_bool_prop_by_name (node, "allow-grouping", specification->allow_grouping);
 
 	switch (specification->selection_mode){
 	case GTK_SELECTION_SINGLE:

@@ -1,14 +1,27 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * e-tree-sorted.c: a Tree Model implementation that the programmer builds in sorted.
+ * e-tree-sorted.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author:
- *   Chris Toshok (toshok@ximian.com)
+ * Authors:
  *   Chris Lahey <clahey@ximian.com>
+ *   Chris Toshok <toshok@ximian.com>
  *
  * Adapted from the gtree code and ETableModel.
  *
- * (C) 2000, 2001 Ximian, Inc.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 
 /* FIXME: Overall e-tree-sorted.c needs to be made more efficient. */
@@ -80,16 +93,21 @@ struct ETreeSortedPriv {
 	ETreeSortedPath  *last_access;
 
 	int          tree_model_pre_change_id;
+	int          tree_model_no_change_id;
 	int          tree_model_node_changed_id;
 	int          tree_model_node_data_changed_id;
 	int          tree_model_node_col_changed_id;
 	int          tree_model_node_inserted_id;
 	int          tree_model_node_removed_id;
+	int          tree_model_node_deleted_id;
 
 	int          sort_info_changed_id;
 	int          sort_idle_id;
 	int          insert_idle_id;
 	int          insert_count;
+
+	guint        in_resort_idle : 1;
+	guint        nested_resort_idle : 1;
 };
 
 enum {
@@ -114,10 +132,19 @@ static gboolean
 ets_sort_idle(gpointer user_data)
 {
 	ETreeSorted *ets = user_data;
-	ets->priv->sort_idle_id = 0;
-	if (ets->priv->root) {
-		resort_node (ets, ets->priv->root, FALSE, FALSE, TRUE);
+	if (ets->priv->in_resort_idle) {
+		ets->priv->nested_resort_idle = TRUE;
+		return FALSE;
 	}
+	ets->priv->in_resort_idle = TRUE;
+	if (ets->priv->root) {
+		do {
+			ets->priv->nested_resort_idle = FALSE;
+		resort_node (ets, ets->priv->root, FALSE, FALSE, TRUE);
+		} while (ets->priv->nested_resort_idle);
+	}
+	ets->priv->in_resort_idle = FALSE;
+	ets->priv->sort_idle_id = 0;
 	return FALSE;
 }
 
@@ -151,9 +178,6 @@ check_last_access (ETreeSorted *ets, ETreePath corresponding)
 {
 #ifdef CHECK_AROUND_LAST_ACCESS
 	ETreeSortedPath *parent;
-	int end;
-	int start;
-	int i;
 #endif
 
 	if (ets->priv->last_access == NULL)
@@ -167,18 +191,20 @@ check_last_access (ETreeSorted *ets, ETreePath corresponding)
 #ifdef CHECK_AROUND_LAST_ACCESS
 	parent = ets->priv->last_access->parent;
 	if (parent && parent->children) {
-		i = ets->priv->last_access->position;
-		end = MIN(parent->num_children, i + 10);
-		for (; i < end; i++) {
+		int position = ets->priv->last_access->position;
+		int end = MIN(parent->num_children, position + 10);
+		int start = MAX(0, position - 10);
+		int initial = MAX (MIN (position, end), start);
+		int i;
+
+		for (i = initial; i < end; i++) {
 			if (parent->children[i] && parent->children[i]->corresponding == corresponding) {
 				d(g_print("Found last access %p at %p.", ets->priv->last_access, parent->children[i]));
 				return parent->children[i];
 			}
 		}
 
-		i = ets->priv->last_access->position - 1;
-		start = MAX(0, i - 10);
-		for (; i >= start; i--) {
+		for (i = initial - 1; i >= start; i--) {
 			if (parent->children[i] && parent->children[i]->corresponding == corresponding) {
 				d(g_print("Found last access %p at %p.", ets->priv->last_access, parent->children[i]));
 				return parent->children[i];
@@ -366,12 +392,13 @@ new_path (ETreeSortedPath *parent, ETreePath corresponding)
 	return path;
 }
 
-static void
+static gboolean
 reposition_path (ETreeSorted *ets, ETreeSortedPath *path)
 {
 	int new_index;
 	int old_index = path->position;
 	ETreeSortedPath *parent = path->parent;
+	gboolean changed = FALSE;
 	if (parent) {
 		if (ets->priv->sort_idle_id == 0) {
 			if (ets->priv->insert_count > ETS_INSERT_MAX) {
@@ -398,9 +425,9 @@ reposition_path (ETreeSorted *ets, ETreeSortedPath *path)
 					parent->children[new_index] = path;
 					for (i = old_index; i <= new_index; i++)
 						parent->children[i]->position = i;
+					changed = TRUE;
 					e_tree_model_node_changed(E_TREE_MODEL(ets), parent);
 					e_tree_sorted_node_resorted(ets, parent);
-					e_tree_model_pre_change(E_TREE_MODEL(ets));
 				} else if (new_index < old_index) {
 					int i;
 					ets->priv->insert_count++;
@@ -408,14 +435,15 @@ reposition_path (ETreeSorted *ets, ETreeSortedPath *path)
 					parent->children[new_index] = path;
 					for (i = new_index; i <= old_index; i++)
 						parent->children[i]->position = i;
+					changed = TRUE;
 					e_tree_model_node_changed(E_TREE_MODEL(ets), parent);
 					e_tree_sorted_node_resorted(ets, parent);
-					e_tree_model_pre_change(E_TREE_MODEL(ets));
 				}
 			}
 		} else
 			mark_path_needs_resort(ets, parent, TRUE, FALSE);
 	}
+	return changed;
 }
 
 static void
@@ -549,6 +577,8 @@ schedule_resort (ETreeSorted *ets, ETreeSortedPath *path, gboolean needs_regen, 
 	mark_path_needs_resort(ets, path, needs_regen, resort_all_children);
 	if (ets->priv->sort_idle_id == 0) {
 		ets->priv->sort_idle_id = g_idle_add_full(50, (GSourceFunc) ets_sort_idle, ets, NULL);
+	} else if (ets->priv->in_resort_idle) {
+		ets->priv->nested_resort_idle = TRUE;
 	}
 }
 
@@ -575,6 +605,8 @@ ets_destroy (GtkObject *object)
 		gtk_signal_disconnect (GTK_OBJECT (priv->source),
 				       priv->tree_model_pre_change_id);
 		gtk_signal_disconnect (GTK_OBJECT (priv->source),
+				       priv->tree_model_no_change_id);
+		gtk_signal_disconnect (GTK_OBJECT (priv->source),
 				       priv->tree_model_node_changed_id);
 		gtk_signal_disconnect (GTK_OBJECT (priv->source),
 				       priv->tree_model_node_data_changed_id);
@@ -584,16 +616,20 @@ ets_destroy (GtkObject *object)
 				       priv->tree_model_node_inserted_id);
 		gtk_signal_disconnect (GTK_OBJECT (priv->source),
 				       priv->tree_model_node_removed_id);
+		gtk_signal_disconnect (GTK_OBJECT (priv->source),
+				       priv->tree_model_node_deleted_id);
 
 		gtk_object_unref (GTK_OBJECT (priv->source));
 		priv->source = NULL;
 
 		priv->tree_model_pre_change_id = 0;
+		priv->tree_model_no_change_id = 0;
 		priv->tree_model_node_changed_id = 0;
 		priv->tree_model_node_data_changed_id = 0;
 		priv->tree_model_node_col_changed_id = 0;
 		priv->tree_model_node_inserted_id = 0;
 		priv->tree_model_node_removed_id = 0;
+		priv->tree_model_node_deleted_id = 0;
 	}
 
 	if (priv->sort_info) {
@@ -971,6 +1007,12 @@ ets_proxy_pre_change (ETreeModel *etm, ETreeSorted *ets)
 }
 
 static void
+ets_proxy_no_change (ETreeModel *etm, ETreeSorted *ets)
+{
+	e_tree_model_no_change(E_TREE_MODEL(ets));
+}
+
+static void
 ets_proxy_node_changed (ETreeModel *etm, ETreePath node, ETreeSorted *ets)
 {
 	ets->priv->last_access = NULL;
@@ -989,7 +1031,7 @@ ets_proxy_node_changed (ETreeModel *etm, ETreePath node, ETreeSorted *ets)
 
 		if (path) {
 			free_children(path);
-			reposition_path(ets, path);
+			if (!reposition_path(ets, path))
 			e_tree_model_node_changed(E_TREE_MODEL(ets), path);
 		}
 	}
@@ -1001,9 +1043,10 @@ ets_proxy_node_data_changed (ETreeModel *etm, ETreePath node, ETreeSorted *ets)
 	ETreeSortedPath *path = find_path(ets, node);
 
 	if (path) {
-		reposition_path(ets, path);
+		if (!reposition_path(ets, path))
 		e_tree_model_node_data_changed(E_TREE_MODEL(ets), path);
-	}
+	} else
+		e_tree_model_no_change(E_TREE_MODEL(ets));
 }
 
 static void
@@ -1012,10 +1055,13 @@ ets_proxy_node_col_changed (ETreeModel *etm, ETreePath node, int col, ETreeSorte
 	ETreeSortedPath *path = find_path(ets, node);
 
 	if (path) {
+		gboolean changed = FALSE;
 		if (e_table_sorting_utils_affects_sort(ets->priv->sort_info, ets->priv->full_header, col))
-			reposition_path(ets, path);
+			changed = reposition_path(ets, path);
+		if (!changed)
 		e_tree_model_node_col_changed(E_TREE_MODEL(ets), path, col);
-	}
+	} else
+		e_tree_model_no_change(E_TREE_MODEL(ets));
 }
 
 static void
@@ -1120,6 +1166,12 @@ ets_proxy_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, int 
 }
 
 static void
+ets_proxy_node_deleted (ETreeModel *etm, ETreePath child, ETreeSorted *ets)
+{
+	e_tree_model_node_deleted(E_TREE_MODEL(ets), NULL);
+}
+
+static void
 ets_sort_info_changed (ETableSortInfo *sort_info, ETreeSorted *ets)
 {
 	schedule_resort(ets, ets->priv->root, TRUE, TRUE);
@@ -1216,16 +1268,21 @@ e_tree_sorted_init (GtkObject *object)
 	priv->last_access                     = NULL;
 
 	priv->tree_model_pre_change_id        = 0;
+	priv->tree_model_no_change_id         = 0;
 	priv->tree_model_node_changed_id      = 0;
 	priv->tree_model_node_data_changed_id = 0;
 	priv->tree_model_node_col_changed_id  = 0;
 	priv->tree_model_node_inserted_id     = 0;
 	priv->tree_model_node_removed_id      = 0;
+	priv->tree_model_node_deleted_id      = 0;
 
 	priv->sort_info_changed_id            = 0;
 	priv->sort_idle_id                    = 0;
 	priv->insert_idle_id                  = 0;
 	priv->insert_count                    = 0;
+
+	priv->in_resort_idle                  = 0;
+	priv->nested_resort_idle              = 0;
 }
 
 E_MAKE_TYPE(e_tree_sorted, "ETreeSorted", ETreeSorted, e_tree_sorted_class_init, e_tree_sorted_init, PARENT_TYPE)
@@ -1250,6 +1307,8 @@ e_tree_sorted_construct (ETreeSorted *ets, ETreeModel *source, ETableHeader *ful
 
 	ets->priv->tree_model_pre_change_id      = gtk_signal_connect (GTK_OBJECT (source), "pre_change",
 								       GTK_SIGNAL_FUNC (ets_proxy_pre_change), ets);
+	ets->priv->tree_model_no_change_id         = gtk_signal_connect (GTK_OBJECT (source), "no_change",
+									 GTK_SIGNAL_FUNC (ets_proxy_no_change), ets);
 	ets->priv->tree_model_node_changed_id      = gtk_signal_connect (GTK_OBJECT (source), "node_changed",
 									 GTK_SIGNAL_FUNC (ets_proxy_node_changed), ets);
 	ets->priv->tree_model_node_data_changed_id = gtk_signal_connect (GTK_OBJECT (source), "node_data_changed",
@@ -1260,6 +1319,8 @@ e_tree_sorted_construct (ETreeSorted *ets, ETreeModel *source, ETableHeader *ful
 									 GTK_SIGNAL_FUNC (ets_proxy_node_inserted), ets);
 	ets->priv->tree_model_node_removed_id      = gtk_signal_connect (GTK_OBJECT (source), "node_removed",
 									 GTK_SIGNAL_FUNC (ets_proxy_node_removed), ets);
+	ets->priv->tree_model_node_deleted_id      = gtk_signal_connect (GTK_OBJECT (source), "node_deleted",
+									 GTK_SIGNAL_FUNC (ets_proxy_node_deleted), ets);
 
 	ets->priv->sort_info_changed_id            = gtk_signal_connect (GTK_OBJECT (sort_info), "sort_info_changed",
 									 GTK_SIGNAL_FUNC (ets_sort_info_changed), ets);
@@ -1317,6 +1378,11 @@ e_tree_sorted_node_num_children   (ETreeSorted    *ets,
 				   ETreePath       path)
 {
 	ETreeSortedPath *sorted_path = path;
+
+	if (sorted_path->num_children == -1) {
+		generate_children(ets, sorted_path);
+	}
+
 	return sorted_path->num_children;
 }
 

@@ -1,12 +1,27 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * E-table-col-head.c: TableColHead implementation
+ * e-table-header.c
+ * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
- * Author:
- *   Miguel de Icaza (miguel@gnu.org)
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
+ *   Miguel de Icaza <miguel@ximian.com>
  *
- * (C) 1999 Ximian, Inc
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 #include <string.h>
 #include <gtk/gtkobject.h>
@@ -844,4 +859,27 @@ e_table_header_get_type (void)
 	}
 
 	return type;
+}
+
+int
+e_table_header_prioritized_column (ETableHeader *eth)
+{
+	int best_model_col = 0;
+	int best_priority;
+	int i;
+	int count;
+
+	count = e_table_header_count (eth);
+	if (count == 0)
+		return -1;
+	best_priority = e_table_header_get_column (eth, 0)->priority;
+	best_model_col = e_table_header_get_column (eth, 0)->col_idx;
+	for (i = 1; i < count; i++) {
+		int priority = e_table_header_get_column (eth, i)->priority;
+		if (priority > best_priority) {
+			best_priority = priority;
+			best_model_col = e_table_header_get_column (eth, i)->col_idx;
+		}
+	}
+	return best_model_col;
 }

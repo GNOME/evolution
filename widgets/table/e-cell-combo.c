@@ -1,25 +1,24 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
- * Author :
- *  Damon Chaplin <damon@ximian.com>
- *
+ * e-cell-combo.c: Combo cell renderer
  * Copyright 2001, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * Authors:
+ *   Damon Chaplin <damon@ximian.com>
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 
 /*
@@ -58,12 +57,19 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include "gal/util/e-util.h"
+#include "gal/widgets/e-unicode.h"
 #include "e-table-item.h"
 #include "e-cell-combo.h"
+#include "e-cell-text.h"
+
+#define d(x)
 
 
 /* The height to make the popup list if there aren't any items in it. */
 #define	E_CELL_COMBO_LIST_EMPTY_HEIGHT	15
+
+/* The object data key used to store the UTF-8 text of the popup list items. */
+#define E_CELL_COMBO_UTF8_KEY		"UTF-8-TEXT"
 
 
 static void e_cell_combo_class_init	(GtkObjectClass	*object_class);
@@ -71,10 +77,16 @@ static void e_cell_combo_init		(ECellCombo	*ecc);
 static void e_cell_combo_destroy	(GtkObject	*object);
 
 static gint e_cell_combo_do_popup	(ECellPopup	*ecp,
-					 GdkEvent	*event);
+					 GdkEvent	*event,
+					 int             row,
+					 int             view_col);
 static void e_cell_combo_select_matching_item	(ECellCombo	*ecc);
-static void e_cell_combo_show_popup	(ECellCombo	*ecc);
+static void e_cell_combo_show_popup	(ECellCombo	*ecc,
+					 int             row,
+					 int             view_col);
 static void e_cell_combo_get_popup_pos	(ECellCombo	*ecc,
+					 int             row,
+					 int             view_col,
 					 gint		*x,
 					 gint		*y,
 					 gint		*height,
@@ -213,9 +225,23 @@ e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
 	gtk_list_clear_items (GTK_LIST (ecc->popup_list), 0, -1);
 	elem = strings;
 	while (elem) {
-		listitem = gtk_list_item_new_with_label ((gchar *) elem->data);
+		char *utf8_text = elem->data;
+
+		/* We store a copy of the UTF-8 text as data inside the
+		   listitem, but convert it to the current locale to go in
+		   the listitem widget. */
+		char *locale_text = e_utf8_to_locale_string (utf8_text);
+
+		listitem = gtk_list_item_new_with_label (locale_text);
+		g_free (locale_text);
+
 		gtk_widget_show (listitem);
 		gtk_container_add (GTK_CONTAINER (ecc->popup_list), listitem);
+
+		gtk_object_set_data_full (GTK_OBJECT (listitem),
+					  E_CELL_COMBO_UTF8_KEY,
+					  g_strdup (utf8_text), g_free);
+
 		elem = elem->next;
 	}
 }
@@ -223,13 +249,15 @@ e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
 
 static gint
 e_cell_combo_do_popup			(ECellPopup	*ecp,
-					 GdkEvent	*event)
+					 GdkEvent	*event,
+					 int             row,
+					 int             view_col)
 {
 	ECellCombo *ecc = E_CELL_COMBO (ecp);
 	guint32 time;
 	gint error_code;
 
-	e_cell_combo_show_popup (ecc);
+	e_cell_combo_show_popup (ecc, row, view_col);
 	e_cell_combo_select_matching_item (ecc);
 
 	if (event->type == GDK_BUTTON_PRESS) {
@@ -259,26 +287,29 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecc);
 	ECellView *ecv = (ECellView*) ecp->popup_cell_view;
+	ECellText *ecell_text = E_CELL_TEXT (ecp->child);
 	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
 	ETableCol *ecol;
 	GtkList *list;
-	GtkWidget *listitem, *label;
+	GtkWidget *listitem;
 	GList *elem;
 	gboolean found = FALSE;
 	char *cell_text, *list_item_text;
 
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
-	cell_text = e_table_model_value_at (ecv->e_table_model,
+	cell_text = e_cell_text_get_text (ecell_text, ecv->e_table_model,
 					    ecol->col_idx, ecp->popup_row);
 
 	list = GTK_LIST (ecc->popup_list);
 	elem = list->children;
 	while (elem) {
 		listitem = GTK_WIDGET (elem->data);
-		label = GTK_BIN (listitem)->child;
-		gtk_label_get (GTK_LABEL (label), &list_item_text);
 
-		if (!strcmp (list_item_text, cell_text)) {
+		/* We need to compare against the UTF-8 text. */
+		list_item_text = gtk_object_get_data (GTK_OBJECT (listitem),
+						      E_CELL_COMBO_UTF8_KEY);
+
+		if (list_item_text && !strcmp (list_item_text, cell_text)) {
 			found = TRUE;
 			gtk_list_select_child (list, listitem);
 			gtk_widget_grab_focus (listitem);
@@ -293,21 +324,21 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 		if (list->children)
 			gtk_widget_grab_focus (GTK_WIDGET (list->children->data));
 	}
+
+	e_cell_text_free_text (ecell_text, cell_text);
 }
 
 
 static void
-e_cell_combo_show_popup			(ECellCombo	*ecc)
+e_cell_combo_show_popup			(ECellCombo	*ecc, int row, int view_col)
 {
 	gint x, y, width, height, old_width, old_height;
-
-	g_print ("In e_cell_popup_popup_list\n");
 
 	/* This code is practically copied from GtkCombo. */
 	old_width = ecc->popup_window->allocation.width;
 	old_height  = ecc->popup_window->allocation.height;
 
-	e_cell_combo_get_popup_pos (ecc, &x, &y, &height, &width);
+	e_cell_combo_get_popup_pos (ecc, row, view_col, &x, &y, &height, &width);
 
 	/* workaround for gtk_scrolled_window_size_allocate bug */
 	if (old_width != width || old_height != height) {
@@ -321,13 +352,16 @@ e_cell_combo_show_popup			(ECellCombo	*ecc)
 	gdk_window_resize (ecc->popup_window->window, width, height);
 	gtk_widget_show (ecc->popup_window);
 
-	E_CELL_POPUP (ecc)->popup_shown = TRUE;
+	e_cell_popup_set_shown (E_CELL_POPUP (ecc), TRUE);
+	d(g_print("%s: popup_shown = TRUE\n", __FUNCTION__));
 }
 
 
 /* Calculates the size and position of the popup window (like GtkCombo). */
 static void
 e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
+					 int             row,
+					 int             view_col,
 					 gint		*x,
 					 gint		*y,
 					 gint		*height,
@@ -351,12 +385,12 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
   
 	gdk_window_get_origin (canvas->window, x, y);
 
-	x1 = e_table_header_col_diff (eti->header, 0, eti->editing_col + 1);
-	y1 = e_table_item_row_diff (eti, 0, eti->editing_row + 1);
-	column_width = e_table_header_col_diff (eti->header, eti->editing_col,
-						eti->editing_col + 1);
-	row_height = e_table_item_row_diff (eti, eti->editing_row,
-					    eti->editing_row + 1);
+	x1 = e_table_header_col_diff (eti->header, 0, view_col + 1);
+	y1 = e_table_item_row_diff (eti, 0, row + 1);
+	column_width = e_table_header_col_diff (eti->header, view_col,
+						view_col + 1);
+	row_height = e_table_item_row_diff (eti, row,
+					    row + 1);
 	gnome_canvas_item_i2w (GNOME_CANVAS_ITEM (eti), &x1, &y1);
 
 	gnome_canvas_world_to_window (GNOME_CANVAS (canvas),
@@ -458,8 +492,6 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 
 
 
-
-
 /* This handles button press events in the popup window.
    Note that since we have a pointer grab on this window, we also get button
    press events for windows outside the application here, so we hide the popup
@@ -471,8 +503,6 @@ e_cell_combo_button_press		(GtkWidget	*popup_window,
 					 ECellCombo	*ecc)
 {
 	GtkWidget *event_widget;
-
-	g_print ("In e_cell_combo_button_press\n");
 
 	event_widget = gtk_get_event_widget (event);
 
@@ -492,7 +522,8 @@ e_cell_combo_button_press		(GtkWidget	*popup_window,
 	gdk_pointer_ungrab (event->button.time);
 	gtk_widget_hide (ecc->popup_window);
 
-	E_CELL_POPUP (ecc)->popup_shown = FALSE;
+	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
+	d(g_print("%s: popup_shown = FALSE\n", __FUNCTION__));
 
 	/* We don't want to update the cell here. Since the list is in browse
 	   mode there will always be one item selected, so when we popup the
@@ -518,9 +549,6 @@ e_cell_combo_button_release		(GtkWidget	*popup_window,
 
 	event_widget = gtk_get_event_widget ((GdkEvent*) event);
   
-	g_print ("In e_cell_popup_button_release event_widget:%s\n",
-		 gtk_widget_get_name (event_widget));
-
 	/* See if the button was released in the list (or its children). */
 	while (event_widget && event_widget != ecc->popup_list)
 		event_widget = event_widget->parent;
@@ -535,7 +563,8 @@ e_cell_combo_button_release		(GtkWidget	*popup_window,
 	gdk_pointer_ungrab (event->time);
 	gtk_widget_hide (ecc->popup_window);
 
-	E_CELL_POPUP (ecc)->popup_shown = FALSE;
+	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
+	d(g_print("%s: popup_shown = FALSE\n", __FUNCTION__));
 
 	e_cell_combo_update_cell (ecc);
 	e_cell_combo_restart_edit (ecc);
@@ -551,8 +580,6 @@ e_cell_combo_key_press			(GtkWidget	*popup_window,
 					 GdkEventKey	*event,
 					 ECellCombo	*ecc)
 {
-	g_print ("In e_cell_popup_key_press\n");
-
 	/* If the Escape key is pressed we hide the popup. */
 	if (event->keyval != GDK_Escape
 	    && event->keyval != GDK_Return
@@ -565,7 +592,8 @@ e_cell_combo_key_press			(GtkWidget	*popup_window,
 	gdk_pointer_ungrab (event->time);
 	gtk_widget_hide (ecc->popup_window);
 
-	E_CELL_POPUP (ecc)->popup_shown = FALSE;
+	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
+	d(g_print("%s: popup_shown = FALSE\n", __FUNCTION__));
 
 	if (event->keyval != GDK_Escape)
 		e_cell_combo_update_cell (ecc);
@@ -581,13 +609,12 @@ e_cell_combo_update_cell		(ECellCombo	*ecc)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecc);
 	ECellView *ecv = (ECellView*) ecp->popup_cell_view;
+	ECellText *ecell_text = E_CELL_TEXT (ecp->child);
 	ETableItem *eti = E_TABLE_ITEM (ecv->e_table_item_view);
 	ETableCol *ecol;
 	GtkList *list = GTK_LIST (ecc->popup_list);
 	GtkListItem *listitem;
 	gchar *text, *old_text;
-
-	g_print ("In e_cell_popup_update_cell\n");
 
 	/* Return if no item is selected. */
 	if (list->selection == NULL)
@@ -595,23 +622,23 @@ e_cell_combo_update_cell		(ECellCombo	*ecc)
 
 	/* Get the text of the selected item. */
 	listitem = list->selection->data;
-	gtk_label_get (GTK_LABEL (GTK_BIN (listitem)->child), &text);
+	text = gtk_object_get_data (GTK_OBJECT (listitem),
+				    E_CELL_COMBO_UTF8_KEY);
+	g_return_if_fail (text != NULL);
 
 	/* Compare it with the existing cell contents. */
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
-	old_text = e_table_model_value_at (ecv->e_table_model,
-					   ecol->col_idx, ecp->popup_row);
 
-	g_print ("   Old text: %s New text: %s\n", old_text, text);
+	old_text = e_cell_text_get_text (ecell_text, ecv->e_table_model,
+					 ecol->col_idx, ecp->popup_row);
 
 	/* If they are different, update the cell contents. */
-	if (strcmp (old_text, text)) {
-		g_print ("  Setting cell text...\n");
-		e_table_model_set_value_at (ecv->e_table_model,
-					    ecol->col_idx, ecp->popup_row,
-					    text);
-		g_print ("  Set cell text.\n");
+	if (old_text && strcmp (old_text, text)) {
+		e_cell_text_set_value (ecell_text, ecv->e_table_model,
+				       ecol->col_idx, ecp->popup_row, text);
 	}
+
+	e_cell_text_free_text (ecell_text, old_text);
 }
 
 

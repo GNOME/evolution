@@ -1,13 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * e-tree.c: A graphical view of a tree.
+ * e-tree.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author:
- *   Miguel de Icaza (miguel@ximian.com)
+ * Authors:
  *   Chris Lahey <clahey@ximian.com>
  *
- * Copyright 1999, 2000, 2001, Ximian, Inc
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -45,6 +58,14 @@
 
 static GtkObjectClass *parent_class;
 
+#define d(x)
+
+#if d(!)0
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
+#else
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
+#endif
+
 enum {
 	CURSOR_CHANGE,
 	CURSOR_ACTIVATED,
@@ -74,7 +95,15 @@ enum {
 	ARG_HORIZONTAL_DRAW_GRID,
 	ARG_VERTICAL_DRAW_GRID,
 	ARG_DRAW_FOCUS,
-	ARG_ETTA
+	ARG_ETTA,
+	ARG_UNIFORM_ROW_HEIGHT,
+};
+
+enum {
+	ET_SCROLL_UP = 1 << 0,
+	ET_SCROLL_DOWN = 1 << 1,
+	ET_SCROLL_LEFT = 1 << 2,
+	ET_SCROLL_RIGHT = 1 << 3
 };
 
 struct ETreePriv {
@@ -120,9 +149,11 @@ struct ETreePriv {
 
 	guint horizontal_scrolling : 1;
 
-	guint scroll_down : 1;
+	guint scroll_direction : 4;
 
 	guint do_drag : 1;
+
+	guint uniform_row_height : 1;
 
 	ECursorMode cursor_mode;
 
@@ -143,6 +174,8 @@ struct ETreePriv {
 	ETreePath drag_path;
 	int drag_col;
 	ETreeDragSourceSite *site;
+
+	GList *expanded_list;
 };
 
 static gint et_signals [LAST_SIGNAL] = { 0, };
@@ -192,7 +225,7 @@ static void et_drag_data_received(GtkWidget *widget,
 
 
 static void scroll_off (ETree *et);
-static void scroll_on (ETree *et, gboolean down);
+static void scroll_on (ETree *et, guint scroll_direction);
 static void hover_off (ETree *et);
 static void hover_on (ETree *et, int x, int y);
 
@@ -235,6 +268,7 @@ et_destroy (GtkObject *object)
 
 		scroll_off (et);
 		hover_off (et);
+		e_free_string_list (et->priv->expanded_list);
 
 		et_disconnect_from_etta (et);
 
@@ -297,6 +331,7 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->draw_focus                         = 1;
 	e_tree->priv->cursor_mode                        = E_CURSOR_SIMPLE;
 	e_tree->priv->length_threshold                   = 200;
+	e_tree->priv->uniform_row_height                 = FALSE;
 
 	e_tree->priv->row_selection_active               = FALSE;
 	e_tree->priv->horizontal_scrolling               = FALSE;
@@ -317,6 +352,8 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->drag_row                           = -1;
 	e_tree->priv->drag_path                          = NULL;
 	e_tree->priv->drag_col                           = -1;
+
+	e_tree->priv->expanded_list                      = NULL;
 
 	e_tree->priv->site                               = NULL;
 	e_tree->priv->do_drag                            = FALSE;
@@ -514,10 +551,12 @@ static void
 item_cursor_activated (ETableItem *eti, int row, ETree *et)
 {
 	ETreePath path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
+	if (path)
 	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
 	gtk_signal_emit (GTK_OBJECT (et),
 			 et_signals [CURSOR_ACTIVATED],
 			 row, path);
+	d(g_print("%s: Emitted CURSOR_ACTIVATED signal on row: %d and path: 0x%p\n", __FUNCTION__, row, path));
 }
 
 static void
@@ -570,9 +609,14 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 		y = CLAMP(vadj->value + (2 * vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
 		e_tree_get_cell_at (et, 30, y, &row_local, &col_local);
+
+		if (row_local == -1)
+			row_local = e_table_model_row_count (E_TABLE_MODEL(et->priv->etta)) - 1;
+
 		row_local = e_tree_view_to_model_row (et, row_local);
 		col_local = e_selection_model_cursor_col (E_SELECTION_MODEL (et->priv->selection));
 		e_selection_model_select_as_key_press (E_SELECTION_MODEL (et->priv->selection), row_local, col_local, key->state);
+
 		return_val = 1;
 		break;
 	case GDK_Page_Up:
@@ -581,9 +625,14 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 		y = CLAMP(vadj->value - (vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
 		e_tree_get_cell_at (et, 30, y, &row_local, &col_local);
+
+		if (row_local == -1)
+			row_local = e_table_model_row_count (E_TABLE_MODEL(et->priv->etta)) - 1;
+
 		row_local = e_tree_view_to_model_row (et, row_local);
 		col_local = e_selection_model_cursor_col (E_SELECTION_MODEL (et->priv->selection));
 		e_selection_model_select_as_key_press (E_SELECTION_MODEL (et->priv->selection), row_local, col_local, key->state);
+
 		return_val = 1;
 		break;
 	case '=':
@@ -634,7 +683,14 @@ item_start_drag (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 }
 
 static void
-et_selection_model_selection_change (ETableSelectionModel *etsm, ETable *et)
+et_selection_model_selection_changed (ETableSelectionModel *etsm, ETree *et)
+{
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [SELECTION_CHANGE]);
+}
+
+static void
+et_selection_model_selection_row_changed (ETableSelectionModel *etsm, int row, ETree *et)
 {
 	gtk_signal_emit (GTK_OBJECT (et),
 			 et_signals [SELECTION_CHANGE]);
@@ -654,6 +710,7 @@ et_build_item (ETree *et)
 					 "drawfocus", et->priv->draw_focus,
 					 "cursor_mode", et->priv->cursor_mode,
 					 "length_threshold", et->priv->length_threshold,
+					 "uniform_row_height", et->priv->uniform_row_height,
 					 NULL);
 
 	gtk_signal_connect (GTK_OBJECT (et->priv->item), "cursor_change",
@@ -682,17 +739,53 @@ et_canvas_realize (GtkWidget *canvas, ETree *e_tree)
 }
 
 static gint
-et_canvas_button_press (GtkWidget *canvas, GdkEventButton *event, ETree *e_tree)
+et_canvas_root_event (GnomeCanvasItem *root, GdkEvent *event, ETree *e_tree)
 {
-	if (GTK_WIDGET_HAS_FOCUS(canvas)) {
-		GnomeCanvasItem *item = GNOME_CANVAS(canvas)->focused_item;
+	switch (event->type) {
+	case GDK_BUTTON_PRESS:
+	case GDK_2BUTTON_PRESS:
+	case GDK_BUTTON_RELEASE:
+		if (event->button.button != 4 && event->button.button != 5) {
+			if (GTK_WIDGET_HAS_FOCUS(root->canvas)) {
+				GnomeCanvasItem *item = GNOME_CANVAS(root->canvas)->focused_item;
 
 		if (E_IS_TABLE_ITEM(item)) {
-			e_table_item_leave_edit(E_TABLE_ITEM(item));
+					e_table_item_leave_edit_(E_TABLE_ITEM(item));
+					return TRUE;
+				}
 		}
+	}
+		break;
+	default:
+		break;
 	}
 
 	return FALSE;
+}
+
+/* Handler for focus events in the table_canvas; we have to repaint ourselves
+ * and give the focus to some ETableItem.
+ */
+static gint
+table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
+{
+	GnomeCanvas *canvas;
+	ETree *tree;
+
+	gtk_widget_queue_draw (widget);
+
+	if (!event->in)
+		return TRUE;
+
+	canvas = GNOME_CANVAS (widget);
+	tree = E_TREE (data);
+
+	if (!canvas->focused_item) {
+		e_table_item_set_cursor (E_TABLE_ITEM (tree->priv->item), 0, 0);
+		gnome_canvas_item_grab_focus (tree->priv->item);
+	}
+
+	return TRUE;
 }
 
 static void
@@ -704,10 +797,10 @@ e_tree_setup_table (ETree *e_tree)
 		GTK_SIGNAL_FUNC (tree_canvas_size_allocate), e_tree);
 	gtk_signal_connect (
 		GTK_OBJECT (e_tree->priv->table_canvas), "focus_in_event",
-		GTK_SIGNAL_FUNC (gtk_widget_queue_draw), e_tree);
+		GTK_SIGNAL_FUNC (table_canvas_focus_event_cb), e_tree);
 	gtk_signal_connect (
 		GTK_OBJECT (e_tree->priv->table_canvas), "focus_out_event",
-		GTK_SIGNAL_FUNC (gtk_widget_queue_draw), e_tree);
+		GTK_SIGNAL_FUNC (table_canvas_focus_event_cb), e_tree);
 
 	gtk_signal_connect (
 		GTK_OBJECT (e_tree->priv->table_canvas), "drag_begin",
@@ -753,8 +846,8 @@ e_tree_setup_table (ETree *e_tree)
 		GTK_OBJECT(e_tree->priv->table_canvas), "realize",
 		GTK_SIGNAL_FUNC(et_canvas_realize), e_tree);
 	gtk_signal_connect (
-		GTK_OBJECT(e_tree->priv->table_canvas), "button_press_event",
-		GTK_SIGNAL_FUNC(et_canvas_button_press), e_tree);
+		GTK_OBJECT(gnome_canvas_root (e_tree->priv->table_canvas)), "event",
+		GTK_SIGNAL_FUNC(et_canvas_root_event), e_tree);
 
 	et_build_item(e_tree);
 }
@@ -798,11 +891,11 @@ e_tree_set_state_object(ETree *e_tree, ETableState *state)
 
 /**
  * e_tree_set_state:
- * @e_tree: %ETree object that will be modified
- * @state_str: a string with the XML representation of the ETableState.
+ * @e_tree: #ETree object that will be modified
+ * @state_str: a string with the XML representation of the #ETableState.
  *
- * This routine sets the state (as described by %ETableState) of the
- * %ETree object.
+ * This routine sets the state (as described by #ETableState) of the
+ * #ETree object.
  */
 void
 e_tree_set_state (ETree      *e_tree,
@@ -825,10 +918,10 @@ e_tree_set_state (ETree      *e_tree,
 
 /**
  * e_tree_load_state:
- * @e_tree: %ETree object that will be modified
- * @filename: name of the file containing the state to be loaded into the %ETree
+ * @e_tree: #ETree object that will be modified
+ * @filename: name of the file containing the state to be loaded into the #ETree
  *
- * An %ETableState will be loaded form the file pointed by @filename into the
+ * An #ETableState will be loaded form the file pointed by @filename into the
  * @e_tree object.
  */
 void
@@ -852,11 +945,14 @@ e_tree_load_state (ETree      *e_tree,
 
 /**
  * e_tree_get_state_object:
- * @e_tree: %ETree object that will be modified
+ * @e_tree: #ETree object to act on
  *
- * Returns: the %ETreeState object that encapsulates the current
- * state of the @e_tree object
- */
+ * Builds an #ETableState corresponding to the current state of the
+ * #ETree.
+ *
+ * Return value:
+ * The %ETableState object generated.
+ **/
 ETableState *
 e_tree_get_state_object (ETree *e_tree)
 {
@@ -888,7 +984,18 @@ e_tree_get_state_object (ETree *e_tree)
 	return state;
 }
 
-gchar          *e_tree_get_state                 (ETree               *e_tree)
+/**
+ * e_tree_get_state:
+ * @e_tree: The #ETree to act on
+ * 
+ * Builds a state object based on the current state and returns the
+ * string corresponding to that state.
+ * 
+ * Return value: 
+ * A string describing the current state of the #ETree.
+ **/
+gchar *
+e_tree_get_state (ETree *e_tree)
 {
 	ETableState *state;
 	gchar *string;
@@ -901,12 +1008,12 @@ gchar          *e_tree_get_state                 (ETree               *e_tree)
 
 /**
  * e_tree_save_state:
- * @e_tree: %ETree object that will be modified
- * @filename: name of the file containing the state to be loaded into the %ETree
+ * @e_tree: The #ETree to act on
+ * @filename: name of the file to save to
  *
- * This routine saves the state of the @e_tree object into the file pointed
- * by @filename
- */
+ * Saves the state of the @e_tree object into the file pointed by
+ * @filename.
+ **/
 void
 e_tree_save_state (ETree      *e_tree,
 		   const gchar *filename)
@@ -918,6 +1025,14 @@ e_tree_save_state (ETree      *e_tree,
 	gtk_object_unref(GTK_OBJECT(state));
 }
 
+/**
+ * e_tree_get_spec:
+ * @e_tree: The #ETree to query
+ * 
+ * Returns the specification object.
+ * 
+ * Return value:
+ **/
 ETableSpecification *
 e_tree_get_spec (ETree *e_tree)
 {
@@ -1033,7 +1148,9 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 			NULL);
 
 	gtk_signal_connect(GTK_OBJECT(e_tree->priv->selection), "selection_changed",
-			   GTK_SIGNAL_FUNC(et_selection_model_selection_change), e_tree);
+			   GTK_SIGNAL_FUNC(et_selection_model_selection_changed), e_tree);
+	gtk_signal_connect(GTK_OBJECT(e_tree->priv->selection), "selection_row_changed",
+			   GTK_SIGNAL_FUNC(et_selection_model_selection_row_changed), e_tree);
 
 	if (!specification->no_headers) {
 		e_tree_setup_header (e_tree);
@@ -1069,6 +1186,20 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	return e_tree;
 }
 
+/**
+ * e_tree_construct:
+ * @e_tree: The newly created #ETree object.
+ * @etm: The model for this table.
+ * @ete: An optional #ETableExtras.  (%NULL is valid.)
+ * @spec_str: The spec.
+ * @state_str: An optional state.  (%NULL is valid.)
+ * 
+ * This is the internal implementation of e_tree_new() for use by
+ * subclasses or language bindings.  See e_tree_new() for details.
+ * 
+ * Return value: 
+ * The passed in value @e_tree or %NULL if there's an error.
+ **/
 ETree *
 e_tree_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 		   const char *spec_str, const char *state_str)
@@ -1106,6 +1237,21 @@ e_tree_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	return e_tree;
 }
 
+/**
+ * e_tree_construct_from_spec_file:
+ * @e_tree: The newly created #ETree object.
+ * @etm: The model for this tree
+ * @ete: An optional #ETableExtras  (%NULL is valid.)
+ * @spec_fn: The filename of the spec
+ * @state_fn: An optional state file  (%NULL is valid.)
+ *
+ * This is the internal implementation of e_tree_new_from_spec_file()
+ * for use by subclasses or language bindings.  See
+ * e_tree_new_from_spec_file() for details.
+ * 
+ * Return value: 
+ * The passed in value @e_tree or %NULL if there's an error.
+ **/
 ETree *
 e_tree_construct_from_spec_file (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 				  const char *spec_fn, const char *state_fn)
@@ -1151,6 +1297,27 @@ e_tree_construct_from_spec_file (ETree *e_tree, ETreeModel *etm, ETableExtras *e
 	return e_tree;
 }
 
+/**
+ * e_tree_new:
+ * @etm: The model for this tree
+ * @ete: An optional #ETableExtras  (%NULL is valid.)
+ * @spec: The spec
+ * @state: An optional state  (%NULL is valid.)
+ * 
+ * This function creates an #ETree from the given parameters.  The
+ * #ETreeModel is a tree model to be represented.  The #ETableExtras
+ * is an optional set of pixbufs, cells, and sorting functions to be
+ * used when interpreting the spec.  If you pass in %NULL it uses the
+ * default #ETableExtras.  (See e_table_extras_new()).
+ *
+ * @spec is the specification of the set of viewable columns and the
+ * default sorting state and such.  @state is an optional string
+ * specifying the current sorting state and such.  If @state is NULL,
+ * then the default state from the spec will be used.
+ * 
+ * Return value: 
+ * The newly created #ETree or %NULL if there's an error.
+ **/
 GtkWidget *
 e_tree_new (ETreeModel *etm, ETableExtras *ete, const char *spec, const char *state)
 {
@@ -1172,6 +1339,26 @@ e_tree_new (ETreeModel *etm, ETableExtras *ete, const char *spec, const char *st
 	return (GtkWidget *) ret_val;
 }
 
+/**
+ * e_tree_new_from_spec_file:
+ * @etm: The model for this tree.
+ * @ete: An optional #ETableExtras.  (%NULL is valid.)
+ * @spec_fn: The filename of the spec.
+ * @state_fn: An optional state file.  (%NULL is valid.)
+ * 
+ * This is very similar to e_tree_new(), except instead of passing in
+ * strings you pass in the file names of the spec and state to load.
+ *
+ * @spec_fn is the filename of the spec to load.  If this file doesn't
+ * exist, e_tree_new_from_spec_file will return %NULL.
+ *
+ * @state_fn is the filename of the initial state to load.  If this is
+ * %NULL or if the specified file doesn't exist, the default state
+ * from the spec file is used.
+ * 
+ * Return value: 
+ * The newly created #ETree or %NULL if there's an error.
+ **/
 GtkWidget *
 e_tree_new_from_spec_file (ETreeModel *etm, ETableExtras *ete, const char *spec_fn, const char *state_fn)
 {
@@ -1223,6 +1410,9 @@ e_tree_set_cursor (ETree *e_tree, ETreePath path)
 ETreePath
 e_tree_get_cursor (ETree *e_tree)
 {
+#ifdef E_TREE_USE_TREE_SELECTION
+	return e_tree_selection_model_get_cursor (E_TREE_SELECTION_MODEL(e_tree->priv->selection));
+#else
 	int row;
 	ETreePath path;
 	g_return_val_if_fail(e_tree != NULL, NULL);
@@ -1236,6 +1426,7 @@ e_tree_get_cursor (ETree *e_tree)
 	path = e_tree_table_adapter_node_at_row(E_TREE_TABLE_ADAPTER(e_tree->priv->etta), row);
 	path = e_tree_sorted_view_to_model_path(e_tree->priv->sorted, path);
 	return path;
+#endif
 }
 
 void
@@ -1286,6 +1477,9 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT (etree->priv->etta);
 		}
 		break;
+	case ARG_UNIFORM_ROW_HEIGHT:
+		GTK_VALUE_BOOL (*arg) = etree->priv->uniform_row_height;
+		break;
 
 	default:
 		break;
@@ -1335,6 +1529,15 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		if (etree->priv->item) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etree->priv->item),
 					       "draw_focus", GTK_VALUE_BOOL (*arg),
+					       NULL);
+		}
+		break;
+
+	case ARG_UNIFORM_ROW_HEIGHT:
+		etree->priv->uniform_row_height = GTK_VALUE_BOOL (*arg);
+		if (etree->priv->item) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etree->priv->item),
+					       "uniform_row_height", GTK_VALUE_BOOL (*arg),
 					       NULL);
 		}
 		break;
@@ -1534,6 +1737,60 @@ GtkWidget *
 e_tree_get_tooltip (ETree *et)
 {
 	return E_CANVAS(et->priv->table_canvas)->tooltip_window;
+}
+
+typedef struct {
+	ETreePathFunc func;
+	gpointer data;
+	ETree *et;
+} FindNextCallback;
+
+static gboolean
+find_next_callback (ETreeModel *model, ETreePath path, gpointer data)
+{
+	FindNextCallback *cb_data = data;
+	ETree *et = cb_data->et;
+
+	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
+
+	return cb_data->func (et->priv->model, path, cb_data->data);
+}
+
+gboolean
+e_tree_find_next (ETree *et, ETreeFindNextParams params, ETreePathFunc func, gpointer data)
+{
+	ETreePath cursor;
+	ETreePath found;
+	FindNextCallback cb_data;
+
+	cb_data.func = func;
+	cb_data.data = data;
+	cb_data.et   = et;
+
+	cursor = e_tree_get_cursor (et);
+	cursor = e_tree_sorted_model_to_view_path (et->priv->sorted, cursor);
+
+	found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), cursor, NULL, params & E_TREE_FIND_NEXT_FORWARD, find_next_callback, &cb_data);
+
+	if (found) {
+		e_tree_table_adapter_show_node (et->priv->etta, found);
+		cursor = e_tree_sorted_view_to_model_path (et->priv->sorted, found);
+		e_tree_set_cursor (et, cursor);
+		return TRUE;
+	}
+
+	if (params & E_TREE_FIND_NEXT_WRAP) {
+		found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), NULL, cursor, params & E_TREE_FIND_NEXT_FORWARD, find_next_callback, &cb_data);
+
+		if (found && found != cursor) {
+			e_tree_table_adapter_show_node (et->priv->etta, found);
+			cursor = e_tree_sorted_view_to_model_path (et->priv->sorted, found);
+			e_tree_set_cursor (et, cursor);
+			return TRUE;
+		}
+	}
+
+	return FALSE;
 }
 
 void
@@ -2104,22 +2361,31 @@ static gboolean
 scroll_timeout (gpointer data)
 {
 	ETree *et = data;
-	int dy;
-	GtkAdjustment *v;
-	double value;
+	int dx = 0, dy = 0;
+	GtkAdjustment *v, *h;
+	double vvalue, hvalue;
 
-	if (et->priv->scroll_down)
-		dy = 20;
-	else
-		dy = -20;
+	if (et->priv->scroll_direction & ET_SCROLL_DOWN)
+		dy += 20;
+	if (et->priv->scroll_direction & ET_SCROLL_UP)
+		dy -= 20;
 
+	if (et->priv->scroll_direction & ET_SCROLL_RIGHT)
+		dx += 20;
+	if (et->priv->scroll_direction & ET_SCROLL_LEFT)
+		dx -= 20;
+
+	h = GTK_LAYOUT(et->priv->table_canvas)->hadjustment;
 	v = GTK_LAYOUT(et->priv->table_canvas)->vadjustment;
 
-	value = v->value;
+	hvalue = h->value;
+	vvalue = v->value;
 
+	gtk_adjustment_set_value(h, CLAMP(h->value + dx, h->lower, h->upper - h->page_size));
 	gtk_adjustment_set_value(v, CLAMP(v->value + dy, v->lower, v->upper - v->page_size));
 
-	if (v->value != value)
+	if (h->value != hvalue ||
+	    v->value != vvalue)
 		do_drag_motion(et,
 			       et->priv->last_drop_context,
 			       et->priv->last_drop_x,
@@ -2131,12 +2397,12 @@ scroll_timeout (gpointer data)
 }
 
 static void
-scroll_on (ETree *et, gboolean down)
+scroll_on (ETree *et, guint scroll_direction)
 {
-	if (et->priv->scroll_idle_id == 0 || down != et->priv->scroll_down) {
+	if (et->priv->scroll_idle_id == 0 || scroll_direction != et->priv->scroll_direction) {
 		if (et->priv->scroll_idle_id != 0)
 			g_source_remove (et->priv->scroll_idle_id);
-		et->priv->scroll_down = down;
+		et->priv->scroll_direction = scroll_direction;
 		et->priv->scroll_idle_id = g_timeout_add (100, scroll_timeout, et);
 	}
 }
@@ -2170,7 +2436,11 @@ hover_timeout (gpointer data)
 
 	path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 	if (path && e_tree_model_node_is_expandable (E_TREE_MODEL (et->priv->sorted), path)) {
+		if (!e_tree_table_adapter_node_is_expanded (et->priv->etta, path)) {
+			if (e_tree_model_has_save_id (E_TREE_MODEL (et->priv->sorted)) && e_tree_model_has_get_node_by_id (E_TREE_MODEL (et->priv->sorted)))
+				et->priv->expanded_list = g_list_prepend (et->priv->expanded_list, e_tree_model_get_save_id (E_TREE_MODEL (et->priv->sorted), path));
 		e_tree_table_adapter_node_set_expanded (et->priv->etta, path, TRUE);
+	}
 	}
 
 	return TRUE;
@@ -2192,6 +2462,66 @@ hover_off (ETree *et)
 	if (et->priv->hover_idle_id) {
 		g_source_remove (et->priv->hover_idle_id);
 		et->priv->hover_idle_id = 0;
+	}
+}
+
+static void
+collapse_drag (ETree *et, ETreePath drop)
+{
+	GList *list;
+
+	/* We only want to leave open parents of the node dropped in.  Not the node itself. */
+	if (drop) {
+		drop = e_tree_model_node_get_parent (E_TREE_MODEL (et->priv->sorted), drop);
+	}
+
+	for (list = et->priv->expanded_list; list; list = list->next) {
+		char *save_id = list->data;
+		ETreePath path;
+
+		path = e_tree_model_get_node_by_id (E_TREE_MODEL (et->priv->sorted), save_id);
+		if (path) {
+			ETreePath search;
+			gboolean found = FALSE;
+
+			for (search = drop; search; search = e_tree_model_node_get_parent (E_TREE_MODEL (et->priv->sorted), search)) {
+				if (path == search) {
+					found = TRUE;
+					break;
+				}
+			}
+
+			if (!found)
+				e_tree_table_adapter_node_set_expanded (et->priv->etta, path, FALSE);
+		}
+		g_free (save_id);
+	}
+	g_list_free (et->priv->expanded_list);
+	et->priv->expanded_list = NULL;
+}
+
+static void
+context_destroyed (gpointer data)
+{
+	ETree *et = data;
+	if (et->priv) {
+		et->priv->last_drop_x       = 0;
+		et->priv->last_drop_y       = 0;
+		et->priv->last_drop_time    = 0;
+		et->priv->last_drop_context = NULL;
+		collapse_drag (et, NULL);
+		scroll_off (et);
+		hover_off (et);
+	}
+	gtk_object_unref (GTK_OBJECT (et));
+}
+
+static void
+context_connect (ETree *et, GdkDragContext *context)
+{
+	if (g_dataset_get_data (context, "e-tree") == NULL) {
+		gtk_object_ref (GTK_OBJECT (et));
+		g_dataset_set_data_full (context, "e-tree", et, context_destroyed);
 	}
 }
 
@@ -2224,11 +2554,13 @@ et_drag_motion(GtkWidget *widget,
 	       ETree *et)
 {
 	int ret_val;
+	guint direction = 0;
 
 	et->priv->last_drop_x = x;
 	et->priv->last_drop_y = y;
 	et->priv->last_drop_time = time;
 	et->priv->last_drop_context = context;
+	context_connect (et, context);
 
 	if (et->priv->hover_idle_id != 0) {
 		if (abs (et->priv->hover_x - x) > 3 ||
@@ -2248,14 +2580,19 @@ et_drag_motion(GtkWidget *widget,
 	x -= widget->allocation.x;
 	y -= widget->allocation.y;
 
-	if (y < 20 || y > widget->allocation.height - 20) {
 		if (y < 20)
-			scroll_on (et, FALSE);
+		direction |= ET_SCROLL_UP;
+	if (y > widget->allocation.height - 20)
+		direction |= ET_SCROLL_DOWN;
+	if (x < 20)
+		direction |= ET_SCROLL_LEFT;
+	if (x > widget->allocation.width - 20)
+		direction |= ET_SCROLL_RIGHT;
+
+	if (direction != 0)
+		scroll_on (et, direction);
 		else
-			scroll_on (et, TRUE);
-	} else {
 		scroll_off (et);
-	}
 
 	return ret_val;
 }
@@ -2271,6 +2608,7 @@ et_drag_drop(GtkWidget *widget,
 	gboolean ret_val = FALSE;
 	int row, col;
 	ETreePath path;
+	ETreePath sorted_path;
 	y -= widget->allocation.y;
 	x -= widget->allocation.x;
 	e_tree_get_cell_at(et,
@@ -2278,8 +2616,8 @@ et_drag_drop(GtkWidget *widget,
 			   y,
 			   &row,
 			   &col);
-	path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
-	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
+	sorted_path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
+	path = e_tree_sorted_view_to_model_path(et->priv->sorted, sorted_path);
 
 	if (row != et->priv->drop_row && col != et->priv->drop_row) {
 		gtk_signal_emit (GTK_OBJECT (et),
@@ -2303,6 +2641,7 @@ et_drag_drop(GtkWidget *widget,
 	et->priv->drop_row = row;
 	et->priv->drop_path = path;
 	et->priv->drop_col = col;
+
 	gtk_signal_emit (GTK_OBJECT (et),
 			 et_signals [TREE_DRAG_DROP],
 			 et->priv->drop_row,
@@ -2313,9 +2652,12 @@ et_drag_drop(GtkWidget *widget,
 			 y,
 			 time,
 			 &ret_val);
+
 	et->priv->drop_row = -1;
 	et->priv->drop_path = NULL;
 	et->priv->drop_col = -1;
+
+	collapse_drag (et, sorted_path); 
 
 	scroll_off (et);
 	return ret_val;
@@ -2592,6 +2934,8 @@ e_tree_class_init (ETreeClass *class)
 				 GTK_ARG_WRITABLE, ARG_DRAW_FOCUS);
 	gtk_object_add_arg_type ("ETree::ETreeTableAdapter", GTK_TYPE_OBJECT,
 				 GTK_ARG_READABLE, ARG_ETTA);
+	gtk_object_add_arg_type ("ETree::uniform_row_height", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_UNIFORM_ROW_HEIGHT);
 }
 
 E_MAKE_TYPE(e_tree, "ETree", ETree, e_tree_class_init, e_tree_init, PARENT_TYPE);

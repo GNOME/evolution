@@ -1,4 +1,27 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* 
+ * e-table-item.h
+ * Copyright 1999, 2000, 2001, Ximian, Inc.
+ *
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
+ *   Miguel de Icaza <miguel@gnu.org>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+
 #ifndef _E_TABLE_ITEM_H_
 #define _E_TABLE_ITEM_H_
 
@@ -40,6 +63,7 @@ typedef struct {
 	int              header_structure_change_id;
 	int              header_request_width_id;
 	int              table_model_pre_change_id;
+	int              table_model_no_change_id;
 	int              table_model_change_id;
 	int              table_model_row_change_id;
 	int              table_model_cell_change_id;
@@ -47,8 +71,12 @@ typedef struct {
 	int              table_model_rows_deleted_id;
 
 	int              selection_change_id;
+	int              selection_row_change_id;
 	int              cursor_change_id;
 	int              cursor_activated_id;
+
+	/* View row, -1 means unknown */
+	int              old_cursor_row;
 
 	int              hadjustment_change_id;
 	int              hadjustment_value_change_id;
@@ -64,7 +92,7 @@ typedef struct {
 	guint 		 horizontal_draw_grid:1;
 	guint 		 vertical_draw_grid:1;
 	guint 		 draw_focus:1;
-	guint 		 renderers_can_change_size:1;
+	guint 		 uniform_row_height:1;
 	guint 		 cell_views_realized:1;
 	      	    
 	guint 		 needs_redraw : 1;
@@ -82,6 +110,11 @@ typedef struct {
 	guint            maybe_did_something : 1;
 
 	guint            cursor_on_screen : 1;
+	guint            gtk_grabbed : 1;
+
+	guint            queue_show_cursor : 1;
+
+	int              frozen_count;
 
 	int              cursor_x1;
 	int              cursor_y1;
@@ -101,6 +134,7 @@ typedef struct {
 	int              n_cells;
 
 	int             *height_cache;
+	int              uniform_row_height_cache;
 	int              height_cache_idle_id;
 	int              height_cache_idle_count;
 
@@ -119,7 +153,11 @@ typedef struct {
 	int              editing_col, editing_row;
 	void            *edit_ctx;
 
+	int              save_col, save_row;
+	void            *save_state;
+
 	int grabbed_col, grabbed_row;
+	int grabbed_count;
 
 	/*
 	 * Tooltip

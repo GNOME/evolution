@@ -1,13 +1,27 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * E-table.c: A graphical view of a Table.
+ * e-table.c - A graphical view of a Table.
+ * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
- * Author:
- *   Miguel de Icaza (miguel@ximian.com)
+ * Authors:
  *   Chris Lahey <clahey@ximian.com>
+ *   Miguel de Icaza <miguel@ximian.com>
  *
- * Copyright 1999, 2000, 2001, Ximian, Inc
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -42,6 +56,14 @@
 
 #define PARENT_TYPE gtk_table_get_type ()
 
+#define d(x)
+
+#if d(!)0
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
+#else
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
+#endif
+
 static GtkObjectClass *e_table_parent_class;
 
 enum {
@@ -71,6 +93,14 @@ enum {
 	ARG_0,
 	ARG_LENGTH_THRESHOLD,
 	ARG_MODEL,
+	ARG_UNIFORM_ROW_HEIGHT,
+};
+
+enum {
+	ET_SCROLL_UP = 1 << 0,
+	ET_SCROLL_DOWN = 1 << 1,
+	ET_SCROLL_LEFT = 1 << 2,
+	ET_SCROLL_RIGHT = 1 << 3
 };
 
 static gint et_signals [LAST_SIGNAL] = { 0, };
@@ -124,7 +154,7 @@ static void et_drag_data_received(GtkWidget *widget,
 static gint et_focus (GtkWidget *container, GtkDirectionType direction);
 
 static void scroll_off (ETable *et);
-static void scroll_on (ETable *et, gboolean down);
+static void scroll_on (ETable *et, guint scroll_direction);
 
 static void
 et_disconnect_model (ETable *et)
@@ -249,6 +279,7 @@ e_table_init (GtkObject *object)
 	e_table->draw_focus                         = 1;
 	e_table->cursor_mode                        = E_CURSOR_SIMPLE;
 	e_table->length_threshold                   = 200;
+	e_table->uniform_row_height                 = FALSE;
 
 	e_table->need_rebuild                       = 0;
 	e_table->rebuild_idle_id                    = 0;
@@ -528,6 +559,10 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 		y = CLAMP(vadj->value + (2 * vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
 		e_table_get_cell_at (et, 30, y, &row_local, &col_local);
+
+		if (row_local == -1)
+			row_local = e_table_model_row_count (et->model) - 1;
+
 		row_local = e_table_view_to_model_row (et, row_local);
 		col_local = e_selection_model_cursor_col (E_SELECTION_MODEL (et->selection));
 		e_selection_model_select_as_key_press (E_SELECTION_MODEL (et->selection), row_local, col_local, key->state);
@@ -539,6 +574,10 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 		y = CLAMP(vadj->value - (vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
 		e_table_get_cell_at (et, 30, y, &row_local, &col_local);
+
+		if (row_local == -1)
+			row_local = 0;
+
 		row_local = e_table_view_to_model_row (et, row_local);
 		col_local = e_selection_model_cursor_col (E_SELECTION_MODEL (et->selection));
 		e_selection_model_select_as_key_press (E_SELECTION_MODEL (et->selection), row_local, col_local, key->state);
@@ -558,7 +597,7 @@ group_start_drag (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *e
 {
 	int return_val = 0;
 	gtk_signal_emit (GTK_OBJECT (et),
-			 et_signals [KEY_PRESS],
+			 et_signals [START_DRAG],
 			 row, col, event, &return_val);
 	return return_val;
 }
@@ -648,6 +687,7 @@ et_build_groups (ETable *et)
 			      "drawfocus", et->draw_focus,
 			      "cursor_mode", et->cursor_mode,
 			      "length_threshold", et->length_threshold,
+			      "uniform_row_height", et->uniform_row_height,
 			      "selection_model", et->selection,
 			      NULL);
 
@@ -727,18 +767,82 @@ et_canvas_realize (GtkWidget *canvas, ETable *e_table)
 		NULL);
 }
 
-static gint
-et_canvas_button_press (GtkWidget *canvas, GdkEventButton *event, ETable *e_table)
+static void
+et_eti_leave_edit (ETable *et)
 {
+	GnomeCanvas *canvas = et->table_canvas;
 	if (GTK_WIDGET_HAS_FOCUS(canvas)) {
 		GnomeCanvasItem *item = GNOME_CANVAS(canvas)->focused_item;
 
 		if (E_IS_TABLE_ITEM(item)) {
-			e_table_item_leave_edit(E_TABLE_ITEM(item));
+			e_table_item_leave_edit_(E_TABLE_ITEM(item));
 		}
+	}
+}
+
+static gint
+et_canvas_root_event (GnomeCanvasItem *root, GdkEvent *event, ETable *e_table)
+{
+	switch (event->type) {
+	case GDK_BUTTON_PRESS:
+	case GDK_2BUTTON_PRESS:
+	case GDK_BUTTON_RELEASE:
+		if (event->button.button != 4 && event->button.button != 5) {
+			et_eti_leave_edit (e_table);
+			return TRUE;
+		}
+		break;
+	default:
+		break;
 	}
 
 	return FALSE;
+}
+
+/* Finds the first descendant of the group that is an ETableItem and focuses it */
+static void
+focus_first_etable_item (ETableGroup *group)
+{
+	GnomeCanvasGroup *cgroup;
+	GList *l;
+
+	cgroup = GNOME_CANVAS_GROUP (group);
+
+	for (l = cgroup->item_list; l; l = l->next) {
+		GnomeCanvasItem *i;
+
+		i = GNOME_CANVAS_ITEM (l->data);
+
+		if (E_IS_TABLE_GROUP (i))
+			focus_first_etable_item (E_TABLE_GROUP (i));
+		else if (E_IS_TABLE_ITEM (i)) {
+			e_table_item_set_cursor (E_TABLE_ITEM (i), 0, 0);
+			gnome_canvas_item_grab_focus (i);
+		}
+	}
+}
+
+/* Handler for focus events in the table_canvas; we have to repaint ourselves
+ * always, and also give the focus to some ETableItem if we get focused.
+ */
+static gint
+table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
+{
+	GnomeCanvas *canvas;
+	ETable *etable;
+
+	gtk_widget_queue_draw (widget);
+
+	if (!event->in)
+		return TRUE;
+
+	canvas = GNOME_CANVAS (widget);
+	etable = E_TABLE (data);
+
+	if (!canvas->focused_item && etable->group)
+		focus_first_etable_item (etable->group);
+
+	return TRUE;
 }
 
 static void
@@ -751,10 +855,10 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 		GTK_SIGNAL_FUNC (table_canvas_size_allocate), e_table);
 	gtk_signal_connect (
 		GTK_OBJECT (e_table->table_canvas), "focus_in_event",
-		GTK_SIGNAL_FUNC (gtk_widget_queue_draw), e_table);
+		GTK_SIGNAL_FUNC (table_canvas_focus_event_cb), e_table);
 	gtk_signal_connect (
 		GTK_OBJECT (e_table->table_canvas), "focus_out_event",
-		GTK_SIGNAL_FUNC (gtk_widget_queue_draw), e_table);
+		GTK_SIGNAL_FUNC (table_canvas_focus_event_cb), e_table);
 
 	gtk_signal_connect (
 		GTK_OBJECT (e_table), "drag_begin",
@@ -801,8 +905,8 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 		GTK_OBJECT(e_table->table_canvas), "realize",
 		GTK_SIGNAL_FUNC(et_canvas_realize), e_table);
 	gtk_signal_connect (
-		GTK_OBJECT(e_table->table_canvas), "button_press_event",
-		GTK_SIGNAL_FUNC(et_canvas_button_press), e_table);
+		GTK_OBJECT(gnome_canvas_root (e_table->table_canvas)), "event",
+		GTK_SIGNAL_FUNC(et_canvas_root_event), e_table);
 	e_table->canvas_vbox = gnome_canvas_item_new(
 		gnome_canvas_root(e_table->table_canvas),
 		e_canvas_vbox_get_type(),
@@ -841,6 +945,15 @@ e_table_fill_table (ETable *e_table, ETableModel *model)
 	e_table_group_add_all (e_table->group);
 }
 
+/**
+ * e_table_set_state_object:
+ * @e_table: The #ETable object to modify
+ * @state: The #ETableState to use
+ *
+ * This routine sets the state of the #ETable from the given
+ * #ETableState.
+ *
+ **/
 void
 e_table_set_state_object(ETable *e_table, ETableState *state)
 {
@@ -860,6 +973,7 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 	}
 	if (state->sort_info) {
 		e_table->sort_info = e_table_sort_info_duplicate(state->sort_info);
+		e_table_sort_info_set_can_group (e_table->sort_info, e_table->allow_grouping);
 		e_table->group_info_change_id =
 			gtk_signal_connect (GTK_OBJECT (e_table->sort_info),
 					    "group_info_changed",
@@ -890,12 +1004,12 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 
 /**
  * e_table_set_state:
- * @e_table: %ETable object that will be modified
- * @state_str: a string with the XML representation of the ETableState.
+ * @e_table: The #ETable object to modify
+ * @state_str: a string representing an #ETableState
  *
- * This routine sets the state (as described by %ETableState) of the
- * %ETable object.
- */
+ * This routine sets the state of the #ETable from a string.
+ *
+ **/
 void
 e_table_set_state (ETable      *e_table,
 		   const gchar *state_str)
@@ -917,12 +1031,12 @@ e_table_set_state (ETable      *e_table,
 
 /**
  * e_table_load_state:
- * @e_table: %ETable object that will be modified
- * @filename: name of the file containing the state to be loaded into the %ETable
+ * @e_table: The #ETable object to modify
+ * @filename: name of the file to use
  *
- * An %ETableState will be loaded form the file pointed by @filename into the
- * @e_table object.
- */
+ * This routine sets the state of the #ETable from a file.
+ *
+ **/
 void
 e_table_load_state (ETable      *e_table,
 		    const gchar *filename)
@@ -944,11 +1058,14 @@ e_table_load_state (ETable      *e_table,
 
 /**
  * e_table_get_state_object:
- * @e_table: %ETable object that will be modified
+ * @e_table: #ETable object to act on
  *
- * Returns: the %ETableState object that encapsulates the current
- * state of the @e_table object
- */
+ * Builds an #ETableState corresponding to the current state of the
+ * #ETable.
+ *
+ * Return value:
+ * The %ETableState object generated.
+ **/
 ETableState *
 e_table_get_state_object (ETable *e_table)
 {
@@ -980,6 +1097,16 @@ e_table_get_state_object (ETable *e_table)
 	return state;
 }
 
+/**
+ * e_table_get_state:
+ * @e_table: The #ETable to act on.
+ * 
+ * Builds a state object based on the current state and returns the
+ * string corresponding to that state.
+ * 
+ * Return value: 
+ * A string describing the current state of the #ETable.
+ **/
 gchar          *e_table_get_state                 (ETable               *e_table)
 {
 	ETableState *state;
@@ -993,12 +1120,13 @@ gchar          *e_table_get_state                 (ETable               *e_table
 
 /**
  * e_table_save_state:
- * @e_table: %ETable object that will be modified
- * @filename: name of the file containing the state to be loaded into the %ETable
+ * @e_table: The #ETable to act on
+ * @filename: name of the file to save to
  *
- * This routine saves the state of the @e_table object into the file pointed
- * by @filename
- */
+ * Saves the state of the @e_table object into the file pointed by
+ * @filename.
+ *
+ **/
 void
 e_table_save_state (ETable      *e_table,
 		    const gchar *filename)
@@ -1011,7 +1139,14 @@ e_table_save_state (ETable      *e_table,
 }
 
 static void
-et_selection_model_selection_change (ETableGroup *etg, ETable *et)
+et_selection_model_selection_changed (ETableGroup *etg, ETable *et)
+{
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [SELECTION_CHANGE]);
+}
+
+static void
+et_selection_model_selection_row_changed (ETableGroup *etg, int row, ETable *et)
 {
 	gtk_signal_emit (GTK_OBJECT (et),
 			 et_signals [SELECTION_CHANGE]);
@@ -1051,9 +1186,11 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	e_table->header = e_table_state_to_header (GTK_WIDGET(e_table), e_table->full_header, state);
 	e_table->horizontal_scrolling = specification->horizontal_scrolling;
+	e_table->allow_grouping = specification->allow_grouping;
 
 	e_table->sort_info = state->sort_info;
 	gtk_object_ref (GTK_OBJECT (state->sort_info));
+	e_table_sort_info_set_can_group (e_table->sort_info, e_table->allow_grouping);
 
 	e_table->group_info_change_id =
 		gtk_signal_connect (GTK_OBJECT (e_table->sort_info), "group_info_changed",
@@ -1069,10 +1206,13 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	gtk_object_set (GTK_OBJECT (e_table->selection),
 			"model", etm,
 			"sorter", e_table->sorter,
+			"header", e_table->header,
 			NULL);
 
 	gtk_signal_connect(GTK_OBJECT(e_table->selection), "selection_changed",
-			   GTK_SIGNAL_FUNC(et_selection_model_selection_change), e_table);
+			   GTK_SIGNAL_FUNC(et_selection_model_selection_changed), e_table);
+	gtk_signal_connect(GTK_OBJECT(e_table->selection), "selection_row_changed",
+			   GTK_SIGNAL_FUNC(et_selection_model_selection_row_changed), e_table);
 
 	if (!specification->no_headers) {
 		e_table_setup_header (e_table);
@@ -1109,6 +1249,20 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	return e_table;
 }
 
+/**
+ * e_table_construct:
+ * @e_table: The newly created #ETable object.
+ * @etm: The model for this table.
+ * @ete: An optional #ETableExtras.  (%NULL is valid.)
+ * @spec_str: The spec.
+ * @state_str: An optional state.  (%NULL is valid.)
+ * 
+ * This is the internal implementation of e_table_new() for use by
+ * subclasses or language bindings.  See e_table_new() for details.
+ * 
+ * Return value: 
+ * The passed in value @e_table or %NULL if there's an error.
+ **/
 ETable *
 e_table_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 		   const char *spec_str, const char *state_str)
@@ -1146,6 +1300,21 @@ e_table_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	return e_table;
 }
 
+/**
+ * e_table_construct_from_spec_file:
+ * @e_table: The newly created #ETable object.
+ * @etm: The model for this table.
+ * @ete: An optional #ETableExtras.  (%NULL is valid.)
+ * @spec_fn: The filename of the spec.
+ * @state_fn: An optional state file.  (%NULL is valid.)
+ *
+ * This is the internal implementation of e_table_new_from_spec_file()
+ * for use by subclasses or language bindings.  See
+ * e_table_new_from_spec_file() for details.
+ * 
+ * Return value: 
+ * The passed in value @e_table or %NULL if there's an error.
+ **/
 ETable *
 e_table_construct_from_spec_file (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 				  const char *spec_fn, const char *state_fn)
@@ -1191,6 +1360,27 @@ e_table_construct_from_spec_file (ETable *e_table, ETableModel *etm, ETableExtra
 	return e_table;
 }
 
+/**
+ * e_table_new:
+ * @etm: The model for this table.
+ * @ete: An optional #ETableExtras.  (%NULL is valid.)
+ * @spec: The spec.
+ * @state: An optional state.  (%NULL is valid.)
+ *
+ * This function creates an #ETable from the given parameters.  The
+ * #ETableModel is a table model to be represented.  The #ETableExtras
+ * is an optional set of pixbufs, cells, and sorting functions to be
+ * used when interpreting the spec.  If you pass in %NULL it uses the
+ * default #ETableExtras.  (See e_table_extras_new()).
+ *
+ * @spec is the specification of the set of viewable columns and the
+ * default sorting state and such.  @state is an optional string
+ * specifying the current sorting state and such.  If @state is NULL,
+ * then the default state from the spec will be used.
+ * 
+ * Return value: 
+ * The newly created #ETable or %NULL if there's an error.
+ **/
 GtkWidget *
 e_table_new (ETableModel *etm, ETableExtras *ete, const char *spec, const char *state)
 {
@@ -1208,6 +1398,26 @@ e_table_new (ETableModel *etm, ETableExtras *ete, const char *spec, const char *
 	return GTK_WIDGET (e_table);
 }
 
+/**
+ * e_table_new_from_spec_file:
+ * @etm: The model for this table.
+ * @ete: An optional #ETableExtras.  (%NULL is valid.)
+ * @spec_fn: The filename of the spec.
+ * @state_fn: An optional state file.  (%NULL is valid.)
+ * 
+ * This is very similar to e_table_new(), except instead of passing in
+ * strings you pass in the file names of the spec and state to load.
+ *
+ * @spec_fn is the filename of the spec to load.  If this file doesn't
+ * exist, e_table_new_from_spec_file will return %NULL.
+ *
+ * @state_fn is the filename of the initial state to load.  If this is
+ * %NULL or if the specified file doesn't exist, the default state
+ * from the spec file is used.
+ * 
+ * Return value: 
+ * The newly created #ETable or %NULL if there's an error.
+ **/
 GtkWidget *
 e_table_new_from_spec_file (ETableModel *etm, ETableExtras *ete, const char *spec_fn, const char *state_fn)
 {
@@ -1363,6 +1573,13 @@ e_table_load_specification (ETable *e_table, gchar *filename)
 }
 #endif
 
+/**
+ * e_table_set_cursor_row:
+ * @e_table: The #ETable to set the cursor row of
+ * @row: The row number
+ * 
+ * Sets the cursor row and the selection to the given row number.
+ **/
 void
 e_table_set_cursor_row (ETable *e_table, int row)
 {
@@ -1375,6 +1592,15 @@ e_table_set_cursor_row (ETable *e_table, int row)
 		       NULL);
 }
 
+/**
+ * e_table_get_cursor_row:
+ * @e_table: The #ETable to query
+ * 
+ * Calculates the cursor row.  -1 means that we don't have a cursor.
+ * 
+ * Return value: 
+ * Cursor row
+ **/
 int
 e_table_get_cursor_row (ETable *e_table)
 {
@@ -1388,6 +1614,19 @@ e_table_get_cursor_row (ETable *e_table)
 	return row;
 }
 
+/**
+ * e_table_selected_row_foreach:
+ * @e_table: The #ETable to act on
+ * @callback: The callback function to call
+ * @closure: The value passed to the callback's closure argument
+ * 
+ * Calls the given @callback function once for every selected row.
+ *
+ * If you change the selection or delete or add rows to the table
+ * during these callbacks, problems can occur.  A standard thing to do
+ * is to create a list of rows or objects the function is called upon
+ * and then act upon that list. (In inverse order if it's rows.)
+ **/
 void
 e_table_selected_row_foreach     (ETable *e_table,
 				  EForeachFunc callback,
@@ -1401,6 +1640,15 @@ e_table_selected_row_foreach     (ETable *e_table,
 						     closure);
 }
 
+/**
+ * e_table_selected_count:
+ * @e_table: The #ETable to query
+ * 
+ * Counts the number of selected rows.
+ * 
+ * Return value: 
+ * The number of rows selected.
+ **/
 gint
 e_table_selected_count     (ETable *e_table)
 {
@@ -1410,6 +1658,12 @@ e_table_selected_count     (ETable *e_table)
 	return e_selection_model_selected_count(E_SELECTION_MODEL (e_table->selection));
 }
 
+/**
+ * e_table_select_all:
+ * @table: The #ETable to modify
+ * 
+ * Selects all the rows in @table.
+ **/
 void
 e_table_select_all (ETable *table)
 {
@@ -1419,6 +1673,12 @@ e_table_select_all (ETable *table)
 	e_selection_model_select_all (E_SELECTION_MODEL (table->selection));
 }
 
+/**
+ * e_table_invert_selection:
+ * @table: The #ETable to modify
+ * 
+ * Inverts the selection in @table.
+ **/
 void
 e_table_invert_selection (ETable *table)
 {
@@ -1429,6 +1689,15 @@ e_table_invert_selection (ETable *table)
 }
 
 
+/**
+ * e_table_get_printable:
+ * @e_table: #ETable to query
+ * 
+ * Used for printing your #ETable.
+ * 
+ * Return value: 
+ * The #EPrintable to print.
+ **/
 EPrintable *
 e_table_get_printable (ETable *e_table)
 {
@@ -1438,10 +1707,31 @@ e_table_get_printable (ETable *e_table)
 	return e_table_group_get_printable(e_table->group);
 }
 
+/**
+ * e_table_right_click_up:
+ * @table: The #ETable to modify.
+ * 
+ * Call this function when you're done handling the right click if you
+ * return TRUE from the "right_click" signal.
+ **/
 void
 e_table_right_click_up (ETable *table)
 {
 	e_selection_model_right_click_up(E_SELECTION_MODEL(table->selection));
+}
+
+/**
+ * e_table_commit_click_to_add:
+ * @table: The #ETable to modify
+ * 
+ * Commits the current values in the click to add to the table.
+ **/
+void
+e_table_commit_click_to_add (ETable *table)
+{
+	et_eti_leave_edit (table);
+	if (table->click_to_add)
+		e_table_click_to_add_commit(E_TABLE_CLICK_TO_ADD(table->click_to_add));
 }
 
 static void
@@ -1453,7 +1743,9 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_MODEL:
 		GTK_VALUE_OBJECT (*arg) = (GtkObject *) etable->model;
 		break;
-
+	case ARG_UNIFORM_ROW_HEIGHT:
+		GTK_VALUE_BOOL (*arg) = etable->uniform_row_height;
+		break;
 	default:
 		break;
 	}
@@ -1478,8 +1770,15 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 					       NULL);
 		}
 		break;
-
+	case ARG_UNIFORM_ROW_HEIGHT:
+		etable->uniform_row_height = GTK_VALUE_BOOL (*arg);
+		if (etable->group) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etable->group),
+					       "uniform_row_height", GTK_VALUE_BOOL (*arg),
+					       NULL);
 	}
+		break;
+}
 }
 
 static void
@@ -1506,6 +1805,17 @@ set_scroll_adjustments   (ETable *table,
 					    hadjustment);
 }
 
+/**
+ * e_table_get_next_row:
+ * @e_table: The #ETable to query
+ * @model_row: The model row to go from
+ * 
+ * This function is used when your table is sorted, but you're using
+ * model row numbers.  It returns the next row in sorted order as a model row.
+ * 
+ * Return value: 
+ * The model row number.
+ **/
 gint
 e_table_get_next_row      (ETable *e_table,
 			   gint    model_row)
@@ -1528,6 +1838,18 @@ e_table_get_next_row      (ETable *e_table,
 			return -1;
 }
 
+/**
+ * e_table_get_prev_row:
+ * @e_table: The #ETable to query
+ * @model_row: The model row to go from
+ * 
+ * This function is used when your table is sorted, but you're using
+ * model row numbers.  It returns the previous row in sorted order as
+ * a model row.
+ * 
+ * Return value: 
+ * The model row number.
+ **/
 gint
 e_table_get_prev_row      (ETable *e_table,
 			   gint    model_row)
@@ -1547,6 +1869,16 @@ e_table_get_prev_row      (ETable *e_table,
 		return model_row - 1;
 }
 
+/**
+ * e_table_model_to_view_row:
+ * @e_table: The #ETable to query
+ * @model_row: The model row number
+ * 
+ * Turns a model row into a view row.
+ * 
+ * Return value: 
+ * The view row number.
+ **/
 gint
 e_table_model_to_view_row        (ETable *e_table,
 				  gint    model_row)
@@ -1560,6 +1892,16 @@ e_table_model_to_view_row        (ETable *e_table,
 		return model_row;
 }
 
+/**
+ * e_table_view_to_model_row:
+ * @e_table: The #ETable to query
+ * @view_row: The view row number
+ * 
+ * Turns a view row into a model row.
+ * 
+ * Return value: 
+ * The model row number.
+ **/
 gint
 e_table_view_to_model_row        (ETable *e_table,
 				  gint    view_row)
@@ -1575,7 +1917,7 @@ e_table_view_to_model_row        (ETable *e_table,
 
 /**
  * e_table_get_cell_at:
- * @table: An ETable widget
+ * @table: An #ETable widget
  * @x: X coordinate for the pixel
  * @y: Y coordinate for the pixel
  * @row_return: Pointer to return the row value
@@ -1604,15 +1946,16 @@ e_table_get_cell_at (ETable *table,
 
 /**
  * e_table_get_cell_geometry:
- * @table: The table.
+ * @table: The #ETable.
  * @row: The row to get the geometry of.
  * @col: The col to get the geometry of.
- * @x_return: Returns the x coordinate of the upper right hand corner of the cell with respect to the widget.
- * @y_return: Returns the y coordinate of the upper right hand corner of the cell with respect to the widget.
+ * @x_return: Returns the x coordinate of the upper left hand corner of the cell with respect to the widget.
+ * @y_return: Returns the y coordinate of the upper left hand corner of the cell with respect to the widget.
  * @width_return: Returns the width of the cell.
  * @height_return: Returns the height of the cell.
  * 
- * Computes the data about this cell.
+ * Returns the x, y, width, and height of the given cell.  These can
+ * all be #NULL and they just won't be set.
  **/
 void
 e_table_get_cell_geometry (ETable *table,
@@ -1623,9 +1966,6 @@ e_table_get_cell_geometry (ETable *table,
 	g_return_if_fail (table != NULL);
 	g_return_if_fail (E_IS_TABLE (table));
 
-	/* FIXME it would be nice if it could handle a NULL row_return or
-	 * col_return gracefully.  */
-
 	e_table_group_get_cell_geometry(table->group, &row, &col, x_return, y_return, width_return, height_return);
 
 	if (x_return)
@@ -1634,6 +1974,25 @@ e_table_get_cell_geometry (ETable *table,
 		(*y_return) -= GTK_LAYOUT(table->table_canvas)->vadjustment->value;
 		(*y_return) += GTK_WIDGET(table->header_canvas)->allocation.height;
 	}
+}
+
+/**
+ * e_table_get_selection_model:
+ * @table: The #ETable to query
+ * 
+ * Returns the table's #ESelectionModel in case you want to access it
+ * directly.
+ * 
+ * Return value: 
+ * The #ESelectionModel.
+ **/
+ESelectionModel *
+e_table_get_selection_model (ETable *table)
+{
+	g_return_val_if_fail (table != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE (table), NULL);
+
+	return E_SELECTION_MODEL (table->selection);
 }
 
 struct _ETableDragSourceSite
@@ -1705,6 +2064,18 @@ struct _GtkDragSourceInfo
 
 /* Drag & drop stuff. */
 /* Target */
+
+/**
+ * e_table_drag_get_data:
+ * @table: 
+ * @row: 
+ * @col: 
+ * @context: 
+ * @target: 
+ * @time: 
+ * 
+ * 
+ **/
 void
 e_table_drag_get_data (ETable         *table,
 		       int             row,
@@ -1722,17 +2093,17 @@ e_table_drag_get_data (ETable         *table,
 			  context,
 			  target,
 			  time);
-
 }
 
 /**
  * e_table_drag_highlight:
- * @table:
- * @row:
- * @col:
+ * @table: The #ETable to highlight
+ * @row: The row number of the cell to highlight
+ * @col: The column number of the cell to highlight
  *
- * Set col to -1 to highlight the entire row.
- */
+ * Set col to -1 to highlight the entire row.  If row is -1, this is
+ * identical to e_table_drag_unhighlight().
+ **/
 void
 e_table_drag_highlight (ETable *table,
 			int     row,
@@ -1775,6 +2146,12 @@ e_table_drag_highlight (ETable *table,
 	}
 }
 
+/**
+ * e_table_drag_unhighlight:
+ * @table: The #ETable to unhighlight
+ * 
+ * Removes the highlight from an #ETable.
+ **/
 void
 e_table_drag_unhighlight (ETable *table)
 {
@@ -1867,6 +2244,16 @@ et_real_start_drag (ETable *table, int row, int col, GdkEvent *event)
 	return FALSE;
 }
 
+/**
+ * e_table_drag_source_set:
+ * @table: The #ETable to set up as a drag site
+ * @start_button_mask: Mask of allowed buttons to start drag
+ * @targets: Table of targets for this source
+ * @n_targets: Number of targets in @targets
+ * @actions: Actions allowed for this source
+ * 
+ * Registers this table as a drag site, and possibly adds default behaviors.
+ **/
 void
 e_table_drag_source_set  (ETable               *table,
 			  GdkModifierType       start_button_mask,
@@ -1908,6 +2295,12 @@ e_table_drag_source_set  (ETable               *table,
 	site->actions = actions;
 }
 
+/**
+ * e_table_drag_source_unset:
+ * @table: The #ETable to un set up as a drag site
+ * 
+ * Unregisters this #ETable as a drag site.
+ **/
 void
 e_table_drag_source_unset (ETable *table)
 {
@@ -1929,6 +2322,21 @@ e_table_drag_source_unset (ETable *table)
  * as a GtkTargetList
  */
 
+/**
+ * e_table_drag_begin:
+ * @table: The #ETable to drag from
+ * @row: The row number of the cell
+ * @col: The col number of the cell
+ * @targets: The list of targets supported by the drag
+ * @actions: The available actions supported by the drag
+ * @button: The button held down for the drag
+ * @event: The event that initiated the drag
+ * 
+ * Start a drag from this cell.
+ * 
+ * Return value: 
+ * The drag context.
+ **/
 GdkDragContext *
 e_table_drag_begin (ETable            *table,
 		    int     	       row,
@@ -2050,22 +2458,31 @@ static gboolean
 scroll_timeout (gpointer data)
 {
 	ETable *et = data;
-	int dy;
-	GtkAdjustment *v;
-	double value;
+	int dx = 0, dy = 0;
+	GtkAdjustment *h, *v;
+	double hvalue, vvalue;
 
-	if (et->scroll_down)
-		dy = 20;
-	else
-		dy = -20;
+	if (et->scroll_direction & ET_SCROLL_DOWN)
+		dy += 20;
+	if (et->scroll_direction & ET_SCROLL_UP)
+		dy -= 20;
 
+	if (et->scroll_direction & ET_SCROLL_RIGHT)
+		dx += 20;
+	if (et->scroll_direction & ET_SCROLL_LEFT)
+		dx -= 20;
+
+	h = GTK_LAYOUT(et->table_canvas)->hadjustment;
 	v = GTK_LAYOUT(et->table_canvas)->vadjustment;
 
-	value = v->value;
+	hvalue = h->value;
+	vvalue = v->value;
 
+	gtk_adjustment_set_value(h, CLAMP(h->value + dx, h->lower, h->upper - h->page_size));
 	gtk_adjustment_set_value(v, CLAMP(v->value + dy, v->lower, v->upper - v->page_size));
 
-	if (v->value != value)
+	if (h->value != hvalue ||
+	    v->value != vvalue)
 		do_drag_motion(et,
 			       et->last_drop_context,
 			       et->last_drop_x,
@@ -2077,12 +2494,12 @@ scroll_timeout (gpointer data)
 }
 
 static void
-scroll_on (ETable *et, gboolean down)
+scroll_on (ETable *et, guint scroll_direction)
 {
-	if (et->scroll_idle_id == 0 || down != et->scroll_down) {
+	if (et->scroll_idle_id == 0 || scroll_direction != et->scroll_direction) {
 		if (et->scroll_idle_id != 0)
 			g_source_remove (et->scroll_idle_id);
-		et->scroll_down = down;
+		et->scroll_direction = scroll_direction;
 		et->scroll_idle_id = g_timeout_add (100, scroll_timeout, et);
 	}
 }
@@ -2093,6 +2510,31 @@ scroll_off (ETable *et)
 	if (et->scroll_idle_id) {
 		g_source_remove (et->scroll_idle_id);
 		et->scroll_idle_id = 0;
+	}
+}
+
+static void
+context_destroyed (gpointer data)
+{
+	ETable *et = data;
+	/* if (!GTK_OBJECT_DESTROYED (et)) */
+#warning FIXME
+	{
+		et->last_drop_x       = 0;
+		et->last_drop_y       = 0;
+		et->last_drop_time    = 0;
+		et->last_drop_context = NULL;
+		scroll_off (et);
+	}
+	gtk_object_unref (GTK_OBJECT (et));
+}
+
+static void
+context_connect (ETable *et, GdkDragContext *context)
+{
+	if (g_dataset_get_data (context, "e-table") == NULL) {
+		gtk_object_ref (GTK_OBJECT (et));
+		g_dataset_set_data_full (context, "e-table", et, context_destroyed);
 	}
 }
 
@@ -2123,11 +2565,13 @@ et_drag_motion(GtkWidget *widget,
 	       ETable *et)
 {
 	gboolean ret_val;
+	guint direction = 0;
 
 	et->last_drop_x = x;
 	et->last_drop_y = y;
 	et->last_drop_time = time;
 	et->last_drop_context = context;
+	context_connect (et, context);
 
 	ret_val = do_drag_motion (et,
 				  context,
@@ -2139,14 +2583,19 @@ et_drag_motion(GtkWidget *widget,
 	x -= widget->allocation.x;
 	y -= widget->allocation.y;
 
-	if (y < 20 || y > widget->allocation.height - 20) {
 		if (y < 20)
-			scroll_on (et, FALSE);
+		direction |= ET_SCROLL_UP;
+	if (y > widget->allocation.height - 20)
+		direction |= ET_SCROLL_DOWN;
+	if (x < 20)
+		direction |= ET_SCROLL_LEFT;
+	if (x > widget->allocation.width - 20)
+		direction |= ET_SCROLL_RIGHT;
+
+	if (direction != 0)
+		scroll_on (et, direction);
 		else
-			scroll_on (et, TRUE);
-	} else {
 		scroll_off (et);
-	}
 
 	return ret_val;
 }
@@ -2453,6 +2902,8 @@ e_table_class_init (ETableClass *class)
 
 	gtk_object_add_arg_type ("ETable::length_threshold", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
+	gtk_object_add_arg_type ("ETable::uniform_row_height", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_UNIFORM_ROW_HEIGHT);
 	gtk_object_add_arg_type ("ETable::model", E_TABLE_MODEL_TYPE,
 				 GTK_ARG_READABLE, ARG_MODEL);
 }

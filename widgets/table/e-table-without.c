@@ -1,12 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * E-table-without.c: Implements a table that contains a subset of another table.
+ * e-table-without.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author:
- *   Miguel de Icaza (miguel@gnu.org)
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
  *
- * (C) 1999 Ximian, Inc.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 #include <stdlib.h>
 #include <string.h>
@@ -85,6 +99,8 @@ add_row (ETableWithout *etw, int model_row)
 {
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
+	e_table_model_pre_change (E_TABLE_MODEL (etw));
+
 	etss->map_table = g_renew (int, etss->map_table, etss->n_map + 1);
 
 	etss->map_table[etss->n_map++] = model_row;
@@ -97,6 +113,7 @@ remove_row (ETableWithout *etw, int view_row)
 {
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
+	e_table_model_pre_change (E_TABLE_MODEL (etw));
 	memmove (etss->map_table + view_row, etss->map_table + view_row + 1, (etss->n_map - view_row - 1) * sizeof (int));
 	etss->n_map --;
 	e_table_model_row_deleted (E_TABLE_MODEL (etw), view_row);
@@ -136,11 +153,15 @@ etw_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *etm, int model_r
 {
 	int i;
 	ETableWithout *etw = E_TABLE_WITHOUT (etss);
+	gboolean shift = FALSE;
 
 	/* i is View row */
+	if (model_row != etss->n_map) {
 	for (i = 0; i < etss->n_map; i++) {
 		if (etss->map_table[i] > model_row)
 			etss->map_table[i] += count;
+	}
+		shift = TRUE;
 	}
 
 	/* i is Model row */
@@ -149,6 +170,10 @@ etw_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *etm, int model_r
 			add_row (etw, i);
 		}
 	}
+	if (shift)
+		e_table_model_changed (E_TABLE_MODEL (etw));
+	else
+		e_table_model_no_change (E_TABLE_MODEL (etw));
 }
 
 static void
@@ -156,14 +181,21 @@ etw_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *etm, int model_ro
 {
 	int i; /* View row */
 	ETableWithout *etw = E_TABLE_WITHOUT (etss);
+	gboolean shift = FALSE;
 
 	for (i = 0; i < etss->n_map; i++) {
 		if (etss->map_table[i] >= model_row && etss->map_table[i] < model_row + count) {
 			remove_row (etw, i);
 			i--;
-		} else if (etss->map_table[i] >= model_row + count)
+		} else if (etss->map_table[i] >= model_row + count) {
 			etss->map_table[i] -= count;
+			shift = TRUE;
+		}
 	}
+	if (shift)
+		e_table_model_changed (E_TABLE_MODEL (etw));
+	else
+		e_table_model_no_change (E_TABLE_MODEL (etw));
 }
 
 static void
@@ -341,6 +373,8 @@ e_table_without_show_all   (ETableWithout *etw)
 	int row_count;
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
+	e_table_model_pre_change (E_TABLE_MODEL (etw));
+
 	if (etw->priv->hash) {
 		g_hash_table_foreach (etw->priv->hash, delete_hash_element, etw);
 		g_hash_table_destroy (etw->priv->hash);
@@ -348,7 +382,7 @@ e_table_without_show_all   (ETableWithout *etw)
 	}
 	etw->priv->hash = g_hash_table_new (etw->priv->hash_func, etw->priv->compare_func);
 
-	row_count = e_table_model_row_count (E_TABLE_MODEL(etw));
+	row_count = e_table_model_row_count (E_TABLE_MODEL(etss->source));
 	g_free (etss->map_table);
 	etss->map_table = g_new (int, row_count);
 

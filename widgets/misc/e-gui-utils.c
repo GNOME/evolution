@@ -1,13 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * GUI utility functions
+ * e-gui-utils.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author:
- *   Miguel de Icaza <miguel@helixcode.com>
+ * Authors:
+ *   Miguel de Icaza <miguel@ximian.com>
  *
- * Copyright (C) 1999 Miguel de Icaza
- * Copyright (C) 2000, 2001 Ximian, Inc.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 
 #include "e-gui-utils.h"
@@ -123,6 +136,9 @@ e_container_change_tab_order_callback(GtkContainer *container,
 		return FALSE;
 
 	focus_child = container->focus_child;
+
+	if (focus_child == NULL)
+		return FALSE;
 
 	if (direction == GTK_DIR_TAB_BACKWARD) {
 		children = g_list_last(children);

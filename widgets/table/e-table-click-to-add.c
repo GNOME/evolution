@@ -1,12 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * e-table-click-to-add.c: A canvas item based view of the ETableColumn.
+ * e-table-click-to-add.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author:
- *   Miguel de Icaza (miguel@gnu.org)
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
  *
- * Copyright 1999, 2000 Ximian, Inc.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
+
 #include <config.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
@@ -260,14 +274,6 @@ etcta_unrealize (GnomeCanvasItem *item)
 		(*GNOME_CANVAS_ITEM_CLASS (etcta_parent_class)->unrealize)(item);
 }
 
-static double
-etcta_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
-	    GnomeCanvasItem **actual_item)
-{
-	*actual_item = item;
-	return 0.0;
-}
-
 static void finish_editing (ETableClickToAdd *etcta);
 
 static int
@@ -287,25 +293,9 @@ item_key_press (ETableItem *item, int row, int col, GdkEvent *event, ETableClick
 static void
 set_initial_selection (ETableClickToAdd *etcta)
 {
-	int best_model_col = 0;
-	int best_priority;
-	int i;
-	int count;
-
-	count = e_table_header_count (etcta->eth);
-	if (count == 0)
-		return;
-	best_priority = e_table_header_get_column (etcta->eth, 0)->priority;
-	best_model_col = e_table_header_get_column (etcta->eth, 0)->col_idx;
-	for (i = 1; i < count; i++) {
-		int priority = e_table_header_get_column (etcta->eth, i)->priority;
-		if (priority > best_priority) {
-			best_priority = priority;
-			best_model_col = e_table_header_get_column (etcta->eth, i)->col_idx;
-		}
-				
-	}
-	e_selection_model_do_something (E_SELECTION_MODEL(etcta->selection), 0, best_model_col, 0);
+	e_selection_model_do_something (E_SELECTION_MODEL(etcta->selection), 
+					0, e_table_header_prioritized_column (etcta->eth), 
+					0);
 }
 
 static void
@@ -452,7 +442,6 @@ etcta_class_init (ETableClickToAddClass *klass)
 
 	item_class->realize     = etcta_realize;
 	item_class->unrealize   = etcta_unrealize;
-	item_class->point       = etcta_point;
 	item_class->event       = etcta_event;
 
 	gtk_object_add_arg_type ("ETableClickToAdd::header", GTK_TYPE_OBJECT,

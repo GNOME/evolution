@@ -1,3 +1,26 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* 
+ * e-util.h
+ * Copyright 2000, 2001, Ximian, Inc.
+ *
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+
 #ifndef _E_UTIL_H_
 #define _E_UTIL_H_
 
@@ -79,16 +102,16 @@ int       g_str_compare                                                    (cons
 int       g_int_compare                                                    (const void       *x,
 									    const void       *y);
 char     *e_strdup_strip                                                   (const char       *string);
-
 void      e_free_object_list                                               (GList            *list);
 void      e_free_object_slist                                              (GSList           *list);
 void      e_free_string_list                                               (GList            *list);
 void      e_free_string_slist                                              (GSList           *list);
-
 char     *e_read_file                                                      (const char       *filename);
 int       e_write_file                                                     (const char       *filename,
 									    const char       *data,
 									    int               flags);
+int       e_write_file_mkstemp                                             (char              *filename,
+									    const char        *data);
 int       e_mkdir_hier                                                     (const char       *path,
 									    mode_t            mode);
 
@@ -106,23 +129,46 @@ gboolean  e_create_directory                                               (gcha
 typedef int (*ESortCompareFunc) (const void *first,
 				 const void *second,
 				 gpointer    closure);
-void      e_sort                                                           (void             *base,
-									    size_t            nmemb,
-									    size_t            size,
-									    ESortCompareFunc  compare,
-									    gpointer          closure);
-void      e_bsearch                                                        (const void       *key,
-									    const void       *base,
-									    size_t            nmemb,
-									    size_t            size,
-									    ESortCompareFunc  compare,
-									    gpointer          closure,
-									    size_t           *start,
-									    size_t           *end);
-size_t    e_strftime_fix_am_pm                                             (char             *s,
-									    size_t            max,
-									    const char       *fmt,
-									    const struct tm  *tm);
+void     e_sort                (void             *base,
+				size_t            nmemb,
+				size_t            size,
+				ESortCompareFunc  compare,
+				gpointer          closure);
+void     e_bsearch             (const void       *key,
+				const void       *base,
+				size_t            nmemb,
+				size_t            size,
+				ESortCompareFunc  compare,
+				gpointer          closure,
+				size_t           *start,
+				size_t           *end);
+size_t   e_strftime_fix_am_pm  (char             *s,
+				size_t            max,
+				const char       *fmt,
+				const struct tm  *tm);
+
+size_t   e_strftime		(char              *s,
+				 size_t             max,
+				 const char        *fmt,
+				 const struct tm   *tm);
+
+/* String to/from double conversion functions */
+gdouble   e_flexible_strtod     (const gchar       *nptr,
+				 gchar            **endptr);
+
+/* 29 bytes should enough for all possible values that
+ * g_ascii_dtostr can produce with the %.17g format.
+ * Then add 10 for good measure */
+#define E_ASCII_DTOSTR_BUF_SIZE (29 + 10)
+gchar  *e_ascii_dtostr          (gchar             *buffer,
+				 gint               buf_len,
+				 const gchar       *format,
+				 gdouble            d);
+
+/* Alternating char * and int arguments with a NULL char * to end.
+   Less than 0 for the int means copy the whole string. */
+gchar *e_strdup_append_strings  (gchar             *first_string,
+				 ...);
 
 #ifdef __cplusplus
 }

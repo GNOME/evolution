@@ -1,11 +1,24 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * e-table.utils.c: Utilities for ETable.
+ * e-table-utils.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author:
+ * Authors:
  *   Chris Lahey <clahey@ximian.com>
  *
- * Copyright 2001, Ximian, Inc
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 
 #include <config.h>
@@ -75,14 +88,14 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 					col_spec->model_col, gettext (col_spec->title),
 					pixbuf, col_spec->expansion,
 					col_spec->minimum_width,
-					cell, compare, col_spec->resizable, col_spec->priority);
+					cell, compare, col_spec->resizable, col_spec->disabled, col_spec->priority);
 			}
 		}
 		if (col == NULL && col_spec->title && *col_spec->title) {
 			col = e_table_col_new (
 				col_spec->model_col, gettext (col_spec->title),
 				col_spec->expansion, col_spec->minimum_width,
-				cell, compare, col_spec->resizable, col_spec->priority);
+				cell, compare, col_spec->resizable, col_spec->disabled, col_spec->priority);
 		}
 	}
 	return col;

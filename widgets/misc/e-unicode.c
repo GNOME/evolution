@@ -1,11 +1,28 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * Copyright (C) 2000 Helix Code, Inc.
+ * e-unicode.c - utf-8 support functions for gal
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Authors: Lauris Kaplinski <lauris@helixcode.com>
+ * Authors:
+ *   Lauris Kaplinski <lauris@ximian.com>
  *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+
+/*
  * TODO: Break simple ligatures in e_utf8_strstrcasedecomp
- *
  */
 
 #include <config.h>
@@ -24,6 +41,7 @@
 #include "e-font.h"
 #include <libxml/xmlmemory.h>
 #include <stdlib.h>
+#include "gal/util/e-iconv.h"
 
 #define d(x) x
 
@@ -197,18 +215,8 @@ e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string)
 	gint unilen;
 
 	if (keyval == GDK_VoidSymbol) {
-		char *use_locale = getenv ("E_UTF8_IM_USE_LOCALE");
-
-		/* FIXME This condition is meant for debugging xim input and should 
-		 * be removed once testing is done
-		 */
-		if (use_locale) {
 			utf = e_utf8_from_locale_string (string);
 		} else {
-			utf = e_utf8_from_gtk_string (widget, string);
-		}
-
-	} else {
 		unival = gdk_keyval_to_unicode (keyval);
 
 		if (unival < ' ') return NULL;
@@ -227,7 +235,7 @@ gchar *
 e_utf8_from_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 {
 	char *new, *ob;
-	gchar * ib;
+	const char *ib;
 	size_t ibl, obl;
 
 	if (!string) return NULL;
@@ -244,13 +252,13 @@ e_utf8_from_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 		return new;
 	}
 
-	ib = (char *) string;
+	ib = string;
 	ibl = bytes;
 	new = ob = g_new (gchar, ibl * 6 + 1);
 	obl = ibl * 6 + 1;
 
 	while (ibl > 0) {
-		iconv (ic, &ib, &ibl, &ob, &obl);
+		e_iconv (ic, &ib, &ibl, &ob, &obl);
 		if (ibl > 0) {
 			gint len;
 			if ((*ib & 0x80) == 0x00) len = 1;
@@ -285,7 +293,7 @@ gchar *
 e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 {
 	char *new, *ob;
-	gchar * ib;
+	const char *ib;
 	size_t ibl, obl;
 
 	if (!string) return NULL;
@@ -307,13 +315,13 @@ e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 		return new;
 	}
 
-	ib = (char *) string;
+	ib = string;
 	ibl = bytes;
 	new = ob = g_new (gchar, ibl * 4 + 1);
 	obl = ibl * 4 + 1;
 
 	while (ibl > 0) {
-		iconv (ic, &ib, &ibl, &ob, &obl);
+		e_iconv (ic, &ib, &ibl, &ob, &obl);
 		if (ibl > 0) {
 			gint len;
 			if ((*ib & 0x80) == 0x00) len = 1;
@@ -348,12 +356,15 @@ gchar *
 e_utf8_from_charset_string_sized (const gchar *charset, const gchar *string, gint bytes)
 {
 	iconv_t ic;
+	char *ret;
 
 	if (!string) return NULL;
 
-	ic = e_iconv_from_charset (charset);
+	ic = e_iconv_open("utf-8", charset);
+	ret = e_utf8_from_iconv_string_sized (ic, string, bytes);
+	e_iconv_close(ic);
 
-	return e_utf8_from_iconv_string_sized (ic, string, bytes);
+	return ret;
 }
 
 gchar *
@@ -367,12 +378,15 @@ gchar *
 e_utf8_to_charset_string_sized (const gchar *charset, const gchar *string, gint bytes)
 {
 	iconv_t ic;
+	char *ret;
 
 	if (!string) return NULL;
 
-	ic = e_iconv_to_charset (charset);
+	ic = e_iconv_open(charset, "utf-8");
+	ret = e_utf8_to_iconv_string_sized (ic, string, bytes);
+	e_iconv_close(ic);
 
-	return e_utf8_to_iconv_string_sized (ic, string, bytes);
+	return ret;
 }
 
 gchar *
@@ -387,7 +401,7 @@ e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes
 {
 	iconv_t ic;
 	char *new, *ob;
-	gchar * ib;
+	const char *ib;
 	size_t ibl, obl;
 
 	g_return_val_if_fail (widget != NULL, NULL);
@@ -427,13 +441,13 @@ e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes
 		}
 	}
 
-	ib = (char *) string;
+	ib = string;
 	ibl = bytes;
 	new = ob = g_new (gchar, ibl * 6 + 1);
 	obl = ibl * 6 + 1;
 
 	while (ibl > 0) {
-		iconv (ic, &ib, &ibl, &ob, &obl);
+		e_iconv (ic, &ib, &ibl, &ob, &obl);
 		if (ibl > 0) {
 			gint len;
 			if ((*ib & 0x80) == 0x00) len = 1;
@@ -454,6 +468,8 @@ e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes
 
 	*ob = '\0';
 
+	e_iconv_close(ic);
+
 	return new;
 }
 
@@ -469,7 +485,7 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 {
 	iconv_t ic;
 	char *new, *ob;
-	gchar * ib;
+	const char *ib;
 	size_t ibl, obl;
 
 	if (!string) return NULL;
@@ -503,13 +519,13 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 		return new;
 	}
 
-	ib = (char *) string;
+	ib = string;
 	ibl = bytes;
 	new = ob = g_new (gchar, ibl * 4 + 1);
 	obl = ibl * 4 + 1;
 
 	while (ibl > 0) {
-		iconv (ic, &ib, &ibl, &ob, &obl);
+		e_iconv (ic, &ib, &ibl, &ob, &obl);
 		if (ibl > 0) {
 			gint len;
 			if ((*ib & 0x80) == 0x00) len = 1;
@@ -530,6 +546,8 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 
 	*ob = '\0';
 
+	e_iconv_close(ic);
+
 	return new;
 }
 
@@ -544,12 +562,15 @@ gchar *
 e_utf8_from_locale_string_sized (const gchar *string, gint bytes)
 {
 	iconv_t ic;
+	char *ret;
 
 	if (!string) return NULL;
 
-	ic = e_iconv_from_locale ();
+	ic = e_iconv_open("utf-8", e_iconv_locale_charset());
+	ret = e_utf8_from_iconv_string_sized (ic, string, bytes);
+	e_iconv_close(ic);
 
-	return e_utf8_from_iconv_string_sized (ic, string, bytes);
+	return ret;
 }
 
 gchar *
@@ -563,12 +584,15 @@ gchar *
 e_utf8_to_locale_string_sized (const gchar *string, gint bytes)
 {
 	iconv_t ic;
+	char *ret;
 
 	if (!string) return NULL;
 
-	ic = e_iconv_to_locale ();
+	ic = e_iconv_open(e_iconv_locale_charset(), "utf-8");
+	ret = e_utf8_to_iconv_string_sized (ic, string, bytes);
+	e_iconv_close(ic);
 
-	return e_utf8_to_iconv_string_sized (ic, string, bytes);
+	return ret;
 }
 
 gchar *

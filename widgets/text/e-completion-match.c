@@ -1,28 +1,24 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  * e-completion-match.c
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Copyright (C) 2001 Ximian, Inc.
+ * Authors:
+ *   Jon Trowbridge <trow@ximian.com>
  *
- * Developed by Jon Trowbridge <trow@ximian.com>
- */
-
-/*
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
  * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA.
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 
 #include <config.h>
@@ -85,43 +81,42 @@ e_completion_match_set_text (ECompletionMatch *match,
 			     const gchar *match_text,
 			     const gchar *menu_text)
 {
-	gchar *to_be_freed_match_text;
-	gchar *to_be_freed_menu_text;
-
 	g_return_if_fail (match != NULL);
 
-	to_be_freed_match_text = match->match_text;
-	to_be_freed_menu_text  = match->menu_text;
+	/* We silently drop any entries w/ invalid utf8.
+	   This is not optimal behavior. */
 
-	if (match_text == NULL) {
-		match_text = "Unknown_Match";
-	} else if (! g_utf8_validate (match_text, -1, NULL)) {
-		match_text = "Invalid_UTF8";
+	if (match_text && ! g_utf8_validate (match_text, -1, NULL)) {
+		match_text = NULL;
 	}
 
-	if (menu_text == NULL) {
-		menu_text = match_text;
-	} else if (! g_utf8_validate (menu_text, -1, NULL)) {
-		menu_text = "Invalid_UTF8";
+	if (menu_text && ! g_utf8_validate (menu_text, -1, NULL)) {
+		menu_text = NULL;
 	}
 
+	if (match->match_text && match->match_text != match_text) {
+		g_free (match->match_text);
+	}
 	match->match_text = g_strdup (match_text);
-	match->menu_text  = g_strdup (menu_text);
 
-	g_free (to_be_freed_match_text);
-	g_free (to_be_freed_menu_text);
+	if (match->menu_text && match->menu_text != menu_text) {
+		g_free (match->menu_text);
+	}
+	match->menu_text  = g_strdup (menu_text);
 }
 
 const gchar *
 e_completion_match_get_match_text (ECompletionMatch *match)
 {
-	return match ? match->match_text : "NULL_Match";
+	g_return_val_if_fail (match != NULL, NULL);
+	return match->match_text;
 }
 
 const gchar *
 e_completion_match_get_menu_text (ECompletionMatch *match)
 {
-	return match ? match->menu_text : "NULL_Match";
+	g_return_val_if_fail (match != NULL, NULL);
+	return match->menu_text;
 }
 
 gint
