@@ -478,8 +478,9 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	ESelectNamesChild *child;
 	GtkWidget *button;
 	GtkWidget *alignment;
-	GtkWidget *label, *hbox, *icon;
+	GtkWidget *label, *icon; 
 	GtkTable *table;
+	char *label_text;
 
 	ETableModel *model;
 	GtkWidget *etable;
@@ -500,12 +501,11 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	alignment = gtk_alignment_new(0, 0, 1, 0);
 
 	button = gtk_button_new ();
-	hbox = gtk_hbox_new (FALSE, 2);
-	label = gtk_label_new (child->title);
-	icon = gnome_stock_pixmap_widget_new (NULL, GNOME_STOCK_PIXMAP_FORWARD);
-	gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), icon, TRUE, TRUE, 0);
-	gtk_container_add (GTK_CONTAINER (button), hbox);
+
+	label_text = g_strconcat (child->title, " ->", NULL);
+	label = gtk_label_new (label_text);
+	g_free (label_text);
+	gtk_container_add (GTK_CONTAINER (button), label);
 
 	gtk_container_add(GTK_CONTAINER(alignment), button);
 	gtk_widget_show_all(alignment);

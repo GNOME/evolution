@@ -1,3 +1,9 @@
+2001-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_add_section): Remove the butt-ugly arrow icon and
+	replace it with a less invasive "->" icon.
+
 2001-01-25  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (build_mods_from_ecards): add
