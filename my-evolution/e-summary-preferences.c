@@ -20,6 +20,7 @@
 #include <libgnomeui/gnome-stock.h>
 
 #include <glade/glade.h>
+#include <stdio.h>
 static void
 make_initial_mail_list (ESummaryPrefs *prefs)
 {
@@ -343,6 +344,8 @@ struct _RDFPage {
 	GtkWidget *refresh, *limit, *wipe_trackers;
 	GtkWidget *add, *remove;
 	GtkWidget *new_url;
+
+	GList *known;
 };
 
 struct _WeatherPage {
@@ -370,61 +373,129 @@ typedef struct _PropertyData {
 	struct _CalendarPage *calendar;
 } PropertyData;
 
-static char *rdfs[] = {
-	"http://news.gnome.org/gnome-news/rdf",
-	"http://advogato.org/rss/articles.xml",
-	"http://www.appwatch.com/appwatch.rdf",
-	"http://barrapunto.com/barrapunto.rdf",
-	"http://barrapunto.com/gnome.rdf",
-	"http://www.bsdtoday.com/backend/bt.rdf",
-	"http://beyond2000.com/b2k.rdf",
-	"http://www.newsisfree.com/export.php3?_f=rss91&_w=f&_i=1443",
-	"http://www.cnn.com/cnn.rss",
-	"http://www.dictionary.com/wordoftheday/wotd.rss",
-	"http://www.dvdreview.com/rss/newschannel.rss",
-	"http://freshmeat.net/backend/fm.rdf",
-	"http://headlines.internet.com/internetnews/prod-news/news.rss",
-	"http://www.kde.org/news/kdenews.rdf",
-	"http://www.kuro5hin.org/backend.rdf",
-	"http://linuxgames.com/bin/mynetscape.pl",
-	"http://linux.com/mrn/jobs/latest_jobs.rss",
-	"http://www.linuxplanet.com/rss",
-	"http://linuxtoday.com/backend/my-netscape.rdf",
-	"http://lwn.net/headlines/rss",
-	"http://www.linux.com/mrn/front_page.rss",
-	"http://morons.org/morons.rss",
-	"http://www.mozilla.org/news.rdf",
-	"http://www.mozillazine.org/contents.rdf",
-	"http://www.fool.com/about/headlines/rss_headlines.asp",
-	"http://www.newsforge.com/newsforge.rss",
-	"http://www.nanotechnews.com/nano/rdf",
-	"http://www.perl.com/pace/news.rss",
-	"http://www.pigdog.org/pigdog.rdf",
-	"http://www.python.org/channews.rdf",
-	"http://www.quotationspage.com/data/mqotd.rss",
-	"http://www.salon.com/feed/RDF/salon_use.rdf",
-	"http://www.scriptingnews.userland.com/xml/scriptingnews2.xml",
-	"http://www.securityfocus.com/topnews-rss.html",
-	"http://www.segfault.org/stories.xml",
-	"http://www.slashdot.org/slashdot.rdf",
-	"http://www.theregister.co.uk/tonys/slashdot.org",
-	"http://www.thinkgeek.com/thinkgeek.rdf",
-	"http://www.tomalak.org/recentTodaysLinks.xml",
-	"http://www.webreference.com/webreference.rdf",
-	"http://www.zope.org/SiteIndex/news.rss",
-	NULL
+struct _RDFInfo {
+	char *url;
+	char *name;
+};
+
+static struct _RDFInfo rdfs[] = {
+	{"http://advogato.org/rss/articles.xml", "Advogato"},
+	{"http://www.appwatch.com/appwatch.rdf", "Appwatch"},
+	{"http://barrapunto.com/barrapunto.rdf", "Barrapunto"},
+	{"http://barrapunto.com/gnome.rdf", "Barrapunto GNOME"},
+	{"http://www.bsdtoday.com/backend/bt.rdf", "BSD Today"},
+	{"http://beyond2000.com/b2k.rdf", "Beyond 2000"},
+	{"http://www.newsisfree.com/export.php3?_f=rss91&_w=f&_i=1443", "CNet"},
+	{"http://www.cnn.com/cnn.rss", "CNN"},
+	{"http://www.dictionary.com/wordoftheday/wotd.rss", N_("Dictionary.com Word of the Day")},
+	{"http://www.dvdreview.com/rss/newschannel.rss", "DVD Review"},
+	{"http://freshmeat.net/backend/fm.rdf", "Freshmeat"},
+	{"http://news.gnome.org/gnome-news/rdf", "GNotices"},
+	{"http://headlines.internet.com/internetnews/prod-news/news.rss", "Internet.com"},
+	{"http://www.kde.org/news/kdenews.rdf", "KDE News"},
+	{"http://www.kuro5hin.org/backend.rdf", "Kuro5hin"},
+	{"http://linuxgames.com/bin/mynetscape.pl", "Linux Games"},
+	{"http://linux.com/mrn/jobs/latest_jobs.rss", "Linux Jobs"},
+	{"http://www.linuxplanet.com/rss", "Linux Planet"},
+	{"http://linuxtoday.com/backend/my-netscape.rdf", "Linux Today"},
+	{"http://lwn.net/headlines/rss", "Linux Weekly News"},
+	{"http://www.linux.com/mrn/front_page.rss", "Linux.com"},
+	{"http://morons.org/morons.rss", "Morons"},
+	{"http://www.mozilla.org/news.rdf", "Mozilla"},
+	{"http://www.mozillazine.org/contents.rdf", "Mozillazine"},
+	{"http://www.fool.com/about/headlines/rss_headlines.asp", "The Motley Fool"},
+	{"http://www.newsforge.com/newsforge.rss", "Newforge"},
+	{"http://www.nanotechnews.com/nano/rdf", "Nanotech News"},
+	{"http://www.perl.com/pace/news.rss", "Perl.com"},
+	{"http://www.pigdog.org/pigdog.rdf", "Pigdog"},
+	{"http://www.python.org/channews.rdf", "Python.org"},
+	{"http://www.quotationspage.com/data/mqotd.rss", N_("Quotes of the Day")},
+	{"http://www.salon.com/feed/RDF/salon_use.rdf", "Salon"},
+	{"http://www.scriptingnews.userland.com/xml/scriptingnews2.xml", "Scripting News"},
+	{"http://www.securityfocus.com/topnews-rss.html", "Security Focus"},
+	{"http://www.segfault.org/stories.xml", "Segfault"},
+	{"http://www.slashdot.org/slashdot.rdf", "Slashdot"},
+	{"http://www.theregister.co.uk/tonys/slashdot.org", "The Register"},
+	{"http://www.thinkgeek.com/thinkgeek.rdf", "Think Geek"},
+	{"http://www.tomalak.org/recentTodaysLinks.xml", "Tomalak's Realm"},
+	{"http://www.webreference.com/webreference.rdf", "Web Reference"},
+	{"http://www.zope.org/SiteIndex/news.rss", "Zope"},
+	{NULL, NULL}
 };
 
 static void
-fill_rdf_all_clist (GtkCList *clist)
+free_rdf_info (struct _RDFInfo *info)
 {
+	g_free (info->url);
+	g_free (info->name);
+	g_free (info);
+}
+
+static const char *
+find_name_for_url (PropertyData *pd,
+		   const char *url)
+{
+	GList *p;
+
+	for (p = pd->rdf->known; p; p = p->next) {
+		struct _RDFInfo *info = p->data;
+		if (strcmp (url, info->url) == 0) {
+			return info->name;
+		}
+	}
+
+	return url;
+}
+
+static void
+fill_rdf_all_clist (GtkCList *clist, 
+		    PropertyData *pd)
+{
+	FILE *handle;
 	int i;
+	char *rdf_file, line[4096];
 
-	for (i = 0; rdfs[i]; i++) {
+	rdf_file = gnome_util_prepend_user_home ("evolution/config/RDF-urls.txt");
+	handle = fopen (rdf_file, "r");
+	g_free (rdf_file);
+
+	if (handle == NULL) {
+		for (i = 0; rdfs[i].url; i++) {
+			char *text[1];
+			int row;
+			
+			text[0] = rdfs[i].name;
+			row = gtk_clist_append (clist, text);
+			/* We don't need to free this data as it's
+			   static */
+			gtk_clist_set_row_data (clist, row, &rdfs[i]);
+			pd->rdf->known = g_list_append (pd->rdf->known, &rdfs[i]);
+		}
+		
+		return;
+	}
+
+	while (fgets (line, 4095, handle)) {
 		char *text[1];
+		char **tokens;
+		struct _RDFInfo *info;
+		int row;
 
-		text[0] = rdfs[i];
-		gtk_clist_append (clist, text);
+		tokens = g_strsplit (line, ",", 2);
+		if (tokens == NULL) {
+			continue;
+		}
+
+		info = g_new (struct _RDFInfo, 1);
+		info->url = g_strdup (tokens[0]);
+		info->name = g_strdup (tokens[1]);
+
+		pd->rdf->known = g_list_append (pd->rdf->known, info);
+		text[0] = tokens[1];
+		row = gtk_clist_append (clist, text);
+		gtk_clist_set_row_data_full (clist, row, info,
+					     (GtkDestroyNotify) free_rdf_info);
+		g_strfreev (tokens);
 	}
 }
 
@@ -437,7 +508,7 @@ fill_rdf_shown_clist (GtkCList *clist,
 	for (p = pd->summary->preferences->rdf_urls; p; p = p->next) {
 		char *text[1];
 
-		text[0] = p->data;
+		text[0] = find_name_for_url (pd, p->data);
 		gtk_clist_append (clist, text);
 	}
 }
@@ -590,23 +661,24 @@ static void
 rdf_add_clicked_cb (GtkButton *button,
 		    PropertyData *pd)
 {
+	struct _RDFInfo *info;
 	GList *p;
 	char *url, *text[1];
 	int row;
 
 	row = GPOINTER_TO_INT (GTK_CLIST (pd->rdf->all)->selection->data);
-	gtk_clist_get_text (GTK_CLIST (pd->rdf->all), row, 0, &url);
+	info = gtk_clist_get_row_data (GTK_CLIST (pd->rdf->all), row);
 
-	text[0] = url;
+	text[0] = info->name;
 
 	for (p = pd->summary->preferences->rdf_urls; p; p = p->next) {
-		if (strcmp (p->data, url) == 0) {
+		if (strcmp (p->data, info->url) == 0) {
 			/* Found it already */
 			return;
 		}
 	}
 
-	pd->summary->preferences->rdf_urls = g_list_prepend (pd->summary->preferences->rdf_urls, g_strdup (url));
+	pd->summary->preferences->rdf_urls = g_list_prepend (pd->summary->preferences->rdf_urls, g_strdup (info->url));
 	gtk_clist_prepend (GTK_CLIST (pd->rdf->shown), text);
 
 	gnome_property_box_changed (pd->box);
@@ -852,13 +924,14 @@ make_property_dialog (PropertyData *pd)
 	
 	/* RDF */
 	rdf = pd->rdf = g_new (struct _RDFPage, 1);
+	rdf->known = NULL;
 	rdf->all = glade_xml_get_widget (pd->xml, "clist6");
 	g_return_val_if_fail (rdf->all != NULL, FALSE);
 	gtk_signal_connect (GTK_OBJECT (rdf->all), "select-row",
 			    GTK_SIGNAL_FUNC (rdf_all_select_row_cb), pd);
 	gtk_signal_connect (GTK_OBJECT (rdf->all), "unselect-row",
 			    GTK_SIGNAL_FUNC (rdf_all_unselect_row_cb), pd);
-	fill_rdf_all_clist (GTK_CLIST (rdf->all));
+	fill_rdf_all_clist (GTK_CLIST (rdf->all), pd);
 
 	rdf->shown = glade_xml_get_widget (pd->xml, "clist5");
 	g_return_val_if_fail (rdf->shown != NULL, FALSE);
