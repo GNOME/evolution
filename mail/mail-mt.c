@@ -351,6 +351,7 @@ EMsgPort		*mail_gui_port;
 static GIOChannel	*mail_gui_channel;
 static guint		 mail_gui_watch;
 
+/* TODO: Merge these, gui_port2 doesn't do any mail_msg processing on the request (replies, forwards, frees) */
 EMsgPort		*mail_gui_port2;
 static GIOChannel	*mail_gui_channel2;
 static guint		 mail_gui_watch2;
@@ -562,315 +563,6 @@ static pthread_mutex_t status_lock = PTHREAD_MUTEX_INITIALIZER;
 
 /* ********************************************************************** */
 
-#if 0
-static GnomeDialog *password_dialogue = NULL;
-static EDList password_list = E_DLIST_INITIALISER(password_list);
-static struct _pass_msg *password_current = NULL;
-
-static void do_get_pass (struct _mail_msg *mm);
-
-struct _pass_msg {
-	struct _mail_msg msg;
-	const char *prompt;
-	gboolean secret;
-	gboolean *cache;
-	char *result;
-	char *service_url;
-	GtkWidget *check;
-	int inmain;
-};
-
-static void
-pass_got (char *string, void *data)
-{
-	struct _pass_msg *m = data;
-
-	printf("password got!  string = '%s'\n", string?string:"<nil>");
-	
-	if (string) {
-		MailConfigService *service = NULL;
-		const MailConfigAccount *mca;
-		gboolean remember;
-		
-		m->result = g_strdup (string);
-		
-		remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->check));
-		if (m->service_url) {
-			mca = mail_config_get_account_by_source_url (m->service_url);
-			if (mca) {
-				service = mca->source;
-			} else {
-				mca = mail_config_get_account_by_transport_url (m->service_url);
-				if (mca)
-					service = mca->transport;
-			}
-			
-			if (service) {
-				mail_config_service_set_save_passwd (service, remember);
-				
-				/* set `remember' to TRUE because people don't want to have to
-				   re-enter their passwords for this session even if they told
-				   us not to cache their passwords in the dialog...*sigh* */
-				remember = TRUE;
-			}
-		}
-		
-		if (m->cache)
-			*(m->cache) = remember;
-
-	}
-
-	if (!m->inmain)
-		e_msgport_reply((EMsg *)m);
-
-	password_dialogue = NULL;
-
-	m = e_dlist_remhead(&password_list);
-	if (m) {
-		printf("Have queued password request, showing now the other is finished\n");
-		do_get_pass(m);
-	}
-}
-
-static void
-do_get_pass (struct _mail_msg *mm)
-{
-	struct _pass_msg *m = (struct _pass_msg *)mm;
-	const MailConfigAccount *mca = NULL;
-	GtkWidget *dialogue;
-	GtkWidget *check, *entry;
-	GList *children, *iter;
-	gboolean show;
-	char *title;
-
-	/* If we already have a password_dialogue up, save this request till later */
-	if (!m->inmain && password_dialogue) {
-		e_dlist_addtail(&password_list, (EDListNode *)mm);
-		return;
-	}
-
-	password_current = m;
-
-	/* this api is just awful ... hence the hacks */
-	dialogue = gnome_request_dialog (m->secret, m->prompt, NULL, 0, pass_got, m, NULL);
-	
-	/* Remember the password? */
-	check = gtk_check_button_new_with_label (m->service_url ? _("Remember this password") :
-						 _("Remember this password for the remainder of this session"));
-	show = TRUE;
-	
-	if (m->service_url) {
-		mca = mail_config_get_account_by_source_url (m->service_url);
-		if (mca)
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), mca->source->save_passwd);
-		else {
-			mca = mail_config_get_account_by_transport_url (m->service_url);
-			if (mca)
-				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), mca->transport->save_passwd);
-			else {
-				d(printf ("Cannot figure out which account owns URL \"%s\"\n", m->service_url));
-				show = FALSE;
-			}
-		}
-	}
-	
-	if (show)
-		gtk_widget_show (check);
-	
-	/* do some dirty stuff to put the checkbutton after the entry */
-	entry = NULL;
-	children = gtk_container_children (GTK_CONTAINER (GNOME_DIALOG (dialogue)->vbox));
-	for (iter = children; iter; iter = iter->next) {
-		if (GTK_IS_ENTRY (iter->data)) {
-			entry = GTK_WIDGET (iter->data);
-			break;
-		}
-	}
-	g_list_free (children);
-	
-	if (entry) {
-		gtk_object_ref (GTK_OBJECT (entry));
-		gtk_container_remove (GTK_CONTAINER (GNOME_DIALOG (dialogue)->vbox), entry);
-	}
-	
-	gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox), check, TRUE, FALSE, 0);
-	
-	if (entry) {
-		gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox), entry, TRUE, FALSE, 0);
-		gtk_widget_grab_focus (entry);
-		gtk_object_unref (GTK_OBJECT (entry));
-	}
-	
-	m->check = check;
-	
-	/* hrm, we can't run this async since the gui_port from which we're called
-	   will reply to our message for us */
-	
-	if (mca) {
-		char *name;
-		
-		name = e_utf8_to_gtk_string (GTK_WIDGET (dialogue), mca->name);
-		title = g_strdup_printf (_("Enter Password for %s"), name);
-		g_free (name);
-	} else
-		title = g_strdup (_("Enter Password"));
-	
-	gtk_window_set_title (GTK_WINDOW (dialogue), title);
-	g_free (title);
-
-	if (m->inmain) {
-		printf("showing dialogue in main\n");
-		password_current = NULL;
-		gnome_dialog_run_and_close ((GnomeDialog *)dialogue);
-		e_msgport_reply((EMsg *)m);
-	} else {
-		printf("showing dialogue async\n");
-		gtk_widget_show(dialogue);
-	}
-}
-
-static void
-do_free_pass(struct _mail_msg *mm)
-{
-	/*struct _pass_msg *m = (struct _pass_msg *)mm;*/
-	
-	/* the string is passed out so we dont need to free it */
-}
-
-struct _mail_msg_op get_pass_op = {
-	NULL,
-	do_get_pass,
-	NULL,
-	do_free_pass,
-};
-
-/* returns the password, or NULL if cancelled */
-char *
-mail_get_password (CamelService *service, const char *prompt, gboolean secret, gboolean *cache)
-{
-	char *ret;
-	struct _pass_msg *m, *r;
-	EMsgPort *pass_reply;
-	
-	pass_reply = e_msgport_new ();
-	
-	m = mail_msg_new (&get_pass_op, pass_reply, sizeof (struct _pass_msg));
-	
-	m->prompt = prompt;
-	m->secret = secret;
-	m->cache = cache;
-	m->inmain = pthread_self() == mail_gui_thread;
-	if (service) {
-		m->service_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
-	} else
-		m->service_url = NULL;
-	
-	if (m->inmain) {
-		do_get_pass ((struct _mail_msg *)m);
-		r = m;
-	} else {
-		e_msgport_put (mail_gui_port2, (EMsg *)m);
-		e_msgport_wait (pass_reply);
-		r = (struct _pass_msg *)e_msgport_get (pass_reply);
-	}
-	
-	g_assert (r == m);
-	
-	ret = m->result;
-	
-	g_free (m->service_url);
-	mail_msg_free (m);
-	e_msgport_destroy (pass_reply);
-	
-	return ret;
-}
-#endif
-
-/* ******************** */
-
-/* ********************************************************************** */
-
-struct _user_message_msg {
-	struct _mail_msg msg;
-	const char *type;
-	const char *prompt;
-	gboolean allow_cancel;
-	gboolean result;
-};
-
-static void
-do_user_message (struct _mail_msg *mm)
-{
-	struct _user_message_msg *m = (struct _user_message_msg *)mm;
-	int dialog_result;
-	GtkWidget *dialog;
-	
-	dialog = gnome_message_box_new (m->prompt, m->type,
-					GNOME_STOCK_BUTTON_OK,
-					m->allow_cancel ? GNOME_STOCK_BUTTON_CANCEL : NULL,
-					NULL);
-	gnome_dialog_set_default (GNOME_DIALOG (dialog), 1);
-	gtk_window_set_policy (GTK_WINDOW (dialog), TRUE, TRUE, TRUE);
-	
-	/* hrm, we can't run this async since the gui_port from which we're called
-	   will reply to our message for us */
-	dialog_result = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-
-	if (dialog_result == -1 || dialog_result == 1)
-		m->result = FALSE;
-	else
-		m->result = TRUE;
-}
-
-struct _mail_msg_op user_message_op = {
-	NULL,
-	do_user_message,
-	NULL,
-	NULL,
-};
-
-/* prompt the user with a yes/no question and return the response */
-gboolean
-mail_user_message (const char *type, const char *prompt, gboolean allow_cancel)
-{
-	struct _user_message_msg *m, *r;
-	EMsgPort *user_message_reply;
-	gboolean accept;
-	
-	user_message_reply = e_msgport_new ();
-	
-	m = mail_msg_new (&user_message_op, user_message_reply, sizeof (*m));
-	
-	m->type = type;
-	m->prompt = prompt;
-	m->allow_cancel = allow_cancel;
-	
-	if (pthread_self () == mail_gui_thread) {
-		do_user_message ((struct _mail_msg *)m);
-		r = m;
-	} else {
-		static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-		
-		/* we want this single-threaded, this is the easiest way to do it without blocking ? */
-		pthread_mutex_lock (&lock);
-		e_msgport_put (mail_gui_port, (EMsg *)m);
-		e_msgport_wait (user_message_reply);
-		r = (struct _user_message_msg *)e_msgport_get (user_message_reply);
-		pthread_mutex_unlock (&lock);
-	}
-	
-	g_assert (r == m);
-	
-	accept = m->result;
-	
-	mail_msg_free (m);
-	e_msgport_destroy (user_message_reply);
-	
-	return accept;
-}
-
-/* ******************** */
-
 struct _proxy_msg {
 	struct _mail_msg msg;
 	MailAsyncEvent *ea;
@@ -1057,7 +749,8 @@ static int busy_state;
 
 static void do_set_busy(struct _mail_msg *mm)
 {
-	set_stop(busy_state > 0);
+	if (global_shell_client)
+		set_stop(busy_state > 0);
 }
 
 struct _mail_msg_op set_busy_op = {
@@ -1073,7 +766,7 @@ static void mail_enable_stop(void)
 
 	MAIL_MT_LOCK(status_lock);
 	busy_state++;
-	if (busy_state == 1) {
+	if (busy_state == 1 && global_shell_client) {
 		m = mail_msg_new(&set_busy_op, NULL, sizeof(*m));
 		e_msgport_put(mail_gui_port, (EMsg *)m);
 	}
@@ -1086,7 +779,7 @@ static void mail_disable_stop(void)
 
 	MAIL_MT_LOCK(status_lock);
 	busy_state--;
-	if (busy_state == 0) {
+	if (busy_state == 0 && global_shell_client) {
 		m = mail_msg_new(&set_busy_op, NULL, sizeof(*m));
 		e_msgport_put(mail_gui_port, (EMsg *)m);
 	}
@@ -1229,6 +922,9 @@ mail_operation_status (struct _CamelOperation *op, const char *what, int pc, voi
 	struct _op_status_msg *m;
 	
 	d(printf("got operation statys: %s %d%%\n", what, pc));
+
+	if (global_shell_client == NULL)
+		return;
 	
 	m = mail_msg_new(&op_status_op, NULL, sizeof(*m));
 	m->op = op;

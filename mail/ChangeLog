@@ -1,3 +1,35 @@
+2001-10-23    <NotZed@Ximian.com>
+
+	* mail-mt.c (mail_user_message): 
+	(mail_get_password): Removed, all functionality moved to
+	mail-session.
+
+	* mail-config.c (mail_config_write_on_exit): Check
+	threaded/preview hash is null before using it, its setup on demand
+	so itmight nto be initialised here.
+
+	* mail-session.c (request_password): Remove password_current
+	stuff.
+	(alert_user): Redont, similar to get_pass.  Do things as async as
+	possible, and dont even wait for a response if we're not asking
+	for the cancel button (this may or may not be right behaviour -
+	need to check).  mail_user_message() code replaced from the stuff
+	in mail-mt.c
+	(MailSession): Added a lock field.
+	(init): Setup lock.
+	(finalise): fRee lock.
+	(register_timeout): Redone.  We now allocate our own 'timeoutid's,
+	and <> to the real things asynchronously.  Use async_event's so we
+	can make sure we have no outstanding ones after shutdown.
+	(mail_session_enable_interaction): If interaction has been
+	disabled, and we have either a message-box open, or a password
+	request open and/or any pending message boxes/passwords, blow 'em
+	away.
+	(main_register_timeout): If we have pending remove of this same
+	timeout, dont do anything.
+	(timeout_timeout): Properly honour the result, remove the timout
+	if it returns false.
+
 2001-10-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (reply_to_sender): Make sure the fb and it's
@@ -34,6 +66,9 @@
 	* mail-mt.c: Added missing errno.h
 	(mail_msg_new): Fix the logic a bit, dont try to open the log file
 	unless logging is actually requested.
+	(mail_enable_stop, mail_disable_stop, do_set_busy,
+	mail_operation_statys): Dont bother propagating events if
+	global_shell_client isn't up yet.
 
 2001-10-23  Dan Winship  <danw@ximian.com>
 

@@ -30,6 +30,9 @@
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-stock.h>
+
+#include <gal/widgets/e-unicode.h>
+
 #include "camel/camel-filter-driver.h"
 #include "filter/filter-context.h"
 #include "filter/filter-filter.h"
@@ -38,6 +41,7 @@
 #include "mail-tools.h"
 #include "mail-mt.h"
 #include "e-util/e-passwords.h"
+#include "e-util/e-msgport.h"
 
 #define d(x)
 
@@ -49,12 +53,22 @@ CamelSession *session;
 #define MAIL_SESSION_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), MAIL_SESSION_TYPE, MailSessionClass))
 #define MAIL_IS_SESSION(o)    (CAMEL_CHECK_TYPE((o), MAIL_SESSION_TYPE))
 
+#define MAIL_SESSION_LOCK(s, l) (e_mutex_lock(((MailSession *)s)->l))
+#define MAIL_SESSION_UNLOCK(s, l) (e_mutex_unlock(((MailSession *)s)->l))
 
 typedef struct _MailSession {
 	CamelSession parent_object;
 
 	gboolean interaction_enabled;
 	FILE *filter_logfile;
+
+	EMutex *lock;
+
+	MailAsyncEvent *async;
+
+	/* must all be accessed with lock held ! */
+	unsigned int timeout_id;/* next camel timneout id */
+	EDList timeouts;	/* list of struct _timeout_data's of current or pending removed timeouts */
 } MailSession;
 
 typedef struct _MailSessionClass {
@@ -62,32 +76,33 @@ typedef struct _MailSessionClass {
 
 } MailSessionClass;
 
-
-static char *get_password (CamelSession *session, const char *prompt,
-			   gboolean secret, CamelService *service,
-			   const char *item, CamelException *ex);
-static void forget_password (CamelSession *session, CamelService *service,
-			     const char *item, CamelException *ex);
-static gboolean alert_user (CamelSession *session, CamelSessionAlertType type,
-			    const char *prompt, gboolean cancel);
-static guint register_timeout (CamelSession *session, guint32 interval,
-			       CamelTimeoutCallback cb, gpointer camel_data);
-static gboolean remove_timeout (CamelSession *session, guint handle);
-static CamelFilterDriver *get_filter_driver (CamelSession *session,
-					     const char *type,
-					     CamelException *ex);
-
+static char *get_password(CamelSession *session, const char *prompt, gboolean secret, CamelService *service, const char *item, CamelException *ex);
+static void forget_password(CamelSession *session, CamelService *service, const char *item, CamelException *ex);
+static gboolean alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt, gboolean cancel);
+static guint register_timeout(CamelSession *session, guint32 interval, CamelTimeoutCallback cb, gpointer camel_data);
+static gboolean remove_timeout(CamelSession *session, guint handle);
+static CamelFilterDriver *get_filter_driver(CamelSession *session, const char *type, CamelException *ex);
 
 static void
 init (MailSession *session)
 {
+	session->lock = e_mutex_new(E_MUTEX_REC);
+	session->timeout_id = 1; /* first timeout id */
+	session->async = mail_async_event_new();
+	e_dlist_init(&session->timeouts);
+}
+
+static void
+finalise (MailSession *session)
+{
+	mail_async_event_destroy(session->async);
+	e_mutex_destroy(session->lock);
 }
 
 static void
 class_init (MailSessionClass *mail_session_class)
 {
-	CamelSessionClass *camel_session_class =
-		CAMEL_SESSION_CLASS (mail_session_class);
+	CamelSessionClass *camel_session_class = CAMEL_SESSION_CLASS (mail_session_class);
 	
 	/* virtual method override */
 	camel_session_class->get_password = get_password;
@@ -112,7 +127,7 @@ mail_session_get_type (void)
 			(CamelObjectClassInitFunc) class_init,
 			NULL,
 			(CamelObjectInitFunc) init,
-			NULL);
+			(CamelObjectFinalizeFunc) finalise);
 	}
 	
 	return mail_session_type;
@@ -136,7 +151,6 @@ make_key (CamelService *service, const char *item)
 
 static GnomeDialog *password_dialogue = NULL;
 static EDList password_list = E_DLIST_INITIALISER(password_list);
-static struct _pass_msg *password_current = NULL;
 static int password_destroy_id;
 
 struct _pass_msg {
@@ -232,12 +246,10 @@ request_password(struct _pass_msg *m)
 		return;
 	}
 
-	password_current = m;
-
 	/* FIXME: Remove this total snot */
 
 	/* this api is just awful ... hence the major hacks */
-	password_dialogue = dialogue = gnome_request_dialog (m->secret, m->prompt, NULL, 0, pass_got, m, NULL);
+	password_dialogue = (GnomeDialog *)dialogue = gnome_request_dialog (m->secret, m->prompt, NULL, 0, pass_got, m, NULL);
 
 	/* cant bleieve how @!@#!@# 5this api is, it doesn't handle this for you, BLAH! */
 	password_destroy_id = gtk_signal_connect((GtkObject *)dialogue, "destroy", request_password_deleted, m);
@@ -303,12 +315,10 @@ request_password(struct _pass_msg *m)
 	gtk_window_set_title (GTK_WINDOW (dialogue), title);
 	g_free (title);
 
-	if (m->ismain) {
-		password_current = NULL;
+	if (m->ismain)
 		gnome_dialog_run_and_close ((GnomeDialog *)dialogue);
-	} else {
+	else
 		gtk_widget_show(dialogue);
-	}
 }
 
 static void
@@ -377,7 +387,7 @@ get_password (CamelSession *session, const char *prompt, gboolean secret, CamelS
 	m->key = make_key(service, item);
 
 	if (m->ismain)
-		do_get_pass(m);
+		do_get_pass((struct _mail_msg *)m);
 	else {
 		extern EMsgPort *mail_gui_port2;
 
@@ -412,60 +422,249 @@ forget_password (CamelSession *session, CamelService *service, const char *item,
 		       session, service, item, ex);
 }
 
-static gboolean
-alert_user (CamelSession *session, CamelSessionAlertType type,
-	    const char *prompt, gboolean cancel)
+/* ********************************************************************** */
+
+static GnomeDialog *message_dialogue;
+static EDList message_list = E_DLIST_INITIALISER(password_list);
+static guint message_destroy_id;
+
+struct _user_message_msg {
+	struct _mail_msg msg;
+
+	CamelSessionAlertType type;
+	const char *prompt;
+
+	unsigned int allow_cancel:1;
+	unsigned int result:1;
+	unsigned int ismain:1;
+};
+
+static void do_user_message (struct _mail_msg *mm);
+
+/* if we dont have to wait for reply, we just check to see if any newly waiting prompts are there */
+static void
+user_message_destroy_noreply(GnomeDialog *gd, void *data)
 {
-	MailSession *mail_session = MAIL_SESSION (session);
-	const char *message_type = NULL;
-	
-	if (!mail_session->interaction_enabled)
-		return FALSE;
-	
-	switch (type) {
+	struct _user_message_msg *m;
+
+	message_dialogue = NULL;
+	if ((m = (struct _user_message_msg *)e_dlist_remhead(&message_list)))
+		do_user_message((struct _mail_msg *)m);
+}
+
+/* clicked, send back the reply */
+static void
+user_message_clicked(GnomeDialog *gd, int button, struct _user_message_msg *m)
+{
+	message_dialogue = NULL;
+
+	if (message_destroy_id) {
+		gtk_signal_disconnect((GtkObject *)gd, message_destroy_id);
+		message_destroy_id = 0;
+	}
+
+	m->result = button == 0;
+	e_msgport_reply((EMsg *)m);
+
+	/* check for pendings */
+	if ((m = (struct _user_message_msg *)e_dlist_remhead(&message_list)))
+		do_user_message((struct _mail_msg *)m);
+}
+
+static void
+user_message_destroy(GnomeDialog *gd, struct _user_message_msg *m)
+{
+	message_destroy_id = 0;
+	user_message_clicked(gd, -1, m);
+}
+
+static void
+do_user_message (struct _mail_msg *mm)
+{
+	struct _user_message_msg *m = (struct _user_message_msg *)mm;
+	const char *msg_type;
+
+	if (!m->ismain && message_dialogue != NULL) {
+		e_dlist_addtail(&message_list, (EDListNode *)m);
+		return;
+	}
+
+	switch (m->type) {
 	case CAMEL_SESSION_ALERT_INFO:
-		message_type = GNOME_MESSAGE_BOX_INFO;
+		msg_type = GNOME_MESSAGE_BOX_INFO;
 		break;
 	case CAMEL_SESSION_ALERT_WARNING:
-		message_type = GNOME_MESSAGE_BOX_WARNING;
+		msg_type = GNOME_MESSAGE_BOX_WARNING;
 		break;
 	case CAMEL_SESSION_ALERT_ERROR:
-		message_type = GNOME_MESSAGE_BOX_ERROR;
+		msg_type = GNOME_MESSAGE_BOX_ERROR;
 		break;
+	default:
+		msg_type = NULL;
 	}
-	return mail_user_message (message_type, prompt, cancel);
+
+	message_dialogue = (GnomeDialog *)gnome_message_box_new(m->prompt, msg_type, GNOME_STOCK_BUTTON_OK,
+								m->allow_cancel ? GNOME_STOCK_BUTTON_CANCEL : NULL,
+								NULL);
+	gnome_dialog_set_default(message_dialogue, 1);
+	gnome_dialog_set_close(message_dialogue, TRUE);
+	gtk_window_set_policy (GTK_WINDOW (message_dialogue), TRUE, TRUE, TRUE);
+
+	/* We only need to wait for the result if we allow cancel otherwise show but send result back instantly */
+	if (m->allow_cancel) {
+		gtk_signal_connect((GtkObject*)message_dialogue, "clicked", user_message_clicked, m);
+		gtk_signal_connect((GtkObject*)message_dialogue, "destroy", user_message_destroy, m);
+		if (m->ismain)
+			gnome_dialog_run_and_close ((GnomeDialog *)message_dialogue);
+		else
+			gtk_widget_show((GtkWidget *)message_dialogue);
+	} else {
+		gtk_signal_connect((GtkObject *)message_dialogue, "destroy", user_message_destroy_noreply, NULL);
+		gtk_widget_show((GtkWidget *)message_dialogue);
+		m->result = TRUE;
+		e_msgport_reply((EMsg *)m);
+	}
+}
+
+static struct _mail_msg_op user_message_op = { NULL, do_user_message, NULL, NULL };
+
+static gboolean
+alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt, gboolean cancel)
+{
+	MailSession *mail_session = MAIL_SESSION (session);
+	struct _user_message_msg *m, *r;
+	EMsgPort *user_message_reply;
+	gboolean ret;
+
+	if (!mail_session->interaction_enabled)
+		return FALSE;
+
+	user_message_reply = e_msgport_new ();	
+	m = mail_msg_new (&user_message_op, user_message_reply, sizeof (*m));
+	m->ismain = pthread_self() == mail_gui_thread;
+	m->type = type;
+	m->prompt = prompt;
+	m->allow_cancel = cancel;
+
+	if (m->ismain)
+		do_user_message((struct _mail_msg *)m);
+	else {
+		extern EMsgPort *mail_gui_port2;
+
+		e_msgport_put(mail_gui_port2, (EMsg *)m);
+	}
+
+	e_msgport_wait(user_message_reply);
+	r = (struct _user_message_msg *)e_msgport_get(user_message_reply);
+	g_assert(m == r);
+
+	ret = m->result;
+	mail_msg_free(m);
+	e_msgport_destroy(user_message_reply);
+
+	return ret;
 }
 
 /* ******************** */
 
 struct _timeout_data {
-	CamelTimeoutCallback cb;
+	struct _timeout_data *next;
+	struct _timeout_data *prev;
+
+	CamelSession *session;
+
 	guint32 interval;
+
+	CamelTimeoutCallback cb;
 	void *camel_data;
-	int result;
+
+	guint id;		/* the camel 'id' */
+	guint timeout_id;	/* the gtk 'id' */
+
+	unsigned int busy:1;		/* on if its currently running */
+	unsigned int removed:1;		/* if its been removed since */
 };
 
 struct _timeout_msg {
 	struct _mail_msg msg;
-	
-	CamelTimeoutCallback cb;
-	gpointer camel_data;
+
+	CamelSession *session;
+	unsigned int id;
+	int result;
 };
+
+static struct _timeout_data *
+find_timeout(EDList *list, unsigned int id)
+{
+	struct _timeout_data *td, *tn;
+
+	td = (struct _timeout_data *)list->head;
+	tn = td->next;
+	while (tn) {
+		if (td->id == id)
+			return td;
+		td = tn;
+		tn = tn->next;
+	}
+
+	return NULL;
+}
 
 static void
 timeout_timeout (struct _mail_msg *mm)
 {
 	struct _timeout_msg *m = (struct _timeout_msg *)mm;
-	
-	/* we ignore the callback result, do we care?? no. */
-	m->cb (m->camel_data);
+	MailSession *ms = (MailSession *)m->session;
+	struct _timeout_data *td;
+
+	MAIL_SESSION_LOCK(ms, lock);
+	td = find_timeout(&ms->timeouts, m->id);
+	if (td && !td->removed) {
+		if (td->busy) {
+			g_warning("Timeout event dropped, still busy with last one");
+		} else {
+			td->busy = TRUE;
+			m->result = td->cb(td->camel_data);
+			td->busy = FALSE;
+			td->removed = !m->result;
+		}
+	}
+	MAIL_SESSION_UNLOCK(ms, lock);
+}
+
+static void
+timeout_done(struct _mail_msg *mm)
+{
+	struct _timeout_msg *m = (struct _timeout_msg *)mm;
+	MailSession *ms = (MailSession *)m->session;
+	struct _timeout_data *td;
+
+	if (!m->result) {
+		MAIL_SESSION_LOCK(ms, lock);
+		td = find_timeout(&ms->timeouts, m->id);
+		if (td) {
+			e_dlist_remove((EDListNode *)td);
+			if (td->timeout_id)
+				gtk_timeout_remove(td->timeout_id);
+			g_free(td);
+		}
+		MAIL_SESSION_UNLOCK(ms, lock);
+	}
+}
+
+static void
+timeout_free(struct _mail_msg *mm)
+{
+	struct _timeout_msg *m = (struct _timeout_msg *)mm;
+
+	camel_object_unref((CamelObject *)m->session);
 }
 
 static struct _mail_msg_op timeout_op = {
 	NULL,
 	timeout_timeout,
-	NULL,
-	NULL,
+	timeout_done,
+	timeout_free,
 };
 
 static gboolean 
@@ -473,65 +672,120 @@ camel_timeout (gpointer data)
 {
 	struct _timeout_data *td = data;
 	struct _timeout_msg *m;
+
+	/* stop if we are removed pending */
+	if (td->removed)
+		return FALSE;
 	
-	m = mail_msg_new (&timeout_op, NULL, sizeof (*m));
+	m = mail_msg_new(&timeout_op, NULL, sizeof (*m));
+
+	m->session = td->session;
+	camel_object_ref((CamelObject *)td->session);
+	m->id = td->id;
 	
-	m->cb = td->cb;
-	m->camel_data = td->camel_data;
-	
-	e_thread_put (mail_thread_queued, (EMsg *)m);
+	e_thread_put(mail_thread_queued, (EMsg *)m);
 	
 	return TRUE;
 }
 
 static void
-main_register_timeout(struct _timeout_data *td)
+main_register_timeout(CamelSession *session, void *event_data, void *data)
 {
-	td->result = gtk_timeout_add_full(td->interval, camel_timeout, NULL, td, g_free);
+	MailSession *ms = (MailSession *)session;
+	unsigned int handle = (unsigned int)event_data;
+	struct _timeout_data *td;
+
+	MAIL_SESSION_LOCK(session, lock);
+	td = find_timeout(&ms->timeouts, handle);
+	if (td) {
+		if (td->removed) {
+			e_dlist_remove((EDListNode *)td);
+			if (td->timeout_id)
+				gtk_timeout_remove(td->timeout_id);
+			g_free(td);
+		} else {
+			td->timeout_id = gtk_timeout_add(td->interval, camel_timeout, td);
+		}
+	}
+	MAIL_SESSION_UNLOCK(session, lock);
+
+	camel_object_unref((CamelObject *)ms);
 }
 
 static guint
 register_timeout (CamelSession *session, guint32 interval, CamelTimeoutCallback cb, gpointer camel_data)
 {
 	struct _timeout_data *td;
-	
-	/* We do this because otherwise the timeout can get called
-	 * more often than the dispatch thread can get rid of it,
-	 * leading to timeout calls piling up, and we don't have a
-	 * good way to watch the return values. It's not cool.
-	 */
-	if (interval < 1000) {
-		g_warning("Timeout %u too small, increased to 1000", interval);
-		interval = 1000;
-	}
+	MailSession *ms = (MailSession *)session;
+	guint ret;
 
-	/* This is extremely messy, we need to proxy to gtk thread for this */
-	td = g_malloc (sizeof (*td));
-	td->interval = interval;
-	td->result = 0;
+	MAIL_SESSION_LOCK(session, lock);
+
+	ret = ms->timeout_id;
+	ms->timeout_id ++;
+
+	/* just debugging, the timeout code now ignores excessive events anyway */
+	if (interval < 100)
+		g_warning("Timeout requested %d is small, may cause performance problems", interval);
+
+	td = g_malloc(sizeof(*td));
 	td->cb = cb;
 	td->camel_data = camel_data;
+	td->interval = interval;
+	td->id = ret;
+	td->session = session;
+	td->removed = FALSE;
+	td->busy = FALSE;
+	e_dlist_addhead(&ms->timeouts, (EDListNode *)td);
 
-	mail_call_main(MAIL_CALL_p_p, (MailMainFunc)main_register_timeout, td);
+	MAIL_SESSION_UNLOCK(session, lock);
 
-	if (td->result == 0) {
-		g_free(td);
-		return 0;
-	}
+	camel_object_ref((CamelObject *)ms);
+	mail_async_event_emit(ms->async, (CamelObjectEventHookFunc)main_register_timeout, (CamelObject *)session, (void *)ret, NULL);
 
-	return td->result;
+	return ret;
 }
 
 static void
-main_remove_timeout(guint *edata)
+main_remove_timeout(CamelSession *session, void *event_data, void *data)
 {
-	gtk_timeout_remove(*edata);
+	MailSession *ms = (MailSession *)session;
+	unsigned int handle = (unsigned int)event_data;
+	struct _timeout_data *td;
+
+	MAIL_SESSION_LOCK(session, lock);
+	td = find_timeout(&ms->timeouts, handle);
+	if (td) {
+		e_dlist_remove((EDListNode *)td);
+		if (td->timeout_id)
+			gtk_timeout_remove(td->timeout_id);
+		g_free(td);
+	}
+	MAIL_SESSION_UNLOCK(session, lock);
+
+	camel_object_unref((CamelObject *)ms);
 }
 
 static gboolean
 remove_timeout (CamelSession *session, guint handle)
 {
-	mail_call_main(MAIL_CALL_p_p, (MailMainFunc)main_remove_timeout, &handle);
+	MailSession *ms = (MailSession *)session;
+	struct _timeout_data *td;
+	int remove = FALSE;
+
+	MAIL_SESSION_LOCK(session, lock);
+	td = find_timeout(&ms->timeouts, handle);
+	if (td && !td->removed) {
+		td->removed = TRUE;
+		remove = TRUE;
+	}
+	MAIL_SESSION_UNLOCK(session, lock);
+
+	if (remove) {
+		camel_object_ref((CamelObject *)ms);
+		mail_async_event_emit(ms->async, (CamelObjectEventHookFunc)main_remove_timeout, (CamelObject *)session, (void *)handle, NULL);
+	} else
+		g_warning("Removing a timeout i dont know about (or twice): %d", handle);
 
 	return TRUE;
 }
@@ -676,6 +930,37 @@ void
 mail_session_enable_interaction (gboolean enable)
 {
 	MAIL_SESSION (session)->interaction_enabled = enable;
+
+	if (!enable) {
+		struct _pass_msg *pm;
+		struct _user_message_msg *um;
+
+		printf("Gone non-interactive, checking for outstanding interactive tasks\n");
+
+		/* clear out pending password requests */
+		while ((pm = (struct _pass_msg *)e_dlist_remhead(&password_list))) {
+			printf("Flushing password request : %s\n", pm->prompt);
+			e_msgport_reply((EMsg *)pm);
+		}
+
+		/* destroy the current */
+		if (password_dialogue) {
+			printf("Destroying password dialogue\n");
+			gtk_object_destroy((GtkObject *)password_dialogue);
+		}
+
+		/* same for pending user messages */
+		while ((um = (struct _user_message_msg *)e_dlist_remhead(&message_list))) {
+			printf("Flusing message request: %s\n", um->prompt);
+			e_msgport_reply((EMsg *)um);
+		}
+
+		/* and the current */
+		if (message_dialogue) {
+			printf("Destroying message dialogue\n");
+			gtk_object_destroy((GtkObject *)message_dialogue);
+		}
+	}
 }
 
 void

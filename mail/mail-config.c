@@ -875,12 +875,12 @@ mail_config_write_on_exit (void)
 	
 	bonobo_config_set_string_wrapper (config->db, "/Mail/Filters/log_path",
 					  config->filter_log_path, NULL);
+
+	if (config->threaded_hash)
+		g_hash_table_foreach_remove (config->threaded_hash, hash_save_state, "Threads");
 	
-	g_hash_table_foreach_remove (config->threaded_hash, 
-				     hash_save_state, "Threads");
-	
-	g_hash_table_foreach_remove (config->preview_hash, 
-				     hash_save_state, "Preview");
+	if (config->preview_hash)
+		g_hash_table_foreach_remove (config->preview_hash, hash_save_state, "Preview");
 	
 	CORBA_exception_init (&ev);
 	Bonobo_ConfigDatabase_sync (config->db, &ev);
