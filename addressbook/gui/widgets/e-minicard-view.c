@@ -287,6 +287,17 @@ e_minicard_view_selection_event (EReflow *reflow, GnomeCanvasItem *item, GdkEven
 	}
 
 	switch (event->type) {
+	case GDK_FOCUS_CHANGE:
+		if (event->focus_change.in) {
+			int i;
+			for (i = 0; i < reflow->count; i++) {
+				if (reflow->items[i] == item) {
+					e_selection_model_maybe_do_something(reflow->selection, i, 0, 0);
+					break;
+				}
+			}
+		}
+		break;
 	case GDK_BUTTON_PRESS:
 		if (event->button.button == 3) {
 			return_val = e_addressbook_reflow_adapter_right_click (view->adapter, event, reflow->selection);

@@ -1,5 +1,11 @@
 2001-10-20  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/widgets/e-minicard-view.c (e_minicard_view_selection_event):
+	Handle focus_change in event by selecting that contact.  Fixes
+	Ximian bug #3024.
+
+2001-10-20  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/component/addressbook-component.c (owner_unset_cb):
 	Repeatedly call gtk_main_quit here as long as there is a main loop
 	around.  This is an ugly hack around Ximian bug #11760.
