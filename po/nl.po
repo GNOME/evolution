@@ -3556,9 +3556,10 @@ msgstr "_Afspraak bewerken"
 msgid "Open"
 msgstr "Openen"
 
+#. GRUT modified this item
 #: calendar/gui/alarm-notify/alarm-queue.c:903
 msgid "Dismiss"
-msgstr ""
+msgstr "Negeren"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:905
 msgid "Dismiss All"
@@ -4128,12 +4129,13 @@ msgstr "minuten"
 msgid "start of appointment"
 msgstr "begin van afspraak"
 
+#. GRUT modified this item
 #. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
 #. has "activatable" set.
 #: calendar/gui/dialogs/cal-prefs-dialog.c:415 mail/em-account-prefs.c:487
 #: mail/em-composer-prefs.c:712 mail/em-composer-prefs.c:858
 msgid "Enabled"
-msgstr "Aangezet"
+msgstr "Ingeschakeld"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:656
 msgid "Are you sure you want to remove this URL?"
@@ -6712,9 +6714,10 @@ msgstr "Kalenderinformatie"
 msgid "Updated"
 msgstr "Vernieuwd"
 
+#. GRUT modified this item
 #: calendar/gui/itip-utils.c:446
 msgid "Refresh"
-msgstr "Vernieuwen"
+msgstr "Verversen"
 
 #: calendar/gui/itip-utils.c:450
 msgid "Counter-proposal"
@@ -9953,10 +9956,10 @@ msgstr "Verbinden met server"
 msgid "Use custom command to connect to server"
 msgstr "Kan geen verbinding krijgen met LDAP server"
 
+#. GRUT modified this item
 #: camel/providers/imap/camel-imap-provider.c:47
-#, fuzzy
 msgid "Command:"
-msgstr "Bedrijf"
+msgstr "Opdracht:"
 
 #: camel/providers/imap/camel-imap-provider.c:55
 #: camel/providers/nntp/camel-nntp-provider.c:41
@@ -12056,9 +12059,10 @@ msgstr "U moet deze filter een naam geven."
 msgid "Rule name: "
 msgstr "Regel naam: "
 
+#. GRUT modified this item
 #: filter/filter-rule.c:755
 msgid "Untitled"
-msgstr "Geen Titel"
+msgstr "Naamloos"
 
 #: filter/filter-rule.c:772
 msgid "If"
@@ -16660,17 +16664,19 @@ msgstr "%s wordt afgesloten (%s)\n"
 msgid "Copy Contact(s) to Another Folder..."
 msgstr "Contact(en) kopiëren naar een andere map..."
 
+#. GRUT modified this item
 #: ui/evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
-msgstr "Kopieer de selectie"
+msgstr "Selectie kopiëren"
 
 #: ui/evolution-addressbook.xml.h:5
 msgid "Copy to Folder..."
 msgstr "Naar map kopiëren..."
 
+#. GRUT modified this item
 #: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
-msgstr "Knip de selectie"
+msgstr "Selectie knippen"
 
 #: ui/evolution-addressbook.xml.h:9
 msgid "Delete selected contacts"
@@ -16684,9 +16690,10 @@ msgstr "Contact(en) verplaatsen naar een andere map..."
 msgid "Move to Folder..."
 msgstr "Naar map verplaatsen..."
 
+#. GRUT modified this item
 #: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:18
 msgid "Paste the clipboard"
-msgstr "Plak het klembord"
+msgstr "Plakken vanuit klembord"
 
 #: ui/evolution-addressbook.xml.h:15
 msgid "Previews the contacts to be printed"
@@ -17651,9 +17658,10 @@ msgstr "Bijlage toevoegen"
 msgid "Attach a file"
 msgstr "Een bestand toevoegen als bijlage"
 
+#. GRUT modified this item
 #: ui/evolution-message-composer.xml.h:4 ui/evolution-signature-editor.xml.h:3
 msgid "Close the current file"
-msgstr "Huidige bestand sluiten"
+msgstr "Het huidige bestand sluiten"
 
 #: ui/evolution-message-composer.xml.h:5
 msgid "Delete all but signature"
@@ -17712,22 +17720,25 @@ msgstr "Kla_d Opslaan"
 msgid "Save in folder..."
 msgstr "Opslaan in _map..."
 
+#. GRUT modified this item
 #: ui/evolution-message-composer.xml.h:21
 #: ui/evolution-signature-editor.xml.h:9
 msgid "Save the current file"
-msgstr "Huidig bestand opslaan"
+msgstr "Huidige bestand opslaan"
 
+#. GRUT modified this item
 #: ui/evolution-message-composer.xml.h:22
 msgid "Save the current file with a different name"
-msgstr "Sla het huidige bestand op onder een andere naam"
+msgstr "Het huidige bestand opslaan onder een andere naam"
 
 #: ui/evolution-message-composer.xml.h:23
 msgid "Save the message in a specified folder"
 msgstr "Sla het bericht op in een bepaalde folder"
 
+#. GRUT modified this item
 #: ui/evolution-message-composer.xml.h:24
 msgid "Send"
-msgstr "Versturen"
+msgstr "Verzenden"
 
 #: ui/evolution-message-composer.xml.h:25
 #: ui/evolution-signature-editor.xml.h:11
@@ -18197,9 +18208,10 @@ msgstr "Het percentage mag niet kleiner zijn dan 0 en niet groter dan 100"
 msgid "Baltic"
 msgstr "Baltisch"
 
+#. GRUT modified this item
 #: widgets/misc/e-charset-picker.c:62
 msgid "Central European"
-msgstr "Centraaleuropees"
+msgstr "Centraal-Europees"
 
 #: widgets/misc/e-charset-picker.c:63
 msgid "Chinese"
