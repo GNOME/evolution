@@ -187,6 +187,11 @@
     <submenu name="View">
 
       	<separator/>
+
+        <menuitem name="MessageSearch" verb=""
+	_label="S_earch Message" accel="*Control*e"/>
+
+      	<separator/>
       
       	<menuitem name="Threaded" verb="ViewThreaded" accel="*Control*t"/>
       

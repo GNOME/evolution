@@ -51,6 +51,7 @@
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-local.h"
+#include "mail-search.h"
 #include "mail-send-recv.h"
 #include "mail-vfolder.h"
 #include "folder-browser.h"
@@ -1124,14 +1125,14 @@ is_drafts_folder (CamelFolder *folder)
 static gboolean
 are_you_sure (const char *msg, GPtrArray *uids, FolderBrowser *fb)
 {
-	GtkWidget *window = gtk_widget_get_ancestor (fb, GTK_TYPE_WINDOW);
+	GtkWidget *window = gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW);
 	GtkWidget *dialog;
 	char *buf;
 	int button, i;
 
 	buf = g_strdup_printf (msg, uids->len);
 	dialog = gnome_ok_cancel_dialog_parented (buf, NULL, NULL, (GtkWindow *)window);
-	button = gnome_dialog_run_and_close (dialog);
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	if (button != 0) {
 		for (i = 0; i < uids->len; i++)
 			g_free (uids->pdata[i]);
@@ -1211,6 +1212,21 @@ resend_msg (GtkWidget *widget, gpointer user_data)
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
 	mail_get_messages (fb->folder, uids, do_resend_messages, fb);
+}
+
+void
+search_msg (GtkWidget *widget, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	GtkWidget *w;
+
+	if (fb->mail_display->current_message == NULL) {
+		gtk_widget_show_all (gnome_warning_dialog (_("No Message Selected")));
+		return;
+	}
+
+	w = mail_search_new (fb->mail_display);
+	gtk_widget_show_all (w);
 }
 
 static void

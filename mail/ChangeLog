@@ -1,3 +1,13 @@
+2001-04-26  Jon Trowbridge  <trow@ximian.com>
+
+	* folder-browser-factory.c: Added "MessageSearch" verb.
+
+	* mail-callbacks.c (search_msg): Added search callback.
+	(are_you_sure): Added some casts to fix compiler warnings.
+
+	* mail-search.c: Added.  A simple search-in-message widget,
+	that uses GtkHTML's searching capabilities.
+
 2001-04-25  Dan Winship  <danw@ximian.com>
 
 	* mail-callbacks.c (are_you_sure): New foot-shooting-prevention

@@ -111,6 +111,8 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MailStop", stop_threads),
 	BONOBO_UI_UNSAFE_VERB ("MailPrevious", previous_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailNext", next_msg),
+
+	BONOBO_UI_UNSAFE_VERB ("MessageSearch", search_msg),
 	
 	BONOBO_UI_VERB_END
 };

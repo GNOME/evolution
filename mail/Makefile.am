@@ -81,6 +81,8 @@ evolution_mail_SOURCES =		\
 	mail-mt.h			\
 	mail-ops.c			\
 	mail-ops.h			\
+	mail-search.c			\
+	mail-search.h			\
 	mail-search-dialogue.c		\
 	mail-search-dialogue.h		\
 	mail-send-recv.c		\
