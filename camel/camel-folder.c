@@ -774,8 +774,27 @@ camel_folder_expunge (CamelFolder *folder)
 static CamelMimeMessage *
 _get_message (CamelFolder *folder, gint number)
 {
+	CamelMimeMessage *a_message;
+	CamelMimeMessage *new_message = NULL;
+	GList *message_node;
 	
-	return NULL;
+	message_node = folder->message_list;
+	
+	/* look in folder message list if the 
+	 * if the message has not already been retreived */
+	while ((!new_message) && message_node) {
+		a_message = CAMEL_MIME_MESSAGE (message_node->data);
+		CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message Current message number is %d\n", a_message->message_number);
+		if (a_message && (a_message->message_number == number)) {
+			CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message message %d already retreived once: returning %pOK\n", 
+					      number, a_message);
+			new_message = a_message;
+		}
+		message_node = message_node->next;
+
+		CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message message node = %p\n", message_node);
+	}
+	return new_message;
 }
 
 
@@ -803,7 +822,7 @@ camel_folder_get_message (CamelFolder *folder, gint number)
 	if (!new_message) return NULL;
 	/* if the message has not been already put in 
 	 * this folder message list, put it in */
-	if (!g_list_find (folder->message_list, new_message))
+	if ((!folder->message_list) || (!g_list_find (folder->message_list, new_message)))
 	    folder->message_list = g_list_append (folder->message_list, new_message);
 	return new_message;
 }
@@ -840,8 +859,8 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message)
 
 
 gint camel_folder_append_message (CamelFolder *folder, CamelMimeMessage *message)
-{
-	return CF_CLASS (folder)->append_message (folder, message);
+{	
+	return  CF_CLASS (folder)->append_message (folder, message);
 }
 
 

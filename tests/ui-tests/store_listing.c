@@ -74,7 +74,7 @@ show_folder_messages (CamelFolder *folder)
 	folder_message_count = camel_folder_get_message_count (folder);
 	for (i=0; i<folder_message_count; i++) {
 		message = camel_folder_get_message (folder, i);
-
+		gtk_object_ref (GTK_OBJECT (message));
 		sent_date = camel_mime_message_get_sent_date (message);
 		sender = camel_mime_message_get_from (message);
 		subject = camel_mime_message_get_subject (message);

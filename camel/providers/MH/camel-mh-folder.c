@@ -410,6 +410,9 @@ _get_message (CamelFolder *folder, gint number)
 	
 	g_assert(folder);
 	
+	message = parent_class->get_message (folder, number);
+	if (message) return message;
+	
 	directory_path = mh_folder->directory_path;
 	if (!directory_path) return NULL;	
 	if (!camel_folder_exists (folder)) return NULL;
@@ -441,6 +444,8 @@ _get_message (CamelFolder *folder, gint number)
 			message = camel_mime_message_new_with_session ( (CamelSession *)NULL);
 			camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
 			gtk_object_unref (GTK_OBJECT (input_stream));
+			message->message_number = number;
+#warning Set flags and all this stuff here
 		}
 	} else 
 		CAMEL_LOG_FULL_DEBUG  ("CanelMhFolder::get_message message number = %d, not found\n", number);

@@ -66,6 +66,7 @@ struct _CamelMimeMessage
 	GHashTable *recipients;
 	/*   -> each value is a GList of address strings */
 	/*      each key is a recipient type string in lower-case */
+	/* FIXME: these should be relaced by dedicated structure */
 	
 	/* other fields */
 	GHashTable *flags; /* boolean values */

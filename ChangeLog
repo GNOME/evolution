@@ -1,5 +1,14 @@
 1999-08-13  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/camel-folder.c (_get_message): default implementation
+	to be called first by providers methods. It looks in the
+	folder message list (in memory) to see if the message has
+	not already been retrieved, and in this case, returns 
+	the same CamelMimeMessage object
+
+	* camel/providers/MH/camel-mh-folder.c (_get_message): set
+	message->message_number correctly.
+
 	* camel/camel-folder.h (struct _CamelFolder): 
 	New field (message_list) which will hold a 
 	reference on each message obtained by the folder,
