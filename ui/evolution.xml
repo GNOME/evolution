@@ -109,6 +109,11 @@
 		_label="_Go to Folder..."
 		_tip="Display a different folder" accel="*Control*g"/>
 
+      <menuitem name="FileOpenOtherUsersFolder"
+		verb="FileOpenOtherUsersFolder"
+		_label="Open Other _User's Folder..."
+		_tip="Open a folder that is made available by some other user on the server"/>
+
       <separator f="" name="eshell4"/>
       
       <menuitem name="FileImporter" verb=""
