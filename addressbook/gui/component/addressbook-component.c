@@ -31,6 +31,7 @@
 #include "evolution-storage.h"
 
 #include "addressbook-component.h"
+#include "addressbook.h"
 
 
 #ifdef USING_OAF
@@ -62,11 +63,24 @@ create_view (EvolutionShellComponent *shell_component,
 	return control;
 }
 
+static int owner_count = 0;
+
 static void
 owner_set_cb (EvolutionShellComponent *shell_component,
-	      Evolution_Shell shell_interface)
+	      Evolution_Shell shell_interface,
+	      gpointer user_data)
 {
-	g_print ("addressbook: Yeeeh! We have an owner!\n");	/* FIXME */
+	owner_count ++;
+}
+
+static void
+owner_unset_cb (EvolutionShellComponent *shell_component,
+		Evolution_Shell shell_interface,
+		gpointer user_data)
+{
+	owner_count --;
+	if (owner_count == 0)
+		gtk_main_quit();
 }
 
 
@@ -82,6 +96,9 @@ factory_fn (BonoboGenericFactory *factory,
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
+
+	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
+			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
 
 	return BONOBO_OBJECT (shell_component);
 }
