@@ -26,6 +26,7 @@
 #include <ctype.h>
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
+#include <gal/util/e-util.h>
 #include "e-time-utils.h"
 
 
@@ -107,7 +108,7 @@ locale_supports_12_hour_format (void)
 	struct tm tmp_tm = { 0 };
 	char s[16];
 
-	strftime (s, sizeof (s), "%p", &tmp_tm);
+	e_utf8_strftime (s, sizeof (s), "%p", &tmp_tm);
 	return s[0] != '\0';
 }
 
@@ -390,7 +391,7 @@ e_time_format_date_and_time		(struct tm	*date_tm,
 
 	/* strftime returns 0 if the string doesn't fit, and leaves the buffer
 	   undefined, so we set it to the empty string in that case. */
-	if (strftime (buffer, buffer_size, format, date_tm) == 0)
+	if (e_utf8_strftime (buffer, buffer_size, format, date_tm) == 0)
 		buffer[0] = '\0';
 }
 
@@ -426,7 +427,7 @@ e_time_format_time			(struct tm	*date_tm,
 			
 	/* strftime returns 0 if the string doesn't fit, and leaves the buffer
 	   undefined, so we set it to the empty string in that case. */
-	if (strftime (buffer, buffer_size, format, date_tm) == 0)
+	if (e_utf8_strftime (buffer, buffer_size, format, date_tm) == 0)
 		buffer[0] = '\0';
 }
 
