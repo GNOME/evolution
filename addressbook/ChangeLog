@@ -1,3 +1,7 @@
+2001-07-27  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/Makefile.am: Tidy ldadds
+
 2001-07-26  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-bonobo.c: Fixing a

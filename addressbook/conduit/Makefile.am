@@ -4,9 +4,9 @@ INCLUDES = 					\
 	-I$(top_srcdir)/addressbook/backend	\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
-	$(BONOBO_GNOME_CFLAGS)			\
 	$(PISOCK_CFLAGS)			\
-	$(GNOME_PILOT_CFLAGS)
+	$(GNOME_PILOT_CFLAGS)			\
+	$(BONOBO_GNOME_CFLAGS)
 
 # Address Conduit
 e_address_conduitsdir=$(libdir)/gnome-pilot/conduits
@@ -24,10 +24,10 @@ libeaddress_conduit_la_LIBADD = 					\
 	$(top_builddir)/e-util/ename/libename-static.la			\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/e-util/libeconduit-static.la	 		\
-	$(GNOME_PILOT_LIBS) 						\
 	$(PISOCK_LIBS) 							\
+	$(GNOME_PILOT_LIBS) 						\
+	$(BONOBO_CONF_LIBS)						\
 	$(BONOBO_GNOME_LIBS)						\
-	$(EXTRA_GNOME_LIBS)						\
 	$(GNOME_LIBDIR) 						\
 	$(GNOME_LIBS)
 
