@@ -1632,6 +1632,8 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 	icalcompiter tz_iter;
 
 	priv = itip->priv;
+	if (priv == NULL)
+		return;
 
 	clean_up (itip);
 
