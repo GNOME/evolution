@@ -14,10 +14,14 @@ Addressbook:
 
 Calendar:
 
-  - Compilation fixes (Rodrigo)
+  - Compilation fixes.  (Rodrigo)
 
   - Fixed problems introduced in Beta 6 due to the changes in the URI
-    management functions (Rodrigo)
+    management functions.  (Rodrigo)
+
+  - Prettier alarm notification dialog.  (Larry)
+
+  - Session management for the alarm daemon.  (Federico)
 
 Version 0.16 (Beta 6), 2001-10-10
 ---------------------------------
