@@ -106,7 +106,6 @@ main (int argc, char **argv)
 		g_error (_("Could not initialize gnome-vfs"));
 
 	glade_gnome_init ();
-	alarm_init ();
 	e_cursors_init ();
 
 #if 0

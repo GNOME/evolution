@@ -32,14 +32,11 @@
 
 
 
-/* Whether the timer system has been initialized */
-static gboolean alarm_inited;
-
-/* The pipes used to notify about an alarm */
-static int alarm_pipes [2];
+/* Our glib timeout */
+static guint timeout_id;
 
 /* The list of pending alarms */
-static GList *alarms;
+static GList *alarms = NULL;
 
 /* A queued alarm structure */
 typedef struct {
@@ -49,52 +46,19 @@ typedef struct {
 	AlarmDestroyNotify destroy_notify_fn;
 } AlarmRecord;
 
+static void setup_timeout (time_t now);
+
 
 
-/* SIGALRM handler.  Notifies the callback about the alarm. */
+/* Removes the head alarm from the queue.  Does not touch the timeout_id. */
 static void
-alarm_signal (int arg)
-{
-	char c = 0;
-
-	write (alarm_pipes [1], &c, 1);
-}
-
-/* Sets up an itimer and returns a success code */
-static gboolean
-setup_itimer (time_t diff)
-{
-	struct itimerval itimer;
-	int v;
-
-	itimer.it_interval.tv_sec = 0;
-	itimer.it_interval.tv_usec = 0;
-	itimer.it_value.tv_sec = diff;
-	itimer.it_value.tv_usec = 0;
-
-	v = setitimer (ITIMER_REAL, &itimer, NULL);
-
-	return (v == 0) ? TRUE : FALSE;
-}
-
-/* Clears the itimer we have pending */
-static gboolean
-clear_itimer (void)
-{
-	return setup_itimer (0);
-}
-
-/* Removes the head alarm, returns it, and schedules the next alarm in the
- * queue.
- */
-static AlarmRecord *
 pop_alarm (void)
 {
 	AlarmRecord *ar;
 	GList *l;
 
 	if (!alarms)
-		return NULL;
+		return;
 
 	ar = alarms->data;
 
@@ -102,55 +66,70 @@ pop_alarm (void)
 	alarms = g_list_remove_link (alarms, l);
 	g_list_free_1 (l);
 
-	if (alarms) {
-		time_t now;
-		AlarmRecord *new_ar;
-
-		now = time (NULL);
-		new_ar = alarms->data;
-
-		if (!setup_itimer (new_ar->trigger - now)) {
-			g_message ("pop_alarm(): Could not reset the timer!  "
-				   "Weird things will happen.");
-
-			/* FIXME: should we free the alarm list?  What
-			 * about further alarm removal requests that
-			 * will fail?
-			 */
-		}
-	} else
-		if (!clear_itimer ())
-			g_message ("pop_alarm(): Could not clear the timer!  "
-				   "Weird things may happen.");
-
-	return ar;
-}
-
-/* Input handler for our own alarm notification pipe */
-static void
-alarm_ready (gpointer data, gint fd, GdkInputCondition cond)
-{
-	AlarmRecord *ar;
-	char c;
-
-	if (read (alarm_pipes [0], &c, 1) != 1) {
-		g_message ("alarm_ready(): Uh?  Could not read from notification pipe.");
-		return;
-	}
-
-	g_assert (alarms != NULL);
-	ar = pop_alarm ();
-
-	g_print ("alarm_ready(): Notifying about alarm on %s\n", ctime (&ar->trigger));
-
-	(* ar->alarm_fn) (ar, ar->trigger, ar->data);
-
-	if (ar->destroy_notify_fn)
-		(* ar->destroy_notify_fn) (ar, ar->data);
-
 	g_free (ar);
 }
 
+/* Callback from the alarm timeout */
+static gboolean
+alarm_ready_cb (gpointer data)
+{
+	time_t now;
+
+	g_assert (alarms != NULL);
+	timeout_id = 0;
+
+	now = time (NULL);
+
+	while (alarms) {
+		AlarmRecord *ar;
+		AlarmRecord ar_copy;
+
+		ar = alarms->data;
+
+		if (ar->trigger > now)
+			break;
+
+		ar_copy = *ar;
+		ar = &ar_copy;
+
+		pop_alarm (); /* This will free the original AlarmRecord; that's why we copy it */
+
+		(* ar->alarm_fn) (ar, ar->trigger, ar->data);
+
+		if (ar->destroy_notify_fn)
+			(* ar->destroy_notify_fn) (ar, ar->data);
+	}
+
+	if (alarms)
+		setup_timeout (now);
+
+	return FALSE;
+}
+
+/* Sets up a timeout for the next minute */
+static void
+setup_timeout (time_t now)
+{
+	time_t next, diff;
+	struct tm tm;
+
+	g_assert (timeout_id == 0);
+	g_assert (alarms != NULL);
+
+	tm = *localtime (&now);
+	tm.tm_sec = 0;
+	tm.tm_min++; /* next minute */
+
+	next = mktime (&tm);
+	g_assert (next != -1);
+
+	diff = next - now;
+
+	g_assert (diff >= 0);
+	timeout_id = g_timeout_add (diff * 1000, alarm_ready_cb, NULL);
+}
+
+/* Used from g_list_insert_sorted(); compares the trigger times of two AlarmRecord structures. */
 static int
 compare_alarm_by_time (gconstpointer a, gconstpointer b)
 {
@@ -163,40 +142,34 @@ compare_alarm_by_time (gconstpointer a, gconstpointer b)
 }
 
 /* Adds an alarm to the queue and sets up the timer */
-static gboolean
-queue_alarm (time_t now, AlarmRecord *ar)
+static void
+queue_alarm (AlarmRecord *ar)
 {
-	time_t diff;
+	time_t now;
 	AlarmRecord *old_head;
 
-	if (alarms)
+	if (alarms) {
+		g_assert (timeout_id != 0);
+
 		old_head = alarms->data;
-	else
+	} else {
+		g_assert (timeout_id == 0);
+
 		old_head = NULL;
+	}
 
 	alarms = g_list_insert_sorted (alarms, ar, compare_alarm_by_time);
 
 	if (old_head == alarms->data)
-		return TRUE;
+		return;
 
 	/* Set the timer for removal upon activation */
 
-	diff = ar->trigger - now;
-	if (!setup_itimer (diff)) {
-		GList *l;
-
-		g_message ("queue_alarm(): Could not set up timer!  Not queueing alarm.");
-
-		l = g_list_find (alarms, ar);
-		g_assert (l != NULL);
-
-		alarms = g_list_remove_link (alarms, l);
-		g_list_free_1 (l);
-		return FALSE;
-	}
-
-	return TRUE;
+	now = time (NULL);
+	setup_timeout (now);
 }
+
+
 
 /**
  * alarm_add:
@@ -215,16 +188,10 @@ gpointer
 alarm_add (time_t trigger, AlarmFunction alarm_fn, gpointer data,
 	   AlarmDestroyNotify destroy_notify_fn)
 {
-	time_t now;
 	AlarmRecord *ar;
 
-	g_return_val_if_fail (alarm_inited, NULL);
 	g_return_val_if_fail (trigger != -1, NULL);
 	g_return_val_if_fail (alarm_fn != NULL, NULL);
-
-	now = time (NULL);
-	if (trigger < now)
-		return NULL;
 
 	ar = g_new (AlarmRecord, 1);
 	ar->trigger = trigger;
@@ -232,12 +199,7 @@ alarm_add (time_t trigger, AlarmFunction alarm_fn, gpointer data,
 	ar->data = data;
 	ar->destroy_notify_fn = destroy_notify_fn;
 
-	g_print ("alarm_add(): Adding alarm for %s\n", ctime (&trigger));
-
-	if (!queue_alarm (now, ar)) {
-		g_free (ar);
-		ar = NULL;
-	}
+	queue_alarm (ar);
 
 	return ar;
 }
@@ -252,10 +214,10 @@ void
 alarm_remove (gpointer alarm)
 {
 	AlarmRecord *ar;
+	AlarmRecord ar_copy;
 	AlarmRecord *old_head;
 	GList *l;
 
-	g_return_if_fail (alarm_inited);
 	g_return_if_fail (alarm != NULL);
 
 	ar = alarm;
@@ -268,48 +230,29 @@ alarm_remove (gpointer alarm)
 
 	old_head = alarms->data;
 
-	if (old_head == ar)
-		pop_alarm ();
-	else {
+	if (old_head == ar) {
+		ar_copy = *ar;
+		ar = &ar_copy;
+		pop_alarm (); /* This will free the original AlarmRecord; that's why we copy it */
+	} else {
 		alarms = g_list_remove_link (alarms, l);
 		g_list_free_1 (l);
 	}
 
+	/* Reset the timeout */
+
+	g_assert (timeout_id != 0);
+
+	if (!alarms) {
+		g_source_remove (timeout_id);
+		timeout_id = 0;
+	}
+
+	/* Notify about destructiono of the alarm */
+
 	if (ar->destroy_notify_fn)
 		(* ar->destroy_notify_fn) (ar, ar->data);
 
-	g_free (ar);
-}
-
-/**
- * alarm_init:
- *
- * Initializes the alarm timer mechanism.  This must be called near the
- * beginning of the program.
- **/
-void
-alarm_init (void)
-{
-	struct sigaction sa;
-	int flags;
-
-	g_return_if_fail (alarm_inited == FALSE);
-
-	pipe (alarm_pipes);
-
-	/* set non blocking mode */
-	flags = 0;
-	fcntl (alarm_pipes [0], F_GETFL, &flags);
-	fcntl (alarm_pipes [0], F_SETFL, flags | O_NONBLOCK);
-	gdk_input_add (alarm_pipes [0], GDK_INPUT_READ, alarm_ready, NULL);
-
-	/* Setup the signal handler */
-	sa.sa_handler = alarm_signal;
-	sigemptyset (&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	sigaction (SIGALRM, &sa, NULL);
-
-	alarm_inited = TRUE;
 }
 
 /**
@@ -323,11 +266,15 @@ alarm_done (void)
 {
 	GList *l;
 
-	g_return_if_fail (alarm_inited);
+	if (timeout_id == 0) {
+		g_assert (alarms == NULL);
+		return;
+	}
 
-	if (!clear_itimer ())
-		g_message ("alarm_done(): Could not clear the timer!  "
-			   "Weird things may happen.");
+	g_assert (alarms != NULL);
+
+	g_source_remove (timeout_id);
+	timeout_id = 0;
 
 	for (l = alarms; l; l = l->next) {
 		AlarmRecord *ar;
@@ -342,16 +289,4 @@ alarm_done (void)
 
 	g_list_free (alarms);
 	alarms = NULL;
-
-	if (close (alarm_pipes[0]) != 0)
-		g_message ("alarm_done(): Could not close the input pipe for notification");
-
-	alarm_pipes[0] = -1;
-
-	if (close (alarm_pipes[1]) != 0)
-		g_message ("alarm_done(): Could not close the output pipe for notification");
-
-	alarm_pipes[1] = -1;
-
-	alarm_inited = FALSE;
 }

@@ -44,30 +44,6 @@ static BonoboGenericFactory *factory;
 static AlarmNotify *alarm_notify_service;
 
 
-/* La de da */
-static void
-funny_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
-{
-	char *msg;
-	char str[256];
-	struct tm *tm;
-
-	tm = localtime (&trigger);
-	strftime (str, sizeof (str), "%Y/%m/%d %H:%M:%S", tm);
-
-	msg = g_strdup_printf (_("It is %s.  The Unix time is %ld right now.  We just thought "
-				 "you may like to know."), str, (long) trigger);
-	gnome_ok_dialog (msg);
-	g_free (msg);
-}
-
-/* Dum de dum */
-static void
-funny_times_init (void)
-{
-	alarm_add ((time_t) 999999999L, funny_trigger_cb, NULL, NULL); /* Sep  9 01:46:39 2001 UTC */
-}
-
 /* Factory function for the alarm notify service; just creates and references a
  * singleton service object.
  */
@@ -106,10 +82,7 @@ main (int argc, char **argv)
 
 	glade_gnome_init ();
 
-	alarm_init ();
 	alarm_queue_init ();
-
-	funny_times_init ();
 
 	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory",
 					      alarm_notify_factory_fn, NULL);

@@ -1,3 +1,20 @@
+2001-09-17  Federico Mena Quintero  <federico@ximian.com>
+
+	Switch the alarm system from using SIGALRM to normal glib timers.
+	Also, use a more robust de-queueing mechanism.
+
+	* gui/alarm-notify/alarm.c (alarm_init): Removed.
+	(alarm_done): Remove the glib timeout instead of closing the pipes
+	and the signal handler.
+	(alarm_add): Allow adding alarms that happen before right now.
+	(queue_alarm): Use a glib timer instead of a signal.
+	(alarm_remove): Adjust the timeout as appropriate.
+
+	* gui/alarm-notify/notify-main.c (main): There is no need to
+	initialize the alarm system now.
+
+	* gui/main.c (main): Likewise.
+
 2001-09-17  JP Rosevear  <jpr@ximian.com>
 
 	* gui/calendar-model.c (calendar_model_init): get itip addresses
