@@ -3,53 +3,16 @@
 	* configure.in: Fix the OpenLDAP check to default to "no" if you
 	don't specify anything.
 
-2001-06-20  Kevin Breit  <battery841@mediaone.net>
-
-	* doc/C/config-setupassist.sgml: Updated for new UI.
-
-2001-06-20  Kevin Breit  <battery841@mediaone.net>
-
-	* docs/C/usage-sync: Reworded a little bit for more descrip.
-
-2001-06-20  Kevin Breit  <battery841@mediaone.net>
-
-	* doc/C/usage-calendar.sgml: Documented categorizing an event.
-
-2001-06-20  Kevin Breit  <battery841@mediaone.net>
-
-	* doc/C/usage-mail.sgml: Updated Bcc: example
-
 2001-06-20  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Change --enable-ldap to --with-openldap, allow a
 	path prefix as an argument. Add some libtooly goodness to the
 	libldap check in case it depends on ssl libraries.
 
-2001-06-20  Kevin Breit  <battery841@mediaone.net>
-
-	* doc/C/apx-gloss.sgml: Took out a reference to gloss.
-
-2001-06-20  Kevin Breit  <battery841@mediaone.net>
-
-	* doc/C/usage-exec-summary.sgml: Made it build.
-
 2001-06-19  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Tweak the db3 header check to like our RH7 build
 	machine again.
-
-2001-06-19  Kevin Breit <battery841@mediaone.net>
-
-	* doc/C/usage-mail.sgml: Basic edits
-
-2001-06-19  Kevin Breit <battery841@mediaone.net>
-
-	* doc/C/usage-exec-summary: Updated to say "My Evolution"
-
-2001-06-19  Kevin Breit <battery841@mediaone.net>
-	* doc/C/apx-gloss.sgml: Added definition.
-
-	* doc/C/usage-mainwindow.sgml: Routine updates.
 
 2001-06-19  Christopher James Lahey  <clahey@ximian.com>
 

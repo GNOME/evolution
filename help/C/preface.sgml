@@ -90,31 +90,30 @@
                developers an environment for cutting-edge application
                development.
             </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-               Data must be safe: <application>Evolution</application>
-               must not lose mail, corrupt mailbox files or other
-               data, execute arbitrary <glossterm linkend="script">scripts</glossterm>,
+	</listitem>
+	<listitem>
+	  <para>
+	    Data must be safe: <application>Evolution</application>
+	    must not lose mail, corrupt mailbox files or other
+	    data, execute arbitrary <glossterm linkend="script">scripts</glossterm>,
                or delete files from your hard disk.
-            </para>
-          </listitem>
-	</itemizedlist>
-      </para>
-      <para>
-        <application>Evolution</application> is designed to make most
-        daily tasks faster.  For example, it takes only one or two
-        clicks to enter an appointment or an address card sent to you
-        by email, or to send email to a contact or appointment.
-        <application>Evolution</application> makes displays faster and
-        more efficient, so searches are faster and memory usage is
-        lower.  People who get lots of mail will appreciate advanced
-        features like <link
-        linkend="usage-mail-organize-vFolders">Virtual Folders</link>,
-        which let you save searches as though they were ordinary mail
-        folders.
-      </para>
-
+	  </para>
+	</listitem>
+      </itemizedlist>
+    </para>
+    <para>
+      <application>Evolution</application> is designed to make most
+      daily tasks faster.  For example, it takes only one or two
+      clicks to enter an appointment or an address card sent to you
+      by email, or to send email to a contact or appointment.
+      <application>Evolution</application> makes displays faster and
+      more efficient, so searches are faster and memory usage is
+      lower.  People who get lots of mail will appreciate advanced
+      features like <link linkend="usage-mail-organize-vFolders">
+	Virtual Folders</link>, which let you save searches as though 
+      they were ordinary mail folders.
+    </para>
+    
   </sect1>
 
   <sect1 id="aboutbook">

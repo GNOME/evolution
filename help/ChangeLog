@@ -1,3 +1,37 @@
+2001-06-20  Kevin Breit  <battery841@mediaone.net>
+
+	* doc/ChangeLog: Moved my entires to doc/ChangeLog per request of danw
+	
+2001-06-20  Kevin Breit  <battery841@mediaone.net>
+
+	* doc/C/config-setupassist.sgml: Updated for new UI.
+
+2001-06-20  Kevin Breit  <battery841@mediaone.net>
+
+	* docs/C/usage-sync: Reworded a little bit for more descrip.
+
+2001-06-20  Kevin Breit  <battery841@mediaone.net>
+
+	* doc/C/usage-calendar.sgml: Documented categorizing an event.
+
+2001-06-20  Kevin Breit  <battery841@mediaone.net>
+
+	* doc/C/usage-mail.sgml: Updated Bcc: example
+
+2001-06-19  Kevin Breit <battery841@mediaone.net>
+
+	* doc/C/usage-mail.sgml: Basic edits
+
+2001-06-19  Kevin Breit <battery841@mediaone.net>
+
+	* doc/C/usage-exec-summary: Updated to say "My Evolution"
+
+2001-06-19  Kevin Breit <battery841@mediaone.net>
+
+	* doc/C/apx-gloss.sgml: Added definition.
+
+	* doc/C/usage-mainwindow.sgml: Routine updates.
+	
 2001-06-07  Duncan Mak  <duncan@lumox.simplemente.net>
 
 	* C/evolution-faq.sgml: Fixed a typo. Thanks to Greg Leblanc for pointing this out.
