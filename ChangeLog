@@ -1,5 +1,9 @@
 2001-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
+	* configure.in: Bump version number to 0.12.99.
+
+2001-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
 	* configure.in: Ooops.  We want GAL >= 0.10.0 and GtkHTML >=
 	0.11.0.
 
