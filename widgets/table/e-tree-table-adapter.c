@@ -269,6 +269,7 @@ delete_node(ETreeTableAdapter *etta, ETreePath parent, ETreePath path)
 	int parent_row = get_row(etta, parent);
 	int row = get_row(etta, path);
 	GNode *gnode = lookup_gnode(etta, path);
+	GNode *parent_gnode = lookup_gnode(etta, parent);
 
 	e_table_model_pre_change(E_TABLE_MODEL(etta));
 
@@ -283,10 +284,10 @@ delete_node(ETreeTableAdapter *etta, ETreePath parent, ETreePath path)
 	move_map_elements(etta, row, row + to_remove, etta->priv->n_map - row - to_remove);
 	resize_map(etta, etta->priv->n_map - to_remove);
 
-	if (parent_row != -1) {
-		node_t *parent_node = etta->priv->map_table[parent_row];
-		GNode *parent_gnode = lookup_gnode(etta, parent);
+	if (parent_gnode != NULL) {
+		node_t *parent_node = parent_gnode->data;
 		gboolean expandable = e_tree_model_node_is_expandable(etta->priv->source, parent);
+
 		update_child_counts(parent_gnode, - to_remove);
 		if (parent_node->expandable != expandable) {
 			e_table_model_pre_change(E_TABLE_MODEL(etta));
