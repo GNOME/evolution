@@ -1,5 +1,10 @@
 2002-09-23  Rodrigo Moya <rodrigo@ximian.com>
 
+	* pcs/query.c (start_cached_query_cb): remove timeout function always
+	and re-add it if the query is in progress.
+
+2002-09-23  Rodrigo Moya <rodrigo@ximian.com>
+
 	* pcs/query.c (start_cached_query_cb): move success notification code
 	to its own code block, since it was being run for parse errors also.
 	Also, remove all traces of the query from the cache if there is an

@@ -1447,6 +1447,10 @@ start_cached_query_cb (gpointer data)
 
 	priv = info->query->priv;
 
+	g_source_remove (info->tid);
+	priv->cached_timeouts = g_list_remove (priv->cached_timeouts,
+					       GINT_TO_POINTER (info->tid));
+
 	/* if the query hasn't started yet, we add the listener */
 	if (priv->state == QUERY_START_PENDING ||
 	    priv->state == QUERY_WAIT_FOR_BACKEND) {
@@ -1456,19 +1460,14 @@ start_cached_query_cb (gpointer data)
 		priv->component_listeners = g_list_append (priv->component_listeners, cl);
 		gtk_signal_connect (GTK_OBJECT (cl), "component_died",
 				    GTK_SIGNAL_FUNC (listener_died_cb), info->query);
-
-		priv->cached_timeouts = g_list_remove (priv->cached_timeouts,
-						       GINT_TO_POINTER (info->tid));
-
 	} else if (priv->state == QUERY_IN_PROGRESS) {
-		/* if it's in progress, we just wait */
-		return TRUE;
-	} else if (priv->state == QUERY_PARSE_ERROR) {
-		/* remove all traces of this query */
-		g_source_remove (info->tid);
-		priv->cached_timeouts = g_list_remove (priv->cached_timeouts,
+		/* if it's in progress, we re-add the timeout */
+		info->tid = g_timeout_add (100, (GSourceFunc) start_cached_query_cb, info);
+		priv->cached_timeouts = g_list_append (priv->cached_timeouts,
 						       GINT_TO_POINTER (info->tid));
 
+		return FALSE;
+	} else if (priv->state == QUERY_PARSE_ERROR) {
 		/* notify listener of error */
 		CORBA_exception_init (&ev);
 		GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
@@ -1483,13 +1482,10 @@ start_cached_query_cb (gpointer data)
 
 		CORBA_exception_free (&ev);
 
+		/* remove all traces of this query */
 		cached_queries = g_list_remove (cached_queries, info->query);
 		bonobo_object_unref (BONOBO_OBJECT (info->query));
 	} else if (priv->state == QUERY_DONE) {
-		g_source_remove (info->tid);
-		priv->cached_timeouts = g_list_remove (priv->cached_timeouts,
-						       GINT_TO_POINTER (info->tid));
-
 		/* if the query is done, then we just notify the listener */
 		g_hash_table_foreach (priv->uids, (GHFunc) notify_uid_cb, info);
 
