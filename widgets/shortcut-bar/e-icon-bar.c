@@ -287,10 +287,19 @@ static void
 e_icon_bar_destroy (GtkObject *object)
 {
 	EIconBar *icon_bar;
+	int item_num;
+	EIconBarItem *item;
 
 	icon_bar = E_ICON_BAR (object);
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	
+	for (item_num = 0; item_num < icon_bar->items->len; item_num++) {
+		item = &g_array_index (icon_bar->items,
+				       EIconBarItem, item_num);
+		if (item->destroy)
+			item->destroy (item->data);
+	}
 
 	g_array_free (icon_bar->items, TRUE);
 

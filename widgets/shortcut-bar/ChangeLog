@@ -1,3 +1,7 @@
+2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-icon-bar.c: Free all the item data.
+
 2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shortcut-bar.c (e_shortcut_bar_get_view_type): New function.
