@@ -9,7 +9,8 @@
 	notebooks.
 
 	* gui/e-calendar-table.c (E_CALENDAR_TABLE_SPEC): Make the default
-	column order be icon/completed/summary.
+	column order be icon/completed/summary.  You may need to erase
+	your ~/evolution/config/TaskPad for this to appear.
 
 2000-11-21  Federico Mena Quintero  <federico@helixcode.com>
 
