@@ -1,3 +1,12 @@
+2000-06-21  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (imap_create): Modified to
+	use the "namespace" (url->path) if it exists.
+
+	* providers/imap/camel-imap-folder.c (imap_delete_message_by_uid):
+	Now just sets the deleted flag on the summary rather than speaking 
+	directly to the IMAP server. This is both faster and cleaner.
+
 2000-06-21  Dan Winship  <danw@helixcode.com>
 
 	* providers/pop3/camel-pop3-store.c (query_auth_types): Fix dumb

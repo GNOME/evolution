@@ -61,7 +61,9 @@ typedef struct {
 
 
 /* public methods */
-CamelFolder *camel_imap_folder_new (CamelStore *parent, CamelException *ex);
+CamelFolder *camel_imap_folder_new (CamelStore *parent,
+				    const char *folder_name,
+				    CamelException *ex);
 void camel_imap_folder_set_namespace (CamelFolder *folder, gchar *namespace);
 
 /* Standard Gtk function */

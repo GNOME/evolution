@@ -313,14 +313,16 @@ camel_imap_store_get_toplevel_dir (CamelImapStore *store)
 {
 	CamelURL *url = CAMEL_SERVICE (store)->url;
 
-	g_assert(url != NULL);
+	g_assert (url != NULL);
 	return url->path;
 }
 
 static gboolean
 imap_create (CamelFolder *folder, CamelException *ex)
 {
-	gchar *result;
+	CamelStore *store = CAMEL_STORE (folder->parent_store);
+	CamelURL *url = CAMEL_SERVICE (store)->url;
+	gchar *result, *folder_path;
 	gint status;
 
 	g_return_val_if_fail (folder != NULL, FALSE);
@@ -338,20 +340,25 @@ imap_create (CamelFolder *folder, CamelException *ex)
 		return TRUE;
 	
         /* create the directory for the subfolder */
+	if (url && url->path)
+		folder_path = g_strdup_printf ("%s/%s", url->path, folder->full_name);
+	else
+		folder_path = g_strdup (folder->full_name);
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), NULL,
-					      &result, "CREATE %s", folder->full_name);
+					      &result, "CREATE %s", folder_path);
 
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not CREATE %s on IMAP server %s: %s.",
-				      folder->full_name, service->url->host,
+				      folder_path, service->url->host,
 				      status == CAMEL_IMAP_ERR ? result :
 				      "Unknown error");
 		g_free (result);
+		g_free (folder_path);
 		return FALSE;
 	}
-	
+	g_free (folder_path);
 	g_free (result);
 
 	return TRUE;
@@ -360,13 +367,19 @@ imap_create (CamelFolder *folder, CamelException *ex)
 static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelException *ex)
 {
-	CamelFolder *new_folder = camel_imap_folder_new (store, ex);
+	CamelFolder *new_folder;
 
-	if (imap_create (new_folder, ex)) {
-		return new_folder;
+	g_return_val_if_fail (store != NULL, NULL);
+	g_return_val_if_fail (folder_name != NULL, NULL);
+	
+	new_folder = camel_imap_folder_new (store, folder_name, ex);
+
+	if (!imap_create (new_folder, ex)) {
+		/* we should set an exception */
+		return NULL;
 	}
 	
-	return NULL;
+	return new_folder;
 }
 
 static gchar *
