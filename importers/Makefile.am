@@ -33,7 +33,8 @@ evolution_netscape_importer_LDADD =	\
 	$(BONOBO_GNOME_LIBS)		\
 	$(EXTRA_GNOME_LIBS)		\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(top_builddir)/shell/importer/libevolution-importer.la
+	$(top_builddir)/shell/importer/libevolution-importer.la \
+	$(DB3_LDADD)
 
 evolution_elm_importer_SOURCES =	\
 	elm-importer.c
@@ -42,7 +43,8 @@ evolution_elm_importer_LDADD =		\
 	$(BONOBO_GNOME_LIBS)		\
 	$(EXTRA_GNOME_LIBS)		\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(top_builddir)/shell/importer/libevolution-importer.la
+	$(top_builddir)/shell/importer/libevolution-importer.la \
+	$(DB3_LDADD)
 
 evolution_pine_importer_SOURCES =	\
 	pine-importer.c
@@ -54,7 +56,8 @@ evolution_pine_importer_LDADD =		\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.la	\
-	$(top_builddir)/shell/importer/libevolution-importer.la
+	$(top_builddir)/shell/importer/libevolution-importer.la \
+	$(DB3_LDADD)
 
 evolution_gnomecard_importer_SOURCES =	\
 	evolution-gnomecard-importer.c
@@ -66,7 +69,8 @@ evolution_gnomecard_importer_LDADD =	\
         $(top_builddir)/e-util/libeutil.la      \
         $(top_builddir)/e-util/ename/libename.la        \
         $(top_builddir)/libversit/libversit.la  \
-        $(top_builddir)/shell/importer/libevolution-importer.la
+        $(top_builddir)/shell/importer/libevolution-importer.la \
+	$(DB3_LDADD)
 
 oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Netscape_Intelligent_Importer.oaf.in	\

@@ -115,7 +115,8 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
 	$(top_builddir)/shell/importer/libevolution-importer.la				\
 	$(top_builddir)/widgets/menus/libmenus.la	\
-	$(MAILER_LIBS)
+	$(MAILER_LIBS)					\
+	$(DB3_LDADD)
 
 evolution_mail_LDFLAGS =				\
 	-export-dynamic

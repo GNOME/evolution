@@ -1,3 +1,11 @@
+2001-06-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (evolution_netscape_importer_LDADD): Add
+	`$(DB3_LDADD)'.
+	(evolution_elm_importer_LDADD): Likewise.
+	(evolution_pine_importer_LDADD): Likewise.
+	(evolution_gnomecard_importer_LDADD): Likewise.
+
 2001-05-16  Iain Holmes  <iain@ximian.com>
 
 	* evolution-gnomecard-importer.c: Converted the old importer into an

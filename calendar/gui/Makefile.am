@@ -131,7 +131,8 @@ evolution_calendar_LDADD =								\
 	$(BONOBO_HTML_GNOME_LIBS)							\
 	$(GNOME_VFS_LIBS)								\
 	$(GAL_LIBS)									\
-	$(INTLLIBS)
+	$(INTLLIBS)									\
+	$(DB3_LDADD)
 
 #evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 

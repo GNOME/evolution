@@ -1,3 +1,8 @@
+2001-06-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* backend/ebook/Makefile.am (evolution_vcard_importer_LDADD): Add
+	$(DB3_LDADD)'.
+
 2001-05-31  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/pas/Makefile.am (INCLUDES): Added db3 cflags.
