@@ -1,3 +1,11 @@
+2002-05-06  Not Zed  <NotZed@Ximian.com>
+
+	* e-msgport.c (e_thread_destroy): Destroy our mutex too.
+	(e_thread_new): Add thread to a new list of all threads.
+	(e_thread_destroy): Remove thread from list of all threads.
+	(e_thread_busy): New function, returh true if we're busy somewhere
+	processing work.
+
 2002-04-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-passwords.c (e_passwords_get_password): Don't leak the base64

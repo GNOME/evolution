@@ -248,6 +248,9 @@ struct _thread_info {
 };
 
 struct _EThread {
+	struct _EThread *next;
+	struct _EThread *prev;
+
 	EMsgPort *server_port;
 	EMsgPort *reply_port;
 	pthread_mutex_t mutex;
@@ -267,6 +270,10 @@ struct _EThread {
 	EThreadFunc lost;
 	void *lost_data;
 };
+
+/* All active threads */
+static EDList ethread_list = E_DLIST_INITIALISER(ethread_list);
+static pthread_mutex_t ethread_lock = PTHREAD_MUTEX_INITIALIZER;
 
 #define E_THREAD_NONE ((pthread_t)~0)
 #define E_THREAD_QUIT_REPLYPORT ((struct _EMsgPort *)~0)
@@ -316,6 +323,10 @@ EThread *e_thread_new(e_thread_t type)
 	e->server_port = e_msgport_new();
 	e->id = E_THREAD_NONE;
 	e->queue_limit = INT_MAX;
+
+	pthread_mutex_lock(&ethread_lock);
+	e_dlist_addtail(&ethread_list, (EDListNode *)e);
+	pthread_mutex_unlock(&ethread_lock);
 
 	return e;
 }
@@ -393,6 +404,11 @@ void e_thread_destroy(EThread *e)
 		return;
 	}
 
+	pthread_mutex_lock(&ethread_lock);
+	e_dlist_remove((EDListNode *)e);
+	pthread_mutex_unlock(&ethread_lock);
+
+	pthread_mutex_destroy(&e->mutex);
 	e_msgport_destroy(e->server_port);
 	g_free(e);
 }
@@ -435,6 +451,36 @@ void e_thread_set_msg_received(EThread *e, EThreadFunc received, void *data)
 	e->received = received;
 	e->received_data = data;
 	pthread_mutex_unlock(&e->mutex);
+}
+
+/* find out if we're busy doing any work, e==NULL, check for all work */
+int e_thread_busy(EThread *e)
+{
+	int busy = FALSE;
+
+	if (e == NULL) {
+		pthread_mutex_lock(&ethread_lock);
+		e = (EThread *)ethread_list.head;
+		while (e->next && !busy) {
+			busy = e_thread_busy(e);
+			e = e->next;
+		}
+		pthread_mutex_unlock(&ethread_lock);
+	} else {
+		pthread_mutex_lock(&e->mutex);
+		switch (e->type) {
+		case E_THREAD_QUEUE:
+		case E_THREAD_DROP:
+			busy = e->waiting != 1 && e->id != E_THREAD_NONE;
+			break;
+		case E_THREAD_NEW:
+			busy = e->waiting != g_list_length(e->id_list);
+			break;
+		}
+		pthread_mutex_unlock(&e->mutex);
+	}
+
+	return busy;
 }
 
 static void
