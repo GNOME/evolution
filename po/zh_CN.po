@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-15 03:11+0200\n"
-"PO-Revision-Date: 2004-06-15 13:56+0800\n"
+"POT-Creation-Date: 2004-06-16 03:11+0200\n"
+"PO-Revision-Date: 2004-06-16 12:17+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -111,7 +111,7 @@ msgstr "新建联系人组"
 
 #: addressbook/gui/component/addressbook-component.c:110
 msgid "_Contacts Group"
-msgstr "联系人组(_C)："
+msgstr "联系人组(_C)"
 
 #: addressbook/gui/component/addressbook-component.c:111
 msgid "Create a new contacts group"
@@ -164,7 +164,7 @@ msgstr "LDAP 服务器"
 
 #: addressbook/gui/component/addressbook-migrate.c:753
 msgid "Autocompletion Settings"
-msgstr "自动完成设置"
+msgstr "自动补全设置"
 
 #: addressbook/gui/component/addressbook-migrate.c:1129
 msgid ""
@@ -435,7 +435,7 @@ msgstr "从不"
 
 #: addressbook/gui/component/ldap-config.glade.h:26
 msgid "Only locations within starting point"
-msgstr ""
+msgstr "只在起点的位置内"
 
 #: addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search _base:"
@@ -483,7 +483,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:34
 msgid "Starting point and locations within it"
-msgstr ""
+msgstr "起点及其中的位置"
 
 #: addressbook/gui/component/ldap-config.glade.h:35
 msgid "Supported Search Bases"
@@ -551,7 +551,7 @@ msgstr "超时："
 
 #: addressbook/gui/component/ldap-config.glade.h:44
 msgid "Using distinguished name (DN)"
-msgstr "使用已识别的姓名 (DN)"
+msgstr "使用已识别的姓名(DN)"
 
 #: addressbook/gui/component/ldap-config.glade.h:45
 msgid "Using email address"
@@ -2006,7 +2006,7 @@ msgstr "服务"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:127
 #: calendar/gui/dialogs/cal-prefs-dialog.c:578
-#: calendar/gui/e-cal-list-view.etspec.h:2
+#: calendar/gui/e-cal-list-view.etspec.h:3
 msgid "Location"
 msgstr "位置"
 
@@ -2215,7 +2215,7 @@ msgstr "联系人列表编辑器"
 
 #: addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
-msgstr "被改变的联系人："
+msgstr "更改了的联系人："
 
 #: addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:2
 msgid "Conflicting Contact:"
@@ -2706,7 +2706,7 @@ msgstr "高级..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:238
 #: calendar/gui/dialogs/meeting-page.etspec.h:11
-#: calendar/gui/e-calendar-table.etspec.h:12
+#: calendar/gui/e-calendar-table.etspec.h:13
 #: calendar/gui/e-meeting-list-view.c:227
 #: calendar/gui/e-meeting-time-sel.etspec.h:11
 msgid "Type"
@@ -2836,6 +2836,8 @@ msgid "Car Phone"
 msgstr "车载电话"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:8
+#: calendar/gui/e-calendar-table.etspec.h:3
+#: calendar/gui/e-cal-list-view.etspec.h:1
 msgid "Categories"
 msgstr "类别"
 
@@ -3578,16 +3580,15 @@ msgstr "一周开始的日子"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Whether or not to use the notification tray for display alarms"
-msgstr ""
+msgstr "是否使用通知托盘来显示提醒"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "Whether to ask for confirmation on appointment deletion"
 msgstr "删除约会时是否要求确认"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
-#, fuzzy
 msgid "Whether to ask for confirmation when folder is expunged"
-msgstr "删除约会时是否要求确认"
+msgstr "销毁文件夹会时是否要求确认"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid "Whether to hide completed tasks"
@@ -3599,7 +3600,7 @@ msgstr "是否为事件发送默认提醒"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Whether to show times in 24h format instead of using am/pm"
-msgstr ""
+msgstr "是以 24 小时格式还是以 12 小时格式显示时间"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Whether to show week numbers in date navigator"
@@ -3810,7 +3811,7 @@ msgstr "没有权限打开日历"
 #: calendar/gui/comp-editor-factory.c:474
 #, c-format
 msgid "open_client(): %s"
-msgstr "open_client(): %s"
+msgstr "open_client()：%s"
 
 #: calendar/gui/dialogs/alarm-options.c:467
 msgid "Audio Alarm Options"
@@ -4607,24 +4608,24 @@ msgstr "开始时间(_S)："
 msgid "None"
 msgstr "无"
 
-#: calendar/gui/dialogs/meeting-page.c:420
+#: calendar/gui/dialogs/meeting-page.c:422
 msgid "The organizer selected no longer has an account."
 msgstr "选中的组织者没有帐户了。"
 
-#: calendar/gui/dialogs/meeting-page.c:426
+#: calendar/gui/dialogs/meeting-page.c:428
 msgid "An organizer is required."
 msgstr "需要一名组织者。"
 
-#: calendar/gui/dialogs/meeting-page.c:441
+#: calendar/gui/dialogs/meeting-page.c:443
 msgid "At least one attendee is required."
 msgstr "需要至少一个参加者。"
 
-#: calendar/gui/dialogs/meeting-page.c:651
+#: calendar/gui/dialogs/meeting-page.c:677
 msgid "_Delegate To..."
 msgstr "授权于(_D)..."
 
 #. FIXME: need to disable for undeletable folders
-#: calendar/gui/dialogs/meeting-page.c:655
+#: calendar/gui/dialogs/meeting-page.c:681
 #: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-calendar-table.c:1057
 #: calendar/gui/e-calendar-view.c:1360 calendar/gui/e-calendar-view.c:1392
 #: mail/em-folder-tree.c:2584 mail/em-folder-view.c:919
@@ -4677,7 +4678,7 @@ msgid "RSVP"
 msgstr "RSVP"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
-#: calendar/gui/e-calendar-table.etspec.h:9
+#: calendar/gui/e-calendar-table.etspec.h:10
 #: calendar/gui/e-meeting-list-view.c:248
 #: calendar/gui/e-meeting-time-sel.etspec.h:10 mail/message-list.etspec.h:12
 msgid "Status"
@@ -5013,7 +5014,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:3
 msgid "Calendars selected for publishing"
-msgstr ""
+msgstr "选中要发布的日历"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:4
 msgid "Daily"
@@ -5049,7 +5050,7 @@ msgstr "URL："
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:12
 msgid "User Publishes"
-msgstr ""
+msgstr "用户发布"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:13
 msgid "Weekly"
@@ -5225,7 +5226,7 @@ msgid "Free"
 msgstr "空闲"
 
 #: calendar/gui/e-calendar-table.c:427 calendar/gui/e-cal-model-calendar.c:166
-#: calendar/gui/e-meeting-time-sel.c:399
+#: calendar/gui/e-meeting-time-sel.c:401
 msgid "Busy"
 msgstr "繁忙"
 
@@ -5308,7 +5309,7 @@ msgid "_Delete Selected Tasks"
 msgstr "删除选定的任务(_D)"
 
 #: calendar/gui/e-calendar-table.c:1350
-#: calendar/gui/e-calendar-table.etspec.h:3
+#: calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "单击以添加任务"
 
@@ -5317,33 +5318,33 @@ msgstr "单击以添加任务"
 msgid "% Complete"
 msgstr "% 完成"
 
-#: calendar/gui/e-calendar-table.etspec.h:4 camel/camel-filter-driver.c:1178
+#: calendar/gui/e-calendar-table.etspec.h:5 camel/camel-filter-driver.c:1178
 #: camel/camel-filter-driver.c:1270 mail/mail-send-recv.c:615
 msgid "Complete"
 msgstr "完成"
 
-#: calendar/gui/e-calendar-table.etspec.h:5
+#: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Completion date"
 msgstr "完成日期"
 
-#: calendar/gui/e-calendar-table.etspec.h:6
+#: calendar/gui/e-calendar-table.etspec.h:7
 msgid "Due date"
 msgstr "到期日期"
 
-#: calendar/gui/e-calendar-table.etspec.h:7
+#: calendar/gui/e-calendar-table.etspec.h:8
 msgid "Priority"
 msgstr "优先级"
 
-#: calendar/gui/e-calendar-table.etspec.h:8
+#: calendar/gui/e-calendar-table.etspec.h:9
 msgid "Start date"
 msgstr "开始日期"
 
-#: calendar/gui/e-calendar-table.etspec.h:10
-#: calendar/gui/e-cal-list-view.etspec.h:4 mail/mail-security.glade.h:5
+#: calendar/gui/e-calendar-table.etspec.h:11
+#: calendar/gui/e-cal-list-view.etspec.h:5 mail/mail-security.glade.h:5
 msgid "Summary"
 msgstr "概要"
 
-#: calendar/gui/e-calendar-table.etspec.h:11
+#: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Task sort"
 msgstr "任务排序"
 
@@ -5419,11 +5420,11 @@ msgstr "转到日期(_G)..."
 msgid "_Settings..."
 msgstr "设置(_S)..."
 
-#: calendar/gui/e-cal-list-view.etspec.h:1
+#: calendar/gui/e-cal-list-view.etspec.h:2
 msgid "End Date"
 msgstr "结束日期"
 
-#: calendar/gui/e-cal-list-view.etspec.h:3
+#: calendar/gui/e-cal-list-view.etspec.h:4
 msgid "Start Date"
 msgstr "开始日期"
 
@@ -5433,7 +5434,7 @@ msgstr "开始日期"
 #: calendar/gui/e-meeting-list-view.c:122
 #: calendar/gui/e-meeting-list-view.c:136 calendar/gui/e-meeting-store.c:115
 #: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
-#: camel/camel-gpg-context.c:1704 camel/camel-gpg-context.c:1755
+#: camel/camel-gpg-context.c:1705 camel/camel-gpg-context.c:1756
 #: camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/imap4/camel-imap4-engine.c:1379
 #: camel/providers/imap4/camel-imap4-engine.c:1406
@@ -6046,7 +6047,7 @@ msgid "Needs Action"
 msgstr "需要动作"
 
 #: calendar/gui/e-meeting-list-view.c:160 calendar/gui/e-meeting-store.c:183
-#: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:398
+#: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:400
 msgid "Tentative"
 msgstr "暂时的"
 
@@ -6059,73 +6060,73 @@ msgstr "被委任的"
 msgid "In Process"
 msgstr "处理中"
 
-#: calendar/gui/e-meeting-time-sel.c:400 designs/OOA/ooa.glade.h:11
+#: calendar/gui/e-meeting-time-sel.c:402 designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
 msgstr "办公室以外"
 
-#: calendar/gui/e-meeting-time-sel.c:401
+#: calendar/gui/e-meeting-time-sel.c:403
 msgid "No Information"
 msgstr "没有信息"
 
-#: calendar/gui/e-meeting-time-sel.c:417
+#: calendar/gui/e-meeting-time-sel.c:419
 msgid "Add attendees from addressbook"
 msgstr "从地址簿添加出席者"
 
-#: calendar/gui/e-meeting-time-sel.c:440
+#: calendar/gui/e-meeting-time-sel.c:442
 msgid "_Options"
 msgstr "选项(_O)"
 
-#: calendar/gui/e-meeting-time-sel.c:457
+#: calendar/gui/e-meeting-time-sel.c:459
 msgid "Show _only working hours"
 msgstr "只显示工作小时(_O)"
 
-#: calendar/gui/e-meeting-time-sel.c:467
+#: calendar/gui/e-meeting-time-sel.c:469
 msgid "Show _zoomed out"
 msgstr "显示缩放的输出(_Z)"
 
-#: calendar/gui/e-meeting-time-sel.c:482
+#: calendar/gui/e-meeting-time-sel.c:484
 msgid "_Update free/busy"
 msgstr "更新忙闲(_U)"
 
-#: calendar/gui/e-meeting-time-sel.c:497
+#: calendar/gui/e-meeting-time-sel.c:499
 msgid "_<<"
 msgstr "_<<"
 
-#: calendar/gui/e-meeting-time-sel.c:515
+#: calendar/gui/e-meeting-time-sel.c:517
 msgid "_Autopick"
 msgstr "自动获取(_A)"
 
-#: calendar/gui/e-meeting-time-sel.c:530
+#: calendar/gui/e-meeting-time-sel.c:532
 msgid ">_>"
 msgstr ">_>"
 
-#: calendar/gui/e-meeting-time-sel.c:547
+#: calendar/gui/e-meeting-time-sel.c:549
 msgid "_All people and resources"
 msgstr "全部人和资源(_A)"
 
-#: calendar/gui/e-meeting-time-sel.c:556
+#: calendar/gui/e-meeting-time-sel.c:558
 msgid "All _people and one resource"
 msgstr "全部人和一个资源(_P)"
 
-#: calendar/gui/e-meeting-time-sel.c:565
+#: calendar/gui/e-meeting-time-sel.c:567
 msgid "_Required people"
 msgstr "必需的人(_R)"
 
-#: calendar/gui/e-meeting-time-sel.c:574
+#: calendar/gui/e-meeting-time-sel.c:576
 msgid "Required people and _one resource"
 msgstr "必需的人和一个资源(_O)"
 
-#: calendar/gui/e-meeting-time-sel.c:593
+#: calendar/gui/e-meeting-time-sel.c:595
 msgid "Meeting _start time:"
 msgstr "会议开始时间(_S)："
 
-#: calendar/gui/e-meeting-time-sel.c:613
+#: calendar/gui/e-meeting-time-sel.c:615
 msgid "Meeting _end time:"
 msgstr "会议结束时间(_E)："
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel.c:2060
+#: calendar/gui/e-meeting-time-sel.c:2077
 #: calendar/gui/e-meeting-time-sel-item.c:452
 msgid "%A, %B %d, %Y"
 msgstr "%Y年%m月%d日%A"
@@ -6136,7 +6137,7 @@ msgstr "%Y年%m月%d日%A"
 #. name, %m = month number, %d = month day, %Y = full year.
 #. strptime format of a weekday and a date.
 #. strftime format of a weekday and a date.
-#: calendar/gui/e-meeting-time-sel.c:2093
+#: calendar/gui/e-meeting-time-sel.c:2110
 #: calendar/gui/e-meeting-time-sel-item.c:456 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
 msgid "%a %m/%d/%Y"
@@ -8588,8 +8589,8 @@ msgstr ""
 "“%s”"
 
 #: camel/camel-gpg-context.c:791 camel/camel-gpg-context.c:1283
-#: camel/camel-gpg-context.c:1440 camel/camel-gpg-context.c:1531
-#: camel/camel-gpg-context.c:1638 camel/providers/nntp/camel-nntp-store.c:1231
+#: camel/camel-gpg-context.c:1441 camel/camel-gpg-context.c:1532
+#: camel/camel-gpg-context.c:1639 camel/providers/nntp/camel-nntp-store.c:1231
 #: camel/providers/nntp/camel-nntp-store.c:1329 mail/mail-ops.c:705
 #: mail/mail-send-recv.c:611
 msgid "Cancelled."
@@ -8629,16 +8630,16 @@ msgstr "GPG %s 失败：%s\n"
 msgid "Could not generate signing data: %s"
 msgstr "无法生成签名数据：%s"
 
-#: camel/camel-gpg-context.c:1276 camel/camel-gpg-context.c:1703
-#: camel/camel-gpg-context.c:1754
+#: camel/camel-gpg-context.c:1276 camel/camel-gpg-context.c:1704
+#: camel/camel-gpg-context.c:1755
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "执行 gpg 失败：%s"
 
-#: camel/camel-gpg-context.c:1300 camel/camel-gpg-context.c:1433
-#: camel/camel-gpg-context.c:1524 camel/camel-gpg-context.c:1547
-#: camel/camel-gpg-context.c:1631 camel/camel-gpg-context.c:1655
-#: camel/camel-gpg-context.c:1725 camel/camel-gpg-context.c:1776
+#: camel/camel-gpg-context.c:1300 camel/camel-gpg-context.c:1434
+#: camel/camel-gpg-context.c:1525 camel/camel-gpg-context.c:1548
+#: camel/camel-gpg-context.c:1632 camel/camel-gpg-context.c:1656
+#: camel/camel-gpg-context.c:1726 camel/camel-gpg-context.c:1777
 msgid "Failed to execute gpg."
 msgstr "执行 gpg 失败。"
 
@@ -8646,31 +8647,31 @@ msgstr "执行 gpg 失败。"
 msgid "This is a digitally signed message part"
 msgstr "这是邮件的数字签名部分"
 
-#: camel/camel-gpg-context.c:1400 camel/camel-gpg-context.c:1409
-#: camel/camel-smime-context.c:721 camel/camel-smime-context.c:732
-#: camel/camel-smime-context.c:739
+#: camel/camel-gpg-context.c:1400 camel/camel-gpg-context.c:1406
+#: camel/camel-gpg-context.c:1412 camel/camel-smime-context.c:721
+#: camel/camel-smime-context.c:732 camel/camel-smime-context.c:739
 msgid "Cannot verify message signature: Incorrect message format"
 msgstr "无法校验邮件签名：邮件格式不对"
 
-#: camel/camel-gpg-context.c:1416
+#: camel/camel-gpg-context.c:1420
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr "无法校验邮件签名：无法创建临时文件：%s"
 
-#: camel/camel-gpg-context.c:1507
+#: camel/camel-gpg-context.c:1508
 #, c-format
 msgid "Could not generate encrypting data: %s"
 msgstr "无法生成加密数据：%s"
 
-#: camel/camel-gpg-context.c:1565
+#: camel/camel-gpg-context.c:1566
 msgid "This is a digitally encrypted message part"
 msgstr "这是邮件的数字加密部分"
 
-#: camel/camel-gpg-context.c:1662 camel/camel-smime-context.c:994
+#: camel/camel-gpg-context.c:1663 camel/camel-smime-context.c:994
 msgid "Encrypted content"
 msgstr "加密内容"
 
-#: camel/camel-gpg-context.c:1681
+#: camel/camel-gpg-context.c:1682
 msgid "Unable to parse message content"
 msgstr "无法分析邮件内容"
 
@@ -9216,19 +9217,16 @@ msgid "Digests missing from enveloped data"
 msgstr ""
 
 #: camel/camel-smime-context.c:589 camel/camel-smime-context.c:599
-#, fuzzy
 msgid "Cannot calculate digests"
-msgstr "无法创建 CMS 签名数据"
+msgstr "无法计算摘要"
 
 #: camel/camel-smime-context.c:604
-#, fuzzy
 msgid "Cannot set message digests"
-msgstr "无法获取邮件 %s：%s"
+msgstr "无法设置邮件摘要"
 
 #: camel/camel-smime-context.c:614 camel/camel-smime-context.c:619
-#, fuzzy
 msgid "Certificate import failed"
-msgstr "证书签名失败"
+msgstr "证书导入失败"
 
 #: camel/camel-smime-context.c:628
 msgid "Certificate only message, cannot verify certificates"
@@ -9300,20 +9298,19 @@ msgstr "将数据添加到编码器失败"
 #: camel/camel-smime-context.c:974
 #, c-format
 msgid "Decoder failed, error %d"
-msgstr ""
+msgstr "解码器失败，错误号 %d"
 
 #: camel/camel-smime-context.c:981
 msgid "S/MIME Decrypt: No encrypted content found"
-msgstr ""
+msgstr "S/MIME 解密：没有找到加密内容"
 
 #: camel/camel-smime-context.c:1008
-#, fuzzy
 msgid "import keys: unimplemented"
-msgstr "命令尚未实现"
+msgstr "导入密钥：尚未实现"
 
 #: camel/camel-smime-context.c:1016
 msgid "export keys: unimplemented"
-msgstr ""
+msgstr "导出密钥：尚未实现"
 
 #: camel/camel-store.c:213
 msgid "Cannot get folder: Invalid operation on this store"
@@ -9693,14 +9690,14 @@ msgid "Got BYE response"
 msgstr "得到 BYE 响应"
 
 #: camel/providers/imap4/camel-imap4-folder.c:424
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot sync flags to folder `%s': Unknown"
-msgstr "无法选择文件夹“%s”：无效的命令"
+msgstr "无法将标志与文件夹“%s”同步：未知"
 
 #: camel/providers/imap4/camel-imap4-folder.c:430
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot sync flags to folder `%s': Bad command"
-msgstr "无法选择文件夹“%s”：无效的命令"
+msgstr "无法将标志与文件夹“%s”同步：无效的命令"
 
 #: camel/providers/imap4/camel-imap4-folder.c:567
 #, c-format
@@ -9715,8 +9712,7 @@ msgstr "无法销毁文件夹“%s”：无效的命令"
 #: camel/providers/imap4/camel-imap4-folder.c:748
 #, c-format
 msgid "Cannot get message %s from folder `%s': No such message"
-msgstr ""
-"无法从文件夹“%2$s”获取邮件 %1$s：没有这样的邮件"
+msgstr "无法从文件夹“%2$s”获取邮件 %1$s：没有这样的邮件"
 
 #: camel/providers/imap4/camel-imap4-folder.c:753
 #, c-format
@@ -10032,7 +10028,7 @@ msgstr "扫描更改了的邮件"
 #: camel/providers/imap/camel-imap-folder.c:1940
 #, c-format
 msgid "Unable to retrieve message: %s"
-msgstr "无法检索邮件：%s"
+msgstr "无法获取邮件：%s"
 
 #: camel/providers/imap/camel-imap-folder.c:1977
 #, c-format
@@ -10272,7 +10268,7 @@ msgid ""
 "For retrieving (moving) local mail from standard mbox formated spools into "
 "folders managed by Evolution."
 msgstr ""
-"对于将本地邮件从标准 mbox 格式脱机文件夹检索(移动)到由 Evolution 管理的文件"
+"对于将本地邮件从标准 mbox 格式脱机文件夹获取(移动)到由 Evolution 管理的文件"
 "夹。"
 
 #: camel/providers/local/camel-local-provider.c:77
@@ -10790,38 +10786,32 @@ msgstr ""
 #: camel/providers/nntp/camel-nntp-folder.c:331
 #: camel/providers/nntp/camel-nntp-folder.c:373
 #: camel/providers/nntp/camel-nntp-folder.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "Posting failed: %s"
-msgstr "操作失败：%s"
+msgstr "投递失败：%s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:393
 msgid "You cannot post NNTP messages while working offline!"
-msgstr ""
+msgstr "您离线时无法投递 NNTP 邮件！"
 
 #: camel/providers/nntp/camel-nntp-folder.c:404
-#, fuzzy
 msgid "You cannot copy messages from a NNTP folder!"
-msgstr "无法将邮件复制到回收站文件夹"
+msgstr "您无法从 NNTP 文件夹复制邮件！"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:44
-#, fuzzy
 msgid "Could not get group list from server."
-msgstr "无法启动 wombat 服务器"
+msgstr "无法从服务器获取组列表。"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:97
 #: camel/providers/nntp/camel-nntp-grouplist.c:106
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to load grouplist file for %s: %s"
-msgstr ""
-"无法创建输出文件：%s\n"
-" %s"
+msgstr "无法装入 %s 的组列表文件：%s"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:157
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to save grouplist file for %s: %s"
-msgstr ""
-"无法创建输出文件：%s\n"
-" %s"
+msgstr "无法保存 %s 的组列表文件：%s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
 msgid ""
@@ -10912,9 +10902,9 @@ msgid "Authentication requested but not username provided"
 msgstr "必须认证"
 
 #: camel/providers/nntp/camel-nntp-store.c:1146
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot authenticate to server: %s"
-msgstr "认证到 POP 服务器 %s 失败：%s"
+msgstr "无法认证到服务器：%s"
 
 #: camel/providers/nntp/camel-nntp-store.c:1262
 msgid "Not connected."
@@ -10952,7 +10942,7 @@ msgstr "操作失败：%s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:246
 msgid "Retrieving POP summary"
-msgstr "检索 POP 概要"
+msgstr "正在获取 POP 概要"
 
 #: camel/providers/pop3/camel-pop3-folder.c:265
 #, c-format
@@ -10973,7 +10963,7 @@ msgstr "没有 uid 为 %s 的邮件"
 #: camel/providers/pop3/camel-pop3-folder.c:411
 #, c-format
 msgid "Retrieving POP message %d"
-msgstr "检索 POP 邮件 %d"
+msgstr "正在获取 POP 邮件 %d"
 
 #: camel/providers/pop3/camel-pop3-folder.c:501 composer/e-msg-composer.c:1225
 #: composer/e-msg-composer.c:1246
@@ -11461,16 +11451,15 @@ msgid "Suggest automatic display of attachment"
 msgstr "建议自动显示附件"
 
 #: composer/e-msg-composer.c:704
-#, fuzzy
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
-msgstr "当使用该账户时总是发送签名邮件(_S)"
+msgstr "无法对寄出的邮件签名：未对此账户设置签名证书"
 
 #: composer/e-msg-composer.c:711
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
-msgstr ""
+msgstr "无法对寄出的邮件加密：未对此账户设置加密证书"
 
 #: composer/e-msg-composer.c:1283
 msgid "Could not open file"
@@ -11478,7 +11467,7 @@ msgstr "无法打开文件"
 
 #: composer/e-msg-composer.c:1291
 msgid "Unable to retrieve message from editor"
-msgstr "无法从编辑器检索邮件"
+msgstr "无法从编辑器获取邮件"
 
 #: composer/e-msg-composer.c:1561
 msgid "Untitled Message"
@@ -11576,7 +11565,7 @@ msgstr "输入将接收该邮件副本的收件人地址"
 
 #: composer/e-msg-composer-hdrs.c:606
 msgid "Bcc:"
-msgstr "暗中抄送："
+msgstr "暗送："
 
 #: composer/e-msg-composer-hdrs.c:607
 msgid ""
@@ -11630,7 +11619,7 @@ msgstr ""
 #. mail-composer:recover-autosave title
 #: composer/mail-composer-errors.xml.h:12
 msgid "Unfinished messages found"
-msgstr ""
+msgstr "找到了未完成的邮件"
 
 #. mail-composer:recover-autosave primary
 #: composer/mail-composer-errors.xml.h:14
@@ -11699,7 +11688,7 @@ msgstr "无法创建邮件。"
 #. mail-composer:no-build-message secondary
 #: composer/mail-composer-errors.xml.h:34
 msgid "Because \"{0}\", you may need to select different mail options."
-msgstr ""
+msgstr "由于“{0}”，您可能要选择其它邮件选项。"
 
 #. mail-composer:no-sig-file primary
 #: composer/mail-composer-errors.xml.h:36
@@ -12078,9 +12067,8 @@ msgstr "您必须指定文件名。"
 
 #. filter:bad-file primary
 #: filter/filter-errors.xml.h:10
-#, fuzzy
 msgid "File \"{0}\" does not exist or is not a regular file."
-msgstr "“%s”并不是普通文件。"
+msgstr "文件“{0}”不存在或不是普通文件。"
 
 #. filter:no-folder primary
 #: filter/filter-errors.xml.h:14
@@ -12095,13 +12083,12 @@ msgstr "您必须指定文件夹。"
 #. filter:bad-regexp primary
 #: filter/filter-errors.xml.h:18
 msgid "Bad regular expression \"{0}\"."
-msgstr "无效的正规表达式“{0}”。"
+msgstr "无效的正则表达式“{0}”。"
 
 #. filter:bad-regexp secondary
 #: filter/filter-errors.xml.h:20
-#, fuzzy
 msgid "Could not compile regular expression \"{1}\"."
-msgstr "无效的正规表达式“{0}”。"
+msgstr "无法编译正则表达式“{1}”。"
 
 #. filter:no-name primary
 #. filter:no-name-vfolder primary
@@ -12402,15 +12389,18 @@ msgstr "签名"
 msgid "-------- Forwarded Message --------"
 msgstr "-------- 转发的邮件 --------"
 
-#: mail/em-composer-utils.c:1501
+#: mail/em-composer-utils.c:1500
 msgid "an unknown sender"
 msgstr "未知的发件人"
 
-#. translators: attribution string used when quoting messages,
-#. it must contain a single single %%+05d followed by a single '%%s'
-#: mail/em-composer-utils.c:1511
-msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
-msgstr "在%Y年%m月%d日的%H:%M%%+05d，%%s写道："
+#. Note to translators: this is the attribution string used when quoting messages.
+#. * each ${Variable} gets replaced with a value. To see a full list of available
+#. * variables, see em-composer-utils.c:1514
+#: mail/em-composer-utils.c:1547
+msgid ""
+"On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
+"${TimeZone}, ${Sender} wrote:"
+msgstr ""
 
 #: mail/em-folder-browser.c:129
 msgid "Create _Virtual Folder From Search..."
@@ -13199,52 +13189,44 @@ msgid "Default forward style"
 msgstr "默认转发方式"
 
 #: mail/evolution-mail.schemas.in.in.h:13
-#, fuzzy
 msgid "Default height of the Composer Window"
-msgstr "文件夹栏面板的默认宽度"
+msgstr "撰写窗口的默认高度"
 
 #: mail/evolution-mail.schemas.in.in.h:14
-#, fuzzy
 msgid "Default height of the Message Window"
-msgstr "邮件的默认主题。"
+msgstr "邮件窗口的默认高度"
 
 #: mail/evolution-mail.schemas.in.in.h:15
 msgid "Default height of the Subscribe dialog"
-msgstr ""
+msgstr "订阅对话框的默认高度"
 
 #: mail/evolution-mail.schemas.in.in.h:16
-#, fuzzy
 msgid "Default reply style"
-msgstr "默认转发方式"
+msgstr "默认回复样式"
 
 #: mail/evolution-mail.schemas.in.in.h:17
-#, fuzzy
 msgid "Default width of the Composer Window"
-msgstr "文件夹栏面板的默认宽度"
+msgstr "撰写窗口的默认宽度"
 
 #: mail/evolution-mail.schemas.in.in.h:18
-#, fuzzy
 msgid "Default width of the Message Window"
-msgstr "文件夹栏面板的默认宽度"
+msgstr "邮件窗口的默认宽度"
 
 #: mail/evolution-mail.schemas.in.in.h:19
-#, fuzzy
 msgid "Default width of the Subscribe dialog"
-msgstr "文件夹栏面板的默认宽度"
+msgstr "订阅对话框的默认宽度"
 
 #: mail/evolution-mail.schemas.in.in.h:20
 msgid "Draw spelling error indicators on words as you type."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:21
-#, fuzzy
 msgid "Empty Trash folders on exit"
-msgstr "退出时清空已删除邮件(_X)"
+msgstr "退出时清空回收站"
 
 #: mail/evolution-mail.schemas.in.in.h:22
-#, fuzzy
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr "退出时清空已删除邮件(_X)"
+msgstr "退出 Evolution 时清空回收站"
 
 #: mail/evolution-mail.schemas.in.in.h:23
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -14348,7 +14330,7 @@ msgstr "执行命令..."
 
 #: mail/mail-config.glade.h:83
 msgid "Fi_xed-width:"
-msgstr "固定宽度(_X)："
+msgstr "等宽(_X)："
 
 #: mail/mail-config.glade.h:84
 msgid "Font Properties"
@@ -18374,3 +18356,5 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
 
+#~ msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
+#~ msgstr "在%Y年%m月%d日的%H:%M%%+05d，%%s写道："
