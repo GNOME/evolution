@@ -64,9 +64,6 @@ char *evolution_dir;
 
 EvolutionShellClient *global_shell_client = NULL;
 
-#define COMPONENT_ID 		"OAFIID:GNOME_Evolution_Mail_ShellComponent"
-#define SUMMARY_FACTORY_ID	"OAFIID:GNOME_Evolution_Mail_ExecutiveSummaryComponentFactory"
-
 static GHashTable *storages_hash;
 static EvolutionShellComponent *shell_component;
 

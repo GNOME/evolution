@@ -1,3 +1,12 @@
+2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-mt.c: #include "component-factory.h".
+	(do_op_status): Pass the component ID instead of the msg ID.
+
+	* component-factory.h (COMPONENT_ID): #define here instead of
+	`component-factory.c'.
+	(SUMMARY_FACTORY_ID): Likewise.
+
 2001-10-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (format_mime_part): Don't wrap error text with

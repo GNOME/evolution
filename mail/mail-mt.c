@@ -31,6 +31,8 @@
 #include "camel/camel-url.h"
 #include "mail-mt.h"
 
+#include "component-factory.h"
+
 /*#define MALLOC_CHECK*/
 #define LOG_OPS
 #define d(x) 
@@ -1057,14 +1059,14 @@ static void do_op_status(struct _mail_msg *mm)
 				progress_icon[0] = gdk_pixbuf_new_from_xpm_data ((const char **)mail_new_xpm);
 			
 			MAIL_MT_UNLOCK (mail_msg_lock);
-			clientid = g_strdup_printf ("%p", msg);
 			if (msg->ops->describe_msg)
 				what = msg->ops->describe_msg (msg, FALSE);
 			else
 				what = _("Working");
 			
 			if (global_shell_client) {
-				activity = evolution_activity_client_new (global_shell_client, clientid,
+				activity = evolution_activity_client_new (global_shell_client,
+									  COMPONENT_ID,
 									  progress_icon, what, TRUE,
 									  &display);
 			} else {
