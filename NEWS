@@ -5,6 +5,15 @@ Evolution 1.0.6, 00-00-0000
     #25456 -- Crash when deleting an account that has not been added
               to the Evolution storage yet.
 
+  * Calendar
+
+    #23350 -- Crash when refreshing meeting or task (JP)
+
+    #16962 -- Make the schedule page use the work hours set in the
+	      preferences (JP)
+
+    #24783 -- Fix crash in wombat (Rodrigo)
+
 Evolution 1.0.5, 05-06-2002
 ---------------------------
 
