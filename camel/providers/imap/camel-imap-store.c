@@ -2435,12 +2435,36 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 	return fi;
 }
 
+/* returns true if full_name is a sub-folder of top, or is top */
+static int
+imap_is_subfolder(const char *full_name, const char *top)
+{
+	size_t len = strlen(top);
+
+	/* Looks for top being a full-path subset of full_name.
+	   Handle IMAP Inbox case insensitively */
+
+	if (g_ascii_strncasecmp(top, "inbox", 5) == 0
+	    && (top[5] == 0 || top[5] == '/')
+	    && g_ascii_strncasecmp(full_name, "inbox", 5) == 0
+	    && (full_name[5] == 0 || full_name[5] == '/')) {
+		full_name += 5;
+		top += 5;
+		len -= 5;
+	}
+
+	return top[0] == 0
+		|| (strncmp(full_name, top, len) == 0
+		    && (full_name[len] == 0
+			|| full_name[len] == '/'));
+}
+
 /* this is used when lsub doesn't provide very useful information */
 static GPtrArray *
 get_subscribed_folders (CamelImapStore *imap_store, const char *top, CamelException *ex)
 {
 	GPtrArray *names, *folders;
-	int i, toplen = strlen (top);
+	int i;
 	CamelStoreInfo *si;
 	CamelImapResponse *response;
 	CamelFolderInfo *fi;
@@ -2453,7 +2477,8 @@ get_subscribed_folders (CamelImapStore *imap_store, const char *top, CamelExcept
 	folders = g_ptr_array_new ();
 	names = g_ptr_array_new ();
 	for (i=0;(si = camel_store_summary_index((CamelStoreSummary *)imap_store->summary, i));i++) {
-		if (si->flags & CAMEL_STORE_INFO_FOLDER_SUBSCRIBED) {
+		if (si->flags & CAMEL_STORE_INFO_FOLDER_SUBSCRIBED
+		    && imap_is_subfolder(camel_store_info_path(imap_store->summary, si), top)) {
 			g_ptr_array_add(names, (char *)camel_imap_store_info_full_name(imap_store->summary, si));
 			haveinbox = haveinbox || strcasecmp(camel_imap_store_info_full_name(imap_store->summary, si), "INBOX") == 0;
 		}
@@ -2482,8 +2507,8 @@ get_subscribed_folders (CamelImapStore *imap_store, const char *top, CamelExcept
 		g_free (result);
 		if (!fi)
 			continue;
-		
-		if (strncmp (top, fi->full_name, toplen) != 0) {
+
+		if (!imap_is_subfolder(fi->full_name, top)) {
 			camel_folder_info_free (fi);
 			continue;
 		}

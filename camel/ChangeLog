@@ -1,3 +1,12 @@
+2004-08-23  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #63189.
+
+	* providers/imap/camel-imap-store.c (get_subscribed_folders): only
+	LSUB folders we're interested in, and check full name of each path
+	element.
+	(imap_is_subfolder): helper for above.
+
 2004-08-23  Jeffrey Stedfast  <fejj@novell.com>
 
 	* camel-tcp-stream-openssl.c (open_ssl_connection): Call
