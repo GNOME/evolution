@@ -382,7 +382,6 @@ camel_store_get_inbox (CamelStore *store, CamelException *ex)
 static void
 init_trash (CamelStore *store)
 {
-	CamelStore *vstore;
 	char *name;
 	
 	name = g_strdup_printf ("%s?(match-all (system-flag \"Deleted\"))", "vTrash");
