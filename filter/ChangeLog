@@ -1,3 +1,8 @@
+2003-12-04  Radek Doulik  <rodo@ximian.com>
+
+	* filter-rule.h: added FILTER_SOURCE_JUNKTEST - perform only
+	junktest on incoming mail
+
 2003-11-26  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: turn on deprecated gtk stuff

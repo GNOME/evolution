@@ -50,6 +50,7 @@ enum _filter_grouping_t {
 #define FILTER_SOURCE_DEMAND   "demand"   /* performed on the selected folder
 	 				   * when the user asks for it */
 #define	FILTER_SOURCE_OUTGOING  "outgoing"/* performed on outgoing mail */
+#define	FILTER_SOURCE_JUNKTEST  "junktest"/* perform only junktest on incoming mail */
 
 struct _FilterRule {
 	GObject parent_object;
