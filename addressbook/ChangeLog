@@ -1,5 +1,10 @@
 2001-10-15  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_add_client):
+	unref the book after we pass it off to evolution-addressbook.
+
+2001-10-15  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (create_card_dtor): unref
 	op->view.
 	(pas_backend_ldap_process_create_card): ref op->view.

@@ -913,6 +913,9 @@ create_card_dtor (PASBackend *backend, LDAPOp *op)
 {
 	LDAPCreateOp *create_op = (LDAPCreateOp*)op;
 
+	if (op->view)
+		bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(op->view)), NULL);
+
 	g_free (create_op->vcard);
 	g_free (create_op);
 }
@@ -929,6 +932,7 @@ pas_backend_ldap_process_create_card (PASBackend *backend,
 	if (bl->priv->book_views) {
 		PASBackendLDAPBookView *v = bl->priv->book_views->data;
 		book_view = v->book_view;
+		bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(book_view)), NULL);
 	}
 
 	ldap_op_init ((LDAPOp*)create_op, backend, book,
@@ -1008,6 +1012,9 @@ remove_card_dtor (PASBackend *backend, LDAPOp *op)
 {
 	LDAPRemoveOp *remove_op = (LDAPRemoveOp*)op;
 
+	if (op->view)
+		bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(op->view)), NULL);
+
 	g_free (remove_op->id);
 	g_free (remove_op);
 }
@@ -1024,6 +1031,7 @@ pas_backend_ldap_process_remove_card (PASBackend *backend,
 	if (bl->priv->book_views) {
 		PASBackendLDAPBookView *v = bl->priv->book_views->data;
 		book_view = v->book_view;
+		bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(book_view)), NULL);
 	}
 
 	ldap_op_init ((LDAPOp*)remove_op, backend, book,
@@ -1137,6 +1145,9 @@ modify_card_dtor (PASBackend *backend, LDAPOp *op)
 {
 	LDAPModifyOp *modify_op = (LDAPModifyOp*)op;
 
+	if (op->view)
+		bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(op->view)), NULL);
+
 	g_free (modify_op->vcard);
 	g_free (modify_op);
 }
@@ -1153,6 +1164,7 @@ pas_backend_ldap_process_modify_card (PASBackend *backend,
 	if (bl->priv->book_views) {
 		PASBackendLDAPBookView *v = bl->priv->book_views->data;
 		book_view = v->book_view;
+		bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(book_view)), NULL);
 	}
 
 	ldap_op_init ((LDAPOp*)modify_op, backend, book,
@@ -2094,6 +2106,9 @@ ldap_search_dtor (PASBackend *backend, LDAPOp *op)
 {
 	LDAPSearchOp *search_op = (LDAPSearchOp*) op;
 
+	if (op->view)
+		bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(op->view)), NULL);
+
 	g_free (search_op->ldap_query);
 	g_free (search_op);
 }
@@ -2105,6 +2120,7 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 {
 	LDAPSearchOp *op = g_new (LDAPSearchOp, 1);
 
+	bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), NULL);
 	ldap_op_init ((LDAPOp*)op, PAS_BACKEND(bl), book, view->book_view, ldap_search_handler, ldap_search_dtor);
 
 	op->ldap_query = NULL;
@@ -2387,6 +2403,8 @@ pas_backend_ldap_add_client (PASBackend             *backend,
 
 	pas_book_report_writable (book, bl->priv->writable);
 
+	bonobo_object_unref (BONOBO_OBJECT (book));
+	
 	return TRUE;
 }
 
