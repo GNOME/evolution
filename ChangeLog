@@ -10,9 +10,19 @@
 	function.
 	(func_is): new function, implementing "is" for searches.
 	(endswith_helper): new function.
-	(func_endswith) new function, implementing "endswith" for searches.
+	(func_endswith) new function, implementing "endswith" for
+	searches.
 	(beginswith_helper): new function.
-	(func_beginswith): new function, implementing "beginswith" for searches.
+	(func_beginswith): new function, implementing "beginswith" for
+	searches.
+	(compare_email): new function for searching all email addresses of
+	a contact.
+	(compare_phone): new function for searching all phone numbers of a
+	contact.
+	(compare_address): new function for searching all addresses of a
+	contact (unimplemented as yet).
+	(entry_compare): add support for searching the list items "email",
+	"phone" and "address".
 
 2000-04-11  Christopher James Lahey  <clahey@helixcode.com>
 

@@ -154,7 +154,7 @@ pas_backend_file_create_unique_id (char *vcard)
 }
 
 static char *
-get_e_card_prop (ECard *ecard, const char *propname)
+get_e_card_string_prop (ECard *ecard, const char *propname)
 {
 	char *prop = NULL;
 
@@ -171,6 +171,72 @@ get_e_card_prop (ECard *ecard, const char *propname)
 	return prop;
 }
 
+static gboolean
+compare_email (ECard *ecard, const char *str,
+	       char *(*compare)(const char*, const char*))
+{
+	ECardList *prop_list;
+	ECardIterator *iter;
+	gboolean truth = FALSE;
+
+	gtk_object_get(GTK_OBJECT(ecard),
+		       "email", &prop_list, NULL);
+
+	iter = e_card_list_get_iterator(prop_list);
+
+	while (e_card_iterator_is_valid(iter)) {
+		
+		if (compare((char*)e_card_iterator_get(iter), str)) {
+			truth = TRUE;
+			break;
+		}
+		else {
+			e_card_iterator_next(iter);
+		}
+	}
+
+	gtk_object_unref (GTK_OBJECT(iter));
+
+	return truth;
+}
+
+static gboolean
+compare_phone (ECard *ecard, const char *str,
+	       char *(*compare)(const char*, const char*))
+{
+	ECardList *prop_list;
+	ECardIterator *iter;
+	gboolean truth = FALSE;
+
+	gtk_object_get(GTK_OBJECT(ecard),
+		       "phone", &prop_list, NULL);
+				
+	iter = e_card_list_get_iterator(prop_list);
+
+	while (e_card_iterator_is_valid(iter)) {
+		ECardPhone *phone = (ECardPhone*)e_card_iterator_get(iter);
+		if (compare(phone->number, str)) {
+			truth = TRUE;
+			break;
+		}
+		else {
+			e_card_iterator_next(iter);
+		}
+	}
+
+	gtk_object_unref (GTK_OBJECT(iter));
+
+	return truth;
+}
+
+static gboolean
+compare_address (ECard *ecard, const char *str,
+		 char *(*compare)(const char*, const char*))
+{
+	g_warning("address searching not implemented\n");
+	return FALSE;
+}
+
 static ESExpResult *
 entry_compare(PASBackendFileSearchContext *ctx, struct _ESExp *f,
 	      int argc, struct _ESExpResult **argv,
@@ -180,19 +246,31 @@ entry_compare(PASBackendFileSearchContext *ctx, struct _ESExp *f,
 	int truth = FALSE;
 
 	if (argc>1
-	    && argv[0]->type == ESEXP_RES_STRING) {
+	    && argv[0]->type == ESEXP_RES_STRING
+	    && argv[1]->type == ESEXP_RES_STRING) {
 		char *propname, *prop = NULL;
 
 		propname = argv[0]->value.string;
 
-		prop = get_e_card_prop (ctx->ecard, propname);
+		prop = get_e_card_string_prop (ctx->ecard, propname);
 
 		if (prop) {
-			if (argv[1]->type == ESEXP_RES_STRING
-			    && compare(prop, argv[1]->value.string)) {
+			if (compare(prop, argv[1]->value.string)) {
 				truth = TRUE;
 			}
 		}
+		else{
+			if (!strcmp(propname, "email")) {
+				truth = compare_email (ctx->ecard, argv[1]->value.string, compare);
+			}
+			else if (!strcasecmp(propname, "phone")) {
+				truth = compare_phone (ctx->ecard, argv[1]->value.string, compare);
+			}
+			else if (!strcasecmp(propname, "address")) {
+				truth = compare_address (ctx->ecard, argv[1]->value.string, compare);
+			}
+		}
+		
 	}
 	r = e_sexp_result_new(ESEXP_RES_BOOL);
 	r->value.bool = truth;
