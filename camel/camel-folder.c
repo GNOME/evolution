@@ -842,9 +842,20 @@ search_by_expression (CamelFolder *folder, const char *expression,
 	return NULL;
 }
 
-GList *camel_folder_search_by_expression (CamelFolder *folder,
-					  const char *expression,
-					  CamelException *ex)
+/**
+ * camel_folder_search_by_expression:
+ * @folder: Folder object
+ * @expression: a search expression
+ * @ex: a CamelException
+ *
+ * Searches the folder for messages matching the given search expression.
+ *
+ * Return value: a list of uids of matching messages. The caller must
+ * free the list and each of the elements when it is done.
+ **/
+GList *
+camel_folder_search_by_expression (CamelFolder *folder, const char *expression,
+				   CamelException *ex)
 {
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 	g_return_val_if_fail (folder->has_search_capability, NULL);
