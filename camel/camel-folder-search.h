@@ -22,7 +22,6 @@
 #ifndef _CAMEL_FOLDER_SEARCH_H
 #define _CAMEL_FOLDER_SEARCH_H
 
-#include <gal/util/e-util.h>
 #include <e-util/e-sexp.h>
 #include <libibex/ibex.h>
 #include <camel/camel-folder.h>
