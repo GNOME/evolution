@@ -268,7 +268,9 @@ update (EMsgComposerAttachmentBar *bar)
 			
 			if (!error) {
 				int ratio, width, height;
-				
+
+				gdk_pixbuf_loader_close (loader, NULL);
+
 				/* Shrink pixbuf */
 				pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
 				width = gdk_pixbuf_get_width (pixbuf);

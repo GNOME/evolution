@@ -1,3 +1,8 @@
+2003-07-28  Antonio Xu <antonio.xu@sun.com>
+
+	* e-msg-composer-attachment-bar.c  (update): add
+	gdk_pixbuf_loader_close to close pix buffer loading.  [#45908]
+
 2003-07-25  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer.c (GNOME_GTKHTML_EDITOR_CONTROL_ID): require the
