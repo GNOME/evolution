@@ -103,7 +103,7 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/fullname.glade", NULL);
 	e_contact_editor_fullname->gui = gui;
 
-	widget = glade_xml_get_widget(gui, "vbox-checkfullname");
+	widget = glade_xml_get_widget(gui, "table-checkfullname");
 	gtk_widget_ref(widget);
 	gtk_container_remove(GTK_CONTAINER(widget->parent), widget);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (e_contact_editor_fullname)->vbox), widget, TRUE, TRUE, 0);

@@ -80,7 +80,7 @@
 
     <widget>
       <class>GtkTable</class>
-      <name>table1</name>
+      <name>table-checkfullname</name>
       <border_width>8</border_width>
       <rows>5</rows>
       <columns>3</columns>
