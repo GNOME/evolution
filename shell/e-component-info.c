@@ -115,13 +115,6 @@ get_i18n_value (xmlNode *parent_node,
 		language_id = (const char *) p->data;
 		node = lookup_node_for_language (parent_node, node_name, language_id);
 
-		if (node == NULL && language_id[2] == '_') {
-			char short_language_id[3];
-
-			strncpy (short_language_id, language_id, 2);
-			node = lookup_node_for_language (parent_node, node_name, short_language_id);
-		}
-
 		if (node != NULL) {
 			xmlChar *xml_value;
 			char *glib_value;

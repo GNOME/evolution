@@ -94,8 +94,8 @@ page_new (const char *title,
 		gdk_pixbuf_ref (icon);
 
 	page = g_new (Page, 1);
-	page->title       = g_strdup (_(title));
-	page->description = g_strdup (_(description));
+	page->title       = g_strdup (title);
+	page->description = g_strdup (description);
 	page->icon        = icon;
 	page->type        = type;
 	page->priority    = priority;
