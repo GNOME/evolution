@@ -52,13 +52,5 @@ void delete_msg (GtkWidget *button, gpointer user_data);
 void expunge_folder (GtkWidget *button, gpointer user_data);
 
 /* session */
-typedef struct {
-	CamelSession *session;
-	CamelStore   *store;
-} SessionStore;
-
-SessionStore *session_store_new     (const char *uri);
-void          session_store_destroy (SessionStore *ss);
-void          session_init          (void);
-
-extern SessionStore *default_session;
+void session_init (void);
+extern CamelSession *session;

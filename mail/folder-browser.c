@@ -64,28 +64,39 @@ folder_browser_class_init (GtkObjectClass *object_class)
 static gboolean
 folder_browser_load_folder (FolderBrowser *fb, const char *name)
 {
+	char *store_name;
+	CamelStore *store;
 	CamelFolder *new_folder;
-	CamelException ex;
+	CamelException *ex;
 	gboolean new_folder_exists = FALSE;
 
-	
-	camel_exception_init (&ex);
-	new_folder = camel_store_get_folder (default_session->store, name, &ex);
+	/* Change "file:" to "mbox:". FIXME :) */
+	store_name = g_strdup_printf ("mbox%s", strchr (name, ':'));
 
-	if (camel_exception_get_id (&ex)){
-		printf ("Unable to get folder %s : %s\n",
-			name,
-			ex.desc?ex.desc:"unknown reason");
+	ex = camel_exception_new ();
+	store = camel_session_get_store (session, store_name, ex);
+	g_free (store_name);
+	if (store) {
+		new_folder = camel_store_get_folder (store, "mbox", ex);
+		gtk_object_unref (GTK_OBJECT (store));
+	}
+
+	if (camel_exception_get_id (ex)) {
+		printf ("Unable to get folder %s: %s\n", name,
+			camel_exception_get_description (ex));
+		camel_exception_free (ex);
 		return FALSE;
 	}
 	
-	/* if the folder does not exist, we don't want to show it */
-	new_folder_exists = camel_folder_exists (new_folder, &ex);	
-	if (camel_exception_get_id (&ex)) {
-	      printf ("Unable to test for folder existence: %s\n",
-		      ex.desc?ex.desc:"unknown reason");
-	      return FALSE;
+	/* If the folder does not exist, we don't want to show it */
+	new_folder_exists = camel_folder_exists (new_folder, ex);
+	if (camel_exception_get_id (ex)) {
+		printf ("Unable to test for folder existence: %s\n",
+			camel_exception_get_description (ex));
+		camel_exception_free (ex);
+		return FALSE;
 	}
+	camel_exception_free (ex);
 		
 	if (!new_folder_exists) {
 		gtk_object_unref (GTK_OBJECT (new_folder));
@@ -108,14 +119,11 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 void
 folder_browser_set_uri (FolderBrowser *folder_browser, const char *uri)
 {
-	/* FIXME: hardcoded uri */
-	if (!folder_browser_load_folder (folder_browser, "inbox"))
-		return;
-	
 	if (folder_browser->uri)
 		g_free (folder_browser->uri);
 
 	folder_browser->uri = g_strdup (uri);
+	folder_browser_load_folder (folder_browser, folder_browser->uri);
 }
 
 void

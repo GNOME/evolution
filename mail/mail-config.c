@@ -435,8 +435,7 @@ autodetect_cb (GtkWidget *button, GtkObject *table)
 	url = get_service_url (table);
 
 	ex = camel_exception_new ();
-	service = camel_session_get_service (default_session->session,
-					     url, type, ex);
+	service = camel_session_get_service (session, url, type, ex);
 	g_free (url);
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
 		goto error;
@@ -794,8 +793,7 @@ add_service (GList *services, CamelProviderType type, CamelProvider *prov)
 	ex = camel_exception_new ();
 
 	url = g_strdup_printf ("%s:", prov->protocol);
-	service = camel_session_get_service (default_session->session,
-					     url, type, ex);
+	service = camel_session_get_service (session, url, type, ex);
 	g_free (url);
 	if (!service) {
 		camel_exception_free (ex);
@@ -893,8 +891,7 @@ mail_config_druid (void)
 	GdkImlibImage *source_logo, *transport_logo;
 
 	/* Fetch list of all providers. */
-	providers = camel_session_list_providers (default_session->session,
-						  TRUE);
+	providers = camel_session_list_providers (session, TRUE);
 	sources = transports = NULL;
 	for (p = providers; p; p = p->next) {
 		CamelProvider *prov = p->data;

@@ -1,5 +1,22 @@
 2000-05-06  Dan Winship  <danw@helixcode.com>
 
+	* folder-browser-factory.c (folder_browser_factory): Don't
+	hardcode "inbox" here.
+
+	* folder-browser.c (folder_browser_set_uri): Don't hardcode
+	"inbox" here either.
+	(folder_browser_load_folder): Create a new store according to the
+	folder browser's URI, and load the mbox file from that store.
+	Parts of this are temporary.
+
+	* session.c, mail.h: There is no longer a global store, just a
+	global session.
+
+	* mail-config.c, mail-ops.c: Update for default_session -> session
+	change. fetch_mail is currently broken.
+
+2000-05-06  Dan Winship  <danw@helixcode.com>
+
 	* mail-config.c: New code to configure identity, mail source, and
 	mail transport.
 	(mail_config_druid): A druid using the config widgets. (Only

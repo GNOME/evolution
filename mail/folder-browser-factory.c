@@ -220,11 +220,9 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 	
 	if (warning_result) 
 		folder_browser = gtk_label_new ("This should be the mail component");
-	else {
+	else
 		folder_browser = folder_browser_new ();
-		folder_browser_set_uri (FOLDER_BROWSER (folder_browser), "inbox");
-	}
-	
+
 	if (folder_browser == NULL)
 		return NULL;
 

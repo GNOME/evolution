@@ -70,6 +70,7 @@ check_configured (void)
 void
 fetch_mail (GtkWidget *button, gpointer user_data)
 {
+#if 0
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	CamelException *ex;
 	CamelStore *store = NULL;
@@ -145,8 +146,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 			goto cleanup;
 		}
 	} else {
-		store = camel_session_get_store (default_session->session,
-						 url, ex);
+		store = camel_session_get_store (session, url, ex);
 		if (!store) {
 			mail_exception_dialog ("Unable to get new mail",
 					       ex, fb);
@@ -248,6 +248,9 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	camel_exception_free (ex);
 	if (msg)
 		gtk_object_unref (GTK_OBJECT (msg));
+#else
+	printf ("Sorry, I'm broken! Try again tomorrow.");
+#endif
 }
 
 
@@ -291,8 +294,7 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 		g_assert (url);
 		g_free (path);
 
-		transport = camel_session_get_transport (
-			default_session->session, url, ex);
+		transport = camel_session_get_transport (session, url, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 			mail_exception_dialog ("Could not load mail transport",
 					       ex, composer);
