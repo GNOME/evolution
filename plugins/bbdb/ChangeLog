@@ -1,3 +1,22 @@
+2004-10-25  Nat Friedman  <nat@novell.com>
+
+	* bbdb.c (e_plugin_lib_enable): Sync the Gaim buddy list.  Set a
+	timer to check for Gaim buddy list chnages to sync.
+	(bbdb_do_it): Free some memory we were leaking before.
+	(bbdb_open_addressbook): New function for Gaim buddy list support.
+	(bbdb_check_gaim_enabled): Likewise.
+	(enable_gaim_toggled_cb): Likewise.
+	(synchronize_button_clicked_cb): Likewise.
+	(bbdb_page_factory): Added UI for Gaim buddy list sync support.
+
+	* gaimbuddies.c: New file, contains routines to synchronize IM
+	information and buddy icons from a Gaim buddy list.
+
+	* bbdb.h: New file, contains shared macros and prototypes. 
+
+	* test-evobuddy.c (main): New function, tests a gaim buddy list
+	sync.
+
 2004-10-23  Nat Friedman  <nat@novell.com>
 
 	* bbdb.c (bbdb_do_it): Change assertions to if statements, so as

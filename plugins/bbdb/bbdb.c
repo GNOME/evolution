@@ -47,11 +47,10 @@
 #include <mail/em-event.h>
 #include <camel/camel-mime-message.h>
 
-/* Where to store the config values */
-#define GCONF_KEY_ENABLE "/apps/evolution/mail/autopopulate_addressbook"
-#define GCONF_KEY_WHICH_ADDRESSBOOK "/apps/evolution/mail/autopopulate_source"
+#include "bbdb.h"
 
 /* Plugin hooks */
+int e_plugin_lib_enable (EPluginLib *ep, int enable);
 void bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target);
 GtkWidget *bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 GtkWidget *bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
@@ -63,9 +62,11 @@ struct bbdb_stuff {
 
 	GtkWidget *option_menu;
 	GtkWidget *check;
+	GtkWidget *check_gaim;
 };
 
 /* Static forward declarations */
+static gboolean bbdb_timeout (gpointer data);
 static void bbdb_do_it (EBook *book, const char *name, const char *email);
 static void add_email_to_contact (EContact *contact, const char *email);
 static void enable_toggled_cb (GtkWidget *widget, gpointer data);
@@ -73,7 +74,31 @@ static void source_changed_cb (GtkWidget *widget, ESource *source, gpointer data
 static GtkWidget *create_addressbook_option_menu (struct bbdb_stuff *stuff);
 static void cleanup_cb (GObject *o, gpointer data);
 
+int
+e_plugin_lib_enable (EPluginLib *ep, int enable)
+{
+ 	/* Start up the plugin. */
+	if (enable) {
+		fprintf (stderr, "BBDB spinning up...\n");
 
+		if (bbdb_check_gaim_enabled ())
+			bbdb_sync_buddy_list_check ();
+
+		g_timeout_add (BBDB_BLIST_CHECK_INTERVAL,
+			       (GSourceFunc) bbdb_timeout,
+			       NULL);
+	}
+
+	return 0;
+}
+
+static gboolean
+bbdb_timeout (gpointer data)
+{
+	bbdb_sync_buddy_list_check ();
+
+	return TRUE;
+}
 
 /* Code to populate addressbook when you reply to a mail follows */
 
@@ -83,33 +108,11 @@ bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target)
 	const CamelInternetAddress *cia;
 	const char *name;
 	const char *email;
-	char       *uri;
 	EBook      *book = NULL;
 	int         i;
-	GConfClient *gconf;
 
-	gboolean status;
-	GError     *error;
-
-	gconf = gconf_client_get_default ();
-	uri = gconf_client_get_string (gconf, GCONF_KEY_WHICH_ADDRESSBOOK, NULL);
-	g_object_unref (G_OBJECT (gconf));
-	if (uri == NULL)
-		book = e_book_new_system_addressbook (&error);
-	else
-		book = e_book_new_from_uri (uri, &error);
-	if (book == NULL) {
-		g_warning ("bbdb: failed to open addressbook: %s\n", error->message);
-		return;
-	}
-		
-	status = e_book_open (book, FALSE, NULL);
-
-	if (status == FALSE) {
-		g_warning ("bbdb: failed to open local addressbook\n");
-		return;
-	}
-
+	/* Open the addressbook */
+	book = bbdb_open_addressbook ();
 
 	cia = camel_mime_message_get_from (target->message);
 	for (i = 0; i < camel_address_length CAMEL_ADDRESS (cia); i ++) {
@@ -143,7 +146,7 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 {
 	char *query_string;
 	EBookQuery *query;
-	GList *contacts;
+	GList *contacts, *l;
 	EContact *contact;
 
 	gboolean status;
@@ -166,8 +169,15 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 	g_free (query_string);
 
 	status = e_book_get_contacts (book, query, &contacts, NULL);
-	if (contacts != NULL)
+	e_book_query_unref (query);
+	if (contacts != NULL) {
+		GList *l;
+		for (l = contacts; l != NULL; l = l->next)
+			g_object_unref ((GObject *)l->data);
+		g_list_free (contacts);
+
 		return;
+	}
 
 	/* If a contact exists with this name, add the email address to it. */
 	query_string = g_strdup_printf ("(is \"full_name\" \"%s\")", name);
@@ -175,17 +185,26 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 	g_free (query_string);
 
 	status = e_book_get_contacts (book, query, &contacts, NULL);
+	e_book_query_unref (query);
 	if (contacts != NULL) {
 
-		/* If there's more than one contact with this name,
-		   just give up; we're not smart enough for this. */
+		/* FIXME: If there's more than one contact with this
+		   name, just give up; we're not smart enough for
+		   this. */
 		if (contacts->next != NULL)
 			return;
 		
 		contact = (EContact *) contacts->data;
 		add_email_to_contact (contact, email);
-		if (! e_book_commit_contact (book, contact, &error))
+		if (! e_book_commit_contact (book, contact, &error)) {
 			g_warning ("bbdb: Could not modify contact: %s\n", error->message);
+			g_error_free (error);
+		}
+		
+		for (l = contacts; l != NULL; l = l->next)
+			g_object_unref ((GObject *)l->data);
+		g_list_free (contacts);
+
 		return;
 	} 
 
@@ -196,8 +215,69 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 
 	if (! e_book_add_contact (book, contact, &error)) {
 		g_warning ("bbdb: Failed to add new contact: %s\n", error->message);
+		g_error_free (error);
 		return;
 	}
+
+	g_object_unref (G_OBJECT (contact));
+}
+
+EBook *
+bbdb_open_addressbook (void)
+{
+	GConfClient *gconf;
+	char        *uri;
+	EBook       *book = NULL;
+
+	gboolean     enable;
+
+	gboolean     status;
+	GError      *error;
+	
+	gconf = gconf_client_get_default ();
+
+	/* Check to see if we're supposed to be running */
+	enable = gconf_client_get_bool (gconf, GCONF_KEY_ENABLE, NULL);
+	if (! enable) {
+		g_object_unref (G_OBJECT (gconf));
+		return NULL;
+	}
+
+	/* Open the appropriate addresbook. */
+	uri = gconf_client_get_string (gconf, GCONF_KEY_WHICH_ADDRESSBOOK, NULL);
+	g_object_unref (G_OBJECT (gconf));
+	if (uri == NULL)
+		book = e_book_new_system_addressbook (&error);
+	else
+		book = e_book_new_from_uri (uri, &error);
+	if (book == NULL) {
+		g_warning ("bbdb: failed to get addressbook: %s\n", error->message);
+		g_error_free (error);
+		return NULL;
+	}
+
+	status = e_book_open (book, FALSE, &error);
+	if (! status) {
+		g_warning ("bbdb: failed to open addressbook: %s\n", error->message);
+		g_error_free (error);
+		return NULL;
+	}
+
+	return book;
+}
+
+gboolean
+bbdb_check_gaim_enabled ()
+{
+	GConfClient *gconf;
+	gboolean     gaim_enabled;
+
+	gconf = gconf_client_get_default ();
+	gaim_enabled = gconf_client_get_bool (gconf, GCONF_KEY_ENABLE_GAIM, NULL);
+
+	g_object_unref (G_OBJECT (gconf));
+
+	return gaim_enabled;
 }
 
 static void
@@ -226,6 +306,24 @@ enable_toggled_cb (GtkWidget *widget, gpointer data)
 	gconf_client_set_bool (stuff->target->gconf, GCONF_KEY_ENABLE, active, NULL);
 	
 	gtk_widget_set_sensitive (stuff->option_menu, active);
+}
+
+static void
+enable_gaim_toggled_cb (GtkWidget *widget, gpointer data)
+{
+	struct bbdb_stuff *stuff = (struct bbdb_stuff *) data;
+	gboolean active;
+
+	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
+
+	/* Save the new setting to gconf */
+	gconf_client_set_bool (stuff->target->gconf, GCONF_KEY_ENABLE_GAIM, active, NULL);
+}
+
+static void
+synchronize_button_clicked_cb (GtkWidget *button)
+{
+	bbdb_sync_buddy_list ();
 }
 
 static void
@@ -276,6 +374,8 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	GtkWidget *inner_vbox;
 	GtkWidget *check;
 	GtkWidget *option;
+	GtkWidget *check_gaim;
+	GtkWidget *button;
 
 	/* A structure to pass some stuff around */
 	stuff = g_new0 (struct bbdb_stuff, 1);
@@ -289,9 +389,9 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 
 	/* Frame */
 	frame = gtk_vbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (page), frame, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (page), frame, FALSE, FALSE, 0);
 
-	/* Label */
+	/* "Automatic Contacts" */
 	frame_label = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (frame_label), _("<span weight=\"bold\">Automatic Contacts</span>"));
 	GTK_MISC (frame_label)->xalign = 0.0;
@@ -319,6 +419,35 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_box_pack_start (GTK_BOX (inner_vbox), option, FALSE, FALSE, 0);
 	stuff->option_menu = option;
 
+	/* "Instant Messaging Contacts" */
+	frame = gtk_vbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (page), frame, TRUE, TRUE, 24);
+
+	frame_label = gtk_label_new ("");
+	gtk_label_set_markup (GTK_LABEL (frame_label), _("<span weight=\"bold\">Instant Messaging Contacts</span>"));
+	GTK_MISC (frame_label)->xalign = 0.0;
+	gtk_box_pack_start (GTK_BOX (frame), frame_label, FALSE, FALSE, 0);
+
+	/* Indent/padding */
+	hbox = gtk_hbox_new (FALSE, 12);
+	gtk_box_pack_start (GTK_BOX (frame), hbox, FALSE, TRUE, 0);
+	padding_label = gtk_label_new ("");
+	gtk_box_pack_start (GTK_BOX (hbox), padding_label, FALSE, FALSE, 0);
+	inner_vbox = gtk_vbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), inner_vbox, FALSE, FALSE, 0);
+	
+	/* Enable Gaim Checkbox */
+	check_gaim = gtk_check_button_new_with_mnemonic (_("Periodically synchronize contact information and images from my _instant messenger"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_gaim), gconf_client_get_bool (target->gconf, GCONF_KEY_ENABLE_GAIM, NULL));
+	g_signal_connect (GTK_TOGGLE_BUTTON (check_gaim), "toggled", G_CALLBACK (enable_gaim_toggled_cb), stuff);
+	gtk_box_pack_start (GTK_BOX (inner_vbox), check_gaim, FALSE, FALSE, 0);
+	stuff->check_gaim = check_gaim;
+
+	/* Synchronize now button. */
+	button = gtk_button_new_with_label (_("Synchronize with _buddy list now"));
+	g_signal_connect (GTK_BUTTON (button), "clicked", G_CALLBACK (synchronize_button_clicked_cb), stuff);
+	gtk_box_pack_start (GTK_BOX (inner_vbox), button, FALSE, FALSE, 0);
+	
 	/* Clean up */
 	g_signal_connect (page, "destroy", G_CALLBACK (cleanup_cb), stuff);
 
@@ -335,6 +464,3 @@ cleanup_cb (GObject *o, gpointer data)
 	g_object_unref (stuff->source_list);
 	g_free (stuff);
 }
-
-
-
