@@ -1,3 +1,18 @@
+2000-05-25  NotZed  <NotZed@HelixCode.com>
+
+	* Makefile.am (libcamel_la_SOURCES): Removed
+	camel-simple-data-wrapper again.  Less code to maintain == better
+	code.
+	
+	* camel-data-wrapper.c (construct_from_stream): Fixes for bug
+	where text attachments dont work.  Made data-wrapper concrete for
+	the second time.
+
+2000-05-23  NotZed  <NotZed@HelixCode.com>
+
+	* providers/vee/camel-vee-folder.c (vee_folder_build_folder):
+	Update the vfolder details for a single folder.
+
 2000-05-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/smtp/camel-smtp-transport.c (_send_to): Took out code

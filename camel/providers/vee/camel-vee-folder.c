@@ -365,6 +365,7 @@ vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
 			g_free(mi->info.from);
 			g_free(mi->info.uid);
 			camel_flag_list_free(&mi->info.user_flags);
+			g_free(mi);
 		}
 	}
 
@@ -413,6 +414,75 @@ vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
 	vf->messages = messages;
 	g_hash_table_destroy(vf->messages_uid);
 	vf->messages_uid = messages_uid;
+}
+
+
+/* build query contents for a single folder */
+static void
+vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException *ex)
+{
+	struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);
+	GList *node;
+
+	GList *matches, *match;
+	CamelFolder *f = source;
+	CamelVeeMessageInfo *mi;
+	const CamelMessageInfo *info;
+	CamelFlag *flag;
+
+	GPtrArray *messages;
+	GHashTable *messages_uid;
+
+	{
+		int i;
+
+		for (i=0;i<vf->messages->len;i++) {
+			CamelVeeMessageInfo *mi = g_ptr_array_index(vf->messages, i);
+			if (mi->folder == source) {
+				g_hash_table_remove(vf->messages_uid, mi->info.uid);
+				g_ptr_array_remove_index_fast(vf->messages, i);
+
+				g_free(mi->info.subject);
+				g_free(mi->info.to);
+				g_free(mi->info.from);
+				g_free(mi->info.uid);
+				camel_flag_list_free(&mi->info.user_flags);
+				g_free(mi);
+				i--;
+			}
+		}
+	}
+
+	messages = vf->messages;
+	messages_uid = vf->messages_uid;
+	
+	matches = camel_folder_search_by_expression(f, vf->expression, ex);
+	match = matches;
+	while (match) {
+		info = camel_folder_summary_get_by_uid(f, match->data);
+		if (info) {
+			mi = g_malloc0(sizeof(*mi));
+			mi->info.subject = g_strdup(info->subject);
+			mi->info.to = g_strdup(info->to);
+			mi->info.from = g_strdup(info->from);
+			mi->info.uid = g_strdup_printf("%p:%s", f, info->uid);
+			mi->info.flags = info->flags;
+			mi->info.size = info->size;
+			mi->info.date_sent = info->date_sent;
+			mi->info.date_received = info->date_received;
+			flag = info->user_flags;
+			while (flag) {
+				camel_flag_set(&mi->info.user_flags, flag->name, TRUE);
+				flag = flag->next;
+			}
+			mi->info.content = NULL;
+			mi->folder = f;
+			g_ptr_array_add(messages, mi);
+			g_hash_table_insert(messages_uid, mi->info.uid, mi);
+		}
+		match = g_list_next(match);
+	}
+	g_list_free(matches);
 }
 
 

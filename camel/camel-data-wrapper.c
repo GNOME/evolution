@@ -156,7 +156,12 @@ camel_data_wrapper_write_to_stream (CamelDataWrapper *data_wrapper,
 static int
 construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
-	return -1;
+	if (data_wrapper->stream)
+		gtk_object_unref((GtkObject *)data_wrapper->stream);
+
+	data_wrapper->stream = stream;
+	gtk_object_ref (GTK_OBJECT (stream));
+	return 0;
 }
 
 /**
