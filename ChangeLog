@@ -1,3 +1,9 @@
+2000-11-28  JP Rosevear  <jpr@helixcode.com>
+
+	* acconfig.h: Add USE_FLOCK, USE_FCNTL, USE_FLOCK
+
+	* configure.in: Auto* magic for various camel locking types
+
 2000-11-28  Not Zed  <NotZed@HelixCode.com>
 
 	* configure.in (AC_OUTPUT): Added camel/tests/folder/Makefile

@@ -22,6 +22,9 @@
 #undef PGP5_PATH
 #undef PGP_PATH
 #undef USING_GNOME_PRINT_0_20
+#undef USE_DOT
+#undef USE_FCNTL
+#undef USE_FLOCK
 #undef NEED_KRB_SENDAUTH_PROTO
 #undef HAVE_ISBLANK
 

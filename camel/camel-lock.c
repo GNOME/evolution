@@ -22,11 +22,6 @@
 
 #include <config.h>
 
-/* need configure checks or some configurable thingy here */
-#define USE_DOT
-#define USE_FCNTL
-#define USE_FLOCK
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
