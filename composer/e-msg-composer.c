@@ -4168,9 +4168,10 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 						body[nwritten] = '\0';
 					}
 				}
-			} else if (!g_ascii_strcasecmp (header, "attach")) {
+			} else if (!g_ascii_strcasecmp (header, "attach") ||
+				   !g_ascii_strcasecmp (header, "attachment")) {
 				/* Change file url to absolute path */
-				if (!strncasecmp (content, "file:", 5)) {
+				if (!g_ascii_strncasecmp (content, "file:", 5)) {
 					url = camel_url_new (content, NULL);
 					e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
 									      url->path);
