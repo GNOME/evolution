@@ -57,9 +57,11 @@ struct _EMinicardViewWidget
 struct _EMinicardViewWidgetClass
 {
 	ECanvasClass parent_class;
+	void         (*selection_change) (EMinicardViewWidget*);
 };
 
 GtkType    e_minicard_view_widget_get_type (void);
+gint       e_minicard_view_widget_selected_count   (EMinicardViewWidget *view);
 void       e_minicard_view_widget_remove_selection (EMinicardViewWidget *view,
 						    EBookCallback  cb,
 						    gpointer       closure);

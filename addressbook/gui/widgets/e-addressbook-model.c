@@ -33,6 +33,7 @@ enum {
 };
 
 enum {
+	WRITABLE_STATUS,
 	STATUS_MESSAGE,
 	CARD_ADDED,
 	CARD_REMOVED,
@@ -83,8 +84,15 @@ addressbook_destroy(GtkObject *object)
 
 	remove_book_view(model);
 
-	if (model->book)
+	if (model->book) {
+		if (model->writable_status_id)
+			gtk_signal_disconnect(GTK_OBJECT (model->book),
+					      model->writable_status_id);
+
+		model->writable_status_id = 0;
+
 		gtk_object_unref(GTK_OBJECT(model->book));
+	}
 
 	for ( i = 0; i < model->data_count; i++ ) {
 		gtk_object_unref(GTK_OBJECT(model->data[i]));
@@ -166,6 +174,18 @@ status_message (EBookView *book_view,
 }
 
 static void
+writable_status (EBook *book,
+		 gboolean writable,
+		 EAddressbookModel *model)
+{
+	model->editable = writable;
+
+	gtk_signal_emit (GTK_OBJECT (model),
+			 e_addressbook_model_signals [WRITABLE_STATUS],
+			 writable);
+}
+
+static void
 e_addressbook_model_class_init (GtkObjectClass *object_class)
 {
 	parent_class = gtk_type_class (PARENT_TYPE);
@@ -180,6 +200,14 @@ e_addressbook_model_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_READWRITE, ARG_QUERY);
 	gtk_object_add_arg_type ("EAddressbookModel::editable", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_EDITABLE);
+
+	e_addressbook_model_signals [WRITABLE_STATUS] =
+		gtk_signal_new ("writable_status",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookModelClass, writable_status),
+				gtk_marshal_NONE__BOOL,
+				GTK_TYPE_NONE, 1, GTK_TYPE_BOOL);
 
 	e_addressbook_model_signals [STATUS_MESSAGE] =
 		gtk_signal_new ("status_message",
@@ -236,6 +264,7 @@ e_addressbook_model_init (GtkObject *object)
 	model->remove_card_id = 0;
 	model->modify_card_id = 0;
 	model->status_message_id = 0;
+	model->writable_status_id = 0;
 	model->data = NULL;
 	model->data_count = 0;
 	model->allocated_count = 0;
@@ -323,13 +352,23 @@ e_addressbook_model_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	
 	switch (arg_id){
 	case ARG_BOOK:
-		if (model->book)
+		if (model->book) {
+			if (model->writable_status_id)
+				gtk_signal_disconnect(GTK_OBJECT (model->book),
+						      model->writable_status_id);
+
+			model->writable_status_id = 0;
+
 			gtk_object_unref(GTK_OBJECT(model->book));
+		}
 		model->book = E_BOOK(GTK_VALUE_OBJECT (*arg));
 		if (model->book) {
 			gtk_object_ref(GTK_OBJECT(model->book));
 			if (model->get_view_idle == 0)
 				model->get_view_idle = g_idle_add((GSourceFunc)get_view, model);
+			gtk_signal_connect (GTK_OBJECT(model->book),
+					    "writable_status",
+					    writable_status, model);
 		}
 		break;
 	case ARG_QUERY:

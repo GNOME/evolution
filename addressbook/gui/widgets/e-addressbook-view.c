@@ -62,6 +62,8 @@ static void e_addressbook_view_destroy (GtkObject *object);
 static void change_view_type (EAddressbookView *view, EAddressbookViewType view_type);
 
 static void status_message (GtkObject *object, const gchar *status, EAddressbookView *eav);
+static void writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav);
+static void command_state_change (EAddressbookView *eav);
 
 static GtkTableClass *parent_class = NULL;
 
@@ -75,6 +77,7 @@ enum {
 
 enum {
 	STATUS_MESSAGE,
+	COMMAND_STATE_CHANGE,
 	LAST_SIGNAL
 };
 
@@ -141,6 +144,14 @@ e_addressbook_view_class_init (EAddressbookViewClass *klass)
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
 
+	e_addressbook_view_signals [COMMAND_STATE_CHANGE] =
+		gtk_signal_new ("command_state_change",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookViewClass, command_state_change),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
 	gtk_object_class_add_signals (object_class, e_addressbook_view_signals, LAST_SIGNAL);
 }
 
@@ -154,6 +165,11 @@ e_addressbook_view_init (EAddressbookView *eav)
 	gtk_signal_connect (GTK_OBJECT(eav->model),
 			    "status_message",
 			    GTK_SIGNAL_FUNC (status_message),
+			    eav);
+
+	gtk_signal_connect (GTK_OBJECT(eav->model),
+			    "writable_status",
+			    GTK_SIGNAL_FUNC (writable_status),
 			    eav);
 
 	eav->editable = FALSE;
@@ -321,6 +337,12 @@ create_alphabet (EAddressbookView *view)
 }
 
 static void
+minicard_selection_change (EMinicardViewWidget *widget, EAddressbookView *view)
+{
+	command_state_change (view);
+}
+
+static void
 create_minicard_view (EAddressbookView *view)
 {
 	GtkWidget *scrollframe;
@@ -336,6 +358,10 @@ create_minicard_view (EAddressbookView *view)
 
 	adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(e_addressbook_reflow_adapter_new (view->model));
 	minicard_view = e_minicard_view_widget_new(adapter);
+
+	gtk_signal_connect(GTK_OBJECT(minicard_view), "selection_change",
+			   GTK_SIGNAL_FUNC(minicard_selection_change), view);
+
 
 	view->object = GTK_OBJECT(minicard_view);
 	view->widget = minicard_hbox;
@@ -609,6 +635,12 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 }
 
 static void
+table_selection_change(ETableScrolled *table, EAddressbookView *view)
+{
+	command_state_change (view);
+}
+
+static void
 table_drag_data_get (ETable             *table,
 		     int                 row,
 		     int                 col,
@@ -646,6 +678,19 @@ status_message (GtkObject *object, const gchar *status, EAddressbookView *eav)
 	gtk_signal_emit (GTK_OBJECT (eav),
 			 e_addressbook_view_signals [STATUS_MESSAGE],
 			 status);
+}
+
+static void
+writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav)
+{
+	command_state_change (eav);
+}
+
+static void
+command_state_change (EAddressbookView *eav)
+{
+	gtk_signal_emit (GTK_OBJECT (eav),
+			 e_addressbook_view_signals [COMMAND_STATE_CHANGE]);
 }
 
 #ifdef JUST_FOR_TRANSLATORS
@@ -769,6 +814,8 @@ create_table_view (EAddressbookView *view)
 			   GTK_SIGNAL_FUNC(table_double_click), view);
 	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(table))), "right_click",
 			   GTK_SIGNAL_FUNC(table_right_click), view);
+	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(table))), "selection_change",
+			   GTK_SIGNAL_FUNC(table_selection_change), view);
 
 	/* drag & drop signals */
 	e_table_drag_source_set (E_TABLE(E_TABLE_SCROLLED(table)->table), GDK_BUTTON1_MASK,
@@ -816,6 +863,8 @@ change_view_type (EAddressbookView *view, EAddressbookViewType view_type)
 	}
 
 	view->view_type = view_type;
+
+	command_state_change (view);
 }
 
 static void
@@ -1009,3 +1058,45 @@ e_addressbook_view_stop(EAddressbookView *view)
 {
 	e_addressbook_model_stop (view->model);
 }
+
+gboolean
+e_addressbook_view_can_create (EAddressbookView  *view)
+{
+	return e_addressbook_model_editable (view->model);
+}
+
+gboolean
+e_addressbook_view_can_print (EAddressbookView  *view)
+{
+	switch (view->view_type) {
+	case E_ADDRESSBOOK_VIEW_TABLE:
+		return e_table_selected_count (E_TABLE_SCROLLED(view->widget)->table) != 0;
+	case E_ADDRESSBOOK_VIEW_MINICARD:
+		return e_minicard_view_widget_selected_count (E_MINICARD_VIEW_WIDGET (view->object)) != 0;
+	default:
+		return FALSE;
+	}
+}
+
+gboolean
+e_addressbook_view_can_delete (EAddressbookView  *view)
+{
+	if (!e_addressbook_model_editable (view->model))
+		return FALSE;
+
+	switch (view->view_type) {
+	case E_ADDRESSBOOK_VIEW_TABLE:
+		return e_table_selected_count (E_TABLE_SCROLLED(view->widget)->table) != 0;
+	case E_ADDRESSBOOK_VIEW_MINICARD:
+		return e_minicard_view_widget_selected_count (E_MINICARD_VIEW_WIDGET (view->object)) != 0;
+	default:
+		return FALSE;
+	}
+}
+
+gboolean
+e_addressbook_view_can_stop (EAddressbookView  *view)
+{
+	return FALSE;
+}
+

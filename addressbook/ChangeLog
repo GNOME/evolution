@@ -1,3 +1,63 @@
+2001-05-17  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-minicard-view-widget.c
+	(e_minicard_view_widget_class_init): add our selection_change
+	signal.
+	(e_minicard_view_widget_realize): connect to the ESelectionModel's
+	selection_changed signal.
+	(e_minicard_view_widget_selected_count): new function.
+	(selection_change): new function - emit our "selection_change"
+	signal.
+
+	* gui/widgets/e-minicard-view-widget.h (struct
+	_EMinicardViewWidgetClass): add selection_change signal.  also,
+	add prototype for e_minicard_view_widget_selected_count.  *
+	gui/widgets/e-addressbook-view.c
+	
+	(e_addressbook_view_class_init): add our command_state_change
+	signal.
+	(e_addressbook_view_init): connect to the writable_status signal
+	on the EAddressbookModel.
+	(minicard_selection_change): new function - calls
+	command_state_change.
+	(create_minicard_view): connect to selection_change on the
+	minicard_view so we know when to update command state.
+	(table_selection_change): new function - calls
+	command_state_change.
+	(writable_status): new function - calls command_state_change.
+	(command_state_change): new function - emits our
+	"command_state_change" signal.
+	(create_table_view): connect to the selection_change signal so we
+	know to update the command state.
+	(change_view_type): update the command state every time we change
+	view types.
+	(e_addressbook_view_can_create): new function.
+	(e_addressbook_view_can_print): new function.
+	(e_addressbook_view_can_delete): new function.
+	(e_addressbook_view_can_stop): new function.
+
+	* gui/widgets/e-addressbook-view.h (struct
+	_EAddressbookViewClass): add command_state_change signal, and
+	prototypes of functions the component can use to test the state of
+	commands.
+
+	* gui/widgets/e-addressbook-model.c (addressbook_destroy): unlink
+	the writable_status signal on the EBook.
+	(writable_status): new function.
+	(e_addressbook_model_class_init): add our writable_status signal.
+	(e_addressbook_model_init): init writable_status_id.
+	(e_addressbook_model_set_arg): unlink the writable_status signal
+	on the old EBook, and connect it on the new one.
+
+	* gui/widgets/e-addressbook-model.h: add writable_status signal.
+
+	* gui/component/addressbook.c (update_command_state): new
+	function, set the sensitivity of the bonobo commands.
+	(control_activate): update our command state immediately upon
+	activating the control.
+	(addressbook_factory_new_control): register command_state_change
+	to update the commands.
+
 2001-05-15  Chris Toshok  <toshok@ximian.com>
 
 	* gui/search/e-addressbook-search-dialog.c

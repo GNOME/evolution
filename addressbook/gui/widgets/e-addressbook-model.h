@@ -29,7 +29,7 @@ struct _EAddressbookModel {
 	int data_count;
 	int allocated_count;
 
-	int create_card_id, remove_card_id, modify_card_id, status_message_id;
+	int create_card_id, remove_card_id, modify_card_id, status_message_id, writable_status_id;
 
 	guint editable : 1;
 	guint first_get_view : 1;
@@ -42,11 +42,12 @@ struct _EAddressbookModelClass {
 	/*
 	 * Signals
 	 */
-	void (*status_message) (EAddressbookModel *model, const gchar *message);
-	void (*card_added)     (EAddressbookModel *model, gint index, gint count);
-	void (*card_removed)   (EAddressbookModel *model, gint index);
-	void (*card_changed)   (EAddressbookModel *model, gint index);
-	void (*model_changed)  (EAddressbookModel *model);
+	void (*writable_status) (EAddressbookModel *model, gboolean writable);
+	void (*status_message)  (EAddressbookModel *model, const gchar *message);
+	void (*card_added)      (EAddressbookModel *model, gint index, gint count);
+	void (*card_removed)    (EAddressbookModel *model, gint index);
+	void (*card_changed)    (EAddressbookModel *model, gint index);
+	void (*model_changed)   (EAddressbookModel *model);
 };
 
 

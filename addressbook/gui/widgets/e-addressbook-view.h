@@ -82,6 +82,7 @@ struct _EAddressbookViewClass
 	 * Signals
 	 */
 	void (*status_message) (EAddressbookView *view, const gchar *message);
+	void (*command_state_change) (EAddressbookView *view);
 };
 
 GtkWidget *e_addressbook_view_new               (void);
@@ -94,6 +95,11 @@ void       e_addressbook_view_print             (EAddressbookView  *view);
 void       e_addressbook_view_delete_selection  (EAddressbookView  *view);
 void       e_addressbook_view_show_all          (EAddressbookView  *view);
 void       e_addressbook_view_stop              (EAddressbookView  *view);
+
+gboolean   e_addressbook_view_can_create        (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_print         (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_delete        (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_stop          (EAddressbookView  *view);
 
 #ifdef __cplusplus
 }

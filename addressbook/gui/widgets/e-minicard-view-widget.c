@@ -37,6 +37,8 @@ static void e_minicard_view_widget_reflow        (ECanvas *canvas);
 static void e_minicard_view_widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation);
 static void e_minicard_view_widget_realize       (GtkWidget *widget);
 
+static void selection_change                     (ESelectionModel *esm, EMinicardViewWidget *widget);
+
 static ECanvasClass *parent_class = NULL;
 
 /* The arguments we take */
@@ -46,6 +48,13 @@ enum {
 	ARG_QUERY,
 	ARG_EDITABLE
 };
+
+enum {
+	SELECTION_CHANGE,
+	LAST_SIGNAL
+};
+
+static guint e_minicard_view_widget_signals [LAST_SIGNAL] = {0, };
 
 GtkType
 e_minicard_view_widget_get_type (void)
@@ -91,6 +100,16 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 				 GTK_ARG_READWRITE, ARG_QUERY);
 	gtk_object_add_arg_type ("EMinicardViewWidget::editable", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_EDITABLE);
+
+	e_minicard_view_widget_signals [SELECTION_CHANGE] =
+		gtk_signal_new ("selection_change",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EMinicardViewWidgetClass, selection_change),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+	gtk_object_class_add_signals (object_class, e_minicard_view_widget_signals, LAST_SIGNAL);
 
 	object_class->set_arg       = e_minicard_view_widget_set_arg;
 	object_class->get_arg       = e_minicard_view_widget_get_arg;
@@ -223,6 +242,10 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 		       "adapter", view->adapter,
 		       NULL);
 
+	gtk_signal_connect (GTK_OBJECT (E_REFLOW(view->emv)->selection),
+			    "selection_changed",
+			    selection_change, view);
+
 	if (GTK_WIDGET_CLASS(parent_class)->realize)
 		GTK_WIDGET_CLASS(parent_class)->realize (widget);
 }
@@ -273,6 +296,22 @@ e_minicard_view_widget_reflow(ECanvas *canvas)
 			       "x2", (double) width,
 			       "y2", (double) GTK_WIDGET(canvas)->allocation.height,
 			       NULL );	
+}
+
+static void
+selection_change (ESelectionModel *esm, EMinicardViewWidget *widget)
+{
+	gtk_signal_emit (GTK_OBJECT(widget),
+			 e_minicard_view_widget_signals [SELECTION_CHANGE], widget);
+}
+
+gint
+e_minicard_view_widget_selected_count   (EMinicardViewWidget *view)
+{
+	if (!view->emv)
+		return 0;
+	else
+		return e_selection_model_selected_count (E_REFLOW (view->emv)->selection);
 }
 
 void

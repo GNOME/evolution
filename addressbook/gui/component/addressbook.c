@@ -225,6 +225,53 @@ stop_loading_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
+update_command_state (EAddressbookView *eav, AddressbookView *view)
+{
+	BonoboUIComponent *uic = bonobo_control_get_ui_component (view->control);
+
+	/* New Contact */
+	bonobo_ui_component_set_prop (uic,
+				      "/commands/ContactNew",
+				      "sensitive",
+				      e_addressbook_view_can_create (view->view) ? "1" : "0", NULL);
+
+	/* Find Contact */
+#if 0
+	/* this is always enabled */
+	bonobo_ui_component_set_prop (uic,
+				      "/commands/ContactFind",
+				      "sensitive", "0", NULL);
+#endif
+
+	/* Print Contact */
+	bonobo_ui_component_set_prop (uic,
+				      "/commands/ContactsPrint",
+				      "sensitive",
+				      e_addressbook_view_can_print (view->view) ? "1" : "0", NULL);
+
+	/* Delete Contact */
+	bonobo_ui_component_set_prop (uic,
+				      "/commands/ContactDelete",
+				      "sensitive",
+				      e_addressbook_view_can_delete (view->view) ? "1" : "0", NULL);
+
+
+	/* View All Contacts */
+#if 0
+	/* this is always enabled */
+	bonobo_ui_component_set_prop (uic,
+				      "/Toolbar/View All",
+				      "sensitive", "1", NULL);
+#endif
+
+	/* Stop */
+	bonobo_ui_component_set_prop (uic,
+				      "/commands/ContactStop",
+				      "sensitive",
+				      e_addressbook_view_can_stop (view->view) ? "1" : "0", NULL);
+}
+
+static void
 update_view_type (AddressbookView *view)
 {
 	BonoboUIComponent *uic = bonobo_control_get_ui_component (view->control);
@@ -332,6 +379,8 @@ control_activate (BonoboControl     *control,
 	e_pixmaps_update (uic, pixmaps);
 
 	bonobo_ui_component_thaw (uic, NULL);
+
+	update_command_state (view->view, view);
 }
 
 static void
@@ -766,6 +815,11 @@ addressbook_factory_new_control (void)
 	gtk_signal_connect (GTK_OBJECT (view->view),
 			    "status_message",
 			    GTK_SIGNAL_FUNC(set_status_message),
+			    view);
+
+	gtk_signal_connect (GTK_OBJECT (view->view),
+			    "command_state_change",
+			    GTK_SIGNAL_FUNC(update_command_state),
 			    view);
 	
 	view->uri = NULL;
