@@ -1,3 +1,7 @@
+2002-11-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter.glade: Converted to the glade-2 format.
+
 2002-11-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-filter.c: Ported.
