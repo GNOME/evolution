@@ -45,6 +45,7 @@ evolution_storage_set_view_factory_new_view (EShell *shell)
 
 	storage_set = e_shell_get_storage_set (shell);
 	storage_set_view = e_storage_set_view_new (storage_set);
+	gtk_widget_show (storage_set_view);
 
 	storage_set_view_interface = evolution_storage_set_view_new (storage_set_view);
 	if (storage_set_view_interface == NULL) {
@@ -53,7 +54,7 @@ evolution_storage_set_view_factory_new_view (EShell *shell)
 	}
 
 	control = bonobo_control_new (storage_set_view);
-	bonobo_object_add_interface (BONOBO_OBJECT (control), BONOBO_OBJECT (storage_set_view));
+	bonobo_object_add_interface (BONOBO_OBJECT (control), BONOBO_OBJECT (storage_set_view_interface));
 
 	return control;
 }

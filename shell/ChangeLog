@@ -1,3 +1,11 @@
+2000-10-02  Chris Toshok  <toshok@helixcode.com>
+
+	* evolution-storage-set-view-factory.c
+	(evolution_storage_set_view_factory_new_view): pass
+	storage_set_view_interface as second argument to
+	bonobo_object_add_interface, and call gtk_widget_show on the
+	storage_set_view widget.
+
 2000-10-03  Michael Meeks  <michael@helixcode.com>
 
 	* e-shell-view.c (setup_bonobo_ui_handler): kill.
