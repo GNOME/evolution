@@ -1,5 +1,10 @@
 2001-06-30  Jon Trowbridge  <trow@ximian.com>
 
+	* backend/ebook/e-card.c (e_card_evolution_list): Check args.
+	Somewhere in the code (somewhere in the minicard stuff) this can
+	be called with a NULL arg, which was causing crashes.
+	(e_card_evolution_list_show_addresses): Check args.
+
 	* backend/ebook/e-destination.c (build_field): I was accidentally
 	comparing characters and strings here, and didn't see the compiler
 	warning.  Fixed.

@@ -4011,11 +4011,13 @@ e_card_send (ECard *card, ECardDisposition disposition)
 gboolean
 e_card_evolution_list (ECard *card)
 {
+	g_return_val_if_fail (card && E_IS_CARD (card), FALSE);
 	return card->list;
 }
 
 gboolean
 e_card_evolution_list_show_addresses (ECard *card)
 {
+	g_return_val_if_fail (card && E_IS_CARD (card), FALSE);
 	return card->list_show_addresses;
 }
