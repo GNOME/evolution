@@ -443,8 +443,7 @@ static char *resent_recipients[] = {
 
 /* send 1 message to a specific transport */
 static void
-mail_send_message (CamelMimeMessage *message, const char *destination,
-		   CamelFilterDriver *driver, CamelException *ex)
+mail_send_message(CamelFolder *queue, const char *uid, const char *destination, CamelFilterDriver *driver, CamelException *ex)
 {
 	EAccount *account = NULL;
 	const CamelInternetAddress *iaddr;
@@ -457,10 +456,14 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 	CamelFolder *folder = NULL;
 	GString *err = NULL;
 	XEvolution *xev;
+	CamelMimeMessage *message;
 	int i;
+
+	message = camel_folder_get_message(queue, uid, ex);
+	if (!message)
+		return;
 	
-	camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer",
-				 "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
+	camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer", "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
 	
 	xev = mail_tool_remove_xevolution_headers (message);
 	
@@ -529,12 +532,18 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 	}
 	
 	/* post-process */
+	err = g_string_new("");
 	info = camel_message_info_new(NULL);
 	camel_message_info_set_flags(info, CAMEL_MESSAGE_SEEN, ~0);
 	
 	if (sent_folder_uri) {
 		folder = mail_tool_uri_to_folder (sent_folder_uri, 0, ex);
-		camel_exception_clear (ex);
+		if (camel_exception_is_set(ex)) {
+			g_string_append_printf (err, _("Failed to append to %s: %s\n"
+						       "Appending to local `Sent' folder instead."),
+						sent_folder_uri, camel_exception_get_description (ex));
+			camel_exception_clear (ex);
+		}
 		g_free (sent_folder_uri);
 	}
 	
@@ -551,14 +560,12 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_USER_CANCEL)
 				goto exit;
 			
-			/* save this error */
-			err = g_string_new ("");
+			/* sending mail, filtering failed */
 			g_string_append_printf (err, _("Failed to apply outgoing filters: %s"),
 						camel_exception_get_description (ex));
 		}
 	}
 	
- retry_append:
 	camel_exception_clear (ex);
 	camel_folder_append_message (folder, message, info, NULL, ex);
 	if (camel_exception_is_set (ex)) {
@@ -569,42 +576,48 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 
 		sent_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);
 
-		if (err == NULL)
-			err = g_string_new ("");
-		else
-			g_string_append (err, "\n\n");
-		
 		if (folder != sent_folder) {
 			const char *name;
 			
 			camel_object_get (folder, NULL, CAMEL_OBJECT_DESCRIPTION, (char **) &name, 0);
+			if (err->len)
+				g_string_append(err, "\n\n");
 			g_string_append_printf (err, _("Failed to append to %s: %s\n"
 						"Appending to local `Sent' folder instead."),
 						name, camel_exception_get_description (ex));
 			camel_object_ref (sent_folder);
 			camel_object_unref (folder);
 			folder = sent_folder;
-			
-			goto retry_append;
-		} else {
+
+			camel_exception_clear (ex);
+			camel_folder_append_message (folder, message, info, NULL, ex);
+		}
+
+		if (camel_exception_is_set (ex)) {
+			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_USER_CANCEL)
+				goto exit;
+
+			if (err->len)
+				g_string_append(err, "\n\n");
 			g_string_append_printf (err, _("Failed to append to local `Sent' folder: %s"),
 						camel_exception_get_description (ex));
 		}
 	}
+
+	if (!camel_exception_is_set(ex))
+		camel_folder_set_message_flags (queue, uid, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, ~0);
 	
-	if (err != NULL) {
+	if (err->len) {
 		/* set the culmulative exception report */
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, err->str);
 	}
 		
- exit:
-	
+ exit:	
+	g_string_free (err, TRUE);
 	camel_folder_sync (folder, FALSE, NULL);
 	camel_message_info_free (info);
 	camel_object_unref (folder);
-	
-	if (err != NULL)
-		g_string_free (err, TRUE);
+	camel_object_unref(message);
 }
 
 /* ** SEND MAIL QUEUE ***************************************************** */
@@ -679,36 +692,32 @@ send_queue_send(struct _mail_msg *mm)
 		camel_operation_register (m->cancel);
 	
 	camel_exception_init (&ex);
-	
+
+	/* NB: This code somewhat abuses the 'exception' stuff.  Apart from fatal problems, it is also
+	   used as a mechanism to accumualte warning messages and present them back to the user. */
+
 	for (i = 0, j = 0; i < send_uids->len; i++) {
 		int pc = (100 * i) / send_uids->len;
-		CamelMimeMessage *message;
 		
 		report_status (m, CAMEL_FILTER_STATUS_START, pc, _("Sending message %d of %d"), i+1, send_uids->len);
 		
-		if (!(message = camel_folder_get_message (m->queue, send_uids->pdata[i], &ex))) {
-			/* I guess ignore errors where we can't get the message (should never happen anyway)? */
-			camel_exception_clear (&ex);
-			continue;
-		}
-		
-		mail_send_message (message, m->destination, m->driver, &ex);
-		if (!camel_exception_is_set (&ex)) {
-			camel_folder_set_message_flags (m->queue, send_uids->pdata[i], CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, ~0);
-		} else if (ex.id != CAMEL_EXCEPTION_USER_CANCEL) {
-			/* merge exceptions into one */
-			if (camel_exception_is_set (&mm->ex))
-				camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM, "%s\n\n%s", mm->ex.desc, ex.desc);
-			else
-				camel_exception_xfer (&mm->ex, &ex);
-			camel_exception_clear (&ex);
+		mail_send_message (m->queue, send_uids->pdata[i], m->destination, m->driver, &ex);
+		if (camel_exception_is_set (&ex)) {
+			if (ex.id != CAMEL_EXCEPTION_USER_CANCEL) {
+				/* merge exceptions into one */
+				if (camel_exception_is_set (&mm->ex))
+					camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM, "%s\n\n%s", mm->ex.desc, ex.desc);
+				else
+					camel_exception_xfer (&mm->ex, &ex);
+				camel_exception_clear (&ex);
 			
-			/* keep track of the number of failures */
-			j++;
-		} else {
-			/* transfer the USER_CANCEL exeption to the async op exception and then break */
-			camel_exception_xfer (&mm->ex, &ex);
-			break;
+				/* keep track of the number of failures */
+				j++;
+			} else {
+				/* transfer the USER_CANCEL exeption to the async op exception and then break */
+				camel_exception_xfer (&mm->ex, &ex);
+				break;
+			}
 		}
 	}
 	

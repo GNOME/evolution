@@ -1,3 +1,15 @@
+2005-02-08  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #72228
+
+	* mail-ops.c (mail_send_message): fix this god-awful goto-loop
+	crap, and delete the message if it worked.
+	(mail_send_message): fix a major-leak with sent messages never
+	being unreffed.
+	(send_queue_send): don't get messages ourself.
+	(mail_send_message): dont lose the exception if we
+	can't even open the sent folder.
+
 2005-02-07  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #72209
