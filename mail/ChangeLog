@@ -1,5 +1,16 @@
 2001-01-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-config-druid.c (incoming_type_changed): Gray out the
+	appropriate labels too.
+	(auth_type_changed): And here.
+	(transport_type_changed): Here too...
+
+	* mail-account-editor.c (source_check): Gray out the appropriate
+	labels too.
+	(transport_type_changed): And here too.
+
+2001-01-09  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* mail-account-editor.c: For all optionmenu's, set the appropriate
 	'history'.
 	(keep_mail_check): Set the keep-on-server checkbutton sensitivity

@@ -83,6 +83,7 @@ gchar *s = N_("This server requires a secure connection (SSL)");
 gchar *s = N_("Servers");
 gchar *s = N_("Miscellaneous");
 gchar *s = N_("Keep mail on server");
+gchar *s = N_("Path:");
 gchar *s = N_("Advanced");
 gchar *s = N_("Evolution Mail Configuration");
 gchar *s = N_("Account");

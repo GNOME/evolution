@@ -57,6 +57,7 @@ struct _MailAccountEditor {
 	GtkEntry *source_host;
 	GtkEntry *source_user;
 	GtkEntry *source_passwd;
+	GtkEntry *source_path;
 	GtkCheckButton *save_passwd;
 	GtkOptionMenu *source_auth;
 	GtkCheckButton *source_ssl;

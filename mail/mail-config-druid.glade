@@ -597,7 +597,7 @@ Click &quot;Next&quot; to begin. </text>
 
 		<widget>
 		  <class>GtkLabel</class>
-		  <name>source-host-label</name>
+		  <name>lblSourceHost</name>
 		  <label>Host:</label>
 		  <justify>GTK_JUSTIFY_RIGHT</justify>
 		  <wrap>False</wrap>
@@ -623,7 +623,7 @@ Click &quot;Next&quot; to begin. </text>
 
 		<widget>
 		  <class>GtkLabel</class>
-		  <name>source-username-label</name>
+		  <name>lblSourceUser</name>
 		  <label>Username:</label>
 		  <justify>GTK_JUSTIFY_RIGHT</justify>
 		  <wrap>False</wrap>
@@ -721,7 +721,7 @@ Click &quot;Next&quot; to begin. </text>
 
 		<widget>
 		  <class>GtkLabel</class>
-		  <name>source-path-label</name>
+		  <name>lblSourcePath</name>
 		  <label>Path:</label>
 		  <justify>GTK_JUSTIFY_RIGHT</justify>
 		  <wrap>False</wrap>
@@ -954,7 +954,7 @@ Click &quot;Next&quot; to begin. </text>
 
 		<widget>
 		  <class>GtkLabel</class>
-		  <name>authentication-password-label</name>
+		  <name>lblSourcePasswd</name>
 		  <label>Password:</label>
 		  <justify>GTK_JUSTIFY_RIGHT</justify>
 		  <wrap>False</wrap>
@@ -1166,7 +1166,7 @@ Click &quot;Next&quot; to begin. </text>
 
 		  <widget>
 		    <class>GtkLabel</class>
-		    <name>transport-host-label</name>
+		    <name>lblTransportHost</name>
 		    <label>Host:</label>
 		    <justify>GTK_JUSTIFY_RIGHT</justify>
 		    <wrap>False</wrap>
@@ -2166,7 +2166,7 @@ DIGEST-MD5
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>lblIncomingServer</name>
+	    <name>lblSourceHost</name>
 	    <label>Hostname:</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>False</wrap>
@@ -2192,7 +2192,7 @@ DIGEST-MD5
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>lblUsername</name>
+	    <name>lblSourceUser</name>
 	    <label>Username:</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>False</wrap>
@@ -2218,7 +2218,7 @@ DIGEST-MD5
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>lblPassword</name>
+	    <name>lblSourcePasswd</name>
 	    <label>Password:</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>False</wrap>
@@ -2244,7 +2244,7 @@ DIGEST-MD5
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>lblIncomingAuth</name>
+	    <name>lblSourceAuth</name>
 	    <label>Authentication:</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>False</wrap>
@@ -2455,7 +2455,7 @@ SMTP
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>lblOutgoingServer</name>
+	    <name>lblTransportHost</name>
 	    <label>Hostname:</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>False</wrap>
@@ -2481,7 +2481,7 @@ SMTP
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>lblOutgoingAuth</name>
+	    <name>lblTransportAuth</name>
 	    <label>Authentication:</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>False</wrap>
@@ -2554,7 +2554,7 @@ SMTP
 	<widget>
 	  <class>GtkTable</class>
 	  <name>tableServerTimeouts</name>
-	  <rows>2</rows>
+	  <rows>3</rows>
 	  <columns>10</columns>
 	  <homogeneous>True</homogeneous>
 	  <row_spacing>0</row_spacing>
@@ -2623,6 +2623,32 @@ SMTP
 	    <child>
 	      <left_attach>1</left_attach>
 	      <right_attach>10</right_attach>
+	      <top_attach>2</top_attach>
+	      <bottom_attach>3</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>False</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>lblSourcePath</name>
+	    <label>Path:</label>
+	    <justify>GTK_JUSTIFY_LEFT</justify>
+	    <wrap>False</wrap>
+	    <xalign>7.45058e-09</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>3</right_attach>
 	      <top_attach>1</top_attach>
 	      <bottom_attach>2</bottom_attach>
 	      <xpad>0</xpad>
@@ -2632,6 +2658,30 @@ SMTP
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
 	      <xfill>False</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkEntry</class>
+	    <name>txtSourcePath</name>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
+	    <child>
+	      <left_attach>3</left_attach>
+	      <right_attach>10</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>

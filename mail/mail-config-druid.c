@@ -367,40 +367,61 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 {
 	MailConfigDruid *druid = user_data;
 	CamelProvider *provider;
+	GtkWidget *label;
 	
 	provider = gtk_object_get_data (GTK_OBJECT (widget), "provider");
 	
 	druid->source_provider = provider;
 	
 	/* hostname */
-	if (provider->url_flags & CAMEL_URL_ALLOW_HOST)
+	label = glade_xml_get_widget (druid->gui, "lblSourceHost");
+	if (provider->url_flags & CAMEL_URL_ALLOW_HOST) {
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_hostname), TRUE);
-	else
+		gtk_widget_set_sensitive (label, TRUE);
+	} else {
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_hostname), FALSE);
+		gtk_widget_set_sensitive (label, FALSE);
+	}
 	
 	/* username */
-	if (provider->url_flags & CAMEL_URL_ALLOW_USER)
+	label = glade_xml_get_widget (druid->gui, "lblSourceUser");
+	if (provider->url_flags & CAMEL_URL_ALLOW_USER) {
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_username), TRUE);
-	else
+		gtk_widget_set_sensitive (label, TRUE);
+	} else {
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_username), FALSE);
+		gtk_widget_set_sensitive (label, FALSE);
+	}
 	
 	/* password */
-	if (provider->url_flags & CAMEL_URL_ALLOW_PASSWORD)
+	label = glade_xml_get_widget (druid->gui, "lblSourcePasswd");
+	if (provider->url_flags & CAMEL_URL_ALLOW_PASSWORD) {
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->password), TRUE);
-	else
+		gtk_widget_set_sensitive (label, TRUE);
+	} else {
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->password), FALSE);
+		gtk_widget_set_sensitive (label, FALSE);
+	}
 	
 	/* auth */
-	if (provider->url_flags & CAMEL_URL_ALLOW_AUTH)
+	label = glade_xml_get_widget (druid->gui, "lblSourceAuth");
+	if (provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->auth_type), TRUE);
-	else
+		gtk_widget_set_sensitive (label, TRUE);
+	} else {
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->auth_type), FALSE);
+		gtk_widget_set_sensitive (label, FALSE);
+	}
 	
 	/* path */
-	if (provider->url_flags & CAMEL_URL_ALLOW_PATH)
+	label = glade_xml_get_widget (druid->gui, "lblSourcePath");
+	if (provider->url_flags & CAMEL_URL_ALLOW_PATH) {
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_path), TRUE);
-	else
+		gtk_widget_set_sensitive (label, TRUE);
+	} else {
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_path), FALSE);
+		gtk_widget_set_sensitive (label, FALSE);
+	}
 	
 	/* keep mail on server */
 	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
@@ -455,6 +476,7 @@ auth_type_changed (GtkWidget *widget, gpointer user_data)
 {
 	MailConfigDruid *druid = user_data;
 	CamelServiceAuthType *authtype;
+	GtkWidget *label;
 	gboolean sensitive;
 	
 	authtype = gtk_object_get_data (GTK_OBJECT (widget), "authtype");
@@ -466,8 +488,10 @@ auth_type_changed (GtkWidget *widget, gpointer user_data)
 	else
 		sensitive = FALSE;
 	
+	label = glade_xml_get_widget (druid->gui, "lblSourcePasswd");
 	gtk_widget_set_sensitive (GTK_WIDGET (druid->password), sensitive);
 	gtk_widget_set_sensitive (GTK_WIDGET (druid->save_password), sensitive);
+	gtk_widget_set_sensitive (label, sensitive);
 	
 	authentication_check (druid);
 }
@@ -565,15 +589,20 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 {
 	MailConfigDruid *druid = user_data;
 	CamelProvider *provider;
+	GtkWidget *label;
 	
 	provider = gtk_object_get_data (GTK_OBJECT (widget), "provider");
 	druid->transport_provider = provider;
 	
 	/* hostname */
-	if (provider->url_flags & CAMEL_URL_ALLOW_HOST)
+	label = glade_xml_get_widget (druid->gui, "lblTransportHost");
+	if (provider->url_flags & CAMEL_URL_ALLOW_HOST) {
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->outgoing_hostname), TRUE);
-	else
+		gtk_widget_set_sensitive (label, TRUE);
+	} else {
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->outgoing_hostname), FALSE);
+		gtk_widget_set_sensitive (label, FALSE);
+	}
 	
 	/* auth */
 	if (provider->url_flags & CAMEL_URL_ALLOW_AUTH)
