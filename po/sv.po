@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.183.2.9 2003/08/23 10:51:55 menthos Exp $
+# $Id: sv.po,v 1.183.2.10 2003/08/27 22:25:59 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-08-23 12:48+0200\n"
-"PO-Revision-Date: 2003-08-23 12:50+0200\n"
+"POT-Creation-Date: 2003-08-28 00:22+0200\n"
+"PO-Revision-Date: 2003-08-28 00:25+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -27091,8 +27091,8 @@ msgid "Reset the text to its original size"
 msgstr "Återställ texten till dess originalstorlek"
 
 #: ui/evolution-mail-message.xml.h:77
-msgid "S_earch Message..."
-msgstr "_Sök meddelande..."
+msgid "S_earch in Message..."
+msgstr "_Sök i meddelande..."
 
 #: ui/evolution-mail-message.xml.h:78
 msgid "S_maller"
@@ -28018,6 +28018,9 @@ msgstr "Evolutions kalenderbakände för lokal fil"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Evolutions adressboksbakände för lokal fil"
+
+#~ msgid "S_earch Message..."
+#~ msgstr "_Sök meddelande..."
 
 #~ msgid "However, the message was successfully sent."
 #~ msgstr "Meddelandet skickades dock utan problem."
