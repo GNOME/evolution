@@ -1,3 +1,11 @@
+2000-04-27  NotZed  <NotZed@HelixCode.com>
+
+	* tests/test10.c: Fix for removal of camelmimebodypart, and changes
+	to recipient stuff.
+
+	* tests/test1.c: Fix for removal of camelmimebodypart, and changes
+	to recipient stuff.
+
 2000-04-27  Christopher James Lahey  <clahey@helixcode.com>
 
 	* configure.in: Added addressbook/ename/Makefile.

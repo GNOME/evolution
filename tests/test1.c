@@ -3,7 +3,6 @@
 #include <stdio.h>
 
 #include "camel-mime-message.h"
-#include "camel-mime-body-part.h"
 #include "camel-multipart.h"
 #include "camel-stream.h"
 #include "camel-stream-fs.h"
@@ -15,8 +14,8 @@ main (int argc, char**argv)
 {
 	CamelMimeMessage *message;
 	CamelMultipart *multipart;
-	CamelMimeBodyPart *body_part;
-	CamelMimeBodyPart *attachment_part;
+	CamelMimePart *body_part;
+	CamelMimePart *attachment_part;
 	CamelStream *attachment_stream;
 	
 	/*  FILE *output_file; */
@@ -56,21 +55,22 @@ main (int argc, char**argv)
 	camel_mime_message_set_from (message, g_strdup ("Bertrand.Guiheneuf@aful.org"));
 
 	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_TO, 
-					  g_strdup ("franck.dechamps@alseve.fr"));
+					  "Franck DeChamps", "franck.dechamps@alseve.fr");
 	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_TO, 
-					  g_strdup ("mc@alseve.fr"));
+					  NULL, "mc@alseve.fr");
 	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_TO, 
-					  g_strdup ("richard.lengagne@inria.fr"));
+					  "Richo", "richard.lengagne@inria.fr");
 	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_CC, 
-					  g_strdup ("Francois.fleuret@inria.fr"));
+					  "Frank", "Francois.fleuret@inria.fr");
 	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_CC, 
-					  g_strdup ("maury@justmagic.com"));
+					  NULL, "maury@justmagic.com");
  	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_BCC, 
-					  g_strdup ("Bertrand.Guiheneuf@aful.org"));
+					  "Bertie", "Bertrand.Guiheneuf@aful.org");
 
 	multipart = camel_multipart_new ();
-	body_part = camel_mime_body_part_new ();
-	camel_mime_part_set_text (CAMEL_MIME_PART (body_part), "This is a test.\nThis is only a test.\n");
+	body_part = camel_mime_part_new ();
+	camel_mime_part_set_content (CAMEL_MIME_PART (body_part), "This is a test.\nThis is only a test.\n",
+				     strlen("This is a test.\nThis is only a test.\n"), "text/plain");
 	camel_multipart_add_part (multipart, body_part);
 
 	if (attachment_stream == NULL) {
@@ -96,15 +96,12 @@ main (int argc, char**argv)
 		camel_data_wrapper_construct_from_stream (attachment_wrapper, 
 							  attachment_stream);
 		
-		attachment_part = camel_mime_body_part_new ();
+		attachment_part = camel_mime_part_new ();
 		camel_mime_part_set_encoding (CAMEL_MIME_PART (attachment_part),
 					      CAMEL_MIME_PART_ENCODING_BASE64);
 		camel_medium_set_content_object (CAMEL_MEDIUM (attachment_part),
 						 attachment_wrapper);
 		camel_multipart_add_part (multipart, attachment_part);
-
-		
-
 	}
 	
 	camel_medium_set_content_object (CAMEL_MEDIUM (message), CAMEL_DATA_WRAPPER (multipart));

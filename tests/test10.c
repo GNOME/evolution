@@ -18,7 +18,7 @@ static CamelMimeMessage *
 create_sample_mime_message ()
 {
 	CamelMimeMessage *message;
-	CamelMimeBodyPart *body_part;
+	CamelMimePart *body_part;
 	CamelMultipart *multipart;
 
 
@@ -30,26 +30,27 @@ create_sample_mime_message ()
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-test2", "the value of another test");
 
 	camel_mime_message_set_date (message, time(0), 200);
-	camel_mime_message_set_subject (message, g_strdup ("A test message"));
-	camel_mime_message_set_reply_to (message, g_strdup ("toto@toto.com"));
-	camel_mime_message_set_from (message, g_strdup ("Bertrand.Guiheneuf@aful.org"));
+	camel_mime_message_set_subject (message, "A test message");
+	camel_mime_message_set_reply_to (message, "toto@toto.com");
+	camel_mime_message_set_from (message, "Bertrand.Guiheneuf@aful.org");
 
 	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_TO, 
-					  g_strdup ("franck.dechamps@alseve.fr"));
+					  "Franck DeChamps", "franck.dechamps@alseve.fr");
 	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_TO, 
-					  g_strdup ("mc@alseve.fr"));
+					  NULL, "mc@alseve.fr");
 	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_TO, 
-					  g_strdup ("richard.lengagne@inria.fr"));
+					  "Richo", "richard.lengagne@inria.fr");
 	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_CC, 
-					  g_strdup ("Francois.fleuret@inria.fr"));
+					  "Frank", "Francois.fleuret@inria.fr");
 	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_CC, 
-					  g_strdup ("maury@justmagic.com"));
+					  NULL, "maury@justmagic.com");
  	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_BCC, 
-					  g_strdup ("Bertrand.Guiheneuf@aful.org"));
+					  "Bertie", "Bertrand.Guiheneuf@aful.org");
 
 	multipart = camel_multipart_new ();
-	body_part = camel_mime_body_part_new ();
-	camel_mime_part_set_text (CAMEL_MIME_PART (body_part), "This is a test.\nThis is only a test.\n");
+	body_part = camel_mime_part_new ();
+	camel_mime_part_set_content (CAMEL_MIME_PART (body_part), "This is a test.\nThis is only a test.\n",
+				     strlen("This is a test.\nThis is only a test.\n"), "text/plain");
 	camel_multipart_add_part (multipart, body_part);
 	camel_medium_set_content_object (CAMEL_MEDIUM (message), CAMEL_DATA_WRAPPER (multipart));
 	
