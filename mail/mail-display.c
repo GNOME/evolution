@@ -262,6 +262,8 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 		return FALSE;
 
 	embedded = bonobo_widget_new_subdoc (component->iid, NULL);
+	if (!embedded)
+		embedded = bonobo_widget_new_control (component->iid, NULL);
 	CORBA_free (component);
 	if (!embedded)
 		return FALSE;
