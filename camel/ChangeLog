@@ -1,5 +1,9 @@
 2002-07-26  Peter Williams  <peterw@ximian.com>
 
+	* providers/imap/camel-imap-summary.c
+	(camel_imap_summary_add_offline_uncached): The flags'n'tags
+	copy was unnecessary. Removed it.
+
 	* Revert Jeff's previous change, it broke local
 	folders. Uninitialized exceptions or something.
 	

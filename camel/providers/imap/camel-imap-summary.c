@@ -249,10 +249,6 @@ camel_imap_summary_add_offline_uncached (CamelFolderSummary *summary, const char
 	((CamelImapMessageInfo *)mi)->server_flags = 
 		((CamelImapMessageInfo *)info)->server_flags;
 
-	/* Copy flags 'n' tags */
-	camel_flag_list_copy (&(mi->user_flags), &(info->user_flags));
-	camel_tag_list_copy (&(mi->user_tags), &(info->user_tags));
-
 	/* Set uid and add to summary */
 	camel_message_info_set_uid (mi, g_strdup (uid));
 	camel_folder_summary_add (summary, mi);
