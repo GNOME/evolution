@@ -1,5 +1,13 @@
 2004-12-06  Rodrigo Moya <rodrigo@novell.com>
 
+	Fixes #68077
+
+	* gui/dialogs/event-page.glade:
+	* gui/dialogs/task-page.glade: expand the horizontal box so that it
+	fills all available space.
+
+2004-12-06  Rodrigo Moya <rodrigo@novell.com>
+
 	Fixes #67403
 
 	* gui/dialogs/event-page.c (sensitize_widgets): don't unsensitize
