@@ -288,7 +288,7 @@ static char *states[] = {
 	"HSCAN_HEADER",		/* toplevel header */
 	"HSCAN_BODY",		/* scanning body of message */
 	"HSCAN_MULTIPART",	/* got multipart header */
-	"HSCAN_MESSAGE",		/* rfc822 message */
+	"HSCAN_MESSAGE",	/* rfc822/news message */
 
 	"HSCAN_PART",		/* part of a multipart */
 	"<invalid>",
@@ -1557,6 +1557,7 @@ tail_recurse:
 				}
 			} else if (!strcasecmp(ct->type, "message")) {
 				if (!strcasecmp(ct->subtype, "rfc822")
+				    || !strcasecmp(ct->subtype, "news")
 				    /*|| !strcasecmp(ct->subtype, "partial")*/) {
 					type = HSCAN_MESSAGE;
 				}

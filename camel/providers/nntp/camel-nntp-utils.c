@@ -69,9 +69,14 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 				new_info->headers.date_received = g_strdup(split_line[3]);
 #endif
 				new_info->size = atoi(split_line[5]);
-				new_info->uid = g_strdup(split_line[4]);
+				new_info->uid = g_strdup_printf ("%s,%s", split_line[0], split_line[4]);
 				new_info->message_id = g_strdup(split_line[4]);
 				g_strfreev (split_line);
+
+				if (camel_nntp_newsrc_article_is_read (nntp_store->newsrc,
+								       nntp_folder->group_name,
+								       atoi (split_line[0])))
+				    new_info->flags |= CAMEL_MESSAGE_SEEN;
 
 				camel_folder_summary_add (nntp_folder->summary, new_info);
 			}
@@ -153,7 +158,7 @@ get_HEAD_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 				else if (!g_strcasecmp(header->name, "Subject"))
 					new_info->subject = g_strdup(header->value);
 				else if (!g_strcasecmp(header->name, "Message-ID")) {
-					new_info->uid = g_strdup(header->value);
+					new_info->uid = g_strdup_printf("%d,%s", i, header->value);
 					new_info->message_id = g_strdup(header->value);
 				}
 				else if (!g_strcasecmp(header->name, "Date")) {

@@ -126,27 +126,13 @@ static void
 nntp_folder_sync (CamelFolder *folder, gboolean expunge, 
 		  CamelException *ex)
 {
+	CamelNNTPStore *store;
+
 	camel_folder_summary_save (CAMEL_NNTP_FOLDER(folder)->summary);
 
-	/* XXX
-
-	   loop through the messages in the summary and store out the .newsrc,
-	   using something similar to this bit snipped from _set_message_flags:
-
-
-	if (set & CAMEL_MESSAGE_SEEN) {
-		CamelNNTPStore *store;
-		CamelException *ex;
-		
-		ex = camel_exception_new ();
-		store = CAMEL_NNTP_STORE (camel_folder_get_parent_store (folder, ex));
-		camel_exception_free (ex);
-		
-		camel_nntp_newsrc_mark_article_read (store->newsrc,
-						     nntp_folder->group_name,
-						     XXX);
- 	}
-	*/
+	store = CAMEL_NNTP_STORE (camel_folder_get_parent_store (folder, ex));
+	if (!camel_exception_is_set (ex))
+		camel_nntp_newsrc_write (store->newsrc);
 }
 
 static const gchar *
@@ -202,6 +188,20 @@ nntp_folder_set_message_flags (CamelFolder *folder, const char *uid,
 
 	info->flags = set;
 
+	if (set & CAMEL_MESSAGE_SEEN) {
+		CamelNNTPStore *store;
+		int article_num;
+		CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (camel_folder_get_parent_store (folder, ex));
+
+		if (!camel_exception_is_set (ex)) {
+			sscanf (uid, "%d", &article_num);
+
+			camel_nntp_newsrc_mark_article_read (nntp_store->newsrc,
+							     nntp_folder->group_name,
+							     article_num);
+		}
+ 	}
+
 	camel_folder_summary_touch (nntp_folder->summary);
 }
 
@@ -226,6 +226,7 @@ nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *
 	int buf_alloc;
 	int status;
 	gboolean done;
+	char *message_id;
 
 	/* get the parent store */
 	parent_store = camel_folder_get_parent_store (folder, ex);
@@ -233,16 +234,17 @@ nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *
 		return NULL;
 	}
 
-	status = camel_nntp_command (CAMEL_NNTP_STORE( parent_store ), NULL, "ARTICLE %s", uid);
+	message_id = strchr (uid, ',') + 1;
+	status = camel_nntp_command (CAMEL_NNTP_STORE( parent_store ), NULL, "ARTICLE %s", message_id);
 
 	nntp_istream = CAMEL_NNTP_STORE (parent_store)->istream;
 
-	/* if the uid was not found, raise an exception and return */
+	/* if the message_id was not found, raise an exception and return */
 	if (status != CAMEL_NNTP_OK) {
 		camel_exception_setv (ex, 
 				     CAMEL_EXCEPTION_FOLDER_INVALID_UID,
 				     "message %s not found.",
-				      uid);
+				      message_id);
 		return NULL;
 	}
 
@@ -288,7 +290,7 @@ nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *
 		gtk_object_unref (GTK_OBJECT (message_stream));
 		camel_exception_setv (ex,
 				      CAMEL_EXCEPTION_FOLDER_INVALID_UID, /* XXX */
-				      "Could not create message for uid %s.", uid);
+				      "Could not create message for message_id %s.", message_id);
 
 		return NULL;
 	}
@@ -317,17 +319,16 @@ nntp_folder_get_uids (CamelFolder *folder,
 		      CamelException *ex)
 {
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
-	GPtrArray *infoarray, *out;
+	GPtrArray *out;
 	CamelMessageInfo *message_info;
 	int i;
-
-	infoarray = nntp_folder->summary->messages;
+	int count = camel_folder_summary_count (nntp_folder->summary);
 
 	out = g_ptr_array_new ();
-	g_ptr_array_set_size (out, infoarray->len);
+	g_ptr_array_set_size (out, count);
 	
-	for (i=0; i<infoarray->len; i++) {
-		message_info = (CamelMessageInfo *) g_ptr_array_index (infoarray, i);
+	for (i = 0; i < count; i++) {
+		message_info = camel_folder_summary_index (nntp_folder->summary, i);
 		out->pdata[i] = g_strdup (message_info->uid);
 	}
 	
@@ -378,16 +379,8 @@ static const CamelMessageInfo*
 nntp_folder_get_message_info (CamelFolder *folder, const char *uid)
 {
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
-	CamelMessageInfo *info = NULL;
-	int i;
 
-	for (i = 0; i < nntp_folder->summary->messages->len; i++) {
-		info = g_ptr_array_index (nntp_folder->summary->messages, i);
-		if (!strcmp (info->uid, uid))
-			return info;
-	}
-
-	return NULL;
+	return camel_folder_summary_uid (nntp_folder->summary, uid);
 }
 
 static void           

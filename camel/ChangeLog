@@ -1,3 +1,19 @@
+2000-07-12  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/camel-nntp-folder.c
+	(nntp_folder_set_message_flags): get the article num out of our
+	uid and mark it read in the newsrc.
+	(nntp_folder_get_message): get the message id out of the uid to
+	fetch the article.
+
+	* providers/nntp/camel-nntp-utils.c (get_XOVER_headers): the uid
+	is now <article-num>,<messageid>
+	(get_HEAD_headers): same.
+
+	* camel-mime-parser.c (folder_scan_step): go to HSCAN_MESSAGE
+	state when ct->subtype is "news" as well as "rfc822".  this makes
+	attachments of type "message/news" display properly.
+
 2000-07-12  Dan Winship  <danw@helixcode.com>
 
 	* camel-folder.c (camel_folder_free_deep,
