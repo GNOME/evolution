@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* e-html-utils.c
- * Copyright (C) 2000  Ximian, Inc.
+ * Copyright (C) 2000-2003 Ximian, Inc.
  * Author: Dan Winship <danw@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -38,41 +38,56 @@ check_size (char **buffer, int *buffer_size, char *out, int len)
 	return out;
 }
 
-/* 1 = non-email-address chars: ()<>@,;:\"[]`'{}| */
-/* 2 = trailing url garbage:    ,.!?;:>)]}`'-_|   */
-/* 4 = dns chars                                  */
+/* auto-urlification hints: the goal is not to be strictly RFC-compliant,
+ * but rather to accurately distinguish urls/addresses from non-urls/
+ * addresses in real-world email.
+ *
+ * 1 = non-email-address chars: ()<>@,;:\"[]`'{}|
+ * 2 = trailing url garbage:    ,.!?;:>)]}`'-_
+ * 4 = allowed dns chars
+ * 8 = non-url chars:           "|
+ */
 static int special_chars[] = {
-	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,    /*  nul - 0x0f */
-	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,    /* 0x10 - 0x1f */
-	1, 2, 1, 0, 0, 0, 0, 3, 1, 3, 0, 0, 3, 6, 6, 0,    /*   sp - /    */
+	9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,    /*  nul - 0x0f */
+	9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,    /* 0x10 - 0x1f */
+	9, 2, 9, 0, 0, 0, 0, 3, 1, 3, 0, 0, 3, 6, 6, 0,    /*   sp - /    */
 	4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 1, 0, 3, 2,    /*    0 - ?    */
 	1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,    /*    @ - O    */
 	4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 3, 0, 2,    /*    P - _    */
 	3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,    /*    ` - o    */
-	4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 3, 3, 0, 3     /*    p - del  */
+	4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 9, 3, 0, 3     /*    p - del  */
 };
 
 #define is_addr_char(c) (c < 128 && !(special_chars[c] & 1))
+#define is_url_char(c) (c < 128 && !(special_chars[c] & 8))
 #define is_trailing_garbage(c) (c > 127 || (special_chars[c] & 2))
 #define is_domain_name_char(c) (c < 128 && (special_chars[c] & 4))
 
 static char *
-url_extract (const unsigned char **text, gboolean check)
+url_extract (const unsigned char **text, gboolean full_url)
 {
 	const unsigned char *end = *text, *p;
 	char *out;
 
-	while (*end && !isspace (*end) && (*end != '"') && (*end < 0x80))
+	while (*end && is_url_char (*end))
 		end++;
 
 	/* Back up if we probably went too far. */
 	while (end > *text && is_trailing_garbage (*(end - 1)))
 		end--;
 
-	if (check) {
-		/* Make sure we weren't fooled. */
+	if (full_url) {
+		/* Make sure this really looks like a URL. */
 		p = memchr (*text, ':', end - *text);
 		if (!p || end - p < 4)
+			return NULL;
+	} else {
+		/* Make sure this really looks like a hostname. */
+		p = memchr (*text, '.', end - *text);
+		if (!p || p >= end - 2)
+			return NULL;
+		p = memchr (p + 2, '.', end - (p + 2));
+		if (!p || p >= end - 2)
 			return NULL;
 	}
 
@@ -256,12 +271,13 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 					dispurl = g_strdup (refurl);
 				}
 			} else if (!strncasecmp (cur, "www.", 4) &&
-				   (*(cur + 4) < 0x80) &&
-				   g_unichar_isalnum (*(cur + 4))) {
+				   is_url_char (*(cur + 4))) {
 				tmpurl = url_extract (&cur, FALSE);
-				dispurl = e_text_to_html (tmpurl, 0);
-				refurl = g_strdup_printf ("http://%s",
-							  dispurl);
+				if (tmpurl) {
+					dispurl = e_text_to_html (tmpurl, 0);
+					refurl = g_strdup_printf ("http://%s",
+								  dispurl);
+				}
 			}
 
 			if (tmpurl) {
@@ -406,3 +422,90 @@ e_text_to_html (const char *input, unsigned int flags)
 {
 	return e_text_to_html_full (input, flags, 0);
 }
+
+
+#ifdef E_HTML_UTILS_TEST
+
+struct {
+	char *text, *url;
+} url_tests[] = {
+	{ "bob@foo.com", "mailto:bob@foo.com" },
+	{ "Ends with bob@foo.com", "mailto:bob@foo.com" },
+	{ "bob@foo.com at start", "mailto:bob@foo.com" },
+	{ "bob@foo.com.", "mailto:bob@foo.com" },
+	{ "\"bob@foo.com\"", "mailto:bob@foo.com" },
+	{ "<bob@foo.com>", "mailto:bob@foo.com" },
+	{ "(bob@foo.com)", "mailto:bob@foo.com" },
+	{ "bob@foo.com, 555-9999", "mailto:bob@foo.com" },
+	{ "|bob@foo.com|555-9999|", "mailto:bob@foo.com" },
+	{ "bob@ no match bob@", NULL },
+	{ "@foo.com no match @foo.com", NULL },
+	{ "\"bob\"@foo.com", NULL },
+	{ "M@ke money fast!", NULL },
+	{ "ASCII art @_@ @>->-", NULL },
+
+	{ "http://www.foo.com", "http://www.foo.com" },
+	{ "Ends with http://www.foo.com", "http://www.foo.com" },
+	{ "http://www.foo.com at start", "http://www.foo.com" },
+	{ "http://www.foo.com.", "http://www.foo.com" },
+	{ "<http://www.foo.com>", "http://www.foo.com" },
+	{ "(http://www.foo.com)", "http://www.foo.com" },
+	{ "http://www.foo.com, 555-9999", "http://www.foo.com" },
+	{ "|http://www.foo.com|555-9999|", "http://www.foo.com" },
+	{ "foo http://www.foo.com/ bar", "http://www.foo.com/" },
+	{ "foo http://www.foo.com/index.html bar", "http://www.foo.com/index.html" },
+	{ "foo http://www.foo.com/q?99 bar", "http://www.foo.com/q?99" },
+	{ "foo http://www.foo.com/;foo=bar&baz=quux bar", "http://www.foo.com/;foo=bar&baz=quux" },
+	{ "foo http://www.foo.com/index.html#anchor bar", "http://www.foo.com/index.html#anchor" },
+	{ "http://www.foo.com/index.html; foo", "http://www.foo.com/index.html" },
+	{ "http://www.foo.com/index.html: foo", "http://www.foo.com/index.html" },
+	{ "http://www.foo.com/index.html-- foo", "http://www.foo.com/index.html" },
+	{ "http://www.foo.com/index.html?", "http://www.foo.com/index.html" },
+	{ "http://www.foo.com/index.html!", "http://www.foo.com/index.html" },
+	{ "\"http://www.foo.com/index.html\"", "http://www.foo.com/index.html" },
+	{ "'http://www.foo.com/index.html'", "http://www.foo.com/index.html" },
+	{ "http no match http", NULL },
+	{ "http: no match http:", NULL },
+	{ "http:// no match http://", NULL },
+
+	{ "src/www.c", NULL },
+
+};
+int num_url_tests = G_N_ELEMENTS (url_tests);
+
+int
+main (int argc, char **argv)
+{
+	int i, errors = 0;
+	char *html, *url, *p;
+
+	for (i = 0; i < num_url_tests; i++) {
+		html = e_text_to_html (url_tests[i].text, E_TEXT_TO_HTML_CONVERT_URLS | E_TEXT_TO_HTML_CONVERT_ADDRESSES);
+
+		url = strstr (html, "href=\"");
+		if (url) {
+			url += 6;
+			p = strchr (url, '"');
+			if (p)
+				*p = '\0';
+
+			while ((p = strstr (url, "&amp;")))
+				memmove (p + 1, p + 5, strlen (p + 5) + 1);
+		}
+
+		if ((url && (!url_tests[i].url || strcmp (url, url_tests[i].url) != 0)) ||
+		    (!url && url_tests[i].url)) {
+			printf ("FAILED on \"%s\" -> %s\n  (got %s)\n\n",
+				url_tests[i].text,
+				url_tests[i].url ? url_tests[i].url : "(nothing)",
+				url ? url : "(nothing)");
+			errors++;
+		}
+
+		g_free (html);
+	}
+
+	printf ("\n%d errors\n", errors);
+	return errors;
+}
+#endif

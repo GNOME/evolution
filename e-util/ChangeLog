@@ -1,3 +1,13 @@
+2003-08-05  Dan Winship  <danw@ximian.com>
+
+	* e-html-utils.c (special_chars): add a flag for non-url chars
+	(controls, whitespace, ", and |)
+	(url_extract): Use that. When urlifying just a hostname, make sure
+	it really is a hostname, and not just something like "www.c".
+	(e_text_to_html_full): Deal with url_extract returning NULL in the
+	"www." case
+	(main): add a regression test, #ifdef E_HTML_UTILS_TEST
+
 2003-07-24  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-config-listener.c (add_key): just preload one level of GConf keys,
