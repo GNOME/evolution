@@ -900,26 +900,34 @@ camel_imap4_engine_parse_resp_code (CamelIMAP4Engine *engine, CamelException *ex
 		if (camel_imap4_engine_next_token (engine, &token, ex) == -1)
 			return -1;
 		
-		if (token.token != CAMEL_IMAP4_TOKEN_ATOM) {
-			d(fprintf (stderr, "Expected an atom token as the second argument to the COPYUID RESP-CODE\n"));
+		if (token.token != CAMEL_IMAP4_TOKEN_ATOM && token.token != CAMEL_IMAP4_TOKEN_NUMBER) {
+			d(fprintf (stderr, "Expected an atom or numeric token as the second argument to the COPYUID RESP-CODE\n"));
 			camel_imap4_utils_set_unexpected_token_error (ex, engine, &token);
 			goto exception;
 		}
 		
-		if (resp != NULL)
-			resp->v.copyuid.srcset = g_strdup (token.v.atom);
+		if (resp != NULL) {
+			if (token.token == CAMEL_IMAP4_TOKEN_NUMBER)
+				resp->v.copyuid.srcset = g_strdup_printf ("%u", token.v.number);
+			else
+				resp->v.copyuid.srcset = g_strdup (token.v.atom);
+		}
 		
 		if (camel_imap4_engine_next_token (engine, &token, ex) == -1)
 			return -1;
 		
-		if (token.token != CAMEL_IMAP4_TOKEN_ATOM) {
-			d(fprintf (stderr, "Expected an atom token as the third argument to the APPENDUID RESP-CODE\n"));
+		if (token.token != CAMEL_IMAP4_TOKEN_ATOM && token.token != CAMEL_IMAP4_TOKEN_NUMBER) {
+			d(fprintf (stderr, "Expected an atom or numeric token as the third argument to the APPENDUID RESP-CODE\n"));
 			camel_imap4_utils_set_unexpected_token_error (ex, engine, &token);
 			goto exception;
 		}
 		
-		if (resp != NULL)
-			resp->v.copyuid.destset = g_strdup (token.v.atom);
+		if (resp != NULL) {
+			if (token.token == CAMEL_IMAP4_TOKEN_NUMBER)
+				resp->v.copyuid.destset = g_strdup_printf ("%u", token.v.number);
+			else
+				resp->v.copyuid.destset = g_strdup (token.v.atom);
+		}
 		
 		break;
 	default:

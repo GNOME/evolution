@@ -1,3 +1,9 @@
+2004-11-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap4/camel-imap4-engine.c
+	(camel_imap4_engine_parse_resp_code): Handle numeric tokens for
+	the COPYUID set values as well.
+
 2004-11-12  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-summary.c (camel_imap4_summary_new):
