@@ -1,5 +1,14 @@
 2001-06-21  Kevin Breit  <battery841@mediaone.net>
 
+	* C/usage-mail.sgml: Redid graphics to add labels to them and described 
+	in labels in text.  Looks good!
+
+2001-06-21    <kbreit@192.168.10-122.masq>
+
+	* C/usage-mail.sgml: 
+
+2001-06-21  Kevin Breit  <battery841@mediaone.net>
+
 	* C/encryption.sgml: Added file
 
 2001-06-20  Kevin Breit  <battery841@mediaone.net>

@@ -51,6 +51,7 @@
     </para>
   </abstract>
 
+
   <sect1 id="usage-mail-getnsend">
     <title>Reading, Getting and Sending Mail</title>
 
@@ -88,34 +89,112 @@
 	  <title>Evolution Mail</title>
 	  <screenshot>
 	    <screeninfo>Inbox</screeninfo>
-	    <graphic fileref="fig/mail-pic" format="png" srccredit="Aaron Weber">
+	    <graphic fileref="fig/mainwindow-pic" format="png" srccredit="Kevin Breit">
 	</graphic>
 	</screenshot>
       </figure>
 <!-- ==============End of Figure============================== -->
 
       <para>
-         Most of the mail-related actions you'll want to perform are
-         listed in the <guimenu>Message</guimenu> menu in the menu
-         bar.  The most frequently used ones, like
-         <guimenuitem>Reply</guimenuitem> and
-         <guimenuitem>Forward</guimenuitem>, also appear as buttons in
-         the toolbar, and almost all of them are duplicated in the
-         right-click menu and as keyboard shortcuts, which tend to be
-         faster once you get the hang of them.  You can choose
-         whichever way you like best; the idea is that the software
-         should work the way you want, rather than making you work the
-         way the it does.
-	 <tip id="view-headers">
-	 <title>Take a look at the headers</title>
-	 <para>
-	 To look at the entire source of your email message, including
-	 all the header information, select
-	 <menuchoice><guimenu>View</guimenu><guimenuitem>Source</guimenuitem></menuchoice>
-	 </para>
-	 </tip>
-       </para>
+	<inlinegraphic fileref="fig/full-1"></inlinegraphic>
+	<guimenu>Menu Bar</guimenu>
+      </para>
 
+      <para>
+	The menu items give you access to most of the functions available to you
+	including writing new email, editing your filters, and changing how
+	Evolution looks.
+      </para>
+
+      <para>
+	<inlinegraphic fileref="fig/full-2"></inlinegraphic>
+	<guilabel>Toolbar</guilabel>
+      </para>
+
+      <para>
+	The <guilabel>Toolbar</guilabel> gives you access to the most used
+	functions in <application>Evolution</application>.  You can control
+	whether the toolbar has icons, text, or both.
+      </para>
+
+      <para>
+	<inlinegraphic fileref="fig/full-3"></inlinegraphic>
+	<guilabel>Shortcut Bar</guilabel>
+      </para>
+
+      <para>
+	The <guilabel>Shortcut Bar</guilabel> gives you quick and easy access to
+	the many components of <application>Evolution</application>.  You can
+	also set it up as a 'Favorites' bar, and have it store all your favorite
+	folders, so you can access them quickly.
+      </para>
+
+      <para>
+	<inlinegraphic fileref="fig/full-4"></inlinegraphic>
+	<guilabel>Status Bar</guilabel>
+      </para>
+
+      <para>
+	Periodically, <application>Evolution</application> will need to quietly
+	display a message, or tell you the progress of something.  This most
+	often happens when you're checking or sending email.  These progress
+	queues are shown here, in the <guilabel>Status Bar</guilabel>.  
+	<!-- This sucks, rewrite this paragraph! -->
+      </para>
+      
+      <para>
+	<inlinegraphic fileref="fig/full-5"></inlinegraphic>
+	<guilabel>Email Viewer</guilabel>
+      </para>
+      
+      <para>
+	This is where your email is displayed.
+      </para>
+
+      <para>
+	<inlinegraphic fileref="fig/full-6"></inlinegraphic>
+	<guilabel>Email List</guilabel>
+      </para>
+      
+      <para>
+	The <guilabel>Email List</guilabel> lists off all the emails that you
+	have.  This includes all your read, unread, and email that is flagged to
+	be deleted.
+      </para>
+      
+      <para>
+	<inlinegraphic fileref="fig/full-7"></inlinegraphic>
+	<guilabel>Search Bar</guilabel>
+      </para>
+      
+      <para>
+	The <guilabel>Search Bar</guilabel> lets you search through your email
+	with precision so you can easily find what you're looking for.
+	<!-- End Marketing Sounding Stuff Here -->
+      </para>
+      
+      <para>
+	Most of the mail-related actions you'll want to perform are
+	listed in the <guimenu>Message</guimenu> menu in the menu
+	bar.  The most frequently used ones, like
+	<guimenuitem>Reply</guimenuitem> and
+	<guimenuitem>Forward</guimenuitem>, also appear as buttons in
+         the toolbar, and almost all of them are duplicated in the
+	right-click menu and as keyboard shortcuts, which tend to be
+	faster once you get the hang of them.  You can choose
+	whichever way you like best; the idea is that the software
+	should work the way you want, rather than making you work the
+	way the it does.
+	 <tip id="view-headers">
+	  <title>Take a look at the headers</title>
+	  <para>
+	    To look at the entire source of your email message, including
+	    all the header information, select
+	    <menuchoice><guimenu>View</guimenu><guimenuitem>Source</guimenuitem></menuchoice>
+	  </para>
+	</tip>
+      </para>
+      
       <sect3 id="usage-mail-listorder">
 	<title>Sorting the message list</title>
 	<para>
