@@ -300,7 +300,15 @@
        </para>
     </sect2>
   </sect1>
-  <sect1 id="menuref-cal">
+
+  <sect1 id="menuref-mail-editor">
+    <title>The Message Composer Menus</title>
+    <para>
+      Kevin might do this section.
+    </para>
+  </sect1>
+  
+<sect1 id="menuref-cal">
     <title>The Calendar Menus</title>
     <para>
       The Main window of the calendar has the same menus as the main
@@ -403,6 +411,15 @@
       </para>
     </sect2>
   </sect1>
+
+  <sect1 id="menuref-cal-editor">
+    <title>The Appointment Editor Menus</title>
+    <para>
+      Kevin might do this section.
+    </para>
+  </sect1>
+  
+
   <sect1>
     <title>Contact Manager Menus</title>
     <para>
@@ -468,6 +485,15 @@
       </para>
     </sect2>
   </sect1>
+
+  <sect1 id="menuref-contact-editor">
+    <title>The Contact Editor Menus</title>
+    <para>
+      Kevin might do this section.
+    </para>
+  </sect1>
+  
+
 </appendix>
 
 
