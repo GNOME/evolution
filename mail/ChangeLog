@@ -6,6 +6,8 @@
 	is rewriting CamelMboxFolder, so I'm not going to bother to try to
 	fix it.
 
+	* mail-ops.c: Add some #includes for the non-HAVE_MKSTEMP case
+
 2000-04-09  Matt Loper  <matt@helixcode.com>
 
 	* folder-browser.c (folder_browser_new): set folder_browser->uri

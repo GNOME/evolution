@@ -32,6 +32,11 @@
 #include "session.h"
 #include "e-util/e-setup.h"
 
+#ifndef HAVE_MKSTEMP
+#include <fcntl.h>
+#include <sys/stat.h>
+#endif
+
 static void
 mail_exception_dialog (char *head, CamelException *ex, GtkWindow *window)
 {
