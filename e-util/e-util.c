@@ -650,6 +650,22 @@ e_marshal_NONE__INT_POINTER_INT_POINTER (GtkObject * object, GtkSignalFunc func,
 	    GTK_VALUE_INT (args[2]), GTK_VALUE_POINTER (args[3]), func_data);
 }	
 
+typedef void (*GtkSignal_NONE__POINTER_POINTER_POINTER_POINTER) (GtkObject *,
+								 gpointer, gpointer, gpointer, gpointer,
+								 gpointer);
+
+void
+e_marshal_NONE__POINTER_POINTER_POINTER_POINTER (GtkObject         *object,
+						 GtkSignalFunc      func,
+						 gpointer           func_data,
+						 GtkArg            *args)
+{
+  GtkSignal_NONE__POINTER_POINTER_POINTER_POINTER rfunc;
+  rfunc = (GtkSignal_NONE__POINTER_POINTER_POINTER_POINTER) func;
+  (*rfunc) (object, GTK_VALUE_POINTER (args[0]), GTK_VALUE_POINTER (args[1]),
+	    GTK_VALUE_POINTER (args[2]), GTK_VALUE_POINTER (args[3]), func_data);
+}
+
 typedef int (*GtkSignal_INT__POINTER_POINTER) (GtkObject *,
 					       gpointer, gpointer, 
 					       gpointer user_data);
