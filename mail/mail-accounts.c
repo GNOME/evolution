@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <camel/camel-url.h>
+#include <openpgp-utils.h>
 
 static void mail_accounts_dialog_class_init (MailAccountsDialogClass *class);
 static void mail_accounts_dialog_init       (MailAccountsDialog *dialog);
@@ -349,6 +350,27 @@ timeout_changed (GtkEntry *entry, gpointer data)
 }
 
 static void
+pgp_path_changed (GtkEntry *entry, gpointer data)
+{
+	const char *path, *bin;
+	PgpType type = PGP_TYPE_NONE;
+	
+	path = gtk_entry_get_text (entry);
+	bin = g_basename (path);
+	
+	/* FIXME: This detection should be better */
+	if (!strcmp (bin, "pgp"))
+		type = PGP_TYPE_PGP2;
+	else if (!strcmp (bin, "pgpv") || !strcmp (bin, "pgpe") || !strcmp (bin, "pgpk") || !strcmp (bin, "pgps"))
+		type = PGP_TYPE_PGP5;
+	else if (!strcmp (bin, "gpg"))
+		type = PGP_TYPE_GPG;
+	
+	mail_config_set_pgp_path (path && *path ? path : NULL);
+	mail_config_set_pgp_type (type);
+}
+
+static void
 construct (MailAccountsDialog *dialog)
 {
 	GladeXML *gui;
@@ -419,6 +441,13 @@ construct (MailAccountsDialog *dialog)
 				   (1.0 * mail_config_get_mark_as_seen_timeout ()) / 1000.0);
 	gtk_signal_connect (GTK_OBJECT (dialog->timeout), "changed",
 			    GTK_SIGNAL_FUNC (timeout_changed), dialog);
+	
+	dialog->pgp_path = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "filePgpPath"));
+	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (dialog->pgp_path)),
+			    mail_config_get_pgp_path ());
+	gnome_file_entry_set_default_path (dialog->pgp_path, mail_config_get_pgp_path ());
+	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (dialog->pgp_path)),
+			    "changed", GTK_SIGNAL_FUNC (pgp_path_changed), dialog);
 	
 	/* now to fill in the clists */
 	dialog->accounts_row = -1;

@@ -286,38 +286,41 @@ fetch_mail_fetch(struct _mail_msg *mm)
 		g_free (path);
 	} else {
 		CamelFolder *folder = fm->source_folder = mail_tool_get_inbox(m->source_uri, &mm->ex);
-		CamelUIDCache *cache = NULL;
 
 		if (folder) {
 			/* this handles 'keep on server' stuff, if we have any new uid's to copy
 			   across, we need to copy them to a new array 'cause of the way fetch_mail_free works */
-			if (!fm->delete) {
-				char *cachename = mail_config_folder_to_cachename (folder, "cache-");
-		
-				cache = camel_uid_cache_new (cachename);
-				if (cache) {
-					GPtrArray *folder_uids, *cache_uids, *uids;
+			CamelUIDCache *cache = NULL;
+			char *cachename;
+			
+			cachename = mail_config_folder_to_cachename (folder, "cache-");
+			cache = camel_uid_cache_new (cachename);
+			g_free (cachename);
+			
+			if (cache) {
+				GPtrArray *folder_uids, *cache_uids, *uids;
+				
+				folder_uids = camel_folder_get_uids (folder);
+				cache_uids = camel_uid_cache_get_new_uids (cache, folder_uids);
+				if (cache_uids) {
+					/* need to copy this, sigh */
+					fm->source_uids = uids = g_ptr_array_new ();
+					g_ptr_array_set_size (uids, cache_uids->len);
+					for (i = 0; i < cache_uids->len; i++)
+						uids->pdata[i] = g_strdup (cache_uids->pdata[i]);
+					camel_uid_cache_free_uids (cache_uids);
 					
-					folder_uids = camel_folder_get_uids(folder);
-					cache_uids = camel_uid_cache_get_new_uids(cache, folder_uids);
-					if (cache_uids) {
-						/* need to copy this, sigh */
-						fm->source_uids = uids = g_ptr_array_new();
-						g_ptr_array_set_size(uids, cache_uids->len);
-						for (i=0;i<cache_uids->len;i++)
-							uids->pdata[i] = g_strdup(cache_uids->pdata[i]);
-						camel_uid_cache_free_uids (cache_uids);
-
-						filter_folder_filter(mm);
-						if (!camel_exception_is_set (&mm->ex))
-							camel_uid_cache_save (cache);
-						camel_uid_cache_destroy (cache);
-					}
-					camel_folder_free_uids(folder, folder_uids);
+					filter_folder_filter (mm);
+					
+					/* if we are not to delete the messages, save the UID cache */
+					if (!fm->delete && !camel_exception_is_set (&mm->ex))
+						camel_uid_cache_save (cache);
+					
+					camel_uid_cache_destroy (cache);
 				}
-				g_free (cachename);
+				camel_folder_free_uids (folder, folder_uids);
 			} else {
-				filter_folder_filter(mm);
+				filter_folder_filter (mm);
 			}
 		}
 
