@@ -18,6 +18,11 @@
 	* pcs/cal-backend-file.c (cal_backend_file_get_changes): Update
 	for that
 
+	* pcs/Makefile.am: build libpcs.la and libpcsfile.la instead of
+	just .a.
+	(libpcs_la_LIBADD): depend on libcal-util.la and libeutil.la
+	(libpcsfile_la_LIBADD): depend on libpcs.la
+
 2003-10-24  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-util/cal-util.[ch] (cal_util_construct_instance,
