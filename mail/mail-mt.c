@@ -20,10 +20,11 @@
 #include "e-util/e-msgport.h"
 #include "camel/camel-operation.h"
 
-#include "evolution-activity-client.h"
+#include "e-activity-handler.h"
 
 #include "mail-config.h"
 #include "camel/camel-url.h"
+#include "mail-component.h"
 #include "mail-session.h"
 #include "mail-mt.h"
 
@@ -46,14 +47,14 @@ static void mail_operation_status(struct _CamelOperation *op, const char *what, 
 /* background operation status stuff */
 struct _mail_msg_priv {
 	int activity_state;	/* sigh sigh sigh, we need to keep track of the state external to the
-				 pointer itself for locking/race conditions */
-	EvolutionActivityClient *activity;
+				   pointer itself for locking/race conditions */
+	int activity_id;
 };
 
 /* This is used for the mail status bar, cheap and easy */
 #include "art/mail-new.xpm"
 
-static GdkPixbuf *progress_icon[2] = { NULL, NULL };
+static GdkPixbuf *progress_icon = NULL;
 
 /* mail_msg stuff */
 #ifdef LOG_OPS
@@ -127,12 +128,15 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 	return msg;
 }
 
-/* either destroy the progress (in event_data), or the whole dialogue (in data) */
-static void destroy_objects(CamelObject *o, void *event_data, void *data)
+
+static void end_event_callback (CamelObject *o, void *event_data, void *data)
 {
-	if (event_data)
-		g_object_unref(event_data);
+	EActivityHandler *activity_handler = mail_component_peek_activity_handler (mail_component_peek ());
+	guint activity_id = GPOINTER_TO_INT (event_data);
+
+	e_activity_handler_operation_finished (activity_handler, activity_id);
 }
+
 
 #ifdef MALLOC_CHECK
 #include <mcheck.h>
@@ -161,7 +165,7 @@ checkmem(void *p)
 void mail_msg_free(void *msg)
 {
 	struct _mail_msg *m = msg;
-	void *activity = NULL;
+	int activity_id;
 
 #ifdef MALLOC_CHECK
 	checkmem(m);
@@ -192,7 +196,7 @@ void mail_msg_free(void *msg)
 		MAIL_MT_UNLOCK(mail_msg_lock);
 		return;
 	} else {
-		activity = m->priv->activity;
+		activity_id = m->priv->activity_id;
 	}
 
 	MAIL_MT_UNLOCK(mail_msg_lock);
@@ -207,8 +211,9 @@ void mail_msg_free(void *msg)
 	g_free(m->priv);
 	g_free(m);
 
-	if (activity)
-		mail_async_event_emit(mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)destroy_objects, NULL, activity, NULL);
+	if (activity_id != 0)
+		mail_async_event_emit(mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) end_event_callback,
+				      NULL, GINT_TO_POINTER (activity_id), NULL);
 }
 
 /* hash table of ops->dialogue of active errors */
@@ -845,12 +850,13 @@ struct _op_status_msg {
 
 static void do_op_status(struct _mail_msg *mm)
 {
+	EActivityHandler *activity_handler = mail_component_peek_activity_handler (mail_component_peek ());
 	struct _op_status_msg *m = (struct _op_status_msg *)mm;
 	struct _mail_msg *msg;
 	struct _mail_msg_priv *data;
 	char *out, *p, *o, c;
 	int pc;
-	EvolutionActivityClient *activity;
+	guint activity_id;
 	
 	g_assert (mail_gui_thread == pthread_self ());
 	
@@ -858,9 +864,7 @@ static void do_op_status(struct _mail_msg *mm)
 	
 	msg = g_hash_table_lookup (mail_msg_active_table, m->data);
 
-#if 0
-	/* shortcut processing, i.e. if we have no global_shell_client and no activity, we can't create one */
-	if (msg == NULL || (msg->priv->activity == NULL && global_shell_client == NULL)) {
+	if (msg == NULL) {
 		MAIL_MT_UNLOCK (mail_msg_lock);
 		return;
 	}
@@ -879,16 +883,7 @@ static void do_op_status(struct _mail_msg *mm)
 	
 	pc = m->pc;
 	
-	/* so whats all this crap about:
-	 * When we call activity_client, we have a chance of coming
-	 * back to code that will call mail_msg_new or one of many
-	 * calls which may deadlock us.  So we need to call corba
-	 * outside of the lock.  The activity_state thing is so we can
-	 * properly lock data->activity without having to hold a lock
-	 * ... of course we have to be careful in the free function to
-	 * keep track of it too.
-	 */
-	if (data->activity == NULL && global_shell_client) {
+	if (data->activity_id == 0) {
 		char *what;
 		int display;
 		
@@ -899,8 +894,8 @@ static void do_op_status(struct _mail_msg *mm)
 		} else {
 			data->activity_state = 1;
 			
-			if (progress_icon[0] == NULL)
-				progress_icon[0] = gdk_pixbuf_new_from_xpm_data ((const char **)mail_new_xpm);
+			if (progress_icon == NULL)
+				progress_icon = gdk_pixbuf_new_from_xpm_data ((const char **)mail_new_xpm);
 			
 			MAIL_MT_UNLOCK (mail_msg_lock);
 			if (msg->ops->describe_msg)
@@ -908,15 +903,7 @@ static void do_op_status(struct _mail_msg *mm)
 			else
 				what = _("Working");
 
-			/* EPFIXME: redo activity client stuff.  */
-			if (global_shell_client) {
-				activity = evolution_activity_client_new (global_shell_client,
-									  "evolution-mail",
-									  progress_icon, what, TRUE,
-									  &display);
-			} else {
-				activity = NULL;
-			}
+			activity_id = e_activity_handler_operation_started (activity_handler, "evolution-mail", progress_icon, what, TRUE);
 			
 			if (msg->ops->describe_msg)
 				g_free (what);
@@ -924,8 +911,6 @@ static void do_op_status(struct _mail_msg *mm)
 			MAIL_MT_LOCK (mail_msg_lock);
 			if (data->activity_state == 3) {
 				MAIL_MT_UNLOCK (mail_msg_lock);
-				if (activity)
-					g_object_unref(activity);
 				if (msg->cancel)
 					camel_operation_unref (msg->cancel);
 				camel_exception_clear (&msg->ex);
@@ -933,22 +918,17 @@ static void do_op_status(struct _mail_msg *mm)
 				g_free (msg);
 			} else {
 				data->activity_state = 2;
-				data->activity = activity;
+				data->activity_id = activity_id;
 				MAIL_MT_UNLOCK (mail_msg_lock);
 			}
 			return;
 		}
-	} else if (data->activity) {
-		activity = data->activity;
-		g_object_ref((activity));
+	} else if (data->activity_id != 0) {
 		MAIL_MT_UNLOCK (mail_msg_lock);
-			
-		evolution_activity_client_update (activity, out, (double)(pc/100.0));
-		g_object_unref(activity);
+		e_activity_handler_operation_progressing (activity_handler, activity_id, out, (double)(pc/100.0));
 	} else {
 		MAIL_MT_UNLOCK (mail_msg_lock);
 	}
-#endif
 }
 
 static void
@@ -973,10 +953,6 @@ mail_operation_status (struct _CamelOperation *op, const char *what, int pc, voi
 	
 	d(printf("got operation statys: %s %d%%\n", what, pc));
 
-#if 0
-	if (global_shell_client == NULL)
-		return;
-	
 	m = mail_msg_new(&op_status_op, NULL, sizeof(*m));
 	m->op = op;
 	m->what = g_strdup(what);
@@ -991,7 +967,6 @@ mail_operation_status (struct _CamelOperation *op, const char *what, int pc, voi
 	m->pc = pc;
 	m->data = data;
 	e_msgport_put(mail_gui_port, (EMsg *)m);
-#endif
 }
 
 /* ******************** */

@@ -29,6 +29,9 @@
 #include <camel/camel-store.h>
 #include <filter/rule-context.h>
 #include <bonobo/bonobo-object.h>
+
+#include "e-activity-handler.h"
+
 #include "Evolution.h"
 
 #define MAIL_TYPE_COMPONENT			(mail_component_get_type ())
@@ -57,8 +60,9 @@ GType  mail_component_get_type  (void);
 
 MailComponent *mail_component_peek  (void);
 
-const char  *mail_component_peek_base_directory (MailComponent *component);
-RuleContext *mail_component_peek_search_context (MailComponent *component);
+const char       *mail_component_peek_base_directory    (MailComponent *component);
+RuleContext      *mail_component_peek_search_context    (MailComponent *component);
+EActivityHandler *mail_component_peek_activity_handler  (MailComponent *component);
 
 void        mail_component_add_store            (MailComponent *component,
 						 CamelStore    *store,
