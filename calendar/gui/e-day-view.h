@@ -303,13 +303,11 @@ struct _EDayView
 	guint8 cols_per_row[E_DAY_VIEW_MAX_DAYS][12 * 24];
 
 	/* Sizes of the various time strings. */
-	gint large_hour_widths[24];
 	gint small_hour_widths[24];
-	gint minute_widths[12];		/* intervals of 5 minutes. */
 	gint max_small_hour_width;
-	gint max_large_hour_width;
 	gint max_minute_width;
 	gint colon_width;
+	gint digit_width;	/* Size of '0' character. */
 
 	/* This specifies how we are displaying the dates at the top. */
 	EDayViewDateFormat date_format;
@@ -524,7 +522,7 @@ void	   e_day_view_set_working_day		(EDayView	*day_view,
 						 gint		 end_hour,
 						 gint		 end_minute);
 
-/* Whether we use 12-hour of 24-hour format. */
+/* Whether we use 12-hour or 24-hour format. */
 gboolean   e_day_view_get_24_hour_format	(EDayView	*day_view);
 void	   e_day_view_set_24_hour_format	(EDayView	*day_view,
 						 gboolean	 use_24_hour);
@@ -581,6 +579,14 @@ void	   e_day_view_check_auto_scroll		(EDayView	*day_view,
 						 gint		 event_x,
 						 gint		 event_y);
 void	   e_day_view_stop_auto_scroll		(EDayView	*day_view);
+
+void	   e_day_view_convert_time_to_display	(EDayView	*day_view,
+						 gint		 hour,
+						 gint		*display_hour,
+						 gchar	       **suffix,
+						 gint		*suffix_width);
+gint	   e_day_view_get_time_string_width	(EDayView	*day_view);
+
 
 #ifdef __cplusplus
 }

@@ -283,6 +283,12 @@ e_week_view_init (EWeekView *week_view)
 	if (!week_view->small_font)
 		g_warning ("Couldn't load font");
 
+	/* String to use in 12-hour time format for times in the morning. */
+	week_view->am_string = _("am");
+
+	/* String to use in 12-hour time format for times in the afternoon. */
+	week_view->pm_string = _("pm");
+
 
 	/*
 	 * Titles Canvas. Note that we don't show it is only shown in the
@@ -561,6 +567,11 @@ e_week_view_style_set (GtkWidget *widget,
 	week_view->max_abbr_day_width = max_abbr_day_width;
 	week_view->max_month_width = max_month_width;
 	week_view->max_abbr_month_width = max_abbr_month_width;
+
+	week_view->am_string_width = gdk_string_width (font,
+						       week_view->am_string);
+	week_view->pm_string_width = gdk_string_width (font,
+						       week_view->pm_string);
 }
 
 
@@ -693,20 +704,18 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 	   We only allow the time to take up about half of the width. */
 	width = week_view->col_widths[0];
 
+	time_width = e_week_view_get_time_string_width (week_view);
+
 	week_view->time_format = E_WEEK_VIEW_TIME_NONE;
 	if (week_view->use_small_font && week_view->small_font) {
-		time_width = week_view->digit_width * 2
-			+ week_view->small_digit_width * 2;
 		if (week_view->show_event_end_times
-		    && width / 2 > time_width * 2 + week_view->space_width)
+		    && width / 2 > time_width * 2 + E_WEEK_VIEW_EVENT_TIME_SPACING)
 			week_view->time_format = E_WEEK_VIEW_TIME_BOTH_SMALL_MIN;
 		else if (width / 2 > time_width)
 			week_view->time_format = E_WEEK_VIEW_TIME_START_SMALL_MIN;
 	} else {
-		time_width = week_view->digit_width * 4
-			+ week_view->colon_width;
 		if (week_view->show_event_end_times
-		    && width / 2 > time_width * 2 + week_view->space_width)
+		    && width / 2 > time_width * 2 + E_WEEK_VIEW_EVENT_TIME_SPACING)
 			week_view->time_format = E_WEEK_VIEW_TIME_BOTH;
 		else if (width / 2 > time_width)
 			week_view->time_format = E_WEEK_VIEW_TIME_START;
@@ -1297,6 +1306,9 @@ e_week_view_set_weeks_shown	(EWeekView	*week_view,
 
 		if (g_date_valid (&week_view->first_day_shown))
 			e_week_view_set_first_day_shown (week_view, &week_view->first_day_shown);
+
+		/* Make sure the events are reloaded. */
+		e_week_view_queue_reload_events (week_view);
 	}
 }
 
@@ -1388,8 +1400,6 @@ e_week_view_set_week_start_day	(EWeekView	*week_view,
 	g_return_if_fail (week_start_day >= 0);
 	g_return_if_fail (week_start_day < 7);
 
-	g_print ("In e_week_view_set_week_start_day day: %i\n", week_start_day);
-
 	if (week_view->week_start_day == week_start_day)
 		return;
 
@@ -1401,6 +1411,36 @@ e_week_view_set_week_start_day	(EWeekView	*week_view,
 	if (g_date_valid (&week_view->first_day_shown))
 		e_week_view_set_first_day_shown (week_view,
 						 &week_view->first_day_shown);
+}
+
+
+/* Whether we use 12-hour or 24-hour format. */
+gboolean
+e_week_view_get_24_hour_format	(EWeekView	*week_view)
+{
+	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
+
+	return week_view->use_24_hour_format;
+}
+
+
+void
+e_week_view_set_24_hour_format	(EWeekView	*week_view,
+				 gboolean	 use_24_hour)
+{
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	if (week_view->use_24_hour_format == use_24_hour)
+		return;
+
+	week_view->use_24_hour_format = use_24_hour;
+
+	/* We need to re-layout the events since the time format affects the
+	   sizes. */
+	e_week_view_recalc_cell_sizes (week_view);
+	week_view->events_need_reshape = TRUE;
+	e_week_view_check_layout (week_view);
+	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
 
@@ -1633,7 +1673,11 @@ e_week_view_get_day_position	(EWeekView	*week_view,
 /* Returns the bounding box for a span of an event. Usually this can easily
    be determined by the start & end days and row of the span, which are set in
    e_week_view_layout_event(). Though we need a special case for the weekends
-   when they are compressed, since the span may not fit. */
+   when they are compressed, since the span may not fit.
+   The bounding box includes the entire width of the days in the view (but
+   not the vertical line down the right of the last day), though the displayed
+   event doesn't normally extend to the edges of the day.
+   It returns FALSE if the span isn't visible. */
 gboolean
 e_week_view_get_span_position	(EWeekView	*week_view,
 				 gint		 event_num,
@@ -1696,13 +1740,13 @@ e_week_view_get_span_position	(EWeekView	*week_view,
 			       + E_WEEK_VIEW_EVENT_Y_SPACING);
 	if (num_days == 1) {
 		*span_x = start_x;
-		*span_w = start_w;
+		*span_w = start_w - 1;
 	} else {
 		e_week_view_get_day_position (week_view,
 					      span->start_day + num_days - 1,
 					      &end_x, &end_y, &end_w, &end_h);
 		*span_x = start_x;
-		*span_w = end_x - start_x + end_w;
+		*span_w = end_x + end_w - start_x - 1;
 	}
 
 	return TRUE;
@@ -2382,12 +2426,15 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		return;
 	}
 
+	/* If we are editing a long event we don't show the icons and the EText
+	   item uses the maximum width available. */
 	if (!one_day_event && week_view->editing_event_num == event_num
 	    && week_view->editing_span_num == span_num) {
 		show_icons = FALSE;
 		use_max_width = TRUE;
 	}
 
+	/* Calculate how many icons we need to show. */
 	num_icons = 0;
 	if (show_icons) {
 		if (cal_component_has_alarms (comp))
@@ -2435,23 +2482,18 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	/* Calculate the position of the text item.
 	   For events < 1 day it starts after the times & icons and ends at the
 	   right edge of the span.
-	   For events > 1 day we need to determine whether times are shown at
+	   For events >= 1 day we need to determine whether times are shown at
 	   the start and end of the span, then try to center the text item with
 	   the icons in the middle, but making sure we don't go over the times.
 	*/
 
 
 	/* Calculate the space necessary to display a time, e.g. "13:00". */
-	if (week_view->use_small_font && week_view->small_font)
-		time_width = week_view->digit_width * 2
-			+ week_view->small_digit_width * 2;
-	else
-		time_width = week_view->digit_width * 4
-			+ week_view->colon_width;
+	time_width = e_week_view_get_time_string_width (week_view);
 
 	/* Calculate the space needed for the icons. */
 	icons_width = (E_WEEK_VIEW_ICON_WIDTH + E_WEEK_VIEW_ICON_X_PAD)
-		* num_icons;
+		* num_icons - E_WEEK_VIEW_ICON_X_PAD + E_WEEK_VIEW_ICON_R_PAD;
 
 	/* The y position and height are the same for both event types. */
 	text_y = span_y + E_WEEK_VIEW_EVENT_BORDER_HEIGHT
@@ -2459,50 +2501,71 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	text_h = font->ascent + font->descent;
 
 	if (one_day_event) {
-		text_x = span_x + E_WEEK_VIEW_EVENT_L_PAD + icons_width;
+		/* Note that 1-day events don't have a border. Although we
+		   still use the border height to position the events
+		   vertically so they still line up neatly (see above),
+		   we don't use the border width or edge padding at all. */
+		text_x = span_x	+ E_WEEK_VIEW_EVENT_L_PAD;
 
 		switch (week_view->time_format) {
 		case E_WEEK_VIEW_TIME_BOTH_SMALL_MIN:
 		case E_WEEK_VIEW_TIME_BOTH:
-			text_x += time_width * 2 + week_view->space_width
-				+ E_WEEK_VIEW_EVENT_TIME_R_PAD;
+			/* These have 2 time strings with a small space between
+			   them and some space before the EText item. */
+			text_x += time_width * 2
+				+ E_WEEK_VIEW_EVENT_TIME_SPACING
+				+ E_WEEK_VIEW_EVENT_TIME_X_PAD;
 			break;
 		case E_WEEK_VIEW_TIME_START_SMALL_MIN:
 		case E_WEEK_VIEW_TIME_START:
-			text_x += time_width + E_WEEK_VIEW_EVENT_TIME_R_PAD;
+			/* These have just 1 time string with some space
+			   before the EText item. */
+			text_x += time_width + E_WEEK_VIEW_EVENT_TIME_X_PAD;
 			break;
 		case E_WEEK_VIEW_TIME_NONE:
 			break;
 		}
-		text_w = span_x + span_w - E_WEEK_VIEW_EVENT_BORDER_WIDTH
-			- E_WEEK_VIEW_EVENT_R_PAD - text_x;
+
+		/* The icons_width includes space on the right of the icons. */
+		text_x += icons_width;
+
+		/* The width of the EText item extends right to the edge of the
+		   event, just inside the border. */
+		text_w = span_x + span_w - E_WEEK_VIEW_EVENT_R_PAD - text_x;
 
 	} else {
 		if (use_max_width) {
+			/* When we are editing the event we use all the
+			   available width. */
 			text_x = span_x + E_WEEK_VIEW_EVENT_L_PAD
 				+ E_WEEK_VIEW_EVENT_BORDER_WIDTH
-				+ E_WEEK_VIEW_EVENT_TEXT_X_PAD;
+				+ E_WEEK_VIEW_EVENT_EDGE_X_PAD;
 			text_w = span_x + span_w - E_WEEK_VIEW_EVENT_R_PAD
 				- E_WEEK_VIEW_EVENT_BORDER_WIDTH
-				- E_WEEK_VIEW_EVENT_TEXT_X_PAD - text_x;
+				- E_WEEK_VIEW_EVENT_EDGE_X_PAD - text_x;
 		} else {
-			/* Get the requested size of the label. */
+			/* Get the width of the text of the event. This is a
+			   bit of a hack. It would be better if EText could
+			   tell us this. */
 			gtk_object_get (GTK_OBJECT (span->text_item),
 					"text", &text,
 					NULL);
 			text_width = 0;
 			if (text) {
+				/* It should only have one line of text in it.
+				   I'm not sure we need this any more. */
 				end_of_line = strchr (text, '\n');
 				if (end_of_line)
 					line_len = end_of_line - text;
 				else
 					line_len = strlen (text);
-				text_width = gdk_text_width (font, text, line_len);
+				text_width = gdk_text_width (font, text,
+							     line_len);
 				g_free (text);
 			}
 
 			/* Add on the width of the icons and find the default
-			   position. */
+			   position, which centers the icons + text. */
 			width = text_width + icons_width;
 			text_x = span_x + (span_w - width) / 2;
 
@@ -2510,11 +2573,15 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 			   sure we don't go to the left of that. */
 			min_text_x = span_x + E_WEEK_VIEW_EVENT_L_PAD
 				+ E_WEEK_VIEW_EVENT_BORDER_WIDTH
-				+ E_WEEK_VIEW_EVENT_TEXT_X_PAD;
+				+ E_WEEK_VIEW_EVENT_EDGE_X_PAD;
+			/* See if we will want to display the start time, and
+			   if so take that into account. */
 			if (event->start > week_view->day_starts[span->start_day])
 				min_text_x += time_width
-					+ E_WEEK_VIEW_EVENT_TIME_R_PAD;
+					+ E_WEEK_VIEW_EVENT_TIME_X_PAD;
 
+			/* Now make sure we don't go to the left of the minimum
+			   position. */
 			text_x = MAX (text_x, min_text_x);
 
 			/* Now calculate the largest valid width, using the
@@ -2522,11 +2589,11 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 			   exceed that. */
 			max_text_w = span_x + span_w - E_WEEK_VIEW_EVENT_R_PAD
 				- E_WEEK_VIEW_EVENT_BORDER_WIDTH
-				- E_WEEK_VIEW_EVENT_TEXT_X_PAD - text_x;
+				- E_WEEK_VIEW_EVENT_EDGE_X_PAD - text_x;
 			if (event->end < week_view->day_starts[span->start_day
 							      + span->num_days])
 				max_text_w -= time_width
-					+ E_WEEK_VIEW_EVENT_TIME_R_PAD;
+					+ E_WEEK_VIEW_EVENT_TIME_X_PAD;
 
 			text_w = MIN (width, max_text_w);
 
@@ -2536,7 +2603,9 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		}
 	}
 
+	/* Make sure we don't try to use a negative width. */
 	text_w = MAX (text_w, 0);
+
 	gnome_canvas_item_set (span->text_item,
 			       "clip_width", (gdouble) text_w,
 			       "clip_height", (gdouble) text_h,
@@ -3339,4 +3408,56 @@ e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 	}
 
 	return FALSE;
+}
+
+
+/* Converts an hour from 0-23 to the preferred time format, and returns the
+   suffix to add and the width of it in the normal font. */
+void
+e_week_view_convert_time_to_display	(EWeekView	*week_view,
+					 gint		 hour,
+					 gint		*display_hour,
+					 gchar	       **suffix,
+					 gint		*suffix_width)
+{
+	/* Calculate the actual hour number to display. For 12-hour
+	   format we convert 0-23 to 12-11am/12-11pm. */
+	*display_hour = hour;
+	if (week_view->use_24_hour_format) {
+		*suffix = "";
+		*suffix_width = 0;
+	} else {
+		if (hour < 12) {
+			*suffix = week_view->am_string;
+			*suffix_width = week_view->am_string_width;
+		} else {
+			*display_hour -= 12;
+			*suffix = week_view->pm_string;
+			*suffix_width = week_view->pm_string_width;
+		}
+
+		/* 12-hour uses 12:00 rather than 0:00. */
+		if (*display_hour == 0)
+			*display_hour = 12;
+	}
+}
+
+
+gint
+e_week_view_get_time_string_width	(EWeekView	*week_view)
+{
+	gint time_width;
+
+	if (week_view->use_small_font && week_view->small_font)
+		time_width = week_view->digit_width * 2
+			+ week_view->small_digit_width * 2;
+	else
+		time_width = week_view->digit_width * 4
+			+ week_view->colon_width;
+
+	if (!week_view->use_24_hour_format)
+		time_width += MAX (week_view->am_string_width,
+				   week_view->pm_string_width);
+
+	return time_width;
 }

@@ -1066,22 +1066,22 @@ e_day_view_style_set (GtkWidget *widget,
 	day_view->max_small_hour_width = 0;
 	max_large_hour_width = 0;
 	for (hour = 0; hour < 24; hour++) {
-		sprintf (buffer, "%02i", hour);
+		g_snprintf (buffer, sizeof (buffer), "%02i", hour);
 		day_view->small_hour_widths[hour] = gdk_string_width (font, buffer);
-		day_view->large_hour_widths[hour] = gdk_string_width (day_view->large_font, buffer);
 		day_view->max_small_hour_width = MAX (day_view->max_small_hour_width, day_view->small_hour_widths[hour]);
-		max_large_hour_width = MAX (max_large_hour_width, day_view->large_hour_widths[hour]);
 	}
-	day_view->max_large_hour_width = max_large_hour_width;
 
 	max_minute_width = 0;
 	for (minute = 0, i = 0; minute < 60; minute += 5, i++) {
-		sprintf (buffer, "%02i", minute);
-		day_view->minute_widths[i] = gdk_string_width (font, buffer);
-		max_minute_width = MAX (max_minute_width, day_view->minute_widths[i]);
+		gint minute_width;
+
+		g_snprintf (buffer, sizeof (buffer), "%02i", minute);
+		minute_width = gdk_string_width (font, buffer);
+		max_minute_width = MAX (max_minute_width, minute_width);
 	}
 	day_view->max_minute_width = max_minute_width;
 	day_view->colon_width = gdk_string_width (font, ":");
+	day_view->digit_width = gdk_string_width (font, "0");
 
 	day_view->am_string_width = gdk_string_width (font,
 						      day_view->am_string);
@@ -1617,7 +1617,9 @@ e_day_view_update_event_label (EDayView *day_view,
 	EDayViewEvent *event;
 	char *text, *start_suffix, *end_suffix;
 	gboolean free_text = FALSE, editing_event = FALSE;
-	gint offset, start_hour, start_minute, end_hour, end_minute;
+	gint offset;
+	gint start_hour, start_display_hour, start_minute, start_suffix_width;
+	gint end_hour, end_display_hour, end_minute, end_suffix_width;
 	CalComponentText summary;
 
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
@@ -1649,53 +1651,45 @@ e_day_view_update_event_label (EDayView *day_view,
 		end_hour = end_minute / 60;
 		end_minute = end_minute % 60;
 
+		e_day_view_convert_time_to_display (day_view, start_hour,
+						    &start_display_hour,
+						    &start_suffix,
+						    &start_suffix_width);
+		e_day_view_convert_time_to_display (day_view, end_hour,
+						    &end_display_hour,
+						    &end_suffix,
+						    &end_suffix_width);
+
 		if (day_view->use_24_hour_format) {
 			if (day_view->show_event_end_times) {
 				/* 24 hour format with end time. */
 				text = g_strdup_printf
 					("%02i:%02i-%02i:%02i %s",
-					 start_hour, start_minute,
-					 end_hour, end_minute,
+					 start_display_hour, start_minute,
+					 end_display_hour, end_minute,
 					 text);
 			} else {
 				/* 24 hour format without end time. */
 				text = g_strdup_printf
 					("%02i:%02i %s",
-					 start_hour, start_minute,
+					 start_display_hour, start_minute,
 					 text);
 			}
 		} else {
-			start_suffix = end_suffix = day_view->am_string;
-
-			if (start_hour >= 12) {
-				start_hour -= 12;
-				start_suffix = day_view->pm_string;
-			}
-			if (end_hour >= 12) {
-				end_hour -= 12;
-				end_suffix = day_view->pm_string;
-			}
-
-			/* We display 1-12 rather than 0-11 for hours. */
-			if (start_hour == 0)
-				start_hour = 12;
-			if (end_hour == 0)
-				end_hour = 12;
-
 			if (day_view->show_event_end_times) {
 				/* 12 hour format with end time. */
 				text = g_strdup_printf
 					("%02i:%02i%s-%02i:%02i%s %s",
-					 start_hour, start_minute,
+					 start_display_hour, start_minute,
 					 start_suffix,
-					 end_hour, end_minute,
+					 end_display_hour, end_minute,
 					 end_suffix,
 					 text);
 			} else {
 				/* 12 hour format without end time. */
 				text = g_strdup_printf
 					("%02i:%02i%s %s",
-					 start_hour % 12, start_minute,
+					 start_display_hour, start_minute,
 					 start_suffix,
 					 text);
 			}
@@ -1929,8 +1923,6 @@ e_day_view_find_work_week_start		(EDayView	*day_view,
 	/* Calculate how many days we need to go back to the first workday. */
 	offset = (weekday + 7 - day) % 7;
 
-	g_print ("Weekday: %i Day: %i Offset: %i\n", weekday, day, offset);
-
 	g_date_subtract_days (&date, offset);
 
 	return time_from_day (g_date_year (&date),
@@ -2163,8 +2155,6 @@ e_day_view_recalc_work_week_days_shown	(EDayView	*day_view)
 		/* Now calculate the days we need to show to include all the
 		   working days in the week. Add 1 to make it inclusive. */
 		days_shown = (last_day + 7 - first_day) % 7 + 1;
-		g_print ("First day: %i Last: %i Days: %i\n",
-			 first_day, last_day, days_shown);
 	} else {
 		/* If no working days are set, just use 7. */
 		days_shown = 7;
@@ -2274,9 +2264,6 @@ e_day_view_set_show_times_cb		(EDayView	*day_view,
 					 gint		 event_num,
 					 gpointer	 data)
 {
-	g_print ("In e_day_view_set_show_times_cb day:%i event_num:%i\n",
-		 day, event_num);
-
 	if (day != E_DAY_VIEW_LONG_EVENT) {
 		e_day_view_update_event_label (day_view, day, event_num);
 	}
@@ -2303,8 +2290,6 @@ e_day_view_set_week_start_day	(EDayView	*day_view,
 	g_return_if_fail (week_start_day >= 0);
 	g_return_if_fail (week_start_day < 7);
 
-	g_print ("In e_day_view_set_week_start_day day: %i\n", week_start_day);
-
 	if (day_view->week_start_day == week_start_day)
 		return;
 
@@ -2324,12 +2309,12 @@ e_day_view_recalc_work_week	(EDayView	*day_view)
 	if (!day_view->work_week_view)
 		return;
 
+	e_day_view_recalc_work_week_days_shown	(day_view);
+	
 	/* If the date isn't set, just return. */
 	if (day_view->lower == 0 && day_view->upper == 0)
 		return;
 
-	e_day_view_recalc_work_week_days_shown	(day_view);
-	
 	lower = e_day_view_find_work_week_start (day_view, day_view->lower);
 	if (lower != day_view->lower) {
 		/* Reset the selection, as it may disappear. */
@@ -3243,8 +3228,10 @@ e_day_view_update_calendar_selection_time (EDayView *day_view)
 
 	e_day_view_get_selected_time_range (day_view, &start, &end);
 
+#if 0
 	g_print ("Start: %s", ctime (&start));
 	g_print ("End  : %s", ctime (&end));
+#endif
 
 	if (day_view->calendar)
 		gnome_calendar_set_selected_time_range (day_view->calendar,
@@ -4199,8 +4186,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	   go off the right edge. */
 	icons_width = (E_DAY_VIEW_ICON_WIDTH + E_DAY_VIEW_ICON_X_PAD)
 		* num_icons;
-	time_width = day_view->max_small_hour_width + day_view->colon_width
-		+ day_view->max_minute_width;
+	time_width = e_day_view_get_time_string_width (day_view);
 
 	if (use_max_width) {
 		text_x = item_x;
@@ -6403,4 +6389,51 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 	}
 
 	gtk_drag_finish (context, FALSE, FALSE, time);
+}
+
+
+/* Converts an hour from 0-23 to the preferred time format, and returns the
+   suffix to add and the width of it in the normal font. */
+void
+e_day_view_convert_time_to_display	(EDayView	*day_view,
+					 gint		 hour,
+					 gint		*display_hour,
+					 gchar	       **suffix,
+					 gint		*suffix_width)
+{
+	/* Calculate the actual hour number to display. For 12-hour
+	   format we convert 0-23 to 12-11am/12-11pm. */
+	*display_hour = hour;
+	if (day_view->use_24_hour_format) {
+		*suffix = "";
+		*suffix_width = 0;
+	} else {
+		if (hour < 12) {
+			*suffix = day_view->am_string;
+			*suffix_width = day_view->am_string_width;
+		} else {
+			*display_hour -= 12;
+			*suffix = day_view->pm_string;
+			*suffix_width = day_view->pm_string_width;
+		}
+
+		/* 12-hour uses 12:00 rather than 0:00. */
+		if (*display_hour == 0)
+			*display_hour = 12;
+	}
+}
+
+
+gint
+e_day_view_get_time_string_width	(EDayView	*day_view)
+{
+	gint time_width;
+
+	time_width = day_view->digit_width * 4 + day_view->colon_width;
+
+	if (!day_view->use_24_hour_format)
+		time_width += MAX (day_view->am_string_width,
+				   day_view->pm_string_width);
+
+	return time_width;
 }

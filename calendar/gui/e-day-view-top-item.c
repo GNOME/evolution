@@ -340,7 +340,9 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	gint text_x, icon_x, icon_y, icon_x_inc;
 	CalComponent *comp;
 	gchar buffer[16];
-	gint hour, minute, offset, time_width, time_x, min_end_time_x;
+	gint hour, display_hour, minute, offset, time_width, time_x;
+	gint min_end_time_x, suffix_width, max_icon_x;
+	gchar *suffix;
 	gboolean draw_start_triangle, draw_end_triangle;
 	GdkRectangle clip_rect;
 
@@ -435,12 +437,98 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	   to take the scroll offset into account. It will always be 0. */
 	text_x = event->canvas_item->x1;
 
+	/* Draw the start & end times, if necessary. */
+	min_end_time_x = item_x + E_DAY_VIEW_LONG_EVENT_X_PAD - x;
+
+	time_width = e_day_view_get_time_string_width (day_view);
+
+	if (event->start > day_view->day_starts[start_day]) {
+		offset = day_view->first_hour_shown * 60
+			+ day_view->first_minute_shown + event->start_minute;
+		hour = offset / 60;
+		minute = offset % 60;
+		/* Calculate the actual hour number to display. For 12-hour
+		   format we convert 0-23 to 12-11am/12-11pm. */
+		e_day_view_convert_time_to_display (day_view, hour,
+						    &display_hour,
+						    &suffix, &suffix_width);
+		if (day_view->use_24_hour_format) {
+			g_snprintf (buffer, sizeof (buffer), "%2i:%02i",
+				    display_hour, minute);
+		} else {
+			g_snprintf (buffer, sizeof (buffer), "%2i:%02i%s",
+				    display_hour, minute, suffix);
+		}
+
+		clip_rect.x = item_x - x;
+		clip_rect.y = item_y - y;
+		clip_rect.width = item_w - E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH;
+		clip_rect.height = item_h;
+		gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
+
+		time_x = item_x + E_DAY_VIEW_LONG_EVENT_X_PAD - x;
+		if (hour < 10)
+			time_x += day_view->digit_width;
+
+		gdk_draw_string (drawable, font, fg_gc,
+				 time_x,
+				 item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT
+				 + E_DAY_VIEW_LONG_EVENT_Y_PAD
+				 + font->ascent - y,
+				 buffer);
+
+		gdk_gc_set_clip_rectangle (fg_gc, NULL);
+
+		min_end_time_x += time_width
+			+ E_DAY_VIEW_LONG_EVENT_TIME_X_PAD;
+	}
+
+	max_icon_x = item_x + item_w - E_DAY_VIEW_LONG_EVENT_X_PAD
+		- E_DAY_VIEW_ICON_WIDTH;
+
+	if (event->end < day_view->day_starts[end_day + 1]) {
+		offset = day_view->first_hour_shown * 60
+			+ day_view->first_minute_shown
+			+ event->end_minute;
+		hour = offset / 60;
+		minute = offset % 60;
+		time_x = item_x + item_w - E_DAY_VIEW_LONG_EVENT_X_PAD - time_width - E_DAY_VIEW_LONG_EVENT_TIME_X_PAD - x;
+
+		if (time_x >= min_end_time_x) {
+			/* Calculate the actual hour number to display. */
+			e_day_view_convert_time_to_display (day_view, hour,
+							    &display_hour,
+							    &suffix,
+							    &suffix_width);
+			if (day_view->use_24_hour_format) {
+				g_snprintf (buffer, sizeof (buffer),
+					    "%2i:%02i", display_hour, minute);
+			} else {
+				g_snprintf (buffer, sizeof (buffer),
+					    "%2i:%02i%s", display_hour, minute,
+					    suffix);
+			}
+
+			if (hour < 10)
+				time_x += day_view->digit_width;
+
+			gdk_draw_string (drawable, font, fg_gc,
+					 time_x,
+					 item_y + E_DAY_VIEW_LONG_EVENT_Y_PAD
+					 + font->ascent + 1 - y,
+					 buffer);
+
+			max_icon_x -= time_width + E_DAY_VIEW_LONG_EVENT_TIME_X_PAD;
+		}
+	}
+
 	/* Draw the icons. */
 	icon_x_inc = E_DAY_VIEW_ICON_WIDTH + E_DAY_VIEW_ICON_X_PAD;
 	icon_x = text_x - icon_x_inc - x;
-	icon_y = item_y + 1 + E_DAY_VIEW_ICON_Y_PAD - y;
+	icon_y = item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT
+		+ E_DAY_VIEW_ICON_Y_PAD - y;
 
-	if (cal_component_has_recurrences (comp)) {
+	if (icon_x <= max_icon_x && cal_component_has_recurrences (comp)) {
 		gdk_gc_set_clip_origin (gc, icon_x, icon_y);
 		gdk_gc_set_clip_mask (gc, day_view->recurrence_mask);
 		gdk_draw_pixmap (drawable, gc,
@@ -451,7 +539,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		icon_x -= icon_x_inc;
 	}
 
-	if (cal_component_has_alarms (comp)) {
+	if (icon_x <= max_icon_x && cal_component_has_alarms (comp)) {
 		gdk_gc_set_clip_origin (gc, icon_x, icon_y);
 		gdk_gc_set_clip_mask (gc, day_view->reminder_mask);
 		gdk_draw_pixmap (drawable, gc,
@@ -462,55 +550,6 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		icon_x -= icon_x_inc;
 	}
 	gdk_gc_set_clip_mask (gc, NULL);
-
-	/* Draw the start & end times, if necessary.
-	   Note that GtkLabel adds 1 to the ascent so we must do that to be
-	   level with it. */
-	min_end_time_x = item_x + E_DAY_VIEW_LONG_EVENT_X_PAD - x;
-
-	if (event->start > day_view->day_starts[start_day]) {
-		offset = day_view->first_hour_shown * 60
-			+ day_view->first_minute_shown + event->start_minute;
-		hour = offset / 60;
-		minute = offset % 60;
-		sprintf (buffer, "%02i:%02i", hour, minute);
-
-		clip_rect.x = item_x - x;
-		clip_rect.y = item_y - y;
-		clip_rect.width = item_w - E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH;
-		clip_rect.height = item_h;
-		gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
-
-		gdk_draw_string (drawable, font, fg_gc,
-				 item_x + E_DAY_VIEW_LONG_EVENT_X_PAD - x,
-				 item_y + E_DAY_VIEW_LONG_EVENT_Y_PAD + font->ascent + 1 - y,
-				 buffer);
-
-		gdk_gc_set_clip_rectangle (fg_gc, NULL);
-
-		min_end_time_x += day_view->small_hour_widths[hour] + 2
-			+ day_view->max_minute_width + day_view->colon_width;
-	}
-
-	if (event->end < day_view->day_starts[end_day + 1]) {
-		offset = day_view->first_hour_shown * 60
-			+ day_view->first_minute_shown
-			+ event->end_minute;
-		hour = offset / 60;
-		minute = offset % 60;
-		time_width = day_view->small_hour_widths[hour]
-			+ day_view->max_minute_width + day_view->colon_width;
-		time_x = item_x + item_w - E_DAY_VIEW_LONG_EVENT_X_PAD - time_width - E_DAY_VIEW_LONG_EVENT_TIME_X_PAD - x;
-
-		if (time_x >= min_end_time_x) {
-			sprintf (buffer, "%02i:%02i", hour, minute);
-			gdk_draw_string (drawable, font, fg_gc,
-					 time_x,
-					 item_y + E_DAY_VIEW_LONG_EVENT_Y_PAD
-					 + font->ascent + 1 - y,
-					 buffer);
-		}
-	}
 }
 
 

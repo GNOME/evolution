@@ -41,13 +41,18 @@
    MIN_X_PAD is the spacing either side of the minute number. The smaller
    horizontal grid lines match with this.
    60_MIN_X_PAD is the space either side of the HH:MM display used when
-   we are displaying 60 mins per row (inside the main grid lines). */
-#define E_DVTMI_TIME_GRID_X_PAD	4
-#define E_DVTMI_HOUR_L_PAD	4
-#define E_DVTMI_HOUR_R_PAD	2
-#define E_DVTMI_MIN_X_PAD	2
-#define E_DVTMI_60_MIN_X_PAD	4
-
+   we are displaying 60 mins per row (inside the main grid lines).
+   LARGE_HOUR_Y_PAD is the offset of the large hour string from the top of the
+   row.
+   SMALL_FONT_Y_PAD is the offset of the small time/minute string from the top
+   of the row. */
+#define E_DVTMI_TIME_GRID_X_PAD		4
+#define E_DVTMI_HOUR_L_PAD		4
+#define E_DVTMI_HOUR_R_PAD		2
+#define E_DVTMI_MIN_X_PAD		2
+#define E_DVTMI_60_MIN_X_PAD		4
+#define E_DVTMI_LARGE_HOUR_Y_PAD	1
+#define E_DVTMI_SMALL_FONT_Y_PAD	1
 
 static void e_day_view_time_item_class_init (EDayViewTimeItemClass *class);
 static void e_day_view_time_item_init (EDayViewTimeItem *dvtmitem);
@@ -68,6 +73,9 @@ static double e_day_view_time_item_point (GnomeCanvasItem *item,
 					  GnomeCanvasItem **actual_item);
 static gint e_day_view_time_item_event (GnomeCanvasItem *item,
 					GdkEvent *event);
+static void e_day_view_time_item_increment_time	(gint	*hour,
+						 gint	*minute,
+						 gint	 mins_per_row);
 static void e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
 						  GdkEvent *event);
 static void e_day_view_time_item_on_set_divisions (GtkWidget *item,
@@ -189,26 +197,49 @@ gint
 e_day_view_time_item_get_column_width (EDayViewTimeItem *dvtmitem)
 {
 	EDayView *day_view;
+	GtkStyle *style;
+	GdkFont *small_font, *large_font;
+	gint digit, large_digit_width, max_large_digit_width;
+	gint max_suffix_width, max_minute_or_suffix_width;
 	gint column_width_default, column_width_60_min_rows;
 
 	day_view = dvtmitem->day_view;
 	g_return_val_if_fail (day_view != NULL, 0);
 
+	style = GTK_WIDGET (day_view)->style;
+	g_return_val_if_fail (style != NULL, 0);
+	small_font = style->font;
+	g_return_val_if_fail (small_font != NULL, 0);
+	large_font = day_view->large_font;
+	g_return_val_if_fail (large_font != NULL, 0);
+
+	for (digit = '0'; digit <= '9'; digit++) {
+		large_digit_width = gdk_char_width (large_font, digit);
+		max_large_digit_width = MAX (max_large_digit_width,
+					     large_digit_width);
+	}
+
 	/* Calculate the width of each time column, using the maximum of the
 	   default format with large hour numbers, and the 60-min divisions
 	   format which uses small text. */
-	column_width_default = day_view->max_large_hour_width
-			+ day_view->max_minute_width
-			+ E_DVTMI_MIN_X_PAD * 2
-			+ E_DVTMI_HOUR_L_PAD
-			+ E_DVTMI_HOUR_R_PAD
-			+ E_DVTMI_TIME_GRID_X_PAD * 2;
+	max_suffix_width = MAX (day_view->am_string_width,
+				day_view->pm_string_width);
+
+	max_minute_or_suffix_width = MAX (max_suffix_width,
+					  day_view->max_minute_width);
+
+	column_width_default = max_large_digit_width * 2
+		+ max_minute_or_suffix_width
+		+ E_DVTMI_MIN_X_PAD * 2
+		+ E_DVTMI_HOUR_L_PAD
+		+ E_DVTMI_HOUR_R_PAD
+		+ E_DVTMI_TIME_GRID_X_PAD * 2;
 
 	column_width_60_min_rows = day_view->max_small_hour_width
-			+ day_view->colon_width
-			+ day_view->max_minute_width
-			+ E_DVTMI_60_MIN_X_PAD * 2
-			+ E_DVTMI_TIME_GRID_X_PAD * 2;
+		+ day_view->colon_width
+		+ max_minute_or_suffix_width
+		+ E_DVTMI_60_MIN_X_PAD * 2
+		+ E_DVTMI_TIME_GRID_X_PAD * 2;
 
 	dvtmitem->column_width = MAX (column_width_default,
 				      column_width_60_min_rows);
@@ -231,13 +262,16 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 {
 	EDayView *day_view;
 	EDayViewTimeItem *dvtmitem;
-	gint time_hour_x1, time_hour_x2, time_min_x1;
-	gint hour, display_hour, minute, hour_y, min_y, hour_r, min_r, start_y;
-	gint row, row_y, min_width, hour_width, suffix_width;
 	GtkStyle *style;
 	GdkFont *small_font, *large_font;
 	GdkGC *fg_gc, *dark_gc;
 	gchar buffer[64], *suffix;
+	gint hour, display_hour, minute, row;
+	gint row_y, start_y, large_hour_y_offset, small_font_y_offset;
+	gint long_line_x1, long_line_x2, short_line_x1;
+	gint large_hour_x2, minute_x2;
+	gint hour_width, minute_width, suffix_width;
+	gint max_suffix_width, max_minute_or_suffix_width;
 
 	dvtmitem = E_DAY_VIEW_TIME_ITEM (canvas_item);
 	day_view = dvtmitem->day_view;
@@ -249,119 +283,163 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
 
-	time_min_x1 = 0;
-	hour_r = 0;
+	/* The start and end of the long horizontal line between hours. */
+	long_line_x1 = E_DVTMI_TIME_GRID_X_PAD - x;
+	long_line_x2 = dvtmitem->column_width - E_DVTMI_TIME_GRID_X_PAD - x;
 
-	/* Step through each row, drawing the horizontal grid lines for each
-	   day column and the times. */
-	time_hour_x1 = E_DVTMI_TIME_GRID_X_PAD - x;
-	time_hour_x2 = dvtmitem->column_width - E_DVTMI_TIME_GRID_X_PAD - x;
 	if (day_view->mins_per_row == 60) {
-		min_r = time_hour_x2 - E_DVTMI_60_MIN_X_PAD;
+		/* The right edge of the complete time string in 60-min
+		   divisions, e.g. "14:00" or "2 pm". */
+		minute_x2 = long_line_x2 - E_DVTMI_60_MIN_X_PAD;
+
+		/* These aren't used for 60-minute divisions, but we initialize
+		   them to keep gcc happy. */
+		short_line_x1 = 0;
+		large_hour_x2 = 0;
 	} else {
-		time_min_x1 = time_hour_x2 - E_DVTMI_MIN_X_PAD * 2
-			- day_view->max_minute_width;
-		hour_r = time_min_x1 - E_DVTMI_HOUR_R_PAD;
-		min_r = time_hour_x2 - E_DVTMI_MIN_X_PAD;
+		max_suffix_width = MAX (day_view->am_string_width,
+					day_view->pm_string_width);
+
+		max_minute_or_suffix_width = MAX (max_suffix_width,
+						  day_view->max_minute_width);
+
+		/* The start of the short horizontal line between the periods
+		   within each hour. */
+		short_line_x1 = long_line_x2 - E_DVTMI_MIN_X_PAD * 2
+			- max_minute_or_suffix_width;
+
+		/* The right edge of the large hour string. */
+		large_hour_x2 = short_line_x1 - E_DVTMI_HOUR_R_PAD;
+
+		/* The right edge of the minute part of the time. */
+		minute_x2 = long_line_x2 - E_DVTMI_MIN_X_PAD;
 	}
 
+	/* Start with the first hour & minute shown in the EDayView. */
 	hour = day_view->first_hour_shown;
-	hour_y = large_font->ascent + 2; /* FIXME */
 	minute = day_view->first_minute_shown;
-	min_y = small_font->ascent + 2; /* FIXME */
-	start_y = 0 - MAX (day_view->row_height, hour_y + large_font->descent);
+
+	/* The offset of the large hour string from the top of the row. */
+	large_hour_y_offset = large_font->ascent + E_DVTMI_LARGE_HOUR_Y_PAD;
+
+	/* The offset of the small time/minute string from top of row. */
+	small_font_y_offset = small_font->ascent + E_DVTMI_SMALL_FONT_Y_PAD;
+
+	/* Calculate the minimum y position of the first row we need to draw.
+	   This is normally one row height above the 0 position, but if we
+	   are using the large font we may have to go back a bit further. */
+	start_y = 0 - MAX (day_view->row_height,
+			   large_hour_y_offset + large_font->descent);
+
+	/* Step through each row, drawing the times and the horizontal lines
+	   between them. */
 	for (row = 0, row_y = 0 - y;
 	     row < day_view->rows && row_y < height;
 	     row++, row_y += day_view->row_height) {
-		if (row_y > start_y) {
-			/* Draw the times down the left if needed. */
-			if (min_r <= 0)
-				continue;
 
-			/* Calculate the actual hour number to display. */
-			display_hour = hour;
-			if (!day_view->use_24_hour_format) {
-				if (display_hour < 12) {
-					suffix = day_view->am_string;
-					suffix_width = day_view->am_string_width;
-				} else {
-					display_hour -= 12;
-					suffix = day_view->pm_string;
-					suffix_width = day_view->pm_string_width;
-				}
+		/* If the row is above the first row we want to draw just
+		   increment the time and skip to the next row. */
+		if (row_y < start_y) {
+			e_day_view_time_item_increment_time (&hour, &minute,
+							     day_view->mins_per_row);
+			continue;
+		}
 
-				/* 12-hour format uses 12:00 rather than 0:00.
-				 */
-				if (display_hour == 0)
-					display_hour = 12;
-			}
+		/* Calculate the actual hour number to display. For 12-hour
+		   format we convert 0-23 to 12-11am/12-11pm. */
+		e_day_view_convert_time_to_display (day_view, hour,
+						    &display_hour,
+						    &suffix, &suffix_width);
 
-			if (day_view->mins_per_row == 60) {
-				gdk_draw_line (drawable, dark_gc,
-					       time_hour_x1, row_y,
-					       time_hour_x2, row_y);
+		if (day_view->mins_per_row == 60) {
+			/* 60 minute intervals - draw a long horizontal line
+			   between hours and display as one long string,
+			   e.g. "14:00" or "2 pm". */
+			gdk_draw_line (drawable, dark_gc,
+				       long_line_x1, row_y,
+				       long_line_x2, row_y);
 
-				if (day_view->use_24_hour_format) {
-					sprintf (buffer, "%i:%02i",
-						 display_hour, minute);
-					/*min_width = day_view->small_hour_widths[display_hour] + day_view->minute_widths[minute / 5] + day_view->colon_width;*/
-					min_width = gdk_string_width (small_font, buffer);
-				} else {
-					sprintf (buffer, "%i %s",
-						 display_hour, suffix);
-					/*min_width = day_view->small_hour_widths[display_hour] + suffix_width;*/
-					min_width = gdk_string_width (small_font, buffer);
-				}
-				gdk_draw_string (drawable, small_font, fg_gc,
-						 min_r - min_width,
-						 row_y + min_y, buffer);
+			if (day_view->use_24_hour_format) {
+				g_snprintf (buffer, sizeof (buffer), "%i:%02i",
+					    display_hour, minute);
 			} else {
-				if (minute == 0) {
-					gdk_draw_line (drawable, dark_gc,
-						       time_hour_x1, row_y,
-						       time_hour_x2, row_y);
-					sprintf (buffer, "%i", display_hour);
-					/*hour_width = day_view->large_hour_widths[display_hour];*/
-					hour_width = gdk_string_width (large_font, buffer);
-					gdk_draw_string (drawable, large_font,
-							 fg_gc,
-							 hour_r - hour_width,
-							 row_y + hour_y,
-							 buffer);
-				} else {
-					gdk_draw_line (drawable, dark_gc,
-						       time_min_x1, row_y,
-						       time_hour_x2, row_y);
-				}
+				g_snprintf (buffer, sizeof (buffer), "%i %s",
+					    display_hour, suffix);
+			}
+			minute_width = gdk_string_width (small_font, buffer);
+			gdk_draw_string (drawable, small_font, fg_gc,
+					 minute_x2 - minute_width,
+					 row_y + small_font_y_offset,
+					 buffer);
+		} else {
+			/* 5/10/15/30 minute intervals. */
 
-				if (day_view->mins_per_row != 30
-				    || minute != 30) {
-					if (minute == 0
-					    && !day_view->use_24_hour_format) {
-						strcpy (buffer, suffix);
-						min_width = gdk_string_width (small_font, buffer);
-					} else {
-						sprintf (buffer, "%02i", minute);
-						min_width = day_view->minute_widths[minute / 5];
-					}
-					gdk_draw_string (drawable, small_font,
-							 fg_gc,
-							 min_r - min_width,
-							 row_y + min_y,
-							 buffer);
+			if (minute == 0) {
+				/* On the hour - draw a long horizontal line
+				   before the hour and display the hour in the
+				   large font. */
+				gdk_draw_line (drawable, dark_gc,
+					       long_line_x1, row_y,
+					       long_line_x2, row_y);
+
+				g_snprintf (buffer, sizeof (buffer), "%i",
+					    display_hour);
+				hour_width = gdk_string_width (large_font,
+							       buffer);
+				gdk_draw_string (drawable, large_font, fg_gc,
+						 large_hour_x2 - hour_width,
+						 row_y + large_hour_y_offset,
+						 buffer);
+			} else {
+				/* Within the hour - draw a short line before
+				   the time. */
+				gdk_draw_line (drawable, dark_gc,
+					       short_line_x1, row_y,
+					       long_line_x2, row_y);
+			}
+
+			/* Normally we display the minute in each
+			   interval, but when using 30-minute intervals
+			   we don't display the '30'. */
+			if (day_view->mins_per_row != 30 || minute != 30) {
+				/* In 12-hour format we display 'am' or 'pm'
+				   instead of '00'. */
+				if (minute == 0
+				    && !day_view->use_24_hour_format) {
+					strcpy (buffer, suffix);
+				} else {
+					g_snprintf (buffer, sizeof (buffer),
+						    "%02i", minute);
 				}
+				minute_width = gdk_string_width (small_font,
+								 buffer);
+				gdk_draw_string (drawable, small_font, fg_gc,
+						 minute_x2 - minute_width,
+						 row_y + small_font_y_offset,
+						 buffer);
 			}
 		}
 
-		/* Note that mins_per_row is never > 60, so we never have to
-		   worry about adding more than 60 minutes. */
-		minute += day_view->mins_per_row;
-		if (minute >= 60) {
-			minute -= 60;
-			/* Currently we never wrap around to the next day, but
-			   we may do if we display extra timezones. */
-			hour = (hour + 1) % 24;
-		}
+		e_day_view_time_item_increment_time (&hour, &minute,
+						     day_view->mins_per_row);
+	}
+}
+
+
+/* Increment the time by the 5/10/15/30/60 minute interval.
+   Note that mins_per_row is never > 60, so we never have to
+   worry about adding more than 60 minutes. */
+static void
+e_day_view_time_item_increment_time	(gint	*hour,
+					 gint	*minute,
+					 gint	 mins_per_row)
+{
+	*minute += mins_per_row;
+	if (*minute >= 60) {
+		*minute -= 60;
+		/* Currently we never wrap around to the next day, but
+		   we may do if we display extra timezones. */
+		*hour = (*hour + 1) % 24;
 	}
 }
 
@@ -434,7 +512,8 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
 	e_auto_kill_popup_menu_on_hide (GTK_MENU (menu));
 
 	for (i = 0; i < num_divisions; i++) {
-		sprintf (buffer, _("%02i minute divisions"), divisions[i]);
+		g_snprintf (buffer, sizeof (buffer),
+			    _("%02i minute divisions"), divisions[i]);
 		item = gtk_radio_menu_item_new_with_label (group, buffer);
 		group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (item));
 		gtk_widget_show (item);

@@ -1,3 +1,10 @@
+2000-11-28  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-day-view*.[hc]: 
+	* gui/e-week-view*.[hc]: finished 12-hour support and tried to tidy
+	up & comment the drawing code in places. Also fixed a couple of bugs I
+	spotted. All the options on the 'Calendar' page should now work.
+
 2000-11-28  Jesse Pavel   <jpavel@helixcode.com>
 
 	*gui/e-meeting-edit.c: removed some debugging code that I had,

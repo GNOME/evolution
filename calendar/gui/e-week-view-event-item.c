@@ -48,6 +48,12 @@ static void e_week_view_event_item_draw		(GnomeCanvasItem *item,
 						 int		  y,
 						 int		  width,
 						 int		  height);
+static void e_week_view_draw_time		(EWeekView	*week_view,
+						 GdkDrawable	*drawable,
+						 gint		 time_x,
+						 gint		 time_y,
+						 gint		 hour,
+						 gint		 minute);
 static void e_week_view_event_item_draw_icons	(EWeekViewEventItem *wveitem,
 						 GdkDrawable        *drawable,
 						 gint		     icon_x,
@@ -237,13 +243,12 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 	EWeekViewEventSpan *span;
 	GtkStyle *style;
 	GdkGC *fg_gc, *gc;
-	GdkFont *font;
-	gint x1, y1, x2, y2, time_x, time_y, time_y_small_min;
-	gint icon_x, icon_y, time_width, min_end_time_x;
+	gint x1, y1, x2, y2, time_x, time_y;
+	gint icon_x, icon_y, time_width, min_end_time_x, max_icon_x;
 	gint rect_x, rect_w, rect_x2;
 	gboolean one_day_event, editing_span = FALSE;
-	gint start_minute, end_minute;
-	gchar buffer[128];
+	gint start_hour, start_minute, end_hour, end_minute;
+	gboolean draw_start, draw_end;
 	gboolean draw_start_triangle = FALSE, draw_end_triangle = FALSE;
 	GdkRectangle clip_rect;
 
@@ -265,7 +270,6 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 			       event->spans_index + wveitem->span_num);
 
 	style = GTK_WIDGET (week_view)->style;
-	font = style->font;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	gc = week_view->main_gc;
 
@@ -277,83 +281,63 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 	if (x1 == x2 || y1 == y2)
 		return;
 
-	icon_y = y1 + E_WEEK_VIEW_EVENT_BORDER_HEIGHT + E_WEEK_VIEW_ICON_Y_PAD;
-	start_minute = event->start_minute;
-	end_minute = event->end_minute;
-	time_y_small_min = 0;
 	icon_x = 0;
+	icon_y = y1 + E_WEEK_VIEW_EVENT_BORDER_HEIGHT + E_WEEK_VIEW_ICON_Y_PAD;
+
+	/* Get the start & end times in 24-hour format. */
+	start_hour = event->start_minute / 60;
+	start_minute = event->start_minute % 60;
+	end_hour = event->end_minute / 60;
+	end_minute = event->end_minute % 60;
 
 	time_y = y1 + E_WEEK_VIEW_EVENT_BORDER_HEIGHT
-		+ E_WEEK_VIEW_EVENT_TEXT_Y_PAD + font->ascent;
+		+ E_WEEK_VIEW_EVENT_TEXT_Y_PAD;
 
-	if (week_view->small_font)
-		time_y_small_min = y1 + E_WEEK_VIEW_EVENT_BORDER_HEIGHT
-			+ E_WEEK_VIEW_EVENT_TEXT_Y_PAD
-			+ week_view->small_font->ascent;
-
-	if (week_view->use_small_font && week_view->small_font)
-		time_width = week_view->digit_width * 2
-			+ week_view->small_digit_width * 2;
-	else
-		time_width = week_view->digit_width * 4
-			+ week_view->colon_width;
+	time_width = e_week_view_get_time_string_width (week_view);
 
 	one_day_event = e_week_view_is_one_day_event (week_view,
 						      wveitem->event_num);
 	if (one_day_event) {
 		time_x = x1 + E_WEEK_VIEW_EVENT_L_PAD;
 
-		/* Convert the time into a string. We use different parts of
-		   the string for the different time formats. Notice that the
-		   string is always 11 characters long. */
-		sprintf (buffer, "%02i:%02i %02i:%02i",
-			 start_minute / 60, start_minute % 60,
-			 end_minute / 60, end_minute % 60);
-
 		/* Draw the start and end times, as required. */
 		switch (week_view->time_format) {
 		case E_WEEK_VIEW_TIME_BOTH_SMALL_MIN:
-			gdk_draw_text (drawable, font, fg_gc,
-				       time_x, time_y, buffer, 2);
-			gdk_draw_text (drawable, week_view->small_font, fg_gc,
-				       time_x + week_view->digit_width * 2,
-				       time_y_small_min, buffer + 3, 2);
-			gdk_draw_text (drawable, font, fg_gc,
-				       time_x + week_view->digit_width * 4 - 2,
-				       time_y, buffer + 6, 2);
-			gdk_draw_text (drawable, week_view->small_font, fg_gc,
-				       time_x + week_view->digit_width * 6 - 2,
-				       time_y_small_min, buffer + 9, 2);
-
-			icon_x = x1 + time_width * 2 + week_view->space_width
-				+ E_WEEK_VIEW_EVENT_TEXT_X_PAD;
-			break;
-		case E_WEEK_VIEW_TIME_START_SMALL_MIN:
-			gdk_draw_text (drawable, font, fg_gc,
-				       time_x, time_y, buffer, 2);
-			gdk_draw_text (drawable, week_view->small_font, fg_gc,
-				       time_x + week_view->digit_width * 2,
-				       time_y_small_min, buffer + 3, 2);
-
-			icon_x = x1 + time_width
-				+ E_WEEK_VIEW_EVENT_TEXT_X_PAD;
-			break;
 		case E_WEEK_VIEW_TIME_BOTH:
-			gdk_draw_text (drawable, font, fg_gc,
-				       time_x, time_y, buffer, 11);
-			icon_x = x1 + time_width * 2 + week_view->space_width
-				+ E_WEEK_VIEW_EVENT_TEXT_X_PAD;
+			draw_start = TRUE;
+			draw_end = TRUE;
 			break;
+
+		case E_WEEK_VIEW_TIME_START_SMALL_MIN:
 		case E_WEEK_VIEW_TIME_START:
-			gdk_draw_text (drawable, font, fg_gc,
-				       time_x, time_y, buffer, 5);
-			icon_x = x1 + time_width
-				+ E_WEEK_VIEW_EVENT_TEXT_X_PAD;
+			draw_start = TRUE;
+			draw_end = FALSE;
 			break;
+
 		case E_WEEK_VIEW_TIME_NONE:
-			icon_x = x1 + E_WEEK_VIEW_EVENT_L_PAD;
+			draw_start = FALSE;
+			draw_end = FALSE;
 			break;
 		}
+
+		if (draw_start) {
+			e_week_view_draw_time (week_view, drawable,
+					       time_x, time_y,
+					       start_hour, start_minute);
+			time_x += time_width;
+		}
+
+		if (draw_end) {
+			time_x += E_WEEK_VIEW_EVENT_TIME_SPACING;
+			e_week_view_draw_time (week_view, drawable,
+					       time_x, time_y,
+					       end_hour, end_minute);
+			time_x += time_width;
+		}
+
+		icon_x = time_x;
+		if (draw_start)
+			icon_x += E_WEEK_VIEW_EVENT_TIME_X_PAD;
 
 		/* Draw the icons. */
 		e_week_view_event_item_draw_icons (wveitem, drawable,
@@ -365,7 +349,10 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 		rect_w = x2 - x1 - E_WEEK_VIEW_EVENT_L_PAD
 			- E_WEEK_VIEW_EVENT_R_PAD + 1;
 
-		/* Draw the triangles at the start & end, if needed. */
+		/* Draw the triangles at the start & end, if needed.
+		   They also use the first few pixels at the edge of the
+		   event so we update rect_x & rect_w so we don't draw over
+		   them. */
 		if (event->start < week_view->day_starts[span->start_day]) {
 			draw_start_triangle = TRUE;
 			rect_x += 2;
@@ -402,17 +389,21 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 		if (span->text_item && E_TEXT (span->text_item)->editing)
 			editing_span = TRUE;
 
-		/* Draw the start & end times, if necessary. */
+		/* Draw the start & end times, if they are not on day
+		   boundaries. The start time would always be shown if it was
+		   needed, though it may be clipped as the window shrinks.
+		   The end time is only displayed if there is enough room.
+		   We calculate the minimum position for the end time, which
+		   depends on whether the start time is displayed. If the end
+		   time doesn't fit, then we don't draw it. */
 		min_end_time_x = x1 + E_WEEK_VIEW_EVENT_L_PAD
 			+ E_WEEK_VIEW_EVENT_BORDER_WIDTH
-			+ E_WEEK_VIEW_EVENT_TEXT_X_PAD;
+			+ E_WEEK_VIEW_EVENT_EDGE_X_PAD;
 		if (!editing_span
 		    && event->start > week_view->day_starts[span->start_day]) {
-			sprintf (buffer, "%02i:%02i",
-				 start_minute / 60, start_minute % 60);
 			time_x = x1 + E_WEEK_VIEW_EVENT_L_PAD
 				+ E_WEEK_VIEW_EVENT_BORDER_WIDTH
-				+ E_WEEK_VIEW_EVENT_TEXT_X_PAD;
+				+ E_WEEK_VIEW_EVENT_EDGE_X_PAD;
 
 			clip_rect.x = x1;
 			clip_rect.y = y1;
@@ -421,52 +412,39 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 			clip_rect.height = y2 - y1 + 1;
 			gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
 
-			if (week_view->use_small_font
-			    && week_view->small_font) {
-				gdk_draw_text (drawable, font, fg_gc,
-					       time_x, time_y, buffer, 2);
-				gdk_draw_text (drawable, week_view->small_font,
-					       fg_gc,
-					       time_x + week_view->digit_width * 2,
-					       time_y_small_min,
-					       buffer + 3, 2);
-			} else {
-				gdk_draw_text (drawable, font, fg_gc,
-					       time_x, time_y, buffer, 5);
-			}
+			e_week_view_draw_time (week_view, drawable,
+					       time_x, time_y,
+					       start_hour, start_minute);
 
 			gdk_gc_set_clip_rectangle (fg_gc, NULL);
 
-			min_end_time_x += time_width + 2;
+			/* We don't want the end time to be drawn over the
+			   start time, so we increase the minimum position. */
+			min_end_time_x += time_width
+				+ E_WEEK_VIEW_EVENT_TIME_X_PAD;
 		}
+
+		max_icon_x = x2 + 1 - E_WEEK_VIEW_EVENT_R_PAD
+			- E_WEEK_VIEW_EVENT_BORDER_WIDTH
+			- E_WEEK_VIEW_EVENT_EDGE_X_PAD;
 
 		if (!editing_span
 		    && event->end < week_view->day_starts[span->start_day
 							 + span->num_days]) {
-			sprintf (buffer, "%02i:%02i",
-				 end_minute / 60, end_minute % 60);
-			time_x = x2 - E_WEEK_VIEW_EVENT_R_PAD
+			/* Calculate where the end time should be displayed. */
+			time_x = x2 + 1 - E_WEEK_VIEW_EVENT_R_PAD
 				- E_WEEK_VIEW_EVENT_BORDER_WIDTH
-				- E_WEEK_VIEW_EVENT_TEXT_X_PAD - 1
+				- E_WEEK_VIEW_EVENT_EDGE_X_PAD
 				- time_width;
 
+			/* Draw the end time, if the position is greater than
+			   the minimum calculated above. */
 			if (time_x >= min_end_time_x) {
-				if (week_view->use_small_font
-				    && week_view->small_font) {
-					gdk_draw_text (drawable, font, fg_gc,
+				e_week_view_draw_time (week_view, drawable,
 						       time_x, time_y,
-						       buffer, 2);
-					gdk_draw_text (drawable,
-						       week_view->small_font,
-						       fg_gc,
-						       time_x + week_view->digit_width * 2,
-						       time_y_small_min,
-						       buffer + 3, 2);
-				} else {
-					gdk_draw_text (drawable, font, fg_gc,
-						       time_x, time_y,
-						       buffer, 5);
-				}
+						       end_hour, end_minute);
+				max_icon_x -= time_width
+					+ E_WEEK_VIEW_EVENT_TIME_X_PAD;
 			}
 		}
 
@@ -475,8 +453,78 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 			icon_x = span->text_item->x1 - x;
 			e_week_view_event_item_draw_icons (wveitem, drawable,
 							   icon_x, icon_y,
-							   x2, TRUE);
+							   max_icon_x, TRUE);
 		}
+	}
+}
+
+
+static void
+e_week_view_draw_time	(EWeekView	*week_view,
+			 GdkDrawable	*drawable,
+			 gint		 time_x,
+			 gint		 time_y,
+			 gint		 hour,
+			 gint		 minute)
+{
+	GtkStyle *style;
+	GdkGC *fg_gc;
+	GdkFont *font, *small_font;
+	gint hour_to_display, suffix_width;
+	gint time_y_normal_font, time_y_small_font;
+	gchar buffer[128], *suffix;
+
+	style = GTK_WIDGET (week_view)->style;
+	font = style->font;
+	small_font = week_view->small_font;
+	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
+
+	time_y_normal_font = time_y_small_font = time_y + font->ascent;
+	if (small_font)
+		time_y_small_font = time_y + small_font->ascent;
+
+	e_week_view_convert_time_to_display (week_view, hour, &hour_to_display,
+					     &suffix, &suffix_width);
+
+	if (week_view->use_small_font && week_view->small_font) {
+		g_snprintf (buffer, sizeof (buffer), "%2i:%02i",
+			    hour_to_display, minute);
+
+		/* Draw the hour. */
+		if (hour_to_display < 10)
+			gdk_draw_text (drawable, font, fg_gc,
+				       time_x + week_view->digit_width,
+				       time_y_normal_font, buffer + 1, 1);
+		else
+			gdk_draw_text (drawable, font, fg_gc,
+				       time_x, time_y_normal_font, buffer, 2);
+
+		time_x += week_view->digit_width * 2;
+
+		/* Draw the start minute, in the small font. */
+		gdk_draw_text (drawable, week_view->small_font, fg_gc,
+			       time_x, time_y_small_font, buffer + 3, 2);
+
+		time_x += week_view->small_digit_width * 2;
+
+		/* Draw the 'am'/'pm' suffix, if 12-hour format. */
+		if (!week_view->use_24_hour_format) {
+			gdk_draw_string (drawable, font, fg_gc,
+					 time_x, time_y_normal_font, suffix);
+		}
+	} else {
+		/* Draw the start time in one go. */
+		g_snprintf (buffer, sizeof (buffer), "%2i:%02i%s",
+			    hour_to_display, minute, suffix);
+		if (hour_to_display < 10)
+			gdk_draw_string (drawable, font, fg_gc,
+					 time_x + week_view->digit_width,
+					 time_y_normal_font, buffer + 1);
+		else
+			gdk_draw_string (drawable, font, fg_gc,
+					 time_x, time_y_normal_font,
+					 buffer);
+
 	}
 }
 
@@ -741,12 +789,12 @@ e_week_view_event_item_get_position (EWeekViewEventItem *wveitem,
 	if (!e_week_view_is_one_day_event (week_view, wveitem->event_num)) {
 		if (x < item->x1 + E_WEEK_VIEW_EVENT_L_PAD
 		    + E_WEEK_VIEW_EVENT_BORDER_WIDTH
-		    + E_WEEK_VIEW_EVENT_TEXT_X_PAD)
+		    + E_WEEK_VIEW_EVENT_EDGE_X_PAD)
 			return E_WEEK_VIEW_POS_LEFT_EDGE;
 
-		if (x >= item->x2 - E_WEEK_VIEW_EVENT_R_PAD
+		if (x >= item->x2 + 1 - E_WEEK_VIEW_EVENT_R_PAD
 		    - E_WEEK_VIEW_EVENT_BORDER_WIDTH
-		    - E_WEEK_VIEW_EVENT_TEXT_X_PAD)
+		    - E_WEEK_VIEW_EVENT_EDGE_X_PAD)
 			return E_WEEK_VIEW_POS_RIGHT_EDGE;
 	}
 

@@ -1586,7 +1586,6 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 	/* Convert it to 0 (Mon) to 6 (Sun), which is what we use. */
 	week_start_day = (week_start_day + 6) % 7;
 
-	g_print ("Setting week start day to %i (0=Sun)\n", week_start_day);
 	e_day_view_set_week_start_day (E_DAY_VIEW (priv->day_view),
 					week_start_day);
 	e_day_view_set_week_start_day (E_DAY_VIEW (priv->work_week_view),
@@ -1615,13 +1614,10 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 				       use_24_hour);
 	e_day_view_set_24_hour_format (E_DAY_VIEW (priv->work_week_view),
 				       use_24_hour);
-	/* FIXME: Add support for these. */
-#if 0
 	e_week_view_set_24_hour_format (E_WEEK_VIEW (priv->week_view),
 					use_24_hour);
 	e_week_view_set_24_hour_format (E_WEEK_VIEW (priv->month_view),
 					use_24_hour);
-#endif
 
 	time_divisions = calendar_config_get_time_divisions ();
 	e_day_view_set_mins_per_row (E_DAY_VIEW (priv->day_view),
@@ -1959,8 +1955,11 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
 
 	new_days_shown = g_date_julian (&new_end_date) - g_date_julian (&new_start_date) + 1;
 
-	/* FIXME: This assumes weeks start on Monday for now. */
-	if (g_date_weekday (&new_start_date) - 1 == 0)
+	/* If a complete week is selected we show the Week view.
+	   Note that if weekends are compressed and the week start day is set
+	   to Sunday we don't actually show complete weeks in the Week view,
+	   so this may need tweaking. */
+	if ((g_date_weekday (&new_start_date) + 5) % 7 == calendar_config_get_week_start_day ())
 		starts_on_week_start_day = TRUE;
 
 	/* Switch views as appropriate, and change the number of days or weeks

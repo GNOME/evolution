@@ -41,30 +41,38 @@ extern "C" {
    but we allow 6 for longer selections. */
 #define E_WEEK_VIEW_MAX_WEEKS		6
 
-/* The size of the reminder & recurrence icons, and padding around them. */
+/* The size of the reminder & recurrence icons, and padding around them.
+   X_PAD is the padding between icons. R_PAD is the padding on the right of
+   the last icon, before the event text. */
 #define E_WEEK_VIEW_ICON_WIDTH		16
 #define E_WEEK_VIEW_ICON_HEIGHT		16
 #define E_WEEK_VIEW_ICON_X_PAD		0
 #define E_WEEK_VIEW_ICON_Y_PAD		0
+#define E_WEEK_VIEW_ICON_R_PAD		2
 
-/* The space on the left & right of the event. (The triangle to indicate the
-   event continues is displayed in this space). */
+/* The space on the left & right outside of the event. (The triangle to
+   indicate the event continues is displayed in this space). */
 #define E_WEEK_VIEW_EVENT_L_PAD		2
-#define E_WEEK_VIEW_EVENT_R_PAD		3
+#define E_WEEK_VIEW_EVENT_R_PAD		2
 
 /* The vertical spacing between rows of events. */
 #define E_WEEK_VIEW_EVENT_Y_SPACING	1
 
-/* The size of the border around the event. */
+/* The size of the border around long events. */
 #define E_WEEK_VIEW_EVENT_BORDER_WIDTH	1
 #define E_WEEK_VIEW_EVENT_BORDER_HEIGHT	1
 
-/* The padding on each side of the event text. */
-#define E_WEEK_VIEW_EVENT_TEXT_X_PAD	4
+/* The padding on the top and bottom of the event text. */
 #define E_WEEK_VIEW_EVENT_TEXT_Y_PAD	1
 
-/* The space on the right of the time string, if it is shown. */
-#define E_WEEK_VIEW_EVENT_TIME_R_PAD	2
+/* The space between the start and end times. */
+#define E_WEEK_VIEW_EVENT_TIME_SPACING	2
+
+/* The space between the time and the event text or icons. */
+#define E_WEEK_VIEW_EVENT_TIME_X_PAD	2
+
+/* The space between the borders of long events and any text of icons. */
+#define E_WEEK_VIEW_EVENT_EDGE_X_PAD	2
 
 /* The padding above and on the right of the date string at the top of each
    cell. */
@@ -213,6 +221,9 @@ struct _EWeekView
 	/* The first day of the week, 0 (Monday) to 6 (Sunday). */
 	gint week_start_day;
 
+	/* Whether we use 12-hour of 24-hour format. */
+	gboolean use_24_hour_format;
+
 	/* The first day of the week we display, 0 (Monday) to 6 (Sunday).
 	   This will usually be week_start_day, but if the weekend is
 	   compressed, and week_start_day is Sunday we have to use Saturday. */
@@ -315,6 +326,12 @@ struct _EWeekView
 	/* The last mouse position when dragging, in the entire canvas. */
 	gint drag_event_x;
 	gint drag_event_y;
+
+	/* "am" and "pm" in the current locale, and their widths. */
+	gchar *am_string;
+	gchar *pm_string;
+	gint am_string_width;
+	gint pm_string_width;
 };
 
 struct _EWeekViewClass
@@ -377,6 +394,11 @@ gint	   e_week_view_get_week_start_day	(EWeekView	*week_view);
 void	   e_week_view_set_week_start_day	(EWeekView	*week_view,
 						 gint		 week_start_day);
 
+/* Whether we use 12-hour or 24-hour format. */
+gboolean   e_week_view_get_24_hour_format	(EWeekView	*week_view);
+void	   e_week_view_set_24_hour_format	(EWeekView	*week_view,
+						 gboolean	 use_24_hour);
+
 
 
 /*
@@ -405,6 +427,13 @@ void	   e_week_view_stop_editing_event	(EWeekView	*week_view);
 void	   e_week_view_show_popup_menu		(EWeekView	*week_view,
 						 GdkEventButton *event,
 						 gint		 event_num);
+
+void	   e_week_view_convert_time_to_display	(EWeekView	*week_view,
+						 gint		 hour,
+						 gint		*display_hour,
+						 gchar	       **suffix,
+						 gint		*suffix_width);
+gint	   e_week_view_get_time_string_width	(EWeekView	*week_view);
 
 #ifdef __cplusplus
 }
