@@ -1,3 +1,23 @@
+2002-04-23  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-addressbook-reflow-adapter.c,
+	gui/widgets/e-addressbook-reflow-adapter.h: Removed
+	e_addressbook_reflow_adapter_right_click and
+	e_addressbook_reflow_adapter_base_right_click.
+
+	* gui/widgets/e-addressbook-view.c: Handle right click menu for
+	both types of view.  Merged right click on white space with right
+	click on main area.  General clean up.
+
+	* gui/widgets/e-minicard-view-widget.c,
+	gui/widgets/e-minicard-view-widget.h: Removed a couple unnecessary
+	functions.  Added e_minicard_view_widget_get_view.  Added
+	right_click signal.
+
+	* gui/widgets/e-minicard-view.c, gui/widgets/e-minicard-view.h:
+	Added the right_click signal and the e_minicard_view_get_card_list
+	function.
+
 2002-04-22  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/e-select-names.h: Removed an unused

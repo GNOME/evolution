@@ -70,8 +70,6 @@ struct _EMinicardView
 	
 	/* item specific fields */
 
-	ESelectionModelSimple *selection;
-
 	GList *drag_list;
 
 	guint canvas_drag_data_get_id;
@@ -82,14 +80,17 @@ struct _EMinicardView
 struct _EMinicardViewClass
 {
 	EReflowClass parent_class;
+
+	void (*right_click) (EMinicardView *view, GdkEvent *event);
 };
 
-GtkType    e_minicard_view_get_type (void);
-void       e_minicard_view_remove_selection (EMinicardView *view,
-					     EBookCallback  cb,
-					     gpointer       closure);
-void       e_minicard_view_jump_to_letter   (EMinicardView *view,
-                                             gunichar letter);
+GtkType  e_minicard_view_get_type          (void);
+void     e_minicard_view_remove_selection  (EMinicardView *view,
+					    EBookCallback  cb,
+					    gpointer       closure);
+void     e_minicard_view_jump_to_letter    (EMinicardView *view,
+					    gunichar       letter);
+GList   *e_minicard_view_get_card_list     (EMinicardView *view);
 
 #ifdef __cplusplus
 }

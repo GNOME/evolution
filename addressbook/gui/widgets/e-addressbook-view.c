@@ -576,6 +576,296 @@ e_addressbook_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 }
 
+/* Popup menu stuff */
+typedef struct {
+	EAddressbookView *view;
+	EPopupMenu *submenu;
+	gpointer closure;
+} CardAndBook;
+
+static void
+card_and_book_free (CardAndBook *card_and_book)
+{
+	EAddressbookView *view = card_and_book->view;
+
+	if (card_and_book->submenu)
+		gal_view_instance_free_popup_menu (card_and_book->view->view_instance,
+						   card_and_book->submenu);
+
+	if (E_IS_TABLE_SCROLLED (view->widget)) {
+		ETable *table = e_table_scrolled_get_table (E_TABLE_SCROLLED (view->widget));
+
+		e_table_right_click_up (table);
+	} else if (E_IS_MINICARD_VIEW_WIDGET (view->object)) {
+		EMinicardViewWidget *minicard_view_widget =
+			E_MINICARD_VIEW_WIDGET (view->object);
+		ESelectionModel *selection =
+			e_minicard_view_widget_get_selection_model (minicard_view_widget);
+
+		e_selection_model_right_click_up(selection);
+	}
+
+	gtk_object_unref(GTK_OBJECT(card_and_book->view));
+}
+
+static void
+table_get_card_list_1(gint model_row,
+		      gpointer closure)
+{
+	CardAndBook *card_and_book;
+	GList **list;
+	EAddressbookView *view;
+	ECard *card;
+
+	card_and_book = closure;
+	list = card_and_book->closure;
+	view = card_and_book->view;
+
+	card = e_addressbook_model_get_card(view->model, model_row);
+	*list = g_list_prepend(*list, card);
+}
+
+static GList *
+get_card_list (CardAndBook *card_and_book)
+{
+	GList *list = NULL;
+	EAddressbookView *view = card_and_book->view;
+
+	if (E_IS_TABLE_SCROLLED (view->widget)) {
+		ETable *table;
+		ETableScrolled *scrolled = E_TABLE_SCROLLED (view->widget);
+		table = e_table_scrolled_get_table (scrolled);
+		card_and_book->closure = &list;
+		e_table_selected_row_foreach(table,
+					     table_get_card_list_1,
+					     card_and_book);
+	} else if (E_IS_MINICARD_VIEW_WIDGET (view->object)) {
+		EMinicardViewWidget *view_widget = 
+			E_MINICARD_VIEW_WIDGET (view->object);
+		EMinicardView *view =
+			e_minicard_view_widget_get_view (view_widget);
+
+		list = e_minicard_view_get_card_list (view);
+	}
+
+	return list;
+}
+
+static void
+save_as (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	GList *cards = get_card_list (card_and_book);
+	if (cards) {
+		e_contact_list_save_as(_("Save as VCard"), cards);
+		e_free_object_list(cards);
+	}
+}
+
+static void
+send_as (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	GList *cards = get_card_list (card_and_book);
+	if (cards) {
+		e_card_list_send(cards, E_CARD_DISPOSITION_AS_ATTACHMENT);
+		e_free_object_list(cards);
+	}
+}
+
+static void
+send_to (GtkWidget *widget, CardAndBook *card_and_book)
+
+{
+	GList *cards = get_card_list (card_and_book);
+	if (cards) {
+		e_card_list_send(cards, E_CARD_DISPOSITION_AS_TO);
+		e_free_object_list(cards);
+	}
+}
+
+static void
+print (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	GList *cards = get_card_list (card_and_book);
+	if (cards) {
+		if (cards->next)
+			gtk_widget_show(e_contact_print_card_list_dialog_new(cards));
+		else
+			gtk_widget_show(e_contact_print_card_dialog_new(cards->data));
+		e_free_object_list(cards);
+	}
+}
+
+#if 0 /* Envelope printing is disabled for Evolution 1.0. */
+static void
+print_envelope (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	GList *cards = get_card_list (card_and_book);
+	if (cards) {
+		gtk_widget_show(e_contact_list_print_envelope_dialog_new(card_and_book->card));
+		e_free_object_list(cards);
+	}
+}
+#endif
+
+static void
+copy (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	e_addressbook_view_copy (card_and_book->view);
+}
+
+static void
+paste (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	e_addressbook_view_paste (card_and_book->view);
+}
+
+static void
+cut (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	e_addressbook_view_cut (card_and_book->view);
+}
+
+static void
+delete (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	if (e_contact_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(card_and_book->view->widget)))) {
+		EBook *book;
+
+		GList *list = get_card_list(card_and_book);
+		GList *iterator;
+
+		gtk_object_get(GTK_OBJECT(card_and_book->view->model),
+			       "book", &book,
+			       NULL);
+
+		for (iterator = list; iterator; iterator = iterator->next) {
+			ECard *card = iterator->data;
+			/* Remove the card. */
+			e_book_remove_card (book,
+					    card,
+					    NULL,
+					    NULL);
+		}
+		e_free_object_list(list);
+	}
+}
+
+static void
+copy_to_folder (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	e_addressbook_view_copy_to_folder (card_and_book->view);
+}
+
+static void
+move_to_folder (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	e_addressbook_view_move_to_folder (card_and_book->view);
+}
+
+static void
+free_popup_info (GtkWidget *w, CardAndBook *card_and_book)
+{
+	card_and_book_free (card_and_book);
+}
+
+static void
+new_card (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	EBook *book;
+
+	gtk_object_get(GTK_OBJECT(card_and_book->view->model),
+		       "book", &book,
+		       NULL);
+	e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, TRUE);
+}
+
+static void
+new_list (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	EBook *book;
+
+	gtk_object_get(GTK_OBJECT(card_and_book->view->model),
+		       "book", &book,
+		       NULL);
+	e_addressbook_show_contact_list_editor (book, e_card_new(""), TRUE, TRUE);
+}
+
+#define POPUP_READONLY_MASK 0x1
+#define POPUP_NOSELECTION_MASK 0x2
+
+static void
+do_popup_menu(EAddressbookView *view, GdkEvent *event)
+{
+	CardAndBook *card_and_book;
+	GtkMenu *popup;
+	EPopupMenu *submenu = NULL;
+	gboolean selection;
+
+	EPopupMenu menu[] = {
+		E_POPUP_ITEM (N_("New Contact..."), GTK_SIGNAL_FUNC(new_card), POPUP_READONLY_MASK),
+		E_POPUP_ITEM (N_("New Contact List..."), GTK_SIGNAL_FUNC(new_list), POPUP_READONLY_MASK),
+		E_POPUP_SEPARATOR,
+#if 0
+		E_POPUP_ITEM (N_("Go to Folder..."), GTK_SIGNAL_FUNC (goto_folder), 0),
+		E_POPUP_ITEM (N_("Import..."), GTK_SIGNAL_FUNC (import), POPUP_READONLY_MASK),
+		E_POPUP_SEPARATOR,
+		E_POPUP_ITEM (N_("Search for Contacts..."), GTK_SIGNAL_FUNC (search), 0),
+		E_POPUP_ITEM (N_("Addressbook Sources..."), GTK_SIGNAL_FUNC (sources), 0),
+		E_POPUP_SEPARATOR,
+		E_POPUP_ITEM (N_("Pilot Settings..."), GTK_SIGNAL_FUNC (pilot_settings), 0),
+#endif
+		E_POPUP_SEPARATOR,
+		E_POPUP_ITEM (N_("Save as VCard"), GTK_SIGNAL_FUNC(save_as), POPUP_NOSELECTION_MASK),
+		E_POPUP_ITEM (N_("Forward Contact"), GTK_SIGNAL_FUNC(send_as), POPUP_NOSELECTION_MASK),
+		E_POPUP_ITEM (N_("Send Message to Contact"), GTK_SIGNAL_FUNC(send_to), POPUP_NOSELECTION_MASK),
+		E_POPUP_ITEM (N_("Print"), GTK_SIGNAL_FUNC(print), POPUP_NOSELECTION_MASK),
+#if 0 /* Envelope printing is disabled for Evolution 1.0. */
+		E_POPUP_ITEM (N_("Print Envelope"), GTK_SIGNAL_FUNC(print_envelope), POPUP_NOSELECTION_MASK),
+#endif
+		E_POPUP_SEPARATOR,
+
+		E_POPUP_ITEM (N_("Copy to folder..."), GTK_SIGNAL_FUNC(copy_to_folder), POPUP_NOSELECTION_MASK), 
+		E_POPUP_ITEM (N_("Move to folder..."), GTK_SIGNAL_FUNC(move_to_folder), POPUP_READONLY_MASK | POPUP_NOSELECTION_MASK),
+		E_POPUP_SEPARATOR,
+
+		E_POPUP_ITEM (N_("Cut"), GTK_SIGNAL_FUNC (cut), POPUP_READONLY_MASK | POPUP_NOSELECTION_MASK),
+		E_POPUP_ITEM (N_("Copy"), GTK_SIGNAL_FUNC (copy), POPUP_NOSELECTION_MASK),
+		E_POPUP_ITEM (N_("Paste"), GTK_SIGNAL_FUNC (paste), POPUP_READONLY_MASK),
+		E_POPUP_ITEM (N_("Delete"), GTK_SIGNAL_FUNC(delete), POPUP_READONLY_MASK | POPUP_NOSELECTION_MASK),
+		E_POPUP_SEPARATOR,
+
+		E_POPUP_SUBMENU (N_("Current View"), submenu = gal_view_instance_get_popup_menu (view->view_instance), 0),
+		E_POPUP_TERMINATOR
+	};
+
+	if (E_IS_TABLE_SCROLLED(view->widget)) {
+		selection = e_table_selected_count(e_table_scrolled_get_table (E_TABLE_SCROLLED (view->widget))) > 0;
+	} else if (E_IS_MINICARD_VIEW_WIDGET (view->object)) {
+		EMinicardViewWidget *minicard_view_widget = E_MINICARD_VIEW_WIDGET (view->object);
+		ESelectionModel *selection_model = e_minicard_view_widget_get_selection_model (minicard_view_widget);
+		selection = e_selection_model_selected_count(selection_model) > 0;
+	} else {
+		selection = FALSE;
+	}
+	card_and_book = g_new(CardAndBook, 1);
+	card_and_book->view = view;
+	card_and_book->submenu = submenu;
+
+	gtk_object_ref(GTK_OBJECT(card_and_book->view));
+
+	popup = e_popup_menu_create (menu,
+				     (e_addressbook_model_editable (view->model) ? 0 : POPUP_READONLY_MASK) +
+				     (selection ? 0 : POPUP_NOSELECTION_MASK),
+				     0, card_and_book);
+
+	gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
+			    GTK_SIGNAL_FUNC (free_popup_info), card_and_book);
+	e_popup_menu (popup, event);
+
+}
+
+
+/* Minicard view stuff */
 
 /* Translators: put here a list of labels you want to see on buttons in
    addressbook. You may use any character to separate labels but it must
@@ -777,6 +1067,12 @@ minicard_button_press (GtkWidget *widget, GdkEventButton *event, EAddressbookVie
 }
 
 static void
+minicard_right_click (EMinicardView *minicard_view_item, GdkEvent *event, EAddressbookView *view)
+{
+	do_popup_menu(view, event);
+}
+
+static void
 create_minicard_view (EAddressbookView *view)
 {
 	GtkWidget *scrollframe;
@@ -801,6 +1097,9 @@ create_minicard_view (EAddressbookView *view)
 
 	gtk_signal_connect(GTK_OBJECT(minicard_view), "button_press_event",
 			   GTK_SIGNAL_FUNC(minicard_button_press), view);
+
+	gtk_signal_connect(GTK_OBJECT(minicard_view), "right_click",
+			   GTK_SIGNAL_FUNC(minicard_right_click), view);
 
 
 	view->object = GTK_OBJECT(minicard_view);
@@ -861,273 +1160,18 @@ table_double_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, E
 	}
 }
 
-typedef struct {
-	EBook *book;
-	ECard *card;
-	EAddressbookView *view;
-	GtkWidget *widget;
-	EPopupMenu *submenu;
-	gpointer closure;
-} CardAndBook;
-
-static void
-card_and_book_free (CardAndBook *card_and_book)
-{
-	if (card_and_book->submenu)
-		gal_view_instance_free_popup_menu (card_and_book->view->view_instance,
-						   card_and_book->submenu);
-
-	gtk_object_unref(GTK_OBJECT(card_and_book->card));
-	gtk_object_unref(GTK_OBJECT(card_and_book->book));
-	gtk_object_unref(GTK_OBJECT(card_and_book->view));
-}
-
-static void
-get_card_list_1(gint model_row,
-	      gpointer closure)
-{
-	CardAndBook *card_and_book;
-	GList **list;
-	EAddressbookView *view;
-	ECard *card;
-
-	card_and_book = closure;
-	list = card_and_book->closure;
-	view = card_and_book->view;
-
-	card = e_addressbook_model_get_card(view->model, model_row);
-	*list = g_list_prepend(*list, card);
-}
-
-static GList *
-get_card_list (CardAndBook *card_and_book)
-{
-	GList *list = NULL;
-	ETable *table;
-
-	table = E_TABLE(card_and_book->widget);
-	card_and_book->closure = &list;
-	e_table_selected_row_foreach(table,
-				     get_card_list_1,
-				     card_and_book);
-	return list;
-}
-
-static void
-save_as (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	e_contact_save_as(_("Save as VCard"), card_and_book->card);
-}
-
-static void
-send_as (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	e_card_send(card_and_book->card, E_CARD_DISPOSITION_AS_ATTACHMENT);
-}
-
-static void
-send_to (GtkWidget *widget, CardAndBook *card_and_book)
-
-{
-	e_card_send(card_and_book->card, E_CARD_DISPOSITION_AS_TO);
-}
-
-static void
-print (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	gtk_widget_show(e_contact_print_card_dialog_new(card_and_book->card));
-}
-
-#if 0 /* Envelope printing is disabled for Evolution 1.0. */
-static void
-print_envelope (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	gtk_widget_show(e_contact_print_envelope_dialog_new(card_and_book->card));
-}
-#endif
-
-static void
-copy (GtkWidget *widget, CardAndBook *card_and_book)
-{
-#if 0
-	card_and_book->view->clipboard_cards = g_list_append (NULL, card_and_book->card);
-	gtk_object_ref (GTK_OBJECT (card_and_book->card));
-	gtk_selection_owner_set (card_and_book->view->invisible, clipboard_atom, GDK_CURRENT_TIME);
-#endif
-
-	e_addressbook_view_copy (card_and_book->view);
-}
-
-static void
-paste (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	e_addressbook_view_paste (card_and_book->view);
-}
-
-static void
-cut (GtkWidget *widget, CardAndBook *card_and_book)
-{
-#if 0
-	/* copy */
-	card_and_book->view->clipboard_cards = g_list_append (NULL, card_and_book->card);
-	gtk_object_ref (GTK_OBJECT (card_and_book->card));
-	gtk_selection_owner_set (card_and_book->view->invisible, clipboard_atom, GDK_CURRENT_TIME);
-
-	/* delete */
-	e_book_remove_card (card_and_book->book, card_and_book->card, NULL, NULL);
-#endif
-
-	e_addressbook_view_cut (card_and_book->view);
-}
-
-static void
-delete (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	if (e_contact_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(card_and_book->widget)))) {
-		GList *list = get_card_list(card_and_book);
-		GList *iterator;
-		for (iterator = list; iterator; iterator = iterator->next) {
-			ECard *card = iterator->data;
-			/* Add the card in the contact editor to our ebook */
-			e_book_remove_card (card_and_book->book,
-					    card,
-					    NULL,
-					    NULL);
-		}
-		e_free_object_list(list);
-	}
-}
-
-static void
-copy_to_folder (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	e_addressbook_view_copy_to_folder (card_and_book->view);
-}
-
-static void
-move_to_folder (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	e_addressbook_view_move_to_folder (card_and_book->view);
-}
-
-static void
-free_popup_info (GtkWidget *w, CardAndBook *card_and_book)
-{
-	card_and_book_free (card_and_book);
-}
-
-#define POPUP_READONLY_MASK 0x1
 static gint
 table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EAddressbookView *view)
 {
-	if (E_IS_ADDRESSBOOK_TABLE_ADAPTER(view->object)) {
-		EAddressbookModel *model = view->model;
-		CardAndBook *card_and_book;
-		GtkMenu *popup;
-		EPopupMenu *submenu;
-
-		EPopupMenu menu[] = {
-			E_POPUP_ITEM (N_("Save as VCard"), GTK_SIGNAL_FUNC(save_as), 0),
-			E_POPUP_ITEM (N_("Forward Contact"), GTK_SIGNAL_FUNC(send_as), 0),
-			E_POPUP_ITEM (N_("Send Message to Contact"), GTK_SIGNAL_FUNC(send_to), 0),
-			E_POPUP_ITEM (N_("Print"), GTK_SIGNAL_FUNC(print), 0),
-#if 0 /* Envelope printing is disabled for Evolution 1.0. */
-			E_POPUP_ITEM (N_("Print Envelope"), GTK_SIGNAL_FUNC(print_envelope), 0),
-#endif
-			E_POPUP_SEPARATOR,
-
-			E_POPUP_ITEM (N_("Copy to folder..."), GTK_SIGNAL_FUNC(copy_to_folder), 0), 
-			E_POPUP_ITEM (N_("Move to folder..."), GTK_SIGNAL_FUNC(move_to_folder), POPUP_READONLY_MASK),
-			E_POPUP_SEPARATOR,
-
-			E_POPUP_ITEM (N_("Cut"), GTK_SIGNAL_FUNC (cut), POPUP_READONLY_MASK),
-			E_POPUP_ITEM (N_("Copy"), GTK_SIGNAL_FUNC (copy), 0),
-			E_POPUP_ITEM (N_("Paste"), GTK_SIGNAL_FUNC (paste), POPUP_READONLY_MASK),
-			E_POPUP_ITEM (N_("Delete"), GTK_SIGNAL_FUNC(delete), POPUP_READONLY_MASK),
-			E_POPUP_SEPARATOR,
-
-			E_POPUP_SUBMENU (N_("Current View"), submenu = gal_view_instance_get_popup_menu (view->view_instance), 0),
-			E_POPUP_TERMINATOR
-		};
-
-		card_and_book = g_new(CardAndBook, 1);
-		card_and_book->card = e_addressbook_model_get_card(model, row);
-		card_and_book->widget = GTK_WIDGET(table);
-		card_and_book->view = view;
-		card_and_book->submenu = submenu;
-		
-		gtk_object_get(GTK_OBJECT(model),
-			       "book", &(card_and_book->book),
-			       NULL);
-
-		gtk_object_ref(GTK_OBJECT(card_and_book->book));
-		gtk_object_ref(GTK_OBJECT(card_and_book->view));
-
-		popup = e_popup_menu_create (menu,
-					     e_addressbook_model_editable (model) ? 0 : POPUP_READONLY_MASK,
-					     0, card_and_book);
-
-		gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
-				    GTK_SIGNAL_FUNC (free_popup_info), card_and_book);
-		e_popup_menu (popup, event);
-
-		return TRUE;
-	} else
-		return FALSE;
-}
-
-static void
-new_card (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	e_addressbook_show_contact_editor (card_and_book->book, e_card_new(""), TRUE, TRUE);
-}
-
-static void
-new_list (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	e_addressbook_show_contact_list_editor (card_and_book->book, e_card_new(""), TRUE, TRUE);
+	do_popup_menu(view, event);
+	return TRUE;
 }
 
 static gint
 table_white_space_event(ETableScrolled *table, GdkEvent *event, EAddressbookView *view)
 {
-	if (event->type == GDK_BUTTON_PRESS && ((GdkEventButton *)event)->button == 3 &&
-	    E_IS_ADDRESSBOOK_TABLE_ADAPTER(view->object)) {
-		EAddressbookModel *model = view->model;
-		CardAndBook *card_and_book;
-		GtkMenu *popup;
-		EPopupMenu *submenu;
-
-		EPopupMenu menu[] = {
-			E_POPUP_ITEM (N_("New Contact..."), GTK_SIGNAL_FUNC(new_card), POPUP_READONLY_MASK),
-			E_POPUP_ITEM (N_("New Contact List..."), GTK_SIGNAL_FUNC(new_list), POPUP_READONLY_MASK),
-			E_POPUP_SEPARATOR,
-			E_POPUP_ITEM (N_("Paste"), GTK_SIGNAL_FUNC (paste), POPUP_READONLY_MASK),
-			E_POPUP_SEPARATOR,
-			E_POPUP_SUBMENU (N_("Current View"), submenu = gal_view_instance_get_popup_menu (view->view_instance), 0),
-			E_POPUP_TERMINATOR
-		};
-
-		card_and_book = g_new(CardAndBook, 1);
-		card_and_book->card = NULL;
-		card_and_book->widget = GTK_WIDGET(table);
-		card_and_book->view = view;
-		card_and_book->submenu = submenu;
-		gtk_object_get(GTK_OBJECT(model),
-			       "book", &(card_and_book->book),
-			       NULL);
-
-		gtk_object_ref(GTK_OBJECT(card_and_book->book));
-		gtk_object_ref(GTK_OBJECT(card_and_book->view));
-
-		popup = e_popup_menu_create (menu,
-					     e_addressbook_model_editable (model) ? 0 : POPUP_READONLY_MASK,
-					     0, card_and_book);
-		
-		gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
-				    GTK_SIGNAL_FUNC (free_popup_info), card_and_book);
-		e_popup_menu (popup, event);
-		
+	if (event->type == GDK_BUTTON_PRESS && ((GdkEventButton *)event)->button == 3) {
+		do_popup_menu(view, event);
 		return TRUE;
 	} else {
 		return FALSE;

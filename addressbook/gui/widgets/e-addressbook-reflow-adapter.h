@@ -44,9 +44,4 @@ EReflowModel *e_addressbook_reflow_adapter_new               (EAddressbookModel 
 /* Returns object with ref count of 1. */
 ECard        *e_addressbook_reflow_adapter_get_card          (EAddressbookReflowAdapter *adapter,
 							      int                        index);
-gint          e_addressbook_reflow_adapter_right_click       (EAddressbookReflowAdapter *emvm,
-							      GdkEvent                  *event,
-							      ESelectionModel           *selection);
-gint          e_addressbook_reflow_adapter_base_right_click  (EAddressbookReflowAdapter *adapter,
-							      GdkEvent                  *event);
 #endif /* _E_ADDRESSBOOK_REFLOW_ADAPTER_H_ */
