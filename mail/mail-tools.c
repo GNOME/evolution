@@ -201,6 +201,7 @@ mail_tool_remove_xevolution_headers (CamelMimeMessage *message)
 	xev->account = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account"));
 	xev->fcc = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc"));
 	xev->format = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Format"));
+	xev->postto = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-PostTo"));
 	
 	/* rip off the X-Evolution* headers */
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
@@ -209,6 +210,7 @@ mail_tool_remove_xevolution_headers (CamelMimeMessage *message)
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Format");
+	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-PostTo");
 	
 	return xev;
 }
@@ -228,6 +230,8 @@ mail_tool_restore_xevolution_headers (CamelMimeMessage *message, XEvolution *xev
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", xev->fcc);
 	if (xev->format)
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Format", xev->format);
+	if (xev->postto)
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-PostTo", xev->postto);
 }
 
 void
@@ -239,6 +243,7 @@ mail_tool_destroy_xevolution (XEvolution *xev)
 	g_free (xev->account);
 	g_free (xev->format);
 	g_free (xev->fcc);
+	g_free (xev->postto);
 	g_free (xev);
 }
 

@@ -34,6 +34,7 @@ typedef struct _xevolution {
 	char *account;
 	char *fcc;
 	char *format;
+	char *postto;
 } XEvolution;
 
 /* Get the CamelFolder for the local inbox */

@@ -1,3 +1,10 @@
+2002-08-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-tools.c (mail_tool_restore_xevolution_headers): Reset the
+	X-Evolution-PostTo header.
+	(mail_tool_remove_xevolution_headers): Remove the
+	X-Evolution-PostTo header.
+
 2002-08-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-folder-cache.c (ping_store): Spawn a new thread to ping the
