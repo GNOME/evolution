@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = mbox
+SUBDIRS = mbox sendmail
 # this ones are disabled for the moment.
 # MH maildir

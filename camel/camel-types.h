@@ -49,6 +49,7 @@ typedef struct _CamelStreamBufferedFs CamelStreamBufferedFs;
 typedef struct _CamelStreamDataWrapper CamelStreamDataWrapper;
 typedef struct _CamelStreamFs CamelStreamFs;
 typedef struct _CamelStreamMem CamelStreamMem;
+typedef struct _CamelTransport CamelTransport;
 
 #ifdef __cplusplus
 }

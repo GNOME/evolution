@@ -35,6 +35,8 @@ AC_ARG_PROGRAM
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
+AC_PATH_PROG(SENDMAIL, sendmail, /usr/sbin/sendmail, /usr/sbin:/usr/lib)
+AC_DEFINE_UNQUOTED(SENDMAIL_PATH, "$SENDMAIL")
 
 ALL_LINGUAS=""
 
@@ -226,6 +228,7 @@ camel/providers/Makefile
 camel/providers/MH/Makefile
 camel/providers/maildir/Makefile
 camel/providers/mbox/Makefile
+camel/providers/sendmail/Makefile
 composer/Makefile
 devel-docs/Makefile
 devel-docs/camel/Makefile
