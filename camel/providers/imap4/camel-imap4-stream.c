@@ -710,6 +710,8 @@ camel_imap4_stream_literal (CamelIMAP4Stream *stream, unsigned char **literal, s
 	*len = nread = inend - inptr;
 	
 	stream->literal -= nread;
+	stream->inptr += nread;
+	
 	if (stream->literal == 0) {
 		stream->mode = CAMEL_IMAP4_STREAM_MODE_TOKEN;
 		stream->eol = TRUE;

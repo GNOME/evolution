@@ -1,5 +1,9 @@
 2004-11-02  Jeffrey Stedfast  <fejj@novell.com>
 
+	* providers/imap4/camel-imap4-stream.c
+	(camel_imap4_stream_literal): Update stream->inptr after fetching
+	the literal chunk.
+
 	* providers/imap4/camel-imap4-summary.c (envelope_decode_address):
 	Do proper cleanup in case of error and also handle literals.
 
