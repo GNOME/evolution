@@ -23,7 +23,7 @@
 
 #include <gtk/gtkwidget.h>
 #include <bonobo/bonobo-control.h>
-#include "../Evolution-Addressbook-SelectNames.h"
+#include "Evolution-Addressbook-SelectNames.h"
 #include "comp-editor-page.h"
 
 void comp_editor_dates (CompEditorPageDates *date, CalComponent *comp);
