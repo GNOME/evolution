@@ -1,3 +1,13 @@
+2000-02-02  Matt Loper  <matt.loper@splashtech.com>
+
+	* tests/test-formatter.c: New file; intended to test the
+	CamelFormatter class.
+
+	* camel/camel-formatter.c: Lots of cleanup, commenting, some new
+	functions, and a really basic skeleton for getting bonobo objects
+	into the html.
+	(encode_entities): New function, stolen from Daniel Velliard.
+
 2000-01-28  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/printing/e-contact-print-style-editor.h,
