@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-21 09:46+0200\n"
-"PO-Revision-Date: 2005-01-21 14:41+0200\n"
+"POT-Creation-Date: 2005-01-26 10:16+0200\n"
+"PO-Revision-Date: 2005-01-26 12:24+0200\n"
 "Last-Translator: Žygimantas Beručka <uid0@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -253,6 +253,18 @@ msgstr ")"
 msgid "evolution calendar item"
 msgstr "evolution kalendoriaus elementas"
 
+#: a11y/widgets/ea-combo-button.c:40
+msgid "Combo Button"
+msgstr "Išskleidžiamas sąrašas"
+
+#: a11y/widgets/ea-combo-button.c:50
+msgid "Activate Default"
+msgstr "Aktyvuoti įprastą"
+
+#: a11y/widgets/ea-combo-button.c:52
+msgid "Popup Menu"
+msgstr "Iššokantis meniu"
+
 #. addressbook:ldap-init primary
 #: addressbook/addressbook-errors.xml.h:2
 msgid "This addressbook could not be opened."
@@ -447,7 +459,7 @@ msgstr ""
 "tuo pačiu adresu?"
 
 #: addressbook/addressbook-errors.xml.h:62 mail/em-vfolder-rule.c:494
-#: plugins/shared-folder/properties.glade.h:17
+#: plugins/shared-folder/properties.glade.h:10
 msgid "_Add"
 msgstr "_Pridėti"
 
@@ -476,6 +488,7 @@ msgstr "Autorizacija nepavyko.\n"
 
 #: addressbook/gui/component/addressbook.c:192
 #: plugins/groupwise-account-setup/camel-gw-listener.c:460
+#: plugins/send-options/send-options.c:82
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sĮveskite %s slaptažodį (naudotojas %s)"
@@ -497,7 +510,7 @@ msgid "Create a new contact list"
 msgstr "Sukurti naują kontaktų sąrašą"
 
 #: addressbook/gui/component/addressbook-component.c:113
-#: addressbook/gui/component/addressbook-config.c:1116
+#: addressbook/gui/component/addressbook-config.c:1115
 #: addressbook/gui/component/addressbook-view.c:757
 msgid "New Address Book"
 msgstr "Nauja adresų knyga"
@@ -565,7 +578,7 @@ msgstr "Paieška"
 msgid "Downloading"
 msgstr "Parsiuntimas"
 
-#: addressbook/gui/component/addressbook-config.c:1114
+#: addressbook/gui/component/addressbook-config.c:1113
 #: addressbook/gui/component/ldap-config.glade.h:14
 msgid "Address Book Properties"
 msgstr "Adresų knygos savybės"
@@ -658,7 +671,7 @@ msgstr ""
 "Palaukite kol Evolution perkels Jūsų aplankus..."
 
 #: addressbook/gui/component/addressbook-view.c:758
-#: addressbook/gui/widgets/e-addressbook-view.c:934
+#: addressbook/gui/widgets/e-addressbook-view.c:935
 #: calendar/gui/calendar-component.c:386 calendar/gui/tasks-component.c:330
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-calendar.xml.h:5 ui/evolution-mail-message.xml.h:24
@@ -788,6 +801,7 @@ msgstr "Čia valdykite Jūsų S/Mime sertifikatus"
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 #: calendar/gui/dialogs/alarm-dialog.glade.h:1
 #: calendar/gui/dialogs/calendar-setup.glade.h:1
+#: calendar/gui/dialogs/cal-attachment.glade.h:1
 #: calendar/gui/dialogs/event-page.glade.h:1
 #: calendar/gui/dialogs/meeting-page.glade.h:1
 #: calendar/gui/dialogs/new-calendar.glade.h:1
@@ -796,7 +810,7 @@ msgstr "Čia valdykite Jūsų S/Mime sertifikatus"
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:1
 #: composer/e-msg-composer-attachment.glade.h:1 mail/mail-config.glade.h:3
 #: mail/mail-dialogs.glade.h:6 mail/message-tags.glade.h:1
-#: plugins/shared-folder/properties.glade.h:3
+#: plugins/shared-folder/properties.glade.h:1
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "*"
 msgstr "*"
@@ -1033,7 +1047,7 @@ msgstr "_Prisijungimo metodas"
 
 #: addressbook/gui/component/ldap-config.glade.h:47
 #: calendar/gui/dialogs/calendar-setup.c:243
-#: calendar/gui/dialogs/calendar-setup.glade.h:8 mail/mail-config.glade.h:161
+#: calendar/gui/dialogs/calendar-setup.glade.h:8 mail/mail-config.glade.h:160
 msgid "_Name:"
 msgstr "_Vardas:"
 
@@ -1066,6 +1080,7 @@ msgstr "kortelės"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: calendar/gui/dialogs/calendar-setup.glade.h:14 filter/filter.glade.h:16
 #: mail/em-account-editor.c:1821 plugins/calendar-http/calendar-http.c:263
+#: plugins/calendar-weather/calendar-weather.c:564
 msgid "minutes"
 msgstr "minučių"
 
@@ -1106,13 +1121,13 @@ msgid "<b>Work</b>"
 msgstr "<b>Darbas</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
-#: addressbook/gui/contact-editor/e-contact-editor.c:184
+#: addressbook/gui/contact-editor/e-contact-editor.c:182
 #: addressbook/gui/widgets/eab-contact-display.c:346
 msgid "AIM"
 msgstr "AIM"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: addressbook/gui/contact-editor/e-contact-editor.c:272
+#: addressbook/gui/contact-editor/e-contact-editor.c:270
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:168
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: addressbook/gui/widgets/e-minicard.c:181
@@ -1120,7 +1135,7 @@ msgid "Contact"
 msgstr "Kontaktas"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
-#: addressbook/gui/contact-editor/e-contact-editor.c:533
+#: addressbook/gui/contact-editor/e-contact-editor.c:531
 msgid "Contact Editor"
 msgstr "Kontaktų redaktorius"
 
@@ -1160,7 +1175,7 @@ msgstr "Telefonas"
 
 #. red
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
-#: addressbook/gui/contact-editor/e-contact-editor.c:201
+#: addressbook/gui/contact-editor/e-contact-editor.c:199
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:235
 #: filter/filter-label.c:122 mail/em-migrate.c:1012 mail/mail-config.c:76
 #: mail/mail-config.glade.h:147
@@ -1300,12 +1315,12 @@ msgid "Address"
 msgstr "Adresas"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:103
-#: addressbook/gui/contact-editor/e-contact-editor.c:300
+#: addressbook/gui/contact-editor/e-contact-editor.c:298
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:141
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:182
-#: addressbook/gui/widgets/e-addressbook-model.c:309
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
+#: addressbook/gui/widgets/e-addressbook-model.c:310
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:398
 #: addressbook/gui/widgets/e-minicard.c:174
 #: addressbook/gui/widgets/e-minicard-label.c:164
 #: addressbook/gui/widgets/e-minicard-view.c:519
@@ -2281,80 +2296,76 @@ msgstr "Zambija"
 msgid "Zimbabwe"
 msgstr "Zimbabvė"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:185
+#: addressbook/gui/contact-editor/e-contact-editor.c:183
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:64
 #: addressbook/gui/widgets/eab-contact-display.c:349
 msgid "Jabber"
 msgstr "Jabber"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:186
+#: addressbook/gui/contact-editor/e-contact-editor.c:184
 #: addressbook/gui/widgets/eab-contact-display.c:351
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:187
+#: addressbook/gui/contact-editor/e-contact-editor.c:185
 #: addressbook/gui/widgets/eab-contact-display.c:350
 msgid "MSN"
 msgstr "MSN"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:188
+#: addressbook/gui/contact-editor/e-contact-editor.c:186
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:67
 #: addressbook/gui/widgets/eab-contact-display.c:348
 msgid "ICQ"
 msgstr "ICQ"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:189
+#: addressbook/gui/contact-editor/e-contact-editor.c:187
 #: addressbook/gui/widgets/eab-contact-display.c:347
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:202
+#: addressbook/gui/contact-editor/e-contact-editor.c:200
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:231
 msgid "Home"
 msgstr "Namų"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:203
+#: addressbook/gui/contact-editor/e-contact-editor.c:201
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:239
 msgid "Other"
 msgstr "Kitas"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:258
+#: addressbook/gui/contact-editor/e-contact-editor.c:256
 msgid "Source Book"
 msgstr "Pradinė knyga"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:265
+#: addressbook/gui/contact-editor/e-contact-editor.c:263
 msgid "Target Book"
 msgstr "Tikslinė knyga"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:279
+#: addressbook/gui/contact-editor/e-contact-editor.c:277
 msgid "Is New Contact"
 msgstr "Tai naujas kontaktas"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:286
+#: addressbook/gui/contact-editor/e-contact-editor.c:284
 msgid "Writable Fields"
 msgstr "Rašomi laukeliai"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:293
+#: addressbook/gui/contact-editor/e-contact-editor.c:291
 msgid "Required Fields"
 msgstr "Būtini laukeliai"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:307
+#: addressbook/gui/contact-editor/e-contact-editor.c:305
 msgid "Changed"
 msgstr "Pakeista"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2463
-msgid "This contact belongs to these categories:"
-msgstr "Šis kontaktas priklauso šioms kategorijoms:"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2556
+#: addressbook/gui/contact-editor/e-contact-editor.c:2544
 msgid "Please select an image for this contact"
 msgstr "Prašau parinkti šiam kontaktui paveikslėlį"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2557
+#: addressbook/gui/contact-editor/e-contact-editor.c:2545
 msgid "No image"
 msgstr "Nėra paveikslėlio"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2833
+#: addressbook/gui/contact-editor/e-contact-editor.c:2821
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2362,7 +2373,7 @@ msgstr ""
 "Kontakto duomenys netinkami:\n"
 "\n"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2885
+#: addressbook/gui/contact-editor/e-contact-editor.c:2873
 msgid "Invalid contact."
 msgstr "Netinkamas kontaktas."
 
@@ -2394,20 +2405,19 @@ msgstr "Vieta"
 msgid "Username"
 msgstr "Naudotojo vardas"
 
-#: addressbook/gui/contact-editor/e-contact-quick-add.c:280
+#: addressbook/gui/contact-editor/e-contact-quick-add.c:277
 msgid "Contact Quick-Add"
 msgstr "Kontakto greitas pridėjimas"
 
-#: addressbook/gui/contact-editor/e-contact-quick-add.c:283
+#: addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "_Edit Full"
-msgstr "K_eisti pilną"
+msgstr "_Keisti pilną"
 
-#: addressbook/gui/contact-editor/e-contact-quick-add.c:301
-#: mail/mail-config.glade.h:156
-msgid "_Full Name:"
+#: addressbook/gui/contact-editor/e-contact-quick-add.c:306
+msgid "_Full name:"
 msgstr "_Pilnas vardas:"
 
-#: addressbook/gui/contact-editor/e-contact-quick-add.c:307
+#: addressbook/gui/contact-editor/e-contact-quick-add.c:316
 msgid "E-_mail:"
 msgstr "E_l. paštas:"
 
@@ -2509,6 +2519,7 @@ msgid "_IM Service:"
 msgstr "_SŽ paslauga:"
 
 #: addressbook/gui/contact-editor/im.glade.h:5
+#: plugins/calendar-weather/calendar-weather.c:410
 msgid "_Location:"
 msgstr "_Vieta:"
 
@@ -2556,9 +2567,9 @@ msgstr ""
 "Įrašykite _el. pašto adresą arba nutempkite kontaktą į žemiau esantį sąrašą:"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:161
-#: addressbook/gui/widgets/e-addressbook-model.c:295
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:377
-#: addressbook/gui/widgets/e-addressbook-view.c:222
+#: addressbook/gui/widgets/e-addressbook-model.c:296
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
+#: addressbook/gui/widgets/e-addressbook-view.c:223
 #: addressbook/gui/widgets/e-minicard-view.c:505
 #: addressbook/gui/widgets/e-minicard-view-widget.c:105
 msgid "Book"
@@ -2673,7 +2684,7 @@ msgstr "Žurnalas"
 #: addressbook/gui/widgets/eab-contact-display.c:379
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 msgid "Mobile Phone"
-msgstr "Mobilus telefonas"
+msgstr "Mobilusis telefonas"
 
 #: addressbook/gui/widgets/eab-contact-display.c:383
 msgid "personal"
@@ -2750,7 +2761,7 @@ msgstr "Protokolas nepalaikomas"
 #: addressbook/gui/widgets/eab-gui-util.c:61
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-cal-component-preview.c:232
-#: calendar/gui/e-calendar-table.c:457 calendar/gui/e-cal-model-tasks.c:347
+#: calendar/gui/e-calendar-table.c:458 calendar/gui/e-cal-model-tasks.c:347
 #: calendar/gui/e-cal-model-tasks.c:660 calendar/gui/print.c:2352
 msgid "Cancelled"
 msgstr "Nutraukta"
@@ -3004,15 +3015,7 @@ msgstr "Pridėti adresą prie esančio kontakto „%s“"
 msgid "Querying Address Book..."
 msgstr "Užklausiama adresų knyga..."
 
-#: addressbook/gui/widgets/eab-popup-control.c:952
-msgid "Edit Contact Info"
-msgstr "Keisti kontakto informaciją"
-
-#: addressbook/gui/widgets/eab-popup-control.c:982
-msgid "Add to Contacts"
-msgstr "Pridėti prie kontaktų"
-
-#: addressbook/gui/widgets/eab-popup-control.c:1007
+#: addressbook/gui/widgets/eab-popup-control.c:970
 msgid "Merge E-Mail Address"
 msgstr "Įlieti el. pašto adresą"
 
@@ -3049,19 +3052,19 @@ msgstr[0] "%d kontaktas"
 msgstr[1] "%d kontaktai"
 msgstr[2] "%d kontaktų"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:302
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
-#: addressbook/gui/widgets/e-addressbook-view.c:236
+#: addressbook/gui/widgets/e-addressbook-model.c:303
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
+#: addressbook/gui/widgets/e-addressbook-view.c:237
 #: addressbook/gui/widgets/e-minicard-view.c:512
 #: addressbook/gui/widgets/e-minicard-view-widget.c:112
 msgid "Query"
 msgstr "Užklausa"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:445
+#: addressbook/gui/widgets/e-addressbook-model.c:446
 msgid "Error getting book view"
 msgstr "Klaida gaunant knygos peržiūrą"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:398
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:405
 msgid "Model"
 msgstr "Modelis"
 
@@ -3069,35 +3072,35 @@ msgstr "Modelis"
 msgid "Error modifying card"
 msgstr "Klaida modifikuojant kortelę"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:168
+#: addressbook/gui/widgets/e-addressbook-view.c:169
 msgid "Name begins with"
 msgstr "Vardas prasideda"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:169
+#: addressbook/gui/widgets/e-addressbook-view.c:170
 msgid "Email begins with"
 msgstr "El. paštas prasideda"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:170
+#: addressbook/gui/widgets/e-addressbook-view.c:171
 #: calendar/gui/cal-search-bar.c:53
 msgid "Category is"
 msgstr "Kategorija yra"
 
 #. We attach subitems below
-#: addressbook/gui/widgets/e-addressbook-view.c:171
+#: addressbook/gui/widgets/e-addressbook-view.c:172
 #: calendar/gui/cal-search-bar.c:48
 msgid "Any field contains"
 msgstr "Bet kuriame laukelyje yra"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:172
-#: addressbook/gui/widgets/e-addressbook-view.c:177
+#: addressbook/gui/widgets/e-addressbook-view.c:173
+#: addressbook/gui/widgets/e-addressbook-view.c:178
 msgid "Advanced..."
 msgstr "Išsami..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:229
+#: addressbook/gui/widgets/e-addressbook-view.c:230
 msgid "Source"
 msgstr "Šaltinis"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:243
+#: addressbook/gui/widgets/e-addressbook-view.c:244
 #: calendar/gui/dialogs/meeting-page.etspec.h:11
 #: calendar/gui/e-calendar-table.etspec.h:13
 #: calendar/gui/e-meeting-list-view.c:244
@@ -3105,71 +3108,75 @@ msgstr "Šaltinis"
 msgid "Type"
 msgstr "Tipas"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:540
-#: plugins/shared-folder/properties.glade.h:6
+#: addressbook/gui/widgets/e-addressbook-view.c:541
 msgid "Address Book"
 msgstr "Adresų knyga"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:803
-#: addressbook/gui/widgets/e-addressbook-view.c:921
-#: addressbook/gui/widgets/e-addressbook-view.c:1972
+#: addressbook/gui/widgets/e-addressbook-view.c:804
+#: addressbook/gui/widgets/e-addressbook-view.c:922
+#: addressbook/gui/widgets/e-addressbook-view.c:1982
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard..."
 msgstr "Išsaugoti kaip VCard..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:917
+#: addressbook/gui/widgets/e-addressbook-view.c:918
 msgid "New Contact..."
 msgstr "Naujas kontaktas..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:918
+#: addressbook/gui/widgets/e-addressbook-view.c:919
 msgid "New Contact List..."
 msgstr "Naujas kontaktų sąrašas..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:922
+#: addressbook/gui/widgets/e-addressbook-view.c:923
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "Persiųsti kontaktą"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:923
+#: addressbook/gui/widgets/e-addressbook-view.c:924
 msgid "Send Message to Contact"
 msgstr "Siųsti laišką kontaktui"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:924 calendar/gui/print.c:2483
+#: addressbook/gui/widgets/e-addressbook-view.c:925
+#: calendar/gui/calendar-commands.c:120 calendar/gui/print.c:2489
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:19
 #: ui/evolution-mail-message.xml.h:80 ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Spausdinti"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:927
+#: addressbook/gui/widgets/e-addressbook-view.c:928
 msgid "Copy to Address Book..."
 msgstr "Kopijuoti į adresų knygelę..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:928
+#: addressbook/gui/widgets/e-addressbook-view.c:929
 msgid "Move to Address Book..."
 msgstr "Perkelti į adresų knygelę..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:931
+#: addressbook/gui/widgets/e-addressbook-view.c:932
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "Iškirpti"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:932
+#: addressbook/gui/widgets/e-addressbook-view.c:933
 #: calendar/gui/calendar-component.c:385 calendar/gui/tasks-component.c:329
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Kopijuoti"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:933
+#: addressbook/gui/widgets/e-addressbook-view.c:934
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "Įdėti"
 
 #. All, unmatched, separator
-#: addressbook/gui/widgets/e-addressbook-view.c:1526
+#: addressbook/gui/widgets/e-addressbook-view.c:1537
 #: calendar/gui/cal-search-bar.c:346
 msgid "Any Category"
 msgstr "Bet kuri kategorija"
+
+#: addressbook/gui/widgets/e-addressbook-view.c:1750
+msgid "Print cards"
+msgstr "Spausdinti korteles"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "Assistant"
@@ -3430,7 +3437,7 @@ msgstr "Evolution VCard importavimo priemonė"
 msgid "VCard (.vcf, .gcrd)"
 msgstr "VCard (.vcf, .gcrd)"
 
-#: addressbook/printing/e-contact-print.c:1000
+#: addressbook/printing/e-contact-print.c:1001
 msgid "Print contacts"
 msgstr "Spausdinti kontaktus"
 
@@ -3439,8 +3446,8 @@ msgstr "Spausdinti kontaktus"
 msgid "Print contact"
 msgstr "Spausdinti kontaktą"
 
-#: addressbook/printing/e-contact-print-envelope.c:212
-#: addressbook/printing/e-contact-print-envelope.c:233
+#: addressbook/printing/e-contact-print-envelope.c:213
+#: addressbook/printing/e-contact-print-envelope.c:234
 msgid "Print envelope"
 msgstr "Spausdinti voką"
 
@@ -4399,6 +4406,8 @@ msgstr "Ištrinti įvykius senesnius nei"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:21
 #: calendar/gui/dialogs/calendar-setup.glade.h:12 filter/filter.glade.h:14
 #: plugins/calendar-http/calendar-http.c:265
+#: plugins/calendar-weather/calendar-weather.c:566
+#: widgets/misc/e-send-options.glade.h:39
 msgid "days"
 msgstr "dienų"
 
@@ -4624,6 +4633,7 @@ msgstr "valandą(as)"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:25
 #: calendar/gui/dialogs/calendar-setup.glade.h:13 filter/filter.glade.h:15
 #: plugins/calendar-http/calendar-http.c:264
+#: plugins/calendar-weather/calendar-weather.c:565
 msgid "hours"
 msgstr "valandų"
 
@@ -4706,6 +4716,7 @@ msgstr "_Pridėti užduočių sąrašą"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 #: plugins/calendar-http/calendar-http.c:248
+#: plugins/calendar-weather/calendar-weather.c:549
 msgid "_Refresh:"
 msgstr "_Atnaujinti:"
 
@@ -4716,15 +4727,105 @@ msgstr "_URL:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:15 filter/filter.glade.h:21
 #: plugins/calendar-http/calendar-http.c:266
+#: plugins/calendar-weather/calendar-weather.c:567
 msgid "weeks"
 msgstr "savaičių"
 
-#. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
-#. has "activatable" set.
+#: calendar/gui/dialogs/cal-attachment-bar.c:108
+#: composer/e-msg-composer-attachment-bar.c:101
+#, c-format
+msgid "%.0fK"
+msgstr "%.0fK"
+
+#: calendar/gui/dialogs/cal-attachment-bar.c:111
+#: composer/e-msg-composer-attachment-bar.c:104
+#, c-format
+msgid "%.0fM"
+msgstr "%.0fM"
+
+#: calendar/gui/dialogs/cal-attachment-bar.c:114
+#: composer/e-msg-composer-attachment-bar.c:107
+#, c-format
+msgid "%.0fG"
+msgstr "%.0fG"
+
+#: calendar/gui/dialogs/cal-attachment-bar.c:298
+#: calendar/gui/dialogs/cal-attachment-bar.c:910
+#: composer/e-msg-composer-attachment-bar.c:293 mail/em-utils.c:436
+msgid "attachment"
+msgstr "priedas"
+
+#: calendar/gui/dialogs/cal-attachment-bar.c:439
+#: calendar/gui/dialogs/meeting-page.c:781
+#: composer/e-msg-composer-attachment-bar.c:440
+#: plugins/shared-folder/properties.glade.h:14
+msgid "_Remove"
+msgstr "_Pašalinti"
+
+#: calendar/gui/dialogs/cal-attachment-bar.c:440
+#: composer/e-msg-composer-attachment-bar.c:441 mail/em-folder-tree.c:2770
+#: ui/evolution-mail-list.xml.h:27
+msgid "_Properties"
+msgstr "_Savybės"
+
+#: calendar/gui/dialogs/cal-attachment-bar.c:442
+#: composer/e-msg-composer-attachment-bar.c:443
+msgid "_Add attachment..."
+msgstr "_Prisegti priedą..."
+
+#: calendar/gui/dialogs/cal-attachment-select-file.c:96
+#: calendar/gui/dialogs/cal-attachment-select-file.c:115
+#: calendar/gui/dialogs/cal-attachment.glade.h:6
+#: composer/e-msg-composer-attachment.glade.h:6
+#: composer/e-msg-composer-select-file.c:93
+#: composer/e-msg-composer-select-file.c:112
+msgid "Suggest automatic display of attachment"
+msgstr "Pasiūlyti automatinį priedo parodymą"
+
+#: calendar/gui/dialogs/cal-attachment-select-file.c:190
+#: composer/e-msg-composer-select-file.c:187
+msgid "Attach file(s)"
+msgstr "Prisegti bylą(as)"
+
+#: calendar/gui/dialogs/cal-attachment.c:197
+#: calendar/gui/dialogs/cal-attachment.c:213
+#: composer/e-msg-composer-attachment.c:174
+#: composer/e-msg-composer-attachment.c:190
+#, c-format
+msgid "Cannot attach file %s: %s"
+msgstr "Negalėjau prisegti bylos %s: %s"
+
+#: calendar/gui/dialogs/cal-attachment.c:205
+#: composer/e-msg-composer-attachment.c:182
+#, c-format
+msgid "Cannot attach file %s: not a regular file"
+msgstr "Negaliu prisegti bylos %s: ne paprasta byla"
+
+#: calendar/gui/dialogs/cal-attachment.glade.h:2
+#: composer/e-msg-composer-attachment.glade.h:2
+msgid "Attachment Properties"
+msgstr "Priedo savybės"
+
+#: calendar/gui/dialogs/cal-attachment.glade.h:3
+#: calendar/gui/e-cal-component-preview.c:267
+#: calendar/gui/e-itip-control.c:1164 calendar/gui/e-itip-control.glade.h:6
+#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:69
+msgid "Description:"
+msgstr "Aprašymas:"
+
+#: calendar/gui/dialogs/cal-attachment.glade.h:4
+#: composer/e-msg-composer-attachment.glade.h:4
+msgid "File name:"
+msgstr "Bylos vardas:"
+
+#: calendar/gui/dialogs/cal-attachment.glade.h:5
+#: composer/e-msg-composer-attachment.glade.h:5
+msgid "MIME type:"
+msgstr "MIME tipas:"
+
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: calendar/gui/dialogs/cal-prefs-dialog.c:576 mail/em-account-prefs.c:470
-#: mail/em-composer-prefs.c:678 mail/em-composer-prefs.c:945
-#: plugins/plugin-manager/plugin-manager.c:213
+#: mail/em-composer-prefs.c:884 plugins/plugin-manager/plugin-manager.c:213
 msgid "Enabled"
 msgstr "Įjungta"
 
@@ -4744,8 +4845,6 @@ msgstr "Netrinti"
 #: calendar/gui/dialogs/cal-prefs-dialog.c:820
 #: calendar/gui/dialogs/cal-prefs-dialog.c:853 mail/em-account-prefs.c:317
 #: mail/em-account-prefs.c:345 mail/em-account-prefs.c:376
-#: mail/em-composer-prefs.c:597 mail/em-composer-prefs.c:655
-#: mail/em-composer-prefs.c:685
 msgid "Disable"
 msgstr "Išjungti"
 
@@ -4753,8 +4852,6 @@ msgstr "Išjungti"
 #: calendar/gui/dialogs/cal-prefs-dialog.c:820
 #: calendar/gui/dialogs/cal-prefs-dialog.c:855 mail/em-account-prefs.c:317
 #: mail/em-account-prefs.c:345 mail/em-account-prefs.c:378
-#: mail/em-composer-prefs.c:597 mail/em-composer-prefs.c:655
-#: mail/em-composer-prefs.c:685
 msgid "Enable"
 msgstr "Įjungti"
 
@@ -4847,7 +4944,7 @@ msgid "Free/Busy"
 msgstr "Laisvas/užsiėmęs"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#: calendar/gui/dialogs/recurrence-page.c:1031
+#: calendar/gui/dialogs/recurrence-page.c:1044
 #: calendar/gui/e-itip-control.c:732
 msgid "Friday"
 msgstr "Penktadienis"
@@ -4861,7 +4958,7 @@ msgid "Minutes"
 msgstr "Minučių"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
-#: calendar/gui/dialogs/recurrence-page.c:1027
+#: calendar/gui/dialogs/recurrence-page.c:1040
 #: calendar/gui/e-itip-control.c:728
 msgid "Monday"
 msgstr "Pirmadienis"
@@ -4871,7 +4968,7 @@ msgid "S_un"
 msgstr "S_ek"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
-#: calendar/gui/dialogs/recurrence-page.c:1032
+#: calendar/gui/dialogs/recurrence-page.c:1045
 #: calendar/gui/e-itip-control.c:733
 msgid "Saturday"
 msgstr "Šeštadienis"
@@ -4885,7 +4982,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "Rodyti savaičių _numerius datos navigatoriuje"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
-#: calendar/gui/dialogs/recurrence-page.c:1033
+#: calendar/gui/dialogs/recurrence-page.c:1046
 #: calendar/gui/e-itip-control.c:727
 msgid "Sunday"
 msgstr "Sekmadienis"
@@ -4903,7 +5000,7 @@ msgid "Template:"
 msgstr "Šablonas:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
-#: calendar/gui/dialogs/recurrence-page.c:1030
+#: calendar/gui/dialogs/recurrence-page.c:1043
 #: calendar/gui/e-itip-control.c:731
 msgid "Thursday"
 msgstr "Ketvirtadienis"
@@ -4917,7 +5014,7 @@ msgid "Time format:"
 msgstr "Laiko formatas:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
-#: calendar/gui/dialogs/recurrence-page.c:1028
+#: calendar/gui/dialogs/recurrence-page.c:1041
 #: calendar/gui/e-itip-control.c:729
 msgid "Tuesday"
 msgstr "Antradienis"
@@ -4927,7 +5024,7 @@ msgid "W_eek starts:"
 msgstr "Sa_vaitė prasideda:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
-#: calendar/gui/dialogs/recurrence-page.c:1029
+#: calendar/gui/dialogs/recurrence-page.c:1042
 #: calendar/gui/e-itip-control.c:730
 msgid "Wednesday"
 msgstr "Trečiadienis"
@@ -5023,8 +5120,7 @@ msgstr "Šis žurnalo įrašas buvo ištrintas."
 #: calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr ""
-"%s  Jūs pakeitėte. Užmiršti tuos pakeitimus ir uždaryti redaktorių?"
+msgstr "%s  Jūs pakeitėte. Užmiršti tuos pakeitimus ir uždaryti redaktorių?"
 
 #: calendar/gui/dialogs/changed-comp.c:79
 #, c-format
@@ -5046,8 +5142,7 @@ msgstr "Šis žurnalo įrašas buvo pakeistas."
 #: calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr ""
-"%s  Jūs pakeitėte. Užmiršti tuos pakeitimus ir atnaujinti redaktorių?"
+msgstr "%s  Jūs pakeitėte. Užmiršti tuos pakeitimus ir atnaujinti redaktorių?"
 
 #: calendar/gui/dialogs/changed-comp.c:103
 #, c-format
@@ -5342,7 +5437,7 @@ msgstr "Klasi_fikacija:"
 
 #: calendar/gui/dialogs/event-page.glade.h:14
 #: calendar/gui/dialogs/task-page.glade.h:9
-#: calendar/gui/e-calendar-table.c:361 calendar/gui/e-cal-list-view.c:255
+#: calendar/gui/e-calendar-table.c:362 calendar/gui/e-cal-list-view.c:255
 #: calendar/gui/e-cal-model.c:305
 msgid "Confidential"
 msgstr "Konfidencialus"
@@ -5357,14 +5452,14 @@ msgstr "V_ieta:"
 
 #: calendar/gui/dialogs/event-page.glade.h:17
 #: calendar/gui/dialogs/task-page.glade.h:11
-#: calendar/gui/e-calendar-table.c:360 calendar/gui/e-cal-list-view.c:254
+#: calendar/gui/e-calendar-table.c:361 calendar/gui/e-cal-list-view.c:254
 #: calendar/gui/e-cal-model.c:303
 msgid "Private"
 msgstr "Asmeniškas"
 
 #: calendar/gui/dialogs/event-page.glade.h:18
 #: calendar/gui/dialogs/task-page.glade.h:12
-#: calendar/gui/e-calendar-table.c:359 calendar/gui/e-cal-list-view.c:253
+#: calendar/gui/e-calendar-table.c:360 calendar/gui/e-cal-list-view.c:253
 #: calendar/gui/e-cal-model.c:294 calendar/gui/e-cal-model.c:301
 msgid "Public"
 msgstr "Viešas"
@@ -5410,7 +5505,9 @@ msgstr "_Pradžios laikas:"
 #: calendar/gui/e-cal-model-tasks.c:652 calendar/gui/e-itip-control.c:1104
 #: composer/e-msg-composer.c:2122 filter/filter-rule.c:878
 #: mail/em-account-editor.c:675 mail/em-account-editor.c:1269
-#: mail/em-account-prefs.c:431 mail/em-folder-view.c:972
+#: mail/em-account-prefs.c:431 mail/em-folder-view.c:965
+#: plugins/calendar-weather/calendar-weather.c:371
+#: plugins/calendar-weather/calendar-weather.c:425
 #: plugins/itip-formatter/itip-formatter.c:1365
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: widgets/misc/e-cell-date-edit.c:248 widgets/misc/e-dateedit.c:458
@@ -5433,12 +5530,6 @@ msgstr "Būtinas bent vienas dalyvis."
 #: calendar/gui/dialogs/meeting-page.c:778
 msgid "_Delegate To..."
 msgstr "_Pavesti kam..."
-
-#: calendar/gui/dialogs/meeting-page.c:781
-#: composer/e-msg-composer-attachment-bar.c:440
-#: plugins/shared-folder/properties.glade.h:19
-msgid "_Remove"
-msgstr "_Pašalinti"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:1
 #: calendar/gui/e-meeting-list-view.c:235
@@ -5586,51 +5677,51 @@ msgstr "Visais atvejais"
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Šiame įvykyje yra pasikartojimų, kurių Evolution negali keisti."
 
-#: calendar/gui/dialogs/recurrence-page.c:799
+#: calendar/gui/dialogs/recurrence-page.c:812
 msgid "Recurrence date is invalid"
 msgstr "Pasikartojimo data klaidinga"
 
-#: calendar/gui/dialogs/recurrence-page.c:910
+#: calendar/gui/dialogs/recurrence-page.c:923
 msgid "on"
 msgstr "lygiai"
 
-#: calendar/gui/dialogs/recurrence-page.c:971
+#: calendar/gui/dialogs/recurrence-page.c:984
 msgid "first"
 msgstr "pirmas"
 
-#: calendar/gui/dialogs/recurrence-page.c:972
+#: calendar/gui/dialogs/recurrence-page.c:985
 msgid "second"
 msgstr "sekundė"
 
-#: calendar/gui/dialogs/recurrence-page.c:973
+#: calendar/gui/dialogs/recurrence-page.c:986
 msgid "third"
 msgstr "trečias"
 
-#: calendar/gui/dialogs/recurrence-page.c:974
+#: calendar/gui/dialogs/recurrence-page.c:987
 msgid "fourth"
 msgstr "ketvirtas"
 
-#: calendar/gui/dialogs/recurrence-page.c:975
+#: calendar/gui/dialogs/recurrence-page.c:988
 msgid "last"
 msgstr "paskutinis"
 
-#: calendar/gui/dialogs/recurrence-page.c:998
+#: calendar/gui/dialogs/recurrence-page.c:1011
 msgid "Other Date"
 msgstr "Kita Data"
 
-#: calendar/gui/dialogs/recurrence-page.c:1026
+#: calendar/gui/dialogs/recurrence-page.c:1039
 msgid "day"
 msgstr "diena"
 
-#: calendar/gui/dialogs/recurrence-page.c:1163
+#: calendar/gui/dialogs/recurrence-page.c:1176
 msgid "on the"
 msgstr " "
 
-#: calendar/gui/dialogs/recurrence-page.c:1349
+#: calendar/gui/dialogs/recurrence-page.c:1362
 msgid "occurrences"
 msgstr "kartą(us) pasitaikys"
 
-#: calendar/gui/dialogs/recurrence-page.c:2302
+#: calendar/gui/dialogs/recurrence-page.c:2315
 msgid "Date/Time"
 msgstr "Data/Laikas"
 
@@ -5695,7 +5786,7 @@ msgstr "<span weight=\"bold\">Būsena</span>"
 #. timezone.
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-cal-component-preview.c:229
-#: calendar/gui/e-calendar-table.c:456 calendar/gui/e-cal-model-tasks.c:345
+#: calendar/gui/e-calendar-table.c:457 calendar/gui/e-cal-model-tasks.c:345
 #: calendar/gui/e-cal-model-tasks.c:658 calendar/gui/e-itip-control.c:896
 #: calendar/gui/e-meeting-store.c:196 calendar/gui/e-meeting-store.c:219
 #: calendar/gui/print.c:2349
@@ -5704,13 +5795,13 @@ msgstr "Užbaigta"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:5
 #: calendar/gui/e-cal-component-preview.c:248
-#: calendar/gui/e-calendar-table.c:381 mail/message-list.c:1011
+#: calendar/gui/e-calendar-table.c:382 mail/message-list.c:1011
 msgid "High"
 msgstr "Aukštas"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-cal-component-preview.c:226
-#: calendar/gui/e-calendar-table.c:455 calendar/gui/e-cal-model-tasks.c:343
+#: calendar/gui/e-calendar-table.c:456 calendar/gui/e-cal-model-tasks.c:343
 #: calendar/gui/e-cal-model-tasks.c:656 calendar/gui/e-cal-model-tasks.c:731
 #: calendar/gui/print.c:2346
 msgid "In Progress"
@@ -5718,20 +5809,20 @@ msgstr "Vykdoma"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-cal-component-preview.c:252
-#: calendar/gui/e-calendar-table.c:383 mail/message-list.c:1009
+#: calendar/gui/e-calendar-table.c:384 mail/message-list.c:1009
 msgid "Low"
 msgstr "Žemas"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-cal-component-preview.c:250
-#: calendar/gui/e-calendar-table.c:382 calendar/gui/e-cal-model.c:899
+#: calendar/gui/e-calendar-table.c:383 calendar/gui/e-cal-model.c:899
 #: mail/message-list.c:1010
 msgid "Normal"
 msgstr "Normalus"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-cal-component-preview.c:236
-#: calendar/gui/e-calendar-table.c:454 calendar/gui/e-cal-model-tasks.c:341
+#: calendar/gui/e-calendar-table.c:455 calendar/gui/e-cal-model-tasks.c:341
 #: calendar/gui/e-cal-model-tasks.c:654 calendar/gui/print.c:2343
 msgid "Not Started"
 msgstr "Nepradėta"
@@ -5741,7 +5832,7 @@ msgid "P_ercent complete:"
 msgstr "Įvykdymo proc_entas:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
-#: calendar/gui/e-calendar-table.c:384
+#: calendar/gui/e-calendar-table.c:385
 msgid "Undefined"
 msgstr "Nenurodyta"
 
@@ -5750,6 +5841,7 @@ msgid "_Date completed:"
 msgstr "Pabaigimo _data:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:13
+#: widgets/misc/e-send-options.glade.h:34
 msgid "_Priority:"
 msgstr "_Svarbumas:"
 
@@ -5936,7 +6028,7 @@ msgstr "%s tarp %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s yra skirtas nežinomam daviklio tipui"
 
-#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2478
+#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2470
 #, c-format
 msgid "Click to open %s"
 msgstr "Norėdami atidaryti %s, paspauskite čia"
@@ -5970,111 +6062,109 @@ msgstr "Būsena:"
 msgid "Priority:"
 msgstr "Prioritetas:"
 
-#: calendar/gui/e-cal-component-preview.c:267
-#: calendar/gui/e-itip-control.c:1164 calendar/gui/e-itip-control.glade.h:6
-#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:69
-msgid "Description:"
-msgstr "Aprašymas:"
-
 #: calendar/gui/e-cal-component-preview.c:299
 msgid "Web Page:"
 msgstr "Tinklalapis:"
 
-#: calendar/gui/e-calendar-table.c:403
+#: calendar/gui/e-calendar-table.c:404
 msgid "0%"
 msgstr "0%"
 
-#: calendar/gui/e-calendar-table.c:404
+#: calendar/gui/e-calendar-table.c:405
 msgid "10%"
 msgstr "10%"
 
-#: calendar/gui/e-calendar-table.c:405
+#: calendar/gui/e-calendar-table.c:406
 msgid "20%"
 msgstr "20%"
 
-#: calendar/gui/e-calendar-table.c:406
+#: calendar/gui/e-calendar-table.c:407
 msgid "30%"
 msgstr "30%"
 
-#: calendar/gui/e-calendar-table.c:407
+#: calendar/gui/e-calendar-table.c:408
 msgid "40%"
 msgstr "40%"
 
-#: calendar/gui/e-calendar-table.c:408
+#: calendar/gui/e-calendar-table.c:409
 msgid "50%"
 msgstr "50%"
 
-#: calendar/gui/e-calendar-table.c:409
+#: calendar/gui/e-calendar-table.c:410
 msgid "60%"
 msgstr "60%"
 
-#: calendar/gui/e-calendar-table.c:410
+#: calendar/gui/e-calendar-table.c:411
 msgid "70%"
 msgstr "70%"
 
-#: calendar/gui/e-calendar-table.c:411
+#: calendar/gui/e-calendar-table.c:412
 msgid "80%"
 msgstr "80%"
 
-#: calendar/gui/e-calendar-table.c:412
+#: calendar/gui/e-calendar-table.c:413
 msgid "90%"
 msgstr "90%"
 
-#: calendar/gui/e-calendar-table.c:413
+#: calendar/gui/e-calendar-table.c:414
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:433 calendar/gui/e-cal-model-calendar.c:179
+#: calendar/gui/e-calendar-table.c:434 calendar/gui/e-cal-model-calendar.c:179
 msgid "Free"
 msgstr "Laisvas"
 
-#: calendar/gui/e-calendar-table.c:434 calendar/gui/e-cal-model-calendar.c:182
+#: calendar/gui/e-calendar-table.c:435 calendar/gui/e-cal-model-calendar.c:182
 #: calendar/gui/e-meeting-time-sel.c:412
 msgid "Busy"
 msgstr "Užimtas"
 
-#: calendar/gui/e-calendar-table.c:689 calendar/gui/e-calendar-view.c:652
+#: calendar/gui/e-calendar-table.c:516
+msgid "Task Table"
+msgstr "Užduočių lentelė"
+
+#: calendar/gui/e-calendar-table.c:694 calendar/gui/e-calendar-view.c:652
 msgid "Deleting selected objects"
 msgstr "Trinami pasirinkti objektai"
 
-#: calendar/gui/e-calendar-table.c:868 calendar/gui/e-calendar-view.c:756
+#: calendar/gui/e-calendar-table.c:873 calendar/gui/e-calendar-view.c:756
 msgid "Updating objects"
 msgstr "Atnaujinami objektai"
 
-#: calendar/gui/e-calendar-table.c:1009 calendar/gui/e-calendar-view.c:1064
+#: calendar/gui/e-calendar-table.c:1014 calendar/gui/e-calendar-view.c:1064
 #: composer/e-msg-composer.c:1201
 msgid "Save as..."
 msgstr "Išsaugoti kaip..."
 
-#: calendar/gui/e-calendar-table.c:1151 calendar/gui/e-calendar-view.c:1389
-#: mail/em-folder-view.c:938 ui/evolution-addressbook.xml.h:37
+#: calendar/gui/e-calendar-table.c:1156 calendar/gui/e-calendar-view.c:1389
+#: mail/em-folder-view.c:931 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "Ati_daryti"
 
-#: calendar/gui/e-calendar-table.c:1152
+#: calendar/gui/e-calendar-table.c:1157
 msgid "Open _Web Page"
 msgstr "Atverti Tinklapį"
 
-#: calendar/gui/e-calendar-table.c:1153 calendar/gui/e-calendar-view.c:1390
-#: mail/em-folder-view.c:940 mail/em-popup.c:498
+#: calendar/gui/e-calendar-table.c:1158 calendar/gui/e-calendar-view.c:1390
+#: mail/em-folder-view.c:933 mail/em-popup.c:493
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "Iš_saugoti kaip..."
 
-#: calendar/gui/e-calendar-table.c:1154 calendar/gui/e-calendar-view.c:1370
+#: calendar/gui/e-calendar-table.c:1159 calendar/gui/e-calendar-view.c:1370
 #: calendar/gui/e-calendar-view.c:1391 ui/evolution-addressbook.xml.h:40
 #: ui/evolution-calendar.xml.h:44 ui/evolution-mail-message.xml.h:125
 #: ui/evolution-tasks.xml.h:25
 msgid "_Print..."
 msgstr "S_pausdinti..."
 
-#: calendar/gui/e-calendar-table.c:1158 calendar/gui/e-calendar-view.c:1395
+#: calendar/gui/e-calendar-table.c:1163 calendar/gui/e-calendar-view.c:1395
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Iškirpti"
 
-#: calendar/gui/e-calendar-table.c:1159 calendar/gui/e-calendar-view.c:1396
+#: calendar/gui/e-calendar-table.c:1164 calendar/gui/e-calendar-view.c:1396
 #: composer/e-msg-composer.c:2901 mail/em-folder-tree.c:1036
 #: mail/message-list.c:1712 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:39 ui/evolution-composer-entries.xml.h:7
@@ -6082,42 +6172,42 @@ msgstr "_Iškirpti"
 msgid "_Copy"
 msgstr "_Kopijuoti"
 
-#: calendar/gui/e-calendar-table.c:1160 calendar/gui/e-calendar-view.c:1373
+#: calendar/gui/e-calendar-table.c:1165 calendar/gui/e-calendar-view.c:1373
 #: calendar/gui/e-calendar-view.c:1397 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:43 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:123 ui/evolution-tasks.xml.h:24
 msgid "_Paste"
 msgstr "Į_dėti"
 
-#: calendar/gui/e-calendar-table.c:1164
+#: calendar/gui/e-calendar-table.c:1169
 msgid "_Assign Task"
 msgstr "_Priskirti užduotį"
 
-#: calendar/gui/e-calendar-table.c:1165
+#: calendar/gui/e-calendar-table.c:1170
 msgid "_Forward as iCalendar"
 msgstr "_Persiųsti kaip iCalendar"
 
-#: calendar/gui/e-calendar-table.c:1166
+#: calendar/gui/e-calendar-table.c:1171
 msgid "_Mark as Complete"
 msgstr "_Pažymėti užbaigta"
 
-#: calendar/gui/e-calendar-table.c:1167
+#: calendar/gui/e-calendar-table.c:1172
 msgid "_Mark Selected Tasks as Complete"
 msgstr "_Pažymėti Pasirinktas Užduotis kaip Užbaigtas"
 
 #. FIXME: need to disable for undeletable folders
-#: calendar/gui/e-calendar-table.c:1171 calendar/gui/e-calendar-view.c:1408
-#: mail/em-folder-tree.c:2766 mail/em-folder-view.c:963
+#: calendar/gui/e-calendar-table.c:1176 calendar/gui/e-calendar-view.c:1408
+#: mail/em-folder-tree.c:2766 mail/em-folder-view.c:956
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
 msgstr "_Ištrinti"
 
-#: calendar/gui/e-calendar-table.c:1172
+#: calendar/gui/e-calendar-table.c:1177
 msgid "_Delete Selected Tasks"
 msgstr "_Ištrinti pažymėtas užduotis"
 
-#: calendar/gui/e-calendar-table.c:1323
+#: calendar/gui/e-calendar-table.c:1328
 #: calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "Norėdami pridėti užduotį, spauskite čia"
@@ -6980,7 +7070,7 @@ msgstr "Išvaloma"
 #: calendar/gui/e-tasks.c:1189
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: calendar/gui/print.c:1822 calendar/gui/tasks-component.c:408
-#: calendar/gui/tasks-component.c:881 calendar/gui/tasks-control.c:410
+#: calendar/gui/tasks-component.c:881 calendar/gui/tasks-control.c:408
 #: calendar/importers/icalendar-importer.c:83
 #: calendar/importers/icalendar-importer.c:701
 #: plugins/groupwise-account-setup/camel-gw-listener.c:383
@@ -7450,18 +7540,14 @@ msgstr "Kategorijos: %s"
 msgid "Contacts: "
 msgstr "Kontaktai: "
 
-#: calendar/gui/print.c:2562 calendar/gui/print.c:2648
-#: calendar/gui/print.c:2740 mail/em-format-html-print.c:178
+#: calendar/gui/print.c:2565 calendar/gui/print.c:2653
+#: calendar/gui/print.c:2779 mail/em-format-html-print.c:178
 msgid "Print Preview"
 msgstr "Spaudinio peržiūra"
 
-#: calendar/gui/print.c:2596
+#: calendar/gui/print.c:2600
 msgid "Print Item"
 msgstr "Spausdinti elementą"
-
-#: calendar/gui/print.c:2762
-msgid "Print Setup"
-msgstr "Spausdinimo nustatymai"
 
 #: calendar/gui/tasks-component.c:328
 msgid "New Task List"
@@ -7536,7 +7622,7 @@ msgstr "Užduoč_ių sąrašas"
 msgid "Create a new task list"
 msgstr "Sukurti naują užduočių sąrašą"
 
-#: calendar/gui/tasks-control.c:372
+#: calendar/gui/tasks-control.c:370
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -7548,11 +7634,11 @@ msgstr ""
 "\n"
 "Tikrai ištrinti šias užduotis?"
 
-#: calendar/gui/tasks-control.c:375
+#: calendar/gui/tasks-control.c:373
 msgid "Do not ask me again."
 msgstr "Kitą kartą nebeklausti."
 
-#: calendar/gui/tasks-control.c:433
+#: calendar/gui/tasks-control.c:408
 msgid "Print Tasks"
 msgstr "Atspausdinti užduotis"
 
@@ -9130,63 +9216,6 @@ msgstr "Didysis_vandenynas/Volis"
 msgid "Pacific/Yap"
 msgstr "Didysis_vandenynas/Japas"
 
-#: composer/e-msg-composer-attachment-bar.c:101
-#, c-format
-msgid "%.0fK"
-msgstr "%.0fK"
-
-#: composer/e-msg-composer-attachment-bar.c:104
-#, c-format
-msgid "%.0fM"
-msgstr "%.0fM"
-
-#: composer/e-msg-composer-attachment-bar.c:107
-#, c-format
-msgid "%.0fG"
-msgstr "%.0fG"
-
-#: composer/e-msg-composer-attachment-bar.c:293 mail/em-utils.c:436
-msgid "attachment"
-msgstr "priedas"
-
-#: composer/e-msg-composer-attachment-bar.c:441 mail/em-folder-tree.c:2770
-#: ui/evolution-mail-list.xml.h:27
-msgid "_Properties"
-msgstr "_Savybės"
-
-#: composer/e-msg-composer-attachment-bar.c:443
-msgid "_Add attachment..."
-msgstr "_Prisegti priedą..."
-
-#: composer/e-msg-composer-attachment.c:174
-#: composer/e-msg-composer-attachment.c:190
-#, c-format
-msgid "Cannot attach file %s: %s"
-msgstr "Negalėjau prisegti bylos %s: %s"
-
-#: composer/e-msg-composer-attachment.c:182
-#, c-format
-msgid "Cannot attach file %s: not a regular file"
-msgstr "Negaliu prisegti bylos %s: ne paprasta byla"
-
-#: composer/e-msg-composer-attachment.glade.h:2
-msgid "Attachment Properties"
-msgstr "Priedo savybės"
-
-#: composer/e-msg-composer-attachment.glade.h:4
-msgid "File name:"
-msgstr "Bylos vardas:"
-
-#: composer/e-msg-composer-attachment.glade.h:5
-msgid "MIME type:"
-msgstr "MIME tipas:"
-
-#: composer/e-msg-composer-attachment.glade.h:6
-#: composer/e-msg-composer-select-file.c:93
-#: composer/e-msg-composer-select-file.c:112
-msgid "Suggest automatic display of attachment"
-msgstr "Pasiūlyti automatinį priedo parodymą"
-
 #: composer/e-msg-composer.c:727
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -9251,7 +9280,7 @@ msgstr[1] "%d prisegti laiškai"
 msgstr[2] "%d prisegtų laiškų"
 
 #: composer/e-msg-composer.c:2902 mail/em-folder-tree.c:1037
-#: mail/em-folder-tree.c:2263 mail/em-folder-view.c:834
+#: mail/em-folder-tree.c:2263 mail/em-folder-view.c:827
 #: mail/message-list.c:1713
 msgid "_Move"
 msgstr "_Perkelti"
@@ -9269,15 +9298,15 @@ msgstr ""
 "<b>(Laiško rašymo langas turi ne tekstinį laiško tekstą, kuris yra "
 "neredaguojamas.)<b>"
 
-#: composer/e-msg-composer-hdrs.c:512
+#: composer/e-msg-composer-hdrs.c:519
 msgid "Posting destination"
 msgstr "Paskirties vieta"
 
-#: composer/e-msg-composer-hdrs.c:513
+#: composer/e-msg-composer-hdrs.c:520
 msgid "Choose folders to post the message to."
 msgstr "Pasirinkite aplanką, kuriame bus patalpintas laiškas."
 
-#: composer/e-msg-composer-hdrs.c:547
+#: composer/e-msg-composer-hdrs.c:554
 msgid "Click here for the address book"
 msgstr "Paspausk čia, jei reikia adresų knygelės"
 
@@ -9288,45 +9317,45 @@ msgstr "Paspausk čia, jei reikia adresų knygelės"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: composer/e-msg-composer-hdrs.c:577
+#: composer/e-msg-composer-hdrs.c:584
 msgid "_Reply-To:"
 msgstr "_Atsakyti-kam:"
 
 #.
 #. * From
 #.
-#: composer/e-msg-composer-hdrs.c:584
+#: composer/e-msg-composer-hdrs.c:591
 msgid "Fr_om:"
 msgstr "Nu_o:"
 
 #.
 #. * Subject
 #.
-#: composer/e-msg-composer-hdrs.c:591
+#: composer/e-msg-composer-hdrs.c:598
 msgid "S_ubject:"
 msgstr "_Tema:"
 
-#: composer/e-msg-composer-hdrs.c:601
+#: composer/e-msg-composer-hdrs.c:608
 msgid "_To:"
 msgstr "_Kam:"
 
-#: composer/e-msg-composer-hdrs.c:602
+#: composer/e-msg-composer-hdrs.c:609
 msgid "Enter the recipients of the message"
 msgstr "Įveskite laiško gavėjus"
 
-#: composer/e-msg-composer-hdrs.c:605
+#: composer/e-msg-composer-hdrs.c:612
 msgid "_Cc:"
 msgstr "_Cc:"
 
-#: composer/e-msg-composer-hdrs.c:606
+#: composer/e-msg-composer-hdrs.c:613
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Įveskite adresus, kuriais bus išsiųsta šio laiško kopiją"
 
-#: composer/e-msg-composer-hdrs.c:609
+#: composer/e-msg-composer-hdrs.c:616
 msgid "_Bcc:"
 msgstr "_Bcc:"
 
-#: composer/e-msg-composer-hdrs.c:610
+#: composer/e-msg-composer-hdrs.c:617
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -9337,21 +9366,17 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: composer/e-msg-composer-hdrs.c:617
+#: composer/e-msg-composer-hdrs.c:624
 msgid "_Post To:"
 msgstr "_Skelbti į:"
 
-#: composer/e-msg-composer-hdrs.c:622
+#: composer/e-msg-composer-hdrs.c:629
 msgid "Click here to select folders to post to"
 msgstr "Norėdami pasirinkti aplankus, kuriuose skelbti, spauskite čia"
 
-#: composer/e-msg-composer-hdrs.c:628
+#: composer/e-msg-composer-hdrs.c:635
 msgid "Post To:"
 msgstr "Skelbti į:"
-
-#: composer/e-msg-composer-select-file.c:187
-msgid "Attach file(s)"
-msgstr "Prisegti bylą(as)"
 
 #. mail-composer:no-attach primary
 #: composer/mail-composer-errors.xml.h:2
@@ -9546,6 +9571,7 @@ msgid "<b>Out of Office Message:</b>"
 msgstr "<b>Nebuvimo darbe žinutė:</b>"
 
 #: designs/OOA/ooa.glade.h:5
+#: plugins/exchange-account-setup/exchange-account-setup.c:106
 msgid "<b>Status:</b>"
 msgstr "<b>Būklė:</b>"
 
@@ -9941,7 +9967,7 @@ msgstr " "
 msgid "months"
 msgstr "mėnesių"
 
-#: filter/filter.glade.h:18 mail/mail-config.glade.h:173
+#: filter/filter.glade.h:18 mail/mail-config.glade.h:172
 msgid "seconds"
 msgstr "sekundžių"
 
@@ -10092,15 +10118,15 @@ msgstr "Protokolas"
 msgid "Unnamed"
 msgstr "Bevardis"
 
-#: mail/em-composer-prefs.c:949
+#: mail/em-composer-prefs.c:890
 msgid "Language(s)"
 msgstr "Kalba(os)"
 
-#: mail/em-composer-prefs.c:995
+#: mail/em-composer-prefs.c:933
 msgid "Add signature script"
 msgstr "Pridėti parašo scenarijų"
 
-#: mail/em-composer-prefs.c:1015
+#: mail/em-composer-prefs.c:953
 msgid "Signature(s)"
 msgstr "Parašas(ai)"
 
@@ -10261,7 +10287,7 @@ msgstr "Šlamštas"
 msgid "Junk Test"
 msgstr "Šlamšto testas"
 
-#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:971
+#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:964
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Užrašas"
@@ -10373,7 +10399,7 @@ msgstr "Nutraukti filtravimą"
 #: mail/em-filter-i18n.h:65 mail/em-format.c:853 mail/em-format-html.c:1533
 #: mail/em-format-quote.c:306 mail/em-mailer-prefs.c:88
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:330
-#: plugins/shared-folder/properties.glade.h:14 smime/lib/e-cert.c:1131
+#: plugins/shared-folder/properties.glade.h:7 smime/lib/e-cert.c:1131
 msgid "Subject"
 msgstr "Tema"
 
@@ -10405,7 +10431,7 @@ msgstr[0] "Neskaityta žinutė:"
 msgstr[1] "Neskaitytos žinutės:"
 msgstr[2] "Neskaitytų žinučių:"
 
-#: mail/em-folder-properties.c:270 plugins/shared-folder/properties.glade.h:9
+#: mail/em-folder-properties.c:270 plugins/shared-folder/properties.glade.h:3
 msgid "Folder Properties"
 msgstr "Aplanko savybės"
 
@@ -10418,7 +10444,8 @@ msgid "Create New Folder"
 msgstr "Sukurti naują aplanką"
 
 #: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2479
-#: mail/mail-component.c:732 plugins/shared-folder/share-folder-common.c:346
+#: mail/mail-component.c:732 plugins/shared-folder/install-shared.c:144
+#: plugins/shared-folder/share-folder-common.c:345
 msgid "Specify where to create the folder:"
 msgstr "Nurodykite, kur sukurti aplanką:"
 
@@ -10477,13 +10504,13 @@ msgid "Copying `%s' to `%s'"
 msgstr "Kopijuojama „%s“ į „%s“"
 
 #: mail/em-folder-tree.c:2249 mail/em-folder-tree.c:2263
-#: mail/em-folder-view.c:834 mail/em-folder-view.c:849
+#: mail/em-folder-view.c:827 mail/em-folder-view.c:842
 #: mail/importers/evolution-mbox-importer.c:120
 #: mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "Pasirinkite aplanką"
 
-#: mail/em-folder-tree.c:2249 mail/em-folder-view.c:849
+#: mail/em-folder-tree.c:2249 mail/em-folder-view.c:842
 msgid "C_opy"
 msgstr "K_opijuoti"
 
@@ -10493,7 +10520,8 @@ msgid "Creating folder `%s'"
 msgstr "Kuriamas aplankas „%s“"
 
 #: mail/em-folder-tree.c:2479 mail/mail-component.c:732
-#: plugins/shared-folder/share-folder-common.c:346
+#: plugins/shared-folder/install-shared.c:144
+#: plugins/shared-folder/share-folder-common.c:345
 msgid "Create folder"
 msgstr "Sukurti aplanką"
 
@@ -10558,150 +10586,150 @@ msgstr "Gauti laiškai"
 msgid "Loading..."
 msgstr "Įkeliama..."
 
-#: mail/em-folder-view.c:437 mail/GNOME_Evolution_Mail.server.in.in.h:11
+#: mail/em-folder-view.c:438 mail/GNOME_Evolution_Mail.server.in.in.h:11
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
 #: mail/importers/pine-importer.c:474 mail/mail-component.c:531
 #: mail/mail-component.c:582
 msgid "Mail"
 msgstr "Paštas"
 
-#: mail/em-folder-view.c:939 ui/evolution-mail-message.xml.h:113
+#: mail/em-folder-view.c:932 ui/evolution-mail-message.xml.h:113
 msgid "_Edit as New Message..."
 msgstr "K_eisti kaip naują laišką..."
 
-#: mail/em-folder-view.c:941
+#: mail/em-folder-view.c:934
 msgid "_Print"
 msgstr "S_pausdinti"
 
-#: mail/em-folder-view.c:944 ui/evolution-mail-message.xml.h:127
+#: mail/em-folder-view.c:937 ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "_Atsakyti siuntėjui"
 
-#: mail/em-folder-view.c:945 mail/em-popup.c:502
+#: mail/em-folder-view.c:938 mail/em-popup.c:497
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "Atsakyti į _konferenciją"
 
-#: mail/em-folder-view.c:946 mail/em-popup.c:503
+#: mail/em-folder-view.c:939 mail/em-popup.c:498
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Atsakyti _visiems"
 
-#: mail/em-folder-view.c:947 mail/em-popup.c:505
+#: mail/em-folder-view.c:940 mail/em-popup.c:500
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Forward"
 msgstr "P_ersiųsti"
 
-#: mail/em-folder-view.c:950
+#: mail/em-folder-view.c:943
 msgid "Follo_w Up..."
 msgstr "_Tęsinys..."
 
-#: mail/em-folder-view.c:951
+#: mail/em-folder-view.c:944
 msgid "Fla_g Completed"
 msgstr "Pažymėti pabai_gtu"
 
-#: mail/em-folder-view.c:952
+#: mail/em-folder-view.c:945
 msgid "Cl_ear Flag"
 msgstr "Atša_ukti pažymėjimą"
 
-#: mail/em-folder-view.c:955 ui/evolution-mail-message.xml.h:50
+#: mail/em-folder-view.c:948 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "Pažymėti s_kaitytu"
 
-#: mail/em-folder-view.c:956
+#: mail/em-folder-view.c:949
 msgid "Mark as _Unread"
 msgstr "Pažymėti _neskaitytu"
 
-#: mail/em-folder-view.c:957
+#: mail/em-folder-view.c:950
 msgid "Mark as _Important"
 msgstr "Pažymėti svarb_iu"
 
-#: mail/em-folder-view.c:958
+#: mail/em-folder-view.c:951
 msgid "_Mark as Unimportant"
 msgstr "Pažymėti kaip nes_varbų"
 
-#: mail/em-folder-view.c:959 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:952 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Pažymėti kaip š_lamštą"
 
-#: mail/em-folder-view.c:960 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:953 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Pažymėti kaip _ne šlamštą"
 
-#: mail/em-folder-view.c:964
+#: mail/em-folder-view.c:957
 msgid "U_ndelete"
 msgstr "S_ugrąžinti"
 
-#: mail/em-folder-view.c:967
+#: mail/em-folder-view.c:960
 msgid "Mo_ve to Folder..."
 msgstr "Pe_rkelti į aplanką..."
 
-#: mail/em-folder-view.c:968 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:961 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "K_opijuoti į aplanką..."
 
-#: mail/em-folder-view.c:976
+#: mail/em-folder-view.c:969
 msgid "Add Sender to Address_book"
 msgstr "Įtraukti siuntėją į adresų _knygą"
 
-#: mail/em-folder-view.c:979
+#: mail/em-folder-view.c:972
 msgid "Appl_y Filters"
 msgstr "Pritaik_yti filtrus"
 
-#: mail/em-folder-view.c:980
+#: mail/em-folder-view.c:973
 msgid "F_ilter Junk"
 msgstr "F_iltruoti šlamštą"
 
-#: mail/em-folder-view.c:983
+#: mail/em-folder-view.c:976
 msgid "Crea_te Rule From Message"
 msgstr "Sukur_ti taisyklę iš žinutės"
 
-#: mail/em-folder-view.c:984
+#: mail/em-folder-view.c:977
 msgid "VFolder on _Subject"
 msgstr "vAplankas pagal _temą"
 
-#: mail/em-folder-view.c:985
+#: mail/em-folder-view.c:978
 msgid "VFolder on Se_nder"
 msgstr "vAplankas pagal siu_ntėją"
 
-#: mail/em-folder-view.c:986
+#: mail/em-folder-view.c:979
 msgid "VFolder on _Recipients"
 msgstr "vAplankas pagal _gavėjus"
 
-#: mail/em-folder-view.c:987
+#: mail/em-folder-view.c:980
 msgid "VFolder on Mailing _List"
 msgstr "vAplankas pagal _konferenciją"
 
-#: mail/em-folder-view.c:991
+#: mail/em-folder-view.c:984
 msgid "Filter on Sub_ject"
 msgstr "Filtruoti pagal t_emą"
 
-#: mail/em-folder-view.c:992
+#: mail/em-folder-view.c:985
 msgid "Filter on Sen_der"
 msgstr "Filtruoti pagal si_untėją"
 
-#: mail/em-folder-view.c:993
+#: mail/em-folder-view.c:986
 msgid "Filter on Re_cipients"
 msgstr "Filtruoti pagal ga_vėjus"
 
-#: mail/em-folder-view.c:994
+#: mail/em-folder-view.c:987
 msgid "Filter on _Mailing List"
 msgstr "Filtruoti pagal k_onferenciją"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1771 mail/em-folder-view.c:1814
+#: mail/em-folder-view.c:1764 mail/em-folder-view.c:1807
 msgid "Default"
 msgstr "Įprastas"
 
-#: mail/em-folder-view.c:1911
+#: mail/em-folder-view.c:1903
 msgid "Print Message"
 msgstr "Spausdinti laišką"
 
-#: mail/em-folder-view.c:2190
+#: mail/em-folder-view.c:2182
 msgid "_Copy Link Location"
 msgstr "_Kopijuoti nuorodą"
 
-#: mail/em-folder-view.c:2473
+#: mail/em-folder-view.c:2465
 #, c-format
 msgid "Click to mail %s"
 msgstr "Norėdami išsiųsti %s, paspauskite čia"
@@ -10842,7 +10870,7 @@ msgstr "Formuojamas laiškas"
 
 #. pseudo-header
 #: mail/em-format-html.c:1537 mail/em-format-quote.c:315
-#: mail/em-mailer-prefs.c:984
+#: mail/em-mailer-prefs.c:986
 msgid "Mailer"
 msgstr "Pašto programa"
 
@@ -11050,36 +11078,36 @@ msgstr ""
 "Nepavyko perskaityti nustatymų iš ankstesnės Evolution instaliacijos, "
 "„evolution/config.xmldb“ neegzistuoja arba yra sugadinta."
 
-#: mail/em-popup.c:386
+#: mail/em-popup.c:381
 msgid "Save As..."
 msgstr "Išsaugoti kaip..."
 
-#: mail/em-popup.c:405
+#: mail/em-popup.c:400
 #, c-format
 msgid "untitled_image.%s"
 msgstr "neįvardintas_paveikslėlis.%s"
 
-#: mail/em-popup.c:499
+#: mail/em-popup.c:494
 msgid "Set as _Background"
 msgstr "Nustatyti kaip _foną"
 
-#: mail/em-popup.c:501
+#: mail/em-popup.c:496
 msgid "_Reply to sender"
 msgstr "_Atsakyti siuntėjui"
 
-#: mail/em-popup.c:553
+#: mail/em-popup.c:548
 msgid "_Open Link in Browser"
 msgstr "Atverti nu_orodą naršyklėje"
 
-#: mail/em-popup.c:554
+#: mail/em-popup.c:549
 msgid "Se_nd message to..."
 msgstr "Siųsti laišką _kitam..."
 
-#: mail/em-popup.c:555
+#: mail/em-popup.c:550
 msgid "_Add to Addressbook"
 msgstr "Įtraukti į adresų knygą"
 
-#: mail/em-popup.c:686
+#: mail/em-popup.c:681
 #, c-format
 msgid "Open in %s..."
 msgstr "Atidaryti su %s..."
@@ -11406,8 +11434,7 @@ msgstr "Paklausti patvirtinimo, kai užpildomi tik bcc gavėjų laukai"
 #: mail/evolution-mail.schemas.in.in.h:60
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
-"Paklausti patvirtinimo, kai bandoma išsiųsti 10 ar daugiau laiškų "
-"vienu metu"
+"Paklausti patvirtinimo, kai bandoma išsiųsti 10 ar daugiau laiškų vienu metu"
 
 #: mail/evolution-mail.schemas.in.in.h:61
 msgid ""
@@ -12049,7 +12076,7 @@ msgstr "<span weight=\"bold\">Rodomos pašto a_ntraštės</span>"
 msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">Filtravimo nustatymai</span>"
 
-#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1641
+#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1656
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Esminiai</span>"
 
@@ -12475,6 +12502,13 @@ msgstr "T_ipas: "
 
 #: mail/mail-config.glade.h:135
 msgid ""
+"The list of languages here reflects only the languages for which you have a "
+"dictionary installed."
+msgstr ""
+"Pateiktas kalbų sąrašas galioja tik toms kalboms, kurių žodynai yra įdiegti."
+
+#: mail/mail-config.glade.h:136
+msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only. "
@@ -12482,15 +12516,6 @@ msgstr ""
 "Šio scenarijaus išvedamas tekstas bus naudojamas kaip Jūsų\n"
 "parašas. Nurodytas vardas bus naudojamas tik atvaizdavimo\n"
 "tikslais. "
-
-#: mail/mail-config.glade.h:138
-msgid ""
-"This page allows you to configure spell checking behavior and language. The "
-"list of languages here reflects only the languages for which you have a "
-"dictionary installed."
-msgstr ""
-"Šis puslapis leidžia Jums nustatyti rašybos tikrinimo elgseną ir kalbą. "
-"Pateiktas kalbų sąrašas galioja tik toms kalboms, kurių žodynai yra įdiegti."
 
 #: mail/mail-config.glade.h:140
 msgid ""
@@ -12548,72 +12573,72 @@ msgid "_Don't sign meeting requests (for Outlook compatibility)"
 msgstr "_Nepasirašyti susitikimų užklausimų (dėl suderinamumo su Outlook)"
 
 #: mail/mail-config.glade.h:154
-msgid "_Enable"
-msgstr "_Įjungti"
-
-#: mail/mail-config.glade.h:155
 msgid "_Forward style:"
 msgstr "Pe_rsiuntimo stilius:"
 
-#: mail/mail-config.glade.h:157
+#: mail/mail-config.glade.h:155
+msgid "_Full Name:"
+msgstr "_Pilnas vardas:"
+
+#: mail/mail-config.glade.h:156
 msgid "_Host:"
 msgstr "_Hostas:"
 
-#: mail/mail-config.glade.h:158
+#: mail/mail-config.glade.h:157
 msgid "_Load images if sender is in address book"
 msgstr "Įke_lti paveikslėlius, jei siuntėjas yra adresų knygoje"
 
-#: mail/mail-config.glade.h:159
+#: mail/mail-config.glade.h:158
 msgid "_Make this my default account"
 msgstr "_Padaryti šį abonementą įprastine"
 
-#: mail/mail-config.glade.h:160
+#: mail/mail-config.glade.h:159
 msgid "_Mark messages as read after"
 msgstr "Pažy_mėti laiškus skaitytais po"
 
-#: mail/mail-config.glade.h:162
+#: mail/mail-config.glade.h:161
 msgid "_Never load images from the Internet"
 msgstr "_Niekada neįkelti paveikslėlių iš Interneto"
 
-#: mail/mail-config.glade.h:163
+#: mail/mail-config.glade.h:162
 msgid "_Path:"
 msgstr "_Kelias:"
 
-#: mail/mail-config.glade.h:164
+#: mail/mail-config.glade.h:163
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr ""
 "_Paklausti, kai siunčiamas HTML laiškas adresatams, kurie nenori gauti HTML "
 "laiškų"
 
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:164
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "Paklausti prieš siunčiant laiškus nenurodžius _temos"
 
-#: mail/mail-config.glade.h:166
+#: mail/mail-config.glade.h:165
 msgid "_Reply style:"
 msgstr "_Atsakymo stilius:"
 
-#: mail/mail-config.glade.h:167
+#: mail/mail-config.glade.h:166
 msgid "_Script:"
 msgstr "_Scenarijus:"
 
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:167
 msgid "_Show animated images"
 msgstr "Rodyti judančius paveik_slėlius"
 
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:168
 msgid "_Use Secure Connection:"
 msgstr "Na_udoti saugią jungtį:"
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:169
 msgid "_Use the same fonts as other applications"
 msgstr "Na_udoti tokius šriftus kaip ir kitų programų"
 
-#: mail/mail-config.glade.h:171
+#: mail/mail-config.glade.h:170
 msgid "color"
 msgstr "spalva"
 
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:171
 msgid "description"
 msgstr "aprašymas"
 
@@ -12804,8 +12829,8 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
-"Kontaktų sąrašas, kuriam Jūs siunčiate, yra sukonfigūruotas paslėpti gavėjus."
-"\n"
+"Kontaktų sąrašas, kuriam Jūs siunčiate, yra sukonfigūruotas paslėpti "
+"gavėjus.\n"
 "\n"
 "Dauguma el.pašto sistemų laiškams turintiems tik BCC gavėjus prideda "
 "Apparently-To antraštę. Jeigu ši antraštė bus pridėta, matysis visi Jūsų "
@@ -13299,7 +13324,7 @@ msgid ""
 "      you can accept its license."
 msgstr ""
 "Nepavyko perskaityti licencijos bylos „{0}“, dėl\n"
-"	instaliacijos problemų. Jūs negalėsite naudotis šiuo tiekėju kol,\n"
+"\tinstaliacijos problemų. Jūs negalėsite naudotis šiuo tiekėju kol,\n"
 "kol nesutiksite su licencijos sąlygomis."
 
 #. mail:checking-service title
@@ -13579,8 +13604,7 @@ msgstr "Keisti parašą"
 msgid "Enter a name for this signature."
 msgstr "Įveskite šio parašo vardą."
 
-#: mail/mail-signature-editor.c:415
-#: plugins/shared-folder/properties.glade.h:11
+#: mail/mail-signature-editor.c:415 plugins/shared-folder/properties.glade.h:5
 msgid "Name:"
 msgstr "Vardas:"
 
@@ -13774,32 +13798,24 @@ msgid "Body contains"
 msgstr "Laiške yra"
 
 #: mail/searchtypes.xml.h:2
-msgid "Body does not contain"
-msgstr "Laiške nėra"
-
-#: mail/searchtypes.xml.h:3
-msgid "Body or subject contains"
-msgstr "Laiške arba temoje yra"
-
-#: mail/searchtypes.xml.h:4
 msgid "Message contains"
 msgstr "Žinutėje yra"
 
-#: mail/searchtypes.xml.h:5
+#: mail/searchtypes.xml.h:3
 msgid "Recipients contain"
 msgstr "Gavėjų sąraše yra"
 
-#: mail/searchtypes.xml.h:6
+#: mail/searchtypes.xml.h:4
 msgid "Sender contains"
 msgstr "Siuntėjo lauke yra"
 
-#: mail/searchtypes.xml.h:7
+#: mail/searchtypes.xml.h:5
 msgid "Subject contains"
 msgstr "Temoje yra"
 
-#: mail/searchtypes.xml.h:8
-msgid "Subject does not contain"
-msgstr "Temoje nėra"
+#: mail/searchtypes.xml.h:6
+msgid "Subject or Sender contains"
+msgstr "Temoje arba siuntėjo lauke yra"
 
 #: plugins/backup-restore/backup.c:109
 msgid "Backup Evolution directory"
@@ -13877,6 +13893,98 @@ msgstr ""
 msgid "Synchronize with _buddy list now"
 msgstr "Sinchronizuoti su _bičiulių sąrašu dabar"
 
+#: plugins/calendar-weather/calendar-weather.c:54
+#: plugins/calendar-weather/calendar-weather.c:60
+msgid "Weather: Cloudy"
+msgstr "Oras: debesuota"
+
+#: plugins/calendar-weather/calendar-weather.c:61
+msgid "Weather: Fog"
+msgstr "Oras: rūkas"
+
+#: plugins/calendar-weather/calendar-weather.c:62
+msgid "Weather: Partly Cloudy"
+msgstr "Oras: vietomis debesuota"
+
+#: plugins/calendar-weather/calendar-weather.c:63
+msgid "Weather: Rain"
+msgstr "Oras: Lietus"
+
+#: plugins/calendar-weather/calendar-weather.c:64
+msgid "Weather: Snow"
+msgstr "Oras: sniegas"
+
+#: plugins/calendar-weather/calendar-weather.c:65
+msgid "Weather: Sunny"
+msgstr "Oras: saulėta"
+
+#: plugins/calendar-weather/calendar-weather.c:66
+msgid "Weather: Thunderstorms"
+msgstr "Oras: perkūnija"
+
+#: plugins/calendar-weather/calendar-weather.c:100
+msgid "Weather"
+msgstr "Oras"
+
+#: plugins/calendar-weather/calendar-weather.c:268
+msgid "Select a location"
+msgstr "Pasirinkite vietovę"
+
+#: plugins/calendar-weather/calendar-weather.c:655
+msgid "_Units:"
+msgstr "_Vienetai:"
+
+#: plugins/calendar-weather/calendar-weather.c:662
+msgid "Metric (Celsius, cm, etc)"
+msgstr "Metriniai (Celsijus, cm ir t.t."
+
+#: plugins/calendar-weather/calendar-weather.c:663
+msgid "Imperial (Fahrenheit, inches, etc)"
+msgstr "Imperiniai (Farenheitai, coliai ir t.t.)"
+
+#: plugins/default-source/default-source.c:82
+msgid "Mark  as default folder"
+msgstr "Pažymėti šį aplanką įprastu"
+
+#: plugins/default-source/default-source.c:108
+msgid "Mark as default folder"
+msgstr "Naudoti šį aplanką įprastu"
+
+#. Description section
+#: plugins/exchange-account-setup/exchange-account-setup.c:91
+msgid ""
+"The message specified below will be automatically sent to \n"
+"each person who sends mail to you while you are out of the office."
+msgstr ""
+"Žemiau nurodytas pranešimas bus perduotas kiekvienam asmeniui,\n"
+"kurie atsiųs Jums laišką tuo metu, kai Jūsų nebus darbe."
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:115
+msgid "I am in the office"
+msgstr "Šiuo metu aš esu darbe"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:129
+msgid "I am out of the office"
+msgstr "Manęs šiuo metu darbe nėra"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:143
+msgid "Out of office Message:"
+msgstr "Nebuvimo darbe žinutė:"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:194
+msgid "Exchange Settings"
+msgstr "Exchange nustatymai"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:329
+#: plugins/exchange-account-setup/exchange-ask-password.c:193
+msgid "A_uthenticate"
+msgstr "A_utentikuotis"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:336
+#: plugins/exchange-account-setup/exchange-ask-password.c:200
+msgid "_OWA Url:"
+msgstr "_OWA adresas:"
+
 #: plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
@@ -13885,6 +13993,15 @@ msgstr "Atsisakoma aplanko „%s“"
 #: plugins/groupwise-account-setup/camel-gw-listener.c:413
 msgid "Checklist"
 msgstr ""
+
+#: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:1
+msgid "Add Send Options to groupwise messages"
+msgstr "Pridėti siuntimo nustatymus groupwise žinutėse"
+
+#: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:2
+#: widgets/misc/e-send-options.glade.h:20
+msgid "Send Options"
+msgstr "Siuntimo nustatymai"
 
 #: plugins/itip-formatter/itip-formatter.c:697
 msgid "Unable to parse item"
@@ -13966,22 +14083,22 @@ msgstr ""
 "Norint apdoroti visus šiuos elementus, byla turėtų būti išsaugota ir "
 "kalendorius importuotas"
 
-#: plugins/itip-formatter/itip-formatter.c:1632
+#: plugins/itip-formatter/itip-formatter.c:1647
 msgid "Meetings and Tasks"
 msgstr "Susitikimai ir užduotys"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: plugins/itip-formatter/itip-formatter.c:1655
+#: plugins/itip-formatter/itip-formatter.c:1670
 msgid "_Delete message after acting"
 msgstr "_Po įvykio laišką ištrinti"
 
-#: plugins/itip-formatter/itip-formatter.c:1665
+#: plugins/itip-formatter/itip-formatter.c:1680
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">Konfliktų paieška</span>"
 
 #. Source selector
-#: plugins/itip-formatter/itip-formatter.c:1678
+#: plugins/itip-formatter/itip-formatter.c:1693
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Pasirinkite kalendorius, kuriuose ieškosite susitikimų konfliktų"
 
@@ -14345,58 +14462,10 @@ msgstr ""
 "\n"
 "Antraštė: {0}"
 
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
-msgid "Contact list _owner"
-msgstr "Susisiekti su konferencijos _savininku"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
-msgid "Contact the owner of the mailing list this message belongs to"
-msgstr "Susisiekti su konferencijos, kuriai priklauso šis laiškas, savininku"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
-msgid "Get an archive of the list this message belongs to"
-msgstr "Gauti archyvą konferencijos, kuriai priklauso šis laiškas"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
-msgid "Get information about the usage of the list this message belongs to"
-msgstr ""
-"Gauti konferencijos, kuriai priklauso šis laiškas, naudojimos informaciją"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
-msgid "Get list _archive"
-msgstr "Gauti konferencijos _archyvą"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
-msgid "Get list _usage information"
-msgstr "Gauti konferencijos _naudojimosi informaciją"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
-msgid "Mailing _List"
-msgstr "_Konferencija"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
-msgid "Post a message to the mailing list this message belongs to"
-msgstr "Rašyti laišką į konferenciją, kuriai priklauso šis laiškas"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:9
-msgid "Subscribe to the mailing list this message belongs to"
-msgstr "Užsisakyti konferenciją, kuriai priklauso šis laiškas"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
-msgid "Unsubscribe to the mailing list this message belongs to"
-msgstr "Atsisakyti konferencijos, kuriai priklauso šis laiškas"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
-msgid "_Post message to list"
-msgstr "_Siųsti laišką konferencijai"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
-msgid "_Subscribe to list"
-msgstr "_Užsakyti konferenciją"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
-msgid "_Un-subscribe to list"
-msgstr "_Atsisakyti konferencijos"
+#. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
+#: plugins/new-mail-notify/new-mail-notify.c:66
+msgid "_Generates a D-BUS message when new mail arrives"
+msgstr "_Gavus naują laišką, sukuria D-BUS pranešimą"
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
@@ -14536,55 +14605,39 @@ msgstr ""
 "Šiam bylos tipui (%s) pasiūlytas bylos vardo plėtinys nenaudojamas "
 "pasirinktame bylos varde. Ar norite tęsti?"
 
-#: plugins/shared-folder/properties.glade.h:1
-msgid ""
-"\n"
-"Share List"
-msgstr ""
-"\n"
-"Viešinių sąrašas"
+#: plugins/shared-folder/properties.glade.h:2
+msgid "<b>Users :</b>"
+msgstr "<b>Naudotojai:</b>"
 
 #: plugins/shared-folder/properties.glade.h:4
-msgid "Ad_d"
-msgstr "_Pridėti"
-
-#: plugins/shared-folder/properties.glade.h:5
-msgid "Additional Access"
-msgstr "Papildomas priėjimas"
-
-#: plugins/shared-folder/properties.glade.h:7
-msgid "Delet_e"
-msgstr "Iš_trinti"
-
-#: plugins/shared-folder/properties.glade.h:8
-msgid "Edi_t"
-msgstr "_Keisti"
-
-#: plugins/shared-folder/properties.glade.h:10
 msgid "Message"
 msgstr "Žinutė"
 
-#: plugins/shared-folder/properties.glade.h:12
-msgid "Sen_d Custom Notification"
-msgstr "Siųs_ti kitą pranešimą"
-
-#: plugins/shared-folder/properties.glade.h:13
+#: plugins/shared-folder/properties.glade.h:6
 msgid "Shared Folder Notification"
 msgstr "Viešinamo aplanko pranešimas"
 
-#: plugins/shared-folder/properties.glade.h:15
+#: plugins/shared-folder/properties.glade.h:8
 msgid "The participants will receive the following notification.\n"
 msgstr "Dalyviai gaus sekančius pranešimus.\n"
 
-#: plugins/shared-folder/properties.glade.h:18
+#: plugins/shared-folder/properties.glade.h:11
+msgid "_Contacts..."
+msgstr "_Kontaktai..."
+
+#: plugins/shared-folder/properties.glade.h:12
+msgid "_Cutomize notification message"
+msgstr "_Keisti pranešimo žinutę"
+
+#: plugins/shared-folder/properties.glade.h:13
 msgid "_Not Shared"
 msgstr "_Nepaviešinta"
 
-#: plugins/shared-folder/properties.glade.h:20
+#: plugins/shared-folder/properties.glade.h:15
 msgid "_Shared With ..."
 msgstr "_Dalijamasi su ..."
 
-#: plugins/shared-folder/properties.glade.h:21
+#: plugins/shared-folder/properties.glade.h:16
 msgid "_Sharing"
 msgstr "_Viešinimas"
 
@@ -14596,7 +14649,7 @@ msgstr "Naudotojai"
 msgid "Enter the users and set permissions"
 msgstr "Įveskite naudotojus ir nurodykite teises"
 
-#: plugins/shared-folder/share-folder-common.c:402
+#: plugins/shared-folder/share-folder-common.c:401
 msgid "Sharing"
 msgstr "Viešinimas"
 
@@ -14606,34 +14659,38 @@ msgid "Fall back to threading messages by sub_ject"
 msgstr "Kaip atsarginį variantą naudoti laiškų rikiavimą pagal _temą"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
+msgid "A GNOME Print description of the current printer settings"
+msgstr "Dabartinių spausdintuvo nustatymų GNOME spausdinimo aprašymas"
+
+#: shell/apps_evolution_shell.schemas.in.in.h:2
 msgid "Button style"
 msgstr "Mygtukų stilius"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:2
+#: shell/apps_evolution_shell.schemas.in.in.h:3
 msgid "Buttons are visible"
 msgstr "Mygtukai yra matomi"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:3
+#: shell/apps_evolution_shell.schemas.in.in.h:4
 msgid "Default width of the folder bar pane"
 msgstr "Įprastas aplankų juostos plotis"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:4
+#: shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "Default window height"
 msgstr "Įprastas lango aukštis"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:5
+#: shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "Default window width"
 msgstr "Įprastas lango plotis"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:6
+#: shell/apps_evolution_shell.schemas.in.in.h:7
 msgid "Evolution configuration version"
 msgstr "Evolution nustatymų versija"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:7
+#: shell/apps_evolution_shell.schemas.in.in.h:8
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "Komponento ID arba trumpas vardas rodomas paleidimo metu."
 
-#: shell/apps_evolution_shell.schemas.in.in.h:8
+#: shell/apps_evolution_shell.schemas.in.in.h:9
 msgid ""
 "If set to true, Evolution will start up in offline mode instead of online "
 "mode."
@@ -14641,7 +14698,7 @@ msgstr ""
 "Jei reikšmė teigiama, Evolution pasileistų neprisijungusiame režime vietoj "
 "prisijungusio."
 
-#: shell/apps_evolution_shell.schemas.in.in.h:9
+#: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid ""
 "If set to true, the warning dialog in development versions of Evolution is "
 "not displayed."
@@ -14649,16 +14706,20 @@ msgstr ""
 "Jei reikšmė yra teigiama, perspėjimai apie bandomąją Evolution versiją nebus "
 "rodomi."
 
-#: shell/apps_evolution_shell.schemas.in.in.h:10
+#: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Last upgraded Evolution configuration version"
 msgstr "Paskutinė atnaujinta Evolution nustatymų versija"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:11
+#: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr "Aplankų, kurie turi būti sulyginti atsijungusiam režimui, sąrašas"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:12
+#: shell/apps_evolution_shell.schemas.in.in.h:13
+msgid "Printer settings"
+msgstr "Spausdintuvo nustatymai"
+
+#: shell/apps_evolution_shell.schemas.in.in.h:14
 msgid ""
 "The style of the displayed buttons. Can be text, icons, both, toolbar. If "
 "toolbar is set, the style of the toolbar is followed as determined by the "
@@ -14667,23 +14728,23 @@ msgstr ""
 "Rodomų mygtukų sąrašas. Gali būti text, icons, both, toolbar. Jeigu nurodyta "
 "„toolbar“, įrankinės stilius yra toks koks nurodytas GNOME nustatymuose."
 
-#: shell/apps_evolution_shell.schemas.in.in.h:13
+#: shell/apps_evolution_shell.schemas.in.in.h:15
 msgid "Toolbar is visible"
 msgstr "Įrankinė yra matoma"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:14
+#: shell/apps_evolution_shell.schemas.in.in.h:16
 msgid "Whether Evolution should start up in offline mode"
 msgstr "Ar Evolution turi pasileisti neprisijungusiame režime"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:15
+#: shell/apps_evolution_shell.schemas.in.in.h:17
 msgid "Whether the buttons should be visible."
 msgstr "Ar mygtukai turi būti matomi."
 
-#: shell/apps_evolution_shell.schemas.in.in.h:16
+#: shell/apps_evolution_shell.schemas.in.in.h:18
 msgid "Whether the toolbar should be visible."
 msgstr "Ar įrankinė turi būti matoma."
 
-#: shell/apps_evolution_shell.schemas.in.in.h:17
+#: shell/apps_evolution_shell.schemas.in.in.h:19
 msgid "Whether to skip the development warning dialog"
 msgstr "Ar praleisti bandomosios versijos perspėjimų langą"
 
@@ -14697,7 +14758,8 @@ msgstr "Aktyvūs prisijungimai"
 
 #: shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
-msgstr "Norėdami uždaryti šiuos prisijungimusi ir atsijungti, spauskite „Gerai“"
+msgstr ""
+"Norėdami uždaryti šiuos prisijungimusi ir atsijungti, spauskite „Gerai“"
 
 #: shell/e-shell.c:597
 msgid "Uknown system error."
@@ -14744,8 +14806,8 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
-"Pasirinkite norimą į Evolution importuoti bylą, bei jos tipą iš duoto sąrašo."
-"\n"
+"Pasirinkite norimą į Evolution importuoti bylą, bei jos tipą iš duoto "
+"sąrašo.\n"
 "\n"
 "Jei nežinote, galite pasirinkti „Automatiškas“, ir Evolution bandys "
 "susigaudyti pati."
@@ -15395,8 +15457,9 @@ msgid ""
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
 msgstr ""
-"Dėl to, kad Jūs nepasitikite šį sertifikatą išdavusiu sertifikatų tvirtintoju,"
-" Jūs nepasitikite šio sertifikato autentiškumu, nebent čia nurodysite kitaip"
+"Dėl to, kad Jūs nepasitikite šį sertifikatą išdavusiu sertifikatų "
+"tvirtintoju, Jūs nepasitikite šio sertifikato autentiškumu, nebent čia "
+"nurodysite kitaip"
 
 #: smime/gui/component.c:45
 #, c-format
@@ -17545,25 +17608,164 @@ msgstr "_Paieška"
 msgid "_Find Now"
 msgstr "_Surasti"
 
-#: widgets/misc/e-search-bar.c:554 widgets/misc/e-search-bar.c:936
+#: widgets/misc/e-search-bar.c:554 widgets/misc/e-search-bar.c:941
 msgid "_Clear"
 msgstr "Iš_valyti"
 
-#: widgets/misc/e-search-bar.c:844
+#: widgets/misc/e-search-bar.c:645
+msgid "Search Type"
+msgstr "Paieškos tipas"
+
+#: widgets/misc/e-search-bar.c:849
 msgid "Item ID"
 msgstr "Elemento ID"
 
-#: widgets/misc/e-search-bar.c:851
+#: widgets/misc/e-search-bar.c:856
 msgid "Subitem ID"
 msgstr "Antrinio elemento ID"
 
-#: widgets/misc/e-search-bar.c:858
+#: widgets/misc/e-search-bar.c:863
 msgid "Text"
 msgstr "Tekstas"
 
-#: widgets/misc/e-search-bar.c:938
+#: widgets/misc/e-search-bar.c:943
 msgid "Find _Now"
 msgstr "_Surasti"
+
+#: widgets/misc/e-send-options.c:505
+msgid "When de_leted:"
+msgstr "Kai išt_rinta:"
+
+#: widgets/misc/e-send-options.glade.h:1
+msgid "<b>Delivery Options</b>"
+msgstr "<b>Pristatymo nustatymai</b>"
+
+#: widgets/misc/e-send-options.glade.h:2
+msgid "<b>Replies</b>"
+msgstr "<b>Atsakymai</b>"
+
+#: widgets/misc/e-send-options.glade.h:3
+msgid "<b>Return Notification</b>"
+msgstr "<b>Grįžimo pranešimas</b>"
+
+#: widgets/misc/e-send-options.glade.h:4
+msgid "<b>Status Tracking</b>"
+msgstr "<b>Būklės sekimas</b>"
+
+#: widgets/misc/e-send-options.glade.h:5
+msgid "A_uto-delete sent item"
+msgstr "A_utomatiškai ištrinti išsiųstus elementus"
+
+#: widgets/misc/e-send-options.glade.h:6
+msgid "C_lassification"
+msgstr "K_lasifikacija"
+
+#: widgets/misc/e-send-options.glade.h:7
+msgid "Creat_e a sent item to track information"
+msgstr "Suk_urti siunčiamą elementą informacijai sekti"
+
+#: widgets/misc/e-send-options.glade.h:8
+msgid "Deli_vered and opened"
+msgstr "Pri_statytas ir atidarytas"
+
+#: widgets/misc/e-send-options.glade.h:9
+msgid "Gene_ral Options"
+msgstr "Bend_rieji nustatymai"
+
+#: widgets/misc/e-send-options.glade.h:10
+msgid ""
+"None\n"
+"Mail Receipt"
+msgstr ""
+"Nėra\n"
+"Pašto gavimas"
+
+#: widgets/misc/e-send-options.glade.h:12
+msgid ""
+"None\n"
+"Mail Receipt\n"
+msgstr ""
+"Nėra\n"
+"Pašto gavimas\n"
+
+#: widgets/misc/e-send-options.glade.h:15
+msgid ""
+"Public\n"
+"Private\n"
+"Confidential\n"
+msgstr ""
+"Viešas\n"
+"Privatus\n"
+"Konfidencialus\n"
+
+#: widgets/misc/e-send-options.glade.h:19
+msgid "R_eply requested"
+msgstr "Paprašyta _atsakymo"
+
+#: widgets/misc/e-send-options.glade.h:21
+msgid "Sta_tus  Tracking"
+msgstr "Bū_klės sekimas"
+
+#: widgets/misc/e-send-options.glade.h:22
+msgid ""
+"Undefined\n"
+"High\n"
+"Standard\n"
+"Low"
+msgstr ""
+"Nenurodyta\n"
+"Aukštas\n"
+"Standartinis\n"
+"Žemas"
+
+#: widgets/misc/e-send-options.glade.h:26
+#, fuzzy
+msgid "W_ithin"
+msgstr "R_ibose"
+
+#: widgets/misc/e-send-options.glade.h:27
+msgid "When acce_pted: "
+msgstr "Kai _priimta: "
+
+#: widgets/misc/e-send-options.glade.h:28
+msgid "When co_mpleted:"
+msgstr "Kai pa_baigta:"
+
+#: widgets/misc/e-send-options.glade.h:29
+msgid "When decli_ned:    "
+msgstr "Kai a_tsisakyta:    "
+
+#: widgets/misc/e-send-options.glade.h:30
+msgid "_After:"
+msgstr "_Po:"
+
+#: widgets/misc/e-send-options.glade.h:31
+msgid "_All information"
+msgstr "_Visa informacija"
+
+#: widgets/misc/e-send-options.glade.h:32
+msgid "_Delay message delivery"
+msgstr "_Atidėti laiško pristatymą"
+
+#: widgets/misc/e-send-options.glade.h:33
+msgid "_Delivered"
+msgstr "_Pristatyta"
+
+#: widgets/misc/e-send-options.glade.h:35
+msgid "_Set expiration  date"
+msgstr "_Nustatyti galiojimo terminą"
+
+#: widgets/misc/e-send-options.glade.h:36
+msgid "_Until:"
+msgstr "_Iki:"
+
+#: widgets/misc/e-send-options.glade.h:37
+msgid "_When convenient"
+msgstr "_Kai tinkama"
+
+#: widgets/misc/e-send-options.glade.h:38
+msgid "_When opened:     "
+msgstr "_Kai atidaryta:     "
 
 #. system:ask-save-file-exists-overwrite primary
 #: widgets/misc/e-system-errors.xml.h:4
@@ -17578,7 +17780,7 @@ msgstr "Ar norite ją perrašyti?"
 #. system:no-save-file primary
 #: widgets/misc/e-system-errors.xml.h:9
 msgid "Cannot save file \"{0}\"."
-msgstr "Negalima saugoti į „{0}“."
+msgstr "Nepavyko išsaugoti į „{0}“."
 
 #. system:no-load-file primary
 #: widgets/misc/e-system-errors.xml.h:13
@@ -17594,21 +17796,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% užbaigta)"
-
-#~ msgid "Address:"
-#~ msgstr "Adresas:"
-
-#~ msgid "Calendar:"
-#~ msgstr "Kalendorius:"
-
-#~ msgid "PO Box:"
-#~ msgstr "Pašto dėžutė:"
-
-#~ msgid "State/Province:"
-#~ msgstr "Valstija/Provincija:"
-
-#~ msgid "Title:"
-#~ msgstr "Titulas:"
-
-#~ msgid "Free/Busy Editor"
-#~ msgstr "Laisvas/užsiėmęs redaktorius"
