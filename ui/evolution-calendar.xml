@@ -48,7 +48,7 @@
 
 	<dockitem name="Toolbar" relief="none">
 		<toolitem name="New" _label="New"
-		_decr="Create a new appointment" verb="EditNewAppointment"
+		_descr="Create a new appointment" verb="EditNewAppointment"
 		pixtype="stock" pixname="New"/>
 
 		<toolitem type="separator"/>
@@ -74,7 +74,7 @@
 		<toolitem type="separator"/>
 
 		<toolitem name="Goto" label="Go to"
-		_descr="Go to a specific data" verb="CalendarGoto"
+		_descr="Go to a specific date" verb="CalendarGoto"
 		pixtype="stock" pixname="Jump To"/>
 		
 		<toolitem type="separator"/>

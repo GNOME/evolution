@@ -415,7 +415,6 @@ BonoboUIVerb help_verbs [] = {
 	BONOBO_UI_VERB_DATA ("HelpUsingMail", command_help, "usage-mail.html"),
 	BONOBO_UI_VERB_DATA ("HelpUsingCalendar", command_help, "usage-calendar.html"),
 	BONOBO_UI_VERB_DATA ("HelpUsingContact", command_help, "usage-contact.html"),
-	BONOBO_UI_VERB ("DumpXML", command_xml_dump),
 
 	BONOBO_UI_VERB_END
 };
@@ -436,6 +435,9 @@ menu_do_misc (BonoboUIComponent *component,
 	bonobo_ui_component_add_verb (
 		component, "HelpAbout",
 		(BonoboUIVerbFn) command_about_box, shell_view);
+	bonobo_ui_component_add_verb (
+		component, "DumpXML",
+		(BonoboUIVerbFn) command_xml_dump, shell_view);
 }
 
 
@@ -461,8 +463,8 @@ e_shell_view_menu_setup (EShellView *shell_view)
 	bonobo_ui_component_add_verb_list_with_data (
 		component, new_verbs, shell_view);
 
-	bonobo_ui_component_add_verb_list_with_data (
-		component, help_verbs, shell_view);
+	bonobo_ui_component_add_verb_list (
+		component, help_verbs);
 
 	menu_do_misc (component, shell_view);
 

@@ -2,6 +2,16 @@
 
 	* e-shell-view.c (setup_progress_bar): remove evil usize set.
 
+2000-10-03  Matt Bissiri  <bissiri@eecs.umich.edu>
+
+	* e-shell-view-menu.c (e_shell_view_menu_setup): Use
+	`bonobo_ui_component_add_verb_list' instead of
+	`bonobo_ui_component_add_verb_list_with_data' for help_verbs,
+	so that `command_help' gets an html filename as user_data,
+	instead of a ptr to EShellView.
+	(menu_do_misc): Move DumpXML from help_verbs to here, because
+	`command_xml_dump' needs to get EShellView as user_data.
+
 2000-10-02  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shortcuts-view.c (show_new_group_dialog): Destroy the dialog

@@ -1,3 +1,12 @@
+2000-10-03  Matt Bissiri  <bissiri@eecs.umich.edu>
+
+	* ui/evolution-addressbook-ldap.xml,
+	* ui/evolution-addressbook.xml,
+	* ui/evolution-calendar.xml,
+	* ui/evolution-contact-editor.xml:
+	Fixed typo `_decr' -> `_descr', so some missing tooltips will appear.
+	Also fixed some typos in descr values.
+
 2000-09-29  Peter Williams  <peterw@helixcode.com>
 
 	* ui/Makefile.am (XML_FILES): Install the new evolution-subscribe.xml
