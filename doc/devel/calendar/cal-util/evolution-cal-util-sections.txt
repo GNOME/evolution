@@ -23,6 +23,8 @@ cal_component_get_as_string
 cal_component_commit_sequence
 cal_component_get_uid
 cal_component_set_uid
+cal_component_get_categories
+cal_component_set_categories
 cal_component_get_categories_list
 cal_component_set_categories_list
 cal_component_get_classification

@@ -26,13 +26,18 @@
 
     <authorgroup>
       <corpauthor>
-	Helix Code, Inc.
+	Ximian, Inc.
       </corpauthor>
     </authorgroup>
 
     <copyright>
       <year>2000</year>
       <holder>Helix Code, Inc.</holder>
+    </copyright>
+
+    <copyright>
+      <year>2001</year>
+      <holder>Ximian, Inc.</holder>
     </copyright>
 
     <legalnotice id="legalnotice">

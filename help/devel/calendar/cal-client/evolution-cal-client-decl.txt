@@ -1,16 +1,3 @@
-<ENUM>
-<NAME>CalClientChangeType</NAME>
-typedef enum {
-	CAL_CLIENT_CHANGE_ADDED = 1 << 0,
-	CAL_CLIENT_CHANGE_MODIFIED = 1 << 1,
-	CAL_CLIENT_CHANGE_DELETED = 1 << 2
-} CalClientChangeType;
-</ENUM>
-<FUNCTION>
-<NAME>cal_client_change_list_free</NAME>
-<RETURNS>void  </RETURNS>
-GList *list
-</FUNCTION>
 <MACRO>
 <NAME>CAL_CLIENT_TYPE</NAME>
 #define CAL_CLIENT_TYPE            (cal_client_get_type ())
@@ -41,13 +28,13 @@ GList *list
 <NAME>CalClientPrivate</NAME>
 </STRUCT>
 <ENUM>
-<NAME>CalClientLoadStatus</NAME>
+<NAME>CalClientOpenStatus</NAME>
 typedef enum {
-	CAL_CLIENT_LOAD_SUCCESS,
-	CAL_CLIENT_LOAD_ERROR,
-	CAL_CLIENT_LOAD_IN_USE,
-	CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED
-} CalClientLoadStatus;
+	CAL_CLIENT_OPEN_SUCCESS,
+	CAL_CLIENT_OPEN_ERROR,
+	CAL_CLIENT_OPEN_NOT_FOUND,
+	CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED
+} CalClientOpenStatus;
 </ENUM>
 <ENUM>
 <NAME>CalClientGetStatus</NAME>
@@ -57,6 +44,14 @@ typedef enum {
 	CAL_CLIENT_GET_SYNTAX_ERROR
 } CalClientGetStatus;
 </ENUM>
+<ENUM>
+<NAME>CalClientLoadState</NAME>
+typedef enum {
+	CAL_CLIENT_LOAD_NOT_LOADED,
+	CAL_CLIENT_LOAD_LOADING,
+	CAL_CLIENT_LOAD_LOADED
+} CalClientLoadState;
+</ENUM>
 <STRUCT>
 <NAME>CalClient</NAME>
 struct CalClient {
@@ -64,19 +59,6 @@ struct CalClient {
 
 	/* Private data */
 	CalClientPrivate *priv;
-};
-</STRUCT>
-<STRUCT>
-<NAME>CalClientClass</NAME>
-struct CalClientClass {
-	GtkObjectClass parent_class;
-
-	/* Notification signals */
-
-	void (* cal_loaded) (CalClient *client, CalClientLoadStatus status);
-
-	void (* obj_updated) (CalClient *client, const char *uid);
-	void (* obj_removed) (CalClient *client, const char *uid);
 };
 </STRUCT>
 <FUNCTION>
@@ -95,18 +77,18 @@ CalClient *client
 void
 </FUNCTION>
 <FUNCTION>
-<NAME>cal_client_load_calendar</NAME>
+<NAME>cal_client_open_calendar</NAME>
 <RETURNS>gboolean  </RETURNS>
-CalClient *client, const char *str_uri
+CalClient *client, const char *str_uri, gboolean only_if_exists
 </FUNCTION>
 <FUNCTION>
-<NAME>cal_client_create_calendar</NAME>
-<RETURNS>gboolean  </RETURNS>
-CalClient *client, const char *str_uri
+<NAME>cal_client_get_load_state</NAME>
+<RETURNS>CalClientLoadState  </RETURNS>
+CalClient *client
 </FUNCTION>
 <FUNCTION>
-<NAME>cal_client_is_loaded</NAME>
-<RETURNS>gboolean  </RETURNS>
+<NAME>cal_client_get_uri</NAME>
+<RETURNS>const char  *</RETURNS>
 CalClient *client
 </FUNCTION>
 <FUNCTION>
@@ -163,4 +145,17 @@ CalClient *client, CalComponent *comp
 <NAME>cal_client_remove_object</NAME>
 <RETURNS>gboolean  </RETURNS>
 CalClient *client, const char *uid
+</FUNCTION>
+<ENUM>
+<NAME>CalClientChangeType</NAME>
+typedef enum {
+	CAL_CLIENT_CHANGE_ADDED = 1 << 0,
+	CAL_CLIENT_CHANGE_MODIFIED = 1 << 1,
+	CAL_CLIENT_CHANGE_DELETED = 1 << 2
+} CalClientChangeType;
+</ENUM>
+<FUNCTION>
+<NAME>cal_client_change_list_free</NAME>
+<RETURNS>void  </RETURNS>
+GList *list
 </FUNCTION>

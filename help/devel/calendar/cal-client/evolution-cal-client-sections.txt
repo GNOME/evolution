@@ -5,15 +5,16 @@
 CAL_CLIENT
 <TITLE>CalClient</TITLE>
 
-CalClientLoadStatus
+CalClientOpenStatus
 CalClientGetStatus
+CalClientLoadState
 
 CalClientChangeType
 
 cal_client_new
-cal_client_load_calendar
-cal_client_create_calendar
-cal_client_is_loaded
+cal_client_open_calendar
+cal_client_get_load_state
+cal_client_get_uri
 cal_client_get_n_objects
 cal_client_get_uids
 cal_client_get_object

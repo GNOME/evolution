@@ -262,6 +262,24 @@ RFC 2445 iCalendar component object.
 @uid: 
 
 
+<!-- ##### FUNCTION cal_component_get_categories ##### -->
+<para>
+
+</para>
+
+@comp: 
+@categories: 
+
+
+<!-- ##### FUNCTION cal_component_set_categories ##### -->
+<para>
+
+</para>
+
+@comp: 
+@categories: 
+
+
 <!-- ##### FUNCTION cal_component_get_categories_list ##### -->
 <para>
 

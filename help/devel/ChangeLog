@@ -1,3 +1,13 @@
+2001-01-17  Federico Mena Quintero  <federico@ximian.com>
+
+	* evolution-devel-guide.sgml: Ximianified.
+
+	* calendar/evolution-calendar.sgml: Ditto.
+
+	* calendar/cal-util/evolution-cal-util-sections.txt: Updated.
+
+	* calendar/cal-client/evolution-cal-client-sections.txt: Updated.
+
 2001-01-10  Federico Mena Quintero  <federico@helixcode.com>
 
 	* Makefile.am: Make it work when gtk-doc is not installed.

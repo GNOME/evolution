@@ -49,18 +49,15 @@ GTK+ object for communication with personal calendar server.
 @obj: A GTK+ object.
 
 
-<!-- ##### ENUM CalClientLoadStatus ##### -->
-  <para>
-    These values describe the status of a calendar load or create
-    request.  After asking a calendar factory to load or create a
-    calendar, the provided listener will get notification about the
-    result in asynchronous fashion.  Such notification is represented
-    by one of these enumeration values.  For values other than
-    #CAL_CLIENT_LOAD_SUCCESS, the #CalClient object will not accept
-    any other operations on the calendar and it should just be
-    destroyed.
-  </para>
+<!-- ##### ENUM CalClientOpenStatus ##### -->
+<para>
 
+</para>
+
+@CAL_CLIENT_OPEN_SUCCESS: 
+@CAL_CLIENT_OPEN_ERROR: 
+@CAL_CLIENT_OPEN_NOT_FOUND: 
+@CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED: 
 
 <!-- ##### ENUM CalClientGetStatus ##### -->
   <para>
@@ -68,12 +65,27 @@ GTK+ object for communication with personal calendar server.
     function.
   </para>
 
+@CAL_CLIENT_GET_SUCCESS: 
+@CAL_CLIENT_GET_NOT_FOUND: 
+@CAL_CLIENT_GET_SYNTAX_ERROR: 
+
+<!-- ##### ENUM CalClientLoadState ##### -->
+<para>
+
+</para>
+
+@CAL_CLIENT_LOAD_NOT_LOADED: 
+@CAL_CLIENT_LOAD_LOADING: 
+@CAL_CLIENT_LOAD_LOADED: 
 
 <!-- ##### ENUM CalClientChangeType ##### -->
 <para>
 
 </para>
 
+@CAL_CLIENT_CHANGE_ADDED: 
+@CAL_CLIENT_CHANGE_MODIFIED: 
+@CAL_CLIENT_CHANGE_DELETED: 
 
 <!-- ##### FUNCTION cal_client_new ##### -->
 <para>
@@ -83,27 +95,27 @@ GTK+ object for communication with personal calendar server.
 @Returns: 
 
 
-<!-- ##### FUNCTION cal_client_load_calendar ##### -->
+<!-- ##### FUNCTION cal_client_open_calendar ##### -->
 <para>
 
 </para>
 
 @client: 
 @str_uri: 
+@only_if_exists: 
 @Returns: 
 
 
-<!-- ##### FUNCTION cal_client_create_calendar ##### -->
+<!-- ##### FUNCTION cal_client_get_load_state ##### -->
 <para>
 
 </para>
 
 @client: 
-@str_uri: 
 @Returns: 
 
 
-<!-- ##### FUNCTION cal_client_is_loaded ##### -->
+<!-- ##### FUNCTION cal_client_get_uri ##### -->
 <para>
 
 </para>
@@ -243,21 +255,13 @@ GTK+ object for communication with personal calendar server.
 @Returns: 
 
 
-<!-- ##### SIGNAL CalClient::cal-loaded ##### -->
-  <para>
-    This signal is emitted some time after the calendar clients sends
-    a load or create request to the personal calendar server.  The
-    server will notify the client asynchronously of the completion of
-    the request.  The @status parameter indicates the status of the
-    request.
-  </para>
+<!-- ##### SIGNAL CalClient::cal-opened ##### -->
+<para>
+
+</para>
 
 @calclient: the object which received the signal.
 @arg1: 
-<!-- # Unused Parameters # -->
-@client: Calendar client which received the notification.
-@status: Status of the request.  See the description of
-  #CalClientLoadStatus for more details.
 
 <!-- ##### SIGNAL CalClient::obj-updated ##### -->
   <para>
