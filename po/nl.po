@@ -35,7 +35,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-01 20:31+0200\n"
+"POT-Creation-Date: 2004-10-05 12:48+0200\n"
 "PO-Revision-Date: 2004-10-02 03:20+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -946,7 +946,7 @@ msgstr "Adres:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "Anniversary:"
-msgstr "Verjaardag:"
+msgstr "Trouwdag:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Assistant:"
@@ -991,7 +991,7 @@ msgstr "Afdeling:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "Free/Busy:"
-msgstr "V_rij/Bezet:"
+msgstr "Vrij/Bezet:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "Full _Name..."
@@ -1009,7 +1009,7 @@ msgstr "MSN Messenger"
 # e-mail adres
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "Mailing Address"
-msgstr "E-mailadres"
+msgstr "Adresgegevens"
 
 # beheerder
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
@@ -1022,7 +1022,7 @@ msgstr "_Bijnaam:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "Notes:"
-msgstr "Aa_ntekeningen:"
+msgstr "Aantekeningen:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:63
