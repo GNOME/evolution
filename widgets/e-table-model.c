@@ -16,55 +16,71 @@ static GtkObjectClass *e_table_model_parent_class;
 
 enum {
 	MODEL_CHANGED,
+	MODEL_ROW_CHANGED,
+	MODEL_CELL_CHANGED,
 	ROW_SELECTION,
 	LAST_SIGNAL
 };
 
-static guint etm_signals [LAST_SIGNAL] = { 0, };
+static guint e_table_model_signals [LAST_SIGNAL] = { 0, };
 
 int
-e_table_model_column_count (ETableModel *etable)
+e_table_model_column_count (ETableModel *e_table_model)
 {
-	return ETM_CLASS (etable)->column_count (etable);
+	g_return_val_if_fail (e_table_model != NULL, 0);
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), 0);
+
+	return ETM_CLASS (e_table_model)->column_count (e_table_model);
 }
 
 const char *
-e_table_model_column_name (ETableModel *etable, int col)
+e_table_model_column_name (ETableModel *e_table_model, int col)
 {
-	return ETM_CLASS (etable)->column_name (etable, col);
+	g_return_val_if_fail (e_table_model != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
+
+	return ETM_CLASS (e_table_model)->column_name (e_table_model, col);
 }
 
 int
-e_table_model_row_count (ETableModel *etable)
+e_table_model_row_count (ETableModel *e_table_model)
 {
-	return ETM_CLASS (etable)->row_count (etable);
+	g_return_val_if_fail (e_table_model != NULL, 0);
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), 0);
+
+	return ETM_CLASS (e_table_model)->row_count (e_table_model);
 }
 
 void *
-e_table_model_value_at (ETableModel *etable, int col, int row)
+e_table_model_value_at (ETableModel *e_table_model, int col, int row)
 {
-	return ETM_CLASS (etable)->value_at (etable, col, row);
+	g_return_val_if_fail (e_table_model != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
+
+	return ETM_CLASS (e_table_model)->value_at (e_table_model, col, row);
 }
 
 void
-e_table_model_set_value_at (ETableModel *etable, int col, int row, void *data)
+e_table_model_set_value_at (ETableModel *e_table_model, int col, int row, void *data)
 {
-	return ETM_CLASS (etable)->set_value_at (etable, col, row, data);
+	g_return_if_fail (e_table_model != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
+
+	return ETM_CLASS (e_table_model)->set_value_at (e_table_model, col, row, data);
 }
 
 gboolean
-e_table_model_is_cell_editable (ETableModel *etable, int col, int row)
+e_table_model_is_cell_editable (ETableModel *e_table_model, int col, int row)
 {
-	return ETM_CLASS (etable)->is_cell_editable (etable, col, row);
+	g_return_val_if_fail (e_table_model != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), FALSE);
+
+	return ETM_CLASS (e_table_model)->is_cell_editable (e_table_model, col, row);
 }
 
 static void
 e_table_model_destroy (GtkObject *object)
 {
-	GSList *l;
-	
-	ETableModel *etable = (ETableModel *) object;
-
 	if (e_table_model_parent_class->destroy)
 		(*e_table_model_parent_class->destroy)(object);
 }
@@ -76,7 +92,7 @@ e_table_model_class_init (GtkObjectClass *object_class)
 	
 	object_class->destroy = e_table_model_destroy;
 
-	etm_signals [MODEL_CHANGED] =
+	e_table_model_signals [MODEL_CHANGED] =
 		gtk_signal_new ("model_changed",
 				GTK_RUN_LAST,
 				object_class->type,
@@ -84,21 +100,23 @@ e_table_model_class_init (GtkObjectClass *object_class)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
-	etm_signals [ROW_SELECTION] =
-		gtk_signal_new ("row_selection",
+	e_table_model_signals [MODEL_ROW_CHANGED] =
+		gtk_signal_new ("model_row_changed",
 				GTK_RUN_LAST,
 				object_class->type,
-				GTK_SIGNAL_OFFSET (ETableModelClass, row_selection),
+				GTK_SIGNAL_OFFSET (ETableModelClass, model_row_changed),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
+	e_table_model_signals [MODEL_CELL_CHANGED] =
+		gtk_signal_new ("model_cell_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableModelClass, model_cell_changed),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
-	
-	gtk_object_class_add_signals (object_class, etm_signals, LAST_SIGNAL);
-}
 
-static void
-e_table_model_init (ETableModel *etm)
-{
-	etm->row_selected = -1;
+	gtk_object_class_add_signals (object_class, e_table_model_signals, LAST_SIGNAL);
 }
 
 GtkType
@@ -112,7 +130,7 @@ e_table_model_get_type (void)
 			sizeof (ETableModel),
 			sizeof (ETableModelClass),
 			(GtkClassInitFunc) e_table_model_class_init,
-			(GtkObjectInitFunc) e_table_model_init,
+			(GtkObjectInitFunc) NULL,
 			NULL, /* reserved 1 */
 			NULL, /* reserved 2 */
 			(GtkClassInitFunc) NULL
@@ -127,53 +145,31 @@ e_table_model_get_type (void)
 void
 e_table_model_changed (ETableModel *e_table_model)
 {
+	g_return_if_fail (e_table_model != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
+	
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
-			 etm_signals [MODEL_CHANGED]);
-}
-
-#if 0
-int
-e_table_model_max_col_width (ETableModel *etm, int col)
-{
-	const int nvals = e_table_model_row_count (etm);
-	int max = 0;
-	int row;
-	
-	for (row = 0; row < nvals; row++){
-		int w;
-		
-		w = e_table_model_cell_width (etm, col, i);
-
-		if (w > max)
-			max = w;
-	}
-
-	return max;
-}
-#endif
-
-void
-e_table_model_select_row (ETableModel *etm, int row)
-{
-	gtk_signal_emit (GTK_OBJECT (etm), etm_signals [ROW_SELECTION], row, 1);
-	etm->row_selected = row;
+			 e_table_model_signals [MODEL_CHANGED]);
 }
 
 void
-e_table_model_unselect_row (ETableModel *etm, int row)
+e_table_model_row_changed (ETableModel *e_table_model, int row)
 {
-	if (etm->row_selected != -1){
-		gtk_signal_emit (
-			GTK_OBJECT (etm), etm_signals [ROW_SELECTION],
-			etm->row_selected, 0);
-	}
-	
-	etm->row_selected = -1;
+	g_return_if_fail (e_table_model != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
+
+	gtk_signal_emit (GTK_OBJECT (e_table_model),
+			 e_table_model_signals [MODEL_ROW_CHANGED], row);
 }
 
-gint
-e_table_model_get_selected_row (ETableModel *etm)
+void
+e_table_model_cell_changed (ETableModel *e_table_model, int col, int row)
 {
-	return etm->row_selected;
+	g_return_if_fail (e_table_model != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
+
+	gtk_signal_emit (GTK_OBJECT (e_table_model),
+			 e_table_model_signals [MODEL_CELL_CHANGED], col, row);
 }
+
 

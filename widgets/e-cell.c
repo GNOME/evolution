@@ -24,7 +24,9 @@ ec_unrealize (ECellView *e_cell)
 }
 
 static void
-ec_draw (ECellView *ecell_view, GdkDrawable *drawable, int col, int row, int x1, int y1, int x2, int y2)
+ec_draw (ECellView *ecell_view, GdkDrawable *drawable,
+	 int col, int row, gboolean selected,
+	 int x1, int y1, int x2, int y2)
 {
 	g_warning ("e-cell-draw invoked\n");
 }
@@ -33,6 +35,7 @@ static gint
 ec_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
 {
 	g_warning ("e-cell-event invoked\n");
+	return 0;
 }
 
 static gint
@@ -109,10 +112,10 @@ e_cell_unrealize (ECellView *ecell_view)
 	
 void
 e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	     int col, int row, int x1, int y1, int x2, int y2)
+	     int col, int row, gboolean selected, int x1, int y1, int x2, int y2)
 {
 	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->draw (
-		ecell_view, drawable, col, row, x1, y1, x2, y2);
+		ecell_view, drawable, col, row, selected, x1, y1, x2, y2);
 }
 
 int

@@ -11,9 +11,6 @@
 
 typedef struct {
 	GtkObject   base;
-
-	/* Temporary.  I swear */
-	int         row_selected;
 } ETableModel;
 
 typedef struct {
@@ -32,8 +29,9 @@ typedef struct {
 	/*
 	 * Signals
 	 */
-	void        (*model_changed)    (ETableModel *etm);
-	void        (*row_selection)    (ETableModel *etc, int row, gboolean selected);
+	void        (*model_changed)      (ETableModel *etm);
+	void        (*model_row_changed)  (ETableModel *etm, int row);
+	void        (*model_cell_changed) (ETableModel *etm, int col, int row);
 } ETableModelClass;
 
 GtkType     e_table_model_get_type (void);
@@ -45,13 +43,13 @@ void       *e_table_model_value_at         (ETableModel *e_table_model, int col,
 void        e_table_model_set_value_at     (ETableModel *e_table_model, int col, int row, void *data);
 gboolean    e_table_model_is_cell_editable (ETableModel *e_table_model, int col, int row);
 
-void        e_table_model_select_row       (ETableModel *e_table_model, int row);
-gint        e_table_model_get_selected_row (ETableModel *e_table_model);
-
 /*
  * Routines for emitting signals on the e_table
  */
 void        e_table_model_changed          (ETableModel *e_table_model);
+void        e_table_model_row_changed      (ETableModel *e_table_model, int row);
+void        e_table_model_cell_changed     (ETableModel *e_table_model, int col, int row);
 
 #endif /* _E_TABLE_MODEL_H_ */
+
 

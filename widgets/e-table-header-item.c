@@ -7,6 +7,7 @@
  * Copyright 1999, Helix Code, Inc.
  */
 #include <config.h>
+#include <gtk/gtksignal.h>
 #include "e-table-header.h"
 #include "e-table-header-item.h"
 #include "e-cursors.h"
@@ -124,7 +125,6 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	GnomeCanvasItem *item;
 	ETableHeaderItem *ethi;
-	int v;
 
 	item = GNOME_CANVAS_ITEM (o);
 	ethi = E_TABLE_HEADER_ITEM (o);

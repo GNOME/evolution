@@ -76,10 +76,11 @@ e_table_group_append_child (ETableGroup *etg, ETableGroup *child)
 	etg->u.children = g_slist_append (etg->u.children, child);
 }
 
+#if 0
 int
 e_table_group_size (ETableGroup *etg)
 {
-	g_return_if_fail (etg != NULL);
+	g_return_val_if_fail (etg != NULL, 0);
 
 	if (etg->is_leaf)
 		return e_table_model_height (etg->u.table);
@@ -96,3 +97,4 @@ e_table_group_size (ETableGroup *etg)
 	}
 }
 
+#endif

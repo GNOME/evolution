@@ -1,3 +1,23 @@
+1999-11-27  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-item.c (eti_event): beginning of the keyboard navigation.
+
+	* e-table-model.c (e_table_model_row_changed): new function.
+	(e_table_model_cell_changed): new function.
+	(e_table_model_class_init): New signals.
+
+	* e-table-item.c (eti_request_region_redraw): x2, y2 offsets were
+	wrong. 
+	(eti_select): Repaint selected region.
+	(eti_request_region_redraw): Fix range.
+	(eti_draw): Correct offset computation here. 
+	(e_table_item_class_init): New method: row_selection, handles the
+	selection.
+	
+	Now it implement GTK_SELECTION_SINGLE and GTK_SELECTION_MULTIPLE. 
+
+	Focusing and selection should be correct now.
+	
 1999-11-26  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-item.c (eti_realize): Compute height using the ecell

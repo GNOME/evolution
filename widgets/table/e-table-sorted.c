@@ -30,7 +30,6 @@ static ETableSorted *sort_ets;
 static int
 my_sort (const void *a, const void *b)
 {
-	GCompareFunc comp;
 	ETableModel *source = E_TABLE_SUBSET (sort_ets)->source;
 	const int *ia = (const int *) a;
 	const int *ib = (const int *) b;
@@ -59,7 +58,6 @@ e_table_sorted_new (ETableModel *source, int col, GCompareFunc compare)
 	ETableSorted *ets = gtk_type_new (E_TABLE_SORTED_TYPE);
 	ETableSubset *etss = E_TABLE_SUBSET (ets);
 	const int nvals = e_table_model_row_count (source);
-	unsigned int *buffer;
 	int i;
 
 	if (e_table_subset_construct (etss, source, nvals) == NULL){

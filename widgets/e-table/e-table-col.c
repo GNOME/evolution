@@ -17,11 +17,11 @@ e_table_col_new (const char *id, int width, int min_width,
 {
 	ETableCol *etc;
 	
-	g_return_if_fail (id != NULL);
-	g_return_if_fail (width >= 0);
-	g_return_if_fail (min_width >= 0);
-	g_return_if_fail (width >= min_width);
-	g_return_if_fail (compare != NULL);
+	g_return_val_if_fail (id != NULL, NULL);
+	g_return_val_if_fail (width >= 0, NULL);
+	g_return_val_if_fail (min_width >= 0, NULL);
+	g_return_val_if_fail (width >= min_width, NULL);
+	g_return_val_if_fail (compare != NULL, NULL);
 
 	etc = g_new (ETableCol, 1);
 

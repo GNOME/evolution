@@ -121,8 +121,6 @@ eth_update_offsets (ETableHeader *eth)
 void
 e_table_header_add_column (ETableHeader *eth, ETableCol *tc, int pos)
 {
-	ETableCol **new_ptr;
-	
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 	g_return_if_fail (tc != NULL);
@@ -204,7 +202,6 @@ ETableCol **
 e_table_header_get_columns (ETableHeader *eth)
 {
 	ETableCol **ret;
-	int i;
 	
 	g_return_val_if_fail (eth != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
@@ -226,7 +223,7 @@ e_table_header_selection_ok (ETableHeader *eth)
 }
 
 int
-ve_table_header_get_selected (ETableHeader *eth)
+e_table_header_get_selected (ETableHeader *eth)
 {
 	int i;
 	int selected = 0;

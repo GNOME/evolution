@@ -12,6 +12,8 @@
 #include "e-table-header.h"
 #include "e-table-header-item.h"
 #include "e-table-item.h"
+#include "e-cursors.h"
+#include "e-cell-text.h"
 
 char buffer [1024];
 char **column_labels;
@@ -157,7 +159,7 @@ set_value_at (ETableModel *etc, int col, int row, void *val, void *data)
 	g_free (table_data [row][col]);
 	table_data [row][col] = g_strdup (val);
 
-	printf ("Value at %d,%d set to %s\n", col, row, val);
+	printf ("Value at %d,%d set to %s\n", col, row, (char *) val);
 }
 
 static gboolean

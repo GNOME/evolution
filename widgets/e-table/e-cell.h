@@ -32,7 +32,7 @@ typedef struct {
 	ECellView *(*realize)   (ECell *, GnomeCanvas *canvas);
 	void       (*unrealize) (ECellView *);
 	void   	   (*draw)      (ECellView *ecell_view, GdkDrawable *drawable,
-	       			 int col, int row, int x1, int y1, int x2, int y2);
+	       			 int col, int row, gboolean selected, int x1, int y1, int x2, int y2);
 	gint   	   (*event)     (ECellView *ecell_view, GdkEvent *event, int col, int row);
 	void   	   (*focus)     (ECellView *ecell, int col, int row, int x1, int y1, int x2, int y2);
 	void   	   (*unfocus)   (ECellView *ecell);
@@ -43,8 +43,9 @@ GtkType    e_cell_get_type  (void);
 void       e_cell_event     (ECellView *ecell_view, GdkEvent *event, int col, int row);
 ECellView *e_cell_realize   (ECell *ecell, GnomeCanvas *canvas);
 void       e_cell_unrealize (ECellView *ecell_view);
-void       e_cell_draw      (ECellView *ecell_view, GdkDrawable *dr,
-			     int col, int row, int x1, int y1, int x2, int y2);
+void       e_cell_draw      (ECellView *ecell_view, GdkDrawable *dr, 
+			     int col, int row, gboolean selected,
+			     int x1, int y1, int x2, int y2);
 void       e_cell_focus     (ECellView *ecell_view, int col, int row, int x1, int y1, int x2, int y2);
 void       e_cell_unfocus   (ECellView *ecell_view);
 int        e_cell_height    (ECellView *ecell_view, int col, int row);

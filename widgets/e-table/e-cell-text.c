@@ -64,13 +64,14 @@ ect_unrealize (ECellView *ecv)
 }
 
 static void
-ect_draw (ECellView *ecell_view, GdkDrawable *drawable, int col, int row, int x1, int y1, int x2, int y2)
+ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
+	  int col, int row, gboolean selected,
+	  int x1, int y1, int x2, int y2)
 {
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	GdkRectangle rect;
 	const char *str = e_table_model_value_at (ecell_view->ecell->table_model, col, row);
-	int selected = e_table_model_get_selected_row (ecell_view->ecell->table_model) == row;
 	int xoff, w;
 		
 	rect.x = x1;
@@ -94,6 +95,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable, int col, int row, int x1
 		xoff = ((x2 - x1) - gdk_text_width (text_view->font, str, strlen (str))) / 2;
 		break;
 	default:
+		xoff = 0;
 		g_warning ("Can not handle GTK_JUSTIFY_FILL");
 		break;
 	}
@@ -135,12 +137,12 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
 	
 	switch (event->type){
 	case GDK_BUTTON_PRESS:
-		if (e_table_model_get_selected_row (ecell->table_model) == row)
-			e_cell_text_start_editing (ect, col, row);
-		else
-			e_table_model_select_row (ecell->table_model, row);
 		return TRUE;
+
+	default:
+		break;
 	}
+	return FALSE;
 }
 
 static int

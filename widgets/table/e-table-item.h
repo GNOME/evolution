@@ -32,6 +32,7 @@ typedef struct {
 	
 	GdkGC           *fill_gc;
 	GdkGC           *grid_gc;
+	GdkGC           *focus_gc;
 
 	unsigned int     draw_grid:1;
 
@@ -49,15 +50,39 @@ typedef struct {
 	 */
 	int              length_threshold;
 
-	int              selected_col, selected_row;
+	GSList          *selection;
+	GtkSelectionMode selection_mode;
 } ETableItem;
 
 typedef struct {
 	GnomeCanvasItemClass parent_class;
+
+	void        (*row_selection)      (ETableItem *eti, int row, gboolean selected);
 } ETableItemClass;
 
 GtkType    e_table_item_get_type (void);
+
+/*
+ * Focus
+ */
 void       e_table_item_focus    (ETableItem *eti, int col, int row);
 void       e_table_item_unfocus  (ETableItem *eti);
+
+/*
+ * Selection
+ */
+void        e_table_item_select_row    (ETableItem *e_table_Item, int row);
+void        e_table_item_unselect_row  (ETableItem *e_table_Item, int row);
+
+/*
+ * Handling the selection
+ */
+const GSList*e_table_item_get_selection (ETableItem *e_table_Item);
+
+GtkSelectionMode e_table_item_get_selection_mode (ETableItem *e_table_Item);
+void             e_table_item_set_selection_mode (ETableItem *e_table_Item,
+						  GtkSelectionMode selection_mode);
+gboolean         e_table_item_is_row_selected    (ETableItem *e_table_Item,
+						  int row);
 
 #endif /* _E_TABLE_ITEM_H_ */
