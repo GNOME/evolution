@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
 "POT-Creation-Date: 2001-01-03 18:54+0100\n"
-"PO-Revision-Date: 2001-01-06 10:38+0100\n"
+"PO-Revision-Date: 2001-01-07 10:38+0100\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -569,7 +569,7 @@ msgid "_Address..."
 msgstr "_Adresse..."
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:30
-#: po/tmp/event-editor-dialog.glade.h:16 po/tmp/mail-config-druid.glade.h:32
+#: po/tmp/event-editor-dialog.glade.h:16 po/tmp/mail-config-druid.glade.h:31
 msgid "General"
 msgstr "Generel"
 
@@ -944,7 +944,7 @@ msgid "Remember this password"
 msgstr "Husk denne adgangskode"
 
 #: addressbook/gui/component/addressbook-config.c:360
-#: po/tmp/mail-config-druid.glade.h:33
+#: po/tmp/mail-config-druid.glade.h:32
 msgid "Host:"
 msgstr "Vært:"
 
@@ -1009,12 +1009,12 @@ msgstr "Kilder til adressebog"
 #: po/tmp/addressbook-config.glade.h:8 po/tmp/event-editor-dialog.glade.h:13
 #: po/tmp/evolution-addressbook.xml.h:8 po/tmp/evolution-event-editor.xml.h:19
 #: po/tmp/evolution-mail.xml.h:11 po/tmp/filter.glade.h:7
-#: po/tmp/mail-config-druid.glade.h:25 po/tmp/mail-config.glade.h:8
+#: po/tmp/mail-config-druid.glade.h:24 po/tmp/mail-config.glade.h:8
 msgid "Delete"
 msgstr "Slet"
 
 #: mail/folder-browser.c:671 po/tmp/addressbook-config.glade.h:9
-#: po/tmp/filter.glade.h:8 po/tmp/mail-config-druid.glade.h:28
+#: po/tmp/filter.glade.h:8 po/tmp/mail-config-druid.glade.h:27
 #: po/tmp/mail-config.glade.h:9
 msgid "Edit"
 msgstr "Redigér"
@@ -1347,7 +1347,7 @@ msgstr "Stilnavn:"
 msgid "Top:"
 msgstr "Top:"
 
-#: po/tmp/e-contact-print.glade.h:45 po/tmp/mail-config-druid.glade.h:74
+#: po/tmp/e-contact-print.glade.h:45 po/tmp/mail-config-druid.glade.h:73
 msgid "Type:"
 msgstr "Type:"
 
@@ -3250,7 +3250,7 @@ msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:292
 #: camel/providers/smtp/camel-smtp-transport.c:297
-#: po/tmp/mail-config-druid.glade.h:16
+#: po/tmp/mail-config-druid.glade.h:15
 msgid "CRAM-MD5"
 msgstr "CRAM-MD5"
 
@@ -4345,81 +4345,81 @@ msgstr "Autentisering"
 msgid "Authentication Type:"
 msgstr "Autentiseringtype:"
 
-#: po/tmp/mail-config-druid.glade.h:15
-msgid "Automatically check mail every "
-msgstr "Automatisk tjek post hver "
-
-#: po/tmp/mail-config-druid.glade.h:17
+#: po/tmp/mail-config-druid.glade.h:16
 msgid "Congratulations, your mail configuration is complete.\n"
 msgstr "Tillykke, din postkonfiguration er færdig.\n"
 
-#: po/tmp/mail-config-druid.glade.h:23
+#: po/tmp/mail-config-druid.glade.h:22
 msgid "DIGEST-MD5"
 msgstr "DIGEST-MD5"
 
-#: po/tmp/mail-config-druid.glade.h:24
+#: po/tmp/mail-config-druid.glade.h:23
 msgid "Default"
 msgstr "Forvalg"
 
-#: po/tmp/mail-config-druid.glade.h:26
+#: po/tmp/mail-config-druid.glade.h:25
 msgid "Done"
 msgstr "Gjort"
 
-#: po/tmp/mail-config-druid.glade.h:27
+#: po/tmp/mail-config-druid.glade.h:26
 msgid "E-Mail Address:"
 msgstr "E-postadresse:"
 
-#: po/tmp/mail-config-druid.glade.h:29
+#: po/tmp/mail-config-druid.glade.h:28
 msgid "Email Address:"
 msgstr "Epostadresse:"
 
-#: po/tmp/mail-config-druid.glade.h:30
+#: po/tmp/mail-config-druid.glade.h:29
 msgid "Evolution Mail Configuration"
 msgstr "Konfiguration af Evolution epost"
 
-#: po/tmp/mail-config-druid.glade.h:31
+#: po/tmp/mail-config-druid.glade.h:30
 msgid "Full Name:"
 msgstr "Fulde navn:"
 
-#: po/tmp/mail-config-druid.glade.h:34
+#: po/tmp/mail-config-druid.glade.h:33
 msgid "Hostname:"
 msgstr "Værtsnavn:"
 
-#: po/tmp/mail-config-druid.glade.h:35
+#: po/tmp/mail-config-druid.glade.h:34
 msgid "Identity"
 msgstr "Identitet"
 
-#: po/tmp/mail-config-druid.glade.h:36
+#: po/tmp/mail-config-druid.glade.h:35
 msgid "Incoming Mail Server"
 msgstr "Server for indkommende post"
 
-#: po/tmp/mail-config-druid.glade.h:37
+#: po/tmp/mail-config-druid.glade.h:36
 msgid "Keep mail on server"
 msgstr "Behold post på server"
 
-#: po/tmp/mail-config-druid.glade.h:38
+#: po/tmp/mail-config-druid.glade.h:37
 msgid "Kerberos"
 msgstr "Kerberos"
 
-#: po/tmp/mail-config-druid.glade.h:39
+#: po/tmp/mail-config-druid.glade.h:38
 msgid "Mail"
 msgstr "E-post"
 
-#: po/tmp/mail-config-druid.glade.h:40
+#: po/tmp/mail-config-druid.glade.h:39
 msgid "Mail Account"
 msgstr "Epostkonto"
 
-#: po/tmp/mail-config-druid.glade.h:41
+#: po/tmp/mail-config-druid.glade.h:40
 msgid "Mail Configuration"
 msgstr "Konfiguration af epost"
 
-#: po/tmp/mail-config-druid.glade.h:42
+#: po/tmp/mail-config-druid.glade.h:41
 msgid "Mail Configuration Druid"
 msgstr "Konfigurationguide for epost"
 
-#: po/tmp/mail-config-druid.glade.h:43
+#: po/tmp/mail-config-druid.glade.h:42
 msgid "Make this my default account"
 msgstr "Gør dette til min standardkonto"
+
+#: po/tmp/mail-config-druid.glade.h:43
+msgid "Miscellaneous"
+msgstr "Forskelligt"
 
 #: po/tmp/mail-config-druid.glade.h:45
 msgid "News"
@@ -4486,64 +4486,56 @@ msgid "Server Configuration"
 msgstr "Konfiguration af server"
 
 #: po/tmp/mail-config-druid.glade.h:64
-msgid "Server Timeouts"
-msgstr "Server tidsudløb"
-
-#: po/tmp/mail-config-druid.glade.h:65
 msgid "Server Type: "
 msgstr "Tjenertype:"
 
-#: po/tmp/mail-config-druid.glade.h:66
+#: po/tmp/mail-config-druid.glade.h:65
 msgid "Server requires authentication"
 msgstr "Server kræver autentificering"
 
-#: po/tmp/mail-config-druid.glade.h:67
+#: po/tmp/mail-config-druid.glade.h:66
 msgid "Servers"
 msgstr "Servere"
 
-#: mail/mail-config-gui.c:496 po/tmp/mail-config-druid.glade.h:68
+#: mail/mail-config-gui.c:496 po/tmp/mail-config-druid.glade.h:67
 msgid "Signature file:"
 msgstr "Signaturfil:"
 
-#: po/tmp/mail-config-druid.glade.h:69
+#: po/tmp/mail-config-druid.glade.h:68
 msgid "Signature:"
 msgstr "Signatur:"
 
-#: po/tmp/mail-config-druid.glade.h:70 po/tmp/mail-config.glade.h:20
+#: po/tmp/mail-config-druid.glade.h:69 po/tmp/mail-config.glade.h:20
 msgid "Sources"
 msgstr "Kilder"
 
-#: po/tmp/mail-config-druid.glade.h:71
+#: po/tmp/mail-config-druid.glade.h:70
 msgid "This server requires a secure connection (SSL)"
 msgstr "Denne server krøver en sikker forbindelse (SSL)"
 
-#: po/tmp/mail-config-druid.glade.h:72
+#: po/tmp/mail-config-druid.glade.h:71
 msgid "Type"
 msgstr "Type"
 
-#: po/tmp/mail-config-druid.glade.h:73
+#: po/tmp/mail-config-druid.glade.h:72
 msgid ""
 "Type the name by which you would like to refer to these servers. For "
 "example: \"Work\" or \"Home\"."
 msgstr ""
-"Indtast navnet som du ønsker at bruge for disse servere. For "
-"eksempel: 'job' eller 'hjemme'."
+"Indtast navnet som du ønsker at bruge for disse servere. For eksempel: 'job' "
+"eller 'hjemme'."
 
-#: po/tmp/mail-config-druid.glade.h:75
+#: po/tmp/mail-config-druid.glade.h:74
 msgid "User Information"
 msgstr "Brugerinformation"
 
-#: mail/mail-config-gui.c:928 po/tmp/mail-config-druid.glade.h:76
+#: mail/mail-config-gui.c:928 po/tmp/mail-config-druid.glade.h:75
 msgid "Username:"
 msgstr "Brugernavn:"
 
-#: po/tmp/mail-config-druid.glade.h:77
+#: po/tmp/mail-config-druid.glade.h:76
 msgid "Welcome to the Evolution Mail Configuration Druid.\n"
 msgstr "Velkommen til Evolutions post-konfigurerings troldmand!\n"
-
-#: po/tmp/mail-config-druid.glade.h:80
-msgid "minute(s)"
-msgstr "minut(ter)"
 
 #: mail/mail-config-gui.c:433
 msgid ""
@@ -5062,7 +5054,7 @@ msgstr "Ok"
 msgid "Cancel"
 msgstr "Annullér"
 
-#: mail/mail-summary.c:110 mail/mail-threads.c:729
+#: mail/mail-summary.c:111 mail/mail-threads.c:729
 msgid "Incomplete message written on pipe!"
 msgstr "Ufuldstændig meddelse skrevet til rør!"
 
@@ -5196,54 +5188,54 @@ msgstr "Udskriv den valgte meddelelse"
 msgid "Delete this message"
 msgstr "Slet denne meddelelse"
 
-#: mail/message-list.c:590
+#: mail/message-list.c:593
 msgid "Unseen"
 msgstr "Ulæst"
 
-#: mail/message-list.c:593
+#: mail/message-list.c:596
 msgid "Seen"
 msgstr "Læst"
 
-#: mail/message-list.c:596
+#: mail/message-list.c:599
 msgid "Answered"
 msgstr "Besvaret"
 
-#: mail/message-list.c:881
+#: mail/message-list.c:884
 #, c-format
 msgid "[ %s ]"
 msgstr "[ %s ]"
 
 #. well, we could scan more children, build up a (more accurate) list, but this should do ok
-#: mail/message-list.c:893 mail/message-list.c:909
+#: mail/message-list.c:896 mail/message-list.c:912
 #, c-format
 msgid "%s, et al."
 msgstr "%s m.fl."
 
-#: mail/message-list.c:896 mail/message-list.c:912
+#: mail/message-list.c:899 mail/message-list.c:915
 msgid "<unknown>"
 msgstr "<ukendt>"
 
-#: mail/message-list.c:965
+#: mail/message-list.c:968
 msgid "?"
 msgstr "?"
 
-#: mail/message-list.c:972
+#: mail/message-list.c:975
 msgid "Today %l:%M %p"
 msgstr "Idag %h:%M"
 
-#: mail/message-list.c:981
+#: mail/message-list.c:984
 msgid "Yesterday %l:%M %p"
 msgstr "Igår %h:%M"
 
-#: mail/message-list.c:993
+#: mail/message-list.c:996
 msgid "%a %l:%M %p"
 msgstr "%a %H:%M"
 
-#: mail/message-list.c:1001
+#: mail/message-list.c:1004
 msgid "%b %d %l:%M %p"
 msgstr "%a %Y-%m-%d %H:%M:%S"
 
-#: mail/message-list.c:1003
+#: mail/message-list.c:1006
 msgid "%b %d %Y"
 msgstr "%a %d %Y"
 
@@ -6864,6 +6856,15 @@ msgstr " "
 #, c-format
 msgid "Group %i"
 msgstr "Gruppe %i"
+
+#~ msgid "Automatically check mail every "
+#~ msgstr "Automatisk tjek post hver "
+
+#~ msgid "Server Timeouts"
+#~ msgstr "Server tidsudløb"
+
+#~ msgid "minute(s)"
+#~ msgstr "minut(ter)"
 
 #~ msgid "categories"
 #~ msgstr "kategorier"
