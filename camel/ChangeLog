@@ -1,7 +1,11 @@
 2002-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* camel-filter-search.c (run_command): Use execv ("sh", "-c",
-	command) rather than execing the command directly.
+	* camel-filter-driver.c (do_shell): Renamed from
+	shell_exec(). Also, we now want to pass argc/argv on to the
+	CamelFilterDriverShellFunc.
+	(camel_filter_driver_set_shell_func): Renamed a bit.
+
+	* camel-filter-search.c (pipe_message): Renamed from shell_exec().
 
 2002-07-25  Not Zed  <NotZed@Ximian.com>
 

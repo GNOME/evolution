@@ -20,6 +20,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -77,8 +78,8 @@ struct _CamelFilterDriverPrivate {
 	CamelFilterStatusFunc *statusfunc; /* status callback */
 	void *statusdata;                  /* status callback data */
 	
-	CamelFilterShellExecFunc *execfunc; /* execute shell command callback */
-	void *execdata;                     /* execute shell command callback data */
+	CamelFilterShellFunc *shellfunc;    /* execute shell command callback */
+	void *shelldata;                    /* execute shell command callback data */
 	
 	CamelFilterPlaySoundFunc *playfunc; /* play-sound command callback */
 	void *playdata;                     /* play-sound command callback data */
@@ -134,7 +135,7 @@ static ESExpResult *do_stop (struct _ESExp *f, int argc, struct _ESExpResult **a
 static ESExpResult *do_colour (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *do_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *do_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
-static ESExpResult *shell_exec (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
+static ESExpResult *do_shell (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *do_beep (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *play_sound (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *do_only_once (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
@@ -154,7 +155,7 @@ static struct {
 	{ "set-colour",      (ESExpFunc *) do_colour,    0 },
 	{ "set-score",       (ESExpFunc *) do_score,     0 },
 	{ "set-system-flag", (ESExpFunc *) do_flag,      0 },
-	{ "shell-exec",      (ESExpFunc *) shell_exec,   0 },
+	{ "shell",           (ESExpFunc *) do_shell,     0 },
 	{ "beep",            (ESExpFunc *) do_beep,      0 },
 	{ "play-sound",      (ESExpFunc *) play_sound,   0 },
 	{ "only-once",       (ESExpFunc *) do_only_once, 0 }
@@ -295,12 +296,12 @@ camel_filter_driver_set_status_func (CamelFilterDriver *d, CamelFilterStatusFunc
 }
 
 void
-camel_filter_driver_set_shell_exec_func (CamelFilterDriver *d, CamelFilterShellExecFunc *func, void *data)
+camel_filter_driver_set_shell_func (CamelFilterDriver *d, CamelFilterShellFunc *func, void *data)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (d);
 	
-	p->execfunc = func;
-	p->execdata = data;
+	p->shellfunc = func;
+	p->shelldata = data;
 }
 
 void
@@ -606,17 +607,42 @@ do_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 }
 
 static ESExpResult *
-shell_exec (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *driver)
+do_shell (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *driver)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
+	GString *command;
+	GPtrArray *args;
+	int i;
 	
 	d(fprintf (stderr, "executing shell command\n"));
 	
-	if (p->execfunc && argc == 1 && argv[0]->type == ESEXP_RES_STRING) {
-		p->execfunc (driver, argv[0]->value.string, p->execdata);
-		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Executing shell command: [%s]",
-					 argv[0]->value.string);
+	command = g_string_new ("");
+	
+	args = g_ptr_array_new ();
+	
+	/* make sure all args are strings */
+	for (i = 0; i < argc; i++) {
+		if (argv[i]->type != ESEXP_RES_STRING)
+			goto done;
+		
+		g_ptr_array_add (args, argv[i]->value.string);
+		
+		g_string_append (command, argv[i]->value.string);
+		g_string_append_c (command, ' ');
 	}
+	
+	g_string_truncate (command, command->len - 1);
+	
+	if (p->shellfunc && argc >= 1) {
+		p->shellfunc (driver, argc, (char **) args->pdata, p->shelldata);
+		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Executing shell command: [%s]",
+					 command->str);
+	}
+	
+ done:
+	
+	g_ptr_array_free (args, TRUE);
+	g_string_free (command, TRUE);
 	
 	return NULL;
 }

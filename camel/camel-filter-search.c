@@ -92,7 +92,7 @@ static ESExpResult *get_received_date (struct _ESExp *f, int argc, struct _ESExp
 static ESExpResult *get_current_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
-static ESExpResult *shell_exec (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *pipe_message (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 
 /* builtin functions */
 static struct {
@@ -120,7 +120,7 @@ static struct {
 	{ "get-current-date",   (ESExpFunc *) get_current_date,   0 },
 	{ "get-source",         (ESExpFunc *) get_source,         0 },
 	{ "get-size",           (ESExpFunc *) get_size,           0 },
-	{ "shell-exec",         (ESExpFunc *) shell_exec,         0 },
+	{ "pipe-message",       (ESExpFunc *) pipe_message,       0 },
 };
 
 
@@ -515,6 +515,7 @@ run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 	
 	if (!(pid = fork ())) {
 		/* child process */
+		GPtrArray *args;
 		int maxfd, i;
 		
 		if (dup2 (in_fds[0], STDIN_FILENO) < 0)
@@ -530,10 +531,16 @@ run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 			}
 		}
 		
-		execv ("sh", "-c", argv[0]->value.string);
+		args = g_ptr_array_new ();
+		for (i = 0; i < argc; i++)
+			g_ptr_array_add (args, argv[i]->value.string);
+		g_ptr_array_add (args, NULL);
 		
-		fprintf (stderr, "Could not execute %s: %s\n", argv[0]->value.string,
-			 g_strerror (errno));
+		execvp (argv[0]->value.string, (char **) args->pdata);
+		
+		g_ptr_array_free (args, TRUE);
+		
+		d(printf ("Could not execute %s: %s\n", argv[0]->value.string, g_strerror (errno)));
 		_exit (255);
 	} else if (pid < 0) {
 		camel_exception_setv (fms->ex, CAMEL_EXCEPTION_SYSTEM,
@@ -572,11 +579,11 @@ run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 	if (result != -1 && WIFEXITED (status))
 		return WEXITSTATUS (status);
 	else
-		return -1;	
+		return -1;
 }
 
 static ESExpResult *
-shell_exec (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+pipe_message (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
 	ESExpResult *r;
 	int retval, i;
