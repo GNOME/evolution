@@ -133,6 +133,7 @@ struct _CalComponentPrivate {
 
 	icalproperty *transparency;
 	icalproperty *url;
+	icalproperty *location;
 
 	/* Subcomponents */
 
@@ -327,6 +328,7 @@ free_icalcomponent (CalComponent *comp, gboolean free)
 
 	priv->transparency = NULL;
 	priv->url = NULL;
+	priv->location = NULL;
 
 	/* Free the subcomponents */
 
@@ -689,6 +691,10 @@ scan_property (CalComponent *comp, icalproperty *prop)
 
 	case ICAL_URL_PROPERTY:
 		priv->url = prop;
+		break;
+
+	case ICAL_LOCATION_PROPERTY :
+		priv->location = prop;
 		break;
 
 	default:
@@ -3806,6 +3812,66 @@ cal_component_has_attendees (CalComponent *comp)
 	return FALSE;
 }
 
+/**
+ * cal_component_get_location:
+ * @comp: A calendar component object.
+ * @url: Return value for the location.
+ *
+ * Queries the location property of a calendar component object.
+ **/
+void
+cal_component_get_location (CalComponent *comp, const char **location)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (location != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (priv->location)
+		*location = icalproperty_get_location (priv->location);
+	else
+		*location = NULL;
+}
+
+/**
+ * cal_component_set_location:
+ * @comp: A calendar component object.
+ * @url: Location value.
+ *
+ * Sets the location property of a calendar component object.
+ **/
+void
+cal_component_set_location (CalComponent *comp, const char *location)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (!location || !(*location)) {
+		if (priv->location) {
+			icalcomponent_remove_property (priv->icalcomp, priv->location);
+			icalproperty_free (priv->location);
+			priv->location = NULL;
+		}
+
+		return;
+	}
+
+	if (priv->location)
+		icalproperty_set_location (priv->location, (char *) location);
+	else {
+		priv->location = icalproperty_new_location ((char *) location);
+		icalcomponent_add_property (priv->icalcomp, priv->location);
+	}
+}
 
 
 

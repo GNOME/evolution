@@ -79,6 +79,7 @@ typedef enum {
 	CAL_COMPONENT_FIELD_COLOR,		/* not a real field */
 	CAL_COMPONENT_FIELD_STATUS,
 	CAL_COMPONENT_FIELD_COMPONENT,		/* not a real field */
+	CAL_COMPONENT_FIELD_LOCATION,
 	CAL_COMPONENT_FIELD_NUM_FIELDS
 } CalComponentField;
 
@@ -311,6 +312,9 @@ void cal_component_set_url (CalComponent *comp, const char *url);
 void cal_component_get_attendee_list (CalComponent *comp, GSList **attendee_list);
 void cal_component_set_attendee_list (CalComponent *comp, GSList *attendee_list);
 gboolean cal_component_has_attendees (CalComponent *comp);
+
+void cal_component_get_location (CalComponent *comp, const char **location);
+void cal_component_set_location (CalComponent *comp, const char *location);
 
 gboolean cal_component_event_dates_match (CalComponent *comp1, CalComponent *comp2);
 
