@@ -200,6 +200,9 @@ command_toggle_folder_bar (BonoboUIComponent           *component,
 	EShellViewSubwindowMode mode;
 	gboolean show;
 
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+
 	shell_view = E_SHELL_VIEW (user_data);
 
 	show = atoi (state);
@@ -222,6 +225,9 @@ command_toggle_shortcut_bar (BonoboUIComponent           *component,
 	EShellView *shell_view;
 	EShellViewSubwindowMode mode;
 	gboolean show;
+
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
 
 	shell_view = E_SHELL_VIEW (user_data);
 
@@ -434,8 +440,8 @@ menu_do_misc (BonoboUIComponent *component,
 }
 
 
-#define SHORTCUT_BAR_TOGGLE_PATH "/menu/View/ShortcutBar"
-#define FOLDER_BAR_TOGGLE_PATH "/menu/View/FolderBar"
+#define SHORTCUT_BAR_TOGGLE_PATH "/commands/ViewShortcutBar"
+#define FOLDER_BAR_TOGGLE_PATH "/commands/ViewFolderBar"
 
 void
 e_shell_view_menu_setup (EShellView *shell_view)

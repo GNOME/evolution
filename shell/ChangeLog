@@ -1,3 +1,10 @@
+2000-10-09  Michael Meeks  <michael@helixcode.com>
+
+	* e-shell-view-menu.c: Change paths in such a way as to require
+	HEAD bonobo.
+	(command_toggle_folder_bar, command_toggle_shortcut_bar): only
+	respond to state changes.
+
 2000-10-07  Matt Wilson  <msw@redhat.com>
 
 	* e-shell-view.c (init): initialize priv->sockets to NULL, fixes
