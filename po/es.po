@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.7.0\n"
-"POT-Creation-Date: 2001-02-07 23:23+0100\n"
+"POT-Creation-Date: 2001-02-10 11:02+0100\n"
 "PO-Revision-Date: 2001-01-23 16:58-04:00\n"
 "Last-Translator: Héctor García Álvarez <hector@scouts-es.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -1528,7 +1528,7 @@ msgid "Confidential"
 msgstr "Confidencial"
 
 #: calendar/gui/calendar-model.c:388 calendar/gui/calendar-model.c:556
-#: calendar/gui/event-editor.c:1607 calendar/gui/event-editor.c:1634
+#: calendar/gui/event-editor.c:1600 calendar/gui/event-editor.c:1627
 #: camel/providers/smtp/camel-smtp-transport.c:181
 msgid "Unknown"
 msgstr "Desconocido"
@@ -1779,7 +1779,7 @@ msgstr "Primer día de la semana:"
 msgid "Fri"
 msgstr "Vier"
 
-#: calendar/gui/event-editor.c:485 po/tmp/cal-prefs-dialog.glade.h:28
+#: calendar/gui/event-editor.c:477 po/tmp/cal-prefs-dialog.glade.h:28
 msgid "Friday"
 msgstr "Viernes"
 
@@ -1807,7 +1807,7 @@ msgstr "Elementos dentro del plazo:"
 msgid "Mon"
 msgstr "Lun"
 
-#: calendar/gui/event-editor.c:481 po/tmp/cal-prefs-dialog.glade.h:35
+#: calendar/gui/event-editor.c:473 po/tmp/cal-prefs-dialog.glade.h:35
 msgid "Monday"
 msgstr "Lunes"
 
@@ -1839,7 +1839,7 @@ msgstr "Recordatorios"
 msgid "Sat"
 msgstr "Sab"
 
-#: calendar/gui/event-editor.c:486 po/tmp/cal-prefs-dialog.glade.h:43
+#: calendar/gui/event-editor.c:478 po/tmp/cal-prefs-dialog.glade.h:43
 msgid "Saturday"
 msgstr "Sábado"
 
@@ -1863,7 +1863,7 @@ msgstr "Comienzo del día:"
 msgid "Sun"
 msgstr "Dom"
 
-#: calendar/gui/event-editor.c:487 po/tmp/cal-prefs-dialog.glade.h:49
+#: calendar/gui/event-editor.c:479 po/tmp/cal-prefs-dialog.glade.h:49
 msgid "Sunday"
 msgstr "Domingo"
 
@@ -1875,7 +1875,7 @@ msgstr "Tabla de tares"
 msgid "Thu"
 msgstr "Jue"
 
-#: calendar/gui/event-editor.c:484 po/tmp/cal-prefs-dialog.glade.h:52
+#: calendar/gui/event-editor.c:476 po/tmp/cal-prefs-dialog.glade.h:52
 msgid "Thursday"
 msgstr "Jueves"
 
@@ -1895,7 +1895,7 @@ msgstr "Formato del tiempo:"
 msgid "Tue"
 msgstr "Mar"
 
-#: calendar/gui/event-editor.c:482 po/tmp/cal-prefs-dialog.glade.h:57
+#: calendar/gui/event-editor.c:474 po/tmp/cal-prefs-dialog.glade.h:57
 msgid "Tuesday"
 msgstr "Martes"
 
@@ -1907,7 +1907,7 @@ msgstr "Alarmas visuales"
 msgid "Wed"
 msgstr "Mier"
 
-#: calendar/gui/event-editor.c:483 po/tmp/cal-prefs-dialog.glade.h:60
+#: calendar/gui/event-editor.c:475 po/tmp/cal-prefs-dialog.glade.h:60
 msgid "Wednesday"
 msgstr "Miércoles"
 
@@ -2044,29 +2044,25 @@ msgstr "_Prioridad:"
 msgid "_Status:"
 msgstr "E_stado:"
 
-#: po/tmp/task-editor-dialog.glade.h:31
-msgid "task-editor-dialog"
-msgstr "dialogo del editor de tareas"
-
-#: calendar/gui/dialogs/task-editor.c:693
+#: calendar/gui/dialogs/task-editor.c:672
 msgid "Edit Task"
 msgstr "Editar Tarea"
 
-#: calendar/gui/dialogs/task-editor.c:699 calendar/gui/event-editor.c:383
+#: calendar/gui/dialogs/task-editor.c:678 calendar/gui/event-editor.c:375
 msgid "No summary"
 msgstr "Sin resumen"
 
-#: calendar/gui/dialogs/task-editor.c:705 calendar/gui/event-editor.c:389
+#: calendar/gui/dialogs/task-editor.c:684 calendar/gui/event-editor.c:381
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita - %s"
 
-#: calendar/gui/dialogs/task-editor.c:708 calendar/gui/event-editor.c:392
+#: calendar/gui/dialogs/task-editor.c:687 calendar/gui/event-editor.c:384
 #, c-format
 msgid "Task - %s"
 msgstr "Tarea - %s"
 
-#: calendar/gui/dialogs/task-editor.c:711 calendar/gui/event-editor.c:395
+#: calendar/gui/dialogs/task-editor.c:690 calendar/gui/event-editor.c:387
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Entrada del diario - %s"
@@ -2151,62 +2147,67 @@ msgstr "%02i divisiónes por minuto"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:271 calendar/gui/e-day-view.c:1270
+#: calendar/gui/e-day-view-top-item.c:271 calendar/gui/e-day-view.c:1273
 #: calendar/gui/e-week-view-main-item.c:321
 msgid "%A %d %B"
 msgstr "%A %b de %B"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:275 calendar/gui/e-day-view.c:1284
+#: calendar/gui/e-day-view-top-item.c:275 calendar/gui/e-day-view.c:1287
 #: calendar/gui/e-week-view-main-item.c:330
 msgid "%a %d %b"
 msgstr "%a, %d de %b de %Y"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:279 calendar/gui/e-day-view.c:1297
+#: calendar/gui/e-day-view-top-item.c:279 calendar/gui/e-day-view.c:1300
 #: calendar/gui/e-week-view-main-item.c:344
 msgid "%d %b"
 msgstr "%d de %b"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:552 calendar/gui/e-week-view.c:286
+#: calendar/gui/e-day-view.c:555 calendar/gui/e-week-view.c:289
 #: calendar/gui/print.c:612
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:555 calendar/gui/e-week-view.c:289
+#: calendar/gui/e-day-view.c:558 calendar/gui/e-week-view.c:292
 #: calendar/gui/print.c:611
 msgid "pm"
 msgstr "pm"
 
-#: calendar/gui/e-day-view.c:3007 calendar/gui/e-day-view.c:3016
-#: calendar/gui/e-day-view.c:3030 calendar/gui/e-week-view.c:3210
-#: calendar/gui/e-week-view.c:3219 calendar/gui/e-week-view.c:3233
+#: calendar/gui/e-day-view.c:3010 calendar/gui/e-day-view.c:3023
+#: calendar/gui/e-day-view.c:3038 calendar/gui/e-week-view.c:3213
+#: calendar/gui/e-week-view.c:3226 calendar/gui/e-week-view.c:3241
 msgid "New appointment..."
 msgstr "Nueva cita..."
 
-#: calendar/gui/e-day-view.c:3011 calendar/gui/e-day-view.c:3024
-#: calendar/gui/e-week-view.c:3214 calendar/gui/e-week-view.c:3227
+#: calendar/gui/e-day-view.c:3014 calendar/gui/e-day-view.c:3028
+#: calendar/gui/e-week-view.c:3217 calendar/gui/e-week-view.c:3231
+msgid "Schedule meeting"
+msgstr "Concertar reunión"
+
+#: calendar/gui/e-day-view.c:3018 calendar/gui/e-day-view.c:3032
+#: calendar/gui/e-week-view.c:3221 calendar/gui/e-week-view.c:3235
 msgid "Edit this appointment..."
 msgstr "Editar esta cita..."
 
-#: calendar/gui/e-day-view.c:3012 calendar/gui/e-week-view.c:3215
+#: calendar/gui/e-day-view.c:3019 calendar/gui/e-week-view.c:3222
 #: po/tmp/evolution-event-editor.xml.h:23
 msgid "Delete this appointment"
 msgstr "Borrar esta cita"
 
-#: calendar/gui/e-day-view.c:3020 calendar/gui/e-week-view.c:3223
+#: calendar/gui/e-day-view.c:3027 calendar/gui/e-week-view.c:3230
 msgid "Make this appointment movable"
 msgstr "Hacer esta cita movible"
 
-#: calendar/gui/e-day-view.c:3025 calendar/gui/e-week-view.c:3228
+#: calendar/gui/e-day-view.c:3033 calendar/gui/e-week-view.c:3236
 msgid "Delete this occurrence"
 msgstr "Borrar esta ocurrencia"
 
-#: calendar/gui/e-day-view.c:3026 calendar/gui/e-week-view.c:3229
+#: calendar/gui/e-day-view.c:3034 calendar/gui/e-week-view.c:3237
 msgid "Delete all occurrences"
 msgstr "Borrar todas las ocurrencias"
 
@@ -2341,7 +2342,7 @@ msgstr "Modificar"
 msgid "No recurrence"
 msgstr "Sin recurrencia"
 
-#: calendar/gui/event-editor.c:1594 po/tmp/event-editor-dialog.glade.h:18
+#: calendar/gui/event-editor.c:1587 po/tmp/event-editor-dialog.glade.h:18
 msgid "Play a sound"
 msgstr "Tocar un sonido"
 
@@ -2369,11 +2370,11 @@ msgstr "Regla de recurrencia"
 msgid "Reminder"
 msgstr "Recordatorio"
 
-#: calendar/gui/event-editor.c:1603 po/tmp/event-editor-dialog.glade.h:26
+#: calendar/gui/event-editor.c:1596 po/tmp/event-editor-dialog.glade.h:26
 msgid "Run a program"
 msgstr "Ejecutar un programa"
 
-#: calendar/gui/event-editor.c:1600 po/tmp/event-editor-dialog.glade.h:27
+#: calendar/gui/event-editor.c:1593 po/tmp/event-editor-dialog.glade.h:27
 msgid "Send an email"
 msgstr "Enviar un mensaje de correo"
 
@@ -2381,7 +2382,7 @@ msgstr "Enviar un mensaje de correo"
 msgid "Settings..."
 msgstr "Configuración..."
 
-#: calendar/gui/event-editor.c:1597 po/tmp/event-editor-dialog.glade.h:29
+#: calendar/gui/event-editor.c:1590 po/tmp/event-editor-dialog.glade.h:29
 msgid "Show a dialog"
 msgstr "Mostrar un diálogo"
 
@@ -2434,143 +2435,139 @@ msgid "end of appointment"
 msgstr "fin de la cita"
 
 #: po/tmp/event-editor-dialog.glade.h:42
-msgid "event-editor-dialog"
-msgstr "event-editor-dialog"
-
-#: po/tmp/event-editor-dialog.glade.h:43
 msgid "for"
 msgstr "para"
 
-#: po/tmp/event-editor-dialog.glade.h:44
+#: po/tmp/event-editor-dialog.glade.h:43
 msgid "forever"
 msgstr "siempre"
 
-#: po/tmp/event-editor-dialog.glade.h:45
+#: po/tmp/event-editor-dialog.glade.h:44
 msgid "hour(s)"
 msgstr "hora(s)"
 
-#: po/tmp/event-editor-dialog.glade.h:46
+#: po/tmp/event-editor-dialog.glade.h:45
 msgid "label21"
 msgstr "label21"
 
-#: po/tmp/event-editor-dialog.glade.h:47
+#: po/tmp/event-editor-dialog.glade.h:46
 msgid "label55"
 msgstr "label55"
 
-#: po/tmp/event-editor-dialog.glade.h:48
+#: po/tmp/event-editor-dialog.glade.h:47
 msgid "minute(s)"
 msgstr "minuto(s)"
 
-#: po/tmp/event-editor-dialog.glade.h:49
+#: po/tmp/event-editor-dialog.glade.h:48
 msgid "month(s)"
 msgstr "mes(es)"
 
-#: po/tmp/event-editor-dialog.glade.h:50
+#: po/tmp/event-editor-dialog.glade.h:49
 msgid "start of appointment"
 msgstr "comienzo de la cita"
 
-#: po/tmp/event-editor-dialog.glade.h:51
+#: po/tmp/event-editor-dialog.glade.h:50
 msgid "until"
 msgstr "hasta"
 
-#: po/tmp/event-editor-dialog.glade.h:52
+#: po/tmp/event-editor-dialog.glade.h:51
 msgid "week(s)"
 msgstr "semana(s)"
 
-#: po/tmp/event-editor-dialog.glade.h:53
+#: po/tmp/event-editor-dialog.glade.h:52
 msgid "year(s)"
 msgstr "año(s)"
 
-#: calendar/gui/event-editor.c:377
+#: calendar/gui/event-editor.c:369
 msgid "Edit Appointment"
 msgstr "Editar Cita"
 
-#: calendar/gui/event-editor.c:455
+#: calendar/gui/event-editor.c:447
 msgid "on"
 msgstr "en"
 
-#: calendar/gui/event-editor.c:480 filter/filter-datespec.c:65
+#: calendar/gui/event-editor.c:472 filter/filter-datespec.c:65
 msgid "day"
 msgstr "día"
 
-#: calendar/gui/event-editor.c:607
+#: calendar/gui/event-editor.c:599
 msgid "on the"
 msgstr "en el"
 
-#: calendar/gui/event-editor.c:614
+#: calendar/gui/event-editor.c:606
 msgid "th"
 msgstr "º"
 
-#: calendar/gui/event-editor.c:760
+#: calendar/gui/event-editor.c:752
 msgid "occurrences"
 msgstr "ocurrencias"
 
-#: calendar/gui/event-editor.c:877
+#: calendar/gui/event-editor.c:869
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Esta cita tiene recurrencias que no pueden ser editadas por Evolution."
 
-#: calendar/gui/event-editor.c:1549
+#: calendar/gui/event-editor.c:1542
 #, c-format
 msgid " %d days"
 msgstr "%d días"
 
-#: calendar/gui/event-editor.c:1551
+#: calendar/gui/event-editor.c:1544
 msgid " 1 day"
 msgstr "1 día"
 
-#: calendar/gui/event-editor.c:1554
+#: calendar/gui/event-editor.c:1547
 #, c-format
 msgid " %d weeks"
 msgstr "%d semanas"
 
-#: calendar/gui/event-editor.c:1556
+#: calendar/gui/event-editor.c:1549
 msgid " 1 week"
 msgstr "1 semana"
 
-#: calendar/gui/event-editor.c:1559
+#: calendar/gui/event-editor.c:1552
 #, c-format
 msgid " %d hours"
 msgstr "%d horas"
 
-#: calendar/gui/event-editor.c:1561
+#: calendar/gui/event-editor.c:1554
 msgid " 1 hour"
 msgstr "1 hora"
 
-#: calendar/gui/event-editor.c:1564
+#: calendar/gui/event-editor.c:1557
 #, c-format
 msgid " %d minutes"
 msgstr "%d minutos"
 
-#: calendar/gui/event-editor.c:1566
+#: calendar/gui/event-editor.c:1559
 msgid " 1 minute"
 msgstr "1 minuto"
 
-#: calendar/gui/event-editor.c:1569
+#: calendar/gui/event-editor.c:1562
 #, c-format
 msgid " %d seconds"
 msgstr "%d segundos"
 
-#: calendar/gui/event-editor.c:1571
+#: calendar/gui/event-editor.c:1564
 msgid " 1 second"
 msgstr "1 segundo"
 
-#: calendar/gui/event-editor.c:1618
+#: calendar/gui/event-editor.c:1611
 msgid " before start of appointment"
 msgstr "antes del comienzo de la cita"
 
-#: calendar/gui/event-editor.c:1620
+#: calendar/gui/event-editor.c:1613
 msgid " after start of appointment"
 msgstr "tras el comienzo de la cita"
 
-#: calendar/gui/event-editor.c:1628
+#: calendar/gui/event-editor.c:1621
 msgid " before end of appointment"
 msgstr "antes del fin de la cita"
 
-#: calendar/gui/event-editor.c:1630
+#: calendar/gui/event-editor.c:1623
 msgid " after end of appointment"
 msgstr "tras el fin de la cita"
 
-#: calendar/gui/event-editor.c:3251 calendar/gui/print.c:1092
+#: calendar/gui/event-editor.c:3123 calendar/gui/print.c:1092
 #: calendar/gui/print.c:1094 calendar/gui/print.c:1095
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
@@ -5024,11 +5021,11 @@ msgstr "Imprimir mensaje"
 msgid "Printing of message failed"
 msgstr "Ha fallado la impresión del mensaje"
 
-#: mail/mail-config.c:806
+#: mail/mail-config.c:834
 msgid "Connecting to server"
 msgstr "Conectando al servidor"
 
-#: mail/mail-config.c:808
+#: mail/mail-config.c:836
 msgid "Connect to server"
 msgstr "Conectar al servidor"
 
@@ -6018,7 +6015,7 @@ msgstr ""
 "de Evolution. Por favor, renombre lo para permitir la\n"
 "instalación de los archivos de usuario de Evolution."
 
-#: shell/e-shell-folder-creation-dialog.c:82
+#: shell/e-shell-folder-creation-dialog.c:96
 #, c-format
 msgid ""
 "Cannot create the specified folder:\n"
@@ -6027,11 +6024,11 @@ msgstr ""
 "No puedo crear la carpeta especificada:\n"
 "%s"
 
-#: shell/e-shell-folder-creation-dialog.c:134
+#: shell/e-shell-folder-creation-dialog.c:153
 msgid "The specified folder name is not valid."
 msgstr "El nombre de carpeta especificado no es valido."
 
-#: shell/e-shell-folder-creation-dialog.c:225
+#: shell/e-shell-folder-creation-dialog.c:245
 msgid "Evolution - Create new folder"
 msgstr "Evolution - Crear nuevas carpetas"
 
@@ -6043,7 +6040,7 @@ msgstr ""
 "El tipo de carpeta seleccionada no es valido para\n"
 "la operación requerida."
 
-#: shell/e-shell-folder-selection-dialog.c:297
+#: shell/e-shell-folder-selection-dialog.c:318
 msgid "New..."
 msgstr "Nuevo..."
 
@@ -6073,7 +6070,7 @@ msgstr ""
 "trabajo en grupo para manejar el correo, el calendario y\n"
 "la lista de contactos en el entorno del escritorio GNOME."
 
-#: shell/e-shell-view-menu.c:347
+#: shell/e-shell-view-menu.c:349
 msgid "Go to folder..."
 msgstr "Ir a la carpeta..."
 
@@ -7665,7 +7662,7 @@ msgstr "LMMJVSD"
 msgid "%B %Y"
 msgstr "%B %Y"
 
-#: widgets/misc/e-clipped-label.c:107
+#: widgets/misc/e-clipped-label.c:111
 msgid "..."
 msgstr "..."
 
@@ -7721,6 +7718,12 @@ msgstr "init_corba(): no se puede inicializar GNOME"
 #: wombat/wombat.c:207
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): no se puede inicializar Bonobo"
+
+#~ msgid "task-editor-dialog"
+#~ msgstr "dialogo del editor de tareas"
+
+#~ msgid "event-editor-dialog"
+#~ msgstr "event-editor-dialog"
 
 #~ msgid "S_ummary"
 #~ msgstr "Res_umen"
