@@ -1,3 +1,10 @@
+2004-01-20  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #52989.
+
+	* message-list.c (hide_load_state): clear the hidden table if
+	setup, before loading.
+
 2004-01-19  Radek Doulik  <rodo@ximian.com>
 
 	* mail-config.c (MAIL_CONFIG_RC_DIR): path to gtkhtml's rc file

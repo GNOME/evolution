@@ -2989,16 +2989,23 @@ hide_load_state (MessageList *ml)
 	FILE *in;
 	guint32 version, lower, upper;
 
+	MESSAGE_LIST_LOCK(ml, hide_lock);
+	if (ml->hidden) {
+		g_hash_table_destroy (ml->hidden);
+		e_mempool_destroy (ml->hidden_pool);
+		ml->hidden = NULL;
+		ml->hidden_pool = NULL;
+	}
+	ml->hide_before = ML_HIDE_NONE_START;
+	ml->hide_after = ML_HIDE_NONE_END;
+
 	filename = mail_config_folder_to_cachename(ml->folder, "hidestate-");
 	in = fopen(filename, "r");
 	if (in) {
 		camel_file_util_decode_fixed_int32 (in, &version);
 		if (version == HIDE_STATE_VERSION) {
-			MESSAGE_LIST_LOCK(ml, hide_lock);
-			if (ml->hidden == NULL) {
-				ml->hidden = g_hash_table_new(g_str_hash, g_str_equal);
-				ml->hidden_pool = e_mempool_new(512, 256, E_MEMPOOL_ALIGN_BYTE);
-			}
+			ml->hidden = g_hash_table_new(g_str_hash, g_str_equal);
+			ml->hidden_pool = e_mempool_new(512, 256, E_MEMPOOL_ALIGN_BYTE);
 			camel_file_util_decode_fixed_int32 (in, &lower);
 			ml->hide_before = lower;
 			camel_file_util_decode_fixed_int32 (in, &upper);
@@ -3012,11 +3019,12 @@ hide_load_state (MessageList *ml)
 					g_hash_table_insert(ml->hidden, uid, uid);
 				}
 			}
-			MESSAGE_LIST_UNLOCK(ml, hide_lock);
 		}
 		fclose(in);
 	}
 	g_free(filename);
+
+	MESSAGE_LIST_UNLOCK(ml, hide_lock);
 }
 
 static void
