@@ -44,10 +44,6 @@
 #include "gal/util/e-util.h"
 #include "gal/util/e-i18n.h"
 
-#include <e-table-scrolled.h>
-#include <e-table-without.h>
-#include <e-table-memory-store.h>
-
 
 #define PARENT_TYPE (gtk_object_get_type())
 
@@ -338,27 +334,13 @@ config_group_info_update (ETableConfig *config)
 }
 
 static void
-setup_fields (ETableConfig *config)
-{
-	int i;
-
-	e_table_without_show_all (config->available_model);
-	e_table_subset_variable_clear (config->shown_model);
-
-	if (config->temp_state) {
-		for (i = 0; i < config->temp_state->col_count; i++) {
-			e_table_subset_variable_add (config->shown_model, config->temp_state->columns[i]);
-			e_table_without_hide (config->available_model, (void *) config->temp_state->columns[i]);
-		}
-	}
-}
-
-static void
 config_fields_info_update (ETableConfig *config)
 {
 	ETableColumnSpecification **column;
 	GString *res = g_string_new ("");
 	int i;
+
+	return;
 
 	for (i = 0; i < config->state->col_count; i++){
 		for (column = config->source_spec->columns; *column; column++){
@@ -406,10 +388,10 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		case 0:
 			if (is_sort){
 				e_table_sort_info_sorting_truncate (
-					config->temp_state->sort_info, 0);
+					config->state->sort_info, 0);
 			} else {
 				e_table_sort_info_grouping_truncate (
-					config->temp_state->sort_info, 0);
+					config->state->sort_info, 0);
 			}
 			update_sort_and_group_config_dialog (config, is_sort);
 			continue;
@@ -441,101 +423,21 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		config_group_info_update (config);
 }
 
-static void
-do_fields_config_dialog (ETableConfig *config)
-{
-	int button, running = 1;
-
-	config->temp_state = e_table_state_duplicate (config->state);
-
-	setup_fields (config);
-
-	do {
-		button = gnome_dialog_run (GNOME_DIALOG(config->dialog_show_fields));
-		switch (button){
-			/* OK */
-		case 0:
-			gtk_object_unref (GTK_OBJECT (config->state));
-			config->state = config->temp_state;
-			config->temp_state = 0;
-			running = 0;
-			gnome_property_box_changed (
-				GNOME_PROPERTY_BOX (config->dialog_toplevel));
-			break;
-
-			/* CANCEL */
-		case 1:
-			gtk_object_unref (GTK_OBJECT (config->temp_state));
-			config->temp_state = 0;
-			running = 0;
-			break;
-		}
-		
-	} while (running);
-	gnome_dialog_close (GNOME_DIALOG (config->dialog_show_fields));
-
-	config_fields_info_update (config);
-}
-
-
-ETableMemoryStoreColumnInfo store_columns[] = {
-	E_TABLE_MEMORY_STORE_STRING,
-	E_TABLE_MEMORY_STORE_TERMINATOR
-};
-
-static ETableModel *global_store;  /* Glade better not be reentrant any time soon. */
-
-static void
-create_global_store (ETableConfig *config)
-{
-	int i;
-
-	global_store = e_table_memory_store_new (store_columns);
-	for (i = 0; config->source_spec->columns[i]; i++) {
-		e_table_memory_store_insert (E_TABLE_MEMORY_STORE (global_store), i, (void **) &config->source_spec->columns[i]->title, NULL);
-	}
-}
-
-char *spec = "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\" draw-grid=\"false\" draw-focus=\"true\" selection-mode=\"browse\"> \
-  <ETableColumn model_col= \"0\" _title=\"Name\" minimum_width=\"30\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableState> <column source=\"0\"/> \
-  <grouping/> \
-  </ETableState> \
-  </ETableSpecification>";
-
-GtkWidget *e_table_proxy_etable_shown_new (void);
+GtkWidget *e_table_proxy_etable_new (void);
 
 GtkWidget *
-e_table_proxy_etable_shown_new (void)
+e_table_proxy_etable_new (void)
 {
-	ETableModel *model = NULL;
-
-	model = e_table_subset_variable_new (global_store);
-
-	return e_table_scrolled_new (model, NULL, spec, NULL);
-}
-
-GtkWidget *e_table_proxy_etable_available_new (void);
-
-GtkWidget *
-e_table_proxy_etable_available_new (void)
-{
-	ETableModel *model;
-
-	model = e_table_without_new (global_store,
-				     NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-
-	e_table_without_show_all (E_TABLE_WITHOUT (model));
-
-	return e_table_scrolled_new (model, NULL, spec, NULL);
+	return gtk_label_new ("Field selection dialog not\nimplemented here yet.");
 }
 
 static void
 config_button_fields (GtkWidget *widget, ETableConfig *config)
 {
-	do_fields_config_dialog (config);
+	gnome_dialog_run (GNOME_DIALOG(config->dialog_show_fields));
+	gnome_dialog_close (GNOME_DIALOG (config->dialog_show_fields));
 }
-
+		
 static void
 config_button_sort (GtkWidget *widget, ETableConfig *config)
 {
@@ -811,197 +713,15 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 }
 
 static void
-add_column (int model_row, gpointer closure)
-{
-	GList **columns = closure;
-	*columns = g_list_prepend (*columns, GINT_TO_POINTER (model_row));
-}
-
-static void
-config_button_add (GtkWidget *widget, ETableConfig *config)
-{
-	GList *columns = NULL;
-	GList *column;
-	int count;
-	int i;
-
-	e_table_selected_row_foreach (config->available, add_column, &columns);
-	columns = g_list_reverse (columns);
-
-	count = g_list_length (columns);
-
-	config->temp_state->columns = g_renew (int, config->temp_state->columns, config->temp_state->col_count + count);
-	config->temp_state->expansions = g_renew (double, config->temp_state->expansions, config->temp_state->col_count + count);
-	i = config->temp_state->col_count;
-	for (column = columns; column; column = column->next) {
-		config->temp_state->columns[i] = e_table_subset_view_to_model_row (E_TABLE_SUBSET (config->available_model), GPOINTER_TO_INT (column->data));
-		config->temp_state->expansions[i] = config->source_spec->columns[config->temp_state->columns[i]]->expansion;
-		i++;
-	}
-	config->temp_state->col_count += count;
-
-	g_list_free (columns);
-
-	setup_fields (config);
-}
-
-static void
-config_button_remove (GtkWidget *widget, ETableConfig *config)
-{
-	GList *columns = NULL;
-	GList *column;
-
-	e_table_selected_row_foreach (config->shown, add_column, &columns);
-
-	for (column = columns; column; column = column->next) {
-		int row = GPOINTER_TO_INT (column->data);
-
-		memmove (config->temp_state->columns + row, config->temp_state->columns + row + 1, sizeof (int) * (config->temp_state->col_count - row - 1));
-		memmove (config->temp_state->expansions + row, config->temp_state->expansions + row + 1, sizeof (double) * (config->temp_state->col_count - row - 1));
-		config->temp_state->col_count --;
-	}
-	config->temp_state->columns = g_renew (int, config->temp_state->columns, config->temp_state->col_count);
-	config->temp_state->expansions = g_renew (double, config->temp_state->expansions, config->temp_state->col_count);
-
-	g_list_free (columns);
-
-	setup_fields (config);
-}
-
-static void
-config_button_up (GtkWidget *widget, ETableConfig *config)
-{
-	GList *columns = NULL;
-	GList *column;
-	int *new_shown;
-	double *new_expansions;
-	int next_col;
-	double next_expansion;
-	int i;
-
-	e_table_selected_row_foreach (config->shown, add_column, &columns);
-	columns = g_list_reverse (columns);
-
-	new_shown = g_new (int, config->temp_state->col_count);
-	new_expansions = g_new (double, config->temp_state->col_count);
-
-	column = columns;
-
-	next_col = config->temp_state->columns[0];
-	next_expansion = config->temp_state->expansions[0];
-
-	for (i = 1; i < config->temp_state->col_count; i++) {
-		if (column && (GPOINTER_TO_INT (column->data) == i)) {
-			new_expansions[i - 1] = config->temp_state->expansions[i];
-			new_shown[i - 1] = config->temp_state->columns[i];
-			column = column->next;
-		} else {
-			new_shown[i - 1] = next_col;
-			next_col = config->temp_state->columns[i];
-
-			new_expansions[i - 1] = next_expansion;
-			next_expansion = config->temp_state->expansions[i];
-		}
-	}
-
-	new_shown[i - 1] = next_col;
-	new_expansions[i - 1] = next_expansion;
-
-	g_free (config->temp_state->columns);
-	g_free (config->temp_state->expansions);
-
-	config->temp_state->columns = new_shown;
-	config->temp_state->expansions = new_expansions;
-
-	g_list_free (columns);
-
-	setup_fields (config);
-}
-
-static void
-config_button_down (GtkWidget *widget, ETableConfig *config)
-{
-	GList *columns = NULL;
-	GList *column;
-	int *new_shown;
-	double *new_expansions;
-	int next_col;
-	double next_expansion;
-	int i;
-
-	e_table_selected_row_foreach (config->shown, add_column, &columns);
-
-	new_shown = g_new (int, config->temp_state->col_count);
-	new_expansions = g_new (double, config->temp_state->col_count);
-
-	column = columns;
-
-	next_col = config->temp_state->columns[config->temp_state->col_count - 1];
-	next_expansion = config->temp_state->expansions[config->temp_state->col_count - 1];
-
-	for (i = config->temp_state->col_count - 1; i > 0; i--) {
-		if (column && (GPOINTER_TO_INT (column->data) == i - 1)) {
-			new_expansions[i] = config->temp_state->expansions[i - 1];
-			new_shown[i] = config->temp_state->columns[i - 1];
-			column = column->next;
-		} else {
-			new_shown[i] = next_col;
-			next_col = config->temp_state->columns[i - 1];
-
-			new_expansions[i] = next_expansion;
-			next_expansion = config->temp_state->expansions[i - 1];
-		}
-	}
-
-	new_shown[0] = next_col;
-	new_expansions[0] = next_expansion;
-
-	g_free (config->temp_state->columns);
-	g_free (config->temp_state->expansions);
-
-	config->temp_state->columns = new_shown;
-	config->temp_state->expansions = new_expansions;
-
-	g_list_free (columns);
-
-	setup_fields (config);
-}
-
-static void
-configure_fields_dialog (ETableConfig *config, GladeXML *gui)
-{
-	config->available = e_table_scrolled_get_table (E_TABLE_SCROLLED (glade_xml_get_widget (gui, "custom-available")));
-	gtk_object_get (GTK_OBJECT (config->available),
-			"model", &config->available_model,
-			NULL);
-
-	config->shown = e_table_scrolled_get_table (E_TABLE_SCROLLED (glade_xml_get_widget (gui, "custom-shown")));
-	gtk_object_get (GTK_OBJECT (config->shown),
-			"model", &config->shown_model,
-			NULL);
-
-	connect_button (config, gui, "button-add",    config_button_add);
-	connect_button (config, gui, "button-remove", config_button_remove);
-	connect_button (config, gui, "button-up",     config_button_up);
-	connect_button (config, gui, "button-down",   config_button_down);
-
-	setup_fields (config);
-}
-
-static void
 setup_gui (ETableConfig *config)
 {
 	GladeXML *gui;
-
-	create_global_store (config);
 
 	if (e_table_sort_info_get_can_group (config->state->sort_info)) {
 		gui = glade_xml_new_with_domain (ETABLE_GLADEDIR "/e-table-config.glade", NULL, PACKAGE);
 	} else {
 		gui = glade_xml_new_with_domain (ETABLE_GLADEDIR "/e-table-config-no-group.glade", NULL, PACKAGE);
 	}
-
-	gtk_object_unref (GTK_OBJECT (global_store));
 	
 	config->dialog_toplevel = glade_xml_get_widget (
 		gui, "e-table-config");
@@ -1036,7 +756,6 @@ setup_gui (ETableConfig *config)
 	
 	configure_sort_dialog (config, gui);
 	configure_group_dialog (config, gui);
-	configure_fields_dialog (config, gui);
 	
 	gtk_signal_connect (
 		GTK_OBJECT (config->dialog_toplevel), "destroy",

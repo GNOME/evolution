@@ -1093,50 +1093,6 @@ ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 	}
 }
 
-/*
- * ECellView::save_state method
- */
-static void *
-ect_save_state (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context)
-{
-	ECellTextView *text_view = (ECellTextView *) ecell_view;
-	CellEdit *edit = text_view->edit;
-
-	int *save_state = g_new (int, 2);
-
-	save_state[0] = edit->selection_start;
-	save_state[1] = edit->selection_end;
-	return save_state;
-}
-
-/*
- * ECellView::load_state method
- */
-static void
-ect_load_state (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context, void *save_state)
-{
-	ECellTextView *text_view = (ECellTextView *) ecell_view;
-	CellEdit *edit = text_view->edit;
-	int length;
-	int *selection = save_state;
-
-	length = strlen (edit->cell.text);
-
-	edit->selection_start = MIN (selection[0], length);
-	edit->selection_end = MIN (selection[1], length);
-
-	ect_queue_redraw (text_view, view_col, row);
-}
-
-/*
- * ECellView::free_state method
- */
-static void
-ect_free_state (ECellView *ecell_view, int model_col, int view_col, int row, void *save_state)
-{
-	g_free (save_state);
-}
-
 static void
 ect_print (ECellView *ecell_view, GnomePrintContext *context, 
 	   int model_col, int view_col, int row,
@@ -1207,34 +1163,6 @@ ect_max_width (ECellView *ecell_view,
 	}
 	
 	return max_width;
-}
-
-static int
-ect_max_width_by_row (ECellView *ecell_view,
-		      int model_col,
-		      int view_col,
-		      int row)
-{
-	/* New ECellText */
-	ECellTextView *text_view = (ECellTextView *) ecell_view;
-	CurrentCell cell;
-	struct line *line;
-	int width;
-
-	if (row >= e_table_model_row_count (ecell_view->e_table_model))
-		return 0;
-
-	build_current_cell (&cell, text_view, model_col, view_col, row);
-	split_into_lines (&cell);
-	calc_line_widths (&cell);
-
-	line = (struct line *)cell.breaks->lines;
-	width = e_font_utf8_text_width (text_view->font, cell.style,
-					line->text, line->length);
-	unref_lines (&cell);
-	unbuild_current_cell (&cell);
-	
-	return width;
 }
 
 static gint
@@ -1527,13 +1455,9 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	ecc->height     = ect_height;
 	ecc->enter_edit = ect_enter_edit;
 	ecc->leave_edit = ect_leave_edit;
-	ecc->save_state = ect_save_state;
- 	ecc->load_state = ect_load_state;
-	ecc->free_state = ect_free_state;
 	ecc->print      = ect_print;
 	ecc->print_height = ect_print_height;
 	ecc->max_width = ect_max_width;
-	ecc->max_width_by_row = ect_max_width_by_row;
 	ecc->show_tooltip = ect_show_tooltip;
 	ecc->get_bg_color = ect_get_bg_color;
 
@@ -2151,9 +2075,6 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 		break;
 	case E_TEP_UNGRAB:
 		edit->actions = E_CELL_UNGRAB;
-		break;
-	case E_TEP_CAPS:
-		/* FIXME */
 		break;
 	case E_TEP_NOP:
 		break;

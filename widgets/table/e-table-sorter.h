@@ -30,7 +30,6 @@
 #include <gal/e-table/e-table-subset-variable.h>
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-header.h>
-#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

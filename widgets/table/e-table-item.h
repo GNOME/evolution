@@ -32,7 +32,6 @@
 #include <gal/e-table/e-table-tooltip.h>
 #include <gal/widgets/e-selection-model.h>
 #include <gal/widgets/e-printable.h>
-#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 
@@ -153,9 +152,6 @@ typedef struct {
 	 */
 	int              editing_col, editing_row;
 	void            *edit_ctx;
-
-	int              save_col, save_row;
-	void            *save_state;
 
 	int grabbed_col, grabbed_row;
 	int grabbed_count;

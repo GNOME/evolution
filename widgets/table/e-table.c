@@ -74,7 +74,6 @@ enum {
 	CLICK,
 	KEY_PRESS,
 	START_DRAG,
-	STATE_CHANGE,
 
 	TABLE_DRAG_BEGIN,
 	TABLE_DRAG_END,
@@ -94,13 +93,6 @@ enum {
 	ARG_LENGTH_THRESHOLD,
 	ARG_MODEL,
 	ARG_UNIFORM_ROW_HEIGHT,
-};
-
-enum {
-	ET_SCROLL_UP = 1 << 0,
-	ET_SCROLL_DOWN = 1 << 1,
-	ET_SCROLL_LEFT = 1 << 2,
-	ET_SCROLL_RIGHT = 1 << 3
 };
 
 static gint et_signals [LAST_SIGNAL] = { 0, };
@@ -154,7 +146,7 @@ static void et_drag_data_received(GtkWidget *widget,
 static gint et_focus (GtkContainer *container, GtkDirectionType direction);
 
 static void scroll_off (ETable *et);
-static void scroll_on (ETable *et, guint scroll_direction);
+static void scroll_on (ETable *et, gboolean down);
 
 static void
 et_disconnect_model (ETable *et)
@@ -186,58 +178,6 @@ et_disconnect_model (ETable *et)
 }
 
 static void
-e_table_state_change (ETable *et)
-{
-	gtk_signal_emit (GTK_OBJECT (et),
-			 et_signals [STATE_CHANGE]);
-}
-
-static void
-structure_changed (ETableHeader *header, ETable *et)
-{
-	e_table_state_change (et);
-}
-
-static void
-expansion_changed (ETableHeader *header, ETable *et)
-{
-	e_table_state_change (et);
-}
-
-static void
-disconnect_header (ETable *e_table)
-{
-	if (e_table->header == NULL)
-		return;
-
-	if (e_table->structure_change_id)
-		gtk_signal_disconnect (GTK_OBJECT (e_table->header),
-				       e_table->structure_change_id);
-	if (e_table->expansion_change_id)
-		gtk_signal_disconnect (GTK_OBJECT (e_table->header),
-				       e_table->expansion_change_id);
-
-	gtk_object_unref(GTK_OBJECT(e_table->header));
-	e_table->header = NULL;
-}
-
-static void
-connect_header (ETable *e_table, ETableState *state)
-{
-	if (e_table->header != NULL)
-		disconnect_header (e_table);
-
-	e_table->header = e_table_state_to_header (GTK_WIDGET(e_table), e_table->full_header, state);
-
-	e_table->structure_change_id =
-		gtk_signal_connect (GTK_OBJECT (e_table->header), "structure_change",
-				    structure_changed, e_table);
-	e_table->expansion_change_id =
-		gtk_signal_connect (GTK_OBJECT (e_table->header), "expansion_change",
-				    expansion_changed, e_table);
-}
-
-static void
 et_destroy (GtkObject *object)
 {
 	ETable *et = E_TABLE (object);
@@ -247,20 +187,16 @@ et_destroy (GtkObject *object)
 	if (et->group_info_change_id)
 		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
 				       et->group_info_change_id);
-	if (et->sort_info_change_id)
-		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
-				       et->sort_info_change_id);
-
+	
 	if (et->reflow_idle_id)
 		g_source_remove(et->reflow_idle_id);
 	et->reflow_idle_id = 0;
 
 	scroll_off (et);
 
-	disconnect_header (et);
-	
 	gtk_object_unref (GTK_OBJECT (et->model));
 	gtk_object_unref (GTK_OBJECT (et->full_header));
+	gtk_object_unref (GTK_OBJECT (et->header));
 	gtk_object_unref (GTK_OBJECT (et->sort_info));
 	gtk_object_unref (GTK_OBJECT (et->sorter));
 	gtk_object_unref (GTK_OBJECT (et->selection));
@@ -306,9 +242,6 @@ e_table_init (GtkObject *object)
 
 	e_table->sort_info                          = NULL;
 	e_table->group_info_change_id               = 0;
-	e_table->sort_info_change_id                = 0;
-	e_table->structure_change_id                = 0;
-	e_table->expansion_change_id                = 0;
 	e_table->reflow_idle_id                     = 0;
 	e_table->scroll_idle_id               = 0;
 
@@ -406,7 +339,7 @@ header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_
 }
 
 static void
-group_info_changed (ETableSortInfo *info, ETable *et)
+sort_info_changed (ETableSortInfo *info, ETable *et)
 {
 	gboolean will_be_grouped = e_table_sort_info_grouping_get_count(info) > 0;
 	if (et->is_grouped || will_be_grouped) {
@@ -417,13 +350,6 @@ group_info_changed (ETableSortInfo *info, ETable *et)
 			et->rebuild_idle_id = g_idle_add_full (20, changed_idle, et, NULL);
 		}
 	}
-	e_table_state_change (et);
-}
-
-static void
-sort_info_changed (ETableSortInfo *info, ETable *et)
-{
-	e_table_state_change (et);
 }
 
 static void
@@ -1003,7 +929,10 @@ e_table_fill_table (ETable *e_table, ETableModel *model)
 void
 e_table_set_state_object(ETable *e_table, ETableState *state)
 {
-	connect_header (e_table, state);
+	if (e_table->header)
+		gtk_object_unref(GTK_OBJECT(e_table->header));
+	e_table->header = e_table_state_to_header (GTK_WIDGET(e_table), e_table->full_header, state);
+
 	gtk_object_set (GTK_OBJECT (e_table->header),
 			"width", (double) (GTK_WIDGET(e_table->table_canvas)->allocation.width),
 			NULL);
@@ -1012,9 +941,6 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 		if (e_table->group_info_change_id)
 			gtk_signal_disconnect (GTK_OBJECT (e_table->sort_info),
 					       e_table->group_info_change_id);
-		if (e_table->sort_info_change_id)
-			gtk_signal_disconnect (GTK_OBJECT (e_table->sort_info),
-					       e_table->sort_info_change_id);
 		gtk_object_unref(GTK_OBJECT(e_table->sort_info));
 	}
 	if (state->sort_info) {
@@ -1023,11 +949,6 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 		e_table->group_info_change_id =
 			gtk_signal_connect (GTK_OBJECT (e_table->sort_info),
 					    "group_info_changed",
-					    GTK_SIGNAL_FUNC (group_info_changed),
-					    e_table);
-		e_table->sort_info_change_id =
-			gtk_signal_connect (GTK_OBJECT (e_table->sort_info),
-					    "sort_info_changed",
 					    GTK_SIGNAL_FUNC (sort_info_changed),
 					    e_table);
 	}
@@ -1235,7 +1156,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
-	connect_header (e_table, state);
+	e_table->header = e_table_state_to_header (GTK_WIDGET(e_table), e_table->full_header, state);
 	e_table->horizontal_scrolling = specification->horizontal_scrolling;
 	e_table->allow_grouping = specification->allow_grouping;
 
@@ -1245,10 +1166,6 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	e_table->group_info_change_id =
 		gtk_signal_connect (GTK_OBJECT (e_table->sort_info), "group_info_changed",
-				    GTK_SIGNAL_FUNC (group_info_changed), e_table);
-
-	e_table->sort_info_change_id =
-		gtk_signal_connect (GTK_OBJECT (e_table->sort_info), "sort_info_changed",
 				    GTK_SIGNAL_FUNC (sort_info_changed), e_table);
 
 
@@ -2513,31 +2430,22 @@ static gboolean
 scroll_timeout (gpointer data)
 {
 	ETable *et = data;
-	int dx = 0, dy = 0;
-	GtkAdjustment *h, *v;
-	double hvalue, vvalue;
+	int dy;
+	GtkAdjustment *v;
+	double value;
 
-	if (et->scroll_direction & ET_SCROLL_DOWN)
-		dy += 20;
-	if (et->scroll_direction & ET_SCROLL_UP)
-		dy -= 20;
+	if (et->scroll_down)
+		dy = 20;
+	else
+		dy = -20;
 
-	if (et->scroll_direction & ET_SCROLL_RIGHT)
-		dx += 20;
-	if (et->scroll_direction & ET_SCROLL_LEFT)
-		dx -= 20;
-
-	h = GTK_LAYOUT(et->table_canvas)->hadjustment;
 	v = GTK_LAYOUT(et->table_canvas)->vadjustment;
 
-	hvalue = h->value;
-	vvalue = v->value;
+	value = v->value;
 
-	gtk_adjustment_set_value(h, CLAMP(h->value + dx, h->lower, h->upper - h->page_size));
 	gtk_adjustment_set_value(v, CLAMP(v->value + dy, v->lower, v->upper - v->page_size));
 
-	if (h->value != hvalue ||
-	    v->value != vvalue)
+	if (v->value != value)
 		do_drag_motion(et,
 			       et->last_drop_context,
 			       et->last_drop_x,
@@ -2549,12 +2457,12 @@ scroll_timeout (gpointer data)
 }
 
 static void
-scroll_on (ETable *et, guint scroll_direction)
+scroll_on (ETable *et, gboolean down)
 {
-	if (et->scroll_idle_id == 0 || scroll_direction != et->scroll_direction) {
+	if (et->scroll_idle_id == 0 || down != et->scroll_down) {
 		if (et->scroll_idle_id != 0)
 			g_source_remove (et->scroll_idle_id);
-		et->scroll_direction = scroll_direction;
+		et->scroll_down = down;
 		et->scroll_idle_id = g_timeout_add (100, scroll_timeout, et);
 	}
 }
@@ -2618,7 +2526,6 @@ et_drag_motion(GtkWidget *widget,
 	       ETable *et)
 {
 	gboolean ret_val;
-	guint direction = 0;
 
 	et->last_drop_x = x;
 	et->last_drop_y = y;
@@ -2636,19 +2543,14 @@ et_drag_motion(GtkWidget *widget,
 	x -= widget->allocation.x;
 	y -= widget->allocation.y;
 
-	if (y < 20)
-		direction |= ET_SCROLL_UP;
-	if (y > widget->allocation.height - 20)
-		direction |= ET_SCROLL_DOWN;
-	if (x < 20)
-		direction |= ET_SCROLL_LEFT;
-	if (x > widget->allocation.width - 20)
-		direction |= ET_SCROLL_RIGHT;
-
-	if (direction != 0)
-		scroll_on (et, direction);
-	else
+	if (y < 20 || y > widget->allocation.height - 20) {
+		if (y < 20)
+			scroll_on (et, FALSE);
+		else
+			scroll_on (et, TRUE);
+	} else {
 		scroll_off (et);
+	}
 
 	return ret_val;
 }
@@ -2764,7 +2666,6 @@ e_table_class_init (ETableClass *class)
 	class->click                    = NULL;
 	class->key_press                = NULL;
 	class->start_drag               = et_real_start_drag;
-	class->state_change             = NULL;
 
 	class->table_drag_begin         = NULL;
 	class->table_drag_end           = NULL;
@@ -2839,14 +2740,6 @@ e_table_class_init (ETableClass *class)
 				GTK_SIGNAL_OFFSET (ETableClass, start_drag),
 				e_marshal_INT__INT_INT_POINTER,
 				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
-
-	et_signals [STATE_CHANGE] =
-		gtk_signal_new ("state_change",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableClass, state_change),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
 
 	et_signals[TABLE_DRAG_BEGIN] =
 		gtk_signal_new ("table_drag_begin",

@@ -47,6 +47,8 @@
 
 #define FOCUSED_BORDER 2
 
+#define DO_TOOLTIPS 1
+
 #define d(x)
 
 #if d(!)0
@@ -278,20 +280,6 @@ eti_get_cell_foreground_color (ETableItem *eti, int row, int col, gboolean selec
 	return foreground;
 }
 
-static void
-eti_free_save_state (ETableItem *eti)
-{
-	if (eti->save_row == -1 ||
-	    !eti->cell_views_realized)
-		return;
-
-	e_cell_free_state (eti->cell_views [eti->save_col], view_to_model_col(eti, eti->save_col),
-			   eti->save_col, eti->save_row, eti->save_state);
-	eti->save_row = -1;
-	eti->save_col = -1;
-	eti->save_state = NULL;
-}
-
 /*
  * During realization, we have to invoke the per-ecell realize routine
  * (On our current setup, we have one e-cell per column.
@@ -354,8 +342,6 @@ eti_unrealize_cell_views (ETableItem *eti)
 	if (eti->cell_views_realized == 0)
 		return;
 	
-	eti_free_save_state (eti);
-
 	for (i = 0; i < eti->n_cells; i++)
 		e_cell_unrealize (eti->cell_views [i]);
 	eti->cell_views_realized = 0;
@@ -366,8 +352,6 @@ eti_detach_cell_views (ETableItem *eti)
 {
 	int i;
 	
-	eti_free_save_state (eti);
-
 	for (i = 0; i < eti->n_cells; i++){
 		e_cell_kill_view (eti->cell_views [i]);
 		eti->cell_views [i] = NULL;
@@ -927,7 +911,7 @@ eti_check_cursor_bounds (ETableItem *eti)
 		eti->cursor_y1 = -1;
 		eti->cursor_x2 = -1;
 		eti->cursor_y2 = -1;
-		eti->cursor_on_screen = TRUE;
+		eti->cursor_on_screen = FALSE;
 		return;
 	}
 
@@ -1517,10 +1501,6 @@ eti_init (GnomeCanvasItem *item)
 	eti->height                    = 0;
 	eti->width                     = 0;
 	eti->minimum_width             = 0;
-
-	eti->save_col                  = -1;
-	eti->save_row                  = -1;
-	eti->save_state                = NULL;
 
 	eti->click_count               = 0;
 
@@ -2223,6 +2203,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (return_val)
 				return TRUE;
 
+			return_val = FALSE;
 			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CLICK],
 					 row, view_to_model_col(eti, col), &button, &return_val);
 
@@ -2483,7 +2464,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 
 #ifdef DO_TOOLTIPS
-		if (!g_getenv ("GAL_DONT_DO_TOOLTIPS")) {
+		if (g_getenv ("GAL_DO_TOOLTIPS")) {
 			if (eti->tooltip->timer > 0)
 				gtk_timeout_remove (eti->tooltip->timer);
 			eti->tooltip->col = col;
@@ -2725,26 +2706,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 	case GDK_FOCUS_CHANGE:
 		d(g_print("%s: GDK_FOCUS_CHANGE received, %s\n", __FUNCTION__, e->focus_change.in ? "in": "out"));
-		if (e->focus_change.in) {
-			if (eti->save_row != -1 &&
-			    eti->save_col != -1 &&
-			    !eti_editing (eti) &&
-			    e_table_model_is_cell_editable(eti->table_model, view_to_model_col (eti, eti->save_col), eti->save_row)) { 
-				e_table_item_enter_edit (eti, eti->save_col, eti->save_row);
-				e_cell_load_state (eti->cell_views [eti->editing_col], view_to_model_col(eti, eti->save_col),
-						   eti->save_col, eti->save_row, eti->edit_ctx, eti->save_state);
-				eti_free_save_state (eti);
-			}
-		} else {
-			if (eti_editing (eti)) {
-				eti_free_save_state (eti);
-
-				eti->save_row   = eti->editing_row;
-				eti->save_col   = eti->editing_col;
-				eti->save_state = e_cell_save_state (eti->cell_views [eti->editing_col], view_to_model_col(eti, eti->editing_col),
-								     eti->editing_col, eti->editing_row, eti->edit_ctx);
+		if (! e->focus_change.in) {
+			if (eti_editing (eti))
 				e_table_item_leave_edit_(eti);
-			}
 		}
 
 	default:
