@@ -295,7 +295,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 static int
 stream_flush (CamelStream *stream)
 {
-	return fsync (((CamelTcpStreamRaw *)stream)->sockfd);
+	return 0;
 }
 
 static int

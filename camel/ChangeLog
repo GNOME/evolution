@@ -1,7 +1,10 @@
 2001-10-26  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* camel-tcp-stream-raw.c (stream_write): Check for EWOULDBLOCK too?
+	* camel-tcp-stream-raw.c (stream_write): Check for EWOULDBLOCK
+	too?
 	(stream_read): Same.
+	(stream_flush): Return 0 always, fsync() and tcp sockets don't
+	play nice :-)
 
 	* providers/imap/camel-imap-message-cache.c
 	(camel_imap_message_cache_get): Lets try putting a
