@@ -404,13 +404,6 @@ print_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	}
 }
 
-static void
-open_dialog(GtkWidget *button, ESelectNamesManager *manager)
-{
-	char *id = gtk_object_get_data(GTK_OBJECT(button), "id");
-	e_select_names_manager_activate_dialog(manager, id);
-}
-
 static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new contact"), new_contact_cb, GNOME_STOCK_PIXMAP_NEW),
 
