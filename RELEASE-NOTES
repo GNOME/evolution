@@ -27,8 +27,7 @@ you can do the following, after having quit Evolution:
 	mv filters.xml.bak-1.0 filters.xml
 	mv vfolders.xml.bak-1.0 vfolders.xml
 	mv shortcuts.xml.bak-1.0 shortcuts.xml
-
-	[FIXME what about the IMAP cache?]
+	mv mail/imap.bak-1.0 mail/imap
 
 Note that any changes to filters, vfolders or shortcuts made with
 1.1.1 will be lost after this operation.
