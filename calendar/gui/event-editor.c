@@ -802,8 +802,8 @@ fill_widgets (EventEditor *ee)
 				case ICAL_SATURDAY_WEEKDAY:
 					e_dialog_toggle_set (priv->recurrence_rule_weekly_sat, TRUE);
 					break;
-				default:
-					g_assert_not_reached ();
+				case ICAL_NO_WEEKDAY:
+					break;
 				}
 			}
 			break;
@@ -1021,7 +1021,8 @@ dialog_to_comp_object (EventEditor *ee)
 
 	case ICAL_YEARLY_RECURRENCE:
 		recur.interval = e_dialog_spin_get_int (priv->recurrence_rule_yearly_every_n_years);
-
+		break;
+		
 	default:
 		g_assert_not_reached ();
 	}
@@ -1047,24 +1048,28 @@ dialog_to_comp_object (EventEditor *ee)
 		list = NULL;
 		list = g_slist_append (list, &recur);
 		cal_component_set_rrule_list (comp, list);
+		g_slist_free (list);
+	} else {
+		list = NULL;
+		cal_component_set_rrule_list (comp, list);		
 	}
 	
 	/* Set exceptions */
 	list = NULL;
 	exception_list = GTK_CLIST (priv->recurrence_exceptions_list);
 	for (i = 0; i < exception_list->rows; i++) {
-		struct icaltimetype tt;
+		struct icaltimetype *tt;
 		time_t *t;
 		
 		t = gtk_clist_get_row_data (exception_list, i);
-		tt = icaltime_from_timet (*t, FALSE, TRUE);
+		tt = g_new0 (struct icaltimetype, 1);
+		*tt = icaltime_from_timet (*t, FALSE, FALSE);
 		
-		list = g_slist_prepend (list, &tt);
+		list = g_slist_prepend (list, tt);
 	}
-	if (list) {
-		cal_component_set_exdate_list (comp, list);
+	cal_component_set_exdate_list (comp, list);
+	if (list)
 		cal_component_free_exdate_list (list);
-	}
 
 	cal_component_commit_sequence (comp);
 }

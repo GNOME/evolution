@@ -1,3 +1,22 @@
+2000-09-05  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/event-editor.c (dialog_to_comp_object): Kill all exdates if
+	there are no dates in the box
+
+	* cal-util/cal-recur.c (generate_instances_for_year): Add a special
+	case for when there are exceptions but no rrules or rdates.
+	(cal_obj_remove_exceptions): Use date only compare func
+	(cal_obj_date_only_compare_func): New compare function that
+	compares the date only, not the time.
+
+	* gui/event-editor.c (dialog_to_comp_object): Need a break for the
+	yearly recurrence type
+	(dialog_to_comp_object): We need to allocate icaltimetypes for the
+	exdate list
+	(fill_widgets): Handle a weekly recurrence with no particular day set
+	(dialog_to_comp_object): Kill all rrules if "None" is selected as 
+	the recurrence type by the user
+
 2000-09-06  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-calendar-table.c (e_calendar_table_open_task): uses the new

@@ -792,6 +792,18 @@ generate_instances_for_year (CalComponent	*comp,
 		g_array_append_val (occs, cotime);
 	}
 
+	/* Special case when there are exceptions but no recurrence rules */
+	if (occs->len == 0) {
+		CalComponentDateTime dt;
+		time_t t;
+		
+		cal_component_get_dtstart (comp, &dt);
+		t = icaltime_as_timet (*dt.value);
+		cal_object_time_from_time (&cotime, t);
+
+		g_array_append_val (occs, cotime);
+	}
+	
 	/* Expand each of the exception rules. */
 	for (elem = exrules; elem; elem = elem->next) {
 		struct icalrecurrencetype *ir;
@@ -1392,7 +1404,7 @@ cal_obj_remove_exceptions (GArray *occs,
 			/* Step through the exceptions until we come to one
 			   that matches or follows this occurrence. */
 			while (ex_occ) {
-				cmp = cal_obj_time_compare_func (ex_occ, occ);
+				cmp = cal_obj_date_only_compare_func (ex_occ, occ);
 				if (cmp > 0)
 					break;
 
@@ -2952,6 +2964,32 @@ cal_obj_time_compare_func (const void *arg1,
 	return 0;
 }
 
+static gint
+cal_obj_date_only_compare_func (const void *arg1,
+				const void *arg2)
+{
+	CalObjTime *cotime1, *cotime2;
+
+	cotime1 = (CalObjTime*) arg1;
+	cotime2 = (CalObjTime*) arg2;
+
+	if (cotime1->year < cotime2->year)
+		return -1;
+	if (cotime1->year > cotime2->year)
+		return 1;
+
+	if (cotime1->month < cotime2->month)
+		return -1;
+	if (cotime1->month > cotime2->month)
+		return 1;
+
+	if (cotime1->day < cotime2->day)
+		return -1;
+	if (cotime1->day > cotime2->day)
+		return 1;
+
+	return 0;
+}
 
 /* Returns the weekday of the given CalObjTime, from 0 - 6. The week start
    day is Monday by default, but can be set in the recurrence rule. */
