@@ -62,7 +62,7 @@ add_uri_for_source (ESource *source, ETasks *tasks)
 	client = e_cal_model_get_client_for_uri (model, uri);
 	if (!client) {
 		client = cal_client_new (uri, CALOBJ_TYPE_TODO);
-		if (cal_client_open (client, TRUE, &error)) {
+		if (cal_client_open (client, FALSE, &error)) {
 			e_cal_model_add_client (model, client);
 		} else {
 			g_warning (G_STRLOC ": Could not open tasks at %s: %s", uri, error->message);

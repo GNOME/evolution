@@ -1,3 +1,9 @@
+2003-10-27  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/tasks-component.c (add_uri_for_source): pass FALSE as the
+	'only_if_exists' parameter, so that the calendar gets created when
+	it still does not exist.
+
 2003-10-24  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/tasks-component.c (tasks_component_init): initialize private
