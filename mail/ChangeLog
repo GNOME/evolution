@@ -1,3 +1,14 @@
+2004-05-19  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (efh_format_secure): make this match the efhd
+	stuff.
+
+	* em-format-html-display.c: removed stock_signature-nokey since it
+	doesn't exist in gnome-icon-theme.
+	(efhd_xpkcs7mime_button): if there is no signing, but encryption,
+	use its icon.  if there's no encryption too, use a broken icon
+	(?).
+
 2004-05-05  William Jon McCann  <mccann@jhu.edu>
 
 	* GNOME_Evolution_Mail.server.in.in: Add menu_label and

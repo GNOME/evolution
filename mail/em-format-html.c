@@ -558,7 +558,7 @@ efh_object_requested(GtkHTML *html, GtkHTMLEmbedded *eb, EMFormatHTML *efh)
 static const struct {
 	const char *icon, *shortdesc;
 } smime_sign_table[4] = {
-	{ NULL, N_("Unsigned") },
+	{ "stock_signature-bad", N_("Unsigned") },
 	{ "stock_signature-ok", N_("Valid signature") },
 	{ "stock_signature-bad", N_("Invalid signature") },
 	{ "stock_signature", N_("Valid signature but cannot verify sender") },
@@ -567,8 +567,8 @@ static const struct {
 static const struct {
 	const char *icon, *shortdesc;
 } smime_encrypt_table[4] = {
-	{ NULL, N_("Unencrypted") },
-	{ "stock_lock-ok", N_("Encrypted, weak"),},
+	{ "stock_lock-broken", N_("Unencrypted") },
+	{ "stock_lock", N_("Encrypted, weak"),},
 	{ "stock_lock-ok", N_("Encrypted") },
 	{ "stock_lock-ok", N_("Encrypted, strong") },
 };
@@ -591,8 +591,8 @@ efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Camel
 	if (emf->valid == valid
 	    && (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
 		|| valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)) {
-		char *classid;
-		char *iconpath;
+		char *classid, *iconpath;
+		const char *icon;
 		CamelMimePart *iconpart;
 		
 		camel_stream_printf (stream, "<table border=0 width=\"100%%\" cellpadding=3 cellspacing=0%s><tr>",
@@ -600,7 +600,12 @@ efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Camel
 		
 		classid = g_strdup_printf("smime:///em-format-html/%s/icon/signed", emf->part_id->str);
 		camel_stream_printf(stream, "<td valign=\"top\"><img src=\"%s\"></td><td valign=\"top\" width=\"100%%\">", classid);
-		iconpath = e_icon_factory_get_icon_filename (smime_sign_table[valid->sign.status].icon, E_ICON_SIZE_DIALOG);
+		
+		if (valid->sign.status != 0)
+			icon = smime_sign_table[valid->sign.status].icon;
+		else
+			icon = smime_encrypt_table[valid->encrypt.status].icon;
+		iconpath = e_icon_factory_get_icon_filename(icon, E_ICON_SIZE_DIALOG);
 		iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", iconpath);
 		if (iconpart) {
 			(void)em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efh_write_image);

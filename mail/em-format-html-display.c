@@ -638,11 +638,10 @@ efhd_complete(EMFormat *emf)
 
 /* TODO: move the dialogue elsehwere */
 /* FIXME: also in em-format-html.c */
-/* FIXME: stock_signature-nokey is not in the icon theme yet */
 static const struct {
 	const char *icon, *shortdesc, *description;
 } smime_sign_table[4] = {
-	{ "stock_signature-nokey", N_("Unsigned"), N_("This message is not signed. There is no guarantee that this message is authentic.") },
+	{ "stock_signature-bad", N_("Unsigned"), N_("This message is not signed. There is no guarantee that this message is authentic.") },
 	{ "stock_signature-ok", N_("Valid signature"), N_("This message is signed and is valid meaning that it is very likely that this message is authentic.") },
 	{ "stock_signature-bad", N_("Invalid signature"), N_("The signature of this message cannot be verified, it may have been altered in transit.") },
 	{ "stock_signature", N_("Valid signature, cannot verify sender"), N_("This message is signed with a valid signature, but the sender of the message cannot be verified.") },
@@ -651,7 +650,7 @@ static const struct {
 static const struct {
 	const char *icon, *shortdesc, *description;
 } smime_encrypt_table[4] = {
-	{ "stock_signature-nokey", N_("Unencrypted"), N_("This message is not encrypted.  Its content may be viewed in transit across The Internet.") },
+	{ "stock_lock-broken", N_("Unencrypted"), N_("This message is not encrypted.  Its content may be viewed in transit across The Internet.") },
 	{ "stock_lock-ok", N_("Encrypted, weak"), N_("This message is encrypted, but with a weak encryption algorithm.  It would be difficult, but not impossible for an outsider to view the content of this message in a practical amount of time.") },
 	{ "stock_lock-ok", N_("Encrypted"), N_("This message is encrypted.  It would be difficult for an outsider to view the content of this message.") },
 	{ "stock_lock-ok", N_("Encrypted, strong"), N_("This message is encrypted, with a strong encryption algorithm.  It would be very difficult for an outsider to view the content of this message in a practical amount of time.") },
@@ -845,7 +844,10 @@ efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	const char *name;
 
 	/* FIXME: need to have it based on encryption and signing too */
-	name = smime_sign_table[po->valid->sign.status].icon;
+	if (po->valid->sign.status != 0)
+		name = smime_sign_table[po->valid->sign.status].icon;
+	else
+		name = smime_encrypt_table[po->valid->encrypt.status].icon;
 
 	pixbuf = e_icon_factory_get_icon (name, E_ICON_SIZE_LARGE_TOOLBAR);
 	
