@@ -513,10 +513,6 @@ default_user/Makefile
 default_user/local/Makefile
 default_user/local/Calendar/Makefile
 default_user/local/Contacts/Makefile
-default_user/local/Directories/Makefile
-default_user/local/Directories/subfolders/Makefile
-default_user/local/Directories/subfolders/Bigfoot/Makefile
-default_user/local/Directories/subfolders/Netcenter/Makefile
 default_user/local/Drafts/Makefile
 default_user/local/Inbox/Makefile
 default_user/local/Outbox/Makefile

@@ -1,3 +1,8 @@
+2000-07-06  Chris Toshok  <toshok@helixcode.com>
+
+	* configure.in (AC_OUTPUT): remove the default_user Directories
+	dir.
+
 2000-07-06  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am, libical/configure.in: Fixed some make distcheck
