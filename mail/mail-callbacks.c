@@ -1638,7 +1638,7 @@ previous_unread_msg (GtkWidget *button, gpointer user_data)
 	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
 	message_list_select (fb->message_list, row,
 			     MESSAGE_LIST_SELECT_PREVIOUS,
-			     0, CAMEL_MESSAGE_SEEN, TRUE);
+			     0, CAMEL_MESSAGE_SEEN, FALSE);
 }
 
 void
@@ -1676,16 +1676,17 @@ confirm_expunge (void)
 	GtkWidget *dialog, *label;
 	int button;
 	
-	dialog = gnome_dialog_new (_("Are you sure?"),
+	dialog = gnome_dialog_new (_("Warning"),
 				   GNOME_STOCK_BUTTON_YES,
 				   GNOME_STOCK_BUTTON_NO,
 				   NULL);
 	
-	label = gtk_label_new (_("You are about to expunge a folder. This will\n"
-				 "permantly remove all messages with a \"deleted\"\n"
-				 "flag from both this folder and the Trash folder.\n\n"
-				 "Are you sure you want to continue?"));
+	gtk_widget_set_usize (GTK_WIDGET (dialog), 323, 180);
 	
+	label = gtk_label_new (_("This operation will permanently erase all messages marked as deleted. If you continue, you will not be able to recover these messages. \n \n Really erase these messages? "));
+	
+	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 4);
 	
@@ -1702,7 +1703,7 @@ expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	
-	if (fb->folder && (fb->expunging == NULL || fb->folder != fb->expunging)) {
+	if (fb->folder && (fb->expunging == NULL || fb->folder != fb->expunging) && confirm_expunge ()) {
 		struct _expunged_folder_data *data;
 		CamelMessageInfo *info;
 		
