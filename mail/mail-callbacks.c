@@ -822,7 +822,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	const int max_subject_length = 1024;
 	
 	composer = e_msg_composer_new ();
-	e_msg_composer_add_message_attachments (composer, message, TRUE);
+	e_msg_composer_add_message_attachments (composer, message, FALSE);
 
 	if (!composer)
 		return NULL;

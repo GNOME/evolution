@@ -1,3 +1,8 @@
+2001-10-15  Larry Ewing  <lewing@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): don't apply the body
+	text in replys since we will just replace it anyway.
+
 2001-10-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* component-factory.c (owner_unset_cb): Call
@@ -20,6 +25,7 @@
 	* mail-mt.c (mail_call_main): new generic interface for calling
 	stuff/proxying in the gui thread.
 
+>>>>>>> 1.1832
 2001-10-14  Jon Trowbridge  <trow@ximian.com>
 
 	* e-searching-tokenizer.c (e_searching_tokenizer_clone): Share
