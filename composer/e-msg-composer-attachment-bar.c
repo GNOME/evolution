@@ -54,6 +54,7 @@
 #include <camel/camel-mime-part.h>
 
 #include "e-util/e-gui-utils.h"
+#include "e-util/e-icon-factory.h"
 
 #define ICON_WIDTH 64
 #define ICON_SEPARATORS " /-_"
@@ -232,17 +233,14 @@ update (EMsgComposerAttachmentBar *bar)
 		EMsgComposerAttachment *attachment;
 		CamelContentType *content_type;
 		char *size_string, *label;
-		GdkPixbuf *pixbuf;
-		gboolean image;
+		GdkPixbuf *pixbuf = NULL;
 		const char *desc;
 		
 		attachment = p->data;
 		content_type = camel_mime_part_get_content_type (attachment->body);
 		/* Get the image out of the attachment 
 		   and create a thumbnail for it */
-		image = camel_content_type_is (content_type, "image", "*");
-		
-		if (image && attachment->pixbuf_cache == NULL) {
+		if (camel_content_type_is(content_type, "image", "*") && attachment->pixbuf_cache == NULL) {
 			CamelDataWrapper *wrapper;
 			CamelStreamMem *mstream;
 			GdkPixbufLoader *loader;
@@ -284,9 +282,11 @@ update (EMsgComposerAttachmentBar *bar)
 					 width,
 					 height,
 					 GDK_INTERP_BILINEAR);
+				pixbuf = attachment->pixbuf_cache;
+				g_object_ref(pixbuf);
 			} else {
+				pixbuf = NULL;
 				g_warning ("GdkPixbufLoader Error");
-				image = FALSE;
 			}
 			
 			/* Destroy everything */
@@ -308,17 +308,22 @@ update (EMsgComposerAttachmentBar *bar)
 		} else
 			label = g_strdup (desc);
 		
-		if (image) {
-			gnome_icon_list_append_pixbuf (icon_list, attachment->pixbuf_cache, NULL, label);
-		} else {
+		if (pixbuf == NULL) {
 			char *mime_type;
 			
 			mime_type = camel_content_type_simple (content_type);
 			pixbuf = e_icon_for_mime_type (mime_type, 48);
+			if (pixbuf == NULL)
+				/* stock_attach would be better, but its fugly scaled up */
+				pixbuf = e_icon_factory_get_icon("stock_unknown", E_ICON_SIZE_DIALOG);
+			else
+				g_warning("cannot find icon for mime type %s (installation problem?)", content_type);
 			g_free (mime_type);
+		}
+
+		if (pixbuf) {
 			gnome_icon_list_append_pixbuf (icon_list, pixbuf, NULL, label);
-			if (pixbuf)
-				g_object_unref (pixbuf);
+			g_object_unref(pixbuf);
 		}
 		
 		g_free (label);
