@@ -1,3 +1,7 @@
+2000-10-19  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Updated the gal check to check for gal 0.2.
+
 2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* configure.in (EVOLUTION_MICRO_VERSION): 6.
