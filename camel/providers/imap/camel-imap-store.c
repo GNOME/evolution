@@ -579,8 +579,6 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	tcp_stream = camel_tcp_stream_raw_new ();
 #endif /* HAVE_SSL */
 	
-	printf ("trying to connect to %s:%d...", service->url->host, port);
-	
 	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
 	camel_free_host (h);
 	if (ret == -1) {
@@ -592,14 +590,10 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 					      _("Could not connect to %s (port %d): %s"),
 					      service->url->host, port, g_strerror (errno));
 		
-		printf ("failed: %s\n", g_strerror (errno));
-		
 		camel_object_unref (CAMEL_OBJECT (tcp_stream));
 		
 		return FALSE;
 	}
-	
-	printf ("connected...");
 	
 	store->ostream = tcp_stream;
 	store->istream = camel_stream_buffer_new (tcp_stream, CAMEL_STREAM_BUFFER_READ);
@@ -609,8 +603,6 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	
 	/* Read the greeting, if any. FIXME: deal with PREAUTH */
 	if (camel_imap_store_readline (store, &buf, ex) < 0) {
-		printf ("failed when trying to read greeting: %s\n", g_strerror (errno));
-		
 		if (store->istream) {
 			camel_object_unref (CAMEL_OBJECT (store->istream));
 			store->istream = NULL;
@@ -629,8 +621,6 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	
 	/* get the imap server capabilities */
 	if (!imap_get_capability (service, ex)) {
-		printf ("failed to get capabilities: %s\n", g_strerror (errno));
-		
 		if (store->istream) {
 			camel_object_unref (CAMEL_OBJECT (store->istream));
 			store->istream = NULL;
@@ -667,8 +657,6 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	}
 #endif /* HAVE_SSL */
 	
-	printf ("success\n");
-	
 	return TRUE;
 	
 #ifdef HAVE_SSL
@@ -679,7 +667,6 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	
 	response = camel_imap_command (store, NULL, ex, "STARTTLS");
 	if (!response) {
-		printf ("STARTTLS command failed: %s\n", g_strerror (errno));
 		camel_object_unref (CAMEL_OBJECT (store->istream));
 		camel_object_unref (CAMEL_OBJECT (store->ostream));
 		store->istream = store->ostream = NULL;
@@ -690,7 +677,6 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	
 	/* Okay, now toggle SSL/TLS mode */
 	if (camel_tcp_stream_ssl_enable_ssl (CAMEL_TCP_STREAM_SSL (tcp_stream)) == -1) {
-		printf ("failed toggling into STARTTLS mode: %s\n", g_strerror (errno));
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Failed to connect to IMAP server %s in secure mode: %s"),
 				      service->url->host, _("SSL negotiations failed"));
@@ -700,8 +686,6 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	/* rfc2595, section 4 states that after a successful STLS
            command, the client MUST discard prior CAPA responses */
 	if (!imap_get_capability (service, ex)) {
-		printf ("failed getting capabilities after STARTLS: %s\n", g_strerror (errno));
-		
 		if (store->istream) {
 			camel_object_unref (CAMEL_OBJECT (store->istream));
 			store->istream = NULL;
@@ -716,8 +700,6 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 		
 		return FALSE;
 	}
-	
-	printf ("success\n");
 	
 	return TRUE;
 	
