@@ -231,8 +231,8 @@ e_map_destroy (GtkObject *object)
 	view = E_MAP (object);
 	priv = view->priv;
 
-	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->hadj), view);
-	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->vadj), view);
+	g_signal_handlers_disconnect_by_func (priv->hadj, adjustment_changed_cb, view);
+	g_signal_handlers_disconnect_by_func (priv->vadj, adjustment_changed_cb, view);
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -505,14 +505,18 @@ e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustm
 
 	if (priv->hadj && priv->hadj != hadj)
 	{
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->hadj), view);
-		g_object_unref((priv->hadj));
+		g_signal_handlers_disconnect_by_func (priv->hadj,
+						      adjustment_changed_cb,
+						      view);
+		g_object_unref (priv->hadj);
 	}
 
 	if (priv->vadj && priv->vadj != vadj)
 	{
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->vadj), view);
-		g_object_unref((priv->vadj));
+		g_signal_handlers_disconnect_by_func (priv->vadj,
+						      adjustment_changed_cb,
+						      view);
+		g_object_unref (priv->vadj);
 	}
 
 	need_adjust = FALSE;
@@ -520,10 +524,11 @@ e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustm
 	if (priv->hadj != hadj)
 	{
 		priv->hadj = hadj;
-		g_object_ref((priv->hadj));
+		g_object_ref (priv->hadj);
 		gtk_object_sink (GTK_OBJECT (priv->hadj));
 
-		g_signal_connect((priv->hadj), "value_changed", G_CALLBACK (adjustment_changed_cb), view);
+		g_signal_connect (priv->hadj, "value_changed",
+				  G_CALLBACK (adjustment_changed_cb), view);
 
 		need_adjust = TRUE;
 	}
@@ -531,10 +536,11 @@ e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustm
 	if (priv->vadj != vadj)
 	{
 		priv->vadj = vadj;
-		g_object_ref((priv->vadj));
+		g_object_ref (priv->vadj);
 		gtk_object_sink (GTK_OBJECT (priv->vadj));
 
-		g_signal_connect((priv->vadj), "value_changed", G_CALLBACK (adjustment_changed_cb), view);
+		g_signal_connect (priv->vadj, "value_changed",
+				  G_CALLBACK (adjustment_changed_cb), view);
 
 		need_adjust = TRUE;
 	}

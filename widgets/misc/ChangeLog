@@ -1,3 +1,10 @@
+2003-02-25  Dan Winship  <danw@ximian.com>
+
+	* e-map.c (e_map_destroy): Use
+	g_signal_handlers_disconnect_by_func since
+	gtk_signal_disconnect_by_data doesn't seem to work right.
+	(e_map_set_scroll_adjustments): Likewise.
+
 2003-02-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-dateedit.c (on_date_popup_date_selected): Same as below.
