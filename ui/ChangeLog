@@ -1,3 +1,12 @@
+2002-01-03  JP Rosevear  <jpr@ximian.com>
+
+	* evolution-tasks.xml: make spacing consistent with calendar xml
+	file, add expunge command and actions menu and add accelerator for
+	delete
+
+	* evolution-calendar.xml: add an accelerator for delete and put in
+	a separator to be consistent with the mailer
+
 2001-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mail-message.xml: Add an "Add Sender to Address Book"
