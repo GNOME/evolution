@@ -1,3 +1,12 @@
+2004-05-24  Sivaiah Nallagatla <snallagatla@novell.com>
+
+        * camel-provider.h : added CAMEL_PROVIDER_CONF_HIDDEN to
+         conf item type enum. This is used by groupwise provider
+        * providers/groupwise/camel-groupwise-provider.c : Added CAMEL_PROVIDER_CONF_HIDDEN
+        to groupwise_conf_entries to pass the auth-domain value
+        * providers/imap/camel-imap-store.c (imap_auth_loop) : read the auth-domain
+        property from imap url and pass it camel sesstion apis
+
 2004-05-22  Not Zed  <NotZed@Ximian.com>
 
 	* camel-store.c: oops, forgot folder_created.  Removed locking, the
