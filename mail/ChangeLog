@@ -1,3 +1,22 @@
+2002-03-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (my_folder_browser_init): Connect to the
+	focus-in/out events on the message-list so that we can disable the
+	EditInvertSelection and EditSelectThread menu items when the
+	message-list is not in focus.
+
+	* folder-browser-ui.c (folder_browser_ui_message_list_unfocus):
+	New function to de-sensitize some items if the message-list is not
+	in focus.
+	(folder_browser_ui_message_list_focus): New function to sensitize
+	some items if the message-list is not in focus.
+
+	* mail-callbacks.c (invert_selection): Only invert the selection
+	of the message-list if it is the widget in focus.
+
+	* message-list.c (message_list_select): Do not explicitly grab the
+	focus here.
+
 2002-03-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #19303.]

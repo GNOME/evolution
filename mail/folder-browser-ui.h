@@ -29,4 +29,7 @@ void folder_browser_ui_setup_view_menus (FolderBrowser *fb);
 /* Set the sensitivity of a single item */
 void fbui_sensitise_item(FolderBrowser *fb, const char *item, int state);
 
+void folder_browser_ui_message_list_focus (FolderBrowser *fb);
+void folder_browser_ui_message_list_unfocus (FolderBrowser *fb);
+
 #endif /* _FOLDER_BROWSER_UI_H */

@@ -1696,9 +1696,11 @@ invert_selection (BonoboUIComponent *uih, void *user_data, const char *path)
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
 	
-	etsm = e_tree_get_selection_model (fb->message_list->tree);
-	
-	e_selection_model_invert_selection (etsm);
+	if (GTK_WIDGET_HAS_FOCUS (fb->message_list)) {
+		etsm = e_tree_get_selection_model (fb->message_list->tree);
+		
+		e_selection_model_invert_selection (etsm);
+	}
 }
 
 /* flag all selected messages. Return number flagged */

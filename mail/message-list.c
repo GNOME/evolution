@@ -416,9 +416,6 @@ message_list_select (MessageList               *message_list,
 	struct search_func_data data;
 	ETreeFindNextParams params = 0;
 	
-	if (!GTK_WIDGET_HAS_FOCUS (message_list))
-		gtk_widget_grab_focus (GTK_WIDGET (message_list));
-	
 	data.message_list = message_list;
 	data.flags = flags;
 	data.mask = mask;

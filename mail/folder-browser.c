@@ -2039,6 +2039,28 @@ on_message_selected (MessageList *ml, const char *uid, FolderBrowser *fb)
 		fb->loading_id = gtk_timeout_add (100, (GtkFunction)do_message_selected, fb);
 }
 
+static gboolean
+on_message_list_focus_in (GtkWidget *widget, GdkEventFocus *event, gpointer user_data)
+{
+	FolderBrowser *fb = (FolderBrowser *) user_data;
+	
+	printf ("got focus!\n");
+	folder_browser_ui_message_list_focus (fb);
+	
+	return FALSE;
+}
+
+static gboolean
+on_message_list_focus_out (GtkWidget *widget, GdkEventFocus *event, gpointer user_data)
+{
+	FolderBrowser *fb = (FolderBrowser *) user_data;
+	
+	printf ("got unfocus!\n");
+	folder_browser_ui_message_list_unfocus (fb);
+	
+	return FALSE;
+}
+
 static void
 folder_browser_init (GtkObject *object)
 {
@@ -2086,6 +2108,12 @@ my_folder_browser_init (GtkObject *object)
 	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree),
 			    "double_click", GTK_SIGNAL_FUNC (on_double_click), fb);
+	
+	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree), "focus_in_event",
+			    GTK_SIGNAL_FUNC (on_message_list_focus_in), fb);
+	
+	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree), "focus_out_event",
+			    GTK_SIGNAL_FUNC (on_message_list_focus_out), fb);
 	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list), "message_selected",
 			    on_message_selected, fb);

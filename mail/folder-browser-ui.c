@@ -144,7 +144,7 @@ static EPixmap message_pixcache [] = {
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageMove", "buttons/move-message.png"),
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageCopy", "buttons/copy-message.png"),
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageDelete", "buttons/delete-message.png"),
-
+	
 	E_PIXMAP ("/Toolbar/MailNextButtons/MailNext", "buttons/next-message.png"),
 	E_PIXMAP ("/Toolbar/MailNextButtons/MailPrevious", "buttons/previous-message.png"),
 
@@ -306,6 +306,28 @@ folder_browser_ui_discard_view_menus (FolderBrowser *fb)
 
 	gtk_object_unref (GTK_OBJECT (fb->view_menus));
 	fb->view_menus = NULL;
+}
+
+void
+folder_browser_ui_message_list_focus (FolderBrowser *fb)
+{
+	g_assert (fb->uicomp != NULL);
+	
+	bonobo_ui_component_set_prop (fb->uicomp, "/commands/EditInvertSelection",
+				      "sensitive", "1", NULL);
+	bonobo_ui_component_set_prop (fb->uicomp, "/commands/EditSelectThread",
+				      "sensitive", "1", NULL);
+}
+
+void
+folder_browser_ui_message_list_unfocus (FolderBrowser *fb)
+{
+	g_assert (fb->uicomp != NULL);
+	
+	bonobo_ui_component_set_prop (fb->uicomp, "/commands/EditInvertSelection",
+				      "sensitive", "0", NULL);
+	bonobo_ui_component_set_prop (fb->uicomp, "/commands/EditSelectThread",
+				      "sensitive", "0", NULL);
 }
 
 static void
