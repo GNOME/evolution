@@ -1,3 +1,23 @@
+2001-03-17  Miguel de Icaza  <miguel@ximian.com>
+
+	* gui/e-week-view.c (e_week_view_new_event): Moved functionality
+	here from e_day_view_on_new_appointment.  Allows setting for "full
+	day" event.
+	(e_week_view_on_new_full_day): New function for making a full day
+	event. 
+	(e_week_view_on_goto_date): Go To support.
+	(e_week_view_on_goto_today): Goto today support.
+
+	* gui/e-day-view.c (e_day_view_new_event): Moved functionality
+	here from e_day_view_on_new_appointment.  Allows setting for "full
+	day" event.
+	(e_day_view_on_new_full_day): New function for making a full day
+	event. 
+	(e_day_view_on_goto_date): Go To support.
+	(e_day_view_on_goto_today): Goto today support.
+
+	* main_items: Add New All Day Event;  Go to Today; Go to Date.
+
 2001-03-07  Miguel de Icaza  <miguel@ximian.com>
 
 	* gui/control-factory.c (calendar_persist_init): New function:

@@ -40,4 +40,6 @@ void calendar_control_activate (BonoboControl *control,
 				GnomeCalendar *cal);
 void calendar_control_deactivate (BonoboControl *control);
 
+void calendar_goto_today (GnomeCalendar *gcal);
+
 #endif /* CALENDAR_COMMANDS_H */

@@ -154,6 +154,14 @@ next_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 	set_normal_cursor (gcal);
 }
 
+void
+calendar_goto_today (GnomeCalendar *gcal)
+{
+	set_clock_cursor (gcal);
+	gnome_calendar_goto_today (gcal);
+	set_normal_cursor (gcal);
+}
+
 static void
 today_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 {
@@ -161,9 +169,7 @@ today_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 
 	gcal = GNOME_CALENDAR (data);
 
-	set_clock_cursor (gcal);
-	gnome_calendar_goto_today (gcal);
-	set_normal_cursor (gcal);
+	calendar_goto_today (gcal);
 }
 
 static void

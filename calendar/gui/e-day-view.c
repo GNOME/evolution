@@ -44,6 +44,7 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-popup-menu.h>
 #include "e-meeting-edit.h"
+#include "goto.h"
 
 /* Images */
 #include "art/bell.xpm"
@@ -319,6 +320,12 @@ static void e_day_view_start_auto_scroll (EDayView *day_view,
 static gboolean e_day_view_auto_scroll_handler (gpointer data);
 
 static void e_day_view_on_new_appointment (GtkWidget *widget,
+					   gpointer data);
+static void e_day_view_on_new_full_day    (GtkWidget *widget,
+					   gpointer data);
+static void e_day_view_on_goto_today      (GtkWidget *widget,
+					   gpointer data);
+static void e_day_view_on_goto_date       (GtkWidget *widget,
 					   gpointer data);
 static void e_day_view_on_edit_appointment (GtkWidget *widget,
 					    gpointer data);
@@ -3017,8 +3024,18 @@ enum {
 };
 
 static EPopupMenu main_items [] = {
-	{ N_("New Appointment..."), NULL,
+	{ N_("New Appointment"), NULL,
 	  e_day_view_on_new_appointment, NULL, 0 },
+	{ N_("New All Day Event"), NULL,
+	  e_day_view_on_new_full_day, NULL, 0 },
+
+	{ "", NULL, NULL, NULL, 0 },
+
+	{ N_("Go to Today"), NULL,
+	  e_day_view_on_goto_today, NULL, 0 },
+	{ N_("Go to Date..."), NULL,
+	  e_day_view_on_goto_date, NULL, 0 },
+
 	{ NULL, NULL, NULL, NULL, 0 }
 };
 
@@ -3029,10 +3046,6 @@ static EPopupMenu child_items [] = {
 	  e_day_view_on_delete_appointment, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
 	{ N_("Schedule Meeting"), NULL,
 	  e_day_view_on_schedule_meet, NULL, MASK_EDITING },
-	{ "", NULL, NULL, NULL, 0},
-
-	{ N_("New Appointment..."), NULL,
-	  e_day_view_on_new_appointment, NULL, 0 },
 
 	{ "", NULL, NULL, NULL, MASK_SINGLE},
 
@@ -3102,22 +3115,23 @@ e_day_view_on_event_right_click (EDayView *day_view,
 	e_popup_menu_run (context_menu, (GdkEvent *) bevent, disable_mask, hide_mask, day_view);
 }
 
-
 static void
-e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
+e_day_view_new_event (EDayView *day_view, gboolean all_day)
 {
-	EDayView *day_view;
 	CalComponent *comp;
 	CalComponentDateTime date;
 	time_t dtstart, dtend;
 	struct icaltimetype itt;
 
-	day_view = E_DAY_VIEW (data);
-
 	comp = cal_component_new ();
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
 
+	if (all_day){
+		dtstart = time_day_begin (dtstart);
+		dtend = time_day_end (dtend);
+	}
+	
 	date.value = &itt;
 	date.tzid = NULL;
 
@@ -3137,6 +3151,38 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 
+
+static void
+e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view = E_DAY_VIEW (data);
+	
+	e_day_view_new_event (day_view, FALSE);
+}
+
+static void
+e_day_view_on_new_full_day (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view = E_DAY_VIEW (data);
+	
+	e_day_view_new_event (day_view, TRUE);
+}
+
+static void
+e_day_view_on_goto_date (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view = E_DAY_VIEW (data);
+
+	goto_dialog (day_view->calendar);
+}
+
+static void
+e_day_view_on_goto_today (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view = E_DAY_VIEW (data);
+
+	calendar_goto_today (day_view->calendar);
+}
 
 static void
 e_day_view_on_edit_appointment (GtkWidget *widget, gpointer data)
