@@ -2000,8 +2000,7 @@ setup_ui (EMsgComposer *composer)
 	char *default_charset;
 	gboolean hide_smime;
 	
-	container = bonobo_ui_container_new ();
-	bonobo_ui_container_set_win (container, BONOBO_WINDOW (composer));
+	container = bonobo_window_get_ui_container(BONOBO_WINDOW (composer));
 
 	composer->uic = bonobo_ui_component_new_default ();
 	/* FIXME: handle bonobo exceptions */
@@ -2707,7 +2706,8 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
 	bonobo_object_release_unref (pb, NULL);
 	
 	if (!text || text[0] == '\0') {
-		bonobo_control_frame_focus_child (cf, GTK_DIR_TAB_FORWARD);
+#warning "bonobo control frame focus child?"
+		/*bonobo_control_frame_focus_child (cf, GTK_DIR_TAB_FORWARD);*/
 		g_free (text);
 		return;
 	}
