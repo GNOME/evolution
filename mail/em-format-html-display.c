@@ -73,6 +73,9 @@
 #include <e-util/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
 
+#include "certificate-viewer.h"
+#include "e-cert-db.h"
+
 #include "mail-config.h"
 
 #include "em-format-html-display.h"
@@ -590,6 +593,7 @@ efhd_complete(EMFormat *emf)
 /* ********************************************************************** */
 
 /* TODO: rename some of this stuff, it isn't 'smime' specific */
+/* TODO: move the dialogue elsehwere */
 /* FIXME: also in em-format-html.c */
 static const struct {
 	const char *icon, *shortdesc, *description;
@@ -635,6 +639,72 @@ efhd_xpkcs7mime_info_response(GtkWidget *w, guint button, struct _smime_pobject 
 }
 
 static void
+efhd_xpkcs7mime_viewcert_clicked(GtkWidget *button, struct _smime_pobject *po)
+{
+	CamelCipherCertInfo *info = g_object_get_data((GObject *)button, "e-cert-info");
+	ECertDB *db = e_cert_db_peek();
+	ECert *ec = NULL;
+
+	if (info->email)
+		ec = e_cert_db_find_cert_by_email_address(db, info->email, NULL);
+
+	if (ec == NULL && info->name)
+		ec = e_cert_db_find_cert_by_nickname(db, info->name, NULL);
+
+	if (ec != NULL) {
+		GtkWidget *w = certificate_viewer_show(ec);
+
+		if (w && po->widget)
+			gtk_window_set_transient_for((GtkWindow *)w, (GtkWindow *)po->widget);
+
+		g_object_unref(ec);
+	} else {
+		g_warning("can't find certificate for %s <%s>", info->name?info->name:"", info->email?info->email:"");
+	}
+}
+
+static void
+efhd_xpkcs7mime_add_cert_table(GtkWidget *vbox, EDList *certlist, struct _smime_pobject *po)
+{
+	CamelCipherCertInfo *info = (CamelCipherCertInfo *)certlist->head;
+	GtkTable *table = (GtkTable *)gtk_table_new(e_dlist_length(certlist), 2, FALSE);
+	int n = 0;
+
+	while (info->next) {
+		char *la = NULL;
+		const char *l = NULL;
+
+		if (info->name) {
+			if (info->email && strcmp(info->name, info->email) != 0)
+				l = la = g_strdup_printf("%s <%s>", info->name, info->email);
+			else
+				l = info->name;
+		} else {
+			if (info->email)
+				l = info->email;
+		}
+		
+		if (l) {
+			GtkWidget *w;
+
+			w = gtk_label_new(l);
+			gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
+			g_free(la);
+			gtk_table_attach(table, w, 0, 1, n, n+1, GTK_FILL, GTK_FILL, 3, 3);
+			w = gtk_button_new_with_mnemonic(_("_View Certificate"));
+			gtk_table_attach(table, w, 1, 2, n, n+1, 0, 0, 3, 3);
+			g_object_set_data((GObject *)w, "e-cert-info", info);
+			g_signal_connect(w, "clicked", G_CALLBACK(efhd_xpkcs7mime_viewcert_clicked), po);
+			n++;
+		}
+		
+		info = info->next;
+	}
+	
+	gtk_box_pack_start((GtkBox *)vbox, (GtkWidget *)table, TRUE, TRUE, 6);
+}
+
+static void
 efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject)
 {
 	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
@@ -659,6 +729,10 @@ efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject
 		gtk_label_set_line_wrap((GtkLabel *)w, FALSE);
 		gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	}
+
+	if (!e_dlist_empty(&po->valid->sign.signers))
+		efhd_xpkcs7mime_add_cert_table(vbox, &po->valid->sign.signers, po);
+
 	gtk_widget_show_all(vbox);
 
 	vbox = glade_xml_get_widget(xml, "encryption_vbox");
@@ -672,6 +746,10 @@ efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject
 		gtk_label_set_line_wrap((GtkLabel *)w, FALSE);
 		gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	}
+
+	if (!e_dlist_empty(&po->valid->encrypt.encrypters))
+		efhd_xpkcs7mime_add_cert_table(vbox, &po->valid->encrypt.encrypters, po);
+
 	gtk_widget_show_all(vbox);
 
 	g_object_unref(xml);

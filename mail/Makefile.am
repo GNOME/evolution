@@ -17,6 +17,8 @@ INCLUDES =						\
 	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)/shell/importer			\
 	-I$(top_builddir)/shell/importer		\
+	-I$(top_srcdir)/smime/lib			\
+	-I$(top_srcdir)/smime/gui			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\

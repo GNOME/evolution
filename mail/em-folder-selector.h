@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifndef EM_FOLDER_SELECTOR_H
 #define EM_FOLDER_SELECTOR_H
 
@@ -62,9 +61,8 @@ enum {
 };
 
 enum {
-	EM_FOLDER_SELECTOR_RESPONSE_NEW = -5,
+	EM_FOLDER_SELECTOR_RESPONSE_NEW = 1,
 };
-
 
 GType em_folder_selector_get_type (void);
 

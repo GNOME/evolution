@@ -1243,8 +1243,6 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 	
 	prompt = g_strdup_printf (_("Rename the \"%s\" folder to:"), name);
 	while (!done) {
-		const char *why;
-		
 		new_name = e_request_string (NULL, _("Rename Folder"), prompt, name);
 		if (new_name == NULL || !strcmp (name, new_name)) {
 			/* old name == new name */

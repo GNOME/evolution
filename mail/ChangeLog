@@ -1,5 +1,17 @@
 2003-12-10  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-selector.h: use a POSITIVE value for the response
+	value, gtk uses -ative ones.  Bug #51752.
+
+	* Makefile.am (INCLUDES): added smime/lib and smime/gui to
+	includes.
+
+	* em-folder-tree.c (emft_popup_rename_folder): removed unused 'why',
+	why not?
+
+	* em-format-html-display.c (efhd_xpkcs7mime_validity_clicked):
+	setup a table of buttons to view any certs we have.
+
 	* em-folder-browser.c (emfb_activate): separeate view_menu
 	unreffing from view_instance.  fixes a runtime warning.
 
