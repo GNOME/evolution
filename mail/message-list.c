@@ -152,10 +152,13 @@ e_mail_address_new (const char *address)
 {
 	CamelInternetAddress *cia;
 	EMailAddress *new;
-	const char *name, *addr;
+	const char *name = NULL, *addr = NULL;
 	
 	cia = camel_internet_address_new ();
-	camel_address_decode (CAMEL_ADDRESS (cia), address);
+	if (camel_address_unformat (CAMEL_ADDRESS (cia), address) == -1) {
+		camel_object_unref (CAMEL_OBJECT (cia));
+		return NULL;
+	}
 	camel_internet_address_get (cia, 0, &name, &addr);
 	
 	new = g_new (EMailAddress, 1);
