@@ -8,7 +8,7 @@
       <category>GNOME|PIM</category>
     </subject>
     <format mime="text/sgml"/>
-    <identifier url="panel.sgml"/>
+    <identifier url="evolution.sgml"/>
     <language code="C" />
   </resource>
 </omf>

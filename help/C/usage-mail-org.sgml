@@ -766,7 +766,7 @@
 	<title>Selecting a Virtual Folder Rule</title>
 	<screenshot>
 	  <screeninfo>Creating a Virtual Folder Rule</screeninfo>
-	  <graphic fileref="fig/vfolder-createrule-fig" format="png" srccredit="Aaron Weber">
+	  <graphic fileref="figures/vfolder-createrule-fig" format="png" srccredit="Aaron Weber">
 	  </graphic>
 	</screenshot>
       </figure>

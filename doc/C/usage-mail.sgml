@@ -85,14 +85,14 @@
           <title>Evolution Mail</title>
           <screenshot>
             <screeninfo>Inbox</screeninfo>
-            <graphic fileref="fig/mail-inbox" format="png" srccredit="Kevin Breit">
+            <graphic fileref="figures/mail-inbox" format="png" srccredit="Kevin Breit">
         </graphic>
         </screenshot>
       </figure>
 <!-- ==============End of Figure============================== -->
 
     <para>
-      <inlinegraphic fileref="fig/full-1" format="png"></inlinegraphic>
+      <inlinegraphic fileref="figures/full-1" format="png"></inlinegraphic>
       <guilabel>Email Viewer</guilabel>
     </para>
     
@@ -101,7 +101,7 @@
     </para>
 
     <para>
-      <inlinegraphic fileref="fig/full-2" format="png"></inlinegraphic>
+      <inlinegraphic fileref="figures/full-2" format="png"></inlinegraphic>
       <guilabel>Email List</guilabel>
     </para>
     
@@ -434,7 +434,7 @@
         <title>New Message Window</title>
         <screenshot>
           <screeninfo>Evolution Main Window</screeninfo>
-          <graphic fileref="fig/newmsg" format="png" srccredit="Aaron Weber">
+          <graphic fileref="figures/newmsg" format="png" srccredit="Aaron Weber">
         </graphic>
         </screenshot>
       </figure>
@@ -675,7 +675,7 @@ with quoted materials and the relevant replies interspersed-->
          <title>Reply Message Window</title>
          <screenshot>
           <screeninfo>Evolution Main Window</screeninfo>
-          <graphic fileref="fig/replymsg" format="png" srccredit="Aaron Weber">
+          <graphic fileref="figures/replymsg" format="png" srccredit="Aaron Weber">
         </graphic>
         </screenshot>
       </figure>

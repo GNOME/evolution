@@ -1,79 +1,49 @@
-evolution_helpdir = $(datadir)/gnome/help/evolution/C
-
-GUIDE_SGML_FILES =		\
-	evolution.sgml		\
+figs = \
+	figures/calendar.png			\
+	figures/config-cal.png			\
+	figures/config-mail.png			\
+	figures/contact-editor.png		\
+	figures/contact.png			\
+	figures/filter-assist-fig.png		\
+	figures/filter-new-fig.png		\
+	figures/full-1.png			\
+	figures/full-2.png			\
+	figures/full-3.png			\
+	figures/full-4.png			\
+	figures/full-5.png			\
+	figures/full-6.png			\
+	figures/full-7.png			\
+	figures/mail-composer.png		\
+	figures/mail-druid-pic.png		\
+	figures/mail-inbox.png			\
+	figures/mainwindow-pic.png		\
+	figures/newmsg.png			\
+	figures/print-dest.png			\
+	figures/print-preview.png		\
+	figures/replymsg.png			\
+	figures/vfolder-createrule-fig.png
+docname=evolution-guide
+lang = C
+omffile=evolution-C.omf
+sgml_ents =	\
 	apx-authors.sgml	\
 	apx-bugs.sgml		\
 	apx-gloss.sgml		\
+	config-encryption.sgml	\
 	config-prefs.sgml	\
 	config-sync.sgml	\
+	evolution-faq.sgml	\
+	menuref.sgml		\
 	preface.sgml		\
 	usage-calendar.sgml	\
 	usage-contact.sgml	\
+	usage-encryption.sgml	\
+	usage-exec-summary.sgml	\
+	usage-mail-org.sgml	\
 	usage-mail.sgml		\
 	usage-mainwindow.sgml	\
+	usage-print.sgml	\
 	usage-sync.sgml
-
-FAQ_SGML_FILES = 		\
-	evolution-faq.sgml
-
-EXTRA_DIST = 			\
-	$(FAQ_SGML_FILES) 	\
-	$(GUIDE_SGML_FILES)
-
-all: evolution-guide evolution-faq
-
-evolution-guide: $(GUIDE_SGML_FILES)
-	-db2html $(srcdir)/evolution.sgml
-
-evolution-faq: $(FAQ_SGML_FILES)
-	-db2html $(srcdir)/evolution-faq.sgml
-
-dist-hook:
-	mkdir $(distdir)/fig
-	mkdir $(distdir)/evolution
-	mkdir $(distdir)/evolution/stylesheet-images
-	files=`echo $(srcdir)/evolution/*.html` ; \
-	test '$(srcdir)/evolution/*.html' = "$$files" \
-	    || cp $$files $(distdir)/evolution
-	files=`echo $(srcdir)/evolution/*.css` ; \
-	test '$(srcdir)/evolution/*.css' = "$$files" \
-	    || cp $$files $(distdir)/evolution
-	files=`echo $(srcdir)/fig/*.png` ; \
-	test '$(srcdir)/fig/*.png' = "$$files" \
-	    || cp $$files $(distdir)/evolution
-	files=`echo $(srcdir)/evolution/stylesheet-images/*` ; \
-	test '$(srcdir)/evolution/stylesheet-images/*' = "$$files" \
-	    || cp $$files $(distdir)/evolution
-
-# FIXME really messy here
-install-data-local: evolution-guide evolution-faq
-	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)/evolution-guide
-	-for file in $(srcdir)/evolution/*.html $(srcdir)/evolution/*.css; do \
-		basefile=`basename $$file`; \
-		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/evolution-guide/$$basefile; \
-	done
-
-	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)/evolution-faq
-	-for file in $(srcdir)/evolution-faq/*.html $(srcdir)/evolution-faq/*.css; do \
-		basefile=`basename $$file`; \
-		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/evolution-faq/$$basefile; \
-	done
-
-	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)/evolution-guide/fig
-	-for file in $(srcdir)/fig/*.png; do \
-		basefile=`basename $$file`; \
-		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/evolution-guide/fig/$$basefile; \
-	done
-
-	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)/evolution-guide/stylesheet-images
-	-for file in $(srcdir)/evolution/stylesheet-images/*; do \
-		basefile=`basename $$file`; \
-		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/evolution-guide/stylesheet-images/$$basefile; \
-	done
-
-evolution.ps: evolution.sgml
-	-db2ps $<
-
-evolution.rtf: evolution.sgml	
-	-db2rtf $<
+	
+include $(top_srcdir)/doc/sgmldocs.make
+dist-hook: app-dist-hook

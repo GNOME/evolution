@@ -44,7 +44,7 @@
 	  <title>Print Preview</title>
 	  <screenshot>
 	    <screeninfo>Print Preview</screeninfo>
-	    <graphic fileref="fig/print-preview" format="png" srccredit="Aaron Weber">
+	    <graphic fileref="figures/print-preview" format="png" srccredit="Aaron Weber">
 	</graphic>
 	</screenshot>
       </figure>
@@ -73,7 +73,7 @@
 	  <title>Choosing a Printer</title>
 	  <screenshot>
 	    <screeninfo>Choosing a Printer</screeninfo>
-	    <graphic fileref="fig/print-dest" format="png" srccredit="Aaron Weber">
+	    <graphic fileref="figures/print-dest" format="png" srccredit="Aaron Weber">
 	</graphic>
 	</screenshot>
       </figure>

@@ -1,3 +1,8 @@
+2001-08-15  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* C/*.sgml: s/fig/figures/
+	* C/Makefile.am: Make it use the sgmldocs.make framework.
+	
 2001-08-14  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mainwindow.sgml: Commented out menuref.

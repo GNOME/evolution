@@ -42,13 +42,13 @@
       <title>Evolution Contact Interface</title>
       <screenshot>
 	<screeninfo>Evolution Contact List Window</screeninfo>
-	<graphic fileref="fig/contact" format="png" srccredit="Kevin Breit">
+	<graphic fileref="figures/contact" format="png" srccredit="Kevin Breit">
 	</graphic>
       </screenshot>
     </figure>
 
     <para>
-      <inlinegraphic fileref="fig/full-1" format="png"></inlinegraphic>
+      <inlinegraphic fileref="figures/full-1" format="png"></inlinegraphic>
       <guilabel>Contact List</guilabel>
     </para>
 
@@ -150,7 +150,7 @@
       <title>Evolution Contact Editor</title>
       <screenshot>
 	<screeninfo>Evolution Contact Editor</screeninfo>
-	<graphic fileref="fig/contact-editor" format="png" srccredit="Aaron Weber">
+	<graphic fileref="figures/contact-editor" format="png" srccredit="Aaron Weber">
 	</graphic>
       </screenshot>
     </figure>

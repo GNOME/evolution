@@ -65,7 +65,7 @@
 	<title>Mail Preferences Dialog</title>
 	<screenshot>
 	  <screeninfo>Setting mail preferences</screeninfo>
-	  <graphic fileref="fig/config-mail" format="png" srccredit="Aaron Weber">
+	  <graphic fileref="figures/config-mail" format="png" srccredit="Aaron Weber">
 	    </graphic>
 	</screenshot>
       </figure>
@@ -389,7 +389,7 @@
 	<title>Calendar Preferences Dialog</title>
 	<screenshot>
 	  <screeninfo>If this worked on my job as well as my calendar...</screeninfo>
-	  <graphic fileref="fig/config-cal" format="png" srccredit="Aaron Weber">
+	  <graphic fileref="figures/config-cal" format="png" srccredit="Aaron Weber">
 	    </graphic>
 	</screenshot>
       </figure>

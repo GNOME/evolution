@@ -289,13 +289,13 @@
       <title>The Evolution Main Window</title>
       <screenshot>
 	<screeninfo>Inbox</screeninfo>
-	<graphic fileref="fig/mainwindow-pic" format="png" srccredit="Kevin Breit">
+	<graphic fileref="figures/mainwindow-pic" format="png" srccredit="Kevin Breit">
 	</graphic>
       </screenshot>
     </figure>
     
     <para>
-      <inlinegraphic fileref="fig/full-1" format="png"></inlinegraphic>
+      <inlinegraphic fileref="figures/full-1" format="png"></inlinegraphic>
       <guilabel>Menubar</guilabel>
     </para>
     
@@ -305,7 +305,7 @@
     </para>
 
     <para>
-      <inlinegraphic fileref="fig/full-2" format="png"></inlinegraphic>
+      <inlinegraphic fileref="figures/full-2" format="png"></inlinegraphic>
       <guilabel>Toolbar</guilabel>
     </para>
 
@@ -315,7 +315,7 @@
     </para>
     
     <para>
-      <inlinegraphic fileref="fig/full-3" format="png"></inlinegraphic>
+      <inlinegraphic fileref="figures/full-3" format="png"></inlinegraphic>
       <guilabel>Shortcut Bar</guilabel>
     </para>
     
@@ -325,7 +325,7 @@
     </para>
     
     <para>
-      <inlinegraphic fileref="fig/full-4" format="png"></inlinegraphic>
+      <inlinegraphic fileref="figures/full-4" format="png"></inlinegraphic>
       <guilabel>Status Bar</guilabel>
     </para>
     
@@ -337,7 +337,7 @@
     </para>
     
     <para>
-      <inlinegraphic fileref="fig/full-5" format="png"></inlinegraphic>
+      <inlinegraphic fileref="figures/full-5" format="png"></inlinegraphic>
       <guilabel>Search Bar</guilabel>
     </para>
     
