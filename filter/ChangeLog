@@ -1,3 +1,10 @@
+2002-08-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* rule-context.c (save): Use e_xml_save_file().
+	(xml_doc_save): Removed this code and added it to gal so that
+	e-table and all other parts of evolution and so forth could use
+	it.
+
 2002-08-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-context.c (xml_doc_save): New internal function to replace
