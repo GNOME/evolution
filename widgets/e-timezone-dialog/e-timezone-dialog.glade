@@ -34,6 +34,7 @@
                 <property name="label">gtk-ok</property>
                 <property name="use_stock">yes</property>
                 <property name="use_underline">yes</property>
+                <property name="response_id">-3</property>
               </widget>
             </child>
 
@@ -45,6 +46,7 @@
                 <property name="label">gtk-cancel</property>
                 <property name="use_stock">yes</property>
                 <property name="use_underline">yes</property>
+                <property name="response_id">-2</property>
               </widget>
             </child>
           </widget>
