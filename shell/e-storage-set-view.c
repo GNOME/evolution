@@ -1346,8 +1346,8 @@ etree_icon_at (ETreeModel *etree,
            our My Evolution root node. */
 	depth = e_tree_model_node_depth (etree, tree_path);
 
-	switch (depth) {
-	case 0: /* My Evolution */
+	if (depth == 0) {
+		/* My Evolution */
 		storage_set_view = E_STORAGE_SET_VIEW (model_data);
 		storage_set = storage_set_view->priv->storage_set;
 		
@@ -1355,13 +1355,8 @@ etree_icon_at (ETreeModel *etree,
 		
 		icon_pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry,
 									"My Evolution", TRUE);
-
 		return icon_pixbuf;
-
-	case 1:
-		return NULL;
-		
-	case 2:
+	} else if (depth >= 2) {
 		storage_set_view = E_STORAGE_SET_VIEW (model_data);
 		storage_set = storage_set_view->priv->storage_set;
 		
@@ -1372,10 +1367,9 @@ etree_icon_at (ETreeModel *etree,
 			return NULL;
 		
 		return get_pixbuf_for_folder (storage_set_view, folder);
-		
-	default:
-		return NULL;
 	}
+
+	return NULL;
 }
 
 /* This function returns the number of columns in our ETreeModel. */
