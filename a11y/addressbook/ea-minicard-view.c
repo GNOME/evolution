@@ -176,7 +176,7 @@ ea_minicard_view_new (GObject *obj)
 	object = g_object_new (EA_TYPE_MINICARD_VIEW, NULL);
 	accessible = ATK_OBJECT (object);
 	atk_object_initialize (accessible, obj);
-	accessible->role = ATK_ROLE_UNKNOWN;
+	accessible->role = ATK_ROLE_PANEL;
 	return accessible;
 }
 

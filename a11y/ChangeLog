@@ -1,3 +1,11 @@
+2005-02-21  Harry Lu <harry.lu@sun.com>
+
+	Fix for 72781
+
+	* addressbook/ea-minicard-view.c: (ea_minicard_view_new):
+	set the role to panel.
+	* addressbook/ea-minicard.c: (ea_minicard_new): ditto.
+
 2005-02-02  Harry Lu <harry.lu@sun.com>
 
 	Fix for 72088.

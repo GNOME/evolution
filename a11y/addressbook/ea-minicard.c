@@ -178,7 +178,7 @@ ea_minicard_new (GObject *obj)
 	accessible = ATK_OBJECT (object);
 	atk_object_initialize (accessible, obj);
 
-	accessible->role = ATK_ROLE_UNKNOWN;
+	accessible->role = ATK_ROLE_PANEL;
 	return accessible;
 }
 
