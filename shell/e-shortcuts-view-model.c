@@ -126,6 +126,21 @@ shortcuts_remove_group_cb (EShortcuts *shortcuts,
 }
 
 static void
+shortcuts_rename_group_cb (EShortcuts *shortcuts,
+			   int group_num,
+			   const char *new_title,
+			   void *data)
+{
+	EShortcutsViewModel *shortcuts_view_model;
+
+	shortcuts_view_model = E_SHORTCUTS_VIEW_MODEL (data);
+
+	e_shortcut_model_remove_group (E_SHORTCUT_MODEL (shortcuts_view_model), group_num);
+	e_shortcut_model_add_group (E_SHORTCUT_MODEL (shortcuts_view_model), group_num, new_title);
+	load_group_into_model (shortcuts_view_model, group_num);
+}
+
+static void
 shortcuts_new_shortcut_cb (EShortcuts *shortcuts,
 			   int group_num,
 			   int item_num,
@@ -243,6 +258,9 @@ e_shortcuts_view_model_construct (EShortcutsViewModel *model,
 					GTK_OBJECT (model));
 	gtk_signal_connect_while_alive (GTK_OBJECT (priv->shortcuts),
 					"remove_group", GTK_SIGNAL_FUNC (shortcuts_remove_group_cb), model,
+					GTK_OBJECT (model));
+	gtk_signal_connect_while_alive (GTK_OBJECT (priv->shortcuts),
+					"rename_group", GTK_SIGNAL_FUNC (shortcuts_rename_group_cb), model,
 					GTK_OBJECT (model));
 	gtk_signal_connect_while_alive (GTK_OBJECT (priv->shortcuts),
 					"new_shortcut", GTK_SIGNAL_FUNC (shortcuts_new_shortcut_cb), model,

@@ -107,6 +107,7 @@ struct _EShortcutsPrivate {
 enum {
 	NEW_GROUP,
 	REMOVE_GROUP,
+	RENAME_GROUP,
 	NEW_SHORTCUT,
 	REMOVE_SHORTCUT,
 	UPDATE_SHORTCUT,
@@ -627,6 +628,16 @@ class_init (EShortcutsClass *klass)
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_INT);
 
+	signals[RENAME_GROUP]
+		= gtk_signal_new ("rename_group",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EShortcutsClass, rename_group),
+				  gtk_marshal_NONE__INT_POINTER,
+				  GTK_TYPE_NONE, 2,
+				  GTK_TYPE_INT,
+				  GTK_TYPE_STRING);
+
 	signals[NEW_SHORTCUT]
 		= gtk_signal_new ("new_shortcut",
 				  GTK_RUN_FIRST,
@@ -985,6 +996,34 @@ e_shortcuts_remove_group (EShortcuts *shortcuts,
 	shortcut_group_free ((ShortcutGroup *) p->data);
 
 	priv->groups = g_slist_remove_link (priv->groups, p);
+
+	make_dirty (shortcuts);
+}
+
+void
+e_shortcuts_rename_group (EShortcuts *shortcuts,
+			  int group_num,
+			  const char *new_title)
+{
+	EShortcutsPrivate *priv;
+	GSList *p;
+	ShortcutGroup *group;
+
+	g_return_if_fail (shortcuts != NULL);
+	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
+
+	priv = shortcuts->priv;
+
+	p = g_slist_nth (priv->groups, group_num);
+	g_return_if_fail (p != NULL);
+
+	group = (ShortcutGroup *) p->data;
+	if (group->title != new_title) {
+		g_free (group->title);
+		group->title = g_strdup (new_title);
+	}
+
+	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[RENAME_GROUP], group_num, new_title);
 
 	make_dirty (shortcuts);
 }

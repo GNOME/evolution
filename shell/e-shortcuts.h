@@ -65,6 +65,8 @@ struct _EShortcutsClass {
 
 	void  (* new_group)        (EShortcuts *shortcuts, int group_num);
 	void  (* remove_group)     (EShortcuts *shortcuts, int group_num);
+	void  (* rename_group)     (EShortcuts *shortcuts, int group_num, const char *new_title);
+
 	void  (* new_shortcut)     (EShortcuts *shortcuts, int group_num, int item_num);
 	void  (* remove_shortcut)  (EShortcuts *shortcuts, int group_num, int item_num);
 	void  (* update_shortcut)  (EShortcuts *shortcuts, int group_num, int item_num);
@@ -118,7 +120,10 @@ void  e_shortcuts_remove_group  (EShortcuts *shortcuts,
 				 int         group_num);
 void  e_shortcuts_add_group     (EShortcuts *shortcuts,
 				 int         group_num,
-				 const char *group_name);
+				 const char *group_title);
+void  e_shortcuts_rename_group  (EShortcuts *shortcuts,
+				 int         group_name,
+				 const char *new_title);
 
 #ifdef __cplusplus
 }

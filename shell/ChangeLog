@@ -1,5 +1,11 @@
 2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shortcuts.c (class_init): Install signal "rename_group".
+
+	* e-shortcuts.h: New signal "rename_group".
+
+2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shortcuts.c: Removed `title_to_group' hash from
 	`EShortcutsPrivate'.
 	(init): Don't initialize it anymore.

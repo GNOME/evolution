@@ -274,6 +274,31 @@ destroy_group_cb (GtkWidget *widget,
 	e_shortcuts_remove_group (shortcuts, menu_data->group_num);
 }
 
+static void
+rename_group_cb (GtkWidget *widget,
+		 void *data)
+{
+	RightClickMenuData *menu_data;
+	EShortcuts *shortcuts;
+	const char *old_name;
+	const char *new_name;
+
+	menu_data = (RightClickMenuData *) data;
+	shortcuts = menu_data->shortcuts_view->priv->shortcuts;
+
+	old_name = e_shortcuts_get_group_title (shortcuts, menu_data->group_num);
+
+	new_name = e_request_string (GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+				     _("Rename Shortcut Group"),
+				     _("Rename selected shortcut group to:"),
+				     old_name);
+
+	if (new_name == NULL)
+		return;
+
+	e_shortcuts_rename_group (shortcuts, menu_data->group_num, new_name);
+}
+
 static GnomeUIInfo icon_size_radio_group_uiinfo[] = {
 	{ GNOME_APP_UI_ITEM, N_("_Small Icons"),
 	  N_("Show the shortcuts as small icons"), toggle_small_icons_cb, NULL,
@@ -295,6 +320,9 @@ static GnomeUIInfo right_click_menu_uiinfo[] = {
 	  NULL, 0, 0, 0, 0 },
 	{ GNOME_APP_UI_ITEM, N_("_Remove This Group..."),
 	  N_("Remove this shortcut group"), destroy_group_cb, NULL,
+	  NULL, 0, 0, 0, 0 },
+	{ GNOME_APP_UI_ITEM, N_("Re_name This Group..."),
+	  N_("Rename this shortcut group"), rename_group_cb, NULL,
 	  NULL, 0, 0, 0, 0 },
 
 	GNOMEUIINFO_SEPARATOR,
