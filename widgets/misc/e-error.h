@@ -26,11 +26,26 @@
 
 struct _GtkWindow;
 
-#define E_ERROR_WARNING "system:warning"
-#define E_ERROR_WARNING_PRIMARY "system:warning-primary"
-#define E_ERROR_ERROR "system:error"
-#define E_ERROR_ERROR_PRIMARY "system:error-primary"
+/*
+ * Some standard errors, if these are altered or added to,
+ * update devel-docs/misc/errors.txt
+ *
+ * Several more basic ones are needed.
+ */
 
+#define E_ERROR_WARNING "builtin:warning"
+#define E_ERROR_WARNING_PRIMARY "builtin:warning-primary"
+#define E_ERROR_ERROR "builtin:error"
+#define E_ERROR_ERROR_PRIMARY "builtin:error-primary"
+
+/* takes filename, returns OK if yes */
+#define E_ERROR_ASK_FILE_EXISTS_OVERWRITE "system:ask-save-file-exists-overwrite"
+/* takes filename, reason */
+#define E_ERROR_NO_SAVE_FILE "system:no-save-file"
+/* takes filename, reason */
+#define E_ERROR_NO_LOAD_FILE "system:no-save-file"
+
+/* Note that all errors returned are standard GtkDialoge's */
 struct _GtkWidget *e_error_new(struct _GtkWindow *parent, const char *tag, const char *arg0, ...);
 struct _GtkWidget *e_error_newv(struct _GtkWindow *parent, const char *tag, const char *arg0, va_list ap);
 

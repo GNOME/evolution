@@ -1,3 +1,12 @@
+2004-04-28  Not Zed  <NotZed@Ximian.com>
+
+	* e-system-errors.xml.in: holder for system errors.
+
+	* test-error.c: helper to show an error message/test it.
+
+	* e-error.[ch]: Api for disk-based, hig-compliant error messages
+	and query boxes.
+
 2004-04-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-info-label.c (e_info_label_new): Updated to sue E_ICON_SIZE enums.

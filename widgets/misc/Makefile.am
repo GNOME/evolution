@@ -2,6 +2,7 @@ INCLUDES =								\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/a11y/widgets/					\
 	-DMAP_DIR=\""$(imagesdir)"\"					\
+	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(SOURCE_SEL_CFLAGS)
 
@@ -24,6 +25,7 @@ widgetsinclude_HEADERS =			\
 	e-combo-button.h			\
 	e-dateedit.h				\
 	e-dropdown-button.h			\
+	e-error.h				\
 	e-expander.h				\
 	e-image-chooser.h			\
 	e-info-label.h				\
@@ -53,6 +55,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-combo-button.c			\
 	e-dateedit.c				\
 	e-dropdown-button.c			\
+	e-error.c				\
 	e-expander.c				\
 	e-image-chooser.c			\
 	e-info-label.c				\
@@ -69,6 +72,11 @@ libemiscwidgets_la_SOURCES =			\
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 @EVO_MARSHAL_RULE@
 
+error_in_files = e-system-errors.xml.in
+error_DATA = $(error_in_files:.xml.in=.xml)
+errordir = $(privdatadir)/errors
+@INTLTOOL_XML_RULE@
+
 libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la	\
 	$(SOURCE_SEL_LIBS)
@@ -83,6 +91,7 @@ noinst_PROGRAMS = 			\
 	test-calendar			\
 	test-dateedit			\
 	test-dropdown-button		\
+	test-error			\
 	test-multi-config-dialog 	\
 	test-source-option-menu		\
 	test-source-selector		\
@@ -135,7 +144,6 @@ test_title_bar_LDADD = 		\
 	./libemiscwidgets.la	\
 	$(GNOME_FULL_LIBS)
 
-
 # test-source-selector
 
 test_source_selector_SOURCES =			\
@@ -157,11 +165,19 @@ test_source_option_menu_LDADD =			\
 	./libemiscwidgets.la			\
 	$(SOURCE_SEL_LIBS)
 
+test_error_SOURCES = 	\
+	test-error.c
 
-BUILT_SOURCES = $(MARSHAL_GENERATED)
+test_error_LDADD = 		\
+	./libemiscwidgets.la	\
+	$(GNOME_FULL_LIBS)
+
+
+BUILT_SOURCES = $(MARSHAL_GENERATED) $(error_DATA)
 CLEANFILES    = $(BUILT_SOURCES)
 
 EXTRA_DIST =			\
+	$(error_in_files)	\
 	e-util-marshal.list	\
 	ChangeLog.pre-1-4
 

@@ -214,10 +214,15 @@ ee_load(const char *path)
 		return;
 	}
 
-	table = g_malloc0(sizeof(*table));
-	table->domain = g_strdup(tmp);
+	table = g_hash_table_lookup(error_table, tmp);
+	if (table == NULL) {
+		table = g_malloc0(sizeof(*table));
+		table->domain = g_strdup(tmp);
+		table->errors = g_hash_table_new(g_str_hash, g_str_equal);
+		g_hash_table_insert(error_table, table->domain, table);
+	} else
+		g_warning("Error file '%s', domain '%s' already used, merging", path, tmp);
 	g_free(tmp);
-	table->errors = g_hash_table_new(g_str_hash, g_str_equal);
 
 	for (error = root->children;error;error = error->next) {
 		if (!strcmp(error->name, "error")) {
@@ -304,8 +309,6 @@ ee_load(const char *path)
 	}
 
 	xmlFreeDoc(doc);
-
-	g_hash_table_insert(error_table, table->domain, table);
 }
 
 static void
@@ -324,7 +327,7 @@ ee_load_tables(void)
 
 	/* setup system error types */
 	table = g_malloc0(sizeof(*table));
-	table->domain = "system";
+	table->domain = "builtin";
 	table->errors = g_hash_table_new(g_str_hash, g_str_equal);
 	for (i=0;i<sizeof(default_errors)/sizeof(default_errors[0]);i++)
 		g_hash_table_insert(table->errors, default_errors[i].id, &default_errors[i]);
