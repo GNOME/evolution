@@ -45,8 +45,8 @@ dnl The controls whether things like the development warning in shell/main.c are
 dnl
 dnl This should be set to 0 for stable releases and 1 for unstable releases
 dnl *************************************************************************************************
-AC_SUBST(UPGRADE_REVISION)
 AC_DEFINE(DEVELOPMENT, 1, [If we are in development mode or not])
+AC_SUBST(DEVELOPMENT)
 
 AC_ISC_POSIX
 AC_PROG_CC
@@ -516,6 +516,10 @@ AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
 GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.6`
 AC_SUBST(GTKHTML_DATADIR)
+GTKHTML_API_VERSION=`$PKG_CONFIG --variable gtkhtml_apiversion libgtkhtml-3.6`
+AC_DEFINE_UNQUOTED(GTKHTML_API_VERSION, "$GTKHTML_API_VERSION", [The gtkhtml api version])
+
+
 
 
 dnl ******************************
