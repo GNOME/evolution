@@ -447,10 +447,11 @@ etsm_move_selection_end (ETableSelectionModel *selection, int row)
 			e_table_selection_model_signals [SELECTION_CHANGED]);
 }
 
-void             e_table_selection_model_do_something      (ETableSelectionModel *selection,
-							    guint                 row,
-							    guint                 col,
-							    GdkModifierType       state)
+void
+e_table_selection_model_do_something (ETableSelectionModel *selection,
+				      guint                 row,
+				      guint                 col,
+				      GdkModifierType       state)
 {
 	gint shift_p = state & GDK_SHIFT_MASK;
 	gint ctrl_p = state & GDK_CONTROL_MASK;

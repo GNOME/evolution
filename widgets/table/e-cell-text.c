@@ -681,6 +681,15 @@ ect_edit_select_all (ECellTextView *text_view)
 	text_view->edit->selection_end = strlen (text_view->edit->cell.text);
 }
 
+static gboolean
+key_begins_editing (GdkEventKey *event)
+{
+	if (event->length == 0)
+		return FALSE;
+
+	return TRUE;
+}
+
 /*
  * ECell::event method
  */
@@ -725,8 +734,10 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			return_val = TRUE;
 			break;
 		}
-		
-		if ((!edit_display) && e_table_model_is_cell_editable (ecell_view->e_table_model, model_col, row)) {
+
+		if ((!edit_display) &&
+		    e_table_model_is_cell_editable (ecell_view->e_table_model, model_col, row) &&
+		    key_begins_editing (&event->key)) {
 			  e_table_item_enter_edit (text_view->cell_view.e_table_item_view, view_col, row);
 			  ect_edit_select_all (text_view);
 			  edit = text_view->edit;
@@ -1995,13 +2006,15 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 #endif
 }
 
-static void _invisible_destroy (GtkInvisible *invisible,
-				CellEdit *edit)
+static void
+_invisible_destroy (GtkInvisible *invisible,
+		    CellEdit *edit)
 {
 	edit->invisible = NULL;
 }
 
-static GtkWidget *e_cell_text_view_get_invisible (CellEdit *edit)
+static GtkWidget *
+e_cell_text_view_get_invisible (CellEdit *edit)
 {	
 	GtkWidget *invisible;
 	if (edit->invisible) {
