@@ -360,8 +360,15 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 #ifdef SAVE_RAW_MIME_STREAM_FOR_SECURE_MIME_SIGNATURES
 			if (raw) {
 				/* set the raw mime stream on the first part within the multipart/signed */
-				camel_stream_reset (raw);
-				CAMEL_MIME_PART (bodypart)->stream = raw;
+				CamelDataWrapper *content_object;
+				
+				content_object = camel_medium_get_content_object (CAMEL_MEDIUM (bodypart));
+				if (!CAMEL_IS_MULTIPART (content_object)) {
+					camel_stream_reset (raw);
+					CAMEL_MIME_PART (bodypart)->stream = raw;
+				} else {
+					camel_object_unref (CAMEL_OBJECT (raw));
+				}
 				camel_mime_parser_filter_remove (mp, saveid);
 				saveid = -1;
 				raw = NULL;
