@@ -1002,3 +1002,39 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 
 	return TRUE;
 }
+
+/* Get_uid_by_pilot_id handler for the file backend */
+static char *
+cal_backend_file_get_uid_by_pilot_id (CalBackend *backend, unsigned long int pilot_id)
+{
+	CalBackendFile *cbfile;
+	CalBackendFilePrivate *priv;
+
+	cbfile = CAL_BACKEND_FILE (backend);
+	priv = cbfile->priv;
+
+	g_return_val_if_fail (priv->icalcomp != NULL, FALSE);
+
+	/* FIXME */
+	return NULL;
+}
+
+/* Update_pilot_id handler for the file backend */
+static void
+cal_backend_file_update_pilot_id (CalBackend *backend,
+				  const char *uid,
+				  unsigned long int pilot_id,
+				  unsigned long int pilot_status)
+{
+	CalBackendFile *cbfile;
+	CalBackendFilePrivate *priv;
+
+	cbfile = CAL_BACKEND_FILE (backend);
+	priv = cbfile->priv;
+
+	g_return_if_fail (priv->icalcomp != NULL, FALSE);
+
+	g_return_if_fail (uid != NULL);
+
+	/* FIXME */
+}
