@@ -1963,14 +1963,14 @@ Kerberos
 
     <widget>
       <class>GtkVBox</class>
-      <name>source_vbox</name>
+      <name>news_vbox</name>
       <border_width>4</border_width>
       <homogeneous>False</homogeneous>
       <spacing>4</spacing>
 
       <widget>
 	<class>GtkFrame</class>
-	<name>source_frame</name>
+	<name>news_frame</name>
 	<border_width>3</border_width>
 	<label>Source Information</label>
 	<label_xalign>0</label_xalign>
