@@ -243,6 +243,11 @@ e_destination_set_name (EDestination *dest, const gchar *name)
 
 	g_free (dest->priv->name);
 	dest->priv->name = g_strdup (name);
+
+	if (dest->priv->addr) {
+		g_free (dest->priv->addr);
+		dest->priv->addr = NULL;
+	}
 }
 
 void
@@ -253,6 +258,11 @@ e_destination_set_email (EDestination *dest, const gchar *email)
 
 	g_free (dest->priv->email);
 	dest->priv->email = g_strdup (email);
+
+	if (dest->priv->addr) {
+		g_free (dest->priv->addr);
+		dest->priv->addr = NULL;
+	}
 }
 
 
@@ -268,6 +278,8 @@ e_destination_set_string (EDestination *dest, const gchar *str)
 	g_return_if_fail (dest && E_IS_DESTINATION (dest));
 	g_return_if_fail (str != NULL);
 
+	/* This turned out to be an overly-clever approach... */
+#if 0
 	/* Look for something of the form Jane Smith <jane@assbarn.com> */
 	if ( (lt = strrchr (str, '<')) && (gt = strrchr (str, '>')) && lt+1 < gt) {
 		name  = g_strndup (str, lt-str);
@@ -288,20 +300,21 @@ e_destination_set_string (EDestination *dest, const gchar *str)
 		name = g_strdup (str);
 		goto finished;
 	}
+#endif
 
-	/* Default: Just treat it as an e-mail address. */
-	email = g_strdup (str);
+	/* Default: Just treat it as a name address. */
+	name = g_strdup (str);
 
  finished:
 	if (name) {
-		g_strstrip (name);
+		g_message ("name: [%s]", name);
 		if (*name)
 			e_destination_set_name (dest, name);
 		g_free (name);
 	}
 
 	if (email) {
-		g_strstrip (email);
+		g_message ("email: [%s]", email);
 		if (*email)
 			e_destination_set_email (dest, email);
 		g_free (email);
@@ -459,7 +472,14 @@ e_destination_get_email (const EDestination *dest)
 				}
 			}
 
-		} 
+		} else if (priv->name) {
+			gchar *lt = strchr (priv->name, '<');
+			gchar *gt = strchr (priv->name, '>');
+			
+			if (lt && gt && lt+1 < gt) {
+				priv->email = g_strndup (lt+1, gt-lt-1);
+			}
+		}
 	}
 
 	return priv->email;
@@ -499,27 +519,37 @@ e_destination_get_address (const EDestination *dest)
 
 		} else {
 
+			const gchar *name     = e_destination_get_name (dest);
 			const gchar *email    = e_destination_get_email (dest);
 		
 			if (email) { /* If this isn't set, we return NULL */
-			
-				const gchar *name     = e_destination_get_name (dest);
-			
+						
 				if (name) {
 
-					gboolean needs_quotes = (strchr (name, '.') != NULL);
+					gchar *lt = strchr (name, '<');
+					gchar *namecpy = lt ? g_strndup (name, lt-name) : g_strdup (name);
+					gboolean needs_quotes = (strchr (namecpy, '.') != NULL);
+
+					g_strstrip (namecpy);
 					
 					priv->addr = g_strdup_printf ("%s%s%s <%s>",
 								      needs_quotes ? "\"" : "",
-								      name,
+								      namecpy,
 								      needs_quotes ? "\"" : "",
 								      email);
+					g_free (namecpy);
 				
 				} else {
 					
 					priv->addr = g_strdup (email);
 					
 				}
+
+			} else {
+				
+				/* Just use the name, which is the best we can do. */
+				priv->addr = g_strdup (name);
+
 			}
 		}
 	}
@@ -542,7 +572,7 @@ e_destination_get_textrep (const EDestination *dest)
 	if (txt)
 		return txt;
 
-	return NULL;
+	return "";
 }
 
 gboolean

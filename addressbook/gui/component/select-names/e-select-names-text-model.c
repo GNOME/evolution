@@ -333,7 +333,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 			/* This is the case of hitting , first thing in an empty entry */
 			if (index == -1) {
 				EReposAbsolute repos;
-
+				
 				e_select_names_model_insert (source, 0, e_destination_new ());
 				e_select_names_model_insert (source, 0, e_destination_new ());
 
@@ -361,7 +361,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 					repos.len = SEPLEN;
 					e_text_model_reposition (model, e_repos_insert_shift, &repos);
 					pos += SEPLEN;
-				}
+				} 
 
 			} else {
 				EReposInsertShift repos;
@@ -396,7 +396,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 			gboolean whitespace = isspace ((gint) text[i]);
 
 			str = index >= 0 ? e_select_names_model_get_string (source, index) : NULL;
-			if (str) {
+			if (str && *str) {
 				if (pos <= start_pos) {
 					if (whitespace) {
 						/* swallow leading whitespace */

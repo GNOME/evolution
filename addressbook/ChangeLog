@@ -1,3 +1,17 @@
+2001-07-08  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_insert_length): Check that str isn't
+	the empty string before doing an insert.
+
+	* backend/ebook/e-destination.c (e_destination_set_string): We were
+	being too smart for our own good here, and causing problems for
+	the completion code... (bug #4253, bug #4255, bug #4280)
+	(e_destination_set_name): Clear any cached address.
+	(e_destination_set_email): Clear any cached address.
+	(e_destination_get_address): Handle the cases where the name
+	contains some e-mail information.
+
 2001-07-09  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/contact-list-editor/e-contact-list-editor.c: Marked a
