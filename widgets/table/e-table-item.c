@@ -820,7 +820,7 @@ eti_table_model_rows_deleted (ETableModel *table_model, int row, int count, ETab
 	eti->rows = e_table_model_row_count (eti->table_model);
 
 	if (eti->height_cache)
-		memmove(eti->height_cache + row, eti->height_cache + row + count, (eti->rows - row) * sizeof(int));
+		memmove(eti->height_cache + row, eti->height_cache + row + count, (eti->rows - row - count) * sizeof(int));
 
 	eti->needs_compute_height = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
