@@ -288,7 +288,8 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		
 		/* format: "url folder_name uid1\0uid2\0uid3\0...\0uidn" */
 		
-		url = camel_url_to_string (CAMEL_SERVICE (camel_folder_get_parent_store (fb->folder))->url, 0);
+		url = camel_url_to_string (CAMEL_SERVICE (camel_folder_get_parent_store (fb->folder))->url,
+					   CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_AUTH | CAMEL_URL_HIDE_AUTH);
 		
 		/* write the url portion */
 		array = g_byte_array_new ();
@@ -546,7 +547,8 @@ folder_browser_copy (GtkWidget *menuitem, FolderBrowser *fb)
 	
 	/* format: "url folder_name uid1\0uid2\0uid3\0...\0uidn" */
 	
-	url = camel_url_to_string (CAMEL_SERVICE (camel_folder_get_parent_store (fb->folder))->url, 0);
+	url = camel_url_to_string (CAMEL_SERVICE (camel_folder_get_parent_store (fb->folder))->url,
+				   CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_AUTH | CAMEL_URL_HIDE_PARAMS);
 	
 	/* write the url portion */
 	bytes = g_byte_array_new ();
