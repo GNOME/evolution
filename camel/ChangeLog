@@ -1,7 +1,10 @@
 2001-04-16  Ettore Perazzoli  <ettore@ximian.com>
 
+	* providers/imap/Makefile.am (INCLUDES): Add
+	$(EXTRA_GNOME_CFLAGS)'.
+
 	* providers/smtp/Makefile.am (INCLUDES): Add
-	`$(EXTRA_GNOME_LIBS)'.
+	`$(EXTRA_GNOME_CFLAGS)'.
 
 2001-04-12  Dan Winship  <danw@ximian.com>
 
