@@ -1,3 +1,8 @@
+2001-08-16  Jakub Steiner <jimmac@ximian.com>
+
+	* {next,previous}-message.png: use new document template. maybe
+	  still a bit dark.
+	
 2001-08-15  Jakub Steiner <jimmac@ximian.com>
 
 	* add-attachment.png: get rid of the yellow
