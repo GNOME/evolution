@@ -17,6 +17,7 @@
 #include <libversit/vcc.h>
 #include "e-card.h"
 #include "e-card-pairs.h"
+#include "e-name-western.h"
 
 #define is_a_prop_of(obj,prop) (isAPropertyOf ((obj),(prop)))
 #define str_val(obj) (the_str = (vObjectValueType (obj))? fakeCString (vObjectUStringZValue (obj)) : calloc (1, 1))
@@ -992,6 +993,23 @@ e_card_name_to_string(const ECardName *name)
 		*(stringptr++) = name->suffix;
 	*stringptr = NULL;
 	return g_strjoinv(" ", strings);
+}
+
+ECardName *
+e_card_name_from_string(const char *full_name)
+{
+	ECardName *name = g_new(ECardName, 1);
+	ENameWestern *western = e_name_western_parse (full_name);
+	
+	name->prefix     = g_strdup (western->prefix);
+	name->given      = g_strdup (western->first );
+	name->additional = g_strdup (western->middle);
+	name->family     = g_strdup (western->last  );
+	name->suffix     = g_strdup (western->suffix);
+	
+	e_name_western_free(western);
+	
+	return name;
 }
 
 /*

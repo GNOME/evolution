@@ -23,7 +23,6 @@
 #include <config.h>
 #include <gnome.h>
 #include "e-contact-editor.h"
-#include <e-name-western.h>
 #include <e-contact-editor-fullname.h>
 
 static void e_contact_editor_init		(EContactEditor		 *card);
@@ -41,6 +40,7 @@ static void _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, E
 static void fill_in_info(EContactEditor *editor);
 static void extract_info(EContactEditor *editor);
 static void set_fields(EContactEditor *editor);
+static void set_address_field(EContactEditor *editor, int result);
 
 static GtkVBoxClass *parent_class = NULL;
 
@@ -239,22 +239,18 @@ address_text_changed (GtkWidget *widget, EContactEditor *editor)
 {
 	gchar *string;
 	GtkEditable *editable = GTK_EDITABLE(widget);
+	if (editor->address_choice == -1)
+		return;
 
 	if (editor->address[editor->address_choice]) {
-		g_free(editor->address[editor->address_choice]);
-		editor->address[editor->address_choice] = NULL;
-	}
-
-	string = gtk_editable_get_chars(editable, 0, -1);
-	if (editor->address[editor->address_choice]) {
-		if (editor->address[editor->address_choice]->data)
-			g_free(editor->address[editor->address_choice]->data);
+		g_free(editor->address[editor->address_choice]->data);
 		editor->address[editor->address_choice]->data = NULL;
 	} else {
 		editor->address[editor->address_choice] = e_card_address_label_new();
 	}
-	editor->address[editor->address_choice]->data = g_strdup(string);
-	g_free(string);
+
+	string = gtk_editable_get_chars(editable, 0, -1);
+	editor->address[editor->address_choice]->data = string;
 }
 
 static void
@@ -263,24 +259,14 @@ name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	char *string;
 	ECardName *name;
 	GtkEntry *entry = GTK_ENTRY(widget);
-	ENameWestern *western;
 	
 	name = editor->name;
 	if (name)
 		e_card_name_free(name);
 
-	name = e_card_name_new();
-
 	string = gtk_entry_get_text(entry);
-	western = e_name_western_parse (string);
 	
-	name->prefix     = g_strdup (western->prefix);
-	name->given      = g_strdup (western->first );
-	name->additional = g_strdup (western->middle);
-	name->family     = g_strdup (western->last  );
-	name->suffix     = g_strdup (western->suffix);
-	
-	e_name_western_free(western);
+	name = e_card_name_from_string(string);
 	
 	editor->name = name;
 }
@@ -772,8 +758,7 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 	result = _arrow_pressed (widget, button, editor, editor->address_popup, &editor->address_list, &editor->address_info, "label-address1", "text-address", "Add new Address type");
 
 	if (result != -1) {
-		editor->address_choice = result;
-		set_fields(editor);
+		set_address_field(editor, result);
 	}
 }
 
@@ -789,9 +774,6 @@ static void
 set_fields(EContactEditor *editor)
 {
 	GtkEntry *entry;
-	GtkEditable *editable;
-	char *string = NULL;
-	int position;
 
 	entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-phone1"));
 	if (editor->phone[editor->phone_choice[0]])
@@ -819,17 +801,25 @@ set_fields(EContactEditor *editor)
 		set_field(entry, editor->email[editor->email_choice]);
 	else
 		set_field(entry, "");
+	
+	set_address_field(editor, -1);
+}
 
-	if (editor->address[editor->address_choice]) {
-		string = g_strdup (editor->address[editor->address_choice]->data);
-	}
+static void
+set_address_field(EContactEditor *editor, int result)
+{
+	GtkEditable *editable;
+	int position;
+	if (result == -1)
+		result = editor->address_choice;
+	editor->address_choice = -1;
+
 	position = 0;
 	editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "text-address"));
 	gtk_editable_delete_text(editable, 0, -1);
-	if (string) {
-		gtk_editable_insert_text(editable, string, strlen(string), &position);
-		g_free(string);
-	}
+	if (editor->address[result] && editor->address[result]->data)
+		gtk_editable_insert_text(editable, editor->address[result]->data, strlen(editor->address[result]->data), &position);
+	editor->address_choice = result;
 }
 
 static void

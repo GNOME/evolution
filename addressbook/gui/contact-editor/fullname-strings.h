@@ -16,10 +16,10 @@ gchar *s = N_("\n"
               "Dr.\n"
               "");
 gchar *s = N_("\n"
-              "Senior\n"
-              "Junior\n"
+              "Sr.\n"
+              "Jr.\n"
+              "I\n"
               "II\n"
               "III\n"
-              "Esquire\n"
+              "Esq.\n"
               "");
-gchar *s = N_("Show this again when name is incomplete or unclear");

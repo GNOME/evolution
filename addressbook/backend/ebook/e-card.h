@@ -111,6 +111,7 @@ ECardDeliveryAddress *e_card_delivery_address_new (void);
 void e_card_delivery_address_free (ECardDeliveryAddress *addr);
 ECardDeliveryAddress *e_card_delivery_address_copy (const ECardDeliveryAddress *addr);
 char *e_card_delivery_address_to_string (const ECardDeliveryAddress *addr);
+char *e_card_delivery_address_from_string (const ECardDeliveryAddress *addr);
 
 ECardAddrLabel *e_card_address_label_new (void);
 void e_card_address_label_free (ECardAddrLabel *addr);
@@ -120,6 +121,7 @@ ECardName *e_card_name_new (void);
 void e_card_name_free(ECardName *name);
 ECardName *e_card_name_copy (const ECardName *name);
 char *e_card_name_to_string(const ECardName *name);
+ECardName *e_card_name_from_string(const char *full_name);
 
 /* Standard Gtk function */
 GtkType        e_card_get_type (void);

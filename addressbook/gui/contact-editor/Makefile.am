@@ -13,7 +13,6 @@ INCLUDES =					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/addressbook/		\
 	-I$(top_srcdir)/addressbook/backend	\
-	-I$(top_srcdir)/addressbook/ename	\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"	\
 	-DG_LOG_DOMAIN=\"contact-editor\"
 

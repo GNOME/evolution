@@ -1,3 +1,23 @@
+2000-04-30  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/Makefile.am: Added ename includes and libs.
+
+	* backend/ebook/e-card.c, backend/ebook/e-card.h: Added
+	e_card_name_from_string.  Added header for
+	e_card_delivery_address_from_string, even though it's not
+	implemented yet.
+
+	* contact-editor/Makefile.am: Removed the ename includes since we
+	no longer use ename directly here.
+
+	* contact-editor/e-contact-editor.c: Fixed this to properly save
+	the address labels displayed.  Updated this to use the function
+	e_card_name_from_string instead of doing it by hand.
+
+	* contact-editor/fullname-strings.h,
+	contact-editor/fullname.glade: Deleted an unused field.  Changed
+	the set of prefixes and suffixes.
+
 2000-04-30  Chris Toshok  <toshok@helixcode.com>
 
 	* backend/pas/pas-backend-ldap.c

@@ -1,4 +1,4 @@
-noinst_PROGRAMS = test-card test-client test-client-list
+noinst_PROGRAMS = test-card test-client test-client-list load-pine-addressbook
 
 CORBA_SOURCE =						\
 	addressbook.h					\
@@ -20,6 +20,7 @@ INCLUDES =						\
 	-I$(top_srcdir) 				\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
+	-I$(top_builddir)/addressbook/ename		\
         $(BONOBO_GNOME_CFLAGS)
 
 lib_LTLIBRARIES = libebook.la
@@ -55,7 +56,8 @@ test_client_SOURCES =					\
 test_client_LDADD =					\
 	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
-	$(top_builddir)/libversit/libversit.la
+	$(top_builddir)/libversit/libversit.la		\
+	$(top_builddir)/addressbook/ename/libename.la
 
 test_client_list_SOURCES =				\
 	test-client-list.c
@@ -63,6 +65,7 @@ test_client_list_SOURCES =				\
 test_client_list_LDADD =				\
 	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
+	$(top_builddir)/addressbook/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.la
 
 test_card_SOURCES =					\
@@ -71,6 +74,16 @@ test_card_SOURCES =					\
 test_card_LDADD =					\
 	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
+	$(top_builddir)/addressbook/ename/libename.la	\
+	$(top_builddir)/libversit/libversit.la
+
+load_pine_addressbook_SOURCES =					\
+	load-pine-addressbook.c
+
+load_pine_addressbook_LDADD =					\
+	libebook.la					\
+	$(BONOBO_GNOME_LIBS)				\
+	$(top_builddir)/addressbook/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.la
 
 BUILT_SOURCES = $(CORBA_SOURCE)
