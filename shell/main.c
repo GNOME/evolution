@@ -114,7 +114,11 @@ idle_cb (gpointer data)
 
 	evolution_directory = (char *) data;
 
+#ifdef HAVE_GCONF_CLIENT_GET_DEFAULT
 	gconf_client = gconf_client_get_default ();
+#else
+	gconf_client = gconf_client_new ();
+#endif
 
 	shell = e_shell_new (evolution_directory, gconf_client);
 	g_free (evolution_directory);

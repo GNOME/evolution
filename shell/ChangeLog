@@ -1,3 +1,7 @@
+2000-07-27  Dan Winship  <danw@helixcode.com>
+
+	* main.c (idle_cb): work with either gconf 0.5 or newer
+
 2000-07-26  Peter Williams  <peterw@helixcode.com>
 
 	* e-storage.c (e_storage_new_folder): Fix tiny mem leak.
