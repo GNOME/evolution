@@ -223,7 +223,7 @@ int main(int argc, char **argv)
 		/* random name */
 		name = words->pdata[word % words->len];
 
-		if (j%1000 == 0) {
+		if (j%1000 == 0 && j>0) {
 			IBEX_LOCK(ib);
 			word_index_mem_dump_info(ib->words);
 			IBEX_UNLOCK(ib);
@@ -284,6 +284,7 @@ int main(int argc, char **argv)
 			ibex_close(ib);
 
 			ib = ibex_open("test.ibex", O_RDWR|O_CREAT, 0600);
+			ibex_contains_name(ib, name);
 			IBEX_LOCK(ib);
 			word_index_mem_dump_info(ib->words);
 			IBEX_UNLOCK(ib);

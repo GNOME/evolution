@@ -33,7 +33,7 @@ int ibex_opened;		/* count of actually opened ibexe's */
 /* TODO: return errors? */
 static void ibex_use(ibex *ib)
 {
-	ibex *wb;
+	ibex *wb, *wn;
 
 	/* always lock list then ibex */
 	IBEX_LIST_LOCK(ib);
@@ -66,8 +66,8 @@ static void ibex_use(ibex *ib)
 	   we can't do this first for locking issues */
 	if (ibex_opened > IBEX_OPEN_THRESHOLD) {
 		wb = (ibex *)ibex_list.head;
-		while (wb->next) {
-			wb = wb->next;
+		wn = wb->next;
+		while (wn) {
 			IBEX_LOCK(wb);
 			if (wb->usecount == 0 && wb->blocks != NULL) {
 				o(printf("Forcing close of obex '%s', total = %d\n", wb->name, ibex_opened-1));
@@ -80,6 +80,8 @@ static void ibex_use(ibex *ib)
 				break;
 			}
 			IBEX_UNLOCK(wb);
+			wb = wn;
+			wn = wn->next;
 		}
 	}
 

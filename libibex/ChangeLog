@@ -1,3 +1,8 @@
+2001-08-16  Not Zed  <NotZed@Ximian.com>
+
+	* ibex_block.c (ibex_use): Use a next pointer so we keep the list
+	intact as we scan it.
+
 2001-08-15  Not Zed  <NotZed@Ximian.com>
 
 	* ibex_block.c (ibex_use): New function to limit use of fd's.
