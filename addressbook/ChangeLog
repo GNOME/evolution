@@ -1,3 +1,10 @@
+2004-10-15 Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/widgets/eab-contact-display.c : uncomment 
+	HANDLE_MAILTO_INTERNALLY define so that we will
+	launch composer through bonobo  instead of using 
+	gnome_url_show	
+	
 2004-10-15  Not Zed  <NotZed@Ximian.com>
 
 	* gui/widgets/eab-popup.c: added an any select mask and updated

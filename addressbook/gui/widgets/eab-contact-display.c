@@ -36,7 +36,7 @@
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
 
-/*#define HANDLE_MAILTO_INTERNALLY 1*/
+#define HANDLE_MAILTO_INTERNALLY 1
 
 #define PARENT_TYPE (GTK_TYPE_HTML)
 
