@@ -69,6 +69,8 @@ struct _EContactEditor
 	GladeXML *gui;
 	GtkWidget *app;
 
+	GtkWidget *file_selector;
+
 	EContactName *name;
 	char *company;
 

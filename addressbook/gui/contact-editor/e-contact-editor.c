@@ -61,6 +61,7 @@
 #include "widgets/misc/e-url-entry.h"
 #include "widgets/misc/e-source-option-menu.h"
 #include "shell/evolution-shell-component-utils.h"
+#include "e-util/e-icon-factory.h"
 
 #include "eab-contact-merging.h"
 
@@ -1766,6 +1767,100 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 	gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
+static void
+image_selected_cb (GtkWidget *widget, EContactEditor *editor)
+{
+	const gchar *file_name;
+	GtkWidget   *image_chooser;
+
+	file_name = gtk_file_selection_get_filename (GTK_FILE_SELECTION (editor->file_selector));
+	if (!file_name)
+		return;
+
+	image_chooser = glade_xml_get_widget (editor->gui, "image-chooser");
+
+	g_signal_handlers_block_by_func (image_chooser, image_chooser_changed, editor);
+	e_image_chooser_set_from_file (E_IMAGE_CHOOSER (image_chooser), file_name);
+	g_signal_handlers_unblock_by_func (image_chooser, image_chooser_changed, editor);
+
+	editor->image_set = TRUE;
+	widget_changed (image_chooser, editor);
+
+	/* FIXME: Connect to destroy signal */
+	editor->file_selector = NULL;
+}
+
+static void
+image_cleared_cb (GtkWidget *widget, EContactEditor *editor)
+{
+	GtkWidget     *image_chooser;
+	gchar         *file_name;
+
+	image_chooser = glade_xml_get_widget (editor->gui, "image-chooser");
+
+	file_name = e_icon_factory_get_icon_filename ("stock_person", 48);
+
+	g_signal_handlers_block_by_func (image_chooser, image_chooser_changed, editor);
+	e_image_chooser_set_from_file (E_IMAGE_CHOOSER (image_chooser), file_name);
+	g_signal_handlers_unblock_by_func (image_chooser, image_chooser_changed, editor);
+
+	g_free (file_name);
+
+	editor->image_set = FALSE;
+	widget_changed (image_chooser, editor);
+
+	/* FIXME: Connect to destroy signal */
+	editor->file_selector = NULL;
+}
+
+static gboolean
+file_selector_deleted (GtkWidget *widget)
+{
+	gtk_widget_hide (widget);
+	return TRUE;
+}
+
+static void
+image_clicked (GtkWidget *button, EContactEditor *editor)
+{
+	GtkWidget *clear_button;
+	GtkWidget *dialog;
+
+	if (!editor->file_selector) {
+		/* Create the selector */
+
+		editor->file_selector = gtk_file_selection_new (_("Please select an image for this contact"));
+
+		dialog = GTK_FILE_SELECTION (editor->file_selector)->fileop_dialog;
+
+		clear_button = gtk_dialog_add_button (GTK_DIALOG (editor->file_selector), _("No image"), 0);
+
+		g_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (editor->file_selector)->ok_button),
+				  "clicked", G_CALLBACK (image_selected_cb), editor);
+
+		g_signal_connect (clear_button,
+				  "clicked", G_CALLBACK (image_cleared_cb), editor);
+
+		/* Ensure that the dialog box is hidden when the user clicks a button */
+
+		g_signal_connect_swapped (GTK_OBJECT (GTK_FILE_SELECTION (editor->file_selector)->ok_button),
+					  "clicked", G_CALLBACK (gtk_widget_hide), editor->file_selector); 
+
+		g_signal_connect_swapped (GTK_OBJECT (GTK_FILE_SELECTION (editor->file_selector)->cancel_button),
+					  "clicked", G_CALLBACK (gtk_widget_hide), editor->file_selector); 
+
+		g_signal_connect_swapped (clear_button,
+					  "clicked", G_CALLBACK (gtk_widget_hide), editor->file_selector); 
+
+		g_signal_connect_after (editor->file_selector,
+					"delete-event", G_CALLBACK (file_selector_deleted),
+					editor->file_selector);
+	}
+
+	/* Display the dialog */
+
+	gtk_window_present (GTK_WINDOW (editor->file_selector));
+}
 
 typedef struct {
 	EContactEditor *ce;
@@ -2107,6 +2202,8 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	init_im (e_contact_editor);
 	init_address (e_contact_editor);
 
+	widget = glade_xml_get_widget (e_contact_editor->gui, "button-image");
+	g_signal_connect (widget, "clicked", G_CALLBACK (image_clicked), e_contact_editor);
 	wants_html = glade_xml_get_widget(e_contact_editor->gui, "checkbutton-htmlmail");
 	g_signal_connect (wants_html, "toggled", G_CALLBACK (wants_html_changed), e_contact_editor);
 	widget = glade_xml_get_widget(e_contact_editor->gui, "button-fullname");
@@ -2141,6 +2238,11 @@ void
 e_contact_editor_dispose (GObject *object)
 {
 	EContactEditor *e_contact_editor = E_CONTACT_EDITOR(object);
+
+	if (e_contact_editor->file_selector != NULL) {
+		gtk_widget_destroy (e_contact_editor->file_selector);
+		e_contact_editor->file_selector = NULL;
+	}
 
 	if (e_contact_editor->writable_fields) {
 		g_object_unref(e_contact_editor->writable_fields);
@@ -2757,6 +2859,7 @@ fill_in_info(EContactEditor *editor)
 
 		if (photo) {
 			widget = glade_xml_get_widget(editor->gui, "image-chooser");
+			g_print ("Have photo.\n");
 			if (widget && E_IS_IMAGE_CHOOSER(widget))
 				e_image_chooser_set_image_data (E_IMAGE_CHOOSER (widget), photo->data, photo->length);
 		}
