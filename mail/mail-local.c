@@ -670,11 +670,11 @@ do_register_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 	CamelStore *store;
 	guint32 flags;
 
-	name = g_strdup_printf ("%s/local-metadata.xml", local_folder->path);
+	name = g_strdup_printf ("/%s/local-metadata.xml", local_folder->name);
 	meta = load_metainfo (name);
 	g_free (name);
 
-	name = g_strdup_printf ("%s:%s", meta->format, local_folder->path);
+	name = g_strdup_printf ("%s:/%s", meta->format, local_folder->name);
 	store = camel_session_get_store (session, name, ex);
 	g_free (name);
 	if (!store) {
@@ -690,13 +690,36 @@ do_register_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 	free_metainfo (meta);
 }
 
+static void
+cleanup_register_folder (gpointer in_data, gpointer op_data,
+			 CamelException *ex)
+{
+	MailLocalFolder *local_folder = in_data;
+
+	if (!local_folder->folder) {
+		g_free (local_folder);
+		return;
+	}
+
+	g_hash_table_insert (local_folder->local_store->folders,
+			     local_folder->name, local_folder->folder);
+	local_folder->name = strrchr (local_folder->path, '/') + 1;
+	local_folder->last_unread = 0;
+
+	camel_object_hook_event (CAMEL_OBJECT (local_folder->folder),
+				 "folder_changed", local_folder_changed,
+				 local_folder);
+	local_folder_changed (CAMEL_OBJECT (local_folder->folder),
+			      NULL, local_folder);
+}
+
 static const mail_operation_spec op_register_folder =
 {
 	describe_register_folder,
 	0,
 	NULL,
 	do_register_folder,
-	NULL
+	cleanup_register_folder
 };
 
 static void
@@ -714,33 +737,11 @@ local_storage_new_folder_cb (EvolutionStorageListener *storage_listener,
 		     local_store->local_pathlen) != 0)
 		return;
 
-	/* We don't need to deal with locking/reffing/copying
-	 * issues because we don't return from the function
-	 * until this is finished.
-	 */
 	local_folder = g_new0 (MailLocalFolder, 1);
-	local_folder->path = folder->physical_uri + 7;
+	local_folder->name = g_strdup (folder->physical_uri + 8);
+	local_folder->path = g_strdup (path);
 	local_folder->local_store = local_store;
 	mail_operation_queue (&op_register_folder, local_folder, FALSE);
-	mail_operation_wait_for_finish ();
-
-	if (!local_folder->folder) {
-		g_free (local_folder);
-		return;
-	}
-
-	local_folder->path = g_strdup (path);
-	local_folder->name = strrchr (local_folder->path, '/') + 1;
-	local_folder->last_unread = 0;
-
-	g_hash_table_insert (local_store->folders,
-			     g_strdup (folder->physical_uri + 8),
-			     local_folder->folder);
-	camel_object_hook_event (CAMEL_OBJECT (local_folder->folder),
-				 "folder_changed", local_folder_changed,
-				 local_folder);
-	local_folder_changed (CAMEL_OBJECT (local_folder->folder),
-			      NULL, local_folder);
 }
 
 static void
