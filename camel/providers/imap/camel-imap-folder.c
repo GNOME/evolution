@@ -306,6 +306,8 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 			 * even tho they do allow storing flags. *Sigh* So many fucking broken IMAP servers out there. */
 			if ((perm_flags = imap_parse_flag_list (&resp)) != 0)
 				folder->permanent_flags = perm_flags;
+			
+			got_perm_flags = TRUE;
 		} else if (!strncasecmp (resp, "OK [UIDVALIDITY ", 16)) {
 			validity = strtoul (resp + 16, NULL, 10);
 		} else if (isdigit ((unsigned char)*resp)) {
