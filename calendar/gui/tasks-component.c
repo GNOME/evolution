@@ -668,13 +668,13 @@ create_new_todo (TasksComponent *task_component, CORBA_Environment *ev)
 	gboolean read_only;
 	
 	priv = task_component->priv;
-	
+
 	if (!setup_create_ecal (task_component)) {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
 		return;
 	}
 	
-	if (!e_cal_is_read_only (priv->create_ecal, &read_only, NULL) || read_only);
+	if (!e_cal_is_read_only (priv->create_ecal, &read_only, NULL) || read_only)
 		return;
 
 	editor = task_editor_new (priv->create_ecal);

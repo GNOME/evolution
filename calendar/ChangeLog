@@ -1,3 +1,9 @@
+2004-01-30  JP Rosevear <jpr@ximian.com>
+
+	* gui/tasks-component.c (create_new_todo): remove extraneous ;
+
+	Fixes #53418
+
 2004-01-29  JP Rosevear <jpr@ximian.com>
 
 	* gui/migration.c (create_calendar_contact_source): don't set the
