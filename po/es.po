@@ -16,13 +16,12 @@ msgstr ""
 "Project-Id-Version: evolution.evolution-1-4-branch\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-08-30 11:35+0200\n"
-"PO-Revision-Date: 2003-08-30 19:57+0200\n"
+"PO-Revision-Date: 2003-09-04 17:23+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.2\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -384,7 +383,7 @@ msgstr "Teléfono"
 
 #: addressbook/backend/ebook/e-card.c:1354
 msgid "Birth date"
-msgstr "Cumpleaños"
+msgstr "Fecha de nacimiento"
 
 #: addressbook/backend/ebook/e-card.c:1360
 #: calendar/gui/e-calendar-table.etspec.h:19
@@ -1062,19 +1061,19 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:48
 msgid "Step 1: Server Information"
-msgstr "Paso 1: Información del Servidor"
+msgstr "Paso 1: Información del servidor"
 
 #: addressbook/gui/component/ldap-config.glade.h:49
 msgid "Step 2: Connecting to Server"
-msgstr "Paso 2: Conexión con el Servidor"
+msgstr "Paso 2: Conexión con el servidor"
 
 #: addressbook/gui/component/ldap-config.glade.h:50
 msgid "Step 3: Searching the Directory"
-msgstr "Paso 3: Búsqueda en el Directorio"
+msgstr "Paso 3: Búsqueda en el directorio"
 
 #: addressbook/gui/component/ldap-config.glade.h:51
 msgid "Step 4: Display Name"
-msgstr "Paso 4: Mostrar el Nombre"
+msgstr "Paso 4: Nombre a mostrar"
 
 #: addressbook/gui/component/ldap-config.glade.h:52
 msgid "Sub"
@@ -6611,7 +6610,7 @@ msgstr "África/Addis Abeba"
 
 #: calendar/zones.h:10
 msgid "Africa/Algiers"
-msgstr "África/Algiers"
+msgstr "África/Argel"
 
 #: calendar/zones.h:11
 msgid "Africa/Asmera"
@@ -7875,7 +7874,7 @@ msgstr "Europa/Sofía"
 
 #: calendar/zones.h:326
 msgid "Europe/Stockholm"
-msgstr "Europa/Estococolmo"
+msgstr "Europa/Estocolmo"
 
 #: calendar/zones.h:327
 msgid "Europe/Tallinn"
@@ -12907,9 +12906,7 @@ msgstr ""
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
-msgstr ""
-"Escriba el nombre por el que querría referirse a esta cuenta.\n"
-"Por ejemplo: «Trabajo» o «Personal»"
+msgstr " Teclee el nombre por el que quiere identificar a esta cuenta.\n Por ejemplo: «Trabajo» o «Personal»"
 
 #: mail/mail-config.glade.h:124
 msgid "V_ariable-width:"
@@ -14738,7 +14735,7 @@ msgstr "Bedford"
 
 #: my-evolution/Locations.h:210
 msgid "Beijing"
-msgstr "Beijing"
+msgstr "Pekín"
 
 #: my-evolution/Locations.h:211
 msgid "Beirut"
@@ -15886,7 +15883,7 @@ msgstr "Córdoba"
 
 #: my-evolution/Locations.h:507
 msgid "Cordova"
-msgstr "Cordova"
+msgstr "Córdova"
 
 #: my-evolution/Locations.h:508
 msgid "Cork"
@@ -15994,7 +15991,7 @@ msgstr "Culdrose"
 
 #: my-evolution/Locations.h:537
 msgid "Culiacan"
-msgstr "Culiacan"
+msgstr "Culiacán"
 
 #: my-evolution/Locations.h:538
 msgid "Cumana"
@@ -16098,7 +16095,7 @@ msgstr "Dayton-Fairborn"
 
 #: my-evolution/Locations.h:565
 msgid "Dayton-South Airport"
-msgstr "Dayton-South Airport"
+msgstr "Aeropuerto de Sur de Dayton"
 
 #: my-evolution/Locations.h:566
 msgid "Dead Horse"
@@ -16678,7 +16675,7 @@ msgstr "Findlay"
 
 #: my-evolution/Locations.h:717
 msgid "Firenze"
-msgstr "Firenze"
+msgstr "Florencia"
 
 #: my-evolution/Locations.h:718
 msgid "Fitchburg"
@@ -17310,7 +17307,7 @@ msgstr "La Habana"
 
 #: my-evolution/Locations.h:881
 msgid "Hachijojima Airport"
-msgstr "Hachijojima Airport"
+msgstr "Aeropuerto de Hachijojima"
 
 #: my-evolution/Locations.h:882
 msgid "Hachinohe Ab"
@@ -17339,7 +17336,7 @@ msgstr "Haines"
 
 #: my-evolution/Locations.h:889
 msgid "Hakodate Airport"
-msgstr "Aeropuerto Hakodate"
+msgstr "Aeropuerto de Hakodate"
 
 #: my-evolution/Locations.h:890
 msgid "Halifax"
@@ -17351,11 +17348,11 @@ msgstr "Hamamatsu Ab"
 
 #: my-evolution/Locations.h:892
 msgid "Hamburg"
-msgstr "Hamburg"
+msgstr "Hamburgo"
 
 #: my-evolution/Locations.h:893
 msgid "Hamburg-Finkenwerder"
-msgstr "Hamburg-Finkenwerder"
+msgstr "Hamburgo-Finkenwerder"
 
 #: my-evolution/Locations.h:894
 msgid "Hamilton"
@@ -17371,7 +17368,7 @@ msgstr "Hampton"
 
 #: my-evolution/Locations.h:897
 msgid "Hanamaki Airport"
-msgstr "Aeropuerto Hanamaki"
+msgstr "Aeropuerto de Hanamaki"
 
 #: my-evolution/Locations.h:898
 msgid "Hancock"
@@ -17807,7 +17804,7 @@ msgstr "Islamabad"
 
 #: my-evolution/Locations.h:1012
 msgid "Isle of Man"
-msgstr "Isle of Man"
+msgstr "Isla de Man"
 
 #: my-evolution/Locations.h:1013
 msgid "Islip"
@@ -17855,7 +17852,7 @@ msgstr "Izmit"
 
 #: my-evolution/Locations.h:1025
 msgid "Izumo Airport"
-msgstr "Aeropuesto Izumo"
+msgstr "Aeropuerto de Izumo"
 
 #: my-evolution/Locations.h:1026
 msgid "Jackson"
@@ -17867,7 +17864,7 @@ msgstr "Jacksonville"
 
 #: my-evolution/Locations.h:1028
 msgid "Jacksonville-Craig Airport"
-msgstr "Jacksonville-Craig Airport"
+msgstr "Aeropuerto de Jacksonville-Craig"
 
 #: my-evolution/Locations.h:1029
 msgid "Jacksonville NAS"
@@ -17891,7 +17888,7 @@ msgstr "Jan Smuts"
 
 #: my-evolution/Locations.h:1036
 msgid "Jeddah King Abdul Aziz International Airport"
-msgstr "Jeddah King Abdul Aziz International Airport"
+msgstr "Aeropuerto Internacional Jeddah King Abdul Aziz"
 
 #: my-evolution/Locations.h:1037
 msgid "Jefferson City"
@@ -17963,7 +17960,7 @@ msgstr "Kadena Ab"
 
 #: my-evolution/Locations.h:1055
 msgid "Kagoshima Airport"
-msgstr "Kagoshima Airport"
+msgstr "Aeropuerto de Kagoshima"
 
 #: my-evolution/Locations.h:1056
 msgid "Kahului"
@@ -18007,7 +18004,7 @@ msgstr "Kanoya Ab"
 
 #: my-evolution/Locations.h:1066
 msgid "Kansai International Airport"
-msgstr "Kansai International Airport"
+msgstr "Aeropuerto Internacional de Kansai"
 
 #: my-evolution/Locations.h:1067
 msgid "Kansas"
@@ -18143,7 +18140,7 @@ msgstr "Killeen-Gray AAF"
 
 #: my-evolution/Locations.h:1100
 msgid "King Khaled International Airport"
-msgstr "King Khaled International Airport"
+msgstr "Areopuerto Internacional de King Khaled"
 
 #: my-evolution/Locations.h:1101
 msgid "Kingman"
@@ -18151,7 +18148,7 @@ msgstr "Kingman"
 
 #: my-evolution/Locations.h:1102
 msgid "King Salmon"
-msgstr "King Salmon"
+msgstr "Rey Salomón"
 
 #: my-evolution/Locations.h:1103
 msgid "Kingston"
@@ -18191,7 +18188,7 @@ msgstr "Kishineu"
 
 #: my-evolution/Locations.h:1112
 msgid "Kitakyushu Airport"
-msgstr "Kitakyushu Airport"
+msgstr "Aeropuerto de Kitakyushu"
 
 #: my-evolution/Locations.h:1113
 msgid "Klagenfurt"
@@ -18231,7 +18228,7 @@ msgstr "Kobenhavn/Roskilde"
 
 #: my-evolution/Locations.h:1122
 msgid "Kochi Airport"
-msgstr "Kochi Airport"
+msgstr "Aeropuerto de Kochi"
 
 #: my-evolution/Locations.h:1123
 msgid "Kodiak"
@@ -18275,7 +18272,7 @@ msgstr "Corea, República Democrática Popular de"
 
 #: my-evolution/Locations.h:1133
 msgid "Korea, Republic of"
-msgstr "República Coreana"
+msgstr "República de Corea"
 
 #: my-evolution/Locations.h:1134
 msgid "Kos"
@@ -18315,7 +18312,7 @@ msgstr "Kryviy Rig/Lozovatka"
 
 #: my-evolution/Locations.h:1143
 msgid "Kumamoto Airport"
-msgstr "Kumamoto Airport"
+msgstr "Aeropuerto de Kumamoto"
 
 #: my-evolution/Locations.h:1144
 msgid "Kunming"
@@ -18323,7 +18320,7 @@ msgstr "Kunming"
 
 #: my-evolution/Locations.h:1145
 msgid "Kushiro Airport"
-msgstr "Kushiro Airport"
+msgstr "Aeropuerto de Kushiro"
 
 #: my-evolution/Locations.h:1147
 msgid "Kyiv/Boryspil"
@@ -18363,7 +18360,7 @@ msgstr "La Grande"
 
 #: my-evolution/Locations.h:1156
 msgid "Lahaina"
-msgstr "Lahaina"
+msgstr "Lahaine"
 
 #: my-evolution/Locations.h:1157
 msgid "Lahore"
@@ -18639,7 +18636,7 @@ msgstr "Limoges"
 
 #: my-evolution/Locations.h:1227
 msgid "Limon"
-msgstr "Limon"
+msgstr "Limón"
 
 #: my-evolution/Locations.h:1228
 msgid "Lincoln"
@@ -18823,7 +18820,7 @@ msgstr "Lyon-Satolas"
 
 #: my-evolution/Locations.h:1275
 msgid "Maastricht"
-msgstr "Mastricht"
+msgstr "Maastricht"
 
 #: my-evolution/Locations.h:1276
 msgid "Macae"
@@ -18863,7 +18860,7 @@ msgstr "Madrid (Cuatro Vientos)"
 
 #: my-evolution/Locations.h:1285
 msgid "Magadan"
-msgstr "Magadan"
+msgstr "Magadán"
 
 #: my-evolution/Locations.h:1286
 msgid "Magdalena"
@@ -18899,7 +18896,7 @@ msgstr "Malatya"
 
 #: my-evolution/Locations.h:1294
 msgid "Maldonado/Punta Est"
-msgstr "Maldonado/Punta Est"
+msgstr "Maldonado/Punta del Este"
 
 #: my-evolution/Locations.h:1295
 msgid "Malmo/Sturup"
@@ -18983,7 +18980,7 @@ msgstr "Marathon"
 
 #: my-evolution/Locations.h:1316
 msgid "Mar Del Plata"
-msgstr "Mar Del Plata"
+msgstr "Mar de la Plata"
 
 #: my-evolution/Locations.h:1317
 msgid "Margarita"
@@ -19019,11 +19016,11 @@ msgstr "Marion-Wytheville"
 
 #: my-evolution/Locations.h:1325
 msgid "Marseille-Provence"
-msgstr "Marseille-Provence"
+msgstr "Marsella-Provence"
 
 #: my-evolution/Locations.h:1326
 msgid "Marseilles"
-msgstr "Marseilles"
+msgstr "Marsella"
 
 #: my-evolution/Locations.h:1327
 msgid "Marshall"
@@ -19091,7 +19088,7 @@ msgstr "Matamoros"
 
 #: my-evolution/Locations.h:1343
 msgid "Matsumoto Airport"
-msgstr "Matsumoto Airport"
+msgstr "Aeropuerto de Matsumoto"
 
 #: my-evolution/Locations.h:1344
 msgid "Matsushima Ab"
@@ -19099,7 +19096,7 @@ msgstr "Matsushima Ab"
 
 #: my-evolution/Locations.h:1345
 msgid "Matsuyama Airport"
-msgstr "Matsuyama Airport"
+msgstr "Aeropuerto de Matsuyama"
 
 #: my-evolution/Locations.h:1346
 msgid "Mattoon"
@@ -19115,7 +19112,7 @@ msgstr "Mayport"
 
 #: my-evolution/Locations.h:1349
 msgid "Mazatlan"
-msgstr "Mazatlan"
+msgstr "Mazatlán"
 
 #: my-evolution/Locations.h:1350
 msgid "Mazu"
@@ -19191,7 +19188,7 @@ msgstr "Melilla"
 
 #: my-evolution/Locations.h:1368
 msgid "Memambetsu Airport"
-msgstr "Memambetsu Airport"
+msgstr "Aeropuerto de Memambetsu"
 
 #: my-evolution/Locations.h:1369
 msgid "Memphis"
@@ -19383,7 +19380,7 @@ msgstr "Misawa Ab"
 
 #: my-evolution/Locations.h:1417
 msgid "Mississippi"
-msgstr "Misisipi"
+msgstr "Mississippi"
 
 #: my-evolution/Locations.h:1418
 msgid "Missoula"
@@ -19403,11 +19400,11 @@ msgstr "Mitilini"
 
 #: my-evolution/Locations.h:1422
 msgid "Miyakejima Airport"
-msgstr "Miyakejima Airport"
+msgstr "Aeropuerto de Miyakejima"
 
 #: my-evolution/Locations.h:1423
 msgid "Miyazaki Airport"
-msgstr "Miyazaki Airport"
+msgstr "Aeropuerto de Miyazaki"
 
 #: my-evolution/Locations.h:1424
 msgid "Moa"
@@ -19419,7 +19416,7 @@ msgstr "Mobile Downtown"
 
 #: my-evolution/Locations.h:1426
 msgid "Mobile Regional Airport"
-msgstr "Mobile Regional Airport"
+msgstr "Aeropuerto Mobile Regional"
 
 #: my-evolution/Locations.h:1427
 msgid "Mobridge"
@@ -19443,7 +19440,7 @@ msgstr "Molde"
 
 #: my-evolution/Locations.h:1432
 msgid "Moldova"
-msgstr "Moldova"
+msgstr "Moldavia"
 
 #: my-evolution/Locations.h:1433
 msgid "Moline-Quad Cities"
@@ -19455,7 +19452,7 @@ msgstr "Molokai"
 
 #: my-evolution/Locations.h:1435
 msgid "Mombetsu Airport"
-msgstr "Mombetsu Airport"
+msgstr "Aeropuerto de Mombetsu"
 
 #: my-evolution/Locations.h:1436
 msgid "Monchengladbach"
@@ -19663,7 +19660,7 @@ msgstr "Mullen"
 
 #: my-evolution/Locations.h:1488
 msgid "Munchen"
-msgstr "Munchen"
+msgstr "Múnich"
 
 #: my-evolution/Locations.h:1489
 msgid "Muncie"
@@ -19715,11 +19712,11 @@ msgstr "Nacogdoches"
 
 #: my-evolution/Locations.h:1501
 msgid "Nagasaki Airport"
-msgstr "Nagasaki Airport"
+msgstr "Aeropuerto de Nagasaki"
 
 #: my-evolution/Locations.h:1502
 msgid "Nagoya Airport"
-msgstr "Nagoya Airport"
+msgstr "Aeropuerto de Nagoya"
 
 #: my-evolution/Locations.h:1503
 msgid "Nagpur Sonegaon"
@@ -19727,7 +19724,7 @@ msgstr "Nagpur Sonegaon"
 
 #: my-evolution/Locations.h:1504
 msgid "Naha Airport"
-msgstr "Naha Airport"
+msgstr "Aeropuerto de Naha"
 
 #: my-evolution/Locations.h:1505
 msgid "Najran"
@@ -19735,7 +19732,7 @@ msgstr "Najran"
 
 #: my-evolution/Locations.h:1506
 msgid "Nakashibetsu Airport"
-msgstr "Nakashibetsu Airport"
+msgstr "Aeropuerto de Nakashibetsu"
 
 #: my-evolution/Locations.h:1507
 msgid "Nalchik"
@@ -19755,7 +19752,7 @@ msgstr "Nancy-Ochey"
 
 #: my-evolution/Locations.h:1511
 msgid "Nankishirahama Airport"
-msgstr "Nankishirahama Airport"
+msgstr "Aeropuerto de Nankishirahama"
 
 #: my-evolution/Locations.h:1512
 msgid "Nanning"
@@ -19775,11 +19772,11 @@ msgstr "Napa"
 
 #: my-evolution/Locations.h:1516
 msgid "Naples"
-msgstr "Nápoles"
+msgstr "Naples"
 
 #: my-evolution/Locations.h:1517
 msgid "Napoli"
-msgstr "Napoli"
+msgstr "Nápoles"
 
 #: my-evolution/Locations.h:1518
 msgid "Narvik"
@@ -19787,7 +19784,7 @@ msgstr "Narvik"
 
 #: my-evolution/Locations.h:1519
 msgid "Nasa Shuttle"
-msgstr "Nasa Shuttle"
+msgstr "Lanzadera Nasa"
 
 #: my-evolution/Locations.h:1520
 msgid "Nashua"
@@ -19863,7 +19860,7 @@ msgstr "Newcastle"
 
 #: my-evolution/Locations.h:1539
 msgid "New Delhi/Palam"
-msgstr "New Delhi/Palam"
+msgstr "Nueva Delhi/Palam"
 
 #: my-evolution/Locations.h:1540
 msgid "Newfoundland"
@@ -19919,7 +19916,7 @@ msgstr "New River"
 
 #: my-evolution/Locations.h:1553
 msgid "New Tokyo International Airport"
-msgstr "New Tokyo International Airport"
+msgstr "Aeropuerto Internacional Nuevo de Tokio"
 
 #: my-evolution/Locations.h:1554
 msgid "Newton"
@@ -19931,7 +19928,7 @@ msgstr "Nueva York"
 
 #: my-evolution/Locations.h:1556
 msgid "New York-JFK Arpt"
-msgstr "New York-JFK Arpt"
+msgstr "Nueva York-Aeropuerto JFK"
 
 #: my-evolution/Locations.h:1557
 msgid "New York-La Guardia"
@@ -19947,7 +19944,7 @@ msgstr "Niza-Costa Azul"
 
 #: my-evolution/Locations.h:1562
 msgid "Niigata Airport"
-msgstr "Niigata Airport"
+msgstr "Aeropuerto de Niigata"
 
 #: my-evolution/Locations.h:1563
 msgid "Nimes-Garons"
@@ -20099,7 +20096,7 @@ msgstr "Oberpfaffenhofen"
 
 #: my-evolution/Locations.h:1602
 msgid "Obihiro Airport"
-msgstr "Obihiro Airport"
+msgstr "Aeropuerto de Obihiro"
 
 #: my-evolution/Locations.h:1603
 msgid "Ocala"
@@ -20143,7 +20140,7 @@ msgstr "Ohrid"
 
 #: my-evolution/Locations.h:1613
 msgid "Oita Airport"
-msgstr "Oita Airport"
+msgstr "Aeropuerto de Oita"
 
 #: my-evolution/Locations.h:1614
 msgid "Ojika Island"
@@ -20151,11 +20148,11 @@ msgstr "Ojika Island"
 
 #: my-evolution/Locations.h:1615
 msgid "Okayama Airport"
-msgstr "Okayama Airport"
+msgstr "Aeropuerto de Okayama"
 
 #: my-evolution/Locations.h:1616
 msgid "Oki Airport"
-msgstr "Oki Airport"
+msgstr "Aeropuerto de Oki"
 
 #: my-evolution/Locations.h:1617
 msgid "Okinoerabu"
@@ -20295,7 +20292,7 @@ msgstr "Oseberg A"
 
 #: my-evolution/Locations.h:1652
 msgid "Oshima Airport"
-msgstr "Oshima Airport"
+msgstr "Aeropuerto de Oshima"
 
 #: my-evolution/Locations.h:1653
 msgid "Oshkosh"
@@ -20479,7 +20476,7 @@ msgstr "Patuxent River"
 
 #: my-evolution/Locations.h:1702
 msgid "Pau/Pyrenees"
-msgstr "Pau/Pyrenees"
+msgstr "Pau/Pirineos"
 
 #: my-evolution/Locations.h:1703
 msgid "Paxson"
@@ -20759,7 +20756,7 @@ msgstr "Port Angeles"
 
 #: my-evolution/Locations.h:1774
 msgid "Port-Au-Prince"
-msgstr "Port-Au-Prince"
+msgstr "Porto-Prínciple"
 
 #: my-evolution/Locations.h:1775
 msgid "Port Elizabeth"
@@ -20867,7 +20864,7 @@ msgstr "Prestwick"
 
 #: my-evolution/Locations.h:1802
 msgid "Pretoria"
-msgstr "Pretória"
+msgstr "Pretoria"
 
 #: my-evolution/Locations.h:1803
 msgid "Preveza"
@@ -21391,7 +21388,7 @@ msgstr "Sacramento-Woodland"
 
 #: my-evolution/Locations.h:1936
 msgid "Safford-Municipal Airport"
-msgstr "Safford-Municipal Airport"
+msgstr "Aeropuerto Municipal de Safford"
 
 #: my-evolution/Locations.h:1937
 msgid "Saginaw"
@@ -21851,7 +21848,7 @@ msgstr "Seoul E Ab"
 
 #: my-evolution/Locations.h:2052
 msgid "Seoul/Kimp'O International Airport"
-msgstr "Aeropuerto Internacional de Seoul/Kimp'O"
+msgstr "Aeropuerto Internacional de Seúl/Kimp'O"
 
 #: my-evolution/Locations.h:2053
 msgid "Seoul/Yongdungp'O Rokaf Wc"
@@ -22679,11 +22676,11 @@ msgstr "Tokyo Heliport"
 
 #: my-evolution/Locations.h:2268
 msgid "Tokyo International Airport"
-msgstr "Tokyo International Airport"
+msgstr "Aeropuerto Internacional de Tokio"
 
 #: my-evolution/Locations.h:2269
 msgid "Tokyo New International Airport"
-msgstr "Tokyo New International Airport"
+msgstr "Aeropuerto Intenacional Nuevo de Tokio"
 
 #: my-evolution/Locations.h:2270
 msgid "Toledo"
@@ -22731,7 +22728,7 @@ msgstr "Torreon"
 
 #: my-evolution/Locations.h:2281
 msgid "Tottori Airport"
-msgstr "Tottori, aeropuerto de"
+msgstr "Aeropuerto de Tottori"
 
 #: my-evolution/Locations.h:2282
 msgid "Toulouse"
@@ -22755,7 +22752,7 @@ msgstr "Townsville"
 
 #: my-evolution/Locations.h:2287
 msgid "Toyama Airport"
-msgstr "Toyama Airport"
+msgstr "Aeropuerto de Toyama"
 
 #: my-evolution/Locations.h:2288
 msgid "Trabzon"
@@ -22831,7 +22828,7 @@ msgstr "Tsuiki Ab"
 
 #: my-evolution/Locations.h:2306
 msgid "Tsushima Airport"
-msgstr "Tsushima Airport"
+msgstr "Aeropuerto de Tsushima"
 
 #: my-evolution/Locations.h:2307
 msgid "Tucson"
@@ -23179,7 +23176,7 @@ msgstr "Virginia Beach"
 
 #: my-evolution/Locations.h:2400
 msgid "Virginia Tech Airport"
-msgstr "Virginia Tech Airport"
+msgstr "Aeropuerto de Virginia Tech"
 
 #: my-evolution/Locations.h:2401
 msgid "Viru-Viru"
@@ -23243,7 +23240,7 @@ msgstr "Waco"
 
 #: my-evolution/Locations.h:2416
 msgid "Wadi Al Dawasser Airport"
-msgstr "Wadi Al Dawasser Airport"
+msgstr "Aeropuerto de Wadi Al Dawasser"
 
 #: my-evolution/Locations.h:2417
 msgid "Wainwright"
@@ -23255,7 +23252,7 @@ msgstr "Wakefield"
 
 #: my-evolution/Locations.h:2419
 msgid "Wakkanai Airport"
-msgstr "Wakkanai Airport"
+msgstr "Aeropuerto de Wakkanai"
 
 #: my-evolution/Locations.h:2420
 msgid "Walla Walla"
@@ -23451,7 +23448,7 @@ msgstr "Willoughby"
 
 #: my-evolution/Locations.h:2468
 msgid "Willow Airport"
-msgstr "Willow Airport"
+msgstr "Aeropuerto de Willow"
 
 #: my-evolution/Locations.h:2469
 msgid "Wilmington"
@@ -23583,11 +23580,11 @@ msgstr "Yakutsk"
 
 #: my-evolution/Locations.h:2501
 msgid "Yamagata Airport"
-msgstr "Yamagata Airport"
+msgstr "Aeropuerto de Yamagata"
 
 #: my-evolution/Locations.h:2502
 msgid "Yamaguchi Ube Airport"
-msgstr "Yamaguchi Ube Airport"
+msgstr "Aeropuerto de Yamaguchi Ube"
 
 #: my-evolution/Locations.h:2503
 msgid "Yankton"
@@ -23595,7 +23592,7 @@ msgstr "Yankton"
 
 #: my-evolution/Locations.h:2504
 msgid "Yao Airport"
-msgstr "Yao, aeropuerto"
+msgstr "Aeropuerto de Yao"
 
 #: my-evolution/Locations.h:2505
 msgid "Yechon Ab"
@@ -27994,534 +27991,4 @@ msgstr "Motor de agenda en archivo local de Evolution"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Motor para libretas de direcciones en archivo local de Evolution"
-
-#~ msgid "However, the message was successfully sent."
-#~ msgstr "Aun así, este mensaje fue enviado correctamente."
-
-#~ msgid "Hey you, dunce. You need an account to send mail doncha know."
-#~ msgstr "Necesita una cuenta para enviar correo."
-
-#~ msgid "Save As..."
-#~ msgstr "Guardar como..."
-
-#~ msgid ""
-#~ "ping_timeout_callback: could not determine if the CORBA object is nil or "
-#~ "not"
-#~ msgstr ""
-#~ "ping_timeout_calbak: no se pudo determinar si el objeto CORBA es nil o no"
-
-#~ msgid "Search"
-#~ msgstr "Buscar"
-
-#~ msgid "Automatically _detect links"
-#~ msgstr "_Detectar enlaces automáticamente"
-
-#~ msgid "Emacs"
-#~ msgstr "Emacs"
-
-#~ msgid "Microsoft"
-#~ msgstr "Microsoft"
-
-#~ msgid "Shortcuts _type:"
-#~ msgstr "_Tipo de combinaciones de teclas:"
-
-#~ msgid "XEmacs"
-#~ msgstr "XEmacs"
-
-#~ msgid "Force upgrading of configuration files from Evolution 1.0.x"
-#~ msgstr ""
-#~ "Forzar la actualización de los archivos de configuración de Evolution 1.0."
-#~ "x"
-
-#~ msgid "Email Address:"
-#~ msgstr "Dirección de correo-e:"
-
-#~ msgid "Check Full Name"
-#~ msgstr "Comprobar nombre completo"
-
-#~ msgid "Add Anyway"
-#~ msgstr "Añadir de todos modos"
-
-#~ msgid "Change Anyway"
-#~ msgstr "Cambiar de todos modos"
-
-#~ msgid "Configure the fonts used by Evolution here"
-#~ msgstr "Configure las tipografías usadas por Evolution aquí"
-
-#~ msgid "Evolution Mail font configuration control"
-#~ msgstr "Interfaz de configuración de la tipografía del correo de Evolution"
-
-#~ msgid "Font Preferences"
-#~ msgstr "Configuración de tipografías"
-
-#~ msgid "Add a news feed"
-#~ msgstr "Añadir una proveedor de noticias"
-
-#~ msgid "Enter the URL of the news feed you wish to add"
-#~ msgstr "Escriba el URL del proveedor de noticias que quiere añadir"
-
-#~ msgid "Add n_ews feed"
-#~ msgstr "Añadir proveedor de _noticias"
-
-#~ msgid "Delete news feed"
-#~ msgstr "Borrar proveedor de noticias"
-
-#~ msgid "_Mail"
-#~ msgstr "_Correo"
-
-#~ msgid "_Weather"
-#~ msgstr "_Meteorología"
-
-#~ msgid "De_lete"
-#~ msgstr "Bo_rrar"
-
-#~ msgid "_Meeting"
-#~ msgstr "_Reunión"
-
-#~ msgid "_every"
-#~ msgstr "_cada"
-
-#~ msgid "Create _New Folder..."
-#~ msgstr "Crear una carpeta _nueva..."
-
-#~ msgid "Check Address"
-#~ msgstr "Comprobar dirección"
-
-#~ msgid "_Clear Flag"
-#~ msgstr "_Quitar señal"
-
-#~ msgid "S_elect server: "
-#~ msgstr "S_eleccione un servidor: "
-
-#~ msgid "Add"
-#~ msgstr "Añadir"
-
-#~ msgid "_Signature editor"
-#~ msgstr "Editor de _firmas"
-
-#~ msgid "_Contacts..."
-#~ msgstr "_Contactos..."
-
-#~ msgid "Factory to import LDIF files into Evolution."
-#~ msgstr "Fábrica para importar archivos LDIF en Evolution."
-
-#~ msgid "Imports LDIF files into Evolution."
-#~ msgstr "Importa archivos LDIF en Evolution."
-
-#~ msgid "Factory to import VCard files into Evolution."
-#~ msgstr "Fábrica para importar archivos VCard en Evolution."
-
-#~ msgid "Imports VCard files into Evolution."
-#~ msgstr "Importa archivos VCard en Evolution."
-
-#~ msgid "A Bonobo control for an address popup."
-#~ msgstr "Un control Bonobo para una ventana emergente de dirección."
-
-#~ msgid "A Bonobo control for displaying an address."
-#~ msgstr "Un control Bonobo para mostrar una dirección."
-
-#~ msgid "A sample Bonobo control which displays an addressbook."
-#~ msgstr ""
-#~ "Un control Bonobo de ejemplo que muestra una libreta de direcciones."
-
-#~ msgid "Configuration control for the Evolution Addressbook Storages."
-#~ msgstr ""
-#~ "Control de configuración para los Almacenes de la Libreta de Evolution."
-
-#~ msgid "Control that displays an Evolution addressbook minicard."
-#~ msgstr "Control que muestra minitarjetas de direcciones en Evolution."
-
-#~ msgid "Evolution component for handling contacts."
-#~ msgstr "Componente de Evolution para manejar contactos."
-
-#~ msgid "Factory for the controls exported by the Evolution Addressbook"
-#~ msgstr ""
-#~ "Fábrica para los controles exportados por la Libreta de Direcciones de "
-#~ "Evolution"
-
-#~ msgid "Factory for the Addressbook's name selection interface"
-#~ msgstr ""
-#~ "Fábrica para el interfaz de selección de nombre de la Libreta de "
-#~ "Direcciones"
-
-#~ msgid "Unnamed Contact List"
-#~ msgstr "Lista de contactos anónima"
-
-#~ msgid "(%d not shown)"
-#~ msgstr "(%d no mostrado)"
-
-#~ msgid "A Bonobo control which displays a task list."
-#~ msgstr "Un control bonobo que muestra una lista de tareas."
-
-#~ msgid "A sample Bonobo control which displays an calendar."
-#~ msgstr "Un control bonobo de ejemplo que muestra una agenda."
-
-#~ msgid "Configuration control for the Evolution Calendar."
-#~ msgstr "Control de configuración de la Agenda de Evolution."
-
-#~ msgid "Evolution component for handling the calendar."
-#~ msgstr "Componente de Evolution para manejar la agenda."
-
-#~ msgid "Factory for the Evolution Calendar objects"
-#~ msgstr "Fábrica para objetos de Evolution Calendar"
-
-#~ msgid "Factory to centralize calendar component editor dialogs"
-#~ msgstr ""
-#~ "Fábrica para centralizar el componente del editor de diálogos de la agenda"
-
-#~ msgid "Alarm notification service"
-#~ msgstr "Servicio de alarmas de notificación"
-
-#~ msgid "Factory to import iCalendar files into Evolution"
-#~ msgstr "Fábrica para importar archivos iCalendar en Evolution"
-
-#~ msgid "Imports iCalendar files into Evolution"
-#~ msgstr "Importa archivos iCalendar en Evolution"
-
-#~ msgid "Imports vCalendar files into Evolution"
-#~ msgstr "Importa archivos vCalendar en Evolution"
-
-#~ msgid "Configuration control for the Evolution Display Fonts."
-#~ msgstr ""
-#~ "Control de configuración de visualización de tipografías de Evolution."
-
-#~ msgid "Configuration control for the Evolution Mail Accounts."
-#~ msgstr "Control de configuración para las cuentas de correo de Evolution."
-
-#~ msgid "Configuration control for the Evolution Mailer."
-#~ msgstr "Control de Configuración para el envío de correo de Evolution."
-
-#~ msgid "Configuration control for the Evolution Message Composer."
-#~ msgstr "Control de configuración para el editor de correo de Evolution."
-
-#~ msgid "Evolution component for handling mail."
-#~ msgstr "Componente Evolution para manejar el correo."
-
-#~ msgid "Factory for the controls exported by the Evolution Mailer"
-#~ msgstr "Fábrica para los controles exportados por Evolution Mailer"
-
-#~ msgid "Factory to import mbox into Evolution"
-#~ msgstr "Fábrica para importar archivos mbox a Evolution"
-
-#~ msgid "Imports mbox files into Evolution"
-#~ msgstr "Importa archivos mbox a Evolution"
-
-#~ msgid "Factory to import Outlook Express 4 mails into Evolution"
-#~ msgstr "Fábrica para importar mensajes de Outlook Express 4 a Evolution"
-
-#~ msgid "Imports Outlook Express 4 files into Evolution"
-#~ msgstr "Importa archivos de Outlook Express 4 a Evolution"
-
-#~ msgid "On Screen fonts"
-#~ msgstr "Fuentes en pantalla"
-
-#~ msgid "_Fixed-width:"
-#~ msgstr "_Anchura fija:"
-
-#~ msgid "_Variable-width:"
-#~ msgstr "Anchura _variable:"
-
-#~ msgid "Configuration control for the Evolution Summary."
-#~ msgstr "Control de configuración para el resumen de Evolution."
-
-#~ msgid "Configuration control for Evolution folder settings."
-#~ msgstr ""
-#~ "Control de configuración para la configuración de carpetas de Evolution."
-
-#~ msgid ""
-#~ "Evolution could not create directory\n"
-#~ "%s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Evolution no puede crear el directorio\n"
-#~ "%s:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Directory %s\n"
-#~ "does not have the right permissions. Please make it\n"
-#~ "readable and executable and restart Evolution."
-#~ msgstr ""
-#~ "El directorio %s\n"
-#~ "no tiene los permisos adecuados. Por favor\n"
-#~ "dele permisos de lectura y ejecución y reinicie Evolution."
-
-#~ msgid ""
-#~ "File %s\n"
-#~ "should be removed to allow Evolution to work correctly.\n"
-#~ "Please remove this file and restart Evolution."
-#~ msgstr ""
-#~ "El archivo %s\n"
-#~ "debería ser eliminado para que Evolution funcione correctamente.\n"
-#~ "Por favor elimine este archivo y reinicie Evolution."
-
-#~ msgid "Output File"
-#~ msgstr "Archivo de salida"
-
-#~ msgid "The Personal Addressbook Server"
-#~ msgstr "El servidor de libretas de direcciones personales"
-
-#~ msgid "The Personal Calendar Server; calendar factory"
-#~ msgstr "El servidor de agendas personales. Fábrica de agendas"
-
-#~ msgid "Wombat InterfaceCheck interface"
-#~ msgstr "Interfaz wombat InterfaceCheck"
-
-#~ msgid "1234"
-#~ msgstr "1234"
-
-#~ msgid "380"
-#~ msgstr "380"
-
-#~ msgid "666"
-#~ msgstr "666"
-
-#~ msgid "<- _Remove"
-#~ msgstr "<- Elimina_r"
-
-#~ msgid "<< Fewer Options"
-#~ msgstr "<< Menos opciones"
-
-#~ msgid "Add (or Edit) Attribute Mappings"
-#~ msgstr "Añadir (o editar) mapeos de atributos"
-
-#~ msgid "DN Customization"
-#~ msgstr "Personalización de ND"
-
-#~ msgid "Mappings"
-#~ msgstr "Mapeos"
-
-#~ msgid "Objectclasses"
-#~ msgstr "Objectclasses"
-
-#~ msgid "Objectclasses Used in Evolution:"
-#~ msgstr "Objectclasses usadas en Evolution:"
-
-#~ msgid "Objectclasses Used on Server:"
-#~ msgstr "Objectclasses usadas en el Servidor:"
-
-#~ msgid ""
-#~ "Please select an Evolution attribute and an\n"
-#~ "LDAP attribute to associate with it."
-#~ msgstr ""
-#~ "Por favor, seleccione un atributo de Evolution y un \n"
-#~ "atributo del LDAP para asociarlos entre sí."
-
-#~ msgid "R_estore Defaults"
-#~ msgstr "R_establecer predeterminados"
-
-#~ msgid "Re_store Defaults"
-#~ msgstr "Re_stablecer predeterminados"
-
-#~ msgid ""
-#~ "To add an attribute to the DN, select it from the list and click the "
-#~ "\"Add Attribute\" button.\n"
-#~ "Any values that you add to the DN will become required values for any new "
-#~ "contacts\n"
-#~ "that you add to the directory on the LDAP server. "
-#~ msgstr ""
-#~ "Para añadir un atributo al ND, selecciónelo de la lista y pulse el botón "
-#~ "«Añadir Atributo». Cualquier valor que añada al ND se convertirá en "
-#~ "valores requeridos para cualquier contacto nuevo que añada al directorio "
-#~ "en el servidor LDAP."
-
-#~ msgid "_Add ->"
-#~ msgstr "_Añadir ->"
-
-#~ msgid "_Add Mapping"
-#~ msgstr "Añadir _mapeo"
-
-#~ msgid "_Add to DN"
-#~ msgstr "Aña_dir a ND"
-
-#~ msgid "_Always"
-#~ msgstr "_Siempre"
-
-#~ msgid "_Delete Mapping"
-#~ msgstr "_Borrar mapeo"
-
-#~ msgid "_Distinguished Name (DN):"
-#~ msgstr "Nombre _Distintivo (ND):"
-
-#~ msgid "_Don't use SSL/TLS"
-#~ msgstr "_No usar SSL/TLS"
-
-#~ msgid "_Edit Mapping"
-#~ msgstr "_Editar mapeo"
-
-#~ msgid "_Evolution attribute:"
-#~ msgstr "Atributo de _Evolution:"
-
-#~ msgid "_If necessary "
-#~ msgstr "S_i es necesario "
-
-#~ msgid "_LDAP attribute:"
-#~ msgstr "Atributo _LDAP:"
-
-#~ msgid "_LDAP attributes:"
-#~ msgstr "Atributos _LDAP:"
-
-#~ msgid "_More Options >>"
-#~ msgstr "_Más opciones >>"
-
-#~ msgid "_Restore Defaults"
-#~ msgstr "_Restablecer predeterminados"
-
-#~ msgid "account-druid"
-#~ msgstr "Asistente de cuentas"
-
-#~ msgid "account-editor"
-#~ msgstr "Editor de cuentas"
-
-#~ msgid "dn-customization-tab"
-#~ msgstr "Solapa de personalización de ND"
-
-#~ msgid "edit_server_window_simple"
-#~ msgstr "edit_server_window_simple"
-
-#~ msgid "mappings-tab"
-#~ msgstr "Solapa de planificación"
-
-#~ msgid "objectclasses-tab"
-#~ msgstr "objectclassses-tab"
-
-#~ msgid ""
-#~ "Evolution has taken the tasks that were in your calendar folder and "
-#~ "automatically migrated them to the new tasks folder."
-#~ msgstr ""
-#~ "Evolution ha tomado las tareas que estaban en su carpeta de agenda y las "
-#~ "ha migrado automáticamente a la carpeta de tareas nueva."
-
-#~ msgid ""
-#~ "Evolution has tried to take the tasks that were in your calendar folder "
-#~ "and migrate them to the new tasks folder.\n"
-#~ "Some of the tasks could not be migrated, so this process may be attempted "
-#~ "again in the future."
-#~ msgstr ""
-#~ "Evolution ha intentado tomar las tareas que estaban en su carpeta de "
-#~ "agenda y migrarlas automáticamente a la carpeta de tareas nueva.\n"
-#~ "Algunas tareas no han podido ser migradas, así que este proceso puede que "
-#~ "sea reintentado otra vez en el futuro."
-
-#~ msgid ""
-#~ "Could not open `%s'; no items from the calendar folder will be migrated "
-#~ "to the tasks folder."
-#~ msgstr ""
-#~ "No se pudo abrir «%s»; no se migrarán elementos de la carpeta de agenda a "
-#~ "la carpeta de tareas."
-
-#~ msgid ""
-#~ "The method required to load `%s' is not supported; no items from the "
-#~ "calendar folder will be migrated to the tasks folder."
-#~ msgstr ""
-#~ "El método requerido para cargar «%s» no está implementado. No se migrarán "
-#~ "elementos de la carpeta de agenda a la carpeta de tareas."
-
-#~ msgid "Can't get storage list from registry: %s"
-#~ msgstr "No se pudo obtener lista de almacenamiento del registro: %s"
-
-#~ msgid "Can't call getFolderAtPath on storage: %s"
-#~ msgstr "No se pudo llamar a getFolderAtPath en el almacén: %s"
-
-#~ msgid "minute"
-#~ msgstr "minuto"
-
-#~ msgid "hour"
-#~ msgstr "hora"
-
-#~ msgid "week"
-#~ msgstr "semana"
-
-#~ msgid "year"
-#~ msgstr "año"
-
-#~ msgid "All folders"
-#~ msgstr "Todas las carpetas"
-
-#~ msgid "Display Options"
-#~ msgstr "Mostrar opciones"
-
-#~ msgid "Folders whose names begin with:"
-#~ msgstr "Carpetas cuyos nombres comiencen por:"
-
-#~ msgid "Pilot Con_duit Settings..."
-#~ msgstr "Configuración del con_ducto de Pilot..."
-
-#~ msgid "Set up Pilot conduit configuration"
-#~ msgstr "Establecer la configuración del conducto del Pilot"
-
-#~ msgid "Edit Contact List"
-#~ msgstr "Editar lista de contactos"
-
-#~ msgid ""
-#~ "Evolution does not yet support email notification for reminders.  You "
-#~ "will not be able to edit the options for this reminder."
-#~ msgstr ""
-#~ "Evolution todavía no implementa notificación por correo-e para los "
-#~ "recordatorios.  No podrá editar las opciones de este recordatorio."
-
-#~ msgid ""
-#~ "Could not create composer window, because you have not yet\n"
-#~ "configured any identities in the mail component."
-#~ msgstr ""
-#~ "No se pudo crear una ventana de edición, porque no ha configurado\n"
-#~ "todavía ninguna identidad en el componente de correo."
-
-#~ msgid "Cannot initialize the Evolution composer."
-#~ msgstr "No se pudo inicializar el editor de correo de Evolution."
-
-#~ msgid "Cannot initialize the Evolution mail component."
-#~ msgstr "No se pudo inicializar el componente de correo de Evolution."
-
-#~ msgid "Cannot initialize Evolution's mail config component."
-#~ msgstr ""
-#~ "No se pudo inicializar el componente de configuración de correo de "
-#~ "Evolution."
-
-#~ msgid "Cannot initialize Evolution's folder info component."
-#~ msgstr ""
-#~ "No se pudo inicializar el componente de información sobre carpetas de "
-#~ "Evolution."
-
-#~ msgid ""
-#~ "Please specify signature filename\n"
-#~ "in Advanced section of signature settings."
-#~ msgstr ""
-#~ "Por favor especifique el nombre del archivo de la firma\n"
-#~ "en la sección «Avanzada» de la configuración de firmas."
-
-#~ msgid ""
-#~ "Could not start the Evolution Mailer Assistant interface\n"
-#~ "(%s)"
-#~ msgstr ""
-#~ "No se pudo iniciar el interfaz del  Asistente de Correo de Evolution\n"
-#~ "(%s)"
-
-#~ msgid "Could not start the Evolution Mailer Assistant interface\n"
-#~ msgstr ""
-#~ "No se pudo iniciar el interfaz del Asistente de Correo de Evolution\n"
-
-#~ msgid "Folder name cannot contain slashes."
-#~ msgstr "El nombre de la carpeta no puede contener barras (/)."
-
-#~ msgid "Host"
-#~ msgstr "Host"
-
-#~ msgid "st"
-#~ msgstr "º"
-
-#~ msgid "nd"
-#~ msgstr "º"
-
-#~ msgid "rd"
-#~ msgstr "º"
-
-#~ msgid "th"
-#~ msgstr "º"
-
-#~ msgid "Apri file"
-#~ msgstr "Archivo Apri"
-
-#~ msgid "Salve file"
-#~ msgstr "Archivo Salve"
 
