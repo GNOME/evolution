@@ -1,5 +1,5 @@
 
-noinst_PROGRAMS = copycluster regression parser findobj storage stow testvcal recur testmime
+noinst_PROGRAMS = copycluster regression parser findobj storage stow recur testmime
 
 LDADD = ../libical/libical.a ../libicalss/libicalss.a ../libicalvcal/libicalvcal.a 
 INCLUDES = \
@@ -8,7 +8,7 @@ INCLUDES = \
 	-I../libical \
 	-I $(srcdir)/../libical \
 	-I../libicalss \
-	-I $(srcdir)/../libicalss
+	-I $(srcdir)/../libicalss \
 	-I../libicalvcal \
 	-I $(srcdir)/../libicalvcal
 
