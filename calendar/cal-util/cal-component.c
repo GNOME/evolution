@@ -66,6 +66,8 @@ typedef struct {
 
 	struct datetime due;
 
+	icalproperty *last_modified;
+
 	struct {
 		icalproperty *prop;
 		icalparameter *altrep_param;
@@ -194,6 +196,8 @@ free_icalcomponent (CalComponent *comp)
 
 	priv->due.prop = NULL;
 	priv->due.tzid_param = NULL;
+
+	priv->last_modified = NULL;
 
 	priv->summary.prop = NULL;
 	priv->summary.altrep_param = NULL;
@@ -427,6 +431,10 @@ scan_property (CalComponent *comp, icalproperty *prop)
 
 	case ICAL_DUE_PROPERTY:
 		scan_datetime (comp, &priv->due, prop);
+		break;
+
+	case ICAL_LASTMODIFIED_PROPERTY:
+		priv->last_modified = prop;
 		break;
 
 	case ICAL_SUMMARY_PROPERTY:
@@ -1136,6 +1144,21 @@ cal_component_free_icaltimetype (struct icaltimetype *t)
 	g_free (t);
 }
 
+/* Gets a struct icaltimetype value */
+static void
+get_icaltimetype (icalproperty *prop,
+		  struct icaltimetype (* get_prop_func) (icalproperty *prop),
+		  struct icaltimetype **t)
+{
+	if (!prop) {
+		*t = NULL;
+		return;
+	}
+
+	*t = g_new (struct icaltimetype, 1);
+	**t = (* get_prop_func) (prop);
+}
+
 /**
  * cal_component_get_created:
  * @comp: A calendar component object.
@@ -1157,13 +1180,36 @@ cal_component_get_created (CalComponent *comp, struct icaltimetype **t)
 	priv = comp->priv;
 	g_return_if_fail (priv->icalcomp != NULL);
 
-	if (!priv->created) {
-		*t = NULL;
+	get_icaltimetype (priv->created, icalproperty_get_created, t);
+}
+
+/* Sets a struct icaltimetype value */
+static void
+set_icaltimetype (CalComponent *comp, icalproperty **prop,
+		  icalproperty *(* prop_new_func) (struct icaltimetype v),
+		  void (* prop_set_func) (icalproperty *prop, struct icaltimetype v),
+		  struct icaltimetype *t)
+{
+	CalComponentPrivate *priv;
+
+	priv = comp->priv;
+
+	if (!t) {
+		if (*prop) {
+			icalcomponent_remove_property (priv->icalcomp, *prop);
+			icalproperty_free (*prop);
+			*prop = NULL;
+		}
+
 		return;
 	}
 
-	*t = g_new (struct icaltimetype, 1);
-	**t = icalproperty_get_created (priv->created);
+	if (*prop)
+		(* prop_set_func) (*prop, *t);
+	else {
+		*prop = (* prop_new_func) (*t);
+		icalcomponent_add_property (priv->icalcomp, *prop);
+	}
 }
 
 /**
@@ -1186,22 +1232,10 @@ cal_component_set_created (CalComponent *comp, struct icaltimetype *t)
 	priv = comp->priv;
 	g_return_if_fail (priv->icalcomp != NULL);
 
-	if (!t) {
-		if (priv->created) {
-			icalcomponent_remove_property (priv->icalcomp, priv->created);
-			icalproperty_free (priv->created);
-			priv->created = NULL;
-		}
-
-		return;
-	}
-
-	if (priv->created)
-		icalproperty_set_created (priv->created, *t);
-	else {
-		priv->created = icalproperty_new_created (*t);
-		icalcomponent_add_property (priv->icalcomp, priv->created);
-	}
+	set_icaltimetype (comp, &priv->created,
+			  icalproperty_new_created,
+			  icalproperty_set_created,
+			  t);
 }
 
 /**
@@ -1531,6 +1565,55 @@ cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt)
 		      icalproperty_new_due,
 		      icalproperty_set_due,
 		      dt);
+}
+
+/**
+ * cal_component_get_last_modified:
+ * @comp: A calendar component object.
+ * @t: Return value for the last modified time value.
+ * 
+ * Queries the time at which a calendar component object was last modified in
+ * the calendar store.
+ **/
+void
+cal_component_get_last_modified (CalComponent *comp, struct icaltimetype **t)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (t != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	get_icaltimetype (priv->last_modified, icalproperty_get_lastmodified, t);
+}
+
+/**
+ * cal_component_set_last_modified:
+ * @comp: A calendar component object.
+ * @t: Value for the last time modified.
+ * 
+ * Sets the time at which a calendar component object was last stored in the
+ * calendar store.  This should not be called by plain calendar user agents.
+ **/
+void
+cal_component_set_last_modified (CalComponent *comp, struct icaltimetype *t)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (t != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	set_icaltimetype (comp, &priv->last_modified,
+			  icalproperty_new_lastmodified,
+			  icalproperty_set_lastmodified,
+			  t);
 }
 
 /**

@@ -1,5 +1,17 @@
 2000-07-06  Federico Mena Quintero  <federico@helixcode.com>
 
+	* cal-util/cal-component.c (scan_property): Handle the
+	LAST-MODIFIED property.
+	(free_icalcomponent): Ditto.
+	(cal_component_get_last_modified): Ditto.
+	(cal_component_set_last_modified): Ditto.
+	(get_icaltimetype): New function to get struct icaltimetype
+	values.
+	(cal_component_get_created): Use get_icaltimetype().
+	(set_icaltimetype): New function to set struct icaltimetype
+	values.
+	(cal_component_set_created): Use set_icaltimetype().
+
 	* cal-util/cal-component.c (scan_property): Handle the CREATED
 	property.
 	(free_icalcomponent): Ditto.
