@@ -61,7 +61,6 @@ evolution_wombat_LDADD =						\
 	$(top_builddir)/calendar/cal-util/libcal-util.la		\
 	$(top_builddir)/e-util/libedb3util.la				\
 	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/libwombat/libwombat.la				\
 	$(WOMBAT_LIBS)
 
 if ENABLE_LDAP

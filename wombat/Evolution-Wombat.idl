@@ -9,11 +9,6 @@
 module GNOME {
 module Evolution {
 
-	interface WombatClient {
-		string getPassword (in string prompt, in string key);
-		void   forgetPassword (in string key);
-	};
-
 	interface Config {
 	};
 
