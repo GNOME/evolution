@@ -1,5 +1,10 @@
 2004-04-12  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook.c (addressbook_load_default_book):
+	quiet valgrind uninitialized memory warning.
+
+2004-04-12  Chris Toshok  <toshok@ximian.com>
+
 	[ should fix #56537 ]
 	
 	* gui/widgets/eab-popup-control.c (EMPTY_ENTRY): use _(), not N_()

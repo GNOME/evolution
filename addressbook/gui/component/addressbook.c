@@ -793,6 +793,7 @@ addressbook_load_default_book (EBookCallback cb, gpointer closure)
 	load_source_data->cb = cb;
 	load_source_data->source = NULL;
 	load_source_data->closure = closure;
+	load_source_data->cancelled = FALSE;
 
 	e_book_async_get_default_addressbook (default_book_cb, load_source_data);
 }
