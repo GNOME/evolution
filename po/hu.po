@@ -2741,7 +2741,7 @@ msgstr "Értekezlet"
 
 #: calendar/gui/dialogs/event-page.glade.h:1
 msgid "A_ll day event"
-msgstr "Mindennapos esemény"
+msgstr "_Egész napos esemény"
 
 #: calendar/gui/dialogs/event-page.glade.h:3
 #: calendar/gui/dialogs/task-page.glade.h:5
