@@ -100,7 +100,7 @@ launch_alarm_daemon_cb (gpointer data)
 	an = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify:" BASE_VERSION, 0, NULL, &ev);
 
 	if (BONOBO_EX (&ev)) {
-		g_message ("launch_alarm_daemon_cb(): Could not activate the alarm notification service");
+		g_message ("launch_alarm_daemon_cb(): %s", bonobo_exception_get_text (&ev));
 		CORBA_exception_free (&ev);
 		return FALSE;
 	}
