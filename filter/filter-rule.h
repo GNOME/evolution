@@ -59,6 +59,7 @@ struct _FilterRule {
 	char *source;
 	
 	enum _filter_grouping_t grouping;
+	unsigned int system:1;	/* this is a system rule, cannot be edited/deleted */
 	GList *parts;
 };
 

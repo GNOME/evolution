@@ -75,11 +75,12 @@ EXTRA_DIST =					\
 	filter-marshal.list			\
 	filtertypes.xml				\
 	libfilter-i18n.h			\
-	vfoldertypes.xml
+	vfoldertypes.xml			\
+	searchtypes.xml
 
 # basic rules.
 filterdir = $(privdatadir)
-filter_DATA = filtertypes.xml vfoldertypes.xml
+filter_DATA = filtertypes.xml vfoldertypes.xml searchtypes.xml
 
 libfilter-i18n.h: filtertypes.xml vfoldertypes.xml
 	echo "/* Automatically generated. Do not edit. */" > $@;	      \

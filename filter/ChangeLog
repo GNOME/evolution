@@ -1,3 +1,17 @@
+2003-09-15  Not Zed  <NotZed@Ximian.com>
+
+	** See Natzilla task #47524
+
+	* filter-rule.h (FilterRule): add a system bit, for rules that
+	shouldn't be edited/saved.
+
+	* rule-context.c (load): check for ruleset maps in the system
+	file, and if they exist, load in as system rules.
+	(save): ignore system rules if they exist.
+
+	* searchtypes.xml: Added a search-specific types folder.  Also
+	contains system searches that cannot be deleted.
+
 2003-08-05  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #42636.
