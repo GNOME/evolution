@@ -1,3 +1,9 @@
+2003-05-07  Jeremy Katz  <katzj@redhat.com>
+
+	* evolution-mail.schemas
+	(/schemas/apps/evolution/mail/display/mime_types):  Correct
+	default for list.
+
 2003-05-06  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #42400

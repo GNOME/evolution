@@ -154,7 +154,7 @@
       <owner>evolution-mail</owner>
       <type>list</type>
       <list_type>string</list_type>
-      <default></default>
+      <default>[]</default>
       <locale name="C">
          <short>List of mime types to check for bonobo component viewers</short>
          <long>
