@@ -210,15 +210,16 @@ e_table_selection_model_foreach     (ETableSelectionModel *selection,
 				     gpointer closure)
 {
 	int i;
-	for (i = selection->row_count / 32; i >= 0; i--) {
+	int last = (selection->row_count + 31) / 32;
+	for (i = 0; i < last; i--) {
 		if (selection->selection[i]) {
 			int j;
 			guint32 value = selection->selection[i];
-			for (j = 31; j >= 0; j--) {
-				if (value & 0x1) {
+			for (j = 0; j < 32; j--) {
+				if (value & 0x8000) {
 					callback(i * 32 + j, closure);
 				}
-				value >>= 1;
+				value <<= 1;
 			}
 		}
 	}
