@@ -863,6 +863,7 @@ append_mail_free (struct _mail_msg *mm)
 
 	camel_object_unref((CamelObject *)m->message);
 	camel_object_unref((CamelObject *)m->folder);
+	g_free (m->appended_uid);
 }
 
 static struct _mail_msg_op append_mail_op = {
@@ -874,7 +875,7 @@ static struct _mail_msg_op append_mail_op = {
 
 void
 mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageInfo *info,
-		  void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, char *appended_uid, void *data),
+		  void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, const char *appended_uid, void *data),
 		  void *data)
 {
 	struct _append_msg *m;

@@ -122,7 +122,6 @@ void empty_trash           (BonoboUIComponent *uih, void *user_data, const char 
 void mail_reply            (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mode);
 
 void composer_send_cb      (EMsgComposer *composer, gpointer data);
-void composer_postpone_cb  (EMsgComposer *composer, gpointer data);
 void composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer data);
 
 void forward_messages	   (CamelFolder *folder, GPtrArray *uids, gboolean inline);

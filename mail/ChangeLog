@@ -1,3 +1,37 @@
+2002-07-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* main.c (main): No longer need to pass a postpone_cb function
+	into the composer factory_init.
+
+	* mail-send-recv.c (get_receive_type): If the provider is a
+	transport, return SEND_SEND.
+
+	* mail-config.c (mail_config_get_default_transport): If the
+	default account doesn't have a transport, find the first account
+	that does.
+
+	* mail-callbacks.c (append_mail_cleanup): Don't bother freeing the
+	appended_uid here.
+	(composer_send_internal): New helper function that does all the
+	similar work that composer_send_cb and composer_postpone_cb did.
+	(composer_send_cb): Append the message to Outbox and in the async
+	callback, queue a message send operation.
+	(composer_postpone_cb): Removed.
+	(composer_send_queued_cb): The new async callback for
+	composer_send_cb(). If the append is successful, queue a message
+	send operation and destroy the composer otherwise re-show the
+	composer.
+	(save_draft_done): g_strdup the appended uid.
+	(compose_msg): Don't connect to the postpone signal anymore as it
+	no longer exists.
+	(send_to_url): Same.
+	(mail_reply): Here too.
+	(forward_get_composer): And here.
+	(redirect_get_composer): Again here.
+	(do_edit_messages): And finally here.
+
+	* mail-ops.c (append_mail_free): Free the appended uid.
+
 2002-07-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-editor-news.[c,h]: Removed.

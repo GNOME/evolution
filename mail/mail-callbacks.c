@@ -344,24 +344,29 @@ struct _send_data {
 };
 
 static void
-composer_sent_cb (char *uri, CamelMimeMessage *message, gboolean sent, void *data)
+composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info,
+			 int queued, const char *appended_uid, void *data)
 {
 	struct _send_data *send = data;
 	
-	if (sent) {
+	if (queued) {
 		if (send->psd) {
 			camel_folder_set_message_flags (send->psd->folder, send->psd->uid,
 							send->psd->flags, send->psd->set);
 		}
 		gtk_widget_destroy (GTK_WIDGET (send->composer));
+		
+		/* queue a message send */
+		mail_send ();
 	} else {
 		e_msg_composer_set_enable_autosave (send->composer, TRUE);
 		gtk_widget_show (GTK_WIDGET (send->composer));
 	}
 	
+	camel_message_info_free (info);
+	
 	gtk_object_unref (GTK_OBJECT (send->composer));
 	g_free (send);
-	camel_object_unref (CAMEL_OBJECT (message));
 }
 
 static CamelMimeMessage *
@@ -486,73 +491,31 @@ composer_get_message (EMsgComposer *composer)
 }
 
 void
-composer_send_cb (EMsgComposer *composer, gpointer data)
+composer_send_cb (EMsgComposer *composer, gpointer user_data)
 {
-	const MailConfigService *transport;
+	extern CamelFolder *outbox_folder;
 	CamelMimeMessage *message;
-	struct post_send_data *psd = data;
+	CamelMessageInfo *info;
+	struct post_send_data *psd = user_data;
 	struct _send_data *send;
-	
-	if (!mail_config_is_configured ()) {
-		GtkWidget *dialog;
-		
-		dialog = gnome_ok_dialog_parented (_("You must configure an account before you "
-						     "can send this email."),
-						   GTK_WINDOW (composer));
-		gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
-		gtk_widget_show (dialog);
-		return;
-	}
 	
 	message = composer_get_message (composer);
 	if (!message)
 		return;
 	
-	transport = mail_config_get_default_transport ();
-	if (!transport)
-		return;
+	info = camel_message_info_new ();
+	info->flags = CAMEL_MESSAGE_SEEN;
 	
 	send = g_malloc (sizeof (*send));
 	send->psd = psd;
 	send->composer = composer;
 	gtk_object_ref (GTK_OBJECT (composer));
 	gtk_widget_hide (GTK_WIDGET (composer));
+	
 	e_msg_composer_set_enable_autosave (composer, FALSE);
 	
-	mail_send_mail (transport->url, message, composer_sent_cb, send);
-}
-
-static void
-append_mail_cleanup (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info,
-		     int ok, char *appended_uid, void *data)
-{
-	camel_message_info_free (info);
-	if (appended_uid)
-		g_free (appended_uid);
-}
-
-void
-composer_postpone_cb (EMsgComposer *composer, gpointer data)
-{
-	extern CamelFolder *outbox_folder;
-	CamelMimeMessage *message;
-	CamelMessageInfo *info;
-	struct post_send_data *psd = data;
-	
-	message = composer_get_message (composer);
-	if (message == NULL)
-		return;
-	
-	info = camel_message_info_new ();
-	info->flags = CAMEL_MESSAGE_SEEN;
-	
-	mail_append_mail (outbox_folder, message, info, append_mail_cleanup, NULL);
-	camel_object_unref (CAMEL_OBJECT (message));
-	
-	if (psd)
-		camel_folder_set_message_flags (psd->folder, psd->uid, psd->flags, psd->set);
-	
-	gtk_widget_destroy (GTK_WIDGET (composer));
+	mail_append_mail (outbox_folder, message, NULL, composer_send_queued_cb, send);
+	camel_object_unref (message);
 }
 
 struct _save_draft_info {
@@ -562,7 +525,7 @@ struct _save_draft_info {
 
 static void
 save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok,
-		 char *appended_uid, void *data)
+		 const char *appended_uid, void *data)
 {
 	struct _save_draft_info *sdi = data;
 	char *old_uid;
@@ -580,7 +543,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 	
 	if (appended_uid) {
 		gtk_object_set_data_full (GTK_OBJECT (sdi->composer),
-					  "draft_uid", appended_uid,
+					  "draft_uid", g_strdup (appended_uid),
 					  (GtkDestroyNotify) g_free);
 	} else {
 		gtk_object_set_data (GTK_OBJECT (sdi->composer),
@@ -714,8 +677,6 @@ compose_msg (GtkWidget *widget, gpointer user_data)
 	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (composer), "postpone",
-			    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
 			    GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
 	
@@ -740,8 +701,6 @@ send_to_url (const char *url)
 	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (composer), "postpone",
-			    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
 			    GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
 	
@@ -1138,8 +1097,6 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mod
 	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), psd);
-	gtk_signal_connect (GTK_OBJECT (composer), "postpone",
-			    GTK_SIGNAL_FUNC (composer_postpone_cb), psd);
 	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
 			    GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
@@ -1222,8 +1179,6 @@ forward_get_composer (CamelMimeMessage *message, const char *subject)
 	if (composer) {
 		gtk_signal_connect (GTK_OBJECT (composer), "send",
 				    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
-		gtk_signal_connect (GTK_OBJECT (composer), "postpone",
-				    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
 		gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
 				    GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
 		e_msg_composer_set_headers (composer, account->name, NULL, NULL, NULL, subject);
@@ -1383,8 +1338,6 @@ redirect_get_composer (CamelMimeMessage *message)
 	if (composer) {
 		gtk_signal_connect (GTK_OBJECT (composer), "send",
 				    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
-		gtk_signal_connect (GTK_OBJECT (composer), "postpone",
-				    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
 		gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
 				    GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
 	} else {
@@ -2092,8 +2045,6 @@ do_edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, voi
 		if (composer) {
 			gtk_signal_connect (GTK_OBJECT (composer), "send",
 					    composer_send_cb, NULL);
-			gtk_signal_connect (GTK_OBJECT (composer), "postpone",
-					    composer_postpone_cb, NULL);
 			
 			uid = g_strdup (uids->pdata[i]);
 			gtk_object_set_data_full (GTK_OBJECT (composer), "draft_uid", uid, (GtkDestroyNotify) g_free);

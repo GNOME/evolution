@@ -262,10 +262,16 @@ static send_info_t get_receive_type(const char *url)
 	if (!provider)
 		return SEND_INVALID;
 	
-	if (provider->flags & CAMEL_PROVIDER_IS_STORAGE)
-		return SEND_UPDATE;
-	else
-		return SEND_RECEIVE;
+	if (provider->object_types[CAMEL_PROVIDER_STORE]) {
+		if (provider->flags & CAMEL_PROVIDER_IS_STORAGE)
+			return SEND_UPDATE;
+		else
+			return SEND_RECEIVE;
+	} else if (provider->object_types[CAMEL_PROVIDER_TRANSPORT]) {
+		return SEND_SEND;
+	}
+	
+	return SEND_INVALID;
 }
 
 static struct _send_data *
@@ -853,4 +859,57 @@ mail_receive_uri (const char *uri, int keep)
 	default:
 		g_assert_not_reached ();
 	}
+}
+
+void
+mail_send (void)
+{
+	extern CamelFolder *outbox_folder;
+	const MailConfigService *transport;
+	struct _send_info *info;
+	struct _send_data *data;
+	send_info_t type;
+	
+	transport = mail_config_get_default_transport ();
+	if (!transport || !transport->url)
+		return;
+	
+	data = setup_send_data ();
+	info = g_hash_table_lookup (data->active, transport->url);
+	if (info != NULL) {
+		d(printf("send of %s still in progress\n", transport->url));
+		return;
+	}
+	
+	d(printf("starting non-interactive send of '%s'\n", transport->url));
+	
+	type = get_receive_type (transport->url);
+	if (type == SEND_INVALID) {
+		d(printf ("unsupported provider: '%s'\n", transport->url));
+		return;
+	}
+	
+	info = g_malloc0 (sizeof (*info));
+	info->type = SEND_SEND;
+	info->bar = NULL;
+	info->status = NULL;
+	info->uri = g_strdup (transport->url);
+	info->keep = FALSE;
+	info->cancel = camel_operation_new (operation_status, info);
+	info->stop = NULL;
+	info->data = data;
+	info->state = SEND_ACTIVE;
+	info->timeout_id = 0;
+	
+	d(printf("Adding new info %p\n", info));
+	
+	g_hash_table_insert (data->active, info->uri, info);
+	
+	/* todo, store the folder in info? */
+	mail_send_queue (outbox_folder, info->uri,
+			 FILTER_SOURCE_OUTGOING,
+			 info->cancel,
+			 receive_get_folder, info,
+			 receive_status, info,
+			 receive_done, info);
 }

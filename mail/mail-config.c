@@ -2400,12 +2400,24 @@ const MailConfigService *
 mail_config_get_default_transport (void)
 {
 	const MailConfigAccount *account;
+	const GSList *accounts;
 	
 	account = mail_config_get_default_account ();
-	if (account)
+	if (account && account->transport && account->transport->url)
 		return account->transport;
-	else
-		return NULL;
+	
+	/* return the first account with a transport? */
+	accounts = config->accounts;
+	while (accounts) {
+		account = accounts->data;
+		
+		if (account->transport && account->transport->url)
+			return account->transport;
+		
+		accounts = accounts->next;
+	}
+	
+	return NULL;
 }
 
 GSList *

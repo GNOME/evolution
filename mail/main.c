@@ -141,8 +141,7 @@ main (int argc, char *argv [])
 	gnome_sound_init ("localhost");
 	
 	component_factory_init ();
-	evolution_composer_factory_init (composer_send_cb,
-					 composer_postpone_cb);
+	evolution_composer_factory_init (composer_send_cb, composer_save_draft_cb);
 
 	if (gdk_threads_mutex) {
 		g_mutex_free (gdk_threads_mutex);

@@ -26,7 +26,7 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus */
 
 #include "mail-config.h"
 
@@ -34,6 +34,7 @@ extern "C" {
 void mail_send_receive(void);
 /* receive a single uri */
 void mail_receive_uri(const char *uri, int keep);
+void mail_send (void);
 /* setup auto receive stuff */
 void mail_autoreceive_setup(void);
 
