@@ -1,3 +1,7 @@
+2000-09-21  Federico Mena Quintero  <federico@helixcode.com>
+
+	* e-shell-view-menu.c: Fix mis-spelling of "calendar".
+
 2000-09-21  Michael Meeks  <michael@helixcode.com>
 
 	* e-shell-view.c (show_existing_view): upd.

@@ -413,7 +413,7 @@ BonoboUIVerb help_verbs [] = {
 	BONOBO_UI_VERB_DATA ("HelpIndex", command_help, "index.html"),
 	BONOBO_UI_VERB_DATA ("HelpGetStarted", command_help, "usage-mainwindow.html"),
 	BONOBO_UI_VERB_DATA ("HelpUsingMail", command_help, "usage-mail.html"),
-	BONOBO_UI_VERB_DATA ("HelpUsingCalender", command_help, "usage-calender.html"),
+	BONOBO_UI_VERB_DATA ("HelpUsingCalendar", command_help, "usage-calendar.html"),
 	BONOBO_UI_VERB_DATA ("HelpUsingContact", command_help, "usage-contact.html"),
 	BONOBO_UI_VERB ("DumpXML", command_xml_dump),
 

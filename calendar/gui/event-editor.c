@@ -980,7 +980,7 @@ dialog_to_comp_object (EventEditor *ee)
 		} else if (e_dialog_toggle_get (priv->recurrence_rule_monthly_weekday)) {
 
 /* "recurrence-rule-monthly-weekday" is TRUE */
-				/* by position on the calender (ex: 2nd monday) */
+				/* by position on the calendar (ex: 2nd monday) */
 			/* libical does not handle this yet */
 /*  			ico->recur->u.month_pos = e_dialog_option_menu_get ( */
 /*  				priv->recurrence_rule_monthly_week, */

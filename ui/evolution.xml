@@ -81,8 +81,8 @@
 			<menuitem name="HelpUsingMail" verb=""
 			_label="Using the _Mailer"/>
 
-			<menuitem name="HelpUsingCalender" verb=""
-			_label="Using the _Calender"/>
+			<menuitem name="HelpUsingCalendar" verb=""
+			_label="Using the _Calendar"/>
 
 			<menuitem name="HelpUsingContact" verb=""
 			_label="Using the C_ontact Manager"/>
