@@ -926,6 +926,9 @@ search_result (EAddressbookView *eav, EBookViewStatus status, AddressbookView *v
 	case E_BOOK_VIEW_STATUS_INVALID_QUERY:
 		str = _("The backend for this addressbook was unable to parse this query.");
 		break;
+	case E_BOOK_VIEW_STATUS_QUERY_REFUSED:
+		str = _("The backend for this addressbook refused to perform this query.");
+		break;
 	case E_BOOK_VIEW_STATUS_OTHER_ERROR:
 	case E_BOOK_VIEW_STATUS_UNKNOWN:
 		str = _("This query did not complete successfully.");
