@@ -13,8 +13,8 @@
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
-#include "e-util/e-util.h"
-#include "e-util/e-canvas.h"
+#include "util/e-util.h"
+#include "widgets/e-canvas.h"
 
 #define PARENT_TYPE e_table_group_get_type ()
 

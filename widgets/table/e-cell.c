@@ -9,7 +9,7 @@
  */
 #include <config.h>
 #include "e-cell.h"
-#include "e-util/e-util.h"
+#include "util/e-util.h"
 
 #define PARENT_TYPE gtk_object_get_type ()
 

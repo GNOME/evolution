@@ -3,9 +3,9 @@
 #define _E_TABLE_SELECTION_MODEL_H_
 
 #include <gtk/gtkobject.h>
-#include "widgets/e-table/e-table-model.h"
-#include "widgets/e-table/e-table-defines.h"
-#include "widgets/e-table/e-table-sorter.h"
+#include "e-table-model.h"
+#include "e-table-defines.h"
+#include "e-table-sorter.h"
 
 #define E_TABLE_SELECTION_MODEL_TYPE        (e_table_selection_model_get_type ())
 #define E_TABLE_SELECTION_MODEL(o)          (GTK_CHECK_CAST ((o), E_TABLE_SELECTION_MODEL_TYPE, ETableSelectionModel))

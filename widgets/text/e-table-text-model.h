@@ -20,7 +20,7 @@
 #define E_TABLE_TEXT_MODEL_H
 
 #include <gnome.h>
-#include "e-text-model.h"
+#include "e-text/e-text-model.h"
 #include "e-table-model.h"
 
 

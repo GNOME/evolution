@@ -7,8 +7,8 @@
 #include "e-table-header.h"
 #include "e-table-sort-info.h"
 #include "e-table-defines.h"
-#include "e-util/e-util.h"
-#include "e-util/e-printable.h"
+#include "util/e-util.h"
+#include "widgets/e-printable.h"
 
 #define E_TABLE_GROUP_TYPE        (e_table_group_get_type ())
 #define E_TABLE_GROUP(o)          (GTK_CHECK_CAST ((o), E_TABLE_GROUP_TYPE, ETableGroup))

@@ -10,7 +10,7 @@
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include "e-table-selection-model.h"
-#include "e-util/e-util.h"
+#include "util/e-util.h"
 
 #define ETSM_CLASS(e) ((ETableSelectionModelClass *)((GtkObject *)e)->klass)
 

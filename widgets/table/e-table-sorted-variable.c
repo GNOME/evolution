@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <gtk/gtksignal.h>
 #include <string.h>
-#include "e-util/e-util.h"
+#include "util/e-util.h"
 #include "e-table-sorted-variable.h"
 
 #define PARENT_TYPE E_TABLE_SUBSET_VARIABLE_TYPE

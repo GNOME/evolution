@@ -15,9 +15,9 @@
 #include <libgnomeui/gnome-canvas-polygon.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include "e-util/e-cursors.h"
-#include "e-util/e-xml-utils.h"
-#include "e-util/e-popup-menu.h"
+#include "widgets/e-cursors.h"
+#include "util/e-xml-utils.h"
+#include "widgets/e-popup-menu.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
 #include "e-table-col-dnd.h"

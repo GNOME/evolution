@@ -19,9 +19,9 @@
 #include "e-table-item.h"
 #include "e-table-subset.h"
 #include "e-cell.h"
-#include "e-util/e-canvas.h"
-#include "e-util/e-canvas-utils.h"
-#include "e-util/e-util.h"
+#include "widgets/e-canvas.h"
+#include "widgets/e-canvas-utils.h"
+#include "util/e-util.h"
 
 #define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
 

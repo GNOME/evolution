@@ -10,7 +10,7 @@
 
 #include <config.h>
 #include <gtk/gtksignal.h>
-#include "e-util/e-util.h"
+#include "util/e-util.h"
 #include "e-tree-simple.h"
 
 #define PARENT_TYPE E_TREE_MODEL_TYPE

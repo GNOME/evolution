@@ -10,7 +10,7 @@
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include "e-table-sort-info.h"
-#include "e-util/e-util.h"
+#include "util/e-util.h"
 
 #define ETM_CLASS(e) ((ETableSortInfoClass *)((GtkObject *)e)->klass)
 

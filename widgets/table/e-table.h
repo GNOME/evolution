@@ -11,7 +11,7 @@
 #include "e-table-sort-info.h"
 #include "e-table-item.h"
 #include "e-table-selection-model.h"
-#include "e-util/e-printable.h"
+#include "widgets/e-printable.h"
 
 BEGIN_GNOME_DECLS
 

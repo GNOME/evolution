@@ -15,10 +15,10 @@
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
-#include "e-util/e-util.h"
-#include "e-util/e-canvas.h"
-#include "e-util/e-canvas-utils.h"
-#include "widgets/e-text/e-text.h"
+#include "util/e-util.h"
+#include "widgets/e-canvas.h"
+#include "widgets/e-canvas-utils.h"
+#include "e-text/e-text.h"
 #include "e-table-defines.h"
 
 #define TITLE_HEIGHT         16

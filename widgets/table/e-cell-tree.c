@@ -24,7 +24,7 @@
 #include "e-table-sorted-variable.h"
 #include "e-tree-model.h"
 #include "e-cell-tree.h"
-#include "e-util/e-util.h"
+#include "util/e-util.h"
 #include "e-table-item.h"
 
 #include <gdk/gdkx.h> /* for BlackPixel */

@@ -18,9 +18,9 @@
 #include "e-table-click-to-add.h"
 #include "e-table-defines.h"
 #include "e-table-one.h"
-#include "widgets/e-text/e-text.h"
-#include "e-util/e-canvas.h"
-#include "e-util/e-canvas-utils.h"
+#include "e-text/e-text.h"
+#include "widgets/e-canvas.h"
+#include "widgets/e-canvas-utils.h"
 
 enum {
 	CURSOR_CHANGE,

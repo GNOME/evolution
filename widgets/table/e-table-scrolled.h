@@ -2,11 +2,11 @@
 #ifndef _E_TABLE_SCROLLED_H_
 #define _E_TABLE_SCROLLED_H_
 
-#include "widgets/misc/e-scroll-frame.h"
+#include "widgets/e-scroll-frame.h"
 #include "e-table-model.h"
 #include "e-table-header.h"
 #include "e-table.h"
-#include "e-util/e-printable.h"
+#include "widgets/e-printable.h"
 
 BEGIN_GNOME_DECLS
 

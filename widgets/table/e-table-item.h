@@ -8,7 +8,7 @@
 #include "e-table-selection-model.h"
 #include "e-table-defines.h"
 #include "e-table-tooltip.h"
-#include <e-util/e-printable.h>
+#include <widgets/e-printable.h>
 
 #define E_TABLE_ITEM_TYPE        (e_table_item_get_type ())
 #define E_TABLE_ITEM(o)          (GTK_CHECK_CAST ((o), E_TABLE_ITEM_TYPE, ETableItem))

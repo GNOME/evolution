@@ -16,7 +16,7 @@
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
-#include "e-util/e-util.h"
+#include "util/e-util.h"
 
 #define PARENT_TYPE gnome_canvas_group_get_type ()
 

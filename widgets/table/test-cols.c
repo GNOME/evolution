@@ -9,10 +9,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <gnome.h>
-#include "e-util/e-canvas-utils.h"
-#include "e-util/e-canvas.h"
-#include "e-util/e-cursors.h"
-#include "e-util/e-util.h"
+#include "widgets/e-canvas-utils.h"
+#include "widgets/e-canvas.h"
+#include "widgets/e-cursors.h"
+#include "util/e-util.h"
 #include "e-table-simple.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
