@@ -101,12 +101,9 @@ eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
 	Evolution.h				\
-	e-activity-handler.h			\
 	e-icon-factory.h			\
 	e-shell-corba-icon-utils.h		\
 	e-shell-utils.h				\
-	e-task-bar.h				\
-	e-task-widget.h				\
 	evolution-config-control.h		\
 	evolution-shell-component-utils.h	\
 	evolution-wizard.h
@@ -114,15 +111,12 @@ eshellinclude_HEADERS = 			\
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
 	$(MARSHAL_GENERATED)			\
-	e-activity-handler.c			\
 	e-icon-factory.c			\
 	e-shell-corba-icon-utils.c		\
 	e-shell-utils.c				\
 	evolution-config-control.c		\
 	evolution-shell-component-utils.c	\
 	evolution-wizard.c			\
-	e-task-bar.c				\
-	e-task-widget.c				\
 	$(eshellinclude_HEADERS)
 
 libeshell_la_LIBADD =				\

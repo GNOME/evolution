@@ -1,3 +1,15 @@
+2004-02-03  Dan Winship  <danw@ximian.com>
+
+	* e-activity-handler.c: 
+	* e-activity-handler.h: 
+	* e-task-bar.c: 
+	* e-task-bar.h: 
+	* e-task-widget.c: 
+	* e-task-widget.h: Moved to misc/widgets since they depend on
+	libemiscwidgets now, and aren't actually used by the shell itself.
+
+	* Makefile.am (eshell_HEADERS, libeshell_la_SOURCES): Update
+
 2004-02-02  Chris Toshok  <toshok@ximian.com>
 
 	* e-component-registry.c (component_info_new): don't generate a
