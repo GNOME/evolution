@@ -1102,32 +1102,50 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 	}
 }
 
-struct _fix_subscribe {
-	char dir_sep;
-
-	const char *old_name;
-	const char *new_name;
-
-	GPtrArray *old;
-	GPtrArray *new;
-};
-
-/* Fixes subscribed names to take into account a rename */
 static void
-fix_subscribed(char *key, void *val, struct _fix_subscribe *data)
+manage_subscriptions (CamelStore *store, CamelFolderInfo *fi, gboolean subscribe)
 {
-	int oldlen, namelen;
+	while (fi) {
+		if (fi->child)
+			manage_subscriptions (store, fi->child, subscribe);
+		
+		if (subscribe)
+			subscribe_folder (store, fi->full_name, NULL);
+		else
+			unsubscribe_folder (store, fi->full_name, NULL);
+		
+		fi = fi->sibling;
+	}
+}
 
-	namelen = strlen(key);
-	oldlen = strlen(data->old_name);
+#define subscribe_folders(store, fi) manage_subscriptions (store, fi, TRUE)
+#define unsubscribe_folders(store, fi) manage_subscriptions (store, fi, FALSE)
 
-	if ((namelen == oldlen &&
-	     strcmp(data->old_name, key) == 0)
-	    || ((namelen > oldlen)
-		&& strncmp(data->old_name, key, oldlen) == 0
-		&& key[oldlen] == data->dir_sep)) {
-		g_ptr_array_add(data->old, key);
-		g_ptr_array_add(data->new, g_strdup_printf("%s%s", data->new_name, key+oldlen));
+static void
+rename_folder_info (CamelImapStore *imap_store, CamelFolderInfo *fi, const char *old_name, const char *new_name)
+{
+	CamelImapResponse *response;
+	char *name;
+	
+	while (fi) {
+		if (fi->child)
+			rename_folder_info (imap_store, fi->child, old_name, new_name);
+		
+		name = g_strdup_printf ("%s%s", new_name, fi->full_name + strlen (old_name));
+		
+		if (imap_store->dir_sep == '.') {
+			/* kludge around imap servers like Courier that don't rename
+			   subfolders when you rename the parent folder - like
+			   the spec says to do!!! */
+			response = camel_imap_command (imap_store, NULL, NULL, "RENAME %F %F", fi->full_name, name);
+			if (response)
+				camel_imap_response_free (imap_store, response);
+		}
+		
+		g_free (fi->full_name);
+		fi->full_name = name;
+		
+		fi = fi->sibling;
 	}
 }
 
@@ -1137,7 +1155,9 @@ rename_folder (CamelStore *store, const char *old_name, const char *new_name, Ca
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelImapResponse *response;
 	char *oldpath, *newpath;
-
+	CamelFolderInfo *fi;
+	guint32 flags;
+	
 	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex))
 		return;
 	
@@ -1155,47 +1175,47 @@ rename_folder (CamelStore *store, const char *old_name, const char *new_name, Ca
 	} else
 		return;
 	
-	response = camel_imap_command(imap_store, NULL, ex, "RENAME %F %F", old_name, new_name);
+	imap_store->renaming = TRUE;
 	
-	if (response)
-		camel_imap_response_free (imap_store, response);
-
-	if (camel_exception_is_set(ex))
+	flags = CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_RECURSIVE |
+		(store->flags & CAMEL_STORE_SUBSCRIPTIONS ? CAMEL_STORE_FOLDER_INFO_SUBSCRIBED : 0);
+	
+	fi = ((CamelStoreClass *)((CamelObject *)store)->classfuncs)->get_folder_info (store, old_name, flags, ex);
+	if (fi && store->flags & CAMEL_STORE_SUBSCRIPTIONS)
+		unsubscribe_folders (store, fi);
+	
+	response = camel_imap_command (imap_store, NULL, ex, "RENAME %F %F", old_name, new_name);
+	
+	if (!response) {
+		if (fi && store->flags & CAMEL_STORE_SUBSCRIPTIONS)
+			subscribe_folders (store, fi);
+		
+		camel_store_free_folder_info (store, fi);
+		imap_store->renaming = FALSE;
 		return;
-
-	/* Fix up the subscriptions table */
-	if (store->flags & CAMEL_STORE_SUBSCRIPTIONS) {
-		struct _fix_subscribe data;
-		int i;
-
-		data.dir_sep = imap_store->dir_sep;
-		data.old_name = old_name;
-		data.new_name = new_name;
-		data.old = g_ptr_array_new();
-		data.new = g_ptr_array_new();
-		g_hash_table_foreach(imap_store->subscribed_folders, (GHFunc)fix_subscribed, &data);
-
-		for (i=0;i<data.old->len;i++) {
-			printf("moving subscribed folder from '%s' to '%s'\n", (char *)data.old->pdata[i], (char *)data.new->pdata[i]);
-			g_hash_table_remove(imap_store->subscribed_folders, data.old->pdata[i]);
-			g_free(data.old->pdata[i]);
-			g_hash_table_insert(imap_store->subscribed_folders, data.new->pdata[i], (void *)1);
-		}
-
-		g_ptr_array_free(data.old, TRUE);
-		g_ptr_array_free(data.new, TRUE);
 	}
-
+	
+	camel_imap_response_free (imap_store, response);
+	
+	rename_folder_info (imap_store, fi, old_name, new_name);
+	if (fi && store->flags & CAMEL_STORE_SUBSCRIPTIONS)
+		subscribe_folders (store, fi);
+	
+	camel_store_free_folder_info (store, fi);
+	
 	oldpath = e_path_to_physical (imap_store->storage_path, old_name);
 	newpath = e_path_to_physical (imap_store->storage_path, new_name);
-
+	
 	/* So do we care if this didn't work?  Its just a cache? */
-	if (rename(oldpath, newpath) == -1) {
-		g_warning("Could not rename message cache '%s' to '%s': %s: cache reset", oldpath, newpath, strerror(errno));
+	if (rename (oldpath, newpath) == -1) {
+		g_warning ("Could not rename message cache '%s' to '%s': %s: cache reset",
+			   oldpath, newpath, strerror (errno));
 	}
 	
-	g_free(oldpath);
-	g_free(newpath);
+	g_free (oldpath);
+	g_free (newpath);
+	
+	imap_store->renaming = FALSE;
 }
 
 static CamelFolderInfo *
@@ -1712,7 +1732,14 @@ subscribe_folder (CamelStore *store, const char *folder_name,
 	
 	g_hash_table_insert (imap_store->subscribed_folders,
 			     g_strdup (folder_name), GUINT_TO_POINTER (1));
-
+	
+	if (imap_store->renaming) {
+		/* we don't need to emit a "folder_subscribed" signal
+                   if we are in the process of renaming folders, so we
+                   are done here... */
+		return;
+	}
+	
 	name = strrchr (folder_name, imap_store->dir_sep);
 	if (name)
 		name++;
@@ -1762,7 +1789,14 @@ unsubscribe_folder (CamelStore *store, const char *folder_name,
 		g_hash_table_remove (imap_store->subscribed_folders, key);
 		g_free (key);
 	}
-
+	
+	if (imap_store->renaming) {
+		/* we don't need to emit a "folder_unsubscribed" signal
+                   if we are in the process of renaming folders, so we
+                   are done here... */
+		return;
+	}
+	
 	name = strrchr (folder_name, imap_store->dir_sep);
 	if (name)
 		name++;

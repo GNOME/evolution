@@ -372,7 +372,7 @@ imap_finalize (CamelObject *object)
 }
 
 static void
-imap_rename(CamelFolder *folder, const char *new)
+imap_rename (CamelFolder *folder, const char *new)
 {
 	CamelImapFolder *imap_folder = (CamelImapFolder *)folder;
 	CamelImapStore *imap_store = (CamelImapStore *)folder->parent_store;

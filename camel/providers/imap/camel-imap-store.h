@@ -91,7 +91,9 @@ struct _CamelImapStore {
 	guint32 capabilities, parameters;
 	char *namespace, dir_sep, *base_url, *storage_path;
 	GHashTable *authtypes, *subscribed_folders;
-
+	
+	gboolean renaming;
+	
 #ifdef ENABLE_THREADS
 	EThread *async_thread;
 #endif

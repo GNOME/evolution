@@ -802,6 +802,15 @@ camel_folder_info_build_path (CamelFolderInfo *fi, char separator)
 	}
 }
 
+static int
+folder_info_cmp (const void *ap, const void *bp)
+{
+	const CamelFolderInfo *a = ((CamelFolderInfo **)ap)[0];
+	const CamelFolderInfo *b = ((CamelFolderInfo **)bp)[0];
+	
+	return strcmp (a->full_name, b->full_name);
+}
+
 /**
  * camel_folder_info_build:
  * @folders: an array of CamelFolderInfo
@@ -832,6 +841,8 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 	if (!namespace)
 		namespace = "";
 	nlen = strlen (namespace);
+	
+	qsort (folders->pdata, folders->len, sizeof (folders->pdata[0]), folder_info_cmp);
 	
 	/* Hash the folders. */
 	hash = g_hash_table_new (g_str_hash, g_str_equal);
