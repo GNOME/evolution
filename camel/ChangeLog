@@ -1,3 +1,12 @@
+2004-07-27  Sivaiah Nallagatla <snallagatla@novell.com>
+
+       * providers/groupwise/camel-groupwise-provider.c
+       (camel_provider_module_init) : do not set
+       transport object for groupwise provider. We want user to
+       use SMTP itself instead of "Novell Groupwise"
+
+       Fixes #61454
+
 2004-07-26  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-store.c (connect_to_server): Don't

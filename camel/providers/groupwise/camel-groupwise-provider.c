@@ -110,18 +110,13 @@ void
 camel_provider_module_init(void)
 {
 	CamelProvider *imap_provider;
-	CamelProvider *smtp_provider;
 
 	imap_provider =  camel_provider_get("imap://", NULL);
-	smtp_provider = camel_provider_get("smtp://", NULL);
-
 	groupwise_provider.url_hash = groupwise_url_hash;
 	groupwise_provider.url_equal = groupwise_url_equal;
 	groupwise_provider.authtypes = g_list_prepend (groupwise_provider.authtypes, &camel_groupwise_password_authtype);
-
-	if (imap_provider != NULL && smtp_provider != NULL) {
+	if (imap_provider != NULL) {
 		groupwise_provider.object_types[CAMEL_PROVIDER_STORE] =  imap_provider->object_types [CAMEL_PROVIDER_STORE];
-		groupwise_provider.object_types[CAMEL_PROVIDER_TRANSPORT] = smtp_provider->object_types [CAMEL_PROVIDER_TRANSPORT];
 		camel_provider_register(&groupwise_provider);
 	}
 
