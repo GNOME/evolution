@@ -297,15 +297,18 @@ static struct {
 	char **image_base;
 	GdkPixbuf  *pixbuf;
 } states_pixmaps [] = {
-	{ envelope_opened_xpm, NULL },
-	{ envelope_closed_xpm, NULL },
-	{ empty_xpm,           NULL },
-	{ attachment_xpm,      NULL },
-	{ NULL,                NULL },
+	{ envelope_opened_xpm,   NULL },
+	{ envelope_closed_xpm,   NULL },
+	{ empty_xpm,             NULL },
+	{ attachment_xpm,        NULL },
+	{ attachment_header_xpm, NULL },
+	{ online_status_xpm,     NULL },
+	{ message_status_xpm,    NULL },
+	{ NULL,                  NULL },
 };
 
 static void
-load_internal_images (void)
+message_list_init_images (void)
 {
 	int i;
 
@@ -317,7 +320,7 @@ load_internal_images (void)
 	
 	for (i = 0; states_pixmaps [i].image_base; i++){
 		states_pixmaps [i].pixbuf = gdk_pixbuf_new_from_xpm_data (
-			states_pixmaps [i].image_base);
+			(const char **) states_pixmaps [i].image_base);
 	}
 }
 
@@ -327,8 +330,6 @@ message_list_init_renderers (MessageList *message_list)
 	g_assert (message_list);
 	g_assert (message_list->table_model);
 
-	load_internal_images ();
-	
 	message_list->render_text = e_cell_text_new (
 		message_list->table_model,
 		NULL, GTK_JUSTIFY_LEFT);
@@ -385,64 +386,75 @@ message_list_init_header (MessageList *message_list)
 	gtk_object_sink (GTK_OBJECT (message_list->header_model));
 
 	message_list->table_cols [COL_ONLINE_STATUS] =
-		e_table_col_new (COL_ONLINE_STATUS, _("Online status"),
-				 COL_CHECK_BOX_WIDTH, COL_CHECK_BOX_WIDTH,
-				 message_list->render_online_status,
-				 g_int_compare, FALSE);
-
+		e_table_col_new_with_pixbuf (
+			COL_ONLINE_STATUS, states_pixmaps [5].pixbuf,
+			COL_CHECK_BOX_WIDTH, COL_CHECK_BOX_WIDTH,
+			message_list->render_online_status,
+			g_int_compare, FALSE);
+	
 	message_list->table_cols [COL_MESSAGE_STATUS] =
-		e_table_col_new (COL_MESSAGE_STATUS, _("Message status"),
-				 COL_CHECK_BOX_WIDTH, COL_CHECK_BOX_WIDTH,
-				 message_list->render_message_status,
-				 g_int_compare, FALSE);
+		e_table_col_new_with_pixbuf (
+			COL_MESSAGE_STATUS, states_pixmaps [0].pixbuf,
+			COL_CHECK_BOX_WIDTH, COL_CHECK_BOX_WIDTH,
+			message_list->render_message_status, 
+			g_int_compare, FALSE);
 
 	message_list->table_cols [COL_PRIORITY] =
-		e_table_col_new (COL_PRIORITY, _("Priority"),
-				 COL_CHECK_BOX_WIDTH, COL_CHECK_BOX_WIDTH,
-				 message_list->render_priority,
-				 g_int_compare, FALSE);
+		e_table_col_new (
+			COL_PRIORITY, _("Priority"),
+			COL_CHECK_BOX_WIDTH, COL_CHECK_BOX_WIDTH,
+			message_list->render_priority,
+			g_int_compare, FALSE);
 	
 	message_list->table_cols [COL_ATTACHMENT] =
-		e_table_col_new (COL_ATTACHMENT, _("Attachment"),
-				 COL_ICON_WIDTH, COL_ICON_WIDTH,
-				 message_list->render_attachment,
-				 g_int_compare, FALSE);
+		e_table_col_new_with_pixbuf (
+			COL_ATTACHMENT, states_pixmaps [4].pixbuf,
+			COL_ICON_WIDTH, COL_ICON_WIDTH,
+			message_list->render_attachment,
+			g_int_compare, FALSE);
 
 	message_list->table_cols [COL_FROM] =
-		e_table_col_new (COL_FROM, _("From"),
-				 COL_FROM_WIDTH, COL_FROM_WIDTH_MIN,
-				 message_list->render_text,
-				 g_str_compare, TRUE);
+		e_table_col_new (
+			COL_FROM, _("From"),
+			COL_FROM_WIDTH, COL_FROM_WIDTH_MIN,
+			message_list->render_text,
+			g_str_compare, TRUE);
 
 	message_list->table_cols [COL_SUBJECT] =
-		e_table_col_new (COL_SUBJECT, _("Subject"),
-				 COL_SUBJECT_WIDTH, COL_SUBJECT_WIDTH_MIN,
-				 message_list->render_text,
-				 g_str_compare, TRUE);
+		e_table_col_new (
+			COL_SUBJECT, _("Subject"),
+			COL_SUBJECT_WIDTH, COL_SUBJECT_WIDTH_MIN,
+			message_list->render_text,
+			g_str_compare, TRUE);
 
 	message_list->table_cols [COL_SENT] =
-		e_table_col_new (COL_SENT, _("Sent"),
-				 COL_SENT_WIDTH, COL_SENT_WIDTH_MIN,
-				 message_list->render_text,
-				 g_str_compare, TRUE);
-
+		e_table_col_new (
+			COL_SENT, _("Sent"),
+			COL_SENT_WIDTH, COL_SENT_WIDTH_MIN,
+			message_list->render_text,
+			g_str_compare, TRUE);
+	
 	message_list->table_cols [COL_RECEIVE] =
-		e_table_col_new (COL_RECEIVE, _("Receive"),
-				 COL_RECEIVE_WIDTH, COL_RECEIVE_WIDTH_MIN,
-				 message_list->render_text,
-				 g_str_compare, TRUE);
+		e_table_col_new (
+			COL_RECEIVE, _("Receive"),
+			COL_RECEIVE_WIDTH, COL_RECEIVE_WIDTH_MIN,
+			message_list->render_text,
+			g_str_compare, TRUE);
+
 	message_list->table_cols [COL_TO] =
-		e_table_col_new (COL_TO, _("To"),
-				 COL_TO_WIDTH, COL_TO_WIDTH_MIN,
-				 message_list->render_text,
-				 g_str_compare, TRUE);
+		e_table_col_new (
+			COL_TO, _("To"),
+			COL_TO_WIDTH, COL_TO_WIDTH_MIN,
+			message_list->render_text,
+			g_str_compare, TRUE);
 
 	message_list->table_cols [COL_SIZE] =
-		e_table_col_new (COL_SIZE, _("Size"),
-				 COL_SIZE_WIDTH, COL_SIZE_WIDTH_MIN,
-				 message_list->render_text,
-				 g_str_compare, TRUE);
-
+		e_table_col_new (
+			COL_SIZE, _("Size"),
+			COL_SIZE_WIDTH, COL_SIZE_WIDTH_MIN,
+			message_list->render_text,
+			g_str_compare, TRUE);
+	
 	/*
 	 * Dummy init: It setups the headers to match the order in which
 	 * they are defined.  In the future e-table widget will take care
@@ -462,7 +474,7 @@ message_list_get_layout (MessageList *message_list)
 		return g_strdup ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> <column> 5 </column> <column> 6 </column> <column> 7 </column> <column> 8 </column> <column> 9 </column> </columns-shown> <grouping> <group column=\"4\" ascending=\"1\"> <leaf column=\"5\" ascending=\"1\"/> </group> </grouping> </ETableSpecification>");
 	else {
 		/* Message status, From, Sent, Subject */
-		return g_strdup ("<ETableSpecification> <columns-shown> <column> 1 </column> <column> 4 </column> <column> 6 </column> <column> 5 </column> </columns-shown> <grouping> </grouping> </ETableSpecification>");
+		return g_strdup ("<ETableSpecification> <columns-shown> <column> 1 </column> <column> 4 </column> <column> 5 </column> </columns-shown> <grouping> </grouping> </ETableSpecification>");
 	}
 }
 
@@ -587,6 +599,8 @@ message_list_class_init (GtkObjectClass *object_class)
 	object_class->destroy = message_list_destroy;
 
 	message_list_corba_class_init ();
+
+	message_list_init_images ();
 }
 
 static void

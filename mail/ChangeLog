@@ -1,3 +1,11 @@
+2000-04-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* message-list.c (states_pixmaps): Add more beautiful art from
+	Miggue, the Diego Rivera of the next millenium.
+	(message_list_init_header): Use the beautiful art.
+
+	* pixmaps: Miguel rediscovers the "transparent" concept.
+
 2000-04-07  Matt Loper  <matt@helixcode.com>
 
 	* folder-browser.c (folder_browser_destroy): Unref the shell
