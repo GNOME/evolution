@@ -1,3 +1,8 @@
+2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-shell-importer.c: Don't #include "e-util/e-html-utils.h" as
+	we don't use it.
+
 2002-12-13  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #35394 ]
