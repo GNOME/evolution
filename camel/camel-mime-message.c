@@ -219,7 +219,7 @@ camel_mime_message_get_date_string (CamelMimeMessage *message)
 }
 
 const gchar *
-camel_mime_message_get_received_date (CamelMimeMessage *mime_message)
+camel_mime_message_get_received_date (CamelMimeMessage *message)
 {
 	/* FIXME: is this the received date? and if so then get_sent_date must be wrong */
 	if (message->date == CAMEL_MESSAGE_DATE_CURRENT)
@@ -228,7 +228,7 @@ camel_mime_message_get_received_date (CamelMimeMessage *mime_message)
 }
 
 const gchar *
-camel_mime_message_get_sent_date (CamelMimeMessage *mime_message)
+camel_mime_message_get_sent_date (CamelMimeMessage *message)
 {
 	/* FIXME: is this the sent date? and if so then get_received_date must be wrong */
 	if (message->date == CAMEL_MESSAGE_DATE_CURRENT)
