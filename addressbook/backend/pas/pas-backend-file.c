@@ -223,8 +223,8 @@ pas_backend_file_build_all_cards_list(PASBackend *backend,
 	  DBT  id_dbt, vcard_dbt;
   
 	  cursor_data->elements = NULL;
-
-	  db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
+	  
+	  db_error = db->seq(db, &id_dbt, &vcard_dbt, R_FIRST);
 
 	  while (db_error == 0) {
 

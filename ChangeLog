@@ -1,3 +1,9 @@
+2000-03-30  Matt Loper  <matt@helixcode.com>
+
+	* addressbook/backend/pas/pas-backend-file.c
+	(pas_backend_file_build_all_cards_list): Get first card (with
+	R_FIRST) on first seq().
+
 2000-03-30  Chris Toshok  <toshok@laptoph.xtoph.org>
 
 	* addressbook/backend/pas/pas-backend-ldap.h: new-file
