@@ -44,6 +44,9 @@ typedef struct _CamelVeeStoreClass CamelVeeStoreClass;
 struct _CamelVeeStore {
 	CamelStore parent;
 
+	/* Unmatched folder, set up in camel_vee_store_init */
+	struct _CamelVeeFolder *folder_unmatched;
+	GHashTable *unmatched_uids;
 };
 
 struct _CamelVeeStoreClass {

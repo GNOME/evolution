@@ -92,12 +92,27 @@ camel_vee_store_init (CamelVeeStore *obj)
 
 	/* we dont want a vtrash/vjunk on this one */
 	store->flags &= ~(CAMEL_STORE_VTRASH | CAMEL_STORE_VJUNK);	
+
+	/* Set up unmatched folder */
+	obj->unmatched_uids = g_hash_table_new (g_str_hash, g_str_equal);
+	obj->folder_unmatched = (CamelVeeFolder *)camel_object_new (camel_vee_folder_get_type ());
+	camel_vee_folder_construct (obj->folder_unmatched, store, CAMEL_UNMATCHED_NAME, CAMEL_STORE_FOLDER_PRIVATE);
+}
+
+static void
+cvs_free_unmatched(void *key, void *value, void *data)
+{
+	g_free(key);
 }
 
 static void
 camel_vee_store_finalise (CamelObject *obj)
 {
-	;
+	CamelVeeStore *vstore = (CamelVeeStore *)obj;
+
+	g_hash_table_foreach(vstore->unmatched_uids, cvs_free_unmatched, NULL);
+	g_hash_table_destroy(vstore->unmatched_uids);
+	camel_object_unref(vstore->folder_unmatched);
 }
 
 /**
