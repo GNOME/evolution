@@ -25,7 +25,7 @@ Evolution is the GNOME mailer, calendar, and addressbook application.
         ftp://ftp.gnome.org/pub/GNOME/stable/sources/ORBit
 
 	You can also get Evolution 0.4.1 for Redhat through Helix
-	Update, or Evolution 0.4.1 for debian through the Helix GNOME
+	Update, or Evolution 0.4.1 for Debian through the Helix GNOME
 	debian distribution.  Support for other distributions will be
 	coming later this week.
 
