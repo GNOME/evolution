@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-11-17 17:32+0300\n"
-"PO-Revision-Date: 2000-11-17 17:36+03:00\n"
+"POT-Creation-Date: 2000-11-28 18:21+0300\n"
+"PO-Revision-Date: 2000-11-28 18:24+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -284,10 +284,10 @@ msgstr ""
 #: addressbook/backend/ebook/load-pine-addressbook.c:17
 #: addressbook/backend/ebook/test-client-list.c:18
 #: addressbook/backend/ebook/test-client.c:29
-#: addressbook/conduit/address-conduit.c:1012
+#: addressbook/conduit/address-conduit.c:1026
 #: addressbook/gui/component/addressbook-factory.c:38
-#: calendar/conduits/calendar/calendar-conduit.c:1092
-#: calendar/conduits/todo/todo-conduit.c:966 calendar/gui/main.c:54
+#: calendar/conduits/calendar/calendar-conduit.c:1087
+#: calendar/conduits/todo/todo-conduit.c:961 calendar/gui/main.c:54
 msgid "Could not initialize Bonobo"
 msgstr "Не удалось инициализировать Bonobo"
 
@@ -410,28 +410,28 @@ msgstr ""
 "При попытке получить список Пилотов\n"
 "от демона gnome-pilot возникла ошибка"
 
-#: addressbook/conduit/address-conduit.c:207
+#: addressbook/conduit/address-conduit.c:196
 msgid "Cursor could not be loaded\n"
 msgstr "Курсор не может быть загружен\n"
 
-#: addressbook/conduit/address-conduit.c:220
+#: addressbook/conduit/address-conduit.c:209
 msgid "EBook not loaded\n"
 msgstr "EBook не загружена\n"
 
-#: addressbook/conduit/address-conduit.c:579
+#: addressbook/conduit/address-conduit.c:599
 #: calendar/conduits/calendar/calendar-conduit.c:651
 #: calendar/conduits/todo/todo-conduit.c:524
 msgid "Could not start wombat server"
 msgstr "Не удалось запустить сервер wombat"
 
-#: addressbook/conduit/address-conduit.c:580
+#: addressbook/conduit/address-conduit.c:600
 #: calendar/conduits/calendar/calendar-conduit.c:652
 #: calendar/conduits/todo/todo-conduit.c:525
 msgid "Could not start wombat"
 msgstr "Не удалось запустить wombat"
 
-#: addressbook/conduit/address-conduit.c:613
-#: addressbook/conduit/address-conduit.c:616
+#: addressbook/conduit/address-conduit.c:632
+#: addressbook/conduit/address-conduit.c:635
 msgid "Could not read pilot's Address application block"
 msgstr "Невозможно прочесть блок приложения адресов Пилота"
 
@@ -584,7 +584,7 @@ msgstr "Новый тип телефона"
 #.
 #: addressbook/contact-editor/e-contact-editor-strings.h:11
 #: calendar/gui/event-editor-dialog.glade.h:53 filter/filter.glade.h:7
-#: mail/mail-config-druid.glade.h:10 mail/mail-config.glade.h:7
+#: mail/mail-config.glade.h:7
 msgid "Add"
 msgstr "Добавить"
 
@@ -880,7 +880,6 @@ msgid "LDAP Server:"
 msgstr "Сервер LDAP:"
 
 #: addressbook/gui/component/ldap-server-dialog.glade.h:9
-#: mail/mail-config-druid.glade.h:37
 msgid "Name:"
 msgstr "Имя:"
 
@@ -1116,7 +1115,6 @@ msgid "Top:"
 msgstr "Сверху:"
 
 #: addressbook/printing/e-contact-print.glade.h:46
-#: mail/mail-config-druid.glade.h:66
 msgid "Type:"
 msgstr "Тип:"
 
@@ -1128,11 +1126,15 @@ msgstr "Ширина:"
 msgid "label26"
 msgstr "метка26"
 
-#: calendar/cal-util/timeutil.c:98 calendar/gui/print.c:605
+#. String to use in 12-hour time format for times in the morning.
+#: calendar/cal-util/timeutil.c:98 calendar/gui/e-day-view.c:538
+#: calendar/gui/print.c:605
 msgid "am"
 msgstr "д.п."
 
-#: calendar/cal-util/timeutil.c:98 calendar/gui/print.c:604
+#. String to use in 12-hour time format for times in the afternoon.
+#: calendar/cal-util/timeutil.c:98 calendar/gui/e-day-view.c:541
+#: calendar/gui/print.c:604
 msgid "pm"
 msgstr "п.п."
 
@@ -1211,15 +1213,15 @@ msgstr "Задания, которые должны быть выполнены сегодня:"
 msgid "To-Do item that is overdue:"
 msgstr "Просроченные задания:"
 
-#: calendar/gui/calendar-commands.c:382
+#: calendar/gui/calendar-commands.c:354
 msgid "File not found"
 msgstr "Файл не найден"
 
-#: calendar/gui/calendar-commands.c:406
+#: calendar/gui/calendar-commands.c:378
 msgid "Open calendar"
 msgstr "Открыть календарь"
 
-#: calendar/gui/calendar-commands.c:445
+#: calendar/gui/calendar-commands.c:417
 msgid "Save calendar"
 msgstr "Сохранить календарь"
 
@@ -1232,13 +1234,13 @@ msgstr "%a %m/%d/%Y"
 
 #. strftime format of a weekday, a date and a time,
 #. in 24-hour format.
-#: calendar/gui/calendar-model.c:286 calendar/gui/calendar-model.c:726
+#: calendar/gui/calendar-model.c:286 calendar/gui/calendar-model.c:736
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %m/%d/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time,
 #. in 12-hour format.
-#: calendar/gui/calendar-model.c:290 calendar/gui/calendar-model.c:729
+#: calendar/gui/calendar-model.c:290 calendar/gui/calendar-model.c:739
 msgid "%a %m/%d/%Y %I:%M:%S %p"
 msgstr "%a %m/%d/%Y %I:%M:%S %p"
 
@@ -1282,7 +1284,7 @@ msgstr "Прозрачный"
 msgid "Opaque"
 msgstr "Непрозрачный"
 
-#: calendar/gui/calendar-model.c:734
+#: calendar/gui/calendar-model.c:744
 #, c-format
 msgid ""
 "The date must be entered in the format: \n"
@@ -1294,36 +1296,35 @@ msgstr ""
 "%s"
 
 #. strptime format for a date.
-#: calendar/gui/calendar-model.c:835 calendar/gui/calendar-model.c:883
+#: calendar/gui/calendar-model.c:845 calendar/gui/calendar-model.c:893
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:471
-#: widgets/misc/e-dateedit.c:228 widgets/misc/e-dateedit.c:514
-#: widgets/misc/e-dateedit.c:545 widgets/misc/e-dateedit.c:701
+#: widgets/misc/e-dateedit.c:1274 widgets/misc/e-dateedit.c:1455
 msgid "%m/%d/%Y"
 msgstr "%m/%d/%Y"
 
 #. strptime format for a time of day, in 12-hour format.
 #. If it is is not appropriate in the locale set to an empty string.
-#: calendar/gui/calendar-model.c:853
+#: calendar/gui/calendar-model.c:863
 msgid "%I:%M:%S %p%n"
 msgstr "%I:%M:%S %p%n"
 
 #. strptime format for a time of day, in 24-hour format.
-#: calendar/gui/calendar-model.c:856
+#: calendar/gui/calendar-model.c:866
 msgid "%H:%M:%S%n"
 msgstr "%H:%M:%S%n"
 
 #. strptime format for time of day, without seconds, 12-hour format.
 #. If it is is not appropriate in the locale set to an empty string.
-#: calendar/gui/calendar-model.c:860
+#: calendar/gui/calendar-model.c:870
 msgid "%I:%M %p%n"
 msgstr "%I:%M %p%n"
 
 #. strptime format for time of day, without seconds 24-hour format.
-#: calendar/gui/calendar-model.c:863
+#: calendar/gui/calendar-model.c:873
 msgid "%H:%M%n"
 msgstr "%H:%M%n"
 
-#: calendar/gui/calendar-model.c:983
+#: calendar/gui/calendar-model.c:993
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -1333,11 +1334,11 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/calendar-model.c:1023
+#: calendar/gui/calendar-model.c:1033
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Значение процента должно быть между 0 и 100, включительно"
 
-#: calendar/gui/calendar-model.c:1063
+#: calendar/gui/calendar-model.c:1073
 msgid "The priority must be between 1 and 9, inclusive"
 msgstr "Приоритет должен быть между 1 и 9, включительно"
 
@@ -1413,7 +1414,7 @@ msgstr "Календарь"
 msgid "Calendar Preferences"
 msgstr "Настройки календаря"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14 calendar/gui/prop.c:528
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Colors"
 msgstr "Цвета"
 
@@ -1425,8 +1426,7 @@ msgstr "Сжать выходные дни"
 msgid "Date navigator options"
 msgstr "Параметры навигатора дат"
 
-#. populate default frame/box
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17 calendar/gui/prop.c:842
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Defaults"
 msgstr "Исх.значения"
 
@@ -1434,7 +1434,7 @@ msgstr "Исх.значения"
 msgid "Display options"
 msgstr "Отобразить параметры"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19 calendar/gui/prop.c:610
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 msgid "Due Date"
 msgstr "Условленная дата"
 
@@ -1492,8 +1492,7 @@ msgstr "Просроченные задания:"
 msgid "Pick a color"
 msgstr "Выбрать цвет"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33 calendar/gui/prop.c:611
-#: filter/libfilter-i18n.h:18
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33 filter/libfilter-i18n.h:19
 msgid "Priority"
 msgstr "Приоритет"
 
@@ -1541,7 +1540,7 @@ msgstr "Панель заданий"
 msgid "Thu"
 msgstr "Чтв"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44 calendar/gui/prop.c:612
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 msgid "Time Until Due"
 msgstr "Время до условленного"
 
@@ -1579,25 +1578,25 @@ msgstr "минут до назначенного времени."
 msgid "seconds."
 msgstr "секунд."
 
-#: calendar/gui/dialogs/task-editor.c:655
+#: calendar/gui/dialogs/task-editor.c:656
 msgid "Edit Task"
 msgstr "Правка задания"
 
-#: calendar/gui/dialogs/task-editor.c:661 calendar/gui/event-editor.c:316
+#: calendar/gui/dialogs/task-editor.c:662 calendar/gui/event-editor.c:319
 msgid "No summary"
 msgstr "Нет итога"
 
-#: calendar/gui/dialogs/task-editor.c:667 calendar/gui/event-editor.c:322
+#: calendar/gui/dialogs/task-editor.c:668 calendar/gui/event-editor.c:325
 #, c-format
 msgid "Appointment - %s"
 msgstr "Встреча - %s"
 
-#: calendar/gui/dialogs/task-editor.c:670 calendar/gui/event-editor.c:325
+#: calendar/gui/dialogs/task-editor.c:671 calendar/gui/event-editor.c:328
 #, c-format
 msgid "Task - %s"
 msgstr "Задание - %s"
 
-#: calendar/gui/dialogs/task-editor.c:673 calendar/gui/event-editor.c:328
+#: calendar/gui/dialogs/task-editor.c:674 calendar/gui/event-editor.c:331
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Журнальная запись - %s"
@@ -1655,86 +1654,86 @@ msgstr "Состояние:"
 msgid "task-editor-dialog"
 msgstr "диалог редактора заданий"
 
-#: calendar/gui/e-calendar-table.c:294
+#: calendar/gui/e-calendar-table.c:296
 msgid "Open..."
 msgstr "Открыть..."
 
-#: calendar/gui/e-calendar-table.c:295
+#: calendar/gui/e-calendar-table.c:297
 msgid "Open the task"
 msgstr "Открыть задание"
 
-#: calendar/gui/e-calendar-table.c:297
+#: calendar/gui/e-calendar-table.c:299
 msgid "Mark Complete"
 msgstr "Пометить как выполненное"
 
-#: calendar/gui/e-calendar-table.c:298
+#: calendar/gui/e-calendar-table.c:300
 msgid "Mark the task complete"
 msgstr "Пометить задание как выполненное"
 
-#: calendar/gui/e-calendar-table.c:300
+#: calendar/gui/e-calendar-table.c:302
 #: calendar/gui/event-editor-dialog.glade.h:55 filter/filter.glade.h:8
-#: filter/libfilter-i18n.h:8 mail/folder-browser.c:476
-#: mail/mail-config-druid.glade.h:23 mail/mail-config.glade.h:9
-#: mail/mail-view.c:165 ui/evolution-addressbook.xml.h:9
-#: ui/evolution-event-editor.xml.h:20 ui/evolution-mail.xml.h:12
+#: filter/libfilter-i18n.h:8 mail/folder-browser.c:492
+#: mail/mail-config.glade.h:9 mail/mail-view.c:165
+#: ui/evolution-addressbook.xml.h:9 ui/evolution-event-editor.xml.h:20
+#: ui/evolution-mail.xml.h:12
 msgid "Delete"
 msgstr "Удалить"
 
-#: calendar/gui/e-calendar-table.c:301
+#: calendar/gui/e-calendar-table.c:303
 msgid "Delete the task"
 msgstr "Удалить задание"
 
-#: calendar/gui/e-day-view-time-item.c:406
+#: calendar/gui/e-day-view-time-item.c:437
 #, c-format
 msgid "%02i minute divisions"
 msgstr ""
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1173
+#: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1196
 #: calendar/gui/e-week-view-main-item.c:325
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:265 calendar/gui/e-day-view.c:1187
+#: calendar/gui/e-day-view-top-item.c:265 calendar/gui/e-day-view.c:1210
 #: calendar/gui/e-week-view-main-item.c:334
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1200
+#: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1223
 #: calendar/gui/e-week-view-main-item.c:348
 msgid "%d %b"
 msgstr "%d %b"
 
-#: calendar/gui/e-day-view.c:2631 calendar/gui/e-day-view.c:2638
-#: calendar/gui/e-day-view.c:2647 calendar/gui/e-week-view.c:2930
-#: calendar/gui/e-week-view.c:2937 calendar/gui/e-week-view.c:2946
+#: calendar/gui/e-day-view.c:2946 calendar/gui/e-day-view.c:2953
+#: calendar/gui/e-day-view.c:2962 calendar/gui/e-week-view.c:3095
+#: calendar/gui/e-week-view.c:3102 calendar/gui/e-week-view.c:3111
 msgid "New appointment..."
 msgstr "Новая встреча..."
 
-#: calendar/gui/e-day-view.c:2635 calendar/gui/e-day-view.c:2642
-#: calendar/gui/e-week-view.c:2934 calendar/gui/e-week-view.c:2941
+#: calendar/gui/e-day-view.c:2950 calendar/gui/e-day-view.c:2957
+#: calendar/gui/e-week-view.c:3099 calendar/gui/e-week-view.c:3106
 msgid "Edit this appointment..."
 msgstr "Правка этой встречи..."
 
-#: calendar/gui/e-day-view.c:2636 calendar/gui/e-week-view.c:2935
+#: calendar/gui/e-day-view.c:2951 calendar/gui/e-week-view.c:3100
 #: ui/evolution-event-editor.xml.h:21
 msgid "Delete this appointment"
 msgstr "Удалить эту встречу"
 
-#: calendar/gui/e-day-view.c:2643 calendar/gui/e-week-view.c:2942
+#: calendar/gui/e-day-view.c:2958 calendar/gui/e-week-view.c:3107
 msgid "Make this appointment movable"
 msgstr "Сделать эту встречу перемещаемой"
 
-#: calendar/gui/e-day-view.c:2644 calendar/gui/e-week-view.c:2943
+#: calendar/gui/e-day-view.c:2959 calendar/gui/e-week-view.c:3108
 msgid "Delete this occurrence"
 msgstr "Удалить этот случай"
 
-#: calendar/gui/e-day-view.c:2645 calendar/gui/e-week-view.c:2944
+#: calendar/gui/e-day-view.c:2960 calendar/gui/e-week-view.c:3109
 msgid "Delete all occurrences"
 msgstr "Удалить все случаи"
 
@@ -1745,66 +1744,66 @@ msgstr "Удалить все случаи"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/event-editor.c:310
+#: calendar/gui/event-editor.c:313
 msgid "Edit Appointment"
 msgstr "Правка встречи"
 
-#: calendar/gui/event-editor.c:365
+#: calendar/gui/event-editor.c:368
 msgid "on"
 msgstr "в"
 
-#: calendar/gui/event-editor.c:389 calendar/gui/getdate.y:424
+#: calendar/gui/event-editor.c:392 calendar/gui/getdate.y:424
 #: filter/filter-datespec.c:65
 msgid "day"
 msgstr "день"
 
-#: calendar/gui/event-editor.c:390 calendar/gui/prop.c:354
+#: calendar/gui/event-editor.c:393
 msgid "Monday"
 msgstr "Понедельник"
 
-#: calendar/gui/event-editor.c:391
+#: calendar/gui/event-editor.c:394
 msgid "Tuesday"
 msgstr "Вторник"
 
-#: calendar/gui/event-editor.c:392
+#: calendar/gui/event-editor.c:395
 msgid "Wednesday"
 msgstr "Среда"
 
-#: calendar/gui/event-editor.c:393
+#: calendar/gui/event-editor.c:396
 msgid "Thursday"
 msgstr "Четверг"
 
-#: calendar/gui/event-editor.c:394
+#: calendar/gui/event-editor.c:397
 msgid "Friday"
 msgstr "Пятница"
 
-#: calendar/gui/event-editor.c:395
+#: calendar/gui/event-editor.c:398
 msgid "Saturday"
 msgstr "Суббота"
 
-#: calendar/gui/event-editor.c:396 calendar/gui/prop.c:353
+#: calendar/gui/event-editor.c:399
 msgid "Sunday"
 msgstr "Воскресенье"
 
-#: calendar/gui/event-editor.c:514
+#: calendar/gui/event-editor.c:517
 msgid "on the"
 msgstr ""
 
-#: calendar/gui/event-editor.c:521
+#: calendar/gui/event-editor.c:524
 msgid "th"
 msgstr "ый"
 
-#: calendar/gui/event-editor.c:675
+#: calendar/gui/event-editor.c:678
 msgid "occurrences"
 msgstr "случаи"
 
-#: calendar/gui/event-editor.c:792
+#: calendar/gui/event-editor.c:795
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 "Эта встреча имеет правила повторения, которые не могут быть отредактированы "
 "в Evolution."
 
-#: calendar/gui/event-editor.c:2820 calendar/gui/print.c:1085
+#: calendar/gui/event-editor.c:2875 calendar/gui/print.c:1085
 #: calendar/gui/print.c:1087 calendar/gui/print.c:1088
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
@@ -2202,30 +2201,6 @@ msgstr "двенадцатый"
 msgid "ago"
 msgstr "назад"
 
-#: calendar/gui/gncal-todo.c:139
-msgid "Create to-do item"
-msgstr "Создать задание"
-
-#: calendar/gui/gncal-todo.c:139
-msgid "Edit to-do item"
-msgstr "Правка задания"
-
-#: calendar/gui/gncal-todo.c:175
-msgid "Summary:"
-msgstr "Итог:"
-
-#: calendar/gui/gncal-todo.c:186
-msgid "Due Date:"
-msgstr "Условленная дата:"
-
-#: calendar/gui/gncal-todo.c:201
-msgid "Priority:"
-msgstr "Приоритет:"
-
-#: calendar/gui/gncal-todo.c:219
-msgid "Item Comments:"
-msgstr "Комментарии элемента:"
-
 #: calendar/gui/gnome-cal.c:718 calendar/gui/gnome-cal.c:1474
 #: calendar/gui/gnome-cal.c:1530
 msgid "Reminder of your appointment at "
@@ -2467,114 +2442,6 @@ msgstr "Напечатать календарь"
 msgid "Print Preview"
 msgstr "Просмотр печати"
 
-#: calendar/gui/prop.c:336
-msgid "Time display"
-msgstr "Отображаемое время"
-
-#. Time format
-#: calendar/gui/prop.c:340
-msgid "Time format"
-msgstr "Формат времени"
-
-#: calendar/gui/prop.c:341
-msgid "12-hour (AM/PM)"
-msgstr "12-часовой (ДП/ПП)"
-
-#: calendar/gui/prop.c:342
-msgid "24-hour"
-msgstr "24-часовой"
-
-#. Weeks start on
-#: calendar/gui/prop.c:352
-msgid "Weeks start on"
-msgstr "Недели начинаются в"
-
-#. Day range
-#: calendar/gui/prop.c:364
-msgid "Day range"
-msgstr "Диапазон дня"
-
-#: calendar/gui/prop.c:375
-msgid ""
-"Please select the start and end hours you want\n"
-"to be displayed in the day view and week view.\n"
-"Times outside this range will not be displayed\n"
-"by default."
-msgstr ""
-"Выберите начальный и конечный часы, которые Вы\n"
-"хотите видеть в режиме просмотра дней и недель.\n"
-"Время вне этого диапазона по умолчанию не будет\n"
-"показываться."
-
-#: calendar/gui/prop.c:391
-msgid "Day start:"
-msgstr "Начало дня:"
-
-#: calendar/gui/prop.c:402
-msgid "Day end:"
-msgstr "Конец дня:"
-
-#: calendar/gui/prop.c:525
-msgid "Colors for display"
-msgstr "Цвета для показа"
-
-#: calendar/gui/prop.c:605
-msgid "Show on TODO List:"
-msgstr "Показать в списке заданий:"
-
-#: calendar/gui/prop.c:643
-msgid "To Do List style options:"
-msgstr "Параметры стиля списка \"Исполнить\":"
-
-#: calendar/gui/prop.c:648
-msgid "Highlight overdue items"
-msgstr "Подсветка просроченных элементов"
-
-#: calendar/gui/prop.c:651
-msgid "Highlight not yet due items"
-msgstr "Подсветка еще не исполненных элементов"
-
-#: calendar/gui/prop.c:654
-msgid "Highlight items due today"
-msgstr "Подсветка элементов условленных на сегодня"
-
-#: calendar/gui/prop.c:684
-msgid "To Do List Properties"
-msgstr "Свойства списка \"Исполнить\""
-
-#: calendar/gui/prop.c:687
-msgid "To Do List"
-msgstr "Список \"Исполнить\""
-
-#: calendar/gui/prop.c:718
-msgid "Preferences"
-msgstr "Настройки"
-
-#: calendar/gui/prop.c:786
-msgid "Alarms"
-msgstr "Таймеры"
-
-#. build miscellaneous box
-#: calendar/gui/prop.c:789
-msgid "Alarm Properties"
-msgstr "Свойства таймеров"
-
-#: calendar/gui/prop.c:799
-msgid "Beep on display alarms"
-msgstr "Гудок при отображении таймеров"
-
-#: calendar/gui/prop.c:809
-msgid "Audio alarms timeout after"
-msgstr "Задержка аудиосигнала на"
-
-#: calendar/gui/prop.c:820 calendar/gui/prop.c:837
-msgid " seconds"
-msgstr " секунд"
-
-#: calendar/gui/prop.c:826
-msgid "Enable snoozing for "
-msgstr "Разрешить краткий сон для "
-
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
 #: calendar/gui/weekday-picker.c:345 widgets/misc/e-calendar-item.c:416
@@ -2585,69 +2452,69 @@ msgstr "ПВСЧПСВ"
 msgid "SMTWTFS"
 msgstr "ПВСЧПСВ"
 
-#: camel/camel-movemail.c:97
+#: camel/camel-movemail.c:99
 #, c-format
 msgid "Could not check mail file %s: %s"
 msgstr "Не удалось проверить почтовый файл %s: %s"
 
-#: camel/camel-movemail.c:134 camel/camel-movemail.c:181
+#: camel/camel-movemail.c:136 camel/camel-movemail.c:183
 #, c-format
 msgid "Could not create lock file for %s: %s"
 msgstr "Не удалось создать файл блокировки для %s: %s"
 
-#: camel/camel-movemail.c:144
+#: camel/camel-movemail.c:146
 #, c-format
 msgid "Could not open mail file %s: %s"
 msgstr "Невозможно открыть почтовый файл %s: %s"
 
-#: camel/camel-movemail.c:154
+#: camel/camel-movemail.c:156
 #, c-format
 msgid "Could not open temporary mail file %s: %s"
 msgstr "Невозможно открыть временный почтовый файл %s: %s"
 
-#: camel/camel-movemail.c:195
+#: camel/camel-movemail.c:197
 #, c-format
 msgid "Could not test lock file for %s: %s"
 msgstr "Невозможно проверить файл блокировки для %s: %s"
 
-#: camel/camel-movemail.c:215
+#: camel/camel-movemail.c:217
 #, c-format
 msgid "Timed out trying to get lock file on %s. Try again later."
 msgstr ""
 "Превышение времени при попытке заблокировать файл %s. Попробуйте еще раз "
 "позже."
 
-#: camel/camel-movemail.c:241
+#: camel/camel-movemail.c:243
 #, c-format
 msgid "Error reading mail file: %s"
 msgstr "Ошибка при чтении почтового файла: %s"
 
-#: camel/camel-movemail.c:252
+#: camel/camel-movemail.c:254
 #, c-format
 msgid "Error writing mail temp file: %s"
 msgstr "Ошибка сохранения временного почтового файла: %s"
 
-#: camel/camel-movemail.c:270
+#: camel/camel-movemail.c:272
 #, c-format
 msgid "Failed to store mail in temp file %s: %s"
 msgstr "Сбой при сохранении почты во временном файле %s: %s"
 
-#: camel/camel-movemail.c:302
+#: camel/camel-movemail.c:304
 #, c-format
 msgid "Could not create pipe: %s"
 msgstr "Не удалось создать канал: %s"
 
-#: camel/camel-movemail.c:314
+#: camel/camel-movemail.c:316
 #, c-format
 msgid "Could not fork: %s"
 msgstr "Не удалось разветвить: %s"
 
-#: camel/camel-movemail.c:352
+#: camel/camel-movemail.c:354
 #, c-format
 msgid "Movemail program failed: %s"
 msgstr "Сбой программы перемещения почты: %s"
 
-#: camel/camel-movemail.c:353
+#: camel/camel-movemail.c:355
 msgid "(Unknown error)"
 msgstr "(Неизвестная ошибка)"
 
@@ -2748,12 +2615,16 @@ msgstr "Сбой команды IMAP: %s"
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
-#: camel/providers/imap/camel-imap-command.c:366
+#: camel/providers/imap/camel-imap-command.c:271
+msgid "Server response ended too soon."
+msgstr "Ответ сервера закончился слишком рано."
+
+#: camel/providers/imap/camel-imap-command.c:407
 #, c-format
 msgid "IMAP server response did not contain %s information"
 msgstr "Ответ IMAP сервера не содержит информации об %s"
 
-#: camel/providers/imap/camel-imap-command.c:402
+#: camel/providers/imap/camel-imap-command.c:443
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Неожиданный ответ \"OK\" от IMAP сервера: %s"
@@ -3225,29 +3096,29 @@ msgid "%.1fG"
 msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:301 mail/mail-display.c:117
+#: composer/e-msg-composer-attachment-bar.c:331 mail/mail-display.c:118
 msgid "attachment"
 msgstr "вложение"
 
-#: composer/e-msg-composer-attachment-bar.c:397
+#: composer/e-msg-composer-attachment-bar.c:417
 #: ui/evolution-message-composer.xml.h:8
 msgid "Attach a file"
 msgstr "Присоединить файл"
 
-#: composer/e-msg-composer-attachment-bar.c:444 filter/filter.glade.h:13
+#: composer/e-msg-composer-attachment-bar.c:464 filter/filter.glade.h:13
 #: shell/e-shortcuts-view.c:239 shell/e-shortcuts-view.c:356
 msgid "Remove"
 msgstr "Удалить"
 
-#: composer/e-msg-composer-attachment-bar.c:445
+#: composer/e-msg-composer-attachment-bar.c:465
 msgid "Remove selected items from the attachment list"
 msgstr "Удалить выбранные элементы из списка вложений"
 
-#: composer/e-msg-composer-attachment-bar.c:476
+#: composer/e-msg-composer-attachment-bar.c:496
 msgid "Add attachment..."
 msgstr "Добавить вложение..."
 
-#: composer/e-msg-composer-attachment-bar.c:477
+#: composer/e-msg-composer-attachment-bar.c:497
 msgid "Attach a file to the message"
 msgstr "Присоединить файл к сообщению"
 
@@ -3269,7 +3140,7 @@ msgid "MIME type:"
 msgstr "Тип MIME:"
 
 #: composer/e-msg-composer-hdrs.c:137 composer/e-msg-composer-hdrs.c:290
-#: mail/mail-format.c:599
+#: mail/mail-format.c:622
 msgid "From:"
 msgstr "От:"
 
@@ -3281,7 +3152,7 @@ msgstr "Щелкните здесь для адресной книги"
 msgid "Enter the identity you wish to send this message from"
 msgstr "Введите именование, от которого вы хотите отправить это сообщение"
 
-#: composer/e-msg-composer-hdrs.c:295 mail/mail-format.c:603
+#: composer/e-msg-composer-hdrs.c:295 mail/mail-format.c:626
 msgid "To:"
 msgstr "Кому:"
 
@@ -3289,7 +3160,7 @@ msgstr "Кому:"
 msgid "Enter the recipients of the message"
 msgstr "Введите получателей сообщения"
 
-#: composer/e-msg-composer-hdrs.c:300 mail/mail-format.c:605
+#: composer/e-msg-composer-hdrs.c:300 mail/mail-format.c:628
 msgid "Cc:"
 msgstr "Копия:"
 
@@ -3309,7 +3180,7 @@ msgstr ""
 "Введите адресатов, которые получат копию сообщения не попав в список "
 "получателей."
 
-#: composer/e-msg-composer-hdrs.c:313 mail/mail-format.c:607
+#: composer/e-msg-composer-hdrs.c:313 mail/mail-format.c:630
 msgid "Subject:"
 msgstr "Тема:"
 
@@ -3353,7 +3224,7 @@ msgstr "Сохранить изменения в сообщении..."
 msgid "Error saving composition to 'Drafts': %s"
 msgstr "Ошибка сохранения сочинения в \"Черновиках\": %s"
 
-#: composer/e-msg-composer.c:735 shell/e-shell-view-menu.c:167
+#: composer/e-msg-composer.c:735 shell/e-shell-view-menu.c:170
 msgid "Evolution"
 msgstr "Эволюция"
 
@@ -3543,7 +3414,7 @@ msgstr "Ввести URI папки"
 msgid "<click here to select a folder>"
 msgstr "<щелкните здесь для выбора папки>"
 
-#: filter/filter-input.c:188
+#: filter/filter-input.c:184
 #, c-format
 msgid ""
 "Error in regular expression '%s':\n"
@@ -3552,7 +3423,7 @@ msgstr ""
 "Ошибка в регулярном выражении \"%s\":\n"
 "%s"
 
-#: filter/filter-part.c:458
+#: filter/filter-part.c:456
 msgid "Test"
 msgstr "Проверка"
 
@@ -3588,8 +3459,8 @@ msgstr "Добавить критерий"
 msgid "Remove criterion"
 msgstr "Удалить критерий"
 
-#: filter/filter.glade.h:9 mail/folder-browser.c:463
-#: mail/mail-config-druid.glade.h:26 mail/mail-config.glade.h:10
+#: filter/filter.glade.h:9 mail/folder-browser.c:479
+#: mail/mail-config.glade.h:10
 msgid "Edit"
 msgstr "Правка"
 
@@ -3610,7 +3481,7 @@ msgid "vFolder Sources"
 msgstr "Источники вирт.папки"
 
 #. Automatically generated. Do not edit.
-#: filter/libfilter-i18n.h:2 mail/message-list.c:515
+#: filter/libfilter-i18n.h:2 mail/message-list.c:549
 msgid "Answered"
 msgstr "Отвечено"
 
@@ -3659,112 +3530,112 @@ msgid "Message Body"
 msgstr "Тело сообщения"
 
 #: filter/libfilter-i18n.h:15
+msgid "Message Header"
+msgstr "Заголовок сообщения"
+
+#: filter/libfilter-i18n.h:16
 msgid "Message was received"
 msgstr "Сообщение было получено"
 
-#: filter/libfilter-i18n.h:16
+#: filter/libfilter-i18n.h:17
 msgid "Message was sent"
 msgstr "Сообщение было отправлено"
 
-#: filter/libfilter-i18n.h:17
+#: filter/libfilter-i18n.h:18
 msgid "Move to Folder"
 msgstr "Переместить в папку"
 
-#: filter/libfilter-i18n.h:19
+#: filter/libfilter-i18n.h:20
 msgid "Recipients"
 msgstr "Получатели"
 
-#: filter/libfilter-i18n.h:20 mail/message-list.c:512
+#: filter/libfilter-i18n.h:21
+msgid "Regex Match"
+msgstr ""
+
+#: filter/libfilter-i18n.h:22 mail/message-list.c:546
 msgid "Seen"
 msgstr "Прочитанное"
 
-#: filter/libfilter-i18n.h:21
+#: filter/libfilter-i18n.h:23
 msgid "Sender"
 msgstr "Отправитель"
 
-#: filter/libfilter-i18n.h:22
+#: filter/libfilter-i18n.h:24
 msgid "Set Flag"
 msgstr "Установить флаг"
 
-#: filter/libfilter-i18n.h:23
+#: filter/libfilter-i18n.h:25
 msgid "Source"
 msgstr "Источник"
 
-#: filter/libfilter-i18n.h:24
+#: filter/libfilter-i18n.h:26
 msgid "Specific header"
 msgstr "Специфический заголовок"
 
-#: filter/libfilter-i18n.h:25
+#: filter/libfilter-i18n.h:27
 msgid "Stop Processing"
 msgstr "Остановить обработку"
 
-#: filter/libfilter-i18n.h:26
+#: filter/libfilter-i18n.h:28
 msgid "Subject"
 msgstr "Тема"
 
-#: filter/libfilter-i18n.h:27
+#: filter/libfilter-i18n.h:29
 msgid "after"
 msgstr "после"
 
-#: filter/libfilter-i18n.h:28
+#: filter/libfilter-i18n.h:30
 msgid "before"
 msgstr "до"
 
-#: filter/libfilter-i18n.h:29
+#: filter/libfilter-i18n.h:31
 msgid "contains"
 msgstr "содержит"
 
-#: filter/libfilter-i18n.h:30
+#: filter/libfilter-i18n.h:32
 msgid "does not contain"
 msgstr "не содержит"
 
-#: filter/libfilter-i18n.h:31
+#: filter/libfilter-i18n.h:33
 msgid "does not end with"
 msgstr "не заканчивается на"
 
-#: filter/libfilter-i18n.h:32
+#: filter/libfilter-i18n.h:34
 msgid "does not exist"
 msgstr "не существует."
 
-#: filter/libfilter-i18n.h:33
-msgid "does not match regex"
-msgstr "не совпадает с рег.выражением"
-
-#: filter/libfilter-i18n.h:34
+#: filter/libfilter-i18n.h:35
 msgid "does not sound like"
 msgstr "звучит не как"
 
-#: filter/libfilter-i18n.h:35
+#: filter/libfilter-i18n.h:36
 msgid "does not start with"
 msgstr "не начинается с"
 
-#: filter/libfilter-i18n.h:36
+#: filter/libfilter-i18n.h:37
 msgid "ends with"
 msgstr "заканчивается на"
 
-#: filter/libfilter-i18n.h:37
+#: filter/libfilter-i18n.h:38
 msgid "exists"
 msgstr "cуществует"
 
-#: filter/libfilter-i18n.h:38
+#: filter/libfilter-i18n.h:39
 msgid "is greater than"
 msgstr "больше чем"
 
-#: filter/libfilter-i18n.h:39
+#: filter/libfilter-i18n.h:40
 msgid "is less than"
 msgstr "меньше чем"
 
-#: filter/libfilter-i18n.h:40
+#: filter/libfilter-i18n.h:41
 msgid "is not"
 msgstr "не является"
 
-#: filter/libfilter-i18n.h:41
+#: filter/libfilter-i18n.h:42
 msgid "is"
 msgstr "является"
-
-#: filter/libfilter-i18n.h:42
-msgid "matches regex"
-msgstr "совпадает с рег.выражением"
 
 #: filter/libfilter-i18n.h:43
 msgid "on or after"
@@ -3810,19 +3681,19 @@ msgstr "Добавить правило вирт.папки"
 msgid "Edit VFolder Rule"
 msgstr "Правка правила вирт.папки"
 
-#: mail/component-factory.c:230
+#: mail/component-factory.c:233
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Невозможно инициализировать почтовый компонент \"Эволюции\"."
 
-#: mail/component-factory.c:236
+#: mail/component-factory.c:239
 msgid "Cannot initialize Evolution's mail summary component."
 msgstr "Невозможно инициализировать почтовый компонент Evolution."
 
-#: mail/component-factory.c:241
+#: mail/component-factory.c:244
 msgid "Cannot initialize Evolution's mail storage hash."
 msgstr "Невозможно инициализировать хэш почтового хранилища Evolution."
 
-#: mail/component-factory.c:279
+#: mail/component-factory.c:282
 msgid "Cannot register storage with shell"
 msgstr ""
 
@@ -3851,95 +3722,91 @@ msgstr "Тело не содержит"
 msgid "Subject does not contain"
 msgstr "Тема не содержит"
 
-#: mail/folder-browser.c:451
+#: mail/folder-browser.c:467
 msgid "VFolder on Subject"
 msgstr "Вирт.папка по теме"
 
-#: mail/folder-browser.c:452
+#: mail/folder-browser.c:468
 msgid "VFolder on Sender"
 msgstr "Вирт.папка по отправителю"
 
-#: mail/folder-browser.c:453
+#: mail/folder-browser.c:469
 msgid "VFolder on Recipients"
 msgstr "Вирт.папка по получателю"
 
-#: mail/folder-browser.c:455
+#: mail/folder-browser.c:471
 msgid "Filter on Subject"
 msgstr "Фильтр по теме"
 
-#: mail/folder-browser.c:456
+#: mail/folder-browser.c:472
 msgid "Filter on Sender"
 msgstr "Фильтр по отправителю"
 
-#: mail/folder-browser.c:457
+#: mail/folder-browser.c:473
 msgid "Filter on Recipients"
 msgstr "Фильтр по получателю"
 
-#: mail/folder-browser.c:458 mail/folder-browser.c:543
+#: mail/folder-browser.c:474 mail/folder-browser.c:557
 msgid "Filter on Mailing List"
 msgstr "Фильтр по списку рассылки"
 
-#: mail/folder-browser.c:462 ui/evolution-message-composer.xml.h:16
+#: mail/folder-browser.c:478 ui/evolution-message-composer.xml.h:16
 msgid "Open"
 msgstr "Открыть"
 
-#: mail/folder-browser.c:464 mail/mail-view.c:163
+#: mail/folder-browser.c:480 mail/mail-view.c:163
 #: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:24
 #: ui/evolution-mail.xml.h:29
 msgid "Print"
 msgstr "Печать"
 
-#: mail/folder-browser.c:466
+#: mail/folder-browser.c:482
 msgid "Reply to Sender"
 msgstr "Ответить отправителю"
 
-#: mail/folder-browser.c:467 mail/mail-view.c:156 ui/evolution-mail.xml.h:35
+#: mail/folder-browser.c:483 mail/mail-view.c:156 ui/evolution-mail.xml.h:35
 msgid "Reply to All"
 msgstr "Ответить всем"
 
-#: mail/folder-browser.c:468 mail/mail-view.c:159 ui/evolution-mail.xml.h:18
+#: mail/folder-browser.c:484 mail/mail-view.c:159 ui/evolution-mail.xml.h:18
 msgid "Forward"
 msgstr "Переслать"
 
-#: mail/folder-browser.c:469 ui/evolution-mail.xml.h:19
+#: mail/folder-browser.c:485 ui/evolution-mail.xml.h:19
 msgid "Forward as Attachment"
 msgstr "Переслать как вложение"
 
-#: mail/folder-browser.c:471
+#: mail/folder-browser.c:487
 msgid "Mark as Read"
 msgstr "Пометить как прочитанное"
 
-#: mail/folder-browser.c:472
+#: mail/folder-browser.c:488
 msgid "Mark as Unread"
 msgstr "Пометить как непрочтенное"
 
-#: mail/folder-browser.c:474
+#: mail/folder-browser.c:490
 msgid "Move to Folder..."
 msgstr "Переместить в папку..."
 
-#: mail/folder-browser.c:475
+#: mail/folder-browser.c:491
 msgid "Copy to Folder..."
 msgstr "Скопировать в папку..."
 
-#: mail/folder-browser.c:477
+#: mail/folder-browser.c:493
 msgid "Undelete"
 msgstr "Восстановить"
 
 #. { _("Add Sender to Address Book"), NULL, GTK_SIGNAL_FUNC (addrbook_sender),   NULL,  0 },
 #. { "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
-#: mail/folder-browser.c:481
+#: mail/folder-browser.c:497
 msgid "Apply Filters"
 msgstr "Применить фильтры"
 
-#: mail/folder-browser.c:483 ui/evolution-mail.xml.h:11
+#: mail/folder-browser.c:499 ui/evolution-mail.xml.h:11
 msgid "Create Rule From Message"
 msgstr "Создать правило из сообщения"
 
-#: mail/folder-browser.c:485 ui/evolution-mail.xml.h:45
-msgid "View Message Source"
-msgstr "Просмотр источника сообщения"
-
-#: mail/folder-browser.c:545
+#: mail/folder-browser.c:559
 #, c-format
 msgid "Filter on Mailing List (%s)"
 msgstr "Фильтр по списку рассылки (%s)"
@@ -4067,11 +3934,11 @@ msgstr "Полное имя:"
 msgid "Email address:"
 msgstr "Эл.адрес:"
 
-#: mail/mail-config-druid.glade.h:41 mail/mail-config-gui.c:484
+#: mail/mail-config-gui.c:484
 msgid "Organization:"
 msgstr "Организация:"
 
-#: mail/mail-config-druid.glade.h:63 mail/mail-config-gui.c:495
+#: mail/mail-config-gui.c:495
 msgid "Signature file:"
 msgstr "Файл подписи:"
 
@@ -4079,19 +3946,19 @@ msgstr "Файл подписи:"
 msgid "Signature File"
 msgstr "Файл подписи"
 
-#: mail/mail-config-druid.glade.h:62 mail/mail-config-gui.c:906
+#: mail/mail-config-gui.c:906
 msgid "Server:"
 msgstr "Сервер:"
 
-#: mail/mail-config-druid.glade.h:67 mail/mail-config-gui.c:912
+#: mail/mail-config-gui.c:912
 msgid "Username:"
 msgstr "Имя пользователя:"
 
-#: mail/mail-config-druid.glade.h:43 mail/mail-config-gui.c:918
+#: mail/mail-config-gui.c:918
 msgid "Path:"
 msgstr "Путь:"
 
-#: mail/mail-config-druid.glade.h:14 mail/mail-config-gui.c:927
+#: mail/mail-config-gui.c:927
 msgid "Authentication:"
 msgstr "Идентификация:"
 
@@ -4099,11 +3966,11 @@ msgstr "Идентификация:"
 msgid "Detect supported types..."
 msgstr "Определить поддерживаемые типы..."
 
-#: mail/mail-config-druid.glade.h:24 mail/mail-config-gui.c:967
+#: mail/mail-config-gui.c:967
 msgid "Don't delete messages from server"
 msgstr "Не удалять сообщения с сервера"
 
-#: mail/mail-config-druid.glade.h:65 mail/mail-config-gui.c:979
+#: mail/mail-config-gui.c:979
 msgid "Test Settings"
 msgstr "Установки теста"
 
@@ -4171,219 +4038,67 @@ msgstr "Добавить сервер новостей"
 msgid "Edit News Server"
 msgstr "Правка сервера новостей"
 
-#: mail/mail-config-gui.c:2232
+#: mail/mail-config-gui.c:2229
 #, c-format
 msgid "Testing \"%s\""
 msgstr "Проверка \"%s\""
 
-#: mail/mail-config-gui.c:2234
+#: mail/mail-config-gui.c:2231
 #, c-format
 msgid "Test connection to \"%s\""
 msgstr "Проверка соединения с \"%s\""
 
-#: mail/mail-config-gui.c:2275
+#: mail/mail-config-gui.c:2272
 msgid "The connection was successful!"
 msgstr "Соединение было успешным!"
 
-#: mail/mail-config-gui.c:2325
+#: mail/mail-config-gui.c:2322
 #, c-format
 msgid "Querying authorization capabilities of \"%s\""
 msgstr "Запрос возможностей авторизации от \"%s\""
 
-#: mail/mail-config-gui.c:2327
+#: mail/mail-config-gui.c:2324
 #, c-format
 msgid "Query authorization at \"%s\""
 msgstr "Запрос авторизации от \"%s\""
 
 #.
-#. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
 #. * DO NOT compile it as part of your application.
 #.
-#: mail/mail-config-druid.glade.h:7
-msgid "Account Information"
-msgstr "Учетная информация"
-
-#: mail/mail-config-druid.glade.h:8
-msgid "Account Management"
-msgstr "Управление счетом"
-
-#: mail/mail-config-druid.glade.h:9
-msgid "Accounts"
-msgstr "Счета"
-
-#: mail/mail-config-druid.glade.h:11
-msgid "Add Optional Fields..."
-msgstr "Добавить необязательные поля..."
-
-#: mail/mail-config-druid.glade.h:12
-msgid "Additional Identity Fields"
-msgstr "Дополнительные поля сущности"
-
-#: mail/mail-config-druid.glade.h:13
-msgid "Authentication"
-msgstr "Идентификация"
-
-#: mail/mail-config-druid.glade.h:15
-msgid "Browse..."
-msgstr "Просмотр..."
-
+#: mail/mail-config-druid.glade.h:7 mail/mail-config-druid.glade.h:8
 #: mail/mail-config-druid.glade.h:16
-msgid "Congratulations, your mail configuration is complete."
-msgstr "Поздравляем, настройка вашей почты завершена."
-
-#: mail/mail-config-druid.glade.h:22
-msgid "Default"
-msgstr "Исх.значение"
-
-#: mail/mail-config-druid.glade.h:25
-msgid "Done"
-msgstr "Сделано"
-
-#: mail/mail-config-druid.glade.h:27
-msgid "Edit Mail Configuration Settings"
-msgstr "Правка настроек почты"
-
-#: mail/mail-config-druid.glade.h:28
-msgid "Email Address:"
-msgstr "Эл.адрес:"
-
-#: mail/mail-config-druid.glade.h:29
-msgid "Evolution Mail Configuration"
-msgstr "Настройка почты Evolution"
-
-#: mail/mail-config-druid.glade.h:30
-msgid "Full Name:"
-msgstr "Полное имя:"
-
-#: mail/mail-config-druid.glade.h:31
-msgid "IMAP"
-msgstr "IMAP"
-
-#: mail/mail-config-druid.glade.h:32
-msgid "Identity"
-msgstr "Именование"
-
-#: mail/mail-config-druid.glade.h:33
-msgid "Mail"
-msgstr "Почта"
-
-#: mail/mail-config-druid.glade.h:34
 msgid "Mail Configuration"
 msgstr "Настройка почты"
 
-#: mail/mail-config-druid.glade.h:35
-msgid "Mail Configuration Druid"
-msgstr "Мастер настройки почты"
-
-#: mail/mail-config-druid.glade.h:36
-msgid "Make this my default account"
-msgstr "Сделать счетом по умолчанию"
-
-#: mail/mail-config-druid.glade.h:38
-msgid "News"
-msgstr "Новые"
-
-#: mail/mail-config-druid.glade.h:39
-msgid "Optional"
-msgstr "Необязательные"
-
-#: mail/mail-config-druid.glade.h:40
-msgid "Optional Information"
-msgstr "Необязательная информация"
-
-#: mail/mail-config-druid.glade.h:42
-msgid "Password:"
-msgstr "Пароль:"
-
-#: mail/mail-config-druid.glade.h:44
+#: mail/mail-config-druid.glade.h:9
 msgid ""
-"Please enter information about your incoming mail server below. If you don't "
-"know what"
+"Welcome to the Evolution Mail configuration wizard!\n"
+"By filling in some information about your email\n"
+"settings, you can start sending and receiving email\n"
+"right away. Click Next to continue."
 msgstr ""
-"Пожалуйста, введите ниже информацию о вашем сервере входящей почты. Если вы "
-"не знаете что"
 
-#: mail/mail-config-druid.glade.h:46
+#: mail/mail-config-druid.glade.h:13
+msgid "Identity"
+msgstr "Именование"
+
+#: mail/mail-config-druid.glade.h:14
+msgid "Mail Source"
+msgstr "Источник почты"
+
+#: mail/mail-config-druid.glade.h:15 mail/mail-config.glade.h:13
+msgid "Mail Transport"
+msgstr "Передача почты"
+
+#: mail/mail-config-druid.glade.h:17
 msgid ""
-"Please enter information about your outgoing mail protocol below. If you "
-"don't know "
+"Your email configuration is now complete.\n"
+"Click \"Finish\" to save your new settings"
 msgstr ""
-"Пожалуйста, введите ниже информацию о протоколе отправки почты. Если вы не "
-"знаете "
-
-#: mail/mail-config-druid.glade.h:48
-msgid ""
-"Please enter your name and email address below. The &quot;optional&quot; "
-"fields below do not "
-msgstr "Пожалуйстав введите ниже ваше имя и эл.адрес. &quot;дополнительные&quot; поля ниже не "
-
-#: mail/mail-config-druid.glade.h:50
-msgid "Preferred type: "
-msgstr "Предпочтительный тип:"
-
-#: mail/mail-config-druid.glade.h:51
-msgid "Receiving Email"
-msgstr "Получение эл.почты"
-
-#: mail/mail-config-druid.glade.h:52
-msgid "Receiving Mail"
-msgstr "Получение почты"
-
-#: mail/mail-config-druid.glade.h:53
-msgid "Remember my password"
-msgstr "Запомнить пароль"
-
-#: mail/mail-config-druid.glade.h:54
-msgid "Reply-to:"
-msgstr "Ответить:"
-
-#: mail/mail-config-druid.glade.h:55
-msgid "Required"
-msgstr "Требуемые"
-
-#: mail/mail-config-druid.glade.h:56
-msgid "SMTP"
-msgstr "SMTP"
-
-#: mail/mail-config-druid.glade.h:57
-msgid "SMTP server requires authentication"
-msgstr "SMTP сервер требует идентификации"
-
-#: mail/mail-config-druid.glade.h:58
-msgid "Sending Email"
-msgstr "Отправка эл.почты"
-
-#: mail/mail-config-druid.glade.h:59
-msgid "Sending Mail"
-msgstr "Отправка почты"
-
-#: mail/mail-config-druid.glade.h:60
-msgid "Server Configuration"
-msgstr "Настройка сервера"
-
-#: mail/mail-config-druid.glade.h:61
-msgid "Server Type: "
-msgstr "Тип сервера:"
-
-#: mail/mail-config-druid.glade.h:64 mail/mail-config.glade.h:21
-msgid "Sources"
-msgstr "Источники"
-
-#: mail/mail-config-druid.glade.h:68
-msgid "Welcome to the Evolution Mail Configuration Druid! "
-msgstr "Добро пожаловать к мастеру настройки почты Evolution!"
-
-#: mail/mail-config-druid.glade.h:74
-msgid ""
-"You are almost done with the mail configuration process. The identity, "
-"incoming"
-msgstr "Вы почти закончили процесс настройки почты. Сущность, входящие"
-
-#: mail/mail-config-druid.glade.h:78
-msgid "Your mail server supports the following types of authentication. Please"
-msgstr ""
-"Ваш почтовый сервер поддерживает следующие типы идентификации. Пожалуйста,"
+"Ваши почтовые настройки закончены.\n"
+"Нажмите \"Завершить\" для сохранения ваших новых установок"
 
 #: mail/mail-config.glade.h:8
 msgid "Address"
@@ -4396,10 +4111,6 @@ msgstr "Именования"
 #: mail/mail-config.glade.h:12
 msgid "Mail Sources"
 msgstr "Источники почты"
-
-#: mail/mail-config.glade.h:13
-msgid "Mail Transport"
-msgstr "Передача почты"
 
 #: mail/mail-config.glade.h:14
 msgid "Mark message as seen [ms]: "
@@ -4420,6 +4131,10 @@ msgstr "Организация"
 #: mail/mail-config.glade.h:19
 msgid "Send messages in HTML format"
 msgstr "Отправить почту в формате HTML"
+
+#: mail/mail-config.glade.h:21
+msgid "Sources"
+msgstr "Источники"
 
 #: mail/mail-crypto.c:136
 #, c-format
@@ -4453,11 +4168,11 @@ msgstr "Не удалось создать канал к GPG/PGP: %s"
 msgid "No GPG/PGP program available."
 msgstr "Недоступна программа GPG/PGP."
 
-#: mail/mail-display.c:67
+#: mail/mail-display.c:68
 msgid "Overwrite file?"
 msgstr "Переписать файл?"
 
-#: mail/mail-display.c:71
+#: mail/mail-display.c:72
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -4465,7 +4180,7 @@ msgstr ""
 "Файл с таким названием уже существует.\n"
 "Переписать его?"
 
-#: mail/mail-display.c:85
+#: mail/mail-display.c:86
 #, c-format
 msgid ""
 "Could not open file %s:\n"
@@ -4474,94 +4189,99 @@ msgstr ""
 "Невозможно открыть файл %s:\n"
 "%s"
 
-#: mail/mail-display.c:97
+#: mail/mail-display.c:98
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Невозможно записать данные: %s"
 
-#: mail/mail-display.c:193
+#: mail/mail-display.c:194
 msgid "Save Attachment"
 msgstr "Сохранить вложение"
 
-#: mail/mail-display.c:233
+#: mail/mail-display.c:234
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Не удалось создать временный каталог: %s"
 
-#: mail/mail-display.c:275
+#: mail/mail-display.c:276
 msgid "Save to Disk..."
 msgstr "Сохранить на диске..."
 
-#: mail/mail-display.c:277
+#: mail/mail-display.c:278
 #, c-format
 msgid "Open in %s..."
 msgstr "Открыть в %s..."
 
-#: mail/mail-display.c:279
+#: mail/mail-display.c:280
 msgid "View Inline"
 msgstr "Встроенный просмотр"
 
-#: mail/mail-display.c:303
+#: mail/mail-display.c:304
 msgid "External Viewer"
 msgstr "Внешняя программа просмотра"
 
-#: mail/mail-display.c:326
+#: mail/mail-display.c:327
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Встроенный просмотр (через %s)"
 
-#: mail/mail-display.c:330
+#: mail/mail-display.c:331
 msgid "Hide"
 msgstr "Скрыть"
 
-#: mail/mail-format.c:478
+#: mail/mail-format.c:501
 #, c-format
 msgid "%s attachment"
 msgstr "%s вложение"
 
-#: mail/mail-format.c:601
+#: mail/mail-format.c:624
 msgid "Reply-To:"
 msgstr "Ответить:"
 
-#: mail/mail-format.c:823
+#: mail/mail-format.c:846
 msgid "No GPG/PGP support available in this copy of Evolution."
 msgstr "Поддержка GPG/PGP недоступна в этой копии Evolution."
 
-#: mail/mail-format.c:835
+#: mail/mail-format.c:858
 msgid "Encrypted message not displayed"
 msgstr "Зашифрованное сообщение не отображается"
 
-#: mail/mail-format.c:841
+#: mail/mail-format.c:864
 msgid "Encrypted message"
 msgstr "Зашифрованное сообщение"
 
-#: mail/mail-format.c:842
+#: mail/mail-format.c:865
 msgid "Click icon to decrypt."
 msgstr "Щелкните на пиктограмме для дешифрации."
 
-#: mail/mail-format.c:1444
+#: mail/mail-format.c:1467
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Указатель на FTP сайт (%s)"
 
-#: mail/mail-format.c:1456
+#: mail/mail-format.c:1479
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr ""
 
-#: mail/mail-format.c:1460
+#: mail/mail-format.c:1483
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Указатель на локальный файл (%s)"
 
-#: mail/mail-format.c:1494
+#: mail/mail-format.c:1517
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Указатель на неизвестные внешние данные (типа \"%s\")"
 
-#: mail/mail-format.c:1499
+#: mail/mail-format.c:1522
 msgid "Malformed external-body part."
 msgstr ""
+
+#: mail/mail-format.c:1692
+#, c-format
+msgid "On %s, %s wrote:\n"
+msgstr "%s, %s написал:\n"
 
 #: mail/mail-local.c:194
 #, c-format
@@ -4602,287 +4322,281 @@ msgid ""
 "you may need to repair it manually."
 msgstr ""
 
-#: mail/mail-local.c:659
+#: mail/mail-local.c:669
 msgid "Registering local folder"
 msgstr "Регистрация локальной папки"
 
-#: mail/mail-local.c:661
+#: mail/mail-local.c:671
 msgid "Register local folder"
 msgstr "Зарегистрировать локальную папку"
 
-#: mail/mail-ops.c:70
+#: mail/mail-ops.c:78
 #, c-format
 msgid "Fetching email from %s"
 msgstr "Получение почты c %s"
 
-#: mail/mail-ops.c:72
+#: mail/mail-ops.c:80
 #, c-format
 msgid "Fetch email from %s"
 msgstr "Получить почту c %s"
 
-#: mail/mail-ops.c:312
+#: mail/mail-ops.c:333
 #, c-format
 msgid "There is no new mail at %s."
 msgstr "Нет новой почты на %s."
 
-#: mail/mail-ops.c:367
+#: mail/mail-ops.c:407
 msgid "Filtering email on demand"
 msgstr "Фильтрация почты по запросу"
 
-#: mail/mail-ops.c:369
+#: mail/mail-ops.c:409
 msgid "Filter email on demand"
 msgstr "Фильтр почты по запросу"
 
-#: mail/mail-ops.c:504
+#: mail/mail-ops.c:544
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Отправка \"%s\""
 
-#: mail/mail-ops.c:509
+#: mail/mail-ops.c:549
 msgid "Sending a message without a subject"
 msgstr "Отправка сообщения без темы"
 
-#: mail/mail-ops.c:512
+#: mail/mail-ops.c:552
 #, c-format
 msgid "Send \"%s\""
 msgstr "Послать \"%s\""
 
-#: mail/mail-ops.c:515
+#: mail/mail-ops.c:555
 msgid "Send a message without a subject"
 msgstr "Послать сообщение без темы"
 
-#: mail/mail-ops.c:686
+#: mail/mail-ops.c:726
 msgid "Sending queue"
 msgstr "Отправка очереди"
 
-#: mail/mail-ops.c:688
+#: mail/mail-ops.c:728
 msgid "Send queue"
 msgstr "Отправить очередь"
 
-#: mail/mail-ops.c:824 mail/mail-ops.c:831
+#: mail/mail-ops.c:864 mail/mail-ops.c:871
 #, c-format
 msgid "Appending \"%s\""
 msgstr "Присоединение \"%s\""
 
-#: mail/mail-ops.c:828 mail/mail-ops.c:834
+#: mail/mail-ops.c:868 mail/mail-ops.c:874
 msgid "Appending a message without a subject"
 msgstr "Присоединение сообщения без темы"
 
-#: mail/mail-ops.c:906
+#: mail/mail-ops.c:946
 #, c-format
 msgid "Expunging \"%s\""
 msgstr "Вычеркивание \"%s\""
 
-#: mail/mail-ops.c:908
+#: mail/mail-ops.c:948
 #, c-format
 msgid "Expunge \"%s\""
 msgstr "Вычеркнуть \"%s\""
 
-#: mail/mail-ops.c:967
+#: mail/mail-ops.c:1007
 #, c-format
 msgid "Moving messages from \"%s\" into \"%s\""
 msgstr "Перемещение сообщений из \"%s\" в \"%s\""
 
-#: mail/mail-ops.c:969
+#: mail/mail-ops.c:1009
 #, c-format
 msgid "Copying messages from \"%s\" into \"%s\""
 msgstr "Копирование сообщений из \"%s\" в \"%s\""
 
-#: mail/mail-ops.c:972
+#: mail/mail-ops.c:1012
 #, c-format
 msgid "Move messages from \"%s\" into \"%s\""
 msgstr "Переместить сообщения из \"%s\" в \"%s\""
 
-#: mail/mail-ops.c:974
+#: mail/mail-ops.c:1014
 #, c-format
 msgid "Copy messages from \"%s\" into \"%s\""
 msgstr "Скопировать сообщения из \"%s\" в \"%s\""
 
-#: mail/mail-ops.c:1005
+#: mail/mail-ops.c:1045
 msgid "Moving"
 msgstr "Перемещение"
 
-#: mail/mail-ops.c:1008
+#: mail/mail-ops.c:1048
 msgid "Copying"
 msgstr "Копирование"
 
-#: mail/mail-ops.c:1028
+#: mail/mail-ops.c:1068
 #, c-format
 msgid "%s message %d of %d (uid \"%s\")"
 msgstr "%s сообщения %d из %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1107
+#: mail/mail-ops.c:1147
 #, c-format
 msgid "Marking messages in folder \"%s\""
 msgstr "Помечание сообщений в папке \"%s\""
 
-#: mail/mail-ops.c:1110
+#: mail/mail-ops.c:1150
 #, c-format
 msgid "Mark messages in folder \"%s\""
 msgstr "Пометить сообщения в папке \"%s\""
 
-#: mail/mail-ops.c:1141
+#: mail/mail-ops.c:1181
 #, c-format
 msgid "Marking message %d of %d"
 msgstr "Помечание сообщений в папке %d из %d"
 
-#: mail/mail-ops.c:1264
+#: mail/mail-ops.c:1304
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Считывание папок в \"%s\""
 
-#: mail/mail-ops.c:1266
+#: mail/mail-ops.c:1306
 #, c-format
 msgid "Scan folders in \"%s\""
 msgstr "Считать папки в \"%s\""
 
-#: mail/mail-ops.c:1335 mail/subscribe-dialog.c:339
+#: mail/mail-ops.c:1375 mail/subscribe-dialog.c:339
 msgid "(No description)"
 msgstr "(Нет описания)"
 
-#: mail/mail-ops.c:1396
+#: mail/mail-ops.c:1436
 #, c-format
 msgid "Attaching messages from folder \"%s\""
 msgstr "Присоединение сообщений из папки \"%s\""
 
-#: mail/mail-ops.c:1399
+#: mail/mail-ops.c:1439
 #, c-format
 msgid "Attach messages from \"%s\""
 msgstr "Присоединить сообщения из \"%s\""
 
-#: mail/mail-ops.c:1499
+#: mail/mail-ops.c:1539
 #, c-format
 msgid "Forwarding messages \"%s\""
 msgstr "Пересылка сообщений \"%s\""
 
-#: mail/mail-ops.c:1503
+#: mail/mail-ops.c:1543
 msgid "Forwarding a message without a subject"
 msgstr "Пересылка сообщения без темы"
 
-#: mail/mail-ops.c:1506
+#: mail/mail-ops.c:1546
 #, c-format
 msgid "Forward message \"%s\""
 msgstr "Переслать сообщение \"%s\""
 
-#: mail/mail-ops.c:1510
+#: mail/mail-ops.c:1550
 msgid "Forward a message without a subject"
 msgstr "Переслать сообщение без темы"
 
-#: mail/mail-ops.c:1557
+#: mail/mail-ops.c:1597
 #, c-format
 msgid "Retrieving message number %d of %d (uid \"%s\")"
 msgstr "Перемещение сообщения номер %d из %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1573
+#: mail/mail-ops.c:1613
 msgid ""
 "Failed to generate mime part from message while generating forwarded message."
 msgstr ""
 "Не удалось создать mime-часть из сообщения при создании пересылаемого "
 "сообщения."
 
-#: mail/mail-ops.c:1736
+#: mail/mail-ops.c:1657
+msgid "Forwarded message:\n"
+msgstr "Пересланное сообщение:\n"
+
+#: mail/mail-ops.c:1726
 #, c-format
 msgid "Loading \"%s\""
 msgstr "Загрузка \"%s\""
 
-#: mail/mail-ops.c:1738
+#: mail/mail-ops.c:1728
 #, c-format
 msgid "Load \"%s\""
 msgstr "Загрузить \"%s\""
 
-#: mail/mail-ops.c:1840
+#: mail/mail-ops.c:1830
 #, c-format
 msgid "Creating \"%s\""
 msgstr "Создание \"%s\""
 
-#: mail/mail-ops.c:1842
+#: mail/mail-ops.c:1832
 #, c-format
 msgid "Create \"%s\""
 msgstr "Создать \"%s\""
 
-#: mail/mail-ops.c:1890
+#: mail/mail-ops.c:1880
 msgid "Exception while reporting result to shell component listener."
 msgstr ""
 
-#: mail/mail-ops.c:1936
+#: mail/mail-ops.c:1926
 #, c-format
 msgid "Synchronizing \"%s\""
 msgstr "Синхронизация \"%s\""
 
-#: mail/mail-ops.c:1938
+#: mail/mail-ops.c:1928
 #, c-format
 msgid "Synchronize \"%s\""
 msgstr "Синхронизовать \"%s\""
 
-#: mail/mail-ops.c:2002
+#: mail/mail-ops.c:1992
 #, c-format
 msgid "Displaying message UID \"%s\""
 msgstr "Показать UID сообщения \"%s\""
 
-#: mail/mail-ops.c:2005
+#: mail/mail-ops.c:1995
 msgid "Clearing message display"
 msgstr "Очистка отображения сообщения"
 
-#: mail/mail-ops.c:2008
+#: mail/mail-ops.c:1998
 #, c-format
 msgid "Display message UID \"%s\""
 msgstr "Показать UID сообщения \"%s\""
 
-#: mail/mail-ops.c:2011
+#: mail/mail-ops.c:2001
 msgid "Clear message display"
 msgstr "Очистить отображение сообщения"
 
-#: mail/mail-ops.c:2124
+#: mail/mail-ops.c:2114
 #, c-format
 msgid "Opening messages from folder \"%s\""
 msgstr "Открытие сообщений из папки \"%s\""
 
-#: mail/mail-ops.c:2127
+#: mail/mail-ops.c:2117
 #, c-format
 msgid "Open messages from \"%s\""
 msgstr "Открыть сообщения из \"%s\""
 
-#: mail/mail-ops.c:2231
+#: mail/mail-ops.c:2221
 #, c-format
 msgid "Loading %s Folder"
 msgstr "Загрузка папки %s"
 
-#: mail/mail-ops.c:2233
+#: mail/mail-ops.c:2223
 #, c-format
 msgid "Load %s Folder"
 msgstr "Загрузить папку %s"
 
-#: mail/mail-ops.c:2300
+#: mail/mail-ops.c:2290
 #, c-format
 msgid "Viewing messages from folder \"%s\""
 msgstr "Просмотр сообщений из папки \"%s\""
 
-#: mail/mail-ops.c:2303
+#: mail/mail-ops.c:2293
 #, c-format
 msgid "View messages from \"%s\""
 msgstr "Просмотреть сообщения из  \"%s\""
 
-#: mail/mail-ops.c:2329 mail/mail-ops.c:2447 mail/mail-ops.c:2577
+#: mail/mail-ops.c:2319 mail/mail-ops.c:2436
 #, c-format
 msgid "Retrieving message %d of %d (uid \"%s\")"
 msgstr "Перемещение сообщения %d из %d (uid  \"%s\")"
 
-#: mail/mail-ops.c:2419
-#, c-format
-msgid "Viewing message sources from folder \"%s\""
-msgstr "Просмотр источников сообщений из папки \"%s\""
-
-#: mail/mail-ops.c:2422
-#, c-format
-msgid "View message sources from \"%s\""
-msgstr "Просмотреть источники сообщений из \"%s\""
-
-#: mail/mail-ops.c:2550
+#: mail/mail-ops.c:2409
 #, c-format
 msgid "Saving messages from folder \"%s\""
 msgstr "Сохранение сообщений из папки \"%s\""
 
-#: mail/mail-ops.c:2553
+#: mail/mail-ops.c:2412
 #, c-format
 msgid "Saving messages from \"%s\""
 msgstr "Сохранение сообщений из \"%s\""
@@ -4891,13 +4605,9 @@ msgstr "Сохранение сообщений из \"%s\""
 msgid "Cancel"
 msgstr "Отмена"
 
-#: mail/mail-summary.c:95 mail/mail-threads.c:703
+#: mail/mail-summary.c:104 mail/mail-threads.c:703
 msgid "Incomplete message written on pipe!"
 msgstr "Неполное сообщение записано в канал!"
-
-#: mail/mail-summary.c:368
-msgid "Mailbox summary"
-msgstr "Итог по почтовому ящику"
 
 #: mail/mail-threads.c:301
 #, c-format
@@ -4933,18 +4643,18 @@ msgstr "Невозможно создать окно диалога."
 msgid "User cancelled query."
 msgstr "Пользователь отменил запрос."
 
-#: mail/mail-tools.c:187
+#: mail/mail-tools.c:189
 #, c-format
 msgid "Couldn't create temporary mbox `%s': %s"
 msgstr "Не удалось создать временный mbox \"%s\": %s"
 
 #. Get all uids of source
-#: mail/mail-tools.c:237
+#: mail/mail-tools.c:239
 #, c-format
 msgid "Examining %s"
 msgstr "Проверка %s"
 
-#: mail/mail-tools.c:267
+#: mail/mail-tools.c:269
 #, c-format
 msgid ""
 "Could not read UID cache file \"%s\". You may receive duplicate messages."
@@ -4953,41 +4663,41 @@ msgstr ""
 "сообщений."
 
 #. Info
-#: mail/mail-tools.c:288
+#: mail/mail-tools.c:290
 #, c-format
 msgid "Retrieving message %d of %d"
 msgstr "Получение сообщения %d из %d"
 
 #. Append it to dest
-#: mail/mail-tools.c:301
+#: mail/mail-tools.c:303
 #, c-format
 msgid "Writing message %d of %d"
 msgstr "Запись сообщения %d из %d"
 
-#: mail/mail-tools.c:330
+#: mail/mail-tools.c:332
 #, c-format
 msgid "Saving changes to %s"
 msgstr "Сохранение изменений в %s"
 
-#: mail/mail-tools.c:367
+#: mail/mail-tools.c:369
 #, c-format
 msgid "[%s] (forwarded message)"
 msgstr "[%s] (пересланное сообщение)"
 
-#: mail/mail-tools.c:377
+#: mail/mail-tools.c:379
 msgid "Fwd: (no subject)"
 msgstr "Пересл.: (нет темы)"
 
-#: mail/mail-tools.c:416
+#: mail/mail-tools.c:418
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "Пересланное сообщение - %s"
 
-#: mail/mail-tools.c:418
+#: mail/mail-tools.c:420
 msgid "Forwarded message (no subject)"
 msgstr "Пересланное сообщение (без темы)"
 
-#: mail/mail-tools.c:521
+#: mail/mail-tools.c:523
 #, c-format
 msgid ""
 "Cannot open location `%s':\n"
@@ -5000,7 +4710,7 @@ msgstr ""
 msgid "VFolders"
 msgstr "Вирт.папки"
 
-#: mail/mail-vfolder.c:292
+#: mail/mail-vfolder.c:296
 msgid "New VFolder"
 msgstr "Новая вирт.папка"
 
@@ -5030,25 +4740,17 @@ msgstr "Распечатать выделенное сообщение"
 msgid "Delete this message"
 msgstr "Удалить это сообщение"
 
-#: mail/message-list.c:509
+#: mail/message-list.c:543
 msgid "Unseen"
 msgstr "Непрочитанное"
 
-#: mail/message-list.c:2054
+#: mail/message-list.c:2100
 msgid "Rebuilding message view"
 msgstr "Перестроение окна сообщения"
 
-#: mail/message-list.c:2056
+#: mail/message-list.c:2102
 msgid "Rebuild message view"
 msgstr "Перестроить окно сообщения"
-
-#: mail/message-thread.c:583
-msgid "Threading message list"
-msgstr "Список подшитых сообщений"
-
-#: mail/message-thread.c:585
-msgid "Thread message list"
-msgstr "Разбор списка сообщений"
 
 #: mail/subscribe-dialog.c:139
 msgid "Display folders starting with:"
@@ -5084,11 +4786,11 @@ msgstr "Подписать на папку \"%s\""
 msgid "Unsubscribe from folder \"%s\""
 msgstr "Отписаться от папки \"%s\""
 
-#: shell/e-setup.c:110 shell/e-setup.c:179
+#: shell/e-setup.c:112 shell/e-setup.c:183
 msgid "Evolution installation"
 msgstr "Установка Evolution"
 
-#: shell/e-setup.c:114
+#: shell/e-setup.c:116
 msgid ""
 "This new version of Evolution needs to install additional files\n"
 "into your personal Evolution directory"
@@ -5096,30 +4798,30 @@ msgstr ""
 "Этой новой версии Evolution требуется установить дополнительные файлы\n"
 "в ваш личный каталог Evolution"
 
-#: shell/e-setup.c:115
+#: shell/e-setup.c:117
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
 msgstr ""
 "Пожалуйста нажмите \"Ок\", чтобы установить файлы или \"Отмена\" для выхода."
 
-#: shell/e-setup.c:156
+#: shell/e-setup.c:155
 msgid "Could not update files correctly"
 msgstr "Невозможно обновить файлы корректно"
 
-#: shell/e-setup.c:160 shell/e-setup.c:220
+#: shell/e-setup.c:158 shell/e-setup.c:224
 msgid "Evolution files successfully installed."
 msgstr "Файлы Evolution успешно установлены."
 
-#: shell/e-setup.c:183
+#: shell/e-setup.c:187
 msgid "This seems to be the first time you run Evolution."
 msgstr "Похоже вы запустили \"Эволюцию\" в первые."
 
-#: shell/e-setup.c:184
+#: shell/e-setup.c:188
 msgid "Please click \"OK\" to install the Evolution user files under"
 msgstr ""
 "Пожалуйста нажмите \"Ок\", чтобы установить пользовательские файлы "
 "\"Эволюции\" в"
 
-#: shell/e-setup.c:201
+#: shell/e-setup.c:205
 #, c-format
 msgid ""
 "Cannot create the directory\n"
@@ -5130,7 +4832,7 @@ msgstr ""
 "%s\n"
 "Ошибка: %s"
 
-#: shell/e-setup.c:216
+#: shell/e-setup.c:220
 #, c-format
 msgid ""
 "Cannot copy files into\n"
@@ -5139,7 +4841,7 @@ msgstr ""
 "Невозможно скопировать файлы в\n"
 "\"%s\"."
 
-#: shell/e-setup.c:241
+#: shell/e-setup.c:245
 #, c-format
 msgid ""
 "The file `%s' is not a directory.\n"
@@ -5150,7 +4852,7 @@ msgstr ""
 "Пожалуйста, переместите его, чтобы позволить\n"
 "установить файлы пользователя Evolution."
 
-#: shell/e-setup.c:253
+#: shell/e-setup.c:257
 #, c-format
 msgid ""
 "The directory `%s' exists but is not the\n"
@@ -5206,11 +4908,11 @@ msgstr "Bug-buddy не был найден в вашем $PATH."
 msgid "Bug buddy could not be run."
 msgstr "Bug-buddy не может быть запущен."
 
-#: shell/e-shell-view-menu.c:169
+#: shell/e-shell-view-menu.c:172
 msgid "Copyright 1999, 2000 Helix Code, Inc."
 msgstr "Copyright 1999, 2000 Helix Code, Inc."
 
-#: shell/e-shell-view-menu.c:171
+#: shell/e-shell-view-menu.c:174
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -5220,7 +4922,7 @@ msgstr ""
 "ведения календарей и контактной информации для\n"
 "групповой работы в среде GNOME."
 
-#: shell/e-shell-view-menu.c:332
+#: shell/e-shell-view-menu.c:335
 msgid "Go to folder..."
 msgstr "Перейти к папке..."
 
@@ -5232,8 +4934,10 @@ msgstr "(Папки не показаны)"
 msgid "Folders"
 msgstr "Папки"
 
-#: shell/e-shell-view.c:1018 widgets/misc/e-dateedit.c:212
-#: widgets/misc/e-dateedit.c:371 widgets/misc/e-dateedit.c:1171
+#. Note that we don't show this here, since by default a 'None' date
+#. is not permitted.
+#: shell/e-shell-view.c:1018 widgets/misc/e-dateedit.c:422
+#: widgets/misc/e-dateedit.c:1331 widgets/misc/e-dateedit.c:1446
 msgid "None"
 msgstr "Нет"
 
@@ -5247,7 +4951,7 @@ msgstr "Эволюция - %s"
 msgid "Cannot set up local storage -- %s"
 msgstr "Невозможно установить локальное хранилище -- %s"
 
-#: shell/e-shell.c:1157
+#: shell/e-shell.c:1160
 #, c-format
 msgid ""
 "Ooops!  The view for `%s' have died unexpectedly.  :-(\n"
@@ -5606,7 +5310,7 @@ msgstr "Показать 1 неделю"
 msgid "Show the working week"
 msgstr "Показать рабочую неделю"
 
-#: ui/evolution-calendar.xml.h:31 widgets/misc/e-dateedit.c:365
+#: ui/evolution-calendar.xml.h:31 widgets/misc/e-dateedit.c:414
 msgid "Today"
 msgstr "Сегодня"
 
@@ -6230,6 +5934,10 @@ msgstr "Вирт.папка по отправителю"
 msgid "VFolder on _Recipients"
 msgstr "Вирт.папка по получателю"
 
+#: ui/evolution-mail.xml.h:45
+msgid "View Raw Message Source"
+msgstr "Просмотр исходного текста сообщения"
+
 #: ui/evolution-mail.xml.h:46
 msgid "_Apply Filters"
 msgstr "Применить фильтры"
@@ -6283,18 +5991,22 @@ msgid "_Print Message"
 msgstr "Печать сообщения"
 
 #: ui/evolution-mail.xml.h:60
+msgid "_Source"
+msgstr "Источник"
+
+#: ui/evolution-mail.xml.h:61
 msgid "_Threaded"
 msgstr "Подшитые"
 
-#: ui/evolution-mail.xml.h:61
+#: ui/evolution-mail.xml.h:62
 msgid "_Undelete"
 msgstr "Восстановить"
 
-#: ui/evolution-mail.xml.h:62
+#: ui/evolution-mail.xml.h:63
 msgid "_VFolder on Subject"
 msgstr "Вирт.папка по теме"
 
-#: ui/evolution-mail.xml.h:63
+#: ui/evolution-mail.xml.h:64
 msgid "_Virtual Folder Editor..."
 msgstr "Редактор виртуальных папок..."
 
@@ -6633,23 +6345,21 @@ msgstr "%B %Y"
 msgid "..."
 msgstr "..."
 
+#: widgets/misc/e-dateedit.c:408
+msgid "Now"
+msgstr "Сейчас"
+
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
-#: widgets/misc/e-dateedit.c:234 widgets/misc/e-dateedit.c:673
-#: widgets/misc/e-dateedit.c:766 widgets/misc/e-dateedit.c:811
-#: widgets/misc/e-dateedit.c:1127
+#: widgets/misc/e-dateedit.c:1249 widgets/misc/e-dateedit.c:1308
+#: widgets/misc/e-dateedit.c:1487
 msgid "%H:%M"
 msgstr "%H:%M"
 
 #. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
-#: widgets/misc/e-dateedit.c:237 widgets/misc/e-dateedit.c:676
-#: widgets/misc/e-dateedit.c:769 widgets/misc/e-dateedit.c:814
-#: widgets/misc/e-dateedit.c:1130
+#: widgets/misc/e-dateedit.c:1252 widgets/misc/e-dateedit.c:1311
+#: widgets/misc/e-dateedit.c:1490
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
-
-#: widgets/misc/e-dateedit.c:359
-msgid "Now"
-msgstr "Сейчас"
 
 #: widgets/shortcut-bar/e-group-bar.c:632
 #, c-format
