@@ -847,13 +847,16 @@ e_searching_tokenizer_begin (HTMLTokenizer *t, gchar *content_type)
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (t);
 	SearchInfo *si;
 
-	if (st->priv->search == NULL && st->priv->shared && (st->priv->shared->str_primary || st->priv->shared->str_secondary)) {
+	/* Reset our search */
+	search_info_free (st->priv->search);
+	st->priv->search = NULL;
+
+	if (st->priv->shared && (st->priv->shared->str_primary || st->priv->shared->str_secondary)) {
 		st->priv->search = search_info_new ();
 	}
 	si = st->priv->search;
-	
 
-	if (st->priv->shared) {
+	if (st->priv->shared && si) {
 		if (st->priv->shared->str_primary) {
 
 			search_info_set_string (si, st->priv->shared->str_primary);
@@ -889,7 +892,8 @@ e_searching_tokenizer_begin (HTMLTokenizer *t, gchar *content_type)
 static void
 e_searching_tokenizer_end (HTMLTokenizer *t)
 {
-	e_searching_tokenizer_cleanup (E_SEARCHING_TOKENIZER (t));
+	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (t);
+	e_searching_tokenizer_cleanup (st);
 
 	HTML_TOKENIZER_CLASS (parent_class)->end (t);
 }

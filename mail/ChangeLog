@@ -1,3 +1,8 @@
+2001-10-16  Jon Trowbridge  <trow@ximian.com>
+
+	* e-searching-tokenizer.c (e_searching_tokenizer_begin): Always
+	explicitly clear out the SearchInfo.
+
 2001-10-16    <NotZed@Ximian.com>
 
 	* mail-folder-cache.c: Added an async_event handler to store_info.
