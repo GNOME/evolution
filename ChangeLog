@@ -1,5 +1,9 @@
 2004-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* configure.in: Revert previous change.
+
+2004-01-28  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* configure.in: Update to require glib-2.0 >= 2.3.2 (needed for
 	some GValue usage).
 
