@@ -1,3 +1,11 @@
+2002-03-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	* calendar-and-tasks-settings.png: New.
+	* composer-settings.png: New.
+	* ldap-settings.png: New.
+	* mail-accounts-settings.png: New.
+	* summary-settings.png: New.
+
 2002-03-25  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (images_DATA): Add working-16.png (the GNOME2 stock
