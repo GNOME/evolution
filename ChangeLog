@@ -1,5 +1,9 @@
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
+	* configure.in: we don't have to configure the libical subdir now
+
+2003-11-07  JP Rosevear <jpr@ximian.com>
+
 	* configure.in: pull in evolution-data-server stuff and remove
 	backends from output
 
