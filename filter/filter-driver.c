@@ -540,9 +540,11 @@ filter_driver_filter_mbox (FilterDriver *driver, const char *mbox, const char *s
 	
 	while (camel_mime_parser_step (mp, 0, 0) == HSCAN_FROM) {
 		CamelMimeMessage *msg;
-		int pc;
+		int pc = 0;
 		
-		pc = camel_mime_parser_tell (mp) * 100 / st.st_size;
+		if (st.st_size > 0)
+			pc = (int)(100.0 * ((double)camel_mime_parser_tell (mp) / (double)st.st_size));
+
 		report_status (driver, FILTER_STATUS_START, "Getting message %d (%d%% of file)", i, pc);
 		
 		msg = camel_mime_message_new ();
