@@ -3219,11 +3219,11 @@ msgstr "No"
 #: calendar/gui/calendar-model.c:1974 calendar/gui/e-day-view.c:1675
 #: calendar/gui/e-week-view.c:1182
 msgid "Searching"
-msgstr "Ricerca"
+msgstr "Ricerca in corso"
 
 #: calendar/gui/calendar-view-factory.c:148 views/calendar/galview.xml.h:1
 msgid "Day View"
-msgstr "Vista giornaliera"
+msgstr "Vista Giornaliera"
 
 #: calendar/gui/calendar-view-factory.c:151 views/calendar/galview.xml.h:4
 msgid "Work Week View"
@@ -3231,27 +3231,27 @@ msgstr "Vista della Settimana Lavorativa"
 
 #: calendar/gui/calendar-view-factory.c:154 views/calendar/galview.xml.h:3
 msgid "Week View"
-msgstr "Vista settimanale"
+msgstr "Vista Settimanale"
 
 #: calendar/gui/calendar-view-factory.c:157 views/calendar/galview.xml.h:2
 msgid "Month View"
-msgstr "Vista mensile"
+msgstr "Vista Mensile"
 
 #: calendar/gui/cal-search-bar.c:56
 msgid "Summary contains"
-msgstr "Indice contiene"
+msgstr "Il sommario contiene"
 
 #: calendar/gui/cal-search-bar.c:57
 msgid "Description contains"
-msgstr "Descrizione contiene"
+msgstr "La descrizione contiene"
 
 #: calendar/gui/cal-search-bar.c:58
 msgid "Comment contains"
-msgstr "Commento contiene"
+msgstr "Il commento contiene"
 
 #: calendar/gui/cal-search-bar.c:416 mail/mail-ops.c:1075
 msgid "Unmatched"
-msgstr "Non c'é corrispondenza"
+msgstr "Non corrispondenti"
 
 #: calendar/gui/component-factory.c:63 my-evolution/my-evolution.glade.h:7
 #: shell/e-local-storage.c:171 shell/e-shortcuts.c:1055
@@ -3569,7 +3569,7 @@ msgstr "Primo giorno della _settimana:"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 #: calendar/gui/dialogs/recurrence-page.c:963
 msgid "Friday"
-msgstr "Venerdì"
+msgstr "Venerdi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "Hours"
@@ -3582,11 +3582,11 @@ msgstr "Minuti"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: calendar/gui/dialogs/recurrence-page.c:959
 msgid "Monday"
-msgstr "Lunedì"
+msgstr "Lunedi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "O_verdue tasks:"
-msgstr "O_biettivi scaduti:"
+msgstr "_Attività scadute:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/dialogs/recurrence-page.c:964
@@ -3629,7 +3629,7 @@ msgstr "Scadenze per oggi:"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 #: calendar/gui/dialogs/recurrence-page.c:962
 msgid "Thursday"
-msgstr "Giovedì"
+msgstr "Giovedi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 msgid "Time"
@@ -3645,17 +3645,17 @@ msgstr "Suddivisioni del tempo:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 msgid "Time format:"
-msgstr "Formato del tempo:"
+msgstr "Formato dell'ora:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: calendar/gui/dialogs/recurrence-page.c:960
 msgid "Tuesday"
-msgstr "Martedì"
+msgstr "Martedi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 #: calendar/gui/dialogs/recurrence-page.c:961
 msgid "Wednesday"
-msgstr "Mercoledì"
+msgstr "Mercoledi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 #: ui/evolution-calendar.xml.h:33
@@ -3664,7 +3664,7 @@ msgstr "Settimana lavorativa"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "_12 hour (AM/PM)"
-msgstr "_12 ore (am/pm)"
+msgstr "_12 ore (AM/PM)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "_24 hour"
@@ -3672,11 +3672,11 @@ msgstr "_24 ore"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "_Ask for confirmation when deleting items"
-msgstr "_Ciedi conferma per cancellare"
+msgstr "_Chiedi conferma prima di cancellare"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "_Compress weekends in month view"
-msgstr "_Comprimi i fine settimana"
+msgstr "_Comprimi fine settimana nella vista mensile"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "_Display"
@@ -3724,7 +3724,7 @@ msgstr "prima dell'inizio di un appuntamento"
 
 #: calendar/gui/dialogs/cancel-comp.c:51
 msgid "The meeting status has changed. Send an updated version?"
-msgstr "Lo status della riunione è cambiato.  Inviare una versione aggiornata?"
+msgstr "Lo stato della riunione è cambiato.  Inviare una versione aggiornata?"
 
 #: calendar/gui/dialogs/cancel-comp.c:57
 msgid "Are you sure you want to cancel and delete this meeting?"
@@ -4057,7 +4057,7 @@ msgstr "Ruolo"
 #: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:49
 #: mail/message-list.etspec.h:8
 msgid "Status"
-msgstr "Status"
+msgstr "Stato"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:11
 #: calendar/gui/e-calendar-table.etspec.h:18
@@ -4208,7 +4208,7 @@ msgstr "_Priorità:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:15
 msgid "_Status:"
-msgstr "_Status:"
+msgstr "_Stato:"
 
 #: calendar/gui/dialogs/task-editor.c:190
 #: calendar/gui/dialogs/task-editor.c:227
@@ -4448,7 +4448,7 @@ msgstr "pm"
 
 #: calendar/gui/e-day-view.c:3525 calendar/gui/e-week-view.c:3404
 msgid "New All Day _Event"
-msgstr "Nuovo _Evento dell'Intera Giornata"
+msgstr "Nuovo _Evento del Giorno"
 
 #: calendar/gui/e-day-view.c:3535 calendar/gui/e-week-view.c:3414
 #: ui/evolution-calendar.xml.h:17
@@ -4570,7 +4570,7 @@ msgstr "Invia Informazioni sulla Disponibilità"
 
 #: calendar/gui/e-itip-control.c:824
 msgid "Update respondent status"
-msgstr ""
+msgstr "Aggiorna stato risposta"
 
 #: calendar/gui/e-itip-control.c:838
 msgid "Send Latest Information"
@@ -5333,15 +5333,15 @@ msgstr "Stampa Calendario"
 #: mail/mail-callbacks.c:2358 my-evolution/e-summary.c:619
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:67
 msgid "Print Preview"
-msgstr "Anteprima di stampa"
+msgstr "Anteprima di Stampa"
 
 #: calendar/gui/print.c:2506
 msgid "Print Item"
-msgstr "Stampa oggetto"
+msgstr "Stampa Elemento"
 
 #: calendar/gui/print.c:2587
 msgid "Print Setup"
-msgstr "Impostazione pagina"
+msgstr "Impostazione Pagina"
 
 #: calendar/gui/tasks-control.c:126
 msgid "The URI of the tasks folder to display"
@@ -7036,7 +7036,7 @@ msgstr "Impossibile eseguire %s: posta non inviata."
 #: camel/providers/sendmail/camel-sendmail-transport.c:174
 #, c-format
 msgid "sendmail exited with status %d: mail not sent."
-msgstr "sendmail terminato con lo status %d: posta non inviata."
+msgstr "sendmail terminato con valore di ritorno %d: posta non inviata."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:193
 msgid "Could not find 'From' address in message"
@@ -8124,7 +8124,7 @@ msgstr "Mittente"
 
 #: filter/libfilter-i18n.h:43
 msgid "Set Status"
-msgstr "Imposta _Status"
+msgstr "Imposta _Stato"
 
 #: filter/libfilter-i18n.h:44
 msgid "Size (kB)"
@@ -8428,27 +8428,27 @@ msgstr "%d totali"
 
 #: mail/folder-browser.c:1049
 msgid "Create vFolder from Search"
-msgstr "Crea una cartella virtuale dalla Ricerca"
+msgstr "Crea Cartella Virtuale da Questa Ricerca"
 
 #: mail/folder-browser.c:1430
 msgid "VFolder on _Subject"
-msgstr "Cartella Virtuale per _Oggetto"
+msgstr "Cartella Virtuale sull'_Oggetto"
 
 #: mail/folder-browser.c:1431
 msgid "VFolder on Se_nder"
-msgstr "Cartella virtuale sul _Mittente"
+msgstr "Cartella Virtuale sul _Mittente"
 
 #: mail/folder-browser.c:1432
 msgid "VFolder on _Recipients"
-msgstr "Cartella virtuale sui _Destinatari"
+msgstr "Cartella Virtuale sui _Destinatari"
 
 #: mail/folder-browser.c:1433
 msgid "VFolder on Mailing _List"
-msgstr "Cartella virtuale sulla Mailng _List"
+msgstr "Cartella Virtuale sulla Mailing _List"
 
 #: mail/folder-browser.c:1437
 msgid "Filter on Sub_ject"
-msgstr "Filtra sull'_Oggetto"
+msgstr "Filtro sull'_Oggetto"
 
 #: mail/folder-browser.c:1438
 msgid "Filter on Sen_der"
@@ -8460,7 +8460,7 @@ msgstr "Filtro sui _Destinatari"
 
 #: mail/folder-browser.c:1440
 msgid "Filter on _Mailing List"
-msgstr "Filtra sulla _Mailng List"
+msgstr "Filtro sulla _Mailng List"
 
 #: mail/folder-browser.c:1448 ui/evolution-mail-message.xml.h:95
 msgid "_Edit as New Message..."
@@ -8468,7 +8468,7 @@ msgstr "_Modifica come Nuovo Messaggio..."
 
 #: mail/folder-browser.c:1449 ui/evolution-mail-message.xml.h:104
 msgid "_Save As..."
-msgstr "_Salva con nome..."
+msgstr "_Salva con Nome..."
 
 #: mail/folder-browser.c:1450
 msgid "_Print"
@@ -8512,7 +8512,7 @@ msgstr "_Sposta nella Cartella..."
 
 #: mail/folder-browser.c:1467
 msgid "_Copy to Folder..."
-msgstr "_Copia nella cartella..."
+msgstr "_Copia nella Cartella..."
 
 #: mail/folder-browser.c:1469 ui/evolution-mail-message.xml.h:106
 msgid "_Undelete"
@@ -12593,7 +12593,7 @@ msgstr "Configura le impostazioni del calendario"
 
 #: ui/evolution-calendar.xml.h:4
 msgid "Create a New All Day _Event"
-msgstr "Crea un nuovo _Evento per l'intera giornata"
+msgstr "Crea Nuovo _Evento del Giorno"
 
 #: ui/evolution-calendar.xml.h:5
 msgid "Create a New _Task"
@@ -12601,7 +12601,7 @@ msgstr "Crea una Nuova _Attività"
 
 #: ui/evolution-calendar.xml.h:6
 msgid "Create a _New Appointment"
-msgstr "Crea un _Nuovo Appuntamento"
+msgstr "Crea _Nuovo Appuntamento"
 
 #: ui/evolution-calendar.xml.h:9
 msgid "Create an event for the whole day"
@@ -12617,7 +12617,7 @@ msgstr "Elimina appuntamento"
 
 #: ui/evolution-calendar.xml.h:13 ui/evolution-mail-message.xml.h:39
 msgid "Go To"
-msgstr "Vai Al"
+msgstr "Vai al"
 
 #: ui/evolution-calendar.xml.h:14
 msgid "Go back"
@@ -13003,7 +13003,7 @@ msgstr "Seleziona tutti i messaggi visibili"
 
 #: ui/evolution-mail-list.xml.h:18
 msgid "Sh_ow Hidden Messages"
-msgstr "M_ostra i Messaggi Nascosti"
+msgstr "M_ostra Messaggi Nascosti"
 
 #: ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
@@ -13804,7 +13804,7 @@ msgstr "Barra delle _Cartelle"
 
 #: ui/evolution.xml.h:39
 msgid "_Go to Folder..."
-msgstr "_Vai alla cartella..."
+msgstr "_Vai alla Cartella..."
 
 #: ui/evolution.xml.h:41
 msgid "_Import..."
@@ -14072,7 +14072,7 @@ msgstr "_Cerca"
 
 #: widgets/misc/e-search-bar.c:460
 msgid "Find Now"
-msgstr "Trova ora"
+msgstr "Trova Ora"
 
 #: wombat/GNOME_Evolution_WombatLDAP.oaf.in.h:1
 #: wombat/GNOME_Evolution_WombatNOLDAP.oaf.in.h:1
