@@ -1,3 +1,10 @@
+2003-04-09  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #40952
+	
+	* pcs/cal-backend-file.c (cal_backend_file_open): check for file
+	method instead of is_local
+
 2003-04-08  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #40894

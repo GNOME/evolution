@@ -755,7 +755,7 @@ cal_backend_file_open (CalBackend *backend, const char *uristr, gboolean only_if
 	if (!uri)
 		return CAL_BACKEND_OPEN_ERROR;
 
-	if (!gnome_vfs_uri_is_local (uri)) {
+	if (!uri->method_string || strcmp (uri->method_string, "file")) {
 		gnome_vfs_uri_unref (uri);
 		return CAL_BACKEND_OPEN_ERROR;
 	}
