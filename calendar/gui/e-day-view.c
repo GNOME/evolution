@@ -49,7 +49,9 @@
 
 #include "cal-util/timeutil.h"
 #include "dialogs/delete-comp.h"
+#include "dialogs/send-comp.h"
 #include "comp-util.h"
+#include "itip-utils.h"
 #include "calendar-commands.h"
 #include "calendar-config.h"
 #include "goto.h"
@@ -3932,8 +3934,8 @@ e_day_view_on_top_canvas_button_release (GtkWidget *widget,
 		gdk_pointer_ungrab (event->time);
 		e_day_view_finish_selection (day_view);
 	} else if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
-		e_day_view_finish_long_event_resize (day_view);
 		gdk_pointer_ungrab (event->time);
+		e_day_view_finish_long_event_resize (day_view);
 	} else if (day_view->pressed_event_day != -1) {
 		e_day_view_start_editing_event (day_view,
 						day_view->pressed_event_day,
@@ -3961,8 +3963,8 @@ e_day_view_on_main_canvas_button_release (GtkWidget *widget,
 		e_day_view_finish_selection (day_view);
 		e_day_view_stop_auto_scroll (day_view);
 	} else if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
-		e_day_view_finish_resize (day_view);
 		gdk_pointer_ungrab (event->time);
+		e_day_view_finish_resize (day_view);
 		e_day_view_stop_auto_scroll (day_view);
 	} else if (day_view->pressed_event_day != -1) {
 		e_day_view_start_editing_event (day_view,
@@ -4434,8 +4436,12 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
-	if (!cal_client_update_object (day_view->client, comp))
+	if (cal_client_update_object (day_view->client, comp)) {
+		if (cal_component_has_attendees (comp) && send_component_dialog (comp))
+			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp);
+	} else {
 		g_message ("e_day_view_finish_long_event_resize(): Could not update the object!");
+	}
 
 	gtk_object_unref (GTK_OBJECT (comp));
 }
@@ -4491,9 +4497,13 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
-	if (!cal_client_update_object (day_view->client, comp))
+	if (cal_client_update_object (day_view->client, comp)) {
+		if (cal_component_has_attendees (comp) && send_component_dialog (comp))
+			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp);
+	} else {
 		g_message ("e_day_view_finish_resize(): Could not update the object!");
-
+	}
+	
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 
@@ -5830,8 +5840,12 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		summary.altrep = NULL;
 		cal_component_set_summary (event->comp, &summary);
 
-		if (!cal_client_update_object (day_view->client, event->comp))
+		if (cal_client_update_object (day_view->client, event->comp)) {
+			if (cal_component_has_attendees (event->comp) && send_component_dialog (event->comp))
+				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp);
+		} else {
 			g_message ("e_day_view_on_editing_stopped(): Could not update the object!");
+		}
 	}
 
  out:
@@ -6874,9 +6888,13 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
-			if (!cal_client_update_object (day_view->client, comp))
+			if (cal_client_update_object (day_view->client, comp)) {
+				if (cal_component_has_attendees (comp) && send_component_dialog (comp))
+					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp);
+			} else {
 				g_message ("e_day_view_on_top_canvas_drag_data_received(): Could "
 					   "not update the object!");
+			}
 
 			gtk_object_unref (GTK_OBJECT (comp));
 
@@ -6982,9 +7000,13 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
-			if (!cal_client_update_object (day_view->client, comp))
+			if (cal_client_update_object (day_view->client, comp)) {
+				if (cal_component_has_attendees (comp) && send_component_dialog (comp))
+					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp);
+			} else {
 				g_message ("e_day_view_on_main_canvas_drag_data_received(): "
 					   "Could not update the object!");
+			}
 
 			gtk_object_unref (GTK_OBJECT (comp));
 
