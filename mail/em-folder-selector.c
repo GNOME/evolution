@@ -296,13 +296,10 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 	
 	if (uri && emfs->name_entry) {
 		CamelProvider *provider;
-		CamelException ex;
 		CamelURL *url;
 		char *newpath;
 		
-		camel_exception_init (&ex);
-		provider = camel_session_get_provider (session, uri, &ex);
-		camel_exception_clear (&ex);
+		provider = camel_provider_get(uri, NULL);
 		
 		name = gtk_entry_get_text (emfs->name_entry);
 		

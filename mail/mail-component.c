@@ -750,7 +750,7 @@ mail_component_load_store_by_uri (MailComponent *component, const char *uri, con
 	 * it.
 	 */
 	
-	prov = camel_session_get_provider (session, uri, &ex);
+	prov = camel_provider_get(uri, &ex);
 	if (prov == NULL) {
 		/* EPFIXME: real error dialog */
 		g_warning ("couldn't get service %s: %s\n", uri,
@@ -823,7 +823,7 @@ mail_component_remove_store_by_uri (MailComponent *component, const char *uri)
 
 	MAIL_COMPONENT_DEFAULT(component);
 	
-	if (!(prov = camel_session_get_provider (session, uri, NULL)))
+	if (!(prov = camel_provider_get(uri, NULL)))
 		return;
 	
 	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))

@@ -782,7 +782,7 @@ mail_config_get_account_by_source_url (const char *source_url)
 	
 	g_return_val_if_fail (source_url != NULL, NULL);
 	
-	provider = camel_session_get_provider (session, source_url, NULL);
+	provider = camel_provider_get(source_url, NULL);
 	if (!provider)
 		return NULL;
 	
@@ -830,7 +830,7 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 	
 	g_return_val_if_fail (transport_url != NULL, NULL);
 	
-	provider = camel_session_get_provider (session, transport_url, NULL);
+	provider = camel_provider_get(transport_url, NULL);
 	if (!provider)
 		return NULL;
 	

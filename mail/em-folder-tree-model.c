@@ -123,7 +123,6 @@ static void
 em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	int i;
 	
 	parent_class = g_type_class_ref (GTK_TYPE_TREE_STORE);
 	
@@ -368,7 +367,7 @@ account_changed (EAccountList *accounts, EAccount *account, gpointer user_data)
 		return;
 	
 	camel_exception_init (&ex);
-	if (!(provider = camel_session_get_provider (session, uri, &ex))) {
+	if (!(provider = camel_provider_get(uri, &ex))) {
 		camel_exception_clear (&ex);
 		return;
 	}

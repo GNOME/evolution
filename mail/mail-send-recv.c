@@ -265,16 +265,13 @@ format_url(const char *internal_url)
 static send_info_t get_receive_type(const char *url)
 {
 	CamelProvider *provider;
-	CamelException ex;
 
 	/* HACK: since mbox is ALSO used for native evolution trees now, we need to
 	   fudge this to treat it as a special 'movemail' source */
 	if (!strncmp(url, "mbox:", 5))
 		return SEND_RECEIVE;
 
-	camel_exception_init(&ex);
-	provider = camel_session_get_provider (session, url, &ex);
-	camel_exception_clear(&ex);
+	provider = camel_provider_get(url, NULL);
 	if (!provider)
 		return SEND_INVALID;
 	

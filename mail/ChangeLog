@@ -1,3 +1,16 @@
+2004-02-19  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (get_receive_type): 
+	* mail-config.c (mail_config_get_account_by_source_url) 
+	(mail_config_get_account_by_transport_url): 
+	* mail-component.c (mail_component_load_store_by_uri): 
+	* mail-account-gui.c (mail_account_gui_setup) 
+	(mail_account_gui_save): 
+	* em-utils.c (em_utils_empty_trash, em_uri_from_camel): 
+	* em-folder-tree-model.c (account_changed):
+	* em-folder-selector.c (em_folder_selector_get_selected_uri): fix
+	camel provider api changes.
+
 2004-02-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-composer-prefs.c (sig_fill_list): Changed the name to not

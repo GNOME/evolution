@@ -2445,7 +2445,7 @@ em_utils_empty_trash (GtkWidget *parent)
 		
 		/* make sure this is a valid source */
 		if (account->enabled && account->source->url) {
-			provider = camel_session_get_provider (session, account->source->url, &ex);
+			provider = camel_provider_get(account->source->url, &ex);
 			if (provider) {
 				/* make sure this store is a remote store */
 				if (provider->flags & CAMEL_PROVIDER_IS_STORAGE &&
@@ -2507,7 +2507,7 @@ char *em_uri_from_camel(const char *curi)
 	char *euri, *tmp;
 	CamelProvider *provider;
 
-	provider = camel_session_get_provider(session, curi, NULL);
+	provider = camel_provider_get(curi, NULL);
 	if (provider == NULL) {
 		d(printf("em uri from camel failed '%s'\n", curi));
 		return g_strdup(curi);
@@ -2597,7 +2597,7 @@ char *em_uri_to_camel(const char *euri)
 	}
 
 	service = account->source;
-	provider = camel_session_get_provider(session, service->url, NULL);
+	provider = camel_provider_get(service->url, NULL);
 
 	curl = camel_url_new(service->url, NULL);
 	if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)

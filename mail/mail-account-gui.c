@@ -1693,7 +1693,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	/* Construct source/transport option menus */
 	stores = gtk_menu_new ();
 	transports = gtk_menu_new ();
-	providers = camel_session_list_providers (session, TRUE);
+	providers = camel_provider_list(TRUE);
 	
 	/* sort the providers, remote first */
 	providers = g_list_sort (providers, (GCompareFunc) provider_compare);
@@ -1990,7 +1990,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	/* source */
 	save_service (&gui->source, gui->extra_config, new->source);
 	if (new->source->url)
-		provider = camel_session_get_provider (session, new->source->url, NULL);
+		provider = camel_provider_get(new->source->url, NULL);
 	
 	new->source->auto_check = gtk_toggle_button_get_active (gui->source_auto_check);
 	if (new->source->auto_check)

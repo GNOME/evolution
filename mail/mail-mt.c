@@ -884,7 +884,6 @@ static void do_op_status(struct _mail_msg *mm)
 	
 	if (data->activity_id == 0) {
 		char *what;
-		int display;
 		
 		/* its being created/removed?  well leave it be */
 		if (data->activity_state == 1 || data->activity_state == 3) {

@@ -137,7 +137,7 @@ editor_response_cb (GtkWidget *widget, int button, gpointer user_data)
 static void
 mail_account_editor_changed (GtkWidget *widget, MailAccountEditor *editor)
 {
-	gtk_dialog_set_response_sensitive (GTK_WIDGET (editor), GTK_RESPONSE_APPLY, TRUE);
+	gtk_dialog_set_response_sensitive((GtkDialog *)editor, GTK_RESPONSE_APPLY, TRUE);
 }
 
 static void
