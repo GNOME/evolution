@@ -1,3 +1,7 @@
+2004-01-24  JP Rosevear <jpr@ximian.com>
+
+	* tr.po: remove duplicate msgid's
+
 2004-01-24  Dmitry G. Mastrukov  <dmitry@taurussoft.org>
 
 	* ru.po: Updated Russian translation

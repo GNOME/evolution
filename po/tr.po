@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "POT-Creation-Date: 2004-01-12 22:53-0500\n"
-"PO-Revision-Date: 2003-12-29 01:13+0000\n"
+"PO-Revision-Date: 2004-01-24 00:49-0500\n"
 "Last-Translator: Görkem Çetin <gorkem@kde.org>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4743,23 +4743,13 @@ msgstr "_Boş"
 msgid "L_ocation:"
 msgstr "Konum: "
 
-#: calendar/gui/dialogs/task-page.glade.h:7
-msgid "Ca_tegories..."
-msgstr "_Kategoriler..."
-
 #: calendar/gui/dialogs/task-page.glade.h:8
 msgid "Pri_vate"
 msgstr "Ö_zel"
 
-msgid "Calendar:"
-msgstr "Takvim:"
-
 #: calendar/gui/dialogs/task-page.glade.h:9
 msgid "Pu_blic"
 msgstr "_Genel"
-
-msgid "Co_nfidential"
-msgstr "_Gizli"
 
 msgid "Show Time As"
 msgstr "Zamanı Farklı Göster"
