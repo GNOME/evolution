@@ -26,6 +26,7 @@
 
 #include <gtk/gtktable.h>
 #include <libgnomeui/gnome-canvas.h>
+#include "../e-text/e-text.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,6 +44,8 @@ extern "C" {
 /* This is the width of the icon column in the attendees list. */
 #define E_MEETING_TIME_SELECTOR_ICON_COLUMN_WIDTH	24
 
+#define E_MEETING_TIME_SELECTOR_TEXT_Y_PAD		3
+#define E_MEETING_TIME_SELECTOR_TEXT_X_PAD		2
 
 /* These specify the type of attendee. Either a person or a resource (e.g. a
    meeting room). These are used for the Autopick options, where the user can
@@ -145,6 +148,11 @@ struct _EMeetingTimeSelectorAttendee
 
 	/* This is TRUE if the meeting request is sent to this attendee. */
 	gboolean send_meeting_to;
+
+	/* This is the period for which free/busy data for the attendee is
+	   available. */
+	EMeetingTimeSelectorTime busy_periods_start;
+	EMeetingTimeSelectorTime busy_periods_end;
 
 	/* This is an array of EMeetingTimeSelectorPeriod elements. When it is
 	   updated busy_periods_sorted is set to FALSE, and if a function
@@ -422,6 +430,20 @@ void e_meeting_time_selector_attendee_set_has_calendar_info (EMeetingTimeSelecto
 void e_meeting_time_selector_attendee_set_send_meeting_to (EMeetingTimeSelector *mts,
 							   gint row,
 							   gboolean send_meeting_to);
+
+gboolean e_meeting_time_selector_attendee_set_busy_range	(EMeetingTimeSelector *mts,
+								 gint row,
+								 gint start_year,
+								 gint start_month,
+								 gint start_day,
+								 gint start_hour,
+								 gint start_minute,
+								 gint end_year,
+								 gint end_month,
+								 gint end_day,
+								 gint end_hour,
+								 gint end_minute);
+
 
 /* Clears all busy times for the given attendee. */
 void e_meeting_time_selector_attendee_clear_busy_periods (EMeetingTimeSelector *mts,

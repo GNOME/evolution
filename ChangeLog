@@ -1,3 +1,8 @@
+2000-06-17  Damon Chaplin  <damon@helixcode.com>
+
+	* widgets/meeting-time-sel/*: updated to use EText items rather than
+	GtkEntry widgets and added support for adding new rows.
+
 2000-06-15  Dan Winship  <danw@helixcode.com>
 
 	* README: bye bye goad

@@ -57,6 +57,7 @@ struct _EMeetingTimeSelectorItem
 	/* This GC is used for most of the drawing. The fg/bg colors are
 	   changed for each bit. */
 	GdkGC *main_gc;
+	GdkGC *stipple_gc;
 
 	/* The normal & resize cursors. */
 	GdkCursor *normal_cursor;

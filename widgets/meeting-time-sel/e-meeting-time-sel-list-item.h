@@ -25,8 +25,7 @@
 /*
  * MeetingTimeSelectorListItem - A GnomeCanvasItem covering the entire attendee
  * list. It just draws the grid lines between the rows and after the icon
- * column. It probably won't be needed when we switch to Miguel's new editable
- * GtkList-like widget.
+ * column. 
  */
 
 #ifndef _E_MEETING_TIME_SELECTOR_LIST_ITEM_H_

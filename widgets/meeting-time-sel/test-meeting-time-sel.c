@@ -60,6 +60,12 @@ main (int argc, char *argv[])
 	for (i = 0; i < 20; i++) {
 		add_random_attendee_test_data (E_MEETING_TIME_SELECTOR (mts));
 	}
+
+	if (!e_meeting_time_selector_attendee_set_busy_range (E_MEETING_TIME_SELECTOR (mts), 3,
+							      2000, 5, 1, 14, 0,
+							      2000, 11, 1, 11, 30))
+		g_print ("Error setting busy range\n");
+
 #else
 	for (i = 0; i < 1; i++) {
 		add_simple_attendee_test_data (E_MEETING_TIME_SELECTOR (mts));

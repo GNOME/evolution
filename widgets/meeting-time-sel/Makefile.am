@@ -20,8 +20,11 @@ noinst_PROGRAMS =	\
 test_meeting_time_selector_SOURCES = 	\
 	test-meeting-time-sel.c
 
-test_meeting_time_selector_LDADD =	\
-	libevolutionmtsel.a $(GNOMEUI_LIBS)
+test_meeting_time_selector_LDADD =			\
+	libevolutionmtsel.a				\
+	$(top_builddir)/widgets/e-text/libetext.a	\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(GNOMEUI_LIBS)
 
 test_meeting_time_selector_LDFLAGS = $(GNOME_LIBDIR)
 

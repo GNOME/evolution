@@ -25,12 +25,12 @@
 /*
  * EMeetingTimeSelectorListItem - A GnomeCanvasItem covering the entire attendee
  * list. It just draws the grid lines between the rows and after the icon
- * column. It probably won't be needed when we switch to Miguel's new editable
- * GtkList-like widget.
+ * column. 
  */
 
 #include <config.h>
 #include <time.h>
+#include "../../e-util/e-canvas.h"
 #include "e-meeting-time-sel-list-item.h"
 #include "e-meeting-time-sel.h"
 
@@ -60,6 +60,10 @@ static double e_meeting_time_selector_list_item_point (GnomeCanvasItem *item,
 						       double x, double y,
 						       int cx, int cy,
 						       GnomeCanvasItem **actual_item);
+static gint e_meeting_time_selector_list_item_event (GnomeCanvasItem *item,
+						     GdkEvent	 *event);
+static gboolean e_meeting_time_selector_list_item_button_press (EMeetingTimeSelectorListItem *mtsl_item,
+								GdkEvent *event);
 
 
 static GnomeCanvasItemClass *e_meeting_time_selector_list_item_parent_class;
@@ -119,9 +123,7 @@ e_meeting_time_selector_list_item_class_init (EMeetingTimeSelectorListItemClass 
 	item_class->update      = e_meeting_time_selector_list_item_update;
 	item_class->draw        = e_meeting_time_selector_list_item_draw;
 	item_class->point       = e_meeting_time_selector_list_item_point;
-#if 0
 	item_class->event       = e_meeting_time_selector_list_item_event;
-#endif
 }
 
 
@@ -237,6 +239,7 @@ e_meeting_time_selector_list_item_draw (GnomeCanvasItem *item, GdkDrawable *draw
 	EMeetingTimeSelector *mts;
 	EMeetingTimeSelectorAttendee *attendee;
 	GdkGC *gc;
+	GdkFont *font;
 	gint row, row_y, icon_x, icon_y;
 	GdkPixmap *pixmap;
 	GdkBitmap *mask;
@@ -286,6 +289,18 @@ e_meeting_time_selector_list_item_draw (GnomeCanvasItem *item, GdkDrawable *draw
 		icon_y += mts->row_height;
 	}
 	gdk_gc_set_clip_mask (gc, NULL);
+
+	/* Draw 'Click here to add attendee' on the last dummy row. */
+	row_y = mts->attendees->len * mts->row_height;
+
+	font = GTK_WIDGET (mts)->style->font;
+	gdk_gc_set_foreground (gc, &mts->grid_unused_color);
+	gdk_draw_string (drawable, font, gc,
+			 E_MEETING_TIME_SELECTOR_ICON_COLUMN_WIDTH
+			 + E_MEETING_TIME_SELECTOR_TEXT_X_PAD - x,
+			 row_y + E_MEETING_TIME_SELECTOR_TEXT_Y_PAD
+			 + font->ascent + 1 - y,
+			 "Click here to add attendee");
 }
 
 
@@ -301,3 +316,79 @@ e_meeting_time_selector_list_item_point (GnomeCanvasItem *item,
 	*actual_item = item;
 	return 0.0;
 }
+
+
+static gint
+e_meeting_time_selector_list_item_event (GnomeCanvasItem *item,
+					 GdkEvent *event)
+{
+	EMeetingTimeSelectorListItem *mtsl_item;
+
+	mtsl_item = E_MEETING_TIME_SELECTOR_LIST_ITEM (item);
+
+	switch (event->type) {
+	case GDK_BUTTON_PRESS:
+		return e_meeting_time_selector_list_item_button_press (mtsl_item, event);
+	case GDK_BUTTON_RELEASE:
+		break;
+	case GDK_MOTION_NOTIFY:
+		break;
+	default:
+		break;
+	}
+
+	return FALSE;
+}
+
+
+static gboolean
+e_meeting_time_selector_list_item_button_press (EMeetingTimeSelectorListItem *mtsl_item,
+						GdkEvent *event)
+{
+	EMeetingTimeSelector *mts;
+	EMeetingTimeSelectorAttendee *attendee;
+	gint row;
+	gboolean return_val;
+	GtkAdjustment *adjustment;
+
+	mts = mtsl_item->mts;
+	row = event->button.y / mts->row_height;
+
+	g_print ("In e_meeting_time_selector_list_item_button_press: %g,%g row:%i\n",
+		 event->button.x, event->button.y, row);
+
+	if (event->button.x >= E_MEETING_TIME_SELECTOR_ICON_COLUMN_WIDTH) {
+		if (row < mts->attendees->len) {
+			attendee = &g_array_index (mts->attendees, EMeetingTimeSelectorAttendee, row);
+			gtk_signal_emit_by_name (GTK_OBJECT (attendee->text_item),
+						 "event", event, &return_val);
+			return return_val;
+		} else {
+			row = e_meeting_time_selector_attendee_add (mts, "",
+								    NULL);
+
+			/* Scroll down to show the last line.?? */
+#if 0
+			adjustment = GTK_LAYOUT (mts->display_main)->vadjustment;
+			adjustment->value = adjustment->upper - adjustment->page_size;
+			gtk_adjustment_value_changed (adjustment);
+#endif
+
+			attendee = &g_array_index (mts->attendees, EMeetingTimeSelectorAttendee, row);
+			e_canvas_item_grab_focus (attendee->text_item);
+			return TRUE;
+		}
+	} else {
+		attendee = &g_array_index (mts->attendees,
+					   EMeetingTimeSelectorAttendee, row);
+
+		attendee->send_meeting_to = !attendee->send_meeting_to;
+
+		gnome_canvas_request_redraw (GNOME_CANVAS_ITEM (mtsl_item)->canvas,
+					     0, row * mts->row_height,
+					     E_MEETING_TIME_SELECTOR_ICON_COLUMN_WIDTH,
+					     (row + 1) * mts->row_height);
+		return TRUE;
+	}
+}
+

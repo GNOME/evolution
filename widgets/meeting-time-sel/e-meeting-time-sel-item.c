@@ -84,6 +84,12 @@ static gint e_meeting_time_selector_item_find_first_busy_period (EMeetingTimeSel
 static void e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorItem *mts_item, GdkDrawable *drawable, int row, int x, int y, int width, int first_period, EMeetingTimeSelectorBusyType busy_type);
 
 static EMeetingTimeSelectorPosition e_meeting_time_selector_item_get_drag_position (EMeetingTimeSelectorItem *mts_item, gint x, gint y);
+static gboolean e_meeting_time_selector_item_calculate_busy_range (EMeetingTimeSelector *mts,
+								   gint row,
+								   gint x,
+								   gint width,
+								   gint *start_x,
+								   gint *end_x);
 
 static GnomeCanvasItemClass *parent_class;
 
@@ -154,6 +160,7 @@ e_meeting_time_selector_item_init (EMeetingTimeSelectorItem *mts_item)
 	mts_item->mts = NULL;
 
 	mts_item->main_gc = NULL;
+	mts_item->stipple_gc = NULL;
 
 	/* Create the cursors. */
 	mts_item->normal_cursor = gdk_cursor_new (GDK_TOP_LEFT_ARROW);
@@ -215,6 +222,7 @@ e_meeting_time_selector_item_realize (GnomeCanvasItem *item)
 	window = GTK_WIDGET (canvas)->window;
 
 	mts_item->main_gc = gdk_gc_new (window);
+	mts_item->stipple_gc = gdk_gc_new (window);
 }
 
 
@@ -227,6 +235,8 @@ e_meeting_time_selector_item_unrealize (GnomeCanvasItem *item)
 
 	gdk_gc_unref (mts_item->main_gc);
 	mts_item->main_gc = NULL;
+	gdk_gc_unref (mts_item->stipple_gc);
+	mts_item->stipple_gc = NULL;
 
 	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (parent_class)->unrealize)(item);
@@ -258,15 +268,16 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	EMeetingTimeSelectorItem *mts_item;
 	EMeetingTimeSelectorAttendee *attendee;
 	gint day_x, meeting_start_x, meeting_end_x, bar_y, bar_height;
-	gint row, row_y;
+	gint row, row_y, start_x, end_x;
 	GDate date, last_date, current_date;
 	gboolean is_display_top, show_meeting_time;
-	GdkGC *gc;
+	GdkGC *gc, *stipple_gc;
 
 	mts_item = E_MEETING_TIME_SELECTOR_ITEM (item);
 	mts = mts_item->mts;
 	g_return_if_fail (mts != NULL);
 	gc = mts_item->main_gc;
+	stipple_gc = mts_item->stipple_gc;
 
 	is_display_top = (GTK_WIDGET (item->canvas) == mts->display_top)
 		? TRUE : FALSE;
@@ -299,7 +310,7 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		if (is_display_top)
 			gdk_draw_rectangle (drawable, gc, TRUE,
 					    meeting_start_x + 1 - x, mts->row_height * 2 - y,
-					    meeting_end_x - meeting_start_x - 2, height);
+					    meeting_end_x - meeting_start_x - 2, mts->row_height);
 		else
 			gdk_draw_rectangle (drawable, gc, TRUE,
 					    meeting_start_x + 1 - x, 0,
@@ -310,17 +321,33 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	   that have no calendar information. */
 	if (!is_display_top) {
 		gdk_gc_set_foreground (gc, &mts->grid_color);
-		gdk_gc_set_background (gc, &mts->stipple_bg_color);
-		gdk_gc_set_stipple (gc, mts->stipple);
-		gnome_canvas_set_stipple_origin (item->canvas, gc);
-		gdk_gc_set_fill (gc, GDK_OPAQUE_STIPPLED);
+		gdk_gc_set_foreground (stipple_gc, &mts->grid_color);
+		gdk_gc_set_background (stipple_gc, &mts->stipple_bg_color);
+		gdk_gc_set_stipple (stipple_gc, mts->stipple);
+		gnome_canvas_set_stipple_origin (item->canvas, stipple_gc);
+		gdk_gc_set_fill (stipple_gc, GDK_OPAQUE_STIPPLED);
 		row = y / mts->row_height;
 		row_y = row * mts->row_height - y;
 		while (row < mts->attendees->len && row_y < height) {
 			attendee = &g_array_index (mts->attendees,
 						   EMeetingTimeSelectorAttendee, row);
-			if (!attendee->has_calendar_info) {
-				gdk_draw_rectangle (drawable, gc, TRUE,
+			if (attendee->has_calendar_info) {
+				if (e_meeting_time_selector_item_calculate_busy_range (mts, row, x, width, &start_x, &end_x)) {
+					if (start_x >= width || end_x <= 0) {
+						gdk_draw_rectangle (drawable, stipple_gc, TRUE, 0, row_y, width, mts->row_height);
+					} else {
+						if (start_x >= 0) {
+							gdk_draw_rectangle (drawable, stipple_gc, TRUE, 0, row_y, start_x, mts->row_height);
+							gdk_draw_line (drawable, gc, start_x, row_y, start_x, row_y + mts->row_height);
+						}
+						if (end_x <= width) {
+							gdk_draw_rectangle (drawable, stipple_gc, TRUE, end_x, row_y, width - end_x, mts->row_height);
+							gdk_draw_line (drawable, gc, end_x, row_y, end_x, row_y + mts->row_height);
+						}
+					}
+				}
+			} else {
+				gdk_draw_rectangle (drawable, stipple_gc, TRUE,
 						    0, row_y,
 						    width, mts->row_height);
 			}
@@ -419,7 +446,7 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 	     grid_x < mts->day_width - mts->col_width;
 	     grid_x += mts->col_width) {
 		gdk_draw_line (drawable, gc,
-			       x + grid_x, mts->row_height * 2 - 4,
+			       x + grid_x, mts->row_height * 2 - 4 - scroll_y,
 			       x + grid_x, height);
 	}
 	grid_x = mts->day_width - 2;
@@ -525,7 +552,7 @@ e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
 	     grid_y < height;
 	     grid_y += mts->row_height)
 	  {
-		  if (attendee_index < mts->attendees->len) {
+		  if (attendee_index <= mts->attendees->len) {
 			  gdk_gc_set_foreground (gc, &mts->grid_color);
 			  gdk_draw_line (drawable, gc, 0, grid_y,
 					 width, grid_y);
@@ -922,3 +949,30 @@ e_meeting_time_selector_item_get_drag_position (EMeetingTimeSelectorItem *mts_it
 	return E_MEETING_TIME_SELECTOR_POS_NONE;
 }
 
+
+static gboolean
+e_meeting_time_selector_item_calculate_busy_range (EMeetingTimeSelector *mts,
+						   gint row,
+						   gint x,
+						   gint width,
+						   gint *start_x,
+						   gint *end_x)
+{
+	EMeetingTimeSelectorAttendee *attendee;
+
+	attendee = &g_array_index (mts->attendees,
+				   EMeetingTimeSelectorAttendee, row);
+
+	*start_x = -1;
+	*end_x = -1;
+
+	if (!g_date_valid (&attendee->busy_periods_start.date)
+	    || !g_date_valid (&attendee->busy_periods_end.date))
+		return FALSE;
+
+	*start_x = e_meeting_time_selector_calculate_time_position (mts, &attendee->busy_periods_start) - x - 1;
+
+	*end_x = e_meeting_time_selector_calculate_time_position (mts, &attendee->busy_periods_end) - x;
+
+	return TRUE;
+}

@@ -45,6 +45,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-canvas-widget.h>
 
+#include "../../e-util/e-canvas.h"
 #include "e-meeting-time-sel.h"
 #include "e-meeting-time-sel-item.h"
 #include "e-meeting-time-sel-list-item.h"
@@ -58,8 +59,6 @@ const gchar *EMeetingTimeSelectorHours[24] = {
 
 /* The number of days shown in the entire canvas. */
 #define E_MEETING_TIME_SELECTOR_DAYS_SHOWN		365
-
-#define E_MEETING_TIME_SELECTOR_ENTRY_INNER_BORDER	2
 
 /* This is the number of pixels between the mouse has to move before the
    scroll speed is incremented. */
@@ -94,6 +93,9 @@ static void e_meeting_time_selector_style_set (GtkWidget *widget,
 					       GtkStyle  *previous_style);
 static gint e_meeting_time_selector_expose_event (GtkWidget *widget,
 						  GdkEventExpose *event);
+static void e_meeting_time_selector_draw (GtkWidget    *widget,
+					  GdkRectangle *area);
+static void e_meeting_time_selector_draw_shadow (EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_hadjustment_changed (GtkAdjustment *adjustment,
 							 EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_vadjustment_changed (GtkAdjustment *adjustment,
@@ -185,8 +187,13 @@ static void e_meeting_time_selector_ensure_meeting_time_shown (EMeetingTimeSelec
 static void e_meeting_time_selector_update_dates_shown (EMeetingTimeSelector *mts);
 
 static void e_meeting_time_selector_update_attendees_list_positions (EMeetingTimeSelector *mts);
+static gboolean e_meeting_time_selector_on_text_item_event (GnomeCanvasItem *item,
+							    GdkEvent *event,
+							    EMeetingTimeSelector *mts);
+static gint e_meeting_time_selector_find_row_from_text_item (EMeetingTimeSelector *mts,
+							     GnomeCanvasItem *item);
 
-static GtkTableClass *e_meeting_time_selector_parent_class;
+static GtkTableClass *parent_class;
 
 
 GtkType
@@ -220,7 +227,7 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * klass)
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	e_meeting_time_selector_parent_class = gtk_type_class (gtk_table_get_type());
+	parent_class = gtk_type_class (gtk_table_get_type());
 
 	object_class = (GtkObjectClass *) klass;
 	widget_class = (GtkWidgetClass *) klass;
@@ -231,6 +238,7 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * klass)
 	widget_class->unrealize    = e_meeting_time_selector_unrealize;
 	widget_class->style_set    = e_meeting_time_selector_style_set;
 	widget_class->expose_event = e_meeting_time_selector_expose_event;
+	widget_class->draw	   = e_meeting_time_selector_draw;
 }
 
 
@@ -249,6 +257,9 @@ e_meeting_time_selector_init (EMeetingTimeSelector * mts)
 	guchar stipple_bits[] = {
 		0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
 	};
+
+	/* The shadow is drawn in the border so it must be >= 2 pixels. */
+	gtk_container_set_border_width (GTK_CONTAINER (mts), 2);
 
 	mts->accel_group = gtk_accel_group_new ();
 
@@ -302,7 +313,7 @@ e_meeting_time_selector_init (EMeetingTimeSelector * mts)
 			    "expose_event",
 			    GTK_SIGNAL_FUNC (e_meeting_time_selector_expose_title_bar), mts);
 
-	mts->attendees_list = gnome_canvas_new ();
+	mts->attendees_list = e_canvas_new ();
 	/* Add some horizontal padding for the shadow around the display. */
 	gtk_table_attach (GTK_TABLE (mts), mts->attendees_list,
 			  0, 1, 1, 2,
@@ -659,6 +670,7 @@ e_meeting_time_selector_init (EMeetingTimeSelector * mts)
 	   scroll the other 2 canvases. */
 	gtk_signal_connect (GTK_OBJECT (GTK_LAYOUT (mts->display_main)->hadjustment), "value_changed", GTK_SIGNAL_FUNC (e_meeting_time_selector_hadjustment_changed), mts);
 	gtk_signal_connect (GTK_OBJECT (GTK_LAYOUT (mts->display_main)->vadjustment), "value_changed", GTK_SIGNAL_FUNC (e_meeting_time_selector_vadjustment_changed), mts);
+	gtk_signal_connect (GTK_OBJECT (GTK_LAYOUT (mts->display_main)->vadjustment), "changed", GTK_SIGNAL_FUNC (e_meeting_time_selector_vadjustment_changed), mts);
 
 	e_meeting_time_selector_recalc_grid (mts);
 	e_meeting_time_selector_ensure_meeting_time_shown (mts);
@@ -848,8 +860,8 @@ e_meeting_time_selector_destroy (GtkObject *object)
 
 	g_array_free (mts->attendees, TRUE);
 		
-	if (GTK_OBJECT_CLASS (e_meeting_time_selector_parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (e_meeting_time_selector_parent_class)->destroy)(object);
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(*GTK_OBJECT_CLASS (parent_class)->destroy)(object);
 }
 
 
@@ -858,8 +870,8 @@ e_meeting_time_selector_realize (GtkWidget *widget)
 {
 	EMeetingTimeSelector *mts;
 
-	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->realize)
-		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->realize)(widget);
+	if (GTK_WIDGET_CLASS (parent_class)->realize)
+		(*GTK_WIDGET_CLASS (parent_class)->realize)(widget);
 
 	mts = E_MEETING_TIME_SELECTOR (widget);
 
@@ -877,8 +889,8 @@ e_meeting_time_selector_unrealize (GtkWidget *widget)
 	gdk_gc_unref (mts->color_key_gc);
 	mts->color_key_gc = NULL;
 
-	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->unrealize)
-		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->unrealize)(widget);
+	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
+		(*GTK_WIDGET_CLASS (parent_class)->unrealize)(widget);
 }
 
 
@@ -891,8 +903,8 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 	GdkFont *font;
 	gint hour, max_hour_width;
 
-	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->style_set)
-		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->style_set)(widget, previous_style);
+	if (GTK_WIDGET_CLASS (parent_class)->style_set)
+		(*GTK_WIDGET_CLASS (parent_class)->style_set)(widget, previous_style);
 
 	mts = E_MEETING_TIME_SELECTOR (widget);
 	font = widget->style->font;
@@ -904,15 +916,8 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 		max_hour_width = MAX (max_hour_width, mts->hour_widths[hour]);
 	}
 
-	/* The row height really depends on the requested height of the
-	   GtkEntry widgets in the list on the left, so we really need to
-	   call size_request on them, AFTER their style has been set. */
-	/* FIXME: This uses the default style ythickness of 2, though it won't
-	   be needed when we switch to Miguel's new editable GtkCList widget
-	   so I won't worry about it. */
 	mts->row_height = font->ascent + font->descent
-		+ E_MEETING_TIME_SELECTOR_ENTRY_INNER_BORDER * 2
-		+ 2 * 2;
+		+ E_MEETING_TIME_SELECTOR_TEXT_Y_PAD * 2 + 1;
 	mts->col_width = max_hour_width + 4;
 
 	e_meeting_time_selector_save_position (mts, &saved_time);
@@ -933,9 +938,40 @@ e_meeting_time_selector_expose_event (GtkWidget *widget,
 				      GdkEventExpose *event)
 {
 	EMeetingTimeSelector *mts;
-	gint x, y, w, h;
 
 	mts = E_MEETING_TIME_SELECTOR (widget);
+
+	e_meeting_time_selector_draw_shadow (mts);
+
+	if (GTK_WIDGET_CLASS (parent_class)->expose_event)
+		(*GTK_WIDGET_CLASS (parent_class)->expose_event)(widget, event);
+
+	return FALSE;
+}
+
+
+static void
+e_meeting_time_selector_draw (GtkWidget    *widget,
+			      GdkRectangle *area)
+{
+	EMeetingTimeSelector *mts;
+
+	mts = E_MEETING_TIME_SELECTOR (widget);
+
+	e_meeting_time_selector_draw_shadow (mts);
+
+	if (GTK_WIDGET_CLASS (parent_class)->draw)
+		(*GTK_WIDGET_CLASS (parent_class)->draw)(widget, area);
+}
+
+
+static void
+e_meeting_time_selector_draw_shadow (EMeetingTimeSelector *mts)
+{
+	GtkWidget *widget;
+	gint x, y, w, h;
+
+	widget = GTK_WIDGET (mts);
 
 	/* Draw the shadow around the attendees title bar and list. */
 	x = mts->attendees_title_bar->allocation.x - 2;
@@ -943,7 +979,8 @@ e_meeting_time_selector_expose_event (GtkWidget *widget,
 	w = mts->attendees_title_bar->allocation.width + 4;
 	h = mts->attendees_title_bar->allocation.height + mts->attendees_list->allocation.height + 4;
 
-	gtk_draw_shadow (widget->style, widget->window, GTK_STATE_NORMAL, GTK_SHADOW_IN, x, y, w, h);
+	gtk_draw_shadow (widget->style, widget->window, GTK_STATE_NORMAL,
+			 GTK_SHADOW_IN, x, y, w, h);
 
 	/* Draw the shadow around the graphical displays. */
 	x = mts->display_top->allocation.x - 2;
@@ -951,12 +988,8 @@ e_meeting_time_selector_expose_event (GtkWidget *widget,
 	w = mts->display_top->allocation.width + 4;
 	h = mts->display_top->allocation.height + mts->display_main->allocation.height + 4;
 
-	gtk_draw_shadow (widget->style, widget->window, GTK_STATE_NORMAL, GTK_SHADOW_IN, x, y, w, h);
-
-	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->expose_event)
-		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->expose_event)(widget, event);
-
-	return FALSE;
+	gtk_draw_shadow (widget->style, widget->window, GTK_STATE_NORMAL,
+			 GTK_SHADOW_IN, x, y, w, h);
 }
 
 
@@ -970,7 +1003,7 @@ e_meeting_time_selector_hadjustment_changed (GtkAdjustment *adjustment,
 	adj = GTK_LAYOUT (mts->display_top)->hadjustment;
 	if (adj->value != adjustment->value) {
 		adj->value = adjustment->value;
-		gtk_signal_emit_by_name (GTK_OBJECT (adj), "value_changed");
+		gtk_adjustment_value_changed (adj);
 	}
 }
 
@@ -984,7 +1017,7 @@ e_meeting_time_selector_vadjustment_changed (GtkAdjustment *adjustment,
 	adj = GTK_LAYOUT (mts->attendees_list)->vadjustment;
 	if (adj->value != adjustment->value) {
 		adj->value = adjustment->value;
-		gtk_signal_emit_by_name (GTK_OBJECT (adj), "value_changed");
+		gtk_adjustment_value_changed (adj);
 	}
 }
 
@@ -1185,8 +1218,8 @@ e_meeting_time_selector_attendee_add (EMeetingTimeSelector *mts,
 				      gpointer data)
 {
 	EMeetingTimeSelectorAttendee attendee;
-	GtkWidget *entry;
 	gint list_width, item_width;
+	GdkFont *font;
 
 	g_return_val_if_fail (IS_E_MEETING_TIME_SELECTOR (mts), -1);
 	g_return_val_if_fail (attendee_name != NULL, -1);
@@ -1195,6 +1228,12 @@ e_meeting_time_selector_attendee_add (EMeetingTimeSelector *mts,
 	attendee.type = E_MEETING_TIME_SELECTOR_REQUIRED_PERSON;
 	attendee.has_calendar_info = FALSE;
 	attendee.send_meeting_to = TRUE;
+	g_date_clear (&attendee.busy_periods_start.date, 1);
+	attendee.busy_periods_start.hour = 0;
+	attendee.busy_periods_start.minute = 0;
+	g_date_clear (&attendee.busy_periods_end.date, 1);
+	attendee.busy_periods_end.hour = 0;
+	attendee.busy_periods_end.minute = 0;
 	attendee.busy_periods = g_array_new (FALSE, FALSE,
 					     sizeof (EMeetingTimeSelectorPeriod));
 	attendee.busy_periods_sorted = TRUE;
@@ -1202,21 +1241,32 @@ e_meeting_time_selector_attendee_add (EMeetingTimeSelector *mts,
 	attendee.data = data;
 
 	/* Add to the list on the left. */
-	entry = gtk_entry_new ();
-	gtk_entry_set_text (GTK_ENTRY (entry), attendee_name);
-	gtk_widget_show (entry);
 	list_width = GTK_WIDGET (mts->attendees_list)->allocation.width;
-	item_width = MAX (1, list_width - E_MEETING_TIME_SELECTOR_ICON_COLUMN_WIDTH);
-	attendee.text_item = gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (mts->attendees_list)->root),
-						     gnome_canvas_widget_get_type (),
-						     "GnomeCanvasWidget::widget", entry,
-						     "GnomeCanvasWidget::size_pixels", TRUE,
-						     "GnomeCanvasWidget::x", (gdouble) E_MEETING_TIME_SELECTOR_ICON_COLUMN_WIDTH,
-						     "GnomeCanvasWidget::y", (gdouble) (mts->attendees->len * mts->row_height),
-						     "GnomeCanvasWidget::width", (gdouble) item_width,
-						     "GnomeCanvasWidget::height", (gdouble) mts->row_height,
-						     NULL);
+	item_width = MAX (1, list_width - E_MEETING_TIME_SELECTOR_ICON_COLUMN_WIDTH - E_MEETING_TIME_SELECTOR_TEXT_X_PAD * 2);
+	font = GTK_WIDGET (mts)->style->font;
+	attendee.text_item = gnome_canvas_item_new
+		(GNOME_CANVAS_GROUP (GNOME_CANVAS (mts->attendees_list)->root),
+		 e_text_get_type (),
+		 "font_gdk", font,
+		 "anchor", GTK_ANCHOR_NW,
+		 "clip", TRUE,
+		 "max_lines", 1,
+		 "editable", TRUE,
+		 "text", attendee_name ? attendee_name : "",
+		 "x", (gdouble) E_MEETING_TIME_SELECTOR_ICON_COLUMN_WIDTH
+		 + E_MEETING_TIME_SELECTOR_TEXT_X_PAD,
+		 "y", (gdouble) (mts->attendees->len * mts->row_height + 1
+				 + E_MEETING_TIME_SELECTOR_TEXT_Y_PAD),
+		 "clip_width", (gdouble) item_width,
+		 "clip_height", (gdouble) font->ascent + font->descent,
+		 NULL);
+#if 0
 	gnome_canvas_item_hide (attendee.text_item);
+#endif
+
+	gtk_signal_connect (GTK_OBJECT (attendee.text_item), "event",
+			    GTK_SIGNAL_FUNC (e_meeting_time_selector_on_text_item_event),
+			    mts);
 	
 	g_array_append_val (mts->attendees, attendee);
 
@@ -1358,6 +1408,58 @@ e_meeting_time_selector_attendee_set_send_meeting_to (EMeetingTimeSelector *mts,
 	attendee = &g_array_index (mts->attendees,
 				   EMeetingTimeSelectorAttendee, row);
 	attendee->send_meeting_to = send_meeting_to;
+}
+
+
+gboolean
+e_meeting_time_selector_attendee_set_busy_range	(EMeetingTimeSelector *mts,
+						 gint row,
+						 gint start_year,
+						 gint start_month,
+						 gint start_day,
+						 gint start_hour,
+						 gint start_minute,
+						 gint end_year,
+						 gint end_month,
+						 gint end_day,
+						 gint end_hour,
+						 gint end_minute)
+{
+	EMeetingTimeSelectorAttendee *attendee;
+
+	g_return_val_if_fail (IS_E_MEETING_TIME_SELECTOR (mts), FALSE);
+	g_return_val_if_fail (row >= 0, FALSE);
+	g_return_val_if_fail (row < mts->attendees->len, FALSE);
+
+	/* Check the dates are valid. */
+	if (!g_date_valid_dmy (start_day, start_month, start_year))
+		return FALSE;
+	if (!g_date_valid_dmy (end_day, end_month, end_year))
+		return FALSE;
+	if (start_hour < 0 || start_hour > 23)
+		return FALSE;
+	if (end_hour < 0 || end_hour > 23)
+		return FALSE;
+	if (start_minute < 0 || start_minute > 59)
+		return FALSE;
+	if (end_minute < 0 || end_minute > 59)
+		return FALSE;
+
+	attendee = &g_array_index (mts->attendees,
+				   EMeetingTimeSelectorAttendee, row);
+
+	g_date_clear (&attendee->busy_periods_start.date, 1);
+	g_date_clear (&attendee->busy_periods_end.date, 1);
+	g_date_set_dmy (&attendee->busy_periods_start.date,
+			start_day, start_month, start_year);
+	g_date_set_dmy (&attendee->busy_periods_end.date,
+			end_day, end_month, end_year);
+	attendee->busy_periods_start.hour = start_hour;
+	attendee->busy_periods_start.minute = start_minute;
+	attendee->busy_periods_end.hour = end_hour;
+	attendee->busy_periods_end.minute = end_minute;
+
+	return TRUE;
 }
 
 
@@ -2542,7 +2644,7 @@ e_meeting_time_selector_update_main_canvas_scroll_region (EMeetingTimeSelector *
 {
 	gint height, canvas_height, list_width;
 
-	height = mts->row_height * mts->attendees->len;
+	height = mts->row_height * (mts->attendees->len + 1);
 	canvas_height = GTK_WIDGET (mts->display_main)->allocation.height;
 	list_width = GTK_WIDGET (mts->attendees_list)->allocation.width;
 
@@ -2935,18 +3037,24 @@ e_meeting_time_selector_update_attendees_list_positions (EMeetingTimeSelector *m
 	EMeetingTimeSelectorAttendee *attendee;
 	gint list_width, item_width;
 	gint row;
+	GdkFont *font;
 
 	list_width = GTK_WIDGET (mts->attendees_list)->allocation.width;
-	item_width = MAX (1, list_width - E_MEETING_TIME_SELECTOR_ICON_COLUMN_WIDTH);
+	item_width = MAX (1, list_width - E_MEETING_TIME_SELECTOR_ICON_COLUMN_WIDTH - E_MEETING_TIME_SELECTOR_TEXT_X_PAD * 2);
+	font = GTK_WIDGET (mts)->style->font;
 	for (row = 0; row < mts->attendees->len; row++) {
 		attendee = &g_array_index (mts->attendees,
 					   EMeetingTimeSelectorAttendee, row);
 
-		gnome_canvas_item_set (attendee->text_item,
-				       "GnomeCanvasWidget::y", (gdouble) (row * mts->row_height),
-				       "GnomeCanvasWidget::width", (gdouble) item_width,
-				       "GnomeCanvasWidget::height", (gdouble) (mts->row_height),
-				       NULL);
+		gnome_canvas_item_set
+			(attendee->text_item,
+			 "font_gdk", font,
+			 "y", (gdouble) (row * mts->row_height + 1
+					 + E_MEETING_TIME_SELECTOR_TEXT_Y_PAD),
+			 "clip_width", (gdouble) item_width,
+			 "clip_height", (gdouble) (font->ascent
+						   + font->descent),
+			 NULL);
 
 		gnome_canvas_item_show (attendee->text_item);
 	}
@@ -3062,4 +3170,99 @@ e_meeting_time_selector_calculate_time_position (EMeetingTimeSelector *mts,
 	return x;
 }
 
+
+static gboolean
+e_meeting_time_selector_on_text_item_event (GnomeCanvasItem *item,
+					    GdkEvent *event,
+					    EMeetingTimeSelector *mts)
+{
+	EMeetingTimeSelectorAttendee *attendee;
+	gint row, min;
+	ETextEventProcessor *event_processor = NULL;
+	ETextEventProcessorCommand command;
+	GtkAdjustment *adj;
+	gchar *text;
+	gboolean empty = FALSE;
+
+	switch (event->type) {
+	case GDK_KEY_PRESS:
+		if (event && event->key.keyval == GDK_Return) {
+			row = e_meeting_time_selector_find_row_from_text_item (mts, item);
+			g_return_val_if_fail (row != -1, FALSE);
+
+			if (row == mts->attendees->len - 1)
+				row = e_meeting_time_selector_attendee_add (mts, "", NULL);
+			else
+				row++;
+
+			/* Make sure the item is visible. */
+			adj = GTK_LAYOUT (mts->display_main)->vadjustment;
+			min = ((row + 1) * mts->row_height) - adj->page_size;
+			if (adj->value < min) {
+				adj->value = min;
+				gtk_adjustment_value_changed (adj);
+			}
+
+			attendee = &g_array_index (mts->attendees, EMeetingTimeSelectorAttendee, row);
+			e_canvas_item_grab_focus (attendee->text_item);
+
+			/* Try to move the cursor to the end of the text. */
+			gtk_object_get (GTK_OBJECT (attendee->text_item),
+					"event_processor", &event_processor,
+					NULL);
+			if (event_processor) {
+				command.action = E_TEP_MOVE;
+				command.position = E_TEP_END_OF_BUFFER;
+				gtk_signal_emit_by_name (GTK_OBJECT (event_processor),
+							 "command", &command);
+			}
+
+			/* Stop the signal last or we will also stop any
+			   other events getting to the EText item. */
+			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
+						      "event");
+			return TRUE;
+		}
+		break;
+	case GDK_FOCUS_CHANGE:
+		if (!event->focus_change.in) {
+			gtk_object_get (GTK_OBJECT (item),
+					"text", &text,
+					NULL);
+			if (!text || !text[0])
+				empty = TRUE;
+			g_free (text);
+
+			if (empty) {
+				row = e_meeting_time_selector_find_row_from_text_item (mts, item);
+				g_return_val_if_fail (row != -1, FALSE);
+				e_meeting_time_selector_attendee_remove (mts,
+									 row);
+			}
+		}
+		break;
+	default:
+		break;
+	}
+
+	return FALSE;
+}
+
+
+static gint
+e_meeting_time_selector_find_row_from_text_item (EMeetingTimeSelector *mts,
+						 GnomeCanvasItem *item)
+{
+	EMeetingTimeSelectorAttendee *attendee;
+	gint row;
+
+	for (row = 0; row < mts->attendees->len; row++) {
+		attendee = &g_array_index (mts->attendees,
+					   EMeetingTimeSelectorAttendee, row);
+		if (attendee->text_item == item)
+			return row;
+	}
+
+	return -1;
+}
 
