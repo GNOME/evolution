@@ -4,6 +4,8 @@
 	(config_write_style): use MAIL_CONFIG_RC_DIR
 	(mail_config_init): ditto
 
+        * see http://bugzilla.ximian.com/show_bug.cgi?id=52969
+
 2004-01-19  Not Zed  <NotZed@Ximian.com>
 
 	* mail-ops.c (add_vjunk_info, add_vtrash_info): removed this like
