@@ -1,3 +1,13 @@
+2000-05-31  Damon Chaplin  <damon@helixcode.com>
+
+	* cal-util/Makefile.am: added test-recur test program.
+
+	* cal-util/test-recur.c: new file to test the recurrence code.
+
+	* cal-util/.cvsignore: added test-recur.
+
+	* cal-util/cal-recur.c: updated.
+
 2000-05-30  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/event-editor.c (event_editor_construct): Create the UI

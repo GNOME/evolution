@@ -4,3 +4,4 @@ Makefile
 .deps
 *.lo
 *.la
+test-recur
