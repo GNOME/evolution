@@ -274,8 +274,18 @@ update_folder_cb (EvolutionStorageListener *listener,
 		g_free (evolution_dir);
 		uri = e_path_to_physical (proto, path);
 	} else {
-		uri = g_strconcat (si->name, path, NULL);
-		g_print ("uri: %s\n", uri);
+		GNOME_Evolution_Folder *folder;
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		folder = GNOME_Evolution_Storage_getFolderAtPath (si->storage, path, &ev);
+
+		if (BONOBO_EX (&ev))
+			return;
+
+		uri = g_strdup (folder->physicalUri);
+		CORBA_free (folder);
+		CORBA_exception_free (&ev);
 	}
 
 	g_idle_add (e_summary_mail_idle_get_info, uri);

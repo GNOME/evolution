@@ -1,3 +1,8 @@
+2002-07-26  Peter Williams  <peterw@ximian.com>
+
+	* e-summary-mail.c (update_folder_cb): Don't use the folder's path
+	as the physical URI; use CORBA Magic (TM) to figure it out.
+
 2002-07-29  Iain Holmes <iain@ximian.com>
 
 	* e-summary-tasks.c (get_task_colour): Get the colour for a task: Red
