@@ -41,9 +41,14 @@ typedef struct {
 void md5_get_digest (const gchar *buffer, gint buffer_size, guchar digest[16]);
 void md5_get_digest_from_stream (CamelStream *stream, gint buffer_size, guchar digest[16]);
 
-/* use this onr when speed is needed */
+/* use this one when speed is needed */
 /* for use in provider code only */
 void md5_get_digest_from_file (gchar *filename, gint buffer_size, guchar digest[16]);
+
+/* raw routines */
+void md5_init (MD5Context *ctx);
+void md5_update (MD5Context *ctx, const guchar *buf, guint32 len);
+void md5_final (guchar digest[16], MD5Context *ctx);
 
 
 #endif	/* MD5_UTILS_H */

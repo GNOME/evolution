@@ -1,5 +1,15 @@
+1999-09-07  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/md5-utils.h : 
+	raw routines are declared public now.
+	Md5 use has to be versatile.
+
+	* camel/providers/MH/mh-uid.c (mh_uid_get_for_file): 
+	new func. Returns an UID for an MH message.
+		
 1999-09-06  bertrand  <Bertrand.Guiheneuf@aful.org>
-	
+
+
 	* camel/md5-utils.h:
 	* camel/md5-utils.c:
 	changed names to follow camel style.

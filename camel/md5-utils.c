@@ -53,7 +53,7 @@ _byte_reverse (guchar *buf, guint32 longs)
  * Start MD5 accumulation.  Set bit count to 0 and buffer to mysterious
  * initialization constants.
  */
-static void 
+void 
 md5_init (MD5Context *ctx)
 {
 	ctx->buf[0] = 0x67452301;
@@ -75,7 +75,7 @@ md5_init (MD5Context *ctx)
  * Update context to reflect the concatenation of another buffer full
  * of bytes.
  */
-static void 
+void 
 md5_update (MD5Context *ctx, const guchar *buf, guint32 len)
 {
 	guint32 t;
@@ -130,7 +130,7 @@ md5_update (MD5Context *ctx, const guchar *buf, guint32 len)
  * Final wrapup - pad to 64-byte boundary with the bit pattern 
  * 1 0* (64-bit count of bits processed, MSB-first)
  */
-static void 
+void 
 md5_final (guchar digest[16], MD5Context *ctx)
 {
 	guint32 count;
