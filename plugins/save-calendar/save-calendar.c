@@ -180,7 +180,7 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (dialog), extra_widget);
 #else
 	dialog = gtk_file_selection_new (_("Select destination file"));
-	gtk_box_pack_start (GTK_BOX (GTK_FILE_SELECTION (dialog)->main_vbox), extra_widget);
+	gtk_box_pack_start (GTK_BOX (GTK_FILE_SELECTION (dialog)->main_vbox), extra_widget, FALSE, TRUE, 0);
 #endif
 	gtk_widget_show (GTK_WIDGET(combo));
 	gtk_widget_show (extra_widget);

@@ -1,3 +1,8 @@
+2005-01-05  JP Rosevear  <jpr@novell.com>
+
+	* save-calendar.c (ask_destination_and_save): fix build for non
+	gtk file chooser case
+
 2005-01-04  Philip Van Hoof  <pvanhoof@gnome.org>
 
 	* csv-format.c, rdf-format.c: Use standard error messages
