@@ -110,6 +110,8 @@ EvolutionStorageResult  evolution_storage_register             (EvolutionStorage
 								GNOME_Evolution_StorageRegistry  corba_registry);
 EvolutionStorageResult  evolution_storage_register_on_shell    (EvolutionStorage                *evolution_storage,
 								GNOME_Evolution_Shell            corba_shell);
+EvolutionStorageResult  evolution_storage_deregister_on_shell (EvolutionStorage *storage,
+							       GNOME_Evolution_Shell corba_shell);
 EvolutionStorageResult  evolution_storage_new_folder           (EvolutionStorage                *evolution_storage,
 								const char                      *path,
 								const char                      *display_name,

@@ -65,6 +65,7 @@ char *evolution_dir;
 
 static BonoboGenericFactory *component_factory = NULL;
 static GHashTable *storages_hash;
+static EvolutionShellComponent *shell_component;
 
 enum {
 	ACCEPTED_DND_TYPE_MESSAGE_RFC822,
@@ -175,6 +176,9 @@ create_folder (EvolutionShellComponent *shell_component,
 	
 	CORBA_exception_init (&ev);
 	if (!strcmp (type, "mail")) {
+		/* This makes the uri start with mbox://file://, which
+		   looks silly but turns into a CamelURL that has
+		   url->provider of "mbox" */
 		uri = g_strdup_printf ("mbox://%s", physical_uri);
 		mail_create_folder (uri, do_create_folder, CORBA_Object_duplicate (listener, &ev));
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
@@ -212,14 +216,10 @@ remove_folder (EvolutionShellComponent *shell_component,
 	       void *closure)
 {
 	CORBA_Environment ev;
-	char *uri;
 	
 	CORBA_exception_init (&ev);
-	
-	g_warning ("removing folder: %s", physical_uri);
-	
-	uri = g_strdup_printf ("file://%s", physical_uri);
-	mail_remove_folder (uri, do_remove_folder, CORBA_Object_duplicate (listener, &ev));
+
+	mail_remove_folder (physical_uri, do_remove_folder, CORBA_Object_duplicate (listener, &ev));
 	GNOME_Evolution_ShellComponentListener_notifyResult (listener,
 							     GNOME_Evolution_ShellComponentListener_OK, &ev);
 	
@@ -576,7 +576,6 @@ static BonoboObject *
 component_fn (BonoboGenericFactory *factory, void *closure)
 {
 	EvolutionShellComponentDndDestinationFolder *destination_interface;
-	EvolutionShellComponent *shell_component;
 	MailOfflineHandler *offline_handler;
 	
 	shell_component = evolution_shell_component_new (folder_types,
@@ -627,18 +626,22 @@ component_factory_init (void)
 }
 
 static int
-storage_create_folder (EvolutionStorage *storage, const char *path,
-		       const char *type, const char *description,
-		       const char *parent_physical_uri, gpointer user_data)
+storage_create_folder (EvolutionStorage *storage,
+		       const char *path,
+		       const char *type,
+		       const char *description,
+		       const char *parent_physical_uri,
+		       gpointer user_data)
 {
 	CamelStore *store = user_data;
 	char *name;
 	CamelURL *url;
 	CamelException ex;
 	CamelFolderInfo *fi;
-	
+
 	if (strcmp (type, "mail") != 0)
 		return EVOLUTION_STORAGE_ERROR_UNSUPPORTED_TYPE;
+
 	name = strrchr (path, '/');
 	if (!name++)
 		return EVOLUTION_STORAGE_ERROR_INVALID_URI;
@@ -646,8 +649,9 @@ storage_create_folder (EvolutionStorage *storage, const char *path,
 	camel_exception_init (&ex);
 	if (*parent_physical_uri) {
 		url = camel_url_new (parent_physical_uri, NULL);
-		if (!url)
+		if (!url) {
 			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+		}
 		
 		fi = camel_store_create_folder (store, url->path + 1, name, &ex);
 		camel_url_free (url);
@@ -671,8 +675,10 @@ storage_create_folder (EvolutionStorage *storage, const char *path,
 }
 
 static int
-storage_remove_folder (EvolutionStorage *storage, const char *path,
-		       const char *physical_uri, gpointer user_data)
+storage_remove_folder (EvolutionStorage *storage,
+		       const char *path,
+		       const char *physical_uri,
+		       gpointer user_data)
 {
 	CamelStore *store = user_data;
 	CamelURL *url = NULL;
@@ -864,18 +870,24 @@ void
 mail_remove_storage (CamelStore *store)
 {
 	EvolutionStorage *storage;
+	EvolutionShellClient *shell_client;
+	GNOME_Evolution_Shell corba_shell;
 	
 	/* Because the storages_hash holds a reference to each store
 	 * used as a key in it, none of them will ever be gc'ed, meaning
 	 * any call to camel_session_get_{service,store} with the same
 	 * URL will always return the same object. So this works.
 	 */
-	
+
 	storage = g_hash_table_lookup (storages_hash, store);
 	g_hash_table_remove (storages_hash, store);
 	
+	shell_client = evolution_shell_component_get_owner (shell_component);
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+
+	evolution_storage_deregister_on_shell (storage, corba_shell);
+	
 	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
-	bonobo_object_unref (BONOBO_OBJECT (storage));
 	camel_object_unref (CAMEL_OBJECT (store));
 }
 

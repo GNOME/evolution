@@ -650,14 +650,68 @@ evolution_storage_register_on_shell (EvolutionStorage *evolution_storage,
 	CORBA_exception_init (&ev);
 
 	corba_storage_registry = Bonobo_Unknown_queryInterface (corba_shell,
-								 "IDL:GNOME/Evolution/StorageRegistry:1.0",
-								 &ev);
+								"IDL:GNOME/Evolution/StorageRegistry:1.0",
+								&ev);
 	if (corba_storage_registry == CORBA_OBJECT_NIL || ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
 		return EVOLUTION_STORAGE_ERROR_NOREGISTRY;
 	}
 
 	result = evolution_storage_register (evolution_storage, corba_storage_registry);
+
+	Bonobo_Unknown_unref (corba_storage_registry, &ev);
+	CORBA_Object_release (corba_storage_registry, &ev);
+
+	CORBA_exception_free (&ev);
+
+	return result;
+}
+
+EvolutionStorageResult
+evolution_storage_deregister_on_shell (EvolutionStorage *evolution_storage,
+				       GNOME_Evolution_Shell corba_shell)
+{
+	GNOME_Evolution_StorageRegistry corba_storage_registry;
+	EvolutionStorageResult result;
+	EvolutionStoragePrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_val_if_fail (evolution_storage != NULL,
+			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+	g_return_val_if_fail (EVOLUTION_IS_STORAGE (evolution_storage),
+			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+	g_return_val_if_fail (corba_shell != CORBA_OBJECT_NIL,
+			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+
+	priv = evolution_storage->priv;
+
+	CORBA_exception_init (&ev);
+
+	corba_storage_registry = Bonobo_Unknown_queryInterface (corba_shell,
+								"IDL:GNOME/Evolution/StorageRegistry:1.0",
+								&ev);
+	if (corba_storage_registry == CORBA_OBJECT_NIL || ev._major != CORBA_NO_EXCEPTION) {
+		CORBA_exception_free (&ev);
+		return EVOLUTION_STORAGE_ERROR_NOREGISTRY;
+	}
+
+	GNOME_Evolution_StorageRegistry_removeStorageByName (corba_storage_registry,
+							     priv->name,
+							     &ev);
+
+	if (ev._major = CORBA_NO_EXCEPTION)
+		result = EVOLUTION_STORAGE_OK;
+	else {
+		if (ev._major != CORBA_USER_EXCEPTION)
+			result = EVOLUTION_STORAGE_ERROR_CORBA;
+		else if (strcmp (CORBA_exception_id (&ev), ex_GNOME_Evolution_StorageRegistry_NotFound) == 0)
+			result = EVOLUTION_STORAGE_ERROR_EXISTS;
+		else
+			result = EVOLUTION_STORAGE_ERROR_GENERIC;
+	}
+
+	/* Now unref the EvolutionStorage */
+	bonobo_object_unref (BONOBO_OBJECT (evolution_storage));
 
 	Bonobo_Unknown_unref (corba_storage_registry, &ev);
 	CORBA_Object_release (corba_storage_registry, &ev);
@@ -861,7 +915,7 @@ evolution_storage_removed_folder (EvolutionStorage *evolution_storage,
 
 		listener = p->data;
 		GNOME_Evolution_StorageListener_notifyFolderRemoved (listener, path, &ev);
-
+		
 		if (ev._major != CORBA_NO_EXCEPTION)
 			continue;
 

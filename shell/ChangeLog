@@ -1,3 +1,9 @@
+2001-06-21  Jason Leach  <jleach@ximian.com>
+
+	* evolution-storage.c (evolution_storage_deregister_on_shell): New
+	function, uses the StorageRegistry::removeStoragebyName corba call
+	to properly make the storage vanish from the shell.
+	
 2001-06-18  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (evolution_LDADD): Remove DB3_LDADD
