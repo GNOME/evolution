@@ -420,10 +420,10 @@ smtp.omniport.com:143
           To set your calendar preferences, select
           <menuchoice><guimenu>Settings</guimenu>
           <guimenuitem>Calendar
-          Configuration</guimenuitem></menuchoice> from the Calendar
+          Settings</guimenuitem></menuchoice> from the Calendar
           view.  This will open up the
-          <interface>Preferences</interface> window.  It contains three
-          tabs: <guilabel>Calendar</guilabel>, <guilabel>TaskPad</guilabel>, <guilabel>Reminders</guilabel>.  The <interface>calendar
+          <interface>Preferences</interface> window.  It contains four
+          tabs: <guilabel>General</guilabel>, <guilabel>Display</guilabel>, <guilabel>Task List</guilabel>, and <guilabel>Other</guilabel>.  The <interface>calendar
           preferences window</interface> is illustrated in <xref
           linkend="config-prefs-cal-fig">.
 
@@ -439,12 +439,20 @@ smtp.omniport.com:143
       <!-- ==============End of Figure================-->
         </para>
 
-    <sect2 id="config-prefs-cal-time">
-      <title>Time Display Settings</title>
+    <sect2 id="config-prefs-cal-general">
+      <title>Calendar's General Settings</title>
       <para>
         The <guilabel>Time display</guilabel> tab lets you set the
         following:
         <variablelist>
+	  <varlistentry>
+	    <term>Time zone</term>
+	    <listitem>
+	      <para>
+		The city you're located in, to judge your time zone.
+	      </para>
+	    </listitem>
+	  </varlistentry>
 	  <varlistentry>
 	    <term>Time format</term>
 	    <listitem>
@@ -455,198 +463,168 @@ smtp.omniport.com:143
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Weeks start on</term>
+	    <term>Work Week</term>
+	    <listitem>
+	      <para>
+                When does your work day start, and when does it end?
+		In the day and week views,
+		<application>Evolution</application> displays all the
+		hours in the range you select here, even if there are
+		no appointments for those times.  Of course, you can
+		still schedule an appointment outside of these hours,
+		and if you do, the display will be extended to show
+		it.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>First day of the week</term>
 	    <listitem>
 	      <para>You can set weeks to start on Sunday or on Monday.</para>
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Day range</term>
+	    <term>Start of day</term>
 	    <listitem>
-               <para>
-                 When does your work day start, and when does it end?
-                 In the day and week views,
-                 <application>Evolution</application> displays all the
-                 hours in the range you select here, even if there are
-                 no appointments for those times.  Of course, you can
-                 still schedule an appointment outside of these hours,
-                 and if you do, the display will be extended to show
-                 it.
-               </para>
+	      <para>
+		Says what time of the day your weekday starts.  This will show all times till the end of the day, regardless of there is an appointment during the time period.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>End of day</term>
+	    <listitem>
+	      <para>
+		Sets the time the day ends at.
+	      </para>
 	    </listitem>
 	  </varlistentry>
 	</variablelist>
        </para>
     </sect2>
-    <sect2 id="config-prefs-cal-color">
-      <title>Calendar Colors</title>
+    <sect2 id="config-prefs-cal-display">
+      <title>Display</title>
       <para>
-        The <interface>colors tab</interface> allows you to decide
-        what color your calendar will be.  The tab consists of a
-        sample calendar on the right and a list of ten items that can
-        be colored in different ways.  If you click on the color
-        button to the right of each item, you will bring up a
-        color-selector window where you can alter that
-        color.  By clicking <guibutton>OK</guibutton> in the color
-        selection dialog, you can see the results of the color on the
-        sample calendar.
-     </para>
-     <para>The display elements colors you can set are:
+	The <interface>Display</interface> section lets you configure some visual properties of the calendar.
+      </para>
+      <para>The display properties you can set are:
 
-          <itemizedlist>
-           <listitem>
+	<variablelist>
+	  <varlistentry>
+	    <term>Time divisions</term>
+	    <listitem>
               <para>
-                <guilabel>Outline:</guilabel> The lines between days
-                and at the top of the display.
+		Sets the increments shown on the daily view in the calendar.  You can set this to be:
+		<itemizedlist>
+		  <listitem>
+		    <para>
+		      5 minutes
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      10 minutes
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      15 minutes
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      30 minutes
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      60 minutes
+		    </para>
+		  </listitem>
+		</itemizedlist>
               </para>
             </listitem>
+	  </varlistentry>
 
-           <listitem>
-              <para> <guilabel>Headings:</guilabel> Text color for day
-                and month names and other headings.
-              </para>
-            </listitem>
-
-           <listitem>
-              <para> <guilabel>Empty days:</guilabel> This is the
-                background color for any time slots in which you have no appointments.
-               </para>
-            </listitem>  
-
-         <listitem>
-              <para>         
-             <guilabel>Appointments:</guilabel> This is the
-                background color for any time slots in which you have appointments.
-               </para>
-            </listitem>
-     
-	  <listitem>
-	    <para> <guilabel>Highlighted day:</guilabel> The
-              background color for a selected time slot.
-             </para>
-	  </listitem>
-
-          
-	  <listitem>
-	    <para>         
-              <guilabel>Day numbers:</guilabel> Text color for date numbers.
-            </para>
-	  </listitem>
-
-              
-	  <listitem>
-	    <para>
-              <guilabel>Current day's number:</guilabel> Text color for today's date.
-             </para>
-	  </listitem>
-
-	  <listitem>
-	    <para> <guilabel>To-Do item that is not yet
-             due:</guilabel> Text color for To-Do list items that are
-             not yet due. 
-	    </para>
-	  </listitem>
-
-
-	  <listitem>
-	    <para> <guilabel>To-Do item that is due today:</guilabel>
-             Text color for today's tasks.
-               </para>
-	  </listitem>
-
-	  <listitem>
-	    <para> <guilabel>To-Do item that is overdue:</guilabel>
-             Text color for overdue tasks.
-               </para>
-	  </listitem>
-
-          </itemizedlist>
-        </para>
-    </sect2>
-
-    <sect2 id="config-prefs-cal-todo">
-      <title>To Do List Settings</title>
-     <para>
-       You can choose what information the To Do list displays and the
-       way it is displayed.  The two areas of the <interface>To Do
-       List</interface> tab offer several options each:
-       <variablelist>
-	 <varlistentry>
-	   <term>Show on To Do List</term>
+	  <varlistentry>
+	    <term>Show appointment end times in week and month views</term>
 	    <listitem>
 	      <para>
-                This box contains three items.  If you select the
-                check boxes next to them, that information will appear
-                in the To Do list for each task it contains:
-                <itemizedlist>
-                  <listitem>
-		    <para><guilabel>Due Date</guilabel></para>
-                   </listitem>
-                  <listitem>
-		    <para><guilabel>Time Until Due</guilabel></para>
-                   </listitem>
-                  <listitem>
-		    <para><guilabel>Priority</guilabel></para>
-                   </listitem>
-               </itemizedlist>
-               </para>
+		If there is space, <application>Evolution</application> will show the end times in the week and month views for each appointment.
+              </para>
+            </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Compress weekends in month view</term>
+	    <listitem>
+	      <para>
+		If checked, your weekends will be shown in one box, instead of one for each day in the month view.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Show week numbers in date navigator</term>
+	    <listitem>
+              <para>
+		This will show the week numbers next to the respective weeks in the calendar.
+	      </para>
+            </listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
+
+    <sect2 id="config-prefs-cal-tasklist">
+      <title>Task List Settings</title>
+     <para>
+       You can choose what information the To Do list displays and the
+       way it is displayed.
+       <variablelist>
+	 <varlistentry>
+	   <term>Tasks due today</term>
+	    <listitem>
+	      <para>
+		Configures what color to set your tasks that are due today to.
+	      </para>
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Style Options</term>
+	    <term>Overdue tasks</term>
 	    <listitem>
-               <para>
-                 Select among the following checkboxes to determine
-                 how your To Do list will look:
-                <itemizedlist>
-                  <listitem>
-		    <para><guilabel>Highlight overdue items</guilabel></para>
-                   </listitem>
-                  <listitem>
-		    <para><guilabel>Highlight items due today</guilabel></para>
-                   </listitem>
-                  <listitem>
-		    <para><guilabel>Highlight not yet due items</guilabel></para>
-                   </listitem>
-               </itemizedlist>                 
-               </para>
+	      <para>
+		Configures what color to set your overdue items to.
+	      </para>
 	    </listitem>
 	  </varlistentry>
 	</variablelist>
       </para>
     </sect2>
 
-    <sect2 id="config-prefs-cal-alarms">
-      <title>Alarms Settings</title>
-      <para>  
-        The <interface>alarms tab</interface> enables you to select from three boxes:
-        <itemizedlist>
-	  <listitem>
-	    <para><guilabel>Beep on display alarms</guilabel>: select
-	    this box to have <application>Evolution</application> beep
-	    at you for any alarms you have set. These beeps
-	    are distinct from full-fledged audio alarms. If you leave this box
-	    unchecked, <application>Evolution</application> will only
-	    alert you to events by opening a dialog box. 
-           </para>
-	  </listitem>
-	  <listitem>
-	    <para><guilabel>Audio alarms timeout after: </guilabel>
-	    Select this button to have your audio alarms stop
-	    automatically after a certain number of seconds.  </para>
-	  </listitem>
-	  <listitem>
-	    <para><guilabel>Enable snoozing for:</guilabel> If you
-	    would like to have the option to tell
-	    <application>Evolution</application> to repeat an alarm in
-	    a few minutes, select this button and decide how long
-	    you'd like it to wait.
-           </para>
-	  </listitem>
-	</itemizedlist>   
+    <sect2 id="config-prefs-cal-other">
+      <title>Other Calendar Settings</title>
+      <para> 
+	This configures miscellaneous items for the calendar and todo list's functionality.
+	<variablelist>
+	  <varlistentry>
+	    <term>Ask for confirmation when deleting items</term>
+	    <listitem>
+	      <para>
+		When you delete an item in either the Task List or the Calendar, you will be prompted to confirm that you want to delete the item.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Create new appointments with a default reminder</term>
+	    <listitem>
+	      <para>
+		All your appointments will be created using a default reminder enabled.  You can still change what way you are reminded though.  If enabled, you can then set the time before your appointment to be reminded.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
       </para>
     </sect2>
-
    </sect1>
 
    <sect1 id="config-prefs-contact">

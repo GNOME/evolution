@@ -8,8 +8,7 @@
      <para>
       This chapter will show you how to use the Ximian Evolution
       Calendar to manage your schedule alone or in conjunction with
-      others.
-<!-- Others what? -->
+      peers.
      </para>
 
     <sect1 id ="usage-calendar-view"> 
@@ -265,7 +264,7 @@
 	can attend, they can always reply to the mail later.
       </para>
       <para>
-	To select receipients to be invited to an event:
+	To select recipients to be invited to an event:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
@@ -293,7 +292,7 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	    Select a person in the <guilabel>Contacts</guilabel> field and click one of the four choices to move them to be an RSVP reciever.
+	    Select a person in the <guilabel>Contacts</guilabel> field and click one of the four choices to move them to be an RSVP receiver.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -406,11 +405,8 @@
     <para>
        The Task Pad, located in the lower right corner of the
        calendar, lets you keep a list of tasks separate from your
-       calendar appointments.  Tasks are colored and sorted by priority and
-       due-date (see <xref linkend="config-prefs"> for more
-       information), and are included with calendar data during
-       synchronization  with a hand-held device.  You can use the list
-       in a larger format by choosing the <guibutton>Tasks</guibutton>
+       calendar appointments.  You can use the list
+       in a larger window by choosing the <guibutton>Tasks</guibutton>
        button in the shortcut bar or in the folder tree.
     </para>
     <para>
@@ -443,7 +439,7 @@
 	  <term><guilabel>Start Date</guilabel></term>
 	  <listitem>
 	    <para>
-	      The date you intend to start working.  <!-- NOTE Check this please --> The item will not show up on the list until the start date.
+	      The date you intend to start working.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -474,8 +470,7 @@
        Once you've added a task to your to-do list, its summary
        appears in the <guilabel>Summary</guilabel> section of task
        list.  To view or edit a detailed description of an item,
-       double-click on it, or select it and click
-       <guibutton>Edit</guibutton>.  You can delete items by selecting
+       double-click on it, or right click on it and select <guibutton>Open</guibutton>.  You can delete items by selecting
        them and clicking on the <guibutton>Delete</guibutton> button.
     </para>
     <para>
@@ -553,8 +548,7 @@
 	<guimenuitem>Folder</guimenuitem>
       </menuchoice>.
        You'll need to tell the <guilabel>New Folder</guilabel> dialog that the new folder should be of the calendar type.  You can place the calendar in any calendar folder and access it
-       from the folder view.  Alarms, configuration, and display for
-       each calendar are separate from each other.
+       from the folder view.
     </para>
     
   </sect1>

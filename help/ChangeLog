@@ -1,5 +1,7 @@
 2001-10-27  Kevin Breit  <mrproper@ximian.com>
 
+	* C/config-prefs.sgml: Rewrite of the calendar preferences.  I love how I'm having to rewrite this 48 hours before the freeze.  Why are we waiting this long?  It's beyond me, but oh well.  I'll continue writing and listening to The Doors.
+
 	* C/figures/calendar.png: Added labels
 
 	* C/figures/mail-inbox.png: Added labels and changed which image is used
