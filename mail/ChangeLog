@@ -1,3 +1,9 @@
+2002-10-22  Mike Kestner  <mkestner@ximian.com>
+
+	* mail-callbacks.c (transfer_msg): pass fb->uri to the folder
+	selection dialog so the current folder is selected on display.
+	"fixes" 15966.
+
 2002-10-21  Dan Winship  <danw@ximian.com>
 
 	* upgrade-mailer.c (mailer_upgrade): Fix the transport URL on any

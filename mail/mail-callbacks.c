@@ -1706,7 +1706,7 @@ transfer_msg (FolderBrowser *fb, gboolean delete_from_source)
 		return;
 	
 	if (last_uri == NULL)
-		last_uri = g_strdup ("");
+		last_uri = g_strdup (fb->uri);
 	
 	if (delete_from_source)
 		desc = _("Move message(s) to");
