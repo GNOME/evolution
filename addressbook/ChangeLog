@@ -1,3 +1,8 @@
+2002-07-24  Peter Williams  <peterw@ximian.com>
+
+	* conduit/Makefile.am (libeaddress_conduit_la_LIBADD): Change
+	libversit.la -> libversit.a for danw's changes.
+
 2002-07-24  Dan Winship  <danw@ximian.com>
 
 	* conduit/Makefile.am (libeaddress_conduit_la_LIBADD):
