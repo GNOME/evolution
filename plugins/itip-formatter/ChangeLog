@@ -1,5 +1,10 @@
 2005-01-27  JP Rosevear  <jpr@novell.com>
 
+	* itip-view.c (format_date_and_time_x): make tomorrow and this
+	week strings work properly
+
+2005-01-27  JP Rosevear  <jpr@novell.com>
+	
 	* itip-formatter.c (find_cal_opened_cb): remove debug test
 
 442005-01-27  JP Rosevear  <jpr@novell.com>

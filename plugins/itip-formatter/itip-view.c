@@ -135,6 +135,35 @@ format_date_and_time_x		(struct tm	*date_tm,
 				 int		 buffer_size)
 {
 	char *format;
+	struct tm tomorrow_tm, week_tm;
+	
+	/* Calculate a normalized "tomorrow" */
+	tomorrow_tm = *current_tm;
+	if (tomorrow_tm.tm_mday == time_days_in_month (date_tm->tm_year + 1900, date_tm->tm_mon)) {
+		tomorrow_tm.tm_mday = 1;
+		if (tomorrow_tm.tm_mon == 11) {
+			tomorrow_tm.tm_mon = 1;
+			tomorrow_tm.tm_year++;
+		} else {
+			tomorrow_tm.tm_mon++;
+		}
+	} else {		
+		tomorrow_tm.tm_mday++;
+	}
+
+	/* Calculate a normalized "next seven days" */
+	week_tm = *current_tm;
+	if (week_tm.tm_mday + 6 > time_days_in_month (date_tm->tm_year + 1900, date_tm->tm_mon)) {
+		week_tm.tm_mday = (week_tm.tm_mday + 6) % time_days_in_month (date_tm->tm_year + 1900, date_tm->tm_mon);
+		if (week_tm.tm_mon == 11) {
+			week_tm.tm_mon = 1;
+			week_tm.tm_year++;
+		} else {
+			week_tm.tm_mon++;
+		}
+	} else {		
+		week_tm.tm_mday += 6;
+	}
 
 	/* Today */
 	if (date_tm->tm_mday == current_tm->tm_mday &&
@@ -165,7 +194,9 @@ format_date_and_time_x		(struct tm	*date_tm,
 		}
 
 	/* Tomorrow */		
-	} else if (date_tm->tm_year == current_tm->tm_year) {
+	} else if (date_tm->tm_mday == tomorrow_tm.tm_mday &&
+		   date_tm->tm_mon == tomorrow_tm.tm_mon &&
+		   date_tm->tm_year == tomorrow_tm.tm_year) {
 		if (!show_midnight && date_tm->tm_hour == 0
 		    && date_tm->tm_min == 0 && date_tm->tm_sec == 0) {
 			/* strftime format of a weekday and a date. */
@@ -190,8 +221,19 @@ format_date_and_time_x		(struct tm	*date_tm,
 				format = _("Tomorrow %l:%M:%S %p");
 		}
 
-	/* Within 7 days */		
-	} else if (date_tm->tm_year == current_tm->tm_year) {
+	/* Within 6 days */		
+	} else if ((date_tm->tm_year >= current_tm->tm_year &&
+		    date_tm->tm_mon >= current_tm->tm_mon &&
+		    date_tm->tm_mday >= current_tm->tm_mday) &&
+
+		   (date_tm->tm_year < week_tm.tm_year ||
+
+		   (date_tm->tm_year == week_tm.tm_year &&
+		    date_tm->tm_mon < week_tm.tm_mon) ||
+
+		   (date_tm->tm_year == week_tm.tm_year &&
+		    date_tm->tm_mon == week_tm.tm_mon &&
+		    date_tm->tm_mday < week_tm.tm_mday))) {
 		if (!show_midnight && date_tm->tm_hour == 0
 		    && date_tm->tm_min == 0 && date_tm->tm_sec == 0) {
 			/* strftime format of a weekday. */
