@@ -81,11 +81,18 @@ folder_browser_destroy (GtkObject *object)
 	
 	if (folder_browser->folder) {
 		CamelObject *folder = CAMEL_OBJECT (folder_browser->folder);
+		EvolutionStorage *storage;
 
-		camel_object_unhook_event (folder, "message_changed",
-					   update_unread_count, folder_browser);
-		camel_object_unhook_event (folder, "folder_changed",
-					   update_unread_count, folder_browser);
+		if ((storage = mail_lookup_storage (folder_browser->folder->parent_store))) {
+			gtk_object_unref (GTK_OBJECT (storage));
+			camel_object_unhook_event (folder, "message_changed",
+						   update_unread_count,
+						   folder_browser);
+			camel_object_unhook_event (folder, "folder_changed",
+						   update_unread_count,
+						   folder_browser);
+		}
+
 		mail_sync_folder (folder_browser->folder, NULL, NULL);
 		camel_object_unref (folder);
 	}
