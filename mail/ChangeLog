@@ -1,3 +1,14 @@
+2000-05-29  Not Zed  <NotZed@HelixCode.com>
+
+	* folder-browser.c (folder_browser_load_folder): Hardcode the
+	vfolder source to just the inbox (so at least it returns
+	something).
+
+	* component-factory.c (create_test_storage): Create a vfolder dir
+	first, and put the folders in that.
+	(create_test_storage): Create the storage as VFolders, not
+	"storage_name" :)
+
 2000-05-28  Dan Winship  <danw@helixcode.com>
 
 	* mail-config.c (error_dialog): helper function since we need to

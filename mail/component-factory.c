@@ -135,7 +135,7 @@ create_test_storage (EvolutionShellComponent *shell_component)
 		return;
 	}
     
-	storage = evolution_storage_new ("storage_name");
+	storage = evolution_storage_new ("VFolders");
 	if (evolution_storage_register_on_shell (storage, corba_shell)
 	    != EVOLUTION_STORAGE_OK) {
 		g_warning ("Cannot register storage");
@@ -160,6 +160,7 @@ create_test_storage (EvolutionShellComponent *shell_component)
 		g_free(user);
 		g_free(system);
 		count = filter_driver_rule_count(fe);
+
 		for (i=0;i<count;i++) {
 			struct filter_option *fo;
 			GString *query;
@@ -179,14 +180,14 @@ create_test_storage (EvolutionShellComponent *shell_component)
 				sprintf(descunknown, "volder-%p", fo);
 				desctext = descunknown;
 			}
-			g_string_sprintf(query, "vfolder:/%s/vfolder/%s?", evolution_dir, desctext);
+			g_string_sprintf(query, "vfolder:%s/vfolder/%s?", evolution_dir, desctext);
 			filter_driver_expand_option(fe, query, NULL, fo);
 			name = g_strdup_printf("/%s", desctext);
 			printf("Adding new vfolder: %s\n", query->str);
 			evolution_storage_new_folder (storage, name,
 						      "mail",
 						      query->str,
-						      name+1);
+						      desctext);
 			g_string_free(query, TRUE);
 			g_free(name);
 		}

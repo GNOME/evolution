@@ -36,6 +36,10 @@ SHELL_OBJS =					\
 	$(top_builddir)/shell/evolution-shell-component.o \
 	$(top_builddir)/shell/evolution-storage.o
 
+# FIXME Is there any way around having to do this?
+CAMEL_OBJS_EXTRA =					\
+	$(top_builddir)/camel/providers/vee/libcamelvee.la
+
 evolution_mail_SOURCES =		\
 	$(EVOLUTION_MAIL_CORBA_GENERATED)	\
 	component-factory.c		\
@@ -64,6 +68,7 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/widgets/e-paned/libepaned.a	\
 	../widgets/e-table/libetable.a			\
 	../widgets/e-text/libetext.a			\
+	$(CAMEL_OBJS_EXTRA)				\
 	../camel/libcamel.la				\
 	../e-util/libeutil.la				\
 	../libibex/libibex.la				\

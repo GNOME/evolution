@@ -87,11 +87,28 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 
 		if (store) {
 			new_folder = camel_store_get_folder (store, newquery, ex);
+			/* FIXME: do this properly rather than hardcoding */
+#warning "Find a way not to hardcode vfolder source"
+			{
+				CamelStore *st;
+				char *stname;
+				CamelFolder *source_folder;
+				extern char *evolution_dir;
+				
+				stname = g_strdup_printf("mbox://%s/local/Inbox", evolution_dir);
+				st = camel_session_get_store (session, stname, ex);
+				g_free (stname);
+				if (st) {
+					source_folder = camel_store_get_folder (st, "mbox", ex);
+					if (source_folder) {
+						camel_vee_folder_add_folder(new_folder, source_folder);
+					}
+				}
+			}
 		}
 		g_free(newquery);
 		g_free(store_name);
 
-		/* FIXME: Add the mbox folders we search!!! */
 	} else if (!strncmp(name, "file:", 5)) {
 		/* Change "file:" to "mbox:". */
 		store_name = g_strdup_printf ("mbox:%s", name + 5);
