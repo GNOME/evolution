@@ -391,7 +391,7 @@ transport_prepare (EvolutionWizard *wizard, gpointer data)
 }
 
 /* Management page */
-static void
+static gboolean
 management_check (MailConfigWizard *wizard)
 {
 	gboolean next_sensitive;
@@ -406,6 +406,7 @@ management_check (MailConfigWizard *wizard)
 	
 	evolution_wizard_set_buttons_sensitive (wizard->wizard, TRUE,
 						next_sensitive, TRUE, NULL);
+	return next_sensitive;
 }
 
 static void
@@ -712,6 +713,50 @@ mail_config_druid_new (GNOME_Evolution_Shell shell)
 	return new;
 }
 
+static void wizard_next_cb (EvolutionWizard *wizard, int page_num, MailConfigWizard *gui);
+
+static void
+goto_next_page (MailConfigWizard *gui)
+{
+	wizard_next_cb (gui->wizard, gui->page, gui);
+}
+
+static void
+identity_activate_cb (GtkEntry *ent, gpointer user_data)
+{
+	MailConfigWizard *gui = (MailConfigWizard *) user_data;
+
+	if (mail_account_gui_identity_complete (gui->gui, NULL))
+		goto_next_page (gui);
+}
+
+static void
+source_activate_cb (GtkEntry *ent, gpointer user_data)
+{
+	MailConfigWizard *gui = (MailConfigWizard *) user_data;
+
+	if (mail_account_gui_source_complete (gui->gui, NULL))
+		goto_next_page (gui);
+}
+
+static void
+transport_activate_cb (GtkEntry *ent, gpointer user_data)
+{
+	MailConfigWizard *gui = (MailConfigWizard *) user_data;
+
+	if (mail_account_gui_transport_complete (gui->gui, NULL))
+		goto_next_page (gui);
+}
+
+static void
+management_activate_cb (GtkEntry *ent, gpointer user_data)
+{
+	MailConfigWizard *gui = (MailConfigWizard *) user_data;
+
+	if (management_check (gui))
+		goto_next_page (gui);
+}
+
 static BonoboControl *
 get_fn (EvolutionWizard *wizard,
         int page_num,
@@ -748,6 +793,30 @@ get_fn (EvolutionWizard *wizard,
 				    "changed", transport_changed, gui);
 		gtk_signal_connect (GTK_OBJECT (gui->gui->transport.username),
 				    "changed", transport_changed, gui);
+
+		gtk_signal_connect (GTK_OBJECT (gui->gui->account_name),
+				    "activate", management_activate_cb, gui);
+
+		gtk_signal_connect (GTK_OBJECT (gui->gui->full_name), 
+				    "activate", identity_activate_cb, gui);
+                gtk_signal_connect (GTK_OBJECT (gui->gui->email_address),
+				    "activate", identity_activate_cb, gui);
+                gtk_signal_connect (GTK_OBJECT (gui->gui->reply_to),
+				    "activate", identity_activate_cb, gui);
+                gtk_signal_connect (GTK_OBJECT (gui->gui->organization),
+				    "activate", identity_activate_cb, gui);
+
+		gtk_signal_connect (GTK_OBJECT (gui->gui->source.hostname), 
+				    "activate", source_activate_cb, gui);
+		gtk_signal_connect (GTK_OBJECT (gui->gui->source.username),
+				    "activate", source_activate_cb, gui);
+		gtk_signal_connect (GTK_OBJECT (gui->gui->source.path), 
+				    "activate", source_activate_cb, gui);
+
+		gtk_signal_connect (GTK_OBJECT (gui->gui->transport.hostname),
+				    "activate", transport_activate_cb, gui);
+		gtk_signal_connect (GTK_OBJECT (gui->gui->transport.username),
+				    "activate", transport_activate_cb, gui);
 		first_time = TRUE;
         }
 	
@@ -792,7 +861,7 @@ get_fn (EvolutionWizard *wizard,
 		widget = glade_xml_get_widget (gui->gui->xml, "management_frame");
 		gtk_widget_reparent (widget, vbox);
 		break;
-		
+
         default:
                 return NULL;
         }

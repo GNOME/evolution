@@ -1,3 +1,22 @@
+2002-08-23  Peter Williams  <peterw@ximian.com>
+
+	Address most of bug #4940. Fails on the last page of the add account
+	dialog as called from the prefs dialog due to EvolutionWizard being
+	weird.
+	
+	* mail-config-druid.c (goto_next_page): New function, little
+	wrapper around wizard_next_cb. Also potential place to work around
+	EvolutionWizard weirdness in the future.
+	(identity_activate_cb): New function, calls goto_next_page if
+	identity page is complete.
+	(source_activate_cb): Analogous.
+	(transport_activate_cb): Analogous.
+	(management_activate_cb): Analogous.
+	(get_fn): Hook up the activate signals of the various GtkEntries
+	to the correct callbacks above.
+	(management_check): Return the result of the check so that
+	management_activate_cb can use it.
+
 2002-08-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-tools.c (mail_tool_restore_xevolution_headers): Reset the
