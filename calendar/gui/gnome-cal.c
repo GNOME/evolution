@@ -34,8 +34,6 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <bonobo/bonobo-exception.h>
-#include <gal/e-paned/e-hpaned.h>
-#include <gal/e-paned/e-vpaned.h>
 #include "e-util/e-url.h"
 #include <cal-util/timeutil.h>
 #include "widgets/menus/gal-view-menus.h"
@@ -749,7 +747,7 @@ setup_widgets (GnomeCalendar *gcal)
 
 	/* The main HPaned, with the notebook of calendar views on the left
 	   and the ECalendar and ToDo list on the right. */
-	priv->hpane = e_hpaned_new ();
+	priv->hpane = gtk_hpaned_new ();
 	gtk_widget_show (priv->hpane);
 	gtk_box_pack_start (GTK_BOX (gcal), priv->hpane, TRUE, TRUE, 0);
 
@@ -758,12 +756,12 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook), FALSE);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook), FALSE);
 	gtk_widget_show (priv->notebook);
-	e_paned_pack1 (E_PANED (priv->hpane), priv->notebook, TRUE, TRUE);
+	gtk_paned_pack1 (GTK_PANED (priv->hpane), priv->notebook, TRUE, TRUE);
 
 	/* The VPaned widget, to contain the GtkCalendar & ToDo list. */
-	priv->vpane = e_vpaned_new ();
+	priv->vpane = gtk_vpaned_new ();
 	gtk_widget_show (priv->vpane);
-	e_paned_pack2 (E_PANED (priv->hpane), priv->vpane, FALSE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (priv->hpane), priv->vpane, FALSE, TRUE);
 
 	/* The ECalendar. */
 	w = e_calendar_new ();
@@ -775,7 +773,7 @@ setup_widgets (GnomeCalendar *gcal)
 					       (ECalendarItemGetTimeCallback) get_current_time,
 					       gcal, NULL);
 
-	e_paned_pack1 (E_PANED (priv->vpane), w, FALSE, TRUE);
+	gtk_paned_pack1 (GTK_PANED (priv->vpane), w, FALSE, TRUE);
 	g_signal_connect (priv->date_navigator, "style_set",
 			  G_CALLBACK (gnome_calendar_on_date_navigator_style_set), gcal);
 	g_signal_connect_after (priv->date_navigator, "size_allocate",
@@ -790,7 +788,7 @@ setup_widgets (GnomeCalendar *gcal)
 	calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->todo));
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
 	calendar_model_set_new_comp_vtype (model, CAL_COMPONENT_TODO);
-	e_paned_pack2 (E_PANED (priv->vpane), priv->todo, TRUE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (priv->vpane), priv->todo, TRUE, TRUE);
 	gtk_widget_show (priv->todo);
 
 	filename = g_strdup_printf ("%s/config/TaskPad", evolution_dir);
@@ -1484,8 +1482,8 @@ gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal)
 		top_pane_height = (top_pane_height * (row_height + top_border + bottom_border)
 				   + 0.5);
 
-	e_paned_set_position (E_PANED (priv->hpane), -1);
-	e_paned_set_position (E_PANED (priv->vpane), -1);
+	gtk_paned_set_position (GTK_PANED (priv->hpane), -1);
+	gtk_paned_set_position (GTK_PANED (priv->vpane), -1);
 
 	/* We add one to each dimension since we can't use 0. */
 

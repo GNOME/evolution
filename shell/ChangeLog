@@ -1,3 +1,7 @@
+2003-01-14  Rodney Dawes  <dobey@ximian.com>
+
+	* e-shell-view.c: Use GtkPaned instead of EPaned
+	
 2003-01-13  Dan Winship  <danw@ximian.com>
 
 	* s/BonoboXObject/BonoboObject/ (for BONOBO_DISABLE_DEPRECATED)

@@ -31,7 +31,6 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkinvisible.h>
-#include <gal/e-paned/e-vpaned.h>
 #include <gal/e-table/e-table.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -1145,12 +1144,12 @@ folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show
 	
 	if (show_preview) {
 		y = save_cursor_pos (folder_browser);
-		e_paned_set_position (E_PANED (folder_browser->vpaned), paned_size);
+		gtk_paned_set_position (GTK_PANED (folder_browser->vpaned), paned_size);
 		gtk_widget_show (GTK_WIDGET (folder_browser->mail_display));
 		do_message_selected (folder_browser);
 		set_cursor_pos (folder_browser, y);
 	} else {
-		e_paned_set_position (E_PANED (folder_browser->vpaned), 10000);
+		gtk_paned_set_position (GTK_PANED (folder_browser->vpaned), 10000);
 		gtk_widget_hide (GTK_WIDGET (folder_browser->mail_display));
 		mail_display_set_message (folder_browser->mail_display, NULL, NULL, NULL);
 		folder_browser_ui_message_loaded (folder_browser);
@@ -2357,7 +2356,7 @@ paned_size_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpoin
 	g_signal_handler_block (fb->message_list, fb->paned_resize_id);
 	
 	paned_size = gconf_client_get_int (client, "/apps/evolution/mail/display/paned_size", NULL);
-	e_paned_set_position (E_PANED (fb->vpaned), paned_size);
+	gtk_paned_set_position (GTK_PANED (fb->vpaned), paned_size);
 	
 	g_signal_handler_unblock (fb->message_list, fb->paned_resize_id);
 }
@@ -2413,7 +2412,7 @@ folder_browser_gui_init (FolderBrowser *fb)
 	int paned_size;
 	
 	/* The panned container */
-	fb->vpaned = e_vpaned_new ();
+	fb->vpaned = gtk_vpaned_new ();
 	gtk_widget_show (fb->vpaned);
 	
 	gtk_table_attach (GTK_TABLE (fb), fb->vpaned,
@@ -2452,7 +2451,7 @@ folder_browser_gui_init (FolderBrowser *fb)
 	g_signal_connect (esm, "cursor_activated", G_CALLBACK (on_cursor_activated), fb);
 	fb->selection_state = FB_SELSTATE_NONE; /* default to none */
 	
-	e_paned_add1 (E_PANED (fb->vpaned), GTK_WIDGET (fb->message_list));
+	gtk_paned_add1 (GTK_PANED (fb->vpaned), GTK_WIDGET (fb->message_list));
 	gtk_widget_show (GTK_WIDGET (fb->message_list));
 	
 	fb->paned_resize_id = g_signal_connect (fb->message_list, "size_allocate",
@@ -2489,8 +2488,8 @@ folder_browser_gui_init (FolderBrowser *fb)
 							    paned_size_changed, fb, NULL, NULL);
 	
 	paned_size = gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL);
-	e_paned_add2 (E_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
-	e_paned_set_position (E_PANED (fb->vpaned), paned_size);
+	gtk_paned_add2 (GTK_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
+	gtk_paned_set_position (GTK_PANED (fb->vpaned), paned_size);
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (GTK_WIDGET (fb));
 }

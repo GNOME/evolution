@@ -1,3 +1,7 @@
+2003-01-14  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/gnome-cal.c: Use GtkPaned instead of EPaned
+	
 2003-01-14  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_init): Work around canvas crashes

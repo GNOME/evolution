@@ -73,7 +73,6 @@
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-window.h>
 
-#include <gal/e-paned/e-hpaned.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-scroll-frame.h>
@@ -415,12 +414,12 @@ setup_defaults (EShellView *shell_view)
 
 	width = gconf_client_get_int (client, "/apps/evolution/shell/view_defaults/shortcut_bar/width", NULL);
 	if (priv->shortcut_bar_shown)
-		e_paned_set_position (E_PANED (priv->hpaned), width);
+		gtk_paned_set_position (GTK_PANED (priv->hpaned), width);
 	priv->hpaned_position = width;
 
 	width = gconf_client_get_int (client, "/apps/evolution/shell/view_defaults/folder_bar/width", NULL);
 	if (priv->folder_bar_shown)
-		e_paned_set_position (E_PANED (priv->view_hpaned), width);
+		gtk_paned_set_position (GTK_PANED (priv->view_hpaned), width);
 	priv->view_hpaned_position = width;
 
 	icon_types_list = gconf_client_get_list (client, "/apps/evolution/shell/view_defaults/shortcut_bar/icon_types",
@@ -652,7 +651,7 @@ reparent_storage_set_view_box_and_destroy_popup (EShellView *shell_view)
 
 	gtk_widget_ref (priv->storage_set_view_box);
 	gtk_container_remove (GTK_CONTAINER (priv->folder_bar_popup), priv->storage_set_view_box);
-	e_paned_pack1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, FALSE);
+	gtk_paned_pack1 (GTK_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, FALSE);
 	gtk_widget_unref (priv->storage_set_view_box);
 
 	gtk_widget_destroy (priv->folder_bar_popup);
@@ -695,7 +694,7 @@ storage_set_view_box_button_release_event_cb (GtkWidget *widget,
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
-	if (button_event->window == E_PANED (priv->view_hpaned)->handle
+	if (button_event->window == GTK_PANED (priv->view_hpaned)->handle
 	    || button_event->button != 1)
 		return FALSE;
 
@@ -1326,9 +1325,9 @@ setup_widgets (EShellView *shell_view)
 	g_signal_connect (priv->folder_title_bar, "forward_clicked",
 			  G_CALLBACK (forward_clicked_callback), shell_view);
 
-	priv->view_hpaned = e_hpaned_new ();
-	e_paned_pack1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, FALSE);
-	e_paned_pack2 (E_PANED (priv->view_hpaned), priv->notebook, TRUE, FALSE);
+	priv->view_hpaned = gtk_hpaned_new ();
+	gtk_paned_pack1 (GTK_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, FALSE);
+	gtk_paned_pack2 (GTK_PANED (priv->view_hpaned), priv->notebook, TRUE, FALSE);
 
 	gray_bar = e_gray_bar_new ();
 	gtk_container_add (GTK_CONTAINER (gray_bar), priv->folder_title_bar);
@@ -1336,11 +1335,11 @@ setup_widgets (EShellView *shell_view)
 
 	gtk_box_pack_start (GTK_BOX (priv->view_vbox), priv->view_hpaned, TRUE, TRUE, 0);
 
-	priv->hpaned = e_hpaned_new ();
+	priv->hpaned = gtk_hpaned_new ();
 	gtk_container_add (GTK_CONTAINER (priv->shortcut_frame), priv->shortcut_bar);
-	e_paned_pack1 (E_PANED (priv->hpaned), priv->shortcut_frame, FALSE, FALSE);
-	e_paned_pack2 (E_PANED (priv->hpaned), priv->view_vbox, TRUE, FALSE);
-	e_paned_set_position (E_PANED (priv->hpaned), DEFAULT_SHORTCUT_BAR_WIDTH);
+	gtk_paned_pack1 (GTK_PANED (priv->hpaned), priv->shortcut_frame, FALSE, FALSE);
+	gtk_paned_pack2 (GTK_PANED (priv->hpaned), priv->view_vbox, TRUE, FALSE);
+	gtk_paned_set_position (GTK_PANED (priv->hpaned), DEFAULT_SHORTCUT_BAR_WIDTH);
 
 	/* The status bar.  */
 
@@ -2505,16 +2504,16 @@ e_shell_view_show_shortcut_bar (EShellView *shell_view,
 	if (show) {
 		if (! GTK_WIDGET_VISIBLE (priv->shortcut_frame)) {
 			gtk_widget_show (priv->shortcut_frame);
-			e_paned_set_position (E_PANED (priv->hpaned), priv->hpaned_position);
+			gtk_paned_set_position (GTK_PANED (priv->hpaned), priv->hpaned_position);
 		}
 	} else {
 		if (GTK_WIDGET_VISIBLE (priv->shortcut_frame)) {
 			/* FIXME this is a private field!  */
-			priv->hpaned_position = E_PANED (priv->hpaned)->child1_size;
+			priv->hpaned_position = GTK_PANED (priv->hpaned)->child1_size;
 
 			gtk_widget_hide (priv->shortcut_frame);
 		}
-		e_paned_set_position (E_PANED (priv->hpaned), 0);
+		gtk_paned_set_position (GTK_PANED (priv->hpaned), 0);
 	}
 
 	priv->shortcut_bar_shown = !! show;
@@ -2539,7 +2538,7 @@ e_shell_view_show_folder_bar (EShellView *shell_view,
 
 	if (show) {
 		gtk_widget_show (priv->storage_set_view_box);
-		e_paned_set_position (E_PANED (priv->view_hpaned), priv->view_hpaned_position);
+		gtk_paned_set_position (GTK_PANED (priv->view_hpaned), priv->view_hpaned_position);
 
 		e_title_bar_set_button_mode (E_TITLE_BAR (priv->storage_set_title_bar),
 					     E_TITLE_BAR_BUTTON_MODE_CLOSE);
@@ -2549,11 +2548,11 @@ e_shell_view_show_folder_bar (EShellView *shell_view,
 	} else {
 		if (GTK_WIDGET_VISIBLE (priv->storage_set_view_box)) {
 			/* FIXME this is a private field!  */
-			priv->view_hpaned_position = E_PANED (priv->view_hpaned)->child1_size;
+			priv->view_hpaned_position = GTK_PANED (priv->view_hpaned)->child1_size;
 			gtk_widget_hide (priv->storage_set_view_box);
 		}
 
-		e_paned_set_position (E_PANED (priv->view_hpaned), 0);
+		gtk_paned_set_position (GTK_PANED (priv->view_hpaned), 0);
 
 		e_title_bar_set_button_mode (E_TITLE_BAR (priv->storage_set_title_bar),
 					     E_TITLE_BAR_BUTTON_MODE_PIN);
@@ -2788,14 +2787,14 @@ e_shell_view_save_defaults (EShellView *shell_view)
 
 	if (priv->shortcut_bar_shown)
 		gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/shortcut_bar/width",
-				      E_PANED (priv->hpaned)->child1_size, NULL); 
+				      GTK_PANED (priv->hpaned)->child1_size, NULL); 
 	else
 		gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/shortcut_bar/width",
 				      priv->hpaned_position, NULL);
 
 	if (priv->folder_bar_shown)
 		gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/folder_bar/width",
-				      E_PANED (priv->view_hpaned)->child1_size, NULL);
+				      GTK_PANED (priv->view_hpaned)->child1_size, NULL);
 	else
 		gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/folder_bar/width",
 				      priv->view_hpaned_position, NULL);
