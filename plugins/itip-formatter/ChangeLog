@@ -1,5 +1,14 @@
 2005-01-09  JP Rosevear  <jpr@novell.com>
 
+	* itip-view.h: remove error mode
+
+	* itip-formatter.c (set_itip_error): show error information to the
+	user
+	(extract_itip_data): use above
+	(format_itip_object): no more "error" mode
+
+2005-01-09  JP Rosevear  <jpr@novell.com>
+	
 	* itip-view.c (itip_view_set_delegator): accessor
 	(itip_view_get_delegator): ditto
 

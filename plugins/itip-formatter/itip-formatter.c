@@ -831,7 +831,32 @@ get_next (icalcompiter *iter)
 }
 
 static void
-extract_itip_data (FormatItipPObject *pitip) 
+set_itip_error (FormatItipPObject *pitip, GtkContainer *container, const char *primary, const char *secondary)
+{
+	GtkWidget *vbox, *label;
+	char *message;
+
+	vbox = gtk_vbox_new (FALSE, 12);
+	gtk_widget_show (vbox);
+	
+	message = g_strdup_printf ("<b>%s</b>", primary);
+	label = gtk_label_new (NULL);
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);	
+	gtk_label_set_markup (GTK_LABEL (label), message);     
+	g_free (message);
+	gtk_widget_show (label);
+	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);		
+
+	label = gtk_label_new (secondary);
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+	gtk_widget_show (label);
+	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+     
+	gtk_container_add (container, vbox);
+}
+
+static gboolean
+extract_itip_data (FormatItipPObject *pitip, GtkContainer *container) 
 {
 	CamelDataWrapper *content;
 	CamelStream *mem;
@@ -854,10 +879,13 @@ extract_itip_data (FormatItipPObject *pitip)
 
 	pitip->main_comp = icalparser_parse_string (pitip->vcalendar);
 	if (pitip->main_comp == NULL) {
-//		write_error_html (itip, _("The attachment does not contain a valid calendar message"));
-		return;
-	}
+		set_itip_error (pitip, container, 
+				_("The calendar attached is not valid"), 
+				_("The message claims to contain a calendar, but the calendar is not valid iCalendar."));
 
+		return FALSE;
+	}
+	
 	prop = icalcomponent_get_first_property (pitip->main_comp, ICAL_METHOD_PROPERTY);
 	if (prop == NULL) {
 		pitip->method = ICAL_METHOD_PUBLISH;
@@ -886,10 +914,13 @@ extract_itip_data (FormatItipPObject *pitip)
 	}
 
 	if (pitip->ical_comp == NULL) {
-//		write_error_html (itip, _("The attachment has no viewable calendar items"));		
-		return;
-	}
+		set_itip_error (pitip, container, 
+				_("The item in the calendar is not valid"), 
+				_("The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"));
 
+		return FALSE;	       
+	}
+	
 	pitip->total = icalcomponent_count_components (pitip->main_comp, ICAL_VEVENT_COMPONENT);
 	pitip->total += icalcomponent_count_components (pitip->main_comp, ICAL_VTODO_COMPONENT);
 	pitip->total += icalcomponent_count_components (pitip->main_comp, ICAL_VFREEBUSY_COMPONENT);
@@ -929,10 +960,14 @@ extract_itip_data (FormatItipPObject *pitip)
 
 	pitip->comp = e_cal_component_new ();
 	if (!e_cal_component_set_icalcomponent (pitip->comp, pitip->ical_comp)) {
-//		write_error_html (itip, _("The message does not appear to be properly formed"));
 		g_object_unref (pitip->comp);
 		pitip->comp = NULL;
-		return;
+
+		set_itip_error (pitip, container, 
+				_("The item in the calendar is not valid"), 
+				_("The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"));
+
+		return FALSE;	       
 	};
 
 	/* Add default reminder if the config says so */
@@ -975,6 +1010,8 @@ extract_itip_data (FormatItipPObject *pitip)
 	}
 
 	find_my_address (pitip, pitip->ical_comp, NULL);
+
+	return TRUE;
 }
 
 static gboolean
@@ -1150,13 +1187,14 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 
 		/* Initialize the ecal hashes */		
 		pitip->ecals[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, cleanup_ecal);
-	}
-	
-	/* FIXME Error handling? */
+	}	
+
 	/* FIXME Handle multiple VEVENTS with the same UID, ie detached instances */
-	extract_itip_data (pitip);
+	if (!extract_itip_data (pitip, GTK_CONTAINER (eb)))
+		return TRUE;
 
 	pitip->view = itip_view_new ();
+	gtk_container_add (GTK_CONTAINER (eb), pitip->view);
 	gtk_widget_show (pitip->view);
 
 	switch (pitip->method) {
@@ -1185,8 +1223,8 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_DECLINECOUNTER);
 		break;
 	default:
-		/* FIXME What to do here? */
-		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_ERROR);
+		g_assert_not_reached ();
+		break;
 	}
 
 	itip_view_set_item_type (ITIP_VIEW (pitip->view), pitip->type);
@@ -1227,8 +1265,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		}
 		break;		
 	default:
-		/* FIXME What to do here? */
-		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_ERROR);
+		g_assert_not_reached ();
 		break;
 	}	
 
@@ -1351,8 +1388,6 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 			break;
 		}
 	}
-	
-	gtk_container_add (GTK_CONTAINER (eb), pitip->view);
 
 	g_signal_connect (pitip->view, "response", G_CALLBACK (view_response_cb), pitip);
 
@@ -1387,9 +1422,6 @@ pitip_free (EMFormatHTMLPObject *pobject)
 		pitip->main_comp = NULL;
 	}
 	pitip->ical_comp = NULL;
-
-	pitip->current = 0;
-	pitip->total = 0;
 
 	g_free (pitip->calendar_uid);
 	pitip->calendar_uid = NULL;
