@@ -62,7 +62,7 @@ enum {
 };
 
 enum {
-	EM_FOLDER_SELECTOR_RESPONSE_NEW = 1,
+	EM_FOLDER_SELECTOR_RESPONSE_NEW = -5,
 };
 
 

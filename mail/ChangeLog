@@ -1,5 +1,12 @@
 2003-11-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-selector.c (emfs_create_name_activate): Emit the
+	response signal with the RESPONSE_NEW value.
+	(emfs_create_name_changed): Sanity check the entry text and set OK
+	sensitivity.
+	(folder_selected_cb): If there is an entry widget, then call
+	name_changed() to decide sensitivity, else set OK to be sensitive.
+
 	* em-utils.c (em_utils_selection_set_urilist): Same.
 
 	* em-format-html-display.c (efhd_drag_data_get): Same as below.

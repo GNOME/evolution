@@ -41,11 +41,16 @@
 #include <gtk/gtkstock.h>
 
 #include <camel/camel-url.h>
+#include <camel/camel-store.h>
+#include <camel/camel-session.h>
 
 #include "em-folder-tree.h"
 #include "em-folder-selector.h"
 
 #define d(x) x
+
+
+extern CamelSession *session;
 
 
 static void em_folder_selector_class_init (EMFolderSelectorClass *klass);
@@ -133,12 +138,29 @@ em_folder_selector_response (GtkDialog *dialog, int response)
 	}
 }
 
-
+static void
+emfs_create_name_changed (GtkEntry *entry, EMFolderSelector *emfs)
+{
+	const char *path, *text = NULL;
+	gboolean active;
+	
+	if (emfs->name_entry->text_length > 0)
+		text = gtk_entry_get_text (emfs->name_entry);
+	
+	path = em_folder_tree_get_selected_path (emfs->emft);
+	
+	active = text && path && !strchr (text, '/');
+	
+	gtk_dialog_set_response_sensitive ((GtkDialog *) emfs, GTK_RESPONSE_OK, active);
+}
 
 static void
 folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, EMFolderSelector *emfs)
 {
-	gtk_dialog_set_response_sensitive (GTK_DIALOG (emfs), GTK_RESPONSE_OK, TRUE);
+	if (emfs->name_entry)
+		emfs_create_name_changed (emfs->name_entry, emfs);
+	else
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (emfs), GTK_RESPONSE_OK, TRUE);
 }
 
 void
@@ -203,22 +225,11 @@ em_folder_selector_new (EMFolderTree *emft, guint32 flags, const char *title, co
 	return (GtkWidget *) emfs;
 }
 
-static void
-emfs_create_name_changed (GtkEntry *entry, EMFolderSelector *emfs)
-{
-	gboolean active;
-	
-	/* FIXME: need to port this... */
-	active = /* folder does not exist && */ emfs->name_entry->text_length > 0;
-	
-	gtk_dialog_set_response_sensitive ((GtkDialog *) emfs, GTK_RESPONSE_OK, active);
-}
 
 static void
 emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 {
-	/* FIXME: create the folder... */
-	printf ("entry activated, woop\n");
+	g_signal_emit_by_name (emfs, "response", 0, EM_FOLDER_SELECTOR_RESPONSE_NEW);
 }
 
 GtkWidget *
@@ -227,11 +238,15 @@ em_folder_selector_create_new (EMFolderTree *emft, guint32 flags, const char *ti
 	EMFolderSelector *emfs;
 	GtkWidget *hbox, *w;
 	
+	/* remove the CREATE flag if it is there since that's the
+	 * whole purpose of this dialog */
+	flags &= ~EM_FOLDER_SELECTOR_CAN_CREATE;
+	
 	emfs = g_object_new (em_folder_selector_get_type (), NULL);
 	em_folder_selector_construct (emfs, emft, flags, title, text);
 	
 	hbox = gtk_hbox_new (FALSE, 0);
-	w = gtk_label_new_with_mnemonic (_("Folder _name"));
+	w = gtk_label_new_with_mnemonic (_("Folder _name:"));
 	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, FALSE, 6);
 	emfs->name_entry = (GtkEntry *) gtk_entry_new ();
 	g_signal_connect (emfs->name_entry, "changed", G_CALLBACK (emfs_create_name_changed), emfs);
