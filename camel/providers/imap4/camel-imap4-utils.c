@@ -403,13 +403,13 @@ static struct {
 	const char *name;
 	guint32 flag;
 } imap4_flags[] = {
-	{ "\\Answered", CAMEL_MESSAGE_ANSWERED    },
-	{ "\\Deleted",  CAMEL_MESSAGE_DELETED     },
-	{ "\\Draft",    CAMEL_MESSAGE_DRAFT       },
-	{ "\\Flagged",  CAMEL_MESSAGE_FLAGGED     },
-	{ "\\Seen",     CAMEL_MESSAGE_SEEN        },
-	/*{ "\\Recent",   CAMEL_MESSAGE_RECENT      },*/
-	{ "\\*",        CAMEL_MESSAGE_USER        },
+	{ "\\Answered", CAMEL_MESSAGE_ANSWERED     },
+	{ "\\Deleted",  CAMEL_MESSAGE_DELETED      },
+	{ "\\Draft",    CAMEL_MESSAGE_DRAFT        },
+	{ "\\Flagged",  CAMEL_MESSAGE_FLAGGED      },
+	{ "\\Seen",     CAMEL_MESSAGE_SEEN         },
+	{ "\\Recent",   CAMEL_IMAP4_MESSAGE_RECENT },
+	{ "\\*",        CAMEL_MESSAGE_USER         },
 };
 
 #if 0
@@ -417,7 +417,7 @@ static struct {
 	const char *name;
 	guint32 flag;
 } imap4_user_flags[] = {
-	{ "Forwarded",  CAMEL_MESSAGE_FORWARDED   },
+	{ "$Forwarded",  CAMEL_MESSAGE_FORWARDED   },
 };
 #endif
 

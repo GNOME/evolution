@@ -382,7 +382,7 @@ static struct {
 	{ "\\Deleted",  CAMEL_MESSAGE_DELETED   },
 	{ "\\Draft",    CAMEL_MESSAGE_DRAFT     },
 	{ "\\Flagged",  CAMEL_MESSAGE_FLAGGED   },
-	/*{ "Forwarded",  CAMEL_MESSAGE_FORWARDED },*/
+	/*{ "$Forwarded",  CAMEL_MESSAGE_FORWARDED },*/
 	{ "\\Seen",     CAMEL_MESSAGE_SEEN      },
 };
 
