@@ -36,9 +36,14 @@
 #include <libgnomeui/gnome-stock.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtkcheckbutton.h>
+#include <bonobo-conf/bonobo-config-database.h>
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo/bonobo-exception.h>
 
 static char *decode_base64 (char *base64);
 
+Bonobo_ConfigDatabase db;
 static GHashTable *passwords = NULL;
 
 static int base64_encode_close(unsigned char *in, int inlen, gboolean break_lines, unsigned char *out, int *state, int *save);
@@ -53,21 +58,25 @@ static int base64_encode_step(unsigned char *in, int len, gboolean break_lines, 
 void
 e_passwords_init ()
 {
-	char *key, *value;
-	void *iter;
+	CORBA_Environment ev;
 
+	/* open up our bonobo config database */
+	CORBA_exception_init (&ev);
+	db = bonobo_get_object ("wombat-private:", "Bonobo/ConfigDatabase", &ev);
+
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		char *err;
+		g_error ("Very serious error, cannot activate private config database '%s'",
+			 (err = bonobo_exception_get_text (&ev)));
+		g_free (err);
+		CORBA_exception_free (&ev);
+		return;
+ 	}
+
+	CORBA_exception_free (&ev);
+
+	/* and create the per-session hash table */
 	passwords = g_hash_table_new (g_str_hash, g_str_equal);
-
-	iter = gnome_config_private_init_iterator ("/Evolution/Passwords");
-	if (iter) {
-		while (gnome_config_iterator_next (iter, &key, &value)) {
-			g_hash_table_insert (passwords,
-					     decode_base64 (key),
-					     decode_base64 (value));
-			g_free (key);
-			g_free (value);
-		}
-	}
 }
 
 static gboolean
@@ -87,7 +96,16 @@ free_entry (gpointer key, gpointer value, gpointer user_data)
 void
 e_passwords_shutdown ()
 {
-	gnome_config_sync ();
+	CORBA_Environment ev;
+
+	/* sync our db work */
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_sync (db, &ev);
+	bonobo_object_release_unref (db, &ev);
+	CORBA_exception_free (&ev);
+	db = NULL;
+
+	/* and destroy our per session hash */
 	g_hash_table_foreach_remove (passwords, free_entry, NULL);
 	g_hash_table_destroy (passwords);
 	passwords = NULL;
@@ -102,36 +120,16 @@ e_passwords_shutdown ()
 void
 e_passwords_forget_passwords ()
 {
-	g_hash_table_foreach_remove (passwords, free_entry, NULL);
-	gnome_config_private_clean_section ("/Evolution/Passwords");
-	gnome_config_sync ();
-}
+	CORBA_Environment ev;
 
-static void
-maybe_remember_password (gpointer key, gpointer password, gpointer url)
-{
-	char *path, *key64, *pass64;
-	int len, state, save;
-	
-	len = strlen (url);
-	if (strncmp (key, url, len) != 0)
-		return;
-	
-	len = strlen (key);
-	key64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
-	state = save = 0;
-	base64_encode_close (key, len, FALSE, key64, &state, &save);
-	path = g_strdup_printf ("/Evolution/Passwords/%s", key64);
-	g_free (key64);
-	
-	len = strlen (password);
-	pass64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
-	state = save = 0;
-	base64_encode_close (password, len, FALSE, pass64, &state, &save);
-	
-	gnome_config_private_set_string (path, pass64);
-	g_free (path);
-	g_free (pass64);
+	/* remove all the persistent passwords */
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_removeDir (db, "/Passwords", &ev);
+	Bonobo_ConfigDatabase_sync (db, &ev);
+	CORBA_exception_free (&ev);
+
+	/* free up the session passwords */
+	g_hash_table_foreach_remove (passwords, free_entry, NULL);
 }
 
 /**
@@ -143,7 +141,35 @@ maybe_remember_password (gpointer key, gpointer password, gpointer url)
 void
 e_passwords_remember_password (const char *key)
 {
-	g_hash_table_foreach (passwords, maybe_remember_password, (gpointer)key);
+	char *okey, *value;
+
+	if (g_hash_table_lookup_extended (passwords, key,
+					  (gpointer*)&okey, (gpointer*)&value)) {
+		char *path, *key64, *pass64;
+		int len, state, save;
+
+		/* add it to the on-disk cache of passwords */
+		len = strlen (okey);
+		key64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
+		state = save = 0;
+		base64_encode_close (okey, len, FALSE, key64, &state, &save);
+		path = g_strdup_printf ("/Passwords/%s", key64);
+		g_free (key64);
+	
+		len = strlen (value);
+		pass64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
+		state = save = 0;
+		base64_encode_close (value, len, FALSE, pass64, &state, &save);
+	
+		bonobo_config_set_string (db, path, pass64, NULL);
+		g_free (path);
+		g_free (pass64);
+
+		/* now remove it from our session hash */
+		g_hash_table_remove (passwords, key);
+		g_free (okey);
+		g_free (value);
+	}
 }
 
 /**
@@ -175,7 +201,28 @@ e_passwords_forget_password (const char *key)
 const char *
 e_passwords_get_password (const char *key)
 {
-	return g_hash_table_lookup (passwords, key);
+	char *passwd = g_hash_table_lookup (passwords, key);
+	if (!passwd) {
+		char *path, *key64;
+		int len, state, save;
+
+		/* not part of the session hash, look it up in the on disk db */
+		len = strlen (key);
+		key64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
+		state = save = 0;
+		base64_encode_close ((char*)key, len, FALSE, key64, &state, &save);
+		path = g_strdup_printf ("/Passwords/%s", key64);
+		g_free (key64);
+
+		passwd = bonobo_config_get_string (db, path, NULL);
+
+		g_free (path);
+
+		if (passwd)
+			return decode_base64 (passwd);
+	}
+	else
+		return g_strdup (passwd);
 }
 
 /**
@@ -220,7 +267,7 @@ e_passwords_ask_password (const char *title, const char *key,
 			  GtkWindow *parent)
 {
 	GtkWidget *dialog;
-	GtkWidget *check, *entry;
+	GtkWidget *check = NULL, *entry;
 	char *password;
 	int button;
 
@@ -269,12 +316,14 @@ e_passwords_ask_password (const char *title, const char *key,
 
 	if (button == 0) {
 		password = gtk_editable_get_chars (GTK_EDITABLE (entry), 0, -1);
-		*remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
+		if (remember_type != E_PASSWORDS_DO_NOT_REMEMBER) {
+			*remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
 
-		if (*remember || remember_type == E_PASSWORDS_REMEMBER_FOREVER)
-			e_passwords_add_password (key, password);
-		if (*remember && remember_type == E_PASSWORDS_REMEMBER_FOREVER)
-			e_passwords_remember_password (key);
+			if (*remember || remember_type == E_PASSWORDS_REMEMBER_FOREVER)
+				e_passwords_add_password (key, password);
+			if (*remember && remember_type == E_PASSWORDS_REMEMBER_FOREVER)
+				e_passwords_remember_password (key);
+		}
 	} else
 		password = NULL;
 

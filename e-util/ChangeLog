@@ -1,3 +1,19 @@
+2001-10-11  Chris Toshok  <toshok@ximian.com>
+
+	* e-passwords.c (e_passwords_init): open the bonobo config db for
+	our passwords.
+	(e_passwords_shutdown): sync and unref the bonobo db, and clear
+	out the per session hash.
+	(e_passwords_forget_passwords): remove the bonobo config db
+	/Passwords path, and free up the session hash (but don't destroy
+	it).
+	(e_passwords_remember_password): remove the key/value from the
+	session hash, after inserting it into the bonobo db.
+	(e_passwords_get_password): look up a session password for the
+	uri, and if it's not there, consult the bonobo db.
+	(e_passwords_ask_password): quiet gcc's warnings, and only consult
+	the toggle button state if we actaully created it.
+
 2001-10-09  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-url.c (e_uri_to_string): don't add the host if it's null
