@@ -1172,7 +1172,7 @@ eti_table_model_rows_deleted (ETableModel *table_model, int row, int count, ETab
 	g_assert (row <= eti->rows);
 
 	if (eti->height_cache) {
-		memmove(eti->height_cache + row, eti->height_cache + row + count, (eti->rows - row - count) * sizeof(int));
+		memmove(eti->height_cache + row, eti->height_cache + row + count, (eti->rows - row) * sizeof(int));
 	}
 
 	eti_unfreeze (eti);
