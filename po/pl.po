@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "POT-Creation-Date: 2001-08-26 01:10+0200\n"
-"PO-Revision-Date: 2001-08-26 01:11+0200\n"
+"PO-Revision-Date: 2001-08-31 23:30+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr "G³ówny"
 
 #: addressbook/backend/ebook/e-card-simple.c:1
 msgid "Prim"
-msgstr "G³w"
+msgstr "G³wn"
 
 #: addressbook/backend/ebook/e-card-simple.c:1
 #: addressbook/backend/ebook/e-card-simple.c:1
@@ -2455,12 +2455,12 @@ msgstr "Brak kart"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:1
 msgid "1 card"
-msgstr "1 karta"
+msgstr "liczba kart: 1"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:1
 #, c-format
 msgid "%d cards"
-msgstr "%d kart"
+msgstr "liczba kart: %d"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:1
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:1
@@ -2908,15 +2908,15 @@ msgstr "Generator komponentów kalendarza Evolution."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "Factory for the calendar iTip view control"
-msgstr ""
+msgstr "Generator formantu wy¶wietlania iTip kalendarza"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "Factory for the sample Calendar control"
-msgstr ""
+msgstr "Generator przyk³adowego formantu kalendarza"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "Factory to centralize calendar component editor dialogs"
-msgstr ""
+msgstr "Generator centralizuj±cy okna edytora komponentu kalendarza"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in.h:1
 msgid "Alarm notification service"
@@ -3540,7 +3540,7 @@ msgstr "Kolor dzisiejszych zadañ"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "Create new appointments with a default _reminder"
-msgstr ""
+msgstr "Tworzenie nowych terminów z domy¶lnym p_rzypomnieniem"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "Days"
@@ -3944,7 +3944,7 @@ msgstr "Pu_bliczny"
 #: calendar/gui/dialogs/event-page.glade.h:1
 #: calendar/gui/e-calendar-table.etspec.h:1
 msgid "Show Time As"
-msgstr "Okres czasu wy¶wietlany jako"
+msgstr "Forma wy¶wietlania czasu"
 
 #: calendar/gui/dialogs/event-page.glade.h:1
 #: calendar/gui/dialogs/task-page.glade.h:1
@@ -4512,6 +4512,27 @@ msgstr "Usuñ to _wyst±pienie"
 msgid "Delete _All Occurrences"
 msgstr "Usuñ w_szystkie wyst±pienia"
 
+#. Describe what the user can do
+#: calendar/gui/e-itip-control.c:1
+msgid ""
+"<br> Please review the following information, and then select an action from "
+"the menu below."
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1
+#, c-format
+msgid "<b>Summary:</b> %s<br><br>"
+msgstr "<b>Zestawienie:</b> %s<br><br>"
+
+#: calendar/gui/e-itip-control.c:1
+msgid "<i>None</i>"
+msgstr "<i>None</i>"
+
+#: calendar/gui/e-itip-control.c:1
+#, c-format
+msgid "<b>Description:</b> %s"
+msgstr "<b>Opis:</b> %s"
+
 #: calendar/gui/e-itip-control.c:1
 #, c-format
 msgid "<b>%s</b> has published meeting information."
@@ -4809,6 +4830,10 @@ msgstr "Wrzesieñ"
 #: calendar/gui/itip-utils.c:1
 msgid "An organizer must be set."
 msgstr "Nale¿y podaæ organizatora."
+
+#: calendar/gui/itip-utils.c:1
+msgid "Calendar attachment"
+msgstr "Za³±cznik kalendarza"
 
 #: calendar/gui/print.c:1
 msgid "1st"
@@ -5228,7 +5253,7 @@ msgstr "Nie mo¿na przetworzyæ folderu kolejki"
 #: camel/camel-filter-driver.c:1
 #, c-format
 msgid "Getting message %d (%d%%)"
-msgstr "Pobieranie listu %d (%d%%)"
+msgstr "Pobieranie %d. listu (%d%%)"
 
 #: camel/camel-filter-driver.c:1 camel/camel-filter-driver.c:1
 #, c-format
@@ -5246,7 +5271,7 @@ msgstr "Synchronizowanie folderu"
 #: camel/camel-filter-driver.c:1
 #, c-format
 msgid "Getting message %d of %d"
-msgstr "Pobieranie listu %d z %d"
+msgstr "Pobieranie %d. listu z %d"
 
 #: camel/camel-filter-driver.c:1 camel/camel-filter-driver.c:1
 #, c-format
@@ -5872,7 +5897,7 @@ msgstr "Sprawdzanie nowej poczty"
 
 #: camel/providers/imap/camel-imap-provider.c:1
 msgid "Check for new messages in all folders"
-msgstr "Sprawdza nowe listy we wszystkich folderach"
+msgstr "Sprawdzanie nowych listów we wszystkich folderach"
 
 #: camel/providers/imap/camel-imap-provider.c:1 shell/e-shell-view.c:1
 msgid "Folders"
@@ -6485,7 +6510,7 @@ msgstr "Brak listu o warto¶ci uid %s"
 #: camel/providers/pop3/camel-pop3-folder.c:1
 #, c-format
 msgid "Retrieving POP message %d"
-msgstr "Pobieranie listu %d z serwera POP"
+msgstr "Pobieranie %d. listu z serwera POP"
 
 #: camel/providers/pop3/camel-pop3-provider.c:1
 msgid "Message storage"
@@ -8328,8 +8353,9 @@ msgid ""
 "unless you wish to include this information in email you send."
 msgstr ""
 "Wprowad¼ poni¿ej swoje nazwisko i adres e-mail. Pola oznaczone jako "
-"\"opcjonalne\" nie musz± byæ wype³nione, chyba, ¿e chcesz, aby znajduj±ce "
-"siê w nich informacje by³y zawarte w wysy³anych listach."
+"\"opcjonalne\" nie musz± byæ wype³nione,\n"
+"chyba, ¿e chcesz, aby znajduj±ce siê w nich informacje by³y zawarte w "
+"wysy³anych listach."
 
 #: mail/mail-config-druid.c:1
 msgid ""
@@ -8338,8 +8364,8 @@ msgid ""
 "administrator or Internet Service Provider."
 msgstr ""
 "Podaj informacje o serwerze, z którego odbierasz pocztê. Je¶li nie masz "
-"pewno¶ci co do tych informacji, zapytaj administratora lub dostawcê "
-"Internetu (ISP)."
+"pewno¶ci co do tych informacji,\n"
+"zapytaj administratora lub dostawcê Internetu (ISP)."
 
 #: mail/mail-config-druid.c:1
 msgid "Please select among the following options"
@@ -8352,8 +8378,8 @@ msgid ""
 "administrator or Internet Service Provider."
 msgstr ""
 "Podaj informacje o sposobie, w jaki bêdziesz wysy³aæ listy. Je¶li nie masz "
-"pewno¶ci co do tych informacji, zapytaj administratora lub dostawcê "
-"Internetu (ISP)."
+"pewno¶ci co do tych informacji,\n"
+"zapytaj administratora lub dostawcê Internetu (ISP)."
 
 #: mail/mail-config-druid.c:1
 msgid ""
@@ -8366,9 +8392,10 @@ msgid ""
 "This name will be used for display purposes only."
 msgstr ""
 "Proces konfiguracji poczty zbli¿a siê ku koñcowi. Konto Evolution zostanie "
-"stworzone poprzez zgrupowanie podanych informacji o to¿samo¶ci, serwerze z "
-"nadchodz±c± poczt± oraz sposobie wysy³ania poczty. Wprowad¼ poni¿ej nazwê "
-"tego konta.\n"
+"stworzone poprzez zgrupowanie\n"
+"podanych informacji o to¿samo¶ci, serwerze z nadchodz±c± poczt± oraz "
+"sposobie wysy³ania poczty.\n"
+"Wprowad¼ poni¿ej nazwê tego konta.\n"
 "Nazwa bêdzie u¿ywana tylko przy wy¶wietlaniu celem rozró¿nienia go od innych "
 "kont."
 
@@ -8925,7 +8952,7 @@ msgstr "ogó³em: %d"
 #: mail/mail-format.c:1
 #, c-format
 msgid "%s attachment"
-msgstr "Za³±cznik %s"
+msgstr "Za³±cznik: %s"
 
 #: mail/mail-format.c:1
 msgid "Could not parse MIME message. Displaying as source."
@@ -9272,7 +9299,7 @@ msgstr "Anulowanie..."
 
 #: mail/mail-send-recv.c:1
 msgid "Send & Receive mail"
-msgstr "Wy¶lij i odbierz pocztê"
+msgstr "Wysy³anie i odbiór poczty"
 
 #: mail/mail-send-recv.c:1
 msgid "Updating..."
@@ -11062,8 +11089,25 @@ msgstr ""
 "%s"
 
 #: shell/e-shell-folder-creation-dialog.c:1
-msgid "The specified folder name is not valid."
-msgstr "Podana nazwa folderu nie jest poprawna."
+msgid "No folder name specified."
+msgstr "Nie podano nazwy folderu."
+
+#: shell/e-shell-folder-creation-dialog.c:1
+msgid "Folder name cannot contain the Return character."
+msgstr "Nazwa folderu nie mo¿e zawieraæ znaku koñca wiersza."
+
+#: shell/e-shell-folder-creation-dialog.c:1
+msgid "Folder cannot contain the directory separator."
+msgstr "Nazwa folderu nie mo¿e zawieraæ znaku separatora katalogów."
+
+#: shell/e-shell-folder-creation-dialog.c:1
+msgid "'.' and '..' are reserved folder names."
+msgstr "\".\" oraz \"..\" s± zarezerwowanymi nazwami folderów."
+
+#: shell/e-shell-folder-creation-dialog.c:1
+#, c-format
+msgid "The specified folder name is not valid: %s"
+msgstr "Podana nazwa folderu nie jest poprawna: %s"
 
 #: shell/e-shell-folder-creation-dialog.c:1
 msgid "Evolution - Create new folder"
@@ -11271,6 +11315,15 @@ msgstr "Praca bez pod³±czenia"
 #: shell/e-shell-view.c:1
 msgid "(No folder displayed)"
 msgstr "(Nie wy¶wietlono folderu)"
+
+#: shell/e-shell-view.c:1
+#, c-format
+msgid "%s (%d)"
+msgstr "%s (%d)"
+
+#: shell/e-shell-view.c:1
+msgid "(None)"
+msgstr "(Brak)"
 
 #: shell/e-shell-view.c:1
 #, c-format
@@ -11536,6 +11589,36 @@ msgstr "Typ folderu:"
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "Specify where to create the folder:"
 msgstr "Okre¶l miejsce stworzenia folderu:"
+
+#: shell/glade/evolution-startup-wizard.glade.h:1
+msgid "First Run Setup Assistant"
+msgstr "Druid wstêpnej konfiguracji"
+
+#: shell/glade/evolution-startup-wizard.glade.h:1
+msgid "Importing Data"
+msgstr "Importowanie danych"
+
+#: shell/glade/evolution-startup-wizard.glade.h:1
+msgid "Setup Assistant"
+msgstr "Druid konfiguracji"
+
+#: shell/glade/evolution-startup-wizard.glade.h:1
+msgid "Timezone "
+msgstr "Strefa czasowa"
+
+#: shell/glade/evolution-startup-wizard.glade.h:1
+msgid ""
+"Welcome to the Evolution first run setup assistant\n"
+"\n"
+"This assistant will help you get started"
+msgstr ""
+"Witaj w druidzie wstêpnej konfiguracji Evolution\n"
+"\n"
+"Pomo¿e ci on rozpocz±c pracê z programem"
+
+#: shell/glade/evolution-startup-wizard.glade.h:1
+msgid "Your configuration is complete."
+msgstr "Konfiguracja zosta³a zakoñczona."
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
@@ -13122,7 +13205,7 @@ msgstr "_<<"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:1
 msgid "_Autopick"
-msgstr ""
+msgstr "_Automatyczny wybór"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:1
 msgid ">_>"
