@@ -39,6 +39,8 @@ typedef struct {
 
 	int group_info_change_id;
 
+	int reflow_idle_id;
+
 	GnomeCanvas *header_canvas, *table_canvas;
 
 	GnomeCanvasItem *header_item, *root;

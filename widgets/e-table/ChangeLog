@@ -1,3 +1,8 @@
+2000-06-16  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table.c, e-table.h: Moved the reflow signal handling into an
+	idle handler to fix a bug when resizing twice in succession.
+
 2000-06-15  Chris Toshok  <toshok@helixcode.com>
 
 	* e-cell-tree.c (ect_print): print the icon for the tree control.

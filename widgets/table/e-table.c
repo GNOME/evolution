@@ -83,6 +83,10 @@ et_destroy (GtkObject *object)
 		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
 				       et->group_info_change_id);
 
+	if (et->reflow_idle_id)
+		g_source_remove(et->reflow_idle_id);
+	et->reflow_idle_id = 0;
+
 	gtk_object_unref (GTK_OBJECT (et->model));
 	gtk_object_unref (GTK_OBJECT (et->full_header));
 	gtk_object_unref (GTK_OBJECT (et->header));
@@ -108,6 +112,7 @@ e_table_init (GtkObject *object)
 	
 	e_table->sort_info = NULL;
 	e_table->group_info_change_id = 0;
+	e_table->reflow_idle_id = 0;
 
 	e_table->draw_grid = 1;
 	e_table->draw_focus = 1;
@@ -172,11 +177,11 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	
 }
 
-static void
-table_canvas_reflow (GnomeCanvas *canvas, ETable *e_table)
+static gboolean
+table_canvas_reflow_idle (ETable *e_table)
 {
 	gdouble height, width;
-	GtkAllocation *alloc = &(GTK_WIDGET (canvas)->allocation);
+	GtkAllocation *alloc = &(GTK_WIDGET (e_table->table_canvas)->allocation);
 
 	gtk_object_get (GTK_OBJECT (e_table->group),
 			"height", &height,
@@ -186,6 +191,15 @@ table_canvas_reflow (GnomeCanvas *canvas, ETable *e_table)
 	gnome_canvas_set_scroll_region (
 		GNOME_CANVAS (e_table->table_canvas),
 		0, 0, MAX((int)width, alloc->width) - 1, MAX ((int)height, alloc->height) - 1);
+	e_table->reflow_idle_id = 0;
+	return FALSE;
+}
+
+static void
+table_canvas_reflow (GnomeCanvas *canvas, ETable *e_table)
+{
+	if (!e_table->reflow_idle_id)
+		e_table->reflow_idle_id = g_idle_add_full (400, (GSourceFunc) table_canvas_reflow_idle, e_table, NULL);
 }
 
 static void
