@@ -786,14 +786,14 @@ imap_delete_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 static CamelMimeMessage *
 imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
-	CamelStream *msgstream;
+	CamelStream *msgstream = NULL;
 	/*CamelStreamFilter *f_stream;*/
 	/*CamelMimeFilter *filter;*/
-	CamelMimeMessage *msg;
+	CamelMimeMessage *msg = NULL;
 	/*CamelMimePart *part;*/
-	gchar *result, *header, *body, *mesg, *p, *q;
-	int status, part_len;
-
+	gchar *result, *header = NULL, *body = NULL, *mesg = NULL, *p = NULL, *q = NULL;
+	int status = 0, part_len = 0;
+	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
 					      &result, "UID FETCH %s BODY.PEEK[HEADER]", uid);
 
@@ -808,20 +808,20 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		g_free (result);
 		return camel_mime_message_new ();
 	}
-
+	
 	for (p = result; *p && *p != '{' && *p != '\n'; p++);
 	if (*p != '{') {
 		g_free (result);
 		return camel_mime_message_new ();
 	}
-
-        part_len = atoi (p + 1);
+	
+	part_len = atoi (p + 1);
 	for ( ; *p && *p != '\n'; p++);
 	if (*p != '\n') {
 		g_free (result);
 		return camel_mime_message_new ();
 	}
-
+	
 	/* calculate the new part-length */
 	for (q = p; *q && (q - p) <= part_len; q++) {
 		if (*q == '\n')
@@ -829,15 +829,15 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	}
 	/* FIXME: This is a hack for IMAP daemons that send us a UID at the end of each FETCH */
 	for (q--, part_len--; q > p && *(q-1) != '\n'; q--, part_len--);
-	
-	header = g_strndup (p, part_len + 1);
 
+	header = g_strndup (p, part_len + 1);
+	
 	g_free (result);
 	d(fprintf (stderr, "*** We got the header ***\n"));
-
+	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
 					      &result, "UID FETCH %s BODY[TEXT]", uid);
-
+	
 	if (!result || status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		
@@ -850,14 +850,14 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		g_free (header);
 		return camel_mime_message_new ();
 	}
-
+	
 	for (p = result; *p && *p != '{' && *p != '\n'; p++);
 	if (*p != '{') {
 		g_free (result);
 		g_free (header);
 		return camel_mime_message_new ();
 	}
-
+	
         part_len = atoi (p + 1);
 	for ( ; *p && *p != '\n'; p++);
 	if (*p != '\n') {
@@ -865,7 +865,7 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		g_free (header);
 		return camel_mime_message_new ();
 	}
-
+	
 	/* calculate the new part-length */
 	for (q = p; *q && (q - p) <= part_len; q++) {
 		if (*q == '\n')
@@ -873,19 +873,19 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	}
 	/* FIXME: This is a hack for IMAP daemons that send us a UID at the end of each FETCH */
 	for ( ; q > p && *(q-1) != '\n'; q--, part_len--);
-
+	
 	body = g_strndup (p, part_len + 1);
-
+	
 	g_free (result);
 	d(fprintf (stderr, "*** We got the body ***\n"));
-
+	
 	mesg = g_strdup_printf ("%s\n%s", header, body);
 	g_free (header);
 	g_free (body);
 	d(fprintf (stderr, "*** We got the mesg ***\n"));
-
+	
 	d(fprintf (stderr, "Message:\n%s\n", mesg));
-
+	
 	msgstream = camel_stream_mem_new_with_buffer (mesg, strlen (mesg) + 1);
 #if 0
 	f_stream = camel_stream_filter_new_with_stream (msgstream);
@@ -902,7 +902,7 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 #endif
 	gtk_object_unref (GTK_OBJECT (msgstream));
 	/*gtk_object_unref (GTK_OBJECT (f_stream));*/
-
+	
 	d(fprintf (stderr, "*** We're returning... ***\n"));
 	
 	return msg;

@@ -1,88 +1,104 @@
+2000-07-23  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (imap_disconnect): Made it a
+	little more forgiving. Also set current_folder to NULL as there is
+	no selected folder after a disconnect.
+	(stream_is_alive): Detects whether or not a socket is "alive"
+	(camel_imap_command_extended): Use stream_is_alive() to aid in the
+	detection of a disconnected state.
+
 2000-07-22  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* providers/imap/camel-imap-store.c (get_folder): Clear CamelExceptions when
-	appropriate (eg when folder is marked as \NoSelect). Still needs some 
-	cleanup and perhaps Dan will have a better way of doing this as this seems
-	like a messy way of handling this.
+	* providers/imap/camel-imap-store.c (get_folder): Clear
+	CamelExceptions when appropriate (eg when folder is marked as
+	\NoSelect). Still needs some cleanup and perhaps Dan will have a
+	better way of doing this as this seems like a messy way of
+	handling this.
 
-	* providers/imap/camel-imap-folder.c (imap_get_uids): Took out some debug
-	statements as they are no longer needed.
+	* providers/imap/camel-imap-folder.c (imap_get_uids): Took out
+	some debug statements as they are no longer needed.
 
 2000-07-21  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* providers/imap/camel-imap-folder.c (imap_get_subfolder_names): Updated to
-	not strip out subfolders that are marked as \NoSelect because this will be
-	correctly handled in store->get_folder from now on.
+	* providers/imap/camel-imap-folder.c (imap_get_subfolder_names):
+	Updated to not strip out subfolders that are marked as \NoSelect
+	because this will be correctly handled in store->get_folder from
+	now on.
 
-	* providers/imap/camel-imap-store.c (folder_is_selectable): New convenience
-	function for use in get_folder().
-	(parse_list_response): Now takes a char **flags argument which is needed by
-	folder_is_selectable().
-	(imap_connect): Updated to reflect changes to parse_list_response().
+	* providers/imap/camel-imap-store.c (folder_is_selectable): New
+	convenience function for use in get_folder().
+	(parse_list_response): Now takes a char **flags argument which is
+	needed by folder_is_selectable().
+	(imap_connect): Updated to reflect changes to
+	parse_list_response().
 
 2000-07-21  Jeffrey Stedfast  <fejj@helixcode.com>
 	
-	* providers/imap/camel-imap-stream.c (stream_read): Updated with some of the
-	same fixes I've made to camel-imap-folder.c like recalculating message part
-	lengths.
+	* providers/imap/camel-imap-stream.c (stream_read): Updated with
+	some of the same fixes I've made to camel-imap-folder.c like
+	recalculating message part lengths.
 
-	* providers/imap/camel-imap-store.c (camel_imap_command_extended): Rewrote
-	the code to check for "* %d RECENT". Still needs to be modified, but should
-	no longer cause an infinite loop by detecting mis-detecting RECENT messages.
+	* providers/imap/camel-imap-store.c (camel_imap_command_extended):
+	Rewrote the code to check for "* %d RECENT". Still needs to be
+	modified, but should no longer cause an infinite loop by detecting
+	mis-detecting RECENT messages.
 
 2000-07-20  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* providers/imap/camel-imap-folder.c (imap_get_summary): 
-	(imap_get_message_info): Oops. Fix UID parser to allow 0 and 9 to be in
-	the range of valid UID chars.
+	* providers/imap/camel-imap-folder.c (imap_get_summary):
+	(imap_get_message_info): Oops. Fix UID parser to allow 0 and 9 to
+	be in the range of valid UID chars.
 
 2000-07-19  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* providers/imap/camel-imap-folder.c: General cleanup working towards
-	getting Actions->Expunge working correctly.
+	* providers/imap/camel-imap-folder.c: General cleanup working
+	towards getting Actions->Expunge working correctly.
 
-	* providers/imap/camel-imap-store.c (cammel_imap_command_extended): Added
-	code to look for "* %d RECENT" and to emit the folder_changed signal if 
-	there are any recent messages. Note: this is a hack and needs to be rewritten 
+	* providers/imap/camel-imap-store.c
+	(cammel_imap_command_extended): Added code to look for "* %d
+	RECENT" and to emit the folder_changed signal if there are any
+	recent messages. Note: this is a hack and needs to be rewritten
 	badly.
 
 2000-07-19  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* providers/imap/camel-imap-folder.c (imap_get_summary): If the folder's
-	message count is not the same as the number of summaries, free the old
-	summary and create a new summary.
+	* providers/imap/camel-imap-folder.c (imap_get_summary): If the
+	folder's message count is not the same as the number of summaries,
+	free the old summary and create a new summary.
 
 2000-07-18  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* providers/imap/camel-imap-folder.c (camel_imap_folder_class_init): Added
-	in imap_[g,s]et_message_user_flag() methods
+	* providers/imap/camel-imap-folder.c
+	(camel_imap_folder_class_init): Added in
+	imap_[g,s]et_message_user_flag() methods
 	(imap_get_message_info): Rewrote to use the more efficient way of
-	downloading summary information and also added a UID comparison so that
-	if the UID requested doesn't match the UID received, it returns NULL.
-	FIXME: When the mailer gets NULL when it requested message info, it
-	seems that it displays a row for that message and when you try and select
-	the blank row, it segfaults.
+	downloading summary information and also added a UID comparison so
+	that if the UID requested doesn't match the UID received, it
+	returns NULL.  FIXME: When the mailer gets NULL when it requested
+	message info, it seems that it displays a row for that message and
+	when you try and select the blank row, it segfaults.
 
-	* providers/imap/camel-imap-store.c (get_folder): Oops, this should not be 
-	checking against "/", it should be checking against dir_sep.
+	* providers/imap/camel-imap-store.c (get_folder): Oops, this
+	should not be checking against "/", it should be checking against
+	dir_sep.
 
-	* providers/imap/camel-imap-folder.c (imap_parse_subfolder_line): Updated
-	to trim out the leading namespace.
-	(imap_get_subfolder_names): Let the subfolder parser trim the namespace
-	off the folder name.
+	* providers/imap/camel-imap-folder.c (imap_parse_subfolder_line):
+	Updated to trim out the leading namespace.
+	(imap_get_subfolder_names): Let the subfolder parser trim the
+	namespace off the folder name.
 
 2000-07-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* providers/imap/camel-imap-store.c (imap_disconnect): Send a "LOGOUT"
-	command.
+	* providers/imap/camel-imap-store.c (imap_disconnect): Send a
+	"LOGOUT" command.
 
-	* providers/imap/camel-imap-folder.c (imap_get_message): Hacks to get
-	IMAP code to work with CommunigatePro and MS Exchange (and any other
-	servers that send back a UID at the end of each FETCH inside of the main
-	body of the message part).
-	(imap_sync): Un-#if 0 the code that sets the flags on the IMAP server
-	for messages that have changed. Oops, don't mask with DELETED to find out
-	if the message has been answered ;-)
+	* providers/imap/camel-imap-folder.c (imap_get_message): Hacks to
+	get IMAP code to work with CommunigatePro and MS Exchange (and any
+	other servers that send back a UID at the end of each FETCH inside
+	of the main body of the message part).
+	(imap_sync): Un-#if 0 the code that sets the flags on the IMAP
+	server for messages that have changed. Oops, don't mask with
+	DELETED to find out if the message has been answered ;-)
 	(imap_expunge): sync before expunging.
 
 2000-07-16  Jeffrey Stedfast  <fejj@helixcode.com>
