@@ -6961,7 +6961,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			icalcomponent_free (icalcomp);
 
 		} else {
-			e_cal_add_event (E_CAL_VIEW (day_view), client, dtstart, default_zone, icalcomp, TRUE);
+			e_cal_view_add_event (E_CAL_VIEW (day_view), client, dtstart, default_zone, icalcomp, TRUE);
 		}
 	
 		gtk_drag_finish (context, TRUE, TRUE, time);
@@ -7103,7 +7103,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 		&& !drag_from_same_window) {
 		/* We are dragging between different window */
 
-		char *comp_str, *default_tzid;;
+		char *comp_str, *default_tzid;
 		icalcomponent *icalcomp;
 		icalcomponent_kind kind;
 		time_t dtstart;
@@ -7157,7 +7157,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			icalcomponent_free (icalcomp);
 
 		} else {
-			e_cal_add_event (E_CAL_VIEW (day_view), client, dtstart, default_zone, icalcomp, FALSE);
+			e_cal_view_add_event (E_CAL_VIEW (day_view), client, dtstart, default_zone, icalcomp, FALSE);
 		}
 
 		gtk_drag_finish (context, TRUE, TRUE, time);

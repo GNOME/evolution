@@ -1,3 +1,23 @@
+2003-10-23  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_on_top_canvas_drag_data_received):
+	fix typo
+	(e_day_view_on_main_canvas_drag_data_received): fix C99 issue, fix
+	typo
+
+2003-10-23  JP Rosevear <jpr@ximian.com>
+
+	* gui/gnome-cal.c (update_query): use the internal client list to
+	create the queries
+	(gnome_calendar_destroy): use the internal client list to
+	disconnect signal handlers
+	(gnome_calendar_add_event_uri): add the client to the internal
+	list
+	(gnome_calendar_remove_event_uri): remove the client from the
+	internal list and lookup the client
+	(gnome_calendar_update_config_settings): use the internal client
+	list to update the config settings
+
 2003-10-23  Harry Lu  <harry.lu@sun.com>
 
 	* cal-client/cal-client.c: (cal_client_get_timezone): remove and free
