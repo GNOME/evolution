@@ -40,7 +40,7 @@ msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-06 16:11+0300\n"
-"PO-Revision-Date: 2005-03-24 15:18+0200\n"
+"PO-Revision-Date: 2005-04-06 17:04+0300\n"
 "Last-Translator: Nikos Charonitakis <charosn@her.forthnet.gr>\n"
 "Language-Team: Greek <team@gnome.gr>\n"
 "MIME-Version: 1.0\n"
@@ -10635,7 +10635,7 @@ msgstr "δεν έχει σημαία"
 #: mail/em-filter-i18n.h:35 mail/mail-config.glade.h:92
 #: ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr "Ανεπιθύμητη μηνύματα"
+msgstr "Ανεπιθύμητα μηνύματα"
 
 #: mail/em-filter-i18n.h:36
 msgid "Junk Test"
@@ -10664,7 +10664,7 @@ msgstr "Κεφαλίδα Μηνύματος"
 
 #: mail/em-filter-i18n.h:42
 msgid "Message is Junk"
-msgstr "Το μήνυμα είναι ανεπιθύμητο"
+msgstr "Το μήνυμα είναι Ανεπιθύμητο"
 
 #: mail/em-filter-i18n.h:43
 msgid "Message is not Junk"
@@ -17010,7 +17010,7 @@ msgstr "Επόμενο _μη Αναγνωσμένο Μήνυμα"
 
 #: ui/evolution-mail-message.xml.h:69
 msgid "Not Junk"
-msgstr "Επιθυμητή αλληλογραφία"
+msgstr "Επιθυμητά Μηνύματα"
 
 #: ui/evolution-mail-message.xml.h:70
 msgid "Open the selected message in a new window"
