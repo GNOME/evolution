@@ -71,6 +71,7 @@ evolution_mail_SOURCES =		\
 	folder-browser-window.c		\
 	folder-browser-window.h		\
 	folder-info.c			\
+	folder-info.h			\
 	mail-accounts.c			\
 	mail-accounts.h			\
 	mail-account-editor.c		\
