@@ -1,5 +1,15 @@
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-sidebar.c (PADDING): Increase to 6 pixels.
+	(button_toggled_callback): Add a cast.
+	(e_sidebar_set_selection_widget): Handle the NULL widget case
+	properly.
+	(impl_remove): New, implementation for GtkContainer::remove.
+	(do_layout): Add padding between the selection_widget and the
+	button box.
+
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-window.c (struct _ComponentView): New member button_id.
 	(struct _EShellWindowPrivate): New member sidebar.
 	(component_new_new): Get a button_id arg.

@@ -59,7 +59,7 @@ enum {
 static unsigned int signals[NUM_SIGNALS] = { 0 };
 
 
-#define PADDING 3
+#define PADDING 6
 
 
 /* Callbacks.  */
@@ -79,7 +79,7 @@ button_toggled_callback (GtkToggleButton *toggle_button,
 	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
 		Button *button = p->data;
 
-		if (button->button_widget != toggle_button) {
+		if (button->button_widget != GTK_WIDGET (toggle_button)) {
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button->button_widget), FALSE);
 		} else {
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button->button_widget), TRUE);
@@ -201,7 +201,7 @@ do_layout (ESidebar *sidebar)
 		child_allocation.x = allocation->x + PADDING;
 		child_allocation.y = allocation->y + PADDING;
 		child_allocation.width = allocation->width - PADDING * 2;
-		child_allocation.height = y - allocation->y;
+		child_allocation.height = y - allocation->y - PADDING;
 
 		gtk_widget_size_allocate (sidebar->priv->selection_widget, & child_allocation);
 	}
@@ -231,6 +231,30 @@ impl_forall (GtkContainer *container,
 	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
 		GtkWidget *widget = ((Button *) p->data)->button_widget;
 		(* callback) (widget, callback_data);
+	}
+}
+
+static void
+impl_remove (GtkContainer *container,
+	     GtkWidget *widget)
+{
+	ESidebar *sidebar = E_SIDEBAR (container);
+	GSList *p;
+
+	if (widget == sidebar->priv->selection_widget) {
+		e_sidebar_set_selection_widget (sidebar, NULL);
+		return;
+	}
+
+	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
+		GtkWidget *button_widget = ((Button *) p->data)->button_widget;
+
+		if (button_widget == widget) {
+			gtk_widget_unparent (button_widget);
+			sidebar->priv->buttons = g_slist_remove_link (sidebar->priv->buttons, p);
+			gtk_widget_queue_resize (GTK_WIDGET (sidebar));
+			break;
+		}
 	}
 }
 
@@ -309,6 +333,7 @@ class_init (ESidebarClass *class)
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	container_class->forall = impl_forall;
+	container_class->remove = impl_remove;
 
 	widget_class->size_request = impl_size_request;
 	widget_class->size_allocate = impl_size_allocate;
@@ -358,7 +383,9 @@ e_sidebar_set_selection_widget (ESidebar *sidebar, GtkWidget *widget)
 		gtk_widget_unparent (sidebar->priv->selection_widget);
 
 	sidebar->priv->selection_widget = widget;
-	gtk_widget_set_parent (widget, GTK_WIDGET (sidebar));
+
+	if (widget != NULL)
+		gtk_widget_set_parent (widget, GTK_WIDGET (sidebar));
 
 	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
 }

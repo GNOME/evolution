@@ -285,7 +285,7 @@ setup_widgets (EShellWindow *window)
 	priv->sidebar = e_sidebar_new ();
 	g_signal_connect (priv->sidebar, "button_selected",
 			  G_CALLBACK (sidebar_button_selected_callback), window);
-	gtk_paned_pack1 (GTK_PANED (paned), priv->sidebar, TRUE, FALSE);
+	gtk_paned_pack1 (GTK_PANED (paned), priv->sidebar, FALSE, FALSE);
 
 	priv->sidebar_notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->sidebar_notebook), FALSE);
@@ -293,7 +293,7 @@ setup_widgets (EShellWindow *window)
 
 	priv->view_notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->view_notebook), FALSE);
-	gtk_paned_pack2 (GTK_PANED (paned), priv->view_notebook, FALSE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (paned), priv->view_notebook, TRUE, TRUE);
 
 	gtk_paned_set_position (GTK_PANED (paned), 200);
 
