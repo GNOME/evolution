@@ -1,19 +1,23 @@
-INCLUDES = \
-	-I$(top_srcdir)						\
-	-I$(top_srcdir)/shell					\
-	-I$(top_builddir)/shell					\
-	-I$(top_srcdir)/calendar				\
-	-I$(top_builddir)/calendar/cal-client			\
-	-I$(top_srcdir)/libical/src/libical			\
-	-I$(top_builddir)/libical/src/libical			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"            	\
-	-DPREFIX=\"$(prefix)\"					\
-	-DSYSCONFDIR=\""$(sysconfdir)"\" 			\
-	-DDATADIR=\""$(datadir)"\"	 			\
-	-DLIBDIR=\""$(datadir)"\"	 			\
-	-DG_LOG_DOMAIN=\"evolution-executive-summary\"		\
+INCLUDES =											\
+	-I$(top_srcdir)										\
+	-I$(top_srcdir)/shell									\
+	-I$(top_builddir)/shell									\
+	-I$(top_srcdir)/calendar								\
+	-I$(top_builddir)/calendar/cal-client							\
+	-I$(top_srcdir)/libical/src/libical							\
+	-I$(top_builddir)/libical/src/libical							\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"							\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"						\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"							\
+	-DEVOLUTION_IMAGEDIR=\""$(datadir)/evolution-$(BASE_VERSION)/images"\"			\
+	-DEVOLUTION_BUTTONSDIR=\""$(datadir)/evolution-$(BASE_VERSION)/images/buttons"\"	\
+	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"						\
+	-DLOCATIONDIR=\""$(Locationdir)"\"							\
+	-DPREFIX=\"$(prefix)\"									\
+	-DSYSCONFDIR=\""$(sysconfdir)"\"							\
+	-DDATADIR=\""$(datadir)"\"								\
+	-DLIBDIR=\""$(datadir)"\"								\
+	-DG_LOG_DOMAIN=\"evolution-executive-summary\"						\
 	$(EVOLUTION_EXECUTIVE_SUMMARY_CFLAGS)
 
 IDLS =								\
@@ -80,9 +84,8 @@ libevolution_executive_summary_la_SOURCES = $(summary_sources)
 libevolution_executive_summary_la_LIBADD = $(summary_libs)
 libevolution_executive_summary_la_LDFLAGS = -module -avoid-version 
 
-Locationdir = $(datadir)/evolution
+Locationdir = $(datadir)/evolution-$(BASE_VERSION)
 Location_DATA = Locations
-
 
 # .server files
 
@@ -98,7 +101,7 @@ $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 
 # Glade
 
-gladedir = $(datadir)/evolution/glade
+gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA = my-evolution.glade
 
 # GConf schemas

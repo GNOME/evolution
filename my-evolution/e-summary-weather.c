@@ -377,7 +377,7 @@ e_summary_weather_init_locations (void)
 	}
 
 	locations_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	path = g_strdup (EVOLUTION_DATADIR "/evolution/Locations");
+	path = g_strdup (LOCATIONDIR);
 
 	key = g_strdup_printf ("=%s=/", path);
 	g_free (path);
@@ -659,7 +659,7 @@ e_summary_weather_fill_etable (ESummaryShown *ess)
 	int nregions, iregions;
 	char **regions;
 
-	path = g_strdup (EVOLUTION_DATADIR "/evolution/Locations");
+	path = g_strdup (LOCATIONDIR);
 
 	key = g_strdup_printf ("=%s=/", path);
 	g_free (path);

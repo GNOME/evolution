@@ -290,8 +290,7 @@ e_pixmap_file (const char *filename)
 	}
 
 	/* Try the evolution images dir */
-	edir = g_concat_dir_and_file (EVOLUTION_DATADIR "/evolution/images",
-				      filename);
+	edir = g_concat_dir_and_file (EVOLUTION_IMAGEDIR, filename);
 
 	if (g_file_exists (edir)) {
 		ret = g_strdup (edir);
@@ -302,8 +301,7 @@ e_pixmap_file (const char *filename)
 	g_free (edir);
 
 	/* Try the evolution button images dir */
-	edir = g_concat_dir_and_file (EVOLUTION_DATADIR "/evolution/images/buttons",
-				      filename);
+	edir = g_concat_dir_and_file (EVOLUTION_BUTTONSDIR, filename);
 
 	if (g_file_exists (edir)) {
 		ret = g_strdup (edir);

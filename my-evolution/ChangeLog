@@ -1,3 +1,19 @@
+2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-factory.c (control_activate): Get my-evolution.xml
+	from EVOLUTION_UI_DIRECTORY.
+
+	* e-summary.c (e_pixmap_file): Use EVOLUTION_IMAGEDIR.
+	(e_pixmap_file): Use EVOLUTION_BUTTONSDIR.
+
+	* e-summary-weather.c (e_summary_weather_init_locations): Use
+	LOCATIONDIR.
+	(e_summary_weather_fill_etable): Likewise.
+
+	* Makefile.am (Locationdir): Version using $(BASE_VERSION).
+	(gladedir): Likewise.
+	(INCLUDES): Define EVOLUTION_IMAGEDIR.
+
 2003-01-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Locations: Updated locations for EU_FI, contributed by Pekka

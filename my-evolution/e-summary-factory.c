@@ -64,7 +64,8 @@ control_activate (BonoboControl *control,
 	bonobo_ui_component_add_verb_list_with_data (ui_component, verbs, summary);
 	bonobo_ui_component_freeze (ui_component, NULL);
 
-	bonobo_ui_util_set_ui (ui_component, EVOLUTION_DATADIR, "my-evolution.xml", "my-evolution", NULL);
+	bonobo_ui_util_set_ui (ui_component, EVOLUTION_DATADIR,
+			       EVOLUTION_UIDIR "/my-evolution.xml", "my-evolution", NULL);
   	e_pixmaps_update (ui_component, pixmaps); 
 
 	bonobo_ui_component_thaw (ui_component, NULL);
