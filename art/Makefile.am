@@ -1,6 +1,7 @@
 imagesdir = $(datadir)/images/evolution
 
 images_DATA = \
+	24_all_contacts.xpm		\
 	briefcase.png       		\
 	butterfly.png			\
 	cellphone.png       		\

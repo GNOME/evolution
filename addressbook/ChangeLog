@@ -1,3 +1,10 @@
+2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook.c (set_pixmap): New.
+	(update_pixmaps): New function, setting the pixmaps for the items
+	of type "pixbuf", using `set_pixmap'.
+	(control_activate): Call it.
+
 2001-01-25  Not Zed  <NotZed@Ximian.com>
 
 	* backend/pas/pas-backend-ldap.c: esexp api change fixes.

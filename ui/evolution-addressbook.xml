@@ -64,7 +64,7 @@
 
 		<toolitem name="View All" _label="View All"
 		_tip="View all contacts" verb="ContactViewAll"
-		pixtype="stock" pixname="Multiple"/>
+		pixtype="pixbuf"/>
 
 		<toolitem name="Stop" _label="Stop"
 		_tip="Stop Loading" verb="ContactStop"
@@ -73,9 +73,3 @@
 	</dockitem>
 
 </Root>
-
-
-
-
-
-

@@ -282,6 +282,32 @@ BonoboUIVerb verbs [] = {
 };
 
 static void
+set_pixmap (BonoboUIComponent *uic,
+	    const char        *xml_path,
+	    const char        *icon)
+{
+	char *path;
+	GdkPixbuf *pixbuf;
+
+	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution", icon);
+
+	pixbuf = gdk_pixbuf_new_from_file (path);
+	g_return_if_fail (pixbuf != NULL);
+
+	bonobo_ui_util_set_pixbuf (uic, xml_path, pixbuf);
+
+	gdk_pixbuf_unref (pixbuf);
+
+	g_free (path);
+}
+
+static void
+update_pixmaps (BonoboUIComponent *uic)
+{
+	set_pixmap (uic, "/Toolbar/View All", "24_all_contacts.xpm");
+}
+
+static void
 control_activate (BonoboControl     *control,
 		  BonoboUIComponent *uic,
 		  AddressbookView   *view)
@@ -304,6 +330,8 @@ control_activate (BonoboControl     *control,
 	e_addressbook_view_setup_menus (view->view, uic);
 
 	update_view_type (view);
+
+	update_pixmaps (uic);
 
 	bonobo_ui_component_thaw (uic, NULL);
 }

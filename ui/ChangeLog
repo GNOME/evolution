@@ -1,3 +1,8 @@
+2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-addressbook.xml: Change the type of the "View All"
+	button to "pixbuf".
+
 2001-01-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-message-composer.xml: Change Security* to SecurityPGP*
