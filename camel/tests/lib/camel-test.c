@@ -116,6 +116,11 @@ void camel_test_pull(void)
 	g_free(node);
 }
 
+/* where to set breakpoints */
+void camel_test_break(void)
+{
+}
+
 void camel_test_fail(const char *why, ...)
 {
 	va_list ap;
@@ -135,6 +140,7 @@ void camel_test_failv(const char *why, va_list ap)
 	if ((nonfatal == NULL && camel_test_verbose > 0)
 	    || (nonfatal && camel_test_verbose > 1)) {
 		printf("Failed.\n%s\n", text);
+		camel_test_break();
 	}
 
 	g_free(text);

@@ -809,9 +809,9 @@ quoted_encode(const unsigned char *in, int len, unsigned char *out, unsigned sho
 	outptr = out;
 	while (inptr < inend) {
 		c = *inptr++;
-		if (camel_mime_special_table[c] & safemask) {
-			if (c==' ')
-				c = '_';
+		if (c==' ') {
+			*outptr++ = '_';
+		} else if (camel_mime_special_table[c] & safemask) {
 			*outptr++ = c;
 		} else {
 			*outptr++ = '=';
@@ -983,15 +983,17 @@ header_decode_text (const char *in, int inlen)
 	GString *out;
 	char *inptr, *inend, *start;
 	char *decoded;
-	
+	unsigned char lastc = 0;
+	int wasdword = FALSE;
+
 	out = g_string_new ("");
 	start = inptr = (char *) in;
 	inend = inptr + inlen;
 	
 	while (inptr && inptr < inend) {
-		char c = *inptr++;
+		unsigned char c = *inptr++;
 		
-		if (isspace (c)) {
+		if (is_lwsp(c)) {
 			char *word, *dword;
 			guint len;
 			
@@ -999,16 +1001,23 @@ header_decode_text (const char *in, int inlen)
 			word = start;
 			
 			dword = rfc2047_decode_word (word, len);
-			
+
 			if (dword) {
+				if (!wasdword && lastc)
+					g_string_append_c(out, lastc);
+					
 				g_string_append (out, dword);
 				g_free (dword);
+				lastc = c;
+				wasdword = TRUE;
 			} else {
+				if (lastc)
+					g_string_append_c(out, lastc);
 				out = append_latin1 (out, word, len);
+				lastc = c;
+				wasdword = FALSE;
 			}
-			
-			g_string_append_c (out, c);
-			
+						
 			start = inptr;
 		}
 	}
@@ -1023,9 +1032,13 @@ header_decode_text (const char *in, int inlen)
 		dword = rfc2047_decode_word (word, len);
 		
 		if (dword) {
+			if (!wasdword && lastc)
+				g_string_append_c(out, lastc);
 			g_string_append (out, dword);
 			g_free (dword);
 		} else {
+			if (lastc)
+				g_string_append_c(out, lastc);
 			out = g_string_append_len (out, word, len);
 		}
 	}
@@ -1797,6 +1810,7 @@ header_decode_mailbox(const char **in)
 	GString *addr;
 	GString *name = NULL;
 	struct _header_address *address = NULL;
+	const char *comment = NULL;
 
 	addr = g_string_new("");
 
@@ -1862,6 +1876,7 @@ header_decode_mailbox(const char **in)
 			addr = g_string_append_c(addr, '.');
 			addr = g_string_append(addr, pre);
 		}
+		comment = inptr;
 		header_decode_lwsp(&inptr);
 	}
 	g_free(pre);
@@ -1872,6 +1887,7 @@ header_decode_mailbox(const char **in)
 
 		inptr++;
 		addr = g_string_append_c(addr, '@');
+		comment = inptr;
 		dom = header_decode_domain(&inptr);
 		addr = g_string_append(addr, dom);
 		g_free(dom);
@@ -1886,17 +1902,33 @@ header_decode_mailbox(const char **in)
 		} else {
 			w(g_warning("invalid route address, no closing '>': %s", *in));
 		} 
-	} else if (name == NULL) { /* check for comment after address */
+	} else if (name == NULL && comment != NULL && inptr>comment) { /* check for comment after address */
 		char *text, *tmp;
-		const char *comment = inptr;
+		const char *comstart, *comend;
 
-		header_decode_lwsp(&inptr);
-		if (inptr-comment > 3) { /* just guess ... */
-			tmp = g_strndup(comment, inptr-comment);
-			text = header_decode_string(tmp);
-			name = g_string_new(text);
-			g_free(tmp);
-			g_free(text);
+		/* this is a bit messy, we go from the last known position, because
+		   decode_domain/etc skip over any comments on the way */
+		/* FIXME: This wont detect comments inside the domain itself,
+		   but nobody seems to use that feature anyway ... */
+
+		d(printf("checking for comment from '%s'\n", comment));
+
+		comstart = strchr(comment, '(');
+		if (comstart) {
+			comstart++;
+			header_decode_lwsp(&inptr);
+			comend = inptr-1;
+			while (comend > comstart && comend[0] != ')')
+				comend--;
+			
+			if (comend > comstart) {
+				d(printf("  looking at subset '%.*s'\n", comend-comstart, comstart));
+				tmp = g_strndup(comstart, comend-comstart);
+				text = header_decode_string(tmp);
+				name = g_string_new(text);
+				g_free(tmp);
+				g_free(text);
+			}
 		}
 	}
 

@@ -11,51 +11,7 @@
 #include <camel/camel-internet-address.h>
 #include <camel/camel-address.h>
 
-/* a bunch of test strings in different encodings, just taken from gnome-core po files */
-/* see data/genline.pl */
-struct _l {
-    char *type;
-    char *line;
-} test_lines[] = {
-	/* FIXME: for now, remove the types libunicode doesn't know about, this is tricky to fix */
-	/* And at best, all we could do is translate it to X-Unknown, or something */
-	/*{ "windows-1251", "Åäèí àïëåò íå îòãîâàğÿ íà çàÿâêà çà çàïèñ.\nÄà ãî ïğåìàõíà ëè èëè äà ïî÷àêàì?" },*/
-	{ "iso-8859-1", "Omple les miniatures de la finestra amb contingut de la pantalla" },
-	{ "ISO-8859-2", "Správce oken hıbe s okrajem okna (AfterStep, Enlightenment, FVWM, IceWM, Sawmill)" },
-	{ "ISO-8859-1", "Vindueshåndtering flytter dekorationsvindue istedet (AfterStep, Enlightenment, FVWM, IceWM, Sawfish)" },
-	{ "ISO-8859-1", "Vorschaubilder der Fenster mit dem Bildschirminhalt ausfüllen" },
-	{ "iso-8859-7", "ÅìöÜíéóç åñãáóéşí ğïõ äå öáßíïíôáé óôç ëßóôá ğáñáèıñùí (ĞÁÑÁÊÁÌØÇ-ËÉÓÔÁĞÁÑÁÈÕÑÙÍ)" },
-	{ "iso-8859-1", "You've chosen to disable the startup hint. To re-enable it, choose \"Startup Hint\" in the GNOME Control Centre" },
-	{ "iso-8859-1", "El aplique de reloj muestra en su panel la fecha y la hora de forma simple y ligero " },
-	{ "iso-8859-1", "Applet ei vasta salvestuskäsule. Kas peaks ta niisama sulgema, või veel ootama?" },
-	{ "iso-8859-1", "Lehio kudeatzaileak lehioaren dekorazaioa mugiarazten (AfterStep, Enlightenment, FVWM, IceWM, Sawmill)" },
-	{ "iso-8859-15", "Näytä sovellukset, joiden ikkunoista on näkyvillä vain otsikkopalkki" },
-	{ "ISO-8859-1", "Afficher les tâches qui ne sont pas dans la liste des fenêtres" },
-	{ "iso-8859-1", "Níl applet ag tabhair freagra ar iarratas sábháil. Bain amach an applet nó lean ar fánacht?" },
-	{ "iso-8859-1", "Amosa-las tarefas agochadas da lista de fiestras (SKIP-WINLIST)" },
-	{ "iso-8859-2", "Az ablakkezelõ a dekorációt mozgassa az ablak helyett (AfterStep, Enlightenment, FVWM, IceWM, SawMill)" },
-	{ "iso-8859-1", "Riempi la finestra delle anteprime con il contenuto dello schermo" },
-	{ "euc-jp", "¥¦¥¤¥ó¥É¥¦¥Ş¥Í¡¼¥¸¥ã¤Ï¾ş¤ê¥¦¥¤¥ó¥É¥¦¤òÆ°¤«¤¹ (AfterStep, Enlightenment, FVWM, IceWM, Sawfish)" },
-	{ "euc-kr", "Ã¢ °ü¸®ÀÚ°¡ ²Ù¹Î Ã¢ ´ë½Å ÀÌµ¿ (AfterStep, Enlightenment, FVWM, IceWM, Sawmill)" },
-	{ "iso-8859-13", "Priedas neatsakinëja á prağymà iğsisaugoti. Pağalinti priedà ar laukti toliau?" },
-	{ "iso-8859-1", "Window manager verplaatst dekoratie (AfterStep, Enlightenment, FVWM, IceWM, Sawmill)" },
-	{ "iso-8859-1", "Vindushåndtereren flytter dekorasjonsvinduet i stedet (AfterStep, Enlightenment, FVWM, IceWM, Sawfish)" },
-	{ "iso-8859-2", "Przemieszczanie dekoracji zamiast okna (AfterStep, Enlightenment, FVWM, IceWM, Sawmill)" },
-	{ "iso-8859-1", "Este programa é responsável por executar outras aplicações, embeber pequenos applets, a paz no mundo e crashes aleatórios do X." },
-	{ "iso-8859-1", "Mostrar tarefas que se escondem da lista de janelas (SKIP-WINLIST)" },
-	{ "koi8-r", "÷ÙÓÏÔÁ ÒÁÂÏŞÅÇÏ ÓÔÏÌÁ × ĞÅÒÅËÌÀŞÁÔÅÌÅ ÓÏ×ĞÁÄÁÅÔ Ó ×ÙÓÏÔÏÊ ĞÁÎÅÌÉ" },
-	{ "iso-8859-2", "Správca okien presúva okraje okien (AfterStep, Enlightenment, FVWM, IceWM, Sawfish)" },
-	{ "iso-8859-2", "Ka¾i posle, ki se skrivajo pred upravljalnik oken (SKIP-WINLIST)" },
-	{ "iso-8859-5", "Window ÜÕİĞÔ×ÕàØ ßŞÜÕàĞ ÔÕÚŞàĞæØŞİØ ßàŞ×Şà ãÜÕáâŞ âŞÓa (AfterStep, Enlightenment, FVWM, IceWM, Sawmill)" },
-	{ "iso-8859-2", "Window menadzeri pomera dekoracioni prozor umesto toga (AfterStep, Enlightenment, FVWM, IceWM, Sawmill)" },
-	{ "iso-8859-1", "Fönsterhanteraren flyttar dekorationsfönstret istället (AfterStep, Enlightenment, FVWM, IceWM, Sawfish)" },
-	/*{ "TSCII", "À½¢ì¸¼î-ºğ¼¸ò¾¢ø À¡÷ì¸ ÓÊÂ¡¾ À½¢ì¸¼í¸¨Ç ¸¡Á¢ (À½¢ì¸¼î-ºğ¼¸õ-¾Å¢÷)" },*/
-	{ "iso-8859-9", "Kaydetme isteğine bir uygulak cevap vermiyor . Uygulağı sileyim mi , yoksa bekleyeyim mi ?" },
-	{ "koi8-u", "ğÅÒÅÍ¦İÅÎÎÑ ÄÅËÏÒÁÃ¦§ ÚÁÍ¦ÓÔØ ×¦ËÎÁ (AfterStep, Enlightenment, FVWM, IceWM, Sawfish)" },
-	{ "iso-8859-1", "Cwand on scriftôr est bodjî foû, li scriftôr èt totes les apliketes å dvins sont pierdowes. Bodjî ci scriftôr chal?" },
-	{ "gb2312", "Ç¨ÒÆµ½×°ÊÎ´°¿Ú¹ÜÀí³ÌĞò(AfterStep, Enlightenment, FVWM, IceWM, SawMill)" },
-	{ "big5", "µøµ¡ºŞ²zªÌ¥u²¾°Ê¸Ë¹¢µøµ¡ (AfterStep, Enlightenment, FVWM, IceWM, Sawmill)" },
-};
+#include "address-data.h"
 
 static char *convert(const char *in, const char *from, const char *to)
 {
@@ -330,8 +286,38 @@ int main(int argc, char **argv)
 
 	camel_test_end();
 
-	/* FIXME: Add test of decoding of externally defined addresses */
+	camel_test_start("CamelInternetAddress, I18N decode");
+
+	for (i=0;i<ARRAY_LEN(test_address);i++) {
+		push("Testing address line %d '%s'", i, test_address[i].addr);
+
+		addr = camel_internet_address_new();
+		push("checking decoded");
+		check(camel_address_decode(CAMEL_ADDRESS(addr), test_address[i].addr) == test_address[i].count);
+		format = camel_address_format(CAMEL_ADDRESS(addr));
+		check(strcmp(format, test_address[i].utf8) == 0);
+		test_free(format);
+		pull();
+		
+		push("Comparing re-encoded output");
+		addr2 = CAMEL_INTERNET_ADDRESS(camel_internet_address_new());
+		enc = camel_address_encode(CAMEL_ADDRESS(addr));
+		check_msg(camel_address_decode(CAMEL_ADDRESS(addr2), enc) == test_address[i].count, "enc = '%s'", enc);
+		test_free(enc);
+		test_address_compare(addr, addr2);
+		check_unref(addr2, 1);
+		pull();
+
+		check_unref(addr, 1);
+
+		pull();
+	}
+
+	camel_test_end();
+
 	/* FIXME: Add test of decoding of broken addresses */
 
 	return 0;
 }
+
+

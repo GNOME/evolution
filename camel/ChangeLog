@@ -1,5 +1,31 @@
 2000-11-24  Not Zed  <NotZed@HelixCode.com>
 
+	* tests/data/getaddr.pl: little util to scan mailboxes for any and
+	every address they contain.
+
+	* tests/message/test2.c (main): Added a bunch of stuff to test
+	decoding/reencoding/etc of internationalised addresses.
+
+	* tests/message/lib/address-data.h: Copy of some unicode/other
+	testing data.  **Beware** of editing this file in emacs, it'll
+	probably try and convert all the characters to something
+	unusable.
+
+	* tests/lib/camel-test.c (camel_test_break): Add a debugger hook
+	point.
+
+	* camel-mime-utils.c (quoted_encode): Check for space and convert
+	to _ separately.
+	(header_decode_mailbox): Fixed the 'check comments for realname'
+	code, problem was the domain getting code was skipping all
+	whitespace/comments before we could get a look-in.  This is
+	approximate but fairly robust.
+	(header_decode_text): Dont use the c-type isspace func here, we
+	want a specific whitespace only.
+	(header_decode_text): If we have decoded words next to each other,
+	do not insert whitespaces between them, which is what rfc2047 requires.
+	(header_decode_text): Make c unsigned too.
+
 	* tests/README: Added at least some explanation of all this stuff.
 
 	* tests/lib/camel-test.h (check_msg): Added a non-gcc version of

@@ -33,6 +33,8 @@ code has known limitations currently that stop it passing, but
 otherwise works for nominal input.
 
 To debug tests, set a breakpoint on camel_test_fail, which will be
-called for any failure, even a non-fatal one.
+called for any failure, even a non-fatal one.  Or set it to
+camel_test_break, which will only be called for fatal errors which are
+to print to the screen.
 
  Michael <notzed@helixcode.com>
