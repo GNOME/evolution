@@ -1,5 +1,14 @@
 1998-04-13  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* gncal-full-day.h: 
+	* gncal-full-day.c (gncal_full_day_focus_child): New function to
+	let the outside world decide which child to focus.
+	(gncal_full_day_focus_child): Bleah.  We have to synthesize a
+	click because GtkText will not set the cursor when you focus it.
+
+	* gnome-cal.c (day_view_range_activated): Focus the new child in
+	the full day widget.
+
 	* eventedit.c (event_editor_setup_time_frame): Re-aligned some
 	widgets to make it look prettier.
 	(ee_alarm_widgets): Likewise.

@@ -49,6 +49,7 @@ day_view_range_activated (GncalFullDay *fullday, GnomeCalendar *gcal)
 	gncal_full_day_selection_range (fullday, &ical->dtstart, &ical->dtend);
 
 	gnome_calendar_add_object (gcal, ical);
+	gncal_full_day_focus_child (fullday, ical);
 }
 
 static void

@@ -60,6 +60,8 @@ void       gncal_full_day_set_bounds      (GncalFullDay *fullday, time_t lower, 
  */
 int        gncal_full_day_selection_range (GncalFullDay *fullday, time_t *lower, time_t *upper);
 
+void       gncal_full_day_focus_child     (GncalFullDay *fullday, iCalObject *object);
+
 END_GNOME_DECLS
 
 #endif

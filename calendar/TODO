@@ -15,9 +15,6 @@ Event editor dialog:
 
 Full day view widget:
 
-- Finish the code on gnome-cal.c to add an event when the
-  range_activated signal is caught.
-
 - Check notification to calendar when an object changes.  Maybe we
   need some flags to tell gnome_calendar_object_changed() whether
   summary/dates/etc. changed.  Maybe not.

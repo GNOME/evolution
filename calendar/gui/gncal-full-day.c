@@ -1662,6 +1662,42 @@ gncal_full_day_selection_range (GncalFullDay *fullday, time_t *lower, time_t *up
 	return TRUE;
 }
 
+void
+gncal_full_day_focus_child (GncalFullDay *fullday, iCalObject *object)
+{
+	GList *children;
+	Child *child;
+	GdkEvent event;
+
+	g_return_if_fail (fullday != NULL);
+	g_return_if_fail (object != NULL);
+
+	for (children = fullday->children; children; children = children->next) {
+		child = children->data;
+
+		if (child->ico == object) {
+			gtk_widget_grab_focus (child->widget);
+
+			/* We synthesize a click because GtkText will not set the cursor and
+			 * the user will not be able to type-- this has to be fixed in
+			 * GtkText.  */
+
+			memset (&event, 0, sizeof (event));
+
+			event.type = GDK_BUTTON_PRESS;
+			event.button.window = child->widget->window;
+			event.button.time = GDK_CURRENT_TIME;
+			event.button.x = 0;
+			event.button.y = 0;
+			event.button.button = 1;
+
+			gtk_widget_event (child->widget, &event);
+
+			break;
+		}
+	}
+}
+
 static void
 range_activated (GncalFullDay *fullday)
 {
