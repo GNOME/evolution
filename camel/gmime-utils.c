@@ -130,13 +130,14 @@ _store_header_pair_from_string (GArray *header_array, gchar *header_line)
 
 
 	if (header_line) {
+#if 0
 		char *p = strchr(header_line, ':');
 		if (p) {
 			header.name = g_strndup(header_line, p-header_line);
 			header.value = g_strdup(p+1);
 			g_array_append_val (header_array, header);
 		}
-#if 0
+#endif
 		dich_result = string_dichotomy ( header_line, ':', 
 						   &header_name, &header_value,
 						   STRING_DICHOTOMY_NONE);
@@ -159,7 +160,7 @@ _store_header_pair_from_string (GArray *header_array, gchar *header_line)
 			header.value = header_value;
 			g_array_append_val (header_array, header);
 		}
-#endif
+
 	}
 
 	CAMEL_LOG_FULL_DEBUG ( "_store_header_pair_from_string:: Leaving\n");

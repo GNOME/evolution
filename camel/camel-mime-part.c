@@ -630,7 +630,7 @@ _get_content_object (CamelMedium *medium)
 			break;
 		}
 
-
+		printf ("*************************** encoding : %d\n", mime_part->encoding);
 		camel_mime_part_construct_content_from_stream (mime_part, decoded_stream);
 		
 	} else {
@@ -923,6 +923,7 @@ camel_mime_part_encoding_to_string (CamelMimePartEncodingType encoding)
 CamelMimePartEncodingType
 camel_mime_part_encoding_from_string (const gchar *string)
 {
+	printf ("*************** encoding string : _%s_\n", string);
 	if (strcmp (string, "7bit") == 0)
 		return CAMEL_MIME_PART_ENCODING_7BIT;
 	else if (strcmp (string, "8bit") == 0)

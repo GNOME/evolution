@@ -228,7 +228,6 @@ my_read (CamelStream *stream,
 	
 	g_assert (stream);
         
-	
 	if (stream_b64->mode == CAMEL_STREAM_B64_DECODER)
 		return my_read_decode (stream, buffer, n);
 	else 
@@ -303,6 +302,9 @@ my_read_decode (CamelStream *stream,
 		
 	}
 	
+	if ((nb_read_in_input == 0) && (camel_stream_eos (input_stream)))
+		stream_b64->eos = TRUE;
+
 	return j;
 	
 }
@@ -542,6 +544,8 @@ my_reset (CamelStream *stream)
 	stream_b64->status.decode_status.keep = 0;
 	stream_b64->status.decode_status.state = 0;
 	
+	stream_b64->eos = FALSE;
+
 	camel_stream_reset (stream_b64->input_stream);
 }
 

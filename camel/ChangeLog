@@ -1,3 +1,12 @@
+2000-02-29  bertrand  <bertrand@helixcode.com>
+
+	* gmime-utils.c (_store_header_pair_from_string): 
+	revert strange changes. 
+
+	* camel-stream-b64.c (my_read_decode): set eos to true when we
+	have read the whole input stream. 
+	(my_reset): set eos to FALSE.
+
 2000-02-28  NotZed  <NotZed@HelixCode.com>
 
 	* camel-mime-part.c (_parse_header_pair): Dont free this either.
