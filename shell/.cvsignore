@@ -23,4 +23,3 @@ e-shell-marshal.c
 e-shell-marshal.h
 GNOME_Evolution_Shell*.server
 GNOME_Evolution_Test*.server
-shell-errors.xml.h
