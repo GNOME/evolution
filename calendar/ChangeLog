@@ -1,3 +1,9 @@
+2003-03-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* importers/GNOME_Evolution_Calendar_Importer.server.in.in:
+	Replace "evolution:menu-name" prop with "evolution:menu_name".
+	[#39692]
+
 2003-03-18  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/send-comp.c (send_component_dialog): use GtkMessageDialog

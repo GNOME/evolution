@@ -18,7 +18,7 @@
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution/Importer:1.0"/>
 	</oaf_attribute>
-	<oaf_attribute name="evolution:menu-name" type="string"
+	<oaf_attribute name="evolution:menu_name" type="string"
                        value="iCalendar files (.ics)"/>
         <oaf_attribute name="description" type="string"
                        _value="Imports iCalendar files into Evolution"/>
@@ -32,7 +32,7 @@
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution/Importer:1.0"/>
 	</oaf_attribute>
-	<oaf_attribute name="evolution:menu-name" type="string"
+	<oaf_attribute name="evolution:menu_name" type="string"
                        value="vCalendar files (.vcf)"/>
         <oaf_attribute name="description" type="string"
                        _value="Imports vCalendar files into Evolution"/>
