@@ -1,5 +1,11 @@
 2000-05-26  Dan Winship  <danw@helixcode.com>
 
+	* mail-ops.c (composer_send_cb, reply): set CAMEL_MESSAGE_ANSWERED
+	on a message after a successful reply.
+
+	* message-list.c (folder_changed): free the summary with
+	camel_folder_free_summary rather than g_ptr_array_free.
+
 	* mail-format.c (handle_via_bonobo): Update for PersistStream
 	changes
 

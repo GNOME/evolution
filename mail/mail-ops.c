@@ -262,10 +262,16 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 }
 
 
+struct post_send_data {
+	CamelMimeMessage *message;
+	guint32 flags;
+};
+
 static void
 composer_send_cb (EMsgComposer *composer, gpointer data)
 {
 	static CamelTransport *transport = NULL;
+	struct post_send_data *psd = data;
 	static char *from = NULL;
 	CamelException *ex;
 	CamelMimeMessage *message;
@@ -307,7 +313,7 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 			mail_exception_dialog ("Could not load mail transport",
 					       ex, composer);
 			camel_exception_free (ex);
-			return;
+			goto free_psd;
 		}
 	}
 
@@ -324,15 +330,23 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 		camel_transport_send (transport, CAMEL_MEDIUM (message), ex);
 	if (!camel_exception_is_set (ex))
 		camel_service_disconnect (CAMEL_SERVICE (transport), ex);
-	if (camel_exception_is_set (ex)) {
+	if (camel_exception_is_set (ex))
 		mail_exception_dialog ("Could not send message", ex, composer);
-		camel_exception_free (ex);
-		gtk_object_unref (GTK_OBJECT (message));
-		return;
+	else if (psd) {
+		guint32 set;
+
+		set = camel_mime_message_get_flags (psd->message);
+		camel_mime_message_set_flags (psd->message, psd->flags, ~set);
 	}
 
 	camel_exception_free (ex);
 	gtk_object_unref (GTK_OBJECT (message));
+
+ free_psd:
+	if (psd) {
+		gtk_object_unref (GTK_OBJECT (psd->message));
+		g_free (psd);
+	}
 }
 
 
@@ -371,15 +385,20 @@ static void
 reply (FolderBrowser *fb, gboolean to_all)
 {
 	EMsgComposer *composer;
+	struct post_send_data *psd;
 
 	if (!check_configured ())
 		return;
 
-	composer = mail_generate_reply (fb->mail_display->current_message,
-					to_all);
+	psd = g_new (struct post_send_data, 1);
+	psd->message = fb->mail_display->current_message;
+	gtk_object_ref (GTK_OBJECT (psd->message));
+	psd->flags = CAMEL_MESSAGE_ANSWERED;
+
+	composer = mail_generate_reply (psd->message, to_all);
 
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
-			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+			    GTK_SIGNAL_FUNC (composer_send_cb), psd); 
 
 	gtk_widget_show (GTK_WIDGET (composer));	
 }

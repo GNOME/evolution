@@ -757,8 +757,8 @@ static void
 folder_changed(CamelFolder *f, int type, MessageList *message_list)
 {
 	if (message_list->summary_table)
-		g_ptr_array_free(message_list->summary_table, TRUE);		
-	message_list->summary_table = camel_folder_get_summary (message_list->folder, NULL);
+		camel_folder_free_summary(f, message_list->summary_table);
+	message_list->summary_table = camel_folder_get_summary (f, NULL);
 
 	message_list_set_search(message_list, message_list->search);
 }
