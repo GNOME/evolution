@@ -1,3 +1,9 @@
+2001-09-28  Dan Winship  <danw@ximian.com>
+
+	* folder-browser-ui.c (fbui_sensitize_timeout): wrap a
+	bonobo_ui_component_freeze/thaw around all of the set_props so
+	they all update at once.
+
 2001-09-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (construct): Don't create checkboxes for global

@@ -430,6 +430,8 @@ fbui_sensitize_timeout (gpointer data)
 	GSList *iter;
 	struct sensitize_data *sd;
 
+	if (uic)
+		bonobo_ui_component_freeze (uic, NULL);
 	for (iter = fb->sensitize_changes; iter; iter = iter->next) {
 		sd = (struct sensitize_data *) iter->data;
 
@@ -442,6 +444,8 @@ fbui_sensitize_timeout (gpointer data)
 			fbui_real_sensitize_items (uic, sd->items, sd->enable);
 		g_free (sd);
 	}
+	if (uic)
+		bonobo_ui_component_thaw (uic, NULL);
 
 	g_slist_free (fb->sensitize_changes);
 	fb->sensitize_changes = NULL;
