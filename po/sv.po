@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.5\n"
-"POT-Creation-Date: 2000-09-28 14:59+0200\n"
-"PO-Revision-Date: 2000-09-28 15:00+0200\n"
+"POT-Creation-Date: 2000-09-29 22:55+0200\n"
+"PO-Revision-Date: 2000-09-29 23:00+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1452,7 +1452,7 @@ msgid "_Insert"
 msgstr "_Infoga"
 
 #: calendar/gui/dialogs/task-editor.c:596 calendar/gui/event-editor.c:1332
-#: composer/e-msg-composer.c:992
+#: composer/e-msg-composer.c:1011
 msgid "F_ormat"
 msgstr "F_ormatera"
 
@@ -1621,7 +1621,7 @@ msgid "C_lassification:"
 msgstr "K_lassifikation:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:22
-#: calendar/gui/event-editor-dialog.glade.h:42 shell/e-shell-view.c:977
+#: calendar/gui/event-editor-dialog.glade.h:42 shell/e-shell-view.c:979
 #: widgets/misc/e-dateedit.c:332 widgets/misc/e-dateedit.c:702
 #: widgets/misc/e-dateedit.c:1021
 msgid "None"
@@ -2869,39 +2869,39 @@ msgstr ""
 
 #: composer/e-msg-composer-hdrs.c:319
 msgid "Subject:"
-msgstr "Ärende:"
+msgstr "Ämne:"
 
 #: composer/e-msg-composer-hdrs.c:320
 msgid "Enter the subject of the mail"
-msgstr "Ange brevets ärende"
+msgstr "Ange ämnet på brevet"
 
-#: composer/e-msg-composer.c:438
+#: composer/e-msg-composer.c:457
 msgid "Save as..."
 msgstr "Spara som..."
 
-#: composer/e-msg-composer.c:449
+#: composer/e-msg-composer.c:468
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Fel vid sparande av filen: %s"
 
-#: composer/e-msg-composer.c:469
+#: composer/e-msg-composer.c:488
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Fel vid inläsning av filen: %s"
 
-#: composer/e-msg-composer.c:491
+#: composer/e-msg-composer.c:510
 msgid "Saving changes to message..."
 msgstr "Sparar ändringar i meddelandet..."
 
-#: composer/e-msg-composer.c:493
+#: composer/e-msg-composer.c:512
 msgid "About to save changes to message..."
 msgstr "På väg att spara ändringar i meddelandet..."
 
-#: composer/e-msg-composer.c:578 shell/e-shell-view-menu.c:166
+#: composer/e-msg-composer.c:597 shell/e-shell-view-menu.c:166
 msgid "Evolution"
 msgstr "Evolution"
 
-#: composer/e-msg-composer.c:584
+#: composer/e-msg-composer.c:603
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -2911,27 +2911,27 @@ msgstr ""
 "\n"
 "Vill du spara dina ändringar?"
 
-#: composer/e-msg-composer.c:606
+#: composer/e-msg-composer.c:625
 msgid "Open file"
 msgstr "Öppna fil"
 
-#: composer/e-msg-composer.c:725
+#: composer/e-msg-composer.c:744
 msgid "That file does not exist."
 msgstr "Den filen finns inte."
 
-#: composer/e-msg-composer.c:735
+#: composer/e-msg-composer.c:754
 msgid "That is not a regular file."
 msgstr "Det är ingen vanlig fil."
 
-#: composer/e-msg-composer.c:745
+#: composer/e-msg-composer.c:764
 msgid "That file exists but is not readable."
 msgstr "Den filen finns, men är inte läsbar."
 
-#: composer/e-msg-composer.c:755
+#: composer/e-msg-composer.c:774
 msgid "That file appeared accesible but open(2) failed."
 msgstr "Filen verkade åtkomlig, men open(2) misslyckades."
 
-#: composer/e-msg-composer.c:777
+#: composer/e-msg-composer.c:796
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -2939,123 +2939,123 @@ msgstr ""
 "Filen är mycket stor (större än 100kB).\n"
 "Är du säker på att du vill infoga den?"
 
-#: composer/e-msg-composer.c:798
+#: composer/e-msg-composer.c:817
 msgid "An error occurred while reading the file."
 msgstr "Ett fel uppstod vid läsning av filen."
 
-#: composer/e-msg-composer.c:894
+#: composer/e-msg-composer.c:913
 msgid "_File"
 msgstr "_Arkiv"
 
-#: composer/e-msg-composer.c:900
+#: composer/e-msg-composer.c:919
 msgid "_Open..."
 msgstr "_Öppna..."
 
-#: composer/e-msg-composer.c:901
+#: composer/e-msg-composer.c:920
 msgid "Load a previously saved message"
 msgstr "Läs in ett tidigare sparat meddelande"
 
-#: composer/e-msg-composer.c:909
+#: composer/e-msg-composer.c:928
 msgid "_Save..."
 msgstr "_Spara..."
 
-#: composer/e-msg-composer.c:910
+#: composer/e-msg-composer.c:929
 msgid "Save message"
 msgstr "Spara meddelande"
 
-#: composer/e-msg-composer.c:918
+#: composer/e-msg-composer.c:937
 msgid "Save _as..."
 msgstr "Spara so_m..."
 
-#: composer/e-msg-composer.c:919
+#: composer/e-msg-composer.c:938
 msgid "Save message with a different name"
 msgstr "Spara meddelandet med ett annat namn"
 
-#: composer/e-msg-composer.c:927
+#: composer/e-msg-composer.c:946
 msgid "Save in _folder..."
 msgstr "Spara i _mapp..."
 
-#: composer/e-msg-composer.c:928
+#: composer/e-msg-composer.c:947
 msgid "Save the message in a specified folder"
 msgstr "Spara meddelandet i en angiven mapp"
 
-#: composer/e-msg-composer.c:937
+#: composer/e-msg-composer.c:956
 msgid "_Insert text file... (FIXME)"
 msgstr "_Infoga textfil... (FIXME)"
 
-#: composer/e-msg-composer.c:938
+#: composer/e-msg-composer.c:957
 msgid "Insert a file as text into the message"
 msgstr "Infoga en fil som text i meddelandet"
 
-#: composer/e-msg-composer.c:947
+#: composer/e-msg-composer.c:966
 msgid "Send _Now"
 msgstr "Skicka _nu"
 
-#: composer/e-msg-composer.c:948
+#: composer/e-msg-composer.c:967
 msgid "Send the message now"
 msgstr "Skicka meddelandet nu"
 
-#: composer/e-msg-composer.c:956
+#: composer/e-msg-composer.c:975
 msgid "Send _Later"
 msgstr "Skicka senar_e"
 
-#: composer/e-msg-composer.c:957
+#: composer/e-msg-composer.c:976
 msgid "Send the message later"
 msgstr "Skicka meddelandet senare"
 
-#: composer/e-msg-composer.c:967
+#: composer/e-msg-composer.c:986
 msgid "_Close..."
 msgstr "Stän_g..."
 
-#: composer/e-msg-composer.c:968
+#: composer/e-msg-composer.c:987
 msgid "Quit the message composer"
 msgstr "Avsluta meddelanderedigeraren"
 
-#: composer/e-msg-composer.c:981
+#: composer/e-msg-composer.c:1000
 msgid "_Edit"
 msgstr "R_edigera"
 
-#: composer/e-msg-composer.c:998
+#: composer/e-msg-composer.c:1017
 msgid "HTML"
 msgstr "HTML"
 
-#: composer/e-msg-composer.c:999
+#: composer/e-msg-composer.c:1018
 msgid "Send the mail in HTML format"
 msgstr "Skicka brevet i HMTL-format"
 
-#: composer/e-msg-composer.c:1012 shell/e-storage-set-view.c:223
+#: composer/e-msg-composer.c:1031 shell/e-storage-set-view.c:223
 msgid "_View"
 msgstr "_Visa"
 
-#: composer/e-msg-composer.c:1018
+#: composer/e-msg-composer.c:1037
 msgid "Show _attachments"
 msgstr "Visa _bilagor"
 
-#: composer/e-msg-composer.c:1019
+#: composer/e-msg-composer.c:1038
 msgid "Show/hide attachments"
 msgstr "Visa/göm bilagor"
 
-#: composer/e-msg-composer.c:1052
+#: composer/e-msg-composer.c:1071
 msgid "Send"
 msgstr "Skicka"
 
-#: composer/e-msg-composer.c:1053
+#: composer/e-msg-composer.c:1072
 msgid "Send this message"
 msgstr "Skicka detta meddelande"
 
-#: composer/e-msg-composer.c:1062
+#: composer/e-msg-composer.c:1081
 msgid "Attach"
 msgstr "Bifoga"
 
-#: composer/e-msg-composer.c:1063
+#: composer/e-msg-composer.c:1082
 msgid "Attach a file"
 msgstr "Bifoga en fil"
 
-#: composer/e-msg-composer.c:1250
+#: composer/e-msg-composer.c:1269
 msgid "Compose a message"
 msgstr "Skriv ett meddelande"
 
-#: composer/e-msg-composer.c:1321
+#: composer/e-msg-composer.c:1340
 msgid "Could not create composer window."
 msgstr "Kunde inte skapa fönster för meddelanderedigering."
 
@@ -3251,7 +3251,7 @@ msgstr "Lägg till filterregel"
 msgid "%s mailing list"
 msgstr "Sändlistan %s"
 
-#: mail/mail-callbacks.c:70
+#: mail/mail-callbacks.c:71
 msgid ""
 "You have not configured the mail client.\n"
 "You need to do this before you can send,\n"
@@ -3263,7 +3263,7 @@ msgstr ""
 "ta emot eller skriva nya brev.\n"
 "Vill du konfigurera det nu?"
 
-#: mail/mail-callbacks.c:110
+#: mail/mail-callbacks.c:111
 msgid ""
 "You need to configure an identity\n"
 "before you can compose mail."
@@ -3271,7 +3271,7 @@ msgstr ""
 "Du måste konfigurera en identititet\n"
 "innan du kan skriva brev."
 
-#: mail/mail-callbacks.c:124
+#: mail/mail-callbacks.c:125
 msgid ""
 "You need to configure a mail transport\n"
 "before you can compose mail."
@@ -3279,23 +3279,23 @@ msgstr ""
 "Du måste konfigurera en e-posttransport\n"
 "innan du kan skriva brev."
 
-#: mail/mail-callbacks.c:239
+#: mail/mail-callbacks.c:240
 msgid ""
 "This message has no subject.\n"
 "Really send?"
 msgstr ""
-"Detta meddelande har inget ärende.\n"
+"Detta meddelande har ingen ämnesrad.\n"
 "Vill du verkligen skicka?"
 
-#: mail/mail-callbacks.c:502
+#: mail/mail-callbacks.c:503
 msgid "Move message(s) to"
 msgstr "Flytta meddelande(n) till"
 
-#: mail/mail-callbacks.c:504
+#: mail/mail-callbacks.c:505
 msgid "Copy message(s) to"
 msgstr "Kopiera meddelande(n) till"
 
-#: mail/mail-callbacks.c:605
+#: mail/mail-callbacks.c:606
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -3303,7 +3303,7 @@ msgstr ""
 "Du kan bara redigera meddelanden\n"
 "som du sparat i mappen Drafts."
 
-#: mail/mail-callbacks.c:696
+#: mail/mail-callbacks.c:697
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -3632,7 +3632,7 @@ msgstr "Skickar \"%s\""
 
 #: mail/mail-ops.c:486
 msgid "Sending a message without a subject"
-msgstr "Skickar ett meddelande utan ett ärende"
+msgstr "Skickar ett meddelande utan en ämnesrad"
 
 #: mail/mail-ops.c:489
 #, c-format
@@ -3641,7 +3641,7 @@ msgstr "Skicka \"%s\""
 
 #: mail/mail-ops.c:492
 msgid "Send a message without a subject"
-msgstr "Skicka ett meddelande utan ett ärende"
+msgstr "Skicka ett meddelande utan en ämnesrad"
 
 #: mail/mail-ops.c:636
 msgid "Sending queue"
@@ -3658,7 +3658,7 @@ msgstr "Tillägger \"%s\""
 
 #: mail/mail-ops.c:778 mail/mail-ops.c:784
 msgid "Appending a message without a subject"
-msgstr "Tillägger ett meddelande utan ett ärende"
+msgstr "Tillägger ett meddelande utan en ämnesrad"
 
 #: mail/mail-ops.c:856
 #, c-format
@@ -3749,7 +3749,7 @@ msgstr "Vidarebefordra meddelanden \"%s\""
 
 #: mail/mail-ops.c:1442
 msgid "Forwarding a message without a subject"
-msgstr "Vidarebefordrar meddelande utan ett ärende"
+msgstr "Vidarebefordrar meddelande utan en ämnesrad"
 
 #: mail/mail-ops.c:1445
 #, c-format
@@ -3758,7 +3758,7 @@ msgstr "Vidarebefordra meddelande \"%s\""
 
 #: mail/mail-ops.c:1450
 msgid "Forward a message without a subject"
-msgstr "Vidarebefordra ett meddelande utan ett ärende"
+msgstr "Vidarebefordra ett meddelande utan en ämnesrad"
 
 #: mail/mail-ops.c:1479
 #, c-format
@@ -3922,7 +3922,7 @@ msgstr "[%s] (vidarebefordrat meddelande)"
 
 #: mail/mail-tools.c:398
 msgid "Fwd: (no subject)"
-msgstr "Fwd: (inget ärende)"
+msgstr "Fwd: (inget ämne)"
 
 #: mail/mail-tools.c:435
 #, c-format
@@ -3931,7 +3931,7 @@ msgstr "Vidarebefordrat meddelande - %s"
 
 #: mail/mail-tools.c:437
 msgid "Forwarded message (no subject)"
-msgstr "Vidarebefordrat meddelande (inget ärende)"
+msgstr "Vidarebefordrat meddelande (inget ämne)"
 
 #: mail/mail-tools.c:545
 #, c-format
@@ -3995,7 +3995,7 @@ msgstr "Från"
 
 #: mail/message-list.c:979
 msgid "Subject"
-msgstr "Ärende"
+msgstr "Ämne"
 
 #: mail/message-list.c:986
 msgid "Date"
@@ -4047,7 +4047,7 @@ msgstr "Kopiera meddelande"
 
 #: mail/message-list.c:1654
 msgid "VFolder on Subject"
-msgstr "Virtuell mapp på ärende"
+msgstr "Virtuell mapp på ämnesrad"
 
 #: mail/message-list.c:1655
 msgid "VFolder on Sender"
@@ -4059,7 +4059,7 @@ msgstr "Virtuell mapp på mottagare"
 
 #: mail/message-list.c:1658
 msgid "Filter on Subject"
-msgstr "Filtrera på ärende"
+msgstr "Filtrera på ämnesrad"
 
 #: mail/message-list.c:1659
 msgid "Filter on Sender"
@@ -4200,15 +4200,15 @@ msgstr ""
 msgid "Go to folder..."
 msgstr "Gå till mapp..."
 
-#: shell/e-shell-view.c:127
+#: shell/e-shell-view.c:129
 msgid "(No folder displayed)"
 msgstr "(Ingen mapp visas)"
 
-#: shell/e-shell-view.c:406
+#: shell/e-shell-view.c:408
 msgid "Folders"
 msgstr "Mappar"
 
-#: shell/e-shell-view.c:981
+#: shell/e-shell-view.c:983
 #, c-format
 msgid "Evolution - %s"
 msgstr "Evolution - %s"
