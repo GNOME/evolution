@@ -1,34 +1,19 @@
-2000-05-22  Jeffrey Stedfast  <fejj@helixcode.com>
+2000-05-23  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* camel-mime-filter-smtp.c: filter: Updated to check for
-	\r's.
+	* providers/imap: Added some initial code to the camel tree
+	for IMAPv4
+
+2000-05-22  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/smtp/camel-smtp-transport.c: smtp_data: Fixed the 
-	filtered stream
-
-2000-05-22  Jeffrey Stedfast  <fejj@helixcode.com>
-
-	* camel-mime-filter-from.c: Undid previous changes
-
-	* camel-mime-filter-smtp.[c,h]: Fixed code to change \n into \r\n.
-	Should probably strip \r's or check for \r's before making changes
-	to the buffer.
-
-	* providers/smtp/camel-smtp-transport.c: Fixes for stream changes,
-	updated to use camel smtp mime filter.
+	filtered stream. Fixes for stream changes, updated to use 
+	camel-mime-filter-smtp.
 
 	* Makefile.am: Added camel-mime-filter-smtp.c
 	
-2000-05-22  Jeff Stedfast  <fejj@helixcode.com>
-
-	* camel-mime-filter-from.c: formatting changes and changed
-	comparisons to be case-insensitive - no guarentee that "From "
-	tag will be in that case, it could be "fRoM " for all we know
-	since the RFC doesn't specify that it MUST be in that particular
-	case format.
-
-	* camel-mime-filter-smtp.[c,h]: added to tree but not makefiles.
-	Code needs to be tested.
+	* camel-mime-filter-smtp.[c,h]: Added to camel tree
+	Smtp filter used to change \n into \r\n, escape lone dots,
+	and escape "From "'s.
 
 2000-05-19  NotZed  <NotZed@HelixCode.com>
 
