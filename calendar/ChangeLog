@@ -1,5 +1,9 @@
 2001-02-08  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/task-editor-dialog.glade: Oops, remove old widget
+	
+2001-02-08  JP Rosevear  <jpr@ximian.com>
+
 	* gui/dialogs/task-editor.c (fill_widgets): fill in new
 	classification stuff properly
 	(get_widgets): load new class. widgets

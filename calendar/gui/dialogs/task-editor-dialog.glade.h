@@ -21,12 +21,6 @@ gchar *s = N_("High\n"
               "Low\n"
               "Undefined\n"
               "");
-gchar *s = N_("C_lassification:");
-gchar *s = N_("None\n"
-              "Public\n"
-              "Private\n"
-              "Confidential\n"
-              "");
 gchar *s = N_("% Comp_lete:");
 gchar *s = N_("Classification");
 gchar *s = N_("Pu_blic");

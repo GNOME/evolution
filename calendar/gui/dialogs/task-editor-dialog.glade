@@ -359,41 +359,6 @@ Undefined
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>label18</name>
-	    <label>C_lassification:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <default_focus_target>classification</default_focus_target>
-	    <child>
-	      <padding>0</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkOptionMenu</class>
-	    <name>classification</name>
-	    <can_focus>True</can_focus>
-	    <items>None
-Public
-Private
-Confidential
-</items>
-	    <initial_choice>0</initial_choice>
-	    <child>
-	      <padding>0</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
 	    <name>label9</name>
 	    <label>% Comp_lete:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
@@ -429,8 +394,8 @@ Confidential
 	    <page_size>10</page_size>
 	    <child>
 	      <padding>0</padding>
-	      <expand>True</expand>
-	      <fill>True</fill>
+	      <expand>False</expand>
+	      <fill>False</fill>
 	    </child>
 	  </widget>
 	</widget>
