@@ -18,6 +18,7 @@
 <widget>
   <class>GtkWindow</class>
   <name>recurrence-toplevel</name>
+  <visible>False</visible>
   <title>window1</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
@@ -36,7 +37,7 @@
     <widget>
       <class>GtkFrame</class>
       <name>frame35</name>
-      <label>Appointment Basics</label>
+      <label>Basics</label>
       <label_xalign>0</label_xalign>
       <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
       <child>
@@ -58,14 +59,13 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label66</name>
-	  <label>Su_mmary:</label>
+	  <label>Summary:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
-	  <default_focus_target>recurrence-summary</default_focus_target>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>
@@ -85,7 +85,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label67</name>
-	  <label>_Starting date:</label>
+	  <label>Date/Time:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -109,13 +109,15 @@
 	</widget>
 
 	<widget>
-	  <class>GtkEntry</class>
-	  <name>recurrence-summary</name>
-	  <can_focus>True</can_focus>
-	  <editable>True</editable>
-	  <text_visible>True</text_visible>
-	  <text_max_length>0</text_max_length>
-	  <text></text>
+	  <class>GtkLabel</class>
+	  <name>summary</name>
+	  <label></label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>4</xpad>
+	  <ypad>0</ypad>
 	  <child>
 	    <left_attach>1</left_attach>
 	    <right_attach>2</right_attach>
@@ -123,9 +125,9 @@
 	    <bottom_attach>1</bottom_attach>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
-	    <xexpand>True</xexpand>
+	    <xexpand>False</xexpand>
 	    <yexpand>False</yexpand>
-	    <xshrink>True</xshrink>
+	    <xshrink>False</xshrink>
 	    <yshrink>False</yshrink>
 	    <xfill>True</xfill>
 	    <yfill>False</yfill>
@@ -133,12 +135,15 @@
 	</widget>
 
 	<widget>
-	  <class>GtkAlignment</class>
-	  <name>alignment40</name>
+	  <class>GtkLabel</class>
+	  <name>date-time</name>
+	  <label></label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
 	  <xalign>0</xalign>
 	  <yalign>0.5</yalign>
-	  <xscale>0</xscale>
-	  <yscale>0</yscale>
+	  <xpad>4</xpad>
+	  <ypad>0</ypad>
 	  <child>
 	    <left_attach>1</left_attach>
 	    <right_attach>2</right_attach>
@@ -151,17 +156,8 @@
 	    <xshrink>False</xshrink>
 	    <yshrink>False</yshrink>
 	    <xfill>True</xfill>
-	    <yfill>True</yfill>
+	    <yfill>False</yfill>
 	  </child>
-
-	  <widget>
-	    <class>Custom</class>
-	    <name>recurrence-starting-date</name>
-	    <creation_function>make_date_edit</creation_function>
-	    <int1>0</int1>
-	    <int2>0</int2>
-	    <last_modification_time>Fri, 22 Sep 2000 20:51:38 GMT</last_modification_time>
-	  </widget>
 	</widget>
       </widget>
     </widget>
@@ -209,7 +205,7 @@
 
 	    <widget>
 	      <class>GtkRadioButton</class>
-	      <name>recurrence-none</name>
+	      <name>none</name>
 	      <can_focus>True</can_focus>
 	      <label>No recurrence</label>
 	      <active>False</active>
@@ -224,7 +220,7 @@
 
 	    <widget>
 	      <class>GtkRadioButton</class>
-	      <name>recurrence-simple</name>
+	      <name>simple</name>
 	      <can_focus>True</can_focus>
 	      <label>Simple recurrence</label>
 	      <active>False</active>
@@ -239,7 +235,7 @@
 
 	    <widget>
 	      <class>GtkRadioButton</class>
-	      <name>recurrence-custom</name>
+	      <name>custom</name>
 	      <can_focus>True</can_focus>
 	      <label>Custom recurrence</label>
 	      <active>False</active>
@@ -266,7 +262,7 @@
 
 	    <widget>
 	      <class>GtkHBox</class>
-	      <name>recurrence-params</name>
+	      <name>params</name>
 	      <homogeneous>False</homogeneous>
 	      <spacing>2</spacing>
 	      <child>
@@ -294,7 +290,7 @@
 
 	      <widget>
 		<class>GtkSpinButton</class>
-		<name>recurrence-interval-value</name>
+		<name>interval-value</name>
 		<can_focus>True</can_focus>
 		<climb_rate>1</climb_rate>
 		<digits>0</digits>
@@ -317,7 +313,7 @@
 
 	      <widget>
 		<class>GtkOptionMenu</class>
-		<name>recurrence-interval-unit</name>
+		<name>interval-unit</name>
 		<can_focus>True</can_focus>
 		<items>day(s)
 week(s)
@@ -334,7 +330,7 @@ year(s)
 
 	      <widget>
 		<class>GtkAlignment</class>
-		<name>recurrence-special</name>
+		<name>special</name>
 		<xalign>0.5</xalign>
 		<yalign>0.5</yalign>
 		<xscale>0</xscale>
@@ -352,7 +348,7 @@ year(s)
 
 	      <widget>
 		<class>GtkOptionMenu</class>
-		<name>recurrence-ending-menu</name>
+		<name>ending-menu</name>
 		<can_focus>True</can_focus>
 		<items>for
 until
@@ -368,7 +364,7 @@ forever
 
 	      <widget>
 		<class>GtkAlignment</class>
-		<name>recurrence-ending-special</name>
+		<name>ending-special</name>
 		<xalign>0.5</xalign>
 		<yalign>0.5</yalign>
 		<xscale>0</xscale>
@@ -387,7 +383,7 @@ forever
 
 	    <widget>
 	      <class>GtkAlignment</class>
-	      <name>recurrence-custom-warning-bin</name>
+	      <name>custom-warning-bin</name>
 	      <xalign>0</xalign>
 	      <yalign>0.5</yalign>
 	      <xscale>1</xscale>
@@ -449,10 +445,9 @@ forever
 
 	      <widget>
 		<class>GtkButton</class>
-		<name>recurrence-exception-add</name>
+		<name>exception-add</name>
 		<can_focus>True</can_focus>
 		<label>Add</label>
-		<relief>GTK_RELIEF_NORMAL</relief>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -462,10 +457,9 @@ forever
 
 	      <widget>
 		<class>GtkButton</class>
-		<name>recurrence-exception-modify</name>
+		<name>exception-modify</name>
 		<can_focus>True</can_focus>
 		<label>Modify</label>
-		<relief>GTK_RELIEF_NORMAL</relief>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -475,10 +469,9 @@ forever
 
 	      <widget>
 		<class>GtkButton</class>
-		<name>recurrence-exception-delete</name>
+		<name>exception-delete</name>
 		<can_focus>True</can_focus>
 		<label>Delete</label>
-		<relief>GTK_RELIEF_NORMAL</relief>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -500,7 +493,7 @@ forever
 
 	      <widget>
 		<class>Custom</class>
-		<name>recurrence-exception-date</name>
+		<name>exception-date</name>
 		<creation_function>make_date_edit</creation_function>
 		<int1>0</int1>
 		<int2>0</int2>
@@ -527,7 +520,7 @@ forever
 
 		<widget>
 		  <class>GtkCList</class>
-		  <name>recurrence-exception-list</name>
+		  <name>exception-list</name>
 		  <can_focus>True</can_focus>
 		  <columns>1</columns>
 		  <column_widths>80</column_widths>
@@ -583,7 +576,7 @@ forever
 
 	  <widget>
 	    <class>GtkAlignment</class>
-	    <name>recurrence-preview-bin</name>
+	    <name>preview-bin</name>
 	    <xalign>0</xalign>
 	    <yalign>0</yalign>
 	    <xscale>1</xscale>

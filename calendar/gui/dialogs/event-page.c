@@ -31,9 +31,10 @@
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-categories.h>
-#include "cal-util/timeutil.h"
 #include "e-util/e-dialog-widgets.h"
 #include "widgets/misc/e-dateedit.h"
+#include "cal-util/timeutil.h"
+#include "../widget-util.h"
 #include "../calendar-config.h"
 #include "event-page.h"
 
@@ -65,6 +66,8 @@ struct _EventPagePrivate {
 
 	GtkWidget *categories_btn;
 	GtkWidget *categories;
+
+	gboolean updating;
 };
 
 
@@ -73,22 +76,15 @@ static void event_page_class_init (EventPageClass *class);
 static void event_page_init (EventPage *epage);
 static void event_page_destroy (GtkObject *object);
 
-static GtkWidget *event_page_get_widget (EditorPage *page);
-static void event_page_fill_widgets (EditorPage *page, CalComponent *comp);
-static void event_page_fill_component (EditorPage *page, CalComponent *comp);
-static void event_page_set_summary (EditorPage *page, const char *summary);
-static char *event_page_get_summary (EditorPage *page);
-static void event_page_set_dates (EditorPage *page, time_t start, time_t end);
+static GtkWidget *event_page_get_widget (CompEditorPage *page);
+static void event_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
+static void event_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static void event_page_set_summary (CompEditorPage *page, const char *summary);
+static void event_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
-/* Signal IDs */
-enum {
-	DATES_CHANGED,
-	LAST_SIGNAL
-};
+GtkWidget *make_date_edit (void);
 
-static guint event_page_signals[LAST_SIGNAL] = { 0 };
-
-static EditorPageClass *parent_class = NULL;
+static CompEditorPageClass *parent_class = NULL;
 
 
 
@@ -117,7 +113,8 @@ event_page_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		event_page_type = gtk_type_unique (TYPE_EDITOR_PAGE, &event_page_info);
+		event_page_type = gtk_type_unique (TYPE_COMP_EDITOR_PAGE, 
+						   &event_page_info);
 	}
 
 	return event_page_type;
@@ -127,31 +124,18 @@ event_page_get_type (void)
 static void
 event_page_class_init (EventPageClass *class)
 {
-	EditorPageClass *editor_page_class;
+	CompEditorPageClass *editor_page_class;
 	GtkObjectClass *object_class;
 
-	editor_page_class = (EditorPageClass *) class;
+	editor_page_class = (CompEditorPageClass *) class;
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (TYPE_EDITOR_PAGE);
-
-	event_page_signals[DATES_CHANGED] =
-		gtk_signal_new ("dates_changed",
-				GTK_RUN_FIRST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EventPageClass, dates_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, event_page_signals, LAST_SIGNAL);
-
-	class->dates_changed = NULL;
+	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = event_page_get_widget;
 	editor_page_class->fill_widgets = event_page_fill_widgets;
 	editor_page_class->fill_component = event_page_fill_component;
 	editor_page_class->set_summary = event_page_set_summary;
-	editor_page_class->get_summary = event_page_get_summary;
 	editor_page_class->set_dates = event_page_set_dates;
 
 	object_class->destroy = event_page_destroy;
@@ -181,6 +165,8 @@ event_page_init (EventPage *epage)
 	priv->contacts = NULL;
 	priv->categories_btn = NULL;
 	priv->categories = NULL;
+
+	priv->updating = FALSE;
 }
 
 /* Destroy handler for the event page */
@@ -219,7 +205,7 @@ static const int classification_map[] = {
 
 /* get_widget handler for the event page */
 static GtkWidget *
-event_page_get_widget (EditorPage *page)
+event_page_get_widget (CompEditorPage *page)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
@@ -230,8 +216,8 @@ event_page_get_widget (EditorPage *page)
 	return priv->main;
 }
 
-/* Checks if the event's time starts and ends at midnight, and sets the "all day
- * event" box accordingly.
+/* Checks if the event's time starts and ends at midnight, and sets the 
+ *"all day event" box accordingly.
  */
 static void
 check_all_day (EventPage *epage)
@@ -251,12 +237,15 @@ check_all_day (EventPage *epage)
 	g_assert (ev_end != -1);
 
 	/* all day event checkbox */
-	if (time_day_begin (ev_start) == ev_start && time_day_begin (ev_end) == ev_end)
+	if (time_day_begin (ev_start) == ev_start 
+	    && time_day_begin (ev_end) == ev_end)
 		all_day = TRUE;
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->all_day_event), epage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->all_day_event),
+					  epage);
 	e_dialog_toggle_set (priv->all_day_event, all_day);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->all_day_event), epage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->all_day_event),
+					    epage);
 
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->start_time), !all_day);
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->end_time), !all_day);
@@ -278,14 +267,17 @@ clear_widgets (EventPage *epage)
 	e_dialog_editable_set (priv->description, NULL);
 
 	/* Start and end times */
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), epage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time),
+					  epage);
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), epage);
 
 	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), now);
 	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), now);
 
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), epage);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), epage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time),
+					    epage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time),
+					    epage);
 
 	check_all_day (epage);
 
@@ -299,7 +291,7 @@ clear_widgets (EventPage *epage)
 
 /* fill_widgets handler for the event page */
 static void
-event_page_fill_widgets (EditorPage *page, CalComponent *comp)
+event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
@@ -313,6 +305,10 @@ event_page_fill_widgets (EditorPage *page, CalComponent *comp)
 	epage = EVENT_PAGE (page);
 	priv = epage->priv;
 
+	/* Don't send off changes during this time */
+	priv->updating = TRUE;
+
+	/* Clean the page */
 	clear_widgets (epage);
 
 	/* Summary, description(s) */
@@ -341,17 +337,21 @@ event_page_fill_widgets (EditorPage *page, CalComponent *comp)
 	dtend = icaltime_as_timet (*d.value);
 	cal_component_free_datetime (&d);
 
-	if (time_day_begin (dtstart) == dtstart && time_day_begin (dtend) == dtend)
+	if (time_day_begin (dtstart) == dtstart 
+	    && time_day_begin (dtend) == dtend)
 		dtend = time_add_day (dtend, -1);
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), epage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time),
+					  epage);
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), epage);
 
 	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), dtstart);
 	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), dtend);
 
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), epage);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), epage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time),
+					    epage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time),
+					    epage);
 
 	check_all_day (epage);
 
@@ -361,17 +361,20 @@ event_page_fill_widgets (EditorPage *page, CalComponent *comp)
 
 	switch (cl) {
 	case CAL_COMPONENT_CLASS_PUBLIC:
-	    	e_dialog_radio_set (priv->classification_public, CAL_COMPONENT_CLASS_PUBLIC,
+	    	e_dialog_radio_set (priv->classification_public,
+				    CAL_COMPONENT_CLASS_PUBLIC,
 				    classification_map);
 		break;
 
 	case CAL_COMPONENT_CLASS_PRIVATE:
-	    	e_dialog_radio_set (priv->classification_public, CAL_COMPONENT_CLASS_PRIVATE,
+	    	e_dialog_radio_set (priv->classification_public,
+				    CAL_COMPONENT_CLASS_PRIVATE,
 				    classification_map);
 		break;
 
 	case CAL_COMPONENT_CLASS_CONFIDENTIAL:
-	    	e_dialog_radio_set (priv->classification_public, CAL_COMPONENT_CLASS_CONFIDENTIAL,
+	    	e_dialog_radio_set (priv->classification_public,
+				    CAL_COMPONENT_CLASS_CONFIDENTIAL,
 				    classification_map);
 		break;
 
@@ -382,14 +385,15 @@ event_page_fill_widgets (EditorPage *page, CalComponent *comp)
 	}
 
 	/* Categories */
-
 	cal_component_get_categories (comp, &categories);
 	e_dialog_editable_set (priv->categories, categories);
+
+	priv->updating = FALSE;
 }
 
 /* fill_component handler for the event page */
 static void
-event_page_fill_component (EditorPage *page, CalComponent *comp)
+event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
@@ -477,13 +481,14 @@ event_page_fill_component (EditorPage *page, CalComponent *comp)
 
 	/* Classification */
 
-	classif = e_dialog_radio_get (priv->classification_public, classification_map);
+	classif = e_dialog_radio_get (priv->classification_public,
+				      classification_map);
 	cal_component_set_classification (comp, classif);
 }
 
 /* set_summary handler for the event page */
 static void
-event_page_set_summary (EditorPage *page, const char *summary)
+event_page_set_summary (CompEditorPage *page, const char *summary)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
@@ -496,24 +501,8 @@ event_page_set_summary (EditorPage *page, const char *summary)
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->summary), epage);
 }
 
-/* get_summary handler for the event page */
-static char *
-event_page_get_summary (EditorPage *page)
-{
-	EventPage *epage;
-	EventPagePrivate *priv;
-
-	epage = EVENT_PAGE (page);
-	priv = epage->priv;
-
-	return e_utf8_gtk_entry_get_text (GTK_ENTRY (priv->summary));
-}
-
-/* set_dates handler for the event page.  We do nothing since we are *the*
- * only provider of the date values.
- */
 static void
-event_page_set_dates (EditorPage *page, time_t start, time_t end)
+event_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 {
 	/* nothing */
 }
@@ -525,22 +514,17 @@ static gboolean
 get_widgets (EventPage *epage)
 {
 	EventPagePrivate *priv;
-	GtkWidget *toplevel;
 
 	priv = epage->priv;
 
 #define GW(name) glade_xml_get_widget (priv->xml, name)
 
-	toplevel = GW ("event-toplevel");
 	priv->main = GW ("event-page");
-	if (!(toplevel && priv->main))
-		return FALSE;
-
+	g_assert (priv->main);
 	gtk_widget_ref (priv->main);
 	gtk_widget_unparent (priv->main);
-	gtk_widget_destroy (toplevel);
 
-	priv->summary = GW ("summary");
+	priv->summary = GW ("general-summary");
 
 	priv->start_time = GW ("start-time");
 	priv->end_time = GW ("end-time");
@@ -579,9 +563,19 @@ static void
 summary_changed_cb (GtkEditable *editable, gpointer data)
 {
 	EventPage *epage;
+	EventPagePrivate *priv;
+	gchar *summary;
 	
 	epage = EVENT_PAGE (data);
-	editor_page_notify_summary_changed (EDITOR_PAGE (epage));
+	priv = epage->priv;
+	
+	if (priv->updating)
+		return;
+	
+	summary = gtk_editable_get_chars (editable, 0, -1);
+	comp_editor_page_notify_summary_changed (COMP_EDITOR_PAGE (epage),
+						 summary);
+	g_free (summary);
 }
 
 /* Callback used when the start or end date widgets change.  We check that the
@@ -594,12 +588,15 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	EventPagePrivate *priv;
 	time_t start, end;
 	struct tm tm_start, tm_end;
-
+	CompEditorPageDates dates;
+	
 	epage = EVENT_PAGE (data);
 	priv = epage->priv;
 
-	/* Ensure that start < end */
+	if (priv->updating)
+		return;
 
+	/* Ensure that start < end */
 	start = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
 	g_assert (start != -1);
 	end = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
@@ -611,10 +608,10 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 
 		if (start == end && tm_start.tm_hour == 0
 		    && tm_start.tm_min == 0 && tm_start.tm_sec == 0) {
-			/* If the start and end times are the same, but both are
-			 * on day boundaries, then that is OK since it means we
-			 * have an all-day event lasting 1 day.  So we do
-			 * nothing here.
+			/* If the start and end times are the same, but both
+			 * are on day boundaries, then that is OK since it 
+			 * means we have an all-day event lasting 1 day.  So
+			 * we do nothing here.
 			 */
 		} else if (GTK_WIDGET (dedit) == priv->start_time) {
 			/* Modify the end time */
@@ -627,7 +624,8 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 			tm_end.tm_sec  = tm_start.tm_sec;
 
 			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), epage);
-			e_date_edit_set_time (E_DATE_EDIT (priv->end_time), mktime (&tm_end));
+			end = mktime (&tm_end);
+			e_date_edit_set_time (E_DATE_EDIT (priv->end_time), end);
 			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), epage);
 		} else if (GTK_WIDGET (dedit) == priv->end_time) {
 			/* Modify the start time */
@@ -640,7 +638,8 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 			tm_start.tm_sec  = tm_end.tm_sec;
 
 			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), epage);
-			e_date_edit_set_time (E_DATE_EDIT (priv->start_time), mktime (&tm_start));
+			start = mktime (&tm_start);
+			e_date_edit_set_time (E_DATE_EDIT (priv->start_time), start);
 			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), epage);
 		} else
 			g_assert_not_reached ();
@@ -650,7 +649,12 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	check_all_day (epage);
 
 	/* Notify upstream */
-	gtk_signal_emit (GTK_OBJECT (epage), event_page_signals[DATES_CHANGED]);
+	dates.start = start;
+	dates.end = end;
+	dates.due = 0;
+	dates.complete = 0;
+	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (epage),
+					       &dates);
 }
 
 /* Callback: all day event button toggled.
@@ -666,19 +670,21 @@ all_day_event_toggled_cb (GtkWidget *toggle, gpointer data)
 	struct tm start_tm, end_tm;
 	time_t start_t, end_t;
 	gboolean all_day;
-
+	CompEditorPageDates dates;
+	
 	epage = EVENT_PAGE (data);
 	priv = epage->priv;
 
-	/* When the all_day toggle is turned on, the start date is rounded down
-	 * to the start of the day, and end date is rounded down to the start of
-	 * the day on which the event ends. The event is then taken to be
-	 * inclusive of the days between the start and end days.  Note that if
-	 * the event end is at midnight, we do not round it down to the previous
-	 * day, since if we do that and the user repeatedly turns the all_day
-	 * toggle on and off, the event keeps shrinking.  (We'd also need to
-	 * make sure we didn't adjust the time when the radio button is
-	 * initially set.)
+	/* When the all_day toggle is turned on, the start date is
+	 * rounded down to the start of the day, and end date is
+	 * rounded down to the start of the day on which the event
+	 * ends. The event is then taken to be inclusive of the days
+	 * between the start and end days.  Note that if the event end
+	 * is at midnight, we do not round it down to the previous
+	 * day, since if we do that and the user repeatedly turns the
+	 * all_day toggle on and off, the event keeps shrinking.
+	 * (We'd also need to make sure we didn't adjust the time when
+	 * the radio button is initially set.)
 	 *
 	 * When the all_day_toggle is turned off, we set the event start to the
 	 * start of the working day, and if the event end is on or before the
@@ -737,20 +743,30 @@ all_day_event_toggled_cb (GtkWidget *toggle, gpointer data)
 		}
 	}
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), epage);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), epage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time),
+					  epage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time),
+					  epage);
 
-	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), mktime (&start_tm));
-	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), mktime (&end_tm));
+	start_t = mktime (&start_tm);
+	end_t = mktime (&end_tm);
+	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), start_t);
+	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), end_t);
 
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), epage);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), epage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time),
+					    epage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time),
+					    epage);
 
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->start_time), !all_day);
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->end_time), !all_day);
 
 	/* Notify upstream */
-	gtk_signal_emit (GTK_OBJECT (epage), event_page_signals[DATES_CHANGED]);
+	dates.start = start_t;
+	dates.end = end_t;
+	dates.due = 0;
+	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (epage),
+					       &dates);
 }
 
 /* Callback used when the categories button is clicked; we must bring up the
@@ -792,9 +808,13 @@ static void
 field_changed_cb (GtkWidget *widget, gpointer data)
 {
 	EventPage *epage;
-
+	EventPagePrivate *priv;
+	
 	epage = EVENT_PAGE (data);
-	editor_page_notify_changed (EDITOR_PAGE (epage));
+	priv = epage->priv;
+	
+	if (!priv->updating)
+		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (epage));
 }
 
 /* Hooks the widget signals */
@@ -836,12 +856,15 @@ init_widgets (EventPage *epage)
 			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
 	gtk_signal_connect (GTK_OBJECT (priv->description), "changed",
 			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
-	gtk_signal_connect (GTK_OBJECT (priv->classification_public), "toggled",
-			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
-	gtk_signal_connect (GTK_OBJECT (priv->classification_private), "toggled",
-			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
-	gtk_signal_connect (GTK_OBJECT (priv->classification_confidential), "toggled",
-			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->classification_public),
+			    "toggled", GTK_SIGNAL_FUNC (field_changed_cb),
+			    epage);
+	gtk_signal_connect (GTK_OBJECT (priv->classification_private),
+			    "toggled", GTK_SIGNAL_FUNC (field_changed_cb),
+			    epage);
+	gtk_signal_connect (GTK_OBJECT (priv->classification_confidential),
+			    "toggled", GTK_SIGNAL_FUNC (field_changed_cb),
+			    epage);
 	gtk_signal_connect (GTK_OBJECT (priv->categories), "changed",
 			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
 
@@ -869,14 +892,17 @@ event_page_construct (EventPage *epage)
 
 	priv = epage->priv;
 
-	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/event-page.glade", NULL);
+	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/event-page.glade", 
+				   NULL);
 	if (!priv->xml) {
-		g_message ("event_page_construct(): Could not load the Glade XML file!");
+		g_message ("event_page_construct(): " 
+			   "Could not load the Glade XML file!");
 		return NULL;
 	}
 
 	if (!get_widgets (epage)) {
-		g_message ("event_page_construct(): Could not find all widgets in the XML file!");
+		g_message ("event_page_construct(): " 
+			   "Could not find all widgets in the XML file!");
 		return NULL;
 	}
 
@@ -907,27 +933,8 @@ event_page_new (void)
 	return epage;
 }
 
-/**
- * event_page_get_dates:
- * @page: An event page.
- * @start: Return value for the start date, can be NULL.
- * @end: Return value for the end date, can be NULL.
- * 
- * Queries the start and end dates for the calendar component in an event page.
- **/
-void
-event_page_get_dates (EventPage *page, time_t *start, time_t *end)
+GtkWidget *
+make_date_edit (void)
 {
-	EventPagePrivate *priv;
-
-	g_return_if_fail (page != NULL);
-	g_return_if_fail (IS_EVENT_PAGE (page));
-
-	priv = page->priv;
-
-	if (start)
-		*start = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
-
-	if (end)
-		*end = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
+	return date_edit_new (TRUE, TRUE);
 }

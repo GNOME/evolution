@@ -22,19 +22,18 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __EVENT_EDITOR_DIALOG_H__
-#define __EVENT_EDITOR_DIALOG_H__
+#ifndef __EVENT_EDITOR_H__
+#define __EVENT_EDITOR_H__
 
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkobject.h>
-#include "gnome-cal.h"
+#include "comp-editor.h"
 
 
 
 #define TYPE_EVENT_EDITOR            (event_editor_get_type ())
 #define EVENT_EDITOR(obj)            (GTK_CHECK_CAST ((obj), TYPE_EVENT_EDITOR, EventEditor))
-#define EVENT_EDITOR_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_EVENT_EDITOR,	\
-				      EventEditorClass))
+#define EVENT_EDITOR_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_EVENT_EDITOR,	EventEditorClass))
 #define IS_EVENT_EDITOR(obj)         (GTK_CHECK_TYPE ((obj), TYPE_EVENT_EDITOR))
 #define IS_EVENT_EDITOR_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), TYPE_EVENT_EDITOR))
 
@@ -43,35 +42,21 @@ typedef struct _EventEditorClass EventEditorClass;
 typedef struct _EventEditorPrivate EventEditorPrivate;
 
 struct _EventEditor {
-	GtkObject object;
+	CompEditor parent;
 
 	/* Private data */
 	EventEditorPrivate *priv;
 };
 
 struct _EventEditorClass {
-	GtkObjectClass parent_class;
+	CompEditorClass parent_class;
 };
 
-
-GtkType event_editor_get_type (void);
-EventEditor *event_editor_construct (EventEditor *ee);
-
-EventEditor *event_editor_new (void);
-
-void event_editor_set_cal_client (EventEditor *ee, CalClient *client);
-CalClient *event_editor_get_cal_client (EventEditor *ee);
-
-void event_editor_set_event_object (EventEditor *ee, CalComponent *comp);
-
-void event_editor_focus (EventEditor *ee);
-
-void event_editor_update_widgets (EventEditor *ee);
-
-
-GtkWidget *make_date_edit (void);
-GtkWidget *make_spin_button (int val, int low, int high);
+GtkType      event_editor_get_type       (void);
+EventEditor *event_editor_construct      (EventEditor *ee);
+EventEditor *event_editor_new            (void);
+void         event_editor_update_widgets (EventEditor *ee);
 
 
 
-#endif /* __EVENT_EDITOR_DIALOG_H__ */
+#endif /* __EVENT_EDITOR_H__ */

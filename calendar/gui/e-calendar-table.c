@@ -31,6 +31,7 @@
 #include <config.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <gnome.h>
 #include <gal/e-table/e-cell-checkbox.h>
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-cell-text.h>
@@ -674,9 +675,9 @@ open_task (ECalendarTable *cal_table, CalComponent *comp)
 	TaskEditor *tedit;
 
 	tedit = task_editor_new ();
-	task_editor_set_cal_client (tedit, calendar_model_get_cal_client (cal_table->model));
-	task_editor_set_todo_object (tedit, comp);
-	task_editor_focus (tedit);
+	comp_editor_set_cal_client (COMP_EDITOR (tedit), calendar_model_get_cal_client (cal_table->model));
+	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
+	comp_editor_focus (COMP_EDITOR (tedit));
 }
 
 /* Opens the task in the specified row */

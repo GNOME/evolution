@@ -26,13 +26,15 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
-#include "cal-util/cal-util.h"
 #include "e-util/e-dialog-widgets.h"
+#include "cal-util/cal-util.h"
+#include "comp-editor-util.h"
 #include "alarm-page.h"
 
 
@@ -47,7 +49,7 @@ struct _AlarmPagePrivate {
 	GtkWidget *main;
 
 	GtkWidget *summary;
-	GtkWidget *starting_date;
+	GtkWidget *date_time;
 
 	GtkWidget *list;
 	GtkWidget *add;
@@ -58,6 +60,8 @@ struct _AlarmPagePrivate {
 	GtkWidget *value_units;
 	GtkWidget *relative;
 	GtkWidget *time;
+
+	gboolean updating;
 };
 
 
@@ -66,14 +70,13 @@ static void alarm_page_class_init (AlarmPageClass *class);
 static void alarm_page_init (AlarmPage *apage);
 static void alarm_page_destroy (GtkObject *object);
 
-static GtkWidget *alarm_page_get_widget (EditorPage *page);
-static void alarm_page_fill_widgets (EditorPage *page, CalComponent *comp);
-static void alarm_page_fill_component (EditorPage *page, CalComponent *comp);
-static void alarm_page_set_summary (EditorPage *page, const char *summary);
-static char *alarm_page_get_summary (EditorPage *page);
-static void alarm_page_set_dates (EditorPage *page, time_t start, time_t end);
+static GtkWidget *alarm_page_get_widget (CompEditorPage *page);
+static void alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
+static void alarm_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static void alarm_page_set_summary (CompEditorPage *page, const char *summary);
+static void alarm_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
-static EditorPageClass *parent_class = NULL;
+static CompEditorPageClass *parent_class = NULL;
 
 
 
@@ -102,7 +105,8 @@ alarm_page_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		alarm_page_type = gtk_type_unique (TYPE_EDITOR_PAGE, &alarm_page_info);
+		alarm_page_type = gtk_type_unique (TYPE_COMP_EDITOR_PAGE,
+						   &alarm_page_info);
 	}
 
 	return alarm_page_type;
@@ -112,19 +116,18 @@ alarm_page_get_type (void)
 static void
 alarm_page_class_init (AlarmPageClass *class)
 {
-	EditorPageClass *editor_page_class;
+	CompEditorPageClass *editor_page_class;
 	GtkObjectClass *object_class;
 
-	editor_page_class = (EditorPageClass *) class;
+	editor_page_class = (CompEditorPageClass *) class;
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (TYPE_EDITOR_PAGE);
+	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = alarm_page_get_widget;
 	editor_page_class->fill_widgets = alarm_page_fill_widgets;
 	editor_page_class->fill_component = alarm_page_fill_component;
 	editor_page_class->set_summary = alarm_page_set_summary;
-	editor_page_class->get_summary = alarm_page_get_summary;
 	editor_page_class->set_dates = alarm_page_set_dates;
 
 	object_class->destroy = alarm_page_destroy;
@@ -143,7 +146,7 @@ alarm_page_init (AlarmPage *apage)
 
 	priv->main = NULL;
 	priv->summary = NULL;
-	priv->starting_date = NULL;
+	priv->date_time = NULL;
 	priv->list = NULL;
 	priv->add = NULL;
 	priv->delete = NULL;
@@ -152,6 +155,8 @@ alarm_page_init (AlarmPage *apage)
 	priv->value_units = NULL;
 	priv->relative = NULL;
 	priv->time = NULL;
+
+	priv->updating = FALSE;
 }
 
 /* Frees all the alarm data and empties the list */
@@ -159,24 +164,25 @@ static void
 free_alarms (AlarmPage *apage)
 {
 	AlarmPagePrivate *priv;
-	GtkCList *clist;
 	int i;
 
 	priv = apage->priv;
 
-	clist = GTK_CLIST (priv->list);
+	if (priv->list != NULL) {
+		GtkCList *clist = GTK_CLIST (priv->list);
 
-	for (i = 0; i < clist->rows; i++) {
-		CalComponentAlarm *alarm;
-
-		alarm = gtk_clist_get_row_data (clist, i);
-		g_assert (alarm != NULL);
-		cal_component_alarm_free (alarm);
-
-		gtk_clist_set_row_data (clist, i, NULL);
+		for (i = 0; i < clist->rows; i++) {
+			CalComponentAlarm *alarm;
+			
+			alarm = gtk_clist_get_row_data (clist, i);
+			g_assert (alarm != NULL);
+			cal_component_alarm_free (alarm);
+			
+			gtk_clist_set_row_data (clist, i, NULL);
+		}
+	
+		gtk_clist_clear (clist);
 	}
-
-	gtk_clist_clear (clist);
 }
 
 /* Destroy handler for the alarm page */
@@ -210,7 +216,7 @@ alarm_page_destroy (GtkObject *object)
 
 /* get_widget handler for the alarm page */
 static GtkWidget *
-alarm_page_get_widget (EditorPage *page)
+alarm_page_get_widget (CompEditorPage *page)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
@@ -230,10 +236,10 @@ clear_widgets (AlarmPage *apage)
 	priv = apage->priv;
 
 	/* Summary */
-	e_dialog_editable_set (priv->summary, NULL);
+	gtk_label_set_text (GTK_LABEL (priv->summary), "");
 
 	/* Start date */
-	gtk_label_set_text (GTK_LABEL (priv->starting_date), "");
+	gtk_label_set_text (GTK_LABEL (priv->date_time), "");
 
 	/* List data */
 	free_alarms (apage);
@@ -310,6 +316,7 @@ get_alarm_string (CalComponentAlarm *alarm)
 
 	case CAL_ALARM_NONE:
 	case CAL_ALARM_UNKNOWN:
+	default:
 		base = _("Unknown");
 		break;
 	}
@@ -344,6 +351,7 @@ get_alarm_string (CalComponentAlarm *alarm)
 		break;
 	case CAL_ALARM_TRIGGER_NONE:
 	case CAL_ALARM_TRIGGER_ABSOLUTE:
+	default:
 		str = g_strdup_printf ("%s %s", base,
 				       _("Unknown"));
 		break;
@@ -377,22 +385,31 @@ append_reminder (AlarmPage *apage, CalComponentAlarm *alarm)
 
 /* fill_widgets handler for the alarm page */
 static void
-alarm_page_fill_widgets (EditorPage *page, CalComponent *comp)
+alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
 	CalComponentText text;
 	GList *alarms, *l;
 	GtkCList *clist;
-
+	CompEditorPageDates dates;
+	
 	apage = ALARM_PAGE (page);
 	priv = apage->priv;
 
+	/* Don't send off changes during this time */
+	priv->updating = TRUE;
+
+	/* Clean the page */
 	clear_widgets (apage);
 
 	/* Summary */
 	cal_component_get_summary (comp, &text);
-	e_dialog_editable_set (priv->summary, text.value);
+	alarm_page_set_summary (page, text.value);
+
+	/* Dates */
+	comp_editor_dates (&dates, comp);
+	alarm_page_set_dates (page, &dates);
 
 	/* List */
 	if (!cal_component_has_alarms (comp))
@@ -415,11 +432,13 @@ alarm_page_fill_widgets (EditorPage *page, CalComponent *comp)
 		append_reminder (apage, ca_copy);
 	}
 	cal_obj_uid_list_free (alarms);
+
+	priv->updating = FALSE;
 }
 
 /* fill_component handler for the alarm page */
 static void
-alarm_page_fill_component (EditorPage *page, CalComponent *comp)
+alarm_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
@@ -462,48 +481,31 @@ alarm_page_fill_component (EditorPage *page, CalComponent *comp)
 
 /* set_summary handler for the alarm page */
 static void
-alarm_page_set_summary (EditorPage *page, const char *summary)
+alarm_page_set_summary (CompEditorPage *page, const char *summary)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
-
+	gchar *s;
+	
 	apage = ALARM_PAGE (page);
 	priv = apage->priv;
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->summary), apage);
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (priv->summary), summary);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->summary), apage);
-}
-
-/* get_summary handler for the alarm page */
-static char *
-alarm_page_get_summary (EditorPage *page)
-{
-	AlarmPage *apage;
-	AlarmPagePrivate *priv;
-
-	apage = ALARM_PAGE (page);
-	priv = apage->priv;
-
-	return e_utf8_gtk_entry_get_text (GTK_ENTRY (priv->summary));
+	s = e_utf8_to_gtk_string (priv->summary, summary);
+	gtk_label_set_text (GTK_LABEL (priv->summary), s);
+	g_free (s);
 }
 
 /* set_dates handler for the alarm page */
 static void
-alarm_page_set_dates (EditorPage *page, time_t start, time_t end)
+alarm_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
-	char str[128];
-	struct tm tm;
 
 	apage = ALARM_PAGE (page);
 	priv = apage->priv;
 
-	tm = *localtime (&start);
-	strftime (str, sizeof (str), _("%A %b %d %Y %H:%M:%S"), &tm);
-
-	gtk_label_set_text (GTK_LABEL (priv->starting_date), str);
+	comp_editor_date_label (dates, priv->date_time);
 }
 
 
@@ -554,23 +556,18 @@ static gboolean
 get_widgets (AlarmPage *apage)
 {
 	AlarmPagePrivate *priv;
-	GtkWidget *toplevel;
 
 	priv = apage->priv;
 
 #define GW(name) glade_xml_get_widget (priv->xml, name)
 
-	toplevel = GW ("alarm-toplevel");
 	priv->main = GW ("alarm-page");
-	if (!(toplevel && priv->main))
-		return FALSE;
-
+	g_assert (priv->main);
 	gtk_widget_ref (priv->main);
 	gtk_widget_unparent (priv->main);
-	gtk_widget_destroy (toplevel);
-
+	
 	priv->summary = GW ("summary");
-	priv->starting_date = GW ("starting-date");
+	priv->date_time = GW ("date-time");
 
 	priv->list = GW ("list");
 	priv->add = GW ("add");
@@ -585,7 +582,7 @@ get_widgets (AlarmPage *apage)
 #undef GW
 
 	return (priv->summary
-		&& priv->starting_date
+		&& priv->date_time
 		&& priv->list
 		&& priv->add
 		&& priv->delete
@@ -596,24 +593,18 @@ get_widgets (AlarmPage *apage)
 		&& priv->time);
 }
 
-/* Callback used when the summary changes; we emit the notification signal. */
-static void
-summary_changed_cb (GtkEditable *editable, gpointer data)
-{
-	AlarmPage *apage;
-
-	apage = ALARM_PAGE (data);
-	editor_page_notify_summary_changed (EDITOR_PAGE (apage));
-}
-
 /* This is called when any field is changed; it notifies upstream. */
 static void
 field_changed_cb (GtkWidget *widget, gpointer data)
 {
 	AlarmPage *apage;
-
+	AlarmPagePrivate *priv;
+	
 	apage = ALARM_PAGE (data);
-	editor_page_notify_changed (EDITOR_PAGE (apage));
+	priv = apage->priv;
+	
+	if (!priv->updating)
+		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (apage));
 }
 
 /* Callback used for the "add reminder" button */
@@ -639,15 +630,18 @@ add_clicked_cb (GtkButton *button, gpointer data)
 
 	switch (e_dialog_option_menu_get (priv->value_units, value_map)) {
 	case MINUTES:
-		trigger.u.rel_duration.minutes =  e_dialog_spin_get_int (priv->interval_value);
+		trigger.u.rel_duration.minutes = 
+			e_dialog_spin_get_int (priv->interval_value);
 		break;
 
 	case HOURS:
-		trigger.u.rel_duration.hours =  e_dialog_spin_get_int (priv->interval_value);
+		trigger.u.rel_duration.hours =
+			e_dialog_spin_get_int (priv->interval_value);
 		break;
 
 	case DAYS:
-		trigger.u.rel_duration.days =  e_dialog_spin_get_int (priv->interval_value);
+		trigger.u.rel_duration.days =
+			e_dialog_spin_get_int (priv->interval_value);
 		break;
 
 	default:
@@ -702,10 +696,6 @@ init_widgets (AlarmPage *apage)
 
 	priv = apage->priv;
 
-	/* Summary */
-	gtk_signal_connect (GTK_OBJECT (priv->summary), "changed",
-			    GTK_SIGNAL_FUNC (summary_changed_cb), apage);
-
 	/* Reminder buttons */
 	gtk_signal_connect (GTK_OBJECT (priv->add), "clicked",
 			    GTK_SIGNAL_FUNC (add_clicked_cb), apage);
@@ -739,14 +729,17 @@ alarm_page_construct (AlarmPage *apage)
 
 	priv = apage->priv;
 
-	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-page.glade", NULL);
+	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-page.glade",
+				   NULL);
 	if (!priv->xml) {
-		g_message ("alarm_page_construct(): Could not load the Glade XML file!");
+		g_message ("alarm_page_construct(): "
+			   "Could not load the Glade XML file!");
 		return NULL;
 	}
 
 	if (!get_widgets (apage)) {
-		g_message ("alarm_page_construct(): Could not find all widgets in the XML file!");
+		g_message ("alarm_page_construct(): "
+			   "Could not find all widgets in the XML file!");
 		return NULL;
 	}
 

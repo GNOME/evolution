@@ -15,6 +15,7 @@
 <widget>
   <class>GtkWindow</class>
   <name>task-toplevel</name>
+  <visible>False</visible>
   <title>window1</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
@@ -184,10 +185,10 @@
 	  <widget>
 	    <class>Custom</class>
 	    <name>due-date</name>
-	    <creation_function>task_editor_create_date_edit</creation_function>
+	    <creation_function>task_page_create_date_edit</creation_function>
 	    <int1>0</int1>
 	    <int2>0</int2>
-	    <last_modification_time>Sun, 10 Sep 2000 17:32:18 GMT</last_modification_time>
+	    <last_modification_time>Fri, 01 Jun 2001 18:59:52 GMT</last_modification_time>
 	    <child>
 	      <left_attach>1</left_attach>
 	      <right_attach>2</right_attach>
@@ -207,10 +208,10 @@
 	  <widget>
 	    <class>Custom</class>
 	    <name>start-date</name>
-	    <creation_function>task_editor_create_date_edit</creation_function>
+	    <creation_function>task_page_create_date_edit</creation_function>
 	    <int1>0</int1>
 	    <int2>0</int2>
-	    <last_modification_time>Sun, 10 Sep 2000 17:33:31 GMT</last_modification_time>
+	    <last_modification_time>Fri, 01 Jun 2001 18:59:57 GMT</last_modification_time>
 	    <child>
 	      <left_attach>1</left_attach>
 	      <right_attach>2</right_attach>
@@ -239,7 +240,7 @@
       <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
       <child>
 	<padding>0</padding>
-	<expand>False</expand>
+	<expand>True</expand>
 	<fill>True</fill>
       </child>
 
@@ -459,7 +460,7 @@ Undefined
       <spacing>2</spacing>
       <child>
 	<padding>0</padding>
-	<expand>True</expand>
+	<expand>False</expand>
 	<fill>True</fill>
       </child>
 
@@ -467,7 +468,6 @@ Undefined
 	<class>GtkButton</class>
 	<name>contacts-button</name>
 	<can_focus>True</can_focus>
-	<relief>GTK_RELIEF_NORMAL</relief>
 	<child>
 	  <padding>0</padding>
 	  <expand>False</expand>
@@ -506,7 +506,6 @@ Undefined
 	<class>GtkButton</class>
 	<name>categories-button</name>
 	<can_focus>True</can_focus>
-	<relief>GTK_RELIEF_NORMAL</relief>
 	<child>
 	  <padding>0</padding>
 	  <expand>False</expand>

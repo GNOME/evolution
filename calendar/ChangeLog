@@ -1,5 +1,35 @@
 2001-06-01  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/comp-editor-page.[hc]: renamed from editor-page for
+	consistency, more complete implementation
+
+	* gui/dialogs/comp-editor.[hc]: More complete implementation
+
+	* gui/dialogs/*-page.*: The various pages needed to construct the
+	event and task dialogs
+	
+	* gui/dialogs/comp-editor-util.[hc]: useful utility functions for the
+	component editor pages to use
+
+	* gui/dialogs/Makefile.am: Build and install new files
+
+	* gui/event-editor*: Remove, obsoleted by the new comp-editor
+	stuff
+
+	* gui/dialogs/task-editor-dialog.glade: ditto
+
+	* gui/e-calendar-table.c (open_task): update to use comp editor
+	stuff
+
+	* gui/e-tasks.c (e_tasks_new_task): ditto
+
+	* gui/gnome-cal.c (gnome_calendar_edit_object): ditto
+
+	* gui/Makefile.am: don't build non-existent files nor try to
+	install them
+
+2001-06-01  JP Rosevear  <jpr@ximian.com>
+
 	* gui/e-itip-control.c (e_itip_control_factory_init): ditto
 
 	* gui/tasks-control-factory.c (tasks_control_factory_init):

@@ -1,16 +1,16 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
-/* 
- * Author : 
- *  Damon Chaplin <damon@ximian.com>
+/* Evolution calendar - Task editor dialog
  *
- * Copyright 2000, Helix Code, Inc.
- * Copyright 2000, Ximian, Inc.
+ * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2001 Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * Authors: Miguel de Icaza <miguel@ximian.com>
+ *          Federico Mena-Quintero <federico@ximian.com>
+ *          Seth Alves <alves@hungry.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -19,52 +19,45 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-#ifndef _TASK_EDITOR_H_
-#define _TASK_EDITOR_H_
 
-#include <gtk/gtkobject.h>
+#ifndef __TASK_EDITOR_H__
+#define __TASK_EDITOR_H__
+
 #include <libgnome/gnome-defs.h>
-#include <bonobo.h>
-#include <cal-client/cal-client.h>
+#include <gtk/gtkobject.h>
+#include "comp-editor.h"
 
-BEGIN_GNOME_DECLS
+
 
+#define TYPE_TASK_EDITOR            (task_editor_get_type ())
+#define TASK_EDITOR(obj)            (GTK_CHECK_CAST ((obj), TYPE_TASK_EDITOR, TaskEditor))
+#define TASK_EDITOR_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_TASK_EDITOR,	\
+				      TaskEditorClass))
+#define IS_TASK_EDITOR(obj)         (GTK_CHECK_TYPE ((obj), TYPE_TASK_EDITOR))
+#define IS_TASK_EDITOR_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), TYPE_TASK_EDITOR))
 
-#define TASK_EDITOR(obj)          GTK_CHECK_CAST (obj, task_editor_get_type (), TaskEditor)
-#define TASK_EDITOR_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, task_editor_get_type (), TaskEditorClass)
-#define IS_TASK_EDITOR(obj)       GTK_CHECK_TYPE (obj, task_editor_get_type ())
+typedef struct _TaskEditor TaskEditor;
+typedef struct _TaskEditorClass TaskEditorClass;
+typedef struct _TaskEditorPrivate TaskEditorPrivate;
 
-
-typedef struct _TaskEditor       TaskEditor;
-typedef struct _TaskEditorClass  TaskEditorClass;
-
-struct _TaskEditor
-{
-	GtkObject object;
+struct _TaskEditor {
+	CompEditor parent;
 
 	/* Private data */
-	gpointer priv;
+	TaskEditorPrivate *priv;
 };
 
-struct _TaskEditorClass
-{
-	GtkObjectClass parent_class;
+struct _TaskEditorClass {
+	CompEditorClass parent_class;
 };
 
-GtkType     task_editor_get_type        (void);
-TaskEditor* task_editor_construct       (TaskEditor   *tedit);
-TaskEditor* task_editor_new             (void);
-void        task_editor_set_cal_client  (TaskEditor   *tedit,
-					 CalClient    *client);
-void        task_editor_set_todo_object (TaskEditor   *tedit,
-					 CalComponent *comp);
-void        task_editor_focus           (TaskEditor   *tedit);
+GtkType     task_editor_get_type       (void);
+TaskEditor *task_editor_construct      (TaskEditor *ee);
+TaskEditor *task_editor_new            (void);
+void        task_editor_update_widgets (TaskEditor *ee);
 
+
 
-
-END_GNOME_DECLS
-
-#endif /* _TASK_EDITOR_H_ */
+#endif /* __TASK_EDITOR_H__ */

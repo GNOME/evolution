@@ -40,10 +40,10 @@
 #include "widgets/misc/e-search-bar.h"
 #include "widgets/misc/e-filter-bar.h"
 #include "dialogs/alarm-notify-dialog.h"
+#include "dialogs/event-editor.h"
 #include "e-calendar-table.h"
 #include "e-day-view.h"
 #include "e-week-view.h"
-#include "event-editor.h"
 #include "gnome-cal.h"
 #include "component-factory.h"
 #include "calendar-commands.h"
@@ -1308,11 +1308,11 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp)
 				    GTK_SIGNAL_FUNC (editor_closed_cb),
 				    ec);
 
-		event_editor_set_cal_client (EVENT_EDITOR (ee), priv->client);
-		event_editor_set_event_object (EVENT_EDITOR (ee), comp);
+		comp_editor_set_cal_client (COMP_EDITOR (ee), priv->client);
+		comp_editor_edit_comp (COMP_EDITOR (ee), comp);
 	}
 
-	event_editor_focus (ee);
+	comp_editor_focus (COMP_EDITOR (ee));
 }
 
 /**

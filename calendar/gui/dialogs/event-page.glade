@@ -18,6 +18,7 @@
 <widget>
   <class>GtkWindow</class>
   <name>event-toplevel</name>
+  <visible>False</visible>
   <title>window1</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
@@ -349,7 +350,6 @@
 	<class>GtkButton</class>
 	<name>contacts-button</name>
 	<can_focus>True</can_focus>
-	<relief>GTK_RELIEF_NORMAL</relief>
 	<child>
 	  <padding>0</padding>
 	  <expand>False</expand>
@@ -388,7 +388,6 @@
 	<class>GtkButton</class>
 	<name>categories-button</name>
 	<can_focus>True</can_focus>
-	<relief>GTK_RELIEF_NORMAL</relief>
 	<child>
 	  <padding>0</padding>
 	  <expand>False</expand>

@@ -25,7 +25,7 @@
 #ifndef ALARM_PAGE_H
 #define ALARM_PAGE_H
 
-#include "editor-page.h"
+#include "comp-editor-page.h"
 
 BEGIN_GNOME_DECLS
 
@@ -33,29 +33,27 @@ BEGIN_GNOME_DECLS
 
 #define TYPE_ALARM_PAGE            (alarm_page_get_type ())
 #define ALARM_PAGE(obj)            (GTK_CHECK_CAST ((obj), TYPE_ALARM_PAGE, AlarmPage))
-#define ALARM_PAGE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_ALARM_PAGE,		\
-				    AlarmPageClass))
+#define ALARM_PAGE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_ALARM_PAGE, AlarmPageClass))
 #define IS_ALARM_PAGE(obj)         (GTK_CHECK_TYPE ((obj), TYPE_ALARM_PAGE))
 #define IS_ALARM_PAGE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), TYPE_ALARM_PAGE))
 
 typedef struct _AlarmPagePrivate AlarmPagePrivate;
 
 typedef struct {
-	EditorPage page;
+	CompEditorPage page;
 
 	/* Private data */
 	AlarmPagePrivate *priv;
 } AlarmPage;
 
 typedef struct {
-	EditorPageClass parent_class;
+	CompEditorPageClass parent_class;
 } AlarmPageClass;
 
-GtkType alarm_page_get_type (void);
 
+GtkType    alarm_page_get_type  (void);
 AlarmPage *alarm_page_construct (AlarmPage *apage);
-
-AlarmPage *alarm_page_new (void);
+AlarmPage *alarm_page_new       (void);
 
 
 

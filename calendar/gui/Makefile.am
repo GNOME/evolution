@@ -42,7 +42,6 @@ INCLUDES = 						\
 gladedir   = $(datadir)/evolution/glade
 
 glade_DATA = 					\
-	event-editor-dialog.glade		\
 	e-meeting-dialog.glade			\
 	e-itip-control.glade			\
 	goto-dialog.glade
@@ -91,8 +90,6 @@ evolution_calendar_SOURCES =			\
 	e-week-view.h				\
 	e-tasks.c				\
 	e-tasks.h				\
-	event-editor.c				\
-	event-editor.h				\
 	gnome-cal.c				\
 	gnome-cal.h				\
 	goto.c					\
@@ -131,8 +128,7 @@ evolution_calendar_LDADD =								\
 	$(BONOBO_HTML_GNOME_LIBS)							\
 	$(GNOME_VFS_LIBS)								\
 	$(GAL_LIBS)									\
-	$(INTLLIBS)									\
-	$(DB3_LDADD)
+	$(INTLLIBS)
 
 #evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 

@@ -24,10 +24,16 @@ libcal_dialogs_a_SOURCES =	\
 	alarm-page.h		\
 	cal-prefs-dialog.c	\
 	cal-prefs-dialog.h	\
+	comp-editor.c		\
+	comp-editor.h		\
+	comp-editor-page.c	\
+	comp-editor-page.h	\
+	comp-editor-util.c	\
+	comp-editor-util.h	\
 	delete-comp.c		\
 	delete-comp.h		\
-	editor-page.c		\
-	editor-page.h		\
+	event-editor.c		\
+	event-editor.h		\
 	event-page.c		\
 	event-page.h		\
 	recurrence-page.c	\
@@ -35,7 +41,11 @@ libcal_dialogs_a_SOURCES =	\
 	save-comp.c		\
 	save-comp.h		\
 	task-editor.c		\
-	task-editor.h
+	task-editor.h		\
+	task-details-page.c	\
+	task-details-page.h	\
+	task-page.c		\
+	task-page.h
 
 glade_DATA =				\
 	alarm-notify.glade		\
@@ -44,7 +54,6 @@ glade_DATA =				\
 	event-page.glade		\
 	recurrence-page.glade		\
 	task-details-page.glade		\
-	task-editor-dialog.glade	\
 	task-page.glade
 
 EXTRA_DIST =			\

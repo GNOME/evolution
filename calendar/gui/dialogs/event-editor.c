@@ -29,62 +29,64 @@
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
 #include <libgnome/gnome-i18n.h>
+#include <widgets/misc/e-dateedit.h>
 
-#include "task-page.h"
-#include "task-details-page.h"
+#include "event-page.h"
+#include "alarm-page.h"
 #include "recurrence-page.h"
-#include "task-editor.h"
+#include "event-editor.h"
 
-struct _TaskEditorPrivate {
-	TaskPage *task_page;
-	TaskDetailsPage *task_details_page;
+struct _EventEditorPrivate {
+	EventPage *event_page;
+	AlarmPage *alarm_page;
+	RecurrencePage *recur_page;
 };
 
 
 
-static void task_editor_class_init (TaskEditorClass *class);
-static void task_editor_init (TaskEditor *te);
-static void task_editor_destroy (GtkObject *object);
+static void event_editor_class_init (EventEditorClass *class);
+static void event_editor_init (EventEditor *ee);
+static void event_editor_destroy (GtkObject *object);
 
 static CompEditor *parent_class;
 
 
 
 /**
- * task_editor_get_type:
+ * event_editor_get_type:
  *
- * Registers the #TaskEditor class if necessary, and returns the type ID
+ * Registers the #EventEditor class if necessary, and returns the type ID
  * associated to it.
  *
- * Return value: The type ID of the #TaskEditor class.
+ * Return value: The type ID of the #EventEditor class.
  **/
 GtkType
-task_editor_get_type (void)
+event_editor_get_type (void)
 {
-	static GtkType task_editor_type = 0;
+	static GtkType event_editor_type = 0;
 
-	if (!task_editor_type) {
-		static const GtkTypeInfo task_editor_info = {
-			"TaskEditor",
-			sizeof (TaskEditor),
-			sizeof (TaskEditorClass),
-			(GtkClassInitFunc) task_editor_class_init,
-			(GtkObjectInitFunc) task_editor_init,
+	if (!event_editor_type) {
+		static const GtkTypeInfo event_editor_info = {
+			"EventEditor",
+			sizeof (EventEditor),
+			sizeof (EventEditorClass),
+			(GtkClassInitFunc) event_editor_class_init,
+			(GtkObjectInitFunc) event_editor_init,
 			NULL, /* reserved_1 */
 			NULL, /* reserved_2 */
 			(GtkClassInitFunc) NULL
 		};
 
-		task_editor_type = gtk_type_unique (TYPE_COMP_EDITOR,
-						     &task_editor_info);
+		event_editor_type = gtk_type_unique (TYPE_COMP_EDITOR,
+						     &event_editor_info);
 	}
 
-	return task_editor_type;
+	return event_editor_type;
 }
 
 /* Class initialization function for the event editor */
 static void
-task_editor_class_init (TaskEditorClass *class)
+event_editor_class_init (EventEditorClass *class)
 {
 	GtkObjectClass *object_class;
 
@@ -92,56 +94,62 @@ task_editor_class_init (TaskEditorClass *class)
 
 	parent_class = gtk_type_class (TYPE_COMP_EDITOR);
 
-	object_class->destroy = task_editor_destroy;
+	object_class->destroy = event_editor_destroy;
 }
 
 /* Object initialization function for the event editor */
 static void
-task_editor_init (TaskEditor *te)
+event_editor_init (EventEditor *ee)
 {
-	TaskEditorPrivate *priv;
+	EventEditorPrivate *priv;
 	
-	priv = g_new0 (TaskEditorPrivate, 1);
-	te->priv = priv;
+	priv = g_new0 (EventEditorPrivate, 1);
+	ee->priv = priv;
 
-	priv->task_page = task_page_new ();
-	comp_editor_append_page (COMP_EDITOR (te), 
-				 COMP_EDITOR_PAGE (priv->task_page),
-				 _("Task"));
+	priv->event_page = event_page_new ();
+	comp_editor_append_page (COMP_EDITOR (ee), 
+				 COMP_EDITOR_PAGE (priv->event_page),
+				 _("Appointment"));
 
-	priv->task_details_page = task_details_page_new ();
-	comp_editor_append_page (COMP_EDITOR (te),
-				 COMP_EDITOR_PAGE (priv->task_details_page),
-				 _("Details"));
+	priv->alarm_page = alarm_page_new ();
+	comp_editor_append_page (COMP_EDITOR (ee),
+				 COMP_EDITOR_PAGE (priv->alarm_page),
+				 _("Reminder"));
+
+	priv->recur_page = recurrence_page_new ();
+	comp_editor_append_page (COMP_EDITOR (ee),
+				 COMP_EDITOR_PAGE (priv->recur_page),
+				 _("Recurrence"));
+	
 }
 
 /* Destroy handler for the event editor */
 static void
-task_editor_destroy (GtkObject *object)
+event_editor_destroy (GtkObject *object)
 {
-	TaskEditor *te;
-	TaskEditorPrivate *priv;
+	EventEditor *ee;
+	EventEditorPrivate *priv;
 
 	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_TASK_EDITOR (object));
+	g_return_if_fail (IS_EVENT_EDITOR (object));
 
-	te = TASK_EDITOR (object);
-	priv = te->priv;
+	ee = EVENT_EDITOR (object);
+	priv = ee->priv;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 /**
- * task_editor_new:
+ * event_editor_new:
  *
  * Creates a new event editor dialog.
  *
  * Return value: A newly-created event editor dialog, or NULL if the event
  * editor could not be created.
  **/
-TaskEditor *
-task_editor_new (void)
+EventEditor *
+event_editor_new (void)
 {
-	return TASK_EDITOR (gtk_type_new (TYPE_TASK_EDITOR));
+	return EVENT_EDITOR (gtk_type_new (TYPE_EVENT_EDITOR));
 }

@@ -24,6 +24,7 @@
  */
 
 #include <config.h>
+#include <gnome.h>
 #include <gal/util/e-util.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/menus/gal-view-collection.h>
@@ -468,15 +469,15 @@ e_tasks_new_task			(ETasks		*tasks)
 	priv = tasks->priv;
 
 	tedit = task_editor_new ();
-	task_editor_set_cal_client (tedit, priv->client);
+	comp_editor_set_cal_client (COMP_EDITOR (tedit), priv->client);
 
 	comp = cal_component_new ();
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
 
-	task_editor_set_todo_object (tedit, comp);
+	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
 	gtk_object_unref (GTK_OBJECT (comp));
 
-	task_editor_focus (tedit);
+	comp_editor_focus (COMP_EDITOR (tedit));
 }
 
 /**

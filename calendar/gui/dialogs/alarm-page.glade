@@ -18,6 +18,7 @@
 <widget>
   <class>GtkWindow</class>
   <name>alarm-toplevel</name>
+  <visible>False</visible>
   <title>window1</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
@@ -36,7 +37,7 @@
     <widget>
       <class>GtkFrame</class>
       <name>frame33</name>
-      <label>Appointment Basics</label>
+      <label>Basics</label>
       <label_xalign>0</label_xalign>
       <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
       <child>
@@ -58,14 +59,13 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label62</name>
-	  <label>Su_mmary:</label>
+	  <label>Summary:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
-	  <default_focus_target>reminder-summary</default_focus_target>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>
@@ -76,30 +76,6 @@
 	    <xexpand>False</xexpand>
 	    <yexpand>False</yexpand>
 	    <xshrink>False</xshrink>
-	    <yshrink>False</yshrink>
-	    <xfill>True</xfill>
-	    <yfill>False</yfill>
-	  </child>
-	</widget>
-
-	<widget>
-	  <class>GtkEntry</class>
-	  <name>reminder-summary</name>
-	  <can_focus>True</can_focus>
-	  <editable>True</editable>
-	  <text_visible>True</text_visible>
-	  <text_max_length>0</text_max_length>
-	  <text></text>
-	  <child>
-	    <left_attach>1</left_attach>
-	    <right_attach>2</right_attach>
-	    <top_attach>0</top_attach>
-	    <bottom_attach>1</bottom_attach>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <xexpand>True</xexpand>
-	    <yexpand>False</yexpand>
-	    <xshrink>True</xshrink>
 	    <yshrink>False</yshrink>
 	    <xfill>True</xfill>
 	    <yfill>False</yfill>
@@ -109,7 +85,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label63</name>
-	  <label>_Starting date:</label>
+	  <label>Date/Time:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -134,13 +110,13 @@
 
 	<widget>
 	  <class>GtkLabel</class>
-	  <name>starting date</name>
-	  <label>assbarn it</label>
-	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <name>date-time</name>
+	  <label></label>
+	  <justify>GTK_JUSTIFY_LEFT</justify>
 	  <wrap>False</wrap>
-	  <xalign>0</xalign>
-	  <yalign>0</yalign>
-	  <xpad>0</xpad>
+	  <xalign>0.5</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>4</xpad>
 	  <ypad>0</ypad>
 	  <child>
 	    <left_attach>1</left_attach>
@@ -155,6 +131,32 @@
 	    <yshrink>False</yshrink>
 	    <xfill>True</xfill>
 	    <yfill>True</yfill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>summary</name>
+	  <label></label>
+	  <justify>GTK_JUSTIFY_LEFT</justify>
+	  <wrap>False</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>4</xpad>
+	  <ypad>0</ypad>
+	  <child>
+	    <left_attach>1</left_attach>
+	    <right_attach>2</right_attach>
+	    <top_attach>0</top_attach>
+	    <bottom_attach>1</bottom_attach>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <xexpand>False</xexpand>
+	    <yexpand>False</yexpand>
+	    <xshrink>False</xshrink>
+	    <yshrink>False</yshrink>
+	    <xfill>True</xfill>
+	    <yfill>False</yfill>
 	  </child>
 	</widget>
       </widget>
@@ -192,7 +194,7 @@
 
 	  <widget>
 	    <class>GtkOptionMenu</class>
-	    <name>reminder-action</name>
+	    <name>action</name>
 	    <can_focus>True</can_focus>
 	    <items>Show a dialog
 Play a sound
@@ -209,7 +211,7 @@ Run a program
 
 	  <widget>
 	    <class>GtkSpinButton</class>
-	    <name>reminder-interval-value</name>
+	    <name>interval-value</name>
 	    <can_focus>True</can_focus>
 	    <climb_rate>1</climb_rate>
 	    <digits>0</digits>
@@ -232,7 +234,7 @@ Run a program
 
 	  <widget>
 	    <class>GtkOptionMenu</class>
-	    <name>reminder-value-units</name>
+	    <name>value-units</name>
 	    <can_focus>True</can_focus>
 	    <items>minute(s)
 hour(s)
@@ -248,7 +250,7 @@ day(s)
 
 	  <widget>
 	    <class>GtkOptionMenu</class>
-	    <name>reminder-relative</name>
+	    <name>relative</name>
 	    <can_focus>True</can_focus>
 	    <items>before
 after
@@ -263,7 +265,7 @@ after
 
 	  <widget>
 	    <class>GtkOptionMenu</class>
-	    <name>reminder-time</name>
+	    <name>time</name>
 	    <can_focus>True</can_focus>
 	    <items>start of appointment
 end of appointment
@@ -281,7 +283,6 @@ end of appointment
 	    <name>button9</name>
 	    <can_focus>True</can_focus>
 	    <label>Settings...</label>
-	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -316,7 +317,7 @@ end of appointment
 
 	    <widget>
 	      <class>GtkCList</class>
-	      <name>reminder-list</name>
+	      <name>list</name>
 	      <can_focus>True</can_focus>
 	      <columns>1</columns>
 	      <column_widths>80</column_widths>
@@ -356,20 +357,18 @@ end of appointment
 
 	    <widget>
 	      <class>GtkButton</class>
-	      <name>reminder-add</name>
+	      <name>add</name>
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>Add</label>
-	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
 	    <widget>
 	      <class>GtkButton</class>
-	      <name>reminder-delete</name>
+	      <name>delete</name>
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>Delete</label>
-	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 	  </widget>
 	</widget>

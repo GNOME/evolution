@@ -25,7 +25,7 @@
 #ifndef RECURRENCE_PAGE_H
 #define RECURRENCE_PAGE_H
 
-#include "editor-page.h"
+#include "comp-editor-page.h"
 
 BEGIN_GNOME_DECLS
 
@@ -33,29 +33,27 @@ BEGIN_GNOME_DECLS
 
 #define TYPE_RECURRENCE_PAGE            (recurrence_page_get_type ())
 #define RECURRENCE_PAGE(obj)            (GTK_CHECK_CAST ((obj), TYPE_RECURRENCE_PAGE, RecurrencePage))
-#define RECURRENCE_PAGE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_RECURRENCE_PAGE,	\
-					 RecurrencePageClass))
+#define RECURRENCE_PAGE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_RECURRENCE_PAGE, RecurrencePageClass))
 #define IS_RECURRENCE_PAGE(obj)         (GTK_CHECK_TYPE ((obj), TYPE_RECURRENCE_PAGE))
 #define IS_RECURRENCE_PAGE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), TYPE_RECURRENCE_PAGE))
 
 typedef struct _RecurrencePagePrivate RecurrencePagePrivate;
 
 typedef struct {
-	EditorPage page;
+	CompEditorPage page;
 
 	/* Private data */
 	RecurrencePagePrivate *priv;
 } RecurrencePage;
 
 typedef struct {
-	EditorPageClass parent_class;
+	CompEditorPageClass parent_class;
 } RecurrencePageClass;
 
-GtkType recurrence_page_get_type (void);
 
+GtkType         recurrence_page_get_type  (void);
 RecurrencePage *recurrence_page_construct (RecurrencePage *rpage);
-
-RecurrencePage *recurrence_page_new (void);
+RecurrencePage *recurrence_page_new       (void);
 
 
 

@@ -22,7 +22,9 @@
 #ifndef COMP_EDITOR_H
 #define COMP_EDITOR_H
 
-#include "editor-page.h"
+#include <gtk/gtk.h>
+#include "cal-client.h"
+#include "comp-editor-page.h"
 
 BEGIN_GNOME_DECLS
 
@@ -30,8 +32,7 @@ BEGIN_GNOME_DECLS
 
 #define TYPE_COMP_EDITOR            (comp_editor_get_type ())
 #define COMP_EDITOR(obj)            (GTK_CHECK_CAST ((obj), TYPE_COMP_EDITOR, CompEditor))
-#define COMP_EDITOR_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_COMP_EDITOR,		\
-				     CompEditorClass))
+#define COMP_EDITOR_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_COMP_EDITOR, CompEditorClass))
 #define IS_COMP_EDITOR(obj)         (GTK_CHECK_TYPE ((obj), TYPE_COMP_EDITOR))
 #define IS_COMP_EDITOR_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), TYPE_COMP_EDITOR))
 
@@ -48,11 +49,17 @@ typedef struct {
 	GtkObjectClass parent_class;
 } CompEditorClass;
 
-GtkType comp_editor_get_type (void);
-
-CompEditor *comp_editor_new (void);
-
-void comp_editor_add_page (CompEditor *editor, EditorPage *page);
+GtkType     comp_editor_get_type       (void);
+CompEditor *comp_editor_new            (void);
+void        comp_editor_append_page    (CompEditor     *editor,
+					CompEditorPage *page,
+					const char     *label);
+void        comp_editor_set_cal_client (CompEditor     *editor,
+					CalClient      *client);
+CalClient * comp_editor_get_cal_client (CompEditor     *editor);
+void        comp_editor_edit_comp      (CompEditor     *ee,
+					CalComponent   *comp);
+void        comp_editor_focus          (CompEditor     *editor);
 
 
 
