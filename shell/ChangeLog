@@ -1,3 +1,13 @@
+2002-05-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* main.c (show_development_warning): Add a toggle to avoid
+	displaying the dialog again.  Don't display the dialog at all if
+	the /Shell/skip_warning_dialog_1_1 bonobo-conf key is set to
+	FALSE.
+	(warning_dialog_clicked_callback): Set
+	/Shell/skip_warning_dialog_1_1 according to the state of the check
+	button.
+
 2002-05-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell.c (impl_Shell_selectUserFolder): No more @default_type

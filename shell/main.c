@@ -25,6 +25,7 @@
 #include <glib.h>
 #include <stdio.h>
 
+#include <gtk/gtkalignment.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmain.h>
@@ -186,14 +187,32 @@ warning_dialog_clicked_callback (GnomeDialog *dialog,
 				 int button_number,
 				 void *data)
 {
+	GtkCheckButton *dont_bother_me_again_checkbox;
+	Bonobo_ConfigDatabase config_db;
+
+	dont_bother_me_again_checkbox = GTK_CHECK_BUTTON (data);
+	config_db = e_shell_get_config_db (shell);
+
+	bonobo_config_set_boolean (config_db, "/Shell/skip_warning_dialog_1_1",
+				   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dont_bother_me_again_checkbox)),
+				   NULL);
+
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 static void
 show_development_warning (GtkWindow *parent)
 {
-	GtkWidget *label, *warning_dialog;
+	GtkWidget *label;
+	GtkWidget *warning_dialog;
+	GtkWidget *dont_bother_me_again_checkbox;
+	GtkWidget *alignment;
+	Bonobo_ConfigDatabase config_db;
 	
+	config_db = e_shell_get_config_db (shell);
+	if (bonobo_config_get_boolean_with_default (config_db, "/Shell/skip_warning_dialog_1_1", FALSE, NULL))
+		return;
+
 	warning_dialog = gnome_dialog_new ("Ximian Evolution " VERSION, GNOME_STOCK_BUTTON_OK, NULL);
 	gtk_window_set_transient_for (GTK_WINDOW (warning_dialog), parent);
 
@@ -216,7 +235,6 @@ show_development_warning (GtkWindow *parent)
 		  "eagerly await your contributions!\n"
 		  ));
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-	gtk_widget_show (label);
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
 			    label, TRUE, TRUE, 4);
@@ -228,14 +246,24 @@ show_development_warning (GtkWindow *parent)
 		  ));
 	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
 	gtk_misc_set_alignment(GTK_MISC(label), 1, .5);
-	gtk_widget_show (label);
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
 			    label, TRUE, TRUE, 0);
 
-	gtk_widget_show (warning_dialog);
+	dont_bother_me_again_checkbox = gtk_check_button_new_with_label (_("Don't tell me again"));
+
+	/* GTK sucks.  (Just so you know.)  */
+	alignment = gtk_alignment_new (0.0, 0.0, 0.0, 0.0);
+
+	gtk_container_add (GTK_CONTAINER (alignment), dont_bother_me_again_checkbox);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox),
+			    alignment, FALSE, FALSE, 0);
+
+	gtk_widget_show_all (warning_dialog);
+
 	gtk_signal_connect (GTK_OBJECT (warning_dialog), "clicked",
-			    GTK_SIGNAL_FUNC (warning_dialog_clicked_callback), NULL);
+			    GTK_SIGNAL_FUNC (warning_dialog_clicked_callback),
+			    dont_bother_me_again_checkbox);
 }
 
 /* The following signal handlers are used to display the development warning as
