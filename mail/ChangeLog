@@ -1,3 +1,15 @@
+2001-11-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (save_msg_ok): If the path exists, make sure
+	it's a regular file (or we can't possibly save to it). Fix for
+	#14127.
+
+2001-11-28  Jeffrey Stedfast  <fejj@ximian.com>
+	
+	* message-list.c (message_list_select): Cleaned up the code.
+
+	* mail-callbacks.c (previous_unread_msg): Pass wraparound as TRUE.
+
 2001-11-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (pgpopen): Fix the boolean check to be && and not
