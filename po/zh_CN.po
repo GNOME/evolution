@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-05 06:16+0800\n"
-"PO-Revision-Date: 2005-02-05 06:18+0800\n"
+"POT-Creation-Date: 2005-02-06 12:38+0100\n"
+"PO-Revision-Date: 2005-02-07 00:22+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -435,13 +435,13 @@ msgstr "添加(_A)"
 
 #. addressbook:server-version title
 #. calendar:server-version title
-#: addressbook/addressbook-errors.xml.h:64 calendar/calendar-errors.xml.h:134
+#: addressbook/addressbook-errors.xml.h:64 calendar/calendar-errors.xml.h:142
 msgid "Server Version"
 msgstr "服务器版本"
 
 #. addressbook:server-version primary
 #. calendar:server-version primary
-#: addressbook/addressbook-errors.xml.h:66 calendar/calendar-errors.xml.h:136
+#: addressbook/addressbook-errors.xml.h:66 calendar/calendar-errors.xml.h:144
 msgid "Your server needs to be updated"
 msgstr "您的服务器需要更新"
 
@@ -3980,8 +3980,28 @@ msgid ""
 "of what your task is about."
 msgstr "在您的任务中添加有意义的概览可以让您的收件人更容易明白您任务的内容。"
 
-#. calendar:server-version secondary
+#. calendar:prompt-no-contents-offline-calendar primary
+#: calendar/calendar-errors.xml.h:134
+msgid "Error loading calendar"
+msgstr "装入日历时出错"
+
+#. calendar:prompt-no-contents-offline-calendar secondary
+#: calendar/calendar-errors.xml.h:136
+msgid "The calendar is not marked for offline usage"
+msgstr "日历未标为离线使用"
+
+#. calendar:prompt-no-contents-offline-tasks primary
 #: calendar/calendar-errors.xml.h:138
+msgid "Error loading task list"
+msgstr "装入任务列表出错"
+
+#. calendar:prompt-no-contents-offline-tasks secondary
+#: calendar/calendar-errors.xml.h:140
+msgid "The task list is not marked for offline usage"
+msgstr "任务列表未标为离线使用"
+
+#. calendar:server-version secondary
+#: calendar/calendar-errors.xml.h:146
 msgid " Some features may not work correctly with your current server version"
 msgstr "某些特性可能无法在您目前的服务器版本下工作"
 
@@ -4652,7 +4672,7 @@ msgid "%.0fG"
 msgstr "%.0fG"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:298
-#: calendar/gui/dialogs/cal-attachment-bar.c:910
+#: calendar/gui/dialogs/cal-attachment-bar.c:913
 #: composer/e-msg-composer-attachment-bar.c:293 mail/em-utils.c:436
 msgid "attachment"
 msgstr "附件"
@@ -4674,6 +4694,10 @@ msgstr "属性(_P)"
 #: composer/e-msg-composer-attachment-bar.c:443
 msgid "_Add attachment..."
 msgstr "添加附件(_A)..."
+
+#: calendar/gui/dialogs/cal-attachment-bar.c:699
+msgid "Attachment Bar"
+msgstr "附件栏"
 
 #: calendar/gui/dialogs/cal-attachment-select-file.c:96
 #: calendar/gui/dialogs/cal-attachment-select-file.c:115
@@ -5050,73 +5074,111 @@ msgstr "%s  您已经做出了修改。放弃这些修改并更新编辑器吗�
 msgid "%s  You have made no changes, update the editor?"
 msgstr "%s  您还没有进行修改，更新编辑器吗？"
 
-#: calendar/gui/dialogs/comp-editor.c:282
+#: calendar/gui/dialogs/comp-editor.c:181 composer/e-msg-composer.c:2671
+#, c-format
+msgid "Attached message - %s"
+msgstr "附加的信件 - %s"
+
+#. translators, this count will always be >1
+#: calendar/gui/dialogs/comp-editor.c:186
+#: calendar/gui/dialogs/comp-editor.c:349 composer/e-msg-composer.c:2676
+#: composer/e-msg-composer.c:2839
+#, c-format
+msgid "Attached message"
+msgid_plural "%d attached messages"
+msgstr[0] "%d 封附加的信件"
+
+#: calendar/gui/dialogs/comp-editor.c:412 calendar/gui/e-calendar-table.c:1164
+#: calendar/gui/e-calendar-view.c:1402 composer/e-msg-composer.c:2901
+#: mail/em-folder-tree.c:1041 mail/message-list.c:1712
+#: ui/evolution-addressbook.xml.h:31 ui/evolution-calendar.xml.h:39
+#: ui/evolution-composer-entries.xml.h:7 ui/evolution-mail-message.xml.h:105
+#: ui/evolution-tasks.xml.h:20
+msgid "_Copy"
+msgstr "复制(_C)"
+
+#: calendar/gui/dialogs/comp-editor.c:413 composer/e-msg-composer.c:2902
+#: mail/em-folder-tree.c:1042 mail/em-folder-tree.c:2268
+#: mail/em-folder-view.c:860 mail/message-list.c:1713
+msgid "_Move"
+msgstr "移动(_M)"
+
+#: calendar/gui/dialogs/comp-editor.c:415 composer/e-msg-composer.c:2904
+#: mail/em-folder-tree.c:1044 mail/message-list.c:1715
+msgid "Cancel _Drag"
+msgstr "取消拖曳(_D)"
+
+#: calendar/gui/dialogs/comp-editor.c:659
 msgid "Could not update object"
 msgstr "无法更新对象"
 
-#: calendar/gui/dialogs/comp-editor.c:443 composer/e-msg-composer.c:2315
+#: calendar/gui/dialogs/comp-editor.c:820 composer/e-msg-composer.c:2315
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
 msgstr[0] "附加了 <b>%d</b> 个文件"
 
-#: calendar/gui/dialogs/comp-editor.c:496 composer/e-msg-composer.c:2344
+#: calendar/gui/dialogs/comp-editor.c:873 composer/e-msg-composer.c:2344
 msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr "隐藏附件栏(将附件拖至此处)(_A)"
 
-#: calendar/gui/dialogs/comp-editor.c:499
-#: calendar/gui/dialogs/comp-editor.c:551 composer/e-msg-composer.c:2347
+#: calendar/gui/dialogs/comp-editor.c:876
+#: calendar/gui/dialogs/comp-editor.c:928 composer/e-msg-composer.c:2347
 #: composer/e-msg-composer.c:3466
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "显示附件栏(将附件拖至此处)(_A)"
 
-#: calendar/gui/dialogs/comp-editor.c:1116
-#: calendar/gui/dialogs/comp-editor.c:1159
+#: calendar/gui/dialogs/comp-editor.c:952
+msgid "Attachment Button: Press space key to toggle attachment bar"
+msgstr "附件按钮：请按空格键切换附件栏"
+
+#: calendar/gui/dialogs/comp-editor.c:1499
+#: calendar/gui/dialogs/comp-editor.c:1542
 msgid "Edit Appointment"
 msgstr "编辑约会"
 
-#: calendar/gui/dialogs/comp-editor.c:1122
-#: calendar/gui/dialogs/comp-editor.c:1165
+#: calendar/gui/dialogs/comp-editor.c:1505
+#: calendar/gui/dialogs/comp-editor.c:1548
 #, c-format
 msgid "Meeting - %s"
 msgstr "会议 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1124
-#: calendar/gui/dialogs/comp-editor.c:1167
+#: calendar/gui/dialogs/comp-editor.c:1507
+#: calendar/gui/dialogs/comp-editor.c:1550
 #, c-format
 msgid "Appointment - %s"
 msgstr "约会 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1128
-#: calendar/gui/dialogs/comp-editor.c:1171
+#: calendar/gui/dialogs/comp-editor.c:1511
+#: calendar/gui/dialogs/comp-editor.c:1554
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "指派的任务 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1130
-#: calendar/gui/dialogs/comp-editor.c:1173
+#: calendar/gui/dialogs/comp-editor.c:1513
+#: calendar/gui/dialogs/comp-editor.c:1556
 #, c-format
 msgid "Task - %s"
 msgstr "任务 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1133
-#: calendar/gui/dialogs/comp-editor.c:1176
+#: calendar/gui/dialogs/comp-editor.c:1516
+#: calendar/gui/dialogs/comp-editor.c:1559
 #, c-format
 msgid "Journal entry - %s"
 msgstr "日志条目 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1144
-#: calendar/gui/dialogs/comp-editor.c:1186
+#: calendar/gui/dialogs/comp-editor.c:1527
+#: calendar/gui/dialogs/comp-editor.c:1569
 msgid "No summary"
 msgstr "没有概要"
 
-#: calendar/gui/dialogs/comp-editor.c:1618
-#: calendar/gui/dialogs/comp-editor.c:1651
-#: calendar/gui/dialogs/comp-editor.c:1675
+#: calendar/gui/dialogs/comp-editor.c:2001
+#: calendar/gui/dialogs/comp-editor.c:2034
+#: calendar/gui/dialogs/comp-editor.c:2058
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "如果更新到达的话，对此项目的更改将被丢弃"
 
-#: calendar/gui/dialogs/comp-editor.c:1699
+#: calendar/gui/dialogs/comp-editor.c:2082
 msgid "Unable to use current version!"
 msgstr "无法使用当前版本！"
 
@@ -6051,14 +6113,6 @@ msgstr "打印(_P)..."
 msgid "C_ut"
 msgstr "剪切(_U)"
 
-#: calendar/gui/e-calendar-table.c:1164 calendar/gui/e-calendar-view.c:1402
-#: composer/e-msg-composer.c:2901 mail/em-folder-tree.c:1041
-#: mail/message-list.c:1712 ui/evolution-addressbook.xml.h:31
-#: ui/evolution-calendar.xml.h:39 ui/evolution-composer-entries.xml.h:7
-#: ui/evolution-mail-message.xml.h:105 ui/evolution-tasks.xml.h:20
-msgid "_Copy"
-msgstr "复制(_C)"
-
 #: calendar/gui/e-calendar-table.c:1165 calendar/gui/e-calendar-view.c:1379
 #: calendar/gui/e-calendar-view.c:1403 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:43 ui/evolution-composer-entries.xml.h:9
@@ -6904,7 +6958,7 @@ msgstr "%Y-%m-%d"
 msgid "Enter the password for %s"
 msgstr "为 %s 输入密码"
 
-#: calendar/gui/e-tasks.c:763 calendar/gui/gnome-cal.c:2363
+#: calendar/gui/e-tasks.c:763 calendar/gui/gnome-cal.c:2373
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6917,24 +6971,24 @@ msgstr ""
 msgid "Loading tasks"
 msgstr "装入任务"
 
-#: calendar/gui/e-tasks.c:893
+#: calendar/gui/e-tasks.c:895
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "在 %s 打开任务"
 
-#: calendar/gui/e-tasks.c:1089
+#: calendar/gui/e-tasks.c:1091
 msgid "Completing tasks..."
 msgstr "正在完成任务..."
 
-#: calendar/gui/e-tasks.c:1112
+#: calendar/gui/e-tasks.c:1114
 msgid "Deleting selected objects..."
 msgstr "正在删除选中的对象..."
 
-#: calendar/gui/e-tasks.c:1139
+#: calendar/gui/e-tasks.c:1141
 msgid "Expunging"
 msgstr "销毁"
 
-#: calendar/gui/e-tasks.c:1217
+#: calendar/gui/e-tasks.c:1219
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: calendar/gui/print.c:1822 calendar/gui/tasks-component.c:408
 #: calendar/gui/tasks-component.c:881 calendar/gui/tasks-control.c:408
@@ -6972,22 +7026,22 @@ msgstr "保存自定义视图"
 msgid "Define Views..."
 msgstr "定义视图..."
 
-#: calendar/gui/gnome-cal.c:2212
+#: calendar/gui/gnome-cal.c:2223
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "装入位于 %s 的约会"
 
-#: calendar/gui/gnome-cal.c:2231
+#: calendar/gui/gnome-cal.c:2242
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "装入位于 %s 的任务"
 
-#: calendar/gui/gnome-cal.c:2329
+#: calendar/gui/gnome-cal.c:2339
 #, c-format
 msgid "Opening %s"
 msgstr "打开 %s"
 
-#: calendar/gui/gnome-cal.c:3219
+#: calendar/gui/gnome-cal.c:3229
 msgid "Purging"
 msgstr "销毁"
 
@@ -9119,29 +9173,6 @@ msgstr "签名(_G)："
 #: composer/e-msg-composer.c:3356
 msgid "Compose a message"
 msgstr "撰写新件"
-
-#: composer/e-msg-composer.c:2671
-#, c-format
-msgid "Attached message - %s"
-msgstr "附加的信件 - %s"
-
-#. translators, this count will always be >1
-#: composer/e-msg-composer.c:2676 composer/e-msg-composer.c:2839
-#, c-format
-msgid "Attached message"
-msgid_plural "%d attached messages"
-msgstr[0] "%d 封附加的信件"
-
-#: composer/e-msg-composer.c:2902 mail/em-folder-tree.c:1042
-#: mail/em-folder-tree.c:2268 mail/em-folder-view.c:860
-#: mail/message-list.c:1713
-msgid "_Move"
-msgstr "移动(_M)"
-
-#: composer/e-msg-composer.c:2904 mail/em-folder-tree.c:1044
-#: mail/message-list.c:1715
-msgid "Cancel _Drag"
-msgstr "取消拖曳(_D)"
 
 #: composer/e-msg-composer.c:4536
 msgid ""
@@ -17491,4 +17522,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
-
