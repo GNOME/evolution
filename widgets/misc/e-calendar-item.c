@@ -27,6 +27,9 @@
  */
 
 #include <config.h>
+
+#include "e-calendar-item.h"
+
 #include <time.h>
 #include <string.h>
 #include <glib.h>
@@ -37,8 +40,6 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
-#include "e-calendar-item.h"
-
 
 /*
  * These are the padding sizes between various pieces of the calendar.

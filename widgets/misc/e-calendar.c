@@ -31,13 +31,16 @@
  */
 
 #include <config.h>
+
+#include "e-calendar.h"
+
+#include <glib.h>
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkpixmap.h>
 #include <gtk/gtksignal.h>
 #include <libgnomeui/gnome-canvas-widget.h>
 #include <gal/util/e-util.h>
-#include "e-calendar.h"
 
 #define E_CALENDAR_SMALL_FONT	\
 	"-adobe-utopia-regular-r-normal-*-*-100-*-*-p-*-iso8859-*"

@@ -27,6 +27,8 @@
 #include <config.h>
 #endif
 
+#include "e-dropdown-button.h"
+
 
 #include <stdio.h>
 #include <gtk/gtkarrow.h>
@@ -34,8 +36,6 @@
 #include <gtk/gtkwidget.h>
 #include <libgnomeui/gnome-popup-menu.h>
 #include <gal/util/e-util.h>
-
-#include "e-dropdown-button.h"
 
 
 struct _EDropdownButtonPrivate {

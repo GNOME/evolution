@@ -34,6 +34,9 @@
 #define _XOPEN_SOURCE 4
 
 #include <config.h>
+
+#include "e-dateedit.h"
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,7 +60,6 @@
 #include <gtk/gtkvbox.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include "e-dateedit.h"
 #include "e-calendar.h"
 
 

@@ -30,14 +30,19 @@
  * of text (so no wrapping/justification), without underlined characters.
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include "e-clipped-label.h"
+
 #include <math.h>
 #include <string.h>
 
+#include <glib.h>
 #include <gdk/gdki18n.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-
-#include "e-clipped-label.h"
 
 
 static void e_clipped_label_class_init (EClippedLabelClass *class);
