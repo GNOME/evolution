@@ -1,3 +1,8 @@
+2003-04-28  Rodney Dawes  <dobey@ximian.com>
+
+	* Makefile.am: Fix up some stuff for the nognome script
+	* evolution-nognome.in: Fix up nognome script for Sun GNOME2
+	
 2003-04-28  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #41916

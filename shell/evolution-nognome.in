@@ -1,9 +1,13 @@
 #!/bin/sh
 
-PATH=@prefix@/bin:@GNOME_PREFIX@/bin:${PATH}
-GNOME_PATH=@prefix@:@GNOME_PREFIX@
-LD_LIBRARY_PATH=@prefix@/lib:@GNOME_PREFIX@/lib:${LD_LIBRARY_PATH}
+prefix=@prefix@
+exec_prefix=@exec_prefix@
 
-export LD_LIBRARY_PATH GNOME_PATH PATH
+PATH=@prefix@/bin:/usr/gnome/bin:${PATH}
+GNOME2_PATH=@prefix@:/usr/gnome
+LD_LIBRARY_PATH=@prefix@/lib:/usr/gnome/lib:${LD_LIBRARY_PATH}
 
-exec evolution
+export LD_LIBRARY_PATH GNOME2_PATH PATH
+
+exec @libexecdir@/evolution-1.3 "$@"
+
