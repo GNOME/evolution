@@ -1178,48 +1178,53 @@ is_date_in_list (GList *list, struct tm *date)
 	return 0;
 }
 
-
-/* FIXME: Doesn't work with events >= 1 day. */
-static int
+/* Generates an event instance based on the reference time */
+static gboolean
 generate (iCalObject *ico, time_t reference, calendarfn cb, void *closure)
 {
-	struct tm dt_start, dt_end, ref;
-	time_t s_t, e_t;
+	time_t offset;
+	struct tm tm_start, ref;
+	time_t start, end;
 
-	dt_start = *localtime (&ico->dtstart);
-	dt_end   = *localtime (&ico->dtend);
+	offset = ico->dtend - ico->dtstart;
+
+	tm_start = *localtime (&ico->dtstart);
 	ref      = *localtime (&reference);
 
-	dt_start.tm_mday = ref.tm_mday;
-	dt_start.tm_mon  = ref.tm_mon;
-	dt_start.tm_year = ref.tm_year;
+	tm_start.tm_mday = ref.tm_mday;
+	tm_start.tm_mon  = ref.tm_mon;
+	tm_start.tm_year = ref.tm_year;
 
-	dt_end.tm_mday = ref.tm_mday;
-	dt_end.tm_mon  = ref.tm_mon;
-	dt_end.tm_year = ref.tm_year;
-
-
-	if (ref.tm_isdst > dt_start.tm_isdst){
-		dt_start.tm_hour--;
-		dt_end.tm_hour--;
-	} else if (ref.tm_isdst < dt_start.tm_isdst){
-		dt_start.tm_hour++;
-		dt_end.tm_hour++;
+	start = mktime (&tm_start);
+	if (start == -1) {
+		g_message ("generate(): Produced invalid start date!");
+		return FALSE;
 	}
 
-	s_t = mktime (&dt_start);
+	end = start + offset;
 
-	if (ico->exdate && is_date_in_list (ico->exdate, &dt_start))
-		return 1;
+#if 0
+	/* FIXME: I think this is not needed, since we are offsetting by full day values,
+	 * and the times should remain the same --- if you have a daily appointment
+	 * at 18:00, it is always at 18:00 even during daylight savings.
+	 *
+	 * However, what should happen on the exact change-of-savings day with
+	 * appointments in the early morning hours?
+	 */
 
-	e_t = mktime (&dt_end);
-
-	if ((s_t == -1) || (e_t == -1)) {
-		g_warning ("Produced invalid dates!\n");
-		return 0;
+	if (ref.tm_isdst > tm_start.tm_isdst) {
+		tm_start.tm_hour--;
+		tm_end.tm_hour--;
+	} else if (ref.tm_isdst < tm_start.tm_isdst) {
+		tm_start.tm_hour++;
+		tm_end.tm_hour++;
 	}
+#endif
 
-	return (*cb) (ico, s_t, e_t, closure);
+	if (ico->exdate && is_date_in_list (ico->exdate, &tm_start))
+		return TRUE;
+
+	return (*cb) (ico, start, end, closure);
 }
 
 int

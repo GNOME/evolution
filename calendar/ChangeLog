@@ -1,3 +1,19 @@
+2000-05-12  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/calobj.c (generate): Use a (dtend - dtstart) offset to
+	compute the ending time of the occurrence.  This takes care of
+	recurring events that span multiple days.  Also, removed the DST
+	condition since it did not look right at all:  if you have a daily
+	appointment at 18:00, it still should happen at 18:00 even during
+	daylight savings.
+
+	* gui/gnome-cal.c (gnome_calendar_tag_calendar): Use the timeutil
+	functions instead of calculating the month's times by hand.  Use
+	cal_obj_instance_list_free() instead of freeing the list by hand.
+	Clip the range we pass to mark_gtk_calendar_day().
+	(mark_gtk_calendar_day): Fixed off-by-one error at the end of the
+	month by adding real day offsets.
+
 2000-05-11  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/gnome-cal.c (add_alarms_for_object): New function to add
