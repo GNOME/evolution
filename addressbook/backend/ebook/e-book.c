@@ -786,9 +786,9 @@ e_book_load_uri (EBook                     *book,
 
 	factory = book->priv->iter->data;
 
-	e_book_load_uri_from_factory (book, factory, load_uri_data);
-
 	book->priv->load_state = URILoading;
+
+	e_book_load_uri_from_factory (book, factory, load_uri_data);
 }
 
 /**

@@ -1,3 +1,13 @@
+2003-11-08  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/e-book.c (e_book_load_uri): put the URILoading
+	assignment before e_book_load_uri_from_factory, as if there's a
+	corba exception that happens and we call the user cb in _step, it
+	could (as in the default book code) unref the ebook.  really, we
+	should hold a ref to the book, but this is easier for the moment
+	and doesn't result in us leaking when i get the ref/unref code
+	wrong.
+
 2003-10-28 Leon Zhang <leon.zhang@sun.com>
 
        * backend/pas/pas-backend-ldap.c:
