@@ -1,3 +1,8 @@
+1999-02-15  Timur Bakeyev <mc@bat.ru>
+
+	* gnome-gettext.m4: Work around a bug in BSDI's native sh, which in-
+	correctly expands ${LINGUAS=$ALL_LINGUAS}. Switched to if/fi variant.
+
 1999-02-15  Chris Lahey  <clahey@umich.edu>
 
 	* gnome-print-check.m4: Copied this from libhnj/libhnj.m4.  Almost
@@ -31,7 +36,7 @@
 	$(MACROS), autogen.sh, gnome-common.m4 and a newly created
 	gnome-macros.dep in `$(datadir)/aclocal/gnome'.
 
-Sun Jan 24 03:59:32 1999  Timur Bakeyev <mc@bat.ru>
+1999-01-24  Timur Bakeyev <mc@bat.ru>
 
 	* gnome-pthread-check.m4: Add recognition of 2 more libraries - 
 	pthreads and pthread-support build in libc (as on BSDI).
