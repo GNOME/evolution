@@ -1,11 +1,13 @@
 [Desktop Entry]
 Name=Evolution ToDo conduit 
 Name[da]=Udstående
+Name[fr]=Conduit Evolution `A Faire'
 Name[no]=Oppgaver
 Name[sv]=Att göra-lista
 Name[tr]=Yapýlacaklar parçasý
 Comment=Configure the todo conduit
 Comment[da]=Konfigurér Udstående
+Comment[fr]=Configuration du conduit `A Faire'
 Comment[no]=Konfigurér oppgavelisten
 Comment[sv]=Konfigurerar att göra-listan
 Comment[tr]=Yapýlacaklar parçasý ayarlarý
