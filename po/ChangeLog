@@ -1,3 +1,7 @@
+2003-08-07  Wang Jian  <lark@linux.net.cn>
+
+	* zh_CN.po: Merged from evolution-1-4-branch.
+
 2003-08-06  Dan Winship  <danw@ximian.com>
 
 	* it.po: Fix a bug (control characters accidentally inserted into
