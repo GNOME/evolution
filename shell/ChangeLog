@@ -1,5 +1,10 @@
 2000-05-07  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shortcuts-view.c (e_shortcuts_view_construct): Use
+	correct cast.
+
+2000-05-07  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* main.c (main): Connect to "no_views_left", not "destroy".
 
 	* e-shell.c (view_destroy_cb): Grmpf.

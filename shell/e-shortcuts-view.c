@@ -135,7 +135,7 @@ e_shortcuts_view_construct (EShortcutsView *shortcuts_view,
 	priv = shortcuts_view->priv;
 	priv->shortcuts = shortcuts;
 
-	gtk_object_ref (E_SHORTCUTS (shortcuts));
+	gtk_object_ref (GTK_OBJECT (shortcuts));
 }
 
 GtkWidget *
