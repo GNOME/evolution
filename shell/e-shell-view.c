@@ -98,8 +98,8 @@ static guint signals[LAST_SIGNAL] = { 0 };
 #define DEFAULT_SHORTCUT_BAR_WIDTH 100
 #define DEFAULT_TREE_WIDTH         130
 
-#define DEFAULT_WIDTH 600
-#define DEFAULT_HEIGHT 600
+#define DEFAULT_WIDTH 700
+#define DEFAULT_HEIGHT 550
 
 
 /* Utility functions.  */
@@ -256,6 +256,7 @@ setup_widgets (EShellView *shell_view)
 	/* Put things into a paned and the paned into the GnomeApp.  */
 
 	priv->view_vbox = gtk_vbox_new (FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (priv->view_vbox), 2);
 
 	priv->view_title_bar = e_shell_folder_title_bar_new ();
 

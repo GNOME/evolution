@@ -1,5 +1,13 @@
 2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell-view.c (DEFAULT_WIDTH): Made the default window a bit
+	narrower.
+	(DEFAULT_HEIGHT): And shorter.
+	(setup_widgets): Set the border width of the vbox that holds the
+	title bar to 2 pixels, so that the view looks a bit nicer.
+
+2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell-view.c (DEFAULT_TREE_WIDTH): Made the tree 150 pixel
 	wide [instead of 100].
 	(setup_widgets): Use `DEFAULT_TREE_WIDTH' instead of
