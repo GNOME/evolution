@@ -1,3 +1,8 @@
+2004-04-14  JP Rosevear <jpr@ximian.com>
+
+	* e-shell-importer.c (start_import): don't unref the dialog,
+	destroy it properly
+
 2004-04-13  Not Zed  <NotZed@Ximian.com>
 
 	* e-user-creatable-items-handler.c (create_verb): add a component

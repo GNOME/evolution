@@ -481,7 +481,8 @@ start_import (gpointer parent, const char *filename, EvolutionImporterClient *cl
 			gtk_main_iteration ();
 		
 		g_object_unref (icd->client);
-		g_object_unref (icd->dialog);
+		if (icd->dialog)
+			gtk_widget_destroy (icd->dialog);
 		g_free (icd);
 		return;
 	}
