@@ -377,6 +377,8 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 	/* Save the message in Outbox */
 	mail_append_mail (outbox_folder, message, NULL, NULL, NULL);
 	
+	camel_object_unref (CAMEL_OBJECT (message));
+	
 	if (psd)
 		camel_folder_set_message_flags (psd->folder, psd->uid, psd->flags, psd->flags);
 	
@@ -1019,6 +1021,43 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
 	mail_get_messages (fb->folder, uids, do_edit_messages, fb);
+}
+
+static void
+do_resend_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void *data)
+{
+	const MailConfigAccount *account;
+	int i;
+	
+	account = mail_config_get_default_account ();
+	
+	for (i = 0; i < messages->len; i++)
+		mail_send_mail (account->transport->url, messages->pdata[i], NULL, NULL);
+}
+
+void
+resend_msg (GtkWidget *widget, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	extern CamelFolder *sent_folder;
+	GPtrArray *uids;
+	
+	if (fb->folder != sent_folder) {
+		GtkWidget *message;
+		
+		message = gnome_warning_dialog (_("You may only resend messages\n"
+						  "in the Sent folder."));
+		gnome_dialog_run_and_close (GNOME_DIALOG (message));
+		return;
+	}
+	
+	if (!check_send_configuration (fb))
+		return;
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (fb->message_list, enumerate_msg, uids);
+	
+	mail_get_messages (fb->folder, uids, do_resend_messages, fb);
 }
 
 static void

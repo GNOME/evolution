@@ -1,6 +1,14 @@
 2001-03-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser-factory.c: Add Resend Message menu item.
+
+	* folder-browser.c (on_right_click): Add resend to the right-click
+	menu.
+
 	* mail-callbacks.c (composer_sent_cb): Unref the message.
+	(composer_postpone_cb): Unref the message here too.
+	(resend_msg): New callback to allow resending of messages in the
+	Sent folder.
 
 2001-03-18  Jeffrey Stedfast  <fejj@ximian.com>
 

@@ -60,6 +60,7 @@ BonoboUIVerb verbs [] = {
 	
 	/* Message Menu */
 	BONOBO_UI_UNSAFE_VERB ("MessageOpen", open_message),
+	BONOBO_UI_UNSAFE_VERB ("MessageResend", resend_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageSaveAs", save_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessagePrint", print_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplySndr", reply_to_sender),

@@ -497,6 +497,7 @@ enum {
 	CAN_DELETE      = 16,
 	CAN_UNDELETE    = 32,
 	IS_MAILING_LIST = 64,
+	CAN_RESEND      = 128,
 };
 
 #define SEPARATOR  { "", NULL, (NULL), NULL,  0 }
@@ -541,6 +542,8 @@ static EPopupMenu filter_menu[] = {
 static EPopupMenu menu[] = {
 	{ N_("Open"),                         NULL,
 	  GTK_SIGNAL_FUNC (open_msg),         NULL,  0 },
+	{ N_("Resend"),                       NULL,
+	  GTK_SIGNAL_FUNC (resend_msg),       NULL,  CAN_RESEND },
 	{ N_("Save As..."),                   NULL,
 	  GTK_SIGNAL_FUNC (save_msg),         NULL,  0 },
 	{ N_("Print"),                        NULL,
@@ -595,7 +598,7 @@ static EPopupMenu menu[] = {
 static gint
 on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowser *fb)
 {
-	extern CamelFolder *drafts_folder;
+	extern CamelFolder *sent_folder;
 	CamelMessageInfo *info;
 	GPtrArray *uids;
 	int enable_mask = 0;
@@ -607,6 +610,11 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 	if (fb->reconfigure) {
 		enable_mask = 0;
 		goto display_menu;
+	}
+	
+	if (fb->folder != sent_folder) {
+		enable_mask |= CAN_RESEND;
+		hide_mask |= CAN_RESEND;
 	}
 	
 	if (fb->mail_display->current_message == NULL) {
