@@ -1,3 +1,16 @@
+2004-05-21  Larry Ewing  <lewing@ximian.com>
+
+	* gui/dialogs/calendar-setup.c: remove references to the uri
+	buttons.
+
+	* gui/dialogs/calendar-setup.glade: remove uri buttons, make add
+	task window wider and make the button spacing larger.
+
+2004-05-21  H P Nadig  <hpnadig@pacific.net.in>
+
+       * gui/dialogs/calendar-setup.glade: Adjusted the default size of
+       New Calendar Dialog. Fixes 57469.
+
 2004-05-20  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (find_server): proper look for figuring out
