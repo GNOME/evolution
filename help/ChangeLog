@@ -1,3 +1,13 @@
+2001-05-01  Aaron Weber  <aaron@ximian.com>
+
+	* C/apx-authors.sgml: Noted Hector Garcia Alvarez and Daniel
+	Persson as .es and .se translators. I know I'm missing someone
+	else, though.
+	
+	* C/preface.sgml: Redid shortcuts/keyboard section.
+
+	* C/usage-mail.sgml: Redid vfolder stuff.
+
 2001-04-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* C/Makefile.am (install-data-local): Depend on `evolution-guide',

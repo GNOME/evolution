@@ -3,34 +3,39 @@
      <para>
       <application>Evolution</application> was written by:
 <simplelist>
-     <member>Seth Alves: <email>alves@helixcode.com</email></member>
+     <member>Seth Alves: <email>alves@ximian.com</email></member>
      <member>Anders Carlsson: <email>andersca@gnu.org</email></member>
-     <member>Damon Chaplin: <email>damon@helixcode.com</email></member>
+     <member>Damon Chaplin: <email>damon@ximian.com</email></member>
      <member>Clifford R. Conover: <email>rusty@zootweb.com</email></member>
-     <member>Miguel De Icaza: <email>miguel@helixcode.com</email></member>
-     <member> Radek Doulik: <email>rodo@helixcode.com</email></member>
+     <member>Miguel De Icaza: <email>miguel@ximian.com</email></member>
+     <member>Anna Dirks: <email>anna@ximian.com</email></member>
+     <member> Radek Doulik: <email>rodo@ximian.com</email></member>
      <member>Arturo Espinoza: <email>arturo@nucleu.unam.mx</email></member>
-     <member>Larry Ewing: <email>lewing@helixcode.com</email></member>
-     <member>Bertrand Guiheneuf: <email>bertrand@helixcode.com</email></member>
+     <member>Larry Ewing: <email>lewing@ximian.com</email></member>
+     <member>Nat Friedman: <email>nat@ximian.com</email></member>
+     <member>Bertrand Guiheneuf: <email>bertrand@ximian.com</email></member>
+     <member>Iain Holmes: <email>iain@ximian.com</email></member>    
      <member>Tuomas Kuosmanen: <email>tigert@gimp.org</email></member>
-     <member>Christopher J. Lahey: <email>clahey@helixcode.com</email></member>
+     <member>Christopher J. Lahey: <email>clahey@ximian.com</email></member>
      <member>Matthew Loper: <email>matt@loper.org</email></member>
-     <member>Federico Mena: <email>federico@helixcode.com</email></member>
+     <member>Federico Mena: <email>federico@ximian.com</email></member>
      <member>Eskil Heyn Olsen: <email>deity@eski.dk</email></member>
-     <member>Nat Friedman: <email>nat@helixcode.com</email></member>
-     <member>Ettore Perazzoli: <email>ettore@helixcode.com</email></member>
-     <member>Jeffrey Stedfast: <email>jeff@helixcode.com</email></member>
+     <member>Ettore Perazzoli: <email>ettore@ximian.com</email></member>
+     <member>JP Rosevear: <email>jpr@ximian.com</email></member>
+     <member>Jeffrey Stedfast: <email>jeff@ximian.com</email></member>
+     <member>Jakub Steiner: <email>jakub@ximian.com</email></member>
      <member>Russell Steinthal: <email>rms39@columbia.edu</email></member>     
-     <member>Peter Teichman: <email>peter@helixcode.com</email></member>     
-     <member>Chris Toshok: <email>toshok@helixcode.com</email></member>
+     <member>Peter Teichman: <email>peter@ximian.com</email></member>     
+     <member>Chris Toshok: <email>toshok@ximian.com</email></member>
+     <member>Jon Trowbridge: <email>trow@ximian.com</email></member>
      <member>Peter Williams: <email>peter@newton.cx</email></member>
-     <member>Dan Winship: <email>danw@helixcode.com</email></member>
-     <member>Michael Zucchi: <email>notzed@helixcode.com</email></member>
+     <member>Dan Winship: <email>danw@ximian.com</email></member>
+     <member>Michael Zucchi: <email>notzed@ximian.com</email></member>
 </simplelist>
-and other dedicated GNOME programmers. 
+and other dedicated GNOME programmers.
 </para>
     <para>
-      The <application>Evolution</application> code owes a great debt
+       The <application>Evolution</application> code owes a great debt
        to the <application>GNOME-pim</application> and
        <application>GNOME-Calendar</application> applications, and to
        <application>KHTMLW</application>.  The developers of
@@ -41,19 +46,18 @@ and other dedicated GNOME programmers.
    <para>
       For more information please visit the
       <application>Evolution</application> <ulink
-      url="http://www.helixcode.com/apps/evolution.php3"
-      type="http">Web page</ulink>.  Please send all comments,
-      suggestions, and bug reports to the <ulink
-      url="http://bugs.gnome.org" type="http">GNOME bug tracking
-      database</ulink>. Instructions for submitting bug reports can be
-      found on-line at <ulink
-      url="http://bugs.gnome.org/Reporting.html" type="http">
-      http://bugs.gnome.org/Reporting.html</ulink>. You can also use
+      url="http://www.ximian.com/apps/evolution.php3" type="http">web
+      page</ulink>.  Please send all comments, suggestions, and bug
+      reports to the <ulink url="http://bugs.gnome.org"
+      type="http">GNOME bug tracking database</ulink>. Instructions
+      for submitting bug reports can be found on-line at <ulink
+      url="http://bugs.gnome.org/reporting.html" type="http">
+      http://bugs.gnome.org/reporting.html</ulink>. You can also use
       command <command>bug-buddy</command> for submitting bug reports.
     </para>
     <para>
       This manual was written by Aaron Weber
-      (<email>aaron@helixcode.com</email>) and Kevin Breit
+      (<email>aaron@ximian.com</email>) and Kevin Breit
       (<email>battery841@mypad.com</email>) with the help of the
       application programmers and the GNOME Documentation Project.
       Please send all comments and suggestions regarding the manual to
@@ -63,11 +67,26 @@ and other dedicated GNOME programmers.
       url="http://www.gnome.org/gdp/doctable/">GNOME Documentation
       Status Table</ulink>.
     </para>
-    <!-- For translations: uncomment this: <para> Latin translation
-      was done by ME (<email>MYNAME@MYADDRESS</email>). Please send
-      all comments and suggestions regarding this translation to
-      SOMEWHERE.  </para> -->
+
+    <para> Swedish translation by Daniel Persson
+      (<email>myrridin@wlug.westbo.se</email>). Please send all
+      comments and suggestions regarding this translation to him.
+      </para>
+
+    <para> Spanish translation by Héctor García Álvarez
+      (<email><hector@scouts-es.org</email>). Please send all comments
+      and suggestions regarding this translation to him.  </para>
+
+   <para>
+      If you would like to translate Evolution or the Evolution
+      documentation, please contact Aaron Weber at
+      <email>aaron@ximian.com</email> or the GNOME Translation Project
+      at <ulink type="http"
+      url="http://developer.gnome.org/projects/gtp/">developer.gnome.org/projects/gtp/</ulink>
+   </para>
+
     </appendix>
+
 
 
 

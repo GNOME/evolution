@@ -181,7 +181,7 @@
         Then, you need to enter your email
         password. <application>Evolution</application> will remember
         your password until until you select <menuchoice>
-        <guimenu>Settings</guimenu> <guimenuitem>Forget
+        <guimenu>Tools</guimenu> <guimenuitem>Forget
         Passwords</guimenuitem> </menuchoice>.
       </para>
       <para>
@@ -1080,7 +1080,7 @@ possibly never will be due to security evil. -->
         create a filter, open the <interface>filter
         assistant</interface> by selecting
 	<menuchoice>
-	  <guimenu>Settings</guimenu> 
+	  <guimenu>Tools</guimenu> 
           <guimenuitem>Mail Filters</guimenuitem>
         </menuchoice>.
       </para>
@@ -1405,9 +1405,10 @@ possibly never will be due to security evil. -->
 	a virtual folder. Virtual folders, or vFolders, are an
 	advanced way of viewing your email messages within
 	<application>Evolution</application>.  If you get a lot of
-	mail or often forget where you put messages, virtual folders can help
-	you stay on top of things.
+	mail or often forget where you put messages, virtual folders
+	can help you stay on top of things.
       </para>
+
       <para>
 	A virtual folder is really a hybrid of all the other organizational
 	tools: it looks like a folder, it acts like a search, and you
@@ -1419,12 +1420,12 @@ possibly never will be due to security evil. -->
       </para>
 
       <para>
-	As messages that meet the virtual folder criteria arrive or are
-	deleted, <application>Evolution</application> will
-	automatically place them in and remove them from the
-	virtual folder contents list.  When you delete a message, it gets
+	As messages that meet the virtual folder criteria arrive or
+	are deleted, <application>Evolution</application> will
+	automatically place them in and remove them from the virtual
+	folder contents list.  When you delete a message, it gets
 	erased from the folder in which it actually exists, as well as
-	any virtual folders which display it.
+	any virtual folders which display it. 
       </para>
 
       <para>
@@ -1438,6 +1439,9 @@ possibly never will be due to security evil. -->
 	overlapping groups in a way that regular folders and filing
 	systems can't.
       </para>
+
+
+	<!--  (INSERT SCREENSHOT HERE: virtual folders in action) -->
 
       <example id="usage-mail-organize-vFolders-ex">
 	<title>Using Folders, Searches, and Virtual Folders</title>
@@ -1456,21 +1460,28 @@ possibly never will be due to security evil. -->
 	</para>
       </example>
 
-	<!--  (INSERT SCREENSHOT HERE: virtual folders in action) -->
-
       <para>
-	 To create a virtual folder, select <menuchoice>
-	 <guimenu>Settings</guimenu> <guimenuitem>Virtual Folder
-	 Editor</guimenuitem> </menuchoice>.  This will bring up a
-	 dialog box that looks suspiciously like the filter window
-	 (for more information on filters, see <xref
-	 linkend="usage-mail-organize-filters">), and which
-	 presents you with a list of virtual folders you have previously
-	 created. If you have created any virtual folders, they are listed
-	 here, and you can select, edit or remove them if you wish.
-	 If you have not created any, there will be only one available
-	 option: click <guibutton>Add</guibutton> to add a new
-	 Virtual Folder.
+	 To create a virtual folder, you first define your message
+         search criteria, as though you were creating a message
+         filter.  Then, you define a group of source folders where
+         you'd like <application>Evolution</application> to search.
+         Then, whenever you open the virtual folder,
+         <application>Evolution</application> will search through the
+         folders you have selected and display messages that match
+         your criteria.
+      </para>
+     <para>
+         To get started, select <menuchoice> <guimenu>Tools</guimenu>
+	 <guimenuitem>Virtual Folder Editor</guimenuitem>
+	 </menuchoice>.  This will bring up a dialog box that looks
+	 suspiciously like the filter window (for more information on
+	 filters, see <xref linkend="usage-mail-organize-filters">),
+	 and which presents you with a list of virtual folders you
+	 have previously created. If you have created any virtual
+	 folders, they are listed here, and you can select, edit or
+	 remove them if you wish.  If you have not created any, there
+	 will be only one available option: click
+	 <guibutton>Add</guibutton> to add a new Virtual Folder.
       </para>
       <para>
 	 You can enter a name for your virtual folder in the
@@ -1485,16 +1496,45 @@ possibly never will be due to security evil. -->
 	 range of dates.
        </para>
        <para>
-         The second part, however, is slightly different.  In the
-         section of the window labelled <guilabel>Virtual Folder Sources
-         </guilabel> is a list of folders in which
-         <application>Evolution</application> will search for the
-         contents of your vFolder.  Click <guibutton>Add</guibutton>
-         to add a folder, or <guibutton>Remove</guibutton> to remove
-         one.  That way, you can have your vFolder search in
-         newsgroups, or just in one of your mailboxes, or just in a
-         select few folders you've already screened with filters.
+         The second part of the window is is slightly different from
+         the Filter Editor.  In the section of the window labelled
+         <guilabel>Virtual Folder Sources</guilabel> is a list of
+         folders in which <application>Evolution</application> will
+         search for the contents of your vFolder.  Probably, you will
+         want to choose to search for messages in <guilabel>all local
+         folders</guilabel> <guilabel>active network
+         folders</guilabel> <guilabel>both local and remote
+         folders</guilabel>x.  However, you can also choose
+         <guilabel>Specific Folder Only</guilabel> to select
+         individual folders.  Click <guibutton>Add</guibutton> to add
+         a folder, or <guibutton>Remove</guibutton> to remove one.
+         That way, you can have your vFolder search just in one of
+         your mailboxes, or just in a select few folders you've
+         already screened with filters. 
        </para>
+
+     <note id="unmatched-folder">
+       <title>Trash and the Unmatched Folder</title>
+       <para>
+        A few virtual folders have already been created for you.
+	<guilabel>Trash</guilabel>, for example, is a view of all
+	messages marked for deletion; if you expunge the
+	<guilabel>Trash</guilabel> folder, you'll erase all the
+	messages you've marked for deletion. 
+      </para>
+      <para>
+        A more complicated example is the
+	<guilabel>Unmatched</guilabel> folder.  It contains messages
+	which are excluded from other virtual folders you have
+	open. As you create more virtual folders, it will have fewer
+	messages in it. If your only virtual folder is an empty Trash
+	folder, the Unmatched folder will show you
+	<emphasis>all</emphasis> your mail.  If you have a large
+	number of complicated folders, <guilabel>Unmatched</guilabel>
+	can show you which messages you might otherwise miss.
+       </para>
+     </note>
+
        <para>
         The vFolder creation window is shown in <xref
 	linkend="usage-mail-vfolder-fig-createrule">
@@ -1508,14 +1548,18 @@ possibly never will be due to security evil. -->
 	</screenshot>
       </figure>
       </para>
+
+
+
     </sect2>
+
     <sect2 id="usage-mail-subscriptions">
       <title>Subscription Management</title>
       <para>
          <application>Evolution</application> lets you handle your
          IMAP and newsgroup subscriptions with the same tool: the
          subscriptions manager.  To start using it, choose
-         <menuchoice> <guimenu>Settings</guimenu> <guimenuitem>Manage
+         <menuchoice> <guimenu>Tools</guimenu> <guimenuitem>Manage
          Subscriptions</guimenuitem> </menuchoice>.
       </para>
       <para>
