@@ -222,17 +222,17 @@ struct _header_scan_state {
 
 	int atleast;
 
-	int seek;		/* current offset to start of buffer */
+	off_t seek;		/* current offset to start of buffer */
 	int unstep;		/* how many states to 'unstep' (repeat the current state) */
 
 	unsigned int midline:1;		/* are we mid-line interrupted? */
 	unsigned int scan_from:1;	/* do we care about From lines? */
 	unsigned int scan_pre_from:1;	/* do we return pre-from data? */
 
-	int start_of_from;	/* where from started */
-	int start_of_headers;	/* where headers started from the last scan */
+	off_t start_of_from;	/* where from started */
+	off_t start_of_headers;	/* where headers started from the last scan */
 
-	int header_start;	/* start of last header, or -1 */
+	off_t header_start;	/* start of last header, or -1 */
 
 	/* filters to apply to all content before output */
 	int filterid;		/* id of next filter */

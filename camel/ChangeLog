@@ -1,5 +1,8 @@
 2002-02-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-parser.c: Changed offset variables from int's to
+	off_t's since the system may support large files.
+
 	* camel-mime-part-utils.c
 	(camel_mime_part_construct_content_from_parser): Rearrange the
 	save filter stuff so that we save raw streams for all mime
