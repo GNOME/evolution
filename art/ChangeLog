@@ -1,3 +1,7 @@
+2001-05-22  Jakub Steiner <jimmac@ximian.com>
+
+	* evolution-inbox-mini.png: fixed the shadow
+
 2001-05-17  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (images_DATA): Install Jakub's new icons
