@@ -134,8 +134,6 @@ header_matches (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMe
 				}
 			}
 			
-			printf ("comparing: '%s' with '%s'\n", contents, match);
-			
 			if (is_lowercase) {
 				if (!g_strcasecmp (contents, match))
 					matched = TRUE;

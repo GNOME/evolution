@@ -1,3 +1,8 @@
+2000-11-21  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-message-search.c: took out some no longer needed
+	printfs.
+
 2000-11-15  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-driver.c (filter_driver_filter_folder): Sync here
