@@ -3042,6 +3042,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->app = glade_xml_get_widget (gui, "contact editor");
 	widget = e_contact_editor->app;
 
+	gtk_widget_ensure_style (widget);
 	gtk_window_set_type_hint (GTK_WINDOW (widget), GDK_WINDOW_TYPE_HINT_NORMAL);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (widget)->vbox), 0);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (widget)->action_area), 12);
