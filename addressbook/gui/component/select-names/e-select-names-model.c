@@ -684,11 +684,13 @@ e_select_names_model_load_contacts (ESelectNamesModel *model)
 
 	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
 
-	g_object_ref (model);
+	if (model->priv->data) {
+		g_object_ref (model);
 
-	book = e_book_new_default_addressbook (NULL);
+		book = e_book_new_default_addressbook (NULL);
 
-	e_book_async_open (book, TRUE, book_opened, model);
+		e_book_async_open (book, TRUE, book_opened, model);
+	}
 }
 
 void

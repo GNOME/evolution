@@ -1,5 +1,11 @@
 2004-06-18  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_load_contacts): only go through the process
+	of creating/loading the EBook if the model has some data in it.
+
+2004-06-18  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #59376 ]
 
 	* gui/component/addressbook-view.c (fill_popup_menu_callback):
