@@ -1,4 +1,5 @@
-/* camelDataWrapper.h : Abstract class for a datawrapper */
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* camelDataWrapper.h : Abstract class for a data wrapper */
 
 /* 
  *
@@ -31,6 +32,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
+#include <stdio.h>
 
 
 
@@ -51,8 +53,12 @@ typedef struct
 
 typedef struct {
 	GtkObjectClass parent_class;
-
+	
 	/* Virtual methods */	
+	void  (*write_to_buffer) (CamelDataWrapper *data_wrapper, gchar *buffer);
+	void  (*write_to_file) (CamelDataWrapper *data_wrapper, FILE *file);
+	void  (*construct_from_buffer) (CamelDataWrapper *data_wrapper, gchar *buffer, guint size);
+	void  (*construct_from_file) (CamelDataWrapper *data_wrapper, FILE *file, guint size);
 
 } CamelDataWrapperClass;
 
@@ -63,7 +69,10 @@ GtkType camel_data_wrapper_get_type (void);
 
 
 /* public methods */
-
+void camel_data_wrapper_write_to_buffer(CamelDataWrapper *data_wrapper, gchar *buffer);
+void camel_data_wrapper_write_to_file(CamelDataWrapper *data_wrapper, FILE *file);
+void camel_data_wrapper_construct_from_buffer(CamelDataWrapper *data_wrapper, gchar *buffer, guint size);
+void camel_data_wrapper_construct_from_file (CamelDataWrapper *data_wrapper, FILE *file, guint size);
 
 #ifdef __cplusplus
 }

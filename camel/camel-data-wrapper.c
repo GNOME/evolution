@@ -1,5 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camelDataWrapper.c : Abstract class for an data_wrapper */
+/* camelDataWrapper.c : Abstract class for a data_wrapper */
+
+/** THIS IS MOSTLY AN ABSTRACT CLASS THAT SHOULD HAVE BEEN AN
+    INTERFACE. **/
 
 /* 
  *
@@ -28,12 +31,21 @@ static GtkObjectClass *parent_class=NULL;
 /* Returns the class for a CamelDataWrapper */
 #define CDH_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
 
+static void __camel_data_wrapper_write_to_buffer(CamelDataWrapper *data_wrapper, gchar *buffer);
+static void __camel_data_wrapper_write_to_file(CamelDataWrapper *data_wrapper, FILE *file);
+static void __camel_data_wrapper_construct_from_buffer(CamelDataWrapper *data_wrapper, gchar *buffer, guint size);
+static void __camel_data_wrapper_construct_from_file (CamelDataWrapper *data_wrapper, FILE *file, guint size);
+
 static void
 camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 {
 	parent_class = gtk_type_class (gtk_object_get_type ());
 	
 	/* virtual method definition */
+	camel_data_wrapper_class->write_to_buffer = __camel_data_wrapper_write_to_buffer;
+	camel_data_wrapper_class->write_to_file = __camel_data_wrapper_write_to_file;
+	camel_data_wrapper_class->construct_from_buffer = __camel_data_wrapper_construct_from_buffer;
+	camel_data_wrapper_class->construct_from_file = __camel_data_wrapper_construct_from_file;
 
 	/* virtual method overload */
 }
@@ -66,6 +78,96 @@ camel_data_wrapper_get_type (void)
 	}
 	
 	return camel_data_wrapper_type;
+}
+
+
+
+
+/**
+ * __camel_data_wrapper_write_to_buffer: write data content in a byte buffer
+ * @data_wrapper: the data wrapper object
+ * @buffer: byte buffer where data will be written 
+ * 
+ * This method must be overriden by subclasses
+ * Data must be written in the bytes buffer
+ * in a architecture independant fashion. 
+ * If data is a standard data (for example an jpg image)
+ * it must be serialized in the buffer exactly as it 
+ * would be saved on disk. A simple dump of the buffer in
+ * a file should be sufficient for the data to be 
+ * re-read by a foreign application.  
+ * 
+ **/
+static void
+__camel_data_wrapper_write_to_buffer(CamelDataWrapper *data_wrapper, gchar *buffer)
+{
+	/* nothing */
+}
+
+
+/**
+ * camel_data_wrapper_write_to_buffer: write data in a memory buffer
+ * @data_wrapper: the data wrapper object
+ * @buffer: byte buffer where data will be written 
+ *
+ * Write data content in a buffer. Data is stored in a machine
+ * independant format. 
+ * 
+ **/
+void 
+camel_data_wrapper_write_to_buffer(CamelDataWrapper *data_wrapper, gchar *buffer)
+{
+	CDH_CLASS(data_wrapper)->write_to_buffer (data_wrapper, buffer);
+}
+
+
+
+static void
+__camel_data_wrapper_write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
+{
+	/* nothing */
+}
+
+
+/**
+ * camel_data_wrapper_write_to_file: write data in a binary file
+ * @data_wrapper: the data wrapper object
+ * @file: file descriptoe where to write data
+ * 
+ * Write data content in a binary file.  
+ *
+ **/
+void 
+camel_data_wrapper_write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
+{
+	CDH_CLASS(data_wrapper)->write_to_file (data_wrapper, file);
+}
+
+
+static void
+__camel_data_wrapper_construct_from_buffer(CamelDataWrapper *data_wrapper, gchar *buffer, guint size)
+{
+	/* nothing */
+}
+
+void 
+camel_data_wrapper_construct_from_buffer(CamelDataWrapper *data_wrapper, gchar *buffer, guint size)
+{
+	CDH_CLASS(data_wrapper)->construct_from_buffer (data_wrapper, buffer, size);
+}
+
+
+
+static void
+__camel_data_wrapper_construct_from_file (CamelDataWrapper *data_wrapper, FILE *file, guint size)
+{
+	/* nothing */
+}
+
+void 
+camel_data_wrapper_construct_from_file (CamelDataWrapper *data_wrapper, FILE *file, guint size)
+{
+	CDH_CLASS(data_wrapper)->construct_from_file (data_wrapper, file, size);
 }
 
 

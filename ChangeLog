@@ -1,4 +1,14 @@
-1999-05-07  root  <guiheneu@jean.joudboeuf.fr>
+1999-05-08  bertrand <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-data-wrapper.c 
+	(camel_data_wrapper_write_to_buffer): method to
+	stream data content in a buffer.
+	(camel_data_wrapper_write_to_file): 
+	(camel_data_wrapper_construct_from_buffer): 
+	(camel_data_wrapper_construct_from_file): 
+	new methods.
+	
+1999-05-07  bertrand <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-data-wrapper.[ch]:new class.
 	This should not be a class but rather an 
