@@ -1,3 +1,9 @@
+2004-10-07  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-passwords.c (ep_ask_password): Use "%s" as the formatter
+	argument and msg->prompt as a printf-style argument rather than
+	using it as the format string. Fixes bug #67622.
+
 2004-08-27  Not Zed  <NotZed@Ximian.com>
 
 	* e-passwords.c (e_passwords_ask_password): return cancelled if
@@ -16,7 +22,8 @@
 
 2004-08-13  Rodrigo Moya <rodrigo@novell.com>
 
-	* e-categories-config.c: include gtkdialog.h rather than gnome-dialog.h.
+	* e-categories-config.c: include gtkdialog.h rather than
+	gnome-dialog.h.
 
 2004-08-12  Carlos Garnacho Parro  <carlosg@gnome.org>
 
