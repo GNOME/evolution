@@ -42,16 +42,21 @@ model_row_inserted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 	int i;
 	int offset;
 	if(etsm->row_count >= 0) {
+		guint32 bitmask1 = 0xffff;
+		guint32 bitmask2;
 		if ((etsm->row_count & 0x1f) == 0) {
 			etsm->selection = e_realloc(etsm->selection, (etsm->row_count >> 5) + 1);
 			etsm->selection[etsm->row_count >> 5] = 0;
 		}
 		box = row >> 5;
 		for (i = etsm->row_count >> 5; i > box; i--) {
-			etsm->selection[i] = (etsm->selection[i] >> 1) & (etsm->selection[i - 1] << 31)
+			etsm->selection[i] = (etsm->selection[i] >> 1) | (etsm->selection[i - 1] << 31)
 		}
+
 		offset = row & 0x1f;
-		etsm->selection[i] = ((etsm->selection[i] >> (32 - offset)) << (32 - offset)) & ((etsm->selection[i] << offset) >> (offset + 1));
+		bitmask1 = bitmask1 << (32 - offset);
+		bitmask2 = ~bitmask1;
+		etsm->selection[i] = (etsm->selection[i] & bitmask1) | ((etsm->selection[i] & bitmask2) >> 1);
 		etsm->row_count ++;
 	}
 }
@@ -63,19 +68,21 @@ model_row_deleted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 	int i;
 	int offset;
 	if(etsm->row_count >= 0) {
+		guint32 bitmask1 = 0xffff;
+		guint32 bitmask2;
 		box = row >> 5;
 		last = etsm->row_count >> 5
 
 		offset = row & 0x1f;
-		if (offset)
-			etsm->selection[box] = ((etsm->selection[box] >> (32 - offset)) << (32 - offset)) & ((etsm->selection[box] << offset) >> (offset - 1));
-		else
-			etsm->selection[box] = etsm->selection[box] << 1;
+		bitmask1 = bitmask1 << (32 - offset);
+		bitmask2 = (~bitmask1) >> 1;
+		etsm->selection[box] = (etsm->selection[box] & bitmask1) | ((etsm->selection[box] & bitmask2) << 1);
+
 		if (box < last) {
 			etsm->selection[box] &= etsm->selection[box + 1] >> 31;
 
 			for (i = box + 1; i < last; i++) {
-				etsm->selection[i] = (etsm->selection[i] << 1) & (etsm->selection[i + 1] >> 31);
+				etsm->selection[i] = (etsm->selection[i] << 1) | (etsm->selection[i + 1] >> 31);
 			}
 			etsm->selection[i] = etsm->selection[i] << 1;
 		}
@@ -90,8 +97,15 @@ inline static void
 add_model(ETableSelectionModel *etsm, ETableModel *model)
 {
 	etsm->model = model;
-	if (model)
+	if (model) {
 		gtk_object_ref(GTK_OBJECT(model));
+		etsm->model_changed_id = gtk_signal_connect(GTK_OBJECT(model), "model_changed",
+							    GTK_SIGNAL_FUNC(model_changed), etsm);
+		etsm->model_row_inserted_id = gtk_signal_connect(GTK_OBJECT(model), "model_row_inserted",
+								 GTK_SIGNAL_FUNC(model_row_inserted), etsm);
+		etsm->model_row_deleted_id = gtk_signal_connect(GTK_OBJECT(model), "model_row_deleted",
+								GTK_SIGNAL_FUNC(model_row_deleted), etsm);
+	}
 }
 
 inline static void
