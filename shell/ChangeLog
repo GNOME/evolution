@@ -1,3 +1,7 @@
+2004-12-08  David Mosberger <davidm@napali.hpl.hp.com>
+
+	* main.c: include es-event.h to fix 64 bit platform problems.
+
 2004-11-22  Joan Sanfeliu  <joan@fibranet.com>
 
 	* main.c: Evolution product name spelled with an uppercase E

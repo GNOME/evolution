@@ -34,6 +34,7 @@
 
 #include "e-shell.h"
 #include "es-menu.h"
+#include "es-event.h"
 
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
