@@ -1,5 +1,11 @@
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
+	* gui/tasks-control.c: 
+	* gui/calendar-commands.c (pixmaps): used new_task-16.png and
+	goto-16.png.
+
+2001-08-20  Damon Chaplin  <damon@ximian.com>
+
 	* gui/calendar-commands.c (pixmaps): added delete icons for menu
 	and toolbar.
 

@@ -245,7 +245,7 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/menu/File/New/NewFirstItem/NewTask",                 "task.xpm"),
+	E_PIXMAP ("/menu/File/New/NewFirstItem/NewTask",                 "new_task-16.png"),
 	E_PIXMAP ("/menu/Edit/Cut",					      "16_cut.png"),
 	E_PIXMAP ("/menu/Edit/Copy",					      "16_copy.png"),
 	E_PIXMAP ("/menu/Edit/Paste",					      "16_paste.png"),

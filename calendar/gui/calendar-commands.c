@@ -512,7 +512,7 @@ static BonoboUIVerb verbs [] = {
 static EPixmap pixmaps [] =
 {
 	E_PIXMAP ("/menu/File/New/NewFirstItem/NewAppointment",	              "new_appointment.xpm"),
-	E_PIXMAP ("/menu/File/New/NewFirstItem/NewTask",	              "task.xpm"),
+	E_PIXMAP ("/menu/File/New/NewFirstItem/NewTask",	              "new_task-16.png"),
 	E_PIXMAP ("/menu/Edit/CutEvent",				      "16_cut.png"),
 	E_PIXMAP ("/menu/Edit/CopyEvent",				      "16_copy.png"),
 	E_PIXMAP ("/menu/Edit/PasteEvent",				      "16_paste.png"),
@@ -521,8 +521,9 @@ static EPixmap pixmaps [] =
 	E_PIXMAP ("/menu/File/Print/PrintPreview",			      "print-preview.xpm"),
 	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewAppointment", "new_appointment.xpm"),
 	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewEvent", "new_appointment.xpm"),
-	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewTask", "task.xpm"),
+	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewTask", "new_task-16.png"),
 	E_PIXMAP ("/menu/ComponentToolsPlaceholder/Tools/CalendarSettings",   "configure_16_calendar.xpm"),
+	E_PIXMAP ("/menu/View/ViewBegin/Goto",				      "goto-16.png"),
 
 	E_PIXMAP ("/Toolbar/New",					      "buttons/new_appointment.png"),
 	E_PIXMAP ("/Toolbar/NewTask",					      "buttons/new_task.png"),
