@@ -189,7 +189,7 @@ strstrcase (const gchar *haystack, const gchar *needle)
 	if (len > strlen(haystack))
 		return NULL;
 
-	for (ptr = haystack; *(ptr + len - 1) != '\0'; ptr++)
+	for (ptr = (char *)haystack; *(ptr + len - 1) != '\0'; ptr++)
 		if (!g_strncasecmp(ptr, needle, len))
 			return ptr;
 

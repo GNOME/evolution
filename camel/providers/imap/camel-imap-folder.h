@@ -35,9 +35,7 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include "camel-folder.h"
-#include "camel-imap-summary.h"
 #include <camel/camel-folder-search.h>
-#include <libibex/ibex.h>
 
 #define CAMEL_IMAP_FOLDER_TYPE     (camel_imap_folder_get_type ())
 #define CAMEL_IMAP_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_IMAP_FOLDER_TYPE, CamelImapFolder))
@@ -47,8 +45,6 @@ extern "C" {
 typedef struct {
 	CamelFolder parent_object;
 
-	ibex *index;		   /* index for this folder */
-	CamelImapSummary *summary;
 	CamelFolderSearch *search; /* used to run searches, we just use the real thing (tm) */
 
 	gint count;

@@ -1,3 +1,17 @@
+2000-06-16  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_sync): Added code
+	to expunge if called for (still need to finish coding this).
+	(imap_get_uids): Implemented.
+	(imap_get_summary): Found a way to get the date
+	(imap_summary_get_by_uid): Same.
+	(imap_free_summary): Implemented.
+
+	* string-utils.c (strstrcase): Fixed a compile warning
+
+	* providers/imap/camel-imap-summary.c: Removed - we don't
+	need a CamelImapSummary structure.
+
 2000-06-16  Dan Winship  <danw@helixcode.com>
 
 	Move flag handling from CamelMimeMessage to CamelFolder. This
@@ -69,12 +83,13 @@
 
 2000-06-15  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* providers/imap/camel-imap-folder.c (imap_get_summary): Started to implement
-	(imap_summary_get_by_uid): Started to code, I've got to find a way to get the 
-	date in time_t format and also get the flags
+	* providers/imap/camel-imap-folder.c (imap_get_summary): Started to 
+	implement - may want to use ENVELOPE instead of BODY.PEEK[HEADER]
+	(imap_summary_get_by_uid): Started to code, I've got to find a way to 
+	get the date in time_t format and also get the flags
 
-	* string-utils.c (strstrcase): Added this convenience function - I know about
-	strcasestr() but it's not portable.
+	* string-utils.c (strstrcase): Added this convenience function - I
+	know about strcasestr() but it's not portable.
 
 2000-06-15  Dan Winship  <danw@helixcode.com>
 
@@ -121,22 +136,24 @@
 
 2000-06-14  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* camel-mime-filter-crlf.c (filter): Updated the encoder to allocate more
-	memory (since we are also now adding dots). Also updated the decoder as we
-	have found that it sometimes passes the end of the buffer.
+	* camel-mime-filter-crlf.c (filter): Updated the encoder to allocate 
+	more memory (since we are also now adding dots). Also updated the
+	decoder as we have found that it sometimes passes the end of the 
+	buffer.
 
 	* providers/pop3/camel-pop3-folder.c (get_message_by_uid): Took out the
-	filter code ( we already filter in camel_pop3_command_get_additional_data)
+	filter code (we already filter in 
+	camel_pop3_command_get_additional_data)
 
-	* camel-folder.c (init): Updated: a separator is now a char* rather than
-	a single char because IMAP can have a string for a directory separator.
-	Also, since IMAP does not begin with a directory separator, there is a new
-	argument (path_begins_with_sep) which decides if a directory should begin
-	with a directory separator.
+	* camel-folder.c (init): Updated: a separator is now a char* rather 
+	than a single char because IMAP can have a string for a directory 
+	separator. Also, since IMAP does not begin with a directory separator,
+	there is a new argument (path_begins_with_sep) which decides if a 
+	directory should begin with a directory separator.
 
 	* providers/imap/camel-imap-store.c (imap_create): Since, on connect,
-	Camel tries to create INBOX (which already exists on every IMAP provider)
-	we can return TRUE when the folder name is "INBOX".
+	Camel tries to create INBOX (which already exists on every IMAP 
+	provider) we can return TRUE when the folder name is "INBOX".
 
 	* providers/vee/camel-vee-folder.c (vee_init): Updated.
 
@@ -223,11 +240,11 @@
 
 2000-06-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* providers/imap/camel-imap-stream.c (stream_read): Updated to reflect changes
-	made in camel-imap-store.c
+	* providers/imap/camel-imap-stream.c (stream_read): Updated to reflect
+	changes made in camel-imap-store.c
 
-	* providers/imap/camel-imap-store.c (imap_create): No longer checks to make 
-	sure a folder doesn't already exists (as this is no longer needed)
+	* providers/imap/camel-imap-store.c (imap_create): No longer checks to
+	make sure a folder doesn't already exists (as this is no longer needed)
 	(camel_imap_command): Now takes a CamelFolder argument so it can detect
 	whether or not it needs to SELECT a folder or not
 	(camel_imap_command_extended): Same.
@@ -238,10 +255,12 @@
 
 2000-06-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* providers/imap/camel-imap-summary.c: Now builds (not that it's worth much yet).
+	* providers/imap/camel-imap-summary.c: Now builds (not that it's worth
+	much yet).
 	
-	* providers/imap/camel-imap-folder.c (imap_get_uids): Now uses the correct 
-	cast to a CamelImapMessageInfo structure (should get rid of compile warnings).
+	* providers/imap/camel-imap-folder.c (imap_get_uids): Now uses the 
+	correct cast to a CamelImapMessageInfo structure (should get rid of 
+	compile warnings).
 
 	* providers/imap/Makefile.am: Added rules to build 
 	camel-imap-stream
@@ -317,8 +336,8 @@
 
 	* camel-stream-buffer.c: same
 
-	* camel-imap-stream.[c,h]: Added this new stream, cache's previously read
-	data so each successive call will instead read from the cache
+	* camel-imap-stream.[c,h]: Added this new stream, cache's previously 
+	read data so each successive call will instead read from the cache
 	
 2000-06-05  Dan Winship  <danw@helixcode.com>
 
@@ -336,8 +355,8 @@
 
 2000-06-02  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* camel-mime-filter-smtp.c (filter): Fixed the filter so that it wouldn't
-	insert garbage under certain conditions.
+	* camel-mime-filter-smtp.c (filter): Fixed the filter so that it 
+	wouldn't insert garbage under certain conditions.
 
 2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
 

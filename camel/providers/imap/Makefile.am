@@ -25,18 +25,16 @@ libcamelimap_la_SOURCES = 			\
 	camel-imap-folder.c			\
 	camel-imap-provider.c			\
 	camel-imap-store.c			\
-	camel-imap-stream.c			\
-	camel-imap-summary.c
+	camel-imap-stream.c
 
 libcamelimapinclude_HEADERS =			\
 	camel-imap-folder.h			\
 	camel-imap-store.h			\
-	camel-imap-stream.h			\
-	camel-imap-summary.h
+	camel-imap-stream.h
 
 libcamelimap_la_LDFLAGS = -version-info 0:0:0
 
-libcamelimap_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)
+libcamelimap_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(UNICODE_LIBS)
 #libcamelimap_la_LIBADD = $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)
 
 EXTRA_DIST = libcamelimap.urls
