@@ -5,6 +5,28 @@ Shell:
 
 Mail: 
 
+  - Added more folder information and cleaned up this code. You can 
+    now see the number of hidden messages and total number of messages
+    in the upper righthand corner of the screen. (Peter)
+
+  - Standalone message view now has full menus. (Peter)
+
+  - Implemented "Select Thread". (Peter)
+
+  - Fixed saving of html signature preferences. (Peter)
+
+  - Cleaned up exiting by having remote stores sync folders (Peter)
+
+  - Bugzilla bugs fixed: 4245, 4137, 4281, 4422
+
+  - Send Later no longer segfaults (Peter)
+
+  - Attached binhex files do not cause infintie loops (Peter)
+
+  - Don't send BCC headers when sending via SMTP (Peter)
+
+  - Let you show and hide attached message/rfc822's (Peter)
+
 Addressbook:
 
 Calendar:
@@ -15,6 +37,11 @@ Importers:
 	Fixes, bug fixes and more fixes. (Iain & Jason)
 
 General:
+
+  - 'make distcheck' should hopefully be working again (Peter)
+
+  - Have 'make install' work for non-root users in Camel, albeit
+    with a large and important warning message (Peter)
 
 My Evolution:
 	Completely new and prettier My Evolution (nee Executive Summary). 
