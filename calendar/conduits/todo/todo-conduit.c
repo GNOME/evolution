@@ -65,6 +65,7 @@ void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
 typedef struct _EToDoLocalRecord EToDoLocalRecord;
 typedef struct _EToDoConduitCfg EToDoConduitCfg;
+typedef struct _EToDoConduitGui EToDoConduitGui;
 typedef struct _EToDoConduitContext EToDoConduitContext;
 
 /* Local Record */
@@ -128,7 +129,7 @@ todoconduit_load_configuration (guint32 pilot_id)
 	gnome_config_push_prefix (prefix);
 
 	c->secret = gnome_config_get_bool ("secret=FALSE");
-	c->priority = gnome_config_get_int ("priority=1");
+	c->priority = gnome_config_get_int ("priority=3");
 	c->last_uri = gnome_config_get_string ("last_uri");
 
 	gnome_config_pop_prefix ();
@@ -181,12 +182,71 @@ todoconduit_destroy_configuration (EToDoConduitCfg *c)
 	g_free (c);
 }
 
+/* Gui */
+struct _EToDoConduitGui {
+	GtkWidget *priority;
+};
+
+static EToDoConduitGui *
+e_todo_gui_new (EPilotSettings *ps) 
+{
+	EToDoConduitGui *gui;
+	GtkWidget *lbl;
+	GtkObject *adj;
+	gint rows;
+	
+	g_return_val_if_fail (ps != NULL, NULL);
+	g_return_val_if_fail (E_IS_PILOT_SETTINGS (ps), NULL);
+
+	gtk_table_resize (GTK_TABLE (ps), E_PILOT_SETTINGS_TABLE_ROWS + 1, E_PILOT_SETTINGS_TABLE_COLS);
+
+	gui = g_new0 (EToDoConduitGui, 1);
+
+	rows = E_PILOT_SETTINGS_TABLE_ROWS;
+	lbl = gtk_label_new (_("Default Priority:"));
+	gtk_misc_set_alignment (GTK_MISC (lbl), 0.0, 0.5);
+	adj = gtk_adjustment_new (1, 1, 5, 1, 5, 5);
+	gui->priority = gtk_spin_button_new (GTK_ADJUSTMENT (adj), 1.0, 0);
+	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (gui->priority), TRUE);
+	gtk_table_attach_defaults (GTK_TABLE (ps), lbl, 0, 1, rows, rows + 1);
+        gtk_table_attach_defaults (GTK_TABLE (ps), gui->priority, 1, 2, rows, rows + 1);
+	gtk_widget_show (lbl);
+	gtk_widget_show (gui->priority);
+	
+	return gui;
+}
+
+static void
+e_todo_gui_fill_widgets (EToDoConduitGui *gui, EToDoConduitCfg *cfg) 
+{
+	g_return_if_fail (gui != NULL);
+	g_return_if_fail (cfg != NULL);
+
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (gui->priority), cfg->priority);
+}
+
+static void
+e_todo_gui_fill_config (EToDoConduitGui *gui, EToDoConduitCfg *cfg) 
+{
+	g_return_if_fail (gui != NULL);
+	g_return_if_fail (cfg != NULL);
+
+	cfg->priority = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (gui->priority));
+}
+
+static void
+e_todo_gui_destroy (EToDoConduitGui *gui) 
+{
+	g_free (gui);
+}
+
 /* Context */
 struct _EToDoConduitContext {
-	EToDoConduitCfg *cfg;
 	GnomePilotDBInfo *dbi;
 
+	EToDoConduitCfg *cfg;
 	EToDoConduitCfg *new_cfg;
+	EToDoConduitGui *gui;
 	GtkWidget *ps;
 	
 	struct ToDoAppInfo ai;
@@ -209,6 +269,7 @@ e_todo_context_new (guint32 pilot_id)
 
 	ctxt->cfg = todoconduit_load_configuration (pilot_id);
 	ctxt->new_cfg = todoconduit_dupe_configuration (ctxt->cfg);
+	ctxt->gui = NULL;
 	ctxt->ps = NULL;
 	ctxt->client = NULL;
 	ctxt->uids = NULL;
@@ -237,7 +298,11 @@ e_todo_context_destroy (EToDoConduitContext *ctxt)
 
 	if (ctxt->cfg != NULL)
 		todoconduit_destroy_configuration (ctxt->cfg);
-
+	if (ctxt->new_cfg != NULL)
+		todoconduit_destroy_configuration (ctxt->new_cfg);
+	if (ctxt->gui != NULL)
+		e_todo_gui_destroy (ctxt->gui);
+	
 	if (ctxt->client != NULL)
 		gtk_object_unref (GTK_OBJECT (ctxt->client));
 
@@ -596,7 +661,7 @@ local_record_from_comp (EToDoLocalRecord *local, CalComponent *comp, EToDoCondui
 		
 		cal_component_free_priority (priority);
 	} else {
-		local->todo->priority = 3;
+		local->todo->priority = ctxt->cfg->priority;
 	}	
 	
 	cal_component_get_classification (comp, &classif);
@@ -1239,6 +1304,8 @@ fill_widgets (EToDoConduitContext *ctxt)
 {
 	e_pilot_settings_set_secret (E_PILOT_SETTINGS (ctxt->ps),
 				     ctxt->cfg->secret);
+
+	e_todo_gui_fill_widgets (ctxt->gui, ctxt->cfg);
 }
 
 static gint
@@ -1249,6 +1316,8 @@ create_settings_window (GnomePilotConduit *conduit,
 	LOG ("create_settings_window");
 
 	ctxt->ps = e_pilot_settings_new ();
+	ctxt->gui = e_todo_gui_new (E_PILOT_SETTINGS (ctxt->ps));
+
 	gtk_container_add (GTK_CONTAINER (parent), ctxt->ps);
 	gtk_widget_show (ctxt->ps);
 
@@ -1269,8 +1338,8 @@ save_settings    (GnomePilotConduit *conduit, EToDoConduitContext *ctxt)
 {
 	LOG ("save_settings");
 
-	ctxt->new_cfg->secret =
-		e_pilot_settings_get_secret (E_PILOT_SETTINGS (ctxt->ps));
+	ctxt->new_cfg->secret = e_pilot_settings_get_secret (E_PILOT_SETTINGS (ctxt->ps));
+	e_todo_gui_fill_config (ctxt->gui, ctxt->new_cfg);
 	
 	todoconduit_save_configuration (ctxt->new_cfg);
 }

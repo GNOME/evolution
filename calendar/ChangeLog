@@ -1,3 +1,16 @@
+2002-02-04  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/todo/todo-conduit.c (e_todo_gui_new): new gui routines
+	for conduit settings
+	(e_todo_gui_fill_config): ditto
+	(e_todo_gui_fill_widgets): ditto
+	(e_todo_gui_destroy): ditto
+	(e_todo_context_destroy): destroy new_cfg and gui properly
+	(local_record_from_comp): set the priority to the default setting
+	if none is set on the icalendar object
+	(fill_widgets): fill gui widgets
+	(create_settings_window): create gui
+
 2002-01-30  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (write_html): if this is a reply, print the
