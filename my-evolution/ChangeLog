@@ -1,5 +1,10 @@
 2002-09-26  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-summary-preferences.c (folder_list_from_vector): Do some
+	sanity checking so we don't crash miserably as in #28481.
+
+2002-09-26  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-summary-preferences.c: Take out CNN and DebianPlanet, which do
 	not seem to work for me.
 

@@ -181,11 +181,20 @@ folder_list_from_vector (const char *vector)
 
 	for (tokens = t; *tokens; tokens += 2) {
 		ESummaryPrefsFolder *folder;
+		const char *evolution_uri;
+		const char *physical_uri;
+
+		evolution_uri = *tokens;
+		if (evolution_uri == NULL || strncmp (evolution_uri, "evolution:", 10) != 0)
+			break;
+
+		physical_uri = *(tokens + 1);
+		if (physical_uri == NULL)
+			break;
 
 		folder = g_new (ESummaryPrefsFolder, 1);
-		g_print ("%s - %s\n", *tokens, *(tokens + 1));
-		folder->evolution_uri = g_strdup (*tokens);
-		folder->physical_uri = g_strdup (*(tokens + 1));
+		folder->evolution_uri = g_strdup (evolution_uri);
+		folder->physical_uri = g_strdup (physical_uri);
 
 		flist = g_list_prepend (flist, folder);
 	}
