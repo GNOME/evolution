@@ -40,6 +40,7 @@
 #include <camel/camel-session.h>
 #include <camel/camel-store.h>
 #include <camel/camel-folder.h>
+#include <camel/camel-vtrash-folder.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-file-utils.h>
 
@@ -266,7 +267,7 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 			pixbuf = folder_icons[FOLDER_ICON_INBOX];
 		else if (!strcasecmp (path, "/Outbox"))
 			pixbuf = folder_icons[FOLDER_ICON_OUTBOX];
-		else if if (*path == '/' && !strcasecmp (path + 1, CAMEL_VTRASH_NAME))
+		else if (*path == '/' && !strcasecmp (path + 1, CAMEL_VTRASH_NAME))
 			pixbuf = folder_icons[FOLDER_ICON_TRASH];
 		else if (*path == '/' && !strcasecmp (path + 1, CAMEL_VJUNK_NAME))
 			pixbuf = folder_icons[FOLDER_ICON_JUNK];
