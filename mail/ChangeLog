@@ -1,7 +1,16 @@
 2000-08-15  Peter Williams  <peterw@helixcode.com>
 
+	* mail-threads.c (dispatch): Close the dispatch thread's half of
+	pipes when about to exit.
+	(mail_operations_terminate): Close the main thread's half of the
+	pipes when about to exit.
+	(all): Add i18n support.
+	
+	* mail-tools.c (all): Add i18n support.
+
 	* mail-ops.c (transfer_messages): Generalize move_messages into
 	transfer_messages so that we can copy too.
+	(all): Add i18n supprt where appropriate.
 
 	* mail-ops.h: Prototype the new mail_do_transfer_messages.
 

@@ -271,7 +271,7 @@ mail_operation_queue (const mail_operation_spec * spec, gpointer input,
 
 			msg =
 				g_strdup_printf
-				("Error while preparing to %s:\n" "%s",
+				(_("Error while preparing to %s:\n" "%s"),
 				 clur->infinitive,
 				 camel_exception_get_description (clur->ex));
 			err_dialog = gnome_error_dialog (msg);
@@ -504,6 +504,9 @@ mail_operations_terminate (void)
 	clur.spec = NULL;
 
 	write (DISPATCH_WRITER, &clur, sizeof (closure_t));
+
+	close (DISPATCH_WRITER);
+	close (MAIN_READER);
 }
 
 void
@@ -616,7 +619,7 @@ dispatch (void *unused)
 					   clur->infinitive,
 					   camel_exception_get_description (clur->
 									    ex));
-				mail_op_error ("Error while `%s':\n" "%s",
+				mail_op_error (_("Error while `%s':\n%s"),
 					       clur->gerund,
 					       camel_exception_get_description (clur->
 										ex));
@@ -631,6 +634,9 @@ dispatch (void *unused)
 		write (MAIN_WRITER, &msg, sizeof (msg));
 		block_wait (&finish_block);
 	}
+
+	close (DISPATCH_READER);
+	close (MAIN_WRITER);
 
 #ifdef G_THREADS_IMPL_POSIX
 	pthread_exit (0);

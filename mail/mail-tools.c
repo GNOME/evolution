@@ -202,8 +202,8 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 
 	if (tmpfd == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Couldn't create temporary "
-				      "mbox `%s': %s", dest_path, g_strerror (errno));
+				      _("Couldn't create temporary "
+				      "mbox `%s': %s"), dest_path, g_strerror (errno));
 		g_free (dest_path);
 		g_free (dest_url);
 		return NULL;
@@ -287,10 +287,10 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 			uids = new_uids;
 		} else {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Could not read UID "
+					      _("Could not read UID "
 					      "cache file \"%s\". You may "
 					      "receive duplicate "
-					      "messages.", filename);
+					      "messages."), filename);
 		}
 
 		g_free (filename);
@@ -370,9 +370,9 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 
 	if (from) {
 		if (subject && *subject) {
-			fwd_subj = g_strdup_printf ("[%s] %s", from, subject);
+			fwd_subj = g_strdup_printf (_("[%s] %s"), from, subject);
 		} else {
-			fwd_subj = g_strdup_printf ("[%s] (forwarded message)",
+			fwd_subj = g_strdup_printf (_("[%s] (forwarded message)"),
 						    from);
 		}
 	} else {
@@ -381,7 +381,7 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 				subject += 4;
 			fwd_subj = g_strdup_printf ("Fwd: %s", subject);
 		} else
-			fwd_subj = g_strdup ("Fwd: (no subject)");
+			fwd_subj = g_strdup (_("Fwd: (no subject)"));
 	}
 
 	return fwd_subj;
@@ -416,9 +416,9 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 
 	subject = camel_mime_message_get_subject (message);
 	if (subject)
-		desc = g_strdup_printf ("Forwarded message - %s", subject);
+		desc = g_strdup_printf (_("Forwarded message - %s"), subject);
 	else
-		desc = g_strdup ("Forwarded message (no subjecr)");
+		desc = g_strdup (_("Forwarded message (no subject)"));
 
 	part = camel_mime_part_new ();
 	camel_mime_part_set_disposition (part, "inline");
@@ -527,7 +527,7 @@ mail_tool_filter_contents_into (CamelFolder *source, CamelFolder *dest,
 		
 		if (stat (path, &sb) < 0) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Couldn't stat movemail folder %s",
+					      _("Couldn't stat(2) movemail folder %s"),
 					      path);
 			g_free (path);
 			return;
@@ -628,7 +628,7 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 		folder = mail_tool_local_uri_to_folder (uri, ex);
 	} else {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Don't know protocol to open URI `%s'", uri);
+				      _("Don't know protocol to open URI `%s'"), uri);
 	}
 
 	if (camel_exception_is_set (ex)) {
@@ -657,8 +657,8 @@ mail_tool_uri_to_folder_noex (const char *uri)
 		gchar *msg;
 		GtkWidget *dialog;
 
-		msg = g_strdup_printf ("Cannot open location `%s':\n"
-				       "%s",
+		msg = g_strdup_printf (_("Cannot open location `%s':\n"
+				       "%s"),
 				       uri,
 				       camel_exception_get_description (&ex));
 		dialog = gnome_error_dialog (msg);

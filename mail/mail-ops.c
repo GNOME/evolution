@@ -71,9 +71,9 @@ describe_fetch_mail (gpointer in_data, gboolean gerund)
 		name = input->source_url;
 
 	if (gerund)
-		return g_strdup_printf ("Fetching email from %s", name);
+		return g_strdup_printf (_("Fetching email from %s"), name);
 	else
-		return g_strdup_printf ("Fetch email from %s", name);
+		return g_strdup_printf (_("Fetch email from %s"), name);
 }
 
 static void
@@ -84,8 +84,8 @@ setup_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	if (!input->source_url) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "You have no remote mail source configured "
-				     "to fetch mail from.");
+				     _("You have no remote mail source configured "
+				     "to fetch mail from."));
 		return;
 	}
 
@@ -94,7 +94,7 @@ setup_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	if (!CAMEL_IS_FOLDER (input->destination)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "Bad folder passed to fetch_mail");
+				     _("Bad folder passed to fetch_mail"));
 		return;
 	}
 
@@ -162,7 +162,7 @@ cleanup_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	if (data->empty && !camel_exception_is_set (ex)) {
 		GtkWidget *dialog;
 
-		dialog = gnome_ok_dialog ("There is no new mail.");
+		dialog = gnome_ok_dialog (_("There is no new mail."));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	}
 
@@ -231,18 +231,18 @@ describe_send_mail (gpointer in_data, gboolean gerund)
 
 	if (gerund) {
 		if (input->message->subject && input->message->subject[0])
-			return g_strdup_printf ("Sending \"%s\"",
+			return g_strdup_printf (_("Sending \"%s\""),
 						input->message->subject);
 		else
 			return
 				g_strdup
-				("Sending a message without a subject");
+				(_("Sending a message without a subject"));
 	} else {
 		if (input->message->subject && input->message->subject[0])
-			return g_strdup_printf ("Send \"%s\"",
+			return g_strdup_printf (_("Send \"%s\""),
 						input->message->subject);
 		else
-			return g_strdup ("Send a message without a subject");
+			return g_strdup (_("Send a message without a subject"));
 	}
 }
 
@@ -253,6 +253,7 @@ setup_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	if (!input->xport_uri) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     /* doesn't really need i18n */
 				     "No transport URI specified for send_mail operation.");
 		return;
 	}
@@ -406,9 +407,9 @@ describe_expunge_folder (gpointer in_data, gboolean gerund)
 	CamelFolder *f = CAMEL_FOLDER (in_data);
 
 	if (gerund)
-		return g_strdup_printf ("Expunging \"%s\"", mail_tool_get_folder_name (f));
+		return g_strdup_printf (_("Expunging \"%s\""), mail_tool_get_folder_name (f));
 	else
-		return g_strdup_printf ("Expunge \"%s\"", mail_tool_get_folder_name (f));
+		return g_strdup_printf (_("Expunge \"%s\""), mail_tool_get_folder_name (f));
 }
 
 static void
@@ -416,6 +417,7 @@ setup_expunge_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	if (!CAMEL_IS_FOLDER (in_data)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     /* doesn't need i18n */
 				     "No folder is selected to be expunged");
 		return;
 	}
@@ -479,14 +481,14 @@ describe_transfer_messages (gpointer in_data, gboolean gerund)
 	
 	if (gerund) {
 		if (input->delete_from_source)
-			format = "Moving messages from \"%s\" into \"%s\"";
+			format = _("Moving messages from \"%s\" into \"%s\"");
 		else
-			format = "Copying messages from \"%s\" into \"%s\"";
+			format = _("Copying messages from \"%s\" into \"%s\"");
 	} else {
 		if (input->delete_from_source)
-			format = "Move messages from \"%s\" into \"%s\"";
+			format = _("Move messages from \"%s\" into \"%s\"");
 		else
-			format = "Copy messages from \"%s\" into \"%s\"";
+			format = _("Copy messages from \"%s\" into \"%s\"");
 	}
 
 	return g_strdup_printf (format,
@@ -502,6 +504,7 @@ setup_transfer_messages (gpointer in_data, gpointer op_data,
 	char *verb;
 
 	if (input->delete_from_source)
+		/* don't need i18n */
 		verb = "move";
 	else
 		verb = "copy";
@@ -631,10 +634,10 @@ describe_flag_messages (gpointer in_data, gboolean gerund)
 	/* FIXME: change based on flags being applied? */
 
 	if (gerund)
-		return g_strdup_printf ("Marking messages in folder \"%s\"",
+		return g_strdup_printf (_("Marking messages in folder \"%s\""),
 					mail_tool_get_folder_name (input->source));
 	else
-		return g_strdup_printf ("Mark messages in folder \"%s\"",
+		return g_strdup_printf (_("Mark messages in folder \"%s\""),
 					mail_tool_get_folder_name (input->source));
 }
 
@@ -645,6 +648,7 @@ setup_flag_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	if (!CAMEL_IS_FOLDER (input->source)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     /* doesn't need i18n */
 				     "No source folder to flag messages from specified.");
 		return;
 	}
@@ -762,10 +766,10 @@ describe_scan_subfolders (gpointer in_data, gboolean gerund)
 	scan_subfolders_input_t *input = (scan_subfolders_input_t *) in_data;
 
 	if (gerund)
-		return g_strdup_printf ("Scanning folders in \"%s\"",
+		return g_strdup_printf (_("Scanning folders in \"%s\""),
 					input->source_uri);
 	else
-		return g_strdup_printf ("Scan folders in \"%s\"",
+		return g_strdup_printf (_("Scan folders in \"%s\""),
 					input->source_uri);
 }
 
@@ -778,6 +782,7 @@ setup_scan_subfolders (gpointer in_data, gpointer op_data,
 	
 	if (!input->source_uri) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     /* doesn't need i18n */
 				     "No source uri to scan subfolders from was provided.");
 		return;
 	}
@@ -851,7 +856,7 @@ cleanup_scan_subfolders (gpointer in_data, gpointer op_data,
 		evolution_storage_new_folder (input->storage,
 					      info->path,
 					      "mail",
-					      info->uri, "(No description)");
+					      info->uri, _("(No description)"));
 		g_free (info->path);
 		g_free (info->uri);
 		g_free (info);
@@ -914,10 +919,10 @@ describe_attach_message (gpointer in_data, gboolean gerund)
 	if (gerund)
 		return
 			g_strdup_printf
-			("Attaching messages from folder \"%s\"",
+			(_("Attaching messages from folder \"%s\""),
 			 mail_tool_get_folder_name (input->folder));
 	else
-		return g_strdup_printf ("Attach messages from \"%s\"",
+		return g_strdup_printf (_("Attach messages from \"%s\""),
 					mail_tool_get_folder_name (input->folder));
 }
 
@@ -928,6 +933,7 @@ setup_attach_message (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	if (!input->uid) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     /* doesn't need i18n */
 				     "No UID specified to attach.");
 		return;
 	}
@@ -1042,20 +1048,20 @@ describe_forward_messages (gpointer in_data, gboolean gerund)
 
 	if (gerund) {
 		if (input->basis->subject)
-			return g_strdup_printf ("Forwarding messages \"%s\"",
+			return g_strdup_printf (_("Forwarding messages \"%s\""),
 						input->basis->subject);
 		else
 			return
 				g_strdup_printf
-				("Forwarding a message without a subject");
+				(_("Forwarding a message without a subject"));
 	} else {
 		if (input->basis->subject)
-			return g_strdup_printf ("Forward message \"%s\"",
+			return g_strdup_printf (_("Forward message \"%s\""),
 						input->basis->subject);
 		else
 			return
 				g_strdup_printf
-				("Forward a message without a subject");
+				(_("Forward a message without a subject"));
 	}
 }
 
@@ -1067,6 +1073,7 @@ setup_forward_messages (gpointer in_data, gpointer op_data,
 
 	if (!input->uids) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     /* doesn't need i18n */
 				     "No UIDs specified to attach.");
 		return;
 	}
@@ -1119,8 +1126,8 @@ do_forward_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 		part = mail_tool_make_message_attachment (message);
 		if (!part) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-					     "Failed to generate mime part from "
-					     "message while generating forwarded message.");
+					     _("Failed to generate mime part from "
+					     "message while generating forwarded message."));
 			mail_tool_camel_lock_down ();
 			return;
 		}
@@ -1208,9 +1215,9 @@ describe_load_folder (gpointer in_data, gboolean gerund)
 	load_folder_input_t *input = (load_folder_input_t *) in_data;
 
 	if (gerund) {
-		return g_strdup_printf ("Loading \"%s\"", input->url);
+		return g_strdup_printf (_("Loading \"%s\""), input->url);
 	} else {
-		return g_strdup_printf ("Load \"%s\"", input->url);
+		return g_strdup_printf (_("Load \"%s\""), input->url);
 	}
 }
 
@@ -1221,6 +1228,7 @@ setup_load_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	if (!IS_FOLDER_BROWSER (input->fb)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     /* doesn't need i18n */
 				     "No folder browser specified to load into.");
 		return;
 	}
@@ -1328,9 +1336,9 @@ describe_create_folder (gpointer in_data, gboolean gerund)
 	create_folder_input_t *input = (create_folder_input_t *) in_data;
 
 	if (gerund) {
-		return g_strdup_printf ("Creating \"%s\"", input->uri);
+		return g_strdup_printf (_("Creating \"%s\""), input->uri);
 	} else {
-		return g_strdup_printf ("Create \"%s\"", input->uri);
+		return g_strdup_printf (_("Create \"%s\""), input->uri);
 	}
 }
 
@@ -1341,6 +1349,7 @@ setup_create_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	if (input->listener == CORBA_OBJECT_NIL) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     /* doesn't need i18n */
 				     "Invalid listener passed to create_folder");
 		return;
 	}
@@ -1400,8 +1409,8 @@ cleanup_create_folder (gpointer in_data, gpointer op_data,
 							data->result, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-				     "Exception while reporting result to shell "
-				     "component listener.");
+				     _("Exception while reporting result to shell "
+				     "component listener."));
 	CORBA_Object_release (input->listener, &ev);
 
 	g_free (input->uri);
@@ -1453,9 +1462,9 @@ describe_sync_folder (gpointer in_data, gboolean gerund)
 	CamelFolder *f = CAMEL_FOLDER (in_data);
 
 	if (gerund) {
-		return g_strdup_printf ("Synchronizing \"%s\"", mail_tool_get_folder_name (f));
+		return g_strdup_printf (_("Synchronizing \"%s\""), mail_tool_get_folder_name (f));
 	} else {
-		return g_strdup_printf ("Synchronize \"%s\"", mail_tool_get_folder_name (f));
+		return g_strdup_printf (_("Synchronize \"%s\""), mail_tool_get_folder_name (f));
 	}
 }
 
@@ -1464,6 +1473,7 @@ setup_sync_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	if (!CAMEL_IS_FOLDER (in_data)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     /* doesn't need i18n */
 				     "No folder is selected to be synced");
 		return;
 	}
@@ -1530,16 +1540,16 @@ describe_display_message (gpointer in_data, gboolean gerund)
 
 	if (gerund) {
 		if (input->uid)
-			return g_strdup_printf ("Displaying message UID \"%s\"",
+			return g_strdup_printf (_("Displaying message UID \"%s\""),
 						input->uid);
 		else
-			return g_strdup ("Clearing message display");
+			return g_strdup (_("Clearing message display"));
 	} else {
 		if (input->uid)
-			return g_strdup_printf ("Display message UID \"%s\"",
+			return g_strdup_printf (_("Display message UID \"%s\""),
 						input->uid);
 		else
-			return g_strdup ("Clear message dispaly");
+			return g_strdup (_("Clear message dispaly"));
 	}
 }
 
@@ -1552,6 +1562,7 @@ setup_display_message (gpointer in_data, gpointer op_data,
 
 	if (!IS_MESSAGE_LIST (input->ml)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     /* doesn't need i18n */
 				     "Invalid message list passed to display_message");
 		return;
 	}
@@ -1657,10 +1668,10 @@ describe_edit_messages (gpointer in_data, gboolean gerund)
 
 	if (gerund)
 		return g_strdup_printf
-			("Opening messages from folder \"%s\"",
+			(_("Opening messages from folder \"%s\""),
 			 mail_tool_get_folder_name (input->folder));
 	else
-		return g_strdup_printf ("Open messages from \"%s\"",
+		return g_strdup_printf (_("Open messages from \"%s\""),
 					mail_tool_get_folder_name (input->folder));
 }
 
@@ -1671,6 +1682,7 @@ setup_edit_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	if (!input->uids) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     /* doesn't need i18n */
 				     "No UIDs specified to edit.");
 		return;
 	}
@@ -1771,9 +1783,9 @@ static gchar *
 describe_setup_draftbox (gpointer in_data, gboolean gerund)
 {
 	if (gerund)
-		return g_strdup_printf ("Loading Draftbox");
+		return g_strdup_printf (_("Loading Draftbox"));
 	else
-		return g_strdup_printf ("Load Draftbox");
+		return g_strdup_printf (_("Load Draftbox"));
 }
 
 static void
@@ -1841,10 +1853,10 @@ describe_view_messages (gpointer in_data, gboolean gerund)
 
 	if (gerund)
 		return g_strdup_printf
-			("Viewing messages from folder \"%s\"",
+			(_("Viewing messages from folder \"%s\""),
 			 mail_tool_get_folder_name (input->folder));
 	else
-		return g_strdup_printf ("View messages from \"%s\"",
+		return g_strdup_printf (_("View messages from \"%s\""),
 					mail_tool_get_folder_name (input->folder));
 }
 
@@ -1855,6 +1867,7 @@ setup_view_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	if (!input->uids) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     /* doesn't need i18n */
 				     "No UIDs specified to view.");
 		return;
 	}
