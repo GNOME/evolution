@@ -119,7 +119,7 @@ e_table_specification_load_from_node    (ETableSpecification *specification,
 
 	specification->cursor_mode = E_TABLE_CURSOR_SIMPLE;
 	temp = e_xml_get_string_prop_by_name(node, "cursor-mode");
-	if (temp && strcasecmp(temp, "line")) {
+	if (temp && !strcasecmp(temp, "line")) {
 		specification->cursor_mode = E_TABLE_CURSOR_LINE;
 	}
 	g_free(temp);
