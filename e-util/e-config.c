@@ -586,7 +586,7 @@ ec_rebuild(EConfig *emp)
 					page = ((GnomeDruidPageStandard *)w)->vbox;
 					connect = TRUE;
 				} else {
-					w = gtk_label_new(item->label);
+					w = gtk_label_new_with_mnemonic (item->label);
 					gtk_widget_show(w);
 					page = gtk_vbox_new(FALSE, 12);
 					gtk_container_set_border_width((GtkContainer *)page, 12);

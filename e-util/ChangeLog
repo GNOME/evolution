@@ -1,3 +1,8 @@
+2004-11-29  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* e-config.c: (ec_rebuild):add mnemonic for label.
+	* e-passwords.c: (ep_ask_password):add description for password dialog.
+
 2004-11-26  JP Rosevear  <jpr@novell.com>
 
 	* e-gui-utils.c (e_create_image_widget): get the image directly
