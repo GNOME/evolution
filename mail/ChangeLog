@@ -1,3 +1,7 @@
+2001-01-04  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config-druid.glade: Updated. What else can I say?
+
 2001-01-04  Dan Winship  <danw@helixcode.com>
 
 	* folder-browser.c (got_folder): Connect to "message_changed" on

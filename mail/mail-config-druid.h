@@ -29,6 +29,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <gnome.h>
+#include <glade/glade.h>
 #include <camel.h>
 
 #define MAIL_CONFIG_DRUID_TYPE        (mail_config_druid_get_type ())
