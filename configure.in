@@ -271,20 +271,20 @@ AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
 
-EXTRA_GNOME_LIBS="`gnome-config --libs libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $THREADS_LIBS `unicode-config --libs`"
-EXTRA_GNOME_CFLAGS="`gnome-config --cflags libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $THREADS_CFLAGS `unicode-config --cflags`"
+EXTRA_GNOME_LIBS="`gnome-config --libs libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $THREADS_LIBS $UNICODE_LIBS"
+EXTRA_GNOME_CFLAGS="`gnome-config --cflags libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $THREADS_CFLAGS $UNICODE_CFLAGS"
 
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
 
-BONOBO_GNOME_LIBS="`gnome-config --libs bonobox libglade gdk_pixbuf gnomecanvaspixbuf gnomeui`"
-BONOBO_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gnomecanvaspixbuf gnomeui `"
+BONOBO_GNOME_LIBS="`gnome-config --libs bonobox libglade gdk_pixbuf gnomecanvaspixbuf gnomeui` $UNICODE_LIBS"
+BONOBO_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $UNICODE_CFLAGS"
 AC_SUBST(BONOBO_GNOME_LIBS)
 AC_SUBST(BONOBO_GNOME_CFLAGS)
 
-BONOBO_HTML_GNOME_LIBS="`gnome-config --libs bonobox libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_LIBS"
-BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_CFLAGS"
+BONOBO_HTML_GNOME_LIBS="`gnome-config --libs bonobox libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_LIBS $UNICODE_LIBS"
+BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_CFLAGS $UNICODE_CFLAGS"
 AC_SUBST(BONOBO_HTML_GNOME_LIBS)
 AC_SUBST(BONOBO_HTML_GNOME_CFLAGS)
 
