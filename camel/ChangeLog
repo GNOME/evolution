@@ -1,3 +1,13 @@
+2001-10-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-basic.c (filter): Implemented uuencoding and
+	decoding.
+	(complete): Implemented uuencoding and decoding.
+
+	* camel-mime-utils.c (uuencode_close): New function to flush the
+	uu encoder.
+	(uuencode_step): New function to uuencode a block of data.
+
 2001-10-05    <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (subscribe_folder): Use a

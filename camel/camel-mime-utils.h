@@ -189,6 +189,10 @@ int base64_encode_step(unsigned char *in, int len, gboolean break_lines, unsigne
 int base64_encode_close(unsigned char *in, int inlen, gboolean break_lines, unsigned char *out, int *state, int *save);
 
 int uudecode_step (unsigned char *in, int len, unsigned char *out, int *state, guint32 *save, char *uulen);
+int uuencode_step (unsigned char *in, int len, unsigned char *out, unsigned char *uubuf, int *state,
+		   guint32 *save, char *uulen);
+int uuencode_close (unsigned char *in, int len, unsigned char *out, unsigned char *uubuf, int *state,
+		    guint32 *save, char *uulen);
 
 int quoted_decode_step(unsigned char *in, int len, unsigned char *out, int *savestate, int *saveme);
 

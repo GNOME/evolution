@@ -34,6 +34,8 @@ typedef enum {
 	CAMEL_MIME_FILTER_BASIC_BASE64_DEC,
 	CAMEL_MIME_FILTER_BASIC_QP_ENC,
 	CAMEL_MIME_FILTER_BASIC_QP_DEC,
+	CAMEL_MIME_FILTER_BASIC_UU_ENC,
+	CAMEL_MIME_FILTER_BASIC_UU_DEC,
 } CamelMimeFilterBasicType;
 
 struct _CamelMimeFilterBasic {
@@ -43,8 +45,10 @@ struct _CamelMimeFilterBasic {
 
 	CamelMimeFilterBasicType type;
 
+	unsigned char uubuf[60];
 	int state;
 	int save;
+	char uulen;
 };
 
 struct _CamelMimeFilterBasicClass {

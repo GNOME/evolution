@@ -76,6 +76,7 @@ int free_count = 0;
 #define d(x)
 #define d2(x)
 
+#define CAMEL_UUENCODE_CHAR(c)  ((c) ? (c) + ' ' : '`')
 #define	CAMEL_UUDECODE_CHAR(c)	(((c) - ' ') & 077)
 
 static char *base64_alphabet =
@@ -490,19 +491,171 @@ base64_decode_simple (char *data, int len)
 				   (unsigned char *)data, &state, &save);
 }
 
+/**
+ * uuencode_close: uuencode a chunk of data
+ * @in: input stream
+ * @len: input stream length
+ * @out: output stream
+ * @uubuf: temporary buffer of 60 bytes
+ * @state: holds the number of bits that are stored in @save
+ * @save: leftover bits that have not yet been encoded
+ * @uulen: holds the value of the length-char which is used to calculate
+ *         how many more chars need to be decoded for that 'line'
+ *
+ * Returns the number of bytes encoded. Call this when finished
+ * encoding data with uuencode_step to flush off the last little
+ * bit.
+ **/
+int
+uuencode_close (unsigned char *in, int len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save, char *uulen)
+{
+	register unsigned char *inptr, *outptr, *bufptr;
+	register guint32 saved;
+	int i;
+	
+	outptr = out;
+	
+	if (len > 0)
+		outptr += uuencode_step (in, len, out, uubuf, state, save, uulen);
+	
+	bufptr = uubuf + ((*uulen / 3) * 4);
+	saved = *save;
+	i = *state;
+	
+	if (i > 0) {
+		while (i < 3) {
+			saved <<= 8 | 0;
+			i++;
+		}
+		
+		if (i == 3) {
+			/* convert 3 normal bytes into 4 uuencoded bytes */
+			unsigned char b0, b1, b2;
+			
+			b0 = saved >> 16;
+			b1 = saved >> 8 & 0xff;
+			b2 = saved & 0xff;
+			
+			*bufptr++ = CAMEL_UUENCODE_CHAR ((b0 >> 2) & 0x3f);
+			*bufptr++ = CAMEL_UUENCODE_CHAR (((b0 << 4) | ((b1 >> 4) & 0xf)) & 0x3f);
+			*bufptr++ = CAMEL_UUENCODE_CHAR (((b1 << 2) | ((b2 >> 6) & 0x3)) & 0x3f);
+			*bufptr++ = CAMEL_UUENCODE_CHAR (b2 & 0x3f);
+		}
+	}
+	
+	if (*uulen || *state) {
+		int cplen = (((*uulen + (*state ? 3 : 0)) / 3) * 4);
+		
+		*outptr++ = CAMEL_UUENCODE_CHAR (*uulen + *state);
+		memcpy (outptr, uubuf, cplen);
+		outptr += cplen;
+		*outptr++ = '\n';
+		*uulen = 0;
+	}
+	
+	*outptr++ = CAMEL_UUENCODE_CHAR (*uulen);
+	*outptr++ = '\n';
+	
+	*save = 0;
+	*state = 0;
+	
+	return outptr - out;
+}
+
+
+/**
+ * uuencode_step: uuencode a chunk of data
+ * @in: input stream
+ * @len: input stream length
+ * @out: output stream
+ * @uubuf: temporary buffer of 60 bytes
+ * @state: holds the number of bits that are stored in @save
+ * @save: leftover bits that have not yet been encoded
+ * @uulen: holds the value of the length-char which is used to calculate
+ *         how many more chars need to be decoded for that 'line'
+ *
+ * Returns the number of bytes encoded. Performs an 'encode step',
+ * only encodes blocks of 45 characters to the output at a time, saves
+ * left-over state in @uubuf, @state and @save (initialize to 0 on first
+ * invocation).
+ **/
+int
+uuencode_step (unsigned char *in, int len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save, char *uulen)
+{
+	register unsigned char *inptr, *outptr, *bufptr;
+	unsigned char *inend, ch;
+	register guint32 saved;
+	int i;
+	
+	if (*uulen <= 0)
+		*uulen = 0;
+	
+	inptr = in;
+	inend = in + len;
+	
+	outptr = out;
+	
+	bufptr = uubuf + ((*uulen / 3) * 4);
+	
+	saved = *save;
+	i = *state;
+	
+	while (inptr < inend) {
+		while (*uulen < 45 && inptr < inend) {
+			while (i < 3 && inptr < inend) {
+				saved = (saved << 8) | *inptr++;
+				i++;
+			}
+			
+			if (i == 3) {
+				/* convert 3 normal bytes into 4 uuencoded bytes */
+				unsigned char b0, b1, b2;
+				
+				b0 = saved >> 16;
+				b1 = saved >> 8 & 0xff;
+				b2 = saved & 0xff;
+				
+				*bufptr++ = CAMEL_UUENCODE_CHAR ((b0 >> 2) & 0x3f);
+				*bufptr++ = CAMEL_UUENCODE_CHAR (((b0 << 4) | ((b1 >> 4) & 0xf)) & 0x3f);
+				*bufptr++ = CAMEL_UUENCODE_CHAR (((b1 << 2) | ((b2 >> 6) & 0x3)) & 0x3f);
+				*bufptr++ = CAMEL_UUENCODE_CHAR (b2 & 0x3f);
+				
+				i = 0;
+				saved = 0;
+				*uulen += 3;
+			}
+		}
+		
+		if (*uulen >= 45) {
+			*outptr++ = CAMEL_UUENCODE_CHAR (*uulen);
+			memcpy (outptr, uubuf, ((*uulen / 3) * 4));
+			outptr += ((*uulen / 3) * 4);
+			*outptr++ = '\n';
+			*uulen = 0;
+			bufptr = uubuf;
+		}
+	}
+	
+	*save = saved;
+	*state = i;
+	
+	return outptr - out;
+}
+
 
 /**
  * uudecode_step: uudecode a chunk of data
  * @in: input stream
- * @len: max length of data to decode ( normally strlen(in) ??)
+ * @inlen: max length of data to decode ( normally strlen(in) ??)
  * @out: output stream
  * @state: holds the number of bits that are stored in @save
  * @save: leftover bits that have not yet been decoded
  * @uulen: holds the value of the length-char which is used to calculate
  *         how many more chars need to be decoded for that 'line'
  *
- * uudecodes a chunk of data. Assumes the "begin <mode> <file name>" line
- * has been stripped off.
+ * Returns the number of bytes decoded. Performs a 'decode step' on
+ * a chunk of uuencoded data. Assumes the "begin <mode> <file name>"
+ * line has been stripped off.
  **/
 int
 uudecode_step (unsigned char *in, int len, unsigned char *out, int *state, guint32 *save, char *uulen)
@@ -578,6 +731,7 @@ uudecode_step (unsigned char *in, int len, unsigned char *out, int *state, guint
 
 	return outptr - out;
 }
+
 
 /* complete qp encoding */
 int
