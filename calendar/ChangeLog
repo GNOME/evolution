@@ -1,4 +1,9 @@
 2000-10-25  Jesse Pavel <jpavel@helixcode.com>
+	
+	* removed the Evolution-Composer generated files, due
+	to a tip on how we do things.	
+
+2000-10-25  Jesse Pavel <jpavel@helixcode.com>
 
 	* gui/Evolution-Composer.idl: added this from the composer IDL sources
 

@@ -571,11 +571,13 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 		return;
 	}
 
-	sprintf (tempstr, "text/calendar; METHOD=%s", itip_methods[METHOD_REQUEST]);
+	sprintf (tempstr, "text/calendar;METHOD=%s", itip_methods[METHOD_REQUEST]);
 	content_type = CORBA_string_alloc (strlen (tempstr));
 	strcpy (content_type, tempstr);
 	filename = CORBA_string_alloc (0);
-	description = CORBA_string_alloc (0);
+	sprintf (tempstr, "Calendar attachment");
+	description = CORBA_string_alloc (strlen (tempstr));
+	strcpy (description, tempstr);
 	show_inline = FALSE;
 
 	/* I need to create an encapsulating iCalendar component, and stuff our vEvent
