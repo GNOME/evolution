@@ -1,3 +1,8 @@
+2001-07-25  Damon Chaplin  <damon@ximian.com>
+
+	* evolution-calendar.xml: changed "Settings" to "Calendar Settings".
+	Fixes bug #5498.
+
 2001-07-24  Peter Williams  <peterw@ximian.com>
 
 	* evolution-message-composer.xml: Move Insert File from the File
