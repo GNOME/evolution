@@ -1,7 +1,10 @@
 .deps
+.libs
 Makefile
 Makefile.in
 addressbook-stubs.c
 addressbook-skels.c
 addressbook-common.c
 addressbook.h
+*.lo
+*.la
