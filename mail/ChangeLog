@@ -1,5 +1,8 @@
 2001-08-11  Jason Leach  <jleach@ximian.com>
 
+	* folder-browser.c: Make the right click "Resend..." into "Edit as
+	New Message...", bug #6838.
+
 	* mail-accounts.h: Remove unecessary #include <camel.h>
 
 	* mail.h: Removed a prototype for a non-existant
