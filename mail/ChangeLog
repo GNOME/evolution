@@ -1,5 +1,11 @@
 2004-04-21  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-browser.c (emfb_activate): dont desensitise
+	HideDeleted just 'cause we have no folder, it needs to depend on
+	Trash folder only.
+	(emfb_set_folder): set the hidedeleted sensitivity based on
+	whether we have a trash folder or not.  Fixed #57226.
+
 	* em-folder-view.c (emfv_class_init): use the right signal
 	callback for the changed signal.  Fixes #57246.
 

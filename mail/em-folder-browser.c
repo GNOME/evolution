@@ -948,6 +948,11 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		if (emfv->uic)
 			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreaded", "state", state?"1":"0", NULL);
 		
+		if (emfv->uic) {
+			state = (folder->folder_flags & CAMEL_FOLDER_IS_TRASH) == 0;
+			bonobo_ui_component_set_prop(emfv->uic, "/commands/HideDeleted", "sensitive", state?"1":"0", NULL);
+		}
+
 		sstate = camel_object_meta_get(folder, "evolution:search_state");
 		g_object_set(emfb->search, "state", sstate, NULL);
 		g_free(sstate);
@@ -1057,11 +1062,14 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 
 		/* HideDeleted */
 		state = !gconf_client_get_bool(gconf, "/apps/evolution/mail/display/show_deleted", NULL);
+		if (emfv->folder && (emfv->folder->folder_flags & CAMEL_FOLDER_IS_TRASH)) {
+			state = FALSE;
+			bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "sensitive", "0", NULL);
+		} else
+			bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "sensitive", "1", NULL);
 		bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "state", state ? "1" : "0", NULL);
 		bonobo_ui_component_add_listener(uic, "HideDeleted", emfb_hide_deleted, emfv);
 		em_folder_view_set_hide_deleted(emfv, state); /* <- not sure if this optimal, but it'll do */
-		if (emfv->folder == NULL)
-			bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "sensitive", state?"1":"0", NULL);
 
 		/* FIXME: If we have no folder, we can't do a few of the lookups we need,
 		   perhaps we should postpone till we can */
