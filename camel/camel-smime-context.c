@@ -351,7 +351,7 @@ sm_signing_cmsmessage(CamelSMIMEContext *context, const char *nick, SECOidTag ha
 		}
 
 		if (ekpcert != NULL && NSS_CMSSignedData_AddCertificate(sigd, ekpcert) != SECSuccess) {
-			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot add add encryption certificate"));
+			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot add encryption certificate"));
 			goto fail;
 		}
 	}
