@@ -1,3 +1,19 @@
+1999-09-26  Eskil Olsen <deity@eskil.dk>
+	* corba-cal.c: the g_free that was commented out since glib said
+	was a duplicate free, was supposed to be a free.
+		
+	* GnomeCal.idl/corba-cal.c: added a get_object_id_list and a
+	get_objects_by_id_list. Latter is not done.
+
+	* calendar-conduit.c: rewrote the way the conduit iterates over
+	records. It no longers fetches all entries (since that didn't work 
+	with more then 285 entries. It now fetches the id list, and gets
+	each record. (will be using get_objects_by_id_list to get records
+	in amounts of 10 or so later, to reduce amount of corba calls).
+
+	* calendar-conduit.c: now sets alarm parameters when transferring
+	from gnomecal to pilot.
+
 1999-09-23  Eskil Olsen <deity@eskil.dk>
 
 	* calendar-conduit.c: better merge of summary/description

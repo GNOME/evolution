@@ -5,6 +5,7 @@ module GNOME {
 		interface Repository {
 
 			exception NotFound {};
+			typedef sequence<string> String_Sequence;
 
 			/*
 			 * get_object:
@@ -17,6 +18,18 @@ module GNOME {
 				raises (NotFound);
 
 			/*
+			 * get_objects_by_id_list:
+			 * @uid_list: a sequence of Unique Identifiers
+			 *
+			 * Returns a vCalendar object for the objects
+			 * that matches the given UID list @uid_list;
+			 * NotFound is raised if any of the given UIDs
+			 * were not found.
+			 */
+			string get_objects_by_id_list (in String_Sequence uid)
+				raises (NotFound);
+
+			/*
 			 * get_object_by_pilot_id:
 			 * @pilot_id: the pilot id
 			 * 
@@ -26,6 +39,13 @@ module GNOME {
 			string get_object_by_pilot_id (in long pilot_id) 
 				raises (NotFound);
 
+			/*
+			 * get_id_from_pilot_id:
+			 * @pilot_id: the pilot id
+			 * 
+			 * Returns the object id that matches the @pilot_id 
+			 * identifier.
+			 */
 			string get_id_from_pilot_id (in long pilot_id)
 				raises (NotFound);
 
@@ -55,9 +75,18 @@ module GNOME {
 			/*
 			 * get_objects:
 			 * 
+			 * Danger Will Robinson : This can result in a 
+			 * huge string, namely the size of all your entries.
 			 * Returns a vCalendar with all the objects
 			 */
 			string get_objects ();
+
+			/*
+			 * get_object_id_list
+			 *
+			 * Returns a sequence of the UID's of the entries
+			 */
+			String_Sequence get_object_id_list();
 
 			/*
 			 * get_updated_objects:

@@ -25,8 +25,6 @@ struct _CalLocalRecord {
 	LocalRecord local;
 	/* The corresponding iCal object */
 	iCalObject *ical;
-	/* used by iterations, points to a GList element */
-	GList *list_ptr;
         /* pilot-link appointment structure, used for implementing Transmit */	
 	struct Appointment *a;
 };

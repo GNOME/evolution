@@ -32,6 +32,7 @@
 
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
+void local_record_from_icalobject(CalLocalRecord *local,iCalObject *obj); 
 
 typedef struct _ConduitData ConduitData;
 
@@ -74,6 +75,43 @@ calendar_notify (time_t time, CalendarAlarm *which, void *data)
 static GList * 
 get_calendar_objects(GnomePilotConduitStandardAbs *conduit) 
 {
+	GList *result;
+	GNOME_Calendar_Repository_String_Sequence *uids;
+
+	g_return_val_if_fail(conduit!=NULL,NULL);
+
+	result = NULL;
+	uids = GNOME_Calendar_Repository_get_object_id_list (calendar, &ev);
+
+  	if (ev._major == CORBA_USER_EXCEPTION){
+		g_message ("calconduit: \tObject did not exist\n");
+		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		CORBA_exception_free(&ev); 
+		return NULL;
+	} else if(ev._major != CORBA_NO_EXCEPTION) {
+		g_warning(_("\tError while communicating with calendar server\n"));
+		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		CORBA_exception_free(&ev); 
+		return NULL;
+	} 
+
+	if(uids->_length>0) {
+		int i;
+		for(i=0;i<uids->_length;i++) {
+			result = g_list_prepend(result,g_strdup(uids->_buffer[i]));
+		}
+	} else
+		g_message("No entries found");
+	
+	CORBA_free(uids);
+
+	return result;
+}
+
+#if 0
+static GList * 
+get_calendar_objects(GnomePilotConduitStandardAbs *conduit) 
+{
 	char *vcalendar_string;
 	char *error;
 	GList *retval,*l;
@@ -87,6 +125,19 @@ get_calendar_objects(GnomePilotConduitStandardAbs *conduit)
 	cal = calendar_new("Temporary");
 
 	error = calendar_load_from_memory(cal,vcalendar_string);
+
+  	if (ev._major == CORBA_USER_EXCEPTION){
+		g_message ("calconduit: \tObject did not exist\n");
+		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		CORBA_exception_free(&ev); 
+		return;
+	} else if(ev._major != CORBA_NO_EXCEPTION) {
+		g_warning(_("\tError while communicating with calendar server\n"));
+		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		CORBA_exception_free(&ev); 
+		return;
+	} 
+
 	if(error != NULL) {
 		g_warning("Error while converting records");
 		g_warning("Error : %s",error);
@@ -105,50 +156,79 @@ get_calendar_objects(GnomePilotConduitStandardAbs *conduit)
 
 	return retval;  
 }
+#endif
+
+static void 
+local_record_from_ical_uid(CalLocalRecord *local,
+			   char *uid)
+{
+	iCalObject *obj;
+	char *vcalendar_string;
+
+	g_assert(local!=NULL);
+	
+	vcalendar_string = GNOME_Calendar_Repository_get_object(calendar, uid, &ev);
+
+  	if (ev._major == CORBA_USER_EXCEPTION){
+		g_message ("calconduit: \tObject did not exist\n");
+		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		CORBA_exception_free(&ev); 
+		return;
+	} else if(ev._major != CORBA_NO_EXCEPTION) {
+		g_warning(_("\tError while communicating with calendar server\n"));
+		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		CORBA_exception_free(&ev); 
+		return;
+	} 
+	g_return_if_fail(vcalendar_string!=NULL);
+	
+	obj = ical_object_new_from_string (vcalendar_string);
+
+	local_record_from_icalobject(local,obj);
+
+	return;
+}
+
 
 /*
  * converts a iCalObject to a CalLocalRecord
  */
 
-static void
-local_record_from_icalobject(CalLocalRecord **local,
+void
+local_record_from_icalobject(CalLocalRecord *local,
 			     iCalObject *obj) 
 {
 	g_return_if_fail(local!=NULL);
-	g_return_if_fail(*local!=NULL);
 	g_return_if_fail(obj!=NULL);
 
-	(*local)->ical = obj;
-	(*local)->local.ID = (*local)->ical->pilot_id;
+	local->ical = obj;
+	local->local.ID = local->ical->pilot_id;
   
-	g_print("calconduit: (*local)->Id = %ld [%s], status = %d\n",
-		  (*local)->local.ID,obj->summary,(*local)->ical->pilot_status);
+	g_print("calconduit: local->Id = %ld [%s], status = %d\n",
+		  local->local.ID,obj->summary,local->ical->pilot_status);
 
-	switch((*local)->ical->pilot_status) {
+	switch(local->ical->pilot_status) {
 	case ICAL_PILOT_SYNC_NONE: 
-		(*local)->local.attr = GnomePilotRecordNothing; 
+		local->local.attr = GnomePilotRecordNothing; 
 		break;
 	case ICAL_PILOT_SYNC_MOD: 
-		(*local)->local.attr = GnomePilotRecordModified; 
+		local->local.attr = GnomePilotRecordModified; 
 		break;
 	case ICAL_PILOT_SYNC_DEL: 
-		(*local)->local.attr = GnomePilotRecordDeleted; 
+		local->local.attr = GnomePilotRecordDeleted; 
 		break;
 	}
 
 	/* Records without a pilot_id are new */
-	if((*local)->local.ID == 0) 
-		(*local)->local.attr = GnomePilotRecordNew; 
+	if(local->local.ID == 0) 
+		local->local.attr = GnomePilotRecordNew; 
   
-	(*local)->local.secret = 0;
+	local->local.secret = 0;
 	if(obj->class!=NULL) 
 		if(strcmp(obj->class,"PRIVATE")==0)
-			(*local)->local.secret = 1;
+			local->local.secret = 1;
  
-	(*local)->local.archived = 0;  
-  
-	/* used by iterations */
-	(*local)->list_ptr = NULL;
+	local->local.archived = 0;  
 }
 
 /*
@@ -165,7 +245,6 @@ find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
 	g_return_val_if_fail(conduit!=NULL,NULL);
 	g_return_val_if_fail(remote!=NULL,NULL);
   
-	g_message ("calconduit: requesting %ld []\n", remote->ID);
  
 	vcal_string = 
 		GNOME_Calendar_Repository_get_object_by_pilot_id (calendar, remote->ID, &ev);
@@ -182,7 +261,7 @@ find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
 		g_message ("calconduit: \tFound\n");
 		loc = g_new0(CalLocalRecord,1);
 		/* memory allocated in new_from_string is freed in free_match */
-		local_record_from_icalobject(&loc,
+		local_record_from_icalobject(loc,
 					     ical_object_new_from_string (vcal_string));
 		/* g_free(vcal_string); FIXME: this coredumps, but won't it leak without ? */
 		return loc;
@@ -589,7 +668,8 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 	 CalLocalRecord **local,
 	 gpointer data)
 {
-	static GList *events;
+	static GList *events,*iterator;
+	static int hest;
 
 	g_return_val_if_fail(local!=NULL,0);
   
@@ -597,29 +677,31 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 		g_print("calconduit: beginning iteration\n");
 
 		events = get_calendar_objects(conduit);
-
+		hest = 0;
+		
 		if(events!=NULL) {
 			g_print("calconduit: iterating over %d records\n",g_list_length(events));
 			*local = g_new0(CalLocalRecord,1);
 
-			local_record_from_icalobject(local,(iCalObject*)events->data);
-			(*local)->list_ptr = events;
+			local_record_from_ical_uid(*local,(gchar*)events->data);
+			iterator = events;
 		} else {
 			g_print("calconduit: no events\n");
 			(*local) = NULL;
 		}
 	} else {
 		g_print("calconduit: continuing iteration\n");
-		if(g_list_next((*local)->list_ptr)==NULL) {
+		hest++;
+		if(g_list_next(iterator)==NULL) {
 			GList *l;
 
 			g_print("calconduit: ending\n");
 			/** free stuff allocated for iteration */
 			g_free((*local));
 
-			g_print("calconduit: iterated over %d records\n",g_list_length(events));
+			g_print("calconduit: iterated over %d records\n",hest);
 			for(l=events;l;l=l->next)
-				ical_object_destroy(l->data);
+				g_free(l->data);
 
 			g_list_free(events);
 
@@ -627,8 +709,8 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 			(*local) = NULL;
 			return 0;
 		} else {
-			local_record_from_icalobject(local,(iCalObject*)(g_list_next((*local)->list_ptr)->data));
-			(*local)->list_ptr = g_list_next((*local)->list_ptr);
+			iterator = g_list_next(iterator);
+			local_record_from_ical_uid(*local,(gchar*)(iterator->data));
 		}
 	}
 	return 1;
@@ -647,7 +729,7 @@ iterate_specific (GnomePilotConduitStandardAbs *conduit,
 	/** iterate until a record meets the criteria */
 	while(gnome_pilot_conduit_standard_abs_iterate(conduit,(LocalRecord**)local)) {
 		if((*local)==NULL) break;
-		g_print("calconduit: local->attr = %d, flag = %d, & %d\n",(*local)->local.attr,flag,((*local)->local.attr &  flag));
+		/* g_print("calconduit: local->attr = %d, flag = %d, & %d\n",(*local)->local.attr,flag,((*local)->local.attr &  flag)); */
 		if(archived && ((*local)->local.archived==archived)) break;
 		if(((*local)->local.attr == flag)) break;
 	}
@@ -835,10 +917,28 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 	local->a->begin = *localtime(&local->ical->dtstart);
 	local->a->end = *localtime(&local->ical->dtend);
 
-	local->a->alarm = 0;
-	local->a->advance = 0;
-	local->a->advanceUnits = advMinutes;
+	/* set the Audio Alarm  parameters */
+	if(local->ical->aalarm.enabled) {
+		local->a->alarm = 1;
+		local->a->advance = local->ical->aalarm.count;
+		switch(local->ical->aalarm.units) {
+		case ALARM_MINUTES:
+			local->a->advanceUnits = advMinutes;
+			break;
+		case ALARM_HOURS:
+			local->a->advanceUnits = advHours;
+			break;
+		case ALARM_DAYS:
+			local->a->advanceUnits = advDays;
+			break;
+		}
+	} else {
+		local->a->alarm = 0;
+		local->a->advance = 0;
+		local->a->advanceUnits = advMinutes;
+	}
 
+	/* set the recurrence parameters */
 	if (local->ical->recur != NULL) {
 		switch (local->ical->recur->type) {
 		case RECUR_DAILY:
@@ -898,6 +998,7 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 	local->a->description = 
 		local->ical->summary==NULL?NULL:strdup(local->ical->summary);
 
+	/* Generate pilot record structure */
 	p->record = g_new0(char,0xffff);
 	p->length = pack_Appointment(local->a,p->record,0xffff);
 

@@ -198,33 +198,39 @@ cal_repo_get_objects (PortableServer_Servant servant,
 		      CORBA_Environment *ev)
 {
 	GnomeCalendar *gcal = gnomecal_from_servant (servant);
-	Calendar *dirty_cal;
-	GList *l;
 	char *str;
 	CORBA_char *res;
 
-	int items_dbg=0;
-	g_message("in cal_repo_get_objects"); 
-
-	dirty_cal = calendar_new ("Temporal");
-	
-	for (l = gcal->cal->events; l; l = l->next){
-		iCalObject *obj = l->data;
-
-		obj = ical_object_duplicate (l->data);
-
-		calendar_add_object (dirty_cal, obj);
-
-		items_dbg++;
-	}
-	str = calendar_get_as_vcal_string (dirty_cal);
+	str = calendar_get_as_vcal_string (gcal->cal); 
+	g_message("length of result is %d",strlen(str));
 	res = CORBA_string_dup (str);
-	/* g_free (str); glib with memcheck enabled says this is already freed */
-	calendar_destroy (dirty_cal);
-
-	g_message("added %d items to return value",items_dbg);
+	free(str); /* ...get_as_vcal calls writeMemVObject, which uses realloc to 
+		      allocate this string */
 
 	return res;
+}
+
+static GNOME_Calendar_Repository_String_Sequence*
+cal_repo_get_object_id_list(PortableServer_Servant servant,
+			    CORBA_Environment *ev)
+{
+	GnomeCalendar *gcal = gnomecal_from_servant (servant);
+	GList *l;
+	GNOME_Calendar_Repository_String_Sequence *result;
+	int counter;
+	
+	result = GNOME_Calendar_Repository_String_Sequence__alloc();
+	result->_length = g_list_length(gcal->cal->events);
+	result->_buffer = CORBA_sequence_CORBA_string_allocbuf(result->_length);
+
+	counter = 0;
+	for (l = gcal->cal->events ; l; l = l->next){
+		iCalObject *obj = l->data;
+		result->_buffer[counter] = CORBA_string_dup(obj->uid);
+		counter++;
+	}
+
+	return result;
 }
 
 static CORBA_char *
@@ -277,6 +283,7 @@ init_calendar_repo_class (void)
 	calendar_repository_epv.get_objects = cal_repo_get_objects;
 	calendar_repository_epv.get_updated_objects = cal_repo_get_updated_objects;
 	calendar_repository_epv.update_pilot_id = cal_repo_update_pilot_id;
+	calendar_repository_epv.get_object_id_list = cal_repo_get_object_id_list;
 	
 	calendar_repository_epv.done = cal_repo_done;
 	
