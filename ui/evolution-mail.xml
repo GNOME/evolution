@@ -241,6 +241,10 @@
     _label="Delete" _tip="Delete this message"
     pixtype="stock" pixname="Trash"/>
 
+    <toolitem name="Stop" verb="MailStop"
+    _label="Stop"
+    pixtype="stock" pixname="Stop"/>
+
   </dockitem>
 </Root>
 

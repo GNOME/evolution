@@ -1,3 +1,7 @@
+2001-01-16  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-mail.xml: Add a stop button to the toolbar.
+
 2001-01-15  Jason Leach  <jasonleach@usa.net>
 
 	(Bug #1143: Add elipses to more menu items that lead to dialogs)
