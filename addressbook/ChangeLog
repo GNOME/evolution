@@ -1,3 +1,63 @@
+2001-02-21  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-book.c (pas_book_queue_get_supported_fields):
+	new function.
+	(impl_GNOME_Evolution_Addressbook_Book_getSupportedFields): track
+	change to idl.
+	(pas_book_respond_get_supported_fields): new function.
+
+	* backend/pas/pas-book.h: add GetSupportedFields to the
+	PASOperation enum.  Also, add a stringlist field to the PASRequest
+	struct.  lastly, add a prototype for
+	pas_book_respond_get_supported_fields.
+	
+	* backend/pas/pas-backend.h: remove prototype for
+	pas_backend_get_supported_fields, and remove it from the vtable.
+
+	* backend/pas/pas-backend.c (pas_backend_get_supported_fields):
+	remove.
+	(pas_backend_class_init): no vtable entry for get_supported_fields
+	anymore.
+
+	* backend/pas/pas-backend-ldap.c
+	(pas_backend_ldap_process_get_supported_fields): new function.
+	(pas_backend_ldap_process_client_requests): add case for
+	GetSupportedFields.
+	(pas_backend_ldap_class_init): get_supported_fields isn't in
+	vtable anymore.
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_process_get_supported_fields): new function.
+	(pas_backend_file_process_client_requests): add case for
+	GetSupportedFields.
+	(pas_backend_file_class_init): get_supported_fields isn't in
+	vtable anymore.
+
+	* backend/idl/addressbook.idl: Book::getSupportedFields now
+	returns void and add BookListener::notifySupportedFields.
+
+	* backend/ebook/test-client.c (get_fields_cb): new function.
+	(auth_user_cb): track change to e_book_get_supported_fields.
+
+	* backend/ebook/e-book.c
+	(e_book_do_response_get_supported_fields): new function.
+	(e_book_check_listener_queue): add case
+	GetSupportedFieldsResponse.
+	(e_book_get_supported_fields): switch to async model.
+
+	* backend/ebook/e-book.h: switch e_book_get_supported_fields to an
+	async model.
+
+	* backend/ebook/e-book-listener.c
+	(e_book_listener_queue_get_supported_fields_response): new
+	function.
+	(impl_BookListener_response_get_supported_fields): new function.
+	(e_book_listener_get_epv): fill in epv's "notifySupportedFields"
+
+	* backend/ebook/e-book-listener.h: add an async response for
+	GetSupportedFields and add a stringlist member to the
+	EBookListenerResponse struct.
+
 2001-02-20  Federico Mena Quintero  <federico@ximian.com>
 
 	* backend/pas/pas-book-factory.c (pas_book_factory_activate):

@@ -331,6 +331,32 @@ e_book_do_link_event (EBook                 *book,
 			 resp->connected);
 }
 
+static void
+e_book_do_response_get_supported_fields (EBook                 *book,
+					 EBookListenerResponse *resp)
+{
+	EBookOp *op;
+	EList *list;
+	int i;
+
+	op = e_book_pop_op (book);
+
+	if (op == NULL) {
+		g_warning ("e_book_do_response_get_supported_fields: Cannot find operation "
+			   "in local op queue!\n");
+		return;
+	}
+
+	list = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
+
+	for (i = 0; i < resp->fields->_length; i ++) {
+		e_list_append (list, g_strdup (resp->fields->_buffer[i]));
+	}
+
+	if (op->cb)
+		((EBookFieldsCallback) op->cb) (book, resp->status, list, op->closure);
+	g_free (op);
+}
 
 /*
  * Reading notices out of the EBookListener's queue.
@@ -365,6 +391,9 @@ e_book_check_listener_queue (EBookListener *listener, EBook *book)
 		break;
 	case OpenBookResponse:
 		e_book_do_response_open (book, resp);
+		break;
+	case GetSupportedFieldsResponse:
+		e_book_do_response_get_supported_fields (book, resp);
 		break;
 
 	case OpenProgressEvent:
@@ -522,41 +551,34 @@ e_book_get_static_capabilities (EBook *book)
 	return ret_val;
 }
 
-EList *
-e_book_get_supported_fields (EBook *book)
+gboolean
+e_book_get_supported_fields (EBook              *book,
+			     EBookFieldsCallback cb,
+			     gpointer            closure)
 {
 	CORBA_Environment ev;
-	GNOME_Evolution_Addressbook_stringlist *stringlist;
-	EList *list;
-	int i;
 
 	CORBA_exception_init (&ev);
 
 	if (book->priv->load_state != URILoaded) {
 		g_warning ("e_book_unload_uri: No URI is loaded!\n");
-		return NULL;
+		return FALSE;
 	}
 
-	stringlist = GNOME_Evolution_Addressbook_Book_getSupportedFields(book->priv->corba_book, &ev);
+	GNOME_Evolution_Addressbook_Book_getSupportedFields(book->priv->corba_book, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_get_supported_fields: Exception "
 			   "during get_supported_fields!\n");
 		CORBA_exception_free (&ev);
-		return NULL;
+		return FALSE;
 	}
-
-	list = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
-
-	for (i = 0; i < stringlist->_length; i ++) {
-		e_list_append (list, g_strdup (stringlist->_buffer[i]));
-	}
-
-	CORBA_free (stringlist);
 
 	CORBA_exception_free (&ev);
 
-	return list;
+	e_book_queue_op (book, cb, closure, NULL);
+
+	return TRUE;
 }
 
 static gboolean

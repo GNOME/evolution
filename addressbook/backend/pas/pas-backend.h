@@ -45,7 +45,6 @@ typedef struct {
 	gboolean (*add_client) (PASBackend *backend, GNOME_Evolution_Addressbook_BookListener listener);
 	void (*remove_client) (PASBackend *backend, PASBook *book);
         char *(*get_static_capabilities) (PASBackend *backend);
-	int (*get_supported_fields) (PASBackend *backend, char ***fields);
 
 	/* Notification signals */
 	void (* last_client_gone) (PASBackend *backend);
@@ -64,8 +63,6 @@ void        pas_backend_remove_client            (PASBackend             *backen
 						  PASBook                *book);
 char       *pas_backend_get_static_capabilities  (PASBackend             *backend);
 
-int         pas_backend_get_supported_fields     (PASBackend             *backend,
-						  char                   ***fields);
 void        pas_backend_last_client_gone         (PASBackend             *backend);
 
 GtkType     pas_backend_get_type                 (void);

@@ -7,6 +7,7 @@
 
 #include <config.h>
 #include <gtk/gtksignal.h>
+#include "e-util/e-list.h"
 #include "pas-book.h"
 
 static BonoboObjectClass *pas_book_parent_class;
@@ -118,6 +119,18 @@ pas_book_queue_authenticate_user (PASBook *book,
 
 	pas_book_queue_request (book, req);
 }
+
+static void
+pas_book_queue_get_supported_fields (PASBook *book)
+{
+	PASRequest *req;
+
+	req     = g_new0 (PASRequest, 1);
+	req->op = GetSupportedFields;
+
+	pas_book_queue_request (book, req);
+}
+
 
 static void
 pas_book_queue_get_book_view (PASBook *book, const GNOME_Evolution_Addressbook_BookViewListener listener, const char *search)
@@ -315,30 +328,13 @@ impl_GNOME_Evolution_Addressbook_Book_getStaticCapabilities (PortableServer_Serv
 	return ret_val;
 }
 
-static GNOME_Evolution_Addressbook_stringlist *
+static void
 impl_GNOME_Evolution_Addressbook_Book_getSupportedFields (PortableServer_Servant servant,
 							  CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
-	GNOME_Evolution_Addressbook_stringlist *stringlist;
-	char **supported_fields;
-	int num_fields, i;
 
-	stringlist = GNOME_Evolution_Addressbook_stringlist__alloc ();
-	num_fields = pas_backend_get_supported_fields (book->priv->backend, &supported_fields);
-
-	stringlist->_buffer = CORBA_sequence_CORBA_string_allocbuf (num_fields);
-	stringlist->_maximum = num_fields;
-	stringlist->_length = num_fields;
-
-	for (i = 0; num_fields; i++) {
-		stringlist->_buffer[i] = CORBA_string_dup (supported_fields[i]);
-		g_free (supported_fields[i]);
-	}
-
-	g_free (supported_fields);
-
-	return stringlist;
+	pas_book_queue_get_supported_fields (book);
 }
 
 /**
@@ -521,6 +517,43 @@ pas_book_respond_authenticate_user (PASBook                           *book,
 	}
 
 	CORBA_exception_free (&ev);
+}
+
+void
+pas_book_respond_get_supported_fields (PASBook *book,
+				       GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
+				       EList   *fields)
+{
+	CORBA_Environment ev;
+	GNOME_Evolution_Addressbook_stringlist stringlist;
+	int num_fields;
+	EIterator *iter;
+	int i;
+
+	CORBA_exception_init (&ev);
+
+	num_fields = e_list_length (fields);
+
+	stringlist._buffer = CORBA_sequence_CORBA_string_allocbuf (num_fields);
+	stringlist._maximum = num_fields;
+	stringlist._length = num_fields;
+
+	iter = e_list_get_iterator (fields);
+
+	for (i = 0; e_iterator_is_valid (iter); e_iterator_next (iter), i ++) {
+		stringlist._buffer[i] = CORBA_string_dup (e_iterator_get(iter));
+	}
+
+	gtk_object_unref (GTK_OBJECT (fields));
+
+	GNOME_Evolution_Addressbook_BookListener_notifySupportedFields (
+			book->priv->listener, status,
+			&stringlist,
+			&ev);
+
+	CORBA_exception_free (&ev);
+
+	CORBA_free(stringlist._buffer);
 }
 
 /**

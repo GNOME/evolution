@@ -16,6 +16,7 @@
 #include <libgnome/gnome-defs.h>
 #include <pas/addressbook.h>
 #include <pas/pas-book-view.h>
+#include "e-util/e-list.h"
 
 typedef struct _PASBook        PASBook;
 typedef struct _PASBookPrivate PASBookPrivate;
@@ -31,7 +32,8 @@ typedef enum {
 	GetBookView,
 	GetChanges,
 	CheckConnection,
-	AuthenticateUser
+	AuthenticateUser,
+	GetSupportedFields
 } PASOperation;
 
 typedef struct {
@@ -43,6 +45,7 @@ typedef struct {
 	char                      *user;
         char                      *passwd;
 	GNOME_Evolution_Addressbook_BookViewListener listener;
+	GNOME_Evolution_Addressbook_stringlist fields;
 } PASRequest;
 
 struct _PASBook {
@@ -81,6 +84,10 @@ void                    pas_book_respond_modify         (PASBook                
 							 GNOME_Evolution_Addressbook_BookListener_CallStatus  status);
 void                    pas_book_respond_authenticate_user (PASBook                           *book,
 							    GNOME_Evolution_Addressbook_BookListener_CallStatus  status);
+void                    pas_book_respond_get_supported_fields (PASBook *book,
+							       GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
+							       EList   *fields);
+
 void                    pas_book_respond_get_cursor     (PASBook                           *book,
 							 GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
 							 PASCardCursor                     *cursor);

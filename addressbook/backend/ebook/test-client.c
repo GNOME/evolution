@@ -89,13 +89,8 @@ add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 }
 
 static void
-auth_user_cb (EBook *book, EBookStatus status, gpointer closure)
+get_fields_cb (EBook *book, EBookStatus status, EList *fields, gpointer closure)
 {
-	EList *fields;
-
-	printf ("user authenticated\n");
-
-	fields = e_book_get_supported_fields (book);
 	if (fields) {
 		EIterator *iter = e_list_get_iterator (fields);
 
@@ -112,6 +107,14 @@ auth_user_cb (EBook *book, EBookStatus status, gpointer closure)
 	}
 
 	e_book_add_vcard(book, cardstr, add_card_cb, NULL);
+}
+
+
+static void
+auth_user_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	printf ("user authenticated\n");
+	e_book_get_supported_fields (book, get_fields_cb, closure);
 }
 
 static void

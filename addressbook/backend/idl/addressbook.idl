@@ -91,7 +91,7 @@ module Addressbook {
 
 		void checkConnection ();
 
-		stringlist getSupportedFields ();
+		void getSupportedFields ();
 
 		string getStaticCapabilities ();
 
@@ -129,6 +129,8 @@ module Addressbook {
 		void notifyChangesRequested (in CallStatus status, in BookView view);
 
 		void notifyAuthenticationResult (in CallStatus status);
+
+		void notifySupportedFields (in CallStatus status, in stringlist fields);
 
 		/**
 		 * notifyConnectionStatus:

@@ -1991,6 +1991,21 @@ pas_backend_ldap_process_authenticate_user (PASBackend *backend,
 		check_for_evolve_person (bl);
 }
 
+static void
+pas_backend_ldap_process_get_supported_fields (PASBackend *backend,
+					       PASBook    *book,
+					       PASRequest *req)
+
+{
+	EList *fields = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
+
+	printf ("in pas_backend_ldap_get_supported_fields\n");
+
+	pas_book_respond_get_supported_fields (book,
+					       GNOME_Evolution_Addressbook_BookListener_Success,
+					       fields);
+}
+
 static gboolean
 pas_backend_ldap_can_write (PASBook *book)
 {
@@ -2047,6 +2062,10 @@ pas_backend_ldap_process_client_requests (PASBook *book)
 
 	case AuthenticateUser:
 		pas_backend_ldap_process_authenticate_user (backend, book, req);
+		break;
+
+	case GetSupportedFields:
+		pas_backend_ldap_process_get_supported_fields (backend, book, req);
 		break;
 	}
 
@@ -2215,15 +2234,6 @@ pas_backend_ldap_get_static_capabilites (PASBackend *backend)
 	return g_strdup("net");
 }
 
-static int
-pas_backend_ldap_get_supported_fields (PASBackend *backend,
-				       char ***fields)
-{
-	printf ("in pas_backend_ldap_get_supported_fields\n");
-	*fields = NULL;
-	return 0;
-}
-
 static gboolean
 pas_backend_ldap_construct (PASBackendLDAP *backend)
 {
@@ -2292,7 +2302,6 @@ pas_backend_ldap_class_init (PASBackendLDAPClass *klass)
 	parent_class->add_client              = pas_backend_ldap_add_client;
 	parent_class->remove_client           = pas_backend_ldap_remove_client;
 	parent_class->get_static_capabilities = pas_backend_ldap_get_static_capabilites;
-	parent_class->get_supported_fields    = pas_backend_ldap_get_supported_fields;
 
 	object_class->destroy = pas_backend_ldap_destroy;
 }

@@ -1093,6 +1093,20 @@ pas_backend_file_process_authenticate_user (PASBackend *backend,
 					    GNOME_Evolution_Addressbook_BookListener_Success);
 }
 
+static void
+pas_backend_file_process_get_supported_fields (PASBackend *backend,
+					       PASBook    *book,
+					       PASRequest *req)
+{
+	EList *fields = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
+
+	printf ("in pas_backend_file_get_supported_fields\n");
+
+	pas_book_respond_get_supported_fields (book,
+					       GNOME_Evolution_Addressbook_BookListener_Success,
+					       fields);
+}
+
 static gboolean
 can_write (PASBackend *backend)
 {
@@ -1167,6 +1181,10 @@ pas_backend_file_process_client_requests (PASBook *book)
 
 	case AuthenticateUser:
 		pas_backend_file_process_authenticate_user (backend, book, req);
+		break;
+
+	case GetSupportedFields:
+		pas_backend_file_process_get_supported_fields (backend, book, req);
 		break;
 	}
 
@@ -1428,15 +1446,6 @@ pas_backend_file_get_static_capabilities (PASBackend             *backend)
 	return g_strdup("local");
 }
 
-static int
-pas_backend_file_get_supported_fields (PASBackend *backend,
-				       char ***fields)
-{
-	printf ("in pas_backend_file_get_supported_fields\n");
-	*fields = NULL;
-	return 0;
-}
-
 static gboolean
 pas_backend_file_construct (PASBackendFile *backend)
 {
@@ -1497,7 +1506,6 @@ pas_backend_file_class_init (PASBackendFileClass *klass)
 	parent_class->add_client              = pas_backend_file_add_client;
 	parent_class->remove_client           = pas_backend_file_remove_client;
 	parent_class->get_static_capabilities = pas_backend_file_get_static_capabilities;
-	parent_class->get_supported_fields    = pas_backend_file_get_supported_fields;
 
 	object_class->destroy = pas_backend_file_destroy;
 }

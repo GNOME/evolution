@@ -47,6 +47,7 @@ typedef enum {
 	GetBookViewResponse,
 	GetChangesResponse,
 	AuthenticationResponse,
+	GetSupportedFieldsResponse,
 
 	/* Async events */
 	LinkStatusEvent,
@@ -67,6 +68,9 @@ typedef struct {
 
 	/* For GetBookViewReponse */
 	GNOME_Evolution_Addressbook_BookView      book_view;
+
+	/* For GetSupportedFields */
+	const GNOME_Evolution_Addressbook_stringlist   *fields;
 
 	/* For OpenProgressEvent */
 	char                   *msg;

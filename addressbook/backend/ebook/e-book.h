@@ -48,6 +48,7 @@ typedef void (*EBookOpenProgressCallback)     (EBook          *book,
 typedef void (*EBookIdCallback) (EBook *book, EBookStatus status, const char *id, gpointer closure);
 typedef void (*EBookCursorCallback) (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closure);
 typedef void (*EBookBookViewCallback) (EBook *book, EBookStatus status, EBookView *book_view, gpointer closure);
+typedef void (*EBookFieldsCallback) (EBook *book, EBookStatus status, EList *fields, gpointer closure);
 
 
 /* Creating a new addressbook. */
@@ -59,7 +60,9 @@ gboolean  e_book_load_uri                 (EBook                 *book,
 void      e_book_unload_uri               (EBook                 *book);
 char     *e_book_get_static_capabilities  (EBook                 *book);
 
-EList    *e_book_get_supported_fields     (EBook                 *book);
+gboolean  e_book_get_supported_fields     (EBook                 *book,
+					   EBookFieldsCallback   cb,
+					   gpointer              closure);
 
 /* User authentication. */
 void      e_book_authenticate_user        (EBook                 *book,
