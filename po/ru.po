@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-06-11 18:54+0000\n"
-"PO-Revision-Date: 2000-06-11 18:58+00:00\n"
+"POT-Creation-Date: 2000-06-13 12:03+0000\n"
+"PO-Revision-Date: 2000-06-13 12:08+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -358,7 +358,7 @@ msgstr ""
 #: addressbook/contact-editor/e-contact-editor.c:788
 #: calendar/gui/event-editor.c:1334
 msgid "Invite attendees to a meeting"
-msgstr ""
+msgstr "Пригласить посетителей на встречу"
 
 #: addressbook/contact-editor/e-contact-editor.c:790
 #: calendar/gui/event-editor.c:1336
@@ -451,7 +451,7 @@ msgid "Mobile"
 msgstr "Мобильный"
 
 #: addressbook/contact-editor/e-contact-editor.c:1225
-#: addressbook/contact-editor/e-contact-editor.c:1320 mail/mail-config.c:2032
+#: addressbook/contact-editor/e-contact-editor.c:1320 mail/mail-config.c:2026
 msgid "Other"
 msgstr "Другой"
 
@@ -491,11 +491,11 @@ msgstr "Эл.адрес 2"
 msgid "Email 3"
 msgstr "Эл.адрес 3"
 
-#: addressbook/gui/component/addressbook.c:417 mail/message-list.c:583
+#: addressbook/gui/component/addressbook.c:417 mail/message-list.c:577
 msgid "To"
 msgstr "Кому"
 
-#: addressbook/gui/component/addressbook.c:418 mail/message-list.c:555
+#: addressbook/gui/component/addressbook.c:418 mail/message-list.c:549
 msgid "From"
 msgstr "От"
 
@@ -533,8 +533,8 @@ msgstr "Напечатать контакт"
 
 #. Delete
 #: addressbook/gui/component/addressbook.c:430 calendar/gui/gncal-todo.c:494
-#: mail/folder-browser-factory.c:50 mail/mail-config.c:1859
-#: mail/mail-config.c:1958
+#: mail/folder-browser-factory.c:50 mail/mail-config.c:1856
+#: mail/mail-config.c:1952
 msgid "Delete"
 msgstr "Удалить"
 
@@ -584,7 +584,7 @@ msgstr "Сохранить как VCard"
 msgid "As _Minicards"
 msgstr "Как миникарточки"
 
-#: addressbook/gui/component/addressbook.c:1110 mail/folder-browser.c:231
+#: addressbook/gui/component/addressbook.c:1110
 msgid "The URI that the Folder Browser will display"
 msgstr "URI, который будет показывать программа просмотра папок"
 
@@ -1296,7 +1296,7 @@ msgid "Due Date"
 msgstr "Условленная дата"
 
 #: calendar/gui/gncal-todo.c:422 calendar/gui/prop.c:605
-#: mail/message-list.c:541
+#: mail/message-list.c:535
 msgid "Priority"
 msgstr "Приоритет"
 
@@ -1601,7 +1601,7 @@ msgstr ""
 
 #: calendar/gui/event-editor.c:1263
 msgid "FIXME: C_ancel Invitation..."
-msgstr ""
+msgstr "FIXME: Отмена приглашения..."
 
 #: calendar/gui/event-editor.c:1265
 msgid "FIXME: Forward as v_Calendar"
@@ -1632,7 +1632,7 @@ msgstr "не удалось.\n"
 msgid "success.\n"
 msgstr "успешно.\n"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:635
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:656
 msgid "Cut"
 msgstr "Вырезать"
 
@@ -1640,7 +1640,7 @@ msgstr "Вырезать"
 msgid "Cut selected item into clipboard"
 msgstr "Вырезает выделенный элемент в буфер обмена"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:636
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:657
 msgid "Copy"
 msgstr "Скопировать"
 
@@ -1649,7 +1649,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Копирует выделенный элемент в буфер обмена"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:637
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:658
 msgid "Paste"
 msgstr "Вставить"
 
@@ -1746,60 +1746,64 @@ msgstr "Тема:"
 msgid "Enter the subject of the mail"
 msgstr "Введите тему письма"
 
-#: composer/e-msg-composer.c:593
+#: composer/e-msg-composer.c:508
+msgid "Discard this message?"
+msgstr "Отменить это сообщение"
+
+#: composer/e-msg-composer.c:614
 msgid "Save in _folder..."
 msgstr "Сохранить в папке..."
 
-#: composer/e-msg-composer.c:593
+#: composer/e-msg-composer.c:614
 msgid "Save the message in a specified folder"
 msgstr "Сохранить сообщение в указанной папке"
 
-#: composer/e-msg-composer.c:596 composer/e-msg-composer.c:633
+#: composer/e-msg-composer.c:617 composer/e-msg-composer.c:654
 #: mail/folder-browser-factory.c:36
 msgid "Send"
 msgstr "Отправить"
 
-#: composer/e-msg-composer.c:596
+#: composer/e-msg-composer.c:617
 msgid "Send the message"
 msgstr "Отправить сообщение"
 
-#: composer/e-msg-composer.c:604
+#: composer/e-msg-composer.c:625
 msgid "View _attachments"
 msgstr "Просмотреть вложения"
 
-#: composer/e-msg-composer.c:604
+#: composer/e-msg-composer.c:625
 msgid "View/hide attachments"
 msgstr "Показать/скрыть вложения"
 
-#: composer/e-msg-composer.c:633
+#: composer/e-msg-composer.c:654
 msgid "Send this message"
 msgstr "Отправить это сообщение"
 
-#: composer/e-msg-composer.c:635
+#: composer/e-msg-composer.c:656
 msgid "Cut selected region into the clipboard"
 msgstr "Вырезать выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:636
+#: composer/e-msg-composer.c:657
 msgid "Copy selected region into the clipboard"
 msgstr "Скопировать выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:637
+#: composer/e-msg-composer.c:658
 msgid "Paste selected region into the clipboard"
 msgstr "Вставить выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:638
+#: composer/e-msg-composer.c:659
 msgid "Undo"
 msgstr "Откат"
 
-#: composer/e-msg-composer.c:638
+#: composer/e-msg-composer.c:659
 msgid "Undo last operation"
 msgstr "Отменить последнюю операцию"
 
-#: composer/e-msg-composer.c:640
+#: composer/e-msg-composer.c:661
 msgid "Attach"
 msgstr "Присоединить"
 
-#: composer/e-msg-composer.c:640
+#: composer/e-msg-composer.c:661
 msgid "Attach a file"
 msgstr "Присоединить файл"
 
@@ -1871,16 +1875,6 @@ msgstr "Настройка почты ..."
 msgid "Forget _Passwords"
 msgstr "Забыть пароли"
 
-#: mail/folder-browser-factory.c:221
-msgid "We are sorry, Evolution's Folder Browser can not be initialized."
-msgstr ""
-"Извините, программа просмотра папок \"Эволюции\" не может быть "
-"инициализирована."
-
-#: mail/folder-browser.c:234
-msgid "Whether a message preview should be shown"
-msgstr "Будет ли показываться окно просмотра сообщения"
-
 #: mail/mail-config.c:258
 msgid ""
 "Enter your name and email address to be used in outgoing mail. You may also, "
@@ -1943,9 +1937,11 @@ msgid ""
 "If the server requires authentication, you can click the \"Detect supported "
 "types...\" button after entering the other information."
 msgstr ""
-"Выберите тип используемого почтового сервера и введите подходящую информацию о нем.\n"
+"Выберите тип используемого почтового сервера и введите подходящую информацию "
+"о нем.\n"
 "\n"
-"Если сервер требует идентификации, вы можете щелкнуть на кнопке \"Определить поддерживаемые типы...\" после ввода этой информации."
+"Если сервер требует идентификации, вы можете щелкнуть на кнопке \"Определить "
+"поддерживаемые типы...\" после ввода этой информации."
 
 #: mail/mail-config.c:957
 msgid "Select the method you would like to use to deliver your mail."
@@ -1957,9 +1953,9 @@ msgid "Mail Configuration"
 msgstr "Настройка почты"
 
 #. Identity page
-#: mail/mail-config.c:1137 mail/mail-config.c:1868
+#: mail/mail-config.c:1137 mail/mail-config.c:1865
 msgid "Identity"
-msgstr ""
+msgstr "Именование"
 
 #. Source page
 #: mail/mail-config.c:1156
@@ -1971,13 +1967,13 @@ msgstr "Источник почты"
 msgid "Mail Transport"
 msgstr "Передача почты"
 
-#: mail/mail-config.c:1300
+#: mail/mail-config.c:1299
 msgid "Edit Identity"
-msgstr ""
+msgstr "Правка именования"
 
-#: mail/mail-config.c:1302
+#: mail/mail-config.c:1301
 msgid "Add Identity"
-msgstr ""
+msgstr "Добавить именование"
 
 #: mail/mail-config.c:1443
 msgid "Edit Source"
@@ -1987,51 +1983,51 @@ msgstr "Правка источника"
 msgid "Add Source"
 msgstr "Добавить источник"
 
-#: mail/mail-config.c:1708
+#: mail/mail-config.c:1707
 msgid "Name"
 msgstr "Имя"
 
-#: mail/mail-config.c:1708
+#: mail/mail-config.c:1707
 msgid "Address"
 msgstr "Адрес"
 
-#: mail/mail-config.c:1708
+#: mail/mail-config.c:1707
 msgid "Organization"
 msgstr "Ориентация"
 
-#: mail/mail-config.c:1708
+#: mail/mail-config.c:1707
 msgid "Signature file"
 msgstr "Файл подписи"
 
-#: mail/mail-config.c:1734
+#: mail/mail-config.c:1733
 msgid "Camel Providers Configuration"
 msgstr "Настройка провайдеров Camel"
 
-#: mail/mail-config.c:1825
+#: mail/mail-config.c:1822
 msgid "Identities"
-msgstr ""
+msgstr "Именования"
 
-#: mail/mail-config.c:1841 mail/mail-config.c:1940
+#: mail/mail-config.c:1838 mail/mail-config.c:1934
 msgid "Add"
 msgstr "Добавить"
 
-#: mail/mail-config.c:1850 mail/mail-config.c:1949
+#: mail/mail-config.c:1847 mail/mail-config.c:1943
 msgid "Edit"
 msgstr "Правка"
 
-#: mail/mail-config.c:1924
+#: mail/mail-config.c:1918
 msgid "Mail sources"
 msgstr "Источники почты"
 
-#: mail/mail-config.c:1967
+#: mail/mail-config.c:1961
 msgid "Sources"
 msgstr "Источники"
 
-#: mail/mail-config.c:2002
+#: mail/mail-config.c:1996
 msgid "Transports"
-msgstr ""
+msgstr "Способы доставки"
 
-#: mail/mail-config.c:2023
+#: mail/mail-config.c:2017
 msgid "Send messages in HTML format"
 msgstr "Отправлять сообщения в формате HTML"
 
@@ -2039,27 +2035,27 @@ msgstr "Отправлять сообщения в формате HTML"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Почтовый компонент: не удалось инициализировать Bonobo"
 
-#: mail/message-list.c:527
+#: mail/message-list.c:521
 msgid "Online Status"
 msgstr "Подключенное состояние"
 
-#: mail/message-list.c:562
+#: mail/message-list.c:556
 msgid "Subject"
 msgstr "Тема"
 
-#: mail/message-list.c:569
+#: mail/message-list.c:563
 msgid "Date"
 msgstr "Дата"
 
-#: mail/message-list.c:576
+#: mail/message-list.c:570
 msgid "Receive"
 msgstr "Получено"
 
-#: mail/message-list.c:590
+#: mail/message-list.c:584
 msgid "Size"
 msgstr "Размер"
 
-#: mail/component-factory.c:178
+#: mail/component-factory.c:177
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Невозможно инициализировать почтовый компонент \"Эволюции\"."
 
@@ -2174,7 +2170,7 @@ msgstr ""
 
 #: shell/e-shell-view.c:112
 msgid "(No folder displayed)"
-msgstr ""
+msgstr "(Папки не показаны)"
 
 #: shell/e-shell-view.c:207
 msgid "Folders"
@@ -2411,7 +2407,7 @@ msgstr "Нет информации"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:393
 msgid "_Invite Others..."
-msgstr ""
+msgstr "Пригласить других..."
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:413
 msgid "_Options"
@@ -2435,7 +2431,7 @@ msgstr "<<"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:496
 msgid "_Autopick"
-msgstr ""
+msgstr "Автовыбор"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:510
 msgid ">_>"
