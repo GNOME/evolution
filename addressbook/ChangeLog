@@ -1,3 +1,9 @@
+2004-05-01  Larry Ewing  <lewing@ximian.com>
+
+	* gui/component/addressbook-config.c: sensitize the details dialog
+	where appropriate.  Don't try to read from widgets that don't
+	exist.
+
 2004-04-30  Chris Toshok  <toshok@ximian.com>
 
 	* util/e-destination.c (e_destination_set_contact): don't use

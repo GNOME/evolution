@@ -339,7 +339,8 @@ source_to_dialog_new (AddressbookSourceDialog *dialog)
 
 #ifdef HAVE_LDAP
 	gtk_entry_set_text (GTK_ENTRY (dialog->email), SOURCE_PROP_STRING (source, "email_addr"));
-	gtk_entry_set_text (GTK_ENTRY (dialog->binddn), SOURCE_PROP_STRING (source, "binddn"));
+	if (dialog->binddn)
+		gtk_entry_set_text (GTK_ENTRY (dialog->binddn), SOURCE_PROP_STRING (source, "binddn"));
 	gtk_spin_button_set_value ( GTK_SPIN_BUTTON (dialog->limit_spinbutton),
 				    g_strtod ( source && e_source_get_property (source, "limit") ?
 					       e_source_get_property (source, "limit") : "100", NULL));
@@ -376,10 +377,6 @@ source_to_dialog_new (AddressbookSourceDialog *dialog)
 	}
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->auth_optionmenu), dialog->auth);
-
-	gtk_widget_set_sensitive (dialog->auth_label_notebook, dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
-	gtk_widget_set_sensitive (dialog->auth_entry_notebook, dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
-
 	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->scope_optionmenu), dialog->scope);
 	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->ssl_optionmenu), dialog->ssl);
 #endif
@@ -618,8 +615,9 @@ setup_general_tab (AddressbookSourceDialog *dialog, ModifyFunc modify_func)
 		add_focus_handler (dialog->email, general_tab_help, 1);
 
 	dialog->binddn = glade_xml_get_widget (dialog->gui, "dn-entry");
-	g_signal_connect (dialog->binddn, "changed",
-			  G_CALLBACK (modify_func), dialog);
+	if (dialog->binddn)
+		g_signal_connect (dialog->binddn, "changed",
+				  G_CALLBACK (modify_func), dialog);
 
 	if (general_tab_help)
 		add_focus_handler (dialog->binddn, general_tab_help, 2);
@@ -1022,8 +1020,14 @@ add_folder_modify (GtkWidget *widget, AddressbookSourceDialog *sdialog)
 		valid = general_tab_check (sdialog);
 	if (valid)
 		valid = connecting_tab_check (sdialog);
+
+	gtk_widget_set_sensitive (glade_xml_get_widget (sdialog->gui, "details-label"), valid);
+
+	gtk_widget_set_sensitive (glade_xml_get_widget (sdialog->gui, "details-vbox"), valid);
+
 	if (valid)
 		valid = searching_tab_check (sdialog);
+	else 
 #endif
 
 	gtk_widget_set_sensitive (sdialog->ok_button, valid);
