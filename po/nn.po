@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-1.01\n"
 "POT-Creation-Date: 2002-01-27 06:44+0100\n"
-"PO-Revision-Date: 2002-01-27 08:25+0100\n"
+"PO-Revision-Date: 2002-01-28 08:29+0100\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -499,6 +499,8 @@ msgid ""
 "\n"
 "Geo Location: "
 msgstr ""
+"\n"
+"Geo lokasjon: "
 
 #: addressbook/backend/ebook/e-card.c:3844
 msgid ""
@@ -1180,7 +1182,7 @@ msgstr "Detaljar"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "F_ree/Busy URL:"
-msgstr ""
+msgstr "_Ledig/Oppteken URL:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "File A_s:"
@@ -1478,7 +1480,7 @@ msgstr "British Virgin Islands"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:34
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "Brunei Darussalam"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:35
 #: my-evolution/Locations.h:320
@@ -7882,6 +7884,11 @@ msgid ""
 "\n"
 "Do you wish to accept anyway?"
 msgstr ""
+"Ugyldig sertifikat frå %s\n"
+"\n"
+"%s\n"
+"\n"
+"Vil du akseptere likevel?"
 
 #: camel/camel-url.c:288
 #, fuzzy, c-format
@@ -9335,9 +9342,8 @@ msgid "The Evolution groupware suite"
 msgstr "Gruppevareverktyet Evolution"
 
 #: data/evolution.desktop.in.h:2
-#, fuzzy
 msgid "Ximian Evolution"
-msgstr "Evolution"
+msgstr "Ximian Evolution"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -10882,9 +10888,8 @@ msgid "Get Digital ID..."
 msgstr "Les band-ID ..."
 
 #: mail/mail-config.glade.h:35
-#, fuzzy
 msgid "HTML signature file:"
-msgstr "Signaturfil:"
+msgstr "HTML-signaturfil:"
 
 #: mail/mail-config.glade.h:36
 msgid "IMAPv4 "
@@ -10899,9 +10904,8 @@ msgid "In HTML mail"
 msgstr ""
 
 #: mail/mail-config.glade.h:39
-#, fuzzy
 msgid "Inline"
-msgstr "Vinkel"
+msgstr "Innvevd"
 
 #: mail/mail-config.glade.h:40
 msgid "Kerberos "
@@ -10990,9 +10994,8 @@ msgid "Required Information"
 msgstr "Tenarinformasjon"
 
 #: mail/mail-config.glade.h:66
-#, fuzzy
 msgid "Secure MIME"
-msgstr "Er sikker"
+msgstr "Trygg MIME"
 
 #: mail/mail-config.glade.h:67
 msgid "Security"
@@ -11268,9 +11271,8 @@ msgid "Save to Disk..."
 msgstr "Lagra til disk ..."
 
 #: mail/mail-display.c:352
-#, fuzzy
 msgid "View Inline"
-msgstr "Vinkel"
+msgstr "Vis innvevd"
 
 #: mail/mail-display.c:354
 #, c-format
@@ -11313,9 +11315,9 @@ msgid "Save Image as..."
 msgstr "Lagre  bilete som ..."
 
 #: mail/mail-format.c:635
-#, fuzzy, c-format
+#, c-format
 msgid "%s attachment"
-msgstr "Vedlegg"
+msgstr "%s vedlegg"
 
 #: mail/mail-format.c:680
 msgid "Could not parse MIME message. Displaying as source."
@@ -11886,7 +11888,7 @@ msgstr "Ingen tenar har vorte vald"
 
 #: mail/subscribe-dialog.c:1581
 msgid "Please select a server."
-msgstr ""
+msgstr "Velj ein tenar"
 
 #: mail/subscribe-dialog.glade.h:1
 msgid " _Refresh List "
@@ -13376,9 +13378,8 @@ msgid "News Feed Settings"
 msgstr "Nettverksinnstillingar"
 
 #: my-evolution/my-evolution.glade.h:11
-#, fuzzy
 msgid "One mont_h"
-msgstr "Neste månad"
+msgstr "Ein _månad"
 
 #: my-evolution/my-evolution.glade.h:12
 msgid "One w_eek"
@@ -13400,9 +13401,8 @@ msgid "S_how full path for folders"
 msgstr "Vis sidekantar"
 
 #: my-evolution/my-evolution.glade.h:16
-#, fuzzy
 msgid "Show _all tasks"
-msgstr "Vedlegg"
+msgstr "Vis _alle oppgåver"
 
 #: my-evolution/my-evolution.glade.h:17
 #, fuzzy
@@ -13465,9 +13465,8 @@ msgid "_Schedule"
 msgstr "&Plan"
 
 #: my-evolution/my-evolution.glade.h:31
-#, fuzzy
 msgid "_Weather"
-msgstr "Vatn"
+msgstr "_Vêr"
 
 #: my-evolution/Locations.h:1
 msgid "Aarhus"
@@ -23433,9 +23432,8 @@ msgid "New..."
 msgstr "Ny ..."
 
 #: shell/e-shell-folder-title-bar.c:584 shell/e-shell-folder-title-bar.c:585
-#, fuzzy
 msgid "(Untitled)"
-msgstr "Utan tittel"
+msgstr "(Utan tittel)"
 
 #: shell/e-shell-importer.c:142
 msgid "Choose the type of importer to run:"
@@ -23763,9 +23761,8 @@ msgid "Rename selected shortcut group to:"
 msgstr "Fjern denne oppføringa"
 
 #: shell/e-shortcuts-view.c:224
-#, fuzzy
 msgid "_Small Icons"
-msgstr "Små ikon"
+msgstr "_Små ikon"
 
 #: shell/e-shortcuts-view.c:225
 msgid "Show the shortcuts as small icons"
@@ -23871,9 +23868,8 @@ msgid ""
 msgstr "Kunne ikkje lasta kalender '%1'.\n"
 
 #: shell/e-storage.c:181 shell/e-storage.c:187
-#, fuzzy
 msgid "(No name)"
-msgstr "Ingen namn"
+msgstr "(Ingen namn)"
 
 #: shell/e-storage.c:498
 msgid "No error"
@@ -24316,7 +24312,7 @@ msgstr "Lagring"
 #: ui/evolution-mail-message.xml.h:91 ui/evolution-mail-messagedisplay.xml.h:4
 #: ui/evolution-task-editor.xml.h:9
 msgid "_Actions"
-msgstr "_Handlingar"
+msgstr "H_andlingar"
 
 #: ui/evolution-addressbook.xml.h:30
 #, fuzzy
@@ -24589,9 +24585,8 @@ msgid "Send _message to list..."
 msgstr "Sender ei melding til ein nettverksspelar"
 
 #: ui/evolution-event-editor.xml.h:1
-#, fuzzy
 msgid "Cancel Mee_ting"
-msgstr "Køyreplan ..."
+msgstr "Avlys mø_te"
 
 #: ui/evolution-event-editor.xml.h:2
 #, fuzzy
@@ -25501,9 +25496,8 @@ msgid "Obtain the latest task information"
 msgstr "generer avlusingsinformasjon"
 
 #: ui/evolution-task-editor.xml.h:8
-#, fuzzy
 msgid "Re_fresh Task"
-msgstr "Frisk opp lerret"
+msgstr "_Frisk opp oppgåve"
 
 #: ui/evolution-tasks.xml.h:2
 msgid "Configure the task view's settings"
@@ -25946,7 +25940,6 @@ msgstr "init_corba(): klarte ikkje initialisere GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): klarte ikkje å initialisere Bonobo"
-
 
 #~ msgid "Hebrew"
 #~ msgstr "Hebraisk"

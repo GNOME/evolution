@@ -1,3 +1,8 @@
+2002-01-30  Roy-Magne Mo <rmo@sunnmore.net>
+
+	* nn.po: Updated Norwegian (nynorsk) translation
+	* ChangeLog: removed gettext-entries
+
 2002-01-29  Christophe Merlet  <redfox@eikonex.org>
 
 	* fr.po: Updated French translation.
@@ -5,10 +10,6 @@
 2002-01-25  Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>
 
 	* nl.po: Massive translation update.
-
-2002-01-24  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
 
 2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
 
