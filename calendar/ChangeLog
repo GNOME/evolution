@@ -1,3 +1,16 @@
+2005-01-26  JP Rosevear  <jpr@novell.com>
+
+	Fixes #71485
+	
+	* calendar-errors.xml: fix paste-o
+
+2005-01-27  Harry Lu <harry.lu@sun.com>
+
+	Fix a runtime invalid cast warning.
+
+	* gui/e-calendar-table.c: (e_calendar_table_init): only set
+	a11y name if atk is enabled.
+
 2005-01-26  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/dialogs/recurrence-page.c (sensitize_buttons): objects returned

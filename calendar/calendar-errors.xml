@@ -186,7 +186,7 @@
 
  <error id="prompt-send-no-subject-task" type="question" default="GTK_RESPONSE_YES">
   <primary>Are you sure you want to send the task without a summary?</primary>
-  <secondary>Adding a meaningful Summary to your task will give your recipients an idea of what your appointment is about.</secondary>
+  <secondary>Adding a meaningful Summary to your task will give your recipients an idea of what your task is about.</secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button label="_Send" response="GTK_RESPONSE_YES"/>
  </error>

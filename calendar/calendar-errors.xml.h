@@ -128,5 +128,5 @@ char *s = N_("_Send");
 /* calendar:prompt-send-no-subject-task primary */
 char *s = N_("Are you sure you want to send the task without a summary?");
 /* calendar:prompt-send-no-subject-task secondary */
-char *s = N_("Adding a meaningful Summary to your task will give your recipients an idea of what your appointment is about.");
+char *s = N_("Adding a meaningful Summary to your task will give your recipients an idea of what your task is about.");
 char *s = N_("_Send");
