@@ -1,7 +1,8 @@
 2004-05-17  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-calendar-view.c (e_calendar_view_delete_selected_occurrence):
-	if we don't have a RECURRENCE-ID, remove nothing.
+	if we don't have a RECURRENCE-ID, remove nothing, and use the instance
+	start time for the RECURRENCE-ID as the default.
 
 2004-05-17  H P Nadig  <hpnadig@pacific.net.in>
 
