@@ -472,3 +472,29 @@ e_table_selection_model_clear(ETableSelectionModel *selection)
 	gtk_signal_emit(GTK_OBJECT(selection),
 			e_table_selection_model_signals [SELECTION_CHANGED]);
 }
+
+#define PART(x,n) (((x) & (0x01010101 << n)) >> n)
+#define SECTION(x, n) (((x) >> (n * 8)) & 0xff)
+
+gint
+e_table_selection_model_selected_count (ETableSelectionModel *selection)
+{
+	gint count;
+	int i;
+	int last;
+
+	count = 0;
+
+	last = BOX(selection->row_count - 1);
+
+	for (i = 0; i <= last; i++) {
+		int j;
+		guint32 thiscount = 0;
+		for (j = 0; j < 8; j++)
+			thiscount += PART(selection->selection[i], j);
+		for (j = 0; j < 4; j++)
+			count += SECTION(thiscount, j);
+	}
+
+	return count;
+}

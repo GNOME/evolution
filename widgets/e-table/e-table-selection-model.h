@@ -63,6 +63,7 @@ void             e_table_selection_model_maybe_do_something    (ETableSelectionM
 								guint                 col,
 								GdkModifierType       state);
 void             e_table_selection_model_clear           (ETableSelectionModel *selection);
+gint             e_table_selection_model_selected_count  (ETableSelectionModel *selection);
 
 ETableSelectionModel  *e_table_selection_model_new       (void);
 
