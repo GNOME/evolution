@@ -633,7 +633,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	evolution_dir = g_strdup (evolution_homedir);
 	mail_session_init ();
-	
+	mail_config_init ();
+
 	storages_hash = g_hash_table_new (NULL, NULL);
 	
 	vfolder_create_storage (shell_component);
