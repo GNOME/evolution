@@ -40,6 +40,7 @@
 #include "popup-menu.h"
 #include "../e-util/e-canvas.h"
 #include "../widgets/e-text/e-text.h"
+#include "e-util/e-canvas-utils.h"
 
 /* Images */
 #include "bell.xpm"
@@ -3436,11 +3437,11 @@ e_day_view_reshape_long_event (EDayView *day_view,
 
 	text_w = MAX (text_w, 0);
 	gnome_canvas_item_set (event->canvas_item,
-			       "x", (gdouble) text_x,
-			       "y", (gdouble) item_y,
 			       "clip_width", (gdouble) text_w,
 			       "clip_height", (gdouble) item_h,
 			       NULL);
+	e_canvas_item_move_absolute(event->canvas_item,
+				    text_x, item_y);
 }
 
 
@@ -3747,11 +3748,11 @@ e_day_view_reshape_day_event (EDayView *day_view,
 
 		item_w = MAX (item_w, 0);
 		gnome_canvas_item_set (event->canvas_item,
-				       "x", (gdouble) item_x,
-				       "y", (gdouble) item_y,
 				       "clip_width", (gdouble) item_w,
 				       "clip_height", (gdouble) item_h,
 				       NULL);
+		e_canvas_item_move_absolute(event->canvas_item,
+					    item_x, item_y);
 	}
 }
 
@@ -5036,11 +5037,12 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 	font = GTK_WIDGET (day_view)->style->font;
 	gnome_canvas_item_set (day_view->drag_long_event_item,
 			       "font_gdk", font,
-			       "x", item_x + E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH + E_DAY_VIEW_LONG_EVENT_X_PAD,
-			       "y", item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT + E_DAY_VIEW_LONG_EVENT_Y_PAD,
 			       "clip_width", item_w - (E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH + E_DAY_VIEW_LONG_EVENT_X_PAD) * 2,
 			       "clip_height", item_h - (E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT + E_DAY_VIEW_LONG_EVENT_Y_PAD) * 2,
 			       NULL);
+	e_canvas_item_move_absolute(day_view->drag_long_event_item,
+				    item_x + E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH + E_DAY_VIEW_LONG_EVENT_X_PAD,
+				    item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT + E_DAY_VIEW_LONG_EVENT_Y_PAD);
 
 	if (!(day_view->drag_long_event_rect_item->object.flags & GNOME_CANVAS_ITEM_VISIBLE)) {
 		gnome_canvas_item_raise_to_top (day_view->drag_long_event_rect_item);
@@ -5185,11 +5187,12 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 	font = GTK_WIDGET (day_view)->style->font;
 	gnome_canvas_item_set (day_view->drag_item,
 			       "font_gdk", font,
-			       "x", item_x + E_DAY_VIEW_BAR_WIDTH + E_DAY_VIEW_EVENT_X_PAD,
-			       "y", item_y + E_DAY_VIEW_EVENT_BORDER_HEIGHT + E_DAY_VIEW_EVENT_Y_PAD,
 			       "clip_width", item_w - E_DAY_VIEW_BAR_WIDTH - E_DAY_VIEW_EVENT_X_PAD * 2,
 			       "clip_height", item_h - (E_DAY_VIEW_EVENT_BORDER_HEIGHT + E_DAY_VIEW_EVENT_Y_PAD) * 2,
 			       NULL);
+	e_canvas_item_move_absolute(event->canvas_item,
+				    item_x + E_DAY_VIEW_BAR_WIDTH + E_DAY_VIEW_EVENT_X_PAD,
+				    item_y + E_DAY_VIEW_EVENT_BORDER_HEIGHT + E_DAY_VIEW_EVENT_Y_PAD);
 
 	if (!(day_view->drag_bar_item->object.flags & GNOME_CANVAS_ITEM_VISIBLE)) {
 		gnome_canvas_item_raise_to_top (day_view->drag_bar_item);

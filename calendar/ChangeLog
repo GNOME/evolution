@@ -1,3 +1,8 @@
+2000-06-21  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/e-day-view.c, gui/e-week-view.c: Remove the usage of the "x"
+	and "y" arguments.
+
 2000-06-21  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/gnome-cal.c (gnome_calendar_direction): changed so it keeps the

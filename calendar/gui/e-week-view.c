@@ -40,6 +40,7 @@
 #include "popup-menu.h"
 #include "../e-util/e-canvas.h"
 #include "../widgets/e-text/e-text.h"
+#include "e-util/e-canvas-utils.h"
 
 /* Images */
 #include "bell.xpm"
@@ -2089,11 +2090,11 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 
 	text_w = MAX (text_w, 0);
 	gnome_canvas_item_set (span->text_item,
-			       "x", (gdouble) text_x,
-			       "y", (gdouble) text_y,
 			       "clip_width", (gdouble) text_w,
 			       "clip_height", (gdouble) text_h,
 			       NULL);
+	e_canvas_item_move_absolute(span->text_item,
+				    text_x, text_y);
 }
 
 
