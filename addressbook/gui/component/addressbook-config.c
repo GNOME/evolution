@@ -552,6 +552,26 @@ addressbook_source_dialog_ok_clicked (GtkWidget *widget, AddressbookSourceDialog
 	dialog->source = addressbook_source_dialog_get_source (dialog);
 }
 
+static void
+addressbook_source_dialog_destroy (AddressbookSourceDialog *dialog)
+{
+	GList *s;
+
+	for (s = dialog->source_pages; s; s = s->next) {
+		AddressbookSourcePageItem *source_item = s->data;
+
+		g_list_foreach (source_item->auths, (GFunc)g_free, NULL);
+		g_list_free (source_item->auths);
+		g_free (source_item);
+	}
+
+	g_list_free (dialog->source_pages);
+
+	if (dialog->source)
+		addressbook_source_free (dialog->source);
+	g_free (dialog);
+}
+
 static AddressbookSourceDialog*
 addressbook_source_dialog (AddressbookSource *source, GtkWidget *parent)
 {
@@ -715,7 +735,7 @@ add_source_clicked (GtkWidget *widget, AddressbookDialog *dialog)
 	sdialog = addressbook_config_source (NULL, dialog->dialog);
 	if (sdialog->id == 0) {
 		/* Ok was clicked */
-		AddressbookSource *source = sdialog->source;
+		AddressbookSource *source = addressbook_source_copy(sdialog->source);
 		gint row;
 		gchar *text[2];
 
@@ -727,6 +747,8 @@ add_source_clicked (GtkWidget *widget, AddressbookDialog *dialog)
 		gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
 		update_sensitivity (dialog);
 	}
+
+	addressbook_source_dialog_destroy (sdialog);
 }
 
 static void
@@ -740,12 +762,16 @@ edit_source_clicked (GtkWidget *widget, AddressbookDialog *dialog)
 	sdialog = addressbook_config_source (source, dialog->dialog);
 	if (sdialog->id == 0) {
 		/* Ok was clicked */
-		source = sdialog->source;
-		e_utf8_gtk_clist_set_text (GTK_CLIST (dialog->clistSources), dialog->source_row, 0, source->uri);
+		source = addressbook_source_copy(sdialog->source);
+
+		e_utf8_gtk_clist_set_text (GTK_CLIST (dialog->clistSources), dialog->source_row, 0, source->name);
+		e_utf8_gtk_clist_set_text (GTK_CLIST (dialog->clistSources), dialog->source_row, 1, source->uri);
 		gtk_clist_set_row_data (GTK_CLIST (dialog->clistSources), dialog->source_row, source);
 		gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
 		update_sensitivity (dialog);
 	}
+
+	addressbook_source_dialog_destroy (sdialog);
 }
 
 static void
@@ -786,7 +812,6 @@ static void
 addressbook_dialog_close (GnomePropertyBox *property_box, AddressbookDialog *dialog)
 {
 	gtk_object_unref (GTK_OBJECT (dialog->gui));
-	/* more stuff dude */
 	g_free (dialog);
 }
 

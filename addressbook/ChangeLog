@@ -1,3 +1,25 @@
+2000-12-30  Chris Toshok  <toshok@helixcode.com>
+
+	* gui/component/addressbook-config.c (edit_source_clicked): copy
+	the dialog's source, destroy the dialog after we're done, and make
+	sure to update both columns in the clist.
+	(add_source_clicked): copy the dialog's source, and destroy the
+	dialog when we're done.
+	(addressbook_source_dialog_destroy): free up all the dialog's
+	memory.
+
+	* gui/component/addressbook.c (set_prop): allow file: uri's that
+	point to files, not just dirs that contain addressbook.db.  The
+	rule is the addressbook file has to end in .db.
+
+	* gui/component/addressbook-storage.c (file_source_foreach):
+	contactserver => contactfile.  cut and paste error.
+	(addressbook_storage_init_source_uri): use file://%s to build the
+	uri.
+
+	* gui/component/e-ldap-server-dialog.[ch]: forgot to remove these
+	in my last commit.
+
 2000-12-29  Chris Toshok  <toshok@helixcode.com>
 
 	* gui/component/addressbook.c (config_cb): new function, calling

@@ -202,7 +202,7 @@ addressbook_storage_init_source_uri (AddressbookSource *source)
 						source->ldap.host, source->ldap.port,
 						source->ldap.rootdn, ldap_unparse_scope(source->ldap.scope));
 	else
-		source->uri = g_strdup_printf ("file:%s",
+		source->uri = g_strdup_printf ("file://%s",
 					       source->file.path);
 }
 
@@ -330,7 +330,7 @@ static void
 file_source_foreach (AddressbookSource *source, xmlNode *root)
 {
 	xmlNode *source_root = xmlNewNode (NULL,
-					   (xmlChar *) "contactserver");
+					   (xmlChar *) "contactfile");
 
 	xmlAddChild (root, source_root);
 

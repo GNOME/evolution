@@ -432,9 +432,20 @@ set_prop (BonoboPropertyBag *bag,
 		view->uri = g_strdup(BONOBO_ARG_GET_STRING (arg));
 		
 		if (!strncmp (view->uri, "file:", 5)) {
-			char *file_name = g_concat_dir_and_file(view->uri + 7, "addressbook.db");
-			uri_data = g_strdup_printf("file://%s", file_name);
-			g_free(file_name);
+
+			if (strlen (view->uri + 7) > 3
+			    && !strcmp (view->uri + strlen(view->uri) - 3, ".db")) {
+				/* it's a .db file */
+				uri_data = g_strdup (view->uri);
+			}
+			else {
+				char *file_name;
+				/* we assume it's a dir and glom addressbook.db onto the end. */
+				file_name = g_concat_dir_and_file(view->uri + 7, "addressbook.db");
+				uri_data = g_strdup_printf("file://%s", file_name);
+				g_free(file_name);
+			}
+
 		}
 		else {
 			uri_data = g_strdup (view->uri);
