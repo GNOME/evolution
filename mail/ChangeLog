@@ -1,5 +1,11 @@
 2004-02-05  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-tree.c (emft_copy_folders__copy): sync the from folder
+	if we're going to delete it, otherwise we can't because its not
+	empty.  See #53815.
+
+2004-02-05  Not Zed  <NotZed@Ximian.com>
+
 	* em-folder-tree-model.c
 	(em_folder_tree_model_drag_data_received): hmm, another well
 	tested bit of code ... if you launch another thread you gotta copy

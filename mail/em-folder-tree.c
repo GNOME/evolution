@@ -1041,6 +1041,9 @@ emft_copy_folders__copy (struct _mail_msg *mm)
 				camel_folder_transfer_messages_to (fromfolder, uids, tofolder, NULL, m->delete, &mm->ex);
 				camel_folder_free_uids (fromfolder, uids);
 				
+				if (m->delete)
+					camel_folder_sync(fromfolder, TRUE, NULL);
+
 				camel_object_unref (fromfolder);
 				camel_object_unref (tofolder);
 			}
@@ -1061,6 +1064,9 @@ emft_copy_folders__copy (struct _mail_msg *mm)
 		
 		d(printf ("deleting folder '%s'\n", info->full_name));
 		
+		/* FIXME: we need to do something with the exception
+		   since otherwise the users sees a failed operation
+		   with no error message or even any warnings */
 		if (camel_store_supports_subscriptions (m->fromstore))
 			camel_store_unsubscribe_folder (m->fromstore, info->full_name, NULL);
 		
