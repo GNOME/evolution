@@ -1,3 +1,8 @@
+2001-09-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (try_inline_pgp_sig): Make sure that the
+	charset_filter is non-NULL before using it since iconv may fail.
+
 2001-09-13  Larry Ewing  <lewing@ximian.com>
 
 	* mail-tools.c (mail_tool_quote_message): free the credits string.

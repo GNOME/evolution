@@ -1475,9 +1475,12 @@ try_inline_pgp_sig (char *start, CamelMimePart *part, MailDisplay *md)
 		if (!charset)
 			charset = mail_config_get_default_charset ();
 		
-		charset_filter = camel_mime_filter_charset_new_convert ("utf-8", charset);
 		filtered_stream = camel_stream_filter_new_with_stream (ciphertext);
-		camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (charset_filter));
+		charset_filter = camel_mime_filter_charset_new_convert ("utf-8", charset);
+		if (charset_filter) {
+			camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (charset_filter));
+			camel_object_unref (CAMEL_OBJECT (charset_filter));
+		}
 		
 		camel_stream_write (CAMEL_STREAM (filtered_stream), pgp_start, sig_end - pgp_start);
 		camel_stream_flush (CAMEL_STREAM (filtered_stream));
