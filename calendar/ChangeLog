@@ -1,3 +1,8 @@
+2004-07-11  Jürg Billeter <j@bitron.ch>
+
+	* gui/dialogs/event-page.c (event_page_fill_component):
+	busy should be opaque, not transparent
+
 2004-07-09  Rodrigo Moya <rodrigo@novell.com>
 
 	Revert my patches from July 5th and 6th.

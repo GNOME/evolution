@@ -926,7 +926,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 	/* Show Time As (Transparency) */
 	busy = e_dialog_toggle_get (priv->show_time_as_busy);
-	e_cal_component_set_transparency (comp, busy ? E_CAL_COMPONENT_TRANSP_TRANSPARENT : E_CAL_COMPONENT_TRANSP_OPAQUE);
+	e_cal_component_set_transparency (comp, busy ? E_CAL_COMPONENT_TRANSP_OPAQUE : E_CAL_COMPONENT_TRANSP_TRANSPARENT);
 
 	/* Alarm */
 	e_cal_component_remove_all_alarms (comp);
