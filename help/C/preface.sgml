@@ -173,21 +173,91 @@
         </para>
       </formalpara>
   </sect1>
+  <sect1 id="ui-intro">
+    <title>Evolution Interface Introduction</title>
+    <para>
+      <application>Evolution</application> follows a consistent UI.  This means
+      that in each component, you will find many UI characteristics the same as
+      others components.
+    </para>
+
+    <figure id="preface-basic-interface">
+      <title>Evolution's Interface</title>
+      <screenshot>
+	<screeninfo>Inbox</screeninfo>
+	<graphic fileref="fig/mainwindow-pic.png" srccredit="Kevin Breit">
+	</graphic>
+      </screenshot>
+    </figure>
+    
+    <para>
+      <inlinegraphic fileref="fig/full-1.png"></inlinegraphic>
+      <guilabel>Menubar</guilabel>
+    </para>
+    
+    <para>
+      The <guilabel>Menubar</guilabel> gives you access to nearly all the
+      features that can be found in <application>Evolution</application>.
+    </para>
+
+    <para>
+      <inlinegraphic fileref="fig/full-2.png"></inlinegraphic>
+      <guilabel>Toolbar</guilabel>
+    </para>
+
+    <para>
+      The <guilabel>Toolbar</guilabel> gives you fast and easy access to the
+      most used features in each component.
+    </para>
+    
+    <para>
+      <inlinegraphic fileref="fig/full-3.png"></inlinegraphic>
+      <guilabel>Shortcut Bar</guilabel>
+    </para>
+    
+    <para>
+      The <guilabel>Shortcut Bar</guilabel> lets you go to your favorite
+      components with a click of a button.  You can even add your favorite
+      folders to the <guilabel>Shortcut Bar</guilabel>.
+    </para>
+    
+    <para>
+      <inlinegraphic fileref="fig/full-4.png"></inlinegraphic>
+      <guilabel>Status Bar</guilabel>
+    </para>
+    
+    <para>
+      Periodically, <application>Evolution</application> will need to quietly
+      display a message, or tell you the progress of something.  This most
+      often happens when you're checking or sending email.  These progress
+      queues are shown here, in the <guilabel>Status Bar</guilabel>.  
+    </para>
+    
+    <para>
+      <inlinegraphic fileref="fig/full-5.png"></inlinegraphic>
+      <guilabel>Search Bar</guilabel>
+    </para>
+    
+    <para>
+      The <guilabel>Search Bar</guilabel> lets you search through your email
+      with precision so you can easily find what you're looking for.
+    </para>
+  </sect1>
+
   <sect1 id="commontasks">
     <title>Quick Reference for Common Tasks</title>
     <para>
-        You might want to copy this section and tape it to the wall
-        next to your computer: it's a very short summary of most of
-        the things you'll want to do with
-        <application>Evolution</application>.  Read <xref
-        linkend="menuref"> if you would like a complete list of
-        keyboard shortcuts for menu commands.
+      You might want to copy this section and tape it to the wall
+      next to your computer: it's a very short summary of most of
+      the things you'll want to do with
+      <application>Evolution</application>.  Read <xref linkend="menuref"> if
+        you would like a complete list of keyboard shortcuts for menu commands.
     </para>
-
+    
     <sect2 id="quickref-newthings">
       <title>Opening or Creating Anything</title>
       <para>
-         
+	
           <variablelist>
 
 	  <varlistentry>
@@ -415,7 +485,7 @@
 	    </listitem>
 	    </varlistentry>
 	  </variablelist>
-
+	  
 
         </para>
       </sect2>

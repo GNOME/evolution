@@ -5,6 +5,7 @@ GUIDE_SGML_FILES =		\
 	apx-authors.sgml	\
 	apx-bugs.sgml		\
 	apx-gloss.sgml		\
+	config-encryption.sgml	\
 	config-prefs.sgml	\
 	config-setupassist.sgml	\
 	config-sync.sgml	\

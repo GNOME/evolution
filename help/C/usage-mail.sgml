@@ -89,12 +89,12 @@
 	  <title>Evolution Mail</title>
 	  <screenshot>
 	    <screeninfo>Inbox</screeninfo>
-	    <graphic fileref="fig/mainwindow-pic.png" srccredit="Kevin Breit">
+	    <graphic fileref="fig/mail-inbox.png" srccredit="Kevin Breit">
 	</graphic>
 	</screenshot>
       </figure>
 <!-- ==============End of Figure============================== -->
-
+<!--
       <para>
 	<inlinegraphic fileref="fig/full-1.png"></inlinegraphic>
 	<guimenu>Menu Bar</guimenu>
@@ -139,11 +139,12 @@
 	display a message, or tell you the progress of something.  This most
 	often happens when you're checking or sending email.  These progress
 	queues are shown here, in the <guilabel>Status Bar</guilabel>.  
-	<!-- This sucks, rewrite this paragraph! -->
       </para>
-      
+    -->  
+
+
       <para>
-	<inlinegraphic fileref="fig/full-5.png"></inlinegraphic>
+	<inlinegraphic fileref="fig/full-1.png"></inlinegraphic>
 	<guilabel>Email Viewer</guilabel>
       </para>
       
@@ -152,7 +153,7 @@
       </para>
 
       <para>
-	<inlinegraphic fileref="fig/full-6.png"></inlinegraphic>
+	<inlinegraphic fileref="fig/full-2.png"></inlinegraphic>
 	<guilabel>Email List</guilabel>
       </para>
       
@@ -161,18 +162,18 @@
 	have.  This includes all your read, unread, and email that is flagged to
 	be deleted.
       </para>
+
+      <!--
+    <para>
+    <inlinegraphic fileref="fig/full-7.png"></inlinegraphic>
+    <guilabel>Search Bar</guilabel>
+    </para>
       
-      <para>
-	<inlinegraphic fileref="fig/full-7.png"></inlinegraphic>
-	<guilabel>Search Bar</guilabel>
-      </para>
-      
-      <para>
-	The <guilabel>Search Bar</guilabel> lets you search through your email
-	with precision so you can easily find what you're looking for.
-	<!-- End Marketing Sounding Stuff Here -->
-      </para>
-      
+    <para>
+      The <guilabel>Search Bar</guilabel> lets you search through your email
+      with precision so you can easily find what you're looking for.
+    </para>
+      -->      
       <para>
 	Most of the mail-related actions you'll want to perform are
 	listed in the <guimenu>Message</guimenu> menu in the menu
