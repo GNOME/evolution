@@ -726,6 +726,7 @@ mail_show_full_path_toggled_cb (GtkToggleButton *tb,
 				PropertyData *pd)
 {
 	pd->summary->preferences->show_full_path = gtk_toggle_button_get_active (tb);
+	gnome_property_box_changed (pd->box);
 }
 
 static void

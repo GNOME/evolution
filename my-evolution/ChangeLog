@@ -1,5 +1,10 @@
 2001-08-22  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-preferences.c (mail_show_full_path_toggled): Set the 
+	property box to changed.
+
+2001-08-22  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-mail.c (make_pretty_foldername): If show_full_path is TRUE
 	then return the full path. Take in the ESummary as well.
 	(folder_gen_html): Pass ESummary to make_pretty_foldername.
