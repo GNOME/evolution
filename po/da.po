@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-10 22:41+0100\n"
-"PO-Revision-Date: 2005-02-24 12:45+0100\n"
+"POT-Creation-Date: 2005-03-14 11:21+0100\n"
+"PO-Revision-Date: 2005-03-14 11:21+0100\n"
 "Last-Translator: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -4133,10 +4133,9 @@ msgstr "Opgavelisten er ikke markeret til afkoblet brug"
 
 #. calendar:server-version secondary
 #: ../calendar/calendar-errors.xml.h:146
-#, fuzzy
 msgid " Some features may not work correctly with your current server version "
 msgstr ""
-" Nogle faciliteter virker muligvis ikke med din nuværende serverversion"
+" Nogle faciliteter virker muligvis ikke med din nuværende serverversion "
 
 #: ../calendar/common/authentication.c:49 ../calendar/gui/e-pub-utils.c:301
 #: ../smime/gui/component.c:48
