@@ -1,3 +1,8 @@
+2004-04-29  JP Rosevear  <jpr@ximian.com>
+
+	* e-activity-handler.c (impl_dispose): pass the correct data when
+	weak unreffing
+
 2004-04-29  Not Zed  <NotZed@Ximian.com>
 
 	* e-error.c (e_error_newv): make the label selectable.

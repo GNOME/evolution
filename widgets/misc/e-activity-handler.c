@@ -227,7 +227,7 @@ impl_dispose (GObject *object)
 	priv->activity_infos = NULL;
 
 	for (sp = priv->task_bars; sp != NULL; sp = sp->next)
-		g_object_weak_unref (G_OBJECT (sp->data), task_bar_destroy_notify, sp->data);
+		g_object_weak_unref (G_OBJECT (sp->data), task_bar_destroy_notify, handler);
 	priv->task_bars = NULL;
 
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
