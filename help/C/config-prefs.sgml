@@ -116,10 +116,7 @@
 	<listitem>
 	  <para>
             Choose the fonts that Evolution will use to display email
-            here.  You can choose fonts for the mail composer by
-            selecting <menuchoice> <guimenu>Edit</guimenu>
-            <guimenuitem>Properties</guimenuitem> </menuchoice> from
-            within the composer window.
+            here.
           </para>
 	</listitem>
       </varlistentry>
@@ -441,15 +438,15 @@ smtp.omniport.com:143
        <orderedlist numeration="arabic">
 	  <listitem>
             <para>
-              Open the Control Center by selecting <menuchoice>
-		<guimenu>System</guimenu>
-		<guimenuitem>Settings</guimenuitem> </menuchoice> from
-		the menu panel.
+              Open the Evolution preferences dialog by selecting
+		<menuchoice> <guimenu>Tools</guimenu>
+		<guimenuitem>Settings</guimenuitem> </menuchoice>.
             </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-               Select the HTML Viewer settings tool.
+               Select the <guilabel>Font Settings</guilabel> portion of the 
+               settings dialog.
             </para>
 	  </listitem>
 	  <listitem>
@@ -457,12 +454,6 @@ smtp.omniport.com:143
             </para>
 	  </listitem>
 	</orderedlist>
-
-       Alternately, open a terminal and run the
-       <command>gtkhtml-properties-capplet</command> command. This
-       will open the GNOME HTML Display Properties tool, and you can
-       select a font and other attributes of your HTML display,
-       including that in <application>Ximian Evolution</application>.
      </para>
      </sect2>
 
