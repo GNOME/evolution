@@ -18,7 +18,7 @@ $(IDL_GENERATED): $(IDLS)
 # Wombat library
 privlib_LTLIBRARIES = libwombat.la
 
-wombatincludedir = $(includedir)/evolution-$(BASE_VERSION)/wombat
+wombatincludedir = $(privincludedir)/wombat
 wombatinclude_HEADERS = \
 	wombat-client.h
 
