@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.10\n"
-"POT-Creation-Date: 2001-04-24 10:43-0400\n"
+"POT-Creation-Date: 2001-04-26 10:52-0400\n"
 "PO-Revision-Date: 2001-04-20 00:11-04:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -944,7 +944,7 @@ msgstr "Adressebok-kilder"
 #: addressbook/gui/component/addressbook-config.glade.h:3
 #: calendar/gui/e-meeting-dialog.glade.h:8
 #: calendar/gui/event-editor-dialog.glade.h:9 filter/filter.glade.h:2
-#: filter/libfilter-i18n.h:11 mail/folder-browser.c:593
+#: filter/libfilter-i18n.h:8 mail/folder-browser.c:593
 #: mail/mail-config.glade.h:19 mail/mail-view.c:150
 #: ui/evolution-addressbook.xml.h:3 ui/evolution-event-editor.xml.h:17
 #: ui/evolution-mail.xml.h:6 ui/evolution-task-editor-dialog.xml.h:18
@@ -2492,7 +2492,7 @@ msgstr ""
 "Sett av\n"
 "tid"
 
-#: calendar/gui/e-meeting-dialog.glade.h:24 filter/libfilter-i18n.h:48
+#: calendar/gui/e-meeting-dialog.glade.h:24 filter/libfilter-i18n.h:30
 #: mail/message-list.c:1050
 msgid "Status"
 msgstr "Status"
@@ -2619,12 +2619,11 @@ msgstr "_Start-tid:"
 msgid "_Starting date:"
 msgstr "_Start dato:"
 
-#. Automatically generated. Do not edit.
-#: calendar/gui/event-editor-dialog.glade.h:33 filter/libfilter-i18n.h:2
+#: calendar/gui/event-editor-dialog.glade.h:33 filter/libfilter-i18n.h:33
 msgid "after"
 msgstr "etter"
 
-#: calendar/gui/event-editor-dialog.glade.h:34 filter/libfilter-i18n.h:6
+#: calendar/gui/event-editor-dialog.glade.h:34 filter/libfilter-i18n.h:34
 msgid "before"
 msgstr "før"
 
@@ -4695,30 +4694,6 @@ msgstr "adressekort"
 msgid "calendar information"
 msgstr "kalenderinformasjon"
 
-#: default_user/searches.xml.h:1
-msgid "Body contains"
-msgstr "Kropp inneholder"
-
-#: default_user/searches.xml.h:2
-msgid "Body does not contain"
-msgstr "Kropp inneholder ikke"
-
-#: default_user/searches.xml.h:3
-msgid "Body or subject contains"
-msgstr "Kropp eller emne inneholder"
-
-#: default_user/searches.xml.h:4
-msgid "Sender contains"
-msgstr "Sender inneholder"
-
-#: default_user/searches.xml.h:5
-msgid "Subject contains"
-msgstr "Emne inneholder"
-
-#: default_user/searches.xml.h:6
-msgid "Subject does not contain"
-msgstr "Emne inneholder ikke"
-
 #. strptime format for a date.
 #: e-util/e-time-utils.c:68 e-util/e-time-utils.c:116
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:474
@@ -5200,186 +5175,187 @@ msgstr "med alle lokaleog aktive eksterne mapper"
 msgid "with all local folders"
 msgstr "med alle lokale mapper"
 
-#: filter/libfilter-i18n.h:3
+#. Automatically generated. Do not edit.
+#: filter/libfilter-i18n.h:2
 msgid "Assign Colour"
 msgstr "Gi farge"
 
-#: filter/libfilter-i18n.h:4
+#: filter/libfilter-i18n.h:3
 msgid "Assign Score"
 msgstr "Gi poeng"
 
-#: filter/libfilter-i18n.h:5
+#: filter/libfilter-i18n.h:4
 msgid "Attachments"
 msgstr "Vedlegg"
 
-#: filter/libfilter-i18n.h:7
-msgid "contains"
-msgstr "inneholder"
-
-#: filter/libfilter-i18n.h:8
+#: filter/libfilter-i18n.h:5
 msgid "Copy to Folder"
 msgstr "Kopier til mappe"
 
-#: filter/libfilter-i18n.h:9
+#: filter/libfilter-i18n.h:6
 msgid "Date received"
 msgstr "Dato mottatt"
 
-#: filter/libfilter-i18n.h:10
+#: filter/libfilter-i18n.h:7
 msgid "Date sent"
 msgstr "Dato sendt"
 
-#: filter/libfilter-i18n.h:12
+#: filter/libfilter-i18n.h:9
 msgid "Deleted"
 msgstr "Slettet"
 
-#: filter/libfilter-i18n.h:13
-msgid "does not contain"
-msgstr "inneholder ikke"
-
-#: filter/libfilter-i18n.h:14
-msgid "does not end with"
-msgstr "slutter ikke med"
-
-#: filter/libfilter-i18n.h:15
-msgid "does not exist"
-msgstr "eksisterer ikke"
-
-#: filter/libfilter-i18n.h:16
-msgid "does not sound like"
-msgstr "ligner ikke"
-
-#: filter/libfilter-i18n.h:17
-msgid "does not start with"
-msgstr "starter ikke med"
-
-#: filter/libfilter-i18n.h:18
+#: filter/libfilter-i18n.h:10
 msgid "Do Not Exist"
 msgstr "Eksisterer ikke"
 
-#: filter/libfilter-i18n.h:19
+#: filter/libfilter-i18n.h:11
 msgid "Draft"
 msgstr "Skisse"
 
-#: filter/libfilter-i18n.h:20
-msgid "ends with"
-msgstr "slutter med"
-
-#: filter/libfilter-i18n.h:21
+#: filter/libfilter-i18n.h:12
 msgid "Exist"
 msgstr "Eksisterer"
 
-#: filter/libfilter-i18n.h:22
-msgid "exists"
-msgstr "eksisterer"
-
-#: filter/libfilter-i18n.h:23
+#: filter/libfilter-i18n.h:13
 msgid "Expression"
 msgstr "Uttrykk"
 
-#: filter/libfilter-i18n.h:24
+#: filter/libfilter-i18n.h:14
 msgid "Forward to Address"
 msgstr "Videresend til adresse"
 
-#: filter/libfilter-i18n.h:25
+#: filter/libfilter-i18n.h:15
 msgid "Important"
 msgstr "Viktig"
 
-#: filter/libfilter-i18n.h:26
-msgid "is"
-msgstr "er"
-
-#: filter/libfilter-i18n.h:27
-msgid "is greater than"
-msgstr "er større enn"
-
-#: filter/libfilter-i18n.h:28
-msgid "is less than"
-msgstr "er mindre enn"
-
-#: filter/libfilter-i18n.h:29
-msgid "is not"
-msgstr "er ikke"
-
-#: filter/libfilter-i18n.h:30
+#: filter/libfilter-i18n.h:16
 msgid "Mailing list"
 msgstr "E-postliste"
 
-#: filter/libfilter-i18n.h:31
+#: filter/libfilter-i18n.h:17
 msgid "Message Body"
 msgstr "Meldingskropp"
 
-#: filter/libfilter-i18n.h:32
+#: filter/libfilter-i18n.h:18
 msgid "Message Header"
 msgstr "Meldingshode"
 
-#: filter/libfilter-i18n.h:33
+#: filter/libfilter-i18n.h:19
 msgid "Message was received"
 msgstr "Meldingen ble mottatt"
 
-#: filter/libfilter-i18n.h:34
+#: filter/libfilter-i18n.h:20
 msgid "Message was sent"
 msgstr "Meldingen ble sendt"
 
-#: filter/libfilter-i18n.h:35
+#: filter/libfilter-i18n.h:21
 msgid "Move to Folder"
 msgstr "Flytt til mappe"
 
-#: filter/libfilter-i18n.h:36
-msgid "on or after"
-msgstr "på eller etter"
-
-#: filter/libfilter-i18n.h:37
-msgid "on or before"
-msgstr "på eller før"
-
-#: filter/libfilter-i18n.h:38
+#: filter/libfilter-i18n.h:22
 msgid "Read"
 msgstr "Les"
 
-#: filter/libfilter-i18n.h:39
+#: filter/libfilter-i18n.h:23
 msgid "Recipients"
 msgstr "Mottakere"
 
-#: filter/libfilter-i18n.h:40
+#: filter/libfilter-i18n.h:24
 msgid "Regex Match"
 msgstr "Treff på vanlig uttrykk"
 
-#: filter/libfilter-i18n.h:41
+#: filter/libfilter-i18n.h:25
 msgid "Replied to"
 msgstr "Svart til"
 
-#: filter/libfilter-i18n.h:42 filter/score-rule.c:193 filter/score-rule.c:195
+#: filter/libfilter-i18n.h:26 filter/score-rule.c:193 filter/score-rule.c:195
 #: mail/message-list.c:1050
 msgid "Score"
 msgstr "Poenggi"
 
-#: filter/libfilter-i18n.h:43
+#: filter/libfilter-i18n.h:27
 msgid "Sender"
 msgstr "Avsender"
 
-#: filter/libfilter-i18n.h:44
+#: filter/libfilter-i18n.h:28
 msgid "Set Status"
 msgstr "Sett status"
 
-#: filter/libfilter-i18n.h:45
-msgid "sounds like"
-msgstr "lyder som"
-
-#: filter/libfilter-i18n.h:46
+#: filter/libfilter-i18n.h:29
 msgid "Specific header"
 msgstr "Spesifikk header"
 
-#: filter/libfilter-i18n.h:47
-msgid "starts with"
-msgstr "starter med"
-
-#: filter/libfilter-i18n.h:49
+#: filter/libfilter-i18n.h:31
 msgid "Stop Processing"
 msgstr "Stopp behandling"
 
-#: filter/libfilter-i18n.h:50 mail/message-list.c:1051
+#: filter/libfilter-i18n.h:32 mail/message-list.c:1051
 msgid "Subject"
 msgstr "Emne"
+
+#: filter/libfilter-i18n.h:35
+msgid "contains"
+msgstr "inneholder"
+
+#: filter/libfilter-i18n.h:36
+msgid "does not contain"
+msgstr "inneholder ikke"
+
+#: filter/libfilter-i18n.h:37
+msgid "does not end with"
+msgstr "slutter ikke med"
+
+#: filter/libfilter-i18n.h:38
+msgid "does not exist"
+msgstr "eksisterer ikke"
+
+#: filter/libfilter-i18n.h:39
+msgid "does not sound like"
+msgstr "ligner ikke"
+
+#: filter/libfilter-i18n.h:40
+msgid "does not start with"
+msgstr "starter ikke med"
+
+#: filter/libfilter-i18n.h:41
+msgid "ends with"
+msgstr "slutter med"
+
+#: filter/libfilter-i18n.h:42
+msgid "exists"
+msgstr "eksisterer"
+
+#: filter/libfilter-i18n.h:43
+msgid "is greater than"
+msgstr "er større enn"
+
+#: filter/libfilter-i18n.h:44
+msgid "is less than"
+msgstr "er mindre enn"
+
+#: filter/libfilter-i18n.h:45
+msgid "is not"
+msgstr "er ikke"
+
+#: filter/libfilter-i18n.h:46
+msgid "is"
+msgstr "er"
+
+#: filter/libfilter-i18n.h:47
+msgid "on or after"
+msgstr "på eller etter"
+
+#: filter/libfilter-i18n.h:48
+msgid "on or before"
+msgstr "på eller før"
+
+#: filter/libfilter-i18n.h:49
+msgid "sounds like"
+msgstr "lyder som"
+
+#: filter/libfilter-i18n.h:50
+msgid "starts with"
+msgstr "starter med"
 
 #: filter/libfilter-i18n.h:51
 msgid "was after"
@@ -5409,7 +5385,7 @@ msgstr "Poengregler"
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Kan ikke initiere Evolutions e-postkomponent."
 
-#: mail/component-factory.c:405
+#: mail/component-factory.c:445
 msgid "Cannot register storage with shell"
 msgstr "Kan ikke registrere lagring i skallet"
 
@@ -6627,7 +6603,7 @@ msgstr "Factory for å importere Outlook Express 4-meldinger til Evolution"
 msgid "Imports Outlook Express 4 files into Evolution"
 msgstr "Importerer Outlook Express 4-filer til Evolution"
 
-#: mail/importers/elm-importer.c:415
+#: mail/importers/elm-importer.c:416
 msgid ""
 "Evolution has found Elm mail files.\n"
 "Would you like to import them into Evolution?"
@@ -6635,7 +6611,7 @@ msgstr ""
 "Evolution har funnet Elm e-post filer.\n"
 "Ønsker du å importere disse til Evolution?"
 
-#: mail/importers/elm-importer.c:425
+#: mail/importers/elm-importer.c:426
 msgid "Elm mail"
 msgstr "Elm e-post"
 
@@ -8565,6 +8541,24 @@ msgstr "init_corba(): kunne ikke initiere GNOME"
 #: wombat/wombat.c:198
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
+
+#~ msgid "Body contains"
+#~ msgstr "Kropp inneholder"
+
+#~ msgid "Body does not contain"
+#~ msgstr "Kropp inneholder ikke"
+
+#~ msgid "Body or subject contains"
+#~ msgstr "Kropp eller emne inneholder"
+
+#~ msgid "Sender contains"
+#~ msgstr "Sender inneholder"
+
+#~ msgid "Subject contains"
+#~ msgstr "Emne inneholder"
+
+#~ msgid "Subject does not contain"
+#~ msgstr "Emne inneholder ikke"
 
 #~ msgid "label26"
 #~ msgstr "etikett26"
