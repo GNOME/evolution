@@ -1,3 +1,8 @@
+2004-02-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.c (camel_store_uri_cmp): Removed. Useless/broken
+	function.
+
 2004-02-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-provider.c (camel_provider_list): Init list to NULL to

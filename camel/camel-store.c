@@ -1184,12 +1184,3 @@ camel_store_noop (CamelStore *store, CamelException *ex)
 {
 	CS_CLASS (store)->noop (store, ex);
 }
-
-/* Return true if these uri's refer to the same object */
-gboolean
-camel_store_uri_cmp(CamelStore *store, const char *uria, const char *urib)
-{
-	g_assert(CAMEL_IS_STORE(store));
-
-	return CS_CLASS(store)->compare_folder_name(uria, urib);
-}

@@ -231,8 +231,6 @@ void             camel_store_unsubscribe_folder       (CamelStore *store,
 void             camel_store_noop                     (CamelStore *store,
 						       CamelException *ex);
 
-gboolean	 camel_store_uri_cmp		      (CamelStore *store, const char *uria, const char *urib);
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
