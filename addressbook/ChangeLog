@@ -1,5 +1,8 @@
 2003-03-11  Not Zed  <NotZed@Ximian.com>
 
+	* backend/pas/pas-backend-file.c (INITIAL_VCARD): Updated phone
+	number.  Bug #37204.
+
 	* gui/widgets/e-addressbook-util.c (e_addressbook_send_card_list):
 	re-enable in build, include e-destination.h.  For #39256.
 
