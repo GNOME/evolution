@@ -1,3 +1,9 @@
+2003-04-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (menu_edit_select_all_cb): Add a select-all
+	callback and verb.
+	(composer_entry_focus_in_event_cb): Set our bonobo-ui verbs.
+
 2003-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-select-file.c (e_msg_composer_select_file): Guard

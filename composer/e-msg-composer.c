@@ -1706,6 +1706,22 @@ menu_edit_paste_cb (BonoboUIComponent *uic, void *data, const char *path)
 }
 
 static void
+menu_edit_select_all_cb (BonoboUIComponent *uic, void *data, const char *path)
+{
+	EMsgComposer *composer = data;
+	
+	g_return_if_fail (composer->focused_entry != NULL);
+	
+	if (GTK_IS_ENTRY (composer->focused_entry)) {
+		gtk_editable_set_position (GTK_EDITABLE (composer->focused_entry), -1);
+		gtk_editable_select_region (GTK_EDITABLE (composer->focused_entry), 0, -1);
+	} else {
+		/* happy happy joy joy, an EEntry. */
+		g_assert_not_reached ();
+	}
+}
+
+static void
 menu_edit_delete_all_cb (BonoboUIComponent *uic, void *data, const char *path)
 {
 	CORBA_Environment ev;
@@ -1909,6 +1925,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("EditCut", menu_edit_cut_cb),
 	BONOBO_UI_VERB ("EditCopy", menu_edit_copy_cb),
 	BONOBO_UI_VERB ("EditPaste", menu_edit_paste_cb),
+	BONOBO_UI_VERB ("SelectAll", menu_edit_select_all_cb),
 	
 	BONOBO_UI_VERB ("DeleteAll", menu_edit_delete_all_cb),
 	
@@ -2805,6 +2822,7 @@ composer_entry_focus_in_event_cb (GtkWidget *widget, GdkEventFocus *event, gpoin
 	EMsgComposer *composer = user_data;
 	
 	composer->focused_entry = widget;
+	bonobo_ui_component_add_verb_list_with_data (composer->uic, verbs, composer);
 	
 	return FALSE;
 }
