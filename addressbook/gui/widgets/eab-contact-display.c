@@ -370,18 +370,24 @@ eab_contact_display_render_compact (EABContactDisplay *display, EContact *contac
 			   the html */
 			gdk_pixbuf_loader_write (loader, photo->data, photo->length, NULL);
 			pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+			if (pixbuf)
+				gdk_pixbuf_ref (pixbuf);
 			gdk_pixbuf_loader_close (loader, NULL);
 			g_object_unref (loader);
 			if (pixbuf) {
-				int max_dimension = gdk_pixbuf_get_height (pixbuf);
-				if (max_dimension < gdk_pixbuf_get_width (pixbuf))
-					max_dimension = gdk_pixbuf_get_width (pixbuf);
+				int max_dimension;
 
-				calced_width = (float)gdk_pixbuf_get_width (pixbuf) / max_dimension * MAX_COMPACT_IMAGE_DIMENSION;
-				calced_height = (float)gdk_pixbuf_get_height (pixbuf) / max_dimension * MAX_COMPACT_IMAGE_DIMENSION;
+				calced_width = gdk_pixbuf_get_width (pixbuf);
+				calced_height = gdk_pixbuf_get_height (pixbuf);
 
-				calced_width = MIN (calced_width, MAX_COMPACT_IMAGE_DIMENSION);
-				calced_height = MIN (calced_height, MAX_COMPACT_IMAGE_DIMENSION);
+				max_dimension = calced_width;
+				if (max_dimension < calced_height)
+					max_dimension = calced_height;
+
+				if (max_dimension > MAX_COMPACT_IMAGE_DIMENSION) {
+					calced_width *= ((float)MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
+					calced_height *= ((float)MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
+				}
 			}
 
 			gdk_pixbuf_unref (pixbuf);

@@ -1,3 +1,10 @@
+2004-02-27  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/eab-contact-display.c
+	(eab_contact_display_render_compact): ref the pixbuf before we
+	close/unref the loader so the pixbuf sticks around, and make the
+	scaling logic a bit more transparent.
+
 2004-02-27  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Change the button relief
