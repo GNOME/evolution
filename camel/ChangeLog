@@ -1,5 +1,9 @@
 2001-05-25  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/smtp/camel-smtp-transport.c (smtp_auth): Oops. Use a
+	strNcmp to make sure the response begins with a 334 code, not a
+	strcmp. Duh.
+
 	* providers/local/camel-maildir-folder.c (maildir_append_message):
 	remove the summary info so we are not out-of-sync with the maildir
 	folder.

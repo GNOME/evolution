@@ -758,7 +758,7 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 		}
 		
 		/* the server challenge/response should follow a 334 code */
-		if (strcmp (respbuf, "334")) {
+		if (strncmp (respbuf, "334", 3)) {
 			g_free (respbuf);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("AUTH request failed."));
