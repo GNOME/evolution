@@ -179,20 +179,11 @@ Compiling Palm Pilot support
 If you want support for PalmPilot syncing (currently experimental so
 please back up your pilot) you will also need to do the following:
 
-1) pilot-link
-cvs -d :pserver:anonymous@cvs.gnu-designs.com:/cvs/pilot-link login
-The password is just <ENTER>.
-cvs -d :pserver:anonymous@cvs.gnu-designs.com:/cvs/pilot-link co pilot-link
-./configure --prefix=<pilot-link-prefix> --with-perl=no --with-java=no
---with-tcl=no --with-python=no
-make
-make install
+1) pilot-link 0.9.5
+http://www.pilot-link.org
 
-2) gnome-pilot
-cvs -z3 co gnome-pilot
-./autogen.sh --prefix=<gnome-pilot-prefix> --with-pisock=<pilot-link-prefix>
-make
-make install
+2) gnome-pilot 0.1.61
+http://www.eskil.org/gnome-pilot/
 
 3) evolution
 in your evo source dir do ./autogen.sh --prefix=<evo-prefix> 
