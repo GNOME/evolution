@@ -174,7 +174,9 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 {
 	GtkObject *retval;
 
+	g_print ("creating our new conduit\n");
 	retval = gnome_pilot_conduit_standard_abs_new ("DatebookDB", 0x64617465);
+
 	g_assert (retval != NULL);
 	gtk_signal_connect (retval, "match_record", (GtkSignalFunc) match_record, NULL);
 	gtk_signal_connect (retval, "free_match", (GtkSignalFunc) free_match, NULL);
@@ -193,6 +195,7 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 	gtk_signal_connect (retval, "free_transmit", (GtkSignalFunc) free_transmit, NULL);
 	gtk_signal_connect (retval, "delete_all", (GtkSignalFunc) delete_all, NULL);
 	gtk_signal_connect (retval, "transmit", (GtkSignalFunc) transmit, NULL);
+	g_print ("*\n*\n  Done connecting signals\n\n");
 
 	return GNOME_PILOT_CONDUIT (retval);
 }
