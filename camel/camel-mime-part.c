@@ -504,11 +504,14 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		}
 	}
 
-	if ( (count = camel_stream_write_string(stream,"\n")) == -1)
-		return -1;
-	total += count;
-
 	content = camel_medium_get_content_object (medium);
+
+	if (!CAMEL_IS_MEDIUM (content)) {
+		if ( (count = camel_stream_write_string(stream,"\n")) == -1)
+			return -1;
+		total += count;
+	}
+
 	if (content) {
 		if ( (count = camel_data_wrapper_write_to_stream(content, stream)) == -1 )
 			return -1;
