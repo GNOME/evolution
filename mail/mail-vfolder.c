@@ -36,7 +36,6 @@
 #include "gal/util/e-unicode-i18n.h"
 
 #include "camel/camel.h"
-#include "camel/camel-remote-store.h"
 #include "camel/camel-vee-folder.h"
 #include "camel/camel-vee-store.h"
 
