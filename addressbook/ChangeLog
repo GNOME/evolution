@@ -1,3 +1,9 @@
+2003-05-14  Anna Marie Dirks  <anna@ximian.com>
+
+	* gui/contact-editor/fullname.glade:  Added HIG-appropriate
+	spacing, padding, caps, title and accelerators. Fixes bug #41249, 
+	and also bug #41250..
+
 2003-05-16  Anna Marie Dirks  <anna@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Added HIG-appropriate
