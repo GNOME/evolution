@@ -1,3 +1,8 @@
+2001-08-17  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* no.po: Updated Norwegian translation.
+	* POTFILES.in: Updated with missing files.
+	
 2001-08-16  Andras Timar <timar@gnome.hu>
 
         * hu.po: Updated Hungarian translation.
