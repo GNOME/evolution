@@ -1,3 +1,7 @@
+2000-10-30  Michael Meeks  <michael@helixcode.com>
+
+	* subscribe-dialog.h: use e-util/bonobo-ui-compat.h
+
 2000-10-23  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Fixed a possible error in row numberings.  This

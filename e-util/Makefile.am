@@ -14,6 +14,8 @@ INCLUDES =					\
 noinst_LTLIBRARIES = libeutil.la libeutil-static.la
 
 libeutil_la_SOURCES =			\
+	bonobo-ui-compat.c		\
+	bonobo-ui-compat.h		\
 	e-dialog-widgets.c		\
 	e-dialog-widgets.h		\
 	e-gtk-utils.c			\

@@ -1,3 +1,11 @@
+2000-10-30  Michael Meeks  <michael@helixcode.com>
+
+	* e-shell-view-menu.h: include e-util/bonobo-ui-compat.h
+
+	* evolution-shell-component.h: ditto.
+
+	* evolution-shell-component-client.h: ditto.
+
 2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* main.c (development_warning): s/last month and a half/last few

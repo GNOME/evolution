@@ -32,6 +32,7 @@
 #endif
 #include <bonobo.h>
 
+#include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
 #include <libgnomeui/gnome-popup-menu.h>
 

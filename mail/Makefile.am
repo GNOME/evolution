@@ -105,6 +105,7 @@ test_mail_SOURCES = \
 	test-mail.c
 
 test_mail_LDADD = \
+	$(top_builddir)/e-util/libeutil.la		\
 	$(BONOBO_HTML_GNOME_LIBS)
 
 #test_thread_SOURCES =	\

@@ -27,6 +27,7 @@
 #include <gnome.h>
 #include <bonobo.h>
 
+#include <e-util/bonobo-ui-compat.h>
 #include "e-msg-composer-attachment-bar.h"
 #include "e-msg-composer-hdrs.h"
 

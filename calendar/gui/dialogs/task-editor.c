@@ -32,6 +32,7 @@
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
 #include <e-util/e-dialog-widgets.h>
+#include <e-util/bonobo-ui-compat.h>
 #include <widgets/misc/e-dateedit.h>
 #include <cal-util/timeutil.h>
 #include <cal-client/cal-client.h>

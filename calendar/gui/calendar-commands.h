@@ -2,6 +2,7 @@
 #define CALENDAR_COMMANDS_H
 
 #include <bonobo/bonobo-control.h>
+#include <e-util/bonobo-ui-compat.h>
 #include "gnome-cal.h"
 
 /* This enum and the following array define the color preferences */

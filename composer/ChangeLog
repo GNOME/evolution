@@ -1,3 +1,7 @@
+2000-10-30  Michael Meeks  <michael@helixcode.com>
+
+	* e-msg-composer.h: include e-util/bonobo-ui-compat.h
+
 2000-10-22  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-msg-composer-attachment-bar.c (attach_cb): Removed.

@@ -33,6 +33,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <e-contact-save-as.h>
 #include "addressbook/printing/e-contact-print.h"
+#include <e-util/bonobo-ui-compat.h>
 
 /* Signal IDs */
 enum {

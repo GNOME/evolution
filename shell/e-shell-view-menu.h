@@ -26,7 +26,7 @@
 #ifndef E_SHELL_VIEW_MENU_H
 #define E_SHELL_VIEW_MENU_H
 
-#include <bonobo/bonobo-ui-compat.h>
+#include <e-util/bonobo-ui-compat.h>
 
 #include "e-shell-view.h"
 

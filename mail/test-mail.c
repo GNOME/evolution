@@ -11,6 +11,7 @@
 
 #include <gnome.h>
 #include <bonobo.h>
+#include <e-util/bonobo-ui-compat.h>
 #include <liboaf/liboaf.h>
 
 static guint

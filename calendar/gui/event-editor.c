@@ -25,6 +25,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <e-util/e-dialog-widgets.h>
+#include <e-util/bonobo-ui-compat.h>
 #include <widgets/misc/e-dateedit.h>
 #include <gal/widgets/e-unicode.h>
 #include <cal-util/timeutil.h>

@@ -25,7 +25,7 @@
 #define EVOLUTION_SHELL_COMPONENT_CLIENT_H
 
 #include <bonobo/bonobo-object-client.h>
-#include <bonobo/bonobo-ui-compat.h>
+#include <e-util/bonobo-ui-compat.h>
 
 #include "evolution-shell-component.h"
 

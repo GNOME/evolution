@@ -30,7 +30,7 @@
 
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-ui-compat.h>
+#include <e-util/bonobo-ui-compat.h>
 
 #include "Evolution.h"
 
