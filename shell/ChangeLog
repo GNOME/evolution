@@ -1,5 +1,9 @@
 2002-11-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* apps_evolution_shell.schemas: Fix <key> -> <applyto> typo.
+
+2002-11-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-offline-sync.c (e_shell_offline_sync_all_folders):
 	Filled in, use GConf.
 	(cleanup): Re-enabled again.

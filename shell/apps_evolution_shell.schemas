@@ -239,13 +239,13 @@
 
     <schema>
       <key>/schemas/apps/evolution/shell/view_defaults/shortcut_bar/icon_types</key>
-      <key>/apps/evolution/shell/view_defaults/shortcut_bar/icon_types</key>
+      <applyto>/apps/evolution/shell/view_defaults/shortcut_bar/icon_types</applyto>
       <owner>evolution</owner>
       <type>list</type>
       <list_type>int</list_type>
       <default>[]</default>
       <locale name="C">
-         <short>Icon sizes for the shortcut bar groups</short>
+         <short>Types of icons to be used for the shortcut bar groups (0 = large, 1 = small)</short>
       </locale>
     </schema>
 
