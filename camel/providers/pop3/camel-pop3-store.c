@@ -601,7 +601,6 @@ pop3_connect (CamelService *service, CamelException *ex)
 		return FALSE;
 	
 	do {
-		camel_exception_clear (ex);
 		status = pop3_try_authenticate (service, reprompt, errbuf, ex);
 		g_free (errbuf);
 		errbuf = NULL;
@@ -612,6 +611,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 			g_free (service->url->passwd);
 			service->url->passwd = NULL;
 			reprompt = TRUE;
+			camel_exception_clear (ex);
 		}
 	} while (status != -1 && ex->id == CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE);
 	

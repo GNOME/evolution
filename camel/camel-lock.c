@@ -314,8 +314,6 @@ camel_lock_folder(const char *path, int fd, CamelLockType type, CamelException *
 		if (retry > 0)
 			sleep(CAMEL_LOCK_DELAY);
 
-		camel_exception_clear(ex);
-
 		if (camel_lock_fcntl(fd, type, ex) == 0) {
 			if (camel_lock_flock(fd, type, ex) == 0) {
 				if (camel_lock_dot(path, ex) == 0)

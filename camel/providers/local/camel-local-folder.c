@@ -301,8 +301,8 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	}
 
 	folder->summary = (CamelFolderSummary *)CLOCALF_CLASS(lf)->create_summary(lf->summary_path, lf->folder_path, lf->index);
-	if (camel_local_summary_load((CamelLocalSummary *)folder->summary, forceindex, ex) == -1) {
-		camel_exception_clear(ex);
+	if (camel_local_summary_load((CamelLocalSummary *)folder->summary, forceindex, NULL) == -1) {
+		/* ? */
 	}
 	
 	/*if (camel_local_summary_check((CamelLocalSummary *)folder->summary, lf->changes, ex) == -1) {*/
