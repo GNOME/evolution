@@ -77,6 +77,11 @@
 #include "ea-calendar.h"
 #include "common/authentication.h"
 
+/* FIXME glib 2.4 and above has this */
+#ifndef G_MAXINT32
+#define G_MAXINT32	((gint32)  0x7fffffff)
+#endif
+
 
 
 /* Private part of the GnomeCalendar structure */
