@@ -22,6 +22,7 @@
 #include "camel-internet-address.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #define d(x) 
 
@@ -116,7 +117,8 @@ internet_encode	(CamelAddress *a)
 	int i;
 	GString *out;
 	char *ret;
-	
+	int len = 6;		/* "From: ", assume longer of the address headers */
+
 	if (a->addresses->len == 0)
 		return NULL;
 	
@@ -129,7 +131,7 @@ internet_encode	(CamelAddress *a)
 		if (i != 0)
 			g_string_append(out, ", ");
 
-		enc = camel_internet_address_encode_address(addr->name, addr->address);
+		enc = camel_internet_address_encode_address(&len, addr->name, addr->address);
 		g_string_sprintfa(out, "%s", enc);
 		g_free(enc);
 	}
@@ -398,27 +400,69 @@ camel_internet_address_find_address(CamelInternetAddress *a, const char *address
 
 /**
  * camel_internet_address_encode_address:
+ * @len: The encoded length so far, of this line
  * @name: 
  * @addr: 
  * 
- * Encode a single address ready for internet usage.
+ * Encode a single address ready for internet usage.  Header folding
+ * as per rfc 822 is also performed, based on the length in len.
  * 
  * Return value: The encoded address.
  **/
 char *
-camel_internet_address_encode_address(const char *real, const char *addr)
+camel_internet_address_encode_address(int *inlen, const char *real, const char *addr)
 {
 	char *name = header_encode_phrase(real);
-	char *ret = NULL;
+	char *ret = NULL, *addra = NULL;
+	int len = *inlen;
+	GString *out = g_string_new("");
 
 	g_assert(addr);
 
+	if (name && name[0]) {
+		if (strlen(name) + len > CAMEL_FOLD_SIZE) {
+			char *folded = header_fold(name, len);
+			char *last;
+			g_string_append(out, folded);
+			g_free(folded);
+			last = strrchr(out->str, '\n');
+			if (last)
+				len = last-(out->str+out->len);
+			else
+				len = out->len;
+		} else {
+			g_string_append(out, name);
+			len += strlen(name);
+		}
+		addr = addra = g_strdup_printf("<%s>", addr);
+	}
+
+	/* NOTE: Strictly speaking, we could and should split the
+	 * internal address up if we need to, on atom or specials
+	 * boundaries - however, to aid interoperability with mailers
+	 * that will probably not handle this case, we will just move
+	 * the whole address to its own line */
+	if (strlen(addr) + len > CAMEL_FOLD_SIZE) {
+		g_string_append(out, "\n\t");
+		g_string_append(out, addr);
+		len = strlen(addr)+1;
+	} else {
+		g_string_append(out, addr);
+		len += strlen(addr);
+	}
+
+	*inlen = len;
+#if 0
 	if (name && name[0])
 		ret = g_strdup_printf("%s <%s>", name, addr);
 	else
 		ret = g_strdup_printf("%s", addr);
-
+#endif
 	g_free(name);
+	g_free(addra);
+	
+	ret = out->str;
+	g_string_free(out, FALSE);
 
 	return ret;
 }

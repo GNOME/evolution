@@ -1,3 +1,20 @@
+2001-02-12  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-part.c (init_header_name_table): Add address headers
+	to list that we dont fold when writing.  The are properly
+	formatted as we build them.
+	(write_to_stream): DOH, lookup the header name in the formatted
+	hash table, not the value, that would never have worked.
+
+	* camel-internet-address.c
+	(camel_internet_address_encode_address): Changed to take a
+	parameter saying how much we've printed so far.  We now fold the
+	header as we format it.  We dont fold addresses, even if they are
+	too long, we simply put them on another line by themselves: this
+	should make the result more parsable by mailers that can't handle
+	split up addresses (which are legal).
+	(internet_encode): Fix for changes to above.
+
 2001-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-local-provider.c: mbox, mh, and maildir

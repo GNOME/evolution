@@ -99,6 +99,10 @@ init_header_name_table()
 	header_formatted_table = g_hash_table_new(g_strcase_hash, g_strcase_equal);
 	g_hash_table_insert(header_formatted_table, "Content-Type", (void *)1);
 	g_hash_table_insert(header_formatted_table, "Content-Disposition", (void *)1);
+	g_hash_table_insert(header_formatted_table, "To", (void *)1);
+	g_hash_table_insert(header_formatted_table, "From", (void *)1);
+	g_hash_table_insert(header_formatted_table, "Cc", (void *)1);
+	g_hash_table_insert(header_formatted_table, "Bcc", (void *)1);
 }
 
 static void
@@ -493,7 +497,7 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 			if (val == NULL) {
 				g_warning("h->value is NULL here for %s", h->name);
 				count = 0;
-			} else if (g_hash_table_lookup(header_formatted_table, val) == NULL) {
+			} else if (g_hash_table_lookup(header_formatted_table, h->name) == NULL) {
 				val = header_fold(val, strlen(h->name));
 				count = camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(val[0]) ? ":" : ": ", val);
 				g_free(val);
