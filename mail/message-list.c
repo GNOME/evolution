@@ -276,6 +276,9 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 
 	case COL_UNREAD:
 		return GINT_TO_POINTER(!(msg_info->flags & CAMEL_MESSAGE_SEEN));
+
+	case COL_COLOUR:
+		return camel_tag_get(&msg_info->user_tags, "colour");
 	}
 
 	g_assert_not_reached ();
@@ -288,6 +291,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 	case COL_PRIORITY:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
+	case COL_COLOUR:
 	case COL_UNREAD:
 	case COL_SENT:
 	case COL_RECEIVED:
@@ -397,6 +401,9 @@ message_list_init_renderers (MessageList *message_list)
 	gtk_object_set(GTK_OBJECT(message_list->render_text),
 		       "bold_column", COL_UNREAD,
 		       NULL);
+	gtk_object_set(GTK_OBJECT(message_list->render_text),
+		       "color_column", COL_COLOUR,
+		       NULL);
 
 	message_list->render_date = e_cell_text_new (
 		message_list->table_model,
@@ -410,6 +417,9 @@ message_list_init_renderers (MessageList *message_list)
 		       NULL);
 	gtk_object_set(GTK_OBJECT(message_list->render_date),
 		       "bold_column", COL_UNREAD,
+		       NULL);
+	gtk_object_set(GTK_OBJECT(message_list->render_date),
+		       "color_column", COL_COLOUR,
 		       NULL);
 
 	message_list->render_online_status = e_cell_checkbox_new ();
@@ -866,11 +876,7 @@ message_list_regenerate (MessageList *message_list, const char *search)
 		build_flat (message_list, message_list->tree_root, uids);
 
 	if (search) {
-		int i;
-
-		for (i = 0; i < uids->len; i++)
-			g_free (g_ptr_array_index (uids, i));
-		g_ptr_array_free (uids, TRUE);
+		camel_folder_search_free(message_list->folder, uids);
 	} else {
 		camel_folder_free_uids (message_list->folder, uids);
 	}

@@ -260,6 +260,7 @@ do_local_reconfigure_folder(FolderBrowser *fb, char *newtype, GtkProgress *progr
 	for (i = 0; i < uids->len; i++) {
 		CamelMimeMessage *msg;
 		char *uid = uids->pdata[i];
+		const CamelMessageInfo *info;
 
 		update_progress(progress, NULL, i/uids->len);
 
@@ -272,9 +273,8 @@ do_local_reconfigure_folder(FolderBrowser *fb, char *newtype, GtkProgress *progr
 			g_warning("cannot get message");
 			return;
 		}
-		camel_folder_append_message(tofolder, msg,
-					    camel_folder_get_message_flags(fromfolder, uid),
-					    ex);
+		info = camel_folder_get_message_info(fromfolder, uid);
+		camel_folder_append_message(tofolder, msg, info, ex);
 		if (camel_exception_is_set(ex)) {
 			/* we're fucked a bit ... */
 			/* need to: delete new folder
@@ -283,8 +283,6 @@ do_local_reconfigure_folder(FolderBrowser *fb, char *newtype, GtkProgress *progr
 			return;
 		}
 		gtk_object_unref((GtkObject *)msg);
-#warning "because flags were removed from the message"
-#warning "we can't keep them when converting mail storage format"
 	}
 	update_progress(progress, "Synchronising", 0.0);
 

@@ -43,6 +43,7 @@ enum {
 	/* Invisible columns */
 	COL_DELETED,
 	COL_UNREAD,
+	COL_COLOUR,
 };
 
 struct _MessageList {
