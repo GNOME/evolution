@@ -1,3 +1,30 @@
+2003-04-09  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #40921
+	
+	* subscribe-dialog.c (subscribe_dialog_finalise): add a finalise
+	funciton which actually free's resources.
+	(get_short_folderinfo_got): dont call activity callback implicitly
+	here, do it from the callers callback.
+	(subscribe_get_short_folderinfo): dont call activity callback
+	here.
+	(fe_got_children): check implicitly if we were cancelled.  also
+	add back the node sort, and also call the activity callback from
+	here instead of breaking layers of abstraction as above.
+	(folder_etree_cancel_all): new method, force a cancel of all ops,
+	but dont free anything.
+	(store_data_free): dont unref the widget anymore, not needed.
+	call cancel all on the ftree if its still active.
+	(sc_close_pressed): destroy the subscribe dialogue as well as the
+	app, it doesn't seem to get destroyed otherwise.
+	(sc_activity_cb): do nothing if we have been cancelled.
+	(subscribe_dialog_destroy): trigger a cancel of all outstanding
+	ops.  only free most data in the finalise method.
+	(subscribe_dialog_class_init): hook onto finalise.
+	(store_data_get_widget): dont ref the widget.
+
+	* mail-callbacks.c (manage_subscriptions): sink the dialog.
+
 2003-04-09  Larry Ewing  <lewing@ximian.com>
 
 	* mail-preferences.c 	(font_share_changed): set sensitivity of

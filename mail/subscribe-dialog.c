@@ -22,6 +22,8 @@
  *
  */
 
+/* This doens't do what it's supposed to do ...
+   I think etree changed so it just fills out the whole tree always anyway */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -242,6 +244,8 @@ get_short_folderinfo_get (struct _mail_msg *mm)
 	struct _get_short_folderinfo_msg *m = (struct _get_short_folderinfo_msg *) mm;
 
 	m->info = camel_store_get_folder_info (m->ftree->store, m->prefix, CAMEL_STORE_FOLDER_INFO_FAST, &mm->ex);
+
+	d(printf("%d: getted folderinfo '%s'\n", mm->seq, m->prefix));
 }
 
 static void
@@ -249,15 +253,13 @@ get_short_folderinfo_got (struct _mail_msg *mm)
 {
 	struct _get_short_folderinfo_msg *m = (struct _get_short_folderinfo_msg *) mm;
 
-	if (camel_exception_is_set (&mm->ex))
+	d(printf("%d: got folderinfo '%s'\n", mm->seq, m->prefix));
+
+	if (camel_exception_is_set (&mm->ex) && camel_exception_get_id(&mm->ex) != CAMEL_EXCEPTION_USER_CANCEL) {
 		g_warning ("Error getting folder info from store at %s: %s",
 			   camel_service_get_url (CAMEL_SERVICE (m->ftree->store)),
 			   camel_exception_get_description (&mm->ex));
-
-	m->ftree->activity_level--;
-	(m->ftree->activity_cb) (m->ftree->activity_level, m->ftree->activity_data);
-
-	/* 'done' is probably guaranteed to fail, but... */
+	}
 
 	if (m->func)
 		m->func (m->ftree->store, m->prefix, m->info, m->user_data);
@@ -298,8 +300,7 @@ subscribe_get_short_folderinfo (FolderETree *ftree,
 	m->func = func;
 	m->user_data = user_data;
 
-	ftree->activity_level++;
-	(ftree->activity_cb) (ftree->activity_level, ftree->activity_data);
+	d(printf("%d: get folderinfo '%s'\n", m->msg.seq, m->prefix));
 
 	id = m->msg.seq;
 	e_thread_put (mail_thread_queued, (EMsg *)m);
@@ -694,7 +695,11 @@ fe_got_children (CamelStore *store, char *prefix, CamelFolderInfo *info, gpointe
 	ftree_op_data *closure = (ftree_op_data *) data;
 
 	if (!info) /* cancelled */
-		return;
+		goto done;
+
+	/* also cancelled, but camel returned data, might leak */
+	if (closure->handle == -1)
+		goto done;
 
 	if (!prefix)
 		prefix = "";
@@ -717,17 +722,24 @@ fe_got_children (CamelStore *store, char *prefix, CamelFolderInfo *info, gpointe
 			fe_check_for_children (closure->ftree, child_path);
 	}
 
-#if 0
 	/* FIXME: this needs to be added back to sort the tree */
 	e_tree_memory_sort_node (E_TREE_MEMORY (closure->ftree), 
 				 closure->path,
 				 fe_sort_folder,
 				 NULL);
-#endif
+
 	if (closure->data)
 		closure->data->flags |= FTREE_NODE_GOT_CHILDREN;
 
 	g_hash_table_remove (closure->ftree->scan_ops, closure->path);
+
+done:
+	/* finish off the activity of this task */
+	/* hack, we know activity_data is an object */
+	closure->ftree->activity_level--;
+	(closure->ftree->activity_cb) (closure->ftree->activity_level, closure->ftree->activity_data);
+	g_object_unref(closure->ftree->activity_data);
+
 	g_free (closure);
 }
 
@@ -762,8 +774,12 @@ fe_check_for_children (FolderETree *ftree, ETreePath path)
 
 	g_hash_table_insert (ftree->scan_ops, path, closure);
 
-	/* FIXME. Tiny race possiblity I guess. */
+	/* hack, we know this is an object ... infact the subscribe dialog */
+	g_object_ref(ftree->activity_data);
+	ftree->activity_level++;
+	(ftree->activity_cb) (ftree->activity_level, ftree->activity_data);
 
+	/* FIXME. Tiny race possiblity I guess. */
 	closure->handle = subscribe_get_short_folderinfo (ftree, prefix, fe_got_children, closure);
 }
 
@@ -830,8 +846,10 @@ fe_cancel_op_foreach (gpointer key, gpointer value, gpointer user_data)
 	/*FolderETree   *ftree = (FolderETree *) user_data;*/
 	ftree_op_data *closure = (ftree_op_data *) value;
 
-	if (closure->handle != -1)
+	if (closure->handle != -1) {
+		d(printf("%d: cancel get messageinfo\n", closure->handle));
 		mail_msg_cancel (closure->handle);
+	}
 
 	closure->handle = -1;
 
@@ -849,6 +867,8 @@ static void
 fe_finalise (GObject *obj)
 {
 	FolderETree *ftree = (FolderETree *) (obj);
+
+	d(printf("fe finalise!?\n"));
 
 	fe_kill_current_tree (ftree);
 
@@ -1011,6 +1031,13 @@ folder_etree_path_toggle_subscription (FolderETree *ftree, ETreePath path)
 		return folder_etree_path_set_subscription (ftree, path, TRUE);
 }
 
+static void
+folder_etree_cancel_all(FolderETree *ftree)
+{
+	g_hash_table_foreach_remove (ftree->scan_ops, fe_cancel_op_foreach, ftree);
+	g_hash_table_foreach_remove (ftree->subscribe_ops, fe_cancel_op_foreach, ftree);
+}
+
 /* ** StoreData ************************************************************ */
 
 typedef struct _StoreData StoreData;
@@ -1020,7 +1047,7 @@ typedef void (*StoreDataStoreFunc) (StoreData *, CamelStore *, gpointer);
 struct _StoreData {
 	int refcount;
 	char *uri;
-	
+
 	FolderETree *ftree;
 	CamelStore *store;
 	
@@ -1039,21 +1066,22 @@ store_data_new (const char *uri)
 	sd = g_new0 (StoreData, 1);
 	sd->refcount = 1;
 	sd->uri = g_strdup (uri);
-	
+
 	return sd;
 }
 
 static void
 store_data_free (StoreData *sd)
 {
+	d(printf("store data free?\n"));
+
 	if (sd->request_id)
 		mail_msg_cancel (sd->request_id);
-	
-	if (sd->widget)
-		g_object_unref(sd->widget);
-	
-	if (sd->ftree)
+
+	if (sd->ftree) {
+		folder_etree_cancel_all(sd->ftree);
 		g_object_unref(sd->ftree);
+	}
 	
 	if (sd->store)
 		camel_object_unref (sd->store);
@@ -1169,7 +1197,6 @@ store_data_get_widget (StoreData *sd,
 	g_object_unref(global_extras);
 
 	sd->widget = tree;
-	g_object_ref(sd->widget);
 
 	return sd->widget;
 }
@@ -1264,6 +1291,7 @@ struct _SubscribeDialogPrivate {
 	GtkWidget *progress;
 	GtkWidget *appbar;
 
+	int cancel;		/* have we been cancelled? */
 	guint activity_timeout_id;
 };
 
@@ -1283,6 +1311,8 @@ sc_close_pressed (GtkWidget *widget, gpointer user_data)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
 
+	/* order important here */
+	gtk_object_destroy (GTK_OBJECT (sc));
 	gtk_widget_destroy (GTK_WIDGET (sc->app));
 }
 
@@ -1347,6 +1377,9 @@ static void
 sc_activity_cb (int level, SubscribeDialog *sc)
 {
 	g_assert (pthread_self() == mail_gui_thread);
+
+	if (sc->priv->cancel)
+		return;
 
 	if (level) {
 		if (sc->priv->activity_timeout_id)
@@ -1479,14 +1512,42 @@ populate_store_list (SubscribeDialog *sc)
 }
 
 static void
+subscribe_dialog_finalise (GObject *object)
+{
+	SubscribeDialog *sc;
+	GList *iter;
+
+	sc = SUBSCRIBE_DIALOG (object);
+
+	if (sc->priv->store_list) {
+		for (iter = sc->priv->store_list; iter; iter = iter->next) {
+			StoreData *data = iter->data;
+			store_data_unref (data);
+		}
+		
+		g_list_free (sc->priv->store_list);
+		sc->priv->store_list = NULL;
+	}
+
+	g_free (sc->priv);
+	sc->priv = NULL;
+
+	((GObjectClass *)subscribe_dialog_parent_class)->finalize (object);
+}
+
+static void
 subscribe_dialog_destroy (GtkObject *object)
 {
 	SubscribeDialog *sc;
 	GList *iter;
-	
+
 	sc = SUBSCRIBE_DIALOG (object);
 
-	if (sc->priv) {
+	d(printf("subscribe_dialog_destroy\n"));
+
+	if (!sc->priv->cancel) {
+		sc->priv->cancel = 1;
+
 		if (sc->priv->activity_timeout_id) {
 			g_source_remove (sc->priv->activity_timeout_id);
 			sc->priv->activity_timeout_id = 0;
@@ -1498,23 +1559,18 @@ subscribe_dialog_destroy (GtkObject *object)
 		
 				if (store_data_mid_request (data))
 					store_data_cancel_get_store (data);
+
+				if (data->ftree)
+					folder_etree_cancel_all(data->ftree);
 				
 				data->store_func = NULL;
-				
-				store_data_unref (data);
 			}
-		
-			g_list_free (sc->priv->store_list);
-			sc->priv->store_list = NULL;
 		}
 
 		if (sc->priv->xml) {
 			g_object_unref(sc->priv->xml);
 			sc->priv->xml = NULL;
 		}
-
-		g_free (sc->priv);
-		sc->priv = NULL;
 	}
 
 	subscribe_dialog_parent_class->destroy (object);
@@ -1524,6 +1580,7 @@ static void
 subscribe_dialog_class_init (GtkObjectClass *object_class)
 {
 	object_class->destroy = subscribe_dialog_destroy;
+	((GObjectClass *)object_class)->finalize = subscribe_dialog_finalise;
 
 	subscribe_dialog_parent_class = g_type_class_ref (PARENT_TYPE);
 }

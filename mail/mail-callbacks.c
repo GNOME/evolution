@@ -3068,7 +3068,8 @@ manage_subscriptions (BonoboUIComponent *uih, void *user_data, const char *path)
 		
 		g_object_weak_ref ((GObject *) SUBSCRIBE_DIALOG (subscribe_dialog)->app,
 				   (GWeakNotify) subscribe_dialog_destroy, subscribe_dialog);
-		
+		g_object_ref(subscribe_dialog);
+		gtk_object_sink((GtkObject *)subscribe_dialog);
 		subscribe_dialog_show (subscribe_dialog);
 	} else {
 		gdk_window_raise (SUBSCRIBE_DIALOG (subscribe_dialog)->app->window);
