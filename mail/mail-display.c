@@ -1626,7 +1626,11 @@ mail_display_set_message (MailDisplay *md, CamelMedium *medium, const char *foll
 	
 	g_free (md->followup);
 	
-	md->current_message = (CamelMimeMessage *) medium;
+	if (medium) {
+		camel_object_ref (medium);
+		md->current_message = (CamelMimeMessage *) medium;
+	} else
+		md->current_message = NULL;
 	
 	md->followup = followup ? message_tag_followup_decode (followup) : NULL;
 	
@@ -1639,9 +1643,9 @@ mail_display_set_message (MailDisplay *md, CamelMedium *medium, const char *foll
 }
 
 /**
- * mail_display_set_message:
+ * mail_display_set_charset:
  * @mail_display: the mail display object
- * @medium: the input camel medium, or %NULL
+ * @charset: charset or %NULL
  *
  * Makes the mail_display object show the contents of the medium
  * param.
@@ -1677,7 +1681,6 @@ mail_display_init (GtkObject *object)
 {
 	MailDisplay *mail_display = MAIL_DISPLAY (object);
 
-	mail_display->current_message   = NULL;
 	mail_display->scroll            = NULL;
 	mail_display->html              = NULL;
 	mail_display->redisplay_counter = 0;
@@ -1702,6 +1705,9 @@ mail_display_destroy (GtkObject *object)
 	MailDisplay *mail_display = MAIL_DISPLAY (object);
 	
 	gtk_object_unref (GTK_OBJECT (mail_display->html));
+	
+	if (mail_display->current_message)
+		camel_object_unref (mail_display->current_message);
 	
 	g_free (mail_display->charset);
 	g_free (mail_display->selection);

@@ -1397,13 +1397,13 @@ filter_data_free(struct _filter_data *fdata)
 }
 
 static void
-vfolder_type_got_message(CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *d)
+vfolder_type_got_message(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *d)
 {
 	struct _filter_data *data = d;
-
+	
 	if (msg)
 		vfolder_gui_add_from_message(msg, data->type, data->uri);
-
+	
 	filter_data_free(data);
 }
 
@@ -1426,7 +1426,7 @@ static void vfolder_recipient_uid(GtkWidget *w, struct _filter_data *fdata)	{ vf
 static void vfolder_mlist_uid(GtkWidget *w, struct _filter_data *fdata)		{ vfolder_gui_add_from_mlist(fdata->mlist, fdata->uri); }
 
 static void
-filter_type_got_message(CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *d)
+filter_type_got_message(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *d)
 {
 	struct _filter_data *data = d;
 
@@ -2337,7 +2337,7 @@ do_mark_seen (gpointer data)
 /* if we have pending uid's, it means another was selected before we finished displaying
    the last one - so we cycle through and start loading the pending one immediately now */
 static void
-done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data)
+done_message_selected (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data)
 {
 	FolderBrowser *fb = data;
 	int timeout = mail_config_get_mark_as_seen_timeout ();
@@ -2366,7 +2366,7 @@ done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, vo
 	g_free (fb->loaded_uid);
 	fb->loaded_uid = fb->loading_uid;
 	fb->loading_uid = NULL;
-
+	
 	folder_browser_ui_message_loaded (fb);
 	
 	/* if we are still on the same message, do the 'idle read' thing */

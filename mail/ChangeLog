@@ -1,3 +1,16 @@
+2002-07-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (redirect): Don't ever use the mail-display's
+	current_message, this can cause problems.
+
+	* mail-ops.c (get_message_free): Unref the gotten message. All of
+	the callers seemed to think that they didn't have to unref the
+	message.
+
+	* mail-display.c (mail_display_set_message): Now refs the message.
+	(mail_display_destroy): Unref the current_message if we still have
+	ownership of it.
+
 2002-07-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (composer_send_queued_cb): Only queue a send

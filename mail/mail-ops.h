@@ -52,7 +52,7 @@ void mail_transfer_messages (CamelFolder *source, GPtrArray *uids,
 
 /* get a single message, asynchronously */
 void mail_get_message (CamelFolder *folder, const char *uid,
-		       void (*done) (CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data),
+		       void (*done) (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data),
 		       void *data,
 		       EThread *thread);
 

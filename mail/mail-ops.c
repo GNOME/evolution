@@ -828,7 +828,7 @@ struct _append_msg {
         CamelMessageInfo *info;
 	char *appended_uid;
 
-	void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, char *appended_uid, void *data);
+	void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, const char *appended_uid, void *data);
 	void *data;
 };
 
@@ -1610,7 +1610,7 @@ struct _get_message_msg {
 
 	CamelFolder *folder;
 	char *uid;
-	void (*done) (CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data);
+	void (*done) (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data);
 	void *data;
 	CamelMimeMessage *message;
 	CamelOperation *cancel;
@@ -1641,10 +1641,13 @@ static void get_message_got(struct _mail_msg *mm)
 static void get_message_free(struct _mail_msg *mm)
 {
 	struct _get_message_msg *m = (struct _get_message_msg *)mm;
-
-	g_free(m->uid);
-	camel_object_unref((CamelObject *)m->folder);
-	camel_operation_unref(m->cancel);
+	
+	g_free (m->uid);
+	camel_object_unref (m->folder);
+	camel_operation_unref (m->cancel);
+	
+	if (m->message)
+		camel_object_unref (m->message);
 }
 
 static struct _mail_msg_op get_message_op = {
@@ -1655,10 +1658,12 @@ static struct _mail_msg_op get_message_op = {
 };
 
 void
-mail_get_message(CamelFolder *folder, const char *uid, void (*done) (CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data), void *data, EThread *thread)
+mail_get_message(CamelFolder *folder, const char *uid, void (*done) (CamelFolder *folder, const char *uid,
+								     CamelMimeMessage *msg, void *data),
+		 void *data, EThread *thread)
 {
 	struct _get_message_msg *m;
-
+	
 	m = mail_msg_new(&get_message_op, NULL, sizeof(*m));
 	m->folder = folder;
 	camel_object_ref((CamelObject *)folder);
@@ -1666,7 +1671,7 @@ mail_get_message(CamelFolder *folder, const char *uid, void (*done) (CamelFolder
 	m->data = data;
 	m->done = done;
 	m->cancel = camel_operation_new(NULL, NULL);
-
+	
 	e_thread_put(thread, (EMsg *)m);
 }
 

@@ -1063,7 +1063,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 }
 
 static void
-requeue_mail_reply (CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data)
+requeue_mail_reply (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data)
 {
 	int mode = GPOINTER_TO_INT (data);
 	
@@ -1350,7 +1350,7 @@ redirect_get_composer (CamelMimeMessage *message)
 }
 
 static void
-do_redirect (CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
+do_redirect (CamelFolder *folder, const char *uid, CamelMimeMessage *message, void *data)
 {
 	EMsgComposer *composer;
 	
@@ -1382,14 +1382,8 @@ redirect (GtkWidget *widget, gpointer user_data)
 	if (!check_send_configuration (fb))
 		return;
 	
-	if (fb->mail_display && fb->mail_display->current_message) {
-		do_redirect (fb->folder, NULL,
-			     fb->mail_display->current_message,
-			     NULL);
-	} else {
-		mail_get_message (fb->folder, fb->message_list->cursor_uid,
-				  do_redirect, NULL, mail_thread_new);
-	}
+	mail_get_message (fb->folder, fb->message_list->cursor_uid,
+			  do_redirect, NULL, mail_thread_new);
 }
 
 static void
@@ -2920,7 +2914,7 @@ struct blarg_this_sucks {
 };
 
 static void
-done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data)
+done_message_selected (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data)
 {
 	struct blarg_this_sucks *blarg = data;
 	FolderBrowser *fb = blarg->fb;
@@ -3042,7 +3036,7 @@ configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-do_view_digest (CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
+do_view_digest (CamelFolder *folder, const char *uid, CamelMimeMessage *message, void *data)
 {
 	FolderBrowser *folder_browser = FOLDER_BROWSER (data);
 	
@@ -3092,6 +3086,7 @@ view_digest (GtkWidget *widget, gpointer user_data)
 	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to open all %d messages in separate windows?"), uids, fb))
 		return;
 	
+	/* FIXME: use mail_get_messages() */
 	for (i = 0; i < uids->len; i++) {
 		mail_get_message (fb->folder, uids->pdata [i], do_view_digest, fb, mail_thread_queued);
 		g_free (uids->pdata [i]);
@@ -3100,7 +3095,7 @@ view_digest (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-do_view_message (CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
+do_view_message (CamelFolder *folder, const char *uid, CamelMimeMessage *message, void *data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (data);
 	
@@ -3132,6 +3127,7 @@ view_msg (GtkWidget *widget, gpointer user_data)
 	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to open all %d messages in separate windows?"), uids, fb))
 		return;
 	
+	/* FIXME: use mail_get_messages() */
 	for (i = 0; i < uids->len; i++) {
 		mail_get_message (fb->folder, uids->pdata [i], do_view_message, fb, mail_thread_queued);
 		g_free (uids->pdata [i]);
