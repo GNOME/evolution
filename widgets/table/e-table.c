@@ -51,6 +51,7 @@ enum {
 	RIGHT_CLICK,
 	CLICK,
 	KEY_PRESS,
+	START_DRAG,
 
 	TABLE_DRAG_BEGIN,
 	TABLE_DRAG_END,
@@ -118,9 +119,6 @@ static void et_drag_data_received(GtkWidget *widget,
 				  guint info,
 				  guint time,
 				  ETable *et);
-static gint e_table_drag_source_event_cb (GtkWidget      *widget,
-					  GdkEvent       *event,
-					  ETable         *table);
 
 static gint et_focus (GtkContainer *container, GtkDirectionType direction);
 
@@ -234,8 +232,8 @@ e_table_init (GtkObject *object)
 	e_table->drop_row                           = -1;
 	e_table->drop_col                           = -1;
 	e_table->site                               = NULL;
-	e_table->drag_source_button_press_event_id  = 0;
-	e_table->drag_source_motion_notify_event_id = 0;
+
+	e_tasble->do_drag                           = 0;
 
 	e_table->sorter                             = NULL;
 	e_table->selection                          = e_table_selection_model_new();
@@ -525,6 +523,16 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 	return return_val;
 }
 
+static gint
+group_start_drag (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et)
+{
+	int return_val = 0;
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [KEY_PRESS],
+			 row, col, event, &return_val);
+	return return_val;
+}
+
 static void
 et_table_model_changed (ETableModel *model, ETable *et)
 {
@@ -625,6 +633,8 @@ et_build_groups (ETable *et)
 			    GTK_SIGNAL_FUNC (group_click), et);
 	gtk_signal_connect (GTK_OBJECT (et->group), "key_press",
 			    GTK_SIGNAL_FUNC (group_key_press), et);
+	gtk_signal_connect (GTK_OBJECT (et->group), "start_drag",
+			    GTK_SIGNAL_FUNC (group_start_drag), et);
 
 
 	if (!(et->is_grouped) && was_grouped)
@@ -1779,6 +1789,40 @@ e_table_drag_dest_unset (GtkWidget *widget)
 
 /* Source side */
 
+static gint
+et_real_start_drag (ETable *table, int row, int col, GdkEvent *event)
+{
+	GtkDragSourceInfo *info;
+	GdkDragContext *context;
+	ETableDragSourceSite *site;
+
+	if (table->do_drag) {
+		site = table->site;
+
+		site->state = 0;
+		context = e_table_drag_begin (table, row, col,
+					      site->target_list,
+					      site->actions,
+					      1, event);
+
+		if (context) {
+			info = g_dataset_get_data (context, "gtk-info");
+
+			if (info && !info->icon_window) {
+				if (site->pixmap)
+					gtk_drag_set_icon_pixmap (context,
+								  site->colormap,
+								  site->pixmap,
+								  site->mask, -2, -2);
+				else
+					gtk_drag_set_icon_default (context);
+			}
+		}
+		return TRUE;
+	}
+	return FALSE;
+}
+
 void
 e_table_drag_source_set  (ETable               *table,
 			  GdkModifierType       start_button_mask,
@@ -1800,21 +1844,13 @@ e_table_drag_source_set  (ETable               *table,
 			       GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
 			       GDK_BUTTON_MOTION_MASK | GDK_STRUCTURE_MASK);
 
+	table->do_drag = TRUE;
+
 	if (site) {
 		if (site->target_list)
 			gtk_target_list_unref (site->target_list);
 	} else {
 		site = g_new0 (ETableDragSourceSite, 1);
-
-		table->drag_source_button_press_event_id =
-			gtk_signal_connect (GTK_OBJECT (canvas), "button_press_event",
-					    GTK_SIGNAL_FUNC (e_table_drag_source_event_cb),
-					    table);
-		table->drag_source_motion_notify_event_id =
-			gtk_signal_connect (GTK_OBJECT (canvas), "motion_notify_event",
-					    GTK_SIGNAL_FUNC (e_table_drag_source_event_cb),
-					    table);
-
 		table->site = site;
 	}
 
@@ -1839,15 +1875,10 @@ e_table_drag_source_unset (ETable *table)
 	site = table->site;
 
 	if (site) {
-		gtk_signal_disconnect (
-			GTK_OBJECT (table->table_canvas),
-			table->drag_source_button_press_event_id);
-		gtk_signal_disconnect (
-			GTK_OBJECT (table->table_canvas),
-			table->drag_source_motion_notify_event_id);
 		g_free (site);
 		table->site = NULL;
 	}
+	table->do_drag = FALSE;
 }
 
 /* There probably should be functions for setting the targets
@@ -2157,81 +2188,6 @@ et_drag_data_received(GtkWidget *widget,
 			 time);
 }
 
-static gint
-e_table_drag_source_event_cb (GtkWidget      *widget,
-			      GdkEvent       *event,
-			      ETable         *table)
-{
-	ETableDragSourceSite *site;
-	site = table->site;
-
-	switch (event->type) {
-	case GDK_BUTTON_PRESS:
-		if ((GDK_BUTTON1_MASK << (event->button.button - 1)) & site->start_button_mask) {
-			int row, col;
-			e_table_get_cell_at (table, event->button.x, event->button.y, &row, &col);
-			if (row >= 0 && col >= 0) {
-				site->state |= (GDK_BUTTON1_MASK << (event->button.button - 1));
-				site->x = event->button.x;
-				site->y = event->button.y;
-				site->row = row;
-				site->col = col;
-			}
-		}
-		break;
-
-	case GDK_BUTTON_RELEASE:
-		if ((GDK_BUTTON1_MASK << (event->button.button - 1)) & site->start_button_mask) {
-			site->state &= ~(GDK_BUTTON1_MASK << (event->button.button - 1));
-		}
-		break;
-
-	case GDK_MOTION_NOTIFY:
-		if (site->state & event->motion.state & site->start_button_mask) {
-			/* FIXME: This is really broken and can leave us
-			 * with a stuck grab
-			 */
-			int i;
-			for (i=1; i<6; i++) {
-				if (site->state & event->motion.state &
-				    GDK_BUTTON1_MASK << (i - 1))
-					break;
-			}
-
-			if (MAX (abs (site->x - event->motion.x),
-				 abs (site->y - event->motion.y)) > 3) {
-				GtkDragSourceInfo *info;
-				GdkDragContext *context;
-
-				site->state = 0;
-				context = e_table_drag_begin (table, site->row, site->col,
-							      site->target_list,
-							      site->actions,
-							      i, event);
-
-				info = g_dataset_get_data (context, "gtk-info");
-
-				if (!info->icon_window) {
-					if (site->pixmap)
-						gtk_drag_set_icon_pixmap (context,
-									  site->colormap,
-									  site->pixmap,
-									  site->mask, -2, -2);
-					else
-						gtk_drag_set_icon_default (context);
-				}
-
-				return TRUE;
-			}
-		}
-		break;
-
-	default:			/* hit for 2/3BUTTON_PRESS */
-		break;
-	}
-	return FALSE;
-}
-
 static void
 e_table_class_init (ETableClass *class)
 {
@@ -2254,12 +2210,13 @@ e_table_class_init (ETableClass *class)
 	container_class->focus = et_focus;
 
 	class->cursor_change            = NULL;
-	class->cursor_activated            = NULL;
+	class->cursor_activated         = NULL;
 	class->selection_change         = NULL;
 	class->double_click             = NULL;
 	class->right_click              = NULL;
 	class->click                    = NULL;
 	class->key_press                = NULL;
+	class->start_drag               = et_real_start_drag;
 
 	class->table_drag_begin         = NULL;
 	class->table_drag_end           = NULL;
@@ -2324,6 +2281,14 @@ e_table_class_init (ETableClass *class)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableClass, key_press),
+				e_marshal_INT__INT_INT_POINTER,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+
+	et_signals [START_DRAG] =
+		gtk_signal_new ("start_drag",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableClass, start_drag),
 				e_marshal_INT__INT_INT_POINTER,
 				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 

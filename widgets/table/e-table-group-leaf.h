@@ -44,6 +44,7 @@ typedef struct {
 	int etgl_right_click_id;
 	int etgl_click_id;
 	int etgl_key_press_id;
+	int etgl_start_drag_id;
 
 	ESelectionModel *selection_model;
 } ETableGroupLeaf;

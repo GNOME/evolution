@@ -70,6 +70,16 @@ typedef struct {
 
 	guint            in_key_press : 1;
 
+	guint            maybe_in_drag : 1;
+	guint            in_drag : 1;
+	guint            grabbed : 1;
+
+	int    		 drag_col;
+	int    		 drag_row;
+	int    		 drag_x;
+	int    		 drag_y;
+	guint            drag_state;
+
 	/*
 	 * Realized views, per column
 	 */
@@ -107,12 +117,13 @@ typedef struct {
 typedef struct {
 	GnomeCanvasItemClass parent_class;
 
-	void        (*cursor_change) (ETableItem *eti, int row);
+	void        (*cursor_change)    (ETableItem *eti, int row);
 	void        (*cursor_activated) (ETableItem *eti, int row);
-	void        (*double_click)  (ETableItem *eti, int row, int col, GdkEvent *event);
-	gint        (*right_click)   (ETableItem *eti, int row, int col, GdkEvent *event);
-	gint        (*click)   (ETableItem *eti, int row, int col, GdkEvent *event);
-	gint        (*key_press)     (ETableItem *eti, int row, int col, GdkEvent *event);
+	void        (*double_click)     (ETableItem *eti, int row, int col, GdkEvent *event);
+	gint        (*right_click)      (ETableItem *eti, int row, int col, GdkEvent *event);
+	gint        (*click)            (ETableItem *eti, int row, int col, GdkEvent *event);
+	gint        (*key_press)        (ETableItem *eti, int row, int col, GdkEvent *event);
+	gint        (*start_drag)       (ETableItem *eti, int row, int col, GdkEvent *event);
 } ETableItemClass;
 GtkType     e_table_item_get_type            (void);
 

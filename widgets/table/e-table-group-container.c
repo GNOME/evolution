@@ -393,6 +393,13 @@ child_key_press (ETableGroup *etg, int row, int col, GdkEvent *event,
 	return e_table_group_key_press (E_TABLE_GROUP (etgc), row, col, event);
 }
 
+static gint
+child_start_drag (ETableGroup *etg, int row, int col, GdkEvent *event,
+		 ETableGroupContainer *etgc)
+{
+	return e_table_group_start_drag (E_TABLE_GROUP (etgc), row, col, event);
+}
+
 static ETableGroupContainerChildNode *
 create_child_node (ETableGroupContainer *etgc, void *val)
 {
@@ -438,6 +445,8 @@ create_child_node (ETableGroupContainer *etgc, void *val)
 			    GTK_SIGNAL_FUNC (child_click), etgc);
 	gtk_signal_connect (GTK_OBJECT (child), "key_press",
 			    GTK_SIGNAL_FUNC (child_key_press), etgc);
+	gtk_signal_connect (GTK_OBJECT (child), "start_drag",
+			    GTK_SIGNAL_FUNC (child_start_drag), etgc);
 	child_node->child = child;
 	child_node->key = e_table_model_duplicate_value (etg->model, etgc->ecol->col_idx, val);
 	child_node->string = e_table_model_value_to_string (etg->model, etgc->ecol->col_idx, val);

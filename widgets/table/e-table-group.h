@@ -53,6 +53,7 @@ typedef struct {
 	gint        (*right_click)           (ETableGroup *etg, int row, int col, GdkEvent *event);
 	gint        (*click)                 (ETableGroup *etg, int row, int col, GdkEvent *event);
 	gint        (*key_press)             (ETableGroup *etg, int row, int col, GdkEvent *event);
+	gint        (*start_drag)            (ETableGroup *etg, int row, int col, GdkEvent *event);
 
 	/* Virtual functions. */
 	void        (*add)                   (ETableGroup *etg, gint row);
@@ -136,6 +137,10 @@ gint          e_table_group_click             (ETableGroup       *etg,
 					       gint               col,
 					       GdkEvent          *event);
 gint          e_table_group_key_press         (ETableGroup       *etg,
+					       gint               row,
+					       gint               col,
+					       GdkEvent          *event);
+gint          e_table_group_start_drag        (ETableGroup       *etg,
 					       gint               row,
 					       gint               col,
 					       GdkEvent          *event);

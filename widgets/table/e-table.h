@@ -85,6 +85,8 @@ typedef struct {
 	guint is_grouped : 1;
 
 	guint scroll_down : 1;
+
+	guint do_drag : 1;
 	
 	char *click_to_add_message;
 	GnomeCanvasItem *click_to_add;
@@ -107,9 +109,6 @@ typedef struct {
 	int drag_row;
 	int drag_col;
 	ETableDragSourceSite *site;
-	
-	int drag_source_button_press_event_id;
-	int drag_source_motion_notify_event_id;
 } ETable;
 
 typedef struct {
@@ -122,6 +121,7 @@ typedef struct {
 	gint        (*right_click)        (ETable *et, int row, int col, GdkEvent *event);
 	gint        (*click)              (ETable *et, int row, int col, GdkEvent *event);
 	gint        (*key_press)          (ETable *et, int row, int col, GdkEvent *event);
+	gint        (*start_drag)         (ETable *et, int row, int col, GdkEvent *event);
 
 	void  (*set_scroll_adjustments)   (ETable	 *table,
 					   GtkAdjustment *hadjustment,

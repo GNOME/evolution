@@ -66,6 +66,9 @@ etgl_destroy (GtkObject *object)
 		if (etgl->etgl_key_press_id != 0)   
 			gtk_signal_disconnect (GTK_OBJECT (etgl->item),
 					       etgl->etgl_key_press_id);
+		if (etgl->etgl_start_drag_id != 0)   
+			gtk_signal_disconnect (GTK_OBJECT (etgl->item),
+					       etgl->etgl_start_drag_id);
 		gtk_object_destroy (GTK_OBJECT(etgl->item));
 
 		etgl->etgl_cursor_change_id = 0;
@@ -74,6 +77,7 @@ etgl_destroy (GtkObject *object)
 		etgl->etgl_right_click_id = 0;
 		etgl->etgl_click_id = 0;
 		etgl->etgl_key_press_id = 0;
+		etgl->etgl_start_drag_id = 0;
 		etgl->item = NULL;
 	}
 	if (etgl->selection_model)
@@ -139,16 +143,16 @@ etgl_cursor_change (GtkObject *object, gint row, ETableGroupLeaf *etgl)
 }
 
 static void
-etgl_cursor_activated (GtkObject *object, gint row, ETableGroupLeaf *etgl)
+etgl_cursor_activated (GtkObject *object, gint view_row, ETableGroupLeaf *etgl)
 {
-	if (row < E_TABLE_SUBSET(etgl->ets)->n_map)
-		e_table_group_cursor_activated (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->ets)->map_table[row]);
+	if (view_row < E_TABLE_SUBSET(etgl->ets)->n_map)
+		e_table_group_cursor_activated (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->ets)->map_table[view_row]);
 }
 
 static void
-etgl_double_click (GtkObject *object, gint row, gint col, GdkEvent *event, ETableGroupLeaf *etgl)
+etgl_double_click (GtkObject *object, gint model_row, gint model_col, GdkEvent *event, ETableGroupLeaf *etgl)
 {
-	e_table_group_double_click (E_TABLE_GROUP(etgl), row, col, event);
+	e_table_group_double_click (E_TABLE_GROUP(etgl), model_row, model_col, event);
 }
 
 static gint
@@ -161,10 +165,16 @@ etgl_key_press (GtkObject *object, gint row, gint col, GdkEvent *event, ETableGr
 }
 
 static gint
-etgl_right_click (GtkObject *object, gint row, gint col, GdkEvent *event, ETableGroupLeaf *etgl)
+etgl_start_drag (GtkObject *object, gint model_row, gint model_col, GdkEvent *event, ETableGroupLeaf *etgl)
 {
-	if (row < E_TABLE_SUBSET(etgl->ets)->n_map)
-		return e_table_group_right_click (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->ets)->map_table[row], col, event);
+	return e_table_group_start_drag (E_TABLE_GROUP(etgl), model_row, model_col, event);
+}
+
+static gint
+etgl_right_click (GtkObject *object, gint view_row, gint model_col, GdkEvent *event, ETableGroupLeaf *etgl)
+{
+	if (view_row < E_TABLE_SUBSET(etgl->ets)->n_map)
+		return e_table_group_right_click (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->ets)->map_table[view_row], model_col, event);
 	else
 		return 0;
 }
@@ -219,6 +229,7 @@ etgl_realize (GnomeCanvasItem *item)
 	etgl->etgl_right_click_id      = gtk_signal_connect (GTK_OBJECT(etgl->item), "right_click", GTK_SIGNAL_FUNC(etgl_right_click), etgl);
 	etgl->etgl_click_id            = gtk_signal_connect (GTK_OBJECT(etgl->item), "click", GTK_SIGNAL_FUNC(etgl_click), etgl);
 	etgl->etgl_key_press_id        = gtk_signal_connect (GTK_OBJECT(etgl->item), "key_press", GTK_SIGNAL_FUNC(etgl_key_press), etgl);
+	etgl->etgl_start_drag_id       = gtk_signal_connect (GTK_OBJECT(etgl->item), "start_drag", GTK_SIGNAL_FUNC(etgl_start_drag), etgl);
 	e_canvas_item_request_reflow(item);
 }
 
@@ -511,6 +522,7 @@ etgl_init (GtkObject *object)
 	etgl->etgl_right_click_id = 0;
 	etgl->etgl_click_id = 0;
 	etgl->etgl_key_press_id = 0;
+	etgl->etgl_start_drag_id = 0;
 
 	etgl->alternating_row_colors = 1;
 	etgl->horizontal_draw_grid = 1;

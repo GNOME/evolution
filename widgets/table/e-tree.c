@@ -53,6 +53,7 @@ enum {
 	RIGHT_CLICK,
 	CLICK,
 	KEY_PRESS,
+	START_DRAG,
 
 	TREE_DRAG_BEGIN,
 	TREE_DRAG_END,
@@ -121,6 +122,8 @@ struct ETreePriv {
 
 	guint scroll_down : 1;
 
+	guint do_drag : 1;
+
 	ECursorMode cursor_mode;
 
 	int drop_row;
@@ -140,9 +143,6 @@ struct ETreePriv {
 	ETreePath drag_path;
 	int drag_col;
 	ETreeDragSourceSite *site;
-	
-	int drag_source_button_press_event_id;
-	int drag_source_motion_notify_event_id;
 };
 
 static gint et_signals [LAST_SIGNAL] = { 0, };
@@ -189,9 +189,6 @@ static void et_drag_data_received(GtkWidget *widget,
 				  guint info,
 				  guint time,
 				  ETree *et);
-static gint e_tree_drag_source_event_cb (GtkWidget      *widget,
-					 GdkEvent       *event,
-					 ETree         *tree);
 
 static gint et_focus (GtkContainer *container, GtkDirectionType direction);
 
@@ -320,8 +317,7 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->drag_col                           = -1;
 
 	e_tree->priv->site                               = NULL;
-	e_tree->priv->drag_source_button_press_event_id  = 0;
-	e_tree->priv->drag_source_motion_notify_event_id = 0;
+	e_tree->priv->do_drag                            = FALSE;
 
 #ifdef E_TREE_USE_TREE_SELECTION
 	e_tree->priv->selection                          = E_SELECTION_MODEL(e_tree_selection_model_new());
@@ -619,6 +615,22 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 	return return_val;
 }
 
+static gint
+item_start_drag (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
+{
+	ETreePath path;
+	gint return_val = 0;
+
+	path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
+	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
+
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [START_DRAG],
+			 row, path, col, event, &return_val);
+
+	return return_val;
+}
+
 static void
 et_selection_model_selection_change (ETableSelectionModel *etsm, ETable *et)
 {
@@ -654,6 +666,8 @@ et_build_item (ETree *et)
 			    GTK_SIGNAL_FUNC (item_click), et);
 	gtk_signal_connect (GTK_OBJECT (et->priv->item), "key_press",
 			    GTK_SIGNAL_FUNC (item_key_press), et);
+	gtk_signal_connect (GTK_OBJECT (et->priv->item), "start_drag",
+			    GTK_SIGNAL_FUNC (item_start_drag), et);
 }
 
 static void
@@ -1610,6 +1624,7 @@ struct _GtkDragSourceInfo
 
 /* Drag & drop stuff. */
 /* Target */
+
 void
 e_tree_drag_get_data (ETree         *tree,
 		      int             row,
@@ -1712,6 +1727,8 @@ e_tree_drag_unhighlight (ETree *tree)
 	g_return_if_fail(tree != NULL);
 	g_return_if_fail(E_IS_TREE(tree));
 
+	g_print ("Unhighlight requested\n");
+
 	if (tree->priv->drop_highlight) {
 		gtk_object_destroy (GTK_OBJECT (tree->priv->drop_highlight));
 		tree->priv->drop_highlight = NULL;
@@ -1764,6 +1781,40 @@ e_tree_drag_dest_unset (GtkWidget *widget)
 
 /* Source side */
 
+static gint
+et_real_start_drag (ETree *tree, int row, ETreePath path, int col, GdkEvent *event)
+{
+	GtkDragSourceInfo *info;
+	GdkDragContext *context;
+	ETreeDragSourceSite *site;
+
+	if (tree->priv->do_drag) {
+		site = tree->priv->site;
+
+		site->state = 0;
+		context = e_tree_drag_begin (tree, row, col,
+					     site->target_list,
+					     site->actions,
+					     1, event);
+
+		if (context) {
+			info = g_dataset_get_data (context, "gtk-info");
+
+			if (info && !info->icon_window) {
+				if (site->pixmap)
+					gtk_drag_set_icon_pixmap (context,
+								  site->colormap,
+								  site->pixmap,
+								  site->mask, -2, -2);
+				else
+					gtk_drag_set_icon_default (context);
+			}
+		}
+		return TRUE;
+	}
+	return FALSE;
+}
+
 void
 e_tree_drag_source_set  (ETree               *tree,
 			 GdkModifierType       start_button_mask,
@@ -1780,6 +1831,8 @@ e_tree_drag_source_set  (ETree               *tree,
 	canvas = GTK_WIDGET(tree->priv->table_canvas);
 	site = tree->priv->site;
 
+	tree->priv->do_drag = TRUE;
+
 	gtk_widget_add_events (canvas,
 			       gtk_widget_get_events (canvas) |
 			       GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
@@ -1790,16 +1843,6 @@ e_tree_drag_source_set  (ETree               *tree,
 			gtk_target_list_unref (site->target_list);
 	} else {
 		site = g_new0 (ETreeDragSourceSite, 1);
-
-		tree->priv->drag_source_button_press_event_id =
-			gtk_signal_connect (GTK_OBJECT (canvas), "button_press_event",
-					    GTK_SIGNAL_FUNC (e_tree_drag_source_event_cb),
-					    tree);
-		tree->priv->drag_source_motion_notify_event_id =
-			gtk_signal_connect (GTK_OBJECT (canvas), "motion_notify_event",
-					    GTK_SIGNAL_FUNC (e_tree_drag_source_event_cb),
-					    tree);
-
 		tree->priv->site = site;
 	}
 
@@ -1824,12 +1867,6 @@ e_tree_drag_source_unset (ETree *tree)
 	site = tree->priv->site;
 
 	if (site) {
-		gtk_signal_disconnect (
-			GTK_OBJECT (tree->priv->table_canvas),
-			tree->priv->drag_source_button_press_event_id);
-		gtk_signal_disconnect (
-			GTK_OBJECT (tree->priv->table_canvas),
-			tree->priv->drag_source_motion_notify_event_id);
 		g_free (site);
 		tree->priv->site = NULL;
 	}
@@ -1859,7 +1896,7 @@ e_tree_drag_begin (ETree            *tree,
 	tree->priv->drag_path = path;
 	tree->priv->drag_col = col;
 
-	return gtk_drag_begin(GTK_WIDGET(tree),
+	return gtk_drag_begin(GTK_WIDGET (tree->priv->table_canvas),
 			      targets,
 			      actions,
 			      button,
@@ -2298,81 +2335,6 @@ et_drag_data_received(GtkWidget *widget,
 			 time);
 }
 
-static gint
-e_tree_drag_source_event_cb (GtkWidget      *widget,
-			      GdkEvent       *event,
-			      ETree         *tree)
-{
-	ETreeDragSourceSite *site;
-	site = tree->priv->site;
-
-	switch (event->type) {
-	case GDK_BUTTON_PRESS:
-		if ((GDK_BUTTON1_MASK << (event->button.button - 1)) & site->start_button_mask) {
-			int row, col;
-			e_tree_get_cell_at(tree, event->button.x, event->button.y, &row, &col);
-			if (row >= 0 && col >= 0) {
-				site->state |= (GDK_BUTTON1_MASK << (event->button.button - 1));
-				site->x = event->button.x;
-				site->y = event->button.y;
-				site->row = row;
-				site->col = col;
-			}
-		}
-		break;
-
-	case GDK_BUTTON_RELEASE:
-		if ((GDK_BUTTON1_MASK << (event->button.button - 1)) & site->start_button_mask) {
-			site->state &= ~(GDK_BUTTON1_MASK << (event->button.button - 1));
-		}
-		break;
-
-	case GDK_MOTION_NOTIFY:
-		if (site->state & event->motion.state & site->start_button_mask) {
-			/* FIXME: This is really broken and can leave us
-			 * with a stuck grab
-			 */
-			int i;
-			for (i=1; i<6; i++) {
-				if (site->state & event->motion.state &
-				    GDK_BUTTON1_MASK << (i - 1))
-					break;
-			}
-
-			if (MAX (abs (site->x - event->motion.x),
-				 abs (site->y - event->motion.y)) > 3) {
-				GtkDragSourceInfo *info;
-				GdkDragContext *context;
-
-				site->state = 0;
-				context = e_tree_drag_begin (tree, site->row, site->col,
-							     site->target_list,
-							     site->actions,
-							     i, event);
-
-				info = g_dataset_get_data (context, "gtk-info");
-
-				if (!info->icon_window) {
-					if (site->pixmap)
-						gtk_drag_set_icon_pixmap (context,
-									  site->colormap,
-									  site->pixmap,
-									  site->mask, -2, -2);
-					else
-						gtk_drag_set_icon_default (context);
-				}
-
-				return TRUE;
-			}
-		}
-		break;
-
-	default:			/* hit for 2/3BUTTON_PRESS */
-		break;
-	}
-	return FALSE;
-}
-
 static void
 e_tree_class_init (ETreeClass *class)
 {
@@ -2380,27 +2342,28 @@ e_tree_class_init (ETreeClass *class)
 	GtkWidgetClass *widget_class;
 	GtkContainerClass *container_class;
 
-	object_class = (GtkObjectClass *) class;
-	widget_class = (GtkWidgetClass *) class;
-	container_class = (GtkContainerClass *) class;
+	object_class                   = (GtkObjectClass *) class;
+	widget_class                   = (GtkWidgetClass *) class;
+	container_class                = (GtkContainerClass *) class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class                   = gtk_type_class (PARENT_TYPE);
 
-	object_class->destroy           = et_destroy;
-	object_class->set_arg           = et_set_arg;
-	object_class->get_arg           = et_get_arg;
+	object_class->destroy          = et_destroy;
+	object_class->set_arg          = et_set_arg;
+	object_class->get_arg          = et_get_arg;
 
-	widget_class->grab_focus = et_grab_focus;
+	widget_class->grab_focus       = et_grab_focus;
 
-	container_class->focus = et_focus;
+	container_class->focus         = et_focus;
 
-	class->cursor_change            = NULL;
-	class->cursor_activated            = NULL;
-	class->selection_change         = NULL;
-	class->double_click             = NULL;
-	class->right_click              = NULL;
-	class->click                    = NULL;
-	class->key_press                = NULL;
+	class->cursor_change           = NULL;
+	class->cursor_activated        = NULL;
+	class->selection_change        = NULL;
+	class->double_click            = NULL;
+	class->right_click             = NULL;
+	class->click                   = NULL;
+	class->key_press               = NULL;
+	class->start_drag              = et_real_start_drag;
 
 	class->tree_drag_begin         = NULL;
 	class->tree_drag_end           = NULL;
@@ -2467,6 +2430,14 @@ e_tree_class_init (ETreeClass *class)
 				GTK_SIGNAL_OFFSET (ETreeClass, key_press),
 				e_marshal_INT__INT_POINTER_INT_POINTER,
 				GTK_TYPE_INT, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+
+	et_signals [START_DRAG] =
+		gtk_signal_new ("start_drag",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETreeClass, start_drag),
+				e_marshal_NONE__INT_POINTER_INT_POINTER,
+				GTK_TYPE_NONE, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 
 	et_signals[TREE_DRAG_BEGIN] =
 		gtk_signal_new ("tree_drag_begin",

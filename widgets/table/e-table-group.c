@@ -31,6 +31,7 @@ enum {
 	RIGHT_CLICK,
 	CLICK,
 	KEY_PRESS,
+	START_DRAG,
 	LAST_SIGNAL
 };
 
@@ -525,6 +526,30 @@ e_table_group_key_press (ETableGroup *e_table_group, gint row, gint col, GdkEven
 }
 
 /** 
+ * e_table_group_start_drag
+ * @eti: %ETableGroup to emit the signal on
+ * @row: The cursor row (model row)
+ * @col: The cursor col (model col)
+ * @event: The event that caused this signal
+ *
+ * This routine emits the "start_drag" signal.
+ */
+gint
+e_table_group_start_drag (ETableGroup *e_table_group, gint row, gint col, GdkEvent *event)
+{
+	gint return_val = 0;
+
+	g_return_val_if_fail (e_table_group != NULL, 0);
+	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), 0);
+
+	gtk_signal_emit (GTK_OBJECT (e_table_group),
+			 etg_signals [START_DRAG],
+			 row, col, event, &return_val);
+
+	return return_val;
+}
+
+/** 
  * e_table_group_get_header
  * @eti: %ETableGroup to check
  *
@@ -586,6 +611,7 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->right_click = NULL;
 	klass->click = NULL;
 	klass->key_press = NULL;
+	klass->start_drag = NULL;
 	
 	klass->add = NULL;
 	klass->add_array = NULL;
@@ -647,6 +673,14 @@ etg_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableGroupClass, key_press),
+				e_marshal_INT__INT_INT_POINTER,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+
+	etg_signals [START_DRAG] =
+		gtk_signal_new ("start_drag",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableGroupClass, start_drag),
 				e_marshal_INT__INT_INT_POINTER,
 				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 

@@ -49,6 +49,7 @@ enum {
 	RIGHT_CLICK,
 	CLICK,
 	KEY_PRESS,
+	START_DRAG,
 	LAST_SIGNAL
 };
 
@@ -1173,7 +1174,7 @@ eti_init (GnomeCanvasItem *item)
 
 	eti->selection_change_id       = 0;
 	eti->cursor_change_id          = 0;
-	eti->cursor_activated_id          = 0;
+	eti->cursor_activated_id       = 0;
 	eti->selection                 = NULL;
 
 	eti->needs_redraw              = 0;
@@ -1189,6 +1190,10 @@ eti_init (GnomeCanvasItem *item)
 
 	eti->grabbed_col               = -1;
 	eti->grabbed_row               = -1;
+
+	eti->in_drag                   = 0;
+	eti->maybe_in_drag             = 0;
+	eti->grabbed                   = 0;
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (eti), eti_reflow);
 }
@@ -1702,9 +1707,11 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	switch (e->type){
 	case GDK_BUTTON_PRESS: {
 		double x1, y1;
+		double realx, realy;
 		GdkEventButton button;
 		int col, row;
 		gint cursor_row, cursor_col;
+		gint new_cursor_row, new_cursor_col;
 
 		if (eti->tooltip->timer) {
 			gtk_timeout_remove (eti->tooltip->timer);
@@ -1717,7 +1724,10 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti), TRUE);
 			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
 
-			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1)) {
+			realx = e->button.x;
+			realy = e->button.y;
+
+			if (!find_cell (eti, realx, realy, &col, &row, &x1, &y1)) {
 				if (eti_editing (eti))
 					e_table_item_leave_edit (eti);
 				return TRUE;
@@ -1746,19 +1756,15 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				       "cursor_col", &cursor_col,
 				       NULL);
 
-			if (cursor_row != view_to_model_row(eti, row) || cursor_col != view_to_model_col(eti, col)) {
-				eti->click_count = 0;
-			}
-
-			e_selection_model_do_something(E_SELECTION_MODEL (eti->selection), view_to_model_row(eti, row), view_to_model_col(eti, col), button.state);
-
+			e_selection_model_maybe_do_something(E_SELECTION_MODEL (eti->selection), view_to_model_row(eti, row), view_to_model_col(eti, col), button.state);
 			gtk_object_get(GTK_OBJECT(eti->selection),
-				       "cursor_row", &cursor_row,
-				       "cursor_col", &cursor_col,
+				       "cursor_row", &new_cursor_row,
+				       "cursor_col", &new_cursor_col,
 				       NULL);
 
-			if (cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)){
-
+			if (cursor_row != new_cursor_row || cursor_col != new_cursor_col) {
+				eti->click_count = 1;
+			} else {
 				eti->click_count ++;
 				eti->row_guess = row;
 
@@ -1770,9 +1776,28 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				 * Adjust the event positions
 				 */
 
-				return_val = eti_e_cell_event (eti, ecell_view, (GdkEvent *) &button, button.time, 
-							       view_to_model_col(eti, col), col, row, E_CELL_EDITING);
+				if (eti_editing (eti)) {
+					return_val = eti_e_cell_event (eti, ecell_view, (GdkEvent *) &button, button.time, 
+								       view_to_model_col(eti, col), col, row, E_CELL_EDITING);
+					if (return_val)
+						return TRUE;
+				}
 			}
+
+			if (e->button.button == 1) {
+				eti->maybe_in_drag = TRUE;
+				eti->drag_row      = new_cursor_row;
+				eti->drag_col      = new_cursor_col;
+				eti->drag_x        = realx;
+				eti->drag_y        = realy;
+				eti->drag_state    = e->button.state;
+				eti->grabbed       = TRUE;
+				if (!gnome_canvas_item_grab(item,
+							    (1 << (4 + e->button.button)) | GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK, 
+							    NULL, e->button.time))
+					gtk_grab_add (GTK_WIDGET (item->canvas));
+			}
+
 			d(g_print("Single click\n"));
 
 			break;
@@ -1783,7 +1808,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				return TRUE;
 
 			e_selection_model_maybe_do_something(E_SELECTION_MODEL (eti->selection), view_to_model_row(eti, row), view_to_model_col(eti, col), 0);
-			
+
 			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [RIGHT_CLICK],
 					 row, view_to_model_col(eti, col), e, &return_val);
 			break;
@@ -1801,6 +1826,21 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		int col, row;
 		gint cursor_row, cursor_col;
 
+		if (e->button.button == 1) {
+			if (eti->maybe_in_drag) {
+				eti->maybe_in_drag = FALSE;
+				e_selection_model_do_something(E_SELECTION_MODEL (eti->selection), eti->drag_row, eti->drag_col, eti->drag_state);
+			}
+			if (eti->in_drag) {
+				eti->in_drag = FALSE;
+			}
+			if (eti->grabbed) {
+				gtk_grab_remove (GTK_WIDGET (item->canvas));
+				gnome_canvas_item_ungrab(item, e->button.time);
+			}
+			eti->grabbed = FALSE;
+		}
+
 		if (eti->tooltip->timer) {
 			gtk_timeout_remove (eti->tooltip->timer);
 			eti->tooltip->timer = 0;
@@ -1809,6 +1849,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		switch (e->button.button) {
 		case 1: /* Fall through. */
 		case 2:
+
 			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
 
 			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
@@ -1819,7 +1860,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				       "cursor_col", &cursor_col,
 				       NULL);
 
-			if (cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)){
+			if (eti_editing (eti) && cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)){
 
 				ecell_view = eti->cell_views [col];
 
@@ -1845,7 +1886,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	}
 
 	case GDK_2BUTTON_PRESS: {
-		int col, row;
+		int model_col, model_row;
 #if 0
 		double x1, y1;
 #endif
@@ -1870,12 +1911,12 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 #endif
 
 			gtk_object_get(GTK_OBJECT(eti->selection),
-				       "cursor_row", &row,
-				       "cursor_col", &col,
+				       "cursor_row", &model_row,
+				       "cursor_col", &model_col,
 				       NULL);
 
-			button.x -= e_table_header_col_diff (eti->header, 0, model_to_view_col (eti, col));
-			button.y -= e_table_item_row_diff (eti, 0, model_to_view_row (eti, row));
+			button.x -= e_table_header_col_diff (eti->header, 0, model_to_view_col (eti, model_col));
+			button.y -= e_table_item_row_diff (eti, 0, model_to_view_row (eti, model_row));
 
 #if 0
 			button = *(GdkEventButton *)e;
@@ -1883,9 +1924,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			button.y = y1;
 #endif
 
-			if (row != -1 && col != -1) {
+			if (model_row != -1 && model_col != -1) {
 				gtk_signal_emit (GTK_OBJECT (eti), eti_signals [DOUBLE_CLICK],
-						 row, col, &button);
+						 model_row, model_col, &button);
 				d(g_print("Double click\n"));
 			}
 		}
@@ -1897,6 +1938,21 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		gint cursor_col, cursor_row;
 
 		gnome_canvas_item_w2i (item, &e->motion.x, &e->motion.y);
+
+		if (eti->maybe_in_drag) {
+			if (abs (e->motion.x - eti->drag_x) >= 3 ||
+			    abs (e->motion.y - eti->drag_y) >= 3) {
+				gint drag_handled;
+
+				eti->maybe_in_drag = 0;
+				gtk_signal_emit (GTK_OBJECT (eti), eti_signals [START_DRAG],
+						 eti->drag_row, eti->drag_col, e, &drag_handled);
+				if (drag_handled)
+					eti->in_drag = 1;
+				else
+					eti->in_drag = 0;
+			}
+		}
 
 		if (!find_cell (eti, e->motion.x, e->motion.y, &col, &row, &x1, &y1))
 			return TRUE;
@@ -1928,13 +1984,13 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			 */
 			e->motion.x = x1;
 			e->motion.y = y1;
-			
+
 			return_val = eti_e_cell_event (eti, ecell_view, e, e->motion.time,
 						       view_to_model_col(eti, col), col, row, E_CELL_EDITING);
 		}
 		break;
 	}
-		
+
 	case GDK_KEY_PRESS: {
 		gint cursor_row, cursor_col;
 		gint handled = TRUE;
@@ -2153,7 +2209,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		return_val = FALSE;
 	}
 	return return_val;
-}
+	}
 
 static void
 eti_class_init (GtkObjectClass *object_class)
@@ -2180,6 +2236,7 @@ eti_class_init (GtkObjectClass *object_class)
 	eti_class->right_click      = NULL;
 	eti_class->click            = NULL;
 	eti_class->key_press        = NULL;
+	eti_class->start_drag       = NULL;
 
 	gtk_object_add_arg_type ("ETableItem::ETableHeader", E_TABLE_HEADER_TYPE,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
@@ -2232,6 +2289,14 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableItemClass, double_click),
 				gtk_marshal_NONE__INT_INT_POINTER,
 				GTK_TYPE_NONE, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+
+	eti_signals [START_DRAG] =
+		gtk_signal_new ("start_drag",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableItemClass, start_drag),
+				e_marshal_INT__INT_INT_POINTER,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 
 	eti_signals [RIGHT_CLICK] =
 		gtk_signal_new ("right_click",
