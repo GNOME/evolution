@@ -429,7 +429,7 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 		set_button (fds);
 	}
 	
-	gtk_widget_destroy (dialog);
+	gtk_widget_destroy ((GtkWidget *)dialog);
 }
 
 static GtkWidget *

@@ -1,3 +1,7 @@
+2003-03-28  Not Zed  <NotZed@Ximian.com>
+
+	* filter-datespec.c (button_clicked): cast warning.
+
 2003-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-file.c (xml_decode): Loop over child nodes here too in
