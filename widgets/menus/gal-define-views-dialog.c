@@ -84,7 +84,7 @@ gal_define_views_dialog_class_init (GalDefineViewsDialogClass *klass)
 	object_class->get_arg = gal_define_views_dialog_get_arg;
 	object_class->destroy = gal_define_views_dialog_destroy;
 
-	gtk_object_add_arg_type("GalDefineViewsDialog::collection", GTK_TYPE_OBJECT,
+	gtk_object_add_arg_type("GalDefineViewsDialog::collection", GAL_VIEW_COLLECTION_TYPE,
 				GTK_ARG_READWRITE, ARG_COLLECTION);
 }
 
@@ -259,6 +259,18 @@ gal_define_views_dialog_destroy (GtkObject *object) {
 	gtk_object_unref(GTK_OBJECT(gal_define_views_dialog->gui));
 }
 
+static void
+gal_define_views_dialog_set_collection(GalDefineViewsDialog *dialog,
+				       GalViewCollection *collection)
+{
+	dialog->collection = collection;
+	if (dialog->model) {
+		gtk_object_set(GTK_OBJECT(dialog->model),
+			       "collection", collection,
+			       NULL);
+	}
+}
+
 /**
  * gal_define_views_dialog_new
  *
@@ -270,9 +282,7 @@ GtkWidget*
 gal_define_views_dialog_new (GalViewCollection *collection)
 {
 	GtkWidget *widget = GTK_WIDGET (gtk_type_new (gal_define_views_dialog_get_type ()));
-	gtk_object_set(GTK_OBJECT(widget),
-		       "collection", collection,
-		       NULL);
+	gal_define_views_dialog_set_collection(GAL_DEFINE_VIEWS_DIALOG (widget), collection);
 	return widget;
 }
 
@@ -286,14 +296,9 @@ gal_define_views_dialog_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	switch (arg_id){
 	case ARG_COLLECTION:
 		if (GTK_VALUE_OBJECT(*arg))
-			dialog->collection = GAL_VIEW_COLLECTION(GTK_VALUE_OBJECT(*arg));
+			gal_define_views_dialog_set_collection(dialog, GAL_VIEW_COLLECTION(GTK_VALUE_OBJECT(*arg)));
 		else
-			dialog->collection = NULL;
-		if (dialog->model) {
-			gtk_object_set(GTK_OBJECT(dialog->model),
-				       "collection", GTK_VALUE_OBJECT(*arg),
-				       NULL);
-		}
+			gal_define_views_dialog_set_collection(dialog, NULL);
 		break;
 
 	default:

@@ -155,7 +155,7 @@ gal_define_views_model_class_init (GtkObjectClass *object_class)
 
 	gtk_object_add_arg_type ("GalDefineViewsModel::editable", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_EDITABLE);
-	gtk_object_add_arg_type ("GalDefineViewsModel::collection", GTK_TYPE_OBJECT,
+	gtk_object_add_arg_type ("GalDefineViewsModel::collection", GAL_VIEW_COLLECTION_TYPE,
 				 GTK_ARG_READWRITE, ARG_COLLECTION);
 
 	model_class->column_count     = gdvm_col_count;
