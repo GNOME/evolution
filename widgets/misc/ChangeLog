@@ -1,3 +1,9 @@
+2003-04-02  Hans Petter Jansson  <hpj@ximian.com>
+
+	* e-calendar-item.c (e_calendar_item_set_selection): For example;
+	a selection ending 2003-apr-02 does not fit into the remaining
+	shown days after 1969-dec. Stop assuming that it does.
+	
 2003-04-01  Hans Petter Jansson  <hpj@ximian.com>
 
 	* e-calendar-item.c (e_calendar_item_class_init)
