@@ -1,3 +1,8 @@
+1998-07-24  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-check.m4: No longer requiring
+	`GNOME_LIBGTOP_SYSDEPS'.
+
 Fri Jul 24 00:45:38 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* Makefile.am (MACROS): Added linger.m4.
