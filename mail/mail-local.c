@@ -136,15 +136,19 @@ static CamelType mail_local_folder_get_type (void);
 static struct _local_meta *
 load_metainfo(const char *path)
 {
-	xmlDocPtr doc;
+	xmlDocPtr doc = NULL;
 	xmlNodePtr node;
 	struct _local_meta *meta;
-
+	struct stat st;
+	
 	d(printf("Loading folder metainfo from : %s\n", path));
 
 	meta = g_malloc0(sizeof(*meta));
 	meta->path = g_strdup(path);
-
+	
+	if (stat (path, &st) == -1 || !S_ISREG (st.st_mode))
+		goto dodefault;
+	
 	doc = xmlParseFile(path);
 	if (doc == NULL)
 		goto dodefault;

@@ -1,3 +1,8 @@
+2003-05-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-local.c (load_metainfo): Stat the XML file before trying to
+	parse it to make sure it exists.
+
 2003-05-29  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am (BUILT_SOURCES): added server_DATA (*.server) so
