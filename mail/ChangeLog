@@ -1,5 +1,15 @@
 2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (create_msg_composer): No longer need to call
+	e_msg_composer_show_sig_file(). This gets handled auto-magically
+	by a signal emition when the default From address chooser gets
+	created.
+	(do_forward_non_attached): No longer need to call it here either
+	because e_msg_composer_set_body_text() now makes sure to re-show
+	the signature.
+
+2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-callbacks.c (do_forward_non_attached): Show the signature.
 
 2002-02-11  Jeffrey Stedfast  <fejj@ximian.com>

@@ -690,7 +690,6 @@ create_msg_composer (const MailConfigAccount *account, const char *url)
 	if (composer) {
 		e_msg_composer_hdrs_set_from_account (E_MSG_COMPOSER_HDRS (composer->hdrs), account->name);
 		e_msg_composer_set_send_html (composer, send_html);
-		e_msg_composer_show_sig_file (composer);
 		e_msg_composer_unset_changed (composer);
 		e_msg_composer_drop_editor_undo (composer);
 		return GTK_WIDGET (composer);
@@ -1214,7 +1213,6 @@ do_forward_non_attached (CamelFolder *folder, char *uid, CamelMimeMessage *messa
 			CamelDataWrapper *wrapper;
 			
 			e_msg_composer_set_body_text (composer, text);
-			e_msg_composer_show_sig_file (composer);
 			
 			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 			if (CAMEL_IS_MULTIPART (wrapper))
