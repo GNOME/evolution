@@ -527,7 +527,10 @@ eti_item_region_redraw (ETableItem *eti, int x0, int y0, int x1, int y1)
 static void
 eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 {
+#if 0
 	int view_row;
+#endif
+
 	eti->rows = e_table_model_row_count (eti->table_model);
 	
 	free_height_cache(eti);
@@ -536,6 +539,7 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
 	eti->needs_redraw = 1;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
+
 #if 0
 	view_row = model_to_view_row(eti, eti->cursor_row);
 	if (view_row >= 0 && eti->cursor_col >= 0)

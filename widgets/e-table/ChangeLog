@@ -1,3 +1,8 @@
+2000-07-08  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-table-item.c (eti_table_model_changed): Removed an unused
+	variable.
+
 2000-07-08  Dan Winship  <danw@helixcode.com>
 
 	* e-tree-model.c (e_tree_model_node_insert): When inserting a root
