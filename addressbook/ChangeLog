@@ -1,5 +1,13 @@
 2002-12-08  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-addressbook-util.c (e_addressbook_error_dialog):
+	connect ::response to gtk_widget_destroy so the dialog goes away.
+
+	* gui/widgets/e-minicard-label.c (e_minicard_label_construct):
+	don't use font_gdk anymore on EText.  it doesn't exist.
+
+2002-12-08  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-addressbook-reflow-adapter.c (text_height): this
 	uses pango now.
 	(addressbook_height): same.

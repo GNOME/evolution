@@ -47,11 +47,16 @@ e_addressbook_error_dialog (const gchar *msg, EBookStatus status)
 		N_("Other error")
 	};
 	char *error_msg;
+	GtkWidget *dialog;
 
 	error_msg = g_strdup_printf ("%s: %s", msg, _(status_to_string [status]));
 
-	gtk_widget_show (gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
-						 error_msg));
+	dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+					 error_msg);
+
+	g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
+
+	gtk_widget_show (dialog);
 
 	g_free (error_msg);
 }

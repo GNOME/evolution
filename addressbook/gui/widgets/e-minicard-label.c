@@ -296,7 +296,6 @@ e_minicard_label_construct (GnomeCanvasItem *item)
 				 "clip_width", (double) ( e_minicard_label->width / 2 - 4 ),
 				 "clip", TRUE,
 				 "use_ellipsis", TRUE,
-				 "font_gdk", font,
 				 "fill_color", "black",
 				 "draw_background", FALSE,
 				 NULL );
@@ -309,7 +308,6 @@ e_minicard_label_construct (GnomeCanvasItem *item)
 				 "clip_width", (double) ( ( e_minicard_label->width + 1 ) / 2 - 4 ),
 				 "clip", TRUE,
 				 "use_ellipsis", TRUE,
-				 "font_gdk", font,
 				 "fill_color", "black",
 				 "editable", e_minicard_label->editable,
 				 "draw_background", FALSE,
