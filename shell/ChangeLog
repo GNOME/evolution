@@ -1,3 +1,12 @@
+2001-05-02  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-shell-component-dnd.c: new file.
+
+	* evolution-shell-component-dnd.h: new file.
+
+	* Makefile.am (libeshell_a_SOURCES): add
+	evolution-shell-component-dnd.[ch].
+
 2001-04-25  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (evolution_LDADD): Remove $(UNICODE_LIBS).

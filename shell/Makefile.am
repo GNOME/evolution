@@ -63,6 +63,8 @@ libeshell_a_SOURCES = 				\
 	evolution-shell-component-client.h	\
 	evolution-shell-component.c		\
 	evolution-shell-component.h		\
+	evolution-shell-component-dnd.c		\
+	evolution-shell-component-dnd.h		\
 	evolution-shell-view.c			\
 	evolution-shell-view.h			\
 	evolution-storage-listener.c		\
