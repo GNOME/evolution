@@ -755,7 +755,8 @@ button_options_clicked_cb (GtkWidget *widget, gpointer data)
 	repeat = !e_cal_get_static_capability (COMP_EDITOR_PAGE (apage)->client,
 						    CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT);
 
-	if (e_cal_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client, &email, NULL)) {
+	if (e_cal_get_static_capability (COMP_EDITOR_PAGE (apage)->client, CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS)
+                   || e_cal_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client, &email, NULL)) {
 		if (!alarm_options_dialog_run (priv->alarm, email, repeat))
 			g_message ("button_options_clicked_cb(): Could not create the alarm options dialog");
 	}

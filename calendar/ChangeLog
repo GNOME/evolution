@@ -1,3 +1,9 @@
+2004-05-14  Nicel KM  <mnicel@novell.com>
+
+	* gui/dialogs/alarm-page.c (button_options_clicked_cb): invoke options 
+	dialog even if backend does not support email alarms and get email 
+	address only if supported.
+
 2004-05-13  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/alarm-page.c (add_clicked_cb): only get the email address
