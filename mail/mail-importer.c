@@ -28,7 +28,9 @@
 #include <bonobo.h>
 #include "mail-importer.h"
 #include "mail-local.h"
+#include "mail.h"
 
+#include <evolution-storage.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream-mem.h>
@@ -40,6 +42,37 @@
 static gboolean factory_initialised = FALSE;
 
 extern char *evolution_dir;
+
+static GNOME_Evolution_LocalStorage local_storage = NULL;
+
+void
+mail_importer_create_folder (const char *parent_path,
+			     const char *name,
+			     const char *type,
+			     const char *description)
+{
+	BonoboListener *listener;
+	Bonobo_Listener corba_listener;
+	CORBA_Environment ev;
+	char *path, *physical;
+
+	path = g_concat_dir_and_file (parent_path, name);
+	physical = g_strdup_printf ("file://%s/local/%s", evolution_dir,
+				    parent_path);
+
+	listener = bonobo_listener_new (NULL, NULL);
+	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
+	
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Storage_asyncCreateFolder (local_storage, 
+						   path, "mail", name,
+						   physical,
+						   corba_listener, &ev);
+	CORBA_exception_free (&ev);
+	g_free (path);
+	g_free (physical);
+}
+
 /**
  * mail_importer_add_line:
  * importer: A MailImporter structure.
@@ -93,9 +126,10 @@ mail_importer_add_line (MailImporter *importer,
  * Initialises all the importers
  */
 void
-mail_importer_init (void)
+mail_importer_init (EvolutionShellClient *client)
 {
 	BonoboGenericFactory *factory;
+
 	if (factory_initialised == TRUE)
 		return;
 
@@ -112,7 +146,8 @@ mail_importer_init (void)
 	if (factory == NULL) {
 		g_error ("Unable to create mbox factory.");
 	}
-
+	
 	factory_initialised = TRUE;
+	local_storage = evolution_shell_client_get_local_storage (client);
 }
 

@@ -208,7 +208,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 #endif
 
 	mail_local_storage_startup (shell_client, evolution_dir);
-
+	mail_importer_init (shell_client);
+	
 	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++) {
 		char *uri = g_strdup_printf ("file://%s/local/%s", evolution_dir, standard_folders[i].name);
 		mail_msg_wait (mail_get_folder (uri, got_folder, standard_folders[i].folder));
@@ -295,7 +296,6 @@ component_factory_init (void)
 							component_fn, NULL);
 	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID,
 						      summary_fn, NULL);
-	mail_importer_init ();
 
 	if (component_factory == NULL || summary_factory == NULL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,

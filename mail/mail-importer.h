@@ -27,6 +27,7 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-exception.h>
+#include <evolution-shell-client.h>
 
 typedef struct _MailImporter MailImporter;
 struct _MailImporter {
@@ -36,8 +37,12 @@ struct _MailImporter {
 	gboolean frozen; /* Is folder frozen? */
 };
 
-void mail_importer_init (void);
+void mail_importer_init (EvolutionShellClient *client);
 void mail_importer_add_line (MailImporter *importer,
 			     const char *str,
 			     gboolean finished);
+void mail_importer_create_folder (const char *parent_path,
+				  const char *name,
+				  const char *type,
+				  const char *description);
 #endif

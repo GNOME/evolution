@@ -401,7 +401,7 @@ void
 compose_msg (GtkWidget *widget, gpointer user_data)
 {
 	GtkWidget *composer;
-	
+
 	if (!check_send_configuration (FOLDER_BROWSER (user_data)))
 		return;
 	
