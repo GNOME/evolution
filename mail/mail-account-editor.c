@@ -91,7 +91,7 @@ apply_changes (MailAccountEditor *editor)
 {
 	MailConfigAccount *account;
 	int page = -1;
-
+	
 	if (!mail_account_gui_identity_complete (editor->gui) ||
 	    !mail_account_gui_management_complete (editor->gui))
 		page = 0;
@@ -99,16 +99,16 @@ apply_changes (MailAccountEditor *editor)
 		page = 1;
 	else if (!mail_account_gui_transport_complete (editor->gui))
 		page = 3;
-
+	
 	if (page != -1) {
 		gtk_notebook_set_page (editor->notebook, page);
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, _("You have not filled in all of the required information."));
 		return FALSE;
 	}
-
+	
 	mail_account_gui_save (editor->gui);
 	account = editor->gui->account;
-
+	
 	/* save any changes we may have */
 	mail_config_write ();
 	return TRUE;
