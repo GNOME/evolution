@@ -3,7 +3,7 @@
 noinst_LTLIBRARIES = libibex.la
 
 libibex_la_SOURCES = \
-	wordindex.c \
+	wordindex.c wordindexmem.c \
 	block.c ibex.h \
 	hash.c \
 	disktail.c \

@@ -27,6 +27,18 @@
 
 #define INDEX_STAT
 
+struct _IBEXCursor {
+	struct _IBEXCursorClass *klass;
+	struct _IBEXIndex *index;
+};
+
+struct _IBEXCursorClass {
+	void (*close)(struct _IBEXCursor *);
+
+	guint32 (*next)(struct _IBEXCursor *);
+	char *(*next_key)(struct _IBEXCursor *, int *keylenptr);
+};
+
 struct _IBEXIndex {
 	struct _IBEXIndexClass *klass;
 	struct _memcache *blocks;
@@ -62,6 +74,9 @@ struct _IBEXIndexClass {
 
 	/* get the key contents based on the keyid */
 	blockid_t (*get_data)(struct _IBEXIndex *, guint32 keyid, blockid_t *tail);
+
+	/* get a cursor for iterating over all contents */
+	struct _IBEXCursor *(*get_cursor)(struct _IBEXIndex *);
 };
 
 /* a storage class, stores lists of lists of id's */

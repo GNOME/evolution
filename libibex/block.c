@@ -30,10 +30,17 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-
+#include <errno.h>
+#include <string.h>
 #include <glib.h>
 
 #include "block.h"
+
+/*#define MALLOC_CHECK*/
+
+#ifdef MALLOC_CHECK
+#include <mcheck.h>
+#endif
 
 #define d(x)
 /*#define DEBUG*/
@@ -113,6 +120,27 @@ add_miss(struct _memcache *index, int id)
 }
 #endif /* IBEX_STATS */
 
+#ifdef MALLOC_CHECK
+static void
+checkmem(void *p)
+{
+	if (p) {
+		int status = mprobe(p);
+
+		switch (status) {
+		case MCHECK_HEAD:
+			printf("Memory underrun at %p\n", p);
+			abort();
+		case MCHECK_TAIL:
+			printf("Memory overrun at %p\n", p);
+			abort();
+		case MCHECK_FREE:
+			printf("Double free %p\n", p);
+			abort();
+		}
+	}
+}
+#endif
 
 /* simple list routines (for simplified memory management of cache/lists) */
 
@@ -187,6 +215,29 @@ memblock_addr(struct _block *block)
 	return (struct _memblock *)(((char *)block) - G_STRUCT_OFFSET(struct _memblock, data));
 }
 
+/* read/sync the rootblock into the block_cache structure */
+static int
+ibex_block_read_root(struct _memcache *block_cache)
+{
+	lseek(block_cache->fd, 0, SEEK_SET);
+	if (read(block_cache->fd, &block_cache->root, sizeof(block_cache->root)) != sizeof(block_cache->root)) {
+		
+		return -1;
+	}
+	return 0;
+}
+
+static int
+ibex_block_sync_root(struct _memcache *block_cache)
+{
+	lseek(block_cache->fd, 0, SEEK_SET);
+	if (write(block_cache->fd, &block_cache->root, sizeof(block_cache->root)) != sizeof(block_cache->root)) {
+		return -1;
+	}
+	return fsync(block_cache->fd);
+}
+
+
 /**
  * ibex_block_dirty:
  * @block: 
@@ -224,27 +275,22 @@ sync_block(struct _memcache *block_cache, struct _memblock *memblock)
 void
 ibex_block_cache_sync(struct _memcache *block_cache)
 {
-	struct _memblock *memblock, *rootblock = 0;
+	struct _memblock *memblock;
 
 	memblock = (struct _memblock *)block_cache->nodes.head;
 	while (memblock->next) {
-		if (memblock->block == 0) {
-			rootblock = memblock;
-		} else {
-			if (memblock->flags & BLOCK_DIRTY) {
-				sync_block(block_cache, memblock);
-			}
+#ifdef MALLOC_CHECK
+		checkmem(memblock);
+#endif
+		if (memblock->flags & BLOCK_DIRTY) {
+			sync_block(block_cache, memblock);
 		}
 		memblock = memblock->next;
 	}
 
-	if (rootblock) {
-		struct _root *root = (struct _root *)&rootblock->data;
-		root->flags |= IBEX_ROOT_SYNCF;
-		sync_block(block_cache, rootblock);
-	}
-	if (fsync(block_cache->fd) == 0) {
-		block_cache->flags |= IBEX_ROOT_SYNCF;
+	block_cache->root.flags |= IBEX_ROOT_SYNCF;
+	if (ibex_block_sync_root(block_cache) != 0) {
+		block_cache->root.flags &= ~IBEX_ROOT_SYNCF;
 	}
 
 #ifdef IBEX_STATS
@@ -252,6 +298,25 @@ ibex_block_cache_sync(struct _memcache *block_cache)
 #endif
 
 }
+
+#ifdef MALLOC_CHECK
+static void
+check_cache(struct _memcache *block_cache)
+{
+	struct _memblock *mw, *mn;
+
+	checkmem(block_cache);
+	checkmem(block_cache->index);
+
+	mw = (struct _memblock *)block_cache->nodes.head;
+	mn = mw->next;
+	while (mn) {
+		checkmem(mw);
+		mw = mn;
+		mn = mn->next;
+	}
+}
+#endif
 
 /**
  * ibex_block_cache_flush:
@@ -278,7 +343,6 @@ ibex_block_cache_flush(struct _memcache *block_cache)
 	ibex_list_new(&block_cache->nodes);
 }
 
-
 /**
  * ibex_block_read:
  * @block_cache: 
@@ -296,32 +360,39 @@ ibex_block_read(struct _memcache *block_cache, blockid_t blockid)
 {
 	struct _memblock *memblock;
 
-	{
-		/* assert blockid<roof */
-		if (blockid > 0) {
-			struct _root *root = (struct _root *)ibex_block_read(block_cache, 0);
-			g_assert(blockid < root->roof);
-		}
-	}
+#ifdef MALLOC_CHECK
+	check_cache(block_cache);
+#endif
+
+	/* nothing can read the root block directly */
+	g_assert(blockid != 0);
+	g_assert(blockid < block_cache->root.roof);
 
 	memblock = g_hash_table_lookup(block_cache->index, (void *)blockid);
+
+#ifdef MALLOC_CHECK
+	check_cache(block_cache);
+#endif
+
 	if (memblock) {
 		d(printf("foudn blockid in cache %d = %p\n", blockid, &memblock->data));
-#if 0
-		if (blockid == 0) {
-			struct _root *root = &memblock->data;
-			d(printf("superblock state:\n"
-				 " roof = %d\n free = %d\n words = %d\n names = %d\n tail = %d",
-				 root->roof, root->free, root->words, root->names, root->tail));
-			
-		}
-#endif
+
 		/* 'access' page */
 		ibex_list_remove((struct _listnode *)memblock);
 		ibex_list_addtail(&block_cache->nodes, (struct _listnode *)memblock);
+
+#ifdef MALLOC_CHECK
+		check_cache(block_cache);
+#endif
+
 #ifdef IBEX_STATS
 		add_hit(block_cache, memblock->block);
 #endif
+
+#ifdef MALLOC_CHECK
+		check_cache(block_cache);
+#endif
+
 		return &memblock->data;
 	}
 #ifdef IBEX_STATS
@@ -338,6 +409,7 @@ ibex_block_read(struct _memcache *block_cache, blockid_t blockid)
 	lseek(block_cache->fd, blockid, SEEK_SET);
 	memset(&memblock->data, 0, sizeof(memblock->data));
 	read(block_cache->fd, &memblock->data, sizeof(memblock->data));
+
 	ibex_list_addtail(&block_cache->nodes, (struct _listnode *)memblock);
 	g_hash_table_insert(block_cache->index, (void *)blockid, memblock);
 	if (block_cache->count >= CACHE_SIZE) {
@@ -347,18 +419,14 @@ ibex_block_read(struct _memcache *block_cache, blockid_t blockid)
 		ibex_list_remove((struct _listnode *)old);
 		if (old->flags & BLOCK_DIRTY) {
 			/* are we about to un-sync the file?  update root and sync it */
-			if (block_cache->flags & IBEX_ROOT_SYNCF) {
-				/* TODO: put the rootblock in the block_cache struct, not in the cache */
-				struct _memblock *rootblock = g_hash_table_lookup(block_cache->index, (void *)0);
-				struct _root *root = (struct _root *)&rootblock->data;
-
+			if (block_cache->root.flags & IBEX_ROOT_SYNCF) {
 				printf("Unsyncing root block\n");
 
-				g_assert(rootblock != NULL);
-				root->flags &= ~IBEX_ROOT_SYNCF;
-				sync_block(block_cache, rootblock);
-				if (fsync(block_cache->fd) == 0)
-					block_cache->flags &= ~IBEX_ROOT_SYNCF;
+				block_cache->root.flags &= ~IBEX_ROOT_SYNCF;
+				if (ibex_block_sync_root(block_cache) != 0) {
+					/* what do we do?  i dont know! */
+					g_warning("Could not sync root block of index: %s", strerror(errno));
+				}
 			}
 			sync_block(block_cache, old);
 		}
@@ -369,6 +437,9 @@ ibex_block_read(struct _memcache *block_cache, blockid_t blockid)
 
 	d(printf("  --- cached blocks : %d\n", block_cache->count));
 
+#ifdef MALLOC_CHECK
+	check_cache(block_cache);
+#endif
 	return &memblock->data;
 }
 
@@ -389,7 +460,6 @@ ibex_block_read(struct _memcache *block_cache, blockid_t blockid)
 struct _memcache *
 ibex_block_cache_open(const char *name, int flags, int mode)
 {
-	struct _root *root;
 	struct _memcache *block_cache = g_malloc0(sizeof(*block_cache));
 
 	d(printf("opening ibex file: %s", name));
@@ -406,33 +476,33 @@ ibex_block_cache_open(const char *name, int flags, int mode)
 		return NULL;
 	}
 
-	root = (struct _root *)ibex_block_read(block_cache, 0);
-	if (root->roof == 0
-	    || memcmp(root->version, "ibx4", 4)
-	    || ((root->flags & IBEX_ROOT_SYNCF) == 0)) {
+	ibex_block_read_root(block_cache);
+	if (block_cache->root.roof == 0
+	    || memcmp(block_cache->root.version, "ibx5", 4)
+	    || ((block_cache->root.flags & IBEX_ROOT_SYNCF) == 0)) {
 		(printf("Initialising superblock\n"));
 		/* reset root data */
-		memcpy(root->version, "ibx4", 4);
-		root->roof = 1024;
-		root->free = 0;
-		root->words = 0;
-		root->names = 0;
-		root->tail = 0;	/* list of tail blocks */
-		root->flags = 0;
-		ibex_block_dirty((struct _block *)root);
+		memcpy(block_cache->root.version, "ibx5", 4);
+		block_cache->root.roof = 1024;
+		block_cache->root.free = 0;
+		block_cache->root.words = 0;
+		block_cache->root.names = 0;
+		block_cache->root.tail = 0;	/* list of tail blocks */
+		block_cache->root.flags = 0;
+		ibex_block_sync_root(block_cache);
 		/* reset the file contents */
 		ftruncate(block_cache->fd, 1024);
 	} else {
 		(printf("superblock already initialised:\n"
-			" roof = %d\n free = %d\n words = %d\n names = %d\n tail = %d",
-			root->roof, root->free, root->words, root->names, root->tail));
+			" roof = %d\n free = %d\n words = %d\n names = %d\n tail = %d\n",
+			block_cache->root.roof, block_cache->root.free,
+			block_cache->root.words, block_cache->root.names, block_cache->root.tail));
 	}
-	block_cache->flags = root->flags;
-	/* this should be moved higher up */
+	/* FIXME: this should be moved higher up in the object tree */
 	{
-		struct _IBEXWord *ibex_create_word_index(struct _memcache *bc, blockid_t *wordroot, blockid_t *nameroot);
+		struct _IBEXWord *ibex_create_word_index_mem(struct _memcache *bc, blockid_t *wordroot, blockid_t *nameroot);
 
-		block_cache->words = ibex_create_word_index(block_cache, &root->words, &root->names);
+		block_cache->words = ibex_create_word_index_mem(block_cache, &block_cache->root.words,&block_cache->root.names);
 	}
 
 #ifdef IBEX_STATS
@@ -480,12 +550,10 @@ ibex_block_cache_close(struct _memcache *block_cache)
 void
 ibex_block_free(struct _memcache *block_cache, blockid_t blockid)
 {
-	struct _root *root = (struct _root *)ibex_block_read(block_cache, 0);
 	struct _block *block = ibex_block_read(block_cache, blockid);
 
-	block->next = block_number(root->free);
-	root->free = blockid;
-	ibex_block_dirty((struct _block *)root);
+	block->next = block_number(block_cache->root.free);
+	block_cache->root.free = blockid;
 	ibex_block_dirty((struct _block *)block);
 }
 
@@ -502,19 +570,18 @@ ibex_block_free(struct _memcache *block_cache, blockid_t blockid)
 blockid_t
 ibex_block_get(struct _memcache *block_cache)
 {
-	struct _root *root = (struct _root *)ibex_block_read(block_cache, 0);
 	struct _block *block;
 	blockid_t head;
 
-	if (root->free) {
-		head = root->free;
+	if (block_cache->root.free) {
+		head = block_cache->root.free;
 		block = ibex_block_read(block_cache, head);
-		root->free = block_location(block->next);
+		block_cache->root.free = block_location(block->next);
 	} else {
 		/* TODO: check the block will fit first */
 		/* TODO: no need to read this block, can allocate it manually (saves a syscall/read) */
-		head = root->roof;
-		root->roof += BLOCK_SIZE;
+		head = block_cache->root.roof;
+		block_cache->root.roof += BLOCK_SIZE;
 		block = ibex_block_read(block_cache, head);
 	}
 
@@ -524,6 +591,5 @@ ibex_block_get(struct _memcache *block_cache)
 	block->next = 0;
 	block->used = 0;
 	ibex_block_dirty(block);
-	ibex_block_dirty((struct _block *)root);
 	return head;
 }

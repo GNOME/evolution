@@ -217,6 +217,10 @@ ibex_index_buffer (ibex *ib, char *name, char *buffer, size_t len, size_t *unrea
 	}
 done:
 	d(printf("name %s count %d size %d\n", name, wordlist->len, len));
+	if (!ib->predone) {
+		ib->words->klass->index_pre(ib->words);
+		ib->predone = TRUE;
+	}
 	ib->words->klass->add_list(ib->words, name, wordlist);
 	ret = 0;
 error:
@@ -249,6 +253,10 @@ ibex *ibex_open (char *file, int flags, int mode)
 int ibex_save (ibex *ib)
 {
 	printf("syncing database\n");
+	if (ib->predone) {
+		ib->words->klass->index_post(ib->words);
+		ib->predone = FALSE;
+	}
 	ib->words->klass->sync(ib->words);
 	/* FIXME: some return */
 	ibex_block_cache_sync(ib->blocks);
@@ -260,6 +268,11 @@ int ibex_close (ibex *ib)
 	int ret = 0;
 
 	printf("closing database\n");
+
+	if (ib->predone) {
+		ib->words->klass->index_post(ib->words);
+		ib->predone = FALSE;
+	}
 
 	ib->words->klass->close(ib->words);
 	ibex_block_cache_close(ib->blocks);

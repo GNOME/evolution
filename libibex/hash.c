@@ -42,6 +42,14 @@
 
 typedef guint32 hashid_t;
 
+struct _HASHCursor {
+	struct _IBEXCursor cursor;
+
+	hashid_t block;
+	unsigned int index;
+	unsigned int size;
+};
+
 static struct _IBEXIndex *hash_create(struct _memcache *bc, int size);
 static struct _IBEXIndex *hash_open(struct _memcache *bc, blockid_t root);
 static int hash_sync(struct _IBEXIndex *index);
@@ -53,6 +61,12 @@ static hashid_t hash_insert(struct _IBEXIndex *index, const char *key, int keyle
 static char *hash_get_key(struct _IBEXIndex *index, hashid_t hashbucket, int *len);
 static void hash_set_data_block(struct _IBEXIndex *index, hashid_t keyid, blockid_t blockid, blockid_t tail);
 static blockid_t hash_get_data_block(struct _IBEXIndex *index, hashid_t keyid, blockid_t *tail);
+static struct _IBEXCursor *hash_get_cursor(struct _IBEXIndex *index);
+
+static struct _IBEXCursor *hash_cursor_create(struct _IBEXIndex *);
+static void hash_cursor_close(struct _IBEXCursor *);
+static guint32 hash_cursor_next(struct _IBEXCursor *);
+static char *hash_cursor_next_key(struct _IBEXCursor *, int *keylenptr);
 
 struct _IBEXIndexClass ibex_hash_class = {
 	hash_create, hash_open,
@@ -63,6 +77,13 @@ struct _IBEXIndexClass ibex_hash_class = {
 	hash_get_key,
 	hash_set_data_block,
 	hash_get_data_block,
+	hash_get_cursor,
+};
+
+struct _IBEXCursorClass ibex_hash_cursor_class = {
+	hash_cursor_close,
+	hash_cursor_next,
+	hash_cursor_next_key
 };
 
 /* the reason we have the tail here is that otherwise we need to
@@ -195,6 +216,12 @@ static int hash_close(struct _IBEXIndex *index)
 #endif
 	g_free(index);
 	return 0;
+}
+
+/* get an iterator class */
+static struct _IBEXCursor *hash_get_cursor(struct _IBEXIndex *index)
+{
+	return hash_cursor_create(index);
 }
 
 /* convert a hashbucket id into a name */
@@ -618,6 +645,74 @@ hash_insert(struct _IBEXIndex *index, const char *key, int keylen)
 	d(printf(" new free id %d\n", hashroot->free));
 
 	return HASH_KEY(keybucket, 0);
+}
+
+/* hash cursor functions */
+static struct _IBEXCursor *
+hash_cursor_create(struct _IBEXIndex *idx)
+{
+	struct _HASHCursor *idc;
+	struct _hashroot *hashroot;
+
+	idc = g_malloc(sizeof(*idc));
+	idc->cursor.klass = &ibex_hash_cursor_class;
+	idc->cursor.index = idx;
+	idc->block = 0;
+	idc->index = 0;
+
+	hashroot = (struct _hashroot *)ibex_block_read(idx->blocks, idx->root);
+	idc->size = hashroot->size;
+
+	return &idc->cursor;
+}
+
+static void
+hash_cursor_close(struct _IBEXCursor *idc)
+{
+	g_free(idc);
+}
+
+static guint32
+hash_cursor_next(struct _IBEXCursor *idc)
+{
+	struct _HASHCursor *hc = (struct _HASHCursor *)idc;
+	struct _hashroot *hashroot;
+	struct _hashblock *bucket;
+	struct _hashtableblock *table;
+
+	/* get the next bucket chain */
+	if (hc->block != 0) {
+		int ind;
+
+		bucket = (struct _hashblock *)ibex_block_read(idc->index->blocks, HASH_BLOCK(hc->block));
+		ind = HASH_INDEX(hc->block);
+
+		g_assert(ind < bucket->used);
+
+		hc->block = bucket->hb_keys[ind].next;
+	}
+
+	if (hc->block == 0) {
+		hashroot = (struct _hashroot *)ibex_block_read(idc->index->blocks, idc->index->root);
+		while (hc->block == 0 && hc->index < hc->size) {
+			table = (struct _hashtableblock *)
+				ibex_block_read(idc->index->blocks,
+						hashroot->table[hc->index / (BLOCK_SIZE/sizeof(blockid_t))]);
+			hc->block = table->buckets[hc->index % (BLOCK_SIZE/sizeof(blockid_t))];
+
+			hc->index++;
+		}
+	}
+
+	return hc->block;
+}
+
+static char *
+hash_cursor_next_key(struct _IBEXCursor *idc, int *keylenptr)
+{
+	/* TODO: this could be made slightly mroe efficient going to the structs direct.
+	   but i'm lazy today */
+	return idc->index->klass->get_key(idc->index, idc->klass->next(idc), keylenptr);
 }
 
 /* debug */

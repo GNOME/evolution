@@ -27,6 +27,9 @@ struct _root {
 	blockid_t names;	/* root of names index */
 
 	char flags;		/* state flags */
+
+	/* makes structure fill up to 1024 bytes */
+	char dummy[1024 - (sizeof(char)*5) - (sizeof(blockid_t)*5)];
 };
 
 #define IBEX_ROOT_SYNCF (1<<0)	/* file is synced */
@@ -74,11 +77,11 @@ struct _memcache {
 	GHashTable *index;	/* blockid->memblock mapping */
 	int fd;			/* file fd */
 
-	int flags;		/* flags (mirror of root->flags) */
-
 #ifdef IBEX_STATS
 	GHashTable *stats;
 #endif
+	struct _root root;	/* root block */
+
 	/* temporary here */
 	struct _IBEXWord *words; /* word index */
 };

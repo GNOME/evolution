@@ -24,10 +24,11 @@
 #include "block.h"
 #include "wordindex.h"
 
-#define IBEX_VERSION "ibx4"
+#define IBEX_VERSION "ibx5"
 
 struct ibex {
 	char *path;
 	struct _memcache *blocks;
 	struct _IBEXWord *words;
+	int predone;
 };

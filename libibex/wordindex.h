@@ -38,6 +38,9 @@ struct _IBEXWordClass {
 	int (*flush)(struct _IBEXWord *);
 	int (*close)(struct _IBEXWord *);
 
+	void (*index_pre)(struct _IBEXWord *); /* get ready for doing a lot of indexing.  may be a nop */
+	void (*index_post)(struct _IBEXWord *);
+
 	void (*unindex_name)(struct _IBEXWord *, const char *name);		/* unindex all entries for name */
 	gboolean (*contains_name)(struct _IBEXWord *, const char *name);	/* index contains data for name */
 	GPtrArray *(*find)(struct _IBEXWord *, const char *word);		/* returns all matches for word */
@@ -57,9 +60,13 @@ struct _IBEXWord {
 	GHashTable *wordcache;	/* word->struct _wordcache mapping */
 	struct _list wordnodes;	/* LRU list of wordcache structures */
 	int wordcount;		/* how much space used in cache */
+	int precount;
 };
 
 
 struct _IBEXWord *ibex_create_word_index(struct _memcache *bc, blockid_t *wordroot, blockid_t *nameroot);
+
+/* alternate implemenation */
+struct _IBEXWord *ibex_create_word_index_mem(struct _memcache *bc, blockid_t *wordroot, blockid_t *nameroot);
 
 #endif /* !_WORDINDEX_H */

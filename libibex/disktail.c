@@ -214,7 +214,6 @@ tail_dump(struct _memcache *blocks, blockid_t tailid)
 static blockid_t
 tail_get(struct _memcache *blocks, int size)
 {
-	struct _root *root = (struct _root *)ibex_block_read(blocks, 0);
 	blockid_t tailid;
 	struct _tailblock *tail;
 	int freeindex;
@@ -225,21 +224,29 @@ tail_get(struct _memcache *blocks, int size)
 
 	/* look for a node with enough space, if we dont find it fairly
 	   quickly, just quit.  needs a better free algorithm i think ... */
-	tailid = root->tail;
+	tailid = blocks->root.tail;
 	while (tailid && count<5) {
 		int space;
 
 		d(printf(" checking tail node %d\n", tailid));
 
 		tail = (struct _tailblock *)ibex_block_read(blocks, tailid);
+
 		if (tail->used == 0) {
 			/* assume its big enough ... */
 			tail->used = 1;
 			tail->tb_offset[0] = sizeof(tail->tb_data)/sizeof(tail->tb_data[0]) - size;
 			d(printf("allocated %d (%d), used %d\n", tailid, tailid, tail->used));
 			ibex_block_dirty((struct _block *)tail);
+
+			g_assert(&tail->tb_offset[tail->used-1]
+				 < &tail->tb_data[tail->tb_offset[tail->used-1]]);
+
 			return tailid;
 		}
+
+		g_assert(&tail->tb_offset[tail->used-1]
+			 < &tail->tb_data[tail->tb_offset[tail->used-1]]);
 
 		/* see if we have a free slot first */
 		freeindex = -1;
@@ -280,16 +287,18 @@ tail_get(struct _memcache *blocks, int size)
 	}
 
 	d(printf("allocating new data node for tail data\n"));
-	/* didn't find one, setup a new one */
-	root = (struct _root *)ibex_block_read(blocks, 0);
 	tailid = ibex_block_get(blocks);
 	tail = (struct _tailblock *)ibex_block_read(blocks, tailid);
-	tail->next = block_number(root->tail);
-	root->tail = tailid;
+	tail->next = block_number(blocks->root.tail);
+	blocks->root.tail = tailid;
 	tail->used = 1;
 	tail->tb_offset[0] = sizeof(tail->tb_data)/sizeof(tail->tb_data[0]) - size;
 	ibex_block_dirty((struct _block *)tail);
 	d(printf("allocated %d (%d), used %d\n", tailid, TAIL_KEY(tailid, 0), tail->used));
+
+	g_assert(&tail->tb_offset[tail->used-1]
+		 < &tail->tb_data[tail->tb_offset[tail->used-1]]);
+
 	return TAIL_KEY(tailid, 0);
 }
 
@@ -578,15 +587,13 @@ disk_remove(struct _IBEXStore *store, blockid_t *headptr, blockid_t *tailptr, na
 				start->used--;
 				block->bl_data[i] = start->bl_data[start->used];
 				if (start->used == 0) {
-					struct _root *root = (struct _root *)ibex_block_read(store->blocks, 0);
 					blockid_t new;
 
 					d(printf("dropping block %d, new head = %d\n", head, start->next));
 					new = block_location(start->next);
-					start->next = block_number(root->free);
-					root->free = head;
+					start->next = block_number(store->blocks->root.free);
+					store->blocks->root.free = head;
 					head = new;
-					ibex_block_dirty((struct _block *)root);
 				}
 				ibex_block_dirty(block);
 				ibex_block_dirty(start);
