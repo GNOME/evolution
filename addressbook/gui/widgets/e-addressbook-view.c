@@ -361,11 +361,6 @@ eab_view_dispose (GObject *object)
 		eav->clipboard_contacts = NULL;
 	}
 
-	if (eav->contact_display_window) {
-		g_object_unref (eav->contact_display_window);
-		eav->contact_display_window = NULL;
-	}
-		
 	if (eav->invisible) {
 		gtk_widget_destroy (eav->invisible);
 		eav->invisible = NULL;
