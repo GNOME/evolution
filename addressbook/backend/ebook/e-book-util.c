@@ -33,6 +33,93 @@
 #include <libgnome/gnome-util.h>
 #include "e-card-compare.h"
 
+typedef struct _CommonBookInfo CommonBookInfo;
+struct _CommonBookInfo {
+	EBookCommonCallback cb;
+	gpointer closure;
+};
+
+char *
+e_book_expand_uri (const char *uri)
+{
+	char *new_uri;
+
+	if (!strncmp (uri, "file:", 5)) {
+		if (strlen (uri + 7) > 3
+		    && !strcmp (uri + strlen(uri) - 3, ".db")) {
+			/* it's a .db file */
+			new_uri = g_strdup (uri);
+		}
+		else {
+			char *file_name;
+			/* we assume it's a dir and glom addressbook.db onto the end. */
+			file_name = g_concat_dir_and_file(uri + 7, "addressbook.db");
+			new_uri = g_strdup_printf("file://%s", file_name);
+			g_free(file_name);
+		}
+	}
+	else {
+		new_uri = g_strdup (uri);
+	}
+
+	return new_uri;
+}
+
+static void
+got_uri_book_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	CommonBookInfo *info = (CommonBookInfo *) closure;
+
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		info->cb (book, info->closure);
+	} else {
+		info->cb (NULL, info->closure);
+	}
+	g_free (info);
+}
+
+gboolean
+e_book_load_address_book_by_uri (EBook *book, const char *uri, EBookCallback open_response, gpointer closure)
+{
+	gboolean rv;
+	char *real_uri;
+
+	g_return_val_if_fail (book != NULL,          FALSE);
+	g_return_val_if_fail (E_IS_BOOK (book),      FALSE);
+	g_return_val_if_fail (open_response != NULL, FALSE);
+
+	real_uri = e_book_expand_uri (uri);
+
+	rv = e_book_load_uri (book, real_uri, open_response, closure);
+
+	if (!rv) {
+		g_warning ("Couldn't load addressbook %s", real_uri);
+	}
+
+	g_free (real_uri);
+
+	return rv;
+}
+
+void
+e_book_use_address_book_by_uri (const char *uri, EBookCommonCallback cb, gpointer closure)
+{
+	EBook *book;
+	CommonBookInfo *info;
+
+	g_return_if_fail (cb != NULL);
+
+	info = g_new0 (CommonBookInfo, 1);
+	info->cb = cb;
+	info->closure = closure;
+
+	book = e_book_new ();
+	if (! e_book_load_address_book_by_uri (book, uri, got_uri_book_cb, info)) {
+		gtk_object_unref (GTK_OBJECT (book));
+		g_free (info);
+	}
+}
+
 Bonobo_ConfigDatabase
 e_book_get_config_database (CORBA_Environment *ev)
 {
@@ -43,7 +130,7 @@ e_book_get_config_database (CORBA_Environment *ev)
 
 	return config_db;
 }
-       
+
 gboolean
 e_book_load_local_address_book (EBook *book, EBookCallback open_response, gpointer closure)
 {
@@ -71,12 +158,6 @@ e_book_load_local_address_book (EBook *book, EBookCallback open_response, gpoint
 }
 
 static EBook *common_local_book = NULL;
-
-typedef struct _CommonBookInfo CommonBookInfo;
-struct _CommonBookInfo {
-	EBookCommonCallback cb;
-	gpointer closure;
-};
 
 static void
 got_local_book_cb (EBook *book, EBookStatus status, gpointer closure)

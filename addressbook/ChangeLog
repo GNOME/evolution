@@ -1,5 +1,52 @@
 2002-02-13  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/ebook/e-book-util.c, backend/ebook/e-book-util.h
+	(e_book_expand_uri, e_book_load_address_book_by_uri,
+	e_book_use_address_book_by_uri): New functions that take a file://
+	url ending in the directory name and automatically append the
+	addressbook.db and do the appropriate thing.
+
+	* backend/pas/pas-backend-card-sexp.c,
+	backend/pas/pas-backend-card-sexp.h: Added copyright notice here.
+
+	* gui/component/addressbook-component.c
+	(destination_folder_handle_drop), gui/component/addressbook.c
+	(set_prop): Use e_book_expand_uri instead of
+	addressbook_expand_uri.
+
+	* gui/component/addressbook-storage.c: Fixed the fcntl include
+	here.
+
+	* gui/component/addressbook.c (ContactsCopyToFolder,
+	ContactsMoveToFolder): Added handlers for these two verbs.
+
+	* gui/component/addressbook.h: Removed addressbook_expand_uri in
+	favor of e_book_expand_uri.
+
+	* gui/widgets/e-addressbook-reflow-adapter.c (transfer_cards):
+	Added code to handle Move to and Copy to right click menu items.
+
+	* gui/widgets/e-addressbook-util.c,
+	gui/widgets/e-addressbook-util.h (e_addressbook_transfer_cards):
+	New function to pop up a dialog and transfer a set of cards to the
+	given folder.
+
+	* gui/widgets/e-addressbook-view.c,
+	gui/widgets/e-addressbook-view.h (display_view): Don't attach to
+	the view if it doesn't exist yet.  We have to make this then
+	attach later.
+	(e_addressbook_view_copy_to_folder,
+	e_addressbook_view_move_to_folder): New functions utilizing
+	e_addressbook_transfer_cards.
+	(table_right_click): Add copy_to_folder and move_to_folder to the
+	right click menu for tables here.
+	(e_addressbook_view_discard_menus): Handle menu unmerging here.
+
+	* gui/widgets/e-minicard-view-widget.h (struct
+	_EMinicardViewWidget): Removed unused field.
+
+2002-02-13  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/widgets/e-addressbook-view.c (display_view): Attach the
 	GalViewMinicard to the EMinicardView here.
 
