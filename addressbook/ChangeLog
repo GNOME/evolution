@@ -1,5 +1,25 @@
 2003-04-07  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #39763 ]
+	* gui/component/select-names/e-select-names-bonobo.c (copy_cb):
+	verb callback for EditCopy
+	(cut_cb): verb callback for EditCut.
+	(paste_cb): verb callback for EditPaste.
+	(select_all_cb): verb callback for SelectAll.
+	(free_closure): new function
+	(merge_menu_items): same
+	(unmerge_menu_items): same
+	(control_set_frame_cb): same
+	(control_activate_cb): same
+	(widget_focus_cb): same
+	(e_bonobo_control_automerge_ui): new function, sets up focus
+	signals on the widget passed in to merge/unmerge the passed in
+	ui/verbs.
+	(impl_SelectNames_get_entry_for_section): call
+	e_bonobo_control_automerge_ui for this entry.
+
+2003-04-07  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/e-address-popup.c (mini_wizard_new): change the
 	ok/cancel button layout to be higified.
 

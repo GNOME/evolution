@@ -33,9 +33,11 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-event-source.h>
+#include <bonobo/bonobo-ui-util.h>
 
 #include <gal/util/e-util.h>
 #include <gal/e-text/e-entry.h>
+#include <gal/util/e-text-event-processor.h>
 
 #include "evolution-shell-client.h"
 
@@ -46,6 +48,7 @@
 #include "e-select-names-text-model.h"
 #include "e-select-names-completion.h"
 
+#include <string.h>
 
 
 #define PARENT_TYPE BONOBO_TYPE_OBJECT
@@ -302,6 +305,157 @@ manager_ok_cb (ESelectNamesManager *manager, gpointer closure)
 	bonobo_arg_release (arg);
 }
 
+static void
+copy_cb (BonoboUIComponent *ui, gpointer user_data, const char *command)
+{
+	EEntry *entry = E_ENTRY (user_data);
+
+	e_text_copy_clipboard (entry->item);
+}
+
+static void
+cut_cb (BonoboUIComponent *ui, gpointer user_data, const char *command)
+{
+	EEntry *entry = E_ENTRY (user_data);
+
+	e_text_cut_clipboard (entry->item);
+}
+
+static void
+paste_cb (BonoboUIComponent *ui, gpointer user_data, const char *command)
+{
+	EEntry *entry = E_ENTRY (user_data);
+
+	e_text_paste_clipboard (entry->item);
+}
+
+static void
+select_all_cb (BonoboUIComponent *ui, gpointer user_data, const char *command)
+{
+	EEntry *entry = E_ENTRY (user_data);
+
+	e_text_select_all (entry->item);
+}
+
+static BonoboUIVerb verbs [] = {
+	BONOBO_UI_VERB ("EditCut", cut_cb),
+	BONOBO_UI_VERB ("EditCopy", copy_cb),
+	BONOBO_UI_VERB ("EditPaste", paste_cb),
+	BONOBO_UI_VERB ("EditSelectAll", select_all_cb),
+	BONOBO_UI_VERB_END
+};
+
+typedef struct {
+	BonoboControl *control;
+	Bonobo_UIContainer remote_ui_container;
+	char *ui_xml_path;
+	char *app_name;
+	BonoboUIVerb *verbs;
+	gpointer user_data;
+} ControlUIClosure;
+
+static void
+free_closure (ControlUIClosure *closure,
+	      GtkObject *where_object_was)
+{
+	bonobo_object_release_unref (closure->remote_ui_container, NULL);
+	g_free (closure->ui_xml_path);
+	g_free (closure->app_name);
+	g_free (closure);
+}
+
+static void
+merge_menu_items (BonoboControl *control, BonoboUIComponent *uic, ControlUIClosure *closure)
+{
+	if (closure->remote_ui_container) {
+		bonobo_ui_component_set_container (uic, closure->remote_ui_container, NULL);
+
+		bonobo_ui_component_add_verb_list_with_data (uic, closure->verbs, closure->user_data);
+
+		bonobo_ui_component_freeze (uic, NULL);
+
+		bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
+				       closure->ui_xml_path,
+				       closure->app_name, NULL);
+
+		bonobo_ui_component_thaw (uic, NULL);
+	}
+}
+
+static void
+unmerge_menu_items (BonoboControl *control, BonoboUIComponent *uic, ControlUIClosure *closure)
+{
+	bonobo_ui_component_unset_container (uic, NULL);
+}
+
+static void
+control_set_frame_cb (BonoboControl *control,
+		      ControlUIClosure *closure)
+{
+	Bonobo_ControlFrame frame = bonobo_control_get_control_frame (control,
+								      NULL);
+	if (!frame)
+		return;
+	closure->remote_ui_container = bonobo_control_get_remote_ui_container (control, NULL);
+}
+
+static void
+control_activate_cb (BonoboControl *control,
+		     gboolean activate, 
+		     ControlUIClosure *closure)
+{
+	BonoboUIComponent *uic;
+
+	uic = bonobo_control_get_ui_component (control);
+
+	if (activate) {
+		merge_menu_items (control, uic, closure);
+	} else {
+		unmerge_menu_items (control, uic, closure);
+	}
+}
+
+static gboolean
+widget_focus_cb (GtkWidget *w, GdkEventFocus *focus, ControlUIClosure *closure)
+{
+	control_activate_cb (closure->control, GTK_WIDGET_HAS_FOCUS (w), closure);
+	return FALSE;
+}
+
+static void
+e_bonobo_control_automerge_ui (GtkWidget *w,
+			       BonoboControl *control,
+			       const char *ui_xml_path,
+			       const char *app_name,
+			       BonoboUIVerb *verbs,
+			       gpointer data)
+{
+	ControlUIClosure *closure;
+
+	g_return_if_fail (GTK_IS_WIDGET (w));
+	g_return_if_fail (BONOBO_IS_CONTROL (control));
+	g_return_if_fail (ui_xml_path != NULL);
+	g_return_if_fail (app_name != NULL);
+	g_return_if_fail (verbs != NULL);
+	
+	closure = g_new (ControlUIClosure, 1);
+
+	closure->control = control;
+	closure->ui_xml_path = g_strdup (ui_xml_path);
+	closure->app_name = g_strdup (app_name);
+	closure->verbs = verbs;
+	closure->user_data = data;
+
+	g_signal_connect (w, "focus_in_event",
+			  G_CALLBACK (widget_focus_cb), closure);
+	g_signal_connect (w, "focus_out_event",
+			  G_CALLBACK (widget_focus_cb), closure);
+	g_signal_connect (control, "set_frame",
+			  G_CALLBACK (control_set_frame_cb), closure);
+
+	g_object_weak_ref (G_OBJECT (control), (GWeakNotify)free_closure, closure);
+}
+
 static Bonobo_Control
 impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 					const CORBA_char *section_id,
@@ -353,6 +507,12 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 	bonobo_object_unref (BONOBO_OBJECT (property_bag));
 
 	g_signal_connect (entry_widget, "changed", G_CALLBACK (entry_changed), control);
+
+	e_bonobo_control_automerge_ui (GTK_WIDGET (E_ENTRY (entry_widget)->canvas),
+				       control,
+				       EVOLUTION_UIDIR "/evolution-composer-entries.xml",
+				       "evolution-addressbook",
+				       verbs, entry_widget);
 
 	return CORBA_Object_duplicate (bonobo_object_corba_objref (BONOBO_OBJECT (control)), ev);
 }
