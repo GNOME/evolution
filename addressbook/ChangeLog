@@ -1,3 +1,17 @@
+2004-02-06  JP Rosevear <jpr@ximian.com>
+
+	* importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in:
+	shlib importer info
+
+	* importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in: 
+	ditto
+	
+	* importers/Makefile.am: build shlib addressbook importers
+
+	* importers/evolution-ldif-importer.c: First crack at resurrecting
+
+	* importers/evolution-vcard-importer.c: ditto
+	
 2004-02-03  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/eab-contact-display.c (on_url_requested): remove
