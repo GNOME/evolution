@@ -1,3 +1,7 @@
+2004-01-12  JP Rosevear  <jpr@ximian.com>
+
+	* gui/contact-editor/contact-editor.glade: de-bold ui elements
+
 2004-01-09  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/addressbook-component.c (add_popup_menu_item): Take a
