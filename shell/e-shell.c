@@ -59,6 +59,8 @@ struct _EShellPrivate {
 	EComponentRegistry *component_registry;
 
 	ECorbaStorageRegistry *corba_storage_registry;
+
+	GConfClient *gconf_client;
 };
 
 
@@ -352,6 +354,9 @@ destroy (GtkObject *object)
 	if (priv->corba_storage_registry != NULL)
 		bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry));
 
+	if (priv->gconf_client != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->gconf_client));
+
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -417,8 +422,9 @@ init (EShell *shell)
 	priv->storage_set            = NULL;
 	priv->shortcuts              = NULL;
 	priv->component_registry     = NULL;
-	priv->folder_type_registry  = NULL;
+	priv->folder_type_registry   = NULL;
 	priv->corba_storage_registry = NULL;
+	priv->gconf_client           = NULL;
 
 	shell->priv = priv;
 }
@@ -427,7 +433,8 @@ init (EShell *shell)
 void
 e_shell_construct (EShell *shell,
 		   Evolution_Shell corba_object,
-		   const char *local_directory)
+		   const char *local_directory,
+		   GConfClient *gconf_client)
 {
 	EShellPrivate *priv;
 	gchar *shortcut_path;
@@ -445,6 +452,9 @@ e_shell_construct (EShell *shell,
 	priv->local_directory      = g_strdup (local_directory);
 	priv->folder_type_registry = e_folder_type_registry_new ();
 	priv->storage_set          = e_storage_set_new (shell->priv->folder_type_registry);
+
+	gtk_object_ref (GTK_OBJECT (gconf_client));
+	priv->gconf_client         = gconf_client;
 
 	/* CORBA storages must be set up before the components, because otherwise components
            cannot register their own storages.  */
@@ -472,7 +482,8 @@ e_shell_construct (EShell *shell,
 }
 
 EShell *
-e_shell_new (const char *local_directory)
+e_shell_new (const char *local_directory,
+	     GConfClient *gconf_client)
 {
 	EShell *new;
 	EShellPrivate *priv;
@@ -489,7 +500,7 @@ e_shell_new (const char *local_directory)
 	new = gtk_type_new (e_shell_get_type ());
 
 	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (new), servant);
-	e_shell_construct (new, corba_object, local_directory);
+	e_shell_construct (new, corba_object, local_directory, gconf_client);
 
 	priv = new->priv;
 
@@ -553,6 +564,113 @@ e_shell_get_folder_type_registry (EShell *shell)
 }
 
 
+/**
+ * e_shell_save_settings:
+ * @shell: 
+ * 
+ * Save the settings for this shell.
+ * 
+ * Return value: %TRUE if it worked, %FALSE otherwise.  Even if %FALSE is
+ * returned, it is possible that at least part of the settings for the views
+ * have been saved.
+ **/
+gboolean
+e_shell_save_settings (EShell *shell)
+{
+	EShellPrivate *priv;
+	GList *p;
+	gboolean retval;
+	GConfError *err = NULL;
+	int i;
+
+	g_return_val_if_fail (shell != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+
+	priv = shell->priv;
+
+	retval = TRUE;
+
+	for (p = priv->views, i = 0; p != NULL; p = p->next, i++) {
+		EShellView *view;
+		char *gconf_prefix;
+
+		view = E_SHELL_VIEW (p->data);
+
+		gconf_prefix = g_strdup_printf ("/app/Evolution/Shell/Views/%d", i);
+
+		if (! e_shell_view_save_settings (view, priv->gconf_client, gconf_prefix)) {
+			g_warning ("Cannot save settings for view -- %d", i);
+			retval = FALSE;
+		}
+
+		g_free (gconf_prefix);
+	}
+
+	gconf_client_set_int (priv->gconf_client, "/app/Evolution/Shell/NumberOfViews",
+			      g_list_length (priv->views), &err);
+
+	return retval;
+}
+
+/**
+ * e_shell_restore_from_settings:
+ * @shell: An EShell object.
+ * 
+ * Restore the existing views from the saved configuration.  The shell must
+ * have no views for this to work.
+ * 
+ * Return value: %FALSE if the shell has some open views or there is no saved
+ * configuration.  %TRUE if the configuration could be restored successfully.
+ **/
+gboolean
+e_shell_restore_from_settings (EShell *shell)
+{
+	EShellPrivate *priv;
+	GConfError *err = NULL;
+	gboolean retval;
+	int num_views;
+	int i;
+
+	g_return_val_if_fail (shell != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+	g_return_val_if_fail (shell->priv->views == NULL, FALSE);
+
+	priv = shell->priv;
+
+	num_views = gconf_client_get_int (priv->gconf_client, "/app/Evolution/Shell/NumberOfViews", &err);
+	if (err != NULL) {
+		gconf_error_destroy (err);
+		return FALSE;
+	}
+
+	retval = TRUE;
+
+	for (i = 0; i < num_views; i++) {
+		GtkWidget *view_widget;
+		char *gconf_prefix;
+
+		gconf_prefix = g_strdup_printf ("/app/Evolution/Shell/Views/%d", i);
+
+		/* FIXME restore the URI here.  There should be an
+                   e_shell_view_new_from_configuration() thingie.  */
+		view_widget = e_shell_new_view (shell, NULL);
+
+		if (! e_shell_view_load_settings (E_SHELL_VIEW (view_widget), priv->gconf_client, gconf_prefix))
+			retval = FALSE;
+
+		g_free (gconf_prefix);
+	}
+
+	return retval;
+}
+
+/**
+ * e_shell_quit:
+ * @shell: An EShell.
+ * 
+ * Make @shell quit.  This will close all the associated views and destroy the
+ * object.
+ **/
 void
 e_shell_quit (EShell *shell)
 {
@@ -561,6 +679,8 @@ e_shell_quit (EShell *shell)
 
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
+
+	e_shell_save_settings (shell);
 
 	priv = shell->priv;
 

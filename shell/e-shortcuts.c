@@ -447,7 +447,7 @@ e_shortcuts_construct (EShortcuts  *shortcuts,
 	g_return_if_fail (storage_set != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
 
-	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (storage_set), GTK_FLOATING);
+	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (shortcuts), GTK_FLOATING);
 
 	priv = shortcuts->priv;
 

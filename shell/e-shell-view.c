@@ -467,6 +467,9 @@ get_storage_set_path_from_uri (const char *uri)
 {
 	const char *colon;
 
+	if (uri == NULL)
+		return NULL;
+
 	if (g_path_is_absolute (uri))
 		return NULL;
 
@@ -978,6 +981,117 @@ e_shell_view_get_current_uri (EShellView *shell_view)
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	return shell_view->priv->uri;
+}
+
+
+/**
+ * e_shell_view_save_settings:
+ * @shell_view: 
+ * @gconf_client: 
+ * @prefix: 
+ * 
+ * Save settings for @shell_view at the specified GConf @prefix through
+ * @gconf_client.
+ * 
+ * Return value: TRUE if successful, FALSE if not.
+ **/
+gboolean
+e_shell_view_save_settings (EShellView *shell_view,
+			    GConfClient *gconf_client,
+			    const char *prefix)
+{
+	GConfError *err = NULL;
+	const char *uri;
+	char *path;
+
+	g_return_val_if_fail (shell_view != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
+	g_return_val_if_fail (gconf_client != NULL, FALSE);
+	g_return_val_if_fail (GCONF_IS_CLIENT (gconf_client), FALSE);
+	g_return_val_if_fail (prefix != NULL, FALSE);
+	g_return_val_if_fail (g_path_is_absolute (prefix), FALSE);
+
+#define SET(type, key, value)						\
+	path = g_strconcat (prefix, "/", (key), NULL);			\
+	gconf_client_set_##type (gconf_client, path, (value), &err);	\
+	g_free (path);							\
+	if (err != NULL) {						\
+		gconf_error_destroy (err);				\
+		return FALSE;						\
+	}
+
+	SET (int, "FolderBarMode",   e_shell_view_get_folder_bar_mode (shell_view))
+	SET (int, "ShortcutBarMode", e_shell_view_get_shortcut_bar_mode (shell_view));
+
+	uri = e_shell_view_get_current_uri (shell_view);
+	if (uri != NULL) {
+		SET (string, "DisplayedURI", uri);
+	} else {
+		path = g_strconcat (prefix, "/", "DisplayedURI", NULL);
+		gconf_client_unset (gconf_client, path, &err);
+		g_free (path);
+
+		if (err != NULL) {
+			gconf_error_destroy (err);
+			return FALSE;
+		}
+	}
+
+#undef SET
+
+	return TRUE;
+}
+
+/**
+ * e_shell_view_load_settings:
+ * @shell_view: 
+ * @gconf_client: 
+ * @prefix: 
+ * 
+ * Load settings for @shell_view at the specified GConf @prefix through
+ * @gconf_client.
+ * 
+ * Return value: 
+ **/
+gboolean
+e_shell_view_load_settings (EShellView *shell_view,
+			    GConfClient *gconf_client,
+			    const char *prefix)
+{
+	gboolean val;
+	GConfError *err = NULL;
+	char *stringval;
+	char *path;
+
+	g_return_val_if_fail (shell_view != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
+	g_return_val_if_fail (gconf_client != NULL, FALSE);
+	g_return_val_if_fail (GCONF_IS_CLIENT (gconf_client), FALSE);
+	g_return_val_if_fail (prefix != NULL, FALSE);
+	g_return_val_if_fail (g_path_is_absolute (prefix), FALSE);
+
+#define GET(type, key, value)						\
+	path = g_strconcat (prefix, "/", (key), NULL);			\
+	(value) = gconf_client_get_##type (gconf_client, path, &err);	\
+	g_free (path);							\
+	if (err != NULL) {						\
+		gconf_error_destroy (err);				\
+		return FALSE;						\
+	}
+
+	GET (int, "FolderBarMode", val);
+	e_shell_view_set_folder_bar_mode (shell_view, val);
+
+	GET (int, "ShortcutBarMode", val);
+	e_shell_view_set_shortcut_bar_mode (shell_view, val);
+
+	GET (string, "DisplayedURI", stringval);
+	e_shell_view_display_uri (shell_view, stringval);
+	g_free (stringval);
+
+#undef GET
+
+	return TRUE;
 }
 
 

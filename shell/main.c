@@ -157,11 +157,14 @@ static gint
 idle_cb (gpointer data)
 {
 	GtkWidget *view;
+	GConfClient *gconf_client;
 	char *evolution_directory;
 
 	evolution_directory = (char *) data;
 
-	shell = e_shell_new (evolution_directory);
+	gconf_client = gconf_client_new ();
+
+	shell = e_shell_new (evolution_directory, gconf_client);
 	g_free (evolution_directory);
 
 	if (shell == NULL) {
@@ -175,12 +178,18 @@ idle_cb (gpointer data)
 	gtk_signal_connect (GTK_OBJECT (shell), "destroy",
 			    GTK_SIGNAL_FUNC (destroy_cb), NULL);
 
-	view = e_shell_new_view (shell, STARTUP_URI);
-	gtk_signal_connect (GTK_OBJECT (view), "delete_event",
-			    GTK_SIGNAL_FUNC (view_delete_event_cb), shell);
+	if (! e_shell_restore_from_settings (shell)) {
+		view = e_shell_new_view (shell, STARTUP_URI);
+		/* FIXME: Do this for all the shell views even when the shell
+                   is restored.  */
+		gtk_signal_connect (GTK_OBJECT (view), "delete_event",
+				    GTK_SIGNAL_FUNC (view_delete_event_cb), shell);
+	}
 
 	if (!getenv ("EVOLVE_ME_HARDER"))
 		development_warning ();
+
+	gtk_object_unref (GTK_OBJECT (gconf_client));
 
 	return FALSE;
 }
@@ -188,6 +197,7 @@ idle_cb (gpointer data)
 int
 main (int argc, char **argv)
 {
+	GConfError *err = NULL;
 	char *evolution_directory;
 
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
@@ -198,6 +208,12 @@ main (int argc, char **argv)
 	glade_gnome_init ();
 
 	gnome_window_icon_set_default_from_file (EVOLUTION_IMAGES "/evolution-inbox.png");
+
+	if (! gconf_init (argc, argv, &err)) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot initialize the configuration system."));
+		exit (1);
+	}
 
 	if (! bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL)) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,

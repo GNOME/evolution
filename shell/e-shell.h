@@ -29,6 +29,7 @@
 #endif
 
 #include <bonobo/bonobo-object.h>
+#include <gconf/gconf-client.h>
 
 #include "Evolution.h"
 #include "e-shortcuts.h"
@@ -65,15 +66,20 @@ struct _EShellClass {
 GtkType              e_shell_get_type                  (void);
 void                 e_shell_construct                 (EShell          *shell,
 							Evolution_Shell  corba_object,
-							const char      *local_directory);
+							const char      *local_directory,
+							GConfClient     *gconf_client);
 
-EShell              *e_shell_new                       (const char      *local_directory);
+EShell              *e_shell_new                       (const char      *local_directory,
+							GConfClient     *gconf_client);
 GtkWidget           *e_shell_new_view                  (EShell          *shell,
 							const char      *uri);
 
 EShortcuts          *e_shell_get_shortcuts             (EShell          *shell);
 EStorageSet         *e_shell_get_storage_set           (EShell          *shell);
 EFolderTypeRegistry *e_shell_get_folder_type_registry  (EShell          *shell);
+
+gboolean             e_shell_save_settings             (EShell          *shell);
+gboolean             e_shell_restore_from_settings     (EShell          *shell);
 
 void                 e_shell_quit                      (EShell          *shell);
 

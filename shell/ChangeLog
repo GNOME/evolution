@@ -1,3 +1,32 @@
+2000-06-29  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shortcuts.c (e_shortcuts_construct): Fix typo: @shortcuts
+	should unset `GTK_FLOATING', not @storage_set.
+
+	* e-shell-view.c (get_storage_set_path_from_uri): If @uri is NULL,
+	return NULL.
+
+	* main.c (idle_cb): Restore the shell from the settings.  If this
+	fails, just create a new view.
+
+	* e-shell.c (e_shell_save_settings): New.
+	(e_shell_quit): Save settings before exiting.
+	(e_shell_restore_from_settings): New.
+
+	* e-shell-view.c (e_shell_view_save_settings): New.
+	(e_shell_view_load_settings): New.
+
+	* main.c (idle_cb): Initialize Gconf, create the GConfClient and
+	pass it to `e_shell_new()'.
+
+	* e-shell.c: New member `gconf_client' in `EShellPrivate'.
+	(destroy): Unref it if not NULL.
+	(init): Init to NULL.
+	(e_shell_new): New param @gconf_client.
+	(e_shell_construct): Likewise.
+
+	* Makefile.am (INCLUDES): Add `GCONF_CFLAGS'.
+
 2000-06-27  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_construct):

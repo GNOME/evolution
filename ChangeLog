@@ -1,3 +1,7 @@
+2000-06-28  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* configure.in: `AM_PATH_GCONF'.
+
 2000-06-27  Peter Williams  <peterw@curious-george.helixcode.com>
 
 	* configure.in (ctime_r): Check for whether ctime_r takes
