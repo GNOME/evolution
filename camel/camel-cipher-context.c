@@ -189,6 +189,8 @@ camel_cipher_sign (CamelCipherContext *context, const char *userid, CamelCipherH
 {
 	int retval;
 	
+	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), -1);
+	
 	CIPHER_LOCK(context);
 	
 	retval = CCC_CLASS (context)->sign (context, userid, hash, istream, ostream, ex);
@@ -226,6 +228,8 @@ camel_cipher_clearsign (CamelCipherContext *context, const char *userid, CamelCi
 			CamelStream *istream, CamelStream *ostream, CamelException *ex)
 {
 	int retval;
+	
+	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), -1);
 	
 	CIPHER_LOCK(context);
 	
@@ -268,6 +272,8 @@ camel_cipher_verify (CamelCipherContext *context, CamelStream *istream,
 {
 	CamelCipherValidity *valid;
 	
+	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), NULL);
+	
 	CIPHER_LOCK(context);
 	
 	valid = CCC_CLASS (context)->verify (context, istream, sigstream, ex);
@@ -308,6 +314,8 @@ camel_cipher_encrypt (CamelCipherContext *context, gboolean sign, const char *us
 {
 	int retval;
 	
+	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), -1);
+	
 	CIPHER_LOCK(context);
 	
 	retval = CCC_CLASS (context)->encrypt (context, sign, userid, recipients, istream, ostream, ex);
@@ -344,6 +352,8 @@ camel_cipher_decrypt (CamelCipherContext *context, CamelStream *istream,
 		      CamelStream *ostream, CamelException *ex)
 {
 	int retval;
+	
+	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), -1);
 	
 	CIPHER_LOCK(context);
 	
