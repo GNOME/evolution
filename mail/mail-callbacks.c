@@ -1276,6 +1276,8 @@ transfer_msg (FolderBrowser *fb, gboolean delete_from_source)
 	else
 		desc = _("Copy message(s) to");
 	
+	uri = NULL;
+	physical = NULL;
 	evolution_shell_client_user_select_folder (global_shell_client,
 						   GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (fb))),
 						   desc, last,
@@ -1301,6 +1303,7 @@ transfer_msg (FolderBrowser *fb, gboolean delete_from_source)
 		mail_transfer_messages (fb->folder, uids, delete_from_source,
 					physical, 0, NULL, NULL);
 	}
+	g_free(physical);
 }
 
 void

@@ -87,6 +87,81 @@ message_browser_init (GtkObject *object)
 	
 }
 
+static void
+transfer_msg_done (gboolean ok, void *data)
+{
+	MessageBrowser *mb = data;
+	int row;
+	
+	if (ok && !GTK_OBJECT_DESTROYED (mb)) {
+		row = e_tree_row_of_node (mb->fb->message_list->tree,
+					  e_tree_get_cursor (mb->fb->message_list->tree));
+		
+		/* If this is the last message and deleted messages
+                   are hidden, select the previous */
+		if ((row + 1 == e_tree_row_count (mb->fb->message_list->tree))
+		    && mail_config_get_hide_deleted ())
+			message_list_select (mb->fb->message_list, row, MESSAGE_LIST_SELECT_PREVIOUS,
+					     0, CAMEL_MESSAGE_DELETED, FALSE);
+		else
+			message_list_select (mb->fb->message_list, row, MESSAGE_LIST_SELECT_NEXT,
+					     0, 0, FALSE);
+	}
+	
+	gtk_object_unref (GTK_OBJECT (mb));
+}
+
+static void
+transfer_msg (MessageBrowser *mb, int del)
+{
+	const char *allowed_types[] = { "mail", "vtrash", NULL };
+	extern EvolutionShellClient *global_shell_client;
+	char *uri, *physical, *path, *desc;
+	static char *last = NULL;
+	GPtrArray *uids;
+	
+	if (GTK_OBJECT_DESTROYED(mb))
+		return;
+	
+	if (last == NULL)
+		last = g_strdup ("");
+	
+	if (del)
+		desc = _("Move message(s) to");
+	else
+		desc = _("Copy message(s) to");
+	
+	uri = NULL;
+	physical = NULL;
+	evolution_shell_client_user_select_folder (global_shell_client,
+						   GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (mb))),
+						   desc, last,
+						   allowed_types, &uri, &physical);
+	if (!uri)
+		return;
+	
+	path = strchr (uri, '/');
+	if (path && strcmp (last, path) != 0) {
+		g_free (last);
+		last = g_strdup_printf ("evolution:%s", path);
+	}
+	g_free (uri);
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (mb->fb->message_list, enumerate_msg, uids);
+	
+	if (del) {
+		gtk_object_ref (GTK_OBJECT (mb));
+		mail_transfer_messages (mb->fb->folder, uids, del,
+					physical, 0, transfer_msg_done, mb);
+	} else {
+		mail_transfer_messages (mb->fb->folder, uids, del,
+					physical, 0, NULL, NULL);
+	}
+	g_free(physical);
+}
+
+
 /* UI callbacks */
 
 static void
@@ -95,9 +170,23 @@ message_browser_close (BonoboUIComponent *uih, void *user_data, const char *path
 	gtk_widget_destroy (GTK_WIDGET (user_data));
 }
 
+static void
+message_browser_move (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	transfer_msg(user_data, TRUE);
+}
+
+static void
+message_browser_copy (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	transfer_msg(user_data, FALSE);
+}
+
 static BonoboUIVerb 
 browser_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageBrowserClose", message_browser_close),
+	BONOBO_UI_UNSAFE_VERB ("MessageMove", message_browser_move),
+	BONOBO_UI_UNSAFE_VERB ("MessageCopy", message_browser_copy),
 	BONOBO_UI_VERB_END
 };
 
@@ -200,7 +289,11 @@ set_bonobo_ui (GtkWidget *widget, FolderBrowser *fb)
 			   bonobo_exception_get_text (&ev));
 	CORBA_exception_free (&ev);
 
-	/* Add the Close item */
+	/* Hack around the move/copy commands api's */
+	bonobo_ui_component_remove_listener (uic, "MessageCopy");
+	bonobo_ui_component_remove_listener (uic, "MessageMove");
+
+	/* Add the Close & Move/Copy items */
 
 	bonobo_ui_component_add_verb_list_with_data (uic, browser_verbs, widget);
 

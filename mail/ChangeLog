@@ -1,3 +1,19 @@
+2001-11-05    <NotZed@Ximian.com>
+
+	* message-browser.c (set_bonobo_ui): Override the Move/Copy
+	handlers setup by the folder_browser_ui code, and use our own,
+	because we need to pass it a live window which we can't.
+	(transfer_msg): Our own version of mail-callbacks.c:transfer_msg,
+	so we can properly pass the parent to the user_select_folder.
+	(transfer_msg_done): Also copy this so we can pass it diff args.
+	All fix #13919.
+
+	* mail-callbacks.c (transfer_msg): Set physical/uri to NULL before
+	calling, because althought he shell client api call is supposed to
+	null these out, it doesn't with its stupid assertion checks on
+	entry.  Also free physical to plug a memleak.  Bugs exposed by
+	#13919.
+
 2001-11-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.h (mail_html_write): Renamed from
