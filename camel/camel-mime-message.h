@@ -71,6 +71,8 @@ struct _CamelMimeMessage
 	gboolean expunged;
 	
 	guint message_number; /* set by folder object when retrieving message */
+	gchar *message_uid;
+
 	CamelFolder *folder;
 	CamelSession *session;
 

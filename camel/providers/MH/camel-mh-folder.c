@@ -39,6 +39,7 @@
 #include "camel-folder-summary.h"
 #include "gmime-utils.h"
 #include "mh-utils.h"
+#include "mh-uid.h"
 
 
 static CamelFolderClass *parent_class=NULL;
@@ -738,6 +739,70 @@ _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *d
 
 
 
+/** UID **/
+
+static const gchar *
+_get_message_uid (CamelFolder *folder, CamelMimeMessage *message)
+{
+	
+}
+
+
+static CamelMimeMessage *
+_get_message_by_uid (CamelFolder *folder, const gchar *uid)
+{
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER (folder);
+	GArray *uid_array;
+	gboolean found = FALSE;
+	MhUidCouple *uid_couple;
+	gint file_number;
+	gchar *filename;
+	CamelMimeMessage *message = NULL;
+	CamelStream *input_stream;
+	int i;
+
+	/* 
+	 * because they are constructed with md5
+	 * signatures, all MH uids are 16 bytes long
+	 */
+	if (strlen (uid) != 16) return NULL;
+
+	uid_array = mh_folder->uid_array;
+	uid_couple = (MhUidCouple *)uid_array->data;
+	
+	found = !strncmp (uid, uid_couple->uid, 16 * sizeof (guchar));
+	for (i=0; (i<uid_array->len) && (!found); i++) {		
+		uid_couple++;
+		found = !strncmp (uid, uid_couple->uid, 16 * sizeof (guchar));
+	}
+	if (found) {
+		/* physically retrieve the message */
+		file_number = uid_couple->file_number;
+		filename = g_strdup_printf ("%d", file_number);
+		input_stream = camel_stream_buffered_fs_new_with_name (filename, CAMEL_STREAM_BUFFERED_FS_READ);
+		
+		if (input_stream != NULL) {
+#warning use session field here
+			message = camel_mime_message_new_with_session ( (CamelSession *)NULL);
+			camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
+			gtk_object_unref (GTK_OBJECT (input_stream));
+
+			/* set message UID in CamelMimeMessage */			 
+			message->message_uid = g_strdup (uid);
+			
+		}
+		g_free (filename);
+	}
+
+	return message;
+
+}
+
+static GList *
+_get_uid_list  (CamelFolder *folder)
+{
+	return NULL;
+}
 
 
 

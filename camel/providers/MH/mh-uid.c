@@ -24,6 +24,7 @@
 #include <config.h> 
 
 #include "mh-uid.h"
+#include "camel-log.h"
 #include "camel-stream.h"
 #include "camel-stream-fs.h"
 #include "camel-stream-buffered-fs.h"
