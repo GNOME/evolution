@@ -142,8 +142,8 @@ make_folder_name (mail_folder_info *mfi)
 	/* the way the logic is now, an outbox folder simply doesn't have
 	 * its unread count displayed. Makes sense to me at the moment. */
 
-	if (mfi->flags & MAIL_FIF_FOLDER_VALID && mfi->folder == outbox_folder) {
-		if (mfi->flags & MAIL_FIF_TOTAL_VALID)
+	if (mfi->flags & MAIL_FIF_FOLDER_VALID && mfi->folder == outbox_folder &&
+	    mfi->flags & MAIL_FIF_TOTAL_VALID && mfi->total) {
 			g_string_sprintfa (work, " (%d unsent)", mfi->total);
 	} else if (mfi->flags & MAIL_FIF_UNREAD_VALID && mfi->unread)
 		g_string_sprintfa (work, " (%d)", mfi->unread);

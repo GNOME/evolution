@@ -1,5 +1,8 @@
 2001-07-24  Peter Williams  <peterw@ximian.com>
 
+	* mail-folder-cache.c (make_folder_name): Don't display "(0 unsent)" if
+	the outbox is empty.
+
 	* mail-local.c (init_trash): Set up the local trash in the folder cache.
 
 	* mail-folder-cache.c (update_idle): Make the error reporting a little
