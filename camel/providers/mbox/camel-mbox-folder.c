@@ -70,7 +70,7 @@ static gboolean _create(CamelFolder *folder, CamelException *ex);
 static gboolean _delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
 static gboolean _delete_messages (CamelFolder *folder, CamelException *ex);
 static GList *_list_subfolders (CamelFolder *folder, CamelException *ex);
-/* static CamelMimeMessage *_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex);*/
+static CamelMimeMessage *_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex);
 static gint _get_message_count (CamelFolder *folder, CamelException *ex);
 static void _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 static GList *_get_uid_list  (CamelFolder *folder, CamelException *ex);
@@ -103,7 +103,7 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	camel_folder_class->delete = _delete;
 	camel_folder_class->delete_messages = _delete_messages;
 	camel_folder_class->list_subfolders = _list_subfolders;
-	/* camel_folder_class->get_message_by_number = _get_message_by_number; */
+	camel_folder_class->get_message_by_number = _get_message_by_number;
 	camel_folder_class->get_message_count = _get_message_count;
 	camel_folder_class->append_message = _append_message;
 	camel_folder_class->get_uid_list = _get_uid_list;
@@ -998,8 +998,30 @@ _get_uid_list (CamelFolder *folder, CamelException *ex)
 
 
 
+static CamelMimeMessage *
+_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
+{
+	GArray *message_info_array;
+	CamelMboxSummaryInformation *message_info;
+	char uidbuf[20];
 
+	message_info_array =
+		CAMEL_MBOX_SUMMARY (folder->summary)->message_info;
 
+	if (number > message_info_array->len) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
+				      "No such message %d in folder `%s'.",
+				      number, folder->name);
+		return NULL;
+	}
+
+	message_info =
+		(CamelMboxSummaryInformation *)(message_info_array->data) +
+		(number - 1);
+	sprintf (uidbuf, "%lu", message_info->uid);
+
+	return _get_message_by_uid (folder, uidbuf, ex);
+}
 
 
 static CamelMimeMessage *
