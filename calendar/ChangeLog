@@ -1,11 +1,13 @@
 2000-10-25  Jesse Pavel <jpavel@helixcode.com>
-	
+
 	* removed the Evolution-Composer generated files, due
-	to a tip on how we do things.	
+	to a tip on how we do things.
+
+2000-10-25  Jesse Pavel <jpavel@helixcode.com>
 
 	* gui/e-meeting-edit.c: I fixed a bunch of memory-deallocation
 	bugs, and finished the initial integration with the mailer.
-	
+
 	* gui/Makefile.am: made the build us the Evolution-Composer.idl
 	from the composer directory.
 
@@ -16,12 +18,12 @@
 	* gui/Makefile.am: changed to reflect the above IDL and the associated
 	orbit-idl generated files.
 
-	* gui/Evolution-Composer.h, 
+	* gui/Evolution-Composer.h,
 	  gui/Evolution-Composer-common.c,
-	  gui/Evolution-Composer-stubs.c, 
-	  gui/Evolution-Composer-skels.c: 
+	  gui/Evolution-Composer-stubs.c,
+	  gui/Evolution-Composer-skels.c:
 	the generated files, as per the above description.
-	
+
 	* gui/e-meeting-edit.c: more work towards mailer integration.
 
 2000-10-24  Jesse Pavel <jpavel@helixcode.com>
@@ -41,10 +43,10 @@
 
 2000-10-23  Dan Winship  <danw@helixcode.com>
 
-	* pcs/Makefile.am (INCLUDES): 
-	* gui/dialogs/Makefile.am (INCLUDES): 
-	* gui/Makefile.am (INCLUDES): 
-	* cal-util/Makefile.am (INCLUDES): 
+	* pcs/Makefile.am (INCLUDES):
+	* gui/dialogs/Makefile.am (INCLUDES):
+	* gui/Makefile.am (INCLUDES):
+	* cal-util/Makefile.am (INCLUDES):
 	* cal-client/Makefile.am (INCLUDES): Update GNOMELOCALEDIR.
 
 2000-10-23  JP Rosevear  <jpr@helixcode.com>
@@ -62,7 +64,7 @@
 
 	* conduits/calendar/calendar-conduit.c (post_sync): Use e_pilot_map_write
 	(pre_sync): Use e_pilot_map_read
-	
+
 2000-10-23  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/Makefile.am: Add libeconduit-static.la
@@ -72,7 +74,8 @@
 
 2000-10-21  Damon Chaplin  <damon@helixcode.com>
 
-	* gui/dialogs/cal-prefs-dialog.c (cal_prefs_dialog_use_24_hour_toggled): removed debug message.
+	* gui/dialogs/cal-prefs-dialog.c
+	(cal_prefs_dialog_use_24_hour_toggled): removed debug message.
 
 	* gui/e-calendar-table.c (e_calendar_table_save_state): new function
 	to save the state of the table to a given file.
@@ -86,14 +89,14 @@
 
 	* gui/calendar-config.c: added support for the default view.
 
-	* gui/gnome-cal.c (gnome_calendar_construct): 
+	* gui/gnome-cal.c (gnome_calendar_construct):
 	(gnome_calendar_set_view_internal): use/set the default view setting.
 
 2000-10-20  Jesse Pavel <jpavel@helixcode.com>
 
 	* gui/e-meeting-editor.c: added more (working) integration with the
 	meeting schedular.
-	 
+
 2000-10-20  Jesse Pavel <jpavel@helixcode.com>
 
 	* cal-utils/cal-component.c: in set_datetime(), I put an #if 0'd portion
@@ -122,7 +125,7 @@
 
 2000-10-20  JP Rosevear  <jpr@helixcode.com>
 
-	* conduits/calendar/calendar-conduit.c (delete_archive_record): 
+	* conduits/calendar/calendar-conduit.c (delete_archive_record):
 	Don't throw an error
 
 	* conduits/todo/todo-conduit.c (delete_archive_record): ditto
@@ -132,7 +135,7 @@
 	* conduits/todo/todo-conduit-control-applet.c: Add defines
 
 	* conduits/todo/todo-conduit-config.h: put #ifdefs around functions
-	can't make this a public interface in the usual way as then the 
+	can't make this a public interface in the usual way as then the
 	symbols would be exported
 
 	* conduits/todo/todo-conduit.c: Kill warnings. clahey will be
@@ -144,7 +147,7 @@
 	* conduits/calendar/calendar-conduit-control-applet.c: ditto
 
 	* conduits/calendar/calendar-conduit-config.h: ditto
-	
+
 2000-10-20  Michael Meeks  <michael@helixcode.com>
 
 	* gui/calendar-commands.h: s/BonoboUIHandler/BonoboUIComponent/
@@ -161,8 +164,8 @@
 	* gui/e-calendar-table.c (E_CALENDAR_TABLE_SPEC): added
 	_click-to-add-message, though I'm not sure if i18n will work.
 
-	* cal-util/cal-recur.c (cal_obj_time_add_hours): 
-	(cal_obj_time_add_minutes): 
+	* cal-util/cal-recur.c (cal_obj_time_add_hours):
+	(cal_obj_time_add_minutes):
 	(cal_obj_time_add_seconds): updated to handle -ve args.
 
 	* cal-util/timeutil.c (time_add_day): set tm_isdst to -1 before calling
@@ -171,11 +174,11 @@
 	* cal-util/cal-recur.c (generate_instances_for_chunk): don't call the
 	callback if the event ends exactly on the interval start time.
 
-	* gui/e-week-view.c (e_week_view_reshape_event_span): 
-	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons): 
-	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event): 
-	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event): 
-	* gui/e-day-view.c (e_day_view_reshape_long_event): 
+	* gui/e-week-view.c (e_week_view_reshape_event_span):
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons):
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event):
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
+	* gui/e-day-view.c (e_day_view_reshape_long_event):
 	(e_day_view_reshape_day_event): use cal_component_has_alarms().
 
 	* cal-util/cal-component.[hc]: added cal_component_has_alarms().
@@ -197,7 +200,7 @@
 
 	* gui/Makefile.am: the meeting editor depends on the meeting widget
 	library, now.
-	
+
 	* gui/e-itip-control.glade: I added another toolbar button that summons
 	from the hoary deep the meeting time widget.
 
@@ -229,7 +232,7 @@
 	* conduits/todo/todo-conduit-control-applet.c: Add defines
 
 	* conduits/todo/todo-conduit-config.h: put #ifdefs around functions
-	can't make this a public interface in the usual way as then the 
+	can't make this a public interface in the usual way as then the
 	symbols would be exported
 
 	* conduits/todo/todo-conduit.c: Kill warnings. clahey will be
@@ -241,7 +244,6 @@
 	* conduits/calendar/calendar-conduit-control-applet.c: ditto
 
 	* conduits/calendar/calendar-conduit-config.h: ditto
-
 
 2000-10-16  Jesse Pavel <jpavel@helixcode.com>
 
@@ -284,7 +286,7 @@
 
 	* gui/dayview.xpm, gui/workweekview.xpm, gui/weekview.xpm
 	gui/monthview.xpm gui/yearview.xpm: Updated icons, let me know
-	if you like these or not, I might work on these some more but 
+	if you like these or not, I might work on these some more but
 	I wanted to put these versions up anyway to get feedback..
 
 2000-10-15  Dan Winship  <danw@helixcode.com>
@@ -309,8 +311,8 @@
 
 2000-10-12  Damon Chaplin  <damon@helixcode.com>
 
-	* gui/calendar-commands.c (calendar_control_activate): 
-	(update_pixmaps): 
+	* gui/calendar-commands.c (calendar_control_activate):
+	(update_pixmaps):
 	(set_pixmap): set the pixmaps of the toolbar buttons for the views,
 	and removed a lot of old unused stuff. We'll use plain buttons for
 	the view buttons for now, until Bonobo toolbars support radio buttons.
@@ -326,7 +328,7 @@
 
 2000-10-12  JP Rosevear  <jpr@helixcode.com>
 
-	* conduits/calendar/calendar-conduit.c (comp_from_remote_record): 
+	* conduits/calendar/calendar-conduit.c (comp_from_remote_record):
 	Store recurrence stuff on the desktop properly
 	(get_ical_day): Utility function
 
@@ -377,7 +379,7 @@
 
 2000-10-11  Tuomas Kuosmanen  <tigert@helixcode.com>
 
-	* gui/task-assigned-to.xpm gui/task-assigned.xpm 
+	* gui/task-assigned-to.xpm gui/task-assigned.xpm
 	gui/recur.xpm gui/task-recurring.xpm gui/task.xpm:
 	New versions of the icons for the tasklist/pad.
 
@@ -409,16 +411,16 @@
 
 	* cal-util/test-recur.c: updated.
 
-	* gui/e-day-view-time-item.c: 
+	* gui/e-day-view-time-item.c:
 	* gui/popup-menu.c: update to #include <gal/widgets/e-gui-utils.h>
 
 	* gui/component-factory.c (owner_set_cb): called calendar_config_init.
-	(owner_set_cb): 
+	(owner_set_cb):
 	(owner_unset_cb): updated the prototypes.
 
 	* gui/main.c (main): added call to calendar_config_write_on_exit().
 
-	* gui/component-factory.h: 
+	* gui/component-factory.h:
 	* gui/component-factory.c (owner_set_cb): added global evolution_dir
 	just like the mail component, so we know we to store config stuff.
 
@@ -455,7 +457,7 @@
 
 	* Makefile.am: Added the executive-summary library and cflags
 
-	* gui/evolution-calendar.oafinfo: Added oaf servers for the 
+	* gui/evolution-calendar.oafinfo: Added oaf servers for the
 	executive summary and executive summary factory.
 
 	* gui/calendar-summary.[ch]: New files to create the summary.
@@ -476,7 +478,7 @@
 
 2000-10-05  Damon Chaplin  <damon@helixcode.com>
 
-	* gui/e-day-view.c: 
+	* gui/e-day-view.c:
 	* gui/e-week-view.c: when the user types in a new event, don't create
 	it until the user hits Return or switches focus. Removed the
 	editing_new_event flags.
@@ -533,12 +535,12 @@
 	but with different end dates/durations set, the results are
 	unpredictable. So the event editor dialog should check for this.
 
-	* gui/e-week-view-main-item.c (e_week_view_main_item_draw_day): 
+	* gui/e-week-view-main-item.c (e_week_view_main_item_draw_day):
 	make strftime() strings translatable, and changed the formats a bit.
 
 	* NOTE: someone needs to check print.c to make sure strftime strings
 	are OK for i18n.
-	
+
 	* gui/e-day-view.h: Changed EDayViewDateFormat enum. We now try to
 	include the weekday if possible. Also changed EDayView struct so we
 	store the month & weekdays with the longest names rather than the
@@ -616,9 +618,9 @@
 	(map_write): Write the map timestamp
 	(pre_sync): Use the map time stamp when looking for changed entries
 
-	* pcs/cal-backend.c (cal_backend_log_sax_start_element): Make sure 
+	* pcs/cal-backend.c (cal_backend_log_sax_start_element): Make sure
 	we are in a valid timestamp
-	
+
 2000-09-20  JP Rosevear  <jpr@helixcode.com>
 
 	* pcs/cal-backend.c (cal_backend_log_name): Make the log file
@@ -657,12 +659,12 @@
 	(cal_backend_file_load): Unref the current uri if there is one
 	(cal_backend_file_create): ditto
 
-	* pcs/cal-backend.c (cal_backend_last_client_gone): Sync before 
+	* pcs/cal-backend.c (cal_backend_last_client_gone): Sync before
 	shooting ourselves in the foot
 
 	* pcs/cal-backend-file.c (save): Fully implement backing up the
 	calendar before writing out the new entry.
-	
+
 2000-09-19  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/todo-conduit.c (check_for_slow_setting): Add some
@@ -680,10 +682,10 @@
 
 	* conduits/todo/todo-conduit.c (map_name): Get the pilot_id->uid map
 	file name
-	(map_sax_start_element): SAX handler to extract a pilot_id->uid 
+	(map_sax_start_element): SAX handler to extract a pilot_id->uid
 	mapping
 	(map_sax_parse): Parse the given file and build a pilot_id->uid hash
-	(map_write_foreach): Write out individual mapping elements 
+	(map_write_foreach): Write out individual mapping elements
 	(map_write): Write out the pilot_id->uid mapping
 	(start_calendar_server_cb): Rename from gnome_calendar_load_cb
 
@@ -711,9 +713,9 @@
 	log entries
 	(cal_backend_log_sax_end_element): ditto
 	(cal_backend_log_sax_parse): Main SAX parser call to parse the log
-	file looking for particular log entries and creating a CalObjChange 
+	file looking for particular log entries and creating a CalObjChange
 	hash with the last change for each object
-	(cal_backend_get_log_entries): Returns a hash of objects of a given 
+	(cal_backend_get_log_entries): Returns a hash of objects of a given
 	type changed since the given time
 	(cal_backend_update_object): Add appropriate log entries
 	(cal_backend_remove_object): ditto
@@ -721,7 +723,7 @@
 	(cal_backend_foreach_changed): Convert CalObjChange hash into a list
 
 	* pcs/cal-backend-imc.[hc]: Remove crufty files
-	
+
 	* pcs/cal-backend-file.c (cal_backend_file_get_type_by_uid): New
 	function that returns the CalObjType for a uid.
 
@@ -764,7 +766,7 @@
 2000-09-14  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/.cvsignore: Shush
-	
+
 2000-09-14  JP Rosevear  <jpr@helixcode.com>
 
 	* Add headers with GPL notice and credit copyright to those appropriate
@@ -791,9 +793,9 @@
 	* conduits/todo/todo-conduit.c: Some renaming to keep consistent.
 	(pre_sync): Remove commented out function that does not exist.
 
-	* conduits/todo/todo-conduit-control-applet.c: ditto 
+	* conduits/todo/todo-conduit-control-applet.c: ditto
 
-	* conduits/todo/todo-conduit-config.h: ditto 
+	* conduits/todo/todo-conduit-config.h: ditto
 
 	* conduits/todo/todo-conduit.h: ditto
 
@@ -819,7 +821,7 @@
 2000-09-12  JP Rosevear  <jpr@helixcode.com>
 
 	* pcs/cal-backend-file.c (add_component): plug leakage
-	
+
 2000-09-12  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/calendar/calendar-conduit.c: Hack to compile for distcheck.
@@ -838,7 +840,7 @@
 	(iterate_specific): Use the already exisiting utility function
 
 	* pcs/cal-backend-file.c (cal_backend_file_update_pilot_id): correct
-	the status and id types. g_strdup the uid since this is not a 
+	the status and id types. g_strdup the uid since this is not a
 	constified return
 	(cal_backend_file_get_uid_by_pilot_id): correct the id type
 
@@ -868,9 +870,9 @@
 
 	* conduits/todo/todo-conduit.c: Handle renaming, header cleanup
 
-	* conduits/todo/todo-conduit.h: Rename GCalLocalRecord to 
+	* conduits/todo/todo-conduit.h: Rename GCalLocalRecord to
 	EToDoLocalRecord, header cleanup
-	
+
 2000-09-11  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/todo-conduit.c (comp_from_remote_record): Use
@@ -891,7 +893,7 @@
 
 2000-09-10  JP Rosevear  <jpr@helixcode.com>
 
-	* conduits/todo/todo-conduit.c (update_calendar_entry_in_repository): 
+	* conduits/todo/todo-conduit.c (update_calendar_entry_in_repository):
 	Make log output a little more sensible
 	(comp_from_remote_record): Minor correction when making a CalComponent
 	from scratch.
@@ -902,7 +904,7 @@
 
 	* conduits/todo/todo-conduit.c: Remove catch_ret_val function
 	since its no longer useful.  Fix naming of various fields from
-	the header changes.  Use GnomePilotRecord* stuff instead of 
+	the header changes.  Use GnomePilotRecord* stuff instead of
 	ICAL_PILOT_SYNC_*
 	(e_todo_context_new): Rename from gcalconduit_new_context. Now takes
 	a pilot id and loads the configuration here
@@ -910,7 +912,7 @@
 	Unref the client and destroy the configuration if they exist here
 	(start_calendar_server): Change the default calendar name
 	(local_record_from_comp_uid): Rename from local_record_from_ical_uid
-	(local_record_from_compobject): Rename from 
+	(local_record_from_compobject): Rename from
 	local_record_from_icalobject.  Properly do the pilot id and status.
 	(comp_from_remote_record): Rename from ical_from_remote_record.
 	Handle due, complete, classification and pilot stuff properly
@@ -938,7 +940,7 @@
 	to be fixed at some point to handle invalid dates, i.e. when
 	e_date_edit_get_time returns -1.
 
-	* gui/calendar-model.c (ensure_task_complete): 
+	* gui/calendar-model.c (ensure_task_complete):
 	(ensure_task_not_complete): new functions to set the related properties
 	to make sure a task is marked as complete on not, i.e. "Date Completed"
 	"Status" and "Percent" properties.
@@ -951,7 +953,7 @@
 	(calendar_model_mark_task_complete): check if it is already complete,
 	and if so don't update it.
 
-	* cal-util/cal-component.c (cal_component_get_status): 
+	* cal-util/cal-component.c (cal_component_get_status):
 	(cal_component_set_status): added functions to support the STATUS
 	property. Also added the property to CalComponentPrivate and set it
 	to NULL in free_icalcomponent(). Someone should check my code as I've
@@ -976,7 +978,7 @@
 	* conduits/todo/todo-conduit-config.h: Move all the config stuff
 	here, I need to kill the warnings at some point
 
-	* conduits/todo/todo-conduit-control-applet.c (doRevertSettings): 
+	* conduits/todo/todo-conduit-control-applet.c (doRevertSettings):
 	Set all the state variables correctly on a revert
 	(doSaveSettings): Update original state
 	(doHelp): Rename from about_cb
@@ -1004,7 +1006,7 @@
 	(cal_component_set_pilot_status): ditto
 	(cal_component_free_pilot_id): Free a pilot id
 	(cal_component_free_pilot_status): Free a pilot status
-	
+
 2000-09-09  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/dialogs/Makefile.am (INCLUDES): Add
@@ -1100,12 +1102,12 @@
 
 2000-09-06  JP Rosevear  <jpr@helixcode.com>
 
-	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event): 
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
 	Use new cal_component_has_recurrences convenience function
-	
+
 	* gui/e-week-view.c (e_week_view_show_popup_menu): ditto
 
-	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons): 
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons):
 	ditto
 
 	* gui/calendar-model.c (calendar_model_value_at): ditto
@@ -1119,7 +1121,7 @@
 	(e_day_view_on_main_canvas_motion): ditto
 	(e_day_view_reshape_day_event): ditto
 
-	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event): 
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event):
 	ditto
 
 	* gui/e-day-view.c (e_day_view_on_long_event_click): ditto
@@ -1134,13 +1136,13 @@
 
 	* cal-util/cal-component.h: Add new prototypes
 
-	* cal-util/cal-component.c (cal_component_has_exrules): Utility 
+	* cal-util/cal-component.c (cal_component_has_exrules): Utility
 	function to determine whether a cal component has any exrules
 	(cal_component_has_exdates): Ditto for exdates
 	(cal_component_has_exceptions): Utility function to determine
 	whether a cal component has any exception rules
 	(cal_component_has_recurrences):Utility function to determine
-	whether a cal component has any recurrence rules 
+	whether a cal component has any recurrence rules
 
 2000-09-05  JP Rosevear  <jpr@helixcode.com>
 
@@ -1158,7 +1160,7 @@
 	(dialog_to_comp_object): We need to allocate icaltimetypes for the
 	exdate list
 	(fill_widgets): Handle a weekly recurrence with no particular day set
-	(dialog_to_comp_object): Kill all rrules if "None" is selected as 
+	(dialog_to_comp_object): Kill all rrules if "None" is selected as
 	the recurrence type by the user
 
 2000-09-06  Damon Chaplin  <damon@helixcode.com>
@@ -1166,7 +1168,7 @@
 	* gui/e-calendar-table.c (e_calendar_table_open_task): uses the new
 	TaskEditor dialog.
 
-	* gui/dialogs/task-editor.[hc]: 
+	* gui/dialogs/task-editor.[hc]:
 	* gui/dialogs/task-editor-dialog.glade: updated. Still need to fix the
 	'Status' property (CalComponent doesn't support it yet), and use a
 	replacement for GnomeDateEdit, since we need to support setting 'None'
@@ -1174,7 +1176,7 @@
 
 2000-09-04  Damon Chaplin  <damon@helixcode.com>
 
-	* gui/event-editor.c (obj_updated_cb): 
+	* gui/event-editor.c (obj_updated_cb):
 	(obj_removed_cb): compare the updated object's uid with the one we
 	are editing, and just return if it doesn't match.
 
@@ -1188,9 +1190,9 @@
 	* cal-util/cal-recur.c (generate_instances_for_year): The exdate
 	and rdate lists are a list of icaltimetypes, not CalComponentPeriods
 
-	*gui/e-day-view.c (e_day_view_on_delete_occurrence): The exdate list 
+	*gui/e-day-view.c (e_day_view_on_delete_occurrence): The exdate list
 	is a list of icaltimetypes, not CalComponentDateTimes
-	
+
 2000-09-05  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/e-day-view.c (e_day_view_on_delete_occurrence): Append
@@ -1200,7 +1202,7 @@
 
 	* cal-util/cal-component.c (cal_component_free_recur_list): Free
 	the data, not the list element.
-	
+
 2000-09-05  JP Rosevear  <jpr@helixcode.com>
 
 	* cal-util/cal-recur.c (cal_recur_generate_instances): Compute
@@ -1223,7 +1225,7 @@
 	* gui/event-editor.c: e_utf8 wrappers
 
 	* gui/gncal-todo.c: e_utf8_wrappers
-	
+
 2000-09-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* conduits/calendar/calendar-conduit.c,
@@ -1249,7 +1251,7 @@
 	* conduits/todo/todo-conduit.c: Update for new libical.
 	Conduits should atleast compile now.
 
-	* conduits/calendar/calendar-conduit.c: ditto 
+	* conduits/calendar/calendar-conduit.c: ditto
 
 	* Makefile.am: Build the conduits only when they've been
 	enabled.
@@ -1263,7 +1265,7 @@
 
 	* cal-util/cal-recur.c (array_to_list): Use
 	ICAL_RECURRENCE_ARRAY_MAX instead of MAX_SHORT
-	
+
 2000-08-31  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/event-editor.c (file_delete_cb): Implement delete option
@@ -1331,10 +1333,10 @@
 
 2000-08-30  Damon Chaplin  <damon@helixcode.com>
 
-	* gui/e-day-view.[hc]: 
-	* gui/e-day-view-main-item.c: 
-	* gui/e-week-view.[hc]: 
-	* gui/e-week-view-main-item.c: 
+	* gui/e-day-view.[hc]:
+	* gui/e-day-view-main-item.c:
+	* gui/e-week-view.[hc]:
+	* gui/e-week-view-main-item.c:
 	* gui/calendar-commands.c:
 	* gui/gnome-cal.[hc]: switched to using new ECalendar widget,
 	and a few other fixes.
@@ -1350,7 +1352,7 @@
 
 2000-08-30  JP Rosevear  <jpr@helixcode.com>
 
-	* gui/e-week-view.c: Make sure the is_utc flag is always 
+	* gui/e-week-view.c: Make sure the is_utc flag is always
 	FALSE for icaltime_from_timet
 	(e_week_view_on_unrecur_appointment): Use icaltimetype struct
 	from the stack and make sure tzid is always NULL
@@ -1358,7 +1360,7 @@
 
 2000-08-30  JP Rosevear  <jpr@helixcode.com>
 
-	* gui/e-day-view.c: Make sure the is_utc flag is always 
+	* gui/e-day-view.c: Make sure the is_utc flag is always
 	FALSE for icaltime_from_timet
 	(e_day_view_on_unrecur_appointment): Use icaltimetype struct
 	from the stack and make sure tzid is always NULL
@@ -1429,9 +1431,9 @@
 
 2000-08-29  Dan Winship  <danw@helixcode.com>
 
-	* cal-client/client-test.c: 
+	* cal-client/client-test.c:
 	* cal-client/cal-client.c:
-	* conduits/todo/todo-conduit.h: 
+	* conduits/todo/todo-conduit.h:
 	* conduits/calendar/calendar-conduit.h: remove USING_OAF checks.
 
 2000-08-29  JP Rosevear  <jpr@helixcode.com>
@@ -1444,10 +1446,10 @@
 
 	* gui/event-editor.h: Update prototype
 
-	* gui/e-week-view.c (e_week_view_on_new_appointment): 
+	* gui/e-week-view.c (e_week_view_on_new_appointment):
 	Call cal_component_commit_sequence after event changes. Default
 	to these being all day events.
-	
+
 2000-08-29  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/event-editor.c (dialog_to_comp_object): These are not UTC
@@ -1488,7 +1490,7 @@
 	* cal-util/timeutil.h: We no longer need time_from_icaltimetype
 	as libical has the API for this
 
-	* cal-util/timeutil.c: ditto 
+	* cal-util/timeutil.c: ditto
 
 	* cal-util/cal-recur.c: Replace time_from_icaltimetype with
 	icaltime_as_timet
@@ -1525,7 +1527,7 @@
 
 2000-08-26  JP Rosevear  <jpr@helixcode.com>
 
-	* gui/Makefile.am: Remove gnorba stuff 
+	* gui/Makefile.am: Remove gnorba stuff
 
 	* gui/main.c: ditto
 
@@ -1553,7 +1555,7 @@
 	(calendar_model_initialize_value): Remove debug code
 
 	* gui/e-calendar-table.c: Correct etable init xml
-	(create_column): Pass the id to e_table_header_add_column 
+	(create_column): Pass the id to e_table_header_add_column
 	rather than a hard coded one
 	(e_calendar_table_init): Make sure summary column isn't
 	added twice.  Add an alarms column, else etable won't
@@ -1572,7 +1574,7 @@
 
 2000-08-24  JP Rosevear  <jpr@helixcode.com>
 
-	* Update for libical 0.19 
+	* Update for libical 0.19
 
 2000-08-24  Christopher James Lahey  <clahey@helixcode.com>
 
@@ -1602,7 +1604,7 @@
 	(tb_save_and_close_cb): ditto
 	(event_editor_set_ical_object): ditto
 
-	* gui/e-day-view.c (e_day_view_update_event): Umm, 
+	* gui/e-day-view.c (e_day_view_update_event): Umm,
 	!= CAL_COMPONENT_EVENT (I hope that wasn't me!)
 
 2000-08-24  Federico Mena Quintero  <federico@helixcode.com>
@@ -1636,7 +1638,7 @@
 
 	* gui/e-day-view.c (e_day_view_on_new_appointment): Commit
 	the CalComponent sequence
-	
+
 2000-08-23  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/main.c: #include <e-util/e-cursors.h>
@@ -1710,16 +1712,16 @@
 
 2000-08-21  JP Rosevear  <jpr@helixcode.com>
 
-	* gui/e-week-view.c (e_week_view_reload_events): 
+	* gui/e-week-view.c (e_week_view_reload_events):
 	Use CalObjType
 
 	* gui/e-day-view.c (e_day_view_reload_events): ditto
 
 2000-08-21  JP Rosevear  <jpr@helixcode.com>
 
-	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event): 
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
 	Use CalComponent instead of iCalObject.  #if some alarm stuff
-	
+
 2000-08-21  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/e-day-view-top-item.c (e_day_view_top_draw_long_event):
@@ -1729,15 +1731,15 @@
 
 	* gui/e-day-view.h: Update prototypes
 
-	* gui/e-day-view.c (e_day_view_on_unrecur_appointment): 
+	* gui/e-day-view.c (e_day_view_on_unrecur_appointment):
 	Remove commented out portions.
 
-	* gui/e-week-view.c (e_week_view_on_unrecur_appointment): 
+	* gui/e-week-view.c (e_week_view_on_unrecur_appointment):
 	Tidy.
-	
+
 2000-08-21  JP Rosevear  <jpr@helixcode.com>
 
-	* gui/e-day-view.c 
+	* gui/e-day-view.c
 	(e_day_view_update_event): Use CalComponent
 	instead of iCalObject.  Work around not having a compare
 	dates routine for two CalComponents.
@@ -1801,14 +1803,14 @@
 	(e_week_view_on_delete_appointment): ditto
 	(e_week_view_on_unrecur_appointment): ditto
 
-	* gui/e-week-view.h: Update prototypes. 
+	* gui/e-week-view.h: Update prototypes.
 
 2000-08-18  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/event-editor.h: Update prototypes.
 
-	* gui/event-editor.c: Need to come back here later to fix the 
-	alarm stuff.  The gui also needs to be completely redone to 
+	* gui/event-editor.c: Need to come back here later to fix the
+	alarm stuff.  The gui also needs to be completely redone to
 	support the fancier CalComponent settings (exrules, rdates, etc)
 	There are some warnings that I put in to mark some of these
 	spots
@@ -1841,17 +1843,17 @@
 
 	Rework gnome-cal.c - alarms are a tad broken ATM so this
 	will need more cleaning later.
-	
+
 	* gui/gnome-cal.c (snooze): Use CalComponent instead of
 	iCalObject
 	(edit): ditto
 	(audio_notification): ditto
-	(display_notification_cb): Use CalComponent member of 
+	(display_notification_cb): Use CalComponent member of
 	alarm_notify_closure rather than iCalObject
 	(display_notification): ditto
 	(trigger_alarm_cb): ditto.  Use CalComponent alarm types
-	(gnome_calendar_tag_calendar_cb): New 
-	cal_client_generate_instances callback to 
+	(gnome_calendar_tag_calendar_cb): New
+	cal_client_generate_instances callback to
 	mark_gtk_calendar_day's
 	(gnome_calendar_tag_calendar): Use above callback
 	(save_ical_object_cb): Use CalComponent instead of
@@ -1865,22 +1867,22 @@
 	event in a month.
 	(mark_month_item): Use cal_client_generate_instances with
 	above callback
-	
+
 2000-08-15  JP Rosevear  <jpr@helixcode.com>
 
-	* gui/print.c (print_month_small): Use 
+	* gui/print.c (print_month_small): Use
 	cal_client_get_objects_in_range
-	(print_day_details_cb): Callback used to create columns and fill 
-	events into a day view.  Code should be shared with e-day-view 
+	(print_day_details_cb): Callback used to create columns and fill
+	events into a day view.  Code should be shared with e-day-view
 	in reality.  Maybe need to go back to layout.[hc] a bit later
-	(print_day_details): Use cal_client_generate_instances with 
+	(print_day_details): Use cal_client_generate_instances with
 	above callback. Iterate over results to expand events to fit.
-	(print_day_summary_cb): Callback to build list of event info 
+	(print_day_summary_cb): Callback to build list of event info
 	for a day
-	(print_day_summary): Use cal_client_generate_instances with 
+	(print_day_summary): Use cal_client_generate_instances with
 	above callback to generate the required event info for printing
 	(print_todo_details_cb): Callback used create list of todo info
-	(print_todo_details): Use cal_client_generate_instances with 
+	(print_todo_details): Use cal_client_generate_instances with
 	above callback to generate required todo info for printing.
 
 	* gui/layout.[hc]: No longer used.
@@ -1894,12 +1896,12 @@
 
 	* cal-util/cal-component.c (cal_component_get_pilot_id):
 	(cal_component_set_pilot_id):  stubs for pilot id accessors
-	(cal_component_get_pilot_status): 
+	(cal_component_get_pilot_status):
 	(cal_component_set_pilot_status): stubs for pilot status accessors
 
 	* conduits/calendar/calendar-conduit.c (transmit): start to
 	convert to cal-component interface
-	
+
 	* conduits/todo/todo-conduit.c (transmit): same
 
 2000-08-11  Federico Mena Quintero  <federico@helixcode.com>
@@ -2147,7 +2149,7 @@
 
 	* Removed doc directory, since it is the old gnome-pim docs which
 	aren't used any more.
-	
+
 	* Makefile.am (SUBDIRS): removed doc.
 
 2000-07-26  Peter Williams  <peterw@helixcode.com>
@@ -2157,7 +2159,7 @@
 
 	* this is a test of whether CVS merge does what I
 	think it will do.
-	
+
 2000-07-26  Federico Mena Quintero  <federico@helixcode.com>
 
 	OK, it seems that we have all the interesting properties for
@@ -2238,9 +2240,9 @@
 	* gui/e-calendar-table.[hc]: new ECalendarTable to show an ETable view
 	for Todo/Event items.
 
-	* gui/task-assigned-to.xpm: 
-	* gui/task-recurring.xpm: 
-	* gui/task-assigned.xpm: 
+	* gui/task-assigned-to.xpm:
+	* gui/task-recurring.xpm:
+	* gui/task-assigned.xpm:
 	* gui/task.xpm: new pixmaps (all the same at present) to go in the
 	icon column of the ETable.
 
@@ -2250,7 +2252,7 @@
 	say midnight 13th May, we show 12th May in the dialog, since it
 	implicitly includes all of that day up to midnight.
 
-	* gui/dialogs/task-editor-dialog.glade: 
+	* gui/dialogs/task-editor-dialog.glade:
 	* gui/dialogs/task-editor.[hc]: unfinished dialog to edit tasks.
 
 	* gui/gncal-todo.c: temporary hack so that we can use the simple dialog
@@ -2263,7 +2265,7 @@
 	* cal-util/calobj.c (ical_object_create_from_vobject): check for a
 	NULL return from vObjectUStringZValue for URL property to avoid SEGV.
 	For some reason an empty 'URL:' property appears and causes trouble.
-	
+
 2000-07-20  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component-factory.c (factory_fn): Update for the new
@@ -2276,9 +2278,9 @@
 	(cal_component_alarm_free_trigger): Implemented.
 
 2000-07-19  Fatih Demir	<kabalak@gmx.net>
-	
+
 	* conduits/calendar/calendar-conduit-control-applet.desktop:
-	
+
 	* conduits/todo/todo-conduit-control-applet.desktop:
 		Added the Turkish desktop entries.
 
@@ -2378,7 +2380,7 @@
 
 2000-07-10  Seth Alves  <alves@hungry.com>
 
-	* gui/Makefile.am (SUBDIRS): 
+	* gui/Makefile.am (SUBDIRS):
 	* conduits/calendar/Makefile.am: moved calendar-conduit stuff from
 	the gui directory to here.
 
@@ -2572,17 +2574,17 @@
 2000-06-29  Peter Williams  <peterw@helixcode.com>
 
 	* gui/Makefile.am (LINK_FLAGS): Make the calendar-pilot-sync
-	program conditional on HAVE_GNOME_PILOT, and add 
+	program conditional on HAVE_GNOME_PILOT, and add
 	GNOME_PILOT_CFLAGS, GNOME_PILOT_LIBS, and PISOCK_LIBS in the
 	appropriate places.
 
 2000-06-29  Seth Alves  <alves@hungry.com>
 
-	* pcs/cal.c (Cal_get_uid_by_pilot_id): 
-	(Cal_update_pilot_id): 
-	* pcs/cal-backend-imc.c (cal_backend_imc_update_pilot_id): 
-	(cal_backend_imc_get_uid_by_pilot_id): 
-	* pcs/cal-backend.c (cal_backend_get_uid_by_pilot_id): 
+	* pcs/cal.c (Cal_get_uid_by_pilot_id):
+	(Cal_update_pilot_id):
+	* pcs/cal-backend-imc.c (cal_backend_imc_update_pilot_id):
+	(cal_backend_imc_get_uid_by_pilot_id):
+	* pcs/cal-backend.c (cal_backend_get_uid_by_pilot_id):
 	(cal_backend_update_pilot_id):  server code to service these:
 
 	* gui/calendar-pilot-sync.c: updated to make use of cal-client.
@@ -2689,7 +2691,7 @@
 
 2000-06-18  Damon Chaplin  <damon@helixcode.com>
 
-	* gui/e-day-view.c (e_day_view_on_top_canvas_drag_data_received): 
+	* gui/e-day-view.c (e_day_view_on_top_canvas_drag_data_received):
 	fixed a DnD bug.
 
 2000-06-17  Dan Winship  <danw@helixcode.com>
@@ -2703,14 +2705,14 @@
 	are more events than will fit in a day. Clicking on the button takes
 	the user to the 1-Day view and shows the full day.
 
-	* gui/e-day-view.c: 
+	* gui/e-day-view.c:
 	* gui/e-week-view.c: set the "use_ellipsis" arg to TRUE for the EText
 	items so we get tooltips automatically. Though we may want to use our
 	own code to show tooltips so we can show the tips when the mouse is
 	around the edges of the event box, and we may want to show the start
 	and end times of the event in full.
 
-	* gui/calendar-commands.c (calendar_control_activate): 
+	* gui/calendar-commands.c (calendar_control_activate):
 	* gui/gnome-cal.h: added view_toolbar_buttons[] so we can access the
 	radio buttons in the code easily. We need this if we want to jump to
 	another view programmatically.
@@ -2907,11 +2909,11 @@
 
 2000-06-05  Damon Chaplin  <damon@helixcode.com>
 
-	* gui/e-week-view-event-item.c (e_week_view_event_item_button_press): 
+	* gui/e-week-view-event-item.c (e_week_view_event_item_button_press):
 	allow the right button to popup the menu, even when the event is
 	being edited.
 
-	* gui/e-week-view.c: 
+	* gui/e-week-view.c:
 	* gui/e-day-view.c: Set the keyboard focus to the EDayView/EWeekView
 	when the right button is clicked, so that any event being edited is
 	saved before any action (e.g. opening the Event Editor dialog) is
@@ -3182,7 +3184,7 @@
 
 2000-05-17  Damon Chaplin  <damon@helixcode.com>
 
-	* gui/e-day-view.c (e_day_view_on_delete_occurrence): 
+	* gui/e-day-view.c (e_day_view_on_delete_occurrence):
 	* gui/e-week-view.c (e_week_view_on_delete_occurrence): use a copy of
 	the iCalObject so we detect the change in the "update_event" callback.
 	Maybe we should just update the view ourselves and then we wouldn't
@@ -3221,9 +3223,9 @@
 
 	* gui/event-editor.c (recurrence_toggled): hook the radio buttons
 	to the pages of the notebook.
-	(append_exception): 
-	(recurrence_exception_added): 
-	(recurrence_exception_deleted): 
+	(append_exception):
+	(recurrence_exception_added):
+	(recurrence_exception_deleted):
 	(recurrence_exception_changed): code to deal with the recurrence
 	exception list.
 
