@@ -1,3 +1,16 @@
+2001-01-22  JP Rosevear  <jpr@ximian.com>
+
+	* e-dbhash.c (md5_to_dbt): New function, can't use strlen on the md5
+	hash because it might have null chars in it.
+	(e_dbhash_add): use md5_to_dbt
+
+2001-01-19  JP Rosevear  <jpr@ximian.com>
+
+	* e-pilot-map.c (e_pilot_map_remove_by_pid): Remove an item by pid
+	(e_pilot_map_remove_by_uid): ditto for uid
+
+	* e-pilot-map.h: new protos
+
 2001-01-17  Jason Leach  <jasonleach@usa.net>
 
 	* e-gtk-utils.c (gtk_radio_button_get_nth_selected): New function,

@@ -55,6 +55,13 @@ string_to_dbt(const char *str, DBT *dbt)
 	dbt->size = strlen (str) + 1;
 }
 
+static void
+md5_to_dbt(const char str[16], DBT *dbt)
+{
+	dbt->data = (void*)str;
+	dbt->size = 16;
+}
+
 void 
 e_dbhash_add (EDbHash *edbh, const gchar *key, const gchar *data)
 {
@@ -76,7 +83,7 @@ e_dbhash_add (EDbHash *edbh, const gchar *key, const gchar *data)
 
 	/* Data dbt */
 	md5_get_digest (data, strlen (data), local_hash);
-	string_to_dbt (local_hash, &ddata);
+	md5_to_dbt (local_hash, &ddata);
 
 	/* Add to database */
 	db->put (db, &dkey, &ddata, 0);

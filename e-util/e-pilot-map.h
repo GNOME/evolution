@@ -40,6 +40,9 @@ gboolean e_pilot_map_pid_is_archived (EPilotMap *map, guint32 pid);
 gboolean e_pilot_map_uid_is_archived (EPilotMap *map, const char *uid);
 
 void e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archived);
+void e_pilot_map_remove_by_pid (EPilotMap *map, guint32 pid);
+void e_pilot_map_remove_by_uid (EPilotMap *map, const char *uid);
+
 guint32 e_pilot_map_lookup_pid (EPilotMap *map, const char *uid);
 const char * e_pilot_map_lookup_uid (EPilotMap *map, guint32 pid);
 
