@@ -212,10 +212,40 @@ cal_repo_get_objects (PortableServer_Servant servant,
 
 static CORBA_long
 cal_repo_get_number_of_objects (PortableServer_Servant servant,
+				GNOME_Calendar_Repository_RecordStatus record_status,
 				CORBA_Environment *ev)
 {
 	GnomeCalendar *gcal = gnomecal_from_servant (servant);
-	return g_list_length(gcal->cal->events);
+	CORBA_long res;
+	GList *l;
+	iCalPilotState real_record_status;
+
+	if (record_status == GNOME_Calendar_Repository_ANY) {
+		return g_list_length(gcal->cal->events);
+	}
+
+	switch (record_status) {
+	case GNOME_Calendar_Repository_NEW:
+		real_record_status = ICAL_PILOT_SYNC_MOD;
+		break;
+	case GNOME_Calendar_Repository_MODIFIED:
+		real_record_status = ICAL_PILOT_SYNC_MOD;
+		break;
+	case GNOME_Calendar_Repository_DELETED:
+		real_record_status = ICAL_PILOT_SYNC_DEL;
+		break;
+	}
+
+	res = 0;
+
+	for (l = gcal->cal->events; l; l = l->next){
+		iCalObject *obj = l->data;
+
+		if (obj->pilot_status == real_record_status)
+			res ++;
+	}
+	
+	return res;
 }
 
 static GNOME_Calendar_Repository_String_Sequence*

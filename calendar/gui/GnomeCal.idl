@@ -97,10 +97,18 @@ module GNOME {
 			string get_updated_objects ();
 
 			/* 
-			 * Returns the number of objects in the calendar
+			 * Returns the number of objects of a specific type in the calendar
 			 * repository. 
 			 */
-			long get_number_of_objects();
+
+			enum RecordStatus {
+				ANY,      /* This means all records */
+				NEW,
+				MODIFIED,
+				DELETED
+			};
+
+			long get_number_of_objects(in RecordStatus record_status);
 
 			/*
 			 * done:

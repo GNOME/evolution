@@ -43,7 +43,7 @@ GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 void local_record_from_icalobject(GCalLocalRecord *local,iCalObject *obj); 
 
-#define CONDUIT_VERSION "0.8.10p1"
+#define CONDUIT_VERSION "0.8.11"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
@@ -63,6 +63,14 @@ void local_record_from_icalobject(GCalLocalRecord *local,iCalObject *obj);
 #define WARN(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_WARNING, e)
 #define INFO(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_MESSAGE, e)
 
+#define catch_ret_val(_env,ret)                                                                 \
+  if (_env._major != CORBA_NO_EXCEPTION) {                                                      \
+        g_log(G_LOG_DOMAIN,G_LOG_LEVEL_MESSAGE,"%s:%d: Caught exception",__FILE__,__LINE__);    \
+        g_warning ("Exception: %s\n", CORBA_exception_id (&(_env)));                               \
+	CORBA_exception_free(&(_env));                                                             \
+	return ret;                                                                             \
+  }
+
 static int
 start_calendar_server (GnomePilotConduitStandardAbs *conduit,
 		       GCalConduitContext *ctxt) 
@@ -75,7 +83,7 @@ start_calendar_server (GnomePilotConduitStandardAbs *conduit,
 						       "IDL:GNOME:Calendar:Repository:1.0",
 						       0, NULL);
 	if (ctxt->calendar == CORBA_OBJECT_NIL) {
-		g_error ("Can not communicate with GnomeCalendar server");
+		g_warning ("Can not communicate with GnomeCalendar server");
 		return -1;
 	}
   
@@ -136,56 +144,6 @@ get_calendar_objects(GnomePilotConduitStandardAbs *conduit,
 
 	return result;
 }
-
-#if 0
-static GList * 
-get_calendar_objects(GnomePilotConduitStandardAbs *conduit) 
-{
-	char *vcalendar_string;
-	char *error;
-	GList *retval,*l;
-	Calendar *cal;
-
-	g_return_val_if_fail(conduit!=NULL,NULL);
-
-	vcalendar_string = 
-		GNOME_Calendar_Repository_get_objects (calendar, &ev);
-
-	cal = calendar_new("Temporary");
-
-	error = calendar_load_from_memory(cal,vcalendar_string);
-
-  	if (ev._major == CORBA_USER_EXCEPTION){
-		INFO ("Object did not exist");
-		show_exception(&ev);
-		CORBA_exception_free(&ev); 
-		return;
-	} else if(ev._major != CORBA_NO_EXCEPTION) {
-		WARN (_("Error while communicating with calendar server"));
-		show_exception(&ev);
-		CORBA_exception_free(&ev); 
-		return;
-	} 
-
-	if(error != NULL) {
-		WARN ("Error while converting records");
-		WARN ("Error : %s",error);
-		return NULL;
-	}
-	retval = NULL;
-	for(l=cal->events ; l ; l=l->next) {
-		LOG ("duping %d [%s]",
-			((iCalObject*)l->data)->pilot_id,
-			((iCalObject*)l->data)->summary);
-		retval = g_list_prepend(retval,ical_object_duplicate(l->data));
-	}
-
-	/* g_free(vcalendar_string); FIXME: this coredumps, but won't it leak without ? */
-	calendar_destroy(cal);
-
-	return retval;  
-}
-#endif
 
 static void 
 local_record_from_ical_uid(GCalLocalRecord *local,
@@ -584,6 +542,7 @@ check_for_slow_setting(GnomePilotConduit *c,
 	CORBA_long entry_number;
 	entry_number = 
 		GNOME_Calendar_Repository_get_number_of_objects(ctxt->calendar, 
+								GNOME_Calendar_Repository_ANY,
 								&(ctxt->ev));
 
 	if (ctxt->ev._major == CORBA_USER_EXCEPTION){
@@ -608,6 +567,7 @@ pre_sync(GnomePilotConduit *c,
 	 GCalConduitContext *ctxt) 
 {
 	int l;
+	gint num_records;
 	unsigned char *buf;
   
 	g_message ("GnomeCal Conduit v.%s",CONDUIT_VERSION);
@@ -621,6 +581,24 @@ pre_sync(GnomePilotConduit *c,
 		return -1;
 	}
   
+	/* Set the counters for the progress bar crap */
+	num_records = GNOME_Calendar_Repository_get_number_of_objects (ctxt->calendar, GNOME_Calendar_Repository_ANY, &(ctxt->ev));
+	catch_ret_val(ctxt->ev,-1);
+	gnome_pilot_conduit_standard_abs_set_num_local_records(GNOME_PILOT_CONDUIT_STANDARD_ABS(c),
+							       num_records);
+	num_records = GNOME_Calendar_Repository_get_number_of_objects (ctxt->calendar, GNOME_Calendar_Repository_MODIFIED, &(ctxt->ev));
+	catch_ret_val(ctxt->ev,-1);
+	gnome_pilot_conduit_standard_abs_set_num_updated_local_records(GNOME_PILOT_CONDUIT_STANDARD_ABS(c),
+								       num_records);
+	num_records = GNOME_Calendar_Repository_get_number_of_objects (ctxt->calendar, GNOME_Calendar_Repository_NEW, &(ctxt->ev));
+	catch_ret_val(ctxt->ev,-1);
+	gnome_pilot_conduit_standard_abs_set_num_new_local_records(GNOME_PILOT_CONDUIT_STANDARD_ABS(c),
+								   num_records);
+	num_records = GNOME_Calendar_Repository_get_number_of_objects (ctxt->calendar, GNOME_Calendar_Repository_DELETED, &(ctxt->ev));
+	catch_ret_val(ctxt->ev,-1);
+	gnome_pilot_conduit_standard_abs_set_num_deleted_local_records(GNOME_PILOT_CONDUIT_STANDARD_ABS(c),
+								       num_records);
+
 	gtk_object_set_data(GTK_OBJECT(c),"dbinfo",dbi);
   
 	/* load_records(c); */

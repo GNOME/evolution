@@ -1,3 +1,23 @@
+2000-01-05  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* GnomeCal.idl: Added an argument to get_number_of_objects, so you 
+	can choose which state the object should have
+	(any/new/modified/...). Will also add one to choose type
+	(event/journal etc).
+
+	* corba-cal.c (cal_repo_get_number_of_objects): Implemented the
+	new version of get_number_of_objects.
+
+	* calendar-conduit.c (pre_sync): Calls various
+ 	gnome_pilot_conduit_standard_abs_set_num_yadayda to get progress bars.
+
+2000-01-04  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* calendar-conduit.c (start_calendar_server): Let's not call
+	g_error, but g_warning instead.
+	(pre_sync): Get record numbers info, total, new, deleted etc, and
+	tell gpilotd.
+
 1999-12-31  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* eventedit.c (ee_store_recur_end_to_ical): Adds 86400 secs (1
