@@ -2115,10 +2115,10 @@ gncal_full_day_foreach (GtkContainer *container, GtkCallback callback, gpointer 
 }
 
 static gint
-child_compare_by_start (gpointer a, gpointer b)
+child_compare_by_start (gconstpointer a, gconstpointer b)
 {
-	Child *ca = a;
-	Child *cb = b;
+	const Child *ca = a;
+	const Child *cb = b;
 	time_t diff;
 	
 	diff = ca->start - cb->start;

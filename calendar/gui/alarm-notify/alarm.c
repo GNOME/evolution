@@ -61,10 +61,10 @@ alarm_ready (void *closure, int fd, GdkInputCondition cond)
 }
 
 static int
-alarm_compare_by_time (gpointer a, gpointer b)
+alarm_compare_by_time (gconstpointer a, gconstpointer b)
 {
-	AlarmRecord *ara = a;
-	AlarmRecord *arb = b;
+	const AlarmRecord *ara = a;
+	const AlarmRecord *arb = b;
 	time_t diff;
 	
 	diff = ara->activation_time - arb->activation_time;

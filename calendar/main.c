@@ -122,7 +122,7 @@ static void
 about_calendar_cmd (GtkWidget *widget, void *data)
 {
         GtkWidget *about;
-        gchar *authors[] = {
+        const gchar *authors[] = {
 		"Miguel de Icaza (miguel@kernel.org)",
 		"Federico Mena (quartic@gimp.org)",
 		"Arturo Espinosa (arturo@nuclecu.unam.mx)",

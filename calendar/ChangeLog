@@ -1,3 +1,12 @@
+1998-08-03  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* main.c (about_calendar_cmd): Use an array of const strings to
+	keep gcc happy.
+
+	* alarm.c (alarm_compare_by_time): Use gconstpointer to keep gcc happy.
+	* calendar.c (calendar_object_compare_by_start): Likewise.
+	* gncal-full-day.c (child_compare_by_start): Likewise.
+
 1998-07-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* main.c: Add support for --view flag.

@@ -339,10 +339,10 @@ calendar_save (Calendar *cal, char *fname)
 }
 
 static gint
-calendar_object_compare_by_start (gpointer a, gpointer b)
+calendar_object_compare_by_start (gconstpointer a, gconstpointer b)
 {
-	CalendarObject *ca = a;
-	CalendarObject *cb = b;
+	const CalendarObject *ca = a;
+	const CalendarObject *cb = b;
 	time_t diff;
 	
 	diff = ca->ev_start - cb->ev_start;
