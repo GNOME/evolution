@@ -308,6 +308,12 @@ test_folder_message_ops(CamelSession *session, const char *name, int local, int 
 	int indexed, max;
 	GPtrArray *uids;
 	CamelMessageInfo *info;
+	char *mailbox;
+
+	if (spool)
+		mailbox = "INBOX";
+	else
+		mailbox = "testbox";
 
 	max=local?2:1;
 
@@ -329,7 +335,7 @@ test_folder_message_ops(CamelSession *session, const char *name, int local, int 
 			flags = CAMEL_STORE_FOLDER_CREATE|CAMEL_STORE_FOLDER_BODY_INDEX;
 		else
 			flags = CAMEL_STORE_FOLDER_CREATE;
-		folder = camel_store_get_folder(store, "testbox", flags, ex);
+		folder = camel_store_get_folder(store, mailbox, flags, ex);
 		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 		check(folder != NULL);
 
@@ -396,13 +402,13 @@ test_folder_message_ops(CamelSession *session, const char *name, int local, int 
 		pull();
 
 		push("deleting test folder, with messages in it");
-		camel_store_delete_folder(store, "testbox", ex);
+		camel_store_delete_folder(store, mailbox, ex);
 		check(camel_exception_is_set(ex));
 		camel_exception_clear(ex);
 		pull();
 
 		push("re-opening folder");
-		folder = camel_store_get_folder(store, "testbox", flags, ex);
+		folder = camel_store_get_folder(store, mailbox, flags, ex);
 		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 		check(folder != NULL);
 
@@ -505,7 +511,7 @@ test_folder_message_ops(CamelSession *session, const char *name, int local, int 
 
 		if (!spool) {
 			push("deleting test folder, with no messages in it");
-			camel_store_delete_folder(store, "testbox", ex);
+			camel_store_delete_folder(store, mailbox, ex);
 			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 			pull();
 		}

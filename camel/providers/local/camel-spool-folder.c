@@ -44,6 +44,8 @@
 #include "camel-mime-filter-from.h"
 #include "camel-exception.h"
 
+#include "camel-lock-client.h"
+
 #include "camel-local-private.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
@@ -187,22 +189,25 @@ camel_spool_folder_construct(CamelSpoolFolder *lf, CamelStore *parent_store, con
 	root_dir_path = camel_spool_store_get_toplevel_dir(CAMEL_SPOOL_STORE(folder->parent_store));
 
 	lf->base_path = g_strdup(root_dir_path);
-	lf->folder_path = g_strdup_printf("%s/%s", root_dir_path, full_name);
+	lf->folder_path = g_strdup(root_dir_path);
 
 	lf->changes = camel_folder_change_info_new();
 	lf->flags = flags;
 
 	folder->summary = (CamelFolderSummary *)camel_spool_summary_new(lf->folder_path);
-	if (camel_spool_folder_lock(lf, CAMEL_LOCK_WRITE, ex) != -1) {
-		camel_spool_summary_check((CamelSpoolSummary *)folder->summary, NULL, ex);
-		camel_spool_folder_unlock(lf);
+	if (camel_spool_folder_lock(lf, CAMEL_LOCK_WRITE, ex) == -1) {
+		camel_object_unref((CamelObject *)lf);
+		return NULL;
 	}
+
+	camel_spool_summary_check((CamelSpoolSummary *)folder->summary, NULL, ex);
+	camel_spool_folder_unlock(lf);
 
 	fi = g_malloc0(sizeof(*fi));
 	fi->full_name = g_strdup(full_name);
 	fi->name = g_strdup(name);
 	fi->url = g_strdup(lf->folder_path);
-	fi->unread_message_count = -1;
+	fi->unread_message_count = camel_folder_get_unread_message_count(folder);
 	camel_object_trigger_event(CAMEL_OBJECT(parent_store), "folder_created", fi);
 	
 	camel_folder_info_free (fi);
@@ -256,13 +261,44 @@ int camel_spool_folder_unlock(CamelSpoolFolder *lf)
 static int
 spool_lock(CamelSpoolFolder *lf, CamelLockType type, CamelException *ex)
 {
-	return 0;
+	int retry = 0;
+
+	lf->lockfd = open(lf->folder_path, O_RDWR, 0);
+	if (lf->lockfd == -1) {
+		camel_exception_setv(ex, 1, _("Cannot create folder lock on %s: %s"), lf->folder_path, strerror(errno));
+		return -1;
+	}
+
+	while (retry < CAMEL_LOCK_RETRY) {
+		if (retry > 0)
+			sleep(CAMEL_LOCK_DELAY);
+
+		camel_exception_clear(ex);
+
+		if (camel_lock_fcntl(lf->lockfd, type, ex) == 0) {
+			if (camel_lock_flock(lf->lockfd, type, ex) == 0) {
+				if ((lf->lockid = camel_lock_helper_lock(lf->folder_path, ex)) != -1)
+					return 0;
+				camel_unlock_flock(lf->lockfd);
+			}
+			camel_unlock_fcntl(lf->lockfd);
+		}
+		retry++;
+	}
+
+	return -1;
 }
 
 static void
 spool_unlock(CamelSpoolFolder *lf)
 {
-	/* nothing */
+	camel_lock_helper_unlock(lf->lockid);
+	lf->lockid = -1;
+	camel_unlock_flock(lf->lockid);
+	camel_unlock_fcntl(lf->lockid);
+
+	close(lf->lockfd);
+	lf->lockfd = -1;
 }
 
 static void
@@ -479,10 +515,14 @@ spool_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex)
 	
 	d(printf("Getting message %s\n", uid));
 
-	/* lock the folder first, burn if we can't */
-	if (camel_spool_folder_lock(lf, CAMEL_LOCK_READ, ex) == -1)
+	/* lock the folder first, burn if we can't, need write lock for summary check */
+	if (camel_spool_folder_lock(lf, CAMEL_LOCK_WRITE, ex) == -1)
 		return NULL;
-	
+
+	/* check for new messages, this may renumber uid's though */
+	if (camel_spool_summary_check((CamelSpoolSummary *)folder->summary, lf->changes, ex) == -1)
+		return NULL;
+
 retry:
 	/* get the message summary info */
 	info = (CamelSpoolMessageInfo *) camel_folder_summary_uid(folder->summary, uid);

@@ -1,8 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Authors: Michael Zucchi <notzed@ximian.com>
+ * Author: Michael Zucchi <notzed@helixcode.com>
  *
- * Copyright (C) 2001 Ximian Inc (http://www.ximian.com)
+ * Copyright (C) 1999 Helix Code (http://www.helixcode.com/).
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -20,48 +20,51 @@
  * USA
  */
 
+/* defines protocol for lock helper process ipc */
 
-#ifndef CAMEL_SPOOL_STORE_H
-#define CAMEL_SPOOL_STORE_H 1
-
+#ifndef _CAMEL_LOCK_HELPER_H
+#define _CAMEL_LOCK_HELPER_H
 
 #ifdef __cplusplus
 extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include "camel-store.h"
+#include <glib.h>
 
-#define CAMEL_SPOOL_STORE_TYPE     (camel_spool_store_get_type ())
-#define CAMEL_SPOOL_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SPOOL_STORE_TYPE, CamelSpoolStore))
-#define CAMEL_SPOOL_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_SPOOL_STORE_TYPE, CamelSpoolStoreClass))
-#define CAMEL_IS_SPOOL_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_SPOOL_STORE_TYPE))
+struct _CamelLockHelperMsg {
+	guint32 magic;
+	guint32 seq;
+	guint32 id;
+	guint32 data;
+};
 
+/* magic values */
+enum {
+	CAMEL_LOCK_HELPER_MAGIC = 0xABADF00D,
+	CAMEL_LOCK_HELPER_RETURN_MAGIC = 0xDEADBEEF
+};
 
-typedef struct {
-	CamelStore parent_object;	
+/* return status */
+enum {
+	CAMEL_LOCK_HELPER_STATUS_OK = 0,
+	CAMEL_LOCK_HELPER_STATUS_PROTOCOL,
+	CAMEL_LOCK_HELPER_STATUS_NOMEM,
+	CAMEL_LOCK_HELPER_STATUS_SYSTEM,
+	CAMEL_LOCK_HELPER_STATUS_INVALID, /* not allowed to lock/doesn't exist etc */
+};
 
-} CamelSpoolStore;
+/* commands */
+enum {
+	CAMEL_LOCK_HELPER_LOCK = 0xf0f,
+	CAMEL_LOCK_HELPER_UNLOCK = 0xf0f0,
+};
 
-
-
-typedef struct {
-	CamelStoreClass parent_class;
-
-} CamelSpoolStoreClass;
-
-
-/* public methods */
-
-/* Standard Camel function */
-CamelType camel_spool_store_get_type (void);
-
-const gchar *camel_spool_store_get_toplevel_dir (CamelSpoolStore *store);
+/* seconds between lock refreshes */
+#define CAMEL_DOT_LOCK_REFRESH (30)
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* CAMEL_SPOOL_STORE_H */
-
-
+#endif /* !_CAMEL_LOCK_HELPER_H */

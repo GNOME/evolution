@@ -1,3 +1,46 @@
+2001-06-18  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-summary.c
+	(camel_folder_summary_info_new_from_parser): Only create a missing
+	uid if we have indexing turned on.
+
+	* camel-lock-helper.c (setup_process): Function to setup
+	process/sanity/security checks.  Change to the real uid as soon as
+	we can.
+	(lock_path): First try to lock as the real uid, if that fails, try
+	the root uid.
+	(unlock_id): Unlock as the uid we created the lock as.
+
+	* Makefile.am (INCLUDES): Added -DCAMEL_SBINDIR for lock helper
+	location.
+
+	* providers/local/camel-spool-folder.c (spool_lock): Implemented,
+	using lock helper locking.  Need to work out if the locking
+	requires a root created lock?
+	(spool_unlock): Likewise.
+
+2001-06-15  Not Zed  <NotZed@Ximian.com>
+
+	* camel-lock-helper.c: Setuid Lock helper process.  Creates and manages
+	.locks, keeping them active, removing them, etc.  What real perms it
+	needs is a little system dependent.
+
+2001-06-14  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-maildir-store.c (get_folder_info): Implement.
+	(scan_dir): Does the work of scanning for maildir directories.
+
+2001-06-13  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-spool-store.c (get_folder_info):
+	Implemented, just returns a hardcoded INBOX folder.
+	(free_folder_info): implemented, free's the 1 possible level of
+	folder info.
+
+	* providers/local/camel-spool-folder.c
+	(camel_spool_folder_construct): Set the real unread message
+	count on the folder_created thing.
+
 2001-06-15  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-message-cache.c

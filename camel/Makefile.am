@@ -5,6 +5,8 @@ SUBDIRS = providers tests
 libcamelincludedir = $(includedir)/camel
 providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 
+sbin_PROGRAMS =	camel-lock-helper
+
 lib_LTLIBRARIES = libcamel.la
 
 INCLUDES = -I.. -I$(srcdir)/.. 			 \
@@ -15,6 +17,7 @@ INCLUDES = -I.. -I$(srcdir)/.. 			 \
 	$(NSPR_CFLAGS)				 \
 	$(NSS_CFLAGS)				 \
 	$(OPENSSL_CFLAGS)			 \
+	-DCAMEL_SBINDIR=\""$(sbindir)"\"	 \
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\" \
 	-DG_LOG_DOMAIN=\"camel\"
 
@@ -38,6 +41,7 @@ libcamel_la_SOURCES = 				\
 	camel-folder.c				\
 	camel-internet-address.c		\
 	camel-lock.c				\
+	camel-lock-client.c			\
 	camel-medium.c				\
 	camel-mime-filter-bestenc.c		\
 	camel-mime-filter-basic.c		\
@@ -121,6 +125,7 @@ libcamelinclude_HEADERS =			\
 	camel-folder.h				\
 	camel-internet-address.h		\
 	camel-lock.h				\
+	camel-lock-client.h			\
 	camel-medium.h				\
 	camel-mime-filter-bestenc.h		\
 	camel-mime-filter-basic.h		\
@@ -191,13 +196,23 @@ libcamel_la_LIBADD = $(top_builddir)/e-util/libeutil.la \
 	$(OPENSSL_LDFLAGS)
 
 
+camel-lock-helper: camel-lock-helper.o camel-lock.o
+	$(CC) -o $@ $^ -I$(srcdir)/.. -I$(srcdir)
+
+install-exec-local:
+	-file=$(DESTDIR)$(sbindir)/camel-lock-helper; \
+	chown root $$file && chgrp root $$file && chmod u+s $$file
+
 noinst_HEADERS =				\
 	camel-charset-map-private.h		\
 	camel-private.h				\
-	camel-search-private.h
+	camel-search-private.h			\
+	camel-lock-helper.h
 
+# manually include camel-lock-helper.c since we build it manually
 EXTRA_DIST =					\
-	README 
+	README 					\
+	camel-lock-helper.c
 
 #noinst_PROGRAMS =				\
 #	camel-mime-filter-from

@@ -49,6 +49,8 @@ typedef struct {
 
 	int locked;		/* lock counter */
 	CamelLockType locktype;	/* what type of lock we have */
+	int lockfd;		/* lock fd used for fcntl/etc locking */
+	int lockid;		/* lock id for dot locking */
 
 	char *base_path;	/* base path of the spool folder */
 	char *folder_path;	/* the path to the folder itself */

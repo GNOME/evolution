@@ -801,7 +801,10 @@ CamelMessageInfo *camel_folder_summary_info_new_from_header(CamelFolderSummary *
  * @mp: 
  * 
  * Create a new info record from a parser.  If the parser cannot
- * determine a uid, then a new one is automatically assigned.
+ * determine a uid, then none will be assigned.
+
+ * If indexing is enabled, and the parser cannot determine a new uid, then
+ * one is automatically assigned.
  *
  * If indexing is enabled, then the content will be indexed based
  * on this new uid.  In this case, the message info MUST be
@@ -831,7 +834,8 @@ CamelMessageInfo *camel_folder_summary_info_new_from_parser(CamelFolderSummary *
 
 		/* assign a unique uid, this is slightly 'wrong' as we do not really
 		 * know if we are going to store this in the summary, but no matter */
-		summary_assign_uid(s, info);
+		if (p->index)
+			summary_assign_uid(s, info);
 
 		CAMEL_SUMMARY_LOCK(s, filter_lock);
 

@@ -513,7 +513,7 @@ spool_summary_check(CamelSpoolSummary *cls, CamelFolderChangeInfo *changeinfo, C
 		if (st.st_size != cls->folder_size || st.st_mtime != s->time) {
 			if (cls->folder_size < st.st_size) {
 				/* this will automatically rescan from 0 if there is a problem */
-				d(printf("folder grew, attempting to rebuild from %d\n", cls>folder_size));
+				d(printf("folder grew, attempting to rebuild from %d\n", cls->folder_size));
 				ret = summary_update(cls, cls->folder_size, changeinfo, ex);
 			} else {
 				d(printf("folder shrank!  rebuilding from start\n"));
@@ -538,6 +538,7 @@ spool_summary_check(CamelSpoolSummary *cls, CamelFolderChangeInfo *changeinfo, C
 
 		/* if we do, then write out the headers using sync_full, etc */
 		if (work) {
+			d(printf("Have to add new headers, re-syncing from the start to accomplish this\n"));
 			ret = spool_summary_sync_full(cls, FALSE, changeinfo, ex);
 
 			if (stat(cls->folder_path, &st) == -1) {
@@ -683,7 +684,7 @@ spool_summary_sync_full(CamelSpoolSummary *cls, gboolean expunge, CamelFolderCha
 
 		g_assert(info);
 
-		d(printf("Looking at message %s\n", info->info.uid));
+		d(printf("Looking at message %s\n", camel_message_info_uid(info)));
 
 		/* only need to seek past deleted messages, otherwise we should be at the right spot/state already */
 		if (lastdel) {
@@ -735,7 +736,7 @@ spool_summary_sync_full(CamelSpoolSummary *cls, gboolean expunge, CamelFolderCha
 		}
 
 		if (info && info->info.flags & (CAMEL_MESSAGE_FOLDER_NOXEV | CAMEL_MESSAGE_FOLDER_FLAGGED)) {
-			d(printf("Updating header for %s flags = %08x\n", info->info.uid, info->info.flags));
+			d(printf("Updating header for %s flags = %08x\n", camel_message_info_uid(info), info->info.flags));
 
 			if (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_FROM_END) {
 				g_warning("camel_mime_parser_step failed (2)");
@@ -955,7 +956,7 @@ spool_summary_sync_quick(CamelSpoolSummary *cls, gboolean expunge, CamelFolderCh
 
 		g_assert(info);
 
-		d(printf("Checking message %s %08x\n", info->info.uid, info->info.flags));
+		d(printf("Checking message %s %08x\n", camel_message_info_uid(info), info->info.flags));
 
 		if ((info->info.flags & CAMEL_MESSAGE_FOLDER_FLAGGED) == 0) {
 			camel_folder_summary_info_free(s, (CamelMessageInfo *)info);
@@ -963,7 +964,7 @@ spool_summary_sync_quick(CamelSpoolSummary *cls, gboolean expunge, CamelFolderCh
 			continue;
 		}
 
-		d(printf("Updating message %s\n", info->info.uid));
+		d(printf("Updating message %s\n", camel_message_info_uid(info)));
 
 		camel_mime_parser_seek(mp, info->frompos, SEEK_SET);
 
@@ -1125,7 +1126,7 @@ spool_summary_add(CamelSpoolSummary *cls, CamelMimeMessage *msg, const CamelMess
 	
 	mi = camel_folder_summary_add_from_message((CamelFolderSummary *)cls, msg);
 	if (mi) {
-		d(printf("Added, uid = %s\n", mi->uid));
+		d(printf("Added, uid = %s\n", camel_message_info_uid(mi)));
 		if (info) {
 			CamelTag *tag = info->user_tags;
 			CamelFlag *flag = info->user_flags;
