@@ -84,7 +84,8 @@ images_DATA = \
 	splash.png			\
 	thankyou.png			\
 	undelete_message.xpm		\
-	work_offline.xpm
+	work_offline.xpm		\
+	world_map-960.png
 
 buttonsdir = $(datadir)/images/evolution/buttons
 buttons_DATA = 				\

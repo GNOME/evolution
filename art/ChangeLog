@@ -1,3 +1,8 @@
+2001-06-19  Damon Chaplin  <damon@ximian.com>
+
+	* world_map-960.png: world map picture used for selecting timezones.
+	* Makefile.am (images_DATA): added world_map-960.png for timezones.
+
 2001-06-14  Jakub Steiner <jimmac@ximian.com>
 
 	* apply-filters-16.xpm: for mailer menu.
