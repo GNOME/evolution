@@ -350,11 +350,11 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
 	DIR *dir;
 	struct dirent *d;
 	struct stat st;
-	char *filefull, *foldersub, *uri, utf8_filename;
+	char *filefull, *foldersub, *uri, *utf8_filename;
 	const char *folder;
 
 	dir = opendir(filepath);
-	if (dir == NULL)
+ 	if (dir == NULL)
 		return;
 
 	utf8_filename = g_filename_to_utf8 (filepath, -1, NULL, NULL, NULL);
