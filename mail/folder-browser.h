@@ -71,6 +71,8 @@ struct  _FolderBrowser {
 	
 	EFilterBar  *search;
 	FilterRule  *search_full; /* if we have a full search active */
+
+	struct _EMeta *meta;	/* various per-folder meta-data */
 	
 	guint32 preview_shown  : 1;
 	guint32 threaded       : 1;

@@ -56,6 +56,7 @@
 
 #include "e-util/e-sexp.h"
 #include "e-util/e-mktemp.h"
+#include "e-util/e-meta.h"
 #include "folder-browser.h"
 #include "e-searching-tokenizer.h"
 #include "mail.h"
@@ -865,7 +866,8 @@ static void
 got_folder (char *uri, CamelFolder *folder, void *user_data)
 {
 	FolderBrowser *fb = user_data;
-	
+	EMeta *meta;
+
 	fb->get_id = -1;
 	
 	d(printf ("got folder '%s' = %p, previous folder was %p\n", uri, folder, fb->folder));
@@ -878,12 +880,26 @@ got_folder (char *uri, CamelFolder *folder, void *user_data)
 		camel_object_unhook_event (fb->folder, "message_changed", folder_changed, fb);
 		camel_object_unref (fb->folder);
 	}
-	
-	fb->folder = folder;
-	if (folder == NULL)
+
+	if (folder) {
+		fb->folder = folder;
+		camel_object_ref (folder);
+		meta = mail_tool_get_meta_data(fb->uri);
+		if (meta != fb->meta) {
+			g_object_unref(fb->meta);
+			fb->meta = meta;
+		} else {
+			g_object_unref(meta);
+		}
+	} else {
+		fb->folder = NULL;
+		if (fb->meta) {
+			g_object_unref(fb->meta);
+			fb->meta = NULL;
+		}
 		goto done;
-	
-	camel_object_ref (folder);
+	}
+
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (fb->search), camel_folder_has_search_capability (folder));
 	message_list_set_folder (fb->message_list, folder,
@@ -919,7 +935,7 @@ folder_browser_reload (FolderBrowser *fb)
 	
 	if (fb->folder) {
 		mail_refresh_folder (fb->folder, NULL, NULL);
-	} else if (fb->uri) {
+	} else if (fb->uri && fb->get_id == -1) {
 		g_object_ref (fb);
 		fb->get_id = mail_get_folder (fb->uri, 0, got_folder, fb, mail_thread_new);
 	}
@@ -1280,14 +1296,15 @@ folder_browser_toggle_preview (BonoboUIComponent           *component,
 			       gpointer                     user_data)
 {
 	FolderBrowser *fb = user_data;
-	GConfClient *gconf;
-	
+	gboolean bstate;
+
 	if (type != Bonobo_UIComponent_STATE_CHANGED || fb->message_list == NULL)
 		return;
 	
-	gconf = gconf_client_get_default ();
-	gconf_client_set_bool (gconf, "/apps/evolution/mail/display/show_preview", atoi (state), NULL);
-	folder_browser_set_message_preview (fb, atoi (state));
+	bstate = atoi(state);
+	e_meta_set_bool(fb->meta, "show_preview", bstate);
+	gconf_client_set_bool (gconf_client_get_default(), "/apps/evolution/mail/display/show_preview", bstate, NULL);
+	folder_browser_set_message_preview (fb, bstate);
 }
 
 void
@@ -1298,17 +1315,16 @@ folder_browser_toggle_threads (BonoboUIComponent           *component,
 			       gpointer                     user_data)
 {
 	FolderBrowser *fb = user_data;
-	GConfClient *gconf;
 	int prev_state;
+	gboolean bstate;
 	
 	if (type != Bonobo_UIComponent_STATE_CHANGED || fb->message_list == NULL)
 		return;
-	
-	gconf = gconf_client_get_default ();
-	gconf_client_set_bool (gconf, "/apps/evolution/mail/display/thread_list",
-			       atoi (state), NULL);
-	
-	message_list_set_threaded (fb->message_list, atoi (state));
+
+	bstate = atoi(state);
+	e_meta_set_bool(fb->meta, "thread_list", bstate);
+	gconf_client_set_bool (gconf_client_get_default (), "/apps/evolution/mail/display/thread_list", bstate, NULL);
+	message_list_set_threaded (fb->message_list, bstate);
 	
 	prev_state = fb->selection_state;
 	fb->selection_state = FB_SELSTATE_UNDEFINED;
@@ -2608,6 +2624,7 @@ folder_browser_new (const GNOME_Evolution_Shell shell, const char *uri)
 	
 	if (uri) {
 		folder_browser->uri = g_strdup (uri);
+		folder_browser->meta = mail_tool_get_meta_data(uri);
 		g_object_ref (folder_browser);
 		folder_browser->get_id = mail_get_folder (folder_browser->uri, 0, got_folder,
 							  folder_browser, mail_thread_new);

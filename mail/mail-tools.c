@@ -43,6 +43,8 @@
 #include <filter/filter-option.h>
 #include <filter/filter-input.h>
 
+#include "e-util/e-meta.h"
+
 #include "mail-vfolder.h"
 #include "mail.h" /*session*/
 #include "mail-format.h"
@@ -496,4 +498,71 @@ mail_tools_folder_to_url (CamelFolder *folder)
 	g_free (service_url);
 	
 	return url;
+}
+
+static char *meta_data_key(const char *uri, char **pathp)
+{
+	CamelURL *url;
+	GString *path;
+	const char *key;
+	char *p, c;
+
+	url = camel_url_new(uri, NULL);
+	path = g_string_new(evolution_dir);
+	g_string_append_printf(path, "/meta/%s/", url->protocol);
+
+	if (url->host && url->host[0]) {
+		if (url->user)
+			g_string_append_printf(path, "%s@", url->user);
+		g_string_append(path, url->host);
+		if (url->port)
+			g_string_append_printf(path, ":%d", url->port);
+		key = url->path;
+	} else if (url->path) {
+		if (url->fragment) {
+			p = url->path;
+			while ((c = *p++)) {
+				if (c == '/')
+					c = '_';
+				g_string_append_c(path, c);
+			}
+			key = url->fragment;
+		} else {
+			key = url->path;
+		}
+	}
+
+	if (key == NULL)
+		key = uri;
+
+	camel_url_free(url);
+	*pathp = path->str;
+	g_string_free(path, FALSE);
+
+	return g_strdup(key);
+}
+
+EMeta *
+mail_tool_get_meta_data(const char *uri)
+{
+	char *path, *key;
+	EMeta *meta;
+
+	key = meta_data_key(uri, &path);
+	meta = e_meta_data_find(path, key);
+	g_free(key);
+	g_free(path);
+
+	return meta;
+}
+
+void
+mail_tool_delete_meta_data(const char *uri)
+{
+	char *path, *key;
+
+	key = meta_data_key(uri, &path);
+	e_meta_data_delete(path, key);
+	g_free(key);
+	g_free(path);
 }

@@ -77,4 +77,7 @@ CamelFolder *mail_tools_x_evolution_message_parse (char *in, unsigned int inlen,
 
 char *mail_tools_folder_to_url (CamelFolder *folder);
 
+struct _EMeta *mail_tool_get_meta_data(const char *uri);
+void mail_tool_delete_meta_data(const char *uri);
+
 #endif

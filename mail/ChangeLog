@@ -1,3 +1,24 @@
+2003-03-25  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser-ui.c (folder_browser_ui_add_global): Load
+	per-folder setting of show_preview from meta data.
+	(folder_browser_ui_add_list): Same, for thread_list.
+
+	* mail-tools.c (mail_tool_get_meta_data)
+	(mail_tool_delete_meta_data): helpers to lookup/delete meta data.
+
+	* mail-config.c (mail_config_uri_deleted): delete the meta-data
+	for the folder.
+
+	* folder-browser.c (folder_browser_reload): dont reload the uri if
+	we're in the process of loading it still.
+	(folder_browser_new): load the folder meta data before loading the
+	folder.
+	(folder_browser_toggle_preview):
+	(folder_browser_toggle_threads): save change to meta-data.
+	(got_folder): Load the metadata if we have a folder to set, and
+	the meta-data has changed from initislisation.
+
 2003-03-23  Chris Toshok  <toshok@ximian.com>
 
 	* mail-callbacks.c (ask_confirm_for_unwanted_html_mail): pass

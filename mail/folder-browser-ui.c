@@ -577,6 +577,9 @@ folder_browser_ui_add_list (FolderBrowser *fb)
 	
 	/* Threaded toggle */
 	state = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/thread_list", NULL);
+	if (fb->meta)
+		state = e_meta_get_bool(fb->meta, "thread_list", state);
+
 	bonobo_ui_component_set_prop (uic, "/commands/ViewThreaded", "state", state ? "1" : "0", NULL);
 	bonobo_ui_component_add_listener (uic, "ViewThreaded", folder_browser_toggle_threads, fb);
 	message_list_set_threaded (fb->message_list, state);
@@ -627,6 +630,8 @@ folder_browser_ui_add_global (FolderBrowser *fb)
 	
 	/* (Pre)view toggle */
 	show_preview = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_preview", NULL);
+	if (fb->meta)
+		show_preview = e_meta_get_bool(fb->meta, "show_preview", show_preview);
 	bonobo_ui_component_set_prop (uic, "/commands/ViewPreview", "state", show_preview ? "1" : "0", NULL);
 	folder_browser_set_message_preview (fb, show_preview);
 	
