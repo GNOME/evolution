@@ -1149,34 +1149,55 @@ static int writeBase64(OFile *fp, unsigned char *s, long len)
     return 1;
 }
 
+static void writeString(OFile *fp, const char *s)
+{
+    appendsOFile(fp,s);
+}
+
 static void writeQPString(OFile *fp, const char *s)
 {
+    char buf[4];
+    int count=0;
     const char *p = s;
+
     while (*p) {
-	if (*p == '\n') {
-	    if (p[1]) appendsOFile(fp,"=0A=");
-	    }
-	appendcOFile(fp,*p);
-	p++;
+        /* break up lines biggger than 75 chars */
+        if(count >=74){
+		count=0;
+		appendsOFile(fp,"=\n");
 	}
+	
+	/* escape any non ASCII characters and '=' as per rfc1521 */
+	if (*p<= 0x1f || *p >=0x7f || *p == '=' ) {
+		sprintf(buf,"=%02X",(unsigned char)*p);
+		appendsOFile(fp,buf); 
+		count+=3; 
+	} else {
+		appendcOFile(fp,*p);	
+		count++; 
+	}
+	p++;
+    }
 }
 
 
 
 static void writeVObject_(OFile *fp, VObject *o);
 
-static void writeValue(OFile *fp, VObject *o, unsigned long size)
+static void writeValue(OFile *fp, VObject *o, unsigned long size,int quote)
 {
     if (o == 0) return;
     switch (VALUE_TYPE(o)) {
 	case VCVT_USTRINGZ: {
 	    char *s = fakeCString(USTRINGZ_VALUE_OF(o));
-	    writeQPString(fp, s);
+	    if(quote) writeQPString(fp, s);
+	    else writeString(fp,s);
 	    deleteStr(s);
 	    break;
 	    }
 	case VCVT_STRINGZ: {
-	    writeQPString(fp, STRINGZ_VALUE_OF(o));
+	    if(quote) writeQPString(fp, STRINGZ_VALUE_OF(o));
+	    else writeString(fp,STRINGZ_VALUE_OF(o));
 	    break;
 	    }
 	case VCVT_UINT: {
@@ -1216,7 +1237,7 @@ static void writeAttrValue(OFile *fp, VObject *o)
 	appendcOFile(fp,';');
     if (VALUE_TYPE(o)) {
 	appendcOFile(fp,'=');
-	writeValue(fp,o,0);
+	writeValue(fp,o,0,0);
 	}
 }
 
@@ -1246,6 +1267,7 @@ static int inList(const char **list, const char *s)
 
 static void writeProp(OFile *fp, VObject *o)
 {
+    int isQuoted=0;
     if (NAME_OF(o)) {
 	struct PreDefProp *pi;
 	VObjectIterator t;
@@ -1267,6 +1289,8 @@ static void writeProp(OFile *fp, VObject *o)
 	    s = NAME_OF(eachProp);
 	    if (stricmp(VCGroupingProp,s) && !inList(fields_,s))
 		writeAttrValue(fp,eachProp);
+	    if (stricmp(VCQPProp,s)==0 || stricmp(VCQuotedPrintableProp,s)==0)
+		 isQuoted=1;
 	    }
 	if (fields_) {
 	    int i = 0, n = 0;
@@ -1281,7 +1305,7 @@ static void writeProp(OFile *fp, VObject *o)
 		}
 	    fields = fields_;
 	    for (i=0;i<n;i++) {
-		writeValue(fp,isAPropertyOf(o,*fields),0);
+		writeValue(fp,isAPropertyOf(o,*fields),0,isQuoted);
 		fields++;
 		if (i<(n-1)) appendcOFile(fp,';');
 		}
@@ -1293,7 +1317,7 @@ static void writeProp(OFile *fp, VObject *o)
         VObject *p = isAPropertyOf(o,VCDataSizeProp);
 	if (p) size = LONG_VALUE_OF(p);
 	appendcOFile(fp,':');
-	writeValue(fp,o,size);
+	writeValue(fp,o,size,isQuoted);
 	}
 
     appendcOFile(fp,'\n');
