@@ -793,7 +793,7 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 		for (ei = ki = 0; ei < uids->len; ei++) {
 			euid = strtoul (uids->pdata[ei], NULL, 10);
 
-			for (; ki < keep_uids->len; ki++) {
+			for (kuid = 0; ki < keep_uids->len; ki++) {
 				kuid = strtoul (keep_uids->pdata[ki], NULL, 10);
 
 				if (kuid >= euid)
@@ -1329,7 +1329,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 	     const char *part_spec, CamelMimePart *part,
 	     CamelMessageContentInfo *ci, CamelException *ex)
 {
-	CamelDataWrapper *content;
+	CamelDataWrapper *content = NULL;
 	CamelStream *stream;
 	char *child_spec;
 
@@ -1876,12 +1876,21 @@ camel_imap_folder_fetch_data (CamelImapFolder *imap_folder, const char *uid,
 	char *found_uid;
 	int i;
 
+	/* EXPUNGE responses have to modify the cache, which means
+	 * they have to grab the cache_lock while holding the
+	 * command_lock. So we grab the command_lock now, in case
+	 * we're going to need it below, since we can't grab it
+	 * after the cache_lock.
+	 */
+	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+
 	CAMEL_IMAP_FOLDER_LOCK (imap_folder, cache_lock);
 	stream = camel_imap_message_cache_get (imap_folder->cache, uid, section_text);
 	if (!stream && (!strcmp (section_text, "HEADER") || !strcmp (section_text, "0")))
 		stream = camel_imap_message_cache_get (imap_folder->cache, uid, "");
 	if (stream || cache_only) {
 		CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
+		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 		return stream;
 	}		
 
@@ -1889,6 +1898,7 @@ camel_imap_folder_fetch_data (CamelImapFolder *imap_folder, const char *uid,
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				     _("This message is not currently available"));
 		CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
+		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 		return NULL;
 	}
 
@@ -1901,6 +1911,9 @@ camel_imap_folder_fetch_data (CamelImapFolder *imap_folder, const char *uid,
 					       "UID FETCH %s BODY.PEEK[%s]",
 					       uid, section_text);
 	}
+	/* We won't need the command_lock again after this. */
+	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+
 	if (!response) {
 		CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
 		return NULL;

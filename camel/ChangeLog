@@ -1,3 +1,17 @@
+2001-09-27  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-folder.c
+	(camel_imap_folder_fetch_data): Grab the store's command_lock
+	before grabbing the folder's cache_lock to prevent deadlock if
+	another thread is processing an EXPUNGE response.
+
+	* providers/imap/camel-imap-folder.c
+	(imap_expunge_uids_resyncing): Fix a compiler warning that might
+	point out a real bug...
+
+	* providers/imap/camel-imap-folder.c (get_content): and one that
+	doesn't
+
 2001-09-27    <NotZed@Ximian.com>
 
 	* camel-service.c (camel_service_connect): Dont re-register the
