@@ -1,3 +1,8 @@
+2002-04-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (uuencode_close): Don't count our filler when
+	encoding our line-length octet.
+
 2002-04-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-http-stream.c (http_get_headers): Don't get the statuscode

@@ -427,12 +427,14 @@ uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char
 {
 	register unsigned char *outptr, *bufptr;
 	register guint32 saved;
-	int uulen, i;
+	int uulen, uufill, i;
 	
 	outptr = out;
 	
 	if (len > 0)
 		outptr += uuencode_step (in, len, out, uubuf, state, save);
+	
+	uufill = 0;
 	
 	saved = *save;
 	i = *state & 0xff;
@@ -443,6 +445,7 @@ uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char
 	if (i > 0) {
 		while (i < 3) {
 			saved <<= 8 | 0;
+			uufill++;
 			i++;
 		}
 		
@@ -468,7 +471,7 @@ uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char
 	if (uulen > 0) {
 		int cplen = ((uulen / 3) * 4);
 		
-		*outptr++ = CAMEL_UUENCODE_CHAR (uulen & 0xff);
+		*outptr++ = CAMEL_UUENCODE_CHAR ((uulen - uufill) & 0xff);
 		memcpy (outptr, uubuf, cplen);
 		outptr += cplen;
 		*outptr++ = '\n';

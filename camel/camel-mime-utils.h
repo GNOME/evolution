@@ -152,8 +152,8 @@ char *header_content_encoding_decode(const char *in);
 /* raw headers */
 void header_raw_append(struct _header_raw **list, const char *name, const char *value, int offset);
 void header_raw_append_parse(struct _header_raw **list, const char *header, int offset);
-const char *header_raw_find(struct _header_raw **list, const char *name, int *ofset);
-const char *header_raw_find_next(struct _header_raw **list, const char *name, int *ofset, const char *last);
+const char *header_raw_find(struct _header_raw **list, const char *name, int *offset);
+const char *header_raw_find_next(struct _header_raw **list, const char *name, int *offset, const char *last);
 void header_raw_replace(struct _header_raw **list, const char *name, const char *value, int offset);
 void header_raw_remove(struct _header_raw **list, const char *name);
 void header_raw_fold(struct _header_raw **list);
