@@ -7,7 +7,6 @@ images_DATA = \
 	copy_16_message.xpm		\
 	edit.xpm			\
 	encrypt.xpm			\
-	exec-16-summary.xpm		\
 	folder.xpm			\
 	forward.xpm			\
 	import.xpm			\
@@ -35,7 +34,10 @@ images_DATA = \
 	evolution-notes.png 		\
 	evolution-tasks-mini.png 	\
 	evolution-tasks.png 		\
+	evolution-today-mini.png	\
 	evolution-today.png 		\
+	evolution-trash-mini.png 	\
+	evolution-trash.png 		\
 	executive-summary-bg.png	\
 	executive-summary-curve.png	\
 	globe.png           		\

@@ -1,3 +1,11 @@
+2001-04-04  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* art/evolution-today-mini.png: converted from exec-16-summary.xpm,
+	removed the latter.
+	* art/evolution-trash.png, art/evolution-trash-mini.png: images for
+	trash folder, one converted from deleted_message.xpm, another from mc.
+	* art/Makefile.am: install.
+
 2001-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* README (SSL): Remind users that they will currently have to copy

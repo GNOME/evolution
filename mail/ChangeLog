@@ -1,3 +1,7 @@
+2001-04-04  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* component-factory.c: use big trash icon, stolen from mc.
+
 2001-04-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* openpgp-utils.c (openpgp_encrypt): Add --no-tty argument to gpg.

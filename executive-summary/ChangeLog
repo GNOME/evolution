@@ -1,3 +1,8 @@
+2001-04-04  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* component/component-factory.c: last time I've broken shortcut view.
+	renamed icons properly.
+
 2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* component/component-factory.c: Changed folder type icon to tiny
