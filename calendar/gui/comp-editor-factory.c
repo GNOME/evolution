@@ -353,13 +353,17 @@ get_default_component (CalComponentVType vtype)
 	if (vtype == CAL_COMPONENT_EVENT) {
 		struct icaltimetype itt;
 		CalComponentDateTime dt;
+		char *location;
+		icaltimezone *zone;
 
 		comp = cal_comp_event_new_with_defaults ();
 
 		itt = icaltime_today ();
 
 		dt.value = &itt;
-		dt.tzid = calendar_config_get_timezone ();
+		location = calendar_config_get_timezone ();
+		zone = icaltimezone_get_builtin_timezone (location);
+		dt.tzid = icaltimezone_get_tzid (zone);
 
 		cal_component_set_dtstart (comp, &dt);
 		cal_component_set_dtend (comp, &dt);

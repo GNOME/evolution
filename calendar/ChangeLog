@@ -1,3 +1,8 @@
+2001-11-04  Damon Chaplin  <damon@ximian.com>
+
+	* gui/comp-editor-factory.c (get_default_component): use TZID from the
+	builtin timezone, instead of using the location name.
+
 2001-11-02  Federico Mena Quintero  <federico@ximian.com>
 
 	* cal-util/cal-util.c (compute_alarm_range): Short-circuit the
