@@ -38,10 +38,9 @@
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
 #include <libgnomeprintui/gnome-print-job-preview.h>
-#include <addressbook/backend/ebook/e-book.h>
-#include <addressbook/backend/ebook/e-card.h>
-#include <addressbook/backend/ebook/e-card-simple.h>
-#include <addressbook/backend/ebook/e-destination.h>
+#include <addressbook/backend/ebook/e-book-async.h>
+#include <addressbook/backend/ebook/e-contact.h>
+#include <addressbook/util/eab-destination.h>
 
 #define SCALE 5
 #define HYPHEN_PIXELS 20
@@ -70,7 +69,7 @@ struct _EContactPrintContext
 	EBook *book;
 	gchar *query;
 
-	GList *cards;
+	GList *contacts;
 };
 
 static gint
@@ -274,7 +273,7 @@ e_contact_output(GnomePrintContext *pc, GnomeFont *font, double x, double y, dou
 }
 
 static gdouble
-e_contact_text_height(GnomePrintContext *pc, GnomeFont *font, double width, gchar *text)
+e_contact_text_height(GnomePrintContext *pc, GnomeFont *font, double width, const gchar *text)
 {
 	int line_count = e_contact_divide_text(pc, font, width, text, NULL);
 	return line_count * (gnome_font_get_ascender(font) + gnome_font_get_descender(font)) +
@@ -402,12 +401,12 @@ e_contact_start_new_page(EContactPrintContext *ctxt)
 }
 
 static double
-e_contact_get_card_size(ECardSimple *simple, EContactPrintContext *ctxt)
+e_contact_get_contact_size(EContact *contact, EContactPrintContext *ctxt)
 {
 	gdouble height = 0;
 	gdouble page_width  = 72 * (ctxt->style->page_width - ctxt->style->left_margin - ctxt->style->right_margin);
 	gdouble column_width;
-	char *file_as;
+	const char *file_as;
 	gint field;
 	if ( ctxt->style->letter_tabs )
 		page_width -= e_contact_get_letter_tab_width(ctxt);
@@ -417,22 +416,20 @@ e_contact_get_card_size(ECardSimple *simple, EContactPrintContext *ctxt)
 
 	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
 
-	g_object_get(simple->card,
-		     "file_as", &file_as,
-		     NULL);
+	file_as = e_contact_get_const (contact, E_CONTACT_FILE_AS);
+
 	height += e_contact_text_height(ctxt->pc, ctxt->style->headings_font, column_width - 4, file_as);
-	g_free (file_as);
 
 	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
 
 	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
 	
-	for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING; field++) {
+	for(field = E_CONTACT_FILE_AS; field != E_CONTACT_LAST_SIMPLE_STRING; field++) {
 		char *string;
-		string = e_card_simple_get(simple, field);
+		string = e_contact_get(contact, field);
 		if (string && *string) {
 			double xoff = 0;
-			xoff += gnome_font_get_width_utf8(ctxt->style->body_font, e_card_simple_get_name(simple, field));
+			xoff += gnome_font_get_width_utf8(ctxt->style->body_font, e_contact_pretty_name (field));
 			xoff += gnome_font_get_width_utf8(ctxt->style->body_font, ":  ");
 			height += e_contact_text_height(ctxt->pc, ctxt->style->body_font, column_width - xoff, string);
 			height += .2 * gnome_font_get_size (ctxt->style->body_font);
@@ -447,7 +444,7 @@ e_contact_get_card_size(ECardSimple *simple, EContactPrintContext *ctxt)
 
 
 static void
-e_contact_print_card (ECardSimple *simple, EContactPrintContext *ctxt)
+e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 {
 	gdouble page_width  = 72 * (ctxt->style->page_width - ctxt->style->left_margin - ctxt->style->right_margin);
 	gdouble column_width;
@@ -463,9 +460,7 @@ e_contact_print_card (ECardSimple *simple, EContactPrintContext *ctxt)
 	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
 	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
 
-	g_object_get(simple->card,
-		     "file_as", &file_as,
-		     NULL);
+	file_as = e_contact_get (contact, E_CONTACT_FILE_AS);
 	if (ctxt->style->print_using_grey)
 		e_contact_rectangle(ctxt->pc, ctxt->x, ctxt->y + gnome_font_get_size (ctxt->style->headings_font) * .3, ctxt->x + column_width, ctxt->y - e_contact_text_height(ctxt->pc, ctxt->style->headings_font, column_width - 4, file_as) - gnome_font_get_size (ctxt->style->headings_font) * .3, .85, .85, .85);
 	e_contact_output(ctxt->pc, ctxt->style->headings_font, ctxt->x + 2, ctxt->y, column_width - 4, file_as);
@@ -475,14 +470,14 @@ e_contact_print_card (ECardSimple *simple, EContactPrintContext *ctxt)
 	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
 	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
 	
-	for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING; field++) {
+	for(field = E_CONTACT_FILE_AS; field != E_CONTACT_LAST_SIMPLE_STRING; field++) {
 		char *string;
-		string = e_card_simple_get(simple, field);
+		string = e_contact_get(contact, field);
 
 		if (string && !strncmp (string, "<?xml", 4)) {
-			EDestination *dest = e_destination_import (string);
+			EABDestination *dest = eab_destination_import (string);
 			if (dest != NULL) {
-				gchar *new_string = g_strdup (e_destination_get_address (dest));
+				gchar *new_string = g_strdup (eab_destination_get_address (dest));
 				g_free (string);
 				string = new_string;
 				g_object_unref (dest);
@@ -491,8 +486,8 @@ e_contact_print_card (ECardSimple *simple, EContactPrintContext *ctxt)
 
 		if (string && *string) {
 			double xoff = 0;
-			e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, -1, e_card_simple_get_name(simple, field));
-			xoff += gnome_font_get_width_utf8(ctxt->style->body_font, e_card_simple_get_name(simple, field));
+			e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, -1, e_contact_pretty_name (field));
+			xoff += gnome_font_get_width_utf8(ctxt->style->body_font, e_contact_pretty_name (field));
 			e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, -1, ":  ");
 			xoff += gnome_font_get_width_utf8(ctxt->style->body_font, ":  ");
 			e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, column_width - xoff, string);
@@ -526,7 +521,7 @@ e_contact_start_new_column (EContactPrintContext *ctxt)
 static void
 complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintContext *ctxt)
 {
-	GList *cards = ctxt->cards;
+	GList *contacts = ctxt->contacts;
 
 	gdouble page_width  = 72 * (ctxt->style->page_width - ctxt->style->left_margin - ctxt->style->right_margin);
 
@@ -541,15 +536,13 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 
 	gnome_print_beginpage (ctxt->pc, NULL);
 
-	for(; cards; cards = cards->next) {
-		ECard *card = cards->data;
-		ECardSimple *simple = e_card_simple_new(card);
+	for(; contacts; contacts = contacts->next) {
+		EContact *contact = contacts->data;
 		guchar *file_as;
 		gchar *letter_str = NULL;
 
-		g_object_get(card,
-			     "file_as", &file_as,
-			     NULL);
+		file_as = e_contact_get (contact, E_CONTACT_FILE_AS);
+
 		if (file_as != NULL) {
 			letter_str = g_strndup (file_as, g_utf8_next_char (file_as) - (gchar *) file_as);
 		}
@@ -559,13 +552,13 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 			if (ctxt->style->sections_start_new_page && ! ctxt->first_contact) {
 				e_contact_start_new_page(ctxt);
 			}
-			else if ((!ctxt->first_contact) && (ctxt->y - e_contact_get_letter_heading_height(ctxt) - e_contact_get_card_size(simple, ctxt) < ctxt->style->bottom_margin * 72))
+			else if ((!ctxt->first_contact) && (ctxt->y - e_contact_get_letter_heading_height(ctxt) - e_contact_get_contact_size(contact, ctxt) < ctxt->style->bottom_margin * 72))
 				e_contact_start_new_column(ctxt);
 			if ( ctxt->style->letter_headings )
 				e_contact_print_letter_heading(ctxt, ctxt->character);
 			ctxt->first_section = FALSE;
 		} 
-		else if ( (!ctxt->first_contact) && (ctxt->y - e_contact_get_card_size(simple, ctxt) < ctxt->style->bottom_margin * 72)) {
+		else if ( (!ctxt->first_contact) && (ctxt->y - e_contact_get_contact_size(contact, ctxt) < ctxt->style->bottom_margin * 72)) {
 			e_contact_start_new_column(ctxt);
 			if ( ctxt->style->letter_headings )
 				e_contact_print_letter_heading(ctxt, ctxt->character);
@@ -574,9 +567,8 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 		ctxt->last_char_on_page = toupper(*file_as);
 		if ( ctxt->last_char_on_page < ctxt->first_char_on_page )
 			ctxt->first_char_on_page = ctxt->last_char_on_page;
-		e_contact_print_card(simple, ctxt);
+		e_contact_print_contact(contact, ctxt);
 		ctxt->first_contact = FALSE;
-		g_object_unref(simple);
 	}
 	ctxt->last_char_on_page = 'Z';
 	if ( ctxt->style->letter_tabs )
@@ -598,8 +590,8 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 	if (ctxt->book)
 		g_object_unref(ctxt->book);
 	g_free(ctxt->query);
-	g_list_foreach(ctxt->cards, (GFunc) g_object_unref, NULL);
-	g_list_free(ctxt->cards);
+	g_list_foreach(ctxt->contacts, (GFunc) g_object_unref, NULL);
+	g_list_free(ctxt->contacts);
 	g_object_unref(ctxt->style->headings_font);
 	g_object_unref(ctxt->style->body_font);
 	g_object_unref(ctxt->style->header_font);
@@ -611,41 +603,32 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 }
 
 static int
-card_compare (ECard *card1, ECard *card2) {
-	int cmp = 0;
+contact_compare (EContact *contact1, EContact *contact2)
+{
+	if (contact1 && contact2) {
+		const char *file_as1, *file_as2;
+		file_as1 = e_contact_get_const (contact1, E_CONTACT_FILE_AS);
+		file_as2 = e_contact_get_const (contact2, E_CONTACT_FILE_AS);
 
-	if (card1 && card2) {
-		char *file_as1, *file_as2;
-
-		g_object_get(card1,
-			     "file_as", &file_as1,
-			     NULL);
-		g_object_get(card2,
-			     "file_as", &file_as2,
-			     NULL);
 		if (file_as1 && file_as2)
-			cmp = g_utf8_collate(file_as1, file_as2);
-		else if (file_as1)
-			cmp = -1;
-		else if (file_as2)
-			cmp = 1;
-		else 
-			cmp = strcmp(e_card_get_id(card1), e_card_get_id(card2));
-
-		g_free (file_as2);
-		g_free (file_as1);
-
+			return g_utf8_collate(file_as1, file_as2);
+		if (file_as1)
+			return -1;
+		if (file_as2)
+			return 1;
+		return strcmp(e_contact_get_const(contact1, E_CONTACT_UID), e_contact_get_const(contact2, E_CONTACT_UID));
+	} else {
+		return 0;
 	}
-	return cmp;
 }
 
 static void
-create_card(EBookView *book_view, const GList *cards, EContactPrintContext *ctxt)
+create_contact(EBookView *book_view, const GList *contacts, EContactPrintContext *ctxt)
 {
-	for(; cards; cards = cards->next) {
-		ECard *card = cards->data;
-		g_object_ref(card);
-		ctxt->cards = g_list_insert_sorted(ctxt->cards, card, (GCompareFunc) card_compare);
+	for(; contacts; contacts = contacts->next) {
+		EContact *contact = contacts->data;
+		g_object_ref(contact);
+		ctxt->contacts = g_list_insert_sorted(ctxt->contacts, contact, (GCompareFunc) contact_compare);
 	}
 }
 
@@ -655,169 +638,31 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, EContac
 	g_object_ref(book_view);
 
 	g_signal_connect(book_view,
-			 "card_added",
-			 G_CALLBACK(create_card),
+			 "contacts_added",
+			 G_CALLBACK(create_contact),
 			 ctxt);
 
 	g_signal_connect(book_view,
 			 "sequence_complete",
 			 G_CALLBACK(complete_sequence),
 			 ctxt);
+
+	e_book_view_start (book_view);
 }
 
 static void
-e_contact_do_print_cards (EBook *book, char *query, EContactPrintContext *ctxt)
+e_contact_do_print_contacts (EBook *book, char *query, EContactPrintContext *ctxt)
 {
-	e_book_get_book_view(book, query, (EBookBookViewCallback) book_view_loaded, ctxt);
+	e_book_async_get_book_view(book, query, (EBookBookViewCallback) book_view_loaded, ctxt);
 }
-
-#if 0
-static double
-e_contact_get_phone_list_size(ECardSimple *simple, EContactPrintContext *ctxt)
-{
-	double height = 0;
-	int field;
-
-	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
-
-	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
-	
-	for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING; field++) {
-		char *string;
-		string = e_card_simple_get(simple, field);
-		if (string && *string) {
-			if ( 1 ) /* field is a phone field. */ {
-				gchar *field = string;
-				height += e_contact_text_height(ctxt->pc, ctxt->style->body_font, 100, field);
-				height += .2 * gnome_font_get_size (ctxt->style->body_font);
-			}
-		}
-		g_free(string);
-	}
-	height += gnome_font_get_size (ctxt->style->headings_font) * .4;
-	return height;
-}
-
-
-static void
-e_contact_print_phone_list (ECard *card, EContactPrintContext *ctxt)
-{
-	gdouble page_width  = 72 * (ctxt->style->page_width - ctxt->style->left_margin - ctxt->style->right_margin);
-	gdouble column_width;
-	double xoff, dotwidth;
-	int dotcount;
-	char *dots;
-	int i;
-	char *file_as;
-	if ( ctxt->style->letter_tabs )
-		page_width -= e_contact_get_letter_tab_width(ctxt);
-	column_width = (page_width + 18) / ctxt->style->num_columns - 18;
-
-	gnome_print_gsave(ctxt->pc);
-
-	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
-	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
-
-	e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x, ctxt->y, -1, e_card_get_string_fileas(card));
-	
-	xoff = column_width - 9 * gnome_font_get_size (ctxt->style->body_font);
-	dotwidth = xoff - 
-		gnome_font_get_width_utf8(ctxt->style->body_font, e_card_get_string_fileas(card)) - 
-		gnome_font_get_width_utf8(ctxt->style->body_font, " ");
-	dotcount = dotwidth / gnome_font_get_width(ctxt->style->body_font, '.');
-	dots = g_new(gchar, dotcount + 1);
-	for (i = 0; i < dotcount; i++)
-		dots[i] = '.';
-	dots[dotcount] = 0;
-	e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x + xoff - dotcount * gnome_font_get_width(ctxt->style->body_font, '.'), ctxt->y, -1, dots);
-	g_free(dots);
-		
-	for(; shown_fields; shown_fields = g_list_next(shown_fields)) {
-		if ( 1 ) /* field is a phone field. */ {
-			gchar *field = e_card_get_string(card, shown_fields->data);
-			e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, -1, shown_fields->data);
-			e_contact_output(ctxt->pc, ctxt->style->body_font, 
-					 ctxt->x + column_width - gnome_font_get_width_utf8(ctxt->style->body_font, 
-											      field),
-					 ctxt->y,
-					 -1,
-					 field);
-			ctxt->y -= e_contact_text_height(ctxt->pc, ctxt->style->body_font, 100, field);
-			ctxt->y -= .2 * gnome_font_get_size (ctxt->style->body_font);
-		}
-	}
-	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .4;
-	gnome_print_grestore(ctxt->pc);
-}
-
-static void
-e_contact_do_print_phone_list (EBook *book, char *query, EContactPrintContext *ctxt)
-{
-	ECard *card = NULL;
-	int i;
-	gdouble page_width  = 72 * (ctxt->style->page_width - ctxt->style->left_margin - ctxt->style->right_margin);
-	gdouble column_width;
-	ctxt->first_contact = TRUE;
-	ctxt->character = NULL;
-	ctxt->y = (ctxt->style->page_height - ctxt->style->top_margin) * 72;
-	ctxt->x = (ctxt->style->left_margin) * 72;
-	if ( ctxt->style->letter_tabs ) 
-		page_width -= e_contact_get_letter_tab_width(ctxt);
-	
-	ctxt->first_char_on_page = 'A' - 1;
-
-	column_width = (page_width + 18) / ctxt->style->num_columns - 18;
-	/*
-	for(card = e_book_get_first(book); card; card = e_book_get_next(book)) {
-	*/
-	for (i=0; i < 30; i++) {
-		guchar *file_as = e_card_get_string_fileas(card);
-		if ( file_as && (!character || *character != tolower(*file_as)) ) {
-			if (ctxt->style->sections_start_new_page && ! first_contact) {
-				e_contact_start_new_page(ctxt);
-			}
-			else if ((!first_contact) && (ctxt->y - e_contact_get_letter_heading_height(ctxt) - e_contact_get_phone_list_size(card, ctxt, shown_fields) < ctxt->style->bottom_margin * 72))
-				e_contact_start_new_column(ctxt);
-			if (!character)
-				character = g_strdup(" ");
-			*character = tolower(*file_as);
-			if ( ctxt->style->letter_headings )
-				e_contact_print_letter_heading(ctxt, character);
-			ctxt->first_section = FALSE;
-		} 
-		else if ( (!first_contact) && (ctxt->y - e_contact_get_card_size(card, ctxt, shown_fields) < ctxt->style->bottom_margin * 72)) {
-			e_contact_start_new_column(ctxt);
-			if ( ctxt->style->letter_headings )
-				e_contact_print_letter_heading(ctxt, character);
-		}
-		ctxt->last_char_on_page = toupper(*file_as);
-		if ( ctxt->last_char_on_page < ctxt->first_char_on_page )
-			ctxt->first_char_on_page = ctxt->last_char_on_page;
-		e_contact_print_phone_list(card, ctxt, shown_fields);
-		first_contact = FALSE;
-		g_free (file_as);
-	}
-	ctxt->last_char_on_page = 'Z';
-	if ( ctxt->style->letter_tabs )
-		e_contact_print_letter_tab(ctxt);
-	gnome_print_showpage(ctxt->pc);
-	gnome_print_context_close(ctxt->pc);
-	g_free(character);
-}
-#endif
 
 static void
 e_contact_do_print (EBook *book, char *query, EContactPrintContext *ctxt)
 {
 	switch ( ctxt->style->type ) {
 	case E_CONTACT_PRINT_TYPE_CARDS:
-		e_contact_do_print_cards( book, query, ctxt);
+		e_contact_do_print_contacts( book, query, ctxt);
 		break;
-#if 0
-	case E_CONTACT_PRINT_TYPE_PHONE_LIST:
-		e_contact_do_print_phone_list( book, query, ctxt );
-		break;
-#endif
 	default:
 		break;
 	}
@@ -1027,8 +872,8 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 	gboolean uses_list = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dialog), "uses_list"));
 	EBook *book = NULL;
 	char *query = NULL;
-	ECard *card = NULL;
-	GList *card_list = NULL;
+	EContact *contact = NULL;
+	GList *contact_list = NULL;
 	gdouble font_size;
 
 
@@ -1037,10 +882,10 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 		query = g_object_get_data(G_OBJECT(dialog), "query");
 	}
 	else if (uses_list) {
-		card_list = g_object_get_data(G_OBJECT(dialog), "card_list");
+		contact_list = g_object_get_data(G_OBJECT(dialog), "contact_list");
 	}
 	else {
-		card = g_object_get_data(G_OBJECT(dialog), "card");
+		contact = g_object_get_data(G_OBJECT(dialog), "contact");
 	}
 	switch( response_id ) {
 	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
@@ -1075,16 +920,16 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 		ctxt->book = book;
 		ctxt->query = query;
 		if (uses_book) {
-			ctxt->cards = NULL;
+			ctxt->contacts = NULL;
 			e_contact_do_print(book, ctxt->query, ctxt);
 		}
 		else if (uses_list) {
-			ctxt->cards = card_list;
-			complete_sequence(NULL, E_BOOK_VIEW_STATUS_SUCCESS, ctxt);
+			ctxt->contacts = contact_list;
+			complete_sequence(NULL, E_BOOK_VIEW_STATUS_OK, ctxt);
 		}
 		else {
-			ctxt->cards = g_list_append(NULL, card);
-			complete_sequence(NULL, E_BOOK_VIEW_STATUS_SUCCESS, ctxt);
+			ctxt->contacts = g_list_append(NULL, contact);
+			complete_sequence(NULL, E_BOOK_VIEW_STATUS_OK, ctxt);
 		}
 		gtk_widget_destroy (dialog);
 		break;
@@ -1119,28 +964,28 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 		ctxt->book = book;
 		ctxt->query = g_strdup(query);
 		if (uses_book) {
-			ctxt->cards = NULL;
+			ctxt->contacts = NULL;
 			g_object_ref(book);
 			e_contact_do_print(book, ctxt->query, ctxt);
 		}
 		else if (uses_list) {
-			ctxt->cards = g_list_copy (card_list);
-			g_list_foreach (ctxt->cards, (GFunc)g_object_ref, NULL);
-			complete_sequence(NULL, E_BOOK_VIEW_STATUS_SUCCESS, ctxt);
+			ctxt->contacts = g_list_copy (contact_list);
+			g_list_foreach (ctxt->contacts, (GFunc)g_object_ref, NULL);
+			complete_sequence(NULL, E_BOOK_VIEW_STATUS_OK, ctxt);
 		}
 		else {
-			ctxt->cards = g_list_append(NULL, card);
-			g_object_ref(card);
-			complete_sequence(NULL, E_BOOK_VIEW_STATUS_SUCCESS, ctxt);
+			ctxt->contacts = g_list_append(NULL, contact);
+			g_object_ref(contact);
+			complete_sequence(NULL, E_BOOK_VIEW_STATUS_OK, ctxt);
 		}
 		break;
 	case GNOME_PRINT_DIALOG_RESPONSE_CANCEL:
 		if (uses_book)
 			g_object_unref(book);
 		else if (uses_list)
-			e_free_object_list (card_list);
+			e_free_object_list (contact_list);
 		else
-			g_object_unref(card);
+			g_object_unref(contact);
 		g_free(query);
 		gtk_widget_destroy (dialog);
 		g_free(style);
@@ -1155,7 +1000,7 @@ e_contact_print_dialog_new(EBook *book, char *query)
 	GtkWidget *dialog;
 	
 	
-	dialog = gnome_print_dialog_new(NULL, _("Print cards"), GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
+	dialog = gnome_print_dialog_new(NULL, _("Print contacts"), GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
 	gnome_print_dialog_construct_range_any(GNOME_PRINT_DIALOG(dialog), GNOME_PRINT_RANGE_ALL | GNOME_PRINT_RANGE_SELECTION,
 					       NULL, NULL, NULL);
 
@@ -1211,20 +1056,20 @@ e_contact_print_preview(EBook *book, char *query)
 #endif
 	ctxt->book = book;
 	ctxt->query = g_strdup(query);
-	ctxt->cards = NULL;
+	ctxt->contacts = NULL;
 	g_object_ref(book);
 	e_contact_do_print(book, ctxt->query, ctxt);
 }
 
 GtkWidget *
-e_contact_print_card_dialog_new(ECard *card)
+e_contact_print_contact_dialog_new(EContact *contact)
 {
 	GtkWidget *dialog;
 	
-	dialog = gnome_print_dialog_new(NULL, _("Print card"), GNOME_PRINT_DIALOG_COPIES);
+	dialog = gnome_print_dialog_new(NULL, _("Print contact"), GNOME_PRINT_DIALOG_COPIES);
 
-	card = e_card_duplicate(card);
-	g_object_set_data(G_OBJECT(dialog), "card", card);
+	contact = e_contact_duplicate(contact);
+	g_object_set_data(G_OBJECT(dialog), "contact", contact);
 	g_object_set_data(G_OBJECT(dialog), "uses_list", GINT_TO_POINTER (FALSE));
 	g_object_set_data(G_OBJECT(dialog), "uses_book", GINT_TO_POINTER (FALSE));
 	g_signal_connect(dialog,
@@ -1235,22 +1080,22 @@ e_contact_print_card_dialog_new(ECard *card)
 }
 
 GtkWidget *
-e_contact_print_card_list_dialog_new(GList *list)
+e_contact_print_contact_list_dialog_new(GList *list)
 {
 	GtkWidget *dialog;
-	ECard *card;
 	GList *copied_list;
+	GList *l;
 
 	if (list == NULL)
 		return NULL;
 
 	copied_list = g_list_copy (list);
-	g_list_foreach (copied_list, (GFunc)g_object_ref, NULL);
+	for (l = copied_list; l; l = l->next)
+		l->data = e_contact_duplicate (E_CONTACT (l->data));
 
-	dialog = gnome_print_dialog_new(NULL, _("Print card"), GNOME_PRINT_DIALOG_COPIES);
+	dialog = gnome_print_dialog_new(NULL, _("Print contact"), GNOME_PRINT_DIALOG_COPIES);
 
-	card = e_card_duplicate(list->data);
-	g_object_set_data(G_OBJECT(dialog), "card_list", copied_list);
+	g_object_set_data(G_OBJECT(dialog), "contact_list", copied_list);
 	g_object_set_data(G_OBJECT(dialog), "uses_list", GINT_TO_POINTER (TRUE));
 	g_object_set_data(G_OBJECT(dialog), "uses_book", GINT_TO_POINTER (FALSE));
 	g_signal_connect(dialog,

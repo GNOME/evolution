@@ -81,7 +81,7 @@ extern char *camel_provider_type_name[CAMEL_NUM_PROVIDER_TYPES];
 #define CAMEL_URL_PART_PORT	 (1 << 4)
 #define CAMEL_URL_PART_PATH	 (1 << 5)
 
-#define CAMEL_URL_PART_NEED	       6
+#define CAMEL_URL_PART_NEED	       8
 
 /* Use these macros to test a provider's url_flags */
 #define CAMEL_PROVIDER_ALLOWS(prov, flags) (prov->url_flags & (flags | (flags << CAMEL_URL_PART_NEED)))
@@ -102,7 +102,8 @@ extern char *camel_provider_type_name[CAMEL_NUM_PROVIDER_TYPES];
 #define CAMEL_URL_NEED_PORT	 (CAMEL_URL_PART_PORT << CAMEL_URL_PART_NEED)
 #define CAMEL_URL_NEED_PATH	 (CAMEL_URL_PART_PATH << CAMEL_URL_PART_NEED)
 
-#define CAMEL_URL_PATH_IS_ABSOLUTE (1 << 12)
+#define CAMEL_URL_FRAGMENT_IS_PATH  (1 << 30) /* url uses fragment for folder name path, not path */
+#define CAMEL_URL_PATH_IS_ABSOLUTE (1 << 31)
 
 
 #define CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT(prov) (prov->object_types[CAMEL_PROVIDER_STORE] && prov->object_types[CAMEL_PROVIDER_TRANSPORT])

@@ -25,6 +25,6 @@
 #include <cal-client/cal-client.h>
 #include <cal-util/cal-component.h>
 
-void delete_error_dialog (CalClientResult result, CalComponentVType vtype);
+void delete_error_dialog (GError *error, CalComponentVType vtype);
 
 #endif

@@ -17,8 +17,9 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
-#ifndef __E_ADDRESSBOOK_SEARCH_DIALOG_H__
-#define __E_ADDRESSBOOK_SEARCH_DIALOG_H__
+
+#ifndef __EAB_SEARCH_DIALOG_H__
+#define __EAB_SEARCH_DIALOG_H__
 
 #include <ebook/e-book.h>
 
@@ -29,37 +30,37 @@
 
 G_BEGIN_DECLS
 
-#define E_ADDRESSBOOK_SEARCH_DIALOG_TYPE		(e_addressbook_search_dialog_get_type ())
-#define E_ADDRESSBOOK_SEARCH_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_ADDRESSBOOK_SEARCH_DIALOG_TYPE, EAddressbookSearchDialog))
-#define E_ADDRESSBOOK_SEARCH_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), E_ADDRESSBOOK_SEARCH_DIALOG_TYPE, EAddressbookSearchDialogClass))
-#define E_IS_ADDRESSBOOK_SEARCH_DIALOG(obj) 		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_ADDRESSBOOK_SEARCH_DIALOG_TYPE))
-#define E_IS_ADDRESSBOOK_SEARCH_DIALOG_CLASS(klass) 	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_ADDRESSBOOK_SEARCH_DIALOG_TYPE))
+#define EAB_SEARCH_DIALOG_TYPE		(eab_search_dialog_get_type ())
+#define EAB_SEARCH_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), EAB_SEARCH_DIALOG_TYPE, EABSearchDialog))
+#define EAB_SEARCH_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), EAB_SEARCH_DIALOG_TYPE, EABSearchDialogClass))
+#define E_IS_ADDRESSBOOK_SEARCH_DIALOG(obj) 		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), EAB_SEARCH_DIALOG_TYPE))
+#define E_IS_ADDRESSBOOK_SEARCH_DIALOG_CLASS(klass) 	(G_TYPE_CHECK_CLASS_TYPE ((obj), EAB_SEARCH_DIALOG_TYPE))
 
 
-typedef struct _EAddressbookSearchDialog       EAddressbookSearchDialog;
-typedef struct _EAddressbookSearchDialogClass  EAddressbookSearchDialogClass;
+typedef struct _EABSearchDialog       EABSearchDialog;
+typedef struct _EABSearchDialogClass  EABSearchDialogClass;
 
-struct _EAddressbookSearchDialog
+struct _EABSearchDialog
 {
 	GtkDialog parent;
 
 	GtkWidget *search;
 
-	EAddressbookView *view;
+	EABView *view;
 
 	RuleContext *context;
 	FilterRule *rule;
 };
 
-struct _EAddressbookSearchDialogClass
+struct _EABSearchDialogClass
 {
 	GtkDialogClass parent_class;
 };
 
-GType      e_addressbook_search_dialog_get_type (void);
+GType      eab_search_dialog_get_type (void);
 
-GtkWidget *e_addressbook_search_dialog_new (EAddressbookView *view);
+GtkWidget *eab_search_dialog_new (EABView *view);
 
 G_END_DECLS
 
-#endif /* __E_ADDRESSBOOK_SEARCH_DIALOG_H__ */
+#endif /* __EAB_SEARCH_DIALOG_H__ */

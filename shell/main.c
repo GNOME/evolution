@@ -28,7 +28,7 @@
 
 #include "e-icon-factory.h"
 #include "e-shell-constants.h"
-#include "e-shell-config.h"
+#include "e-shell-window.h"	/* FIXME */
 #include "e-setup.h"
 
 #include "e-shell.h"
@@ -80,10 +80,8 @@
 
 
 static EShell *shell = NULL;
-static char *evolution_directory = NULL;
 
 /* Command-line options.  */
-static gboolean no_splash = FALSE;
 static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
 static gboolean setup_only = FALSE;
@@ -141,7 +139,7 @@ quit_box_new (void)
 }
 
 static void
-no_views_left_cb (EShell *shell, gpointer data)
+no_windows_left_cb (EShell *shell, gpointer data)
 {
 	GtkWidget *quit_box;
 
@@ -323,22 +321,22 @@ show_development_warning (GtkWindow *parent)
    soon as the first view is created.  */
 
 static void
-view_map_callback (GtkWidget *widget,
-		   void *data)
+window_map_callback (GtkWidget *widget,
+		     void *data)
 {
-	g_signal_handlers_disconnect_by_func (widget, G_CALLBACK (view_map_callback), data);
+	g_signal_handlers_disconnect_by_func (widget, G_CALLBACK (window_map_callback), data);
 
 	show_development_warning (GTK_WINDOW (widget));
 }
 
 static void
-new_view_created_callback (EShell *shell,
-			   EShellView *view,
-			   void *data)
+new_window_created_callback (EShell *shell,
+			     EShellWindow *window,
+			     void *data)
 {
-	g_signal_handlers_disconnect_by_func (shell, G_CALLBACK (new_view_created_callback), data);
+	g_signal_handlers_disconnect_by_func (shell, G_CALLBACK (new_window_created_callback), data);
 
-	g_signal_connect (view, "map", G_CALLBACK (view_map_callback), NULL);
+	g_signal_connect (window, "map", G_CALLBACK (window_map_callback), NULL);
 }
 
 #endif /* DEVELOPMENT_WARNING */
@@ -374,20 +372,17 @@ idle_cb (void *data)
 	else
 		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_OFFLINE;
 
-	shell = e_shell_new (evolution_directory, ! no_splash, startup_line_mode, &result);
-	g_free (evolution_directory);
+	shell = e_shell_new (startup_line_mode, &result);
 
 	switch (result) {
 	case E_SHELL_CONSTRUCT_RESULT_OK:
-		e_shell_config_factory_register (shell);
-
-		g_signal_connect (shell, "no_views_left", G_CALLBACK (no_views_left_cb), NULL);
+		g_signal_connect (shell, "no_windows_left", G_CALLBACK (no_windows_left_cb), NULL);
 		g_object_weak_ref (G_OBJECT (shell), shell_weak_notify, NULL);
 
 #ifdef DEVELOPMENT_WARNING
 		if (!getenv ("EVOLVE_ME_HARDER"))
-			g_signal_connect (shell, "new_view_created",
-					  G_CALLBACK (new_view_created_callback), NULL);
+			g_signal_connect (shell, "new_window_created",
+					  G_CALLBACK (new_window_created_callback), NULL);
 #endif
 
 		corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
@@ -439,7 +434,7 @@ idle_cb (void *data)
 		   view, AND we can't load the user's previous settings, then show the default
 		   URI.  */
 		if (! have_evolution_uri) {
-			e_shell_create_view (shell, NULL, NULL);
+			e_shell_create_window (shell, NULL);
 			display_default = TRUE;
 			displayed_any = TRUE;
 		} else {
@@ -538,8 +533,6 @@ int
 main (int argc, char **argv)
 {
 	struct poptOption options[] = {
-		{ "no-splash", '\0', POPT_ARG_NONE, &no_splash, 0,
-		  N_("Disable splash screen"), NULL },
 		{ "offline", '\0', POPT_ARG_NONE, &start_offline, 0, 
 		  N_("Start in offline mode"), NULL },
 		{ "online", '\0', POPT_ARG_NONE, &start_online, 0, 
@@ -560,6 +553,7 @@ main (int argc, char **argv)
 	GnomeProgram *program;
 	poptContext popt_context;
 	const char **args;
+	char *evolution_directory;
 
 	/* Make ElectricFence work.  */
 	free (malloc (10));
@@ -609,11 +603,12 @@ main (int argc, char **argv)
 
 	/* FIXME */
 	evolution_directory = g_build_filename (g_get_home_dir (), "evolution", NULL);
-
 	if (! e_setup (evolution_directory))
 		exit (1);
 	if (setup_only)
 		exit (0);
+
+	g_free (evolution_directory);
 
 	uri_list = NULL;
 
@@ -630,9 +625,9 @@ main (int argc, char **argv)
 	uri_list = g_slist_reverse (uri_list);
 	g_value_unset (&popt_context_value);
 
-	e_config_upgrade(evolution_directory);
+	e_config_upgrade (evolution_directory);
 
-	gtk_idle_add (idle_cb, uri_list);
+	g_idle_add (idle_cb, uri_list);
 
 	bonobo_main ();
 

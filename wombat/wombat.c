@@ -31,7 +31,8 @@
 #include "pas/pas-backend-file.h"
 
 #include "calendar/pcs/cal-factory.h"
-#include "calendar/pcs/cal-backend-file.h"
+#include "calendar/pcs/cal-backend-file-events.h"
+#include "calendar/pcs/cal-backend-file-todos.h"
 
 #include "wombat-interface-check.h"
 
@@ -64,8 +65,7 @@ static guint termination_handler_id;
 static gboolean
 termination_handler (gpointer data)
 {
-	if (
-	    cal_factory_get_n_backends (cal_factory) == 0 &&
+	if (cal_factory_get_n_backends (cal_factory) == 0 &&
 	    pas_book_factory_get_n_backends (pas_book_factory) == 0) {
 		fprintf (stderr, "termination_handler(): Terminating the Wombat.  Have a nice day.\n");
 		bonobo_main_quit ();
@@ -144,9 +144,10 @@ setup_pcs (void)
 		return FALSE;
 	}
 
-	cal_factory_register_method (cal_factory, "file", CAL_BACKEND_FILE_TYPE);
+	cal_factory_register_method (cal_factory, "file", ICAL_VEVENT_COMPONENT, CAL_BACKEND_FILE_EVENTS_TYPE);
+	cal_factory_register_method (cal_factory, "file", ICAL_VTODO_COMPONENT, CAL_BACKEND_FILE_TODOS_TYPE);
 
-	if (!cal_factory_oaf_register (cal_factory, CAL_FACTORY_OAF_ID)) {
+	if (!cal_factory_register_storage (cal_factory, CAL_FACTORY_OAF_ID)) {
 		bonobo_object_unref (BONOBO_OBJECT (cal_factory));
 		cal_factory = NULL;
 		return FALSE;

@@ -1,7 +1,22 @@
+2003-10-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	* wombat.c (termination_handler): re-enabled the call to
+	cal_factory_get_n_backends, so that we only terminate if there
+	are no active backends (either addressbook or calendar).
+
 2003-10-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: INCLUDE path fixes for changes made to libical
 	build.
+
+2003-08-13  JP Rosevear  <jpr@ximian.com>
+
+	* wombat.c (termination_handler): comment out some bits
+	(setup_pcs): register kind and method
+
+	* GNOME_Evolution_Wombat.server.in.in: add calendar protocol
+
+	* GNOME_Evolution_WombatLDAP.server.in.in: ditto
 
 2003-06-26  Rodrigo Moya <rodrigo@ximian.com>
 

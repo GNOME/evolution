@@ -852,7 +852,8 @@ preview_recur (RecurrencePage *rpage)
 
 	cal_component_get_dtstart (priv->comp, &cdt);
 	if (cdt.tzid != NULL) {
-		if (cal_client_get_timezone (COMP_EDITOR_PAGE (rpage)->client, cdt.tzid, &zone) != CAL_CLIENT_GET_SUCCESS)
+		/* FIXME Will cal_client_get_timezone really not return builtin zones? */
+		if (!cal_client_get_timezone (COMP_EDITOR_PAGE (rpage)->client, cdt.tzid, &zone, NULL))
 			zone = icaltimezone_get_builtin_timezone_from_tzid (cdt.tzid);
 	}
 	cal_component_set_dtstart (comp, &cdt);
@@ -1448,7 +1449,8 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 				else if (dt.tzid == NULL)
 					to_zone = icaltimezone_get_utc_timezone ();
 				else
-					cal_client_get_timezone (client, dt.tzid, &to_zone);
+					/* FIXME Error checking? */
+					cal_client_get_timezone (client, dt.tzid, &to_zone, NULL);
 				from_zone = icaltimezone_get_utc_timezone ();
 
 				icaltimezone_convert_time (&r->until, from_zone, to_zone);

@@ -1,6 +1,42 @@
+2003-10-21  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-local-folder.c (local_getv, local_setv):
+	use the right tag name for the index_body arg.
+	(local_sync): write any persistent metadata - to make it
+	persistent.
+	(camel_local_folder_construct): turn off indexing, for now, it
+	should be done in local_setv.
+
+	* providers/local/camel-local-folder.h: change body_index to a bool
+	type.
+
+	* camel-object.c (cobject_state_read, cobject_state_write): handle
+	bool types
+	(cobject_state_write): make sure we free all arg types.
+
+	* camel-arg.c (camel_argv_build):
+	(camel_arggetv_build):  handle bool type.
+
+	* camel-arg.h: Added BOO (bool) type.
+
+2003-10-15  Not Zed  <NotZed@Ximian.com>
+
+	* camel-store.c (camel_folder_info_build): Fix so we output the
+	tree in sorted depth-first order, rather in reverse.
+
 2003-10-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-kerberos4.c: Fixed a #include.
+
+2003-10-10  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-local-provider.c: set the url fragment
+	flag for local providers.
+
+	* camel-provider.h: Move the URL_PART_NEED bits to the high 16
+	bits, to allow for easier changes in the future.  Added a
+	URL_PART_FRAGMENT flag for providers that use fragment = folder
+	path.
 
 2003-10-09  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -19,6 +55,12 @@
 	* providers/smtp/camel-smtp-transport.c (smtp_helo): If the
 	localhost lookup results in a numeric IPv6 host, use the form
 	"[IPv6:<addr>]" as specified in rfc2821. Fixes bug #46006.
+
+2003-09-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* providers/local/camel-local-provider.c: Set the IS_STORAGE bit
+	in the mbox provider, since it can now contain a hierarchy of
+	folders.
 
 2003-09-23  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -686,6 +728,11 @@
 	(header_decode_mailbox): Perform a sanity check on the resultant
 	addr->str to make sure that it is valid UTF-8, if not convert it
 	to UTF-8. Fixes bug #42170.
+
+2003-07-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* camel-provider.c (camel_provider_init): Print the provider
+	directory as well, for debugging.
 
 2003-07-23  Jeffrey Stedfast  <fejj@ximian.com>
 

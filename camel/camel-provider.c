@@ -70,8 +70,8 @@ camel_provider_init (void)
 	
 	dir = opendir (CAMEL_PROVIDERDIR);
 	if (!dir) {
-		g_error ("Could not open camel provider directory: %s",
-			 g_strerror (errno));
+		g_error ("Could not open camel provider directory (%s): %s",
+			 CAMEL_PROVIDERDIR, g_strerror (errno));
 		return NULL;
 	}
 	

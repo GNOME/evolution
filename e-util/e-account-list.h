@@ -35,6 +35,7 @@ typedef struct EAccountListPrivate EAccountListPrivate;
 /* search options for the find command */
 typedef enum _e_account_find_t {
 	E_ACCOUNT_FIND_NAME,
+	E_ACCOUNT_FIND_UID,
 	E_ACCOUNT_FIND_ID_NAME,
 	E_ACCOUNT_FIND_ID_ADDRESS,
 } e_account_find_t;

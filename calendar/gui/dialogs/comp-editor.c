@@ -41,6 +41,7 @@
 #include <e-util/e-dialog-utils.h>
 #include <evolution-shell-component-utils.h>
 #include "../print.h"
+#include "../comp-util.h"
 #include "save-comp.h"
 #include "delete-comp.h"
 #include "send-comp.h"
@@ -294,7 +295,8 @@ save_comp (CompEditor *editor)
 	CompEditorPrivate *priv;
 	CalComponent *clone;
 	GList *l;
-	CalClientResult result;
+	gboolean result;
+	GError *error = NULL;
 
 	priv = editor->priv;
 
@@ -321,32 +323,24 @@ save_comp (CompEditor *editor)
 
 	priv->updating = TRUE;
 
-	if (cal_component_is_instance (priv->comp))
-		result = cal_client_update_object_with_mod (priv->client, priv->comp, priv->mod);
-	else
-		result = cal_client_update_object (priv->client, priv->comp);
-	if (result != CAL_CLIENT_RESULT_SUCCESS) {
+	if (!cal_comp_is_on_server (priv->comp, priv->client)) {
+		result = cal_client_create_object (priv->client, cal_component_get_icalcomponent (priv->comp), NULL, &error);
+	} else {
+		result = cal_client_modify_object (priv->client, cal_component_get_icalcomponent (priv->comp), priv->mod, &error);
+	}	
+	
+	if (!result) {
 		GtkWidget *dlg;
 		char *msg;
 
-		switch (result) {
-		case CAL_CLIENT_RESULT_INVALID_OBJECT :
-			msg = g_strdup (_("Could not update invalid object"));
-			break;
-		case CAL_CLIENT_RESULT_NOT_FOUND :
-			msg = g_strdup (_("Object not found, not updated"));
-			break;
-		case CAL_CLIENT_RESULT_PERMISSION_DENIED :
-			msg = g_strdup (_("You don't have permissions to update this object"));
-			break;
-		default :
-			msg = g_strdup (_("Could not update object"));
-			break;
-		}
+		msg = g_strdup (error ? error->message : _("Could not update object"));
 
 		dlg = gnome_error_dialog (msg);
 		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+
 		g_free (msg);
+		if (error)
+			g_error_free (error);
 
 		return FALSE;
 	} else {
@@ -391,7 +385,7 @@ delete_comp (CompEditor *editor)
 
 	cal_component_get_uid (priv->comp, &uid);
 	priv->updating = TRUE;
-	cal_client_remove_object (priv->client, uid);
+	cal_client_remove_object (priv->client, uid, NULL);
 	priv->updating = FALSE;
 	close_dialog (editor);
 }
@@ -1442,7 +1436,6 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
 	CalComponent *comp = NULL;
-	CalClientGetStatus status;
 	const char *edit_uid;
 
 	priv = editor->priv;
@@ -1453,8 +1446,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 		if (changed_component_dialog ((GtkWindow *) editor, priv->comp, FALSE, priv->changed)) {
 			icalcomponent *icalcomp;
 
-			status = cal_client_get_object (priv->client, uid, &icalcomp);
-			if (status == CAL_CLIENT_GET_SUCCESS) {
+			if (!cal_client_get_object (priv->client, uid, NULL, &icalcomp, NULL)) {
 				comp = cal_component_new ();
 				if (cal_component_set_icalcomponent (comp, icalcomp))
 					comp_editor_edit_comp (editor, comp);

@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 #include <stdio.h>
-#include "e-vcard.h"
+#include "ebook/e-vcard.h"
 
 FILE *fp;
 

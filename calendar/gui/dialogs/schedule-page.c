@@ -208,7 +208,6 @@ update_time (SchedulePage *spage, CalComponentDateTime *start_date, CalComponent
 	SchedulePagePrivate *priv;
 	struct icaltimetype start_tt, end_tt;
 	icaltimezone *start_zone = NULL, *end_zone = NULL;
-	CalClientGetStatus status;
 	gboolean all_day;
 
 	priv = spage->priv;
@@ -218,24 +217,22 @@ update_time (SchedulePage *spage, CalComponentDateTime *start_date, CalComponent
 	   first. */
 	start_zone = icaltimezone_get_builtin_timezone_from_tzid (start_date->tzid);
 	if (!start_zone) {
-		status = cal_client_get_timezone (COMP_EDITOR_PAGE (spage)->client,
-						  start_date->tzid,
-						  &start_zone);
-		/* FIXME: Handle error better. */
-		if (status != CAL_CLIENT_GET_SUCCESS)
+		if (!cal_client_get_timezone (COMP_EDITOR_PAGE (spage)->client,
+					      start_date->tzid, &start_zone, NULL)) {
+			/* FIXME: Handle error better. */
 			g_warning ("Couldn't get timezone from server: %s",
 				   start_date->tzid ? start_date->tzid : "");
+		}
 	}
 
 	end_zone = icaltimezone_get_builtin_timezone_from_tzid (end_date->tzid);
 	if (!end_zone) {
-		status = cal_client_get_timezone (COMP_EDITOR_PAGE (spage)->client,
-						  end_date->tzid,
-						  &end_zone);
-		/* FIXME: Handle error better. */
-		if (status != CAL_CLIENT_GET_SUCCESS)
-		  g_warning ("Couldn't get timezone from server: %s",
-			     end_date->tzid ? end_date->tzid : "");
+		if (!cal_client_get_timezone (COMP_EDITOR_PAGE (spage)->client,
+					      end_date->tzid, &end_zone, NULL)) {
+			/* FIXME: Handle error better. */
+			g_warning ("Couldn't get timezone from server: %s",
+				   end_date->tzid ? end_date->tzid : "");
+		}		
 	}
 
 	start_tt = *start_date->value;

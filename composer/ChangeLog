@@ -1,3 +1,37 @@
+2003-10-08  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-composer.c (corba_recipientlist_to_destv): EDestination =>
+	EABDestination, and e_destination => eab_destination.
+	(impl_Composer_set_headers): same.
+
+	* e-msg-composer.c (update_auto_recipients): EDestination =>
+	EABDestination, and e_destination => eab_destination.
+	(e_msg_composer_new_with_message): same.
+	(add_recipients): same.
+	(handle_mailto): same.
+	(e_msg_composer_set_headers): same.
+	(e_msg_composer_get_recipients): same.
+	(e_msg_composer_get_to): same.
+	(e_msg_composer_get_cc): same.
+	(e_msg_composer_get_bcc): same.
+
+	* e-msg-composer.h: EDestination => EABDestination, and
+	e_destination => eab_destination.
+
+	* e-msg-composer-hdrs.c (set_recipients_from_destv): EDestination
+	=> EABDestination, and e_destination => eab_destination.
+	(e_msg_composer_hdrs_to_message_internal): same.
+	(e_msg_composer_hdrs_set_to): same.
+	(e_msg_composer_hdrs_set_cc): same.
+	(e_msg_composer_hdrs_set_bcc): same.
+	(e_msg_composer_hdrs_get_to): same.
+	(e_msg_composer_hdrs_get_cc): same.
+	(e_msg_composer_hdrs_get_bcc): same.
+	(e_msg_composer_hdrs_get_recipients): same.
+
+	* e-msg-composer-hdrs.h: EDestination => EABDestination, and
+	e_destination => eab_destination.
+
 2003-09-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (save): Don't blindly claim that the file

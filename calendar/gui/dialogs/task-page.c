@@ -253,7 +253,6 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	CalComponentText text;
 	CalComponentDateTime d;
 	CalComponentClassification cl;
-	CalClientGetStatus get_tz_status;
 	GSList *l;
 	const char *categories;
 	icaltimezone *zone, *default_zone;
@@ -317,12 +316,10 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	if (!zone)
 		zone = icaltimezone_get_builtin_timezone_from_tzid (d.tzid);
 	if (!zone) {
-		get_tz_status = cal_client_get_timezone (page->client, d.tzid,
-							 &zone);
-		/* FIXME: Handle error better. */
-		if (get_tz_status != CAL_CLIENT_GET_SUCCESS)
-		  g_warning ("Couldn't get timezone from server: %s",
-			     d.tzid ? d.tzid : "");
+		if (!cal_client_get_timezone (page->client, d.tzid, &zone, NULL))
+			/* FIXME: Handle error better. */
+			g_warning ("Couldn't get timezone from server: %s",
+				   d.tzid ? d.tzid : "");
 	}
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->due_timezone),
 				       zone);
@@ -359,10 +356,8 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	if (!zone)
 		zone = icaltimezone_get_builtin_timezone_from_tzid (d.tzid);
 	if (!zone) {
-		get_tz_status = cal_client_get_timezone (page->client, d.tzid,
-							 &zone);
-		/* FIXME: Handle error better. */
-		if (get_tz_status != CAL_CLIENT_GET_SUCCESS)
+		if (!cal_client_get_timezone (page->client, d.tzid, &zone, NULL))
+			/* FIXME: Handle error better. */
 			g_warning ("Couldn't get timezone from server: %s",
 				   d.tzid ? d.tzid : "");
 	}

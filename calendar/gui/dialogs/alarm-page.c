@@ -677,10 +677,9 @@ add_clicked_cb (GtkButton *button, gpointer data)
 	action = e_dialog_option_menu_get (priv->action, action_map);
 	cal_component_alarm_set_action (alarm, action);
 	if (action == CAL_ALARM_EMAIL && !cal_component_alarm_has_attendees (alarm)) {
-		const char *email;
+		char *email;
 		
-		email = cal_client_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client);
-		if (email != NULL) {
+		if (!cal_client_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client, &email, NULL)) {
 			CalComponentAttendee *a;
 			GSList attendee_list;
 
@@ -689,6 +688,7 @@ add_clicked_cb (GtkButton *button, gpointer data)
 			attendee_list.data = a;
 			attendee_list.next = NULL;
 			cal_component_alarm_set_attendee_list (alarm, &attendee_list);
+			g_free (email);
 			g_free (a);
 		}
 	}
@@ -741,7 +741,7 @@ button_options_clicked_cb (GtkWidget *widget, gpointer data)
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
 	gboolean repeat;
-	const char *email;
+	char *email;
 	
 	apage = ALARM_PAGE (data);
 	priv = apage->priv;
@@ -751,9 +751,11 @@ button_options_clicked_cb (GtkWidget *widget, gpointer data)
 
 	repeat = !cal_client_get_static_capability (COMP_EDITOR_PAGE (apage)->client,
 						    CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT);
-	email = cal_client_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client);
-	if (!alarm_options_dialog_run (priv->alarm, email, repeat))
-		g_message ("button_options_clicked_cb(): Could not create the alarm options dialog");
+
+	if (cal_client_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client, &email, NULL)) {
+		if (!alarm_options_dialog_run (priv->alarm, email, repeat))
+			g_message ("button_options_clicked_cb(): Could not create the alarm options dialog");
+	}
 }
 
 /* Hooks the widget signals */

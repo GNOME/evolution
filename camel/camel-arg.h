@@ -45,6 +45,7 @@ enum camel_arg_t {
 	CAMEL_ARG_DBL = 0x20000000, /* double */
 	CAMEL_ARG_STR = 0x30000000, /* c string */
 	CAMEL_ARG_PTR = 0x40000000, /* ptr */
+	CAMEL_ARG_BOO = 0x50000000, /* bool */
 };
 
 typedef struct _CamelArg CamelArg;

@@ -1,1 +1,1 @@
-SUBDIRS=vcard
+SUBDIRS=vcard ebook

@@ -35,6 +35,7 @@
 #include <glade/glade.h>
 #include <libgnomeui/gnome-stock-icons.h>
 #include <gal/util/e-util.h>
+#include <gal/e-table/e-table.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -693,7 +694,9 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 			CalClient *client)
 {
 	MeetingPagePrivate *priv;
-	const char *backend_address;
+	ETable *real_table;
+	gchar *filename;
+	char *backend_address;
 	EIterator *it;
 	EAccount *def_account;
 	GList *address_strings = NULL, *l;
@@ -716,7 +719,8 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	}
 
 	/* Address information */
-	backend_address = cal_client_get_cal_address (client);
+	if (!cal_client_get_cal_address (client, &backend_address, NULL))
+		return NULL;
 
 	priv->accounts = itip_addresses_get ();
 	def_account = itip_addresses_get_default();
@@ -743,7 +747,8 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 		}
 	}
 	g_object_unref(it);
-	
+	g_free (backend_address);
+
 	if (address_strings)
 		gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), address_strings);
 	else
@@ -753,6 +758,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 		g_free (l->data);
 	g_list_free (address_strings);
 	
+	/* The etable displaying attendees and their status */
 	g_object_ref((ems));
 	priv->model = ems;
 

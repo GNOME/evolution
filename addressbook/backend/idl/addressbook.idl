@@ -12,98 +12,120 @@
 module GNOME {
 module Evolution {
 module Addressbook {
-	typedef string CardId;
+	typedef string ContactId;
 	typedef string VCard;
 	typedef sequence<VCard> VCardList;
-	typedef sequence<CardId> CardIdList;
+	typedef sequence<ContactId> ContactIdList;
 	typedef sequence<string> stringlist;
 
-	interface CardCursor : Bonobo::Unknown {
-		long   count  ();
-		string getNth (in long n);
+	enum BookChangeType {
+		ContactAdded,
+		ContactModified,
+		ContactDeleted
+	};
+
+	union BookChangeItem switch (BookChangeType) {
+	case ContactAdded:
+		VCard add_vcard;
+	case ContactModified:
+		VCard mod_vcard;
+	case ContactDeleted:
+		ContactId del_id;
+	};
+
+	typedef sequence<BookChangeItem> BookChangeList;
+
+	enum CallStatus {
+		Success,
+		RepositoryOffline,
+		PermissionDenied,
+		ContactNotFound,
+		ContactIdAlreadyExists,
+		AuthenticationFailed,
+		AuthenticationRequired,
+		UnsupportedField,
+		UnsupportedAuthenticationMethod,
+		TLSNotAvailable,
+		NoSuchBook,
+		BookRemoved,
+
+		/* These can be returned for successful searches, but
+		   indicate the result set was truncated */
+		SearchSizeLimitExceeded,
+		SearchTimeLimitExceeded,
+
+		InvalidQuery,
+		QueryRefused,
+
+		CouldNotCancel,
+		
+		OtherError
 	};
 
 	/* 
 	 * A book view is a live view of a book.  It's either a view
-	 * of all the cards in the book or a view of a query.  When
-	 * created, it will get a series of signal_card_added calls
+	 * of all the contacts in the book or a view of a query.  When
+	 * created, it will get a series of notifyContactsAdded calls
 	 * for all objects in the initial set.  After that, it will
 	 * get added, removed, or changed signals whenever the book
-	 * changes (if it affects the set of viewed cards.)
+	 * changes (if it affects the set of viewed contacts.)
 	 */
 	interface BookViewListener : Bonobo::Unknown {
-		enum CallStatus {
-			Success,
-			/* These are still successful searches, but
-			   the result set was truncated */
-			SearchSizeLimitExceeded,
-			SearchTimeLimitExceeded,
-
-			/* These are failures */
-			InvalidQuery,
-			QueryRefused,
-			OtherError
-		};
-		void notifyCardAdded        (in VCardList cards);
-		void notifyCardsRemoved     (in CardIdList ids);
-		void notifyCardChanged      (in VCardList cards);
-		void notifySequenceComplete (in CallStatus status);
-		void notifyStatusMessage    (in string message);
+		oneway void notifyContactsAdded    (in VCardList vcards);
+		oneway void notifyContactsRemoved  (in ContactIdList ids);
+		oneway void notifyContactsChanged  (in VCardList vcards);
+		oneway void notifySequenceComplete (in CallStatus status);
+		oneway void notifyProgress         (in string message, in short percent);
 	};
 	
 	interface BookView : Bonobo::Unknown {
+		oneway void start ();
 	};
 
 	interface Book : Bonobo::Unknown {
 
 		/*
-		 * Fetching cards in the addresbook.
+		 * Opening/creating addressbooks.
 		 */
-		void getVCard (in CardId id);
-
-		void authenticateUser (in string user, in string passwd,
-				       in string authMethod);
+		oneway void open (in boolean only_if_exists);
 
 		/*
-		 * Adding and deleting cards in the book.
+		 * Removing addressbooks.
 		 */
-		void addCard    (in VCard vcard);
-		void removeCards (in CardIdList Id);
+		oneway void remove ();
+
+		/*
+		 * Fetching contacts in the addresbook.
+		 */
+		oneway void getContact (in ContactId id);
+
+		oneway void authenticateUser (in string user, in string passwd,
+					      in string authMethod);
+
+		/*
+		 * Adding and deleting contacts in the book.
+		 */
+		oneway void addContact    (in VCard vcard);
+		oneway void removeContacts (in ContactIdList Id);
 	        
 		/*
-		 * Modifying cards in the addressbook.
+		 * Modifying contacts in the addressbook.
 		 */
-		void modifyCard (in VCard vcard);
-		
-		/*
-		 * This function returns a cursor to the book
-		 * listener.  This is for people who want a snapshot
-		 * of the addressbook.
-		 */
-		void getCursor (in string query);
+		oneway void modifyContact (in VCard vcard);
 		
 		/*
 		 * These two functions return a book view to the book
 		 * listener.  This is for people who want a live view
 		 * of the addressbook.
 		 */
-		void getBookView (in BookViewListener listener, in string query);
+		oneway void getBookView (in BookViewListener listener, in string query,
+					 in stringlist requested_fields, in long max_results);
 
-		void getChanges  (in BookViewListener listener, in string change_id);
+		oneway void getChanges  (in string change_id);
 
-		/*
-		 * This function returns a book view that is identical
-		 * to a normal book view, except in one way - The only
-		 * values reflected in the cards that are transfered
-		 * back are: File As, family name, given name, email
-		 * addresses, and nickname.  It is intended for use in
-		 * completion searches.
-		 */
-		void getCompletionView (in BookViewListener listener, in string query);
+		oneway void getContactList (in string query);
 
-		void checkConnection ();
-
-		void getSupportedFields ();
+		oneway void getSupportedFields ();
 
 		/*
 		 * This function returns a list of strings
@@ -127,86 +149,40 @@ module Addressbook {
 		 * as it will be passed unchanged to the backend auth
 		 * function (eg. ldap_sasl_bind)
 		 */
-		void getSupportedAuthMethods ();
+		oneway void getSupportedAuthMethods ();
 
 		string getStaticCapabilities ();
 
 		string getName ();
+
+		/* cancels the currently running operation, whatever
+		   it is. */
+		CallStatus cancelOperation ();
 	};
 
 	interface BookListener : Bonobo::Unknown {
 
-		enum CallStatus {
-			Success,
-			RepositoryOffline,
-			PermissionDenied,
-			CardNotFound,
-			CardIdAlreadyExists,
-			ProtocolNotSupported,
-			AuthenticationFailed,
-			AuthenticationRequired,
-			UnsupportedField,
-			UnsupportedAuthenticationMethod,
-			TLSNotAvailable,
-			NoSuchBook,
+		oneway void notifyContactCreated       (in CallStatus status, in ContactId Id);
+		oneway void notifyContactsRemoved      (in CallStatus status);
+		oneway void notifyContactModified      (in CallStatus status);
+		oneway void notifyProgress             (in string status_message, in short precent);
+		oneway void notifyBookOpened           (in CallStatus status);
+		oneway void notifyBookRemoved          (in CallStatus status);
+		oneway void notifyViewRequested        (in CallStatus status, in BookView view);
+		oneway void notifyChangesRequested     (in CallStatus status, in BookChangeList changes);
+		oneway void notifyContactRequested     (in CallStatus status, in VCard vcard);
+		oneway void notifyContactListRequested (in CallStatus status, in stringlist contacts);
+		oneway void notifySupportedFields      (in CallStatus status, in stringlist fields);
+		oneway void notifyAuthenticationResult (in CallStatus status);
+		oneway void notifySupportedAuthMethods (in CallStatus status, in stringlist auth_methods);
 
-			OtherError
-		};
-
-		void notifyCardCreated  (in CallStatus status, in CardId Id);
-
-		void notifyCardsRemoved (in CallStatus status);
-
-		void notifyCardModified (in CallStatus status);
-		
-		void notifyOpenBookProgress (in string status_message, in short percent);
-
-		void notifyBookOpened       (in CallStatus status, in Book book);
-
-		void notifyCardRequested    (in CallStatus status, in VCard card);
-
-		void notifyCursorRequested  (in CallStatus status, in CardCursor cursor);
-
-		void notifyViewRequested    (in CallStatus status, in BookView view);
-
-		void notifyChangesRequested (in CallStatus status, in BookView view);
-
-		void notifyAuthenticationResult (in CallStatus status);
-
-		void notifySupportedFields (in CallStatus status, in stringlist fields);
-
-		void notifySupportedAuthMethods (in CallStatus status, in stringlist fields);
-
-		/**
-		 * notifyConnectionStatus:
-		 *
-		 * Used to report changes in the connection to the
-		 * contact repository.  This is often a response to a
-		 * call to check_connection() on the Book, but wombat
-		 * is free to report the connection status without
-		 * being asked.
-		 */
-		void notifyConnectionStatus (in boolean connected);
-
-		/**
-		 * notifyWritable:
-		 *
-		 * Used to report whether or not a backend can write
-		 * to a given addressbook.  All books default to
-		 * read-only, so unless you receive a notification
-		 * saying otherwise, treat the book as read-only.  It
-		 * is presumed that this notification will be sent
-		 * early (just after a connection is opened, usually),
-		 * but it may also be sent later, if/when the backend
-		 * notices a change.
-		 */
-		void notifyWritable (in boolean writable);
+		oneway void notifyWritable (in boolean writable);
 	};
 
 	interface BookFactory : Bonobo::Unknown {
 		exception ProtocolNotSupported {};
 
-		void openBook (in string uri, in BookListener listener)
+		Book getBook (in string uri, in BookListener listener)
 			raises (ProtocolNotSupported);
 	};
 };

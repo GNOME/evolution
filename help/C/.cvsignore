@@ -1,2 +1,4 @@
 Makefile
 Makefile.in
+evolution-*-C.omf.out
+omf_timestamp

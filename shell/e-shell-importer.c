@@ -1162,9 +1162,7 @@ dialog_weak_notify (void *data,
 }
 
 void
-show_import_wizard (BonoboUIComponent *component,
-		    gpointer           user_data,
-		    const char        *cname)
+e_shell_importer_start_import (void)
 {
 	ImportData *data = g_new0 (ImportData, 1);
 	GtkWidget *html;
