@@ -1,3 +1,7 @@
+2000-10-25    <jpr@helixcode.com>
+
+	* ibex_block.c: No longer include <db.h>
+
 2000-10-25  Not Zed  <NotZed@HelixCode.com>
 
 	* ibex_internal.h (IBEX_VERSION): Bumped to another version.  The

@@ -1,7 +1,6 @@
 
 #include <glib.h>
 
-#include <db.h>
 #include <stdio.h>
 #include <unicode.h>
 #include <ctype.h>

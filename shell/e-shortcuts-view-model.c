@@ -85,7 +85,7 @@ load_group_into_model (EShortcutsViewModel *shortcuts_view_model,
 		return;
 
 	for (p = shortcut_list; p != NULL; p = p->next) {
-		EFolder *folder;
+		EFolder *folder = NULL;
 		const char *path;
 		const char *uri;
 		const char *name;

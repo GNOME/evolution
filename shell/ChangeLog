@@ -1,3 +1,8 @@
+2000-10-25    <jpr@helixcode.com>
+
+	* e-shortcuts-view-model.c (load_group_into_model): Set folder to NULL to
+	kill warning
+
 2000-10-23  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am (INCLUDES): Update EVOLUTION_LOCALEDIR
