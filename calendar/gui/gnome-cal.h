@@ -95,6 +95,13 @@ void	   gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 						   time_t	  start_time,
 						   time_t	  end_time);
 
+/* Returns the selected time range for the current view. Note that this may be
+   different from the fields in the GnomeCalendar, since the view may clip
+   this or choose a more appropriate time. */
+void	   gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
+						  time_t	 *start_time,
+						  time_t	 *end_time);
+
 /* Flags is a bitmask of CalObjectChange values */
 void       gnome_calendar_object_changed        (GnomeCalendar *gcal,
 						 iCalObject *obj,

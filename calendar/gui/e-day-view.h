@@ -419,6 +419,11 @@ void       e_day_view_set_selected_time_range	(EDayView	*day_view,
 						 time_t		 start_time,
 						 time_t		 end_time);
 
+/* Returns the selected time range. */
+void       e_day_view_get_selected_time_range	(EDayView	*day_view,
+						 time_t		*start_time,
+						 time_t		*end_time);
+
 /* This reloads all calendar events. */
 void       e_day_view_update_all_events		(EDayView	*day_view);
 

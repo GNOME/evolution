@@ -930,6 +930,39 @@ gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 }
 
 
+/* Returns the selected time range for the current view. Note that this may be
+   different from the fields in the GnomeCalendar, since the view may clip
+   this or choose a more appropriate time. */
+void
+gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
+				       time_t	 *start_time,
+				       time_t	 *end_time)
+{
+	GtkWidget *page;
+
+	page = get_current_page (gcal);
+
+	if (page == gcal->day_view
+	    || page == gcal->work_week_view)
+		e_day_view_get_selected_time_range (E_DAY_VIEW (page),
+						    start_time, end_time);
+	else if (page == gcal->week_view
+		 || page == gcal->month_view)
+		e_week_view_get_selected_time_range (E_WEEK_VIEW (page),
+						     start_time, end_time);
+#if 0
+	else if (page == gcal->year_view_sw)
+		year_view_set (YEAR_VIEW (gcal->year_view),
+			       gcal->selection_start_time);
+#endif
+	else {
+		g_warning ("My penguin is gone!");
+		g_assert_not_reached ();
+	}
+}
+
+
+
 /* This updates the month shown and the day selected in the calendar, if
    necessary. */
 static void

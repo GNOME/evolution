@@ -311,6 +311,11 @@ void	   e_week_view_set_selected_time_range	(EWeekView	*week_view,
 						 time_t		 start_time,
 						 time_t		 end_time);
 
+/* Returns the selected time range. */
+void       e_week_view_get_selected_time_range	(EWeekView	*week_view,
+						 time_t		*start_time,
+						 time_t		*end_time);
+
 /* Whether to display 1 week or 1 month (5 weeks). It defaults to 1 week. */
 gboolean   e_week_view_get_display_month	(EWeekView	*week_view);
 void       e_week_view_set_display_month	(EWeekView	*week_view,

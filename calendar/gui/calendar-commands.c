@@ -189,12 +189,11 @@ display_objedit (BonoboUIHandler *uih, void *user_data, const char *path)
 	iCalObject *ico;
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 
-	/* FIXME: Should get the selection time from the view, since they
-	   may not be using the gcal's times. */
 	ico = ical_new ("", user_name, "");
 	ico->new = 1;
-	ico->dtstart = gcal->selection_start_time;
-	ico->dtend = gcal->selection_end_time;
+
+	gnome_calendar_get_current_time_range (gcal, &ico->dtstart,
+					       &ico->dtend);
 
 	ee = event_editor_new (gcal, ico);
 	gtk_widget_show (ee);

@@ -836,6 +836,27 @@ e_week_view_set_selected_time_range	(EWeekView	*week_view,
 }
 
 
+/* Returns the selected time range. */
+void
+e_week_view_get_selected_time_range	(EWeekView	*week_view,
+					 time_t		*start_time,
+					 time_t		*end_time)
+{
+	gint start_day, end_day;
+
+	start_day = week_view->selection_start_day;
+	end_day = week_view->selection_end_day;
+
+	if (start_day == -1) {
+		start_day = 0;
+		end_day = 0;
+	}
+
+	*start_time = week_view->day_starts[start_day];
+	*end_time = week_view->day_starts[end_day + 1];
+}
+
+
 /* Recalculates the time_t corresponding to the start of each day. */
 static void
 e_week_view_recalc_day_starts (EWeekView *week_view,
@@ -1858,7 +1879,9 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       "font_gdk", GTK_WIDGET (week_view)->style->font,
 					       "anchor", GTK_ANCHOR_NW,
 					       "clip", TRUE,
+#if 0
 					       "max_lines", 1,
+#endif
 					       "editable", TRUE,
 					       "text", ico->summary ? ico->summary : "",
 					       NULL);

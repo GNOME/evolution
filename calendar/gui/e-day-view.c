@@ -263,9 +263,6 @@ static void e_day_view_on_editing_started (EDayView *day_view,
 static void e_day_view_on_editing_stopped (EDayView *day_view,
 					   GnomeCanvasItem *item);
 
-static void e_day_view_get_selection_range (EDayView *day_view,
-					    time_t *start,
-					    time_t *end);
 static time_t e_day_view_convert_grid_position_to_time (EDayView *day_view,
 							gint col,
 							gint row);
@@ -1102,7 +1099,8 @@ e_day_view_update_event		(EDayView	*day_view,
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
 #if 0
-	g_print ("In e_day_view_update_event\n");
+	g_print ("In e_day_view_update_event day_view:%p uid:%s\n",
+		 day_view, uid);
 #endif
 
 	/* If our calendar or time hasn't been set yet, just return. */
@@ -1257,6 +1255,11 @@ e_day_view_remove_event	(EDayView	*day_view,
 			 const gchar	*uid)
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+#if 0
+	g_print ("In e_day_view_remove_event day_view:%p uid:%s\n",
+		 day_view, uid);
+#endif
 
 	e_day_view_foreach_event_with_uid (day_view, uid,
 					   e_day_view_remove_event_cb, NULL);
@@ -1523,6 +1526,39 @@ e_day_view_set_selected_time_range	(EDayView	*day_view,
 	if (need_redraw) {
 		gtk_widget_queue_draw (day_view->top_canvas);
 		gtk_widget_queue_draw (day_view->main_canvas);
+	}
+}
+
+
+/* Returns the selected time range. */
+void
+e_day_view_get_selected_time_range	(EDayView	*day_view,
+					 time_t		*start_time,
+					 time_t		*end_time)
+{
+	gint start_col, start_row, end_col, end_row;
+
+	start_col = day_view->selection_start_col;
+	start_row = day_view->selection_start_row;
+	end_col = day_view->selection_end_col;
+	end_row = day_view->selection_end_row;
+
+	if (start_col == -1) {
+		start_col = 0;
+		start_row = 0;
+		end_col = 0;
+		end_row = 0;
+	}
+
+	/* Check if the selection is only in the top canvas, in which case
+	   we can simply use the day_starts array. */
+	if (day_view->selection_in_top_canvas) {
+		*start_time = day_view->day_starts[start_col];
+		*end_time = day_view->day_starts[end_col + 1];
+	} else {
+		/* Convert the start col + row into a time. */
+		*start_time = e_day_view_convert_grid_position_to_time (day_view, start_col, start_row);
+		*end_time = e_day_view_convert_grid_position_to_time (day_view, end_col, end_row + 1);
 	}
 }
 
@@ -2254,7 +2290,8 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	ico = ical_new ("", user_name, "");
 	ico->new = 1;
 	
-	e_day_view_get_selection_range (day_view, &ico->dtstart, &ico->dtend);
+	e_day_view_get_selected_time_range (day_view, &ico->dtstart,
+					    &ico->dtend);
 	event_editor = event_editor_new (day_view->calendar, ico);
 	gtk_widget_show (event_editor);
 }
@@ -2326,6 +2363,7 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 		return;
 	
 	/* New object */
+	/* FIXME: generate a new uid. */
 	ico = ical_object_duplicate (event->ico);
 	g_free (ico->recur);
 	ico->recur = 0;
@@ -2414,7 +2452,7 @@ e_day_view_update_calendar_selection_time (EDayView *day_view)
 {
 	time_t start, end;
 
-	e_day_view_get_selection_range (day_view, &start, &end);
+	e_day_view_get_selected_time_range (day_view, &start, &end);
 	gnome_calendar_set_selected_time_range (day_view->calendar,
 						start, end);
 }
@@ -2726,15 +2764,21 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 {
 	EDayViewEvent *event;
 	gint event_num;
+	iCalObject ico;
 
 	event_num = day_view->resize_event_num;
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
 
+	/* We use a temporary shallow copy of the ico since we don't want to
+	   change the original ico here. Otherwise we would not detect that
+	   the event's time had changed in the "update_event" callback. */
+	ico = *event->ico;
+
 	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_LEFT_EDGE) {
-		event->ico->dtstart = day_view->day_starts[day_view->resize_start_row];
+		ico.dtstart = day_view->day_starts[day_view->resize_start_row];
 	} else {
-		event->ico->dtend = day_view->day_starts[day_view->resize_end_row + 1];
+		ico.dtend = day_view->day_starts[day_view->resize_end_row + 1];
 	}
 
 	gnome_canvas_item_hide (day_view->resize_long_event_rect_item);
@@ -2742,8 +2786,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
 	/* Notify calendar of change */
-	gnome_calendar_object_changed (day_view->calendar, event->ico,
-				       CHANGE_DATES);
+	gnome_calendar_object_changed (day_view->calendar, &ico, CHANGE_DATES);
 }
 
 
@@ -2754,16 +2797,22 @@ e_day_view_finish_resize (EDayView *day_view)
 {
 	EDayViewEvent *event;
 	gint day, event_num;
+	iCalObject ico;
 
 	day = day_view->resize_event_day;
 	event_num = day_view->resize_event_num;
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
 
+	/* We use a temporary shallow copy of the ico since we don't want to
+	   change the original ico here. Otherwise we would not detect that
+	   the event's time had changed in the "update_event" callback. */
+	ico = *event->ico;
+
 	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_TOP_EDGE) {
-		event->ico->dtstart = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_start_row);
+		ico.dtstart = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_start_row);
 	} else {
-		event->ico->dtend = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_end_row + 1);
+		ico.dtend = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_end_row + 1);
 	}
 
 	gnome_canvas_item_hide (day_view->resize_rect_item);
@@ -2778,8 +2827,7 @@ e_day_view_finish_resize (EDayView *day_view)
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
 	/* Notify calendar of change */
-	gnome_calendar_object_changed (day_view->calendar, event->ico,
-				       CHANGE_DATES);
+	gnome_calendar_object_changed (day_view->calendar, &ico, CHANGE_DATES);
 }
 
 
@@ -3698,7 +3746,8 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	ico = ical_new ("", user_name, "");
 	ico->new = 1;
 
-	e_day_view_get_selection_range (day_view, &ico->dtstart, &ico->dtend);
+	e_day_view_get_selected_time_range (day_view, &ico->dtstart,
+					    &ico->dtend);
 
 	/* We add the event locally and start editing it. When we get the
 	   "update_event" callback from the server, we basically ignore it.
@@ -3931,25 +3980,6 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	   which will reset the event label as appropriate. */
 	gnome_calendar_object_changed (day_view->calendar, event->ico,
 				       CHANGE_SUMMARY);
-}
-
-
-/* Converts the selected range into a start and end time. */
-static void
-e_day_view_get_selection_range (EDayView *day_view,
-				time_t *start,
-				time_t *end)
-{
-	/* Check if the selection is only in the top canvas, in which case
-	   we can simply use the day_starts array. */
-	if (day_view->selection_in_top_canvas) {
-		*start = day_view->day_starts[day_view->selection_start_col];
-		*end = day_view->day_starts[day_view->selection_end_col + 1];
-	} else {
-		/* Convert the start col + row into a time. */
-		*start = e_day_view_convert_grid_position_to_time (day_view, day_view->selection_start_col, day_view->selection_start_row);
-		*end = e_day_view_convert_grid_position_to_time (day_view, day_view->selection_end_col, day_view->selection_end_row + 1);
-	}
 }
 
 
@@ -4822,6 +4852,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 	EDayViewPosition pos;
 	gint day, start_day, end_day, num_days;
 	gchar *event_uid;
+	iCalObject ico;
 
 	if ((data->length >= 0) && (data->format == 8)) {
 		pos = e_day_view_convert_position_in_top_canvas (day_view,
@@ -4854,8 +4885,14 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			    || strcmp (event_uid, event->ico->uid))
 				g_warning ("Unexpected event UID");
 
-			event->ico->dtstart = day_view->day_starts[day];
-			event->ico->dtend = day_view->day_starts[day + num_days];
+			/* We use a temporary shallow copy of the ico since we
+			   don't want to change the original ico here.
+			   Otherwise we would not detect that the event's time
+			   had changed in the "update_event" callback. */
+			ico = *event->ico;
+
+			ico.dtstart = day_view->day_starts[day];
+			ico.dtend = day_view->day_starts[day + num_days];
 
 			gtk_drag_finish (context, TRUE, TRUE, time);
 
@@ -4864,8 +4901,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 
 			/* Notify calendar of change */
 			gnome_calendar_object_changed (day_view->calendar,
-						       event->ico,
-						       CHANGE_DATES);
+						       &ico, CHANGE_DATES);
 
 			return;
 		}
@@ -4889,6 +4925,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 	EDayViewPosition pos;
 	gint day, row, start_row, end_row, num_rows, scroll_x, scroll_y;
 	gchar *event_uid;
+	iCalObject ico;
 
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (widget),
 					 &scroll_x, &scroll_y);
@@ -4922,8 +4959,14 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			    || strcmp (event_uid, event->ico->uid))
 				g_warning ("Unexpected event UID");
 
-			event->ico->dtstart = e_day_view_convert_grid_position_to_time (day_view, day, row);
-			event->ico->dtend = e_day_view_convert_grid_position_to_time (day_view, day, row + num_rows);
+			/* We use a temporary shallow copy of the ico since we
+			   don't want to change the original ico here.
+			   Otherwise we would not detect that the event's time
+			   had changed in the "update_event" callback. */
+			ico = *event->ico;
+
+			ico.dtstart = e_day_view_convert_grid_position_to_time (day_view, day, row);
+			ico.dtend = e_day_view_convert_grid_position_to_time (day_view, day, row + num_rows);
 
 			gtk_drag_finish (context, TRUE, TRUE, time);
 
@@ -4932,8 +4975,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 
 			/* Notify calendar of change */
 			gnome_calendar_object_changed (day_view->calendar,
-						       event->ico,
-						       CHANGE_DATES);
+						       &ico, CHANGE_DATES);
 
 			return;
 		}

@@ -1,3 +1,18 @@
+2000-05-01  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/gnome-cal.[hc] (gnome_calendar_get_current_time_range): new
+	function to get the currently seleted time range form the current view.
+
+	* gui/calendar-commands.c (display_objedit): use the above function
+	to get the time for the new appointment.
+
+	* gui/e-week-view.c: 
+	* gui/e-day-view.c: use a shallow copy of the ico when we update the
+	times (when resizing/dragging). Otherwise we won't detect that the
+	time has changed in the "update_event" callback.
+
+	Also added functions to get the currently selected time range.
+
 2000-04-30  Seth Alves  <alves@hungry.com>
 
 	* pcs/icalendar-save.c (icalcomponent_create_from_ical_object): set
