@@ -1,8 +1,8 @@
 <oaf_info>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Calendar_ImporterFactory"
-	    type="exe"
-	    location="@LIBEXECDIR@/evolution-calendar-importer">
+	    type="shlib"
+	    location="@IMPORTERSDIR@/libevolution-calendar-importers.so">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>

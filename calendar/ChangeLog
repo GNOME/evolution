@@ -1,3 +1,18 @@
+2003-02-28  Hans Petter Jansson  <hpj@ximian.com>
+
+	* importers/Makefile.am: Shlibify.
+
+	* importers/GNOME_Evolution_Calendar_Importer.server.in.in:
+	Shlibify.
+
+	* importers/icalendar-importer.c: Add necessary includes.
+	(importer_destroy_cb): This is now a GWeakNotify func. gtk_ -> g_.
+	(ical_importer_new)
+	(vcal_importer_new)
+	(gnome_calendar_importer_destroy_cb): Destroy signal -> weak ref.
+
+	* importers/main.c: Add necessary includes. Shlibify.
+
 2003-02-28  Dan Winship  <danw@ximian.com>
 
 	* gui/dialogs/Makefile.am: build libcal-dialogs as an uninstalled

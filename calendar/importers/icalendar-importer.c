@@ -20,6 +20,8 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <string.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <fcntl.h>
 #include <gtk/gtksignal.h>
@@ -63,14 +65,14 @@ typedef struct {
  */
 
 static void
-importer_destroy_cb (GtkObject *object, gpointer user_data)
+importer_destroy_cb (gpointer user_data)
 {
 	ICalImporter *ici = (ICalImporter *) user_data;
 
 	g_return_if_fail (ici != NULL);
 
-	gtk_object_unref (GTK_OBJECT (ici->client));
-	gtk_object_unref (GTK_OBJECT (ici->tasks_client));
+	g_object_unref (ici->client);
+	g_object_unref (ici->tasks_client);
 
 	if (ici->icalcomp != NULL) {
 		icalcomponent_free (ici->icalcomp);
@@ -424,8 +426,8 @@ ical_importer_new (void)
 						NULL,
 						ici);
 	connect_to_shell (ici);
-	gtk_signal_connect (GTK_OBJECT (ici->importer), "destroy",
-			    GTK_SIGNAL_FUNC (importer_destroy_cb), ici);
+
+	g_object_weak_ref (G_OBJECT (ici->importer), (GWeakNotify) importer_destroy_cb, ici);
 
 	return BONOBO_OBJECT (ici->importer);
 }
@@ -548,8 +550,8 @@ vcal_importer_new (void)
 						NULL,
 						ici);
 	connect_to_shell (ici);
-	gtk_signal_connect (GTK_OBJECT (ici->importer), "destroy",
-			    GTK_SIGNAL_FUNC (importer_destroy_cb), ici);
+
+	g_object_weak_ref (G_OBJECT (ici->importer), (GWeakNotify) importer_destroy_cb, ici);
 
 	return BONOBO_OBJECT (ici->importer);
 }
@@ -560,7 +562,7 @@ vcal_importer_new (void)
 
 
 static void
-gnome_calendar_importer_destroy_cb (GtkObject *object, gpointer user_data)
+gnome_calendar_importer_destroy_cb (gpointer user_data)
 {
 	ICalIntelligentImporter *ici = (ICalIntelligentImporter *) user_data;
 
@@ -733,8 +735,7 @@ gnome_calendar_importer_new (void)
 						       ici);
 
 
-	gtk_signal_connect (GTK_OBJECT (importer), "destroy",
-			    GTK_SIGNAL_FUNC (gnome_calendar_importer_destroy_cb), ici);
+	g_object_weak_ref (G_OBJECT (importer), (GWeakNotify) gnome_calendar_importer_destroy_cb, ici);
 
 	control = create_checkboxes_control (ici);
 	bonobo_object_add_interface (BONOBO_OBJECT (importer),

@@ -1,4 +1,8 @@
-privlibexec_PROGRAMS = evolution-calendar-importer
+importersdir = $(privlibdir)/evolution-calendar-importers
+
+importers_LTLIBRARIES = libevolution-calendar-importers.la
+
+# privlibexec_PROGRAMS = evolution-calendar-importer
 
 INCLUDES = 						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
@@ -16,26 +20,38 @@ INCLUDES = 						\
 	-I$(top_srcdir)/libical/src/libicalvcal		\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-evolution_calendar_importer_SOURCES = 	\
-	evolution-calendar-importer.h	\
-	icalendar-importer.c		\
+libevolution_calendar_importers_la_SOURCES = \
+	evolution-calendar-importer.h	     \
+	icalendar-importer.c		     \
 	main.c
 
-evolution_calendar_importer_LDADD =				\
-	$(top_builddir)/shell/libeshell.la			\
+libevolution_calendar_importers_la_LDFLAGS = -avoid-version -module
+
+libevolution_calendar_importers_la_LIBADD = \
 	$(top_builddir)/shell/importer/libevolution-importer.la \
-	$(top_builddir)/calendar/cal-util/libcal-util.la	\
-	$(top_builddir)/calendar/cal-client/libcal-client.la	\
-	$(top_builddir)/libwombat/libwombat.la			\
-	$(top_builddir)/libical/src/libical/libical-evolution.la	\
 	$(top_builddir)/libical/src/libicalvcal/libicalvcal-evolution.la \
-	$(EVOLUTION_CALENDAR_LIBS)
+	$(IMPORTERS_LIBS)
+
+# evolution_calendar_importer_SOURCES = 	\
+# 	evolution-calendar-importer.h	\
+# 	icalendar-importer.c		\
+# 	main.c
+#
+# evolution_calendar_importer_LDADD =				\
+# 	$(top_builddir)/shell/libeshell.la			\
+# 	$(top_builddir)/shell/importer/libevolution-importer.la \
+# 	$(top_builddir)/calendar/cal-util/libcal-util.la	\
+# 	$(top_builddir)/calendar/cal-client/libcal-client.la	\
+# 	$(top_builddir)/libwombat/libwombat.la			\
+# 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
+# 	$(top_builddir)/libical/src/libicalvcal/libicalvcal-evolution.la \
+# 	$(EVOLUTION_CALENDAR_LIBS)
 
 server_in_files = GNOME_Evolution_Calendar_Importer.server.in.in
 
 server_DATA = $(server_in_files:.server.in.in=.server)
 %.server.in: %.server.in.in
-	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
+	sed -e "s|\@IMPORTERSDIR\@|$(importersdir)|" $< > $@
 
 EXTRA_DIST = $(server_in_files) $(server_DATA)
 

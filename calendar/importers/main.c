@@ -23,7 +23,8 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#include <bonobo/bonobo-generic-factory.h>
+#include <string.h>
+#include <bonobo/bonobo-shlib-factory.h>
 #include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-main.h>
 #include "evolution-calendar-importer.h"
@@ -52,38 +53,4 @@ importer_factory_fn (BonoboGenericFactory *factory, const char *id, void *closur
 	return object;
 }
 
-static void
-init_importer (void)
-{
-	BonoboGenericFactory *factory;
-
-	factory = bonobo_generic_factory_new (IMPORTER_FACTORY_ID,
-					      importer_factory_fn, NULL);
-	if (factory == NULL) {
-		g_error ("Unable to create factory");
-		exit (0);
-	}
-
-	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
-}
-
-int
-main (int argc, char *argv[])
-{
-	CORBA_ORB orb;
-
-	bindtextdomain(GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
-	textdomain(GETTEXT_PACKAGE);
-	
-	g_type_init ();
-	bonobo_activation_init (argc, argv);
-	if (bonobo_init (&argc, argv) == FALSE) {
-		g_error ("Could not initialize Bonobo.");
-		exit (0);
-	}
-
-	init_importer ();
-	bonobo_main ();
-
-	return 0;
-}
+BONOBO_ACTIVATION_SHLIB_FACTORY (IMPORTER_FACTORY_ID, "Evolution Calendar importer factory", importer_factory_fn, NULL)
