@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-20 10:09+0900\n"
-"PO-Revision-Date: 2004-09-20 10:07+0900\n"
+"POT-Creation-Date: 2004-09-27 23:10+0900\n"
+"PO-Revision-Date: 2004-09-27 23:08+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -222,13 +222,13 @@ msgstr "Evolution を再起動するまで、{0}の連絡先は利用できま�
 msgid "Default Sync Address:"
 msgstr "デフォルトで同期するアドレス:"
 
-#: addressbook/conduit/address-conduit.c:1181
-#: addressbook/conduit/address-conduit.c:1182
+#: addressbook/conduit/address-conduit.c:1183
+#: addressbook/conduit/address-conduit.c:1184
 msgid "Could not load addressbook"
 msgstr "アドレス帳を読み込めませんでした"
 
-#: addressbook/conduit/address-conduit.c:1250
-#: addressbook/conduit/address-conduit.c:1253
+#: addressbook/conduit/address-conduit.c:1252
+#: addressbook/conduit/address-conduit.c:1255
 msgid "Could not read pilot's Address application block"
 msgstr "パイロットのアドレス・アプリケーション・ブロックを読み込めませんでした"
 
@@ -344,7 +344,7 @@ msgstr "'%s' の移行中:"
 #: addressbook/gui/component/addressbook-migrate.c:493
 #: calendar/gui/migration.c:450 calendar/gui/migration.c:532
 #: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
-#: mail/mail-component.c:249 mail/mail-vfolder.c:218
+#: mail/mail-component.c:250 mail/mail-vfolder.c:218
 msgid "On This Computer"
 msgstr "このコンピュータ"
 
@@ -422,7 +422,7 @@ msgstr "アドレス帳 '%s' を削除します。続行してもよろしいで
 
 #: addressbook/gui/component/addressbook-view.c:814
 #: addressbook/gui/widgets/e-addressbook-view.c:1128
-#: calendar/gui/calendar-component.c:430 calendar/gui/tasks-component.c:376
+#: calendar/gui/calendar-component.c:436 calendar/gui/tasks-component.c:382
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-calendar.xml.h:5 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -432,7 +432,7 @@ msgid "Delete"
 msgstr "削除"
 
 #: addressbook/gui/component/addressbook-view.c:815
-#: calendar/gui/calendar-component.c:431 calendar/gui/tasks-component.c:378
+#: calendar/gui/calendar-component.c:437 calendar/gui/tasks-component.c:384
 msgid "Properties..."
 msgstr "プロパティ..."
 
@@ -2522,7 +2522,7 @@ msgid "Cut"
 msgstr "切り取り"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1126
-#: calendar/gui/calendar-component.c:428 calendar/gui/tasks-component.c:374
+#: calendar/gui/calendar-component.c:434 calendar/gui/tasks-component.c:380
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
@@ -2894,10 +2894,9 @@ msgstr "プロトコルがサポートされていません"
 #: calendar/gui/e-cal-component-preview.c:233
 #: calendar/gui/e-cal-model-tasks.c:353 calendar/gui/e-cal-model-tasks.c:656
 #: calendar/gui/e-calendar-table.c:473 calendar/gui/print.c:2349
-#: camel/camel-service.c:724 camel/camel-service.c:762
-#: camel/camel-service.c:846 camel/camel-service.c:886
-#: camel/providers/pop3/camel-pop3-store.c:456
-#: camel/providers/pop3/camel-pop3-store.c:537
+#: camel/camel-service.c:723 camel/camel-service.c:887
+#: camel/camel-service.c:1015 camel/providers/pop3/camel-pop3-store.c:463
+#: camel/providers/pop3/camel-pop3-store.c:544
 msgid "Cancelled"
 msgstr "キャンセル済み"
 
@@ -3456,7 +3455,7 @@ msgid "In async mode, output must be file."
 msgstr "非同期モードでは、ファイルに出力して下さい。"
 
 #: addressbook/tools/evolution-addressbook-export.c:122
-msgid "In normal mode, there should not need size option."
+msgid "In normal mode, there is no need for the size option."
 msgstr "標準モードでは、サイズ・オプションを指定する必要はありません。"
 
 #: addressbook/tools/evolution-addressbook-export.c:153
@@ -3763,15 +3762,15 @@ msgstr "パスワードの入力"
 msgid "Split Multi-Day Events:"
 msgstr "複数日のイベントに分割:"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1356
-#: calendar/conduits/calendar/calendar-conduit.c:1357
+#: calendar/conduits/calendar/calendar-conduit.c:1359
+#: calendar/conduits/calendar/calendar-conduit.c:1360
 #: calendar/conduits/todo/todo-conduit.c:879
 #: calendar/conduits/todo/todo-conduit.c:880
 msgid "Could not start evolution-data-server"
 msgstr "evolution-data-server を起動できませんでした"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1465
 #: calendar/conduits/calendar/calendar-conduit.c:1468
+#: calendar/conduits/calendar/calendar-conduit.c:1471
 msgid "Could not read pilot's Calendar application block"
 msgstr "パイロットのカレンダ・アプリケーション・ブロックを読み込めませんでした"
 
@@ -3789,7 +3788,7 @@ msgid "Calendar and Tasks"
 msgstr "カレンダとタスク"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: calendar/gui/calendar-component.c:1079
+#: calendar/gui/calendar-component.c:1085
 msgid "Calendars"
 msgstr "カレンダ"
 
@@ -3823,7 +3822,7 @@ msgstr "Evolution タスクのコンポーネント"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: calendar/gui/e-tasks.c:1199 calendar/gui/print.c:1819
-#: calendar/gui/tasks-component.c:419 calendar/gui/tasks-component.c:889
+#: calendar/gui/tasks-component.c:425 calendar/gui/tasks-component.c:895
 #: calendar/gui/tasks-control.c:408 calendar/importers/icalendar-importer.c:83
 #: calendar/importers/icalendar-importer.c:709
 #: camel/providers/groupwise/camel-gw-listener.c:332
@@ -4100,9 +4099,9 @@ msgstr "場所が次のものを含む"
 msgid "Unmatched"
 msgstr "該当しないもの"
 
-#: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:564
+#: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:570
 #: calendar/gui/dialogs/select-source-dialog.c:112
-#: calendar/gui/gnome-cal.c:1859
+#: calendar/gui/gnome-cal.c:1910
 #: camel/providers/groupwise/camel-gw-listener.c:331
 #: camel/providers/groupwise/camel-gw-listener.c:361
 msgid "Calendar"
@@ -4137,15 +4136,15 @@ msgstr "%Y年 %B%e日 %A"
 #. %d = day of month, %b = abbreviated month name.
 #. You can change the order but don't change the
 #. specifiers or add anything.
-#: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:519
+#: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:525
 #: calendar/gui/e-day-view-top-item.c:714 calendar/gui/e-day-view.c:1588
 #: calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
 msgstr "%m/%d (%a)"
 
 #: calendar/gui/calendar-commands.c:437 calendar/gui/calendar-commands.c:442
-#: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-component.c:521
-#: calendar/gui/calendar-component.c:526 calendar/gui/calendar-component.c:528
+#: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-component.c:527
+#: calendar/gui/calendar-component.c:532 calendar/gui/calendar-component.c:534
 msgid "%a %d %b %Y"
 msgstr "%Y/%m/%d (%a)"
 
@@ -4167,16 +4166,16 @@ msgstr "%B%e日"
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr "カレンダ '%s' を削除します。続行してもよろしいですか？"
 
-#: calendar/gui/calendar-component.c:426
+#: calendar/gui/calendar-component.c:432
 msgid "New Calendar"
 msgstr "新しいカレンダ"
 
-#: calendar/gui/calendar-component.c:516
+#: calendar/gui/calendar-component.c:522
 msgid "%A %d %b %Y"
 msgstr "%Y年 %B%e日 %A"
 
-#: calendar/gui/calendar-component.c:540 calendar/gui/calendar-component.c:547
-#: calendar/gui/calendar-component.c:553 calendar/gui/calendar-component.c:555
+#: calendar/gui/calendar-component.c:546 calendar/gui/calendar-component.c:553
+#: calendar/gui/calendar-component.c:559 calendar/gui/calendar-component.c:561
 msgid "%d %b %Y"
 msgstr "%Y年 %B%e日"
 
@@ -4185,70 +4184,70 @@ msgstr "%Y年 %B%e日"
 #. strftime format %d = day of month, %b = abbreviated
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/calendar-component.c:545
+#: calendar/gui/calendar-component.c:551
 #: calendar/gui/e-day-view-top-item.c:718 calendar/gui/e-day-view.c:1604
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
 msgstr "%B%e日"
 
-#: calendar/gui/calendar-component.c:635
+#: calendar/gui/calendar-component.c:641
 msgid "Failed upgrading calendars."
 msgstr "カレンダのアップグレードに失敗しました。"
 
-#: calendar/gui/calendar-component.c:931
+#: calendar/gui/calendar-component.c:937
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "イベントと会議を生成するためのカレンダ '%s' を開けません"
 
-#: calendar/gui/calendar-component.c:947
+#: calendar/gui/calendar-component.c:953
 msgid "There is no calendar available for creating events and meetings"
 msgstr "イベントと会議を生成するために利用可能なカレンダがありません"
 
-#: calendar/gui/calendar-component.c:1245
+#: calendar/gui/calendar-component.c:1251
 msgid "New appointment"
 msgstr "新しい予定"
 
-#: calendar/gui/calendar-component.c:1246
+#: calendar/gui/calendar-component.c:1252
 msgid "_Appointment"
 msgstr "予定(_A)"
 
-#: calendar/gui/calendar-component.c:1247
+#: calendar/gui/calendar-component.c:1253
 msgid "Create a new appointment"
 msgstr "新しい予定を作成します"
 
-#: calendar/gui/calendar-component.c:1253
+#: calendar/gui/calendar-component.c:1259
 msgid "New meeting"
 msgstr "新規の会議"
 
-#: calendar/gui/calendar-component.c:1254
+#: calendar/gui/calendar-component.c:1260
 msgid "M_eeting"
 msgstr "会議(_E)"
 
-#: calendar/gui/calendar-component.c:1255
+#: calendar/gui/calendar-component.c:1261
 msgid "Create a new meeting request"
 msgstr "新しい会議を召集します"
 
-#: calendar/gui/calendar-component.c:1261
+#: calendar/gui/calendar-component.c:1267
 msgid "New all day appointment"
 msgstr "新しい終日の予定"
 
-#: calendar/gui/calendar-component.c:1262
+#: calendar/gui/calendar-component.c:1268
 msgid "All Day A_ppointment"
 msgstr "終日の予定(_P)"
 
-#: calendar/gui/calendar-component.c:1263
+#: calendar/gui/calendar-component.c:1269
 msgid "Create a new all-day appointment"
 msgstr "新しい終日の予定を作成します"
 
-#: calendar/gui/calendar-component.c:1269
+#: calendar/gui/calendar-component.c:1275
 msgid "New calendar"
 msgstr "新しいカレンダ"
 
-#: calendar/gui/calendar-component.c:1270
+#: calendar/gui/calendar-component.c:1276
 msgid "Cale_ndar"
 msgstr "カレンダ(_N)"
 
-#: calendar/gui/calendar-component.c:1271
+#: calendar/gui/calendar-component.c:1277
 msgid "Create a new calendar"
 msgstr "新しいカレンダを作成します"
 
@@ -5122,11 +5121,11 @@ msgstr "主催者が必要です。"
 msgid "At least one attendee is required."
 msgstr "最低一名の出席者が必要です。"
 
-#: calendar/gui/dialogs/meeting-page.c:793
+#: calendar/gui/dialogs/meeting-page.c:795
 msgid "_Delegate To..."
 msgstr "委任先(_D)..."
 
-#: calendar/gui/dialogs/meeting-page.c:797
+#: calendar/gui/dialogs/meeting-page.c:799
 #: composer/e-msg-composer-attachment-bar.c:453
 msgid "_Remove"
 msgstr "削除(_R)"
@@ -5421,7 +5420,7 @@ msgid "Low"
 msgstr "低い"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-cal-component-preview.c:251 calendar/gui/e-cal-model.c:943
+#: calendar/gui/e-cal-component-preview.c:251 calendar/gui/e-cal-model.c:949
 #: calendar/gui/e-calendar-table.c:398 mail/message-list.c:1011
 msgid "Normal"
 msgstr "普通"
@@ -5676,11 +5675,11 @@ msgstr "開始日"
 msgid "Summary"
 msgstr "サマリ"
 
-#: calendar/gui/e-cal-model-calendar.c:175 calendar/gui/e-calendar-table.c:449
+#: calendar/gui/e-cal-model-calendar.c:181 calendar/gui/e-calendar-table.c:449
 msgid "Free"
 msgstr "予定なし"
 
-#: calendar/gui/e-cal-model-calendar.c:178 calendar/gui/e-calendar-table.c:450
+#: calendar/gui/e-cal-model-calendar.c:184 calendar/gui/e-calendar-table.c:450
 #: calendar/gui/e-meeting-time-sel.c:399
 msgid "Busy"
 msgstr "予定あり"
@@ -5711,13 +5710,13 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:949
+#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:955
 #: calendar/gui/e-meeting-list-view.c:146 calendar/gui/e-meeting-store.c:159
 #: calendar/gui/e-meeting-store.c:169 calendar/gui/e-meeting-store.c:765
 msgid "Yes"
 msgstr "はい"
 
-#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:949
+#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:955
 #: calendar/gui/e-meeting-list-view.c:147 calendar/gui/e-meeting-store.c:171
 msgid "No"
 msgstr "いいえ"
@@ -5743,11 +5742,11 @@ msgstr "いいえ"
 msgid "Unknown"
 msgstr "不明"
 
-#: calendar/gui/e-cal-model.c:945
+#: calendar/gui/e-cal-model.c:951
 msgid "Recurring"
 msgstr "繰り返し"
 
-#: calendar/gui/e-cal-model.c:947
+#: calendar/gui/e-cal-model.c:953
 msgid "Assigned"
 msgstr "割当て済み"
 
@@ -5872,7 +5871,7 @@ msgstr "選択したタスクに完了マークを付与(_M)"
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1451 calendar/gui/e-calendar-view.c:1484
-#: mail/em-folder-tree.c:2710 mail/em-folder-view.c:924
+#: mail/em-folder-tree.c:2722 mail/em-folder-view.c:924
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -6640,7 +6639,7 @@ msgstr "必須な人達とひとつのリソース(_O)"
 msgid "Enter the password for %s"
 msgstr "%s のパスワードを入力して下さい"
 
-#: calendar/gui/e-tasks.c:744 calendar/gui/gnome-cal.c:2262
+#: calendar/gui/e-tasks.c:744 calendar/gui/gnome-cal.c:2313
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6670,26 +6669,26 @@ msgstr "指定したオブジェクトの削除..."
 msgid "Expunging"
 msgstr "抹消"
 
-#: calendar/gui/gnome-cal.c:705
+#: calendar/gui/gnome-cal.c:722
 msgid "Updating query"
 msgstr "クエリの更新中"
 
-#: calendar/gui/gnome-cal.c:2039
+#: calendar/gui/gnome-cal.c:2090
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "%s の予定の読み込み"
 
-#: calendar/gui/gnome-cal.c:2058
+#: calendar/gui/gnome-cal.c:2109
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "%s のタスクの読み込み"
 
-#: calendar/gui/gnome-cal.c:2151
+#: calendar/gui/gnome-cal.c:2202
 #, c-format
 msgid "Opening %s"
 msgstr "%s を開きます"
 
-#: calendar/gui/gnome-cal.c:3120
+#: calendar/gui/gnome-cal.c:3171
 msgid "Purging"
 msgstr "抹消中"
 
@@ -7085,70 +7084,70 @@ msgstr "プリンタの設定"
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
 msgstr "タスク一覧 '%s' を削除します。続行してもよろしいですか？"
 
-#: calendar/gui/tasks-component.c:372
+#: calendar/gui/tasks-component.c:378
 msgid "New Task List"
 msgstr "新しいタスク一覧"
 
-#: calendar/gui/tasks-component.c:415
+#: calendar/gui/tasks-component.c:421
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
 msgstr[0] "%d 個のタスク"
 msgstr[1] "%d 個のタスク"
 
-#: calendar/gui/tasks-component.c:417 mail/mail-component.c:502
+#: calendar/gui/tasks-component.c:423 mail/mail-component.c:503
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
 msgstr[0] ", 選択済 %d 個"
 msgstr[1] ", 選択済 %d 個"
 
-#: calendar/gui/tasks-component.c:464
+#: calendar/gui/tasks-component.c:470
 msgid "Failed upgrading tasks."
 msgstr "タスクの移行に失敗しました。"
 
-#: calendar/gui/tasks-component.c:758
+#: calendar/gui/tasks-component.c:764
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr "イベントと会議の作成に必要なタスク一覧 '%s' を開けません"
 
-#: calendar/gui/tasks-component.c:773
+#: calendar/gui/tasks-component.c:779
 msgid "There is no calendar available for creating tasks"
 msgstr "タスクを作成できるカレンダがありません"
 
-#: calendar/gui/tasks-component.c:1047
+#: calendar/gui/tasks-component.c:1053
 msgid "New task"
 msgstr "新規のタスク"
 
-#: calendar/gui/tasks-component.c:1048
+#: calendar/gui/tasks-component.c:1054
 msgid "_Task"
 msgstr "タスク(_T)"
 
-#: calendar/gui/tasks-component.c:1049
+#: calendar/gui/tasks-component.c:1055
 msgid "Create a new task"
 msgstr "新しいタスクを作成します"
 
-#: calendar/gui/tasks-component.c:1055
+#: calendar/gui/tasks-component.c:1061
 msgid "New assigned task"
 msgstr "新しいタスクの割当て"
 
-#: calendar/gui/tasks-component.c:1056
+#: calendar/gui/tasks-component.c:1062
 msgid "Assigne_d Task"
 msgstr "タスクの割当て(_D)"
 
-#: calendar/gui/tasks-component.c:1057
+#: calendar/gui/tasks-component.c:1063
 msgid "Create a new assigned task"
 msgstr "新しいタスクの割り当てを作成します"
 
-#: calendar/gui/tasks-component.c:1063
+#: calendar/gui/tasks-component.c:1069
 msgid "New task list"
 msgstr "新しいタスク一覧"
 
-#: calendar/gui/tasks-component.c:1064
+#: calendar/gui/tasks-component.c:1070
 msgid "Task l_ist"
 msgstr "タスク一覧(_I)"
 
-#: calendar/gui/tasks-component.c:1065
+#: calendar/gui/tasks-component.c:1071
 msgid "Create a new task list"
 msgstr "新しいタスク一覧を作成します"
 
@@ -8867,7 +8866,7 @@ msgstr "フォルダを同期中"
 msgid "Error parsing filter: %s: %s"
 msgstr "フィルタの構文解析中にエラー: %s: %s"
 
-#: camel/camel-filter-driver.c:1052 camel/camel-filter-driver.c:1426
+#: camel/camel-filter-driver.c:1052 camel/camel-filter-driver.c:1429
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "フィルタ実行中にエラー: %s: %s"
@@ -9039,8 +9038,8 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
 #: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
-#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1234
-#: camel/providers/nntp/camel-nntp-store.c:1332 mail/mail-ops.c:705
+#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1244
+#: camel/providers/nntp/camel-nntp-store.c:1342 mail/mail-ops.c:716
 #: mail/mail-send-recv.c:611
 msgid "Cancelled."
 msgstr "キャンセルしました"
@@ -9169,56 +9168,56 @@ msgstr "fcntl(2) を使ったロックに失敗しました: %s"
 msgid "Failed to get lock using flock(2): %s"
 msgstr "flock(2) を使ったロックに失敗しました: %s"
 
-#: camel/camel-movemail.c:107
+#: camel/camel-movemail.c:105
 #, c-format
 msgid "Could not check mail file %s: %s"
 msgstr "メール・ファイル %s をチェックできませんでした: %s"
 
-#: camel/camel-movemail.c:120
+#: camel/camel-movemail.c:118
 #, c-format
 msgid "Could not open mail file %s: %s"
 msgstr "メール・ファイル %s を開けませんでした: %s"
 
-#: camel/camel-movemail.c:128
+#: camel/camel-movemail.c:126
 #, c-format
 msgid "Could not open temporary mail file %s: %s"
 msgstr "メール・ファイル %s のテンポラリを開けませんでした: %s"
 
-#: camel/camel-movemail.c:157
+#: camel/camel-movemail.c:155
 #, c-format
 msgid "Failed to store mail in temp file %s: %s"
 msgstr "作業ファイル %s へメールの保存に失敗しました: %s"
 
-#: camel/camel-movemail.c:187
+#: camel/camel-movemail.c:185
 #, c-format
 msgid "Could not create pipe: %s"
 msgstr "パイプが作成できませんでした: %s"
 
-#: camel/camel-movemail.c:199
+#: camel/camel-movemail.c:197
 #, c-format
 msgid "Could not fork: %s"
 msgstr "fork(2) できませんでした: %s"
 
-#: camel/camel-movemail.c:237
+#: camel/camel-movemail.c:235
 #, c-format
 msgid "Movemail program failed: %s"
 msgstr "Movemail プログラムは失敗しました: %s"
 
-#: camel/camel-movemail.c:238
+#: camel/camel-movemail.c:236
 msgid "(Unknown error)"
 msgstr "(特定できないエラー)"
 
-#: camel/camel-movemail.c:261
+#: camel/camel-movemail.c:259
 #, c-format
 msgid "Error reading mail file: %s"
 msgstr "メール・ファイルの読み込み中にエラー: %s"
 
-#: camel/camel-movemail.c:272
+#: camel/camel-movemail.c:270
 #, c-format
 msgid "Error writing mail temp file: %s"
 msgstr "メール作業ファイルの書き込み中にエラー: %s"
 
-#: camel/camel-movemail.c:465 camel/camel-movemail.c:532
+#: camel/camel-movemail.c:463 camel/camel-movemail.c:530
 #, c-format
 msgid "Error copying mail temp file: %s"
 msgstr "メール作業ファイルのコピー中にエラー: %s"
@@ -9340,15 +9339,15 @@ msgstr "無効です\n"
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
 msgstr "無効なトークン \"Quality of Protection\" があります\n"
 
-#: camel/camel-sasl-digest-md5.c:850
+#: camel/camel-sasl-digest-md5.c:858
 msgid "Server response did not contain authorization data\n"
 msgstr "サーバの応答に認証データがありません\n"
 
-#: camel/camel-sasl-digest-md5.c:868
+#: camel/camel-sasl-digest-md5.c:876
 msgid "Server response contained incomplete authorization data\n"
 msgstr "サーバの応答に不完全な認証データがあります\n"
 
-#: camel/camel-sasl-digest-md5.c:878
+#: camel/camel-sasl-digest-md5.c:886
 msgid "Server response does not match\n"
 msgstr "サーバの応答が一致しません\n"
 
@@ -9420,15 +9419,10 @@ msgstr "参照している証明書の期限が過ぎています。"
 
 #: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
 #: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
-#: camel/camel-sasl-kerberos4.c:219
-#: camel/providers/imap/camel-imap-store.c:1236
+#: camel/camel-sasl-kerberos4.c:225
+#: camel/providers/imap/camel-imap-store.c:1245
 msgid "Bad authentication response from server."
 msgstr "サーバから間違った認証応答がありました。"
-
-#: camel/camel-sasl-gssapi.c:217
-#, c-format
-msgid "Failed to resolve host `%s': %s"
-msgstr "ホスト '%s' の名前解決に失敗しました: %s"
 
 #: camel/camel-sasl-gssapi.c:303
 msgid "Unsupported security layer."
@@ -9442,7 +9436,7 @@ msgstr "Kerberos 4"
 msgid "This option will connect to the server using Kerberos 4 authentication."
 msgstr "このオプションは Kerberos 4 認証を使ってサーバに接続します"
 
-#: camel/camel-sasl-kerberos4.c:162
+#: camel/camel-sasl-kerberos4.c:168
 #, c-format
 msgid ""
 "Could not get Kerberos ticket:\n"
@@ -9504,57 +9498,41 @@ msgstr "POP でないソースを利用して SMTP 認証の前に POP"
 msgid "Regular expression compilation failed: %s: %s"
 msgstr "正規表現の編集に失敗: %s: %s"
 
-#: camel/camel-service.c:271
+#: camel/camel-service.c:273
 #, c-format
 msgid "URL '%s' needs a username component"
 msgstr "URL '%s' はユーザ名コンポーネントが必要です"
 
-#: camel/camel-service.c:275
+#: camel/camel-service.c:277
 #, c-format
 msgid "URL '%s' needs a host component"
 msgstr "URL '%s' はホスト・コンポーネントが必要です"
 
-#: camel/camel-service.c:279
+#: camel/camel-service.c:281
 #, c-format
 msgid "URL '%s' needs a path component"
 msgstr "URL '%s' はパス・コンポーネントが必要です"
 
-#: camel/camel-service.c:729
+#: camel/camel-service.c:742
+msgid "cannot create thread"
+msgstr "スレッド表示にできません"
+
+#: camel/camel-service.c:891
 #, c-format
 msgid "Resolving: %s"
 msgstr "解決中: %s"
 
-#: camel/camel-service.c:760 camel/camel-service.c:884
-#, c-format
-msgid "Failure in name lookup: %s"
-msgstr "名前の検索に失敗しました: %s"
+#: camel/camel-service.c:912
+msgid "Host lookup failed"
+msgstr "ホストの解決に失敗しました"
 
-#: camel/camel-service.c:781 camel/camel-service.c:905
-#, c-format
-msgid "Host lookup failed: cannot create thread: %s"
-msgstr "ホストの検索に失敗しました: スレッドを生成できません: %s"
-
-#: camel/camel-service.c:794
-#, c-format
-msgid "Host lookup failed: %s: host not found"
-msgstr "ホストの検索に失敗しました: %s: ホストが見つかりません"
-
-#: camel/camel-service.c:797
-#, c-format
-msgid "Host lookup failed: %s: unknown reason"
-msgstr "ホストの検索に失敗しました: %s: 原因は不明です"
-
-#: camel/camel-service.c:851
+#: camel/camel-service.c:1019
 msgid "Resolving address"
 msgstr "アドレスの解決中"
 
-#: camel/camel-service.c:920
-msgid "Host lookup failed: host not found"
-msgstr "ホストの検索に失敗しました: ホストが見つかりません"
-
-#: camel/camel-service.c:923
-msgid "Host lookup failed: unknown reason"
-msgstr "ホストの検索に失敗しました: 原因は不明です"
+#: camel/camel-service.c:1039
+msgid "Name lookup failed"
+msgstr "名前の解決に失敗しました"
 
 #: camel/camel-session.c:282
 #, c-format
@@ -10099,7 +10077,7 @@ msgstr "ポスト・オフィス・エージェント:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:75
 msgid "Post Office Agent SOAP Port:"
-msgstr "ポスト・オフィス・エージェントの SOAP ポート:"
+msgstr "ポスト・オフィス・エージェントの SOAP ポート番号:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
 msgid "Use Secure Connection (SSL)"
@@ -10137,12 +10115,12 @@ msgstr "チェックリスト"
 #: camel/providers/imap/camel-imap-command.c:218
 #: camel/providers/imap/camel-imap-command.c:257
 #: camel/providers/imap/camel-imap-command.c:447
-#: camel/providers/imap/camel-imap-store.c:3220
+#: camel/providers/imap/camel-imap-store.c:3229
 msgid "Operation cancelled"
 msgstr "処理がキャンセルされました"
 
 #: camel/providers/imap/camel-imap-command.c:302
-#: camel/providers/imap/camel-imap-store.c:3223
+#: camel/providers/imap/camel-imap-store.c:3232
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "突然サーバが接続を切りました: %s"
@@ -10150,9 +10128,9 @@ msgstr "突然サーバが接続を切りました: %s"
 #: camel/providers/imap/camel-imap-command.c:303
 #: camel/providers/imap/camel-imap-command.c:400
 #: camel/providers/imap4/camel-imap4-store.c:283
-#: camel/providers/pop3/camel-pop3-store.c:543
 #: camel/providers/pop3/camel-pop3-store.c:550
-#: camel/providers/pop3/camel-pop3-store.c:556 shell/e-shell.c:1228
+#: camel/providers/pop3/camel-pop3-store.c:557
+#: camel/providers/pop3/camel-pop3-store.c:563 shell/e-shell.c:1228
 msgid "Unknown error"
 msgstr "特定できないエラー"
 
@@ -10341,81 +10319,79 @@ msgstr "IMAP サーバ %s"
 msgid "IMAP service for %s on %s"
 msgstr "%s の %s にある IMAP サービス"
 
-#: camel/providers/imap/camel-imap-store.c:547
-#: camel/providers/imap/camel-imap-store.c:567
-#: camel/providers/imap4/camel-imap4-store.c:214
-#: camel/providers/imap4/camel-imap4-store.c:230
-#: camel/providers/imapp/camel-imapp-store.c:231
-#: camel/providers/nntp/camel-nntp-store.c:209
-#: camel/providers/pop3/camel-pop3-store.c:175
-#: camel/providers/smtp/camel-smtp-transport.c:269
-#: camel/providers/smtp/camel-smtp-transport.c:285
-#, c-format
-msgid "Could not connect to %s (port %d): %s"
-msgstr "%s (ポート %d) へ接続できませんでした: %s"
-
-#: camel/providers/imap/camel-imap-store.c:549
-#: camel/providers/imap4/camel-imap4-store.c:216
+#: camel/providers/imap/camel-imap-store.c:552
+#: camel/providers/imap/camel-imap-store.c:576
+#: camel/providers/imapp/camel-imapp-store.c:239
+#: camel/providers/nntp/camel-nntp-store.c:219
 #: camel/providers/pop3/camel-pop3-store.c:177
 #: camel/providers/smtp/camel-smtp-transport.c:271
+#: camel/providers/smtp/camel-smtp-transport.c:292
+#, c-format
+msgid "Could not connect to %s (port %s): %s"
+msgstr "%s (ポート番号 %s) へ接続できませんでした: %s"
+
+#: camel/providers/imap/camel-imap-store.c:554
+#: camel/providers/imap4/camel-imap4-store.c:216
+#: camel/providers/pop3/camel-pop3-store.c:179
+#: camel/providers/smtp/camel-smtp-transport.c:273
 msgid "SSL unavailable"
 msgstr "SSL は無効です"
 
-#: camel/providers/imap/camel-imap-store.c:564
-#: camel/providers/imap/camel-imap-store.c:841
+#: camel/providers/imap/camel-imap-store.c:573
+#: camel/providers/imap/camel-imap-store.c:850
 #: camel/providers/imap4/camel-imap4-store.c:227
-#: camel/providers/imapp/camel-imapp-store.c:228
-#: camel/providers/nntp/camel-nntp-store.c:206
-#: camel/providers/nntp/camel-nntp-store.c:224
-#: camel/providers/pop3/camel-pop3-store.c:192
+#: camel/providers/imapp/camel-imapp-store.c:236
+#: camel/providers/nntp/camel-nntp-store.c:216
+#: camel/providers/nntp/camel-nntp-store.c:234
+#: camel/providers/pop3/camel-pop3-store.c:199
 msgid "Connection cancelled"
 msgstr "接続をキャンセルしました"
 
-#: camel/providers/imap/camel-imap-store.c:675
-#: camel/providers/imap/camel-imap-store.c:706
+#: camel/providers/imap/camel-imap-store.c:684
+#: camel/providers/imap/camel-imap-store.c:715
 #: camel/providers/imap4/camel-imap4-store.c:282
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
 msgstr ""
 "セキュリティ保護されたモードで IMAP サーバ %s への接続に失敗しました: %s"
 
-#: camel/providers/imap/camel-imap-store.c:676
-#: camel/providers/pop3/camel-pop3-store.c:233
+#: camel/providers/imap/camel-imap-store.c:685
+#: camel/providers/pop3/camel-pop3-store.c:240
 msgid "SSL/TLS extension not supported."
 msgstr "SSL/TLS 拡張がサポートされていません。"
 
-#: camel/providers/imap/camel-imap-store.c:707
-#: camel/providers/pop3/camel-pop3-store.c:274
+#: camel/providers/imap/camel-imap-store.c:716
+#: camel/providers/pop3/camel-pop3-store.c:281
 msgid "SSL negotiations failed"
 msgstr "SSL 接続に失敗しました"
 
-#: camel/providers/imap/camel-imap-store.c:844
+#: camel/providers/imap/camel-imap-store.c:853
 #, c-format
 msgid "Could not connect with command \"%s\": %s"
 msgstr "コマンド \"%s\" で接続できませんでした: %s"
 
-#: camel/providers/imap/camel-imap-store.c:1268
+#: camel/providers/imap/camel-imap-store.c:1277
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "IMAP サーバ %s は要求した認証タイプ %s をサポートしていません"
 
-#: camel/providers/imap/camel-imap-store.c:1278
-#: camel/providers/smtp/camel-smtp-transport.c:486
+#: camel/providers/imap/camel-imap-store.c:1287
+#: camel/providers/smtp/camel-smtp-transport.c:493
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "認証タイプ %s をサポートしていません"
 
-#: camel/providers/imap/camel-imap-store.c:1301
-#: camel/providers/imapp/camel-imapp-store.c:344
+#: camel/providers/imap/camel-imap-store.c:1310
+#: camel/providers/imapp/camel-imapp-store.c:352
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%s %s@%s の IMAP パスワードを入力して下さい"
 
-#: camel/providers/imap/camel-imap-store.c:1315
+#: camel/providers/imap/camel-imap-store.c:1324
 msgid "You didn't enter a password."
 msgstr "パスワードを入力していません"
 
-#: camel/providers/imap/camel-imap-store.c:1344
+#: camel/providers/imap/camel-imap-store.c:1353
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -10426,26 +10402,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:1863
-#: camel/providers/imap/camel-imap-store.c:2053
+#: camel/providers/imap/camel-imap-store.c:1872
+#: camel/providers/imap/camel-imap-store.c:2062
 #, c-format
 msgid "No such folder %s"
 msgstr "そのようなフォルダ %s はありません"
 
-#: camel/providers/imap/camel-imap-store.c:1881
-#: camel/providers/imap/camel-imap-store.c:2259
+#: camel/providers/imap/camel-imap-store.c:1890
+#: camel/providers/imap/camel-imap-store.c:2268
 #: camel/providers/imap4/camel-imap4-store.c:764
 #, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr "フォルダ名 \"%s\" に文字 \"%c\"を含めることはできません"
 
-#: camel/providers/imap/camel-imap-store.c:1939
-#: camel/providers/imap/camel-imap-store.c:2320
+#: camel/providers/imap/camel-imap-store.c:1948
+#: camel/providers/imap/camel-imap-store.c:2329
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "親フォルダには複数のサブフォルダを含めることはできません"
 
-#: camel/providers/imap/camel-imap-store.c:1994
+#: camel/providers/imap/camel-imap-store.c:2003
 #: camel/providers/local/camel-maildir-store.c:139
 #: camel/providers/local/camel-mbox-store.c:212
 #: camel/providers/local/camel-mh-store.c:236
@@ -10453,7 +10429,7 @@ msgstr "親フォルダには複数のサブフォルダを含めることはで
 msgid "Cannot create folder `%s': folder exists."
 msgstr "フォルダ '%s' を作成できません: フォルダが存在します"
 
-#: camel/providers/imap/camel-imap-store.c:2270
+#: camel/providers/imap/camel-imap-store.c:2279
 #, c-format
 msgid "Unknown parent folder: %s"
 msgstr "親フォルダを特定できません: %s"
@@ -10576,6 +10552,12 @@ msgid ""
 msgstr ""
 "このオプションはプレイン・テキストのパスワードを使って IMAPv4rev1 サーバに接"
 "続します"
+
+#: camel/providers/imap4/camel-imap4-store.c:214
+#: camel/providers/imap4/camel-imap4-store.c:230
+#, c-format
+msgid "Could not connect to %s (port %d): %s"
+msgstr "%s (ポート番号 %d) へ接続できませんでした: %s"
 
 #: camel/providers/imap4/camel-imap4-store.c:257
 #, c-format
@@ -10713,7 +10695,7 @@ msgstr ""
 "\n"
 " *** これを業務メールで使用しないこと ***\n"
 
-#: camel/providers/imapp/camel-imapp-store.c:328
+#: camel/providers/imapp/camel-imapp-store.c:336
 #, c-format
 msgid "Could not connect to POP server on %s"
 msgstr "%s の POP サーバへ接続できませんでした"
@@ -10723,20 +10705,20 @@ msgid "Index message body data"
 msgstr "メッセージ本体のデータの目録を作成する"
 
 #. $HOME relative path + protocol string
-#: camel/providers/local/camel-local-folder.c:388
+#: camel/providers/local/camel-local-folder.c:391
 #, c-format
 msgid "~%s (%s)"
 msgstr "~%s (%s)"
 
 #. /var/spool/mail relative path + protocol
-#: camel/providers/local/camel-local-folder.c:392
 #: camel/providers/local/camel-local-folder.c:395
+#: camel/providers/local/camel-local-folder.c:398
 #, c-format
 msgid "mailbox:%s (%s)"
 msgstr "mailbox: %s (%s)"
 
 #. a full path + protocol
-#: camel/providers/local/camel-local-folder.c:399
+#: camel/providers/local/camel-local-folder.c:402
 #, c-format
 msgid "%s (%s)"
 msgstr "%s (%s)"
@@ -10862,10 +10844,12 @@ msgid "Unable to add message to summary: unknown reason"
 msgstr "メッセージをサマリへ追加できません: 理由は不明です"
 
 #. Inbox is always first
+#. translators: standard local mailbox names
 #: camel/providers/local/camel-maildir-folder.c:74
 #: camel/providers/local/camel-maildir-store.c:232
 #: camel/providers/local/camel-maildir-store.c:248
 #: mail/em-folder-tree-model.c:212 mail/em-folder-tree-model.c:214
+#: mail/mail-component.c:134
 msgid "Inbox"
 msgstr "受信箱"
 
@@ -11240,7 +11224,7 @@ msgstr ""
 "フォルダが壊れている可能性があります。コピーを '%s' に保存しました。"
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
-#: camel/providers/nntp/camel-nntp-store.c:1126
+#: camel/providers/nntp/camel-nntp-store.c:1136
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
 msgstr "%s@%s の NNTP パスワードを入力して下さい"
@@ -11342,28 +11326,28 @@ msgstr ""
 "す。"
 
 #: camel/providers/nntp/camel-nntp-store.c:118
-#: camel/providers/nntp/camel-nntp-store.c:1236
-#: camel/providers/nntp/camel-nntp-store.c:1334
+#: camel/providers/nntp/camel-nntp-store.c:1246
+#: camel/providers/nntp/camel-nntp-store.c:1344
 #, c-format
 msgid "NNTP Command failed: %s"
 msgstr "NNTP コマンドが失敗しました: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:227
+#: camel/providers/nntp/camel-nntp-store.c:237
 #, c-format
 msgid "Could not read greeting from %s: %s"
 msgstr "%s からの挨拶を読むことができませんでした: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:239
+#: camel/providers/nntp/camel-nntp-store.c:249
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
 msgstr "NNTP サーバ %s がエラーコード %d を返しました: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:403
+#: camel/providers/nntp/camel-nntp-store.c:413
 #, c-format
 msgid "USENET News via %s"
 msgstr "%s 経由の USENET ニュース"
 
-#: camel/providers/nntp/camel-nntp-store.c:777
+#: camel/providers/nntp/camel-nntp-store.c:787
 #, c-format
 msgid ""
 "Error retrieving newsgroups:\n"
@@ -11374,7 +11358,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/providers/nntp/camel-nntp-store.c:872
+#: camel/providers/nntp/camel-nntp-store.c:882
 msgid ""
 "You cannot subscribe to this newsgroup:\n"
 "\n"
@@ -11385,7 +11369,7 @@ msgstr ""
 "そのようなニュースグループはありません。選択したアイテムは親フォルダのものか"
 "もしれません。"
 
-#: camel/providers/nntp/camel-nntp-store.c:904
+#: camel/providers/nntp/camel-nntp-store.c:914
 msgid ""
 "You cannot unsubscribe to this newsgroup:\n"
 "\n"
@@ -11395,34 +11379,34 @@ msgstr ""
 "\n"
 "ニュースグループがありません！"
 
-#: camel/providers/nntp/camel-nntp-store.c:929
+#: camel/providers/nntp/camel-nntp-store.c:939
 msgid "You cannot create a folder in a News store: subscribe instead."
 msgstr ""
 "ニュース・ストアにフォルダを生成できません: 代わりに購読を申請して下さい。"
 
-#: camel/providers/nntp/camel-nntp-store.c:937
+#: camel/providers/nntp/camel-nntp-store.c:947
 msgid "You cannot rename a folder in a News store."
 msgstr "ニュース格納場所のフォルダ名を変更できません。"
 
-#: camel/providers/nntp/camel-nntp-store.c:945
+#: camel/providers/nntp/camel-nntp-store.c:955
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
 msgstr ""
 "ニュース格納場所のフォルダを削除できません: 代わりに購読を停止して下さい。"
 
-#: camel/providers/nntp/camel-nntp-store.c:1118
+#: camel/providers/nntp/camel-nntp-store.c:1128
 msgid "Authentication requested but not username provided"
 msgstr "認証を必要としていますが、ユーザ名がありません"
 
-#: camel/providers/nntp/camel-nntp-store.c:1148
+#: camel/providers/nntp/camel-nntp-store.c:1158
 #, c-format
 msgid "Cannot authenticate to server: %s"
 msgstr "サーバの認証を行えません: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:1265
+#: camel/providers/nntp/camel-nntp-store.c:1275
 msgid "Not connected."
 msgstr "接続していません"
 
-#: camel/providers/nntp/camel-nntp-store.c:1314
+#: camel/providers/nntp/camel-nntp-store.c:1324
 #, c-format
 msgid "No such folder: %s"
 msgstr "そのようなフォルダはありません: %s"
@@ -11521,31 +11505,31 @@ msgstr ""
 "バへ接続します。これは公平なサポートを要求するサーバで、全てのユーザが正常に"
 "動作するわけではありません。"
 
-#: camel/providers/pop3/camel-pop3-store.c:195
+#: camel/providers/pop3/camel-pop3-store.c:202
 #, c-format
-msgid "Could not connect to POP server %s (port %d): %s"
-msgstr "POP サーバ %s (ポート %d) に接続できませんでした: %s"
+msgid "Could not connect to POP server %s (port %s): %s"
+msgstr "POP サーバ %s (ポート番号 %s) に接続できませんでした: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:214
+#: camel/providers/pop3/camel-pop3-store.c:221
 #, c-format
-msgid "Failed to read a valid greeting from POP server %s (port %d)"
-msgstr "POP サーバ %s (ポート番号 %d) から妥当な挨拶を読みませんでした"
+msgid "Failed to read a valid greeting from POP server %s (port %s)"
+msgstr "POP サーバ %s (ポート番号 %s) から妥当な挨拶を読みませんでした"
 
-#: camel/providers/pop3/camel-pop3-store.c:232
-#: camel/providers/pop3/camel-pop3-store.c:261
-#: camel/providers/pop3/camel-pop3-store.c:273
+#: camel/providers/pop3/camel-pop3-store.c:239
+#: camel/providers/pop3/camel-pop3-store.c:268
+#: camel/providers/pop3/camel-pop3-store.c:280
 #, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
 msgstr ""
 "セキュリティ保護されたモードで POP サーバ %s への接続に失敗しました: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:371
+#: camel/providers/pop3/camel-pop3-store.c:378
 #, c-format
 msgid "Could not connect to POP server %s"
 msgstr "POP サーバ %s へ接続できませんでした"
 
-#: camel/providers/pop3/camel-pop3-store.c:412
-#: camel/providers/pop3/camel-pop3-store.c:526
+#: camel/providers/pop3/camel-pop3-store.c:419
+#: camel/providers/pop3/camel-pop3-store.c:533
 #, c-format
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
@@ -11553,28 +11537,28 @@ msgid ""
 msgstr ""
 "POP サーバ %s へ接続できません: 要求された認証方式をサポートしていません。"
 
-#: camel/providers/pop3/camel-pop3-store.c:428
+#: camel/providers/pop3/camel-pop3-store.c:435
 #, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
 msgstr "SASL '%s' の POP サーバ %s へのログインに失敗: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:440
+#: camel/providers/pop3/camel-pop3-store.c:447
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
 msgstr "POP サーバ %s へログインできません: SASL プロトコル・エラー"
 
-#: camel/providers/pop3/camel-pop3-store.c:459
+#: camel/providers/pop3/camel-pop3-store.c:466
 #, c-format
 msgid "Failed to authenticate on POP server %s: %s"
 msgstr "POP サーバ %s で認証に失敗しました: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:485
+#: camel/providers/pop3/camel-pop3-store.c:492
 #, c-format
 msgid "%sPlease enter the POP password for %s on host %s"
 msgstr "%s%s@%s の POP パスワードを入力して下さい。"
 
-#: camel/providers/pop3/camel-pop3-store.c:540
-#: camel/providers/pop3/camel-pop3-store.c:553
+#: camel/providers/pop3/camel-pop3-store.c:547
+#: camel/providers/pop3/camel-pop3-store.c:560
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -11583,7 +11567,7 @@ msgstr ""
 "POP サーバ %s に接続できません。\n"
 "パスワードの送信中にエラー: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:547
+#: camel/providers/pop3/camel-pop3-store.c:554
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -11592,7 +11576,7 @@ msgstr ""
 "POP サーバ %s に接続できません。\n"
 "ユーザ名の送信中にエラー: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:652
+#: camel/providers/pop3/camel-pop3-store.c:659
 #, c-format
 msgid "No such folder `%s'."
 msgstr "そのようなフォルダ '%s' はありません"
@@ -11759,41 +11743,41 @@ msgstr "一時的な認証に失敗しました"
 msgid "Authentication required"
 msgstr "認証を必要としています"
 
-#: camel/providers/smtp/camel-smtp-transport.c:308
+#: camel/providers/smtp/camel-smtp-transport.c:315
 msgid "Welcome response error"
 msgstr "Welcome 応答エラー"
 
-#: camel/providers/smtp/camel-smtp-transport.c:343
-#: camel/providers/smtp/camel-smtp-transport.c:382
+#: camel/providers/smtp/camel-smtp-transport.c:350
+#: camel/providers/smtp/camel-smtp-transport.c:389
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr ""
 "セキュリティ保護されたモードで SMTP サーバ %s への接続に失敗しました: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:344
+#: camel/providers/smtp/camel-smtp-transport.c:351
 msgid "server does not appear to support SSL"
 msgstr "サーバは SSL をサポートしていないようです"
 
-#: camel/providers/smtp/camel-smtp-transport.c:358
+#: camel/providers/smtp/camel-smtp-transport.c:365
 #, c-format
 msgid "STARTTLS command failed: %s"
 msgstr "STARTTLS コマンドが失敗しました: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:373
+#: camel/providers/smtp/camel-smtp-transport.c:380
 msgid "STARTTLS command failed"
 msgstr "STARTTLS コマンドが失敗しました"
 
-#: camel/providers/smtp/camel-smtp-transport.c:476
+#: camel/providers/smtp/camel-smtp-transport.c:483
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP サーバ %s は要求した認証方式 %s をサポートしていません"
 
-#: camel/providers/smtp/camel-smtp-transport.c:514
+#: camel/providers/smtp/camel-smtp-transport.c:521
 #, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
 msgstr "%s%s@%s の SMTP パスワードを入力して下さい。"
 
-#: camel/providers/smtp/camel-smtp-transport.c:533
+#: camel/providers/smtp/camel-smtp-transport.c:540
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -11804,93 +11788,93 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:657
+#: camel/providers/smtp/camel-smtp-transport.c:664
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP サーバ %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:659
+#: camel/providers/smtp/camel-smtp-transport.c:666
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "%s 経由で SMTP メールを配信します"
 
-#: camel/providers/smtp/camel-smtp-transport.c:677
+#: camel/providers/smtp/camel-smtp-transport.c:684
 msgid "Cannot send message: service not connected."
 msgstr "メッセージを送信できません: サービスが接続されていません"
 
-#: camel/providers/smtp/camel-smtp-transport.c:683
+#: camel/providers/smtp/camel-smtp-transport.c:690
 msgid "Cannot send message: sender address not valid."
 msgstr "メッセージを送信できません: 差出人のアドレスが正しくありません"
 
-#: camel/providers/smtp/camel-smtp-transport.c:687
+#: camel/providers/smtp/camel-smtp-transport.c:694
 msgid "Sending message"
 msgstr "メッセージの送信中"
 
-#: camel/providers/smtp/camel-smtp-transport.c:702
+#: camel/providers/smtp/camel-smtp-transport.c:709
 msgid "Cannot send message: no recipients defined."
 msgstr "メッセージを送信できません: 宛先が定義されていません"
 
-#: camel/providers/smtp/camel-smtp-transport.c:713
+#: camel/providers/smtp/camel-smtp-transport.c:720
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "メッセージを送信できません: 不正な応答が一つ以上あります"
 
-#: camel/providers/smtp/camel-smtp-transport.c:885
+#: camel/providers/smtp/camel-smtp-transport.c:889
 msgid "SMTP Greeting"
 msgstr "SMTP 接続中"
 
-#: camel/providers/smtp/camel-smtp-transport.c:934
+#: camel/providers/smtp/camel-smtp-transport.c:906
 #, c-format
 msgid "HELO command failed: %s"
 msgstr "HELO コマンドが失敗しました: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:951
+#: camel/providers/smtp/camel-smtp-transport.c:923
 msgid "HELO command failed"
 msgstr "HELO コマンドが失敗しました"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1017
+#: camel/providers/smtp/camel-smtp-transport.c:989
 msgid "SMTP Authentication"
 msgstr "SMTP 認証"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1023
+#: camel/providers/smtp/camel-smtp-transport.c:995
 msgid "Error creating SASL authentication object."
 msgstr "SASL 認証オブジェクトの生成中にエラーが発生しました"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1040
-#: camel/providers/smtp/camel-smtp-transport.c:1051
+#: camel/providers/smtp/camel-smtp-transport.c:1012
+#: camel/providers/smtp/camel-smtp-transport.c:1023
 #, c-format
 msgid "AUTH command failed: %s"
 msgstr "AUTH コマンドが失敗しました: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1057
+#: camel/providers/smtp/camel-smtp-transport.c:1029
 msgid "AUTH command failed"
 msgstr "AUTH コマンドが失敗しました"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1119
+#: camel/providers/smtp/camel-smtp-transport.c:1091
 msgid "Bad authentication response from server.\n"
 msgstr "サーバから間違った認証応答がありました\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1144
+#: camel/providers/smtp/camel-smtp-transport.c:1116
 #, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
 msgstr "MAIL FROM コマンドが失敗しました: %s: メールを送信しません"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1161
+#: camel/providers/smtp/camel-smtp-transport.c:1133
 msgid "MAIL FROM command failed"
 msgstr "MAIL FROM コマンドが失敗しました"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1185
+#: camel/providers/smtp/camel-smtp-transport.c:1157
 #, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
 msgstr "RCPT TO コマンドが失敗しました: %s: メールを送信しません"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1204
+#: camel/providers/smtp/camel-smtp-transport.c:1176
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> コマンドが失敗しました"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1243
-#: camel/providers/smtp/camel-smtp-transport.c:1301
-#: camel/providers/smtp/camel-smtp-transport.c:1320
+#: camel/providers/smtp/camel-smtp-transport.c:1215
+#: camel/providers/smtp/camel-smtp-transport.c:1273
+#: camel/providers/smtp/camel-smtp-transport.c:1292
 #, c-format
 msgid "DATA command failed: %s: mail not sent"
 msgstr "DATA コマンドが失敗しました: %s: メールを送信しません"
@@ -11898,26 +11882,26 @@ msgstr "DATA コマンドが失敗しました: %s: メールを送信しませ�
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1260
-#: camel/providers/smtp/camel-smtp-transport.c:1336
+#: camel/providers/smtp/camel-smtp-transport.c:1232
+#: camel/providers/smtp/camel-smtp-transport.c:1308
 msgid "DATA command failed"
 msgstr "DATA コマンドが失敗しました"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1359
+#: camel/providers/smtp/camel-smtp-transport.c:1331
 #, c-format
 msgid "RSET command failed: %s"
 msgstr "RSET コマンドが失敗しました: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1375
+#: camel/providers/smtp/camel-smtp-transport.c:1347
 msgid "RSET command failed"
 msgstr "RSET コマンドが失敗しました"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1398
+#: camel/providers/smtp/camel-smtp-transport.c:1370
 #, c-format
 msgid "QUIT command failed: %s"
 msgstr "QUIT コマンドが失敗しました: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1412
+#: camel/providers/smtp/camel-smtp-transport.c:1384
 msgid "QUIT command failed"
 msgstr "QUIT コマンドが失敗しました"
 
@@ -12133,7 +12117,7 @@ msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "添付されたメッセージ"
 
-#: composer/e-msg-composer.c:4341
+#: composer/e-msg-composer.c:4342
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -12852,8 +12836,8 @@ msgstr "Evolution メール設定コントロール"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:419
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
-#: mail/importers/pine-importer.c:474 mail/mail-component.c:510
-#: mail/mail-component.c:561
+#: mail/importers/pine-importer.c:474 mail/mail-component.c:511
+#: mail/mail-component.c:562
 msgid "Mail"
 msgstr "メール"
 
@@ -13161,8 +13145,8 @@ msgstr "が次で始まる"
 msgid "Stop Processing"
 msgstr "読み込みを停止する"
 
-#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1550
-#: mail/em-format-quote.c:305 mail/em-format.c:808 mail/em-mailer-prefs.c:87
+#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1571
+#: mail/em-format-quote.c:305 mail/em-format.c:807 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
 msgid "Subject"
@@ -13206,8 +13190,8 @@ msgstr "<ここをクリックしてフォルダを選択して下さい>"
 msgid "Create New Folder"
 msgstr "新規フォルダの作成"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2430
-#: mail/mail-component.c:711
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2442
+#: mail/mail-component.c:712
 msgid "Specify where to create the folder:"
 msgstr "フォルダを作成する場所を指定して下さい:"
 
@@ -13229,7 +13213,7 @@ msgstr "仮想フォルダ"
 msgid "UNMATCHED"
 msgstr "該当しないもの"
 
-#: mail/em-folder-tree-model.c:476 mail/em-folder-tree-model.c:780
+#: mail/em-folder-tree-model.c:491 mail/em-folder-tree-model.c:795
 msgid "Loading..."
 msgstr "読み込み中..."
 
@@ -13265,7 +13249,7 @@ msgstr "フォルダへコピー(_C)"
 msgid "_Move to Folder"
 msgstr "フォルダへ移動(_M)"
 
-#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2216
+#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2228
 #: mail/em-folder-view.c:803 mail/message-list.c:1703
 msgid "_Move"
 msgstr "移動(_M)"
@@ -13274,63 +13258,68 @@ msgstr "移動(_M)"
 msgid "Cancel _Drag"
 msgstr "ドラッグのキャンセル(_D)"
 
-#: mail/em-folder-tree.c:2203 mail/em-folder-tree.c:2216
+#: mail/em-folder-tree.c:1707 mail/mail-ops.c:1013
+#, c-format
+msgid "Scanning folders in \"%s\""
+msgstr "\"%s\" のフォルダを走査中"
+
+#: mail/em-folder-tree.c:2215 mail/em-folder-tree.c:2228
 #: mail/em-folder-view.c:803 mail/em-folder-view.c:817
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
 msgid "Select folder"
 msgstr "フォルダの選択"
 
-#: mail/em-folder-tree.c:2203 mail/em-folder-view.c:817
+#: mail/em-folder-tree.c:2215 mail/em-folder-view.c:817
 msgid "C_opy"
 msgstr "コピー(_O)"
 
-#: mail/em-folder-tree.c:2243
+#: mail/em-folder-tree.c:2255
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "フォルダ '%s' の作成中"
 
-#: mail/em-folder-tree.c:2430 mail/mail-component.c:711
+#: mail/em-folder-tree.c:2442 mail/mail-component.c:712
 msgid "Create folder"
 msgstr "フォルダの作成"
 
-#: mail/em-folder-tree.c:2621
+#: mail/em-folder-tree.c:2633
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "フォルダ \"%s\" の変更先:"
 
-#: mail/em-folder-tree.c:2623
+#: mail/em-folder-tree.c:2635
 msgid "Rename Folder"
 msgstr "フォルダ名の変更"
 
-#: mail/em-folder-tree.c:2698 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2710 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "表示(_V)"
 
-#: mail/em-folder-tree.c:2699
+#: mail/em-folder-tree.c:2711
 msgid "Open in _New Window"
 msgstr "新しいウィンドウで開く(_N)"
 
-#: mail/em-folder-tree.c:2703
+#: mail/em-folder-tree.c:2715
 msgid "_Copy..."
 msgstr "コピー(_C)..."
 
-#: mail/em-folder-tree.c:2704
+#: mail/em-folder-tree.c:2716
 msgid "_Move..."
 msgstr "移動(_M)..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2708
+#: mail/em-folder-tree.c:2720
 msgid "_New Folder..."
 msgstr "新しいフォルダ(_N)"
 
-#: mail/em-folder-tree.c:2711
+#: mail/em-folder-tree.c:2723
 msgid "_Rename..."
 msgstr "名前の変更(_R)..."
 
-#: mail/em-folder-tree.c:2714 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2726 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "プロパティ(_P)"
 
@@ -13622,116 +13611,116 @@ msgstr "'%s' の取得中"
 msgid "Valid signature but cannot verify sender"
 msgstr "署名は妥当ですが、差出人を検証できません"
 
-#: mail/em-format-html.c:848
+#: mail/em-format-html.c:871
 msgid "Malformed external-body part."
 msgstr "おかしな external-body 部分です。"
 
-#: mail/em-format-html.c:878
+#: mail/em-format-html.c:901
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "FTP サイト (%s) を指しています"
 
-#: mail/em-format-html.c:889
+#: mail/em-format-html.c:912
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "ローカル・ファイル (%s) はサイト \"%s\" に正しくリンクしています"
 
-#: mail/em-format-html.c:891
+#: mail/em-format-html.c:914
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "ローカル・ファイル (%s) にリンクしています"
 
-#: mail/em-format-html.c:912
+#: mail/em-format-html.c:935
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "リモート・データ (%s) にリンクしています"
 
-#: mail/em-format-html.c:923
+#: mail/em-format-html.c:946
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "不明な外部データ (\"%s\" タイプ) にリンクしています"
 
-#: mail/em-format-html.c:1165
+#: mail/em-format-html.c:1186
 msgid "Formatting message"
 msgstr "メッセージの整形"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:803
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:802
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:325
 msgid "From"
 msgstr "差出人"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:804
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:803
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
 msgstr "返信先"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:805
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:804
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "宛先"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:806
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:805
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:807
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: mail/em-format-html.c:1554 mail/em-format-quote.c:314
+#: mail/em-format-html.c:1575 mail/em-format-quote.c:314
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "メーラー"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1581
+#: mail/em-format-html.c:1602
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%R %a %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1584
+#: mail/em-format-html.c:1605
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1594 mail/em-format-quote.c:321 mail/em-format.c:809
+#: mail/em-format-html.c:1615 mail/em-format-quote.c:321 mail/em-format.c:808
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "日付"
 
-#: mail/em-format-html.c:1617 mail/em-format.c:810 mail/em-mailer-prefs.c:89
+#: mail/em-format-html.c:1638 mail/em-format.c:809 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
 msgstr "ニュースグループ"
 
-#: mail/em-format.c:1059
+#: mail/em-format.c:1058
 #, c-format
 msgid "%s attachment"
 msgstr "添付ファイル: %s"
 
-#: mail/em-format.c:1098 mail/em-format.c:1231
+#: mail/em-format.c:1097 mail/em-format.c:1230
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "S/MIME メッセージを解析できませんでした: 不明なエラーです"
 
-#: mail/em-format.c:1221
+#: mail/em-format.c:1220
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "サポートしていない S/MIME の暗号化の種類"
 
-#: mail/em-format.c:1382
+#: mail/em-format.c:1381
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "MIME メッセージを解析できませんでした。ソースを表示します。"
 
-#: mail/em-format.c:1401
+#: mail/em-format.c:1400
 msgid "Unsupported signature format"
 msgstr "サポートしていない署名の書式"
 
-#: mail/em-format.c:1409
+#: mail/em-format.c:1408
 msgid "Error verifying signature"
 msgstr "署名を検証する際にエラーが発生しました"
 
-#: mail/em-format.c:1409
+#: mail/em-format.c:1408
 msgid "Unknown error verifying signature"
 msgstr "署名を検証する際に不明なエラーが発生しました"
 
@@ -13849,24 +13838,24 @@ msgstr "アドレス帳に追加(_A)"
 msgid "Open in %s..."
 msgstr "\"%s\" の中で開く..."
 
-#: mail/em-subscribe-editor.c:606
+#: mail/em-subscribe-editor.c:612
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr "この格納場所は購読をサポートしていないか、有効になっていません。"
 
-#: mail/em-subscribe-editor.c:635
+#: mail/em-subscribe-editor.c:641
 msgid "Subscribed"
 msgstr "購読済み"
 
-#: mail/em-subscribe-editor.c:639
+#: mail/em-subscribe-editor.c:645
 msgid "Folder"
 msgstr "フォルダ"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: mail/em-subscribe-editor.c:852
+#: mail/em-subscribe-editor.c:860
 msgid "Please select a server."
 msgstr "サーバを一つ選択して下さい。"
 
-#: mail/em-subscribe-editor.c:873
+#: mail/em-subscribe-editor.c:881
 msgid "No server has been selected"
 msgstr "サーバが指定されていません"
 
@@ -14638,80 +14627,92 @@ msgstr "%s メーリング・リスト"
 msgid "Add Filter Rule"
 msgstr "フィルタ・ルールの追加"
 
-#: mail/mail-component.c:463
+#: mail/mail-component.c:135
+msgid "Drafts"
+msgstr "下書き"
+
+#: mail/mail-component.c:136
+msgid "Outbox"
+msgstr "送信トレイ"
+
+#: mail/mail-component.c:137
+msgid "Sent"
+msgstr "送信済"
+
+#: mail/mail-component.c:464
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "削除済 %d 通"
 msgstr[1] "削除済 %d 通"
 
-#: mail/mail-component.c:465
+#: mail/mail-component.c:466
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "ジャンク %d 通"
 msgstr[1] "ジャンク %d 通"
 
-#: mail/mail-component.c:488
+#: mail/mail-component.c:489
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "草案 %d 通"
 msgstr[1] "草案 %d 通"
 
-#: mail/mail-component.c:490
+#: mail/mail-component.c:491
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "送信済 %d 通"
 msgstr[1] "送信済 %d 通"
 
-#: mail/mail-component.c:492
+#: mail/mail-component.c:493
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "未送信 %d 通"
 msgstr[1] "未送信 %d 通"
 
-#: mail/mail-component.c:496
+#: mail/mail-component.c:497
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "合計 %d 通"
 msgstr[1] "合計 %d 通"
 
-#: mail/mail-component.c:498
+#: mail/mail-component.c:499
 #, c-format
 msgid ", %d unread"
 msgid_plural ", %d unread"
 msgstr[0] ", 未読 %d 通"
 msgstr[1] ", 未読 %d 通"
 
-#: mail/mail-component.c:663
+#: mail/mail-component.c:664
 msgid "New Mail Message"
 msgstr "新しいメッセージ"
 
-#: mail/mail-component.c:664
+#: mail/mail-component.c:665
 msgid "_Mail Message"
 msgstr "メッセージ(_M)"
 
-#: mail/mail-component.c:665
+#: mail/mail-component.c:666
 msgid "Compose a new mail message"
 msgstr "新しいメッセージを作成します"
 
-#: mail/mail-component.c:671
+#: mail/mail-component.c:672
 msgid "New Mail Folder"
 msgstr "新しいメール・フォルダ"
 
-#: mail/mail-component.c:672
+#: mail/mail-component.c:673
 msgid "Mail _Folder"
 msgstr "メールのフォルダ(_F)"
 
-#: mail/mail-component.c:673
+#: mail/mail-component.c:674
 msgid "Create a new mail folder"
 msgstr "新しいメール・フォルダを作成します"
 
-#: mail/mail-component.c:805
+#: mail/mail-component.c:806
 msgid "Failed upgrading Mail settings or folders."
 msgstr "メールの設定または関連フォルダのアップグレードに失敗しました。"
 
@@ -16072,12 +16073,12 @@ msgstr "フォルダのフィルタリング中に"
 msgid "Fetching Mail"
 msgstr "メールの同期中に"
 
-#: mail/mail-ops.c:542
+#: mail/mail-ops.c:553
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "出力フィルタの適用に失敗しました: %s"
 
-#: mail/mail-ops.c:567
+#: mail/mail-ops.c:578
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -16086,115 +16087,110 @@ msgstr ""
 "%s への追加に失敗しました: %s\n"
 "かわりにローカルの '送信箱' へ追加します。"
 
-#: mail/mail-ops.c:576
+#: mail/mail-ops.c:587
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "ローカルの '送信箱' フォルダへの追加に失敗しました: %s"
 
-#: mail/mail-ops.c:672
+#: mail/mail-ops.c:683
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "メッセージ %d / %d 通を送信中"
 
-#: mail/mail-ops.c:703
+#: mail/mail-ops.c:714
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "メッセージ %d / %d の送信に失敗しました"
 
-#: mail/mail-ops.c:707
+#: mail/mail-ops.c:718
 msgid "Complete."
 msgstr "完了しました"
 
-#: mail/mail-ops.c:804
+#: mail/mail-ops.c:815
 msgid "Saving message to folder"
 msgstr "フォルダへメッセージを保存中"
 
-#: mail/mail-ops.c:889
+#: mail/mail-ops.c:900
 #, c-format
 msgid "Moving messages to %s"
 msgstr "%s へメッセージを移動中"
 
-#: mail/mail-ops.c:889
+#: mail/mail-ops.c:900
 #, c-format
 msgid "Copying messages to %s"
 msgstr "%s へメッセージをコピー中"
 
-#: mail/mail-ops.c:1002
-#, c-format
-msgid "Scanning folders in \"%s\""
-msgstr "\"%s\" のフォルダを走査中"
-
-#: mail/mail-ops.c:1115
+#: mail/mail-ops.c:1126
 msgid "Forwarded messages"
 msgstr "転送メッセージ"
 
-#: mail/mail-ops.c:1158
+#: mail/mail-ops.c:1169
 #, c-format
 msgid "Opening folder %s"
 msgstr "フォルダ %s をオープン中"
 
-#: mail/mail-ops.c:1230
+#: mail/mail-ops.c:1241
 #, c-format
 msgid "Opening store %s"
 msgstr "保存された %s をオープン中"
 
-#: mail/mail-ops.c:1308
+#: mail/mail-ops.c:1319
 #, c-format
 msgid "Removing folder %s"
 msgstr "フォルダ %s の削除中"
 
-#: mail/mail-ops.c:1402
+#: mail/mail-ops.c:1413
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "フォルダ '%s' の格納中"
 
-#: mail/mail-ops.c:1467
+#: mail/mail-ops.c:1478
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "アカウント '%s' の削除と保存中"
 
-#: mail/mail-ops.c:1468
+#: mail/mail-ops.c:1479
 #, c-format
 msgid "Storing account '%s'"
 msgstr "アカウント '%s' の格納中"
 
-#: mail/mail-ops.c:1523
+#: mail/mail-ops.c:1534
 msgid "Refreshing folder"
 msgstr "フォルダの更新中"
 
-#: mail/mail-ops.c:1559 mail/mail-ops.c:1610
+#: mail/mail-ops.c:1570 mail/mail-ops.c:1621
 msgid "Expunging folder"
 msgstr "フォルダの抹消中"
 
-#: mail/mail-ops.c:1607
+#: mail/mail-ops.c:1618
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "'%s' にあるゴミ箱のクリア中"
 
-#: mail/mail-ops.c:1608
+#: mail/mail-ops.c:1619
 msgid "Local Folders"
 msgstr "ローカル・フォルダ"
 
-#: mail/mail-ops.c:1691
+#: mail/mail-ops.c:1702
 #, c-format
 msgid "Retrieving message %s"
 msgstr "メッセージ %s を取得中"
 
-#: mail/mail-ops.c:1763
+#: mail/mail-ops.c:1774
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "メッセージ %d 通の受信中"
 msgstr[1] "メッセージ %d 通の受信中"
 
-#: mail/mail-ops.c:1849
+#: mail/mail-ops.c:1860
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
 msgstr[0] "メッセージ %d 通の保存中"
 msgstr[1] "メッセージ %d 通の保存中"
 
-#: mail/mail-ops.c:1899
+#: mail/mail-ops.c:1910
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -16203,7 +16199,7 @@ msgstr ""
 "出力ファイルを生成できません: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1927
+#: mail/mail-ops.c:1938
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -16212,11 +16208,11 @@ msgstr ""
 "ファイルの保存中にエラー: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:1998
+#: mail/mail-ops.c:2009
 msgid "Saving attachment"
 msgstr "添付した内容の保存中"
 
-#: mail/mail-ops.c:2010
+#: mail/mail-ops.c:2021
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -16225,17 +16221,17 @@ msgstr ""
 "出力ファイルを生成できません: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2020
+#: mail/mail-ops.c:2031
 #, c-format
 msgid "Could not write data: %s"
 msgstr "データを書き出せませんでした: %s"
 
-#: mail/mail-ops.c:2168
+#: mail/mail-ops.c:2179
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "%s からの接続はありません"
 
-#: mail/mail-ops.c:2168
+#: mail/mail-ops.c:2179
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "%s へ再接続"
