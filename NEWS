@@ -105,6 +105,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Calendar
 
+    #40133 - wombat startup error (Toshok)
     #31382 - Free/busy retrieval didn't work for http source (Rodrigo)
     #39356 - New evo users didn't get calendar (Rodrigo)
     #39740 - Crash clicking in Attendees field when creating new
