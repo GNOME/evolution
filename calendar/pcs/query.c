@@ -269,6 +269,9 @@ func_make_time (ESExp *esexp, int argc, ESExpResult **argv, void *data)
  * N - int, number of days to add
  *
  * Adds the specified number of days to a time value.
+ *
+ * FIXME: TIMEZONES - need to use a timezone or daylight saving changes will
+ * make the result incorrect.
  */
 static ESExpResult *
 func_time_add_day (ESExp *esexp, int argc, ESExpResult **argv, void *data)
@@ -307,6 +310,8 @@ func_time_add_day (ESExp *esexp, int argc, ESExpResult **argv, void *data)
  * TIME - time_t, base time
  *
  * Returns the start of the day, according to the local time.
+ *
+ * FIXME: TIMEZONES - this uses the current Unix timezone.
  */
 static ESExpResult *
 func_time_day_begin (ESExp *esexp, int argc, ESExpResult **argv, void *data)
@@ -337,6 +342,8 @@ func_time_day_begin (ESExp *esexp, int argc, ESExpResult **argv, void *data)
  * TIME - time_t, base time
  *
  * Returns the end of the day, according to the local time.
+ *
+ * FIXME: TIMEZONES - this uses the current Unix timezone.
  */
 static ESExpResult *
 func_time_day_end (ESExp *esexp, int argc, ESExpResult **argv, void *data)

@@ -831,19 +831,24 @@ cal_backend_file_get_timezone_object (CalBackend *backend, const char *tzid)
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
 
+	g_print ("In cal_backend_file_get_timezone_object: %s\n", tzid);
+
 	g_return_val_if_fail (tzid != NULL, NULL);
 
 	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
 	g_assert (priv->comp_uid_hash != NULL);
 
+	g_print ("  getting icaltz\n");
 	icaltz = icalcomponent_get_timezone (priv->icalcomp, tzid);
 	if (!icaltz)
 		return NULL;
 
+	g_print ("  getting icalcomp\n");
 	icalcomp = icaltimezone_get_component (icaltz);
 	if (!icalcomp)
 		return NULL;
 
+	g_print ("  getting ical_string\n");
 	ical_string = icalcomponent_as_ical_string (icalcomp);
 	/* We dup the string; libical owns that memory. */
 	if (ical_string)

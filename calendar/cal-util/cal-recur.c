@@ -115,8 +115,8 @@ typedef struct {
 
 	int            interval;
 
-	/* Specifies the end of the recurrence. No occurrences are generated
-	   after this date. If it is 0, the event recurs forever. */
+	/* Specifies the end of the recurrence, inclusive. No occurrences are
+	   generated after this date. If it is 0, the event recurs forever. */
 	time_t         enddate;
 
 	/* WKST property - the week start day: 0 = Monday to 6 = Sunday. */
@@ -197,8 +197,13 @@ struct _CalObjTime {
 	guint8 hour;		/* 0 - 23 */
 	guint8 minute;		/* 0 - 59 */
 	guint8 second;		/* 0 - 59 (maybe up to 61 for leap seconds) */
-	guint8 is_rdate;	/* TRUE if this is an RDATE, which may have an
-				   end or duration set. */
+	guint8 flags;		/* The meaning of this depends on where the
+				   CalObjTime is used. In most cases this is
+				   set to TRUE to indicate that this is an
+				   RDATE with an end or a duration set.
+				   In the exceptions code, this is set to TRUE
+				   to indicate that this is an EXDATE with a
+				   DATE value. */
 };
 
 /* This is what we use to represent specific recurrence dates.
@@ -262,7 +267,8 @@ static void cal_recur_generate_instances_of_rule (CalComponent	*comp,
 						  gpointer	 tz_cb_data);
 
 static CalRecurrence * cal_recur_from_icalproperty (icalproperty *prop,
-						    gboolean exception);
+						    gboolean exception,
+						    icaltimezone *zone);
 static gint cal_recur_ical_weekday_to_weekday	(enum icalrecurrencetype_weekday day);
 static void	cal_recur_free			(CalRecurrence	*r);
 
@@ -276,6 +282,7 @@ static void	cal_object_compute_duration	(CalObjTime	*start,
 
 static gboolean generate_instances_for_chunk	(CalComponent		*comp,
 						 time_t			 comp_dtstart,
+						 icaltimezone		*zone,
 						 GSList			*rrules,
 						 GSList			*rdates,
 						 GSList			*exrules,
@@ -291,6 +298,7 @@ static gboolean generate_instances_for_chunk	(CalComponent		*comp,
 						 gpointer		 cb_data);
 
 static GArray* cal_obj_expand_recurrence	(CalObjTime	  *event_start,
+						 icaltimezone	  *zone,
 						 CalRecurrence	  *recur,
 						 CalObjTime	  *interval_start,
 						 CalObjTime	  *interval_end,
@@ -458,11 +466,10 @@ static gint cal_obj_time_day_of_year		(CalObjTime *cotime);
 static void cal_obj_time_find_first_week	(CalObjTime *cotime,
 						 RecurData  *recur_data);
 static void cal_object_time_from_time		(CalObjTime *cotime,
-						 time_t      t);
-#if 0
-static gint cal_obj_date_only_compare_func (const void *arg1,
-					    const void *arg2);
-#endif
+						 time_t      t,
+						 icaltimezone *zone);
+static gint cal_obj_date_only_compare_func	(const void *arg1,
+						 const void *arg2);
 
 
 
@@ -722,13 +729,14 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 	/* Convert the interval start & end to CalObjTime. Note that if end
 	   is -1 interval_end won't be set, so don't use it!
 	   Also note that we use end - 1 since we want the interval to be
-	   inclusive as it makes the code simpler. */
-	cal_object_time_from_time (&interval_start, start);
+	   inclusive as it makes the code simpler. We do all calculation
+	   in the timezone of the DTSTART. */
+	cal_object_time_from_time (&interval_start, start, start_zone);
 	if (end != -1)
-		cal_object_time_from_time (&interval_end, end - 1);
+		cal_object_time_from_time (&interval_end, end - 1, start_zone);
 
-	cal_object_time_from_time (&event_start, dtstart_time);
-	cal_object_time_from_time (&event_end, dtend_time);
+	cal_object_time_from_time (&event_start, dtstart_time, start_zone);
+	cal_object_time_from_time (&event_end, dtend_time, start_zone);
 	
 	/* Calculate the duration of the event, which we use for all
 	   occurrences. We can't just subtract start from end since that may
@@ -776,10 +784,11 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 			chunk_end.hour   = 23;
 			chunk_end.minute = 59;
 			chunk_end.second = 61;
-			chunk_end.is_rdate = FALSE;
+			chunk_end.flags  = FALSE;
 		}
 
 		if (!generate_instances_for_chunk (comp, dtstart_time,
+						   start_zone,
 						   rrules, rdates,
 						   exrules, exdates,
 						   single_rule,
@@ -820,6 +829,8 @@ array_to_list (short *array, int max_elements)
 /**
  * cal_recur_from_icalproperty:
  * @ir: An RRULE or EXRULE #icalproperty.
+ * @zone: The DTSTART timezone, used for converting the UNTIL property if it
+ * is given as a DATE value.
  * 
  * Converts an #icalproperty to a #CalRecurrence.  This should be
  * freed using the cal_recur_free() function.
@@ -827,7 +838,8 @@ array_to_list (short *array, int max_elements)
  * Return value: #CalRecurrence structure.
  **/
 static CalRecurrence *
-cal_recur_from_icalproperty (icalproperty *prop, gboolean exception)
+cal_recur_from_icalproperty (icalproperty *prop, gboolean exception,
+			     icaltimezone *zone)
 {
 	struct icalrecurrencetype ir;
 	CalRecurrence *r;
@@ -846,16 +858,31 @@ cal_recur_from_icalproperty (icalproperty *prop, gboolean exception)
 	r->interval = ir.interval;
 
 	if (ir.count != 0) {
+		/* If COUNT is set, we use the pre-calculated enddate. */
 		r->enddate = cal_recur_get_rule_end_date (prop);
 	} else {
-		/* FIXME: icaltime_as_timet() seems to return -1 if UNTIL isn't
-		   set, but a simpler test would be better. */
-		r->enddate = icaltime_as_timet (ir.until);
-		if (r->enddate == -1)
+		if (icaltime_is_null_time (ir.until)) {
+			/* If neither COUNT or UNTIL is set, the event
+			   recurs forever. */
 			r->enddate = 0;
-		else if (ir.until.is_date)
-			/* FIXME: Decide what to do here. */
-			r->enddate = time_add_day (r->enddate, 1) - 1;
+		} else if (ir.until.is_date) {
+			/* If UNTIL is a DATE, we stop at the end of
+			   the day, in local time (with the DTSTART timezone).
+			   Note that UNTIL is inclusive so we stop before
+			   midnight. */
+			ir.until.hour = 23;
+			ir.until.minute = 59;
+			ir.until.second = 59;
+
+			r->enddate = icaltime_as_timet_with_zone (ir.until,
+								  zone);
+		} else {
+			/* If UNTIL is a DATE-TIME, it must be in UTC. */
+			icaltimezone *utc_zone;
+			utc_zone = icaltimezone_get_utc_timezone ();
+			r->enddate = icaltime_as_timet_with_zone (ir.until,
+								  utc_zone);
+		}
 	}
 
 	r->week_start_day = cal_recur_ical_weekday_to_weekday (ir.week_start);
@@ -984,6 +1011,7 @@ cal_recur_free (CalRecurrence *r)
 static gboolean
 generate_instances_for_chunk (CalComponent	*comp,
 			      time_t             comp_dtstart,
+			      icaltimezone	*zone,
 			      GSList		*rrules,
 			      GSList		*rdates,
 			      GSList		*exrules,
@@ -1003,7 +1031,7 @@ generate_instances_for_chunk (CalComponent	*comp,
 	GSList *elem;
 	gint i;
 	time_t start_time, end_time;
-	struct tm start_tm, end_tm;
+	struct icaltimetype start_tt, end_tt;
 	gboolean cb_status = TRUE, rule_finished, finished = TRUE;
 
 #if 0
@@ -1041,9 +1069,9 @@ generate_instances_for_chunk (CalComponent	*comp,
 		CalRecurrence *r;
 
 		prop = elem->data;
-		r = cal_recur_from_icalproperty (prop, FALSE);
+		r = cal_recur_from_icalproperty (prop, FALSE, zone);
 
-		tmp_occs = cal_obj_expand_recurrence (event_start, r,
+		tmp_occs = cal_obj_expand_recurrence (event_start, zone, r,
 						      chunk_start,
 						      chunk_end,
 						      &rule_finished);
@@ -1058,16 +1086,26 @@ generate_instances_for_chunk (CalComponent	*comp,
 		g_array_free (tmp_occs, TRUE);
 	}
 
-	/* Add on specific occurrence dates, flag them as RDATEs, and store
-	   a pointer to the period in the rdate_periods array. */
+	/* Add on specific RDATE occurrence dates. If they have an end time
+	   or duration set, flag them as RDATEs, and store a pointer to the
+	   period in the rdate_periods array. Otherwise we can just treat them
+	   as normal occurrences. */
 	for (elem = rdates; elem; elem = elem->next) {
 		CalComponentPeriod *p;
 		CalObjRecurrenceDate rdate;
-		time_t t;
 
 		p = elem->data;
-		t = icaltime_as_timet (p->start);
-		cal_object_time_from_time (&cotime, t);
+
+		/* FIXME: We currently assume RDATEs are in the same timezone
+		   as DTSTART. We should get the RDATE timezone and convert
+		   to the DTSTART timezone first. */
+		cotime.year     = p->start.year;
+		cotime.month    = p->start.month - 1;
+		cotime.day      = p->start.day;
+		cotime.hour     = p->start.hour;
+		cotime.minute   = p->start.minute;
+		cotime.second   = p->start.second;
+		cotime.flags    = FALSE;
 
 		/* If the rdate is after the current chunk we set finished
 		   to FALSE, and we skip it. */
@@ -1078,10 +1116,11 @@ generate_instances_for_chunk (CalComponent	*comp,
 
 		/* Check if the end date or duration is set. If it is we need
 		   to store it so we can get it later. (libical seems to set
-		   second to -1 to denote an unset time. See icalvalue.c) */
+		   second to -1 to denote an unset time. See icalvalue.c)
+		   FIXME. */
 		if (p->type != CAL_COMPONENT_PERIOD_DATETIME
 		    || p->u.end.second != -1) {
-			cotime.is_rdate = TRUE;
+			cotime.flags = TRUE;
 
 			rdate.start = cotime;
 			rdate.period = p;
@@ -1097,9 +1136,9 @@ generate_instances_for_chunk (CalComponent	*comp,
 		CalRecurrence *r;
 
 		prop = elem->data;
-		r = cal_recur_from_icalproperty (prop, FALSE);
+		r = cal_recur_from_icalproperty (prop, FALSE, zone);
 
-		tmp_occs = cal_obj_expand_recurrence (event_start, r,
+		tmp_occs = cal_obj_expand_recurrence (event_start, zone, r,
 						      chunk_start,
 						      chunk_end,
 						      &rule_finished);
@@ -1112,16 +1151,30 @@ generate_instances_for_chunk (CalComponent	*comp,
 	/* Add on specific exception dates. */
 	for (elem = exdates; elem; elem = elem->next) {
 		CalComponentDateTime *cdt;
-		time_t t;
 
-		/* FIXME we should only be dealing with dates, not times too.
-
-		   No, I think it is supposed to be dates & times - Damon.
-		   I'm not sure what the semantics of just a date would be,
-		   since the event could recur several times each day. */
 		cdt = elem->data;
-		t = icaltime_as_timet (*cdt->value);
-		cal_object_time_from_time (&cotime, t);
+
+		/* FIXME: We currently assume EXDATEs are in the same timezone
+		   as DTSTART. We should get the EXDATE timezone and convert
+		   to the DTSTART timezone first. */
+		cotime.year     = cdt->value->year;
+		cotime.month    = cdt->value->month - 1;
+		cotime.day      = cdt->value->day;
+
+		/* If the EXDATE has a DATE value, set the time to the start
+		   of the day and set flags to TRUE so we know to skip all
+		   occurrences on that date. */
+		if (cdt->value->is_date) {
+			cotime.hour     = 0;
+			cotime.minute   = 0;
+			cotime.second   = 0;
+			cotime.flags    = TRUE;
+		} else {
+			cotime.hour     = cdt->value->hour;
+			cotime.minute   = cdt->value->minute;
+			cotime.second   = cdt->value->second;
+			cotime.flags    = FALSE;
+		}
 
 		g_array_append_val (ex_occs, cotime);
 	}
@@ -1148,17 +1201,17 @@ generate_instances_for_chunk (CalComponent	*comp,
 		g_print ("Checking occurrence: %s\n",
 			 cal_obj_time_to_string (occ));
 #endif
-		start_tm.tm_year  = occ->year - 1900;
-		start_tm.tm_mon   = occ->month;
-		start_tm.tm_mday  = occ->day;
-		start_tm.tm_hour  = occ->hour;
-		start_tm.tm_min   = occ->minute;
-		start_tm.tm_sec   = occ->second;
-		start_tm.tm_isdst = -1;
-		start_time = mktime (&start_tm);
+		start_tt.year   = occ->year;
+		start_tt.month  = occ->month + 1;
+		start_tt.day    = occ->day;
+		start_tt.hour   = occ->hour;
+		start_tt.minute = occ->minute;
+		start_tt.second = occ->second;
+		start_tt.is_daylight = -1;
+		start_time = icaltime_as_timet_with_zone (start_tt, zone);
 
 		if (start_time == -1) {
-			g_warning ("mktime failed - time_t out of range?");
+			g_warning ("time_t out of range");
 			finished = TRUE;
 			break;
 		}
@@ -1177,7 +1230,10 @@ generate_instances_for_chunk (CalComponent	*comp,
 			continue;
 		}
 
-		if (occ->is_rdate) {
+		if (occ->flags) {
+			/* If it is an RDATE, we see if the end date or
+			   duration was set. If not, we use the same duration
+			   as the original occurrence. */
 			if (!cal_object_get_rdate_end (occ, rdate_periods)) {
 				cal_obj_time_add_days (occ, duration_days);
 				cal_obj_time_add_seconds (occ,
@@ -1188,17 +1244,17 @@ generate_instances_for_chunk (CalComponent	*comp,
 			cal_obj_time_add_seconds (occ, duration_seconds);
 		}
 
-		end_tm.tm_year  = occ->year - 1900;
-		end_tm.tm_mon   = occ->month;
-		end_tm.tm_mday  = occ->day;
-		end_tm.tm_hour  = occ->hour;
-		end_tm.tm_min   = occ->minute;
-		end_tm.tm_sec   = occ->second;
-		end_tm.tm_isdst = -1;
-		end_time = mktime (&end_tm);
+		end_tt.year   = occ->year;
+		end_tt.month  = occ->month + 1;
+		end_tt.day    = occ->day;
+		end_tt.hour   = occ->hour;
+		end_tt.minute = occ->minute;
+		end_tt.second = occ->second;
+		end_tt.is_daylight = -1;
+		end_time = icaltime_as_timet_with_zone (end_tt, zone);
 
 		if (end_time == -1) {
-			g_warning ("mktime failed - time_t out of range?");
+			g_warning ("time_t out of range");
 			finished = TRUE;
 			break;
 		}
@@ -1238,7 +1294,6 @@ cal_object_get_rdate_end	(CalObjTime	*occ,
 	CalObjRecurrenceDate *rdate = NULL;
 	CalComponentPeriod *p;
 	gint lower, upper, middle, cmp = 0;
-	time_t t;
 
 	lower = 0;
 	upper = rdate_periods->len;
@@ -1267,8 +1322,16 @@ cal_object_get_rdate_end	(CalObjTime	*occ,
 
 	p = rdate->period;
 	if (p->type == CAL_COMPONENT_PERIOD_DATETIME) {
-		t = icaltime_as_timet (p->u.end);
-		cal_object_time_from_time (occ, t);
+		/* FIXME: We currently assume RDATEs are in the same timezone
+		   as DTSTART. We should get the RDATE timezone and convert
+		   to the DTSTART timezone first. */
+		occ->year     = p->u.end.year;
+		occ->month    = p->u.end.month - 1;
+		occ->day      = p->u.end.day;
+		occ->hour     = p->u.end.hour;
+		occ->minute   = p->u.end.minute;
+		occ->second   = p->u.end.second;
+		occ->flags    = FALSE;
 	} else {
 		cal_obj_time_add_days (occ, p->u.duration.weeks * 7
 				       + p->u.duration.days);
@@ -1319,6 +1382,7 @@ cal_object_compute_duration (CalObjTime *start,
    after the given interval.*/
 static GArray*
 cal_obj_expand_recurrence		(CalObjTime	  *event_start,
+					 icaltimezone	  *zone,
 					 CalRecurrence	  *recur,
 					 CalObjTime	  *interval_start,
 					 CalObjTime	  *interval_end,
@@ -1346,7 +1410,7 @@ cal_obj_expand_recurrence		(CalObjTime	  *event_start,
 	/* Compute the event_end, if the recur's enddate is set. */
 	if (recur->enddate > 0) {
 		cal_object_time_from_time (&event_end_cotime,
-					   recur->enddate);
+					   recur->enddate, zone);
 		event_end = &event_end_cotime;
 
 		/* If the enddate is before the requested interval return. */
@@ -1653,7 +1717,7 @@ static CalRecurVTable* cal_obj_get_vtable (icalrecurrencetype_frequency recur_ty
 		vtable = &cal_obj_secondly_vtable;
 		break;
 	default:
-		g_warning ("Unknown recurrence frequenct");
+		g_warning ("Unknown recurrence frequency");
 		vtable = NULL;
 	}
 
@@ -1836,15 +1900,15 @@ cal_obj_remove_exceptions (GArray *occs,
 		    && cal_obj_time_compare_func (occ, prev_occ) == 0) {
 			keep_occ = FALSE;
 
-			/* If this occurrence is an RDATE, and the previous
-			   occurrence in the array was kept, set the RDATE flag
-			   of the last one, so we still use the end date
-			   or duration. */
-			if (occ->is_rdate && !current_time_is_exception) {
+			/* If this occurrence is an RDATE with an end or
+			   duration set, and the previous occurrence in the
+			   array was kept, set the RDATE flag of the last one,
+			   so we still use the end date or duration. */
+			if (occ->flags && !current_time_is_exception) {
 				last_occ_kept = &g_array_index (occs,
 								CalObjTime,
 								j - 1);
-				last_occ_kept->is_rdate = TRUE;
+				last_occ_kept->flags = TRUE;
 			}
 		} else {
 			/* We've found a new occurrence time. Reset the flag
@@ -1857,9 +1921,14 @@ cal_obj_remove_exceptions (GArray *occs,
 				   to one that matches or follows this
 				   occurrence. */
 				while (ex_occ) {
-					cmp = cal_obj_time_compare_func (ex_occ, occ);
-					/* I'm pretty sure this is wrong. */
-					/*cmp = cal_obj_date_only_compare_func (ex_occ, occ);*/
+					/* If the exception is an EXDATE with
+					   a DATE value, we only have to
+					   compare the date. */
+					if (ex_occ->flags)
+						cmp = cal_obj_date_only_compare_func (ex_occ, occ);
+					else
+						cmp = cal_obj_time_compare_func (ex_occ, occ);
+
 					if (cmp > 0)
 						break;
 
@@ -1886,6 +1955,10 @@ cal_obj_remove_exceptions (GArray *occs,
 		}
 
 		if (keep_occ) {
+			/* We are keeping this occurrence, so we move it to
+			   the next free space, unless its position hasn't
+			   changed (i.e. all previous occurrences were also
+			   kept). */
 			if (i != j)
 				g_array_index (occs, CalObjTime, j)
 					= g_array_index (occs, CalObjTime, i);
@@ -3465,7 +3538,7 @@ cal_obj_time_compare_func (const void *arg1,
 	return retval;
 }
 
-#if 0
+
 static gint
 cal_obj_date_only_compare_func (const void *arg1,
 				const void *arg2)
@@ -3492,7 +3565,7 @@ cal_obj_date_only_compare_func (const void *arg1,
 
 	return 0;
 }
-#endif
+
 
 /* Returns the weekday of the given CalObjTime, from 0 (Mon) - 6 (Sun). */
 static gint
@@ -3590,23 +3663,21 @@ cal_obj_time_find_first_week	(CalObjTime *cotime,
 
 
 static void
-cal_object_time_from_time (CalObjTime *cotime,
-			   time_t      t)
+cal_object_time_from_time	(CalObjTime	*cotime,
+				 time_t		 t,
+				 icaltimezone	*zone)
 {
-	struct tm *tmp_tm;
-	time_t tmp_time_t;
+	struct icaltimetype tt;
 
-	tmp_time_t = t;
-	/* FIXME */
-	tmp_tm = localtime (&tmp_time_t);
+	tt = icaltime_from_timet_with_zone (t, FALSE, zone);
 
-	cotime->year     = tmp_tm->tm_year + 1900;
-	cotime->month    = tmp_tm->tm_mon;
-	cotime->day      = tmp_tm->tm_mday;
-	cotime->hour     = tmp_tm->tm_hour;
-	cotime->minute   = tmp_tm->tm_min;
-	cotime->second   = tmp_tm->tm_sec;
-	cotime->is_rdate = FALSE;
+	cotime->year     = tt.year;
+	cotime->month    = tt.month - 1;
+	cotime->day      = tt.day;
+	cotime->hour     = tt.hour;
+	cotime->minute   = tt.minute;
+	cotime->second   = tt.second;
+	cotime->flags    = FALSE;
 }
 
 
@@ -3746,6 +3817,7 @@ cal_recur_get_rule_end_date	(icalproperty	*prop)
 	const char *xname, *xvalue;
 	icalvalue *value;
 	struct icaltimetype icaltime;
+	icaltimezone *utc_zone;
 
 	param = icalproperty_get_first_parameter (prop, ICAL_X_PARAMETER);
 	while (param) {
@@ -3758,7 +3830,9 @@ cal_recur_get_rule_end_date	(icalproperty	*prop)
 				icaltime = icalvalue_get_datetime (value);
 				icalvalue_free (value);
 
-				return icaltime_as_timet (icaltime);
+				utc_zone = icaltimezone_get_utc_timezone ();
+				return icaltime_as_timet_with_zone (icaltime,
+								    utc_zone);
 			}
 		}
 
@@ -3776,10 +3850,13 @@ cal_recur_set_rule_end_date	(icalproperty	*prop,
 {
 	icalparameter *param;
 	icalvalue *value;
+	icaltimezone *utc_zone;
 	struct icaltimetype icaltime;
 	const char *end_date_string, *xname;
 
-	icaltime = icaltime_from_timet (end_date, FALSE);
+	/* We save the value as a UTC DATE-TIME. */
+	utc_zone = icaltimezone_get_utc_timezone ();
+	icaltime = icaltime_from_timet_with_zone (end_date, FALSE, utc_zone);
 	value = icalvalue_new_datetime (icaltime);
 	end_date_string = icalvalue_as_ical_string (value);
 	icalvalue_free (value);

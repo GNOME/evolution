@@ -217,6 +217,7 @@ task_compare_cb (gconstpointer a, gconstpointer b)
 	if (due_a.value && due_b.value) {
 		int v;
 
+		/* FIXME: TIMEZONES. */
 		v = icaltime_compare (*due_a.value, *due_b.value);
 
 		if (v == 0)

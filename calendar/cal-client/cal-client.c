@@ -833,6 +833,8 @@ cal_client_get_timezone (CalClient *client,
 	icalcomponent *icalcomp;
 	icaltimezone *tmp_zone;
 
+	g_print ("In cal_client_get_timezone: %s\n", tzid);
+
 	g_return_val_if_fail (client != NULL, CAL_CLIENT_GET_NOT_FOUND);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_GET_NOT_FOUND);
 
@@ -845,12 +847,14 @@ cal_client_get_timezone (CalClient *client,
 	/* If tzid is NULL or "" we return NULL, since it is a 'local time'. */
 	if (!tzid || !tzid[0]) {
 		*zone = NULL;
+		g_print ("  zone is local time (NULL)\n");
 		return CAL_CLIENT_GET_SUCCESS;
 	}
 
 	/* If it is UTC, we return the special UTC timezone. */
 	if (!strcmp (tzid, "UTC")) {
 		*zone = icaltimezone_get_utc_timezone ();
+		g_print ("  zone is UTC\n");
 		return CAL_CLIENT_GET_SUCCESS;
 	}
 
@@ -858,11 +862,14 @@ cal_client_get_timezone (CalClient *client,
 	tmp_zone = g_hash_table_lookup (priv->timezones, tzid);
 	if (tmp_zone) {
 		*zone = tmp_zone;
+		g_print ("  zone is in cache\n");
 		return CAL_CLIENT_GET_SUCCESS;
 	}
 
 	retval = CAL_CLIENT_GET_NOT_FOUND;
 	*zone = NULL;
+
+	g_print ("  getting zone from server\n");
 
 	/* We don't already have it, so we try to get it from the server. */
 	CORBA_exception_init (&ev);
@@ -876,6 +883,7 @@ cal_client_get_timezone (CalClient *client,
 		goto out;
 	}
 
+	g_print ("  parsing zone:\n%s\n", comp_str);
 	icalcomp = icalparser_parse_string (comp_str);
 	CORBA_free (comp_str);
 
@@ -884,6 +892,7 @@ cal_client_get_timezone (CalClient *client,
 		goto out;
 	}
 
+	g_print ("  creating icaltimezone\n");
 	tmp_zone = icaltimezone_new ();
 	if (!tmp_zone) {
 		/* FIXME: Needs better error code - out of memory. Or just
@@ -901,6 +910,7 @@ cal_client_get_timezone (CalClient *client,
 	g_hash_table_insert (priv->timezones, icaltimezone_get_tzid (tmp_zone),
 			     tmp_zone);
 
+	g_print ("  returning icaltimezone\n");
 	*zone = tmp_zone;
 	retval = CAL_CLIENT_GET_SUCCESS;
 

@@ -31,6 +31,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include "e-util/e-categories-config.h"
+#include "cal-util/timeutil.h"
 #include "e-day-view-top-item.h"
 
 static void e_day_view_top_item_class_init	(EDayViewTopItemClass *class);
@@ -274,10 +275,9 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 		day_start.tm_mday = day_start_tt.day;
 		day_start.tm_isdst = -1;
 
-		/* Call mktime() to set the weekday. FIXME: Don't do this.
-		   mktime() could in theory adjust the time if it thought it
-		   was invalid. */
-		mktime (&day_start);
+		day_start.tm_wday = time_day_of_week (day_start_tt.day,
+						      day_start_tt.month - 1,
+						      day_start_tt.year);
 
 		if (day_view->date_format == E_DAY_VIEW_DATE_FULL)
 			/* strftime format %A = full weekday name, %d = day of month,

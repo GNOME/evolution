@@ -1253,8 +1253,10 @@ e_week_view_set_selected_time_range	(EWeekView	*week_view,
 	if (!g_date_valid (&week_view->first_day_shown)
 	    || g_date_compare (&week_view->first_day_shown, &base_date)) {
 		week_view->first_day_shown = base_date;
-		start_time = time_add_day (start_time, -day_offset);
-		start_time = time_day_begin (start_time);
+		start_time = time_add_day_with_zone (start_time, -day_offset,
+						     week_view->zone);
+		start_time = time_day_begin_with_zone (start_time,
+						       week_view->zone);
 		e_week_view_recalc_day_starts (week_view, start_time);
 		update_query (week_view);
 	}
@@ -1263,7 +1265,8 @@ e_week_view_set_selected_time_range	(EWeekView	*week_view,
 	week_view->selection_start_day = g_date_julian (&date)
 		- g_date_julian (&base_date);
 	if (end_time == start_time
-	    || end_time <= time_add_day (start_time, 1))
+	    || end_time <= time_add_day_with_zone (start_time, 1,
+						   week_view->zone))
 		week_view->selection_end_day = week_view->selection_start_day;
 	else {
 		g_date_clear (&end_date, 1);
@@ -1426,7 +1429,8 @@ e_week_view_recalc_day_starts (EWeekView *week_view,
 	tmp_time = lower;
 	week_view->day_starts[0] = tmp_time;
 	for (day = 1; day <= num_days; day++) {
-		tmp_time = time_add_day (tmp_time, 1);
+		tmp_time = time_add_day_with_zone (tmp_time, 1,
+						   week_view->zone);
 		week_view->day_starts[day] = tmp_time;
 	}
 }

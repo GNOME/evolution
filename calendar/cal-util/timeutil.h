@@ -2,10 +2,10 @@
  *
  * Copyright (C) 1998 The Free Software Foundation
  * Copyright (C) 2000 Ximian, Inc.
- * Copyright (C) 2000 Ximian, Inc.
  *
  * Authors: Federico Mena <federico@ximian.com>
  *          Miguel de Icaza <miguel@ximian.com>
+ *          Damon Chaplin <damon@ximian.com>
  */
 
 #ifndef TIMEUTIL_H
@@ -14,52 +14,107 @@
 
 #include <time.h>
 #include <ical.h>
+#include <glib.h>
 
 
+/**************************************************************************
+ * General time functions.
+ **************************************************************************/
+
+/* Returns the number of days in the month. Year is the normal year, e.g. 2001.
+   Month is 0 (Jan) to 11 (Dec). */
+int	time_days_in_month	(int year, int month);
+
+/* Returns the 1-based day number within the year of the specified date.
+   Year is the normal year, e.g. 2001. Month is 0 to 11. */
+int	time_day_of_year	(int day, int month, int year);
+
+/* Returns the day of the week for the specified date, 0 (Sun) to 6 (Sat).
+   For the days that were removed on the Gregorian reformation, it returns
+   Thursday. Year is the normal year, e.g. 2001. Month is 0 to 11. */
+int	time_day_of_week	(int day, int month, int year);
+
+/* Returns whether the specified year is a leap year. Year is the normal year,
+   e.g. 2001. */
+gboolean time_is_leap_year	(int year);
+
+/* Returns the number of leap years since year 1 up to (but not including) the
+   specified year. Year is the normal year, e.g. 2001. */
+int	time_leap_years_up_to	(int year);
+
+/* Convert to or from an ISO 8601 representation of a time, in UTC,
+   e.g. "20010708T183000Z". */
 char   *isodate_from_time_t     (time_t t);
-time_t time_from_isodate (const char *str);
-
-time_t time_add_minutes (time_t time, int minutes);
-time_t time_add_day (time_t time, int days);
-time_t time_add_week (time_t time, int weeks);
-time_t time_add_month (time_t time, int months);
-time_t time_add_year (time_t time, int years);
+time_t	time_from_isodate	(const char *str);
 
 
-/* Returns the number of days in the specified month.  Years are full years
-   (starting from year 1). Months are in [0, 11]. */
-int time_days_in_month (int year, int month);
+/**************************************************************************
+ * time_t manipulation functions.
+ *
+ * NOTE: these use the Unix timezone functions like mktime() and localtime()
+ * and so should not be used in Evolution. New Evolution code should use
+ * icaltimetype values rather than time_t values wherever possible.
+ **************************************************************************/
 
-/* Converts the specified date to a time_t at the start of the specified day.
-   Years are full years (starting from year 1).  Months are in [0, 11].
-   Days are 1-based. */
-time_t time_from_day (int year, int month, int day);
+/* Add or subtract a number of days, weeks or months. */
+time_t	time_add_day		(time_t time, int days);
+time_t	time_add_week		(time_t time, int weeks);
+time_t	time_add_month		(time_t time, int months);
 
-/* For the functions below, time ranges are considered to contain the start
-   time, but not the end time. */
+/* Returns the beginning of the year or month. */
+time_t	time_year_begin		(time_t t);
+time_t	time_month_begin	(time_t t);
 
-/* These two functions take a time value and return the beginning or end of
-   the corresponding year, respectively. */
-time_t time_year_begin (time_t t);
-time_t time_year_end (time_t t);
-
-/* These two functions take a time value and return the beginning or end of
-   the corresponding month, respectively. */
-time_t time_month_begin (time_t t);
-time_t time_month_end (time_t t);
-
-/* These functions take a time value and return the beginning or end of the
-   corresponding week, respectively. week_start_day should use the same values
+/* Returns the beginning of the week. week_start_day should use the same values
    as mktime(), i.e. 0 (Sun) to 6 (Sat). */
-time_t time_week_begin (time_t t, int week_start_day);
-time_t time_week_end (time_t t, int week_start_day);
+time_t	time_week_begin		(time_t t, int week_start_day);
 
-/* These two functions take a time value and return the beginning or end of
-   the corresponding day, respectively. */
-time_t time_day_begin (time_t t);
-time_t time_day_end (time_t t);
+/* Returns the beginning or end of the day. */
+time_t	time_day_begin		(time_t t);
+time_t	time_day_end		(time_t t);
 
-void print_time_t (time_t t);
+
+/**************************************************************************
+ * time_t manipulation functions, using timezones in libical.
+ *
+ * NOTE: these are only here to make the transition to the timezone
+ * functions easier. New code should use icaltimetype values rather than
+ * time_t values wherever possible.
+ **************************************************************************/
+
+/* Adds or subtracts a number of days to/from the given time_t value, using
+   the given timezone. */
+time_t	time_add_day_with_zone (time_t time, int days, icaltimezone *zone);
+
+/* Adds or subtracts a number of weeks to/from the given time_t value, using
+   the given timezone. */
+time_t	time_add_week_with_zone (time_t time, int weeks, icaltimezone *zone);
+
+/* Adds or subtracts a number of months to/from the given time_t value, using
+   the given timezone. */
+time_t	time_add_month_with_zone (time_t time, int months, icaltimezone *zone);
+
+/* Returns the start of the year containing the given time_t, using the given
+   timezone. */
+time_t	time_year_begin_with_zone (time_t time, icaltimezone *zone);
+
+/* Returns the start of the month containing the given time_t, using the given
+   timezone. */
+time_t	time_month_begin_with_zone (time_t time, icaltimezone *zone);
+
+/* Returns the start of the week containing the given time_t, using the given
+   timezone. week_start_day should use the same values as mktime(),
+   i.e. 0 (Sun) to 6 (Sat). */
+time_t	time_week_begin_with_zone (time_t time, int week_start_day,
+				   icaltimezone *zone);
+
+/* Returns the start of the day containing the given time_t, using the given
+   timezone. */
+time_t	time_day_begin_with_zone (time_t time, icaltimezone *zone);
+
+/* Returns the end of the day containing the given time_t, using the given
+   timezone. (The end of the day is the start of the next day.) */
+time_t	time_day_end_with_zone (time_t time, icaltimezone *zone);
 
 
 #endif

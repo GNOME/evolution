@@ -4933,5 +4933,44 @@ cal_component_event_dates_match	(CalComponent *comp1,
 	return TRUE;
 }
 
+/* Returns TRUE if the TZIDs are equivalent, i.e. both NULL or the same. */
+static gboolean
+cal_component_compare_tzid (const char *tzid1, const char *tzid2)
+{
+	gboolean retval = TRUE;
 
+	if (tzid1) {
+		if (!tzid2 || strcmp (tzid1, tzid2))
+			retval = FALSE;
+	} else {
+		if (tzid2)
+			retval = FALSE;
+	}
 
+	return retval;
+}
+
+/* Returns TRUE if the component uses the given timezones for both DTSTART
+   and DTEND. */
+gboolean
+cal_component_compare_event_timezone (CalComponent *comp, icaltimezone *zone)
+{
+	CalComponentDateTime datetime;
+	const char *tzid;
+	gboolean match;
+
+	tzid = icaltimezone_get_tzid (zone);
+
+	cal_component_get_dtstart (comp, &datetime);
+	match = cal_component_compare_tzid (tzid, datetime.tzid);
+	cal_component_free_datetime (&datetime);
+	if (!match)
+		return FALSE;
+
+	/* FIXME: DURATION may be used instead. */
+	cal_component_get_dtend (comp, &datetime);
+	match = cal_component_compare_tzid (tzid, datetime.tzid);
+	cal_component_free_datetime (&datetime);
+
+	return match;
+}

@@ -328,6 +328,10 @@ get_time_t (CalendarModel *model, time_t *t, gboolean show_midnight)
 	if (*t <= 0) {
 		buffer[0] = '\0';
 	} else {
+		/* Note that although the property may be in a different
+		   timezone, we convert it to the current timezone to display
+		   it in the table. If the user actually edits the value,
+		   it will be set to the current timezone. See set_datetime. */
 		tt = icaltime_from_timet_with_zone (*t, FALSE,
 						    model->priv->zone);
 		tmp_tm.tm_year = tt.year - 1900;
@@ -338,8 +342,8 @@ get_time_t (CalendarModel *model, time_t *t, gboolean show_midnight)
 		tmp_tm.tm_sec = tt.second;
 		tmp_tm.tm_isdst = -1;
 
-		/* Call mktime() to set the weekday. */
-		mktime (&tmp_tm);
+		tmp_tm.tm_wday = time_day_of_week (tt.day, tt.month - 1,
+						   tt.year);
 
 		e_time_format_date_and_time (&tmp_tm,
 					     model->priv->use_24_hour_format,
@@ -401,14 +405,13 @@ get_completed	(CalendarModel *model,
 	struct icaltimetype *completed;
 	time_t t;
 
-	/* FIXME: COMPLETED is in UTC, but we probably want to show it in
-	   the current timezone. */
-
 	cal_component_get_completed (comp, &completed);
 
 	if (!completed)
 		t = 0;
 	else {
+		/* Note that COMPLETED is stored in UTC, though we show it in
+		   the current timezone. */
 		t = icaltime_as_timet_with_zone (*completed, icaltimezone_get_utc_timezone ());
 		cal_component_free_icaltimetype (completed);
 	}
@@ -424,8 +427,15 @@ get_and_free_datetime (CalendarModel *model, CalComponentDateTime dt)
 
 	if (!dt.value)
 		t = 0;
-	else
-		t = icaltime_as_timet (*dt.value);
+	else {
+		CalClientGetStatus status;
+		icaltimezone *zone;
+
+		/* FIXME: TIMEZONES: Handle error. */
+		status = cal_client_get_timezone (model->priv->client, dt.tzid,
+						  &zone);
+		t = icaltime_as_timet_with_zone (*dt.value, zone);
+	}
 
 	cal_component_free_datetime (&dt);
 
@@ -601,7 +611,7 @@ is_complete (CalComponent *comp)
  * get_color() below.
  */
 static gboolean
-is_overdue (CalComponent *comp)
+is_overdue (CalendarModel *model, CalComponent *comp)
 {
 	CalComponentDateTime dt;
 	gboolean retval;
@@ -613,7 +623,9 @@ is_overdue (CalComponent *comp)
 	if (!dt.value)
 		retval = FALSE;
 	else {
-		time_t t;
+		struct icaltimetype now_tt;
+		CalClientGetStatus status;
+		icaltimezone *zone;
 
 		/* Second, is it already completed? */
 
@@ -624,9 +636,13 @@ is_overdue (CalComponent *comp)
 
 		/* Third, are we overdue as of right now? */
 
-		t = icaltime_as_timet (*dt.value);
+		/* Get the current time in the same timezone as the DUE date.*/
+		/* FIXME: TIMEZONES: Handle error. */
+		status = cal_client_get_timezone (model->priv->client, dt.tzid,
+						  &zone);
+		now_tt = icaltime_current_time_with_zone (zone);
 
-		if (t <= time (NULL))
+		if (icaltime_compare (*dt.value, now_tt) <= 0)
 			retval = TRUE;
 		else
 			retval = FALSE;
@@ -641,7 +657,7 @@ is_overdue (CalComponent *comp)
 
 /* Computes the color to be used to display a component */
 static const char *
-get_color (CalComponent *comp)
+get_color (CalendarModel *model, CalComponent *comp)
 {
 	CalComponentDateTime dt;
 	const char *retval;
@@ -653,8 +669,9 @@ get_color (CalComponent *comp)
 	if (!dt.value)
 		retval = NULL;
 	else {
-		time_t t, t_now;
-		struct tm tm, tm_now;
+		struct icaltimetype now_tt;
+		CalClientGetStatus status;
+		icaltimezone *zone;
 
 		/* Second, is it already completed? */
 
@@ -665,15 +682,13 @@ get_color (CalComponent *comp)
 
 		/* Third, is it due today? */
 
-		t = icaltime_as_timet (*dt.value);
-		tm = *localtime (&t);
+		/* Get the current time in the same timezone as the DUE date.*/
+		/* FIXME: TIMEZONES: Handle error. */
+		status = cal_client_get_timezone (model->priv->client, dt.tzid,
+						  &zone);
+		now_tt = icaltime_current_time_with_zone (zone);
 
-		t_now = time (NULL);
-		tm_now = *localtime (&t_now);
-
-		if (tm.tm_year == tm_now.tm_year
-		    && tm.tm_mon == tm_now.tm_mon
-		    && tm.tm_mday == tm_now.tm_mday) {
+		if (icaltime_compare_date_only (*dt.value, now_tt) == 0) {
 			retval = calendar_config_get_tasks_due_today_color ();
 			goto out;
 		}
@@ -683,7 +698,7 @@ get_color (CalComponent *comp)
 		 * immediately.
 		 */
 
-		if (t <= t_now)
+		if (icaltime_compare (*dt.value, now_tt) <= 0)
 			retval = calendar_config_get_tasks_overdue_color ();
 		else
 			retval = NULL;
@@ -811,10 +826,10 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 		return GINT_TO_POINTER (cal_component_has_recurrences (comp));
 
 	case CAL_COMPONENT_FIELD_OVERDUE:
-		return GINT_TO_POINTER (is_overdue (comp));
+		return GINT_TO_POINTER (is_overdue (model, comp));
 
 	case CAL_COMPONENT_FIELD_COLOR:
-		return (void *) get_color (comp);
+		return (void *) get_color (model, comp);
 
 	case CAL_COMPONENT_FIELD_STATUS:
 		return get_status (comp);
@@ -995,9 +1010,6 @@ set_completed (CalendarModel *model, CalComponent *comp, const char *value)
 	struct tm tmp_tm;
 	time_t t;
 
-	/* FIXME: COMPLETED is in UTC, but we probably want to show it in
-	   the current timezone. */
-
 	status = e_time_parse_date_and_time (value, &tmp_tm);
 
 	if (status == E_TIME_PARSE_INVALID) {
@@ -1005,7 +1017,20 @@ set_completed (CalendarModel *model, CalComponent *comp, const char *value)
 	} else if (status == E_TIME_PARSE_NONE) {
 		ensure_task_not_complete (comp);
 	} else {
-		t = mktime (&tmp_tm);
+		struct icaltimetype itt = icaltime_null_time ();
+
+		itt.year = tmp_tm.tm_year + 1900;
+		itt.month = tmp_tm.tm_mon + 1;
+		itt.day = tmp_tm.tm_mday;
+		itt.hour = tmp_tm.tm_hour;
+		itt.minute = tmp_tm.tm_min;
+		itt.second = tmp_tm.tm_sec;
+		itt.is_daylight = -1;
+
+		/* We assume that COMPLETED is entered in the current timezone,
+		   even though it gets stored in UTC. */
+		t = icaltime_as_timet_with_zone (itt, model->priv->zone);
+
 		ensure_task_complete (comp, t);
 	}
 }
@@ -2171,7 +2196,6 @@ ensure_task_complete (CalComponent *comp,
 		      time_t completed_date)
 {
 	struct icaltimetype *old_completed = NULL;
-	struct icaltimetype new_completed;
 	int *old_percent, new_percent;
 	icalproperty_status status;
 	gboolean set_completed = TRUE;
@@ -2189,7 +2213,14 @@ ensure_task_complete (CalComponent *comp,
 	}
 
 	if (set_completed) {
-		new_completed = icaltime_from_timet (completed_date, FALSE);
+		icaltimezone *utc_zone;
+		struct icaltimetype new_completed;
+
+		/* COMPLETED is stored in UTC. */
+		utc_zone = icaltimezone_get_utc_timezone ();
+		new_completed = icaltime_from_timet_with_zone (completed_date,
+							       FALSE,
+							       utc_zone);
 		cal_component_set_completed (comp, &new_completed);
 	}
 
@@ -2354,6 +2385,11 @@ calendar_model_set_timezone		(CalendarModel	*model,
 {
 	g_return_if_fail (IS_CALENDAR_MODEL (model));
 
-	if (model->priv->zone != zone)
+	if (model->priv->zone != zone) {
 		model->priv->zone = zone;
+
+		/* The timezone affects the times shown for COMPLETED and
+		   maybe other fields, so we need to redisplay everything. */
+		e_table_model_changed (E_TABLE_MODEL (model));
+	}
 }

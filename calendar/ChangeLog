@@ -1,3 +1,26 @@
+2001-07-10  Damon Chaplin  <damon@ximian.com>
+
+	* gui/calendar-model.c:
+	* gui/e-calendar-table.c:
+	* gui/e-day-view-main-item.c:
+	* gui/e-day-view-top-item.c:
+	* gui/e-day-view.[hc]:
+	* gui/e-week-view.c:
+	* gui/gnome-cal.c:
+	* gui/print.c:
+	* gui/dialogs/cal-prefs-dialog.c:
+	* gui/dialogs/comp-editor-util.c:
+	* gui/dialogs/event-page.c:
+	* pcs/cal-backend-file.c:
+	* pcs/query.c:
+	* cal-util/cal-component.[hc]: 
+	* cal-util/cal-recur.c: 
+	* cal-util/timeutil.[hc]: 
+	* cal-client/cal-client.[hc]: more timezone updates. I'm pretty much
+	done with the calendar code now, except for alarms and conduits,
+	which Federico and JP know more about. And there are a couple of
+	other minor things to fix. But it is still pretty buggy.
+
 2001-07-10  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/meeting-page.c: Add popup support so you can delete

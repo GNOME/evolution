@@ -351,19 +351,14 @@ static struct tm
 get_current_time (ECalendarItem *calitem, gpointer data)
 {
 	GnomeCalendar *cal = data;
-	char *location;
-	icaltimezone *zone;
 	struct tm tmp_tm = { 0 };
 	struct icaltimetype tt;
 
 	g_return_val_if_fail (cal != NULL, tmp_tm);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (cal), tmp_tm);
 
-	/* Get the current timezone. */
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
-
-	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
+	tt = icaltime_from_timet_with_zone (time (NULL), FALSE,
+					    cal->priv->zone);
 
 	/* Now copy it to the struct tm and return it. */
 	tmp_tm.tm_year  = tt.year - 1900;
@@ -505,8 +500,9 @@ gnome_calendar_init (GnomeCalendar *gcal)
 
 	setup_widgets (gcal);
 
-	priv->selection_start_time = time_day_begin (time (NULL));
-	priv->selection_end_time = time_add_day (priv->selection_start_time, 1);
+	priv->selection_start_time = time_day_begin_with_zone (time (NULL),
+							       priv->zone);
+	priv->selection_end_time = time_add_day_with_zone (priv->selection_start_time, 1, priv->zone);
 
 	priv->view_collection = NULL;
 	priv->view_menus = NULL;
@@ -585,8 +581,9 @@ gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 
 	priv = gcal->priv;
 
-	priv->selection_start_time = time_day_begin (new_time);
-	priv->selection_end_time = time_add_day (priv->selection_start_time, 1);
+	priv->selection_start_time = time_day_begin_with_zone (new_time,
+							       priv->zone);
+	priv->selection_end_time = time_add_day_with_zone (priv->selection_start_time, 1, priv->zone);
 
 	gnome_calendar_update_view_times (gcal);
 	gnome_calendar_update_date_navigator (gcal);
@@ -644,23 +641,31 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 
 	switch (priv->current_view_type) {
 	case GNOME_CAL_DAY_VIEW:
-		start_time = time_add_day (start_time, direction);
-		end_time = time_add_day (end_time, direction);
+		start_time = time_add_day_with_zone (start_time, direction,
+						     priv->zone);
+		end_time = time_add_day_with_zone (end_time, direction,
+						   priv->zone);
 		break;
 
 	case GNOME_CAL_WORK_WEEK_VIEW:
-		start_time = time_add_week (start_time, direction);
-		end_time = time_add_week (end_time, direction);
+		start_time = time_add_week_with_zone (start_time, direction,
+						      priv->zone);
+		end_time = time_add_week_with_zone (end_time, direction,
+						    priv->zone);
 		break;
 
 	case GNOME_CAL_WEEK_VIEW:
-		start_time = time_add_week (start_time, direction);
-		end_time = time_add_week (end_time, direction);
+		start_time = time_add_week_with_zone (start_time, direction,
+						      priv->zone);
+		end_time = time_add_week_with_zone (end_time, direction,
+						    priv->zone);
 		break;
 
 	case GNOME_CAL_MONTH_VIEW:
-		start_time = time_add_month (start_time, direction);
-		end_time = time_add_month (end_time, direction);
+		start_time = time_add_month_with_zone (start_time, direction,
+						       priv->zone);
+		end_time = time_add_month_with_zone (end_time, direction,
+						     priv->zone);
 		break;
 
 	default:
@@ -704,8 +709,9 @@ gnome_calendar_dayjump (GnomeCalendar *gcal, time_t time)
 
 	priv = gcal->priv;
 
-	priv->selection_start_time = time_day_begin (time);
-	priv->selection_end_time = time_add_day (priv->selection_start_time, 1);
+	priv->selection_start_time = time_day_begin_with_zone (time,
+							       priv->zone);
+	priv->selection_end_time = time_add_day_with_zone (priv->selection_start_time, 1, priv->zone);
 
 	if (priv->day_button)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->day_button), TRUE);

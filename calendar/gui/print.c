@@ -95,17 +95,8 @@
 #define DAY_VIEW_EVENT_X_PAD		8
 
 
-/* copied from gnome-month-item.c  this should be shared?? */
-
-/* Number of days in a month, for normal and leap years */
-static const int days_in_month[2][12] = {
-	{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
-	{ 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
-};
-
-/* The weird month of September 1752, where 3 Sep through 13 Sep were eliminated due to the
- * Gregorian reformation.
- */
+/* The weird month of September 1752, where 3 Sep through 13 Sep were
+   eliminated due to the Gregorian reformation. */
 static const int sept_1752[42] = {
 	 0,  0,  1,  2, 14, 15, 16,
 	17, 18, 19, 20, 21, 22, 23,
@@ -114,11 +105,6 @@ static const int sept_1752[42] = {
 	 0,  0,  0,  0,  0,  0,  0,
 	 0,  0,  0,  0,  0,  0,  0
 };
-
-#define REFORMATION_DAY 639787		/* First day of the reformation, counted from 1 Jan 1 */
-#define MISSING_DAYS 11			/* They corrected out 11 days */
-#define THURSDAY 4			/* First day of reformation */
-#define SATURDAY 6			/* Offset value; 1 Jan 1 was a Saturday */
 #define SEPT_1752_START 2		/* Start day within month */
 #define SEPT_1752_END 20		/* End day within month */
 
@@ -175,57 +161,42 @@ struct einfo
 
 static const GnomePaper *paper_info = NULL;
 
-/* Returns the number of leap years since year 1 up to (but not including) the specified year */
-static int
-leap_years_up_to (int year)
+
+/* Convenience function to help the transition to timezone functions.
+   It returns the current timezone. */
+static icaltimezone*
+get_timezone (void)
 {
-	return (year / 4					/* trivial leapness */
-		- ((year > 1700) ? (year / 100 - 17) : 0)	/* minus centuries since 1700 */
-		+ ((year > 1600) ? ((year - 1600) / 400) : 0));	/* plus centuries since 1700 divisible by 400 */
+	char *location = calendar_config_get_timezone ();
+	return icaltimezone_get_builtin_timezone (location);
 }
 
-/* Returns whether the specified year is a leap year */
-static int
-is_leap_year (int year)
+
+/* Convenience function to help the transition to timezone functions.
+   It converts a time_t to a struct tm. */
+static struct tm*
+convert_timet_to_struct_tm (time_t time, icaltimezone *zone)
 {
-	if (year <= 1752)
-		return !(year % 4);
-	else
-		return (!(year % 4) && (year % 100)) || !(year % 400);
+	static struct tm my_tm;
+	struct icaltimetype tt;
+
+	/* Convert it to an icaltimetype. */
+	tt = icaltime_from_timet_with_zone (time, FALSE, zone);
+
+	/* Fill in the struct tm. */
+	my_tm.tm_year = tt.year - 1900;
+	my_tm.tm_mon = tt.month - 1;
+	my_tm.tm_mday = tt.day;
+	my_tm.tm_hour = tt.hour;
+	my_tm.tm_min = tt.minute;
+	my_tm.tm_sec = tt.second;
+	my_tm.tm_isdst = tt.is_daylight;
+
+	my_tm.tm_wday = time_day_of_week (tt.day, tt.month - 1, tt.year);
+
+	return &my_tm;
 }
 
-/* Returns the 1-based day number within the year of the specified date */
-static int
-day_in_year (int day, int month, int year)
-{
-	int is_leap, i;
-
-	is_leap = is_leap_year (year);
-
-	for (i = 0; i < month; i++)
-		day += days_in_month [is_leap][i];
-
-	return day;
-}
-
-/* Returns the day of the week (zero-based, zero is Sunday) for the specified date.  For the days
- * that were removed on the Gregorian reformation, it returns Thursday.
- */
-static int
-day_in_week (int day, int month, int year)
-{
-	int n;
-
-	n = (year - 1) * 365 + leap_years_up_to (year - 1) + day_in_year (day, month, year);
-
-	if (n < REFORMATION_DAY)
-		return (n - 1 + SATURDAY) % 7;
-
-	if (n >= (REFORMATION_DAY + MISSING_DAYS))
-		return (n - 1 + SATURDAY - MISSING_DAYS) % 7;
-
-	return THURSDAY;
-}
 
 /* Fills the 42-element days array with the day numbers for the specified month.  Slots outside the
  * bounds of the month are filled with zeros.  The starting and ending indexes of the days are
@@ -254,9 +225,9 @@ build_month (int month, int year, int *days, int *start, int *end)
 	for (i = 0; i < 42; i++)
 		days[i] = 0;
 
-	d_month = days_in_month[is_leap_year (year)][month];
+	d_month = time_days_in_month (year, month);
 	/* Get the start weekday in the month, 0=Sun to 6=Sat. */
-	d_week = day_in_week (1, month, year);
+	d_week = time_day_of_week (1, month, year);
 
 	/* Get the configuration setting specifying which weekday we put on
 	   the left column, 0=Sun to 6=Sat. */
@@ -463,10 +434,12 @@ static char *days[] = {
 static char *
 format_date(time_t time, int flags, char *buffer, int bufflen)
 {
+	icaltimezone *zone = get_timezone ();
 	char fmt[64];
 	struct tm tm;
 
-	tm = *localtime(&time);
+	tm = *convert_timet_to_struct_tm (time, zone);
+
 	fmt[0] = 0;
 	if (flags & DATE_DAYNAME) {
 		strcat(fmt, "%A");
@@ -502,6 +475,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 		   int titleflags, time_t greystart, time_t greyend,
 		   int bordertitle)
 {
+	icaltimezone *zone = get_timezone ();
 	CalClient *client;
 	GnomeFont *font, *font_bold, *font_normal;
 	time_t now, next;
@@ -552,7 +526,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 
 
 	/* get month days */
-        tm = *localtime (&month);
+	tm = *convert_timet_to_struct_tm (month, zone);
 	build_month (tm.tm_mon, tm.tm_year + 1900, days, 0, 0);
 
 	font_normal = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0,
@@ -580,7 +554,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 
 	top -= row_height * 1.4;
 
-	now = time_month_begin (month);
+	now = time_month_begin_with_zone (month, zone);
 	for (y = 0; y < 6; y++) {
 
 		cell_top = top - y * row_height;
@@ -605,11 +579,11 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 				/* this is a slow messy way to do this ... but easy ... */
 				uids = cal_client_get_objects_in_range (client,
 									CALOBJ_TYPE_EVENT,
-									now, time_day_end (now));
+									now, time_day_end_with_zone (now, zone));
 				font = uids ? font_bold : font_normal;
 				cal_obj_uid_list_free (uids);
 
-				next = time_add_day (now, 1);
+				next = time_add_day_with_zone (now, 1, zone);
 				if ((now >= greystart && now < greyend)
 				    || (greystart >= now && greystart < next)) {
 					print_border (pc,
@@ -831,9 +805,10 @@ print_day_add_event (CalComponent *comp,
 		     GArray	  **events)
 
 {
+	icaltimezone *zone = get_timezone ();
 	EDayViewEvent event;
 	gint day, offset;
-	struct tm start_tm, end_tm;
+	struct icaltimetype start_tt, end_tt;
 
 #if 0
 	g_print ("Day view lower: %s", ctime (&day_starts[0]));
@@ -847,8 +822,8 @@ print_day_add_event (CalComponent *comp,
 	g_return_val_if_fail (start < day_starts[days_shown], -1);
 	g_return_val_if_fail (end > day_starts[0], -1);
 
-	start_tm = *(localtime (&start));
-	end_tm = *(localtime (&end));
+	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone);
+	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone);
 
 	event.comp = comp;
 	gtk_object_ref (GTK_OBJECT (comp));
@@ -861,8 +836,8 @@ print_day_add_event (CalComponent *comp,
 	/*offset = day_view->first_hour_shown * 60
 	  + day_view->first_minute_shown;*/
 	offset = 0;
-	event.start_minute = start_tm.tm_hour * 60 + start_tm.tm_min - offset;
-	event.end_minute = end_tm.tm_hour * 60 + end_tm.tm_min - offset;
+	event.start_minute = start_tt.hour * 60 + start_tt.minute - offset;
+	event.end_minute = end_tt.hour * 60 + end_tt.minute - offset;
 
 	event.start_row_or_col = -1;
 	event.num_columns = -1;
@@ -1089,6 +1064,7 @@ static void
 print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		   double left, double right, double top, double bottom)
 {
+	icaltimezone *zone = get_timezone ();
 	CalClient *client;
 	EDayViewEvent *event;
 	GnomeFont *font;
@@ -1097,8 +1073,8 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	gint rows_in_top_display, i;
 	double font_size, max_font_size;
 
-	start = time_day_begin (whence);
-	end = time_day_end (start);
+	start = time_day_begin_with_zone (whence, zone);
+	end = time_day_end_with_zone (start, zone);
 
 	pdi.days_shown = 1;
 	pdi.day_starts[0] = start;
@@ -1182,134 +1158,6 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 }
 
 
-/*
- * Print Day Summary
- */
-#if 0
-#define TIME_FMT "%X"
-#else
-#define TIME_FMT "%l:%M%p"
-#endif
-
-#if 0
-static gboolean
-print_day_summary_cb (CalComponent *comp, time_t istart, time_t iend, gpointer data)
-{
-	CalComponentText text;
-	struct psinfo *psi = (struct psinfo *)data;
-	struct einfo *ei;
-
-	ei = g_new (struct einfo, 1);
-
-	cal_component_get_summary (comp, &text);
-	ei->text = g_strdup (text.value);
-
-	ei->start = istart;
-	ei->end = iend;
-	ei->count = 0;
-
-	psi->events = g_list_append (psi->events, ei);
-
-	return TRUE;
-}
-
-static void
-print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
-		   double left, double right, double top, double bottom,
-		   double size, int totime, int titleformat)
-{
-	CalClient *client;
-	struct psinfo psi;
-	time_t start, end;
-	GList *l;
-	GnomeFont *font_summary;
-	double y, yend, x, xend, inc, incsmall;
-	char buf[100];
-	double margin;
-	struct tm tm;
-
-	client = gnome_calendar_get_cal_client (gcal);
-
-	/* fill static detail */
-	font_summary = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0, size);
-
-	gnome_print_setfont (pc, font_summary);
-
-	start = time_day_begin(whence);
-	end = time_day_end(start);
-
-	tm = *localtime(&start);
-
-	format_date(start, titleformat, buf, 100);
-	titled_box (pc, buf, font_summary, ALIGN_RIGHT | ALIGN_BORDER,
-		    &left, &right, &top, &bottom, 0.0);
-
-	psi.events = NULL;
-
-	cal_client_generate_instances (client, CALOBJ_TYPE_EVENT, start, end,
-				       print_day_summary_cb, &psi);
-	inc = size*0.3;
-	incsmall = size*0.2;
-
-	y = top-inc;
-	yend = bottom-incsmall;
-
-	/* do a good rough approximation of the 'widest' time */
-	tm.tm_year = 2000;
-	tm.tm_mon = 12;
-	tm.tm_mday = 22;
-	tm.tm_sec = 22;
-	tm.tm_min = 22;
-	tm.tm_hour = 23;
-	strftime(buf, 100, TIME_FMT, &tm);
-	margin = gnome_font_get_width_string(font_summary, buf);
-
-	for (l = psi.events; l; l = l->next) {
-		struct einfo *ei = (struct einfo *)l->data;
-
-		x = left + incsmall;
-		xend = right - inc;
-
-		if (y - gnome_font_get_size (font_summary) < bottom)
-			break;
-
-		tm = *localtime (&ei->start);
-		strftime (buf, 100, TIME_FMT, &tm);
-		gnome_print_moveto (pc, x + (margin
-					     - gnome_font_get_width_string (font_summary, buf)),
-				    y - gnome_font_get_size (font_summary));
-		gnome_print_show (pc, buf);
-
-		if (totime) {
-			tm = *localtime (&ei->end);
-			strftime (buf, 100, TIME_FMT, &tm);
-			gnome_print_moveto (pc,
-					    (x + margin + inc
-					     + (margin
-						- gnome_font_get_width_string (font_summary, buf))),
-					    y - gnome_font_get_size (font_summary));
-			gnome_print_show (pc, buf);
-
-			y = bound_text (pc, font_summary, ei->text,
-					x + margin * 2 + inc * 2, xend,
-					y, yend, 0);
-		} else {
-			/* we also indent back after each time is printed */
-			y = bound_text (pc, font_summary, ei->text,
-					x + margin + inc, xend,
-					y, yend, -margin + inc);
-		}
-
-		y += gnome_font_get_size (font_summary) - inc;
-
-		g_free (ei);
-	}
-	g_list_free (psi.events);
-
-	gtk_object_unref (GTK_OBJECT (font_summary));
-}
-#endif
-
 /* This adds one event to the view, adding it to the appropriate array. */
 static gboolean
 print_week_summary_cb (CalComponent *comp,
@@ -1318,8 +1166,9 @@ print_week_summary_cb (CalComponent *comp,
 		       gpointer	  data)
 
 {
+	icaltimezone *zone = get_timezone ();
 	EWeekViewEvent event;
-	struct tm start_tm, end_tm;
+	struct icaltimetype start_tt, end_tt;
 
 	struct psinfo *psi = (struct psinfo *)data;
 
@@ -1335,8 +1184,8 @@ print_week_summary_cb (CalComponent *comp,
 	g_return_val_if_fail (start < psi->day_starts[psi->days_shown], TRUE);
 	g_return_val_if_fail (end > psi->day_starts[0], TRUE);
 
-	start_tm = *(localtime (&start));
-	end_tm = *(localtime (&end));
+	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone);
+	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone);
 
 	event.comp = comp;
 	gtk_object_ref (GTK_OBJECT (event.comp));
@@ -1345,8 +1194,8 @@ print_week_summary_cb (CalComponent *comp,
 	event.spans_index = 0;
 	event.num_spans = 0;
 
-	event.start_minute = start_tm.tm_hour * 60 + start_tm.tm_min;
-	event.end_minute = end_tm.tm_hour * 60 + end_tm.tm_min;
+	event.start_minute = start_tt.hour * 60 + start_tt.minute;
+	event.end_minute = end_tt.hour * 60 + end_tt.minute;
 	if (event.end_minute == 0 && start != end)
 		event.end_minute = 24 * 60;
 
@@ -1553,6 +1402,7 @@ print_week_view_background (GnomePrintContext *pc, GnomeFont *font,
 			    double left, double top,
 			    double cell_width, double cell_height)
 {
+	icaltimezone *zone = get_timezone ();
 	int day, day_x, day_y, day_h;
 	double x1, x2, y1, y2, font_size, fillcolor;
 	struct tm tm;
@@ -1571,7 +1421,7 @@ print_week_view_background (GnomePrintContext *pc, GnomeFont *font,
 		y1 = top - day_y * cell_height;
 		y2 = y1 - day_h * cell_height;
 
-		tm = *localtime (&psi->day_starts[day]);
+		tm = *convert_timet_to_struct_tm (psi->day_starts[day], zone);
 
 		/* In the month view we draw a grey background for the end
 		   of the previous month and the start of the following. */
@@ -1617,6 +1467,7 @@ print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
 		    int month, double font_size,
 		    double left, double right, double top, double bottom)
 {
+	icaltimezone *zone = get_timezone ();
 	CalClient *client;
 	EWeekViewEvent *event;
 	struct psinfo psi;
@@ -1644,10 +1495,10 @@ print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
 	if (psi.compress_weekend && psi.display_start_weekday == 6)
 		psi.display_start_weekday = 5;
 
-	day_start = time_day_begin (whence);
+	day_start = time_day_begin_with_zone (whence, zone);
 	for (day = 0; day <= psi.days_shown; day++) {
 		psi.day_starts[day] = day_start;
-		day_start = time_add_day (day_start, 1);
+		day_start = time_add_day_with_zone (day_start, 1, zone);
 	}
 
 	/* Get the events from the server. */
@@ -1717,6 +1568,7 @@ print_year_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		    double left, double right, double top, double bottom,
 		    int morerows)
 {
+	icaltimezone *zone = get_timezone ();
 	double row_height, col_width, l, r, t, b;
 	time_t now;
 	int col, row, rows, cols;
@@ -1738,7 +1590,7 @@ print_year_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	col_width = (right - left) / cols;
 	r = l + col_width;
 	b = top - row_height;
-	now = time_year_begin (whence);
+	now = time_year_begin_with_zone (whence, zone);
 
 	for (row = 0; row < rows; row++) {
 		t = top - row_height * row;
@@ -1749,7 +1601,7 @@ print_year_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 			print_month_small (pc, gcal, now,
 					   l + 8, r - 8, t - 8, b + 8,
 					   DATE_MONTH, 0, 0, TRUE);
-			now = time_add_month (now, 1);
+			now = time_add_month_with_zone (now, 1, zone);
 		}
 	}
 }
@@ -1758,8 +1610,10 @@ static void
 print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		     double left, double right, double top, double bottom)
 {
+	icaltimezone *zone = get_timezone ();
 	time_t date;
 	struct tm tm;
+	struct icaltimetype tt;
 	char buffer[100];
 	GnomeFont *font;
 	gboolean compress_weekend;
@@ -1770,21 +1624,27 @@ print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	compress_weekend = calendar_config_get_compress_weekend ();
 
 	/* Remember which month we want. */
-	tm = *localtime (&whence);
-	month = tm.tm_mon;
+	tt = icaltime_from_timet_with_zone (whence, FALSE, zone);
+	month = tt.month - 1;
 
 	/* Find the start of the month, and then the start of the week on
 	   or before that day. */
-	date = time_month_begin (whence);
-	date = time_week_begin (date, weekday);
+	date = time_month_begin_with_zone (whence, zone);
+	date = time_week_begin_with_zone (date, weekday, zone);
 
 	/* If weekends are compressed then we can't start on a Sunday. */
 	if (compress_weekend && weekday == 0)
-		date = time_add_day (date, -1);
-
-        tm = *localtime (&date);
+		date = time_add_day_with_zone (date, -1, zone);
 
 	/* do day names ... */
+
+	/* We are only interested in outputting the weekday here, but we want
+	   to be able to step through the week without worrying about
+	   overflows making strftime choke, so we move near to the start of
+	   the month. */
+	tm = *convert_timet_to_struct_tm (date, zone);
+	tm.tm_mday = (tm.tm_mday % 7) + 7;
+
 	font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 0,
 				       MONTH_NORMAL_FONT_SIZE);
 	font_size = gnome_font_get_size (font);
@@ -1800,7 +1660,7 @@ print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 			strftime (buffer, sizeof (buffer), "%a/", &tm);
 			len = strlen (buffer);
 			tm.tm_mday++;
-			mktime (&tm);
+			tm.tm_wday = (tm.tm_wday + 1) % 7;
 			strftime (buffer + len, sizeof (buffer) - len,
 				  "%a", &tm);
 		} else {
@@ -1814,7 +1674,7 @@ print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		print_text (pc, font, buffer, ALIGN_CENTER, x1, x2, y1, y2);
 
 		tm.tm_mday++;
-		mktime (&tm);
+		tm.tm_wday = (tm.tm_wday + 1) % 7;
 	}
 	gtk_object_unref (GTK_OBJECT (font));
 
@@ -1934,6 +1794,7 @@ static const int print_view_map[] = {
 static GtkWidget *
 range_selector_new (GtkWidget *dialog, time_t at, int *view)
 {
+	icaltimezone *zone = get_timezone ();
 	GtkWidget *box;
 	GtkWidget *radio;
 	GSList *group;
@@ -1947,7 +1808,7 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 
 	box = gtk_vbox_new (FALSE, GNOME_PAD_SMALL);
 
-	tm = *localtime (&at);
+	tm = *convert_timet_to_struct_tm (at, zone);
 
 	/* Day */
 
@@ -1959,15 +1820,15 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 	/* Week */
 
 	week_start_day = calendar_config_get_week_start_day ();
-	week_begin = time_week_begin (at, week_start_day);
+	week_begin = time_week_begin_with_zone (at, week_start_day, zone);
 	/* If the week starts on a Sunday, we have to show the Saturday first,
 	   since the weekend is compressed. */
 	if (week_start_day == 0)
-		week_begin = time_add_day (week_begin, -1);
-	week_end = time_add_day (week_end, 6);
+		week_begin = time_add_day_with_zone (week_begin, -1, zone);
+	week_end = time_add_day_with_zone (week_begin, 6, zone);
 
-	week_begin_tm = *localtime (&week_begin);
-	week_end_tm = *localtime (&week_end);
+	week_begin_tm = *convert_timet_to_struct_tm (week_begin, zone);
+	week_end_tm = *convert_timet_to_struct_tm (week_end, zone);
 
 	if (week_begin_tm.tm_mon == week_end_tm.tm_mon) {
 		strftime (str1, sizeof (str1), _("%a %b %d"), &week_begin_tm);
@@ -2015,6 +1876,7 @@ static void
 print_day_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 		double left, double right, double top, double bottom)
 {
+	icaltimezone *zone = get_timezone ();
 	int i, days = 1;
 	double todo, header, l;
 	char buf[100];
@@ -2046,7 +1908,8 @@ print_day_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 				   DATE_MONTH | DATE_YEAR, date, date, FALSE);
 
 		l += SMALL_MONTH_SPACING + SMALL_MONTH_WIDTH;
-		print_month_small (pc, gcal, time_add_month (date, 1),
+		print_month_small (pc, gcal,
+				   time_add_month_with_zone (date, 1, zone),
 				   l, l + SMALL_MONTH_WIDTH,
 				   top - 4, header + 4,
 				   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
@@ -2063,7 +1926,7 @@ print_day_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 				 left + 4, todo, top - 32, top - 32 - 18);
 
 		gnome_print_showpage (pc);
-		date = time_add_day (date, 1);
+		date = time_add_day_with_zone (date, 1, zone);
 	}
 }
 
@@ -2072,6 +1935,7 @@ static void
 print_week_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 		 double left, double right, double top, double bottom)
 {
+	icaltimezone *zone = get_timezone ();
 	double header, l;
 	char buf[100];
 	time_t when;
@@ -2083,11 +1947,11 @@ print_week_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 	gnome_print_beginpage (pc, "Calendar Week View");
 
 	week_start_day = calendar_config_get_week_start_day ();
-	when = time_week_begin (date, week_start_day);
+	when = time_week_begin_with_zone (date, week_start_day, zone);
 	/* If the week starts on a Sunday, we have to show the Saturday first,
 	   since the weekend is compressed. */
 	if (week_start_day == 0)
-		when = time_add_day (when, -1);
+		when = time_add_day_with_zone (when, -1, zone);
 
 	/* Print the main week view. */
 	print_week_summary (pc, gcal, when, FALSE, 1, 0,
@@ -2107,14 +1971,15 @@ print_week_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 			   l, l + SMALL_MONTH_WIDTH,
 			   top - 4, header + 4,
 			   DATE_MONTH | DATE_YEAR, when,
-			   time_add_week (when, 1), FALSE);
+			   time_add_week_with_zone (when, 1, zone), FALSE);
 
 	l += SMALL_MONTH_SPACING + SMALL_MONTH_WIDTH;
-	print_month_small (pc, gcal, time_add_month (when, 1),
+	print_month_small (pc, gcal,
+			   time_add_month_with_zone (when, 1, zone),
 			   l, l + SMALL_MONTH_WIDTH,
 			   top - 4, header + 4,
 			   DATE_MONTH | DATE_YEAR, when,
-			   time_add_week (when, 1), FALSE);
+			   time_add_week_with_zone (when, 1, zone), FALSE);
 
 	/* Print the start day of the week, e.g. '7th May 2001'. */
 	format_date (when, DATE_DAY | DATE_MONTH | DATE_YEAR, buf, 100);
@@ -2122,7 +1987,7 @@ print_week_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 			 left + 3, right, top - 4, top - 4 - 24);
 
 	/* Print the end day of the week, e.g. '13th May 2001'. */
-	when = time_add_day (when, 6);
+	when = time_add_day_with_zone (when, 6, zone);
 	format_date (when, DATE_DAY | DATE_MONTH | DATE_YEAR, buf, 100);
 	print_text_size (pc, 24, buf, ALIGN_LEFT,
 			 left + 3, right, top - 24 - 3, top - 24 - 3 - 24);
@@ -2135,6 +2000,7 @@ static void
 print_month_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 		  double left, double right, double top, double bottom)
 {
+	icaltimezone *zone = get_timezone ();
 	double header;
 	char buf[100];
 
@@ -2150,11 +2016,13 @@ print_month_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 	print_border (pc, left, right, top, header, 1.0, 0.9);
 
 	/* Print the 2 mini calendar-months. */
-	print_month_small (pc, gcal, time_add_month (date, 1),
+	print_month_small (pc, gcal,
+			   time_add_month_with_zone (date, 1, zone),
 			   right - (right - left) / 7 + 2, right - 8,
 			   top - 4, header,
 			   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
-	print_month_small (pc, gcal, time_add_month (date, -1),
+	print_month_small (pc, gcal,
+			   time_add_month_with_zone (date, -1, zone),
 			   left + 8, left + (right - left) / 7 - 2,
 			   top - 4, header,
 			   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
@@ -2191,10 +2059,12 @@ print_year_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 static void
 write_label_piece (time_t t, char *buffer, int size, char *stext, char *etext)
 {
+	icaltimezone *zone = get_timezone ();
 	struct tm *tmp_tm;
 	int len;
 	
-	tmp_tm = localtime (&t);
+	tmp_tm = convert_timet_to_struct_tm (t, zone);
+
 	if (stext != NULL)
 		strcat (buffer, stext);
 
@@ -2211,22 +2081,30 @@ static void
 print_date_label (GnomePrintContext *pc, CalComponent *comp,
 		  double left, double right, double top, double bottom)
 {
+	icaltimezone *zone = get_timezone ();
 	CalComponentDateTime datetime;
 	time_t start = 0, end = 0, complete = 0, due = 0;
 	static char buffer[1024];
 
 	cal_component_get_dtstart (comp, &datetime);
 	if (datetime.value)
-		start = icaltime_as_timet (*datetime.value);
+		start = icaltime_as_timet_with_zone (*datetime.value, zone);
+	cal_component_free_datetime (&datetime);
+
 	cal_component_get_dtend (comp, &datetime);
 	if (datetime.value)
-		end = icaltime_as_timet (*datetime.value);
+		end = icaltime_as_timet_with_zone (*datetime.value, zone);
+	cal_component_free_datetime (&datetime);
+
 	cal_component_get_due (comp, &datetime);
 	if (datetime.value)
-		due = icaltime_as_timet (*datetime.value);
+		due = icaltime_as_timet_with_zone (*datetime.value, zone);
+	cal_component_free_datetime (&datetime);
+
 	cal_component_get_completed (comp, &datetime.value);
 	if (datetime.value)
-		complete = icaltime_as_timet (*datetime.value);
+		complete = icaltime_as_timet_with_zone (*datetime.value, zone);
+	cal_component_free_icaltimetype (&datetime.value);
 
 	buffer[0] = '\0';
 

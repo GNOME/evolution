@@ -194,7 +194,7 @@ get_widgets (CalPrefsDialog *prefs)
 
 	priv->dialog = GW ("cal-prefs-dialog");
 
-	/* The indices must match the mktime() values. */
+	/* The indices must be 0 (Sun) to 6 (Sat). */
 	priv->working_days[0] = GW ("sun_button");
 	priv->working_days[1] = GW ("mon_button");
 	priv->working_days[2] = GW ("tue_button");

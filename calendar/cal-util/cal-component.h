@@ -335,6 +335,10 @@ void cal_component_set_attendee_list (CalComponent *comp, GSList *attendee_list)
 
 gboolean cal_component_event_dates_match (CalComponent *comp1, CalComponent *comp2);
 
+/* Returns TRUE if the component uses the given timezones for both DTSTART
+   and DTEND. */
+gboolean cal_component_compare_event_timezone (CalComponent *comp, icaltimezone *zone);
+
 /* Functions to free returned values */
 
 void cal_component_free_categories_list (GSList *categ_list);

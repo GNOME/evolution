@@ -29,6 +29,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <e-util/e-time-utils.h>
+#include <cal-util/timeutil.h>
 #include "../calendar-config.h"
 #include "comp-editor-util.h"
 
@@ -109,9 +110,7 @@ write_label_piece (struct icaltimetype *tt, char *buffer, int size,
 	tmp_tm.tm_sec = tt->second;
 	tmp_tm.tm_isdst = -1;
 
-	/* Call mktime() to set the weekday. FIXME: Don't do this. mktime()
-	   could in theory adjust the time if it thought it was invalid. */
-	mktime (&tmp_tm);
+	tmp_tm.tm_wday = time_day_of_week (tt->day, tt->month - 1, tt->year);
 
 	len = strlen (buffer);
 	e_time_format_date_and_time (&tmp_tm,

@@ -698,6 +698,7 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 				     &end_tt.minute);
 	g_assert (date_set);
 
+	/* FIXME: TIMEZONES. */
 	cmp = icaltime_compare (start_tt, end_tt);
 	if (cmp >= 0) {
 		if (cmp == 0 && start_tt.hour == 0
@@ -710,6 +711,9 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 			 */
 		} else if (GTK_WIDGET (dedit) == priv->start_time) {
 			/* Modify the end time, to be the start + 1 hour. */
+
+			/* FIXME: TIMEZONES - Probably want to leave the
+			   timezone as it is, so we need to convert the time.*/
 
 			end_tt = start_tt;
 			icaltime_adjust (&end_tt, 0, 1, 0, 0);
@@ -727,6 +731,9 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), epage);
 		} else if (GTK_WIDGET (dedit) == priv->end_time) {
 			/* Modify the start time, to be the end - 1 hour. */
+
+			/* FIXME: TIMEZONES - Probably want to leave the
+			   timezone as it is, so we need to convert the time.*/
 
 			start_tt = end_tt;
 			icaltime_adjust (&start_tt, 0, -1, 0, 0);

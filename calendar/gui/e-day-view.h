@@ -360,6 +360,8 @@ struct _EDayView
 	GdkBitmap *reminder_mask;
 	GdkPixmap *recurrence_icon;
 	GdkBitmap *recurrence_mask;
+	GdkPixmap *timezone_icon;
+	GdkBitmap *timezone_mask;
 
 	/* Colors for drawing. */
 	GdkColor colors[E_DAY_VIEW_COLOR_LAST];

@@ -135,7 +135,12 @@ gboolean cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 					   time_t start, time_t end,
 					   CalComponentAlarms **alarms);
 
+/* Add or update a single object. When adding an object only builtin timezones
+   are allowed. To use external VTIMEZONE data call update_objects() instead.*/
 gboolean cal_client_update_object (CalClient *client, CalComponent *comp);
+
+/* Add or update multiple objects, possibly including VTIMEZONE data. */
+gboolean cal_client_update_objects (CalClient *client, icalcomponent *icalcomp);
 
 gboolean cal_client_remove_object (CalClient *client, const char *uid);
 

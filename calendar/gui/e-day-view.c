@@ -61,6 +61,7 @@
 /* Images */
 #include "art/bell.xpm"
 #include "art/recur.xpm"
+#include "art/timezone-16.xpm"
 
 /* The minimum amount of space wanted on each side of the date string. */
 #define E_DAY_VIEW_DATE_X_PAD	4
@@ -992,6 +993,7 @@ e_day_view_realize (GtkWidget *widget)
 	/* Create the pixmaps. */
 	day_view->reminder_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->reminder_mask, NULL, bell_xpm);
 	day_view->recurrence_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->recurrence_mask, NULL, recur_xpm);
+	day_view->timezone_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->timezone_mask, NULL, timezone_16_xpm);
 
 
 
@@ -2087,7 +2089,7 @@ e_day_view_set_selected_time_range	(EDayView	*day_view,
 	   start of the day given by start_time, otherwise it is the previous
 	   work-week start day. */
 	if (!day_view->work_week_view) {
-		lower = time_day_begin (start_time);
+		lower = time_day_begin_with_zone (start_time, day_view->zone);
 	} else {
 		lower = e_day_view_find_work_week_start (day_view, start_time);
 	}
@@ -2150,6 +2152,7 @@ e_day_view_find_work_week_start		(EDayView	*day_view,
 {
 	GDate date;
 	gint weekday, day, i, offset;
+	struct icaltimetype tt = icaltime_null_time ();
 
 	g_date_clear (&date, 1);
 	g_date_set_time (&date, start_time);
@@ -2175,9 +2178,11 @@ e_day_view_find_work_week_start		(EDayView	*day_view,
 
 	g_date_subtract_days (&date, offset);
 
-	return time_from_day (g_date_year (&date),
-			      g_date_month (&date) - 1,
-			      g_date_day (&date));
+	tt.year = g_date_year (&date);
+	tt.month = g_date_month (&date);
+	tt.day = g_date_day (&date);
+
+	return icaltime_as_timet_with_zone (tt, day_view->zone);
 }
 
 
@@ -2229,11 +2234,13 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 
 	day_view->day_starts[0] = start_time;
 	for (day = 1; day <= day_view->days_shown; day++) {
-		day_view->day_starts[day] = time_add_day (day_view->day_starts[day - 1], 1);
+		day_view->day_starts[day] = time_add_day_with_zone (day_view->day_starts[day - 1], 1, day_view->zone);
 	}
 
+#if 0
 	for (day = 0; day <= day_view->days_shown; day++)
 		g_print ("Day Starts %i: %s", day, ctime (&day_view->day_starts[day]));
+#endif
 
 	day_view->lower = start_time;
 	day_view->upper = day_view->day_starts[day_view->days_shown];
@@ -4508,6 +4515,10 @@ e_day_view_reshape_long_event (EDayView *day_view,
 		if (cal_component_has_recurrences (comp))
 			num_icons++;
 
+		if (!cal_component_compare_event_timezone (comp,
+							   day_view->zone))
+			num_icons++;
+
 		cal_component_get_categories_list (comp, &categories_list);
 		num_icons += g_slist_length (categories_list);
 		cal_component_free_categories_list (categories_list);
@@ -4643,6 +4654,10 @@ e_day_view_reshape_day_event (EDayView *day_view,
 			if (cal_component_has_alarms (comp))
 				num_icons++;
 			if (cal_component_has_recurrences (comp))
+				num_icons++;
+
+			if (!cal_component_compare_event_timezone (comp,
+								   day_view->zone))
 				num_icons++;
 
 			cal_component_get_categories_list (comp, &categories_list);
