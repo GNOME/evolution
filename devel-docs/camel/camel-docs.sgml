@@ -2,11 +2,12 @@
 <!entity CamelFolder SYSTEM "sgml/camel-folder.sgml">
 <!entity CamelService SYSTEM "sgml/camel-service.sgml">
 <!entity CamelStore SYSTEM "sgml/camel-store.sgml">
+<!entity CamelDataWrapper SYSTEM "sgml/camel-data-wrapper.sgml">
 ]>
 
 <book>
   <bookinfo>
-    <title>Camel Mail Library Reference Manual</title>
+    <title>Camel Messaging Library Reference Manual</title>
   </bookinfo>
 
   <chapter id="camel-objects">
@@ -14,5 +15,6 @@
     &CamelFolder;
     &CamelService;
     &CamelStore;
+    &CamelDataWrapper;
   </chapter>
 </book>

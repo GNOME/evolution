@@ -2,11 +2,11 @@
 CamelFolder
 
 <!-- ##### SECTION Short_Description ##### -->
-
+Represents a folder of messages on a store.
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
-
+CamelFolder represents a folder in a message store. 
 </para>
 
 <!-- ##### SECTION See_Also ##### -->

@@ -23,16 +23,16 @@
 #include <config.h>
 #include "camel-log.h"
 
-int camel_debug_level = 10;
+int camel_debug_level = CAMEL_LOG_LEVEL_FULL_DEBUG;
 FILE *camel_log_file_descriptor = NULL;
 
 void
-camel_log(CamelLogLevel level, const gchar *format, ... )
+camel_log(guint level, const gchar *format, ... )
 {
 	va_list args;
-	if (camel_log_file_descriptor == NULL)
-		camel_log_file_descriptor = stderr;
-
+ 	if (camel_log_file_descriptor == NULL)
+		camel_log_file_descriptor = stdout;
+	
 	if (level<=camel_debug_level)
 		{
 			va_start(args, format);

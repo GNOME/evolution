@@ -6,10 +6,11 @@ INCLUDES = -I$(top_srcdir)/intl -I$(top_srcdir)/camel \
 LDADD = \
 	$(top_builddir)/camel/libcamel.la 	\
 	$(GNOME_LIBDIR) 			\
-	$(GNOMEUI_LIBS) $(INTLLIBS)		\
-	$(BONOBO_LIBS)				
+	$(GNOMEUI_LIBS) $(INTLLIBS)	
+#	$(BONOBO_LIBS)				
 
 noinst_PROGRAMS =  	\
 	test1		\
-	test2
+	test2		\
+	test3
 

@@ -1,6 +1,15 @@
 
 <INCLUDE>gnome.h</INCLUDE>
 
+
+<SECTION>
+<FILE>camel-data-wrapper</FILE>
+CamelDataWrapper
+<TITLE>CamelDataWrapper</TITLE>
+camel_data_wrapper_write_to_stream
+</SECTION>
+
+
 <SECTION>
 <FILE>camel-folder</FILE>
 CamelFolder
@@ -41,8 +50,8 @@ CamelStore
 camel_store_get_separator
 camel_store_get_folder
 <SUBSECTION Standard>
-CAMEL_SERVICE
+CAMEL_STORE
 camel_store_get_type
-CAMEL_SERVICE_CLASS
+CAMEL_STORE_CLASS
 </SECTION>
 

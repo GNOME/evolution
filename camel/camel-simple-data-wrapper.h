@@ -69,6 +69,8 @@ GtkType camel_simple_data_wrapper_get_type (void);
 
 /* public methods */
 
+CamelSimpleDataWrapper *camel_simple_data_wrapper_new ();
+void camel_simple_data_wrapper_set_text (CamelSimpleDataWrapper *simple_data_wrapper, const gchar *text);
 
 #ifdef __cplusplus
 }

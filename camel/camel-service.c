@@ -29,11 +29,11 @@ static GtkObjectClass *parent_class=NULL;
 #define CSERV_CLASS(so) CAMEL_SERVICE_CLASS (GTK_OBJECT(so)->klass)
 
 static void _connect(CamelService *service);
-static void _connect_to_with_login_passwd(CamelService *service, GString *host, GString *login, GString *passwd);
-static void _connect_to_with_login_passwd_port(CamelService *service, GString *host, GString *login, GString *passwd, guint port);
-static gboolean _is_connected(CamelService *service);
-static void _set_connected(CamelService *service, gboolean state);
-static GString *_get_url(CamelService *service);
+static void _connect_to_with_login_passwd (CamelService *service, gchar *host, gchar *login, gchar *passwd);
+static void _connect_to_with_login_passwd_port (CamelService *service, gchar *host, gchar *login, gchar *passwd, guint port);
+static gboolean _is_connected (CamelService *service);
+static void _set_connected (CamelService *service, gboolean state);
+static const gchar *_get_url (CamelService *service);
 
 static void
 camel_service_class_init (CamelServiceClass *camel_service_class)
@@ -95,7 +95,7 @@ camel_service_get_type (void)
  * @service: object to connect
  **/
 static void
-_connect(CamelService *service)
+_connect (CamelService *service)
 {
 	CSERV_CLASS(service)->set_connected(service, TRUE);
 }
@@ -111,7 +111,7 @@ _connect(CamelService *service)
  * @service: object to connect to
  **/
 void
-camel_service_connect(CamelService *service)
+camel_service_connect (CamelService *service)
 {
 	CSERV_CLASS(service)->connect(service);
 }
@@ -130,7 +130,7 @@ camel_service_connect(CamelService *service)
  * @passwd: password used to log in
  **/
 static void
-_connect_to_with_login_passwd(CamelService *service, GString *host, GString *login, GString *passwd)
+_connect_to_with_login_passwd (CamelService *service, gchar *host, gchar *login, gchar *passwd)
 {
   CSERV_CLASS(service)->set_connected(service, TRUE);
 }
@@ -147,7 +147,7 @@ _connect_to_with_login_passwd(CamelService *service, GString *host, GString *log
  * 
  **/
 void
-camel_service_connect_to_with_login_passwd(CamelService *service, GString *host, GString *login, GString *passwd)
+camel_service_connect_to_with_login_passwd (CamelService *service, gchar *host, gchar *login, gchar *passwd)
 {
     CSERV_CLASS(service)->connect_to_with_login_passwd (service, host, login, passwd);
 }
@@ -168,7 +168,7 @@ camel_service_connect_to_with_login_passwd(CamelService *service, GString *host,
  *
  **/
 static void
-_connect_to_with_login_passwd_port(CamelService *service, GString *host, GString *login, GString *passwd, guint port)
+_connect_to_with_login_passwd_port(CamelService *service, gchar *host, gchar *login, gchar *passwd, guint port)
 {
     CSERV_CLASS(service)->set_connected(service, TRUE);
 }
@@ -187,7 +187,7 @@ _connect_to_with_login_passwd_port(CamelService *service, GString *host, GString
  * 
  **/
 void
-camel_service_connect_to_with_login_passwd_port(CamelService *service, GString *host, GString *login, GString *passwd, guint port)
+camel_service_connect_to_with_login_passwd_port (CamelService *service, gchar *host, gchar *login, gchar *passwd, guint port)
 {
     CSERV_CLASS(service)->connect_to_with_login_passwd_port (service, host, login, passwd, port);
 }
@@ -203,7 +203,7 @@ camel_service_connect_to_with_login_passwd_port(CamelService *service, GString *
  *  
  **/
 static gboolean
-_is_connected(CamelService *service)
+_is_connected (CamelService *service)
 {
   return service->connected;
 }
@@ -219,7 +219,7 @@ _is_connected(CamelService *service)
  * Return value: TRUE is the service is connected
  **/
 gboolean
-camel_service_is_connected(CamelService *service)
+camel_service_is_connected (CamelService *service)
 {
   return CSERV_CLASS(service)->is_connected(service);
 }
@@ -237,7 +237,7 @@ camel_service_is_connected(CamelService *service)
  *  
  **/
 static void
-_set_connected(CamelService *service, gboolean state)
+_set_connected (CamelService *service, gboolean state)
 {
   service->connected = state;
 }
@@ -253,8 +253,8 @@ _set_connected(CamelService *service, gboolean state)
  * 
  * Return value: 
  **/
-static GString *
-_get_url(CamelService *service)
+static const gchar *
+_get_url (CamelService *service)
 {
 	return service->url;
 }
@@ -268,8 +268,8 @@ _get_url(CamelService *service)
  * 
  * Return value: the url name
  **/
-GString *
-camel_service_get_url(CamelService *service)
+const gchar *
+camel_service_get_url (CamelService *service)
 {
 	return CSERV_CLASS(service)->get_url(service);
 }

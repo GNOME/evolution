@@ -3,10 +3,13 @@ CamelStore
 
 <!-- ##### SECTION Short_Description ##### -->
 
-
+A class representing a message (local or distant) repository 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
-
+The store class models a place where messages can be stored and retreived. It can be a local 
+store (for example an mbox-style store) or a distant server (for example an POP3 server). Messages are
+not retreived or stored directly with a CamelStore object. Instead, a CamelFolder object must be
+obtained from the store first. 
 </para>
 
 <!-- ##### SECTION See_Also ##### -->

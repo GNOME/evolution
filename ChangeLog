@@ -1,8 +1,131 @@
-1999-07-15  root  <guiheneu@linoleum.inria.fr>
+1999-07-31  root  <guiheneu@felix.joudboeuf.fr>
+
+	* camel/gmime-utils.c (gmime_read_line_from_stream): 
+	Don't return crlf at end of line.
+
+1999-07-30  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/gmime-utils.c (gmime_read_line_from_stream): 
+	new function: reads a line from a stream.
+	should be in streams utils maybe. 
+
+1999-07-29  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-mime-part.c (_construct_from_stream): 
+	Uses data wrapper repository to find what data wrapper
+	to use to construct the content from a stream. When 
+	no object is registered for the mime type found in
+	content type field a CamelSimpleDataWrapper is 
+	used. 
+	
+	* camel/camel-mime-part.c (_get_content_type): 
+	(camel_mime_part_get_content_type): returns
+	a pointer on the content_type field instead 
+	of the gchar * mime "type/subtype".
+
+1999-07-28  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+
+	* camel/data-wrapper-repository.c
+	* camel/data-wrapper-repository.h
+	New files. Handles mime type <-> camel object
+	(for example "multipart" <-> CamelMultipart
+	* tests/tesst3.c: test data repository thing.
+
+1999-07-26  bertrand  <Bertrand.Guiheneuf@aful.org>
+	
+	* camel/camel-multipart.c (_write_to_stream): 
+	implemented output of multipart.
+	
+	* tests/test1.c (main): testing content objects operations. 
+
+1999-07-25  bertrand  <Bertrand.Guiheneuf@aful.org>
+	
+	* camel/camel-mime-part.c (camel_mime_part_set_text): 
+	new util function to set a mime part content to be 
+	a text string.
+
+	* camel/camel-simple-data-wrapper.c (camel_simple_data_wrapper_set_buffer_from_text): 
+	new util func. 
+	(camel_simple_data_wrapper_new): new func.
+
+	* camel/camel-multipart.c (_write_to_stream): 
+	implemented output of multiparts.
+
+1999-07-24  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/gmime-content-field.c (gmime_content_field_get_parameter): 
+	New function. Returns the value associated to a 
+	mime parameter. 
+
+
+1999-07-22  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-multipart.h: 
+	* camel/camel-multipart.c:
+	New class. Models multipart mime objects.
+	
+	* camel/camel-mime-body-part.h: 
+	* camel/camel-mime-body-part.c: 
+	New class. Body part is a mime part contained in 
+	a multipart object.
+	
+
+1999-07-21  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-log.h: 
+	implemented hard log level stuff.
+	* came/*.c use "CAMEL_LOG_*" instead of "CAMEL_LOG (*"
+	in order to allow hard level switch.
+
+	* tests/test1.c: 
+	* tests/test2.c: 
+	updated to use gchar instead of GString. Tests passed.
+
+
+1999-07-19  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-stream.c: 
+	* camel/camel-stream.h: 
+	"const"-antified
+	
+
+	* camel/camel-simple-data-wrapper.c: (_construct_from_stream)
+	do not use any limit when constructing the object from a stream
+	
+	* camel/camel-stream-fs.c: 
+	* camel/camel-stream-fs.h: 
+	* camel/camel-mime-message.c: 
+	* camel/camel-mime-message.h: 
+	* camel/camel-session.c: 
+	* camel/camel-session.h: 
+	* camel/camel-service.c: 
+	* camel/camel-service.h:
+	* camel/camel-store.c: 
+	* camel/camel-store.h: 
+	* camel/camel-folder.c: 
+	* camel/camel-folder.h: 
+	* camel/gmime-utils.c: 
+	* camel/gmime-utils.h: 
+	GString -> gchar
+	constantified what had to be.
+	
+	* camel/string-utils.c: 
+	* camel/string-utils.h: 
+	New files. Meant to replace gstring-util for gchar *
+	
+1999-07-16  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/gmime-content-field.c (gmime_content_field_construct_from_string): 
+	GString -> gchar
+	use const to indicate copied parameter.
+
+1999-07-15  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-simple-data-wrapper.c: 
 	* camel/camel-simple-data-wrapper.h: 
-
+	Gstring -> gchar
+	
 1999-07-15  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/url-util.c:  
@@ -465,7 +588,7 @@
 	* camel/camel-folder.h:
 	correct declarations of structs
 
->>>>>>> 1.36
+
 1999-04-22  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/providers/MH/camel-mh-store.c:

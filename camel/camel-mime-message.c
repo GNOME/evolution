@@ -25,7 +25,7 @@
 #include "camel-mime-message.h"
 #include <stdio.h>
 #include "gmime-content-field.h"
-#include "gstring-util.h"
+#include "string-utils.h"
 #include "camel-log.h"
 #include "gmime-utils.h"
 
@@ -45,34 +45,34 @@ static GHashTable *header_name_table;
 
 static CamelMimePartClass *parent_class=NULL;
 
-static GString *received_date_str;
-static GString *sent_date_str;
-static GString *reply_to_str;
-static GString *subject_str;
-static GString *from_str;
+static gchar *received_date_str;
+static gchar *sent_date_str;
+static gchar *reply_to_str;
+static gchar *subject_str;
+static gchar *from_str;
 
-static void _set_received_date (CamelMimeMessage *mime_message, GString *received_date);
-static GString *_get_received_date (CamelMimeMessage *mime_message);
-static GString *_get_sent_date (CamelMimeMessage *mime_message);
-static void _set_reply_to (CamelMimeMessage *mime_message, GString *reply_to);
-static GString *_get_reply_to (CamelMimeMessage *mime_message);
-static void _set_subject (CamelMimeMessage *mime_message, GString *subject);
-static GString *_get_subject (CamelMimeMessage *mime_message);
-static void _set_from (CamelMimeMessage *mime_message, GString *from);
-static GString *_get_from (CamelMimeMessage *mime_message);
+static void _set_received_date (CamelMimeMessage *mime_message, gchar *received_date);
+static const gchar *_get_received_date (CamelMimeMessage *mime_message);
+static const gchar *_get_sent_date (CamelMimeMessage *mime_message);
+static void _set_reply_to (CamelMimeMessage *mime_message, gchar *reply_to);
+static const gchar *_get_reply_to (CamelMimeMessage *mime_message);
+static void _set_subject (CamelMimeMessage *mime_message, gchar *subject);
+static const gchar *_get_subject (CamelMimeMessage *mime_message);
+static void _set_from (CamelMimeMessage *mime_message, gchar *from);
+static const gchar *_get_from (CamelMimeMessage *mime_message);
 
-static void _add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient); 
-static void _remove_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient);
-static GList *_get_recipients (CamelMimeMessage *mime_message, GString *recipient_type);
+static void _add_recipient (CamelMimeMessage *mime_message, gchar *recipient_type, gchar *recipient); 
+static void _remove_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient);
+static const GList *_get_recipients (CamelMimeMessage *mime_message, const gchar *recipient_type);
 
-static void _set_flag (CamelMimeMessage *mime_message, GString *flag, gboolean value);
-static gboolean _get_flag (CamelMimeMessage *mime_message, GString *flag);
+static void _set_flag (CamelMimeMessage *mime_message, gchar *flag, gboolean value);
+static gboolean _get_flag (CamelMimeMessage *mime_message, gchar *flag);
 
 static void _set_message_number (CamelMimeMessage *mime_message, guint number);
 static guint _get_message_number (CamelMimeMessage *mime_message);
 
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
-static gboolean _parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *header_value);
+static gboolean _parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_value);
 
 /* Returns the class for a CamelMimeMessage */
 #define CMM_CLASS(so) CAMEL_MIME_MESSAGE_CLASS (GTK_OBJECT(so)->klass)
@@ -82,13 +82,13 @@ static gboolean _parse_header_pair (CamelMimePart *mime_part, GString *header_na
 static void
 _init_header_name_table()
 {
-	header_name_table = g_hash_table_new (g_string_hash, g_string_equal_for_hash);
-	g_hash_table_insert (header_name_table, g_string_new ("From"), (gpointer)HEADER_FROM);
-	g_hash_table_insert (header_name_table, g_string_new ("Reply-To"), (gpointer)HEADER_REPLY_TO);
-	g_hash_table_insert (header_name_table, g_string_new ("Subject"), (gpointer)HEADER_SUBJECT);
-	g_hash_table_insert (header_name_table, g_string_new ("To"), (gpointer)HEADER_TO);
-	g_hash_table_insert (header_name_table, g_string_new ("Cc"), (gpointer)HEADER_CC);
-	g_hash_table_insert (header_name_table, g_string_new ("Bcc"), (gpointer)HEADER_BCC);
+	header_name_table = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (header_name_table, "From", (gpointer)HEADER_FROM);
+	g_hash_table_insert (header_name_table, "Reply-To", (gpointer)HEADER_REPLY_TO);
+	g_hash_table_insert (header_name_table, "Subject", (gpointer)HEADER_SUBJECT);
+	g_hash_table_insert (header_name_table, "To", (gpointer)HEADER_TO);
+	g_hash_table_insert (header_name_table, "Cc", (gpointer)HEADER_CC);
+	g_hash_table_insert (header_name_table, "Bcc", (gpointer)HEADER_BCC);
 
 }
 
@@ -101,11 +101,11 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	parent_class = gtk_type_class (camel_mime_part_get_type ());
 	_init_header_name_table();
 
-	received_date_str = g_string_new("");
-	sent_date_str = g_string_new("");
-	reply_to_str = g_string_new("Reply-To");
-	subject_str = g_string_new("Subject");
-	from_str = g_string_new("From");
+	received_date_str = "";
+	sent_date_str = "";
+	reply_to_str = "Reply-To";
+	subject_str = "Subject";
+	from_str = "From";
 	
 	/* virtual method definition */
 	camel_mime_message_class->set_received_date = _set_received_date;
@@ -135,18 +135,13 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 
 
 static void
-camel_mime_message_init (gpointer   object,  gpointer   klass)
+camel_mime_message_init (gpointer object, gpointer klass)
 {
 	CamelMimeMessage *camel_mime_message = CAMEL_MIME_MESSAGE (object);
 
-	camel_mime_message->recipients =  g_hash_table_new(g_string_hash, g_string_equal_for_hash);
-	camel_mime_message->flags = g_hash_table_new(g_string_hash, g_string_equal_for_hash);
-	
+	camel_mime_message->recipients =  g_hash_table_new(g_str_hash, g_str_equal);
+	camel_mime_message->flags = g_hash_table_new(g_str_hash, g_str_equal);
 }
-
-
-
-
 
 GtkType
 camel_mime_message_get_type (void)
@@ -173,7 +168,6 @@ camel_mime_message_get_type (void)
 }
 
 
-
 CamelMimeMessage *
 camel_mime_message_new_with_session (CamelSession *session) 
 {
@@ -184,95 +178,86 @@ camel_mime_message_new_with_session (CamelSession *session)
 }
 
 
-
-
 /* two utils func */
 
 static void
-_set_field (CamelMimeMessage *mime_message, GString *name, GString *value, GString **variable)
+_set_field (CamelMimeMessage *mime_message, gchar *name, gchar *value, gchar **variable)
 {
 	if (variable) {
-		if (*variable) g_string_free (*variable, FALSE);
+		if (*variable) g_free (*variable);
 		*variable = value;
 	}
 }
 
-static GString *
-_get_field (CamelMimeMessage *mime_message, GString *name, GString *variable)
+/* for future use */
+/* for the moment, only @variable is used */
+static gchar *
+_get_field (CamelMimeMessage *mime_message, gchar *name, gchar *variable)
 {
 	return variable;
 }
-
-
-
+/* * */
 
 
 static void
-_set_received_date (CamelMimeMessage *mime_message, GString *received_date)
+_set_received_date (CamelMimeMessage *mime_message, gchar *received_date)
 {
 	_set_field (mime_message, received_date_str, received_date, &(mime_message->received_date));
 }
 
 void
-camel_mime_message_set_received_date (CamelMimeMessage *mime_message, GString *received_date)
+camel_mime_message_set_received_date (CamelMimeMessage *mime_message, gchar *received_date)
 {
 	 CMM_CLASS (mime_message)->set_received_date (mime_message, received_date);
 }
 
 
-static GString *
+static const gchar *
 _get_received_date (CamelMimeMessage *mime_message)
 {
 	return _get_field (mime_message, received_date_str, mime_message->received_date);
 }
 
-GString *
+const gchar *
 camel_mime_message_get_received_date (CamelMimeMessage *mime_message)
 {
 	 return CMM_CLASS (mime_message)->get_received_date (mime_message);
 }
 
 
-
-
-
-
-static GString *
+static const gchar *
 _get_sent_date (CamelMimeMessage *mime_message)
 {
 	return _get_field (mime_message, sent_date_str, mime_message->sent_date);
 }
 
-GString *
+const gchar *
 camel_mime_message_get_sent_date (CamelMimeMessage *mime_message)
 {
 	 return CMM_CLASS (mime_message)->get_sent_date (mime_message);
 }
 
 
-
-
-
 static void
-_set_reply_to (CamelMimeMessage *mime_message, GString *reply_to)
+_set_reply_to (CamelMimeMessage *mime_message, gchar *reply_to)
 {
 	_set_field (mime_message, reply_to_str, reply_to, &(mime_message->reply_to));
 }
 
 void
-camel_mime_message_set_reply_to (CamelMimeMessage *mime_message, GString *reply_to)
+camel_mime_message_set_reply_to (CamelMimeMessage *mime_message, gchar *reply_to)
 {
 	 CMM_CLASS (mime_message)->set_reply_to (mime_message, reply_to);
 }
 
 
-static GString *
+static const gchar *
 _get_reply_to (CamelMimeMessage *mime_message)
 {
 	return _get_field (mime_message, reply_to_str, mime_message->reply_to);
 }
 
-GString *
+const gchar *
 camel_mime_message_get_reply_to (CamelMimeMessage *mime_message)
 {
 	 return CMM_CLASS (mime_message)->get_reply_to (mime_message);
@@ -282,25 +267,25 @@ camel_mime_message_get_reply_to (CamelMimeMessage *mime_message)
 
 
 static void
-_set_subject (CamelMimeMessage *mime_message, GString *subject)
+_set_subject (CamelMimeMessage *mime_message, gchar *subject)
 {
 	_set_field (mime_message, subject_str, subject, &(mime_message->subject));
 }
 
 void
-camel_mime_message_set_subject (CamelMimeMessage *mime_message, GString *subject)
+camel_mime_message_set_subject (CamelMimeMessage *mime_message, gchar *subject)
 {
 	 CMM_CLASS (mime_message)->set_subject (mime_message, subject);
 }
 
 
-static GString *
+static const gchar *
 _get_subject (CamelMimeMessage *mime_message)
 {
 	return _get_field (mime_message, subject_str, mime_message->subject);
 }
 
-GString *
+const gchar *
 camel_mime_message_get_subject (CamelMimeMessage *mime_message)
 {
 	 return CMM_CLASS (mime_message)->get_subject (mime_message);
@@ -310,25 +295,25 @@ camel_mime_message_get_subject (CamelMimeMessage *mime_message)
 
 
 static void
-_set_from (CamelMimeMessage *mime_message, GString *from)
+_set_from (CamelMimeMessage *mime_message, gchar *from)
 {
 	_set_field (mime_message, from_str, from, &(mime_message->from));
 }
 
 void
-camel_mime_message_set_from (CamelMimeMessage *mime_message, GString *from)
+camel_mime_message_set_from (CamelMimeMessage *mime_message, gchar *from)
 {
 	 CMM_CLASS (mime_message)->set_from (mime_message, from);
 }
 
 
-static GString *
+static const gchar *
 _get_from (CamelMimeMessage *mime_message)
 {
 	return _get_field (mime_message, from_str, mime_message->from);
 }
 
-GString *
+const gchar *
 camel_mime_message_get_from (CamelMimeMessage *mime_message)
 {
 	 return CMM_CLASS (mime_message)->get_from (mime_message);
@@ -340,7 +325,7 @@ camel_mime_message_get_from (CamelMimeMessage *mime_message)
 
 
 static void
-_add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient) 
+_add_recipient (CamelMimeMessage *mime_message, gchar *recipient_type, gchar *recipient) 
 {
 	/* be careful, recipient_type and recipient may be freed within this func */
 	GList *recipients_list;
@@ -350,9 +335,9 @@ _add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString
 	existent_list = (GList *)g_hash_table_lookup (mime_message->recipients, recipient_type);
 
 	/* if the recipient is already in this list, do nothing */
-	if ( existent_list && g_list_find_custom (existent_list, (gpointer)recipient, g_string_equal_for_glist) ) {
-		g_string_free (recipient_type, FALSE);
-		g_string_free (recipient, FALSE);
+	if ( existent_list && g_list_find_custom (existent_list, (gpointer)recipient, string_equal_for_glist) ) {
+		g_free (recipient_type);
+		g_free (recipient);
 		return;
 	}
 	/* append the new recipient to the recipient list
@@ -363,7 +348,7 @@ _add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString
 	if (!existent_list) /* if there was no recipient of this type create the section */
 		g_hash_table_insert (mime_message->recipients, recipient_type, recipients_list);
 	else 
-		g_string_free (recipient_type, FALSE);
+		g_free (recipient_type);
 }
 
 
@@ -377,7 +362,7 @@ _add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString
  * @recipient may be freed within this func
  **/
 void
-camel_mime_message_add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient) 
+camel_mime_message_add_recipient (CamelMimeMessage *mime_message, gchar *recipient_type, gchar *recipient) 
 {
 	 CMM_CLASS (mime_message)->add_recipient (mime_message, recipient_type, recipient);
 }
@@ -394,12 +379,12 @@ camel_mime_message_add_recipient (CamelMimeMessage *mime_message, GString *recip
  * them just after remove_recipient returns.
  **/
 static void
-_remove_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient) 
+_remove_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient) 
 {
 	GList *recipients_list;
 	GList *new_recipients_list;
 	GList *old_element;
-	GString *old_recipient_type;
+	gchar *old_recipient_type;
 	
 	/* if the recipient type section does not exist, do nothing */
 	if (! g_hash_table_lookup_extended (mime_message->recipients, 
@@ -409,7 +394,8 @@ _remove_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GStr
 	    ) return;
 	
 	/* look for the recipient to remove */
-	old_element = g_list_find_custom (recipients_list, recipient, g_string_equal_for_hash);
+	/* g_list_find_custom does use "const" for recipient, is it a mistake ? */
+	old_element = g_list_find_custom (recipients_list, recipient, g_str_equal);
 	if (old_element) {
 		/* if recipient exists, remove it */
 		new_recipients_list =  g_list_remove_link (recipients_list, old_element);
@@ -418,40 +404,36 @@ _remove_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GStr
 		if (new_recipients_list != recipients_list)
 			g_hash_table_insert (mime_message->recipients, old_recipient_type, new_recipients_list);
 
-		g_string_free( (GString *)(old_element->data), FALSE);
-		g_list_free_1(old_element);
+		g_free( (gchar *)(old_element->data));
+		g_list_free_1 (old_element);
 	}
 }
 
 
 void
-camel_mime_message_remove_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient) 
+camel_mime_message_remove_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient) 
 {
 	 CMM_CLASS (mime_message)->remove_recipient (mime_message, recipient_type, recipient);
 }
 
 
-
-
-static GList *
-_get_recipients (CamelMimeMessage *mime_message, GString *recipient_type)
+static const GList *
+_get_recipients (CamelMimeMessage *mime_message, const gchar *recipient_type)
 {
 	return (GList *)g_hash_table_lookup (mime_message->recipients, recipient_type);
 }
 
-GList *
-camel_mime_message_get_recipients (CamelMimeMessage *mime_message, GString *recipient_type)
+const GList *
+camel_mime_message_get_recipients (CamelMimeMessage *mime_message, const gchar *recipient_type)
 {
 	return CMM_CLASS (mime_message)->get_recipients (mime_message, recipient_type);
 }
 
 
-
-
 static void
-_set_flag (CamelMimeMessage *mime_message, GString *flag, gboolean value)
+_set_flag (CamelMimeMessage *mime_message, gchar *flag, gboolean value)
 {
-	GString old_flags;
+	gchar old_flags;
 	gboolean *ptr_value;
 	if (! g_hash_table_lookup_extended (mime_message->flags, 
 					    flag, 
@@ -461,14 +443,14 @@ _set_flag (CamelMimeMessage *mime_message, GString *flag, gboolean value)
 		ptr_value = g_new (gboolean, 1);
 		g_hash_table_insert (mime_message->flags, flag, ptr_value);
 	} else {
-		g_string_free (flag, FALSE);
+		g_free (flag);
 	}
 	*ptr_value = value;
 		
 }
 
 void
-camel_mime_message_set_flag (CamelMimeMessage *mime_message, GString *flag, gboolean value)
+camel_mime_message_set_flag (CamelMimeMessage *mime_message, gchar *flag, gboolean value)
 {
 	CMM_CLASS (mime_message)->set_flag (mime_message, flag, value);
 }
@@ -476,7 +458,7 @@ camel_mime_message_set_flag (CamelMimeMessage *mime_message, GString *flag, gboo
 
 
 static gboolean 
-_get_flag (CamelMimeMessage *mime_message, GString *flag)
+_get_flag (CamelMimeMessage *mime_message, gchar *flag)
 {
 	gboolean *value;
 	value = (gboolean *)g_hash_table_lookup (mime_message->flags, flag);
@@ -484,7 +466,7 @@ _get_flag (CamelMimeMessage *mime_message, GString *flag)
 }
 
 gboolean 
-camel_mime_message_get_flag (CamelMimeMessage *mime_message, GString *flag)
+camel_mime_message_get_flag (CamelMimeMessage *mime_message, gchar *flag)
 {
 	return CMM_CLASS (mime_message)->get_flag (mime_message, flag);
 }
@@ -523,12 +505,12 @@ camel_mime_message_get_message_number (CamelMimeMessage *mime_message)
 static void
 _write_one_recipient_to_stream (gpointer key, gpointer value, gpointer user_data)
 {
-	GString *recipient_type = (GString *)key;
+	gchar *recipient_type = (gchar *)key;
 	GList *recipients = (GList *)value;
-	//	GString *current;
+	//	gchar *current;
 	CamelStream *stream = (CamelStream *)user_data;
-	if ( (recipient_type) && (recipient_type->str) )
-	     write_header_with_glist_to_stream (stream, recipient_type->str, recipients, ", ");
+	if  (recipient_type)
+	     write_header_with_glist_to_stream (stream, recipient_type, recipients, ", ");
 }
 
 static void
@@ -541,16 +523,16 @@ static void
 _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMimeMessage *mm = CAMEL_MIME_MESSAGE (data_wrapper);
-	CAMEL_LOG (FULL_DEBUG, "CamelMimeMessage::write_to_stream\n");
-	CAMEL_LOG (FULL_DEBUG, "Writing \"From\"\n");
+	CAMEL_LOG_FULL_DEBUG ( "CamelMimeMessage::write_to_stream\n");
+	CAMEL_LOG_FULL_DEBUG ( "CamelMimeMessage:: Writing \"From\"\n");
 	WHPT (stream, "From", mm->from);
-	CAMEL_LOG (FULL_DEBUG, "Writing \"Reply-To\"\n");
+	CAMEL_LOG_FULL_DEBUG ( "CamelMimeMessage:: Writing \"Reply-To\"\n");
 	WHPT (stream, "Reply-To", mm->reply_to);
-	CAMEL_LOG (FULL_DEBUG, "Writing recipients\n");
+	CAMEL_LOG_FULL_DEBUG ( "CamelMimeMessage:: Writing recipients\n");
 	_write_recipients_to_stream (mm, stream);
-	CAMEL_LOG (FULL_DEBUG, "Writing \"Date\"\n");
+	CAMEL_LOG_FULL_DEBUG ( "CamelMimeMessage:: Writing \"Date\"\n");
 	WHPT (stream, "Date", mm->received_date);
-	CAMEL_LOG (FULL_DEBUG, "Writing \"Subject\"\n");
+	CAMEL_LOG_FULL_DEBUG ( "CamelMimeMessage:: Writing \"Subject\"\n");
 	WHPT (stream, "Subject", mm->subject);
 	CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_stream (data_wrapper, stream);
 	
@@ -560,19 +542,19 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 /* mime message header parsing */
 
 static void
-_set_recipient_list_from_string (CamelMimeMessage *message, GString *recipient_type, GString *recipients_string)
+_set_recipient_list_from_string (CamelMimeMessage *message, gchar *recipient_type, gchar *recipients_string)
 {
 	GList *recipients_list;
-	CAMEL_LOG (FULL_DEBUG,"CamelMimeMessage::_set_recipient_list_from_string parsing ##%s##\n", recipients_string->str);
-	recipients_list = g_string_split (
+	CAMEL_LOG_FULL_DEBUG ("CamelMimeMessage::_set_recipient_list_from_string parsing ##%s##\n", recipients_string);
+	recipients_list = string_split (
 		recipients_string, ',', "\t ",
-		GSTRING_TRIM_STRIP_TRAILING | GSTRING_TRIM_STRIP_LEADING);
+		STRING_TRIM_STRIP_TRAILING | STRING_TRIM_STRIP_LEADING);
 	g_hash_table_insert (message->recipients, recipient_type, recipients_list);
 
 }
 
 static gboolean
-_parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *header_value)
+_parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_value)
 {
 	CamelHeaderType header_type;
 	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (mime_part);
@@ -583,66 +565,66 @@ _parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *hea
 	switch (header_type) {
 	
 	case HEADER_FROM:
-		CAMEL_LOG (FULL_DEBUG,
+		CAMEL_LOG_FULL_DEBUG (
 			  "CamelMimeMessage::parse_header_pair found HEADER_FROM : %s\n",
-			  header_value->str );
+			  header_value );
 
 		camel_mime_message_set_from (message, header_value);
 		header_handled = TRUE;
 		break;
 
 	case HEADER_REPLY_TO:
-		CAMEL_LOG (FULL_DEBUG,
+		CAMEL_LOG_FULL_DEBUG (
 			  "CamelMimeMessage::parse_header_pair found HEADER_REPLY_YO : %s\n",
-			  header_value->str );
+			  header_value );
 
 		camel_mime_message_set_reply_to (message, header_value);
 		header_handled = TRUE;
 		break;
 
 	case HEADER_SUBJECT:
-		CAMEL_LOG (FULL_DEBUG,
+		CAMEL_LOG_FULL_DEBUG (
 			  "CamelMimeMessage::parse_header_pair found HEADER_SUBJECT : %s\n",
-			  header_value->str );
+			  header_value );
 
 		camel_mime_message_set_subject (message, header_value);
 		header_handled = TRUE;
 		break;
 
 	case HEADER_TO:
-		CAMEL_LOG (FULL_DEBUG,
+		CAMEL_LOG_FULL_DEBUG (
 			  "CamelMimeMessage::parse_header_pair found HEADER_TO : %s\n",
-			  header_value->str );
+			  header_value );
 
-		_set_recipient_list_from_string (message, g_string_new ("To"), header_value);
-		g_string_free (header_value, TRUE);
+		_set_recipient_list_from_string (message, "To", header_value);
+		g_free (header_value);
 		header_handled = TRUE;
 		break;
 	
 	case HEADER_CC:
-		CAMEL_LOG (FULL_DEBUG,
+		CAMEL_LOG_FULL_DEBUG (
 			  "CamelMimeMessage::parse_header_pair found HEADER_CC : %s\n",
-			  header_value->str );
+			  header_value );
 		
-		_set_recipient_list_from_string (message, g_string_new ("Cc"), header_value);
-		g_string_free (header_value, TRUE);
+		_set_recipient_list_from_string (message, "Cc", header_value);
+		g_free (header_value);
 		header_handled = TRUE;
 		break;
 	
 	case HEADER_BCC:
-		CAMEL_LOG (FULL_DEBUG,
+		CAMEL_LOG_FULL_DEBUG (
 			  "CamelMimeMessage::parse_header_pair found HEADER_BCC : %s\n",
-			  header_value->str );
+			  header_value );
 		
-		_set_recipient_list_from_string (message, g_string_new ("Bcc"), header_value);
-		g_string_free (header_value, TRUE);
+		_set_recipient_list_from_string (message, "Bcc", header_value);
+		g_free (header_value);
 		header_handled = TRUE;
 		break;
 	
 
 	}
 	if (header_handled) {
-		g_string_free (header_name, TRUE);
+		g_free (header_name);
 		return TRUE;
 	} else
 		return parent_class->parse_header_pair (mime_part, header_name, header_value);

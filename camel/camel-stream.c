@@ -112,7 +112,7 @@ camel_stream_read (CamelStream *stream, gchar *buffer, gint n)
  *  in the stream.
  **/
 gint
-camel_stream_write (CamelStream *stream, gchar *buffer, gint n)
+camel_stream_write (CamelStream *stream, const gchar *buffer, gint n)
 {
 	return CS_CLASS (stream)->write (stream, buffer, n);
 }
@@ -135,14 +135,14 @@ camel_stream_flush (CamelStream *stream)
  * 
  * Return value: the number of bytes available.
  **/
-static gint 
+gint 
 camel_stream_available (CamelStream *stream)
 {
 	return CS_CLASS (stream)->available (stream);
 }
 
 /**
- * camle_stream_eos: 
+ * camel_stream_eos: 
  * @stream: a CamelStream object
  * 
  * Test if there are bytes left to read on the @stream object.
@@ -150,7 +150,7 @@ camel_stream_available (CamelStream *stream)
  * Return value: %TRUE if all the contents on the stream has been read, or
  * %FALSE if information is still available.
  **/
-static gboolean
+gboolean
 camel_stream_eos (CamelStream *stream)
 {
 	return CS_CLASS (stream)->eos (stream);
@@ -183,10 +183,10 @@ void
 camel_stream_write_strings (CamelStream *stream, ... )
 {
 	va_list args;
-	char *string;
+	const char *string;
 	
 	va_start(args, stream);
-	string = va_arg (args, char *);
+	string = va_arg (args, const char *);
 	
 	while (string) {
 		camel_stream_write_string (stream, string);

@@ -65,8 +65,8 @@ struct _CamelFolder
 	gboolean exists_on_store;
 	CamelFolderOpenMode open_mode;
 	CamelFolderState open_state;
-	GString *name;
-	GString *full_name;
+	gchar *name;
+	gchar *full_name;
 	CamelStore *parent_store;
 	CamelFolder *parent_folder;
 	
@@ -81,15 +81,15 @@ typedef struct {
 	void   (*init_with_store) (CamelFolder *folder, CamelStore *parent_store);
 	void   (*open) (CamelFolder *object, CamelFolderOpenMode mode);
 	void   (*close) (CamelFolder *folder, gboolean expunge);
-	void   (*set_name) (CamelFolder *folder, GString *name);
-	void   (*set_full_name) (CamelFolder *folder, GString *name);
-	GString *  (*get_name) (CamelFolder *folder);
-	GString *  (*get_full_name) (CamelFolder *folder);
+	void   (*set_name) (CamelFolder *folder, const gchar *name);
+	void   (*set_full_name) (CamelFolder *folder, const gchar *name);
+	const gchar *  (*get_name) (CamelFolder *folder);
+	const gchar *  (*get_full_name) (CamelFolder *folder);
 	gboolean   (*can_hold_folders) (CamelFolder *folder);
 	gboolean   (*can_hold_messages) (CamelFolder *folder);
 	gboolean   (*exists) (CamelFolder *folder);
 	gboolean   (*is_open) (CamelFolder *folder);
-	CamelFolder *  (*get_folder) (CamelFolder *folder, GString *folder_name);
+	CamelFolder *  (*get_folder) (CamelFolder *folder, const gchar *folder_name);
 	gboolean   (*create) (CamelFolder *folder);
 	gboolean   (*delete) (CamelFolder *folder, gboolean recurse);
 	gboolean   (*delete_messages) (CamelFolder *folder);
@@ -107,7 +107,7 @@ GtkType camel_folder_get_type (void);
 
 
 /* public methods */
-CamelFolder *camel_folder_get_folder(CamelFolder *folder, GString *folder_name);
+CamelFolder *camel_folder_get_folder(CamelFolder *folder, gchar *folder_name);
 gboolean camel_folder_create(CamelFolder *folder);
 gboolean camel_folder_delete (CamelFolder *folder, gboolean recurse);
 gboolean camel_folder_delete_messages (CamelFolder *folder);

@@ -7,6 +7,7 @@
 #undef PACKAGE
 #undef VERSION
 #undef HAVE_BONOBO
+#undef CAMEL_HARD_LOG_LEVEL
 
 /* Define this if you want to build against the development gtk */
 #undef HAVE_DEVGTK

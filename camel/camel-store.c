@@ -31,7 +31,7 @@ static GtkObjectClass *parent_class=NULL;
 static void _set_separator(CamelStore *store, gchar sep);
 static CamelFolder *_get_root_folder(CamelStore *store);
 static CamelFolder *_get_default_folder(CamelStore *store);
-static void _init(CamelStore *store, CamelSession *session, GString *url_name);
+static void _init(CamelStore *store, CamelSession *session, gchar *url_name);
 
 
 
@@ -95,10 +95,10 @@ camel_store_get_type (void)
  * 
  **/
 void 
-camel_store_init(CamelStore *store, CamelSession *session, GString *url_name)
+camel_store_init(CamelStore *store, CamelSession *session, gchar *url_name)
 {
 	g_assert(store);
-	CS_CLASS(store)->init(store, session, url_name);
+	CS_CLASS(store)->init (store, session, url_name);
 }
 
 
@@ -110,11 +110,12 @@ camel_store_init(CamelStore *store, CamelSession *session, GString *url_name)
  * @url_name: URL defining the store
  * 
  * This routine is called by the session object from which this 
- * store is created. 
+ * store is created. Be careful, @url_name is used as a private field
+ * of the store object. 
  * 
  **/
 static void 
-_init(CamelStore *store, CamelSession *session, GString *url_name)
+_init (CamelStore *store, CamelSession *session, gchar *url_name)
 {
 	
 	
@@ -136,7 +137,7 @@ _init(CamelStore *store, CamelSession *session, GString *url_name)
  *
  **/
 static void
-_set_separator(CamelStore *store, gchar sep)
+_set_separator (CamelStore *store, gchar sep)
 {
     store->separator = sep;
 }
@@ -151,7 +152,7 @@ _set_separator(CamelStore *store, gchar sep)
  *
  **/
 gchar
-camel_store_get_separator(CamelStore *store)
+camel_store_get_separator (CamelStore *store)
 {
 	g_assert(store);
 	return store->separator;
@@ -178,7 +179,7 @@ camel_store_get_separator(CamelStore *store)
  * Return value: the folder
  **/
 CamelFolder *
-camel_store_get_folder(CamelStore *store, GString *folder_name)
+camel_store_get_folder (CamelStore *store, gchar *folder_name)
 {
 
 #warning fill this part in.
@@ -196,7 +197,7 @@ camel_store_get_folder(CamelStore *store, GString *folder_name)
  * @Return value: the tolevel folder.
  **/
 static CamelFolder *
-_get_root_folder(CamelStore *store)
+_get_root_folder (CamelStore *store)
 {
     return NULL;
 }
@@ -211,7 +212,7 @@ _get_root_folder(CamelStore *store)
  *  @Return value: the default folder.
  **/
 static CamelFolder *
-_get_default_folder(CamelStore *store)
+_get_default_folder (CamelStore *store)
 {
     return NULL;
 }

@@ -53,7 +53,7 @@ typedef struct {
 	
 	/* Virtual methods */	
 	gint  (*read)      (CamelStream *stream, gchar *buffer, gint n);
-	gint  (*write)     (CamelStream *stream, gchar *buffer, gint n);
+	gint  (*write)     (CamelStream *stream, const gchar *buffer, gint n);
 	void  (*flush)     (CamelStream *stream);
 	gint  (*available) (CamelStream *stream);
 	gboolean  (*eos)   (CamelStream *stream);
@@ -68,7 +68,7 @@ GtkType camel_stream_get_type (void);
 
 /* public methods */
 gint     camel_stream_read      (CamelStream *stream, gchar *buffer, gint n);
-gint     camel_stream_write     (CamelStream *stream, gchar *buffer, gint n);
+gint     camel_stream_write     (CamelStream *stream, const gchar *buffer, gint n);
 void     camel_stream_flush     (CamelStream *stream);
 gint     camel_stream_available (CamelStream *stream);
 gboolean camel_stream_eos       (CamelStream *stream);

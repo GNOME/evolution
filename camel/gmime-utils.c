@@ -23,58 +23,65 @@
 
 #include <config.h>
 #include "gmime-utils.h"
-#include "gstring-util.h"
+#include "string-utils.h"
 #include "camel-log.h"
 #include "camel-stream.h"
 
 void
-gmime_write_header_pair_to_stream (CamelStream *stream, gchar* name, GString *value)
+gmime_write_header_pair_to_stream (CamelStream *stream, const gchar* name, const gchar *value)
 {
 
-	GString *strtmp;
+	gchar *strtmp;
 	guint len;
-
+	CAMEL_LOG_FULL_DEBUG ( "gmime_write_header_pair_to_stream:: Entering\n");
 	g_assert(name);
-
-	if (!value || !(value->str)) return;
-	len = strlen (name) + strlen (value->str) +3;
+#warning use g_strdup_printf instead
+ 
+	if (!value) return;
+	len = strlen (name) + strlen (value) +3;
 	/* 3 is for ": " and "\n" */
-	strtmp = g_string_sized_new (len);
+	strtmp = g_new (gchar, len);
 	
-	sprintf(strtmp->str, "%s: %s\n", name, value->str);
-	camel_stream_write (stream, strtmp->str, len);
-	CAMEL_LOG (FULL_DEBUG, "gmime_write_header_pair_to_stream:\n  writing %s\n", strtmp->str);
-	g_string_free (strtmp, FALSE);
+	sprintf (strtmp, "%s: %s\n", name, value);
+	camel_stream_write (stream, strtmp, len);
+	CAMEL_LOG_FULL_DEBUG ( "gmime_write_header_pair_to_stream:\n  writing %s\n", strtmp);
+	g_free (strtmp);
+	CAMEL_LOG_FULL_DEBUG ( "gmime_write_header_pair_to_stream:: Leaving\n");
+
 }
 
 
 static void
 _write_one_header_to_stream (gpointer key, gpointer value, gpointer user_data)
 {
-	GString *header_name = (GString *)key;
-	GString *header_value = (GString *)value;
+	gchar *header_name = (gchar *)key;
+	gchar *header_value = (gchar *)value;
 	CamelStream *stream = (CamelStream *)user_data;
 
-	if ( (header_name) && (header_name->str) && 
-	     (header_value) && (header_value->str) )
-		gmime_write_header_pair_to_stream (stream, header_name->str, header_value);		
+	CAMEL_LOG_FULL_DEBUG ( "_write_one_header_to_stream:: Entering\n");
+	if ((header_name) && (header_value))
+		gmime_write_header_pair_to_stream (stream, header_name, header_value);		
+	CAMEL_LOG_FULL_DEBUG ( "_write_one_header_to_stream:: Leaving\n");
 }
 
 void 
 write_header_table_to_stream (CamelStream *stream, GHashTable *header_table)
 {
+	CAMEL_LOG_FULL_DEBUG ( "write_header_table_to_stream:: Entering\n");
 	g_hash_table_foreach (header_table, 
 			      _write_one_header_to_stream, 
 			      (gpointer)stream);
+	CAMEL_LOG_FULL_DEBUG ( "write_header_table_to_stream:: Leaving\n");
 }
 
 
 void 
-write_header_with_glist_to_stream (CamelStream *stream, gchar *header_name, GList *header_values, gchar *separator)
+write_header_with_glist_to_stream (CamelStream *stream, const gchar *header_name, GList *header_values, const gchar *separator)
 {
 	
-	GString *current;
-	
+	gchar *current;
+
+	CAMEL_LOG_FULL_DEBUG ( "write_header_with_glist_to_stream:: entering\n");
 	if ( (header_name) && (header_values) )
 		{
 			gboolean first;
@@ -83,16 +90,17 @@ write_header_with_glist_to_stream (CamelStream *stream, gchar *header_name, GLis
 			camel_stream_write (stream, ": ", 2);
 			first = TRUE;
 			while (header_values) {
-				current = (GString *)header_values->data;
-				if ( (current) && (current->str) ) {
+				current = (gchar *)header_values->data;
+				if (current) {
 					if (!first) camel_stream_write_string (stream, separator);
 					else first = FALSE;
-					camel_stream_write (stream, current->str, strlen (current->str));
+					camel_stream_write (stream, current, strlen (current));
 				}
 				header_values = g_list_next(header_values);
 			}
 			camel_stream_write (stream, "\n", 1);
 		}
+	CAMEL_LOG_FULL_DEBUG ( "write_header_with_glist_to_stream:: leaving\n");
 	
 }	
 
@@ -104,29 +112,30 @@ write_header_with_glist_to_stream (CamelStream *stream, gchar *header_name, GLis
 /* scanning functions  */
 
 static void
-_store_header_pair_from_gstring (GHashTable *header_table, GString *header_line)
+_store_header_pair_from_string (GHashTable *header_table, gchar *header_line)
 {
 	gchar dich_result;
-	GString *header_name, *header_value;
+	gchar *header_name, *header_value;
 	
+	CAMEL_LOG_FULL_DEBUG ( "_store_header_pair_from_string:: Entering\n");
 	g_assert (header_table);
-	if ( (header_line) && (header_line->str) ) {
-		dich_result = g_string_dichotomy (
-			header_line, ':', &header_name, &header_value,
-			GSTRING_DICHOTOMY_NONE);
+	g_assert (header_line);
+	if (header_line) {
+		dich_result = string_dichotomy ( header_line, ':', 
+						   &header_name, &header_value,
+						   STRING_DICHOTOMY_NONE);
 		if (dich_result != 'o')
-			camel_log(WARNING, 
-				  "store_header_pair_from_gstring : dichotomy result is %c"
-				  "header line is :\n--\n%s\n--\n");
-		
+			CAMEL_LOG_WARNING (
+				  "store_header_pair_from_string : dichotomy result is %c"
+				  "header line is :\n--\n%s\n--\n");	
 		else {
-			g_string_trim (
-				header_value, " \t",
-				GSTRING_TRIM_STRIP_LEADING | GSTRING_TRIM_STRIP_TRAILING);
+			string_trim (header_value, " \t",
+				     STRING_TRIM_STRIP_LEADING | STRING_TRIM_STRIP_TRAILING);
 			g_hash_table_insert (header_table, header_name, header_value);
 		}
 	}
-		
+	CAMEL_LOG_FULL_DEBUG ( "_store_header_pair_from_string:: Leaving\n");
+	
 }
 
 
@@ -135,6 +144,10 @@ _store_header_pair_from_gstring (GHashTable *header_table, GString *header_line)
 GHashTable *
 get_header_table_from_stream (CamelStream *stream)
 {
+#warning Correct Lazy Implementation 
+	/* should not use GString. */
+	/* should read the header line by line */
+	/* and not char by char */
 	gchar next_char;
 
 	gboolean crlf = FALSE;
@@ -142,12 +155,14 @@ get_header_table_from_stream (CamelStream *stream)
 	gboolean end_of_headers = FALSE;
 	gboolean end_of_file = FALSE;
 	GString *header_line=NULL;
+	gchar *str_header_line;
 	GHashTable *header_table;
-
-	header_table = g_hash_table_new (g_string_hash, g_string_equal_for_hash);
+#warning Correct a bug here. Should use return value of camel_stream_read instead of looking for next_char!=-1
+	CAMEL_LOG_FULL_DEBUG ( "gmime-utils:: Entering get_header_table_from_stream\n");
+	header_table = g_hash_table_new (g_str_hash, g_str_equal);
 	camel_stream_read (stream, &next_char, 1);
 	do {
-		header_line = g_string_new("");
+		header_line = g_string_new ("");
 		end_of_header_line = FALSE;
 		crlf = FALSE;
 		
@@ -182,13 +197,47 @@ get_header_table_from_stream (CamelStream *stream)
 			if (!end_of_header_line) camel_stream_read (stream, &next_char, 1);
 
 		} while ( !end_of_header_line );
-		if ( strlen(header_line->str) ) 
-			_store_header_pair_from_gstring (header_table, header_line);
+		if ( strlen(header_line->str) ) {
+			str_header_line = g_strdup (header_line->str);
+			_store_header_pair_from_string (header_table, str_header_line);			
+		}
 		g_string_free (header_line, FALSE);
 
 	} while ( (!end_of_headers) && (!end_of_file) );
-
+	
+	CAMEL_LOG_FULL_DEBUG ( "gmime-utils:: Leaving get_header_table_from_stream\n");
 	return header_table;
 }
 		
 		
+gchar *
+gmime_read_line_from_stream (CamelStream *stream)
+{
+	GString *new_line;
+	gchar *result;
+	gchar next_char;
+	gboolean end_of_line = FALSE;
+	gboolean end_of_stream = FALSE;
+	gint nb_char_read;
+
+	new_line = g_string_new ("");
+	do {
+		nb_char_read = camel_stream_read (stream, &next_char, 1);
+		if (nb_char_read>0) {
+			switch (next_char) {
+			case '\n':				
+				end_of_line = TRUE;
+				/*  g_string_append_c (new_line, next_char); */
+				break;
+			default:
+				g_string_append_c (new_line, next_char);
+			}
+		} else end_of_stream = TRUE;
+	} while (!end_of_line && !end_of_stream);
+
+	if ( (new_line->str[0]) != '\0')
+		result = g_strdup (new_line->str);
+	else result=NULL;
+	g_string_free (new_line, TRUE);
+	return result;
+}

@@ -22,7 +22,6 @@
  */
 #include <config.h>
 #include "camel-session.h"
-#include "gstring-util.h"
 
 static GtkObjectClass *parent_class=NULL;
 

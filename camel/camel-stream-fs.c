@@ -36,7 +36,7 @@ static CamelStreamClass *parent_class=NULL;
 #define CS_CLASS(so) CAMEL_STREAM_FS_CLASS (GTK_OBJECT(so)->klass)
 
 static gint _read (CamelStream *stream, gchar *buffer, gint n);
-static gint _write (CamelStream *stream, gchar *buffer, gint n);
+static gint _write (CamelStream *stream, const gchar *buffer, gint n);
 static void _flush (CamelStream *stream);
 static gint _available (CamelStream *stream);
 static gboolean _eos (CamelStream *stream);
@@ -89,7 +89,7 @@ camel_stream_fs_get_type (void)
 
 
 CamelStream *
-camel_stream_fs_new_with_name (GString *name, CamelStreamFsMode mode)
+camel_stream_fs_new_with_name (gchar *name, CamelStreamFsMode mode)
 {
 	struct stat s;
 	int v, fd;
@@ -97,9 +97,8 @@ camel_stream_fs_new_with_name (GString *name, CamelStreamFsMode mode)
 	CamelStreamFs *stream_fs;
 
 	g_assert (name);
-	g_assert (name->str);
-	CAMEL_LOG (FULL_DEBUG, "Entering CamelStream::new_with_name, name=\"%s\", mode=%d\n", name->str, mode); 
-	v = stat (name->str, &s);
+	CAMEL_LOG_FULL_DEBUG ( "Entering CamelStream::new_with_name, name=\"%s\", mode=%d\n", name, mode); 
+	v = stat (name, &s);
 	
 	if (mode & CAMEL_STREAM_FS_READ){
 		if (mode & CAMEL_STREAM_FS_WRITE)
@@ -115,10 +114,10 @@ camel_stream_fs_new_with_name (GString *name, CamelStreamFsMode mode)
 	if ( (mode & CAMEL_STREAM_FS_READ) && !(mode & CAMEL_STREAM_FS_WRITE) )
 		if (v == -1) return NULL;
 
-	fd = open (name->str, flags, 0600);
+	fd = open (name, flags, 0600);
 	if (fd==-1) {
-		CAMEL_LOG (FULL_DEBUG, "CamelStreamFs::new_with_name can not obtain fd for file \"%s\"\n", name->str);
-		CAMEL_LOG (FULL_DEBUG, "  Full error text is : %s\n", strerror(errno));
+		CAMEL_LOG_FULL_DEBUG ( "CamelStreamFs::new_with_name can not obtain fd for file \"%s\"\n", name);
+		CAMEL_LOG_FULL_DEBUG ( "  Full error text is : %s\n", strerror(errno));
 		return NULL;
 	}
 	
@@ -134,7 +133,7 @@ camel_stream_fs_new_with_fd (int fd)
 {
 	CamelStreamFs *stream_fs;
 	
-	CAMEL_LOG (FULL_DEBUG, "Entering CamelStream::new_with_fd  fd=%d\n",fd);
+	CAMEL_LOG_FULL_DEBUG ( "Entering CamelStream::new_with_fd  fd=%d\n",fd);
 	stream_fs = gtk_type_new (camel_stream_fs_get_type ());
 	stream_fs->fd = fd;
 	return CAMEL_STREAM (stream_fs);
@@ -154,11 +153,9 @@ static gint
 _read (CamelStream *stream, gchar *buffer, gint n)
 {
 	int v;
-	
 	do {
 		v = read ( (CAMEL_STREAM_FS (stream))->fd, buffer, n);
 	} while (v == -1 && errno == EINTR);
-	
 	return v;
 }
 
@@ -175,12 +172,12 @@ _read (CamelStream *stream, gchar *buffer, gint n)
  *  in the stream.
  **/
 static gint
-_write (CamelStream *stream, gchar *buffer, gint n)
+_write (CamelStream *stream, const gchar *buffer, gint n)
 {
 	int v;
 	g_assert (stream);
 	g_assert ((CAMEL_STREAM_FS (stream))->fd);
-	CAMEL_LOG (FULL_DEBUG, "CamelStreamFs:: entering write. n=%d\n", n);
+	CAMEL_LOG_FULL_DEBUG ( "CamelStreamFs:: entering write. n=%d\n", n);
 	do {
 		v = write ( (CAMEL_STREAM_FS (stream))->fd, buffer, n);
 	} while (v == -1 && errno == EINTR);
@@ -188,7 +185,7 @@ _write (CamelStream *stream, gchar *buffer, gint n)
 #if HARD_LOG_LEVEL >= FULL_DEBUG
 	if (v==-1) {
 		perror("");
-		CAMEL_LOG (FULL_DEBUG, "CamelStreamFs::write could not write bytes in stream\n");
+		CAMEL_LOG_FULL_DEBUG ( "CamelStreamFs::write could not write bytes in stream\n");
 	}
 #endif
 	return v;

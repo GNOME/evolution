@@ -6,7 +6,7 @@
 
 /* 
  *
- * Copyright (C) 1999 Bertrand Guiheneuf <Bertrand.Guiheneuf@inria.fr> .
+ * Copyright (C) 1999 Bertrand Guiheneuf <Bertrand.Guiheneuf@aful.org> .
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,6 +25,7 @@
  */
 #include <config.h>
 #include "camel-data-wrapper.h"
+#include "camel-log.h"
 
 static GtkObjectClass *parent_class=NULL;
 
@@ -35,6 +36,9 @@ static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream 
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void _set_mime_type (CamelDataWrapper *data_wrapper, gchar *mime_type);
 static gchar *_get_mime_type (CamelDataWrapper *data_wrapper);
+static GMimeContentField *_get_mime_type_field (CamelDataWrapper *data_wrapper);
+static void _set_mime_type_field (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type);
+
 
 static void
 camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
@@ -46,7 +50,8 @@ camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 	camel_data_wrapper_class->construct_from_stream = _construct_from_stream;
 	camel_data_wrapper_class->set_mime_type = _set_mime_type;
 	camel_data_wrapper_class->get_mime_type = _get_mime_type;
-
+	camel_data_wrapper_class->get_mime_type_field = _get_mime_type_field;
+	camel_data_wrapper_class->set_mime_type_field = _set_mime_type_field;
 	/* virtual method overload */
 }
 
@@ -59,7 +64,9 @@ camel_data_wrapper_init (gpointer   object,  gpointer   klass)
 {
 	CamelDataWrapper *camel_data_wrapper = CAMEL_DATA_WRAPPER (object);
 
+	CAMEL_LOG_FULL_DEBUG ( "camel_data_wrapper_init:: Entering\n");
 	camel_data_wrapper->mime_type = gmime_content_field_new (NULL, NULL);
+	CAMEL_LOG_FULL_DEBUG ( "camel_data_wrapper_init:: Leaving\n");
 }
 
 
@@ -114,7 +121,7 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 /**
  * camel_data_wrapper_write_to_stream: write data in a stream
- * @data_wrapper: the data wrapper object
+ * @data_wrappewr: the data wrapper object
  * @stream: byte stream where data will be written 
  *
  * Write data content in a stream. Data is stored in a machine
@@ -124,7 +131,9 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 void 
 camel_data_wrapper_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
+	CAMEL_LOG_FULL_DEBUG ( "camel_data_wrapper_write_to_stream:: Entering\n");
 	CDW_CLASS(data_wrapper)->write_to_stream (data_wrapper, stream);
+	CAMEL_LOG_FULL_DEBUG ( "camel_data_wrapper_write_to_stream:: Leaving\n");
 }
 
 
@@ -141,7 +150,9 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 void 
 camel_data_wrapper_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
+	CAMEL_LOG_FULL_DEBUG ( "camel_data_wrapper_construct_from_stream:: Entering\n");
 	CDW_CLASS(data_wrapper)->construct_from_stream (data_wrapper, stream);
+	CAMEL_LOG_FULL_DEBUG ( "camel_data_wrapper_construct_from_stream:: Leaving\n");
 }
 
 
@@ -149,8 +160,10 @@ camel_data_wrapper_construct_from_stream (CamelDataWrapper *data_wrapper, CamelS
 static void
 _set_mime_type (CamelDataWrapper *data_wrapper, gchar *mime_type)
 {
+	CAMEL_LOG_FULL_DEBUG ( "CamelDataWrapper::set_mime_type Entering\n");
 	g_assert (mime_type);
 	gmime_content_field_construct_from_string (data_wrapper->mime_type, mime_type);
+	CAMEL_LOG_FULL_DEBUG ( "CamelDataWrapper::set_mime_type Leaving\n");
 }
 
 void 
@@ -168,8 +181,38 @@ _get_mime_type (CamelDataWrapper *data_wrapper)
 	return mime_type;
 }
 
-static gchar *
+gchar *
 camel_data_wrapper_get_mime_type (CamelDataWrapper *data_wrapper)
 {
+	CAMEL_LOG_FULL_DEBUG ( "camel_data_wrapper_get_mime_type:: Entering before returning\n");
 	return CDW_CLASS(data_wrapper)->get_mime_type (data_wrapper);
 }
+
+
+static GMimeContentField *
+_get_mime_type_field (CamelDataWrapper *data_wrapper)
+{
+	return data_wrapper->mime_type;
+}
+
+GMimeContentField *
+camel_data_wrapper_get_mime_type_field (CamelDataWrapper *data_wrapper)
+{
+	return CDW_CLASS(data_wrapper)->get_mime_type_field (data_wrapper);
+}
+
+
+static void
+_set_mime_type_field (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type)
+{
+	if (data_wrapper->mime_type) gmime_content_field_free (data_wrapper->mime_type);
+	data_wrapper->mime_type = mime_type;
+}
+
+void
+camel_data_wrapper_set_mime_type_field (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type)
+{
+	CDW_CLASS(data_wrapper)->set_mime_type_field (data_wrapper, mime_type);
+}
+
+

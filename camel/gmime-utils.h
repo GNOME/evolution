@@ -35,11 +35,12 @@ extern "C" {
 #include <stdio.h>
 #include <camel-stream.h>
 
-void gmime_write_header_pair_to_stream (CamelStream *stream, gchar* name, GString *value);
+void gmime_write_header_pair_to_stream (CamelStream *stream, const gchar* name, const gchar *value);
 void write_header_table_to_stream (CamelStream *stream, GHashTable *header_table);
-void write_header_with_glist_to_stream (CamelStream *stream, gchar *header_name, GList *header_values, gchar *separator);
+void write_header_with_glist_to_stream (CamelStream *stream, const gchar *header_name, GList *header_values, const gchar *separator);
 
 GHashTable *get_header_table_from_stream (CamelStream *stream);
+gchar *gmime_read_line_from_stream (CamelStream *stream);
 
 
 

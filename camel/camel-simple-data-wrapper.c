@@ -23,13 +23,14 @@
  */
 #include <config.h>
 #include "camel-simple-data-wrapper.h"
+#include "camel-log.h"
 
 static  CamelDataWrapperClass *parent_class=NULL;
 
 /* Returns the class for a CamelDataWrapper */
 #define CSDW_CLASS(so) CAMEL_SIMPLE_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
 
-static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream, guint size);
+static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 
 static void
@@ -58,9 +59,9 @@ camel_simple_data_wrapper_get_type (void)
 	if (!camel_simple_data_wrapper_type)	{
 		GtkTypeInfo camel_simple_data_wrapper_info =	
 		{
-			"CamelDataWrapper",
-			sizeof (CamelDataWrapper),
-			sizeof (CamelDataWrapperClass),
+			"CamelSimpleDataWrapper",
+			sizeof (CamelSimpleDataWrapper),
+			sizeof (CamelSimpleDataWrapperClass),
 			(GtkClassInitFunc) camel_simple_data_wrapper_class_init,
 			(GtkObjectInitFunc) NULL,
 				/* reserved_1 */ NULL,
@@ -76,21 +77,41 @@ camel_simple_data_wrapper_get_type (void)
 
 
 
+/**
+ * camel_simple_data_wrapper_new: create a new CamelSimpleDataWrapper object
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
+CamelSimpleDataWrapper *
+camel_simple_data_wrapper_new ()
+{
+	CamelSimpleDataWrapper *simple_data_wrapper;
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Entering new()\n");
+	
+	simple_data_wrapper = (CamelSimpleDataWrapper *)gtk_type_new (CAMEL_SIMPLE_DATA_WRAPPER_TYPE);
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Leaving new()\n");
+	return simple_data_wrapper;
+}
+
+
+
 static void
 _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelSimpleDataWrapper *simple_data_wrapper = CAMEL_SIMPLE_DATA_WRAPPER (data_wrapper);
 	GByteArray *array;
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Entering _write_to_stream\n");
 
 	g_assert (data_wrapper);
 	g_assert (stream);
 	g_assert (simple_data_wrapper->byte_array);
-
 	array = simple_data_wrapper->byte_array;
 	if (array->len)
 		camel_stream_write (stream, (gchar *)array->data, array->len);
 
-	return;
+		CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Leaving _write_to_stream\n");
 }
 
 
@@ -98,7 +119,7 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 #define _CMSDW_TMP_BUF_SIZE 100
 static void
-_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream, guint size)
+_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelSimpleDataWrapper *simple_data_wrapper = CAMEL_SIMPLE_DATA_WRAPPER (data_wrapper);
 	guint current_index;
@@ -106,12 +127,11 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream, gui
 	guint nb_bytes_left;
 	static gchar *tmp_buf;
 	GByteArray *array;
-		
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Entering _construct_from_stream\n");
 
 	g_assert (data_wrapper);
 	g_assert (stream);
 	
-	if (!size) return;
 	if (!tmp_buf) tmp_buf = g_new (gchar, _CMSDW_TMP_BUF_SIZE);
 
 	array = simple_data_wrapper->byte_array;
@@ -119,14 +139,43 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream, gui
 		g_byte_array_free (array, FALSE);
 	
 	array = g_byte_array_new();
-	nb_bytes_left = size;
+	simple_data_wrapper->byte_array = array;
 	do {
-		
-		nb_bytes_read = camel_stream_read (stream, tmp_buf, 
-						   MIN (_CMSDW_TMP_BUF_SIZE, nb_bytes_left));
-		nb_bytes_left -= nb_bytes_read;
-		if (nb_bytes_read) g_byte_array_append (array, tmp_buf,	nb_bytes_read);
-		
-	} while (nb_bytes_read && (nb_bytes_left>0));
-	
+		nb_bytes_read = camel_stream_read (stream, tmp_buf, _CMSDW_TMP_BUF_SIZE);
+		if (nb_bytes_read) g_byte_array_append (array, tmp_buf,	nb_bytes_read);		
+	} while (nb_bytes_read);
+
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Leaving _construct_from_stream\n");	
 }
+
+
+
+
+/**
+ * camel_simple_data_wrapper_set_text: set some text as data wrapper content 
+ * @simple_data_wrapper: SimpleDataWrapper object
+ * @text: the text to use
+ * 
+ * Utility routine used to set up the content of a SimpleDataWrapper object
+ * to be a character string. 
+ **/
+void
+camel_simple_data_wrapper_set_text (CamelSimpleDataWrapper *simple_data_wrapper, const gchar *text)
+{
+	GByteArray *array;
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Entering set_text\n");
+
+	array = simple_data_wrapper->byte_array;
+	if (array) {
+		CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper::set_text freeing old byte array\n"); 
+		g_byte_array_free (array, FALSE);
+	}
+	
+	array = g_byte_array_new ();
+	simple_data_wrapper->byte_array = array;
+	
+	g_byte_array_append (array, text, strlen (text));
+
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Entering set_text\n");
+}
+

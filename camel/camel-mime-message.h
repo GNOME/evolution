@@ -54,13 +54,13 @@ typedef struct
 	CamelMimePart parent_object;
 
 	/* header fields */
-	GString *received_date;
-	GString *sent_date;
+	gchar *received_date;
+	gchar *sent_date;
 
-	GString *subject;
-	GString *reply_to;
+	gchar *subject;
+	gchar *reply_to;
 
-	GString *from;
+	gchar *from;
 	GHashTable *recipients;
 	/*   -> each value is a GList of address strings */
 	/*      each key is a recipient type string in lower-case */
@@ -81,35 +81,23 @@ typedef struct {
 	CamelMimePartClass parent_class;
 	
 	/* Virtual methods */	
-	void      (*set_received_date) (CamelMimeMessage *mime_message,
-					GString *received_date);
-	GString * (*get_received_date) (CamelMimeMessage *mime_message);
-	GString * (*get_sent_date)     (CamelMimeMessage *mime_message);
-	void      (*set_reply_to)      (CamelMimeMessage *mime_message,
-					GString *reply_to);
-	GString * (*get_reply_to)      (CamelMimeMessage *mime_message);
-	void      (*set_subject)       (CamelMimeMessage *mime_message,
-					GString *subject);
-	GString * (*get_subject)       (CamelMimeMessage *mime_message);
-	void      (*set_from)          (CamelMimeMessage *mime_message,
-					GString *from);
-	GString * (*get_from)          (CamelMimeMessage *mime_message);
-	void      (*add_recipient)     (CamelMimeMessage *mime_message,
-					GString *recipient_type,
-					GString *recipient); 
-	void      (*remove_recipient)  (CamelMimeMessage *mime_message,
-					GString *recipient_type,
-					GString *recipient);
-	GList   * (*get_recipients)    (CamelMimeMessage *mime_message,
-					GString *recipient_type);
-	void      (*set_flag)          (CamelMimeMessage *mime_message,
-					GString *flag, gboolean value);
-	gboolean  (*get_flag)          (CamelMimeMessage *mime_message,
-					GString *flag);
+	void     (*set_received_date) (CamelMimeMessage *mime_message, gchar *received_date);
+	const gchar *  (*get_received_date) (CamelMimeMessage *mime_message);
+	const gchar *  (*get_sent_date) (CamelMimeMessage *mime_message);
+	void     (*set_reply_to) (CamelMimeMessage *mime_message, gchar *reply_to);
+	const gchar *  (*get_reply_to) (CamelMimeMessage *mime_message);
+	void     (*set_subject) (CamelMimeMessage *mime_message, gchar *subject);
+	const gchar *  (*get_subject) (CamelMimeMessage *mime_message);
+	void     (*set_from) (CamelMimeMessage *mime_message, gchar *from);
+	const gchar *  (*get_from) (CamelMimeMessage *mime_message);
+	void     (*add_recipient) (CamelMimeMessage *mime_message, gchar *recipient_type, gchar *recipient); 
+	void     (*remove_recipient) (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient);
+	const GList *  (*get_recipients) (CamelMimeMessage *mime_message, const gchar *recipient_type);
+	void     (*set_flag) (CamelMimeMessage *mime_message, gchar *flag, gboolean value);
+	gboolean (*get_flag) (CamelMimeMessage *mime_message, gchar *flag);
 
-	void      (*set_message_number)(CamelMimeMessage *mime_message,
-					guint number);
-	guint     (*get_message_number)(CamelMimeMessage *mime_message);
+	void     (*set_message_number)(CamelMimeMessage *mime_message, guint number);
+	guint    (*get_message_number)(CamelMimeMessage *mime_message);
 } CamelMimeMessageClass;
 
 
@@ -122,34 +110,24 @@ GtkType camel_mime_message_get_type (void);
 CamelMimeMessage *camel_mime_message_new_with_session (CamelSession *session);
 
 
-void      camel_mime_message_set_received_date (CamelMimeMessage *mime_message,
-						GString *received_date);
-GString  *camel_mime_message_get_received_date (CamelMimeMessage *mime_message);
-GString  *camel_mime_message_get_sent_date     (CamelMimeMessage *mime_message);
-void      camel_mime_message_set_reply_to      (CamelMimeMessage *mime_message,
-						GString *reply_to);
-GString  *camel_mime_message_get_reply_to      (CamelMimeMessage *mime_message);
-void      camel_mime_message_set_subject       (CamelMimeMessage *mime_message,
-						GString *subject);
-GString  *camel_mime_message_get_subject       (CamelMimeMessage *mime_message);
-void      camel_mime_message_set_from 	       (CamelMimeMessage *mime_message, GString *from);
-GString  *camel_mime_message_get_from 	       (CamelMimeMessage *mime_message);
+void camel_mime_message_set_received_date (CamelMimeMessage *mime_message, gchar *received_date);
+const gchar *camel_mime_message_get_received_date (CamelMimeMessage *mime_message);
+const gchar *camel_mime_message_get_sent_date (CamelMimeMessage *mime_message);
+void camel_mime_message_set_reply_to (CamelMimeMessage *mime_message, gchar *reply_to);
+const gchar *camel_mime_message_get_reply_to (CamelMimeMessage *mime_message);
+void camel_mime_message_set_subject (CamelMimeMessage *mime_message, gchar *subject);
+const gchar *camel_mime_message_get_subject (CamelMimeMessage *mime_message);
+void camel_mime_message_set_from (CamelMimeMessage *mime_message, gchar *from);
+const gchar *camel_mime_message_get_from (CamelMimeMessage *mime_message);
 
-void      camel_mime_message_add_recipient     (CamelMimeMessage *mime_message,
-						GString *recipient_type,
-						GString *recipient);
-void      camel_mime_message_remove_recipient  (CamelMimeMessage *mime_message,
-						GString *recipient_type,
-						GString *recipient);
-GList    *camel_mime_message_get_recipients    (CamelMimeMessage *mime_message,
-						GString *recipient_type);
+void camel_mime_message_add_recipient (CamelMimeMessage *mime_message, gchar *recipient_type, gchar *recipient);
+void camel_mime_message_remove_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient);
+const GList *camel_mime_message_get_recipients (CamelMimeMessage *mime_message, const gchar *recipient_type);
 
-void     camel_mime_message_set_flag           (CamelMimeMessage *mime_message,
-						GString *flag, gboolean value);
-gboolean camel_mime_message_get_flag           (CamelMimeMessage *mime_message,
-						GString *flag);
+void camel_mime_message_set_flag (CamelMimeMessage *mime_message, gchar *flag, gboolean value);
+gboolean camel_mime_message_get_flag (CamelMimeMessage *mime_message, gchar *flag);
 
-guint    camel_mime_message_get_message_number (CamelMimeMessage *mime_message);
+guint camel_mime_message_get_message_number (CamelMimeMessage *mime_message);
 
 #ifdef __cplusplus
 }

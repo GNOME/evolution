@@ -43,22 +43,25 @@ GNOME_X_CHECKS
 dnl **************************************************
 dnl * ORBit support
 dnl **************************************************
-GNOMEGNORBA_LIBS="$GNOMEGNORBA_LIBS"
-AC_SUBST(GNOMEGNORBA_LIBS)
+dnl GNOMEGNORBA_LIBS="$GNOMEGNORBA_LIBS"
+dnl AC_SUBST(GNOMEGNORBA_LIBS)
 
 
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-AM_PATH_BONOBO(0.1.0, [
-	AC_DEFINE(HAVE_BONOBO)
-	have_bonobo=true
-],[
-	have_bonobo=false
-])
-AM_CONDITIONAL(BONOBO, $have_bonobo)
+dnl AM_PATH_BONOBO(0.1.0, [
+dnl 	AC_DEFINE(HAVE_BONOBO)
+dnl 	have_bonobo=true
+dnl ],[
+dnl 	have_bonobo=false
+dnl ])
+dnl AM_CONDITIONAL(BONOBO, $have_bonobo)
 
-
+AC_ARG_WITH(camel-hard-log-level, [  --with-camel-hard-log-level=level  value of log level in camel (0-10)],
+            camel_hard_log_level="$withval", camel_hard_log_level="0")
+AC_DEFINE_UNQUOTED(CAMEL_HARD_LOG_LEVEL, $camel_hard_log_level)
+	
 AC_OUTPUT([
 Makefile
 macros/Makefile

@@ -31,25 +31,45 @@
 extern int camel_debug_level;
 extern FILE *camel_log_file_descriptor;
 
-typedef enum {
-	NO_LOG     =     0,
-	STRANGE    =     5,
-	WARNING    =     6,
-	TRACE      =     8,
-	FULL_DEBUG =     10
-} CamelLogLevel;
+#define CAMEL_LOG_LEVEL_NO_LOG 0
+#define CAMEL_LOG_LEVEL_STRANGE 5
+#define CAMEL_LOG_LEVEL_WARNING 6
+#define CAMEL_LOG_LEVEL_TRACE 8
+#define CAMEL_LOG_LEVEL_FULL_DEBUG 10
 
-#define HARD_LOG_LEVEL TRACE
+/*  #define CAMEL_HARD_LOG_LEVEL CAMEL_LOG_LEVEL_TRACE */
 
 /* the idea here is to be able to have a hard maximum log 
 level, given at compilation time, and a soft one, given at 
-runtime (with camel_debug_level). For the moment, only 
-soft level is implmented, but one day, when performance 
-become important, I will set the hard one too */
+runtime (with camel_debug_level) */
+
+#if CAMEL_HARD_LOG_LEVEL>=CAMEL_LOG_LEVEL_STRANGE
+#define CAMEL_LOG_STRANGE(args...) camel_log(CAMEL_LOG_LEVEL_STRANGE, ##args)
+#else  /* CAMEL_LOG_LEVEL_STRANGE */
+#define CAMEL_LOG_STRANGE(args...) 
+#endif /* CAMEL_LOG_LEVEL_STRANGE */
+
+#if CAMEL_HARD_LOG_LEVEL>=CAMEL_LOG_LEVEL_WARNING
+#define CAMEL_LOG_WARNING(args...) camel_log(CAMEL_LOG_LEVEL_WARNING, ##args)
+#else  /* CAMEL_LOG_LEVEL_WARNING */
+#define CAMEL_LOG_WARNING(args...) 
+#endif /* CAMEL_LOG_LEVEL_WARNING */
+
+#if CAMEL_HARD_LOG_LEVEL>=CAMEL_LOG_LEVEL_TRACE
+#define CAMEL_LOG_TRACE(args...) camel_log(CAMEL_LOG_LEVEL_TRACE, ##args)
+#else  /* CAMEL_LOG_LEVEL_TRACE */
+#define CAMEL_LOG_TRACE(args...) 
+#endif /* CAMEL_LOG_LEVEL_TRACE */
+
+#if CAMEL_HARD_LOG_LEVEL>=CAMEL_LOG_LEVEL_FULL_DEBUG
+#define CAMEL_LOG_FULL_DEBUG(args...) camel_log(CAMEL_LOG_LEVEL_FULL_DEBUG, ##args)
+#else  /* CAMEL_LOG_LEVEL_FULL_DEBUG */
+#define CAMEL_LOG_FULL_DEBUG(args...) 
+#endif /* CAMEL_LOG_LEVEL_FULL_DEBUG */
 
 
-#define CAMEL_LOG(level, args...) camel_log(level,##args)
 
-extern void camel_log(CamelLogLevel level, const gchar *format, ... );
+
+extern void camel_log(guint level, const gchar *format, ... );
 
 #endif /* CAMEL_LOG_H */
