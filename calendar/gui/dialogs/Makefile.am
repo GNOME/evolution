@@ -7,6 +7,7 @@ INCLUDES = 						\
 	-I$(top_srcdir)/libical/src/libical		\
 	-I$(top_builddir)/libical/src/libical		\
 	-I$(includedir)					\
+	$(EXTRA_GNOME_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
