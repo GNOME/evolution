@@ -1,9 +1,10 @@
 2001-07-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-context.c (pgp_verify): Send the
-	--no-auto-key-retrieve argument to gpg so that we don't have to
-	worry about gpg hanging if it can't connect to the key servers,
-	because now it shouldn't even attempt to.
+	--no-auto-key-retrieve argument to gpg if we are in offline mode
+	so that we don't have to worry about gpg hanging if it can't
+	connect to the key servers, because now it shouldn't even attempt
+	to.
 
 2001-07-05  Chris Toshok  <toshok@ximian.com>
 

@@ -388,7 +388,7 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
 			
 			if (size + 4096 > alloc_size) {
 				alloc_size += 4096;
-				buf = g_realloc (buf , alloc_size);
+				buf = g_realloc (buf, alloc_size);
 			}
 			read_len = read (op_fds[0], &buf[size],
 					 alloc_size - size - 1);
@@ -901,7 +901,9 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 		argv[i++] = "--verify";
 		
 		argv[i++] = "--no-tty";
-		argv[i++] = "--no-auto-key-retrieve";
+		
+		if (!camel_session_is_online (ctx->session))
+			argv[i++] = "--no-auto-key-retrieve";
 		/*argv[i++] = "--verbose";*/
 		/*argv[i++] = "--yes";*/
 		/*argv[i++] = "--batch";*/
