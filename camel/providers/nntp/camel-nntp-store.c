@@ -298,7 +298,7 @@ static CamelServiceAuthType password_authtype = {
 };
 
 static GList *
-nntp_store_query_auth_types (CamelService *service, gboolean connect, CamelException *ex)
+nntp_store_query_auth_types (CamelService *service, CamelException *ex)
 {
 	GList *prev;
 	
@@ -312,8 +312,6 @@ nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
 		       guint32 flags, CamelException *ex)
 {
 	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (store);
-
-	printf ("get_folder called on folder_name=%s\n", folder_name);
 
 	/* if we haven't already read our .newsrc, read it now */
 	if (!nntp_store->newsrc)
@@ -468,8 +466,7 @@ build_folder_info_from_grouplist (CamelNNTPStore *nntp_store, const char *top)
 
 static CamelFolderInfo *
 nntp_store_get_folder_info (CamelStore *store, const char *top,
-			    gboolean fast, gboolean recursive,
-			    gboolean subscribed_only,
+			    guint32 flags,
 			    CamelException *ex)
 {
 	CamelURL *url = CAMEL_SERVICE (store)->url;
@@ -491,7 +488,7 @@ nntp_store_get_folder_info (CamelStore *store, const char *top,
 		return NULL;
 	}
 
-	if (!subscribed_only) {
+	if (!(flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED)) {
 		if (!nntp_store->group_list)
 			nntp_store->group_list = camel_nntp_grouplist_fetch (nntp_store, ex);
 		if (camel_exception_is_set (ex)) {
@@ -715,6 +712,16 @@ camel_nntp_command (CamelNNTPStore *store, CamelException *ex, char **ret, char 
 	g_free (real_fmt);
 
 	resp_code = camel_nntp_command_send_recv (store, ex, ret, cmdbuf);
+
+	if(camel_exception_get_id(ex) == 
+	   CAMEL_EXCEPTION_SERVICE_NOT_CONNECTED) {
+		/* the connect might have timed out, give it another shot.. */
+		camel_exception_clear(ex);
+		if(nntp_store_connect(CAMEL_SERVICE(store), ex))
+			resp_code = 
+				camel_nntp_command_send_recv (store, ex, ret, cmdbuf);
+		/* that's it, no more tries */
+	}
 
 	g_free (cmdbuf);
 

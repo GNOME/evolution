@@ -64,7 +64,7 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 				g_print ("done\n");
 			}
 			else {
-				CamelMessageInfo *new_info = camel_folder_summary_info_new(nntp_folder->summary);
+				CamelMessageInfo *new_info = camel_folder_summary_info_new(folder->summary);
 				char **split_line = g_strsplit (line, "\t", 7);
 				char *subject, *from, *date, *message_id, *bytes;
 				char *uid;
@@ -74,7 +74,7 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 				date = split_line [nntp_store->overview_field [CAMEL_NNTP_OVER_DATE].index];
 				message_id = split_line [nntp_store->overview_field [CAMEL_NNTP_OVER_MESSAGE_ID].index];
 				bytes = split_line [nntp_store->overview_field [CAMEL_NNTP_OVER_BYTES].index];
-
+				
 				/* if the overview format flagged this
                                    field as "full", skip over the
                                    preceding field name and colon */
@@ -109,7 +109,7 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 								       atoi (split_line[0])))
 				    new_info->flags |= CAMEL_MESSAGE_SEEN;
 
-				camel_folder_summary_add (nntp_folder->summary, new_info);
+				camel_folder_summary_add (folder->summary, new_info);
 				g_strfreev (split_line);
 			}
 			g_free (line);
@@ -217,6 +217,33 @@ get_HEAD_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 }
 #endif
 
+static inline int
+uid_num (CamelFolderSummary *summary, int index)
+{
+	char *tmp;
+	char *brk;
+	CamelMessageInfo *minfo;
+	int ret;
+	
+	minfo = camel_folder_summary_index(summary, index);
+	if(minfo == NULL)
+		return 0;
+
+	tmp = g_strdup(camel_message_info_uid(minfo));
+	camel_message_info_free(minfo);
+	
+	if((brk = strchr(tmp, ',')) == NULL)
+		ret = 0;
+	else {
+		*brk = 0;
+		ret = atoi(tmp);
+	}
+	
+	g_free(tmp);
+	
+	return ret;
+}
+
 void
 camel_nntp_get_headers (CamelStore *store,
 			CamelNNTPFolder *nntp_folder,
@@ -225,15 +252,32 @@ camel_nntp_get_headers (CamelStore *store,
 	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (store);
 	CamelFolder *folder = CAMEL_FOLDER (nntp_folder);
 	char *ret;
-	int first_message, nb_message, last_message;
+	int first_message, nb_message, last_message, last_summary;
 	int status;
+	int i;
 
 	status = camel_nntp_command (nntp_store, ex, &ret,
 				     "GROUP %s", folder->name);
-
 	sscanf (ret, "%d %d %d", &nb_message, &first_message, &last_message);
 	g_free (ret);
 
+	i = camel_folder_summary_count(folder->summary);
+	if(i != 0) {
+		last_summary = uid_num(folder->summary, i-1);
+
+		if(last_summary < first_message)
+			camel_folder_summary_clear(folder->summary);
+		else {
+			while(uid_num(folder->summary, 0) < first_message) 
+				camel_folder_summary_remove_index(folder->summary, 0);
+			
+			if(last_summary >= last_message)
+				return;
+			
+			first_message = last_summary;
+		}
+	}
+			
 	if (status == NNTP_NO_SUCH_GROUP) {
 		/* XXX throw invalid group exception */
 		camel_exception_setv (ex, 
@@ -253,4 +297,5 @@ camel_nntp_get_headers (CamelStore *store,
 		get_HEAD_headers (nntp_store, folder, first_message, last_message, ex);
 #endif
 	}		
+
 }

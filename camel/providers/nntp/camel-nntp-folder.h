@@ -48,6 +48,7 @@ typedef struct {
 
 	gchar *summary_file_path;  /* contains the messages summary */
 	CamelFolderSummary *summary;
+	CamelFolderSearch *search;
 } CamelNNTPFolder;
 
 

@@ -1,3 +1,32 @@
+2001-07-02  Sam Creasey <sammy@oh.verio.com>
+
+        * providers/nntp/camel-nntp-folder.c: Implemented
+        nntp_folder_search_by_expression and
+        nntp_folder_search_free.  Basic search functionality e.g. unread
+        marking now works for NNTP folders.
+
+        * camel_filter_search.c (get_size): Added get-size sexp directive
+        to get the size of a message for filters.
+
+	* providers/nntp/camel-nntp-folder.c (camel_nntp_folder_new):
+	Always check with the NNTP server after summary load -- this
+	function now always expires old summary entries and syncs with
+	the news server.
+
+	* providers/nntp/camel-nntp-utils.c (camel_nntp_get_headers):
+	Only fetch headers for articles not already logged in 
+	the summary file.
+	
+	* providers/nntp/camel-nntp-grouplist.c 
+	(camel_nntp_get_grouplist_from_*): change from g_list_append()
+	to g_list_prepend() + g_list_reverse.  Traversing 40,000 
+	element linked lists sucks.
+
+	* providers/nntp/camel-nntp-store.c (camel_nntp_command):
+	Should the NNTP connection die with 
+	CAMEL_EXCEPTION_SERVICE_NOT_CONNECTED, make a single retry 
+	attempt.  Timing out the NNTP link is less painful this way.
+
 2001-07-02  Peter Williams  <peterw@ximian.com>
 
 	* README (Introduction): Add comment noting that Camel actually

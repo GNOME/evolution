@@ -225,9 +225,7 @@ camel_nntp_newsrc_get_num_articles_read (CamelNNTPNewsrc *newsrc, const char *gr
 void
 camel_nntp_newsrc_mark_article_read (CamelNNTPNewsrc *newsrc, const char *group_name, int num)
 {
-	NEWSRC_LOCK(newsrc, lock);
 	camel_nntp_newsrc_mark_range_read (newsrc, group_name, num, num);
-	NEWSRC_UNLOCK(newsrc, lock);
 }
 
 void
@@ -474,8 +472,10 @@ camel_nntp_newsrc_write(CamelNNTPNewsrc *newsrc)
 
 	NEWSRC_LOCK(newsrc, lock);
 
-	if (!newsrc->dirty)
+	if (!newsrc->dirty) {
+		NEWSRC_UNLOCK(newsrc, lock);
 		return;
+	}
 
 	if ((fp = fopen(newsrc->filename, "w")) == NULL) {
 		g_warning ("Couldn't open newsrc file '%s'.\n", newsrc->filename);

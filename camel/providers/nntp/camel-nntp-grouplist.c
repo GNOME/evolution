@@ -52,8 +52,10 @@ camel_nntp_get_grouplist_from_server (CamelNNTPStore *store, CamelException *ex)
 	while (!done) {
 		char *line;
 
-		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &line, ex) < 0)
+		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &line, ex) < 0) {
+			list->group_list = g_list_reverse(list->group_list);
 			return list;
+		}
 
 		if (*line == '.') {
 			done = TRUE;
@@ -68,10 +70,11 @@ camel_nntp_get_grouplist_from_server (CamelNNTPStore *store, CamelException *ex)
 
 			g_strfreev (split_line);
 			
-			list->group_list = g_list_append (list->group_list, entry);
+			list->group_list = g_list_prepend (list->group_list, entry);
 		}
 	}
 
+	list->group_list = g_list_reverse(list->group_list);
 	return list;
 }
 
@@ -123,11 +126,12 @@ camel_nntp_get_grouplist_from_file (CamelNNTPStore *store, CamelException *ex)
 
 		g_strfreev (split_line);
 
-		list->group_list = g_list_append (list->group_list, entry);
+		list->group_list = g_list_prepend (list->group_list, entry);
 	}
 
 	fclose (fp);
 
+	list->group_list = g_list_reverse(list->group_list);
 	return list;
 }
 

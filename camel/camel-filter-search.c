@@ -73,6 +73,7 @@ static ESExpResult *get_received_date (struct _ESExp *f, int argc, struct _ESExp
 static ESExpResult *get_current_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 
 /* builtin functions */
 static struct {
@@ -100,6 +101,7 @@ static struct {
 	{ "get-current-date",   (ESExpFunc *) get_current_date,   0 },
 	{ "get-score",          (ESExpFunc *) get_score,          0 },
 	{ "get-source",         (ESExpFunc *) get_source,         0 },
+	{ "get-size",           (ESExpFunc *) get_size,           0 },
 };
 
 static ESExpResult *
@@ -404,6 +406,18 @@ get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessag
 		r->value.string = g_strdup (camel_mime_message_get_source (fms->message));
 	}
 	
+	return r;
+}
+
+/* remember, the size comparisons are done at Kbytes */
+static ESExpResult *
+get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	ESExpResult *r;
+	
+	r = e_sexp_result_new(f, ESEXP_RES_INT);
+	r->value.number = fms->info->size / 1024;
+
 	return r;
 }
 

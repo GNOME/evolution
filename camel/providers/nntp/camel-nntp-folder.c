@@ -46,6 +46,7 @@
 #include "camel-data-wrapper.h"
 #include "camel-mime-message.h"
 #include "camel-folder-summary.h"
+#include "camel-folder-search.h"
 
 #include "camel-exception.h"
 
@@ -183,8 +184,30 @@ nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *
 static GPtrArray*
 nntp_folder_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex)
 {
-	g_assert (0);
-	return NULL;
+	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
+	GPtrArray *matches, *summary;
+	
+	if(nntp_folder->search == NULL)
+		nntp_folder->search = camel_folder_search_new();
+	
+	camel_folder_search_set_folder(nntp_folder->search, folder);
+	summary = camel_folder_get_summary(folder);
+	camel_folder_search_set_summary(nntp_folder->search, summary);
+
+	matches = camel_folder_search_execute_expression(nntp_folder->search, expression, ex);
+
+	camel_folder_free_summary(folder, summary);
+
+	return matches;
+}
+
+static void
+nntp_folder_search_free(CamelFolder *folder, GPtrArray *result)
+{
+	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
+
+	camel_folder_search_free_result(nntp_folder->search, result);
+
 }
 
 static void           
@@ -209,6 +232,7 @@ camel_nntp_folder_class_init (CamelNNTPFolderClass *camel_nntp_folder_class)
 	camel_folder_class->set_message_flags = nntp_folder_set_message_flags;
 	camel_folder_class->get_message = nntp_folder_get_message;
 	camel_folder_class->search_by_expression = nntp_folder_search_by_expression;
+	camel_folder_class->search_free = nntp_folder_search_free;
 }
 
 CamelType
@@ -238,6 +262,7 @@ camel_nntp_folder_new (CamelStore *parent, const char *folder_name, CamelExcepti
 
 	camel_folder_construct (folder, parent, folder_name, folder_name);
 	folder->has_summary_capability = TRUE;
+	folder->has_search_capability = TRUE;
 
 	root_dir_path = camel_nntp_store_get_toplevel_dir (CAMEL_NNTP_STORE(folder->parent_store));
 	nntp_folder->summary_file_path = g_strdup_printf ("%s/%s-ev-summary",
@@ -248,18 +273,17 @@ camel_nntp_folder_new (CamelStore *parent, const char *folder_name, CamelExcepti
 	camel_folder_summary_set_filename (folder->summary,
 					   nntp_folder->summary_file_path);
 
-	if (-1 == camel_folder_summary_load (folder->summary)) {
-		/* Bad or nonexistant summary file */
-		camel_nntp_get_headers (CAMEL_FOLDER( folder )->parent_store,
-					nntp_folder, ex);
-		if (camel_exception_get_id (ex)) {
-			camel_object_unref (CAMEL_OBJECT (folder));
-			return NULL;
-		}
-
-		/* XXX check return value */
-		camel_folder_summary_save (folder->summary);
+	camel_folder_summary_load (folder->summary);
+		
+	camel_nntp_get_headers (CAMEL_FOLDER( folder )->parent_store,
+				nntp_folder, ex);
+	if (camel_exception_get_id (ex)) {
+		camel_object_unref (CAMEL_OBJECT (folder));
+		return NULL;
 	}
 
+	/* XXX check return value */
+	camel_folder_summary_save (folder->summary);
+	
 	return folder;
 }
