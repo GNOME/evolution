@@ -6,6 +6,7 @@ _libs
 .pure
 gncal
 evolution-calendar
+evolution-calendar.pure
 test-calendar-widget
 getdate.c
 GnomeCal-skels.c

@@ -206,3 +206,15 @@ EXTRA_DIST =			\
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(help_base)/C
 #	$(mkinstalldirs) $(Conduitsdir)
+
+if ENABLE_PURIFY
+PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+
+all-local: evolution-calendar.pure
+
+evolution-calendar.pure: evolution-calendar
+	@rm -f evolution-calendar.pure
+	$(PLINK) $(evolution_calendar_LDFLAGS) $(evolution_calendar_OBJECTS) $(evolution_calendar_LDADD) $(LIBS)
+
+endif
+

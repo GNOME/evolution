@@ -1,3 +1,8 @@
+2000-05-06  Chris Toshok  <toshok@helixcode.com>
+	* gui/.cvsignore: ignore evolution-calendar.pure
+
+	* gui/Makefile.am: add support for building evolution-calendar.pure
+
 2000-05-06  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-day-view.c: 
