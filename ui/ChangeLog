@@ -1,3 +1,7 @@
+2001-04-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mail.xml: Added Next/Previous toolbar buttons.
+
 2001-04-26  Jon Trowbridge  <trow@ximian.com>
 
 	* evolution-mail.xml: Added "Search Message" to "View" menu.

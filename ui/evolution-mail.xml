@@ -15,7 +15,7 @@
       pixtype="stock" pixname="Stop"/>
 
     <cmd name="MailCompose" pixtype="pixbuf" _label="Compose"/>
-	    
+
     <cmd name="PrintMessage" _label="Print message..."
      _tip="Print message to the printer"
      pixtype="pixbuf" accel="*Control*P"/>
@@ -77,6 +77,11 @@
      _tip="Apply any new filters to the mail in this box"
      accel="*Control*y"/>
 
+    <cmd name="MailNext" _label="Next"
+     _tip="Go to the next message" accel="f"/>
+
+    <cmd name="MailPrevious" _label="Previous"
+     _tip="Go to the previous message" accel="b"/>
 
     <cmd name="FolderExpunge" _label="Expunge"
      _tip="Finaly remove all mails tagged for deletion"
@@ -374,6 +379,16 @@
     pixtype="stock" pixname="Trash"/>
 
     <toolitem name="Stop" verb="MailStop" _label="Stop"/>
+
+    <separator/>
+
+    <toolitem name="Previous" verb="MailPrevious"
+    _label="Previous" _tip="Go to the previous message"
+    pixtype="stock" pixname="Back"/>
+
+    <toolitem name="Next" verb="MailNext"
+    _label="Next" _tip="Go to the next message"
+    pixtype="stock" pixname="Forward"/>
 
   </dockitem>
 </Root>
