@@ -12,6 +12,7 @@
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object-directory.h>
 #include <glade/glade.h>
+#include <gconf/gconf.h>
 
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-cursors.h"
@@ -74,7 +75,7 @@ main (int argc, char *argv [])
 #endif
 	init_corba (&argc, argv);
 	init_bonobo ();
-	gtkhtmllib_init (argc, argv);
+	gconf_init (argc, argv, NULL);
 
 	glade_gnome_init ();
 

@@ -1,5 +1,8 @@
 2000-07-06  Dan Winship  <danw@helixcode.com>
 
+	* main.c (main): gtkhtmllib_init is no more. Call gconf_init
+	directly instead.
+
 	* message-list.c (message_list_select_next): New function to
 	select the first message on or after the given row that meets
 	certain flag criteria.
