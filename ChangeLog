@@ -1,3 +1,9 @@
+2001-04-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Don't autogen
+	`executive-summary/widgets/Makefile', as that subdir doesn't get
+	distributed anymore.
+
 2001-04-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* NEWS (Shell): Updated with the changes in the shell.
@@ -17,8 +23,8 @@
 
 2001-04-23  Ettore Perazzoli  <ettore@ximian.com>
 
-	* configure.in (EVO_CHECK_LIB): Don't autogen the the Makefile for
-	the importer docs.
+	* configure.in: Don't autogen the the Makefile for the importer
+	docs.
 
 	* Makefile.am (SUBDIRS): Build the docs last.
 
