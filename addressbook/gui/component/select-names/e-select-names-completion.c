@@ -231,11 +231,8 @@ name_style_query (ESelectNamesCompletion *comp, const gchar *field)
 			g_free (joined);
 		}
 
-		for (i=0; strv[i]; ++i)
-			g_free (strv[i]);
 		g_free (cpy);
-		g_free (strv);
-
+		g_strfreev (strv);
 
 		return query;
 	}
@@ -344,7 +341,7 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 	}
 
 	g_free (cpy);
-	g_free (strv);
+	g_strfreev (strv);
 	
 	score = match_len * 3; /* three points per match character */
 
@@ -454,7 +451,7 @@ match_file_as (ESelectNamesCompletion *comp, EDestination *dest)
 	}
 	
 	g_free (cpy);
-	g_free (strv);
+	g_strfreev (strv);
 
 	if (!matched)
 		return NULL;

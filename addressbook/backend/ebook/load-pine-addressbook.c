@@ -53,9 +53,9 @@ parse_line (EBook *book, char *line)
 			       "email", &list,
 			       NULL);
 		e_list_append(list, strings[2]);
-		g_strfreev(strings);
 		e_book_add_card(book, card, add_card_cb, card);
 	}
+	g_strfreev(strings);
 }
 
 static void

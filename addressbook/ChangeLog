@@ -1,6 +1,19 @@
 2001-09-17  Larry Ewing  <lewing@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c
+	(name_style_query): use g_strfreev.
+	(match_name): s/g_free/g_strfreev.
+	(match_file_as): s/g_free/g_strfreev.
+
+	* backend/ebook/e-book-util.c (e_book_name_and_email_query): fix
+	the memory handling here.  All there members of the vector need to
+	be freed all the time.
+
+	* backend/ebook/load-pine-addressbook.c (parse_line): free the
+	string outside of the test that makes sure there are three
+	entries.
+
+	* gui/component/select-names/e-select-names-completion.c
 	(match_nickname): don't malloc a match we will never use.
 
 	* gui/widgets/e-addressbook-model.c (get_view): free the dup'd

@@ -417,8 +417,12 @@ e_book_name_and_email_query (EBook *book,
 		namev = g_strsplit (" ", name_cpy, 0);
 		for (i=0; namev[i]; ++i) {
 			if (*namev[i]) {
+				char *str = name[i];
+
 				namev[i] = g_strdup_printf ("(contains \"file_as\" \"%s\")", namev[i]);
 				++count;
+
+				g_free (str);
 			}
 		}
 
@@ -430,12 +434,8 @@ e_book_name_and_email_query (EBook *book,
 			qjoined = NULL;
 		}
 		
-		
 		g_free (name_cpy);
-		for (i=0; namev[i]; ++i)
-			if (*namev[i])
-				g_free (namev[i]);
-		g_free (namev);
+		g_strfreev (namev);
 		g_free (qjoined);
 	}
 
