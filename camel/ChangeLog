@@ -1,3 +1,9 @@
+2000-08-04  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (imap_connect): If we fail to
+	get a dir_sep, then supply the default of "/".
+	(get_folder): Undo changes by Peter
+
 2000-08-04  Peter Williams  <peterw@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (get_folder): Prevent a coredump
