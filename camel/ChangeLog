@@ -1,3 +1,8 @@
+2004-10-27  Julio M. Merino Vidal <jmmv@menta.net>
+
+	* camel-operation.c (camel_operation_shutdown): fix the arguments
+	to pthread_key_delete.
+
 2004-10-26  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-store-summary.[c,h]: New files
