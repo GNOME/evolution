@@ -16,6 +16,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              start date (Harry Lu)
     #47464 - Strange behavior after cutting meeting page's organizer
              to blank (Harry Lu)
+    #47667 - Crash when leaving meeting invite (Hans Petter)
     #47863 - Evolution crash/hangs on deleting tasks folder (Jack Jia)
 
   * Mail
@@ -71,9 +72,9 @@ Other bugs fixed:
     - Statically link todo conduit with libwombat (Frederic)
     - Dont compile calendar IDL into the GUI, it's already in cal-client (Dan)
     - Ensure alarm daemon gets UTF-8 strings from gettext (Frederic)
-    - Added missing object finalization chaining (Hans)
+    - Added missing object finalization chaining (Hans Petter)
     - Removed nested main loops from iTip control, and make it work
-      asynchronously (Hans)
+      asynchronously (Hans Petter)
     - Use Alt+O to open tasks/events (Andrew Wu)
     - Fixed some mnemonics on event editor (Jack Jia)
 
