@@ -1,3 +1,7 @@
+2002-03-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Add gthreads to LIBIBEX_CFLAGS and LIBIBEX_LIBS.
+
 2002-03-24  Peter Williams  <peterw@ximian.com>
 
 	* tools/killev: Change the OAFIID for the GtkHTML editor to

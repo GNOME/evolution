@@ -994,7 +994,8 @@ EVO_SET_COMPILE_FLAGS(IMPORTERS, bonobo_conf bonobox_print gdk_pixbuf gnomecanva
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
-EVO_SET_COMPILE_FLAGS(LIBIBEX, bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs)
+EVO_SET_COMPILE_FLAGS(LIBIBEX, bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs,
+		      $THREADS_CFLAGS, $THREADS_LIBS)
 AC_SUBST(LIBIBEX_CFLAGS)
 AC_SUBST(LIBIBEX_LIBS)
 
