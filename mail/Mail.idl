@@ -27,6 +27,48 @@ module Evolution {
 	interface FolderBrowser : Bonobo::Unknown {
 		MessageList getMessageList ();
 	};
+
+	interface MailConfig : Bonobo::Unknown {
+
+		struct Identity {
+			string name;
+			string address;
+			string organization;
+			string signature;
+		};
+
+		struct Service {
+			string url;
+			boolean keep_on_server;
+			boolean auto_check;
+			long auto_check_time;
+			boolean save_passwd;
+			boolean enabled;
+		};
+
+		struct Account {
+			string name;
+			boolean default_account;
+
+			Identity id;
+			Service source;
+			Service transport;
+
+			string drafts_folder_name;
+			string drafts_folder_uri;
+			string sent_folder_name;
+			string sent_folder_uri;
+		};
+
+		void addAccount (in Account acc);
+	};
+
+	interface MailFilter : Bonobo::Unknown {
+
+		void addFilter (in string rule);
+
+		void removeFilter (in string rule);
+	};
 };
 };
 

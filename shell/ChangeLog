@@ -1,3 +1,22 @@
+2001-05-08  Iain Holmes  <iain@ximian.com>
+
+	* importer/evolution-importer-client.c (evolution_importer_client_load_file):
+	Actually use the duplicated value.
+
+	* e-local-storage.c (create_folder_directory): Assign 
+	physical_path_return before trying to create the directory.
+	(create_folder): Return the physical_path even if the directory
+	creation failed. Free the physical path.
+
+	* importer/evolution-importer-client.[ch]: Make EvolutionImporterClient
+	from a GtkObject instead of a BonoboObject.
+
+	* importer/importer.c: Use gtk_object_unref instead of 
+	bonobo_object_unref on the clients.
+
+	* importer/intelligent.c: New prettier dialog, and multiple importers
+	done in the same window. 
+
 2001-05-07  Dan Winship  <danw@ximian.com>
 
 	* e-shell-offline-handler.c (update_dialog_clist_hash_foreach):

@@ -847,6 +847,7 @@ calendar/conduits/todo/Makefile
 filter/Makefile
 wombat/Makefile
 composer/Makefile
+importers/Makefile
 art/Makefile
 ui/Makefile
 default_user/Makefile

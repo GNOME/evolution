@@ -35,6 +35,8 @@
 #include <gtkhtml/gtkhtml.h>
 #include <glade/glade.h>
 
+#include <bonobo/bonobo-object.h>
+
 #include <gal/util/e-util.h>
 #include <e-util/e-html-utils.h>
 #include <e-util/e-url.h>
@@ -42,6 +44,8 @@
 #include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
+
+#include "Mail.h"
 
 typedef struct {
 	gboolean thread_list;
@@ -63,6 +67,8 @@ typedef struct {
 
 static const char GCONFPATH[] = "/apps/Evolution/Mail";
 static MailConfig *config = NULL;
+
+#define MAIL_CONFIG_IID "OAFIID:GNOME_Evolution_MailConfig_Factory"
 
 /* Prototypes */
 static void config_read (void);
@@ -1135,4 +1141,108 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 	gtk_widget_destroy (dialog);
 
 	return ret;
+}
+
+/* MailConfig Bonobo object */
+#define PARENT_TYPE BONOBO_X_OBJECT_TYPE
+static BonoboObjectClass *parent_class = NULL;
+
+static void
+impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
+					    const GNOME_Evolution_MailConfig_Account *account,
+					    CORBA_Environment *ev)
+{
+	GNOME_Evolution_MailConfig_Service source, transport;
+	GNOME_Evolution_MailConfig_Identity id;
+	MailConfigAccount *mail_account;
+	MailConfigService *mail_service;
+	MailConfigIdentity *mail_id;
+
+	mail_account = g_new0 (MailConfigAccount, 1);
+	mail_account->name = g_strdup (account->name);
+	mail_account->default_account = account->default_account;
+
+	/* Copy ID */
+	id = account->id;
+	mail_id = g_new0 (MailConfigIdentity, 1);
+	mail_id->name = g_strdup (id.name);
+	mail_id->address = g_strdup (id.address);
+	mail_id->organization = g_strdup (id.organization);
+	mail_id->signature = g_strdup (id.signature);
+
+	mail_account->id = mail_id;
+
+	/* Copy source */
+	source = account->source;
+	mail_service = g_new0 (MailConfigService, 1);
+	mail_service->url = g_strdup (source.url);
+	mail_service->keep_on_server = source.keep_on_server;
+	mail_service->auto_check = source.auto_check;
+	mail_service->auto_check_time = source.auto_check_time;
+	mail_service->save_passwd = source.save_passwd;
+	mail_service->enabled = source.enabled;
+
+	mail_account->source = mail_service;
+
+	/* Copy transport */
+	transport = account->transport;
+	mail_service = g_new0 (MailConfigService, 1);
+	mail_service->url = g_strdup (transport.url);
+	mail_service->keep_on_server = transport.keep_on_server;
+	mail_service->auto_check = transport.auto_check;
+	mail_service->auto_check_time = transport.auto_check_time;
+	mail_service->save_passwd = transport.save_passwd;
+	mail_service->enabled = transport.enabled;
+
+	mail_account->transport = mail_service;
+
+	/* Add new account */
+	mail_config_add_account (mail_account);
+}
+
+static void
+evolution_mail_config_class_init (EvolutionMailConfigClass *klass)
+{
+	POA_GNOME_Evolution_MailConfig__epv *epv = &klass->epv;
+
+	parent_class = gtk_type_class (PARENT_TYPE);
+	epv->addAccount = impl_GNOME_Evolution_MailConfig_addAccount;
+}
+
+static void
+evolution_mail_config_init (EvolutionMailConfig *config)
+{
+}
+
+BONOBO_X_TYPE_FUNC_FULL (EvolutionMailConfig,
+			 GNOME_Evolution_MailConfig,
+			 PARENT_TYPE,
+			 evolution_mail_config);
+
+static BonoboObject *
+evolution_mail_config_factory_fn (BonoboObject *factory,
+				  void *closure)
+{
+	EvolutionMailConfig *config;
+
+	g_warning ("Made");
+	config = gtk_type_new (evolution_mail_config_get_type ());
+	return BONOBO_OBJECT (config);
+}
+
+void
+evolution_mail_config_factory_init (void)
+{
+	BonoboObject *factory;
+
+	g_warning ("Starting mail config");
+	factory = bonobo_generic_factory_new (MAIL_CONFIG_IID, 
+					      evolution_mail_config_factory_fn,
+					      NULL);
+	if (factory == NULL) {
+		g_warning ("Error starting MailConfig");
+	}
+
+	g_warning ("Registered");
+	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
 }

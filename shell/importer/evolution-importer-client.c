@@ -37,8 +37,8 @@
 
 #include "GNOME_Evolution_Importer.h"
 
-#define PARENT_TYPE BONOBO_OBJECT_CLIENT_TYPE
-static BonoboObjectClass *parent_class = NULL;
+#define PARENT_TYPE gtk_object_get_type ()
+static GtkObjectClass *parent_class = NULL;
 
 
 static void
@@ -63,17 +63,6 @@ init (EvolutionImporterClient *client)
 {
 }
 
-static void
-evolution_importer_client_construct (EvolutionImporterClient *client,
-				     CORBA_Object corba_object)
-{
-	g_return_if_fail (client != NULL);
-	g_return_if_fail (EVOLUTION_IS_IMPORTER_CLIENT (client));
-	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
-
-	bonobo_object_client_construct (BONOBO_OBJECT_CLIENT (client), corba_object);
-}
-
 /**
  * evolution_importer_client_new:
  * @objref: The CORBA_Object to make a client for.
@@ -90,7 +79,7 @@ evolution_importer_client_new (const CORBA_Object objref)
 	g_return_val_if_fail (objref != CORBA_OBJECT_NIL, NULL);
 
 	client = gtk_type_new (evolution_importer_client_get_type ());
-	evolution_importer_client_construct (client, objref);
+	client->objref = objref;
 
 	return client;
 }
@@ -151,7 +140,7 @@ evolution_importer_client_support_format (EvolutionImporterClient *client,
 	g_return_val_if_fail (filename != NULL, FALSE);
 
 	CORBA_exception_init (&ev);
-	corba_importer = bonobo_object_corba_objref (BONOBO_OBJECT (client));
+	corba_importer = client->objref;
 	result = GNOME_Evolution_Importer_supportFormat (corba_importer, 
 							 filename, &ev);
 	CORBA_exception_free (&ev);
@@ -183,11 +172,17 @@ evolution_importer_client_load_file (EvolutionImporterClient *client,
 	g_return_val_if_fail (filename != NULL, FALSE);
 
 	CORBA_exception_init (&ev);
-	corba_importer = bonobo_object_corba_objref (BONOBO_OBJECT (client));
+	corba_importer = client->objref;
 	result = GNOME_Evolution_Importer_loadFile (corba_importer,
 						    filename,
 						    folderpath ? folderpath : "",
 						    &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("Oh there *WAS* an exception.\nIt was %s",
+			   CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
 	CORBA_exception_free (&ev);
 
 	return result;
@@ -216,8 +211,9 @@ evolution_importer_client_process_item (EvolutionImporterClient *client,
 
 	CORBA_exception_init (&ev);
 
-	corba_importer = bonobo_object_corba_objref (BONOBO_OBJECT (client));
+	corba_importer = client->objref;
 	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
+	g_warning ("%s", __FUNCTION__);
 	GNOME_Evolution_Importer_processItem (corba_importer,
 					      corba_listener, &ev);
 	CORBA_exception_free (&ev);
@@ -242,7 +238,7 @@ evolution_importer_client_get_error (EvolutionImporterClient *client)
 	g_return_val_if_fail (client != NULL, NULL);
 	g_return_val_if_fail (EVOLUTION_IS_IMPORTER_CLIENT (client), NULL);
 
-	corba_importer = bonobo_object_corba_objref (BONOBO_OBJECT (client));
+	corba_importer = client->objref;
 
 	CORBA_exception_init (&ev);
 	str = GNOME_Evolution_Importer_getError (corba_importer, &ev);

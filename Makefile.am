@@ -31,6 +31,7 @@ SUBDIRS =			\
         addressbook             \
         calendar                \
         wombat                  \
+	importers		\
         art                     \
 	ui			\
         default_user            \

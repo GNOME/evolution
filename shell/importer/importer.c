@@ -217,7 +217,7 @@ import_cb (EvolutionImporterListener *listener,
 	if (!icd->destroyed)
 		gtk_object_destroy (GTK_OBJECT (icd->dialog));
 	bonobo_object_unref (BONOBO_OBJECT (icd->listener));
-	bonobo_object_unref (BONOBO_OBJECT (icd->client));
+	gtk_object_unref (GTK_OBJECT (icd->client));
 	g_free (icd);
 
 	OUT;
@@ -383,7 +383,7 @@ start_import (const char *filename,
 	g_free (real_iid);
 
 	/* NULL for folderpath means use Inbox */
-	if (evolution_importer_client_load_file (icd->client, filename, NULL) == FALSE) {
+	if (evolution_importer_client_load_file (icd->client, filename, "/Inbox") == FALSE) {
 		label = g_strdup_printf (_("Error loading %s"), filename);
 		gtk_label_set_text (GTK_LABEL (icd->contents), label);
 		g_free (label);

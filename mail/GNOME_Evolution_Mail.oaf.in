@@ -102,4 +102,25 @@
 		       _value="Evolution mail composer."/>
 </oaf_server>
 
+<oaf_server iid="OAFIID:GNOME_Evolution_MailConfig_Factory"
+	    type="exe"
+	    location="evolution-mail">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/GenericFactory:1.0"/>
+	</oaf_attribute>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_MailConfig"
+	    type="factory"
+	    location="OAFIID:GNOME_Evolution_MailConfig_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/MailConfig:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+		       _value="Mail configuration interface"/>
+</oaf_server>
+
 </oaf_info>

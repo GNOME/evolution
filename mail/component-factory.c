@@ -324,6 +324,8 @@ component_factory_init (void)
 	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID,
 						      summary_fn, NULL);
 
+	evolution_mail_config_factory_init ();
+
 	if (component_factory == NULL || summary_factory == NULL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize Evolution's mail component."));

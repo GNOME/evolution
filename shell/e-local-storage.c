@@ -469,12 +469,11 @@ create_folder_directory (ELocalStorage *local_storage,
 	
 	/* Create the directory that holds the folder.  */
 	
+	*physical_path_return = physical_path;
 	if (mkdir (physical_path, 0700) == -1) {
-		g_free (physical_path);
 		return errno_to_storage_result ();
 	}
 
-	*physical_path_return = physical_path;
 	return E_STORAGE_OK;
 }
 
@@ -512,10 +511,12 @@ create_folder (ELocalStorage *local_storage,
 
 	result = create_folder_directory (local_storage, path, type, description, &physical_path);
 	if (result != E_STORAGE_OK) {
+		g_warning ("physical_path: %s", physical_path);
 		if (callback != NULL)
 			(* callback) (storage, result, data);
 		if (listener != CORBA_OBJECT_NIL)
-			notify_bonobo_listener (listener, result, NULL);
+			notify_bonobo_listener (listener, result, physical_path);
+		g_free (physical_path);
 		return;
 	}
 	

@@ -45,11 +45,13 @@ typedef struct _EvolutionImporterClient EvolutionImporterClient;
 typedef struct _EvolutionImporterClientClass EvolutionImporterClientClass;
 
 struct _EvolutionImporterClient {
-  BonoboObjectClient parent;
+	GtkObject parent_type;
+
+	GNOME_Evolution_Importer objref;
 };
 
 struct _EvolutionImporterClientClass {
-  BonoboObjectClientClass parent_class;
+  GtkObjectClass parent_class;
 };
 
 GtkType evolution_importer_client_get_type (void);

@@ -12,7 +12,7 @@
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
-#define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_GnomeCard_ImporterFactory"
+#define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_ImporterFactory"
 
 static BonoboGenericFactory *factory = NULL;
 
@@ -22,14 +22,14 @@ typedef struct {
 	GList *iterator;
 	EBook *book;
 	gboolean ready;
-} GnomeCardImporter;
+} VCardImporter;
 
 static void
 add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 {
 	ECard *card = E_CARD(closure);
 	char *vcard = e_card_get_vcard(card);
-	g_print ("Saved card: %s\n", vcard);
+
 	g_free(vcard);
 	gtk_object_unref(GTK_OBJECT(card));
 }
@@ -37,14 +37,14 @@ add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
-	GnomeCardImporter *gci = (GnomeCardImporter *) closure;
+	VCardImporter *gci = (VCardImporter *) closure;
 
 	gci->cardlist = e_card_load_cards_from_file(gci->filename);
 	gci->ready = TRUE;
 }
 
 static void
-ebook_create (GnomeCardImporter *gci)
+ebook_create (VCardImporter *gci)
 {
 	gchar *path, *uri;
 	
@@ -75,12 +75,12 @@ process_item_fn (EvolutionImporter *importer,
 		 void *closure,
 		 CORBA_Environment *ev)
 {
-	GnomeCardImporter *gci = (GnomeCardImporter *) closure;
+	VCardImporter *gci = (VCardImporter *) closure;
 	ECard *card;
 
 	if (gci->iterator == NULL)
 		gci->iterator = gci->cardlist;
-
+	
 	if (gci->ready == FALSE) {
 		GNOME_Evolution_ImporterListener_notifyResult (listener,
 							       GNOME_Evolution_ImporterListener_NOT_READY,
@@ -95,12 +95,12 @@ process_item_fn (EvolutionImporter *importer,
 							       FALSE, ev);
 		return;
 	}
-
+	
 	card = gci->iterator->data;
 	e_book_add_card (gci->book, card, add_card_cb, card);
-
+	
 	gci->iterator = gci->iterator->next;
-
+	
 	GNOME_Evolution_ImporterListener_notifyResult (listener,
 						       GNOME_Evolution_ImporterListener_OK,
 						       gci->iterator ? TRUE : FALSE, 
@@ -116,6 +116,35 @@ static char *supported_extensions[3] = {
 	".vcf", ".gcrd", NULL
 };
 
+/* Actually check the contents of this file */
+static gboolean
+check_file_is_vcard (const char *filename)
+{
+	FILE *handle;
+	char line[4096];
+	gboolean result;
+
+	handle = fopen (filename, "r");
+	if (handle == NULL) {
+		return FALSE;
+	}
+		
+	fgets (line, 4096, handle);
+	if (line == NULL) {
+		fclose (handle);
+		return FALSE;
+	}
+
+	if (strcmp (line, "BEGIN:VCARD") == 0) {
+		result = TRUE;
+	} else {
+		result = FALSE;
+	}
+
+	fclose (handle);
+	return result;
+}
+
 static gboolean
 support_format_fn (EvolutionImporter *importer,
 		   const char *filename,
@@ -127,7 +156,7 @@ support_format_fn (EvolutionImporter *importer,
 	ext = strrchr (filename, '.');
 	for (i = 0; supported_extensions[i] != NULL; i++) {
 		if (strcmp (supported_extensions[i], ext) == 0)
-			return TRUE;
+			return check_file_is_vcard (filename);
 	}
 
 	return FALSE;
@@ -135,7 +164,7 @@ support_format_fn (EvolutionImporter *importer,
 
 static void
 importer_destroy_cb (GtkObject *object,
-		     GnomeCardImporter *gci)
+		     VCardImporter *gci)
 {
 	gtk_main_quit ();
 }
@@ -146,9 +175,9 @@ load_file_fn (EvolutionImporter *importer,
 	      const char *folderpath,
 	      void *closure)
 {
-	GnomeCardImporter *gci;
+	VCardImporter *gci;
 
-	gci = (GnomeCardImporter *) closure;
+	gci = (VCardImporter *) closure;
 	gci->filename = g_strdup (filename);
 	gci->cardlist = NULL;
 	gci->iterator = NULL;
@@ -163,9 +192,9 @@ factory_fn (BonoboGenericFactory *_factory,
 	    void *closure)
 {
 	EvolutionImporter *importer;
-	GnomeCardImporter *gci;
+	VCardImporter *gci;
 
-	gci = g_new (GnomeCardImporter, 1);
+	gci = g_new (VCardImporter, 1);
 	importer = evolution_importer_new (support_format_fn, load_file_fn, 
 					   process_item_fn, NULL, gci);
 	
@@ -197,8 +226,8 @@ main (int argc,
 {
 	CORBA_ORB orb;
 	
-	gnome_init_with_popt_table ("Evolution-GnomeCard-Importer",
-				    "0.0", argc, argv, oaf_popt_options, 0,
+	gnome_init_with_popt_table ("Evolution-VCard-Importer",
+				    PACKAGE, argc, argv, oaf_popt_options, 0,
 				    NULL);
 	orb = oaf_init (argc, argv);
 	if (bonobo_init (orb, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE) {

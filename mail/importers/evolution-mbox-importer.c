@@ -115,6 +115,7 @@ process_item_fn (EvolutionImporter *eimporter,
 	}
 
 	camel_exception_free (ex);
+	g_print ("Notifying...\n");
 	GNOME_Evolution_ImporterListener_notifyResult (listener,
 						       GNOME_Evolution_ImporterListener_OK,
 						       !done, ev);
@@ -168,6 +169,40 @@ importer_destroy_cb (GtkObject *object,
 	g_free (mbi);
 }
 
+static void
+folder_created_cb (BonoboListener *listener,
+		   const char *event_name,
+		   const BonoboArg *event_data,
+		   CORBA_Environment *ev,
+		   MailImporter *importer)
+{
+	char *fullpath;
+	GNOME_Evolution_Storage_FolderResult *result;
+	CamelException *ex;
+
+	if (strcmp (event_name, "evolution-shell:folder_created") != 0) {
+		return; /* Unknown event */
+	}
+
+	result = event_data->_value;
+	fullpath = g_strconcat ("file://", result->path, NULL);
+
+	ex = camel_exception_new ();
+	importer->folder = mail_tool_uri_to_folder (fullpath, ex);
+	
+	if (camel_exception_is_set (ex)) {
+		g_warning ("Error opening %s", fullpath);
+		camel_exception_free (ex);
+
+		g_free (fullpath);
+		return;
+	}
+
+	g_warning ("%s created", fullpath);
+	g_free (fullpath);
+	bonobo_object_unref (BONOBO_OBJECT (listener));
+}
+
 static gboolean
 load_file_fn (EvolutionImporter *eimporter,
 	      const char *filename,
@@ -178,6 +213,7 @@ load_file_fn (EvolutionImporter *eimporter,
 	MailImporter *importer;
 	int fd;
 
+	g_warning ("%s", __FUNCTION__);
 	mbi = (MboxImporter *) closure;
 	importer = (MailImporter *) mbi;
 
@@ -199,8 +235,28 @@ load_file_fn (EvolutionImporter *eimporter,
 	importer->mstream = NULL;
 	if (folderpath == NULL || *folderpath == '\0')
 		importer->folder = mail_tool_get_local_inbox (NULL);
-	else
-		importer->folder = mail_tool_uri_to_folder (folderpath, NULL);
+	else {
+		char *parent, *name;
+		BonoboListener *listener;
+
+		/* Make a new directory */
+		name = strrchr (folderpath, '/');
+		if (name == NULL) {
+			parent = g_strdup ("/");
+			name = folderpath;
+		} else {
+			name += 1;
+			parent = g_dirname (folderpath);
+		}
+
+		listener = bonobo_listener_new (NULL, NULL);
+		gtk_signal_connect (GTK_OBJECT (listener), "event-notify",
+				    GTK_SIGNAL_FUNC (folder_created_cb),
+				    importer);
+
+		mail_importer_create_folder (parent, name, NULL, listener);
+		g_free (parent);
+	}
 
 	if (importer->folder == NULL){
 		g_print ("Bad folder\n");
@@ -232,7 +288,8 @@ mbox_factory_fn (BonoboGenericFactory *_factory,
 					   process_item_fn, NULL, mbox);
 	gtk_signal_connect (GTK_OBJECT (importer), "destroy",
 			    GTK_SIGNAL_FUNC (importer_destroy_cb), mbox);
-	
+
+	g_warning ("Returning");
 	return BONOBO_OBJECT (importer);
 }
 

@@ -26,6 +26,10 @@
 #include <glib.h>
 #include <camel/camel.h>
 
+#include <bonobo/bonobo-xobject.h>
+
+#include "Mail.h"
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -138,6 +142,20 @@ GSList *mail_config_get_sources (void);
 char *mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix);
 
 gboolean  mail_config_check_service (const char *url, CamelProviderType type, GList **authtypes);
+
+/* For the bonobo object */
+typedef struct _EvolutionMailConfig EvolutionMailConfig;
+typedef struct _EvolutionMailConfigClass EvolutionMailConfigClass;
+
+struct _EvolutionMailConfig {
+	BonoboXObject parent;
+};
+
+struct _EvolutionMailConfigClass {
+	BonoboXObjectClass parent_class;
+
+	POA_GNOME_Evolution_MailConfig__epv epv;
+};
 
 #ifdef __cplusplus
 }

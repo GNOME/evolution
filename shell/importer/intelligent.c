@@ -36,6 +36,10 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkwindow.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkclist.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtkscrolledwindow.h>
 
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-config.h>
@@ -46,6 +50,10 @@
 
 #include <liboaf/liboaf.h>
 
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-widget.h>
+
+#include "intelligent.h"
 #include "GNOME_Evolution_Importer.h"
 
 /* Prototypes */
@@ -54,142 +62,75 @@ void intelligent_importer_init (void);
 
 /* End prototypes */
 
-static void
-start_importer (const char *iid)
-{
+typedef struct {
+	CORBA_Object object;
+	Bonobo_Control control;
+	GtkWidget *widget;
+
+	char *name;
+	char *blurb;
+	char *iid;
+} IntelligentImporterData;
+
+typedef struct {
+	GtkWidget *dialog;
+	GtkWidget *placeholder;
+	GtkWidget *clist;
+	BonoboWidget *current;
+
+	GList *importers;
+
+	int running;
+} IntelligentImporterDialog;
+
+typedef struct {
 	CORBA_Object importer;
+	char *iid;
+} SelectedImporterData;
+
+static void
+free_importer_dialog (IntelligentImporterDialog *d)
+{
+	GList *l;
+
+	for (l = d->importers; l; l = l->next) {
+		CORBA_Environment ev;
+		IntelligentImporterData *data;
+
+		data = l->data;
+
+		CORBA_exception_init (&ev);
+		if (data->object != CORBA_OBJECT_NIL) 
+			bonobo_object_release_unref (data->object, &ev);
+
+		g_free (data->iid);
+		g_free (data->name);
+		g_free (data->blurb);
+		g_free (data);
+	}
+
+	g_list_free (d->importers);
+	gtk_widget_destroy (d->dialog);
+	g_free (d);
+}
+
+static void
+start_importers (GList *selected)
+{
 	CORBA_Environment ev;
-	CORBA_char *name;
-	CORBA_char *message;
-	CORBA_boolean can_run;
-
-	GtkWidget *dialog, *label, *ask;
-	gboolean dontaskagain;
-	char *prefix;
-
-	if (iid == NULL || *iid == '\0')
-		return;
-
-	/* Check if we want to show this one again */
-	prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", gnome_util_user_home ());
-	gnome_config_push_prefix (prefix);
-	g_free (prefix);
-	
-	dontaskagain = gnome_config_get_bool (iid);
-	gnome_config_pop_prefix ();
-
-	if (dontaskagain)
-		return;
 
 	CORBA_exception_init (&ev);
-	importer = oaf_activate_from_id ((char *) iid, 0, NULL, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		CORBA_exception_free (&ev);
-		g_warning ("Could not start %s", iid);
-		return;
+	for (; selected; selected = selected->next) {
+		SelectedImporterData *selection = selected->data;
+
+		GNOME_Evolution_IntelligentImporter_importData (selection->importer, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Error importing %s\n%s", selection->iid,
+				   CORBA_exception_id (&ev));
+		}
 	}
-
-	CORBA_exception_free (&ev);
-	if (importer == CORBA_OBJECT_NIL) {
-		g_warning ("Could not activate_component %s", iid);
-		return;
-	}
-
-	CORBA_exception_init (&ev);
-	can_run = GNOME_Evolution_IntelligentImporter_canImport (importer, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Could not get canImport(%s): %s", iid, CORBA_exception_id (&ev));
-		CORBA_Object_release (importer, &ev);
-		CORBA_exception_free (&ev);
-		return;
-	}
-	CORBA_exception_free (&ev);
-	
-	if (can_run == FALSE) {
-		return;
-	}
-
-	name = GNOME_Evolution_IntelligentImporter__get_importername (importer,
-								      &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Could not get name(%s): %s", iid, CORBA_exception_id (&ev));
-		CORBA_Object_release (importer, &ev);
-		CORBA_exception_free (&ev);
-		return;
-	}
-	message = GNOME_Evolution_IntelligentImporter__get_message (importer, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Could not get message(%s): %s", iid, CORBA_exception_id (&ev));
-		CORBA_Object_release (importer, &ev);
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	CORBA_exception_free (&ev);
-
-	dialog = gnome_dialog_new ("Import files",
-				   GNOME_STOCK_BUTTON_YES, GNOME_STOCK_BUTTON_NO,
-				   NULL);
-	gtk_window_set_title (GTK_WINDOW (dialog), name);
-	CORBA_free (name);
-
-	label = gtk_label_new (message);
-	CORBA_free (message);
-
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, 
-			    FALSE, FALSE, 0);
-	gtk_widget_show (label);
-
-	ask = gtk_check_button_new_with_label (_("Don't ask me again"));
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), ask,
-			    FALSE, FALSE, 0);
-	gtk_widget_show (ask);
-
-	switch (gnome_dialog_run (GNOME_DIALOG (dialog))) {
-	case 0:
-		/* Yes */
-		dontaskagain = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ask));
-		prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", gnome_util_user_home ());
-		gnome_config_push_prefix (prefix);
-		g_free (prefix);
-
-		gnome_config_set_bool (iid, dontaskagain);
-		gnome_config_sync ();
-		gnome_config_drop_all ();
-
-		gnome_config_pop_prefix ();
-
-		gtk_object_destroy (GTK_OBJECT (dialog));
-		while (gtk_events_pending ())
-			gtk_main_iteration ();
-
-		GNOME_Evolution_IntelligentImporter_importData (importer, &ev);
-		break;
-	case 1:
-	case -1:
-	default:
-		/* No */
-		dontaskagain = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ask));
-		prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", gnome_util_user_home ());
-		gnome_config_push_prefix (prefix);
-		g_free (prefix);
-		
-		gnome_config_set_bool (iid, dontaskagain);
-		gnome_config_sync ();
-		gnome_config_drop_all ();
-		
-		gnome_config_pop_prefix ();
-		
-		gtk_object_destroy (GTK_OBJECT (dialog));
-
-		break;
-	}
-
-	CORBA_exception_init (&ev);
-	CORBA_Object_release (importer, &ev);
 	CORBA_exception_free (&ev);
 }
-	
 
 static GList *
 get_intelligent_importers (void)
@@ -210,26 +151,275 @@ get_intelligent_importers (void)
 		iids_ret = g_list_prepend (iids_ret, g_strdup (info->iid));
 	}
 
-	CORBA_free (info_list);
-
 	return iids_ret;
+}
+
+static void
+select_row_cb (GtkCList *clist,
+	       int row,
+	       int column,
+	       GdkEvent *ev,
+	       IntelligentImporterDialog *d)
+{
+	gtk_notebook_set_page (GTK_NOTEBOOK (d->placeholder), row);
+}
+
+static void
+unselect_row_cb (GtkCList *clist,
+		 int row,
+		 int column,
+		 GdkEvent *ev,
+		 IntelligentImporterDialog *d)
+{
+	gtk_notebook_set_page (GTK_NOTEBOOK (d->placeholder), d->running);
+}
+
+IntelligentImporterDialog *
+create_gui (GList *importers)
+{
+	GtkWidget *dialog, *clist, *placeholder, *sw;
+	IntelligentImporterDialog *d;
+	GList *l;
+	int running = 0;
+
+	d = g_new (IntelligentImporterDialog, 1);
+	d->dialog = dialog = gnome_dialog_new (_("Importers"), "Import",
+					       GNOME_STOCK_BUTTON_CANCEL, 
+					       NULL);
+	gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
+	d->importers = NULL;
+	d->current = NULL;
+
+	d->clist = clist = gtk_clist_new (1);
+	gtk_clist_set_selection_mode (GTK_CLIST (d->clist), GTK_SELECTION_MULTIPLE);
+
+	sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_set_usize (sw, 300, 150);
+	gtk_container_add (GTK_CONTAINER (sw), clist);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), sw,
+			    TRUE, TRUE, 0);
+	
+	d->placeholder = gtk_notebook_new ();
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (d->placeholder), FALSE);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), d->placeholder,
+			    FALSE, FALSE, 0);
+
+	for (l = importers; l; l = l->next) {
+		IntelligentImporterData *data;
+		CORBA_Environment ev;
+		gboolean dontaskagain, can_run;
+		char *text[1], *prefix;
+
+		/* Check if we want to show this one again */
+		prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", gnome_util_user_home ());
+		gnome_config_push_prefix (prefix);
+		g_free (prefix);
+		
+		dontaskagain = gnome_config_get_bool (l->data);
+		gnome_config_pop_prefix ();
+		
+		if (dontaskagain)
+			continue;
+
+		data = g_new0 (IntelligentImporterData, 1);
+		data->iid = g_strdup (l->data);
+
+		g_warning ("data->iid %s", data->iid);
+		CORBA_exception_init (&ev);
+		data->object = oaf_activate_from_id ((char *) data->iid, 0, 
+						     NULL, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Could not start %s: %s", data->iid,
+				   CORBA_exception_id (&ev));
+			CORBA_exception_free (&ev);
+
+			/* Clean up the IntelligentImporterData */
+			g_free (data->iid);
+			g_free (data);
+			continue;
+		}
+
+		CORBA_exception_free (&ev);
+		if (data->object == CORBA_OBJECT_NIL) {
+			g_warning ("Could not activate_component %s", data->iid);
+			g_free (data->iid);
+			g_free (data);
+			continue;
+		}
+
+		CORBA_exception_init (&ev);
+		can_run = GNOME_Evolution_IntelligentImporter_canImport (data->object,
+									 &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Could not get canImport(%s): %s", 
+				   data->iid, CORBA_exception_id (&ev));
+			bonobo_object_release_unref (data->object, &ev);
+			CORBA_exception_free (&ev);
+			g_free (data->iid);
+			g_free (data);
+			continue;
+		}
+		CORBA_exception_free (&ev);
+		
+		if (can_run == FALSE) {
+			CORBA_exception_init (&ev);
+			bonobo_object_release_unref (data->object, &ev);
+			CORBA_exception_free (&ev);
+			g_free (data->iid);
+			g_free (data);
+			continue;
+		}
+
+		running++;
+
+		data->name = g_strdup (GNOME_Evolution_IntelligentImporter__get_importername (data->object, &ev));
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Could not get name(%s): %s", 
+				   data->iid, CORBA_exception_id (&ev));
+			bonobo_object_release_unref (data->object, &ev);
+			CORBA_exception_free (&ev);
+			g_free (data->iid);
+			g_free (data);
+			continue;
+		}
+
+		data->blurb = g_strdup (GNOME_Evolution_IntelligentImporter__get_message (data->object, &ev));
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Could not get message(%s): %s", 
+				   data->iid, CORBA_exception_id (&ev));
+			bonobo_object_release_unref (data->object, &ev);
+			CORBA_exception_free (&ev);
+			g_free (data->iid);
+			g_free (data->name);
+			g_free (data);
+			continue;
+		}
+
+		data->control = Bonobo_Unknown_queryInterface (data->object,
+							      "IDL:Bonobo/Control:1.0", &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Could not QI for Bonobo/Control:1.0 %s:%s",
+				   data->iid, CORBA_exception_id (&ev));
+			bonobo_object_release_unref (data->object, &ev);
+			CORBA_exception_free (&ev);
+			g_free (data->iid);
+			g_free (data->name);
+			g_free (data->blurb);
+			continue;
+		}
+		if (data->control != CORBA_OBJECT_NIL) {
+			data->widget = bonobo_widget_new_control_from_objref (data->control, CORBA_OBJECT_NIL);
+			/* Ref this widget so even if we remove it from the
+			   containers it will always have an extra ref. */
+			gtk_widget_show (data->widget);
+			gtk_widget_ref (data->widget);
+		} else {
+			data->widget = gtk_label_new ("");
+		}
+
+		CORBA_exception_free (&ev);
+
+		d->importers = g_list_prepend (d->importers, data);
+		gtk_notebook_prepend_page (GTK_NOTEBOOK (d->placeholder),
+					   data->widget, NULL);
+		text[0] = data->name;
+		gtk_clist_prepend (GTK_CLIST (clist), text);
+	}
+	
+	d->running = running;
+	gtk_notebook_append_page (GTK_NOTEBOOK (d->placeholder),
+				  gtk_label_new (""), NULL);
+	/* Set the start to the blank page */
+	gtk_notebook_set_page (GTK_NOTEBOOK (d->placeholder), running);
+
+	gtk_signal_connect (GTK_OBJECT (clist), "select-row", 
+			    GTK_SIGNAL_FUNC (select_row_cb), d);
+	gtk_signal_connect (GTK_OBJECT (clist), "unselect-row",
+			    GTK_SIGNAL_FUNC (unselect_row_cb), d);
+
+	gtk_widget_show_all (GNOME_DIALOG (dialog)->vbox);
+	return d;
 }
 
 void
 intelligent_importer_init (void)
 {
-	GList *importers, *l;
+	GList *importers, *l, *selected = NULL;
+	IntelligentImporterDialog *d;
 
 	importers = get_intelligent_importers ();
 	if (importers == NULL)
 		return; /* No intelligent importers. Easy :) */
 
-	/* Loop through each importer, running it. */
-	for (l = importers; l; l = l->next) {
-		start_importer (l->data);
-		g_free (l->data);
+	d = create_gui (importers);
+	if (d->running == 0) {
+		free_importer_dialog (d);
+		return; /* No runnable intelligent importers. */
+	}
+
+	switch (gnome_dialog_run_and_close (GNOME_DIALOG (d->dialog))) {
+	case 0: /* Okay button */
+		/* Make a list of the importers */
+
+		/* FIXME: Sort this list and don't do it a slow way */
+		for (l = GTK_CLIST (d->clist)->selection; l; l = l->next) {
+			IntelligentImporterData *data;
+			SelectedImporterData *new_data;
+			CORBA_Environment ev;
+			char *iid;
+
+			data = g_list_nth_data (d->importers, l->data);
+			iid = g_strdup (data->iid);
+
+			new_data = g_new (SelectedImporterData, 1);
+			new_data->iid = iid;
+
+			/* Reference the remote object, and duplicate the 
+			   local one. */
+			CORBA_exception_init (&ev);
+			new_data->importer = bonobo_object_dup_ref (data->object, &ev);
+			if (ev._major != CORBA_NO_EXCEPTION) {
+				g_warning ("Error duplicating %s\n%s", iid,
+					   CORBA_exception_id (&ev));
+				g_free (iid);
+				CORBA_exception_free (&ev);
+				g_free (new_data);
+				continue;
+			}
+			CORBA_exception_free (&ev);
+
+			selected = g_list_prepend (selected, new_data);
+		}
+
+		/* Now destroy all the importers, as we've kept references to 
+		   the ones we need */
+		free_importer_dialog (d);
+
+		if (selected != NULL) {
+			/* Restart the selected ones */
+			start_importers (selected);
+			
+			/* Free the selected list */
+			for (l = selected; l; l = l->next) {
+				CORBA_Environment ev;
+				SelectedImporterData *selection = l->data;
+
+				CORBA_exception_init (&ev);
+				bonobo_object_release_unref (selection->importer, &ev);
+				CORBA_exception_free (&ev);
+
+				g_free (selection->iid);
+				g_free (selection);
+			}
+			g_list_free (selected);
+		}
+
+		break;
+		
+	default:
+		free_importer_dialog (d);
+		break;
 	}
 
 	g_list_free (importers);
 }
-

@@ -109,6 +109,7 @@ impl_GNOME_Evolution_ImporterListener_notifyResult (PortableServer_Servant serva
 	listener = evolution_importer_listener_from_servant (servant);
 	priv = listener->priv;
 
+	g_print ("Notified\n");
 	out_result = corba_result_to_evolution (result);
 	if (priv->callback) {
 		(priv->callback) (listener, out_result, more_items, 

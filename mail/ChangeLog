@@ -1,3 +1,40 @@
+2001-05-08  Iain Holmes  <iain@ximian.com>
+
+	* mail-callbacks.c (filter_edit): Set the title of the dialog.
+
+	* GNOME_Evolution_Mail.oaf.in: Add a reference for the MailConfig
+	interface stuff.
+
+	* Mail.idl: Add the MailConfig interface, and a MailFilter interface.
+
+	* component-factory.c (component_factory_init): Call 
+	evolution_mail_config_factory_init.
+
+	* mail-account-gui.c (setup_service): Just return if url == NULL,
+	don't crash.
+
+	* mail-config.c: #include bonobo-object.h, #include Mail.h and define
+	the Config factory IID.
+	Implement the MailConfig interface with a BonoboObject.
+	(impl_GNOME_Evolution_MailConfig_addAccount): Convert the CORBA struct
+	into the correct MailConfig structures and add the account.
+	(evolution_mail_config_class_init): Initialise the class.
+	(evolution_mail_config_init): This function is intentionally left blank.
+
+	(evolution_mail_config_factory_fn): Create an EvolutionMailConfig object
+	and return it.
+	(evolution_mail_config_factory_init): Set up the bonobo factory.
+
+	* mail-config.h: #include bonobo-xobject.h and Mail.h
+	Declare the object structures.
+
+	* importers/Makefile.am: Remove the intelligent importers.
+
+	* importers/evolution-mbox-importer.c (folder_created_cb): Callback
+	from when the folder is created. Opens the folder and unrefs the 
+	listener.
+	(load_file_fn): Create the folder if it doesn't exist.
+	
 2001-05-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-tools.c (mail_tool_forward_message): Convert the Subject

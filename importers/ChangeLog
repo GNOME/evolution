@@ -1,0 +1,11 @@
+2001-05-08  Iain Holmes  <iain@ximian.com>
+
+	* *: Added everything to CVS.
+
+2001-04-26  Iain Holmes  <iain@ximian.com>
+
+	* elm-importer.c:
+	  pine-importer.c:
+	  netscape-importer.c: Moved these files to their own toplevel.
+	Made them use the mbox importer component instead of doing it themselves.
+	Made them quit correctly, and store their settings.
