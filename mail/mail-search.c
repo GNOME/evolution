@@ -164,7 +164,7 @@ static void
 toggled_fwd_cb (GtkToggleButton *b, MailSearch *ms)
 {
 	ms->search_forward = gtk_toggle_button_get_active (b);
-	gtk_html_engine_search_set_forward (ms->mail->html, ms->search_forward);
+	/*gtk_html_engine_search_set_forward (ms->mail->html, ms->search_forward);*/
 }
 
 static void

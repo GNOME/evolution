@@ -224,7 +224,7 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 {
 	/* FIXME: EMessageBox should really handle this stuff
            automagically. What Miguel thinks would be nice is to pass
-           in a message-id which could be used as a key in the config
+           in a unique id which could be used as a key in the config
            file and the value would be an int. -1 for always show or
            the button pressed otherwise. This probably means we'd have
            to write e_messagebox_run () */

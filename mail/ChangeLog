@@ -1,5 +1,16 @@
 2001-07-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.glade: Fixed the "Read" to be Read in the glade file
+	per menesis' request.
+
+	* mail-accounts.c (construct): Give the dialog a Close button
+	instead of an OK button.
+	(prompt_bcc_only_toggled): New.
+	(threaded_list_toggled): New.
+	(show_preview_toggled): New.
+	(construct): Add code for the bcc-only-prompt, threaded-list, and
+	show-preview checkboxes.
+
 	* mail-ops.c (transfer_messages_transfer): If the source and
 	destination folders are the same, just mark the uids as undeleted
 	(in case they were marked as deleted before).

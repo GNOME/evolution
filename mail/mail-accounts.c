@@ -675,6 +675,24 @@ prompt_empty_subject_toggled (GtkWidget *toggle, gpointer data)
 }
 
 static void
+prompt_bcc_only_toggled (GtkWidget *toggle, gpointer data)
+{
+	mail_config_set_prompt_only_bcc (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
+}
+
+static void
+thread_list_toggled (GtkWidget *toggle, gpointer data)
+{
+	mail_config_set_thread_list (NULL, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
+}
+
+static void
+show_preview_toggled (GtkWidget *toggle, gpointer data)
+{
+	mail_config_set_show_preview (NULL, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
+}
+
+static void
 forward_style_activated (GtkWidget *item, gpointer data)
 {
 	int style = GPOINTER_TO_INT (data);
@@ -724,7 +742,7 @@ construct (MailAccountsDialog *dialog)
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Evolution Account Manager"));
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, TRUE);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 300);
-	gnome_dialog_append_button (GNOME_DIALOG (dialog), GNOME_STOCK_BUTTON_OK);
+	gnome_dialog_append_button (GNOME_DIALOG (dialog), GNOME_STOCK_BUTTON_CLOSE);
 	
 	dialog->mail_accounts = GTK_CLIST (glade_xml_get_widget (gui, "clistAccounts"));
 	gtk_signal_connect (GTK_OBJECT (dialog->mail_accounts), "select-row",
@@ -843,6 +861,21 @@ construct (MailAccountsDialog *dialog)
 	gtk_toggle_button_set_active (dialog->prompt_empty_subject, mail_config_get_prompt_empty_subject ());
 	gtk_signal_connect (GTK_OBJECT (dialog->prompt_empty_subject), "toggled",
 			    GTK_SIGNAL_FUNC (prompt_empty_subject_toggled), dialog);
+	
+	dialog->prompt_bcc_only = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptBccOnly"));
+	gtk_toggle_button_set_active (dialog->prompt_bcc_only, mail_config_get_prompt_only_bcc ());
+	gtk_signal_connect (GTK_OBJECT (dialog->prompt_bcc_only), "toggled",
+			    GTK_SIGNAL_FUNC (prompt_bcc_only_toggled), dialog);
+	
+	dialog->thread_list = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkThreadList"));
+	gtk_toggle_button_set_active (dialog->thread_list, mail_config_get_thread_list (NULL));
+	gtk_signal_connect (GTK_OBJECT (dialog->thread_list), "toggled",
+			    GTK_SIGNAL_FUNC (thread_list_toggled), dialog);
+	
+	dialog->show_preview = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkShowPreview"));
+	gtk_toggle_button_set_active (dialog->show_preview, mail_config_get_show_preview (NULL));
+	gtk_signal_connect (GTK_OBJECT (dialog->show_preview), "toggled",
+			    GTK_SIGNAL_FUNC (show_preview_toggled), dialog);
 	
 	/* now to fill in the clists */
 	dialog->accounts_row = -1;
