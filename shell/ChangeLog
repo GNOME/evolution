@@ -1,3 +1,14 @@
+2003-01-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (e_shell_construct): Use
+	bonobo_activation_server_register() instead of
+	bonobo_activation_register_active_server() again, since we want to
+	be able to build against bonobo-activation 2.0 and the latter is
+	2.2-specific.
+	(impl_finalize): Likewise, use
+	bonobo_activation_active_server_unregister() instead of
+	bonobo_activation_unregister_active_server().
+
 2003-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-importer.c (choose_importer_from_list): Set
