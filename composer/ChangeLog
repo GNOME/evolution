@@ -1,3 +1,9 @@
+2004-10-08  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-msg-composer.c (build_message): g_strdup() the gpg/smime keys
+	into the recipients list or else we end up free'ing them later
+	when we shouldn't. Fixes bug #66703
+
 2004-10-08  JP Rosevear  <jpr@novell.com>
 
 	* mail-composer-errors.xml: remove acceleratoer from _Save Message
