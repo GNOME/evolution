@@ -252,7 +252,11 @@ xml_encode (FilterElement *fe)
 		char *str = l->data;
 		
                 cur = xmlNewChild (value, NULL, type, NULL);
+		
+		str = xmlEncodeEntitiesReentrant (NULL, str);
 		xmlNodeSetContent (cur, str);
+		xmlFree (str);
+		
 		l = l->next;
 	}
 	

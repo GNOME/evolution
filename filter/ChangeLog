@@ -1,3 +1,7 @@
+2004-06-21  Jeffrey Stedfast  <fejj@novell.com>
+
+	* filter-input.c (xml_encode): encode entities. fixes bug #46677.
+
 2004-06-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-errors.xml.h: Re-added - THIS IS NOT TO BE REMOVED!!!!
