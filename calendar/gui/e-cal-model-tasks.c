@@ -220,11 +220,11 @@ get_completed (ECalModelComponent *comp_data)
 		comp_data->completed = g_new0 (ECellDateEditValue, 1);
 		comp_data->completed->tt = tt_completed;
 
-		/* FIXME: handle errors */
-		e_cal_get_timezone (comp_data->client,
-					 icaltime_get_tzid (tt_completed),
-					 &zone, NULL);
-		comp_data->completed->zone = zone;
+		if (icaltime_get_tzid (tt_completed)
+		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_completed), &zone, NULL)) 
+			comp_data->completed->zone = zone;
+		else
+			comp_data->completed->zone = NULL;
 	}
 
 	return comp_data->completed;
@@ -250,11 +250,11 @@ get_due (ECalModelComponent *comp_data)
 		comp_data->due = g_new0 (ECellDateEditValue, 1);
 		comp_data->due->tt = tt_due;
 
-		/* FIXME: handle errors */
-		e_cal_get_timezone (comp_data->client,
-					 icaltime_get_tzid (tt_due),
-					 &zone, NULL);
-		comp_data->due->zone = zone;
+		if (icaltime_get_tzid (tt_due)
+		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_due), &zone, NULL)) 
+			comp_data->due->zone = zone;
+		else
+			comp_data->due->zone = NULL;
 	}
 
 	return comp_data->due;

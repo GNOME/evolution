@@ -1,3 +1,13 @@
+2003-11-19  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-cal-model-tasks.c (get_due): make sure timezone value is
+	sane
+	(get_completed): ditto
+
+	* gui/e-cal-model.c (get_dtstart): add more guards
+
+	* gui/e-cal-model-calendar.c (get_dtend): ditto
+	
 2003-11-19  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #51052

@@ -126,8 +126,8 @@ get_dtend (ECalModelComponent *comp_data)
 		comp_data->dtend = g_new0 (ECellDateEditValue, 1);
 		comp_data->dtend->tt = tt_end;
 
-		if (e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_end),
-					&zone, NULL)) 
+		if (icaltime_get_tzid (tt_end)
+		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_end), &zone, NULL)) 
 			comp_data->dtend->zone = zone;
 		else
 			comp_data->dtend->zone = NULL;

@@ -352,8 +352,8 @@ get_dtstart (ECalModel *model, ECalModelComponent *comp_data)
 		comp_data->dtstart = g_new0 (ECellDateEditValue, 1);
 		comp_data->dtstart->tt = tt_start;
 
-		if (e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_start),
-					&zone, NULL)) 
+		if (icaltime_get_tzid (tt_start)
+		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_start), &zone, NULL)) 
 			comp_data->dtstart->zone = zone;
 		else
 			comp_data->dtstart->zone = NULL;
