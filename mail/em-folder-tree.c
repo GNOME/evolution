@@ -145,6 +145,8 @@ static void em_folder_tree_finalize (GObject *obj);
 static gboolean emft_save_state (EMFolderTree *emft);
 static void emft_queue_save_state (EMFolderTree *emft);
 
+static void emft_update_model_expanded_state (struct _EMFolderTreePrivate *priv, GtkTreeIter *iter, gboolean expanded);
+
 static void emft_tree_row_activated (GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *column, EMFolderTree *emft);
 static void emft_tree_row_collapsed (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *path, EMFolderTree *emft);
 static void emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *path, EMFolderTree *emft);
@@ -1701,10 +1703,13 @@ emft_get_folder_info__got (struct _mail_msg *mm)
 	
 	if (fi == NULL) {
 		/* no children afterall... remove the "Loading..." placeholder node */
+		emft_update_model_expanded_state (priv, &root, FALSE);
 		gtk_tree_store_remove (model, &iter);
 	} else {
+		int fully_loaded = (m->flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) ? TRUE : FALSE;
+		
 		do {
-			em_folder_tree_model_set_folder_info (priv->model, &iter, si, fi);
+			em_folder_tree_model_set_folder_info (priv->model, &iter, si, fi, fully_loaded);
 			
 			if ((fi = fi->next) != NULL)
 				gtk_tree_store_append (model, &iter, &root);

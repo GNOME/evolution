@@ -1,3 +1,19 @@
+2004-05-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fix for bug #57152.
+
+	* em-folder-tree.c (emft_get_folder_info__got): If we queried for
+	a recursive folder-info listing, then pass fully_loaded as TRUE to
+	set_folder_info().
+	(emft_get_folder_info__got): If we find that a folder doesn't have
+	children, set the expanded state to FALSE.
+
+	* em-folder-tree-model.c (em_folder_tree_model_set_folder_info):
+	Now takes a "fully_loaded" argument to hint to set_folder_info
+	whether or not folder-info's without child nodes can possibly have
+	children (eg. if fully_loaded is set and fi->child is NULL, then
+	'load' will be FALSE no matter what fi->flags contains).
+
 2004-05-07  Radek Doulik  <rodo@ximian.com>
 
 	* mail-config.c (config_write_style): set cite_color property of

@@ -411,17 +411,18 @@ account_removed (EAccountList *accounts, EAccount *account, gpointer user_data)
 void
 em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *iter,
 				      struct _EMFolderTreeModelStoreInfo *si,
-				      CamelFolderInfo *fi)
+				      CamelFolderInfo *fi, int fully_loaded)
 {
 	GtkTreeRowReference *uri_row, *path_row;
 	unsigned int unread;
 	GtkTreePath *path;
 	GtkTreeIter sub;
-	gboolean load;
+	gboolean load = FALSE;
 	struct _CamelFolder *folder;
 	gboolean emitted = FALSE;
 	
-	load = fi->child == NULL && !(fi->flags & (CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
+	if (!fully_loaded)
+		load = fi->child == NULL && !(fi->flags & (CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
 	
 	path = gtk_tree_model_get_path ((GtkTreeModel *) model, iter);
 	uri_row = gtk_tree_row_reference_new ((GtkTreeModel *) model, path);
@@ -493,7 +494,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 				emitted = TRUE;
 			}
 			
-			em_folder_tree_model_set_folder_info (model, &sub, si, fi);
+			em_folder_tree_model_set_folder_info (model, &sub, si, fi, fully_loaded);
 			fi = fi->next;
 		} while (fi);
 	}
@@ -558,7 +559,7 @@ folder_subscribed (CamelStore *store, CamelFolderInfo *fi, EMFolderTreeModel *mo
 	/* append a new node */
 	gtk_tree_store_append ((GtkTreeStore *) model, &iter, &parent);
 	
-	em_folder_tree_model_set_folder_info (model, &iter, si, fi);
+	em_folder_tree_model_set_folder_info (model, &iter, si, fi, TRUE);
 	
 	g_signal_emit (model, signals[FOLDER_ADDED], 0, fi->path, fi->uri);
 	
@@ -701,7 +702,7 @@ folder_renamed (CamelStore *store, CamelRenameInfo *info, EMFolderTreeModel *mod
 	}
 	
 	gtk_tree_store_append ((GtkTreeStore *) model, &iter, &root);
-	em_folder_tree_model_set_folder_info (model, &iter, si, info->new);
+	em_folder_tree_model_set_folder_info (model, &iter, si, info->new, TRUE);
 	
  done:
 	

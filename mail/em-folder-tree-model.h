@@ -121,7 +121,7 @@ EMFolderTreeModel *em_folder_tree_model_new (const char *evolution_dir);
 
 void em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *iter,
 					   struct _EMFolderTreeModelStoreInfo *si,
-					   CamelFolderInfo *fi);
+					   CamelFolderInfo *fi, int fully_loaded);
 
 void em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, const char *display_name);
 void em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelStore *store);
