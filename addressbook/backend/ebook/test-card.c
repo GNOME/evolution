@@ -78,6 +78,7 @@ main (int argc, char **argv)
 	EList *address;
 	EList *phone;
 	EList *email;
+	EList *arbitrary;
 	EIterator *iterator;
 	ECardDate *bday;
 
@@ -112,6 +113,7 @@ main (int argc, char **argv)
 		       "role",       &role,
 		       "nickname",   &nickname,
 		       "fburl",      &fburl,
+		       "arbitrary",  &arbitrary,
 		       "birth_date", &bday,
 		       NULL);
 	if ( fname ) {
@@ -148,7 +150,15 @@ main (int argc, char **argv)
         }
 	if ( fburl ) {
 	  printf("Free Busy URL : %s\n", fburl);
-        }
+	}
+	if ( arbitrary ) {
+	  iterator = e_list_get_iterator(arbitrary);
+	  for (; e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+            ECardArbitrary *arbitrary = (ECardArbitrary *) e_iterator_get(iterator);
+	    printf("Arbitrary : %s, %s\n", arbitrary->key, arbitrary->value);
+	  }
+	  gtk_object_unref(GTK_OBJECT(iterator));
+	}
 	if ( bday ) {
 	  printf("BDay : %4d-%02d-%02d\n", bday->year, bday->month, bday->day);
 	}

@@ -90,6 +90,36 @@ compare_category (ECardSimple *card, const char *str,
 	return ret_val;
 }
 
+static gboolean
+compare_arbitrary (ECardSimple *card, const char *str,
+		   char *(*compare)(const char*, const char*))
+{
+	EList *list;
+	EIterator *iterator;
+	ECard *ecard;
+	gboolean ret_val = FALSE;
+
+	gtk_object_get (GTK_OBJECT (card),
+			"card", &ecard,
+			NULL);
+	gtk_object_get (GTK_OBJECT (ecard),
+			"arbitrary", &list,
+			NULL);
+
+	for (iterator = e_list_get_iterator(list); e_iterator_is_valid (iterator); e_iterator_next (iterator)) {
+		const ECardArbitrary *arbitrary = e_iterator_get (iterator);
+
+		if (compare(arbitrary->key, str)) {
+			ret_val = TRUE;
+			break;
+		}
+	}
+
+	gtk_object_unref (GTK_OBJECT (iterator));
+	e_card_free_empty_lists (ecard);
+	return ret_val;
+}
+
 static struct prop_info {
 	ECardSimpleField field_id;
 	const char *query_prop;
@@ -127,6 +157,7 @@ static struct prop_info {
 	LIST_PROP ( "phone", "phone", compare_phone ),
 	LIST_PROP ( "address", "address", compare_address ),
 	LIST_PROP ( "category", "category", compare_category ),
+	LIST_PROP ( "arbitrary", "arbitrary", compare_arbitrary )
 };
 static int num_prop_infos = sizeof(prop_info_table) / sizeof(prop_info_table[0]);
 

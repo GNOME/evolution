@@ -1,3 +1,16 @@
+2002-01-03  Joe Shaw  <joe@ximian.com>
+
+	* backend/ebook/test-card.c: Add a test for getting arbitrary
+        fields.
+
+	* backend/pas/pas-backend-card-sexp.c (compare_arbitrary): Added.
+	(prop_info_table): Add a LIST_PROP for arbitrary fields.
+
+2002-01-03  Nat Friedman  <nat@ximian.com>
+
+	* backend/ebook/e-book.c (activate_factories_for_uri): Free the
+	query if the oaf response is of zero length.
+
 2001-12-27  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names.c
