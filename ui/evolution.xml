@@ -69,6 +69,7 @@
 
     <submenu name="View" _label="_View">
       <placeholder name="ViewBegin"/>
+      <submenu name="Window" _label="_Window"/>
       <placeholder name="ViewAfterControl"/>
     </submenu>
 
