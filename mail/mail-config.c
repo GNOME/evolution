@@ -97,7 +97,9 @@ identity_copy (const MailConfigIdentity *id)
 	new->address = g_strdup (id->address);
 	new->organization = g_strdup (id->organization);
 	new->signature = g_strdup (id->signature);
-	
+	new->html_signature = g_strdup (id->html_signature);
+	new->has_html_signature = id->has_html_signature;
+
 	return new;
 }
 
@@ -111,6 +113,7 @@ identity_destroy (MailConfigIdentity *id)
 	g_free (id->address);
 	g_free (id->organization);
 	g_free (id->signature);
+	g_free (id->html_signature);
 	
 	g_free (id);
 }
@@ -349,7 +352,13 @@ config_read (void)
 		path = g_strdup_printf ("identity_signature_%d", i);
 		id->signature = gnome_config_get_string (path);
 		g_free (path);
-		
+		path = g_strdup_printf ("identity_html_signature_%d", i);
+		id->html_signature = gnome_config_get_string (path);
+		g_free (path);
+		path = g_strdup_printf ("identity_has_html_signature_%d", i);
+		id->has_html_signature = gnome_config_get_bool_with_default (path, FALSE);
+		g_free (path);
+
 		/* get the source */
 		source = g_new0 (MailConfigService, 1);
 		path = g_strdup_printf ("source_url_%d", i);
@@ -617,6 +626,12 @@ mail_config_write (void)
 		g_free (path);
 		path = g_strdup_printf ("identity_signature_%d", i);
 		gnome_config_set_string (path, account->id->signature);
+		g_free (path);
+		path = g_strdup_printf ("identity_html_signature_%d", i);
+		gnome_config_set_string (path, account->id->html_signature);
+		g_free (path);
+		path = g_strdup_printf ("identity_has_html_signature_%d", i);
+		gnome_config_set_bool (path, account->id->has_html_signature);
 		g_free (path);
 		
 		/* source info */
@@ -1517,6 +1532,8 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 	mail_id->address = g_strdup (id.address);
 	mail_id->organization = g_strdup (id.organization);
 	mail_id->signature = g_strdup (id.signature);
+	mail_id->html_signature = g_strdup (id.html_signature);
+	mail_id->has_html_signature = id.has_html_signature;
 
 	mail_account->id = mail_id;
 

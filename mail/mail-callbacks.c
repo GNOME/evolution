@@ -415,20 +415,14 @@ create_msg_composer (const char *url)
 {
 	const MailConfigAccount *account;
 	gboolean send_html;
-	gchar *sig_file = NULL;
 	EMsgComposer *composer;
 	
 	account   = mail_config_get_default_account ();
 	send_html = mail_config_get_send_html ();
 	
-	if (account->id)
-		sig_file = account->id->signature;
-	
 	composer = url ? e_msg_composer_new_from_url (url) : e_msg_composer_new ();
-	if (composer) {
+	if (composer)
 		e_msg_composer_set_send_html (composer, send_html);
-		e_msg_composer_set_sig_file  (composer, sig_file);
-	}
 	
 	return GTK_WIDGET (composer);
 }
@@ -588,23 +582,17 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	const char *name = NULL, *address = NULL, *source = NULL;
 	const char *message_id, *references, *reply_addr = NULL;
 	char *text, *subject, *date_str;
-	const MailConfigAccount *me = NULL;
-	const MailConfigIdentity *id;
+	const MailConfigAccount *me;
 	const GSList *accounts = NULL;
 	GList *to = NULL, *cc = NULL;
 	EMsgComposer *composer;
-	gchar *sig_file = NULL;
 	time_t date;
 	int offset;
 	
 	source = camel_mime_message_get_source (message);
 	me = mail_config_get_account_by_source_url (source);
-	
-	id = me ? me->id : mail_config_get_default_identity ();
-	if (id)
-	      sig_file = id->signature;
-	
-	composer = e_msg_composer_new_with_sig_file (sig_file, mail_config_get_send_html ());
+
+	composer = e_msg_composer_new_with_sig_file ();
 	if (!composer)
 		return NULL;
 	
@@ -804,9 +792,8 @@ forward_get_composer (const char *subject)
 	const MailConfigAccount *account;
 	EMsgComposer *composer;
 	
-	account = mail_config_get_default_account ();
-	composer = e_msg_composer_new_with_sig_file (account && account->id ? account->id->signature : NULL,
-						     mail_config_get_send_html ());
+	account  = mail_config_get_default_account ();
+	composer = e_msg_composer_new_with_sig_file ();
 	if (composer) {
 		gtk_signal_connect (GTK_OBJECT (composer), "send",
 				    GTK_SIGNAL_FUNC (composer_send_cb), NULL);

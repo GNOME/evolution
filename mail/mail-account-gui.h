@@ -66,6 +66,8 @@ typedef struct {
 	GtkEntry *email_address;
 	GtkEntry *organization;
 	GnomeFileEntry *signature;
+	GnomeFileEntry *html_signature;
+	GtkToggleButton *has_html_signature;
 	
 	/* incoming mail */
 	MailAccountGuiService source;

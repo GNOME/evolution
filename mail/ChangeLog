@@ -1,3 +1,11 @@
+2001-06-28  Radek Doulik  <rodo@ximian.com>
+
+	* mail-config.c: use new fields everywhere
+
+	* mail-config.h: as below
+
+	* Mail.idl: added html_signature and has_html_signature
+
 2001-06-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (component_fn): Register for the "mailto"

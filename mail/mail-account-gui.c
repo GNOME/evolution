@@ -798,8 +798,11 @@ mail_account_gui_new (MailConfigAccount *account)
 	gui->full_name = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_full_name"));
 	gui->email_address = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_address"));
 	gui->organization = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_organization"));
-	gui->signature = GNOME_FILE_ENTRY (glade_xml_get_widget (gui->xml, "identity_signature"));
+	gui->signature = GNOME_FILE_ENTRY (glade_xml_get_widget (gui->xml, "fileentry_signature"));
+	gui->html_signature = GNOME_FILE_ENTRY (glade_xml_get_widget (gui->xml, "fileentry_html_signature"));
+	gui->has_html_signature = GTK_CHECK_BUTTON (glade_xml_get_widget (gui->xml, "check_html_signature"));
 	gnome_file_entry_set_default_path (gui->signature, g_get_home_dir ());
+	gnome_file_entry_set_default_path (gui->html_signature, g_get_home_dir ());
 	if (account->id) {
 		if (account->id->name)
 			e_utf8_gtk_entry_set_text (gui->full_name, account->id->name);
@@ -812,6 +815,12 @@ mail_account_gui_new (MailConfigAccount *account)
 			gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (gui->signature)),
 					    account->id->signature);
 		}
+		if (account->id->html_signature) {
+			gnome_file_entry_set_default_path (gui->html_signature, account->id->html_signature);
+			gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (gui->html_signature)),
+					    account->id->html_signature);
+		}
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gui->has_html_signature), account->id->has_html_signature);
 	}
 	
 	/* Source */
@@ -1183,6 +1192,8 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->id->address = e_utf8_gtk_entry_get_text (gui->email_address);
 	account->id->organization = e_utf8_gtk_entry_get_text (gui->organization);
 	account->id->signature = gnome_file_entry_get_full_path (gui->signature, TRUE);
+	account->id->html_signature = gnome_file_entry_get_full_path (gui->html_signature, TRUE);
+	account->id->has_html_signature = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (gui->has_html_signature));
 	
 	old_enabled = account->source && account->source->enabled;
 	service_destroy (account->source);

@@ -457,39 +457,15 @@ Click &quot;Finish&quot; to save your settings.</text>
 	  <class>GtkTable</class>
 	  <name>table2</name>
 	  <border_width>4</border_width>
-	  <rows>2</rows>
-	  <columns>2</columns>
+	  <rows>3</rows>
+	  <columns>3</columns>
 	  <homogeneous>False</homogeneous>
 	  <row_spacing>4</row_spacing>
 	  <column_spacing>4</column_spacing>
 
 	  <widget>
-	    <class>GtkEntry</class>
-	    <name>identity_organization</name>
-	    <can_focus>True</can_focus>
-	    <editable>True</editable>
-	    <text_visible>True</text_visible>
-	    <text_max_length>0</text_max_length>
-	    <text></text>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>0</top_attach>
-	      <bottom_attach>1</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>True</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
 	    <class>GnomeFileEntry</class>
-	    <name>identity_signature</name>
+	    <name>fileentry_signature</name>
 	    <max_saved>10</max_saved>
 	    <directory>False</directory>
 	    <modal>False</modal>
@@ -511,7 +487,89 @@ Click &quot;Finish&quot; to save your settings.</text>
 	    <widget>
 	      <class>GtkEntry</class>
 	      <child_name>GnomeEntry:entry</child_name>
-	      <name>identity_signature_entry</name>
+	      <name>entry_signature</name>
+	      <can_focus>True</can_focus>
+	      <editable>True</editable>
+	      <text_visible>True</text_visible>
+	      <text_max_length>0</text_max_length>
+	      <text></text>
+	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>identity_organization_label</name>
+	    <label>Organization:</label>
+	    <justify>GTK_JUSTIFY_RIGHT</justify>
+	    <wrap>False</wrap>
+	    <xalign>1</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>7</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>check_html_signature</name>
+	    <can_focus>True</can_focus>
+	    <label>HTML Signature:</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>2</top_attach>
+	      <bottom_attach>3</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GnomeFileEntry</class>
+	    <name>fileentry_html_signature</name>
+	    <max_saved>10</max_saved>
+	    <directory>False</directory>
+	    <modal>False</modal>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>2</top_attach>
+	      <bottom_attach>3</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+
+	    <widget>
+	      <class>GtkEntry</class>
+	      <child_name>GnomeEntry:entry</child_name>
+	      <name>entry_html_signature</name>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -528,7 +586,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
 	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
+	    <xpad>7</xpad>
 	    <ypad>0</ypad>
 	    <child>
 	      <left_attach>0</left_attach>
@@ -547,20 +605,62 @@ Click &quot;Finish&quot; to save your settings.</text>
 	  </widget>
 
 	  <widget>
-	    <class>GtkLabel</class>
-	    <name>identity_organization_label</name>
-	    <label>Organization:</label>
-	    <justify>GTK_JUSTIFY_RIGHT</justify>
-	    <wrap>False</wrap>
-	    <xalign>1</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
+	    <class>GtkEntry</class>
+	    <name>identity_organization</name>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
 	    <child>
-	      <left_attach>0</left_attach>
-	      <right_attach>1</right_attach>
+	      <left_attach>1</left_attach>
+	      <right_attach>3</right_attach>
 	      <top_attach>0</top_attach>
 	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkButton</class>
+	    <name>button_edit_signature</name>
+	    <can_focus>True</can_focus>
+	    <label>Edit...</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
+	    <child>
+	      <left_attach>2</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkButton</class>
+	    <name>button_edit_html_signature</name>
+	    <can_focus>True</can_focus>
+	    <label>Edit...</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
+	    <child>
+	      <left_attach>2</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>2</top_attach>
+	      <bottom_attach>3</bottom_attach>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
 	      <xexpand>False</xexpand>

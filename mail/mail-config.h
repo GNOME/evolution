@@ -36,6 +36,8 @@ typedef struct {
 	gchar *address;
 	gchar *organization;
 	gchar *signature;
+	gchar *html_signature;
+	gboolean has_html_signature;
 } MailConfigIdentity;
 
 typedef struct {
