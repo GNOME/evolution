@@ -25,17 +25,20 @@
 #include <config.h>
 #endif
 
+#include <gnome.h>
+
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-control.h>
 
-#include <gal/util/e-util.h>
-#include <gal/e-text/e-entry.h>
-
 #include "Evolution-Addressbook-SelectNames.h"
 
+#include <gal/util/e-util.h>
+#include <gal/e-text/e-entry.h>
 #include "e-select-names-manager.h"
-#include "e-select-names-bonobo.h"
+#include "e-select-names-model.h"
+#include "e-select-names-text-model.h"
 
+#include "e-select-names-bonobo.h"
 
 
 #define PARENT_TYPE bonobo_object_get_type ()
@@ -69,7 +72,15 @@ entry_get_property_fn (BonoboPropertyBag *bag,
 	switch (arg_id) {
 	case ENTRY_PROPERTY_ID_TEXT:
 		{
-			ESelectNamesModel *model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (w), "bonobo_select_names_model"));
+			ESelectNamesTextModel *text_model;
+			ESelectNamesModel *model;
+
+			gtk_object_get(GTK_OBJECT(w),
+				       "model", &text_model,
+				       NULL);
+			gtk_object_get(GTK_OBJECT(text_model),
+				       "source", &model,
+				       NULL);
 			text = e_select_names_model_get_address_text (model);
 			BONOBO_ARG_SET_STRING (arg, text);
 		}
@@ -177,10 +188,6 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 	entry_widget = e_select_names_manager_create_entry (priv->manager, section_id);
 	gtk_widget_show (entry_widget);
 	
-	gtk_object_set_data (GTK_OBJECT (entry_widget),
-			     "bonobo_select_names_model",
-			     e_select_names_manager_get_source (priv->manager, section_id));
-
 	if (entry_widget == NULL) {
 		CORBA_exception_set (ev,
 				     CORBA_USER_EXCEPTION,
