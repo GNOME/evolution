@@ -7,13 +7,13 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
     #16097 -- Need a way to let the user specify the DN to
               authenticate against.  (Toshok)
+    #16680 -- LDAP performance problem.  (Toshok)
     #16968 -- Changing search type immediately requeries.  (Toshok)
     #20089 -- Cannot copy contacts with comma from "Contacts" to LDAP.
               (Toshok)
     #20690 -- LDAP contacts dont show when using letter shortcuts.
               (Toshok)
     #20740 -- LDAP performance problem.  (Toshok)
-    #16680 -- LDAP performance problem.  (Toshok)
     #20871 -- SelectNames dialog needs search feedback.  (Toshok)
 
   * Calendar
@@ -32,9 +32,9 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #20787 -- Accepted/declined messages aren't always clear.  (JP)
     #20800 -- Sorting of free busy information in schedule page does
 	      not work.  (JP)
+    #20783 -- Accepting updated meeting request doesn't work.  (Rodrigo)
     #21198 -- Outlook didn't recognize Evolution's acceptance of an
 	      updated meeting request.  (Dan)
-    #20783 -- Accepting updated meeting request doesn't work.  (Rodrigo)
     #21240 -- Calendar Reminders don't appear for appointments in remote
               servers.  (Rodrigo)
 
@@ -44,7 +44,8 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #20779 -- Set a 'name' parameter in the Content-Type header
               since Outlook doesn't seem to check the filename
               parameter on the Content-Disposition header. (Jeff)
-    #21655 -- X-MailingList should prevail on X-BeenThere.  (Ettore)
+    #21655 -- X-MailingList should take priority over X-BeenThere.
+              (Ettore)
 
   * Shell
 
