@@ -15,23 +15,23 @@ Camel will be a generic messaging library. It will evntually support
 the standard messaging system for receiving and sending messages.
 It aims at being the backend for the future gnome-mailer system.
 
-The name "camel" stands for ... nothing. Open area of developpement there.
+The name "camel" stands for ... nothing. Open area of development there.
 You know, that "bazaar" thing. Maybe could we organize a big contest on
-gnome-list to find the best signification :)
+gnome-list to find the best explanation :)
 
-Camel draws heacily from JavaMail and the IMAP4rev1 RFC.
-people wanting to hack on a provider are recommended to read the JavaMail
-API specification but CMC and MAPI are of interest too.
+Camel draws heavily from JavaMail and the IMAP4rev1 RFC. People
+wanting to hack on a provider should read the JavaMail API
+specification, but CMC and MAPI are of interest too.
 
-Please, before starting anything, wait for me to finish the abstract classes.
-Some parts are not definitive yet.
+Please, before starting anything, wait for me to finish the abstract
+classes. Some parts are not definitive yet.
 
  
 Organization:
 -------------
 
-The library is roughly a set of abstract classes, some kind of generic 
-"interfaces" (idl interfaces, not java interfaces ). 
+The library is roughly a set of abstract classes, some kind of generic
+"interfaces" (idl interfaces, not java interfaces ).
 
 Particular implementations are called providers.
 
@@ -40,14 +40,14 @@ Here are the basic objects:
 * CamelService : an abstract class representing an access to a server.
 Handles the connection and authentication to any server.
 
-* CamelStore (CamelService): A hierarchy  of folders on a server.
+* CamelStore (CamelService): A hierarchy of folders on a server.
 
-* CamelFolder : An object containing messages. A folder is always associated
-to a store.
+* CamelFolder : An object containing messages. A folder is always
+associated with a store.
 
-* CamelMessage : An object contained in folders. Is defined by a set of 
-attribute and a content. (Attributes are generally: The date it was received,
-the sender address, .....) 
+* CamelMessage : An object contained in folders. Is defined by a set
+of attributes and a content. (Attributes include: the date it was
+received, the sender address, .....)
 
 * CamelTransport (CamelService): A way to send messages.
 
