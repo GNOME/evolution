@@ -1,3 +1,8 @@
+2003-03-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-signature-editor.c (mail_signature_editor): Give the editor
+	the GDK_WINDOW_TYPE_HINT_DIALOG hint.  [#38926]
+
 2003-03-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (pixbuf_gen_idle): If we fail to load the pixbuf,

@@ -387,6 +387,7 @@ mail_signature_editor (MailConfigSignature *sig, GtkWindow *parent, gboolean is_
 	editor->is_new = is_new;
 	
 	editor->win = bonobo_window_new ("e-sig-editor", _("Edit signature"));
+	gtk_window_set_type_hint (GTK_WINDOW (editor->win), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_default_size (GTK_WINDOW (editor->win), DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	if (parent != NULL)
 		gtk_window_set_transient_for (GTK_WINDOW (editor->win), parent);
