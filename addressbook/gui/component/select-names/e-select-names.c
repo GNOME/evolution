@@ -496,6 +496,40 @@ remove_address(ETable *table, int row, int col, GdkEvent *event, ESelectNamesChi
 	e_select_names_model_delete (child->source, row);
 }
 
+#include <gal/widgets/e-popup-menu.h>
+struct _RightClickData {
+	int row;
+	ESelectNamesChild *child;
+};
+typedef struct _RightClickData RightClickData;
+
+static void
+remove_cb (GtkWidget *widget, void *data)
+{
+	RightClickData *rcdata = (RightClickData *)data;
+
+	remove_address (NULL, rcdata->row, 0, NULL, rcdata->child);
+
+	g_free (rcdata);
+}
+
+static void
+section_right_click_cb (ETable *table, gint row, gint col, GdkEvent *event, ESelectNamesChild *child)
+{
+	EPopupMenu right_click_menu[] = {
+		{ N_("Remove"), NULL,
+		  GTK_SIGNAL_FUNC (remove_cb), NULL, 0 },
+		{ NULL, NULL, NULL, 0 }
+	};
+
+	RightClickData *rcdata = g_new0 (RightClickData, 1);
+	rcdata->row = row;
+	rcdata->child = child;
+
+	e_popup_menu_run (right_click_menu, event, 0, 0,
+			  rcdata);
+}
+
 void
 e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, ESelectNamesModel *source)
 {
@@ -546,6 +580,8 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	model = e_select_names_table_model_new(source);
 	etable = e_table_scrolled_new (model, NULL, SPEC2, NULL);
 	
+	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(etable))), "right_click",
+			   GTK_SIGNAL_FUNC(section_right_click_cb), child);
 	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(etable))), "double_click",
 			   GTK_SIGNAL_FUNC(remove_address), child);
 

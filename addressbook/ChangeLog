@@ -1,3 +1,15 @@
+2001-06-05  Jason Leach  <jleach@ximian.com>
+
+	(Fix bug #655: SelectNames doesn't let you remove addresses after
+	 you add them)
+
+	* gui/component/select-names/e-select-names.c
+	(section_right_click_cb): New function, provides a popup menu with
+	just "Remove" in it.
+	(remove_cb): New callback to do the remove.
+	(e_select_names_add_section): Attach the "right_click" signal to
+	the section_right_click_cb above.
+
 2001-06-05  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-manager.c
