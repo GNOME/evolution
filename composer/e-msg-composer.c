@@ -989,7 +989,15 @@ save_draft (EMsgComposer *composer, int quitok)
 }
 
 #define AUTOSAVE_SEED ".evolution-composer.autosave-XXXXXX"
-#define AUTOSAVE_INTERVAL 600
+#define AUTOSAVE_INTERVAL 60000
+
+typedef struct _AutosaveManager AutosaveManager;
+struct _AutosaveManager {
+	GHashTable *table;
+	guint id;
+};
+
+static AutosaveManager *am = NULL;
 
 static void
 autosave_save_draft (EMsgComposer *composer)
@@ -999,10 +1007,6 @@ autosave_save_draft (EMsgComposer *composer)
 	char *file;
 	gint fd;
 
-	if (composer->autosave_file == NULL) {
-		composer->autosave_file = g_strdup_printf ("%s/%s", g_get_home_dir(), AUTOSAVE_SEED);
-		composer->autosave_fd = mkstemp (composer->autosave_file);
-	}
 	fd = composer->autosave_fd;
 	file = composer->autosave_file;
 
@@ -1013,7 +1017,13 @@ autosave_save_draft (EMsgComposer *composer)
 	}
 
 	msg = e_msg_composer_get_message_draft (composer);
-	
+
+	if (msg == NULL) {
+		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+			  _("Unable to retrieve message from editor"));
+		return;
+	}
+
 	if (ftruncate (fd, (off_t)0) == -1) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Unable to truncate file: %s\n%s"), file, strerror(errno));
@@ -1040,23 +1050,23 @@ autosave_load_draft (const char *filename)
 	CamelMimeMessage *msg;
 	EMsgComposer *composer;
 
-	g_warning ("filename = \"%s\"", filename);
+	g_warning ("autosave load filename = \"%s\"", filename);
 	stream = camel_stream_fs_new_with_name (filename, O_RDONLY, 0);
 	msg = camel_mime_message_new ();
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), stream);
+	unlink (filename);
 	
 	composer = e_msg_composer_new_with_message (msg);
-	
+
+	camel_object_unref ((CamelObject *)stream);
 	gtk_widget_show (GTK_WIDGET (composer));
 	return composer;
 }
 
 static gboolean
-autosave_is_orphan (const char *file)
+autosave_is_owned (AutosaveManager *am, const char *file)
 {
-	g_warning ("I am a bug");
-
-	return (rand()%2);
+        return g_hash_table_lookup (am->table, file) != NULL;
 }
 
 static void
@@ -1068,7 +1078,7 @@ autosave_query_cb (gint reply, gpointer data)
 }
 
 static GList *
-autosave_query_load_orphans (EMsgComposer *composer)
+autosave_query_load_orphans (AutosaveManager *am, EMsgComposer *composer)
 {
 	GtkWidget *dialog;
 	DIR *dir;
@@ -1089,8 +1099,7 @@ autosave_query_load_orphans (EMsgComposer *composer)
 	while ((d = readdir (dir))) {
 		if ((!strncmp (d->d_name, AUTOSAVE_SEED, pre_len) )
 		    && (strlen (d->d_name) == len)
-		    && (strcmp (d->d_name + pre_len, composer->autosave_file + pre_len))
-		    && (autosave_is_orphan (d->d_name))) {
+		    && (!autosave_is_owned (am, d->d_name))) {
 			dialog = gnome_ok_cancel_dialog_parented (_("Evolution has detected an editor buffer from a previous session.\n"
 								    "Would you like to recover this buffer?"),
 								  autosave_query_cb, &ok, GTK_WINDOW (composer));
@@ -1098,32 +1107,92 @@ autosave_query_load_orphans (EMsgComposer *composer)
 			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 
 			if (ok) {
-				autosave_load_draft (d->d_name);
+				char *filename = g_strdup_printf ("%s/%s", g_get_home_dir (), d->d_name);
+
+				autosave_load_draft (filename);
+
+				g_free (filename);
 			}
 		}
 	}
 	return matches;
 }
 
-static gint
-autosave_timeout_run (gpointer data)
+static gboolean
+autosave_run_foreach_cb (gpointer key, gpointer value, gpointer data)
 {
-	EMsgComposer *composer = E_MSG_COMPOSER (data);
+	EMsgComposer *composer = E_MSG_COMPOSER (value);
+	g_warning ("autosave");
 	autosave_save_draft (composer);
 }
 
-static void
-autosave_timeout_start (EMsgComposer *composer)
+static gint
+autosave_run (gpointer data)
 {
-	if (!composer->autosave_id)
-		composer->autosave_id = gtk_timeout_add (AUTOSAVE_INTERVAL, autosave_timeout_run, composer);
+	AutosaveManager *am = data;
+
+	g_hash_table_foreach (am->table, (GHFunc)autosave_run_foreach_cb, am);
+
+	return TRUE;
 }
 
 static void
-autosave_timeout_stop (EMsgComposer *composer)
+autosave_start (AutosaveManager *am)
 {
-	if (composer->autosave_id)
-		gtk_timeout_remove (composer->autosave_id);
+	if (am->id == 0)
+		am->id = gtk_timeout_add (AUTOSAVE_INTERVAL, autosave_run, am);
+}
+
+static void
+autosave_stop (AutosaveManager *am)
+{
+	if (am->id)
+		gtk_timeout_remove (am->id);
+}
+
+static gboolean
+autosave_init_file (EMsgComposer *composer)
+{
+	if (composer->autosave_file == NULL) {
+		composer->autosave_file = g_strdup_printf ("%s/%s", g_get_home_dir(), AUTOSAVE_SEED);
+		composer->autosave_fd = mkstemp (composer->autosave_file);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+static void
+autosave_register (EMsgComposer *composer) 
+{
+	char *key;
+
+	g_return_if_fail (composer != NULL);
+
+	if (am == NULL) {
+		am = g_new (AutosaveManager, 1);
+		am->table = g_hash_table_new (g_str_hash, g_str_equal);
+		am->id = 0;
+	}
+
+	if (autosave_init_file (composer)) {
+		key = g_basename (composer->autosave_file);
+		g_hash_table_insert (am->table, key, composer);
+		autosave_query_load_orphans (am, composer);
+	}
+	autosave_start (am);
+}
+
+static void
+autosave_unregister (EMsgComposer *composer) 
+{
+	g_hash_table_remove (am->table, g_basename (composer->autosave_file));
+	
+	close (composer->autosave_fd);
+	unlink (composer->autosave_file);
+	g_free (composer->autosave_file);
+
+	if (g_hash_table_size (am->table) == 0)
+		autosave_stop (am);
 }
 
 static void
@@ -1217,8 +1286,7 @@ menu_file_save_cb (BonoboUIComponent *uic,
 		save (composer, file_name);
 		CORBA_free (file_name);
 	}
-	
-	CORBA_exception_free (&ev);
+      	CORBA_exception_free (&ev);
 }
 
 static void
@@ -1767,9 +1835,11 @@ destroy (GtkObject *object)
 	g_hash_table_destroy (composer->inline_images);
 	
 	g_free (composer->charset);
-	
-	CORBA_exception_init (&ev);
 
+	autosave_unregister (composer);
+
+	CORBA_exception_init (&ev);
+	
 	if (composer->persist_stream_interface != CORBA_OBJECT_NIL) {
 		Bonobo_Unknown_unref (composer->persist_stream_interface, &ev);
 		CORBA_Object_release (composer->persist_stream_interface, &ev);
@@ -1956,6 +2026,8 @@ init (EMsgComposer *composer)
 	composer->charset                  = NULL;
 	composer->autosave_file            = NULL;
 	composer->autosave_fd              = -1;
+
+	autosave_register (composer);
 }
 
 

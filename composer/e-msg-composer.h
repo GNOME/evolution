@@ -78,7 +78,6 @@ struct _EMsgComposer {
 
 	char *autosave_file;
         int   autosave_fd;
-	guint autosave_id; 
 
 	gboolean attachment_bar_visible : 1;
 	gboolean send_html     : 1;

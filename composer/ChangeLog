@@ -1,6 +1,32 @@
+2001-07-03  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.h: remove the timer id.
+
+	* e-msg-composer.c: use autosave manager.
+	(autosave_save_draft): moved initialization to
+	autosave_init_file. Only save the buffer if we get a valid
+	message.
+	(autosave_load_draft): unlink the old file, we own it now. and
+	unref the stream when we are done with it.
+	(autosave_is_owned): check if we own the file, this needs to be
+	extended to check for other valid processes.
+	(autosave_query_load_orphans): make this search through the
+	managers list as it walks the dir.
+	(autosave_query_load_orphans): make sure we use the full path.
+	(autosave_run_foreach_cb): timeout foreach handler.
+	(autosave_run): the timeout function.
+	(autosave_start): start timer.
+	(autosave_stop): stop timer.
+	(autosave_register): register a composer with the autosave manager.
+	(autosave_unregister): unregister a composer.
+	(destroy): unregister the composer, everything is okay.
+	(init): register the composer.
+
 2001-07-02  Larry Ewing  <lewing@ximian.com>
 
-	* e-msg-composer.c (autosave_query_load_orphans): querythe user to
+	* e-msg-composer.h: add autosave members.
+	
+	* e-msg-composer.c (autosave_query_load_orphans): query the user to
 	check if they want to load any orphans we've found.
 	(autosave_query_cb): the dialog callback.
 	(autosave_is_orphan): test if if a particular file is orphaned.
