@@ -25,7 +25,7 @@ minicard_label_test_SOURCES = 	\
 minicard_label_test_LDADD =	\
 	$(EXTRA_GNOME_LIBS)	\
 	libeminicard.a		\
-	$(top_builddir)/e-util/libeutil.a	\
+	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/widgets/e-text/libetext.a
 
 minicard_test_SOURCES = 	\
@@ -34,7 +34,7 @@ minicard_test_SOURCES = 	\
 minicard_test_LDADD =	\
 	$(EXTRA_GNOME_LIBS)	\
 	libeminicard.a	\
-	$(top_builddir)/e-util/libeutil.a	\
+	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/widgets/e-text/libetext.a
 
 reflow_test_SOURCES = 	\
@@ -43,5 +43,5 @@ reflow_test_SOURCES = 	\
 reflow_test_LDADD =	\
 	$(EXTRA_GNOME_LIBS)	\
 	libeminicard.a	\
-	$(top_builddir)/e-util/libeutil.a	\
+	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/widgets/e-text/libetext.a

@@ -58,7 +58,7 @@ table_test_SOURCES = 	\
 table_test_LDADD =				\
 	libetable.a				\
 	$(EXTRA_GNOME_LIBS)			\
-	$(top_builddir)/e-util/libeutil.a	\
+	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/widgets/e-text/libetext.a
 
 table_test_LDFLAGS = `gnome-config --libs gdk_pixbuf`

@@ -1,5 +1,11 @@
 2000-02-28  NotZed  <NotZed@HelixCode.com>
 
+	* widgets/shortcut-bar/Makefile.am (test_shortcut_bar_LDADD):
+	Fixed references to eutil.
+
+	* widgets/e-minicard/Makefile.am (INCLUDES): Fixed references to
+	eutil.
+
 	* e-util/e-sexp.[ch]: Added.  moved from filter-sexp.[ch]
 
 	* e-util/Makefile.am (libeutil_a_SOURCES): Add e-sexp.
