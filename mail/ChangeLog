@@ -1,5 +1,22 @@
 2000-08-12  Dan Winship  <danw@helixcode.com>
 
+	* message-list.c (cleanup_regenerate_messagelist): Don't clear the
+	tree here. If two "folder_changed"s arrive in close succession,
+	then one possible ordering of events is
+	cleanup_regenerate_messagelist, cleanup_regenerate_messagelist,
+	cleanup_thread_messages, cleanup_thread_messages. Which would
+	result in the message list being filled in twice without being
+	cleared in between. So don't clear it until the rebuilding
+	function itself is called.
+	(clear_tree): New function to empty out the ETreeModel in the
+	message list.
+	(build_tree): Change to simpler interface. Call clear_tree.
+	(build_subtree): Does most of the work of the old build_tree
+	(build_flat): Remove unused arg. Call clear_tree.
+
+	* message-thread.c (cleanup_thread_messages): Update for
+	build_tree interface change.
+
 	* mail-ops.c (do_send_mail): Don't leak the transport.
 
 	* mail-tools.c (mail_tool_get_folder_from_urlname): Don't ref the

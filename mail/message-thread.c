@@ -509,13 +509,11 @@ typedef struct thread_messages_input_s {
 	MessageList *ml;
 	GPtrArray *uids;
 	gboolean use_camel_uidfree;
-	void (*build) (MessageList *, ETreePath *, 
-		       struct _container *, int *);
+	void (*build) (MessageList *, struct _container *);
 } thread_messages_input_t;
 
 typedef struct thread_messages_data_s {
 	struct _container *container;
-	int row;
 } thread_messages_data_t;
 
 static gchar *describe_thread_messages (gpointer in_data, gboolean gerund);
@@ -562,7 +560,6 @@ static void do_thread_messages (gpointer in_data, gpointer op_data, CamelExcepti
 	thread_messages_data_t *data = (thread_messages_data_t *) op_data;
 
 	data->container = thread_messages (input->ml->folder, input->uids);
-	data->row = 0;
 }
 
 static void cleanup_thread_messages (gpointer in_data, gpointer op_data, CamelException *ex)
@@ -570,8 +567,7 @@ static void cleanup_thread_messages (gpointer in_data, gpointer op_data, CamelEx
 	thread_messages_input_t *input = (thread_messages_input_t *) in_data;
 	thread_messages_data_t *data = (thread_messages_data_t *) op_data;
 
-	(input->build) (input->ml, input->ml->tree_root, 
-			data->container, &(data->row));
+	(input->build) (input->ml, data->container);
 	thread_messages_free (data->container);
 
 	if (input->use_camel_uidfree) {
@@ -597,8 +593,8 @@ static const mail_operation_spec op_thread_messages =
 
 void mail_do_thread_messages (MessageList *ml, GPtrArray *uids, 
 			      gboolean use_camel_uidfree,
-			      void (*build) (MessageList *, ETreePath *,
-					     struct _container *, int *))
+			      void (*build) (MessageList *,
+					     struct _container *))
 {
 	thread_messages_input_t *input;
 

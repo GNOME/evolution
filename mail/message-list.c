@@ -791,11 +791,35 @@ message_list_new (FolderBrowser *parent_folder_browser)
 	return BONOBO_OBJECT (message_list);
 }
 
+static void
+clear_tree (MessageList *ml)
+{
+	ETreeModel *etm = E_TREE_MODEL (ml->table_model);
+
+	if (ml->tree_root)
+		e_tree_model_node_remove (etm, ml->tree_root);
+	ml->tree_root =
+		e_tree_model_node_insert (etm, NULL, 0, ml);
+	e_tree_model_node_set_expanded (etm, ml->tree_root, TRUE);
+}
+
 /* only call if we have a tree model */
 /* builds the tree structure */
+static void build_subtree (MessageList *ml, ETreePath *parent,
+			   struct _container *c, int *row);
+
 static void
-build_tree (MessageList *ml, ETreePath *parent, struct _container *c,
-	    int *row)
+build_tree (MessageList *ml, struct _container *c)
+{
+	int row = 0;
+
+	clear_tree (ml);
+	build_subtree (ml, ml->tree_root, c, &row);
+}
+
+static void
+build_subtree (MessageList *ml, ETreePath *parent,
+	       struct _container *c, int *row)
 {
 	ETreeModel *tree = E_TREE_MODEL (ml->table_model);
 	ETreePath *node;
@@ -813,20 +837,21 @@ build_tree (MessageList *ml, ETreePath *parent, struct _container *c,
 		if (c->child) {
 			/* by default, open all trees */
 			e_tree_model_node_set_expanded (tree, node, TRUE);
-			build_tree (ml, node, c->child, row);
+			build_subtree (ml, node, c->child, row);
 		}
 		c = c->next;
 	}
 }
 
 static void
-build_flat (MessageList *ml, ETreePath *parent, GPtrArray *uids)
+build_flat (MessageList *ml, GPtrArray *uids)
 {
 	ETreeModel *tree = E_TREE_MODEL (ml->table_model);
 	ETreePath *node;
 	char *uid;
 	int i;
 
+	clear_tree (ml);
 	for (i = 0; i < uids->len; i++) {
 		uid = g_strdup_printf ("uid:%s", (char *)uids->pdata[i]);
 		node = e_tree_model_node_insert (tree, ml->tree_root, i, uid);
@@ -1171,19 +1196,12 @@ static void cleanup_regenerate_messagelist (gpointer in_data, gpointer op_data, 
 		return;
 	}
 
-	/* Clear the old contents, build the new */
-	if (input->ml->tree_root)
-		e_tree_model_node_remove(etm, input->ml->tree_root);
-	input->ml->tree_root =
-		e_tree_model_node_insert(etm, NULL, 0, input->ml);
-	e_tree_model_node_set_expanded (etm, input->ml->tree_root, TRUE);
-
 	if (mail_config_thread_list()) {
 		mail_do_thread_messages (input->ml, data->uids, 
 					 (gboolean) !(input->search),
 					 build_tree);
 	} else {
-		build_flat (input->ml, input->ml->tree_root, data->uids);
+		build_flat (input->ml, data->uids);
 
 		if (input->search) {
 			camel_folder_search_free (input->ml->folder, data->uids);

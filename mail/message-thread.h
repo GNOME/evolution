@@ -16,8 +16,8 @@ struct _container {
 
 void mail_do_thread_messages (MessageList *ml, GPtrArray *uids, 
 			      gboolean use_camel_uidfree,
-			      void (*build) (MessageList *, ETreePath *,
-					     struct _container *, int *));
+			      void (*build) (MessageList *,
+					     struct _container *));
 
 #endif /* !_MESSAGE_THREAD_H */
 
