@@ -30,6 +30,8 @@
 	Get rid of the GtkFrame-related code
 	* vfolder-rule.c (validate): Hide the dialog separators here
 
+	Original patch from William Jon McCann
+
 2004-02-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-editor.c (rule_delete): After setting the new selected
