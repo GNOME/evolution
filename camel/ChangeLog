@@ -1,5 +1,12 @@
 2001-09-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-filter-search.c (get_source): Same here.
+
+	* camel-mime-message.c (camel_mime_message_set_source): Don't use
+	the e_url_shroud hack, use CamelURL functions instead.
+
+2001-09-28  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/nntp/camel-nntp-provider.c
 	(camel_provider_module_init): Init the nntp url hash and url_equal
 	functions.

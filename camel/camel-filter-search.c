@@ -35,7 +35,6 @@
 #include <ctype.h>
 
 #include "e-util/e-sexp.h"
-#include "e-util/e-url.h"
 
 #include "camel-mime-message.h"
 #include "camel-filter-search.h"
@@ -43,6 +42,8 @@
 #include "camel-multipart.h"
 #include "camel-stream-mem.h"
 #include "camel-search-private.h"
+
+#include "camel-url.h"
 
 #define d(x)
 
@@ -411,16 +412,22 @@ static ESExpResult *
 get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
 	ESExpResult *r;
-	char *src;
+	char *src = NULL;
 	char *tmp;
 	
 	r = e_sexp_result_new (f, ESEXP_RES_STRING);
 	if (fms->source) {
-		src = e_url_shroud (fms->source);
+		CamelURL *url;
+		
+		url = camel_url_new (fms->source, NULL);
+		if (url) {
+			src = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+			camel_url_free (url);
+		}
 	} else {
 		src = g_strdup (camel_mime_message_get_source (fms->message));
 	}
-
+	
 	/* This is an abusive hack */
 	if ( src && (tmp = strstr (src, "://")) ) {
 		tmp += 3;
@@ -428,7 +435,7 @@ get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessag
 		if (tmp)
 			*tmp = '\0';
 	}
-
+	
 	r->value.string = src;
 	
 	return r;

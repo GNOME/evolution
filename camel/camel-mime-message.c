@@ -32,13 +32,12 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "e-util/e-url.h"
-
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
 #include "camel-stream-mem.h"
 #include "string-utils.h"
 #include "hash-table-utils.h"
+#include "camel-url.h"
 
 #include "camel-stream-filter.h"
 #include "camel-stream-null.h"
@@ -408,12 +407,18 @@ camel_mime_message_set_recipients(CamelMimeMessage *mime_message, const char *ty
 void
 camel_mime_message_set_source (CamelMimeMessage *mime_message, const char *src)
 {
-	char *shrouded_src;
+	CamelURL *url;
+	char *uri;
+	
 	g_assert (mime_message);
 	
-	shrouded_src = e_url_shroud (src);
-	camel_medium_add_header (CAMEL_MEDIUM (mime_message), "X-Evolution-Source", shrouded_src);
-	g_free (shrouded_src);
+	url = camel_url_new (src, NULL);
+	if (url) {
+		uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+		camel_medium_add_header (CAMEL_MEDIUM (mime_message), "X-Evolution-Source", uri);
+		g_free (uri);
+		camel_url_free (url);
+	}
 }
 
 const char *
@@ -843,16 +848,17 @@ struct _check_content_id {
 };
 
 static gboolean
-check_content_id (CamelMimeMessage *message, CamelMimePart *part, struct _check_content_id *data)
+check_content_id (CamelMimeMessage *message, CamelMimePart *part, void *data)
 {
+	struct _check_content_id *check = (struct _check_content_id *) data;
 	const char *content_id;
 	gboolean found;
 	
 	content_id = camel_mime_part_get_content_id (part);
 	
-	found = content_id && !strcmp (content_id, data->content_id) ? TRUE : FALSE;
+	found = content_id && !strcmp (content_id, check->content_id) ? TRUE : FALSE;
 	if (found) {
-		data->part = part;
+		check->part = part;
 		camel_object_ref (CAMEL_OBJECT (part));
 	}
 	
