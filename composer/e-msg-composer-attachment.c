@@ -29,6 +29,7 @@
 
 #include <sys/stat.h>
 
+#include <gtk/gtkoptionmenu.h>
 #include <camel/camel.h>
 #include <gal/widgets/e-unicode.h>
 #include <libgnomevfs/gnome-vfs-mime.h>

@@ -1,3 +1,8 @@
+2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-msg-composer-attachment.c: Fix headers.
+	* e-msg-composer-hdrs.c: Same here.
+	
 2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-icon-list.c: Replace #include <gtk/gtk.h>

@@ -28,6 +28,9 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtktooltips.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <liboaf/liboaf.h>
 
