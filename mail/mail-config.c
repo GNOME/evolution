@@ -87,6 +87,9 @@ static void on_cmdIdentityDelete_clicked (GtkWidget *widget, gpointer user_data)
 static void on_cmdSourcesAdd_clicked (GtkWidget *widget, gpointer user_data);
 static void on_cmdSourcesEdit_clicked (GtkWidget *widget, gpointer user_data);
 static void on_cmdSourcesDelete_clicked (GtkWidget *widget, gpointer user_data);
+static void on_cmdNewsServersAdd_clicked (GtkWidget *widget, gpointer user_data);
+static void on_cmdNewsServersEdit_clicked (GtkWidget *widget, gpointer user_data);
+static void on_cmdNewsServersDelete_clicked (GtkWidget *widget, gpointer user_data);
 static void on_cmdCamelServicesOK_clicked (GtkButton *button, gpointer user_data);
 static void on_cmdCamelServicesCancel_clicked (GtkButton *button, gpointer user_data);
 
@@ -1021,7 +1024,7 @@ prepare_first (GnomeDruidPage *page, GnomeDruid *druid, gpointer user_data)
 }
 
 static struct identity_record idrec;
-static char *source = NULL, *transport = NULL;
+static char *source = NULL, *news_server = NULL, *transport = NULL;
 static gboolean format = FALSE;
 
 static void
@@ -1073,6 +1076,17 @@ write_config (void)
 	path = g_strdup_printf ("=%s/config=/mail/msg_format", evolution_dir);
 	gnome_config_set_string (path, format ? "alternative" : "plain");
 	g_free (path);
+
+	if (news_server) {
+		path = g_strdup_printf ("=%s/config=/news/configured", evolution_dir);
+		gnome_config_set_bool (path, TRUE);
+		g_free (path);
+
+		path = g_strdup_printf ("=%s/config=/news/source", evolution_dir);
+		gnome_config_set_string (path, news_server);
+		g_free (path);
+	}
+
 
 	gnome_config_sync ();
 }
@@ -1230,6 +1244,7 @@ mail_config_druid (void)
 
 static gint identity_row = -1;
 static gint source_row = -1;
+static gint news_server_row = -1;
 
 struct identity_dialog_data {
 	GtkWidget *clist;
@@ -1517,6 +1532,175 @@ create_source_config_dialog (gboolean edit_mode, char **sourcep, GtkWidget *clis
 }
 
 static void
+on_NewsServerConfigDialogButton_clicked (GnomeDialog *dialog, int button, gpointer user_data)
+{
+	struct source_dialog_data *data = user_data;
+	GtkWidget *vbox;
+	GtkWidget *table;
+	int max_row;
+
+	switch (button) {
+	case 0: /* OK clicked */
+		vbox = gtk_object_get_data (GTK_OBJECT (dialog), "vbox");
+		table = gtk_object_get_data (GTK_OBJECT (vbox), "table");
+		data->source = get_service_url (GTK_OBJECT (table));
+		
+		gtk_clist_set_text (GTK_CLIST (data->clist), news_server_row, 0,
+				    data->source);
+		gtk_clist_set_row_data (GTK_CLIST (data->clist), news_server_row,
+					g_strdup (data->source));
+		news_server = data->source;
+		break;
+	case 1: /* Cancel clicked */
+		if (data && data->new_entry) {
+			gtk_clist_remove (GTK_CLIST (data->clist), news_server_row);
+			max_row = GTK_CLIST (data->clist)->rows - 1;
+			news_server_row = (news_server_row > max_row 
+					   ? max_row : news_server_row);
+			gtk_clist_select_row (GTK_CLIST (data->clist),
+					      news_server_row, 0);
+		}
+		break;
+	}
+
+	if (button != -1) {
+		gnome_dialog_close (dialog);
+	}
+}
+
+static void
+create_news_server_page (GtkWidget *vbox, GList *sources, char **urlp)
+{
+	GtkWidget *html;
+	GtkWidget *table;
+	int row;
+
+	html = html_new (FALSE);
+	put_html (GTK_HTML (html),
+		  _("Enter the hostname of the News Server you have."
+		    /*"\n\n"
+		    "If the server requires authentication, you can click the "
+		    "\"Detect supported types...\" button after entering "
+		    "the other information."*/));
+	gtk_box_pack_start (GTK_BOX (vbox), html->parent, FALSE, TRUE, 0);
+
+	table = gtk_table_new (5, 2, FALSE);
+
+	gtk_widget_set_name (table, "table");
+	gtk_table_set_row_spacings (GTK_TABLE (table), 10);
+	gtk_table_set_col_spacings (GTK_TABLE (table), 6);
+	gtk_container_set_border_width (GTK_CONTAINER (table), 8);
+	gtk_box_pack_start (GTK_BOX (vbox), table, TRUE, TRUE, 0);
+
+	row = 0;
+
+	gtk_object_set_data (GTK_OBJECT (table), "protocol", "news");
+	gtk_object_set_data (GTK_OBJECT (table), "box", vbox);
+	gtk_object_set_data (GTK_OBJECT (vbox), "table", table);
+
+	add_row (table, row++, _("Server:"), "server_entry", 0);
+
+	gtk_widget_show_all (table);
+}
+
+static GtkWidget*
+create_news_server_config_dialog (gboolean edit_mode, char **news_server_p,
+				  GtkWidget *clist)
+{
+	GtkWidget *dialog_vbox1;
+	GtkWidget *dialog_action_area1;
+	GtkWidget *cmdConfigDialogOK;
+	GtkWidget *cmdConfigDialogCancel;
+	GtkWidget *vbox;
+	GtkWidget *config_dialog;
+	GList *providers, *p, *news_servers;
+	struct source_dialog_data *data = NULL;
+
+        /* Fetch list of all providers. */
+	providers = camel_session_list_providers (session, TRUE);
+	news_servers = NULL;
+	for (p = providers; p; p = p->next) {
+		CamelProvider *prov = p->data;
+
+		if (strcmp (prov->domain, "news") != 0)
+			continue;
+
+		if (prov->object_types[CAMEL_PROVIDER_STORE]) {
+			news_servers = add_service (news_servers,
+						    CAMEL_PROVIDER_STORE,
+						    prov);
+		}
+	}
+
+	if (edit_mode)
+		config_dialog = gnome_dialog_new (_("Edit News Server"), NULL);
+	else
+		config_dialog = gnome_dialog_new (_("Add News Server"), NULL);
+
+	gtk_window_set_modal (GTK_WINDOW (config_dialog), TRUE);
+	gtk_widget_set_name (config_dialog, "config_dialog");
+	gtk_object_set_data (GTK_OBJECT (config_dialog), "config_dialog", config_dialog);
+	gtk_window_set_policy (GTK_WINDOW (config_dialog), TRUE, TRUE, FALSE);
+	/*	gtk_window_set_default_size (GTK_WINDOW (config_dialog), 380, 380);*/
+	
+	dialog_vbox1 = GNOME_DIALOG (config_dialog)->vbox;
+	gtk_widget_set_name (dialog_vbox1, "dialog_vbox1");
+	gtk_object_set_data (GTK_OBJECT (config_dialog), "dialog_vbox1", dialog_vbox1);
+	gtk_widget_show (dialog_vbox1);
+	
+	dialog_action_area1 = GNOME_DIALOG (config_dialog)->action_area;
+	gtk_widget_set_name (dialog_action_area1, "dialog_action_area1");
+	gtk_object_set_data (GTK_OBJECT (config_dialog), "dialog_action_area1", dialog_action_area1);
+	gtk_widget_show (dialog_action_area1);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
+	gtk_button_box_set_spacing (GTK_BUTTON_BOX (dialog_action_area1), 8);
+
+	/* Create the vbox that we will pack the news server widget into */
+	vbox = gtk_vbox_new (FALSE, 0);
+	gtk_widget_set_name (vbox, "vbox");
+	gtk_object_set_data (GTK_OBJECT (config_dialog), "vbox", vbox);
+	gtk_widget_ref (vbox);
+	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "vbox", vbox,
+				  (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (vbox);
+	gtk_box_pack_start (GTK_BOX (dialog_vbox1), vbox, TRUE, TRUE, 0);
+
+	gnome_dialog_append_button (GNOME_DIALOG (config_dialog), GNOME_STOCK_BUTTON_OK);
+	cmdConfigDialogOK = g_list_last (GNOME_DIALOG (config_dialog)->buttons)->data;
+	gtk_widget_set_name (cmdConfigDialogOK, "cmdConfigDialogOK");
+	gtk_object_set_data (GTK_OBJECT (vbox), "ok_button", cmdConfigDialogOK);
+	gtk_widget_ref (cmdConfigDialogOK);
+	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "cmdConfigDialogOK", cmdConfigDialogOK,
+				  (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (cmdConfigDialogOK);
+	GTK_WIDGET_SET_FLAGS (cmdConfigDialogOK, GTK_CAN_DEFAULT);
+	gtk_widget_set_sensitive (cmdConfigDialogOK, FALSE);
+	
+	gnome_dialog_append_button (GNOME_DIALOG (config_dialog), GNOME_STOCK_BUTTON_CANCEL);
+	cmdConfigDialogCancel = g_list_last (GNOME_DIALOG (config_dialog)->buttons)->data;
+	gtk_widget_set_name (cmdConfigDialogCancel, "cmdConfigDialogCancel");
+	gtk_widget_ref (cmdConfigDialogCancel);
+	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "cmdConfigDialogCancel", cmdConfigDialogCancel,
+				  (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (cmdConfigDialogCancel);
+	GTK_WIDGET_SET_FLAGS (cmdConfigDialogCancel, GTK_CAN_DEFAULT);
+
+        /* create/pack our news server widget */
+	create_news_server_page (vbox, news_servers, news_server_p);
+
+	data = g_malloc0 (sizeof (struct source_dialog_data));
+	data->clist = clist;
+	data->source = *news_server_p;
+	data->new_entry = !edit_mode;
+
+	gtk_signal_connect(GTK_OBJECT (config_dialog), "clicked",
+			   GTK_SIGNAL_FUNC (on_NewsServerConfigDialogButton_clicked),
+			   data);
+
+	return config_dialog;
+}
+
+static void
 on_clistIdentities_select_row (GtkWidget *widget, gint row, gint column,
 			       GdkEventButton *event, gpointer data)
 {
@@ -1528,6 +1712,13 @@ on_clistSources_select_row (GtkWidget *widget, gint row, gint column,
 			       GdkEventButton *event, gpointer data)
 {
 	source_row = row;
+}
+
+static void
+on_clistNewsServers_select_row (GtkWidget *widget, gint row, gint column,
+				GdkEventButton *event, gpointer data)
+{
+	news_server_row = row;
 }
 
 static void
@@ -1647,6 +1838,63 @@ on_cmdSourcesDelete_clicked (GtkWidget *widget, gpointer user_data)
 }
 
 static void
+on_cmdNewsServersAdd_clicked (GtkWidget *widget, gpointer user_data)
+{
+	GtkWidget *dialog;
+	char *text[] = { "" };
+
+	gtk_clist_append (GTK_CLIST (user_data), text);
+
+	if (news_server_row > -1)
+		gtk_clist_unselect_row (GTK_CLIST (user_data), news_server_row, 0);
+
+	gtk_clist_select_row (GTK_CLIST (user_data), GTK_CLIST (user_data)->rows - 1, 0);
+	
+	/* now create the editing dialog */
+	dialog = create_news_server_config_dialog (FALSE, &news_server,
+						   GTK_WIDGET (user_data));
+	gtk_widget_show (dialog);
+}
+
+static void
+on_cmdNewsServersEdit_clicked (GtkWidget *widget, gpointer user_data)
+{
+	GtkWidget *dialog;
+	GtkWidget *vbox;
+	GtkWidget *table;
+	char *server;
+	
+	if (news_server_row == -1)
+		return;
+
+	server = gtk_clist_get_row_data (GTK_CLIST (user_data), news_server_row);
+	if (server) {
+		news_server = server;
+	}
+
+	/* now create the editing dialog */
+	dialog = create_news_server_config_dialog (TRUE, &news_server,
+						   GTK_WIDGET (user_data));
+
+        /* Set the data in the source editor */
+	vbox = gtk_object_get_data (GTK_OBJECT (dialog), "vbox");
+	table = gtk_object_get_data (GTK_OBJECT (vbox), "table");
+	set_service_url (GTK_OBJECT (table), news_server);
+
+	gtk_widget_show (dialog);
+}
+
+static void
+on_cmdNewsServersDelete_clicked (GtkWidget *widget, gpointer user_data)
+{
+	if (news_server_row == -1)
+		return;
+	
+	gtk_clist_remove (GTK_CLIST (user_data), news_server_row);
+	news_server_row = -1;
+}
+
+static void
 on_cmdCamelServicesOK_clicked (GtkButton *button, gpointer user_data)
 {
 	GtkWidget *notebook, *interior_notebook;
@@ -1695,24 +1943,32 @@ providers_config_new (void)
 	GtkWidget *cmdSourcesAdd;
 	GtkWidget *cmdSourcesEdit;
 	GtkWidget *cmdSourcesDelete;
+	GtkWidget *clistNewsServers;
+	GtkWidget *cmdNewsServersAdd;
+	GtkWidget *cmdNewsServersEdit;
+	GtkWidget *cmdNewsServersDelete;
 	GtkWidget *cmdCamelServicesOK;
 	GtkWidget *cmdCamelServicesCancel;
 	GtkWidget *transport_page_vbox;
 	GtkWidget *chkFormat;
-	GList *providers, *p, *sources, *transports;
+	GList *providers, *p, *sources, *news_sources, *transports;
 	GtkWidget *table, *interior_notebook;
 	char *path;
-	gboolean configured;
+	gboolean mail_configured, news_configured;
 	int page;
 
 
 	/* Fetch list of all providers. */
 	providers = camel_session_list_providers (session, TRUE);
-	sources = transports = NULL;
+	sources = news_sources = transports = NULL;
 	for (p = providers; p; p = p->next) {
 		CamelProvider *prov = p->data;
 
-		if (strcmp (prov->domain, "mail") != 0)
+		if (strcmp (prov->domain, "news") == 0)
+			news_sources = add_service (news_sources,
+						    CAMEL_PROVIDER_STORE,
+						    prov);
+		else if (strcmp (prov->domain, "mail") != 0)
 			continue;
 
 		if (prov->object_types[CAMEL_PROVIDER_STORE]) {
@@ -1752,11 +2008,16 @@ providers_config_new (void)
 
 	/* Find out if stuff has been configured */
 	path = g_strdup_printf ("=%s/config=/mail/configured", evolution_dir);
-	configured = gnome_config_get_bool (path);
+	mail_configured = gnome_config_get_bool (path);
+	g_free (path);
+
+	/* Find out if stuff has been configured */
+	path = g_strdup_printf ("=%s/config=/news/configured", evolution_dir);
+	news_configured = gnome_config_get_bool (path);
 	g_free (path);
 
 	identity_row = -1;
-	if (configured) {
+	if (mail_configured) {
 		char *text[] = { "", "", "", "" };
 		struct identity_record *data;
 
@@ -1802,7 +2063,7 @@ providers_config_new (void)
 				  (GtkDestroyNotify) gtk_widget_unref);
 	gtk_clist_set_column_width (GTK_CLIST (clistSources), 0, 80);
 
-	if (configured && !source) {
+	if (mail_configured && !source) {
 		path = g_strdup_printf ("=%s/config=/mail/source", evolution_dir);
 		source = gnome_config_get_string (path);
 		g_free (path);
@@ -1829,7 +2090,7 @@ providers_config_new (void)
 	gtk_object_set_data_full (GTK_OBJECT (providers_config), "transport_page_vbox", transport_page_vbox,
 				  (GtkDestroyNotify) gtk_widget_unref);
 
-	if (configured && !transport) {
+	if (mail_configured && !transport) {
 		path = g_strdup_printf ("=%s/config=/mail/transport", evolution_dir);
 		transport = gnome_config_get_string (path);
 		g_free (path);
@@ -1845,7 +2106,37 @@ providers_config_new (void)
 		page = 0;
 	table = gtk_notebook_get_nth_page (GTK_NOTEBOOK (interior_notebook), page);
 	set_service_url (GTK_OBJECT (table), transport);
-	
+
+	/* Setup the News Servers page */
+
+	clistNewsServers = glade_xml_get_widget (gui, "clistNewsServers");
+	gtk_widget_ref (clistNewsServers);
+	gtk_object_set_data_full (GTK_OBJECT (providers_config), 
+				  "clistNewsServers", clistNewsServers,
+				  (GtkDestroyNotify) gtk_widget_unref);
+	gtk_clist_set_column_width (GTK_CLIST (clistNewsServers), 0, 80);
+
+	if (news_configured) {
+		path = g_strdup_printf ("=%s/config=/news/source", evolution_dir);
+		source = gnome_config_get_string (path);
+		g_free (path);
+	}
+
+	source_row = -1;
+	if (source) {
+		char *text[] = { "" };
+
+		gtk_clist_append (GTK_CLIST (clistNewsServers), text);
+
+		gtk_clist_set_text (GTK_CLIST (clistNewsServers), 0, 0, source);
+		gtk_clist_set_row_data (GTK_CLIST (clistNewsServers), 0,
+					g_strdup(source));
+	}
+
+	cmdNewsServersAdd = glade_xml_get_widget (gui, "cmdNewsServersAdd");
+	cmdNewsServersEdit = glade_xml_get_widget (gui, "cmdNewsServersEdit");
+	cmdNewsServersDelete = glade_xml_get_widget (gui, "cmdNewsServersDelete");
+
 
 	/* Lets make a page to mark Send HTML or text/plan...yay */
 	chkFormat = glade_xml_get_widget (gui, "chkFormat");
@@ -1854,7 +2145,7 @@ providers_config_new (void)
 	gtk_object_set_data_full (GTK_OBJECT (providers_config), "chkFormat", chkFormat,
 				  (GtkDestroyNotify) gtk_widget_unref);
 
-	if (configured) {
+	if (mail_configured) {
 		char *buf;
 
 		path = g_strdup_printf ("=%s/config=/mail/msg_format", evolution_dir);
@@ -1892,6 +2183,16 @@ providers_config_new (void)
 	gtk_signal_connect (GTK_OBJECT (cmdSourcesDelete), "clicked",
 			    GTK_SIGNAL_FUNC (on_cmdSourcesDelete_clicked),
 			    clistSources);
+
+	gtk_signal_connect (GTK_OBJECT (cmdNewsServersAdd), "clicked",
+			    GTK_SIGNAL_FUNC (on_cmdNewsServersAdd_clicked),
+			    clistNewsServers);
+	gtk_signal_connect (GTK_OBJECT (cmdNewsServersEdit), "clicked",
+			    GTK_SIGNAL_FUNC (on_cmdNewsServersEdit_clicked),
+			    clistNewsServers);
+	gtk_signal_connect (GTK_OBJECT (cmdNewsServersDelete), "clicked",
+			    GTK_SIGNAL_FUNC (on_cmdNewsServersDelete_clicked),
+			    clistNewsServers);
 	
 	gtk_signal_connect (GTK_OBJECT (cmdCamelServicesOK), "clicked",
 			    GTK_SIGNAL_FUNC (on_cmdCamelServicesOK_clicked),
@@ -1905,6 +2206,9 @@ providers_config_new (void)
 			    NULL);
 	gtk_signal_connect (GTK_OBJECT (clistSources), "select_row",
 			    GTK_SIGNAL_FUNC (on_clistSources_select_row),
+			    NULL);
+	gtk_signal_connect (GTK_OBJECT (clistNewsServers), "select_row",
+			    GTK_SIGNAL_FUNC (on_clistNewsServers_select_row),
 			    NULL);
 
 	gtk_signal_connect (GTK_OBJECT (chkFormat), "toggled",

@@ -1,3 +1,18 @@
+2000-07-12  Chris Toshok  <toshok@helixcode.com>
+
+	* mail-config.glade*: add news server tab to dialog.
+
+	* mail-config.c (on_NewsServerConfigDialogButton_clicked): new function.
+	(on_clistNewsServers_select_row): new function.
+	(on_cmdNewsServersAdd_clicked): new function.
+	(on_cmdNewsServersEdit_clicked): new function.
+	(on_cmdNewsServersDelete_clicked): new function.
+	(providers_config_new): mirror the source tab's code to fill in
+	the news server tab.
+	(write_config): save out the news server.
+	(create_news_server_config_dialog): new function.
+	(create_news_server_page): new function.
+
 2000-07-12  Peter Williams  <peterw@helixcode.com>
 
 	* mail-display.c (save_data): Change from evolution_dir to
