@@ -1,3 +1,7 @@
+2003-09-11  Rodney Dawes  <dobey@ximian.com>
+
+	* POTFILES.in: s/evolution.desktop.in/evolution.desktop.in.in/
+	
 2003-09-10  Nikos Charonitakis <frolix68@yahoo.gr>
 
 	* el.po: Updated Greek translation.

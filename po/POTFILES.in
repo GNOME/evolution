@@ -215,7 +215,7 @@ composer/e-msg-composer-hdrs.c
 composer/e-msg-composer-select-file.c
 composer/e-msg-composer.c
 composer/evolution-composer.c
-data/evolution.desktop.in
+data/evolution.desktop.in.in
 data/evolution.keys.in
 default_user/searches.xml
 default_user/vfolders.xml
