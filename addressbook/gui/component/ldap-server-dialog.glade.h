@@ -8,3 +8,4 @@ gchar *s = N_("Description:");
 gchar *s = N_("LDAP Server:");
 gchar *s = N_("Port Number:");
 gchar *s = N_("Root DN:");
+gchar *s = N_("Name:");

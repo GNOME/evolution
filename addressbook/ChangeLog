@@ -1,5 +1,30 @@
 2000-07-05  Chris Toshok  <toshok@helixcode.com>
 
+	* gui/component/addressbook.c (new_server_cb): call
+	e_ldap_storage_add_server call.
+
+	* gui/component/ldap-server-dialog.glade: add name row.
+
+	* gui/component/e-ldap-server-dialog.h: remove the ELDAPServer type.
+
+	* gui/component/e-ldap-server-dialog.c (extract_server_info): add
+	support for the name-entry.
+
+	* gui/component/e-ldap-server-dialog.c (fill_in_server_info): same.
+
+	* gui/component/e-ldap-storage.h: add ELDAPServer type, and add
+	prototypes for e_ldap_storage_add_server and
+	e_ldap_storage_remove_server.
+
+	* gui/component/e-ldap-storage.c (e_ldap_storage_add_server): new
+	function, add it to our hash table, add a shell folder, and save
+	out the metadata.
+	(ldap_server_foreach): add the ldap server info under a
+	"contactserver" node.
+	(setup_ldap_storage): create our hashtable.
+
+2000-07-05  Chris Toshok  <toshok@helixcode.com>
+
 	* gui/component/addressbook.c (set_prop): remove hack to read
 	"uri" file from local directory.
 

@@ -186,19 +186,19 @@ null_cb (EBook *book, EBookStatus status, gpointer closure)
 static void
 new_server_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-	ELDAPServer server;
-	char *uri;
+	ELDAPServer *server = g_new (ELDAPServer, 1);
 	EBook *book;
 	AddressbookView *view = (AddressbookView *) user_data;
 	GtkObject *object;
 
 	/* fill in the defaults */
-	server.host = g_strdup("");
-	server.port = 389;
-	server.description = g_strdup("");
-	server.rootdn = g_strdup("");
-
-	e_ldap_server_editor_show (&server);
+	server->name = g_strdup("");
+	server->host = g_strdup("");
+	server->port = 389;
+	server->description = g_strdup("");
+	server->rootdn = g_strdup("");
+	server->uri = g_strdup_printf ("ldap://%s:%d/%s", server->host, server->port, server->rootdn);
+	e_ldap_server_editor_show (server);
 
 	if (view->view)
 		object = GTK_OBJECT(view->view);
@@ -207,14 +207,12 @@ new_server_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	gtk_object_get(object, "book", &book, NULL);
 	g_assert (E_IS_BOOK (book));
 	
-	/* XXX write out the new server info */
+	/* write out the new server info */
+	e_ldap_storage_add_server (server);
 
 	/* now update the view */
-	uri = g_strdup_printf ("ldap://%s:%d/%s", server.host, server.port, server.rootdn);
-
 	e_book_unload_uri (book);
-
-	if (! e_book_load_uri (book, uri, null_cb, NULL)) {
+	if (! e_book_load_uri (book, server->uri, null_cb, NULL)) {
 		g_warning ("error calling load_uri!\n");
 	}
 }

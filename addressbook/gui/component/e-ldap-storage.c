@@ -60,13 +60,13 @@ static gboolean load_ldap_data (EvolutionStorage *storage, const char *file_path
 static gboolean save_ldap_data (const char *file_path);
 
 GHashTable *servers;
+EvolutionStorage *storage;
 
 void
 setup_ldap_storage (EvolutionShellComponent *shell_component)
 {
 	EvolutionShellClient *shell_client;
 	Evolution_Shell corba_shell;
-	EvolutionStorage *storage;
 	char *path;
 
 	shell_client = evolution_shell_component_get_owner (shell_component);
@@ -84,6 +84,8 @@ setup_ldap_storage (EvolutionShellComponent *shell_component)
 	}
 
 	/* save the storage for later */
+	servers = g_hash_table_new (g_str_hash, g_str_equal);
+
 	gtk_object_set_data (GTK_OBJECT (shell_component), "e-storage", storage);
 
 	path = g_strdup_printf ("%s/evolution/" LDAPSERVER_XML, g_get_home_dir());
@@ -135,26 +137,25 @@ load_ldap_data (EvolutionStorage *storage,
 
 	for (child = root->childs; child; child = child->next) {
 		char *path;
-		char *name;
-		char *uri;
-		char *description;
+		ELDAPServer *server;
 
 		if (strcmp (child->name, "contactserver")) {
 			g_warning ("unknown node '%s' in %s", child->name, file_path);
 			continue;
 		}
 
-		name = get_string_value (child, "name");
-		uri = get_string_value (child, "uri");
-		description = get_string_value (child, "description");
+		server = g_new (ELDAPServer, 1);
 
-		path = g_strdup_printf ("/%s", name);
-		evolution_storage_new_folder (storage, path, "contacts", uri, description);
+		server->name = get_string_value (child, "name");
+		server->uri = get_string_value (child, "uri");
+		server->description = get_string_value (child, "description");
+
+		path = g_strdup_printf ("/%s", server->name);
+		evolution_storage_new_folder (storage, path, "contacts", server->uri, server->description);
+
+		g_hash_table_insert (servers, server->name, server);
 
 		g_free (path);
-		g_free (name);
-		g_free (uri);
-		g_free (description);
 	}
 
 	xmlFreeDoc (doc);
@@ -167,15 +168,19 @@ ldap_server_foreach(gpointer key, gpointer value, gpointer user_data)
 {
 	ELDAPServer *server = (ELDAPServer*)value;
 	xmlNode *root = (xmlNode*)user_data;
+	xmlNode *server_root = xmlNewDocNode (root, NULL,
+					      (xmlChar *) "contactserver", NULL);
 
-	xmlNewChild (root, NULL, (xmlChar *) "name",
+	xmlAddChild (root, server_root);
+
+	xmlNewChild (server_root, NULL, (xmlChar *) "name",
 		     (xmlChar *) server->name);
 
-	xmlNewChild (root, NULL, (xmlChar *) "uri",
+	xmlNewChild (server_root, NULL, (xmlChar *) "uri",
 		     (xmlChar *) server->uri);
 
 	if (server->description)
-		xmlNewChild (root, NULL, (xmlChar *) "description",
+		xmlNewChild (server_root, NULL, (xmlChar *) "description",
 			     (xmlChar *) server->description);
 }
 
@@ -199,4 +204,27 @@ save_ldap_data (const char *file_path)
 
 	xmlFreeDoc (doc);
 	return TRUE;
+}
+
+void
+e_ldap_storage_add_server (ELDAPServer *server)
+{
+	char *path;
+	/* add it to our hashtable */
+	g_hash_table_insert (servers, server->name, server);
+
+	/* and then to the ui */
+	path = g_strdup_printf ("/%s", server->name);
+	evolution_storage_new_folder (storage, path, "contacts", server->uri, server->description);
+
+	g_free (path);
+
+	path = g_strdup_printf ("%s/evolution/" LDAPSERVER_XML, g_get_home_dir());
+	save_ldap_data (path);
+	g_free (path);
+}
+
+void
+e_ldap_storage_remove_server (char *name)
+{
 }

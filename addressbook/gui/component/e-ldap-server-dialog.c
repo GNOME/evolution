@@ -39,6 +39,12 @@ fill_in_server_info (ELDAPServerDialog *dialog)
 	int position;
 	char buf[128];
 
+	/* the name */
+	position = 0;
+	editable = GTK_EDITABLE(glade_xml_get_widget(dialog->gui, "name-entry"));
+	gtk_editable_delete_text (editable, 0, -1);
+	gtk_editable_insert_text (editable, ldap_server->name, strlen (ldap_server->name), &position);
+
 	/* the server description */
 	position = 0;
 	editable = GTK_EDITABLE(glade_xml_get_widget(dialog->gui, "description-entry"));
@@ -70,7 +76,16 @@ extract_server_info (ELDAPServerDialog *dialog)
 {
 	ELDAPServer *ldap_server = dialog->server;
 	GtkEditable *editable;
-	char *description, *server, *port, *rootdn;
+	char *description, *server, *port, *rootdn, *name;
+
+	/* the server name */
+	editable = GTK_EDITABLE(glade_xml_get_widget(dialog->gui, "name-entry"));
+	name = gtk_editable_get_chars(editable, 0, -1);
+	if (name && *name) {
+		if (ldap_server->name)
+			g_free(ldap_server->name);
+		ldap_server->name = name;
+	}
 
 	/* the server description */
 	editable = GTK_EDITABLE(glade_xml_get_widget(dialog->gui, "description-entry"));
@@ -111,7 +126,7 @@ extract_server_info (ELDAPServerDialog *dialog)
 void
 e_ldap_server_editor_show(ELDAPServer *server)
 {
-	ELDAPServerDialog *dialog = g_new0(ELDAPServerDialog, 1);
+	ELDAPServerDialog *dialog = g_new0 (ELDAPServerDialog, 1);
 
 	dialog->server = server;
 	dialog->gui = glade_xml_new (EVOLUTION_GLADEDIR "/ldap-server-dialog.glade", NULL);
