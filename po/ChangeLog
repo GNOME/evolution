@@ -1,3 +1,7 @@
+2002-01-09  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
+
+	* sk.po: Starting Slovak translation of zones.
+
 2002-01-09  Dan Winship  <danw@ximian.com>
 
 	* POTFILES.in: Revert previous change as it broke the snapshot

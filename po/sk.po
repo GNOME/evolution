@@ -4,10 +4,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.16\n"
-"POT-Creation-Date: 2001-12-18 17:59-0500\n"
-"PO-Revision-Date: 2001-12-07 21:09CET\n"
+"POT-Creation-Date: 2002-01-09 18:06+0100\n"
+"PO-Revision-Date: 2002-01-09 18:05CET\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
-"Language-Team: Slovak <sk-i18n@linux.sk>\n"
+"Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1153,12 +1153,10 @@ msgid "_Message Recipients:"
 msgstr "_Adresáti správy:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
-#, fuzzy
 msgid "A_ssistant's name:"
 msgstr "Meno _asistenta:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
-#, fuzzy
 msgid "Add_ress..."
 msgstr "_Adresa..."
 
@@ -1167,12 +1165,10 @@ msgid "Anni_versary:"
 msgstr "_Výroèie:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
-#, fuzzy
 msgid "Birthda_y:"
 msgstr "Dátum na_rodenia:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
-#, fuzzy
 msgid "C_ontacts..."
 msgstr "_Kontakty..."
 
@@ -1193,7 +1189,6 @@ msgid "Contact Editor"
 msgstr "Editor kontaktov"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
-#, fuzzy
 msgid "D_epartment:"
 msgstr "O_ddelenie:"
 
@@ -1211,7 +1206,6 @@ msgid "File A_s:"
 msgstr "Ulo¾i» _ako:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
-#, fuzzy
 msgid "Full _Name..."
 msgstr "_Celé meno..."
 
@@ -1241,7 +1235,6 @@ msgid "Organi_zation:"
 msgstr "Or_ganizácia:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:24
-#, fuzzy
 msgid "P_rofession:"
 msgstr "_Povolanie:"
 
@@ -1250,12 +1243,10 @@ msgid "Phone Types"
 msgstr "Typy telefónov"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
-#, fuzzy
 msgid "S_pouse:"
 msgstr "Ma_n¾el(ka):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
-#, fuzzy
 msgid "This is the _mailing address"
 msgstr "_Toto je e-mailová adresa"
 
@@ -3003,926 +2994,855 @@ msgstr "Tlaèi» obálku"
 #.
 #: calendar/zones.h:7
 msgid "Africa/Abidjan"
-msgstr ""
+msgstr "Afrika/Abid¾an"
 
 #: calendar/zones.h:8
 msgid "Africa/Accra"
-msgstr ""
+msgstr "Afrika/Akra"
 
 #: calendar/zones.h:9
 msgid "Africa/Addis_Ababa"
-msgstr ""
+msgstr "Afrika/Addis_Abeba"
 
 #: calendar/zones.h:10
 msgid "Africa/Algiers"
-msgstr ""
+msgstr "Afrika/Al¾ír"
 
 #: calendar/zones.h:11
 msgid "Africa/Asmera"
-msgstr ""
+msgstr "Afrika/Asmera"
 
 #: calendar/zones.h:12
 msgid "Africa/Bamako"
-msgstr ""
+msgstr "Afrika/Bamako"
 
 #: calendar/zones.h:13
 msgid "Africa/Bangui"
-msgstr ""
+msgstr "Afrika/Bangui"
 
 #: calendar/zones.h:14
 msgid "Africa/Banjul"
-msgstr ""
+msgstr "Afrika/Banjul"
 
 #: calendar/zones.h:15
 msgid "Africa/Bissau"
-msgstr ""
+msgstr "Afrika/Bissau"
 
 #: calendar/zones.h:16
 msgid "Africa/Blantyre"
-msgstr ""
+msgstr "Afrika/Blantyre"
 
 #: calendar/zones.h:17
 msgid "Africa/Brazzaville"
-msgstr ""
+msgstr "Afrika/Brazzaville"
 
 #: calendar/zones.h:18
 msgid "Africa/Bujumbura"
-msgstr ""
+msgstr "Afrika/Bujumbura"
 
 #: calendar/zones.h:19
 msgid "Africa/Cairo"
-msgstr ""
+msgstr "Afrika/Káhira"
 
 #: calendar/zones.h:20
 msgid "Africa/Casablanca"
-msgstr ""
+msgstr "Afrika/Casablanca"
 
 #: calendar/zones.h:21
 msgid "Africa/Ceuta"
-msgstr ""
+msgstr "Afrika/Ceuta"
 
 #: calendar/zones.h:22
 msgid "Africa/Conakry"
-msgstr ""
+msgstr "Afrika/Conakry"
 
 #: calendar/zones.h:23
 msgid "Africa/Dakar"
-msgstr ""
+msgstr "Afrika/Dakar"
 
 #: calendar/zones.h:24
 msgid "Africa/Dar_es_Salaam"
-msgstr ""
+msgstr "Afrika/Dar_es_Salaam"
 
 #: calendar/zones.h:25
-#, fuzzy
 msgid "Africa/Djibouti"
-msgstr "D¾ibuti"
+msgstr "Afrika/D¾ibuti"
 
 #: calendar/zones.h:26
 msgid "Africa/Douala"
-msgstr ""
+msgstr "Afrika/Douala"
 
 #: calendar/zones.h:27
 msgid "Africa/El_Aaiun"
-msgstr ""
+msgstr "Afrika/El_Aaiun"
 
 #: calendar/zones.h:28
 msgid "Africa/Freetown"
-msgstr ""
+msgstr "Afrika/Freetown"
 
 #: calendar/zones.h:29
 msgid "Africa/Gaborone"
-msgstr ""
+msgstr "Afrika/Gaborone"
 
 #: calendar/zones.h:30
 msgid "Africa/Harare"
-msgstr ""
+msgstr "Afrika/Harare"
 
 #: calendar/zones.h:31
 msgid "Africa/Johannesburg"
-msgstr ""
+msgstr "Afrika/Johannesburg"
 
 #: calendar/zones.h:32
 msgid "Africa/Kampala"
-msgstr ""
+msgstr "Afrika/Kampala"
 
 #: calendar/zones.h:33
 msgid "Africa/Khartoum"
-msgstr ""
+msgstr "Afrika/Khartoum"
 
 #: calendar/zones.h:34
 msgid "Africa/Kigali"
-msgstr ""
+msgstr "Afrika/Kigali"
 
 #: calendar/zones.h:35
 msgid "Africa/Kinshasa"
-msgstr ""
+msgstr "Afrika/Kinshasa"
 
 #: calendar/zones.h:36
 msgid "Africa/Lagos"
-msgstr ""
+msgstr "Afrika/Lagos"
 
 #: calendar/zones.h:37
 msgid "Africa/Libreville"
-msgstr ""
+msgstr "Afrika/Libreville"
 
 #: calendar/zones.h:38
 msgid "Africa/Lome"
-msgstr ""
+msgstr "Afrika/Lome"
 
 #: calendar/zones.h:39
 msgid "Africa/Luanda"
-msgstr ""
+msgstr "Afrika/Luanda"
 
 #: calendar/zones.h:40
 msgid "Africa/Lubumbashi"
-msgstr ""
+msgstr "Afrika/Lubumbashi"
 
 #: calendar/zones.h:41
 msgid "Africa/Lusaka"
-msgstr ""
+msgstr "Afrika/Lusaka"
 
 #: calendar/zones.h:42
 msgid "Africa/Malabo"
-msgstr ""
+msgstr "Afrika/Malabo"
 
 #: calendar/zones.h:43
 msgid "Africa/Maputo"
-msgstr ""
+msgstr "Afrika/Maputo"
 
 #: calendar/zones.h:44
 msgid "Africa/Maseru"
-msgstr ""
+msgstr "Afrika/Maseru"
 
 #: calendar/zones.h:45
 msgid "Africa/Mbabane"
-msgstr ""
+msgstr "Afrika/Mbabane"
 
 #: calendar/zones.h:46
 msgid "Africa/Mogadishu"
-msgstr ""
+msgstr "Afrika/Mogadishu"
 
 #: calendar/zones.h:47
 msgid "Africa/Monrovia"
-msgstr ""
+msgstr "Afrika/Monrovia"
 
 #: calendar/zones.h:48
 msgid "Africa/Nairobi"
-msgstr ""
+msgstr "Afrika/Nairobi"
 
 #: calendar/zones.h:49
 msgid "Africa/Ndjamena"
-msgstr ""
+msgstr "Afrika/Ndjamena"
 
 #: calendar/zones.h:50
 msgid "Africa/Niamey"
-msgstr ""
+msgstr "Afrika/Niamey"
 
 #: calendar/zones.h:51
 msgid "Africa/Nouakchott"
-msgstr ""
+msgstr "Afrika/Nouakchott"
 
 #: calendar/zones.h:52
 msgid "Africa/Ouagadougou"
-msgstr ""
+msgstr "Afrika/Ouagadougou"
 
 #: calendar/zones.h:53
 msgid "Africa/Porto-Novo"
-msgstr ""
+msgstr "Afrika/Porto-Novo"
 
 #: calendar/zones.h:54
 msgid "Africa/Sao_Tome"
-msgstr ""
+msgstr "Afrika/Sao_Tome"
 
 #: calendar/zones.h:55
 msgid "Africa/Timbuktu"
-msgstr ""
+msgstr "Afrika/Timbuktu"
 
 #: calendar/zones.h:56
 msgid "Africa/Tripoli"
-msgstr ""
+msgstr "Afrika/Tripolis"
 
 #: calendar/zones.h:57
 msgid "Africa/Tunis"
-msgstr ""
+msgstr "Afrika/Tunis"
 
 #: calendar/zones.h:58
 msgid "Africa/Windhoek"
-msgstr ""
+msgstr "Afrika/Windhoek"
 
 #: calendar/zones.h:59
-#, fuzzy
 msgid "America/Adak"
-msgstr "Americká Samoa"
+msgstr "Amerika/Adak"
 
 #: calendar/zones.h:60
-#, fuzzy
 msgid "America/Anchorage"
-msgstr "Americká Samoa"
+msgstr "Amerika/Anchorage"
 
 #: calendar/zones.h:61
-#, fuzzy
 msgid "America/Anguilla"
-msgstr "Anguilla"
+msgstr "Amerika/Anguilla"
 
 #: calendar/zones.h:62
-#, fuzzy
 msgid "America/Antigua"
-msgstr "Americká Samoa"
+msgstr "Amerika/Antigua"
 
 #: calendar/zones.h:63
-#, fuzzy
 msgid "America/Araguaina"
-msgstr "Nikaragua"
+msgstr "Amerika/Araguaina"
 
 #: calendar/zones.h:64
 msgid "America/Aruba"
-msgstr ""
+msgstr "Amerika/Aruba"
 
 #: calendar/zones.h:65
-#, fuzzy
 msgid "America/Asuncion"
-msgstr "Americká Samoa"
+msgstr "Amerika/Asuncion"
 
 #: calendar/zones.h:66
-#, fuzzy
 msgid "America/Barbados"
-msgstr "Barbados"
+msgstr "Amerika/Barbados"
 
 #: calendar/zones.h:67
 msgid "America/Belem"
-msgstr ""
+msgstr "Amerika/Belem"
 
 #: calendar/zones.h:68
-#, fuzzy
 msgid "America/Belize"
-msgstr "Belize"
+msgstr "Amerika/Belize"
 
 #: calendar/zones.h:69
 msgid "America/Boa_Vista"
-msgstr ""
+msgstr "Amerika/Boa_Vista"
 
 #: calendar/zones.h:70
-#, fuzzy
 msgid "America/Bogota"
-msgstr "Americká Samoa"
+msgstr "Amerika/Bogota"
 
 #: calendar/zones.h:71
 msgid "America/Boise"
-msgstr ""
+msgstr "Amerika/Boise"
 
 #: calendar/zones.h:72
 msgid "America/Buenos_Aires"
-msgstr ""
+msgstr "Amerika/Buenos_Aires"
 
 #: calendar/zones.h:73
 msgid "America/Cambridge_Bay"
-msgstr ""
+msgstr "Amerika/Cambridge_Bay"
 
 #: calendar/zones.h:74
 msgid "America/Cancun"
-msgstr ""
+msgstr "Amerika/Cancun"
 
 #: calendar/zones.h:75
-#, fuzzy
 msgid "America/Caracas"
-msgstr "Americká Samoa"
+msgstr "Amerika/Caracas"
 
 #: calendar/zones.h:76
-#, fuzzy
 msgid "America/Catamarca"
-msgstr "Americká Samoa"
+msgstr "Amerika/Catamarca"
 
 #: calendar/zones.h:77
 msgid "America/Cayenne"
-msgstr ""
+msgstr "Amerika/Cayenne"
 
 #: calendar/zones.h:78
-#, fuzzy
 msgid "America/Cayman"
-msgstr "Americká Samoa"
+msgstr "Amerika/Cayman"
 
 #: calendar/zones.h:79
-#, fuzzy
 msgid "America/Chicago"
-msgstr "Americká Samoa"
+msgstr "Amerika/Chicago"
 
 #: calendar/zones.h:80
 msgid "America/Chihuahua"
-msgstr ""
+msgstr "Amerika/Chihuahua"
 
 #: calendar/zones.h:81
-#, fuzzy
 msgid "America/Cordoba"
-msgstr "Americká Samoa"
+msgstr "Amerika/Cordoba"
 
 #: calendar/zones.h:82
-#, fuzzy
 msgid "America/Costa_Rica"
-msgstr "Kostarika"
+msgstr "Amerika/Kostarika"
 
 #: calendar/zones.h:83
-#, fuzzy
 msgid "America/Cuiaba"
-msgstr "Americká Samoa"
+msgstr "Amerika/Cuiaba"
 
 #: calendar/zones.h:84
-#, fuzzy
 msgid "America/Curacao"
-msgstr "Americká Samoa"
+msgstr "Amerika/Curacao"
 
 #: calendar/zones.h:85
 msgid "America/Danmarkshavn"
-msgstr ""
+msgstr "Amerika/Danmarkshavn"
 
 #: calendar/zones.h:86
-#, fuzzy
 msgid "America/Dawson"
-msgstr "Americká Samoa"
+msgstr "Amerika/Dawson"
 
 #: calendar/zones.h:87
 msgid "America/Dawson_Creek"
-msgstr ""
+msgstr "Amerika/Dawson_Creek"
 
 #: calendar/zones.h:88
 msgid "America/Denver"
-msgstr ""
+msgstr "Amerika/Denver"
 
 #: calendar/zones.h:89
 msgid "America/Detroit"
-msgstr ""
+msgstr "Amerika/Detroit"
 
 #: calendar/zones.h:90
-#, fuzzy
 msgid "America/Dominica"
-msgstr "Dominika"
+msgstr "Amerika/Dominica"
 
 #: calendar/zones.h:91
-#, fuzzy
 msgid "America/Edmonton"
-msgstr "Americká Samoa"
+msgstr "Amerika/Edmonton"
 
 #: calendar/zones.h:92
 msgid "America/Eirunepe"
-msgstr ""
+msgstr "Amerika/Eirunepe"
 
 #: calendar/zones.h:93
-#, fuzzy
 msgid "America/El_Salvador"
-msgstr "Salvádor"
+msgstr "Amerika/El_Salvador"
 
 #: calendar/zones.h:94
 msgid "America/Fortaleza"
-msgstr ""
+msgstr "Amerika/Fortaleza"
 
 #: calendar/zones.h:95
 msgid "America/Glace_Bay"
-msgstr ""
+msgstr "Amerika/Glace_Bay"
 
 #: calendar/zones.h:96
-#, fuzzy
 msgid "America/Godthab"
-msgstr "Americká Samoa"
+msgstr "Amerika/Godthab"
 
 #: calendar/zones.h:97
 msgid "America/Goose_Bay"
-msgstr ""
+msgstr "Amerika/Goose_Bay"
 
 #: calendar/zones.h:98
 msgid "America/Grand_Turk"
-msgstr ""
+msgstr "Amerika/Grand_Turk"
 
 #: calendar/zones.h:99
-#, fuzzy
 msgid "America/Grenada"
-msgstr "Americká Samoa"
+msgstr "Amerika/Grenada"
 
 #: calendar/zones.h:100
-#, fuzzy
 msgid "America/Guadeloupe"
-msgstr "Guadeloupe"
+msgstr "Amerika/Guadeloupe"
 
 #: calendar/zones.h:101
-#, fuzzy
 msgid "America/Guatemala"
-msgstr "Guatemala"
+msgstr "Amerika/Guatemala"
 
 #: calendar/zones.h:102
 msgid "America/Guayaquil"
-msgstr ""
+msgstr "Amerika/Guayaquil"
 
 #: calendar/zones.h:103
-#, fuzzy
 msgid "America/Guyana"
-msgstr "Americká Samoa"
+msgstr "Amerika/Guajana"
 
 #: calendar/zones.h:104
-#, fuzzy
 msgid "America/Halifax"
-msgstr "Americká Samoa"
+msgstr "Amerika/Halifax"
 
 #: calendar/zones.h:105
-#, fuzzy
 msgid "America/Havana"
-msgstr "Americká Samoa"
+msgstr "Amerika/Havana"
 
 #: calendar/zones.h:106
 msgid "America/Hermosillo"
-msgstr ""
+msgstr "Amerika/Hermosillo"
 
 #: calendar/zones.h:107
 msgid "America/Indiana/Indianapolis"
-msgstr ""
+msgstr "Amerika/Indiana/Indianapolis"
 
 #: calendar/zones.h:108
 msgid "America/Indiana/Knox"
-msgstr ""
+msgstr "Amerika/Indiana/Knox"
 
 #: calendar/zones.h:109
 msgid "America/Indiana/Marengo"
-msgstr ""
+msgstr "Amerika/Indiana/Marengo"
 
 #: calendar/zones.h:110
 msgid "America/Indiana/Vevay"
-msgstr ""
+msgstr "Amerika/Indiana/Vevay"
 
 #: calendar/zones.h:111
 msgid "America/Indianapolis"
-msgstr ""
+msgstr "Amerika/Indianapolis"
 
 #: calendar/zones.h:112
 msgid "America/Inuvik"
-msgstr ""
+msgstr "Amerika/Inuvik"
 
 #: calendar/zones.h:113
 msgid "America/Iqaluit"
-msgstr ""
+msgstr "Amerika/Iqaluit"
 
 #: calendar/zones.h:114
-#, fuzzy
 msgid "America/Jamaica"
-msgstr "Americká Samoa"
+msgstr "Amerika/Jamajka"
 
 #: calendar/zones.h:115
 msgid "America/Jujuy"
-msgstr ""
+msgstr "Amerika/Jujuy"
 
 #: calendar/zones.h:116
-#, fuzzy
 msgid "America/Juneau"
-msgstr "Americká Samoa"
+msgstr "Amerika/Juneau"
 
 #: calendar/zones.h:117
 msgid "America/Kentucky/Louisville"
-msgstr ""
+msgstr "Amerika/Kentucky/Louisville"
 
 #: calendar/zones.h:118
 msgid "America/Kentucky/Monticello"
-msgstr ""
+msgstr "Amerika/Kentucky/Monticello"
 
 #: calendar/zones.h:119
-#, fuzzy
 msgid "America/La_Paz"
-msgstr "Americká Samoa"
+msgstr "Amerika/La_Paz"
 
 #: calendar/zones.h:120
-#, fuzzy
 msgid "America/Lima"
-msgstr "Americká Samoa"
+msgstr "Amerika/Lima"
 
 #: calendar/zones.h:121
 msgid "America/Los_Angeles"
-msgstr ""
+msgstr "Amerika/Los_Angeles"
 
 #: calendar/zones.h:122
 msgid "America/Louisville"
-msgstr ""
+msgstr "Amerika/Louisville"
 
 #: calendar/zones.h:123
-#, fuzzy
 msgid "America/Maceio"
-msgstr "Americká Samoa"
+msgstr "Amerika/Maceio"
 
 #: calendar/zones.h:124
-#, fuzzy
 msgid "America/Managua"
-msgstr "Americká Samoa"
+msgstr "Amerika/Managua"
 
 #: calendar/zones.h:125
-#, fuzzy
 msgid "America/Manaus"
-msgstr "Americká Samoa"
+msgstr "Amerika/Manaus"
 
 #: calendar/zones.h:126
-#, fuzzy
 msgid "America/Martinique"
-msgstr "Martinik"
+msgstr "Amerika/Martinik"
 
 #: calendar/zones.h:127
-#, fuzzy
 msgid "America/Mazatlan"
-msgstr "Americká Samoa"
+msgstr "Amerika/Mazatlan"
 
 #: calendar/zones.h:128
-#, fuzzy
 msgid "America/Mendoza"
-msgstr "Americká Samoa"
+msgstr "Amerika/Mendoza"
 
 #: calendar/zones.h:129
 msgid "America/Menominee"
-msgstr ""
+msgstr "Amerika/Menominee"
 
 #: calendar/zones.h:130
 msgid "America/Merida"
-msgstr ""
+msgstr "Amerika/Merida"
 
 #: calendar/zones.h:131
 msgid "America/Mexico_City"
-msgstr ""
+msgstr "Amerika/Mexico_City"
 
 #: calendar/zones.h:132
 msgid "America/Miquelon"
-msgstr ""
+msgstr "Amerika/Miquelon"
 
 #: calendar/zones.h:133
 msgid "America/Monterrey"
-msgstr ""
+msgstr "Amerika/Monterrey"
 
 #: calendar/zones.h:134
 msgid "America/Montevideo"
-msgstr ""
+msgstr "Amerika/Montevideo"
 
 #: calendar/zones.h:135
-#, fuzzy
 msgid "America/Montreal"
-msgstr "Americká Samoa"
+msgstr "Amerika/Montreal"
 
 #: calendar/zones.h:136
-#, fuzzy
 msgid "America/Montserrat"
-msgstr "Montserrat"
+msgstr "Amerika/Montserrat"
 
 #: calendar/zones.h:137
-#, fuzzy
 msgid "America/Nassau"
-msgstr "Americká Samoa"
+msgstr "Amerika/Nassau"
 
 #: calendar/zones.h:138
 msgid "America/New_York"
-msgstr ""
+msgstr "Amerika/New_York"
 
 #: calendar/zones.h:139
 msgid "America/Nipigon"
-msgstr ""
+msgstr "Amerika/Nipigon"
 
 #: calendar/zones.h:140
-#, fuzzy
 msgid "America/Nome"
-msgstr "Americká Samoa"
+msgstr "Amerika/Nome"
 
 #: calendar/zones.h:141
-#, fuzzy
 msgid "America/Noronha"
-msgstr "Americká Samoa"
+msgstr "Amerika/Noronha"
 
 #: calendar/zones.h:142
 msgid "America/North_Dakota/Center"
-msgstr ""
+msgstr "Amerika/North_Dakota/Center"
 
 #: calendar/zones.h:143
-#, fuzzy
 msgid "America/Panama"
-msgstr "Americká Samoa"
+msgstr "Amerika/Panama"
 
 #: calendar/zones.h:144
 msgid "America/Pangnirtung"
-msgstr ""
+msgstr "Amerika/Pangnirtung"
 
 #: calendar/zones.h:145
-#, fuzzy
 msgid "America/Paramaribo"
-msgstr "Americká Samoa"
+msgstr "Amerika/Paramaribo"
 
 #: calendar/zones.h:146
 msgid "America/Phoenix"
-msgstr ""
+msgstr "Amerika/Phoenix"
 
 #: calendar/zones.h:147
 msgid "America/Port-au-Prince"
-msgstr ""
+msgstr "Amerika/Port-au-Prince"
 
 #: calendar/zones.h:148
 msgid "America/Port_of_Spain"
-msgstr ""
+msgstr "Amerika/Port_of_Spain"
 
 #: calendar/zones.h:149
 msgid "America/Porto_Velho"
-msgstr ""
+msgstr "Amerika/Porto_Velho"
 
 #: calendar/zones.h:150
-#, fuzzy
 msgid "America/Puerto_Rico"
-msgstr "Portoriko"
+msgstr "Amerika/Portoriko"
 
 #: calendar/zones.h:151
 msgid "America/Rainy_River"
-msgstr ""
+msgstr "Amerika/Rainy_River"
 
 #: calendar/zones.h:152
 msgid "America/Rankin_Inlet"
-msgstr ""
+msgstr "Amerika/Rankin_Inlet"
 
 #: calendar/zones.h:153
 msgid "America/Recife"
-msgstr ""
+msgstr "Amerika/Recife"
 
 #: calendar/zones.h:154
-#, fuzzy
 msgid "America/Regina"
-msgstr "Americká Samoa"
+msgstr "Amerika/Regina"
 
 #: calendar/zones.h:155
 msgid "America/Rio_Branco"
-msgstr ""
+msgstr "Amerika/Rio_Branco"
 
 #: calendar/zones.h:156
-#, fuzzy
 msgid "America/Rosario"
-msgstr "Americká Samoa"
+msgstr "Amerika/Rosario"
 
 #: calendar/zones.h:157
-#, fuzzy
 msgid "America/Santiago"
-msgstr "Americká Samoa"
+msgstr "Amerika/Santiago"
 
 #: calendar/zones.h:158
-#, fuzzy
 msgid "America/Santo_Domingo"
-msgstr "Americká Samoa"
+msgstr "Amerika/Santo_Domingo"
 
 #: calendar/zones.h:159
-#, fuzzy
 msgid "America/Sao_Paulo"
-msgstr "Americká Samoa"
+msgstr "Amerika/Sao_Paulo"
 
 #: calendar/zones.h:160
 msgid "America/Scoresbysund"
-msgstr ""
+msgstr "Amerika/Scoresbysund"
 
 #: calendar/zones.h:161
-#, fuzzy
 msgid "America/Shiprock"
-msgstr "Americká Samoa"
+msgstr "Amerika/Shiprock"
 
 #: calendar/zones.h:162
-#, fuzzy
 msgid "America/St_Johns"
-msgstr "Americká Samoa"
+msgstr "Amerika/St_Johns"
 
 #: calendar/zones.h:163
 msgid "America/St_Kitts"
-msgstr ""
+msgstr "Amerika/St_Kitts"
 
 #: calendar/zones.h:164
-#, fuzzy
 msgid "America/St_Lucia"
-msgstr "Americká Samoa"
+msgstr "Amerika/St_Lucia"
 
 #: calendar/zones.h:165
-#, fuzzy
 msgid "America/St_Thomas"
-msgstr "Americká Samoa"
+msgstr "Amerika/St_Thomas"
 
 #: calendar/zones.h:166
 msgid "America/St_Vincent"
-msgstr ""
+msgstr "Amerika/St_Vincent"
 
 #: calendar/zones.h:167
 msgid "America/Swift_Current"
-msgstr ""
+msgstr "Amerika/Swift_Current"
 
 #: calendar/zones.h:168
 msgid "America/Tegucigalpa"
-msgstr ""
+msgstr "Amerika/Tegucigalpa"
 
 #: calendar/zones.h:169
 msgid "America/Thule"
-msgstr ""
+msgstr "Amerika/Thule"
 
 #: calendar/zones.h:170
 msgid "America/Thunder_Bay"
-msgstr ""
+msgstr "Amerika/Thunder_Bay"
 
 #: calendar/zones.h:171
-#, fuzzy
 msgid "America/Tijuana"
-msgstr "Azerbajd¾án"
+msgstr "Amerika/Tijuana"
 
 #: calendar/zones.h:172
-#, fuzzy
 msgid "America/Tortola"
-msgstr "Americká Samoa"
+msgstr "Amerika/Tortola"
 
 #: calendar/zones.h:173
 msgid "America/Vancouver"
-msgstr ""
+msgstr "Amerika/Vancouver"
 
 #: calendar/zones.h:174
 msgid "America/Whitehorse"
-msgstr ""
+msgstr "Amerika/Whitehorse"
 
 #: calendar/zones.h:175
 msgid "America/Winnipeg"
-msgstr ""
+msgstr "Amerika/Winnipeg"
 
 #: calendar/zones.h:176
-#, fuzzy
 msgid "America/Yakutat"
-msgstr "Americká Samoa"
+msgstr "Amerika/Yakutat"
 
 #: calendar/zones.h:177
 msgid "America/Yellowknife"
-msgstr ""
+msgstr "Amerika/Yellowknife"
 
 #: calendar/zones.h:178
-#, fuzzy
 msgid "Antarctica/Casey"
-msgstr "Antarktída"
+msgstr "Antarktída/Casey"
 
 #: calendar/zones.h:179
-#, fuzzy
 msgid "Antarctica/Davis"
-msgstr "Antarktída"
+msgstr "Antarktída/Davis"
 
 #: calendar/zones.h:180
 msgid "Antarctica/DumontDUrville"
-msgstr ""
+msgstr "Antarktída/DumontDUrville"
 
 #: calendar/zones.h:181
-#, fuzzy
 msgid "Antarctica/Mawson"
-msgstr "Antarktída"
+msgstr "Antarktída/Mawson"
 
 #: calendar/zones.h:182
-#, fuzzy
 msgid "Antarctica/McMurdo"
-msgstr "Antarktída"
+msgstr "Antarktída/McMurdo"
 
 #: calendar/zones.h:183
-#, fuzzy
 msgid "Antarctica/Palmer"
-msgstr "Antarktída"
+msgstr "Antarktída/Palmer"
 
 #: calendar/zones.h:184
-#, fuzzy
 msgid "Antarctica/South_Pole"
-msgstr "Antarktída"
+msgstr "Antarktída/Ju¾ný pól"
 
 #: calendar/zones.h:185
-#, fuzzy
 msgid "Antarctica/Syowa"
-msgstr "Antarktída"
+msgstr "Antarktída/Syowa"
 
 #: calendar/zones.h:186
-#, fuzzy
 msgid "Antarctica/Vostok"
-msgstr "Antarktída"
+msgstr "Antarktída/Vostok"
 
 #: calendar/zones.h:187
 msgid "Arctic/Longyearbyen"
-msgstr ""
+msgstr "Arktída/Longyearbyen"
 
 #: calendar/zones.h:188
 msgid "Asia/Aden"
-msgstr ""
+msgstr "Ázia/Aden"
 
 #: calendar/zones.h:189
 msgid "Asia/Almaty"
-msgstr ""
+msgstr "Ázia/Almaty"
 
 #: calendar/zones.h:190
 msgid "Asia/Amman"
-msgstr ""
+msgstr "Ázia/Ammán"
 
 #: calendar/zones.h:191
 msgid "Asia/Anadyr"
-msgstr ""
+msgstr "Ázia/Anadyr"
 
 #: calendar/zones.h:192
 msgid "Asia/Aqtau"
-msgstr ""
+msgstr "Ázia/Aqtau"
 
 #: calendar/zones.h:193
 msgid "Asia/Aqtobe"
-msgstr ""
+msgstr "Ázia/Aqtobe"
 
 #: calendar/zones.h:194
 msgid "Asia/Ashgabat"
-msgstr ""
+msgstr "Ázia/Ashgabat"
 
 #: calendar/zones.h:195
 msgid "Asia/Baghdad"
-msgstr ""
+msgstr "Ázia/Bagdád"
 
 #: calendar/zones.h:196
-#, fuzzy
 msgid "Asia/Bahrain"
-msgstr "Bahrajn"
+msgstr "Ázia/Bahrajn"
 
 #: calendar/zones.h:197
 msgid "Asia/Baku"
-msgstr ""
+msgstr "Ázia/Baku"
 
 #: calendar/zones.h:198
 msgid "Asia/Bangkok"
-msgstr ""
+msgstr "Ázia/Bangkok"
 
 #: calendar/zones.h:199
 msgid "Asia/Beirut"
-msgstr ""
+msgstr "Ázia/Bejrút"
 
 #: calendar/zones.h:200
 msgid "Asia/Bishkek"
-msgstr ""
+msgstr "Ázia/Bi¹kek"
 
 #: calendar/zones.h:201
 msgid "Asia/Brunei"
-msgstr ""
+msgstr "Ázia/Brunei"
 
 #: calendar/zones.h:202
 msgid "Asia/Calcutta"
-msgstr ""
+msgstr "Ázia/Kalkata"
 
 #: calendar/zones.h:203
 msgid "Asia/Choibalsan"
-msgstr ""
+msgstr "Ázia/Choibalsan"
 
 #: calendar/zones.h:204
 msgid "Asia/Chongqing"
-msgstr ""
+msgstr "Ázia/Chongqing"
 
 #: calendar/zones.h:205
-#, fuzzy
 msgid "Asia/Colombo"
-msgstr "Kolumbia"
+msgstr "Ázia/Colombo"
 
 #: calendar/zones.h:206
 msgid "Asia/Damascus"
-msgstr ""
+msgstr "Ázia/Dama¹ok"
 
 #: calendar/zones.h:207
 msgid "Asia/Dhaka"
-msgstr ""
+msgstr "Ázia/Dháka"
 
 #: calendar/zones.h:208
 msgid "Asia/Dili"
-msgstr ""
+msgstr "Ázia/Dilí"
 
 #: calendar/zones.h:209
 msgid "Asia/Dubai"
-msgstr ""
+msgstr "Ázia/Dubai"
 
 #: calendar/zones.h:210
 msgid "Asia/Dushanbe"
-msgstr ""
+msgstr "Ázia/Du¹anbe"
 
 #: calendar/zones.h:211
 msgid "Asia/Gaza"
-msgstr ""
+msgstr "Ázia/Gaza"
 
 #: calendar/zones.h:212
 msgid "Asia/Harbin"
-msgstr ""
+msgstr "Ázia/Harbin"
 
 #: calendar/zones.h:213
-#, fuzzy
 msgid "Asia/Hong_Kong"
-msgstr "Hongkong"
+msgstr "Ázia/Hong_Kong"
 
 #: calendar/zones.h:214
 msgid "Asia/Hovd"
-msgstr ""
+msgstr "Ázia/Hovd"
 
 #: calendar/zones.h:215
 msgid "Asia/Irkutsk"
-msgstr ""
+msgstr "Ázia/Irkutsk"
 
 #: calendar/zones.h:216
-#, fuzzy
 msgid "Asia/Istanbul"
-msgstr "Asistent"
+msgstr "Ázia/Istanbul"
 
 #: calendar/zones.h:217
 msgid "Asia/Jakarta"
-msgstr ""
+msgstr "Ázia/Jakarta"
 
 #: calendar/zones.h:218
 msgid "Asia/Jayapura"
-msgstr ""
+msgstr "Ázia/Jayapura"
 
 #: calendar/zones.h:219
 msgid "Asia/Jerusalem"
-msgstr ""
+msgstr "Ázia/Jeruzalém"
 
 #: calendar/zones.h:220
 msgid "Asia/Kabul"
@@ -4195,12 +4115,11 @@ msgstr "Austrália"
 
 #: calendar/zones.h:283
 msgid "Europe/Amsterdam"
-msgstr ""
+msgstr "Európa/Amsterdam"
 
 #: calendar/zones.h:284
-#, fuzzy
 msgid "Europe/Andorra"
-msgstr "Andorra"
+msgstr "Európa/Andorra"
 
 #: calendar/zones.h:285
 #, fuzzy
@@ -4209,7 +4128,7 @@ msgstr "Vlastnosti"
 
 #: calendar/zones.h:286
 msgid "Europe/Belfast"
-msgstr ""
+msgstr "Európa/Belfast"
 
 #: calendar/zones.h:287
 msgid "Europe/Belgrade"
@@ -4217,15 +4136,15 @@ msgstr ""
 
 #: calendar/zones.h:288
 msgid "Europe/Berlin"
-msgstr ""
+msgstr "Európa/Berlín"
 
 #: calendar/zones.h:289
 msgid "Europe/Bratislava"
-msgstr ""
+msgstr "Európa/Bratislava"
 
 #: calendar/zones.h:290
 msgid "Europe/Brussels"
-msgstr ""
+msgstr "Európa/Brusel"
 
 #: calendar/zones.h:291
 msgid "Europe/Bucharest"
@@ -4245,28 +4164,27 @@ msgstr ""
 
 #: calendar/zones.h:295
 msgid "Europe/Dublin"
-msgstr ""
+msgstr "Európa/Dublin"
 
 #: calendar/zones.h:296
-#, fuzzy
 msgid "Europe/Gibraltar"
-msgstr "Gibraltar"
+msgstr "Európa/Gibraltar"
 
 #: calendar/zones.h:297
 msgid "Europe/Helsinki"
-msgstr ""
+msgstr "Európa/Helsinki"
 
 #: calendar/zones.h:298
 msgid "Europe/Istanbul"
-msgstr ""
+msgstr "Európa/Istanbul"
 
 #: calendar/zones.h:299
 msgid "Europe/Kaliningrad"
-msgstr ""
+msgstr "Európa/Kaliningrad"
 
 #: calendar/zones.h:300
 msgid "Europe/Kiev"
-msgstr ""
+msgstr "Európa/Kyjev"
 
 #: calendar/zones.h:301
 msgid "Europe/Lisbon"
@@ -4278,24 +4196,23 @@ msgstr ""
 
 #: calendar/zones.h:303
 msgid "Europe/London"
-msgstr ""
+msgstr "Európa/Londýn"
 
 #: calendar/zones.h:304
-#, fuzzy
 msgid "Europe/Luxembourg"
-msgstr "Luxembursko"
+msgstr "Európa/Luxembourg"
 
 #: calendar/zones.h:305
 msgid "Europe/Madrid"
-msgstr ""
+msgstr "Európa/Madrid"
 
 #: calendar/zones.h:306
 msgid "Europe/Malta"
-msgstr ""
+msgstr "Európa/Malta"
 
 #: calendar/zones.h:307
 msgid "Europe/Minsk"
-msgstr ""
+msgstr "Európa/Minsk"
 
 #: calendar/zones.h:308
 #, fuzzy
@@ -4312,7 +4229,7 @@ msgstr ""
 
 #: calendar/zones.h:311
 msgid "Europe/Oslo"
-msgstr ""
+msgstr "Európa/Oslo"
 
 #: calendar/zones.h:312
 #, fuzzy
@@ -4321,11 +4238,11 @@ msgstr "Vlastnosti"
 
 #: calendar/zones.h:313
 msgid "Europe/Prague"
-msgstr ""
+msgstr "Európa/Praha"
 
 #: calendar/zones.h:314
 msgid "Europe/Riga"
-msgstr ""
+msgstr "Európa/Riga"
 
 #: calendar/zones.h:315
 msgid "Europe/Rome"
@@ -4333,28 +4250,27 @@ msgstr ""
 
 #: calendar/zones.h:316
 msgid "Europe/Samara"
-msgstr ""
+msgstr "Európa/Samara"
 
 #: calendar/zones.h:317
-#, fuzzy
 msgid "Europe/San_Marino"
-msgstr "San Marino"
+msgstr "Európa/San_Marino"
 
 #: calendar/zones.h:318
 msgid "Europe/Sarajevo"
-msgstr ""
+msgstr "Európa/Sarajevo"
 
 #: calendar/zones.h:319
 msgid "Europe/Simferopol"
-msgstr ""
+msgstr "Európa/Simferopol"
 
 #: calendar/zones.h:320
 msgid "Europe/Skopje"
-msgstr ""
+msgstr "Európa/Skopje"
 
 #: calendar/zones.h:321
 msgid "Europe/Sofia"
-msgstr ""
+msgstr "Európa/Sofia"
 
 #: calendar/zones.h:322
 msgid "Europe/Stockholm"
@@ -4374,7 +4290,7 @@ msgstr ""
 
 #: calendar/zones.h:326
 msgid "Europe/Vaduz"
-msgstr ""
+msgstr "Európa/Vaduz"
 
 #: calendar/zones.h:327
 msgid "Europe/Vatican"
@@ -4386,7 +4302,7 @@ msgstr ""
 
 #: calendar/zones.h:329
 msgid "Europe/Vilnius"
-msgstr ""
+msgstr "Európa/Vilnius"
 
 #: calendar/zones.h:330
 msgid "Europe/Warsaw"
@@ -10651,8 +10567,9 @@ msgid "Print Message"
 msgstr "Tlaèi» správu"
 
 #: mail/mail-callbacks.c:2352
+#, fuzzy
 msgid "US-Letter"
-msgstr ""
+msgstr "US-Letter"
 
 #: mail/mail-callbacks.c:2371
 msgid "Printing of message failed"
@@ -11669,16 +11586,16 @@ msgstr "Zadajte va¹e heslo pre %s"
 msgid "Enter Password"
 msgstr "Zadajte heslo"
 
-#: mail/mail-tools.c:255
+#: mail/mail-tools.c:256
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "Predaná správa - %s"
 
-#: mail/mail-tools.c:259
+#: mail/mail-tools.c:260
 msgid "Forwarded message"
 msgstr "Predaná správa"
 
-#: mail/mail-tools.c:393
+#: mail/mail-tools.c:394
 msgid "Forwarded Message"
 msgstr "Predaná správa"
 
@@ -11712,7 +11629,7 @@ msgstr "VPrieèinky"
 #: mail/mail-vfolder.c:785
 #, fuzzy
 msgid "vFolders"
-msgstr "Prieèinky"
+msgstr "vPrieèinky"
 
 #: mail/mail-vfolder.c:825
 msgid "Edit VFolder"
@@ -11792,7 +11709,7 @@ msgstr "%a %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: mail/message-list.c:2334
+#: mail/message-list.c:2341
 msgid "Generating message list"
 msgstr "Generujem zoznam správ"
 
@@ -11984,7 +11901,7 @@ msgstr "%A, %B %e %Y"
 #: my-evolution/e-summary.c:493
 #, fuzzy
 msgid "Please wait..."
-msgstr "Prosím, èakajte"
+msgstr "Prosím èakajte..."
 
 #: my-evolution/e-summary.c:584 ui/my-evolution.xml.h:3
 msgid "Print Summary"
@@ -13537,8 +13454,9 @@ msgid "Alicante"
 msgstr ""
 
 #: my-evolution/Locations.h:58
+#, fuzzy
 msgid "Alice"
-msgstr ""
+msgstr "Alica"
 
 #: my-evolution/Locations.h:59
 msgid "Alice Springs"
@@ -14967,7 +14885,7 @@ msgstr ""
 #: my-evolution/Locations.h:385
 #, fuzzy
 msgid "Cascade"
-msgstr "Na ¹írku"
+msgstr "Kaskádovito"
 
 #: my-evolution/Locations.h:386
 #, fuzzy
@@ -18434,7 +18352,7 @@ msgstr "Libéria"
 #: my-evolution/Locations.h:1212
 #, fuzzy
 msgid "Libya"
-msgstr "Libéria"
+msgstr "Líbya"
 
 #: my-evolution/Locations.h:1213
 msgid "Lichtenburg"
@@ -19373,7 +19291,7 @@ msgstr "Mobil"
 #: my-evolution/Locations.h:1426
 #, fuzzy
 msgid "Moldova"
-msgstr "Pondelok"
+msgstr "Moldavsko"
 
 #: my-evolution/Locations.h:1427
 msgid "Moline-Quad Cities"
@@ -20258,7 +20176,7 @@ msgstr ""
 #: my-evolution/Locations.h:1631
 #, fuzzy
 msgid "Orange"
-msgstr "Francúzsko"
+msgstr "Oran¾ová"
 
 #: my-evolution/Locations.h:1632
 msgid "Orange City"
@@ -21169,7 +21087,7 @@ msgstr "Dá¾ï"
 #: my-evolution/Locations.h:1845
 #, fuzzy
 msgid "Reading"
-msgstr "Hlavièky"
+msgstr "Naèítavam"
 
 #: my-evolution/Locations.h:1846
 #, fuzzy
@@ -21198,7 +21116,7 @@ msgstr "Preèítaná"
 #: my-evolution/Locations.h:1851
 #, fuzzy
 msgid "Redmond"
-msgstr "Pripomenutie"
+msgstr "Redmond"
 
 #: my-evolution/Locations.h:1852
 msgid "Red Oak"
@@ -21508,7 +21426,7 @@ msgstr ""
 #: my-evolution/Locations.h:1921
 #, fuzzy
 msgid "Russia"
-msgstr "Rakúsko"
+msgstr "Rusko"
 
 #: my-evolution/Locations.h:1922
 #, fuzzy
@@ -24165,24 +24083,31 @@ msgid ""
 "%s:\n"
 "%s"
 msgstr ""
-"Nie je mo¾né vytvori» prieèinok %s:\n"
+"Nie je mo¾né vytvori» prieèinok\n"
+"%s:\n"
 "%s"
 
 #: shell/e-setup.c:298
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Directory %s\n"
 "does not have the right permissions. Please make it\n"
 "readable and executable and restart Evolution."
 msgstr ""
+"Prieèinok %s\n"
+"nemá správne nastavené práva. Prosím, zmeòte ich tak,\n"
+"aby bolo mo¾né èítanie a vykonanie a re¹tartujte Evolution."
 
 #: shell/e-setup.c:304
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "File %s\n"
 "should be removed to allow Evolution to work correctly.\n"
 "Please remove this file and restart Evolution."
 msgstr ""
+"Súbor %s\n"
+"musí by» odstránený, aby Evolution správne fungoval.\n"
+"Prosím, odstráòte tento súbor a re¹tartujte Evolution."
 
 #: shell/e-setup.c:327
 #, c-format
@@ -26727,24 +26652,3 @@ msgstr "init_corba(): Nie je mo¾né inicializova» GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Nie je mo¾né inicializova» Bonobo"
-
-#~ msgid "°F"
-#~ msgstr "°F"
-
-#~ msgid "°C"
-#~ msgstr "°C"
-
-#~ msgid "B_usiness"
-#~ msgstr "Do _práce"
-
-#~ msgid "Business _Fax"
-#~ msgstr "_Fax do práce"
-
-#~ msgid "_Business"
-#~ msgstr "_Práca"
-
-#~ msgid "_Home"
-#~ msgstr "_Domov"
-
-#~ msgid "_Mobile"
-#~ msgstr "_Mobil"
