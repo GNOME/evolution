@@ -1216,11 +1216,13 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 			}
 
 			body = imap_parse_nstring (&response, &body_len);
-			if (!body) {
+			if (!response) {
 				g_free (part_spec);
 				break;
 			}
 
+			if (!body)
+				body = g_strdup ("");
 			g_datalist_set_data_full (&data, "BODY_PART_SPEC", part_spec, g_free);
 			g_datalist_set_data_full (&data, "BODY_PART_DATA", body, g_free);
 			g_datalist_set_data (&data, "BODY_PART_LEN", GINT_TO_POINTER (body_len));
