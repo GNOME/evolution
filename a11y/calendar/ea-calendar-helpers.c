@@ -25,14 +25,16 @@
 
 #include "ea-calendar-helpers.h"
 #include "ea-cal-view-event.h"
+#include "ea-jump-button.h"
 #include "e-day-view.h"
 #include "e-week-view.h"
 
 #include <gal/e-text/e-text.h>
+#include <libgnomecanvas/gnome-canvas-pixbuf.h>
 
 /**
  * ea_calendar_helpers_get_accessible_for
- * @canvas_item: the canvas item (e_text) for a event
+ * @canvas_item: the canvas item for a event or a jump button
  * @returns: the atk object for the canvas_item
  * 
  **/
@@ -42,7 +44,7 @@ ea_calendar_helpers_get_accessible_for (GnomeCanvasItem *canvas_item)
 	AtkObject *atk_obj = NULL;
 	GObject *g_obj;
 
-	g_return_val_if_fail (E_IS_TEXT (canvas_item), NULL);
+	g_return_val_if_fail ((E_IS_TEXT (canvas_item)) || (GNOME_IS_CANVAS_ITEM (canvas_item)), NULL);;
 
 	g_obj = G_OBJECT (canvas_item);
 	/* we cannot use atk_gobject_accessible_for_object here,
@@ -50,14 +52,22 @@ ea_calendar_helpers_get_accessible_for (GnomeCanvasItem *canvas_item)
 	 * registered facotry of E_TEXT
 	 */
 	atk_obj = g_object_get_data (g_obj, "accessible-object");
-	if (!atk_obj)
+	if (!atk_obj) {
+                if (E_IS_TEXT (canvas_item)) {
 		atk_obj = ea_cal_view_event_new (g_obj);
+                }
+                else if (GNOME_IS_CANVAS_PIXBUF(canvas_item)) {
+                        atk_obj = ea_jump_button_new (g_obj);
+                }
+                else
+                        return NULL;
+        }
 	return atk_obj;
 }
 
 /**
  * ea_calendar_helpers_get_view_widget_from:
- * @canvas_item: the canvas item (e_text) for a event
+ * @canvas_item: the canvas item for a event or a jump button
  * @returns: the cal view widget if exists
  *
  * Get the cal view widget contains the canvas_item.
@@ -70,16 +80,16 @@ ea_calendar_helpers_get_cal_view_from (GnomeCanvasItem *canvas_item)
 	GtkWidget *view_widget = NULL;
 
 	g_return_val_if_fail (canvas_item, NULL);
-	g_return_val_if_fail (E_IS_TEXT (canvas_item), NULL);
+	g_return_val_if_fail ((E_IS_TEXT (canvas_item)) || (GNOME_IS_CANVAS_ITEM (canvas_item)), NULL);
 
 	/* canvas_item is the e_text for the event */
 	/* canvas_item->canvas is the ECanvas for day view */
 	/* parent of canvas_item->canvas is the EDayView or EWeekView widget */
 	canvas = canvas_item->canvas;
 	view_widget = gtk_widget_get_parent (GTK_WIDGET(canvas));
-	if (!view_widget || !E_IS_CALENDAR_VIEW (view_widget))
+	if (!view_widget || !E_IS_CAL_VIEW (view_widget))
 		return NULL;
-	return E_CALENDAR_VIEW (view_widget);
+	return E_CAL_VIEW (view_widget);
 }
 
 /**

@@ -1,3 +1,13 @@
+2003-12-09  Andrew Wu <Yang.Wu@sun.com>
+
+	* calendar/Makefile.am: add entries for new source files
+	* calendar/ea-calendar-helpers.c: add cases for jump button.
+	* calendar/ea-calendar.c: add cases for week view and week view main item.
+	* calendar/ea-jump-button.c: new impl.
+	* calendar/ea-week-view-cell.c: new impl.
+	* calendar/ea-week-view-main-item.c: new impl.
+	* calendar/ea-week-view.c: add main item as first child.
+	
 2003-12-05  Bolian Yin <bolian.yin@sun.com>
                                                                                 
         * calendar/ea-cal-view-event.c (ea_cal_view_event_new): shortcut when cal_view is NULL.

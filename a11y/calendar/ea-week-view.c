@@ -71,7 +71,7 @@ ea_week_view_get_type (void)
 		 */
 
 		factory = atk_registry_get_factory (atk_get_default_registry (),
-						    e_cal_view_get_type());
+						    e_calendar_view_get_type());
 		derived_atk_type = atk_object_factory_get_accessible_type (factory);
 		g_type_query (derived_atk_type, &query);
 
@@ -227,6 +227,9 @@ ea_week_view_get_n_children (AtkObject *accessible)
 			++count;
 	}
 
+	/* "+1" for the main item */
+	count++;
+
 #ifdef ACC_DEBUG
 	printf("AccDebug: week view %p has %d children\n", (void *)week_view, count);
 #endif
@@ -255,6 +258,11 @@ ea_week_view_ref_child (AtkObject *accessible, gint index)
 	week_view = E_WEEK_VIEW (GTK_ACCESSIBLE (accessible)->widget);
 	max_count = week_view->events->len;
 
+	if (index == 0) {
+		/* index == 0 is the main item */
+		atk_object = atk_gobject_accessible_for_object (G_OBJECT (week_view->main_canvas_item));
+		g_object_ref (atk_object);
+ 	} else 
 	for (event_index = 0; event_index < max_count; ++event_index) {
 		EWeekViewEvent *event;
 		EWeekViewEventSpan *span;
@@ -282,7 +290,7 @@ ea_week_view_ref_child (AtkObject *accessible, gint index)
 		else
 			continue;
 
-		if (count == (index + 1)) {
+			if (count == index) {
 			if (span->text_item) {
 				/* Not use atk_gobject_accessible_for_object for event
 				 * text_item we need to do special thing here
@@ -290,7 +298,7 @@ ea_week_view_ref_child (AtkObject *accessible, gint index)
 				atk_object = ea_calendar_helpers_get_accessible_for (span->text_item);
 			}
 			else {
-				atk_object = atk_gobject_accessible_for_object (G_OBJECT(week_view->jump_buttons[current_day == -1 ? 0 : current_day]));
+					atk_object = ea_calendar_helpers_get_accessible_for (week_view->jump_buttons[current_day == -1 ? 0 : current_day]);
 			}
 			g_object_ref (atk_object);
 			break;

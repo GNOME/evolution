@@ -70,6 +70,12 @@ libevolution_calendar_a11y_la_SOURCES =		\
 	ea-day-view-cell.h			\
 	ea-week-view.c				\
 	ea-week-view.h				\
+	ea-week-view-main-item.c		\
+	ea-week-view-main-item.h		\
+	ea-week-view-cell.c			\
+	ea-week-view-cell.h			\
+        ea-jump-button.c                        \
+        ea-jump-button.h                        \
 	ea-gnome-calendar.c			\
 	ea-gnome-calendar.h
 
