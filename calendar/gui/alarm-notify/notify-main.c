@@ -93,7 +93,7 @@ init_session (void)
 	 * the session starts.  The daemon will take care of loading whatever
 	 * calendars it was told to load.
 	 */
-	gnome_client_set_restart_style (master_client, GNOME_RESTART_ANYWAY);
+	gnome_client_set_restart_style (master_client, GNOME_RESTART_IF_RUNNING);
 }
 
 /* Factory function for the alarm notify service; just creates and references a
