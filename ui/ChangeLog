@@ -1,3 +1,7 @@
+2001-06-20  JP Rosevear  <jpr@ximian.com>
+
+	* evolution-comp-editor.xml: collapse print commands here
+
 2001-06-20  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* evolution-event-editor.xml: Fix typo. s/Cancel then meeting/

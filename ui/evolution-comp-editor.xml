@@ -2,6 +2,17 @@
 
 <commands>
 
+        <cmd name="FilePrint" _label="Print..."
+	_tip="Print this item" pixtype="stock" pixname="Print"/>
+
+        <cmd name="FilePrintPreview" _label="Print Pre_view"
+          _tip="Preview the printed item"
+	  pixtype="stock" pixname="Print"/>
+
+        <cmd name="FilePrintSetup" _label="Print S_etup"
+          _tip="Setup the page settings for your current printer"
+	  pixtype="stock" pixname="Print"/>
+
         <cmd name="FileSaveAndClose" _label="Save and Close"
 	_tip="Save the appointment and close the dialog box"
 	pixtype="stock" pixname="Save" accel="*Control*s"/>
@@ -34,7 +45,11 @@
 
 	<separator/>
 
-	<placeholder name="Print"/>
+	<menuitem name="FilePrint" verb=""/>
+
+	<menuitem name="FilePrintPreview" verb=""/>
+
+	<menuitem name="FilePrintSetup" verb=""/>
 
 	<separator/>
 
