@@ -109,14 +109,14 @@ static unsigned char url_scanner_table[256] = {
 	 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66,160,160,160,128,128,
 	128, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66,
 	 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66,128,128,128,128,  1,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0
+	  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+	  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+	  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+	  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+	  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+	  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+	  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+	  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1
 };
 
 enum {
@@ -226,6 +226,30 @@ camel_url_addrspec_end (const char *in, const char *pos, const char *inend, urlm
 	return TRUE;
 }
 
+static struct {
+	char open;
+	char close;
+} url_braces[] = {
+	{ '(', ')' },
+	{ '{', '}' },
+	{ '[', ']' },
+};
+
+static char
+url_stop_at_brace (const char *in, size_t so)
+{
+	int i;
+	
+	if (so > 0) {
+		for (i = 0; i < 3; i++) {
+			if (in[so - 1] == url_braces[i].open)
+				return url_braces[i].close;
+		}
+	}
+	
+	return '\0';
+}
+
 gboolean
 camel_url_file_start (const char *in, const char *pos, const char *inend, urlmatch_t *match)
 {
@@ -238,13 +262,16 @@ gboolean
 camel_url_file_end (const char *in, const char *pos, const char *inend, urlmatch_t *match)
 {
 	register const char *inptr = pos;
+	char close_brace;
 	
 	inptr += strlen (match->pattern);
 	
 	if (*inptr == '/')
 		inptr++;
 	
-	while (inptr < inend && is_urlsafe (*inptr))
+	close_brace = url_stop_at_brace (in, match->um_so);
+	
+	while (inptr < inend && is_urlsafe (*inptr) && *inptr != close_brace)
 		inptr++;
 	
 	if (inptr == pos)
@@ -268,8 +295,11 @@ camel_url_web_end (const char *in, const char *pos, const char *inend, urlmatch_
 {
 	register const char *inptr = pos;
 	int parts = 0, digits, port;
+	char close_brace;
 	
 	inptr += strlen (match->pattern);
+	
+	close_brace = url_stop_at_brace (in, match->um_so);
 	
 	/* find the end of the domain */
 	if (is_digit (*inptr)) {
@@ -325,7 +355,7 @@ camel_url_web_end (const char *in, const char *pos, const char *inend, urlmatch_
 		case '/': /* we've detected a path component to our url */
 			inptr++;
 			
-			while (inptr < inend && is_urlsafe (*inptr))
+			while (inptr < inend && is_urlsafe (*inptr) && *inptr != close_brace)
 				inptr++;
 			
 			break;
@@ -375,9 +405,10 @@ url_scanner_table_init (void)
 			url_scanner_table[i] |= IS_DIGIT | IS_DOMAIN;
 		if ((i >= 'a' && i <= 'z') || (i >= 'A' && i <= 'Z'))
 			url_scanner_table[i] |= IS_ALPHA | IS_DOMAIN;
+		if (i >= 127)
+			url_scanner_table[i] |= IS_CTRL;
 	}
 	
-	url_scanner_table[127] |= IS_CTRL;
 	url_scanner_table[' '] |= IS_SPACE;
 	url_scanner_table['-'] |= IS_DOMAIN;
 	

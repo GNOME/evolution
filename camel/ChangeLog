@@ -1,5 +1,13 @@
 2003-02-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-url-scanner.c (url_scanner_table_init): Mark chars with
+	the high-bit set as CTRL chars.
+	(camel_url_web_end): If the char before the start of the url is an
+	open-brace, watch out for the matching close-brace.
+	(camel_url_file_end): Same.
+
+2003-02-14  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-smime-context.c (smime_get_password): Same as the gpg and
 	pkcs7 contexts.
 
