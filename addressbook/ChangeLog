@@ -1,5 +1,10 @@
 2000-07-07  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/select-names/e-select-names.c: Changed to line
+	mode.
+
+2000-07-07  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/component/select-names/e-select-names-manager.c,
 	gui/component/select-names/e-select-names-model.c: Implemented the
 	get_cards function.

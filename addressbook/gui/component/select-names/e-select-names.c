@@ -150,6 +150,11 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	g_free(uri);
 	g_free(filename);
 	table = e_table_new (header, model, SPEC);
+
+	gtk_object_set(GTK_OBJECT(table),
+		       "cursor_mode", E_TABLE_CURSOR_LINE,
+		       NULL);
+
 	gtk_object_set_data(GTK_OBJECT(table), "model", model);
 	return table;
 }
@@ -331,6 +336,10 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	e_table_header_add_column (header, e_table_col_new (0, "Full Name", 1.0, 20, cell_left_just,
 							    g_str_compare, TRUE), 0);
 	etable = e_table_new (header, model, SPEC2);
+	
+	gtk_object_set(GTK_OBJECT(etable),
+		       "cursor_mode", E_TABLE_CURSOR_LINE,
+		       NULL);
 
 	child->model = model;
 	child->source = source;
