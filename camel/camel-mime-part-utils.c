@@ -422,7 +422,7 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 	CamelContentType *ct;
 	
 	ct = camel_mime_parser_content_type (mp);
-	
+
 	switch (camel_mime_parser_state (mp)) {
 	case HSCAN_HEADER:
 		d(printf("Creating body part\n"));

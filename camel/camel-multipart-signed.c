@@ -50,7 +50,8 @@
 #include "camel-mime-filter-crlf.h"
 #include "camel-mime-filter-canon.h"
 
-#define d(x)
+#define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))
+	       #include <stdio.h>;*/
 
 static void signed_add_part(CamelMultipart *multipart, CamelMimePart *part);
 static void signed_add_part_at(CamelMultipart *multipart, CamelMimePart *part, guint index);
@@ -179,6 +180,30 @@ camel_multipart_signed_new (void)
 	return multipart;
 }
 
+/* find the next boundary @bound from @start, return the start of the actual data
+   @end points to the end of the data BEFORE the boundary */
+static char *parse_boundary(char *start, const char *bound, char **end)
+{
+	char *data, *begin;
+
+	begin = strstr(start, bound);
+	if (begin == NULL)
+		return NULL;
+
+	data = begin+strlen(bound);
+	if (begin > start && begin[-1] == '\n')
+		begin--;
+	if (begin > start && begin[-1] == '\r')
+		begin--;
+	if (data[0] == '\r')
+		data++;
+	if (data[0] == '\n')
+		data++;
+
+	*end = begin;
+	return data;
+}
+
 /* yeah yuck.
    Well, we could probably use the normal mime parser, but then it would change our
    headers.
@@ -187,7 +212,7 @@ static int
 parse_content(CamelMultipartSigned *mps)
 {
 	CamelMultipart *mp = (CamelMultipart *)mps;
-	char *start, *end, *start2, *end2, *last;
+	char *start, *end, *start2, *end2, *last, *post;
 	CamelStreamMem *mem;
 	char *bound;
 	const char *boundary;
@@ -213,44 +238,32 @@ parse_content(CamelMultipartSigned *mps)
 	bound = alloca(strlen(boundary)+5);
 	sprintf(bound, "--%s", boundary);
 
-	start = strstr(mem->buffer->data, bound);
-	if (start == NULL) {
-		printf("construct from stream, cannot find first boundary\n");
+	start = parse_boundary(mem->buffer->data, bound, &end);
+	if (start == NULL || start[0] == 0)
 		return -1;
-	}
 
-	if (start > (char *)mem->buffer->data) {
+	if (end > (char *)mem->buffer->data) {
 		char *tmp = g_strndup(mem->buffer->data, start-(char *)mem->buffer->data-1);
 		camel_multipart_set_preface(mp, tmp);
 		g_free(tmp);
 	}
 
-	start += strlen(bound)+1;
-	if (start >= last)
+	start2 = parse_boundary(start, bound, &end);
+	if (start2 == NULL || start2[0] == 0)
 		return -1;
-	end = strstr(start, bound);
-	if (end == NULL) {
-		printf("construct from stream, cannot find second boundary\n");
-		return -1;
-	}
 
-	start2 = end + strlen(bound)+1;
-	if (start2 >= last)
-		return -1;
 	sprintf(bound, "--%s--", boundary);
-	end2 = strstr(start2, bound);
-	if (end2 == NULL) {
-		printf("construct from stream, cannot find last boundary\n");
+	post = parse_boundary(start2, bound, &end2);
+	if (post == NULL)
 		return -1;
-	}
 
-	if (end2+strlen(bound)+1 < last)
-		camel_multipart_set_postface(mp, end2+strlen(bound)+1);
+	if (post[0])
+		camel_multipart_set_postface(mp, post);
 
 	mps->start1 = start-(char *)mem->buffer->data;
-	mps->end1 = end-(char *)mem->buffer->data-1;
+	mps->end1 = end-(char *)mem->buffer->data;
 	mps->start2 = start2-(char *)mem->buffer->data;
-	mps->end2 = end2-(char *)mem->buffer->data-1;
+	mps->end2 = end2-(char *)mem->buffer->data;
 
 	return 0;
 }

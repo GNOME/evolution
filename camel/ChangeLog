@@ -1,3 +1,10 @@
+2003-04-17  Not Zed  <NotZed@Ximian.com>
+
+	* camel-multipart-signed.c (parse_content): Dont assume adding 1
+	to line length will go to the next line.  e.g. for dos lines that
+	end in \r\n.  Fix for #41163.
+	(parse_boundary): util function to help above.
+
 2003-04-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_verify): The gpg child process exiting
