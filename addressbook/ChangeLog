@@ -1,5 +1,10 @@
 2001-04-03  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/widgets/e-addressbook-model.c (COLS): Made this table model
+	more consistent in the number of columns it has.
+
+2001-04-03  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/widgets/e-addressbook-model.c (addressbook_append_row):
 	Fixed this function.  We removed the col offset.
 
