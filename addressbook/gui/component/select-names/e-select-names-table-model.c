@@ -13,23 +13,23 @@
 
 #include <gtk/gtksignal.h>
 #include <gal/util/e-util.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "e-select-names-table-model.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
 
 /* Object argument IDs */
 enum {
-	ARG_0,
-	ARG_SOURCE,
+	PROP_0,
+	PROP_SOURCE,
 };
 
 static void e_select_names_table_model_init       (ESelectNamesTableModel *model);
 static void e_select_names_table_model_class_init (ESelectNamesTableModelClass *klass);
 
 static void e_select_names_table_model_destroy    (GtkObject *object);
-static void e_select_names_table_model_set_arg    (GtkObject *object, GtkArg *arg, guint arg_id);
-static void e_select_names_table_model_get_arg    (GtkObject *object, GtkArg *arg, guint arg_id);
-
+static void e_select_names_table_model_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
+static void e_select_names_table_model_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void e_select_names_table_model_model_changed (ESelectNamesModel *source,
 						      ESelectNamesTableModel *model);
 
@@ -50,7 +50,7 @@ static void
 e_select_names_table_model_drop_source (ESelectNamesTableModel *model)
 {
 	if (model->source_changed_id)
-		gtk_signal_disconnect(GTK_OBJECT(model->source), model->source_changed_id);
+		g_signal_handler_disconnect(model->source, model->source_changed_id);
 	if (model->source)
 		g_object_unref(model->source);
 	model->source = NULL;
@@ -66,27 +66,28 @@ e_select_names_table_model_drop_source (ESelectNamesTableModel *model)
  * 
  * Return value: The type ID of the &ESelectNamesTableModel class.
  **/
-GtkType
+GType
 e_select_names_table_model_get_type (void)
 {
-	static GtkType model_type = 0;
+	static GType type = 0;
 
-	if (!model_type) {
-		GtkTypeInfo model_info = {
-			"ESelectNamesTableModel",
-			sizeof (ESelectNamesTableModel),
+	if (!type) {
+		static const GTypeInfo info =  {
 			sizeof (ESelectNamesTableModelClass),
-			(GtkClassInitFunc) e_select_names_table_model_class_init,
-			(GtkObjectInitFunc) e_select_names_table_model_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_select_names_table_model_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (ESelectNamesTableModel),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_select_names_table_model_init,
 		};
 
-		model_type = gtk_type_unique (e_table_model_get_type (), &model_info);
+		type = g_type_register_static (e_table_model_get_type (), "ESelectNamesTableModel", &info, 0);
 	}
 
-	return model_type;
+	return type;
 }
 
 /**
@@ -98,10 +99,10 @@ e_select_names_table_model_get_type (void)
 ETableModel *
 e_select_names_table_model_new (ESelectNamesModel *source)
 {
-	ETableModel *model = E_TABLE_MODEL(gtk_type_new(e_select_names_table_model_get_type()));
-	gtk_object_set(GTK_OBJECT(model),
-		       "source", source,
-		       NULL);
+	ETableModel *model = g_object_new (E_TYPE_SELECT_NAMES_TABLE_MODEL, NULL);
+	g_object_set(model,
+		     "source", source,
+		     NULL);
 	return model;
 }
 
@@ -159,7 +160,7 @@ clear_info (ESelectNamesTableModel *model)
  */
 
 static void
-e_select_names_table_model_destroy (GtkObject *object)
+e_select_names_table_model_dispose (GObject *object)
 {
 	ESelectNamesTableModel *model;
 	
@@ -272,36 +273,39 @@ e_select_names_table_model_model_changed (ESelectNamesModel     *source,
 
 /* Set_arg handler for the model */
 static void
-e_select_names_table_model_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_select_names_table_model_set_property (GObject *object, guint prop_id,
+					 const GValue *value, GParamSpec *pspec)
 {
 	ESelectNamesTableModel *model;
 	
 	model = E_SELECT_NAMES_TABLE_MODEL (object);
 
-	switch (arg_id) {
-	case ARG_SOURCE:
+	switch (prop_id) {
+	case PROP_SOURCE:
 		e_select_names_table_model_drop_source (model);
-		e_select_names_table_model_add_source (model, E_SELECT_NAMES_MODEL(GTK_VALUE_OBJECT (*arg)));
+		e_select_names_table_model_add_source (model, E_SELECT_NAMES_MODEL(g_value_get_object (value)));
 		break;
 	default:
-		return;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		break;
 	}
 }
 
 /* Get_arg handler for the model */
 static void
-e_select_names_table_model_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_select_names_table_model_get_property (GObject *object, guint prop_id,
+					 GValue *value, GParamSpec *pspec)
 {
 	ESelectNamesTableModel *model;
 
 	model = E_SELECT_NAMES_TABLE_MODEL (object);
 
-	switch (arg_id) {
-	case ARG_SOURCE:
-		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(model->source);
+	switch (prop_id) {
+	case PROP_SOURCE:
+		g_value_set_object (value, model->source);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
@@ -322,18 +326,22 @@ e_select_names_table_model_init (ESelectNamesTableModel *model)
 static void
 e_select_names_table_model_class_init (ESelectNamesTableModelClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	ETableModelClass *table_model_class;
 
-	object_class = GTK_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS(klass);
 	table_model_class = E_TABLE_MODEL_CLASS(klass);
 
-	gtk_object_add_arg_type ("ESelectNamesTableModel::source",
-				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_SOURCE);
+	object_class->dispose = e_select_names_table_model_dispose;
+	object_class->get_property = e_select_names_table_model_get_property;
+	object_class->set_property = e_select_names_table_model_set_property;
 
-	object_class->destroy = e_select_names_table_model_destroy;
-	object_class->get_arg = e_select_names_table_model_get_arg;
-	object_class->set_arg = e_select_names_table_model_set_arg;
+	g_object_class_install_property (object_class, PROP_SOURCE, 
+					 g_param_spec_object ("source",
+							      _("Source"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TYPE_SELECT_NAMES_MODEL,
+							      G_PARAM_READWRITE));
 
 	table_model_class->column_count = e_select_names_table_model_col_count;
 	table_model_class->row_count = e_select_names_table_model_row_count;

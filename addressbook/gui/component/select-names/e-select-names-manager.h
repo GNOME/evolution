@@ -16,16 +16,16 @@
 #include "e-select-names.h"
 
 #define E_TYPE_SELECT_NAMES_MANAGER            (e_select_names_manager_get_type ())
-#define E_SELECT_NAMES_MANAGER(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_SELECT_NAMES_MANAGER, ESelectNamesManager))
-#define E_SELECT_NAMES_MANAGER_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_SELECT_NAMES_MANAGER, ESelectNamesManagerClass))
-#define E_IS_SELECT_NAMES_MANAGER(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_SELECT_NAMES_MANAGER))
-#define E_IS_SELECT_NAMES_MANAGER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_SELECT_NAMES_MANAGER))
+#define E_SELECT_NAMES_MANAGER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SELECT_NAMES_MANAGER, ESelectNamesManager))
+#define E_SELECT_NAMES_MANAGER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SELECT_NAMES_MANAGER, ESelectNamesManagerClass))
+#define E_IS_SELECT_NAMES_MANAGER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SELECT_NAMES_MANAGER))
+#define E_IS_SELECT_NAMES_MANAGER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_SELECT_NAMES_MANAGER))
 
 typedef struct _ESelectNamesManager ESelectNamesManager;
 typedef struct _ESelectNamesManagerClass ESelectNamesManagerClass;
 
 struct _ESelectNamesManager {
-	GtkObject object;
+	GObject object;
 	
 	GList *sections;
 	GList *entries;
@@ -40,7 +40,7 @@ struct _ESelectNamesManager {
 };
 
 struct _ESelectNamesManagerClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	void (*changed) (ESelectNamesManager *, const gchar *section_id, gint changed_working_copy);
 	void (*ok)      (ESelectNamesManager *);
@@ -62,6 +62,6 @@ GtkWidget           *e_select_names_manager_create_entry           (ESelectNames
 void                 e_select_names_manager_activate_dialog        (ESelectNamesManager *manager,
 							            const char *id);
 /* Standard Gtk function */			      
-GtkType              e_select_names_manager_get_type               (void);
+GType                e_select_names_manager_get_type               (void);
 
 #endif /* ! __E_SELECT_NAMES_MANAGER_H__ */

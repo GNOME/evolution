@@ -16,10 +16,10 @@
 #include "e-select-names-model.h"
 
 #define E_TYPE_SELECT_NAMES_TABLE_MODEL            (e_select_names_table_model_get_type ())
-#define E_SELECT_NAMES_TABLE_MODEL(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_SELECT_NAMES_TABLE_MODEL, ESelectNamesTableModel))
-#define E_SELECT_NAMES_TABLE_MODEL_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_SELECT_NAMES_TABLE_MODEL, ESelectNamesTableModelClass))
-#define E_IS_SELECT_NAMES_TABLE_MODEL(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_SELECT_NAMES_TABLE_MODEL))
-#define E_IS_SELECT_NAMES_TABLE_MODEL_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_SELECT_NAMES_TABLE_MODEL))
+#define E_SELECT_NAMES_TABLE_MODEL(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SELECT_NAMES_TABLE_MODEL, ESelectNamesTableModel))
+#define E_SELECT_NAMES_TABLE_MODEL_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SELECT_NAMES_TABLE_MODEL, ESelectNamesTableModelClass))
+#define E_IS_SELECT_NAMES_TABLE_MODEL(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SELECT_NAMES_TABLE_MODEL))
+#define E_IS_SELECT_NAMES_TABLE_MODEL_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_SELECT_NAMES_TABLE_MODEL))
 
 typedef struct {
 	char *name;
@@ -46,6 +46,6 @@ struct _ESelectNamesTableModelClass {
 ETableModel *e_select_names_table_model_new  (ESelectNamesModel *source);
 
 /* Standard Gtk function */			      
-GtkType     e_select_names_table_model_get_type (void);
+GType       e_select_names_table_model_get_type (void);
 
 #endif /* ! __E_SELECT_NAMES_TABLE_MODEL_H__ */

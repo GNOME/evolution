@@ -46,11 +46,11 @@ extern "C" {
  * --------------------------------------------------------------------------------
  */
 
-#define E_SELECT_NAMES_TYPE			(e_select_names_get_type ())
-#define E_SELECT_NAMES(obj)			(GTK_CHECK_CAST ((obj), E_SELECT_NAMES_TYPE, ESelectNames))
-#define E_SELECT_NAMES_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_SELECT_NAMES_TYPE, ESelectNamesClass))
-#define E_IS_SELECT_NAMES(obj)		(GTK_CHECK_TYPE ((obj), E_SELECT_NAMES_TYPE))
-#define E_IS_SELECT_NAMES_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_SELECT_NAMES_TYPE))
+#define E_TYPE_SELECT_NAMES		(e_select_names_get_type ())
+#define E_SELECT_NAMES(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SELECT_NAMES, ESelectNames))
+#define E_SELECT_NAMES_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SELECT_NAMES, ESelectNamesClass))
+#define E_IS_SELECT_NAMES(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SELECT_NAMES))
+#define E_IS_SELECT_NAMES_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_SELECT_NAMES))
 
 typedef struct _ESelectNames       ESelectNames;
 typedef struct _ESelectNamesClass  ESelectNamesClass;
@@ -83,7 +83,7 @@ struct _ESelectNamesClass
 
 
 GtkWidget *e_select_names_new          (void);
-GtkType    e_select_names_get_type     (void);
+GType      e_select_names_get_type     (void);
 
 void       e_select_names_add_section  (ESelectNames *e_select_names,
 				       	char         *name,

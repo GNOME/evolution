@@ -65,37 +65,38 @@ struct _ESelectNamesModelPrivate {
 static void e_select_names_model_init (ESelectNamesModel *model);
 static void e_select_names_model_class_init (ESelectNamesModelClass *klass);
 
-static void e_select_names_model_destroy (GtkObject *object);
+static void e_select_names_model_dispose (GObject *object);
 
-GtkType
+GType
 e_select_names_model_get_type (void)
 {
-	static GtkType model_type = 0;
+	static GType type = 0;
 
-	if (!model_type) {
-		GtkTypeInfo model_info = {
-			"ESelectNamesModel",
-			sizeof (ESelectNamesModel),
+	if (!type) {
+		static const GTypeInfo info =  {
 			sizeof (ESelectNamesModelClass),
-			(GtkClassInitFunc) e_select_names_model_class_init,
-			(GtkObjectInitFunc) e_select_names_model_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_select_names_model_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (ESelectNamesModel),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_select_names_model_init,
 		};
 
-		model_type = gtk_type_unique (gtk_object_get_type (), &model_info);
+		type = g_type_register_static (G_TYPE_OBJECT, "ESelectNamesModel", &info, 0);
 	}
 
-	return model_type;
+	return type;
 }
 
 static void
 e_select_names_model_class_init (ESelectNamesModelClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS(klass);
 
 	e_select_names_model_signals[E_SELECT_NAMES_MODEL_CHANGED] =
 		g_signal_new ("changed",
@@ -120,7 +121,7 @@ e_select_names_model_class_init (ESelectNamesModelClass *klass)
 
 	klass->changed = NULL;
 
-	object_class->destroy = e_select_names_model_destroy;
+	object_class->dispose = e_select_names_model_dispose;
 }
 
 /**
@@ -135,7 +136,7 @@ e_select_names_model_init (ESelectNamesModel *model)
 }
 
 static void
-e_select_names_model_destroy (GtkObject *object)
+e_select_names_model_dispose (GObject *object)
 {
 	ESelectNamesModel *model = E_SELECT_NAMES_MODEL (object);
 	

@@ -1,5 +1,31 @@
 2002-11-07  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-bonobo.[ch]: more
+	porting work.
+
+	* gui/component/select-names/e-select-names-completion.[ch]: more
+	porting work.
+
+	* gui/component/select-names/e-select-names-manager.[ch]: more
+	porting work.
+	
+	* gui/component/select-names/e-select-names-model.[ch]: more
+	porting work.
+	
+	* gui/component/select-names/e-select-names-popup.c: more
+	porting work.
+	
+	* gui/component/select-names/e-select-names-table-model.[ch]: more
+	porting work.
+	
+	* gui/component/select-names/e-select-names-text-model.[ch]: more
+	porting work.
+	
+	* gui/component/select-names/e-select-names.[ch]: more
+	porting work.
+	
+2002-11-07  Chris Toshok  <toshok@ximian.com>
+
 	* backend/ebook/Makefile.am: tests are linking now, and link in
 	libcamel.la.
 

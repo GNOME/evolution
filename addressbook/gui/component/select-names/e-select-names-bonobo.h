@@ -33,10 +33,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TYPE_SELECT_NAMES_BONOBO			(e_select_names_bonobo_get_type ())
-#define E_SELECT_NAMES_BONOBO(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_SELECT_NAMES_BONOBO, ESelectNamesBonobo))
-#define E_SELECT_NAMES_BONOBO_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_SELECT_NAMES_BONOBO, ESelectNamesBonoboClass))
-#define E_IS_SELECT_NAMES_BONOBO(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_SELECT_NAMES_BONOBO))
-#define E_IS_SELECT_NAMES_BONOBO_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_SELECT_NAMES_BONOBO))
+#define E_SELECT_NAMES_BONOBO(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SELECT_NAMES_BONOBO, ESelectNamesBonobo))
+#define E_SELECT_NAMES_BONOBO_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SELECT_NAMES_BONOBO, ESelectNamesBonoboClass))
+#define E_IS_SELECT_NAMES_BONOBO(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SELECT_NAMES_BONOBO))
+#define E_IS_SELECT_NAMES_BONOBO_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_SELECT_NAMES_BONOBO))
 
 
 typedef struct _ESelectNamesBonobo        ESelectNamesBonobo;

@@ -70,10 +70,10 @@ static void
 section_model_changed_cb (ESelectNamesModel *model, gpointer closure)
 {
 	ESelectNamesManagerSection *section = closure;
-	gtk_signal_emit (GTK_OBJECT (section->manager),
-			 e_select_names_manager_signals[CHANGED],
-			 section->id,
-			 FALSE);
+	g_signal_emit (section->manager,
+		       e_select_names_manager_signals[CHANGED], 0,
+		       section->id,
+		       FALSE);
 }
 
 static ESelectNamesManagerSection *
@@ -115,7 +115,7 @@ e_select_names_manager_section_free (ESelectNamesManagerSection *section)
 	g_free (section->title);
 
 	if (section->model) {
-		gtk_signal_disconnect (GTK_OBJECT (section->model), section->changed_tag);
+		g_signal_handler_disconnect (section->model, section->changed_tag);
 		g_object_unref (section->model);
 	}
 
@@ -134,7 +134,7 @@ static ESelectNamesManagerEntry *
 get_entry_info (EEntry *entry)
 {
 	g_return_val_if_fail (E_IS_ENTRY (entry), NULL);
-	return (ESelectNamesManagerEntry *) gtk_object_get_data (GTK_OBJECT (entry), "entry_info");
+	return (ESelectNamesManagerEntry *) g_object_get_data (G_OBJECT (entry), "entry_info");
 }
 
 static void
@@ -142,9 +142,9 @@ popup_cb (EEntry *eentry, GdkEventButton *ev, gint pos, gpointer user_data)
 {
 	ESelectNamesTextModel *text_model;
 
-	gtk_object_get (GTK_OBJECT (eentry),
-			"model", &text_model,
-			NULL);
+	g_object_get (eentry,
+		      "model", &text_model,
+		      NULL);
 	g_assert (E_IS_SELECT_NAMES_TEXT_MODEL (text_model));
 
 	e_select_names_popup (text_model, ev, pos, GTK_WIDGET (eentry));
@@ -225,9 +225,9 @@ completion_handler (EEntry *entry, ECompletionMatch *match)
            bitch. */
 	g_object_ref (dest);
 
-	gtk_object_get (GTK_OBJECT (entry),
-			"model", &text_model,
-			NULL);
+	g_object_get (entry,
+		      "model", &text_model,
+		      NULL);
 	g_assert (E_IS_SELECT_NAMES_TEXT_MODEL (text_model));
 
 	pos = e_entry_get_position (entry);
@@ -253,12 +253,12 @@ e_select_names_manager_entry_new (ESelectNamesManager *manager, ESelectNamesMode
 
 	entry->entry = E_ENTRY (e_entry_new ());
 	text_model = e_select_names_text_model_new (model);
-	gtk_object_set(GTK_OBJECT(entry->entry),
-		       "model",          text_model, /* The entry takes ownership of the text model */
-		       "editable",       TRUE,
-		       "use_ellipsis",   TRUE,
-		       "allow_newlines", FALSE,
-		       NULL);
+	g_object_set(entry->entry,
+		     "model",          text_model, /* The entry takes ownership of the text model */
+		     "editable",       TRUE,
+		     "use_ellipsis",   TRUE,
+		     "allow_newlines", FALSE,
+		     NULL);
 
 	g_object_ref (entry->entry);
 
@@ -296,10 +296,10 @@ e_select_names_manager_entry_new (ESelectNamesManager *manager, ESelectNamesMode
 			    G_CALLBACK (completion_popup_cb),
 			    entry);
 
-	gtk_object_set_data (GTK_OBJECT (entry->entry), "entry_info", entry);
-	gtk_object_set_data (GTK_OBJECT (entry->entry), "select_names_model", model);
-	gtk_object_set_data (GTK_OBJECT (entry->entry), "select_names_text_model", text_model);
-	gtk_object_set_data (GTK_OBJECT (entry->entry), "completion_handler", entry->comp);
+	g_object_set_data (G_OBJECT (entry->entry), "entry_info", entry);
+	g_object_set_data (G_OBJECT (entry->entry), "select_names_model", model);
+	g_object_set_data (G_OBJECT (entry->entry), "select_names_text_model", text_model);
+	g_object_set_data (G_OBJECT (entry->entry), "completion_handler", entry->comp);
 
 	return entry;
 }
@@ -459,7 +459,7 @@ uris_listener (EConfigListener *db, const char *key,
 ESelectNamesManager *
 e_select_names_manager_new (void)
 {
-	ESelectNamesManager *manager = E_SELECT_NAMES_MANAGER(gtk_type_new(e_select_names_manager_get_type()));
+	ESelectNamesManager *manager = g_object_new (E_TYPE_SELECT_NAMES_MANAGER, NULL);
 	EConfigListener *db;
 
 	db = e_book_get_config_database();
@@ -562,12 +562,12 @@ e_select_names_clicked(ESelectNames *dialog, gint button, ESelectNamesManager *m
 	switch(button) {
 	case 0:
 		e_select_names_manager_discard_saved_models (manager);
-		gtk_signal_emit (GTK_OBJECT (manager), e_select_names_manager_signals[OK]);
+		g_signal_emit (manager, e_select_names_manager_signals[OK], 0);
 		break;
 
 	case 1:
 		e_select_names_manager_revert_to_saved_models (manager);
-		gtk_signal_emit (GTK_OBJECT (manager), e_select_names_manager_signals[CANCEL]);
+		g_signal_emit (manager, e_select_names_manager_signals[CANCEL], 0);
 		break;
 	}
 }
@@ -627,7 +627,7 @@ e_select_names_manager_init (ESelectNamesManager *manager)
 }
 
 static void
-e_select_names_manager_destroy (GtkObject *object)
+e_select_names_manager_dispose (GObject *object)
 {
 	ESelectNamesManager *manager;
 	
@@ -658,11 +658,11 @@ e_select_names_manager_destroy (GtkObject *object)
 static void
 e_select_names_manager_class_init (ESelectNamesManagerClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS(klass);
 
-	object_class->destroy = e_select_names_manager_destroy;
+	object_class->dispose = e_select_names_manager_dispose;
 
 	e_select_names_manager_signals[CHANGED] = 
 		g_signal_new ("changed",
@@ -703,24 +703,25 @@ e_select_names_manager_class_init (ESelectNamesManagerClass *klass)
  * 
  * Return value: The type ID of the &ESelectNamesManager class.
  **/
-GtkType
+GType
 e_select_names_manager_get_type (void)
 {
-	static GtkType manager_type = 0;
+	static GType manager_type = 0;
 
 	if (!manager_type) {
-		GtkTypeInfo manager_info = {
-			"ESelectNamesManager",
-			sizeof (ESelectNamesManager),
+		static const GTypeInfo manager_info =  {
 			sizeof (ESelectNamesManagerClass),
-			(GtkClassInitFunc) e_select_names_manager_class_init,
-			(GtkObjectInitFunc) e_select_names_manager_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_select_names_manager_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (ESelectNamesManager),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_select_names_manager_init,
 		};
 
-		manager_type = gtk_type_unique (gtk_object_get_type (), &manager_info);
+		manager_type = g_type_register_static (G_TYPE_OBJECT, "ESelectNamesManager", &manager_info, 0);
 	}
 
 	return manager_type;

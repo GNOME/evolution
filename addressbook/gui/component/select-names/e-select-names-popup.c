@@ -138,7 +138,7 @@ change_email_num_cb (GtkWidget *w, gpointer user_data)
 	if (! GTK_CHECK_MENU_ITEM (w)->active)
 		return;
 
-	n = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (w), "number"));
+	n = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (w), "number"));
 
 	if (n != e_destination_get_email_num (info->dest)) {
 		dest = e_destination_new ();
@@ -340,7 +340,7 @@ popup_menu_card (PopupInfo *info)
 			if (label && *label) {
 				set_uiinfo_label (&(radioinfo[j]), label);
 				
-				gtk_object_set_data (GTK_OBJECT (radioinfo[j].widget), "number", GINT_TO_POINTER (j));
+				g_object_set_data (G_OBJECT (radioinfo[j].widget), "number", GINT_TO_POINTER (j));
 
 				if (j == n) 
 					gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (radioinfo[n].widget), TRUE);

@@ -76,7 +76,7 @@ struct _ESelectNamesCompletionPrivate {
 
 static void e_select_names_completion_class_init (ESelectNamesCompletionClass *);
 static void e_select_names_completion_init (ESelectNamesCompletion *);
-static void e_select_names_completion_destroy (GtkObject *object);
+static void e_select_names_completion_dispose (GObject *object);
 
 static void e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus status, EBookView *view, gpointer user_data);
 static void e_select_names_completion_card_added_cb    (EBookView *, const GList *cards, gpointer user_data);
@@ -87,7 +87,7 @@ static void e_select_names_completion_do_query (ESelectNamesCompletion *, const 
 static void e_select_names_completion_handle_request  (ECompletion *, const gchar *txt, gint pos, gint limit);
 static void e_select_names_completion_end    (ECompletion *);
 
-static GtkObjectClass *parent_class;
+static GObjectClass *parent_class;
 
 static FILE *out;
 
@@ -704,37 +704,39 @@ start_initials_query (ESelectNamesCompletion *comp)
  */
 
 
-GtkType
+GType
 e_select_names_completion_get_type (void)
 {
-	static GtkType select_names_complete_type = 0;
-  
-	if (!select_names_complete_type) {
-		GtkTypeInfo select_names_complete_info = {
-			"ESelectNamesCompletion",
-			sizeof (ESelectNamesCompletion),
+	static GType type = 0;
+
+	if (!type) {
+		static const GTypeInfo info =  {
 			sizeof (ESelectNamesCompletionClass),
-			(GtkClassInitFunc) e_select_names_completion_class_init,
-			(GtkObjectInitFunc) e_select_names_completion_init,
-			NULL, NULL, /* reserved */
-			(GtkClassInitFunc) NULL
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_select_names_completion_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (ESelectNamesCompletion),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_select_names_completion_init,
 		};
 
-		select_names_complete_type = gtk_type_unique (e_completion_get_type (), &select_names_complete_info);
+		type = g_type_register_static (e_completion_get_type (), "ESelectNamesCompletion", &info, 0);
 	}
 
-	return select_names_complete_type;
+	return type;
 }
 
 static void
 e_select_names_completion_class_init (ESelectNamesCompletionClass *klass)
 {
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	ECompletionClass *completion_class = E_COMPLETION_CLASS (klass);
 
-	parent_class = GTK_OBJECT_CLASS (gtk_type_class (e_completion_get_type ()));
+	parent_class = g_type_class_peek_parent (klass);
 
-	object_class->destroy = e_select_names_completion_destroy;
+	object_class->dispose = e_select_names_completion_dispose;
 
 	completion_class->request_completion = e_select_names_completion_handle_request;
 	completion_class->end_completion = e_select_names_completion_end;
@@ -762,12 +764,12 @@ e_select_names_completion_clear_book_data (ESelectNamesCompletion *comp)
 		ESelectNamesCompletionBookData *book_data = l->data;
 
 		if (book_data->card_added_tag) {
-			gtk_signal_disconnect (GTK_OBJECT (book_data->book_view), book_data->card_added_tag);
+			g_signal_handler_disconnect (book_data->book_view, book_data->card_added_tag);
 			book_data->card_added_tag = 0;
 		}
 
 		if (book_data->seq_complete_tag) {
-			gtk_signal_disconnect (GTK_OBJECT (book_data->book_view), book_data->seq_complete_tag);
+			g_signal_handler_disconnect (book_data->book_view, book_data->seq_complete_tag);
 			book_data->seq_complete_tag = 0;
 		}
 
@@ -785,7 +787,7 @@ e_select_names_completion_clear_book_data (ESelectNamesCompletion *comp)
 }
 
 static void
-e_select_names_completion_destroy (GtkObject *object)
+e_select_names_completion_dispose (GObject *object)
 {
 	ESelectNamesCompletion *comp = E_SELECT_NAMES_COMPLETION (object);
 
@@ -803,8 +805,8 @@ e_select_names_completion_destroy (GtkObject *object)
 
 	g_free (comp->priv);
 
-	if (parent_class->destroy)
-		parent_class->destroy (object);
+	if (parent_class->dispose)
+		parent_class->dispose (object);
 }
 
 
@@ -860,11 +862,11 @@ e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus status, EBo
 	book_data->book_view_tag = 0;
 
 	if (book_data->card_added_tag) {
-		gtk_signal_disconnect (GTK_OBJECT (book_data->book_view), book_data->card_added_tag);
+		g_signal_handler_disconnect (book_data->book_view, book_data->card_added_tag);
 		book_data->card_added_tag = 0;
 	}
 	if (book_data->seq_complete_tag) {
-		gtk_signal_disconnect (GTK_OBJECT (book_data->book_view), book_data->seq_complete_tag);
+		g_signal_handler_disconnect (book_data->book_view, book_data->seq_complete_tag);
 		book_data->seq_complete_tag = 0;
 	}
 
@@ -985,11 +987,11 @@ e_select_names_completion_stop_query (ESelectNamesCompletion *comp)
 				fprintf (out, "disconnecting book view signals\n");
 
 			if (book_data->card_added_tag) {
-				gtk_signal_disconnect (GTK_OBJECT (book_data->book_view), book_data->card_added_tag);
+				g_signal_handler_disconnect (book_data->book_view, book_data->card_added_tag);
 				book_data->card_added_tag = 0;
 			}
 			if (book_data->seq_complete_tag) {
-				gtk_signal_disconnect (GTK_OBJECT (book_data->book_view), book_data->seq_complete_tag);
+				g_signal_handler_disconnect (book_data->book_view, book_data->seq_complete_tag);
 				book_data->seq_complete_tag = 0;
 			}
 	
@@ -1274,7 +1276,7 @@ e_select_names_completion_new (ESelectNamesTextModel *text_model)
 
 	g_return_val_if_fail (E_IS_SELECT_NAMES_TEXT_MODEL (text_model), NULL);
 
-	comp = (ESelectNamesCompletion *) gtk_type_new (e_select_names_completion_get_type ());
+	comp = g_object_new (E_TYPE_SELECT_NAMES_COMPLETION, NULL);
 
 	comp->priv->text_model = text_model;
 	g_object_ref (text_model);
