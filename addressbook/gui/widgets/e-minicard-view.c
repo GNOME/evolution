@@ -146,9 +146,17 @@ static void
 adapter_changed (EMinicardView *view)
 {
 	char *empty_message;
+	gboolean editable;
 
-	empty_message = e_utf8_from_locale_string(_("\n\nThere are no items to show in this view\n\n"
-						    "Double-click here to create a new Contact."));
+	gtk_object_get (GTK_OBJECT (view->adapter),
+			"editable", &editable,
+			NULL);
+
+	if (editable)
+		empty_message = e_utf8_from_locale_string(_("\n\nThere are no items to show in this view.\n\n"
+							    "Double-click here to create a new Contact."));
+	else
+		empty_message = e_utf8_from_locale_string(_("\n\nThere are no items to show in this view."));
 	gtk_object_set (GTK_OBJECT(view),
 			"empty_message", empty_message,
 			NULL);
@@ -254,15 +262,16 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_2BUTTON_PRESS:
 		if (((GdkEventButton *)event)->button == 1)
 		{
-			EBook *book;
 			gboolean editable;
-
-			gtk_object_get(GTK_OBJECT(view), "book", &book, NULL);
 			gtk_object_get(GTK_OBJECT(view->adapter), "editable", &editable, NULL);
 
-			g_assert (E_IS_BOOK (book));
+			if (editable) {
+				EBook *book;
+				gtk_object_get(GTK_OBJECT(view), "book", &book, NULL);
 
-			e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, editable);
+				if (book && E_IS_BOOK (book))
+					e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, editable);
+			}
 		}
 		return TRUE;
 	default:

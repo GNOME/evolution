@@ -1,5 +1,14 @@
 2002-06-10  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/widgets/e-minicard-view.c (adapter_changed): Changed this
+	message based on whether the adapter is editable.
+	(e_minicard_view_event): Don't show the contact editor if the
+	adapter isn't editable.  Also, made it not assert that book is set
+	here so that it won't crash if something goes wrong during loading
+	and you double click.
+
+2002-06-10  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c (enable_writable_fields):
 	Enable switching viewed phone numbers, email and postal addresses,
 	even if editing is disabled for this contact editor.  Don't enable
