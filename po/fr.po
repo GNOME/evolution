@@ -1,15 +1,15 @@
 # evolution fr.po
 # Copyright (C) 2000-2002 Free Software Foundation, Inc.
 # Vincent Renardias <vincent@debian.org>, 2000.
-# Christophe Merlet (RedFox) <redfox@eikonex.org>, 2000-2002
-# Jean-Noël Guiheneuf <jean-noel.guiheneuf@wanadoo.fr>, 2001
-# maintainer: Frederic Riss <frederic.riss@laposte.net>, 2001-2002
+# Christophe Merlet (RedFox) <redfox@eikonex.org>, 2000-2002.
+# Jean-Noël Guiheneuf <jean-noel.guiheneuf@wanadoo.fr>, 2001.
+# maintainer: Frederic Riss <frederic.riss@laposte.net>, 2001-2002.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.3.99\n"
-"POT-Creation-Date: 2002-04-08 01:42+0200\n"
-"PO-Revision-Date: 2002-04-08 01:42+0200\n"
+"POT-Creation-Date: 2002-04-13 13:07+0200\n"
+"PO-Revision-Date: 2002-04-13 13:07+0200\n"
 "Last-Translator: Frédéric Riss <frederic.riss@laposte.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -7113,90 +7113,90 @@ msgstr ""
 msgid "SMTWTFS"
 msgstr "DLMMJVS"
 
-#: calendar/pcs/query.c:246
+#: calendar/pcs/query.c:247
 msgid "time-now expects 0 arguments"
 msgstr "time-now attend 0 argument"
 
-#: calendar/pcs/query.c:270
+#: calendar/pcs/query.c:271
 msgid "make-time expects 1 argument"
 msgstr "make-time attend 1 argument"
 
-#: calendar/pcs/query.c:275
+#: calendar/pcs/query.c:276
 msgid "make-time expects argument 1 to be a string"
 msgstr "make-time attend une chaîne de caractères pour l'argument 1"
 
-#: calendar/pcs/query.c:283
+#: calendar/pcs/query.c:284
 msgid "make-time argument 1 must be an ISO 8601 date/time string"
 msgstr "make-time attend une chaîne de date ISO 8601 pour l'argument 1"
 
-#: calendar/pcs/query.c:312
+#: calendar/pcs/query.c:313
 msgid "time-add-day expects 2 arguments"
 msgstr "time-add attend 2 arguments"
 
-#: calendar/pcs/query.c:317
+#: calendar/pcs/query.c:318
 msgid "time-add-day expects argument 1 to be a time_t"
 msgstr "time-add attend un time_t pour l'argument 1"
 
-#: calendar/pcs/query.c:324
+#: calendar/pcs/query.c:325
 msgid "time-add-day expects argument 2 to be an integer"
 msgstr "time-add attend un entier pour l'argument 2"
 
-#: calendar/pcs/query.c:351
+#: calendar/pcs/query.c:352
 msgid "time-day-begin expects 1 argument"
 msgstr "time-day-begin attend 1 argument"
 
-#: calendar/pcs/query.c:356
+#: calendar/pcs/query.c:357
 msgid "time-day-begin expects argument 1 to be a time_t"
 msgstr "time-day-begin attend un time_t pour l'argument 1"
 
-#: calendar/pcs/query.c:383
+#: calendar/pcs/query.c:384
 msgid "time-day-end expects 1 argument"
 msgstr "time_day-end attend 1 argument"
 
-#: calendar/pcs/query.c:388
+#: calendar/pcs/query.c:389
 msgid "time-day-end expects argument 1 to be a time_t"
 msgstr "time-day-end attend un time_t pour l'argument 1"
 
-#: calendar/pcs/query.c:424
+#: calendar/pcs/query.c:425
 msgid "get-vtype expects 0 arguments"
 msgstr "get-vtype attend 0 argument"
 
-#: calendar/pcs/query.c:520
+#: calendar/pcs/query.c:521
 msgid "occur-in-time-range? expects 2 arguments"
 msgstr "Occur-in-time-range ? attend 2 arguments"
 
-#: calendar/pcs/query.c:525
+#: calendar/pcs/query.c:526
 msgid "occur-in-time-range? expects argument 1 to be a time_t"
 msgstr "Occur-in-time-range ? attend un time_t pour l'argument 1"
 
-#: calendar/pcs/query.c:532
+#: calendar/pcs/query.c:533
 msgid "occur-in-time-range? expects argument 2 to be a time_t"
 msgstr "Occur-in-time-range ? attend un time_t pour l'argument 2"
 
-#: calendar/pcs/query.c:662
+#: calendar/pcs/query.c:663
 msgid "contains? expects 2 arguments"
 msgstr "contains ? attend 2 arguments"
 
-#: calendar/pcs/query.c:667
+#: calendar/pcs/query.c:668
 msgid "contains? expects argument 1 to be a string"
 msgstr "contains ? attend une chaîne pour l'argument 1"
 
-#: calendar/pcs/query.c:674
+#: calendar/pcs/query.c:675
 msgid "contains? expects argument 2 to be a string"
 msgstr "contains ? attend une chaîne pour l'argument 2"
 
-#: calendar/pcs/query.c:691
+#: calendar/pcs/query.c:692
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
 msgstr ""
 "contains ? attend « any », « summary », « description » pour l'argument 1"
 
-#: calendar/pcs/query.c:733
+#: calendar/pcs/query.c:734
 msgid "has-categories? expects at least 1 argument"
 msgstr "has-categories ? attend au moins 1 argument"
 
-#: calendar/pcs/query.c:745
+#: calendar/pcs/query.c:746
 msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
@@ -7204,19 +7204,19 @@ msgstr ""
 "has-categories ? attend tous les arguments comme chaîne ou seulement 1 "
 "argument comme booléen faux (#f)"
 
-#: calendar/pcs/query.c:833
+#: calendar/pcs/query.c:834
 msgid "is-completed? expects 0 arguments"
 msgstr "is-completed ? attend 0 argument"
 
-#: calendar/pcs/query.c:878
+#: calendar/pcs/query.c:879
 msgid "completed-before? expects 1 argument"
 msgstr "completed-before. attend 1 argument"
 
-#: calendar/pcs/query.c:883
+#: calendar/pcs/query.c:884
 msgid "completed-before? expects argument 1 to be a time_t"
 msgstr "completed-before? attends un t_time comme premier argument"
 
-#: calendar/pcs/query.c:1160
+#: calendar/pcs/query.c:1161
 msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr "L'évaluation de l'expression de recherche ne produit pas un booléen"
 
@@ -7369,7 +7369,7 @@ msgstr "(compare tout) demande un unique résultat booléen"
 #: camel/camel-folder-search.c:638
 #, c-format
 msgid "Performing query on unknown header: %s"
-msgstr "Interrogation sur entête inconnue : %s"
+msgstr "Interrogation sur un en-tête inconnu : %s"
 
 #: camel/camel-folder-search.c:750 camel/camel-folder-search.c:794
 msgid "Invalid type in body-contains, expecting string"
@@ -7872,7 +7872,7 @@ msgstr "Impossible d'obtenir le dossier : Opération invalide sur ce stockage"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Impossible de créer le dossier : Opération invalide sur ce stockage"
 
-#: camel/camel-tcp-stream-ssl.c:422
+#: camel/camel-tcp-stream-ssl.c:446
 #, c-format
 msgid ""
 "EMail: %s\n"
@@ -7892,7 +7892,7 @@ msgstr ""
 "Pays : %s"
 
 #. construct our user prompt
-#: camel/camel-tcp-stream-ssl.c:438
+#: camel/camel-tcp-stream-ssl.c:462
 #, c-format
 msgid ""
 "Bad certificate from %s:\n"
@@ -10553,7 +10553,7 @@ msgid ""
 "Send anyway?"
 msgstr ""
 "Il est possible que le serveur de courrier puisse révéler les destinataires "
-"en ajoutant un entête Apparently-To.\n"
+"en ajoutant un en-tête Apparently-To.\n"
 "Envoyer quand même ?"
 
 #: mail/mail-callbacks.c:469
@@ -10692,13 +10692,13 @@ msgid ""
 "not sure, ask your system\n"
 "administrator or Internet Service Provider."
 msgstr ""
-"Veuillez saisir les informations de votre serveur de courrier d'entrée. Si "
-"vous n'êtes pas sûr, demandez à votre administrateur système ou à votre "
-"provider."
+"Veuillez saisir les informations de votre serveur de courrier entrant.\n"
+"Si vous n'êtes pas sûr, demandez à votre administrateur système ou à votre\n"
+"fournisseur d'accès Internet."
 
 #: mail/mail-config-druid.c:150
 msgid "Please select among the following options"
-msgstr "Selectionnez parmi les options suivantes S.V.P"
+msgstr "Veuillez sélectionner parmi les options suivantes"
 
 #: mail/mail-config-druid.c:152
 msgid ""
@@ -10706,9 +10706,9 @@ msgid ""
 "sure, ask your system\n"
 "administrator or Internet Service Provider."
 msgstr ""
-"Veuillez saisir les informations nécessaires pour envoyer votre courrier. Si "
-"vous n'êtes pas sûr,\n"
-"demandez à votre administrateur système ou à votre provider."
+"Veuillez saisir les informations nécessaires pour envoyer votre courrier.\n"
+"Si vous n'êtes pas sûr, demandez à votre administrateur système ou à votre\n"
+"fournisseur d'accès Internet."
 
 #: mail/mail-config-druid.c:154
 msgid ""
@@ -11332,7 +11332,7 @@ msgstr "Bcc"
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
-"Ce message est signé numériquement. Cliquez sur l'icone de verrou pour plus "
+"Ce message est signé numériquement. Cliquez sur l'icône de verrou pour plus "
 "d'information."
 
 #: mail/mail-format.c:1841
@@ -11887,7 +11887,7 @@ msgstr "Gérer les abonnements"
 
 #: mail/subscribe-dialog.glade.h:6
 msgid "Show _folders from server: "
-msgstr "Montrer les dossiers du serveur :"
+msgstr "Afficher les dossiers du serveur :"
 
 #: mail/subscribe-dialog.glade.h:7
 msgid "_Subscribe"
@@ -13253,7 +13253,7 @@ msgstr "Rafraîchir l'heure (secondes) :"
 
 #: my-evolution/my-evolution.glade.h:15
 msgid "S_how full path for folders"
-msgstr "Montrer le c_hemin complet des dossiers"
+msgstr "Afficher le c_hemin complet des dossiers"
 
 #: my-evolution/my-evolution.glade.h:16
 msgid "Show _all tasks"
@@ -23061,7 +23061,7 @@ msgstr "Le shell Evolution."
 
 #: shell/e-activity-handler.c:200
 msgid "Show Details"
-msgstr "Montrer les détails"
+msgstr "Afficher les détails"
 
 #: shell/e-activity-handler.c:202
 msgid "Cancel Operation"
@@ -23646,19 +23646,19 @@ msgstr "Renommer le groupe de raccourcis sélectionné par :"
 
 #: shell/e-shortcuts-view.c:224
 msgid "_Small Icons"
-msgstr "_Petites icones"
+msgstr "_Petites icônes"
 
 #: shell/e-shortcuts-view.c:225
 msgid "Show the shortcuts as small icons"
-msgstr "Afficher les raccourcis sous forme de petites icones"
+msgstr "Afficher les raccourcis sous forme de petites icônes"
 
 #: shell/e-shortcuts-view.c:227
 msgid "_Large Icons"
-msgstr "_Grandes icones"
+msgstr "_Grandes icônes"
 
 #: shell/e-shortcuts-view.c:228
 msgid "Show the shortcuts as large icons"
-msgstr "Afficher les raccourcis sous forme de grandes icones"
+msgstr "Afficher les raccourcis sous forme de grandes icônes"
 
 #: shell/e-shortcuts-view.c:239
 msgid "_New Group..."
@@ -23722,7 +23722,7 @@ msgstr "Renommer ce raccourci"
 
 #: shell/e-shortcuts-view.c:391
 msgid "Re_move"
-msgstr "Supprimer"
+msgstr "_Supprimer"
 
 #: shell/e-shortcuts-view.c:391
 msgid "Remove this shortcut from the shortcut bar"
@@ -23914,7 +23914,7 @@ msgstr "Connexions actives"
 #: shell/glade/e-active-connection-dialog.glade.h:2
 msgid "Click OK to close these connections and go offline"
 msgstr ""
-"Cliquez sur «Valider» pour fermer ces connexions et travailler Hors Ligne."
+"Cliquez sur « Valider » pour fermer ces connexions et travailler Hors Ligne."
 
 #: shell/glade/e-active-connection-dialog.glade.h:3
 msgid "Host"
@@ -24514,7 +24514,7 @@ msgstr "Envoyer les messages en attente et récupèrer les nouveaux messages"
 
 #: ui/evolution-mail-global.xml.h:15
 msgid "Show message preview window"
-msgstr "Montrer la fenêtre de prévisualisation de message"
+msgstr "Afficher la fenêtre de prévisualisation de message"
 
 #: ui/evolution-mail-global.xml.h:16
 msgid "Subscribe or unsubscribe to folders on remote servers"
@@ -24621,11 +24621,11 @@ msgstr "Sélectionner tous les messages visibles"
 
 #: ui/evolution-mail-list.xml.h:18
 msgid "Sh_ow Hidden Messages"
-msgstr "Montrer tous les messages cachés"
+msgstr "Afficher tous les messages _cachés"
 
 #: ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
-msgstr "Montrer les messages qui ont été temporairement cachés"
+msgstr "Afficher les messages qui ont été temporairement cachés"
 
 #: ui/evolution-mail-list.xml.h:20
 msgid "Temporarily hide all messages that have already been read"
@@ -24938,11 +24938,11 @@ msgstr "Paramétrage de la page pour votre imprimante courante"
 
 #: ui/evolution-mail-message.xml.h:80
 msgid "Show Email _Source"
-msgstr "Montrer le _source du courrier"
+msgstr "Afficher le _source du courrier"
 
 #: ui/evolution-mail-message.xml.h:81
 msgid "Show Full _Headers"
-msgstr "Montrer les _entêtes complets"
+msgstr "Afficher les _en-têtes complets"
 
 #: ui/evolution-mail-message.xml.h:82
 msgid "Show message in the normal style"
@@ -24950,7 +24950,7 @@ msgstr "Afficher le message en style normal"
 
 #: ui/evolution-mail-message.xml.h:83
 msgid "Show message with all email headers"
-msgstr "Afficher le message avec toutes les entêtes"
+msgstr "Afficher le message avec toutes les en-têtes"
 
 #: ui/evolution-mail-message.xml.h:84
 msgid "Show the raw email source of the message"
@@ -25429,7 +25429,7 @@ msgstr "_Importer..."
 
 #: ui/evolution.xml.h:42
 msgid "_Move..."
-msgstr "Déplacer"
+msgstr "_Déplacer..."
 
 #: ui/evolution.xml.h:43
 msgid "_New"
@@ -25441,7 +25441,7 @@ msgstr "_Nouveau dossier"
 
 #: ui/evolution.xml.h:45
 msgid "_Pilot Settings..."
-msgstr "Paramétrage du Pilot..."
+msgstr "Paramétrage du _Pilot..."
 
 #: ui/evolution.xml.h:46
 msgid "_Rename..."
@@ -25449,7 +25449,7 @@ msgstr "_Renommer..."
 
 #: ui/evolution.xml.h:47
 msgid "_Shortcut"
-msgstr "Raccourci"
+msgstr "_Raccourci"
 
 #: ui/evolution.xml.h:48
 msgid "_Shortcut Bar"
@@ -25666,7 +25666,7 @@ msgstr "Tous"
 
 #: widgets/misc/e-filter-bar.h:102
 msgid "Show All"
-msgstr "Montrer tout"
+msgstr "Afficher tout"
 
 #: widgets/misc/e-messagebox.c:152
 msgid "Information"
