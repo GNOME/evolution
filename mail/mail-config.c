@@ -2356,67 +2356,6 @@ mail_config_get_accounts (void)
 }
 
 static void
-add_shortcut_entry (const char *name, const char *uri, const char *type)
-{
-	extern EvolutionShellClient *global_shell_client;
-	CORBA_Environment ev;
-	GNOME_Evolution_Shortcuts shortcuts_interface;
-	GNOME_Evolution_Shortcuts_Group *the_group;
-	GNOME_Evolution_Shortcuts_Shortcut *the_shortcut;
-	int i;
-	
-	if (!global_shell_client)
-		return;
-	
-	CORBA_exception_init (&ev);
-	
-	shortcuts_interface = evolution_shell_client_get_shortcuts_interface (global_shell_client);
-	if (CORBA_Object_is_nil (shortcuts_interface, &ev)) {
-		g_warning ("No ::Shortcut interface on the shell");
-		CORBA_exception_free (&ev);
-		return;
-	}
-	
-	the_group = GNOME_Evolution_Shortcuts_getGroup (shortcuts_interface, 0, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Exception getting first group: %s", ev._repo_id);
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	the_shortcut = NULL;
-	for (i = 0; i < the_group->shortcuts._length; i++) {
-		GNOME_Evolution_Shortcuts_Shortcut *iter;
-		
-		iter = the_group->shortcuts._buffer + i;
-		if (!strcmp (iter->name, name)) {
-			the_shortcut = iter;
-			break;
-		}
-	}
-	
-	if (the_shortcut == NULL) {
-		the_shortcut = GNOME_Evolution_Shortcuts_Shortcut__alloc ();
-		the_shortcut->name = CORBA_string_dup (name);
-		the_shortcut->uri = CORBA_string_dup (uri);
-		the_shortcut->type = CORBA_string_dup (type);
-		
-		GNOME_Evolution_Shortcuts_add (shortcuts_interface,
-					       0, -1, /* "end of list" */
-					       the_shortcut,
-					       &ev);
-		
-		CORBA_free (the_shortcut);
-		
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning ("Exception creating shortcut \"%s\": %s", name, ev._repo_id);
-	}
-	
-	CORBA_free (the_group);
-	CORBA_exception_free (&ev);
-}
-
-static void
 add_new_storage (const char *url, const char *name)
 {
 	extern EvolutionShellClient *global_shell_client;
@@ -2426,126 +2365,10 @@ add_new_storage (const char *url, const char *name)
 	mail_load_storage_by_uri (corba_shell, url, name);
 }
 
-static void
-new_source_created (MailConfigAccount *account)
-{
-	CamelProvider *prov;
-	CamelFolder *inbox;
-	CamelException ex;
-	char *name;
-	char *url;
-	
-	/* no source, don't bother. */
-	if (!account->source || !account->source->url)
-		return;
-
-	camel_exception_init (&ex);
-	prov = camel_session_get_provider (session, account->source->url, &ex);
-	if (camel_exception_is_set (&ex)) {
-		g_warning ("Configured provider that doesn't exist?");
-		camel_exception_clear (&ex);
-		return;
-	}
-
-	/* not a storage, don't bother. */
-	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
-	    (prov->flags & CAMEL_PROVIDER_IS_EXTERNAL))
-		return;
-
-	inbox = mail_tool_get_inbox (account->source->url, &ex);
-	if (camel_exception_is_set (&ex)) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Could not get inbox for new mail store:\n%s\n"
-			    "No shortcut will be created."),
-			  camel_exception_get_description (&ex));
-		camel_exception_clear (&ex);
-		return;
-	}
-
-	if (inbox) {
-		/* Create the shortcut. FIXME: This only works if the
-		 * full name matches the path.
-		 */
-		name = g_strdup_printf (U_("%s: Inbox"), account->name);
-		url = g_strdup_printf ("evolution:/%s/%s", account->name,
-				       inbox->full_name);
-		add_shortcut_entry (name, url, "mail");
-		g_free (name);
-		g_free (url);
-
-		/* If we unref inbox here, it will disconnect from the
-		 * store, but then add_new_storage will reconnect. So
-		 * we'll keep holding the ref until after that.
-		 */
-	}
-
-	/* add the storage to the folder tree */
-	add_new_storage (account->source->url, account->name);
-
-	if (inbox)
-		camel_object_unref (CAMEL_OBJECT (inbox));
-}
-
 void
 mail_config_add_account (MailConfigAccount *account)
 {
 	config->accounts = g_slist_append (config->accounts, account);
-	
-	if (account->source && account->source->url)
-		new_source_created (account);
-}
-
-static void
-remove_account_shortcuts (MailConfigAccount *account)
-{
-	extern EvolutionShellClient *global_shell_client;
-	CORBA_Environment ev;
-	GNOME_Evolution_Shortcuts shortcuts_interface;
-	GNOME_Evolution_Shortcuts_GroupList *groups;
-	int i, j, len;;
-
-	CORBA_exception_init (&ev);
-
-	shortcuts_interface = evolution_shell_client_get_shortcuts_interface (global_shell_client);
-	if (CORBA_Object_is_nil (shortcuts_interface, &ev)) {
-		g_warning ("No ::Shortcut interface on the shell");
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	groups = GNOME_Evolution_Shortcuts__get_groups (shortcuts_interface, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Exception getting the groups: %s", ev._repo_id);
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	len = strlen (account->name);
-
-	for (i = 0; i < groups->_length; i++) {
-		GNOME_Evolution_Shortcuts_Group *iter;
-		
-		iter = groups->_buffer + i;
-
-		for (j = 0; j < iter->shortcuts._length; j++) {
-			GNOME_Evolution_Shortcuts_Shortcut *sc;
-
-			sc = iter->shortcuts._buffer + j;
-
-			/* "evolution:/" = 11 */
-			if (!strncmp (sc->uri + 11, account->name, len)) {
-				GNOME_Evolution_Shortcuts_remove (shortcuts_interface, i, j, &ev);
-
-				if (ev._major != CORBA_NO_EXCEPTION) {
-					g_warning ("Exception removing shortcut \"%s\": %s", sc->name, ev._repo_id);
-					break;
-				}
-			}
-		}
-	}
-
-	CORBA_exception_free (&ev);
-	CORBA_free (groups);
 }
 
 const GSList *
@@ -2565,7 +2388,6 @@ mail_config_remove_account (MailConfigAccount *account)
 	}
 	
 	config->accounts = g_slist_remove (config->accounts, account);
-	remove_account_shortcuts (account);
 	account_destroy (account);
 	
 	return config->accounts;

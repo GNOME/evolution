@@ -1,3 +1,13 @@
+2002-05-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_add_account): Don't add any shortcuts
+	here.
+	(mail_config_remove_account): And don't remove them here. This
+	code has never worked properly.
+
+	* mail-ops.c (save_part_save): Use the exception enum names rather
+	than '1' since it makes the code clearer.
+
 2002-05-10  Dan Winship  <danw@ximian.com>
 
 	* mail-ops.c (transfer_messages_transfer): Simplify. Use

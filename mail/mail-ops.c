@@ -1994,15 +1994,16 @@ save_part_save (struct _mail_msg *mm)
 	struct _save_part_msg *m = (struct _save_part_msg *)mm;
 	CamelMimeFilterCharset *charsetfilter;
 	CamelContentType *content_type;
-	CamelStreamFilter *filtered_stream;
+	CamelStream *filtered_stream;
 	CamelStream *stream_fs;
 	CamelDataWrapper *data;
 	const char *charset;
 	
 	stream_fs = camel_stream_fs_new_with_name (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (stream_fs == NULL) {
-		camel_exception_setv (&mm->ex, 1, _("Cannot create output file: %s:\n %s"), m->path,
-				      g_strerror (errno));
+		camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot create output file: %s:\n %s"),
+				      m->path, g_strerror (errno));
 		return;
 	}
 	
@@ -2018,24 +2019,23 @@ save_part_save (struct _mail_msg *mm)
 	    && (charset = header_content_type_param (content_type, "charset"))
 	    && g_strcasecmp (charset, "utf-8") != 0) {
 		charsetfilter = camel_mime_filter_charset_new_convert ("utf-8", charset);
-		filtered_stream = camel_stream_filter_new_with_stream (stream_fs);
+		filtered_stream = (CamelStream *) camel_stream_filter_new_with_stream (stream_fs);
+		camel_object_unref (CAMEL_OBJECT (stream_fs));
 		if (charsetfilter) {
-			camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (charsetfilter));
+			camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered_stream), CAMEL_MIME_FILTER (charsetfilter));
 			camel_object_unref (CAMEL_OBJECT (charsetfilter));
 		}
 	} else {
-		/* no we can't use a CAMEL_BLAH() cast here, since its not true, HOWEVER
-		   we only treat it as a normal stream from here on, so it is OK */
-		filtered_stream = (CamelStreamFilter *)stream_fs;
-		camel_object_ref (CAMEL_OBJECT (stream_fs));
+		filtered_stream = stream_fs;
 	}
 	
-	if (camel_data_wrapper_write_to_stream (data, CAMEL_STREAM (filtered_stream)) == -1
-	    || camel_stream_flush (CAMEL_STREAM (filtered_stream)) == -1)
-		camel_exception_setv (&mm->ex, 1, _("Could not write data: %s"), g_strerror (errno));
+	if (camel_data_wrapper_write_to_stream (data, filtered_stream) == -1
+	    || camel_stream_flush (filtered_stream) == -1)
+		camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not write data: %s"),
+				      g_strerror (errno));
 	
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
-	camel_object_unref (CAMEL_OBJECT (stream_fs));
 }
 
 static void
