@@ -1,3 +1,16 @@
+2003-04-22  Anna Marie Dirks  <anna@ximian.com>
+	
+	* e-shortcuts-view.c
+	(destroy_group_cb): Set the border width of the message dialog 
+	to 6. Also corrected the capitalization for "Remove Shortcut 
+	Dialog". Fixes 41569
+	(show_new_group_dialog): Fixed the title of "Create New Shortcut
+	Group" . Partially fixes 41038.
+	(rename_shortcut_cb): Corrected the label capitalization for 
+	Rename dialog. Fixes 41567.
+
+
+
 2003-04-21  Chris Toshok  <toshok@ximian.com>
 
 	* e-folder-list.c (e_folder_list_parse_xml): this should never

@@ -77,7 +77,7 @@ show_new_group_dialog (EShortcutsView *view)
 	char *group_name;
 
 	group_name = e_request_string (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view))),
-				       _("Create new shortcut group"),
+				       _("Create New Shortcut Group"),
 				       _("Group name:"),
 				       NULL);
 
@@ -184,6 +184,13 @@ destroy_group_cb (GtkWidget *widget,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_DELETE, GTK_RESPONSE_OK,
 				NULL);
+
+	gtk_window_set_title (GTK_WINDOW (message_dialog), "Remove Shortcut Group"); 
+
+	gtk_container_set_border_width (GTK_CONTAINER (message_dialog), 6); 
+	
+	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (message_dialog)->vbox), 6);
+
 	gtk_dialog_set_default_response (GTK_DIALOG (message_dialog), GTK_RESPONSE_OK);
 
 	response = gtk_dialog_run (GTK_DIALOG (message_dialog));
@@ -260,7 +267,7 @@ static GnomeUIInfo right_click_menu_uiinfo[] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("_New Group..."),
+	{ GNOME_APP_UI_ITEM, N_("_Add Group..."),
 	  N_("Create a new shortcut group"), create_new_group_cb, NULL,
 	  NULL, 0, 0, 0, 0 },
 	{ GNOME_APP_UI_ITEM, N_("_Remove this Group..."),
@@ -398,7 +405,7 @@ rename_shortcut_cb (GtkWidget *widget,
 	shortcut_item = e_shortcuts_get_shortcut (shortcuts, menu_data->group_num, menu_data->item_num);
 
 	new_name = e_request_string (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (shortcuts_view))),
-				     _("Rename shortcut"),
+				     _("Rename Shortcut"),
 				     _("Rename selected shortcut to:"),
 				     shortcut_item->name);
 
