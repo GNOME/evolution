@@ -1,3 +1,11 @@
+2002-09-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-preferences.c (mail_preferences_construct): Connect signal
+	handlers to the GtkHTML preferences so that when the widgets
+	change we can update the OK/Apply buttons. Also removed the
+	omenuShortcutsType widget reference since this was not being used?
+	Fixes bug #30731.
+
 2002-09-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (do_edit_messages): Unset the changed bit on

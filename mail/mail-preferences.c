@@ -189,15 +189,16 @@ option_menu_connect (GtkOptionMenu *omenu, gpointer user_data)
 static void
 mail_preferences_construct (MailPreferences *prefs)
 {
-	GtkWidget *toplevel, *menu;
+	GtkWidget *widget, *toplevel, *menu;
 	const char *text;
 	GladeXML *gui;
 	int i;
-	char *names[][2] = {{"anim_check", "chkShowAnimatedImages"},
-			    {"magic_check", "chkAutoDetectLinks"},
-			    {"gtk_html_prop_keymap_option", "omenuShortcutsType"},
-			    {NULL, NULL}};
-		
+	char *names[][2] = {
+		{ "anim_check", "chkShowAnimatedImages" },
+		{ "magic_check", "chkAutoDetectLinks" },
+		{ NULL, NULL }
+	};
+	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "preferences_tab");
 	prefs->gui = gui;
 	
@@ -297,7 +298,12 @@ mail_preferences_construct (MailPreferences *prefs)
 	
 	gtk_html_propmanager_set_names (prefs->pman, names);
 	gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);
-
+	for (i = 0; names[i][0] != NULL; i++) {
+		widget = glade_xml_get_widget (gui, names[i][1]);
+		gtk_signal_connect (GTK_OBJECT (widget), "toggled",
+				    toggle_button_toggled, prefs);
+	}
+	
 	prefs->prompt_unwanted_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptWantHTML"));
 	gtk_toggle_button_set_active (prefs->prompt_unwanted_html, mail_config_get_confirm_unwanted_html ());
 	gtk_signal_connect (GTK_OBJECT (prefs->prompt_unwanted_html), "toggled",
