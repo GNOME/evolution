@@ -1,5 +1,12 @@
 2004-03-04  Rodrigo Moya <rodrigo@ximian.com>
 
+	Fixes #53496
+
+	* gui/dialogs/cal-prefs-dialog.glade: set the same spacing for all
+	tabs in the notebook.
+
+2004-03-04  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/dialogs/comp-editor.c (comp_editor_append_page): always add
 	the page.
 
