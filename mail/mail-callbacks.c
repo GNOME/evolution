@@ -390,6 +390,28 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 			mail_send ();
 		}
 	} else {
+		if (!ccd) {
+			ccd = g_new (struct _composer_callback_data, 1);
+			ccd->drafts_folder = NULL;
+			ccd->drafts_uid = NULL;
+			ccd->folder = NULL;
+			ccd->uid = NULL;
+			
+			/* disconnect the previous signal handlers */
+			gtk_signal_disconnect_by_func (GTK_OBJECT (send->composer),
+						       GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+			gtk_signal_disconnect_by_func (GTK_OBJECT (send->composer),
+						       GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
+			
+			/* reconnect to the signals using a non-NULL ccd for the callback data */
+			gtk_signal_connect (GTK_OBJECT (send->composer), "send",
+					    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
+			gtk_signal_connect (GTK_OBJECT (send->composer), "save-draft",
+					    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
+			gtk_signal_connect (GTK_OBJECT (send->composer), "destroy",
+					    GTK_SIGNAL_FUNC (free_ccd), ccd);
+		}
+		
 		e_msg_composer_set_enable_autosave (send->composer, TRUE);
 		gtk_widget_show (GTK_WIDGET (send->composer));
 		gtk_object_unref (GTK_OBJECT (send->composer));
@@ -612,9 +634,29 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 	GNOME_GtkHTML_Editor_Engine_runCommand (sdi->composer->editor_engine, "saved", &ev);
 	CORBA_exception_free (&ev);
 	
-	ccd = sdi->ccd;
+	if ((ccd = sdi->ccd) == NULL) {
+		ccd = g_new (struct _composer_callback_data, 1);
+		ccd->drafts_folder = NULL;
+		ccd->drafts_uid = NULL;
+		ccd->folder = NULL;
+		ccd->uid = NULL;
+		
+		/* disconnect the previous signal handlers */
+		gtk_signal_disconnect_by_func (GTK_OBJECT (sdi->composer),
+					       GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+		gtk_signal_disconnect_by_func (GTK_OBJECT (sdi->composer),
+					       GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
+		
+		/* reconnect to the signals using a non-NULL ccd for the callback data */
+		gtk_signal_connect (GTK_OBJECT (sdi->composer), "send",
+				    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
+		gtk_signal_connect (GTK_OBJECT (sdi->composer), "save-draft",
+				    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
+		gtk_signal_connect (GTK_OBJECT (sdi->composer), "destroy",
+				    GTK_SIGNAL_FUNC (free_ccd), ccd);
+	}
 	
-	if (ccd && ccd->drafts_folder) {
+	if (ccd->drafts_folder) {
 		/* delete the original draft message */
 		camel_folder_set_message_flags (ccd->drafts_folder, ccd->drafts_uid,
 						CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
@@ -625,7 +667,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 		ccd->drafts_uid = NULL;
 	}
 	
-	if (ccd && ccd->folder) {
+	if (ccd->folder) {
 		/* set the replied flags etc */
 		camel_folder_set_message_flags (ccd->folder, ccd->uid, ccd->flags, ccd->set);
 		camel_object_unref (ccd->folder);
@@ -634,7 +676,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 		ccd->uid = NULL;
 	}
 	
-	if (ccd && appended_uid) {
+	if (appended_uid) {
 		camel_object_ref (folder);
 		ccd->drafts_folder = folder;
 		ccd->drafts_uid = g_strdup (appended_uid);
