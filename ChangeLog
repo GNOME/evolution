@@ -1,3 +1,21 @@
+2000-04-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* addressbook/backend/ebook/e-book-view.c,
+	addressbook/backend/ebook/e-book.c: Changed some incorrect
+	gtk_object_refs and gtk_object_unrefs into bonobo_object_refs and
+	bonobo_object_unrefs.
+
+	* addressbook/backend/pas/pas-card-cursor.c: Changed a
+	gtk_object_destroy to a gtk_object_unref.
+
+	* addressbook/gui/minicard/e-minicard-view.c,
+	addressbook/gui/minicard/e-minicard-view.h: Set a list pointer to
+	NULL after freeing its contents.  Added
+	e_minicard_view_remove_selection function.
+
+	* addressbook/gui/minicard/e-reflow.c: Set a list pointer to NULL
+	after freeing its contents.
+
 2000-04-11  Chris Toshok  <toshok@helixcode.com>
 
 	* addressbook/gui/component/addressbook.c (find_contact_cb):

@@ -168,6 +168,8 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 						  view);
 	g_list_foreach(E_REFLOW(view)->items, (GFunc) gtk_object_destroy, NULL);
 	g_list_free(E_REFLOW(view)->items);
+	E_REFLOW(view)->items = NULL;
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(view));
 }
 
 static gboolean
@@ -250,4 +252,30 @@ e_minicard_view_destroy (GtkObject *object)
 				      view->modify_card_id);
 	if (view->book_view)
 		gtk_object_unref(GTK_OBJECT(view->book_view));
+}
+
+void
+e_minicard_remove_selection(EMinicardView *view,
+			    EBookCallback  cb,
+			    gpointer       closure)
+{
+	if (view->book) {
+		EReflow *reflow = E_REFLOW(view);
+		GList *list;
+		for (list = reflow->items; list; list = g_list_next(list)) {
+			GnomeCanvasItem *item = list->data;
+			gboolean has_focus;
+			gtk_object_get(item,
+				       "has_focus", &has_focus,
+				       NULL);
+			if (has_focus) {
+				ECard *card;
+				gtk_object_get(GTK_OBJECT(item),
+					       "card", &card,
+					       NULL);
+				e_book_remove_card(view->book, card, cb, closure);
+				return;
+			}
+		}
+	}
 }

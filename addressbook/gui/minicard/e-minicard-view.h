@@ -79,6 +79,9 @@ struct _EMinicardViewClass
 };
 
 GtkType    e_minicard_view_get_type (void);
+void       e_minicard_view_remove_selection (EMinicardView *view,
+					     EBookCallback  cb,
+					     gpointer       closure);
 
 #ifdef __cplusplus
 }

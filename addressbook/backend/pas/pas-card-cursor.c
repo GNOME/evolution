@@ -215,7 +215,7 @@ pas_card_cursor_new (PASCardCursorLengthFunc  get_length,
 	corba_cursor = create_cursor (BONOBO_OBJECT (cursor));
 
 	if (corba_cursor == CORBA_OBJECT_NIL){
-		gtk_object_destroy (GTK_OBJECT (cursor));
+		gtk_object_unref (GTK_OBJECT (cursor));
 		return NULL;
 	}
 	

@@ -226,7 +226,7 @@ e_book_do_response_get_view (EBook                 *book,
 	CORBA_exception_free (&ev);
 
 	gtk_object_unref(GTK_OBJECT(book_view));
-	gtk_object_unref(GTK_OBJECT(op->listener));
+	bonobo_object_unref(BONOBO_OBJECT(op->listener));
 	
 	g_free (op);
 }
@@ -410,7 +410,7 @@ e_book_unload_uri (EBook *book)
 
 	CORBA_exception_free (&ev);
 
-	gtk_object_unref (GTK_OBJECT (book->priv->listener));
+	bonobo_object_unref (BONOBO_OBJECT (book->priv->listener));
 
 	book->priv->listener   = NULL;
 	book->priv->load_state = URINotLoaded;

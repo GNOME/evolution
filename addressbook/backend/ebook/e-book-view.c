@@ -141,7 +141,7 @@ e_book_view_construct (EBookView *book_view, Evolution_BookView corba_book_view,
 	 */
 	book_view->priv->listener = listener;
 
-	gtk_object_ref(GTK_OBJECT(book_view->priv->listener));
+	bonobo_object_ref(BONOBO_OBJECT(book_view->priv->listener));
 	book_view->priv->responses_queued_id = gtk_signal_connect (GTK_OBJECT (book_view->priv->listener), "responses_queued",
 								   e_book_view_check_listener_queue, book_view);
 
@@ -204,7 +204,7 @@ e_book_view_destroy (GtkObject *object)
 		if (book_view->priv->responses_queued_id)
 			gtk_signal_disconnect(GTK_OBJECT(book_view->priv->listener),
 					      book_view->priv->responses_queued_id);
-		gtk_object_unref (GTK_OBJECT(book_view->priv->listener));
+		bonobo_object_unref (BONOBO_OBJECT(book_view->priv->listener));
 	}
 
 	g_free (book_view->priv);

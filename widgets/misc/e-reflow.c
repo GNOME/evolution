@@ -189,6 +189,7 @@ e_reflow_destroy (GtkObject *object)
 	EReflow *reflow = E_REFLOW(object);
 
 	g_list_free(reflow->items);
+	reflow->items = NULL;
 }
 
 static void
