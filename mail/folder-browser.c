@@ -1216,9 +1216,9 @@ folder_browser_search_do_search (ESearchBar *esb, FolderBrowser *fb)
 static void
 folder_browser_query_changed (ESearchBar *esb, FolderBrowser *fb)
 {
-	if (e_search_bar_get_item_id (esb) != E_FILTERBAR_ADVANCED_ID)
+	if (e_search_bar_get_item_id (esb) == E_FILTERBAR_ADVANCED_ID)
 		return;
-
+	
 	folder_browser_search_do_search (esb, fb);
 }
 

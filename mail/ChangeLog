@@ -1,5 +1,10 @@
 2002-09-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser.c (folder_browser_query_changed): Only abort if
+	the user selected ADVANCED_SEARCH, not the other way around. Any
+	other menu item and we are supposed to perform an actual
+	search. Fixes bug #30183.
+
 	* mail-display.c (pixbuf_for_mime_type): check the new gnome-vfs
 	icon_filename key. If that fails, fall back to checking
 	icon-filename. Also don't leak the fm_icon string and rearranged
