@@ -30,6 +30,7 @@
 		pixtype="stock" pixname="Send Mail"/> 
 		
 		<cmd name="FileAttach" _label="Attach" _tip="Attach a file"
+		accel="*Ctrl**Alt*f"
 		pixtype="pixbuf"/>
 		
 		<cmd name="DeleteAll" _label="_Delete all"

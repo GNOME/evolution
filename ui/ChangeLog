@@ -1,5 +1,12 @@
 2001-07-03  Jason Leach  <jleach@ximian.com>
 
+	[Bug #3612: Accelerator for attach file in composer]
+
+	* evolution-message-composer.xml: Ctrl-Alt-f for attaching files
+	(seemed consistent with the other insert menu items)
+
+	[Bug #809: Mark as important bindings]
+		
 	* evolution-mail-message.xml: Added "Mark as Important" menu
 	thingy.
 
