@@ -1600,19 +1600,22 @@ folder_changed (CamelObject *obj, gpointer event_data)
 
 	if (changed != NULL) {
 		CamelSession *session = ((CamelService *)folder->parent_store)->session;
-		CamelFilterDriver *driver;
+		CamelFilterDriver *driver = NULL;
 
-		CAMEL_FOLDER_LOCK(folder, change_lock);
 		if ((folder->folder_flags & CAMEL_FOLDER_FILTER_RECENT)
-		    && changed->uid_recent->len>0
-		    && (driver = camel_session_get_filter_driver(session, "incoming", NULL))) {
+		    && changed->uid_recent->len > 0)
+			driver = camel_session_get_filter_driver(session, "incoming", NULL);
+			
+		CAMEL_FOLDER_LOCK(folder, change_lock);
+
+		if (driver) {
 #ifdef ENABLE_THREADS
 			GPtrArray *recents = g_ptr_array_new();
 			int i;
 			struct _folder_filter_msg *msg;
 			
 			d(printf("** Have '%d' recent messages, launching thread to process them\n", changed->uid_recent->len));
-			
+
 			folder->priv->frozen++;
 			msg = camel_session_thread_msg_new(session, &filter_ops, sizeof(*msg));
 			for (i=0;i<changed->uid_recent->len;i++)
@@ -1636,6 +1639,7 @@ folder_changed (CamelObject *obj, gpointer event_data)
 			   thaw(), but thats a pita */
 			g_ptr_array_set_size(changed->uid_recent, 0);
 		}
+		
 		if (folder->priv->frozen) {
 			camel_folder_change_info_cat(folder->priv->changed_frozen, changed);
 			ret = FALSE;

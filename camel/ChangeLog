@@ -1,3 +1,10 @@
+2002-10-03  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder.c (folder_changed): Dont get the filter driver
+	inside the change_lock.  Its not necessary, and can cause deadlock
+	with the way the mailer gets the filter driver via g_mainloop.
+	Should fix #31572.
+
 2002-10-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-charset-map.c (camel_charset_iso_to_windows): Map us-ascii
