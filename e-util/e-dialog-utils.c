@@ -59,6 +59,7 @@ e_notice (gpointer parent, GtkMessageType type, const char *format, ...)
 					 GTK_BUTTONS_OK,
 					 "%s",
 					 str);
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	va_end (args);
 	g_free (str);
 	
@@ -93,6 +94,7 @@ e_notice_with_xid (GdkNativeWindow parent, GtkMessageType type, const char *form
 					 GTK_BUTTONS_OK,
 					 "%s",
 					 str);
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	va_end (args);
 	g_free (str);
 	
@@ -247,6 +249,7 @@ save_ok (GtkWidget *widget, gpointer data)
 					      _("A file by that name already exists.\n"
 						"Overwrite it?"));
 		gtk_window_set_title (GTK_WINDOW (dlg), _("Overwrite file?"));
+		gtk_dialog_set_has_separator (GTK_DIALOG (dlg), FALSE);
 
 		btn = gtk_dialog_run (GTK_DIALOG (dlg));
 		gtk_widget_destroy (dlg);

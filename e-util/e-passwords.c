@@ -334,6 +334,7 @@ e_passwords_ask_password (const char *title, const char *component_name,
 
 	gtk_window_set_title (GTK_WINDOW (dialog), title);
 
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
 	/* Password entry */
