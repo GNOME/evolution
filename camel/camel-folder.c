@@ -995,7 +995,7 @@ void
 camel_folder_expunge (CamelFolder *folder, CamelException *ex)
 {
 	g_assert (folder != NULL);
-	g_assert (!camel_folder_is_open (folder));
+	g_assert (camel_folder_is_open (folder));
 
 	return CF_CLASS (folder)->expunge (folder, ex);
 }

@@ -41,6 +41,8 @@
 	anymore (this wouldn't failed anyway, it was a GList !!!)
 	(camel_folder_search_complete): Removed.
 	(camel_folder_search_cancel): Removed.
+	(camel_folder_expunge): Changed to only allow expunge on an open
+	folder.  It doesn't make sense for mbox, otherwise (?)
 
 	* camel-folder.h (struct _CamelFolder): Change permanent_flags to
 	a bitfield.
