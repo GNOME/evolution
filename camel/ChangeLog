@@ -1,5 +1,9 @@
 2000-11-30  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-store.c
+	(parse_list_response_as_folder_info): Fix a possible bug where
+	'name' could be uninitialized.
+
 	* camel-folder-summary.c (camel_message_info_new): New convenience
 	function, doesn't do much but it sure makes code cleaner to read.
 	(camel_message_info_new_from_header): This one makes my life heaven.

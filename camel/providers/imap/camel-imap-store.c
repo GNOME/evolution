@@ -571,7 +571,7 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 {
 	CamelFolderInfo *fi;
 	int flags;
-	char sep, *dir, *name;
+	char sep, *dir, *name = NULL;
 
 	if (!imap_parse_list_response (response, &flags, &sep, &dir))
 		return NULL;
