@@ -1,3 +1,13 @@
+2001-07-30  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/evolution-vcard-importer.c: Added #include
+	<e-util/e-path.h>.
+
+2001-07-23  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* gui/component/addressbook-config.c (addressbook_source_dialog):
+	Convert translated string to UTF8 before calling put_html.
+
 2001-07-30  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c

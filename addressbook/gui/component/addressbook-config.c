@@ -657,6 +657,7 @@ addressbook_source_dialog (AddressbookSource *source, GtkWidget *parent)
 	GtkWidget *area;
 	int i;
 	int row = 0;
+	char *tmp_utf;
 
 	if (source)
 		dialog->dialog = gnome_dialog_new (_("Edit Addressbook"), NULL);
@@ -678,9 +679,11 @@ addressbook_source_dialog (AddressbookSource *source, GtkWidget *parent)
 	vbox = gtk_vbox_new (FALSE, 0);
 
 	dialog->html = html_new (FALSE);
-	put_html (GTK_HTML (dialog->html),
-		  _("Select the kind of addressbook you have, and enter "
-		    "the relevant information about it."));
+	tmp_utf = e_utf8_from_locale_string (
+	          _("Select the kind of addressbook you have, and enter "
+	            "the relevant information about it."));
+	put_html (GTK_HTML (dialog->html), tmp_utf);
+	g_free (tmp_utf);
 
 	table = gtk_table_new (2, 2, FALSE);
 

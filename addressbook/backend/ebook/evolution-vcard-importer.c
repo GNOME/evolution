@@ -12,6 +12,8 @@
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
+#include <e-util/e-path.h>
+
 #define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_ImporterFactory"
 
 static BonoboGenericFactory *factory = NULL;
