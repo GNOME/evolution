@@ -9,7 +9,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"
-		       _value="Evolution Netscape Mail importer">
+		       _value="Evolution Netscape Mail importer"/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Netscape_Intelligent_Importer"
@@ -21,6 +21,6 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"
-		       _value="Evolution Netscape Mail importer">
+		       _value="Evolution Netscape Mail importer"/>
 </oaf_server>
 </oaf_info>

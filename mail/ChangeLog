@@ -1,3 +1,10 @@
+2003-04-08  Dan Winship  <danw@ximian.com>
+
+	* importers/GNOME_Evolution_Mail_Elm_Intelligent_Importer.server.in.in:
+	* importers/GNOME_Evolution_Mail_Netscape_Intelligent_Importer.server.in.in:
+	* importers/GNOME_Evolution_Mail_Pine_Intelligent_Importer.server.in.in: 
+	Fix bad XML noticed by Not Zed
+	
 2003-04-08  Not Zed  <NotZed@Ximian.com>
 
 	* mail-vfolder.c (vfolder_gui_add_rule): swap button order.  For
