@@ -27,7 +27,6 @@
   </commands>
 
   <menu>
-    <menuitem name="Dump" _label="_Dump" verb="BonoboUIDump"/>
     <submenu name="File" _label="_File">
       <submenu name="New" _label="_New">
 	<placeholder name="NewFirstItem">
