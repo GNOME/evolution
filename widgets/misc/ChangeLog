@@ -1,3 +1,9 @@
+2002-03-15  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-multi-config-dialog.c (init): Set horizontal scroll policy to
+	GTK_POLICY_NEVER here.  Don't set usize here.  Changed RGBA_COLOR
+	to RGB_COLOR.  Turned on horizontal resize.
+
 2002-03-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-charset-picker.c (add_charset): If the charset item doesn't

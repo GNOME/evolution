@@ -61,7 +61,7 @@ static char *list_e_table_spec =
 	"		      selection-mode=\"browse\""
 	"                     no-headers=\"true\""
         "                     alternating-row-colors=\"false\""
-/*        "                     horizontal-resize=\"true\""*/
+        "                     horizontal-resize=\"true\""
         ">"
 	"  <ETableColumn model_col=\"0\""
 	"	         expansion=\"1.0\""
@@ -266,7 +266,7 @@ class_init (EMultiConfigDialogClass *class)
 	parent_class = gtk_type_class (PARENT_TYPE);
 }
 
-#define RGBA_COLOR(color) (((color).red & 0xff00) << 8 | \
+#define RGB_COLOR(color) (((color).red & 0xff00) << 8 | \
 			   ((color).green & 0xff00) | \
 			   ((color).blue & 0xff00) >> 8)
 
@@ -283,9 +283,9 @@ fill_in_pixbufs (EMultiConfigDialog *dialog, int row)
 
 	canvas = GTK_WIDGET (e_table_scrolled_get_table (E_TABLE_SCROLLED (dialog->priv->list_e_table))->table_canvas);
 
-	colors[0] = RGBA_COLOR (canvas->style->bg [GTK_STATE_SELECTED]);
-	colors[1] = RGBA_COLOR (canvas->style->bg [GTK_STATE_ACTIVE]);
-	colors[2] = RGBA_COLOR (canvas->style->base [GTK_STATE_NORMAL]);
+	colors[0] = RGB_COLOR (canvas->style->bg [GTK_STATE_SELECTED]);
+	colors[1] = RGB_COLOR (canvas->style->bg [GTK_STATE_ACTIVE]);
+	colors[2] = RGB_COLOR (canvas->style->base [GTK_STATE_NORMAL]);
 
 	g_print ("%x %x", colors[1], canvas->style->bg [GTK_STATE_ACTIVE].green);
 
@@ -347,8 +347,8 @@ init (EMultiConfigDialog *multi_config_dialog)
 
 	pixbuf = e_cell_pixbuf_new();
 	gtk_object_set (GTK_OBJECT (pixbuf),
-			"selected_column", 3,
 			"focused_column", 2,
+			"selected_column", 3,
 			"unselected_column", 4,
 			NULL);
 	e_cell_vbox_append (E_CELL_VBOX (vbox), pixbuf, 1);
@@ -362,7 +362,7 @@ init (EMultiConfigDialog *multi_config_dialog)
 	e_table_extras_add_cell (extras, "vbox", vbox);
 
 	list_e_table = e_table_scrolled_new (list_e_table_model, extras, list_e_table_spec, NULL);
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (list_e_table), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	e_scroll_frame_set_policy (E_SCROLL_FRAME (list_e_table), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table (E_TABLE_SCROLLED (list_e_table))),
 			    "cursor_change", GTK_SIGNAL_FUNC (table_cursor_change_callback),
 			    multi_config_dialog);
@@ -372,8 +372,6 @@ init (EMultiConfigDialog *multi_config_dialog)
 			    multi_config_dialog);
 
 	gtk_object_unref (GTK_OBJECT (extras));
-
-	gtk_widget_set_usize (list_e_table, 150, -1);
 
 	gtk_box_pack_start (GTK_BOX (hbox), list_e_table, FALSE, TRUE, 0);
 
