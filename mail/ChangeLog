@@ -1,6 +1,8 @@
 2000-06-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config.c: Config dialogs are completed.
+	(service_acceptable): Fixed a segfault caused by duplicate 
+	camel_exception_free()
 
 	* folder-browser-factory.c: Renamed Tool/ menu items
 	Vfolder was changed to Virtual Folder and

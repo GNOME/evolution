@@ -612,20 +612,23 @@ service_acceptable (GtkNotebook *notebook)
 	url = get_service_url (GTK_OBJECT (table));
 
 	ex = camel_exception_new ();
+	camel_exception_clear (ex);
 	service = camel_session_get_service (session, url, type, ex);
 	g_free (url);
+
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
 		goto error;
 
 	ok = camel_service_connect (service, ex);
-	if (ok)
+
+	if (ok) {
 		camel_service_disconnect (service, ex);
-	gtk_object_unref (GTK_OBJECT (service));
-
-	camel_exception_free (ex);
-
-	if (ok)
+		gtk_object_unref (GTK_OBJECT (service));
+		camel_exception_free (ex);
 		return TRUE;
+	}
+
+	gtk_object_unref (GTK_OBJECT (service));
 
  error:
 	error_dialog (GTK_WIDGET (notebook), camel_exception_get_description (ex));
@@ -1623,7 +1626,7 @@ on_cmdCamelServicesOK_clicked (GtkButton *button, gpointer user_data)
 
        	if (service_acceptable (GTK_NOTEBOOK (interior_notebook))) {
 		destroy_service (GTK_OBJECT (interior_notebook), (gpointer) &transport);
-		gtk_widget_destroy(GTK_WIDGET (user_data));
+		gtk_widget_destroy (GTK_WIDGET (user_data));
 	}
 
 	write_config();
