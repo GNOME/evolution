@@ -63,8 +63,13 @@ cal_backend_mail_account_get_default (EConfigListener *db,
 {
 	const EAccount *account;
 
-	if (accounts == NULL)
-		accounts = e_account_list_new(gconf_client_get_default());
+	if (accounts == NULL) {
+		GConfClient *client;
+		
+		client = gconf_client_get_default ();
+		accounts = e_account_list_new (client);
+		g_object_unref (client);
+	}
 
 	account = e_account_list_get_default(accounts);
 	if (account) {
@@ -80,8 +85,13 @@ cal_backend_mail_account_is_valid (EConfigListener *db, char *user, char **name)
 {
 	const EAccount *account;
 
-	if (accounts == NULL)
-		accounts = e_account_list_new(gconf_client_get_default());
+	if (accounts == NULL) {
+		GConfClient *client;
+		
+		client = gconf_client_get_default ();
+		accounts = e_account_list_new (client);
+		g_object_unref (client);
+	}
 
 	account = e_account_list_find(accounts, E_ACCOUNT_FIND_ID_ADDRESS, user);
 	if (account)

@@ -111,6 +111,8 @@ save_calendars_to_load (GPtrArray *uris)
 	gconf_client_set_list(gconf, KEY_CALENDARS, GCONF_VALUE_STRING, l, NULL);
 
 	g_slist_free(l);
+
+	g_object_unref (gconf);
 }
 
 /**
@@ -124,6 +126,7 @@ save_calendars_to_load (GPtrArray *uris)
 GPtrArray *
 get_calendars_to_load (void)
 {
+	GConfClient *gconf = gconf_client_get_default();
 	GSList *l, *n;
 	GPtrArray *uris;
 
@@ -131,7 +134,7 @@ get_calendars_to_load (void)
 	 * may not have saved the list of calendar yet.
 	 */
 
-	l = gconf_client_get_list (gconf_client_get_default (), KEY_CALENDARS, GCONF_VALUE_STRING, NULL);
+	l = gconf_client_get_list (gconf, KEY_CALENDARS, GCONF_VALUE_STRING, NULL);
 	uris = g_ptr_array_new ();
 	while (l) {
 		n = l->next;
@@ -140,6 +143,8 @@ get_calendars_to_load (void)
 		l = n;
 	}
 
+	g_object_unref (gconf);
+	
 	return uris;
 }
 
@@ -160,6 +165,7 @@ save_blessed_program (const char *program)
 	gconf_client_set_list(gconf, KEY_PROGRAMS, GCONF_VALUE_STRING, l, NULL);
 	g_slist_foreach(l, (GFunc)g_free, NULL);
 	g_slist_free(l);
+	g_object_unref (gconf);
 }
 
 /**
@@ -187,5 +193,7 @@ is_blessed_program (const char *program)
 		l = n;
 	}
 
+	g_object_unref (gconf);
+	
 	return found;
 }
