@@ -23,6 +23,12 @@ Calendar:
 
   - Compilation fixes for latest Bonobo (Rodrigo)
 
+Summary:
+
+  - Bugfixes (iain)
+
+  - Recurring events have the correct time and date (iain)
+
 Version 0.15 (Beta 5)
 ---------------------
 
