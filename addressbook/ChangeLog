@@ -1,3 +1,14 @@
+2001-07-02  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/Makefile.am (evolution_addressbook_LDADD): Added
+	$(BONOBO_CONF_LIBS).
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_create_categories),
+	gui/contact-editor/e-contact-editor.c (categories_clicked):
+	Switched to an ECategoriesMasterListWombat instead of an
+	ECategoriesMasterListArray here.
+
 2001-07-02  Peter Williams  <peterw@ximian.com>
 
 	* gui/contact-editor/Makefile.am (INCLUDES): srcdir !=

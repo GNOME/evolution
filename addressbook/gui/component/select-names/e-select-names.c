@@ -40,7 +40,7 @@
 #include <addressbook/backend/ebook/e-card-simple.h>
 #include "e-select-names-table-model.h"
 #include <gal/widgets/e-categories-master-list-combo.h>
-#include <gal/widgets/e-categories-master-list-array.h>
+#include <e-util/e-categories-master-list-wombat.h>
 
 static void e_select_names_init		(ESelectNames		 *card);
 static void e_select_names_class_init	(ESelectNamesClass	 *klass);
@@ -431,7 +431,7 @@ e_select_names_create_categories (gchar *name,
 	ECategoriesMasterList *ecml;
 	GtkWidget *combo;
 
-	ecml = e_categories_master_list_array_new ();
+	ecml = e_categories_master_list_wombat_new ();
 	combo = e_categories_master_list_combo_new (ecml);
 	gtk_object_unref (GTK_OBJECT (ecml));
 

@@ -39,9 +39,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <gal/e-text/e-entry.h>
 
-#if 0
 #include <e-util/e-categories-master-list-wombat.h>
-#endif
 
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
@@ -652,9 +650,7 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 	GnomeDialog *dialog;
 	int result;
 	GtkWidget *entry = glade_xml_get_widget(editor->gui, "entry-categories");
-#if 0
 	ECategoriesMasterList *ecml;
-#endif
 	if (entry && GTK_IS_ENTRY(entry))
 		categories = e_utf8_gtk_entry_get_text(GTK_ENTRY(entry));
 	else if (editor->card)
@@ -662,18 +658,12 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 			       "categories", &categories,
 			       NULL);
 	dialog = GNOME_DIALOG(e_categories_new(categories));
-#if 0
 	ecml = e_categories_master_list_wombat_new ();
-#endif
 	gtk_object_set(GTK_OBJECT(dialog),
 		       "header", _("This contact belongs to these categories:"),
-#if 0
 		       "ecml", ecml,
-#endif
 		       NULL);
-#if 0
 	gtk_object_unref (GTK_OBJECT (ecml));
-#endif
 	gtk_widget_show(GTK_WIDGET(dialog));
 	result = gnome_dialog_run (dialog);
 	g_free (categories);
