@@ -43,7 +43,6 @@
 	default size of the window, so we don't get this itty-bitty window
 	the size of a quarter on the screen when it first gets shown.
 
->>>>>>> 1.2080
 2002-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (on_link_clicked): Handle digest: urls.
