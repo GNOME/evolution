@@ -1,3 +1,8 @@
+2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mail.xml: Took out the "IMPLEMENT ME"'s from the
+	forward menu items since I've coded them now.
+
 2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-mail.xml: Renamed the "Get Mail" button to "Send and

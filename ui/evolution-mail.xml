@@ -152,11 +152,12 @@
       	  	<menuitem name="MessageForwardInlined" verb=""
       	  	 _label="Inline"
       	  	 accel="*Control**Shift*j"/>
-		    
+
       	  	 <menuitem name="MessageForwardQuoted" verb=""
-      	  	  _label="Quoted (FIXME: implement me)"/>
+      	  	  _label="Quoted"/>
+
       	  	  <menuitem name="MessageForwardAttachment" verb=""
-      	  	  _label="Attachment (FIXME: implement me)"/>
+      	  	  _label="Attachment"/>
       	  
       	  	 <separator/>
       	  		    
