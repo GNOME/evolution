@@ -50,6 +50,7 @@
 #include <glib.h>
 #include <gal/unicode/gunicode.h>
 #include <gal/util/e-iconv.h>
+#include "e-time-utils.h"
 
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
@@ -3472,14 +3473,7 @@ header_decode_date(const char *in, int *saveoffset)
 		d(printf("named offset = %d\n", offset));
 	}
 
-	t = mktime(&tm);
-#if defined(HAVE_TIMEZONE)
-	t -= timezone;
-#elif defined(HAVE_TM_GMTOFF)
-	t += tm.tm_gmtoff;
-#else
-#error Neither HAVE_TIMEZONE nor HAVE_TM_GMTOFF defined. Rerun autoheader, autoconf, etc.
-#endif
+	t = e_mktime_utc(&tm);
 
 	/* t is now GMT of the time we want, but not offset by the timezone ... */
 

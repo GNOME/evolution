@@ -34,6 +34,7 @@
 #include <time.h>
 
 #include "broken-date-parser.h"
+#include "e-time-utils.h"
 
 #define d(x) x
 
@@ -403,14 +404,7 @@ decode_broken_date (struct _date_token *tokens, int *tzone)
 	
 	d(printf ("\n"));
 	
-	time = mktime (&tm);
-#if defined (HAVE_TIMEZONE)
-	time -= timezone;
-#elif defined (HAVE_TM_GMTOFF)
-	time += tm.tm_gmtoff;
-#else
-#error Neither HAVE_TIMEZONE nor HAVE_TM_GMTOFF defined. Rerun autoheader, autoconf, etc.
-#endif
+	time = e_mktime_utc (&tm);
 	
 	/* t is now GMT of the time we want, but not offset by the timezone ... */
 	

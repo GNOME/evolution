@@ -47,6 +47,8 @@
 #include "camel-mime-filter-charset.h"
 #include "camel-mime-filter-bestenc.h"
 
+#include "e-time-utils.h"
+
 #define d(x)
 
 /* these 2 below should be kept in sync */
@@ -202,22 +204,12 @@ camel_mime_message_set_date (CamelMimeMessage *message,  time_t date, int offset
 	g_assert(message);
 	
 	if (date == CAMEL_MESSAGE_DATE_CURRENT) {
-		struct tm *local;
+		struct tm local;
 		int tz;
 		
 		date = time(0);
-		local = localtime(&date);
-#if defined(HAVE_TIMEZONE)
-		tz = timezone;
-#elif defined(HAVE_TM_GMTOFF)
-		tz = -local->tm_gmtoff;
-#endif
-		offset = -(((tz/60/60) * 100) + (tz/60 % 60));
-#ifdef HAVE_TIMEZONE
-		/* tm.tm_gmtoff is already adjusted for DST */
-		if (local->tm_isdst>0)
-			offset += 100;
-#endif
+		e_localtime_with_offset(date, &local, &tz);
+		offset = (((tz/60/60) * 100) + (tz/60 % 60));
 	}
 	message->date = date;
 	message->date_offset = offset;

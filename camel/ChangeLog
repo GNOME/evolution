@@ -1,3 +1,12 @@
+2002-09-04  Dan Winship  <danw@ximian.com>
+
+	* camel-mime-utils.c (header_decode_date): Use e_mktime_utc.
+
+	* camel-mime-message.c (camel_mime_message_set_date): Use
+	e_localtime_with_offset.
+
+	* broken-date-parser.c (decode_broken_date): Use e_mktime_utc.
+
 2002-09-04  Not Zed  <NotZed@Ximian.com>
 
 	* tests/folder/test4.c (main): clear nonfatal stuff.
