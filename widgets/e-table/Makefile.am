@@ -16,6 +16,7 @@ INCLUDES =					\
 	$(GNOME_INCLUDEDIR)			\
 	-DETABLE_GLADEDIR=\"$(gladedir)\"	\
 	-I$(top_srcdir)/widgets/e-text		\
+	-I$(top_srcdir)/widgets/e-paned		\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_srcdir)                         \
         -DG_LOG_DOMAIN=\"e-table\"
@@ -92,7 +93,7 @@ libetable_a_SOURCES = 				\
 	e-tree-simple.h
 
 noinst_PROGRAMS =	\
-	table-test table-example-1 table-example-2 table-size-test tree-example-1
+	table-test table-example-1 table-example-2 table-size-test tree-example-1 tree-example-2
 
 table_test_SOURCES = 	\
 	test-table.c	\
@@ -159,6 +160,20 @@ tree_example_1_LDADD =				\
 	libetable.a				\
 	$(EXTRA_GNOME_LIBS)			\
 	$(top_builddir)/widgets/e-text/libetext.a \
+	$(top_builddir)/widgets/misc/libemiscwidgets.a \
+	$(top_builddir)/e-util/libeutil.la	\
+	$(GNOME_PRINT_LIBS)
+
+tree_example_2_SOURCES = 	\
+	e-tree-example-2.c
+
+tree_example_2_LDFLAGS = `gnome-config --libs gdk_pixbuf` `gnome-config --libs vfs`
+
+tree_example_2_LDADD =				\
+	libetable.a				\
+	$(EXTRA_GNOME_LIBS)			\
+	$(top_builddir)/widgets/e-text/libetext.a \
+	$(top_builddir)/widgets/e-paned/libepaned.a \
 	$(top_builddir)/widgets/misc/libemiscwidgets.a \
 	$(top_builddir)/e-util/libeutil.la	\
 	$(GNOME_PRINT_LIBS)

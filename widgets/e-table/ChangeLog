@@ -1,5 +1,15 @@
 2000-09-01  Chris Toshok  <toshok@helixcode.com>
 
+	* e-tree-example-2.c: new test, a home grown 2 hour hack of a file
+	browser.  uses node_collapsed/emitted signals to populate the left
+	tree.
+	
+	* Makefile.am: add tree-example-2.c stuff.
+
+	* .cvsignore: add tree-example-2
+
+2000-09-01  Chris Toshok  <toshok@helixcode.com>
+
 	* e-tree-model.h: add signals/prototypes for
 	e_tree_model_node_collapsed and e_tree_model_node_expanded.
 
