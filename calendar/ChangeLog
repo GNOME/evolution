@@ -11,6 +11,10 @@
 	* gui/dialogs/recurrence-page.c: Use GtkTreeView with the new
 	EDateTimeList as model for the exception list.
 
+	* gui/e-day-view.c: Silence warnings caused by missing casts.
+
+	* gui/e-week-view.c: Silence warnings caused by missing casts.
+
 2003-01-15  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/Makefile.am: Added libevolution_calendar_la_LDFLAGS, and

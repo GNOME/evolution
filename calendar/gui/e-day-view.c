@@ -3659,70 +3659,70 @@ enum {
 
 static EPopupMenu main_items [] = {
 	E_POPUP_ITEM (N_("New _Appointment"),
-	  e_day_view_on_new_appointment, MASK_EDITABLE),
+	  GTK_SIGNAL_FUNC (e_day_view_on_new_appointment), MASK_EDITABLE),
 	E_POPUP_ITEM (N_("New All Day _Event"),
-	  e_day_view_on_new_event, MASK_EDITABLE),
+	  GTK_SIGNAL_FUNC (e_day_view_on_new_event), MASK_EDITABLE),
 	E_POPUP_ITEM (N_("New Meeting"),
-	  e_day_view_on_new_meeting, MASK_EDITABLE),
+	  GTK_SIGNAL_FUNC (e_day_view_on_new_meeting), MASK_EDITABLE),
 	E_POPUP_ITEM (N_("New Task"),
-	  e_day_view_on_new_task, MASK_EDITABLE),
+	  GTK_SIGNAL_FUNC (e_day_view_on_new_task), MASK_EDITABLE),
 
 	E_POPUP_SEPARATOR,
 
 	E_POPUP_ITEM (N_("Print..."),
-	  e_day_view_on_print, 0),
+	  GTK_SIGNAL_FUNC (e_day_view_on_print), 0),
 	
 	E_POPUP_SEPARATOR,
 
 	E_POPUP_ITEM (N_("_Paste"),
-	  e_day_view_on_paste, MASK_EDITABLE),
+	  GTK_SIGNAL_FUNC (e_day_view_on_paste), MASK_EDITABLE),
 
 	E_POPUP_SEPARATOR,
 
 	E_POPUP_SUBMENU (N_("Current View"), NULL, 0),
 
 	E_POPUP_ITEM (N_("Go to _Today"),
-	  e_day_view_on_goto_today, 0),
+	  GTK_SIGNAL_FUNC (e_day_view_on_goto_today), 0),
 	E_POPUP_ITEM (N_("_Go to Date..."),
-	  e_day_view_on_goto_date, 0),
+	  GTK_SIGNAL_FUNC (e_day_view_on_goto_date), 0),
 
 	E_POPUP_SEPARATOR,
 
 	E_POPUP_ITEM (N_("_Publish Free/Busy Information"),
-	  e_day_view_on_publish, 0),
+	  GTK_SIGNAL_FUNC (e_day_view_on_publish), 0),
 
 	E_POPUP_SEPARATOR,
 
 	E_POPUP_ITEM (N_("_Settings..."),
-	  e_day_view_on_settings, 0),
+	  GTK_SIGNAL_FUNC (e_day_view_on_settings), 0),
 
 	E_POPUP_TERMINATOR
 };
 
 static EPopupMenu child_items [] = {
 
-	E_POPUP_ITEM (N_("_Open"), e_day_view_on_edit_appointment, MASK_EDITING),
-	E_POPUP_ITEM (N_("_Save As..."), e_day_view_on_save_as, MASK_EDITING),
-	E_POPUP_ITEM (N_("_Print..."), e_day_view_on_print_event, MASK_EDITING),
+	E_POPUP_ITEM (N_("_Open"), GTK_SIGNAL_FUNC (e_day_view_on_edit_appointment), MASK_EDITING),
+	E_POPUP_ITEM (N_("_Save As..."), GTK_SIGNAL_FUNC (e_day_view_on_save_as), MASK_EDITING),
+	E_POPUP_ITEM (N_("_Print..."), GTK_SIGNAL_FUNC (e_day_view_on_print_event), MASK_EDITING),
 
 	/* Only show this separator if one of the above is shown. */
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("C_ut"), e_day_view_on_cut, MASK_EDITABLE | MASK_EDITING | MASK_MEETING_ORGANIZER),
-	E_POPUP_ITEM (N_("_Copy"), e_day_view_on_copy, MASK_EDITING | MASK_MEETING_ORGANIZER),
-	E_POPUP_ITEM (N_("_Paste"), e_day_view_on_paste, MASK_EDITABLE),
+	E_POPUP_ITEM (N_("C_ut"), GTK_SIGNAL_FUNC (e_day_view_on_cut), MASK_EDITABLE | MASK_EDITING | MASK_MEETING_ORGANIZER),
+	E_POPUP_ITEM (N_("_Copy"), GTK_SIGNAL_FUNC (e_day_view_on_copy), MASK_EDITING | MASK_MEETING_ORGANIZER),
+	E_POPUP_ITEM (N_("_Paste"), GTK_SIGNAL_FUNC (e_day_view_on_paste), MASK_EDITABLE),
 
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Schedule Meeting..."), e_day_view_on_meeting, MASK_EDITABLE | MASK_EDITING | MASK_MEETING),
-	E_POPUP_ITEM (N_("_Forward as iCalendar..."), e_day_view_on_forward, MASK_EDITING),
+	E_POPUP_ITEM (N_("_Schedule Meeting..."), GTK_SIGNAL_FUNC (e_day_view_on_meeting), MASK_EDITABLE | MASK_EDITING | MASK_MEETING),
+	E_POPUP_ITEM (N_("_Forward as iCalendar..."), GTK_SIGNAL_FUNC (e_day_view_on_forward), MASK_EDITING),
 	
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Delete"), e_day_view_on_delete_appointment, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("Make this Occurrence _Movable"), e_day_view_on_unrecur_appointment, MASK_EDITABLE | MASK_RECURRING | MASK_EDITING),
-	E_POPUP_ITEM (N_("Delete this _Occurrence"), e_day_view_on_delete_occurrence, MASK_EDITABLE | MASK_RECURRING | MASK_EDITING),
-	E_POPUP_ITEM (N_("Delete _All Occurrences"), e_day_view_on_delete_appointment, MASK_EDITABLE | MASK_RECURRING | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Delete"), GTK_SIGNAL_FUNC (e_day_view_on_delete_appointment), MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("Make this Occurrence _Movable"), GTK_SIGNAL_FUNC (e_day_view_on_unrecur_appointment), MASK_EDITABLE | MASK_RECURRING | MASK_EDITING),
+	E_POPUP_ITEM (N_("Delete this _Occurrence"), GTK_SIGNAL_FUNC (e_day_view_on_delete_occurrence), MASK_EDITABLE | MASK_RECURRING | MASK_EDITING),
+	E_POPUP_ITEM (N_("Delete _All Occurrences"), GTK_SIGNAL_FUNC (e_day_view_on_delete_appointment), MASK_EDITABLE | MASK_RECURRING | MASK_EDITING),
 
 	E_POPUP_TERMINATOR
 };
