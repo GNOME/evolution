@@ -286,10 +286,14 @@
           <tip>
             <title>Sharing Mailboxes with Other Mail Programs</title>
             <para>
-              If you want to use <application>Evolution</application>
-              and another email client, such as
-              <application>Mutt</application>, at the same time,
-              here's how:
+              You can use <application>Evolution</application>
+              alongside another email client, such as
+              <application>Mutt</application>, or use transport agents
+              like <application>fetchmail</application> instead of the
+              mail transport mechanism included in
+              <application>Evolution.</application>.
+              To do so, you will set Evolution to read messages from
+              the other application's directories:
               <orderedlist numeration="arabic">
                 <listitem>
                    <para>
@@ -299,32 +303,45 @@
                   </listitem>
                 <listitem>
                    <para>
-                      In <application>Evolution</application>, select
-                      <menuchoice><guimenu>Tools</guimenu><guimenuitem>
-                      Settings</guimenuitem></menuchoice>, go to the
-                      Mail Accounts configuration tool, and pick the account
-                      you'd like to use to share mail. You may want to
-                      create a new account just for this source of
-                      mail.
+                      In <application>Evolution</application>, select 
+                     <menuchoice><guimenu>Tools</guimenu><guimenuitem>
+                      Settings</guimenuitem></menuchoice> and select the 
+                      Mail Accounts configuration tool. 
                    </para>
-               </listitem>                     
+                 </listitem>
+                 <listitem>
+                   <para>
+                     Select an existing account and click
+                     <guibutton>Edit</guibutton>, or click
+                     <guibutton>New</guibutton> to create a new account.
+                   </para>
+               </listitem>                                 
                <listitem>
                    <para>
-                      Under the <guilabel>Receiving Mail</guilabel>
-                      tab, select the type of mail file that your
-                      other mail application uses, and then enter the
-                      full path to that location. A typical choice
-                   would be mbox files, with the path /home/username/Mail/.
-                 </para>
-                  </listitem>
-                <listitem>
-                   <para>
-                      Click the <guibutton>OK</guibutton> button.
+                     If editing an existing account, click the
+                     <guilabel>Receiving Mail</guilabel> tab. If you
+                     have created a new account, fill out the
+                     requested information until you reach the
+                     <guilabel>Receiving Mail</guilabel> step.
                    </para>
-                  </listitem>
-                </orderedlist>
-               </para>
-            </tip>
+                 </listitem>
+                 <listitem>
+                   <para>
+                      For your mail source, select the type of mail
+                     file that your other mail application uses, and
+                     then enter the full path to that location. A
+                     typical choice would be mbox files, with the path
+                     /home/username/Mail/.
+                   </para>
+                 </listitem>
+                 <listitem>
+                   <para>
+                     Click the <guibutton>OK</guibutton> button.
+                   </para>
+                 </listitem>
+               </orderedlist>
+             </para>
+           </tip>
 
 
 <!-- NOT FOR 1.0
@@ -1796,7 +1813,7 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
       </para>
       <para>
         If someone sends you their public key directly, save it as a
-        plain text file and enter the command <command>gpg
+        plain text file and enter the command <command>gpg --import
         filename</command>. This will add it to your keyring.
       </para>
     </sect2>

@@ -627,10 +627,10 @@
 		  </para></listitem>
 		
 		<listitem><para>
-		    Score - Emails have a standard priority range from -3 (least
-		    important) to 3 (most important). You can have filters set the
-		    priority of messages you receive, and then have other filters 
-		    applied only to those messages which have a certain priority.
+        Score - Set the message score to any whole number greater than
+        0.  To use filters with scoring, use one filter to score a
+        message, and then apply other filters only to messages with
+        the scores you seek.
 		  </para></listitem>
 		
 		<listitem>
