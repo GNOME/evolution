@@ -219,6 +219,8 @@ adjust_segment (MonthView *mv, struct child *child, struct segment *seg)
 	double x1, y1, x2, y2;
 	double y;
 	double slot_width;
+	time_t day_begin, day_end;
+	double start_factor, end_factor;
 
 	mitem = GNOME_MONTH_ITEM (mv->mitem);
 
@@ -242,13 +244,22 @@ adjust_segment (MonthView *mv, struct child *child, struct segment *seg)
 	day_width = x2 - x1;
 	day_height = y2 - y1;
 
-	slot_width = day_width / child->slots_used;
+	slot_width = day_width / mv->num_slots;
 
 	/* Set the coordinates of the segment's item */
 
-	
+	day_begin = time_day_begin (seg->start);
+	day_end = time_day_end (seg->end);
 
-	
+	start_factor = (double) (seg->start - day_begin) / (day_end - day_begin);
+	end_factor = (double) (seg->end - day_begin) / (day_end - day_begin);
+
+	gnome_canvas_item_set (seg->item,
+			       "x1", x1 + slot_width * child->slot_start,
+			       "y1", y1 + day_height * start_factor,
+			       "x2", x1 + slot_width * (child->slot_start + child->slots_used),
+			       "y2", y1 + day_height * end_factor,
+			       NULL);
 }
 
 /* Adjusts the child events of the month view to the appropriate size and position */
