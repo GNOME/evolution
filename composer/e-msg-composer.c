@@ -2675,7 +2675,6 @@ delete_old_signature (EMsgComposer *composer)
 /**
  * e_msg_composer_show_sig:
  * @composer: A message composer widget
- * @path: Signature file
  * 
  * Set a signature
  **/

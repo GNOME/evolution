@@ -1,3 +1,8 @@
+2001-06-29  Larry Ewing  <lewing@ximian.com>
+
+	* mail-callbacks.c (create_msg_composer): make sure we show the
+	sig file.
+
 2001-06-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser-factory.c (control_deactivate): Turn folder

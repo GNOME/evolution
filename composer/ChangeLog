@@ -1,3 +1,8 @@
+2001-06-29  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_show_sig_file): remove now
+	invalid argument in the documentation.
+
 2001-06-28  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c: removed obsolete e_msg_composer_get_sig_file
