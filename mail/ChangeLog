@@ -1,5 +1,8 @@
 2002-06-07  Radek Doulik  <rodo@ximian.com>
 
+	* mail-composer-prefs.c (sig_add_script_cancel): hook this to
+	cancel button in signature script dialog
+
 	* mail-signature-editor.c (mail_signature_editor): fix some typos,
 	set label usize to 500, -2
 	(menu_help): added help link to Help menu

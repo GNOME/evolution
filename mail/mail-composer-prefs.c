@@ -303,6 +303,12 @@ sig_add_script_add (GtkWidget *widget, MailComposerPrefs *prefs)
 }
 
 static void
+sig_add_script_cancel (GtkWidget *widget, MailComposerPrefs *prefs)
+{
+	gnome_dialog_close (prefs->sig_script_dialog);
+}
+
+static void
 sig_add_script (GtkWidget *widget, MailComposerPrefs *prefs)
 {
 	GtkWidget *entry;
@@ -858,6 +864,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG (prefs->sig_script_dialog)->vbox),
 				     glade_xml_get_widget (prefs->sig_script_gui, "vbox_add_script_signature"));
 	gnome_dialog_button_connect (GNOME_DIALOG (prefs->sig_script_dialog), 0, sig_add_script_add, prefs);
+	gnome_dialog_button_connect (GNOME_DIALOG (prefs->sig_script_dialog), 1, sig_add_script_cancel, prefs);
 
 	glade_xml_signal_connect_data (gui, "cmdSignatureAddScriptClicked", sig_add_script, prefs);
 
