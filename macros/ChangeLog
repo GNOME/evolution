@@ -1,3 +1,8 @@
+2001-04-16  Jaka Mocnik  <jaka@gnu.org>
+
+	* gnome-print-check.m4: change $(cmd) to `cmd` in order to make it
+	usable in non-bash bourne shells.
+
 2001-03-01  JP Rosevear  <jpr@ximian.com>
 
 	* gnome-pilot.m4: quote a test and make sure incdir is always set
