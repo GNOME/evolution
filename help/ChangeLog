@@ -1,4 +1,26 @@
+2003-01-15  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mainwindow.sgml: Change links from  ghelp links to internal apx-fdl or apx-gpl
+
+	* es/preface.sgml: s/gnome-help/ghelp/
+
+	* es/evolution.sgml: s/gnome-help/ghelp/
+
+2002-12-16  Aaron Weber  <aaron@ximian.com>
+
+	* C/config-sync.sgml: spelling/typos
+
+	* C/usage-exchange.sgml: spelling/typos
+
+	* C/usage-mail.sgml: spelling/typos
+	
+
+	* C/usage-mainwindow.sgml: spelling/typos
+
 2002-12-10  Aaron Weber  <aaron@ximian.com>
+
+	* C/config-prefs.sgml: change directory server description.
+	
 
 	* C/preface.sgml: change word from "Resend" to "redirect".
 
