@@ -5008,6 +5008,11 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			/* Reset this since it will be invalid. */
 			day_view->drag_event_day = -1;
 
+			/* Show the text item again, just in case it hasn't
+			   moved. If we don't do this it may not appear. */
+			if (event->canvas_item)
+				gnome_canvas_item_show (event->canvas_item);
+
 			/* Notify calendar of change */
 			gnome_calendar_object_changed (day_view->calendar,
 						       &ico, CHANGE_DATES);
@@ -5081,6 +5086,11 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 
 			/* Reset this since it will be invalid. */
 			day_view->drag_event_day = -1;
+
+			/* Show the text item again, just in case it hasn't
+			   moved. If we don't do this it may not appear. */
+			if (event->canvas_item)
+				gnome_canvas_item_show (event->canvas_item);
 
 			/* Notify calendar of change */
 			gnome_calendar_object_changed (day_view->calendar,

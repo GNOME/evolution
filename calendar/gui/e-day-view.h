@@ -49,12 +49,13 @@ extern "C" {
 #define E_DAY_VIEW_MAX_COLUMNS		6
 
 /* The width of the gap between appointments. This should be at least
-   E_DAY_VIEW_BAR_WIDTH. */
-#define E_DAY_VIEW_GAP_WIDTH		6
+   E_DAY_VIEW_BAR_WIDTH, since in the top canvas we use this space to draw
+   the triangle to represent continuing events. */
+#define E_DAY_VIEW_GAP_WIDTH		8
 
 /* The width of the bars down the left of each column and appointment.
    This includes the borders on each side of it. */
-#define E_DAY_VIEW_BAR_WIDTH		6
+#define E_DAY_VIEW_BAR_WIDTH		8
 
 /* The height of the horizontal bar above & beneath the selected event.
    This includes the borders on the top and bottom. */

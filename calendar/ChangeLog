@@ -1,3 +1,13 @@
+2000-05-07  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-day-view.c (e_day_view_on_main_canvas_drag_data_received): 
+	(e_day_view_on_top_canvas_drag_data_received): show the EText item,
+	just in case it hasn't moved, otherwise it won't appear.
+
+	* gui/e-day-view.h (E_DAY_VIEW_BAR_WIDTH): increased from 6 to 8 to
+	make it easier to drag an event. Also increased E_DAY_VIEW_GAP_WIDTH
+	since it must be >= the BAR_WIDTH.
+
 2000-05-07  Matt Loper  <matt@helixcode.com>
 
 	* gui/evolution-calendar-control.c (PROPERTY_CALENDAR_URI):
