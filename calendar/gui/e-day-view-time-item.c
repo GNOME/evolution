@@ -526,8 +526,8 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
 		if (current_divisions == divisions[i])
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
 
-		gtk_object_set_data (GTK_OBJECT (item), "divisions",
-				     GINT_TO_POINTER (divisions[i]));
+		g_object_set_data (G_OBJECT (item), "divisions",
+				   GINT_TO_POINTER (divisions[i]));
 
 		g_signal_connect (item, "toggled",
 				  G_CALLBACK (e_day_view_time_item_on_set_divisions), dvtmitem);
@@ -551,8 +551,7 @@ e_day_view_time_item_on_set_divisions (GtkWidget *item,
  	if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item)))
 		return;
 
-	divisions = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (item),
-							  "divisions"));
+	divisions = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "divisions"));
 	e_day_view_set_mins_per_row (day_view, divisions);
 	calendar_config_set_time_divisions (divisions);
 }

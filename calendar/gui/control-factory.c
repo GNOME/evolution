@@ -257,7 +257,7 @@ control_factory_new_control (void)
 		g_message ("control_factory_fn(): could not create the control!");
 		return NULL;
 	}
-	gtk_object_set_data (GTK_OBJECT (gcal), "control", control);
+	g_object_set_data (G_OBJECT (gcal), "control", control);
 
 	calendar_properties_init (gcal, control);
 #if 0
