@@ -1,3 +1,8 @@
+2003-11-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-source-selector.c (e_source_selector_new): Expand all the
+	nodes.
+
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: make sure the marshal stuff is in the sources and

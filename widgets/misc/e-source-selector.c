@@ -481,6 +481,8 @@ e_source_selector_new (ESourceList *list)
 
 	setup_model (selector);
 
+	gtk_tree_view_expand_all (GTK_TREE_VIEW (selector));
+
 	return GTK_WIDGET (selector);
 }
 
