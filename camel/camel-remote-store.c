@@ -538,6 +538,11 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 			camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
 		else
 			camel_exception_set(ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE, strerror(errno));
+	} else if (bytes->len == 0) {
+		camel_exception_set(ex, CAMEL_EXCEPTION_SERVICE_NOT_CONNECTED,
+				    _("Server unexpectedly disconnected"));
+	}
+	if (camel_exception_is_set (ex)) {
 		g_byte_array_free(bytes, TRUE);
 		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 		return -1;

@@ -1,3 +1,10 @@
+2001-02-28  Dan Winship  <danw@ximian.com>
+
+	* camel-remote-store.c (remote_recv_line): If we get back 0 bytes
+	from camel_stream_buffer_gets, that means the socket got
+	disconnected, so set an exception. (Noticed because of a message
+	that crashes our IMAP server when you try to look at it. :)
+
 2001-02-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Added camel-sasl*.[c,h] to the build.
