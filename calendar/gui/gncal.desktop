@@ -7,6 +7,6 @@ Comment=Calendar application
 Comment[fr]=Calendrier Gnome
 Comment[de]=Gnome Kalender
 Exec=gnomecal
-Icon=
+Icon=gnome-calendar.png
 Terminal=0
 Type=Application
