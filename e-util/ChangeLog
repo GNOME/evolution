@@ -1,3 +1,8 @@
+2001-10-06  Christopher James Lahey  <clahey@ximian.com>
+
+	* ename/e-address-western.c (e_address_western_parse): Made this
+	refuse to parse more than 2047 characters of address.
+
 2001-10-04  Dan Winship  <danw@ximian.com>
 
 	* e-passwords.c (e_passwords_add_password): Make this dup the

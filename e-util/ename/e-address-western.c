@@ -326,7 +326,7 @@ e_address_western_parse (const gchar *in_address)
 	eaw->postal_code = NULL;
 	eaw->country = NULL;
 	
-	address = g_strdup (in_address);
+	address = g_strndup (in_address, 2047);
 
 	/* The first thing I'll do is divide the multiline input string
 	into lines. */
