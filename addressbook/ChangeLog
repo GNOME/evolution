@@ -1,3 +1,30 @@
+2001-02-14  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c: Undefine E_STRING_PROP and
+	E_LIST_PROP here.
+
+	* contact-editor/e-contact-editor.c,
+	contact-editor/e-contact-editor.h (e_contact_editor_raise): Added
+	this function.
+
+	* gui/widgets/e-minicard.c, gui/widgets/e-minicard.h
+	(e_minicard_event): Added an editor field to the EMinicard object.
+	Made it so that if you double click on the same card twice, it
+	doesn't open a new window, but instead raises the old.
+
+2001-02-08  Iain Holmes  <iain@ximian.com>
+
+	* gui/component/addressbook-storage.c (addressbook_source_free):
+	Free the ldap.binddn.
+
+	* gui/widgets/e-addressbook-view.c
+	(e_addressbook_view_setup_menus): Free the dir strings.
+
+2001-02-08  Christopher James Lahey  <clahey@ximian.com>
+
+	* contact-editor/e-contact-editor.c (categories_clicked): Set the
+	header on the category dialog we pop up.
+
 2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* backend/ebook/GNOME_Evolution_Addressbook_GnomeCard_Importer.oaf.in: Translations.

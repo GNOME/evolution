@@ -811,12 +811,15 @@ e_addressbook_view_setup_menus (EAddressbookView *view,
 	GalViewMenus *views;
 	GalViewFactory *factory;
 	ETableSpecification *spec;
+	char *galview;
 
 	collection = gal_view_collection_new();
-	/* FIXME: Memory leak. */
+
+	galview = gnome_util_prepend_user_home("/evolution/views/addressbook/");
 	gal_view_collection_set_storage_directories(collection,
 						    EVOLUTION_DATADIR "/evolution/views/addressbook/",
-						    gnome_util_prepend_user_home("/evolution/views/addressbook/"));
+						    galview);
+	g_free(galview);
 
 	spec = e_table_specification_new();
 	e_table_specification_load_from_string(spec, SPEC);

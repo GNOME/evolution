@@ -22,6 +22,7 @@
 #define __E_MINICARD_H__
 
 #include <gnome.h>
+#include "addressbook/contact-editor/e-contact-editor.h"
 #include "addressbook/backend/ebook/e-card.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
 
@@ -68,6 +69,8 @@ struct _EMinicard
 	GnomeCanvasItem *rect;
 	GnomeCanvasItem *header_rect;
 	GnomeCanvasItem *header_text;
+
+	EContactEditor *editor;
 
 	GList *fields; /* Of type EMinicardField */
 	guint needs_remodeling : 1;

@@ -570,6 +570,9 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 			       "categories", &categories,
 			       NULL);
 	dialog = GNOME_DIALOG(e_categories_new(categories));
+	gtk_object_set(GTK_OBJECT(dialog),
+		       "header", _("This contact belongs to these categories:"),
+		       NULL);
 	gtk_widget_show(GTK_WIDGET(dialog));
 	result = gnome_dialog_run (dialog);
 	g_free (categories);
@@ -1785,4 +1788,16 @@ extract_info(EContactEditor *editor)
 				       NULL);
 		}
 	}
+}
+
+/**
+ * e_contact_editor_raise:
+ * @config: The %EContactEditor object.
+ *
+ * Raises the dialog associated with this %EContactEditor object.
+ */
+void
+e_contact_editor_raise (EContactEditor *editor)
+{
+	gdk_window_raise (GTK_WIDGET (editor->app)->window);
 }

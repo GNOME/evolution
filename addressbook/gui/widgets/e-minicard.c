@@ -146,6 +146,8 @@ e_minicard_init (EMinicard *minicard)
 	minicard->card = NULL;
 	minicard->simple = e_card_simple_new(NULL);
 
+	minicard->editor = NULL;
+
 	minicard->changed = FALSE;
 
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(minicard), e_minicard_reflow);
@@ -491,7 +493,9 @@ delete_card_cb (EContactEditor *ce, ECard *card, gpointer data)
 static void
 editor_closed_cb (EContactEditor *ce, gpointer data)
 {
+	EMinicard *minicard = data;
 	gtk_object_unref (GTK_OBJECT (ce));
+	minicard->editor = NULL;
 }
 
 static gboolean
@@ -586,27 +590,29 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	case GDK_2BUTTON_PRESS:
 		if (event->button.button == 1 && E_IS_MINICARD_VIEW(item->parent)) {
-			EContactEditor *ce;
-			EBook *book = NULL;
-			if (E_IS_MINICARD_VIEW(item->parent)) {
-				
-				gtk_object_get(GTK_OBJECT(item->parent),
-					       "book", &book,
-					       NULL);
-			}
-			ce = e_contact_editor_new (e_minicard->card, FALSE);
+			if (e_minicard->editor) {
+				e_contact_editor_raise(e_minicard->editor);
+			} else {
+				EBook *book = NULL;
+				if (E_IS_MINICARD_VIEW(item->parent)) {
+					gtk_object_get(GTK_OBJECT(item->parent),
+						       "book", &book,
+						       NULL);
+				}
+				e_minicard->editor = e_contact_editor_new (e_minicard->card, FALSE);
 
-			if (book != NULL) {
-				gtk_signal_connect (GTK_OBJECT (ce), "add_card",
-						    GTK_SIGNAL_FUNC (add_card_cb), book);
-				gtk_signal_connect (GTK_OBJECT (ce), "commit_card",
-						    GTK_SIGNAL_FUNC (commit_card_cb), book);
-				gtk_signal_connect (GTK_OBJECT (ce), "delete_card",
-						    GTK_SIGNAL_FUNC (delete_card_cb), book);
-			}
+				if (book != NULL) {
+					gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "add_card",
+							    GTK_SIGNAL_FUNC (add_card_cb), book);
+					gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "commit_card",
+							    GTK_SIGNAL_FUNC (commit_card_cb), book);
+					gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "delete_card",
+							    GTK_SIGNAL_FUNC (delete_card_cb), book);
+				}
 
-			gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
-					    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
+				gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "editor_closed",
+						    GTK_SIGNAL_FUNC (editor_closed_cb), e_minicard);
+			}
 			return TRUE;
 		}
 		break;

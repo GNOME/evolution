@@ -99,12 +99,13 @@ struct _EContactEditorClass
 	void (* editor_closed) (EContactEditor *ce);
 };
 
+EContactEditor *e_contact_editor_new             (ECard          *card,
+						  gboolean        is_new_card);
+GtkType         e_contact_editor_get_type        (void);
+void            e_contact_editor_raise           (EContactEditor *editor);
 
-EContactEditor *e_contact_editor_new (ECard *card, gboolean is_new_card);
-GtkType    e_contact_editor_get_type (void);
 
-
-gboolean e_contact_editor_confirm_delete(GtkWindow *parent);
+gboolean        e_contact_editor_confirm_delete  (GtkWindow      *parent);
 
 #ifdef __cplusplus
 }

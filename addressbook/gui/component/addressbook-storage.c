@@ -480,8 +480,8 @@ addressbook_source_free (AddressbookSource *source)
 		g_free (source->ldap.host);
 		g_free (source->ldap.port);
 		g_free (source->ldap.rootdn);
-	}
-	else {
+		g_free (source->ldap.binddn);
+	} else {
 		g_free (source->file.path);
 	}
 

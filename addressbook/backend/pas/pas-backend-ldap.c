@@ -204,7 +204,9 @@ struct prop_info {
 /*  	E_CARD_SIMPLE_FIELD_NAME_OR_ORG, */
 
 
+#undef E_STRING_PROP
 #undef STRING_PROP
+#undef E_LIST_PROP
 #undef LIST_PROP
 };
 
