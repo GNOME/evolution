@@ -8,7 +8,7 @@
   
 #include <gtk/gtksignal.h>
 #include <fcntl.h>
-#ifdef HAVE_DB_185_h
+#ifdef HAVE_DB_185_H
 #include <db_185.h>
 #else
 #include <db.h>
