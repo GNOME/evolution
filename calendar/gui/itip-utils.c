@@ -30,7 +30,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkwidget.h>
-#include <gal/util/e-util.h>
 #include <libical/ical.h>
 #include <Evolution-Composer.h>
 #include <e-util/e-dialog-utils.h>
@@ -541,7 +540,7 @@ comp_server_send (ECalComponentItipMethod method, ECalComponent *comp, ECal *cli
 	GError *error = NULL;
 	
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
-	if (!e_cal_send_objects (client, top_level, &users, &returned_icalcomp, &error)) {
+	if (!e_cal_send_objects (client, top_level, users, &returned_icalcomp, &error)) {
 		/* FIXME Really need a book problem status code */
 		if (error->code != E_CALENDAR_STATUS_OK) {
 			/* FIXME Better error message */
@@ -1138,8 +1137,6 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 	SoupMessage *msg;
 	SoupUri *real_uri;
 	char *ical_string;
-	char *prompt;
-	gboolean remember = FALSE;
 	
 	toplevel = e_cal_util_new_top_level ();
 	icalcomponent_set_method (toplevel, ICAL_METHOD_PUBLISH);
