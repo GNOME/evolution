@@ -1,3 +1,20 @@
+2001-10-19  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/component-factory.c (owner_set_cb): keep a reference to the
+	EvolutionShellClient component
+
+	* gui/e-week-view.c (e_week_view_set_status_message): new function
+	(update_query): call e_week_view_set_status_message
+	(query_query_done_cb):
+	(query_eval_error_cb): clean up status bar messages
+
+	* gui/e-day-view.c (e_day_view_set_status_message): new function
+	(update_query): call e_day_view_set_status_message
+	(query_query_done_cb):
+	(query_eval_error_cb): clean up status bar messages
+
+	* gui/Makefile.am: added EVOLUTION_IMAGESDIR to CFLAGS
+	
 2001-10-18  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-time-sel.c

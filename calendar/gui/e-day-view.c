@@ -97,6 +97,9 @@
    we get from the server. */
 #define E_DAY_VIEW_LAYOUT_TIMEOUT	100
 
+/* Used for the status bar messages */
+#define EVOLUTION_CALENDAR_PROGRESS_IMAGE "evolution-calendar-mini.png"
+static GdkPixbuf *progress_icon[2] = { NULL, NULL };
 
 /* Signal IDs */
 enum {
@@ -871,6 +874,8 @@ e_day_view_init (EDayView *day_view)
 			    GTK_SIGNAL_FUNC (invisible_destroyed),
 			    (gpointer) day_view);
 	day_view->clipboard_selection = NULL;
+
+	day_view->activity = NULL;
 }
 
 
@@ -956,8 +961,15 @@ e_day_view_destroy (GtkObject *object)
 
 	if (day_view->invisible)
 		gtk_widget_destroy (day_view->invisible);
-	if (day_view->clipboard_selection)
+	if (day_view->clipboard_selection) {
 		g_free (day_view->clipboard_selection);
+		day_view->clipboard_selection = NULL;
+	}
+
+	if (day_view->activity) {
+		gtk_object_unref (GTK_OBJECT (day_view->activity));
+		day_view->activity = NULL;
+	}
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
@@ -1575,6 +1587,8 @@ query_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *err
 
 	/* FIXME */
 
+	e_day_view_set_status_message (day_view, NULL);
+
 	if (status != CAL_QUERY_DONE_SUCCESS)
 		fprintf (stderr, "query done: %s\n", error_str);
 }
@@ -1588,6 +1602,8 @@ query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
 	day_view = E_DAY_VIEW (data);
 
 	/* FIXME */
+
+	e_day_view_set_status_message (day_view, NULL);
 
 	fprintf (stderr, "eval error: %s\n", error_str);
 }
@@ -1655,6 +1671,7 @@ update_query (EDayView *day_view)
 	if (!real_sexp)
 		return; /* No time range is set, so don't start a query */
 
+	e_day_view_set_status_message (day_view, _("Searching"));
 	day_view->query = cal_client_get_query (day_view->client, real_sexp);
 	g_free (real_sexp);
 
@@ -7025,4 +7042,34 @@ e_day_view_get_num_events_selected (EDayView *day_view)
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), 0);
 
 	return (day_view->editing_event_day != -1) ? 1 : 0;
+}
+
+/* Displays messages on the status bar. */
+void
+e_day_view_set_status_message (EDayView *day_view, const char *message)
+{
+	extern EvolutionShellClient *global_shell_client; /* ugly */
+
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	if (!message || !*message) {
+		if (day_view->activity) {
+			gtk_object_unref (GTK_OBJECT (day_view->activity));
+			day_view->activity = NULL;
+		}
+	}
+	else if (!day_view->activity) {
+		int display;
+		char *client_id = g_strdup_printf ("%p", day_view);
+
+		if (progress_icon[0] == NULL)
+			progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CALENDAR_PROGRESS_IMAGE);
+		day_view->activity = evolution_activity_client_new (
+			global_shell_client, client_id,
+			progress_icon, message, TRUE, &display);
+
+		g_free (client_id);
+	}
+	else
+		evolution_activity_client_update (day_view->activity, message, -1.0);
 }

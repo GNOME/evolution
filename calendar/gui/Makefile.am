@@ -35,29 +35,30 @@ help_base = $(datadir)/gnome/help/cal
 
 bin_PROGRAMS = evolution-calendar
 
-INCLUDES = 						\
-	-DG_LOG_DOMAIN=\"calendar-gui\"			\
-	-I$(top_builddir)/shell				\
-	-I$(top_srcdir)/shell				\
-	-I$(top_srcdir)					\
-	-I$(top_srcdir)/calendar			\
-	-I$(top_srcdir)/calendar/cal-client		\
-	-I$(top_builddir)/calendar/cal-client		\
-	-I$(top_srcdir)/libical/src/libical		\
-	-I$(top_builddir)/libical/src/libical		\
-	-I$(top_srcdir)/addressbook/backend/ebook	\
-	-I$(top_builddir)/addressbook/backend/ebook	\
-	-I$(top_srcdir)/widgets				\
-	-I$(includedir)					\
-	$(BONOBO_HTML_GNOME_CFLAGS)			\
-	$(GNOME_VFS_CFLAGS)				\
-	$(GAL_CFLAGS)					\
-	$(BONOBO_CONF_CFLAGS)				\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-        -DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"        \
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"
+INCLUDES = 							\
+	-DG_LOG_DOMAIN=\"calendar-gui\"				\
+	-I$(top_builddir)/shell					\
+	-I$(top_srcdir)/shell					\
+	-I$(top_srcdir)						\
+	-I$(top_srcdir)/calendar				\
+	-I$(top_srcdir)/calendar/cal-client			\
+	-I$(top_builddir)/calendar/cal-client			\
+	-I$(top_srcdir)/libical/src/libical			\
+	-I$(top_builddir)/libical/src/libical			\
+	-I$(top_srcdir)/addressbook/backend/ebook		\
+	-I$(top_builddir)/addressbook/backend/ebook		\
+	-I$(top_srcdir)/widgets					\
+	-I$(includedir)						\
+	$(BONOBO_HTML_GNOME_CFLAGS)				\
+	$(GNOME_VFS_CFLAGS)					\
+	$(GAL_CFLAGS)						\
+	$(BONOBO_CONF_CFLAGS)					\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
+        -DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"        	\
+	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
+	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/images/evolution\"
 
 iconsdir = $(datadir)/images/evolution
 

@@ -30,6 +30,7 @@
 #include <libgnomeui/gnome-canvas.h>
 
 #include "gnome-cal.h"
+#include "evolution-activity-client.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -493,6 +494,9 @@ struct _EDayView
 
 	/* The default category for new events */
 	char *default_category;
+
+	/* The activity client used to show messages on the status bar. */
+	EvolutionActivityClient *activity;
 };
 
 struct _EDayViewClass
@@ -656,6 +660,9 @@ gint	   e_day_view_get_time_string_width	(EDayView	*day_view);
 
 gint	   e_day_view_event_sort_func		(const void	*arg1,
 						 const void	*arg2);
+
+void       e_day_view_set_status_message        (EDayView       *day_view,
+						 const char     *message);
 
 #ifdef __cplusplus
 }

@@ -29,6 +29,7 @@
 #include <libgnomeui/gnome-canvas.h>
 
 #include "gnome-cal.h"
+#include "evolution-activity-client.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -363,6 +364,9 @@ struct _EWeekView
 
 	/* The default category for new events */
 	char *default_category;
+
+	/* The activity client used to show messages on the status bar. */
+	EvolutionActivityClient *activity;
 };
 
 struct _EWeekViewClass
@@ -495,6 +499,8 @@ gint	   e_week_view_get_time_string_width	(EWeekView	*week_view);
 gint	   e_week_view_event_sort_func		(const void	*arg1,
 						 const void	*arg2);
 
+void       e_week_view_set_status_message       (EWeekView      *week_view,
+						 const char     *message);
 
 #ifdef __cplusplus
 }

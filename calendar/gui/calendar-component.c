@@ -56,6 +56,7 @@
 #define CREATE_TASK_ID "task"
 
 char *evolution_dir;
+EvolutionShellClient *global_shell_client = NULL;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ FOLDER_CALENDAR,
@@ -483,6 +484,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	}
 
 	shells = g_list_append (shells, shell_component);
+
+	global_shell_client = shell_client;
 }
 
 static void
