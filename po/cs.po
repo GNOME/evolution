@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2003-03-21 11:46+0100\n"
-"PO-Revision-Date: 2003-03-21 13:57+0100\n"
+"POT-Creation-Date: 2003-03-23 11:49+0100\n"
+"PO-Revision-Date: 2003-03-23 18:04+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -38,6 +38,7 @@ msgstr "Uložit jako"
 
 #: addressbook/backend/ebook/e-card-simple.c:61
 #: addressbook/backend/ebook/e-card.c:1324
+#: addressbook/gui/component/select-names/e-select-names-section.etspec.h:1
 #: addressbook/gui/component/select-names/e-select-names.etspec.h:1
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
 #: my-evolution/e-summary-table.c:59
@@ -503,13 +504,13 @@ msgid "EBook not loaded\n"
 msgstr "EBook nebyl načten\n"
 
 #: addressbook/conduit/address-conduit.c:1358
-#: calendar/conduits/calendar/calendar-conduit.c:1276
+#: calendar/conduits/calendar/calendar-conduit.c:1344
 #: calendar/conduits/todo/todo-conduit.c:886
 msgid "Could not start wombat server"
 msgstr "Nelze spustit wombat server"
 
 #: addressbook/conduit/address-conduit.c:1359
-#: calendar/conduits/calendar/calendar-conduit.c:1277
+#: calendar/conduits/calendar/calendar-conduit.c:1345
 #: calendar/conduits/todo/todo-conduit.c:887
 msgid "Could not start wombat"
 msgstr "Nelze spustit wombat"
@@ -3759,13 +3760,13 @@ msgstr "Nedefinováno"
 msgid "Split Multi-Day Events:"
 msgstr "Rozdělit vícedenní události:"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1223
+#: calendar/conduits/calendar/calendar-conduit.c:1291
 #: calendar/conduits/todo/todo-conduit.c:832
 msgid "Error while communicating with calendar server"
 msgstr "Chyba při komunikaci se serverem kalendáře"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1374
-#: calendar/conduits/calendar/calendar-conduit.c:1377
+#: calendar/conduits/calendar/calendar-conduit.c:1442
+#: calendar/conduits/calendar/calendar-conduit.c:1445
 msgid "Could not read pilot's Calendar application block"
 msgstr "Nelze přečíst blok aplikací Calendar pilota"
 
@@ -4934,6 +4935,31 @@ msgstr "_Změnit organizátora"
 #: calendar/gui/e-meeting-time-sel.c:426
 msgid "_Invite Others..."
 msgstr "_Pozvat další..."
+
+#: calendar/gui/dialogs/recur-comp.c:50
+msgid "You are modifying a recurring event, what would you like to modify?"
+msgstr "Měníte opakující se událost, co chcete změnit?"
+
+#: calendar/gui/dialogs/recur-comp.c:54
+msgid "You are modifying a recurring task, what would you like to modify?"
+msgstr "Měníte opakující se úlohu, co chcete změnit?"
+
+#: calendar/gui/dialogs/recur-comp.c:58
+msgid ""
+"You are modifying a recurring journal entry, what would you like to modify?"
+msgstr "Měníte opakující se položku deníku, co chcete změnit?"
+
+#: calendar/gui/dialogs/recur-comp.c:72
+msgid "This Instance Only"
+msgstr "Jen tuto instanci"
+
+#: calendar/gui/dialogs/recur-comp.c:75
+msgid "This and Future Instances"
+msgstr "Tuto a budoucí instance"
+
+#: calendar/gui/dialogs/recur-comp.c:77
+msgid "All Instances"
+msgstr "Všechny instance"
 
 #: calendar/gui/dialogs/recurrence-page.c:532
 msgid "This appointment contains recurrences that Evolution cannot edit."
@@ -8214,11 +8240,13 @@ msgid "You must be working online to complete this operation"
 msgstr "Pro dokončení této operace musíte pracovat on-line"
 
 #: camel/camel-filter-driver.c:667 camel/camel-filter-search.c:511
+#: camel/camel-process.c:48
 #, c-format
 msgid "Failed to create pipe to '%s': %s"
 msgstr "Nepodařilo se vytvořit propojení ' %s': %s"
 
 #: camel/camel-filter-driver.c:715 camel/camel-filter-search.c:551
+#: camel/camel-process.c:92
 #, c-format
 msgid "Failed to create create child process '%s': %s"
 msgstr "Selhalo vytvoření procesu potomka '%s': %s"
@@ -9032,7 +9060,7 @@ msgstr "Použití klíče nepodporuje certifikovaný podpis"
 msgid "Error in application verification"
 msgstr "Chyba v ověření aplikace"
 
-#: camel/camel-tcp-stream-openssl.c:699 camel/camel-tcp-stream-ssl.c:811
+#: camel/camel-tcp-stream-openssl.c:699 camel/camel-tcp-stream-ssl.c:823
 #, c-format
 msgid ""
 "Issuer:            %s\n"
@@ -9045,11 +9073,11 @@ msgstr ""
 "Otisk:             %s\n"
 "Podpis:            %s"
 
-#: camel/camel-tcp-stream-openssl.c:705 camel/camel-tcp-stream-ssl.c:817
+#: camel/camel-tcp-stream-openssl.c:705 camel/camel-tcp-stream-ssl.c:829
 msgid "GOOD"
 msgstr "DOBŘE"
 
-#: camel/camel-tcp-stream-openssl.c:705 camel/camel-tcp-stream-ssl.c:817
+#: camel/camel-tcp-stream-openssl.c:705 camel/camel-tcp-stream-ssl.c:829
 msgid "BAD"
 msgstr "ŠPATNĚ"
 
@@ -9073,7 +9101,7 @@ msgstr ""
 "Chcete ho přesto akceptovat?"
 
 #. construct our user prompt
-#: camel/camel-tcp-stream-ssl.c:821
+#: camel/camel-tcp-stream-ssl.c:833
 #, c-format
 msgid ""
 "SSL Certificate check for %s:\n"
@@ -9088,7 +9116,7 @@ msgstr ""
 "\n"
 "Chcete ho akceptovat?"
 
-#: camel/camel-tcp-stream-ssl.c:865
+#: camel/camel-tcp-stream-ssl.c:877
 #, c-format
 msgid ""
 "Certificate problem: %s\n"
@@ -9097,7 +9125,7 @@ msgstr ""
 "Problém s certifikátem: %s\n"
 "Výstavce: %s"
 
-#: camel/camel-tcp-stream-ssl.c:917
+#: camel/camel-tcp-stream-ssl.c:929
 #, c-format
 msgid ""
 "Bad certificate domain: %s\n"
@@ -9106,7 +9134,7 @@ msgstr ""
 "Chybná doména certifikátu: %s\n"
 "Výstavce: %s"
 
-#: camel/camel-tcp-stream-ssl.c:935
+#: camel/camel-tcp-stream-ssl.c:947
 #, c-format
 msgid ""
 "Certificate expired: %s\n"
@@ -9115,7 +9143,7 @@ msgstr ""
 "Certifikát vypršel: %s\n"
 "Výstavce: %s"
 
-#: camel/camel-tcp-stream-ssl.c:952
+#: camel/camel-tcp-stream-ssl.c:964
 #, c-format
 msgid ""
 "Certificate revocation list expired: %s\n"
@@ -11099,29 +11127,31 @@ msgstr ""
 "%s"
 
 #: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:68
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:64 shell/e-config-upgrade.c:1275
 msgid "Important"
 msgstr "Důležité"
 
 #. red
 #: filter/filter-label.c:122 mail/mail-config.c:69
-#: mail/mail-config.glade.h:133
+#: mail/mail-config.glade.h:133 shell/e-config-upgrade.c:1276
 msgid "Work"
 msgstr "Pracovní"
 
 #. orange
 #: filter/filter-label.c:123 mail/mail-config.c:70 mail/mail-config.glade.h:87
+#: shell/e-config-upgrade.c:1277
 msgid "Personal"
 msgstr "Osobní"
 
 #. forest green
 #: filter/filter-label.c:124 mail/mail-config.c:71
-#: mail/mail-config.glade.h:124
+#: mail/mail-config.glade.h:124 shell/e-config-upgrade.c:1278
 msgid "To Do"
 msgstr "Udělat"
 
 #. blue
 #: filter/filter-label.c:125 mail/mail-config.c:72 mail/mail-config.glade.h:68
+#: shell/e-config-upgrade.c:1279
 msgid "Later"
 msgstr "Později"
 
@@ -11497,14 +11527,15 @@ msgstr "Předmět"
 msgid "Unset Status"
 msgstr "Odnastavit stav"
 
-#: filter/rule-editor.c:170
-msgid "Rules"
-msgstr "Pravidla"
-
-#: filter/rule-editor.c:241 filter/rule-editor.c:325 mail/mail-vfolder.c:915
+#: filter/rule-context.c:661 filter/rule-editor.c:241 filter/rule-editor.c:325
+#: mail/mail-vfolder.c:915
 #, c-format
 msgid "Rule name '%s' is not unique, choose another."
 msgstr "Název pravidla '%s' není unikátní, vyberte jiný."
+
+#: filter/rule-editor.c:170
+msgid "Rules"
+msgstr "Pravidla"
 
 #: filter/rule-editor.c:291
 msgid "Add Rule"
@@ -12421,11 +12452,6 @@ msgstr "Musíte zadat platný název skriptu."
 msgid "[script]"
 msgstr "[skript]"
 
-#: mail/mail-composer-prefs.c:570
-#, fuzzy
-msgid "en_us"
-msgstr "Reus"
-
 #: mail/mail-composer-prefs.c:840
 msgid "Language(s)"
 msgstr "Jazyk(y)"
@@ -13211,8 +13237,8 @@ msgstr "Zkouší se %s"
 msgid "%s attachment"
 msgstr "%s příloha"
 
-#: mail/mail-format.c:682 mail/mail-format.c:1336 mail/mail-format.c:1405
-#: mail/mail-format.c:1525 mail/mail-format.c:1649 mail/mail-format.c:1674
+#: mail/mail-format.c:682 mail/mail-format.c:1339 mail/mail-format.c:1408
+#: mail/mail-format.c:1528 mail/mail-format.c:1652 mail/mail-format.c:1677
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Není možné zpracovat zprávu MIME. Zobrazí se jako zdrojový kód."
 
@@ -13245,51 +13271,51 @@ msgstr "Kopie"
 msgid "Bcc"
 msgstr "Skrytá kopie"
 
-#: mail/mail-format.c:1448
+#: mail/mail-format.c:1451
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Tato zpráva je digitálně podepsaná. Kliknutím na ikonu zámku získáte "
 "podrobnosti."
 
-#: mail/mail-format.c:1476
+#: mail/mail-format.c:1479
 msgid "Could not create a PGP verfication context"
 msgstr "Nepodařilo se vytvořit kontext ověření PGP."
 
-#: mail/mail-format.c:1484
+#: mail/mail-format.c:1487
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Tato zpráva je digitálně podepsaná a byla shledána platnou."
 
-#: mail/mail-format.c:1491
+#: mail/mail-format.c:1494
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Tato zpráva je digitálně podepsaná, ale nelze ověřit její platnost."
 
-#: mail/mail-format.c:1755
+#: mail/mail-format.c:1758
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Odkaz na FTP server (%s)"
 
-#: mail/mail-format.c:1766
+#: mail/mail-format.c:1769
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Odkaz na lokální soubor (%s) platný na serveru \"%s\""
 
-#: mail/mail-format.c:1769
+#: mail/mail-format.c:1772
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Odkaz na lokální soubor (%s)"
 
-#: mail/mail-format.c:1796
+#: mail/mail-format.c:1799
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Odkaz na vzdálená data (%s)"
 
-#: mail/mail-format.c:1802
+#: mail/mail-format.c:1805
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Odkaz na neznámá externí data (typ \"%s\")"
 
-#: mail/mail-format.c:1804
+#: mail/mail-format.c:1807
 msgid "Malformed external-body part."
 msgstr "Chybná část externího těla."
 
@@ -26297,6 +26323,30 @@ msgstr "Výstupní soubor"
 msgid "No filename provided."
 msgstr "Není zadán název souboru."
 
+#: tools/evolution-launch-composer.c:324
+msgid "An attachment to add."
+msgstr "Příloha, kterou přidat."
+
+#: tools/evolution-launch-composer.c:325
+msgid "Content type of the attachment."
+msgstr "Typ obsahu přílohy."
+
+#: tools/evolution-launch-composer.c:326
+msgid "The filename to display in the mail."
+msgstr "Název souboru, který zobrazovat ve zprávě."
+
+#: tools/evolution-launch-composer.c:327
+msgid "Description of the attachment."
+msgstr "Popis přílohy."
+
+#: tools/evolution-launch-composer.c:328
+msgid "Mark attachment to be shown inline by default."
+msgstr "Označit přílohu tak, aby se implicitně zobrazovala v textu."
+
+#: tools/evolution-launch-composer.c:329
+msgid "Default subject for the message."
+msgstr "Implicitní předmět zprávy."
+
 #: ui/evolution-addressbook.xml.h:3
 msgid "Copy Contact(s) to Another Folder..."
 msgstr "Kopírovat kontakt(y) do jiné složky..."
@@ -28023,19 +28073,6 @@ msgstr "Generátor kalendáře pro Osobní kalendářový server."
 #~ "Nelze vytvořit okno pro psaní zpráv, protože jste ještě\n"
 #~ "nenastavili žádnou identitu pro komponentu pošty."
 
-#~ msgid "Cannot initialize the Evolution composer."
-#~ msgstr "Nelze inicializovat editor zpráv Evolution."
-
-#~ msgid "Cannot initialize the Evolution mail component."
-#~ msgstr "Nelze inicializovat komponentu pošty Evolution."
-
-#~ msgid "Cannot initialize Evolution's mail config component."
-#~ msgstr "Nelze inicializovat konfigurační komponentu pro poštu Evolution."
-
-#~ msgid "Cannot initialize Evolution's folder info component."
-#~ msgstr ""
-#~ "Nelze inicializovat komponentu pro informace o adresářích Evolution."
-
 #~ msgid ""
 #~ "Please specify signature filename\n"
 #~ "in Advanced section of signature settings."
@@ -28187,9 +28224,6 @@ msgstr "Generátor kalendáře pro Osobní kalendářový server."
 #~ msgid "Copy selected messages"
 #~ msgstr "Kopírovat vybrané zprávy"
 
-#~ msgid "Cut selected messages"
-#~ msgstr "Vyjmout vybrané zprávy"
-
 #~ msgid "The folder %s no longer exists"
 #~ msgstr "Složka %s již neexistuje"
 
@@ -28269,9 +28303,6 @@ msgstr "Generátor kalendáře pro Osobní kalendářový server."
 
 #~ msgid "This page can be used to configure various folder settings"
 #~ msgstr "Tato stránka se používá ke konfiguraci různých nastavení složky"
-
-#~ msgid "_Server:"
-#~ msgstr "_Server:"
 
 #~ msgid "Error in search expression."
 #~ msgstr "Chyba v hledaném výrazu."
