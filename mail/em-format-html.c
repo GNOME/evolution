@@ -720,7 +720,7 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 		CamelMimePart *newpart = camel_multipart_get_part(mp, i);
 
 		type = camel_mime_part_get_content_type(newpart);
-		if (camel_content_type_is (type, "text", "plain")) {
+		if (camel_content_type_is (type, "text", "*")) {
 			camel_stream_write_string(stream, "<tt>\n");
 			em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, camel_medium_get_content_object((CamelMedium *)newpart));
 			camel_stream_flush((CamelStream *)filtered_stream);
