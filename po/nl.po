@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-28 03:14+0100\n"
-"PO-Revision-Date: 2004-02-28 10:33-0500\n"
+"POT-Creation-Date: 2004-03-01 19:27+0100\n"
+"PO-Revision-Date: 2004-03-01 23:00+0100\n"
 "Last-Translator: Daniel van Eeden <daniel_e@dds.nl>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2630,7 +2630,7 @@ msgid "Company Phone"
 msgstr "Bedrijfstelefoon"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
-#: addressbook/gui/widgets/eab-contact-display.c:441 smime/lib/e-cert.c:774
+#: addressbook/gui/widgets/eab-contact-display.c:447 smime/lib/e-cert.c:774
 msgid "Email"
 msgstr "E-mail"
 
@@ -2836,7 +2836,7 @@ msgid "map"
 msgstr "kaart"
 
 #: addressbook/gui/widgets/eab-contact-display.c:177
-#: addressbook/gui/widgets/eab-contact-display.c:417
+#: addressbook/gui/widgets/eab-contact-display.c:423
 msgid "List Members"
 msgstr "Lijstleden"
 
@@ -2878,15 +2878,15 @@ msgid "WWW"
 msgstr "WWW"
 
 #: addressbook/gui/widgets/eab-contact-display.c:265
-#: addressbook/gui/widgets/eab-contact-display.c:476
+#: addressbook/gui/widgets/eab-contact-display.c:482
 msgid "Blog"
 msgstr "Blog"
 
-#: addressbook/gui/widgets/eab-contact-display.c:437
+#: addressbook/gui/widgets/eab-contact-display.c:443
 msgid "Job Title"
 msgstr "Functie"
 
-#: addressbook/gui/widgets/eab-contact-display.c:468
+#: addressbook/gui/widgets/eab-contact-display.c:474
 msgid "Home page"
 msgstr "Homepage"
 
@@ -3392,7 +3392,8 @@ msgstr "Exporteer in asynchrone mode "
 msgid ""
 "The number of cards in one output file in asychronous mode,default size 100."
 msgstr ""
-"Het aantal kaarten in een uitvoer bestand in asynchrone mode, standaard aantal is 100."
+"Het aantal kaarten in een uitvoer bestand in asynchrone mode, standaard "
+"aantal is 100."
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
@@ -3800,8 +3801,7 @@ msgid ""
 "events."
 msgstr ""
 "Deze bewerking zal alle taken die ouder zijn de gespecificeerde tijd "
-"permanent  verwijderen. Als u doorgaat zult u ze niet meer kunnen "
-"herstellen."
+"permanent  verwijderen. Als u doorgaat zult u ze niet meer kunnen herstellen."
 
 #: calendar/gui/calendar-commands.c:357
 msgid "Purge events older than"
@@ -4381,7 +4381,8 @@ msgstr "voor het begin van elke afspraak"
 
 #: calendar/gui/dialogs/calendar-setup.c:156
 msgid "You must specify a location to get the calendar from."
-msgstr "U dient een lokatie te geven waar de agenda vandaan gehaalt dient te worden."
+msgstr ""
+"U dient een lokatie te geven waar de agenda vandaan gehaalt dient te worden."
 
 #: calendar/gui/dialogs/calendar-setup.c:164
 #, c-format
@@ -4421,7 +4422,8 @@ msgid ""
 msgstr ""
 "Gefeliciteerd, u bent klaar met het instellen van deze agenda.\n"
 "\n"
-"Klik op de \"Toepassen\" knop om de zojuist gemaakte instellingen op te slaan."
+"Klik op de \"Toepassen\" knop om de zojuist gemaakte instellingen op te "
+"slaan."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
 msgid ""
@@ -4431,7 +4433,8 @@ msgid ""
 msgstr ""
 "Gefeliciteerd, u bent klaar met het instellen van deze taken lijst.\n"
 "\n"
-"Klik op de \"Toepassen\" knop om de zojuist gemaakte instellingen op te slaan."
+"Klik op de \"Toepassen\" knop om de zojuist gemaakte instellingen op te "
+"slaan."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:14
 #: calendar/gui/tasks-component.c:361
@@ -5304,9 +5307,8 @@ msgid "Undefined"
 msgstr "Ongedefinieerd"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-#, fuzzy
 msgid "_Date Completed:"
-msgstr "Voltooiingsdatum:"
+msgstr "Voltooiings_datum:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:13
 msgid "_Priority:"
@@ -7091,9 +7093,8 @@ msgid "vCalendar files (.vcf)"
 msgstr "vKalender bestanden(.vcf)"
 
 #: calendar/importers/icalendar-importer.c:78
-#, fuzzy
 msgid "Appointments and Meetings"
-msgstr "Map met afspraken en gebeurtenissen"
+msgstr "Afspraken en gebeurtenissen"
 
 #: calendar/importers/icalendar-importer.c:494
 msgid "Reminder!!"
@@ -9424,9 +9425,9 @@ msgstr ""
 "%s"
 
 #: camel/camel-smime-context.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "Enter security pass-phrase for `%s'"
-msgstr "Voer uw Wachtwoord in voor %s"
+msgstr "Voer uw Wachtwoord in voor `%s'"
 
 #: camel/camel-smime-context.c:514
 msgid "Unverified"
@@ -10118,7 +10119,8 @@ msgid ""
 " !!! DO NOT USE THIS FOR PRODUCTION EMAIL  !!!\n"
 msgstr ""
 "Experimentele IMAP-4(.1) client\n"
-"Dit is ongeteste en niet ondersteunde code, u kunt beter standaard imap gebruiken.\n"
+"Dit is ongeteste en niet ondersteunde code, u kunt beter standaard imap "
+"gebruiken.\n"
 "\n"
 " !!! GEBRUIK VOOR PRODUCTIE EMAIL WORDT ZEER STERK AFGERADEN  !!!\n"
 
@@ -10288,9 +10290,9 @@ msgstr "Ongeldige berichtinhoud"
 #: camel/providers/local/camel-maildir-store.c:107
 #: camel/providers/local/camel-mbox-store.c:154
 #: camel/providers/local/camel-mh-store.c:202
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder `%s': %s"
-msgstr "Kan map niet verkrijgen: %s: %s"
+msgstr "Kan map niet verkrijgen `%s': %s"
 
 #: camel/providers/local/camel-maildir-store.c:111
 #: camel/providers/local/camel-mbox-store.c:162
@@ -10681,7 +10683,7 @@ msgstr "Kan bericht: %s niet verkrijgen: %s"
 #: camel/providers/nntp/camel-nntp-folder.c:195
 #, c-format
 msgid "Internal error: uid in invalid format: %s"
-msgstr ""
+msgstr "Interne foute: uid in ongeldig formaat: %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:170
 #, fuzzy, c-format
@@ -10747,6 +10749,7 @@ msgstr ""
 msgid ""
 "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
 msgstr ""
+"Toon mappen in verkorte notatie (b.v. c.o.linux in plaats van comp.os.linux)"
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
 msgid "In the subscription dialog, show relative folder names"
@@ -13101,9 +13104,9 @@ msgid "Page %d of %d"
 msgstr "Pagina %d van %d"
 
 #: mail/em-format-html.c:455 mail/em-format-html.c:457
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving `%s'"
-msgstr "Bezig met ophalen bericht %s"
+msgstr "Bezig met ophalen `%s'"
 
 #: mail/em-format-html.c:812
 msgid "Malformed external-body part."
@@ -13469,9 +13472,8 @@ msgstr "Standaardonderwerp van het bericht."
 
 # standaard manier van antwoorden
 #: mail/evolution-mail.schemas.in.in.h:16
-#, fuzzy
 msgid "Default reply style"
-msgstr "_Antwoordstijl:"
+msgstr "Standaard antwoordstijl"
 
 #: mail/evolution-mail.schemas.in.in.h:17
 #, fuzzy
@@ -13545,7 +13547,9 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:32
 msgid "List of mime types to check for bonobo component viewers"
-msgstr "Lijst met mime-types die voor bonobo component weergave gecheckt moeten worden"
+msgstr ""
+"Lijst met mime-types die voor bonobo component weergave gecheckt moeten "
+"worden"
 
 #: mail/evolution-mail.schemas.in.in.h:33
 msgid "Load images for HTML messages over http"
@@ -13578,11 +13582,11 @@ msgstr "Logbestand voor filteracties"
 
 #: mail/evolution-mail.schemas.in.in.h:39
 msgid "Mark as Seen after specified timeout"
-msgstr ""
+msgstr "Markeer als gelezen na een bepaalde timeout"
 
 #: mail/evolution-mail.schemas.in.in.h:40
 msgid "Mark as Seen after specified timeout."
-msgstr ""
+msgstr "Markeer als gelezen ne een bepaalde tijd."
 
 #: mail/evolution-mail.schemas.in.in.h:41
 msgid "Mark citations in the message \"Preview\""
@@ -13644,7 +13648,8 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:54
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr "Waarschuwen wanneer berichten worden verstuurd zonder Aan of Cc-ontvangers"
+msgstr ""
+"Waarschuwen wanneer berichten worden verstuurd zonder Aan of Cc-ontvangers"
 
 #: mail/evolution-mail.schemas.in.in.h:55
 msgid "Prompt when user tries to send unwanted HTML"
@@ -13667,8 +13672,8 @@ msgid ""
 "Run junk test on incoming mail for IMAP accounts (only valid if "
 "check_incoming is set to true)"
 msgstr ""
-"Doe troep-test op binnenkomende mail voor IMAP accounts (enkel geldig"
-"als check_incoming is ingesteld op true)"
+"Doe troep-test op binnenkomende mail voor IMAP accounts (enkel geldigals "
+"check_incoming is ingesteld op true)"
 
 #: mail/evolution-mail.schemas.in.in.h:60
 msgid "S3kr3t 0pt10n"
@@ -13707,9 +13712,8 @@ msgid "Show deleted messages in the message-list"
 msgstr "Laat berichten in normale stijl zien"
 
 #: mail/evolution-mail.schemas.in.in.h:68
-#, fuzzy
 msgid "Show the \"Preview\" pane"
-msgstr "Voorbeeldvenster"
+msgstr "Toon het voorbeeld paneel"
 
 #: mail/evolution-mail.schemas.in.in.h:69
 msgid "Show the \"Preview\" pane."
@@ -13722,7 +13726,9 @@ msgstr "_Geluid afspelen bij binnenkomst van nieuwe e-mail"
 
 #: mail/evolution-mail.schemas.in.in.h:71
 msgid "Specifies the type of New Mail Notification the user wishes to use."
-msgstr "Specificatie van het type notificatie bij nieuwe mail die de gebruiker wenst te gebruiken."
+msgstr ""
+"Specificatie van het type notificatie bij nieuwe mail die de gebruiker wenst "
+"te gebruiken."
 
 #: mail/evolution-mail.schemas.in.in.h:72
 #, fuzzy
@@ -13799,7 +13805,7 @@ msgstr "Gebruik allen lokale spam testen."
 
 #: mail/evolution-mail.schemas.in.in.h:88
 msgid "Use only the local spam tests (no DNS)."
-msgstr ""
+msgstr "Gebruik enkel locale spam testen (geen DNS)."
 
 #: mail/evolution-mail.schemas.in.in.h:89
 #, fuzzy
@@ -13923,9 +13929,8 @@ msgid "Elm"
 msgstr "Elm"
 
 #: mail/importers/evolution-mbox-importer.c:115
-#, fuzzy
 msgid "Destination folder:"
-msgstr "Doel is alleen lezen"
+msgstr "Doel map:"
 
 #: mail/importers/evolution-mbox-importer.c:118
 #, fuzzy
@@ -14266,7 +14271,7 @@ msgstr "(SSL wordt niet ondersteund in deze versie van Evolution)"
 
 #: mail/mail-config.glade.h:8
 msgid "<b>_Displayed Mail Headers</b>"
-msgstr ""
+msgstr "<b>_Toon mail koppen</b>"
 
 #: mail/mail-config.glade.h:9
 #, fuzzy
@@ -14338,9 +14343,8 @@ msgid "C_olors"
 msgstr "_Kleuren"
 
 #: mail/mail-config.glade.h:28
-#, fuzzy
 msgid "Check _Incoming Mail"
-msgstr "Controleren voor Nieuwe Berichten"
+msgstr "Controleren voor N_ieuwe Berichten"
 
 #: mail/mail-config.glade.h:29
 msgid "Check spelling while I _type"
@@ -14438,9 +14442,8 @@ msgid "Empty _trash folders on exit"
 msgstr "_Prullenbakken legen bij afsluiten"
 
 #: mail/mail-config.glade.h:57
-#, fuzzy
 msgid "Encry_ption certificate:"
-msgstr "_Certificaat-ID:"
+msgstr "Encry_ptie certificaat:"
 
 #: mail/mail-config.glade.h:58
 msgid "Evolution Account Assistant"
@@ -14467,9 +14470,8 @@ msgid "Format messages in _HTML"
 msgstr "Berichten opmaken met _HTML"
 
 #: mail/mail-config.glade.h:64
-#, fuzzy
 msgid "H_eaders"
-msgstr "Kop"
+msgstr "Kopp_en"
 
 #: mail/mail-config.glade.h:65
 msgid "Highlight _quotations with"
@@ -14762,7 +14764,7 @@ msgstr "_Gebruiken"
 
 #: mail/mail-config.glade.h:152
 msgid "_Encrypt outgoing messages (by default)"
-msgstr ""
+msgstr "V_ersleutel uitgaande berichten (standaard)"
 
 #: mail/mail-config.glade.h:153
 msgid "_Forward style:"
@@ -14791,7 +14793,7 @@ msgstr "Afbeeldingen tonen als de afzender in het adresboek voorkomt"
 
 #: mail/mail-config.glade.h:161
 msgid "_Local Tests Only"
-msgstr ""
+msgstr "Enkel _locale testen"
 
 #: mail/mail-config.glade.h:162
 msgid "_Make this my default account"
@@ -14995,9 +14997,9 @@ msgid "Expunging and storing account '%s'"
 msgstr ""
 
 #: mail/mail-ops.c:1592
-#, fuzzy, c-format
+#, c-format
 msgid "Storing account '%s'"
-msgstr "Bezig met opslaan map '%s'"
+msgstr "Bezig met opslaan account '%s'"
 
 #: mail/mail-ops.c:1647
 msgid "Refreshing folder"
@@ -15448,18 +15450,16 @@ msgid "Evolution Test"
 msgstr "Evolution test"
 
 #: shell/GNOME_Evolution_Test.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Test component"
-msgstr "Evolution tescomponent"
+msgstr "Evolution testcomponent"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "480"
 msgstr "480"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
-#, fuzzy
 msgid "Default shortcut group"
-msgstr "Hernoem deze snelkoppelingsgroep"
+msgstr "Standaard snelkoppelingsgroep"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:3
 #, fuzzy
@@ -15472,19 +15472,16 @@ msgid "Default width of the shortcut bar pane"
 msgstr "Verberg de snelkoppelingenbalk"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:5
-#, fuzzy
 msgid "Default window height"
-msgstr "Standaard prioriteit:"
+msgstr "Standaard venster hoogte"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:6
-#, fuzzy
 msgid "Default window width"
-msgstr "Standaard prioriteit:"
+msgstr "Standaard venster breedte"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:7
-#, fuzzy
 msgid "Evolution configuration version"
-msgstr "Evolution e-mail configuratie interface"
+msgstr "Evolution configuratie versie"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:8
 #, fuzzy
@@ -15510,7 +15507,7 @@ msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Path to the default calendar folder"
-msgstr ""
+msgstr "Pad naar de standaard agenda map"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:13
 #, fuzzy
@@ -16311,9 +16308,8 @@ msgid ""
 msgstr ""
 
 #: smime/gui/smime-ui.glade.h:14 smime/lib/e-cert.c:1024
-#, fuzzy
 msgid "Certificate"
-msgstr "_Certificaat-ID:"
+msgstr "Certificaat"
 
 #: smime/gui/smime-ui.glade.h:15
 #, fuzzy
