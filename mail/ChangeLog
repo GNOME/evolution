@@ -1,3 +1,13 @@
+2002-03-08  Radek Doulik  <rodo@ximian.com>
+
+	* mail-accounts.c (sig_event_client): handle name changed event
+	(sig_load_preview): don't run script before each reload
+	(sig_script_activate): run script only if script entry is
+	activated
+
+	* mail-signature-editor.c (mail_signature_editor): added signature
+	name entry
+
 2002-03-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config-druid.c (management_changed): Re-focus the account

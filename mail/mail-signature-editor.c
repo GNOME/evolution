@@ -2,6 +2,7 @@
 #include <bonobo/bonobo-stream-memory.h>
 
 #include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-unicode.h>
 
 #include "e-msg-composer.h"
 #include "mail-signature-editor.h"
@@ -14,6 +15,7 @@
 struct _ESignatureEditor {
 	GtkWidget *win;
 	GtkWidget *control;
+	GtkWidget *name_entry;
 	
 	MailConfigSignature *sig;
 
@@ -225,6 +227,12 @@ load_signature (ESignatureEditor *editor)
 	}
 }
 
+static void
+sig_name_changed (GtkWidget *w, ESignatureEditor *editor)
+{
+	mail_config_signature_set_name (editor->sig, e_utf8_gtk_entry_get_text (GTK_ENTRY (editor->name_entry)));
+}
+
 void
 mail_signature_editor (MailConfigSignature *sig)
 {
@@ -232,6 +240,7 @@ mail_signature_editor (MailConfigSignature *sig)
 	ESignatureEditor *editor;
 	BonoboUIComponent *component;
 	BonoboUIContainer *container;
+	GtkWidget *vbox, *hbox, *label;
 	gchar *title;
 	
 	if (!sig->filename || !*sig->filename)
@@ -274,7 +283,19 @@ mail_signature_editor (MailConfigSignature *sig)
 	gtk_signal_connect (GTK_OBJECT (editor->win), "delete_event",
 			    GTK_SIGNAL_FUNC (delete_event_cb), editor);
 
-	bonobo_window_set_contents (BONOBO_WINDOW (editor->win), editor->control);
+	vbox = gtk_vbox_new (FALSE, 0);
+	hbox = gtk_hbox_new (FALSE, 0);
+	label = gtk_label_new (_("Signature name:"));
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 4);
+	editor->name_entry = gtk_entry_new ();
+	e_utf8_gtk_entry_set_text (GTK_ENTRY (editor->name_entry), sig->name);
+	gtk_signal_connect (GTK_OBJECT (editor->name_entry), "changed", GTK_SIGNAL_FUNC (sig_name_changed), editor);
+	gtk_box_pack_start_defaults (GTK_BOX (hbox), editor->name_entry);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 3);
+	gtk_widget_show_all (vbox);
+	gtk_box_pack_start_defaults (GTK_BOX (vbox), editor->control);
+
+	bonobo_window_set_contents (BONOBO_WINDOW (editor->win), vbox);
 	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", sig->html, NULL);
 	gtk_widget_show (GTK_WIDGET (editor->win));
 	gtk_widget_show (GTK_WIDGET (editor->control));

@@ -845,7 +845,6 @@ sig_load_preview (MailAccountsDialog *dialog, MailConfigSignature *sig)
 		return;
 	}
 
-	run_script (sig->script);
 	str = e_msg_composer_get_sig_file_content (sig->filename, sig->html);
 	if (!str)
 		str = g_strdup (" ");
@@ -880,6 +879,17 @@ static MailConfigSignature *
 sig_current_sig (MailAccountsDialog *dialog)
 {
 	return gtk_clist_get_row_data (GTK_CLIST (dialog->sig_clist), dialog->sig_row);
+}
+
+static void
+sig_script_activate (GtkWidget *w, MailAccountsDialog *dialog)
+{
+	MailConfigSignature *sig = sig_current_sig (dialog);
+
+	if (sig && sig->script && *sig->script) {
+		run_script (sig->script);
+		sig_write_and_update_preview (dialog, sig);
+	}
 }
 
 static void
@@ -977,14 +987,16 @@ sig_row_select (GtkWidget *w, gint row, gint col, GdkEvent *event, MailAccountsD
 	sig = gtk_clist_get_row_data (GTK_CLIST (dialog->sig_clist), row);
 	if (sig) {
 		if (sig->name)
-			gtk_entry_set_text (GTK_ENTRY (dialog->sig_name), sig->name);
+			e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->sig_name), sig->name);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->sig_random), sig->random);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->sig_html), sig->html);
 		if (sig->filename)
-			gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (dialog->sig_filename))),
+			gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry
+						       (GNOME_FILE_ENTRY (dialog->sig_filename))),
 					    sig->filename);
 		if (sig->script)
-			gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (dialog->sig_script))),
+			gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry
+						       (GNOME_FILE_ENTRY (dialog->sig_script))),
 					    sig->script);
 	}
 	dialog->sig_switch = FALSE;
@@ -1037,7 +1049,7 @@ sig_name_changed (GtkWidget *w, MailAccountsDialog *dialog)
 	if (dialog->sig_switch)
 		return;
 
-	mail_config_signature_set_name (sig, gtk_entry_get_text (GTK_ENTRY (dialog->sig_name)));
+	mail_config_signature_set_name (sig, e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->sig_name)));
 	gtk_clist_set_text (GTK_CLIST (dialog->sig_clist), dialog->sig_row, 0, sig->name);
 
 	sig_write_and_update_preview (dialog, sig);
@@ -1128,6 +1140,12 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailAccoun
 	switch (event) {
 	case MAIL_CONFIG_SIG_EVENT_NAME_CHANGED:
 		printf ("accounts NAME CHANGED\n");
+		gtk_clist_set_text (GTK_CLIST (dialog->sig_clist), sig->id, 0, sig->name);
+		if (sig == sig_current_sig (dialog)) {
+			dialog->sig_switch = TRUE;
+			e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->sig_name), sig->name);
+			dialog->sig_switch = FALSE;
+		}
 		break;
 	case MAIL_CONFIG_SIG_EVENT_CONTENT_CHANGED:
 		printf ("accounts CONTENT CHANGED\n");
@@ -1184,6 +1202,8 @@ signatures_page_construct (MailAccountsDialog *dialog, GladeXML *gui)
 	dialog->sig_script = glade_xml_get_widget (gui, "file-sig-script");
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (dialog->sig_script))),
 			    "changed", GTK_SIGNAL_FUNC (sig_script_changed), dialog);
+	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (dialog->sig_script))),
+			    "activate", GTK_SIGNAL_FUNC (sig_script_activate), dialog);
 
 	dialog->sig_advanced_table = glade_xml_get_widget (gui, "table-sig-advanced");
 	dialog->sig_preview = glade_xml_get_widget (gui, "frame-sig-preview");
