@@ -10,11 +10,11 @@
 #include <config.h>
 #include <gnome.h>
 #include "e-util/e-util.h"
+#include "e-util/e-sexp.h"
 #include "folder-browser.h"
 #include "mail.h"
 #include "message-list.h"
 #include <widgets/e-paned/e-vpaned.h>
-
 
 #define PARENT_TYPE (gtk_table_get_type ())
 
@@ -297,7 +297,7 @@ search_set(FolderBrowser *fb)
 	while (*str) {
 		if (str[0] == '%' && str[1]=='s') {
 			str+=2;
-			g_string_sprintfa(out, "\"%s\"", text);
+			e_sexp_encode_string(out, text);
 		} else {
 			g_string_append_c(out, *str);
 			str++;
