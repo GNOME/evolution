@@ -1,3 +1,8 @@
+2001-08-07  Ettore Perazzoli  <ettore@ximian.com>
+
+	* message-browser.c (set_bonobo_ui): Remove the "Customize
+	Toolbar" thing.
+
 2001-08-08  Not Zed  <NotZed@Ximian.com>
 
 	* mail-ops.c (send_mail_send): Dont double-register this

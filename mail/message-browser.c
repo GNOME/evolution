@@ -203,11 +203,6 @@ set_bonobo_ui (GtkWidget *widget, FolderBrowser *fb)
 			   bonobo_exception_get_text (&ev));
 	CORBA_exception_free (&ev);
 
-	/* Customize Toolbar thingie */
-	
-	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (BONOBO_WINDOW (widget)),
-					  "/evolution/UIConf/messagebrowser");
-
 	/* Add the Close item */
 
 	bonobo_ui_component_add_verb_list_with_data (uic, browser_verbs, widget);
