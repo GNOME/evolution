@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.5\n"
-"POT-Creation-Date: 2003-02-22 22:56+0200\n"
-"PO-Revision-Date: 2003-02-22 13:34--500\n"
+"POT-Creation-Date: 2003-02-23 17:54+0200\n"
+"PO-Revision-Date: 2003-02-23 07:56--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -385,7 +385,7 @@ msgid "Role"
 msgstr "Роль"
 
 #: addressbook/backend/ebook/e-card.c:1427
-#: mail/mail-format.c:933
+#: mail/mail-format.c:935
 #, fuzzy
 msgid "Mailer"
 msgstr "\n"
@@ -457,12 +457,12 @@ msgstr "vCard для %s"
 msgid "Could not initialize Bonobo"
 msgstr "Не вдалось ініціалізувати Bonobo"
 
-#: addressbook/backend/pas/pas-backend-file.c:365
+#: addressbook/backend/pas/pas-backend-file.c:465
 #: addressbook/backend/pas/pas-backend-ldap.c:3045
 msgid "Searching..."
 msgstr "Пошук..."
 
-#: addressbook/backend/pas/pas-backend-file.c:367
+#: addressbook/backend/pas/pas-backend-file.c:467
 msgid "Loading..."
 msgstr "Завантаження..."
 
@@ -579,7 +579,7 @@ msgstr ""
 #: importers/netscape-importer.c:1874
 #: mail/importers/netscape-importer.c:1863
 #: shell/e-local-storage.c:178
-#: shell/e-shortcuts.c:1086
+#: shell/e-shortcuts.c:1087
 msgid "Contacts"
 msgstr "Контакти"
 
@@ -1580,8 +1580,8 @@ msgstr "Адреса сторінки WWW:"
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
 #: addressbook/gui/contact-editor/e-contact-editor.c:187
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:163
-#: addressbook/gui/widgets/e-addressbook-model.c:329
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:362
+#: addressbook/gui/widgets/e-addressbook-model.c:318
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:393
 #: addressbook/gui/widgets/e-minicard-label.c:151
 #: addressbook/gui/widgets/e-minicard-view-widget.c:118
 #: addressbook/gui/widgets/e-minicard-view.c:473
@@ -2614,8 +2614,8 @@ msgstr "Зімбабве"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:159
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:142
-#: addressbook/gui/widgets/e-addressbook-model.c:315
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:348
+#: addressbook/gui/widgets/e-addressbook-model.c:304
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:379
 #: addressbook/gui/widgets/e-addressbook-view.c:180
 #: addressbook/gui/widgets/e-minicard-view-widget.c:104
 #: addressbook/gui/widgets/e-minicard-view.c:459
@@ -2902,32 +2902,32 @@ msgstr "Змінене ім'я чи електронна адреса цього
 msgid "Advanced Search"
 msgstr "Удосконалений пошук"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:155
+#: addressbook/gui/widgets/e-addressbook-model.c:156
 msgid "No cards"
 msgstr "Немає карток"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:158
+#: addressbook/gui/widgets/e-addressbook-model.c:159
 msgid "1 card"
 msgstr "1 картка"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:161
+#: addressbook/gui/widgets/e-addressbook-model.c:162
 #, c-format
 msgid "%d cards"
 msgstr "Карток: %d"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:322
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:355
+#: addressbook/gui/widgets/e-addressbook-model.c:311
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:386
 #: addressbook/gui/widgets/e-addressbook-view.c:187
 #: addressbook/gui/widgets/e-minicard-view-widget.c:111
 #: addressbook/gui/widgets/e-minicard-view.c:466
 msgid "Query"
 msgstr "Запит"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:459
+#: addressbook/gui/widgets/e-addressbook-model.c:457
 msgid "Error getting book view"
 msgstr "Помилка отримання вигляду книги"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:369
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:400
 #, fuzzy
 msgid "Model"
 msgstr "Перенести"
@@ -2946,7 +2946,7 @@ msgstr "Успішно"
 #: addressbook/gui/widgets/e-addressbook-util.c:36
 #: camel/providers/imap/camel-imap-command.c:309
 #: camel/providers/imap/camel-imap-command.c:406
-#: camel/providers/pop3/camel-pop3-store.c:519
+#: camel/providers/pop3/camel-pop3-store.c:518
 #: shell/e-shell.c:2102
 #: shell/e-storage.c:606
 #: shell/evolution-shell-component.c:1200
@@ -2986,7 +2986,7 @@ msgstr "Протокол не підтримується"
 #: camel/camel-service.c:847
 #: camel/camel-service.c:890
 #: camel/providers/pop3/camel-pop3-store.c:436
-#: camel/providers/pop3/camel-pop3-store.c:513
+#: camel/providers/pop3/camel-pop3-store.c:512
 msgid "Cancelled"
 msgstr "Скасовано"
 
@@ -3961,7 +3961,7 @@ msgstr "Неможливо створити вікно календарю. Пе�
 #: mail/importers/netscape-importer.c:1862
 #: my-evolution/my-evolution.glade.h:3
 #: shell/e-local-storage.c:177
-#: shell/e-shortcuts.c:1084
+#: shell/e-shortcuts.c:1085
 msgid "Calendar"
 msgstr "Календар"
 
@@ -3989,7 +3989,7 @@ msgstr "Тека, що містить інформацію про зустріч
 #: my-evolution/e-summary-tasks.c:326
 #: my-evolution/e-summary-tasks.c:344
 #: shell/e-local-storage.c:183
-#: shell/e-shortcuts.c:1085
+#: shell/e-shortcuts.c:1086
 msgid "Tasks"
 msgstr "Завдання"
 
@@ -4144,10 +4144,10 @@ msgstr ""
 #: calendar/gui/calendar-model.c:1177
 #: calendar/gui/dialogs/meeting-page.c:288
 #: calendar/gui/dialogs/meeting-page.glade.h:1
-#: composer/e-msg-composer.c:1978
+#: composer/e-msg-composer.c:1979
 #: mail/folder-browser.c:1730
-#: mail/mail-account-gui.c:1229
-#: mail/mail-account-gui.c:1655
+#: mail/mail-account-gui.c:1246
+#: mail/mail-account-gui.c:1672
 #: mail/mail-accounts.c:392
 #: mail/mail-config.glade.h:77
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:196
@@ -4844,7 +4844,7 @@ msgstr "Немає зведення"
 #: calendar/gui/e-calendar-table.c:1035
 #: calendar/gui/e-day-view.c:3929
 #: calendar/gui/e-week-view.c:3737
-#: composer/e-msg-composer.c:1155
+#: composer/e-msg-composer.c:1156
 msgid "Save as..."
 msgstr "Зберегти як..."
 
@@ -4939,7 +4939,7 @@ msgid "Meeting"
 msgstr "Засідання"
 
 #: calendar/gui/dialogs/event-page.c:644
-#: calendar/gui/dialogs/task-page.c:546
+#: calendar/gui/dialogs/task-page.c:554
 #, fuzzy
 msgid "Start date is wrong"
 msgstr "Дата початку"
@@ -5284,7 +5284,7 @@ msgstr "Основні"
 msgid "Assignment"
 msgstr "Призначення"
 
-#: calendar/gui/dialogs/task-page.c:519
+#: calendar/gui/dialogs/task-page.c:527
 msgid "Due date is wrong"
 msgstr ""
 
@@ -5449,8 +5449,8 @@ msgid "Alarms"
 msgstr "Сповіщення"
 
 #: calendar/gui/e-calendar-table.etspec.h:7
-#: camel/camel-filter-driver.c:1000
-#: camel/camel-filter-driver.c:1095
+#: camel/camel-filter-driver.c:1156
+#: camel/camel-filter-driver.c:1251
 msgid "Complete"
 msgstr "Виконано"
 
@@ -5481,7 +5481,7 @@ msgstr "Дата початку"
 #: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:56
 #: shell/e-shell.c:765
-#: shell/e-shortcuts.c:1081
+#: shell/e-shortcuts.c:1082
 msgid "Summary"
 msgstr "Зведення"
 
@@ -6630,7 +6630,7 @@ msgstr "Контакти:"
 #: calendar/gui/print.c:2519
 #: calendar/gui/print.c:2597
 #: calendar/gui/tasks-control.c:579
-#: mail/mail-callbacks.c:2924
+#: mail/mail-callbacks.c:2925
 #: my-evolution/e-summary.c:617
 msgid "Print Preview"
 msgstr "Перегляд друку"
@@ -6876,23 +6876,23 @@ msgstr "Аврика/Бамако"
 
 #: calendar/zones.h:13
 msgid "Africa/Bangui"
-msgstr ""
+msgstr "Африка/Банґі"
 
 #: calendar/zones.h:14
 msgid "Africa/Banjul"
-msgstr ""
+msgstr "Африка/Банджул"
 
 #: calendar/zones.h:15
 msgid "Africa/Bissau"
-msgstr ""
+msgstr "Африка/Бісау"
 
 #: calendar/zones.h:16
 msgid "Africa/Blantyre"
-msgstr ""
+msgstr "Африка/Блантир"
 
 #: calendar/zones.h:17
 msgid "Africa/Brazzaville"
-msgstr ""
+msgstr "Африка/Браззавіль"
 
 #: calendar/zones.h:18
 msgid "Africa/Bujumbura"
@@ -6908,11 +6908,11 @@ msgstr "Африка/Касабланка"
 
 #: calendar/zones.h:21
 msgid "Africa/Ceuta"
-msgstr ""
+msgstr "Африка/Сеута"
 
 #: calendar/zones.h:22
 msgid "Africa/Conakry"
-msgstr ""
+msgstr "Африка/Конакрі"
 
 #: calendar/zones.h:23
 msgid "Africa/Dakar"
@@ -6920,7 +6920,7 @@ msgstr "Африка/Дакар"
 
 #: calendar/zones.h:24
 msgid "Africa/Dar_es_Salaam"
-msgstr ""
+msgstr "Фарика/Дар-ес-Салам"
 
 #: calendar/zones.h:25
 msgid "Africa/Djibouti"
@@ -6932,7 +6932,7 @@ msgstr "Африка/Дуала"
 
 #: calendar/zones.h:27
 msgid "Africa/El_Aaiun"
-msgstr ""
+msgstr "Африка/Ель-Аюн"
 
 #: calendar/zones.h:28
 msgid "Africa/Freetown"
@@ -6940,7 +6940,7 @@ msgstr "Африка/Фрітаун"
 
 #: calendar/zones.h:29
 msgid "Africa/Gaborone"
-msgstr ""
+msgstr "Африка/Ґабороне"
 
 #: calendar/zones.h:30
 msgid "Africa/Harare"
@@ -6960,7 +6960,7 @@ msgstr "Африка/Хартум"
 
 #: calendar/zones.h:34
 msgid "Africa/Kigali"
-msgstr ""
+msgstr "Африка/Кіґалі"
 
 #: calendar/zones.h:35
 msgid "Africa/Kinshasa"
@@ -6972,11 +6972,11 @@ msgstr "Африка/Лагос"
 
 #: calendar/zones.h:37
 msgid "Africa/Libreville"
-msgstr ""
+msgstr "Африка/Лібревіль"
 
 #: calendar/zones.h:38
 msgid "Africa/Lome"
-msgstr ""
+msgstr "Африка/Ломе"
 
 #: calendar/zones.h:39
 msgid "Africa/Luanda"
@@ -6992,7 +6992,7 @@ msgstr "Африка/Лусака"
 
 #: calendar/zones.h:42
 msgid "Africa/Malabo"
-msgstr ""
+msgstr "Африка/Малабо"
 
 #: calendar/zones.h:43
 msgid "Africa/Maputo"
@@ -7000,11 +7000,11 @@ msgstr "Африка/Мапуту"
 
 #: calendar/zones.h:44
 msgid "Africa/Maseru"
-msgstr ""
+msgstr "Африка/Масеру"
 
 #: calendar/zones.h:45
 msgid "Africa/Mbabane"
-msgstr ""
+msgstr "Африка/Мбабане"
 
 #: calendar/zones.h:46
 msgid "Africa/Mogadishu"
@@ -7012,7 +7012,7 @@ msgstr "Африка/Могадішо"
 
 #: calendar/zones.h:47
 msgid "Africa/Monrovia"
-msgstr ""
+msgstr "Африка/Монровія"
 
 #: calendar/zones.h:48
 msgid "Africa/Nairobi"
@@ -7024,15 +7024,15 @@ msgstr "Африка/Нджамена"
 
 #: calendar/zones.h:50
 msgid "Africa/Niamey"
-msgstr ""
+msgstr "Африка/Ніамей"
 
 #: calendar/zones.h:51
 msgid "Africa/Nouakchott"
-msgstr ""
+msgstr "Африка/Нуакшот"
 
 #: calendar/zones.h:52
 msgid "Africa/Ouagadougou"
-msgstr ""
+msgstr "Африка/Уаґадуґу"
 
 #: calendar/zones.h:53
 msgid "Africa/Porto-Novo"
@@ -7044,7 +7044,7 @@ msgstr "Африка/Сао-Томе"
 
 #: calendar/zones.h:55
 msgid "Africa/Timbuktu"
-msgstr ""
+msgstr "Африка/Тімбукту"
 
 #: calendar/zones.h:56
 msgid "Africa/Tripoli"
@@ -7056,7 +7056,7 @@ msgstr "Африка/Туніс"
 
 #: calendar/zones.h:58
 msgid "Africa/Windhoek"
-msgstr ""
+msgstr "Африка/Віндхук"
 
 #: calendar/zones.h:59
 msgid "America/Adak"
@@ -7064,11 +7064,11 @@ msgstr "Америка/Адак"
 
 #: calendar/zones.h:60
 msgid "America/Anchorage"
-msgstr ""
+msgstr "Америка/Анкорідж"
 
 #: calendar/zones.h:61
 msgid "America/Anguilla"
-msgstr ""
+msgstr "Америка/Анґілья"
 
 #: calendar/zones.h:62
 msgid "America/Antigua"
@@ -7076,7 +7076,7 @@ msgstr "Америка/Антігуа"
 
 #: calendar/zones.h:63
 msgid "America/Araguaina"
-msgstr ""
+msgstr "Америа/Араґуяна"
 
 #: calendar/zones.h:64
 msgid "America/Aruba"
@@ -7084,7 +7084,7 @@ msgstr "Америка/Аруба"
 
 #: calendar/zones.h:65
 msgid "America/Asuncion"
-msgstr ""
+msgstr "Америка/Асунсьон"
 
 #: calendar/zones.h:66
 msgid "America/Barbados"
@@ -7092,7 +7092,7 @@ msgstr "Америка/Барбадос"
 
 #: calendar/zones.h:67
 msgid "America/Belem"
-msgstr ""
+msgstr "Америка/Белем"
 
 #: calendar/zones.h:68
 msgid "America/Belize"
@@ -7100,7 +7100,7 @@ msgstr "Америка/Беліз"
 
 #: calendar/zones.h:69
 msgid "America/Boa_Vista"
-msgstr ""
+msgstr "Америка/Боа-Вішта"
 
 #: calendar/zones.h:70
 msgid "America/Bogota"
@@ -7108,11 +7108,11 @@ msgstr "Америка/Богота"
 
 #: calendar/zones.h:71
 msgid "America/Boise"
-msgstr ""
+msgstr "Америка/Бойсе"
 
 #: calendar/zones.h:72
 msgid "America/Buenos_Aires"
-msgstr ""
+msgstr "Америка/Буенос-Айрес"
 
 #: calendar/zones.h:73
 msgid "America/Cambridge_Bay"
@@ -8446,85 +8446,92 @@ msgstr "Збереження теки \"%s\""
 msgid "You must be working online to complete this operation"
 msgstr "Ви маєте працювати в мережі для завершення цієї операції"
 
-#: camel/camel-filter-driver.c:767
-#: camel/camel-filter-driver.c:776
-msgid "Syncing folders"
-msgstr "Синхронізація тек"
-
-#: camel/camel-filter-driver.c:865
-#: camel/camel-filter-driver.c:1238
-#, c-format
-msgid "Error parsing filter: %s: %s"
-msgstr "Помилка аналізу фільтра: %s: %s"
-
-#: camel/camel-filter-driver.c:874
-#: camel/camel-filter-driver.c:1244
-#, c-format
-msgid "Error executing filter: %s: %s"
-msgstr "Помилка виконання фільтра: %s: %s"
-
-#: camel/camel-filter-driver.c:941
-msgid "Unable to open spool folder"
-msgstr "Не вдалося відкрити буферну теку"
-
-#: camel/camel-filter-driver.c:950
-msgid "Unable to process spool folder"
-msgstr "Не вдалося обробити буферну теку"
-
-#: camel/camel-filter-driver.c:965
-#, c-format
-msgid "Getting message %d (%d%%)"
-msgstr "Отримання повідомлення %d (%d%%)"
-
-#: camel/camel-filter-driver.c:969
-msgid "Cannot open message"
-msgstr "Неможливо відкрити повідомлення"
-
-#: camel/camel-filter-driver.c:970
-#: camel/camel-filter-driver.c:982
-#, c-format
-msgid "Failed on message %d"
-msgstr "Збій на повідомленні %d"
-
-#: camel/camel-filter-driver.c:996
-#: camel/camel-filter-driver.c:1090
-msgid "Syncing folder"
-msgstr "Синхронізація теки"
-
-#: camel/camel-filter-driver.c:1057
-#, c-format
-msgid "Getting message %d of %d"
-msgstr "Отримання повідомлення %d з %d"
-
-#: camel/camel-filter-driver.c:1072
-#, c-format
-msgid "Failed at message %d of %d"
-msgstr "Збій на повідомленні %d з %d"
-
-#: camel/camel-filter-search.c:139
-#, fuzzy
-msgid "Failed to retrieve message"
-msgstr "Збій декодування повідомлення."
-
-#: camel/camel-filter-search.c:387
-#, fuzzy
-msgid "Invalid arguments to (system-flag)"
-msgstr "Невірні аргументи"
-
-#: camel/camel-filter-search.c:402
-#, fuzzy
-msgid "Invalid arguments to (user-tag)"
-msgstr "Невірні аргументи"
-
-#: camel/camel-filter-search.c:514
+#: camel/camel-filter-driver.c:667
+#: camel/camel-filter-search.c:510
 #, fuzzy, c-format
 msgid "Failed to create pipe to '%s': %s"
 msgstr "Збій кешування повідомлення %s: %s"
 
+#: camel/camel-filter-driver.c:715
 #: camel/camel-filter-search.c:550
 #, fuzzy, c-format
 msgid "Failed to create create child process '%s': %s"
 msgstr "Збій кешування повідомлення %s: %s"
+
+#: camel/camel-filter-driver.c:744
+#, fuzzy, c-format
+msgid "Invalid message stream received from %s: %s"
+msgstr "Не вдалося створити каталог %s: %s"
+
+#: camel/camel-filter-driver.c:923
+#: camel/camel-filter-driver.c:932
+msgid "Syncing folders"
+msgstr "Синхронізація тек"
+
+#: camel/camel-filter-driver.c:1021
+#: camel/camel-filter-driver.c:1394
+#, c-format
+msgid "Error parsing filter: %s: %s"
+msgstr "Помилка аналізу фільтра: %s: %s"
+
+#: camel/camel-filter-driver.c:1030
+#: camel/camel-filter-driver.c:1400
+#, c-format
+msgid "Error executing filter: %s: %s"
+msgstr "Помилка виконання фільтра: %s: %s"
+
+#: camel/camel-filter-driver.c:1097
+msgid "Unable to open spool folder"
+msgstr "Не вдалося відкрити буферну теку"
+
+#: camel/camel-filter-driver.c:1106
+msgid "Unable to process spool folder"
+msgstr "Не вдалося обробити буферну теку"
+
+#: camel/camel-filter-driver.c:1121
+#, c-format
+msgid "Getting message %d (%d%%)"
+msgstr "Отримання повідомлення %d (%d%%)"
+
+#: camel/camel-filter-driver.c:1125
+msgid "Cannot open message"
+msgstr "Неможливо відкрити повідомлення"
+
+#: camel/camel-filter-driver.c:1126
+#: camel/camel-filter-driver.c:1138
+#, c-format
+msgid "Failed on message %d"
+msgstr "Збій на повідомленні %d"
+
+#: camel/camel-filter-driver.c:1152
+#: camel/camel-filter-driver.c:1246
+msgid "Syncing folder"
+msgstr "Синхронізація теки"
+
+#: camel/camel-filter-driver.c:1213
+#, c-format
+msgid "Getting message %d of %d"
+msgstr "Отримання повідомлення %d з %d"
+
+#: camel/camel-filter-driver.c:1228
+#, c-format
+msgid "Failed at message %d of %d"
+msgstr "Збій на повідомленні %d з %d"
+
+#: camel/camel-filter-search.c:133
+#, fuzzy
+msgid "Failed to retrieve message"
+msgstr "Збій декодування повідомлення."
+
+#: camel/camel-filter-search.c:383
+#, fuzzy
+msgid "Invalid arguments to (system-flag)"
+msgstr "Невірні аргументи"
+
+#: camel/camel-filter-search.c:398
+#, fuzzy
+msgid "Invalid arguments to (user-tag)"
+msgstr "Невірні аргументи"
 
 #: camel/camel-filter-search.c:656
 #: camel/camel-filter-search.c:664
@@ -8532,26 +8539,26 @@ msgstr "Збій кешування повідомлення %s: %s"
 msgid "Error executing filter search: %s: %s"
 msgstr "Помилка виконання фільтрованого пошуку: %s: %s"
 
-#: camel/camel-folder-search.c:343
+#: camel/camel-folder-search.c:346
 #, c-format
 msgid "Cannot parse search expression: %s:\n"
 "%s"
 msgstr "Неможливо проаналізувати пошуковий вираз: %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:353
+#: camel/camel-folder-search.c:356
 #, c-format
 msgid "Error executing search expression: %s:\n"
 "%s"
 msgstr "Помилка виконання пошукового виразу: %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:570
-#: camel/camel-folder-search.c:598
+#: camel/camel-folder-search.c:573
+#: camel/camel-folder-search.c:601
 msgid "(match-all) requires a single bool result"
 msgstr "(співпадають всі) потребує єдиного логічного результату"
 
-#: camel/camel-folder-search.c:650
+#: camel/camel-folder-search.c:653
 #, c-format
 msgid "Performing query on unknown header: %s"
 msgstr "Виконання запиту на невідомому заголовці: %s"
@@ -8839,35 +8846,35 @@ msgstr "CRAM-MD5"
 msgid "This option will connect to the server using a secure CRAM-MD5 password, if the server supports it."
 msgstr "Під'єднуватись до серверу з використанням протоколу ідентифікації CRAM-MD5, якщо сервер його підтримує."
 
-#: camel/camel-sasl-digest-md5.c:43
+#: camel/camel-sasl-digest-md5.c:44
 msgid "DIGEST-MD5"
 msgstr "DIGEST-MD5"
 
-#: camel/camel-sasl-digest-md5.c:45
+#: camel/camel-sasl-digest-md5.c:46
 msgid "This option will connect to the server using a secure DIGEST-MD5 password, if the server supports it."
 msgstr "Під'єднуватись до серверу з використанням зашифрованих паролів DIGEST-MD5, якщо сервер його підтримує."
 
-#: camel/camel-sasl-digest-md5.c:810
+#: camel/camel-sasl-digest-md5.c:811
 msgid "Server challenge too long (>2048 octets)\n"
 msgstr "Відповідь сервера надто довга (>2048 октетів)\n"
 
-#: camel/camel-sasl-digest-md5.c:819
+#: camel/camel-sasl-digest-md5.c:820
 msgid "Server challenge invalid\n"
 msgstr "Невірна відповідь сервера\n"
 
-#: camel/camel-sasl-digest-md5.c:825
+#: camel/camel-sasl-digest-md5.c:826
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
 msgstr "Відповідь сервера містить невірну \"Якість захисту\" лексему.\n"
 
-#: camel/camel-sasl-digest-md5.c:847
+#: camel/camel-sasl-digest-md5.c:848
 msgid "Server response did not contain authorization data\n"
 msgstr "Відповідь сервера не містить інформації авторизації\n"
 
-#: camel/camel-sasl-digest-md5.c:865
+#: camel/camel-sasl-digest-md5.c:866
 msgid "Server response contained incomplete authorization data\n"
 msgstr "Відповідь сервера містить неповну інформацію авторизації\n"
 
-#: camel/camel-sasl-digest-md5.c:875
+#: camel/camel-sasl-digest-md5.c:876
 msgid "Server response does not match\n"
 msgstr "Невірна відповідь сервера\n"
 
@@ -8996,7 +9003,7 @@ msgstr "POP до SMTP авторизація, використовуючи не�
 msgid "POP Before SMTP auth using a non-pop source"
 msgstr "POP до SMTP авторизація, використовуючи не POP джерело"
 
-#: camel/camel-search-private.c:113
+#: camel/camel-search-private.c:114
 #, c-format
 msgid "Regular expression compilation failed: %s: %s"
 msgstr "Збій при компіляції регулярного виразу: %s: %s"
@@ -9368,12 +9375,12 @@ msgstr "Неможливо перейменувати теку: %s: Немає �
 #: camel/providers/imap/camel-imap-command.c:224
 #: camel/providers/imap/camel-imap-command.c:263
 #: camel/providers/imap/camel-imap-command.c:452
-#: camel/providers/imap/camel-imap-store.c:2641
+#: camel/providers/imap/camel-imap-store.c:2639
 msgid "Operation cancelled"
 msgstr "Операцію скасовано"
 
 #: camel/providers/imap/camel-imap-command.c:308
-#: camel/providers/imap/camel-imap-store.c:2644
+#: camel/providers/imap/camel-imap-store.c:2642
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Сервер несподівано закрив з'єднання: %s"
@@ -9588,17 +9595,16 @@ msgstr "Сервер IMAP %s не підтримує запитаного тип
 msgid "No support for authentication type %s"
 msgstr "Немає підтримки автенфікації типу %s"
 
-#: camel/providers/imap/camel-imap-store.c:1106
+#: camel/providers/imap/camel-imap-store.c:1105
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sБудь ласка, введіть пароль IMAP для %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:1121
-#: camel/providers/smtp/camel-smtp-transport.c:523
+#: camel/providers/imap/camel-imap-store.c:1119
 msgid "You didn't enter a password."
 msgstr "Ви не ввели пароль."
 
-#: camel/providers/imap/camel-imap-store.c:1150
+#: camel/providers/imap/camel-imap-store.c:1148
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -9609,23 +9615,23 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:1495
-#: camel/providers/imap/camel-imap-store.c:1637
+#: camel/providers/imap/camel-imap-store.c:1493
+#: camel/providers/imap/camel-imap-store.c:1635
 #, c-format
 msgid "No such folder %s"
 msgstr "Невірна тека \"%s\""
 
-#: camel/providers/imap/camel-imap-store.c:1838
+#: camel/providers/imap/camel-imap-store.c:1836
 #, fuzzy, c-format
 msgid "The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr "Назва теки не може містити символ вводу."
 
-#: camel/providers/imap/camel-imap-store.c:1850
+#: camel/providers/imap/camel-imap-store.c:1848
 #, fuzzy, c-format
 msgid "Unknown parent folder: %s"
 msgstr "Невідома помилка: %s"
 
-#: camel/providers/imap/camel-imap-store.c:1886
+#: camel/providers/imap/camel-imap-store.c:1884
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "Батьківська тека не дозволяє розміщувати підтеки"
 
@@ -10224,7 +10230,7 @@ msgid "Could not connect to POP server %s"
 msgstr "Не вдалося з'єднатись з сервером POP на %s."
 
 #: camel/providers/pop3/camel-pop3-store.c:392
-#: camel/providers/pop3/camel-pop3-store.c:502
+#: camel/providers/pop3/camel-pop3-store.c:501
 #, fuzzy, c-format
 msgid "Unable to connect to POP server %s: No support for requested authentication mechanism."
 msgstr "Неможливо під'єднатись до POP серверу.\n"
@@ -10248,13 +10254,13 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/pop3/camel-pop3-store.c:462
+#: camel/providers/pop3/camel-pop3-store.c:461
 #, fuzzy, c-format
 msgid "%sPlease enter the POP password for %s@%s"
 msgstr "%sБудь ласка, введіть пароль POP3 для %s@%s"
 
-#: camel/providers/pop3/camel-pop3-store.c:516
-#: camel/providers/pop3/camel-pop3-store.c:523
+#: camel/providers/pop3/camel-pop3-store.c:515
+#: camel/providers/pop3/camel-pop3-store.c:522
 #, fuzzy, c-format
 msgid "Unable to connect to POP server %s.\n"
 "Error sending password: %s"
@@ -10275,46 +10281,46 @@ msgstr "Sendmail"
 msgid "For delivering mail by passing it to the \"sendmail\" program on the local system."
 msgstr "Для надсилання пошти шляхом передачі програмі \"sendmail\" на локальній системі."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:108
+#: camel/providers/sendmail/camel-sendmail-transport.c:110
 #, fuzzy
 msgid "Could not parse recipient list"
 msgstr "Неможливо проаналізувати URL \"%s\""
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:120
+#: camel/providers/sendmail/camel-sendmail-transport.c:136
 #, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
 msgstr "Не вдалося створити канал до sendmail: %s: пошту не відіслано"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:137
+#: camel/providers/sendmail/camel-sendmail-transport.c:153
 #, c-format
 msgid "Could not fork sendmail: %s: mail not sent"
 msgstr "Не вдалося виконати sendmail: %s: пошту не відіслано"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:164
+#: camel/providers/sendmail/camel-sendmail-transport.c:181
 #, c-format
 msgid "Could not send message: %s"
 msgstr "Не вдалося відіслати повідомлення: %s"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:186
+#: camel/providers/sendmail/camel-sendmail-transport.c:212
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
 msgstr "sendmail завершився сигналом %s: пошту не відіслано."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:193
+#: camel/providers/sendmail/camel-sendmail-transport.c:219
 #, c-format
 msgid "Could not execute %s: mail not sent."
 msgstr "Не вдалося виконати %s: пошту не відіслано."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:198
+#: camel/providers/sendmail/camel-sendmail-transport.c:224
 #, c-format
 msgid "sendmail exited with status %d: mail not sent."
 msgstr "sendmail завершився з станом %d: пошту не відіслано."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:212
+#: camel/providers/sendmail/camel-sendmail-transport.c:251
 msgid "sendmail"
 msgstr "sendmail"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:214
+#: camel/providers/sendmail/camel-sendmail-transport.c:253
 msgid "Mail delivery via the sendmail program"
 msgstr "Постачання пошти через програму sendmail"
 
@@ -10464,7 +10470,7 @@ msgstr "SMTP сервер %s не підтримує автенфікацію %s
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sВведіть SMTP пароль для %s@%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:531
+#: camel/providers/smtp/camel-smtp-transport.c:529
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -10475,89 +10481,89 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:664
+#: camel/providers/smtp/camel-smtp-transport.c:662
 #, c-format
 msgid "SMTP server %s"
 msgstr "Сервер SMTP %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:664
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "Постачання пошти SMTP через %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:684
+#: camel/providers/smtp/camel-smtp-transport.c:682
 msgid "Cannot send message: sender address not valid."
 msgstr "Неможливо відіслати повідомлення: адреса відправника не вірна."
 
-#: camel/providers/smtp/camel-smtp-transport.c:689
+#: camel/providers/smtp/camel-smtp-transport.c:687
 #: mail/mail-ops.c:613
 msgid "Sending message"
 msgstr "Відсилання повідомлення"
 
-#: camel/providers/smtp/camel-smtp-transport.c:704
+#: camel/providers/smtp/camel-smtp-transport.c:702
 msgid "Cannot send message: no recipients defined."
 msgstr "Неможливо відіслати повідомлення: не визначено отримувачів"
 
-#: camel/providers/smtp/camel-smtp-transport.c:713
+#: camel/providers/smtp/camel-smtp-transport.c:711
 #, fuzzy
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Неможливо відіслати повідомлення: не визначено отримувачів"
 
-#: camel/providers/smtp/camel-smtp-transport.c:881
+#: camel/providers/smtp/camel-smtp-transport.c:879
 msgid "SMTP Greeting"
 msgstr "Привітання SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:927
+#: camel/providers/smtp/camel-smtp-transport.c:925
 #, c-format
 msgid "HELO request timed out: %s"
 msgstr "Затримка відповіді на HELO: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:949
+#: camel/providers/smtp/camel-smtp-transport.c:947
 msgid "HELO response error"
 msgstr "Помилка відповіді на HELO"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1015
+#: camel/providers/smtp/camel-smtp-transport.c:1013
 msgid "SMTP Authentication"
 msgstr "Автенфікація SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1021
+#: camel/providers/smtp/camel-smtp-transport.c:1019
 msgid "Error creating SASL authentication object."
 msgstr "Помилка створення об'єкта автенфікації SASL"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1038
-#: camel/providers/smtp/camel-smtp-transport.c:1050
+#: camel/providers/smtp/camel-smtp-transport.c:1036
+#: camel/providers/smtp/camel-smtp-transport.c:1048
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "Перевищено час очікування відповіді на AUTH: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1059
+#: camel/providers/smtp/camel-smtp-transport.c:1057
 msgid "AUTH request failed."
 msgstr "Збій запиту AUTH"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1120
+#: camel/providers/smtp/camel-smtp-transport.c:1118
 msgid "Bad authentication response from server.\n"
 msgstr "Невірна автенфікаціна відповідь від сервера.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1145
+#: camel/providers/smtp/camel-smtp-transport.c:1143
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Затримка відповіді на MAIL FROM: %s: пошту не відіслано"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1165
+#: camel/providers/smtp/camel-smtp-transport.c:1163
 msgid "MAIL FROM response error"
 msgstr "Помилка відповіді на MAIL FROM"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1189
+#: camel/providers/smtp/camel-smtp-transport.c:1187
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "Затримка відповіді на RCPT TO: %s: пошту не відіслано"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1211
+#: camel/providers/smtp/camel-smtp-transport.c:1209
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1253
+#: camel/providers/smtp/camel-smtp-transport.c:1251
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Затримка відповіді на DATA: %s: пошту не відіслано"
@@ -10565,7 +10571,7 @@ msgstr "Затримка відповіді на DATA: %s: пошту не ві�
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1273
+#: camel/providers/smtp/camel-smtp-transport.c:1271
 msgid "DATA response error"
 msgstr "Помилка відповіді на DATA"
 
@@ -10662,7 +10668,7 @@ msgstr "Показувати під'єднання автоматично"
 msgid "Hey you, dunce. You need an account to send mail doncha know."
 msgstr ""
 
-#: composer/e-msg-composer-hdrs.c:480
+#: composer/e-msg-composer-hdrs.c:479
 msgid "Click here for the address book"
 msgstr "Клацніть тут щоб викликати адресну книгу"
 
@@ -10673,57 +10679,57 @@ msgstr "Клацніть тут щоб викликати адресну кни�
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: composer/e-msg-composer-hdrs.c:512
+#: composer/e-msg-composer-hdrs.c:511
 msgid "Reply-To:"
 msgstr "Відповідати на:"
 
 #.
 #. * From
 #.
-#: composer/e-msg-composer-hdrs.c:523
+#: composer/e-msg-composer-hdrs.c:522
 msgid "From:"
 msgstr "Від:"
 
 #.
 #. * Subject
 #.
-#: composer/e-msg-composer-hdrs.c:529
+#: composer/e-msg-composer-hdrs.c:528
 msgid "Subject:"
 msgstr "Тема:"
 
-#: composer/e-msg-composer-hdrs.c:543
+#: composer/e-msg-composer-hdrs.c:542
 msgid "To:"
 msgstr "До:"
 
-#: composer/e-msg-composer-hdrs.c:544
+#: composer/e-msg-composer-hdrs.c:543
 msgid "Enter the recipients of the message"
 msgstr "Введіть адресатів повідомлення"
 
-#: composer/e-msg-composer-hdrs.c:547
+#: composer/e-msg-composer-hdrs.c:546
 msgid "Cc:"
 msgstr "Cc:"
 
-#: composer/e-msg-composer-hdrs.c:548
+#: composer/e-msg-composer-hdrs.c:547
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Введіть адресатів, що отримають копію повідомлення"
 
-#: composer/e-msg-composer-hdrs.c:551
+#: composer/e-msg-composer-hdrs.c:550
 msgid "Bcc:"
 msgstr "Bcc:"
 
-#: composer/e-msg-composer-hdrs.c:552
+#: composer/e-msg-composer-hdrs.c:551
 msgid "Enter the addresses that will receive a carbon copy of the message without appearing in the recipient list of the message."
 msgstr "Введіть адресатів, що отримають копію повідомлення не попавши в список отримувачів."
 
 #.
 #. * Post-To
 #.
-#: composer/e-msg-composer-hdrs.c:559
+#: composer/e-msg-composer-hdrs.c:558
 #, fuzzy
 msgid "Post To:"
 msgstr "Порто"
 
-#: composer/e-msg-composer-hdrs.c:561
+#: composer/e-msg-composer-hdrs.c:560
 #, fuzzy
 msgid "Posting destination"
 msgstr "Без опису"
@@ -10734,76 +10740,76 @@ msgstr "Без опису"
 msgid "Attach file(s)"
 msgstr "Долучити файл"
 
-#: composer/e-msg-composer.c:526
+#: composer/e-msg-composer.c:527
 #, fuzzy
 msgid "Could not create a PGP signature context"
 msgstr "Неможливо створити контекст цифрового підпису PGP."
 
-#: composer/e-msg-composer.c:805
+#: composer/e-msg-composer.c:806
 #, c-format
 msgid "Error while reading file %s:\n"
 "%s"
 msgstr "Помилка зчитування файлу: %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1168
+#: composer/e-msg-composer.c:1169
 msgid "File exists, overwrite?"
 msgstr "Файл існує, переписати?"
 
-#: composer/e-msg-composer.c:1186
+#: composer/e-msg-composer.c:1187
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Помилка збереження файлу: %s"
 
-#: composer/e-msg-composer.c:1209
+#: composer/e-msg-composer.c:1210
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Помилка завантаження файлу: %s"
 
-#: composer/e-msg-composer.c:1244
+#: composer/e-msg-composer.c:1245
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Помилка доступу до файлу: %s"
 
-#: composer/e-msg-composer.c:1252
+#: composer/e-msg-composer.c:1253
 msgid "Unable to retrieve message from editor"
 msgstr "Неможливо отримати повідомлення від редактора"
 
-#: composer/e-msg-composer.c:1259
+#: composer/e-msg-composer.c:1260
 #, c-format
 msgid "Unable to seek on file: %s\n"
 "%s"
 msgstr "Неможливо встановити позицію у файлі: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1266
+#: composer/e-msg-composer.c:1267
 #, c-format
 msgid "Unable to truncate file: %s\n"
 "%s"
 msgstr "Неможливо обрізати файл: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1275
+#: composer/e-msg-composer.c:1276
 #, fuzzy, c-format
 msgid "Unable to copy file descriptor: %s\n"
 "%s"
 msgstr "Неможливо встановити позицію у файлі: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1284
+#: composer/e-msg-composer.c:1285
 #, c-format
 msgid "Error autosaving message: %s\n"
 " %s"
 msgstr "Помилка автозбереження файлу: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1378
+#: composer/e-msg-composer.c:1379
 msgid "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr "Ximian Evolution знайшов незбережені файли попереднього сеансу.\n"
 "Бажаєте спробувати їх відновити?"
 
-#: composer/e-msg-composer.c:1540
+#: composer/e-msg-composer.c:1541
 #, fuzzy, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10814,39 +10820,39 @@ msgstr ""
 "\n"
 "Бажаєте зберегти зміни?"
 
-#: composer/e-msg-composer.c:1545
+#: composer/e-msg-composer.c:1546
 msgid "_Discard Changes"
 msgstr ""
 
-#: composer/e-msg-composer.c:1549
+#: composer/e-msg-composer.c:1550
 msgid "Warning: Modified Message"
 msgstr "Увага: змінене повідомлення"
 
-#: composer/e-msg-composer.c:1581
+#: composer/e-msg-composer.c:1582
 msgid "Open file"
 msgstr "Відкрити файл"
 
-#: composer/e-msg-composer.c:1939
+#: composer/e-msg-composer.c:1940
 msgid "Signature:"
 msgstr "Підпис:"
 
-#: composer/e-msg-composer.c:1979
-#: mail/mail-account-gui.c:1230
+#: composer/e-msg-composer.c:1980
+#: mail/mail-account-gui.c:1247
 msgid "Autogenerated"
 msgstr ""
 
-#: composer/e-msg-composer.c:2158
-#: composer/e-msg-composer.c:2753
+#: composer/e-msg-composer.c:2159
+#: composer/e-msg-composer.c:2754
 msgid "Compose a message"
 msgstr "Підготувати повідомлення"
 
-#: composer/e-msg-composer.c:2784
+#: composer/e-msg-composer.c:2785
 msgid "Could not create composer window:\n"
 "Unable to activate address selector control."
 msgstr "Не вдалося створити вікно редагування:\n"
 "Неможливо активувати керуючий елемент обрання адреси."
 
-#: composer/e-msg-composer.c:2810
+#: composer/e-msg-composer.c:2811
 #, fuzzy
 msgid ""
 "Could not create composer window:\n"
@@ -10856,13 +10862,13 @@ msgid ""
 msgstr "Не вдалося створити вікно редактора:\n"
 "Неможливо активувати компонент HTML-редактора."
 
-#: composer/e-msg-composer.c:2870
+#: composer/e-msg-composer.c:2871
 msgid "Could not create composer window:\n"
 "Unable to activate HTML editor component."
 msgstr "Не вдалося створити вікно редактора:\n"
 "Неможливо активувати компонент HTML-редактора."
 
-#: composer/e-msg-composer.c:3886
+#: composer/e-msg-composer.c:3887
 #, fuzzy
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)<b>"
 msgstr "<b>(Редактор містить не текстове тіло повідомлення яке неможливо відредагувати.)<b>"
@@ -11235,8 +11241,8 @@ msgstr "Необхадно вказати теку."
 
 #: filter/filter-folder.c:243
 #: filter/vfolder-rule.c:408
-#: mail/mail-account-gui.c:1475
-#: mail/mail-account-gui.c:1489
+#: mail/mail-account-gui.c:1492
+#: mail/mail-account-gui.c:1506
 msgid "Select Folder"
 msgstr "Вибір теки"
 
@@ -11556,7 +11562,7 @@ msgid "Stop Processing"
 msgstr "Зупинити обробку"
 
 #: filter/libfilter-i18n.h:38
-#: mail/mail-format.c:906
+#: mail/mail-format.c:908
 #: mail/message-list.etspec.h:13
 #: mail/message-tag-followup.c:305
 #: mail/message-tags.glade.h:4
@@ -12057,12 +12063,12 @@ msgstr "З'єднання..."
 msgid "Cannot register storage with shell"
 msgstr "Неможливо зареєструвати сховище за допомогою оболонки"
 
-#: mail/folder-browser-ui.c:484
+#: mail/folder-browser-ui.c:483
 #, c-format
 msgid "Properties for \"%s\""
 msgstr "Властивості для \"%s\""
 
-#: mail/folder-browser-ui.c:486
+#: mail/folder-browser-ui.c:485
 msgid "Properties"
 msgstr "Властивості"
 
@@ -12327,23 +12333,23 @@ msgstr "Ви ще не ввели потрібну інформацію."
 msgid "Evolution Account Editor"
 msgstr "Редактор облікових рахунків Evolution"
 
-#: mail/mail-account-gui.c:743
+#: mail/mail-account-gui.c:744
 #: mail/mail-config.glade.h:156
 msgid "_Host:"
 msgstr "Комп'ютер:"
 
-#: mail/mail-account-gui.c:747
+#: mail/mail-account-gui.c:748
 #: mail/mail-config.glade.h:126
 #, fuzzy
 msgid "User_name:"
 msgstr "Назва користувача:"
 
-#: mail/mail-account-gui.c:751
+#: mail/mail-account-gui.c:752
 #: mail/mail-config.glade.h:163
 msgid "_Path:"
 msgstr "Шлях:"
 
-#: mail/mail-account-gui.c:1851
+#: mail/mail-account-gui.c:1868
 msgid "You may not create two accounts with the same name."
 msgstr "Не можна створювати два облікових рахунки з спільним ім'ям."
 
@@ -12357,15 +12363,15 @@ msgstr "Не стирати"
 
 #: mail/mail-accounts.c:303
 #: mail/mail-accounts.c:341
-#: mail/mail-composer-prefs.c:650
-#: mail/mail-composer-prefs.c:668
+#: mail/mail-composer-prefs.c:651
+#: mail/mail-composer-prefs.c:669
 msgid "Disable"
 msgstr "Вимкнути"
 
 #: mail/mail-accounts.c:303
 #: mail/mail-accounts.c:343
-#: mail/mail-composer-prefs.c:650
-#: mail/mail-composer-prefs.c:668
+#: mail/mail-composer-prefs.c:651
+#: mail/mail-composer-prefs.c:669
 msgid "Enable"
 msgstr "Увімкнути"
 
@@ -12377,7 +12383,7 @@ msgstr "Типово"
 
 #: mail/mail-accounts.c:427
 #: mail/mail-accounts.etspec.h:2
-#: mail/mail-composer-prefs.c:811
+#: mail/mail-composer-prefs.c:812
 msgid "Enabled"
 msgstr "Увімкнено"
 
@@ -12528,55 +12534,55 @@ msgstr "Перенести повідомлення у"
 msgid "Copy message(s) to"
 msgstr "Скопіювати повідомлення у"
 
-#: mail/mail-callbacks.c:2334
+#: mail/mail-callbacks.c:2335
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Ви впевнені, що хочете виправити всі %d повідомлень?"
 
-#: mail/mail-callbacks.c:2350
+#: mail/mail-callbacks.c:2351
 msgid "You may only edit messages saved\n"
 "in the Drafts folder."
 msgstr "Ви можете лише редагувати збережені\n"
 "повідомлення в теці \"Чернетки\"."
 
-#: mail/mail-callbacks.c:2383
+#: mail/mail-callbacks.c:2384
 msgid "You may only resend messages\n"
 "in the Sent folder."
 msgstr "Ви можете лише відіслати повторно\n"
 "повідомлення з теки \"Відіслані\"."
 
-#: mail/mail-callbacks.c:2393
+#: mail/mail-callbacks.c:2394
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Ви впевнені, що хочете відіслати повторно всі %d повідомлень?"
 
-#: mail/mail-callbacks.c:2414
+#: mail/mail-callbacks.c:2415
 msgid "No Message Selected"
 msgstr "Немає вибраних повідомлень"
 
-#: mail/mail-callbacks.c:2455
+#: mail/mail-callbacks.c:2456
 #, fuzzy, c-format
 msgid "Cannot save to `%s'\n"
 " %s"
 msgstr "Неможливо отримати повідомлення: %s\n"
 "  %s"
 
-#: mail/mail-callbacks.c:2460
+#: mail/mail-callbacks.c:2461
 #, fuzzy, c-format
 msgid "`%s' already exists.\n"
 "Overwrite it?"
 msgstr "%s вже існує\n"
 "Хочете переписати?"
 
-#: mail/mail-callbacks.c:2501
+#: mail/mail-callbacks.c:2502
 msgid "Save Message As..."
 msgstr "Зберегти повідомлення як..."
 
-#: mail/mail-callbacks.c:2503
+#: mail/mail-callbacks.c:2504
 msgid "Save Messages As..."
 msgstr "Зберегти повідомлення як..."
 
-#: mail/mail-callbacks.c:2671
+#: mail/mail-callbacks.c:2672
 #, fuzzy
 msgid ""
 "This operation will permanently erase all messages marked as\n"
@@ -12588,68 +12594,68 @@ msgstr ""
 "\n"
 "Дійсно стерти ці повідомлення?"
 
-#: mail/mail-callbacks.c:2757
+#: mail/mail-callbacks.c:2758
 #, c-format
 msgid "Error loading filter information:\n"
 "%s"
 msgstr "Помилка при завантаженні інформації фільтру:\n"
 "%s"
 
-#: mail/mail-callbacks.c:2765
+#: mail/mail-callbacks.c:2766
 msgid "Filters"
 msgstr "Фільтри"
 
-#: mail/mail-callbacks.c:2807
+#: mail/mail-callbacks.c:2808
 #, c-format
 msgid "Page %d of %d"
 msgstr "Сторінка %d з %d"
 
-#: mail/mail-callbacks.c:2863
+#: mail/mail-callbacks.c:2864
 msgid "Print Message"
 msgstr "Надрукувати повідомлення"
 
-#: mail/mail-callbacks.c:2930
+#: mail/mail-callbacks.c:2931
 msgid "Printing of message failed"
 msgstr "Не вдалося надрукувати повідомлення"
 
-#: mail/mail-callbacks.c:3120
+#: mail/mail-callbacks.c:3121
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Ви впевнені, що хочете відкрити всі %d повідомлень у окремих вікнах?"
 
-#: mail/mail-composer-prefs.c:226
+#: mail/mail-composer-prefs.c:227
 msgid "Please specify signature filename\n"
 "in Advanced section of signature settings."
 msgstr ""
 
-#: mail/mail-composer-prefs.c:245
-#: mail/mail-composer-prefs.c:247
-#: mail/mail-composer-prefs.c:376
-#: mail/mail-composer-prefs.c:431
+#: mail/mail-composer-prefs.c:246
+#: mail/mail-composer-prefs.c:248
+#: mail/mail-composer-prefs.c:377
+#: mail/mail-composer-prefs.c:432
 #, fuzzy
 msgid "[script]"
 msgstr "Без опису"
 
-#: mail/mail-composer-prefs.c:320
+#: mail/mail-composer-prefs.c:321
 msgid "You must specify a valid script name."
 msgstr "Необхідно вказати правильну назву скрипта."
 
-#: mail/mail-composer-prefs.c:335
-#: mail/mail-config.c:1389
+#: mail/mail-composer-prefs.c:336
+#: mail/mail-config.c:1283
 #, fuzzy
 msgid "Unnamed"
 msgstr "Неназваний контакт"
 
-#: mail/mail-composer-prefs.c:815
+#: mail/mail-composer-prefs.c:816
 msgid "Language(s)"
 msgstr "Мови"
 
-#: mail/mail-composer-prefs.c:859
+#: mail/mail-composer-prefs.c:860
 #, fuzzy
 msgid "Add script signature"
 msgstr "Додати критерій"
 
-#: mail/mail-composer-prefs.c:878
+#: mail/mail-composer-prefs.c:879
 msgid "Signature(s)"
 msgstr "Підписи"
 
@@ -12688,12 +12694,12 @@ msgstr ""
 msgid "Evolution Account Assistant"
 msgstr "Асистент з Облікових рахунків Evolution"
 
-#: mail/mail-config.c:1093
+#: mail/mail-config.c:987
 msgid "Checking Service"
 msgstr "Перевірка служби"
 
-#: mail/mail-config.c:1171
-#: mail/mail-config.c:1175
+#: mail/mail-config.c:1065
+#: mail/mail-config.c:1069
 msgid "Connecting to server..."
 msgstr "З'єднання з сервером..."
 
@@ -13459,11 +13465,11 @@ msgid "%s attachment"
 msgstr "долучення %s"
 
 #: mail/mail-format.c:681
-#: mail/mail-format.c:1334
-#: mail/mail-format.c:1403
-#: mail/mail-format.c:1523
-#: mail/mail-format.c:1647
-#: mail/mail-format.c:1672
+#: mail/mail-format.c:1336
+#: mail/mail-format.c:1405
+#: mail/mail-format.c:1525
+#: mail/mail-format.c:1649
+#: mail/mail-format.c:1674
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Неможливо розібрати MIME повідомлення. Показується як є."
 
@@ -13472,77 +13478,77 @@ msgstr "Неможливо розібрати MIME повідомлення. П�
 msgid "Date"
 msgstr "Дата"
 
-#: mail/mail-format.c:843
+#: mail/mail-format.c:845
 msgid "Bad Address"
 msgstr "Невірна адреса"
 
-#: mail/mail-format.c:884
+#: mail/mail-format.c:886
 #: mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
 #: mail/message-tags.glade.h:3
 msgid "From"
 msgstr "Від"
 
-#: mail/mail-format.c:888
+#: mail/mail-format.c:890
 msgid "Reply-To"
 msgstr "Відповідати на"
 
-#: mail/mail-format.c:893
+#: mail/mail-format.c:895
 #: mail/message-list.etspec.h:14
 msgid "To"
 msgstr "До"
 
-#: mail/mail-format.c:898
+#: mail/mail-format.c:900
 msgid "Cc"
 msgstr "Копія:"
 
-#: mail/mail-format.c:903
+#: mail/mail-format.c:905
 msgid "Bcc"
 msgstr "Прих.копія:"
 
-#: mail/mail-format.c:1446
+#: mail/mail-format.c:1448
 msgid "This message is digitally signed. Click the lock icon for more information."
 msgstr "Це повідомлення підписано цифровим підписом. Додаткову інформацію можна отримати,якщо клацнути на піктограмі із замком."
 
-#: mail/mail-format.c:1474
+#: mail/mail-format.c:1476
 #, fuzzy
 msgid "Could not create a PGP verfication context"
 msgstr "Неможливо створити контекст перевірки PGP."
 
-#: mail/mail-format.c:1482
+#: mail/mail-format.c:1484
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Це повідомлення підписано цифровим підписом, перевірку ідентичності складено."
 
-#: mail/mail-format.c:1489
+#: mail/mail-format.c:1491
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Це повідомлення підписано цифровим підписом, але перевірку ідентичності не складено."
 
-#: mail/mail-format.c:1753
+#: mail/mail-format.c:1755
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Вказівник на сайт FTP (%s)"
 
-#: mail/mail-format.c:1764
+#: mail/mail-format.c:1766
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Вказівник на локальний файл (%s) на сайті \"%s\""
 
-#: mail/mail-format.c:1767
+#: mail/mail-format.c:1769
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Вказівник на локальний файл (%s)"
 
-#: mail/mail-format.c:1794
+#: mail/mail-format.c:1796
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Вказівник на віддалені дані (%s)"
 
-#: mail/mail-format.c:1800
+#: mail/mail-format.c:1802
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Вказівник на невідомі зовнішні дані (типу \"%s\")"
 
-#: mail/mail-format.c:1802
+#: mail/mail-format.c:1804
 msgid "Malformed external-body part."
 msgstr "Частину external-body сформовано невірно."
 
@@ -13750,44 +13756,44 @@ msgstr "Закриття з'єднання з %s"
 msgid "Reconnecting to %s"
 msgstr "Повторне встановлення з'єднання з %s"
 
-#: mail/mail-search-dialogue.c:120
+#: mail/mail-search-dialogue.c:121
 #: widgets/misc/e-search-bar.c:515
 msgid "_Search"
 msgstr "Пошук"
 
-#: mail/mail-search.c:130
+#: mail/mail-search.c:142
 msgid "(Untitled Message)"
 msgstr "(Неназване повідомлення)"
 
-#: mail/mail-search.c:221
+#: mail/mail-search.c:224
 msgid "Untitled Message"
 msgstr "Неназване повідомлення"
 
-#: mail/mail-search.c:223
+#: mail/mail-search.c:226
 msgid "Empty Message"
 msgstr "Порожнє повідомлення"
 
-#: mail/mail-search.c:271
+#: mail/mail-search.c:274
 msgid "Find in Message"
 msgstr "Знайти у повідомленні"
 
-#: mail/mail-search.c:274
+#: mail/mail-search.c:277
 msgid "Search"
 msgstr "Пошук"
 
-#: mail/mail-search.c:300
+#: mail/mail-search.c:303
 msgid "Case Sensitive"
 msgstr "Регістрова чутливість"
 
-#: mail/mail-search.c:302
+#: mail/mail-search.c:305
 msgid "Search Forward"
 msgstr "Пошук вперед"
 
-#: mail/mail-search.c:322
+#: mail/mail-search.c:325
 msgid "Find:"
 msgstr "Знайти:"
 
-#: mail/mail-search.c:325
+#: mail/mail-search.c:328
 msgid "Matches:"
 msgstr "Відповідності:"
 
@@ -13827,25 +13833,25 @@ msgstr "Оновлення..."
 msgid "Waiting..."
 msgstr "Очікування..."
 
-#: mail/mail-session.c:222
+#: mail/mail-session.c:225
 msgid "User canceled operation."
 msgstr "Користувач скасував операцію."
 
-#: mail/mail-session.c:255
+#: mail/mail-session.c:258
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Введіть пароль для %s"
 
-#: mail/mail-session.c:257
+#: mail/mail-session.c:260
 msgid "Enter Password"
 msgstr "Ввід пароля"
 
-#: mail/mail-session.c:273
+#: mail/mail-session.c:282
 #, fuzzy
 msgid "_Remember this password"
 msgstr "Запам'ятати цей пароль"
 
-#: mail/mail-session.c:274
+#: mail/mail-session.c:283
 #, fuzzy
 msgid "_Remember this password for the remainder of this session"
 msgstr "Пам'ятати цей пароль до закінчення поточного сеансу"
@@ -24206,7 +24212,7 @@ msgstr "Введіть URL джерела новин, який бажаєте д
 msgid "Error downloading RDF"
 msgstr "Помилка завантаження RDF"
 
-#: my-evolution/e-summary-rdf.c:446
+#: my-evolution/e-summary-rdf.c:447
 msgid "News Feed"
 msgstr "Рядок новин"
 
@@ -25592,7 +25598,7 @@ msgstr "Чернетки"
 #: shell/e-local-storage.c:180
 #: shell/e-shell-view.c:466
 #: shell/e-shell-view.c:470
-#: shell/e-shortcuts.c:1083
+#: shell/e-shortcuts.c:1084
 msgid "Inbox"
 msgstr "Вхідні"
 
@@ -26265,11 +26271,11 @@ msgstr "Видалити"
 msgid "Remove this shortcut from the shortcut bar"
 msgstr "Видалити цей ярлик з панелі ярликів"
 
-#: shell/e-shortcuts.c:648
+#: shell/e-shortcuts.c:649
 msgid "Error saving shortcuts."
 msgstr "Помилка збереження ярликів."
 
-#: shell/e-shortcuts.c:1095
+#: shell/e-shortcuts.c:1096
 msgid "Shortcuts"
 msgstr "Ярлики"
 
@@ -26610,16 +26616,16 @@ msgstr "Більше не запитувати"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution може імпортувати дані з таких файлів:"
 
-#: shell/main.c:104
-#: shell/main.c:474
+#: shell/main.c:107
+#: shell/main.c:529
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/main.c:110
+#: shell/main.c:113
 msgid "Evolution is now exiting ..."
 msgstr "Evolution завершує роботу..."
 
-#: shell/main.c:209
+#: shell/main.c:212
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -26639,49 +26645,49 @@ msgid ""
 "eagerly await your contributions!\n"
 msgstr ""
 
-#: shell/main.c:230
+#: shell/main.c:233
 #, fuzzy
 msgid "Thanks\n"
 "The Ximian Evolution Team\n"
 msgstr "Ximian Evolution"
 
-#: shell/main.c:238
+#: shell/main.c:241
 #, fuzzy
 msgid "Don't tell me again"
 msgstr "Більше не запитувати"
 
-#: shell/main.c:357
+#: shell/main.c:360
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Неможливо зв'язатись з оболонкою Ximian Evolutuion."
 
-#: shell/main.c:366
+#: shell/main.c:369
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Неможливо ініціалізувати оболонку Ximian Evolutuion: %s"
 
-#: shell/main.c:446
+#: shell/main.c:501
 msgid "Disable splash screen"
 msgstr "Вимкнути заставку"
 
-#: shell/main.c:448
+#: shell/main.c:503
 #, fuzzy
 msgid "Start in offline mode"
 msgstr "Початок імпортування"
 
-#: shell/main.c:450
+#: shell/main.c:505
 #, fuzzy
 msgid "Start in online mode"
 msgstr "Запуск інтелектуального імпортера"
 
-#: shell/main.c:452
+#: shell/main.c:507
 msgid "Send the debugging output of all components to a file."
 msgstr "Записувати інформацію налагодження всіх компонентів у файл."
 
-#: shell/main.c:454
+#: shell/main.c:509
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
 msgstr ""
 
-#: shell/main.c:478
+#: shell/main.c:533
 #, c-format
 msgid "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
