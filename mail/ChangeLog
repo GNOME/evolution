@@ -1,5 +1,10 @@
 2004-02-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-message-browser.c (emmb_list_message_selected): Set the new
+	title.
+	(em_message_browser_window_new): Connect to the message_selected
+	signal in the message-list widget. Fixes bug #52232.
+
 	* em-folder-tree-model.c (em_folder_tree_model_row_drop_target):
 	Now takes a GdkContext arg... will need this later when we want to
 	re-enable dnd of vfolders.

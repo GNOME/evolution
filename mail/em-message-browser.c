@@ -154,6 +154,18 @@ window_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	g_object_unref (gconf);
 }
 
+static void
+emmb_list_message_selected (struct _MessageList *ml, const char *uid, EMMessageBrowser *emmb)
+{
+	EMFolderView *emfv = (EMFolderView *) emmb;
+	CamelMessageInfo *info;
+	
+	if ((info = camel_folder_get_message_info (emfv->folder, uid))) {
+		gtk_window_set_title ((GtkWindow *) emmb->window, camel_message_info_subject (info));
+		camel_folder_free_message_info (emfv->folder, info);
+	}
+}
+
 GtkWidget *em_message_browser_new(void)
 {
 	EMMessageBrowser *emmb = g_object_new(em_message_browser_get_type(), 0);
@@ -203,6 +215,7 @@ GtkWidget *em_message_browser_window_new(void)
 	
 	gtk_window_set_default_size ((GtkWindow *) emmb->window, window_size.width, window_size.height);
 	g_signal_connect (emmb->window, "size-allocate", G_CALLBACK (window_size_allocate), NULL);
+	g_signal_connect (((EMFolderView *) emmb)->list, "message_selected", G_CALLBACK (emmb_list_message_selected), emmb);
 	
 	/* cleanup? */
 
