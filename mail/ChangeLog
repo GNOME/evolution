@@ -29,6 +29,8 @@
 	timeout, dont do anything.
 	(timeout_timeout): Properly honour the result, remove the timout
 	if it returns false.
+	(do_user_message): Setup the message_destroy_id when we setup the
+	destroy handler so it doesn't get called twice.
 
 2001-10-23  Jeffrey Stedfast  <fejj@ximian.com>
 

@@ -513,7 +513,7 @@ do_user_message (struct _mail_msg *mm)
 	/* We only need to wait for the result if we allow cancel otherwise show but send result back instantly */
 	if (m->allow_cancel) {
 		gtk_signal_connect((GtkObject*)message_dialogue, "clicked", user_message_clicked, m);
-		gtk_signal_connect((GtkObject*)message_dialogue, "destroy", user_message_destroy, m);
+		message_destroy_id = gtk_signal_connect((GtkObject*)message_dialogue, "destroy", user_message_destroy, m);
 		if (m->ismain)
 			gnome_dialog_run_and_close ((GnomeDialog *)message_dialogue);
 		else
