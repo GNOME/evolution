@@ -1215,7 +1215,7 @@ gnome_calendar_goto_date (GnomeCalendar *gcal,
 			  GnomeCalendarGotoDateType goto_date)
 {
 	GnomeCalendarPrivate *priv;
-	time_t	 new_time;
+	time_t	 new_time = 0; 
 	gboolean need_updating = FALSE;
 
 	g_return_if_fail (gcal != NULL);
@@ -1747,6 +1747,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
 	ECalSourceType source_type;
+	ESource *source;
 	char *msg;
 	int i;
 
@@ -1755,10 +1756,11 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	e_calendar_view_set_status_message (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)), NULL);
 
 	source_type = e_cal_get_source_type (ecal);
+	source = e_cal_get_source (ecal);
 	
 	if (status != E_CALENDAR_STATUS_OK) {
 		priv->clients_list[source_type] = g_list_remove (priv->clients_list[source_type], ecal);
-		g_hash_table_remove (priv->clients[source_type], e_cal_get_uri (ecal));		
+		g_hash_table_remove (priv->clients[source_type], e_source_peek_uid (source));		
 		
 		return;
 	}
@@ -1931,7 +1933,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 	source = e_cal_get_source (ecal);
 	
 	priv->clients_list[source_type] = g_list_remove (priv->clients_list[source_type], ecal);
-	g_hash_table_remove (priv->clients[source_type], e_cal_get_uri (ecal));
+	g_hash_table_remove (priv->clients[source_type], e_source_peek_uid (source));
 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:		
@@ -2062,7 +2064,6 @@ gnome_calendar_add_source (GnomeCalendar *gcal, ECalSourceType source_type, ESou
 {
 	GnomeCalendarPrivate *priv;
 	ECal *client;
-	char *str_uri;
 	
 	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
@@ -2070,9 +2071,7 @@ gnome_calendar_add_source (GnomeCalendar *gcal, ECalSourceType source_type, ESou
 
 	priv = gcal->priv;
 
-	str_uri = e_source_get_uri (source);
-	client = g_hash_table_lookup (priv->clients[source_type], str_uri);
-	g_free (str_uri);
+	client = g_hash_table_lookup (priv->clients[source_type], e_source_peek_uid (source));
 	if (client)
 		return TRUE;
 	
@@ -2085,7 +2084,7 @@ gnome_calendar_add_source (GnomeCalendar *gcal, ECalSourceType source_type, ESou
 	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), gcal);
 
 	/* add the client to internal structure */
-	g_hash_table_insert (priv->clients[source_type], g_strdup (e_cal_get_uri (client)), client);
+	g_hash_table_insert (priv->clients[source_type], g_strdup (e_source_peek_uid (source)), client);
 	priv->clients_list[source_type] = g_list_prepend (priv->clients_list[source_type], client);
 
 	open_ecal (gcal, client, FALSE);
@@ -2106,24 +2105,30 @@ gnome_calendar_add_source (GnomeCalendar *gcal, ECalSourceType source_type, ESou
 gboolean
 gnome_calendar_remove_source (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source)
 {
-	GnomeCalendarPrivate *priv;
-	ECal *client;
-	ECalModel *model;
-	char *str_uri;
-	int i;
-
 	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
 	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
+	return gnome_calendar_remove_source_by_uid (gcal, source_type, e_source_peek_uid (source));
+}
+
+gboolean
+gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, ECalSourceType source_type, const char *uid)
+{
+	GnomeCalendarPrivate *priv;
+	ECal *client;
+	ECalModel *model;
+	int i;
+
+	g_return_val_if_fail (gcal != NULL, FALSE);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
+	g_return_val_if_fail (uid != NULL, FALSE);
+
 	priv = gcal->priv;
 
-	str_uri = e_source_get_uri (source);
-	client = g_hash_table_lookup (priv->clients[source_type], str_uri);
-	if (!client) {
-		g_free (str_uri);
+	client = g_hash_table_lookup (priv->clients[source_type], uid);
+	if (!client)
 		return TRUE;
-	}
 
 	priv->clients_list[source_type] = g_list_remove (priv->clients_list[source_type], client);
 	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
@@ -2136,7 +2141,7 @@ gnome_calendar_remove_source (GnomeCalendar *gcal, ECalSourceType source_type, E
 			e_cal_model_remove_client (model, client);
 		}
 		break;
-
+		
 	case E_CAL_SOURCE_TYPE_TODO:
 		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
 		e_cal_model_remove_client (model, client);
@@ -2147,8 +2152,7 @@ gnome_calendar_remove_source (GnomeCalendar *gcal, ECalSourceType source_type, E
 		break;
 	}
 	
-	g_hash_table_remove (priv->clients[source_type], str_uri);
-	g_free (str_uri);
+	g_hash_table_remove (priv->clients[source_type], uid);
 
 	/* update date navigator query */
         update_query (gcal);
@@ -2174,7 +2178,6 @@ gnome_calendar_set_default_source (GnomeCalendar *gcal, ECalSourceType source_ty
 	GnomeCalendarPrivate *priv;
 	ECal *client;
 	int i;
-	char *str_uri;
 
 	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
@@ -2182,9 +2185,7 @@ gnome_calendar_set_default_source (GnomeCalendar *gcal, ECalSourceType source_ty
 
 	priv = gcal->priv;
 
-	str_uri = e_source_get_uri (source);
-	client = g_hash_table_lookup (priv->clients[source_type], str_uri);
-	g_free (str_uri);
+	client = g_hash_table_lookup (priv->clients[source_type], e_source_peek_uid (source));
 	if (!client)
 		return FALSE;
 	

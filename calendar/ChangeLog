@@ -1,5 +1,23 @@
 2004-04-14  JP Rosevear <jpr@ximian.com>
 
+	Fixes #56613
+	
+	* gui/gnome-cal.h: add proto
+
+	* gui/gnome-cal.c (client_cal_opened_cb): key the clients by uid
+	(backend_died_cb): ditto
+	(gnome_calendar_add_source): ditto
+	(gnome_calendar_remove_source): use remove_source_by_uid
+	(gnome_calendar_remove_source_by_uid): new function to remove a
+	source by uid
+	(gnome_calendar_set_default_source): key the clients by uid
+
+	* gui/calendar-component.c (update_task_selection): the source
+	could be NULL if the source was deleted rather than unchecked
+	(update_primary_task_selection): look at the task source list
+
+2004-04-14  JP Rosevear <jpr@ximian.com>
+
 	Fixes #56553
 	
 	* importers/icalendar-importer.c (prepare_events): don't double

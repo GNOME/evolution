@@ -109,6 +109,7 @@ ECal *gnome_calendar_get_default_client    (GnomeCalendar *gcal);
 
 gboolean   gnome_calendar_add_source      (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
 gboolean   gnome_calendar_remove_source   (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
+gboolean   gnome_calendar_remove_source_by_uid   (GnomeCalendar *gcal, ECalSourceType source_type, const char *uid);
 gboolean   gnome_calendar_set_default_source (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
 
 void       gnome_calendar_next             	(GnomeCalendar *gcal);

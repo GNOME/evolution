@@ -238,7 +238,9 @@ update_task_selection (CalendarComponent *calendar_component)
 		ESource *source;
 
 		source = e_source_list_peek_source_by_uid (priv->task_source_list, uid);
-		if (!is_in_uids (uids_selected, source))
+		if (!source)
+			gnome_calendar_remove_source_by_uid (priv->calendar, E_CAL_SOURCE_TYPE_TODO, uid);
+		else if (!is_in_uids (uids_selected, source))
 			gnome_calendar_remove_source (priv->calendar, E_CAL_SOURCE_TYPE_TODO, source);
 		
 		g_free (uid);
@@ -294,7 +296,7 @@ update_primary_task_selection (CalendarComponent *calendar_component)
 
 	uid = calendar_config_get_primary_tasks ();
 	if (uid) {
-		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
+		source = e_source_list_peek_source_by_uid (priv->task_source_list, uid);
 		g_free (uid);
 	}
 	
