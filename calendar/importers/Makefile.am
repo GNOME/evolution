@@ -33,11 +33,11 @@ evolution_calendar_importer_LDADD =				\
 	$(top_builddir)/libical/src/libicalvcal/libicalvcal-evolution.la \
 	$(EVOLUTION_CALENDAR_LIBS)
 
-oafdir = $(datadir)/oaf
-oaf_in_files = GNOME_Evolution_Calendar_Importer.oaf.in
+serversdir = $(libdir)/bonobo/servers
+server_in_files = GNOME_Evolution_Calendar_Importer.server.in
 
-oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+servers_DATA = $(server_in_files:.server.in=.server)
 
-EXTRA_DIST = $(oaf_in_files) $(oaf_DATA)
+EXTRA_DIST = $(server_in_files) $(servers_DATA)
 
-@XML_I18N_MERGE_OAF_RULE@
+@INTLTOOL_SERVER_RULE@

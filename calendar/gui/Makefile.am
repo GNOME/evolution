@@ -181,7 +181,7 @@ evolution_calendar_LDADD =								\
 
 evolution_calendar_LDFLAGS = -export-dynamic
 
-serversdir = $(datadir)/bonobo/servers
+serversdir = $(libdir)/bonobo/servers
 servers_in_files = \
 	GNOME_Evolution_Calendar.server.in
 

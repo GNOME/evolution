@@ -1,5 +1,14 @@
 2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
 
+	* importers/icalendar-importer.c: removed non-existant headers.
+
+	* importers/Makefile.am: changes for BonoboActivation.
+
+	* gui/GNOME_Evolution_Calendar.server.in: install to $libdir, not
+	$datadir.
+
+2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
+
 	* cal-client/query-listener.[ch]: converted to BonoboObject.
 
 	* gui/dialogs/comp-editor-util.c (parse_contact_string): use glib's

@@ -26,11 +26,9 @@
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkmain.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
-#include <gal/util/e-unicode-i18n.h>
 #include <cal-client.h>
 #include <importer/evolution-importer.h>
 #include <importer/evolution-intelligent-importer.h>
