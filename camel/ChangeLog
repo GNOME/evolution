@@ -1,5 +1,7 @@
 2000-05-11  Dan Winship  <danw@helixcode.com>
 
+	* Makefile.am: remove some cruft that we're not currently using.
+
 	* camel-stream-mem.c (camel_stream_mem_new_with_buffer): Change
 	to match prototype (size_t vs unsigned int) so it works on 64-bit
 	machines. Noted by msw.

@@ -14,24 +14,6 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\" \
 	-DG_LOG_DOMAIN=\"camel\"
 
-if ENABLE_THREADS
-
-pthread_SRC =	\
-	camel-folder-pt-proxy.c		\
-	camel-thread-proxy.c
-
-pthread_HDR =	\
-	camel-folder-pt-proxy.h			\
-	camel-thread-proxy.h	
-
-else
-
-pthread_SRC =
-pthread_HDR=
-
-endif
-
-
 libcamel_la_SOURCES = 				\
 	camel.c					\
 	camel-data-wrapper.c			\
@@ -40,14 +22,12 @@ libcamel_la_SOURCES = 				\
 	camel-folder-search.c			\
 	camel-folder-summary.c			\
 	camel-medium.c				\
-	camel-marshal-utils.c			\
 	camel-mime-message.c			\
 	camel-mime-part.c			\
 	camel-mime-part-utils.c			\
 	camel-movemail.c			\
 	camel-multipart.c			\
 	camel-object.c				\
-	camel-op-queue.c			\
 	camel-provider.c			\
 	camel-seekable-stream.c			\
 	camel-seekable-substream.c		\
@@ -75,8 +55,7 @@ libcamel_la_SOURCES = 				\
 	camel-mime-filter-from.c		\
 	camel-stream-filter.c			\
 	camel-address.c				\
-	camel-internet-address.c		\
-	$(pthread_SRC)
+	camel-internet-address.c
 
 libcamelinclude_HEADERS =			\
 	camel.h					\
@@ -85,7 +64,6 @@ libcamelinclude_HEADERS =			\
 	camel-folder.h				\
 	camel-folder-search.h			\
 	camel-folder-summary.h			\
-	camel-marshal-utils.h			\
 	camel-medium.h				\
 	camel-mime-message.h			\
 	camel-mime-part.h			\
@@ -93,7 +71,6 @@ libcamelinclude_HEADERS =			\
 	camel-movemail.h			\
 	camel-multipart.h			\
 	camel-object.h				\
-	camel-op-queue.h			\
 	camel-provider.h			\
 	camel-seekable-stream.h			\
 	camel-seekable-substream.h		\
@@ -123,10 +100,7 @@ libcamelinclude_HEADERS =			\
 	camel-mime-filter-from.h		\
 	camel-stream-filter.h			\
 	camel-address.h				\
-	camel-folder-pt-proxy.h			\
-	camel-internet-address.h		\
-	camel-thread-proxy.h			\
-	$(pthread_HDR)
+	camel-internet-address.h
 
 libcamel_extra_sources =			\
 	camel-arg-collector.c
