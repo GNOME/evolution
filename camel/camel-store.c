@@ -44,7 +44,7 @@
 static CamelServiceClass *parent_class = NULL;
 
 /* Returns the class for a CamelStore */
-#define CS_CLASS(so) ((CamelStoreClass *)((CamelObject *)(so))->classfuncs)
+#define CS_CLASS(so) ((CamelStoreClass *)((CamelObject *)(so))->klass)
 
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
 				guint32 flags, CamelException *ex);
@@ -103,11 +103,11 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	/* virtual method overload */
 	camel_service_class->construct = construct;
 
-	camel_object_class_declare_event(camel_object_class, "folder_created", NULL);
-	camel_object_class_declare_event(camel_object_class, "folder_deleted", NULL);
-	camel_object_class_declare_event(camel_object_class, "folder_renamed", NULL);
-	camel_object_class_declare_event(camel_object_class, "folder_subscribed", NULL);
-	camel_object_class_declare_event(camel_object_class, "folder_unsubscribed", NULL);
+	camel_object_class_add_event(camel_object_class, "folder_created", NULL);
+	camel_object_class_add_event(camel_object_class, "folder_deleted", NULL);
+	camel_object_class_add_event(camel_object_class, "folder_renamed", NULL);
+	camel_object_class_add_event(camel_object_class, "folder_subscribed", NULL);
+	camel_object_class_add_event(camel_object_class, "folder_unsubscribed", NULL);
 }
 
 static void
@@ -474,10 +474,10 @@ camel_store_rename_folder (CamelStore *store, const char *old_name, const char *
 			flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 		
 		reninfo.old_base = (char *)old_name;
-		reninfo.new = ((CamelStoreClass *)((CamelObject *)store)->classfuncs)->get_folder_info(store, new_name, flags, ex);
+		reninfo.new = ((CamelStoreClass *)((CamelObject *)store)->klass)->get_folder_info(store, new_name, flags, ex);
 		if (reninfo.new != NULL) {
 			camel_object_trigger_event(CAMEL_OBJECT(store), "folder_renamed", &reninfo);
-			((CamelStoreClass *)((CamelObject *)store)->classfuncs)->free_folder_info(store, reninfo.new);
+			((CamelStoreClass *)((CamelObject *)store)->klass)->free_folder_info(store, reninfo.new);
 		}
 	} else {
 		/* Failed, just unlock our folders for re-use */

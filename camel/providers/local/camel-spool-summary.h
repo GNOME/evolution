@@ -67,7 +67,7 @@ struct _CamelSpoolSummaryClass {
 	int (*decode_x_evolution)(CamelSpoolSummary *cls, const char *xev, CamelMessageInfo *info);
 };
 
-guint	camel_spool_summary_get_type	(void);
+CamelType	camel_spool_summary_get_type	(void);
 void	camel_spool_summary_construct	(CamelSpoolSummary *new, const char *filename, const char *spool_name, CamelIndex *index);
 
 /* create the summary, in-memory only */

@@ -45,7 +45,7 @@
 static CamelObjectClass *parent_class = NULL;
 
 /* Returns the class for a CamelFolder */
-#define CF_CLASS(so) ((CamelFolderClass *)((CamelObject *)(so))->classfuncs)
+#define CF_CLASS(so) ((CamelFolderClass *)((CamelObject *)(so))->klass)
 
 static void camel_folder_finalize (CamelObject *object);
 
@@ -156,12 +156,10 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->is_frozen = is_frozen;
 
 	/* virtual method overload */
-	camel_object_class_declare_event (camel_object_class,
-					  "folder_changed", folder_changed);
-	camel_object_class_declare_event (camel_object_class,
-					  "message_changed", message_changed);
-	camel_object_class_declare_event (camel_object_class, "deleted", NULL);
-	camel_object_class_declare_event (camel_object_class, "renamed", NULL);
+	camel_object_class_add_event(camel_object_class, "folder_changed", folder_changed);
+	camel_object_class_add_event(camel_object_class, "message_changed", message_changed);
+	camel_object_class_add_event(camel_object_class, "deleted", NULL);
+	camel_object_class_add_event(camel_object_class, "renamed", NULL);
 }
 
 static void

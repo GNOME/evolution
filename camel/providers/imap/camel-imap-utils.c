@@ -271,17 +271,63 @@ imap_parse_flag_list (char **flag_list_p)
 	return flags;
 }
 
-static char imap_atom_specials[128] = {
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 
+/*
+ From rfc2060
+
+ATOM_CHAR       ::= <any CHAR except atom_specials>
+
+atom_specials   ::= "(" / ")" / "{" / SPACE / CTL / list_wildcards /
+                    quoted_specials
+
+CHAR            ::= <any 7-bit US-ASCII character except NUL,
+                     0x01 - 0x7f>
+
+CTL             ::= <any ASCII control character and DEL,
+                        0x00 - 0x1f, 0x7f>
+
+SPACE           ::= <ASCII SP, space, 0x20>
+
+list_wildcards  ::= "%" / "*"
+
+quoted_specials ::= <"> / "\"
+*/
+
+static unsigned char imap_atom_specials[256] = {
+/* 00 */0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+/* 10 */0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+/* 20 */0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1,
+/* 30 */1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+/* 40 */1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+/* 50 */1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1,
+/* 60 */1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+/* 70 */1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 };
-#define imap_is_atom_char(ch) (isprint (ch) && !imap_atom_specials[ch])
+
+#define imap_is_atom_char(c) ((imap_atom_specials[(c)&0xff] & 0x01) != 0)
+
+gboolean
+imap_is_atom(const char *in)
+{
+	register unsigned char c;
+	register const char *p = in;
+
+	while ((c = (unsigned char)*p)) {
+		if (!imap_is_atom_char(c))
+			return FALSE;
+		p++;
+	}
+
+	/* check for empty string */
+	return p!=in;
+}
 
 /**
  * imap_parse_string_generic:

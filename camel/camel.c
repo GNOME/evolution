@@ -64,6 +64,9 @@ camel_init (const char *configdir, gboolean nss_init)
 	if (getenv ("CAMEL_VERBOSE_DEBUG"))
 		camel_verbose_debug = TRUE;
 
+	/* initialise global camel_object_type */
+	camel_object_get_type();
+
 	camel_mime_utils_init();
 
 #ifdef HAVE_NSS

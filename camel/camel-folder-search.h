@@ -112,7 +112,7 @@ struct _CamelFolderSearchClass {
 	ESExpResult * (*uid)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 };
 
-guint		camel_folder_search_get_type	(void);
+CamelType		camel_folder_search_get_type	(void);
 CamelFolderSearch      *camel_folder_search_new	(void);
 void camel_folder_search_construct (CamelFolderSearch *search);
 

@@ -1184,7 +1184,7 @@ rename_folder (CamelStore *store, const char *old_name, const char *new_name, Ca
 	flags = CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_RECURSIVE |
 		(store->flags & CAMEL_STORE_SUBSCRIPTIONS ? CAMEL_STORE_FOLDER_INFO_SUBSCRIBED : 0);
 	
-	fi = ((CamelStoreClass *)((CamelObject *)store)->classfuncs)->get_folder_info (store, old_name, flags, ex);
+	fi = ((CamelStoreClass *)((CamelObject *)store)->klass)->get_folder_info (store, old_name, flags, ex);
 	if (fi && store->flags & CAMEL_STORE_SUBSCRIPTIONS)
 		unsubscribe_folders (store, fi);
 	

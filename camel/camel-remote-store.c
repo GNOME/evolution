@@ -338,6 +338,8 @@ remote_send_string (CamelRemoteStore *store, CamelException *ex, char *fmt, va_l
 			fprintf (stderr, "sending : ------ LOGIN \"xxxx\" \"xxxx\"\n");
 		else if (strstr (cmdbuf, "LOGIN {"))
 			fprintf (stderr, "sending : ------ LOGIN {N+} ....\n");
+		else if (strstr (cmdbuf, "LOGIN "))
+			fprintf (stderr, "sending : ------ LOGIN xxxx xxxx\n");
 		else
 			fprintf (stderr, "sending : %s", cmdbuf);
 	}

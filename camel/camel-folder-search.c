@@ -213,7 +213,7 @@ camel_folder_search_construct (CamelFolderSearch *search)
 		/* c is sure messy sometimes */
 		func = *((void **)(((char *)klass)+builtins[i].offset));
 		if (func == NULL && builtins[i].flags&1) {
-			g_warning("Search class doesn't implement '%s' method: %s", builtins[i].name, camel_type_to_name(CAMEL_OBJECT_GET_CLASS(search)->s.type));
+			g_warning("Search class doesn't implement '%s' method: %s", builtins[i].name, camel_type_to_name(CAMEL_OBJECT_GET_CLASS(search)));
 			func = (void *)search_dummy;
 		}
 		if (func != NULL) {

@@ -118,7 +118,7 @@ struct _CamelStoreSummaryClass {
 	void (*folder_info_set_string)(CamelStoreSummary *, CamelFolderInfo *, int, const char *);
 };
 
-guint			 camel_store_summary_get_type	(void);
+CamelType			 camel_store_summary_get_type	(void);
 CamelStoreSummary      *camel_store_summary_new	(void);
 
 void camel_store_summary_set_filename(CamelStoreSummary *, const char *);

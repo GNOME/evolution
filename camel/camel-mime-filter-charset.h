@@ -50,7 +50,7 @@ struct _CamelMimeFilterCharsetClass {
 	CamelMimeFilterClass parent_class;
 };
 
-guint		camel_mime_filter_charset_get_type	(void);
+CamelType		camel_mime_filter_charset_get_type	(void);
 CamelMimeFilterCharset      *camel_mime_filter_charset_new	(void);
 
 CamelMimeFilterCharset      *camel_mime_filter_charset_new_convert	(const char *from_charset, const char *to_charset);

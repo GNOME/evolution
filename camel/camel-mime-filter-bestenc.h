@@ -83,7 +83,7 @@ struct _CamelMimeFilterBestencClass {
 	CamelMimeFilterClass parent_class;
 };
 
-guint		camel_mime_filter_bestenc_get_type	(void);
+CamelType		camel_mime_filter_bestenc_get_type	(void);
 CamelMimeFilterBestenc      *camel_mime_filter_bestenc_new	(unsigned int flags);
 
 

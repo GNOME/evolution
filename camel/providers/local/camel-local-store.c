@@ -242,10 +242,10 @@ create_folder(CamelStore *store, const char *parent_name, const char *folder_nam
 
 	name = g_strdup_printf("%s/%s", parent_name, folder_name);
 
-	folder = ((CamelStoreClass *)((CamelObject *)store)->classfuncs)->get_folder(store, name, CAMEL_STORE_FOLDER_CREATE, ex);
+	folder = ((CamelStoreClass *)((CamelObject *)store)->klass)->get_folder(store, name, CAMEL_STORE_FOLDER_CREATE, ex);
 	if (folder) {
 		camel_object_unref((CamelObject *)folder);
-		info = ((CamelStoreClass *)((CamelObject *)store)->classfuncs)->get_folder_info(store, name, 0, ex);
+		info = ((CamelStoreClass *)((CamelObject *)store)->klass)->get_folder_info(store, name, 0, ex);
 
 		/* get_folder(CREATE) will emit a folder_created event for us */
 		/*if (info)

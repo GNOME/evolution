@@ -56,7 +56,7 @@ struct _CamelImapSearchClass {
 
 };
 
-guint              camel_imap_search_get_type (void);
+CamelType              camel_imap_search_get_type (void);
 CamelFolderSearch *camel_imap_search_new      (const char *cachedir);
 
 #endif /* ! _CAMEL_IMAP_SEARCH_H */

@@ -46,7 +46,7 @@ struct _CamelNewsAddressClass {
 	CamelAddressClass parent_class;
 };
 
-guint		camel_news_address_get_type	(void);
+CamelType		camel_news_address_get_type	(void);
 CamelNewsAddress      *camel_news_address_new	(void);
 
 #ifdef __cplusplus

@@ -39,7 +39,7 @@ typedef struct _CamelPartitionMap CamelPartitionMap;
 typedef struct _CamelPartitionMapBlock CamelPartitionMapBlock;
 
 typedef struct _CamelPartitionTable CamelPartitionTable;
-typedef struct _CamelPartitionTable CamelPartitionTableClass;
+typedef struct _CamelPartitionTableClass CamelPartitionTableClass;
 
 struct _CamelPartitionKey {
 	camel_hash_t hashid;
@@ -97,7 +97,7 @@ typedef struct _CamelKeyBlock CamelKeyBlock;
 typedef struct _CamelKeyRootBlock CamelKeyRootBlock;
 
 typedef struct _CamelKeyTable CamelKeyTable;
-typedef struct _CamelKeyTable CamelKeyTableClass;
+typedef struct _CamelKeyTableClass CamelKeyTableClass;
 
 struct _CamelKeyRootBlock {
 	camel_block_t first;

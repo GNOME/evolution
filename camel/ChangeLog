@@ -1,3 +1,31 @@
+2002-05-07  Not Zed  <NotZed@Ximian.com>
+
+	* camel-remote-store.c (remote_send_string): Check for LOGIN xxxx
+	as well if debug is on, so we dont print passwords to evolution
+	logs.
+
+	* providers/imap/camel-imap-utils.c (imap_is_atom_char): This was
+	really broken.  1. isprint() is locale dependent, and 2. it looked
+	up an 8 bit value in a 7 bit table without truncating it.  I've
+	removed the isprint() stuff and just put it directly into the
+	special table, which i've expanded to the right size too.
+
+	* providers/imap/*: Applied patch from Preston Elder
+	<prez@magick.tm> to make camel only use literals if it needs to
+	for simple strings.  Changed slightly to use imap_is_atom() and
+	more consistent formatting.
+	providers/imap/camel-imap-utils.c (imap_is_atom): Chagned from
+	imap_needs_quoting().
+
+	** Merged in camel-object2 branch.  Simpler camelobject
+	implementation + object args interface.
+
+	* camel.c (camel_init): Call camel_object_get_type() to make sure
+	camel_object_type is initialised.
+
+	* camel-object.h (CAMEL_OBJECT_TYPE): Changed to return global
+	camel_object_type pointer, not call camel_object_get_type.
+	
 2002-05-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate): If
@@ -215,6 +243,21 @@
 	(WEEKDAY_CHARS): Use full weekday names in case the broken mailer
 	used the full names.
 	(MONTH_CHARS): Same as above but for months.
+
+2002-04-15  Not Zed  <NotZed@Ximian.com>
+
+	* *.c: Fix callers for api changes to camel-object, mainly
+	declare_event->add_event, and classfuncs->klass, and a couple
+        of missing #include <config.h>'s
+
+	* camel-arg.[ch], Makefile.am: New support code for
+	camel_object_get/set arg.
+
+	* *.h: Fixed all uses of get_type to return a CamelType rather
+	than a guint (now a pointer).
+
+	* camel-object.[ch]: Major cleanup of object implementation.  Also
+	added a get/set interface, and some debugging options.
 
 2002-04-11  Not Zed  <NotZed@Ximian.com>
 

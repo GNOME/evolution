@@ -64,7 +64,7 @@ struct _CamelIndexCursorClass {
 	void         (*reset) (CamelIndexCursor *idc);
 };
 
-guint	           camel_index_cursor_get_type(void);
+CamelType	           camel_index_cursor_get_type(void);
 
 CamelIndexCursor  *camel_index_cursor_new(CamelIndex *idx, const char *name);
 
@@ -94,7 +94,7 @@ struct _CamelIndexNameClass {
 	size_t (*add_buffer)(CamelIndexName *name, const char *buffer, size_t len);
 };
 
-guint	           camel_index_name_get_type	(void);
+CamelType	           camel_index_name_get_type	(void);
 
 CamelIndexName    *camel_index_name_new(CamelIndex *idx, const char *name);
 
@@ -135,7 +135,7 @@ struct _CamelIndexClass {
 	CamelIndexCursor *      (*names)(CamelIndex *idx);
 };
 
-guint	           camel_index_get_type	(void);
+CamelType	           camel_index_get_type	(void);
 
 CamelIndex        *camel_index_new(const char *path, int flags);
 void               camel_index_construct(CamelIndex *, const char *path, int flags);

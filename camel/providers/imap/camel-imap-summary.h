@@ -63,7 +63,7 @@ struct _CamelImapSummaryClass {
 
 };
 
-guint               camel_imap_summary_get_type     (void);
+CamelType               camel_imap_summary_get_type     (void);
 CamelFolderSummary *camel_imap_summary_new          (const char *filename);
 
 void camel_imap_summary_add_offline (CamelFolderSummary *summary,

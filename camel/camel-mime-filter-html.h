@@ -47,7 +47,7 @@ struct _CamelMimeFilterHTMLClass {
 	CamelMimeFilterClass parent_class;
 };
 
-guint		camel_mime_filter_html_get_type	(void);
+CamelType		camel_mime_filter_html_get_type	(void);
 CamelMimeFilterHTML      *camel_mime_filter_html_new	(void);
 
 #ifdef __cplusplus

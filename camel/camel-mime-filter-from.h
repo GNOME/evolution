@@ -49,7 +49,7 @@ struct _CamelMimeFilterFromClass {
 	CamelMimeFilterClass parent_class;
 };
 
-guint		camel_mime_filter_from_get_type	(void);
+CamelType		camel_mime_filter_from_get_type	(void);
 CamelMimeFilterFrom      *camel_mime_filter_from_new	(void);
 
 #ifdef __cplusplus

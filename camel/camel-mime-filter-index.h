@@ -49,7 +49,7 @@ struct _CamelMimeFilterIndexClass {
 	CamelMimeFilterClass parent_class;
 };
 
-guint		camel_mime_filter_index_get_type	(void);
+CamelType		camel_mime_filter_index_get_type	(void);
 CamelMimeFilterIndex      *camel_mime_filter_index_new	(void);
 
 CamelMimeFilterIndex      *camel_mime_filter_index_new_index(struct _CamelIndex *);

@@ -47,7 +47,7 @@ struct _CamelNNTPSummaryClass {
 	CamelFolderSummaryClass parent_class;
 };
 
-guint	camel_nntp_summary_get_type	(void);
+CamelType	camel_nntp_summary_get_type	(void);
 CamelNNTPSummary *camel_nntp_summary_new(struct _CamelNNTPFolder *folder);
 
 int camel_nntp_summary_check(CamelNNTPSummary *cns, CamelFolderChangeInfo *, CamelException *ex);

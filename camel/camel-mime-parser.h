@@ -80,7 +80,7 @@ struct _CamelMimeParserClass {
 	void (*content)(CamelMimeParser *);
 };
 
-guint		camel_mime_parser_get_type	(void);
+CamelType		camel_mime_parser_get_type	(void);
 CamelMimeParser      *camel_mime_parser_new	(void);
 
 /* quick-fix for parser not erroring, we can find out if it had an error afterwards */

@@ -65,7 +65,7 @@ struct _CamelHTMLParserClass {
 	CamelObjectClass parent_class;
 };
 
-guint		camel_html_parser_get_type	(void);
+CamelType		camel_html_parser_get_type	(void);
 CamelHTMLParser      *camel_html_parser_new	(void);
 
 void camel_html_parser_set_data(CamelHTMLParser *hp, const char *start, int len, int last);

@@ -49,7 +49,7 @@ struct _CamelStreamFilterClass {
 	CamelStreamClass parent_class;
 };
 
-guint			camel_stream_filter_get_type	(void);
+CamelType			camel_stream_filter_get_type	(void);
 
 CamelStreamFilter      *camel_stream_filter_new_with_stream	(CamelStream *stream);
 

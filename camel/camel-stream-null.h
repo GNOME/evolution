@@ -46,7 +46,7 @@ struct _CamelStreamNullClass {
 	CamelStreamClass parent_class;
 };
 
-guint			camel_stream_null_get_type	(void);
+CamelType			camel_stream_null_get_type	(void);
 
 CamelStream            *camel_stream_null_new		(void);
 

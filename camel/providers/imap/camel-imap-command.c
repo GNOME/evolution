@@ -696,10 +696,14 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 					arglen += strlen (store->namespace) + 1;
 			}
 			g_ptr_array_add (args, string);
-			if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS)
-				len += arglen + 15;
-			else
-				len += arglen * 2;
+			if (imap_is_atom(string)) {
+				len += arglen;
+			} else {
+				if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS)
+					len += arglen + 15;
+				else
+					len += arglen * 2;
+			}
 			start = p + 1;
 			break;
 
@@ -750,16 +754,21 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 				string = imap_mailbox_encode (mailbox, strlen (mailbox));
 				g_free (mailbox);
 			}
-			
-			if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS) {
-				op += sprintf (op, "{%d+}\r\n%s",
-					       strlen (string), string);
+
+			if (imap_is_atom(string)) {
+				op += sprintf(op, "%s", string);
 			} else {
-				char *quoted = imap_quote_string (string);
-				
-				op += sprintf (op, "%s", quoted);
-				g_free (quoted);
+				if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS) {
+					op += sprintf (op, "{%d+}\r\n%s",
+						       strlen (string), string);
+				} else {
+					char *quoted = imap_quote_string (string);
+
+					op += sprintf (op, "%s", quoted);
+					g_free (quoted);
+				}
 			}
+
 			if (*p == 'F')
 				g_free (string);
 			break;

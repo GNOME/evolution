@@ -570,7 +570,7 @@ vee_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 static void
 vee_expunge (CamelFolder *folder, CamelException *ex)
 {
-	((CamelFolderClass *)((CamelObject *)folder)->classfuncs)->sync(folder, TRUE, ex);
+	((CamelFolderClass *)((CamelObject *)folder)->klass)->sync(folder, TRUE, ex);
 }
 
 static CamelMimeMessage *

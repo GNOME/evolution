@@ -112,7 +112,7 @@ struct _CamelPOP3EngineClass {
 	CamelObjectClass parent_class;
 };
 
-guint		  camel_pop3_engine_get_type	(void);
+CamelType		  camel_pop3_engine_get_type	(void);
 
 CamelPOP3Engine  *camel_pop3_engine_new		(CamelStream *source);
 

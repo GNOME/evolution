@@ -51,7 +51,7 @@ struct _CamelVeeStoreClass {
 	CamelStoreClass parent_class;
 };
 
-guint		camel_vee_store_get_type	(void);
+CamelType		camel_vee_store_get_type	(void);
 CamelVeeStore      *camel_vee_store_new	(void);
 
 #ifdef __cplusplus

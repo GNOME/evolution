@@ -52,7 +52,7 @@ struct _CamelMboxSummaryClass {
 	CamelLocalSummaryClass parent_class;
 };
 
-guint		camel_mbox_summary_get_type	(void);
+CamelType		camel_mbox_summary_get_type	(void);
 CamelMboxSummary      *camel_mbox_summary_new	(const char *filename, const char *mbox_name, CamelIndex *index);
 
 /* generate a From line from headers */

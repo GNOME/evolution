@@ -63,6 +63,7 @@ char    *imap_parse_string_generic (char **str_p, size_t *len, int type);
 void     imap_parse_body           (char **body_p, CamelFolder *folder,
 				    CamelMessageContentInfo *ci);
 
+gboolean imap_is_atom              (const char *in);
 char    *imap_quote_string         (const char *str);
 
 void     imap_skip_list            (char **str_p);

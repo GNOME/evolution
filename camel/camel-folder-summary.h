@@ -209,7 +209,7 @@ struct _CamelFolderSummaryClass {
 	char *(*next_uid_string)(CamelFolderSummary *);
 };
 
-guint			 camel_folder_summary_get_type	(void);
+CamelType			 camel_folder_summary_get_type	(void);
 CamelFolderSummary      *camel_folder_summary_new	(void);
 
 void camel_folder_summary_set_filename(CamelFolderSummary *, const char *);

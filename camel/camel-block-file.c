@@ -83,7 +83,7 @@ static EDList block_file_active_list = E_DLIST_INITIALISER(block_file_active_lis
 static int block_file_count = 0;
 static int block_file_threshhold = 10;
 
-#define CBF_CLASS(o) ((CamelBlockFileClass *)(((CamelObject *)o)->classfuncs))
+#define CBF_CLASS(o) ((CamelBlockFileClass *)(((CamelObject *)o)->klass))
 
 static int sync_nolock(CamelBlockFile *bs);
 static int sync_block_nolock(CamelBlockFile *bs, CamelBlock *bl);

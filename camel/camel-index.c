@@ -46,7 +46,7 @@ struct _CamelIndexPrivate {
 
 #define _PRIVATE(o) (((CamelIndex *)(o))->priv)
 
-#define CI_CLASS(o) ((CamelIndexClass *)(((CamelObject *)o)->classfuncs))
+#define CI_CLASS(o) ((CamelIndexClass *)(((CamelObject *)o)->klass))
 
 /* ********************************************************************** */
 /* CamelIndex */
@@ -203,7 +203,7 @@ camel_index_names(CamelIndex *idx)
 
 static CamelObjectClass *camel_index_name_parent;
 
-#define CIN_CLASS(o) ((CamelIndexNameClass *)(((CamelObject *)o)->classfuncs))
+#define CIN_CLASS(o) ((CamelIndexNameClass *)(((CamelObject *)o)->klass))
 
 static void
 camel_index_name_class_init(CamelIndexNameClass *klass)
@@ -278,7 +278,7 @@ camel_index_name_add_buffer(CamelIndexName *idn, const char *buffer, size_t len)
 
 static CamelObjectClass *camel_index_cursor_parent;
 
-#define CIC_CLASS(o) ((CamelIndexCursorClass *)(((CamelObject *)o)->classfuncs))
+#define CIC_CLASS(o) ((CamelIndexCursorClass *)(((CamelObject *)o)->klass))
 
 static void
 camel_index_cursor_class_init(CamelIndexCursorClass *klass)

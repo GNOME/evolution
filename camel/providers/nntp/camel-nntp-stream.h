@@ -52,7 +52,7 @@ struct _CamelNNTPStreamClass {
 	CamelStreamClass parent_class;
 };
 
-guint		 camel_nntp_stream_get_type	(void);
+CamelType		 camel_nntp_stream_get_type	(void);
 
 CamelStream     *camel_nntp_stream_new		(CamelStream *source);
 
