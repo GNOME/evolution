@@ -119,6 +119,9 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
+static void make_dirty (EShortcuts *shortcuts);
+
+
 static EShortcutItem *
 shortcut_item_new (const char *uri,
 		   const char *name,
@@ -360,6 +363,7 @@ load_shortcuts (EShortcuts *shortcuts,
 	/* After loading, we always have to re-save ourselves as we have merged
 	   the information we have with the information we got from the
 	   StorageSet.  */
+	/* FIXME: Obviously, this sucks.  */
 	make_dirty (shortcuts);
 
 	return TRUE;
@@ -410,35 +414,6 @@ save_shortcuts (EShortcuts *shortcuts,
 
 	xmlFreeDoc (doc);
 	return TRUE;
-}
-
-
-static EShortcutItem *
-get_item (EShortcuts *shortcuts,
-	  int group_num,
-	  int num)
-{
-	EShortcutsPrivate *priv;
-	ShortcutGroup *group;
-	GSList *group_element;
-	GSList *shortcut_element;
-
-	g_return_val_if_fail (shortcuts != NULL, NULL);
-	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), NULL);
-
-	priv = shortcuts->priv;
-
-	group_element = g_slist_nth (priv->groups, group_num);
-	if (group_element == NULL)
-		return NULL;
-
-	group = (ShortcutGroup *) group_element->data;
-
-	shortcut_element = g_slist_nth (group->shortcuts, num);
-	if (shortcut_element == NULL)
-		return NULL;
-
-	return (EShortcutItem *) shortcut_element->data;
 }
 
 
@@ -530,6 +505,35 @@ update_shortcuts_by_path (EShortcuts *shortcuts,
 	g_free (evolution_uri);
 
 	make_dirty (shortcuts);
+}
+
+
+static EShortcutItem *
+get_item (EShortcuts *shortcuts,
+	  int group_num,
+	  int num)
+{
+	EShortcutsPrivate *priv;
+	ShortcutGroup *group;
+	GSList *group_element;
+	GSList *shortcut_element;
+
+	g_return_val_if_fail (shortcuts != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), NULL);
+
+	priv = shortcuts->priv;
+
+	group_element = g_slist_nth (priv->groups, group_num);
+	if (group_element == NULL)
+		return NULL;
+
+	group = (ShortcutGroup *) group_element->data;
+
+	shortcut_element = g_slist_nth (group->shortcuts, num);
+	if (shortcut_element == NULL)
+		return NULL;
+
+	return (EShortcutItem *) shortcut_element->data;
 }
 
 
@@ -973,6 +977,8 @@ e_shortcuts_update_shortcut (EShortcuts *shortcuts,
 	shortcut_item = get_item (shortcuts, group_num, num);
 
 	update_shortcut_and_emit_signal (shortcuts, shortcut_item, group_num, num, uri, name, type);
+
+	make_dirty (shortcuts);
 }
 
 

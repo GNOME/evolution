@@ -1,5 +1,16 @@
 2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shortcuts-view.c: Added a "Rename" right-click command.
+	(rename_shortcut_cb): New function, implementation for the "Rename
+	command".
+	(rename_shortcut_dialog_cb): Callback for the gnome_request_dialog
+	function to ask the new name.
+
+	* e-shortcuts.c (e_shortcuts_update_shortcut): Call `make_dirty()'
+	so we get saved too.
+
+2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (activate_shortcut_cb): Receive an @in_new_window
 	arg as well.
 

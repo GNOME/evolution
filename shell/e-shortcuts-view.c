@@ -40,6 +40,8 @@
 #include <libgnomeui/gnome-uidefs.h>
 #include <gal/util/e-util.h>
 
+#include "e-util/e-request.h"
+
 #include "e-shortcuts-view-model.h"
 
 #include "e-shortcuts-view.h"
@@ -336,7 +338,7 @@ pop_up_right_click_menu_for_group (EShortcutsView *shortcuts_view,
 }
 
 
-/* Shortcut right-click menu.  */
+/* Data to be passed around for the shortcut right-click menu items.  */
 
 struct _ShortcutRightClickMenuData {
 	EShortcutsView *shortcuts_view;
@@ -344,6 +346,9 @@ struct _ShortcutRightClickMenuData {
 	int item_num;
 };
 typedef struct _ShortcutRightClickMenuData ShortcutRightClickMenuData;
+
+
+/* "Open Shortcut" and "Open Shortcut in New Window" commands.  */
 
 static void
 open_shortcut_helper (ShortcutRightClickMenuData *menu_data,
@@ -375,9 +380,10 @@ static void
 open_shortcut_in_new_window_cb (GtkWidget *widget,
 				void *data)
 {
-	open_shortcut_helper ((ShortcutRightClickMenuData *) data, TRUE);
+
 }
 
+
 static void
 remove_shortcut_cb (GtkWidget *widget,
 		    void *data)
@@ -393,12 +399,46 @@ remove_shortcut_cb (GtkWidget *widget,
 	e_shortcuts_remove_shortcut (shortcuts, menu_data->group_num, menu_data->item_num);
 }
 
+
+/* "Rename Shortcut"  command.  */
+
+static void
+rename_shortcut_cb (GtkWidget *widget,
+		    void *data)
+{
+	ShortcutRightClickMenuData *menu_data;
+	EShortcutsView *shortcuts_view;
+	EShortcuts *shortcuts;
+	const EShortcutItem *shortcut_item;
+	char *new_name;
+
+	menu_data = (ShortcutRightClickMenuData *) data;
+	shortcuts_view = menu_data->shortcuts_view;
+	shortcuts = shortcuts_view->priv->shortcuts;
+
+	shortcut_item = e_shortcuts_get_shortcut (shortcuts, menu_data->group_num, menu_data->item_num);
+
+	new_name = e_request_string (GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+				     _("Rename shortcut"),
+				     _("Rename selected shortcut to:"),
+				     shortcut_item->name);
+
+	if (new_name == NULL)
+		return;
+
+	e_shortcuts_update_shortcut (shortcuts, menu_data->group_num, menu_data->item_num,
+				     shortcut_item->uri, new_name, shortcut_item->type);
+	g_free (new_name);
+}
+
 static GnomeUIInfo shortcut_right_click_menu_uiinfo[] = {
 	GNOMEUIINFO_ITEM       (N_("Open"), N_("Open the folder linked to this shortcut"),
 				open_shortcut_cb, NULL), 
 	GNOMEUIINFO_ITEM       (N_("Open in New Window"), N_("Open the folder linked to this shortcut in a new window"),
 				open_shortcut_in_new_window_cb, NULL),
 	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_STOCK (N_("Rename"), N_("Rename this shortcut"),
+				rename_shortcut_cb, NULL),
 	GNOMEUIINFO_ITEM_STOCK (N_("Remove"), N_("Remove this shortcut from the shortcut bar"),
 				remove_shortcut_cb, GNOME_STOCK_MENU_CLOSE),
 	GNOMEUIINFO_END
