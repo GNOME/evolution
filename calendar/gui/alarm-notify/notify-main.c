@@ -55,7 +55,7 @@ static AlarmNotify *alarm_notify_service = NULL;
 static void
 client_die_cb (GnomeClient *client)
 {
-	gtk_main_quit ();
+	bonobo_main_quit ();
 }
 
 /* Sees if a session manager is present.  If so, it tells the SM how to restart
@@ -193,7 +193,7 @@ main (int argc, char **argv)
 	bonobo_object_unref (BONOBO_OBJECT (factory));
 	factory = NULL;
 
-	/* FIXME: free the alarm_notify_service */
+	bonobo_object_unref (BONOBO_OBJECT (alarm_notify_service));
 
 	alarm_queue_done ();
 	alarm_done ();

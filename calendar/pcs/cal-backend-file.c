@@ -48,6 +48,7 @@ struct _CalBackendFilePrivate {
 
 	/* Filename in the dir */
 	char *file_name;	
+	gboolean read_only;
 
 	/* Toplevel VCALENDAR component */
 	icalcomponent *icalcomp;
@@ -84,14 +85,25 @@ static CalBackendSyncClass *parent_class;
 
 
 
-/* g_hash_table_foreach() callback to destroy a CalComponent */
+/* g_hash_table_foreach() callback to destroy recurrences in the hash table */
+static void
+free_recurrence (gpointer key, gpointer value, gpointer data)
+{
+	char *rid = key;
+	CalComponent *comp = value;
+
+	g_free (rid);
+	g_object_unref (comp);
+}
+
+/* g_hash_table_foreach() callback to destroy a CalBackendFileObject */
 static void
 free_object (gpointer key, gpointer value, gpointer data)
 {
 	CalBackendFileObject *obj_data = value;
 
 	g_object_unref (obj_data->full_object);
-	g_hash_table_foreach (obj_data->recurrences, (GHFunc) g_object_unref, NULL);
+	g_hash_table_foreach (obj_data->recurrences, (GHFunc) free_recurrence, NULL);
 	g_hash_table_destroy (obj_data->recurrences);
 }
 
@@ -250,7 +262,6 @@ lookup_component (CalBackendFile *cbfile, const char *uid)
 
 	priv = cbfile->priv;
 
-	/* FIXME: search recurrences also */
 	obj_data = g_hash_table_lookup (priv->comp_uid_hash, uid);
 	return obj_data ? obj_data->full_object : NULL;
 }
@@ -263,8 +274,9 @@ lookup_component (CalBackendFile *cbfile, const char *uid)
 static CalBackendSyncStatus
 cal_backend_file_is_read_only (CalBackendSync *backend, Cal *cal, gboolean *read_only)
 {
-	/* we just return FALSE, since all calendars are read-write */
-	*read_only = FALSE;
+	CalBackendFile *cbfile = backend;
+
+	*read_only = cbfile->priv->read_only;
 	
 	return GNOME_Evolution_Calendar_Success;
 }
@@ -414,19 +426,37 @@ add_component (CalBackendFile *cbfile, CalComponent *comp, gboolean add_to_tople
 
 	priv = cbfile->priv;
 
-	/* FIXME: check if it's an instance */
+	if (cal_component_is_instance (comp)) { /* FIXME: more checks needed, to detect detached instances */
+		char *rid;
 
-	/* Ensure that the UID is unique; some broken implementations spit
-	 * components with duplicated UIDs.
-	 */
-	check_dup_uid (cbfile, comp);
-	cal_component_get_uid (comp, &uid);
+		cal_component_get_uid (comp, &uid);
 
-	obj_data = g_new0 (CalBackendFileObject, 1);
-	obj_data->full_object = comp;
-	obj_data->recurrences = g_hash_table_new (g_str_hash, g_str_equal);
+		obj_data = g_hash_table_lookup (priv->comp_uid_hash, uid);
+		if (!obj_data) {
+			g_warning (G_STRLOC ": Got an instance of a non-existing component");
+			return;
+		}
 
-	g_hash_table_insert (priv->comp_uid_hash, (gpointer) uid, obj_data);
+		rid = get_rid_string (comp);
+		if (g_hash_table_lookup (obj_data->recurrences, rid)) {
+			g_warning (G_STRLOC ": Tried to adding an already existing recurrence");
+			return;
+		}
+
+		g_hash_table_insert (obj_data->recurrences, g_strdup (rid), comp);
+	} else {
+		/* Ensure that the UID is unique; some broken implementations spit
+		 * components with duplicated UIDs.
+		 */
+		check_dup_uid (cbfile, comp);
+		cal_component_get_uid (comp, &uid);
+
+		obj_data = g_new0 (CalBackendFileObject, 1);
+		obj_data->full_object = comp;
+		obj_data->recurrences = g_hash_table_new (g_str_hash, g_str_equal);
+
+		g_hash_table_insert (priv->comp_uid_hash, (gpointer) uid, obj_data);
+	}
 
 	priv->comp = g_list_prepend (priv->comp, comp);
 
@@ -444,6 +474,36 @@ add_component (CalBackendFile *cbfile, CalComponent *comp, gboolean add_to_tople
 	/* Update the set of categories */
 	cal_component_get_categories_list (comp, &categories);
 	cal_backend_ref_categories (CAL_BACKEND (cbfile), categories);
+	cal_component_free_categories_list (categories);
+}
+
+/* g_hash_table_foreach() callback to remove recurrences from the calendar */
+static void
+remove_recurrence_cb (gpointer key, gpointer value, gpointer data)
+{
+	GList *l;
+	GSList *categories;
+	icalcomponent *icalcomp;
+	CalBackendFilePrivate *priv;
+	char *rid = key;
+	CalComponent *comp = value;
+	CalBackendFile *cbfile = data;
+
+	priv = cbfile->priv;
+
+	/* remove the recurrence from the top-level calendar */
+	icalcomp = cal_component_get_icalcomponent (comp);
+	g_assert (icalcomp != NULL);
+
+	icalcomponent_remove_component (priv->icalcomp, icalcomp);
+
+	/* remove it from our mapping */
+	l = g_list_find (priv->comp, comp);
+	priv->comp = g_list_delete_link (priv->comp, l);
+
+	/* update the set of categories */
+	cal_component_get_categories_list (comp, &categories);
+	cal_backend_unref_categories (CAL_BACKEND (cbfile), categories);
 	cal_component_free_categories_list (categories);
 }
 
@@ -482,6 +542,9 @@ remove_component (CalBackendFile *cbfile, CalComponent *comp)
 	l = g_list_find (priv->comp, comp);
 	g_assert (l != NULL);
 	priv->comp = g_list_delete_link (priv->comp, l);
+
+	/* remove the recurrences also */
+	g_hash_table_foreach (obj_data->recurrences, (GHFunc) remove_recurrence_cb, cbfile);
 
 	/* Update the set of categories */
 	cal_component_get_categories_list (comp, &categories);
@@ -646,9 +709,11 @@ cal_backend_file_open (CalBackendSync *backend, Cal *cal, gboolean only_if_exist
 	if (!str_uri)
 		return GNOME_Evolution_Calendar_OtherError;
 	
-	if (access (str_uri, R_OK) == 0)
+	if (access (str_uri, R_OK) == 0) {
 		status = open_cal (cbfile, str_uri);
-	else {
+		if (access (str_uri, W_OK) != 0)
+			priv->read_only = TRUE;
+	} else {
 		if (only_if_exists)
 			status = GNOME_Evolution_Calendar_NoSuchCal;
 		else
@@ -762,7 +827,8 @@ cal_backend_file_get_object (CalBackendSync *backend, Cal *cal, const char *uid,
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
-	CalComponent *comp;
+	CalBackendFileObject *obj_data;
+	CalComponent *comp = NULL;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -771,14 +837,20 @@ cal_backend_file_get_object (CalBackendSync *backend, Cal *cal, const char *uid,
 	g_return_val_if_fail (uid != NULL, GNOME_Evolution_Calendar_ObjectNotFound);
 	g_assert (priv->comp_uid_hash != NULL);
 
-	comp = lookup_component (cbfile, uid);
-	if (!comp)
+	obj_data = g_hash_table_lookup (priv->comp_uid_hash, uid);
+	if (!obj_data)
 		return GNOME_Evolution_Calendar_ObjectNotFound;
 
 	if (rid && *rid) {
-		/* FIXME How to retrieve instance */
-	}
+		comp = g_hash_table_lookup (obj_data->recurrences, rid);
+		if (!comp) {
+		}
+	} else
+		comp = obj_data->full_object;
 	
+	if (!comp)
+		return GNOME_Evolution_Calendar_ObjectNotFound;
+
 	*object = cal_component_get_as_string (comp);
 
 	return GNOME_Evolution_Calendar_Success;
@@ -1611,6 +1683,7 @@ cal_backend_file_init (CalBackendFile *cbfile, CalBackendFileClass *class)
 
 	priv->uri = NULL;
 	priv->file_name = g_strdup ("calendar.ics");
+	priv->read_only = FALSE;
 	priv->icalcomp = NULL;
 	priv->comp_uid_hash = NULL;
 	priv->comp = NULL;

@@ -1,3 +1,23 @@
+2003-10-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.c (add_component): if the component received
+	is an instance, add it to the recurrences hash table.
+	(free_recurrence): callback for g_hash_table_foreach() to free
+	the recurrences in the CalBackendFileObject structure.
+	(free_object): call free_recurrence for each recurrence.
+	(remove_recurrence_cb): g_hash_table_foreach() callback to
+	remove recurrences from the calendar.
+	(remove_component): remove all recurrences.
+	(cal_backend_file_open): check write access on the file, and
+	set read_only flag appropriately.
+	(cal_backend_file_is_read_only): return the private flag.
+	(cal_backend_file_init): initialize read_only flag.
+	(cal_backend_file_get_object): deal with recurrences.
+
+	* gui/alarm-notify/notify-main.c (main): unref the alarm
+	notification service when terminating.
+	(client_die_cb): call bonobo_main_quit instead of gtk_main_quit.
+
 2003-10-23    <jpr@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_get_current_view_widget): just
