@@ -1,5 +1,11 @@
 2004-04-21  JP Rosevear <jpr@ximian.com>
 
+	* gui/e-tasks.c (set_timezone): only set the preview zone if the
+	preview has been created
+	(setup_widgets): set the default zone for the preview pane
+
+2004-04-21  JP Rosevear <jpr@ximian.com>
+
 	Fixes #55797
 	
 	* gui/calendar-component.c (create_new_event): force an all day

@@ -216,7 +216,8 @@ set_timezone (ETasks *tasks)
 			e_cal_set_default_timezone (client, zone, NULL);
 	}
 
-	e_cal_component_preview_set_default_timezone (E_CAL_COMPONENT_PREVIEW (priv->preview), zone);
+	if (priv->preview)
+		e_cal_component_preview_set_default_timezone (E_CAL_COMPONENT_PREVIEW (priv->preview), zone);
 }
 
 static void
@@ -353,9 +354,8 @@ setup_widgets (ETasks *tasks)
 	g_signal_connect (etable, "selection_change", G_CALLBACK (table_selection_change_cb), tasks);
 
 	/* create the task detail */
-//	gtk_widget_pop_colormap ();
-
 	priv->preview = e_cal_component_preview_new ();
+	e_cal_component_preview_set_default_timezone (E_CAL_COMPONENT_PREVIEW (priv->preview), calendar_config_get_icaltimezone ());	
 	gtk_paned_add2 (GTK_PANED (paned), priv->preview);
 	gtk_widget_show (priv->preview);
 
