@@ -1,3 +1,11 @@
+2001-01-20  Jason Leach  <jasonleach@usa.net>
+
+	(Fix #1222: doing File->New->Mail Message doesn't include .sig)
+	
+	* evolution-composer.c (init): Get the users account information,
+	see if they've specified a sig file, if they do, create a composer
+	with that sig.
+
 2001-01-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-hdrs.c (create_optionmenu): Use "Full Name
