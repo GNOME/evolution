@@ -29,6 +29,7 @@
 
 #include "camel-disco-store.h"
 #include "camel-disco-diary.h"
+#include "camel-disco-folder.h"
 #include "camel-exception.h"
 #include "camel-session.h"
 
@@ -300,15 +301,41 @@ camel_disco_store_status (CamelDiscoStore *store)
 
 
 static void
-set_status (CamelDiscoStore *disco_store, CamelDiscoStoreStatus status,
-	    CamelException *ex)
+set_status(CamelDiscoStore *disco_store, CamelDiscoStoreStatus status, CamelException *ex)
 {
+	CamelException x;
+
 	if (disco_store->status == status)
 		return;
 
-	camel_store_sync (CAMEL_STORE (disco_store), FALSE, ex);
-	if (camel_exception_is_set (ex))
-		return;
+	camel_exception_init(&x);
+	/* Sync the folder fully if we've been told to sync online for this store or this folder
+	   and we're going offline */
+	if (disco_store->status == CAMEL_DISCO_STORE_ONLINE
+	    && status == CAMEL_DISCO_STORE_OFFLINE) {
+		if (((CamelStore *)disco_store)->folders) {
+			GPtrArray *folders;
+			CamelFolder *folder;
+			int i, sync;
+			
+			sync =  camel_url_get_param(((CamelService *)disco_store)->url, "offline_sync") != NULL;
+
+			folders = camel_object_bag_list(((CamelStore *)disco_store)->folders);
+			for (i=0;i<folders->len;i++) {
+				folder = folders->pdata[i];
+				if (CAMEL_CHECK_TYPE(folder, CAMEL_DISCO_FOLDER_TYPE)
+				    && (sync || ((CamelDiscoFolder *)folder)->offline_sync)) {
+					camel_disco_folder_prepare_for_offline((CamelDiscoFolder *)folder, "(match-all)", &x);
+					camel_exception_clear(&x);
+				}
+				camel_object_unref(folder);
+			}
+			g_ptr_array_free(folders, TRUE);
+		}
+	}
+
+	camel_store_sync(CAMEL_STORE (disco_store), FALSE, &x);
+	camel_exception_clear(&x);
 	if (!camel_service_disconnect (CAMEL_SERVICE (disco_store), TRUE, ex))
 		return;
 

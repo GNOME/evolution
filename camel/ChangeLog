@@ -1,3 +1,9 @@
+2004-04-14  Not Zed  <NotZed@Ximian.com>
+
+	* camel-disco-store.c (set_status): do offline mail syncing (only
+	for open folders so far).  If we fail doing syncing or store sync,
+	don't abort.
+
 2004-04-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_online):
