@@ -16,6 +16,7 @@
 #include "camel/camel-exception.h"
 #include <camel/camel-folder.h>
 #include "message-list.h"
+#include "message-thread.h"
 #include "Mail.h"
 #include "widgets/e-table/e-table-header-item.h"
 #include "widgets/e-table/e-table-item.h"
@@ -25,6 +26,8 @@
 #include "art/mail-replied.xpm"
 #include "art/attachment.xpm"
 #include "art/empty.xpm"
+#include "art/tree-expanded.xpm"
+#include "art/tree-unexpanded.xpm"
 
 /*
  * Default sizes for the ETable display
@@ -58,6 +61,19 @@ static void on_row_selection (ETable *table, int row, gboolean selected,
 static void select_row (ETable *table, gpointer user_data);
 static char *filter_date (const void *data);
 
+static struct {
+	char **image_base;
+	GdkPixbuf  *pixbuf;
+} states_pixmaps [] = {
+	{ mail_new_xpm,		NULL },
+	{ mail_read_xpm,	NULL },
+	{ mail_replied_xpm,	NULL },
+	{ empty_xpm,		NULL },
+	{ attachment_xpm,	NULL },
+	{ tree_expanded_xpm,	NULL },
+	{ tree_unexpanded_xpm,	NULL },
+	{ NULL,			NULL }
+};
 
 static CamelMessageInfo *
 get_message_info(MessageList *message_list, gint row)
@@ -512,17 +528,40 @@ ml_value_to_string (ETableModel *etm, int col, const void *value, void *data)
 	}
 }
 
-static struct {
-	char **image_base;
-	GdkPixbuf  *pixbuf;
-} states_pixmaps [] = {
-	{ mail_new_xpm,		NULL },
-	{ mail_read_xpm,	NULL },
-	{ mail_replied_xpm,	NULL },
-	{ empty_xpm,		NULL },
-	{ attachment_xpm,	NULL },
-	{ NULL,			NULL }
-};
+/* the tree versions of same ... we just map the tree nodes to the rows
+   of data we have */
+
+static GdkPixbuf *
+ml_tree_icon_at (ETreeModel *etm, ETreePath *path, void *model_data)
+{
+	/* we dont really need an icon ... */
+	return NULL;
+}
+
+static void *
+ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
+{
+	/* we just map the node to a row id, and reuse the other value_at */
+	int row = (int)e_tree_model_node_get_data (etm, path);
+
+	return ml_value_at((ETableModel *)etm, col, row, model_data);
+}
+
+static void
+ml_tree_set_value_at (ETreeModel *etm, ETreePath *path, int col, const void *val, void *model_data)
+{
+	int row = (int)e_tree_model_node_get_data (etm, path);
+
+	ml_set_value_at((ETableModel *)etm, col, row, val, model_data);
+}
+
+static gboolean
+ml_tree_is_cell_editable (ETreeModel *etm, ETreePath *path, int col, void *model_data)
+{
+	int row = (int)e_tree_model_node_get_data (etm, path);
+
+	return ml_is_cell_editable((ETableModel *)etm, col, row, model_data);
+}
 
 static void
 message_list_init_images (void)
@@ -619,6 +658,16 @@ message_list_init_renderers (MessageList *message_list)
 	 * FIXME: We need a real renderer here
 	 */
 	message_list->render_priority = e_cell_checkbox_new ();
+
+	/*
+	 * for tree view
+	 */
+	if (message_list->is_tree_view) {
+		message_list->render_tree =
+			e_cell_tree_new(message_list->table_model,
+					states_pixmaps[5].pixbuf, states_pixmaps[6].pixbuf,
+					TRUE, message_list->render_text);
+	}
 }
 
 static void
@@ -675,7 +724,7 @@ message_list_init_header (MessageList *message_list)
 		e_table_col_new (
 			COL_SUBJECT, _("Subject"),
 			COL_SUBJECT_EXPANSION, COL_SUBJECT_WIDTH_MIN,
-			message_list->render_text,
+			message_list->is_tree_view?message_list->render_tree:message_list->render_text,
 			g_str_compare, TRUE);
 
 	message_list->table_cols [COL_SENT] =
@@ -728,14 +777,27 @@ message_list_init (GtkObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
 	char *spec;
-		
-	message_list->table_model = e_table_simple_new (
-		ml_col_count, ml_row_count, ml_value_at,
-		ml_set_value_at, ml_is_cell_editable,
-		ml_duplicate_value, ml_free_value,
-		ml_initialize_value, ml_value_is_empty,
-		ml_value_to_string,
-		message_list);
+
+	message_list->is_tree_view = TRUE;
+
+	if (message_list->is_tree_view) {
+		message_list->table_model = (ETableModel *)
+			e_tree_simple_new(ml_tree_icon_at,
+					  ml_tree_value_at,
+					  ml_tree_set_value_at,
+					  ml_tree_is_cell_editable,
+					  message_list);
+		/* setting this seems to upset the display, not sure.  It should be set though */
+		/*e_tree_model_root_node_set_visible((ETableModel *)message_list->table_model, FALSE); */
+	} else {
+		message_list->table_model = e_table_simple_new (
+			ml_col_count, ml_row_count, ml_value_at,
+			ml_set_value_at, ml_is_cell_editable,
+			ml_duplicate_value, ml_free_value,
+			ml_initialize_value, ml_value_is_empty,
+			ml_value_to_string,
+			message_list);
+	}
 
 	message_list_init_renderers (message_list);
 	message_list_init_header (message_list);
@@ -799,6 +861,9 @@ message_list_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (message_list->render_message_status));
 	gtk_object_unref (GTK_OBJECT (message_list->render_priority));
 	gtk_object_unref (GTK_OBJECT (message_list->render_attachment));
+	if (message_list->is_tree_view) {
+		gtk_object_unref (GTK_OBJECT (message_list->render_tree));
+	}		
 	
 	gtk_object_unref (GTK_OBJECT (message_list->etable));
 
@@ -929,6 +994,40 @@ message_list_new (FolderBrowser *parent_folder_browser)
 	return BONOBO_OBJECT (message_list);
 }
 
+/* only call if we have a tree model */
+/* builds the tree structure */
+static void
+build_tree(MessageList *ml, ETreePath *parent, struct _container *c)
+{
+	ETreePath *node;
+
+	while (c) {
+		int index=-1;
+
+		node = e_tree_model_node_insert((ETreeModel *)ml->table_model, parent, 0, ml);
+		if (c->message) {
+			/* FIXME: this ugly SLOW stuff maps a message to a message index in
+			   the message index array
+			   probably add	the array index into the container ... */
+			int i;
+
+			for (i=0;i<ml->summary_table->len;i++) {
+				if (c->message == ml->summary_table->pdata[i]) {
+					index = i;
+					break;
+				}
+			}
+		}
+		e_tree_model_node_set_data ((ETreeModel *)ml->table_model, node, (void *)index);
+		if (c->child) {
+			/* by default, open all tree's */
+			e_tree_model_node_set_expanded((ETreeModel *)ml->table_model, node, TRUE);
+			build_tree(ml, node, c->child);
+		}
+		c = c->next;
+	}
+}
+
 void
 message_list_set_search (MessageList *message_list, const char *search)
 {
@@ -952,6 +1051,20 @@ message_list_set_search (MessageList *message_list, const char *search)
 		message_list->match_count = g_list_length(message_list->matches);
 		g_ptr_array_set_size(message_list->summary_search_cache, message_list->match_count);
 		memset(message_list->summary_search_cache->pdata, 0, sizeof(message_list->summary_search_cache->pdata[0]) * message_list->match_count);
+	}
+
+	/* ok, if its a tree, build the tree here */
+	/* FIXME: first free the old tree? */
+	/* FIXME: what about searches? */
+	if (message_list->is_tree_view) {
+		struct _container *head;
+
+		head = thread_messages((CamelMessageInfo **)message_list->summary_table->pdata, message_list->summary_table->len);
+		message_list->tree_root = e_tree_model_node_insert((ETreeModel *)message_list->table_model, NULL, 0, message_list);
+		e_tree_model_node_set_expanded((ETreeModel *)message_list->table_model, message_list->tree_root, TRUE);
+		build_tree(message_list, message_list->tree_root, head);
+		/* no longer need the thread structure */
+		thread_messages_free(head);
 	}
 
 	e_table_model_changed (message_list->table_model);
@@ -1046,13 +1159,21 @@ on_cursor_change_cmd (ETable *table,
 	
 	message_list = MESSAGE_LIST (user_data);
 	
+	/* must map the tree view row to the real message index first */
+	if (message_list->is_tree_view) {
+		ETreePath *node;
+
+		node = e_tree_model_node_at_row ((ETreeModel *)message_list->table_model, row);
+		row = (int)e_tree_model_node_get_data ((ETreeModel *)message_list->table_model, node);
+	}
+
 	info = get_message_info (message_list, row);
 	if (!info)
 		return;
-
+	
 	message_list->cursor_row = row;
 	message_list->cursor_uid = info->uid;
-	
+
 	if (!message_list->idle_id)
 		message_list->idle_id = g_idle_add_full (G_PRIORITY_LOW, on_cursor_change_idle, message_list, NULL);
 }

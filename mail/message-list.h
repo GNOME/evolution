@@ -8,9 +8,11 @@
 #include "camel/camel-folder.h"
 #include "e-table/e-table.h"
 #include "e-table/e-table-simple.h"
+#include "e-table/e-tree-simple.h"
 #include "e-table/e-cell-text.h"
 #include "e-table/e-cell-toggle.h"
 #include "e-table/e-cell-checkbox.h"
+#include "e-table/e-cell-tree.h"
 #include "folder-browser.h"
 
 
@@ -59,6 +61,9 @@ struct _MessageList {
 	ECell        *render_message_status;
 	ECell        *render_priority;
 	ECell        *render_attachment;
+	ECell	     *render_tree;
+
+	ETreePath    *tree_root; /* for tree view */
 
 	GtkWidget    *etable;
 
@@ -78,6 +83,8 @@ struct _MessageList {
 
 	/* row-selection and seen-marking timers */
 	guint idle_id, seen_id;
+
+	gboolean is_tree_view;	/* if we're doing tree view */
 };
 
 typedef struct {

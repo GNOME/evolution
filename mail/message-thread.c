@@ -405,9 +405,11 @@ thread_messages(CamelMessageInfo **messages, int count)
 	/* find any siblings which missed out */
 	group_root_set(&head);
 
+#if 0
 	printf("finished\n");
 	i = dump_tree(head, 0);
 	printf("%d count, %d msgs initially, %d items in tree\n", count, msgs, i);
+#endif
 
 	return head;
 }
