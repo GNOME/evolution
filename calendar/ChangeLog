@@ -1,3 +1,9 @@
+2004-03-26  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-cal-model.c (update_e_cal_view_for_client): guard against
+	the case that we redo queries while still waiting for a client to
+	open
+
 2004-03-26  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #53134

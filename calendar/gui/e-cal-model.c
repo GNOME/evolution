@@ -1309,6 +1309,10 @@ update_e_cal_view_for_client (ECalModel *model, ECalModelClient *client_data)
 
 	priv = model->priv;
 
+	/* Skip if this client has not finished loading yet */
+	if (e_cal_get_load_state (client_data->client) != E_CAL_LOAD_LOADED)
+		return;
+
 	/* free the previous query, if any */
 	if (client_data->query) {
 		g_signal_handlers_disconnect_matched (client_data->query, G_SIGNAL_MATCH_DATA,
