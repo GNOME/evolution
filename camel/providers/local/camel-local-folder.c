@@ -294,12 +294,6 @@ local_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 		camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", lf->changes);
 		camel_folder_change_info_clear(lf->changes);
 	}
-
-	/* force save of metadata */
-	if (lf->index)
-		ibex_save(lf->index);
-	if (folder->summary)
-		camel_folder_summary_save(folder->summary);
 }
 
 static void

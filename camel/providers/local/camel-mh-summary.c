@@ -263,15 +263,6 @@ mh_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, Came
 	g_hash_table_foreach(left, (GHFunc)remove_summary, cls);
 	g_hash_table_destroy(left);
 
-	/* FIXME: move this up a class */
-
-	/* force a save of the index, just to make sure */
-	/* note this could be expensive so possibly shouldn't be here
-	   as such */
-	if (cls->index) {
-		ibex_save(cls->index);
-	}
-
 	return 0;
 }
 
@@ -393,5 +384,5 @@ mh_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo 
 		camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
 	}
 
-	return 0;
+	return ((CamelLocalSummaryClass *)parent_class)->sync(cls, expunge, changes, ex);
 }

@@ -661,15 +661,6 @@ maildir_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Ca
 	qsort(s->messages->pdata, s->messages->len, sizeof(CamelMessageInfo *), sort_receive_cmp);
 	CAMEL_SUMMARY_UNLOCK(s, summary_lock);
 
-	/* FIXME: move this up a class? */
-
-	/* force a save of the index, just to make sure */
-	/* note this could be expensive so possibly shouldn't be here
-	   as such */
-	if (cls->index) {
-		ibex_save(cls->index);
-	}
-
 	return 0;
 }
 
@@ -690,10 +681,6 @@ maildir_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChange
 
 	if (camel_local_summary_check(cls, changes, ex) == -1)
 		return -1;
-
-	if (cls->index) {
-		ibex_save(cls->index);
-	}
 
 	count = camel_folder_summary_count((CamelFolderSummary *)cls);
 	for (i=count-1;i>=0;i--) {
@@ -760,6 +747,7 @@ maildir_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChange
 		}
 		camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
 	}
-	return 0;
+
+	return ((CamelLocalSummaryClass *)parent_class)->sync(cls, expunge, changes, ex);
 }
 

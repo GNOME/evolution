@@ -1,5 +1,24 @@
 2001-10-03    <NotZed@Ximian.com>
 
+	* providers/local/camel-local-folder.c (local_sync): Dont
+	explicitly save metadata, its saved in summary_sync.
+
+	* providers/local/camel-mh-summary.c: Call superclass.
+	(mh_summary_check): Dont save ibex.
+
+	* providers/local/camel-maildir-summary.c: Call superclass method.
+	(maildir_summary_check): Dont save ibex explictly.
+
+	* providers/local/camel-mbox-summary.c: Call super-class sync when
+	done, saves summary/ibex, etc.
+	(mbox_summary_check): Dont save ibex.
+	(mbox_summary_sync): Call summary_check rather than trying to
+	update from our known position.
+
+	* providers/local/camel-local-summary.c
+	(camel_local_summary_check): Dont save the summary or index here.
+	(local_summary_sync): Save the summary/index here.
+
 	* camel-search-private.c (camel_search_build_match_regex): Added
 	MATCH_NEWLINE flag, -> REG_NEWLINE.
 

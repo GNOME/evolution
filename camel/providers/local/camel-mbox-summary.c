@@ -399,15 +399,12 @@ mbox_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Camel
 	/* FIXME: move upstream? */
 
 	if (ret != -1) {
-		mbs->folder_size = st.st_size;
-		s->time = st.st_mtime;
-#if 0
-		/* this failing is not a fatal event */
-		if (camel_folder_summary_save(s) == -1)
-			g_warning("Could not save summary: %s", strerror(errno));
-		if (cls->index)
-			ibex_save(cls->index);
-#endif
+		if (mbs->folder_size != st.st_size
+		    || s->time != st.st_mtime) {
+			mbs->folder_size = st.st_size;
+			s->time = st.st_mtime;
+			camel_folder_summary_touch(s);
+		}
 	}
 
 	return ret;
@@ -836,7 +833,7 @@ mbox_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInf
 	int ret;
 
 	/* first, sync ourselves up, just to make sure */
-	if (summary_update(cls, mbs->folder_size, changeinfo, ex) == -1)
+	if (camel_local_summary_check(cls, changeinfo, ex) == -1)
 		return -1;
 
 	count = camel_folder_summary_count(s);
@@ -882,7 +879,6 @@ mbox_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInf
 	camel_folder_summary_touch(s);
 	s->time = st.st_mtime;
 	mbs->folder_size = st.st_size;
-	camel_folder_summary_save(s);
 
-	return 0;
+	return ((CamelLocalSummaryClass *)camel_mbox_summary_parent)->sync(cls, expunge, changeinfo, ex);
 }

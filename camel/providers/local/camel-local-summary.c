@@ -255,13 +255,6 @@ camel_local_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changei
 
 	ret = ((CamelLocalSummaryClass *)(CAMEL_OBJECT_GET_CLASS(cls)))->check(cls, changeinfo, ex);
 
-	if (ret != -1) {
-		if (camel_folder_summary_save((CamelFolderSummary *)cls) == -1)
-			g_warning("Could not save summary for %s: %s", cls->folder_path, strerror(errno));
-		if (cls->index && ibex_save(cls->index) == -1)
-			g_warning("Could not sync index for %s: %s", cls->folder_path, strerror(errno));
-	}
-
 #ifdef DOSTATS
 	if (ret != -1) {
 		int i;
@@ -366,7 +359,19 @@ local_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, C
 static int
 local_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo *changeinfo, CamelException *ex)
 {
-	return 0;
+	int ret = 0;
+
+	ret = camel_folder_summary_save((CamelFolderSummary *)cls);
+	if (ret == -1) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("Could not save summary: %s: %s"), cls->folder_path, strerror(errno));
+		g_warning("Could not save summary for %s: %s", cls->folder_path, strerror(errno));
+	}
+
+	if (cls->index && ibex_save(cls->index) == -1)
+		g_warning("Could not sync index for %s: %s", cls->folder_path, strerror(errno));
+
+	return ret;
 }
 
 static CamelMessageInfo *
