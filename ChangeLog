@@ -1,3 +1,7 @@
+2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: Added AC_C_INLINE - this should fix bug #39171.
+
 2003-03-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Fix kerberos include paths.
