@@ -1,3 +1,7 @@
+2003-04-29  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am (images_DATA): add stock-edit-{16,24}.png
+
 2003-03-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* about-box.png: New artwork from Jakub.
