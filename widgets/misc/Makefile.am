@@ -72,10 +72,11 @@ libemiscwidgets_la_SOURCES =			\
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 @EVO_MARSHAL_RULE@
 
-error_in_files = e-system-errors.xml.in
-error_DATA = $(error_in_files:.xml.in=.xml)
+error_DATA = e-system-errors.xml
+error_i18n = $(error_DATA:.xml=.xml.h)
 errordir = $(privdatadir)/errors
-@INTLTOOL_XML_RULE@
+%.xml.h: %.xml
+	$(top_builddir)/e-util/e-error-tool $^
 
 libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la	\
@@ -176,11 +177,12 @@ test_error_LDADD = 		\
 	$(GNOME_FULL_LIBS)
 
 
-BUILT_SOURCES = $(MARSHAL_GENERATED) $(error_DATA)
+BUILT_SOURCES = $(MARSHAL_GENERATED) $(error_i18n)
 CLEANFILES    = $(BUILT_SOURCES)
 
 EXTRA_DIST =			\
-	$(error_in_files)	\
+	$(error_DATA)		\
+	$(error_i18n)		\
 	e-util-marshal.list	\
 	ChangeLog.pre-1-4
 

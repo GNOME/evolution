@@ -133,44 +133,6 @@ map_type(const char *name)
 	return 3;
 }
 
-static const GList *lang_list;
-
-/* Finds the right node for the current language. */
-static xmlNodePtr
-find_node(xmlNodePtr base, const char *name)
-{
-	const GList *l;
-	xmlNodePtr scan, langc=NULL;
-
-	if (lang_list == NULL)
-		lang_list = gnome_i18n_get_language_list("LC_MESSAGES");
-
-	/* This is, like, way shitful, very slow, terribly inefficient ... sigh */
-	for (l=lang_list;l;l=l->next) {
-		const char *lang = l->data;
-
-		for (scan = base;scan;scan=scan->next) {
-			if (!strcmp(scan->name, name)) {
-				char *xmllang = xmlGetProp(scan, "xml:lang");
-
-				if (xmllang) {
-					if (!strcmp(xmllang, lang)) {
-						xmlFree(xmllang);
-						return scan;
-					}
-					xmlFree(xmllang);
-				} else {
-					langc = scan;
-					if (strcmp(lang, "C") == 0)
-						return scan;
-				}
-			}
-		}
-	}
-
-	return langc;
-}
-
 /*
   XML format:
 
@@ -254,26 +216,23 @@ ee_load(const char *path)
 				xmlFree(tmp);
 			}
 
-			node = find_node(error->children, "primary");
-			if (node && (tmp = xmlNodeGetContent(node))) {
-				e->primary = g_strdup(tmp);
-				xmlFree(tmp);
-			}
-
-			node = find_node(error->children, "secondary");
-			if (node && (tmp = xmlNodeGetContent(node))) {
-				e->secondary = g_strdup(tmp);
-				xmlFree(tmp);
-			}
-
-			node = find_node(error->children, "title");
-			if (node && (tmp = xmlNodeGetContent(node))) {
-				e->title = g_strdup(tmp);
-				xmlFree(tmp);
-			}
-
 			for (scan = error->children;scan;scan=scan->next) {
-				if (!strcmp(scan->name, "button")) {
+				if (!strcmp(scan->name, "primary")) {
+					if ((tmp = xmlNodeGetContent(scan))) {
+						e->primary = g_strdup(_(tmp));
+						xmlFree(tmp);
+					}
+				} else if (!strcmp(scan->name, "secondary")) {
+					if ((tmp = xmlNodeGetContent(node))) {
+						e->secondary = g_strdup(_(tmp));
+						xmlFree(tmp);
+					}
+				} else if (!strcmp(scan->name, "title")) {
+					if ((tmp = xmlNodeGetContent(node))) {
+						e->title = g_strdup(_(tmp));
+						xmlFree(tmp);
+					}
+				} else if (!strcmp(scan->name, "button")) {
 					struct _e_error_button *b;
 
 					b = g_malloc0(sizeof(*b));
