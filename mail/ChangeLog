@@ -1,3 +1,7 @@
+2001-05-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.h: Prototype evolution_mail_config_get_type.
+
 2001-05-27  Dan Winship  <danw@ximian.com>
 
 	* folder-browser-factory.c: #include

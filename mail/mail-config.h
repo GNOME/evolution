@@ -152,6 +152,7 @@ const MailConfigService  *mail_config_get_default_news    (void);
 const GSList             *mail_config_get_news            (void);
 void                      mail_config_add_news            (MailConfigService *news);
 const GSList             *mail_config_remove_news         (MailConfigService *news);
+GtkType evolution_mail_config_get_type (void);
 
 /* convenience functions to help ease the transition over to the new codebase */
 GSList *mail_config_get_sources (void);
