@@ -15,45 +15,36 @@
  * GNU General Public License for more details.
  */
 
-
-#define TEST_VCARD                   \
-"BEGIN:VCARD
-"                      \
-"FN:Nat
-"                           \
-"N:Friedman;Nat;D;Mr.
-"             \
-"BDAY:1977-08-06
-"                  \
-"TEL;WORK:617 679 1984
-"            \
-"TEL;CELL:123 456 7890
-"            \
-"EMAIL;INTERNET:nat@nat.org
-"       \
-"EMAIL;INTERNET:nat@helixcode.com
-" \
-"ADR;WORK;POSTAL:P.O. Box 101;;;Any Town;CA;91921-1234;
-" \
-"ADR;HOME;POSTAL;INTL:P.O. Box 202;;;Any Town 2;MI;12344-4321;USA
-" \
-"END:VCARD
-"                        \
-"
-"
-
-
 #include "config.h"
 
 #include <gnome.h>
+#include <libgnorba/gnorba.h>
+#include <bonobo.h>
 #include "e-canvas.h"
-#include "e-reflow.h"
-#include "e-minicard.h"
+#include "e-minicard-view.h"
 
 /* This is a horrible thing to do, but it is just a test. */
 GnomeCanvasItem *reflow;
 GnomeCanvasItem *rect;
 GtkAllocation last_alloc;
+
+CORBA_Environment ev;
+CORBA_ORB orb;
+
+static void
+init_bonobo (int argc, char **argv)
+{
+
+	gnome_CORBA_init_with_popt_table (
+		"Reflow Test", VERSION,
+		&argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
+
+	orb = gnome_CORBA_ORB ();
+
+	if (bonobo_init (orb, NULL, NULL) == FALSE)
+		g_error (_("Could not initialize Bonobo"));
+
+}
 
 static void destroy_callback(GtkWidget *app, gpointer data)
 {
@@ -115,18 +106,51 @@ static void about_callback( GtkWidget *widget, gpointer data )
 }
 #endif
 
+static void
+book_open_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	if (status == E_BOOK_STATUS_SUCCESS)
+		gnome_canvas_item_set(reflow,
+				      "book", book,
+				      NULL);
+}
+
+static guint
+ebook_create (void)
+{
+	EBook *book;
+	
+	book = e_book_new ();
+
+	if (!book) {
+		printf ("%s: %s(): Couldn't create EBook, bailing.\n",
+			__FILE__,
+			__FUNCTION__);
+		return FALSE;
+	}
+	
+
+	if (! e_book_load_uri (book, "file:/tmp/test.db", book_open_cb, NULL)) {
+		printf ("error calling load_uri!\n");
+	}
+
+
+	return FALSE;
+}
+
 int main( int argc, char *argv[] )
 {
   GtkWidget *app;
   GtkWidget *canvas;
   GtkWidget *vbox;
   GtkWidget *scrollbar;
-  int i;
 
   /*  bindtextdomain (PACKAGE, GNOMELOCALEDIR);
       textdomain (PACKAGE);*/
 
-  gnome_init( "Reflow Test", VERSION, argc, argv);
+  CORBA_exception_init (&ev);
+  init_bonobo (argc, argv);
+
   app = gnome_app_new("Reflow Test", NULL);
 
   vbox = gtk_vbox_new(FALSE, 0);
@@ -141,25 +165,14 @@ int main( int argc, char *argv[] )
 				"fill_color", "white",
 				NULL );
   reflow = gnome_canvas_item_new( gnome_canvas_root( GNOME_CANVAS( canvas ) ),
-				  e_reflow_get_type(),
-				  "x", (double) 0,
-				  "y", (double) 0,
+				  e_minicard_view_get_type(),
 				  "height", (double) 100,
 				  "minimum_width", (double) 100,
 				  NULL );
   gtk_signal_connect( GTK_OBJECT( canvas ), "reflow",
 		      GTK_SIGNAL_FUNC( resize ),
 		      ( gpointer ) app);
-  for ( i = 0; i < 200; i++ )
-    {
-      GnomeCanvasItem *item;
-      ECard *card = e_card_new (TEST_VCARD);
-      item = gnome_canvas_item_new( GNOME_CANVAS_GROUP(reflow),
-				    e_minicard_get_type(),
-				    "card", card,
-				    NULL);
-      e_reflow_add_item(E_REFLOW(reflow), item);
-    }
+
   gnome_canvas_set_scroll_region ( GNOME_CANVAS( canvas ),
 				   0, 0,
 				   100, 100 );
@@ -184,7 +197,9 @@ int main( int argc, char *argv[] )
   gtk_widget_show_all( app );
   gdk_window_set_back_pixmap( GTK_LAYOUT(canvas)->bin_window, NULL, FALSE);
 
-  gtk_main(); 
+  gtk_idle_add ((GtkFunction) ebook_create, NULL);
+
+  bonobo_main ();
 
   /* Not reached. */
   return 0;

@@ -1,0 +1,1 @@
+SUBDIRS = minicard component

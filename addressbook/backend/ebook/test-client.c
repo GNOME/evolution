@@ -30,8 +30,9 @@
 "
 "
 
-CORBA_Environment ev;
-CORBA_ORB orb;
+static CORBA_Environment ev;
+static CORBA_ORB orb;
+static char *cardstr;
 
 static void
 init_bonobo (int argc, char **argv)
@@ -99,7 +100,7 @@ add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
-	e_book_add_vcard(book, TEST_VCARD, add_card_cb, NULL);
+	e_book_add_vcard(book, cardstr, add_card_cb, NULL);
 }
 
 static guint
@@ -125,12 +126,43 @@ ebook_create (void)
 	return FALSE;
 }
 
+static char *
+read_file (char *name)
+{
+	int  len;
+	char buff[65536];
+	char line[1024];
+	FILE *f;
+
+	f = fopen (name, "r");
+	if (f == NULL)
+		g_error ("Unable to open %s!\n", name);
+
+	len  = 0;
+	while (fgets (line, sizeof (line), f) != NULL) {
+		strcpy (buff + len, line);
+		len += strlen (line);
+	}
+
+	fclose (f);
+
+	return g_strdup (buff);
+}
+
+
 int
 main (int argc, char **argv)
 {
 
 	CORBA_exception_init (&ev);
 	init_bonobo (argc, argv);
+
+	cardstr = NULL;
+	if (argc == 2)
+		cardstr = read_file (argv [1]);
+
+	if (cardstr == NULL)
+		cardstr = TEST_VCARD;
 
 	gtk_idle_add ((GtkFunction) ebook_create, NULL);
 	

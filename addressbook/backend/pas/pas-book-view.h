@@ -33,10 +33,14 @@ PASBookView                *pas_book_view_new                (Evolution_BookView
 
 void                        pas_book_view_notify_change      (PASBookView                           *book_view,
 							      const GList                           *cards);
+void                        pas_book_view_notify_change_1    (PASBookView                           *book_view,
+							      const char                            *card);
 void                        pas_book_view_notify_remove      (PASBookView                           *book_view,
 							      const char                            *id);
 void                        pas_book_view_notify_add         (PASBookView                           *book_view,
 							      const GList                           *cards);
+void                        pas_book_view_notify_add_1       (PASBookView                           *book_view,
+							      const char                            *card);
 
 GtkType                     pas_book_view_get_type           (void);
 

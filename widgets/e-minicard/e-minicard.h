@@ -22,7 +22,7 @@
 #define __E_MINICARD_H__
 
 #include <gnome.h>
-#include "e-table-model.h"
+#include "e-card.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -37,10 +37,6 @@ extern "C" {
  * --------------------------------------------------------------------------------
  * width        double          RW              width of the card
  * height       double          R               height of the card
- * model        ETableModel     RW              model to read from
- * row          int             RW              ETableModel row to read from
- *
- * Later:
  * card		ECard*		RW		Pointer to the ECard
  */
 
@@ -72,8 +68,7 @@ struct _EMinicard
 	GnomeCanvasItem *header_text;
 	GList *fields; /* Of type GnomeCanvasItem. */
 
-	ETableModel *model;
-	int row;
+	ECard *card;
 	guint needs_remodeling : 1;
 	
 	gboolean has_focus;
@@ -90,7 +85,9 @@ struct _EMinicardClass
 };
 
 
-GtkType    e_minicard_get_type (void);
+GtkType    e_minicard_get_type    (void);
+char      *e_minicard_get_card_id (EMinicard *minicard);
+int        e_minicard_compare     (EMinicard *minicard1, EMinicard *minicard2);
 
 #ifdef __cplusplus
 }

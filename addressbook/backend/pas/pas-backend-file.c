@@ -25,11 +25,13 @@
 
 static PASBackendClass *pas_backend_file_parent_class;
 typedef struct _PASBackendFileCursorPrivate PASBackendFileCursorPrivate;
+typedef struct _PASBackendFileBookView PASBackendFileBookView;
 
 struct _PASBackendFilePrivate {
 	GList    *clients;
 	gboolean  loaded;
 	DB       *file_db;
+	GList    *book_views;
 };
 
 struct _PASBackendFileCursorPrivate {
@@ -38,6 +40,11 @@ struct _PASBackendFileCursorPrivate {
 
 	GList      *elements;
 	guint32    num_elements;
+};
+
+struct _PASBackendFileBookView {
+	PASBookView *book_view;
+	gchar       *search;
 };
 
 static long
@@ -89,6 +96,20 @@ view_destroy(GtkObject *object, gpointer data)
 	CORBA_Environment ev;
 	Evolution_Book    corba_book;
 	PASBook           *book = (PASBook *)data;
+	PASBackendFile    *bf;
+	GList             *list;
+
+	bf = PAS_BACKEND_FILE(pas_book_get_backend(book));
+	for (list = bf->priv->book_views; list; list = g_list_next(list)) {
+		PASBackendFileBookView *view = list->data;
+		if (view->book_view == PAS_BOOK_VIEW(object)) {
+			g_free (view->search);
+			g_free (view);
+			bf->priv->book_views = g_list_remove_link(bf->priv->book_views, list);
+			g_list_free_1(list);
+			break;
+		}
+	}
 
 	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
 
@@ -131,6 +152,7 @@ pas_backend_file_process_create_card (PASBackend *backend,
 	DBT            id_dbt, vcard_dbt;
 	int            db_error;
 	char           *id;
+	GList         *list;
 
 	id = pas_backend_file_create_unique_id (req->vcard);
 
@@ -140,9 +162,11 @@ pas_backend_file_process_create_card (PASBackend *backend,
 	db_error = db->put (db, &id_dbt, &vcard_dbt, 0);
 
 	if (0 == db_error) {
-#if 0
-		pas_book_notify_add(book, id);
-#endif
+		for (list = bf->priv->book_views; list; list = g_list_next(list)) {
+			PASBackendFileBookView *view = list->data;
+			/* if (card matches view->search) */
+			pas_book_view_notify_add_1 (view->book_view, req->vcard);
+		}
 
 		pas_book_respond_create (
 				 book,
@@ -175,15 +199,18 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 	DB             *db = bf->priv->file_db;
 	DBT            id_dbt;
 	int            db_error;
+	GList         *list;
 
 	string_to_dbt (req->id, &id_dbt);
 
 	db_error = db->del (db, &id_dbt, 0);
 
 	if (0 == db_error) {
-#if 0
-		pas_book_notify_remove (book, req->id);
-#endif
+		for (list = bf->priv->book_views; list; list = g_list_next(list)) {
+			PASBackendFileBookView *view = list->data;
+			/* if (card matches view->search) */
+			pas_book_view_notify_remove (view->book_view, req->id);
+		}
 
 		pas_book_respond_remove (
 				  book,
@@ -211,6 +238,7 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	DB             *db = bf->priv->file_db;
 	DBT            id_dbt, vcard_dbt;
 	int            db_error;
+	GList         *list;
 
 	string_to_dbt (req->id, &id_dbt);
 	string_to_dbt (req->vcard, &vcard_dbt);	
@@ -218,9 +246,16 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	db_error = db->put (db, &id_dbt, &vcard_dbt, 0);
 
 	if (0 == db_error) {
-#if 0
-		pas_book_notify_change (book, req->id);
-#endif
+		for (list = bf->priv->book_views; list; list = g_list_next(list)) {
+			PASBackendFileBookView *view = list->data;
+			/* if (card matches view->search) */
+			pas_book_view_notify_change_1 (view->book_view, req->vcard);
+			/* else if (card changes to match view->search )
+			   pas_book_view_notify_add_1 (view->book_view, req->vcard);
+			   else if (card changes to not match view->search )
+			   pas_book_view_notify_remove (view->book_view, req->id);
+			*/
+		}
 
 		pas_book_respond_modify (
 				 book,
@@ -335,9 +370,11 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	DBT            id_dbt, vcard_dbt;
 	CORBA_Environment ev;
 	int               db_error = 0;
-	PASBookView       *view;
+	PASBookView       *book_view;
 	Evolution_Book    corba_book;
 	GList             *cards = NULL;
+	PASBackendFileBookView *view;
+	
 
 	g_return_if_fail (req->listener != NULL);
 
@@ -354,16 +391,16 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 
 	CORBA_exception_free(&ev);
 
-	view = pas_book_view_new (req->listener);
+	book_view = pas_book_view_new (req->listener);
 
-	gtk_signal_connect(GTK_OBJECT(view), "destroy",
+	gtk_signal_connect(GTK_OBJECT(book_view), "destroy",
 			   GTK_SIGNAL_FUNC(view_destroy), book);
 
 	pas_book_respond_get_book_view (book,
 		   (db_error == 0 
 		    ? Evolution_BookListener_Success 
 		    : Evolution_BookListener_CardNotFound /* XXX */),
-		   view);
+		   book_view);
 
 	/*
 	** no reason to not iterate through the file now and notify
@@ -390,14 +427,19 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 		g_warning ("pas_backend_file_process_get_book_view: error building list\n");
 	}
 	else {
-		pas_book_view_notify_add (view, cards);
+		pas_book_view_notify_add (book_view, cards);
 	}
 
 	/*
-	** the following should be done when the view is destroyed
+	** It's fine to do this now since the data has been handed off.
 	*/
 	g_list_foreach (cards, (GFunc)g_free, NULL);
 	g_list_free (cards);
+
+	view = g_new(PASBackendFileBookView, 1);
+	view->book_view = book_view;
+	view->search = g_strdup(req->search);
+	bf->priv->book_views = g_list_prepend(bf->priv->book_views, view);
 }
 
 static void
@@ -684,9 +726,10 @@ pas_backend_file_init (PASBackendFile *backend)
 {
 	PASBackendFilePrivate *priv;
 
-	priv          = g_new0 (PASBackendFilePrivate, 1);
-	priv->loaded  = FALSE;
-	priv->clients = NULL;
+	priv             = g_new0 (PASBackendFilePrivate, 1);
+	priv->loaded     = FALSE;
+	priv->clients    = NULL;
+	priv->book_views = NULL;
 
 	backend->priv = priv;
 }

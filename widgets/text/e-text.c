@@ -26,6 +26,7 @@
 #include <libart_lgpl/art_rgb_bitmap_affine.h>
 #include <gtk/gtkinvisible.h>
 #include "e-util/e-canvas.h"
+#include "e-util/e-canvas-utils.h"
 
 #include "e-text-event-processor-emacs-like.h"
 
@@ -2163,6 +2164,7 @@ _do_tooltip (gpointer data)
 	ArtPoint origin = {0, 0};
 	ArtPoint pixel_origin;
 	int canvas_x, canvas_y;
+	GnomeCanvasItem *tooltip_text;
 
 	text->tooltip_count = 0;
 
@@ -2194,7 +2196,7 @@ _do_tooltip (gpointer data)
 	pixel_origin.y -= (int) gtk_layout_get_vadjustment(GTK_LAYOUT(GNOME_CANVAS_ITEM(text)->canvas))->value;
 
 	text->tooltip_window = gtk_window_new (GTK_WINDOW_POPUP);
-	gtk_container_set_border_width (GTK_CONTAINER (text->tooltip_window), 2);
+	gtk_container_set_border_width (GTK_CONTAINER (text->tooltip_window), 1);
 
 	canvas = e_canvas_new ();
 	gtk_container_add (GTK_CONTAINER (text->tooltip_window), canvas);
@@ -2212,15 +2214,26 @@ _do_tooltip (gpointer data)
 	}
 
 	gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas)),
-					  e_text_get_type (),
-					  "anchor", GTK_ANCHOR_NW,
-					  "font_gdk", text->font,
-					  "text", text->text,
-					  "editable", FALSE,
-					  "clip_width", max_width,
-					  "clip_height", (double)text->height,
-					  "clip", TRUE,
-					  NULL);
+			       gnome_canvas_rect_get_type (),
+			       "x1", (double) 0,
+			       "y1", (double) 0,
+			       "x2", (double) max_width + 4,
+			       "y2", (double) text->height + 4,
+			       "fill_color", "yellow",
+			       NULL);
+
+	tooltip_text = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas)),
+					      e_text_get_type (),
+					      "anchor", GTK_ANCHOR_NW,
+					      "font_gdk", text->font,
+					      "text", text->text,
+					      "editable", FALSE,
+					      "clip_width", max_width,
+					      "clip_height", (double)text->height,
+					      "clip", TRUE,
+					      NULL);
+
+	e_canvas_item_move_absolute(tooltip_text, 1, 1);
 
 	gtk_widget_set_usize (text->tooltip_window,
 			      (int)max_width + 4,

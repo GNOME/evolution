@@ -1,3 +1,8 @@
+2000-04-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/Makefile.am: Removed linking with libetable and libeminicard
+	since they weren't being used.
+
 2000-04-08  Seth Alves  <alves@hungry.com>
 
 	* gui/gnome-cal.c (gnome_calendar_create): new function:

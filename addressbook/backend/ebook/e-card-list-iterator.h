@@ -26,14 +26,14 @@ typedef struct _ECardListIterator ECardListIterator;
 typedef struct _ECardListIteratorClass ECardListIteratorClass;
 
 struct _ECardListIterator {
-	GtkObject          object;
+	ECardIterator      parent;
 
 	ECardList         *list;
 	GList             *iterator;
 };
 
 struct _ECardListIteratorClass {
-	GtkObjectClass parent_class;
+	ECardIteratorClass parent_class;
 };
 
 ECardIterator *e_card_list_iterator_new (ECardList *list);

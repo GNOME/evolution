@@ -1,3 +1,72 @@
+2000-04-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* art/Makefile.am: pixmap_DATA isn't defined so don't use it as a variable.
+
+	* addressbook/gui/component/,
+	addressbook/gui/component/.cvsignore, addressbook/gui/Makefile.am,
+	addressbook/gui/component/addressbook-factory.c,
+	addressbook/gui/component/addressbook.c,
+	addressbook/gui/component/addressbook.gnorba,
+	addressbook/gui/component/addressbook.h: New directory to proivde
+	the component for contact management.  Simply uses an e-minicard-view.
+
+	* addressbook/gui/minicard/e-minicard-view.c,
+	addressbook/gui/minicard/e-minicard-view.h: New subclass of
+	e-reflow-sorted that takes an EBook and uses it to compute the
+	card data to display.
+
+	* addressbook/gui/minicard/e-minicard.c,
+	addressbook/gui/minicard/e-minicard.h: This now backends to a
+	ECard instead of a ETableModel.
+
+	* addressbook/gui/minicard/e-reflow.c,
+	addressbook/gui/minicard/e-reflow.h: This now has a virtualized
+	add method.
+
+	* addressbook/gui/minicard/e-reflow-sorted.c,
+	addressbook/gui/minicard/e-reflow-sorted.h: New subclass of
+	e-reflow that allows the data to be sorted on the fly.
+
+	* addressbook/gui/minicard/test-minicard-view.c: New test to test
+	the new minicard view.
+
+	* addressbook/gui/minicard/test-reflow.c: Uses the new ECard
+	backend of the e-minicard.
+
+	* addressbook/gui/minicard/.cvsignore,
+	addressbook/gui/minicard/Makefile.am: Added new test.  Fixed
+	dependencies.  Added new files.
+
+	* addressbook/gui/, addressbook/gui/Makefile.am,
+	addressbook/gui/.cvsignore: New directory for addressbook gui
+	bits.  Added subdirectories.  Created an initial .cvsignore.
+
+	* addressbook/Makefile.am (SUBDIRS): Removed demo and added gui.
+
+	* addressbook/backend/pas/pas-backend-file.c: Added code to do
+	notification on bookviews when changes in the backend are made.
+
+	* addressbook/backend/pas/pas-book-view.c,
+	addressbook/backend/pas/pas-book-view.h: Added helper functions to
+	notify the view about the addition or modification of a single
+	card.  Fixed a mistaken extra free.
+
+	* addressbook/backend/ebook/e-card-list-iterator.h: Fixed
+	incorrect parent class.
+
+	* addressbook/backend/ebook/test-client.c: Made this accept an
+	optional parameter that specifies the vcard to add.
+
+	* configure.in: Replaced widgets/e-minicard/Makefile and
+	addressbook/demo/Makefile with addressbook/gui/minicard/Makefile
+	and addressbook/gui/component/Makefile respectively.
+
+	* widgets/Makefile.am: Removed e-minicard since it's being moved
+	to addressbook/gui/minicard.
+
+	* widgets/e-text/e-text.c: Fixed the border width around tooltips
+	and made the main tooltip area yellow.
+
 2000-04-08  Dan Winship  <danw@helixcode.com>
 
 	* configure.in, acconfig.h: add SYSTEM_MAIL_DIR

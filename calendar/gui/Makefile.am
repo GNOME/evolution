@@ -81,8 +81,6 @@ evolution_calendar_SOURCES =			\
 evolution_calendar_LDADD =					\
 	$(EXTRA_GNOME_LIBS)					\
 	$(BONOBO_HTML_GNOME_LIBS)				\
-	$(top_builddir)/widgets/e-minicard/libeminicard.a	\
-	$(top_builddir)/widgets/e-table/libetable.a		\
 	$(top_builddir)/widgets/e-text/libetext.a		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(LINK_FLAGS)

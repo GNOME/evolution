@@ -50,6 +50,15 @@ pas_book_view_notify_change (PASBookView                *book_view,
 	CORBA_free(card_sequence._buffer);
 }
 
+void
+pas_book_view_notify_change_1 (PASBookView *book_view,
+			       const char  *card)
+{
+	GList *list = g_list_append(NULL, (char *) card);
+	pas_book_view_notify_change(book_view, list);
+	g_list_free(list);
+}
+
 /**
  * pas_book_view_notify_remove:
  */
@@ -89,7 +98,7 @@ pas_book_view_notify_add (PASBookView                *book_view,
 	card_sequence._length = length;
 
 	for ( i = 0; cards; cards = g_list_next(cards), i++ ) {
-		card_sequence._buffer[i] = (char *) cards->data;
+		card_sequence._buffer[i] = CORBA_string_dup((char *) cards->data);
 	}
 
 	CORBA_exception_init (&ev);
@@ -104,6 +113,15 @@ pas_book_view_notify_add (PASBookView                *book_view,
 	CORBA_exception_free (&ev);
 
 	CORBA_free(card_sequence._buffer);
+}
+
+void
+pas_book_view_notify_add_1 (PASBookView *book_view,
+			    const char  *card)
+{
+	GList *list = g_list_append(NULL, (char *) card);
+	pas_book_view_notify_add(book_view, list);
+	g_list_free(list);
 }
 
 static gboolean
