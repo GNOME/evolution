@@ -230,14 +230,16 @@ connect_to_server (CamelService *service, /*gboolean real, */CamelException *ex)
 	if (status != CAMEL_POP3_OK)
 		return FALSE;
 
-	apoptime = strchr (buf, '<');
-	apopend = apoptime ? strchr (apoptime, '>') : NULL;
-	if (apopend) {
-		store->apop_timestamp = g_strndup (apoptime,
-						   apopend - apoptime + 1);
-		memmove (apoptime, apopend + 1, strlen (apopend + 1));
+	if (buf) {
+		apoptime = strchr (buf, '<');
+		apopend = apoptime ? strchr (apoptime, '>') : NULL;
+		if (apopend) {
+			store->apop_timestamp =
+				g_strndup (apoptime, apopend - apoptime + 1);
+			memmove (apoptime, apopend + 1, strlen (apopend + 1));
+		}
+		store->implementation = buf;
 	}
-	store->implementation = buf;
 
 	/* Check extensions */
 	store->login_delay = -1;

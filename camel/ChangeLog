@@ -1,3 +1,9 @@
+2000-12-27  Dan Winship  <danw@helixcode.com>
+
+	* providers/pop3/camel-pop3-store.c (connect_to_server): Fix the
+	APOP check to not crash on servers that don't return any
+	information on the +OK greeting line.
+
 2000-12-24  Not Zed  <NotZed@HelixCode.com>
 
 	* providers/imap/camel-imap-search.c (imap_body_contains): Lock
