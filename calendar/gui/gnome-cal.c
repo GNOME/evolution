@@ -276,7 +276,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
 			      G_STRUCT_OFFSET (GnomeCalendarClass, goto_date),
 			      NULL, NULL,
-			      g_cclosure_marshal_VOID__ENUM,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE,
 			      1,
 			      G_TYPE_INT);

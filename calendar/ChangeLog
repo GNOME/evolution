@@ -1,3 +1,7 @@
+2003-12-08  Bolian Yin <bolian.yin@sun.com>
+
+	* gui/gnome-cal.c (gnome_calendar_class_init): correct argument mismatch in "goto_date" signal definition.
+
 2003-12-05  Yong Sun <Yong.Sun@Sun.com>
 
 	Fix for #51337
