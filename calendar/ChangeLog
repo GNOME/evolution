@@ -1,3 +1,9 @@
+2001-07-24  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/recurrence-page.c (get_exception_string): calculate
+	tmp_tm.tm_wday ourselves. strftime has a habit of crashing if you
+	have weird values here. I think this fixes bug #4574.
+
 2001-07-24  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/meeting-page.c (value_at): stip the delto and

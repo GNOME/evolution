@@ -35,6 +35,7 @@
 #include <gal/widgets/e-unicode.h>
 #include "e-util/e-dialog-widgets.h"
 #include "widgets/misc/e-dateedit.h"
+#include <cal-util/timeutil.h>
 #include "../calendar-config.h"
 #include "../tag-calendar.h"
 #include "../weekday-picker.h"
@@ -430,6 +431,10 @@ get_exception_string (CalComponentDateTime *dt)
 	tmp_tm.tm_min = dt->value->minute;
 	tmp_tm.tm_sec = dt->value->second;
 	tmp_tm.tm_isdst = -1;
+
+	tmp_tm.tm_wday = time_day_of_week (dt->value->day,
+					   dt->value->month - 1,
+					   dt->value->year);
 
 	strftime (buf, sizeof (buf), _("%a %b %d %Y"), &tmp_tm);
 	return buf;
