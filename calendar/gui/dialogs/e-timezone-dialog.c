@@ -186,9 +186,9 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 	/* Put the "None" and "UTC" entries at the top of the combo's list.
 	   When "None" is selected we want the field to be cleared. */
 	listitem = gtk_list_item_new_with_label (_("None"));
+	gtk_combo_set_item_string (combo, GTK_ITEM (listitem), "");
 	gtk_widget_show (listitem);
 	gtk_container_add (GTK_CONTAINER (combo->list), listitem);
-	gtk_combo_set_item_string (combo, GTK_ITEM (listitem), "");
 
 	/* Note: We don't translate timezone names at the moment. */
 	listitem = gtk_list_item_new_with_label ("UTC");

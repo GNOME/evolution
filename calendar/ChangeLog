@@ -1,3 +1,13 @@
+2001-06-20  Damon Chaplin  <damon@ximian.com>
+
+	* gui/calendar-commands.c (calendar_control_activate): 
+	* gui/gnome-cal.[hc]: added code to show the timezone dialog if the
+	user hasn't set a default timezone yet.
+
+	* gui/dialogs/e-timezone-dialog.c (e_timezone_dialog_add_timezones): 
+	set the "None" item string before adding it to the combo, to stop the
+	combo putting "None" in the entry initially.
+
 2001-06-19  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/event-page.c: if the timezones of the start and end of

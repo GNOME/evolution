@@ -123,6 +123,9 @@ void	   gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 void	   gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 						  gboolean	 initializing);
 
+/* Shows the timezone dialog if the user hasn't set a default timezone. */
+void	   gnome_calendar_check_timezone_set	(GnomeCalendar *gcal);
+
 void	   gnome_calendar_set_view_buttons	(GnomeCalendar	*gcal,
 						 GtkWidget	*day_button,
 						 GtkWidget	*work_week_button,

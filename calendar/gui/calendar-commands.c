@@ -448,6 +448,8 @@ calendar_control_activate (BonoboControl *control,
 	gnome_calendar_setup_view_menus (gcal, uic);
 
 	bonobo_ui_component_thaw (uic, NULL);
+
+	gnome_calendar_check_timezone_set (gcal);
 }
 
 void
