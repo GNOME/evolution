@@ -149,4 +149,6 @@ void e_summary_add_online_connection (ESummary *summary,
 void e_summary_remove_online_connection  (ESummary *summary,
 					  ESummaryConnection *connection);
 
+void e_summary_freeze (ESummary *summary);
+void e_summary_thaw (ESummary *summary);
 #endif

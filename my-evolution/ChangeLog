@@ -1,5 +1,15 @@
 2001-09-25  Iain Holmes  <iain@ximian.com>
 
+	* e-summary.c (e_summary_draw): Check if the summary is frozen, if so
+	just set redraw_pending.
+	(e_summary_freeze): Freeze the summary.
+	(e_summary_thaw): Thaw the summary and redraw if needed.
+
+	* e-summary-factory.c (control_activate): Thaw summary.
+	(control_deactivate): Freeze summary.
+
+2001-09-25  Iain Holmes  <iain@ximian.com>
+
 	* Misc warnings cleanups.
 
 	* e-summary.c (e_summary_url_requested): Check in the cache for the 

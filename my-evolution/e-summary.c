@@ -82,6 +82,9 @@ struct _ESummaryPrivate {
 	GList *connections;
 
 	gpointer alarm;
+
+	gboolean frozen;
+	gboolean redraw_pending;
 };
 
 typedef struct _ProtocolListener {
@@ -156,6 +159,11 @@ e_summary_draw (ESummary *summary)
 	if (summary->mail == NULL || summary->calendar == NULL
 	    || summary->rdf == NULL || summary->weather == NULL 
 	    || summary->tasks == NULL) {
+		return;
+	}
+
+	if (summary->priv->frozen == TRUE) {
+		summary->priv->redraw_pending = TRUE;
 		return;
 	}
 
@@ -446,6 +454,9 @@ e_summary_init (ESummary *summary)
 	summary->priv = g_new (ESummaryPrivate, 1);
 
 	priv = summary->priv;
+
+	priv->frozen = FALSE;
+	priv->redraw_pending = FALSE;
 
 	priv->html_scroller = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (priv->html_scroller),
@@ -822,4 +833,30 @@ e_summary_remove_online_connection (ESummary *summary,
 
 	summary->priv->connections = g_list_remove_link (summary->priv->connections, p);
 	g_list_free (p);
+}
+
+void
+e_summary_freeze (ESummary *summary)
+{
+	g_return_if_fail (IS_E_SUMMARY (summary));
+
+	if (summary->priv->frozen == TRUE) {
+		return;
+	}
+
+	summary->priv->frozen = TRUE;
+}
+
+void
+e_summary_thaw (ESummary *summary)
+{
+	g_return_if_fail (IS_E_SUMMARY (summary));
+	if (summary->priv->frozen == FALSE) {
+		return;
+	}
+
+	summary->priv->frozen = FALSE;
+	if (summary->priv->redraw_pending) {
+		e_summary_draw (summary);
+	}
 }
