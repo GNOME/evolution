@@ -1,5 +1,11 @@
 2002-07-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-mail-message.xml: Use *Control*equal and *Control*minus
+	for TextZoomIn and TextZoomOut instead of *Control*+ and
+	*Control*-, since the former actually works.  :-)
+
+2002-07-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-mail-message.xml: Bind MessageMove to Control-Shift-V.
 	[#24394]
 

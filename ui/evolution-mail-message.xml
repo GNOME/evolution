@@ -181,11 +181,11 @@
 
     <cmd name="TextZoomIn"
     _tip="Increase the text size"
-    accel="*Control*+" />
+    accel="*Control*equal" />
 
     <cmd name="TextZoomOut"
     _tip="Decrease the text size"
-    accel="*Control*-" />
+    accel="*Control*minus" />
 
     <cmd name="TextZoomReset"
     _tip="Reset the text to its original size"/>
