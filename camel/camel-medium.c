@@ -131,6 +131,9 @@ _finalize (GtkObject *object)
 		g_hash_table_destroy (medium->headers);
 	}
 
+	if (medium->content)
+		gtk_object_unref(medium->content);
+
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMedium::finalize\n");
 }

@@ -35,6 +35,7 @@ extern "C" {
 
 
 #include "camel-exception.h"
+#include "camel-mbox-folder.h"
 
 void 
 camel_mbox_xev_parse_header_content (gchar header_content[6], 
@@ -47,7 +48,8 @@ camel_mbox_xev_write_header_content (gchar header_content[6],
 				     guchar status);
 
 guint32
-camel_mbox_write_xev (gchar *mbox_file_name,
+camel_mbox_write_xev (CamelMboxFolder *folder,
+		      gchar *mbox_file_name,
 		      GArray *summary_information, 
 		      guint32 *file_size,
 		      guint32 last_uid, 

@@ -130,14 +130,16 @@ _store_header_pair_from_string (GArray *header_array, gchar *header_line)
 
 
 	if (header_line) {
-#if 0
+#if 1
 		char *p = strchr(header_line, ':');
 		if (p) {
 			header.name = g_strndup(header_line, p-header_line);
 			header.value = g_strdup(p+1);
+			string_trim (header.value, " \t",
+				     STRING_TRIM_STRIP_LEADING | STRING_TRIM_STRIP_TRAILING);
 			g_array_append_val (header_array, header);
 		}
-#endif
+#else
 		dich_result = string_dichotomy ( header_line, ':', 
 						   &header_name, &header_value,
 						   STRING_DICHOTOMY_NONE);
@@ -159,10 +161,10 @@ _store_header_pair_from_string (GArray *header_array, gchar *header_line)
 			header.name = header_name;
 			header.value = header_value;
 			g_array_append_val (header_array, header);
+			printf("adding header '%s' : '%s'\n", header_name, header_value);
 		}
-
+#endif
 	}
-
 	CAMEL_LOG_FULL_DEBUG ( "_store_header_pair_from_string:: Leaving\n");
 	
 }
@@ -246,9 +248,10 @@ get_header_array_from_stream (CamelStream *stream)
 		} while ( !end_of_header_line );
 		if ( strlen(header_line->str) ) {
 			/*  str_header_line = g_strdup (header_line->str); */
+			/*printf("got header line: %s\n", header_line->str);*/
 			_store_header_pair_from_string (header_array, header_line->str);			
 		}
-		g_string_free (header_line, FALSE);
+		g_string_free (header_line, TRUE);
 		
 	} while ( (!end_of_headers) && (!end_of_file) );
 	

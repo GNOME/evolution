@@ -488,6 +488,8 @@ read_header (CamelMboxPreParser *parser, gchar **header_content)
 		c = buffer[parser->current_position];		
 	}
 
+
+	/* FIXME: this can cause a memory leak, for duplicated headers? */
 	
 	/* copy the buffer in the preparsing information structure */
 	*header_content = g_strndup (parser->tmp_string->str, parser->tmp_string->len);	
@@ -647,10 +649,7 @@ camel_mbox_parse_file (int fd,
 
 	while (parser->buffer[parser->current_position] != '\0') {
 
-		
-
-		
-		/* read the current character */
+	        /* read the current character */
 		if (!newline) {
 			c = parser->buffer[parser->current_position];
 			newline = (c == '\n');

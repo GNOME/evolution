@@ -99,6 +99,7 @@ camel_recipient_table_free (CamelRecipientTable *recipient_table)
 	/* free each recipient list */
 	g_hash_table_foreach (recipient_table->recipient_hash_table, _free_recipient_list, NULL);
 	g_hash_table_destroy (recipient_table->recipient_hash_table);
+	g_free(recipient_table);
 }
 
 

@@ -397,7 +397,7 @@ static void
 my_set_content_id (CamelMimePart *mime_part, gchar *content_id)
 {
 	g_free(mime_part->content_id);
-	mime_part->content_id = content_id;
+	mime_part->content_id = g_strdup(content_id);
 }
 
 

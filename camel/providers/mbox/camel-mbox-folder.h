@@ -35,6 +35,8 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include "camel-folder.h"
+#include "camel-mbox-summary.h"
+#include "libibex/ibex.h"
 
 /*  #include "camel-store.h" */
 
@@ -54,6 +56,7 @@ typedef struct {
 
 	GList  *uid_array;
 
+	ibex *index;		/* index for this folder */
 	int search_id;		/* next search id */
 	GList *searches;	/* current searches */
 } CamelMboxFolder;

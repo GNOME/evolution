@@ -1,3 +1,41 @@
+2000-03-27  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-folder.c (_append_message): Unref the
+	output_stream when done, close doesn't do it.
+	(_append_message): Clear all uid's from the appending messages, so
+	they are reassigned proper unique id's.
+
+	* gmime-utils.c (get_header_array_from_stream): Actually free the
+	header, it is copied elsewhere.
+
+2000-03-26  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-utils.c (camel_mbox_write_xev): Added
+	folder parameter to function.  Fixed callers.
+	(index_message): Index a message as it is assigned a unique id.
+
+	* camel-mime-part.c (my_set_content_id): Make sure we malloc and
+	copy the content_id, otherwise *poof*
+
+2000-03-25  NotZed  <NotZed@HelixCode.com>
+
+	* camel-medium.c (_finalize): Another leak, unref the content if
+	finished with it.
+
+	* camel-recipient.c (camel_recipient_table_free): Plug another
+	memory leak - actually free the recipient table.
+
+	* camel-mime-message.c (_finalize): Plugged a memory leak with the
+	flags table.
+
+	* gmime-utils.c (_store_header_pair_from_string): A simpler, more
+	debuggable and functionally identical header extraction function.
+
+2000-03-24  NotZed  <NotZed@HelixCode.com>
+
+	* gmime-content-field.c (gmime_content_field_set_parameter):
+	Remove the hash table entry before freeing its key and data.
+
 2000-03-27  Dan Winship  <danw@helixcode.com>
 
 	* providers/Makefile.am (SUBDIRS): Add pop3.

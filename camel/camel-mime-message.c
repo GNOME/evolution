@@ -203,7 +203,8 @@ _finalize (GtkObject *object)
 	
 	if (message->flags)
 		g_hash_table_foreach (message->flags, g_hash_table_generic_free, NULL);
-	
+	g_hash_table_destroy(message->flags);
+
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMimeMessage::finalize\n");
 }

@@ -302,9 +302,9 @@ int camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expr
 	/* FIXME: the index should be global to the folder */
 	ctx->message_info = CAMEL_MBOX_SUMMARY(ctx->summary)->message_info;
 	ctx->message_current = NULL;
-	ctx->index = ibex_open(CAMEL_MBOX_FOLDER(folder)->index_file_path, FALSE);
+	ctx->index = CAMEL_MBOX_FOLDER(folder)->index;
 	if (!ctx->index) {
-		perror("Cannot open index file (ignored)");
+		g_warning("No folder index, searches will not function fully");
 	}
 
 	((CamelMboxFolder *)folder)->searches = g_list_append(((CamelMboxFolder *)folder)->searches, ctx);
@@ -337,9 +337,6 @@ int camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expr
 	} else {
 		printf("no result!\n");
 	}
-
-	if (ctx->index)
-		ibex_close(ctx->index);
 
 	gtk_object_unref((GtkObject *)ctx->summary);
 	gtk_object_unref((GtkObject *)f);

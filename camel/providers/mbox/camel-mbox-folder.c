@@ -256,9 +256,8 @@ _check_get_or_maybe_generate_summary_file (CamelMboxFolder *mbox_folder,
 		if (camel_exception_get_id (ex))
 			return;
 
-		next_uid = camel_mbox_write_xev (mbox_folder->folder_file_path,
-						 message_info_array,
-						 &file_size, next_uid, ex);
+		next_uid = camel_mbox_write_xev (mbox_folder, mbox_folder->folder_file_path, 
+						 message_info_array, &file_size, next_uid, ex);
 
 		if (camel_exception_get_id (ex)) { 
 			/* ** FIXME : free the preparsed information */
@@ -284,6 +283,12 @@ _open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 
+	mbox_folder->index = ibex_open(mbox_folder->index_file_path, O_CREAT|O_RDWR, 0600);
+	if (mbox_folder->index == NULL) {
+		g_warning("Could not open/create index file: %s: indexing will not function",
+			  strerror(errno));
+	}
+
 	/* call parent class */
 	parent_class->open (folder, mode, ex);
 	if (camel_exception_get_id(ex))
@@ -306,6 +311,11 @@ _close (CamelFolder *folder, gboolean expunge, CamelException *ex)
 
 	/* call parent implementation */
 	parent_class->close (folder, expunge, ex);
+
+	/* save index */
+	if (mbox_folder->index) {
+		ibex_close(mbox_folder->index);
+	}
 
 	/* save the folder summary on disk */
 	camel_mbox_summary_save (CAMEL_MBOX_SUMMARY (folder->summary),
@@ -331,19 +341,21 @@ _set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 	g_free (mbox_folder->folder_dir_path);
 	g_free (mbox_folder->index_file_path);
 
-	root_dir_path = camel_mbox_store_get_toplevel_dir (CAMEL_MBOX_STORE (folder->parent_store));
+	root_dir_path = camel_mbox_store_get_toplevel_dir (CAMEL_MBOX_STORE(folder->parent_store));
 
-	mbox_folder->folder_file_path =
-		g_strdup_printf ("%s/%s", root_dir_path, folder->full_name);
-	mbox_folder->summary_file_path =
-		g_strdup_printf ("%s/%s-ev-summary", root_dir_path,
-				 folder->full_name);
-	mbox_folder->folder_dir_path =
-		g_strdup_printf ("%s/%s.sdb", root_dir_path,
-				 folder->full_name);
-	mbox_folder->index_file_path =
-		g_strdup_printf ("%s/%s.ibex", root_dir_path,
-				 folder->full_name);
+	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name full_name is %s\n", folder->full_name);
+	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name root_dir_path is %s\n", root_dir_path);
+
+	mbox_folder->folder_file_path = g_strdup_printf ("%s/%s", root_dir_path, folder->full_name);
+	mbox_folder->summary_file_path = g_strdup_printf ("%s/%s-ev-summary", root_dir_path, folder->full_name);
+	mbox_folder->folder_dir_path = g_strdup_printf ("%s/%s.sdb", root_dir_path, folder->full_name);
+	mbox_folder->index_file_path = g_strdup_printf ("%s/%s.ibex", root_dir_path, folder->full_name);
+
+	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name mbox_folder->folder_file_path is %s\n", 
+			      mbox_folder->folder_file_path);
+	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name mbox_folder->folder_dir_path is %s\n", 
+			      mbox_folder->folder_dir_path);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::set_name\n");
 }
 
 
@@ -476,9 +488,10 @@ _create (CamelFolder *folder, CamelException *ex)
 	/* it must be rw for the user and none for the others */
 	creat_fd = open (folder_file_path, 
 			 O_WRONLY | O_CREAT | O_APPEND,
-			 S_IRUSR  | S_IWUSR, 0600); 
+			 0600);
 	if (creat_fd == -1)
 		goto io_error;
+
 	close (creat_fd);
 
 	/* create the summary object */
@@ -650,7 +663,7 @@ _delete_messages (CamelFolder *folder, CamelException *ex)
 	/* it must be rw for the user and none for the others */
 	creat_fd = open (folder_file_path, 
 			 O_WRONLY | O_TRUNC,
-			 S_IRUSR  | S_IWUSR, 0600); 
+			 0600); 
 	if (creat_fd == -1)
 		goto io_error;
 	close (creat_fd);
@@ -832,6 +845,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	GArray *mbox_summary_info;
 	gchar *tmp_message_filename;
 	gint fd1, fd2;
+	int i;
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::append_message\n");
 
@@ -846,6 +860,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), output_stream);
 	}
 	camel_stream_close (output_stream);
+	gtk_object_unref(output_stream);
 
 	/* at this point we have saved the message to a
 	   temporary file, now, we have to add the x-evolution 
@@ -869,15 +884,21 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	close (tmp_file_fd);
 
 	/* get the value of the last available UID
-	   as saved in the summary file */
+	   as saved in the summary file, again */
 	next_uid = summary->next_uid;
+
+	/* make sure all our of message info's have 0 uid - ignore any
+	   set elsewhere */
+	for (i=0;i<message_info_array->len;i++) {
+		g_array_index(message_info_array, CamelMboxParserMessageInfo, i).uid = 0;
+	}
 
 	/* 
 	   OK, this is not very efficient, we should not use the same
 	   method as for parsing an entire mail file, 
 	   but I have no time to write a simpler parser 
 	*/
-	next_uid = camel_mbox_write_xev (tmp_message_filename, 
+	next_uid = camel_mbox_write_xev (folder, tmp_message_filename, 
 					 message_info_array, &tmp_file_size, next_uid, ex);
 	
 	if (camel_exception_get_id (ex)) { 
@@ -904,7 +925,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	fd1 = open (tmp_message_filename, O_RDONLY);
 	fd2 = open (mbox_folder->folder_file_path, 
 		    O_WRONLY | O_CREAT | O_APPEND,
-		    S_IRUSR  | S_IWUSR, 0600);
+		    0600);
 
 	if (fd2 == -1) {
 		camel_exception_setv (ex, 
