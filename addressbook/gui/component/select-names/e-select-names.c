@@ -65,7 +65,6 @@ enum {
 
 typedef struct {
 	char                  *title;
-	ETableModel           *model;
 	ESelectNamesModel     *source;
 	ESelectNamesTextModel *text_model;
 	ESelectNames          *names;
@@ -836,7 +835,7 @@ static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESele
 {
 	gtk_signal_disconnect_by_func (GTK_OBJECT (child->source), GTK_SIGNAL_FUNC (sync_table_and_models), e_select_names);
 	g_free(child->title);
-	gtk_object_unref(GTK_OBJECT(child->model));
+	gtk_object_unref(GTK_OBJECT(child->text_model));
 	gtk_object_unref(GTK_OBJECT(child->source));
 	g_free(key);
 }
@@ -1104,11 +1103,11 @@ e_select_names_get_section(ESelectNames *e_select_names, char *id)
 	child = g_hash_table_lookup(e_select_names->children, id);
 	if (!child)
 		return NULL;
-	rows = e_table_model_row_count(child->model);
+	rows = e_select_names_model_count (child->source);
 	
 	list = e_list_new(card_copy, card_free, NULL);
 	for (i = 0; i < rows; i++) {
-		ECard *card = e_cardlist_model_get(E_CARDLIST_MODEL(child->model), i);
+		ECard *card = e_select_names_model_get_card (child->source, i);
 		e_list_append(list, card);
 		gtk_object_unref(GTK_OBJECT(card));
 	}

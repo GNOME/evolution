@@ -1,3 +1,10 @@
+2002-04-26  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_child_free): Unref the text_model here instead of
+	the model, since the model never gets set.  Removed the model
+	field since it's no longer used.
+
 2002-04-24  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/ldap-config.c: Updated this for the new
