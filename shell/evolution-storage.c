@@ -320,7 +320,7 @@ impl_Storage_async_xfer_folder (PortableServer_Servant servant,
 	storage = EVOLUTION_STORAGE (bonobo_object);
 
 	obj_dup = CORBA_Object_duplicate (listener, ev);
-	gtk_signal_emit (GTK_OBJECT (storage), signals[REMOVE_FOLDER],
+	gtk_signal_emit (GTK_OBJECT (storage), signals[XFER_FOLDER],
 			 obj_dup, source_path, destination_path, remove_source);
 }
 

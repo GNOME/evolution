@@ -1,3 +1,8 @@
+2001-10-27    <NotZed@Ximian.com>
+
+	* evolution-storage.c (impl_Storage_async_xfer_folder): We want
+	XFER_FOLDER not REMOVE_FOLDER!
+
 2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-offline-handler.c (prepare_for_offline): Remove
