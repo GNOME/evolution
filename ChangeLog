@@ -1,5 +1,9 @@
 1999-05-01  bertrand <Bertrand.Guiheneuf@inria.fr>
 
+	* camel/camel-folder.c (camel_folder_delete): 
+	(camel_folder_delete_messages): 
+	new methods.
+
 	* camel/url-util.c (g_url_new): some
 	more comments 
 

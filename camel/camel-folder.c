@@ -42,6 +42,8 @@ static gboolean camel_folder_exists(CamelFolder *folder);
 static gboolean camel_folder_is_open(CamelFolder *folder);
 static CamelFolder *camel_folder_get_folder(CamelFolder *folder, GString *folder_name);
 static gboolean __camel_folder_create(CamelFolder *folder);
+static gboolean __camel_folder_delete (CamelFolder *folder, gboolean recurse);
+static gboolean __camel_folder_delete_messages(CamelFolder *folder);
 
 static void
 camel_folder_class_init (CamelFolderClass *camel_folder_class)
@@ -60,6 +62,8 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->is_open = camel_folder_is_open;
 	camel_folder_class->get_folder = camel_folder_get_folder;
 	camel_folder_class->create = __camel_folder_create;
+	camel_folder_class->delete = __camel_folder_delete;
+	camel_folder_class->delete_messages = __camel_folder_delete_messages;
 	/* virtual method overload */
 }
 
@@ -97,8 +101,7 @@ camel_folder_get_type (void)
 
 
 /**
- * camel_folder_init_with_store: init the folder by setting its parent store. 
- *
+ * camel_folder_init_with_store: init the folder by setting its parent store.
  * @folder: folder object to initialize
  * @parent_store: parent store object of the folder
  * 
@@ -115,27 +118,28 @@ camel_folder_init_with_store(CamelFolder *folder, CamelStore *parent_store)
 
 
 
-/** 
+
+/**
  * camel_folder_open: Open a folder
- *
- * Put a folder in its opened state. 
+ * @folder: 
  * 
- **/ 
+ * 
+ **/
 static void
 camel_folder_open(CamelFolder *folder)
 {
 	folder->open_state = FOLDER_OPEN;
 }
 
-/** 
- * camel_folder_close: Close a folder.
- *
+
+/**
+ * camel_folder_close:Close a folder.
+ * @folder: 
+ * @expunge: if TRUE, the flagged message are deleted.
+ * 
  * Put a folder in its closed state, and possibly 
  * expunge the flagged messages.
- * 
- * @expunge: if TRUE, the flagged message are
- * deleted.
- **/ 
+ **/
 static void
 camel_folder_close(CamelFolder *folder, gboolean expunge)
 {
@@ -145,14 +149,15 @@ camel_folder_close(CamelFolder *folder, gboolean expunge)
 
 
 
-/** 
- * camel_folder_set_name : set the (short) name of the folder
- *
+
+/**
+ * camel_folder_set_name:set the (short) name of the folder
+ * @folder: folder
+ * @name: new name of the folder
+ * 
  * set the name of the folder. 
  * The old name object is freed.
- *
- * @name_string: new name of the folder
- *
+ * 
  **/
 static void
 camel_folder_set_name(CamelFolder *folder, GString *name)
@@ -162,14 +167,15 @@ camel_folder_set_name(CamelFolder *folder, GString *name)
 }
 
 
-/** 
- * camel_folder_set_full_name : set the (full) name of the folder
- *
+
+/**
+ * camel_folder_set_full_name:set the (full) name of the folder
+ * @folder: folder
+ * @name: new name of the folder
+ * 
  * set the name of the folder. 
  * The old name object is freed.
- *
- * @name_string: new name of the folder
- *
+ * 
  **/
 static void
 camel_folder_set_full_name(CamelFolder *folder, GString *name)
@@ -180,14 +186,15 @@ camel_folder_set_full_name(CamelFolder *folder, GString *name)
 
 
 
-/** 
- * camel_folder_get_name : get the (short) name of the folder
- *
+
+/**
+ * camel_folder_get_name: get the (short) name of the folder
+ * @folder: 
+ * 
  * get the name of the folder. The fully qualified name
  * can be obtained with the get_full_ame method (not implemented)
  *
- * @Return Value: name of the folder
- *
+ * Return value: name of the folder
  **/
 static GString *
 camel_folder_get_name(CamelFolder *folder)
@@ -196,14 +203,13 @@ camel_folder_get_name(CamelFolder *folder)
 }
 
 
-/** 
- * camel_folder_get_full_name : get the (full) name of the folder
- *
- * get the name of the folder. The fully qualified name
- * can be obtained with the get_full_ame method (not implemented)
- *
- * @Return Value: name of the folder
- *
+/**
+ * camel_folder_get_full_name:get the (full) name of the folder
+ * @folder: folder to get the name 
+ * 
+ * get the name of the folder. 
+ * 
+ * Return value: full name of the folder
  **/
 static GString *
 camel_folder_get_full_name(CamelFolder *folder)
@@ -212,9 +218,14 @@ camel_folder_get_full_name(CamelFolder *folder)
 }
 
 
+
 /**
- * camel_folder_can_hold_folders : tests if the folder can contain other folders
- *
+ * camel_folder_can_hold_folders: tests if the folder can contain other folders
+ * @folder: 
+ * 
+ * 
+ * 
+ * Return value: 
  **/
 static gboolean
 camel_folder_can_hold_folders(CamelFolder *folder)
@@ -224,9 +235,14 @@ camel_folder_can_hold_folders(CamelFolder *folder)
 
 
 
-/** 
- * camel_folder_can_hold_messages : tests if the folder can contain messages
- *
+
+/**
+ * camel_folder_can_hold_messages: tests if the folder can contain messages
+ * @folder: 
+ * 
+ * 
+ * 
+ * Return value: 
  **/
 static gboolean
 camel_folder_can_hold_messages(CamelFolder *folder)
@@ -236,9 +252,13 @@ camel_folder_can_hold_messages(CamelFolder *folder)
 
 
 
-/** 
- * camel_folder_exists : tests if the folder object exists on the store.
- *
+/**
+ * camel_folder_exists: tests if the folder object exists on the store.
+ * @folder: 
+ * 
+ * 
+ * 
+ * Return value: 
  **/
 static gboolean
 camel_folder_exists(CamelFolder *folder)
@@ -248,9 +268,13 @@ camel_folder_exists(CamelFolder *folder)
 
 
 
-/** 
- * camel_folder_is_open : test if the folder is open
- *
+/**
+ * camel_folder_is_open:
+ * @folder: 
+ * 
+ * 
+ * 
+ * Return value: 
  **/
 static gboolean
 camel_folder_is_open(CamelFolder *folder)
@@ -351,14 +375,110 @@ camel_folder_create(CamelFolder *folder)
 
 
 
+
+/**
+ * __camel_folder_delete: delete folder 
+ * @folder: folder to delete
+ * @recurse: true is subfolders must also be deleted
+ * 
+ * Delete a folder and its subfolders (if recurse is TRUE).
+ * The scheme is the following:
+ * 1) delete all messages in the folder
+ * 2) if recurse is FALSE, and if there are subfolders
+ *    return FALSE, else delete current folder and retuen TRUE
+ *    if recurse is TRUE, delete subfolders, delete
+ *    current folder and return TRUE
+ * 
+ * subclasses implementing a protocol with a different 
+ * deletion behaviour must emulate this one or implement
+ * empty folders deletion and call  this routine which 
+ * will do all the works for them.
+ * Opertions must be done in the folllowing order:
+ *  - call this routine
+ *  - delete empty folder
+ * 
+ * Return value: true if the folder has been deleted
+ **/
 static gboolean
 __camel_folder_delete (CamelFolder *folder, gboolean recurse)
 {
-	g_assert(folder);
+	GList *subfolders=NULL;
+	GList *sf;
+	gboolean ok;
 	
+	g_assert(folder);
+
+	/* method valid only on closed folders */
+	if (folder->open_state != FOLDER_CLOSE) return FALSE;
+
 	/* delete all messages in the folder */
+	CF_CLASS(folder)->delete_messages(folder);
+#warning implement list_subfolders
+	/* subfolders = CF_CLASS(folder)->list_subfolders(folder); */
 	
 	if (recurse) { /* delete subfolders */
-		
-	}
+		if (subfolders) {
+			sf = subfolders;
+			do {
+				CF_CLASS(sf->data)->delete(sf->data, TRUE);;
+			} while (sf = sf->next);
+		}
+	} else if (subfolders) return FALSE;
+	
+	
+	return TRUE;
+}
+
+
+
+/**
+ * camel_folder_delete: delete a folder
+ * @folder: folder to delete
+ * @recurse: TRUE if subfolders must be deleted
+ * 
+ * Delete a folder. All messages in the folder 
+ * are deleted before the folder is deleted. 
+ * When recurse is true, all subfolders are
+ * deleted too. When recurse is FALSE and folder 
+ * contains subfolders, all messages are deleted,
+ * but folder deletion fails. 
+ * 
+ * Return value: TRUE if deletion was successful
+ **/
+gboolean camel_folder_delete (CamelFolder *folder, gboolean recurse)
+{
+	return CF_CLASS(folder)->delete(folder, recurse);
+}
+
+
+
+
+
+/**
+ * __camel_folder_delete_messages: delete all messages in the folder
+ * @folder: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
+static gboolean 
+__camel_folder_delete_messages(CamelFolder *folder)
+{
+	return TRUE;
+}
+
+
+/**
+ * camel_folder_delete_messages: delete all messages in the folder
+ * @folder: folder 
+ * 
+ * delete all messages stored in a folder
+ * 
+ * Return value: TRUE if the messages could be deleted
+ **/
+gboolean
+camel_folder_delete_messages(CamelFolder *folder)
+{
+	return CF_CLASS(folder)->delete_messages(folder);
 }

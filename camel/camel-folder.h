@@ -70,7 +70,6 @@ struct _CamelFolder
 	CamelStore *parent_store;
 	CamelFolder *parent_folder;
 	
-	
 };
 
 
@@ -92,6 +91,8 @@ typedef struct {
 	gboolean   (*is_open) (CamelFolder *folder);
 	CamelFolder *  (*get_folder) (CamelFolder *folder, GString *folder_name);
 	gboolean   (*create) (CamelFolder *folder);
+	gboolean   (*delete) (CamelFolder *folder, gboolean recurse);
+	gboolean   (*delete_messages) (CamelFolder *folder);
 } CamelFolderClass;
 
 
@@ -102,6 +103,8 @@ GtkType camel_folder_get_type (void);
 
 /* public methods */
 gboolean camel_folder_create(CamelFolder *folder);
+gboolean camel_folder_delete (CamelFolder *folder, gboolean recurse);
+gboolean camel_folder_delete_messages (CamelFolder *folder);
 
 
 
