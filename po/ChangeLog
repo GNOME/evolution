@@ -1,3 +1,7 @@
+2001-06-24  Federico Mena Quintero  <federico@ximian.com>
+
+	* POTFILES.in: Shuffled the alarm-notify files a bit.
+
 2001-06-22  Zbigniew Chyla  <chyla@gnome.pl>
 
 	* POTFILES.in: Added mail/message-list.etspec.

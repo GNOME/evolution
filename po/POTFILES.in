@@ -38,14 +38,13 @@ calendar/cal-util/timeutil.c
 calendar/conduits/calendar/calendar-conduit.c
 calendar/conduits/todo/todo-conduit.c
 calendar/gui/alarm-notify/alarm-queue.c
-#calendar/gui/alarm-notify.c
 calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in
+calendar/gui/alarm-notify/alarm-notify-dialog.c
+calendar/gui/alarm-notify/alarm-notify.glade
 calendar/gui/alarm-notify/notify-main.c
 calendar/gui/calendar-commands.c
 calendar/gui/calendar-model.c
 calendar/gui/control-factory.c
-calendar/gui/dialogs/alarm-notify-dialog.c
-calendar/gui/dialogs/alarm-notify.glade
 calendar/gui/dialogs/alarm-page.c
 calendar/gui/dialogs/alarm-page.glade
 calendar/gui/dialogs/cal-prefs-dialog.glade
