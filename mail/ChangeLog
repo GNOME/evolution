@@ -1,3 +1,8 @@
+2002-09-30  Not Zed  <NotZed@Ximian.com>
+
+	* mail-session.c (request_password): translate prompt from utf8 to
+	gtk widget.  #31365.
+
 2002-09-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-searching-tokenizer.c: #include <stdlib.h> for alloca

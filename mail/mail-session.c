@@ -259,16 +259,14 @@ request_password(struct _pass_msg *m)
 
 	/* FIXME: Remove this total snot */
 
-	/* this api is just awful ... hence the major hacks */
-	password_dialogue = (GnomeDialog *)dialogue = gnome_request_dialog (m->secret, m->prompt, NULL, 0, pass_got, m, NULL);
-
-	/* cant bleieve how @!@#!@# 5this api is, it doesn't handle this for you, BLAH! */
+	/* assume we can use any widget to translate string for display */
+	check_label = gtk_label_new ("");
+	title = e_utf8_to_gtk_string (GTK_WIDGET (check_label), m->prompt);
+	password_dialogue = (GnomeDialog *)dialogue = gnome_request_dialog (m->secret, title, NULL, 0, pass_got, m, NULL);
+	g_free(title);
 	password_destroy_id = gtk_signal_connect((GtkObject *)dialogue, "destroy", request_password_deleted, m);
 
-	/* Remember the password? */
-
 	check = gtk_check_button_new ();
-	check_label = gtk_label_new ("");
 	gtk_misc_set_alignment (GTK_MISC (check_label), 0.0, 0.5);
 	accel_key = gtk_label_parse_uline (GTK_LABEL (check_label),
 					   m->service_url ? _("_Remember this password") :
