@@ -1,3 +1,8 @@
+2003-04-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-gtk-utils.c (e_gtk_button_new_with_icon): Remove debugging
+	message.
+
 2003-04-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-sexp.c: Finished an #if 0'd out port to GObject from an #if

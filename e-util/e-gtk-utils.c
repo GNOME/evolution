@@ -198,8 +198,6 @@ e_gtk_button_new_with_icon(const char *text, const char *stock)
 	if (gtk_stock_lookup(stock, &item)) {
 		GtkWidget *image, *hbox, *align;
 
-		printf("new stock button '%s' label '%s'\n", stock, text);
-
 		image = gtk_image_new_from_stock(stock, GTK_ICON_SIZE_BUTTON);
 		hbox = gtk_hbox_new(FALSE, 2);
 		align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
