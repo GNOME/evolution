@@ -1,3 +1,10 @@
+2003-02-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Build e-pilot-settings into libeconduit if !
+	ENABLE_PILOT_CONDUITS, so we avoid doing a non-portable "ar cru"
+	without any object files [fails on OS X, reported by Max Horn
+	<max@quendi.de>].
+
 2003-01-24  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-categories-config.c: Fix #include <config.h>
