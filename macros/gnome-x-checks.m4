@@ -37,7 +37,7 @@ AC_DEFUN([GNOME_X_CHECKS],
 	AC_MSG_CHECKING([whether to use features from (unstable) GTK+ 1.1.x])
 	AC_EGREP_CPP(answer_affirmatively,
 	[#include <gtk/gtkfeatures.h>
-	#ifdef GTK_HAVE_ACCEL_GROUP
+	#ifdef GTK_HAVE_FEATURES_1_1_0
 	   answer_affirmatively
 	#endif
 	], dev_gtk=yes, dev_gtk=no)

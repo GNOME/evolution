@@ -1,3 +1,8 @@
+1998-07-27  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gnome-x-checks.m4: Changed Gtk version test to use
+	GTK_HAVE_FEATURES_1_1_0.
+
 Sun Jul 26 13:59:53 EDT 1998  Daniel Veillard <Daniel.Veillard@w3.org>
 
 	* Makefile.am (MACROS): Added gnome-xml-check.m4
