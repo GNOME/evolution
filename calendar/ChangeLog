@@ -1,3 +1,8 @@
+1999-07-19  Matt Martin <matt@abacusnet.net>
+
+	* timeutil.c (time_from_isodate): Handle the 'Z' parameter to the
+	ISO date format to convert from GMT time.
+
 1999-07-17  Nat Friedman  <nat@gnome-support.com>
 
 	* calendar.c (calendar_add_object): Copy the new UID into the

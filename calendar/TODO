@@ -7,6 +7,10 @@ BUGS:
 - X-fields (extensions) are stripped from a vCal file when it is
   saved.  They should be preserved.
 
+Features:
+
+- Add a calendar-week so that people know which week of the year it is
+
 Year view:
 
 - See why it is so fucking slow when opening its notebook page for the

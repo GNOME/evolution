@@ -18,6 +18,9 @@ time_from_isodate (char *str)
 	struct tm my_tm;
 	time_t t;
 
+	if (strlen (str) < 14)
+		return -1;
+	
 	my_tm.tm_year = (digit_at (str, 0) * 1000 + digit_at (str, 1) * 100 +
 		digit_at (str, 2) * 10 + digit_at (str, 3)) - 1900;
 
@@ -29,6 +32,10 @@ time_from_isodate (char *str)
 	my_tm.tm_isdst = -1;
 	
 	t = mktime (&my_tm);
+
+	if (str [15] == 'Z')
+		t -= timezone;
+	    
 	return t;
 }
 
