@@ -1,3 +1,9 @@
+2004-12-1   Hao Sheng <hao.sheng@sun.com>
+
+	* a11y/addressbook/ea-minicard.c:
+	(atk_action_interface_do_action): Change e_minicard_activiate_editor to
+	e_minicard_activate_editor.
+
 2004-11-08  Steven Zhang <steven.zhang@sun.com>
 
 	Implement accessible feature for e-minicard and e-mini-card-view.

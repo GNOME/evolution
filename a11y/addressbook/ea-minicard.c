@@ -238,7 +238,7 @@ static gboolean atk_action_interface_do_action (AtkAction *iface, gint i)
 	switch (i) {
 		// open card
 		case 0:
-			e_minicard_activiate_editor (minicard);
+			e_minicard_activate_editor (minicard);
 			break;
 		default:
 			return FALSE;
