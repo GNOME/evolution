@@ -78,4 +78,4 @@ install-data-local:
 	$(mkinstalldirs) $(help_base)/C
 	$(INSTALL_DATA)  $(srcdir)/topic.dat $(help_base)/C/topic.dat
 	$(INSTALL_DATA)  $(srcdir)/gnome-cal.html $(help_base)/C/gnome-cal.html
-	cd $(help_base)/C; ln -sf gnome-cal.html index.html	
+	cd $(help_base)/C; rm -f index.html ; $(LN_S) gnome-cal.html index.html	
