@@ -49,7 +49,8 @@ evolution_executive_summary_SOURCES =		\
 	main.c				\
 	metar.c				\
 	metar.h				\
-	my-evolution-html.h
+	my-evolution-html.h		\
+	weather.h
 
 evolution_executive_summary_LDADD = 					\
 	$(top_builddir)/shell/libeshell.la		\
