@@ -1,3 +1,8 @@
+2001-01-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config-druid.c (incoming_type_changed): Oops, danw didn't
+	know 'provider' could be NULL :-)
+
 2001-01-22  Dan Winship  <danw@ximian.com>
 
 	* mail-config-druid.c (incoming_type_changed): Change "Path:"

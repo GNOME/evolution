@@ -454,7 +454,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	/* path */
 	label = glade_xml_get_widget (druid->gui, "lblSourcePath");
 	/* FIXME */
-	if (!strcmp (provider->protocol, "imap"))
+	if (provider && !strcmp (provider->protocol, "imap"))
 		gtk_label_set_text (GTK_LABEL (label), _("Namespace:"));
 	else
 		gtk_label_set_text (GTK_LABEL (label), _("Path:"));
@@ -464,7 +464,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 		
 		if (!strcmp (provider->protocol, "mbox")) {
 			char *path;
-
+			
 			if (getenv ("MAIL"))
 				path = g_strdup (getenv ("MAIL"));
 			else
