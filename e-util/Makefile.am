@@ -12,7 +12,7 @@ INCLUDES =								\
 	-DG_DISABLE_DEPRECATED						\
 	-DGTK_DISABLE_DEPRECATED					\
 	$(DB3_CFLAGS)							\
-	$(PISOCK_CFLAGS)						\
+	$(GNOME_PILOT_CFLAGS)						\
 	$(E_UTIL_CFLAGS)
 
 privlib_LTLIBRARIES = libeutil.la libedb3util.la libeconduit.la

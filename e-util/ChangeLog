@@ -1,3 +1,7 @@
+2003-02-27  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: include gnome-pilot cflags
+
 2003-02-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-account-list.c (gconf_accounts_changed): 'uid' should not be
