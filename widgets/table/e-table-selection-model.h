@@ -65,6 +65,9 @@ void             e_table_selection_model_maybe_do_something    (ETableSelectionM
 void             e_table_selection_model_clear           (ETableSelectionModel *selection);
 gint             e_table_selection_model_selected_count  (ETableSelectionModel *selection);
 
+void             e_table_selection_model_select_all       (ETableSelectionModel *selection);
+void             e_table_selection_model_invert_selection (ETableSelectionModel *selection);
+
 ETableSelectionModel  *e_table_selection_model_new       (void);
 
 #endif /* _E_TABLE_SELECTION_MODEL_H_ */

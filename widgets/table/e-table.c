@@ -951,6 +951,24 @@ e_table_selected_row_foreach     (ETable *e_table,
 					closure);
 }
 
+void
+e_table_select_all (ETable *table)
+{
+	g_return_if_fail (table != NULL);
+	g_return_if_fail (E_IS_TABLE (table));
+	
+	e_table_selection_model_select_all (table->selection);
+}
+
+void
+e_table_invert_selection (ETable *table)
+{
+	g_return_if_fail (table != NULL);
+	g_return_if_fail (E_IS_TABLE (table));
+	
+	e_table_selection_model_invert_selection (table->selection);
+}
+
 
 EPrintable *
 e_table_get_printable (ETable *e_table)

@@ -501,3 +501,45 @@ e_table_selection_model_selected_count (ETableSelectionModel *selection)
 
 	return count;
 }
+
+void
+e_table_selection_model_select_all (ETableSelectionModel *selection)
+{
+	int i;
+	
+	if (selection->row_count < 0) {
+		if (selection->model) {
+			selection->row_count = e_table_model_row_count (selection->model);
+			g_free (selection->selection);
+			selection->selection = g_new0 (gint, (selection->row_count + 31) / 32);
+		}
+	}
+	
+	if (!selection->selection)
+		selection->selection = g_new0 (gint, (selection->row_count + 31) / 32);
+	
+	for (i = 0; i < (selection->row_count + 31) / 32; i ++) {
+		selection->selection[i] = ONES;
+	}
+}
+
+void
+e_table_selection_model_invert_selection (ETableSelectionModel *selection)
+{
+	int i;
+	
+	if (selection->row_count < 0) {
+		if (selection->model) {
+			selection->row_count = e_table_model_row_count (selection->model);
+			g_free (selection->selection);
+			selection->selection = g_new0 (gint, (selection->row_count + 31) / 32);
+		}
+	}
+	
+	if (!selection->selection)
+		selection->selection = g_new0 (gint, (selection->row_count + 31) / 32);
+	
+	for (i = 0; i < (selection->row_count + 31) / 32; i ++) {
+		selection->selection[i] = ~selection->selection[i];
+	}
+}

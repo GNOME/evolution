@@ -247,6 +247,10 @@ GdkDragContext *e_table_drag_begin (ETable            *table,
 				    gint               button,
 				    GdkEvent          *event);
 
+/* selection stuff */
+void e_table_select_all       (ETable *table);
+void e_table_invert_selection (ETable *table);
+
 END_GNOME_DECLS
 
 #endif /* _E_TABLE_H_ */
