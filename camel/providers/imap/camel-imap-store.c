@@ -195,6 +195,8 @@ CamelImapMsg *camel_imap_msg_new(void (*receive)(CamelImapStore *store, struct _
 	msg = g_malloc0(size);
 	msg->receive = receive;
 	msg->free = free;
+
+	return msg;
 }
 
 void camel_imap_msg_queue(CamelImapStore *store, CamelImapMsg *msg)

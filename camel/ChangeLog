@@ -1,3 +1,8 @@
+2001-09-10    <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (camel_imap_msg_new): Forgot
+	to return the newly allocated msg.
+
 2001-09-08  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-spool-summary.c (spool_summary_sync_full): Likewise.
