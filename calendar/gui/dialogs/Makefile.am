@@ -8,6 +8,8 @@ INCLUDES = 						\
 	-I$(top_builddir)/calendar/cal-client		\
 	-I$(top_srcdir)/libical/src/libical		\
 	-I$(top_builddir)/libical/src/libical		\
+	-I$(top_builddir)/shell				\
+	-I$(top_srcdir)/shell				\
 	-I$(includedir)					\
 	$(EXTRA_GNOME_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\

@@ -1,5 +1,7 @@
 2001-06-21  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/Makefile.am (gladedir): add include path
+
 	* gui/dialogs/comp-editor.c (setup_widgets): remove buttons and
 	use evolution's standard ui config
 
