@@ -1,13 +1,13 @@
 # Turkish translation of Evolution.
-# Görkem �Getin <gorkem@gelecek.com.tr>, 2002, 2003.
+# Görkem �Getin <gorkem@kde.org>, 2002, 2003.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-06-13 19:59+0200\n"
-"PO-Revision-Date: 2003-06-16 17:09+0300\n"
-"Last-Translator: G�rkem �etin <gorkem@gelecek.com.tr>\n"
+"PO-Revision-Date: 2003-06-18 12:07+0000\n"
+"Last-Translator: Görkem Çetin <gorkem@kde.org>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -841,9 +841,8 @@ msgid "\n"
 msgstr "\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:3
-#, fuzzy
 msgid "  S_how Supported Bases "
-msgstr "_Desteklenen türleri denetle "
+msgstr "_Desteklenen Türleri Denetle "
 
 #: addressbook/gui/component/ldap-config.glade.h:4
 #: addressbook/gui/component/select-names/select-names.glade.h:1
@@ -919,7 +918,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:19
 msgid "Connecting"
-msgstr "Bağlanıyor"
+msgstr "Bağlantı"
 
 #: addressbook/gui/component/ldap-config.glade.h:20
 #, fuzzy
@@ -971,11 +970,10 @@ msgid ""
 "your connection. Ask your system administrator if your LDAP server uses "
 "these protocols."
 msgstr ""
-"Şimdi, LDAP sunucuya nasıl bağlantı kuracağınızı belirtmeniz gerekiyor. Bağlantı "
-"yöntemini güven altına\n"
-"almak için SSL (Secure Sockets Layer) ya da TLS (Transport Layer Security) adı verilen protokoller kullanılır. Bunların sistemde "
-"yer alıp almadığını LDAP \n"
-"sunucu yöneticinize sorarak kolayca öğrenebilirsiniz."
+"Şimdi, LDAP sunucuya nasıl bağlantı kuracağınızı belirtmeniz gerekiyor. Bağlantı\n"
+"yöntemini güven altına almak için SSL (Secure Sockets Layer) ya da TLS \n"
+"(Transport Layer Security) adı verilen protokoller kullanılır. Bunların sistemde \n"
+"yer alıp almadığını LDAP sunucu yöneticinize sorarak kolayca öğrenebilirsiniz."
 
 #: addressbook/gui/component/ldap-config.glade.h:32
 msgid "One"
@@ -991,7 +989,7 @@ msgstr "İle_tide Ara..."
 #: calendar/gui/calendar-model.c:1983 calendar/gui/e-day-view.c:1687
 #: calendar/gui/e-week-view.c:1252
 msgid "Searching"
-msgstr "Arıyor"
+msgstr "Arama"
 
 #: addressbook/gui/component/ldap-config.glade.h:35
 msgid "Selected:"
@@ -1014,6 +1012,10 @@ msgid ""
 "is already\n"
 "secure."
 msgstr ""
+"Bu seçenek, güvensiz bir ortamda bulunuyorsanız Evolution'un sadece SSL/TLS \n"
+"kullanmaya çalışacağını gösterir. Örneğin, siz ve LDAP sunucunuz işyerinde bir \n"
+"güvenlik duvarının arkasındaysanız, Evolution SSL/TLS bağlantısına ihtiyaç \n"
+"duymayacaktır, çünkü zaten bağlantınız güvenlidir."
 
 #: addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
@@ -1114,12 +1116,13 @@ msgid ""
 "server. Please contact your system administrator if you need help finding "
 "this information."
 msgstr ""
-"Bu sihirbaz, çevrimiçi dizin servislerine LDAP (Lightweight Directory\n"
-"Access Protocol) yardımıyla bağlantı kurmanıza olanak verecektir.\n"
+"Bu sihirbaz, çevrimiçi dizin servislerine LDAP (Lightweight \n"
+"Directory Access Protocol) yardımıyla bağlantı kurmanıza \n"
+"olanak verecektir.\n"
 "\n"
-"Yeni bir LDAP sunucu kurmadan önce bu sunucu hakkında detaylı \n"
-"bilgiye sahip olmalısınız. Lütfen bu bilgiler için gerekiyorsa sistem\n"
-"yöneticiniz ile görüşün."
+"Yeni bir LDAP sunucu kurmadan önce bu sunucu hakkında \n"
+"detaylı bilgiye sahip olmalısınız. Lütfen bu bilgiler için \n"
+"gerekiyorsa sistem yöneticiniz ile görüşün."
 
 #: addressbook/gui/component/ldap-config.glade.h:69
 msgid ""
@@ -3187,21 +3190,19 @@ msgstr ""
 
 #: addressbook/gui/widgets/e-minicard-label.c:136
 msgid "Field"
-msgstr ""
+msgstr "Alan"
 
 #: addressbook/gui/widgets/e-minicard-label.c:143
-#, fuzzy
 msgid "Field Name"
-msgstr "Tam İsim"
+msgstr "Alan Adı"
 
 #: addressbook/gui/widgets/e-minicard-label.c:150
-#, fuzzy
 msgid "Text Model"
-msgstr "Metin _Boyu"
+msgstr "Metin Modeli"
 
 #: addressbook/gui/widgets/e-minicard-label.c:157
 msgid "Max field name length"
-msgstr ""
+msgstr "Azami alan adı uzunluğu"
 
 #: addressbook/gui/widgets/e-minicard-view-widget.c:126
 msgid "Column Width"
@@ -3232,9 +3233,8 @@ msgstr ""
 "Bu bakışta gösterilecek öğe yok"
 
 #: addressbook/gui/widgets/e-minicard-view.c:452
-#, fuzzy
 msgid "Adapter"
-msgstr "Adrar"
+msgstr ""
 
 #: addressbook/gui/widgets/e-minicard.c:169
 msgid "Selected"
@@ -3845,9 +3845,8 @@ msgid "New meeting"
 msgstr "Yeni toplantı"
 
 #: calendar/gui/calendar-component.c:737
-#, fuzzy
 msgid "M_eeting"
-msgstr "Toplantı"
+msgstr "_Toplantı"
 
 #: calendar/gui/calendar-component.c:738
 msgid "Create a new meeting request"
@@ -3866,19 +3865,16 @@ msgid "Create a new task"
 msgstr "Yeni bir görev oluştur"
 
 #: calendar/gui/calendar-component.c:747
-#, fuzzy
 msgid "New All Day Appointment"
-msgstr "Yeni Randevu"
+msgstr "Yeni Tüm Gün Randevusu"
 
 #: calendar/gui/calendar-component.c:747
-#, fuzzy
 msgid "All _Day Appointment"
-msgstr "Yeni _Randevu"
+msgstr "_Tüm Gün Randevusu"
 
 #: calendar/gui/calendar-component.c:748
-#, fuzzy
 msgid "Create a new all-day appointment"
-msgstr "Yeni bir randevu oluştur"
+msgstr "Yeni bir tüm gün randevusu oluştur"
 
 #: calendar/gui/calendar-model.c:405 calendar/gui/calendar-model.c:964
 #: calendar/gui/e-calendar-table.c:372
@@ -3998,9 +3994,8 @@ msgid "Month View"
 msgstr "Ay Görünümü"
 
 #: calendar/gui/comp-editor-factory.c:456
-#, fuzzy
 msgid "Error while opening the calendar"
-msgstr "Takvim sunucusuyla iletişimde hata oluştu"
+msgstr "Takvimi açarken bir hata oluştu"
 
 #: calendar/gui/comp-editor-factory.c:467
 msgid "Method not supported when opening the calendar"
@@ -4033,9 +4028,8 @@ msgid "Message Alarm Options"
 msgstr "İleti Alarm Seçenekleri"
 
 #: calendar/gui/dialogs/alarm-options.c:438
-#, fuzzy
 msgid "Email Alarm Options"
-msgstr "E-posta Alarmı Seçenekleri"
+msgstr "E-posta Alarm Seçenekleri"
 
 #: calendar/gui/dialogs/alarm-options.c:447
 msgid "Program Alarm Options"
@@ -4050,14 +4044,12 @@ msgid "Alarm Repeat"
 msgstr "Alarm Tekrarı"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
-#, fuzzy
 msgid "Message to Display:"
-msgstr "Gösterilecek İleti"
+msgstr "Gösterilecek Mesaj:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
-#, fuzzy
 msgid "Message to Send"
-msgstr "İleti Gövdesi"
+msgstr "Gönderilecek Mesaj"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:5
 msgid "Play sound:"
@@ -4072,9 +4064,8 @@ msgid "Run program:"
 msgstr "Program çalıştır:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:8
-#, fuzzy
 msgid "Send To:"
-msgstr "Gönder"
+msgstr "Gönder:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:9
 msgid "With these arguments:"
@@ -4086,7 +4077,7 @@ msgstr "gün"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:11
 msgid "dialog1"
-msgstr ""
+msgstr "dialog1"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:12
 msgid "extra times every"
@@ -4127,9 +4118,8 @@ msgid "Run a program"
 msgstr "Bir program çalıştır"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
-#, fuzzy
 msgid "Send an Email"
-msgstr "Bir e-posta gönder"
+msgstr "Bir E-posta Gönder"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:8
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
@@ -4246,7 +4236,7 @@ msgstr "Cumartesi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 msgid "Sh_ow a reminder"
-msgstr ""
+msgstr "_Bir hatırlatıcı göster"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 msgid "Show week _numbers in date navigator"
@@ -4259,7 +4249,6 @@ msgid "Sunday"
 msgstr "Pazar"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
-#, fuzzy
 msgid "T_asks due today:"
 msgstr "_Bugünün işleri:"
 
@@ -4357,7 +4346,6 @@ msgid "_Mon"
 msgstr "P_zt"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
-#, fuzzy
 msgid "_Overdue tasks:"
 msgstr "_Zamanı geçen görevler:"
 
@@ -4370,9 +4358,8 @@ msgid "_Show appointment end times in week and month views"
 msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
-#, fuzzy
 msgid "_Time divisions:"
-msgstr "_Zaman bölümleri:"
+msgstr "_Zaman dilimleri:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Tue"
@@ -4413,9 +4400,8 @@ msgid ""
 msgstr ""
 
 #: calendar/gui/dialogs/cancel-comp.c:79
-#, fuzzy
 msgid "Are you sure you want to cancel and delete this journal entry?"
-msgstr "`%s' başlıksız günlük girdisini silmek istiyor musunuz?"
+msgstr ""
 
 #: calendar/gui/dialogs/changed-comp.c:58
 msgid "This event has been deleted."
@@ -11019,7 +11005,6 @@ msgid "Filter Rules"
 msgstr "Filtre Kuralları"
 
 #: filter/filter-file.c:166
-#, fuzzy
 msgid "You must specify a file name."
 msgstr "Bir dosya dı vermelisiniz"
 
@@ -11038,9 +11023,8 @@ msgid "Then"
 msgstr "Sonra"
 
 #: filter/filter-folder.c:155
-#, fuzzy
 msgid "You must specify a folder."
-msgstr "Bu dizin adı belirtmelisiniz.\n"
+msgstr "Bu dizin adı belirtmelisiniz."
 
 #: filter/filter-folder.c:243 filter/vfolder-rule.c:438
 #: mail/mail-account-gui.c:1510 mail/mail-account-gui.c:1524
@@ -11352,9 +11336,8 @@ msgid "is not Flagged"
 msgstr "İşaretli"
 
 #: filter/libfilter-i18n.h:35 mail/folder-browser.c:1800
-#, fuzzy
 msgid "Label"
-msgstr "Laurel"
+msgstr "Etiket"
 
 #: filter/libfilter-i18n.h:36
 msgid "Mailing list"
@@ -12370,7 +12353,6 @@ msgid "Unnamed"
 msgstr "İsimsiz"
 
 #: mail/mail-composer-prefs.c:334
-#, fuzzy
 msgid "You must specify a valid script name."
 msgstr "Lütfen geçerli bir betik adı veriniz"
 
@@ -12846,6 +12828,9 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
+"Bu programın çıktısı imzanız olarak \n"
+"kullanılacaktır. \"İsim\" başlığı altında\n"
+"girilen kısım sadece görünüm amaçlıdır."
 
 #: mail/mail-config.glade.h:119
 msgid ""
@@ -13778,16 +13763,16 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
+"İzlemek için seçilen e-postalar aşağıda listelenmiştir. \n"
+"Lütfen \"Bayraklar\" menüsünden bir işlem seçiniz."
 
 #: mail/message-tags.glade.h:6
-#, fuzzy
 msgid "_Due by:"
-msgstr "_Tarihe Göre:"
+msgstr "_Tarihe göre:"
 
 #: mail/message-tags.glade.h:7
-#, fuzzy
 msgid "_Flag:"
-msgstr "İşaretli"
+msgstr "_Bayraklar:"
 
 #: mail/subscribe-dialog.c:230
 #, fuzzy, c-format
@@ -25430,7 +25415,7 @@ msgstr "(isimsiz)"
 
 #: shell/e-shell-importer.c:139
 msgid "Choose the type of importer to run:"
-msgstr ""
+msgstr "Çalıştırılacak olan aktarım programının türünü seçiniz:"
 
 #: shell/e-shell-importer.c:142
 msgid ""
@@ -25448,7 +25433,7 @@ msgstr ""
 
 #: shell/e-shell-importer.c:148 shell/e-shell-startup-wizard.c:709
 msgid "Please select the information that you would like to import:"
-msgstr ""
+msgstr "Aktarmak istediğiniz bilgi kaynaklarını seçin:"
 
 #: shell/e-shell-importer.c:213 shell/e-shell-importer.c:244
 #, c-format
@@ -25461,7 +25446,7 @@ msgstr ""
 
 #: shell/e-shell-importer.c:317
 msgid "Select importer"
-msgstr "Aktarıcıyı Seçin"
+msgstr "Aktarıcıyı seçin"
 
 #: shell/e-shell-importer.c:458
 #, c-format
@@ -25531,13 +25516,12 @@ msgid "File type:"
 msgstr "Dosya türü:"
 
 #: shell/e-shell-importer.c:676
-#, fuzzy
 msgid "Import data and settings from older programs"
-msgstr "Diğer programlardan veri al"
+msgstr "Eski programlardan veri ve ayarları aktar"
 
 #: shell/e-shell-importer.c:680
 msgid "Import a single file"
-msgstr "Tek dosya aktar"
+msgstr "Sadece tek bir dosya aktar"
 
 #: shell/e-shell-importer.c:746 shell/e-shell-startup-wizard.c:538
 msgid ""
@@ -25554,7 +25538,7 @@ msgstr "Akıllı Aktarımcılar Başlatılıyor"
 #: shell/e-shell-importer.c:873 shell/e-shell-startup-wizard.c:664
 #, c-format
 msgid "From %s:"
-msgstr ""
+msgstr "%s bilgileri: "
 
 #: shell/e-shell-importer.c:1047
 msgid "Select folder"
@@ -26201,7 +26185,7 @@ msgid ""
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
-"Evolution dosya aktarma yardımcı programına hoşgeldiniz\n"
+"Evolution dosya aktarma yardımcı programına hoşgeldiniz. \n"
 "Bu sihirbaz ile harici dosyaları Evolution'a dahil edebileceksiniz."
 
 #: shell/importer/intelligent.c:189
@@ -26462,7 +26446,7 @@ msgstr "_Hepsini Seç"
 
 #: ui/evolution-addressbook.xml.h:42
 msgid "_Send Message to Contact..."
-msgstr "B_ağlantıya Mesaj Gönder..."
+msgstr "B_ağlantıya İleti Gönder..."
 
 #: ui/evolution-calendar.xml.h:4
 msgid "Day"
