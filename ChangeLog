@@ -1,3 +1,7 @@
+2004-04-02  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: bump version, requirements
+
 2004-03-22  Radek Doulik  <rodo@ximian.com>
 
 	* configure.in: require gtkhtml 3.1.10, it's needed for composer
