@@ -43,6 +43,7 @@ extern "C" {
 #define CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES (1 << 5)
 #define CAMEL_MIME_FILTER_TOHTML_ESCAPE_8BIT       (1 << 6)
 #define CAMEL_MIME_FILTER_TOHTML_CITE              (1 << 7)
+#define CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT     (1 << 8)
 
 typedef struct _CamelMimeFilterToHTMLClass CamelMimeFilterToHTMLClass;
 typedef struct _CamelMimeFilterToHTML CamelMimeFilterToHTML;

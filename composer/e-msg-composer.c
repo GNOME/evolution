@@ -851,7 +851,7 @@ e_msg_composer_get_sig_file_content (const char *sigfile, gboolean in_html)
 		return NULL;
 	}
 	
-	return get_file_content (NULL, sigfile, !in_html, 0, FALSE);
+	return get_file_content (NULL, sigfile, !in_html, CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT, FALSE);
 }
 
 static void

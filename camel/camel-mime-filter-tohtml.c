@@ -211,7 +211,7 @@ writeln (CamelMimeFilter *filter, const char *in, const char *inend, char *outpt
 			}
 			/* otherwise, FALL THROUGH */
 		default:
-			if (!(u >= 0x20 && u < 0x80)) {
+			if (!(u >= 0x20 && u < 0x80) && !(html->flags & CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT)) {
 				if (html->flags & CAMEL_MIME_FILTER_TOHTML_ESCAPE_8BIT)
 					*outptr++ = '?';
 				else
