@@ -157,10 +157,7 @@ create_card(EBookView *book_view,
 		gtk_object_get (GTK_OBJECT (cards->data),
 				"file_as", &file_as,
 				NULL);
-		g_print ("Received card: %s\n", file_as);
 	}
-
-	g_print ("Finished\n");
 
 	gtk_signal_emit (GTK_OBJECT (model),
 			 e_addressbook_model_signals [CARD_ADDED],

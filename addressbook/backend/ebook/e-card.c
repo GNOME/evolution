@@ -3985,7 +3985,6 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 				++to_length;
 			}
 		}
-		g_message ("to_length=%d bcc_length=%d", to_length, bcc_length);
 
 		/* Now I have to make a CORBA sequences that represents a recipient list with
 		   the right number of entries, for the cards. */
@@ -4052,7 +4051,6 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 					}
 				}
 
-				g_message ("sending to [%s][%s]", name, addr);
 				recipient->name    = CORBA_string_dup (name ? name : "");
 				recipient->address = CORBA_string_dup (addr ? addr : "");
 
