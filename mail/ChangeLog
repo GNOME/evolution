@@ -4,7 +4,9 @@
 	anything ever. This is confusing way too many users who expect it
 	to attach all or nothing. Since Forward-Attached is what users
 	should be using to forward a message and all attachments, make
-	these not attach anything (which is what other mailers do anyway).
+	these not attach anything (which is what other mailers do
+	anyway). This wlso makes Forward-Quoted consistant with
+	Reply-Quoted which is a Good Thing (tm).
 
 2004-06-01  Not Zed  <NotZed@Ximian.com>
 
