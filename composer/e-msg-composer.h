@@ -161,6 +161,10 @@ void                     e_msg_composer_set_view_cc                      (EMsgCo
 									  gboolean           view_cc);
 
 EDestination    **e_msg_composer_get_recipients       (EMsgComposer     *composer);
+EDestination    **e_msg_composer_get_to(EMsgComposer *composer);
+EDestination    **e_msg_composer_get_cc(EMsgComposer *composer);
+EDestination    **e_msg_composer_get_bcc(EMsgComposer *composer);
+char *e_msg_composer_get_subject(EMsgComposer *composer);
 
 const MailConfigAccount *e_msg_composer_get_preferred_account            (EMsgComposer      *composer);
 void                     e_msg_composer_clear_inlined_table              (EMsgComposer      *composer);
