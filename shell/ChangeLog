@@ -1,3 +1,8 @@
+2003-02-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-config-upgrade.c: Change the type of load_http_images to INT
+	rather than BOOL. Fixes bug #38767.
+
 2003-02-26  Dan Winship  <danw@ximian.com>
 
 	* e-shell-startup-wizard.c (start_wizard): New routine to attempt
@@ -13,7 +18,8 @@
 	should not return any value if unset, so i'm not sure if this is
 	the right mechanism ...
 
-	* e-config-upgrade.c: Upgrade settings from earlier versions of evolution.
+	* e-config-upgrade.c: Upgrade settings from earlier versions of
+	evolution.
 
 	* main.c (upgrade_from_1_0_if_needed): Removed.
 	(main): Call e_config_upgrade before going into gmainloop.

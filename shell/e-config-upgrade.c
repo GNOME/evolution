@@ -988,7 +988,7 @@ static struct _gconf_map mail_display_map[] = {
 	{ "paned_size", "mail/display/paned_size", BMAP_INT },
 	{ "seen_timeout", "mail/display/mark_seen_timeout", BMAP_INT },
 	{ "do_seen_timeout", "mail/display/mark_seen", BMAP_BOOL },
-	{ "http_images", "mail/display/load_http_images", BMAP_BOOL },
+	{ "http_images", "mail/display/load_http_images", BMAP_INT },
 	{ "citation_highlight", "mail/display/mark_citations", BMAP_BOOL },
 	{ "citation_color", "mail/display/citation_colour", BMAP_COLOUR },
 	{ "x_mailer_display_style", "mail/display/xmailer_mask", BMAP_INT },
