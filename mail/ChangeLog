@@ -1,3 +1,8 @@
+2002-03-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (config_import_old_signatures): Don't use an
+	uninitialized 'id'.
+
 2002-03-07  Radek Doulik  <rodo@ximian.com>
 
 	* mail-signature-editor.c (mail_signature_editor): set initial

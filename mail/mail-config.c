@@ -530,14 +530,13 @@ config_import_old_signatures ()
 			val = bonobo_config_get_string (config->db, path, NULL);
 			g_free (path);
 			if (val && *val) {
-
 				gint id;
 				gpointer orig_key, node_val;
 
 				if (g_hash_table_lookup_extended (cache, val, &orig_key, &node_val)) {
 					id = GPOINTER_TO_INT (node_val);
 				} else {
-					g_hash_table_insert (cache, g_strdup (val), GINT_TO_POINTER (id));
+					g_hash_table_insert (cache, g_strdup (val), GINT_TO_POINTER (num));
 					config_write_imported_signature (val, num, FALSE);
 					id = num;
 					num ++;
@@ -556,14 +555,13 @@ config_import_old_signatures ()
 				path = g_strdup_printf ("/Mail/Accounts/identity_html_signature_%d", i);
 				val = bonobo_config_get_string (config->db, path, NULL);
 				if (val && *val) {
-
 					gint id;
 					gpointer orig_key, node_val;
 
 					if (g_hash_table_lookup_extended (cache, val, &orig_key, &node_val)) {
 						id = GPOINTER_TO_INT (node_val);
 					} else {
-						g_hash_table_insert (cache, g_strdup (val), GINT_TO_POINTER (id));
+						g_hash_table_insert (cache, g_strdup (val), GINT_TO_POINTER (num));
 						config_write_imported_signature (val, num, TRUE);
 						id = num;
 						num ++;
