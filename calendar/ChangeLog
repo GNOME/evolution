@@ -1,3 +1,13 @@
+2005-03-24  JP Rosevear  <jpr@novell.com>
+
+	Fixes #69272
+	
+	* gui/comp-util.c (cal_comp_event_new_with_defaults): ensure we
+	always return a valid comp
+
+	* gui/comp-util.c (cal_comp_task_new_with_defaults): ditto; fix
+	obvious pasto that would cause a leak
+	
 2005-03-24  Chenthill Palanisamy  <pchenthill@novell.com>
 	
 	Fixes #73320
