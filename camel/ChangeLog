@@ -1,3 +1,12 @@
+2002-03-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-digest-folder.c (camel_digest_folder_new): Allow any leaf
+	part to be a message/rfc822 part.
+	(digest_get_uids): Recurse the mime structure and add all
+	message/rfc822 parts and use a uid scheme similar to IMAP's mime
+	part naming convention.
+	(digest_get_message): Decode the uid to get the correct mime part.
+
 2002-03-11  Ettore Perazzoli  <ettore@ximian.com>
 
 	* camel-mime-utils.c: Change the order of the mailing list magic

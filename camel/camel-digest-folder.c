@@ -146,6 +146,28 @@ camel_digest_folder_get_type (void)
 	return type;
 }
 
+static gboolean
+multipart_contains_message_parts (CamelMultipart *multipart)
+{
+	gboolean has_message_parts = FALSE;
+	CamelDataWrapper *wrapper;
+	CamelMimePart *part;
+	int i, parts;
+	
+	parts = camel_multipart_get_number (multipart);
+	for (i = 0; i < parts && !has_message_parts; i++) {
+		part = camel_multipart_get_part (multipart, i);
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+		if (CAMEL_IS_MULTIPART (wrapper)) {
+			has_message_parts = multipart_contains_message_parts (CAMEL_MULTIPART (wrapper));
+		} else if (header_content_type_is (part->content_type, "message", "rfc822")) {
+			has_message_parts = TRUE;
+		}
+	}
+	
+	return has_message_parts;
+}
+
 CamelFolder *
 camel_digest_folder_new (CamelMimeMessage *message)
 {
@@ -157,20 +179,9 @@ camel_digest_folder_new (CamelMimeMessage *message)
 	if (!wrapper || !CAMEL_IS_MULTIPART (wrapper))
 		return NULL;
 	
-	if (!header_content_type_is (CAMEL_MIME_PART (message)->content_type, "multipart", "*")) {
-		gboolean is_digest = FALSE;
-		int i, parts;
-		
-		/* Make sure we have a multipart of message/rfc822 attachments... */
-		parts = camel_multipart_get_number (CAMEL_MULTIPART (wrapper));
-		for (i = 0; i < parts && !is_digest; i++) {
-			CamelMimePart *part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), i);
-			
-			if (header_content_type_is (part->content_type, "message", "rfc822"))
-				is_digest = TRUE;
-		}
-		
-		if (!is_digest)
+	if (!header_content_type_is (CAMEL_MIME_PART (message)->content_type, "multipart", "digest")) {
+		/* Make sure we have a multipart/digest subpart or at least some message/rfc822 attachments... */
+		if (!multipart_contains_message_parts (CAMEL_MULTIPART (wrapper)))
 			return NULL;
 	}
 	
@@ -203,6 +214,45 @@ digest_expunge (CamelFolder *folder, CamelException *ex)
 	/* no-op */
 }
 
+static void
+digest_add_multipart (CamelDigestFolder *digest, CamelMultipart *multipart,
+		      GPtrArray *summary, GPtrArray *uids, GHashTable *info_hash,
+		      const char *preuid)
+{
+	int parts, i;
+	
+	parts = camel_multipart_get_number (multipart);
+	for (i = 0; i < parts; i++) {
+		CamelDataWrapper *wrapper;
+		CamelMessageInfo *info;
+		CamelMimePart *part;
+		char *uid;
+		
+		part = camel_multipart_get_part (multipart, i);
+		
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+		
+		if (CAMEL_IS_MULTIPART (wrapper)) {
+			uid = g_strdup_printf ("%s%d.", preuid, i);
+			digest_add_multipart (digest, CAMEL_MULTIPART (wrapper),
+					      summary, uids, info_hash, uid);
+			g_free (uid);
+			continue;
+		} else if (!header_content_type_is (part->content_type, "message", "rfc822")) {
+			continue;
+		}
+		
+		info = camel_message_info_new_from_header (part->headers);
+		
+		uid = g_strdup_printf ("%s%d", preuid, i);
+		camel_message_info_set_uid (info, uid);
+		
+		g_ptr_array_add (uids, uid);
+		g_ptr_array_add (summary, info);
+		g_hash_table_insert (info_hash, uid, info);
+	}
+}
+
 static GPtrArray *
 digest_get_uids (CamelFolder *folder)
 {
@@ -211,7 +261,6 @@ digest_get_uids (CamelFolder *folder)
 	GHashTable *info_hash;
 	GPtrArray *summary;
 	GPtrArray *uids;
-	int parts, i;
 	
 	if (digest_folder->priv->uids)
 		return digest_folder->priv->uids;
@@ -221,29 +270,7 @@ digest_get_uids (CamelFolder *folder)
 	info_hash = digest_folder->priv->info_hash;
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (digest_folder->priv->message));
-	parts = camel_multipart_get_number (CAMEL_MULTIPART (wrapper));
-	for (i = 0; i < parts; i++) {
-		CamelMimeMessage *message;
-		CamelMessageInfo *info;
-		CamelMimePart *part;
-		char *uid;
-		
-		part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), i);
-		
-		if (!header_content_type_is (part->content_type, "message", "rfc822"))
-			continue;
-		
-		message = CAMEL_MIME_MESSAGE (part);
-		
-		info = camel_message_info_new_from_header (CAMEL_MIME_PART (message)->headers);
-		
-		uid = g_strdup_printf ("%d", i + 1);
-		camel_message_info_set_uid (info, uid);
-		
-		g_ptr_array_add (uids, uid);
-		g_ptr_array_add (summary, info);
-		g_hash_table_insert (info_hash, uid, info);
-	}
+	digest_add_multipart (digest_folder, CAMEL_MULTIPART (wrapper), summary, uids, info_hash, "");
 	
 	digest_folder->priv->uids = uids;
 	digest_folder->priv->summary = summary;
@@ -299,13 +326,24 @@ digest_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	CamelDataWrapper *wrapper;
 	CamelMimeMessage *message;
 	CamelMimePart *part;
+	char *subuid = "";
 	int id;
 	
-	id = atoi (uid) - 1;
-	g_assert (id > 0);
+	part = CAMEL_MIME_PART (digest->priv->message);
 	
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (digest->priv->message));
-	part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), id);
+	do {
+		id = strtoul (uid, &subuid, 10);
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+		if (!CAMEL_IS_MULTIPART (wrapper))
+			return NULL;
+		
+		part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), id);
+		uid = subuid++;
+	} while (*uid == '.');
+	
+	if (!CAMEL_IS_MIME_MESSAGE (part))
+		return NULL;
+	
 	message = CAMEL_MIME_MESSAGE (part);
 	camel_object_ref (CAMEL_OBJECT (message));
 	
