@@ -94,6 +94,9 @@ void       camel_stream_reset     (CamelStream *stream);
 #define camel_stream_write_string(stream, string) camel_stream_write ((stream), (string), strlen (string))
 
 void       camel_stream_write_strings (CamelStream *stream, ... );
+/* write a whole stream to another stream, until eof */
+/* FIXME: this should definetly have an error return code */
+void	   camel_stream_write_to_stream (CamelStream *stream, CamelStream *output_stream);
 
 #ifdef __cplusplus
 }

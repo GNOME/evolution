@@ -1,85 +1,78 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
-/* 
+/*
+ *  Copyright (C) 2000 Helix Code Inc.
  *
- * Author : Bertrand Guiheneuf <bertrand@helixcode.com> 
+ *  Authors: Michael Zucchi <notzed@helixcode.com>
  *
- * Copyright (C) 1999 Helix Code (http://www.helixcode.com).
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Library General Public License
+ *  as published by the Free Software Foundation; either version 2 of
+ *  the License, or (at your option) any later version.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Library General Public License for more details.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ *  You should have received a copy of the GNU Library General Public
+ *  License along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef MBOX_SUMMARY_H
-#define MBOX_SUMMARY_H 1
+#ifndef _CAMEL_MBOX_SUMMARY_H
+#define _CAMEL_MBOX_SUMMARY_H
 
-#include <camel-folder-summary.h>
-
-#define CAMEL_MBOX_SUMMARY_TYPE     (camel_mbox_summary_get_type ())
-#define CAMEL_MBOX_SUMMARY(obj)     (GTK_CHECK_CAST((obj), CAMEL_MBOX_SUMMARY_TYPE, CamelMboxSummary))
-#define CAMEL_MBOX_SUMMARY_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MBOX_SUMMARY_TYPE, CamelMboxSummaryClass))
-#define CAMEL_IS_MBOX_SUMMARY(o)    (GTK_CHECK_TYPE((o), CAMEL_MBOX_SUMMARY_TYPE))
-
-
-#define CAMEL_MBOX_SUMMARY_VERSION 1
-
+#include <glib.h>
+#include <camel/camel-folder.h>
+#include <libibex/ibex.h>
 
 typedef struct {
-	CamelMessageInfo headers;
+	CamelMessageContentInfo info;
 
-	guint32  position;
-	guint    size;
-	guint    x_evolution_offset;
-	guint32  uid;
-	guchar   status;
+	/* position in stream of this part */
+	off_t pos;
+	off_t bodypos;
+	off_t endpos;
+} CamelMboxMessageContentInfo;
 
-} CamelMboxSummaryInformation;
-
-
-/* this contains informations about the whole mbox file */
 typedef struct {
-	CamelFolderSummary parent_object;
+	CamelMessageInfo info;
 
-	guint nb_message;	/* number of messages in the summary	*/
-	guint32 next_uid;
-	guint32 mbox_file_size;
-	guint32 mbox_modtime;
+	/* position of the xev header, if one exists */
+	off_t xev_offset;
+} CamelMboxMessageInfo;
 
-	GArray *message_info;	/* array of CamelMboxSummaryInformation	*/
+typedef struct {
+	int dirty;		/* if anything has changed */
 
+	char *folder_path;
+	char *summary_path;
+	ibex *index;
+
+	GPtrArray *messages;	/* array of messages matching mbox order */
+	GHashTable *message_uid; /* index to messages by uid */
+
+	int nextuid;
+
+	time_t time;		/* time/size of folder's last update */
+	size_t size;
 } CamelMboxSummary;
 
-typedef struct {
-	CamelFolderSummaryClass parent_class;
+CamelMboxSummary *camel_mbox_summary_new(const char *summary, const char *folder, ibex *index);
+void camel_mbox_summary_unref(CamelMboxSummary *);
 
-} CamelMboxSummaryClass;
+int camel_mbox_summary_load(CamelMboxSummary *);
+int camel_mbox_summary_save(CamelMboxSummary *);
+int camel_mbox_summary_check(CamelMboxSummary *);
 
+guint32 camel_mbox_summary_next_uid(CamelMboxSummary *);
+/* set the minimum uid */
+guint32 camel_mbox_summary_set_uid(CamelMboxSummary *s, guint32 uid);
 
-GtkType camel_mbox_summary_get_type (void);
+CamelMboxMessageInfo *camel_mbox_summary_uid(CamelMboxSummary *s, const char *uid);
+CamelMboxMessageInfo *camel_mbox_summary_index(CamelMboxSummary *, int index);
+int camel_mbox_summary_message_count(CamelMboxSummary *);
 
-void camel_mbox_summary_save (CamelMboxSummary *summary,
-			      const gchar *filename, CamelException *ex);
-CamelMboxSummary *camel_mbox_summary_load (const gchar *filename,
-					   CamelException *ex);
+/* TODO: should be in a utility library */
+int camel_mbox_summary_copy_block(int fromfd, int tofd, off_t readpos, size_t bytes);
 
-gboolean camel_mbox_summary_check_sync (gchar *summary_filename,
-					gchar *mbox_filename,
-					CamelException *ex);
-
-void camel_mbox_summary_append_entries (CamelMboxSummary *summary,
-					GArray *entries);
-
-
-#endif /* MBOX_SUMMARY_H */
+#endif /* ! _CAMEL_MBOX_SUMMARY_H */

@@ -242,3 +242,45 @@ camel_stream_write_strings (CamelStream *stream, ... )
 	}
 	va_end (args);
 }
+
+/**
+ * camel_stream_write_to_stream:
+ * @stream: Source CamelStream.
+ * @output_stream: Destination CamelStream.
+ * 
+ * Write all of a stream (until eos) into another stream, in a blocking
+ * fashion.
+ *
+ * FIXME: This really needs to return an error code.
+ **/
+void
+camel_stream_write_to_stream (CamelStream *stream,
+			      CamelStream *output_stream)
+{
+	gchar tmp_buf[4096];
+	gint nb_read;
+	gint nb_written;
+
+	/* 
+	 * default implementation that uses the input 
+	 * stream and stream it in a blocking way
+	 * to an output stream.
+	 */
+	g_assert (output_stream);
+	g_assert (stream);
+	
+	while (!camel_stream_eos (CAMEL_STREAM (stream))) {
+		nb_read = camel_stream_read (CAMEL_STREAM (stream), tmp_buf, 4096);
+		if (nb_read>0) {
+			nb_written = 0;
+		
+			while (nb_written < nb_read) {
+				int len = camel_stream_write (output_stream, tmp_buf + nb_written, nb_read - nb_written);
+				/* FIXME: what about length 0? */
+				if (len<0)
+					return;
+				nb_written += len;
+			}
+		}
+	}	
+}

@@ -37,6 +37,7 @@ extern "C" {
 #include <gtk/gtk.h>
 #include "camel-types.h"
 #include "camel-medium.h"
+#include <camel/camel-mime-utils.h>
 
 #define CAMEL_MIME_PART_TYPE     (camel_mime_part_get_type ())
 #define CAMEL_MIME_PART(obj)     (GTK_CHECK_CAST((obj), CAMEL_MIME_PART_TYPE, CamelMimePart))
@@ -63,7 +64,7 @@ struct _CamelMimePart
 	
 	/* All fields here are -** PRIVATE **- */ 
 	gchar *description;
-	GMimeContentField *disposition;
+	CamelMimeDisposition *disposition;
 	gchar *content_id;
 	gchar *content_MD5;
 	GList *content_languages;

@@ -35,6 +35,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
+#include <time.h>
 #include "camel-types.h"
 
 #define CAMEL_FOLDER_TYPE     (camel_folder_get_type ())
@@ -58,12 +59,56 @@ typedef enum {
 typedef void (*CamelFolderAsyncCallback) ();
 typedef void (CamelSearchFunc)(CamelFolder *folder, int id, gboolean complete, GList *matches, void *data);
 
+/* these structs from camel-folder-summary.h ... (remove comment after cleanup soon) */
+/* TODO: perhaps they should be full-block objects? */
+/* FIXME: rename this to something more suitable */
+typedef struct {
+	gchar *name;
+	gint nb_message;	/* ick, these should be renamed to something better */
+	gint nb_unread_message;
+	gint nb_deleted_message;
+} CamelFolderInfo;
+
+/* A tree of message content info structures
+   describe the content structure of the message (if it has any) */
+typedef struct _CamelMessageContentInfo {
+	struct _CamelMessageContentInfo *next;
+
+	struct _CamelMessageContentInfo *childs;
+	struct _CamelMessageContentInfo *parent;
+
+	struct _header_content_type *type;
+	char *id;
+	char *description;
+	char *encoding;
+
+	guint32 size;
+} CamelMessageContentInfo;
+
+/* TODO: rename this?? */
+/* TODO: Make this an object, maybe? */
+typedef struct {
+	/* public fields */
+	gchar *subject;
+	gchar *to;
+	gchar *from;
+
+	gchar *uid;
+	guint32 flags;
+
+
+	time_t date_sent;
+	time_t date_received;
+
+	/* tree of content description */
+	CamelMessageContentInfo *content;
+} CamelMessageInfo;
+
+
 struct _CamelFolder
 {
 	GtkObject parent_object;
 	
-	gboolean can_hold_folders;
-	gboolean can_hold_messages;
 	CamelFolderOpenMode open_mode;
 	CamelFolderState open_state;
 	gchar *name;
@@ -73,12 +118,11 @@ struct _CamelFolder
 	CamelFolder *parent_folder;
 	GList *permanent_flags;
 
-	gboolean has_summary_capability;
-	CamelFolderSummary *summary;
-
-	gboolean has_uid_capability;
-
-	gboolean has_search_capability;
+	gboolean can_hold_folders:1;
+	gboolean can_hold_messages:1;
+	gboolean has_summary_capability:1;
+	gboolean has_uid_capability:1;
+	gboolean has_search_capability:1;
 };
 
 
@@ -110,10 +154,6 @@ typedef struct {
 			       CamelFolderAsyncCallback callback, 
 			       gpointer user_data, 
 			       CamelException *ex);
-
-	void   (*set_name)  (CamelFolder *folder, 
-			     const gchar *name, 
-			     CamelException *ex);
 
 	const gchar *  (*get_name)  (CamelFolder *folder);
 
@@ -205,6 +245,10 @@ typedef struct {
 				     CamelSearchFunc *func, void *data, CamelException *ex);
 	gboolean (*search_complete)(CamelFolder *folder, int searchid, gboolean wait, CamelException *ex);
 	void (*search_cancel) (CamelFolder *folder, int searchid, CamelException *ex);
+
+	/* moved the old summary stuff from camel-folder-summary.h here */
+	GPtrArray * (*get_subfolder_info) (CamelFolder *, int first, int count);
+	GPtrArray * (*get_message_info) (CamelFolder *, int first, int count);
 
 } CamelFolderClass;
 
@@ -315,6 +359,13 @@ int 		   camel_folder_search_by_expression(CamelFolder *folder, const char *expr
 						     CamelSearchFunc *func, void *data, CamelException *ex);
 gboolean	   camel_folder_search_complete(CamelFolder *folder, int searchid, gboolean wait, CamelException *ex);
 void		   camel_folder_search_cancel(CamelFolder *folder, int searchid, CamelException *ex);
+
+/* summary info, from the old camel-folder-summary
+   FIXME: rename these slightly? */
+GPtrArray *camel_folder_summary_get_subfolder_info (CamelFolder *summary,
+						    int first, int count);
+GPtrArray *camel_folder_summary_get_message_info (CamelFolder *summary,
+						  int first, int count);
 
 #ifdef __cplusplus
 }

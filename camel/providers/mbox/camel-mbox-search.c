@@ -84,10 +84,9 @@ struct _searchcontext {
 	ibex *index;		/* index of content for this folder */
 #endif
 
-	CamelFolderSummary *summary;
-	const GArray *message_info;
+	CamelMboxSummary *summary;
 
-	CamelMessageInfo *message_current;	/* when performing a (match  operation */
+	CamelMboxMessageInfo *message_current;	/* when performing a (match  operation */
 };
 
 struct _glib_sux_donkeys {
@@ -115,7 +114,7 @@ func_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void 
 		if (ctx->index) {
 			for (i=0;i<argc && !truth;i++) {
 				if (argv[i]->type == ESEXP_RES_STRING) {
-					truth = ibex_find_name(ctx->index, ctx->message_current->uid, argv[i]->value.string);
+					truth = ibex_find_name(ctx->index, ctx->message_current->info.uid, argv[i]->value.string);
 				} else {
 					g_warning("Invalid type passed to body-contains match function");
 				}
@@ -189,19 +188,19 @@ func_match_all(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
 	r = e_sexp_result_new(ESEXP_RES_ARRAY_PTR);
 	r->value.ptrarray = g_ptr_array_new();
 
-	for (i=0;i<ctx->message_info->len;i++) {
+	for (i=0;i<ctx->summary->messages->len;i++) {
 		if (argc>0) {
-			ctx->message_current = &g_array_index(ctx->message_info, CamelMessageInfo, i);
+			ctx->message_current = g_ptr_array_index(ctx->summary->messages, i);
 			r1 = e_sexp_term_eval(f, argv[0]);
 			if (r1->type == ESEXP_RES_BOOL) {
 				if (r1->value.bool)
-					g_ptr_array_add(r->value.ptrarray, ctx->message_current->uid);
+					g_ptr_array_add(r->value.ptrarray, ctx->message_current->info.uid);
 			} else {
 				g_warning("invalid syntax, matches require a single bool result");
 			}
 			e_sexp_result_free(r1);
 		} else {
-			g_ptr_array_add(r->value.ptrarray, ctx->message_current->uid);
+			g_ptr_array_add(r->value.ptrarray, ctx->message_current->info.uid);
 		}
 	}
 	ctx->message_current = NULL;
@@ -221,27 +220,28 @@ func_header_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, voi
 	/* are we inside a match-all? */
 	if (ctx->message_current && argc>1
 	    && argv[0]->type == ESEXP_RES_STRING) {
-		char *headername, *header;
+		char *headername, *header = NULL;
+		char strbuf[32];
 		int i;
 
 		/* only a subset of headers are supported .. */
 		headername = argv[0]->value.string;
 		if (!strcasecmp(headername, "subject")) {
-			header = ctx->message_current->subject;
+			header = ctx->message_current->info.subject;
 		} else if (!strcasecmp(headername, "date")) {
-			header = ctx->message_current->sent_date;
+			sprintf(strbuf, "%d", (int)ctx->message_current->info.date_sent);
+			header = strbuf;
 		} else if (!strcasecmp(headername, "from")) {
-			header = ctx->message_current->sender;
+			header = ctx->message_current->info.from;
 		} else {
 			g_warning("Performing query on unknown header: %s", headername);
-			header = NULL;
 		}
 
 		if (header) {
 			for (i=1;i<argc && !truth;i++) {
 				if (argv[i]->type == ESEXP_RES_STRING
 				    && strstr(header, argv[i]->value.string)) {
-					printf("%s got a match with %s of %s\n", ctx->message_current->uid, header, argv[i]->value.string);
+					printf("%s got a match with %s of %s\n", ctx->message_current->info.uid, header, argv[i]->value.string);
 					truth = TRUE;
 					break;
 				}
@@ -276,6 +276,7 @@ int camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expr
 	GList *matches = NULL;
 	ESExp *f;
 	ESExpResult *r;
+	CamelMboxFolder *mbox_folder = (CamelMboxFolder *)folder;
 
 	/* setup our expression evaluator */
 	f = e_sexp_new();
@@ -286,7 +287,7 @@ int camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expr
 
 	/* setup out context */
 	ctx->folder = folder;
-	ctx->summary = camel_folder_get_summary(folder, ex);
+	ctx->summary = mbox_folder->summary;
 	
 	if (ctx->summary == NULL || camel_exception_get_id (ex)) {
 		printf ("Cannot get summary\n"
@@ -296,10 +297,7 @@ int camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expr
 		return -1;
 	}
 
-	gtk_object_ref((GtkObject *)ctx->summary);
-
 	/* FIXME: the index should be global to the folder */
-	ctx->message_info = CAMEL_MBOX_SUMMARY(ctx->summary)->message_info;
 	ctx->message_current = NULL;
 	ctx->index = CAMEL_MBOX_FOLDER(folder)->index;
 	if (!ctx->index) {
@@ -337,7 +335,6 @@ int camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expr
 		printf("no result!\n");
 	}
 
-	gtk_object_unref((GtkObject *)ctx->summary);
 	gtk_object_unref((GtkObject *)f);
 	i = ctx->id;
 

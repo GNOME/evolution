@@ -66,9 +66,6 @@ static void _close_async (CamelFolder *folder,
 
 #endif 
 
-static void _set_name (CamelFolder *folder, 
-		       const gchar *name, 
-		       CamelException *ex);
 static const gchar *_get_name (CamelFolder *folder);
 static const gchar *_get_full_name (CamelFolder *folder);
 
@@ -134,7 +131,8 @@ static void _delete_message_by_uid (CamelFolder *folder,
 				    const gchar *uid, 
 				    CamelException *ex);
 
-
+static GPtrArray *get_message_info (CamelFolder *folder, int first, int count);
+static GPtrArray *get_subfolder_info (CamelFolder *folder, int first, int count);
 
 
 static void
@@ -154,7 +152,6 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 #ifdef FOLDER_ASYNC_TEST
 	camel_folder_class->close_async = _close_async;
 #endif
-	camel_folder_class->set_name = _set_name;
 	camel_folder_class->get_name = _get_name;
 	camel_folder_class->get_full_name = _get_full_name;
 	camel_folder_class->can_hold_folders = _can_hold_folders;
@@ -181,6 +178,9 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_message_by_uid = _get_message_by_uid;
 	camel_folder_class->delete_message_by_uid = _delete_message_by_uid;
 	camel_folder_class->get_uid_list = _get_uid_list;
+
+	camel_folder_class->get_subfolder_info = get_subfolder_info;
+	camel_folder_class->get_message_info = get_message_info;
 
 	/* virtual method overload */
 	gtk_object_class->finalize = _finalize;
@@ -251,6 +251,9 @@ _init (CamelFolder *folder, CamelStore *parent_store,
        CamelFolder *parent_folder, const gchar *name,
        gchar separator, CamelException *ex)
 {
+	gchar *full_name;
+	const gchar *parent_full_name;
+
 	g_assert (folder != NULL);
 	g_assert (parent_store != NULL);
 	g_assert (folder->parent_store == NULL);
@@ -265,7 +268,28 @@ _init (CamelFolder *folder, CamelStore *parent_store,
 	folder->open_mode = FOLDER_OPEN_UNKNOWN;
 	folder->open_state = FOLDER_CLOSE;
 	folder->separator = separator;
-	CF_CLASS (folder)->set_name (folder, name, ex);
+
+	/* if the folder already has a name, free it */	
+	g_free (folder->name);
+	g_free (folder->full_name);
+	
+	/* set those fields to NULL now, so that if an 
+	   exception occurs, they will be set anyway */
+	folder->name = NULL;
+	folder->full_name = NULL;
+
+	if (folder->parent_folder) {
+		parent_full_name =
+			camel_folder_get_full_name (folder->parent_folder);
+		
+		full_name = g_strdup_printf ("%s%c%s", parent_full_name,
+					     folder->separator, name);
+	} else {
+		full_name = g_strdup_printf ("%c%s", folder->separator, name);
+	}
+
+	folder->name = g_strdup (name);
+	folder->full_name = full_name;
 }
 
 
@@ -429,44 +453,6 @@ camel_folder_close_async (CamelFolder *folder,
 
 
 #endif
-
-
-static void
-_set_name (CamelFolder *folder, 
-	   const gchar *name, 
-	   CamelException *ex)
-{
-	gchar *full_name;
-	const gchar *parent_full_name;
-	
-	g_assert (folder->parent_store != NULL);
-	g_assert (name != NULL);
-	g_assert (!camel_folder_is_open (folder));
-			
-	/* if the folder already has a name, free it */	
-	g_free (folder->name);
-	g_free (folder->full_name);
-	
-	/* set those fields to NULL now, so that if an 
-	   exception occurs, they will be set anyway */
-	folder->name = NULL;
-	folder->full_name = NULL;
-
-	if (folder->parent_folder) {
-		parent_full_name =
-			camel_folder_get_full_name (folder->parent_folder);
-		
-		full_name = g_strdup_printf ("%s%c%s", parent_full_name,
-					     folder->separator, name);
-	} else {
-		full_name = g_strdup_printf ("%c%s", folder->separator, name);
-	}
-
-	folder->name = g_strdup (name);
-	folder->full_name = full_name;
-	
-}
-
 
 
 static const gchar *
@@ -1204,42 +1190,72 @@ camel_folder_copy_message_to (CamelFolder *folder,
 	CF_CLASS (folder)->copy_message_to (folder, message, dest_folder, ex);;
 }
 
+/* summary stuff */
+static GPtrArray *
+get_subfolder_info (CamelFolder *folder, int first, int count)
+{
+	g_warning ("CamelFolder::get_subfolder_info not implemented for `%s'", gtk_type_name (GTK_OBJECT_TYPE (folder)));
+	return NULL;
+}
+
+/**
+ * camel_folder_summary_get_subfolder_info: return an array of subfolders
+ * @summary: a summary
+ * @first: the index of the first subfolder to return information for
+ * (starting from 0)
+ * @count: the number of subfolders to return information for
+ *
+ * Returns an array of pointers to CamelFolderInfo objects. The caller
+ * must free the array when it is done with it, but should not modify
+ * the elements.
+ *
+ * Return value: an array containing information about the subfolders.
+ **/
+GPtrArray *
+camel_folder_summary_get_subfolder_info (CamelFolder *folder,
+					 int first, int count)
+{
+	g_assert (folder != NULL);
+	return CF_CLASS (folder)->get_subfolder_info (folder, first, count);
+}
 
 
+static GPtrArray *
+get_message_info (CamelFolder *folder, int first, int count)
+{
+	g_warning ("CamelFolder::get_message_info not implemented for `%s'", gtk_type_name (GTK_OBJECT_TYPE (folder)));
+	return NULL;
+}
 
+/**
+ * camel_folder_summary_get_message_info: return an array of messages
+ * @folder: a camel folder
+ * @first: the index of the first message to return information for
+ * (starting from 0)
+ * @count: the number of messages to return information for
+ *
+ * Returns an array of pointers to CamelMessageInfo objects. The caller
+ * must free the array when it is done with it, but should not modify
+ * the elements.
+ *
+ * Return value: an array containing information about the messages.
+ **/
+GPtrArray *
+camel_folder_summary_get_message_info (CamelFolder *folder,
+				       int first, int count)
+{
+	g_assert (folder != NULL);
+	return CF_CLASS (folder)->get_message_info (folder, first, count);
+}
 
 /* summary stuff */
-
+/* TODO: is this function required anyway? */
 gboolean
 camel_folder_has_summary_capability (CamelFolder *folder)
 {
 	g_assert (folder != NULL);
 	return folder->has_summary_capability;
 }
-
-
-/**
- * camel_folder_get_summary: return the summary of a folder
- * @folder: folder object
- * @ex: exception object
- * 
- * Return a CamelFolderSummary object from 
- * which the main informations about a folder
- * can be retrieved.
- * 
- * Return value: the folder summary object.
- **/
-CamelFolderSummary *
-camel_folder_get_summary (CamelFolder *folder, 
-			  CamelException *ex)
-{
-	g_assert (folder != NULL);
-	g_assert (camel_folder_is_open (folder));
-
-	return folder->summary;
-}
-
-
 
 
 /* UIDs stuff */

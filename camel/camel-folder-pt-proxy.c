@@ -120,7 +120,6 @@ camel_folder_pt_proxy_class_init (CamelFolderPtProxyClass *camel_folder_pt_proxy
 	camel_folder_class->open_async = _open_async;
 	camel_folder_class->close_async = _close_async;
 #endif
-	camel_folder_class->set_name = _set_name;
 	camel_folder_class->get_name = _get_name;
 	camel_folder_class->can_hold_folders = _can_hold_folders;
  	camel_folder_class->can_hold_messages = _can_hold_messages;
@@ -472,25 +471,6 @@ static void _close (CamelFolder *folder,
 	proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
 	CF_CLASS (proxy_folder->real_folder)->
 		close (proxy_folder->real_folder, expunge, ex);
-}
-
-
-
-
-
-/* folder->set_name implementation */
-
-static void
-_set_name (CamelFolder *folder, 
-	   const gchar *name, 
-	   CamelException *ex)
-{
-	CamelFolderPtProxy *proxy_folder;
-
-	proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
-	CF_CLASS (proxy_folder->real_folder)->
-		set_name (proxy_folder->real_folder, name, ex);
-	
 }
 
 

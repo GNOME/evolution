@@ -35,8 +35,8 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include "camel-folder.h"
-#include "camel-mbox-summary.h"
 #include "libibex/ibex.h"
+#include "camel-mbox-summary.h"
 
 /*  #include "camel-store.h" */
 
@@ -44,7 +44,6 @@ extern "C" {
 #define CAMEL_MBOX_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_MBOX_FOLDER_TYPE, CamelMboxFolder))
 #define CAMEL_MBOX_FOLDER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MBOX_FOLDER_TYPE, CamelMboxFolderClass))
 #define IS_CAMEL_MBOX_FOLDER(o)    (GTK_CHECK_TYPE((o), CAMEL_MBOX_FOLDER_TYPE))
-
 
 typedef struct {
 	CamelFolder parent_object;
@@ -54,11 +53,11 @@ typedef struct {
 	gchar *folder_dir_path;    /* contains the subfolders */
 	gchar *index_file_path;	   /* index of body contents */
 
-	GList  *uid_array;
-
 	ibex *index;		/* index for this folder */
 	int search_id;		/* next search id */
 	GList *searches;	/* current searches */
+
+	CamelMboxSummary *summary;
 } CamelMboxFolder;
 
 

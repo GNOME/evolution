@@ -36,13 +36,15 @@ extern "C" {
 
 #include <glib.h>
 #include <stdio.h>
-#include "camel-stream.h"
+#include <camel/camel-stream.h>
+#include <camel/camel-mime-utils.h>
 
 typedef struct {
+	struct _header_content_type *content_type;
 
-	gchar *type;
-	gchar *subtype;
-	GHashTable *parameters;
+	/* these should be deprecated (use the accessors) */
+	char *type;		/* these are only copies of the ones in content_type */
+	char *subtype;
 
 	gint ref;
 
@@ -58,6 +60,8 @@ void gmime_content_field_construct_from_string (GMimeContentField *content_field
 void gmime_content_field_free (GMimeContentField *content_field);
 gchar * gmime_content_field_get_mime_type (GMimeContentField *content_field);
 const gchar *gmime_content_field_get_parameter (GMimeContentField *content_field, const gchar *name);
+
+int gmime_content_field_is_type (GMimeContentField *content_field, const char *type, const char *subtype);
 
 
 #ifdef __cplusplus

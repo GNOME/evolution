@@ -1,3 +1,24 @@
+2000-04-20  NotZed  <NotZed@HelixCode.com>
+
+	* MERGE NEW_PARSER branch into HEAD, fixed conflicts.
+	
+	* gmime-content-field.c (_print_parameter): Duh, removed again
+	(@@#$@ cvs merge).
+
+	* camel-mime-utils.c (header_content_type_is): Constify.
+	(header_content_type_unref): Killed a couple warnings.
+
+	* camel-folder.c (_init): Removed more log crap.
+
+	* providers/Makefile.am (SUBDIRS): Removed nntp, pending fixes for
+	summary changes.
+
+	* providers/mbox/camel-mbox-folder.c (_get_message_by_number):
+	Fixed for new summary interface.  Added a warning for using this
+	broken api.
+	(_get_message_by_uid): Fixed for message new with session
+	vanishing.
+
 2000-04-19  Dan Winship  <danw@helixcode.com>
 
 	* camel-simple-data-wrapper-stream.c
@@ -141,6 +162,277 @@
 	* providers/Makefile.am: Readded smtp now that smtp builds without
 	error.
 
+2000-04-20  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-summary.c
+	(camel_mbox_summary_next_uid): Public function to get the next
+	uid, makes sure its saved to disk too.
+
+	* camel-mime-part.c (my_finalize): Fix disposition crap with a
+	real disposition.
+	(my_set_disposition): Likewise.
+	(my_get_disposition): And here.
+	(my_write_to_stream): And here, needs more cleanup.
+
+	* providers/mbox/camel-mbox-folder.c (_append_message): Assign a
+	new uid at this point.
+
+	* gmime-content-field.c (gmime_content_field_write_to_stream):
+	Make something up if we have an invalid/missing content type
+	(i.e. text/plain).
+
+2000-04-19  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-folder.c (_delete): Fixed completely
+	broken switch() syntax, only compiled because errno is a macro on
+	some systems.
+	(_list_subfolders): Likewise.
+
+2000-04-18  NotZed  <NotZed@HelixCode.com>
+
+	* camel-mime-parser.c (folder_scan_init): init stream to null.
+
+	* providers/mbox/camel-mbox-summary.c
+	(CAMEL_MBOX_SUMMARY_VERSION): Moved to .c file, incremented.
+	(index_folder): Changed to have index passed via the summary.
+	(decode_string): Do a sanity check on the string size, so we dont
+	visit g_malloc()'s friendly abort().
+
+	* camel-folder-pt-proxy.c (camel_folder_pt_proxy_class_init):
+	Removed reference to set_name.
+	(_set_name): Removed.
+
+	* providers/mbox/camel-mbox-utils.c
+	(parsed_information_to_mbox_summary): Removed.  Most of this file
+	is about to be binned.
+
+	* providers/mbox/camel-mbox-search.c (func_header_contains): Fixes
+	for changes to summary interface.
+	(struct _searchcontext): Remove pointer to message info, get it
+	straight from the mboxsummary.
+	(camel_mbox_folder_search_by_expression): New summary interface.
+	(camel_mbox_folder_search_by_expression): Uh, the summary is not
+	an object anymore (well not yet).
+
+	* providers/mbox/camel-mbox-folder.c
+	(camel_mbox_folder_class_init): Removed set_name init.
+	(_set_name): Removed.
+	(_open): Call new summary interface.
+	(_close): Use new summary interface.
+	(_create): Removed a summary object leak.
+	(_get_message_count): New summary interface.
+	(_get_uid_list): Use new summary interface. FIXME: this is leaky.
+	(_get_message_by_uid): Use the new summary interface, some
+	cleanup.
+	(_append_message): Totally changed, basically just appends the
+	message directly, ignores the summary (for now), the summary will
+	fix itself up if it needs to.
+	(_check_get_or_maybe_generate_summary_file): Bye bye old code.
+	(summary_get_message_info): Implement get_message_info again, for
+	folder.
+
+	* camel-folder.c (camel_folder_class_init): Removed set_name
+	setup.
+	(_set_name): Moved contents into _init.
+	(_init): Perform the old functions of set_name here.
+
+	* camel-folder.h: Removed the set_name internal interface.
+
+2000-04-14  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-summary.[ch]: Completely replaced with
+	new code.
+
+	* Makefile.am (libcamel_la_SOURCES): Removed
+	camel-folder-summary.[ch].
+
+	* camel-folder.h (struct _CamelFolder): Removed summary.
+	(struct _CamelFolder): Changed flags to be 1 bit bitfields.
+
+	* camel-folder-summary.[ch]: Class removed entirely.
+
+	* camel-folder.c (camel_folder_get_summary): Removed.
+	(camel_folder_summary_get_message_info): Moved from
+	camel-folder-summary.c
+	(camel_folder_summary_get_subfolder_info): Moved from
+	camel-folder-summary.c
+
+	* camel-mime-parser.c (folder_scan_step): Store the start of
+	headers and start of from in the scan state.
+	(camel_mime_parser_tell_start_headers): Query the start of the
+	headers.
+	(camel_mime_parser_tell_start_from): Query the cached start of
+	from marker.
+
+2000-04-13  NotZed  <NotZed@HelixCode.com>
+
+	* gmime-content-field.c (gmime_content_field_free): Removed this
+	function.  If its too dangerous to use, it shouldn't be here.
+	(gmime_content_field_ref): Also ref the embedded content-type.
+	(gmime_content_field_unref): Ditto to unref it.
+
+	* camel-mime-utils.h: Add a refcount for content-type header.
+
+	* camel-mime-utils.c (header_content_type_unref): Implement unref
+	for content-type.
+	(header_content_type_ref): Implement ref for header content type.
+
+2000-04-12  NotZed  <NotZed@HelixCode.com>
+
+	* gmime-content-field.h: Changed to use a _header_content_type.
+	Added type/subtype back for compatability with clients.
+	
+	* gmime-content-field.c: Basically a total rewrite, and now just a
+	thin wrapper ontop of header_content_type.
+	(_free_parameter): Got rid of it.
+	(gmime_content_field_new): Use header_content_type_* functions.
+	(gmime_content_field_set_parameter): Likewise.
+	(_print_parameter): Blow away.
+	(gmime_content_field_write_to_stream): Get details from the
+	content_type field.  Should check if it needs to escape chars in
+	the paramter value.
+	(gmime_content_field_get_mime_type): Likewise.
+	(___debug_print_parameter): Get rid of this rather annoyingly
+	named function.
+	(gmime_content_field_get_parameter): Simplified function.
+	(gmime_content_field_construct_from_string): Fixed this to use a
+	real parser.
+	(gmime_content_field_is_type): New function to test if a type matches.
+	(gmime_content_field_construct_from_string): Track type/subtype
+	from subordinate content_type header struct.
+
+	* gmime-rfc2047.[ch]: Removed.  Unused.
+
+	* camel-stream-b64.[ch]: Blown away more duplicated code.
+
+	* Makefile.am: Removed camel-stream-b64.[ch], and
+	gmime-base64.[ch].
+
+	* camel-mime-part.c (my_get_content_object): Replaced
+	camel-stream-b64 with camel-stream-filter/camel-mime-filter-basic.
+	(my_write_content_to_stream): Replaced camel-stream-b64 with the
+	camel-stream-filter with an encoder.
+	(my_get_content_object): Also implement quoted-printable decoding.
+	(my_write_content_to_stream): Also implement quoted-printable
+	encoding.
+	(my_get_output_stream): Took out stream-b64 code (nothing's being
+	executed yet anyway).
+
+	* gmime-base64.[ch]: Blown away.  Not used, dont need it.
+
+	* camel-mime-utils.h: Added offset for this header.  Records where
+	it is in the source.
+
+	* camel-mime-utils.c (header_raw_append_parse): Add offset
+	parameter, to store where the header is stored in the stream.
+	(header_raw_append): Added offset param.
+	(header_raw_find): Return offset, if a pointer supplied for it.
+	(header_raw_replace): Add offset param.
+	(header_content_type_new): New function, to create an empty
+	content type.
+	(header_content_type_set_param): Set a parameter in the
+	content-type.
+	(header_set_param): Generic header parameter setting function.
+	(header_decode_string): Handle NULL input.
+
+	* camel-mime-parser.c (camel_mime_parser_headers_raw): New
+	function to get access to all the raw headers.
+	(folder_scan_header): Keep track of the header start position, and
+	store it when saving the header.
+
+2000-04-11  NotZed  <NotZed@HelixCode.com>
+
+	* camel-mime-utils.c: Moved a bunch of printf's to debug.
+
+	* camel-mime-parser.c: Moved a bunch of printf's to debug.
+	(folder_scan_header): Detect end of each header line using the
+	last scanned char, and not the last scanned position.
+
+	* camel-mime-filter-index.[ch]: Indexing filter.  Indexes unicode
+	sequences into ibex files.
+
+2000-04-09  NotZed  <NotZed@HelixCode.com>
+
+	* camel-mime-part.c: Dont include gmime-base64.h
+
+	* camel-mime-filter-charset.c (complete): Implement the completion
+	function.
+
+	* camel-mime-parser.c (folder_scan_step): If we get to the end of
+	the body data, check any filters for outstanding completion data.
+	(camel_mime_parser_scan_from): Set whether we scan for "From "
+	headers or not.
+
+	* camel-stream-filter.c (do_read): If we get to end of stream on
+	the source, then call the filtering completion function to see if
+	we have any more data to return.
+
+	* camel-mime-filter-basic.c (filter): Implement quoted printable
+	encoding and decoding filters.
+	(complete): And the complete function as well.
+
+	* camel-mime-utils.c (base64_encode_close): Also take an input
+	buffer, allow closing of filters.
+	(quoted_encode_step): First cut, simple quoted-printable encoder.
+	Doesn't handle trailing spaces/tabs on end of line properly yet.
+	(quoted_encode_close): Complete a quoted-encoding.
+	(is_qpsafe): New type check, for quoted-printable safe characters
+	(that do not need encoding).  Thats all bits used in the type
+	table!  Rebuilt the types table.
+	(header_content_type_is): Checks a content type against at
+	type/subtype match.
+	(header_content_type_param): Handle NULL content type pointer.
+
+2000-04-08  NotZed  <NotZed@HelixCode.com>
+
+	* camel-mime-filter-basic.c (filter): Implement the base64
+	encoder.  Problem is, there is no way to know when to close it.
+	Close/Reset will have to provide the same args as filter, so it can
+	flush remaining data *sigh*
+
+	* camel-mime-utils.c (base64_encode_step): A rather complex base64
+	encoder, fast?
+	(base64_step_close): Companion function to finish off the base64
+	sequence.
+
+	* camel-mime-part.c (my_write_content_to_stream): Changed to use
+	camel_stream_write_to_stream().
+
+	* camel-stream.[ch] (camel_stream_write_to_stream): From
+	camel_stream_b64_write_to_stream().  Fixed some infinite loop
+	bugs with error conditions.
+
+	* camel-stream-b64.[ch] (camel_stream_b64_write_to_stream): Removed.
+	This has nothing to do with stream-b64, so i've moved it to
+	CamelStream.
+
+	* camel-mime-utils.h: Add a comment about refcounting
+	header_content_type struct.
+
+	* Makefile.am: Added camel-stream-filter*.[ch].
+
+	* camel-stream-filter.[ch]: Class to implement a generic
+	(multipass) filter ontop of a stream.  Only implements a read-only
+	stream.
+
+	* camel-mime-parser.c (camel_mime_parser_filter_add): Ref the
+	filter we just added.
+
+	* Makefile.am: Added camel-mime-filter*.[ch].
+
+	* camel-mime-filter-charset.[ch]: A filter to preform character set
+	conversion (uses unicode_iconv).
+
+	* camel-mime-filter-save.[ch]: A simple filter which will save all
+	data directly to a file or file descriptor.
+
+	* camel-mime-filter-basic.[ch]: Implements the basic mime filters,
+	base64 and quoted-printable decoding (encoding not implemented yet).
+
+	* camel-mime-filter.[ch]: A filtering class, which can filter streams
+	of data without having to copy them.  Simpler than stream classes,
+	and can be plugged into a single stream class (when i write it).
+
 2000-04-07  Dan Winship  <danw@helixcode.com>
 
 	* providers/pop3/camel-pop3-store.c (pop3_connect): Clarify error
@@ -148,6 +440,15 @@
 	(finalize): fix a bug in camel_exception usage
 	(pop3_connect): Remember the password after asking for it the
 	first time.
+
+2000-04-07  NotZed  <NotZed@HelixCode.com>
+
+	* Makefile.am: Added camel-mime-parser/camel-mime-utils.
+
+	* camel-mime-parser.c: Fast mime parser.
+
+	* camel-mime-utils.c: Mime utility functions, and email header
+	parsers.
 
 2000-04-07  NotZed  <NotZed@HelixCode.com>
 
