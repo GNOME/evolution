@@ -447,6 +447,32 @@ create_dn_from_ecard (ECardSimple *card, const char *root_dn)
 	return dn;
 }
 
+static void
+free_mods (GPtrArray *mods)
+{
+	int i = 0;
+	LDAPMod *mod;
+
+	while ((mod = g_ptr_array_index (mods, i++))) {
+		int j;
+		g_free (mod->mod_type);
+
+		if (mod->mod_op & LDAP_MOD_BVALUES) {
+			for (j = 0; mod->mod_bvalues[j]; j++) {
+				g_free (mod->mod_bvalues[j]->bv_val);
+				g_free (mod->mod_bvalues[j]);
+			}
+		}
+		else {
+			for (j = 0; mod->mod_values[j]; j++)
+				g_free (mod->mod_values[j]);
+		}
+		g_free (mod);
+	}
+
+	g_ptr_array_free (mods, TRUE /* XXX ? */);
+}
+
 static GPtrArray*
 build_mods_from_ecards (PASBackendLDAP *bl, ECardSimple *current, ECardSimple *new, gboolean *new_dn_needed)
 {
@@ -461,9 +487,12 @@ build_mods_from_ecards (PASBackendLDAP *bl, ECardSimple *current, ECardSimple *n
 	 big table at the top of the file) */
 
 	for (i = 0; i < num_prop_infos; i ++) {
+		gboolean include;
+		gboolean new_prop_present = FALSE;
+		gboolean current_prop_present = FALSE;
+		struct berval** new_prop_bers = NULL;
 		char *new_prop = NULL;
 		char *current_prop = NULL;
-		gboolean include;
 
 		/* XXX if it's an evolvePerson prop and the ldap
                    server doesn't support that objectclass, skip it. */
@@ -474,14 +503,24 @@ build_mods_from_ecards (PASBackendLDAP *bl, ECardSimple *current, ECardSimple *n
                    the value in the current card to see if we should
                    update it -- if adding is TRUE, short circuit the
                    check. */
-		new_prop = e_card_simple_get (new, prop_info[i].field_id);
+		if (prop_info[i].prop_type & PROP_TYPE_STRING) {
+			new_prop = e_card_simple_get (new, prop_info[i].field_id);
+			new_prop_present = (new_prop != NULL);
+		}
+		else {
+			new_prop_bers = prop_info[i].ber_func (new);
+			new_prop_present = (new_prop_bers != NULL);
+		}
 
 		/* need to set INCLUDE to true if the field needs to
                    show up in the ldap modify request */
 		if (adding) {
 			/* if we're creating a new card, include it if the
                            field is there at all */
-			include = (new_prop && *new_prop);
+			if (prop_info[i].prop_type & PROP_TYPE_STRING)
+				include = (new_prop_present && *new_prop); /* empty strings cause problems */
+			else
+				include = new_prop_present;
 		}
 		else {
 			/* if we're modifying an existing card,
@@ -489,12 +528,32 @@ build_mods_from_ecards (PASBackendLDAP *bl, ECardSimple *current, ECardSimple *n
                            different than the new one, if it didn't
                            exist previously, or if it's been
                            removed. */
-			current_prop = e_card_simple_get (current, prop_info[i].field_id);
+			if (prop_info[i].prop_type & PROP_TYPE_STRING) {
+				current_prop = e_card_simple_get (current, prop_info[i].field_id);
+				current_prop_present = (current_prop != NULL);
 
-			if (new_prop && current_prop)
-				include = *new_prop && strcmp (new_prop, current_prop);
-			else
-				include = (!!new_prop != !!current_prop);
+				if (new_prop && current_prop)
+					include = *new_prop && strcmp (new_prop, current_prop);
+				else
+					include = (!!new_prop != !!current_prop);
+			}
+			else {
+				int j;
+				struct berval **current_prop_bers = prop_info[i].ber_func (current);
+
+				current_prop_present = (current_prop_bers != NULL);
+
+				/* free up the current_prop_bers */
+				if (current_prop_bers) {
+					for (j = 0; current_prop_bers[j]; j++) {
+						g_free (current_prop_bers[j]->bv_val);
+						g_free (current_prop_bers[j]);
+					}
+					g_free (current_prop_bers);
+				}
+
+				include = !prop_info[i].compare_func (new, current);
+			}
 		}
 
 		if (include) {
@@ -510,9 +569,9 @@ build_mods_from_ecards (PASBackendLDAP *bl, ECardSimple *current, ECardSimple *n
 				mod->mod_op = LDAP_MOD_ADD;
 			}
 			else {
-				if (!new_prop)
+				if (!new_prop_present)
 					mod->mod_op = LDAP_MOD_DELETE;
-				else if (!current_prop)
+				else if (!current_prop_present)
 					mod->mod_op = LDAP_MOD_ADD;
 				else
 					mod->mod_op = LDAP_MOD_REPLACE;
@@ -527,7 +586,7 @@ build_mods_from_ecards (PASBackendLDAP *bl, ECardSimple *current, ECardSimple *n
 			}
 			else { /* PROP_TYPE_LIST */
 				mod->mod_op |= LDAP_MOD_BVALUES;
-				mod->mod_bvalues = prop_info[i].ber_func (new);
+				mod->mod_bvalues = new_prop_bers;
 			}
 
 			g_ptr_array_add (result, mod);
@@ -559,32 +618,6 @@ add_objectclass_mod (PASBackendLDAP *bl, GPtrArray *mod_array)
 		objectclass_mod->mod_values[1] = NULL;
 	}
 	g_ptr_array_add (mod_array, objectclass_mod);
-}
-
-static void
-free_mods (GPtrArray *mods)
-{
-	int i = 0;
-	LDAPMod *mod;
-
-	while ((mod = g_ptr_array_index (mods, i++))) {
-		int j;
-		g_free (mod->mod_type);
-
-		if (mod->mod_op & LDAP_MOD_BVALUES) {
-			for (j = 0; mod->mod_bvalues[j]; j++) {
-				g_free (mod->mod_bvalues[j]->bv_val);
-				g_free (mod->mod_bvalues[j]);
-			}
-		}
-		else {
-			for (j = 0; mod->mod_values[j]; j++)
-				g_free (mod->mod_values[j]);
-		}
-		g_free (mod);
-	}
-
-	g_ptr_array_free (mods, TRUE /* XXX ? */);
 }
 
 typedef struct {
@@ -1125,6 +1158,9 @@ email_ber(ECardSimple *card)
 			num++;
 	}
 
+	if (num == 0)
+		return NULL;
+
 	result = g_new (struct berval*, num + 1);
 
 	for (i = 0; i < num; i ++)
@@ -1163,7 +1199,7 @@ email_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 			return equal;
 	}
 
-	return FALSE;;
+	return TRUE;
 }
 
 static void
@@ -1187,6 +1223,9 @@ homephone_ber(ECardSimple *card)
 		num++;
 	if ((homephones[1] = e_card_simple_get (card, E_CARD_SIMPLE_FIELD_PHONE_HOME_2)))
 		num++;
+
+	if (num == 0)
+		return NULL;
 
 	result = g_new (struct berval*, num + 1);
 
@@ -1227,7 +1266,7 @@ homephone_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 			return equal;
 	}
 
-	return FALSE;;
+	return TRUE;
 }
 
 static void
@@ -1251,6 +1290,9 @@ business_ber(ECardSimple *card)
 		num++;
 	if ((business_phones[1] = e_card_simple_get (card, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2)))
 		num++;
+
+	if (num == 0)
+		return NULL;
 
 	result = g_new (struct berval*, num + 1);
 
@@ -1291,7 +1333,7 @@ business_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 			return equal;
 	}
 
-	return FALSE;;
+	return TRUE;
 }
 
 static ESExpResult *

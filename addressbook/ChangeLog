@@ -1,3 +1,16 @@
+2001-02-06  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (email_compare): return TRUE if
+	equal, FALSE otherwise.
+	(business_compare): same.
+	(homephone_compare): same.
+	(email_ber): return NULL if there are no elements in our list.
+	(homephone_ber): same.
+	(business_ber): same.
+	(build_mods_from_ecards): add smarts to handle list elements
+	properly (like email, business_phone, home_phone.)  now we'll
+	properly send updates if any element in the list changes.
+
 2001-02-06  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/Makefile.am (INCLUDES): Added
