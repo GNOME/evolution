@@ -233,7 +233,7 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/display/fonts/variable/</key>
+      <key>/schemas/apps/evolution/mail/display/fonts/variable</key>
       <applyto>/apps/evolution/mail/display/fonts/variable</applyto>
       <owner>evolution-mail</owner>
       <type>string</type>
