@@ -214,6 +214,7 @@ struct _EText {
 	gboolean      im_context_signals_registered;
 
 	gboolean      handle_popup;
+	gboolean      has_popup;
 };
 
 struct _ETextClass {

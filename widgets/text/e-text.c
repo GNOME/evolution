@@ -119,7 +119,8 @@ enum {
 	PROP_DRAW_BUTTON,
 	PROP_CURSOR_POS,
 	PROP_IM_CONTEXT,
-	PROP_HANDLE_POPUP
+	PROP_HANDLE_POPUP,
+	PROP_HAS_POPUP
 };
 
 static void e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data);
@@ -1073,6 +1074,10 @@ e_text_get_property (GObject *object,
 		
 	case PROP_HANDLE_POPUP:
 		g_value_set_boolean (value, text->handle_popup);
+		break;
+
+	case PROP_HAS_POPUP:
+		g_value_set_boolean (value, text->has_popup);
 		break;
 
 	default:
@@ -2554,6 +2559,12 @@ popup_menu_placement_cb (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpo
 }
 
 static void
+e_text_popup_deactivated (EText *text)
+{
+	text->has_popup = FALSE;
+}
+
+static void
 popup_targets_received (GtkClipboard     *clipboard,
 			GtkSelectionData *data,
 			gpointer          user_data)
@@ -2570,6 +2581,11 @@ popup_targets_received (GtkClipboard     *clipboard,
 	gtk_menu_attach_to_widget (GTK_MENU (popup_menu),
 				   GTK_WIDGET(GNOME_CANVAS_ITEM (text)->canvas),
 				   popup_menu_detach);
+
+	text->has_popup = TRUE;
+
+	g_signal_connect_swapped(GTK_MENU_SHELL (popup_menu), "deactivate", 
+				G_CALLBACK (e_text_popup_deactivated), text);
 
 	/* cut menu item */
 	menuitem = gtk_image_menu_item_new_from_stock (GTK_STOCK_CUT, NULL);
@@ -3593,6 +3609,13 @@ e_text_class_init (ETextClass *klass)
 							       FALSE,
 							       G_PARAM_READWRITE));
 
+	g_object_class_install_property (gobject_class, PROP_HAS_POPUP,
+					 g_param_spec_boolean ("has_popup",
+							       _( "Has Popup" ),
+							       _( "Has Popup" ),
+							       FALSE,
+							       G_PARAM_READABLE));
+
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 }
@@ -3683,6 +3706,7 @@ e_text_init (EText *text)
 	text->im_context_signals_registered = FALSE;
 
 	text->handle_popup            = FALSE;
+	text->has_popup     	      = FALSE;
 
 
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
