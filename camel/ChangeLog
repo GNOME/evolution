@@ -1,5 +1,10 @@
 2000-05-22  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* camel-mime-filter-smtp.c: filter: Updated to check for
+	\r's.
+
+2000-05-22  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* camel-mime-filter-from.c: Undid previous changes
 
 	* camel-mime-filter-smtp.[c,h]: Fixed code to change \n into \r\n.
