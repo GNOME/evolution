@@ -227,22 +227,28 @@ button_clicked (GtkButton *button, FilterFolder *ff)
 #ifdef SHELL
 	const char *allowed_types[] = { "mail", NULL };
 	char *def, *physical_uri, *evolution_uri;
-	static gboolean is_active = FALSE;
 	gchar *s;
 	
-	if (is_active)
-		return;
-	
-	is_active = TRUE;
-	
 	def = ff->uri ? ff->uri : "";
-	
+
+	gtk_widget_set_sensitive((GtkWidget *)button, FALSE);
+	gtk_object_ref((GtkObject *)ff);
+
 	evolution_shell_client_user_select_folder (global_shell_client,
 						   GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (button))),
 						   _("Select Folder"),
 						   def, allowed_types,
 						   &evolution_uri,
 						   &physical_uri);
+
+	if (GTK_OBJECT_DESTROYED(button)) {
+		g_free(physical_uri);
+		g_free(evolution_uri);
+		gtk_object_unref((GtkObject *)ff);
+		return;
+	}
+
+	gtk_widget_set_sensitive((GtkWidget *)button, TRUE);
 	
 	if (physical_uri != NULL && physical_uri[0] != '\0') {
 		g_free (ff->uri);
@@ -257,8 +263,9 @@ button_clicked (GtkButton *button, FilterFolder *ff)
 		g_free (physical_uri);
 	}
 	g_free (evolution_uri);
-	
-	is_active = FALSE;
+
+	gtk_object_unref((GtkObject *)ff);
+
 #else
 	GnomeDialog *gd;
 	GtkEntry *entry;
