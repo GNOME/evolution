@@ -39,6 +39,8 @@ eutilinclude_HEADERS = 				\
 	e-path.h				\
 	e-request.h				\
 	e-sexp.h				\
+	e-signature.h				\
+	e-signature-list.h			\
 	e-time-utils.h				\
 	e-trie.h				\
 	e-uid.h					\
@@ -75,6 +77,8 @@ libeutil_la_SOURCES =				\
 	e-path.c				\
 	e-request.c				\
 	e-sexp.c				\
+	e-signature.c				\
+	e-signature-list.c			\
 	e-time-utils.c				\
 	e-trie.c				\
 	e-uid.c					\

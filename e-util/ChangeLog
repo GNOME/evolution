@@ -1,3 +1,11 @@
+2004-03-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-signature.[c,h]: New class similar to EAccount but for
+	signatures.
+
+	* e-signature-list.[c,h]: New class similar to EAccountList only
+	for signatures.
+
 2004-03-31  Not Zed  <NotZed@Ximian.com>
 
 	* e-account-list.h: similar to below.
