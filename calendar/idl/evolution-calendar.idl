@@ -147,7 +147,7 @@ module Calendar {
 		/* Check write permissions for calendar */
 		boolean isReadOnly ();
 		
-		/* Information on how to schedule */
+		/* Information on the backend's capabilities */
 		string getStaticCapabilities ();
 
 		/* Return the email address associated with this calendar,

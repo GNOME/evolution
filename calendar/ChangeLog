@@ -1,4 +1,8 @@
 2003-02-05  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* idl/evolution-calendar.idl: fix comment
+	
+2003-02-05  JP Rosevear  <jpr@ximian.com>
 
 	* gui/calendar-model.c (calendar_model_append_row): update FIXME
 	note
