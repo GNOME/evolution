@@ -1,3 +1,8 @@
+2004-03-25 Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/component/eab-editor.c (eab_editor_prompt_to_save_changes) : 
+	do  eab_editor_is_valid check only when user wants to save.
+
 2004-03-24  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-component.c
