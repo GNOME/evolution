@@ -1,3 +1,7 @@
+2001-06-30  Federico Mena Quintero  <federico@ximian.com>
+
+	* tools/killev: Added evolution-alarm-notify.
+
 2001-06-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Require GAL 0.8.99.6.
