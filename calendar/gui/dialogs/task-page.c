@@ -42,6 +42,7 @@
 #include "e-util/e-categories-config.h"
 #include "../e-timezone-entry.h"
 #include "../calendar-config.h"
+#include "comp-editor.h"
 #include "comp-editor-util.h"
 #include "task-page.h"
 
@@ -827,7 +828,9 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 			gtk_dialog_run (GTK_DIALOG (dialog));
 			gtk_widget_destroy (dialog);
 		} else {
-			comp_editor_page_notify_client_changed (COMP_EDITOR_PAGE (epage), client);
+			comp_editor_notify_client_changed (
+				COMP_EDITOR (gtk_widget_get_toplevel (priv->main)),
+				client);
 		}
 	}
 }

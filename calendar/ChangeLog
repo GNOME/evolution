@@ -1,5 +1,23 @@
 2004-06-08  Rodrigo Moya <rodrigo@novell.com>
 
+	* gui/dialogs/comp-editor.[ch] (comp_editor_notify_client_changed):
+	new function for notifying all pages of the client change.
+	(page_client_changed_cb): no need for this callback.
+	(comp_editor_append_page): no need to connect to "client_changed"
+	signal on the pages.
+
+	* gui/dialogs/comp-editor-page.c
+	(comp_editor_page_notify_client_changed): re-added the call to
+	comp_editor_page_set_e_cal(), the client was not being set anywhere.
+
+	* gui/dialogs/event-page.c (source_changed_cb): use
+	comp_editor_notify_client_changed() so that all pages get informed
+	of the client change.
+
+	* gui/dialogs/task-page.c (source_changed_cb): ditto.
+
+2004-06-08  Rodrigo Moya <rodrigo@novell.com>
+
 	* gui/dialogs/comp-editor-page.c
 	(comp_editor_page_notify_client_changed): do not set the private
 	client here, it is set in comp-editor.c.

@@ -101,6 +101,7 @@ void          comp_editor_set_ui_prop      (CompEditor             *editor,
 					    const char             *val);
 void          comp_editor_focus            (CompEditor             *editor);
 
+void          comp_editor_notify_client_changed (CompEditor *editor, ECal *client);
 
 
 

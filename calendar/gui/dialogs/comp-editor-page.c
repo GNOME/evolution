@@ -433,6 +433,7 @@ comp_editor_page_notify_client_changed (CompEditorPage *page,
 	g_return_if_fail (page != NULL);
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
+	comp_editor_page_set_e_cal (page, client);
 	gtk_signal_emit (GTK_OBJECT (page),
 			 comp_editor_page_signals[CLIENT_CHANGED],
 			 client);

@@ -105,7 +105,6 @@ static void page_changed_cb (GtkObject *obj, gpointer data);
 static void needs_send_cb (GtkObject *obj, gpointer data);
 static void page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data);
 static void page_dates_changed_cb (GtkObject *obj, CompEditorPageDates *dates, gpointer data);
-static void page_client_changed_cb (GtkObject *obj, ECal *client, gpointer data);
 
 static void obj_modified_cb (ECal *client, GList *objs, gpointer data);
 static void obj_removed_cb (ECal *client, GList *uids, gpointer data);
@@ -769,8 +768,6 @@ comp_editor_append_page (CompEditor *editor,
 			    G_CALLBACK (page_summary_changed_cb), editor);
 	g_signal_connect(page, "dates_changed",
 			    G_CALLBACK (page_dates_changed_cb), editor);
-	g_signal_connect(page, "client_changed",
-			    G_CALLBACK (page_client_changed_cb), editor);
 
 	/* Listen for when the page is mapped/unmapped so we can
 	   install/uninstall the appropriate GtkAccelGroup. */
@@ -1341,6 +1338,31 @@ comp_editor_focus (CompEditor *editor)
 	raise_and_focus (GTK_WIDGET (editor));
 }
 
+/**
+ * comp_editor_page_notify_client_changed:
+ * @page: An editor page.
+ * 
+ * Makes an editor page emit the "client_changed" signal.  This is meant to be
+ * used only by page implementations.
+ **/
+void
+comp_editor_notify_client_changed (CompEditor *editor, ECal *client)
+{
+	GList *l;
+	CompEditorPrivate *priv;
+
+	g_return_if_fail (editor != NULL);
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	priv = editor->priv;
+
+	priv->changed = TRUE;
+
+	comp_editor_set_e_cal (editor, client);
+	for (l = priv->pages; l != NULL; l = l->next)
+		comp_editor_page_notify_client_changed (COMP_EDITOR_PAGE (l->data), client);
+}
+
 /* Menu Commands */
 static void
 save_close_cmd (GtkWidget *widget, gpointer data)
@@ -1540,18 +1562,6 @@ page_dates_changed_cb (GtkObject *obj,
 			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
-}
-
-static void
-page_client_changed_cb (GtkObject *obj, ECal *client, gpointer data)
-{
-	CompEditor *editor = COMP_EDITOR (data);
-	CompEditorPrivate *priv;
-
-	priv = editor->priv;
-
-	priv->changed = TRUE;
-	comp_editor_set_e_cal (editor, client);
 }
 
 static void
