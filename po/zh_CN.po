@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-12-18 17:59-0500\n"
+"POT-Creation-Date: 2002-01-10 13:54+0800\n"
 "PO-Revision-Date: 2001-11-21 22:27+0800\n"
 "Last-Translator: Wang Li <charlesw1234@163.com>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -1152,28 +1152,24 @@ msgid "_Message Recipients:"
 msgstr "邮件接收者(_M)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
-#, fuzzy
 msgid "A_ssistant's name:"
-msgstr "助手姓名(_A)："
+msgstr "助手姓名(_S)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
-#, fuzzy
 msgid "Add_ress..."
-msgstr "地址(_A)..."
+msgstr "地址(_R)..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "Anni_versary:"
 msgstr "周年(_V)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
-#, fuzzy
 msgid "Birthda_y:"
-msgstr "生日(_B)："
+msgstr "生日(_Y)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
-#, fuzzy
 msgid "C_ontacts..."
-msgstr "联系人(_C)..."
+msgstr "联系人(_O)..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
 #: calendar/gui/dialogs/event-page.glade.h:3
@@ -1192,9 +1188,8 @@ msgid "Contact Editor"
 msgstr "联系人编辑器"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
-#, fuzzy
 msgid "D_epartment:"
-msgstr "部门(_D)："
+msgstr "部门(_E)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: calendar/gui/dialogs/task-editor.c:183
@@ -1210,9 +1205,8 @@ msgid "File A_s:"
 msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
-#, fuzzy
 msgid "Full _Name..."
-msgstr "全名(_F)..."
+msgstr "全名(_N)..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "General"
@@ -1238,23 +1232,20 @@ msgid "Organi_zation:"
 msgstr "组织(_Z)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:24
-#, fuzzy
 msgid "P_rofession:"
-msgstr "职业(_P)："
+msgstr "职业(_R)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "Phone Types"
 msgstr "电话类型"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
-#, fuzzy
 msgid "S_pouse:"
-msgstr "配偶(_S)："
+msgstr "配偶(_P)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
-#, fuzzy
 msgid "This is the _mailing address"
-msgstr "这是邮件地址(_T)"
+msgstr "这是邮件地址(_M)"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "Wants to receive _HTML mail"
@@ -1312,9 +1303,8 @@ msgid "This contact belongs to these categories:"
 msgstr "该联系人属于这些范畴："
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:978
-#, fuzzy
 msgid "Save Contact as VCard"
-msgstr "保存为 VCard"
+msgstr "将联系方法保存为 VCard"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1662
 msgid "TTY/TDD"
@@ -1497,11 +1487,11 @@ msgstr "巴西"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:32
 msgid "British Indian Ocean Territory"
-msgstr "不列颠印度洋地区"
+msgstr "英属印度洋地区"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:33
 msgid "British Virgin Islands"
-msgstr "不列颠处女群岛"
+msgstr "英属维京群岛"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:34
 msgid "Brunei Darussalam"
@@ -2311,7 +2301,7 @@ msgstr "图瓦卢"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:218
 msgid "U.S. Virgin Islands"
-msgstr "美国处女群岛"
+msgstr "美属维京群岛"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:219
 msgid "Uganda"
@@ -2511,9 +2501,8 @@ msgid "Contact List Editor"
 msgstr "联系人列表编辑器"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:428
-#, fuzzy
 msgid "Save List as VCard"
-msgstr "保存为 VCard"
+msgstr "将列表保存为 VCard"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 msgid "Add Anyway"
@@ -3014,7 +3003,7 @@ msgstr ""
 
 #: calendar/zones.h:10
 msgid "Africa/Algiers"
-msgstr ""
+msgstr "非洲/阿尔及尔"
 
 #: calendar/zones.h:11
 msgid "Africa/Asmera"
@@ -3022,11 +3011,11 @@ msgstr ""
 
 #: calendar/zones.h:12
 msgid "Africa/Bamako"
-msgstr ""
+msgstr "非洲/巴马科"
 
 #: calendar/zones.h:13
 msgid "Africa/Bangui"
-msgstr ""
+msgstr "非洲/班吉"
 
 #: calendar/zones.h:14
 msgid "Africa/Banjul"
@@ -3034,11 +3023,11 @@ msgstr ""
 
 #: calendar/zones.h:15
 msgid "Africa/Bissau"
-msgstr ""
+msgstr "非洲/比绍"
 
 #: calendar/zones.h:16
 msgid "Africa/Blantyre"
-msgstr ""
+msgstr "非洲/布兰太尔"
 
 #: calendar/zones.h:17
 msgid "Africa/Brazzaville"
@@ -3050,15 +3039,15 @@ msgstr ""
 
 #: calendar/zones.h:19
 msgid "Africa/Cairo"
-msgstr ""
+msgstr "非洲/开罗"
 
 #: calendar/zones.h:20
 msgid "Africa/Casablanca"
-msgstr ""
+msgstr "非洲/卡萨布兰卡"
 
 #: calendar/zones.h:21
 msgid "Africa/Ceuta"
-msgstr ""
+msgstr "非洲/休达"
 
 #: calendar/zones.h:22
 msgid "Africa/Conakry"
@@ -3066,20 +3055,19 @@ msgstr ""
 
 #: calendar/zones.h:23
 msgid "Africa/Dakar"
-msgstr ""
+msgstr "非洲/达喀尔"
 
 #: calendar/zones.h:24
 msgid "Africa/Dar_es_Salaam"
 msgstr ""
 
 #: calendar/zones.h:25
-#, fuzzy
 msgid "Africa/Djibouti"
-msgstr "吉布提群岛"
+msgstr "非洲/吉布提群岛"
 
 #: calendar/zones.h:26
 msgid "Africa/Douala"
-msgstr ""
+msgstr "非洲/杜阿拉"
 
 #: calendar/zones.h:27
 msgid "Africa/El_Aaiun"
@@ -3087,23 +3075,23 @@ msgstr ""
 
 #: calendar/zones.h:28
 msgid "Africa/Freetown"
-msgstr ""
+msgstr "非洲/弗里敦"
 
 #: calendar/zones.h:29
 msgid "Africa/Gaborone"
-msgstr ""
+msgstr "非洲/哈布罗内"
 
 #: calendar/zones.h:30
 msgid "Africa/Harare"
-msgstr ""
+msgstr "非洲/哈拉雷"
 
 #: calendar/zones.h:31
 msgid "Africa/Johannesburg"
-msgstr ""
+msgstr "非洲/约翰内斯堡"
 
 #: calendar/zones.h:32
 msgid "Africa/Kampala"
-msgstr ""
+msgstr "非洲/坎帕拉"
 
 #: calendar/zones.h:33
 msgid "Africa/Khartoum"
@@ -3115,15 +3103,15 @@ msgstr ""
 
 #: calendar/zones.h:35
 msgid "Africa/Kinshasa"
-msgstr ""
+msgstr "非洲/金沙萨"
 
 #: calendar/zones.h:36
 msgid "Africa/Lagos"
-msgstr ""
+msgstr "非洲/拉各斯"
 
 #: calendar/zones.h:37
 msgid "Africa/Libreville"
-msgstr ""
+msgstr "非洲/利伯维尔"
 
 #: calendar/zones.h:38
 msgid "Africa/Lome"
@@ -3167,7 +3155,7 @@ msgstr ""
 
 #: calendar/zones.h:48
 msgid "Africa/Nairobi"
-msgstr ""
+msgstr "非洲/内罗毕"
 
 #: calendar/zones.h:49
 msgid "Africa/Ndjamena"
@@ -3215,19 +3203,16 @@ msgid "America/Adak"
 msgstr "美洲萨摩亚"
 
 #: calendar/zones.h:60
-#, fuzzy
 msgid "America/Anchorage"
-msgstr "美洲萨摩亚"
+msgstr "美洲/安克雷奇"
 
 #: calendar/zones.h:61
-#, fuzzy
 msgid "America/Anguilla"
-msgstr "安圭拉"
+msgstr "美洲/安圭拉"
 
 #: calendar/zones.h:62
-#, fuzzy
 msgid "America/Antigua"
-msgstr "美洲萨摩亚"
+msgstr "美洲/安提瓜岛"
 
 #: calendar/zones.h:63
 #, fuzzy
@@ -3253,22 +3238,20 @@ msgid "America/Belem"
 msgstr ""
 
 #: calendar/zones.h:68
-#, fuzzy
 msgid "America/Belize"
-msgstr "伯利兹"
+msgstr "美洲/伯利兹"
 
 #: calendar/zones.h:69
 msgid "America/Boa_Vista"
 msgstr ""
 
 #: calendar/zones.h:70
-#, fuzzy
 msgid "America/Bogota"
-msgstr "美洲萨摩亚"
+msgstr "美洲/波哥大"
 
 #: calendar/zones.h:71
 msgid "America/Boise"
-msgstr ""
+msgstr "美洲/博伊西"
 
 #: calendar/zones.h:72
 msgid "America/Buenos_Aires"
@@ -3294,17 +3277,15 @@ msgstr "美洲萨摩亚"
 
 #: calendar/zones.h:77
 msgid "America/Cayenne"
-msgstr ""
+msgstr "美洲/卡宴"
 
 #: calendar/zones.h:78
-#, fuzzy
 msgid "America/Cayman"
-msgstr "美洲萨摩亚"
+msgstr "美洲/开曼"
 
 #: calendar/zones.h:79
-#, fuzzy
 msgid "America/Chicago"
-msgstr "美洲萨摩亚"
+msgstr "美洲/芝加哥"
 
 #: calendar/zones.h:80
 msgid "America/Chihuahua"
@@ -3357,31 +3338,28 @@ msgid "America/Dominica"
 msgstr "多米尼加"
 
 #: calendar/zones.h:91
-#, fuzzy
 msgid "America/Edmonton"
-msgstr "美洲萨摩亚"
+msgstr "美洲/萨摩亚"
 
 #: calendar/zones.h:92
 msgid "America/Eirunepe"
 msgstr ""
 
 #: calendar/zones.h:93
-#, fuzzy
 msgid "America/El_Salvador"
-msgstr "萨尔瓦多"
+msgstr "美洲/萨尔瓦多"
 
 #: calendar/zones.h:94
 msgid "America/Fortaleza"
-msgstr ""
+msgstr "美洲/福塔雷萨"
 
 #: calendar/zones.h:95
 msgid "America/Glace_Bay"
 msgstr ""
 
 #: calendar/zones.h:96
-#, fuzzy
 msgid "America/Godthab"
-msgstr "美洲萨摩亚"
+msgstr "美洲/戈德霍普"
 
 #: calendar/zones.h:97
 msgid "America/Goose_Bay"
@@ -3925,7 +3903,7 @@ msgstr ""
 
 #: calendar/zones.h:220
 msgid "Asia/Kabul"
-msgstr ""
+msgstr "亚洲/喀布尔"
 
 #: calendar/zones.h:221
 msgid "Asia/Kamchatka"
@@ -3936,8 +3914,9 @@ msgid "Asia/Karachi"
 msgstr ""
 
 #: calendar/zones.h:223
+#, fuzzy
 msgid "Asia/Kashgar"
-msgstr ""
+msgstr "亚洲/"
 
 #: calendar/zones.h:224
 msgid "Asia/Katmandu"
@@ -3983,7 +3962,7 @@ msgstr ""
 
 #: calendar/zones.h:234
 msgid "Asia/Novosibirsk"
-msgstr ""
+msgstr "亚洲/新西伯利亚"
 
 #: calendar/zones.h:235
 #, fuzzy
@@ -4070,11 +4049,11 @@ msgstr ""
 
 #: calendar/zones.h:255
 msgid "Asia/Ulaanbaatar"
-msgstr ""
+msgstr "亚洲/乌兰巴托"
 
 #: calendar/zones.h:256
 msgid "Asia/Urumqi"
-msgstr ""
+msgstr "亚洲/乌鲁木齐"
 
 #: calendar/zones.h:257
 msgid "Asia/Vientiane"
@@ -4224,7 +4203,7 @@ msgstr ""
 
 #: calendar/zones.h:290
 msgid "Europe/Brussels"
-msgstr ""
+msgstr "欧洲/布鲁塞尔"
 
 #: calendar/zones.h:291
 msgid "Europe/Bucharest"
@@ -4257,7 +4236,7 @@ msgstr ""
 
 #: calendar/zones.h:298
 msgid "Europe/Istanbul"
-msgstr ""
+msgstr "欧洲/伊斯坦布尔"
 
 #: calendar/zones.h:299
 msgid "Europe/Kaliningrad"
@@ -4459,7 +4438,7 @@ msgstr ""
 
 #: calendar/zones.h:346
 msgid "Pacific/Auckland"
-msgstr ""
+msgstr "太平洋/奥克兰"
 
 #: calendar/zones.h:347
 msgid "Pacific/Chatham"
@@ -4507,7 +4486,7 @@ msgstr ""
 
 #: calendar/zones.h:358
 msgid "Pacific/Honolulu"
-msgstr ""
+msgstr "太平洋/火奴鲁鲁(檀香山)"
 
 #: calendar/zones.h:359
 msgid "Pacific/Johnston"
@@ -4535,11 +4514,11 @@ msgstr ""
 
 #: calendar/zones.h:365
 msgid "Pacific/Midway"
-msgstr ""
+msgstr "太平洋/中途岛"
 
 #: calendar/zones.h:366
 msgid "Pacific/Nauru"
-msgstr ""
+msgstr "太平洋/瑙鲁"
 
 #: calendar/zones.h:367
 msgid "Pacific/Niue"
@@ -7135,7 +7114,7 @@ msgstr "无法打开“%s”；不会从日志文件夹迁移项目到任务文�
 msgid ""
 "The method required to load `%s' is not supported; no items from the "
 "calendar folder will be migrated to the tasks folder."
-msgstr "不支持用于装入“”的方法；不会从日志文件夹迁移项目到任务文件夹。"
+msgstr "不支持用于装入“%s”的方法；不会从日志文件夹迁移项目到任务文件夹。"
 
 #: calendar/gui/weekday-picker.c:314 calendar/gui/weekday-picker.c:409
 msgid "SMTWTFS"
@@ -8317,7 +8296,7 @@ msgid ""
 "  %s"
 msgstr ""
 "无法从文件夹 %2$s 获取邮件： %1$s\n"
-"  %s"
+"  %3$s"
 
 #: camel/providers/local/camel-mbox-folder.c:380
 #: camel/providers/local/camel-spool-folder.c:628
@@ -11324,7 +11303,7 @@ msgid ""
 "open this folder anymore: %s: %s"
 msgstr ""
 "无法保存文件夹元信息；您可能不再\n"
-"能够打开该文件夹：%s"
+"能够打开该文件夹：%s：%s"
 
 #: mail/mail-local.c:763
 #, c-format
@@ -11629,16 +11608,16 @@ msgstr "为 %s 输入密码"
 msgid "Enter Password"
 msgstr "输入密码"
 
-#: mail/mail-tools.c:255
+#: mail/mail-tools.c:256
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "已转发邮件 - %s"
 
-#: mail/mail-tools.c:259
+#: mail/mail-tools.c:260
 msgid "Forwarded message"
 msgstr "已转发邮件"
 
-#: mail/mail-tools.c:393
+#: mail/mail-tools.c:394
 msgid "Forwarded Message"
 msgstr "已转发邮件"
 
@@ -11752,7 +11731,7 @@ msgstr "%a %l:%m %p"
 msgid "%b %d %Y"
 msgstr "%Y %b %d"
 
-#: mail/message-list.c:2334
+#: mail/message-list.c:2341
 msgid "Generating message list"
 msgstr "正在生成邮件列表"
 
@@ -26677,25 +26656,3 @@ msgstr "init_corba()： 无法初始化 GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo()： 无法初始化 Bonobo"
-
-#~ msgid "B_usiness"
-#~ msgstr "商务(_U)"
-
-#~ msgid "Business _Fax"
-#~ msgstr "商务传真(_F)"
-
-#~ msgid "_Business"
-#~ msgstr "商务(_B)"
-
-#~ msgid "_Home"
-#~ msgstr "家庭(_H)"
-
-#~ msgid "_Mobile"
-#~ msgstr "手机(_M)"
-
-#~ msgid ""
-#~ "Issuer: %s\n"
-#~ "Subject: %s"
-#~ msgstr ""
-#~ "提交者： %s\n"
-#~ "主题： %s"
