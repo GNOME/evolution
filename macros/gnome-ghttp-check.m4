@@ -1,6 +1,6 @@
 AC_DEFUN([GNOME_GHTTP_CHECK],[
 	GHTTP_LIB=""
-	AC_CHECK_LIB(ghttp, ghttp_request_new, GHTTP_LIB="-lghttp")
+	AC_CHECK_LIB(ghttp, ghttp_request_new, [GHTTP_LIB="-lghttp"])
 	AC_SUBST(GHTTP_LIB)
 	AC_PROVIDE([GNOME_GHTTP_CHECK])
 ])
