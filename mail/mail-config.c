@@ -476,6 +476,12 @@ mail_config_write_on_exit (void)
 	gnome_config_set_bool (str, config->thread_list);
 	g_free (str);
 	
+	/* Mark as seen timeout */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/seen_timeout", 
+			       evolution_dir);
+	gnome_config_set_bool (str, config->seen_timeout);
+	g_free (str);
+	
 	/* Size of vpaned in mail view */
 	str = g_strdup_printf ("=%s/config/Mail=/Display/paned_size", 
 			       evolution_dir);
