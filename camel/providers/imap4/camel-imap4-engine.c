@@ -82,6 +82,7 @@ camel_imap4_engine_init (CamelIMAP4Engine *engine, CamelIMAP4EngineClass *klass)
 	engine->level = CAMEL_IMAP4_LEVEL_UNKNOWN;
 	
 	engine->session = NULL;
+	engine->service = NULL;
 	engine->url = NULL;
 	
 	engine->istream = NULL;
@@ -134,9 +135,6 @@ camel_imap4_engine_finalize (CamelObject *object)
 	CamelIMAP4Engine *engine = (CamelIMAP4Engine *) object;
 	EDListNode *node;
 	
-	if (engine->session)
-		camel_object_unref (engine->session);
-	
 	if (engine->istream)
 		camel_object_unref (engine->istream);
 	
@@ -164,22 +162,21 @@ camel_imap4_engine_finalize (CamelObject *object)
 
 /**
  * camel_imap4_engine_new:
- * @session: session
- * @url: service url
+ * @service: service
  *
  * Returns a new imap4 engine
  **/
 CamelIMAP4Engine *
-camel_imap4_engine_new (CamelSession *session, CamelURL *url)
+camel_imap4_engine_new (CamelService *service)
 {
 	CamelIMAP4Engine *engine;
 	
-	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), NULL);
 	
 	engine = (CamelIMAP4Engine *) camel_object_new (CAMEL_TYPE_IMAP4_ENGINE);
-	camel_object_ref (session);
-	engine->session = session;
-	engine->url = url;
+	engine->session = service->session;
+	engine->url = service->url;
+	engine->service = service;
 	
 	return engine;
 }
@@ -989,15 +986,7 @@ camel_imap4_engine_handle_untagged_1 (CamelIMAP4Engine *engine, camel_imap4_toke
 			
 			engine->state = CAMEL_IMAP4_ENGINE_DISCONNECTED;
 			
-			/* FIXME: emit a "disconnected" signal for our Store?
-			 * The Store could then initiate a reconnect if
-			 * desirable. */
-			
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("IMAP4 server %s unexpectedly disconnected: %s"),
-					      engine->url->host, _("Got BYE response"));
-			
-			return -1;
+			/* we don't return -1 here because there may be more untagged responses after the BYE */
 		} else if (!strcmp ("CAPABILITY", token->v.atom)) {
 			/* capability tokens follow */
 			if (engine_parse_capability (engine, '\n', ex) == -1)
@@ -1377,6 +1366,9 @@ camel_imap4_engine_next_token (CamelIMAP4Engine *engine, camel_imap4_token_t *to
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("IMAP4 server %s unexpectedly disconnected: %s"),
 				      engine->url->host, errno ? g_strerror (errno) : _("Unknown"));
+		
+		engine->state = CAMEL_IMAP4_ENGINE_DISCONNECTED;
+		
 		return -1;
 	}
 	
@@ -1404,6 +1396,8 @@ camel_imap4_engine_eat_line (CamelIMAP4Engine *engine, CamelException *ex)
 				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 						      _("IMAP4 server %s unexpectedly disconnected: %s"),
 						      engine->url->host, errno ? g_strerror (errno) : _("Unknown"));
+				
+				engine->state = CAMEL_IMAP4_ENGINE_DISCONNECTED;
 				
 				return -1;
 			}
@@ -1437,6 +1431,8 @@ camel_imap4_engine_line (CamelIMAP4Engine *engine, unsigned char **line, size_t 
 		
 		if (linebuf != NULL)
 			g_byte_array_free (linebuf, TRUE);
+		
+		engine->state = CAMEL_IMAP4_ENGINE_DISCONNECTED;
 		
 		return -1;
 	}
@@ -1477,6 +1473,8 @@ camel_imap4_engine_literal (CamelIMAP4Engine *engine, unsigned char **literal, s
 		
 		if (literalbuf != NULL)
 			g_byte_array_free (literalbuf, TRUE);
+		
+		engine->state = CAMEL_IMAP4_ENGINE_DISCONNECTED;
 		
 		return -1;
 	}

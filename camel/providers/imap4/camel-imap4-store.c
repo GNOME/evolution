@@ -159,13 +159,14 @@ camel_imap4_store_finalize (CamelObject *object)
 static void
 imap4_construct (CamelService *service, CamelSession *session, CamelProvider *provider, CamelURL *url, CamelException *ex)
 {
-	CamelIMAP4Store *imap_store = (CamelIMAP4Store *) service;
+	CamelIMAP4Store *store = (CamelIMAP4Store *) service;
 	
 	CAMEL_SERVICE_CLASS (parent_class)->construct (service, session, provider, url, ex);
 	if (camel_exception_is_set (ex))
 		return;
 	
-	imap_store->storage_path = camel_session_get_storage_path (session, service, ex);
+	store->storage_path = camel_session_get_storage_path (session, service, ex);
+	store->engine = camel_imap4_engine_new (service);
 }
 
 static char *
@@ -188,17 +189,11 @@ enum {
 #define STARTTLS_FLAGS (CAMEL_TCP_STREAM_SSL_ENABLE_TLS)
 
 static gboolean
-connect_to_server (CamelService *service, struct hostent *host, int ssl_mode, int try_starttls, CamelException *ex)
+connect_to_server (CamelIMAP4Engine *engine, struct hostent *host, int ssl_mode, int try_starttls, CamelException *ex)
 {
-	CamelIMAP4Store *store = (CamelIMAP4Store *) service;
-	CamelIMAP4Engine *engine;
+	CamelService *service = engine->service;
 	CamelStream *tcp_stream;
 	int port, ret;
-	
-	if (store->engine) {
-		camel_object_unref (store->engine);
-		store->engine = NULL;
-	}
 	
 	port = service->url->port ? service->url->port : 143;
 	
@@ -225,7 +220,6 @@ connect_to_server (CamelService *service, struct hostent *host, int ssl_mode, in
 		tcp_stream = camel_tcp_stream_raw_new ();
 	}
 	
-	fprintf (stderr, "connecting to %s:%d\n", service->url->host, port);
 	if ((ret = camel_tcp_stream_connect ((CamelTcpStream *) tcp_stream, host, port)) == -1) {
 		if (errno == EINTR)
 			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
@@ -241,20 +235,11 @@ connect_to_server (CamelService *service, struct hostent *host, int ssl_mode, in
 		return FALSE;
 	}
 	
-	engine = camel_imap4_engine_new (service->session, service->url);
-	if (camel_imap4_engine_take_stream (engine, tcp_stream, ex) == -1) {
-		camel_object_unref (engine);
-		
+	if (camel_imap4_engine_take_stream (engine, tcp_stream, ex) == -1)
 		return FALSE;
-	}
 	
-	if (camel_imap4_engine_capability (engine, ex) == -1) {
-		camel_object_unref (engine);
-		
+	if (camel_imap4_engine_capability (engine, ex) == -1)
 		return FALSE;
-	}
-	
-	store->engine = engine;
 	
 #ifdef HAVE_SSL
 	if (ssl_mode == USE_SSL_WHEN_POSSIBLE) {
@@ -271,7 +256,7 @@ connect_to_server (CamelService *service, struct hostent *host, int ssl_mode, in
 						      _("Failed to connect to IMAP server %s in secure mode: "
 							"Server does not support STARTTLS"),
 						      service->url->host);
-				goto exception;
+				return FALSE;
 			}
 		}
 	}
@@ -301,20 +286,13 @@ connect_to_server (CamelService *service, struct hostent *host, int ssl_mode, in
 			
 			camel_imap4_command_unref (ic);
 			
-			goto exception;
+			return FALSE;
 		}
 		
 		camel_imap4_command_unref (ic);
 	}
 	
 	return TRUE;
-	
- exception:
-	
-	camel_object_unref (store->engine);
-	store->engine = NULL;
-	
-	return FALSE;
 #endif /* HAVE_SSL */
 }
 
@@ -330,8 +308,9 @@ static struct {
 };
 
 static gboolean
-connect_to_server_wrapper (CamelService *service, CamelException *ex)
+connect_to_server_wrapper (CamelIMAP4Engine *engine, CamelException *ex)
 {
+	CamelService *service = engine->service;
 	const char *use_ssl;
 	struct hostent *h;
 	int ssl_mode;
@@ -351,19 +330,19 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 	
 	if (ssl_mode == USE_SSL_ALWAYS) {
 		/* First try the ssl port */
-		if (!(ret = connect_to_server (service, h, ssl_mode, FALSE, ex))) {
+		if (!(ret = connect_to_server (engine, h, ssl_mode, FALSE, ex))) {
 			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_SERVICE_UNAVAILABLE) {
 				/* The ssl port seems to be unavailable, lets try STARTTLS */
 				camel_exception_clear (ex);
-				ret = connect_to_server (service, h, ssl_mode, TRUE, ex);
+				ret = connect_to_server (engine, h, ssl_mode, TRUE, ex);
 			}
 		}
 	} else if (ssl_mode == USE_SSL_WHEN_POSSIBLE) {
 		/* If the server supports STARTTLS, use it */
-		ret = connect_to_server (service, h, ssl_mode, TRUE, ex);
+		ret = connect_to_server (engine, h, ssl_mode, TRUE, ex);
 	} else {
 		/* User doesn't care about SSL */
-		ret = connect_to_server (service, h, USE_SSL_NEVER, FALSE, ex);
+		ret = connect_to_server (engine, h, USE_SSL_NEVER, FALSE, ex);
 	}
 	
 	camel_free_host (h);
@@ -410,9 +389,9 @@ sasl_auth (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, const unsigned char 
 }
 
 static int
-imap4_try_authenticate (CamelService *service, gboolean reprompt, const char *errmsg, CamelException *ex)
+imap4_try_authenticate (CamelIMAP4Engine *engine, gboolean reprompt, const char *errmsg, CamelException *ex)
 {
-	CamelIMAP4Store *store = (CamelIMAP4Store *) service;
+	CamelService *service = engine->service;
 	CamelSession *session = service->session;
 	CamelSasl *sasl = NULL;
 	CamelIMAP4Command *ic;
@@ -441,18 +420,18 @@ imap4_try_authenticate (CamelService *service, gboolean reprompt, const char *er
 	if (service->url->authmech) {
 		CamelServiceAuthType *mech;
 		
-		mech = g_hash_table_lookup (store->engine->authtypes, service->url->authmech);
+		mech = g_hash_table_lookup (engine->authtypes, service->url->authmech);
 		sasl = camel_sasl_new ("imap4", mech->authproto, service);
 		
-		ic = camel_imap4_engine_queue (store->engine, NULL, "AUTHENTICATE %s\r\n", service->url->authmech);
+		ic = camel_imap4_engine_queue (engine, NULL, "AUTHENTICATE %s\r\n", service->url->authmech);
 		ic->plus = sasl_auth;
 		ic->user_data = sasl;
 	} else {
-		ic = camel_imap4_engine_queue (store->engine, NULL, "LOGIN %S %S\r\n",
+		ic = camel_imap4_engine_queue (engine, NULL, "LOGIN %S %S\r\n",
 					       service->url->user, service->url->passwd);
 	}
 	
-	while ((id = camel_imap4_engine_iterate (store->engine)) < ic->id && id != -1)
+	while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
 		;
 	
 	if (sasl != NULL)
@@ -490,7 +469,7 @@ imap4_connect (CamelService *service, CamelException *ex)
 	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
-	if (!connect_to_server_wrapper (service, ex)) {
+	if (!connect_to_server_wrapper (store->engine, ex)) {
 		CAMEL_SERVICE_UNLOCK (store, connect_lock);
 		return FALSE;
 	}
@@ -502,16 +481,13 @@ imap4_connect (CamelService *service, CamelException *ex)
 				      _("Cannot authenticate to IMAP server %s using %s"),
 				      service->url->host, service->url->authmech);
 		
-		camel_object_unref (store->engine);
-		store->engine = NULL;
-		
 		CAMEL_SERVICE_UNLOCK (store, connect_lock);
 		
 		return FALSE;
 	}
 	
 	camel_exception_init (&lex);
-	while (imap4_try_authenticate (service, reprompt, errmsg, &lex)) {
+	while (imap4_try_authenticate (store->engine, reprompt, errmsg, &lex)) {
 		g_free (errmsg);
 		errmsg = g_strdup (lex.desc);
 		camel_exception_clear (&lex);
@@ -521,8 +497,6 @@ imap4_connect (CamelService *service, CamelException *ex)
 	
 	if (camel_exception_is_set (&lex)) {
 		camel_exception_xfer (ex, &lex);
-		camel_object_unref (store->engine);
-		store->engine = NULL;
 		
 		CAMEL_SERVICE_UNLOCK (store, connect_lock);
 		
@@ -530,9 +504,6 @@ imap4_connect (CamelService *service, CamelException *ex)
 	}
 	
 	if (camel_imap4_engine_namespace (store->engine, ex) == -1) {
-		camel_object_unref (store->engine);
-		store->engine = NULL;
-		
 		CAMEL_SERVICE_UNLOCK (store, connect_lock);
 		
 		return FALSE;
@@ -558,8 +529,6 @@ imap4_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 		camel_imap4_command_unref (ic);
 	}
 	
-	camel_object_unref (store->engine);
-	
 	return 0;
 }
 
@@ -574,7 +543,7 @@ imap4_query_auth_types (CamelService *service, CamelException *ex)
 	gboolean connected;
 	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
-	connected = connect_to_server_wrapper (service, ex);
+	connected = connect_to_server_wrapper (store->engine, ex);
 	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 	if (!connected)
 		return NULL;
@@ -1180,7 +1149,7 @@ imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelE
 	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
-	if (engine == NULL) {
+	if (engine->state == CAMEL_IMAP4_ENGINE_DISCONNECTED) {
 		if (!camel_service_connect ((CamelService *) store, ex))
 			return NULL;
 		

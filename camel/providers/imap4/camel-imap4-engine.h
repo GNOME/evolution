@@ -68,14 +68,14 @@ typedef enum {
 enum {
 	CAMEL_IMAP4_CAPABILITY_IMAP44           = (1 << 0),
 	CAMEL_IMAP4_CAPABILITY_IMAP44REV1       = (1 << 1),
-	CAMEL_IMAP4_CAPABILITY_STATUS          = (1 << 2),
-	CAMEL_IMAP4_CAPABILITY_NAMESPACE       = (1 << 3),
-	CAMEL_IMAP4_CAPABILITY_UIDPLUS         = (1 << 4),
-	CAMEL_IMAP4_CAPABILITY_LITERALPLUS     = (1 << 5),
-	CAMEL_IMAP4_CAPABILITY_LOGINDISABLED   = (1 << 6),
-	CAMEL_IMAP4_CAPABILITY_STARTTLS        = (1 << 7),
-	CAMEL_IMAP4_CAPABILITY_useful_lsub     = (1 << 8),
-	CAMEL_IMAP4_CAPABILITY_utf8_search     = (1 << 9),
+	CAMEL_IMAP4_CAPABILITY_STATUS           = (1 << 2),
+	CAMEL_IMAP4_CAPABILITY_NAMESPACE        = (1 << 3),
+	CAMEL_IMAP4_CAPABILITY_UIDPLUS          = (1 << 4),
+	CAMEL_IMAP4_CAPABILITY_LITERALPLUS      = (1 << 5),
+	CAMEL_IMAP4_CAPABILITY_LOGINDISABLED    = (1 << 6),
+	CAMEL_IMAP4_CAPABILITY_STARTTLS         = (1 << 7),
+	CAMEL_IMAP4_CAPABILITY_useful_lsub      = (1 << 8),
+	CAMEL_IMAP4_CAPABILITY_utf8_search      = (1 << 9),
 };
 
 typedef enum {
@@ -147,11 +147,12 @@ struct _CamelIMAP4Engine {
 	CamelObject parent_object;
 	
 	CamelSession *session;
+	CamelService *service;
 	CamelURL *url;
 	
 	camel_imap4_engine_t state;
 	camel_imap4_level_t level;
-	guint32 capa;
+	guint32 capa:31;
 	
 	guint32 maxlen:31;
 	guint32 maxlentype:1;
@@ -181,7 +182,7 @@ struct _CamelIMAP4EngineClass {
 
 CamelType camel_imap4_engine_get_type (void);
 
-CamelIMAP4Engine *camel_imap4_engine_new (CamelSession *session, CamelURL *url);
+CamelIMAP4Engine *camel_imap4_engine_new (CamelService *service);
 
 /* returns 0 on success or -1 on error */
 int camel_imap4_engine_take_stream (CamelIMAP4Engine *engine, CamelStream *stream, CamelException *ex);

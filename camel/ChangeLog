@@ -1,3 +1,27 @@
+2004-07-26  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-store.c (connect_to_server): Don't
+	instantiate an engine here. Instead, take an engine as an argument
+	(it has a service pointer) and connect using that. Also, if
+	connect fails, don't unref the engine.
+	(connect_to_server_wrapper): Now also takes an engine argument
+	rather than a service argument.
+	(imap4_try_authenticate): Now also takes an engine argument.
+	(imap4_connect): Pass the engine to connect/auth functions rather
+	than the store.
+	(imap4_query_auth_types): Updated.
+	(imap4_disconnect): Don't unref the engine here.
+	(camel_imap4_store_init): Create the engine here.
+	(imap4_get_folder_info): Can't check engine == NULL to know to
+	connect (that was a broken check anyway).
+
+	* providers/imap4/camel-imap4-engine.c (camel_imap4_engine_new):
+	Now simply takes a service argument rather than a session and url.
+	(camel_imap4_engine_next_token): Set the state to DISCONNECTED.
+	(camel_imap4_engine_eat_line): Same.
+	(camel_imap4_engine_line): Same.
+	(camel_imap4_engine_literal): Same.
+
 2004-07-22  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #61761.
