@@ -40,6 +40,7 @@
 static GnomeCanvasItemClass *ethi_parent_class;
 
 static void ethi_request_redraw (ETableHeaderItem *ethi);
+static void ethi_drop_table_header (ETableHeaderItem *ethi);
 
 
 /*
@@ -326,6 +327,8 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 			int col;
 			
 			col = ethi_find_col_by_x (ethi, x);
+			if ( col < ethi->eth->frozen_count )
+				col = ethi->eth->frozen_count;
 			
 			if (col != -1){
 				ethi_remove_destroy_marker (ethi);
@@ -380,6 +383,8 @@ ethi_drag_drop (GtkWidget *canvas,
 			int col;
 			
 			col = ethi_find_col_by_x (ethi, x);
+			if ( col < ethi->eth->frozen_count )
+				col = ethi->eth->frozen_count;
 			ethi_add_drop_marker(ethi, col);
 			
 			if (col != -1) {
@@ -700,6 +705,10 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	GdkGC *gc;
 
 	ethi->drag_col = ethi_find_col_by_x (ethi, event->motion.x);
+	if ( ethi->drag_col < ethi->eth->frozen_count && ethi->drag_col >= 0 ) {
+		ethi->maybe_drag = FALSE;
+		ethi->drag_col = -1;
+	}
 	if (ethi->drag_col == -1)
 		return;
 

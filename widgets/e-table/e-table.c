@@ -93,6 +93,8 @@ e_table_make_header (ETable *e_table, ETableHeader *full_header, xmlNode *xmlCol
 
 		e_table_header_add_column (nh, e_table_header_get_column (full_header, col), -1);
 	}
+
+	e_table_header_set_frozen_columns( nh, e_xml_get_integer_prop_by_name(xmlColumns, "frozen_columns") );
 	
 	return nh;
 }

@@ -1,3 +1,18 @@
+2000-02-29  Christopher James Lahey  <clahey@helixcode.com>
+
+	* test-table.c: Test frozen columns
+
+	* e-table.c: Make frozen columns available through the xml file.
+
+	* e-table-header.c, e-table-header.h, e-table-header-item.c: Added
+	frozen columns API to let you specify some number of leading
+	columns as undraggable.
+
+	* Makefile.am: Add e-table-example-1.c and e-table-example-2.c.
+
+	* e-table-example-1.c, e-table-example-2.c: New files.  A couple
+	of examples of ETable use.
+
 2000-02-28  NotZed  <NotZed@HelixCode.com>
 
 	* Makefile.am (table_test_LDADD): Fixed references to eutil.

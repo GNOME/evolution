@@ -47,7 +47,7 @@ libetable_a_SOURCES = 				\
 	e-table-subset-variable.h
 
 noinst_PROGRAMS =	\
-	table-test
+	table-test table-example-1 table-example-2
 
 table_test_SOURCES = 	\
 	test-table.c	\
@@ -62,6 +62,28 @@ table_test_LDADD =				\
 	$(top_builddir)/widgets/e-text/libetext.a
 
 table_test_LDFLAGS = `gnome-config --libs gdk_pixbuf`
+
+table_example_1_SOURCES = 	\
+	e-table-example-1.c
+
+table_example_1_LDADD =				\
+	libetable.a				\
+	$(EXTRA_GNOME_LIBS)			\
+	$(top_builddir)/e-util/libeutil.a	\
+	$(top_builddir)/widgets/e-text/libetext.a
+
+table_example_1_LDFLAGS = `gnome-config --libs gdk_pixbuf`
+
+table_example_2_SOURCES = 	\
+	e-table-example-2.c
+
+table_example_2_LDADD =				\
+	libetable.a				\
+	$(EXTRA_GNOME_LIBS)			\
+	$(top_builddir)/e-util/libeutil.a	\
+	$(top_builddir)/widgets/e-text/libetext.a
+
+table_example_2_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
 EXTRA_DIST =			\
 	sample.table		\
