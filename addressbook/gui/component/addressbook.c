@@ -307,13 +307,13 @@ update_view_type (AddressbookView *view)
 	case E_ADDRESSBOOK_VIEW_TABLE:
 		if (uic)
 			bonobo_ui_component_set_prop (uic, "/menu/View/AsTable",
-						      "label", N_("As _Minicards"), NULL);
+						      "label", _("As _Minicards"), NULL);
 
 		break;
 	case E_ADDRESSBOOK_VIEW_MINICARD:
 		if (uic)
 			bonobo_ui_component_set_prop (uic, "/menu/View/AsTable",
-						      "label", N_("As _Table"), NULL);
+						      "label", _("As _Table"), NULL);
 		break;
 	default:
 		g_warning ("view_type must be either TABLE or MINICARD\n");
