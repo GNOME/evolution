@@ -12,13 +12,15 @@ libeutil_la_SOURCES = \
 	e-cursors.h	\
 	e-gui-utils.c	\
 	e-gui-utils.h	\
+	e-paned.c	\
+	e-paned.h	\
+	e-popup-menu.c	\
+	e-popup-menu.h	\
 	e-setup.c	\
 	e-setup.h	\
+	e-sexp.c	\
+	e-sexp.h	\
 	e-util.c	\
 	e-util.h	\
 	e-xml-utils.c	\
-	e-xml-utils.h	\
-	e-sexp.c	\
-	e-sexp.h	\
-	e-paned.c	\
-	e-paned.h
+	e-xml-utils.h

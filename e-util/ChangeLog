@@ -1,3 +1,7 @@
+2000-04-24  Miguel de Icaza  <miguel@helixcode.com>
+
+	* e-popup-menu.c: New file.  Implements easy to use popup menus. 
+
 2000-04-24  Matt Loper  <matt@helixcode.com>
 
 	* e-paned.c: New file. Makes a GtkPaned with more than two
