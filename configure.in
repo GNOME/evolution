@@ -661,6 +661,11 @@ AC_ARG_ENABLE(nss, [  --enable-nss=[yes,no,static]        Attempt to use Mozilla
 AC_ARG_ENABLE(smime, [ --enable-smime=[yes,no]            Attempt to use Mozilla libnss for SMIME support (this requires --enable-nss)],
 	enable_smime="$enableval", enable_smime="yes")
 
+dnl ***********************************************************************************************************
+dnl OpenSSL is no longer available. DO NOT USE IT!!! The OpenSSL camel code is known to have security problems, 
+dnl it doesn't work, it doesn't build, it is never tested, and to top it all off, it is not GPL compatable.
+dnl ***********************************************************************************************************
+dnl
 dnl AC_ARG_ENABLE(openssl, [  --enable-openssl=[no,yes]        Attempt to use OpenSSL for SSL support.],
 dnl 	enable_openssl="$enableval", enable_openssl="no")
 dnl 

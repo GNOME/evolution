@@ -1,3 +1,8 @@
+2004-08-23  Jeffrey Stedfast  <fejj@novell.com>
+
+	* configure.in: Added some comments about --enable-openssl
+	(e.g. why it is disabled)
+
 2004-08-18  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* configure.in: Added «nb» to ALL_LINGUAS.
