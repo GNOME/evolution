@@ -291,7 +291,7 @@
       <class>GtkButton</class>
       <name>invite</name>
       <can_focus>True</can_focus>
-      <label>_Invite Others</label>
+      <label>_Invite Others...</label>
       <relief>GTK_RELIEF_NORMAL</relief>
       <child>
 	<padding>0</padding>

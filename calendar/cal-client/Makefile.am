@@ -80,7 +80,7 @@ client_test_LDADD =						\
 	$(EXTRA_GNOME_LIBS)					\
 	$(top_builddir)/calendar/cal-util/libcal-util.la	\
 	$(top_builddir)/libversit/libversit.la			\
-	$(top_builddir)/libical/src/libical/libical.la		\
+	$(top_builddir)/libical/src/libical/libical-evolution.la	\
 	$(top_builddir)/libwombat/libwombat.la			\
 	libcal-client.la
 

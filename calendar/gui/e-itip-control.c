@@ -450,7 +450,7 @@ set_button_status (EItipControl *itip)
 static void
 write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
 		   char *buffer, int size,
-		   const char *stext, const char *etext, gboolean is_utc)
+		   const char *stext, const char *etext)
 {
 	EItipControlPrivate *priv;
 	struct tm tmp_tm;
@@ -460,9 +460,10 @@ write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
 
 	priv = itip->priv;
 
-	/* If we have been passed a UTC value, i.e. for the COMPLETED property,
-	   we convert it to the current timezone to display. */
-	if (is_utc) {
+	/* UTC times get converted to the current timezone. This is done for
+	   the COMPLETED property, which is always in UTC, and also because
+	   Outlook sends simple events as UTC times. */
+	if (dt->value->is_utc) {
 		char *location = calendar_config_get_timezone ();
 		zone = icaltimezone_get_builtin_timezone (location);
 		icaltimezone_convert_time (dt->value, icaltimezone_get_utc_timezone (), zone);
@@ -482,7 +483,7 @@ write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
 	strcat (buffer, time_utf8);
 	g_free (time_utf8);
 
-	if (!is_utc && dt->tzid) {
+	if (!dt->value->is_utc && dt->tzid) {
 		zone = icalcomponent_get_timezone (priv->top_level, dt->tzid);
 	}
 
@@ -521,20 +522,20 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 		case CAL_COMPONENT_EVENT:
 			write_label_piece (itip, &datetime, buffer, 1024,
 					   U_("Meeting begins: <b>"),
-					   "</b><br>", FALSE);
+					   "</b><br>");
 			break;
 		case CAL_COMPONENT_TODO:
 			write_label_piece (itip, &datetime, buffer, 1024,
 					   U_("Task begins: <b>"),
-					   "</b><br>", FALSE);
+					   "</b><br>");
 			break;
 		case CAL_COMPONENT_FREEBUSY:
 			write_label_piece (itip, &datetime, buffer, 1024,
 					   U_("Free/Busy info begins: <b>"),
-					   "</b><br>", FALSE);
+					   "</b><br>");
 			break;
 		default:
-			write_label_piece (itip, &datetime, buffer, 1024, U_("Begins: <b>"), "</b><br>", FALSE);
+			write_label_piece (itip, &datetime, buffer, 1024, U_("Begins: <b>"), "</b><br>");
 		}
 		gtk_html_write (html, html_stream, buffer, strlen(buffer));
 		wrote = TRUE;
@@ -546,14 +547,14 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	if (datetime.value){
 		switch (type) {
 		case CAL_COMPONENT_EVENT:
-			write_label_piece (itip, &datetime, buffer, 1024, U_("Meeting ends: <b>"), "</b><br>", FALSE);
+			write_label_piece (itip, &datetime, buffer, 1024, U_("Meeting ends: <b>"), "</b><br>");
 			break;
 		case CAL_COMPONENT_FREEBUSY:
 			write_label_piece (itip, &datetime, buffer, 1024, U_("Free/Busy info ends: <b>"),
-					   "</b><br>", FALSE);
+					   "</b><br>");
 			break;
 		default:
-			write_label_piece (itip, &datetime, buffer, 1024, U_("Ends: <b>"), "</b><br>", FALSE);
+			write_label_piece (itip, &datetime, buffer, 1024, U_("Ends: <b>"), "</b><br>");
 		}
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
@@ -566,7 +567,8 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	if (type == CAL_COMPONENT_TODO && datetime.value) {
 		/* Pass TRUE as is_utc, so it gets converted to the current
 		   timezone. */
-		write_label_piece (itip, &datetime, buffer, 1024, U_("Task Completed: <b>"), "</b><br>", TRUE);
+		datetime.value->is_utc = TRUE;
+		write_label_piece (itip, &datetime, buffer, 1024, U_("Task Completed: <b>"), "</b><br>");
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 		task_completed = TRUE;
@@ -576,7 +578,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	buffer[0] = '\0';
 	cal_component_get_due (comp, &datetime);
 	if (type == CAL_COMPONENT_TODO && !task_completed && datetime.value) {
-		write_label_piece (itip, &datetime, buffer, 1024, U_("Task Due: <b>"), "</b><br>", FALSE);
+		write_label_piece (itip, &datetime, buffer, 1024, U_("Task Due: <b>"), "</b><br>");
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 	}

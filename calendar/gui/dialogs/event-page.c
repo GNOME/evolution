@@ -930,6 +930,9 @@ times_updated (EventPage *epage, gboolean adjust_end_time)
 				set_start_date = TRUE;
 			}
 		}
+
+		start_tt.is_date = TRUE;
+		end_tt.is_date = TRUE;
 	} else {
 		/* For DATE-TIME events, we have to convert to the same
 		   timezone before comparing. */
@@ -1099,6 +1102,7 @@ all_day_event_toggled_cb (GtkWidget *toggle, gpointer data)
 		start_tt.hour = 0;
 		start_tt.minute  = 0;
 		start_tt.second  = 0;
+		start_tt.is_date = TRUE;
 
 		/* Round down to the start of the day, or the start of the
 		   previous day if it is midnight. */
@@ -1106,6 +1110,7 @@ all_day_event_toggled_cb (GtkWidget *toggle, gpointer data)
 		end_tt.hour = 0;
 		end_tt.minute  = 0;
 		end_tt.second  = 0;
+		end_tt.is_date = TRUE;
 	} else {
 		icaltimezone *start_zone, *end_zone;
 

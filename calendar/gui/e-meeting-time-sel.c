@@ -608,7 +608,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	gtk_widget_show (menuitem);
 
 	/* Create the date entry fields on the right. */
-	alignment = gtk_alignment_new (0.5, 0.5, 0, 0);
+	alignment = gtk_alignment_new (0.0, 0.5, 0, 0);
 	gtk_table_attach (GTK_TABLE (mts), alignment,
 			  1, 4, 5, 6, GTK_FILL, 0, 0, 0);
 	gtk_widget_show (alignment);

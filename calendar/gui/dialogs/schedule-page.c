@@ -66,6 +66,11 @@ struct _SchedulePagePrivate {
 	/* Selector */
 	EMeetingTimeSelector *sel;
 	
+	/* The timezone we use. Note that we use the same timezone for the
+	   start and end date. We convert the end date if it is passed in in
+	   another timezone. */
+	icaltimezone *zone;
+
 	gboolean updating;
 };
 
@@ -155,6 +160,8 @@ schedule_page_init (SchedulePage *spage)
 
 	priv->main = NULL;
 
+	priv->zone = NULL;
+
 	priv->updating = FALSE;
 }
 
@@ -218,9 +225,10 @@ static void
 update_time (SchedulePage *spage, CalComponentDateTime *start_date, CalComponentDateTime *end_date) 
 {
 	SchedulePagePrivate *priv;
-	struct icaltimetype *start_tt, *end_tt;
+	struct icaltimetype start_tt, end_tt;
 	icaltimezone *start_zone = NULL, *end_zone = NULL;
 	CalClientGetStatus status;
+	gboolean all_day;
 
 	priv = spage->priv;
 	
@@ -249,18 +257,32 @@ update_time (SchedulePage *spage, CalComponentDateTime *start_date, CalComponent
 			     end_date->tzid ? end_date->tzid : "");
 	}
 
-	start_tt = start_date->value;
-	end_tt = end_date->value;
+	start_tt = *start_date->value;
+	end_tt = *end_date->value;
 	
-	e_date_edit_set_date (E_DATE_EDIT (priv->sel->start_date_edit), start_tt->year,
-			      start_tt->month, start_tt->day);
-	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->sel->start_date_edit),
-				     start_tt->hour, start_tt->minute);
+	/* If the end zone is not the same as the start zone, we convert it. */
+	priv->zone = start_zone;
+	if (start_zone != end_zone) {
+		icaltimezone_convert_time (&end_tt, end_zone, start_zone);
+	}
 
-	e_date_edit_set_date (E_DATE_EDIT (priv->sel->end_date_edit), end_tt->year,
-			      end_tt->month, end_tt->day);
+	all_day = (start_tt.is_date && end_tt.is_date) ? TRUE : FALSE;
+
+	/* For All-Day events, we set the time field to empty. */
+	e_date_edit_set_date (E_DATE_EDIT (priv->sel->start_date_edit), start_tt.year,
+			      start_tt.month, start_tt.day);
+	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->sel->start_date_edit),
+				     start_tt.hour, start_tt.minute);
+
+	e_date_edit_set_date (E_DATE_EDIT (priv->sel->end_date_edit), end_tt.year,
+			      end_tt.month, end_tt.day);
 	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->sel->end_date_edit),
-				     end_tt->hour, end_tt->minute);
+				     end_tt.hour, end_tt.minute);
+
+	e_date_edit_set_show_time (E_DATE_EDIT (priv->sel->start_date_edit),
+				   !all_day);
+	e_date_edit_set_show_time (E_DATE_EDIT (priv->sel->end_date_edit),
+				   !all_day);
 }
 
 		
@@ -460,7 +482,9 @@ time_changed_cb (GtkWidget *widget, gpointer data)
 	SchedulePagePrivate *priv;
 	CompEditorPageDates dates;
 	CalComponentDateTime start_dt, end_dt;
-	struct icaltimetype start_tt, end_tt;
+	struct icaltimetype start_tt = icaltime_null_time ();
+	struct icaltimetype end_tt = icaltime_null_time ();
+	gboolean start_time_set, end_time_set;
 	
 	priv = spage->priv;
 
@@ -485,8 +509,17 @@ time_changed_cb (GtkWidget *widget, gpointer data)
 	start_dt.value = &start_tt;
 	end_dt.value = &end_tt;
 
-	start_dt.tzid = NULL;
-	end_dt.tzid = NULL;
+	if (e_date_edit_get_show_time (E_DATE_EDIT (priv->sel->start_date_edit))) {
+		/* We set the start and end to the same timezone. */
+		start_dt.tzid = icaltimezone_get_tzid (priv->zone);
+		end_dt.tzid = start_dt.tzid;
+	} else {
+		/* For All-Day Events, we set the timezone to NULL. */
+		start_dt.value->is_date = TRUE;
+		start_dt.tzid = NULL;
+		end_dt.value->is_date = TRUE;
+		end_dt.tzid = NULL;
+	}
 
 	dates.start = &start_dt;
 	dates.end = &end_dt;	

@@ -1,3 +1,26 @@
+2001-10-29  Damon Chaplin  <damon@ximian.com>
+
+	* importers/Makefile.am (evolution_calendar_importer_LDADD): 
+	* gui/Makefile.am (evolution_calendar_LDADD): 
+	* cal-util/Makefile.am (test_recur_LDADD): 
+	* cal-client/Makefile.am (client_test_LDADD): use libical-evolution.la
+
+	* gui/dialogs/schedule-page.c: save the timezone passed in for the
+	start time, so if our times are changed we use this. Also, if the
+	end time was passed in in a different timezone, convert it.
+	Also hide the time fields for DATE values. Note that DATE values still
+	do not work.
+
+	* gui/dialogs/meeting-page.glade: changed "Invite Others" to
+	"Invite Others..." to be consistent with the other page.
+
+	* gui/dialogs/event-page.c (times_updated):
+	(all_day_event_toggled_cb): set is_date if appropriate.
+
+	* gui/e-itip-control.c (write_label_piece): convert all UTC times to
+	the current timezone. Outlook sends simple, non-recurring, events as
+	UTC times, which isn't very useful.
+
 2001-10-29  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/main.c (launch_alarm_daemon): Launch the alarm daemon as
