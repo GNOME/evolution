@@ -15,8 +15,6 @@ libevolutionwidgets_a_SOURCES = 		\
 	e-canvas.h				\
 	e-canvas-utils.c			\
 	e-canvas-utils.h			\
-	e-cursors.c				\
-	e-cursors.h				\
 	e-minicard.c				\
 	e-minicard.h				\
 	e-minicard-label.c			\

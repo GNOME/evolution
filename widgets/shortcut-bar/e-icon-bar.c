@@ -250,7 +250,7 @@ e_icon_bar_new (void)
 	GtkWidget *icon_bar;
 
 	icon_bar = GTK_WIDGET (gtk_type_new (e_icon_bar_get_type ()));
-
+ 	GNOME_CANVAS(icon_bar)->aa = 1;	
 	return icon_bar;
 }
 
@@ -399,9 +399,7 @@ e_icon_bar_recalc_item_positions (EIconBar *icon_bar)
 				       "GnomeCanvasPixbuf::x", (gdouble)icon_bar->icon_x,
 				       "GnomeCanvasPixbuf::y", (gdouble)item->icon_y,
 				       "GnomeCanvasPixbuf::width", (gdouble)icon_bar->icon_w,
-				       "GnomeCanvasPixbuf::width_set", TRUE,
 				       "GnomeCanvasPixbuf::height", (gdouble)icon_bar->icon_h,
-				       "GnomeCanvasPixbuf::height_set", TRUE,
 				       NULL);
 
 		y += item->item_height + icon_bar->spacing;
