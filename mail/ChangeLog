@@ -1,5 +1,14 @@
 2003-04-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fixes bug #41243.
+
+	* message-tag-followup.c (construct): Change the window border
+	width and packing to comply with the HIG.
+
+	* message-tags.glade: Updated to comply with the HIG.
+
+2003-04-11  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-session.c (request_password): Add padding around the
 	entry/checkbox and change the border width of the dialog window to
 	comply with the HIG. Fixes bug #41004.

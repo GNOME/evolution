@@ -282,6 +282,7 @@ construct (MessageTagEditor *editor)
 	
 	gtk_window_set_title (GTK_WINDOW (editor), _("Flag to Follow Up"));
 	gnome_window_icon_set_from_file (GTK_WINDOW (editor), EVOLUTION_IMAGES "/flag-for-followup-16.png");
+	gtk_container_set_border_width (GTK_CONTAINER (editor), 6);
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/message-tags.glade", "followup_editor", NULL);
 	
@@ -289,6 +290,7 @@ construct (MessageTagEditor *editor)
 	
 	/* reparent */
 	gtk_widget_reparent (widget, GTK_DIALOG (editor)->vbox);
+	gtk_box_set_child_packing (GTK_BOX (GTK_DIALOG (editor)->vbox), widget, TRUE, TRUE, 6, GTK_PACK_START);
 	
 	widget = glade_xml_get_widget (gui, "pixmap");
 	gtk_image_set_from_file ((GtkImage *)widget, EVOLUTION_GLADEDIR "/flag-for-followup-48.png");
