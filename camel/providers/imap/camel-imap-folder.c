@@ -677,9 +677,14 @@ fetch_medium (CamelFolder *folder, const char *uid, const char *section_text,
 	char *result, *p;
 
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
-	response = camel_imap_command (store, folder, ex,
-				       "UID FETCH %s BODY.PEEK[%s]",
-				       uid, section_text);
+	if (store->server_level < IMAP_LEVEL_IMAP4REV1 && !*section_text) {
+		response = camel_imap_command (store, folder, ex,
+					       "UID FETCH %s RFC822.PEEK");
+	} else {
+		response = camel_imap_command (store, folder, ex,
+					       "UID FETCH %s BODY.PEEK[%s]",
+					       uid, section_text);
+	}
 	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 	if (!response)
 		return NULL;

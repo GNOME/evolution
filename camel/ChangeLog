@@ -5,6 +5,16 @@
 	(camel_filter_driver_set_default_folder): Thaw the defaultfolder
 	we're about to replace, and freeze the new defaultfolder.
 
+2001-02-15  Dan Winship  <danw@ximian.com>
+
+	* camel-folder-thread.c (container_parent_child): Deal with
+	out-of-order References headers so they don't cause messages to
+	disappear in threaded view.
+
+	* providers/imap/camel-imap-folder.c (fetch_medium): IMAP4
+	(pre-rev1) doesn't allow BODY.PEEK[], so use RFC822.PEEK instead
+	in that case.
+
 2001-02-07  Iain Holmes  <iain@ximian.com>
 
 	* camel-object.c (camel_object_hook_event): Don't strdup the key,

@@ -62,6 +62,14 @@ container_parent_child(CamelFolderThreadNode *parent, CamelFolderThreadNode *chi
 	if (child->parent == parent)
 		return;
 
+	/* would this create a loop? */
+	node = parent->parent;
+	while (node) {
+		if (node == child)
+			return;
+		node = node->parent;
+	}
+
 	/* are we unparented? */
 	if (child->parent == NULL) {
 		container_add_child(parent, child);
@@ -99,7 +107,7 @@ prune_empty(CamelFolderThread *thread, CamelFolderThreadNode **cp)
 
 		d(printf("checking message %p %p (%08x%08x)\n", c,
 			 c->message, c->message?c->message->message_id.id.part.hi:0,
-			 c->message->message_uid.id.part.lo:0));
+			 c->message?c->message->message_id.id.part.lo:0));
 		if (c->message == NULL) {
 			if (c->child == NULL) {
 				d(printf("removing empty node\n"));
@@ -478,7 +486,7 @@ camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
 				c = e_memchunk_alloc0(thread->node_chunks);
 				g_hash_table_insert(no_id_table, (void *)mi, c);
 			} else {
-				d(printf("doing : %.8s\n", mi->message_id.id.hash));
+				d(printf("doing : %08x%08x (%s)\n", mi->message_id.id.part.hi, mi->message_id.id.part.lo, camel_message_info_subject(mi)));
 				c = e_memchunk_alloc0(thread->node_chunks);
 				g_hash_table_insert(id_table, (void *)&mi->message_id, c);
 			}
