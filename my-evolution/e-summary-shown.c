@@ -477,6 +477,8 @@ e_summary_shown_init (ESummaryShown *shown)
 	ESummaryShownPrivate *priv;
 	GtkWidget *vbox;
 
+	gtk_box_set_spacing (GTK_BOX (shown), 3);
+
 	shown->shown_model = g_hash_table_new (NULL, NULL);
 	shown->all_model = g_hash_table_new (NULL, NULL);
 

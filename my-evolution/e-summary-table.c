@@ -60,7 +60,7 @@ char *headers[COLS] = {
 };
 #endif
 
-#define SPEC "<ETableSpecification cursor-mode=\"line\" draw-focus=\"true\"> \
+#define SPEC "<ETableSpecification cursor-mode=\"line\" draw-focus=\"true\" no-headers=\"true\"> \
 <ETableColumn model_col=\"0\" _title=\"Shown\" minimum_width=\"20\" resizable=\"false\" cell=\"tricell\" compare=\"integer\"/> \
 <ETableColumn model_col=\"1\" _title=\"Name\" resizable=\"true\" minimum-width=\"32\" cell=\"render-name\" compare=\"string\"/> \
 <ETableState> \
