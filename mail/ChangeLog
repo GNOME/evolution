@@ -1,5 +1,14 @@
 2001-03-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config-druid.c: Don't access the `active` data member of a
+	GtkToggleButton directly - bad programming, shame on me.
+
+	* mail-account-editor.c: Same here.
+
+	* mail-accounts.c: And here too.
+
+	* mail-callbacks.c (empty_subject_destroyed): And finally here.
+
 	* mail-crypto.c (pgp_mime_part_sign): Correcty set the mime type
 	for the multipart. Hmmm, still doesn't wrap correctly. NotZed?
 	Ideas?

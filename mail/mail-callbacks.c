@@ -203,7 +203,7 @@ empty_subject_destroyed (GtkWidget *widget, gpointer data)
 	GtkWidget *checkbox;
 	
 	checkbox = e_message_box_get_checkbox (E_MESSAGE_BOX (widget));
-	*show_again = !GTK_TOGGLE_BUTTON (checkbox)->active;
+	*show_again = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox));
 }
 
 static gboolean

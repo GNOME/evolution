@@ -326,7 +326,8 @@ auto_check_toggled (GtkToggleButton *button, gpointer data)
 {
 	MailConfigDruid *druid = data;
 	
-	gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_auto_check_min), button->active);
+	gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_auto_check_min),
+				  gtk_toggle_button_get_active (button));
 }
 
 static void
@@ -388,7 +389,7 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	url = camel_url_new (source_url, NULL);
 	g_free (source_url);
 	
-	connect = GTK_TOGGLE_BUTTON (config->incoming_check_settings)->active;
+	connect = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (config->incoming_check_settings));
 	
 	/* If we can't connect, warn them and continue on to the Transport page. */
 	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, connect, &authtypes)) {
@@ -671,7 +672,7 @@ transport_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	url = camel_url_new (xport_url, NULL);
 	g_free (xport_url);
 	
-	connect = GTK_TOGGLE_BUTTON (config->outgoing_check_settings)->active;
+	connect = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (config->outgoing_check_settings));
 	
 	/* If we can't connect, don't let them continue. */
 	if (!mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, connect, NULL)) {
@@ -1096,7 +1097,7 @@ construct (MailConfigDruid *druid)
 	gtk_signal_connect (GTK_OBJECT (druid->incoming_auto_check), "toggled", auto_check_toggled, druid);
 	druid->incoming_auto_check_min = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinAutoCheckMinutes"));
 	gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_auto_check_min),
-				  GTK_TOGGLE_BUTTON (druid->incoming_auto_check)->active);
+				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->incoming_auto_check)));
 	druid->incoming_check_settings = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkIncomingCheckSettings"));
 	
 	druid->have_auth_page = TRUE;
@@ -1145,7 +1146,7 @@ mail_config_druid_get_default_account (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
 	
-	return GTK_TOGGLE_BUTTON (druid->default_account)->active;
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->default_account));
 }
 
 
@@ -1221,7 +1222,7 @@ mail_config_druid_get_source_url (MailConfigDruid *druid)
 	url->path = g_strdup (gtk_entry_get_text (druid->incoming_path));
 	
 	/* only 'show password' if we intend to save it */
-	source_url = camel_url_to_string (url, GTK_TOGGLE_BUTTON (druid->save_password)->active);
+	source_url = camel_url_to_string (url, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->save_password)));
 	camel_url_free (url);
 	
 	return source_url;
@@ -1233,7 +1234,7 @@ mail_config_druid_get_keep_mail_on_server (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
 	
-	return GTK_TOGGLE_BUTTON (druid->incoming_keep_mail)->active;
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->incoming_keep_mail));
 }
 
 
@@ -1242,7 +1243,7 @@ mail_config_druid_get_auto_check (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
 	
-	return GTK_TOGGLE_BUTTON (druid->incoming_auto_check)->active;
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->incoming_auto_check));
 }
 
 
@@ -1259,7 +1260,7 @@ mail_config_druid_get_save_password (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
 	
-	return GTK_TOGGLE_BUTTON (druid->save_password)->active;
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->save_password));
 }
 
 
@@ -1299,5 +1300,5 @@ mail_config_druid_get_transport_requires_auth (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
 	
-	return GTK_TOGGLE_BUTTON (druid->outgoing_requires_auth)->active;
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->outgoing_requires_auth));
 }

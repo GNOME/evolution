@@ -736,6 +736,7 @@ Click &quot;Next&quot; to begin. </text>
 		<widget>
 		  <class>GtkSpinButton</class>
 		  <name>spinAutoCheckMinutes</name>
+		  <sensitive>False</sensitive>
 		  <can_focus>True</can_focus>
 		  <climb_rate>1</climb_rate>
 		  <digits>0</digits>
@@ -2973,6 +2974,7 @@ SMTP
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
 	    <label>Add</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	  </widget>
 
 	  <widget>
@@ -2981,6 +2983,7 @@ SMTP
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
 	    <label>Edit</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	  </widget>
 
 	  <widget>
@@ -2989,6 +2992,7 @@ SMTP
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
 	    <label>Delete</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	  </widget>
 
 	  <widget>
@@ -2997,6 +3001,7 @@ SMTP
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
 	    <label>Default</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	  </widget>
 	</widget>
       </widget>
@@ -3079,6 +3084,7 @@ SMTP
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
 	    <label>Add</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	  </widget>
 
 	  <widget>
@@ -3087,6 +3093,7 @@ SMTP
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
 	    <label>Edit</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	  </widget>
 
 	  <widget>
@@ -3095,6 +3102,7 @@ SMTP
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
 	    <label>Delete</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	  </widget>
 	</widget>
       </widget>
@@ -3261,144 +3269,6 @@ SMTP
 	<child_name>Notebook:tab</child_name>
 	<name>lblOther</name>
 	<label>Other</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-      </widget>
-    </widget>
-  </widget>
-</widget>
-
-<widget>
-  <class>GnomeDialog</class>
-  <name>editor</name>
-  <visible>False</visible>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>True</modal>
-  <allow_shrink>False</allow_shrink>
-  <allow_grow>True</allow_grow>
-  <auto_shrink>True</auto_shrink>
-  <auto_close>False</auto_close>
-  <hide_on_close>False</hide_on_close>
-
-  <widget>
-    <class>GtkVBox</class>
-    <child_name>GnomeDialog:vbox</child_name>
-    <name>dialog-vbox4</name>
-    <homogeneous>False</homogeneous>
-    <spacing>8</spacing>
-    <child>
-      <padding>4</padding>
-      <expand>True</expand>
-      <fill>True</fill>
-    </child>
-
-    <widget>
-      <class>GtkHButtonBox</class>
-      <child_name>GnomeDialog:action_area</child_name>
-      <name>dialog-action_area4</name>
-      <layout_style>GTK_BUTTONBOX_END</layout_style>
-      <spacing>8</spacing>
-      <child_min_width>85</child_min_width>
-      <child_min_height>27</child_min_height>
-      <child_ipad_x>7</child_ipad_x>
-      <child_ipad_y>0</child_ipad_y>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>True</fill>
-	<pack>GTK_PACK_END</pack>
-      </child>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button1</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button2</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_APPLY</stock_button>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button3</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
-      </widget>
-    </widget>
-
-    <widget>
-      <class>GtkNotebook</class>
-      <name>toplevel</name>
-      <can_focus>True</can_focus>
-      <show_tabs>True</show_tabs>
-      <show_border>True</show_border>
-      <tab_pos>GTK_POS_TOP</tab_pos>
-      <scrollable>False</scrollable>
-      <tab_hborder>2</tab_hborder>
-      <tab_vborder>2</tab_vborder>
-      <popup_enable>False</popup_enable>
-      <child>
-	<padding>0</padding>
-	<expand>True</expand>
-	<fill>True</fill>
-      </child>
-
-      <widget>
-	<class>Placeholder</class>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<child_name>Notebook:tab</child_name>
-	<name>lblGeneral</name>
-	<label>General</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-      </widget>
-
-      <widget>
-	<class>Placeholder</class>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<child_name>Notebook:tab</child_name>
-	<name>lblSource</name>
-	<label>Source</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-      </widget>
-
-      <widget>
-	<class>Placeholder</class>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<child_name>Notebook:tab</child_name>
-	<name>lblTransport</name>
-	<label>Transport</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>

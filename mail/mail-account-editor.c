@@ -194,15 +194,15 @@ apply_changes (MailAccountEditor *editor)
 		str = gtk_entry_get_text (editor->source_path);
 		source_url->path = str && *str ? g_strdup (str) : NULL;
 		
-		account->source->save_passwd = GTK_TOGGLE_BUTTON (editor->save_passwd)->active;
-		account->source->keep_on_server = GTK_TOGGLE_BUTTON (editor->keep_on_server)->active;
+		account->source->save_passwd = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (editor->save_passwd));
+		account->source->keep_on_server = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (editor->keep_on_server));
 		
-		account->source->enabled = GTK_TOGGLE_BUTTON (editor->source_enabled)->active;
-		account->source->auto_check = GTK_TOGGLE_BUTTON (editor->source_auto_check)->active;
+		account->source->enabled = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (editor->source_enabled));
+		account->source->auto_check = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (editor->source_auto_check));
 		account->source->auto_check_time = gtk_spin_button_get_value_as_int (editor->source_auto_timeout);
 		
 		if (editor->source_ssl)
-			account->source->use_ssl = GTK_TOGGLE_BUTTON (editor->source_ssl)->active;
+			account->source->use_ssl = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (editor->source_ssl));
 		
 		/* set the new source url */
 		g_free (account->source->url);
@@ -237,7 +237,7 @@ apply_changes (MailAccountEditor *editor)
 	transport_url->port = port;
 	
 	if (editor->transport_ssl)
-		account->transport->use_ssl = GTK_TOGGLE_BUTTON (editor->transport_ssl)->active;
+		account->transport->use_ssl = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (editor->transport_ssl));
 	
 	/* set the new transport url */
 	g_free (account->transport->url);
@@ -550,7 +550,7 @@ auto_check_toggled (GtkToggleButton *button, gpointer data)
 {
 	MailAccountEditor *editor = data;
 	
-	gtk_widget_set_sensitive (GTK_WIDGET (editor->source_auto_timeout), button->active);
+	gtk_widget_set_sensitive (GTK_WIDGET (editor->source_auto_timeout), gtk_toggle_button_get_active (button));
 }
 
 static void

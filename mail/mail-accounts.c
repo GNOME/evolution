@@ -369,7 +369,7 @@ news_delete (GtkButton *button, gpointer data)
 static void
 send_html_toggled (GtkToggleButton *button, gpointer data)
 {
-	mail_config_set_send_html (button->active);
+	mail_config_set_send_html (gtk_toggle_button_get_active (button));
 }
 
 static void
