@@ -298,7 +298,7 @@ e_trie_add (ETrie *trie, const char *pattern, int pattern_id)
  */
 
 const char *
-e_trie_search (ETrie *trie, const char *buffer, size_t buflen, const char **pattern)
+e_trie_search (ETrie *trie, const char *buffer, size_t buflen, int *matched_id)
 {
 	const unsigned char *inptr, *inend, *prev, *pat;
 	register size_t inlen = buflen;
