@@ -1,4 +1,4 @@
-Version 0.14 (Beta 4), 2001-09-20
+Version 0.14 (Beta 4), 2001-09-21
 ---------------------------------
 
 General:
@@ -9,11 +9,11 @@ General:
 
   - Added a quit dialog box.  (Ettore)
 
-  - Fixed random shell crashes.  (Ettore)
-
   - Fixed a shell crash that could happen when launching Evolution
     before a previously launched instance was done initializing itself.
     (Ettore)
+
+  - Fixed other random shell crashes.  (Ettore)
 
   - Got the shell to remember window geometries on exit.  (Ettore)
 
@@ -38,7 +38,7 @@ Mail:
 
 Addressbook:
 
-  - Miscellaneous bug fixes (Trow, Chris Toshok, Chris Lahey, Ettore
+  - Miscellaneous bug fixes.  (Trow, Chris Toshok, Chris Lahey, Ettore
     Perazzoli, Iain Holmes, Zbigniew Chyla, Jacob Berkman)
 
   - Fixed race conditions associated with adding/removing contacts.
@@ -49,27 +49,29 @@ Addressbook:
   - Made address lookup smarter; cut & paste of address now mostly works.
     (Trow)
 
-  - Plugged Trow's memory leaks. (Larry)
+  - Plugged Trow's memory leaks.  (Larry)
 
   - Name completion now works with one-word names, so it is now much
-    easier to send mail to Cher. (Trow)
+    easier to send mail to Cher.  (Trow)
 
   - Better handling of contact lists in the composer entries.  (Trow,
     Toshok)
 
-  - SelectNames dialog fixes. (Trow)
+  - SelectNames dialog fixes.  (Trow)
 
-  - Better handling of contact lists in the pilot conduits. (JP)
+  - Better handling of contact lists in the pilot conduits.  (JP)
 
-  - Added Free busy URL and Calendar URI info to contact editor and ECard. (JP)
+  - Added Free busy URL and Calendar URI info to contact editor and
+    ECard.  (JP)
 
-  - Made it so you can select uneditable text in Contact Editor. (Chris Toshok)
+  - Made it so you can select uneditable text in Contact Editor.
+    (Chris Toshok)
 
-  - Worked on LDAP dialog. (Chris Toshok)
+  - Worked on LDAP dialog.  (Chris Toshok)
 
-  - General LDAP work. (Chris Toshok)
+  - General LDAP work.  (Chris Toshok)
 
-  - Fixed charset handling within VCard handling. (Chris Lahey)
+  - Fixed charset handling within VCard handling.  (Chris Lahey)
 
   - Reworked Drag & Drop for card view.
 
@@ -79,9 +81,9 @@ Calendar & Tasks:
 
 Summary:
 
-  - Fixed bugs and leaks (Iain)
+  - Fixed bugs and leaks.  (Iain)
 
-  - Fixed bug with handling of the Slashot RDF files. (Iain)
+  - Fixed bug with handling of the Slashot RDF files.  (Iain)
 
   - Made the Addressbook and Tasks links open the editor for
     them.  (Iain)
