@@ -1,3 +1,8 @@
+2002-09-17  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-shell-settings-dialog.c (page_new): Invoke gettext on 
+	strings coming from the .oaf files.
+	
 2002-09-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-local-storage.c: Remove some leftover junk.
