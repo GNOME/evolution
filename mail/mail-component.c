@@ -710,7 +710,7 @@ mail_component_add_store (MailComponent *component, CamelStore *store, const cha
 	char *service_name = NULL;
 
 	MAIL_COMPONENT_DEFAULT(component);
-	
+
 	if (name == NULL)
 		name = service_name = camel_service_get_name ((CamelService *) store, TRUE);
 

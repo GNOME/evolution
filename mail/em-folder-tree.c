@@ -1219,8 +1219,8 @@ em_folder_tree_create_folder (EMFolderTree *emft, const char *path, const char *
 		goto exception;
 	
 	if (!(si = g_hash_table_lookup (priv->model->store_hash, store))) {
+		abort();
 		camel_object_unref (store);
-		g_assert_not_reached ();
 		goto exception;
 	}
 	

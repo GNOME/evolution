@@ -43,6 +43,7 @@
 #include "camel/camel.h"
 #include "camel/camel-vee-folder.h"
 #include "camel/camel-vee-store.h"
+#include "camel/camel-vtrash-folder.h"
 
 #include "filter/vfolder-context.h"
 #include "filter/vfolder-editor.h"
@@ -334,6 +335,33 @@ uri_is_ignore(const char *uri, GCompareFunc uri_cmp)
 	return found;
 }
 
+/* so special we never use it */
+static int
+uri_is_spethal(CamelStore *store, const char *uri)
+{
+	CamelURL *url;
+	int res;
+
+	/* This is a bit of a hack, but really the only way it can be done at the moment. */
+
+	if ((store->flags & (CAMEL_STORE_VTRASH|CAMEL_STORE_VJUNK)) == 0)
+		return FALSE;
+
+	url = camel_url_new(uri, NULL);
+	if (url == NULL)
+		return TRUE;
+
+	/* don't use strcasecmp here */
+	res = url->path
+		&& (((store->flags & CAMEL_STORE_VTRASH)
+		     && strcmp(url->path, "/" CAMEL_VTRASH_NAME) == 0)
+		    || ((store->flags & CAMEL_STORE_VJUNK)
+			&& strcmp(url->path, "/" CAMEL_VJUNK_NAME) == 0));
+	camel_url_free(url);
+
+	return res;
+}
+
 /* called when a new uri becomes (un)available */
 void
 mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
@@ -348,7 +376,7 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 	char *uri;
 
 	uri = em_uri_from_camel(curi);
-	if (!strncmp(curi, "vtrash:", 7) || !strncmp(curi, "vjunk:", 6) || context == NULL) {
+	if (context == NULL || uri_is_spethal(store, curi)) {
 		g_free(uri);
 		return;
 	}
@@ -443,7 +471,7 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 	char *uri;
 	GList *link;
 
-	if (context == NULL || !strncmp(curi, "vtrash:", 7) || !strncmp(curi, "vjunk:", 6))
+	if (context == NULL || uri_is_spethal(store, curi))
 		return;
 
 	uri = em_uri_from_camel(curi);
@@ -524,7 +552,7 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 
 	d(printf("vfolder rename uri: %s to %s\n", from, to));
 
-	if (context == NULL || !strncmp(cfrom, "vtrash:", 7) || !strncmp(cto, "vtrash:", 7) || !strncmp(cfrom, "vjunk:", 6) || !strncmp(cto, "vjunk:", 6))
+	if (context == NULL || uri_is_spethal(store, cfrom) || uri_is_spethal(store, cto))
 		return;
 
 	g_assert(pthread_self() == mail_gui_thread);

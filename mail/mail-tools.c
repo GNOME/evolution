@@ -306,7 +306,8 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 	char *curi = NULL;
 
 	g_return_val_if_fail (uri != NULL, NULL);
-	
+
+	/* TODO: vtrash and vjunk are no longer used for these uri's */
 	if (!strncmp (uri, "vtrash:", 7))
 		offset = 7;
 	else if (!strncmp (uri, "vjunk:", 6))
