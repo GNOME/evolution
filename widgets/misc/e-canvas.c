@@ -24,6 +24,8 @@
 #include <gtk/gtksignal.h>
 #include "e-canvas.h"
 #include "gal/util/e-util.h"
+#include <X11/Xlib.h>
+#include <gtk/gtkmain.h>
 
 static void e_canvas_init           (ECanvas         *card);
 static void e_canvas_destroy        (GtkObject        *object);
@@ -1080,5 +1082,71 @@ void e_canvas_hide_tooltip  (ECanvas *canvas)
 	if (canvas->tooltip_window) {
 		gtk_widget_destroy (canvas->tooltip_window);
 		canvas->tooltip_window = NULL;
+	}
+}
+
+
+static gboolean
+grab_cancelled_check (gpointer data)
+{
+	ECanvas *canvas = data;
+
+	if (gtk_grab_get_current ()) {
+		gnome_canvas_item_ungrab(GNOME_CANVAS (canvas)->grabbed_item, canvas->grab_cancelled_time);
+		if (canvas->grab_cancelled_cb) {
+			canvas->grab_cancelled_cb (canvas,
+						   GNOME_CANVAS (canvas)->grabbed_item,
+						   canvas->grab_cancelled_data);
+		}
+		canvas->grab_cancelled_cb = NULL;
+		canvas->grab_cancelled_check_id = 0;
+		canvas->grab_cancelled_time = 0;
+		canvas->grab_cancelled_data = NULL;
+		return FALSE;
+	}
+	return TRUE;
+}
+
+int
+e_canvas_item_grab (ECanvas *canvas,
+		    GnomeCanvasItem *item,
+		    guint event_mask,
+		    GdkCursor *cursor,
+		    guint32 etime,
+		    ECanvasItemGrabCancelled cancelled_cb,
+		    gpointer cancelled_data)
+{
+	if (gtk_grab_get_current ()) {
+		return AlreadyGrabbed;
+	} else {
+		int ret_val = gnome_canvas_item_grab (item, event_mask, cursor, etime);
+		if (ret_val == GrabSuccess) {
+			canvas->grab_cancelled_cb = cancelled_cb;
+			canvas->grab_cancelled_check_id =
+				g_timeout_add_full (G_PRIORITY_LOW,
+						    100,
+						    grab_cancelled_check,
+						    canvas,
+						    NULL);
+			canvas->grab_cancelled_time = etime;
+			canvas->grab_cancelled_data = cancelled_data;
+		}
+
+		return ret_val;
+	}
+}
+
+void
+e_canvas_item_ungrab (ECanvas *canvas,
+		      GnomeCanvasItem *item,
+		      guint32 etime)
+{
+	if (canvas->grab_cancelled_check_id) {
+		g_source_remove (canvas->grab_cancelled_check_id);
+		canvas->grab_cancelled_cb = NULL;
+		canvas->grab_cancelled_check_id = 0;
+		canvas->grab_cancelled_time = 0;
+		canvas->grab_cancelled_data = NULL;
+		gnome_canvas_item_ungrab (item, etime);
 	}
 }

@@ -30,6 +30,8 @@
 
 #include "e-table-item.h"
 
+#include <X11/Xlib.h>
+
 #include <math.h>
 #include <stdio.h>
 #include <gtk/gtksignal.h>
@@ -168,6 +170,14 @@ view_to_model_col(ETableItem *eti, int col)
 	return ecol ? ecol->col_idx : -1;
 }
 
+static void
+grab_cancelled (ECanvas *canvas, GnomeCanvasItem *item, gpointer data)
+{
+	ETableItem *eti = data;
+
+	eti->grab_cancelled = TRUE;
+}
+
 inline static void
 eti_grab (ETableItem *eti, guint32 time)
 {
@@ -175,10 +185,14 @@ eti_grab (ETableItem *eti, guint32 time)
 	d(g_print ("%s: time: %d\n", __FUNCTION__, time));
 	if (eti->grabbed_count == 0) {
 		eti->gtk_grabbed = FALSE;
-		if (!gnome_canvas_item_grab(item,
-					    GDK_BUTTON1_MOTION_MASK | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK
-					    | GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK,
-					    NULL, time)) {
+		eti->grab_cancelled = FALSE;
+		if (e_canvas_item_grab(E_CANVAS (item->canvas),
+				       item,
+				       GDK_BUTTON1_MOTION_MASK | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK
+				       | GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK,
+				       NULL, time,
+				       grab_cancelled,
+				       eti) != GrabSuccess) {
 			d(g_print ("%s: gtk_grab_add\n", __FUNCTION__));
 			gtk_grab_add (GTK_WIDGET (item->canvas));
 			eti->gtk_grabbed = TRUE;
@@ -194,11 +208,16 @@ eti_ungrab (ETableItem *eti, guint32 time)
 	d(g_print ("%s: time: %d\n", __FUNCTION__, time));
 	eti->grabbed_count --;
 	if (eti->grabbed_count == 0) {
-		if (eti->gtk_grabbed) {
-			d(g_print ("%s: gtk_grab_remove\n", __FUNCTION__));
-			gtk_grab_remove (GTK_WIDGET (item->canvas));
+		if (eti->grab_cancelled) {
+			eti->grab_cancelled = FALSE;
+		} else {
+			if (eti->gtk_grabbed) {
+				d(g_print ("%s: gtk_grab_remove\n", __FUNCTION__));
+				gtk_grab_remove (GTK_WIDGET (item->canvas));
+				eti->gtk_grabbed = FALSE;
+			}
+			gnome_canvas_item_ungrab(item, time);
 		}
-		gnome_canvas_item_ungrab(item, time);
 	}
 }
 

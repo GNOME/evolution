@@ -114,6 +114,7 @@ typedef struct {
 	guint            gtk_grabbed : 1;
 
 	guint            queue_show_cursor : 1;
+	guint            grab_cancelled : 1;
 
 	int              frozen_count;
 

@@ -3716,14 +3716,19 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		text->select_by_word = command->value;
 		break;
 	case E_TEP_GRAB:
-		gnome_canvas_item_grab (GNOME_CANVAS_ITEM(text), 
-					GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
-					text->i_cursor,
-					command->time);
+		e_canvas_item_grab (E_CANVAS (GNOME_CANVAS_ITEM(text)->canvas),
+				    GNOME_CANVAS_ITEM(text), 
+				    GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
+				    text->i_cursor,
+				    command->time,
+				    NULL,
+				    NULL);
 		scroll = FALSE;
 		break;
 	case E_TEP_UNGRAB:
-		gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM(text), command->time);
+		e_canvas_item_ungrab (E_CANVAS (GNOME_CANVAS_ITEM(text)->canvas),
+				      GNOME_CANVAS_ITEM(text),
+				      command->time);
 		scroll = FALSE;
 		break;
 	case E_TEP_CAPS:
