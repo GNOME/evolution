@@ -1615,6 +1615,69 @@ action="simul"><keycap>Ctrl</keycap><keycap>F</keycap></keycombo>.  If
 	</para>
       </tip>
 
+      <sect2 id="encryption-smime">
+        <title>S/MIME Encryption</title>
+        <para>
+          S/MIME encrpytion uses a key-based approach as well, but it
+          has some significant advantages in convenience and
+          security. S/MIME uses "certificates," which are basically
+          the same as keys.  The public portion of each certificate is
+          held by the sender of a message and by one of several
+          certificate authorities, who are paid to guarantee the
+          identity of the sender and the security of the
+          message. Evolution already knows a large number of
+          certificate authorities, so when you get a message with an
+          S/MIME certificate, your system will automatically get the
+          public portion of the certificate and decrypt or verify the
+          message.
+        </para>
+        <para>
+          S/MIME is used most often in corporate settings. In these
+          cases, administrators supply certificates which they have
+          purchased from a certificate authority. In some cases, an
+          organization can act as its own certificate authority, with
+          or without a guarantee from a dedicated authority such as
+          Verisign or Thawte. In either case, the system administrator
+          will provide you with a certificate file.
+        </para>
+        <para>
+          If you wish to use S/MIME independently, you can extract an
+          identification certificate from your Mozilla or Netscape web
+          browser. See the Mozilla help for more information on
+          security certificates.
+        </para>
+
+        <para>
+          The certificate file is a password-protected file on your
+          computer. To use it in Evolution, select <menuchoice><guimenu>Tools</guimenu>
+        <guimenuitem>Settings</guimenuitem></menuchoice> and select
+        the <guilabel>Certificates</guilabel> tool in the settings
+        window. Click the <guilabel>Import</guilabel> button and
+        select the file when prompted.
+        </para>
+        <para>
+          Similarly, you can add certificates which are sent to you
+          independently of any authority by clicking the
+          <guilabel>Contact Certificates</guilabel> tab and using the
+          same <guilabel>Import</guilabel> tool. You can also add new
+          certificate authorities, which have their own certificate
+          files, in the same way.
+        </para>
+        <para>
+          Once you have added your certificate, you can sign or encrypt a message by selecting <menuchoice>
+          <guimenu>Security</guimenu> <guimenuitem>S/MIME
+          Sign</guimenuitem></menuchoice> or <guimenuitem>S/MIME
+          Encrypt</guimenuitem> in the message composer. To have every
+          message signed or encrypted, select an email account in the Settings dialog (<menuchoice>
+          <guimenu>Tools</guimenu>
+          <guimenuitem>Settings</guimenuitem></menuchoice> and, under the
+          <guilabel>Security</guilabel> tab, check the appropriate
+          box. You can also import certificates in the per-account
+          security settings dialog.
+        </para>
+
+        </sect2>
+
     <sect2 id="encryption-keygen">
       <title>Making Encryption Keys</title>
       <para>

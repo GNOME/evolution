@@ -19,17 +19,16 @@
   <sect1 id="new-in-connector">
 <title>What's New in Connector &appversion;</title>
   <para>
-    Evolution Connector &appversion; has added the <guilabel>Out of
-    Office</guilabel> feature and an automatic configuration tool for
-    large Exchange deployments.
+    Evolution Connector &appversion; is primarily a bug-fixing
+    release. New features include password management and password
+    expiration warnings. 
   </para>
 
   <para>
     Previous versions of Evolution Connector for Microsoft Exchange added
-    support for the <guilabel>Flag for Followup</guilabel> feature,
-    public folders, delegation, direct booking, and more. For
-    information on setting up delegation, see <xref
-  linkend="exchange-delegate" />.
+    support for the <guilabel>Flag for Followup</guilabel> and
+  <guilabel>Out of Office</guilabel> feature,
+    public folders, delegation, direct booking, and more.
   </para>
 
 </sect1>
@@ -37,7 +36,7 @@
   <sect1 id="features">
     <title>Connector Features</title>
     <para>
-      In addition to the features listed above, Evolution
+      Evolution
       Connector supports the following basic 
       <application>Microsoft Exchange</application> features:
       <itemizedlist>
@@ -65,6 +64,20 @@
 		</para>
 	      </listitem>
 	    </varlistentry>
+
+	    <varlistentry>
+	      <term>Password Management</term>
+	      <listitem>
+		<para>
+                  To change your password, go to the
+                  <guilabel>Exchange</guilabel> tool and select <menuchoice>
+                  <guimenu>Actions</guimenu> <guimenuitem>Change Exchange
+                  Password</guimenuitem> </menuchoice>. If your
+                  password has expired, Evolution will ask you to
+                  change your password when you start up.
+		</para>
+	      </listitem>
+	    </varlistentry>
 	  </variablelist>
 	</listitem>
 	<listitem>
@@ -75,7 +88,9 @@
 	    <varlistentry>
 	      <term>Viewing Mail in Exchange Folder</term>
 	      <listitem>
-		<para></para>
+                <para>Mail stored on the Exchange server is visible in
+                the <guilabel>Mail</guilabel> and <guilabel>Exchange</guilabel> tools
+                in Evolution. </para>
 	      </listitem>
 	    </varlistentry>
 	    <varlistentry>
@@ -190,6 +205,7 @@ There are, however, some features which are not available:
        the Connector by downloading the individual packages from
        ftp.ximian.com if you wish.
    </para>
+
  
  </sect1>
 
@@ -625,25 +641,16 @@ There are, however, some features which are not available:
   
   <sect1 id="access">
     <title>Accessing the Exchange Server</title>
-    <para>
-      Like IMAP and LDAP data, information for
-      Exchange accounts is stored on the
-      server, not on your desktop computer.  This means that you can
-      access it from multiple locations. It also means that your
-      Microsoft Exchange account information
-      is in a separate folder tree from the <guilabel>Local</guilabel>
-      tree in your folder bar. You'll see it below the local tree,
-      with the name you gave the account. If you have multiple
-      accounts, you will have multiple folder trees.
-    </para>
-    <para>
-      Click on any of the folder tree items to visit them; you may
-      have to enter your server password.  You can now create contact
-      cards, send and receive email as you would normally. If there
-      are items in your local calendar or address book that you'd like
-      to add to your Exchange stores, you
-      can copy and paste them over, or just drag items from one folder
-      to another as you would with two local stores.
+
+   <para>
+     When you have installed the Connector, an
+     <guilabel>Exchange</guilabel> button is available in the shortcut
+     bar. The <guilabel>Exchange</guilabel> tool is used only to
+     access public folders and to perform certain Exchange actions
+     like delegation and password management.  Use the regular
+     <guilabel>Mail</guilabel> tool for mail, the
+     <guilabel>Contacts</guilabel> tool for contacts, and the
+     <guilabel>Calendar</guilabel> tool for your schedule.
     </para>
 
       <note id="save-to-local-or-exchange">

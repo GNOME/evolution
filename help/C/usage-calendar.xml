@@ -287,6 +287,18 @@
         the appointment.
       </para>
     </sect2>
+
+    <sect2 id="old-meetings">
+      <title>Deleting Old Events</title>
+      <para>
+        Keeping a huge list of everything you did in the past will
+        eventually slow down your calendar. To delete old events, select   
+        <menuchoice><guimenu>Actions</guimenu><guimenuitem>Purge
+      </guimenuitem></menuchoice> and enter the number of days of past
+      events you wish to keep. 
+      </para>
+    </sect2>
+
     <sect2 id="usage-calendar-rsvp">
       <title>Sending a Meeting Invitation</title>
       <para>
@@ -483,10 +495,14 @@
       <para>
         In addition to the standard meeting scheduling tools, you can
 	 use the Free/Busy view to check whether people are available
-	 in advance. At this time, the Free/Busy feature only works
-	 with Microsoft Exchange servers. However, you can still use
-	 iCal event invitations to coordinate schedules with other
-	 people no matter what server you're using.
+        in advance. The Free/Busy feature is normally a function of
+        dedicated groupware servers such as Exchange and Groupwise.
+        However, you can also publish Free/Busy information online,
+        and access Free/Busy information published elsewhere.
+        If not everyone you collaborate with publishes Free/Busy data,
+        you can still use iCal event invitations to coordinate
+        schedules with other
+        people.
       </para>
       <para>
 	To access the free/busy view:
@@ -601,6 +617,47 @@
 	 Exchange.
        </para>
       </sect3>
+      <sect3 id="publishing-freebusy">
+        <title>Publishing Free/Busy Data Without a Groupware Server</title>
+        <para>
+          You can publish Free/Busy information to a WebDAV or other
+          web server with HTTP PUT support. Check with your system
+          administrator if you are not sure.
+        </para>
+        <para>
+          To set up Free/Busy publishing, select 
+          <menuchoice>
+          <guimenu>Tools</guimenu>
+          <guimenuitem>Settings</guimenuitem>
+        </menuchoice>, then click the <guilabel>Calendar and
+        Tasks</guilabel> tool. In the <guilabel>Free/Busy
+        Publishing</guilabel> tab, click <guilabel>Add</guilabel> and
+        enter the URL for your upload server. Select the frequency
+        with which you wish to upload data, the calendars for which
+        you wish to display data, your username and
+        password, and then click <guilabel>OK</guilabel>. 
+        </para>
+        <para>
+          To have Free/Busy data published immediately, go to the 
+          <guilabel>Calendar</guilabel> tool and select <menuchoice>
+          <guimenu>Actions</guimenu>
+          <guimenuitem>Publish Free/Busy</guimenuitem>
+        </menuchoice>
+      </para>
+      </sect3>
+
+      <sect3 id="accessing-freebusy-offserver">
+        <title>Accessing Free/Busy Data Without a Groupware Server</title>
+        <para>
+          If someone gives you a URL for Free/Busy data or their web
+          calendar, you can enter it as part of their contact
+          information in the <guilabel>Contacts</guilabel> tool. Then,
+        when you schedule a meeting with them, Evolution will look up
+        their schedule and display it in the meeting planner.
+        </para>
+
+      </sect3>
+
     </sect2>
 
   </sect1>

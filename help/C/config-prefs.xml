@@ -33,14 +33,14 @@
       <!-- ==============End of Figure================-->
 
   <para>
-    There are eight items you can customize. From top to bottom, they
+    There are six items you can customize. From top to bottom, they
     are:
     <variablelist>
       <varlistentry>
 	<term><guiicon>Mail Accounts</guiicon></term>
 	<listitem>
 	  <para>
-             Here, add or change information about your email
+             Add or change information about your email
              accounts: the servers to which you connect, the way you
              download mail, your password authentication mode, and so
              forth. This is the most complex item in the list, and is
@@ -50,14 +50,11 @@
       </varlistentry>
 
       <varlistentry>
-	<term><guiicon>Folder Settings</guiicon></term>
+	<term><guiicon>Autocompletion</guiicon></term>
 	<listitem>
 	  <para>
-             Here, you can choose the default folders for various
-             components of Evolution, the folders that will be cached
-             locally when you go to offline mode, and the folders that
-             Evolution will use when it is searching for
-             autocompletion information as you address a mail.
+            Set the contact groups to be used when completing email
+            addresses in the message composer.
           </para>
 	</listitem>
       </varlistentry>
@@ -101,69 +98,47 @@
       </varlistentry>
 
       <varlistentry>
-	<term><guiicon>Exchange Delegation</guiicon></term>
+	<term><guiicon>Certificates</guiicon></term>
 	<listitem>
 	  <para>
-            This item will only appear if you have Evolution Connector
-            for Microsoft Exchange installed. It will allow you to
-            choose who has access to your Exchange account. This
-            feature is covered in <xref linkend="exchange-delegate" />.
+            Certificate handling for S/MIME security systems.
           </para>
 	</listitem>
       </varlistentry>
 
-      <varlistentry>
-	<term><guiicon>Directory Servers</guiicon></term>
-	<listitem>
-	  <para>
-             This item allows you to enter account information for
-            connecting to remote directory (LDAP) servers.
-          </para>
-	</listitem>
-      </varlistentry>
-
-
-      <varlistentry>
-	<term><guiicon>Out of Office</guiicon></term>
-	<listitem>
-	  <para>
-            This item will only appear if you have Evolution Connector
-            for Microsoft Exchange installed. It allows you to create
-            and remove automatic "vacation" messages.  For
-            information about how to use this feature, read <xref
-            linkend="exchange-out-of-office" />.
-          </para>
-	</listitem>
-      </varlistentry>
     </variablelist>
+
+  </para>
+  <para>
+    Previous versions of Evolution included directory servers, folder
+    settings, and Exchange delegation in the settings tool. Directory
+    servers can now be set up as contacts groups in the
+    <guilabel>Contacts</guilabel> tool, you can change folder settings
+    in the folder right-click menu, and Exchange delegation is
+    available in the <guimenu>Actions</guimenu> menu of the
+    <guilabel>Exchange</guilabel> tool.
   </para>
 
    <sect1 id="config-prefs-mail-identity">
       <title>Working with Mail Accounts</title> 
       <para>
-         Novell Evolution allows you to
-         maintain multiple accounts, or identities.  This is useful
-         want to keep personal and professional email separate, or if
-         you wear several hats at work. When you are writing an email
+          Evolution allows you to maintain multiple accounts, or
+        identities.  When you are writing an email
          message, you can which account to use by selecting from the
          drop-down list next to the <guilabel>From</guilabel> entry in
          the message composer.
        </para>
 
        <para>
-         Clicking <guilabel>Send/Receive</guilabel> will refresh any
-         IMAP, <filename>mh</filename>, or
-         <filename>mbox</filename> listings
-         and check and download mail from all POP servers.  In other
-         words, <guilabel>Send/Receive</guilabel> gets your mail, no
-         matter how many sources you have, or what types they are.  If
-         you don't want to check mail for a given account, select it
+         Clicking <guilabel>Send/Receive</guilabel> will check all
+       mail sources that are not disabled. If you don't want to check
+       mail for a given account, select it
          in the <guilabel>Mail Accounts</guilabel> tab and click the
          <guilabel>Disable</guilabel> button.
        </para>
        
       <para>
-         To add a new account, simply click <guilabel>Add</guilabel>
+         To add a new account, click <guilabel>Add</guilabel>
          to open the mail configuration assistant. To alter an
          existing identity, select it in the
          <interface>Preferences</interface> window, and then click
@@ -173,53 +148,56 @@
 
      <para>
          The account editor dialog has six sections:
-          <variablelist>
+ 
+         <variablelist>
 
 	  <varlistentry> 
 	    <term><guilabel>Identity</guilabel></term>
            <listitem>
 	    <para>
-              Here, enter the name,
-              email address, and other identifying information for the
+              Here, enter the name and email address for this 
               account. You may also choose a default signature to
               insert into messages sent from this account.
             </para>
 	  </listitem>
 	  </varlistentry>
-	  <varlistentry> 
-	    <term><guilabel>Receiving Mail</guilabel></term>
-           <listitem>
+
+          <varlistentry> 
+          <term><guilabel>Receiving Mail</guilabel></term>
+          <listitem>
 	    <para>
-             Here, select the way you will be getting mail: you may
+             Select the way you will be getting mail: you may
              download mail from a server (<link
              linkend="pop">POP</link>), read and keep it on the
-             server (Microsoft Exchange or <link
+             server (Microsoft Exchange, Novell GroupWise, or <link
              linkend="imap">IMAP</link>), or read it from files
-             that already exist on your desktop computer.  If you use
-             a server, it may permit or require you to use a Secure
-             Socket Layer (SSL) connection.  To turn SSL connections
-             on, just click the <guilabel>Use Secure Connection
-             (SSL)</guilabel> button.
+             that already exist on your desktop computer.  Your server 
+            require you to use a Secure Socket Layer (SSL) connection.
+            You may select <guilabel>Always</guilabel>,
+            <guilabel>Whenever Possible</guilabel>, or
+            <guilabel>Never</guilabel> as your SSL choice. If one
+            doesn't work, try another.
+        
+          <note id="config-arbitrary-port">
+            <title>Specifying Port Numbers</title>
+            <para>
+              Your system administrator may ask you to connect to a specific port on
+              a mail server. To specify which port you use, just type a colon and
+              the port number after the server name. For example, to connect to port
+              143 on the server smtp.omniport.com, you would enter
+              as
+              <userinput>
+                smtp.omniport.com:143
+              </userinput> as the server name.
+            </para>
+          </note>
 
-<note id="config-arbitrary-port">
-<title>Specifying Port Numbers</title>
-<para>
-Your system administrator may ask you to connect to a specific port on
-a mail server. To specify which port you use, just type a colon and
-the port number after the server name. For example, to connect to port
-143 on the server smtp.omniport.com, you would enter
-as
-<userinput>
-smtp.omniport.com:143
-</userinput> as the server name.
-</para>
-</note>
-
-	  </para>
-	  </listitem>
-	  </varlistentry>
-	  <varlistentry> 
-	    <term><guilabel>Receiving Options</guilabel></term>
+        </para>
+      </listitem>
+    </varlistentry>
+    
+    <varlistentry> 
+    <term><guilabel>Receiving Options</guilabel></term>
            <listitem>
 	    <para>
               Here, decide whether you'd like to check for mail
@@ -371,6 +349,67 @@ smtp.omniport.com:143
                    </listitem>
                   </varlistentry> 
 
+                <varlistentry>
+                   <term>If you chose GroupWise:</term>
+                   <listitem>
+                     <para>
+                      
+         <itemizedlist>
+	  <listitem>
+	    <para><guilabel>Checking for new mail</guilabel>: If you would like
+	    Evolution to check for new mail
+	    automatically, check the box and select a frequency in
+	    minutes.  
+            </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>If you want Evolution
+            to check for new messages in all your GroupWise folders,
+            make sure the <guilabel>Check for new messages in all
+            folders</guilabel> box is selected.</para>
+	  </listitem>
+
+
+	  <listitem>
+	    <para><guilabel>Apply filters to new messages in INBOX on this
+	    server</guilabel>: If you'd like your filters to work on this
+            account, check this box.
+          </para>
+	  </listitem>
+
+
+	  <listitem>
+	    <para><guilabel>Automatically synchronize remote mail
+            locally</guilabel>: Download all mail immediately, instead of waiting
+            until you try to open the message to check it. This
+            setting will make Evolution slower at first, but faster
+            after the download. Leaving it unchecked means that
+            Evolution will take longer to display each additional
+            message, but will not waste time trying to download every
+            single message if you can tell from the subjects that you
+            do not need to read them all.
+          </para>
+	  </listitem>
+
+
+	  <listitem>
+	    <para><guilabel>Address Book and Calendar: Post Office
+            Agent SOAP Port</guilabel>: If your post office agent uses
+            a SOAP port other than the default, enter it here. The
+            SOAP port is what allows Evolution to access the GroupWise
+            address book and calendar. Your system administrator will
+            know the port. If there are not many Linux users in your
+            organization, you may also need to request that the SOAP
+            service be enabled.
+          </para>
+	  </listitem>
+
+	</itemizedlist>
+                     </para>
+                   </listitem>
+                  </varlistentry> 
+
              
                   </variablelist>  
      </para>
@@ -432,33 +471,10 @@ smtp.omniport.com:143
       </para>
     </sect1>
   
-    <sect1 id="config-prefs-folders">
-      <title>Folder Settings</title>
-      <para>
-        There are three sets of folder options. In the first,
-        <guilabel>Default Folders</guilabel>, select which folders will be
-        your usual mail, contacts, calendar, and tasks
-        folders. When you save a contact or appointment attached to an
-        email, it will be stored in your default contact or calendar
-        folder.
-      </para>
-      <para>
-        The <guilabel>Offline Folders</guilabel> are the ones that
-        will be cached when you activate the <guilabel>Go
-        Offline</guilabel> feature. 
-      </para>
-      <para>
-        Select one or more folders of contacts for your
-        <guilabel>Autocompletion Folders</guilabel>. When you type a
-        few letters into the message composer address fields,
-        Evolution will look for matches in the folders you choose here.
-      </para>
-    </sect1>
-
     <sect1 id="config-prefs-mail">
       <title>Mail Preferences</title>
       <para>
-        The <guilabel>Mail Options</guilabel> tool lets you choose how
+        The <guilabel>Mail Preferences</guilabel> tool lets you choose how
         to display citations, how long to wait before marking a
         message as read, and other mail display settings. There are
         three categories of settings: General, HTML Mail, and
@@ -468,6 +484,9 @@ smtp.omniport.com:143
         For information on individual email account settings, see <xref
         linkend="config-prefs-mail-identity" />.
       </para>
+
+      <sect2 id="config-prefs-mail-general">
+        <title>General Mail Settings</title>
 
       <para>
         In the <guilabel>General</guilabel> tab, your options are:
@@ -554,29 +573,15 @@ smtp.omniport.com:143
        </varlistentry>
      </variablelist>
    </para>
+ </sect2>
+
+ <sect2 id="mail-prefs-html">
+   <title>HTML Mail Preferences</title>
+
    <para>
      The options in the <guilabel>HTML Mail</guilabel> tab are:
    <variablelist>
     
-       <varlistentry>
-         <term><guilabel>Loading Image</guilabel></term>
-         <listitem>
-           <para>
-             You can embed a image in an email and have it load only
-             when the message arrives. However, spammers can use image loading
-             patterns to confirm "live" addresses and invade your
-             privacy. You may elect never to load images
-             automatically, to load images only if the sender is in
-             your contacts, or always load images.
-           </para>
-           <para>
-             If you have chosen not to load images automatically, you
-             can choose to see the images in one message at a time by selecting <menuchoice>
-             <guimenu>View</guimenu><guisubmenu>Message Display</guisubmenu>
-             <guimenuitem>Load Images</guimenuitem></menuchoice>.
-           </para>
-         </listitem>
-       </varlistentry>
 
        <varlistentry>
          <term><guilabel>Show animated images</guilabel></term>
@@ -598,6 +603,27 @@ smtp.omniport.com:143
            </para>
          </listitem>
        </varlistentry>
+
+       <varlistentry>
+         <term><guilabel>Loading Image</guilabel></term>
+         <listitem>
+           <para>
+             You can embed a image in an email and have it load only
+             when the message arrives. However, spammers can use image loading
+             patterns to confirm "live" addresses and invade your
+             privacy. You may elect never to load images
+             automatically, to load images only if the sender is in
+             your contacts, or always load images.
+           </para>
+           <para>
+             If you have chosen not to load images automatically, you
+             can choose to see the images in one message at a time by selecting <menuchoice>
+             <guimenu>View</guimenu><guisubmenu>Message Display</guisubmenu>
+             <guimenuitem>Load Images</guimenuitem></menuchoice>.
+           </para>
+         </listitem>
+       </varlistentry>
+
      </variablelist>
    </para>
    <para>
@@ -606,6 +632,44 @@ smtp.omniport.com:143
    settings by clicking the <guilabel>Restore Defaults</guilabel>
    button.
  </para>
+</sect2>
+<sect2 id="mail-prefs-colors">
+  <title>Mail Color Preferences</title>
+  <para>
+    The Mail Color preferences tool lets you select color labels for
+    different kinds of messages.  Click a color to change the color, or
+    change the label associated with that color.
+  </para>
+</sect2>
+ 
+
+<sect2 id="mail-prefs-headers">
+  <title>Mail Header Preferences</title>
+  <para>
+    The headers on an incoming message are the information about the
+    message that isn't the content of the message itself: the sender,
+    the time it was sent, and so forth.  Check the boxes here to show
+    or hide different amounts of information about the messages you read.
+  </para>
+</sect2>
+ 
+
+ 
+
+<sect2 id="mail-prefs-junk">
+  <title>Junk Mail Preferences</title>
+  <para>
+    There are only two items here: <guilabel>Check Incoming Mail for
+  Junk</guilabel> and <guilabel>Include Remote Tests.</guilabel>
+  Checking for junk mail uses the SpamAssassin tool with trainable
+  bayesian filters. It also includes online tests, like checking for
+  blacklisted message senders and ISPs. Online tests can make
+  filtering slower, but more accurate. Check the boxes here to choose
+  your mail filtering method.
+  </para>
+</sect2>
+ 
+
 </sect1>
 
 
@@ -676,50 +740,21 @@ smtp.omniport.com:143
          none at all, you can select it from the mail composer itself.
     </para>
     <para>
-       In the spell-checking tool, you can set spelling options,
-       including the language or languages you will use. Note that you
-       must install the gnome-spell package, available through Red
-       Carpet, for spell-checking to be available in
-       Evolution. Alternate dictionaries are also available through
-       Red Carpet and are detected automatically if you have installed
-       them.
+      To choose a spell-checking language, select it here.  Note that
+      you must install the gnome-spell package, available through Red
+      Carpet, for spell-checking to be available in
+      Evolution. Alternate dictionaries are also available through
+      Red Carpet and are detected automatically if you have installed
+       them. 
+      To have the composer automatically check your spelling while you
+      type, check the box labeled <guilabel>Check spelling while I type.</guilabel>
     </para>
     <para>
       You can check the spelling of messages by selecting
       <menuchoice><guimenu>Edit</guimenu><guimenuitem>Spell Check
-      Document</guimenuitem></menuchoice>.  Alternately, in the
-      Evolution main window select
-      <menuchoice><guimenu>Tools</guimenu><guisubmenu>Settings</guisubmenu></menuchoice>,
-      click on the <guiicon>Composer preferences</guiicon> icon, then
-      select the <guilabel>Spell Checking</guilabel> tab and check the
-      <guilabel>Check spelling while I type</guilabel> box, and
-      choose a color for your misspelled words.
+      Document</guimenuitem></menuchoice>. 
   </para>
 </sect1>
-
-<!-- NOT FOR 1.0, see usage-mail.sgml
-      <sect1 id="config-prefs-news">          
-          <title>News Servers</title>
-          <para>
-            Newsgroups are so much like mailing lists that there's no
-            reason not to keep them right next to your mail.  When you
-            first select the <guilabel>News Servers</guilabel> tab,
-            you will see a blank box with the three familiar buttons
-            on the right: <guilabel>Add</guilabel>,
-            <guilabel>Edit</guilabel>, and
-            <guilabel>Delete</guilabel>.
-          </para>
-          <para>
-            Click <guilabel>Add</guilabel> to add a news server; you
-            will be prompted for its name.  Enter the name, click
-            <guilabel>OK</guilabel>, and you're done.  You can have
-            as many news servers as you like, of course.  News servers
-            will appear next to your IMAP servers in the
-            <interface>folder bar</interface>.
-          </para>
-     </sect2>
-  </sect1>
--->
 
 
     <sect1 id="config-prefs-cal">
@@ -764,31 +799,18 @@ smtp.omniport.com:143
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guilabel>Work Week</guilabel></term>
-	    <listitem>
-	      <para>
-		In the day and week views, Evolution displays all the
-		hours in the range you select here, even if there are
-		no appointments for those times.  You can
-		still schedule an appointment outside of these hours,
-		and if you do, the display will be extended to show
-		it.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
 	    <term><guilabel>Week Starts</guilabel></term>
 	    <listitem>
-	      <para>You can set weeks to start on Sunday or on Monday.</para>
+	      <para>Select the day you wish to be displayed as the first in each week.</para>
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
 	    <term><guilabel>Day Begins</guilabel></term>
 	    <listitem>
 	      <para>
-		Set the beginning of a normal workday. If you work odd
-		hours, or want to make sure that your early-morning
-		appointments are displayed, you may find this option useful.
+                For Evolution, a normal work day begins at 9 AM and
+                ends at 5PM. You can select your preferred hours to
+                make sure that all your events are displayed properly.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -796,10 +818,7 @@ smtp.omniport.com:143
 	    <term><guilabel>Day Ends</guilabel></term>
 	    <listitem>
 	      <para>
-		Set the end of a normal workday. If you work odd
-		hours, or want to make sure that your evening
-		appointments are displayed, you may find this option
-		useful.
+		Set the end of a normal workday.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -900,11 +919,9 @@ smtp.omniport.com:143
   <sect1 id="config-prefs-contact">
     <title>Directory Servers</title>
     <para>
-        Contacts settings are limited to the usage and
-        configuration of directory servers (LDAP and
-      Exchange). To learn how to set autocompletion options, see <xref
-      linkend="config-prefs-folders" />.
-      Other contacts controls are available in the contacts tool.
+       Autocompletion is available in the main settings tool. 
+      The other major contact configuration task is creating new
+      directory servers or remote contacts groups. 
     </para>
       
       <para>
@@ -919,14 +936,13 @@ smtp.omniport.com:143
 	  </listitem>
 	  <listitem>
 	    <para>
-              Right-click on the shortcut bar's list of contact groups,
-              and select <guimenuitem>New Contact Group</guimenuitem>.
+              Select <menuchoice><guimenu>New</guimenu> <guimenuitem>Contacts Group</guimenuitem></menuchoice>.
 	    </para>
 	  </listitem>
           <listitem>
             <para>
               Select a name and location for the contact group. The name
-              is for display only. </para>
+              is for display only.  </para>
 
             </listitem>
 
