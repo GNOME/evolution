@@ -75,9 +75,9 @@
 #include <glade/glade.h>
 
 #include <gal/util/e-iconv.h>
-#include <gal/widgets/e-gui-utils.h>
 #include <gal/e-text/e-entry.h>
 
+#include "e-util/e-dialog-utils.h"
 #include "widgets/misc/e-charset-picker.h"
 
 #include "camel/camel.h"
@@ -1186,7 +1186,7 @@ save (EMsgComposer *composer, const char *file_name)
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		char *tmp = g_path_get_basename(my_file_name);
 
-		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
+		e_notice (composer, GTK_MESSAGE_ERROR,
 			  _("Error saving file: %s"), tmp);
 		g_free(tmp);
 	} else
@@ -1209,7 +1209,7 @@ load (EMsgComposer *composer, const char *file_name)
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		char *tmp = g_path_get_basename(file_name);
 
-		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
+		e_notice (composer, GTK_MESSAGE_ERROR,
 			  _("Error loading file: %s"), tmp);
 		g_free(tmp);
 	}
@@ -1244,7 +1244,7 @@ autosave_save_draft (EMsgComposer *composer)
 	file = composer->autosave_file;
 	
 	if (fd == -1) {
-		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
+		e_notice (composer, GTK_MESSAGE_ERROR,
 			  _("Error accessing file: %s"), file);
 		return FALSE;
 	}
@@ -1252,21 +1252,21 @@ autosave_save_draft (EMsgComposer *composer)
 	message = e_msg_composer_get_message_draft (composer);
 	
 	if (message == NULL) {
-		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
+		e_notice (composer, GTK_MESSAGE_ERROR,
 			  _("Unable to retrieve message from editor"));
 		return FALSE;
 	}
 	
 	if (lseek (fd, (off_t)0, SEEK_SET) == -1) {
 		camel_object_unref (message);
-		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
+		e_notice (composer, GTK_MESSAGE_ERROR,
 			  _("Unable to seek on file: %s\n%s"), file, g_strerror (errno));
 		return FALSE;
 	}
 	
 	if (ftruncate (fd, (off_t)0) == -1) {
 		camel_object_unref (message);
-		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
+		e_notice (composer, GTK_MESSAGE_ERROR,
 			  _("Unable to truncate file: %s\n%s"), file, g_strerror (errno));
 		return FALSE;
 	}
@@ -1275,7 +1275,7 @@ autosave_save_draft (EMsgComposer *composer)
 	camelfd = dup(fd);
 	if (fd == -1) {
 		camel_object_unref (message);
-		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
+		e_notice (composer, GTK_MESSAGE_ERROR,
 			  _("Unable to copy file descriptor: %s\n%s"), file, g_strerror (errno));
 		return FALSE;
 	}
@@ -1284,7 +1284,7 @@ autosave_save_draft (EMsgComposer *composer)
 	stream = camel_stream_fs_new_with_fd (camelfd);
 	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream) == -1
 	    || camel_stream_close (CAMEL_STREAM (stream)) == -1) {
-		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
+		e_notice (composer, GTK_MESSAGE_ERROR,
 			  _("Error autosaving message: %s\n %s"), file, strerror(errno));
 		
 		success = FALSE;

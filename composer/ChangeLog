@@ -1,3 +1,7 @@
+2003-03-25  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer.c: Update for e_notice move
+
 2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes for bug #39813
