@@ -270,7 +270,7 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		}
 
 		/* Set the text */
-		gtk_combo_text_set_text (widgets [i].combo, text);
+		gal_combo_text_set_text (widgets [i].combo, text);
 
 		g_signal_handler_unblock (
 			widgets [i].radio_ascending,
@@ -614,7 +614,7 @@ GtkWidget *e_table_proxy_gtk_combo_text_new (void);
 GtkWidget *
 e_table_proxy_gtk_combo_text_new (void)
 {
-	return gtk_combo_text_new (TRUE);
+	return gal_combo_text_new (TRUE);
 }
 
 #if 0
@@ -707,10 +707,10 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 		char buffer [80];
 
 		snprintf (buffer, sizeof (buffer), "sort-combo-%d", i + 1);
-		config->sort [i].combo = GTK_COMBO_TEXT (
+		config->sort [i].combo = GAL_COMBO_TEXT (
 			glade_xml_get_widget (gui, buffer));
 		gtk_widget_show (GTK_WIDGET (config->sort [i].combo));
-		gtk_combo_text_add_item (config->sort [i].combo, "", "");
+		gal_combo_text_add_item (config->sort [i].combo, "", "");
 
 		snprintf (buffer, sizeof (buffer), "frame-sort-%d", i + 1);
 		config->sort [i].frames = 
@@ -735,7 +735,7 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 		char *label = l->data;
 
 		for (i = 0; i < 4; i++){
-			gtk_combo_text_add_item (config->sort [i].combo,
+			gal_combo_text_add_item (config->sort [i].combo,
 						 dgettext (config->domain, label), label);
 		}
 	}
@@ -811,11 +811,11 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 		char buffer [80];
 
 		snprintf (buffer, sizeof (buffer), "group-combo-%d", i + 1);
-		config->group [i].combo = GTK_COMBO_TEXT (
+		config->group [i].combo = GAL_COMBO_TEXT (
 			glade_xml_get_widget (gui, buffer));
 		gtk_widget_show (GTK_WIDGET (config->group [i].combo));
 
-		gtk_combo_text_add_item (config->group [i].combo, "", "");
+		gal_combo_text_add_item (config->group [i].combo, "", "");
 
 		snprintf (buffer, sizeof (buffer), "frame-group-%d", i + 1);
 		config->group [i].frames = 
@@ -847,7 +847,7 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 		char *label = l->data;
 
 		for (i = 0; i < 4; i++){
-			gtk_combo_text_add_item (
+			gal_combo_text_add_item (
 				config->group [i].combo,
 				dgettext (config->domain, label), label);
 		}
