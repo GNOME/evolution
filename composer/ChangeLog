@@ -1,3 +1,34 @@
+2001-05-03  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (get_signature_html): put signature in 100%
+	width table
+	(delete_old_signature): look only for first flow with signature == 1
+	(e_msg_composer_new): don't insert <BR>
+	(e_msg_composer_new_with_sig_file): ditto
+	(delete_old_signature): don't delete whole signature paragraph,
+	but just it's content
+	(delete_old_signature): if signature isn't found, insert new empty
+	paragraph to end of document for new signature
+	(e_msg_composer_set_sig_file): delete signature always
+	(e_msg_composer_set_sig_file): don't place signature to the end of
+	document, but place it where previous one was (if there wasn't
+	then new one is appended to the document)
+
+2001-05-02  Radek Doulik  <rodo@ximian.com>
+
+	* listener.c (impl_event): do automagic indenting only when
+	in_signature_insert is FALSE
+
+	* e-msg-composer.c (e_msg_composer_set_sig_file): do indent-zero
+	before signature inserting
+	(e_msg_composer_set_sig_file): use in_signature_insert flag
+
+2001-05-01  Radek Doulik  <rodo@ximian.com>
+
+	* listener.c (impl_event): set signature to 0 in newly created
+	empty paragraphs
+	(clear_signature): new helper function
+
 2001-04-26  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (INCLUDES): Remove UNICODE_CFLAGS

@@ -592,7 +592,10 @@ get_signature_html (EMsgComposer *composer)
 	}
 
 	if (text) {
-		html = g_strdup_printf ("<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->%s%s%s%s",
+		html = g_strdup_printf ("<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->"
+					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD>"
+					"%s%s%s%s"
+					"</TD></TR></TABLE>",
 					format_html ? "" : "<PRE>\n",
 					format_html || !strncmp ("-- \n", text, 3) ? "" : "--\n",
 					text,
@@ -1845,7 +1848,7 @@ e_msg_composer_new (void)
 	
 	new = create_composer ();
 	if (new)
-		set_editor_text (new, "<BR>");
+		set_editor_text (new, "");
 
 	return new;
 }
@@ -1865,7 +1868,7 @@ e_msg_composer_new_with_sig_file (const char *sig_file, gboolean send_html)
 	new = create_composer ();
 	if (new) {
 		e_msg_composer_set_send_html (new, send_html);
-		set_editor_text (new, "<BR>");
+		set_editor_text (new, "");
 		e_msg_composer_set_sig_file (new, sig_file);
 	}
 
@@ -2376,21 +2379,20 @@ static void
 delete_old_signature (EMsgComposer *composer)
 {
 	CORBA_Environment ev;
-	CORBA_boolean rv;
 
 	/* printf ("delete_old_signature\n"); */
 	CORBA_exception_init (&ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-bod", &ev);
-	while (GNOME_GtkHTML_Editor_Engine_searchByData (composer->editor_engine, 1, "ClueFlow", "signature", "1", &ev)) {
+	if (GNOME_GtkHTML_Editor_Engine_searchByData (composer->editor_engine, 1, "ClueFlow", "signature", "1", &ev)) {
 		/* printf ("found\n"); */
 		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "select-paragraph", &ev);
-		rv = GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "selection-move-right", &ev);
 		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "delete", &ev);
 		/* selection-move-right doesn't succeed means that we are already on the end of document */
-		if (!rv)
-			break;
-	}
-	GNOME_GtkHTML_Editor_Engine_setParagraphData (composer->editor_engine, "signature", "0", &ev);
+		/* if (!rv)
+		   break; */
+		GNOME_GtkHTML_Editor_Engine_setParagraphData (composer->editor_engine, "signature", "0", &ev);
+	} else
+		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "insert-paragraph", &ev);
 	CORBA_exception_free (&ev);
 }
 
@@ -2412,12 +2414,13 @@ e_msg_composer_set_sig_file (EMsgComposer *composer, const char *sig_file)
 
 	/* printf ("set sig '%s' '%s'\n", sig_file, composer->sig_file); */
 
+	composer->in_signature_insert = TRUE;
 	CORBA_exception_init (&ev);
 	GNOME_GtkHTML_Editor_Engine_freeze (composer->editor_engine, &ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-position-save", &ev);
 	GNOME_GtkHTML_Editor_Engine_undo_begin (composer->editor_engine, "Set signature", "Reset signature", &ev);
-	if (composer->sig_file)
-		delete_old_signature (composer);
+
+	delete_old_signature (composer);
 
 	if (composer->sig_file != sig_file && (!sig_file || !composer->sig_file || strcmp (composer->sig_file, sig_file))) {
 		g_free (composer->sig_file);
@@ -2426,10 +2429,10 @@ e_msg_composer_set_sig_file (EMsgComposer *composer, const char *sig_file)
 
 	html = get_signature_html (composer);
 	if (html) {
-		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-eod", &ev);
 		if (!GNOME_GtkHTML_Editor_Engine_isParagraphEmpty (composer->editor_engine, &ev))
 			GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "insert-paragraph", &ev);
 		/* printf ("insert %s\n", html); */
+		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "indent-zero", &ev);
 		GNOME_GtkHTML_Editor_Engine_insertHTML (composer->editor_engine, html, &ev);
 		g_free (html);
 	}
@@ -2437,6 +2440,7 @@ e_msg_composer_set_sig_file (EMsgComposer *composer, const char *sig_file)
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-position-restore", &ev);
 	GNOME_GtkHTML_Editor_Engine_thaw (composer->editor_engine, &ev);
 	CORBA_exception_free (&ev);
+	composer->in_signature_insert = FALSE;
 }
 
 /**
