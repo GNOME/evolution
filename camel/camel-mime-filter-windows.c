@@ -95,7 +95,7 @@ filter_filter (CamelMimeFilter *filter, char *in, size_t len, size_t prespace,
 			register unsigned char c = *inptr++;
 			
 			if (c >= 128 && c <= 159) {
-				g_warning ("Encountered Windows charset parading as %s",
+				g_warning ("Encountered Windows charset masquerading as %s",
 					   windows->claimed_charset);
 				windows->is_windows = TRUE;
 				break;
