@@ -84,30 +84,6 @@
 		   _value="Evolution Mail composer"/>
   </oaf_server>
 
-  <!-- MailConfig interface -->
-  <oaf_server iid="OAFIID:GNOME_Evolution_MailConfig"
-              type="factory"
-              location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
-
-    <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:GNOME/Evolution/MailConfig:1.0"/>
-    </oaf_attribute>
-
-    <oaf_attribute name="name" type="string"
-                   _value="Evolution Mail configuration interface"/>
-  </oaf_server>
-
-  <!-- FolderInfo interface -->
-
-  <oaf_server iid="OAFIID:GNOME_Evolution_FolderInfo"
-	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
-
-    <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:GNOME/Evolution/FolderInfo:1.0"/>
-    </oaf_attribute>
-  </oaf_server>
-
   <!-- Startup Wizard -->
 
   <!-- (wizard) -->

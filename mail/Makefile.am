@@ -39,24 +39,6 @@ INCLUDES =						\
 
 component_LTLIBRARIES = libevolution-mail.la
 
-
-# Code generation for Mailer.idl
-
-MAILER_IDL = Mailer.idl
-
-MAILER_IDL_GENERATED_H =		\
-	Mailer.h
-MAILER_IDL_GENERATED_C =		\
-	Mailer-common.c				\
-	Mailer-skels.c				\
-	Mailer-stubs.c
-MAILER_IDL_GENERATED = $(MAILER_IDL_GENERATED_C) $(MAILER_IDL_GENERATED_H)
-
-$(MAILER_IDL_GENERATED_H): Mailer.idl 
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) $(srcdir)/Mailer.idl
-$(MAILER_IDL_GENERATED_C): $(MAILER_IDL_GENERATED_H)
-
-
 # Code generation for Spell.idl
 
 SPELL_IDL = Spell.idl
@@ -80,7 +62,6 @@ Spell-impl.o: Spell.h
 
 libevolution_mail_la_SOURCES =			\
 	$(SPELL_IDL_GENERATED)			\
-	$(MAILER_IDL_GENERATED)			\
 	e-searching-tokenizer.c			\
 	e-searching-tokenizer.h			\
 	em-account-prefs.c			\
@@ -133,8 +114,6 @@ libevolution_mail_la_SOURCES =			\
 	em-html-stream.h			\
 	folder-browser-factory.c		\
 	folder-browser-factory.h		\
-	folder-info.c				\
-	folder-info.h				\
 	mail-account-editor.c			\
 	mail-account-editor.h			\
 	mail-account-gui.c			\
@@ -227,12 +206,9 @@ MARSHAL_GENERATED = em-marshal.c em-marshal.h
 
 etspec_DATA = message-list.etspec
 
-idl_DATA = $(MAILER_IDL)
-
 EXTRA_DIST = 				\
 	ChangeLog.pre-1-4		\
 	em-marshal.list			\
-	Mailer.idl 			\
 	$(SPELL_IDL)			\
 	$(glade_DATA)			\
 	$(schema_DATA)			\
@@ -273,5 +249,5 @@ install-data-local:
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(MAILER_IDL_GENERATED) $(SPELL_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA)
+BUILT_SOURCES = $(SPELL_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)

@@ -60,8 +60,6 @@
 #include "mail-mt.h"
 #include "mail-tools.h"
 
-#include "Mailer.h"
-
 /* Note, the first element of each MailConfigLabel must NOT be translated */
 MailConfigLabel label_defaults[5] = {
 	{ "important", N_("Important"), "#ff0000" },  /* red */
@@ -95,7 +93,6 @@ typedef struct {
 static MailConfig *config = NULL;
 static guint config_write_timeout = 0;
 
-#define MAIL_CONFIG_IID "OAFIID:GNOME_Evolution_MailConfig_Factory"
 #define MAIL_CONFIG_RC "/gtkrc-mail-fonts"
 
 /* signatures */
@@ -1182,150 +1179,12 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 	return ret;
 }
 
-/* MailConfig Bonobo object */
-#define PARENT_TYPE BONOBO_OBJECT_TYPE
-static BonoboObjectClass *parent_class = NULL;
-
-/* For the bonobo object */
-typedef struct _EvolutionMailConfig EvolutionMailConfig;
-typedef struct _EvolutionMailConfigClass EvolutionMailConfigClass;
-
-struct _EvolutionMailConfig {
-	BonoboObject parent;
-};
-
-struct _EvolutionMailConfigClass {
-	BonoboObjectClass parent_class;
-
-	POA_GNOME_Evolution_MailConfig__epv epv;
-};
-
 static gboolean
 do_config_write (gpointer data)
 {
 	config_write_timeout = 0;
 	mail_config_write ();
 	return FALSE;
-}
-
-static void
-impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
-					    const GNOME_Evolution_MailConfig_Account *account,
-					    CORBA_Environment *ev)
-{
-	GNOME_Evolution_MailConfig_Service source, transport;
-	GNOME_Evolution_MailConfig_Identity id;
-	EAccount *new;
-	
-	if (mail_config_get_account_by_name (account->name)) {
-		/* FIXME: we need an exception. */
-		return;
-	}
-	
-	new = e_account_new ();
-	new->name = g_strdup (account->name);
-	new->enabled = source.enabled;
-	
-	/* Copy ID */
-	id = account->id;
-	new->id->name = g_strdup (id.name);
-	new->id->address = g_strdup (id.address);
-	new->id->reply_to = g_strdup (id.reply_to);
-	new->id->organization = g_strdup (id.organization);
-	
-	/* Copy source */
-	source = account->source;
-	if (!(source.url == NULL || strcmp (source.url, "none://") == 0))
-		new->source->url = g_strdup (source.url);
-	
-	new->source->keep_on_server = source.keep_on_server;
-	new->source->auto_check = source.auto_check;
-	new->source->auto_check_time = source.auto_check_time;
-	new->source->save_passwd = source.save_passwd;
-	
-	/* Copy transport */
-	transport = account->transport;
-	if (transport.url != NULL)
-		new->transport->url = g_strdup (transport.url);
-	
-	new->transport->url = g_strdup (transport.url);
-	new->transport->save_passwd = transport.save_passwd;
-	
-	/* Add new account */
-	mail_config_add_account (new);
-	
-	/* Don't write out the config right away in case the remote
-	 * component is creating or removing multiple accounts.
-	 */
-	if (!config_write_timeout)
-		config_write_timeout = g_timeout_add (2000, do_config_write, NULL);
-}
-
-static void
-impl_GNOME_Evolution_MailConfig_removeAccount (PortableServer_Servant servant,
-					       const CORBA_char *name,
-					       CORBA_Environment *ev)
-{
-	EAccount *account;
-	
-	if ((account = mail_config_get_account_by_name (name)))
-		mail_config_remove_account (account);
-	
-	/* Don't write out the config right away in case the remote
-	 * component is creating or removing multiple accounts.
-	 */
-	if (!config_write_timeout)
-		config_write_timeout = g_timeout_add (2000, do_config_write, NULL);
-}
-
-static void
-evolution_mail_config_class_init (EvolutionMailConfigClass *klass)
-{
-	POA_GNOME_Evolution_MailConfig__epv *epv = &klass->epv;
-	
-	parent_class = g_type_class_ref(PARENT_TYPE);
-	epv->addAccount = impl_GNOME_Evolution_MailConfig_addAccount;
-	epv->removeAccount = impl_GNOME_Evolution_MailConfig_removeAccount;
-}
-
-static void
-evolution_mail_config_init (EvolutionMailConfig *config)
-{
-	;
-}
-
-BONOBO_TYPE_FUNC_FULL (EvolutionMailConfig,
-		       GNOME_Evolution_MailConfig,
-		       PARENT_TYPE,
-		       evolution_mail_config);
-
-static BonoboObject *
-evolution_mail_config_factory_fn (BonoboGenericFactory *factory,
-				  const char *id,
-				  void *closure)
-{
-	EvolutionMailConfig *config;
-	
-	config = g_object_new (evolution_mail_config_get_type (), NULL);
-	
-	return BONOBO_OBJECT (config);
-}
-
-gboolean
-evolution_mail_config_factory_init (void)
-{
-	BonoboGenericFactory *factory;
-	
-	factory = bonobo_generic_factory_new (MAIL_CONFIG_IID, 
-					      evolution_mail_config_factory_fn,
-					      NULL);
-	if (factory == NULL) {
-		g_warning ("Error starting MailConfig");
-		return FALSE;
-	}
-
-	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
-	return TRUE;
 }
 
 GSList *

@@ -1,3 +1,18 @@
+2003-10-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* GNOME_Evolution_Mail.server.in.in: Nuked the MailConfig
+	interface stuff.
+
+	* Mailer.idl: Removed. None of the interfaces are needed/used
+	anymore.
+
+	* folder-info.[c,h]: Removed. The summary was the only thing that
+	needed/used this code and it has been nuked into oblivion, so
+	these interfaces are no longer needed.
+
+	* mail-config.c: Removed old crufty CORBA interface snot that is
+	no longer needed or used.
+
 2003-10-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Fixes bug #49816
