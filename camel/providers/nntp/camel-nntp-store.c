@@ -272,6 +272,33 @@ nntp_store_get_name (CamelService *service, gboolean brief)
 	return g_strdup_printf ("USENET news via %s", service->url->host);
 }
 
+static CamelServiceAuthType password_authtype = {
+	"Password",
+	
+	"This option will authenticate with the NNTP server using a "
+	"plaintext password.",
+	
+	"",
+	TRUE
+};
+
+static GList *
+nntp_store_query_auth_types_generic (CamelService *service, CamelException *ex)
+{
+	GList *prev;
+	
+	prev = CAMEL_SERVICE_CLASS (remote_store_class)->query_auth_types_generic (service, ex);
+	return g_list_prepend (prev, &password_authtype);
+}
+
+static GList *
+nntp_store_query_auth_types_connected (CamelService *service, CamelException *ex)
+{
+	g_warning ("nntp::query_auth_types_connected: not implemented. Defaulting.");
+	/* FIXME: use the classfunc instead of the local? */
+	return nntp_store_query_auth_types_generic (service, ex);
+}
+
 static CamelFolder *
 nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
 		       gboolean get_folder, CamelException *ex)
@@ -301,43 +328,58 @@ nntp_store_get_folder_info (CamelStore *store, const char *top,
 			    gboolean fast, gboolean recursive,
 			    CamelException *ex)
 {
+	CamelURL *url = CAMEL_SERVICE (store)->url;
 	CamelNNTPStore *nntp_store = (CamelNNTPStore *)store;
 	GPtrArray *names;
-	CamelFolderInfo *topfi, *last = NULL, *fi;
+	CamelFolderInfo *groups = NULL, *last = NULL, *fi;
 	int i;
 
+	/* if we haven't already read our .newsrc, read it now */
 	if (!nntp_store->newsrc)
+		nntp_store->newsrc = 
+		camel_nntp_newsrc_read_for_server (CAMEL_SERVICE(store)->url->host);
+
+	if (!nntp_store->newsrc) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Unable to open or create .newsrc file for %s: %s",
+				      CAMEL_SERVICE(store)->url->host,
+				      strerror(errno));
 		return NULL;
+	}
 
-	topfi = g_new0 (CamelFolderInfo, 1);
-	topfi->name = g_strdup (top);
-	topfi->full_name = g_strdup (top);
-	if (*top)
-		topfi->url = g_strdup_printf ("news:%s", top);
-	/* FIXME: message_count if top != "" */
-	topfi->message_count = topfi->unread_message_count = -1;
+	if (top == NULL) {
+		/* return the list of groups */
+		names = camel_nntp_newsrc_get_subscribed_group_names (nntp_store->newsrc);
+		for (i = 0; i < names->len; i++) {
+			fi = g_new0 (CamelFolderInfo, 1);
+			fi->name = g_strdup (names->pdata[i]);
+			fi->full_name = g_strdup (names->pdata[i]);
+			fi->url = g_strdup_printf ("news://%s/%s", url->host, (char *)names->pdata[i]);
+			/* FIXME */
+			fi->message_count = fi->unread_message_count = -1;
 
-	if (!recursive || *top)
-		return topfi;
+			if (last)
+				last->sibling = fi;
+			else
+				groups = fi;
+			last = fi;
+		}
+		camel_nntp_newsrc_free_group_names (nntp_store->newsrc, names);
 
-	names = camel_nntp_newsrc_get_subscribed_group_names (nntp_store->newsrc);
-	for (i = 0; i < names->len; i++) {
+		return groups;
+	}
+	else {
+		/* getting a specific group */
+
 		fi = g_new0 (CamelFolderInfo, 1);
-		fi->name = g_strdup (names->pdata[i]);
-		fi->full_name = g_strdup (names->pdata[i]);
-		fi->url = g_strdup_printf ("news:%s", (char *)names->pdata[i]);
+		fi->name = g_strdup (top);
+		fi->full_name = g_strdup (top);
+		fi->url = g_strdup_printf ("news://%s/%s", url->host, top);
 		/* FIXME */
 		fi->message_count = fi->unread_message_count = -1;
 
-		if (last)
-			last->sibling = fi;
-		else
-			topfi->child = fi;
-		last = fi;
+		return fi;
 	}
-	camel_nntp_newsrc_free_group_names (nntp_store->newsrc, names);
-
-	return topfi;
 }
 
 static char *
@@ -372,6 +414,8 @@ camel_nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
 	/* virtual method overload */
 	camel_service_class->connect = nntp_store_connect;
 	camel_service_class->disconnect = nntp_store_disconnect;
+	camel_service_class->query_auth_types_generic = nntp_store_query_auth_types_generic;
+	camel_service_class->query_auth_types_connected = nntp_store_query_auth_types_connected;
 	camel_service_class->get_name = nntp_store_get_name;
 
 	camel_store_class->get_folder = nntp_store_get_folder;
@@ -388,8 +432,11 @@ camel_nntp_store_init (gpointer object, gpointer klass)
 	CamelService *service = CAMEL_SERVICE (object);
 	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
 
-	service->url_flags = CAMEL_SERVICE_URL_NEED_HOST;
-	remote_store->default_port = 119;
+	service->url_flags = (CAMEL_SERVICE_URL_NEED_HOST
+			      | CAMEL_SERVICE_URL_ALLOW_USER
+			      | CAMEL_SERVICE_URL_ALLOW_PASSWORD
+			      | CAMEL_SERVICE_URL_ALLOW_AUTH);
+	remote_store->default_port = NNTP_PORT;
 }
 
 CamelType

@@ -26,33 +26,65 @@
 #include <camel-nntp-store.h>
 #include <camel-nntp-resp-codes.h>
 #include <camel-exception.h>
+#include <camel-session.h>
 
 int
 camel_nntp_auth_authenticate (CamelNNTPStore *store, CamelException *ex)
 {
+	CamelService *service = CAMEL_SERVICE (store);
+	CamelSession *session = camel_service_get_session (service);
 	int resp;
 
+	if (!service->url->authmech && !service->url->passwd) {
+		gchar *prompt;
+			
+		prompt = g_strdup_printf ("Please enter the NNTP password for %s@%s",
+					  service->url->user, service->url->host);
+		service->url->passwd =
+			camel_session_query_authenticator (session,
+							   CAMEL_AUTHENTICATOR_ASK, prompt,
+							   TRUE, service, "password", ex);
+		g_free (prompt);
+			
+		if (!service->url->passwd) {
+			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, 
+					     "You didn\'t enter a password.");
+			resp = 666;
+			goto done;
+		}
+	}
+
 	/* first send username */
-	resp = camel_nntp_command (store, ex, NULL, "AUTHINFO USER %s", "username"); /* XXX */
+	resp = camel_nntp_command (store, ex, NULL, "AUTHINFO USER %s", service->url->user);
 
 	if (resp == NNTP_AUTH_REJECTED) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 				      "Server rejected username");
-		return resp;
+		goto done;
+
 	}
 	else if (resp != NNTP_AUTH_CONTINUE) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 				      "Failed to send username to server");
-		return resp;
+		goto done;
 	}
 
 	/* then send the username if the server asks for it */
-	resp = camel_nntp_command (store, ex, NULL, "AUTHINFO PASS %s", "password"); /* XXX */
+	resp = camel_nntp_command (store, ex, NULL, "AUTHINFO PASS %s", service->url->passwd);
+
 	if (resp == NNTP_AUTH_REJECTED) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 				      "Server rejected username/password");
-		return resp;
+		goto done;
 	}
 
+ done:
+
+	if (service->url->passwd) {
+		/* let's be paranoid */
+		memset (service->url->passwd, 0, strlen (service->url->passwd));
+		g_free (service->url->passwd);
+		service->url->passwd = NULL;
+	}
 	return resp;
 }

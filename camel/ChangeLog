@@ -1,3 +1,17 @@
+2000-10-04  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/camel-nntp-auth.c (camel_nntp_auth_authenticate):
+	borrow some code from the imap provider to query the user for
+	their password, and pass the user/passwd to nntp.  be extra
+	paranoid and zero out the password before freeing it.
+
+	* providers/nntp/camel-nntp-store.c (camel_nntp_store_init): add
+	ALLOW_USER/ALLOW_PASSWORD/ALLOW_AUTH to the url flags.
+	(nntp_store_query_auth_types_generic): return our list of
+	auth_types.
+	(nntp_store_query_auth_types_connected): broken, return same as in
+	query_auth_types_generic.
+
 2000-10-04  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (imap_connect): IMAP4
