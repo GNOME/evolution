@@ -102,7 +102,7 @@ static gboolean _delete_messages (CamelFolder *folder,
 				  CamelException *ex);
 static GList * _expunge         (CamelFolder *folder, 
 			      CamelException *ex);
-static gint _append_message  (CamelFolder *folder, 
+static void _append_message  (CamelFolder *folder, 
 			      CamelMimeMessage *message, 
 			      CamelException *ex);
 static void _copy_message_to (CamelFolder *folder, 
@@ -1411,34 +1411,45 @@ camel_folder_get_message_count (CamelFolder *folder, CamelException *ex)
 }
 
 
-static gint
+static void
 _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
 {
 	if (!folder) {
 		camel_exception_set (ex, 
 				     CAMEL_EXCEPTION_FOLDER_NULL,
 				     "folder object is NULL");
-		return -1;
+		return;
 	}
 
 	CAMEL_LOG_WARNING ("Calling CamelFolder::append_message directly. "
 			   "Should be overloaded\n");
-	return -1;
+	return;
 
 }
 
 
-gint 
-camel_folder_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
+/**
+ * camel_folder_append_message: add a message to a folder
+ * @folder: folder object to add the message to
+ * @message: message object
+ * @ex: exception object
+ * 
+ * Add a message to a folder.
+ * 
+ **/
+void 
+camel_folder_append_message (CamelFolder *folder, 
+			     CamelMimeMessage *message, 
+			     CamelException *ex)
 {	
 	if (!folder) {
 		camel_exception_set (ex, 
 				     CAMEL_EXCEPTION_FOLDER_NULL,
 				     "folder object is NULL");
-		return -1;
+		return;
 	}
 
-	return  CF_CLASS (folder)->append_message (folder, message, ex);
+	CF_CLASS (folder)->append_message (folder, message, ex);
 }
 
 

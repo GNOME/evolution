@@ -175,10 +175,10 @@ typedef struct {
 	gint   (*get_message_count)   (CamelFolder *folder, 
 				       CamelException *ex);
 
-	gint   (*append_message)  (CamelFolder *folder, 
-				   CamelMimeMessage *message, 
-				   CamelException *ex);
-
+	void (*append_message)  (CamelFolder *folder, 
+				 CamelMimeMessage *message, 
+				 CamelException *ex);
+	
 	const GList * (*list_permanent_flags) (CamelFolder *folder, 
 					       CamelException *ex);
 
@@ -260,8 +260,8 @@ CamelFolderOpenMode camel_folder_get_mode (CamelFolder *folder, CamelException *
 
 
 /* message manipulation */
-gint camel_folder_append_message  (CamelFolder *folder, 
-				   CamelMimeMessage *message, CamelException *ex);
+void  camel_folder_append_message  (CamelFolder *folder, 
+				    CamelMimeMessage *message, CamelException *ex);
 void camel_folder_copy_message_to (CamelFolder *folder, 
 				   CamelMimeMessage *message, 
 				   CamelFolder *dest_folder, 

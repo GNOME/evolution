@@ -1,7 +1,17 @@
 1999-12-18  bertrand  <Bertrand.Guiheneuf@aful.org>
 
-	* camel/camel-folder.c (_delete): use 
-	exception mechanism.
+	* camel/camel-folder-pt-proxy.c (_append_message): 
+	updated to take the change on append into account.
+
+	* camel/camel-folder.h: 
+	updated class def concerning append.
+	* camel/camel-folder.c 
+	(camel_folder_append_message): documented. 
+	(camel_folder_append_message): don't return the 
+	message number. Use specific methods instead.
+	(_append_message): idem.
+
+	(_delete): use 	exception mechanism.
 	(camel_folder_delete): idem.
 	(_delete_messages): idem.
 	(camel_folder_delete_messages): idem.
