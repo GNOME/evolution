@@ -425,13 +425,13 @@ e_select_names_clicked(ESelectNames *dialog, gint button, ESelectNamesManager *m
 		for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 			ESelectNamesManagerSection *section = (void *) e_iterator_get(iterator);
 			ESelectNamesModel *source = e_select_names_get_source(dialog, section->id);
-			if (section->model)
-				gtk_object_unref(GTK_OBJECT(section->model));
-			section->model = source;
-			/* Don't ref because get_source returns a conceptual ref_count of 1. */
+			e_select_names_model_overwrite_copy (section->model, source);
+			gtk_object_unref (GTK_OBJECT (source));
+			
 		}
 		gtk_object_unref(GTK_OBJECT(iterator));
 
+#if 0
 		list = manager->entries;
 		iterator = e_list_get_iterator(list);
 		for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
@@ -449,6 +449,7 @@ e_select_names_clicked(ESelectNames *dialog, gint button, ESelectNamesManager *m
 			}
 		}
 		gtk_object_unref(GTK_OBJECT(iterator));
+#endif
 		break;
 	}
 	}

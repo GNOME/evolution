@@ -58,19 +58,21 @@ e_book_view_listener_check_queue (EBookViewListener *listener)
 	else
 		thrash = 0;
 
-	if (thrash > 20) {
-		g_error ("e_book_view_listener_check_queue thrashing!");
-		thrash = 0;
+	if (thrash > 20 || listener->priv->response_queue == NULL) {
+
+		if (thrash > 20) {
+			g_error ("e_book_view_listener_check_queue thrashing!");
+			thrash = 0;
+		}
+		
 		listener->priv->idle_id = 0;
+
+		/* Only release our listener reference when the idle is finished. */
+		bonobo_object_unref (BONOBO_OBJECT (listener));
+
 		return FALSE;
 	}
 
-	if (listener->priv->response_queue == NULL) {
-		listener->priv->idle_id = 0;
-		bonobo_object_unref (BONOBO_OBJECT (listener));
-		return FALSE;
-	}
-	bonobo_object_unref (BONOBO_OBJECT (listener));
 
 	return TRUE;
 }
@@ -84,6 +86,10 @@ e_book_view_listener_queue_response (EBookViewListener         *listener,
 			       response);
 
 	if (listener->priv->idle_id == 0) {
+
+		/* Hold a reference to the listener while the idle is active. */
+		gtk_object_ref (GTK_OBJECT (listener));
+
 		listener->priv->idle_id = g_idle_add (
 			(GSourceFunc) e_book_view_listener_check_queue, listener);
 	}

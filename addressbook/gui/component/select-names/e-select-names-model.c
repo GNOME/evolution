@@ -592,6 +592,26 @@ e_select_names_model_delete_all (ESelectNamesModel *model)
 }
 
 void
+e_select_names_model_overwrite_copy (ESelectNamesModel *dest, ESelectNamesModel *src)
+{
+	gint i, len;
+
+	g_return_if_fail (dest && E_IS_SELECT_NAMES_MODEL (dest));
+	g_return_if_fail (src && E_IS_SELECT_NAMES_MODEL (src));
+
+	if (src == dest)
+		return;
+
+	e_select_names_model_delete_all (dest);
+	len = e_select_names_model_count (src);
+	for (i = 0; i < len; ++i) {
+		const EDestination *d = e_select_names_model_get_destination (src, i);
+		if (d)
+			e_select_names_model_append (dest, e_destination_copy (d));
+	}
+}
+
+void
 e_select_names_model_name_pos (ESelectNamesModel *model, gint index, gint *pos, gint *length)
 {
 	gint rp = 0, i, len = 0;

@@ -1,5 +1,26 @@
 2001-07-17  Jon Trowbridge  <trow@ximian.com>
 
+	* backend/ebook/e-book-view-listener.c
+	(e_book_view_listener_queue_response): Hold a reference to our
+	listener while the idle function is active.
+	(e_book_view_listener_check_queue): Only unref the listener when
+	the idle function is finished.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_clicked): Instead of replacing section->model with
+	source, copy source onto section->model with
+	e_select_names_model_overwrite_copy.  #if 0/#endif out all of the
+	stuff related to ETextModels, because it doesn't make any sense to
+	me, and everything appears to work without it.
+	(Die bug #2059.  Die! Die! Die!)
+
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_overwrite_copy): Added.  Copies the contents
+	of one ESelectNamesModel onto another.
+
+	* backend/ebook/e-destination.c (e_destination_copy): Made the argument
+	const.
+
 	* backend/ebook/e-destination.c (e_destination_set_string): Removed
 	old, broken code and annoying g_messages.
 

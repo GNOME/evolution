@@ -60,7 +60,7 @@ GtkType e_destination_get_type (void);
 
 
 EDestination  *e_destination_new                (void);
-EDestination  *e_destination_copy               (EDestination *);
+EDestination  *e_destination_copy               (const EDestination *);
 void           e_destination_clear              (EDestination *);
 
 gboolean       e_destination_is_empty           (EDestination *);

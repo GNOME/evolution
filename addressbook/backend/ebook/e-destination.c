@@ -119,7 +119,7 @@ e_destination_new (void)
 }
 
 EDestination *
-e_destination_copy (EDestination *dest)
+e_destination_copy (const EDestination *dest)
 {
 	EDestination *new_dest;
 	GList *iter;
