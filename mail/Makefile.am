@@ -82,3 +82,15 @@ EXTRA_DIST = Mail.idl $(GOAD_FILES) $(OAF_FILES)
 dist-hook:
 	-mkdir $(distdir)/pixmaps
 	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
+
+if ENABLE_PURIFY
+PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+
+all-local: evolution-mail.pure
+
+evolution-mail.pure: evolution-mail
+	@rm -f evolution-mail.pure
+	$(PLINK) $(evolution_mail_LDFLAGS) $(evolution_mail_OBJECTS) $(evolution_mail_LDADD) $(LIBS)
+
+endif
+

@@ -1,3 +1,8 @@
+2000-05-06  Chris Toshok  <toshok@HelixCode.com>
+	* .cvsignore: ignore evolution-mail.pure
+
+	* Makefile.am: add support for building evolution-mail.pure
+
 2000-05-06  Dan Winship  <danw@helixcode.com>
 
 	* mail.h: consolidate mail-format.h, mail-identify.h, mail-ops.h,

@@ -8,5 +8,6 @@ Mail-skels.c
 Mail-common.c
 Mail.h
 evolution-mail
+evolution-mail.pure
 test-mail
 test-sources
