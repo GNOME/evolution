@@ -1,3 +1,26 @@
+2000-12-13  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* src/libicalvcal/Makefile.am (INCLUDES): Add
+	`$(top_builddir)/src/libical' to the include directory list.
+
+	* src/libical/Makefile.am (icalparameter.h): Use `$(srcdir)'.
+	(icalparameter.c): Likewise.
+	(icalproperty.h): Likewise.
+	(icalproperty.c): Likewise.
+	(icalvalue.h): Likewise.
+	(icalvalue.c): Likewise.
+	(icalrestriction.c): Likewise.
+	(CLEANFILES): Add `icalparameter.h', `icalparameter.c',
+	`icalproperty.h', `icalproperty.c', `icalrestriction.c',
+	`icalvalue.h', `icalvalue.c'.
+	(COMBINEDHEADERS): `icalvalue.h', `icalparameter.h' and
+	`icalproperty.h' are in builddir, not srcdir, so fix the list to
+	use `$(top_builddir)' instead of `$(top_srcdir)'.
+	(all): Removed.
+	(BUILT_SOURCES): Move `ical.h' here instead.
+	(ical.h): Don't depend on `(BUILT_SOURCES)'; this a built source
+	itself.
+
 2000-12-12  Joe Shaw  <joe@helixcode.com>
 
 	* src/libical/icalrecur.c: #if 0ed out some #if 1ed test code that
