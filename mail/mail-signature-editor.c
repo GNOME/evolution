@@ -18,6 +18,7 @@ struct _ESignatureEditor {
 	GtkWidget *name_entry;
 	
 	MailConfigSignature *sig;
+	gboolean html;
 
 	GNOME_GtkHTML_Editor_Engine engine;
 };
@@ -56,7 +57,7 @@ menu_file_save_cb (BonoboUIComponent *uic,
 	CORBA_Environment ev;
 	
 	editor = E_SIGNATURE_EDITOR (data);
-	if (editor->sig->html) {
+	if (editor->html) {
 		CORBA_exception_init (&ev);
 		
 		pfile_iface = bonobo_object_client_query_interface (bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
@@ -91,6 +92,8 @@ menu_file_save_cb (BonoboUIComponent *uic,
 		CORBA_exception_free (&ev);
 		bonobo_object_unref (BONOBO_OBJECT (stream));
 	}
+	editor->sig->html = editor->html;
+
 	mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_CONTENT_CHANGED, editor->sig);
 }
 
@@ -183,7 +186,7 @@ load_signature (ESignatureEditor *editor)
 {
 	CORBA_Environment ev;
 	
-	if (editor->sig->html) {
+	if (editor->html) {
 		Bonobo_PersistFile pfile_iface;
 		
 		pfile_iface = bonobo_object_client_query_interface (bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
@@ -233,6 +236,23 @@ sig_name_changed (GtkWidget *w, ESignatureEditor *editor)
 	mail_config_signature_set_name (editor->sig, e_utf8_gtk_entry_get_text (GTK_ENTRY (editor->name_entry)));
 }
 
+static void
+format_html_cb (BonoboUIComponent           *component,
+		const char                  *path,
+		Bonobo_UIComponent_EventType type,
+		const char                  *state,
+		gpointer                     data)
+
+{
+	ESignatureEditor *editor = (ESignatureEditor *) data;
+
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	editor->html = atoi (state);
+	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", editor->html, NULL);
+}
+
 void
 mail_signature_editor (MailConfigSignature *sig)
 {
@@ -249,6 +269,7 @@ mail_signature_editor (MailConfigSignature *sig)
 	editor = g_new0 (ESignatureEditor, 1);
 	
 	editor->sig = sig;
+	editor->html = sig->html;
 
 	title       = g_strdup_printf ("Edit signature (%s)", sig->filename);
 	editor->win = bonobo_window_new ("e-sig-editor", title);
@@ -280,6 +301,9 @@ mail_signature_editor (MailConfigSignature *sig)
 	
 	load_signature (editor);
 
+	bonobo_ui_component_set_prop (component, "/commands/FormatHtml", "state", editor->html ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (component, "FormatHtml", format_html_cb, editor);
+
 	gtk_signal_connect (GTK_OBJECT (editor->win), "delete_event",
 			    GTK_SIGNAL_FUNC (delete_event_cb), editor);
 
@@ -296,7 +320,7 @@ mail_signature_editor (MailConfigSignature *sig)
 	gtk_box_pack_start_defaults (GTK_BOX (vbox), editor->control);
 
 	bonobo_window_set_contents (BONOBO_WINDOW (editor->win), vbox);
-	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", sig->html, NULL);
+	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", editor->html, NULL);
 	gtk_widget_show (GTK_WIDGET (editor->win));
 	gtk_widget_show (GTK_WIDGET (editor->control));
 

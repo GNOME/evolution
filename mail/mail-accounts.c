@@ -1152,6 +1152,11 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailAccoun
 		if (sig == sig_current_sig (dialog))
 			sig_load_preview (dialog, sig);
 		break;
+	case MAIL_CONFIG_SIG_EVENT_HTML_CHANGED:
+		printf ("accounts HTML CHANGED\n");
+		if (sig == sig_current_sig (dialog))
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->sig_html), sig->html);
+		break;
 	default:
 		;
 	}

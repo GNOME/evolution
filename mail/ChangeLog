@@ -1,3 +1,12 @@
+2002-03-08  Radek Doulik  <rodo@ximian.com>
+
+	* mail-config.c (mail_config_signature_set_html): new function
+
+	* mail-accounts.c (sig_event_client): watch for HTML changed event
+
+	* mail-signature-editor.c: added HTML check menu item to Format
+	menu
+
 2002-03-08  Dan Winship  <danw@ximian.com>
 
 	* mail-config-druid.c (management_prepare): Rewrite this to not

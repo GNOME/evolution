@@ -259,6 +259,7 @@ MailConfigSignature *mail_config_signature_add (gboolean html);
 void mail_config_signature_delete (MailConfigSignature *sig);
 void mail_config_signature_write (MailConfigSignature *sig);
 void mail_config_signature_set_name (MailConfigSignature *sig, const gchar *name);
+void mail_config_signature_set_html (MailConfigSignature *sig, gboolean html);
 void mail_config_signature_set_filename (MailConfigSignature *sig, const gchar *filename);
 void mail_config_signature_set_random (MailConfigSignature *sig, gboolean random);
 

@@ -2954,6 +2954,7 @@ mail_config_signature_set_filename (MailConfigSignature *sig, const gchar *filen
 		delete_unused_signature_file (old_filename);
 		g_free (old_filename);
 	}
+	mail_config_signature_write (sig);
 }
 
 void
@@ -2979,6 +2980,7 @@ mail_config_signature_set_random (MailConfigSignature *sig, gboolean random)
 				mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_RANDOM_OFF, sig);
 		}
 		sig->random = random;
+		mail_config_signature_write (sig);
 	}
 }
 
@@ -3033,5 +3035,15 @@ mail_config_signature_run_script (gchar *script)
 			gnome_error_dialog (_("Cannot execute signature script"));
 		else
 			waitpid (pid, &status, 0);
+	}
+}
+
+void
+mail_config_signature_set_html (MailConfigSignature *sig, gboolean html)
+{
+	if (sig->html != html) {
+		sig->html = html;
+		mail_config_signature_write (sig);
+		mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_HTML_CHANGED, sig);
 	}
 }
