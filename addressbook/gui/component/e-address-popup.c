@@ -969,7 +969,7 @@ contact_editor_cb (EBook *book, EBookStatus status, gpointer closure)
 }
 
 static void
-edit_contact_info_cb (EAddressPopup *pop)
+edit_contact_info_cb (GtkWidget *button, EAddressPopup *pop)
 {
 	EBook *book;
 	emit_event (pop, "Hide");
