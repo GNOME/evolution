@@ -62,10 +62,16 @@ e_popup_menu (GtkMenu *menu, GdkEvent *event)
 	g_return_if_fail (GTK_IS_MENU (menu));
 
 	e_auto_kill_popup_menu_on_hide (menu);
+
 	if (event->type == GDK_KEY_PRESS)
 		gtk_menu_popup (menu, NULL, NULL, 0, NULL, 0, event->key.time);
-	else
+	else if ((event->type == GDK_BUTTON_PRESS) ||
+		 (event->type == GDK_BUTTON_RELEASE) ||
+		 (event->type == GDK_2BUTTON_PRESS) ||
+		 (event->type == GDK_3BUTTON_PRESS)){
 		gtk_menu_popup (menu, NULL, NULL, 0, NULL, event->button.button, event->button.time);
+	} else
+		gtk_menu_popup (menu, NULL, NULL, 0, NULL, 0, GDK_CURRENT_TIME);
 }
 
 typedef struct {
