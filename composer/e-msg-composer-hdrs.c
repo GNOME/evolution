@@ -158,8 +158,9 @@ create_dropdown_entry (EMsgComposerHdrs *hdrs,
 			values = g_list_append (values, addr_local);
 			stmp = stmp->next;
 		}
-		
-		gtk_combo_set_popdown_strings (GTK_COMBO (combo), values);
+
+		if (values)
+			gtk_combo_set_popdown_strings (GTK_COMBO (combo), values);
 
 		tmp = values;
 		while (tmp) {

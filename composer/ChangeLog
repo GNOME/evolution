@@ -1,3 +1,8 @@
+2001-01-11  Miguel de Icaza  <miguel@ximian.com>
+
+	* e-msg-composer-hdrs.c (create_dropdown_entry): Only set the
+	popdown strings if we have anything to popdown.
+
 2001-01-10  Miguel de Icaza  <miguel@helixcode.com>
 
 	* evolution-composer.c (evolution_composer_construct): Add an
