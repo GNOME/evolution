@@ -1,5 +1,12 @@
 2001-10-23  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/addressbook.c: Fix command paths when we specify
+	our pixmaps, so we don't get a lot of totally useless & very ugly
+	bonobo-ui spew.
+
+	* backend/ebook/e-book-util.c (e_book_nickname_query): The empty
+	string as an arg shouldn't generate a warning.
+
 	* gui/component/select-names/e-select-names-completion.c: Removed
 	our cancelled flag and e_select_names_completion_cancel function,
 	since we were just duplicating stuff that had ended up in

@@ -503,7 +503,11 @@ e_book_nickname_query (EBook *book,
 	guint retval;
 
 	g_return_val_if_fail (E_IS_BOOK (book), 0);
-	g_return_val_if_fail (nickname && *nickname, 0);
+	g_return_val_if_fail (nickname != NULL, 0);
+
+	/* The empty-string case shouldn't generate a warning. */
+	if (! *nickname)
+		return 0;
 
 	info = g_new0 (NicknameQueryInfo, 1);
 	info->nickname = g_strdup (nickname);

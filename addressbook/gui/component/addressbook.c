@@ -332,10 +332,10 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/File/Print/ContactsPrint", "print.xpm"),
 	E_PIXMAP ("/menu/File/Print/ContactsPrintPreview", "print-preview.xpm"),
 
-	E_PIXMAP ("/menu/Edit/ContactsCut", "16_cut.png"),
-	E_PIXMAP ("/menu/Edit/ContactsCopy", "16_copy.png"),
-	E_PIXMAP ("/menu/Edit/ContactsPaste", "16_paste.png"),
-	E_PIXMAP ("/menu/Edit/ContactDelete", "evolution-trash-mini.png"),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsCut", "16_cut.png"),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsCopy", "16_copy.png"),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsPaste", "16_paste.png"),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactDelete", "evolution-trash-mini.png"),
 
 	E_PIXMAP ("/menu/Tools/ComponentPlaceholder/ToolSearch", "search-16.png"),
 	E_PIXMAP ("/menu/Tools/ComponentPlaceholder/AddressbookConfig", "configure_16_addressbook.xpm"),
