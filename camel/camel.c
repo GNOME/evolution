@@ -39,8 +39,7 @@
 #include "camel-certdb.h"
 #include "camel-mime-utils.h"
 #include "camel-provider.h"
-
-int camel_verbose_debug = 0;
+#include "camel-debug.h"
 
 static int initialised = FALSE;
 
@@ -76,13 +75,12 @@ camel_init (const char *configdir, gboolean nss_init)
 	
 	if (initialised)
 		return 0;
-	
-	if (getenv ("CAMEL_VERBOSE_DEBUG"))
-		camel_verbose_debug = atoi(getenv("CAMEL_VERBOSE_DEBUG"));
-	
+
+	camel_debug_init();
+
 	/* initialise global camel_object_type */
 	camel_object_get_type();
-	
+
 	camel_mime_utils_init();
 	camel_operation_init();
 	camel_provider_init();

@@ -25,11 +25,14 @@
 #include <config.h>
 #endif
 
+#include <stdio.h>
 #include <glib.h>
 #include <pthread.h>
 
 #include "camel-exception.h"
 #include "e-util/e-memory.h"
+
+#include "camel-debug.h"
 
 /* i dont know why gthread_mutex stuff even exists, this is easier */
 
@@ -204,6 +207,9 @@ camel_exception_setv (CamelException *ex,
 {
 	va_list args;
 	char *old;
+
+	if (camel_debug("exception"))
+		printf("CamelException.setv(%p, %d, '%s')\n", ex, id, format);
 	
 	if (!ex)
 		return;

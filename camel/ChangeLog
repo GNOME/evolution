@@ -1,5 +1,18 @@
 2004-03-23  Not Zed  <NotZed@Ximian.com>
 
+	* camel-exception.c (camel_exception_setv): use camel debug to add
+	some debug here.
+
+	* camel.c (camel_init): call camel_debug_init().
+
+	* camel-debug.c (camel_debug_init, camel_debug): new util stuff
+	for extended debug options.
+
+	* providers/imap/camel-imap-folder.c (imap_get_message): if we're
+	supposed to be online, check we are online before proceeding.
+	Actually major restructure so we re-try the fetch a couple of
+	times first before failing.  i.e. silent reconnect.  See #55381.
+
 	* providers/imap/camel-imap-store.c (get_folder_info_online):
 	connect lock around this.  was getting a race with mem corruption
 	otherwise.

@@ -1958,7 +1958,8 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	CamelMessageInfo *mi;
 	CamelMimeMessage *msg;
 	CamelStream *stream = NULL;
-	
+	int retry;
+
 	/* If the server doesn't support IMAP4rev1, or we already have
 	 * the whole thing cached, fetch it in one piece.
 	 */
@@ -1972,74 +1973,84 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 				     _("Cannot get message: %s\n  %s"), uid, _("No such message"));
 		return NULL;
 	}
+
+	/* All this mess is so we silently retry a fetch if we fail with
+	   service_unavailable, without an (equivalent) mess of gotos */
+	retry = 0;
+	do {
+		msg = NULL;
+		retry++;
+		camel_exception_clear(ex);
+
+		/* If we are online, make sure we're also connected */
+		if (camel_disco_store_status((CamelDiscoStore *)store) == CAMEL_DISCO_STORE_ONLINE
+		    &&  !camel_imap_store_connected(store, ex))
+			goto fail;
 	
-	/* If the message is small, fetch it in one piece. */
-	if (mi->size < IMAP_SMALL_BODY_SIZE) {
-		camel_folder_summary_info_free (folder->summary, mi);
-		return get_message_simple (imap_folder, uid, NULL, ex);
-	}
-	
-	/* For larger messages, fetch the structure and build a message
-	 * with offline parts. (We check mi->content->type rather than
-	 * mi->content because camel_folder_summary_info_new always creates
-	 * an empty content struct.)
-	 */
-	if (content_info_incomplete (mi->content)) {
-		CamelImapResponse *response;
-		GData *fetch_data = NULL;
-		char *body, *found_uid;
-		int i;
+		/* If the message is small, fetch it in one piece. */
+		if (mi->size < IMAP_SMALL_BODY_SIZE) {
+			msg = get_message_simple (imap_folder, uid, NULL, ex);
+		} else if (content_info_incomplete (mi->content)) {
+
+			/* For larger messages, fetch the structure and build a message
+			 * with offline parts. (We check mi->content->type rather than
+			 * mi->content because camel_folder_summary_info_new always creates
+			 * an empty content struct.)
+			 */
+			CamelImapResponse *response;
+			GData *fetch_data = NULL;
+			char *body, *found_uid;
+			int i;
 		
-		if (camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_OFFLINE) {
-			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					     _("This message is not currently available"));
-			return NULL;
-		}
+			if (camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_OFFLINE) {
+				camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+						     _("This message is not currently available"));
+				goto fail;
+			}
 		
-		response = camel_imap_command (store, folder, ex,
-					       "UID FETCH %s BODY", uid);
-		if (!response) {
-			camel_folder_summary_info_free (folder->summary, mi);
-			return NULL;
-		}
+			response = camel_imap_command (store, folder, ex, "UID FETCH %s BODY", uid);
+			if (response) {
+				for (i = 0, body = NULL; i < response->untagged->len; i++) {
+					fetch_data = parse_fetch_response (imap_folder, response->untagged->pdata[i]);
+					if (fetch_data) {
+						found_uid = g_datalist_get_data (&fetch_data, "UID");
+						body = g_datalist_get_data (&fetch_data, "BODY");
+						if (found_uid && body && !strcmp (found_uid, uid))
+							break;
+						g_datalist_clear (&fetch_data);
+						fetch_data = NULL;
+						body = NULL;
+					}
+				}
 		
-		for (i = 0, body = NULL; i < response->untagged->len; i++) {
-			fetch_data = parse_fetch_response (imap_folder, response->untagged->pdata[i]);
-			if (fetch_data) {
-				found_uid = g_datalist_get_data (&fetch_data, "UID");
-				body = g_datalist_get_data (&fetch_data, "BODY");
-				if (found_uid && body && !strcmp (found_uid, uid))
-					break;
-				g_datalist_clear (&fetch_data);
-				fetch_data = NULL;
-				body = NULL;
+				if (body)
+					imap_parse_body ((const char **) &body, folder, mi->content);
+		
+				if (fetch_data)
+					g_datalist_clear (&fetch_data);
+		
+				camel_imap_response_free (store, response);
+		
+				/* FETCH returned OK, but we didn't parse a BODY
+				 * response. Courier will return invalid BODY
+				 * responses for invalidly MIMEd messages, so
+				 * fall back to fetching the entire thing and
+				 * let the mailer's "bad MIME" code handle it.
+				 */
+				if (content_info_incomplete (mi->content))
+					msg = get_message_simple (imap_folder, uid, NULL, ex);
+				else
+					msg = get_message (imap_folder, uid, "", mi->content, ex);
 			}
 		}
-		
-		if (body)
-			imap_parse_body ((const char **) &body, folder, mi->content);
-		
-		if (fetch_data)
-			g_datalist_clear (&fetch_data);
-		
-		camel_imap_response_free (store, response);
-		
-		if (content_info_incomplete (mi->content)) {
-			/* FETCH returned OK, but we didn't parse a BODY
-			 * response. Courier will return invalid BODY
-			 * responses for invalidly MIMEd messages, so
-			 * fall back to fetching the entire thing and
-			 * let the mailer's "bad MIME" code handle it.
-			 */
-			camel_folder_summary_info_free (folder->summary, mi);
-			return get_message_simple (imap_folder, uid, NULL, ex);
-		}
-	}
-	
-	msg = get_message (imap_folder, uid, "", mi->content, ex);
+	} while (msg == NULL
+		 && retry < 2
+		 && camel_exception_get_id(ex) == CAMEL_EXCEPTION_SERVICE_UNAVAILABLE);
+
 	/* FIXME, this shouldn't be done this way. */
-	camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Source",
-				 store->base_url);
+	if (msg)
+		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Source", store->base_url);
+fail:
 	camel_folder_summary_info_free (folder->summary, mi);
 	
 	return msg;

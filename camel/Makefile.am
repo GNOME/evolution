@@ -27,6 +27,7 @@ libcamel_la_SOURCES = 				\
 	camel-cipher-context.c			\
 	camel-data-cache.c			\
 	camel-data-wrapper.c			\
+	camel-debug.c				\
 	camel-digest-folder.c			\
 	camel-digest-store.c			\
 	camel-digest-summary.c			\
@@ -128,6 +129,7 @@ libcamelinclude_HEADERS =			\
 	camel-cipher-context.h			\
 	camel-data-cache.h			\
 	camel-data-wrapper.h			\
+	camel-debug.h				\
 	camel-digest-folder.h			\
 	camel-digest-store.h			\
 	camel-digest-summary.h			\
