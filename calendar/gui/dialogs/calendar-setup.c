@@ -657,11 +657,12 @@ calendar_setup_edit_calendar (GtkWindow *parent, ESource *source)
 
 	source_dialog->window = glade_xml_get_widget (source_dialog->gui_xml, "add-calendar-window");
 	if (source) {
+		gtk_window_set_title (GTK_WINDOW (source_dialog->window), "Calendar Properties");
 		source_dialog->source = source;
 		source_dialog->source_group = e_source_peek_group (source);
 		g_object_ref (source);
 	}
-
+	
 	g_signal_connect (source_dialog->window, "key-press-event", G_CALLBACK (key_press_event), NULL);
 
 	source_dialog->name_entry = glade_xml_get_widget (source_dialog->gui_xml, "name-entry");
@@ -676,6 +677,7 @@ calendar_setup_edit_calendar (GtkWindow *parent, ESource *source)
 		gtk_option_menu_set_menu (GTK_OPTION_MENU (source_dialog->group_optionmenu), menu);
 		gtk_widget_show (menu);
 	}
+	gtk_widget_set_sensitive (source_dialog->group_optionmenu, source == NULL);
 
 	/* NOTE: This assumes that we have sources. If they don't exist, they're set up
 	 * on startup of the calendar component. */
@@ -783,10 +785,11 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 
 	source_dialog->window = glade_xml_get_widget (source_dialog->gui_xml, "add-task-list-window");
 	if (source) {
+		gtk_window_set_title (GTK_WINDOW (source_dialog->window), "Task List Properties");
 		source_dialog->source = source;
 		source_dialog->source_group = e_source_peek_group (source);
 		g_object_ref (source);
-	}
+	}	
 
 	g_signal_connect (source_dialog->window, "key-press-event", G_CALLBACK (key_press_event), NULL);
 

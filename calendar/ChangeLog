@@ -1,3 +1,19 @@
+2004-07-26  JP Rosevear  <jpr@novell.com>
+ 
+ 	* gui/dialogs/calendar-setup.c (calendar_setup_edit_calendar): set
+ 	a different title if we are editing; de-sensitize option menu if
+ 	we are editing
+ 	(calendar_setup_edit_task_list): set a different title if we are editing
+ 
+ 	* gui/dialogs/calendar-setup.glade: use task list instead of tasks
+ 	group
+ 
+ 	* gui/tasks-component.c (impl__get_userCreatableItems): add
+ 	assigned task as an item, use task list instead of tasks group
+ 
+ 	* gui/calendar--component.c (impl__get_userCreatableItems): fiddle
+ 	with shortcuts
+	
 2004-07-25 pchenthill <pchenthill@novell.com>
 
 	Fixes #59983

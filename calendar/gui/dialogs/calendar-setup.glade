@@ -462,7 +462,7 @@
 </widget>
 
 <widget class="GtkWindow" id="add-task-list-window">
-  <property name="title" translatable="yes">Add Tasks Group</property>
+  <property name="title" translatable="yes">Add Task List</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>

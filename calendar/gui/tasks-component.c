@@ -49,8 +49,9 @@
 #include "widgets/misc/e-info-label.h"
 #include "e-util/e-icon-factory.h"
 
-#define CREATE_TASK_ID      "task"
-#define CREATE_TASK_LIST_ID "task-list"
+#define CREATE_TASK_ID               "task"
+#define CREATE_TASK_ASSIGNED_ID      "task-assigned"
+#define CREATE_TASK_LIST_ID          "task-list"
 
 enum DndTargetType {
 	DND_TARGET_TYPE_CALENDAR_LIST,
@@ -783,13 +784,12 @@ setup_create_ecal (TasksComponent *component, TasksComponentView *component_view
 }
 
 static gboolean
-create_new_todo (TasksComponent *task_component, TasksComponentView *component_view)
+create_new_todo (TasksComponent *task_component, gboolean is_assigned, TasksComponentView *component_view)
 {
 	ECal *ecal;
 	TasksComponentPrivate *priv;
 	ECalComponent *comp;
 	TaskEditor *editor;
-	gboolean read_only;
 	
 	priv = task_component->priv;
 	
@@ -801,6 +801,8 @@ create_new_todo (TasksComponent *task_component, TasksComponentView *component_v
 	comp = cal_comp_task_new_with_defaults (ecal);
 
 	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
+	if (is_assigned)
+		task_editor_show_assignment (editor);
 	comp_editor_focus (COMP_EDITOR (editor));
 
 	e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
@@ -828,7 +830,9 @@ create_local_item_cb (EUserCreatableItemsHandler *handler, const char *item_type
 	}
 	
 	if (strcmp (item_type_name, CREATE_TASK_ID) == 0) {
-		create_new_todo (tasks_component, component_view);
+		create_new_todo (tasks_component, FALSE, component_view);
+	} else if (strcmp (item_type_name, CREATE_TASK_ASSIGNED_ID) == 0) {
+		create_new_todo (tasks_component, TRUE, component_view);
 	} else if (strcmp (item_type_name, CREATE_TASK_LIST_ID) == 0) {
 		calendar_setup_new_task_list (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (component_view->tasks))));
 	}
@@ -1028,7 +1032,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 {
 	GNOME_Evolution_CreatableItemTypeList *list = GNOME_Evolution_CreatableItemTypeList__alloc ();
 
-	list->_length  = 2;
+	list->_length  = 3;
 	list->_maximum = list->_length;
 	list->_buffer  = GNOME_Evolution_CreatableItemTypeList_allocbuf (list->_length);
 
@@ -1042,13 +1046,21 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[0].iconName = "stock_task";
 	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
-	list->_buffer[1].id = CREATE_TASK_LIST_ID;
-	list->_buffer[1].description = _("New tasks group");
-	list->_buffer[1].menuDescription = _("Tasks Gro_up");
-	list->_buffer[1].tooltip = _("Create a new tasks group");
-	list->_buffer[1].menuShortcut = 'u';
-	list->_buffer[1].iconName = "stock_todo";
-	list->_buffer[1].type = GNOME_Evolution_CREATABLE_FOLDER;
+	list->_buffer[1].id = CREATE_TASK_ASSIGNED_ID;
+	list->_buffer[1].description = _("New assigned task");
+	list->_buffer[1].menuDescription = _("Assigne_d Task");
+	list->_buffer[1].tooltip = _("Create a new assigned task");
+	list->_buffer[1].menuShortcut = 'd';
+	list->_buffer[1].iconName = "stock_task";
+	list->_buffer[1].type = GNOME_Evolution_CREATABLE_OBJECT;
+
+	list->_buffer[2].id = CREATE_TASK_LIST_ID;
+	list->_buffer[2].description = _("New task list");
+	list->_buffer[2].menuDescription = _("Task l_ist");
+	list->_buffer[2].tooltip = _("Create a new task list");
+	list->_buffer[2].menuShortcut = 'i';
+	list->_buffer[2].iconName = "stock_todo";
+	list->_buffer[2].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;
 }
@@ -1064,7 +1076,10 @@ impl_requestCreateItem (PortableServer_Servant servant,
 	priv = tasks_component->priv;	
 	
 	if (strcmp (item_type_name, CREATE_TASK_ID) == 0) {
-		if (!create_new_todo (tasks_component, NULL))
+		if (!create_new_todo (tasks_component, FALSE, NULL))
+			bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
+	} else if (strcmp (item_type_name, CREATE_TASK_ASSIGNED_ID) == 0) {
+		if (!create_new_todo (tasks_component, TRUE, NULL))
 			bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
 	} else if (strcmp (item_type_name, CREATE_TASK_LIST_ID) == 0) {
 		/* FIXME Should we use the last opened window? */

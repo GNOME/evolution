@@ -1252,9 +1252,9 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[2].id = CREATE_ALLDAY_EVENT_ID;
 	list->_buffer[2].description = _("New all day appointment");
-	list->_buffer[2].menuDescription = _("All _Day Appointment");
+	list->_buffer[2].menuDescription = _("All Day A_ppointment");
 	list->_buffer[2].tooltip = _("Create a new all-day appointment");
-	list->_buffer[2].menuShortcut = 'd';
+	list->_buffer[2].menuShortcut = 'p';
 	list->_buffer[2].iconName = "stock_new-24h-appointment";
 	list->_buffer[2].type = GNOME_Evolution_CREATABLE_OBJECT;
 
