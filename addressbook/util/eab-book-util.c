@@ -50,6 +50,26 @@ eab_get_config_database ()
  *
  */
 
+static char*
+escape (const char *str)
+{
+	GString *s = g_string_new ("");
+	const char *p = str;
+
+	while (*p) {
+		if (*p == '\\')
+			g_string_append (s, "\\\\");
+		else if (*p == '"')
+			g_string_append (s, "\\\"");
+		else
+			g_string_append_c (s, *p);
+
+		p ++;
+	}
+
+	return g_string_free (s, FALSE);
+}
+
 guint
 eab_name_and_email_query (EBook *book,
 			  const gchar *name,
@@ -57,8 +77,10 @@ eab_name_and_email_query (EBook *book,
 			  EBookContactsCallback cb,
 			  gpointer closure)
 {
-	gchar *email_query=NULL, *name_query=NULL, *query;
+	gchar *email_query=NULL, *name_query=NULL;
+	EBookQuery *query;
 	guint tag;
+	char *escaped_name, *escaped_email;
 
 	g_return_val_if_fail (book && E_IS_BOOK (book), 0);
 	g_return_val_if_fail (cb != NULL, 0);
@@ -71,20 +93,23 @@ eab_name_and_email_query (EBook *book,
 	if (name == NULL && email == NULL)
 		return 0;
 
+	escaped_name = name ? escape (name) : NULL;
+	escaped_email = email ? escape (email) : NULL;
+
 	/* Build our e-mail query.
 	 * We only query against the username part of the address, to avoid not matching
 	 * fred@foo.com and fred@mail.foo.com.  While their may be namespace collisions
 	 * in the usernames of everyone out there, it shouldn't be that bad.  (Famous last words.)
 	 */
-	if (email) {
-		const gchar *t = email;
+	if (escaped_email) {
+		const gchar *t = escaped_email;
 		while (*t && *t != '@')
 			++t;
 		if (*t == '@') {
-			email_query = g_strdup_printf ("(beginswith \"email\" \"%.*s@\")", t-email, email);
+			email_query = g_strdup_printf ("(beginswith \"email\" \"%.*s@\")", t-escaped_email, escaped_email);
 
 		} else {
-			email_query = g_strdup_printf ("(beginswith \"email\" \"%s\")", email);
+			email_query = g_strdup_printf ("(beginswith \"email\" \"%s\")", escaped_email);
 		}
 	}
 
@@ -93,26 +118,31 @@ eab_name_and_email_query (EBook *book,
 	 * is that the username part of the email is good enough to keep the amount of stuff returned
 	 * in the query relatively small.
 	 */
-	if (name && !email)
-		name_query = g_strdup_printf ("(or (beginswith \"file_as\" \"%s\") (beginswith \"full_name\" \"%s\"))", name, name);
+	if (escaped_name && !escaped_email)
+		name_query = g_strdup_printf ("(or (beginswith \"file_as\" \"%s\") (beginswith \"full_name\" \"%s\"))", escaped_name, escaped_name);
 
 	/* Assemble our e-mail & name queries */
 	if (email_query && name_query) {
-		query = g_strdup_printf ("(and %s %s)", email_query, name_query);
-	} else if (email_query) {
-		query = email_query;
-		email_query = NULL;
-	} else if (name_query) {
-		query = name_query;
-		name_query = NULL;
-	} else
+		char *full_query = g_strdup_printf ("(and %s %s)", email_query, name_query);
+		query = e_book_query_from_string (full_query);
+		g_free (full_query);
+	}
+	else if (email_query) {
+		query = e_book_query_from_string (email_query);
+	}
+	else if (name_query) {
+		query = e_book_query_from_string (name_query);
+	}
+	else
 		return 0;
 
 	tag = e_book_async_get_contacts (book, query, cb, closure);
 
 	g_free (email_query);
 	g_free (name_query);
-	g_free (query);
+	g_free (escaped_email);
+	g_free (escaped_name);
+	e_book_query_unref (query);
 
 	return tag;
 }
@@ -126,7 +156,8 @@ eab_nickname_query (EBook                 *book,
 		    EBookContactsCallback  cb,
 		    gpointer               closure)
 {
-	gchar *query;
+	EBookQuery *query;
+	char *query_string;
 	guint retval;
 
 	g_return_val_if_fail (E_IS_BOOK (book), 0);
@@ -136,11 +167,14 @@ eab_nickname_query (EBook                 *book,
 	if (! *nickname)
 		return 0;
 
-	query = g_strdup_printf ("(is \"nickname\" \"%s\")", nickname);
+	query_string = g_strdup_printf ("(is \"nickname\" \"%s\")", nickname);
+
+	query = e_book_query_from_string (query_string);
 
 	retval = e_book_async_get_contacts (book, query, cb, closure);
 
-	g_free (query);
+	g_free (query_string);
+	g_object_unref (query);
 
 	return retval;
 }

@@ -1,3 +1,27 @@
+2004-01-23  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #52571 ]
+	* util/eab-book-util.c (escape): ugh.  name fields that have \"
+	around the name break our queries, because it turns it into (for
+	instance): (contains "full_name" ""Toshok"").  so we need to turn
+	that into: (contains "full_name" "\"Toshok\"").
+	(eab_name_and_email_query): escape both the name and email, and
+	use an EBookQuery instead of passing the string to
+	e_book_async_get_contacts.  Looks like ross missed a couple of
+	spots.
+	(eab_nickname_query): same.
+
+	* gui/component/addressbook.c (free_load_source_data): new
+	function, free up the data and unref the source if there is one.
+	(load_source_auth_cb): call free_load_source_data instead of just
+	g_free'ing the struct.
+	(load_source_cb): same.
+	(default_book_cb): new function, we need this so we can fill in
+	the source for the default book.  get the source, then call
+	load_source_cb to continue processing as normal.
+	(addressbook_load_default_book): use default_book_cb instead of
+	load_source_cb.
+
 2004-01-22  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #53184 ]

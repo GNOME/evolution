@@ -686,12 +686,20 @@ typedef struct {
 } LoadSourceData;
 
 static void
+free_load_source_data (LoadSourceData *data)
+{
+	if (data->source)
+		g_object_unref (data->source);
+	g_free (data);
+}
+
+static void
 load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	LoadSourceData *data = closure;
 
 	if (data->cancelled) {
-		g_free (data);
+		free_load_source_data (data);
 		return;
 	}
 
@@ -707,7 +715,7 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 			g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 			gtk_widget_show (dialog);
 			data->cb (book, E_BOOK_ERROR_OK, data->closure);
-			g_free (data);
+			free_load_source_data (data);
 			return;
 		}
 		else {
@@ -723,8 +731,7 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 
 	data->cb (book, status, data->closure);
 
-	g_object_unref (data->source);
-	g_free (data);
+	free_load_source_data (data);
 }
 
 static gboolean
@@ -812,7 +819,7 @@ load_source_cb (EBook *book, EBookStatus status, gpointer closure)
 	LoadSourceData *load_source_data = closure;
 
 	if (load_source_data->cancelled) {
-		g_free (load_source_data);
+		free_load_source_data (load_source_data);
 		return;
 	}
 
@@ -832,8 +839,7 @@ load_source_cb (EBook *book, EBookStatus status, gpointer closure)
 	}
 	
 	load_source_data->cb (book, status, load_source_data->closure);
-	g_object_unref (load_source_data->source);
-	g_free (load_source_data);
+	free_load_source_data (load_source_data);
 }
 
 guint
@@ -860,17 +866,27 @@ addressbook_load_source_cancel (guint id)
 	load_source_data->cancelled = TRUE;
 }
 
+static void
+default_book_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	LoadSourceData *load_source_data = closure;
+
+	if (status == E_BOOK_ERROR_OK)
+		load_source_data->source = g_object_ref (e_book_get_source (book));
+
+	load_source_cb (book, status, closure);
+}
+
 void
 addressbook_load_default_book (EBookCallback cb, gpointer closure)
 {
 	LoadSourceData *load_source_data = g_new (LoadSourceData, 1);
 
-	/* FIXME: We need to get the source for the default book */
-
 	load_source_data->cb = cb;
+	load_source_data->source = NULL;
 	load_source_data->closure = closure;
 
-	e_book_async_get_default_addressbook (load_source_cb, load_source_data);
+	e_book_async_get_default_addressbook (default_book_cb, load_source_data);
 }
 
 static void
