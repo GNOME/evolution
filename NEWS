@@ -35,6 +35,38 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #40972 - connector crashed while evolution was idle (Rodrigo)
     #42220 - calendar not refreshing correctly after changing meeting times (Rodrigo)
 
+  * Mail
+
+    #42838 - Crash setting up local mail account (Michael)
+    #42333 - Crash opening a mail again that was still being opened
+             (Jeff)
+    #42456 - Spelling preferences Enable/Disable button inconsisency
+             (Michael)
+    #42000 - Crash selecting a non-selectable folder (Michael)
+    #42294 - Custom fixed font setting not applying to composer
+             (Michael)
+    #42118 - Edit->Mark as unread doesn't behave the same as right
+	     click->mark as unread (Jeff)
+    #42170 - Thread expansion state lost on deleting messages (Jeff)
+    #40074 - Thread expansion state not remembered (Jeff)
+    #41748 - Send/Recv not sending mail in connector Outbox (Michael)
+    #42710 - Invalid 8 bit header data getting to the UI layer
+             generating warnings (Michael)
+    #42540 - Crash when pressing send/recv too quickly (Michael)
+    #42763 - Crash deleting local folder with indexing turned off
+             (Jeff)
+    #42854 - Copying many messages between IMAP folders results in
+             several duplicates (Jeff)
+    #42045 - Another workaround for mailers sending out invalid date
+	     formats (Jeff)
+    #42356 - Adding colour from not working properly (Jeff)
+
+  * Libraries
+
+    #42212 - Crash entering address in composer (Rodrigo)
+    #42038 - Crash hitting escape or closing window on rename box
+             (Michael, Ettore)
+
 Other bugs:
 
   * Addressbook
@@ -45,6 +77,20 @@ Other bugs:
   * Calendar
 
     - Fixed crash in cal_client_discard_alarm (Rodrigo)
+
+  * Mail
+
+    - Crash on exit if password dialog was open (Ettore)
+    - Make Ok the default response on the password dialog (Ettore)
+    - Crash in SMTP if unable to resolve the remote host name (Jeff)
+    - Fix an automake 1.6 issues with camel-lock-helper (Dan)
+
+  * All
+
+    - Various container referencing issues (JPR)
+    - 64 bit and portability fixups (Jeremy Katz)
+    - Cleaned up lots of compile time warnings and run-time debugging
+      output (Everyone)
 
 Evolution 1.3.3, 2003-04-29
 ---------------------------

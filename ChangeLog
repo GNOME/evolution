@@ -1,3 +1,7 @@
+2003-05-19  Not Zed  <notzed@lostzed.mmc.com.au>
+
+	* NEWS: Updated for mail/ camel/ filter/ and e-util/
+
 2003-04-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Bump version number to 1.3.3.99.
