@@ -1,5 +1,12 @@
 2003-09-22  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #41610
+	
+	* providers/pop3/camel-pop3-folder.c (cmd_tocache): protect a
+	divide by 0 for 0 length messages.
+
+2003-09-22  Not Zed  <NotZed@Ximian.com>
+
 	* providers/imap/camel-imap-provider.c: Added "offline_sync"
 	option, which lets you synchronise all mail to local storage
 	automagically.
