@@ -675,6 +675,7 @@ init (EShellView *shell_view)
 
 	priv->progress_bar_timeout_id = 0;
 	priv->progress_bar_value      = 0;
+	priv->sockets		      = NULL;
 
 	shell_view->priv = priv;
 }
