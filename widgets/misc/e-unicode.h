@@ -9,6 +9,7 @@
 #ifdef USING_GNOME_PRINT_0_20
 #define gnome_font_get_size(f) ((f)->size)
 #define gnome_font_get_glyph_width gnome_font_get_width
+#define gnome_font_lookup_default gnome_font_get_glyph
 #endif
 
 /*

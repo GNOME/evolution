@@ -1,7 +1,8 @@
 2000-08-30  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-unicode.h: #define gnome_font_get_size and
-	gnome_font_get_width, if compiling with gnome-print 0.20
+	gnome_font_get_width, and gnome_font_lookup_default,
+	if compiling with gnome-print 0.20
 
 2000-08-30  Dan Winship  <danw@helixcode.com>
 
