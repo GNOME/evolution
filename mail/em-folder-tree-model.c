@@ -157,9 +157,9 @@ sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data
 	
 	if (is_store) {
 		/* On This Computer is always first and VFolders is always last */
-		if (!strcmp (aname, _("On this Computer")))
+		if (!strcmp (aname, _("On This Computer")))
 			return -1;
-		if (!strcmp (bname, _("On this Computer")))
+		if (!strcmp (bname, _("On This Computer")))
 			return 1;
 		if (!strcmp (aname, _("VFolders")))
 			return 1;

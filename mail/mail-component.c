@@ -170,7 +170,7 @@ mc_setup_local_store(MailComponent *mc)
 
 	g_object_ref(mc);
 	camel_object_ref(p->local_store);
-	mail_async_event_emit(p->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)mc_add_store, p->local_store, _("On this Computer"), mc);
+	mail_async_event_emit(p->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)mc_add_store, p->local_store, _("On This Computer"), mc);
 
 	return;
 fail:

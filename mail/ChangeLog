@@ -1,3 +1,10 @@
+2004-02-11  Christian Neumair  <chris@gnome-de.org>
+
+	* em-folder-tree-model.c (sort_cb): "On this Computer" -> "On This
+	Computer".
+
+	* mail-component.c (mc_setup_local_store): Ditto.
+
 2004-02-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-format-html-print.c: Same.
