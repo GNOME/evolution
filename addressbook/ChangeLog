@@ -1,5 +1,10 @@
 2001-08-14  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/pas/pas-book.c (pas_book_respond_get_vcard): Oops,
+	forgot to write this function.
+
+2001-08-14  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/contact-editor/contact-editor.glade: Added focus targets
 	here.  Fixes part of Ximian bug #5843.
 

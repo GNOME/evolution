@@ -590,6 +590,29 @@ pas_book_respond_get_book_view (PASBook                           *book,
  * pas_book_respond_get_changes:
  */
 void
+pas_book_respond_get_vcard (PASBook                           *book,
+			    GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
+			    char                              *vcard)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	GNOME_Evolution_Addressbook_BookListener_notifyCardRequested (
+		book->priv->listener, status, vcard, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("pas_book_respond_get_card: Exception "
+			   "responding to BookListener!\n");
+	}
+
+	CORBA_exception_free (&ev);
+}
+
+/**
+ * pas_book_respond_get_changes:
+ */
+void
 pas_book_respond_get_changes (PASBook                           *book,
 			      GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
 			      PASBookView                       *book_view)
