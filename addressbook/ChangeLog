@@ -1,3 +1,9 @@
+2002-09-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook.c (delete_contact_cb): Fix typo
+	[`view>view' instead of `view->view'].  Also, cast to
+	GTK_WINDOW instead of GTK_WIDGET as it should be.
+
 2002-08-30  Dan Winship  <danw@ximian.com>
 
 	* backend/idl/addressbook.idl (CallStatus): add QueryRefused, for
