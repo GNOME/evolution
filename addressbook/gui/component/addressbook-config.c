@@ -29,6 +29,8 @@
 #include "addressbook-component.h"
 #include "addressbook-config.h"
 
+#include "widgets/misc/e-error.h"
+
 #include "evolution-config-control.h"
 
 #include <gal/e-table/e-table-memory-store.h>
@@ -473,17 +475,8 @@ addressbook_ldap_init (GtkWidget *window, ESource *source)
 	if (!source_to_uri_parts (source, &host, NULL, NULL, &port))
 		return NULL;
 
-	ldap = ldap_init (host, port);
-	if (!ldap) {
-		GtkWidget *dialog;
-		dialog = gtk_message_dialog_new (GTK_WINDOW(window), 
-						 GTK_DIALOG_MODAL,
-						 GTK_MESSAGE_ERROR,
-						 GTK_BUTTONS_OK,
-						 _("Failed to connect to LDAP server"));
-		g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
-		gtk_widget_show (dialog);
-	}
+	if (!(ldap = ldap_init (host, port)))
+		e_error_run ((GtkWindow *) window, "addressbook:ldap-init", NULL);
 
 	/* XXX do TLS if it's configured in */
 
@@ -498,23 +491,15 @@ addressbook_ldap_auth (GtkWidget *window, LDAP *ldap)
 
 	/* XXX use auth info from source */
 	ldap_error = ldap_simple_bind_s (ldap, NULL, NULL);
-	if (LDAP_SUCCESS != ldap_error) {
-		GtkWidget *dialog;
-		dialog = gtk_message_dialog_new (GTK_WINDOW (window),
-						 GTK_DIALOG_MODAL,
-						 GTK_MESSAGE_ERROR,
-						 GTK_BUTTONS_OK,
-						 _("Failed to authenticate with LDAP server"));
-		g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
-		gtk_widget_show (dialog);
-	}
-
+	if (LDAP_SUCCESS != ldap_error)
+		e_error_run ((GtkWindow *) window, "addressbook:ldap-auth", NULL);
+	
 	return ldap_error;
 }
 
 static int
 addressbook_root_dse_query (AddressbookSourceDialog *dialog, GtkWindow *window, LDAP *ldap,
-char **attrs, LDAPMessage **resp)
+			    char **attrs, LDAPMessage **resp)
 {
 	int ldap_error;
 	struct timeval timeout;
@@ -526,17 +511,9 @@ char **attrs, LDAPMessage **resp)
 					LDAP_ROOT_DSE, LDAP_SCOPE_BASE,
 					"(objectclass=*)",
 					attrs, 0, NULL, NULL, &timeout, LDAP_NO_LIMIT, resp);
-	if (LDAP_SUCCESS != ldap_error) {
-		GtkWidget *dialog;
-		dialog = gtk_message_dialog_new (window,
-						 GTK_DIALOG_MODAL,
-						 GTK_MESSAGE_ERROR,
-						 GTK_BUTTONS_OK,
-						 _("Could not perform query on Root DSE"));
-		g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
-		gtk_widget_show (dialog);
-	}
-
+	if (LDAP_SUCCESS != ldap_error)
+		e_error_run ((GtkWindow *) window, "addressbook:ldap-search-base", NULL);
+	
 	return ldap_error;
 }
 
@@ -832,14 +809,7 @@ do_ldap_root_dse_query (AddressbookSourceDialog *sdialog, GtkWidget *dialog, ETa
 
 	values = ldap_get_values (ldap, resp, "namingContexts");
 	if (!values || values[0] == NULL) {
-		GtkWidget *error_dialog;
-		error_dialog = gtk_message_dialog_new (GTK_WINDOW (dialog),
-						       GTK_DIALOG_MODAL,
-						       GTK_MESSAGE_ERROR,
-						       GTK_BUTTONS_OK,
-						       _("The server responded with no supported search bases"));
-		g_signal_connect (error_dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
-		gtk_widget_show (error_dialog);
+		e_error_run ((GtkWindow *) dialog, "addressbook:ldap-search-base", NULL);
 		goto fail;
 	}
 
@@ -1241,9 +1211,7 @@ do_schema_query (AddressbookSourceDialog *sdialog)
 
 	values = ldap_get_values (ldap, resp, "subschemaSubentry");
 	if (!values || values[0] == NULL) {
-		GtkWidget *dialog;
-		dialog = gnome_ok_dialog_parented (_("This server does not support LDAPv3 schema information"), GTK_WINDOW (sdialog->window));
-		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+		e_error_run ((GtkWindow *) sdialog->window, "addressbook:ldap-v3-schema", NULL);
 		goto fail;
 	}
 
@@ -1262,21 +1230,16 @@ do_schema_query (AddressbookSourceDialog *sdialog)
 					"(objectClass=subschema)", attrs, 0,
 					NULL, NULL, &timeout, LDAP_NO_LIMIT, &resp);
 	if (LDAP_SUCCESS != ldap_error) {
-		GtkWidget *dialog;
-		dialog = gnome_error_dialog_parented (_("Error retrieving schema information"), GTK_WINDOW (sdialog->window));
-		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+		e_error_run ((GtkWindow *) sdialog->window, "addressbook:ldap-get-schema", NULL);
 		goto fail;
 	}
 
-	values = ldap_get_values (ldap, resp, "objectClasses");
-	if (!values) {
-		GtkWidget *dialog;
-		dialog = gnome_error_dialog_parented (_("Server did not respond with valid schema information"), GTK_WINDOW (sdialog->window));
-		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	if (!(values = ldap_get_values (ldap, resp, "objectClasses"))) {
+		e_error_run ((GtkWindow *) sdialog->window, "addressbook:ldap-invalid-schema", NULL);
 		goto fail;
 	}
 
-	for (i = 0; values[i]; i ++) { 
+	for (i = 0; values[i]; i ++) {
 		int j;
 		int code;
 		const char *err;

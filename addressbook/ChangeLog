@@ -1,3 +1,35 @@
+2004-05-25  Jeffrey Stedfast  <fejj@novell.com>
+
+	* Makefile.am: Generate the addressbook-errors.xml.h file and
+	install the xml file and all that jazz.
+
+	* addressbook-errors.xml: New error xml file.
+
+	* gui/widgets/e-addressbook-view.c (backend_died): Use
+	e_error_run().
+
+	* gui/widgets/eab-gui-util.c (eab_error_dialog): Use
+	e_error_run().
+	(eab_load_error_dialog): Same.
+	(eab_search_result_dialog): Same.
+	(eab_prompt_save_dialog): Same.
+	(save_it): Same.
+
+	* gui/contact-editor/e-contact-editor.c (categories_clicked): Use
+	e_error_run().
+	(e_contact_editor_is_valid): Same.
+	(save_contact): Same.
+
+	* gui/component/addressbook-view.c (delete_addressbook_cb): Use
+	e_error_run().
+
+	* gui/component/addressbook-config.c (addressbook_ldap_init): Use
+	e_error_run().
+	(addressbook_ldap_auth): Same.
+	(addressbook_root_dse_query): Same.
+	(do_ldap_root_dse_query): Same.
+	(do_schema_query): Same.
+
 2004-05-24  Chris Toshok  <toshok@ximian.com>
 
 	* Makefile.am (SUBDIRS): add tools back to the build.

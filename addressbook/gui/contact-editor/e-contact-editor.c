@@ -56,6 +56,7 @@
 #include "addressbook/printing/e-contact-print-envelope.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "e-util/e-gui-utils.h"
+#include "widgets/misc/e-error.h"
 #include "widgets/misc/e-dateedit.h"
 #include "widgets/misc/e-image-chooser.h"
 #include "widgets/misc/e-url-entry.h"
@@ -2285,18 +2286,12 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 	else if (editor->contact)
 		categories = e_contact_get (editor->contact, E_CONTACT_CATEGORIES);
 
-	dialog = GTK_DIALOG(e_categories_new(categories));
-
-	if (dialog == NULL) {
-		GtkWidget *uh_oh = gtk_message_dialog_new (NULL,
-							   0, GTK_MESSAGE_ERROR,
-							   GTK_RESPONSE_OK,
-							   _("Category editor not available."));
+	if (!(dialog = GTK_DIALOG (e_categories_new (categories)))) {
+		e_error_run (NULL, "addressbook:edit-categories", NULL);
 		g_free (categories);
-		gtk_widget_show (uh_oh);
 		return;
 	}
-
+	
 	ecml = e_categories_master_list_wombat_new ();
 	g_object_set (dialog,
 		       "header", _("This contact belongs to these categories:"),
@@ -2550,27 +2545,7 @@ save_contact (EContactEditor *ce, gboolean should_close)
 		return;
 
 	if (ce->target_editable && !ce->source_editable) {
-		GtkWidget *dialog;
-		gint       response;
-
-		dialog = gtk_message_dialog_new (GTK_WINDOW (ce->app),
-						 (GtkDialogFlags) 0,
-						 GTK_MESSAGE_QUESTION,
-						 GTK_BUTTONS_NONE,
-						 _("You are moving the contact from one "
-						   "address book to another, but it cannot "
-						   "be removed from the source. Do you want "
-						   "to save a copy instead?"));
-		gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					GTK_STOCK_SAVE, GTK_RESPONSE_YES,
-					NULL);
-
-		gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
-		response = gtk_dialog_run (GTK_DIALOG (dialog));
-		gtk_widget_destroy (dialog);
-
-		if (response == GTK_RESPONSE_CANCEL)
+		if (e_error_run (GTK_WINDOW (ce->app), "addressbook:prompt-move", NULL) == GTK_RESPONSE_NO)
 			return;
 	}
 
@@ -2601,9 +2576,8 @@ static gboolean
 e_contact_editor_is_valid (EABEditor *editor)
 {
 	EContactEditor *ce = E_CONTACT_EDITOR (editor);
-	GtkWidget *dialog,*widget;
+	GtkWidget *widget;
 	gboolean validation_error = FALSE;
-	gint result;
 	GString *errmsg = g_string_new (_("The contact data is invalid:\n\n"));
 
 	widget = glade_xml_get_widget (ce->gui, "dateedit-birthday");
@@ -2631,14 +2605,8 @@ e_contact_editor_is_valid (EABEditor *editor)
 
 	if (validation_error) {
 		g_string_append (errmsg, ".");
-
-		dialog = gtk_message_dialog_new (GTK_WINDOW (ce->app),
-						 0,
-						 GTK_MESSAGE_ERROR,
-						 GTK_BUTTONS_OK,
-						 errmsg->str);
-		result = gtk_dialog_run (GTK_DIALOG (dialog));
-		gtk_widget_destroy (dialog);
+		e_error_run (GTK_WINDOW (ce->app), "addressbook:generic-error",
+			     _("Invalid contact."), errmsg->str, NULL);
 		g_string_free (errmsg, TRUE);
 		return FALSE;
 	}

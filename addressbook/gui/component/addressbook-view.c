@@ -38,6 +38,7 @@
 #include <bonobo/bonobo-exception.h>
 #include <gal/util/e-util.h>
 
+#include "widgets/misc/e-error.h"
 #include "widgets/misc/e-task-bar.h"
 #include "widgets/misc/e-info-label.h"
 #include "widgets/misc/e-source-selector.h"
@@ -696,17 +697,9 @@ delete_addressbook_cb (GtkWidget *widget, AddressbookView *view)
 
 		e_source_list_sync (priv->source_list, NULL);
 	} else {
-		GtkWidget *error_dialog;
-
-		error_dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (widget)),
-						       GTK_DIALOG_MODAL,
-						       GTK_MESSAGE_ERROR,
-						       GTK_BUTTONS_CLOSE,
-						       "Error removing address book: %s",
-						       error->message);
-		gtk_dialog_run (GTK_DIALOG (error_dialog));
-		gtk_widget_destroy (error_dialog);
-
+		e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+			     "addressbook:remove-addressbook",
+			     error->message, NULL);
 		g_error_free (error);
 	}
 

@@ -67,6 +67,8 @@
 #endif
 #include "eab-contact-merging.h"
 
+#include "widgets/misc/e-error.h"
+
 #include "e-contact-editor.h"
 #include <gdk/gdkkeysyms.h>
 #include <ctype.h>
@@ -1306,12 +1308,8 @@ command_state_change (EABView *eav)
 static void
 backend_died (GtkObject *object, EABView *eav)
 {
-	char *message = g_strdup_printf (_("The addressbook backend for\n%s\nhas crashed. "
-					   "You will have to restart Evolution in order "
-					   "to use it again"),
-					 e_book_get_uri (eav->book));
-        gnome_error_dialog_parented (message, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (eav))));
-        g_free (message);
+	e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (eav))),
+		     "addressbook:backend-died", e_book_get_uri (eav->book), NULL);
 }
 
 static void
