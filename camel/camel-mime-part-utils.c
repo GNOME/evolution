@@ -51,7 +51,8 @@
 #include "camel-html-parser.h"
 #include "camel-charset-map.h"
 
-#define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
+#define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))
+	       #include <stdio.h>*/
 
 /* example: <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> */
 
@@ -113,7 +114,9 @@ convert_buffer (GByteArray *in, const char *to, const char *from)
 	if (in->len == 0)
 		return g_byte_array_new();
 
-	d(printf("converting buffer from %s to %s: '%.*s'\n", from, to, (int)in->len, in->data));
+	d(printf("converting buffer from %s to %s:\n", from, to));
+	d(fwrite(in->data, 1, (int)in->len, stdout));
+	d(printf("\n"));
 	
 	cd = e_iconv_open(to, from);
 	if (cd == (iconv_t) -1) {
@@ -144,7 +147,7 @@ convert_buffer (GByteArray *in, const char *to, const char *from)
 		 * We just need to grow our outbuffer and try again.
 		 */
 		
-		converted = outlen - outleft;
+		converted = outbuf - (char *)out->data;
 		if (errno == E2BIG) {
 			outlen += inleft * 2 + 16;
 			out = g_byte_array_set_size (out, outlen);
@@ -164,9 +167,13 @@ convert_buffer (GByteArray *in, const char *to, const char *from)
 	e_iconv (cd, NULL, NULL, &outbuf, &outleft);
 	
 	/* now set the true length on the GByteArray */
-	converted = outlen - outleft;
+	converted = outbuf - (char *)out->data;
 	g_byte_array_set_size (out, converted);
-	
+
+	d(printf("converted data:\n"));
+	d(fwrite(out->data, 1, (int)out->len, stdout));
+	d(printf("\n"));
+
 	e_iconv_close (cd);
 	
 	return out;

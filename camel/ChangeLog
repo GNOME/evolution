@@ -1,3 +1,8 @@
+2002-07-19  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-part-utils.c (convert_buffer): Changed to use a
+	different length calculator.
+
 2002-07-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-lock.c: Add the appropriate #include for the _() macro.
