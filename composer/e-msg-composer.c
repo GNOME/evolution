@@ -44,7 +44,9 @@
 
 #include "camel/camel.h"
 
-#include "../mail/mail.h"
+#include "mail/mail.h"
+#include "mail/mail-tools.h"
+#include "mail/mail-threads.h"
 
 #include "e-util/e-html-utils.h"
 #include "e-util/e-setup.h"
@@ -483,52 +485,102 @@ load (EMsgComposer *composer,
 	CORBA_exception_free (&ev);
 }
 
-#if 0
 /* Exit dialog.  (Displays a "Save composition to 'Drafts' before exiting?" warning before actually exiting.)  */
 
 enum { REPLY_YES = 0, REPLY_NO, REPLY_CANCEL };
 
+typedef struct save_draft_input_s {
+	EMsgComposer *composer;
+} save_draft_input_t;
+
+typedef struct save_draft_data_s {
+	CamelMimeMessage *msg;
+	CamelMessageInfo *info;
+} save_draft_data_t;
+
+static gchar *
+describe_save_draft (gpointer in_data, gboolean gerund)
+{
+	if (gerund) {
+		return g_strdup (_("Saving changes to message..."));
+	} else {
+		return g_strdup (_("About to save changes to message..."));
+	}
+}
+
+static void
+setup_save_draft (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	save_draft_input_t *input = (save_draft_input_t *) in_data;
+	save_draft_data_t *data = (save_draft_data_t *) op_data;
+	
+	g_return_if_fail (input->composer != NULL);
+
+	/* initialize op_data */
+	data->msg = e_msg_composer_get_message (input->composer);
+	data->info = g_new0 (CamelMessageInfo, 1);
+	data->info->flags = CAMEL_MESSAGE_DRAFT;
+}
+
+static void
+do_save_draft (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	/*save_draft_input_t *input = (save_draft_input_t *) in_data;*/
+	save_draft_data_t *data = (save_draft_data_t *) op_data;
+	extern CamelFolder *drafts_folder;
+	
+	/* perform camel operations */
+	mail_tool_camel_lock_up ();
+	camel_folder_append_message (drafts_folder, data->msg, data->info, ex);
+	mail_tool_camel_lock_down ();
+}
+
+static void
+cleanup_save_draft (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	save_draft_input_t *input = (save_draft_input_t *) in_data;
+	/*save_draft_data_t *data = (save_draft_data_t *) op_data;*/
+	
+	if (camel_exception_is_set (ex)) {
+		char *reason;
+		
+		reason = g_strdup_printf ("Error saving composition to 'Drafts': %s",
+					  camel_exception_get_description (ex));
+		
+		gnome_warning_dialog_parented (reason, GTK_WINDOW (input->composer));
+		g_free (reason);
+	} else {
+		gtk_widget_destroy (GTK_WIDGET (input->composer));
+	}
+}
+
+static const mail_operation_spec op_save_draft = {
+	describe_save_draft,
+	sizeof (save_draft_data_t),
+	setup_save_draft,
+	do_save_draft,
+	cleanup_save_draft
+};
+
 static void
 exit_dialog_cb (int reply, EMsgComposer *composer)
 {
-	extern CamelFolder *drafts_folder;
-	CamelMimeMessage *msg;
-	CamelMessageInfo *info;
-	CamelException *ex;
-	char *reason;
+	save_draft_input_t *input;
 	
 	switch (reply) {
 	case REPLY_YES:
-		/* AIEEEEEEEEEEEE THIS IS ALL WRONG. SHOULD BE ASYNC. */
-		info = g_new0 (CamelMessageInfo, 1);
-		info->flags = CAMEL_MESSAGE_DRAFT;
-		msg = e_msg_composer_get_message (composer);
-
-		ex = camel_exception_new ();
-		camel_folder_append_message (drafts_folder, msg, info, ex);
-		g_free (info);
-		if (camel_exception_is_set (ex))
-			goto error;
-		
-		camel_exception_free (ex);
+		/* this has to be done async */
+		input = g_new0 (save_draft_input_t, 1);
+		input->composer = composer;
+		mail_operation_queue (&op_save_draft, input, TRUE);
 	case REPLY_NO:
 		gtk_widget_destroy (GTK_WIDGET (composer));
 		break;
 	case REPLY_CANCEL:
 	default:
 	}
-	
-	return;
-	
- error:
-	reason = g_strdup_printf ("Error saving composition to 'Drafts': %s",
-				  camel_exception_get_description (ex));
-	
-	camel_exception_free (ex);
-	gnome_warning_dialog_parented (reason, GTK_WINDOW (composer));
-	g_free (reason);
 }
-
+ 
 static void
 do_exit (EMsgComposer *composer)
 {
@@ -551,33 +603,6 @@ do_exit (EMsgComposer *composer)
 	
 	exit_dialog_cb (button, composer);
 }
-
-#else
-
-static void
-do_exit (EMsgComposer *composer)
-{
-	GtkWidget *dialog;
-	GtkWidget *label;
-	gint button;
-	
-	dialog = gnome_dialog_new (_("Evolution"),
-				   GNOME_STOCK_BUTTON_YES,      /* Save */
-				   GNOME_STOCK_BUTTON_NO,       /* Don't save */
-				   NULL);
-	
-	label = gtk_label_new (_("This message has not been sent.\n\nDo you wish to exit the composer?"));
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 0);
-	gtk_widget_show (label);
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (composer));
-	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
-	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-	
-	if (button == 0)
-		gtk_widget_destroy (GTK_WIDGET (composer));
-}
-
-#endif
 
 /* Menu callbacks.  */
 
