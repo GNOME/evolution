@@ -102,7 +102,7 @@ struct _EMFolderViewClass {
 
 	void (*set_folder_uri)(EMFolderView *emfv, const char *uri);
 	void (*set_folder)(EMFolderView *emfv, struct _CamelFolder *folder, const char *uri);
-	void (*set_message)(EMFolderView *emfv, const char *uid);
+	void (*set_message)(EMFolderView *emfv, const char *uid, int nomarkseen);
 
 	/* Signals */
 	void (*on_url)(EMFolderView *emfv, const char *uri, const char *nice_uri);
@@ -118,7 +118,7 @@ GtkWidget *em_folder_view_new(void);
 #define em_folder_view_activate(emfv, uic, state) EM_FOLDER_VIEW_GET_CLASS (emfv)->activate((emfv), (uic), (state))
 #define em_folder_view_set_folder(emfv, folder, uri) EM_FOLDER_VIEW_GET_CLASS (emfv)->set_folder((emfv), (folder), (uri))
 #define em_folder_view_set_folder_uri(emfv, uri) EM_FOLDER_VIEW_GET_CLASS (emfv)->set_folder_uri((emfv), (uri))
-#define em_folder_view_set_message(emfv, uid) EM_FOLDER_VIEW_GET_CLASS (emfv)->set_message((emfv), (uid))
+#define em_folder_view_set_message(emfv, uid, nomarkseen) EM_FOLDER_VIEW_GET_CLASS (emfv)->set_message((emfv), (uid), (nomarkseen))
 
 struct _EMPopupTarget *em_folder_view_get_popup_target(EMFolderView *emfv);
 

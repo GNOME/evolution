@@ -104,7 +104,7 @@ static void emfv_enable_menus(EMFolderView *emfv);
 
 static void emfv_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri);
 static void emfv_set_folder_uri(EMFolderView *emfv, const char *uri);
-static void emfv_set_message(EMFolderView *emfv, const char *uid);
+static void emfv_set_message(EMFolderView *emfv, const char *uid, int nomarkseen);
 static void emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int state);
 
 static void emfv_message_reply(EMFolderView *emfv, int mode);
@@ -121,7 +121,8 @@ static const EMFolderViewEnable emfv_enable_map[];
 struct _EMFolderViewPrivate {
 	guint seen_id;
 	guint setting_notify_id;
-	
+	int nomarkseen:1;
+
 	CamelObjectHookID folder_changed_id;
 
 	GtkWidget *invisible;
@@ -366,7 +367,7 @@ em_folder_view_open_selected(EMFolderView *emfv)
 			/* FIXME: session needs to be passed easier than this */
 			em_format_set_session((EMFormat *)((EMFolderView *)emmb)->preview, ((EMFormat *)emfv->preview)->session);
 			em_folder_view_set_folder((EMFolderView *)emmb, emfv->folder, emfv->folder_uri);
-			em_folder_view_set_message((EMFolderView *)emmb, uids->pdata[i]);
+			em_folder_view_set_message((EMFolderView *)emmb, uids->pdata[i], FALSE);
 			gtk_widget_show(emmb->window);
 		}
 
@@ -529,8 +530,10 @@ emfv_set_folder_uri(EMFolderView *emfv, const char *uri)
 }
 
 static void
-emfv_set_message(EMFolderView *emfv, const char *uid)
+emfv_set_message(EMFolderView *emfv, const char *uid, int nomarkseen)
 {
+	/* This could possible race with other set messages, but likelyhood is small */
+	emfv->priv->nomarkseen = nomarkseen;
 	message_list_select_uid(emfv->list, uid);
 	/* force an update, since we may not get an updated event if we select the same uid */
 	emfv_list_message_selected(emfv->list, uid, emfv);
@@ -1886,6 +1889,7 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 	EMFolderView *emfv = data;
 	
 	if (emfv->preview == NULL) {
+		emfv->priv->nomarkseen = FALSE;
 		g_object_unref (emfv);
 		return;
 	}
@@ -1895,7 +1899,7 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 	if (emfv->priv->seen_id)
 		g_source_remove(emfv->priv->seen_id);
 	
-	if (msg && emfv->mark_seen) {
+	if (msg && emfv->mark_seen && !emfv->priv->nomarkseen) {
 		if (emfv->mark_seen_timeout > 0) {
 			struct mst_t *mst;
 		
@@ -1911,6 +1915,7 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 	}
 	
 	g_object_unref (emfv);
+	emfv->priv->nomarkseen = FALSE;
 }
 
 static void
@@ -1929,6 +1934,7 @@ emfv_list_message_selected(MessageList *ml, const char *uid, EMFolderView *emfv)
 			g_free(emfv->displayed_uid);
 			emfv->displayed_uid = NULL;
 			em_format_format((EMFormat *)emfv->preview, NULL, NULL, NULL);
+			emfv->priv->nomarkseen = FALSE;
 		}
 	}
 

@@ -1,5 +1,18 @@
 2004-05-07  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #57935.
+
+	* em-folder-view.c (emfv_set_message): add new arg, nomarkseen,
+	don't mark the selected message seen once its loaded.
+	(emfv_list_message_selected): clear the nomarkseen flag once we've
+	processed the selection.
+	(emfv_list_done_message_selected): handle the nomarkseen flag,
+	don't mark a message seen if it was explictly selected.
+
+	* em-folder-browser.c (emfb_list_built): use
+	em_folder_view_select_message rather than doing it via the
+	messagelist directly.
+
 	** Dunno why i bothered, but see bug #58090.
 
 	* importers/netscape-importer.c

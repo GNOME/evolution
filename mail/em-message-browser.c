@@ -52,7 +52,7 @@ struct _EMMessageBrowserPrivate {
 	GtkWidget *preview;	/* container for message display */
 };
 
-static void emmb_set_message(EMFolderView *emfv, const char *uid);
+static void emmb_set_message(EMFolderView *emfv, const char *uid, int nomarkseen);
 static void emmb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int state);
 
 static EMFolderViewClass *emmb_parent;
@@ -230,12 +230,12 @@ GtkWidget *em_message_browser_window_new(void)
 /* ********************************************************************** */
 
 static void
-emmb_set_message(EMFolderView *emfv, const char *uid)
+emmb_set_message(EMFolderView *emfv, const char *uid, int nomarkseen)
 {
 	EMMessageBrowser *emmb = (EMMessageBrowser *) emfv;
 	CamelMessageInfo *info;
 	
-	emmb_parent->set_message(emfv, uid);
+	emmb_parent->set_message(emfv, uid, nomarkseen);
 	
 	if (uid == NULL)
 		return;
@@ -246,7 +246,8 @@ emmb_set_message(EMFolderView *emfv, const char *uid)
 	}
 	
 	/* Well we don't know if it got displayed (yet) ... but whatever ... */
-	camel_folder_set_message_flags(emfv->folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	if (!nomarkseen)
+		camel_folder_set_message_flags(emfv->folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 }
 
 static void

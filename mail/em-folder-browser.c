@@ -313,7 +313,7 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 			char *uid = g_alloca(strlen(emfb->view.list->cursor_uid)+1);
 
 			strcpy(uid, emfb->view.list->cursor_uid);
-			em_folder_view_set_message(&emfb->view, uid);
+			em_folder_view_set_message(&emfb->view, uid, TRUE);
 		}
 
 		/* need to load/show the current message? */
@@ -839,7 +839,7 @@ emfb_list_built (MessageList *ml, EMFolderBrowser *emfb)
 	
 	if (emfv->list->cursor_uid == NULL) {
 		if (emfb->priv->select_uid) {
-			message_list_select_uid (ml, emfb->priv->select_uid);
+			em_folder_view_set_message(emfv, emfb->priv->select_uid, TRUE);
 			g_free (emfb->priv->select_uid);
 			emfb->priv->select_uid = NULL;
 			
