@@ -29,7 +29,10 @@
 #include "e-clipped-label.h"
 
 #include <gal/e-table/e-table-scrolled.h>
-#include <gal/e-table/e-table-memory-callbacks.h>
+#include <gal/e-table/e-table-memory-store.h>
+#include <gal/e-table/e-cell-pixbuf.h>
+#include <gal/e-table/e-cell-vbox.h>
+#include <gal/e-table/e-cell-text.h>
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
@@ -63,10 +66,12 @@ struct _EMultiConfigDialogPrivate {
 static char *list_e_table_spec =
 	"<ETableSpecification cursor-mode=\"line\""
 	"		      selection-mode=\"browse\""
-	"                     no-headers=\"true\">"
+	"                     no-headers=\"true\""
+/*        "                     horizontal-resize=\"true\""*/
+        ">"
 	"  <ETableColumn model_col=\"0\""
 	"	         expansion=\"1.0\""
-	"                cell=\"string\""
+	"                cell=\"vbox\""
  	"                minimum_width=\"32\""
 	"                resizable=\"true\""
 	"	         _title=\"blah\""
@@ -218,89 +223,6 @@ do_ok (EMultiConfigDialog *dialog)
 }
 
 
-/* ETable mess.  */
-
-static int
-table_model_column_count (ETableModel *etm,
-			  void *data)
-{
-        return 1;
-}
-
-static void *
-table_model_value_at (ETableModel *etm,
-		      int col,
-		      int row,
-		      void *model_data)
-{
-	EMultiConfigDialog *dialog;
-	EMultiConfigDialogPrivate *priv;
-	const Page *page;
-	GSList *p;
-
-	dialog = E_MULTI_CONFIG_DIALOG (model_data);
-	priv = dialog->priv;
-
-	p = g_slist_nth (priv->pages, row);
-	if (p == NULL)
-		return NULL;
-
-	page = (const Page *) p->data;
-	return page->title;
-}
-
-static gboolean
-table_model_is_editable (ETableModel *etm,
-			 int col,
-			 int row,
-			 void *model_data)
-{
-	return FALSE;
-}
-
-static void *
-table_model_duplicate_value (ETableModel *etm,
-			     int col,
-			     const void *value,
-			     void *data)
-{
-        return g_strdup (value);
-}
-
-static void
-table_model_free_value (ETableModel *etm,
-			int col,
-			void *value,
-			void *data)
-{
-        g_free (value);
-}
-
-static void *
-table_model_initialize_value (ETableModel *etm,
-			      int col,
-			      void *data)
-{
-        return g_strdup ("");
-}
-
-static gboolean
-table_model_value_is_empty (ETableModel *etm,
-			    int col,
-			    const void *value,
-			    void *data)
-{
-        return !(value && *(char *)value);
-}
-
-static char *
-table_model_value_to_string (ETableModel *etm,
-			     int col,
-			     const void *value,
-			     void *data)
-{
-	return (char *)value;
-}
 
 
 /* ETable signals.  */
@@ -387,6 +309,12 @@ class_init (EMultiConfigDialogClass *class)
 	parent_class = gtk_type_class (PARENT_TYPE);
 }
 
+ETableMemoryStoreColumnInfo columns[] = {
+	E_TABLE_MEMORY_STORE_STRING,
+	E_TABLE_MEMORY_STORE_PIXBUF,
+	E_TABLE_MEMORY_STORE_TERMINATOR
+};
+
 static void
 init (EMultiConfigDialog *multi_config_dialog)
 {
@@ -396,26 +324,37 @@ init (EMultiConfigDialog *multi_config_dialog)
 	GtkWidget *hbox;
 	GtkWidget *notebook;
 	GtkWidget *list_e_table;
+	ETableExtras *extras;
+	ECell *pixbuf;
+	ECell *text;
+	ECell *vbox;
 
 	hbox = gtk_hbox_new (FALSE, 2);
 	gnome_dialog_vbox = GNOME_DIALOG (multi_config_dialog)->vbox;
 	gtk_container_add (GTK_CONTAINER (gnome_dialog_vbox), hbox);
 
-	list_e_table_model = e_table_memory_callbacks_new (table_model_column_count,
-							   table_model_value_at,
-							   NULL, /* set_value_at */
-							   table_model_is_editable,
-							   table_model_duplicate_value,
-							   table_model_free_value,
-							   table_model_initialize_value,
-							   table_model_value_is_empty,
-							   table_model_value_to_string,
-							   multi_config_dialog);
+	list_e_table_model = e_table_memory_store_new (columns);
 
-	list_e_table = e_table_scrolled_new (list_e_table_model, NULL, list_e_table_spec, NULL);
+	vbox = e_cell_vbox_new ();
+
+	pixbuf = e_cell_pixbuf_new();
+	e_cell_vbox_append (E_CELL_VBOX (vbox), pixbuf, 1);
+	gtk_object_unref (GTK_OBJECT (pixbuf));
+
+	text = e_cell_text_new (NULL, GTK_JUSTIFY_CENTER);
+	e_cell_vbox_append (E_CELL_VBOX (vbox), text, 0);
+	gtk_object_unref (GTK_OBJECT (text));
+
+	extras = e_table_extras_new ();
+	e_table_extras_add_cell (extras, "vbox", vbox);
+
+	list_e_table = e_table_scrolled_new (list_e_table_model, extras, list_e_table_spec, NULL);
+	e_scroll_frame_set_policy (E_SCROLL_FRAME (list_e_table), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table (E_TABLE_SCROLLED (list_e_table))),
 			    "cursor_change", GTK_SIGNAL_FUNC (table_cursor_change_callback),
 			    multi_config_dialog);
+
+	gtk_object_unref (GTK_OBJECT (extras));
 
 	gtk_widget_set_usize (list_e_table, 150, -1);
 
@@ -495,7 +434,7 @@ e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 		e_selection_model_select_all (e_table_get_selection_model (table));
 	}
 
-	e_table_memory_insert (E_TABLE_MEMORY (priv->list_e_table_model), -1, new_page->title);
+	e_table_memory_store_insert_list (E_TABLE_MEMORY_STORE (priv->list_e_table_model), -1, NULL, title, icon);
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  create_page_container (new_page->description, GTK_WIDGET (page_widget)),

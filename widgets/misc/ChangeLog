@@ -1,3 +1,9 @@
+2002-03-12  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-multi-config-dialog.c (init): Use Use e_table_memory_store
+	instead of e_table_memory_callbacks.  Use e_cell_vbox to include a
+	pixbuf cell and a text cell.
+
 2002-03-11  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-multi-config-dialog.c (init): Use GNOME_STOCK_BUTTON_CLOSE,
