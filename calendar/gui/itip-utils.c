@@ -530,11 +530,11 @@ comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *
 {
 	CalClientSendResult result;
 	icalcomponent *top_level, *new_top_level = NULL;
-	char error_msg[256];
+	char *error_msg;
 	gboolean retval = TRUE;
 	
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
-	result = cal_client_send_object (client, top_level, &new_top_level, users, error_msg);
+	result = cal_client_send_object (client, top_level, &new_top_level, users, &error_msg);
 
 	if (result == CAL_CLIENT_SEND_SUCCESS) {
 		icalcomponent *ical_comp;
@@ -546,6 +546,7 @@ comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *
 	} else if (result == CAL_CLIENT_SEND_BUSY) {
 		e_notice (NULL, GTK_MESSAGE_ERROR, error_msg);
 
+		g_free (error_msg);
 		retval = FALSE;
 	}
 

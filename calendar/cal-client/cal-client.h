@@ -214,7 +214,7 @@ CalClientResult cal_client_remove_object_with_mod (CalClient *client, const char
 
 CalClientSendResult cal_client_send_object (CalClient *client, icalcomponent *icalcomp, 
 					    icalcomponent **new_icalcomp, GList **users,
-					    char error_msg[256]);
+					    char **error_msg);
 
 CalQuery *cal_client_get_query (CalClient *client, const char *sexp);
 
