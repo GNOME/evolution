@@ -407,7 +407,7 @@ msgstr "Fabriek voor het voorbeeld Adresboekcontrol"
 #: calendar/gui/dialogs/comp-editor-util.c:337 shell/e-local-storage.c:175
 #: shell/e-shortcuts.c:1048
 msgid "Contacts"
-msgstr "Contacten"
+msgstr "Adresboek"
 
 #: addressbook/gui/component/addressbook-component.c:68
 msgid "Folder containing contact information"
@@ -561,7 +561,7 @@ msgstr "Server Bericht:"
 
 #: addressbook/gui/component/addressbook-storage.c:138
 msgid "Other Contacts"
-msgstr "Andere Contacten"
+msgstr "Andere Adresboeken"
 
 #: addressbook/gui/component/addressbook.c:386
 #, fuzzy, c-format
@@ -631,9 +631,8 @@ msgstr "E-mail bevat"
 
 #: addressbook/gui/component/addressbook.c:645
 #: calendar/gui/cal-search-bar.c:59
-#, fuzzy
 msgid "Category is"
-msgstr "Categorieën"
+msgstr "Categorie is"
 
 #. We attach subitems below
 #: addressbook/gui/component/addressbook.c:646 widgets/misc/e-filter-bar.h:97
@@ -644,9 +643,8 @@ msgstr "Uitgebreid..."
 #. All, unmatched, separator
 #: addressbook/gui/component/addressbook.c:874
 #: calendar/gui/cal-search-bar.c:412
-#, fuzzy
 msgid "Any Category"
-msgstr "Categorie:"
+msgstr "Elke Categorie"
 
 #: addressbook/gui/component/addressbook.c:912
 msgid "The URI that the Folder Browser will display"
@@ -828,9 +826,8 @@ msgid "Details"
 msgstr "Details"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
-#, fuzzy
 msgid "File A_s:"
-msgstr "Opslaan Als:"
+msgstr "Bewaar Al_s:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "General"
@@ -845,7 +842,6 @@ msgid "No_tes:"
 msgstr "Aa_ntekeningen:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
-#, fuzzy
 msgid "Organi_zation:"
 msgstr "Organisatie:"
 
@@ -930,14 +926,13 @@ msgstr "_Beroep:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
 msgid "_Spouse:"
-msgstr "_Echtgeno(o)t(e):"
+msgstr "_Partner:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "_This is the mailing address"
 msgstr "Dit is een email-adres"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
-#, fuzzy
 msgid "_Web page address:"
 msgstr "Homepage:"
 
@@ -2317,15 +2312,13 @@ msgstr "Openen"
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:267
 #: addressbook/gui/widgets/e-addressbook-view.c:718
 #: ui/evolution-addressbook.xml.h:10
-#, fuzzy
 msgid "Forward Contact"
-msgstr "Stuur door als bijlage"
+msgstr "Stuur Contact Door"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:268
 #: addressbook/gui/widgets/e-addressbook-view.c:719
-#, fuzzy
 msgid "Send Message to Contact"
-msgstr "Stuur bericht aan contact..."
+msgstr "Stuur Bericht aan Contact..."
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:269
 #: addressbook/gui/widgets/e-addressbook-view.c:720
@@ -2874,7 +2867,6 @@ msgstr "Alarm op %A %b %d %Y %H:%M"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ui/evolution-comp-editor.xml.h:1
-#, fuzzy
 msgid "C_lose"
 msgstr "Sluiten"
 
@@ -3183,12 +3175,11 @@ msgstr "Maand"
 
 #: calendar/gui/cal-search-bar.c:56
 msgid "Summary contains"
-msgstr "Bondige inhoud bevat"
+msgstr "Samenvatting bevat"
 
 #: calendar/gui/cal-search-bar.c:57
-#, fuzzy
 msgid "Description contains"
-msgstr "Omschrijving:"
+msgstr "Omschrijving bevat"
 
 #: calendar/gui/cal-search-bar.c:58
 msgid "Comment contains"
@@ -3272,9 +3263,8 @@ msgid "FIXME: mail alarm options"
 msgstr "FIXME"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
-#, fuzzy
 msgid "Message to Display"
-msgstr "Berichten"
+msgstr "Bericht"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
 #, fuzzy
@@ -3286,9 +3276,8 @@ msgid "Repeat the alarm"
 msgstr "Herhaal het Alarm"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:6
-#, fuzzy
 msgid "Run program:"
-msgstr "Start een programma"
+msgstr "Start een programma:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:7
 msgid "With these arguments:"
@@ -3299,9 +3288,8 @@ msgid "days"
 msgstr "dagen"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:9
-#, fuzzy
 msgid "extra times every"
-msgstr "Actualiseer elke "
+msgstr "nogmaals"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter-datespec.c:84
 msgid "hours"
@@ -3368,14 +3356,13 @@ msgstr "Speel een geluid af"
 
 #: calendar/gui/dialogs/alarm-page.c:383
 #: calendar/gui/dialogs/alarm-page.glade.h:3
-#, fuzzy
 msgid "Display a message"
-msgstr "Laat volgende bericht zien"
+msgstr "Toon een bericht"
 
 #: calendar/gui/dialogs/alarm-page.c:387
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 msgid "Send an email"
-msgstr "Verstuur een e-mail"
+msgstr "Verstuur een bericht"
 
 #: calendar/gui/dialogs/alarm-page.c:391
 #: calendar/gui/dialogs/alarm-page.glade.h:6
@@ -3415,15 +3402,13 @@ msgstr " na het eind van een afspraak"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:2
-#, fuzzy
 msgid "Basics"
-msgstr "Basis"
+msgstr "Algemeen"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:2
 #: calendar/gui/dialogs/recurrence-page.glade.h:3
-#, fuzzy
 msgid "Date/Time:"
-msgstr "Datum & Tijd"
+msgstr "Datum/Tijd"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:5
 msgid "Reminders"
@@ -3436,9 +3421,8 @@ msgid "Summary:"
 msgstr "Samenvatting:"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:11
-#, fuzzy
 msgid "_Options..."
-msgstr "_Opties"
+msgstr "_Opties..."
 
 #: calendar/gui/dialogs/alarm-page.glade.h:12 filter/libfilter-i18n.h:34
 msgid "after"
@@ -3490,9 +3474,8 @@ msgid "60 minutes"
 msgstr "60 minuten"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
-#, fuzzy
 msgid "Calendar and Tasks Settings"
-msgstr "Postinstellingen..."
+msgstr "Kalender- en Taakinstellingen"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "Color for overdue tasks"
@@ -3912,9 +3895,8 @@ msgid "A_ll day event"
 msgstr "_Gebeurtenis die de gehele dag plaatsvindt"
 
 #: calendar/gui/dialogs/event-page.glade.h:2
-#, fuzzy
 msgid "B_usy"
-msgstr "Bezig"
+msgstr "_Bezig"
 
 #: calendar/gui/dialogs/event-page.glade.h:4
 #: calendar/gui/dialogs/task-page.glade.h:2
@@ -3923,7 +3905,6 @@ msgid "Classification"
 msgstr "Classificatie"
 
 #: calendar/gui/dialogs/event-page.glade.h:5
-#, fuzzy
 msgid "Con_fidential"
 msgstr "Vertrouwelijk"
 
@@ -3933,9 +3914,8 @@ msgid "Date & Time"
 msgstr "Datum & Tijd"
 
 #: calendar/gui/dialogs/event-page.glade.h:7
-#, fuzzy
 msgid "F_ree"
-msgstr "week"
+msgstr "Vrij"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
 #: calendar/gui/dialogs/task-page.glade.h:5
@@ -3949,9 +3929,8 @@ msgstr "Open_baar"
 
 #: calendar/gui/dialogs/event-page.glade.h:10
 #: calendar/gui/e-calendar-table.etspec.h:12
-#, fuzzy
 msgid "Show Time As"
-msgstr "Weergeven"
+msgstr "Toon Tijd Als"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:8
@@ -4196,9 +4175,8 @@ msgid "occurrences"
 msgstr "gebeurtenissen"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
-#, fuzzy
 msgid "A_dd"
-msgstr "Toevoegen"
+msgstr "_Toevoegen"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
@@ -4217,24 +4195,20 @@ msgid "Recurrence Rule"
 msgstr "Herhalingsregel"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:9
-#, fuzzy
 msgid "_Custom recurrence"
-msgstr "Aangepaste herhaling"
+msgstr "_Aangepaste herhaling"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:10
-#, fuzzy
 msgid "_Modify"
-msgstr "Aanpassen"
+msgstr "Aa_npassen"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:11
-#, fuzzy
 msgid "_No recurrence"
-msgstr "Geen herhaling"
+msgstr "_Geen herhaling"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:13
-#, fuzzy
 msgid "_Simple recurrence"
-msgstr "Eenvoudige herhaling"
+msgstr "_Eenvoudige herhaling"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:15
 msgid "for"
@@ -8846,9 +8820,8 @@ msgid "_Mark messages as Read after"
 msgstr "_Markeer berichten als Gelezen na "
 
 #: mail/mail-config.glade.h:105
-#, fuzzy
 msgid "_Name:"
-msgstr "Naam:"
+msgstr "_Naam:"
 
 #: mail/mail-config.glade.h:106
 msgid "_Never load images off the net"
@@ -8859,14 +8832,12 @@ msgid "_Organization:"
 msgstr "Organisatie:"
 
 #: mail/mail-config.glade.h:108
-#, fuzzy
 msgid "_PGP binary path:"
-msgstr "Pad naar het PGP-programma:"
+msgstr "_Pad naar het PGP-programma:"
 
 #: mail/mail-config.glade.h:109
-#, fuzzy
 msgid "_Path:"
-msgstr "Pad:"
+msgstr "_Pad:"
 
 #: mail/mail-config.glade.h:110
 msgid "_Remember PGP Passphrase until exit"
@@ -9600,9 +9571,8 @@ msgid "Appointments"
 msgstr "Afspraken"
 
 #: my-evolution/e-summary-calendar.c:183
-#, fuzzy
 msgid "No appointments"
-msgstr "Toon afspraken"
+msgstr "Geen afspraken"
 
 #: my-evolution/e-summary-calendar.c:236
 #, fuzzy
@@ -9615,9 +9585,8 @@ msgid "%a %l:%M%p"
 msgstr "%a %l:%M %p"
 
 #: my-evolution/e-summary-mail.c:111
-#, fuzzy
 msgid "Mail summary"
-msgstr "Samenvatting"
+msgstr "Samenvatting Post"
 
 #. translators: Put here a list of codes for locations you want to
 #. see in My Evolution by default. You can find the list of all
@@ -9654,9 +9623,8 @@ msgid "Summary Settings"
 msgstr "Bondige inhoud bevat"
 
 #: my-evolution/e-summary-rdf.c:281
-#, fuzzy
 msgid "There was an error downloading news feed"
-msgstr "Er is een fout opgetreden tijdens het laden van het kalender bestand."
+msgstr "Er is een fout opgetreden tijdens bij het ophalen van een nieuwsbron"
 
 #: my-evolution/e-summary-rdf.c:364 my-evolution/e-summary-rdf.c:390
 #, fuzzy
@@ -10935,9 +10903,8 @@ msgid "Drifting dust whirls"
 msgstr ""
 
 #: my-evolution/my-evolution.glade.h:1
-#, fuzzy
 msgid " _Remove"
-msgstr "Verwijderen"
+msgstr "_Verwijderen"
 
 #: my-evolution/my-evolution.glade.h:2
 #, fuzzy
@@ -11103,9 +11070,8 @@ msgid "Outbox"
 msgstr "mbox"
 
 #: shell/e-local-storage.c:593
-#, fuzzy
 msgid "Local Folders"
-msgstr "Speciale Mappen"
+msgstr "Lokale Mappen"
 
 #: shell/e-setup.c:125 shell/e-setup.c:196
 msgid "Evolution installation"
@@ -11524,7 +11490,7 @@ msgstr "Kan opslag niet registreren met shell"
 
 #: shell/e-shell.c:1648
 msgid "Configuration Database not found"
-msgstr ""
+msgstr "Configuratiedatabase niet gevonden"
 
 #: shell/e-shell.c:1650 shell/e-storage.c:491
 msgid "Generic error"
@@ -12248,9 +12214,8 @@ msgid "Send _message to list..."
 msgstr "Stuur _bericht aan contact..."
 
 #: ui/evolution-event-editor.xml.h:1
-#, fuzzy
 msgid "Cancel Mee_ting"
-msgstr "Afspraak annuleren"
+msgstr "_Afspraak annuleren"
 
 #: ui/evolution-event-editor.xml.h:2
 #, fuzzy
@@ -12258,9 +12223,8 @@ msgid "Cancel the meeting for this item"
 msgstr "Verander de eigenschappen van deze map"
 
 #: ui/evolution-event-editor.xml.h:3 ui/evolution-task-editor.xml.h:5
-#, fuzzy
 msgid "Forward as i_Calendar"
-msgstr "Doorsturen als v_Calendar (FIXME)"
+msgstr "Doorsturen als i_Calendar"
 
 #: ui/evolution-event-editor.xml.h:4 ui/evolution-task-editor.xml.h:6
 #, fuzzy
@@ -12269,14 +12233,11 @@ msgstr "Dit bericht doorsturen"
 
 #: ui/evolution-event-editor.xml.h:5
 msgid "Obtain the latest meeting information"
-msgstr ""
+msgstr "Ophalen laatste bijeenkomstinformatie"
 
 #: ui/evolution-event-editor.xml.h:6
-#, fuzzy
 msgid "Re_fresh Meeting"
-msgstr ""
-"Verzoek\n"
-"Bijeenkomst"
+msgstr "Ververs _Bijeenkomst"
 
 #: ui/evolution-event-editor.xml.h:7
 msgid "Schedule _Meeting"
@@ -12381,7 +12342,7 @@ msgstr "Voorbeeld"
 
 #: ui/evolution-mail-global.xml.h:23
 msgid "_Send / Receive"
-msgstr "Verstuur en Ontvang"
+msgstr "_Versturen en Ontvangen"
 
 #: ui/evolution-mail-global.xml.h:24
 msgid "_Subscribe to Folders..."
@@ -12462,7 +12423,6 @@ msgid "Select all visible messages"
 msgstr "Selecteer alle zichtbare berichten"
 
 #: ui/evolution-mail-list.xml.h:18
-#, fuzzy
 msgid "Sh_ow Hidden Messages"
 msgstr "T_oon Verborgen Berichten"
 
