@@ -2,15 +2,16 @@
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Yuri Syrota <rasta@renome.rovno.ua>, 2000.
 # Maxim Dzumanenko <mvd@mylinux.com.ua>, 2002
+# Andrew V. Samoilov <sav@bcs.zp.ua>, 2002
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.5\n"
 "POT-Creation-Date: 2002-10-28 16:49-0500\n"
-"PO-Revision-Date: 2002-07-04 16:55+0200\n"
+"PO-Revision-Date: 2003-01-08 15:42+0200\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.h:1
@@ -381,9 +382,8 @@ msgid "Receiving LDAP search results..."
 msgstr "Отримання результатів пошуку на LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:2998
-#, fuzzy
 msgid "Error performing search"
-msgstr "Помилка видалення картки"
+msgstr "Помилка виконання пошука"
 
 #: addressbook/conduit/address-conduit.c:293
 #, fuzzy
@@ -527,17 +527,12 @@ msgid "Create a new contact list"
 msgstr "Створити новий контактний список"
 
 #: addressbook/gui/component/addressbook-config.c:197
-#, fuzzy
 msgid "Failed to connect to LDAP server"
-msgstr "Неможливо з'єднатись з сервером LDAP."
+msgstr "Неможливо з'єднатись з сервером LDAP"
 
 #: addressbook/gui/component/addressbook-config.c:216
-#, fuzzy
 msgid "Failed to authenticate with LDAP server"
-msgstr ""
-"Неможливо автентифікуватися на сервері IMAP.\n"
-"%s\n"
-"\n"
+msgstr "Неможливо автентифікуватися на сервері LDAP"
 
 #: addressbook/gui/component/addressbook-config.c:239
 msgid "Could not perform query on Root DSE"
@@ -574,9 +569,8 @@ msgid "Account Name"
 msgstr "Назва рахунку:"
 
 #: addressbook/gui/component/addressbook-config.etspec.h:2
-#, fuzzy
 msgid "Server Name"
-msgstr "Назва сервера:"
+msgstr "Назва сервера"
 
 #: addressbook/gui/component/addressbook-factory.c:72
 #: calendar/gui/alarm-notify/notify-main.c:177 calendar/gui/main.c:159
@@ -600,7 +594,6 @@ msgstr ""
 "та чи ви маєте потрібні права доступу до нього."
 
 #: addressbook/gui/component/addressbook.c:490
-#, fuzzy
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or the LDAP server\n"
@@ -622,7 +615,6 @@ msgstr ""
 "скомпілювати версію Evolution з CVS.\n"
 
 #: addressbook/gui/component/addressbook.c:504
-#, fuzzy
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or the server\n"
@@ -637,18 +629,14 @@ msgid "Accessing LDAP Server anonymously"
 msgstr ""
 
 #: addressbook/gui/component/addressbook.c:625
-#, fuzzy
 msgid "Failed to authenticate.\n"
-msgstr ""
-"Неможливо автентифікуватися на сервері IMAP.\n"
-"%s\n"
-"\n"
+msgstr "Неможливо автентифікуватися.\n"
 
 #: addressbook/gui/component/addressbook.c:633
 #: addressbook/gui/component/addressbook.c:636
-#, fuzzy, c-format
+#, c-format
 msgid "%sEnter password for %s (user %s)"
-msgstr "Введіть пароль для %s (користувач %s)"
+msgstr "%sВведіть пароль для %s (користувач %s)"
 
 #: addressbook/gui/component/addressbook.c:782
 msgid "Name begins with"
@@ -811,9 +799,8 @@ msgid "666"
 msgstr "666"
 
 #: addressbook/gui/component/ldap-config.glade.h:11
-#, fuzzy
 msgid "<- _Remove"
-msgstr "Видалити"
+msgstr "<- Видалити"
 
 #: addressbook/gui/component/ldap-config.glade.h:12
 #, fuzzy
@@ -874,7 +861,7 @@ msgstr "Стерти"
 #: addressbook/gui/component/ldap-config.glade.h:27
 #, fuzzy
 msgid "Distinguished _name:"
-msgstr "Виокремлене ім'я:"
+msgstr "Відокремлене ім'я:"
 
 #: addressbook/gui/component/ldap-config.glade.h:28
 msgid "Email Address:"
@@ -911,9 +898,8 @@ msgid "LDAP Attribute"
 msgstr "Ознака LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:35
-#, fuzzy
 msgid "LDAP Configuration Assistant"
-msgstr "Конфігурація"
+msgstr "Помічник конфігураціі LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:36
 #, fuzzy
@@ -922,9 +908,8 @@ msgstr "Поля"
 
 #: addressbook/gui/component/ldap-config.glade.h:37 mail/mail-account-gui.c:60
 #: mail/mail-config.glade.h:75
-#, fuzzy
 msgid "Never"
-msgstr "кожні"
+msgstr "Ніколи"
 
 #: addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
@@ -1047,9 +1032,8 @@ msgid "Step 1: Server Information"
 msgstr "Вихідна інформація"
 
 #: addressbook/gui/component/ldap-config.glade.h:70
-#, fuzzy
 msgid "Step 2: Connecting to Server"
-msgstr "З'єднання з сервером..."
+msgstr "Крок 2: З'єднання з сервером"
 
 #: addressbook/gui/component/ldap-config.glade.h:71
 msgid "Step 3: Searching the Directory"
@@ -1169,12 +1153,12 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:104
 msgid "U_se SSL/TLS:"
-msgstr ""
+msgstr "Використовувати SSL/TLS:"
 
 #: addressbook/gui/component/ldap-config.glade.h:105
 #, fuzzy
 msgid "Using distinguished name (DN)"
-msgstr "Виокремлене ім'я (DN)"
+msgstr "Відокремлене ім'я (DN)"
 
 #: addressbook/gui/component/ldap-config.glade.h:106
 #, fuzzy
@@ -1195,9 +1179,8 @@ msgid "_Add"
 msgstr "Додати"
 
 #: addressbook/gui/component/ldap-config.glade.h:109
-#, fuzzy
 msgid "_Add ->"
-msgstr "Додати"
+msgstr "Додати ->"
 
 #: addressbook/gui/component/ldap-config.glade.h:110
 #, fuzzy
@@ -1210,9 +1193,8 @@ msgid "_Add to DN"
 msgstr "Додати дію"
 
 #: addressbook/gui/component/ldap-config.glade.h:112
-#, fuzzy
 msgid "_Always"
-msgstr "Сповіщення"
+msgstr "Завжди"
 
 #: addressbook/gui/component/ldap-config.glade.h:113
 #, fuzzy
@@ -1227,11 +1209,11 @@ msgstr "Відображати"
 #: addressbook/gui/component/ldap-config.glade.h:115
 #, fuzzy
 msgid "_Distinguished Name (DN):"
-msgstr "Виокремлене ім'я (DN)"
+msgstr "Відокремлене ім'я (DN)"
 
 #: addressbook/gui/component/ldap-config.glade.h:116
 msgid "_Don't use SSL/TLS"
-msgstr ""
+msgstr "Не використовувати SSL/TLS"
 
 #: addressbook/gui/component/ldap-config.glade.h:117
 msgid "_Download limit:"
@@ -1279,7 +1261,6 @@ msgid "_More Options >>"
 msgstr "Параметри"
 
 #: addressbook/gui/component/ldap-config.glade.h:126
-#, fuzzy
 msgid "_Port number:"
 msgstr "Порт:"
 
@@ -1312,9 +1293,8 @@ msgid "account-editor"
 msgstr "Редактор контактів"
 
 #: addressbook/gui/component/ldap-config.glade.h:133
-#, fuzzy
 msgid "cards"
-msgstr "Немає карток"
+msgstr "картки"
 
 #: addressbook/gui/component/ldap-config.glade.h:134
 #, fuzzy
@@ -1394,9 +1374,8 @@ msgid "Select Contacts from Addressbook"
 msgstr "Вибрати контакти з книги адрес"
 
 #: addressbook/gui/component/select-names/e-select-names.c:564
-#, fuzzy
 msgid "Find contact in"
-msgstr "Відправник містить"
+msgstr "Знайти контакт у"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:1
 msgid "Select Names"
@@ -2049,7 +2028,6 @@ msgid "Kiribati"
 msgstr "Кірібаті"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:241
-#, fuzzy
 msgid "Korea, Republic Of"
 msgstr "Південна Корея"
 
@@ -2161,9 +2139,8 @@ msgid "Micronesia"
 msgstr "Мікронезія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:267
-#, fuzzy
 msgid "Moldova, Republic Of"
-msgstr "Південна Корея"
+msgstr "Молдова"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Monaco"
@@ -2551,12 +2528,10 @@ msgid "Viet Nam"
 msgstr "В'єтнам"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:356
-#, fuzzy
 msgid "Virgin Islands, British"
-msgstr "Американські Вірджинові острови"
+msgstr "Британські Вірджинові острови"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:357
-#, fuzzy
 msgid "Virgin Islands, U.S."
 msgstr "Американські Вірджинові острови"
 
@@ -2663,9 +2638,8 @@ msgid "Don't bother translating this string.  It's not used."
 msgstr ""
 
 #: addressbook/gui/contact-editor/file-exists.glade.h:3
-#, fuzzy
 msgid "Overwrite"
-msgstr "Переписати файл?"
+msgstr "Переписати"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Address _2:"
@@ -2803,9 +2777,8 @@ msgid "Save List as VCard"
 msgstr "Зберегти список як VCard"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
-#, fuzzy
 msgid "Contact"
-msgstr "Контакти"
+msgstr "Контакт"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 msgid "Add Anyway"
@@ -2931,12 +2904,10 @@ msgid "Cancelled"
 msgstr "Скасовано"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:43
-#, fuzzy
 msgid "Authentication Failed"
-msgstr "Збій автенфікації."
+msgstr "Збій автентифікації."
 
 #: addressbook/gui/widgets/e-addressbook-util.c:44
-#, fuzzy
 msgid "Authentication Required"
 msgstr "Вимагається автенфікація"
 
@@ -2987,9 +2958,8 @@ msgid "Display Cards?"
 msgstr "Відобразити"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:209
-#, fuzzy
 msgid "Display Cards"
-msgstr "Відобразити"
+msgstr "Відобразити картки"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:213
 #, c-format
@@ -2999,24 +2969,20 @@ msgid ""
 msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:348
-#, fuzzy
 msgid "Move card to"
-msgstr "Перенести повідомлення у"
+msgstr "Перенести картку у"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:350
-#, fuzzy
 msgid "Copy card to"
-msgstr "Скопіювати вибране завдання"
+msgstr "Скопіювати картку у"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:353
-#, fuzzy
 msgid "Move cards to"
-msgstr "Немає карток"
+msgstr "Перенести картки у"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:355
-#, fuzzy
 msgid "Copy cards to"
-msgstr "Немає карток"
+msgstr "Копіювати картки у"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:363
 #: importers/evolution-gnomecard-importer.c:228 importers/pine-importer.c:642
@@ -3031,37 +2997,30 @@ msgid "Save as VCard"
 msgstr "Зберегти як VCard"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:800
-#, fuzzy
 msgid "New Contact..."
-msgstr "Новий контакт"
+msgstr "Новий контакт..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:801
-#, fuzzy
 msgid "New Contact List..."
-msgstr "Новий контактний список"
+msgstr "Новий контактний список..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:804
-#, fuzzy
 msgid "Go to Folder..."
 msgstr "Перейти на теку..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:805
-#, fuzzy
 msgid "Import..."
 msgstr "Імпорт..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:807
-#, fuzzy
 msgid "Search for Contacts..."
-msgstr "Пошук контактів"
+msgstr "Пошук контактів..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:808
-#, fuzzy
 msgid "Addressbook Sources..."
 msgstr "Джерела адресних книг..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:810
-#, fuzzy
 msgid "Pilot Settings..."
 msgstr "Установки пілота..."
 
@@ -3086,12 +3045,10 @@ msgid "Print Envelope"
 msgstr "Надрукувати конверт"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:822
-#, fuzzy
 msgid "Copy to folder..."
 msgstr "Скопіювати в теку..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:823
-#, fuzzy
 msgid "Move to folder..."
 msgstr "Перенести в теку..."
 
@@ -3223,7 +3180,6 @@ msgid "Save in addressbook"
 msgstr "Зберегти у адресній книзі"
 
 #: addressbook/gui/widgets/e-minicard-view.c:140
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3233,13 +3189,11 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"\n"
 "Немає елементів для відображення у цьому вікні\n"
 "\n"
 "Двічі клацніть для створення нового контакту."
 
 #: addressbook/gui/widgets/e-minicard-view.c:143
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3247,10 +3201,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"\n"
-"Немає елементів для відображення у цьому вікні\n"
-"\n"
-"Двічі клацніть для створення нового контакту."
+"Немає елементів для відображення у цьому вікні."
 
 #: addressbook/gui/widgets/gal-view-factory-minicard.c:26
 msgid "Card View"
@@ -3506,9 +3457,8 @@ msgid "A sample Bonobo control which displays an calendar."
 msgstr "Приклад керуючого елементу bonobo, що показує календар."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:3
-#, fuzzy
 msgid "Calendar and Tasks"
-msgstr "Установки календарю та завдань..."
+msgstr "Календар та завдання"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:4
 #, fuzzy
@@ -3616,7 +3566,7 @@ msgid "Warning"
 msgstr "Попередження"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:764
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
 "configured to run the following program:\n"
@@ -3626,7 +3576,7 @@ msgid ""
 "Are you sure you want to run this program?"
 msgstr ""
 "Буде активовано календарне нагадування.\n"
-" Це нагадування налаштовано на виконання програми:\n"
+"Це нагадування налаштовано на виконання програми:\n"
 "\n"
 "       %s\n"
 "\n"
@@ -6359,7 +6309,7 @@ msgid ""
 msgstr ""
 "Evolution намагалась знайти завдання у вашій календарній теці та автоматично "
 "перенести їх до нової теки завдань.\n"
-"Деякі з завдань неможна перенести, тому ви можете спробувати повторити цей "
+"Деякі з завдань не можна перенести, тому ви можете спробувати повторити цей "
 "процес у майбутньому."
 
 #: calendar/gui/tasks-migrate.c:120
@@ -6923,15 +6873,15 @@ msgstr ""
 
 #: calendar/zones.h:99
 msgid "America/Grenada"
-msgstr "Америка/Ґренада"
+msgstr "Америка/Гренада"
 
 #: calendar/zones.h:100
 msgid "America/Guadeloupe"
-msgstr "Америка/Ґваделупа"
+msgstr "Америка/Гваделупа"
 
 #: calendar/zones.h:101
 msgid "America/Guatemala"
-msgstr "Америка/Ґватемала"
+msgstr "Америка/Гватемала"
 
 #: calendar/zones.h:102
 msgid "America/Guayaquil"
@@ -7678,207 +7628,207 @@ msgstr "Австралія/Сідней"
 
 #: calendar/zones.h:287
 msgid "Europe/Amsterdam"
-msgstr "Европа/Амстердам"
+msgstr "Європа/Амстердам"
 
 #: calendar/zones.h:288
 msgid "Europe/Andorra"
-msgstr "Европа/Андорра"
+msgstr "Європа/Андорра"
 
 #: calendar/zones.h:289
 msgid "Europe/Athens"
-msgstr "Европа/Афіни"
+msgstr "Європа/Афіни"
 
 #: calendar/zones.h:290
 msgid "Europe/Belfast"
-msgstr "Европа/Белфаст"
+msgstr "Європа/Белфаст"
 
 #: calendar/zones.h:291
 msgid "Europe/Belgrade"
-msgstr "Европа/Белград"
+msgstr "Європа/Белград"
 
 #: calendar/zones.h:292
 msgid "Europe/Berlin"
-msgstr "Европа/Берлін"
+msgstr "Європа/Берлін"
 
 #: calendar/zones.h:293
 msgid "Europe/Bratislava"
-msgstr "Европа/Братислава"
+msgstr "Європа/Братислава"
 
 #: calendar/zones.h:294
 msgid "Europe/Brussels"
-msgstr "Европа/Брюссель"
+msgstr "Європа/Брюссель"
 
 #: calendar/zones.h:295
 msgid "Europe/Bucharest"
-msgstr "Европа/Бухарест"
+msgstr "Європа/Бухарест"
 
 #: calendar/zones.h:296
 msgid "Europe/Budapest"
-msgstr "Европа/Будапешт"
+msgstr "Європа/Будапешт"
 
 #: calendar/zones.h:297
 msgid "Europe/Chisinau"
-msgstr "Европа/Чісінау"
+msgstr "Європа/Кішиньов"
 
 #: calendar/zones.h:298
 msgid "Europe/Copenhagen"
-msgstr "Европа/Копенгаген"
+msgstr "Європа/Копенгаген"
 
 #: calendar/zones.h:299
 msgid "Europe/Dublin"
-msgstr "Европа/Дублін"
+msgstr "Європа/Дублін"
 
 #: calendar/zones.h:300
 msgid "Europe/Gibraltar"
-msgstr "Европа/Гібралтар"
+msgstr "Європа/Гібралтар"
 
 #: calendar/zones.h:301
 msgid "Europe/Helsinki"
-msgstr "Европа/Хельсінкі"
+msgstr "Європа/Хельсінкі"
 
 #: calendar/zones.h:302
 msgid "Europe/Istanbul"
-msgstr "Европа/Стамбул"
+msgstr "Європа/Стамбул"
 
 #: calendar/zones.h:303
 msgid "Europe/Kaliningrad"
-msgstr "Европа/Калінінград"
+msgstr "Європа/Калінінград"
 
 #: calendar/zones.h:304
 msgid "Europe/Kiev"
-msgstr "Европа/Київ"
+msgstr "Європа/Київ"
 
 #: calendar/zones.h:305
 msgid "Europe/Lisbon"
-msgstr "Европа/Лісабон"
+msgstr "Європа/Лісабон"
 
 #: calendar/zones.h:306
 msgid "Europe/Ljubljana"
-msgstr "Европа/Любляча"
+msgstr "Європа/Любляча"
 
 #: calendar/zones.h:307
 msgid "Europe/London"
-msgstr "Европа/Лондон"
+msgstr "Європа/Лондон"
 
 #: calendar/zones.h:308
 msgid "Europe/Luxembourg"
-msgstr "Европа/Люксембург"
+msgstr "Європа/Люксембург"
 
 #: calendar/zones.h:309
 msgid "Europe/Madrid"
-msgstr "Европа/Мадрид"
+msgstr "Європа/Мадрид"
 
 #: calendar/zones.h:310
 msgid "Europe/Malta"
-msgstr "Европа/Мальта"
+msgstr "Європа/Мальта"
 
 #: calendar/zones.h:311
 msgid "Europe/Minsk"
-msgstr "Европа/Мінськ"
+msgstr "Європа/Мінськ"
 
 #: calendar/zones.h:312
 msgid "Europe/Monaco"
-msgstr "Европа/Монако"
+msgstr "Європа/Монако"
 
 #: calendar/zones.h:313
 msgid "Europe/Moscow"
-msgstr "Европа/Москва"
+msgstr "Європа/Москва"
 
 #: calendar/zones.h:314
 msgid "Europe/Nicosia"
-msgstr "Европа/Нікосія"
+msgstr "Європа/Нікосія"
 
 #: calendar/zones.h:315
 msgid "Europe/Oslo"
-msgstr "Европа/Осло"
+msgstr "Європа/Осло"
 
 #: calendar/zones.h:316
 msgid "Europe/Paris"
-msgstr "Европа/Париж"
+msgstr "Європа/Париж"
 
 #: calendar/zones.h:317
 msgid "Europe/Prague"
-msgstr "Европа/Прага"
+msgstr "Європа/Прага"
 
 #: calendar/zones.h:318
 msgid "Europe/Riga"
-msgstr "Европа/Рига"
+msgstr "Європа/Рига"
 
 #: calendar/zones.h:319
 msgid "Europe/Rome"
-msgstr "Европа/Рим"
+msgstr "Європа/Рим"
 
 #: calendar/zones.h:320
 msgid "Europe/Samara"
-msgstr "Европа/Самара"
+msgstr "Європа/Самара"
 
 #: calendar/zones.h:321
 msgid "Europe/San_Marino"
-msgstr "Европа/Сан Маріно"
+msgstr "Європа/Сан Маріно"
 
 #: calendar/zones.h:322
 msgid "Europe/Sarajevo"
-msgstr "Европа/Сараєво"
+msgstr "Європа/Сараєво"
 
 #: calendar/zones.h:323
 msgid "Europe/Simferopol"
-msgstr "Европа/Сімферополь"
+msgstr "Європа/Сімферополь"
 
 #: calendar/zones.h:324
 msgid "Europe/Skopje"
-msgstr "Европа/Скоп'є"
+msgstr "Європа/Скоп'є"
 
 #: calendar/zones.h:325
 msgid "Europe/Sofia"
-msgstr "Европа/Софія"
+msgstr "Європа/Софія"
 
 #: calendar/zones.h:326
 msgid "Europe/Stockholm"
-msgstr "Европа/Стокгольм"
+msgstr "Європа/Стокгольм"
 
 #: calendar/zones.h:327
 msgid "Europe/Tallinn"
-msgstr "Европа/Таллін"
+msgstr "Європа/Таллін"
 
 #: calendar/zones.h:328
 msgid "Europe/Tirane"
-msgstr "Европа/Тірана"
+msgstr "Європа/Тірана"
 
 #: calendar/zones.h:329
 msgid "Europe/Uzhgorod"
-msgstr "Европа/Ужгород"
+msgstr "Європа/Ужгород"
 
 #: calendar/zones.h:330
 msgid "Europe/Vaduz"
-msgstr "Европа/Вадуц"
+msgstr "Європа/Вадуц"
 
 #: calendar/zones.h:331
 msgid "Europe/Vatican"
-msgstr "Европа/Ватикан"
+msgstr "Європа/Ватикан"
 
 #: calendar/zones.h:332
 msgid "Europe/Vienna"
-msgstr "Европа/Відень"
+msgstr "Європа/Відень"
 
 #: calendar/zones.h:333
 msgid "Europe/Vilnius"
-msgstr "Европа/Вільнюс"
+msgstr "Європа/Вільнюс"
 
 #: calendar/zones.h:334
 msgid "Europe/Warsaw"
-msgstr "Европа/Варшава"
+msgstr "Європа/Варшава"
 
 #: calendar/zones.h:335
 msgid "Europe/Zagreb"
-msgstr "Европа/Загреб"
+msgstr "Європа/Загреб"
 
 #: calendar/zones.h:336
 msgid "Europe/Zaporozhye"
-msgstr "Европа/Запоріжжя"
+msgstr "Європа/Запоріжжя"
 
 #: calendar/zones.h:337
 msgid "Europe/Zurich"
-msgstr "Европа/Цюріх"
+msgstr "Європа/Цюріх"
 
 #: calendar/zones.h:338
 msgid "Indian/Antananarivo"
@@ -8248,7 +8198,7 @@ msgstr "(співпадають всі) потребує єдиного логі
 #: camel/camel-folder-search.c:650
 #, c-format
 msgid "Performing query on unknown header: %s"
-msgstr "Виконання запиту на невідомому заголовці"
+msgstr "Виконання запиту на невідомому заголовці: %s"
 
 #: camel/camel-folder.c:583
 #, c-format
@@ -10651,7 +10601,7 @@ msgstr "Запам'ятати цей пароль"
 
 #: e-util/e-passwords.c:365
 msgid "Remember this password for the remainder of this session"
-msgstr "Замап'ятайте цей пароль до закінчення поточного сеансу"
+msgstr "Пам'ятати цей пароль до закінчення поточного сеансу"
 
 #: e-util/e-pilot-settings.c:96
 msgid "Sync Private Records:"
@@ -11134,7 +11084,6 @@ msgid "is before"
 msgstr "було після"
 
 #: filter/libfilter-i18n.h:30
-#, fuzzy
 msgid "is Flagged"
 msgstr "Відмічено"
 
@@ -11151,9 +11100,8 @@ msgid "is not"
 msgstr "не"
 
 #: filter/libfilter-i18n.h:34
-#, fuzzy
 msgid "is not Flagged"
-msgstr "Відмічено"
+msgstr "не відмічено"
 
 #: filter/libfilter-i18n.h:35 mail/folder-browser.c:1766
 msgid "Label"
@@ -11612,7 +11560,6 @@ msgid "Post a new mail message"
 msgstr "Підготувати повідомлення"
 
 #: mail/component-factory.c:1078
-#, fuzzy
 msgid "Cannot initialize the Evolution mail component."
 msgstr "Не вдалося ініціалізувати поштовий компонент Evolutuion."
 
@@ -11625,9 +11572,8 @@ msgid "Cannot initialize Evolution's folder info component."
 msgstr "Не вдалося ініціалізувати компонент інформації про теку Evolutuion."
 
 #: mail/component-factory.c:1334 mail/component-factory.c:1364
-#, fuzzy
 msgid "Connecting..."
-msgstr "З'єднання з сервером..."
+msgstr "З'єднання..."
 
 #: mail/component-factory.c:1375
 msgid "Cannot register storage with shell"
@@ -11670,7 +11616,7 @@ msgstr ""
 #: mail/folder-browser.c:776
 #, c-format
 msgid "%d selected"
-msgstr "d вибрано"
+msgstr "%d вибрано"
 
 #: mail/folder-browser.c:781
 #, c-format
@@ -11908,7 +11854,7 @@ msgstr "Шлях:"
 
 #: mail/mail-account-gui.c:1847
 msgid "You may not create two accounts with the same name."
-msgstr "Неможна створювати два облікових рахунки з спільним ім'ям."
+msgstr "Не можна створювати два облікових рахунки з спільним ім'ям."
 
 #: mail/mail-accounts.c:224
 msgid "Are you sure you want to delete this account?"
@@ -11945,9 +11891,8 @@ msgid "Account name"
 msgstr "Назва рахунку:"
 
 #: mail/mail-accounts.c:533 mail/mail-accounts.etspec.h:3
-#, fuzzy
 msgid "Protocol"
-msgstr "Пуерто Ріко"
+msgstr "Протокол"
 
 #: mail/mail-autofilter.c:78
 #, c-format
@@ -12423,7 +12368,7 @@ msgid ""
 "\n"
 "Click \"Finish\" to save your settings."
 msgstr ""
-"Вітаємо! Налаштувань вашої пошти закінчено.\n"
+"Вітаємо! Налаштування вашої пошти закінчено.\n"
 "\n"
 "Тепер ви готові до надсилання та отримання ел.пошти \n"
 "з Evolution.\n"
@@ -13449,7 +13394,7 @@ msgstr "Запам'ятати цей пароль"
 #: mail/mail-session.c:273
 #, fuzzy
 msgid "_Remember this password for the remainder of this session"
-msgstr "Замап'ятайте цей пароль до закінчення поточного сеансу"
+msgstr "Пам'ятати цей пароль до закінчення поточного сеансу"
 
 #: mail/mail-session.c:330
 #, c-format
@@ -16478,7 +16423,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:687
 msgid "Europe"
-msgstr "Европа"
+msgstr "Європа"
 
 #: my-evolution/Locations.h:688
 msgid "Evanston"
@@ -23069,7 +23014,7 @@ msgstr ""
 #: my-evolution/Locations.h:2352
 #, fuzzy
 msgid "Uzhgorod"
-msgstr "Европа/Ужгород"
+msgstr "Європа/Ужгород"
 
 #: my-evolution/Locations.h:2353
 #, fuzzy
@@ -25824,19 +25769,19 @@ msgstr "(Немає)"
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
-"Ximian Evolution у мережевому режимі. Клацніть на цю кнопку для перехіду до "
+"Ximian Evolution у мережевому режимі. Клацніть на цю кнопку для переходу до "
 "автономної роботи."
 
 #: shell/e-shell-view.c:1917
 msgid "Ximian Evolution is in the process of going offline."
-msgstr "Ximian Evolution у процесі перехіду до автономної роботи."
+msgstr "Ximian Evolution у процесі переходу до автономної роботи."
 
 #: shell/e-shell-view.c:1923
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 "Ximian Evolution зараз у автономному режимі. Клацніть на цю кнопку для "
-"перехіду до роботи у мережі."
+"переходу до роботи у мережі."
 
 #: shell/e-shell.c:175
 #, fuzzy, c-format
@@ -25876,7 +25821,7 @@ msgstr "Неможливо зареєструватись на OAF"
 
 #: shell/e-shell.c:2182
 msgid "Configuration Database not found"
-msgstr "Не знайдено конфіґураційної бази даних"
+msgstr "Не знайдено конфігураційної бази даних"
 
 #: shell/e-shell.c:2184 shell/e-storage.c:571
 msgid "Generic error"
