@@ -984,7 +984,7 @@ void
 mark_all_as_seen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	select_all (uih, user_data, path);
-	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_SEEN, 0);
+	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 }
 
 static void
