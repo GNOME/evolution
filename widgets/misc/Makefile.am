@@ -168,6 +168,7 @@ BUILT_SOURCES = $(MARSHAL_GENERATED) $(error_i18n)
 CLEANFILES    = $(BUILT_SOURCES)
 
 EXTRA_DIST =			\
+	$(glade_DATA)		\
 	$(error_DATA)		\
 	$(error_i18n)		\
 	e-pilot-settings.h	\
