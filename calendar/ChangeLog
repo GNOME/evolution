@@ -1,3 +1,21 @@
+2001-10-09  Federico Mena Quintero  <federico@ximian.com>
+
+	Fixes bug #884.
+
+	* gui/alarm-notify/save.[ch]: New files with functions to
+	save/load the last notification time.
+
+	* gui/alarm-notify/alarm-queue.c (alarm_trigger_cb): Save the last
+	notification time.
+	(alarm_queue_init): Load the last notification time when the
+	daemon is inited.
+	(alarm_queue_add_client): Load the alarms that we missed while the
+	alarm daemon was not running.
+	(cal_opened_cb): Likewise.
+
+	* gui/alarm-notify/Makefile.am (evolution_alarm_notify_SOURCES):
+	Added save.[ch] to the list of sources.
+
 2001-10-09  JP Rosevear  <jpr@ximian.com>
 
 	* gui/itip-utils.c (get_address): util function to get address

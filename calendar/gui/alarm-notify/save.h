@@ -1,4 +1,4 @@
-/* Evolution calendar - Alarm queueing engine
+/* Evolution calendar - Functions to save alarm notification times
  *
  * Copyright (C) 2001 Ximian, Inc.
  *
@@ -19,17 +19,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef ALARM_QUEUE_H
-#define ALARM_QUEUE_H
+#ifndef SAVE_H
+#define SAVE_H
 
-#include <cal-client/cal-client.h>
+#include <time.h>
 
+void save_notification_time (time_t t);
 
-void alarm_queue_init (void);
-void alarm_queue_done (void);
-
-void alarm_queue_add_client (CalClient *client);
-void alarm_queue_remove_client (CalClient *client);
-
+time_t get_saved_notification_time (void);
 
 #endif

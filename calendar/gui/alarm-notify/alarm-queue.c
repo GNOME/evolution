@@ -1,7 +1,6 @@
 /* Evolution calendar - Alarm queueing engine
  *
- * Copyright (C) 2000 Ximian, Inc.
- * Copyright (C) 2000 Ximian, Inc.
+ * Copyright (C) 2001 Ximian, Inc.
  *
  * Authors: Federico Mena-Quintero <federico@ximian.com>
  *
@@ -39,11 +38,18 @@
 #include "alarm.h"
 #include "alarm-notify-dialog.h"
 #include "alarm-queue.h"
+#include "save.h"
 
 
 
 /* Whether the queueing system has been initialized */
 static gboolean alarm_queue_inited;
+
+/* When the alarm queue system is inited, this gets set to the last time an
+ * alarm notification was issued.  This lets us present any notifications that
+ * should have happened while the alarm daemon was not running.
+ */
+static time_t saved_notification_time;
 
 /* Clients we are monitoring for alarms */
 static GHashTable *client_alarms_hash = NULL;
@@ -104,7 +110,7 @@ static void procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpoin
 
 /* Alarm queue engine */
 
-static void load_alarms (ClientAlarms *ca);
+static void load_alarms_for_today (ClientAlarms *ca);
 static void midnight_refresh_cb (gpointer alarm_id, time_t trigger, gpointer data);
 
 /* Queues an alarm trigger for midnight so that we can load the next day's worth
@@ -133,7 +139,7 @@ add_client_alarms_cb (gpointer key, gpointer value, gpointer data)
 	ClientAlarms *ca;
 
 	ca = value;
-	load_alarms (ca);
+	load_alarms_for_today (ca);
 }
 
 /* Loads the alarms for the new day every midnight */
@@ -230,6 +236,8 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 
 	cqa = data;
 	comp = cqa->alarms->comp;
+
+	save_notification_time (trigger);
 
 	qa = lookup_queued_alarm (cqa, alarm_id);
 
@@ -330,18 +338,14 @@ add_component_alarms (ClientAlarms *ca, CalComponentAlarms *alarms)
 	g_hash_table_insert (ca->uid_alarms_hash, (char *) uid, cqa);
 }
 
-/* Loads today's remaining alarms for a client */
+/* Loads the alarms of a client for a given range of time */
 static void
-load_alarms (ClientAlarms *ca)
+load_alarms (ClientAlarms *ca, time_t start, time_t end)
 {
-	time_t now, day_end;
 	GSList *comp_alarms;
 	GSList *l;
 
-	now = time (NULL);
-	day_end = time_day_end (now);
-
-	comp_alarms = cal_client_get_alarms_in_range (ca->client, now, day_end);
+	comp_alarms = cal_client_get_alarms_in_range (ca->client, start, end);
 
 	/* All of the last day's alarms should have already triggered and should
 	 * have been removed, so we should have no pending components.
@@ -358,6 +362,30 @@ load_alarms (ClientAlarms *ca)
 	g_slist_free (comp_alarms);
 }
 
+/* Loads today's remaining alarms for a client */
+static void
+load_alarms_for_today (ClientAlarms *ca)
+{
+	time_t now, day_end;
+
+	now = time (NULL);
+	day_end = time_day_end (now);
+}
+
+/* Adds any alarms that should have occurred while the alarm daemon was not
+ * running.
+ */
+static void
+load_missed_alarms (ClientAlarms *ca)
+{
+	time_t now;
+
+	now = time (NULL);
+
+	g_assert (saved_notification_time != -1);
+	load_alarms (ca, saved_notification_time, now);
+}
+
 /* Called when a calendar client finished loading; we load its alarms */
 static void
 cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
@@ -369,7 +397,8 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 	if (status != CAL_CLIENT_OPEN_SUCCESS)
 		return;
 
-	load_alarms (ca);
+	load_alarms_for_today (ca);
+	load_missed_alarms (ca);
 }
 
 /* Looks up a component's queued alarm structure in a client alarms structure */
@@ -783,6 +812,12 @@ alarm_queue_init (void)
 	client_alarms_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	queue_midnight_refresh ();
 
+	saved_notification_time = get_saved_notification_time ();
+	if (saved_notification_time == -1) {
+		saved_notification_time = time (NULL);
+		save_notification_time (saved_notification_time);
+	}
+
 	alarm_queue_inited = TRUE;
 }
 
@@ -859,8 +894,10 @@ alarm_queue_add_client (CalClient *client)
 	gtk_signal_connect (GTK_OBJECT (client), "obj_removed",
 			    GTK_SIGNAL_FUNC (obj_removed_cb), ca);
 
-	if (cal_client_get_load_state (client) == CAL_CLIENT_LOAD_LOADED)
-		load_alarms (ca);
+	if (cal_client_get_load_state (client) == CAL_CLIENT_LOAD_LOADED) {
+		load_alarms_for_today (ca);
+		load_missed_alarms (ca);
+	}
 }
 
 /* Called from g_hash_table_foreach(); adds a component UID to a list */
