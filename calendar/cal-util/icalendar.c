@@ -330,8 +330,7 @@ ical_object_create_from_icalcomponent (icalcomponent* comp)
 			/* nothing to do for this property */
 			break;
 		default:
-			g_warning ("Unsupported property: %s", icalproperty_as_ical_string 
-(prop));
+			g_warning ("Unsupported property: %s", icalproperty_as_ical_string (prop));
 			break;
 			
 		}

@@ -1,3 +1,12 @@
+2000-06-28  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.[ch]: New files for the new iCalendar
+	component object.  Today's properties: basic component type, UID,
+	SUMMARY.
+
+	* cal-util/Makefile.am: Added cal-component.[ch] to the list of
+	sources.
+
 2000-06-27  Michael Meeks  <michael@helixcode.com>
 
 	* pcs/Makefile.am (INCLUDES): use BONOBO_VFS_GNOME_CFLAGS.

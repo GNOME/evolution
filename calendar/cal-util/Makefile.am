@@ -1,4 +1,3 @@
-
 noinst_PROGRAMS = test-recur icalendar-test
 
 INCLUDES =						\
@@ -16,6 +15,7 @@ INCLUDES =						\
 lib_LTLIBRARIES = libcal-util.la
 
 libcal_util_la_SOURCES = 	\
+	cal-component.c		\
 	cal-recur.c		\
 	cal-util.c		\
 	calobj.c		\
@@ -28,6 +28,7 @@ libcal_util_la_SOURCES = 	\
 libcal_utilincludedir = $(includedir)/evolution/cal-util
 
 libcal_utilinclude_HEADERS =	\
+	cal-component.h		\
 	cal-recur.h		\
 	cal-util.h		\
 	calobj.h		\
