@@ -602,13 +602,19 @@ perform_content_info_save(CamelFolderSummary *s, FILE *out, CamelMessageContentI
 {
 	CamelMessageContentInfo *part;
 
-	((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_save(s, out, ci);
-	camel_file_util_encode_uint32(out, my_list_size((struct _node **)&ci->childs));
+	if (((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS (s)))->content_info_save (s, out, ci) == -1)
+		return -1;
+	
+	if (camel_file_util_encode_uint32 (out, my_list_size ((struct _node **)&ci->childs)) == -1)
+		return -1;
+	
 	part = ci->childs;
 	while (part) {
-		perform_content_info_save(s, out, part);
+		if (perform_content_info_save (s, out, part) == -1)
+			return -1;
 		part = part->next;
 	}
+	
 	return 0;
 }
 
@@ -625,8 +631,7 @@ int
 camel_folder_summary_save(CamelFolderSummary *s)
 {
 	FILE *out;
-	int fd;
-	int i;
+	int fd, i;
 	guint32 count;
 	CamelMessageInfo *mi;
 	char *path;
@@ -641,7 +646,7 @@ camel_folder_summary_save(CamelFolderSummary *s)
 	if (fd == -1)
 		return -1;
 	out = fdopen(fd, "w");
-	if ( out == NULL ) {
+	if (out == NULL) {
 		i = errno;
 		unlink(path);
 		close(fd);
@@ -653,46 +658,52 @@ camel_folder_summary_save(CamelFolderSummary *s)
 
 	CAMEL_SUMMARY_LOCK(s, io_lock);
 
-	if ( ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->summary_header_save(s, out) == -1) {
-		i = errno;
-		fclose(out);
-		CAMEL_SUMMARY_UNLOCK(s, io_lock);
-		unlink(path);
-		errno = i;
-		return -1;
-	}
-
+	if (((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->summary_header_save(s, out) == -1)
+		goto exception;
+	
 	/* now write out each message ... */
 	/* we check ferorr when done for i/o errors */
-
 	count = s->messages->len;
-	for (i=0;i<count;i++) {
+	for (i = 0; i < count; i++) {
 		mi = s->messages->pdata[i];
-		((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_save(s, out, mi);
-
+		if (((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS (s)))->message_info_save (s, out, mi) == -1)
+			goto exception;
+		
 		if (s->build_content) {
-			perform_content_info_save(s, out, mi->content);
+			if (perform_content_info_save (s, out, mi->content) == -1)
+				goto exception;
 		}
 	}
-
+	
+	if (fflush (out) != 0 || fsync (fileno (out)) == -1)
+		goto exception;
+	
+	fclose (out);
+	
 	CAMEL_SUMMARY_UNLOCK(s, io_lock);
-
-	if (ferror(out) != 0 ||  fclose(out) != 0) {
-		i = errno;
-		unlink(path);
-		errno = i;
-		return -1;
-	}
-
+	
 	if (rename(path, s->summary_path) == -1) {
 		i = errno;
 		unlink(path);
 		errno = i;
 		return -1;
 	}
-
+	
 	s->flags &= ~CAMEL_SUMMARY_DIRTY;
 	return 0;
+	
+ exception:
+	
+	i = errno;
+	
+	fclose (out);
+	
+	CAMEL_SUMMARY_UNLOCK(s, io_lock);
+	
+	unlink (path);
+	errno = i;
+	
+	return -1;
 }
 
 /**

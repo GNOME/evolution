@@ -1,5 +1,25 @@
 2002-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-folder-summary.c (perform_content_info_save): Do proper
+	error checking and return -1 on fail.
+	(camel_folder_summary_save): Check the return of
+	perform_content_info_save and a few other output calls within the
+	message_info_save loop. If any of them fail, save errno, close the
+	file, and return -1. If we finish the loop without fail, fflush
+	the stream and then fsync (fflush only flushes user-space buffers,
+	you still need to fsync afterward to flush the data to disk). If
+	either fail, treat it as an exception by saving errno, closing the
+	stream, and returning -1. I suspect that this also fixes bug
+	#30150 because the old code would fclose if fflush or fclose
+	failed in the check after the loop (man fclose(3) states that any
+	further calls using the stream (even another call to fclose) will
+	have undefined behaviour no matter what the first fclose call
+	returned).
+
+	* providers/local/camel-local-summary.c
+	(camel_local_summary_init): Don't malloc a private struct of 0
+	size.
+
 	* providers/imap/camel-imap-folder.c
 	(camel_imap_folder_fetch_data): Clear the exception even if we
 	failed to get the message (part) from the imap-message-cache if we

@@ -41,11 +41,6 @@
 
 #define CAMEL_LOCAL_SUMMARY_VERSION (0x200)
 
-struct _CamelLocalSummaryPrivate {
-};
-
-#define _PRIVATE(o) (((CamelLocalSummary *)(o))->priv)
-
 static CamelMessageInfo * message_info_new (CamelFolderSummary *, struct _header_raw *);
 
 static int local_summary_decode_x_evolution(CamelLocalSummary *cls, const char *xev, CamelMessageInfo *mi);
@@ -100,10 +95,7 @@ camel_local_summary_class_init(CamelLocalSummaryClass *klass)
 static void
 camel_local_summary_init(CamelLocalSummary *obj)
 {
-	struct _CamelLocalSummaryPrivate *p;
 	struct _CamelFolderSummary *s = (CamelFolderSummary *)obj;
-
-	p = _PRIVATE(obj) = g_malloc0(sizeof(*p));
 
 	/* subclasses need to set the right instance data sizes */
 	s->message_info_size = sizeof(CamelMessageInfo);
