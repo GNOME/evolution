@@ -1,3 +1,11 @@
+1999-01-19  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* quick-view.c (quick_view_do_popup): Do not grab the mouse here
+	(it was being grabbed incorrectly, anyways).
+	(quick_view_map_event): Grab the mouse when the window is mapped.
+	This avoids the ugly "while (xGrabPointer () != Success)" hack.
+	(quick_view_button_release): Handle button releases here.
+
 1999-01-19  Tomas Ogren  <stric@ing.umu.se>
 
 	* main.c: do gtk_widget_realize on the toplevel window..

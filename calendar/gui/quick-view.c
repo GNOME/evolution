@@ -16,6 +16,12 @@
 static void quick_view_class_init (QuickViewClass *class);
 static void quick_view_init       (QuickView      *qv);
 
+static gint quick_view_button_release (GtkWidget *widget, GdkEventButton *event);
+static gint quick_view_map_event (GtkWidget *widget, GdkEventAny *event);
+
+
+static GtkWindowClass *parent_class;
+
 
 GtkType
 quick_view_get_type (void)
@@ -43,6 +49,14 @@ quick_view_get_type (void)
 static void
 quick_view_class_init (QuickViewClass *class)
 {
+	GtkWidgetClass *widget_class;
+
+	widget_class = (GtkWidgetClass *) class;
+
+	parent_class = gtk_type_class (gtk_window_get_type ());
+
+	widget_class->button_release_event = quick_view_button_release;
+	widget_class->map_event = quick_view_map_event;
 }
 
 static void
@@ -52,27 +66,40 @@ quick_view_init (QuickView *qv)
 	gtk_window_set_position (GTK_WINDOW (qv), GTK_WIN_POS_MOUSE);
 }
 
-/* Handles button release events from the canvas in the quick view.  When a button release is
- * received, it pops down the quick view and calls gtk_main_quit().
- */
 static gint
-button_release (GtkWidget *widget, GdkEventButton *event, gpointer data)
+quick_view_button_release (GtkWidget *widget, GdkEventButton *event)
 {
 	QuickView *qv;
 
-	qv = data;
+	qv = QUICK_VIEW (widget);
 
 	if (event->button != qv->button)
 		return FALSE;
 
 	gdk_pointer_ungrab (event->time);
-	gtk_grab_remove (GTK_WIDGET (qv->canvas));
+	gtk_grab_remove (GTK_WIDGET (qv));
 	gtk_widget_hide (GTK_WIDGET (qv));
 
-	gtk_main_quit (); /* End modality */
+	gtk_main_quit (); /* End modality of the quick view */
 	return TRUE;
 }
 
+static gint
+quick_view_map_event (GtkWidget *widget, GdkEventAny *event)
+{
+	GdkCursor *cursor;
+
+	cursor = gdk_cursor_new (GDK_ARROW);
+	gdk_pointer_grab (widget->window,
+			  TRUE,
+			  GDK_BUTTON_RELEASE_MASK,
+			  NULL,
+			  cursor,
+			  GDK_CURRENT_TIME);
+	gdk_cursor_destroy (cursor);
+
+	return FALSE;
+}
 
 /* Creates the items corresponding to a single calendar object.  Takes in the y position of the
  * items to create and returns the y position of the next item to create.  Also takes in the current
@@ -218,10 +245,6 @@ quick_view_new (GnomeCalendar *calendar, char *title, GList *event_list)
 	gtk_widget_pop_colormap ();
 	gtk_widget_pop_visual ();
 
-	gtk_signal_connect (GTK_OBJECT (qv->canvas), "button_release_event",
-			    (GtkSignalFunc) button_release,
-			    qv);
-
 	gtk_container_add (GTK_CONTAINER (w), qv->canvas);
 
 	/* Set up the event list */
@@ -234,8 +257,6 @@ quick_view_new (GnomeCalendar *calendar, char *title, GList *event_list)
 void
 quick_view_do_popup (QuickView *qv, GdkEventButton *event)
 {
-	GdkCursor *cursor;
-
 	g_return_if_fail (qv != NULL);
 	g_return_if_fail (IS_QUICK_VIEW (qv));
 	g_return_if_fail (event != NULL);
@@ -243,18 +264,7 @@ quick_view_do_popup (QuickView *qv, GdkEventButton *event)
 	/* Pop up the window */
 
 	gtk_widget_show_all (GTK_WIDGET (qv));
-	gtk_grab_add (qv->canvas);
-
-	cursor = gdk_cursor_new (GDK_ARROW);
-
-	while (gdk_pointer_grab (GTK_LAYOUT (qv->canvas)->bin_window,
-				 TRUE,
-				 GDK_BUTTON_RELEASE_MASK,
-				 NULL,
-				 cursor,
-				 event->time) != 0); /* wait for success */
-
-	gdk_cursor_destroy (cursor);
+	gtk_grab_add (GTK_WIDGET (qv));
 
 	qv->button = event->button;
 
