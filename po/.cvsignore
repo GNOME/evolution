@@ -10,3 +10,5 @@ gnome.pot
 stamp-cat-id
 evolution.pot
 messages
+.headerlock
+tmp
