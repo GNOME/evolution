@@ -819,6 +819,9 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 		if (x2 < x)
 			continue;
 
+		if (x2 <= x1)
+			continue;
+
 		e_table_header_draw_button (drawable, ecol,
 					    GTK_WIDGET (canvas)->style, ethi->font,
 					    GTK_WIDGET_STATE (canvas),
