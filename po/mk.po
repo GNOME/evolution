@@ -1,3 +1,4 @@
+# translation of mk.po to Macedonian
 # translation of evolution.HEAD.po to
 # translation of evolution.HEAD.po to Macedonian
 # translation of evolution.HEAD.po to
@@ -5,15 +6,16 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER, 2003
 # Damjan Georgievski <penguinista@mail.net.mk>, 2003
 # Marko Ivanoski <marko@programmer.net>, 2003
+# Ivan Stojmirov <stojmir@linux.net.mk>, 2003
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution.HEAD\n"
+"Project-Id-Version: mk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-06-13 19:59+0200\n"
-"PO-Revision-Date: 2003-06-16 04:26+0000\n"
-"Last-Translator: Damjan Georgievski <penguinista@mail.net.mk>\n"
-"Language-Team: Macedonian <lug@lists.linux.net.mk>\n"
+"PO-Revision-Date: 2003-06-25 10:51+0200\n"
+"Last-Translator: Ivan Stojmirov <stojmir@linux.net.mk>\n"
+"Language-Team: Macedonian <gnomk-main@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -6008,7 +6010,7 @@ msgstr "Елементот испратен!\n"
 
 #: calendar/gui/e-itip-control.c:2087 calendar/gui/e-itip-control.c:2139
 msgid "The item could not be sent!\n"
-msgstr "Елементот не може да биде испратен!\n "
+msgstr "Елементот не може да биде испратен!\n"
 
 #: calendar/gui/e-itip-control.c:2212
 msgid "Select Calendar Folder"
