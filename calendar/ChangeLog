@@ -1,3 +1,18 @@
+2000-10-05  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-day-view.c: 
+	* gui/e-week-view.c: when the user types in a new event, don't create
+	it until the user hits Return or switches focus. Removed the
+	editing_new_event flags.
+
+	* cal-util/test-recur.c: rewritten to work on ics files. Now I can
+	start testing the recurrence code.
+
+	* cal-util/cal-recur.c: a few fixes.
+
+	* gui/e-day-view.c (e_day_view_check_if_new_event_fits): fixed to
+	return TRUE for long events, not FALSE.
+
 2000-10-04  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/print.c (print_todo_details): As a temporary solution to the

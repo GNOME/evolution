@@ -52,11 +52,11 @@ extern "C" {
 /* The width of the gap between appointments. This should be at least
    E_DAY_VIEW_BAR_WIDTH, since in the top canvas we use this space to draw
    the triangle to represent continuing events. */
-#define E_DAY_VIEW_GAP_WIDTH		8
+#define E_DAY_VIEW_GAP_WIDTH		7
 
 /* The width of the bars down the left of each column and appointment.
    This includes the borders on each side of it. */
-#define E_DAY_VIEW_BAR_WIDTH		8
+#define E_DAY_VIEW_BAR_WIDTH		7
 
 /* The height of the horizontal bar above & beneath the selected event.
    This includes the borders on the top and bottom. */
@@ -348,11 +348,6 @@ struct _EDayView
 	 being edited, or E_DAY_VIEW_LONG_EVENT if a long event is edited. */
 	gint editing_event_day;
 	gint editing_event_num;
-
-	/* This is TRUE if we are editing an event which we have just created.
-	   We ignore the "update_event" callback which we will get from the
-	   server when the event is added. */
-	gboolean editing_new_event;
 
 	/* This is a GnomeCanvasRect which is placed around an item while it
 	   is being resized, so we can raise it above all other EText items. */

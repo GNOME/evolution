@@ -493,7 +493,6 @@ e_day_view_init (EDayView *day_view)
 
 	day_view->editing_event_day = -1;
 	day_view->editing_event_num = -1;
-	day_view->editing_new_event = FALSE;
 
 	day_view->resize_bars_event_day = -1;
 	day_view->resize_bars_event_num = -1;
@@ -1330,19 +1329,6 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 #warning "FIXME"
 #endif
 
-		/* If we are editing an event which we have just created, we
-		   will get an update_event callback from the server. But we
-		   need to ignore it or we will lose the text the user has
-		   already typed in. */
-		if (day_view->editing_new_event
-		    && day_view->editing_event_day == day
-		    && day_view->editing_event_num == event_num) {
-			gtk_object_unref (GTK_OBJECT (event->comp));
-			event->comp = comp; /* Takes over ref count. */
-			return;
-		}
-
-
 		/* Do this the long way every time for now */
 #if 0
 		if (ical_object_compare_dates (event->ico, ico)) {
@@ -1462,15 +1448,6 @@ e_day_view_update_event_cb (EDayView *day_view,
 	event->comp = comp;
 	gtk_object_ref (GTK_OBJECT (comp));
 
-	/* If we are editing an event which we have just created, we will get
-	   an update_event callback from the server. But we need to ignore it
-	   or we will lose the text the user has already typed in. */
-	if (day_view->editing_new_event
-	    && day_view->editing_event_day == day
-	    && day_view->editing_event_num == event_num) {
-		return TRUE;
-	}
-
 	if (day == E_DAY_VIEW_LONG_EVENT) {
 		e_day_view_update_long_event_label (day_view, event_num);
 		e_day_view_reshape_long_event (day_view, event_num);
@@ -1536,7 +1513,7 @@ e_day_view_remove_event_cb (EDayView *day_view,
 {
 	EDayViewEvent *event;
 
-#if 1
+#if 0
 	g_print ("In e_day_view_remove_event_cb day:%i event_num:%i\n",
 		 day, event_num);
 #endif
@@ -4432,13 +4409,9 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	if (e_day_view_find_event_from_uid (day_view, uid, &day, &event_num)) {
 		e_day_view_start_editing_event (day_view, day, event_num,
 						initial_text);
-		day_view->editing_new_event = TRUE;
 	} else {
 		g_warning ("Couldn't find event to start editing.\n");
 	}
-
-	if (!cal_client_update_object (day_view->client, comp))
-		g_message ("e_day_view_key_press(): Could not update the object!");
 
 	gtk_object_unref (GTK_OBJECT (comp));
 
@@ -4668,9 +4641,9 @@ e_day_view_check_if_new_event_fits (EDayView *day_view)
 	/* Long events always fit, since we keep adding rows to the top
 	   canvas. */
 	if (day != day_view->selection_end_day)
-		return FALSE;
+		return TRUE;
 	if (start_row == 0 && end_row == day_view->rows)
-		return FALSE;
+		return TRUE;
 
 	/* If any of the rows already have E_DAY_VIEW_MAX_COLUMNS columns,
 	   return FALSE. */
@@ -4720,7 +4693,9 @@ e_day_view_start_editing_event (EDayView *day_view,
 	ETextEventProcessor *event_processor = NULL;
 	ETextEventProcessorCommand command;
 
+#if 0
 	g_print ("In e_day_view_start_editing_event\n");
+#endif
 
 	/* If we are already editing the event, just return. */
 	if (day == day_view->editing_event_day
@@ -4738,8 +4713,6 @@ e_day_view_start_editing_event (EDayView *day_view,
 	/* If the event is not shown, don't try to edit it. */
 	if (!event->canvas_item)
 		return;
-
-	g_print ("In e_day_view_start_editing_event 2\n");
 
 	/* We must grab the focus before setting the initial text, since
 	   grabbing the focus will result in a call to
@@ -4835,7 +4808,7 @@ e_day_view_on_editing_started (EDayView *day_view,
 					      &day, &event_num))
 		return;
 
-#if 1
+#if 0
 	g_print ("In e_day_view_on_editing_started Day:%i Event:%i\n",
 		 day, event_num);
 #endif
@@ -4878,8 +4851,10 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	day = day_view->editing_event_day;
 	event_num = day_view->editing_event_num;
 
+#if 0
 	g_print ("In e_day_view_on_editing_stopped Day:%i Event:%i\n",
 		 day, event_num);
+#endif
 
 	/* If no item is being edited, just return. */
 	if (day == -1)
@@ -4901,7 +4876,6 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	/* Reset the edit fields. */
 	day_view->editing_event_day = -1;
 	day_view->editing_event_num = -1;
-	day_view->editing_new_event = FALSE;
 
 	day_view->resize_bars_event_day = -1;
 	day_view->resize_bars_event_num = -1;

@@ -298,11 +298,6 @@ struct _EWeekView
 	gint editing_event_num;
 	gint editing_span_num;
 
-	/* This is TRUE if we are editing an event which we have just created.
-	   We ignore the "update_event" callback which we will get from the
-	   server when the event is added. */
-	gboolean editing_new_event;
-
 	/* The event that the context menu is for. */
 	gint popup_event_num;
 

@@ -1,4 +1,4 @@
-#noinst_PROGRAMS = test-recur
+noinst_PROGRAMS = test-recur
 
 INCLUDES =						\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
@@ -39,11 +39,11 @@ noinst_LTLIBRARIES = libcal-util-static.la
 libcal_util_static_la_SOURCES = $(libcal_util_la_SOURCES)
 libcal_util_static_la_LDFLAGS = --all-static
 
-#test_recur_SOURCES = 	\
-#	 test-recur.c
-#
-#test_recur_LDADD = 	\
-#	 libcal-util.la	\
-#	 $(top_builddir)/libversit/libversit.la		\
-#	 $(top_builddir)/libical/src/libical/libical.a	\
-#	 $(EXTRA_GNOME_LIBS)
+test_recur_SOURCES = 	\
+	 test-recur.c
+
+test_recur_LDADD = 	\
+	 libcal-util.la	\
+	 $(top_builddir)/libversit/libversit.la		\
+	 $(top_builddir)/libical/src/libical/libical.a	\
+	 $(EXTRA_GNOME_LIBS)

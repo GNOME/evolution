@@ -32,14 +32,19 @@ BEGIN_GNOME_DECLS
 
 typedef gboolean (* CalRecurInstanceFn) (CalComponent *comp,
 					 time_t        instance_start,
-					 time_t        instace_end,
+					 time_t        instance_end,
 					 gpointer      data);
 
 /*
- * Calls the given callback function for each occurrence of the event between
- * the given start and end times. If end is 0 it continues until the event
- * ends or forever if the event has an infinite recurrence rule.
- * If the callback routine return FALSE the occurrence generation stops.
+ * Calls the given callback function for each occurrence of the event that
+ * intersects the range between the given start and end times (the end time is
+ * not included). Note that the occurrences may start before the given start
+ * time.
+ *
+ * If the callback routine returns FALSE the occurrence generation stops.
+ *
+ * Both start and end can be -1, in which case we start at the events first
+ * instance and continue until it ends, or forever if it has no enddate.
  */
 void	cal_recur_generate_instances	(CalComponent		*comp,
 					 time_t			 start,

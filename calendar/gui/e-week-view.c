@@ -267,7 +267,6 @@ e_week_view_init (EWeekView *week_view)
 
 	week_view->pressed_event_num = -1;
 	week_view->editing_event_num = -1;
-	week_view->editing_new_event = FALSE;
 
 	week_view->main_gc = NULL;
 
@@ -873,18 +872,6 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
 
-		/* If we are editing an event which we have just created, we
-		   will get an update_event callback from the server. But we
-		   need to ignore it or we will lose the text the user has
-		   already typed in. */
-		if (week_view->editing_new_event
-		    && week_view->editing_event_num == event_num) {
-			gtk_object_unref (GTK_OBJECT (event->comp));
-			event->comp = comp; /* Takes over ref count. */
-			return;
-		}
-
-
 		/* Do this the long way every time for now */
 #if 0
 		if (ical_object_compare_dates (event->ico, ico)) {
@@ -1333,14 +1320,6 @@ e_week_view_update_event_cb (EWeekView *week_view,
 	gtk_object_unref (GTK_OBJECT (event->comp));
 	event->comp = comp;
 	gtk_object_ref (GTK_OBJECT (comp));
-
-	/* If we are editing an event which we have just created, we will get
-	   an update_event callback from the server. But we need to ignore it
-	   or we will lose the text the user has already typed in. */
-	if (week_view->editing_new_event
-	    && week_view->editing_event_num == event_num) {
-		return TRUE;
-	}
 
 	for (span_num = 0; span_num < event->num_spans; span_num++) {
 		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
@@ -1866,7 +1845,6 @@ e_week_view_free_events (EWeekView *week_view)
 	week_view->editing_event_num = -1;
 	week_view->editing_span_num = -1;
 	week_view->popup_event_num = -1;
-	week_view->editing_new_event = FALSE;
 
 	for (event_num = 0; event_num < week_view->events->len; event_num++) {
 		event = &g_array_index (week_view->events, EWeekViewEvent,
@@ -2742,7 +2720,6 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 	/* Reset the edit fields. */
 	week_view->editing_event_num = -1;
-	week_view->editing_new_event = FALSE;
 
 	/* Check that the event is still valid. */
 	cal_component_get_uid (event->comp, &uid);
@@ -2931,13 +2908,9 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	if (e_week_view_find_event_from_uid (week_view, uid, &event_num)) {
 		e_week_view_start_editing_event (week_view, event_num, 0,
 						 initial_text);
-		week_view->editing_new_event = TRUE;
 	} else {
 		g_warning ("Couldn't find event to start editing.\n");
 	}
-
-	if (!cal_client_update_object (week_view->client, comp))
-		g_message ("e_week_view_key_press(): Could not update the object!");
 
 	gtk_object_unref (GTK_OBJECT (comp));
 
