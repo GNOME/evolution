@@ -1,10 +1,10 @@
 *.la
 *.lo
-.libs
 .deps
-.pure
+.libs
 Makefile
 Makefile.in
-libfilter-i18n.h
+filter-errors.xml
 filter-marshal.c
 filter-marshal.h
+libfilter-i18n.h
