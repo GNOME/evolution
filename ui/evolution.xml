@@ -33,16 +33,15 @@
 	                        <placeholder name="NewFirstItem">
 	                        </placeholder>
 	
-				<menuitem name="View" verb="NewView" _label="_View"
-				accel="*Control**Shift*v"
-				pixtype="stock" pixname="New"/>
+				<menuitem name="EvolutionWindow" verb="NewView" _label="Evolution _Window"
+				accel="*Control**Shift*w"/>
 
 				<menuitem name="Folder" verb="NewFolder"
 				_label="_Folder"
-				accel="*Control**Shift*e"/>
+				accel="*Control**Shift*f"/>
 
 				<menuitem name="Shortcut" verb="NewBarShortcut"
-				_label="Evolution bar _shortcut"
+				_label="_Shortcut"
 				accel="*Control**Shift*s"/>
 
 				<separator/>
@@ -73,7 +72,7 @@
 	                <submenu name="Folder" _label="_Folder">
 				<menuitem name="Folder" verb="NewFolder"
 				_label="_New Folder"
-				accel="*Control**Shift*e"/>
+				accel="*Control**Shift*f"/>
 	                </submenu>
 	  
 			<menuitem name="FileGoToFolder" verb=""
