@@ -3,7 +3,7 @@
  * Authors: Dan Winship <danw@ximian.com>
  *          Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2000, 2001 Ximian, Inc.
+ *  Copyright 2000, 2003 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -767,7 +767,9 @@ write_text_header (MailDisplayStream *stream, const char *name, const char *valu
 	char *encoded;
 	
 	if (value && *value)
-		encoded = camel_text_to_html (value, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
+		encoded = camel_text_to_html (value, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					      CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+					      CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
 	else
 		encoded = "";
 	

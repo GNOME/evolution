@@ -1,5 +1,8 @@
 2003-02-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-format.c (write_text_header): bitwise-or in
+	CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES to fix bug #38499.
+
 	* mail-search.c (mail_search_destroy): New overloaded virtual
 	method, does what dialog_destroy_cb was trying to do.
 	(mail_search_construct): Connect to the "response" signal rather
