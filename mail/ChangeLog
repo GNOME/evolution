@@ -1,3 +1,9 @@
+2002-04-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (setup_service): Kludge around the brokeness
+	that is GtkOptionMenu just like we kludge around it for the
+	authtype option menu.
+
 2002-04-09  Dan Winship  <danw@ximian.com>
 
 	* component-factory.c (create_view): Add view_info arg, but don't

@@ -908,6 +908,7 @@ setup_service (MailAccountGuiService *gsvc, MailConfigService *service)
 		gtk_entry_set_text (gsvc->path, url->path);
 	
 	if (gsvc->provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL) {
+		GList *children, *item;
 		const char *use_ssl;
 		int i;
 		
@@ -917,12 +918,14 @@ setup_service (MailAccountGuiService *gsvc, MailConfigService *service)
 		else if (!*use_ssl)  /* old config code just used an empty string as the value */
 			use_ssl = "always";
 		
-		for (i = 0; i < num_ssl_options; i++)
-			if (!strcmp (ssl_options[i].value, use_ssl))
+		children = gtk_container_children (GTK_CONTAINER (gtk_option_menu_get_menu (gsvc->use_ssl)));
+		for (item = children, i = 0; item; item = item->next, i++) {
+			if (!strcmp (use_ssl, ssl_options[i].value)) {
+				gtk_option_menu_set_history (gsvc->use_ssl, i);
+				gtk_signal_emit_by_name (item->data, "activate", gsvc);
 				break;
-		
-		i = i < num_ssl_options ? i : num_ssl_options - 1;
-		gtk_option_menu_set_history (gsvc->use_ssl, i);
+			}
+		}
 	}
 	
 	if (url->authmech && CAMEL_PROVIDER_ALLOWS (gsvc->provider, CAMEL_URL_PART_AUTH)) {
@@ -996,17 +999,17 @@ construct_ssl_menu (MailAccountGuiService *service)
 	gtk_option_menu_set_menu (service->use_ssl, menu);
 	
 	gtk_option_menu_set_history (service->use_ssl, i - 1);
-	gtk_signal_emit_by_name (GTK_OBJECT (item), "activate");
+	gtk_signal_emit_by_name (GTK_OBJECT (item), "activate", service);
 }
 
-  static void
+static void
 clear_menu (GtkWidget *menu)
 {
 	while (GTK_MENU_SHELL (menu)->children)
 		gtk_container_remove (GTK_CONTAINER (menu), GTK_MENU_SHELL (menu)->children->data);
 }
 
-static inline gint
+static inline int
 sig_get_index (MailConfigSignature *sig)
 {
 	return sig->id + (mail_config_get_signatures_random () ? 2 : 1);
@@ -1017,7 +1020,7 @@ sig_get_gui_index (MailAccountGui *gui, gboolean text)
 {
 	MailConfigSignature *sig = text ? gui->text_signature : gui->html_signature;
 	gboolean random = text ? gui->text_random : gui->html_random;
-
+	
 	if (random)
 		return 1;
 	else if (!sig)
@@ -1033,27 +1036,27 @@ sig_fill_options (MailAccountGui *gui)
 	GtkWidget *mi;
 	GList *l;
 	MailConfigSignature *sig;
-
+	
 	menu_text = gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_text));
 	menu_html = gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_html));
-
+	
 	clear_menu (menu_text);
 	clear_menu (menu_html);
-
+	
 	gtk_menu_append (GTK_MENU (menu_text), gtk_menu_item_new_with_label (_("None")));
 	gtk_menu_append (GTK_MENU (menu_html), gtk_menu_item_new_with_label (_("None")));
-
+	
 	if (mail_config_get_signatures_random ()) {
 		gtk_menu_append (GTK_MENU (menu_text), gtk_menu_item_new_with_label (_("Random")));
 		gtk_menu_append (GTK_MENU (menu_html), gtk_menu_item_new_with_label (_("Random")));
 	}
-
+	
 	for (l = mail_config_get_signature_list (); l; l = l->next) {
 		sig = l->data;
 		mi = gtk_menu_item_new_with_label (sig->name);
 		gtk_object_set_data (GTK_OBJECT (mi), "sig", sig);
 		gtk_menu_append (GTK_MENU (menu_text), mi);
-
+		
 		mi = gtk_menu_item_new_with_label (sig->name);
 		gtk_object_set_data (GTK_OBJECT (mi), "sig", sig);
 		gtk_menu_append (GTK_MENU (menu_html), mi);
@@ -1076,14 +1079,14 @@ static void
 sig_changed_text (GtkWidget *w, MailAccountGui *gui)
 {
 	GtkWidget *active;
-	gint index;
-
+	int index;
+	
 	active = gtk_menu_get_active (GTK_MENU (w));
 	index = g_list_index (GTK_MENU_SHELL (w)->children, active);
-
+	
 	gui->text_signature = (MailConfigSignature *) gtk_object_get_data (GTK_OBJECT (active), "sig");
 	gui->text_random = index == 1;
-
+	
 	gtk_widget_set_sensitive (GTK_WIDGET (gui->sig_edit_text), gui->text_signature != NULL);
 }
 
@@ -1091,14 +1094,14 @@ static void
 sig_changed_html (GtkWidget *w, MailAccountGui *gui)
 {
 	GtkWidget *active;
-	gint index;
-
+	int index;
+	
 	active = gtk_menu_get_active (GTK_MENU (w));
 	index = g_list_index (GTK_MENU_SHELL (w)->children, active);
-
+	
 	gui->html_signature = (MailConfigSignature *) gtk_object_get_data (GTK_OBJECT (active), "sig");
 	gui->html_random = index == 1;
-
+	
 	gtk_widget_set_sensitive (GTK_WIDGET (gui->sig_edit_html), gui->html_signature != NULL);
 }
 
@@ -1106,10 +1109,10 @@ static void
 sig_edit_text (GtkWidget *w, MailAccountGui *gui)
 {
 	MailConfigSignature *sig = gui->text_signature;
-
+	
 	if (!sig)
 		return;
-
+	
 	if (sig->filename && *sig->filename)
 		mail_signature_editor (sig);
 	else
@@ -1121,10 +1124,10 @@ static void
 sig_edit_html (GtkWidget *w, MailAccountGui *gui)
 {
 	MailConfigSignature *sig = gui->html_signature;
-
+	
 	if (!sig)
 		return;
-
+	
 	if (sig->filename && *sig->filename)
 		mail_signature_editor (sig);
 	else
@@ -1147,7 +1150,7 @@ sig_set_and_write (MailAccountGui *gui)
 	gui->account->id->text_random = gui->text_random;
 	gui->account->id->html_signature = gui->html_signature;
 	gui->account->id->html_random = gui->html_random;
-
+	
 	mail_config_write_account_sig (gui->account, -1);
 }
 
@@ -1176,14 +1179,14 @@ sig_new_html (GtkWidget *w, MailAccountGui *gui)
 #if 0
 	if (!gui->dialog)
 		return;
-
+	
 	sig_switch_to_list (w, gui);
-
+	
 	gui->html_signature = mail_accounts_dialog_new_signature (gui->dialog, TRUE);
 	gui->html_random = FALSE;
 	
 	gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_html), sig_get_index (gui->html_signature));
-
+	
 	sig_set_and_write (gui);
 	gtk_widget_set_sensitive (gui->sig_edit_html, TRUE);
 #endif
@@ -1196,10 +1199,10 @@ setup_signatures (MailAccountGui *gui)
 	gui->text_random = gui->account->id->text_random;
 	gui->html_signature = gui->account->id->html_signature;
 	gui->html_random = gui->account->id->html_random;
-
+	
 	sig_select_text_sig (gui);
 	sig_select_html_sig (gui);
-
+	
 	gtk_widget_set_sensitive (GTK_WIDGET (gui->sig_edit_text), gui->text_signature != NULL);
 	gtk_widget_set_sensitive (GTK_WIDGET (gui->sig_edit_html), gui->html_signature != NULL);
 }
@@ -1209,31 +1212,29 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailAccoun
 {
 	switch (event) {
 	case MAIL_CONFIG_SIG_EVENT_ADDED: {
-
 		GtkWidget *menu;
 		GtkWidget *mi;
-
-		printf ("accounts ADDED\n");
+		
+		d(printf ("accounts ADDED\n"));
 		mi = gtk_menu_item_new_with_label (sig->name);
 		gtk_object_set_data (GTK_OBJECT (mi), "sig", sig);
 		gtk_widget_show (mi);
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_text));
 		gtk_menu_append (GTK_MENU (menu), mi);
-
+		
 		mi = gtk_menu_item_new_with_label (sig->name);
 		gtk_object_set_data (GTK_OBJECT (mi), "sig", sig);
 		gtk_widget_show (mi);
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_html));
 		gtk_menu_append (GTK_MENU (GTK_MENU (menu)), mi);
-
+		
 		break;
 	}
 	case MAIL_CONFIG_SIG_EVENT_NAME_CHANGED: {
-
 		GtkWidget *menu;
 		GtkWidget *mi;
-
-		printf ("gui NAME CHANGED\n");
+		
+		d(printf ("gui NAME CHANGED\n"));
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_text));
 		gtk_widget_ref (menu);
 		gtk_option_menu_remove_menu (GTK_OPTION_MENU (gui->sig_option_text));
@@ -1242,7 +1243,7 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailAccoun
 		gtk_option_menu_set_menu (GTK_OPTION_MENU (gui->sig_option_text), menu);
 		gtk_widget_unref (menu);
 		gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_text), sig_get_gui_index (gui, TRUE));
-
+		
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_html));
 		gtk_widget_ref (menu);
 		gtk_option_menu_remove_menu (GTK_OPTION_MENU (gui->sig_option_html));
@@ -1251,30 +1252,31 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailAccoun
 		gtk_option_menu_set_menu (GTK_OPTION_MENU (gui->sig_option_html), menu);
 		gtk_widget_unref (menu);
 		gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_html), sig_get_gui_index (gui, FALSE));
-
+		
 		break;
 	}
 	case MAIL_CONFIG_SIG_EVENT_DELETED: {
-
 		GtkWidget *menu;
 		GtkWidget *mi;
-
-		printf ("gui DELETED\n");
-
+		
+		d(printf ("gui DELETED\n"));
+		
 		if (sig == gui->text_signature) {
 			gui->text_signature = NULL;
-			gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_text), sig_get_gui_index (gui, TRUE));
+			gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_text),
+						     sig_get_gui_index (gui, TRUE));
 		}
-
+		
 		if (sig == gui->html_signature) {
 			gui->html_signature = NULL;
-			gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_html), sig_get_gui_index (gui, FALSE));
+			gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_html),
+						     sig_get_gui_index (gui, FALSE));
 		}
-
+		
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_text));
 		mi = g_list_nth_data (GTK_MENU_SHELL (menu)->children, sig_get_index (sig));
 		gtk_container_remove (GTK_CONTAINER (menu), mi);
-
+		
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_html));
 		mi = g_list_nth_data (GTK_MENU_SHELL (menu)->children, sig_get_index (sig));
 		gtk_container_remove (GTK_CONTAINER (menu), mi);
@@ -1282,49 +1284,49 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailAccoun
 		break;
 	}
 	case MAIL_CONFIG_SIG_EVENT_RANDOM_ON: {
-
 		GtkWidget *menu;
 		GtkWidget *mi;
-
-		printf ("gui RANDOM ON\n");
-
+		
+		d(printf ("gui RANDOM ON\n"));
+		
 		mi = gtk_menu_item_new_with_label (_("Random"));
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_text));
 		gtk_menu_insert (GTK_MENU (menu), mi, 1);
 		gtk_widget_show (mi);
-
+		
 		mi = gtk_menu_item_new_with_label (_("Random"));
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_html));
 		gtk_menu_insert (GTK_MENU (menu), mi, 1);
 		gtk_widget_show (mi);
-
+		
 		break;
 	}
 	case MAIL_CONFIG_SIG_EVENT_RANDOM_OFF: {
-
 		GtkWidget *menu;
 		GtkWidget *mi;
-
-		printf ("gui RANDOM OFF\n");
-
+		
+		d(printf ("gui RANDOM OFF\n"));
+		
 		if (gui->text_random) {
 			gui->text_random = FALSE;
-			gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_text), sig_get_gui_index (gui, TRUE));
+			gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_text),
+						     sig_get_gui_index (gui, TRUE));
 		}
-
+		
 		if (gui->html_random) {
 			gui->html_random = FALSE;
-			gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_html), sig_get_gui_index (gui, FALSE));
+			gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_html),
+						     sig_get_gui_index (gui, FALSE));
 		}
-
+		
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_text));
 		mi = g_list_nth_data (GTK_MENU_SHELL (menu)->children, 1);
 		gtk_container_remove (GTK_CONTAINER (menu), mi);
-
+		
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_html));
 		mi = g_list_nth_data (GTK_MENU_SHELL (menu)->children, 1);
 		gtk_container_remove (GTK_CONTAINER (menu), mi);
-
+		
 		break;
 	}
 	default:
@@ -1337,14 +1339,14 @@ prepare_signatures (MailAccountGui *gui)
 {
 	gui->sig_option_text = glade_xml_get_widget (gui->xml, "option-sig-text");
 	gui->sig_option_html = glade_xml_get_widget (gui->xml, "option-sig-html");
-
+	
 	sig_fill_options (gui);
-
+	
 	gtk_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_text))),
 			    "selection-done", sig_changed_text, gui);
 	gtk_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_html))),
 			    "selection-done", sig_changed_html, gui);
-
+	
 	gui->sig_new_text = glade_xml_get_widget (gui->xml, "button-sig-new-text");
 	gtk_signal_connect (GTK_OBJECT (gui->sig_new_text), "clicked", GTK_SIGNAL_FUNC (sig_new_text), gui);
 	gui->sig_new_html = glade_xml_get_widget (gui->xml, "button-sig-new-html");
@@ -1353,7 +1355,7 @@ prepare_signatures (MailAccountGui *gui)
 	gtk_signal_connect (GTK_OBJECT (gui->sig_edit_text), "clicked", GTK_SIGNAL_FUNC (sig_edit_text), gui);
 	gui->sig_edit_html = glade_xml_get_widget (gui->xml, "button-sig-edit-html");
 	gtk_signal_connect (GTK_OBJECT (gui->sig_edit_html), "clicked", GTK_SIGNAL_FUNC (sig_edit_html), gui);
-
+	
 	if (!gui->dialog) {
 		gtk_widget_hide (glade_xml_get_widget (gui->xml, "label-sig-text"));
 		gtk_widget_hide (glade_xml_get_widget (gui->xml, "label-sig-html"));
@@ -1392,7 +1394,7 @@ mail_account_gui_new (MailConfigAccount *account, MailAccountsTab *dialog)
 	gui->full_name = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_full_name"));
 	gui->email_address = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_address"));
 	gui->organization = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_organization"));
-
+	
 	prepare_signatures (gui);
 	
 	if (account->id) {
@@ -1402,7 +1404,7 @@ mail_account_gui_new (MailConfigAccount *account, MailAccountsTab *dialog)
 			gtk_entry_set_text (gui->email_address, account->id->address);
 		if (account->id->organization)
 			e_utf8_gtk_entry_set_text (gui->organization, account->id->organization);
-
+		
 		setup_signatures (gui);
 	}
 	
@@ -1721,6 +1723,7 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config,
 	char *str;
 	
 	if (!gsvc->provider) {
+		printf ("no provider??\n");
 		g_free (service->url);
 		service->url = NULL;
 		return;
@@ -1767,7 +1770,9 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config,
 	}
 	
 	if (gsvc->provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL) {
-		char *use_ssl = gtk_object_get_data (GTK_OBJECT (gsvc->ssl_selected), "use_ssl");
+		const char *use_ssl;
+		
+		use_ssl = gtk_object_get_data (GTK_OBJECT (gsvc->ssl_selected), "use_ssl");
 		
 		/* set the value to either "always" or "when-possible"
                    but don't bother setting it for "never" */
@@ -1847,7 +1852,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	service_destroy (account->transport);
 	account->transport = g_new0 (MailConfigService, 1);
 	if (CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (gui->transport.provider))
-		save_service (&gui->source, gui->extra_config, account->transport);
+		save_service (&gui->transport, gui->extra_config, account->transport);
 	else
 		save_service (&gui->transport, NULL, account->transport);
 	
