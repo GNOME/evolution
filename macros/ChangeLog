@@ -1,3 +1,8 @@
+2003-03-20  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* autogen.sh: use GNOME2_DIR, not GNOME2_PATH which can be
+	a ':' separated list.
+
 2002-11-27  Stanislav Brabec  <sbrabec@suse.cz>
 
 	* gnome-pilot.m4: Added missing quotes:
