@@ -1,3 +1,14 @@
+2000-09-28  Chris Toshok  <toshok@helixcode.com>
+
+	* subscribe-control.h (subscribe_search): added prototype.
+
+	* subscribe-control.c (subscribe_search): new function.
+
+	* subscribe-control-factory.c (make_folder_search_widget): new
+	function, to add search widget to toolbar.
+	(control_activate): create the search widget and add it to the
+	toolbar.
+
 2000-09-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-ops.c (do_send_queue): Messages should be appended to Sent

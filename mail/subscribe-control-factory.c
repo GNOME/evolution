@@ -77,13 +77,38 @@ update_pixmaps (Bonobo_UIContainer container)
 	set_pixmap (container, "/Toolbar/RefreshList", "forward.png"); /* XXX */
 }
 
+static GtkWidget*
+make_folder_search_widget (GtkSignalFunc start_search_func,
+			   gpointer user_data_for_search)
+{
+	GtkWidget *search_vbox = gtk_vbox_new (FALSE, 0);
+	GtkWidget *search_entry = gtk_entry_new ();
+
+	if (start_search_func) {
+		gtk_signal_connect (GTK_OBJECT (search_entry), "activate",
+				    start_search_func,
+				    user_data_for_search);
+	}
+	
+	/* add the search entry to the our search_vbox */
+	gtk_box_pack_start (GTK_BOX (search_vbox), search_entry,
+			    FALSE, TRUE, 3);
+	gtk_box_pack_start (GTK_BOX (search_vbox),
+			    gtk_label_new(_("Display Folders containing")),
+			    FALSE, TRUE, 0);
+
+	return search_vbox;
+}
+
 static void
 control_activate (BonoboControl *control, BonoboUIHandler *uih,
-		  SubscribeControl *fb)
+		  SubscribeControl *sc)
 {
 	GtkWidget         *subscribe_control;
 	BonoboUIComponent *component;
 	Bonobo_UIContainer container;
+	GtkWidget         *folder_search_widget;
+	BonoboControl     *search_control;
 
 	container = bonobo_control_get_remote_ui_handler (control);
 	bonobo_ui_handler_set_container (uih, container);
@@ -107,6 +132,15 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 
 	update_pixmaps (container);
 
+	folder_search_widget = make_folder_search_widget (subscribe_search, sc);
+	gtk_widget_show_all (folder_search_widget);
+	search_control = bonobo_control_new (folder_search_widget);
+
+	bonobo_ui_container_object_set (container,
+					"/Toolbar/FolderSearch",
+					bonobo_object_corba_objref (BONOBO_OBJECT (search_control)),
+					NULL);
+					
 	bonobo_ui_container_thaw (container, NULL);
 }
 
@@ -152,7 +186,7 @@ control_destroy_cb (BonoboControl *control,
 
 BonoboControl *
 subscribe_control_factory_new_control (const char *uri,
-			       const Evolution_Shell shell)
+				       const Evolution_Shell shell)
 {
 	BonoboControl *control;
 	GtkWidget *subscribe_control;

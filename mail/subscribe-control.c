@@ -13,6 +13,7 @@
 #include "e-util/e-html-utils.h"
 #include <gtkhtml/gtkhtml.h>
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-cell-tree.h>
 #include <gal/e-table/e-cell-toggle.h>
@@ -92,8 +93,6 @@ subscribe_folder (GtkWidget *widget, gpointer user_data)
 {
 	SubscribeControl *sc = SUBSCRIBE_CONTROL (user_data);
 
-	printf ("subscribe_folder called\n");
-
 	e_table_selected_row_foreach (E_TABLE_SCROLLED(sc->table)->table,
 				      subscribe_folder_foreach, sc);
 }
@@ -119,8 +118,6 @@ unsubscribe_folder (GtkWidget *widget, gpointer user_data)
 {
 	SubscribeControl *sc = SUBSCRIBE_CONTROL (user_data);
 
-	printf ("unsubscribe_folder called\n");
-
 	e_table_selected_row_foreach (E_TABLE_SCROLLED(sc->table)->table,
 				      unsubscribe_folder_foreach, sc);
 }
@@ -129,6 +126,16 @@ void
 subscribe_refresh_list (GtkWidget *widget, gpointer user_data)
 {
 	printf ("subscribe_refresh_list\n");
+}
+
+void
+subscribe_search (GtkWidget *widget, gpointer user_data)
+{
+	char* search_pattern = e_utf8_gtk_entry_get_text(GTK_ENTRY(widget));
+
+	printf ("subscribe_search (%s)\n", search_pattern);
+
+	g_free (search_pattern);
 }
 
 gboolean
@@ -367,7 +374,8 @@ subscribe_control_gui_init (SubscribeControl *sc)
 		GTK_FILL | GTK_EXPAND,
 		0, 0);
 
-	gtk_widget_show_all (GTK_WIDGET(sc));
+	gtk_widget_show (GTK_WIDGET (sc->table));
+	gtk_widget_show (GTK_WIDGET(sc));
 }
 
 static void
