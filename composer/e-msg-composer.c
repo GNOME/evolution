@@ -404,22 +404,10 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	
 	stream = camel_stream_mem_new_with_byte_array (data);
 	
-	/* convert the stream to the appropriate charset */
-	if (charset && strcasecmp (charset, "UTF-8") != 0) {
-		CamelStreamFilter *filter_stream;
-		CamelMimeFilterCharset *filter;
-		
-		filter_stream = camel_stream_filter_new_with_stream (stream);
-		camel_object_unref (stream);
-		
-		stream = (CamelStream *) filter_stream;
-		filter = camel_mime_filter_charset_new_convert ("UTF-8", charset);
-		camel_stream_filter_add (filter_stream, (CamelMimeFilter *) filter);
-		camel_object_unref (filter);
-	}
-	
 	/* construct the content object */
 	plain = camel_data_wrapper_new ();
+	plain->rawtext = FALSE;
+	
 	camel_data_wrapper_construct_from_stream (plain, stream);
 	camel_object_unref (stream);
 	
@@ -448,6 +436,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		}
 		
 		html = camel_data_wrapper_new ();
+		html->rawtext = FALSE;
 		
 		stream = camel_stream_mem_new_with_byte_array (data);
 		camel_data_wrapper_construct_from_stream (html, stream);

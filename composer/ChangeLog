@@ -1,3 +1,10 @@
+2003-07-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c (attach_to_multipart): Revert my
+	previous changes here too.
+
+	* e-msg-composer.c (build_message): Revert my previous changes.
+
 2003-07-23  Dan Winship  <danw@ximian.com>
 
 	* bad-icon.xpm: Remove this. It was only used by e-icon-list,
