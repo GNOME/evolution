@@ -432,6 +432,9 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 	if (logfile)
 		fclose (logfile);
 	
+	/* sync the source folder */
+	camel_folder_sync (input->source, FALSE, ex);
+	
 	gtk_object_unref (GTK_OBJECT (driver));
 	mail_tool_camel_lock_down ();
 }
