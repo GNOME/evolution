@@ -626,10 +626,12 @@ emfb_empty_trash(BonoboUIComponent *uid, void *data, const char *path)
 static void
 emfb_mail_compose(BonoboUIComponent *uid, void *data, const char *path)
 {
-	if (!em_utils_check_user_can_send_mail((GtkWidget *)data))
+	EMFolderView *emfv = data;
+
+	if (!em_utils_check_user_can_send_mail((GtkWidget *)emfv))
 		return;
 
-	em_utils_compose_new_message ();
+	em_utils_compose_new_message(emfv->folder_uri);
 }
 
 static void

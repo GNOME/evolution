@@ -796,9 +796,10 @@ static void
 emp_part_popup_forward (GtkWidget *w, EMPopupTarget *t)
 {
 	CamelMimeMessage *message;
-	
+
+	/* TODO: have a emfv specific override so we can get the parent folder uri */
 	message = (CamelMimeMessage *) camel_medium_get_content_object ((CamelMedium *) t->data.part.part);
-	em_utils_forward_message (message);
+	em_utils_forward_message (message, NULL);
 }
 
 static EMPopupItem emp_standard_object_popups[] = {
@@ -832,7 +833,8 @@ emp_uri_popup_link_open(GtkWidget *w, EMPopupTarget *t)
 static void
 emp_uri_popup_address_send (GtkWidget *w, EMPopupTarget *t)
 {
-	em_utils_compose_new_message_with_mailto (t->data.uri);
+	/* TODO: have an emfv specific override to get the from uri */
+	em_utils_compose_new_message_with_mailto (t->data.uri, NULL);
 }
 
 static void

@@ -723,7 +723,7 @@ create_item(const char *type, EMFolderTreeModel *model, const char *uri)
 		if (!em_utils_check_user_can_send_mail(NULL))
 			return 0;
 	
-		em_utils_compose_new_message();
+		em_utils_compose_new_message(uri);
 	} else if (strcmp(type, "folder") == 0) {
 		EMFolderTree *folder_tree;
 		GtkWidget *dialog;
@@ -768,7 +768,7 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 		if (!em_utils_check_user_can_send_mail(NULL))
 			return;
 
-		em_utils_compose_new_message_with_mailto (uri);
+		em_utils_compose_new_message_with_mailto (uri, NULL);
 	}
 }
 

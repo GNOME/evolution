@@ -1,5 +1,15 @@
 2004-05-03  Not Zed  <NotZed@Ximian.com>
 
+	* em-composer-utils.c (create_new_composer): take fromuri and
+	subject to set the basic headers/account.
+	(em_utils_compose_new_message)
+	(em_utils_compose_new_message_with_mailto, forward_attached)
+	(em_utils_forward_attached, forward_non_attached)
+	(em_utils_forward_inline, em_utils_forward_quoted)
+	(em_utils_forward_message, em_utils_forward_messages): Take the
+	from folder uri to set the from account if it can.  Fixed all
+	callers.  For #57964.
+
 	* mail-send-recv.c (receive_update_done): removed.
 
 	* em-mailer-prefs.h:
