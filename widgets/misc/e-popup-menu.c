@@ -70,7 +70,7 @@ e_popup_menu_create (EPopupMenu *menu_list, int disable_mask, int hide_mask, voi
 		}
 	}
 
-	for (i = 0; i < last_non_seperator; i++) {
+	for (i = 0; i <= last_non_seperator; i++) {
 		GtkWidget *item;
 		gboolean seperator;
 
