@@ -1,3 +1,8 @@
+2000-07-06  Federico Mena Quintero  <federico@helixcode.com>
+
+	* e-dialog-widgets.c: Added docstrings.  This file did not have
+	them at all.  EEEEEEK!
+
 2000-07-05  Dan Winship  <danw@helixcode.com>
 
 	* e-sexp.c (e_sexp_parse): Kill debugging message

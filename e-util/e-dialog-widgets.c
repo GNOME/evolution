@@ -332,6 +332,13 @@ get_editable_value (GtkEditable *editable, gpointer value_var, gpointer data)
 	*value = e_dialog_editable_get (GTK_WIDGET (editable));
 }
 
+/**
+ * e_dialog_editable_set:
+ * @widget: A #GtkEditable widget.
+ * @value: String value.
+ * 
+ * Sets the string value inside a #GtkEditable-derived widget.
+ **/
 void
 e_dialog_editable_set (GtkWidget *widget, char *value)
 {
@@ -348,6 +355,14 @@ e_dialog_editable_set (GtkWidget *widget, char *value)
 	}
 }
 
+/**
+ * e_dialog_editable_get:
+ * @widget: A #GtkEditable widget.
+ * 
+ * Queries the string value inside a #GtkEditable-derived widget.
+ * 
+ * Return value: String value.
+ **/
 char *
 e_dialog_editable_get (GtkWidget *widget)
 {
@@ -357,6 +372,20 @@ e_dialog_editable_get (GtkWidget *widget)
 	return gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
 }
 
+/**
+ * e_dialog_radio_set:
+ * @widget: A #GtkRadioButton in a radio button group.
+ * @value: Enumerated value.
+ * @value_map: Map from enumeration values to array indices.
+ * 
+ * Sets the selected item in a radio group.  The specified @widget can be any of
+ * the #GtkRadioButtons in the group.  Each radio button should correspond to an
+ * enumeration value; the specified @value will be mapped to an integer from
+ * zero to the number of items in the group minus 1 by using a mapping table
+ * specified in @value_map.  The last element in this table should be -1.  Thus
+ * a table to map three possible interpolation values to integers could be
+ * specified as { NEAREST_NEIGHBOR, BILINEAR, HYPERBOLIC, -1 }.
+ **/
 void
 e_dialog_radio_set (GtkWidget *widget, int value, const int *value_map)
 {
@@ -388,6 +417,18 @@ e_dialog_radio_set (GtkWidget *widget, int value, const int *value_map)
 			   value);
 }
 
+/**
+ * e_dialog_radio_get:
+ * @widget: A #GtkRadioButton in a radio button group.
+ * @value_map: Map from enumeration values to array indices.
+ * 
+ * Queries the selected item in a #GtkRadioButton group.  Please read the
+ * description of e_dialog_radio_set() to see how @value_map maps enumeration
+ * values to button indices.
+ * 
+ * Return value: Enumeration value which corresponds to the selected item in the
+ * radio group.
+ **/
 int
 e_dialog_radio_get (GtkWidget *widget, const int *value_map)
 {
@@ -426,6 +467,15 @@ e_dialog_radio_get (GtkWidget *widget, const int *value_map)
 	return v;
 }
 
+/**
+ * e_dialog_toggle_set:
+ * @widget: A #GtkToggleButton.
+ * @value: Toggle value.
+ * 
+ * Sets the value of a #GtkToggleButton-derived widget.  This should not be used
+ * for radio buttons; it is more convenient to use use e_dialog_radio_set()
+ * instead.
+ **/
 void
 e_dialog_toggle_set (GtkWidget *widget, gboolean value)
 {
@@ -435,6 +485,16 @@ e_dialog_toggle_set (GtkWidget *widget, gboolean value)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), value);
 }
 
+/**
+ * e_dialog_toggle_get:
+ * @widget: A #GtkToggleButton.
+ * 
+ * Queries the value of a #GtkToggleButton-derived widget.  This should not be
+ * used for radio buttons; it is more convenient to use e_dialog_radio_get()
+ * instead.
+ * 
+ * Return value: Toggle value.
+ **/
 gboolean
 e_dialog_toggle_get (GtkWidget *widget)
 {
@@ -444,6 +504,13 @@ e_dialog_toggle_get (GtkWidget *widget)
 	return GTK_TOGGLE_BUTTON (widget)->active;
 }
 
+/**
+ * e_dialog_spin_set:
+ * @widget: A #GtkSpinButton.
+ * @value: Numeric value.
+ * 
+ * Sets the value of a #GtkSpinButton widget.
+ **/
 void
 e_dialog_spin_set (GtkWidget *widget, double value)
 {
@@ -458,6 +525,14 @@ e_dialog_spin_set (GtkWidget *widget, double value)
 	gtk_signal_emit_by_name (GTK_OBJECT (adj), "value_changed");
 }
 
+/**
+ * e_dialog_spin_get_double:
+ * @widget: A #GtkSpinButton.
+ * 
+ * Queries the floating-point value of a #GtkSpinButton widget.
+ * 
+ * Return value: Numeric value.
+ **/
 double
 e_dialog_spin_get_double (GtkWidget *widget)
 {
@@ -470,6 +545,14 @@ e_dialog_spin_get_double (GtkWidget *widget)
 	return adj->value;
 }
 
+/**
+ * e_dialog_spin_get_int:
+ * @widget: A #GtkSpinButton.
+ * 
+ * Queries the integer value of a #GtkSpinButton widget.
+ * 
+ * Return value: Numeric value.
+ **/
 int
 e_dialog_spin_get_int (GtkWidget *widget)
 {
@@ -482,6 +565,16 @@ e_dialog_spin_get_int (GtkWidget *widget)
 	return (int) floor (value);
 }
 
+/**
+ * e_dialog_option_menu_set:
+ * @widget: A #GtkOptionMenu.
+ * @value: Enumerated value.
+ * @value_map: Map from enumeration values to array indices.
+ * 
+ * Sets the selected item in a #GtkOptionMenu.  Please read the description of
+ * e_dialog_radio_set() to see how @value_map maps enumeration values to item
+ * indices.
+ **/
 void
 e_dialog_option_menu_set (GtkWidget *widget, int value, const int *value_map)
 {
@@ -500,6 +593,18 @@ e_dialog_option_menu_set (GtkWidget *widget, int value, const int *value_map)
 			   value);
 }
 
+/**
+ * e_dialog_option_menu_get:
+ * @widget: A #GtkOptionMenu.
+ * @value_map: Map from enumeration values to array indices.
+ * 
+ * Queries the selected item in a #GtkOptionMenu.  Please read the description
+ * of e_dialog_radio_set() to see how @value_map maps enumeration values to item
+ * indices.
+ * 
+ * Return value: Enumeration value which corresponds to the selected item in the
+ * option menu.
+ **/
 int
 e_dialog_option_menu_get (GtkWidget *widget, const int *value_map)
 {
@@ -538,6 +643,13 @@ e_dialog_option_menu_get (GtkWidget *widget, const int *value_map)
 	return v;
 }
 
+/**
+ * e_dialog_dateedit_set:
+ * @widget: A #GnomeDateEdit widget.
+ * @t: Date/time value.
+ * 
+ * Sets the value of a #GnomeDateEdit widget.
+ **/
 void
 e_dialog_dateedit_set (GtkWidget *widget, time_t t)
 {
@@ -547,6 +659,14 @@ e_dialog_dateedit_set (GtkWidget *widget, time_t t)
 	gnome_date_edit_set_time (GNOME_DATE_EDIT (widget), t);
 }
 
+/**
+ * e_dialog_dateedit_get:
+ * @widget: A #GnomeDateEdit widget.
+ * 
+ * Queries the value of a #GnomeDateEdit widget.
+ * 
+ * Return value: Date/time value.
+ **/
 time_t
 e_dialog_dateedit_get (GtkWidget *widget)
 {
@@ -556,6 +676,35 @@ e_dialog_dateedit_get (GtkWidget *widget)
 	return gnome_date_edit_get_date (GNOME_DATE_EDIT (widget));
 }
 
+/**
+ * e_dialog_widget_hook_value:
+ * @dialog: Dialog box in which the @widget lives in.
+ * @widget: A widget that will control a variable.
+ * @value_var: Pointer to the variable that the @widget will control.
+ * @info: NULL for most widgets, or an integer value map array (see
+ * e_dialog_radio_set() for details).
+ * 
+ * Hooks a widget from a dialog box to the variable it will modify.  Supported
+ * widgets are:  #GtkEditable (char *), #GtkRadioButton (int/value_map pair; see
+ * e_dialog_radio_set() for more information), #GtkTogglebutton (gboolean),
+ * #GtkSpinButton (double), #GtkOptionMenu (int/value_map pair), and
+ * #GnomeDateEdit (time_t).
+ *
+ * A pointer to the appropriate variable to modify should be passed in @value_var.
+ * For values that take a value_map array as well, it should be passed in @info.
+ *
+ * The widgets within a dialog that are hooked with this function will set their
+ * respective variables only when e_dialog_get_values() is called.  The typical
+ * use is to call that function in the handler for the "OK" button of a dialog
+ * box.
+ *
+ * In addition, if the specified @dialog is a #GnomePropertyBox, the widgets wil
+ * automatically turn on the "Apply" button of the property box when they are
+ * modified by the user.
+ * 
+ * Return value: TRUE if the type of the specified @widget is supported, FALSE
+ * otherwise.
+ **/
 gboolean
 e_dialog_widget_hook_value (GtkWidget *dialog, GtkWidget *widget,
 			    gpointer value_var, gpointer info)
@@ -597,6 +746,16 @@ e_dialog_widget_hook_value (GtkWidget *dialog, GtkWidget *widget,
 	return TRUE;
 }
 
+/**
+ * e_dialog_get_values:
+ * @dialog: A dialog box whose widgets have been hooked to the appropriate
+ * variables with e_dialog_widget_hook_value().
+ * 
+ * Makes every widget in a @dialog that was hooked with
+ * e_dialog_widget_hook_value() apply its value to its corresponding variable.
+ * The typical usage is to call this function in the handler for the "OK" button
+ * of a dialog box.
+ **/
 void
 e_dialog_get_values (GtkWidget *dialog)
 {
@@ -627,6 +786,21 @@ e_dialog_get_values (GtkWidget *dialog)
 	}
 }
 
+/**
+ * e_dialog_xml_widget_hook_value:
+ * @xml: Glade XML description of a dialog box.
+ * @dialog: Dialog box in which the widget lives in.
+ * @widget_name: Name of the widget in the Glade XML data.
+ * @value_var: Pointer to the variable that the widget will control.
+ * @info: NULL for most widgets, or an integer value map array (see
+ * e_dialog_radio_set() for details).
+ * 
+ * Similar to e_dialog_widget_hook_value(), but uses the widget from a #GladeXML
+ * data structure.
+ * 
+ * Return value: TRUE if the type of the specified widget is supported, FALSE
+ * otherwise.
+ **/
 gboolean
 e_dialog_xml_widget_hook_value (GladeXML *xml, GtkWidget *dialog, const char *widget_name,
 				gpointer value_var, gpointer info)
