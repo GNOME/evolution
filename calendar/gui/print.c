@@ -2417,7 +2417,7 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 	GnomePrintJob *gpm;
 	GnomePrintContext *pc;
 	int copies, collate;
-	double l, r, t, b, temp_d;
+	double l, r, t, b;
 	gchar *old_orientation;
 
 	g_return_if_fail (gcal != NULL);
@@ -2533,7 +2533,7 @@ print_comp (CalComponent *comp, CalClient *client, gboolean preview)
 	GnomePrintJob *gpm;
 	GnomePrintContext *pc;
 	int copies, collate;
-	double l, r, t, b, temp_d;
+	double l, r, t, b;
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));

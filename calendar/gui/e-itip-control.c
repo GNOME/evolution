@@ -602,7 +602,7 @@ write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
 {
 	EItipControlPrivate *priv;
 	struct tm tmp_tm;
-	char time_buf[64], *time_utf8;
+	char time_buf[64];
 	icaltimezone *zone = NULL;
 	char *display_name;
 

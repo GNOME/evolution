@@ -433,7 +433,7 @@ tasks_control_complete_cmd		(BonoboUIComponent	*uic,
 static gboolean
 confirm_purge (ETasks *tasks)
 {
-	GtkWidget *dialog, *label, *checkbox, *parent;
+	GtkWidget *dialog, *checkbox, *parent;
 	int button;
 	
 	if (!calendar_config_get_confirm_purge ())
@@ -441,7 +441,7 @@ confirm_purge (ETasks *tasks)
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (tasks));
 	dialog = gtk_message_dialog_new (
-		parent,
+		(GtkWindow *)parent,
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_MESSAGE_WARNING,
 		GTK_BUTTONS_YES_NO,
@@ -506,7 +506,7 @@ print_tasks (ETasks *tasks, gboolean preview)
 	ETable *etable;
 	GnomePrintContext *pc;
 	GnomePrintJob *gpm;
-	double l, r, t, b, page_width, page_height, left_margin, bottom_margin, temp_d;
+	double l, r, t, b, page_width, page_height, left_margin, bottom_margin;
 
 	if (!print_config)
 		print_config = gnome_print_config_default ();

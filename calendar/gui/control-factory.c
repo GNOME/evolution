@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include <gtk/gtksignal.h>
 #include <glade/glade.h>
 #include <bonobo/bonobo-control.h>
@@ -29,10 +30,12 @@
 #include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-property-bag.h>
 #include <glade/glade.h>
+#include <libgnomeui/gnome-dialog-util.h>
 
 #include <cal-util/timeutil.h>
 #include <gui/gnome-cal.h>
 #include <gui/calendar-commands.h>
+#include <gui/calendar-config.h>
 
 #include "control-factory.h"
 

@@ -660,7 +660,9 @@ struct notify_dialog_closure {
 static void
 on_dialog_obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 {
+/* commented out so gcc won't complain about the unused variable
 	struct notify_dialog_closure *c = data;
+*/
 }
 
 static void

@@ -35,6 +35,7 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtkfilesel.h>
+#include <gtk/gtklabel.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkspinbutton.h>
@@ -344,7 +345,7 @@ static void
 purge_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
-	GtkWidget *dialog, *parent, *box, *label, *spin, *unit;
+	GtkWidget *dialog, *parent, *box, *label, *spin;
 	int response;
 
 	gcal = GNOME_CALENDAR (data);
@@ -352,7 +353,7 @@ purge_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 	/* create the dialog */
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (gcal));
 	dialog = gtk_message_dialog_new (
-		parent,
+		(GtkWindow *)parent,
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_MESSAGE_WARNING,
 		GTK_BUTTONS_OK_CANCEL,

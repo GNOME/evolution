@@ -1,3 +1,26 @@
+2003-07-23  Dan Winship  <danw@ximian.com>
+
+	* gui/alarm-notify/alarm-queue.c (on_dialog_obj_updated_cb): Fix
+	an unused variable
+
+	* gui/calendar-commands.c (purge_cmd): Fix warnings.
+
+	* gui/calendar-config.h: s/confirm_expunge/confirm_purge/ to match
+	the actual functions
+
+	* gui/control-factory.c: add some missing #includes
+
+	* gui/dialogs/delete-comp.c (delete_component_dialog): Fix a
+	warning
+
+	* gui/e-itip-control.c (write_label_piece): Remove unused variable.
+
+	* gui/print.c (print_calendar): Remove unused variable
+	(print_comp): Likewise.
+
+	* gui/tasks-control.c (confirm_purge): Fix warnings.
+	(print_tasks): Remove unused variable.
+
 2003-07-23  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-day-view.h:
