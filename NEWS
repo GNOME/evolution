@@ -17,6 +17,9 @@ Shell:
 
   - Fixed some other miscellaneous bugs/crashes.  (Ettore)
 
+  - Added ability to run the intelligent importers from the File->Import
+    menu item. (iain)
+
 Mailer:
 
   - Fixed the multiple error-dialog thing.  (Michael)
