@@ -1,3 +1,8 @@
+2000-11-27  Dan Winship  <danw@helixcode.com>
+
+	* mail-config-druid.glade: Revert the new druid for now, until the
+	corresponding code is done, so that the druid will work again.
+
 2000-11-21  Iain Holmes  <iain@helixcode.com>
 
 	* mail-config-gui.c (mail_config): Don't use the "delete-event"
