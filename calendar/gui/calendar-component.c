@@ -119,6 +119,39 @@ update_uris_for_selection (ESourceSelector *selector, CalendarComponent *calenda
 
 /* Callbacks.  */
 static void
+add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
+		     GCallback callback, gpointer user_data)
+{
+	GtkWidget *item, *image;
+
+	if (pixmap) {
+		item = gtk_image_menu_item_new_with_label (label);
+
+		/* load the image */
+		image = gtk_image_new_from_file (pixmap);
+		if (!image)
+			image = gtk_image_new_from_stock (pixmap, GTK_ICON_SIZE_MENU);
+
+		if (image)
+			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
+	} else {
+		item = gtk_menu_item_new_with_label (label);
+	}
+
+	if (callback)
+		g_signal_connect (G_OBJECT (item), "activate", callback, user_data);
+
+	gtk_menu_append (menu, item);
+	gtk_widget_show (item);
+}
+
+static void
+fill_popup_menu_callback (ESourceSelector *selector, GtkMenu *menu, CalendarComponent *comp)
+{
+	add_popup_menu_item (menu, _("_New Calendar"), NULL, NULL, selector);
+}
+
+static void
 source_selection_changed_callback (ESourceSelector *selector, 
 				   CalendarComponent *calendar_component)
 {
@@ -253,6 +286,9 @@ impl_createControls (PortableServer_Servant servant,
 				 G_OBJECT (calendar_component), 0);
 	g_signal_connect_object (selector, "primary_selection_changed",
 				 G_CALLBACK (primary_source_selection_changed_callback), 
+				 G_OBJECT (calendar_component), 0);
+	g_signal_connect_object (selector, "fill_popup_menu",
+				 G_CALLBACK (fill_popup_menu_callback),
 				 G_OBJECT (calendar_component), 0);
 
 	update_uris_for_selection (E_SOURCE_SELECTOR (selector), calendar_component);

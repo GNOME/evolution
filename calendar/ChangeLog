@@ -1,5 +1,13 @@
 2003-10-28  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/calendar-component.c (impl_createControls): connect to
+	"fill_popup_menu" on the ESourceSelector.
+	(fill_popup_menu_callback): add popup menu items here.
+	(add_popup_menu_item): new function to add items to the
+	popup menu.
+
+2003-10-28  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/e-cal-view.c: no need to keep the timezone here, it is
 	already stored in the model.
 	(e_cal_view_get_timezone): call e_cal_model_get_timezone().
