@@ -1,3 +1,11 @@
+2001-01-15  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/todo/todo-conduit.c (print_local): prevent segfaults and
+	buffer overflows.
+	(print_remote): ditto
+
+	* conduits/calendar/calendar-conduit.c: as above
+
 2001-01-14  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-calendar-table.c (E_CALENDAR_TABLE_SPEC): changed the expansion

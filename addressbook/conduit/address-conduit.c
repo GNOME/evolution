@@ -96,10 +96,13 @@ print_local (EAddrLocalRecord *local)
 	}
 
 	if (local->addr) {
-		sprintf (buff, "['%s' '%s' '%s']",
-			 local->addr->entry[entryLastname],
-			 local->addr->entry[entryFirstname],
-			 local->addr->entry[entryCompany]);
+		g_snprintf (buff, 4096, "['%s' '%s' '%s']",
+			    local->addr->entry[entryLastname] ?
+			    local->addr->entry[entryLastname] : "",
+			    local->addr->entry[entryFirstname] ?
+			    local->addr->entry[entryFirstname] : "",
+			    local->addr->entry[entryCompany] ?
+			    local->addr->entry[entryCompany] : "");
 		return buff;
 	}
 
@@ -119,10 +122,13 @@ static char *print_remote (GnomePilotRecord *remote)
 	memset (&addr, 0, sizeof (struct Address));
 	unpack_Address (&addr, remote->record, remote->length);
 
-	sprintf (buff, "['%s' '%s' '%s']",
-		 addr.entry[entryLastname],
-		 addr.entry[entryFirstname],
-		 addr.entry[entryCompany]);
+	g_snprintf (buff, 4096, "['%s' '%s' '%s']",
+		    addr.entry[entryLastname] ?
+		    addr.entry[entryLastname] : "",
+		    addr.entry[entryFirstname] ?
+		    addr.entry[entryFirstname] : "",
+		    addr.entry[entryCompany] ?
+		    addr.entry[entryCompany] : "");
 
 	return buff;
 }

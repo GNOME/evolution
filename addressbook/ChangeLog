@@ -1,3 +1,9 @@
+2001-01-15  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c (print_local): prevent segfaults and 
+	buffer overflows
+	(print_remote): ditto
+
 2001-01-14  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/Makefile.am: pass -module and -avoid-version to conduit

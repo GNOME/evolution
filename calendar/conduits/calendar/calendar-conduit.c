@@ -77,11 +77,13 @@ print_local (ECalLocalRecord *local)
 	}
 
 	if (local->appt && local->appt->description) {
-		sprintf (buff, "[%ld %ld '%s' '%s']",
-			 mktime (&local->appt->begin),
-			 mktime (&local->appt->end),
-			 local->appt->description,
-			 local->appt->note);
+		g_snprintf (buff, 4096, "[%ld %ld '%s' '%s']",
+			    mktime (&local->appt->begin),
+			    mktime (&local->appt->end),
+			    local->appt->description ?
+			    local->appt->description : "",
+			    local->appt->note ?
+			    local->appt->note : "");
 		return buff;
 	}
 
@@ -101,11 +103,13 @@ static char *print_remote (GnomePilotRecord *remote)
 	memset (&appt, 0, sizeof (struct Appointment));
 	unpack_Appointment (&appt, remote->record, remote->length);
 
-	sprintf (buff, "[%ld %ld '%s' '%s']",
-		 mktime (&appt.begin),
-		 mktime (&appt.end),
-		 appt.description,
-		 appt.note);
+	g_snprintf (buff, 4096, "[%ld %ld '%s' '%s']",
+		    mktime (&appt.begin),
+		    mktime (&appt.end),
+		    appt.description ?
+		    appt.description : "",
+		    appt.note ?
+		    appt.note : "");
 
 	return buff;
 }
