@@ -1,3 +1,9 @@
+2000-11-01  Gediminas Paulauskas  <menesis@delfi.lt>
+
+	* camel-charset-map.c, camel-charset-map-private.h: synced all charsets
+	with ones found in libunicode. Just include more "iso/*.h" and rebuild
+	...private.h with this.
+	
 2000-10-31  Dan Winship  <danw@helixcode.com>
 
 	* camel-service.c (service_disconnect): Add a new argument, clean,

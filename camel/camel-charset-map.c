@@ -24,10 +24,18 @@
 #include "iso/iso8859-8.h"
 #include "iso/iso8859-9.h"
 #include "iso/iso8859-10.h"
+#include "iso/iso8859-13.h"
 #include "iso/iso8859-14.h"
 #include "iso/iso8859-15.h"
+#include "iso/windows-1250.h"
+#include "iso/windows-1252.h"
+#include "iso/windows-1257.h"
 #include "iso/koi8-r.h"
 #include "iso/koi8-u.h"
+#include "iso/tis620.2533-1.h"
+#include "iso/armscii-8.h"
+#include "iso/georgian-academy.h"
+#include "iso/georgian-ps.h"
 #include "msft/cp932.h"
 #include "jis/shiftjis.h"
 
@@ -38,7 +46,7 @@ static struct {
 	unsigned int bit;	/* assigned bit */
 } tables[] = {
 	{ iso8859_2_table, "iso-8859-2", 0, 0} ,
-	{ iso8859_3_table,  "iso-8859-3", 0, 0} ,
+	{ iso8859_3_table, "iso-8859-3", 0, 0} ,
 	{ iso8859_4_table, "iso-8859-4", 0, 0},
 	{ iso8859_5_table, "iso-8859-5", 0, 0},
 /* apparently -6 has special digits? */
@@ -47,10 +55,18 @@ static struct {
 	{ iso8859_8_table, "iso-8859-8", 0, 0},
 	{ iso8859_9_table, "iso-8859-9", 0, 0},
 	{ iso8859_10_table, "iso-8859-10", 0, 0},
+	{ iso8859_13_table, "iso-8859-13", 0, 0},
 	{ iso8859_14_table, "iso-8859-14", 0, 0},
 	{ iso8859_15_table, "iso-8859-15", 0, 0},
+	{ windows_1250_table, "windows-1250", 0, 0},
+	{ windows_1252_table, "windows-1252", 0, 0},
+	{ windows_1257_table, "windows-1257", 0, 0},
 	{ koi8_r_table, "koi8-r", 0, 0},
 	{ koi8_u_table, "koi8-u", 0, 0},
+	{ tis_620_table, "tis620.2533-1", 0, 0},
+	{ armscii_8_table, "armscii-8", 0, 0},
+	{ georgian_academy_table, "georgian-academy", 0, 0},
+	{ georgian_ps_table, "georgian-ps", 0, 0},
 	{ cp932_table, "CP932", 1, 0},
 	{ sjis_table, "Shift-JIS", 1, 0},
 	{ 0, 0}
@@ -75,7 +91,7 @@ add_bigmap(unsigned short **table, int bit)
 	}
 }
 
-main()
+void main(void)
 {
 	int i, j;
 	unsigned short *tab;

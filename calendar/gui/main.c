@@ -59,6 +59,9 @@ init_bonobo (int *argc, char **argv)
 int
 main (int argc, char **argv)
 {
+	bindtextdomain(PACKAGE, GNOMELOCALEDIR);
+	textdomain(PACKAGE);
+	
 	init_bonobo (&argc, argv);
 	glade_gnome_init ();
 	alarm_init ();

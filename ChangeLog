@@ -1,3 +1,7 @@
+2000-11-01  Gediminas Paulauskas  <menesis@delfi.lt>
+
+	* configure.in: added lt to ALL_LINGUAS.
+	
 2000-10-30  Dan Winship  <danw@helixcode.com>
 
 	* configure.in: fix up printing of kerberos configuration status
