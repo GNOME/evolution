@@ -31,6 +31,11 @@
  */
 
 #include <config.h>
+#include <gtk/gtkbutton.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkpixmap.h>
+#include <gtk/gtksignal.h>
+#include <libgnomeui/gnome-canvas-widget.h>
 #include <gal/util/e-util.h>
 #include "e-calendar.h"
 

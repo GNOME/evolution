@@ -38,7 +38,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <gtk/gtkbbox.h>
+#include <gtk/gtkbutton.h>
+#include <gtk/gtkcombo.h>
+#include <gtk/gtkdrawingarea.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtkhbbox.h>
+#include <gtk/gtklist.h>
 #include <gtk/gtkmain.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtkvbox.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include "e-dateedit.h"
 #include "e-calendar.h"
 

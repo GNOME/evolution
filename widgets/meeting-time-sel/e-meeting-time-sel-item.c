@@ -29,11 +29,11 @@
  * code.
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
 #include <time.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include "e-meeting-time-sel-item.h"
 #include "e-meeting-time-sel.h"
 

@@ -22,14 +22,12 @@
  * USA
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtkalignment.h>
 #include <gtk/gtkarrow.h>
 #include <gtk/gtkbutton.h>
