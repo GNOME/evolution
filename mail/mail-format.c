@@ -1666,6 +1666,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	if (text) {
 		e_msg_composer_set_body_text (composer, text);
 		g_free (text);
+		e_msg_composer_mark_text_orig (composer);
 	}
 	
 	/* Set the recipients */
