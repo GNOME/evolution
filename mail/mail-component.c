@@ -533,8 +533,6 @@ impl_createControls (PortableServer_Servant servant,
 	gtk_widget_show (view_widget);
 	gtk_widget_show (statusbar_widget);
 
-	printf("setting up info area\n");
-
 	vbox = gtk_vbox_new(FALSE, 0);
 	info = e_info_label_new("evolution-inbox-mini.png");
 	e_info_label_set_info((EInfoLabel *)info, _("Mail"), "");

@@ -1,5 +1,17 @@
 2004-04-14  Not Zed  <NotZed@Ximian.com>
 
+	* mail-component.c (impl_createControls): remove debug comment.
+
+	** See #56641.
+
+	* em-format-html-display.c (efhd_format_secure): fix a small
+	memleak.
+	(efhd_bonobo_unknown, efhd_format_attachment): close the <object>
+	tag properly, and <br> it as well to make sure its separated.
+
+	* em-sync-stream.c: add some runtime and compile time stream
+	logging stuff.
+
 	** See bug #56149.
 
 	* em-folder-view.c (emfv_edit_cut): similar to below, use focus to

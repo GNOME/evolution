@@ -21,7 +21,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -35,7 +34,7 @@
 
 #include "mail-mt.h"
 
-/*#define LOG_STREAM*/
+#define LOG_STREAM
 
 #define d(x) 
 
@@ -51,7 +50,15 @@ struct _EMSyncStreamPrivate {
 	char *buf_data;
 	int buf_used;
 	int buf_size;
+
+#ifdef LOG_STREAM
+	FILE *logfd;
+#endif
 };
+
+#ifdef LOG_STREAM
+int dolog;
+#endif
 
 /* Should probably expose messages to outside world ... so subclasses can extend */
 enum _write_msg_t {
@@ -85,6 +92,9 @@ em_sync_stream_get_type (void)
 	static CamelType type = CAMEL_INVALID_TYPE;
 	
 	if (type == CAMEL_INVALID_TYPE) {
+#ifdef LOG_STREAM
+		dolog = getenv("EVOLUTION_MAIL_LOG_HTML") != NULL;
+#endif
 		type = camel_type_register (CAMEL_STREAM_TYPE,
 					    "EMSyncStream",
 					    sizeof (EMSyncStream),
@@ -130,6 +140,10 @@ emcs_gui_received(GIOChannel *source, GIOCondition cond, void *data)
 	/* force out any pending data before doing anything else */
 	if (p->buf_used > 0) {
 		EMSS_CLASS(emss)->sync_write((CamelStream *)emss, p->buf_data, p->buf_used);
+#ifdef LOG_STREAM
+		if (p->logfd)
+			fwrite(p->buf_data, 1, p->buf_used, p->logfd);
+#endif
 		p->buf_used = 0;
 	}
 
@@ -138,12 +152,22 @@ emcs_gui_received(GIOChannel *source, GIOCondition cond, void *data)
 	switch (msg->op) {
 	case EMSS_WRITE:
 		EMSS_CLASS(emss)->sync_write((CamelStream *)emss, msg->data, msg->n);
+#ifdef LOG_STREAM
+		if (p->logfd)
+			fwrite(msg->data, 1, msg->n, p->logfd);
+#endif
 		break;
 	case EMSS_FLUSH:
 		EMSS_CLASS(emss)->sync_flush((CamelStream *)emss);
 		break;
 	case EMSS_CLOSE:
 		EMSS_CLASS(emss)->sync_close((CamelStream *)emss);
+#ifdef LOG_STREAM
+		if (p->logfd) {
+			fclose(p->logfd);
+			p->logfd = NULL;
+		}
+#endif
 		break;
 	}
 	
@@ -166,6 +190,17 @@ em_sync_stream_init (CamelObject *object)
 
 	p->gui_channel = g_io_channel_unix_new(e_msgport_fd(p->data_port));
 	p->gui_watch = g_io_add_watch(p->gui_channel, G_IO_IN, emcs_gui_received, emss);
+
+#ifdef LOG_STREAM
+	if (dolog) {
+		char name[32];
+		static int count;
+
+		sprintf(name, "sync-stream.%d.html", count++);
+		printf("Saving raw data stream to '%s'\n", name);
+		p->logfd = fopen(name, "w");
+	}
+#endif
 
 	d(printf("%p: new emss\n", emss));
 }
@@ -210,6 +245,12 @@ em_sync_stream_finalize (CamelObject *object)
 	p->reply_port = NULL;
 
 	g_free(p->buf_data);
+
+#ifdef LOG_STREAM
+	if (p->logfd)
+		fclose(p->logfd);
+#endif
+
 	g_free(p);
 }
 
@@ -222,9 +263,13 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	if (emss->cancel)
 		return -1;
 
-	if (pthread_self() == mail_gui_thread)
+	if (pthread_self() == mail_gui_thread) {
 		EMSS_CLASS(emss)->sync_write(stream, buffer, n);
-	else if (p->buf_size > 0) {
+#ifdef LOG_STREAM
+		if (p->logfd)
+			fwrite(buffer, 1, n, p->logfd);
+#endif
+	} else if (p->buf_size > 0) {
 		size_t left = p->buf_size-p->buf_used;
 
 		if (n >= left) {
@@ -266,9 +311,15 @@ stream_close(CamelStream *stream)
 
 	d(printf("%p: closing stream\n", stream));
 
-	if (pthread_self() == mail_gui_thread)
+	if (pthread_self() == mail_gui_thread) {
+#ifdef LOG_STREAM
+		if (emss->priv->logfd) {
+			fclose(emss->priv->logfd);
+			emss->priv->logfd = NULL;
+		}
+#endif
 		return ((EMSyncStreamClass *)(((CamelObject *)emss)->klass))->sync_close(stream);
-	else
+	} else
 		sync_op(emss, EMSS_CLOSE, NULL, 0);
 
 	return 0;

@@ -884,7 +884,7 @@ efhd_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Came
 		pobj->valid = camel_cipher_validity_clone(valid);
 		pobj->object.free = efhd_xpkcs7mime_free;
 		camel_stream_printf(stream, "<td valign=top><object classid=\"%s\"></object></td><td width=100%% valign=top>", classid);
-
+		g_free(classid);
 		if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
 			camel_stream_printf(stream, "%s<br>", _(smime_sign_table[valid->sign.status].shortdesc));
 		}
@@ -920,7 +920,7 @@ efhd_bonobo_unknown(EMFormat *emf, CamelStream *stream, CamelMimePart *part, con
 
 	classid = g_strdup_printf("bonobo-unknown:///em-format-html-display/%s", emf->part_id->str);
 	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_bonobo_object);
-	camel_stream_printf(stream, "<object classid=\"%s\" type=\"%s\">\n", classid, info->mime_type);
+	camel_stream_printf(stream, "<object classid=\"%s\" type=\"%s\"></object><br>\n", classid, info->mime_type);
 	g_free(classid);
 }
 
@@ -1531,7 +1531,7 @@ efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 
 		classid = g_strdup_printf("bonobo-unknown:///em-format-html-display/%s", emf->part_id->str);
 		em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_bonobo_object);
-		camel_stream_printf(stream, "<object classid=\"%s\" type=\"%s\">\n", classid, mime_type);
+		camel_stream_printf(stream, "<object classid=\"%s\" type=\"%s\"></object><br>>\n", classid, mime_type);
 	}
 
 	g_free(classid);

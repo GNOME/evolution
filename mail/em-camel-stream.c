@@ -39,7 +39,7 @@
 
 #define EMCS_BUFFER_SIZE (4096)
 
-/*#define LOG_STREAM*/
+#define LOG_STREAM 1
 
 #define d(x) 
 
