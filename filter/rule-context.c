@@ -38,8 +38,8 @@
 
 static int load(RuleContext * f, const char *system, const char *user);
 static int save(RuleContext * f, const char *user);
-static int rename_uri(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp);
-static int delete_uri(RuleContext *f, const char *uri, GCompareFunc cmp);
+static GList *rename_uri(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp);
+static GList *delete_uri(RuleContext *f, const char *uri, GCompareFunc cmp);
 
 static void rule_context_class_init(RuleContextClass * class);
 static void rule_context_init(RuleContext * gspaper);
@@ -652,28 +652,43 @@ rule_context_find_rank_rule (RuleContext *f, int rank, const char *source)
 	return NULL;
 }
 
-static int
+static GList *
 delete_uri(RuleContext *f, const char *uri, GCompareFunc cmp)
 {
-	return 0;
+	return NULL;
 }
 
-int
+GList *
 rule_context_delete_uri(RuleContext *f, const char *uri, GCompareFunc cmp)
 {
 	return ((RuleContextClass *) ((GtkObject *) f)->klass)->delete_uri(f, uri, cmp);
 }
 
-static int
+static GList *
 rename_uri(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp)
 {
-	return 0;
+	return NULL;
 }
 
-int
+GList *
 rule_context_rename_uri(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp)
 {
 	return ((RuleContextClass *) ((GtkObject *) f)->klass)->rename_uri (f, olduri, newuri, cmp);
+}
+
+void
+rule_context_free_uri_list(RuleContext *f, GList *uris)
+{
+	GList *l = uris, *n;
+
+	/* TODO: should be virtual */
+
+	while (l) {
+		n = l->next;
+		g_free(l->data);
+		g_list_free_1(l);
+		l = n;
+	}
 }
 
 

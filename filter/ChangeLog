@@ -1,3 +1,16 @@
+2002-05-08  Not Zed  <NotZed@Ximian.com>
+
+	* rule-context.c (rule_context_delete_uri): Changed to return a
+	GList *, a list of the names of the rules affected by the delete,
+	fixed all implementors.
+	(rule_context_rename_uri): Similarly for delete_uri, for
+	api consistency.
+	(rule_context_free_uri_list): Util function to free the return
+	from above.
+
+	* filter-context.c (filter_delete_uri): Actually implement it, fix
+	for #18826, and some related bugs.
+
 2002-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Get rid of ibex stuff, we no longer use it.

@@ -33,14 +33,14 @@
 /* For poking into filter-folder guts */
 #include "filter-folder.h"
 
-#define d(x)
+#define d(x) 
 
 static void filter_context_class_init	(FilterContextClass *class);
 static void filter_context_init	(FilterContext *gspaper);
 static void filter_context_finalise	(GtkObject *obj);
 
-static int filter_rename_uri(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp);
-static int filter_delete_uri(RuleContext *f, const char *uri, GCompareFunc cmp);
+static GList *filter_rename_uri(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp);
+static GList *filter_delete_uri(RuleContext *f, const char *uri, GCompareFunc cmp);
 
 #define _PRIVATE(x) (((FilterContext *)(x))->priv)
 
@@ -165,13 +165,14 @@ FilterPart 	*filter_context_next_action(FilterContext *f, FilterPart *last)
 }
 
 /* We search for any folders in our actions list that need updating, update them */
-static int filter_rename_uri(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp)
+static GList *filter_rename_uri(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp)
 {
 	FilterRule *rule;
 	GList *l, *el;
 	FilterPart *action;
 	FilterElement *element;
 	int count = 0;
+	GList *changed = NULL;
 
 	d(printf("uri '%s' renamed to '%s'\n", olduri, newuri));
 
@@ -208,23 +209,76 @@ static int filter_rename_uri(RuleContext *f, const char *olduri, const char *new
 			l = l->next;
 		}
 
-		if (rulecount)
+		if (rulecount) {
+			changed = g_list_append(changed, g_strdup(rule->name));
 			filter_rule_emit_changed(rule);
+		}
 
 		count += rulecount;
 	}
 
-	return count + parent_class->rename_uri(f, olduri, newuri, cmp);
+	/* might need to call parent class, if it did anything ... parent_class->rename_uri(f, olduri, newuri, cmp); */
+
+	return changed;
 }
 
-static int filter_delete_uri(RuleContext *f, const char *uri, GCompareFunc cmp)
+static GList *filter_delete_uri(RuleContext *f, const char *uri, GCompareFunc cmp)
 {
-	/* We basically should do similar to above, but when we find it,
-	   Remove the action, and if thats the last action, remove the rule? */
+	/* We basically do similar to above, but when we find it,
+	   Remove the action, and if thats the last action, this might create an empty rule?  remove the rule? */
 
-	/* But i'm not confident the rest of the mailer wont accidentlly delete
-	   something which was just temporarily not available. */
+	FilterRule *rule;
+	GList *l, *el;
+	FilterPart *action;
+	FilterElement *element;
+	int count = 0;
+	GList *deleted = NULL;
 
-	return parent_class->delete_uri(f, uri, cmp);
+	d(printf("uri '%s' deleted\n", uri));
+
+	/* For all rules, for all actions, for all elements, check deleted folder elements */
+	/* Yes we could do this inside each part itself, but not today */
+	rule = NULL;
+	while ( (rule = rule_context_next_rule(f, rule, NULL)) ) {
+		int recorded = 0;
+
+		d(printf("checking rule '%s'\n", rule->name));
+		
+		l = FILTER_FILTER(rule)->actions;
+		while (l) {
+			action = l->data;
+
+			d(printf("checking action '%s'\n", action->name));
+			
+			el = action->elements;
+			while (el) {
+				element = el->data;
+
+				d(printf("checking element '%s'\n", element->name));
+				if (IS_FILTER_FOLDER(element))
+					d(printf(" is folder, existing uri = '%s'\n", FILTER_FOLDER(element)->uri));
+
+				if (IS_FILTER_FOLDER(element)
+				    && cmp(((FilterFolder *)element)->uri, uri)) {
+					d(printf(" Deleted!\n"));
+					/* check if last action, if so, remove rule instead? */
+					l = l->next;
+					filter_filter_remove_action((FilterFilter *)rule, action);
+					gtk_object_unref((GtkObject *)action);
+					count++;
+					if (!recorded)
+						deleted = g_list_append(deleted, g_strdup(rule->name));
+					goto next_action;
+				}
+				el = el->next;
+			}
+			l = l->next;
+		next_action:
+		}
+	}
+
+	/* TODO: could call parent and merge lists */
+
+	return deleted;
 }
 
