@@ -254,6 +254,21 @@ itip_strip_mailto (const gchar *address)
 	return address;
 }
 
+static char *
+get_label (struct icaltimetype *tt)
+{
+        char buffer[1000];
+        struct tm tmp_tm;
+
+	tmp_tm = icaltimetype_to_tm (tt);
+        e_time_format_date_and_time (&tmp_tm,
+                                     calendar_config_get_24_hour_format (),
+                                     FALSE, FALSE,
+                                     buffer, 1000);
+
+        return g_strdup (buffer);
+}
+
 typedef struct {
 	GHashTable *tzids;
 	icalcomponent *icomp;	
@@ -519,6 +534,57 @@ comp_content_type (CalComponent *comp, CalComponentItipMethod method)
 		 "freebusy.ifb" : "calendar.ics", itip_methods[method]);
 	return CORBA_string_dup (tmp);
 
+}
+
+static CORBA_char *
+comp_filename (CalComponent *comp)
+{
+        switch (cal_component_get_vtype (comp)) {
+        case CAL_COMPONENT_FREEBUSY:
+                return CORBA_string_dup ("freebusy.ifb");
+        default:
+                return CORBA_string_dup ("calendar.ics");
+        }
+}
+
+static CORBA_char *
+comp_description (CalComponent *comp)
+{
+        CORBA_char *description;
+        CalComponentDateTime dt;
+        char *start = NULL, *end = NULL;
+
+        switch (cal_component_get_vtype (comp)) {
+        case CAL_COMPONENT_EVENT:
+                return CORBA_string_dup (U_("Event information"));
+        case CAL_COMPONENT_TODO:
+                return CORBA_string_dup (U_("Task information"));
+        case CAL_COMPONENT_JOURNAL:
+                return CORBA_string_dup (U_("Journal information"));
+        case CAL_COMPONENT_FREEBUSY:
+                cal_component_get_dtstart (comp, &dt);
+                if (dt.value) {
+                        start = get_label (dt.value);
+                        cal_component_get_dtend (comp, &dt);
+                        if (dt.value)
+                                end = get_label (dt.value);
+                }
+                if (start != NULL && end != NULL) {
+                        char *tmp, *tmp_utf;
+                        tmp = g_strdup_printf (_("Free/Busy information (%s to %s)"), start, end);
+                        tmp_utf = e_utf8_from_locale_string (tmp);
+                        description = CORBA_string_dup (tmp_utf);
+                        g_free (tmp_utf);
+                        g_free (tmp);
+                } else {
+                        description = CORBA_string_dup (U_("Free/Busy information"));
+                }
+                g_free (start);
+                g_free (end);
+                return description;
+        default:
+                return CORBA_string_dup (U_("iCalendar information"));
+        }
 }
 
 static gboolean
@@ -845,21 +911,45 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 		goto cleanup;
 	}
 
+
 	/* Content type */
 	content_type = comp_content_type (comp, method);
 
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
 	ical_string = icalcomponent_as_ical_string (top_level);
-	attach_data = GNOME_Evolution_Composer_AttachmentData__alloc ();
-	attach_data->_length = strlen (ical_string) + 1;
-	attach_data->_maximum = attach_data->_length;	
-	attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
-	strcpy (attach_data->_buffer, ical_string);
 
-	GNOME_Evolution_Composer_setBody (composer_server, ical_string, content_type, &ev);
+	if (cal_component_get_vtype (comp) == CAL_COMPONENT_EVENT) {
+		GNOME_Evolution_Composer_setBody (composer_server, ical_string, content_type, &ev);
+	} else {
+		GNOME_Evolution_Composer_setMultipartType (composer_server, GNOME_Evolution_Composer_MIXED, &ev);
+		if (BONOBO_EX (&ev)) {
+			g_warning ("Unable to set multipart type while sending iTip message");
+			goto cleanup;
+		}
 
+		filename = comp_filename (comp);
+		description = comp_description (comp);
+
+		GNOME_Evolution_Composer_setBody (composer_server, description, "text/plain", &ev);
+		if (BONOBO_EX (&ev)) {
+			g_warning ("Unable to set body text while sending iTip message");
+			goto cleanup;
+		}
+
+		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc ();
+		attach_data->_length = strlen (ical_string) + 1;
+		attach_data->_maximum = attach_data->_length;	
+		attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
+		strcpy (attach_data->_buffer, ical_string);
+
+		GNOME_Evolution_Composer_attachData (composer_server,
+						     content_type, filename, description,
+						     TRUE, attach_data,
+						     &ev);
+	}
+		
 	if (BONOBO_EX (&ev)) {
-		g_warning ("Unable to attach data to the composer while sending iTip message");
+		g_warning ("Unable to place iTip message in composer");
 		goto cleanup;
 	}
 	

@@ -1,3 +1,11 @@
+2002-09-25  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-utils.c (itip_send_comp): if the item being sent is not
+	a meeting, send it as a mixed item with a description and the
+	calendar text in an attachment
+
+	Fixes #30638
+
 2002-09-25  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #27961
