@@ -57,6 +57,9 @@
 #include "e-msg-composer-hdrs.h"
 #include "e-msg-composer-select-file.h"
 
+#include "HTMLEditor.h"
+#include "listener.h"
+
 #define HTML_EDITOR_CONTROL_ID "OAFIID:control:html-editor:63c5499b-8b0c-475a-9948-81ec96a9662c"
 
 
@@ -318,14 +321,61 @@ get_signature (const char *sigfile)
 }
 
 static void
-set_editor_text (BonoboWidget *editor, const char *sig_file, const char *text)
+prepare_engine (EMsgComposer *composer)
+{
+	CORBA_Environment ev;
+
+	g_assert (composer);
+	g_assert (E_IS_MSG_COMPOSER (composer));
+
+	/* printf ("prepare_engine\n"); */
+
+	CORBA_exception_init (&ev);
+	composer->editor_engine = (HTMLEditor_Engine) bonobo_object_client_query_interface
+		(bonobo_widget_get_server (BONOBO_WIDGET (composer->editor)), "IDL:HTMLEditor/Engine:1.0", &ev);
+	if (composer->editor_engine != CORBA_OBJECT_NIL) {
+		
+		/* printf ("trying set listener\n"); */
+		composer->editor_listener = BONOBO_OBJECT (html_editor_listener_new (composer));
+		if (composer->editor_listener != CORBA_OBJECT_NIL)
+			HTMLEditor_Engine__set_listener (composer->editor_engine,
+							 (HTMLEditor_Listener)
+							 bonobo_object_dup_ref
+							 (bonobo_object_corba_objref (composer->editor_listener), &ev),
+							 &ev);
+	}
+	CORBA_exception_free (&ev);
+}
+
+static void
+mark_orig_text (EMsgComposer *composer)
+{
+	g_assert (composer);
+	g_assert (E_IS_MSG_COMPOSER (composer));
+
+	if (composer->editor_engine != CORBA_OBJECT_NIL) {
+		CORBA_Environment ev;
+		CORBA_any *flag = bonobo_arg_new (TC_boolean);
+		*((CORBA_boolean *) flag->_value) = CORBA_TRUE;
+
+		CORBA_exception_init (&ev);
+		HTMLEditor_Engine_set_object_data_by_type (composer->editor_engine, "ClueFlow", "orig", flag, &ev);
+		CORBA_free (flag);
+		CORBA_exception_free (&ev);
+	}
+}
+
+static void
+set_editor_text (EMsgComposer *composer, const char *sig_file, const char *text)
 {
 	Bonobo_PersistStream persist;
 	BonoboStream *stream;
+	BonoboWidget *editor;
 	CORBA_Environment ev;
 	char *sig, *fulltext;
 	
-	sig = get_signature (sig_file);
+	editor = BONOBO_WIDGET (composer->editor);
+	sig    = get_signature (sig_file);
 	if (sig) {
 		if (!strncmp ("-- \n", sig, 3))
 			fulltext = g_strdup_printf ("%s<br>\n<pre>\n%s</pre>",
@@ -360,6 +410,8 @@ set_editor_text (BonoboWidget *editor, const char *sig_file, const char *text)
 	Bonobo_Unknown_unref (persist, &ev);
 	CORBA_exception_free (&ev);
 	bonobo_object_unref (BONOBO_OBJECT(stream));
+
+	mark_orig_text (composer);
 }
 
 
@@ -978,8 +1030,16 @@ destroy (GtkObject *object)
 		CORBA_Object_release (composer->persist_file_interface, &ev);
 	}
 	
+	if (composer->editor_engine != CORBA_OBJECT_NIL) {
+		Bonobo_Unknown_unref (composer->editor_engine, &ev);
+		CORBA_Object_release (composer->editor_engine, &ev);
+	}
+
 	CORBA_exception_free (&ev);
-	
+
+	if (composer->editor_listener)
+		bonobo_object_unref (composer->editor_listener);
+
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -1082,6 +1142,7 @@ init (EMsgComposer *composer)
 	
 	composer->persist_file_interface   = CORBA_OBJECT_NIL;
 	composer->persist_stream_interface = CORBA_OBJECT_NIL;
+	composer->editor_engine            = CORBA_OBJECT_NIL;
 	
 	composer->attachment_bar_visible   = FALSE;
 	composer->send_html                = FALSE;
@@ -1211,6 +1272,8 @@ create_composer (void)
 		gtk_object_unref (GTK_OBJECT (new));
 		return NULL;
 	}
+	prepare_engine (new);
+
 	return new;
 }
 
@@ -1229,7 +1292,7 @@ e_msg_composer_new (void)
 	new = create_composer ();
 	if (new) {
 		/* Load the signature, if any. */
-		set_editor_text (BONOBO_WIDGET (new->editor), NULL, "");
+		set_editor_text (new, NULL, "");
 	}
 	
 	return new;
@@ -1250,7 +1313,7 @@ e_msg_composer_new_with_sig_file (const char *sig_file)
 	new = create_composer ();
 	if (new) {
 		/* Load the signature, if any. */
-		set_editor_text (BONOBO_WIDGET (new->editor), sig_file, "");
+		set_editor_text (new, sig_file, "");
 		
 		e_msg_composer_set_sig_file (new, sig_file);
 	}
@@ -1572,8 +1635,7 @@ e_msg_composer_new_from_url (const char *url)
 	
 	if (body) {
 		char *htmlbody = e_text_to_html (body, E_TEXT_TO_HTML_PRE);
-		set_editor_text (BONOBO_WIDGET (composer->editor), 
-				 NULL, htmlbody);
+		set_editor_text (composer, NULL, htmlbody);
 		g_free (htmlbody);
 	}
 	
@@ -1637,8 +1699,7 @@ e_msg_composer_set_body_text (EMsgComposer *composer, const char *text)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
-	set_editor_text (BONOBO_WIDGET (composer->editor), 
-			 composer->sig_file, text);
+	set_editor_text (composer, composer->sig_file, text);
 }
 
 

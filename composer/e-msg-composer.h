@@ -24,11 +24,15 @@
 #ifndef ___E_MSG_COMPOSER_H__
 #define ___E_MSG_COMPOSER_H__
 
+typedef struct _EMsgComposer       EMsgComposer;
+typedef struct _EMsgComposerClass  EMsgComposerClass;
+
 #include <gnome.h>
 #include <bonobo.h>
 
 #include "e-msg-composer-attachment-bar.h"
 #include "e-msg-composer-hdrs.h"
+#include "HTMLEditor.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,8 +47,6 @@ extern "C" {
 #define E_IS_MSG_COMPOSER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_MSG_COMPOSER))
 
 
-typedef struct _EMsgComposer       EMsgComposer;
-typedef struct _EMsgComposerClass  EMsgComposerClass;
 
 struct _EMsgComposer {
 	BonoboWin parent;
@@ -63,7 +65,9 @@ struct _EMsgComposer {
 	
 	Bonobo_PersistFile   persist_file_interface;
 	Bonobo_PersistStream persist_stream_interface;
-	
+	HTMLEditor_Engine    editor_engine;
+	BonoboObject        *editor_listener;
+
 	char *sig_file;
 	
 	gboolean attachment_bar_visible : 1;

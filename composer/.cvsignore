@@ -9,3 +9,7 @@ Composer-stubs.c
 Composer-skels.c
 Composer-common.c
 Composer.h
+HTMLEditor-stubs.c
+HTMLEditor-skels.c
+HTMLEditor.h
+HTMLEditor-common.c

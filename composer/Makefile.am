@@ -2,19 +2,26 @@
 
 IDLS =				\
 	Evolution-Composer.idl	\
-	Composer.idl
+	Composer.idl		\
+	HTMLEditor.idl
 
 IDL_GENERATED =			\
 	Composer.h		\
 	Composer-common.c	\
 	Composer-skels.c	\
-	Composer-stubs.c
+	Composer-stubs.c	\
+	HTMLEditor.h		\
+	HTMLEditor-common.c	\
+	HTMLEditor-skels.c	\
+	HTMLEditor-stubs.c
 
 selectnamesdir = $(top_srcdir)/addressbook/gui/component/select-names
 
 $(IDL_GENERATED): $(IDLS) $(selectnamesdir)/Evolution-Addressbook-SelectNames.idl
 	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
 		-I $(selectnamesdir) -I . $(srcdir)/Composer.idl
+	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
+		-I $(selectnamesdir) -I . $(srcdir)/HTMLEditor.idl
 
 ##
 
@@ -64,7 +71,9 @@ libcomposer_la_SOURCES = 			\
 	e-icon-list.c				\
 	e-icon-list.h				\
 	evolution-composer.c			\
-	evolution-composer.h
+	evolution-composer.h			\
+	listener.c				\
+	listener.h
 
 EXTRA_DIST =					\
 	$(glade_DATA)				\

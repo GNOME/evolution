@@ -1,3 +1,21 @@
+2000-10-31  Radek Doulik  <rodo@helixcode.com>
+
+	* e-msg-composer.c (prepare_engine): new function, tries prepare
+	editor engine
+	(mark_orig_text): marks original text in editor
+	(set_editor_text): call mark_orig_text
+	(create_composer): call prepare_engine
+
+	* Makefile.am (IDL_GENERATED): added HTMLEditor generated files to
+	IDL_GENERATED
+	($(IDL_GENERATED)): generate also files from HTMLEditor.idl
+	(libcomposer_la_SOURCES): added listener.[ch]
+
+	* e-msg-composer.h: added editor_engine and editor_listener to
+	EMsgComposer
+
+	* listener.[ch]: new files, implementation of HTMLEditor::Listener
+
 2000-10-27  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am ($(IDL_GENERATED)): Get `Composer.idl' from
