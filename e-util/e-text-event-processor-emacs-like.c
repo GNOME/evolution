@@ -182,16 +182,13 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 		if (event->button.button == 1) {
 			command.action = E_TEP_UNGRAB;
 			command.time = event->button.time;
-			gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);
-			command.time = event->button.time;
 			tep_el->mouse_down = FALSE;
-			command.action = E_TEP_NOP;
 		} else if (event->button.button == 2) {
 			command.action = E_TEP_MOVE;
 			command.position = E_TEP_VALUE;
 			command.value = event->button.position;
 			command.time = event->button.time;
-			gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);			
+			gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);
 
 			command.action = E_TEP_GET_SELECTION;
 			command.position = E_TEP_SELECTION;
