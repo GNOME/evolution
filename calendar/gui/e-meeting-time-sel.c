@@ -339,8 +339,8 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	mts->etable = GTK_WIDGET (e_meeting_model_etable_from_model (mts->model,
 								     EVOLUTION_ETSPECDIR "/e-meeting-time-sel.etspec",
 								     filename));
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (mts->etable), GTK_POLICY_NEVER, GTK_POLICY_NEVER);
-	e_scroll_frame_set_scrollbar_spacing (E_SCROLL_FRAME (mts->etable), 0);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (mts->etable), GTK_POLICY_NEVER, GTK_POLICY_NEVER);
+	gtk_scrolled_window_set_scrollbar_spacing (GTK_SCROLLED_WINDOW (mts->etable), 0);
 
 	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (mts->etable));
 	g_signal_connect (real_table->sort_info, "sort_info_changed", G_CALLBACK (sort_info_changed_cb), mts);
@@ -695,9 +695,9 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	g_signal_connect (GTK_LAYOUT (mts->display_main)->vadjustment, "changed",
 			  G_CALLBACK (e_meeting_time_selector_vadjustment_changed), mts);
 
-	g_signal_connect (e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (mts->etable)), "value_changed",
+	g_signal_connect (gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (mts->etable)), "value_changed",
 			  G_CALLBACK (e_meeting_time_selector_table_vadjustment_changed), mts);
-	g_signal_connect (e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (mts->etable)), "changed",
+	g_signal_connect (gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (mts->etable)), "changed",
 			  G_CALLBACK (e_meeting_time_selector_table_vadjustment_changed), mts);
 
 	e_meeting_time_selector_recalc_grid (mts);
@@ -1003,7 +1003,7 @@ e_meeting_time_selector_vadjustment_changed (GtkAdjustment *adjustment,
 {
 	GtkAdjustment *adj;
 
-	adj = e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (mts->etable));
+	adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (mts->etable));
 	if (adj->value != adjustment->value) {
 		adj->value = adjustment->value;
 		gtk_adjustment_value_changed (adj);

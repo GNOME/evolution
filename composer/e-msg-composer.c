@@ -54,6 +54,7 @@
 #include <glib/gunicode.h>
 
 #include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkscrolledwindow.h>
 
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
@@ -73,7 +74,6 @@
 #include <glade/glade.h>
 
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-scroll-frame.h>
 #include <gal/e-text/e-entry.h>
 #include <gal/util/e-iconv.h>
 
@@ -1124,10 +1124,10 @@ show_attachments (EMsgComposer *composer,
 		  gboolean show)
 {
 	if (show) {
-		gtk_widget_show (composer->attachment_scroll_frame);
+		gtk_widget_show (composer->attachment_scrolled_window);
 		gtk_widget_show (composer->attachment_bar);
 	} else {
-		gtk_widget_hide (composer->attachment_scroll_frame);
+		gtk_widget_hide (composer->attachment_scrolled_window);
 		gtk_widget_hide (composer->attachment_bar);
 	}
 	
@@ -2569,7 +2569,7 @@ init (EMsgComposer *composer)
 	composer->address_dialog           = NULL;
 	
 	composer->attachment_bar           = NULL;
-	composer->attachment_scroll_frame  = NULL;
+	composer->attachment_scrolled_window = NULL;
 	
 	composer->persist_file_interface   = CORBA_OBJECT_NIL;
 	composer->persist_stream_interface = CORBA_OBJECT_NIL;
@@ -2830,18 +2830,18 @@ create_composer (int visible_mask)
 	/* Attachment editor, wrapped into an EScrollFrame.  We don't
            show it for now.  */
 	
-	composer->attachment_scroll_frame = e_scroll_frame_new (NULL, NULL);
-	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (composer->attachment_scroll_frame),
-					GTK_SHADOW_IN);
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (composer->attachment_scroll_frame),
-				   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	composer->attachment_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (composer->attachment_scrolled_window),
+					     GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (composer->attachment_scrolled_window),
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	
 	composer->attachment_bar = e_msg_composer_attachment_bar_new (NULL);
 	GTK_WIDGET_SET_FLAGS (composer->attachment_bar, GTK_CAN_FOCUS);
-	gtk_container_add (GTK_CONTAINER (composer->attachment_scroll_frame),
+	gtk_container_add (GTK_CONTAINER (composer->attachment_scrolled_window),
 			   composer->attachment_bar);
 	gtk_box_pack_start (GTK_BOX (vbox),
-			    composer->attachment_scroll_frame,
+			    composer->attachment_scrolled_window,
 			    FALSE, FALSE, GNOME_PAD_SMALL);
 	
 	g_signal_connect (composer->attachment_bar, "changed",

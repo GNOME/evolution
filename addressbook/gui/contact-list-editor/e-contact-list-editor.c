@@ -722,7 +722,7 @@ e_contact_list_editor_create_table(gchar *name,
 static void
 add_email_cb (GtkWidget *w, EContactListEditor *editor)
 {
-	GtkAdjustment *adj = e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (editor->table));
+	GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (editor->table));
 	const char *text = gtk_entry_get_text (GTK_ENTRY(editor->email_entry));
 
 	if (text && *text) {
@@ -855,7 +855,7 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 			     GtkSelectionData *selection_data,
 			     guint info, guint time, EContactListEditor *editor)
 {
-	GtkAdjustment *adj = e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (editor->table));
+	GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (editor->table));
 	char *target_type;
 	gboolean changed = FALSE;
 

@@ -32,13 +32,12 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtkmenuitem.h>
+#include <gtk/gtkscrolledwindow.h>
 
 #include <glade/glade-xml.h>
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
-
-#include <gal/widgets/e-scroll-frame.h>
 
 #include "e-storage-set.h"
 #include "e-storage-set-view.h"
@@ -313,7 +312,7 @@ add_storage_set_view (GtkWidget *dialog,
 {
 	EStorageSet *storage_set;
 	GtkWidget *storage_set_view;
-	GtkWidget *scroll_frame;
+	GtkWidget *scrolled_window;
 	GtkWidget *vbox;
 
 	storage_set = e_shell_get_storage_set (shell);
@@ -329,14 +328,14 @@ add_storage_set_view (GtkWidget *dialog,
 
 	vbox = glade_xml_get_widget (gui, "main_vbox");
 
-	scroll_frame = e_scroll_frame_new (NULL, NULL);
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll_frame), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll_frame), GTK_SHADOW_IN);
-	gtk_box_pack_start (GTK_BOX (vbox), scroll_frame, TRUE, TRUE, 0);
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_IN);
+	gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
 
-	gtk_container_add (GTK_CONTAINER (scroll_frame), storage_set_view);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), storage_set_view);
 
-	gtk_widget_show (scroll_frame);
+	gtk_widget_show (scrolled_window);
 	gtk_widget_show (storage_set_view);
 
 	return storage_set_view;

@@ -25,6 +25,7 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkwindow.h>
 #include <libgnome/gnome-i18n.h>
 #if 0 
@@ -34,7 +35,6 @@
 #include <glade/glade.h>
 #include <e-util/e-time-utils.h>
 #include <gal/widgets/e-unicode.h>
-#include <gal/widgets/e-scroll-frame.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
 #include "cal-util/timeutil.h"
@@ -171,7 +171,7 @@ url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *stream, gpointe
 GtkWidget *
 make_html_display (gchar *widget_name, char *s1, char *s2, int scroll, int shadow)
 {
-	GtkWidget *html, *frame;
+	GtkWidget *html, *scrolled_window;
 
 	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
 
@@ -187,24 +187,24 @@ make_html_display (gchar *widget_name, char *s1, char *s2, int scroll, int shado
 
 	gtk_widget_pop_colormap();
 
-	frame = e_scroll_frame_new(NULL, NULL);
+	scrolled_window = gtk_scrolled_window_new(NULL, NULL);
 
-	e_scroll_frame_set_policy(E_SCROLL_FRAME(frame),
-				  GTK_POLICY_AUTOMATIC,
-				  GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled_window),
+				       GTK_POLICY_AUTOMATIC,
+				       GTK_POLICY_AUTOMATIC);
 
 
-	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (frame),
-					GTK_SHADOW_IN);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window),
+					     GTK_SHADOW_IN);
 
-	gtk_widget_set_size_request (frame, 300, 200);
+	gtk_widget_set_size_request (scrolled_window, 300, 200);
 
-	gtk_container_add(GTK_CONTAINER (frame), html);
+	gtk_container_add(GTK_CONTAINER (scrolled_window), html);
 
-	gtk_widget_show_all(frame);
+	gtk_widget_show_all(scrolled_window);
 
-	g_object_set_data (G_OBJECT (frame), "html", html);
-	return frame;
+	g_object_set_data (G_OBJECT (scrolled_window), "html", html);
+	return scrolled_window;
 }
 
 static void

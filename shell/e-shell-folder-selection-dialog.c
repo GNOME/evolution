@@ -36,12 +36,12 @@
 #include <libgnome/gnome-i18n.h>
 
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-scroll-frame.h>
 #include <gal/widgets/e-gui-utils.h>
 
 #include <gtk/gtksignal.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtkscrolledwindow.h>
 
 #include <string.h>
 
@@ -384,7 +384,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 					   gboolean allow_creation)
 {
 	EShellFolderSelectionDialogPrivate *priv;
-	GtkWidget *scroll_frame;
+	GtkWidget *scrolled_window;
 	GtkWidget *caption_label;
 	int i;
 	char *filename;
@@ -468,18 +468,18 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	if (default_uri != NULL)
 		set_default_folder (folder_selection_dialog, default_uri);
 
-	scroll_frame = e_scroll_frame_new (NULL, NULL);
-	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll_frame), GTK_SHADOW_IN);
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll_frame),
-				   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-	gtk_container_add (GTK_CONTAINER (scroll_frame), priv->storage_set_view);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), priv->storage_set_view);
 
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (folder_selection_dialog)->vbox),
-			    scroll_frame, TRUE, TRUE, 2);
+			    scrolled_window, TRUE, TRUE, 2);
 
 	gtk_widget_show (priv->storage_set_view);
-	gtk_widget_show (scroll_frame);
+	gtk_widget_show (scrolled_window);
 
 	GTK_WIDGET_SET_FLAGS (priv->storage_set_view, GTK_CAN_FOCUS);
 	gtk_widget_grab_focus (priv->storage_set_view);

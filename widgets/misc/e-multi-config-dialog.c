@@ -391,7 +391,7 @@ init (EMultiConfigDialog *multi_config_dialog)
 	e_table_extras_add_cell (extras, "vbox", vbox);
 
 	list_e_table = e_table_scrolled_new (list_e_table_model, extras, list_e_table_spec, NULL);
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (list_e_table), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (list_e_table), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	g_signal_connect (e_table_scrolled_get_table (E_TABLE_SCROLLED (list_e_table)),
 			  "cursor_change", G_CALLBACK (table_cursor_change_callback), multi_config_dialog);
 

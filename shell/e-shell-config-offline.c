@@ -34,8 +34,7 @@
 
 #include <gconf/gconf-client.h>
 
-#include <gal/widgets/e-scroll-frame.h>
-
+#include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkwidget.h>
 #include <gtk/gtksignal.h>
 
@@ -135,7 +134,7 @@ GtkWidget *
 e_shell_config_offline_create_widget (EShell *shell, EvolutionConfigControl *control)
 {
 	PageData *page_data;
-	GtkWidget *scroll_frame;
+	GtkWidget *scrolled_window;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
@@ -151,12 +150,12 @@ e_shell_config_offline_create_widget (EShell *shell, EvolutionConfigControl *con
 	g_signal_connect (page_data->storage_set_view, "checkboxes_changed",
 			  G_CALLBACK (storage_set_view_checkboxes_changed_callback), page_data);
 
-	scroll_frame = e_scroll_frame_new (NULL, NULL);
-	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll_frame), GTK_SHADOW_IN);
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll_frame),
-				   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_container_add (GTK_CONTAINER (scroll_frame), page_data->storage_set_view);
-	gtk_widget_show (scroll_frame);
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), page_data->storage_set_view);
+	gtk_widget_show (scrolled_window);
 
 	page_data->config_control = control;
 
@@ -165,5 +164,5 @@ e_shell_config_offline_create_widget (EShell *shell, EvolutionConfigControl *con
 
 	g_object_weak_ref (G_OBJECT (page_data->config_control), config_control_destroy_notify, page_data);
 
-	return scroll_frame;
+	return scrolled_window;
 }

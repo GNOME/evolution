@@ -30,7 +30,7 @@
 
 #include "evolution-storage-set-view-factory.h"
 
-#include <gal/widgets/e-scroll-frame.h>
+#include <gtk/gtkscrolledwindow.h>
 
 
 BonoboControl *
@@ -40,7 +40,7 @@ evolution_storage_set_view_factory_new_view (EShell *shell)
 	GtkWidget *storage_set_view;
 	BonoboControl *control;
 	EvolutionStorageSetView *storage_set_view_interface;
-	GtkWidget *scroll_frame;
+	GtkWidget *scrolled_window;
 
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
@@ -55,19 +55,19 @@ evolution_storage_set_view_factory_new_view (EShell *shell)
 		return NULL;
 	}
 
-	scroll_frame = e_scroll_frame_new (NULL, NULL);
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll_frame),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC);
-	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll_frame),
-					GTK_SHADOW_IN);
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window),
+					     GTK_SHADOW_IN);
 
-	gtk_container_add (GTK_CONTAINER (scroll_frame), storage_set_view);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), storage_set_view);
 
-	gtk_widget_show (scroll_frame);
+	gtk_widget_show (scrolled_window);
 	gtk_widget_show (storage_set_view);
 
-	control = bonobo_control_new (scroll_frame);
+	control = bonobo_control_new (scrolled_window);
 	bonobo_object_add_interface (BONOBO_OBJECT (control), BONOBO_OBJECT (storage_set_view_interface));
 
 	return control;

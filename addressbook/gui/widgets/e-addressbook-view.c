@@ -25,9 +25,9 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
+#include <gtk/gtkscrolledwindow.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-table-model.h>
-#include <gal/widgets/e-scroll-frame.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/menus/gal-view-factory-etable.h>
@@ -1125,7 +1125,7 @@ minicard_right_click (EMinicardView *minicard_view_item, GdkEvent *event, EAddre
 static void
 create_minicard_view (EAddressbookView *view)
 {
-	GtkWidget *scrollframe;
+	GtkWidget *scrolled_window;
 	GtkWidget *alphabet;
 	GtkWidget *minicard_view;
 	GtkWidget *minicard_hbox;
@@ -1151,15 +1151,15 @@ create_minicard_view (EAddressbookView *view)
 	view->object = G_OBJECT(minicard_view);
 	view->widget = minicard_hbox;
 
-	scrollframe = e_scroll_frame_new (NULL, NULL);
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (scrollframe),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC);
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
 
-	gtk_container_add (GTK_CONTAINER (scrollframe), minicard_view);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), minicard_view);
 
 
-	gtk_box_pack_start(GTK_BOX(minicard_hbox), scrollframe, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(minicard_hbox), scrolled_window, TRUE, TRUE, 0);
 
 	alphabet = create_alphabet(view);
 	if (alphabet) {

@@ -64,6 +64,7 @@
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnomeui/gnome-app.h>
 
+#include <gtk/gtkscrolledwindow.h>
 #include <gconf/gconf-client.h>
 
 #include <bonobo/bonobo-socket.h>
@@ -75,9 +76,7 @@
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-scroll-frame.h>
 
-
 static BonoboWindowClass *parent_class = NULL;
 
 struct _View {
@@ -1108,7 +1107,7 @@ setup_storage_set_subwindow (EShellView *shell_view)
 	EShellViewPrivate *priv;
 	GtkWidget *storage_set_view;
 	GtkWidget *vbox;
-	GtkWidget *scroll_frame;
+	GtkWidget *scrolled_window;
 
 	priv = shell_view->priv;
 
@@ -1121,28 +1120,28 @@ setup_storage_set_subwindow (EShellView *shell_view)
 	g_signal_connect (storage_set_view, "folder_context_menu_popped_down",
 			  G_CALLBACK (folder_context_menu_popped_down_cb), shell_view);
 
-	scroll_frame = e_scroll_frame_new (NULL, NULL);
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll_frame),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC);
-	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll_frame),
-					GTK_SHADOW_IN);
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window),
+					     GTK_SHADOW_IN);
 
-	gtk_container_add (GTK_CONTAINER (scroll_frame), storage_set_view);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), storage_set_view);
 
 	vbox = gtk_vbox_new (FALSE, 0);
 
 	priv->storage_set_title_bar = e_title_bar_new (_("Folders"));
 
 	gtk_box_pack_start (GTK_BOX (vbox), priv->storage_set_title_bar, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), scroll_frame, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
 
 	g_signal_connect (priv->storage_set_title_bar, "button_clicked",
 			  G_CALLBACK (storage_set_view_button_clicked_cb), shell_view);
 
 	gtk_widget_show (storage_set_view);
 	gtk_widget_show (priv->storage_set_title_bar);
-	gtk_widget_show (scroll_frame);
+	gtk_widget_show (scrolled_window);
 
 	priv->storage_set_view_box = vbox;
 	priv->storage_set_view = storage_set_view;
