@@ -32,8 +32,6 @@
 #include "e-text-model.h"
 #include "gal/util/e-util.h"
 
-#define MAX_LENGTH (2047)
-
 enum {
 	E_TEXT_MODEL_CHANGED,
 	E_TEXT_MODEL_REPOSITION,
@@ -45,8 +43,7 @@ enum {
 static guint e_text_model_signals[E_TEXT_MODEL_LAST_SIGNAL] = { 0 };
 
 struct _ETextModelPrivate {
-	gchar   *text;
-	gint     len;
+	GString *text;
 };
 
 static void e_text_model_class_init (ETextModelClass *class);
@@ -157,8 +154,7 @@ static void
 e_text_model_init (ETextModel *model)
 {
 	model->priv = g_new0 (struct _ETextModelPrivate, 1);
-	model->priv->text = g_strdup ("");
-	model->priv->len  = 0;
+	model->priv->text = g_string_new ("");
 }
 
 /* Dispose handler for the text item */
@@ -173,7 +169,7 @@ e_text_model_dispose (GObject *object)
 	model = E_TEXT_MODEL (object);
 
 	if (model->priv) {
-		g_free (model->priv->text);
+		g_string_free (model->priv->text, TRUE);
 
 		g_free (model->priv);
 		model->priv = NULL;
@@ -186,11 +182,11 @@ e_text_model_dispose (GObject *object)
 static gint
 e_text_model_real_validate_position (ETextModel *model, gint pos)
 {
-	gint len;
+	gint len = e_text_model_get_text_length (model);
 
 	if (pos < 0)
 		pos = 0;
-	else if (pos > ( len = e_text_model_get_text_length (model) ))
+	else if (pos > len)
 		pos = len;
 
 	return pos;
@@ -200,7 +196,7 @@ static const gchar *
 e_text_model_real_get_text (ETextModel *model)
 {
 	if (model->priv->text)
-		return model->priv->text;
+		return model->priv->text->str;
 	else
 		return "";
 }
@@ -208,10 +204,7 @@ e_text_model_real_get_text (ETextModel *model)
 static gint
 e_text_model_real_get_text_length (ETextModel *model)
 {
-	if (model->priv->len < 0)
-		model->priv->len = strlen (e_text_model_get_text (model));
-
-	return model->priv->len;
+	return g_utf8_strlen (model->priv->text->str, -1);
 }
 
 static void
@@ -221,18 +214,13 @@ e_text_model_real_set_text (ETextModel *model, const gchar *text)
 	gboolean changed = FALSE;
 
 	if (text == NULL) {
+		changed = (*model->priv->text->str != '\0');
 
-		changed = (model->priv->text != NULL);
+		g_string_set_size (model->priv->text, 0);
 
-		g_free (model->priv->text);
-		model->priv->text = NULL;
-		model->priv->len = -1;
-
-	} else if (model->priv->text == NULL || strcmp (model->priv->text, text)) {
+	} else if (*model->priv->text->str == '\0' || strcmp (model->priv->text->str, text)) {
 		
-		g_free (model->priv->text);
-		model->priv->text = g_strndup (text, MAX_LENGTH);
-		model->priv->len = -1;
+		g_string_assign (model->priv->text, text);
 
 		changed = TRUE;
 	}
@@ -248,34 +236,34 @@ e_text_model_real_set_text (ETextModel *model, const gchar *text)
 static void
 e_text_model_real_insert (ETextModel *model, gint position, const gchar *text)
 {
+	e_text_model_insert_length (model, position, text, strlen (text));
+}
+
+static void
+e_text_model_real_insert_length (ETextModel *model, gint position, const gchar *text, gint length)
+{
 	EReposInsertShift repos;
 	gchar *new_text;
-	gint length;
+	int model_len = e_text_model_real_get_text_length (model);
+	char *offs;
+	const char *p;
+	int byte_length, l;
 
-	if (model->priv->len < 0)
-		e_text_model_real_get_text_length (model);
-	length = strlen(text);
-
-	if (length + model->priv->len > MAX_LENGTH)
-		length = MAX_LENGTH - model->priv->len;
-	if (length <= 0)
+	if (position > model_len)
 		return;
 
-	/* Can't use g_strdup_printf here because on some systems
-           printf ("%.*s"); is locale dependent. */
-	new_text = e_strdup_append_strings (model->priv->text, position,
-					    text, length,
-					    model->priv->text + position, -1,
-					    NULL);
+	offs = g_utf8_offset_to_pointer (model->priv->text->str, position);
 
-	if (model->priv->text)
-		g_free (model->priv->text);
+	for (p = text, l = 0;
+	     l < length;
+	     p = g_utf8_next_char (p), l ++) ;
 
-	model->priv->text = new_text;
-	
-	if (model->priv->len >= 0)
-		model->priv->len += length;
-	
+	byte_length = p - text;
+
+	g_string_insert_len (model->priv->text,
+			     offs - model->priv->text->str,
+			     text, byte_length);
+
 	e_text_model_changed (model);
 
 	repos.model = model;
@@ -286,51 +274,24 @@ e_text_model_real_insert (ETextModel *model, gint position, const gchar *text)
 }
 
 static void
-e_text_model_real_insert_length (ETextModel *model, gint position, const gchar *text, gint length)
-{
-	EReposInsertShift repos;
-	gchar *new_text;
-
-	if (model->priv->len < 0)
-		e_text_model_real_get_text_length (model);
-
-	if (length + model->priv->len > MAX_LENGTH)
-		length = MAX_LENGTH - model->priv->len;
-	if (length <= 0)
-		return;
-
-	/* Can't use g_strdup_printf here because on some systems
-           printf ("%.*s"); is locale dependent. */
-	new_text = e_strdup_append_strings (model->priv->text, position,
-					    text, length,
-					    model->priv->text + position, -1,
-					    NULL);
-
-	if (model->priv->text)
-		g_free (model->priv->text);
-	model->priv->text = new_text;
-
-	if (model->priv->len >= 0)
-		model->priv->len += length;
-
-	e_text_model_changed (model);
-
-	repos.model = model;
-	repos.pos   = position;
-	repos.len   = length;
-
-	e_text_model_reposition (model, e_repos_insert_shift, &repos);
-}
-
-static void
 e_text_model_real_delete (ETextModel *model, gint position, gint length)
 {
 	EReposDeleteShift repos;
- 
-	memmove (model->priv->text + position, model->priv->text + position + length, strlen (model->priv->text + position + length) + 1);
-	
-	if (model->priv->len >= 0)
-		model->priv->len -= length;
+	int byte_position, byte_length;
+	char *offs, *p;
+	int l;
+
+	offs = g_utf8_offset_to_pointer (model->priv->text->str, position);
+	byte_position = offs - model->priv->text->str;
+
+	for (p = offs, l = 0;
+	     l < length;
+	     p = g_utf8_next_char (p), l ++) ;
+
+	byte_length = p - offs;
+
+	g_string_erase (model->priv->text,
+			byte_position, byte_length);
 
 	e_text_model_changed (model);
 
@@ -415,7 +376,7 @@ e_text_model_get_text_length (ETextModel *model)
 
 #ifdef PARANOID_DEBUGGING
 		const gchar *str = e_text_model_get_text (model);
-		gint len2 = str ? strlen (str) : 0;
+		gint len2 = str ? g_utf8_strlen (str, -1) : 0;
 		if (len != len)
 			g_error ("\"%s\" length reported as %d, not %d.", str, len, len2);
 #endif
@@ -425,7 +386,7 @@ e_text_model_get_text_length (ETextModel *model)
 	} else {
 		/* Calculate length the old-fashioned way... */
 		const gchar *str = e_text_model_get_text (model);
-		return str ? strlen (str) : 0;
+		return str ? g_utf8_strlen (str, -1) : 0;
 	}
 }
 
@@ -548,8 +509,15 @@ e_text_model_strdup_nth_object (ETextModel *model, gint n)
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), NULL);
 
 	obj = e_text_model_get_nth_object (model, n, &len);
-	
-	return obj ? g_strndup (obj, n) : NULL;
+
+	if (obj) {
+		gint byte_len;
+		byte_len = g_utf8_offset_to_pointer (obj, len) - obj;
+		return g_strndup (obj, byte_len);
+	}
+	else {
+		return NULL;
+	}
 }
 
 void
@@ -567,9 +535,9 @@ e_text_model_get_nth_object_bounds (ETextModel *model, gint n, gint *start, gint
 	g_return_if_fail (obj != NULL);
 
 	if (start)
-		*start = obj - txt;
+		*start = g_utf8_pointer_to_offset (txt, obj);
 	if (end)
-		*end = obj - txt + len;
+		*end = *start + len;
 }
 
 gint

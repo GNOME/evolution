@@ -136,7 +136,7 @@ static void e_text_do_popup (EText *text, GdkEventButton *button, int position);
 
 static void e_text_update_primary_selection (EText *text);
 static void e_text_paste (EText *text, GdkAtom selection);
-static void e_text_insert(EText *text, const char *string, int value);
+static void e_text_insert(EText *text, const char *string);
 
 /* GtkEditable Methods */
 static void e_text_editable_do_insert_text (GtkEditable    *editable,
@@ -300,8 +300,8 @@ reset_layout_attrs (EText *text)
 
 			e_text_model_get_nth_object_bounds (text->model, i, &start_pos, &end_pos);
 
-			attr->start_index = start_pos;
-			attr->end_index = end_pos;
+			attr->start_index = g_utf8_offset_to_pointer (text->text, start_pos) - text->text;
+			attr->end_index = g_utf8_offset_to_pointer (text->text, end_pos) - text->text;
 
 			pango_attr_list_insert (attrs, attr);
 		}
@@ -347,15 +347,19 @@ create_layout (EText *text)
 static void
 reset_layout (EText *text)
 {
-	create_layout (text);
-
-	pango_layout_set_text (text->layout, text->text, -1);
-	reset_layout_attrs (text);
+	if (text->layout == NULL) {
+		create_layout (text);
+	}
+	else {
+		pango_layout_set_text (text->layout, text->text, -1);
+		reset_layout_attrs (text);
+	}
 
 	if (!text->button_down) {
 		PangoRectangle strong_pos, weak_pos;
+		char *offs = g_utf8_offset_to_pointer (text->text, text->selection_start);
 
-		pango_layout_get_cursor_pos (text->layout, text->selection_end, &strong_pos, &weak_pos);
+		pango_layout_get_cursor_pos (text->layout, offs - text->text, &strong_pos, &weak_pos);
 
 		if (strong_pos.x != weak_pos.x ||
 		    strong_pos.y != weak_pos.y ||
@@ -1321,26 +1325,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 					  GTK_STATE_NORMAL, GTK_SHADOW_IN,
 					  NULL, widget, "entry",
 					  thisx, thisy, thiswidth, thisheight);
-		
-#if 0
-			if (text->editing) {
-				thisx += 1;
-				thisy += 1;
-				thiswidth -= 2;
-				thisheight -= 2;
 
-				/*
-				 * Chris: I am here "filling in" for the additions
-				 * and substractions done in the previous if (text->editing).
-				 * but you might have other plans for this.  Please enlighten
-				 * me as to whether it should be:
-				 * thiswidth + 2 or thiswidth + 1.
-				 */
-				gtk_paint_focus (widget->style, drawable, GTK_STATE_NORMAL,
-						 NULL, widget, "entry",
-						 thisx, thisy, thiswidth, thisheight);
-			}
-#endif
 		}
 
 		if (text->draw_background) {
@@ -1450,17 +1435,6 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	if (!text->text)
 		return;
 
-	clip_rect = NULL;
-	if (text->clip) {
-		rect.x = text->clip_cx - x;
-		rect.y = text->clip_cy - y;
-		rect.width = text->clip_cwidth;
-		rect.height = text->clip_cheight;
-		
-		gdk_gc_set_clip_rectangle (main_gc, &rect);
-		clip_rect = &rect;
-	}
-
 	if (text->stipple)
 		gnome_canvas_set_stipple_origin (item->canvas, main_gc);
 
@@ -1469,6 +1443,17 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	xpos -= x;
 	ypos -= y;
+
+	clip_rect = NULL;
+	if (text->clip) {
+		rect.x = xpos;
+		rect.y = ypos;
+		rect.width = text->clip_cwidth;
+		rect.height = text->clip_cheight;
+		
+		gdk_gc_set_clip_rectangle (main_gc, &rect);
+		clip_rect = &rect;
+	}
 
 	if (text->editing) {
 		xpos -= text->xofs_edit;
@@ -1481,17 +1466,18 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	if (text->editing) {
 		if (text->selection_start != text->selection_end) {
-			int start_index, end_index;
-			PangoLayoutLine *line;
-			gint *ranges;
-			gint n_ranges, i;
-			PangoRectangle logical_rect;
+			PangoLayoutIter *iter;
 			GdkRegion *clip_region = gdk_region_new ();
 			GdkGC *selection_gc;
 			GdkGC *text_gc;
+			int start_index, end_index;
 
 			start_index = MIN (text->selection_start, text->selection_end);
-			end_index = text->selection_start ^ text->selection_end ^ start_index;
+			end_index = MAX (text->selection_start, text->selection_end);
+
+			/* convert these into byte indices */
+			start_index = g_utf8_offset_to_pointer(text->text, start_index) - text->text;
+			end_index = g_utf8_offset_to_pointer(text->text, end_index) - text->text;
 
 			if (text->has_selection) {
 				selection_gc = widget->style->base_gc [GTK_STATE_SELECTED];
@@ -1503,25 +1489,50 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 			gdk_gc_set_clip_rectangle (selection_gc, clip_rect);
 
-			line = pango_layout_get_lines (text->layout)->data;
+			iter = pango_layout_get_iter (text->layout);
 
-			pango_layout_line_get_x_ranges (line, start_index, end_index, &ranges, &n_ranges);
+			do {
+				PangoLayoutLine *line = pango_layout_iter_get_line (iter);
+				gint n_ranges, i;
+				gint *ranges;
+				int y0, y1;
+				int s, e;
 
-			pango_layout_get_extents (text->layout, NULL, &logical_rect);
+				if (start_index < line->start_index + line->length
+				    && end_index > line->start_index) {
+					
+					if (start_index <= line->start_index)
+						s = line->start_index;
+					else
+						s = start_index;
 
-			for (i=0; i < n_ranges; i++) {
-				GdkRectangle sel_rect;
+					if (end_index > line->start_index + line->length)
+						e = line->start_index + line->length;
+					else
+						e = end_index;
 
-				sel_rect.x = xpos + ranges[2*i] / PANGO_SCALE;
-				sel_rect.y = ypos;
-				sel_rect.width = (ranges[2*i + 1] - ranges[2*i]) / PANGO_SCALE;
-				sel_rect.height = logical_rect.height / PANGO_SCALE;
+					pango_layout_line_get_x_ranges (line, s, e, &ranges, &n_ranges);
 
-				gdk_draw_rectangle (drawable, selection_gc, TRUE,
-						    sel_rect.x, sel_rect.y, sel_rect.width, sel_rect.height);
+					pango_layout_iter_get_line_yrange (iter, &y0, &y1);
 
-				gdk_region_union_with_rect (clip_region, &sel_rect);
-			}
+					for (i=0; i < n_ranges; i++) {
+						GdkRectangle sel_rect;
+
+						sel_rect.x = xpos + PANGO_PIXELS (ranges[2*i]);
+						sel_rect.y = ypos + PANGO_PIXELS (y0);
+						sel_rect.width = (ranges[2*i + 1] - ranges[2*i]) / PANGO_SCALE;
+						sel_rect.height = (y1 - y0 + PANGO_SCALE / 2) / PANGO_SCALE;
+
+						gdk_draw_rectangle (drawable, selection_gc, TRUE,
+								    sel_rect.x, sel_rect.y, sel_rect.width, sel_rect.height);
+
+						gdk_region_union_with_rect (clip_region, &sel_rect);
+					}
+					g_free (ranges);
+				}
+			} while (pango_layout_iter_next_line (iter));
+
+			pango_layout_iter_free (iter);
 
 			if (clip_rect) {
 				GdkRegion *rect_region = gdk_region_rectangle (clip_rect);
@@ -1538,11 +1549,12 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			gdk_gc_set_clip_region (selection_gc, NULL);
 
 			gdk_region_destroy (clip_region);
-			g_free (ranges);
 		} else {
 			if (text->show_cursor) {
 				PangoRectangle strong_pos, weak_pos;
-				pango_layout_get_cursor_pos (text->layout, text->selection_start, &strong_pos, &weak_pos);
+				char *offs = g_utf8_offset_to_pointer (text->text, text->selection_start);
+
+				pango_layout_get_cursor_pos (text->layout, offs - text->text, &strong_pos, &weak_pos);
 				draw_pango_rectangle (drawable, main_gc, xpos, ypos, strong_pos);
 				if (strong_pos.x != weak_pos.x ||
 				    strong_pos.y != weak_pos.y ||
@@ -1700,7 +1712,7 @@ get_position_from_xy (EText *text, gint x, gint y)
 
 	pango_layout_xy_to_index (text->layout, x * PANGO_SCALE, y * PANGO_SCALE, &index, &trailing);
 
-	return g_utf8_offset_to_pointer (text->text + index, trailing) - text->text;
+	return g_utf8_pointer_to_offset (text->text, text->text + index + trailing);
 }
 
 #define SCROLL_WAIT_TIME 30000
@@ -2333,6 +2345,10 @@ e_text_copy_clipboard (EText *text)
 	selection_start_pos = MIN (text->selection_start, text->selection_end);
 	selection_end_pos = MAX (text->selection_start, text->selection_end);
 
+	/* convert sel_start/sel_end to byte indices */
+	selection_start_pos = g_utf8_offset_to_pointer (text->text, selection_start_pos) - text->text;
+	selection_end_pos = g_utf8_offset_to_pointer (text->text, selection_end_pos) - text->text;
+
 	str = g_strndup (text->text + selection_start_pos,
 			 selection_end_pos - selection_start_pos);
 
@@ -2403,6 +2419,10 @@ primary_get_cb (GtkClipboard     *clipboard,
 	sel_start = MIN(text->selection_start, text->selection_end);
 	sel_end   = MAX(text->selection_start, text->selection_end);
 
+	/* convert sel_start/sel_end to byte indices */
+	sel_start = g_utf8_offset_to_pointer (text->text, sel_start) - text->text;
+	sel_end = g_utf8_offset_to_pointer (text->text, sel_end) - text->text;
+
 	if (sel_start != sel_end) {
 		gchar *str = g_strndup (text->text + sel_start,
 					sel_end - sel_start);
@@ -2459,11 +2479,11 @@ paste_received (GtkClipboard *clipboard,
 {
 	EText *etext = E_TEXT (data);
       
-	if (text) {
+	if (text && g_utf8_validate (text, strlen (text), NULL)) {
 		if (etext->selection_end != etext->selection_start)
 			e_text_delete_selection (etext);
 
-		e_text_insert (etext, text, strlen (text)); 
+		e_text_insert (etext, text);
 	}
 
 	g_object_unref (etext);
@@ -2611,26 +2631,60 @@ e_text_reset_im_context (EText *text)
 static int
 next_word (EText *text, int start)
 {
-	char *p;
+	char *p = g_utf8_offset_to_pointer (text->text, start);
 	int length;
 
-	length = strlen (text->text);
+	length = g_utf8_strlen (text->text, -1);
 
 	if (start >= length) {
 		return length;
 	} else {
-		p = g_utf8_next_char (text->text + start);
+		p = g_utf8_next_char (p);
+		start++;
 
-		while (p && *p && g_unichar_validate (g_utf8_get_char (p))) {
+		while (p && *p) {
 			gunichar unival = g_utf8_get_char (p);
 			if (g_unichar_isspace (unival)) {
-				return p - text->text;
-			} else 
+				return start + 1;
+			}
+			else {
 				p = g_utf8_next_char (p);
+				start++;
+			}
 		}
 	}
 			
-	return p - text->text;
+	return g_utf8_pointer_to_offset (text->text, p);
+}
+
+static int
+find_offset_into_line (EText *text, int offset_into_text, char **start_of_line)
+{
+	char *p;
+
+	p = g_utf8_offset_to_pointer (text->text, offset_into_text);
+
+	if (p == text->text) {
+		if (start_of_line)
+			*start_of_line = (char*)text->text;
+		return 0;
+	}
+	else {
+		p = g_utf8_find_prev_char (text->text, p);
+		
+		while (p && p > text->text) {
+			if (*p == '\n') {
+				if (start_of_line)
+					*start_of_line = p+1;
+				return offset_into_text - g_utf8_pointer_to_offset (text->text, p + 1);
+			}
+			p = g_utf8_find_prev_char (text->text, p);
+		}
+
+		if (start_of_line)
+			*start_of_line = (char*)text->text;
+		return offset_into_text;
+	}
 }
 
 static int
@@ -2662,17 +2716,16 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 
 	case E_TEP_START_OF_LINE:
 
-		new_pos = 0;
-		
 		if (text->selection_end >= 1) {
 			
-			p = g_utf8_find_prev_char (text->text, text->text + text->selection_end);
+			p = g_utf8_offset_to_pointer (text->text, text->selection_end);
 			if (p != text->text) {
 				p = g_utf8_find_prev_char (text->text, p);
-
-				while (p && p > text->text && !new_pos) {
-					if (*p == '\n')
-						new_pos = p - text->text + 1;
+				while (p && p > text->text) {
+					if (*p == '\n') {
+						new_pos = g_utf8_pointer_to_offset (text->text, p) + 1;
+						break;
+					}
 					p = g_utf8_find_prev_char (text->text, p);
 				}
 			}
@@ -2682,17 +2735,17 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 
 	case E_TEP_END_OF_LINE:
 		new_pos = -1;
-		length = strlen (text->text);
+		length = g_utf8_strlen (text->text, -1);
 		
 		if (text->selection_end >= length) {
 			new_pos = length;
 		} else {
 
-			p = g_utf8_next_char (text->text + text->selection_end);
+			p = g_utf8_offset_to_pointer (text->text, text->selection_end);
 
-			while (p && *p && g_unichar_validate (g_utf8_get_char (p))) {
+			while (p && *p) {
 				if (*p == '\n') {
-					new_pos = p - text->text;
+					new_pos = g_utf8_pointer_to_offset (text->text, p);
 					p = NULL;
 				} else 
 					p = g_utf8_next_char (p);
@@ -2700,29 +2753,24 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		}
 
 		if (new_pos == -1)
-			new_pos = p - text->text;
+			new_pos = g_utf8_pointer_to_offset (text->text, p);
 
 		break;
 
 	case E_TEP_FORWARD_CHARACTER:
-		length = strlen (text->text);
+		length = g_utf8_strlen (text->text, -1);
 
-		if (text->selection_end >= length) {
+		if (text->selection_end >= length)
 			new_pos = length;
-		} else {
-			p = g_utf8_next_char (text->text + text->selection_end);
-			new_pos = p - text->text;
-		}
+		else
+			new_pos = text->selection_end + 1;
 
 		break;
 
 	case E_TEP_BACKWARD_CHARACTER:
 		new_pos = 0;
 		if (text->selection_end >= 1) {
-			p = g_utf8_find_prev_char (text->text, text->text + text->selection_end);
-
-			if (p != NULL)
-				new_pos = p - text->text;
+			new_pos = text->selection_end - 1;
 		}
 
 		break;
@@ -2734,61 +2782,105 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 	case E_TEP_BACKWARD_WORD:
 		new_pos = 0;
 		if (text->selection_end >= 1) {
-			p = g_utf8_find_prev_char (text->text, text->text + text->selection_end);
+			int pos = text->selection_end;
+
+			p = g_utf8_find_prev_char (text->text, g_utf8_offset_to_pointer (text->text, text->selection_end));
+			pos --;
+
 			if (p != text->text) {
 				p = g_utf8_find_prev_char (text->text, p);
+				pos --;
 
-				while (p && p > text->text && g_unichar_validate (g_utf8_get_char (p))) {
+				while (p && p > text->text) {
 					unival = g_utf8_get_char (p);
 					if (g_unichar_isspace (unival)) {
-						new_pos = g_utf8_next_char (p) - text->text; 
+						new_pos = pos + 1;
 						p = NULL;
-					} else
+					}
+					else {
 						p = g_utf8_find_prev_char (text->text, p);
+						pos --;
+					}
 				}
 			}
 		}
 					
 		break;
 
-	case E_TEP_FORWARD_LINE:
-		pango_layout_move_cursor_visually (text->layout,
-						   TRUE,
-						   text->selection_end, 0,
-						   1,
-						   &index, &trailing);
-		index = g_utf8_offset_to_pointer (text->text + index, trailing) - text->text;
-		if (index < 0) {
-			new_pos = 0;
-		} else {
-			length = strlen (text->text);
-			if (index >= length)
-				new_pos = length;
-			else
-				new_pos = index;
-		}
-		break;
+	case E_TEP_FORWARD_LINE: {
+		int l;
+		PangoLayoutLine *line, *next_line;
+		int offset_into_line;
+		int next_line_length;
+		char *p;
 
-	case E_TEP_BACKWARD_LINE:
-		pango_layout_move_cursor_visually (text->layout,
-						   TRUE,
-						   text->selection_end, 0,
-						   -1,
-						   &index, &trailing);
-		index = g_utf8_offset_to_pointer (text->text + index, trailing) - text->text;
-		if (index < 0) {
-			new_pos = 0;
-		} else {
-			length = strlen (text->text);
-			if (index >= length)
-				new_pos = length;
-			else
-				new_pos = index;
-		}
-		break;
+		offset_into_line = find_offset_into_line (text, text->selection_end, NULL);
+		if (offset_into_line == -1)
+			return text->selection_end;
 
+		/* now we search forward til we hit a \n, and then
+		   offset_into_line more characters */
+		p = g_utf8_offset_to_pointer (text->text, text->selection_end);
+		while (p && *p) {
+			if (*p == '\n')
+				break;
+			p = g_utf8_next_char (p);
+		}
+		if (p && *p == '\n') {
+			/* now we loop forward offset_into_line
+			   characters, or until we hit \n or \0 */
+
+			p = g_utf8_next_char (p);
+			while (offset_into_line > 0 && p && *p != '\n' && *p != '\0') {
+				p = g_utf8_next_char (p);
+				offset_into_line --;
+			}
+		}
+
+		/* at this point, p points to the new location,
+		   convert it to an offset and we're done */
+		new_pos = g_utf8_pointer_to_offset (text->text, p);
+		break;
+	}
+	case E_TEP_BACKWARD_LINE: {
+		char *p, *prev = NULL;
+		int offset_into_line = find_offset_into_line (text, text->selection_end, &p);
+
+		if (offset_into_line == -1)
+			return text->selection_end;
+
+		/* p points to the first character on our line.  if we
+		   have a \n before it, skip it and scan til we hit
+		   the next one */
+		if (p != text->text) {
+			p = g_utf8_find_prev_char (text->text, p);
+			if (*p == '\n') {
+				p = g_utf8_find_prev_char (text->text, p);
+				while (p > text->text) {
+					if (*p == '\n') {
+						p ++;
+						break;
+					}
+					p = g_utf8_find_prev_char (text->text, p);
+				}
+			}
+		}
+
+		/* at this point 'p' points to the start of the
+		   previous line, move forward 'offset_into_line'
+		   times. */
+
+		while (offset_into_line > 0 && p && *p != '\n' && *p != '\0') {
+			p = g_utf8_next_char (p);
+			offset_into_line --;
+		}
+
+		/* at this point, p points to the new location,
+		   convert it to an offset and we're done */
+		new_pos = g_utf8_pointer_to_offset (text->text, p);
+		break;
+	}
 	case E_TEP_SELECT_WORD:
-
 		/* This is a silly hack to cause double-clicking on an object
 		   to activate that object.
 		   (Normally, double click == select word, which is why this is here.) */
@@ -2800,20 +2892,16 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 			break;
 		}
 
-
 		if (text->selection_end < 1) {
 			new_pos = 0;
 			break;
 		}
 
-		p = g_utf8_find_prev_char (text->text, text->text + text->selection_end);
-		if (p == text->text) {
-			new_pos = 0;
-			break;
-		}
+		p = g_utf8_offset_to_pointer (text->text, text->selection_end);
+
 		p = g_utf8_find_prev_char (text->text, p);
 
-		while (p && p > text->text && g_unichar_validate (g_utf8_get_char (p))) {
+		while (p && p > text->text) {
 			unival = g_utf8_get_char (p);
 			if (g_unichar_isspace (unival)) {
 				p = g_utf8_next_char (p);
@@ -2825,36 +2913,35 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		if (!p)
 			text->selection_start = 0;
 		else
-			text->selection_start = p - text->text;
+			text->selection_start = g_utf8_pointer_to_offset (text->text, p);
 
 
 		text->selection_start = e_text_model_validate_position (text->model, text->selection_start);
 		
-		length = strlen (text->text);
+		length = g_utf8_strlen (text->text, -1);
 		if (text->selection_end >= length) {
 			new_pos = length;
 			break;
 		}
 
-		p = g_utf8_next_char (text->text + text->selection_end);
-
-		while (p && *p && g_unichar_validate (g_utf8_get_char (p))) {
+		p = g_utf8_offset_to_pointer (text->text, text->selection_end);
+		while (p && *p) {
 			unival = g_utf8_get_char (p);
 			if (g_unichar_isspace (unival)) {
-				new_pos =  p - text->text;
-				p = NULL;
+				new_pos =  g_utf8_pointer_to_offset (text->text, p);
+				break;
 			} else
 				p = g_utf8_next_char (p);
 		}
 
-		if (p)
-			new_pos = p - text->text;
+		if (!new_pos)
+			new_pos = g_utf8_strlen (text->text, -1);
 
 		return new_pos;
 
 	case E_TEP_SELECT_ALL:
 		text->selection_start = 0;
-		new_pos = strlen (text->text);
+		new_pos = g_utf8_strlen (text->text, -1);
 		break;
 
 	case E_TEP_FORWARD_PARAGRAPH:
@@ -2876,32 +2963,37 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 }
 
 static void
-e_text_insert(EText *text, const char *string, int value)
+e_text_insert(EText *text, const char *string)
 {
-	if (value > 0) {
+	int len = strlen (string);
+
+	if (len > 0) {
+		int utf8len = 0;
+
 		if (!text->allow_newlines) {
 			const char *i;
-			for (i = string; *i; i++) {
-				if (*i == '\n') {
-					char *new_string = g_malloc (strlen (string) + 1);
-					char *j = new_string;
-					for (i = string; *i; i++) {
-						if (*i != '\n')
-							*(j++) = *i;
-					}
-					*j = 0;
-					e_text_model_insert_length(text->model, text->selection_start, new_string, j - new_string);
-					g_free (new_string);
-					return;
+			char *new_string = g_malloc (len + 1);
+			char *j = new_string;
+
+			for (i = string; *i; i = g_utf8_next_char(i)) {
+				if (*i != '\n') {
+					gunichar c;
+					int charlen;
+
+					c = g_utf8_get_char (i);
+					charlen = g_unichar_to_utf8 (c, j);
+					j += charlen;
+					utf8len++;
 				}
 			}
+			*j = 0;
+			e_text_model_insert_length(text->model, text->selection_start, new_string, utf8len);
+			g_free (new_string);
 		}
-		e_text_model_insert_length(text->model, text->selection_start, string, value);
-		
-#if 0
-		text->selection_start += value;
-		text->selection_end = text->selection_start;
-#endif
+		else {
+			utf8len = g_utf8_strlen (string, -1);
+			e_text_model_insert_length(text->model, text->selection_start, string, utf8len);
+		}
 	}
 }
 
@@ -2909,12 +3001,13 @@ static void
 capitalize (EText *text, int start, int end, ETextEventProcessorCaps type)
 {
 	gboolean first = TRUE;
-	const char *p = text->text + start;
-	const char *text_end = text->text + end;
-	char *new_text = g_new0 (char, g_utf8_strlen (text->text + start, start - end) * 6);
+	const char *p = g_utf8_offset_to_pointer (text->text, start);
+	const char *text_end = g_utf8_offset_to_pointer (text->text, end);
+	int utf8len = text_end - p;
+	char *new_text = g_new0 (char, utf8len * 6);
 	char *output = new_text;
 
-	while (p && *p && p < text_end && g_unichar_validate (g_utf8_get_char (p))) {
+	while (p && *p && p < text_end) {
 		gunichar unival = g_utf8_get_char (p);
 		gunichar newval = unival;
 
@@ -2944,8 +3037,8 @@ capitalize (EText *text, int start, int end, ETextEventProcessorCaps type)
 	}
 	*output = 0;
 
-	e_text_model_delete (text->model, start, end - start);
-	e_text_model_insert (text->model, start, new_text);
+	e_text_model_delete (text->model, start, utf8len);
+	e_text_model_insert_length (text->model, start, new_text, utf8len);
 	g_free (new_text);
 }
 
@@ -2990,12 +3083,14 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		break;
 
 	case E_TEP_INSERT:
-		if (text->selection_end != text->selection_start) {
-			e_text_delete_selection(text);
-		}
-		e_text_insert(text, command->string, command->value);
-		if (text->timer) {
-			g_timer_reset(text->timer);
+		if (g_utf8_validate (command->string, command->value, NULL)) {
+			if (text->selection_end != text->selection_start) {
+				e_text_delete_selection(text);
+			}
+			e_text_insert(text, command->string);
+			if (text->timer) {
+				g_timer_reset(text->timer);
+			}
 		}
 		break;
 	case E_TEP_COPY:
@@ -3045,7 +3140,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 			capitalize (text, text->selection_start, next_word (text, text->selection_start), command->value);
 		} else {
 			int selection_start = MIN (text->selection_start, text->selection_end);
-			int selection_end = text->selection_start + text->selection_end - selection_start; /* Slightly faster than MAX */
+			int selection_end = MAX (text->selection_start, text->selection_end);
 			capitalize (text, selection_start, selection_end, command->value);
 		}
 		break;
@@ -3055,36 +3150,51 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 	}
 
 	if (scroll && !text->button_down) {
+		/* XXX do we really need the @trailing logic here?  if
+		   we don't we can scrap the loop and just use
+		   pango_layout_index_to_pos */
 		int i;
-		int count = pango_layout_get_line_count (text->layout);
 		PangoLayoutLine *cur_line = NULL;
-		int selection_index = use_start ? text->selection_start : text->selection_end;
+		int selection_index;
+		PangoLayoutIter *iter = pango_layout_get_iter (text->layout);
 
-		for (i = 0; i < count; i ++) {
-			PangoLayoutLine *line = pango_layout_get_line (text->layout, i);
+		selection_index = use_start ? text->selection_start : text->selection_end;
+		/* convert to a byte index */
+		selection_index = g_utf8_offset_to_pointer (text->text, selection_index) - text->text;
+
+		do {
+			PangoLayoutLine *line = pango_layout_iter_get_line (iter);
+
 			if (selection_index >= line->start_index && selection_index <= line->start_index + line->length) {
 				/* found the line with the start of the selection */
 				cur_line = line;
 				break;
 			}
-		}
+
+		} while (pango_layout_iter_next_line (iter));
 
 		if (cur_line) {
-			int xpos;
-			double clip_width;
+			int xpos, ypos;
+			double clip_width, clip_height;
 			gboolean trailing = FALSE;
+			PangoRectangle pango_pos;
 
-			if (selection_index == cur_line->start_index + cur_line->length) {
+			if (selection_index > 0 && selection_index == cur_line->start_index + cur_line->length) {
 				selection_index--;
 				trailing = TRUE;
 			}
 
-			pango_layout_line_index_to_x (cur_line, selection_index - cur_line->start_index,
-						      trailing, &xpos);
+			pango_layout_index_to_pos (text->layout, selection_index, &pango_pos);
 
-			xpos = PANGO_PIXELS (xpos);
+			pango_pos.x = PANGO_PIXELS (pango_pos.x);
+			pango_pos.y = PANGO_PIXELS (pango_pos.y);
+			pango_pos.width = (pango_pos.width + PANGO_SCALE / 2) / PANGO_SCALE;
+			pango_pos.height = (pango_pos.height + PANGO_SCALE / 2) / PANGO_SCALE;
 
-			if (xpos < text->xofs_edit) {
+			/* scroll for X */
+			xpos = pango_pos.x; /* + (trailing ? 0 : pango_pos.width);*/
+
+			if (xpos + 2 < text->xofs_edit) {
 				text->xofs_edit = xpos;
 			}
                                                                                                 
@@ -3095,10 +3205,37 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 					clip_width = 0;
 			}
                                                                                                 
-			if (2 + xpos - clip_width > text->xofs_edit) {
-				text->xofs_edit = 2 + xpos - clip_width;
+			if (xpos + pango_pos.width - clip_width > text->xofs_edit) {
+				text->xofs_edit = xpos + pango_pos.width - clip_width;
 			}
+
+			/* scroll for Y */
+			if (pango_pos.y + 2 < text->yofs_edit) {
+				ypos = pango_pos.y;
+				text->yofs_edit = ypos;
+			}
+			else {
+				ypos = pango_pos.y + pango_pos.height;
+			}
+
+			if ( text->clip_height < 0 )
+				clip_height = text->height;
+			else
+				clip_height = text->clip_height;
+                                                                                                
+			if (clip_height >= 0 && text->draw_borders) {
+				clip_height -= 6;
+				if (clip_height < 0)
+					clip_height = 0;
+			}
+                                                                                                
+			if (ypos - clip_height > text->yofs_edit) {
+				text->yofs_edit = ypos - clip_height;
+			}
+
 		}
+
+		pango_layout_iter_free (iter);
 	}
 
 	text->needs_redraw = 1;
@@ -3529,11 +3666,13 @@ e_text_commit_cb (GtkIMContext *context,
 		  const gchar  *str,
 		  EText        *text)
 {
-	if (text->selection_end != text->selection_start)
-		e_text_delete_selection (text);
-	e_text_insert (text, str, strlen (str));
-	g_signal_emit (text, e_text_signals[E_TEXT_KEYPRESS], 0,
-		       0 /* XXX ugh */, 0 /* XXX ugh */);
+	if (g_utf8_validate (str, strlen (str), NULL)) {
+		if (text->selection_end != text->selection_start)
+			e_text_delete_selection (text);
+		e_text_insert (text, str);
+		g_signal_emit (text, e_text_signals[E_TEXT_KEYPRESS], 0,
+			       0 /* XXX ugh */, 0 /* XXX ugh */);
+	}
 }
 
 static gboolean
