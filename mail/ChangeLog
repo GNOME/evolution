@@ -1,3 +1,7 @@
+2000-10-20  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config.h: #include <camel/camel-folder.h>
+
 2000-10-20  Michael Meeks  <michael@helixcode.com>
 
 	* mail.h: s/BonoboUIHandler/BonoboUIComponent/

@@ -24,6 +24,7 @@
 
 
 #include <glib.h>
+#include <camel/camel-folder.h>
 
 typedef struct 
 {
