@@ -74,17 +74,23 @@ e_list_init (EList *list)
 }
 
 EList *
-e_list_new          (EListCopyFunc copy, EListFreeFunc free, void *closure)
+e_list_new (EListCopyFunc copy, EListFreeFunc free, void *closure)
 {
 	EList *list = g_object_new (E_TYPE_LIST, NULL);
-	list->copy    = copy;
-	list->free    = free;
-	list->closure = closure;
+	e_list_construct (list, copy, free, closure);
 	return list;
 }
 
+void
+e_list_construct (EList *list, EListCopyFunc copy, EListFreeFunc free, void *closure)
+{
+	list->copy    = copy;
+	list->free    = free;
+	list->closure = closure;
+}
+
 EList *
-e_list_duplicate    (EList *old)
+e_list_duplicate (EList *old)
 {
 	EList *list = g_object_new (E_TYPE_LIST, NULL);
 
@@ -116,13 +122,22 @@ e_list_length (EList *list)
 }
 
 void
-e_list_append       (EList *list, const void *data)
+e_list_append (EList *list, const void *data)
 {
 	e_list_invalidate_iterators(list, NULL);
 	if (list->copy)
 		list->list = g_list_append(list->list, list->copy(data, list->closure));
 	else
 		list->list = g_list_append(list->list, (void *) data);
+}
+
+void
+e_list_remove (EList *list, const void *data)
+{
+	GList *link;
+	link = g_list_find (list->list, data);
+	if (link)
+		e_list_remove_link(list, link);
 }
 
 void

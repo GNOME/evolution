@@ -1,3 +1,13 @@
+2003-01-16  Dan Winship  <danw@ximian.com>
+
+	* e-account.c: New class, based on MailConfigAccount, for
+	describing an evolution (mail) account.
+
+	* e-account-list.c: New class for tracking the list of configured
+	accounts. (Also uses some code from mail-config.)
+
+	* e-list.c (e_list_construct, e_list_remove): New
+
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-dialog-utils.c: Do not #include <e-bonobo-widget.h>.

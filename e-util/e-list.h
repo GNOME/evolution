@@ -45,9 +45,15 @@ struct _EListClass {
 EList     *e_list_new                  (EListCopyFunc  copy, 
 					EListFreeFunc  free,
 					void          *closure);
+void       e_list_construct            (EList         *list,
+					EListCopyFunc  copy, 
+					EListFreeFunc  free,
+					void          *closure);
 EList     *e_list_duplicate            (EList *list);
 EIterator *e_list_get_iterator         (EList         *list);
 void       e_list_append               (EList         *list,
+					const void    *data);
+void       e_list_remove               (EList         *list,
 					const void    *data);
 int        e_list_length               (EList         *list);
 
