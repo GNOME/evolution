@@ -37,8 +37,8 @@ static CamelSeekableStreamClass *parent_class = NULL;
 /* Returns the class for a CamelStreamFS */
 #define CSFS_CLASS(so) CAMEL_STREAM_FS_CLASS (GTK_OBJECT(so)->klass)
 
-static int stream_read   (CamelStream *stream, char *buffer, unsigned int n);
-static int stream_write  (CamelStream *stream, const char *buffer, unsigned int n);
+static ssize_t stream_read   (CamelStream *stream, char *buffer, size_t n);
+static ssize_t stream_write  (CamelStream *stream, const char *buffer, size_t n);
 static int stream_flush  (CamelStream *stream);
 static int stream_close  (CamelStream *stream);
 static off_t stream_seek (CamelSeekableStream *stream, off_t offset,
@@ -211,12 +211,12 @@ camel_stream_fs_new_with_name_and_bounds (const char *name, int flags,
 }
 
 
-static int
-stream_read (CamelStream *stream, char *buffer, unsigned int n)
+static ssize_t
+stream_read (CamelStream *stream, char *buffer, size_t n)
 {
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 	CamelSeekableStream *seekable = CAMEL_SEEKABLE_STREAM (stream);
-	int nread;
+	ssize_t nread;
 
 	if (seekable->bound_end != CAMEL_STREAM_UNBOUND)
 		n = MIN (seekable->bound_end - seekable->position, n);
@@ -233,12 +233,12 @@ stream_read (CamelStream *stream, char *buffer, unsigned int n)
 	return nread;
 }
 
-static int
-stream_write (CamelStream *stream, const char *buffer, unsigned int n)
+static ssize_t
+stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 	CamelSeekableStream *seekable = CAMEL_SEEKABLE_STREAM (stream);
-	int v, written = 0;
+	ssize_t v, written = 0;
 
 	if (seekable->bound_end != CAMEL_STREAM_UNBOUND)
 		n = MIN (seekable->bound_end - seekable->position, n);

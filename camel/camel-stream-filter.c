@@ -48,8 +48,8 @@ struct _CamelStreamFilterPrivate {
 static void camel_stream_filter_class_init (CamelStreamFilterClass *klass);
 static void camel_stream_filter_init       (CamelStreamFilter *obj);
 
-static	int       do_read       (CamelStream *stream, char *buffer, unsigned int n);
-static	int       do_write      (CamelStream *stream, const char *buffer, unsigned int n);
+static	ssize_t   do_read       (CamelStream *stream, char *buffer, size_t n);
+static	ssize_t   do_write      (CamelStream *stream, const char *buffer, size_t n);
 static	int       do_flush      (CamelStream *stream);
 static	int       do_close      (CamelStream *stream);
 static	gboolean  do_eos        (CamelStream *stream);
@@ -215,12 +215,12 @@ camel_stream_filter_remove(CamelStreamFilter *filter, int id)
 	}
 }
 
-static int
-do_read (CamelStream *stream, char *buffer, unsigned int n)
+static ssize_t
+do_read (CamelStream *stream, char *buffer, size_t n)
 {
 	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
 	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
-	int size;
+	ssize_t size;
 	struct _filter *f;
 
 	p->last_was_read = TRUE;
@@ -229,26 +229,28 @@ do_read (CamelStream *stream, char *buffer, unsigned int n)
 		int presize = READ_SIZE;
 
 		size = camel_stream_read(filter->source, p->buffer, READ_SIZE);
-		if (size<=0) {
+		if (size <= 0) {
 			/* this is somewhat untested */
 			if (camel_stream_eos(filter->source)) {
 				f = p->filters;
 				p->filtered = p->buffer;
 				p->filteredlen = 0;
 				while (f) {
-					camel_mime_filter_complete(f->filter, p->filtered, p->filteredlen, presize, &p->filtered, &p->filteredlen, &presize);
+					camel_mime_filter_complete(f->filter, p->filtered, p->filteredlen,
+								   presize, &p->filtered, &p->filteredlen, &presize);
 					f = f->next;
 				}
 				size = p->filteredlen;
 			}
-			if (size<=0)
+			if (size <= 0)
 				return size;
 		} else {
 			f = p->filters;
 			p->filtered = p->buffer;
 			p->filteredlen = size;
 			while (f) {
-				camel_mime_filter_filter(f->filter, p->filtered, p->filteredlen, presize, &p->filtered, &p->filteredlen, &presize);
+				camel_mime_filter_filter(f->filter, p->filtered, p->filteredlen, presize,
+							 &p->filtered, &p->filteredlen, &presize);
 				f = f->next;
 			}
 		}
@@ -262,8 +264,8 @@ do_read (CamelStream *stream, char *buffer, unsigned int n)
 	return size;
 }
 
-static int
-do_write (CamelStream *stream, const char *buf, unsigned int n)
+static ssize_t
+do_write (CamelStream *stream, const char *buf, size_t n)
 {
 	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
 	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
@@ -305,7 +307,7 @@ do_flush (CamelStream *stream)
 		camel_mime_filter_complete(f->filter, buffer, len, presize, &buffer, &len, &presize);
 		f = f->next;
 	}
-	if (len>0 && camel_stream_write(filter->source, buffer, len) == -1)
+	if (len > 0 && camel_stream_write(filter->source, buffer, len) == -1)
 		return -1;
 	return camel_stream_flush(filter->source);
 }
@@ -328,7 +330,7 @@ do_eos (CamelStream *stream)
 	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
 	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
 
-	if (p->filteredlen >0)
+	if (p->filteredlen > 0)
 		return FALSE;
 
 	return camel_stream_eos(filter->source);

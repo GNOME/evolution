@@ -35,6 +35,7 @@ extern "C" {
 
 #include <camel/camel-object.h>
 #include <stdarg.h>
+#include <unistd.h>
 
 #define CAMEL_STREAM_TYPE     (camel_stream_get_type ())
 #define CAMEL_STREAM(obj)     (GTK_CHECK_CAST((obj), CAMEL_STREAM_TYPE, CamelStream))
@@ -53,8 +54,8 @@ typedef struct {
 
 	/* Virtual methods */
 
-	int       (*read)       (CamelStream *stream, char *buffer, unsigned int n);
-	int       (*write)      (CamelStream *stream, const char *buffer, unsigned int n);
+	ssize_t   (*read)       (CamelStream *stream, char *buffer, size_t n);
+	ssize_t   (*write)      (CamelStream *stream, const char *buffer, size_t n);
 	int       (*close)      (CamelStream *stream);
 	int       (*flush)      (CamelStream *stream);
 	gboolean  (*eos)        (CamelStream *stream);
@@ -66,22 +67,22 @@ typedef struct {
 GtkType camel_stream_get_type (void);
 
 /* public methods */
-int        camel_stream_read       (CamelStream *stream, char *buffer, unsigned int n);
-int        camel_stream_write      (CamelStream *stream, const char *buffer, unsigned int n);
+ssize_t    camel_stream_read       (CamelStream *stream, char *buffer, size_t n);
+ssize_t    camel_stream_write      (CamelStream *stream, const char *buffer, size_t n);
 int        camel_stream_flush      (CamelStream *stream);
 int        camel_stream_close      (CamelStream *stream);
 gboolean   camel_stream_eos        (CamelStream *stream);
 int        camel_stream_reset      (CamelStream *stream);
 
 /* utility macros and funcs */
-int camel_stream_write_string (CamelStream *stream, const char *string);
-int camel_stream_printf (CamelStream *stream, const char *fmt, ... ) G_GNUC_PRINTF (2, 3);
-int camel_stream_vprintf (CamelStream *stream, const char *fmt, va_list ap);
+ssize_t camel_stream_write_string (CamelStream *stream, const char *string);
+ssize_t camel_stream_printf (CamelStream *stream, const char *fmt, ... ) G_GNUC_PRINTF (2, 3);
+ssize_t camel_stream_vprintf (CamelStream *stream, const char *fmt, va_list ap);
 
 /* Write a whole stream to another stream, until eof or error on
  * either stream.
  */
-int camel_stream_write_to_stream (CamelStream *stream, CamelStream *output_stream);
+ssize_t camel_stream_write_to_stream (CamelStream *stream, CamelStream *output_stream);
 
 #ifdef __cplusplus
 }

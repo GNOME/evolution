@@ -35,8 +35,8 @@ static CamelStreamClass *parent_class = NULL;
 /* Returns the class for a CamelStreamMem */
 #define CSM_CLASS(so) CAMEL_STREAM_MEM_CLASS (GTK_OBJECT(so)->klass)
 
-static int stream_read (CamelStream *stream, char *buffer, unsigned int n);
-static int stream_write (CamelStream *stream, const char *buffer, unsigned int n);
+static ssize_t stream_read (CamelStream *stream, char *buffer, size_t n);
+static ssize_t stream_write (CamelStream *stream, const char *buffer, size_t n);
 static gboolean stream_eos (CamelStream *stream);
 static off_t stream_seek (CamelSeekableStream *stream, off_t offset,
 			  CamelStreamSeekPolicy policy);
@@ -157,47 +157,49 @@ finalize (GtkObject *object)
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
-static int
-stream_read (CamelStream *stream, char *buffer, unsigned int n)
+static ssize_t
+stream_read (CamelStream *stream, char *buffer, size_t n)
 {
 	CamelStreamMem *camel_stream_mem = CAMEL_STREAM_MEM (stream);
 	CamelSeekableStream *seekable = CAMEL_SEEKABLE_STREAM (stream);
+	ssize_t nread;
 
 	if (seekable->bound_end != CAMEL_STREAM_UNBOUND)
 		n = MIN(seekable->bound_end - seekable->position, n);
 
-	n = MIN (n, camel_stream_mem->buffer->len - seekable->position);
-	if (n > 0) {
+	nread = MIN (n, camel_stream_mem->buffer->len - seekable->position);
+	if (nread > 0) {
 		memcpy (buffer, camel_stream_mem->buffer->data +
-			seekable->position, n);
-		seekable->position += n;
+			seekable->position, nread);
+		seekable->position += nread;
 	} else
-		n = -1;
+		nread = -1;
 
-	return n;
+	return nread;
 }
 
-static int
-stream_write (CamelStream *stream, const char *buffer, unsigned int n)
+static ssize_t
+stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	CamelStreamMem *stream_mem = CAMEL_STREAM_MEM (stream);
 	CamelSeekableStream *seekable = CAMEL_SEEKABLE_STREAM (stream);
-
+	ssize_t nwrite = n;
+	
 	if (seekable->bound_end != CAMEL_STREAM_UNBOUND)
-		n = MIN(seekable->bound_end - seekable->position, n);
+		nwrite = MIN(seekable->bound_end - seekable->position, n);
 
 #warning "g_byte_arrays use g_malloc and so are totally unsuitable for this object"
 	if (seekable->position == stream_mem->buffer->len) {
 		stream_mem->buffer =
-			g_byte_array_append (stream_mem->buffer, (const guint8 *)buffer, n);
+			g_byte_array_append (stream_mem->buffer, (const guint8 *)buffer, nwrite);
 	} else {
 		g_byte_array_set_size (stream_mem->buffer,
-				       n+stream_mem->buffer->len);
-		memcpy (stream_mem->buffer->data + seekable->position, buffer, n);
+				       nwrite + stream_mem->buffer->len);
+		memcpy (stream_mem->buffer->data + seekable->position, buffer, nwrite);
 	}
-	seekable->position += n;
+	seekable->position += nwrite;
 
-	return n;
+	return nwrite;
 }
 
 static gboolean
@@ -226,6 +228,9 @@ stream_seek (CamelSeekableStream *stream, off_t offset,
 	case CAMEL_STREAM_END:
 		position = (stream_mem->buffer)->len + offset;
 		break;
+	default:
+		position = offset;
+		break;
 	}
 
 	if (stream->bound_end == CAMEL_STREAM_UNBOUND)
@@ -246,3 +251,6 @@ stream_seek (CamelSeekableStream *stream, off_t offset,
 
 	return position;
 }
+
+
+
