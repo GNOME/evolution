@@ -91,12 +91,10 @@ message_tag_followup_get_type (void)
 static void
 message_tag_followup_class_init (MessageTagFollowUpClass *klass)
 {
-	GObjectClass *object_class;
-	MessageTagEditorClass *editor_class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	MessageTagEditorClass *editor_class = (MessageTagEditorClass *) klass;
 	
-	object_class = (GObjectClass *) klass;
-	editor_class = (MessageTagEditorClass *) klass;
-	parent_class = g_type_class_ref(message_tag_editor_get_type ());
+	parent_class = g_type_class_ref (message_tag_editor_get_type ());
 	
 	object_class->finalize = message_tag_followup_finalise;
 	
@@ -122,7 +120,7 @@ message_tag_followup_finalise (GObject *obj)
 	
 	editor->completed_date = 0;
 	
-        ((GObjectClass *)(parent_class))->finalize (obj);
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 
@@ -134,7 +132,7 @@ get_tag_list (MessageTagEditor *editor)
 	time_t date;
 	char *text;
 	
-	camel_tag_set(&tags, "follow-up", gtk_entry_get_text(GTK_ENTRY(followup->combo->entry)));
+	camel_tag_set (&tags, "follow-up", gtk_entry_get_text (GTK_ENTRY (followup->combo->entry)));
 	
 	date = e_date_edit_get_time (followup->target_date);
 	if (date != (time_t) -1) {
@@ -165,7 +163,7 @@ set_tag_list (MessageTagEditor *editor, CamelTag *tags)
 	
 	text = camel_tag_get (&tags, "follow-up");
 	if (text)
-		gtk_entry_set_text(GTK_ENTRY (followup->combo->entry), text);
+		gtk_entry_set_text (GTK_ENTRY (followup->combo->entry), text);
 	
 	text = camel_tag_get (&tags, "due-by");
 	if (text && *text) {
@@ -218,11 +216,12 @@ target_date_new (const char *s1, const char *s2, int i1, int i2)
 	widget = e_date_edit_new ();
 	e_date_edit_set_show_date (E_DATE_EDIT (widget), TRUE);
 	e_date_edit_set_show_time (E_DATE_EDIT (widget), TRUE);
-
-	start = (mail_config_get_week_start_day()+6) % 7;	/* Note that this is 0 (Sun) to 6 (Sat), conver to 0 (mon) to 6 (sun) */
-
+	
+	/* Note that this is 0 (Sun) to 6 (Sat), conver to 0 (mon) to 6 (sun) */
+	start = (mail_config_get_week_start_day() + 6) % 7;
+	
 	e_date_edit_set_week_start_day (E_DATE_EDIT (widget), start);
-	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (widget), mail_config_get_time_24hour());
+	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (widget), mail_config_get_time_24hour ());
 	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (widget), TRUE);
 	e_date_edit_set_time_popup_range (E_DATE_EDIT (widget), 0, 24);
 	
@@ -233,13 +232,13 @@ static void
 construct (MessageTagEditor *editor)
 {
 	MessageTagFollowUp *followup = (MessageTagFollowUp *) editor;
+	GtkCellRenderer *renderer;
+	GtkListStore *model;
 	GtkWidget *widget;
 	GList *strings;
 	GladeXML *gui;
 	int i;
-	GtkListStore *model;
-	GtkCellRenderer *text;
-
+	
 	gtk_window_set_title (GTK_WINDOW (editor), _("Flag to Follow Up"));
 	gnome_window_icon_set_from_file (GTK_WINDOW (editor), EVOLUTION_IMAGES "/flag-for-followup-16.png");
 	
@@ -256,15 +255,15 @@ construct (MessageTagEditor *editor)
 	followup->message_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "message_list"));
 	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 	gtk_tree_view_set_model (followup->message_list, (GtkTreeModel *) model);
-	gtk_tree_view_insert_column_with_attributes(followup->message_list, -1, _("From"),
-						    (text = gtk_cell_renderer_text_new()),
-						    "text", 0,
-						    NULL);
-	gtk_tree_view_insert_column_with_attributes(followup->message_list, -1, _("Subject"),
-						    text,
-						    "text", 1,
-						    NULL);
-
+	
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes (followup->message_list, -1, _("From"),
+						     renderer, "text", 0, NULL);
+	
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes (followup->message_list, -1, _("Subject"),
+						     renderer, "text", 1, NULL);
+	
 	followup->combo = GTK_COMBO (glade_xml_get_widget (gui, "combo"));
 	gtk_combo_set_case_sensitive (followup->combo, FALSE);
 	strings = NULL;
@@ -276,16 +275,16 @@ construct (MessageTagEditor *editor)
 	
 	followup->target_date = E_DATE_EDIT (glade_xml_get_widget (gui, "target_date"));
 	/* glade bug, need to show this ourselves */
-	gtk_widget_show((GtkWidget *)followup->target_date);
+	gtk_widget_show ((GtkWidget *) followup->target_date);
 	e_date_edit_set_time (followup->target_date, (time_t) -1);
 	
 	followup->completed = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "completed"));
-	g_signal_connect(followup->completed, "toggled", G_CALLBACK(completed_toggled), followup);
+	g_signal_connect (followup->completed, "toggled", G_CALLBACK (completed_toggled), followup);
 	
 	followup->clear = GTK_BUTTON (glade_xml_get_widget (gui, "clear"));
-	g_signal_connect(followup->clear, "clicked", G_CALLBACK(clear_clicked), followup);
+	g_signal_connect (followup->clear, "clicked", G_CALLBACK (clear_clicked), followup);
 	
-	g_object_unref((gui));
+	g_object_unref (gui);
 }
 
 MessageTagEditor *
@@ -300,17 +299,15 @@ message_tag_followup_new (void)
 }
 
 void
-message_tag_followup_append_message (MessageTagFollowUp *editor,
-				     const char *from,
-				     const char *subject)
+message_tag_followup_append_message (MessageTagFollowUp *editor, const char *from, const char *subject)
 {
 	GtkTreeIter iter;
 	GtkListStore *model;
-
+	
 	g_return_if_fail (IS_MESSAGE_TAG_FOLLOWUP (editor));
-
-	model = (GtkListStore *)gtk_tree_view_get_model(editor->message_list);
-
+	
+	model = (GtkListStore *) gtk_tree_view_get_model (editor->message_list);
+	
 	gtk_list_store_append (model, &iter);
-	gtk_list_store_set(model, &iter, 0, from, 1, subject, -1);
+	gtk_list_store_set (model, &iter, 0, from, 1, subject, -1);
 }

@@ -36,10 +36,12 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#define MESSAGE_TAG_FOLLOWUP_TYPE         (message_tag_followup_get_type ())
-#define MESSAGE_TAG_FOLLOWUP(obj)	  (G_TYPE_CHECK_INSTANCE_CAST (obj, MESSAGE_TAG_FOLLOWUP_TYPE, MessageTagFollowUp))
-#define MESSAGE_TAG_FOLLOWUP_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST (klass, MESSAGE_TAG_FOLLOWUP_TYPE, MessageTagFollowUpClass))
-#define IS_MESSAGE_TAG_FOLLOWUP(obj)      (G_TYPE_CHECK_INSTANCE_TYPE (obj, MESSAGE_TAG_FOLLOWUP_TYPE))
+#define MESSAGE_TAG_FOLLOWUP_TYPE            (message_tag_followup_get_type ())
+#define MESSAGE_TAG_FOLLOWUP(obj)	     (G_TYPE_CHECK_INSTANCE_CAST (obj, MESSAGE_TAG_FOLLOWUP_TYPE, MessageTagFollowUp))
+#define MESSAGE_TAG_FOLLOWUP_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST (klass, MESSAGE_TAG_FOLLOWUP_TYPE, MessageTagFollowUpClass))
+#define IS_MESSAGE_TAG_FOLLOWUP(obj)         (G_TYPE_CHECK_INSTANCE_TYPE (obj, MESSAGE_TAG_FOLLOWUP_TYPE))
+#define IS_MESSAGE_TAG_FOLLOWUP_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MESSAGE_TAG_FOLLOWUP_TYPE))
+#define MESSAGE_TAG_FOLLOWUP_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MESSAGE_TAG_FOLLOWUP_TYPE, MessageTagFollowUpClass))
 
 typedef struct _MessageTagFollowUp MessageTagFollowUp;
 typedef struct _MessageTagFollowUpClass MessageTagFollowUpClass;

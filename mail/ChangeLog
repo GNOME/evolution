@@ -1,5 +1,8 @@
 2002-12-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* message-tag-followup.c (construct): Don't re-use cell renderers
+	- I'm not sure this is actually safe to do.
+
 	* mail-session.c: Get rid of unneeded CamelObject casts.
 	(user_message_response): Don't unref the dialog object after we've
 	destroyed it.

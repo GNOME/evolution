@@ -34,12 +34,12 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#define MESSAGE_TYPE_TAG_EDITOR            (message_tag_editor_get_type ())
-#define MESSAGE_TAG_EDITOR(obj)	           (G_TYPE_CHECK_INSTANCE_CAST (obj, MESSAGE_TYPE_TAG_EDITOR, MessageTagEditor))
-#define MESSAGE_TAG_EDITOR_CLASS(klass)	   (G_TYPE_CHECK_CLASS_CAST (klass, MESSAGE_TYPE_TAG_EDITOR, MessageTagEditorClass))
-#define IS_MESSAGE_TAG_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE (obj, MESSAGE_TYPE_TAG_EDITOR))
-#define IS_MESSAGE_TAG_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MESSAGE_TYPE_TAG_EDITOR))
-#define MESSAGE_TAG_EDITOR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MESSAGE_TYPE_TAG_EDITOR, MessageTagEditorClass))
+#define MESSAGE_TAG_EDITOR_TYPE            (message_tag_editor_get_type ())
+#define MESSAGE_TAG_EDITOR(obj)	           (G_TYPE_CHECK_INSTANCE_CAST (obj, MESSAGE_TAG_EDITOR_TYPE, MessageTagEditor))
+#define MESSAGE_TAG_EDITOR_CLASS(klass)	   (G_TYPE_CHECK_CLASS_CAST (klass, MESSAGE_TAG_EDITOR_TYPE, MessageTagEditorClass))
+#define IS_MESSAGE_TAG_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE (obj, MESSAGE_TAG_EDITOR_TYPE))
+#define IS_MESSAGE_TAG_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MESSAGE_TAG_EDITOR_TYPE))
+#define MESSAGE_TAG_EDITOR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MESSAGE_TAG_EDITOR_TYPE, MessageTagEditorClass))
 
 typedef struct _MessageTagEditor MessageTagEditor;
 typedef struct _MessageTagEditorClass MessageTagEditorClass;
