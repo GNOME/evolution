@@ -34,6 +34,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <dirent.h>
 #include <errno.h>
 #include <ctype.h>
 
@@ -41,6 +42,7 @@
 #include <bonobo-conf/bonobo-config-database.h>
 
 #include <camel/camel-file-utils.h>
+#include <camel/camel-store.h>
 
 struct _storeinfo {
 	char *base_url;
@@ -84,9 +86,8 @@ find_dir_sep (const char *lsub_response)
 }
 
 static void
-si_free (gpointer key, gpointer val, gpointer user_data)
+si_free (struct _storeinfo *si)
 {
-	struct _storeinfo *si = val;
 	int i;
 	
 	g_free (si->base_url);
@@ -97,38 +98,6 @@ si_free (gpointer key, gpointer val, gpointer user_data)
 		g_ptr_array_free (si->folders, TRUE);
 	}
 	g_free (si);
-}
-
-static char *
-get_base_url (const char *protocol, const char *uri)
-{
-	unsigned char *base_url, *p;
-	
-	p = (unsigned char *) uri + strlen (protocol) + 1;
-	if (!strncmp (p, "//", 2))
-		p += 2;
-	
-	base_url = p;
-	p = strchr (p, '/');
-	base_url = g_strdup_printf ("%s://%.*s", protocol, p ? (int) (p - base_url) : (int) strlen (base_url), base_url);
-	
-	return base_url;
-}
-
-static char *
-imap_namespace (const char *uri)
-{
-	unsigned char *name, *p;
-	
-	if ((name = strstr (uri, ";namespace=\"")) == NULL)
-		return NULL;
-	
-	name += strlen (";namespace=\"");
-	p = name;
-	while (*p && *p != '\"')
-		p++;
-	
-	return g_strndup (name, p - name);
 }
 
 static unsigned char tohex[16] = {
@@ -187,6 +156,259 @@ hex_decode (const char *in, size_t len)
 	*outptr = '\0';
 	
 	return outbuf;
+}
+
+static char *
+parse_lsub (const char *lsub, char *dir_sep)
+{
+	const unsigned char *inptr = (const unsigned char *) lsub;
+	const unsigned char *inend;
+	int inlen, quoted = 0;
+	
+	inend = inptr + strlen (inptr);
+	if (strncmp (inptr, "* LSUB (", 8))
+		return NULL;
+	
+	inptr += 8;
+	while (inptr < inend && *inptr != ')')
+		inptr++;
+	
+	if (inptr >= inend)
+		return NULL;
+	
+	inptr++;
+	while (inptr < inend && isspace ((int) *inptr))
+		inptr++;
+	
+	if (inptr >= inend)
+		return NULL;
+	
+	/* skip over the dir sep */
+	if (*inptr == '\"')
+		inptr++;
+	
+	*dir_sep = (char) *inptr++;
+	if (*inptr == '\"')
+		inptr++;
+	
+	if (inptr >= inend)
+		return NULL;
+	
+	while (inptr < inend && isspace ((int) *inptr))
+		inptr++;
+	
+	if (inptr >= inend)
+		return NULL;
+	
+	if (*inptr == '\"') {
+		inptr++;
+		quoted = 1;
+	} else
+		quoted = 0;
+	
+	inlen = strlen (inptr) - quoted;
+	
+	return g_strndup (inptr, inlen);
+}
+
+static void
+cache_upgrade (struct _storeinfo *si, const char *folder_name)
+{
+	const char *old_folder_name = folder_name;
+	char *oldpath, *newpath, *p;
+	struct dirent *dent;
+	DIR *dir = NULL;
+	
+	if (si->namespace && strcmp ("INBOX", folder_name)) {
+		if (!strncmp (old_folder_name, si->namespace, strlen (si->namespace))) {
+			old_folder_name += strlen (si->namespace);
+			if (*old_folder_name == si->dir_sep)
+				old_folder_name++;
+		}
+	}
+	
+	oldpath = g_strdup_printf ("%s/evolution/mail/imap/%s/%s", getenv ("HOME"),
+				   si->base_url + 7, old_folder_name);
+	
+	newpath = g_strdup_printf ("%s/evolution/mail/imap/%s/folders/%s",
+				   getenv ("HOME"), si->base_url + 7, folder_name);
+	
+	if (!strcmp (folder_name, "folders"))
+		goto special_case_folders;
+	
+	if (si->dir_sep != '/') {
+		p = newpath + strlen (newpath) - strlen (folder_name) - 1;
+		while (*p) {
+			if (*p == si->dir_sep)
+				*p = '/';
+			p++;
+		}
+	}
+	
+	/* make sure all parent directories exist */
+	if ((p = strrchr (newpath, '/'))) {
+		*p = '\0';
+		camel_mkdir_hier (newpath, 0755);
+		*p = '/';
+	}
+	
+	if (rename (oldpath, newpath) == -1) {
+		fprintf (stderr, "Failed to upgrade cache for imap folder %s/%s: %s\n",
+			 si->base_url, folder_name, g_strerror (errno));
+	}
+	
+	g_free (oldpath);
+	g_free (newpath);
+	
+	return;
+	
+ special_case_folders:
+	
+	/* the user had a toplevel folder named "folders" */
+	if (camel_mkdir_hier (newpath, 0755) == -1) {
+		/* we don't bother to check EEXIST because well, if
+                   folders/folders exists then we're pretty much
+                   fucked */
+		goto exception;
+	}
+	
+	if (!(dir = opendir (oldpath)))
+		goto exception;
+	
+	while ((dent = readdir (dir))) {
+		char *old_path, *new_path;
+		
+		if (!strcmp (dent->d_name, ".") || !strcmp (dent->d_name, ".."))
+			continue;
+		
+		old_path = g_strdup_printf ("%s/%s", oldpath, dent->d_name);
+		new_path = g_strdup_printf ("%s/%s", newpath, dent->d_name);
+		
+		/* make sure all parent directories exist */
+		if ((p = strrchr (new_path, '/'))) {
+			*p = '\0';
+			camel_mkdir_hier (new_path, 0755);
+			*p = '/';
+		}
+		
+		if (rename (old_path, new_path) == -1) {
+			g_free (old_path);
+			g_free (new_path);
+			goto exception;
+		}
+		
+		g_free (old_path);
+		g_free (new_path);
+	}
+	
+	closedir (dir);
+	
+	g_free (oldpath);
+	g_free (newpath);
+	
+	return;
+	
+ exception:
+	
+	fprintf (stderr, "Failed to upgrade cache for imap folder %s/%s: %s\n",
+		 si->base_url, folder_name, g_strerror (errno));
+	
+	if (dir)
+		closedir (dir);
+	
+	g_free (oldpath);
+	g_free (newpath);
+}
+
+static int
+foldercmp (const void *f1, const void *f2)
+{
+	const char **folder1 = f1;
+	const char **folder2 = f2;
+	
+	return strcmp (*folder1, *folder2);
+}
+
+static void
+cache_upgrade_and_free (gpointer key, gpointer val, gpointer user_data)
+{
+	struct _storeinfo *si = val;
+	GPtrArray *folders;
+	char *path = NULL;
+	char dir_sep;
+	int i;
+	
+	if (si->folders) {
+		path = g_strdup_printf ("%s/evolution/mail/imap/%s/folders",
+					getenv ("HOME"), si->base_url + 7);
+		
+		if (mkdir (path, 0755) == -1 && errno != EEXIST) {
+			fprintf (stderr, "Failed to create directory %s: %s", path, g_strerror (errno));
+			goto exception;
+		}
+		
+		g_free (path);
+		folders = g_ptr_array_new ();
+		for (i = 0; i < si->folders->len; i++) {
+			if ((path = parse_lsub (si->folders->pdata[i], &dir_sep))) {
+				g_ptr_array_add (folders, path);
+			}
+		}
+		
+		/* sort the folders so that parents get created before
+                   their children */
+		qsort (folders->pdata, folders->len, sizeof (void *), foldercmp);
+		
+		for (i = 0; i < folders->len; i++) {
+			cache_upgrade (si, folders->pdata[i]);
+			g_free (folders->pdata[i]);
+		}
+	}
+	
+	si_free (si);
+	
+	return;
+	
+ exception:
+	
+	fprintf (stderr, "Could not upgrade imap cache for %s: %s\n",
+		 si->base_url + 7, g_strerror (errno));
+	
+	g_free (path);
+	
+	si_free (si);
+}
+
+static char *
+get_base_url (const char *protocol, const char *uri)
+{
+	unsigned char *base_url, *p;
+	
+	p = (unsigned char *) uri + strlen (protocol) + 1;
+	if (!strncmp (p, "//", 2))
+		p += 2;
+	
+	base_url = p;
+	p = strchr (p, '/');
+	base_url = g_strdup_printf ("%s://%.*s", protocol, p ? (int) (p - base_url) : (int) strlen (base_url), base_url);
+	
+	return base_url;
+}
+
+static char *
+imap_namespace (const char *uri)
+{
+	unsigned char *name, *p;
+	
+	if ((name = strstr (uri, ";namespace=\"")) == NULL)
+		return NULL;
+	
+	name += strlen (";namespace=\"");
+	p = name;
+	while (*p && *p != '\"')
+		p++;
+	
+	return g_strndup (name, p - name);
 }
 
 static char *
@@ -926,9 +1148,9 @@ mailer_upgrade (Bonobo_ConfigDatabase db)
 	shortcuts_upgrade_xml_file (accounts, imap_sources, path);
 	g_free (path);
 	
-	g_hash_table_foreach (imap_sources, si_free, NULL);
+	g_hash_table_foreach (imap_sources, cache_upgrade_and_free, NULL);
 	g_hash_table_destroy (imap_sources);
-	
+#if 0
 	path = g_strdup_printf ("%s/evolution/mail/imap", getenv ("HOME"));
 	bak = g_strdup_printf ("%s.bak-1.0", path);
 	
@@ -937,6 +1159,7 @@ mailer_upgrade (Bonobo_ConfigDatabase db)
 	
 	g_free (path);
 	g_free (bak);
+#endif
 	
 	return 0;
 }

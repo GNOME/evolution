@@ -1,3 +1,12 @@
+2002-09-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* upgrade-mailer.c (cache_upgrade_and_free): The new callback
+	function for the g_hash_table_foreach which both upgrades the
+	cache for that store and then free's the struct _storeinfo
+	afterwards.
+	(cache_upgrade): Upgrade a cached folder by moving the old cache
+	folder into the appropriate new location.
+
 2002-09-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (folder_browser_query_changed): Only abort if
