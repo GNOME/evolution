@@ -80,7 +80,11 @@ impl__get_isOffline (PortableServer_Servant servant,
 	ESummaryOfflineHandler *offline_handler;
 
 	offline_handler = E_SUMMARY_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
-	return offline_handler->priv->summary->online;
+	if (offline_handler->priv->summary != NULL) {
+		return offline_handler->priv->summary->online;
+	}
+
+	return TRUE;
 }
 
 static void
@@ -94,7 +98,9 @@ impl_prepareForOffline (PortableServer_Servant servant,
 	offline_handler = E_SUMMARY_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
 	priv = offline_handler->priv;
 
-	*active_connection_list = e_summary_offline_handler_create_connection_list (priv->summary);
+	if (priv->summary != NULL) {
+		*active_connection_list = e_summary_offline_handler_create_connection_list (priv->summary);
+	}
 }
 
 static void
@@ -136,9 +142,11 @@ impl_goOffline (PortableServer_Servant servant,
 	offline_handler = E_SUMMARY_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
 	priv = offline_handler->priv;
 
-	priv->listener_interface = CORBA_Object_duplicate (progress_listener, ev);
-
-	e_summary_set_online (priv->summary, progress_listener, FALSE, went_offline, offline_handler);
+	if (priv->summary != NULL) {
+		priv->listener_interface = CORBA_Object_duplicate (progress_listener, ev);
+		
+		e_summary_set_online (priv->summary, progress_listener, FALSE, went_offline, offline_handler);
+	}
 }
 
 static void
@@ -148,7 +156,9 @@ impl_goOnline (PortableServer_Servant servant,
 	ESummaryOfflineHandler *offline_handler;
 
 	offline_handler = E_SUMMARY_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
-	e_summary_set_online (offline_handler->priv->summary, NULL, TRUE, NULL, NULL);
+	if (offline_handler->priv->summary != NULL) {
+		e_summary_set_online (offline_handler->priv->summary, NULL, TRUE, NULL, NULL);
+	}
 }
 
 /* GtkObject methods */

@@ -64,7 +64,8 @@ make_initial_rdf_list (ESummaryPrefs *prefs)
 {
 	GList *rdfs;
 
-	rdfs = g_list_prepend (NULL, g_strdup ("http://www.cnn.com/cnn.rss"));
+	rdfs = g_list_prepend (NULL, g_strdup ("http://linuxtoday.com/backend/my-netscape.rdf"));
+	rdfs = g_list_append (rdfs, g_strdup ("http://www.salon.com/feed/RDF/salon_use.rdf"));
 	
 	prefs->rdf_urls = rdfs;
 }

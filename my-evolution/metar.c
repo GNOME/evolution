@@ -26,7 +26,7 @@ static regex_t metar_re[RE_NUM];
 
 #define TEMP_F_TO_C(f)  (((f) - 32.0) * 0.555556)
 #define TEMP_C_TO_F(c)  (((c) * 1.8) + 32.0)
-#define TEMP_UNIT_STR(units)  (((units) == UNITS_IMPERIAL) ? _("\260F") : _("\260C"))
+#define TEMP_UNIT_STR(units)  (((units) == UNITS_IMPERIAL) ? _(" F") : _(" C"))
 
 #define WINDSPEED_KNOTS_TO_KPH(knots)  ((knots) * 1.851965)
 #define WINDSPEED_KPH_TO_KNOTS(kph)    ((kph) * 0.539967)

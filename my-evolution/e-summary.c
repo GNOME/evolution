@@ -461,7 +461,7 @@ alarm_fn (gpointer alarm_id,
 	e_summary_reconfigure (summary);
 }
 	
-#define DEFAULT_HTML "<html><head><title>Summary</title></head><body bgcolor=\"#ffffff\">hello</body></html>" 
+#define DEFAULT_HTML "<html><head><title>Summary</title></head><body bgcolor=\"#ffffff\">%s</body></html>" 
 
 static void
 e_summary_init (ESummary *summary)
@@ -471,6 +471,7 @@ e_summary_init (ESummary *summary)
 	ESummaryPrivate *priv;
 	GdkColor bgcolor = {0, 0xffff, 0xffff, 0xffff};
 	time_t t, day_end;
+	char *def, *default_utf;
 
 	summary->priv = g_new (ESummaryPrivate, 1);
 
@@ -489,8 +490,11 @@ e_summary_init (ESummary *summary)
 	gtk_html_set_default_content_type (GTK_HTML (priv->html),
 					   "text/html; charset=utf-8");
 	gtk_html_set_default_background_color (GTK_HTML (priv->html), &bgcolor);
-	gtk_html_load_from_string (GTK_HTML (priv->html), DEFAULT_HTML,
-				   strlen (DEFAULT_HTML));
+	def = g_strdup_printf (DEFAULT_HTML, _("Please wait..."));
+	default_utf = e_utf8_from_locale_string (def);
+	gtk_html_load_from_string (GTK_HTML (priv->html), default_utf, strlen (default_utf));
+	g_free (def);
+	g_free (default_utf);
 
 	gtk_signal_connect (GTK_OBJECT (priv->html), "url-requested",
 			    GTK_SIGNAL_FUNC (e_summary_url_requested), summary);
@@ -808,9 +812,7 @@ e_summary_count_connections (ESummary *summary)
 	GList *p;
 	int count = 0;
 
-	if (summary == NULL) {
-		return 0;
-	}
+	g_return_val_if_fail (IS_E_SUMMARY (summary), 0);
 
 	for (p = summary->priv->connections; p; p = p->next) {
 		ESummaryConnection *c;
@@ -829,9 +831,7 @@ e_summary_add_connections (ESummary *summary)
 	GList *p;
 	GList *connections = NULL;
 
-	if (summary == NULL) {
-		return NULL;
-	}
+	g_return_val_if_fail (IS_E_SUMMARY (summary), NULL);
 
 	for (p = summary->priv->connections; p; p = p->next) {
 		ESummaryConnection *c;
@@ -855,9 +855,7 @@ e_summary_set_online (ESummary *summary,
 {
 	GList *p;
 
-	if (summary == NULL) {
-		return;
-	}
+	g_return_if_fail (IS_E_SUMMARY (summary));
 
 	for (p = summary->priv->connections; p; p = p->next) {
 		ESummaryConnection *c;
@@ -908,6 +906,7 @@ void
 e_summary_freeze (ESummary *summary)
 {
 	g_return_if_fail (IS_E_SUMMARY (summary));
+	g_return_if_fail (summary->priv != NULL);
 
 	if (summary->priv->frozen == TRUE) {
 		return;
@@ -920,6 +919,8 @@ void
 e_summary_thaw (ESummary *summary)
 {
 	g_return_if_fail (IS_E_SUMMARY (summary));
+	g_return_if_fail (summary->priv != NULL);
+
 	if (summary->priv->frozen == FALSE) {
 		return;
 	}
