@@ -275,8 +275,10 @@ load_single_dir (GalViewCollection *collection,
 	char *filename = g_concat_dir_and_file(dir, "galview.xml");
 
 	doc = xmlParseFile(filename);
-	if (!doc)
+	if (!doc) {
+		g_free (filename);
 		return;
+	}
 	root = xmlDocGetRootElement(doc);
 	for (child = root->xmlChildrenNode; child; child = child->next) {
 		gchar *id = e_xml_get_string_prop_by_name(child, "id");
