@@ -1,3 +1,44 @@
+2001-03-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_async_xfer_folder): Handle CORBA
+	exception.
+	(evolution_shell_component_client_async_create_folder): Likewise.
+
+	* e-local-storage.c (create_folder_directory): Create the
+	`subfolders' directory if it doesn't exist.
+
+	* e-storage-set-view.c (tree_drag_data_received): Build the
+	correct target path by appending the basename from the source
+	path.
+
+	* evolution-shell-component.c
+	(impl_ShellComponent_async_xfer_folder): Enabled again.
+	(class_init): Install it.
+
+	* e-local-folder.c (METADATA_FILE_NAME_LEN): Removed #define.
+	(METADATA_FILE_NAME): Removed #define.
+	(save_metadata): Use the public
+	`E_LOCAL_FOLDER_METADATA_FILE_NAME' value instead.
+	(construct_loading_metadata): Likewise.
+
+	* e-local-folder.h (E_LOCAL_FOLDER_METADATA_FILE_NAME_LEN): New
+	#define.
+	(E_LOCAL_FOLDER_METADATA_FILE_NAME): New #define.
+
+	* e-local-storage.c (remove_folder_directory): New helper
+	function.
+	(async_xfer_folder_step): New.
+	(async_xfer_complete): New.
+	(async_xfer_folder_callback): New.
+	(impl_async_xfer_folder): Implement.
+
+	* e-storage.h: Added value `E_STORAGE_NOTEMPTY' to
+	`EStorageResult'.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_clinet_async_xfer_folder): New.
+
 2001-03-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-local-storage.c (impl_async_xfer_folder): New, implementation

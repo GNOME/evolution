@@ -83,7 +83,7 @@ typedef void (* EvolutionShellComponentRemoveFolderFn) (EvolutionShellComponent 
 						        const char *physical_uri,
 						        const GNOME_Evolution_ShellComponentListener listener,
 						        void *closure);
-typedef void (* EvolutionShellComponentCopyFolderFn)   (EvolutionShellComponent *shell_component,
+typedef void (* EvolutionShellComponentXferFolderFn)   (EvolutionShellComponent *shell_component,
 							const char *source_physical_uri,
 							const char *destination_physical_uri,
 							gboolean remove_source,
@@ -138,7 +138,7 @@ void                     evolution_shell_component_construct  (EvolutionShellCom
 							       EvolutionShellComponentCreateViewFn                 create_view_fn,
 							       EvolutionShellComponentCreateFolderFn               create_folder_fn,
 							       EvolutionShellComponentRemoveFolderFn               remove_folder_fn,
-							       EvolutionShellComponentCopyFolderFn                 copy_folder_fn,
+							       EvolutionShellComponentXferFolderFn                 xfer_folder_fn,
 							       EvolutionShellComponentPopulateFolderContextMenuFn  populate_folder_context_menu_fn,
 							       EvolutionShellComponentGetDndSelectionFn            get_dnd_selection_fn,
 							       void                                               *closure);
@@ -146,7 +146,7 @@ EvolutionShellComponent *evolution_shell_component_new        (const EvolutionSh
 							       EvolutionShellComponentCreateViewFn                 create_view_fn,
 							       EvolutionShellComponentCreateFolderFn               create_folder_fn,
 							       EvolutionShellComponentRemoveFolderFn               remove_folder_fn,
-							       EvolutionShellComponentCopyFolderFn                 copy_folder_fn,
+							       EvolutionShellComponentXferFolderFn                 xfer_folder_fn,
 							       EvolutionShellComponentPopulateFolderContextMenuFn  populate_folder_context_menu_fn,
 							       EvolutionShellComponentGetDndSelectionFn            get_dnd_selection_fn,
 							       void                                               *closure);

@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-local-folder.h
  *
- * Copyright (C) 2000  Helix Code, Inc.
+ * Copyright (C) 2000, 2001 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -38,6 +38,9 @@ extern "C" {
 #define E_LOCAL_FOLDER_CLASS(klass)	(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_LOCAL_FOLDER, ELocalFolderClass))
 #define E_IS_LOCAL_FOLDER(obj)		(GTK_CHECK_TYPE ((obj), E_TYPE_LOCAL_FOLDER))
 #define E_IS_LOCAL_FOLDER_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_LOCAL_FOLDER))
+
+#define E_LOCAL_FOLDER_METADATA_FILE_NAME     "folder-metadata.xml"
+#define E_LOCAL_FOLDER_METADATA_FILE_NAME_LEN 19
 
 typedef struct _ELocalFolder        ELocalFolder;
 typedef struct _ELocalFolderClass   ELocalFolderClass;

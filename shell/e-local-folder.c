@@ -53,9 +53,6 @@ static EFolderClass *parent_class = NULL;
 #define URI_PREFIX     "file://"
 #define URI_PREFIX_LEN 7
 
-#define METADATA_FILE_NAME     "folder-metadata.xml"
-#define METADATA_FILE_NAME_LEN 19
-
 struct _ELocalFolderPrivate {
 	int dummy;
 };
@@ -98,7 +95,7 @@ construct_loading_metadata (ELocalFolder *local_folder,
 
 	folder = E_FOLDER (local_folder);
 
-	metadata_path = g_concat_dir_and_file (path, METADATA_FILE_NAME);
+	metadata_path = g_concat_dir_and_file (path, E_LOCAL_FOLDER_METADATA_FILE_NAME);
 
 	doc = xmlParseFile (metadata_path);
 	if (doc == NULL) {
@@ -155,7 +152,7 @@ save_metadata (ELocalFolder *local_folder)
 			     (xmlChar *) e_folder_get_description (folder));
 
 	physical_directory = e_folder_get_physical_uri (folder) + URI_PREFIX_LEN - 1;
-	physical_path = g_concat_dir_and_file (physical_directory, METADATA_FILE_NAME);
+	physical_path = g_concat_dir_and_file (physical_directory, E_LOCAL_FOLDER_METADATA_FILE_NAME);
 
 	if (xmlSaveFile (physical_path, doc) < 0) {
 		unlink (physical_path);

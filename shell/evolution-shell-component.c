@@ -44,7 +44,7 @@ struct _EvolutionShellComponentPrivate {
 	EvolutionShellComponentCreateViewFn create_view_fn;
 	EvolutionShellComponentCreateFolderFn create_folder_fn;
 	EvolutionShellComponentRemoveFolderFn remove_folder_fn;
-	EvolutionShellComponentCopyFolderFn copy_folder_fn;
+	EvolutionShellComponentXferFolderFn xfer_folder_fn;
 	EvolutionShellComponentPopulateFolderContextMenuFn populate_folder_context_menu_fn;
 	EvolutionShellComponentGetDndSelectionFn get_dnd_selection_fn;
 
@@ -306,9 +306,8 @@ impl_ShellComponent_async_remove_folder (PortableServer_Servant servant,
 	(* priv->remove_folder_fn) (shell_component, physical_uri, listener, priv->closure);
 }
 
-#if 0
 static void
-impl_ShellComponent_async_copy_folder (PortableServer_Servant servant,
+impl_ShellComponent_async_xfer_folder (PortableServer_Servant servant,
 				       const GNOME_Evolution_ShellComponentListener listener,
 				       const CORBA_char *source_physical_uri,
 				       const CORBA_char *destination_physical_uri,
@@ -323,21 +322,20 @@ impl_ShellComponent_async_copy_folder (PortableServer_Servant servant,
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
 	priv = shell_component->priv;
 
-	if (priv->copy_folder_fn == NULL) {
+	if (priv->xfer_folder_fn == NULL) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
 								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
 								     ev);
 		return;
 	}
 
-	(* priv->copy_folder_fn) (shell_component,
+	(* priv->xfer_folder_fn) (shell_component,
 				  source_physical_uri,
 				  destination_physical_uri,
 				  remove_source,
 				  listener,
 				  priv->closure);
 }
-#endif
 
 static void
 impl_ShellComponent_populate_folder_context_menu (PortableServer_Servant servant,
@@ -447,6 +445,7 @@ class_init (EvolutionShellComponentClass *klass)
 	epv->createView                = impl_ShellComponent_create_view;
 	epv->createFolderAsync         = impl_ShellComponent_async_create_folder;
 	epv->removeFolderAsync         = impl_ShellComponent_async_remove_folder;
+	epv->xferFolderAsync           = impl_ShellComponent_async_xfer_folder;
 	epv->populateFolderContextMenu = impl_ShellComponent_populate_folder_context_menu;
 }
 
@@ -461,7 +460,7 @@ init (EvolutionShellComponent *shell_component)
 	priv->create_view_fn                  = NULL;
 	priv->create_folder_fn                = NULL;
 	priv->remove_folder_fn                = NULL;
-	priv->copy_folder_fn                  = NULL;
+	priv->xfer_folder_fn                  = NULL;
 	priv->populate_folder_context_menu_fn = NULL;
 
 	priv->owner_client                    = NULL;
@@ -477,7 +476,7 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 				     EvolutionShellComponentCreateViewFn create_view_fn,
 				     EvolutionShellComponentCreateFolderFn create_folder_fn,
 				     EvolutionShellComponentRemoveFolderFn remove_folder_fn,
-				     EvolutionShellComponentCopyFolderFn copy_folder_fn,
+				     EvolutionShellComponentXferFolderFn xfer_folder_fn,
 				     EvolutionShellComponentPopulateFolderContextMenuFn populate_folder_context_menu_fn,
 				     EvolutionShellComponentGetDndSelectionFn get_dnd_selection_fn,
 				     void *closure)
@@ -492,7 +491,7 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 	priv->create_view_fn                  = create_view_fn;
 	priv->create_folder_fn                = create_folder_fn;
 	priv->remove_folder_fn                = remove_folder_fn;
-	priv->copy_folder_fn                  = copy_folder_fn;
+	priv->xfer_folder_fn                  = xfer_folder_fn;
 	priv->populate_folder_context_menu_fn = populate_folder_context_menu_fn;
 	priv->get_dnd_selection_fn            = get_dnd_selection_fn;
 
@@ -524,7 +523,7 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 			       EvolutionShellComponentCreateViewFn create_view_fn,
 			       EvolutionShellComponentCreateFolderFn create_folder_fn,
 			       EvolutionShellComponentRemoveFolderFn remove_folder_fn,
-			       EvolutionShellComponentCopyFolderFn copy_folder_fn,
+			       EvolutionShellComponentXferFolderFn xfer_folder_fn,
 			       EvolutionShellComponentPopulateFolderContextMenuFn populate_folder_context_menu_fn,
 			       EvolutionShellComponentGetDndSelectionFn get_dnd_selection_fn,
 			       void *closure)
@@ -538,7 +537,7 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 					     create_view_fn,
 					     create_folder_fn,
 					     remove_folder_fn,
-					     copy_folder_fn,
+					     xfer_folder_fn,
 					     populate_folder_context_menu_fn,
 					     get_dnd_selection_fn,
 					     closure);

@@ -384,7 +384,7 @@ component_async_create_folder_callback (EvolutionShellComponentClient *shell_com
 		e_folder_set_physical_uri (folder, callback_data->physical_uri);
 
 		if (e_local_folder_save (E_LOCAL_FOLDER (folder))) {
-			new_folder (E_LOCAL_STORAGE(callback_data->storage),
+			new_folder (E_LOCAL_STORAGE (callback_data->storage),
 				    callback_data->path, folder);
 		} else {
 			rmdir (callback_data->physical_path);
@@ -452,6 +452,14 @@ create_folder_directory (ELocalStorage *local_storage,
 		parent_physical_path = get_physical_path (local_storage, parent_path);
 		subfolders_directory_physical_path = g_concat_dir_and_file (parent_physical_path,
 									    SUBFOLDER_DIR_NAME);
+
+		if (! g_file_exists (subfolders_directory_physical_path)) {
+			if (mkdir (subfolders_directory_physical_path, 0700) == -1) {
+				g_free (subfolders_directory_physical_path);
+				g_free (parent_physical_path);
+				return errno_to_storage_result ();
+			}
+		}
 
 		physical_path = g_concat_dir_and_file (subfolders_directory_physical_path,
 						       folder_name);
@@ -541,6 +549,37 @@ create_folder (ELocalStorage *local_storage,
 							      callback_data);
 }
 
+static EStorageResult
+remove_folder_directory (ELocalStorage *local_storage,
+			 const char *path)
+{
+	char *physical_path;
+	char *file_name;
+
+	physical_path = get_physical_path (local_storage, path);
+
+	/* 1. Delete the subfolder directory.  If this fails, it means that we
+	   have subfolders.  */
+	file_name = g_concat_dir_and_file (physical_path, SUBFOLDER_DIR_NAME);
+	if (g_file_exists (file_name) && rmdir (file_name) == -1)
+		return E_STORAGE_NOTEMPTY; /* FIXME? */
+	g_free (file_name);
+
+	/* 2. Delete the metadata file associated with this folder.  */
+	file_name = g_concat_dir_and_file (physical_path, E_LOCAL_FOLDER_METADATA_FILE_NAME);
+	unlink (file_name);
+	g_free (file_name);
+
+	/* 3. Delete the physical directory.  */
+	if (rmdir (physical_path) == -1) {
+		g_free (physical_path);
+		return E_STORAGE_GENERICERROR;
+	}
+
+	g_free (physical_path);
+	return E_STORAGE_OK;
+}
+
 
 /* GtkObject methods.  */
 
@@ -580,6 +619,9 @@ impl_get_name (EStorage *storage)
 	return E_LOCAL_STORAGE_NAME;
 }
 
+
+/* Creating folders.  */
+
 static void
 impl_async_create_folder (EStorage *storage,
 			  const char *path,
@@ -595,6 +637,9 @@ impl_async_create_folder (EStorage *storage,
 	create_folder (local_storage, NULL, path, type, description, callback, data);
 }
 
+
+/* Removing folders.  */
+
 static void
 impl_async_remove_folder (EStorage *storage,
 			  const char *path,
@@ -606,14 +651,252 @@ impl_async_remove_folder (EStorage *storage,
 	local_storage = E_LOCAL_STORAGE (storage);
 }
 
+
+
+/* Transferring folders.  */
+
+struct _XferItem {
+	char *source_path;
+	char *destination_path;
+};
+typedef struct _XferItem XferItem;
+
+static XferItem *
+xfer_item_new (char *source_path,
+	       char *destination_path)
+{
+	XferItem *new;
+
+	new = g_new (XferItem, 1);
+	new->source_path      = source_path;
+	new->destination_path = destination_path;
+
+	return new;
+}
+
+static void
+xfer_item_free (XferItem *item)
+{
+	g_free (item->source_path);
+	g_free (item->destination_path);
+	g_free (item);
+}
+
+static void
+append_xfer_item_list (EStorage *storage,
+		       char *source_path,
+		       char *destination_path,
+		       GList **list)
+{
+	GList *subfolders;
+	GList *p;
+
+	*list = g_list_prepend (*list, xfer_item_new (source_path, destination_path));
+
+	subfolders = e_storage_get_subfolder_paths (storage, source_path);
+	for (p = subfolders; p != NULL; p = p->next) {
+		char *source_subpath;
+		char *destination_subpath;
+
+		source_subpath = g_strdup ((const char *) p->data);
+		destination_subpath = g_concat_dir_and_file (destination_path,
+							     g_basename (source_subpath));
+
+		append_xfer_item_list (storage, source_subpath, destination_subpath, list);
+	}
+
+	e_free_string_list (subfolders);
+}
+
+struct _XferData {
+	/* The storage on which we are performing the xfer operation.  */
+	ELocalStorage *local_storage;
+
+	/* List of source/destination path couples to copy, in the right
+	   order.  */
+	GList *folder_items;
+
+	/* Pointer into `folder_items'.  The folder item pointed by this is the
+	   one handled by the previous CORBA invocation.  */
+	GList *current_folder_item;
+
+	/* Whether we want to remove the source too.  */
+	gboolean remove_source;
+
+	/* The callback, with its data.  */
+	EStorageResultCallback callback;
+	void *callback_data;
+};
+typedef struct _XferData XferData;
+
+static void
+async_xfer_folder_step (ELocalStorage *local_storage,
+			const char *source_path,
+			const char *destination_path,
+			gboolean remove_source,
+			EvolutionShellComponentClientCallback component_client_callback,
+			void *component_client_callback_data)
+{
+	ELocalStoragePrivate *priv;
+	EFolder *source_folder;
+	EvolutionShellComponentClient *component_client;
+	char *physical_path;
+	char *physical_uri;
+
+	priv = local_storage->priv;
+
+	g_print ("async_xfer_folder_step %s -> %s\n", source_path, destination_path);
+
+	source_folder = e_storage_get_folder (E_STORAGE (local_storage), source_path);
+	g_assert (source_folder != NULL);
+
+	create_folder_directory (local_storage, destination_path,
+				 e_folder_get_type_string (source_folder),
+				 e_folder_get_description (source_folder),
+				 &physical_path);
+
+	physical_uri = g_strconcat ("file://", physical_path, NULL);
+	g_free (physical_path);
+
+	component_client = e_folder_type_registry_get_handler_for_type (priv->folder_type_registry,
+									e_folder_get_type_string (source_folder));
+	g_assert (component_client != NULL);
+
+	evolution_shell_component_client_async_xfer_folder (component_client,
+							    e_folder_get_physical_uri (source_folder),
+							    physical_uri,
+							    remove_source,
+							    component_client_callback,
+							    component_client_callback_data);
+
+	g_free (physical_uri);
+}
+
+static void
+async_xfer_folder_complete (XferData *xfer_data)
+{
+	ELocalStorage *local_storage;
+	GList *p;
+
+	local_storage = xfer_data->local_storage;
+
+#if 0
+	if (xfer_data->remove_source) {
+		EStorageResult result;
+
+		/* Remove all the source physical directories, and also the
+		   corresponding folders from the folder tree.  */
+
+		for (p = g_list_last (xfer_data->folder_items); p != NULL; p = p->prev) {
+			XferItem *item;
+
+			item = (XferItem *) p->data;
+
+			result = remove_folder_directory (local_storage, item->source_path);
+
+			/* FIXME handle failure differently?  This should be n
+			   unlikely situation.  */
+			if (result == E_STORAGE_OK)
+				e_storage_removed_folder (E_STORAGE (local_storage), item->source_path);
+		}
+	}
+#endif
+
+	/* Free the data.  */
+
+	for (p = xfer_data->folder_items; p != NULL; p = p->next) {
+		XferItem *item;
+
+		item = (XferItem *) p->data;
+		xfer_item_free (item);
+	}
+	g_list_free (xfer_data->folder_items);
+
+	g_free (xfer_data);
+}
+
+static void
+async_xfer_folder_callback (EvolutionShellComponentClient *shell_component_client,
+			    EvolutionShellComponentResult result,
+			    void *callback_data)
+{
+	XferData *xfer_data;
+	XferItem *item;
+	EFolder *source_folder;
+	EFolder *destination_folder;
+	char *new_physical_uri;
+
+	/* FIXME handle errors.  */
+
+	xfer_data = (XferData *) callback_data;
+
+	item = (XferItem *) xfer_data->current_folder_item->data;
+
+	source_folder = e_storage_get_folder (E_STORAGE (xfer_data->local_storage), item->source_path);
+	destination_folder = e_local_folder_new (e_folder_get_name (source_folder),
+						 e_folder_get_type_string (source_folder),
+						 e_folder_get_description (source_folder));
+
+	new_physical_uri = g_strconcat ("file:///", item->destination_path, NULL);
+	e_folder_set_physical_uri (destination_folder, new_physical_uri);
+	g_free (new_physical_uri);
+
+	e_local_folder_save (E_LOCAL_FOLDER (new_folder)); /* FIXME check for errors */
+	new_folder (xfer_data->local_storage, item->destination_path, destination_folder);
+
+	xfer_data->current_folder_item = xfer_data->current_folder_item->next;
+	if (xfer_data->current_folder_item == NULL) {
+		async_xfer_folder_complete (xfer_data);
+		return;
+	}
+
+	item = (XferItem *) xfer_data->current_folder_item->data;
+
+	async_xfer_folder_step (xfer_data->local_storage,
+				item->source_path,
+				item->destination_path,
+				xfer_data->remove_source,
+				async_xfer_folder_callback,
+				xfer_data);
+}
+
 static void
 impl_async_xfer_folder (EStorage *storage,
 			const char *source_path,
 			const char *destination_path,
-			const gboolean remove_source,
+			gboolean remove_source,
 			EStorageResultCallback callback,
-			void *data)
+			void *callback_data)
 {
+	ELocalStorage *local_storage;
+	ELocalStoragePrivate *priv;
+	XferData *xfer_data;
+	GList *folder_items;	/* <XferItem> */
+	XferItem *first_item;
+
+	local_storage = E_LOCAL_STORAGE (storage);
+	priv = local_storage->priv;
+
+	folder_items = NULL;
+	append_xfer_item_list (storage, g_strdup (source_path), g_strdup (destination_path), &folder_items);
+	folder_items = g_list_reverse (folder_items); /* lame */
+
+	xfer_data = g_new (XferData, 1);
+	xfer_data->local_storage       = local_storage;
+	xfer_data->folder_items        = folder_items;
+	xfer_data->current_folder_item = folder_items;
+	xfer_data->remove_source       = remove_source;
+	xfer_data->callback            = callback;
+	xfer_data->callback_data       = callback_data;
+
+	first_item = (XferItem *) xfer_data->folder_items->data;
+
+	async_xfer_folder_step (E_LOCAL_STORAGE (storage),
+				first_item->source_path,
+				first_item->destination_path,
+				remove_source,
+				async_xfer_folder_callback,
+				xfer_data);
 }
 
 

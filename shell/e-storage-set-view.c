@@ -1170,16 +1170,21 @@ tree_drag_data_received (ETree *etree,
 
 	if (strcmp (target_type, EVOLUTION_PATH_TARGET_TYPE) == 0) {
 		const char *source_path;
-		const char *destination_path;
+		const char *destination_folder_path;
+		char *destination_path;
 
 		source_path = (const char *) selection_data->data;
 		/* (Basic sanity checks.)  */
 		if (source_path == NULL || source_path[0] != G_DIR_SEPARATOR || source_path[1] == '\0')
 			return;
 
-		destination_path = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), path);
-		if (destination_path == NULL)
+		destination_folder_path = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), path);
+		if (destination_folder_path == NULL)
 			return;
+
+		destination_path = g_concat_dir_and_file (destination_folder_path,
+							  g_basename (source_path));
+
 
 		switch (context->action) {
 		case GDK_ACTION_MOVE:
@@ -1195,6 +1200,8 @@ tree_drag_data_received (ETree *etree,
 		default:
 			g_warning ("EStorageSetView: Don't know action %d\n", context->action);
 		}
+
+		g_free (destination_path);
 	}
 
 	target_path = e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path);

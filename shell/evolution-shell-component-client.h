@@ -95,6 +95,12 @@ void  evolution_shell_component_client_async_remove_folder  (EvolutionShellCompo
 							     const char                            *physical_uri,
 							     EvolutionShellComponentClientCallback  callback,
 							     void                                  *data);
+void  evolution_shell_component_client_async_xfer_folder    (EvolutionShellComponentClient         *shell_component_client,
+							     const char                            *source_physical_uri,
+							     const char                            *destination_physical_uri,
+							     gboolean                               remove_source,
+							     EvolutionShellComponentClientCallback  callback,
+							     void                                  *data);
 
 void  evolution_shell_component_client_populate_folder_context_menu  (EvolutionShellComponentClient *shell_component_client,
 								      BonoboUIComponent               *uih,
