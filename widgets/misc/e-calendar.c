@@ -93,8 +93,10 @@ static gboolean e_calendar_focus (GtkWidget *widget,
 
 static void e_calendar_on_prev_pressed	(ECalendar	*cal);
 static void e_calendar_on_prev_released	(ECalendar	*cal);
+static void e_calendar_on_prev_clicked  (ECalendar      *cal);
 static void e_calendar_on_next_pressed	(ECalendar	*cal);
 static void e_calendar_on_next_released	(ECalendar	*cal);
+static void e_calendar_on_next_clicked  (ECalendar      *cal);
 
 static void e_calendar_start_auto_move	(ECalendar	*cal,
 					 gboolean	 moving_forward);
@@ -165,6 +167,9 @@ e_calendar_init (ECalendar *cal)
 	gtk_signal_connect_object (GTK_OBJECT (button), "released",
 				   G_CALLBACK (e_calendar_on_prev_released),
 				   GTK_OBJECT (cal));
+	gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
+				   G_CALLBACK (e_calendar_on_prev_clicked),
+				   GTK_OBJECT (cal));
 
 	pixmap = gtk_arrow_new (GTK_ARROW_LEFT, GTK_SHADOW_NONE);
 	gtk_widget_show (pixmap);
@@ -183,6 +188,9 @@ e_calendar_init (ECalendar *cal)
 				   GTK_OBJECT (cal));
 	gtk_signal_connect_object (GTK_OBJECT (button), "released",
 				   G_CALLBACK (e_calendar_on_next_released),
+				   GTK_OBJECT (cal));
+	gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
+				   G_CALLBACK (e_calendar_on_next_clicked),
 				   GTK_OBJECT (cal));
 
 	pixmap = gtk_arrow_new (GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
@@ -442,9 +450,6 @@ static void
 e_calendar_start_auto_move	(ECalendar	*cal,
 				 gboolean	 moving_forward)
 {
-	ECalendarItem *calitem;
-	gint offset;
-
 	if (cal->timeout_id == 0) {
 		cal->timeout_id = g_timeout_add (E_CALENDAR_AUTO_MOVE_TIMEOUT,
 						 e_calendar_auto_move_handler,
@@ -453,10 +458,6 @@ e_calendar_start_auto_move	(ECalendar	*cal,
 	cal->timeout_delay = E_CALENDAR_AUTO_MOVE_TIMEOUT_DELAY;
 	cal->moving_forward = moving_forward;
 
-	calitem = cal->calitem;
-	offset = cal->moving_forward ? 1 : -1;
-	e_calendar_item_set_first_month (calitem, calitem->year,
-					 calitem->month + offset);
 }
 
 
@@ -508,6 +509,20 @@ e_calendar_stop_auto_move	(ECalendar	*cal)
 		gtk_timeout_remove (cal->timeout_id);
 		cal->timeout_id = 0;
 	}
+}
+
+static void
+e_calendar_on_prev_clicked      (ECalendar      *cal)
+{
+	e_calendar_item_set_first_month (cal->calitem, cal->calitem->year,
+		cal->calitem->month - 1);
+}
+
+static void
+e_calendar_on_next_clicked      (ECalendar      *cal)
+{
+	e_calendar_item_set_first_month (cal->calitem, cal->calitem->year,
+		cal->calitem->month + 1);
 }
 
 

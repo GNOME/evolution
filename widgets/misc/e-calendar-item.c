@@ -1624,8 +1624,12 @@ e_calendar_item_selection_add_days (ECalendarItem *calitem, gint n_days,
 
 	g_return_if_fail (E_IS_CALENDAR_ITEM (calitem));
 
-	if (!e_calendar_item_get_selection (calitem, &gdate_start, &gdate_end))
-		return;
+	if (!e_calendar_item_get_selection (calitem, &gdate_start, &gdate_end)) {
+		/* We set the date to the first day of the month */
+		g_date_set_dmy (&gdate_start, 1, calitem->month + 1, calitem->year);
+		gdate_end = gdate_start;
+	}
+
 	if (multi_selection && calitem->max_days_selected > 1) {
 		gint days_between;
 
@@ -2898,9 +2902,10 @@ e_calendar_item_set_selection_if_emission (ECalendarItem	*calitem,
 	    || calitem->selection_end_month_offset != new_end_month_offset
 	    || calitem->selection_end_day != new_end_day) {
 		need_update = TRUE;
-		calitem->selection_changed = TRUE;
-		if (emission)
+		if (emission) {
+			calitem->selection_changed = TRUE;
 			e_calendar_item_queue_signal_emission (calitem);
+		}
 		calitem->selection_set = TRUE;
 		calitem->selection_start_month_offset = new_start_month_offset;
 		calitem->selection_start_day = new_start_day;

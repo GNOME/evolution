@@ -1,3 +1,23 @@
+2003-12-04  Harry Lu <harry.lu@sun.com> 
+
+	Fix for bugzilla bug #51624 and #51627.
+
+	* e-calendar-item.c: (e_calendar_item_selection_add_days):
+	set the date to the first day of the month so that user can use
+	keyboard's arrow key to select a date.
+	(e_calendar_item_set_selection_if_emission): only set selection_changed
+	if emission is TRUE.
+	* e-calendar.c: (e_calendar_init): add back the "clicked" handler so
+	that user can use keyboard to click the button.
+	 (e_calendar_start_auto_move): no need to move since it is already 
+	handled by the clicked handler
+	(e_calendar_on_prev_clicked), (e_calendar_on_next_clicked): move the 
+	month here.
+	* e-dateedit.c: (e_date_edit_show_date_popup): use gdk_window_focus 
+	instead of gdk_keyboard_grab so that the focus won't lost if user click
+	the button with keyboard.
+	(hide_date_popup): no need to call gdk_keyboard_ungrab.
+
 2003-12-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-source-selector.c (init): Set the mode on the text cell
