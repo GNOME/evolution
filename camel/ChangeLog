@@ -1,4 +1,16 @@
+2002-03-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/pop3/camel-pop3-store.c (connect_to_server): No longer
+	takes a stls_supported argument since we no longer need it with
+	the new logic.
+	(connect_to_server_wrapper): New logic: First try connecting to
+	the SSL port (995 by default), if that fails with
+	SERVICE_UNAVAILABLE, then we attempt to connect (to port 110 by
+	default) and try to use STARTTLS.
+
 2002-03-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder.h: 
 
 	* camel-private.h: Don't allow any empty structs. If
 	!ENABLE_THREADS, provide a gpointer dummy member. Fixes bug #6382.

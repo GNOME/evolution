@@ -142,7 +142,7 @@ enum {
 };
 
 static gboolean
-connect_to_server (CamelService *service, int ssl_mode, int try_starttls, int *stls_support, CamelException *ex)
+connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelException *ex)
 {
 	CamelPOP3Store *store = CAMEL_POP3_STORE (service);
 	CamelStream *tcp_stream;
@@ -195,9 +195,6 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, int *s
 	
 #ifdef HAVE_SSL
 	if (store->engine) {
-		if (stls_support)
-			*stls_support = store->engine->capa & CAMEL_POP3_CAP_STLS;
-		
 		if (ssl_mode == USE_SSL_WHEN_POSSIBLE) {
 			if (store->engine->capa & CAMEL_POP3_CAP_STLS)
 				goto starttls;
@@ -289,15 +286,11 @@ static struct {
 	{ NULL,            USE_SSL_NEVER         },
 };
 
-#define EXCEPTION_RETRY(ex) (camel_exception_get_id (ex) != CAMEL_EXCEPTION_USER_CANCEL && \
-			     camel_exception_get_id (ex) != CAMEL_EXCEPTION_SERVICE_UNAVAILABLE)
-
 static gboolean
 connect_to_server_wrapper (CamelService *service, CamelException *ex)
 {
 #ifdef HAVE_SSL
 	const char *use_ssl;
-	int stls_supported;
 	int i, ssl_mode;
 	
 	use_ssl = camel_url_get_param (service->url, "use_ssl");
@@ -310,12 +303,12 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 		ssl_mode = USE_SSL_NEVER;
 	
 	if (ssl_mode == USE_SSL_ALWAYS) {
-		/* First try STARTTLS */
-		if (!connect_to_server (service, ssl_mode, TRUE, &stls_supported, ex)) {
-			if (!stls_supported && EXCEPTION_RETRY (ex)) {
-				/* STARTTLS is unavailable - okay, now try old-style SSL */
+		/* First try the ssl port */
+		if (!connect_to_server (service, ssl_mode, FALSE, ex)) {
+			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_SERVICE_UNAVAILABLE) {
+				/* The ssl port seems to be unavailable, lets try STARTTLS */
 				camel_exception_clear (ex);
-				return connect_to_server (service, ssl_mode, FALSE, NULL, ex);
+				return connect_to_server (service, ssl_mode, TRUE, ex);
 			} else {
 				return FALSE;
 			}
@@ -324,13 +317,13 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 		return TRUE;
 	} else if (ssl_mode == USE_SSL_WHEN_POSSIBLE) {
 		/* If the server supports STARTTLS, use it */
-		return connect_to_server (service, ssl_mode, TRUE, NULL, ex);
+		return connect_to_server (service, ssl_mode, TRUE, ex);
 	} else {
 		/* User doesn't care about SSL */
-		return connect_to_server (service, ssl_mode, FALSE, NULL, ex);
+		return connect_to_server (service, ssl_mode, FALSE, ex);
 	}
 #else
-	return connect_to_server (service, USE_SSL_NEVER, FALSE, NULL, ex);
+	return connect_to_server (service, USE_SSL_NEVER, FALSE, ex);
 #endif
 }
 
