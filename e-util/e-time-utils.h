@@ -48,6 +48,11 @@ void e_time_format_time				(struct tm	*date_tm,
 						 int		 buffer_size);
 
 
+/* Like mktime(3), but assumes UTC instead of local timezone. */
+time_t e_mktime_utc (struct tm *timeptr);
 
+/* Like localtime_r(3), but also returns an offset in minutes after UTC.
+   (Calling gmtime with tt + offset would generate the same tm) */
+void e_localtime_with_offset (time_t tt, struct tm *tm, int *offset);
 
 #endif /* E_TIME_UTILS */

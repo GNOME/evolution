@@ -1,3 +1,10 @@
+2002-09-04  Dan Winship  <danw@ximian.com>
+
+	* e-time-utils.c (e_mktime_utc): New. Like mktime(3), but assumes
+	the input time is UTC.
+	(e_localtime_with_offset): New. Like localtime_r(3), but also
+	returns an offset from UTC.
+
 2002-08-29  Dan Winship  <danw@ximian.com>
 
 	* e-list.c (e_list_destroy): Don't call g_list_foreach with the

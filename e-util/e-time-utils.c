@@ -10,13 +10,17 @@
 
 #include <config.h>
 
-/* We need this for strptime. */
-#define _XOPEN_SOURCE 500
-#define __USE_XOPEN
+#ifdef __linux__
+/* We need this to get a prototype for strptime. */
+#define _GNU_SOURCE
+#endif /* __linux__ */
+
 #include <time.h>
 #include <sys/time.h>
-#undef _XOPEN_SOURCE
-#undef __USE_XOPEN
+
+#ifdef __linux__
+#undef _GNU_SOURCE
+#endif /* __linux__ */
 
 #include <string.h>
 #include <ctype.h>
@@ -425,4 +429,51 @@ e_time_format_time			(struct tm	*date_tm,
 	   undefined, so we set it to the empty string in that case. */
 	if (strftime (buffer, buffer_size, format, date_tm) == 0)
 		buffer[0] = '\0';
+}
+
+
+/* Like mktime(3), but assumes UTC instead of local timezone. */
+time_t
+e_mktime_utc (struct tm *tm)
+{
+	time_t tt;
+
+	tm->tm_isdst = -1;
+	tt = mktime (tm);
+
+#if defined (HAVE_TM_GMTOFF)
+	tt += tm->tm_gmtoff;
+#elif defined (HAVE_TIMEZONE)
+	if (tm->tm_isdst > 0) {
+  #if defined (HAVE_ALTZONE)
+		tt -= altzone;
+  #else /* !defined (HAVE_ALTZONE) */
+		tt -= (timezone - 3600);
+  #endif
+	} else
+		tt -= timezone;
+#endif
+
+	return tt;
+}
+
+/* Like localtime_r(3), but also returns an offset in minutes after UTC.
+   (Calling gmtime with tt + offset would generate the same tm) */
+void
+e_localtime_with_offset (time_t tt, struct tm *tm, int *offset)
+{
+	localtime_r (&tt, tm);
+
+#if defined (HAVE_TM_GMTOFF)
+	*offset = tm->tm_gmtoff;
+#elif defined (HAVE_TIMEZONE)
+	if (tm->tm_isdst > 0) {
+  #if defined (HAVE_ALTZONE)
+		*offset = -altzone;
+  #else /* !defined (HAVE_ALTZONE) */
+		*offset = -(timezone - 3600);
+  #endif
+	} else
+		*offset = -timezone;
+#endif
 }
