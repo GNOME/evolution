@@ -9,7 +9,14 @@
 #include <config.h>
 #endif
 
+/* define this if you need/want to be able to send USR2 to wombat and
+   get a list of the active backends */
+/*#define DEBUG_BACKENDS*/
+
 #include <stdlib.h>
+#ifdef DEBUG_BACKENDS
+#include <sys/signal.h>
+#endif
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
@@ -220,6 +227,15 @@ init_bonobo (int *argc, char **argv)
 	}
 }
 
+#ifdef DEBUG_BACKENDS
+static void
+dump_backends (int signal)
+{
+	pas_book_factory_dump_active_backends (pas_book_factory);
+	cal_factory_dump_active_backends (cal_factory);
+}
+#endif
+
 int
 main (int argc, char **argv)
 {
@@ -229,6 +245,10 @@ main (int argc, char **argv)
 	textdomain (PACKAGE);
 
 	g_message ("Starting wombat");
+
+#ifdef DEBUG_BACKENDS
+	signal (SIGUSR2, dump_backends);
+#endif
 
 	init_bonobo (&argc, argv);
 	setup_vfs (argc, argv);
