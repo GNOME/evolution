@@ -1,3 +1,9 @@
+2001-10-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): Update to reflect API
+	changes to e_msg_composer_add_message_attachments().
+	(do_forward_non_attached): Same.
+
 2001-10-19    <NotZed@Ximian.com>
 
 	* mail-folder-cache.c (store_finalised): Free folders_uri.
