@@ -1,3 +1,17 @@
+2001-07-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (do_move): Only set p->copied and
+	p->deleted if the messages are copied without an exception.
+	(do_copy): Same - but obviously we don't set the p->deleted here
+	at all.
+	(camel_filter_driver_filter_message): Since users complained that
+	they couldn't filter deleted messages for "safe keeping" (WTF?
+	safe keeping? why were they deleted in the first place then??), I
+	have taken out the code that optimized filtering by not allowing
+	deleted messages to be filtered. This fixes bug #4473.
+
+	Note: Users have a warped sense of logic.
+
 2001-07-12  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-part-utils.c (extract_metatag_charset): Removed.

@@ -369,13 +369,15 @@ do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 			if (!outbox)
 				break;
 			
-			p->copied = TRUE;
 			if (p->uid && p->source && camel_folder_has_summary_capability (p->source)) {
 				GPtrArray *uids;
 				
 				uids = g_ptr_array_new ();
 				g_ptr_array_add (uids, (char *) p->uid);
 				camel_folder_copy_messages_to (p->source, uids, outbox, p->ex);
+				if (!camel_exception_is_set (p->ex))
+					p->copied = TRUE;
+				
 				g_ptr_array_free (uids, TRUE);
 			} else
 				camel_folder_append_message (outbox, p->message, p->info, p->ex);
@@ -406,15 +408,17 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 			if (!outbox)
 				break;
 			
-			p->copied = TRUE;
-			p->deleted = TRUE;  /* a 'move' is a copy & delete */
-			
 			if (p->uid && p->source && camel_folder_has_summary_capability (p->source)) {
 				GPtrArray *uids;
 				
 				uids = g_ptr_array_new ();
 				g_ptr_array_add (uids, (char *) p->uid);
 				camel_folder_copy_messages_to (p->source, uids, outbox, p->ex);
+				if (!camel_exception_is_set (p->ex)) {
+					/* a 'move' is a copy & delete */
+					p->copied = TRUE;
+					p->deleted = TRUE;
+				}
 				g_ptr_array_free (uids, TRUE);
 			} else
 				camel_folder_append_message (outbox, p->message, p->info, p->ex);
@@ -848,9 +852,6 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		
 		info = camel_message_info_new_from_header (h);
 		freeinfo = TRUE;
-	} else {
-		if (info->flags & CAMEL_MESSAGE_DELETED)
-			return 0;
 	}
 	
 	p->ex = ex;
@@ -861,6 +862,9 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	p->info = info;
 	p->uid = uid;
 	p->source = source;
+	
+	if (info->flags & CAMEL_MESSAGE_DELETED)
+		p->deleted = TRUE;
 	
 	if (original_source_url && camel_mime_message_get_source (message) == NULL)
 		camel_mime_message_set_source (message, original_source_url);
