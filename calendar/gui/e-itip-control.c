@@ -170,7 +170,7 @@ start_default_server (gboolean tasks)
 
 	client = cal_client_new ();
 
-	g_signal_connect (client, "cal_opened", start_calendar_server_cb, &success);
+	g_signal_connect (client, "cal_opened", G_CALLBACK (start_calendar_server_cb), &success);
 
 	if (tasks) {
 		if (!cal_client_open_default_tasks (client, FALSE))

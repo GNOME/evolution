@@ -1,3 +1,38 @@
+2003-01-23  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes some trivial, but distracting, warnings.
+
+	* gui/calendar-config.c (on_timezone_set): Fix constness.
+
+	* gui/e-timezone-entry.c (on_button_clicked): Fix constness.
+
+	* gui/dialogs/event-page.c (contacts_changed_cb): Fix constness.
+
+	* gui/dialogs/task-page.c (contacts_changed_cb): Fix constness.
+
+	* gui/e-itip-control.c (start_default_server): Cast callback with
+	G_CALLBACK ().
+
+	* gui/dialogs/schedule-page.c (init_widgets): Cast callback with
+	G_CALLBACK ().
+
+	* gui/calendar-offline-handler.c (impl_dispose): Takes GObject,
+	not GtkObject.
+	(impl_finalize): Ditto.
+
+	* gui/calendar-view.c (calendar_view_edit): Now takes parent window
+	as second arg.
+
+	* gui/e-meeting-model.c (select_names_ok_cb): Fix constness.
+	(get_select_name_dialog): Cast callback to BonoboListenerCallbackFn.
+
+	* gui/e-meeting-time-sel.c
+	(e_meeting_time_selector_options_menu_position_callback): Add the
+	push_in arg to arg list. This was crash-prone before.
+	(e_meeting_time_selector_autopick_menu_position_callback): Ditto.
+
+	* gui/alarm-notify/alarm-notify-dialog.c: Include e-unicode.h.
+
 2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/Makefile.am (componentdir): Removed definition; this is now

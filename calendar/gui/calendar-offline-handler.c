@@ -212,7 +212,7 @@ impl_goOnline (PortableServer_Servant servant,
 /* GObject methods.  */
 
 static void
-impl_dispose (GtkObject *object)
+impl_dispose (GObject *object)
 {
 	CalendarOfflineHandler *offline_handler;
 	CalendarOfflineHandlerPrivate *priv;
@@ -233,7 +233,7 @@ impl_dispose (GtkObject *object)
 }
 
 static void
-impl_finalize (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	CalendarOfflineHandler *offline_handler;
 	CalendarOfflineHandlerPrivate *priv;

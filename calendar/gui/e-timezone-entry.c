@@ -199,17 +199,20 @@ on_button_clicked		(GtkWidget	*widget,
 	ETimezoneEntryPrivate *priv;
 	ETimezoneDialog *timezone_dialog;
 	GtkWidget *dialog;
-	char *tzid = NULL, *display_name, *old_display_name;
+	char *tzid = NULL;
+	const gchar *old_display_name;
+	const gchar *display_name;
 
 	priv = tentry->priv;
-
 	display_name = gtk_entry_get_text (GTK_ENTRY (priv->entry));
 
 	if (priv->zone)
 		tzid = icaltimezone_get_tzid (priv->zone);
 
 	timezone_dialog = e_timezone_dialog_new ();
-	e_timezone_dialog_set_timezone (timezone_dialog, tzid, display_name);
+
+	/* e_timezone_dialog_set_timezone() should really take (const gchar *) */
+	e_timezone_dialog_set_timezone (timezone_dialog, tzid, (gchar *) display_name);
 
 	dialog = e_timezone_dialog_get_toplevel (timezone_dialog);
 
@@ -245,7 +248,7 @@ icaltimezone*
 e_timezone_entry_get_timezone		(ETimezoneEntry	*tentry)
 {
 	ETimezoneEntryPrivate *priv;
-	char *display_name;
+	const char *display_name;
 
 	g_return_val_if_fail (E_IS_TIMEZONE_ENTRY (tentry), NULL);
 

@@ -122,8 +122,8 @@ static gboolean refresh_busy_periods (gpointer data);
 
 static void attendee_changed_cb (EMeetingAttendee *ia, gpointer data);
 static void select_names_ok_cb (BonoboListener    *listener,
-				char              *event_name,
-				CORBA_any         *arg,
+				const char        *event_name,
+				const CORBA_any   *arg,
 				CORBA_Environment *ev,
 				gpointer           data);
 
@@ -1705,7 +1705,7 @@ get_select_name_dialog (EMeetingModel *im)
 		add_section (priv->corba_select_names, sections[i]);
 
 	bonobo_event_source_client_add_listener (priv->corba_select_names,
-						 select_names_ok_cb,
+						 (BonoboListenerCallbackFn) select_names_ok_cb,
 						 "GNOME/Evolution:ok:dialog",
 						 NULL, im);
 	
@@ -1767,8 +1767,8 @@ process_section (EMeetingModel *im, EDestination **destv, icalparameter_role rol
 
 static void
 select_names_ok_cb (BonoboListener    *listener,
-		    char              *event_name,
-		    CORBA_any         *arg,
+		    const char        *event_name,
+		    const CORBA_any   *arg,
 		    CORBA_Environment *ev,
 		    gpointer           data)
 {

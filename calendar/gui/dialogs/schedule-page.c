@@ -379,7 +379,7 @@ init_widgets (SchedulePage *spage)
 	priv = spage->priv;
 
 	g_signal_connect((priv->sel), 
-			    "changed", times_changed_cb, spage);
+			    "changed", G_CALLBACK (times_changed_cb), spage);
 
 	return TRUE;
 	

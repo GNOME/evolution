@@ -675,7 +675,7 @@ on_timezone_set			(GnomeDialog	*dialog,
 				 int		 button,
 				 ETimezoneDialog *etd)
 {
-	char *display_name;
+	const char *display_name;
 	icaltimezone *zone;
 
 	e_timezone_dialog_get_timezone (etd, &display_name);

@@ -264,8 +264,8 @@ classification_get (GtkWidget *widget)
 
 static void
 contacts_changed_cb (BonoboListener    *listener,
-		     char              *event_name,
-		     CORBA_any         *arg,
+		     const char        *event_name,
+		     const CORBA_any   *arg,
 		     CORBA_Environment *ev,
 		     gpointer           data)
 {

@@ -144,6 +144,7 @@ static void e_meeting_time_selector_on_options_button_clicked (GtkWidget *button
 static void e_meeting_time_selector_options_menu_position_callback (GtkMenu *menu,
 								    gint *x,
 								    gint *y,
+								    gboolean *push_in,
 								    gpointer user_data);
 static void e_meeting_time_selector_on_zoomed_out_toggled (GtkWidget *button,
 							   EMeetingTimeSelector *mts);
@@ -161,6 +162,7 @@ static void e_meeting_time_selector_on_autopick_button_clicked (GtkWidget *butto
 static void e_meeting_time_selector_autopick_menu_position_callback (GtkMenu *menu,
 								     gint *x,
 								     gint *y,
+								     gboolean *push_in,
 								     gpointer user_data);
 static void e_meeting_time_selector_on_autopick_option_toggled (GtkWidget *button,
 								EMeetingTimeSelector *mts);
@@ -1406,6 +1408,7 @@ static void
 e_meeting_time_selector_options_menu_position_callback (GtkMenu *menu,
 							gint *x,
 							gint *y,
+							gboolean *push_in,
 							gpointer user_data)
 {
 	EMeetingTimeSelector *mts;
@@ -1453,6 +1456,7 @@ static void
 e_meeting_time_selector_autopick_menu_position_callback (GtkMenu *menu,
 							 gint *x,
 							 gint *y,
+							 gboolean *push_in,
 							 gpointer user_data)
 {
 	EMeetingTimeSelector *mts;
