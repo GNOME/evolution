@@ -437,6 +437,8 @@ init_collection (void)
 	if (collection == NULL) {
 		collection = gal_view_collection_new();
 
+		gal_view_collection_set_title (collection, _("Addressbook"));
+
 		galview = gnome_util_prepend_user_home("/evolution/views/addressbook/");
 		gal_view_collection_set_storage_directories
 			(collection,

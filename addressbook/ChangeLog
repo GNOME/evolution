@@ -1,3 +1,8 @@
+2002-06-04  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (init_collection): Set the
+	title of our GalVIewCollection.
+
 2002-05-29  Anna Marie Dirks  <anna@ximian.com>
 
 	* gui/component/select-names/select-names.glade: Changed some spacing 
