@@ -1,6 +1,0 @@
-.libs
-Makefile.in
-Makefile
-.deps
-libcalutil.la
-*.lo
