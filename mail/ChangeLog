@@ -1,3 +1,16 @@
+2000-12-21  Iain Holmes  <iain@helixcode.com>
+
+	* mail-summary.c: Added code to detect and regenerate the summary
+	when a new vfolder is created or removed.
+
+	* mail-vfolder.c: Export the vfolder_storage variable, so that
+	the summary can add a listener to it.
+
+2000-12-05  Iain Holmes  <iain@helixcode.com>
+
+	* component-factory.c (factory_destroy): Wait till all views have
+	gone and then destroy both factories.
+
 2000-12-21  Dan Winship  <danw@helixcode.com>
 
 	* mail-display.c (pixbuf_for_mime_type): Deal with the possibility
@@ -119,7 +132,6 @@
 	(mail_crypto_openpgp_verify): New openpgp function to verify a
 	signature.
 
->>>>>>> 1.789
 2000-12-14  Christopher James Lahey  <clahey@helixcode.com>
 
 	* mail-threads.c (update_active_views): Unref the iterator when

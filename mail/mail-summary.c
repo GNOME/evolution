@@ -38,6 +38,7 @@
 
 #include "Evolution.h"
 #include "evolution-storage.h"
+#include "evolution-storage-listener.h"
 
 #include "filter/vfolder-context.h"
 
@@ -55,6 +56,7 @@ typedef struct {
 typedef struct {
 	BonoboObject *component;
 	BonoboObject *view;
+	EvolutionStorageListener *listener;
 
 	GHashTable *folder_to_summary;
 	FolderSummary **folders;
@@ -62,6 +64,8 @@ typedef struct {
 
 	char *title;
 	char *icon;
+
+	guint idle;
 } MailSummary;
 
 #define SUMMARY_IN() g_print ("IN: %s: %d\n", __FUNCTION__, __LINE__);
@@ -70,6 +74,7 @@ typedef struct {
 static int queue_len = 0;
 
 extern char *evolution_dir;
+extern EvolutionStorage *vfolder_storage;
 
 #define MAIN_READER main_compipe[0]
 #define MAIN_WRITER main_compipe[1]
@@ -81,7 +86,7 @@ static int dispatch_compipe[2] = {-1, -1};
 
 GIOChannel *summary_chan_reader = NULL;
 
-static void do_changed (MailSummary *summary);
+static gboolean do_changed (MailSummary *summary);
 
 enum {
 	PROPERTY_TITLE,
@@ -134,7 +139,6 @@ check_compipes (void)
 	}
 }
 
-#if 0
 static void
 folder_free (FolderSummary *folder)
 {
@@ -156,8 +160,6 @@ summary_free (MailSummary *summary)
 	g_free (summary->icon);
 
 	g_hash_table_destroy (summary->folder_to_summary);
-	bonobo_object_unref (summary->view);
-	bonobo_object_unref (summary->component);
 }
 
 static void
@@ -167,7 +169,6 @@ view_destroy_cb (GtkObject *object,
 	summary_free (summary);
 	g_free (summary);
 }
-#endif
 
 static char *
 generate_html_summary (MailSummary *summary)
@@ -205,7 +206,7 @@ generate_html_summary (MailSummary *summary)
 	return ret_html;
 }
 	
-static void
+static gboolean
 do_changed (MailSummary *summary)
 {
 	char *ret_html;
@@ -213,6 +214,9 @@ do_changed (MailSummary *summary)
 	ret_html = generate_html_summary (summary);
 	executive_summary_html_view_set_html(EXECUTIVE_SUMMARY_HTML_VIEW(summary->view), (const char *) ret_html);
 	g_free (ret_html);
+
+	summary->idle = 0;
+	return TRUE;
 }
 
 /* These two callbacks are called from the Camel thread,
@@ -301,6 +305,16 @@ generate_folder_summaries (MailSummary *summary)
 		numfolders++;
 	}
 
+	if (summary->folders != NULL) {
+		int i;
+		
+		for (i = 0; i < summary->numfolders; i++){
+			folder_free (summary->folders[i]);
+		}
+		
+		g_free (summary->folders);
+	}
+
 	summary->folders = g_new (FolderSummary *, numfolders);
 
 	/* Inbox */
@@ -335,7 +349,7 @@ generate_folder_summaries (MailSummary *summary)
 		fs->name = g_strdup (rule->name);
 
 		uri = g_strconcat ("vfolder:", rule->name, NULL);
-		mail_tool_camel_lock_up ();
+/*  		mail_tool_camel_lock_up (); */
 		fs->folder = vfolder_uri_to_folder (uri, ex);
 		fs->uri = g_strconcat ("evolution:/VFolders/", rule->name, NULL);
 		g_free (uri);
@@ -356,7 +370,7 @@ generate_folder_summaries (MailSummary *summary)
 		summary->numfolders++;
 
 		camel_exception_free (ex);
-		mail_tool_camel_lock_down ();
+/*  		mail_tool_camel_lock_down (); */
 	}
 
 	gtk_object_destroy (GTK_OBJECT (context));
@@ -384,16 +398,51 @@ get_property (BonoboPropertyBag *bag,
 	}
 }
 
+/* This code may play with the threads wrongly...
+   if the mail component locks when you use the summary
+   remove this define */
+#define DETECT_NEW_VFOLDERS
+#ifdef DETECT_NEW_VFOLDERS
+static void
+new_folder_cb (EvolutionStorageListener *listener,
+	       const char *path,
+	       const GNOME_Evolution_Folder *folder,
+	       MailSummary *summary)
+{
+	generate_folder_summaries (summary);
+	write (MAIN_WRITER, summary, sizeof (MailSummary));
+	queue_len++;
+
+	g_print ("New folder: %s\n", path);
+}
+
+static void
+removed_folder_cb (EvolutionStorageListener *listener,
+		   const char *path,
+		   MailSummary *summary)
+{
+	generate_folder_summaries (summary);
+	write (MAIN_WRITER, summary, sizeof (MailSummary));
+	queue_len++;
+
+	g_print ("Removed folder: %s\n", path);
+}
+#endif
+
 BonoboObject *
 create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 		     void *closure)
 {
+	GNOME_Evolution_Storage *corba_local_objref;
+	GNOME_Evolution_StorageListener *corba_object;
+	CORBA_Environment ev;
 	BonoboObject *component, *view;
 	BonoboPropertyBag *bag;
 	char *html;
 	MailSummary *summary;
 
 	summary = g_new (MailSummary, 1);
+	summary->folders = 0;
 	summary->folder_to_summary = g_hash_table_new (NULL, NULL);
 	summary->title = g_strdup ("Mail Summary");
 	summary->icon = g_strdup ("envelope.png");
@@ -412,6 +461,8 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 					      html);
 	bonobo_object_add_interface (component, view);
 	summary->view = view;
+	gtk_signal_connect (GTK_OBJECT (view), "destroy",
+			    GTK_SIGNAL_FUNC (view_destroy_cb), summary);
 
 	bag = bonobo_property_bag_new (get_property, NULL, summary);
 	bonobo_property_bag_add (bag,
@@ -426,6 +477,26 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 				 BONOBO_PROPERTY_READABLE);
 	bonobo_object_add_interface (component, BONOBO_OBJECT(bag));
 	g_free (html);
+
+#ifdef DETECT_NEW_VFOLDERS 
+	summary->listener = evolution_storage_listener_new ();
+	gtk_signal_connect (GTK_OBJECT (summary->listener), "new_folder",
+			    GTK_SIGNAL_FUNC (new_folder_cb), summary);
+	gtk_signal_connect (GTK_OBJECT (summary->listener), "removed_folder",
+			    GTK_SIGNAL_FUNC (removed_folder_cb), summary);
+
+	corba_object = evolution_storage_listener_corba_objref (summary->listener);
+
+	CORBA_exception_init (&ev);
+	corba_local_objref = bonobo_object_corba_objref (BONOBO_OBJECT (vfolder_storage));
+
+	GNOME_Evolution_Storage_addListener (corba_local_objref,
+					     corba_object, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("Cannot add a listener to the vfolder storage.");
+	}
+	CORBA_exception_free (&ev);
+#endif
 
 	return component;
 }

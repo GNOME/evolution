@@ -37,7 +37,9 @@ struct _vfolder_info {
 /* list of vfolders available */
 static GList *available_vfolders = NULL;
 static VfolderContext *context;
-static EvolutionStorage *vfolder_storage;
+
+/* Ditto below */
+EvolutionStorage *vfolder_storage;
 
 /* GROSS HACK: for passing to other parts of the program */
 EvolutionShellClient *global_shell_client = NULL;

@@ -169,6 +169,8 @@ idle_quit (gpointer user_data)
 	if (e_list_length (folder_browser_factory_get_control_list ()))
 		return TRUE;
 
+	bonobo_object_unref (BONOBO_OBJECT (summary_factory));
+	bonobo_object_unref (BONOBO_OBJECT (component_factory));
 	g_hash_table_foreach (storages_hash, free_storage, NULL);
 	g_hash_table_destroy (storages_hash);
 
