@@ -202,6 +202,7 @@ void main(void)
 #include "camel-charset-map.h"
 #include "camel-charset-map-private.h"
 #include <unicode.h>
+#include <locale.h>
 #include <glib.h>
 
 void camel_charset_init(CamelCharset *c)
@@ -282,6 +283,40 @@ camel_charset_best(const char *in, int len)
 	return camel_charset_best_name(&charset);
 }
 
+char *
+camel_charset_locale_name (void)
+{
+	char *locale, *charset;
+	
+	locale = setlocale (LC_ALL, NULL);
+	
+	if (!locale || !strcmp (locale, "C") || !strcmp (locale, "POSIX")) {
+		/* The locale "C"  or  "POSIX"  is  a  portable  locale;  its
+		 * LC_CTYPE  part  corresponds  to  the 7-bit ASCII character
+		 * set.
+		 */
+		
+		return NULL;
+	} else {
+		/* A locale name is typically of  the  form  language[_terri-
+		 * tory][.codeset][@modifier],  where  language is an ISO 639
+		 * language code, territory is an ISO 3166 country code,  and
+		 * codeset  is  a  character  set or encoding identifier like
+		 * ISO-8859-1 or UTF-8.
+		 */
+		char *p;
+		int len;
+		
+		p = strchr (locale, '@');
+		len = p ? (p - locale) : strlen (locale);
+		if ((p = strchr (locale, '.'))) {
+			charset = g_strndup (p + 1, len - (p - locale) + 1);
+			g_strdown (charset);
+		}
+	}
+	
+	return charset;
+}
 
 #endif /* !BUILD_MAP */
 

@@ -286,7 +286,7 @@ decode_quoted_string (const char **in)
 			}
 			*outptr++ = c;
 		}
-		*outptr = 0;
+		*outptr = '\0';
 	}
 	
 	*in = inptr;
@@ -696,11 +696,12 @@ digest_response (struct _DigestResponse *resp)
 		const char *buf;
 		iconv_t cd;
 		
-		charset = getenv ("CHARSET");
+		charset = camel_charset_locale_name ();
 		if (!charset)
-			charset = "ISO-8859-1";
+			charset = g_strdup ("iso-8859-1");
 		
 		cd = iconv_open (resp->charset, charset);
+		g_free (charset);
 		
 		len = strlen (resp->username);
 		outlen = 2 * len; /* plenty of space */
@@ -708,6 +709,11 @@ digest_response (struct _DigestResponse *resp)
 		outbuf = username = g_malloc0 (outlen + 1);
 		buf = resp->username;
 		if (cd == (iconv_t) -1 || iconv (cd, &buf, &len, &outbuf, &outlen) == -1) {
+			/* We can't convert to UTF-8 - pretend we never got a charset param? */
+			g_free (resp->charset);
+			resp->charset = NULL;
+			
+			/* Set the username to the non-UTF-8 version */
 			g_free (username);
 			username = g_strdup (resp->username);
 		}
@@ -716,6 +722,7 @@ digest_response (struct _DigestResponse *resp)
 			iconv_close (cd);
 		
 		g_byte_array_append (buffer, username, strlen (username));
+		g_free (username);
 	} else {
 		g_byte_array_append (buffer, resp->username, strlen (resp->username));
 	}

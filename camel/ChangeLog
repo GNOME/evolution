@@ -1,5 +1,16 @@
 2001-04-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-sasl-digest-md5.c (digest_response): Use
+	camel_charset_locale_name() to get the locale charset rather than
+	checking the CHARSET environment variable. This is a much less
+	ugly hack. Also: If we fail to be able to convert to UTF8, then
+	disavow all knowledge of the charset parameter.
+
+	* camel-charset-map.c (camel_charset_locale_name): New function to
+	return the locale charset (or NULL if US-ASCII).
+
+2001-04-11  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-pgp-context.c (camel_pgp_verify): Use
 	e_utf8_from_locale_string() rather than trying to do it manually
 	since Lauris's version works much better.

@@ -35,4 +35,6 @@ const char *camel_charset_best_name(CamelCharset *);
 /* helper function */
 const char *camel_charset_best(const char *in, int len);
 
+char *camel_charset_locale_name (void);
+
 #endif /* ! _CAMEL_CHARSET_MAP_H */
