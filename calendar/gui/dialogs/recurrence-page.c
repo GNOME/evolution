@@ -606,6 +606,12 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 
 	type = e_dialog_radio_get (priv->none, type_map);
 
+	/* We can't preview that well for instances right now */
+	if (cal_component_is_instance (priv->comp))
+		gtk_widget_set_sensitive (priv->preview_calendar, FALSE);
+	else
+		gtk_widget_set_sensitive (priv->preview_calendar, TRUE);
+
 	if (GTK_BIN (priv->custom_warning_bin)->child)
 		gtk_widget_destroy (GTK_BIN (priv->custom_warning_bin)->child);
 
@@ -932,7 +938,7 @@ preview_recur (RecurrencePage *rpage)
 	/* If our component has not been set yet through ::fill_widgets(), we
 	 * cannot preview the recurrence.
 	 */
-	if (!priv->comp)
+	if (!priv->comp || cal_component_is_instance (priv->comp))
 		return;
 
 	/* Create a scratch component with the start/end and
