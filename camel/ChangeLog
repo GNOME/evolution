@@ -1,3 +1,8 @@
+2002-06-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c (gpg_ctx_op_step): Loop on our reads while
+	errno is EINTR or EAGAIN.
+
 2002-06-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-context.[c,h]: Removed.

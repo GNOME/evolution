@@ -251,7 +251,7 @@ struct _GpgCtx {
 	
 	unsigned int complete:1;
 	unsigned int await_read:1;
-	unsigned int reading:1;
+	unsigned int reading:2;
 	unsigned int always_trust:1;
 	unsigned int armor:1;
 	unsigned int need_passwd:1;
@@ -262,7 +262,7 @@ struct _GpgCtx {
 	unsigned int validsig:1;
 	unsigned int trust:3;
 	
-	unsigned int padding:19;
+	unsigned int padding:18;
 };
 
 static struct _GpgCtx *
@@ -277,7 +277,7 @@ gpg_ctx_new (CamelSession *session, const char *path)
 	gpg->userid_hint = g_hash_table_new (g_str_hash, g_str_equal);
 	gpg->complete = FALSE;
 	gpg->await_read = FALSE;
-	gpg->reading = FALSE;
+	gpg->reading = 0;
 	gpg->pid = (pid_t) -1;
 	
 	gpg->path = g_strdup (path);
@@ -937,7 +937,9 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		
 		d(printf ("reading from gpg's status-fd...\n"));
 		
-		nread = read (gpg->status_fd, buffer, sizeof (buffer));
+		do {
+			nread = read (gpg->status_fd, buffer, sizeof (buffer));
+		} while (nread == -1 && (errno == EINTR || errno == EAGAIN));
 		if (nread == -1)
 			goto exception;
 		
@@ -949,14 +951,16 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		}
 	}
 	
-	gpg->reading = FALSE;
+	gpg->reading--;
 	if (FD_ISSET (gpg->stdout, &rdset) && gpg->ostream) {
 		char buffer[4096];
 		ssize_t nread;
 		
 		d(printf ("reading gpg's stdout...\n"));
 		
-		nread = read (gpg->stdout, buffer, sizeof (buffer));
+		do {
+			nread = read (gpg->stdout, buffer, sizeof (buffer));
+		} while (nread == -1 && (errno == EINTR || errno == EAGAIN));
 		if (nread == -1)
 			goto exception;
 		
@@ -967,7 +971,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 			gpg->await_read = FALSE;
 			
 			/* make sure we don't exit before reading all the data... */
-			gpg->reading = TRUE;
+			gpg->reading = 3;
 		}
 	}
 	
@@ -977,11 +981,18 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		
 		d(printf ("reading gpg's stderr...\n"));
 		
-		nread = read (gpg->stderr, buffer, sizeof (buffer));
+		do {
+			nread = read (gpg->stderr, buffer, sizeof (buffer));
+		} while (nread == -1 && (errno == EINTR || errno == EAGAIN));
 		if (nread == -1)
 			goto exception;
 		
-		g_byte_array_append (gpg->diagnostics, buffer, nread);
+		if (nread > 0) {
+			g_byte_array_append (gpg->diagnostics, buffer, nread);
+			
+			/* make sure we don't exit before reading all the data... */
+			gpg->reading = 3;
+		}
 	}
 	
 	if (wrsetp && gpg->passwd_fd != -1 && FD_ISSET (gpg->passwd_fd, &wrset) && gpg->need_passwd && gpg->send_passwd) {
