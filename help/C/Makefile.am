@@ -32,7 +32,7 @@ dist-hook:
 	mkdir $(distdir)/evolution/stylesheet-images
 	-cp evolution/stylesheet-images/* $(distdir)/evolution/stylesheet-images
 
-install-data-local: evolution
+install-data-local: evolution-guide
 	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)
 	-for file in $(srcdir)/evolution/*.html $(srcdir)/evolution/*.css; do \
 		basefile=`basename $$file`; \

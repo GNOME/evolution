@@ -1,3 +1,8 @@
+2001-04-23  Jon Trowbridge  <trow@ximian.com>
+
+	* C/Makefile.am (install-data-local): Changed dependency for
+	install-data-local from "evolution" to "evolution-guide".
+
 2001-04-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* C/Makefile.am (evolution-guide): Use `$(srcdir)' here.
