@@ -1,5 +1,22 @@
 2003-12-16  Rodrigo Moya <rodrigo@ximian.com>
 
+	Fixes part of #41237
+	
+	* gui/e-calendar-table.c: use GtkClipboard instead of GtkInvisible
+	for cut/copy/paste.
+	(selection_clear_event, selection_received, selection_get): removed
+	unneeded functions.
+	(e_calendar_table_init): don't create the invisible widget.
+	(e_calendar_table_copy_clipboard): use gtk_clipboard_set_text().
+	(e_calendar_table_paste_clipboard): use gtk_clipboard_request_text().
+	(clipboard_get_text_cb): callback for gtk_clipboard_request_text().
+
+	* gui/e-cal-view.c (e_calendar_view_init, e_calendar_view_destroy,
+	e_calendar_view_copy_clipboard): no need anymore to keep the last
+	clipboard selection, GtkClipboard does it for us.
+
+2003-12-16  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/alarm-notify/notify-main.c (alarm_notify_factory_fn): return
 	a reference to the alarm_notify_service, not NULL and ref the object
 	before returning it.

@@ -57,9 +57,7 @@ struct _ECalendarTable {
 	/* The ECell used to view & edit dates. */
 	ECellDateEdit *dates_cell;
 
-	/* The invisible widget used for cut/copy/paste */
-	GtkWidget *invisible;
-	gchar *clipboard_selection;
+	/* Fields used for cut/copy/paste */
 	icalcomponent *tmp_vcal;
 
 	/* Activity ID for the EActivityHandler (i.e. the status bar).  */

@@ -63,9 +63,6 @@ struct _ECalendarViewPrivate {
 	/* Current activity (for the EActivityHandler, i.e. the status bar).  */
 	guint activity_id;
 
-	/* clipboard selections */
-	gchar *clipboard_selection;
-
 	/* The popup menu */
 	EPopupMenu *view_menu;
 
@@ -341,8 +338,6 @@ e_calendar_view_init (ECalendarView *cal_view, ECalendarViewClass *klass)
 			  G_CALLBACK (model_rows_changed_cb), cal_view);
 	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_rows_deleted",
 			  G_CALLBACK (model_rows_changed_cb), cal_view);
-
-	cal_view->priv->clipboard_selection = NULL;
 }
 
 static void
@@ -359,11 +354,6 @@ e_calendar_view_destroy (GtkObject *object)
 							      0, 0, NULL, NULL, cal_view);
 			g_object_unref (cal_view->priv->model);
 			cal_view->priv->model = NULL;
-		}
-
-		if (cal_view->priv->clipboard_selection) {
-			g_free (cal_view->priv->clipboard_selection);
-			cal_view->priv->clipboard_selection = NULL;
 		}
 
 		if (cal_view->priv->default_category) {
@@ -674,9 +664,6 @@ e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 
 	/* copy the VCALENDAR to the clipboard */
 	comp_str = icalcomponent_as_ical_string (vcal_comp);
-	if (cal_view->priv->clipboard_selection != NULL)
-		g_free (cal_view->priv->clipboard_selection);
-	cal_view->priv->clipboard_selection = g_strdup (comp_str);
 	gtk_clipboard_set_text (gtk_widget_get_clipboard (GTK_WIDGET (cal_view), clipboard_atom),
 				(const gchar *) comp_str,
 				g_utf8_strlen (comp_str, -1));

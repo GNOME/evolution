@@ -31,7 +31,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <gnome.h>
-#include <gtk/gtkinvisible.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/e-table/e-cell-checkbox.h>
 #include <gal/e-table/e-cell-toggle.h>
@@ -106,18 +105,6 @@ static gint e_calendar_table_on_key_press	(ETable		*table,
 						 GdkEventKey	*event,
 						 ECalendarTable *cal_table);
 
-static void selection_clear_event               (GtkWidget *invisible,
-						 GdkEventSelection *event,
-						 ECalendarTable *cal_table);
-static void selection_received                  (GtkWidget *invisible,
-						 GtkSelectionData *selection_data,
-						 guint time,
-						 ECalendarTable *cal_table);
-static void selection_get                       (GtkWidget *invisible,
-						 GtkSelectionData *selection_data,
-						 guint info,
-						 guint time_stamp,
-						 ECalendarTable *cal_table);
 static struct tm e_calendar_table_get_current_time (ECellDateEdit *ecde,
 						    gpointer data);
 static void mark_row_complete_cb (int model_row, gpointer data);
@@ -531,21 +518,6 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	g_signal_connect (e_table, "right_click", G_CALLBACK (e_calendar_table_on_right_click), cal_table);
 	g_signal_connect (e_table, "key_press", G_CALLBACK (e_calendar_table_on_key_press), cal_table);
 	g_signal_connect (e_table, "popup_menu", G_CALLBACK (e_calendar_table_on_popup_menu), cal_table);
-
-	/* Set up the invisible widget for the clipboard selections */
-	cal_table->invisible = gtk_invisible_new ();
-	gtk_selection_add_target (cal_table->invisible,
-				  clipboard_atom,
-				  GDK_SELECTION_TYPE_STRING,
-				  0);
-	g_signal_connect (cal_table->invisible, "selection_get",
-			  G_CALLBACK (selection_get), cal_table);
-	g_signal_connect (cal_table->invisible, "selection_clear_event",
-			  G_CALLBACK (selection_clear_event), cal_table);
-	g_signal_connect (cal_table->invisible, "selection_received",
-			  G_CALLBACK (selection_received), cal_table);
-
-	cal_table->clipboard_selection = NULL;
 }
 
 
@@ -594,15 +566,6 @@ e_calendar_table_destroy (GtkObject *object)
 	if (cal_table->model) {
 		g_object_unref (cal_table->model);
 		cal_table->model = NULL;
-	}
-	
-	if (cal_table->invisible) {
-		gtk_widget_destroy (cal_table->invisible);
-		cal_table->invisible = NULL;
-	}
-	if (cal_table->clipboard_selection) {
-		g_free (cal_table->clipboard_selection);
-		cal_table->clipboard_selection = NULL;
 	}
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
@@ -838,23 +801,96 @@ e_calendar_table_copy_clipboard (ECalendarTable *cal_table)
 	
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
-	if (cal_table->clipboard_selection) {
-		g_free (cal_table->clipboard_selection);
-		cal_table->clipboard_selection = NULL;
-	}
-
 	/* create temporary VCALENDAR object */
 	cal_table->tmp_vcal = e_cal_util_new_top_level ();
 
 	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
 	e_table_selected_row_foreach (etable, copy_row_cb, cal_table);
-
 	comp_str = icalcomponent_as_ical_string (cal_table->tmp_vcal);
-	cal_table->clipboard_selection = g_strdup (comp_str);
+	gtk_clipboard_set_text (gtk_widget_get_clipboard (GTK_WIDGET (cal_table), clipboard_atom),
+				(const char *) comp_str,
+				g_utf8_strlen (comp_str, -1));
+	
+	/* free memory */
 	icalcomponent_free (cal_table->tmp_vcal);
 	cal_table->tmp_vcal = NULL;
+}
 
-	gtk_selection_owner_set (cal_table->invisible, clipboard_atom, GDK_CURRENT_TIME);
+static void
+clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarTable *cal_table)
+{
+	char *comp_str;
+	icalcomponent *icalcomp;
+	char *uid;
+	ECalComponent *comp;
+	ECal *client;
+	icalcomponent_kind kind;
+
+	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+
+	comp_str = (char *) text;
+	icalcomp = icalparser_parse_string ((const char *) comp_str);
+	if (!icalcomp)
+		return;
+
+	/* check the type of the component */
+	kind = icalcomponent_isa (icalcomp);
+	if (kind != ICAL_VCALENDAR_COMPONENT &&
+	    kind != ICAL_VEVENT_COMPONENT &&
+	    kind != ICAL_VTODO_COMPONENT &&
+	    kind != ICAL_VJOURNAL_COMPONENT) {
+		return;
+	}
+
+	client = e_cal_model_get_default_client (cal_table->model);
+	
+	e_calendar_table_set_status_message (cal_table, _("Updating objects"));
+
+	if (kind == ICAL_VCALENDAR_COMPONENT) {
+		icalcomponent_kind child_kind;
+		icalcomponent *subcomp;
+		icalcomponent *vcal_comp;
+
+		vcal_comp = icalcomp;
+		subcomp = icalcomponent_get_first_component (
+			vcal_comp, ICAL_ANY_COMPONENT);
+		while (subcomp) {
+			child_kind = icalcomponent_isa (subcomp);
+			if (child_kind == ICAL_VEVENT_COMPONENT ||
+			    child_kind == ICAL_VTODO_COMPONENT ||
+			    child_kind == ICAL_VJOURNAL_COMPONENT) {
+				ECalComponent *tmp_comp;
+
+				uid = e_cal_component_gen_uid ();
+				tmp_comp = e_cal_component_new ();
+				e_cal_component_set_icalcomponent (
+					tmp_comp, icalcomponent_new_clone (subcomp));
+				e_cal_component_set_uid (tmp_comp, uid);
+				free (uid);
+
+				/* FIXME should we convert start/due/complete times? */
+				/* FIXME Error handling */
+				e_cal_create_object (client, e_cal_component_get_icalcomponent (tmp_comp), NULL, NULL);
+
+				g_object_unref (tmp_comp);
+			}
+			subcomp = icalcomponent_get_next_component (
+				vcal_comp, ICAL_ANY_COMPONENT);
+		}
+	}
+	else {
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (comp, icalcomp);
+		uid = e_cal_component_gen_uid ();
+		e_cal_component_set_uid (comp, (const char *) uid);
+		free (uid);
+
+		e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), NULL, NULL);
+
+		g_object_unref (comp);
+	}
+
+	e_calendar_table_set_status_message (cal_table, NULL);
 }
 
 /**
@@ -868,10 +904,8 @@ e_calendar_table_paste_clipboard (ECalendarTable *cal_table)
 {
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
-	gtk_selection_convert (cal_table->invisible,
-			       clipboard_atom,
-			       GDK_SELECTION_TYPE_STRING,
-			       GDK_CURRENT_TIME);
+	gtk_clipboard_request_text (gtk_widget_get_clipboard (GTK_WIDGET (cal_table), clipboard_atom),
+				    (GtkClipboardTextReceivedFunc) clipboard_get_text_cb, cal_table);
 }
 
 /* Opens a task in the task editor */
@@ -1280,119 +1314,6 @@ e_calendar_table_save_state (ECalendarTable	*cal_table,
 	e_table_save_state (e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable)),
 			    filename);
 }
-
-static void
-selection_get (GtkWidget *invisible,
-	       GtkSelectionData *selection_data,
-	       guint info,
-	       guint time_stamp,
-	       ECalendarTable *cal_table)
-{
-	if (cal_table->clipboard_selection != NULL) {
-		gtk_selection_data_set (selection_data,
-					GDK_SELECTION_TYPE_STRING,
-					8,
-					cal_table->clipboard_selection,
-					strlen (cal_table->clipboard_selection));
-	}
-}
-
-static void
-selection_clear_event (GtkWidget *invisible,
-		       GdkEventSelection *event,
-		       ECalendarTable *cal_table)
-{
-	if (cal_table->clipboard_selection != NULL) {
-		g_free (cal_table->clipboard_selection);
-		cal_table->clipboard_selection = NULL;
-	}
-}
-
-static void
-selection_received (GtkWidget *invisible,
-		    GtkSelectionData *selection_data,
-		    guint time,
-		    ECalendarTable *cal_table)
-{
-	char *comp_str;
-	icalcomponent *icalcomp;
-	char *uid;
-	ECalComponent *comp;
-	ECal *client;
-	icalcomponent_kind kind;
-
-	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
-
-	if (selection_data->length < 0 ||
-	    selection_data->type != GDK_SELECTION_TYPE_STRING) {
-		return;
-	}
-
-	comp_str = (char *) selection_data->data;
-	icalcomp = icalparser_parse_string ((const char *) comp_str);
-	if (!icalcomp)
-		return;
-
-	/* check the type of the component */
-	kind = icalcomponent_isa (icalcomp);
-	if (kind != ICAL_VCALENDAR_COMPONENT &&
-	    kind != ICAL_VEVENT_COMPONENT &&
-	    kind != ICAL_VTODO_COMPONENT &&
-	    kind != ICAL_VJOURNAL_COMPONENT) {
-		return;
-	}
-
-	client = e_cal_model_get_default_client (cal_table->model);
-	
-	e_calendar_table_set_status_message (cal_table, _("Updating objects"));
-
-	if (kind == ICAL_VCALENDAR_COMPONENT) {
-		icalcomponent_kind child_kind;
-		icalcomponent *subcomp;
-		icalcomponent *vcal_comp;
-
-		vcal_comp = icalcomp;
-		subcomp = icalcomponent_get_first_component (
-			vcal_comp, ICAL_ANY_COMPONENT);
-		while (subcomp) {
-			child_kind = icalcomponent_isa (subcomp);
-			if (child_kind == ICAL_VEVENT_COMPONENT ||
-			    child_kind == ICAL_VTODO_COMPONENT ||
-			    child_kind == ICAL_VJOURNAL_COMPONENT) {
-				ECalComponent *tmp_comp;
-
-				uid = e_cal_component_gen_uid ();
-				tmp_comp = e_cal_component_new ();
-				e_cal_component_set_icalcomponent (
-					tmp_comp, icalcomponent_new_clone (subcomp));
-				e_cal_component_set_uid (tmp_comp, uid);
-				free (uid);
-
-				/* FIXME should we convert start/due/complete times? */
-				/* FIXME Error handling */
-				e_cal_create_object (client, e_cal_component_get_icalcomponent (tmp_comp), NULL, NULL);
-
-				g_object_unref (tmp_comp);
-			}
-			subcomp = icalcomponent_get_next_component (
-				vcal_comp, ICAL_ANY_COMPONENT);
-		}
-	}
-	else {
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomp);
-		uid = e_cal_component_gen_uid ();
-		e_cal_component_set_uid (comp, (const char *) uid);
-		free (uid);
-
-		e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), NULL, NULL);
-
-		g_object_unref (comp);
-	}
-
-	e_calendar_table_set_status_message (cal_table, NULL);
-}
-
 
 /* Returns the current time, for the ECellDateEdit items.
    FIXME: Should probably use the timezone of the item rather than the
