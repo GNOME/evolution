@@ -115,6 +115,14 @@ save_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
+view_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = (AddressbookView *) user_data;
+	if (view->view)
+		e_addressbook_view_view(view->view);
+}
+
+static void
 config_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	addressbook_config (NULL /* XXX */);
@@ -243,6 +251,10 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 					      "/commands/ContactsSaveAsVCard",
 					      "sensitive",
 					      e_addressbook_view_can_save_as (view->view) ? "1" : "0", NULL);
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactsView",
+					      "sensitive",
+					      e_addressbook_view_can_view (view->view) ? "1" : "0", NULL);
 		
 		/* Print Contact */
 		bonobo_ui_component_set_prop (uic,
@@ -311,6 +323,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactsPrint", print_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactsPrintPreview", print_preview_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactsSaveAsVCard", save_contact_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactsView", view_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ToolSearch", search_cb),
 
 	BONOBO_UI_UNSAFE_VERB ("AddressbookConfig", config_cb),

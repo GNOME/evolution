@@ -21,6 +21,10 @@
 		 pixtype="stock" pixname="Print"
 		 accel="*Control*p"/>
 
+		<cmd name="ContactsView"
+		 _tip="View the current contact"
+		 accel="*Control*o"/>
+
 		<cmd name="ContactStop"
 		 _tip="Stop Loading"
 		 pixtype="stock" pixname="Stop"/>
@@ -55,6 +59,8 @@
 	<menu>
 		<submenu name="File">
 		        <placeholder name="FileOps">
+	                        <menuitem name="ContactsView"
+                                 verb="" _label="_Open"/>
 			        <menuitem name="ContactsSaveAsVCard"
 				 verb="" _label="_Save as VCard"
 				 pixtype="pixbuf"/>

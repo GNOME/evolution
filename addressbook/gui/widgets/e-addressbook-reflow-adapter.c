@@ -125,6 +125,7 @@ get_card_list (ModelAndSelection *mns)
 
 	for (iterator = list; iterator; iterator = iterator->next) {
 		iterator->data = e_addressbook_model_card_at (priv->model, GPOINTER_TO_INT (iterator->data));
+		gtk_object_ref (GTK_OBJECT (iterator->data));
 	}
 	list = g_list_reverse (list);
 	return list;
@@ -138,7 +139,7 @@ save_as (GtkWidget *widget, ModelAndSelection *mns)
 	list = get_card_list (mns);
 	if (list)
 		e_contact_list_save_as (_("Save as VCard"), list);
-	g_list_free (list);
+	e_free_object_list (list);
 	model_and_selection_free (mns);
 }
 
@@ -150,7 +151,7 @@ send_as (GtkWidget *widget, ModelAndSelection *mns)
 	list = get_card_list (mns);
 	if (list)
 		e_card_list_send (list, E_CARD_DISPOSITION_AS_ATTACHMENT);
-	g_list_free (list);
+	e_free_object_list (list);
 	model_and_selection_free (mns);
 }
 
@@ -162,7 +163,7 @@ send_to (GtkWidget *widget, ModelAndSelection *mns)
 	list = get_card_list (mns);
 	if (list)
 		e_card_list_send (list, E_CARD_DISPOSITION_AS_TO);
-	g_list_free (list);
+	e_free_object_list (list);
 	model_and_selection_free (mns);
 }
 
@@ -174,7 +175,7 @@ print (GtkWidget *widget, ModelAndSelection *mns)
 	list = get_card_list (mns);
 	if (list)
 		gtk_widget_show (e_contact_print_card_list_dialog_new (list));
-	g_list_free (list);
+	e_free_object_list (list);
 	model_and_selection_free (mns);
 }
 
@@ -187,7 +188,7 @@ print_envelope (GtkWidget *widget, ModelAndSelection *mns)
 	list = get_card_list (mns);
 	if (list)
 		gtk_widget_show (e_contact_print_envelope_list_dialog_new (list));
-	g_list_free (list);
+	e_free_object_list (list);
 	model_and_selection_free (mns);
 }
 #endif
@@ -248,7 +249,7 @@ delete (GtkWidget *widget, ModelAndSelection *mns)
 		}
 	}
 
-	g_list_free (list);
+	e_free_object_list (list);
 	model_and_selection_free (mns);
 }
 
@@ -257,27 +258,13 @@ open_card (GtkWidget *widget, ModelAndSelection *mns)
 {
 	EAddressbookReflowAdapterPrivate *priv = mns->adapter->priv;
 	GList *list;
+	EBook *book = e_addressbook_model_get_ebook(priv->model);
 
 	list = get_card_list (mns);
-	if (list) {
-		GList *iterator;
-		EBook *book = e_addressbook_model_get_ebook(priv->model);
 
-		for (iterator = list; iterator; iterator = iterator->next) {
-			ECard *card = iterator->data;
+	e_addressbook_show_multiple_cards (book, list, e_addressbook_model_editable (priv->model));
 
-			if (e_card_evolution_list (card)) {
-				e_addressbook_show_contact_list_editor (book, card,
-									FALSE, e_addressbook_model_editable (priv->model));
-			}
-			else {
-				e_addressbook_show_contact_editor (book, card,
-								   FALSE, e_addressbook_model_editable (priv->model));
-			}
-		}
-	}
-
-	g_list_free (list);
+	e_free_object_list (list);
 	model_and_selection_free (mns);
 }
 

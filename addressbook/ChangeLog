@@ -1,5 +1,24 @@
 2002-01-18  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/addressbook.c (view_contact_cb): New verb to open
+	a bunch of cards.
+
+	* gui/widgets/e-addressbook-reflow-adapter.c (open_card): Call
+	e_addressbook_show_multiple_cards instead of doing this ourselves.
+
+	* gui/widgets/e-addressbook-util.c,
+	gui/widgets/e-addressbook-util.h
+	(e_addressbook_show_multiple_cards): Added this function to show a
+	bunch of cards, including a dialog if lots of windows are going to
+	appear.
+
+	* gui/widgets/e-addressbook-view.c (e_addressbook_view_view,
+	e_addressbook_view_can_view): e_addressbook_view_view calls
+	e_addressbook_show_multiple_cards on the appropriate list of
+	cards.
+
+2002-01-18  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/contact-editor/e-contact-editor-address.c
 	(fill_in_countries), gui/contact-editor/fulladdr.glade: Sort
 	country list.  Country list moves from fulladdr.glade to

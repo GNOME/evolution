@@ -146,3 +146,79 @@ e_addressbook_show_contact_list_editor (EBook *book, ECard *card,
 
 	return ce;
 }
+
+typedef struct {
+	EBook *book;
+	GList *list;
+	gboolean editable;
+} BookAndList;
+
+static void
+view_cards (EBook *book, GList *list, gboolean editable)
+{
+	for (; list; list = list->next) {
+		ECard *card = list->data;
+		if (e_card_evolution_list (card))
+			e_addressbook_show_contact_list_editor (book, card, FALSE, editable);
+		else
+			e_addressbook_show_contact_editor (book, card, FALSE, editable);
+	}
+}
+
+static void
+view_question_clicked (GtkObject *object, int button, BookAndList *bnl)
+{
+	GnomeDialog *dialog = GNOME_DIALOG (object);
+	switch (button) {
+	case 0:
+		view_cards (bnl->book, bnl->list, bnl->editable);
+		break;
+	}
+	gnome_dialog_close(dialog);
+}
+
+static void
+view_question_destroyed (GtkObject *object, GList *list)
+{
+	gtk_main_quit();
+}
+
+void
+e_addressbook_show_multiple_cards (EBook *book,
+				   GList *list,
+				   gboolean editable)
+{
+	if (list) {
+		int length = g_list_length (list);
+		if (length > 5) {
+			char *string;
+			GtkWidget *dialog;
+			BookAndList bnl;
+
+			bnl.book = book;
+			bnl.list = list;
+			bnl.editable = editable;
+
+			dialog = gnome_dialog_new (_("Display Cards?"),
+						   _("Display Cards"),
+						   GNOME_STOCK_BUTTON_CANCEL,
+						   NULL);
+
+			string = g_strdup_printf (_("You have requested that %d cards be cards. This will cause %d new windows to be\n"
+						    "displayed on your screen. Do you really want to display all of these cards?"), length, length);
+			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), gtk_label_new (string), FALSE, FALSE, 0);
+			g_free (string);
+
+			gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
+					    GTK_SIGNAL_FUNC (view_question_destroyed), &bnl);
+			gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
+					    GTK_SIGNAL_FUNC (view_question_clicked), &bnl);
+
+			gtk_widget_show_all (dialog);
+
+			gtk_main();
+		} else {
+			view_cards (book, list, editable);
+		}
+	}
+}

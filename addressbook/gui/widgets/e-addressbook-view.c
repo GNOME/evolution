@@ -36,6 +36,7 @@
 #include <gal/util/e-unicode-i18n.h>
 #include <gal/unicode/gunicode.h>
 #include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-stock.h>
 
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-dialog.h>
@@ -1513,7 +1514,15 @@ e_addressbook_view_save_as (EAddressbookView *view)
 	GList *list = get_selected_cards (view);
 	if (list)
 		e_contact_list_save_as (_("Save as VCard"), list);
-	g_list_free (list);
+	e_free_object_list(list);
+}
+
+void
+e_addressbook_view_view (EAddressbookView *view)
+{
+	GList *list = get_selected_cards (view);
+	e_addressbook_show_multiple_cards (view->book, list, view->editable);
+	e_free_object_list(list);
 }
 
 void
@@ -1522,7 +1531,7 @@ e_addressbook_view_send (EAddressbookView *view)
 	GList *list = get_selected_cards (view);
 	if (list)
 		e_card_list_send (list, E_CARD_DISPOSITION_AS_ATTACHMENT);
-	g_list_free (list);
+	e_free_object_list(list);
 }
 
 void
@@ -1531,7 +1540,7 @@ e_addressbook_view_send_to (EAddressbookView *view)
 	GList *list = get_selected_cards (view);
 	if (list)
 		e_card_list_send (list, E_CARD_DISPOSITION_AS_TO);
-	g_list_free (list);
+	e_free_object_list(list);
 }
 
 void
@@ -1608,6 +1617,12 @@ e_addressbook_view_can_print (EAddressbookView  *view)
 
 gboolean
 e_addressbook_view_can_save_as (EAddressbookView  *view)
+{
+	return view ? e_addressbook_view_selection_nonempty (view) : FALSE;
+}
+
+gboolean
+e_addressbook_view_can_view (EAddressbookView  *view)
 {
 	return view ? e_addressbook_view_selection_nonempty (view) : FALSE;
 }

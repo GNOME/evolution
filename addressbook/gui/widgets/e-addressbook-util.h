@@ -29,15 +29,20 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-void            e_addressbook_error_dialog (const gchar *msg,
-					    EBookStatus status);
-gint            e_addressbook_prompt_save_dialog (GtkWindow *parent);
-EContactEditor* e_addressbook_show_contact_editor (EBook *book, ECard *card,
-						   gboolean is_new_card,
-						   gboolean editable);
-EContactListEditor * e_addressbook_show_contact_list_editor (EBook *book, ECard *card,
-							     gboolean is_new_card,
-							     gboolean editable);
+void                e_addressbook_error_dialog              (const gchar *msg,
+							     EBookStatus  status);
+gint                e_addressbook_prompt_save_dialog        (GtkWindow   *parent);
+EContactEditor     *e_addressbook_show_contact_editor       (EBook       *book,
+							     ECard       *card,
+							     gboolean     is_new_card,
+							     gboolean     editable);
+EContactListEditor *e_addressbook_show_contact_list_editor  (EBook       *book,
+							     ECard       *card,
+							     gboolean     is_new_card,
+							     gboolean     editable);
+void                e_addressbook_show_multiple_cards       (EBook       *book,
+							     GList       *list,
+							     gboolean     editable);
 
 #ifdef __cplusplus
 }
