@@ -1,5 +1,10 @@
 2005-01-03  JP Rosevear  <jpr@novell.com>
 
+	* itip-formatter.c (view_response_cb): implement cancel
+	(update_item): add cancel info item
+
+2005-01-03  JP Rosevear  <jpr@novell.com>
+	
 	* itip-view.c (itip_view_add_upper_info_item_printf): utility
 	routine to make it easier to add info items
 	(itip_view_add_lower_info_item_printf): ditto

@@ -648,7 +648,6 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 		g_error_free (error);
 	} else {
 		ESource *source;
-		char *info;
 		
 		/* FIXME This makes the UI look ugly */
 		itip_view_set_source_list (ITIP_VIEW (pitip->view), NULL);
@@ -658,22 +657,27 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 
 		switch (response) {
 		case ITIP_VIEW_RESPONSE_ACCEPT:
-			info = g_strdup_printf ("Sent to calendar '%s' as accepted", e_source_peek_name (source));
+			itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, 
+							      _("Sent to calendar '%s' as accepted"), e_source_peek_name (source));
 			break;
 		case ITIP_VIEW_RESPONSE_TENTATIVE:
-			info = g_strdup_printf ("Sent to calendar '%s' as tentative", e_source_peek_name (source));
+			itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, 
+							      _("Sent to calendar '%s' as tentative"), e_source_peek_name (source));
 			break;
 		case ITIP_VIEW_RESPONSE_DECLINE:
 			/* FIXME some calendars just might not save it at all, is this accurate? */
-			info = g_strdup_printf ("Sent to calendar '%s' as declined", e_source_peek_name (source));
+			itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, 
+							      _("Sent to calendar '%s' as declined"), e_source_peek_name (source));
+			break;
+		case ITIP_VIEW_RESPONSE_CANCEL:
+			/* FIXME some calendars just might not save it at all, is this accurate? */
+			itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, 
+							      _("Sent to calendar '%s' as cancelled"), e_source_peek_name (source));
 			break;
 		default:
 			g_assert_not_reached ();
 			break;
 		}
-
-		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, info);		
-		g_free (info);
 
 		/* FIXME Should we hide or desensitize the buttons now? */
 	}
@@ -891,6 +895,9 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 		break;
 	case ITIP_VIEW_RESPONSE_UPDATE:
 		update_attendee_status (pitip);
+		break;
+	case ITIP_VIEW_RESPONSE_CANCEL:
+		update_item (pitip, response);
 		break;
 	case ITIP_VIEW_RESPONSE_REFRESH:
 		send_item (pitip);
