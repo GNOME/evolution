@@ -171,10 +171,51 @@ mail_config_create_html (const char *name, const char *str1, const char *str2,
 }
 
 static void
-druid_cancel (GtkWidget *widget, gpointer user_data)
+druid_cancel (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 {
 	/* Cancel the setup of the account */
 	MailConfigDruid *druid = user_data;
+	
+	gtk_widget_destroy (GTK_WIDGET (druid));
+}
+
+static void
+druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
+{
+	/* Cancel the setup of the account */
+	MailConfigDruid *druid = user_data;
+	MailConfigAccount *account;
+	MailConfigIdentity *id;
+	MailConfigService *source;
+	MailConfigService *transport;
+	
+	account = g_new0 (MailConfigAccount, 1);
+	account->name = mail_config_druid_get_account_name (druid);
+	account->default = mail_config_druid_get_default_account (druid);
+	
+	/* construct the identity */
+	id = g_new0 (MailConfigIdentity, 1);
+	id->name = mail_config_druid_get_full_name (druid);
+	id->address = mail_config_druid_get_email_address (druid);
+	id->reply_to = mail_config_druid_get_reply_to (druid);
+	id->organization = mail_config_druid_get_organization (druid);
+	id->signature = mail_config_druid_get_sigfile (druid);
+	
+	/* construct the source */
+	source = g_new0 (MailConfigService, 1);
+	source->url = mail_config_druid_get_source_url (druid);
+	source->keep_mail_on_server = mail_config_druid_get_keep_mail_on_server (druid);
+	source->save_password = mail_config_druid_get_save_password (druid);
+	
+	/* construct the transport */
+	transport = g_new0 (MailConfigService, 1);
+	transport->url = mail_config_druid_get_transport_url (druid);
+	
+	account->id = id;
+	account->source = source;
+	account->transport = transport;
+	
+	mail_config_add_accounts (account);
 	
 	gtk_widget_destroy (GTK_WIDGET (druid));
 }
@@ -894,7 +935,7 @@ mail_config_druid_get_transport_url (MailConfigDruid *druid)
 	url = g_new0 (CamelURL, 1);
 	/* FIXME: get the real protocol */
 	url->protocol = g_strdup ("smtp");
-	host = g_strdup (gtk_entry_get_text (druid->incoming_hostname));
+	host = g_strdup (gtk_entry_get_text (druid->outgoing_hostname));
 	if (host && (pport = strchr (host, ':'))) {
 		port = atoi (pport + 1);
 		*pport = '\0';

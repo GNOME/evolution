@@ -1,5 +1,17 @@
 2001-01-05  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-accounts.c (mail_add): Since the druid now handles adding
+	the new account to the config, we'll just connect to the destroy
+	event and show the druid.
+	(mail_add_finished): Just reload the account list here.
+
+	* mail-config-druid.c (druid_finish): New callback to handle the
+	"finish" signal. On second thought, it seems it would be best for
+	the finish callback to be here rather than in mail-accounts.c.
+
+	* mail-accounts.[c,h]: Added. Contains source for the Account manager
+	window. And just like mail-config-druid.c, it's not yet complete.
+
 	* mail-config-druid.c (mail_config_druid_get_incoming_keep_mail):
 	Renamed from _delete_mail
 	(mail_config_druid_get_transport_url): New convenience function

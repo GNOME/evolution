@@ -82,7 +82,6 @@ struct _MailConfigDruid {
 	
 	const CamelProvider *source_provider;
 	const CamelProvider *transport_provider;
-	
 };
 
 typedef struct _MailConfigDruid MailConfigDruid;
