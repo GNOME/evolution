@@ -114,6 +114,14 @@ static gint e_week_view_focus_out (GtkWidget *widget,
 				   GdkEventFocus *event);
 static gint e_week_view_expose_event (GtkWidget *widget,
 				      GdkEventExpose *event);
+static gboolean e_week_view_get_next_tab_event (EWeekView *week_view,
+						GtkDirectionType direction,
+						gint current_event_num,
+						gint current_span_num,
+						gint *next_event_num,
+						gint *next_span_num);
+static gboolean e_week_view_focus (GtkWidget *widget,
+				   GtkDirectionType direction);
 static void e_week_view_draw_shadow (EWeekView *week_view);
 
 static gboolean e_week_view_on_button_press (GtkWidget *widget,
@@ -278,6 +286,7 @@ e_week_view_class_init (EWeekViewClass *class)
 	widget_class->key_press_event	= e_week_view_key_press;
 	widget_class->popup_menu        = e_week_view_popup_menu;
 	widget_class->expose_event	= e_week_view_expose_event;
+	widget_class->focus             = e_week_view_focus;
 
 	class->selection_changed = NULL;
 
@@ -996,6 +1005,85 @@ e_week_view_expose_event (GtkWidget *widget,
 		(*GTK_WIDGET_CLASS (parent_class)->expose_event)(widget, event);
 
 	return FALSE;
+}
+
+
+static gboolean
+e_week_view_get_next_tab_event (EWeekView *week_view,
+				GtkDirectionType direction,
+				gint current_event_num,
+				gint current_span_num,
+				gint *next_event_num,
+				gint *next_span_num)
+{
+	gint event_num;
+
+	g_return_val_if_fail (week_view != NULL, FALSE);
+	g_return_val_if_fail (next_event_num != NULL, FALSE);
+	g_return_val_if_fail (next_span_num != NULL, FALSE);
+
+	if (week_view->events->len <= 0)
+		return FALSE;
+
+	/* we only tab through events not spans */
+	*next_span_num = 0;
+
+	switch (direction) {
+	case GTK_DIR_TAB_BACKWARD:
+		event_num = current_event_num - 1;
+		break;
+	case GTK_DIR_TAB_FORWARD:
+		event_num = current_event_num + 1;
+		break;
+	default:
+		return FALSE;
+	}
+
+	if (event_num < 0)
+		*next_event_num = week_view->events->len - 1;
+	else if (event_num >= week_view->events->len)
+		*next_event_num = 0;
+	else
+		*next_event_num = event_num;
+	return TRUE;
+}
+
+static gboolean
+e_week_view_focus (GtkWidget *widget, GtkDirectionType direction)
+{
+	EWeekView *week_view;
+	gint new_event_num;
+	gint new_span_num;
+	gint current_event_num;
+	gint current_span_num;
+	gint event_loop;
+	gboolean editable = FALSE;
+
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_return_val_if_fail (E_IS_WEEK_VIEW (widget), FALSE);
+
+	week_view = E_WEEK_VIEW (widget);
+	current_event_num = week_view->editing_event_num;
+	current_span_num = week_view->editing_span_num;
+	for (event_loop = 0; event_loop < week_view->events->len;
+	     ++event_loop) {
+		if (!e_week_view_get_next_tab_event (week_view, direction,
+						     current_event_num,
+						     current_span_num,
+						     &new_event_num,
+						     &new_span_num))
+			return FALSE;
+
+		editable = e_week_view_start_editing_event (week_view,
+							    new_event_num,
+							    new_span_num,
+							    NULL);
+		if (editable)
+			break;
+		current_event_num = new_event_num;
+		current_span_num = new_span_num;
+	}
+	return editable;
 }
 
 static void
@@ -2978,7 +3066,7 @@ e_week_view_on_adjustment_changed (GtkAdjustment *adjustment,
 }
 
 
-void
+gboolean
 e_week_view_start_editing_event (EWeekView *week_view,
 				 gint	    event_num,
 				 gint	    span_num,
@@ -2992,7 +3080,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	/* If we are already editing the event, just return. */
 	if (event_num == week_view->editing_event_num
 	    && span_num == week_view->editing_span_num)
-		return;
+		return TRUE;
 
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
@@ -3000,7 +3088,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 
 	/* If the event is not shown, don't try to edit it. */
 	if (!span->text_item)
-		return;
+		return FALSE;
 
 	if (initial_text) {
 		gnome_canvas_item_set (span->text_item,
@@ -3022,6 +3110,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 		g_signal_emit_by_name (event_processor,
 				       "command", &command);
 	}
+	return TRUE;
 }
 
 
