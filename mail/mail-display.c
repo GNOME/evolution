@@ -878,6 +878,7 @@ mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 	md->stream = NULL;
 }
 
+
 /**
  * mail_display_set_message:
  * @mail_display: the mail display object
@@ -984,6 +985,7 @@ mail_display_new (void)
 	gtk_signal_connect (GTK_OBJECT (html), "link_clicked",
 			    GTK_SIGNAL_FUNC (on_link_clicked),
 			    mail_display);
+
 	gtk_container_add (GTK_CONTAINER (scroll), html);
 	gtk_widget_show (GTK_WIDGET (html));
 

@@ -119,7 +119,6 @@
 	    location="OAFIID:GNOME_Evolution_Mail_Outlook_ImporterFactory">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution/ImporterFactory:1.0"/>
 		<item value="IDL:GNOME/Evolution/Importer:1.0"/>
 	</oaf_attribute>
 
@@ -127,6 +126,32 @@
 		       value="Outlook Express 4 (.mbx)"/>
 	<oaf_attribute name="description" type="string"
 		       value="Imports Outlook Express 4 files into Evolution"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Mail_Mbox_ImporterFactory"
+	    type="exe"
+	    location="evolution-mail">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+		       value="Factory to import mbox into Evolution"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Mail_Mbox_Importer"
+	    type="factory"
+	    location="OAFIID:GNOME_Evolution_Mail_Mbox_ImporterFactory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/Importer:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="evolution:menu-name" type="string"
+		       value="MBox (mbox)"/>
+	<oaf_attribute name="description" type="string"
+		       value="Imports mbox files into Evolution"/>
 </oaf_server>
 
 </oaf_info>

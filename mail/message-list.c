@@ -2332,6 +2332,7 @@ static void hide_save_state(MessageList *ml)
 		fclose(out);
 	}
 
+	g_free (filename);
 	MESSAGE_LIST_UNLOCK(ml, hide_lock);
 }
 
@@ -2409,7 +2410,7 @@ static void regen_list_regen(struct _mail_msg *mm)
 		if (m->ml->hidden) {
 			for (i=0;i<uids->len;i++) {
 				if (g_hash_table_lookup(m->ml->hidden, uids->pdata[i]) == 0)
-					g_ptr_array_add(uidnew, uids->pdata[i]);
+					g_ptr_array_add(uidnew, g_strdup (uids->pdata[i]));
 			}
 		}
 
@@ -2429,13 +2430,14 @@ static void regen_list_regen(struct _mail_msg *mm)
 			start = MAX(start, 0);
 			end = MIN(end, uidnew->len);
 			for (i=start;i<end;i++) {
-				g_ptr_array_add(uid2, uidnew->pdata[i]);
+				g_ptr_array_add(uid2, g_strdup (uidnew->pdata[i]));
 			}
 
 			g_ptr_array_free(uidnew, TRUE);
 			uidnew = uid2;
 		}
 		m->realuids = uids;
+
 		m->uids = uidnew;
 	} else {
 		m->realuids = NULL;
@@ -2470,16 +2472,21 @@ static void regen_list_free(struct _mail_msg *mm)
 	/* work out if we have aux uid's to free, otherwise free the real ones */
 	uids = m->realuids;
 	if (uids) {
-		if (m->uids)
-			g_ptr_array_free(m->uids, TRUE);
+		if (m->uids) {
+			g_print ("Freeing\n");
+			camel_folder_free_uids(m->ml->folder, m->uids);
+			g_print ("Freed\n");
+/*  			g_ptr_array_free(m->uids, TRUE); */
+		}
 	} else
 		uids = m->uids;
 
 	if (uids) {
 		if (m->search)
 			camel_folder_search_free(m->ml->folder, uids);
-		else
+		else {
 			camel_folder_free_uids(m->ml->folder, uids);
+		}
 	}
 
 	/* update what we have as our search string */
