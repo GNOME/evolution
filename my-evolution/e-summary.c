@@ -153,21 +153,31 @@ e_summary_draw (ESummary *summary)
 
 	/* Weather and RDF stuff here */
 	html = e_summary_weather_get_html (summary);
-	g_string_append (string, html);
+	if (html != NULL) {
+		g_string_append (string, html);
+	}
 
 	html = e_summary_rdf_get_html (summary);
-	g_string_append (string, html);
+	if (html != NULL) {
+		g_string_append (string, html);
+	}
 
 	g_string_append (string, HTML_4);
 
 	html = (char *) e_summary_mail_get_html (summary);
-
-	g_string_append (string, html);
+	if (html != NULL) {
+		g_string_append (string, html);
+	}
 
 	html = (char *) e_summary_calendar_get_html (summary);
-	g_string_append (string, html);
+	if (html != NULL) {
+		g_string_append (string, html);
+	}
+	
 	html = (char *) e_summary_tasks_get_html (summary);
-	g_string_append (string, html);
+	if (html != NULL) {
+		g_string_append (string, html);
+	}
 
 	g_string_append (string, HTML_5);
 

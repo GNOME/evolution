@@ -1,5 +1,13 @@
 2001-07-18  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-weather.c (weather_make_html): Remove the (more) link.
+
+	* e-summary.c (e_summary_draw): Don't append NULL to the GString.
+
+	* e-summary-tasks.c: Remove spewage.
+
+2001-07-18  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-weather.c (weather_make_html): Remove spewage.
 
 2001-07-18  Iain Holmes  <iain@ximian.com>

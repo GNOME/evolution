@@ -164,9 +164,6 @@ get_todays_uids (CalClient *client,
 			if (endt >= todays_start && endt <= todays_end) {
 				today = g_list_append (today, g_strdup (uid));
 			}
-			g_print ("Check da mic\n");
-		} else {
-			g_print ("Duff\n");
 		}
 	}
 

@@ -121,13 +121,16 @@ weather_make_html (Weather *w)
 	g_free (s);
 	g_free (temp);
 
+#if 0
 	g_string_append (string, "<font size=\"-1\">");
 	
 	uri = g_strdup_printf ("<a href=\"weather://%p\">", w);
 	g_string_append (string, uri);
 	g_free (uri);
 	g_string_append (string, "(More)</a></font></font></blockquote></dd>");
-
+#else
+	g_string_append (string, "</font></blockquote></dd>");
+#endif
 	if (w->html != NULL) {
 		g_free (w->html);
 	}
