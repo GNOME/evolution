@@ -33,13 +33,12 @@
 #include <config.h>
 #endif
 
-#include <dirent.h>
-
 #include <errno.h>
 #include <string.h>
 #include <sys/param.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <dirent.h>
 
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-defs.h>
