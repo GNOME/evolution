@@ -1,5 +1,5 @@
 /* XPM */
-static char * flag_for_followup_16_xpm[] = {
+static char * flag_for_followup_xpm[] = {
 "16 16 59 1",
 " 	c None",
 ".	c #000000",
