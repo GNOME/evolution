@@ -6,12 +6,11 @@
 # pomóc w jego rozwijaniu i pielêgnowaniu, napisz do nas na adres:
 # translators@gnome.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-#: mail/component-factory.c:1 mail/component-factory.c:1
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-08-24 15:53+0200\n"
-"PO-Revision-Date: 2001-08-24 19:01+0200\n"
+"POT-Creation-Date: 2001-08-26 01:10+0200\n"
+"PO-Revision-Date: 2001-08-26 01:11+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +28,7 @@ msgstr "Impurtuje pliki VCard do Evolution."
 #: addressbook/backend/ebook/e-card-simple.c:1
 #: addressbook/gui/widgets/e-addressbook-view.c:1
 msgid "File As"
-msgstr "Zapisz jako"
+msgstr "Nazwa karty"
 
 #: addressbook/backend/ebook/e-card-simple.c:1
 msgid "Name"
@@ -988,7 +987,6 @@ msgstr "Generator interfejsu wyboru nazwy ksi±¿ki adresowej Evolution"
 #: addressbook/gui/component/select-names/e-select-names.c:1
 #: composer/e-msg-composer-attachment-bar.c:1 filter/filter-filter.c:1
 #: filter/filter-rule.c:1 shell/e-shortcuts-view.c:1
-#: shell/e-shortcuts-view.c:1
 msgid "Remove"
 msgstr "Usuñ"
 
@@ -1073,7 +1071,7 @@ msgstr "Szczegó³y"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "File A_s:"
-msgstr "Zapis pod n_azw±:"
+msgstr "N_azwa karty:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "General"
@@ -1363,7 +1361,7 @@ msgstr "Brytyjskie Wyspy Dziewicze"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "Su³tanat Brunei"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Bulgaria"
@@ -1391,11 +1389,11 @@ msgstr "Kanada"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Cape Verde"
-msgstr ""
+msgstr "Wyspy Zielonego Przyl±dka"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Kajmany"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Central African Republic"
@@ -1423,7 +1421,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "Wyspy Kokosowe"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Colombia"
@@ -1479,7 +1477,7 @@ msgstr "D¿ibuti"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Dominica"
-msgstr ""
+msgstr "Dominika"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Dominican Republic"
@@ -1519,7 +1517,7 @@ msgstr "Etiopia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Falkland Islands"
-msgstr ""
+msgstr "Falklandy"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Faroe Islands"
@@ -1591,7 +1589,7 @@ msgstr "Gwadelupa"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Guam"
-msgstr ""
+msgstr "Guam"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Guatemala"
@@ -1671,7 +1669,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Kazahstan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Kenya"
@@ -1703,7 +1701,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Lesotho"
-msgstr ""
+msgstr "Lesotho"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Liberia"
@@ -1735,7 +1733,7 @@ msgstr "Madagaskar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Malawi"
-msgstr ""
+msgstr "Malawi"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Malaysia"
@@ -1827,7 +1825,7 @@ msgstr "Antyle holenderskie"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "New Caledonia"
-msgstr ""
+msgstr "Nowa Kaledonia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "New Zealand"
@@ -1851,7 +1849,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Norfolk Island"
-msgstr ""
+msgstr "Wyspa Norfolk"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Northern Mariana Islands"
@@ -1895,7 +1893,7 @@ msgstr "Filipiny"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Pitcairn"
-msgstr ""
+msgstr "Pitcairn"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Poland"
@@ -1911,7 +1909,7 @@ msgstr "Puerto Rico"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Qatar"
-msgstr ""
+msgstr "Katar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Republic Of Korea"
@@ -1927,7 +1925,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Romania"
-msgstr ""
+msgstr "Rumunia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Russian Federation"
@@ -1935,7 +1933,7 @@ msgstr "Federacja rosyjska"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Rwanda"
-msgstr ""
+msgstr "Ruanda"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Saint Kitts And Nevis"
@@ -2059,7 +2057,7 @@ msgstr "Tajlandia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Togo"
-msgstr ""
+msgstr "Togo"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Tokelau"
@@ -2067,7 +2065,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Tonga"
-msgstr ""
+msgstr "Tonga"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Trinidad And Tobago"
@@ -2087,7 +2085,7 @@ msgstr "Turkmenistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Turks And Caicos Islands"
-msgstr ""
+msgstr "Turks i Caicos"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Tuvalu"
@@ -2451,6 +2449,19 @@ msgstr "y"
 msgid "z"
 msgstr "z"
 
+#: addressbook/gui/widgets/e-addressbook-model.c:1
+msgid "No cards"
+msgstr "Brak kart"
+
+#: addressbook/gui/widgets/e-addressbook-model.c:1
+msgid "1 card"
+msgstr "1 karta"
+
+#: addressbook/gui/widgets/e-addressbook-model.c:1
+#, c-format
+msgid "%d cards"
+msgstr "%d kart"
+
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:1
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:1
 #: addressbook/gui/widgets/e-addressbook-view.c:1
@@ -2461,7 +2472,7 @@ msgid "Save as VCard"
 msgstr "Zapisz jako VCard"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:1
-#: shell/e-shortcuts-view.c:1 ui/evolution-message-composer.xml.h:1
+#: ui/evolution-message-composer.xml.h:1
 msgid "Open"
 msgstr "Otwórz"
 
@@ -3186,7 +3197,7 @@ msgstr "Niezdefiniowany"
 #: calendar/gui/calendar-model.c:1 calendar/gui/dialogs/meeting-page.c:1
 #: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1
 #: mail/mail-accounts.c:1 mail/mail-accounts.c:1
-#: mail/mail-config.glade.h:1 shell/e-shell-view.c:1
+#: mail/mail-config.glade.h:1
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:1
 #: widgets/misc/e-cell-date-edit.c:1 widgets/misc/e-dateedit.c:1
 #: widgets/misc/e-dateedit.c:1 widgets/misc/e-dateedit.c:1
@@ -4346,6 +4357,7 @@ msgstr "100%"
 
 #: calendar/gui/e-calendar-table.c:1 calendar/gui/e-day-view.c:1
 #: calendar/gui/e-week-view.c:1 mail/folder-browser.c:1
+#: shell/e-shortcuts-view.c:1
 msgid "_Open"
 msgstr "_Otwórz"
 
@@ -6190,14 +6202,12 @@ msgstr "Folder \"%s\" nie jest pusty. Nie zosta³ usuniêty."
 #. FIXME: If there is a failure, it shouldn't clear the summary and restart,
 #. it should try and merge the summary info's.  This is a bit tricky.
 #: camel/providers/local/camel-mbox-summary.c:1
-#: camel/providers/local/camel-spool-summary.c:1
-msgid "Summarising folder"
+msgid "Summarizing folder"
 msgstr "Tworzenie zestawienia folderu"
 
 #: camel/providers/local/camel-mbox-summary.c:1
-#: camel/providers/local/camel-spool-summary.c:1
 #, c-format
-msgid "Could not open folder: %s: summarising from position %ld: %s"
+msgid "Could not open folder: %s: summarizing from position %ld: %s"
 msgstr ""
 "Nie mo¿na otworzyæ folderu: %s: tworzenie zestawienia od pozycji %ld: %s"
 
@@ -6212,7 +6222,6 @@ msgstr "Powa¿ny b³±d sk³adniowy na pozycji %ld w folderze %s"
 msgid "Cannot summarize folder: %s: %s"
 msgstr "Nie mo¿na stworzyæ zestawienia folderu: %s: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:1
 #: camel/providers/local/camel-mbox-summary.c:1
 #: camel/providers/local/camel-spool-summary.c:1
 #: camel/providers/local/camel-spool-summary.c:1
@@ -6272,6 +6281,10 @@ msgid "Could not rename folder: %s"
 msgstr "Nie mo¿na zmieniæ nazwy folderu: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:1
+msgid "Synchronizing folder"
+msgstr "Synchronizowanie folderu"
+
+#: camel/providers/local/camel-mbox-summary.c:1
 #: camel/providers/local/camel-spool-summary.c:1
 #: camel/providers/local/camel-spool-summary.c:1
 #, c-format
@@ -6324,6 +6337,18 @@ msgstr "Nie mo¿na zmieniaæ nazw folderów kolejek"
 #: camel/providers/local/camel-spool-store.c:1
 msgid "Spool folders cannot be deleted"
 msgstr "Nie mo¿na usuwaæ folderów kolejek"
+
+#. FIXME: If there is a failure, it shouldn't clear the summary and restart,
+#. it should try and merge the summary info's.  This is a bit tricky.
+#: camel/providers/local/camel-spool-summary.c:1
+msgid "Summarising folder"
+msgstr "Tworzenie zestawienia folderu"
+
+#: camel/providers/local/camel-spool-summary.c:1
+#, c-format
+msgid "Could not open folder: %s: summarising from position %ld: %s"
+msgstr ""
+"Nie mo¿na otworzyæ folderu: %s: tworzenie zestawienia od pozycji %ld: %s"
 
 #: camel/providers/local/camel-spool-summary.c:1
 #, c-format
@@ -7802,6 +7827,18 @@ msgstr "Interfejs konfiguracji poczty"
 #: mail/component-factory.c:1
 msgid "Folder containing mail"
 msgstr "Folder zawieraj±cy pocztê"
+
+#: mail/component-factory.c:1
+msgid "Mail storage folder (internal)"
+msgstr ""
+
+#: mail/component-factory.c:1
+msgid "Virtual Trash"
+msgstr "Wirtualny ¶mietnik"
+
+#: mail/component-factory.c:1
+msgid "Virtual Trash folder"
+msgstr "Folder wirtualnego ¶mietnika"
 
 #: mail/component-factory.c:1
 msgid "This folder cannot contain messages."
@@ -11005,7 +11042,7 @@ msgstr "Czy na pewno chcesz usun±æ folder \"%s\"?"
 msgid "Rename folder '%s'"
 msgstr "Zmiana nazwy folderu \"%s\""
 
-#: shell/e-shell-folder-commands.c:1 shell/e-shortcuts-view.c:1
+#: shell/e-shell-folder-commands.c:1
 msgid "Rename"
 msgstr "Zmieñ nazwê"
 
@@ -11385,16 +11422,24 @@ msgid "Open the folder linked to this shortcut"
 msgstr "Otwiera folder powi±zany ze skrótem"
 
 #: shell/e-shortcuts-view.c:1 ui/evolution.xml.h:1
-msgid "Open in New Window"
-msgstr "Otwórz w nowym oknie"
+msgid "Open in New _Window"
+msgstr "Otwórz w nowym _oknie"
 
 #: shell/e-shortcuts-view.c:1
 msgid "Open the folder linked to this shortcut in a new window"
 msgstr "Otwiera w nowym oknie folder powi±zany ze skrótem"
 
 #: shell/e-shortcuts-view.c:1
+msgid "_Rename"
+msgstr "_Zmieñ nazwê"
+
+#: shell/e-shortcuts-view.c:1
 msgid "Rename this shortcut"
 msgstr "Zmienia nazwê skrótu"
+
+#: shell/e-shortcuts-view.c:1
+msgid "Re_move"
+msgstr "_Usuñ"
 
 #: shell/e-shortcuts-view.c:1
 msgid "Remove this shortcut from the shortcut bar"
@@ -12568,7 +12613,7 @@ msgstr "HTML"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "Inline Text _File..."
-msgstr "Plik _tekstowy..."
+msgstr "Plik te_kstowy..."
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "Insert a file as text into the message"
@@ -12870,8 +12915,8 @@ msgid "Move this folder to another place"
 msgstr "Przenosi folder w inne miejsce"
 
 #: ui/evolution.xml.h:1
-msgid "Open in New _Window"
-msgstr "Otwórz w nowym _oknie"
+msgid "Open in New Window"
+msgstr "Otwórz w nowym oknie"
 
 #: ui/evolution.xml.h:1
 msgid "Open this folder in an other window"

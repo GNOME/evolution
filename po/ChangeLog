@@ -1,3 +1,9 @@
+2001-08-26  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* POTFILES.in: Added addressbook/gui/widgets/e-addressbook-model.c
+
+	* pl.po: Updated Polish translation.
+
 2001-08-24  Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>
 
 	* pt_BR.po: Updated Brazilian Portuguese translation.
