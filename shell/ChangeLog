@@ -1,5 +1,13 @@
 2001-08-12  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (setup_widgets): Put the folder title bar into an
+	EGrayBar.
+
+	* e-gray-bar.c: New.
+	* e-gray-bar.h: New.
+
+2001-08-12  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Finally!  Fix #413, "Support for stock folders", and #786, "i18n:
 	default folder names are not translated".]
 

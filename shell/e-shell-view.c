@@ -54,6 +54,7 @@
 
 #include "evolution-shell-view.h"
 
+#include "e-gray-bar.h"
 #include "e-shell-constants.h"
 #include "e-shell-folder-title-bar.h"
 #include "e-shell-utils.h"
@@ -650,6 +651,7 @@ setup_storage_set_subwindow (EShellView *shell_view)
 	gtk_container_add (GTK_CONTAINER (scroll_frame), storage_set_view);
 
 	vbox = gtk_vbox_new (FALSE, 0);
+
 	priv->storage_set_title_bar = e_title_bar_new (_("Folders"));
 
 	gtk_box_pack_start (GTK_BOX (vbox), priv->storage_set_title_bar, FALSE, FALSE, 0);
@@ -800,6 +802,7 @@ setup_widgets (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
 	GtkWidget *contents_vbox;
+	GtkWidget *gray_bar;
 
 	priv = shell_view->priv;
 
@@ -842,10 +845,11 @@ setup_widgets (EShellView *shell_view)
 	e_paned_pack2 (E_PANED (priv->view_hpaned), priv->notebook, TRUE, FALSE);
 	e_paned_set_position (E_PANED (priv->view_hpaned), DEFAULT_TREE_WIDTH);
 
-	gtk_box_pack_start (GTK_BOX (priv->view_vbox), priv->folder_title_bar,
-			    FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (priv->view_vbox), priv->view_hpaned,
-			    TRUE, TRUE, 0);
+	gray_bar = e_gray_bar_new ();
+	gtk_container_add (GTK_CONTAINER (gray_bar), priv->folder_title_bar);
+	gtk_box_pack_start (GTK_BOX (priv->view_vbox), gray_bar, FALSE, FALSE, 0);
+
+	gtk_box_pack_start (GTK_BOX (priv->view_vbox), priv->view_hpaned, TRUE, TRUE, 0);
 
 	priv->hpaned = e_hpaned_new ();
 	gtk_container_add (GTK_CONTAINER (priv->shortcut_frame), priv->shortcut_bar);
@@ -879,6 +883,8 @@ setup_widgets (EShellView *shell_view)
 	gtk_widget_show (priv->view_vbox);
 	gtk_widget_show (priv->folder_title_bar);
 	gtk_widget_show (priv->status_bar);
+
+	gtk_widget_show (gray_bar);
 
 	/* By default, both the folder bar and shortcut bar are visible.  */
 	priv->shortcut_bar_mode = E_SHELL_VIEW_SUBWINDOW_STICKY;
