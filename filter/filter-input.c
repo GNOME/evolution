@@ -121,7 +121,7 @@ filter_input_finalise (GtkObject *obj)
 {
 	FilterInput *o = (FilterInput *)obj;
 
-	g_free(o->type);
+	xmlFree (o->type);
 	g_list_foreach(o->values, (GFunc)g_free, NULL);
 	g_list_free(o->values);
 
@@ -148,7 +148,7 @@ FilterInput *
 filter_input_new_type_name (const char *type)
 {
 	FilterInput *o = filter_input_new ();
-	o->type = g_strdup (type);
+	o->type = xmlStrdup (type);
 	
 	d(printf("new type %s = %p\n", type, o));
 	return o;

@@ -193,10 +193,17 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	n = node->childs;
 	while (n) {
 		if (!strcmp (n->name, "folder")) {
-			xmlFree (ff->name);
-			xmlFree (ff->uri);
-			ff->name = xmlGetProp (n, "name");
-			ff->uri = xmlGetProp (n, "uri");
+			char *uri, *name;
+
+			name = xmlGetProp (n, "name");
+			g_free (ff->name);
+			ff->name = g_strdup (name);
+			xmlFree (name);
+
+			uri = xmlGetProp (n, "uri");
+			g_free (ff->uri);
+			ff->uri = g_strdup (uri);
+			xmlFree (uri);
 			break;
 		}
 		n = n->next;

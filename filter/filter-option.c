@@ -116,7 +116,7 @@ static void
 free_option(struct _filter_option *o, void *data)
 {
 	g_free(o->title);
-	g_free(o->value);
+	xmlFree (o->value);
 	g_free(o->code);
 	g_free(o);
 }
@@ -343,7 +343,7 @@ clone (FilterElement *fe)
 		fn = g_malloc (sizeof (*fn));
 		d(printf ("  option %s\n", op->title));
 		fn->title = g_strdup (op->title);
-		fn->value = g_strdup (op->value);
+		fn->value = xmlStrdup (op->value);
 		if (op->code)
 			fn->code = g_strdup (op->code);
 		else

@@ -1,5 +1,18 @@
 2001-08-08  Radek Doulik  <rodo@ximian.com>
 
+	* filter-folder.c (button_clicked): don't mix g_free and xmlAlloc
+	(xml_decode): don't mix g_free and xmlAlloc
+
+	* filter-code.c (filter_code_init): use xmlStrdup instead of
+	g_strdup
+
+	* filter-input.c (filter_input_new_type_name): use xmlStrdup
+	instead of g_strdup
+	(filter_input_finalise): don't mix g_free and xmlAlloc
+
+	* filter-option.c (clone): use xmlStrdup instead of g_strdup
+	(free_option): don't mix g_free and xmlAlloc
+
 	* filter-source.c (clone): use xmlStrdup rather than g_strdup
 
 	* filter-element.c (filter_element_finalise): don't mix g_free and

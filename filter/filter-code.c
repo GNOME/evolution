@@ -75,7 +75,7 @@ filter_code_class_init (FilterCodeClass *class)
 static void
 filter_code_init (FilterCode *o)
 {
-	((FilterInput *)o)->type = g_strdup("code");
+	((FilterInput *)o)->type = xmlStrdup("code");
 }
 
 static void
