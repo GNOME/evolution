@@ -1,3 +1,51 @@
+Version 0.3
+-----------
+
+Mail:
+
+  Major features:
+
+  * Lots of IMAP fixes (fejj)
+
+  * You can use an external setuid/setgid movemail program (although
+    we don't ship our own yet). If you have one installed with emacs,
+    the configure script will find that. Otherwise, you can specify
+    --with-movemail=/path (danw)
+
+  * You can toggle HTML/plain text for an individual message in the
+    composer now. (ettore)
+
+  * Bonobo embedding sort of works again, but there are problems with
+    size allocation somewhere. Attachments can now also be handled by
+    external applications.
+
+  * text/plain mail is now line-wrapped in the mail display, to deal
+    with people who don't put newlines in their mail.
+
+  Minor features / bugfixes:
+
+  * Allow user to specify IMAP namespace in the mail config dialog
+    (danw, fejj)
+
+  * Quoted-printable encoder fixes (NotZed)
+
+  * Various NNTP fixes, include a news pane in the config dialog
+    (toshok)
+
+  * Purification (peterw)
+
+  * Fix for message not being re-drawn as deleted (peterw, fejj)
+
+  * Moving a message to another folder copies the flags now (fejj)
+
+  * Close signature in HTML mail with </PRE>, not <PRE>, and default
+    to ~/.signature. (mmeeks)
+
+  * Fixed some confusing behavior in the message threading algorithm
+    (danw)
+
+
+
 Version 0.2
 -----------
 
