@@ -1468,16 +1468,201 @@ get_reply_all (CamelMimeMessage *message, CamelInternetAddress **to, CamelIntern
 	g_hash_table_destroy (rcpt_hash);
 }
 
+enum {
+	ATTRIB_UNKNOWN,
+	ATTRIB_CUSTOM,
+	ATTRIB_TIMEZONE,
+	ATTRIB_STRFTIME,
+	ATTRIB_TM_SEC,
+	ATTRIB_TM_MIN,
+	ATTRIB_TM_24HOUR,
+	ATTRIB_TM_12HOUR,
+	ATTRIB_TM_MDAY,
+	ATTRIB_TM_MON,
+	ATTRIB_TM_YEAR,
+	ATTRIB_TM_2YEAR,
+	ATTRIB_TM_WDAY, /* not actually used */
+	ATTRIB_TM_YDAY,
+};
+
+typedef void (* AttribFormatter) (GString *str, const char *attr, CamelMimeMessage *message);
+
+static void
+format_sender (GString *str, const char *attr, CamelMimeMessage *message)
+{
+	const CamelInternetAddress *sender;
+	const char *name, *addr;
+	
+	sender = camel_mime_message_get_from (message);
+	if (sender != NULL && camel_address_length (CAMEL_ADDRESS (sender)) > 0) {
+		camel_internet_address_get (sender, 0, &name, &addr);
+	} else {
+		name = _("an unknown sender");
+	}
+	
+	if (name && !strcmp (attr, "{SenderName}")) {
+		g_string_append (str, name);
+	} else if (addr && !strcmp (attr, "{SenderEMail}")) {
+		g_string_append (str, addr);
+	} else if (name) {
+		g_string_append (str, name);
+	} else if (addr) {
+		g_string_append (str, addr);
+	}
+}
+
+static struct {
+	const char *name;
+	int type;
+	struct {
+		const char *format;         /* strftime or printf format */
+		AttribFormatter formatter;  /* custom formatter */
+	} v;
+} attribvars[] = {
+	{ "{Sender}",            ATTRIB_CUSTOM,    { NULL,    format_sender  } },
+	{ "{SenderName}",        ATTRIB_CUSTOM,    { NULL,    format_sender  } },
+	{ "{SenderEMail}",       ATTRIB_CUSTOM,    { NULL,    format_sender  } },
+	{ "{AbbrevWeekdayName}", ATTRIB_STRFTIME,  { "%a",    NULL           } },
+	{ "{WeekdayName}",       ATTRIB_STRFTIME,  { "%A",    NULL           } },
+	{ "{AbbrevMonthName}",   ATTRIB_STRFTIME,  { "%b",    NULL           } },
+	{ "{MonthName}",         ATTRIB_STRFTIME,  { "%B",    NULL           } },
+	{ "{AmPmUpper}",         ATTRIB_STRFTIME,  { "%p",    NULL           } },
+	{ "{AmPmLower}",         ATTRIB_STRFTIME,  { "%P",    NULL           } },
+	{ "{Day}",               ATTRIB_TM_MDAY,   { "%02d",  NULL           } },  /* %d  01-31 */
+	{ "{ Day}",              ATTRIB_TM_MDAY,   { "% 2d",  NULL           } },  /* %e   1-31 */
+	{ "{24Hour}",            ATTRIB_TM_24HOUR, { "%02d",  NULL           } },  /* %H  00-23 */
+	{ "{12Hour}",            ATTRIB_TM_12HOUR, { "%02d",  NULL           } },  /* %I  00-12 */
+	{ "{DayOfYear}",         ATTRIB_TM_YDAY,   { "%d",    NULL           } },  /* %j  1-366 */
+	{ "{Month}",             ATTRIB_TM_MON,    { "%02d",  NULL           } },  /* %m  01-12 */
+	{ "{Minute}",            ATTRIB_TM_MIN,    { "%02d",  NULL           } },  /* %M  00-59 */
+	{ "{Seconds}",           ATTRIB_TM_SEC,    { "%02d",  NULL           } },  /* %S  00-61 */
+	{ "{2DigitYear}",        ATTRIB_TM_2YEAR,  { "%02d",  NULL           } },  /* %y */
+	{ "{Year}",              ATTRIB_TM_YEAR,   { "%04d",  NULL           } },  /* %Y */
+	{ "{TimeZone}",          ATTRIB_TIMEZONE,  { "%+05d", NULL           } }
+};
+
+/* Note to translators: this is the attribution string used when quoting messages.
+ * each ${Variable} gets replaced with a value. To see a full list of available
+ * variables, see em-composer-utils.c:1514 */
+#define ATTRIBUTION _("On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:")
+
+static char *
+attribution_format (const char *format, CamelMimeMessage *message)
+{
+	register const char *inptr;
+	const char *start;
+	int tzone, len, i;
+	char buf[64], *s;
+	GString *str;
+	struct tm tm;
+	time_t date;
+	int type;
+	
+	str = g_string_new ("");
+	
+	date = camel_mime_message_get_date (message, &tzone);
+	/* Convert to UTC */
+	date += (tzone / 100) * 60 * 60;
+	date += (tzone % 100) * 60;
+	
+#ifdef HAVE_GMTIME_R
+	gmtime_r (&date, &tm);
+#else
+	memcpy (&tm, gmtime (&date), sizeof (struct tm));
+#endif
+	
+	start = inptr = format;
+	while (*inptr != '\0') {
+		start = inptr;
+		while (*inptr && strncmp (inptr, "${", 2) != 0)
+			inptr++;
+		
+		g_string_append_len (str, start, inptr - start);
+		
+		if (*inptr == '\0')
+			break;
+		
+		start = ++inptr;
+		while (*inptr && *inptr != '}')
+			inptr++;
+		
+		if (*inptr != '}') {
+			/* broken translation */
+			g_string_append_len (str, "${", 2);
+			inptr = start + 1;
+			continue;
+		}
+		
+		inptr++;
+		len = inptr - start;
+		type = ATTRIB_UNKNOWN;
+		for (i = 0; i < G_N_ELEMENTS (attribvars); i++) {
+			if (!strncmp (attribvars[i].name, start, len)) {
+				type = attribvars[i].type;
+				break;
+			}
+		}
+		
+		switch (type) {
+		case ATTRIB_CUSTOM:
+			attribvars[i].v.formatter (str, attribvars[i].name, message);
+			break;
+		case ATTRIB_TIMEZONE:
+			g_string_append_printf (str, attribvars[i].v.format, tzone);
+			break;
+		case ATTRIB_STRFTIME:
+			e_utf8_strftime (buf, sizeof (buf), attribvars[i].v.format, &tm);
+			g_string_append (str, buf);
+			break;
+		case ATTRIB_TM_SEC:
+			g_string_append_printf (str, attribvars[i].v.format, tm.tm_sec);
+			break;
+		case ATTRIB_TM_MIN:
+			g_string_append_printf (str, attribvars[i].v.format, tm.tm_min);
+			break;
+		case ATTRIB_TM_24HOUR:
+			g_string_append_printf (str, attribvars[i].v.format, tm.tm_hour);
+			break;
+		case ATTRIB_TM_12HOUR:
+			g_string_append_printf (str, attribvars[i].v.format, (tm.tm_hour + 1) % 13);
+			break;
+		case ATTRIB_TM_MDAY:
+			g_string_append_printf (str, attribvars[i].v.format, tm.tm_mday);
+			break;
+		case ATTRIB_TM_MON:
+			g_string_append_printf (str, attribvars[i].v.format, tm.tm_mon + 1);
+			break;
+		case ATTRIB_TM_YEAR:
+			g_string_append_printf (str, attribvars[i].v.format, tm.tm_year + 1900);
+			break;
+		case ATTRIB_TM_2YEAR:
+			g_string_append_printf (str, attribvars[i].v.format, tm.tm_year % 100);
+			break;
+		case ATTRIB_TM_WDAY:
+			/* not actually used */
+			g_string_append_printf (str, attribvars[i].v.format, tm.tm_wday);
+			break;
+		case ATTRIB_TM_YDAY:
+			g_string_append_printf (str, attribvars[i].v.format, tm.tm_yday + 1);
+			break;
+		default:
+			/* mis-spelled variable? drop the format argument and continue */
+			break;
+		}
+	}
+	
+	s = str->str;
+	g_string_free (str, FALSE);
+	
+	return s;
+}
+
 static void
 composer_set_body (EMsgComposer *composer, CamelMimeMessage *message)
 {
-	const CamelInternetAddress *sender;
-	char *text, *credits, format[256];
-	const char *name, *addr;
+	char *text, *credits;
 	CamelMimePart *part;
 	GConfClient *gconf;
-	time_t date;
-	int date_offset;
 	
 	gconf = mail_config_get_gconf_client ();
 	
@@ -1494,22 +1679,7 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message)
 	case MAIL_CONFIG_REPLY_QUOTED:
 	default:
 		/* do what any sane user would want when replying... */
-		sender = camel_mime_message_get_from (message);
-		if (sender != NULL && camel_address_length (CAMEL_ADDRESS (sender)) > 0) {
-			camel_internet_address_get (sender, 0, &name, &addr);
-		} else {
-			name = _("an unknown sender");
-		}
-
-		date = camel_mime_message_get_date(message, &date_offset);
-		/* Convert to UTC */
-		date += (date_offset / 100) * 60 * 60;
-		date += (date_offset % 100) * 60;
-
-		/* translators: attribution string used when quoting messages,
-		   it must contain a single single %%+05d followed by a single '%%s' */
-		e_utf8_strftime(format, sizeof(format), _("On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"), gmtime(&date));
-		credits = g_strdup_printf(format, date_offset, name && *name ? name : addr);
+		credits = attribution_format (ATTRIBUTION, message);
 		text = em_utils_message_to_html(message, credits, EM_FORMAT_QUOTE_CITE);
 		g_free (credits);
 		e_msg_composer_set_body_text(composer, text);

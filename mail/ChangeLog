@@ -1,3 +1,13 @@
+2004-06-15  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-composer-utils.c (attribution_format): New function to format
+	an attribution string (won't crash if translators were sloppy with
+	their strftime/printf-style formatters). Also nice/extendable for
+	future feature enhancements such as user-customisable attribution
+	strings.
+	(composer_set_body): Use above function rather than using
+	e_strftime/etc ourselves.
+
 2004-06-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-view.c (emfv_init): Changed the second
