@@ -494,7 +494,7 @@ mail_lookup_handler (const char *mime_type)
 		goto reg;
 	}
 	
-	/* If we at least got an application, use that. */
+	/* If we at least got an application list, use that. */
 	if (handler->applications) {
 		handler->generic = TRUE;
 		handler->is_bonobo = FALSE;
@@ -724,7 +724,8 @@ format_mime_part (CamelMimePart *part, MailDisplay *md,
 		
 		if (!strcmp (mime_type, "application/mac-binhex40")) {
 			handler = NULL;
-		} else {
+		} else if (!strcmp (mime_type, "application/octet-stream")) {
+			/* only sniff application/octet-stream parts */
 			id_type = mail_identify_mime_part (part, md);
 			if (id_type) {
 				g_free (mime_type);
@@ -1254,9 +1255,12 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	
 	/* Check for RFC 2646 flowed text. */
 	type = camel_mime_part_get_content_type (part);
-	format = header_content_type_param (type, "format");
-	if (format && !strcasecmp (format, "flowed"))
-		flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
+	if (header_content_type_is (type, "text", "plain")) {
+		format = header_content_type_param (type, "format");
+		
+		if (format && !strcasecmp (format, "flowed"))
+			flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
+	}
 	
 	html_filter = camel_mime_filter_tohtml_new (flags, rgb);
 	filtered_stream = camel_stream_filter_new_with_stream ((CamelStream *) stream);
