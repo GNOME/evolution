@@ -1,3 +1,11 @@
+2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #8024, Empty strings marked for translation.]
+
+	* component-factory.c: Don't mark empty strings for translation.
+	Rather, give descriptions and display names to types "mailstorage"
+	and "vtrash".
+
 2001-08-24  Peter Williams  <peterw@ximian.com>
 
 	* mail-ops.c (remove_folder_get): Save the folder's full_name, unref it,
