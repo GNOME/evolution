@@ -207,15 +207,8 @@ filename_to_camel_msg (gchar* filename)
 	message = camel_mime_message_new_with_session (
 		(CamelSession *)NULL);
 	
-	/* not the right way any more */
-	/* camel_data_wrapper_construct_from_stream ( */
-	/*	CAMEL_DATA_WRAPPER (message), input_stream); */
-
 	camel_data_wrapper_set_input_stream (
 		CAMEL_DATA_WRAPPER (message), input_stream);
-
-	/* not the right way any more */
-	/* camel_stream_close (input_stream); */
 
 	return message;
 }
@@ -256,15 +249,23 @@ mime_message_header_to_html (CamelMimeMessage *msg, gchar** header_string)
 	*header_string = g_strndup (
 		CAMEL_STREAM_MEM (header_stream)->buffer->data,
 		CAMEL_STREAM_MEM (header_stream)->buffer->len);
-
-//	printf ("\n\n>>>\n%s\n", *header_string);
 }
 
 
 static void
 on_link_clicked (GtkHTML *html, const gchar *url, gpointer data)
 {
-	gnome_message_box_new (url, GNOME_MESSAGE_BOX_INFO, "Okay");
+	GtkWidget* message_box;
+	gchar* message = g_strdup_printf ("You have clicked on this link:\n%s",
+					  url);
+	
+	message_box = gnome_message_box_new (message,
+					     GNOME_MESSAGE_BOX_INFO,
+					     "Okay", NULL);
+	
+	gnome_dialog_set_default (GNOME_DIALOG (message_box), 1);
+	gnome_dialog_run (message_box);
+	g_free (message);
 }
 
 
