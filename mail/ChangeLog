@@ -1,3 +1,8 @@
+2001-01-11  Dan Winship  <danw@ximian.com>
+
+	* folder-browser.c (got_folder): Connect to folder_changed as well
+	as message_changed for updating unread count
+
 2001-01-10  Miguel de Icaza  <miguel@helixcode.com>
 
 	* GNOME_Evolution_Mail.oafinfo: Add Bonobo/ItemContainer as the

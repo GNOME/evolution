@@ -169,6 +169,8 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 		update_unread_count_main ((CamelObject *)folder, NULL, fb);
 		camel_object_hook_event ((CamelObject *)folder, "message_changed",
 					 update_unread_count, fb);
+		camel_object_hook_event ((CamelObject *)folder, "folder_changed",
+					 update_unread_count, fb);
 	}
 
 	gtk_widget_set_sensitive (GTK_WIDGET (fb->search->entry),
