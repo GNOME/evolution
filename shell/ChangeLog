@@ -1,3 +1,8 @@
+2003-02-06  Dan Winship  <danw@ximian.com>
+
+	* evolution-test-component.c (main): s/PACKAGE/GETTEXT_PACKAGE/ in
+	gettext init.
+
 2003-02-06  Not Zed  <NotZed@Ximian.com>
 
 	* e-shortcuts-view.c (class_init): use POINTER_STRING_BOOL for

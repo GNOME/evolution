@@ -89,8 +89,8 @@ main (int argc, char *argv [])
         /*mtrace();*/                                                           
         mcheck(blowup);                                                         
 #endif                                                                          
-	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
-	textdomain (PACKAGE);
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	textdomain (GETTEXT_PACKAGE);
 
 	g_thread_init (NULL);
 

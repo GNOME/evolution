@@ -2,6 +2,8 @@
 
 	* Makefile.am: cleanup
 
+	* wombat.c (main): s/PACKAGE/GETTEXT_PACKAGE/ in gettext init
+
 2003-02-01  Hans Petter Jansson  <hpj@ximian.com>
 
 	* Makefile.am: Make .server file point to where wombat is now

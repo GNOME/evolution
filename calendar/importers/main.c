@@ -72,8 +72,8 @@ main (int argc, char *argv[])
 {
 	CORBA_ORB orb;
 
-	bindtextdomain(PACKAGE, EVOLUTION_LOCALEDIR);
-	textdomain(PACKAGE);
+	bindtextdomain(GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	textdomain(GETTEXT_PACKAGE);
 	
 	g_type_init ();
 	bonobo_activation_init (argc, argv);

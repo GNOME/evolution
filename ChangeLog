@@ -15,6 +15,11 @@
 	* tools/evolution-addressbook-clean.in:
 	s/EVOLUTION_BINDIR/EVOLUTION_TOOLSDIR/
 
+	* tools/evolution-addressbook-abuse.c (main):
+	s/PACKAGE/GETTEXT_PACKAGE/ in gettext init
+	* tools/evolution-addressbook-export.c (main): Likewise
+	* tools/evolution-addressbook-import.c (main): Likewise
+
 2003-02-05  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Define and AC_SUBST privlibexecdir, privdatadir,

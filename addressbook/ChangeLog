@@ -1,3 +1,8 @@
+2003-02-06  Dan Winship  <danw@ximian.com>
+
+	* gui/component/addressbook-config.c (main):
+	s/PACKAGE/GETTEXT_PACKAGE/ in gettext setup.
+
 2003-02-05  Dan Winship  <danw@ximian.com>
 
 	* backend/ebook/Makefile.am (INCLUDES): Remove cruft.

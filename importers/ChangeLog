@@ -1,3 +1,10 @@
+2003-02-06  Dan Winship  <danw@ximian.com>
+
+	* elm-importer.c (main): s/PACKAGE/GETTEXT_PACKAGE/ in gettext init
+	* evolution-gnomecard-importer.c (main): Likewise
+	* netscape-importer.c (main): Likewise
+	* pine-importer.c (main): Likewise
+
 2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* netscape-importer.c (netscape_import_filters): Look for

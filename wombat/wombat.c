@@ -173,8 +173,8 @@ main (int argc, char **argv)
 {
 	gboolean did_pas=FALSE, did_pcs=FALSE;
 
-	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
-	textdomain (PACKAGE);
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	textdomain (GETTEXT_PACKAGE);
 
 	g_message ("Starting wombat");
 

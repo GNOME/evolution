@@ -695,8 +695,8 @@ register_component (void)
 int
 main (int argc, char **argv)
 {
-	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
-	textdomain (PACKAGE);
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	textdomain (GETTEXT_PACKAGE);
 
 	gnome_program_init (PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv, 
 			    GNOME_PROGRAM_STANDARD_PROPERTIES,

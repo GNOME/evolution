@@ -48,8 +48,8 @@ main (int argc, char *argv[])
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
 	};
 
-	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
-	textdomain (PACKAGE);
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	textdomain (GETTEXT_PACKAGE);
 
 	gnome_program_init ("evolution-addressbook-export", VERSION,
 			    LIBGNOMEUI_MODULE, argc, argv, 

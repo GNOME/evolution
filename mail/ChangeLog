@@ -5,6 +5,8 @@
 	(libevolution_mail_la_LDFLAGS): remove -export-dynamic, add
 	-module
 
+	* main.c (main): s/PACKAGE/GETTEXT_PACKAGE/ in gettext init
+
 	* importers/Makefile.am (INCLUDES): change EVOLUTION_DATADIR to
 	EVOLUTION_PRIVDATADIR
 

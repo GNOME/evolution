@@ -120,8 +120,8 @@ main (int argc, char *argv[])
 		exit(0);
 	}
 
-	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
-	textdomain (PACKAGE);
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	textdomain (GETTEXT_PACKAGE);
 
 	gnome_program_init ("evolution-addressbook-abuse", VERSION,
 			    LIBGNOMEUI_MODULE, argc, argv, 
