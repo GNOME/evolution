@@ -1,3 +1,8 @@
+2001-04-08  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-meeting-time-sel-item.c (e_meeting_time_selector_item_init):
+	Use a pretty arrow instead of GDK_TOP_LEFT_ARROW.
+
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-meeting-time-sel-item.c: Fix headers.

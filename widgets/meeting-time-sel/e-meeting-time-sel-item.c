@@ -169,7 +169,7 @@ e_meeting_time_selector_item_init (EMeetingTimeSelectorItem *mts_item)
 	mts_item->stipple_gc = NULL;
 
 	/* Create the cursors. */
-	mts_item->normal_cursor = gdk_cursor_new (GDK_TOP_LEFT_ARROW);
+	mts_item->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	mts_item->resize_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 	mts_item->last_cursor_set = NULL;
 
