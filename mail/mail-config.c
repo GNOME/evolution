@@ -920,9 +920,14 @@ mail_config_druid (void)
 			    GTK_SIGNAL_FUNC (cancel), window);
 
 	/* Start page */
-	page = gnome_druid_page_start_new_with_vals (_("Mail Configuration"),
-						     "blah blah blah",
-						     mail_logo, NULL);
+	page = gnome_druid_page_start_new_with_vals (
+		_("Mail Configuration"),
+		"Welcome to the Evolution Mail configuration wizard!\n"
+		"By filling in some information about your email\n"
+		"settings,you can start sending and receiving email\n"
+		"right away. Click \"Next\" to continue.",
+		mail_logo, NULL);
+
 	gnome_druid_page_start_set_logo_bg_color (
 		GNOME_DRUID_PAGE_START (page),
 		&GNOME_DRUID_PAGE_START (page)->background_color);
@@ -986,9 +991,11 @@ mail_config_druid (void)
 
 
 	/* Finish page */
-	page = gnome_druid_page_finish_new_with_vals (_("Mail Configuration"),
-						      "blah blah blah done",
-						      mail_logo, NULL);
+	page = gnome_druid_page_finish_new_with_vals (
+		_("Mail Configuration"),
+		"Your email configuration is now complete.\n"
+		"Click \"finish\" to save your new settings",
+		mail_logo, NULL);
 	gnome_druid_page_finish_set_logo_bg_color (
 		GNOME_DRUID_PAGE_FINISH (page),
 		&GNOME_DRUID_PAGE_FINISH (page)->background_color);
