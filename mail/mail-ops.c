@@ -518,6 +518,9 @@ do_refile_messages (gpointer in_data, gpointer op_data, CamelException * ex)
 		return;
 
 	mail_tool_camel_lock_up ();
+	camel_folder_freeze (input->source);
+	camel_folder_freeze (dest);
+
 	for (i = 0; i < input->uids->len; i++) {
 		camel_folder_move_message_to (input->source,
 					      input->uids->pdata[i], dest,
@@ -527,6 +530,8 @@ do_refile_messages (gpointer in_data, gpointer op_data, CamelException * ex)
 			break;
 	}
 
+	camel_folder_thaw (input->source);
+	camel_folder_thaw (dest);
 	camel_object_unref (CAMEL_OBJECT (dest));
 	mail_tool_camel_lock_down ();
 }
@@ -625,6 +630,10 @@ do_flag_messages (gpointer in_data, gpointer op_data, CamelException * ex)
 	flag_messages_input_t *input = (flag_messages_input_t *) in_data;
 	gint i;
 
+	mail_tool_camel_lock_up ();
+	camel_folder_freeze (input->source);
+	mail_tool_camel_lock_down ();
+
 	for (i = 0; i < input->uids->len; i++) {
 		if (input->invert) {
 			const CamelMessageInfo *info;
@@ -641,6 +650,10 @@ do_flag_messages (gpointer in_data, gpointer op_data, CamelException * ex)
 
 		g_free (input->uids->pdata[i]);
 	}
+
+	mail_tool_camel_lock_up ();
+	camel_folder_thaw (input->source);
+	mail_tool_camel_lock_down ();
 }
 
 static void
