@@ -296,8 +296,8 @@ progress_bar_timeout_callback (void *data)
 }
 
 static void
-progress_bar_destroy_callback (GtkObject *object,
-			       void *data)
+progress_bar_weak_notify (void *data,
+			  GObject *where_the_object_was)
 {
 	int timeout_id;
 
@@ -375,21 +375,17 @@ create_progress_dialog (EShell *shell,
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), progress_bar, FALSE, TRUE, 0);
 
 	timeout_id = g_timeout_add (50, progress_bar_timeout_callback, progress_bar);
-	g_signal_connect (progress_bar, "destroy",
-			  G_CALLBACK (progress_bar_destroy_callback),
-			  GINT_TO_POINTER (timeout_id));
+	g_object_weak_ref (G_OBJECT (progress_bar), progress_bar_weak_notify, GINT_TO_POINTER (timeout_id));
 
 	timeout_id = g_timeout_add (PROGRESS_DIALOG_DELAY, progress_dialog_show_timeout_callback, dialog);
-	g_signal_connect (progress_bar, "destroy",
-			  G_CALLBACK (progress_bar_destroy_callback),
-			  GINT_TO_POINTER (timeout_id));
+	g_object_weak_ref (G_OBJECT (progress_bar), progress_bar_weak_notify, GINT_TO_POINTER (timeout_id));
 
 	return dialog;
 }
 
 static void
-shell_destroy_callback (GtkObject *object,
-			void *data)
+shell_weak_notify (void *data,
+		   GObject *where_the_object_was)
 {
 	DiscoveryData *discovery_data;
 
@@ -398,8 +394,8 @@ shell_destroy_callback (GtkObject *object,
 }
 
 static void
-shell_view_destroy_callback (GtkObject *object,
-			     void *data)
+shell_view_weak_notify (void *data,
+			GObject *where_the_object_was)
 {
 	DiscoveryData *discovery_data;
 
@@ -408,8 +404,8 @@ shell_view_destroy_callback (GtkObject *object,
 }
 
 static void
-storage_destroy_callback (GtkObject *object,
-			  void *data)
+storage_weak_notify (void *data,
+		     GObject *where_the_object_was)
 {
 	DiscoveryData *discovery_data;
 
@@ -487,14 +483,9 @@ discover_folder (EShell *shell,
 	discovery_data->storage            = storage;
 	g_object_ref (storage);
 
-	g_signal_connect (shell, "destroy",
-			  G_CALLBACK (shell_destroy_callback), discovery_data);
-
-	g_signal_connect (parent, "destroy",
-			  G_CALLBACK (shell_view_destroy_callback), discovery_data);
-
-	g_signal_connect (storage, "destroy",
-			  G_CALLBACK (storage_destroy_callback), discovery_data);
+	g_object_weak_ref (G_OBJECT (shell), shell_weak_notify, discovery_data);
+	g_object_weak_ref (G_OBJECT (parent), shell_view_weak_notify, discovery_data);
+	g_object_weak_ref (G_OBJECT (storage), storage_weak_notify, discovery_data);
 
 	g_signal_connect (dialog, "clicked",
 			  G_CALLBACK (progress_dialog_clicked_callback), discovery_data);

@@ -206,8 +206,8 @@ dialog_clicked_callback (GtkDialog *dialog,
 }
 
 static void
-dialog_destroy_callback (GtkObject *object,
-			 void *data)
+dialog_weak_notify (void *data,
+		    GObject *where_the_object_was)
 {
 	GNOME_Evolution_StorageSetView storage_set_view_iface;
 	CORBA_Environment ev;
@@ -266,8 +266,7 @@ create_new_folder_selector (EvolutionShellComponent *shell_component)
 
 	/* This is necessary to unref the StorageSetView iface once we are done
 	   with it.  */
-	g_signal_connect (dialog, "destroy",
-			  G_CALLBACK (dialog_destroy_callback), storage_set_view_iface);
+	g_object_weak_ref (G_OBJECT (dialog), dialog_weak_notify, storage_set_view_iface);
 
 	gtk_widget_show (control_widget);
 	gtk_widget_show (dialog);

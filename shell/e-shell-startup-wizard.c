@@ -846,6 +846,8 @@ e_shell_startup_wizard_create (void)
 	SWData *data;
 	int num_accounts;
 
+	return TRUE;
+
 	data = g_new0 (SWData, 1);
 
 	data->config_listener = e_config_listener_new();

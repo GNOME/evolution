@@ -129,22 +129,12 @@ quit_box_new (void)
 }
 
 static void
-quit_box_destroyed_callback (GtkObject *object,
-			     void *data)
-{
-	GtkWidget **p;
-
-	p = (GtkWidget **) data;
-	*p = NULL;
-}
-
-static void
 no_views_left_cb (EShell *shell, gpointer data)
 {
 	GtkWidget *quit_box;
 
 	quit_box = quit_box_new ();
-	g_signal_connect (quit_box, "destroy", G_CALLBACK (quit_box_destroyed_callback), &quit_box);
+	g_object_add_weak_pointer (G_OBJECT (quit_box), (void **) &quit_box);
 
 	/* FIXME: This is wrong.  We should exit only when the shell is
 	   destroyed.  But refcounting is broken at present, so this is a
@@ -184,7 +174,8 @@ no_views_left_cb (EShell *shell, gpointer data)
 }
 
 static void
-destroy_cb (GtkObject *object, gpointer data)
+shell_weak_notify (void *data,
+		   GObject *where_the_object_was)
 {
 	gtk_main_quit ();
 }
@@ -368,10 +359,8 @@ idle_cb (void *data)
 	case E_SHELL_CONSTRUCT_RESULT_OK:
 		e_shell_config_factory_register (shell);
 
-		g_signal_connect (shell, "no_views_left",
-				  G_CALLBACK (no_views_left_cb), NULL);
-		g_signal_connect (shell, "destroy",
-				  G_CALLBACK (destroy_cb), NULL);
+		g_signal_connect (shell, "no_views_left", G_CALLBACK (no_views_left_cb), NULL);
+		g_object_weak_ref (G_OBJECT (shell), shell_weak_notify, NULL);
 
 		if (!getenv ("EVOLVE_ME_HARDER"))
 			g_signal_connect (shell, "new_view_created",

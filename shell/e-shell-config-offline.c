@@ -53,8 +53,8 @@ typedef struct _PageData PageData;
 /* Callbacks.  */
 
 static void
-config_control_destroy_callback (GtkObject *object,
-				 void *data)
+config_control_destroy_notify (void *data,
+			       GObject *where_the_config_control_was)
 {
 	PageData *page_data;
 
@@ -207,10 +207,10 @@ e_shell_config_offline_create_widget (EShell *shell, EvolutionConfigControl *con
 
 	page_data->config_control = control;
 
-	g_signal_connect (page_data->config_control, "destroy",
-			  G_CALLBACK (config_control_destroy_callback), page_data);
 	g_signal_connect (page_data->config_control, "apply",
 			  G_CALLBACK (config_control_apply_callback), page_data);
+
+	g_object_weak_ref (G_OBJECT (page_data->config_control), config_control_destroy_notify, page_data);
 
 	return scroll_frame;
 }

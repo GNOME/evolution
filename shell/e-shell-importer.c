@@ -216,7 +216,6 @@ typedef struct _ImporterComponentData {
 	int item;
 
 	gboolean stop;
-	gboolean destroyed;
 } ImporterComponentData;
 
 static gboolean importer_timeout_fn (gpointer data);
@@ -259,8 +258,8 @@ import_cb (EvolutionImporterListener *listener,
 	}
 	
 	g_free (icd->filename);
-	if (!icd->destroyed)
-		gtk_object_destroy (GTK_OBJECT (icd->dialog));
+	if (icd->dialog != NULL)
+		gtk_widget_destroy (icd->dialog);
 	bonobo_object_unref (BONOBO_OBJECT (icd->listener));
 	g_object_unref (icd->client);
 	g_free (icd);
@@ -299,11 +298,13 @@ dialog_clicked_cb (GnomeDialog *dialog,
 }
 
 static void
-dialog_destroy_cb (GtkObject *object,
-		   ImporterComponentData *icd)
+dialog_destroy_notify (void *data,
+		       GObject *where_the_dialog_was)
 {
+	ImporterComponentData *icd = (ImporterComponentData *) data;
+
+	icd->dialog = NULL;
 	icd->stop = TRUE;
-	icd->destroyed = TRUE;
 }
 
 struct _IIDInfo {
@@ -505,15 +506,14 @@ start_import (const char *folderpath,
 
 	icd = g_new (ImporterComponentData, 1);
 	icd->stop = FALSE;
-	icd->destroyed = FALSE;
 	icd->dialog = GNOME_DIALOG (gnome_dialog_new (_("Importing"),
 						      GNOME_STOCK_BUTTON_CANCEL,
 						      NULL));
 	g_signal_connect (icd->dialog, "clicked",
 			  G_CALLBACK (dialog_clicked_cb), icd);
-	g_signal_connect (icd->dialog, "destroy",
-			  G_CALLBACK (dialog_destroy_cb), icd);
-	
+
+	g_object_weak_ref (icd->dialog, dialog_destroy_notify, icd);
+
 	label = g_strdup_printf (_("Importing %s.\nStarting %s"),
 				 filename, real_iid);
 	icd->contents = gtk_label_new (label);
@@ -937,9 +937,11 @@ import_druid_cancel (GnomeDruid *druid,
 }
 
 static void
-import_druid_destroy (GtkObject *object,
-		      ImportData *data)
+import_druid_weak_notify (void *data,
+			  GObject *where_the_object_was)
 {
+	ImportData *data = (ImportData *) data;
+
 	g_object_unref (data->wizard);
 	g_free (data->choosen_iid);
 	g_free (data);
@@ -1186,9 +1188,11 @@ druid_finish_button_change (GnomeDruid *druid)
 }
 
 static void
-close_dialog (GtkWidget *dialog,
-	      gboolean *dialog_open)
+close_dialog (void *data,
+	      GObject *where_the_dialog_was)
 {
+	gboolean *dialog_open = (gboolean *) data;
+
 	*dialog_open = FALSE;
 }
 
@@ -1214,8 +1218,7 @@ show_import_wizard (BonoboUIComponent *component,
 	gtk_window_set_wmclass (GTK_WINDOW (data->dialog), "importdruid",
 				"Evolution:shell");
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (user_data));
-	g_signal_connect (data->dialog, "destroy",
-			  G_CALLBACK (close_dialog), &dialog_open);
+	g_object_weak_ref (data->dialog, dialog_weak_notify, &dialog_open);
 	gnome_dialog_close_hides (GNOME_DIALOG (data->dialog), TRUE);
 	
 	data->druid = glade_xml_get_widget (data->wizard, "druid1");
@@ -1274,8 +1277,8 @@ show_import_wizard (BonoboUIComponent *component,
 	/* Finish page */
 	g_signal_connect (data->finish, "finish",
 			  G_CALLBACK (import_druid_finish), data);
-	g_signal_connect (data->dialog, "destroy",
-			  G_CALLBACK (import_druid_destroy), data);
+
+	g_object_weak_ref (data->dialog, import_druid_weak_notify, data);
 
 	gtk_widget_show_all (data->dialog);
 }

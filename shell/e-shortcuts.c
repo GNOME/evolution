@@ -579,8 +579,8 @@ get_item (EShortcuts *shortcuts,
 /* Signal handlers for the views.  */
 
 static void
-view_destroyed_cb (GtkObject *object,
-		   gpointer data)
+view_weak_notify (void *data,
+		  GObject *where_the_object_was)
 {
 	EShortcuts *shortcuts;
 	EShortcutsPrivate *priv;
@@ -588,7 +588,7 @@ view_destroyed_cb (GtkObject *object,
 	shortcuts = E_SHORTCUTS (data);
 	priv = shortcuts->priv;
 
-	priv->views = g_slist_remove (priv->views, object);
+	priv->views = g_slist_remove (priv->views, where_the_object_was);
 }
 
 
@@ -626,6 +626,7 @@ impl_dispose (GObject *object)
 {
 	EShortcuts *shortcuts;
 	EShortcutsPrivate *priv;
+	GSList *p;
 
 	shortcuts = E_SHORTCUTS (object);
 	priv = shortcuts->priv;
@@ -642,6 +643,11 @@ impl_dispose (GObject *object)
 			g_warning (_("Error saving shortcuts.")); /* FIXME */
 		priv->dirty = FALSE;
 	}
+
+	for (p = priv->views; p != NULL; p = p->next)
+		g_object_weak_unref (G_OBJECT (p->data), view_weak_notify, shortcuts);
+	g_slist_free (priv->views);
+	priv->views = NULL;
 
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
@@ -885,7 +891,7 @@ e_shortcuts_new_view (EShortcuts *shortcuts)
 	new = e_shortcuts_view_new (shortcuts);
 	priv->views = g_slist_prepend (priv->views, new);
 
-	gtk_signal_connect (GTK_OBJECT (new), "destroy", GTK_SIGNAL_FUNC (view_destroyed_cb), shortcuts);
+	g_object_weak_ref (G_OBJECT (new), view_weak_notify, shortcuts);
 
 	return new;
 }

@@ -419,11 +419,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	/* Make sure we get destroyed if the shell gets destroyed.  */
 
 	priv->shell = shell;
-#if 0
-	gtk_signal_connect_object_while_alive (GTK_OBJECT (shell), "destroy",
-					       G_CALLBACK (gtk_widget_destroy),
-					       GTK_OBJECT (folder_selection_dialog));
-#endif
+	g_object_weak_ref (G_OBJECT (shell), (GWeakNotify) gtk_widget_destroy, folder_selection_dialog);
 
 	/* Set up the label.  */
 

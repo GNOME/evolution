@@ -95,9 +95,11 @@ config_control_apply_cb (EvolutionConfigControl *control,
 }
 
 static void
-config_control_destroy_cb (EvolutionConfigControl *config_control,
-			   EvolutionDefaultFolderConfig *dfc)
+config_control_destroy_notify (void *data,
+			       GObject *where_the_config_control_was)
 {
+	EvolutionDefaultFolderConfig *dfc = (EvolutionDefaultFolderConfig *) data;
+
 	g_object_unref (dfc->config_listener);
 
 	g_free (dfc->mail_uri);
@@ -188,8 +190,8 @@ e_shell_config_default_folders_create_widget (EShell *shell, EvolutionConfigCont
 
 	g_signal_connect (dfc->config_control, "apply",
 			  G_CALLBACK (config_control_apply_cb), dfc);
-	g_signal_connect (dfc->config_control, "destroy",
-			  G_CALLBACK (config_control_destroy_cb), dfc);
+
+	g_object_weak_ref (G_OBJECT (dfc->config_control), config_control_destroy_notify, dfc);
 
 	return widget;
 }

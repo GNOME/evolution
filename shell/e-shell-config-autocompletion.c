@@ -56,9 +56,11 @@ folder_list_changed_callback (EFolderList *efl,
 }
 
 static void
-config_control_destroy_callback (EvolutionConfigControl *config_control,
-				 EvolutionAutocompletionConfig *ac)
+config_control_destroy_notify (void *data,
+			       GObject *where_the_config_control_was)
 {
+	EvolutionAutocompletionConfig *ac = (EvolutionAutocompletionConfig *) data;
+
 	g_object_unref (ac->shell_client);
 	g_object_unref (ac->config_listener);
 
@@ -114,8 +116,8 @@ e_shell_config_autocompletion_create_widget (EShell *shell, EvolutionConfigContr
 			  G_CALLBACK (folder_list_changed_callback), ac);
 	g_signal_connect (ac->config_control, "apply",
 			  G_CALLBACK (config_control_apply_callback), ac);
-	g_signal_connect (ac->config_control, "destroy",
-			  G_CALLBACK (config_control_destroy_callback), ac);
+
+	g_object_weak_ref (G_OBJECT (ac->config_control), config_control_destroy_notify, ac);
 
 	CORBA_exception_free (&ev);
 

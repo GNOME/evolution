@@ -308,19 +308,16 @@ setup_task_bar (EActivityHandler *activity_handler,
 }
 
 static void
-task_bar_destroy_callback (GtkObject *task_bar_object,
-			   void *data)
+task_bar_destroy_notify (void *data,
+			 GObject *task_bar_instance)
 {
-	ETaskBar *task_bar;
 	EActivityHandler *activity_handler;
 	EActivityHandlerPrivate *priv;
-
-	task_bar = E_TASK_BAR (task_bar_object);
 
 	activity_handler = E_ACTIVITY_HANDLER (data);
 	priv = activity_handler->priv;
 
-	priv->task_bars = g_slist_remove (priv->task_bars, task_bar);
+	priv->task_bars = g_slist_remove (priv->task_bars, task_bar_instance);
 }
 
 
@@ -332,6 +329,7 @@ impl_dispose (GObject *object)
 	EActivityHandler *handler;
 	EActivityHandlerPrivate *priv;
 	GList *p;
+	GSList *sp;
 
 	handler = E_ACTIVITY_HANDLER (object);
 	priv = handler->priv;
@@ -345,6 +343,10 @@ impl_dispose (GObject *object)
 
 	g_list_free (priv->activity_infos);
 	priv->activity_infos = NULL;
+
+	for (sp = priv->task_bars; sp != NULL; sp = sp->next)
+		g_object_weak_unref (G_OBJECT (sp->data), task_bar_destroy_notify, sp->data);
+	priv->task_bars = NULL;
 
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
@@ -588,9 +590,7 @@ e_activity_handler_attach_task_bar (EActivityHandler *activity_handler,
 
 	priv = activity_handler->priv;
 
-	g_signal_connect_object (task_bar, "destroy",
-				 G_CALLBACK (task_bar_destroy_callback),
-				 G_OBJECT (activity_handler), 0);
+	g_object_weak_ref (G_OBJECT (task_bar), task_bar_destroy_notify, activity_handler);
 
 	priv->task_bars = g_slist_prepend (priv->task_bars, task_bar);
 

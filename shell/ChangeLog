@@ -1,3 +1,102 @@
+2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* main.c (quit_box_destroyed_callback): Removed.
+	(no_views_left_cb): Use g_object_add_weak_pointer() instad of
+	connecting to the "destroy" signal.
+	(destroy_cb): Removed.
+	(shell_weak_notify): New.
+	(idle_cb): Use g_object_weak_ref() on the shell object instead of
+	connecting to the "destroy" signal.
+
+	* evolution-test-component.c (dialog_destroy_callback): Removed.
+	(dialog_weak_notify): New.
+	(create_new_folder_selector): Use g_object_weak_ref() on the
+	dialog instead of connecting the "destroy" signal.
+
+	* e-shortcuts.c (view_destroyed_cb): Removed.
+	(view_weak_notify): New.
+	(e_shortcuts_new_view): g_object_weak_ref() the new view instead
+	of connecting the "destroy" signal.
+	(impl_dispose): Free the ->views and g_object_weak_unref() all the
+	items.
+
+	* e-shell.c (view_destroy_cb): Removed.
+	(view_weak_notify): New.
+	(create_view): Use g_object_weak_ref() on the newly created view
+	instead of connecting to the "destroy" signal.
+	(impl_dispose): g_object_weak_unref() the views.
+	(e_shell_show_settings): Use g_object_add_weak_pointer() on the
+	settings_dialog instead of connecting to the "destroy" signal.
+	(settings_dialog_destroy_cb): Removed.
+
+	* e-shell-shared-folder-picker-dialog.c
+	(progress_bar_weak_notify): New.
+	(progress_bar_destroy_callback): Removed.
+	(create_progress_dialog): Use g_object_weak_ref() on the progress
+	bar object instead of connecting to its "destroy" signal.
+	(shell_destroy_callback): Removed.
+	(shell_view_destroy_callback): Removed.
+	(storage_destroy_callback): Removed.
+	(shell_weak_notify): New.
+	(shell_view_weak_notify): New.
+	(storage_weak_notify): New.
+	(discover_folder): Use g_object_weak_ref() on the shell, parent,
+	storage objects instead of connecting to their "destroy" signals.
+
+	* e-shell-importer.c: Removed member destroyed from
+	ImporterComponentData.
+	(import_cb): Instead of checking if ->destroyed is TRUE, check if
+	->dialog is NULL to decide whether the dialog has been destroyed
+	or not.
+	(dialog_destroy_cb): Removed.
+	(start_import): Use g_object_weak_ref() on the dialog object
+	instead of connecting to its "destroy" signal.
+	(dialog_close): Removed.
+	(dialog_weak_notify): New.
+	(show_import_wizard): Use g_object_weak_ref() on the dialog object
+	instead of connecting to its "destroy" signal.
+	(import_druid_destroy): New.
+	(import_druid_weak_notify): New.
+	(show_import_wizard): Use g_object_weak_ref() on the druid object
+	instead of connecting to its "destroy" signal.
+
+	* e-shell-folder-selection-dialog.c
+	(e_shell_folder_selection_dialog_construct): g_object_weak_ref()
+	the shell object instead of connecting to its "destroy" signal.
+
+	* e-shell-folder-creation-dialog.c (dialog_destroy_cb): Removed.
+	(dialog_destroy_notify): New.
+	(e_shell_show_folder_creation_dialog): g_object_weak_ref() the
+	dialog instead of connecting to its "destroy" signal.
+	(shell_destroy_cb): Removed.
+	(shell_destroy_notify): New.
+	(e_shell_show_folder_creation_dialog): g_object_weak_ref() the
+	shell object instead of connecting to its "destroy" signal.
+
+	* e-shell-config-offline.c (config_control_destroy_callback):
+	Removed.
+	(config_control_destroy_notify): New.
+	(e_shell_config_offline_create_widget): g_object_weak_ref() the
+	config_control instead of connecting to its "destroy" signal.
+
+	* e-shell-config-default-folders.c
+	(config_control_destroy_callback): Removed.
+	(config_control_destroy_notify): New.
+	(e_shell_config_default_folders_create_widget):
+	g_object_weak_ref() instead of connecting to the "destroy" signal.
+
+	* e-shell-config-autocompletion.c (config_control_destroy_notify):
+	New.
+	(config_control_destroy_callback): Removed.
+	(e_shell_config_autocompletion_create_widget):
+	g_object_weak_ref() instead of connecting to the "destroy" signal.
+
+	* e-activity-handler.c (task_bar_destroy_cb): Removed.
+	(task_bar_destroy_notify): New.
+	(e_activity_handler_attach_task_bar): Weak_ref the task_bar using
+	task_bar_destroy_notify.
+	(impl_dispose): Weak_unref the task bars in priv->task_bars.
+
 2002-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-startup-wizard.c: Change type of member etd in

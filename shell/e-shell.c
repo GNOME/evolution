@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-shell.c
  *
- * Copyright (C) 2000, 2001 Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -957,13 +957,11 @@ view_delete_event_cb (GtkWidget *widget,
 }
 
 static void
-view_destroy_cb (GtkObject *object,
-		 void *data)
+view_weak_notify (void *data,
+		  GObject *where_the_object_was)
 {
 	EShell *shell;
 	int num_views;
-
-	g_assert (E_IS_SHELL_VIEW (object));
 
 	shell = E_SHELL (data);
 
@@ -975,7 +973,7 @@ view_destroy_cb (GtkObject *object,
 	if (num_views - 1 == 0)
 		e_shell_save_settings (shell);
 
-	shell->priv->views = g_list_remove (shell->priv->views, object);
+	shell->priv->views = g_list_remove (shell->priv->views, where_the_object_was);
 
 	if (shell->priv->views == NULL) {
 		set_interactive (shell, FALSE);
@@ -1001,8 +999,8 @@ create_view (EShell *shell,
 
 	g_signal_connect (view, "delete_event",
 			  G_CALLBACK (view_delete_event_cb), shell);
-	g_signal_connect (view, "destroy",
-			  G_CALLBACK (view_destroy_cb), shell);
+
+	g_object_weak_ref (G_OBJECT (view), view_weak_notify, shell);
 
 	if (uri != NULL)
 		e_shell_view_display_uri (E_SHELL_VIEW (view), uri, TRUE);
@@ -1085,9 +1083,8 @@ impl_dispose (GObject *object)
 		gtk_signal_disconnect_by_func (GTK_OBJECT (view),
 					       G_CALLBACK (view_delete_event_cb),
 					       shell);
-		gtk_signal_disconnect_by_func (GTK_OBJECT (view),
-					       G_CALLBACK (view_destroy_cb),
-					       shell);
+
+		g_object_weak_unref (G_OBJECT (view), view_weak_notify, shell);
 
 		gtk_object_destroy (GTK_OBJECT (view));
 	}
@@ -2079,18 +2076,6 @@ e_shell_send_receive (EShell *shell)
 	e_free_string_list (id_list);
 }
 
-static void
-settings_dialog_destroy_cb (GtkWidget *widget, void *data)
-{
-	EShell *shell;
-	EShellPrivate *priv;
-	
-	shell = E_SHELL (data);
-	priv = shell->priv;
-	
-	priv->settings_dialog = NULL;
-}
-
 void
 e_shell_show_settings (EShell *shell, const char *type, EShellView *shell_view)
 {
@@ -2112,8 +2097,7 @@ e_shell_show_settings (EShell *shell, const char *type, EShellView *shell_view)
 	if (type != NULL)
 		e_shell_settings_dialog_show_type (E_SHELL_SETTINGS_DIALOG (priv->settings_dialog), type);
 
-	g_signal_connect (priv->settings_dialog, "destroy",
-			  G_CALLBACK (settings_dialog_destroy_cb), shell);
+	g_object_add_weak_pointer (G_OBJECT (priv->settings_dialog), (void **) & priv->settings_dialog);
 
 	gtk_widget_show (priv->settings_dialog);
 }
