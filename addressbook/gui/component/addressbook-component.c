@@ -535,15 +535,6 @@ add_creatable_item (EvolutionShellComponent *shell_component,
 							   icon);
 
 
-	evolution_shell_component_add_user_creatable_item (shell_component,
-							   id,
-							   description,
-							   menu_description,
-							   tooltip,
-							   "ldap-contacts",
-							   menu_shortcut,
-							   icon);
-
 	if (icon != NULL)
 		gdk_pixbuf_unref (icon);
 	g_free (icon_path);

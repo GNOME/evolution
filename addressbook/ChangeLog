@@ -1,3 +1,10 @@
+2002-09-17  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-component.c (add_creatable_item):
+	don't add the user creatable item for ldap-contact folders atm,
+	since it results in their being duplicate New Contact and New
+	Contact List menu items.
+
 2002-09-17  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/component/ldap-config.glade: Fix a typo.
