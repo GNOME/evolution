@@ -1,3 +1,10 @@
+2005-01-31  Not Zed  <NotZed@Ximian.com>
+  
+	** See bug #69850
+	
+	* mail-autofilter.c (rule_from_message): dont crash if we're
+	missing the requested headers.
+
 2005-01-14  Not Zed  <NotZed@Ximian.com>
 
 	** Related to changes for #65178.
