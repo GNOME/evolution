@@ -162,10 +162,16 @@ internet_unformat(CamelAddress *a, const char *raw)
 	do {
 		c = (unsigned char)*p++;
 		switch (c) {
-			/* HMMM.  Not sure we need this, we dont quote the names anyway ... */
+			/* removes quotes, they should only be around the total name anyway */
 		case '"':
-			while (*p && *p != '"')
-				p++;
+			p[-1] = ' ';
+			while (*p)
+				if (*p == '"') {
+					*p++ = ' ';
+					break;
+				} else {
+					p++;
+				}
 			break;
 		case '<':
 			if (name == NULL)
@@ -186,7 +192,7 @@ internet_unformat(CamelAddress *a, const char *raw)
 				name = g_strstrip(name);
 			addr = g_strstrip(addr);
 			if (addr[0]) {
-				d(printf("found address: %s <%s>\n", name, addr));
+				d(printf("found address: '%s' <%s>\n", name, addr));
 				camel_internet_address_add((CamelInternetAddress *)a, name, addr);
 			}
 			name = NULL;
@@ -419,8 +425,8 @@ camel_internet_address_encode_address(const char *real, const char *addr)
 
 /**
  * camel_internet_address_format_address:
- * @name: 
- * @addr: 
+ * @name: A name, quotes may be stripped from it.
+ * @addr: Assumes a valid rfc822 email address.
  * 
  * Function to format a single address, suitable for display.
  * 
@@ -433,11 +439,27 @@ camel_internet_address_format_address(const char *name, const char *addr)
 
 	g_assert(addr);
 
-#warning "If name contains a quote, then we're thrown for six ... "
-	if (name && name[0])
+	if (name && name[0]) {
+		const char *p = name;
+		char *o, c;
+
+		while ((c = *p++)) {
+			if (c == '\"' || c == ',') {
+				o = ret = g_malloc(strlen(name)+3+strlen(addr)+3 + 1);
+				p = name;
+				*o++ = '\"';
+				while ((c = *p++))
+					if (c != '\"')
+						*o++ = c;
+				*o++ = '\"';
+				sprintf(o, " <%s>", addr);
+				d(printf("encoded '%s' => '%s'\n", name, ret));
+				return ret;
+			}
+		}
 		ret = g_strdup_printf("%s <%s>", name, addr);
-	else
-		ret = g_strdup_printf("%s", addr);
+	} else
+		ret = g_strdup(addr);
 
 	return ret;
 }

@@ -599,13 +599,11 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 	/* now we can actually send what's important :p */
 	gchar *cmdbuf, *respbuf = NULL;
 	CamelStreamFilter *filtered_stream;
-	CamelMimeFilter *crlffilter, *lwfilter;
-	gint crlfid, lwid;
-	
+	CamelMimeFilter *crlffilter;
 	
 	/* if the message contains 8bit mime parts and the server
            doesn't support it, encode 8bit parts to the best
-           encoding. */
+           encoding.  This will also enforce an encoding to keep the lines in limit */
 	if (has_8bit_parts && !CAMEL_TRANSPORT (transport)->supports_8bit)
 		camel_mime_message_encode_8bit_parts (CAMEL_MIME_MESSAGE (message));
 	
@@ -641,12 +639,9 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 	respbuf = NULL;
 	
 	/* setup stream filtering */
-	lwfilter = camel_mime_filter_linewrap_new (998, 998, '\t');
 	crlffilter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE, CAMEL_MIME_FILTER_CRLF_MODE_CRLF_DOTS);
-	
 	filtered_stream = camel_stream_filter_new_with_stream (transport->ostream);
-	lwid = camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (lwfilter));
-	crlfid = camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlffilter));
+	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlffilter));
 	
 	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (filtered_stream)) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -654,15 +649,11 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 					"%s: mail not sent"),
 				      g_strerror (errno));
 		
-		camel_stream_filter_remove (filtered_stream, lwid);
-		camel_stream_filter_remove (filtered_stream, crlfid);
 		camel_object_unref (CAMEL_OBJECT (filtered_stream));
 		
 		return FALSE;
 	}
 	
-	camel_stream_filter_remove (filtered_stream, lwid);
-	camel_stream_filter_remove (filtered_stream, crlfid);
 	camel_stream_flush (CAMEL_STREAM (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	

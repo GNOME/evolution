@@ -1,5 +1,45 @@
 2000-12-11  Not Zed  <NotZed@HelixCode.com>
 
+	* providers/smtp/camel-smtp-transport.c (smtp_data): Remove use of
+	linewrap filter.  Headers are now wrapped.  encode_8bit already
+	enforces a 998 octet line limit.
+	(smtp_data): Also fixed a memleak, we always have to unref our own
+	copy of the filters.  We also dont need to remove them manually,
+	so dont bother.  The type's an int too ...
+
+	* camel-internet-address.c (internet_unformat): When scanning past
+	quotes, remove them also.
+	(camel_internet_address_format_address): If the name contains "'s,
+	or ','s then strip and quotes and wrap the whole lot in one set of
+	quotes.
+	
+	* Makefile.am (noinst_HEADERS): We dont want to install
+	camel-charset-map-private.h, ever.  There are probably other
+	similar files ..?
+
+	* camel-mime-part.c (write_to_stream): Fold header lines
+	appropriately as we're writing them out.
+
+	* camel-mime-utils.c (header_fold): Add a new argument, headerlen,
+	tells it how long the associated header token is.
+	(header_fold): Also,k check to see if we need to fold first, using
+	a better algorithm, and also accept already-folded lines, and
+	re-process accordingly.
+	(rfc2047_decode_word): Add a little buffer space to iconv output
+	for shifting overheads?
+	(rfc2047_decode_word): finish the iconv with a null call, to flush
+	shift state, etc.
+	(rfc2047_encode_word): Attempt to break up long words into
+	appropriately sized, independent, chunks.  See rfc2047, section 2.
+	(header_decode_mailbox): Dont add in extra spaces into the output
+	if we are decoding adjacent encoded words.  We can only guess this
+	case, as some broken mailers put encoded words inside quoted
+	words.
+	(header_encode_phrase): Dont merge words if they are going to end
+	up too long.  Also change back ot only merge consecutive words of
+	the same type.  e.g. 'foo. blah fum.' -> "foo." blah "fum."  or
+	'iam an. idiot' -> iam "an." idiot
+
 	* camel-medium.c (camel_medium_set_header): Hrm, we actually want
 	to call set_header, not add_header here, probably explains some
 	duplicate X-Evolution headers i was trying to track down.  Also

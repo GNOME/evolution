@@ -877,7 +877,7 @@ rfc2047_decode_word(const char *in, int len)
 	int inlen, outlen;
 	iconv_t ic;
 
-	d(printf("decoding '%.*s'\n", len, in));
+	d(printf("rfc2047: decoding '%.*s'\n", len, in));
 
 	/* just make sure we're not passed shit */
 	if (len<7
@@ -916,7 +916,7 @@ rfc2047_decode_word(const char *in, int len)
 
 			inbuf = decword;
 
-			outlen = inlen*6;
+			outlen = inlen*6+16;
 			outbase = alloca(outlen);
 			outbuf = outbase;
 
@@ -924,11 +924,12 @@ rfc2047_decode_word(const char *in, int len)
 			ic = iconv_open("UTF-8", encname);
 			if (ic != (iconv_t)-1) {
 				ret = iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen);
-				iconv_close(ic);
 				if (ret>=0) {
+					iconv(ic, NULL, 0, &outbuf, &outlen);
 					*outbuf = 0;
 					decoded = g_strdup(outbase);
 				}
+				iconv_close(ic);
 			} else {
 				w(g_warning("Cannot decode charset, header display may be corrupt: %s: %s", encname, strerror(errno)));
 				/* TODO: Should this do this, or just leave the encoded strings? */
@@ -1095,46 +1096,109 @@ header_decode_string(const char *in)
 	return header_decode_text(in, strlen(in));
 }
 
+/* how long a sequence of pre-encoded words should be less than, to attempt to 
+   fit into a properly folded word.  Only a guide. */
+#define CAMEL_FOLD_PREENCODED (24)
+
 /* FIXME: needs a way to cache iconv opens for different charsets? */
 static void
 rfc2047_encode_word(GString *outstring, const char *in, int len, const char *type, unsigned short safemask)
 {
-	iconv_t ic;
+	iconv_t ic = (iconv_t *)-1;
 	char *buffer, *out, *ascii;
-	size_t inlen, outlen, enclen;
+	size_t inlen, outlen, enclen, bufflen;
+	const char *inptr, *p;
+	int first = 1;
 
-	d(printf("Converting '%.*s' to %s\n", len, in, type));
+	d(printf("Converting [%d] '%.*s' to %s\n", len, len, in, type));
 
 	/* convert utf8->encoding */
-	outlen = len*6;
-	buffer = alloca(outlen);
+	bufflen = len*6+16;
+	buffer = alloca(bufflen);
 	inlen = len;
-	out = buffer;
+	inptr = in;
 
-	/* if we can't convert from utf-8, just encode as utf-8 */
-	if (!strcasecmp(type, "UTF-8")
-	    || (ic = iconv_open(type, "UTF-8")) == (iconv_t)-1) {
-		memcpy(buffer, in, len);
-		out = buffer+len;
-		type = "UTF-8";
-	} else {
-		if (iconv(ic, &in, &inlen, &out, &outlen) == -1) {
-			w(g_warning("Conversion problem: conversion truncated: %s", strerror(errno)));
+	ascii = alloca(bufflen);
+
+	if (strcasecmp(type, "UTF-8") != 0)
+		ic = iconv_open(type, "UTF-8");
+
+	while (inlen) {
+		int convlen, i, proclen;
+
+		/* break up words into smaller bits, what we really want is encoded + overhead < 75,
+		   but we'll just guess what that means in terms of input chars, and assume its good enough */
+
+		out = buffer;
+		outlen = bufflen;
+
+		if (ic == (iconv_t) -1) {
+			/* native encoding case, the easy one (?) */
+			/* we work out how much we can convert, and still be in length */
+			/* proclen will be the result of input characters that we can convert, to the nearest
+			   (approximated) valid utf8 char */
+			convlen = 0;
+			proclen = 0;
+			p = inptr;
+			i = 0;
+			while (p < (in+len) && convlen < (75 - strlen("=?utf-8?q??="))) {
+				unsigned char c = *p++;
+
+				if (c >= 0xc0)
+					proclen = i;
+				i++;
+				if (c < 0x80)
+					proclen = i;
+				if (camel_mime_special_table[c] & safemask)
+					convlen += 1;
+				else
+					convlen += 3;
+			}
+			/* well, we probably have broken utf8, just copy it anyway what the heck */
+			if (proclen == 0) {
+				w(g_warning("Appear to have truncated utf8 sequence"));
+				proclen = inlen;
+			}
+			memcpy(out, inptr, proclen);
+			inptr += proclen;
+			inlen -= proclen;
+			out += proclen;
+		} else {
+			/* well we could do similar, but we can't (without undue effort), we'll just break it up into
+			   hopefully-small-enough chunks, and leave it at that */
+			convlen = MIN(inlen, CAMEL_FOLD_PREENCODED);
+			p = inptr;
+			if (iconv(ic, &inptr, &convlen, &out, &outlen) == -1) {
+				w(g_warning("Conversion problem: conversion truncated: %s", strerror(errno)));
+				/* blah, we include it anyway, better than infinite loop ... */
+				inptr = p + convlen;
+			} else {
+				/* make sure we flush out any shift state */
+				iconv(ic, NULL, 0, &out, &outlen);
+			}
+			inlen -= (inptr - p);
 		}
+
+		enclen = out-buffer;
+
+		/* create token */
+		out = ascii;
+		if (first)
+			first = 0;
+		else
+			*out++ = ' ';
+		out += sprintf(out, "=?%s?Q?", type);
+		out += quoted_encode(buffer, enclen, out, safemask);
+		sprintf(out, "?=");
+
+		d(printf("converted part = %s\n", ascii));
+
+		g_string_append(outstring, ascii);
+	}
+
+	if (ic == (iconv_t) -1) {
 		iconv_close(ic);
 	}
-	enclen = out-buffer;
-
-	/* now create qp version */
-	ascii = alloca(enclen*3 + strlen(type) + 8);
-	out = ascii;
-	/* should determine which encoding is smaller, and use that? */
-	out += sprintf(out, "=?%s?Q?", type);
-	out += quoted_encode(buffer, enclen, out, safemask);
-	sprintf(out, "?=");
-
-	d(printf("converted = %s\n", ascii));
-	g_string_append(outstring, ascii);
 }
 
 
@@ -1162,7 +1226,6 @@ header_encode_string(const unsigned char *in)
 	/* This gets each word out of the input, and checks to see what charset
 	   can be used to encode it. */
 	/* TODO: Work out when to merge subsequent words, or across word-parts */
-	/* FIXME: Make sure a converted word is less than the encoding size */
 	out = g_string_new("");
 	inptr = in;
 	encoding = 0;
@@ -1275,6 +1338,20 @@ header_encode_phrase(const unsigned char *in)
 
 	out = g_string_new("");
 
+#if 0
+	{
+		int i;
+
+		printf("encoding phrase: %s\n", in);
+		for (i=0;in[i];i++) {
+			printf(" %02x", in[i]);
+			if (((i) & 15) == 15)
+				printf("\n");
+		}
+		printf("\n");
+	}
+#endif
+
 	/* break the input into words */
 	type = WORD_ATOM;
 	count = 0;
@@ -1338,12 +1415,18 @@ header_encode_phrase(const unsigned char *in)
 			nextl = g_list_next(wordl);
 			while (nextl) {
 				next = nextl->data;
-				/* merge nodes of the same (or lower?) type*/
-				if (word->type == next->type || (next->type < word->type && word->type < WORD_2047) ) {
-					word->end = next->end;
-					words = g_list_remove_link(words, nextl);
-					g_free(next);
-					nextl = g_list_next(wordl);
+				/* merge nodes of the same type AND we are not creating too long a string */
+				if (word->type == next->type) {
+					if (next->end - word->start < CAMEL_FOLD_PREENCODED) {
+						word->end = next->end;
+						words = g_list_remove_link(words, nextl);
+						g_free(next);
+						nextl = g_list_next(wordl);
+					} else {
+						/* if it is going to be too long, make sure we include the separating whitespace */
+						word->end = next->start;
+						break;
+					}
 				} else {
 					break;
 				}
@@ -1377,7 +1460,12 @@ header_encode_phrase(const unsigned char *in)
 		if (nextl) {
 			int i;
 			next = nextl->data;
-			for (i=next->start-word->end;i>0;i--)
+			/* if they are adjacent, it means we already had the spaces encoded internally,
+			   so now we just need to output 1 space */
+			i=next->start-word->end;
+			if (i==0)
+				i=1;
+			for (;i>0;i--)
 				out = g_string_append_c(out, ' ');
 		}
 
@@ -1822,17 +1910,27 @@ header_decode_mailbox(const char **in)
 		/* ',' and '\0' required incase it is a simple address, no @ domain part (buggy writer) */
 		name = g_string_new("");
 		while (pre) {
-			char *text;
+			char *text, *last;
 
-			/* perform internationalised decoding, and appent */
+			/* perform internationalised decoding, and append */
 			text = header_decode_string(pre);
 			name = g_string_append(name, text);
-			g_free(pre);
+			last = pre;
 			g_free(text);
 
 			pre = header_decode_word(&inptr);
-			if (pre)
-				name = g_string_append_c(name, ' ');
+			if (pre) {
+				int l = strlen(last);
+				int p = strlen(pre);
+				/* dont append ' ' between sucsessive encoded words */
+				if ((l>6 && last[l-2] == '?' && last[l-1] == '=')
+				    && (p>6 && pre[0] == '=' && pre[1] == '?')) {
+					/* dont append ' ' */
+				} else {
+					name = g_string_append_c(name, ' ');
+				}
+			}
+			g_free(last);
 		}
 		header_decode_lwsp(&inptr);
 		if (*inptr == '<') {
@@ -2999,21 +3097,45 @@ header_address_list_format(struct _header_address *a)
 }
 
 /* simple header folding */
-/* note: assumes the input has not already been folded */
+/* will work even if the header is already folded */
 char *
-header_fold(const char *in)
+header_fold(const char *in, int headerlen)
 {
 	int len, outlen, i;
-	const char *inptr = in, *space;
+	const char *inptr = in, *space, *p, *n;
 	GString *out;
 	char *ret;
+	int needunfold = FALSE;
 
-	len = strlen(in);
-	if (len <= CAMEL_FOLD_SIZE)
+	if (in == NULL)
+		return NULL;
+
+	/* first, check to see if we even need to fold */
+	len = headerlen + 2;
+	p = in;
+	while (*p) {
+		n = strchr(p, '\n');
+		if (n == NULL) {
+			n = p+strlen(p);
+		} else {
+			needunfold = TRUE;
+		}
+		len += n-p;
+		
+		if (len >= CAMEL_FOLD_SIZE)
+			break;
+		len = 0;
+		p = n;
+	}
+	if (len < CAMEL_FOLD_SIZE)
 		return g_strdup(in);
 
+	/* we need to fold, so first unfold (if we need to), then process */
+	if (needunfold)
+		inptr = in = header_unfold(in);
+
 	out = g_string_new("");
-	outlen = 0;
+	outlen = headerlen+2;
 	while (*inptr) {
 		space = strchr(inptr, ' ');
 		if (space) {
@@ -3021,7 +3143,9 @@ header_fold(const char *in)
 		} else {
 			len = strlen(inptr);
 		}
+		printf("next word '%.*s'\n", len, inptr);
 		if (outlen + len > CAMEL_FOLD_SIZE) {
+			printf("outlen = %d wordlen = %d\n", outlen, len);
 			g_string_append(out, "\n\t");
 			outlen = 1;
 			/* check for very long words, just cut them up */
@@ -3042,6 +3166,10 @@ header_fold(const char *in)
 	}
 	ret = out->str;
 	g_string_free(out, FALSE);
+
+	if (needunfold)
+		g_free((char *)in);
+
 	return ret;	
 }
 

@@ -494,13 +494,17 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 	if (mp->headers) {
 		struct _header_raw *h = mp->headers;
+		char *val;
 
 		while (h) {
-			if (h->value == NULL){
+			val = h->value;
+			if (val == NULL) {
 				g_warning("h->value is NULL here for %s", h->name);
 				count = 0;
 			} else {
-				count = camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(h->value[0]) ? ":" : ": ", h->value);
+				val = header_fold(val, strlen(h->name));
+				count = camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(val[0]) ? ":" : ": ", val);
+				g_free(val);
 			}
 			if (count == -1)
 				return -1;

@@ -71,7 +71,6 @@ libcamelinclude_HEADERS =			\
 	broken-date-parser.h			\
 	camel-address.h				\
 	camel-charset-map.h			\
-	camel-charset-map-private.h		\
 	camel-data-wrapper.h			\
 	camel-exception-list.def		\
 	camel-exception.h			\
@@ -125,6 +124,10 @@ libcamelinclude_HEADERS =			\
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
 
 libcamel_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(UNICODE_LIBS)
+
+
+noinst_HEADERS =				\
+	camel-charset-map-private.h
 
 EXTRA_DIST =					\
 	README 
