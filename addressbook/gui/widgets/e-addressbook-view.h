@@ -73,6 +73,11 @@ struct _EAddressbookView
 struct _EAddressbookViewClass
 {
 	GtkTableClass parent_class;
+
+	/*
+	 * Signals
+	 */
+	void (*status_message) (EAddressbookView *view, const gchar *message);
 };
 
 GtkWidget *e_addressbook_view_new               (void);

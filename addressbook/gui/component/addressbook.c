@@ -603,6 +603,63 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 	g_free (search_word);
 }
 
+static GNOME_Evolution_ShellView
+retrieve_shell_view_interface_from_control (BonoboControl *control)
+{
+	Bonobo_ControlFrame control_frame;
+	GNOME_Evolution_ShellView shell_view_interface;
+	CORBA_Environment ev;
+
+	shell_view_interface = gtk_object_get_data (GTK_OBJECT (control),
+						    "shell_view_interface");
+
+	if (shell_view_interface)
+		return shell_view_interface;
+
+	control_frame = bonobo_control_get_control_frame (control);
+
+	if (control_frame == NULL)
+		return CORBA_OBJECT_NIL;
+
+	CORBA_exception_init (&ev);
+	shell_view_interface = Bonobo_Unknown_queryInterface (control_frame,
+							       "IDL:GNOME/Evolution/ShellView:1.0",
+							       &ev);
+	CORBA_exception_free (&ev);
+
+	if (shell_view_interface != CORBA_OBJECT_NIL)
+		gtk_object_set_data (GTK_OBJECT (control),
+				     "shell_view_interface",
+				     shell_view_interface);
+	else
+		g_warning ("Control frame doesn't have Evolution/ShellView.");
+
+	return shell_view_interface;
+}
+
+static void
+set_status_message (EAddressbookView *eav, const char *message, AddressbookView *view)
+{
+	CORBA_Environment ev;
+	GNOME_Evolution_ShellView shell_view_interface;
+
+	CORBA_exception_init (&ev);
+
+	shell_view_interface = retrieve_shell_view_interface_from_control (view->control);
+
+	if (message == NULL || message[0] == 0) {
+		printf ("clearing message\n");
+		GNOME_Evolution_ShellView_unsetMessage (shell_view_interface, &ev);
+	}
+	else {
+		printf ("setting message %s\n", message);
+		GNOME_Evolution_ShellView_setMessage (shell_view_interface,
+						      message, 0 /* XXX */, &ev);
+	}
+
+	CORBA_exception_free (&ev);
+}
+
 BonoboControl *
 addressbook_factory_new_control (void)
 {
@@ -650,6 +707,11 @@ addressbook_factory_new_control (void)
 	bonobo_control_set_properties (view->control,
 					 view->properties);
 
+	gtk_signal_connect (GTK_OBJECT (view->view),
+			    "status_message",
+			    GTK_SIGNAL_FUNC(set_status_message),
+			    view);
+	
 	view->uri = NULL;
 
 	gtk_signal_connect (GTK_OBJECT (view->control), "activate",

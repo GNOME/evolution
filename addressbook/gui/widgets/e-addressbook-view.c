@@ -68,6 +68,13 @@ enum {
 	ARG_TYPE,
 };
 
+enum {
+	STATUS_MESSAGE,
+	LAST_SIGNAL
+};
+
+static guint e_addressbook_view_signals [LAST_SIGNAL] = {0, };
+
 GtkType
 e_addressbook_view_get_type (void)
 {
@@ -111,6 +118,16 @@ e_addressbook_view_class_init (EAddressbookViewClass *klass)
 				 GTK_ARG_READWRITE, ARG_QUERY);
 	gtk_object_add_arg_type ("EAddressbookView::type", GTK_TYPE_ENUM,
 				 GTK_ARG_READWRITE, ARG_TYPE);
+
+	e_addressbook_view_signals [STATUS_MESSAGE] =
+		gtk_signal_new ("status_message",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookViewClass, status_message),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
+	gtk_object_class_add_signals (object_class, e_addressbook_view_signals, LAST_SIGNAL);
 }
 
 static void
@@ -536,9 +553,11 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 }
 
 static void
-status_message (GtkObject *object, const gchar *message, EAddressbookView *eav)
+status_message (GtkObject *object, const gchar *status, EAddressbookView *eav)
 {
-	printf ("status = %s\n", message);
+	gtk_signal_emit (GTK_OBJECT (eav),
+			 e_addressbook_view_signals [STATUS_MESSAGE],
+			 status);
 }
 
 #define SPEC "<?xml version=\"1.0\"?>      \
