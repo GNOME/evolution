@@ -13,9 +13,8 @@
 
 #include <bonobo/Bonobo.h>
 #include <gtk/gtkobject.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_COMPONENT_LISTENER_TYPE        (e_component_listener_get_type ())
 #define E_COMPONENT_LISTENER(o)          (GTK_CHECK_CAST ((o), E_COMPONENT_LISTENER_TYPE, EComponentListener))
@@ -45,6 +44,6 @@ Bonobo_Unknown      e_component_listener_get_component  (EComponentListener *cl)
 void                e_component_listener_set_component  (EComponentListener *cl,
 							 Bonobo_Unknown comp);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

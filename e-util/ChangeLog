@@ -1,3 +1,8 @@
+2002-11-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-config-listener.[ch]:
+	* e-component-listener.[ch]: compilation fixes for GNOME 2 porting.
+
 2002-10-24  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #32764

@@ -12,10 +12,9 @@
 #define __E_CONFIG_LISTENER_H__
 
 #include <gtk/gtkobject.h>
-#include <libgnome/gnome-defs.h>
-#include <bonobo-conf/bonobo-config-database.h>
+#include <bonobo-config/bonobo-config-database.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_CONFIG_LISTENER_TYPE        (e_config_listener_get_type ())
 #define E_CONFIG_LISTENER(o)          (GTK_CHECK_CAST ((o), E_CONFIG_LISTENER_TYPE, EConfigListener))
@@ -70,6 +69,6 @@ void                  e_config_listener_set_string (EConfigListener *cl,
 
 Bonobo_ConfigDatabase e_config_listener_get_db (EConfigListener *cl);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif
