@@ -1,5 +1,8 @@
 2000-03-04  NotZed  <NotZed@HelixCode.com>
 
+	* filter-druid.c (html_write_options): Output 'and' bits between
+	the rules.
+
 	* filter-driver.c (main): Actually implement filtering, at least,
 	from Inbox.  Copy messages to folder (in the same store only, so
 	far), delete, and stop processing are implemented, and the logic

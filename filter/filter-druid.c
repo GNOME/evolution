@@ -216,6 +216,7 @@ html_write_options(GtkHTML *html, struct filter_option *option, char *def)
 
 		for (i=0;i<sizeof(display_order)/sizeof(display_order[0]);i++) {
 			int doneheader = FALSE;
+			int donefirst = FALSE;
 			optionrulel = option->options;
 			while (optionrulel) {
 				struct filter_optionrule *or = optionrulel->data;
@@ -226,7 +227,11 @@ html_write_options(GtkHTML *html, struct filter_option *option, char *def)
 						doneheader = TRUE;
 					}
 
+					if (donefirst) {
+						gtk_html_write(html, stream, "&nbsp;&nbsp;&nbsp;<i>and</i> ", strlen("&nbsp;&nbsp;&nbsp;<i>and</i> "));
+					}
 					filter_description_html_write(or->rule->description, or->args, html, stream);
+					donefirst = TRUE;
 					gtk_html_write(html, stream, "<br>", strlen("<br>"));
 				}
 				optionrulel = g_list_next(optionrulel);
