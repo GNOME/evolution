@@ -799,7 +799,6 @@
 	(struct _CamelFolder): Moved changed_changed/frozen into private
 	data, since it really is private and now needs locked access.
 
->>>>>>> 1.641.2.8
 2000-12-15  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-mime-utils.c (header_fold): When checking to see if we
