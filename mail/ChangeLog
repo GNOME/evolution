@@ -1,3 +1,7 @@
+2001-06-27  jacob berkman  <jacob@ximian.com>
+
+	* folder-browser.c (save_cursor_pos): work around an e-tree bug
+
 2001-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c: Fixed Cut/Copy/Paste to work - it turns out I

@@ -801,6 +801,9 @@ save_cursor_pos (FolderBrowser *fb)
 
 	row = e_tree_row_of_node (fb->message_list->tree, node);
 
+	if (row == -1)
+		return 0;
+
 	e_tree_get_cell_geometry (fb->message_list->tree, row, 0,
 				  NULL, &y, NULL, &height);
 
