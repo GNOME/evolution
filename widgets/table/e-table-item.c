@@ -894,10 +894,8 @@ eti_table_model_row_changed (ETableModel *table_model, int row, ETableItem *eti)
 {
 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
 		return;
-	if (eti->uniform_row_height)
-		return;
 
-	if (eti->height_cache && eti->height_cache[row] != -1 && eti_row_height_real(eti, row) != eti->height_cache[row]) {
+	if ((!eti->uniform_row_height) && eti->height_cache && eti->height_cache[row] != -1 && eti_row_height_real(eti, row) != eti->height_cache[row]) {
 		eti_table_model_changed (table_model, eti);
 		return;
 	}
@@ -910,9 +908,8 @@ eti_table_model_cell_changed (ETableModel *table_model, int col, int row, ETable
 {
 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
 		return;
-	if (eti->uniform_row_height)
-		return;
-	if (eti->height_cache && eti->height_cache[row] != -1 && eti_row_height_real(eti, row) != eti->height_cache[row]) {
+
+	if ((!eti->uniform_row_height) && eti->height_cache && eti->height_cache[row] != -1 && eti_row_height_real(eti, row) != eti->height_cache[row]) {
 		eti_table_model_changed (table_model, eti);
 		return;
 	}
