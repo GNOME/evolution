@@ -155,9 +155,6 @@ struct _GnomeCalendarPrivate {
 	   'dates-shown-changed' signal.*/
 	time_t visible_start;
 	time_t visible_end;
-
-	/* Our associated creatable items handler */
-	EUserCreatableItemsHandler *creatable_items_handler;
 };
 
 /* Signal IDs */
@@ -169,6 +166,7 @@ enum {
 	CALENDAR_FOCUS_CHANGE,
 	TASKPAD_FOCUS_CHANGE,
 	GOTO_DATE,
+	ACTIVITY,
 	LAST_SIGNAL
 };
 
@@ -1197,11 +1195,6 @@ gnome_calendar_destroy (GtkObject *object)
 			priv->view_menus = NULL;
 		}
 
-		if (priv->creatable_items_handler) {
-			g_object_unref (priv->creatable_items_handler);
-			priv->creatable_items_handler = NULL;
-		}
-
 		g_free (priv);
 		gcal->priv = NULL;
 	}
@@ -2011,14 +2004,6 @@ gnome_calendar_set_ui_component (GnomeCalendar *gcal,
 	g_return_if_fail (ui_component == NULL || BONOBO_IS_UI_COMPONENT (ui_component));
 
 	e_search_bar_set_ui_component (E_SEARCH_BAR (gcal->priv->search_bar), ui_component);
-
-	if (ui_component) {
-		if (!gcal->priv->creatable_items_handler) {
-			gcal->priv->creatable_items_handler =
-				e_user_creatable_items_handler_new ("calendar", NULL, NULL);
-		}
-		e_user_creatable_items_handler_activate (gcal->priv->creatable_items_handler, ui_component);
-	}
 }
 
 /**

@@ -31,6 +31,7 @@
 #include <bonobo/bonobo-exception.h>
 #include <gconf/gconf-client.h>
 #include <libecal/e-cal.h>
+#include <shell/e-user-creatable-items-handler.h>
 #include "e-cal-model.h"
 #include "e-tasks.h"
 #include "tasks-component.h"
@@ -59,25 +60,39 @@ static BonoboObjectClass *parent_class = NULL;
 /* Tasks should have their own registry */
 extern ECompEditorRegistry *comp_editor_registry;
 
-struct _TasksComponentPrivate {
-	char *base_directory;
-	char *config_directory;
 
-	GConfClient *gconf_client;
-
+typedef struct 
+{
 	ESourceList *source_list;
+	
 	GSList *source_selection;
-
+	
 	ETasks *tasks;
 	GtkWidget *source_selector;
 
 	BonoboControl *view_control;
-
-	ECal *create_ecal;
+	BonoboControl *sidebar_control;
+	BonoboControl *statusbar_control;
 
 	GList *notifications;
 
+	EUserCreatableItemsHandler *creatable_items_handler;
+
 	EActivityHandler *activity_handler;
+} TasksComponentView;
+
+struct _TasksComponentPrivate {
+	char *base_directory;
+	char *config_directory;
+
+	ESourceList *source_list;
+	GSList *source_selection;
+
+	GList *views;
+	
+	ECal *create_ecal;
+	
+	GList *notifications;
 };
 
 /* Utility functions.  */
@@ -113,31 +128,28 @@ is_in_uids (GSList *uids, ESource *source)
 }
 
 static void
-update_uris_for_selection (TasksComponent *component)
+update_uris_for_selection (TasksComponentView *component_view)
 {
-	TasksComponentPrivate *priv;
 	GSList *selection, *l, *uids_selected = NULL;
 	
-	priv = component->priv;
-
-	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	
-	for (l = priv->source_selection; l; l = l->next) {
+	for (l = component_view->source_selection; l; l = l->next) {
 		ESource *old_selected_source = l->data;
 
 		if (!is_in_selection (selection, old_selected_source))
-			e_tasks_remove_todo_source (priv->tasks, old_selected_source);
+			e_tasks_remove_todo_source (component_view->tasks, old_selected_source);
 	}	
 	
 	for (l = selection; l; l = l->next) {
 		ESource *selected_source = l->data;
 		
-		e_tasks_add_todo_source (priv->tasks, selected_source);
+		e_tasks_add_todo_source (component_view->tasks, selected_source);
 		uids_selected = g_slist_append (uids_selected, (char *)e_source_peek_uid (selected_source));
 	}
 
-	e_source_selector_free_selection (priv->source_selection);
-	priv->source_selection = selection;
+	e_source_selector_free_selection (component_view->source_selection);
+	component_view->source_selection = selection;
 
 	/* Save the selection for next time we start up */
 	calendar_config_set_tasks_selected (uids_selected);
@@ -145,50 +157,44 @@ update_uris_for_selection (TasksComponent *component)
 }
 
 static void
-update_uri_for_primary_selection (TasksComponent *component)
+update_uri_for_primary_selection (TasksComponentView *component_view)
 {
-	TasksComponentPrivate *priv;
 	ESource *source;
 	ECalendarTable *cal_table;
 	ETable *etable;
 
-	priv = component->priv;
-	
-	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	if (!source)
 		return;
 
 	/* Set the default */
-	e_tasks_set_default_source (priv->tasks, source);
+	e_tasks_set_default_source (component_view->tasks, source);
 
-	cal_table = e_tasks_get_calendar_table (priv->tasks);
+	cal_table = e_tasks_get_calendar_table (component_view->tasks);
 	etable = e_calendar_table_get_table (cal_table);
 
-	tasks_control_sensitize_commands (priv->view_control, priv->tasks, e_table_selected_count (etable));
+	tasks_control_sensitize_commands (component_view->view_control, component_view->tasks, e_table_selected_count (etable));
 	
 	/* Save the selection for next time we start up */
 	calendar_config_set_primary_tasks (e_source_peek_uid (source));
 }
 
 static void
-update_selection (TasksComponent *task_component)
+update_selection (TasksComponentView *component_view)
 {
-	TasksComponentPrivate *priv;
 	GSList *selection, *uids_selected, *l;
-
-	priv = task_component->priv;
 
 	/* Get the selection in gconf */
 	uids_selected = calendar_config_get_tasks_selected ();
 
 	/* Remove any that aren't there any more */
-	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 
 	for (l = selection; l; l = l->next) {
 		ESource *source = l->data;
 
 		if (!is_in_uids (uids_selected, source)) 
-			e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector), source);
+			e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
 	}
 	
 	e_source_selector_free_selection (selection);
@@ -198,9 +204,9 @@ update_selection (TasksComponent *task_component)
 		char *uid = l->data;
 		ESource *source;
 
-		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
+		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
 		if (source) 
-			e_source_selector_select_source (E_SOURCE_SELECTOR (priv->source_selector), source);
+			e_source_selector_select_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
 		
 		g_free (uid);
 	}
@@ -208,27 +214,24 @@ update_selection (TasksComponent *task_component)
 }
 
 static void
-update_primary_selection (TasksComponent *component)
+update_primary_selection (TasksComponentView *component_view)
 {
-	TasksComponentPrivate *priv;
 	ESource *source = NULL;
 	char *uid;
 
-	priv = component->priv;
-
 	uid = calendar_config_get_primary_tasks ();
 	if (uid) {
-		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
+		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
 		g_free (uid);
 	}
 	
 	if (source) {
-		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
+		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector), source);
 	} else {
 		/* Try to create a default if there isn't one */
-		source = e_source_list_peek_source_any (priv->source_list);
+		source = e_source_list_peek_source_any (component_view->source_list);
 		if (source)
-			e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
+			e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector), source);
 	}
 }
 
@@ -266,14 +269,11 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *icon_name,
 }
 
 static void
-copy_task_list_cb (GtkWidget *widget, TasksComponent *comp)
+copy_task_list_cb (GtkWidget *widget, TasksComponentView *component_view)
 {
 	ESource *selected_source;
-	TasksComponentPrivate *priv;
-
-	priv = comp->priv;
 	
-	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	if (!selected_source)
 		return;
 
@@ -281,15 +281,12 @@ copy_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 }
 
 static void
-delete_task_list_cb (GtkWidget *widget, TasksComponent *comp)
+delete_task_list_cb (GtkWidget *widget, TasksComponentView *component_view)
 {
 	ESource *selected_source;
-	TasksComponentPrivate *priv;
 	GtkWidget *dialog;
 
-	priv = comp->priv;
-	
-	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	if (!selected_source)
 		return;
 
@@ -308,22 +305,22 @@ delete_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 		/* first, ask the backend to remove the task list */
 		uri = e_source_get_uri (selected_source);
 		cal = e_cal_model_get_client_for_uri (
-			e_calendar_table_get_model (E_CALENDAR_TABLE (e_tasks_get_calendar_table (priv->tasks))),
+			e_calendar_table_get_model (E_CALENDAR_TABLE (e_tasks_get_calendar_table (component_view->tasks))),
 			uri);
 		if (!cal)
 			cal = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_TODO);
 		g_free (uri);
 		if (cal) {
 			if (e_cal_remove (cal, NULL)) {
-				if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->source_selector),
+				if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (component_view->source_selector),
 									  selected_source)) {
-					e_tasks_remove_todo_source (priv->tasks, selected_source);
-					e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector),
+					e_tasks_remove_todo_source (component_view->tasks, selected_source);
+					e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector),
 									   selected_source);
 				}
 
 				e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
-				e_source_list_sync (priv->source_list, NULL);
+				e_source_list_sync (component_view->source_list, NULL);
 			}
 		}
 	}
@@ -332,20 +329,17 @@ delete_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 }
 
 static void
-new_task_list_cb (GtkWidget *widget, TasksComponent *component)
+new_task_list_cb (GtkWidget *widget, TasksComponentView *component_view)
 {
 	calendar_setup_new_task_list (GTK_WINDOW (gtk_widget_get_toplevel (widget)));
 }
 
 static void
-edit_task_list_cb (GtkWidget *widget, TasksComponent *comp)
+edit_task_list_cb (GtkWidget *widget, TasksComponentView *component_view)
 {
-	TasksComponentPrivate *priv;
 	ESource *selected_source;
 
-	priv = comp->priv;
-	
-	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	if (!selected_source)
 		return;
 
@@ -353,106 +347,35 @@ edit_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 }
 
 static void
-fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, TasksComponent *component)
+fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, TasksComponentView *component_view)
 {
 	gboolean sensitive;
 
-	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component->priv->source_selector)) ?
+	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector)) ?
 		TRUE : FALSE;
 
 	add_popup_menu_item (menu, _("New Task List"), "stock_todo",
-			     G_CALLBACK (new_task_list_cb), component, TRUE);
+			     G_CALLBACK (new_task_list_cb), component_view, TRUE);
 	add_popup_menu_item (menu, _("Copy"), "stock_folder-copy",
-			     G_CALLBACK (copy_task_list_cb), component, sensitive);
+			     G_CALLBACK (copy_task_list_cb), component_view, sensitive);
 	add_popup_menu_item (menu, _("Delete"), "stock_delete", G_CALLBACK (delete_task_list_cb),
-			     component, sensitive);
+			     component_view, sensitive);
 	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_task_list_cb),
-			     component, sensitive);
+			     component_view, sensitive);
 }
 
 static void
-source_selection_changed_cb (ESourceSelector *selector, TasksComponent *component)
+source_selection_changed_cb (ESourceSelector *selector, TasksComponentView *component_view)
 {
-	update_uris_for_selection (component);
+	update_uris_for_selection (component_view);
 }
 
 static void
-primary_source_selection_changed_cb (ESourceSelector *selector, TasksComponent *component)
+primary_source_selection_changed_cb (ESourceSelector *selector, TasksComponentView *component_view)
 {
-	TasksComponentPrivate *priv = component->priv;
-
-	if (priv->create_ecal) {
-		g_object_unref (priv->create_ecal);
-		priv->create_ecal = NULL;
-	}
-
-	update_uri_for_primary_selection (component);
+	update_uri_for_primary_selection (component_view);
 }
 
-static void
-config_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	update_selection (data);
-}
-
-static void
-config_primary_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	update_primary_selection (data);
-}
-
-/* GObject methods */
-
-static void
-impl_dispose (GObject *object)
-{
-	TasksComponentPrivate *priv = TASKS_COMPONENT (object)->priv;
-	GList *l;
-	
-	if (priv->source_list != NULL) {
-		g_object_unref (priv->source_list);
-		priv->source_list = NULL;
-	}
-
-	if (priv->source_selection != NULL) {
-		e_source_selector_free_selection (priv->source_selection);
-		priv->source_selection = NULL;
-	}
-
-	if (priv->gconf_client != NULL) {
-		g_object_unref (priv->gconf_client);
-		priv->gconf_client = NULL;
-	}
-
-	if (priv->create_ecal) {
-		g_object_unref (priv->create_ecal);
-		priv->create_ecal = NULL;
-	}
-
-	for (l = priv->notifications; l; l = l->next)
-		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
-	g_list_free (priv->notifications);
-	priv->notifications = NULL;
-
-	if (priv->activity_handler != NULL) {
-		g_object_unref (priv->activity_handler);
-		priv->activity_handler = NULL;
-	}
-
-	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
-}
-
-static void
-impl_finalize (GObject *object)
-{
-	TasksComponentPrivate *priv = TASKS_COMPONENT (object)->priv;
-
-	g_free (priv->base_directory);
-	g_free (priv->config_directory);
-	g_free (priv);
-
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
-}
 
 /* Evolution::Component CORBA methods */
 
@@ -469,26 +392,190 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 }
 
 static void
-impl_createControls (PortableServer_Servant servant,
-		     Bonobo_Control *corba_sidebar_control,
-		     Bonobo_Control *corba_view_control,
-		     Bonobo_Control *corba_statusbar_control,
-		     CORBA_Environment *ev)
+control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
 {
-	TasksComponent *component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
+	TasksComponentView *component_view = data;
+
+	if (activate) {
+		BonoboUIComponent *uic;
+		uic = bonobo_control_get_ui_component (component_view->view_control);
+		
+		e_user_creatable_items_handler_activate (component_view->creatable_items_handler, uic);
+	}	
+}
+
+static void
+config_create_ecal_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{	
+	TasksComponent *component = data;
 	TasksComponentPrivate *priv;
-	GtkWidget *selector_scrolled_window, *statusbar_widget, *vbox, *info;
-	BonoboControl *sidebar_control, *statusbar_control;
+	
+	priv = component->priv;
+
+	g_object_unref (priv->create_ecal);
+	priv->create_ecal = NULL;
+	
+	priv->notifications = g_list_remove (priv->notifications, GUINT_TO_POINTER (id));
+}
+
+static ECal *
+setup_create_ecal (TasksComponent *component, TasksComponentView *component_view) 
+{
+	TasksComponentPrivate *priv;
+	ESource *source = NULL;
+	char *uid;
 	guint not;
 	
 	priv = component->priv;
 
-	/* create sidebar selector */
-	priv->source_selector = e_source_selector_new (priv->source_list);
-	gtk_widget_show (priv->source_selector);
+	if (component_view) {
+		ECal *default_ecal;
+
+		default_ecal = e_tasks_get_default_client (component_view->tasks);
+		if (default_ecal)
+			return default_ecal;
+	}
+	
+	if (priv->create_ecal)
+		return priv->create_ecal; 
+	
+	/* Get the current primary calendar, or try to set one if it doesn't already exist */		
+	uid = calendar_config_get_primary_tasks ();
+	if (uid) {
+		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
+		g_free (uid);
+
+		priv->create_ecal = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
+	} 
+
+	if (!priv->create_ecal) {
+		/* Try to create a default if there isn't one */
+		source = e_source_list_peek_source_any (priv->source_list);
+		if (source)
+			priv->create_ecal = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
+	}
+		
+	if (priv->create_ecal) {
+		if (!e_cal_open (priv->create_ecal, FALSE, NULL)) {
+			GtkWidget *dialog;
+			
+			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
+							 _("Unable to open the task list '%s' for creating events and meetings"), 
+							   e_source_peek_name (source));
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
+
+			return NULL;
+		}
+	} else {
+		GtkWidget *dialog;
+			
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
+						 _("There is no calendar available for creating tasks"));
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+
+		return NULL;
+	}		
+
+	/* Handle the fact it may change on us */
+	not = calendar_config_add_notification_primary_tasks (config_create_ecal_changed_cb, 
+							      component);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+
+	/* Save the primary source for use elsewhere */
+	calendar_config_set_primary_tasks (e_source_peek_uid (source));
+
+	return priv->create_ecal ;
+}
+
+static gboolean
+create_new_todo (TasksComponent *task_component, TasksComponentView *component_view)
+{
+	ECal *ecal;
+	TasksComponentPrivate *priv;
+	ECalComponent *comp;
+	TaskEditor *editor;
+	gboolean read_only;
+	
+	priv = task_component->priv;
+	
+	ecal = setup_create_ecal (task_component, component_view);
+	if (!ecal)
+		return FALSE;
+
+	if (!e_cal_is_read_only (ecal, &read_only, NULL) || read_only) {
+		GtkWidget *dialog;
+			
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+						 GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
+						 _("Selected task list is read-only, events cannot be created. Please select a read-write calendar."));
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+		return TRUE;
+	}
+
+	editor = task_editor_new (ecal);
+	comp = cal_comp_task_new_with_defaults (ecal);
+
+	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
+	comp_editor_focus (COMP_EDITOR (editor));
+
+	e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
+
+	return TRUE;
+}
+
+static void
+create_local_item_cb (EUserCreatableItemsHandler *handler, const char *item_type_name, void *data)
+{
+	TasksComponent *tasks_component = data;
+	TasksComponentPrivate *priv;
+	TasksComponentView *component_view = NULL;
+	GList *l;
+	
+	priv = tasks_component->priv;
+	
+	for (l = priv->views; l; l = l->next) {
+		component_view = l->data;
+
+		if (component_view->creatable_items_handler == handler)
+			break;
+		
+		component_view = NULL;
+	}
+	
+	if (strcmp (item_type_name, CREATE_TASK_ID) == 0) {
+		create_new_todo (tasks_component, component_view);
+	} else if (strcmp (item_type_name, CREATE_TASK_LIST_ID) == 0) {
+		calendar_setup_new_task_list (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (component_view->tasks))));
+	}
+}
+
+static TasksComponentView *
+create_component_view (TasksComponent *tasks_component)
+{
+	TasksComponentPrivate *priv;
+	TasksComponentView *component_view;
+	GtkWidget *selector_scrolled_window, *vbox, *info;
+	GtkWidget *statusbar_widget;
+	
+	priv = tasks_component->priv;
+
+	/* Create the calendar component view */
+	component_view = g_new0 (TasksComponentView, 1);
+	
+	/* Add the source lists */
+	component_view->source_list = g_object_ref (priv->source_list);
+	
+	/* Create sidebar selector */
+	component_view->source_selector = e_source_selector_new (tasks_component->priv->source_list);
+	gtk_widget_show (component_view->source_selector);
 
 	selector_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_container_add (GTK_CONTAINER (selector_scrolled_window), priv->source_selector);
+	gtk_container_add (GTK_CONTAINER (selector_scrolled_window), component_view->source_selector);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (selector_scrolled_window),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (selector_scrolled_window),
@@ -504,53 +591,119 @@ impl_createControls (PortableServer_Servant servant,
 	gtk_box_pack_start(GTK_BOX (vbox), selector_scrolled_window, TRUE, TRUE, 0);
 	gtk_widget_show (vbox);
 
-	sidebar_control = bonobo_control_new (vbox);
+	component_view->sidebar_control = bonobo_control_new (vbox);
 
-	/* create the tasks view */
- 	priv->view_control = tasks_control_new ();
-	if (!priv->view_control) {
-		g_warning (G_STRLOC ": could not create the control!");
+	/* Create main view */
+	component_view->view_control = tasks_control_new ();
+	if (!component_view->view_control) {
+		/* FIXME free memory */
+
+		return NULL;
+	}
+
+	component_view->tasks = (ETasks *) bonobo_control_get_widget (component_view->view_control);
+
+	/* Create status bar */
+	statusbar_widget = e_task_bar_new ();
+	e_activity_handler_attach_task_bar (component_view->activity_handler, E_TASK_BAR (statusbar_widget));
+	gtk_widget_show (statusbar_widget);
+
+	component_view->statusbar_control = bonobo_control_new (statusbar_widget);
+	
+	/* connect after setting the initial selections, or we'll get unwanted calls
+	   to calendar_control_sensitize_calendar_commands */
+	g_signal_connect (component_view->source_selector, "selection_changed",
+			  G_CALLBACK (source_selection_changed_cb), component_view);
+	g_signal_connect (component_view->source_selector, "primary_selection_changed",
+			  G_CALLBACK (primary_source_selection_changed_cb), component_view);
+	g_signal_connect (component_view->source_selector, "fill_popup_menu",
+			  G_CALLBACK (fill_popup_menu_cb), component_view);
+
+	/* Set up the "new" item handler */
+	component_view->creatable_items_handler = e_user_creatable_items_handler_new ("tasks", create_local_item_cb, tasks_component);
+	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (control_activate_cb), component_view);
+
+	/* Load the selection from the last run */
+	update_selection (component_view);	
+	update_primary_selection (component_view);
+
+	return component_view;
+}
+
+static void
+destroy_component_view (TasksComponentView *component_view)
+{	
+	GList *l;
+	
+	if (component_view->source_list)
+		g_object_unref (component_view->source_list);
+
+	if (component_view->source_selection)
+		e_source_selector_free_selection (component_view->source_selection);
+	
+	for (l = component_view->notifications; l; l = l->next)
+		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
+	g_list_free (component_view->notifications);
+
+	if (component_view->creatable_items_handler)
+		g_object_unref (component_view->creatable_items_handler);
+
+	if (component_view->activity_handler)
+		g_object_unref (component_view->activity_handler);
+
+	g_free (component_view);
+}
+
+static void
+view_destroyed_cb (gpointer data, GObject *where_the_object_was)
+{
+	TasksComponent *tasks_component = data;
+	TasksComponentPrivate *priv;
+	GList *l;
+	
+	priv = tasks_component->priv;
+
+	for (l = priv->views; l; l = l->next) {
+		TasksComponentView *component_view = l->data;
+		
+		if (G_OBJECT (component_view->view_control) == where_the_object_was) {
+			priv->views = g_list_remove (priv->views, component_view);
+			destroy_component_view (component_view);
+
+			break;
+		}
+	}
+}
+
+static void
+impl_createControls (PortableServer_Servant servant,
+		     Bonobo_Control *corba_sidebar_control,
+		     Bonobo_Control *corba_view_control,
+		     Bonobo_Control *corba_statusbar_control,
+		     CORBA_Environment *ev)
+{
+	TasksComponent *component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
+	TasksComponentPrivate *priv;
+	TasksComponentView *component_view;
+	
+	priv = component->priv;
+
+	/* Create the calendar component view */
+	component_view = create_component_view (component);
+	if (!component_view) {
+		/* FIXME Should we describe the problem in a control? */
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
+
 		return;
 	}
 
-	priv->tasks = (ETasks *) bonobo_control_get_widget (priv->view_control);
-
-	/* connect after setting the initial selections, or we'll get unwanted calls
-	   to tasks_control_sensitize_commands */
-	g_signal_connect_object (priv->source_selector, "selection_changed",
-				 G_CALLBACK (source_selection_changed_cb),
-				 G_OBJECT (component), 0);
-	g_signal_connect_object (priv->source_selector, "primary_selection_changed",
-				 G_CALLBACK (primary_source_selection_changed_cb),
-				 G_OBJECT (component), 0);
-	g_signal_connect_object (priv->source_selector, "fill_popup_menu",
-				 G_CALLBACK (fill_popup_menu_cb),
-				 G_OBJECT (component), 0);
-
-	/* Load the selection from the last run */
-	update_selection (component);
-	update_primary_selection (component);
-
-	/* If it gets fiddled with update */
-	not = calendar_config_add_notification_tasks_selected (config_selection_changed_cb, 
-							       component);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
-	not = calendar_config_add_notification_primary_tasks (config_primary_selection_changed_cb, 
-							      component);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
+	g_object_weak_ref (G_OBJECT (component_view->view_control), view_destroyed_cb, component);
+	priv->views = g_list_append (priv->views, component_view);
+	
 	/* Return the controls */
-	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
-	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (priv->view_control), ev);
-
-	/* Create the task bar */
-	statusbar_widget = e_task_bar_new ();
-	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (statusbar_widget));
-	gtk_widget_show (statusbar_widget);
-	statusbar_control = bonobo_control_new (statusbar_widget);
-	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (statusbar_control), ev);
+	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (component_view->sidebar_control), ev);
+	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (component_view->view_control), ev);
+	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (component_view->statusbar_control), ev);
 }
 
 static GNOME_Evolution_CreatableItemTypeList *
@@ -585,123 +738,6 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 }
 
 static void
-config_create_ecal_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{	
-	TasksComponent *component = data;
-	TasksComponentPrivate *priv;
-	
-	priv = component->priv;
-
-	g_object_unref (priv->create_ecal);
-	priv->create_ecal = NULL;
-	
-	priv->notifications = g_list_remove (priv->notifications, GUINT_TO_POINTER (id));
-}
-
-static gboolean
-setup_create_ecal (TasksComponent *component) 
-{
-	TasksComponentPrivate *priv;
-	ESource *source = NULL;
-	char *uid;
-	guint not;
-	
-	priv = component->priv;
-
-	if (priv->create_ecal)
-		return TRUE; 
-
-	/* Try to use the client from the calendar first to avoid re-opening things */
-	if (priv->tasks) {
-		ECal *default_ecal;
-		
-		default_ecal = e_tasks_get_default_client (priv->tasks);
-		if (default_ecal) {
-			priv->create_ecal = g_object_ref (default_ecal);
-			return TRUE;
-		}
-	}
-	
-	/* Get the current primary calendar, or try to set one if it doesn't already exist */		
-	uid = calendar_config_get_primary_tasks ();
-	if (uid) {
-		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
-		g_free (uid);
-
-		priv->create_ecal = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
-	} 
-
-	if (!priv->create_ecal) {
-		/* Try to create a default if there isn't one */
-		source = e_source_list_peek_source_any (priv->source_list);
-		if (source)
-			priv->create_ecal = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
-	}
-		
-	if (priv->create_ecal) {
-		if (!e_cal_open (priv->create_ecal, FALSE, NULL)) {
-			GtkWidget *dialog;
-			
-			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
-							 _("Unable to open the task list '%s' for creating events and meetings"), 
-							   e_source_peek_name (source));
-			gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
-
-			return FALSE;
-		}
-	} else {
-		GtkWidget *dialog;
-			
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
-						 _("There is no calendar available for creating tasks"));
-		gtk_dialog_run (GTK_DIALOG (dialog));
-		gtk_widget_destroy (dialog);
-
-		return FALSE;
-	}		
-
-	/* Handle the fact it may change on us */
-	not = calendar_config_add_notification_primary_tasks (config_create_ecal_changed_cb, 
-							      component);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
-	/* Save the primary source for use elsewhere */
-	calendar_config_set_primary_tasks (e_source_peek_uid (source));
-
-	return TRUE;
-}
-
-static void
-create_new_todo (TasksComponent *task_component, CORBA_Environment *ev)
-{
-	TasksComponentPrivate *priv;
-	ECalComponent *comp;
-	TaskEditor *editor;
-	gboolean read_only;
-	
-	priv = task_component->priv;
-
-	if (!setup_create_ecal (task_component)) {
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
-		return;
-	}
-	
-	if (!e_cal_is_read_only (priv->create_ecal, &read_only, NULL) || read_only)
-		return;
-
-	editor = task_editor_new (priv->create_ecal);
-	comp = cal_comp_task_new_with_defaults (priv->create_ecal);
-
-	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
-	comp_editor_focus (COMP_EDITOR (editor));
-
-	e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
-}
-
-static void
 impl_requestCreateItem (PortableServer_Servant servant,
 			const CORBA_char *item_type_name,
 			CORBA_Environment *ev)
@@ -712,15 +748,74 @@ impl_requestCreateItem (PortableServer_Servant servant,
 	priv = tasks_component->priv;	
 	
 	if (strcmp (item_type_name, CREATE_TASK_ID) == 0) {
-		create_new_todo (tasks_component, ev);
+		if (!create_new_todo (tasks_component, NULL))
+			bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
 	} else if (strcmp (item_type_name, CREATE_TASK_LIST_ID) == 0) {
-		calendar_setup_new_task_list (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (priv->tasks))));
+		/* FIXME Should we use the last opened window? */
+		calendar_setup_new_task_list (NULL);
 	} else {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
 	}
 }
 
-/* Initialization */
+/* GObject methods.  */
+
+static void
+impl_dispose (GObject *object)
+{
+	TasksComponent *tasks_component = TASKS_COMPONENT (object);
+	TasksComponentPrivate *priv = tasks_component->priv;
+	GList *l;
+	
+	if (priv->source_list != NULL) {
+		g_object_unref (priv->source_list);
+		priv->source_list = NULL;
+	}
+	if (priv->source_selection != NULL) {
+		e_source_selector_free_selection (priv->source_selection);
+		priv->source_selection = NULL;
+	}
+
+	if (priv->create_ecal) {
+		g_object_unref (priv->create_ecal);
+		priv->create_ecal = NULL;
+	}
+
+	for (l = priv->views; l; l = l->next) {
+		TasksComponentView *component_view = l->data;
+	
+		g_object_weak_unref (G_OBJECT (component_view->view_control), view_destroyed_cb, tasks_component);
+	}
+	g_list_free (priv->views);
+	priv->views = NULL;
+
+	for (l = priv->notifications; l; l = l->next)
+		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
+	g_list_free (priv->notifications);
+	priv->notifications = NULL;
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	TasksComponentPrivate *priv = TASKS_COMPONENT (object)->priv;
+	GList *l;
+	
+	for (l = priv->views; l; l = l->next) {
+		TasksComponentView *component_view = l->data;
+		
+		destroy_component_view (component_view);
+	}
+	g_list_free (priv->views);
+
+	g_free (priv->base_directory);
+	g_free (priv->config_directory);
+	g_free (priv);
+
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+}
 
 static void
 tasks_component_class_init (TasksComponentClass *klass)
@@ -751,12 +846,8 @@ tasks_component_init (TasksComponent *component, TasksComponentClass *klass)
 						   ".evolution", "tasks", "config",
 						   NULL);
 
-	/* load the groups from the configuration */
-	priv->gconf_client = gconf_client_get_default ();
-	priv->source_list = e_source_list_new_for_gconf (priv->gconf_client,
-							 "/apps/evolution/tasks/sources");
-
-	priv->activity_handler = e_activity_handler_new ();
+	if (!e_cal_get_sources (&priv->source_list, E_CAL_SOURCE_TYPE_TODO, NULL))
+		;
 
 	component->priv = priv;
 }
@@ -803,13 +894,15 @@ tasks_component_peek_source_list (TasksComponent *component)
 ESourceSelector *
 tasks_component_peek_source_selector (TasksComponent *component)
 {
-	return component->priv->source_selector;
+//	return component->priv->source_selector;
+	return NULL;
 }
 
 EActivityHandler *
 tasks_component_peek_activity_handler (TasksComponent *component)
 {
-	return component->priv->activity_handler;
+//	return component->priv->activity_handler;
+	return NULL;
 }
 
 BONOBO_TYPE_FUNC_FULL (TasksComponent, GNOME_Evolution_Component, PARENT_TYPE, tasks_component)

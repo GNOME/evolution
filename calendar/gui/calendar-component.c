@@ -31,6 +31,7 @@
 #include <bonobo/bonobo-i18n.h>
 #include <bonobo/bonobo-exception.h>
 #include <libical/icalvcal.h>
+#include <shell/e-user-creatable-items-handler.h>
 #include "e-pub-utils.h"
 #include "e-calendar-view.h"
 #include "calendar-config-keys.h"
@@ -71,6 +72,28 @@ static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
 
+typedef struct 
+{
+	ESourceList *source_list;
+	ESourceList *task_source_list;
+	
+	GSList *source_selection;
+	GSList *task_source_selection;
+	
+	GnomeCalendar *calendar;
+	GtkWidget *source_selector;
+
+	BonoboControl *view_control;
+	BonoboControl *sidebar_control;
+	BonoboControl *statusbar_control;
+
+	GList *notifications;
+
+	EUserCreatableItemsHandler *creatable_items_handler;
+
+	EActivityHandler *activity_handler;
+} CalendarComponentView;
+
 struct _CalendarComponentPrivate {
 	char *base_directory;
 	char *config_directory;
@@ -79,21 +102,13 @@ struct _CalendarComponentPrivate {
 	int gconf_notify_id;
 
 	ESourceList *source_list;
-	GSList *source_selection;
-
 	ESourceList *task_source_list;
-	GSList *task_source_selection;
-	
-	GnomeCalendar *calendar;
-	GtkWidget *source_selector;
 
-	BonoboControl *view_control;
+	GList *views;
 
 	ECal *create_ecal;
 
 	GList *notifications;
-
-	EActivityHandler *activity_handler;
 };
 
 /* FIXME This should be gnome cal likely */
@@ -132,31 +147,28 @@ is_in_uids (GSList *uids, ESource *source)
 }
 
 static void
-update_uris_for_selection (CalendarComponent *calendar_component)
+update_uris_for_selection (CalendarComponentView *component_view)
 {
-	CalendarComponentPrivate *priv;
 	GSList *selection, *l, *uids_selected = NULL;
 	
-	priv = calendar_component->priv;
-	
-	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 
-	for (l = priv->source_selection; l; l = l->next) {
+	for (l = component_view->source_selection; l; l = l->next) {
 		ESource *old_selected_source = l->data;
 
 		if (!is_in_selection (selection, old_selected_source))
-			gnome_calendar_remove_source (priv->calendar, E_CAL_SOURCE_TYPE_EVENT, old_selected_source);
+			gnome_calendar_remove_source (component_view->calendar, E_CAL_SOURCE_TYPE_EVENT, old_selected_source);
 	}
 
 	for (l = selection; l; l = l->next) {
 		ESource *selected_source = l->data;
 		
-		if (gnome_calendar_add_source (priv->calendar, E_CAL_SOURCE_TYPE_EVENT, selected_source))
+		if (gnome_calendar_add_source (component_view->calendar, E_CAL_SOURCE_TYPE_EVENT, selected_source))
 			uids_selected = g_slist_append (uids_selected, (char *) e_source_peek_uid (selected_source));
 	}
 	
-	e_source_selector_free_selection (priv->source_selection);
-	priv->source_selection = selection;
+	e_source_selector_free_selection (component_view->source_selection);
+	component_view->source_selection = selection;
 
 	/* Save the selection for next time we start up */
 	calendar_config_set_calendars_selected (uids_selected);
@@ -164,46 +176,40 @@ update_uris_for_selection (CalendarComponent *calendar_component)
 }
 
 static void
-update_uri_for_primary_selection (CalendarComponent *calendar_component)
+update_uri_for_primary_selection (CalendarComponentView *component_view)
 {
-	CalendarComponentPrivate *priv;
 	ESource *source;
 
-	priv = calendar_component->priv;
-
-	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	if (!source)
 		return;
 
 	/* Set the default */
-	gnome_calendar_set_default_source (priv->calendar, E_CAL_SOURCE_TYPE_EVENT, source);
+	gnome_calendar_set_default_source (component_view->calendar, E_CAL_SOURCE_TYPE_EVENT, source);
 
 	/* Make sure we are embedded first */
-	calendar_control_sensitize_calendar_commands (priv->view_control, priv->calendar, TRUE);
+	calendar_control_sensitize_calendar_commands (component_view->view_control, component_view->calendar, TRUE);
 
 	/* Save the selection for next time we start up */
 	calendar_config_set_primary_calendar (e_source_peek_uid (source));
 }
 
 static void
-update_selection (CalendarComponent *calendar_component)
+update_selection (CalendarComponentView *component_view)
 {
-	CalendarComponentPrivate *priv;
 	GSList *selection, *uids_selected, *l;
-
-	priv = calendar_component->priv;
 
 	/* Get the selection in gconf */
 	uids_selected = calendar_config_get_calendars_selected ();
 
 	/* Remove any that aren't there any more */
-	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 
 	for (l = selection; l; l = l->next) {
 		ESource *source = l->data;
 
 		if (!is_in_uids (uids_selected, source)) 
-			e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector), source);
+			e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
 	}
 	
 	e_source_selector_free_selection (selection);
@@ -213,9 +219,9 @@ update_selection (CalendarComponent *calendar_component)
 		char *uid = l->data;
 		ESource *source;
 
-		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
+		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
 		if (source) 
-			e_source_selector_select_source (E_SOURCE_SELECTOR (priv->source_selector), source);
+			e_source_selector_select_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
 		
 		g_free (uid);
 	}
@@ -223,86 +229,78 @@ update_selection (CalendarComponent *calendar_component)
 }
 
 static void
-update_task_selection (CalendarComponent *calendar_component)
+update_task_selection (CalendarComponentView *component_view)
 {
-	CalendarComponentPrivate *priv;
 	GSList *uids_selected, *l;
-
-	priv = calendar_component->priv;
 
 	/* Get the selection in gconf */
 	uids_selected = calendar_config_get_tasks_selected ();
 
 	/* Remove any that aren't there any more */
-	for (l = priv->task_source_selection; l; l = l->next) {
+	for (l = component_view->task_source_selection; l; l = l->next) {
 		char *uid = l->data;
 		ESource *source;
 
-		source = e_source_list_peek_source_by_uid (priv->task_source_list, uid);
+		source = e_source_list_peek_source_by_uid (component_view->task_source_list, uid);
 		if (!source)
-			gnome_calendar_remove_source_by_uid (priv->calendar, E_CAL_SOURCE_TYPE_TODO, uid);
+			gnome_calendar_remove_source_by_uid (component_view->calendar, E_CAL_SOURCE_TYPE_TODO, uid);
 		else if (!is_in_uids (uids_selected, source))
-			gnome_calendar_remove_source (priv->calendar, E_CAL_SOURCE_TYPE_TODO, source);
+			gnome_calendar_remove_source (component_view->calendar, E_CAL_SOURCE_TYPE_TODO, source);
 		
 		g_free (uid);
 	}
-	g_slist_free (priv->task_source_selection);
+	g_slist_free (component_view->task_source_selection);
 
 	/* Make sure the whole selection is there */
 	for (l = uids_selected; l; l = l->next) {
 		char *uid = l->data;
 		ESource *source;
 
-		source = e_source_list_peek_source_by_uid (priv->task_source_list, uid);
-		if (!gnome_calendar_add_source (priv->calendar, E_CAL_SOURCE_TYPE_TODO, source))
+		source = e_source_list_peek_source_by_uid (component_view->task_source_list, uid);
+		if (!gnome_calendar_add_source (component_view->calendar, E_CAL_SOURCE_TYPE_TODO, source))
 			/* FIXME do something */;
 	}
 
-	priv->task_source_selection = uids_selected;
+	component_view->task_source_selection = uids_selected;
 }
 
 static void
-update_primary_selection (CalendarComponent *calendar_component)
+update_primary_selection (CalendarComponentView *component_view)
 {
-	CalendarComponentPrivate *priv;
 	ESource *source = NULL;
 	char *uid;
 
-	priv = calendar_component->priv;
-
 	uid = calendar_config_get_primary_calendar ();
 	if (uid) {
-		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
+		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
 		g_free (uid);
 	}
 	
 	if (source) {
-		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
+		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector), source);
 	} else {
 		/* Try to create a default if there isn't one */
-		source = e_source_list_peek_source_any (priv->source_list);
+		source = e_source_list_peek_source_any (component_view->source_list);
 		if (source)
-			e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
+			e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector), source);
 	}
 }
 
 static void
-update_primary_task_selection (CalendarComponent *calendar_component)
+update_primary_task_selection (CalendarComponentView *component_view)
 {
-	CalendarComponentPrivate *priv;
 	ESource *source = NULL;
 	char *uid;
 
-	priv = calendar_component->priv;
-
 	uid = calendar_config_get_primary_tasks ();
 	if (uid) {
-		source = e_source_list_peek_source_by_uid (priv->task_source_list, uid);
+		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
+
 		g_free (uid);
 	}
 	
 	if (source)
-		gnome_calendar_set_default_source (priv->calendar, E_CAL_SOURCE_TYPE_TODO, source);
+		gnome_calendar_set_default_source (component_view->calendar, E_CAL_SOURCE_TYPE_TODO, source);
 }
 
 /* Callbacks.  */
@@ -339,14 +337,11 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *icon_name,
 }
 
 static void
-copy_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
+copy_calendar_cb (GtkWidget *widget, CalendarComponentView *component_view)
 {
 	ESource *selected_source;
-	CalendarComponentPrivate *priv;
-
-	priv = comp->priv;
 	
-	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	if (!selected_source)
 		return;
 
@@ -354,15 +349,12 @@ copy_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 }
 
 static void
-delete_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
+delete_calendar_cb (GtkWidget *widget, CalendarComponentView *component_view)
 {
 	ESource *selected_source;
-	CalendarComponentPrivate *priv;
 	GtkWidget *dialog;
 
-	priv = comp->priv;
-	
-	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	if (!selected_source)
 		return;
 
@@ -380,21 +372,21 @@ delete_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 
 		/* first, ask the backend to remove the calendar */
 		uri = e_source_get_uri (selected_source);
-		cal = e_cal_model_get_client_for_uri (gnome_calendar_get_calendar_model (priv->calendar), uri);
+		cal = e_cal_model_get_client_for_uri (gnome_calendar_get_calendar_model (component_view->calendar), uri);
 		if (!cal)
 			cal = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_EVENT);
 		g_free (uri);
 		if (cal) {
 			if (e_cal_remove (cal, NULL)) {
-				if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->source_selector),
+				if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (component_view->source_selector),
 									  selected_source)) {
-					gnome_calendar_remove_source (priv->calendar, E_CAL_SOURCE_TYPE_EVENT, selected_source);
-					e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector),
+					gnome_calendar_remove_source (component_view->calendar, E_CAL_SOURCE_TYPE_EVENT, selected_source);
+					e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector),
 									   selected_source);
 				}
 		
 				e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
-				e_source_list_sync (priv->source_list, NULL);
+				e_source_list_sync (component_view->source_list, NULL);
 			}
 		}
 	}
@@ -403,20 +395,17 @@ delete_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 }
 
 static void
-new_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
+new_calendar_cb (GtkWidget *widget, CalendarComponentView *component_view)
 {
 	calendar_setup_new_calendar (GTK_WINDOW (gtk_widget_get_toplevel (widget)));
 }
 
 static void
-edit_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
+edit_calendar_cb (GtkWidget *widget, CalendarComponentView *component_view)
 {
-	CalendarComponentPrivate *priv;
 	ESource *selected_source;
 
-	priv = comp->priv;
-	
-	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	if (!selected_source)
 		return;
 
@@ -424,53 +413,43 @@ edit_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 }
 
 static void
-fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, CalendarComponent *comp)
+fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, CalendarComponentView *component_view)
 {
 	gboolean sensitive;
 
-	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (comp->priv->source_selector)) ?
+	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector)) ?
 		TRUE : FALSE;
 
 	add_popup_menu_item (menu, _("New Calendar"), "stock_calendar",
-			     G_CALLBACK (new_calendar_cb), comp, TRUE);
+			     G_CALLBACK (new_calendar_cb), component_view, TRUE);
 	add_popup_menu_item (menu, _("Copy"), "stock_folder-copy",
-			     G_CALLBACK (copy_calendar_cb), comp, sensitive);
-	add_popup_menu_item (menu, _("Delete"), "stock_delete", G_CALLBACK (delete_calendar_cb), comp, sensitive);
-	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_calendar_cb), comp, sensitive);
+			     G_CALLBACK (copy_calendar_cb), component_view, sensitive);
+	add_popup_menu_item (menu, _("Delete"), "stock_delete", G_CALLBACK (delete_calendar_cb), component_view, sensitive); 
+	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_calendar_cb), component_view, sensitive);
 }
 
 static void
-source_selection_changed_cb (ESourceSelector *selector, 
-			     CalendarComponent *calendar_component)
+source_selection_changed_cb (ESourceSelector *selector, CalendarComponentView *component_view)
 {
-	update_uris_for_selection (calendar_component);
+	update_uris_for_selection (component_view);
 }
 
 static void
-primary_source_selection_changed_cb (ESourceSelector *selector,
-				     CalendarComponent *calendar_component)
+primary_source_selection_changed_cb (ESourceSelector *selector, CalendarComponentView *component_view)
 {
-	CalendarComponentPrivate *priv = calendar_component->priv;
-
-	if (priv->create_ecal) {
-		g_object_unref (priv->create_ecal);
-		priv->create_ecal = NULL;
-	}
-
-	update_uri_for_primary_selection (calendar_component);
+	update_uri_for_primary_selection (component_view);
 }
-
-static void
-config_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	update_selection (data);
-}
-
 
 static void
 config_primary_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
-	update_primary_selection (data);
+	CalendarComponent *calendar_component = data;
+	CalendarComponentPrivate *priv = calendar_component->priv;
+	
+	if (priv->create_ecal) {
+		g_object_unref (priv->create_ecal);
+		priv->create_ecal = NULL;
+	}
 }
 
 static void
@@ -505,58 +484,6 @@ conf_changed_callback (GConfClient *client,
 	e_pub_publish (TRUE);
 }
 
-/* GObject methods.  */
-
-static void
-impl_dispose (GObject *object)
-{
-	CalendarComponentPrivate *priv = CALENDAR_COMPONENT (object)->priv;
-	GList *l;
-	
-	if (priv->source_list != NULL) {
-		g_object_unref (priv->source_list);
-		priv->source_list = NULL;
-	}
-
-	if (priv->source_selection != NULL) {
-		e_source_selector_free_selection (priv->source_selection);
-		priv->source_selection = NULL;
-	}
-	
-	if (priv->gconf_client != NULL) {
-		g_object_unref (priv->gconf_client);
-		priv->gconf_client = NULL;
-	}
-
-	if (priv->create_ecal) {
-		g_object_unref (priv->create_ecal);
-		priv->create_ecal = NULL;
-	}
-		
-	for (l = priv->notifications; l; l = l->next)
-		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
-	g_list_free (priv->notifications);
-	priv->notifications = NULL;
-
-	if (priv->activity_handler != NULL) {
-		g_object_unref (priv->activity_handler);
-		priv->activity_handler = NULL;
-	}
-
-	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
-}
-
-static void
-impl_finalize (GObject *object)
-{
-	CalendarComponentPrivate *priv = CALENDAR_COMPONENT (object)->priv;
-
-	g_free (priv->base_directory);
-	g_free (priv->config_directory);
-	g_free (priv);
-
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
-}
 
 
 /* Evolution::Component CORBA methods.  */
@@ -788,41 +715,225 @@ selector_tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time
 }
 
 static void
-impl_createControls (PortableServer_Servant servant,
-		     Bonobo_Control *corba_sidebar_control,
-		     Bonobo_Control *corba_view_control,
-		     Bonobo_Control *corba_statusbar_control,
-		     CORBA_Environment *ev)
+control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
 {
-	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
+	CalendarComponentView *component_view = data;
+
+	if (activate) {
+		BonoboUIComponent *uic;
+		uic = bonobo_control_get_ui_component (component_view->view_control);
+		
+		e_user_creatable_items_handler_activate (component_view->creatable_items_handler, uic);
+	}	
+}
+
+
+static void
+config_create_ecal_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{	
+	CalendarComponent *calendar_component = data;
 	CalendarComponentPrivate *priv;
-	GtkWidget *selector_scrolled_window, *vbox, *info;
-	GtkWidget *statusbar_widget;
-	BonoboControl *sidebar_control;
-	BonoboControl *statusbar_control;
+	
+	priv = calendar_component->priv;
+
+	g_object_unref (priv->create_ecal);
+	priv->create_ecal = NULL;
+	
+	priv->notifications = g_list_remove (priv->notifications, GUINT_TO_POINTER (id));
+}
+
+static ECal *
+setup_create_ecal (CalendarComponent *calendar_component, CalendarComponentView *component_view) 
+{
+	CalendarComponentPrivate *priv;
+	ESource *source = NULL;
+	char *uid;
 	guint not;
 	
 	priv = calendar_component->priv;
+
+	/* Try to use the client from the calendar first to avoid re-opening things */
+	if (component_view) {
+		ECal *default_ecal;
+		
+		default_ecal = gnome_calendar_get_default_client (component_view->calendar);
+		if (default_ecal)
+			return default_ecal;
+	}
+	
+	/* If there is an existing fall back, use that */
+	if (priv->create_ecal)
+		return priv->create_ecal; 
+
+	/* Get the current primary calendar, or try to set one if it doesn't already exist */		
+	uid = calendar_config_get_primary_calendar ();
+	if (uid) {
+		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
+		g_free (uid);
+
+		priv->create_ecal = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
+	} 
+
+	if (!priv->create_ecal) {
+		/* Try to create a default if there isn't one */
+		source = e_source_list_peek_source_any (priv->source_list);
+		if (source)
+			priv->create_ecal = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
+	}
+		
+	if (priv->create_ecal) {
+		if (!e_cal_open (priv->create_ecal, FALSE, NULL)) {
+			GtkWidget *dialog;
+			
+			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
+							 _("Unable to open the calendar '%s' for creating events and meetings"), 
+							   e_source_peek_name (source));
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
+
+			return NULL;
+		}
+	} else {
+		GtkWidget *dialog;
+			
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
+						 _("There is no calendar available for creating events and meetings"));
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+
+		return NULL;
+	}		
+
+	/* Handle the fact it may change on us */
+	not = calendar_config_add_notification_primary_calendar (config_create_ecal_changed_cb, 
+								 calendar_component);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+
+	/* Save the primary source for use elsewhere */
+	calendar_config_set_primary_calendar (e_source_peek_uid (source));
+
+	return priv->create_ecal;
+}
+
+static gboolean
+create_new_event (CalendarComponent *calendar_component, CalendarComponentView *component_view, gboolean is_allday, gboolean is_meeting)
+{
+	ECal *ecal;
+	gboolean read_only;
+	ECalendarView *view;
+
+	ecal = setup_create_ecal (calendar_component, component_view);
+	if (!ecal)
+		return FALSE;
+
+	if (!e_cal_is_read_only (ecal, &read_only, NULL) || read_only) {
+		GtkWidget *dialog;
+			
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+						 GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
+						 _("Selected calendar is read-only, events cannot be created. Please select a read-write calendar."));
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+		return TRUE;
+	}
+
+	if (component_view->calendar && (view = E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (component_view->calendar)))) {
+		GnomeCalendarViewType view_type;
+
+		/* Force all for these view types because thats what's selected and it mimics a double click */
+		view_type = gnome_calendar_get_view (component_view->calendar);
+		if (view_type == GNOME_CAL_WEEK_VIEW 
+		    || view_type == GNOME_CAL_MONTH_VIEW
+		    || view_type == GNOME_CAL_LIST_VIEW)
+			is_allday = TRUE;
+
+		e_calendar_view_new_appointment_full (view, is_allday, is_meeting);
+	} else {
+		ECalComponent *comp;
+		EventEditor *editor;
+
+		editor = event_editor_new (ecal);
+		comp = cal_comp_event_new_with_current_time (ecal, is_allday);
+
+		comp_editor_edit_comp (COMP_EDITOR (editor), comp);
+		if (is_meeting)
+			event_editor_show_meeting (editor);
+		comp_editor_focus (COMP_EDITOR (editor));
+
+		e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
+	}
+
+	return TRUE;	
+}
+
+static void
+create_local_item_cb (EUserCreatableItemsHandler *handler, const char *item_type_name, void *data)
+{
+	CalendarComponent *calendar_component = data;
+	CalendarComponentPrivate *priv;
+	CalendarComponentView *component_view = NULL;
+	GList *l;
+	
+	priv = calendar_component->priv;
+	
+	for (l = priv->views; l; l = l->next) {
+		component_view = l->data;
+
+		if (component_view->creatable_items_handler == handler)
+			break;
+		
+		component_view = NULL;
+	}
+	
+	if (strcmp (item_type_name, CREATE_EVENT_ID) == 0)
+		create_new_event (calendar_component, component_view, FALSE, FALSE);
+ 	else if (strcmp (item_type_name, CREATE_ALLDAY_EVENT_ID) == 0)
+		create_new_event (calendar_component, component_view, TRUE, FALSE);
+	else if (strcmp (item_type_name, CREATE_MEETING_ID) == 0)
+		create_new_event (calendar_component, component_view, FALSE, TRUE);
+	else if (strcmp (item_type_name, CREATE_CALENDAR_ID) == 0)
+		calendar_setup_new_calendar (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (component_view->calendar))));
+}
+
+static CalendarComponentView *
+create_component_view (CalendarComponent *calendar_component)
+{
+	CalendarComponentPrivate *priv;
+	CalendarComponentView *component_view;
+	GtkWidget *selector_scrolled_window, *vbox, *info;
+	GtkWidget *statusbar_widget;
+	guint not;
+	
+	priv = calendar_component->priv;
+
+	/* Create the calendar component view */
+	component_view = g_new0 (CalendarComponentView, 1);
+	
+	/* Add the source lists */
+	component_view->source_list = g_object_ref (priv->source_list);
+	component_view->task_source_list = g_object_ref (priv->task_source_list);
 	
 	/* Create sidebar selector */
-	priv->source_selector = e_source_selector_new (calendar_component->priv->source_list);
+	component_view->source_selector = e_source_selector_new (calendar_component->priv->source_list);
 
-	g_signal_connect (priv->source_selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion), 
+	g_signal_connect (component_view->source_selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion), 
 			  calendar_component);
-	g_signal_connect (priv->source_selector, "drag-leave", G_CALLBACK (selector_tree_drag_leave), 
+	g_signal_connect (component_view->source_selector, "drag-leave", G_CALLBACK (selector_tree_drag_leave), 
 			  calendar_component);
-	g_signal_connect (priv->source_selector, "drag-drop", G_CALLBACK (selector_tree_drag_drop), 
+	g_signal_connect (component_view->source_selector, "drag-drop", G_CALLBACK (selector_tree_drag_drop), 
 			  calendar_component);
-	g_signal_connect (priv->source_selector, "drag-data-received", 
+	g_signal_connect (component_view->source_selector, "drag-data-received", 
 			  G_CALLBACK (selector_tree_drag_data_received), calendar_component);
 
-	gtk_drag_dest_set(priv->source_selector, GTK_DEST_DEFAULT_ALL, drag_types,
+	gtk_drag_dest_set(component_view->source_selector, GTK_DEST_DEFAULT_ALL, drag_types,
 			  num_drag_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
-	gtk_widget_show (priv->source_selector);
+	gtk_widget_show (component_view->source_selector);
 
 	selector_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_container_add (GTK_CONTAINER (selector_scrolled_window), priv->source_selector);
+	gtk_container_add (GTK_CONTAINER (selector_scrolled_window), component_view->source_selector);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (selector_scrolled_window),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (selector_scrolled_window),
@@ -838,64 +949,133 @@ impl_createControls (PortableServer_Servant servant,
 	gtk_box_pack_start(GTK_BOX (vbox), selector_scrolled_window, TRUE, TRUE, 0);
 	gtk_widget_show (vbox);
 
-	sidebar_control = bonobo_control_new (vbox);
+	component_view->sidebar_control = bonobo_control_new (vbox);
 
-	/* Create main calendar view */
-	/* FIXME Instead of returning, we should make a control with a
-	 * label describing the problem */
-	priv->view_control = control_factory_new_control ();
-	if (!priv->view_control) {
-		g_warning (G_STRLOC ": could not create the control!");
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
-		return;
+	/* Create main view */
+	component_view->view_control = control_factory_new_control ();
+	if (!component_view->view_control) {
+		/* FIXME free memory */
+
+		return NULL;
 	}
 
-	priv->calendar = (GnomeCalendar *) bonobo_control_get_widget (priv->view_control);
+	component_view->calendar = (GnomeCalendar *) bonobo_control_get_widget (component_view->view_control);
 
+	/* Create status bar */
 	statusbar_widget = e_task_bar_new ();
-	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (statusbar_widget));
+	e_activity_handler_attach_task_bar (component_view->activity_handler, E_TASK_BAR (statusbar_widget));
 	gtk_widget_show (statusbar_widget);
-	statusbar_control = bonobo_control_new (statusbar_widget);
+
+	component_view->statusbar_control = bonobo_control_new (statusbar_widget);
 	
 	/* connect after setting the initial selections, or we'll get unwanted calls
 	   to calendar_control_sensitize_calendar_commands */
-	g_signal_connect_object (priv->source_selector, "selection_changed",
-				 G_CALLBACK (source_selection_changed_cb), 
-				 G_OBJECT (calendar_component), 0);
-	g_signal_connect_object (priv->source_selector, "primary_selection_changed",
-				 G_CALLBACK (primary_source_selection_changed_cb), 
-				 G_OBJECT (calendar_component), 0);
-	g_signal_connect_object (priv->source_selector, "fill_popup_menu",
-				 G_CALLBACK (fill_popup_menu_cb),
-				 G_OBJECT (calendar_component), 0);
+	g_signal_connect (component_view->source_selector, "selection_changed",
+			  G_CALLBACK (source_selection_changed_cb), component_view);
+	g_signal_connect (component_view->source_selector, "primary_selection_changed",
+			  G_CALLBACK (primary_source_selection_changed_cb), component_view);
+	g_signal_connect (component_view->source_selector, "fill_popup_menu",
+			  G_CALLBACK (fill_popup_menu_cb), component_view);
+
+	/* Set up the "new" item handler */
+	component_view->creatable_items_handler = e_user_creatable_items_handler_new ("calendar", create_local_item_cb, calendar_component);
+	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (control_activate_cb), component_view);
 
 	/* Load the selection from the last run */
-	update_selection (calendar_component);	
-	update_primary_selection (calendar_component);
-	update_task_selection (calendar_component);
-	update_primary_task_selection (calendar_component);
-	
-	/* If the selection changes elsewhere, update it */
-	not = calendar_config_add_notification_calendars_selected (config_selection_changed_cb, 
-								   calendar_component);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+	update_selection (component_view);	
+	update_primary_selection (component_view);
+	update_task_selection (component_view);
+	update_primary_task_selection (component_view);
 
-	not = calendar_config_add_notification_primary_calendar (config_primary_selection_changed_cb, 
-								 calendar_component);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
+	/* If the task selection changes elsewhere, update it */
 	not = calendar_config_add_notification_tasks_selected (config_tasks_selection_changed_cb, 
-							       calendar_component);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+							       component_view);
+	component_view->notifications = g_list_prepend (component_view->notifications, GUINT_TO_POINTER (not));
 
 	not = calendar_config_add_notification_primary_tasks (config_primary_tasks_selection_changed_cb, 
-							      calendar_component);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+							      component_view);
+	component_view->notifications = g_list_prepend (component_view->notifications, GUINT_TO_POINTER (not));
 
+	return component_view;
+}
+
+static void
+destroy_component_view (CalendarComponentView *component_view)
+{	
+	GList *l;
+	
+	if (component_view->source_list)
+		g_object_unref (component_view->source_list);
+
+	if (component_view->task_source_list)
+		g_object_unref (component_view->task_source_list);
+
+	if (component_view->source_selection)
+		e_source_selector_free_selection (component_view->source_selection);
+	
+	for (l = component_view->notifications; l; l = l->next)
+		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
+	g_list_free (component_view->notifications);
+
+	if (component_view->creatable_items_handler)
+		g_object_unref (component_view->creatable_items_handler);
+
+	if (component_view->activity_handler)
+		g_object_unref (component_view->activity_handler);
+
+	g_free (component_view);
+}
+
+static void
+view_destroyed_cb (gpointer data, GObject *where_the_object_was)
+{
+	CalendarComponent *calendar_component = data;
+	CalendarComponentPrivate *priv;
+	GList *l;
+	
+	priv = calendar_component->priv;
+
+	for (l = priv->views; l; l = l->next) {
+		CalendarComponentView *component_view = l->data;
+		
+		if (G_OBJECT (component_view->view_control) == where_the_object_was) {
+			priv->views = g_list_remove (priv->views, component_view);
+			destroy_component_view (component_view);
+
+			break;
+		}
+	}
+}
+
+static void
+impl_createControls (PortableServer_Servant servant,
+		     Bonobo_Control *corba_sidebar_control,
+		     Bonobo_Control *corba_view_control,
+		     Bonobo_Control *corba_statusbar_control,
+		     CORBA_Environment *ev)
+{
+	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
+	CalendarComponentPrivate *priv;
+	CalendarComponentView *component_view;
+	
+	priv = calendar_component->priv;
+
+	/* Create the calendar component view */
+	component_view = create_component_view (calendar_component);
+	if (!component_view) {
+		/* FIXME Should we describe the problem in a control? */
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
+
+		return;
+	}
+
+	g_object_weak_ref (G_OBJECT (component_view->view_control), view_destroyed_cb, calendar_component);
+	priv->views = g_list_append (priv->views, component_view);
+	
 	/* Return the controls */
-	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
-	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (priv->view_control), ev);
-	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (statusbar_control), ev);
+	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (component_view->sidebar_control), ev);
+	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (component_view->view_control), ev);
+	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (component_view->statusbar_control), ev);
 }
 
 
@@ -947,164 +1127,88 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 }
 
 static void
-config_create_ecal_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{	
-	CalendarComponent *calendar_component = data;
-	CalendarComponentPrivate *priv;
-	
-	priv = calendar_component->priv;
-
-	g_object_unref (priv->create_ecal);
-	priv->create_ecal = NULL;
-	
-	priv->notifications = g_list_remove (priv->notifications, GUINT_TO_POINTER (id));
-}
-
-static gboolean
-setup_create_ecal (CalendarComponent *calendar_component) 
-{
-	CalendarComponentPrivate *priv;
-	ESource *source = NULL;
-	char *uid;
-	guint not;
-	
-	priv = calendar_component->priv;
-
-	if (priv->create_ecal)
-		return TRUE; 
-
-	/* Try to use the client from the calendar first to avoid re-opening things */
-	if (priv->calendar) {
-		ECal *default_ecal;
-		
-		default_ecal = gnome_calendar_get_default_client (priv->calendar);
-		if (default_ecal) {
-			priv->create_ecal = g_object_ref (default_ecal);
-			return TRUE;
-		}
-	}
-	
-	/* Get the current primary calendar, or try to set one if it doesn't already exist */		
-	uid = calendar_config_get_primary_calendar ();
-	if (uid) {
-		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
-		g_free (uid);
-
-		priv->create_ecal = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
-	} 
-
-	if (!priv->create_ecal) {
-		/* Try to create a default if there isn't one */
-		source = e_source_list_peek_source_any (priv->source_list);
-		if (source)
-			priv->create_ecal = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
-	}
-		
-	if (priv->create_ecal) {
-		if (!e_cal_open (priv->create_ecal, FALSE, NULL)) {
-			GtkWidget *dialog;
-			
-			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
-							 _("Unable to open the calendar '%s' for creating events and meetings"), 
-							   e_source_peek_name (source));
-			gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
-
-			return FALSE;
-		}
-	} else {
-		GtkWidget *dialog;
-			
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
-						 _("There is no calendar available for creating events and meetings"));
-		gtk_dialog_run (GTK_DIALOG (dialog));
-		gtk_widget_destroy (dialog);
-
-		return FALSE;
-	}		
-
-	/* Handle the fact it may change on us */
-	not = calendar_config_add_notification_primary_calendar (config_create_ecal_changed_cb, 
-								 calendar_component);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
-	/* Save the primary source for use elsewhere */
-	calendar_config_set_primary_calendar (e_source_peek_uid (source));
-
-	return TRUE;
-}
-
-static void
-create_new_event (CalendarComponent *calendar_component, gboolean is_allday, gboolean is_meeting, CORBA_Environment *ev)
-{
-	CalendarComponentPrivate *priv = calendar_component->priv;
-	gboolean read_only;
-	ECalendarView *view;
-
-	if (!setup_create_ecal (calendar_component)) {
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
-		return;
-	}
-	if (!e_cal_is_read_only (priv->create_ecal, &read_only, NULL) || read_only) {
-		GtkWidget *dialog;
-			
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-						 GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
-						 _("Selected calendar is read-only, events cannot be created. Please select a read-write calendar."));
-		gtk_dialog_run (GTK_DIALOG (dialog));
-		gtk_widget_destroy (dialog);
-		return;
-	}
-	
-	if (priv->calendar && (view = E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (priv->calendar)))) {
-		GnomeCalendarViewType view_type;
-
-		/* Force all for these view types because thats what's selected and it mimics a double click */
-		view_type = gnome_calendar_get_view (priv->calendar);
-		if (view_type == GNOME_CAL_WEEK_VIEW 
-		    || view_type == GNOME_CAL_MONTH_VIEW
-		    || view_type == GNOME_CAL_LIST_VIEW)
-			is_allday = TRUE;
-
-		e_calendar_view_new_appointment_full (view, is_allday, is_meeting);
-	} else {
-		ECalComponent *comp;
-		EventEditor *editor;
-
-		editor = event_editor_new (priv->create_ecal);
-		comp = cal_comp_event_new_with_current_time (priv->create_ecal, is_allday);
-
-		comp_editor_edit_comp (COMP_EDITOR (editor), comp);
-		if (is_meeting)
-			event_editor_show_meeting (editor);
-		comp_editor_focus (COMP_EDITOR (editor));
-
-		e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
-	}
-}
-
-static void
 impl_requestCreateItem (PortableServer_Servant servant,
 			const CORBA_char *item_type_name,
 			CORBA_Environment *ev)
 {
 	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
+	gboolean result = FALSE;
 	
 	if (strcmp (item_type_name, CREATE_EVENT_ID) == 0)
-		create_new_event (calendar_component, FALSE, FALSE, ev);
+		result = create_new_event (calendar_component, NULL, FALSE, FALSE);
  	else if (strcmp (item_type_name, CREATE_ALLDAY_EVENT_ID) == 0)
-		create_new_event (calendar_component, TRUE, FALSE, ev);
+		result = create_new_event (calendar_component, NULL, TRUE, FALSE);
 	else if (strcmp (item_type_name, CREATE_MEETING_ID) == 0)
-		create_new_event (calendar_component, FALSE, TRUE, ev);
+		result = create_new_event (calendar_component, NULL, FALSE, TRUE);
 	else if (strcmp (item_type_name, CREATE_CALENDAR_ID) == 0)
-		calendar_setup_new_calendar (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (calendar_component->priv->calendar))));
+		/* FIXME Should we use the last opened window? */
+		calendar_setup_new_calendar (NULL);
 	else
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
+
+	if (!result)
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
 }
 
-/* Initialization.  */
+/* GObject methods.  */
+
+static void
+impl_dispose (GObject *object)
+{
+	CalendarComponent *calendar_component = CALENDAR_COMPONENT (object);
+	CalendarComponentPrivate *priv = calendar_component->priv;
+	GList *l;
+	
+	if (priv->source_list != NULL) {
+		g_object_unref (priv->source_list);
+		priv->source_list = NULL;
+	}
+
+	if (priv->gconf_client != NULL) {
+		g_object_unref (priv->gconf_client);
+		priv->gconf_client = NULL;
+	}
+
+	if (priv->create_ecal) {
+		g_object_unref (priv->create_ecal);
+		priv->create_ecal = NULL;
+	}
+
+	for (l = priv->views; l; l = l->next) {
+		CalendarComponentView *component_view = l->data;
+	
+		g_object_weak_unref (G_OBJECT (component_view->view_control), view_destroyed_cb, calendar_component);
+	}
+	g_list_free (priv->views);
+	priv->views = NULL;
+	
+	for (l = priv->notifications; l; l = l->next)
+		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
+	g_list_free (priv->notifications);
+	priv->notifications = NULL;
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	CalendarComponentPrivate *priv = CALENDAR_COMPONENT (object)->priv;
+	GList *l;
+	
+	for (l = priv->views; l; l = l->next) {
+		CalendarComponentView *component_view = l->data;
+		
+		destroy_component_view (component_view);
+	}
+	g_list_free (priv->views);
+	
+	g_free (priv->base_directory);
+	g_free (priv->config_directory);
+	g_free (priv);
+
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+}
 
 static void
 calendar_component_class_init (CalendarComponentClass *class)
@@ -1127,7 +1231,8 @@ static void
 calendar_component_init (CalendarComponent *component)
 {
 	CalendarComponentPrivate *priv;
-
+	guint not;
+	
 	priv = g_new0 (CalendarComponentPrivate, 1);
 
 	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
@@ -1139,13 +1244,17 @@ calendar_component_init (CalendarComponent *component)
 	 * calendar_component_peek_gconf_client().  */
 	priv->gconf_client = gconf_client_get_default ();
 
-	/* FIXME Use ecal convenience functions */
-	priv->source_list = e_source_list_new_for_gconf (priv->gconf_client,
-							 "/apps/evolution/calendar/sources");
-	priv->task_source_list = e_source_list_new_for_gconf (priv->gconf_client,
-							 "/apps/evolution/tasks/sources");
+	
+	if (!e_cal_get_sources (&priv->source_list, E_CAL_SOURCE_TYPE_EVENT, NULL))
+		;
+	
+	if (!e_cal_get_sources (&priv->task_source_list, E_CAL_SOURCE_TYPE_TODO, NULL))
+		;
 
-	priv->activity_handler = e_activity_handler_new ();
+	not = calendar_config_add_notification_primary_calendar (config_primary_selection_changed_cb, 
+								 component);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+
 
 	component->priv = priv;
 }
@@ -1194,13 +1303,15 @@ calendar_component_peek_source_list (CalendarComponent *component)
 ESourceSelector *
 calendar_component_peek_source_selector (CalendarComponent *component)
 {
-	return E_SOURCE_SELECTOR (component->priv->source_selector);
+// return E_SOURCE_SELECTOR (component->priv->source_selector);
+	return NULL;
 }
 
 EActivityHandler *
 calendar_component_peek_activity_handler (CalendarComponent *component)
 {
-	return component->priv->activity_handler;
+//	return component->priv->activity_handler;
+	return NULL;
 }
 
 void

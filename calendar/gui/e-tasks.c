@@ -79,8 +79,6 @@ struct _ETasksPrivate {
 	GalViewMenus *view_menus;
 
 	GList *notifications;
-
-	EUserCreatableItemsHandler *creatable_items_handler;
 };
 
 
@@ -446,14 +444,6 @@ e_tasks_set_ui_component (ETasks *tasks,
 	g_return_if_fail (ui_component == NULL || BONOBO_IS_UI_COMPONENT (ui_component));
 
 	e_search_bar_set_ui_component (E_SEARCH_BAR (tasks->priv->search_bar), ui_component);
-
-	if (ui_component) {
-		if (!tasks->priv->creatable_items_handler) {
-			tasks->priv->creatable_items_handler =
-				e_user_creatable_items_handler_new ("tasks", NULL, NULL);
-		}
-		e_user_creatable_items_handler_activate (tasks->priv->creatable_items_handler, ui_component);
-	}
 }
 
 
@@ -494,11 +484,6 @@ e_tasks_destroy (GtkObject *object)
 		for (l = priv->notifications; l; l = l->next)
 			calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
 		priv->notifications = NULL;
-		
-		if (priv->creatable_items_handler) {
-			g_object_unref (priv->creatable_items_handler);
-			priv->creatable_items_handler = NULL;
-		}
 
 		g_free (priv);
 		tasks->priv = NULL;

@@ -531,6 +531,7 @@ e_calendar_view_set_use_24_hour_format (ECalendarView *cal_view, gboolean use_24
 void
 e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *message)
 {
+#if 0
 	EActivityHandler *activity_handler = calendar_component_peek_activity_handler (calendar_component_peek ());
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
@@ -552,6 +553,7 @@ e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *messag
 	} else {
 		e_activity_handler_operation_progressing (activity_handler, cal_view->priv->activity_id, message, -1.0);
 	}
+#endif
 }
 
 GList *

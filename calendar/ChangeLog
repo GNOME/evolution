@@ -1,3 +1,30 @@
+2004-04-21  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #56504
+	
+	* gui/gnome-cal.c (gnome_calendar_destroy): no need to destroy the
+	creatable item handler
+	(gnome_calendar_set_ui_component): don't do the creatable
+	item stuff here
+
+	* gui/e-tasks.c (e_tasks_set_ui_component): don't do the creatable
+	item stuff here
+	(e_tasks_destroy): no need to destroy creatable item handler
+
+	* gui/e-calendar-table.c (e_calendar_table_set_status_message):
+	comment out temporarily
+
+	* gui/e-calendar-view.c (e_calendar_view_set_status_message): ditto
+	
+	* gui/calendar-component.c: switch to using per component view
+	information; don't listen for config changes to the primary
+	selection and selection so that different windows can have
+	different calendar selections; use a local creatable items handler
+	so that the new button is associated with the right window when
+	setting the default times
+
+	* gui/tasks-component.c: ditto
+	
 2004-04-21  JP Rosevear <jpr@ximian.com>
 
 	* gui/e-tasks.c (set_timezone): only set the preview zone if the

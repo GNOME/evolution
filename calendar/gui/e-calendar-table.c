@@ -1372,6 +1372,7 @@ static GdkPixbuf *progress_icon = NULL;
 void
 e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *message)
 {
+#if 0
 	EActivityHandler *activity_handler = tasks_component_peek_activity_handler (tasks_component_peek ());
 
         g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
@@ -1394,4 +1395,5 @@ e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *mes
         } else {
                 e_activity_handler_operation_progressing (activity_handler, cal_table->activity_id, message, -1.0);
 	}
+#endif
 }
