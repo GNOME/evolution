@@ -71,6 +71,8 @@ INCLUDES =								\
 	-DEVOLUTION_ICONSDIR=\"$(iconsdir)\"				\
 	-DE_GLADEDIR=\"$(gladedir)\"					\
 	-DG_LOG_DOMAIN=\"composer\"					\
+	-DG_DISABLE_DEPRECATED						\
+	-DGTK_DISABLE_DEPRECATED					\
 	$(EVOLUTION_MAIL_CFLAGS)
 
 libcomposer_a_SOURCES = 			\

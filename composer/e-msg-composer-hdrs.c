@@ -41,7 +41,6 @@
 #include <gtk/gtktooltips.h>
 
 #include <gal/e-text/e-entry.h>
-#include <gal/widgets/e-unicode.h>
 
 #include <camel/camel.h>
 #include "evolution-folder-selector-button.h"
