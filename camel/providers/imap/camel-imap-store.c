@@ -525,6 +525,7 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	CamelImapResponse *response;
 	CamelStream *tcp_stream;
 	CamelSockOptData sockopt;
+	gboolean force_imap4 = FALSE;
 	struct hostent *h;
 	int clean_quit;
 	int port, ret;
@@ -613,8 +614,33 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	if (!strncmp(buf, "* PREAUTH", 9))
 		store->preauthed = TRUE;
 	
-	if (strstr (buf, "Courier-IMAP"))
+	if (strstr (buf, "Courier-IMAP")) {
+		/* Courier-IMAP is braindamaged. So far this flag only
+		 * works around the fact that Courier-IMAP is known to
+		 * give invalid BODY responses seemingly because its
+		 * MIME parser sucks. In any event, we can't rely on
+		 * them so we always have to request the full messages
+		 * rather than getting individual parts. */
 		store->braindamaged = TRUE;
+	} else if (strstr (buf, "WEB.DE") || strstr (buf, "Mail2World")) {
+		/* This is a workaround for servers which advertise
+		 * IMAP4rev1 but which can sometimes subtly break in
+		 * various ways if we try to use IMAP4rev1 queries.
+		 *
+		 * WEB.DE: when querying for HEADER.FIELDS.NOT, it
+		 * returns an empty literal for the headers. Many
+		 * complaints about empty message-list fields on the
+		 * mailing lists and probably a few bugzilla bugs as
+		 * well.
+		 *
+		 * Mail2World (aka NamePlanet): When requesting
+		 * message info's, it ignores the fact that we
+		 * requested BODY.PEEK[HEADER.FIELDS.NOT (RECEIVED)]
+		 * and so the responses are incomplete. See bug #58766
+		 * for details.
+		 **/
+		force_imap4 = TRUE;
+	}
 	
 	g_free (buf);
 	
@@ -632,6 +658,11 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 		
 		store->connected = FALSE;
 		return FALSE;
+	}
+	
+	if (force_imap4) {
+		store->capabilities &= ~IMAP_CAPABILITY_IMAP4REV1;
+		store->server_level = IMAP_LEVEL_IMAP4;
 	}
 	
 #ifdef HAVE_SSL

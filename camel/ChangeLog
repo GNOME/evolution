@@ -1,3 +1,9 @@
+2004-05-21  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap/camel-imap-store.c (connect_to_server): Added a
+	workaround for broken IMAP. Hopefully by forcing only the IMAP4
+	command subst, we can work around their suckage.
+
 2004-05-21  Not Zed  <NotZed@Ximian.com>
 
 	* camel-session.c (camel_session_get_password): added a 'domain'
