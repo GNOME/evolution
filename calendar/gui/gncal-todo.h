@@ -34,9 +34,7 @@ struct _GncalTodo {
 
 	GtkWidget *edit_button;
 	GtkWidget *delete_button;
-              GSList *data_ptrs;
-  
- 
+	GSList *data_ptrs;
 };
 
 struct _GncalTodoClass {
@@ -47,9 +45,9 @@ struct _GncalTodoClass {
 guint      gncal_todo_get_type (void);
 GtkWidget *gncal_todo_new      (GnomeCalendar *calendar);
 
-void       gncal_todo_update   (GncalTodo *todo, iCalObject *ico, int flags);
+void       gncal_todo_update   (GncalTodo *todo, CalComponent *comp, int flags);
 
-void	   gncal_todo_edit     (CalClient *client, iCalObject *ico);
+void	   gncal_todo_edit     (CalClient *client, CalComponent *comp);
 
 END_GNOME_DECLS
 

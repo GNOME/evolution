@@ -1,3 +1,17 @@
+2000-08-17  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/gncal-todo.c (ok_button): Use CalComponent instead of
+	iCalObject
+	(cancel_button): ditto
+	(gncal_todo_edit): ditto
+	(add_todo): ditto
+	(edit_todo): ditto
+	(delete_todo): ditto
+	(insert_in_clist): ditto
+	(gncal_todo_update): ditto
+
+	* gui/gncal-todo.h: Update prototypes
+
 2000-08-16  JP Rosevear  <jpr@helixcode.com>
 
 	Rework gnome-cal.c - alarms are a tad broken ATM so this

@@ -10,6 +10,7 @@
 #include <string.h>
 #include <gnome.h>
 #include <cal-client/cal-client.h>
+#include <cal-util/timeutil.h>
 #include "event-editor.h"
 #include "gncal-todo.h"
 #include "calendar-commands.h"
@@ -59,34 +60,55 @@ gncal_todo_get_type (void)
 static void
 ok_button (GtkWidget *widget, GnomeDialog *dialog)
 {
-	iCalObject *ico;
+	CalComponent *comp;
 	CalClient *cal_client;
-	GtkEntry *entry;
 	GnomeDateEdit *due_date;
-	GtkText *comment;
+	GtkEditable *entry;
 	GtkSpinButton *priority;
-
-	ico = gtk_object_get_user_data (GTK_OBJECT (dialog));
+	GtkText *comment;
+	CalComponentText *text = g_new0 (CalComponentText, 1);
+	CalComponentDateTime date;
+	GSList *l;
+	gchar *t;
+	time_t d;
+	int p;
+	
+	comp = gtk_object_get_user_data (GTK_OBJECT (dialog));
 
 	cal_client = (CalClient*) (gtk_object_get_data (GTK_OBJECT (dialog), "cal_client"));
-	entry = GTK_ENTRY (gtk_object_get_data (GTK_OBJECT (dialog), "summary_entry"));
-	due_date = GNOME_DATE_EDIT (gtk_object_get_data(GTK_OBJECT(dialog), "due_date"));
-	priority = GTK_SPIN_BUTTON (gtk_object_get_data(GTK_OBJECT(dialog), "priority"));
-	comment = GTK_TEXT(gtk_object_get_data (GTK_OBJECT(dialog), "comment"));
-	if (ico->summary)
-	  g_free (ico->summary);
-	if (ico->comment)
-	  g_free (ico->comment);
-	ico->dtend = gnome_date_edit_get_date (due_date);
-	ico->summary = g_strdup (gtk_entry_get_text (entry));
-	ico->priority = gtk_spin_button_get_value_as_int (priority);
-	ico->comment = gtk_editable_get_chars( GTK_EDITABLE(comment), 0, -1);
-	ico->user_data = NULL;
 
-	if (!cal_client_update_object (cal_client, ico))
+	/* Due date */
+	due_date = GNOME_DATE_EDIT (gtk_object_get_data(GTK_OBJECT(dialog), "due_date"));
+	d = gnome_date_edit_get_date (due_date);
+	date.value = g_new0 (struct icaltimetype, 1);
+	*date.value = icaltimetype_from_timet (d, 1);
+	cal_component_set_dtend (comp, &date);
+	
+	/* Summary */
+	entry = GTK_EDITABLE (gtk_object_get_data (GTK_OBJECT (dialog), "summary_entry"));	
+	t = gtk_editable_get_chars (entry, 0, -1);
+	text->value = t;
+	cal_component_set_summary (comp, text);
+	g_free (t);
+
+	/* Priority */
+	priority = GTK_SPIN_BUTTON (gtk_object_get_data(GTK_OBJECT(dialog), "priority"));
+	p = gtk_spin_button_get_value_as_int (priority);
+	cal_component_set_priority (comp, &p);
+
+	/* Comment */
+	cal_component_get_comment_list (comp, &l);
+	comment = GTK_TEXT(gtk_object_get_data (GTK_OBJECT(dialog), "comment"));
+	t = gtk_editable_get_chars (entry, 0, -1);
+	text->value = t;
+	g_slist_append (l, text);
+	cal_component_set_comment_list (comp, l);
+	cal_component_free_text_list (l);
+	
+	if (!cal_client_update_object (cal_client, comp))
 		g_message ("ok_button(): Could not update the object!");
 
-	ical_object_unref (ico);
+	gtk_object_unref (GTK_OBJECT (comp));
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
@@ -94,17 +116,13 @@ ok_button (GtkWidget *widget, GnomeDialog *dialog)
 static void
 cancel_button (GtkWidget *widget, GnomeDialog *dialog)
 {
-	iCalObject *ico;
+	CalComponent *comp;
 
-	ico = gtk_object_get_user_data (GTK_OBJECT (dialog));
+	comp = gtk_object_get_user_data (GTK_OBJECT (dialog));
 
-	ico->user_data = NULL;
-
-	ical_object_unref (ico);
-
+	gtk_object_unref (GTK_OBJECT (comp));
+	
 	gtk_widget_destroy (GTK_WIDGET (dialog));
-
-
 }
 
 static gint
@@ -117,7 +135,7 @@ delete_event (GtkWidget *widget, GdkEvent *event, GnomeDialog *dialog)
 /* I've hacked this so we can use it separate from the rest of GncalTodo.
    This whole file will go once we've got the new editor working. */
 void
-gncal_todo_edit (CalClient *client, iCalObject *ico)
+gncal_todo_edit (CalClient *client, CalComponent *comp)
 {
 	GtkWidget *dialog;
 	GtkWidget *hbox;
@@ -134,10 +152,19 @@ gncal_todo_edit (CalClient *client, iCalObject *ico)
 	GtkWidget *pri_label;
 	GtkWidget *pri_spin;
 	GtkObject *pri_adj;
-
 	GtkWidget *entry;
+	gboolean new;
+	CalComponentText text;
+	CalComponentDateTime date;
+	GSList *l;
+	time_t d;
+	gint *p;
+	
+	new = (CAL_COMPONENT_NO_TYPE == cal_component_get_vtype (comp));
+	if (new)
+		cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
 
-	dialog = gnome_dialog_new (ico->new ? _("Create to-do item") : _("Edit to-do item"),
+	dialog = gnome_dialog_new (new ? _("Create to-do item") : _("Edit to-do item"),
 				   GNOME_STOCK_BUTTON_OK,
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
@@ -178,7 +205,8 @@ gncal_todo_edit (CalClient *client, iCalObject *ico)
 	gtk_widget_show (w);
 
 	entry = gtk_entry_new ();
-	gtk_entry_set_text (GTK_ENTRY (entry), ico->summary);
+	cal_component_get_summary (comp, &text);
+	gtk_entry_set_text (GTK_ENTRY (entry), text.value);
 	gtk_box_pack_start (GTK_BOX (hbox), entry, TRUE, TRUE, 0);
 	gtk_widget_show (entry);
 
@@ -188,7 +216,9 @@ gncal_todo_edit (CalClient *client, iCalObject *ico)
 	gtk_widget_show (due_label);
 
 	due_entry = gtk_entry_new ();
-	due_entry = date_edit_new (ico->dtend, TRUE);
+	cal_component_get_dtend (comp, &date);
+	d = time_from_icaltimetype (*date.value);
+	due_entry = date_edit_new (d, TRUE);
 	gtk_box_pack_start (GTK_BOX (due_box), due_entry, TRUE, TRUE, 0);
 	gtk_widget_show (due_entry);
 
@@ -201,7 +231,8 @@ gncal_todo_edit (CalClient *client, iCalObject *ico)
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (pri_spin), TRUE);
 	gtk_spin_button_set_wrap (GTK_SPIN_BUTTON (pri_spin), FALSE);
 	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (pri_spin), FALSE);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (pri_spin), (gfloat) ico->priority);
+	cal_component_get_priority (comp, &p);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (pri_spin), (gfloat) *p);
 	gtk_box_pack_start (GTK_BOX (pri_box), pri_spin, FALSE, FALSE, 0);
 	gtk_widget_show (pri_spin);
        
@@ -214,24 +245,26 @@ gncal_todo_edit (CalClient *client, iCalObject *ico)
 	gtk_box_pack_start (GTK_BOX (comment_internal_box), comment_label, TRUE, TRUE, 0);
 	gtk_widget_show (comment_label);
 
-
-
-
 	comment_text = gtk_text_new (NULL, NULL);
 	gtk_text_set_editable (GTK_TEXT (comment_text), TRUE);
 	gtk_text_set_word_wrap( GTK_TEXT(comment_text), TRUE);
 	gtk_text_freeze(GTK_TEXT(comment_text));
-	if(ico->comment) {
-	  gtk_text_insert(GTK_TEXT(comment_text), NULL, NULL, NULL, ico->comment, strlen(ico->comment));
+#warning "FIX ME"
+	/* Need to handle multiple comments */
+	cal_component_get_comment_list (comp, &l);
+	if (l) {
+		CalComponentText text = *(CalComponentText*)l->data;
+		
+		gtk_text_insert(GTK_TEXT(comment_text), NULL, NULL, NULL, 
+				text.value, strlen(text.value));
 	}
+	cal_component_free_text_list (l);
 	gtk_text_thaw(GTK_TEXT(comment_text));
 	gtk_box_pack_start (GTK_BOX (comment_internal_box), comment_text, FALSE, TRUE, 0);
 	gtk_widget_show (comment_text);
 
-	ico->user_data = dialog;
-
-	gtk_object_set_user_data (GTK_OBJECT (dialog), ico);
-	ical_object_ref (ico);
+	gtk_object_set_user_data (GTK_OBJECT (dialog), comp);
+	gtk_object_ref (GTK_OBJECT (comp));
 
 	gtk_object_set_data (GTK_OBJECT (dialog), "cal_client", client);
 	gtk_object_set_data (GTK_OBJECT (dialog), "summary_entry", entry);
@@ -254,8 +287,8 @@ gncal_todo_edit (CalClient *client, iCalObject *ico)
 	gtk_widget_grab_focus (entry);
 }
 
-static iCalObject *
-get_clist_selected_ico (GtkCList *clist)
+static CalComponent *
+get_clist_selected_comp (GtkCList *clist)
 {
 	gint sel;
 
@@ -270,31 +303,38 @@ get_clist_selected_ico (GtkCList *clist)
 static void
 add_todo (GncalTodo *todo)
 {
-	iCalObject *ico;
+	CalComponent *comp;
 
-	ico = ical_new ("", user_name, "");
-	ico->type = ICAL_TODO;
-	ico->new = TRUE;
+	comp = cal_component_new ();
 
 #if 0
-	gncal_todo_edit (todo, ico);
+	gncal_todo_edit (todo, comp);
 #endif
-	ical_object_unref (ico);
+	gtk_object_unref (GTK_OBJECT (comp));
 }
 
 static void
 edit_todo (GncalTodo *todo)
 {
+	CalComponent *comp;
+
+	comp = get_clist_selected_comp (todo->clist);
+
 #if 0
-	gncal_todo_edit (todo, get_clist_selected_ico (todo->clist));
+	gncal_todo_edit (todo, comp);
 #endif
 }
 
 static void
 delete_todo (GncalTodo *todo)
 {
-	if (!cal_client_remove_object (todo->calendar->client,
-				       get_clist_selected_ico (todo->clist)->uid))
+	CalComponent *comp;
+	const char *uid;
+
+	comp = get_clist_selected_comp (todo->clist);
+	cal_component_get_uid (comp, &uid);
+	
+	if (!cal_client_remove_object (todo->calendar->client, uid))
 		g_message ("delete_todo(): Could not remove the object!");
 }
 
@@ -627,9 +667,11 @@ typedef enum todo_remaining_time_form todo_remaining_time_form;
 
 
 static void
-insert_in_clist (GncalTodo *todo, iCalObject *ico)
+insert_in_clist (GncalTodo *todo, CalComponent *comp)
 {
 	int i;
+	CalComponentText t;
+	CalComponentDateTime date;
 	char *text[4];
 	char time_remaining_buffer[100];
 	time_t time_remain;
@@ -643,7 +685,8 @@ insert_in_clist (GncalTodo *todo, iCalObject *ico)
 	int hours = 0;
 	int minutes = 0;
 	int seconds = 0; 
-	
+	int *p;
+	time_t d;
 	
 	/* an array for the styles of items */
 	static GtkStyle *dstatus_styles[TODO_ITEM_DSTATUS_LAST_DUE_STATUS];
@@ -662,11 +705,8 @@ insert_in_clist (GncalTodo *todo, iCalObject *ico)
 		todo_style_changed = 0;
 	}
 
-	  
-       
-
-
-	text[0] =  ico->summary;
+	cal_component_get_summary (comp, &t);
+	text[0] =  g_strdup (t.value);
 
 	if(todo_show_time_remaining) {
 	  memset(time_remaining_buffer, 0, 100);
@@ -674,7 +714,8 @@ insert_in_clist (GncalTodo *todo, iCalObject *ico)
 	     before this task is due */
 	  
 	  /* for right now all I'll do is up to the hours. */
-	  time_remain = (ico->dtend - time(NULL));
+	  cal_component_get_dtend (comp, &date);
+	  time_remain = time_from_icaltimetype (*date.value) - time (NULL);
 	  if(time_remain < 0) {
 	    text[3] = "Overdue!";
 	  }
@@ -755,18 +796,21 @@ insert_in_clist (GncalTodo *todo, iCalObject *ico)
 	 * WISH:  this should be able to be changed on the fly
 	 */
 
-	if(ico->dtend && todo_show_due_date)
+	cal_component_get_dtend (comp, &date);
+	d = time_from_icaltimetype (*date.value);
+	if(todo_show_due_date)
 	  {
-	    text[1] = convert_time_t_to_char (ico->dtend);
+	    text[1] = convert_time_t_to_char (d);
 	    /* Append the data's pointer so later it can be properly freed */
 	    todo->data_ptrs = g_slist_append (todo->data_ptrs, text[1]);
 	  }
 	else
 		text[1] = NULL;
-	
-	if(ico->priority && todo_show_priority)
+
+	cal_component_get_priority (comp, &p);
+	if(p && todo_show_priority)
 	  {
-	    text[2] = g_strdup_printf ("%d", ico->priority);
+	    text[2] = g_strdup_printf ("%d", *p);
 	    todo->data_ptrs = g_slist_append (todo->data_ptrs, text[2]);
 	  }
 	else
@@ -774,16 +818,16 @@ insert_in_clist (GncalTodo *todo, iCalObject *ico)
 
 	i = gtk_clist_append (todo->clist, text);
 	
-	gtk_clist_set_row_data_full (todo->clist, i, ico,
-				     (GtkDestroyNotify) ical_object_unref);
-	ical_object_ref (ico);
+	gtk_clist_set_row_data_full (todo->clist, i, comp,
+				     (GtkDestroyNotify) gtk_object_ref);
+	gtk_object_ref (GTK_OBJECT (comp));
 
 	/*
 	 * determine if the task is overdue..
 	 * if so mark with the apropriate style
 	 */
 
-	switch(todo_item_due_status(&ico->dtend)) {
+	switch(todo_item_due_status(&d)) {
 	case TODO_ITEM_DSTATUS_NOT_DUE_YET:
 	  if(todo_item_dstatus_highlight_not_due_yet) 
 	    {
@@ -811,7 +855,7 @@ insert_in_clist (GncalTodo *todo, iCalObject *ico)
 
 
 void
-gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
+gncal_todo_update (GncalTodo *todo, CalComponent *comp, int flags)
 {
 	GSList *current_list;
 	CalClientGetStatus status;
@@ -873,18 +917,17 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 	gtk_clist_clear (todo->clist);
 
 
-	uids = cal_client_get_uids (todo->calendar->client,
-				    CALOBJ_TYPE_TODO);
+	uids = cal_client_get_uids (todo->calendar->client, CAL_COMPONENT_TODO);
 	for (l = uids; l; l = l->next){
 		char *uid = l->data;
-		iCalObject *obj;
+		CalComponent *comp;
 
 		status = cal_client_get_object (todo->calendar->client, uid,
-						&obj);
+						&comp);
 
 		if (status == CAL_CLIENT_GET_SUCCESS) {
-			insert_in_clist (todo, obj);
-			ical_object_unref (obj);
+			insert_in_clist (todo, comp);
+			gtk_object_unref (GTK_OBJECT (comp));
 		}
 #warning "FIX ME"
 		/* else? */
@@ -904,6 +947,9 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 				  (todo->clist->selection != NULL));
 	todo_list_redraw_in_progess = 0;
 }
+
+
+
 
 
 
