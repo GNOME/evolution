@@ -1,3 +1,9 @@
+2000-12-14  Larry Ewing  <lewing@helixcode.com>
+
+	* mail-display.c (mail_display_new): call
+	gtk_html_set_default_content_type to make gkthtml default to utf-8
+	when parsing.  This requires gtkhtml >= the released 0.8.
+
 2000-12-14  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* mail-threads.c (read_msg): Call `ui_set_busy()' before

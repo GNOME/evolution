@@ -879,6 +879,9 @@ mail_display_new (void)
 	gtk_widget_show (GTK_WIDGET (scroll));
 
 	html = gtk_html_new ();
+	gtk_html_set_default_content_type (GTK_HTML (html),
+					   "text/html; charset=utf-8");
+
 	gtk_html_set_editable (GTK_HTML (html), FALSE);
 	gtk_signal_connect (GTK_OBJECT (html), "url_requested",
 			    GTK_SIGNAL_FUNC (on_url_requested),
