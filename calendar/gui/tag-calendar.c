@@ -35,6 +35,8 @@ struct calendar_tag_closure {
 	icaltimezone *zone;
 	time_t start_time;
 	time_t end_time;
+
+	gboolean skip_transparent_events;
 };
 
 /* Clears all the tags in a calendar and fills a closure structure with the
@@ -90,6 +92,15 @@ tag_calendar_cb (CalComponent *comp,
 {
 	struct calendar_tag_closure *c = data;
 	struct icaltimetype start_tt, end_tt;
+	CalComponentTransparency transparency;
+
+	/* If we are skipping TRANSPARENT events, return if the event is
+	   transparent. */
+	if (c->skip_transparent_events) {
+		cal_component_get_transparency (comp, &transparency);
+		if (transparency == CAL_COMPONENT_TRANSP_TRANSPARENT)
+			return TRUE;
+	}
 
 	start_tt = icaltime_from_timet_with_zone (istart, FALSE, c->zone);
 	end_tt = icaltime_from_timet_with_zone (iend - 1, FALSE, c->zone);
@@ -131,6 +142,8 @@ tag_calendar_by_client (ECalendar *ecal, CalClient *client)
 	if (!prepare_tag (ecal, &c, TRUE))
 		return;
 
+	c.skip_transparent_events = TRUE;
+
 #if 0
 	g_print ("DateNavigator generating instances\n");
 #endif
@@ -147,6 +160,7 @@ tag_calendar_by_client (ECalendar *ecal, CalClient *client)
  * 
  * Tags an #ECalendar widget with any occurrences of a specific calendar
  * component that occur within the calendar's current time range.
+ * Note that TRANSPARENT events are also tagged here.
  **/
 void
 tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client, gboolean clear_first)
@@ -164,6 +178,8 @@ tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client, gb
 
 	if (!prepare_tag (ecal, &c, clear_first))
 		return;
+
+	c.skip_transparent_events = FALSE;
 
 #if 0
 	g_print ("DateNavigator generating instances\n");

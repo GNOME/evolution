@@ -157,7 +157,11 @@ struct _EWeekViewEvent {
 	guint16 start_minute;	/* Minutes from the start of the day. */
 	guint16 end_minute;
 	gint spans_index;
-	guint num_spans;
+	guint8 num_spans;
+
+	/* TRUE if the event is at a different UTC offset than our current
+	   timezone, i.e. it is in a different timezone. */
+	guint different_timezone : 1;
 };
 
 
@@ -397,6 +401,10 @@ void	   e_week_view_set_selected_time_range	(EWeekView	*week_view,
 						 time_t		 start_time,
 						 time_t		 end_time);
 
+/* Gets the visible time range. Returns FALSE if no time range has been set. */
+gboolean   e_week_view_get_visible_time_range	(EWeekView	*week_view,
+						 time_t		*start_time,
+						 time_t		*end_time);
 
 /* Whether to display 1 week or 1 month (5 weeks). It defaults to 1 week. */
 gboolean   e_week_view_get_multi_week_view	(EWeekView	*week_view);

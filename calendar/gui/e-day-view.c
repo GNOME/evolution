@@ -4377,6 +4377,11 @@ e_day_view_add_event (CalComponent *comp,
 	event.start_row_or_col = -1;
 	event.num_columns = -1;
 
+	event.different_timezone = FALSE;
+	if (!cal_comp_util_compare_event_timezones (comp, day_view->client,
+						    day_view->zone))
+		event.different_timezone = TRUE;
+
 	/* Find out which array to add the event to. */
 	for (day = 0; day < day_view->days_shown; day++) {
 		if (start >= day_view->day_starts[day]
@@ -4553,9 +4558,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 			num_icons++;
 		if (cal_component_has_recurrences (comp))
 			num_icons++;
-
-		if (!cal_component_compare_event_timezone (comp,
-							   day_view->zone))
+		if (event->different_timezone)
 			num_icons++;
 
 		cal_component_get_categories_list (comp, &categories_list);
@@ -4694,9 +4697,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 				num_icons++;
 			if (cal_component_has_recurrences (comp))
 				num_icons++;
-
-			if (!cal_component_compare_event_timezone (comp,
-								   day_view->zone))
+			if (event->different_timezone)
 				num_icons++;
 
 			cal_component_get_categories_list (comp, &categories_list);
@@ -6813,3 +6814,21 @@ selection_received (GtkWidget *invisible,
 		gtk_object_unref (GTK_OBJECT (comp));
 	}
 }
+
+
+/* Gets the visible time range. Returns FALSE if no time range has been set. */
+gboolean
+e_day_view_get_visible_time_range	(EDayView	*day_view,
+					 time_t		*start_time,
+					 time_t		*end_time)
+{
+	/* If the date isn't set, return FALSE. */
+	if (day_view->lower == 0 && day_view->upper == 0)
+		return FALSE;
+
+	*start_time = day_view->day_starts[0];
+	*end_time = day_view->day_starts[day_view->days_shown];
+
+	return TRUE;
+}
+

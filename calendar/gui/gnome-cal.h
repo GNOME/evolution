@@ -121,6 +121,12 @@ void	   gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 						  time_t	 *start_time,
 						  time_t	 *end_time);
 
+/* Gets the visible time range for the current view. Returns FALSE if no
+   time range has been set yet. */
+gboolean   gnome_calendar_get_visible_time_range (GnomeCalendar *gcal,
+						  time_t	 *start_time,
+						  time_t	 *end_time);
+
 /* Tells the calendar to reload all config settings. initializing should be
    TRUE when we are setting the config settings for the first time. */
 void	   gnome_calendar_update_config_settings (GnomeCalendar *gcal,

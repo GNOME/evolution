@@ -339,6 +339,7 @@ e_day_view_main_item_draw_events_in_vbars (EDayViewMainItem *dvmitem,
 	EDayViewEvent *event;
 	GdkGC *gc;
 	gint grid_x, event_num, bar_y, bar_h;
+	CalComponentTransparency transparency;
 
 	day_view = dvmitem->day_view;
 
@@ -352,6 +353,11 @@ e_day_view_main_item_draw_events_in_vbars (EDayViewMainItem *dvmitem,
 	     event_num++) {
 		event = &g_array_index (day_view->events[day], EDayViewEvent,
 					event_num);
+
+		/* If the event is TRANSPARENT, skip it. */
+		cal_component_get_transparency (event->comp, &transparency);
+		if (transparency == CAL_COMPONENT_TRANSP_TRANSPARENT)
+			continue;
 
 		/* We can skip the events in the first column since they will
 		   draw over this anyway. */
@@ -383,6 +389,7 @@ e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 	EDayViewEvent *event;
 	gint event_num, start_day, end_day, day, bar_y1, bar_y2, grid_x;
 	GdkGC *gc;
+	CalComponentTransparency transparency;
 
 	day_view = dvmitem->day_view;
 
@@ -393,6 +400,11 @@ e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 	     event_num++) {
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
+
+		/* If the event is TRANSPARENT, skip it. */
+		cal_component_get_transparency (event->comp, &transparency);
+		if (transparency == CAL_COMPONENT_TRANSP_TRANSPARENT)
+			continue;
 
 		if (!e_day_view_find_long_event_days (event,
 						      day_view->days_shown,
@@ -469,6 +481,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	gint max_icon_w, max_icon_h;
 	gboolean draw_reminder_icon, draw_recurrence_icon, draw_timezone_icon;
 	GSList *categories_list, *elem;
+	CalComponentTransparency transparency;
 
 	day_view = dvmitem->day_view;
 
@@ -499,7 +512,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	   column of the day, we might not want to paint over the vertical bar,
 	   since that is used for multiple events. But then you can't see
 	   where the event in the first column finishes. */
-#if 0
+#if 1
 	if (event->start_row_or_col == 0)
 		gdk_draw_rectangle (drawable, style->white_gc, TRUE,
 				    item_x + E_DAY_VIEW_BAR_WIDTH, item_y + 1,
@@ -533,9 +546,13 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			bar_y2 = item_y + item_h - 1;
 	}
 
-	gdk_draw_rectangle (drawable, gc, TRUE,
-			    item_x + 1, bar_y1,
-			    E_DAY_VIEW_BAR_WIDTH - 2, bar_y2 - bar_y1);
+	/* Only fill it in if the event isn't TRANSPARENT. */
+	cal_component_get_transparency (event->comp, &transparency);
+	if (transparency != CAL_COMPONENT_TRANSP_TRANSPARENT) {
+		gdk_draw_rectangle (drawable, gc, TRUE,
+				    item_x + 1, bar_y1,
+				    E_DAY_VIEW_BAR_WIDTH - 2, bar_y2 - bar_y1);
+	}
 
 	/* Draw the box around the entire event. Do this after drawing
 	   the colored bar so we don't have to worry about being 1
@@ -581,7 +598,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 
 	/* If the DTSTART or DTEND are in a different timezone to our current
 	   timezone, we display the timezone icon. */
-	if (!cal_component_compare_event_timezone (comp, day_view->zone)) {
+	if (event->different_timezone) {
 		draw_timezone_icon = TRUE;
 		num_icons++;
 	}

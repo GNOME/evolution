@@ -582,7 +582,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		num_icons++;
 	}
 
-	if (!cal_component_compare_event_timezone (comp, week_view->zone)) {
+	if (event->different_timezone) {
 		draw_timezone_icon = TRUE;
 		num_icons++;
 	}

@@ -188,6 +188,13 @@ calendar_persist_init (GnomeCalendar *gcal, BonoboControl *control)
 	bonobo_object_add_interface (BONOBO_OBJECT (control), BONOBO_OBJECT (f));
 }
 
+static void
+on_calendar_dates_shown_changed (GnomeCalendar *gcal, BonoboControl *control)
+{
+	calendar_set_folder_bar_label (gcal, control);
+}
+
+
 BonoboControl *
 control_factory_new_control (void)
 {
@@ -211,6 +218,9 @@ control_factory_new_control (void)
 					      
 	gtk_signal_connect (GTK_OBJECT (control), "activate",
 			    GTK_SIGNAL_FUNC (control_activate_cb), gcal);
+	gtk_signal_connect (GTK_OBJECT (gcal), "dates_shown_changed",
+			    GTK_SIGNAL_FUNC (on_calendar_dates_shown_changed),
+			    control);
 
 	return control;
 }

@@ -65,6 +65,9 @@ struct _EventPagePrivate {
 	GtkWidget *classification_private;
 	GtkWidget *classification_confidential;
 
+	GtkWidget *show_time_as_free;
+	GtkWidget *show_time_as_busy;
+
 	GtkWidget *contacts_btn;
 	GtkWidget *contacts;
 
@@ -172,6 +175,8 @@ event_page_init (EventPage *epage)
 	priv->classification_public = NULL;
 	priv->classification_private = NULL;
 	priv->classification_confidential = NULL;
+	priv->show_time_as_free = NULL;
+	priv->show_time_as_busy = NULL;
 	priv->contacts_btn = NULL;
 	priv->contacts = NULL;
 	priv->categories_btn = NULL;
@@ -212,6 +217,12 @@ static const int classification_map[] = {
 	CAL_COMPONENT_CLASS_PUBLIC,
 	CAL_COMPONENT_CLASS_PRIVATE,
 	CAL_COMPONENT_CLASS_CONFIDENTIAL,
+	-1
+};
+
+static const int transparency_map[] = {
+	CAL_COMPONENT_TRANSP_TRANSPARENT,
+	CAL_COMPONENT_TRANSP_OPAQUE,
 	-1
 };
 
@@ -305,6 +316,10 @@ clear_widgets (EventPage *epage)
 	e_dialog_radio_set (priv->classification_public,
 			    CAL_COMPONENT_CLASS_PRIVATE, classification_map);
 
+	/* Show Time As (Transparency) */
+	e_dialog_radio_set (priv->show_time_as_free,
+			    CAL_COMPONENT_TRANSP_OPAQUE, transparency_map);
+
 	/* Categories */
 	e_dialog_editable_set (priv->categories, NULL);
 }
@@ -317,6 +332,7 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	EventPagePrivate *priv;
 	CalComponentText text;
 	CalComponentClassification cl;
+	CalComponentTransparency transparency;
 	CalComponentDateTime start_date, end_date;
 	GSList *l;
 	const char *categories;
@@ -449,6 +465,25 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		 */
 	}
 
+
+	/* Show Time As (Transparency) */
+	cal_component_get_transparency (comp, &transparency);
+	switch (transparency) {
+	case CAL_COMPONENT_TRANSP_TRANSPARENT:
+	    	e_dialog_radio_set (priv->show_time_as_free,
+				    CAL_COMPONENT_TRANSP_TRANSPARENT,
+				    transparency_map);
+		break;
+
+	default:
+	    	e_dialog_radio_set (priv->show_time_as_free,
+				    CAL_COMPONENT_TRANSP_OPAQUE,
+				    transparency_map);
+		break;
+	}
+
+
+
 	/* Categories */
 	cal_component_get_categories (comp, &categories);
 	e_dialog_editable_set (priv->categories, categories);
@@ -467,6 +502,7 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	gboolean all_day_event, date_set;
 	char *cat, *str;
 	CalComponentClassification classif;
+	CalComponentTransparency transparency;
 	icaltimezone *zone;
 
 	epage = EVENT_PAGE (page);
@@ -570,6 +606,12 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	classif = e_dialog_radio_get (priv->classification_public,
 				      classification_map);
 	cal_component_set_classification (comp, classif);
+
+	/* Show Time As (Transparency) */
+
+	transparency = e_dialog_radio_get (priv->show_time_as_free,
+					   transparency_map);
+	cal_component_set_transparency (comp, transparency);
 }
 
 /* set_summary handler for the event page */
@@ -626,6 +668,9 @@ get_widgets (EventPage *epage)
 	priv->classification_private = GW ("classification-private");
 	priv->classification_confidential = GW ("classification-confidential");
 
+	priv->show_time_as_free = GW ("show-time-as-free");
+	priv->show_time_as_busy = GW ("show-time-as-busy");
+
 	priv->contacts_btn = GW ("contacts-button");
 	priv->contacts = GW ("contacts");
 
@@ -644,6 +689,8 @@ get_widgets (EventPage *epage)
 		&& priv->classification_public
 		&& priv->classification_private
 		&& priv->classification_confidential
+		&& priv->show_time_as_free
+		&& priv->show_time_as_busy
 		&& priv->contacts_btn
 		&& priv->contacts
 		&& priv->categories_btn
@@ -1037,6 +1084,12 @@ init_widgets (EventPage *epage)
 			    "toggled", GTK_SIGNAL_FUNC (field_changed_cb),
 			    epage);
 	gtk_signal_connect (GTK_OBJECT (priv->classification_confidential),
+			    "toggled", GTK_SIGNAL_FUNC (field_changed_cb),
+			    epage);
+	gtk_signal_connect (GTK_OBJECT (priv->show_time_as_free),
+			    "toggled", GTK_SIGNAL_FUNC (field_changed_cb),
+			    epage);
+	gtk_signal_connect (GTK_OBJECT (priv->show_time_as_busy),
 			    "toggled", GTK_SIGNAL_FUNC (field_changed_cb),
 			    epage);
 	gtk_signal_connect (GTK_OBJECT (priv->categories), "changed",

@@ -351,24 +351,14 @@ get_classification (CalComponent *comp)
 	cal_component_get_classification (comp, &classif);
 
 	switch (classif) {
-	case CAL_COMPONENT_CLASS_NONE:
-		return "";
-
-	case CAL_COMPONENT_CLASS_PUBLIC:
-		return _("Public");
-
 	case CAL_COMPONENT_CLASS_PRIVATE:
 		return _("Private");
 
 	case CAL_COMPONENT_CLASS_CONFIDENTIAL:
 		return _("Confidential");
 
-	case CAL_COMPONENT_CLASS_UNKNOWN:
-		return _("Unknown");
-
 	default:
-		g_assert_not_reached ();
-		return "";
+		return _("Public");
 	}
 }
 
@@ -535,21 +525,10 @@ get_transparency (CalComponent *comp)
 
 	cal_component_get_transparency (comp, &transp);
 
-	switch (transp) {
-	case CAL_COMPONENT_TRANSP_NONE:
-	case CAL_COMPONENT_TRANSP_UNKNOWN:
-		return "";
-
-	case CAL_COMPONENT_TRANSP_TRANSPARENT:
-		return _("Transparent");
-
-	case CAL_COMPONENT_TRANSP_OPAQUE:
-		return _("Opaque");
-
-	default:
-		g_assert_not_reached ();
-		return NULL;
-	}
+	if (transp == CAL_COMPONENT_TRANSP_TRANSPARENT)
+		return _("Free");
+	else
+		return _("Busy");
 }
 
 /* Builds a string for the URL property of a calendar component */
@@ -937,40 +916,18 @@ set_categories (CalComponent *comp, const char *value)
 }
 
 
-/* FIXME: We won't need this eventually, since the user won't be allowed to
- * edit the field.
- */
-static void
-show_classification_warning (void)
-{
-	GtkWidget *dialog;
-
-	dialog = gnome_message_box_new (_("The classification must be 'Public', 'Private', 'Confidential' or 'None'"),
-					GNOME_MESSAGE_BOX_ERROR,
-					GNOME_STOCK_BUTTON_OK, NULL);
-	gtk_widget_show (dialog);
-}
-
-
 static void
 set_classification (CalComponent *comp,
 		    const char *value)
 {
 	CalComponentClassification classif;
 
-	/* An empty string is the same as 'None'. */
-	if (!value[0] || !g_strcasecmp (value, _("None")))
-		classif = CAL_COMPONENT_CLASS_NONE;
-	else if (!g_strcasecmp (value, _("Public")))
-		classif = CAL_COMPONENT_CLASS_PUBLIC;
-	else if (!g_strcasecmp (value, _("Private")))
+	if (!g_strcasecmp (value, _("Private")))
 		classif = CAL_COMPONENT_CLASS_PRIVATE;
 	else if (!g_strcasecmp (value, _("Confidential")))
 		classif = CAL_COMPONENT_CLASS_CONFIDENTIAL;
-	else {
-		show_classification_warning ();
-		return;
-	}
+	else
+		classif = CAL_COMPONENT_CLASS_PUBLIC;
 
 	cal_component_set_classification (comp, classif);
 }
@@ -1178,41 +1135,16 @@ set_summary (CalComponent *comp, const char *value)
 	cal_component_set_summary (comp, &text);
 }
 
-/* FIXME: We won't need this eventually, since the user won't be allowed to
- * edit the field.
- */
-static void
-show_transparency_warning (void)
-{
-	GtkWidget *dialog;
-
-	dialog = gnome_message_box_new (_("The transparency must be 'Transparent', 'Opaque', or 'None'."),
-					GNOME_MESSAGE_BOX_ERROR,
-					GNOME_STOCK_BUTTON_OK, NULL);
-	gtk_widget_show (dialog);
-}
-
-/* Sets the URI of a calendar component */
+/* Sets the transparency of a calendar component */
 static void
 set_transparency (CalComponent *comp, const char *value)
 {
 	CalComponentTransparency transp;
 
-	g_print ("In calendar model set_transparency: %s\n", value);
-
-	/* An empty string is the same as 'None'. */
-	if (!value[0] || !g_strcasecmp (value, _("None")))
-		transp = CAL_COMPONENT_TRANSP_NONE;
-	else if (!g_strcasecmp (value, _("Transparent")))
+	if (!g_strcasecmp (value, _("Free")))
 		transp = CAL_COMPONENT_TRANSP_TRANSPARENT;
-	else if (!g_strcasecmp (value, _("Opaque"))) {
+	else
 		transp = CAL_COMPONENT_TRANSP_OPAQUE;
-	} else {
-		show_transparency_warning ();
-		return;
-	}
-
-	g_print ("  transp: %i\n", transp);
 
 	cal_component_set_transparency (comp, transp);
 }

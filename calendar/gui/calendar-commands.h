@@ -39,4 +39,9 @@ void calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal);
 
 void calendar_goto_today (GnomeCalendar *gcal);
 
+void calendar_set_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control);
+
+/* Used by calendar and tasks control to set the folder title bar label. */
+void control_util_set_folder_bar_label (BonoboControl *control, char *label);
+
 #endif /* CALENDAR_COMMANDS_H */

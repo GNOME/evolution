@@ -1,3 +1,65 @@
+2001-08-06  Damon Chaplin  <damon@ximian.com>
+
+	* gui/e-week-view.h: 
+	* gui/e-day-view.h: added 'different_timezone' fields to EDayViewEvent
+	and EWeekViewEvent, to note that the event is in a different timezone.
+	We now compute this once when we add the event to the array, rather
+	than each time we draw the event. If it is set, we will draw the
+	timezone icon next to the event.
+
+	* gui/e-day-view-main-item.c: take transparency into account when
+	drawing the blue vertical bars to represent busy time.
+
+	* gui/tag-calendar.c: take transparency into account when tagging
+	the mini calendar.
+
+	* gui/e-calendar-table.c (e_calendar_table_init): removed the "None"
+	options for transparency and classification, since these properties
+	have defaults anyway, so we may as well use those to keep it simple.
+	Also use "Free" and "Busy" for transparency, rather than "Transparent"
+	and "Opaque".
+
+	* gui/calendar-model.c: updated classification & transparency code
+	as above.
+
+	* gui/e-calendar-table.etspec: changed "Transparency" to "Show Time As"
+	since people have a chance of understanding that.
+
+	* gui/e-week-view.c: 
+	* gui/e-day-view.c: 
+	* gui/gnome-cal.c: added functions to get the visible time range.
+
+	* gui/calendar-commands.c: finished stuff to set the folder bar
+	label to the dates currently displayed.
+
+	* gui/control-factory.c (control_factory_new_control): connected
+	signal to update the folder title bar label when the dates shown
+	are changed. I had to connect it here since we need the BonoboControl
+	in the callback, and I don't know how to get the control from the
+	widget.
+
+	* gui/tasks-control.c (tasks_control_activate): clear the folder bar
+	label. We could display something here at some point.
+
+	* gui/dialogs/recurrence-page.glade: changed "_Add" to "A_dd", since
+	we have an "_Actions" menu. (These also use Alt+key, right?)
+
+	* gui/dialogs/event-page.glade: 
+	* gui/dialogs/event-page.c: added 'Show Time As' field, which is
+	really the TRANSP property but with a better name!
+	Also changed one of the "_Confidential" to "Con_fidential" since we
+	already have "_Contacts" using the same 'C' key.
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_free_busy): skip
+	events that are TRANSPARENT. Also added comment as this code looks
+	inefficient.
+
+	* cal-util/cal-component.c: removed stuff for comparing timezones.
+
+	* gui/comp-util.c (cal_comp_util_compare_event_timezones): moved the
+	above function here, and updated it to compare the UTC offsets of the
+	times as well as the TZIDs.
+
 2001-08-06  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/dialogs/cal-prefs-dialog.glade: In process of fixing bug

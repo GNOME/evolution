@@ -191,6 +191,10 @@ struct _EDayViewEvent {
 	   always shown as we just increase the height of the top canvas. */
 	guint8 num_columns;
 
+	/* TRUE if the event is at a different UTC offset than our current
+	   timezone, i.e. it is in a different timezone. */
+	guint different_timezone : 1;
+
 	/* These are minute offsets from the first time shown in the view.
 	   They range from 0 to 24 * 60. Currently the main canvas always
 	   starts at 12am  and the code to handle starting at other times
@@ -516,6 +520,11 @@ void       e_day_view_set_selected_time_range	(EDayView	*day_view,
 
 /* Returns the selected time range. */
 void       e_day_view_get_selected_time_range	(EDayView	*day_view,
+						 time_t		*start_time,
+						 time_t		*end_time);
+
+/* Gets the visible time range. Returns FALSE if no time range has been set. */
+gboolean   e_day_view_get_visible_time_range	(EDayView	*day_view,
 						 time_t		*start_time,
 						 time_t		*end_time);
 

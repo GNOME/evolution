@@ -1750,6 +1750,7 @@ gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 	priv->selection_end_time = end_time;
 
 	gnome_calendar_update_date_navigator (gcal);
+	gnome_calendar_notify_dates_shown_changed (gcal);
 }
 
 /**
@@ -1861,7 +1862,8 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp)
  * @gcal: An Evolution calendar.
  * @dtstart: a Unix time_t that marks the beginning of the appointment.
  * @dtend: a Unix time_t that marks the end of the appointment.
- * @all_day: if true, the dtstart and dtend are expanded to cover the entire day.
+ * @all_day: if true, the dtstart and dtend are expanded to cover the entire
+ * day, and the event is set to TRANSPARENT.
  *
  * Opens an event editor dialog for a new appointment.
  *
@@ -1875,6 +1877,7 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 	struct icaltimetype itt;
 	CalComponentDateTime dt;
 	CalComponent *comp;
+	CalComponentTransparency transparency;
 	const char *category;
 
 	g_return_if_fail (cal != NULL);
@@ -1903,6 +1906,11 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 		icaltime_adjust (&itt, 1, 0, 0, 0);
 	}
 	cal_component_set_dtend (comp, &dt);
+
+	transparency = all_day ? CAL_COMPONENT_TRANSP_TRANSPARENT
+		: CAL_COMPONENT_TRANSP_OPAQUE;
+	cal_component_set_transparency (comp, transparency);
+
 
 	/* Category */
 
@@ -1975,6 +1983,44 @@ gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 		g_assert_not_reached ();
 	}
 }
+
+
+/* Gets the visible time range for the current view. Returns FALSE if no
+   time range has been set yet. */
+gboolean
+gnome_calendar_get_visible_time_range (GnomeCalendar *gcal,
+				       time_t	 *start_time,
+				       time_t	 *end_time)
+{
+	GnomeCalendarPrivate *priv;
+	gboolean retval = FALSE;
+
+	priv = gcal->priv;
+
+	switch (priv->current_view_type) {
+	case GNOME_CAL_DAY_VIEW:
+		retval = e_day_view_get_visible_time_range (E_DAY_VIEW (priv->day_view), start_time, end_time);
+		break;
+
+	case GNOME_CAL_WORK_WEEK_VIEW:
+		retval = e_day_view_get_visible_time_range (E_DAY_VIEW (priv->work_week_view), start_time, end_time);
+		break;
+
+	case GNOME_CAL_WEEK_VIEW:
+		retval = e_week_view_get_visible_time_range (E_WEEK_VIEW (priv->week_view), start_time, end_time);
+		break;
+
+	case GNOME_CAL_MONTH_VIEW:
+		retval = e_week_view_get_visible_time_range (E_WEEK_VIEW (priv->month_view), start_time, end_time);
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	return retval;
+}
+
 
 
 static void

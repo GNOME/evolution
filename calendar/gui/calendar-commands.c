@@ -356,11 +356,9 @@ get_shell_view_interface (BonoboControl *control)
 
 /* Displays the currently displayed time range in the folder bar label on the
    shell view, according to which view we are showing. */
-static void
-clear_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
+void
+calendar_set_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
 {
-	GNOME_Evolution_ShellView shell_view;
-	CORBA_Environment ev;
 	icaltimezone *zone;
 	struct icaltimetype start_tt, end_tt;
 	time_t start_time, end_time;
@@ -368,8 +366,7 @@ clear_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
 	char buffer[512], end_buffer[256];
 	GnomeCalendarViewType view;
 
-	/* FIXME: This isn't the same as the currently visible time range. */
-	gnome_calendar_get_selected_time_range (gcal, &start_time, &end_time);
+	gnome_calendar_get_visible_time_range (gcal, &start_time, &end_time);
 	zone = gnome_calendar_get_timezone (gcal);
 
 	start_tt = icaltime_from_timet_with_zone (start_time, FALSE, zone);
@@ -383,7 +380,8 @@ clear_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
 	start_tm.tm_wday = time_day_of_week (start_tt.day, start_tt.month - 1,
 					     start_tt.year);
 
-	end_tt = icaltime_from_timet_with_zone (end_time, FALSE, zone);
+	/* Take one off end_time so we don't get an extra day. */
+	end_tt = icaltime_from_timet_with_zone (end_time - 1, FALSE, zone);
 	end_tm.tm_year = end_tt.year - 1900;
 	end_tm.tm_mon = end_tt.month - 1;
 	end_tm.tm_mday = end_tt.day;
@@ -398,12 +396,14 @@ clear_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
 
 	switch (view) {
 	case GNOME_CAL_DAY_VIEW:
-		strftime (buffer, sizeof (buffer),
-			  _("%A %d %B %Y"), &start_tm);
-		break;
 	case GNOME_CAL_WORK_WEEK_VIEW:
 	case GNOME_CAL_WEEK_VIEW:
-		if (start_tm.tm_year == end_tm.tm_year) {
+		if (start_tm.tm_year == end_tm.tm_year
+		    && start_tm.tm_mon == end_tm.tm_mon
+		    && start_tm.tm_mday == end_tm.tm_mday) {
+			strftime (buffer, sizeof (buffer),
+				  _("%A %d %B %Y"), &start_tm);
+		} else if (start_tm.tm_year == end_tm.tm_year) {
 			strftime (buffer, sizeof (buffer),
 				  _("%a %d %b"), &start_tm);
 			strftime (end_buffer, sizeof (end_buffer),
@@ -421,12 +421,17 @@ clear_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
 		break;
 	case GNOME_CAL_MONTH_VIEW:
 		if (start_tm.tm_year == end_tm.tm_year) {
-			strftime (buffer, sizeof (buffer),
-				  _("%B"), &start_tm);
-			strftime (end_buffer, sizeof (end_buffer),
-				  _("%B %Y"), &end_tm);
-			strcat (buffer, " - ");
-			strcat (buffer, end_buffer);
+			if (start_tm.tm_mon == end_tm.tm_mon) {
+				strftime (buffer, sizeof (buffer),
+					  _("%B %Y"), &start_tm);
+			} else {
+				strftime (buffer, sizeof (buffer),
+					  _("%B"), &start_tm);
+				strftime (end_buffer, sizeof (end_buffer),
+					  _("%B %Y"), &end_tm);
+				strcat (buffer, " - ");
+				strcat (buffer, end_buffer);
+			}
 		} else {
 			strftime (buffer, sizeof (buffer),
 				  _("%B %Y"), &start_tm);
@@ -440,17 +445,24 @@ clear_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
 		g_assert_not_reached ();
 	}
 
+	control_util_set_folder_bar_label (control, buffer);
+}
+
+void
+control_util_set_folder_bar_label (BonoboControl *control, char *label)
+{
+	GNOME_Evolution_ShellView shell_view;
+	CORBA_Environment ev;
+
 	shell_view = get_shell_view_interface (control);
 	if (shell_view == CORBA_OBJECT_NIL)
 		return;
 
 	CORBA_exception_init (&ev);
-#if 0
-	GNOME_Evolution_ShellView_setFolderBarLabel (shell_view, buffer, &ev);
-#endif
-	GNOME_Evolution_ShellView_setFolderBarLabel (shell_view, "", &ev);
+	GNOME_Evolution_ShellView_setFolderBarLabel (shell_view, label, &ev);
+
 	if (ev._major != CORBA_NO_EXCEPTION)
-		g_message ("clear_folder_bar_label(): Could not set the folder bar label");
+		g_message ("control_util_set_folder_bar_label(): Could not set the folder bar label");
 
 	CORBA_exception_free (&ev);
 }
@@ -531,7 +543,7 @@ calendar_control_activate (BonoboControl *control,
 	   a default timezone already. */
 	calendar_config_check_timezone_set ();
 
-	clear_folder_bar_label (gcal, control);
+	calendar_set_folder_bar_label (gcal, control);
 }
 
 void
@@ -553,13 +565,6 @@ on_calendar_destroyed (GnomeCalendar *gcal)
 	all_calendars = g_list_remove (all_calendars, gcal);
 }
 
-static void
-on_calendar_dates_shown_changed (GnomeCalendar *gcal)
-{
-	g_print ("In on_calendar_dates_shown_changed\n");
-}
-
-
 GnomeCalendar *
 new_calendar (void)
 {
@@ -574,9 +579,6 @@ new_calendar (void)
 
 	gtk_signal_connect (GTK_OBJECT (gcal), "destroy",
 			    GTK_SIGNAL_FUNC (on_calendar_destroyed), NULL);
-	gtk_signal_connect (GTK_OBJECT (gcal), "dates_shown_changed",
-			    GTK_SIGNAL_FUNC (on_calendar_dates_shown_changed),
-			    NULL);
 
 	all_calendars = g_list_prepend (all_calendars, gcal);
 

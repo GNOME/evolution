@@ -56,3 +56,99 @@ cal_comp_util_add_exdate (CalComponent *comp, time_t t, icaltimezone *zone)
 	cal_component_set_exdate_list (comp, list);
 	cal_component_free_exdate_list (list);
 }
+
+
+
+/* Returns TRUE if the TZIDs are equivalent, i.e. both NULL or the same. */
+static gboolean
+cal_component_compare_tzid (const char *tzid1, const char *tzid2)
+{
+	gboolean retval = TRUE;
+
+	if (tzid1) {
+		if (!tzid2 || strcmp (tzid1, tzid2))
+			retval = FALSE;
+	} else {
+		if (tzid2)
+			retval = FALSE;
+	}
+
+	return retval;
+}
+
+/**
+ * cal_comp_util_compare_event_timezones:
+ * @comp: A calendar component object.
+ * @client: A #CalClient.
+ * 
+ * Checks if the component uses the given timezone for both the start and
+ * the end time, or if the UTC offsets of the start and end times are the same
+ * as in the given zone.
+ *
+ * Returns: TRUE if the component's start and end time are at the same UTC
+ * offset in the given timezone.
+ **/
+gboolean
+cal_comp_util_compare_event_timezones (CalComponent *comp,
+				       CalClient *client,
+				       icaltimezone *zone)
+{
+	CalClientGetStatus status;
+	CalComponentDateTime start_datetime, end_datetime;
+	const char *tzid;
+	gboolean retval = FALSE;
+	icaltimezone *start_zone, *end_zone;
+	int offset1, offset2;
+
+	tzid = icaltimezone_get_tzid (zone);
+
+	cal_component_get_dtstart (comp, &start_datetime);
+	cal_component_get_dtend (comp, &end_datetime);
+
+	/* FIXME: DURATION may be used instead. */
+	if (cal_component_compare_tzid (tzid, start_datetime.tzid)
+	    && cal_component_compare_tzid (tzid, end_datetime.tzid)) {
+		/* If both TZIDs are the same as the given zone's TZID, then
+		   we know the timezones are the same so we return TRUE. */
+		retval = TRUE;
+	} else {
+		/* If the TZIDs differ, we have to compare the UTC offsets
+		   of the start and end times, using their own timezones and
+		   the given timezone. */
+		status = cal_client_get_timezone (client,
+						  start_datetime.tzid,
+						  &start_zone);
+		if (status != CAL_CLIENT_GET_SUCCESS)
+			goto out;
+
+		offset1 = icaltimezone_get_utc_offset (start_zone,
+						       start_datetime.value,
+						       NULL);
+		offset2 = icaltimezone_get_utc_offset (zone,
+						       start_datetime.value,
+						       NULL);
+		if (offset1 == offset2) {
+			status = cal_client_get_timezone (client,
+							  end_datetime.tzid,
+							  &end_zone);
+			if (status != CAL_CLIENT_GET_SUCCESS)
+				goto out;
+
+			offset1 = icaltimezone_get_utc_offset (end_zone,
+							       end_datetime.value,
+							       NULL);
+			offset2 = icaltimezone_get_utc_offset (zone,
+							       end_datetime.value,
+							       NULL);
+			if (offset1 == offset2)
+				retval = TRUE;
+		}
+	}
+
+ out:
+
+	cal_component_free_datetime (&start_datetime);
+	cal_component_free_datetime (&end_datetime);
+
+	return retval;
+}

@@ -2313,6 +2313,11 @@ e_week_view_add_event (CalComponent *comp,
 	if (event.end_minute == 0 && start != end)
 		event.end_minute = 24 * 60;
 
+	event.different_timezone = FALSE;
+	if (!cal_comp_util_compare_event_timezones (comp, week_view->client,
+						    week_view->zone))
+		event.different_timezone = TRUE;
+
 	g_array_append_val (week_view->events, event);
 	week_view->events_sorted = FALSE;
 	week_view->events_need_layout = TRUE;
@@ -2493,9 +2498,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 			num_icons++;
 		if (cal_component_has_recurrences (comp))
 			num_icons++;
-
-		if (!cal_component_compare_event_timezone (comp,
-							   week_view->zone))
+		if (event->different_timezone)
 			num_icons++;
 
 		cal_component_get_categories_list (comp, &categories_list);
@@ -3723,4 +3726,24 @@ selection_received (GtkWidget *invisible,
 
 		gtk_object_unref (GTK_OBJECT (comp));
 	}
+}
+
+
+/* Gets the visible time range. Returns FALSE if no time range has been set. */
+gboolean
+e_week_view_get_visible_time_range	(EWeekView	*week_view,
+					 time_t		*start_time,
+					 time_t		*end_time)
+{
+	gint num_days;
+
+	/* If we don't have a valid date set yet, return FALSE. */
+	if (!g_date_valid (&week_view->first_day_shown))
+		return FALSE;
+
+	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
+	*start_time = week_view->day_starts[0];
+	*end_time = week_view->day_starts[num_days];
+
+	return TRUE;
 }

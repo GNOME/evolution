@@ -447,8 +447,7 @@ forever
 		<class>GtkButton</class>
 		<name>exception-add</name>
 		<can_focus>True</can_focus>
-		<label>_Add</label>
-		<relief>GTK_RELIEF_NORMAL</relief>
+		<label>A_dd</label>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -461,7 +460,6 @@ forever
 		<name>exception-modify</name>
 		<can_focus>True</can_focus>
 		<label>_Modify</label>
-		<relief>GTK_RELIEF_NORMAL</relief>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -474,7 +472,6 @@ forever
 		<name>exception-delete</name>
 		<can_focus>True</can_focus>
 		<label>_Delete</label>
-		<relief>GTK_RELIEF_NORMAL</relief>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>

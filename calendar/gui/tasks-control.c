@@ -31,6 +31,7 @@
 #include <bonobo/bonobo-ui-util.h>
 #include "dialogs/cal-prefs-dialog.h"
 #include "calendar-config.h"
+#include "calendar-commands.h"
 #include "e-tasks.h"
 #include "tasks-control.h"
 #include "evolution-shell-component-utils.h"
@@ -297,6 +298,8 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 	/* Show the dialog for setting the timezone if the user hasn't chosen
 	   a default timezone already. */
 	calendar_config_check_timezone_set ();
+
+	control_util_set_folder_bar_label (control, "");
 }
 
 

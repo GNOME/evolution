@@ -1200,10 +1200,15 @@ cal_backend_file_get_free_busy (CalBackend *backend, time_t start, time_t end)
 	for (l = uids; l != NULL; l = l->next) {
 		char *comp_str;
 		icalcomponent *icalcomp;
-		icalproperty *icalprop;
+		icalproperty *icalprop, *prop;
 		struct icalperiodtype ipt;
 		char *uid = (char *) l->data;
 
+		/* FIXME: This looks quite inefficient. It is converting the
+		   component to a string and then parsing it again. It would
+		   be better to use lookup_component(). It needs to handle
+		   timezones as well, so it is probably easier to use the
+		   CalComponent wrapper functions. - Damon. */
 		comp_str = cal_backend_get_object (CAL_BACKEND (cbfile), uid);
 		if (!comp_str)
 			continue;
@@ -1212,6 +1217,16 @@ cal_backend_file_get_free_busy (CalBackend *backend, time_t start, time_t end)
 		g_free (comp_str);
 		if (!icalcomp)
 			continue;
+
+		/* If the event is TRANSPARENT, skip it. */
+		prop = icalcomponent_get_first_property (icalcomp,
+							 ICAL_TRANSP_PROPERTY);
+		if (prop) {
+			const char *transp_val = icalproperty_get_transp (prop);
+			if (transp_val
+			    && !strcasecmp (transp_val, "TRANSPARENT"))
+				continue;
+		}
 
 		ipt.start = icalcomponent_get_dtstart (icalcomp);
 		ipt.end = icalcomponent_get_dtend (icalcomp);

@@ -303,7 +303,6 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, _("None"));
 	strings = g_list_append (strings, _("Public"));
 	strings = g_list_append (strings, _("Private"));
 	strings = g_list_append (strings, _("Confidential"));
@@ -378,9 +377,8 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, _("None"));
-	strings = g_list_append (strings, _("Opaque"));
-	strings = g_list_append (strings, _("Transparent"));
+	strings = g_list_append (strings, _("Free"));
+	strings = g_list_append (strings, _("Busy"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 
