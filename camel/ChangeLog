@@ -1,3 +1,12 @@
+2001-04-03  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_sync): If we don't
+	change any flags or expunge, send a NOOP to give the server a
+	chance to send EXISTS, etc, messages.
+	(imap_get_message): If the server_level < IMAP4rev1, always fetch
+	messages all-at-once, since they don't support the [#.MIME]
+	syntax.
+
 2001-04-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_info): Don't
