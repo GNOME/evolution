@@ -278,6 +278,7 @@ real_folder_created(CamelStore *store, struct _store_info *si, CamelFolderInfo *
 {
 	setup_folder(fi, si);
 	camel_object_unref((CamelObject *)store);
+	camel_folder_info_free(fi);
 }
 
 static void
@@ -293,7 +294,8 @@ store_folder_subscribed(CamelObject *o, void *event_data, void *data)
 
 	if (si)
 		mail_async_event_emit(si->async_event,
-				      (CamelObjectEventHookFunc)real_folder_created, o, si, event_data);
+				      (CamelObjectEventHookFunc)real_folder_created, o, si,
+				      camel_folder_info_clone(event_data));
 }
 
 static void
@@ -314,6 +316,7 @@ real_folder_deleted(CamelStore *store, void *event_data, CamelFolderInfo *fi)
 		mail_vfolder_remove_uri(store, fi->url);
 
 	camel_object_unref((CamelObject *)store);
+	camel_folder_info_free(fi);
 }
 
 static void
@@ -329,7 +332,8 @@ store_folder_unsubscribed(CamelObject *o, void *event_data, void *data)
 
 	if (si)
 		mail_async_event_emit(si->async_event,
-				      (CamelObjectEventHookFunc)real_folder_deleted, o, si, event_data);
+				      (CamelObjectEventHookFunc)real_folder_deleted, o, si,
+				      camel_folder_info_clone(event_data));
 }
 
 static void

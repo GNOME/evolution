@@ -1585,7 +1585,7 @@ mail_expunge_folder(CamelFolder *folder, void (*done) (CamelFolder *folder, void
 	m->data = data;
 	m->done = done;
 
-	e_thread_put(mail_thread_new, (EMsg *)m);
+	e_thread_put(mail_thread_queued, (EMsg *)m);
 }
 
 /* ** GET MESSAGE(s) ***************************************************** */

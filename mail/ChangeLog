@@ -1,3 +1,14 @@
+2001-10-17    <NotZed@Ximian.com>
+
+	* mail-folder-cache.c (store_folder_subscribed): Clone the
+	folderinfo before passing to async event.
+	(real_folder_created): Free when done.
+	(store_folder_unsubscribed): 
+	(real_folder_deleted): And same here.
+
+	* mail-ops.c (mail_expunge_folder): Use the queued thread for
+	expunging folders.
+
 2001-10-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (mail_send_message): No longer need to copy the
