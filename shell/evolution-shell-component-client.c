@@ -359,12 +359,8 @@ evolution_shell_component_client_new (const char *id)
 	corba_object = activate_object_from_id (id);
 
 	if (corba_object == CORBA_OBJECT_NIL) {
-		printf ("Could not activate component %s.\n"
-			"(Maybe you need to set OAF_INFO_PATH?)\n"
-			"CRASHING!\n", id);
-		/* FIXME: This is not the right call here. It will SEGV
-		 * in Bonobo_Unknown_unref.
-		 */
+		g_warning ("Could not activate component %s. "
+			   "(Maybe you need to set OAF_INFO_PATH?)", id);
 		bonobo_object_unref (BONOBO_OBJECT (new));
 		return NULL;
 	}
