@@ -1,5 +1,10 @@
 2000-05-07  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/e-addressbook-model.c: Replaced some model_changed
+	calls with row_inserted calls.
+
+2000-05-07  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/pas/pas-backend-file.c, backend/pas/pas-backend-ldap.c:
 	Removed some code that was notifying too many clients at the wrong
 	times.

@@ -142,8 +142,8 @@ create_card(EBookView *book_view,
 	for ( ; cards; cards = cards->next) {
 		gtk_object_ref(GTK_OBJECT(cards->data));
 		model->data[model->data_count++] = e_card_simple_new (E_CARD(cards->data));
+		e_table_model_row_inserted(E_TABLE_MODEL(model), model->data_count - 1);
 	}
-	e_table_model_changed(E_TABLE_MODEL(model));
 }
 
 static void
@@ -156,9 +156,9 @@ remove_card(EBookView *book_view,
 		if ( !strcmp(e_card_simple_get_id(model->data[i]), id) ) {
 			gtk_object_unref(GTK_OBJECT(model->data[i]));
 			memmove(model->data + i, model->data + i + 1, (model->data_count - i - 1) * sizeof (ECard *));
+			e_table_model_row_deleted(E_TABLE_MODEL(model), i);
 		}
 	}
-	e_table_model_changed(E_TABLE_MODEL(model));
 }
 
 static void
