@@ -1,5 +1,12 @@
 2000-11-03  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-local.c (mail_local_map_uri): Don't show the passwd in the
+	url string.
+	(mail_tool_local_uri_to_folder): Same.
+	(do_reconfigure_folder): Same.
+
+2000-11-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* Makefile.am: Added new header files.
 	
 	* component-factory.c (owner_set_cb):

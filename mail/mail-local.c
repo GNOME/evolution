@@ -179,7 +179,7 @@ mail_local_map_uri(const char *uri, int *index)
 
 	/* change file: to format: */
 	camel_url_set_protocol(url, meta->format);
-	storename = camel_url_to_string(url, TRUE);
+	storename = camel_url_to_string (url, FALSE);
 	camel_url_free(url);
 
 	return storename;
@@ -213,7 +213,7 @@ mail_tool_local_uri_to_folder(const char *uri, CamelException *ex)
 
 	/* change file: to format: */
 	camel_url_set_protocol(url, meta->format);
-	storename = camel_url_to_string(url, TRUE);
+	storename = camel_url_to_string (url, FALSE);
 
 	printf("store name is  %s\n", storename);
 	flags = 0;
@@ -333,10 +333,10 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 		input->fb->folder = NULL;
 	}
 
-	camel_url_set_protocol(url, meta->format);
-	fromurl = camel_url_to_string(url, TRUE);
-	camel_url_set_protocol(url, input->newtype);
-	tourl = camel_url_to_string(url, TRUE);
+	camel_url_set_protocol (url, meta->format);
+	fromurl = camel_url_to_string (url, FALSE);
+	camel_url_set_protocol (url, input->newtype);
+	tourl = camel_url_to_string (url, FALSE);
 
 	printf("opening stores %s and %s\n", fromurl, tourl);
 
