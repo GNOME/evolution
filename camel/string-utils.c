@@ -228,7 +228,8 @@ string_trim (gchar *string, const gchar *trim_chars, StringTrimOption options)
 
 	g_return_if_fail (string);
 	length = strlen (string);
-	g_return_if_fail (length > 0);
+	if (length==0)
+		return;
 	
 	first_ok = 0;
 	last_ok = length - 1;

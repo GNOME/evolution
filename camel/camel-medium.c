@@ -150,11 +150,15 @@ _add_header (CamelMedium *medium, gchar *header_name, gchar *header_value)
 	header_exists = g_hash_table_lookup_extended (medium->headers, header_name, 
 						      (gpointer *) &old_header_name,
 						      (gpointer *) &old_header_value);
+	/* ghashtables actually dont duplicate key pointers on existing fields,
+	   just remove the old one first always (avoiding this assumption) */
 	if (header_exists) {
+		g_hash_table_remove (medium->headers, old_header_name);
+#if 1
 		g_free (old_header_name);
 		g_free (old_header_value);
+#endif
 	}
-	
 	g_hash_table_insert (medium->headers, g_strdup (header_name),
 			     g_strdup (header_value));
 }
@@ -182,12 +186,11 @@ _remove_header (CamelMedium *medium, const gchar *header_name)
 						      (gpointer *) &old_header_name,
 						      (gpointer *) &old_header_value);
 	if (header_exists) {
+		g_hash_table_remove (medium->headers, header_name);
+
 		g_free (old_header_name);
 		g_free (old_header_value);
 	}
-	
-	g_hash_table_remove (medium->headers, header_name);
-	
 }
 
 void

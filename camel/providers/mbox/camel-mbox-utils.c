@@ -168,10 +168,10 @@ camel_mbox_copy_file_chunk (gint fd_src,
 {
 	gchar buffer [1000];
 	glong nb_to_read;
-	glong nb_read, v;
+	glong nb_read=1, v;
 	
 	nb_to_read = nb_bytes;
-	while (nb_to_read > 0) {
+	while (nb_to_read > 0 && nb_read>0) {
 		
 		do {
 			nb_read = read (fd_src, buffer, MIN (1000, nb_to_read));
@@ -223,7 +223,7 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 	guint bytes_to_copy = 0;
 	glong cur_pos = 0;
 	glong cur_offset = 0;
-	glong end_of_last_message;
+	glong end_of_last_message = 0;
 	glong next_free_uid;
 	gchar xev_header[20] = "X-Evolution:XXXX-X\n";
 	gchar *tmp_file_name;

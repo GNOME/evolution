@@ -1,5 +1,23 @@
 2000-02-28  NotZed  <NotZed@HelixCode.com>
 
+	* camel-mime-part.c (_parse_header_pair): Dont free this either.
+
+	* camel-medium.c (_remove_header): Ugh, dont free the header
+	before we actually remove it.
+	(_add_header): Ugh, dont free hashtable entries which may be
+	duplicated (hash_insert _will_ reference that memory).
+
+	* string-utils.c (string_trim): Trimming a 0-length string is not
+	an error.
+
+	* camel-mime-message.c (_parse_header_pair): Fixed very broken
+	memory handling of header_name/value.
+
+	* providers/mbox/camel-mbox-utils.c (camel_mbox_write_xev):
+	Initialise end_of_last_message always.
+	(camel_mbox_copy_file_chunk): Stop trying to read if we run out of
+	data, rather than looping forever.
+
 	* camel-folder.c (camel_folder_search_by_expression): No, its not
 	a fatal error to search on a non-searchable folder, you just dont
 	get any matches.
@@ -9,6 +27,18 @@
 	* providers/mbox/camel-mbox-folder.c (_init): Set search cap on.
 	(_open): Call parent class to perform open.  Remove folder-open
 	check to parent instead.
+	(_create): open takes a creation mask, dont use umask to try and
+	set the open mode.
+	(_delete): Dont bother checking folder==NULL, its already been
+	checked on the external interface (changed to an assertion, this
+	would have to be a camel bug).
+	(_delete_messages): Likewise.
+	(_create): Ditto.
+	(_init): Dont go and clear all the paths and shit that the parent
+	open just setup for us.
+	(_delete_messages): Get rid of more umask stuff.
+	(_append_message): Make sure we pass file mode to open with create.
+	(_append_message): Cleaned up some indenting to make it readable.
 
 	* camel-stream-b64.c (my_read_encode): Fixed a typo.
 

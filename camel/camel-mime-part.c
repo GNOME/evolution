@@ -806,7 +806,6 @@ _parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_
 	
 	
 	if (header_handled) {
-		g_free (header_name);
 		return TRUE;
 	} else return FALSE;
 	

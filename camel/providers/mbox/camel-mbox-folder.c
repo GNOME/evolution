@@ -199,15 +199,6 @@ _init (CamelFolder *folder, CamelStore *parent_store,
 	folder->has_search_capability = TRUE;
  	folder->summary = camel_folder_summary_new ();
 
-#if 0
-	mbox_folder->folder_file_path = NULL;
-	mbox_folder->summary_file_path = NULL;
-	mbox_folder->folder_dir_path = NULL;
-	mbox_folder->index_file_path = NULL;
-	mbox_folder->internal_summary = NULL;
-	mbox_folder->uid_array = NULL;
-#endif
-	
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::init_with_store\n");
 }
 
@@ -393,19 +384,11 @@ _exists (CamelFolder *folder, CamelException *ex)
 	gint stat_error;
 	gboolean exists;
 
+	g_assert(folder != NULL);
+
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::exists\n");
-	
- 
-	/* check if the folder object exists */
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
 
 	mbox_folder = CAMEL_MBOX_FOLDER(folder);
-
 	
 	/* check if the mbox file path is determined */
 	if (!mbox_folder->folder_file_path) {
@@ -482,14 +465,7 @@ _create (CamelFolder *folder, CamelException *ex)
 	int creat_fd;
 	mode_t old_umask;
 
-	/* check if the folder object exists */
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-
+	g_assert(folder != NULL);
 
 	/* call default implementation */
 	parent_class->create (folder, ex);
@@ -520,11 +496,9 @@ _create (CamelFolder *folder, CamelException *ex)
 
 	/* create the mbox file */ 
 	/* it must be rw for the user and none for the others */
-	old_umask = umask (0700);
 	creat_fd = open (folder_file_path, 
 			 O_WRONLY | O_CREAT | O_APPEND,
-			 S_IRUSR  | S_IWUSR); 
-	umask (old_umask);
+			 S_IRUSR  | S_IWUSR, 0600); 
 	if (creat_fd == -1) goto io_error;
 	close (creat_fd);
 
@@ -573,14 +547,9 @@ _delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 	gint unlink_error = 0;
 	gboolean folder_already_exists;
 
-	/* check if the folder object exists */
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
+	g_assert(folder != NULL);
 
+	/* check if the folder object exists */
 
 	/* in the case where the folder does not exist, 
 	   return immediatly */
@@ -679,16 +648,9 @@ _delete_messages (CamelFolder *folder, CamelException *ex)
 	gboolean folder_already_exists;
 	int creat_fd;
 	mode_t old_umask;
+
+	g_assert(folder!=NULL);
 	
-
-	/* check if the folder object exists */
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-
 	/* in the case where the folder does not exist, 
 	   return immediatly */
 	folder_already_exists = camel_folder_exists (folder, ex);
@@ -711,11 +673,9 @@ _delete_messages (CamelFolder *folder, CamelException *ex)
 		
 	/* create the mbox file */ 
 	/* it must be rw for the user and none for the others */
-	old_umask = umask (0700);
 	creat_fd = open (folder_file_path, 
 			 O_WRONLY | O_TRUNC,
-			 S_IRUSR  | S_IWUSR); 
-	umask (old_umask);
+			 S_IRUSR  | S_IWUSR, 0600); 
 	if (creat_fd == -1) goto io_error;
 	close (creat_fd);
 	
@@ -910,7 +870,6 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	gchar *tmp_message_filename;
 	gint fd1, fd2;
 
-
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::append_message\n");
 
 	tmp_message_filename = g_strdup_printf ("%s.tmp", mbox_folder->folder_file_path);
@@ -936,15 +895,10 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	*/
 	next_uid = mbox_folder->internal_summary->next_uid;
 	tmp_file_fd = open (tmp_message_filename, O_RDONLY);
-	message_info_array = camel_mbox_parse_file (tmp_file_fd, 
-						    "From - ", 
-						    0,
-						    &tmp_file_size,
-						    &next_uid,
-						    TRUE,
-						    NULL,
-						    0,
-						    ex); 
+	message_info_array =
+		camel_mbox_parse_file (tmp_file_fd, "From - ", 0,
+				       &tmp_file_size, &next_uid, TRUE,
+				       NULL, 0, ex); 
 	
 	close (tmp_file_fd);
 
@@ -963,13 +917,10 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	if (camel_exception_get_id (ex)) { 
 		/* ** FIXME : free the preparsed information */
 		return;
-		}
+	}
 
 	mbox_summary_info =
 		parsed_information_to_mbox_summary (message_info_array);
-
-
-
 
 	/* store the number of messages as well as the summary array */
 	mbox_folder->internal_summary->nb_message += 1;		
@@ -993,18 +944,18 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	fd1 = open (tmp_message_filename, O_RDONLY);
 	fd2 = open (mbox_folder->folder_file_path, 
 		    O_WRONLY | O_CREAT | O_APPEND,
-		    S_IRUSR  | S_IWUSR);
+		    S_IRUSR  | S_IWUSR, 0600);
 
 	if (fd2 == -1) {
-			camel_exception_setv (ex, 
-					     CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
-					     "could not open the mbox folder file for appending the message\n"
-					      "\t%s\n"
-					      "Full error is : %s\n",
-					      mbox_folder->folder_file_path,
-					      strerror (errno));
-			return;
-		}
+		camel_exception_setv (ex, 
+				      CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
+				      "could not open the mbox folder file for appending the message\n"
+				      "\t%s\n"
+				      "Full error is : %s\n",
+				      mbox_folder->folder_file_path,
+				      strerror (errno));
+		return;
+	}
 
 	camel_mbox_copy_file_chunk (fd1,
 				    fd2, 
@@ -1018,7 +969,6 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 
 	/* generate the folder md5 signature */
 	md5_get_digest_from_file (mbox_folder->folder_file_path, mbox_folder->internal_summary->md5_digest);
-
 
 	g_free (tmp_message_filename);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::append_message\n");

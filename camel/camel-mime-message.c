@@ -681,7 +681,6 @@ _parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_
 				      header_value );
 		
 		_set_recipient_list_from_string (message, "To", header_value);
-		g_free (header_value);
 		header_handled = TRUE;
 		break;
 		
@@ -691,7 +690,6 @@ _parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_
 				      header_value );
 		
 		_set_recipient_list_from_string (message, "Cc", header_value);
-		g_free (header_value);
 		header_handled = TRUE;
 		break;
 		
@@ -701,14 +699,12 @@ _parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_
 				      header_value );
 		
 		_set_recipient_list_from_string (message, "Bcc", header_value);
-		g_free (header_value);
 		header_handled = TRUE;
 		break;
 		
 		
 	}
 	if (header_handled) {
-		g_free (header_name);
 		return TRUE;
 	} else
 		return parent_class->parse_header_pair (mime_part, header_name, header_value);
