@@ -742,7 +742,20 @@ remove_entry_cb (GtkWidget *w, EContactListEditor *editor)
 static void
 list_name_changed_cb (GtkWidget *w, EContactListEditor *editor)
 {
+	char *string = gtk_editable_get_chars(GTK_EDITABLE (w), 0, -1);
+	char *title;
+
 	editor->changed = TRUE;
+
+	if (string && *string)
+		title = string;
+	else
+		title = _("Contact List Editor");
+
+	gtk_window_set_title (GTK_WINDOW (editor->app), title);
+
+	g_free (string);
+
 	command_state_changed (editor);
 }
 

@@ -1,5 +1,19 @@
 2004-03-30  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #34777 ]
+	
+	* gui/contact-editor/e-contact-editor.c (file_as_entry_changed):
+	set the window title to File As if the file as entry has something
+	in it.  "Contact Editor" otherwise.
+	(set_entry_changed_signals): hook up the file-as-entry's "changed"
+	signal.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(list_name_changed_cb): analogous fix, but "List Name" and
+	"Contact List Editor".
+
+2004-03-30  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #53544 ]
 	
 	* gui/component/addressbook-component.c

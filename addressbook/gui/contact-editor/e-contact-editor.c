@@ -1138,7 +1138,6 @@ file_as_set_style(EContactEditor *editor, int style)
 	GList *strings = NULL;
 	GtkEntry *file_as = GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-file-as"));
 	GtkWidget *widget;
-		
 
 	if (!(file_as && GTK_IS_ENTRY(file_as)))
 		return;
@@ -1187,6 +1186,24 @@ name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	editor->name = e_contact_name_from_string(string);
 	
 	file_as_set_style(editor, style);
+
+	widget_changed (widget, editor);
+}
+
+static void
+file_as_entry_changed (GtkWidget *widget, EContactEditor *editor)
+{
+	char *string = gtk_editable_get_chars(GTK_EDITABLE (widget), 0, -1);
+	char *title;
+
+	if (string && *string)
+		title = string;
+	else
+		title = _("Contact Editor");
+
+	gtk_window_set_title (GTK_WINDOW (editor->app), title);
+
+	g_free (string);
 
 	widget_changed (widget, editor);
 }
@@ -1300,6 +1317,12 @@ set_entry_changed_signals(EContactEditor *editor)
 				  G_CALLBACK (name_entry_changed), editor);
 	}
 
+	widget = glade_xml_get_widget(editor->gui, "entry-file-as");
+	if (widget && GTK_IS_ENTRY(widget)) {
+		g_signal_connect (widget, "changed",
+				  G_CALLBACK (file_as_entry_changed), editor);
+	}
+
 	widget = glade_xml_get_widget(editor->gui, "entry-company");
 	if (widget && GTK_IS_ENTRY(widget)) {
 		g_signal_connect (widget, "changed",
@@ -1314,7 +1337,6 @@ set_entry_changed_signals(EContactEditor *editor)
 
 	set_entry_changed_signal_field(editor, "entry-categories");
 	set_entry_changed_signal_field(editor, "entry-jobtitle");
-	set_entry_changed_signal_field(editor, "entry-file-as");
 	set_entry_changed_signal_field(editor, "entry-manager");
 	set_entry_changed_signal_field(editor, "entry-assistant");
 	set_entry_changed_signal_field(editor, "entry-office");
