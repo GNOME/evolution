@@ -1,3 +1,10 @@
+2005-01-15  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* camel-gw-listner.c : use url->host instead of reading "poa"
+	parameter everywhere. use "use_ssl" param instead of soap_ssl
+	We not longer have separate settings for soap as we use soap for mail
+	now 
+
 2004-12-17  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* camel-gw-listner.c (add_esource) : read "soap_ssl" from 
