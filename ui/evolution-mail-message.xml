@@ -40,7 +40,8 @@
 
     <cmd name="MessageDelete"
      _tip="Mark the selected messages for deletion"
-     accel="*Control*d"/>
+     accel="*Control*d"
+     pixtype="pixbuf"/>
 
     <cmd name="MessageForward"
      _tip="Forward the selected message to someone"
