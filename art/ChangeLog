@@ -1,3 +1,10 @@
+2001-05-16  Jakub Steiner <jimmac@ximian.com>
+
+	* evolution-calendar.png, evolution-contacts.png,
+	  evolution-inbox.png, evolution-today.png,
+	  evolution-tasks.png: fixed bug #2862. Also changed the
+	  envelope icon
+	  
 2001-05-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (images_DATA): Added `online.png' and `offline.png'.
