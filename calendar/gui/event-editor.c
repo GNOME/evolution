@@ -29,6 +29,7 @@
 #include <e-util/e-dialog-widgets.h>
 #include <widgets/misc/e-dateedit.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/widgets/e-categories.h>
 #include <cal-util/timeutil.h>
 #include "dialogs/delete-comp.h"
 #include "calendar-config.h"
@@ -110,6 +111,9 @@ struct _EventEditorPrivate {
 	GtkWidget *classification_private;
 	GtkWidget *classification_confidential;
 
+	GtkWidget *categories;
+	GtkWidget *categories_btn;
+	
 	GtkWidget *recurrence_summary;
 	GtkWidget *recurrence_starting_date;
 
@@ -188,6 +192,7 @@ static void field_changed		(GtkWidget	*widget,
 static void event_editor_set_changed	(EventEditor	*ee,
 					 gboolean	 changed);
 static gboolean prompt_to_save_changes	(EventEditor	*ee);
+static void categories_clicked (GtkWidget *button, EventEditor *ee);
 
 
 
@@ -941,6 +946,9 @@ get_widgets (EventEditor *ee)
 	priv->classification_private = GW ("classification-private");
 	priv->classification_confidential = GW ("classification-confidential");
 
+	priv->categories = GW ("categories");
+	priv->categories_btn = GW ("categories-button");
+
 	priv->recurrence_summary = GW ("recurrence-summary");
 	priv->recurrence_starting_date = GW ("recurrence-starting-date");
 
@@ -1090,6 +1098,10 @@ init_widgets (EventEditor *ee)
 			    GTK_SIGNAL_FUNC (summary_changed_cb), priv->recurrence_summary);
 	gtk_signal_connect (GTK_OBJECT (priv->recurrence_summary), "changed",
 			    GTK_SIGNAL_FUNC (summary_changed_cb), priv->general_summary);
+
+	/* Categories button */
+	gtk_signal_connect (GTK_OBJECT (priv->categories_btn), "clicked",
+			    GTK_SIGNAL_FUNC (categories_clicked), ee);
 
 	/* Start dates in the main and recurrence pages */
 
@@ -1860,7 +1872,8 @@ fill_widgets (EventEditor *ee)
 	CalComponentDateTime d;
 	GSList *l;
 	time_t dtstart, dtend;
-
+	const char *categories;
+	
 	priv = ee->priv;
 
 	clear_widgets (ee);
@@ -1959,6 +1972,10 @@ fill_widgets (EventEditor *ee)
 		 * value from an external file.
 		 */
 	}
+
+	/* Categories */
+	cal_component_get_categories (priv->comp, &categories);
+	e_dialog_editable_set (priv->categories, categories);
 
 	/* Recurrences */
 	fill_recurrence_widgets (ee);
@@ -2235,7 +2252,7 @@ dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 	CalComponentDateTime date;
 	time_t t;
 	gboolean all_day_event;
-	char *str;
+	char *cat, *str;
 	
 	priv = ee->priv;
 
@@ -2302,8 +2319,14 @@ dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 	} else {
 		/* FIXME: What do we do here? */
 	}
-
 	g_free (date.value);
+
+	/* Categories */
+	cat = e_dialog_editable_get (priv->categories);
+	cal_component_set_categories (comp, cat);
+
+	if (cat)
+		g_free (cat);
 
 #if 0
 	ico->dalarm.enabled = e_dialog_toggle_get (priv->alarm_display);
@@ -3270,4 +3293,29 @@ prompt_to_save_changes		(EventEditor	*ee)
 		return FALSE;
 		break;
 	}
+}
+
+static void
+categories_clicked (GtkWidget *button, EventEditor *ee)
+{
+	char *categories;
+	GnomeDialog *dialog;
+	int result;
+	GtkWidget *entry;
+
+	entry = ee->priv->categories;
+	categories = e_utf8_gtk_entry_get_text (GTK_ENTRY (entry));
+
+	dialog = GNOME_DIALOG (e_categories_new (categories));
+	result = gnome_dialog_run (dialog);
+	g_free (categories);
+	
+	if (result == 0) {
+		gtk_object_get (GTK_OBJECT (dialog),
+				"categories", &categories,
+				NULL);
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (entry), categories);
+		g_free (categories);
+	}
+	gtk_object_destroy (GTK_OBJECT (dialog));
 }

@@ -1,5 +1,19 @@
 2001-01-05  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/event-editor.c (get_widgets): get categories button
+	(init_widgets): listen for button click
+	(fill_widgets): fill in the categories area
+	(dialog_to_comp_object): set the cal component categories
+	(categories_clicked): throw up the categories dialog and update
+	when ok is clicked
+
+	* gui/event-editor-dialog.glade: Add categories and contacts buttons
+	and fields
+	
+	* gui/dialogs/task-editor-dialog.glade: Rename button
+	
+2001-01-05  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/dialogs/task-editor.c (get_widgets): get categories button
 	(init_widgets): listen for button click
 	(fill_widgets): fill in the categories area
