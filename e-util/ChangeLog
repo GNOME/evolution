@@ -1,3 +1,7 @@
+2000-04-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-canvas.c: Added proper keyboard focus handling.
+
 2000-04-06  Matt Loper  <matt@helixcode.com>
 
 	* e-setup.c (e_setup_base_dir): Get/set Evolution's base directory
