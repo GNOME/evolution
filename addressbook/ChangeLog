@@ -1,5 +1,10 @@
 2000-08-26  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/minicard/Makefile.am: Comment out minicard-view-test
+	since its gnorba dependent
+	
+2000-08-26  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/component/addressbook-component.c: Remove gnorba stuff
 
 	* gui/minicard/e-minicard-control.c (e_minicard_control_factory_init):
