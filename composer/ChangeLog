@@ -1,3 +1,11 @@
+2000-12-07  Radek Doulik  <rodo@helixcode.com>
+
+	* e-msg-composer.c (prepare_engine): added warnings
+	(prepare_engine): updated to IDL:GNOME/GtkHTML/Editor/Engine:1.0
+
+	* Makefile.am: renamed HTMLEditor* to Editor*, added Editor-common.c:
+	$(HTML_EDITOR_GENERATED) rule
+
 2000-12-05  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer.c (add_recipients): Use camel to construct the

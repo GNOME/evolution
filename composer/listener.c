@@ -26,12 +26,12 @@
 #include "listener.h"
 
 static BonoboObjectClass *listener_parent_class;
-static POA_GNOME_HTMLEditor_Listener__vepv listener_vepv;
+static POA_GNOME_GtkHTML_Editor_Listener__vepv listener_vepv;
 
-inline static HTMLEditorListener *
-htmleditor_listener_from_servant (PortableServer_Servant servant)
+inline static EditorListener *
+listener_from_servant (PortableServer_Servant servant)
 {
-	return HTMLEDITOR_LISTENER (bonobo_object_from_servant (servant));
+	return EDITOR_LISTENER (bonobo_object_from_servant (servant));
 }
 
 static CORBA_any *
@@ -46,7 +46,7 @@ get_any_null ()
 }
 
 static gchar *
-resolve_image_url (HTMLEditorListener *l, gchar *url)
+resolve_image_url (EditorListener *l, gchar *url)
 {
 	gchar *cid = NULL;
 
@@ -68,20 +68,20 @@ resolve_image_url (HTMLEditorListener *l, gchar *url)
 }
 
 static void
-reply_indent (HTMLEditorListener *l, CORBA_Environment * ev)
+reply_indent (EditorListener *l, CORBA_Environment * ev)
 {
-	if (!GNOME_HTMLEditor_Engine_isParagraphEmpty (l->composer->editor_engine, ev)) {
-		if (GNOME_HTMLEditor_Engine_isPreviousParagraphEmpty (l->composer->editor_engine, ev))
-			GNOME_HTMLEditor_Engine_runCommand (l->composer->editor_engine, "cursor-backward", ev);
+	if (!GNOME_GtkHTML_Editor_Engine_isParagraphEmpty (l->composer->editor_engine, ev)) {
+		if (GNOME_GtkHTML_Editor_Engine_isPreviousParagraphEmpty (l->composer->editor_engine, ev))
+			GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "cursor-backward", ev);
 		else {
-			GNOME_HTMLEditor_Engine_runCommand (l->composer->editor_engine, "insert-paragraph", ev);
+			GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "insert-paragraph", ev);
 			return;
 		}
 			
 	}
-	GNOME_HTMLEditor_Engine_runCommand (l->composer->editor_engine, "style-normal", ev);
-	GNOME_HTMLEditor_Engine_runCommand (l->composer->editor_engine, "indent-zero", ev);
-	GNOME_HTMLEditor_Engine_runCommand (l->composer->editor_engine, "italic-off", ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "style-normal", ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "indent-zero", ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "italic-off", ev);
 }
 
 static CORBA_any *
@@ -89,7 +89,7 @@ impl_event (PortableServer_Servant _servant,
        const CORBA_char * name, const CORBA_any * arg,
        CORBA_Environment * ev)
 {
-	HTMLEditorListener *l = htmleditor_listener_from_servant (_servant);
+	EditorListener *l = listener_from_servant (_servant);
 	BonoboArg *data;
 	CORBA_any *rv = NULL;
 
@@ -97,12 +97,12 @@ impl_event (PortableServer_Servant _servant,
 
 	if (!strcmp (name, "command")) {
 		/* FIXME check for insert-paragraph command */
-		data = GNOME_HTMLEditor_Engine_getParagraphData (l->composer->editor_engine, "orig", ev);
+		data = GNOME_GtkHTML_Editor_Engine_getParagraphData (l->composer->editor_engine, "orig", ev);
 		if (ev->_major == CORBA_NO_EXCEPTION && data) {
 			if (CORBA_TypeCode_equal (data->_type, TC_boolean, ev) && BONOBO_ARG_GET_BOOLEAN (data))
 				reply_indent (l, ev);
 			BONOBO_ARG_SET_BOOLEAN (data, CORBA_FALSE);
-			GNOME_HTMLEditor_Engine_setParagraphData (l->composer->editor_engine, "orig", data, ev);
+			GNOME_GtkHTML_Editor_Engine_setParagraphData (l->composer->editor_engine, "orig", data, ev);
 		}
 	} else if (!strcmp (name, "image_url")) {
 		gchar *url;
@@ -118,12 +118,12 @@ impl_event (PortableServer_Servant _servant,
 	return rv ? rv : get_any_null ();
 }
 
-POA_GNOME_HTMLEditor_Listener__epv *
-htmleditor_listener_get_epv (void)
+POA_GNOME_GtkHTML_Editor_Listener__epv *
+listener_get_epv (void)
 {
-	POA_GNOME_HTMLEditor_Listener__epv *epv;
+	POA_GNOME_GtkHTML_Editor_Listener__epv *epv;
 
-	epv = g_new0 (POA_GNOME_HTMLEditor_Listener__epv, 1);
+	epv = g_new0 (POA_GNOME_GtkHTML_Editor_Listener__epv, 1);
 
 	epv->event = impl_event;
 
@@ -134,11 +134,11 @@ static void
 init_listener_corba_class (void)
 {
 	listener_vepv.Bonobo_Unknown_epv            = bonobo_object_get_epv ();
-	listener_vepv.GNOME_HTMLEditor_Listener_epv = htmleditor_listener_get_epv ();
+	listener_vepv.GNOME_GtkHTML_Editor_Listener_epv = listener_get_epv ();
 }
 
 static void
-listener_class_init (HTMLEditorListenerClass *klass)
+listener_class_init (EditorListenerClass *klass)
 {
 	listener_parent_class = gtk_type_class (bonobo_object_get_type ());
 
@@ -146,15 +146,15 @@ listener_class_init (HTMLEditorListenerClass *klass)
 }
 
 GtkType
-htmleditor_listener_get_type (void)
+listener_get_type (void)
 {
 	static GtkType type = 0;
 
 	if (!type){
 		GtkTypeInfo info = {
-			"HTMLEditorListener",
-			sizeof (HTMLEditorListener),
-			sizeof (HTMLEditorListenerClass),
+			"EditorListener",
+			sizeof (EditorListener),
+			sizeof (EditorListenerClass),
 			(GtkClassInitFunc) listener_class_init,
 			(GtkObjectInitFunc) NULL,
 			NULL, /* reserved 1 */
@@ -168,11 +168,11 @@ htmleditor_listener_get_type (void)
 	return type;
 }
 
-HTMLEditorListener *
-htmleditor_listener_construct (HTMLEditorListener *listener, GNOME_HTMLEditor_Listener corba_listener)
+EditorListener *
+listener_construct (EditorListener *listener, GNOME_GtkHTML_Editor_Listener corba_listener)
 {
 	g_return_val_if_fail (listener != NULL, NULL);
-	g_return_val_if_fail (IS_HTMLEDITOR_LISTENER (listener), NULL);
+	g_return_val_if_fail (IS_EDITOR_LISTENER (listener), NULL);
 	g_return_val_if_fail (corba_listener != CORBA_OBJECT_NIL, NULL);
 
 	if (!bonobo_object_construct (BONOBO_OBJECT (listener), (CORBA_Object) corba_listener))
@@ -181,17 +181,17 @@ htmleditor_listener_construct (HTMLEditorListener *listener, GNOME_HTMLEditor_Li
 	return listener;
 }
 
-static GNOME_HTMLEditor_Listener
+static GNOME_GtkHTML_Editor_Listener
 create_listener (BonoboObject *listener)
 {
-	POA_GNOME_HTMLEditor_Listener *servant;
+	POA_GNOME_GtkHTML_Editor_Listener *servant;
 	CORBA_Environment ev;
 
-	servant = (POA_GNOME_HTMLEditor_Listener *) g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_GtkHTML_Editor_Listener *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &listener_vepv;
 
 	CORBA_exception_init (&ev);
-	POA_GNOME_HTMLEditor_Listener__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_GtkHTML_Editor_Listener__init ((PortableServer_Servant) servant, &ev);
 	ORBIT_OBJECT_KEY(servant->_private)->object = NULL;
 
 	if (ev._major != CORBA_NO_EXCEPTION){
@@ -202,16 +202,16 @@ create_listener (BonoboObject *listener)
 
 	CORBA_exception_free (&ev);
 
-	return (GNOME_HTMLEditor_Listener) bonobo_object_activate_servant (listener, servant);
+	return (GNOME_GtkHTML_Editor_Listener) bonobo_object_activate_servant (listener, servant);
 }
 
-HTMLEditorListener *
-htmleditor_listener_new (EMsgComposer *composer)
+EditorListener *
+listener_new (EMsgComposer *composer)
 {
-	HTMLEditorListener *listener;
-	GNOME_HTMLEditor_Listener corba_listener;
+	EditorListener *listener;
+	GNOME_GtkHTML_Editor_Listener corba_listener;
 
-	listener = gtk_type_new (HTMLEDITOR_LISTENER_TYPE);
+	listener = gtk_type_new (EDITOR_LISTENER_TYPE);
 	listener->composer = composer;
 
 	corba_listener = create_listener (BONOBO_OBJECT (listener));
@@ -221,5 +221,5 @@ htmleditor_listener_new (EMsgComposer *composer)
 		return NULL;
 	}
 	
-	return htmleditor_listener_construct (listener, corba_listener);
+	return listener_construct (listener, corba_listener);
 }

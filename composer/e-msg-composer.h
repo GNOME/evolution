@@ -32,7 +32,7 @@ typedef struct _EMsgComposerClass  EMsgComposerClass;
 
 #include "e-msg-composer-attachment-bar.h"
 #include "e-msg-composer-hdrs.h"
-#include "HTMLEditor.h"
+#include "Editor.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -65,7 +65,7 @@ struct _EMsgComposer {
 	
 	Bonobo_PersistFile       persist_file_interface;
 	Bonobo_PersistStream     persist_stream_interface;
-	GNOME_HTMLEditor_Engine  editor_engine;
+	GNOME_GtkHTML_Editor_Engine  editor_engine;
 	BonoboObject            *editor_listener;
 	GHashTable              *inline_images;
 

@@ -11,16 +11,18 @@ IDL_GENERATED =			\
 	Composer-stubs.c
 
 HTML_EDITOR_GENERATED =		\
-	HTMLEditor.h		\
-	HTMLEditor-common.c	\
-	HTMLEditor-skels.c	\
-	HTMLEditor-stubs.c
+	Editor.h		\
+	Editor-common.c	\
+	Editor-skels.c	\
+	Editor-stubs.c
 
 selectnamesdir = $(top_srcdir)/addressbook/gui/component/select-names
 
 $(IDL_GENERATED): $(IDLS) $(selectnamesdir)/Evolution-Addressbook-SelectNames.idl
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
 		-I $(selectnamesdir)  $(srcdir)/Composer.idl
+
+Editor-commmon.c:	$(GTK_HTML_EDITOR_IDL)
 
 $(HTML_EDITOR_GENERATED): $(GTK_HTML_EDITOR_IDL)
 	$(ORBIT_IDL) -I $(srcdir) `$(GNOME_CONFIG) --cflags idl` $(GTK_HTML_EDITOR_IDL)

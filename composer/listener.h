@@ -25,31 +25,31 @@
 
 #include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-object.h>
-#include "HTMLEditor.h"
+#include "Editor.h"
 #include "e-msg-composer.h"
 
 BEGIN_GNOME_DECLS
 
-#define HTMLEDITOR_LISTENER_TYPE        (htmleditor_listener_get_type ())
-#define HTMLEDITOR_LISTENER(o)          (GTK_CHECK_CAST ((o), HTMLEDITOR_LISTENER_TYPE, HTMLEditorListener))
-#define HTMLEDITOR_LISTENER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), HTMLEDITOR_LISTENER_TYPE, HTMLEditorListenerClass))
-#define IS_HTMLEDITOR_LISTENER(o)       (GTK_CHECK_TYPE ((o), HTMLEDITOR_LISTENER_TYPE))
-#define IS_HTMLEDITOR_LISTENER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), HTMLEDITOR_LISTENER_TYPE))
+#define EDITOR_LISTENER_TYPE        (listener_get_type ())
+#define EDITOR_LISTENER(o)          (GTK_CHECK_CAST ((o), EDITOR_LISTENER_TYPE, EditorListener))
+#define EDITOR_LISTENER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), EDITOR_LISTENER_TYPE, EditorListenerClass))
+#define IS_EDITOR_LISTENER(o)       (GTK_CHECK_TYPE ((o), EDITOR_LISTENER_TYPE))
+#define IS_EDITOR_LISTENER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), EDITOR_LISTENER_TYPE))
 
 typedef struct {
 	BonoboObject parent;
 	EMsgComposer *composer;
-} HTMLEditorListener;
+} EditorListener;
 
 typedef struct {
 	BonoboObjectClass parent_class;
-} HTMLEditorListenerClass;
+} EditorListenerClass;
 
-GtkType                             htmleditor_listener_get_type   (void);
-HTMLEditorListener                 *htmleditor_listener_construct  (HTMLEditorListener        *listener,
-								    GNOME_HTMLEditor_Listener  corba_listener);
-HTMLEditorListener                 *htmleditor_listener_new        (EMsgComposer              *composer);
-POA_GNOME_HTMLEditor_Listener__epv *htmleditor_listener_get_epv    (void);
+GtkType                                 listener_get_type   (void);
+EditorListener                         *listener_construct  (EditorListener                *listener,
+									GNOME_GtkHTML_Editor_Listener  corba_listener);
+EditorListener                         *listener_new        (EMsgComposer                  *composer);
+POA_GNOME_GtkHTML_Editor_Listener__epv *listener_get_epv    (void);
 
 END_GNOME_DECLS
 
