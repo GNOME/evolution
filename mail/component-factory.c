@@ -42,6 +42,7 @@
 #include "mail-session.h"
 #include "mail-mt.h"
 #include "mail-importer.h"
+#include "mail-vfolder.h"             /* vfolder_create_storage */
 #include "openpgp-utils.h"
 #include <gal/widgets/e-gui-utils.h>
 
@@ -53,8 +54,6 @@ CamelFolder *drafts_folder = NULL;
 CamelFolder *outbox_folder = NULL;
 CamelFolder *sent_folder = NULL;     /* this one should be configurable? */
 char *evolution_dir;
-
-static void create_vfolder_storage (EvolutionShellComponent *shell_component);
 
 #define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ShellComponentFactory"
 #define SUMMARY_FACTORY_ID   "OAFIID:GNOME_Evolution_Mail_ExecutiveSummaryComponentFactory"
@@ -191,7 +190,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	storages_hash = g_hash_table_new (NULL, NULL);
 
-	create_vfolder_storage (shell_component);
+	vfolder_create_storage (shell_component);
 
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 	
@@ -295,15 +294,6 @@ component_factory_init (void)
 			  _("Cannot initialize Evolution's mail component."));
 		exit (1);
 	}
-}
-
-/* FIXME: remove */
-static void
-create_vfolder_storage (EvolutionShellComponent *shell_component)
-{
-	void vfolder_create_storage(EvolutionShellComponent *shell_component);
-
-	vfolder_create_storage(shell_component);
 }
 
 static void

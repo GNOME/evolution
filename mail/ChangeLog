@@ -1,3 +1,11 @@
+2001-01-26  Jason Leach  <jasonleach@usa.net>
+
+	(Fixing an old FIXME)
+	
+	* component-factory.c (create_vfolder_storage): removing
+	create_vfolder_storage, replacing call to it with
+	vfolder_create_storage.
+
 2001-01-26  Not Zed  <NotZed@Ximian.com>
 
 	* message-list.c (build_tree): Define BROKEN_ETREE again, till we
