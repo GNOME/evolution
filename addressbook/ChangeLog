@@ -1,3 +1,11 @@
+2004-11-28  S.Çaglar Onur  <caglar@uludag.org.tr>
+
+	* evolution-2.0.2/addressbook/gui/contact-editor/e-contact-editor.c
+	(get_ui_slot_param)
+	(get_attributes_named): some strcasecmp() calls changed with
+	g_ascii_strcasecmp() for Turkish character conversiton problems
+	[ http://www.i18nguy.com/unicode/turkish-i18n.html ]
+
 2004-11-07  Sivaiah Nallagatla <snallagatla@novell.com>
                                                                                                                              
        * util/eab-book-util.c (eab_name_and_email_query) :
