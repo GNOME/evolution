@@ -1,15 +1,15 @@
-# Evolution --- Big5 Translation
+# traditional chinese translation of Evolution.
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Joe Man <trmetal@yahoo.com.hk>, 2001.
 # Jau-Shiung Liau <pesder@seed.net.tw>, 2001.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 0.14\n"
+"Project-Id-Version: evolution\n"
 "POT-Creation-Date: 2001-09-08 08:58-0800\n"
 "PO-Revision-Date: 2001-09-10 09:55+0800\n"
 "Last-Translator: Joe Man <trmetal@yahoo.com.hk>\n"
-"Language-Team: traditional Chinese <zh-l10n@linux.org.tw>\n"
+"Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=big5\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -6316,9 +6316,9 @@ msgid ""
 "Further operations on this server will not be replayed when you\n"
 "reconnect to the network."
 msgstr ""
-"不能寫入記錄： %s\n"
-"接下來在此伺服器上的操作在您重新連線到網路時\n"
-"將不會重播"
+"無法寫入紀錄： %s\n"
+"接下來在此伺服器上的操作，在您重新連線到網路時\n"
+"將不會重播。"
 
 #: camel/camel-disco-diary.c:244
 #, c-format
@@ -11079,7 +11079,7 @@ msgid ""
 "Error while performing operation:\n"
 "%s"
 msgstr ""
-"當執行這個動作時失敗：\n"
+"當執行這個動作時發生錯誤：\n"
 "%s"
 
 # addressbook/gui/component/addressbook-config.c:352
@@ -11297,7 +11297,7 @@ msgstr "未命名的郵件"
 # widgets/misc/e-messagebox.c:180
 #: mail/mail-search.c:245
 msgid "Empty Message"
-msgstr "空的郵件"
+msgstr "無內容的郵件"
 
 # mail/mail-search.c:268
 #: mail/mail-search.c:292
@@ -11307,7 +11307,7 @@ msgstr "在郵件內尋找"
 # mail/mail-search.c:298
 #: mail/mail-search.c:322
 msgid "Case Sensitive"
-msgstr "大小寫需相符"
+msgstr "區分大小寫"
 
 # mail/mail-search.c:299
 #: mail/mail-search.c:324
@@ -16280,4 +16280,5 @@ msgstr "init_corba()：不能初始化 GNOME"
 #: wombat/wombat.c:198
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo()：不能初始化 Bonobo"
+
 

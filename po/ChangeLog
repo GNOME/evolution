@@ -1,3 +1,9 @@
+2001-10-29  Abel Cheung  <maddog@linux.org.hk>
+
+	* zh_TW.po: Strip extra \r at end of each line, so that
+	  GTP status report shows it correctly. (Thanks Joe Man
+	  <trmetal@yahoo.com.hk>)
+
 2001-10-28  Matthias Warkus  <mawarkus@gnome.org>
 
 	* de.po: Updated translation for string freeze. Hopefully
