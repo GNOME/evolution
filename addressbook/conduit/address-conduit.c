@@ -145,17 +145,25 @@ static int
 start_address_server (GnomePilotConduitStandardAbs *conduit,
 		      AddressbookConduitContext *ctxt)
 {
-	
+	gchar *uri, *path;
+
 	g_return_val_if_fail(conduit!=NULL,-2);
 	g_return_val_if_fail(ctxt!=NULL,-2);
 
 	ctxt->ebook = e_book_new ();
 
-	e_book_load_uri (ctxt->ebook, "file:/home/toshok/evolution/local/Contacts", book_open_cb, ctxt);
+	path = g_concat_dir_and_file (g_get_home_dir (),
+				      "evolution/local/Contacts");
+	uri = g_strdup_printf ("file:%s", path);
+	g_free (path);
+
+	e_book_load_uri (ctxt->ebook, uri, book_open_cb, ctxt);
 
 	/* run a sub event loop to turn ebook's async loading into a
            synchronous call */
 	gtk_main ();
+
+	g_free (uri);
 
 	if (ctxt->address_load_success)
 		return 0;

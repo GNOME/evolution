@@ -1,3 +1,8 @@
+2000-07-25  Chris Toshok  <toshok@helixcode.com>
+
+	* conduit/address-conduit.c (start_address_server): use the user's
+	Contact db.  not toshok's.
+
 2000-07-25  Michael Meeks  <michael@helixcode.com>
 
 	* backend/ebook/load-pine-addressbook.c (book_open_cb): check we
