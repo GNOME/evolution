@@ -93,10 +93,8 @@ static gboolean e_calendar_focus (GtkWidget *widget,
 
 static void e_calendar_on_prev_pressed	(ECalendar	*cal);
 static void e_calendar_on_prev_released	(ECalendar	*cal);
-static void e_calendar_on_prev_clicked	(ECalendar	*cal);
 static void e_calendar_on_next_pressed	(ECalendar	*cal);
 static void e_calendar_on_next_released	(ECalendar	*cal);
-static void e_calendar_on_next_clicked	(ECalendar	*cal);
 
 static void e_calendar_start_auto_move	(ECalendar	*cal,
 					 gboolean	 moving_forward);
@@ -167,9 +165,6 @@ e_calendar_init (ECalendar *cal)
 	gtk_signal_connect_object (GTK_OBJECT (button), "released",
 				   G_CALLBACK (e_calendar_on_prev_released),
 				   GTK_OBJECT (cal));
-	gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
-				   G_CALLBACK (e_calendar_on_prev_clicked),
-				   GTK_OBJECT (cal));
 
 	pixmap = gtk_arrow_new (GTK_ARROW_LEFT, GTK_SHADOW_NONE);
 	gtk_widget_show (pixmap);
@@ -188,9 +183,6 @@ e_calendar_init (ECalendar *cal)
 				   GTK_OBJECT (cal));
 	gtk_signal_connect_object (GTK_OBJECT (button), "released",
 				   G_CALLBACK (e_calendar_on_next_released),
-				   GTK_OBJECT (cal));
-	gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
-				   G_CALLBACK (e_calendar_on_next_clicked),
 				   GTK_OBJECT (cal));
 
 	pixmap = gtk_arrow_new (GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
@@ -441,23 +433,9 @@ e_calendar_on_prev_pressed	(ECalendar	*cal)
 }
 
 static void
-e_calendar_on_prev_clicked	(ECalendar	*cal)
-{
-	e_calendar_item_set_first_month (cal->calitem, cal->calitem->year,
-					 cal->calitem->month - 1);
-}
-
-static void
 e_calendar_on_next_pressed	(ECalendar	*cal)
 {
 	e_calendar_start_auto_move (cal, TRUE);
-}
-
-static void
-e_calendar_on_next_clicked	(ECalendar	*cal)
-{
-	e_calendar_item_set_first_month (cal->calitem, cal->calitem->year,
-					 cal->calitem->month + 1);
 }
 
 static void
