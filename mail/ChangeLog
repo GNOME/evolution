@@ -1,3 +1,19 @@
+2000-10-09  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* folder-browser.c: Don't #include "mail-search-dialogue.h" as
+	it's missing from the repository.
+	(search_full_clicked): Temporarily `#if 0'ed out.
+	(search_full): Likewise.
+	(folder_browser_gui_init): Don't connect `search_full'.
+	(create_option_menu): Don't connect `search_menu_deactivate'.
+	(folder_browser_gui_init): Don't connect `search_activate'.
+	(search_set): Don't do `search_full()'.
+	(folder_browser_gui_init): Likewise.
+
+	* Makefile.am (evolution_mail_SOURCES): Remove
+	`mail-search-dialogue.h' and `mail-search-dialogue.c' as NotZed
+	forgot to put them into CVS.
+
 2000-10-06  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-search-dialogue.c: New widget, full search dialogue for
