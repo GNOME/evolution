@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 2.2.0, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 2.2.1.1, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -45,7 +45,7 @@ dnl The controls whether things like the development warning in shell/main.c are
 dnl
 dnl This should be set to 0 for stable releases and 1 for unstable releases
 dnl *************************************************************************************************
-AC_DEFINE(DEVELOPMENT, 1, [If we are in development mode or not])
+AC_DEFINE(DEVELOPMENT, 0, [If we are in development mode or not])
 AC_SUBST(DEVELOPMENT)
 
 AC_ISC_POSIX
@@ -78,7 +78,7 @@ AC_SUBST(HAVE_JW)
 dnl I18N stuff
 AC_PROG_INTLTOOL([0.30])
 
-ALL_LINGUAS="am ar az be bg bs ca cs cy da de el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hr hu is it ja ko lt lv mn ms nb ne nl nn no pa pl pt pt_BR ro ru sk sl sq sr sr@Latn sv tr uk vi wa zh_CN zh_TW"
+ALL_LINGUAS="am ar az be bg bs ca cs cy da de el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hr hu is it ja ko lt lv mn ms nb nl nn no pa pl pt pt_BR ro ru sk sl sq sr sr@Latn sv tr uk vi wa zh_CN zh_TW"
 AM_GLIB_GNU_GETTEXT
 
 GETTEXT_PACKAGE=evolution-2.2
@@ -1098,11 +1098,11 @@ fi
 
 dnl --- Required version numbers
 
-GAL_REQUIRED=2.4.0
+GAL_REQUIRED=2.4.1
 GAL_PACKAGE=2.4
-GTKHTML_REQUIRED=3.6.0
+GTKHTML_REQUIRED=3.6.1
 GTKHTML_PACKAGE=3.6
-EDS_REQUIRED=1.2.0
+EDS_REQUIRED=1.2.1
 EDS_PACKAGE=1.2
 BONOBOUI_REQUIRED=2.4.2
 GNOME_VFS_REQUIRED=2.4
@@ -1386,7 +1386,7 @@ then
 fi
 
 if echo ${plugins_enabled} | grep -q "new-mail-notify" ; then
-	if ${PKG_CONFIG} --exists dbus-glib-1 ; then
+	if ${PKG_CONFIG} --max-version=0.23.4 dbus-glib-1 ; then
 		dnl **************************************************
 		dnl * New Mail Notify plugin
 		dnl **************************************************

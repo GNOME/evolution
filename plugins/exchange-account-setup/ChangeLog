@@ -1,6 +1,6 @@
 2005-03-17  Sushma Rai  <rsushma@novell.com>
 
-	* exchange-account-setup.c (exchange_authtype_changed): Setting the 
+	* exchange-account-setup.c (exchange_authtype_changed): Setting the
 	authentication mechanism to both transport and source urls.
 
 2005-03-05  Sushma Rai  <rsushma@novell.com>

@@ -89,10 +89,6 @@
 #include "e-util/e-plugin-mono.h"
 #endif
 
-#ifndef DEVELOPMENT
-#define DEVELOPMENT (1)
-#endif
-
 static EShell *shell = NULL;
 
 /* Command-line options.  */
@@ -100,7 +96,7 @@ static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
 static gboolean setup_only = FALSE;
 static gboolean killev = FALSE;
-#ifdef DEVELOPMENT
+#if DEVELOPMENT
 static gboolean force_migrate = FALSE;
 #endif
 #ifdef ENABLE_MONO
@@ -182,7 +178,7 @@ kill_old_dataserver (void)
 #endif
 
 
-#ifdef DEVELOPMENT
+#if DEVELOPMENT
 
 /* Warning dialog to scare people off a little bit.  */
 
@@ -480,7 +476,7 @@ main (int argc, char **argv)
 		{ "force-shutdown", '\0', POPT_ARG_NONE, &killev, 0, 
 		  N_("Forcibly shut down all Evolution components"), NULL },
 #endif
-#ifdef DEVELOPMENT
+#if DEVELOPMENT
 		{ "force-migrate", '\0', POPT_ARG_NONE, &force_migrate, 0, 
 		  N_("Forcibly re-migrate from Evolution 1.4"), NULL },
 #endif
@@ -496,7 +492,7 @@ main (int argc, char **argv)
 		  &setup_only, 0, NULL, NULL },
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
 	};
-#ifdef DEVELOPMENT
+#if DEVELOPMENT
 	GConfClient *client;
 	gboolean skip_warning_dialog;
 #endif
@@ -533,7 +529,7 @@ main (int argc, char **argv)
 		exit (0);
 	}
 
-#ifdef DEVELOPMENT
+#if DEVELOPMENT
 	if (force_migrate) {
 		destroy_config ();
 	}
@@ -600,7 +596,7 @@ main (int argc, char **argv)
 		e_plugin_load_plugins();
 	}
 
-#ifdef DEVELOPMENT
+#if DEVELOPMENT
 	client = gconf_client_get_default ();
 	skip_warning_dialog = gconf_client_get_bool (client, "/apps/evolution/shell/skip_warning_dialog", NULL);
 	g_object_unref (client);

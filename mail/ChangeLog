@@ -1,27 +1,11 @@
-2005-03-16  Jeffrey Stedfast  <fejj@novell.com>
-
-	* em-format-html.c (efh_format_headers): Don't show multiple
-	"Mailer" headers even if multiple x-mailer/user-agent/whatever
-	headers exist. Fixes bug #70394.
-
 2005-03-16  Not Zed  <NotZed@Ximian.com>
-
-	** See bug #73363
-
-	* em-folder-view.c (emfv_list_message_selected): insert a timeout
-	before loading the message.
-	(emfv_message_selected_timeout): handle the timeout, start loading
-	the message.
-	(emfv_set_folder, emfv_destroy): cleanups for above.
-
-2005-03-16  Not Zed  <NotZed@Ximian.com>
-
-	** See bug #73559
+ 
+ 	** See bug #73559
+ 	
+ 	* em-filter-source-element.c
+ 	(em_filter_source_element_get_sources): check the url != "" and decoded
+ 	before using it.
 	
-	* em-filter-source-element.c
-	(em_filter_source_element_get_sources): check the url != "" and decoded
-	before using it.
-
 2005-03-16  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #71003, again.

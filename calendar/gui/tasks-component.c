@@ -196,6 +196,17 @@ ensure_sources (TasksComponent *component)
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (on_this_computer, source, -1);
 
+		if (!calendar_config_get_primary_tasks () && !calendar_config_get_tasks_selected ()) {
+			GSList selected;
+
+			calendar_config_set_primary_tasks (e_source_peek_uid (source));
+
+			selected.data = (gpointer)e_source_peek_uid (source);
+			selected.next = NULL;
+			calendar_config_set_tasks_selected (&selected);
+		}
+
+		e_source_set_color (source, 0xBECEDD);
 		personal_source = source;
 	}
 
