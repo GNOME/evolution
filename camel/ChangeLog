@@ -1,3 +1,22 @@
+2003-07-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.h: Add the CamelMimePartEncodingType definition
+	here.
+
+	* camel-mime-part.h: Remove the CamelMimePartEncodingType
+	definition.
+
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): Don't do any of the
+	auto-detection we used to do here anymore. Just read the content
+	into a memory buffer and record the encoding type.
+	(camel_mime_part_construct_content_from_parser): Don't mangle the
+	Content-Type struct here anymore.
+
+	* camel-data-wrapper.c (camel_data_wrapper_init): Init encoding to
+	DEFAULT.
+	(write_to_stream): If the stream needs to be decoded, decode it.
+
 2003-07-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-stream-fs.c (stream_read): If we read 0 bytes, then set

@@ -28,8 +28,9 @@
 #include <errno.h>
 
 #include "camel-data-wrapper.h"
-#include "camel-mime-utils.h"
 #include "camel-stream.h"
+#include "camel-stream-filter.h"
+#include "camel-mime-filter-basic.h"
 #include "camel-exception.h"
 #include "camel-private.h"
 
@@ -72,8 +73,8 @@ camel_data_wrapper_init (gpointer object, gpointer klass)
 	pthread_mutex_init (&camel_data_wrapper->priv->stream_lock, NULL);
 	
 	camel_data_wrapper->mime_type = header_content_type_new ("application", "octet-stream");
+	camel_data_wrapper->encoding = CAMEL_MIME_PART_ENCODING_DEFAULT;
 	camel_data_wrapper->offline = FALSE;
-	camel_data_wrapper->rawtext = TRUE;
 }
 
 static void
@@ -89,30 +90,33 @@ camel_data_wrapper_finalize (CamelObject *object)
 		header_content_type_unref (camel_data_wrapper->mime_type);
 	
 	if (camel_data_wrapper->stream)
-		camel_object_unref (CAMEL_OBJECT (camel_data_wrapper->stream));
+		camel_object_unref (camel_data_wrapper->stream);
 }
 
 CamelType
 camel_data_wrapper_get_type (void)
 {
-	static CamelType camel_data_wrapper_type = CAMEL_INVALID_TYPE;
-
-	if (camel_data_wrapper_type == CAMEL_INVALID_TYPE) {
-		camel_data_wrapper_type = camel_type_register (CAMEL_OBJECT_TYPE, "CamelDataWrapper",
-							       sizeof (CamelDataWrapper),
-							       sizeof (CamelDataWrapperClass),
-							       (CamelObjectClassInitFunc) camel_data_wrapper_class_init,
-							       NULL,
-							       (CamelObjectInitFunc) camel_data_wrapper_init,
-							       (CamelObjectFinalizeFunc) camel_data_wrapper_finalize);
+	static CamelType type = CAMEL_INVALID_TYPE;
+	
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (CAMEL_OBJECT_TYPE,
+					    "CamelDataWrapper",
+					    sizeof (CamelDataWrapper),
+					    sizeof (CamelDataWrapperClass),
+					    (CamelObjectClassInitFunc) camel_data_wrapper_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_data_wrapper_init,
+					    (CamelObjectFinalizeFunc) camel_data_wrapper_finalize);
 	}
-
-	return camel_data_wrapper_type;
+	
+	return type;
 }
 
 static int
 write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
+	CamelMimeFilter *filter;
+	CamelStream *fstream;
 	int ret;
 	
 	if (data_wrapper->stream == NULL) {
@@ -125,7 +129,31 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		return -1;
 	}
 	
-	ret = camel_stream_write_to_stream (data_wrapper->stream, stream);
+	fstream = (CamelStream *) camel_stream_filter_new_with_stream (data_wrapper->stream);
+	
+	switch (data_wrapper->encoding) {
+	case CAMEL_MIME_PART_ENCODING_BASE64:
+		filter = (CamelMimeFilter *) camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_BASE64_DEC);
+		camel_stream_filter_add (CAMEL_STREAM_FILTER (fstream), filter);
+		camel_object_unref (filter);
+		break;
+	case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
+		filter = (CamelMimeFilter *) camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_QP_DEC);
+		camel_stream_filter_add (CAMEL_STREAM_FILTER (fstream), filter);
+		camel_object_unref (filter);
+		break;
+	case CAMEL_MIME_PART_ENCODING_UUENCODE:
+		filter = (CamelMimeFilter *) camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_UU_DEC);
+		camel_stream_filter_add (CAMEL_STREAM_FILTER (fstream), filter);
+		camel_object_unref (filter);
+		break;
+	default:
+		break;
+	}
+	
+	ret = camel_stream_write_to_stream (fstream, stream);
+	camel_object_unref (fstream);
+	
 	CAMEL_DATA_WRAPPER_UNLOCK (data_wrapper, stream_lock);
 	
 	return ret;
@@ -164,10 +192,10 @@ static int
 construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	if (data_wrapper->stream)
-		camel_object_unref((CamelObject *)data_wrapper->stream);
-
+		camel_object_unref (data_wrapper->stream);
+	
 	data_wrapper->stream = stream;
-	camel_object_ref (CAMEL_OBJECT (stream));
+	camel_object_ref (stream);
 	return 0;
 }
 
@@ -193,7 +221,7 @@ camel_data_wrapper_construct_from_stream (CamelDataWrapper *data_wrapper,
 
 
 static void
-set_mime_type (CamelDataWrapper *data_wrapper, const gchar *mime_type)
+set_mime_type (CamelDataWrapper *data_wrapper, const char *mime_type)
 {
 	if (data_wrapper->mime_type)
 		header_content_type_unref (data_wrapper->mime_type);
@@ -214,7 +242,7 @@ set_mime_type (CamelDataWrapper *data_wrapper, const gchar *mime_type)
  **/
 void
 camel_data_wrapper_set_mime_type (CamelDataWrapper *data_wrapper,
-				  const gchar *mime_type)
+				  const char *mime_type)
 {
 	g_return_if_fail (CAMEL_IS_DATA_WRAPPER (data_wrapper));
 	g_return_if_fail (mime_type != NULL);
@@ -222,7 +250,7 @@ camel_data_wrapper_set_mime_type (CamelDataWrapper *data_wrapper,
 	CDW_CLASS (data_wrapper)->set_mime_type (data_wrapper, mime_type);
 }
 
-static gchar *
+static char *
 get_mime_type (CamelDataWrapper *data_wrapper)
 {
 	return header_content_type_simple (data_wrapper->mime_type);
@@ -235,7 +263,7 @@ get_mime_type (CamelDataWrapper *data_wrapper)
  * Return value: the text form of the data wrapper's MIME type,
  * which the caller must free.
  **/
-gchar *
+char *
 camel_data_wrapper_get_mime_type (CamelDataWrapper *data_wrapper)
 {
 	g_return_val_if_fail (CAMEL_IS_DATA_WRAPPER (data_wrapper), NULL);

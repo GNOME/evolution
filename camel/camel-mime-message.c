@@ -6,7 +6,7 @@
  *	    Michael Zucchi <notzed@ximian.com>
  *          Jeffrey Stedfast <fejj@ximian.com>
  *
- * Copyright 1999, 2000 Ximian, Inc. (www.ximian.com)
+ * Copyright 1999-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of version 2 of the GNU General Public 
@@ -750,7 +750,7 @@ find_best_encoding (CamelMimePart *part, CamelBestencRequired required, CamelBes
 		
 		d(printf("have charset, trying conversion/etc\n"));
 		
-		/* now the 'bestenc' can has told us what the best encoding is, we can use that to create
+		/* now that 'bestenc' has told us what the best encoding is, we can use that to create
 		   a charset conversion filter as well, and then re-add the bestenc to filter the
 		   result to find the best encoding to use as well */
 		
