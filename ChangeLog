@@ -1,3 +1,7 @@
+2001-03-04  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Added views/addressbook/Makefile.
+
 2001-03-02  JP Rosevear  <jpr@ximian.com>
 
 	* art/Makefile.am: install conduit icons
