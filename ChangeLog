@@ -1,3 +1,7 @@
+2002-07-09    <jpr@ximian.com>
+
+	* configure.in: re-order nss and nspr flags
+
 2002-07-03  Peter Williams  <peterw@ximian.com>
 
 	* README: Fix the URL for the DB 3.1.17 package; it's moved.
