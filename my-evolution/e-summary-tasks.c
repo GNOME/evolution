@@ -384,7 +384,7 @@ generate_html (gpointer data)
 				tmp = g_strdup_printf ("<img align=\"middle\" src=\"task.png\" "
 						       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
 						       "<a href=\"tasks:/%s\"><font size=\"-1\" color=\"%s\">%s</font></a><br>", 
-						       uid, colour, text.value ? text.value : _("(No Description)"));
+						       uid, colour ? colour : _("blue"), text.value ? text.value : _("(No Description)"));
 			} else {
 #if 0
 				tmp = g_strdup_printf ("<img align=\"middle\" src=\"task.xpm\" "
