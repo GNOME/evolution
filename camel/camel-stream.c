@@ -84,8 +84,8 @@ camel_stream_get_type (void)
  * Return value: number of bytes actually read, or -1 on error and
  * set errno.
  **/
-int
-camel_stream_read (CamelStream *stream, char *buffer, unsigned int n)
+ssize_t
+camel_stream_read (CamelStream *stream, char *buffer, size_t n)
 {
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
 	g_return_val_if_fail (n == 0 || buffer, -1);
@@ -104,8 +104,8 @@ camel_stream_read (CamelStream *stream, char *buffer, unsigned int n)
  * Return value: the number of bytes actually written to the stream,
  * or -1 on error.
  **/
-int
-camel_stream_write (CamelStream *stream, const char *buffer, unsigned int n)
+ssize_t
+camel_stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
 	g_return_val_if_fail (n == 0 || buffer, -1);
@@ -216,7 +216,7 @@ camel_stream_reset (CamelStream *stream)
  *
  * Return value: the number of characters output, -1 on error.
  **/
-int
+ssize_t
 camel_stream_write_string (CamelStream *stream, const char *string)
 {
 	return camel_stream_write (stream, string, strlen (string));
@@ -231,7 +231,7 @@ camel_stream_write_string (CamelStream *stream, const char *string)
  *
  * Return value: the number of characters output, -1 on error.
  **/
-int
+ssize_t
 camel_stream_printf (CamelStream *stream, const char *fmt, ... )
 {
 	va_list args;
@@ -263,13 +263,13 @@ camel_stream_printf (CamelStream *stream, const char *fmt, ... )
  * Return value: Returns -1 on error, or the number of bytes succesfully
  * copied across streams.
  **/
-int
+ssize_t
 camel_stream_write_to_stream (CamelStream *stream, CamelStream *output_stream)
 {
 	char tmp_buf[4096];
-	int total = 0;
-	int nb_read;
-	int nb_written;
+	ssize_t total = 0;
+	ssize_t nb_read;
+	ssize_t nb_written;
 
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
 	g_return_val_if_fail (CAMEL_IS_STREAM (output_stream), -1);
@@ -282,7 +282,8 @@ camel_stream_write_to_stream (CamelStream *stream, CamelStream *output_stream)
 			nb_written = 0;
 
 			while (nb_written < nb_read) {
-				int len = camel_stream_write (output_stream, tmp_buf + nb_written, nb_read - nb_written);
+				ssize_t len = camel_stream_write (output_stream, tmp_buf + nb_written,
+								  nb_read - nb_written);
 				if (len < 0)
 					return -1;
 				nb_written += len;

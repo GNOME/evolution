@@ -1,5 +1,7 @@
 2000-07-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* camel-stream.c: Use size_t and ssize_t for read/write methods
+	
 	* providers/imap/camel-imap-folder.c (imap_set_message_flags): 
 	Updated to emit the message_changed signal.
 	(imap_delete_message): Updated to use imap_set_message_flags ().

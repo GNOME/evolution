@@ -251,6 +251,3 @@ stream_seek (CamelSeekableStream *stream, off_t offset,
 
 	return position;
 }
-
-
-
