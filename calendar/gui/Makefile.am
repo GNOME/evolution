@@ -119,6 +119,8 @@ evolution_calendar_SOURCES =			\
 	e-meeting-time-sel-item.c		\
 	e-meeting-time-sel-item.h		\
 	e-meeting-types.h			\
+	e-meeting-utils.c			\
+	e-meeting-utils.h			\
 	e-week-view-event-item.c		\
 	e-week-view-event-item.h		\
 	e-week-view-layout.c			\

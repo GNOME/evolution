@@ -50,24 +50,11 @@
 #include "Evolution-Addressbook-SelectNames.h"
 #include "calendar-config.h"
 #include "itip-utils.h"
+#include "e-meeting-utils.h"
 #include "e-meeting-attendee.h"
 #include "e-meeting-model.h"
 
 #define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
-
-enum columns {
-	ITIP_ADDRESS_COL,
-	ITIP_MEMBER_COL,
-	ITIP_TYPE_COL,
-	ITIP_ROLE_COL,
-	ITIP_RSVP_COL,
-	ITIP_DELTO_COL,
-	ITIP_DELFROM_COL,
-	ITIP_STATUS_COL,
-	ITIP_CN_COL,
-	ITIP_LANGUAGE_COL,
-	ITIP_COLUMN_COUNT
-};
 
 struct _EMeetingModelPrivate 
 {
@@ -81,10 +68,9 @@ struct _EMeetingModelPrivate
 	gboolean book_loaded;
 	gboolean book_load_wait;
 
-	GList *refresh_callbacks;
-	GList *refresh_data;
-	gint refresh_count;
-	gboolean refreshing;
+	GPtrArray *refresh_queue;
+	GHashTable *refresh_data;
+	gint refresh_idle_id;
 
 	/* For invite others dialogs */
         GNOME_Evolution_Addressbook_SelectNames corba_select_names;
@@ -103,25 +89,36 @@ static icalparameter_role roles[] = {ICAL_ROLE_CHAIR,
 				     ICAL_ROLE_NONPARTICIPANT,
 				     ICAL_ROLE_NONE};
 
-typedef struct _EMeetingModelAttendeeRefreshData EMeetingModelAttendeeRefreshData;
-struct _EMeetingModelAttendeeRefreshData {
+typedef struct _EMeetingModelQueueData EMeetingModelQueueData;
+struct _EMeetingModelQueueData {
+	EMeetingModel *im;
+	EMeetingAttendee *ia;
+
+	gboolean refreshing;
+	
+	EMeetingTime start;
+	EMeetingTime end;
+
 	char buffer[BUF_SIZE];
 	GString *string;
-
-	EMeetingAttendee *ia;
-};
-
-typedef struct _EMeetingModelRefreshData EMeetingModelRefreshData;
-struct _EMeetingModelRefreshData {
-	EMeetingModel *im;
 	
-	EMeetingModelAttendeeRefreshData attendee_data;
+	GPtrArray *call_backs;
+	GPtrArray *data;
 };
 
 
 static void class_init	(EMeetingModelClass	 *klass);
 static void init	(EMeetingModel		 *model);
 static void destroy	(GtkObject *obj);
+
+static void refresh_queue_add (EMeetingModel *im, int row,
+			       EMeetingTime *start,
+			       EMeetingTime *end,
+			       EMeetingModelRefreshCallback call_back,
+			       gpointer data);
+static void refresh_queue_remove (EMeetingModel *im,
+				  EMeetingAttendee *ia);
+static gboolean refresh_busy_periods (gpointer data);
 
 static void attendee_changed_cb (EMeetingAttendee *ia, gpointer data);
 static void select_names_ok_cb (BonoboListener    *listener,
@@ -363,7 +360,7 @@ partstat_to_text (icalparameter_partstat partstat)
 static int
 column_count (ETableModel *etm)
 {
-	return ITIP_COLUMN_COUNT;
+	return E_MEETING_MODEL_COLUMN_COUNT;
 }
 
 static int
@@ -389,7 +386,7 @@ append_row (ETableModel *etm, ETableModel *source, int row)
 	im = E_MEETING_MODEL (etm);	
 	priv = im->priv;
 	
-	address = (char *) e_table_model_value_at (source, ITIP_ADDRESS_COL, row);
+	address = (char *) e_table_model_value_at (source, E_MEETING_MODEL_ADDRESS_COL, row);
 	if (find_match (im, address, NULL) != NULL) {
 		return;
 	}
@@ -397,15 +394,15 @@ append_row (ETableModel *etm, ETableModel *source, int row)
 	ia = E_MEETING_ATTENDEE (e_meeting_attendee_new ());
 	
 	e_meeting_attendee_set_address (ia, g_strdup_printf ("MAILTO:%s", address));
-	e_meeting_attendee_set_member (ia, g_strdup (e_table_model_value_at (source, ITIP_MEMBER_COL, row)));
-	e_meeting_attendee_set_cutype (ia, text_to_type (e_table_model_value_at (source, ITIP_TYPE_COL, row)));
-	e_meeting_attendee_set_role (ia, text_to_role (e_table_model_value_at (source, ITIP_ROLE_COL, row)));
-	e_meeting_attendee_set_rsvp (ia, text_to_boolean (e_table_model_value_at (source, ITIP_RSVP_COL, row)));
-	e_meeting_attendee_set_delto (ia, g_strdup (e_table_model_value_at (source, ITIP_DELTO_COL, row)));
-	e_meeting_attendee_set_delfrom (ia, g_strdup (e_table_model_value_at (source, ITIP_DELFROM_COL, row)));
-	e_meeting_attendee_set_status (ia, text_to_partstat (e_table_model_value_at (source, ITIP_STATUS_COL, row)));
-	e_meeting_attendee_set_cn (ia, g_strdup (e_table_model_value_at (source, ITIP_CN_COL, row)));
-	e_meeting_attendee_set_language (ia, g_strdup (e_table_model_value_at (source, ITIP_LANGUAGE_COL, row)));
+	e_meeting_attendee_set_member (ia, g_strdup (e_table_model_value_at (source, E_MEETING_MODEL_MEMBER_COL, row)));
+	e_meeting_attendee_set_cutype (ia, text_to_type (e_table_model_value_at (source, E_MEETING_MODEL_TYPE_COL, row)));
+	e_meeting_attendee_set_role (ia, text_to_role (e_table_model_value_at (source, E_MEETING_MODEL_ROLE_COL, row)));
+	e_meeting_attendee_set_rsvp (ia, text_to_boolean (e_table_model_value_at (source, E_MEETING_MODEL_RSVP_COL, row)));
+	e_meeting_attendee_set_delto (ia, g_strdup (e_table_model_value_at (source, E_MEETING_MODEL_DELTO_COL, row)));
+	e_meeting_attendee_set_delfrom (ia, g_strdup (e_table_model_value_at (source, E_MEETING_MODEL_DELFROM_COL, row)));
+	e_meeting_attendee_set_status (ia, text_to_partstat (e_table_model_value_at (source, E_MEETING_MODEL_STATUS_COL, row)));
+	e_meeting_attendee_set_cn (ia, g_strdup (e_table_model_value_at (source, E_MEETING_MODEL_CN_COL, row)));
+	e_meeting_attendee_set_language (ia, g_strdup (e_table_model_value_at (source, E_MEETING_MODEL_LANGUAGE_COL, row)));
 
 	e_meeting_model_add_attendee (E_MEETING_MODEL (etm), ia);
 }
@@ -423,25 +420,25 @@ value_at (ETableModel *etm, int col, int row)
 	ia = g_ptr_array_index (priv->attendees, row);
 	
 	switch (col) {
-	case ITIP_ADDRESS_COL:
+	case E_MEETING_MODEL_ADDRESS_COL:
 		return (void *)itip_strip_mailto (e_meeting_attendee_get_address (ia));
-	case ITIP_MEMBER_COL:
+	case E_MEETING_MODEL_MEMBER_COL:
 		return (void *)e_meeting_attendee_get_member (ia);
-	case ITIP_TYPE_COL:
+	case E_MEETING_MODEL_TYPE_COL:
 		return type_to_text (e_meeting_attendee_get_cutype (ia));
-	case ITIP_ROLE_COL:
+	case E_MEETING_MODEL_ROLE_COL:
 		return role_to_text (e_meeting_attendee_get_role (ia));
-	case ITIP_RSVP_COL:
+	case E_MEETING_MODEL_RSVP_COL:
 		return boolean_to_text (e_meeting_attendee_get_rsvp (ia));
-	case ITIP_DELTO_COL:
+	case E_MEETING_MODEL_DELTO_COL:
 		return (void *)itip_strip_mailto (e_meeting_attendee_get_delto (ia));
-	case ITIP_DELFROM_COL:
+	case E_MEETING_MODEL_DELFROM_COL:
 		return (void *)itip_strip_mailto (e_meeting_attendee_get_delfrom (ia));
-	case ITIP_STATUS_COL:
+	case E_MEETING_MODEL_STATUS_COL:
 		return partstat_to_text (e_meeting_attendee_get_status (ia));
-	case ITIP_CN_COL:
+	case E_MEETING_MODEL_CN_COL:
 		return (void *)e_meeting_attendee_get_cn (ia);
-	case ITIP_LANGUAGE_COL:
+	case E_MEETING_MODEL_LANGUAGE_COL:
 		return (void *)e_meeting_attendee_get_language (ia);
 	}
 	
@@ -459,47 +456,51 @@ set_value_at (ETableModel *etm, int col, int row, const void *val)
 	priv = im->priv;
 
 	ia = g_ptr_array_index (priv->attendees, row);
+
+	e_table_model_pre_change (etm);
 	
 	switch (col) {
-	case ITIP_ADDRESS_COL:
+	case E_MEETING_MODEL_ADDRESS_COL:
 		e_meeting_attendee_set_address (ia, g_strdup_printf ("MAILTO:%s", (char *) val));
 		break;
-	case ITIP_MEMBER_COL:
+	case E_MEETING_MODEL_MEMBER_COL:
 		e_meeting_attendee_set_member (ia, g_strdup (val));
 		break;
-	case ITIP_TYPE_COL:
+	case E_MEETING_MODEL_TYPE_COL:
 		e_meeting_attendee_set_cutype (ia, text_to_type (val));
 		break;
-	case ITIP_ROLE_COL:
+	case E_MEETING_MODEL_ROLE_COL:
 		e_meeting_attendee_set_role (ia, text_to_role (val));
 		break;
-	case ITIP_RSVP_COL:
+	case E_MEETING_MODEL_RSVP_COL:
 		e_meeting_attendee_set_rsvp (ia, text_to_boolean (val));
 		break;
-	case ITIP_DELTO_COL:
+	case E_MEETING_MODEL_DELTO_COL:
 		e_meeting_attendee_set_delto (ia, g_strdup (val));
 		break;
-	case ITIP_DELFROM_COL:
+	case E_MEETING_MODEL_DELFROM_COL:
 		e_meeting_attendee_set_delfrom (ia, g_strdup (val));
 		break;
-	case ITIP_STATUS_COL:
+	case E_MEETING_MODEL_STATUS_COL:
 		e_meeting_attendee_set_status (ia, text_to_partstat (val));
 		break;
-	case ITIP_CN_COL:
+	case E_MEETING_MODEL_CN_COL:
 		e_meeting_attendee_set_cn (ia, g_strdup (val));
 		break;
-	case ITIP_LANGUAGE_COL:
+	case E_MEETING_MODEL_LANGUAGE_COL:
 		e_meeting_attendee_set_language (ia, g_strdup (val));
 		break;
 	}
+
+	e_table_model_cell_changed (etm, col, row);
 }
 
 static gboolean
 is_cell_editable (ETableModel *etm, int col, int row)
 {
 	switch (col) {
-	case ITIP_DELTO_COL:
-	case ITIP_DELFROM_COL:
+	case E_MEETING_MODEL_DELTO_COL:
+	case E_MEETING_MODEL_DELFROM_COL:
 		return FALSE;
 
 	default:
@@ -524,25 +525,25 @@ static void *
 init_value (ETableModel *etm, int col)
 {
 	switch (col) {
-	case ITIP_ADDRESS_COL:
+	case E_MEETING_MODEL_ADDRESS_COL:
 		return g_strdup ("");
-	case ITIP_MEMBER_COL:
+	case E_MEETING_MODEL_MEMBER_COL:
 		return g_strdup ("");
-	case ITIP_TYPE_COL:
+	case E_MEETING_MODEL_TYPE_COL:
 		return g_strdup (_("Individual"));
-	case ITIP_ROLE_COL:
+	case E_MEETING_MODEL_ROLE_COL:
 		return g_strdup (_("Required Participant"));
-	case ITIP_RSVP_COL:
+	case E_MEETING_MODEL_RSVP_COL:
 		return g_strdup (_("Yes"));
-	case ITIP_DELTO_COL:
+	case E_MEETING_MODEL_DELTO_COL:
 		return g_strdup ("");
-	case ITIP_DELFROM_COL:
+	case E_MEETING_MODEL_DELFROM_COL:
 		return g_strdup ("");
-	case ITIP_STATUS_COL:
+	case E_MEETING_MODEL_STATUS_COL:
 		return g_strdup (_("Needs Action"));
-	case ITIP_CN_COL:
+	case E_MEETING_MODEL_CN_COL:
 		return g_strdup ("");
-	case ITIP_LANGUAGE_COL:
+	case E_MEETING_MODEL_LANGUAGE_COL:
 		return g_strdup ("en");
 	}
 	
@@ -554,11 +555,11 @@ value_is_empty (ETableModel *etm, int col, const void *val)
 {
 	
 	switch (col) {
-	case ITIP_ADDRESS_COL:
-	case ITIP_MEMBER_COL:
-	case ITIP_DELTO_COL:
-	case ITIP_DELFROM_COL:
-	case ITIP_CN_COL:
+	case E_MEETING_MODEL_ADDRESS_COL:
+	case E_MEETING_MODEL_MEMBER_COL:
+	case E_MEETING_MODEL_DELTO_COL:
+	case E_MEETING_MODEL_DELFROM_COL:
+	case E_MEETING_MODEL_CN_COL:
 		if (val && !g_strcasecmp (val, ""))
 			return TRUE;
 		else
@@ -585,7 +586,7 @@ get_key (ETableModel *source, int row, gpointer data)
 	im = E_MEETING_MODEL (source);
 	priv = im->priv;
 
-	str = value_at (source, ITIP_DELTO_COL, row);
+	str = value_at (source, E_MEETING_MODEL_DELTO_COL, row);
 	if (str && *str)
 		return g_strdup ("delegator");
 
@@ -647,7 +648,7 @@ init (EMeetingModel *im)
 	im->priv = priv;
 
 	priv->attendees = g_ptr_array_new ();
-
+	
 	priv->without = E_TABLE_WITHOUT (e_table_without_new (E_TABLE_MODEL (im),
 							      g_str_hash,
 							      g_str_equal,
@@ -664,8 +665,10 @@ init (EMeetingModel *im)
 	priv->ebook = NULL;
 	priv->book_loaded = FALSE;
 	priv->book_load_wait = FALSE;
-	
-	priv->refreshing = FALSE;
+
+	priv->refresh_queue = g_ptr_array_new ();
+	priv->refresh_data = g_hash_table_new (g_direct_hash, g_direct_equal);
+	priv->refresh_idle_id = -1;
 	
 	start_addressbook_server (im);
 }
@@ -673,15 +676,15 @@ init (EMeetingModel *im)
 static void
 destroy (GtkObject *obj)
 {
-	EMeetingModel *model = E_MEETING_MODEL (obj);
+	EMeetingModel *im = E_MEETING_MODEL (obj);
 	EMeetingModelPrivate *priv;
-	gint i;
+	int i;
 	
-	priv = model->priv;
+	priv = im->priv;
 
 	for (i = 0; i < priv->attendees->len; i++)
-		gtk_object_unref (GTK_OBJECT (g_ptr_array_index(priv->attendees, i)));
-	g_ptr_array_free (priv->attendees, FALSE);
+		gtk_object_unref (GTK_OBJECT (g_ptr_array_index (priv->attendees, i)));
+	g_ptr_array_free (priv->attendees, TRUE); 
 	
 	if (priv->client != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->client));
@@ -696,6 +699,14 @@ destroy (GtkObject *obj)
 		CORBA_exception_free (&ev);
         }
 
+	while (priv->refresh_queue->len > 0)
+		refresh_queue_remove (im, g_ptr_array_index (priv->refresh_queue, 0));
+	g_ptr_array_free (priv->refresh_queue, TRUE);
+	g_hash_table_destroy (priv->refresh_data);
+	
+	if (priv->refresh_idle_id)
+		g_source_remove (priv->refresh_idle_id);
+	
 	g_free (priv);
 }
 
@@ -873,28 +884,28 @@ e_meeting_model_add_attendee_with_defaults (EMeetingModel *im)
 	
 	ia = E_MEETING_ATTENDEE (e_meeting_attendee_new ());
 
-	e_meeting_attendee_set_address (ia, init_value (E_TABLE_MODEL (im), ITIP_ADDRESS_COL));
-	e_meeting_attendee_set_member (ia, init_value (E_TABLE_MODEL (im), ITIP_MEMBER_COL));
+	e_meeting_attendee_set_address (ia, init_value (E_TABLE_MODEL (im), E_MEETING_MODEL_ADDRESS_COL));
+	e_meeting_attendee_set_member (ia, init_value (E_TABLE_MODEL (im), E_MEETING_MODEL_MEMBER_COL));
 
-	str = init_value (E_TABLE_MODEL (im), ITIP_TYPE_COL);
+	str = init_value (E_TABLE_MODEL (im), E_MEETING_MODEL_TYPE_COL);
 	e_meeting_attendee_set_cutype (ia, text_to_type (str));
 	g_free (str);
-	str = init_value (E_TABLE_MODEL (im), ITIP_ROLE_COL);
+	str = init_value (E_TABLE_MODEL (im), E_MEETING_MODEL_ROLE_COL);
 	e_meeting_attendee_set_role (ia, text_to_role (str));
 	g_free (str);	
-	str = init_value (E_TABLE_MODEL (im), ITIP_RSVP_COL);
+	str = init_value (E_TABLE_MODEL (im), E_MEETING_MODEL_RSVP_COL);
 	e_meeting_attendee_set_role (ia, text_to_boolean (str));
 	g_free (str);
 	
-	e_meeting_attendee_set_delto (ia, init_value (E_TABLE_MODEL (im), ITIP_DELTO_COL));
-	e_meeting_attendee_set_delfrom (ia, init_value (E_TABLE_MODEL (im), ITIP_DELFROM_COL));
+	e_meeting_attendee_set_delto (ia, init_value (E_TABLE_MODEL (im), E_MEETING_MODEL_DELTO_COL));
+	e_meeting_attendee_set_delfrom (ia, init_value (E_TABLE_MODEL (im), E_MEETING_MODEL_DELFROM_COL));
 
-	str = init_value (E_TABLE_MODEL (im), ITIP_STATUS_COL);
+	str = init_value (E_TABLE_MODEL (im), E_MEETING_MODEL_STATUS_COL);
 	e_meeting_attendee_set_status (ia, text_to_partstat (str));
 	g_free (str);
 
-	e_meeting_attendee_set_cn (ia, init_value (E_TABLE_MODEL (im), ITIP_CN_COL));
-	e_meeting_attendee_set_language (ia, init_value (E_TABLE_MODEL (im), ITIP_LANGUAGE_COL));
+	e_meeting_attendee_set_cn (ia, init_value (E_TABLE_MODEL (im), E_MEETING_MODEL_CN_COL));
+	e_meeting_attendee_set_language (ia, init_value (E_TABLE_MODEL (im), E_MEETING_MODEL_LANGUAGE_COL));
 
 	e_meeting_model_add_attendee (im, ia);
 
@@ -1049,6 +1060,98 @@ find_zone (icalproperty *ip, icalcomponent *tz_top_level)
 	return NULL;
 }
 
+
+static void
+refresh_queue_add (EMeetingModel *im, int row,
+		   EMeetingTime *start,
+		   EMeetingTime *end,
+		   EMeetingModelRefreshCallback call_back,
+		   gpointer data) 
+{
+	EMeetingModelPrivate *priv;
+	EMeetingAttendee *ia;
+	EMeetingModelQueueData *qdata;
+
+	priv = im->priv;
+	
+	ia = g_ptr_array_index (priv->attendees, row);
+	if (ia == NULL)
+		return;
+
+	qdata = g_hash_table_lookup (priv->refresh_data, ia);
+	if (qdata == NULL) {
+		qdata = g_new0 (EMeetingModelQueueData, 1);
+
+		qdata->im = im;
+		qdata->ia = ia;
+		e_meeting_attendee_clear_busy_periods (ia);
+		e_meeting_attendee_set_has_calendar_info (ia, FALSE);
+
+	        qdata->start = *start;
+	        qdata->end = *end;
+		qdata->string = g_string_new (NULL);
+		qdata->call_backs = g_ptr_array_new ();
+		qdata->data = g_ptr_array_new ();
+		g_ptr_array_add (qdata->call_backs, call_back);
+		g_ptr_array_add (qdata->data, data);
+
+		g_hash_table_insert (priv->refresh_data, ia, qdata);
+	} else {
+		if (e_meeting_time_compare_times (start, &qdata->start) == -1)
+			qdata->start = *start;
+		if (e_meeting_time_compare_times (end, &qdata->end) == 1)
+			qdata->end = *end;
+		g_ptr_array_add (qdata->call_backs, call_back);
+		g_ptr_array_add (qdata->data, data);
+	}
+
+	gtk_object_ref (GTK_OBJECT (ia));
+	g_ptr_array_add (priv->refresh_queue, ia);
+
+	if (priv->refresh_idle_id == -1)
+		priv->refresh_idle_id = g_idle_add (refresh_busy_periods, im);
+}
+
+static void
+refresh_queue_remove (EMeetingModel *im, EMeetingAttendee *ia) 
+{
+	EMeetingModelPrivate *priv;
+	EMeetingModelQueueData *qdata;
+	
+	priv = im->priv;
+	
+	/* Free the queue data */
+	qdata = g_hash_table_lookup (priv->refresh_data, ia);
+	g_assert (qdata != NULL);
+
+	g_hash_table_remove (priv->refresh_data, ia);
+	g_ptr_array_free (qdata->call_backs, TRUE);
+	g_ptr_array_free (qdata->data, TRUE);
+	g_free (qdata);
+
+	/* Unref the attendee */
+	g_ptr_array_remove (priv->refresh_queue, ia);
+	gtk_object_unref (GTK_OBJECT (ia));
+}
+
+static void
+process_callbacks (EMeetingModelQueueData *qdata) 
+{
+	int i;
+
+	for (i = 0; i < qdata->call_backs->len; i++) {
+		EMeetingModelRefreshCallback call_back;
+		gpointer *data;
+
+		call_back = g_ptr_array_index (qdata->call_backs, i);
+		data = g_ptr_array_index (qdata->data, i);
+
+		call_back (data);
+	}
+
+	refresh_queue_remove (qdata->im, qdata->ia);
+}
+
 static void
 process_free_busy_comp (EMeetingAttendee *ia,
 			icalcomponent *fb_comp,
@@ -1147,40 +1250,22 @@ process_free_busy_comp (EMeetingAttendee *ia,
 }
 
 static void
-process_callbacks (EMeetingModel *im) 
+process_free_busy (EMeetingModelQueueData *qdata, char *text)
 {
-	EMeetingModelPrivate *priv;	
-	GList *l, *m;	
-
-	priv = im->priv;
-
-	for (l = priv->refresh_callbacks, m = priv->refresh_data; l != NULL; l = l->next, m = m->next) {
-		EMeetingModelRefreshCallback cb = l->data;
-			
-		cb (m->data);
-	}
-
-	g_list_free (priv->refresh_callbacks);
-	g_list_free (priv->refresh_data);
-	priv->refresh_callbacks = NULL;
-	priv->refresh_data = NULL;
-	
-	priv->refreshing = FALSE;
-}
-
-static void
-process_free_busy (EMeetingModel *im, EMeetingAttendee *ia, char *text)
-{
-	EMeetingModelPrivate *priv;	
+	EMeetingModel *im = qdata->im;
+	EMeetingModelPrivate *priv;
+	EMeetingAttendee *ia = qdata->ia;
 	icalcomponent *main_comp;
 	icalcomponent_kind kind = ICAL_NO_COMPONENT;
 
 	priv = im->priv;
 
 	main_comp = icalparser_parse_string (text);
-	if (main_comp == NULL)
+	if (main_comp == NULL) {
+		process_callbacks (qdata);
 		return;
-
+	}
+	
 	e_meeting_attendee_set_has_calendar_info (ia, TRUE);
 	
 	kind = icalcomponent_isa (main_comp);
@@ -1214,6 +1299,8 @@ process_free_busy (EMeetingModel *im, EMeetingAttendee *ia, char *text)
 	}
 	
 	icalcomponent_free (main_comp);
+
+	process_callbacks (qdata);
 }
 
 static void
@@ -1221,17 +1308,9 @@ async_close (GnomeVFSAsyncHandle *handle,
 	     GnomeVFSResult result,
 	     gpointer data)
 {
-	EMeetingModelRefreshData *r_data = data;
-	EMeetingModelPrivate *priv;
+	EMeetingModelQueueData *qdata = data;
 
-	process_free_busy (r_data->im, r_data->attendee_data.ia, r_data->attendee_data.string->str);
-
-	priv = r_data->im->priv;
-	
-	priv->refresh_count--;
-	
-	if (priv->refresh_count == 0)
-		process_callbacks (r_data->im);
+	process_free_busy (qdata, qdata->string->str);
 }
 
 static void
@@ -1242,23 +1321,23 @@ async_read (GnomeVFSAsyncHandle *handle,
 	    GnomeVFSFileSize read,
 	    gpointer data)
 {
-	EMeetingModelRefreshData *r_data = data;
+	EMeetingModelQueueData *qdata = data;
 	GnomeVFSFileSize buf_size = BUF_SIZE - 1;
 
 	if (result != GNOME_VFS_OK) {
-		gnome_vfs_async_close (handle, async_close, r_data);
+		gnome_vfs_async_close (handle, async_close, qdata);
 		return;
 	}
 	
 	((char *)buffer)[read] = '\0';
-	r_data->attendee_data.string = g_string_append (r_data->attendee_data.string, buffer);
+	qdata->string = g_string_append (qdata->string, buffer);
 	
 	if (read < requested) {
-		gnome_vfs_async_close (handle, async_close, r_data);
+		gnome_vfs_async_close (handle, async_close, qdata);
 		return;
 	}
 
-	gnome_vfs_async_read (handle, r_data->attendee_data.buffer, buf_size, async_read, r_data);	
+	gnome_vfs_async_read (handle, qdata->buffer, buf_size, async_read, qdata);	
 }
 
 static void
@@ -1266,150 +1345,118 @@ async_open (GnomeVFSAsyncHandle *handle,
 	    GnomeVFSResult result,
 	    gpointer data)
 {
-	EMeetingModelRefreshData *r_data = data;
+	EMeetingModelQueueData *qdata = data;
 	GnomeVFSFileSize buf_size = BUF_SIZE - 1;
 
 	if (result != GNOME_VFS_OK) {
-		gnome_vfs_async_close (handle, async_close, r_data);
+		gnome_vfs_async_close (handle, async_close, qdata);
 		return;
 	}
 
-	gnome_vfs_async_read (handle, r_data->attendee_data.buffer, buf_size, async_read, r_data);
+	gnome_vfs_async_read (handle, qdata->buffer, buf_size, async_read, qdata);
 }
 
 static void
 cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer data)
 {
-	EMeetingModel *im = E_MEETING_MODEL (data);
-	EMeetingModelPrivate *priv;
-	int length, i, j;
+	EMeetingModelQueueData *qdata = data;
+	int length, i;
 
 	if (status != E_BOOK_STATUS_SUCCESS)
 		return;
 
-	priv = im->priv;
-	
 	length = e_card_cursor_get_length (cursor);
-	priv->refresh_count = 0;
-
 	for (i = 0; i < length; i ++) {
 		GnomeVFSAsyncHandle *handle;
 		ECard *card = e_card_cursor_get_nth (cursor, i);
-		EMeetingModelRefreshData *r_data = g_new0 (EMeetingModelRefreshData, 1);
-		EMeetingAttendee *ia = NULL;
-
+		const char *addr;
+		
 		if (card->fburl == NULL)
 			continue;
-		
-		for (j = 0; j < priv->attendees->len; j++) {
-			ia = g_ptr_array_index (priv->attendees, j);
-			if (e_card_email_match_string (card, itip_strip_mailto (e_meeting_attendee_get_address (ia))))
-				break;
-		}
-		if (ia == NULL)
+
+		addr = itip_strip_mailto (e_meeting_attendee_get_address (qdata->ia));
+		if (!e_card_email_match_string (card, addr))
 			continue;
-		
-		r_data->im = im;
-		r_data->attendee_data.string = g_string_new (NULL);
-		r_data->attendee_data.ia = ia;
-		
-		priv->refresh_count++;
-		
+
 		/* Read in free/busy data from the url */
-		gnome_vfs_async_open (&handle, card->fburl, GNOME_VFS_OPEN_READ, async_open, r_data);
+		gnome_vfs_async_open (&handle, card->fburl, GNOME_VFS_OPEN_READ, async_open, qdata);
+		return;
 	}
 
-	/* If we didn't find anybody */
-	if (priv->refresh_count == 0)
-		process_callbacks (im);
+	process_callbacks (qdata);
 }
 
-void
-e_meeting_model_refresh_busy_periods (EMeetingModel *im,
-				      EMeetingTime *start,
-				      EMeetingTime *end,
-				      EMeetingModelRefreshCallback call_back,
-				      gpointer data)
-{
+static gboolean
+refresh_busy_periods (gpointer data)
+{	
+	EMeetingModel *im = E_MEETING_MODEL (data);
 	EMeetingModelPrivate *priv;
-	GPtrArray *not_found;
-	GString *string;
+	EMeetingAttendee *ia = NULL;
+	EMeetingModelQueueData *qdata = NULL;
+	char *query;
 	int i;
 	
 	priv = im->priv;
 
-	priv->refresh_callbacks = g_list_append (priv->refresh_callbacks, call_back);
-	priv->refresh_data = g_list_append (priv->refresh_data, data);
+	/* Check to see if there are any remaining attendees in the queue */
+	for (i = 0; i < priv->refresh_queue->len; i++) {
+		ia = g_ptr_array_index (priv->refresh_queue, i);
+		g_assert (ia != NULL);
 
-	if (priv->refreshing)
-		return;
+		qdata = g_hash_table_lookup (priv->refresh_data, ia);
+		g_assert (qdata != NULL);
+
+		if (!qdata->refreshing)
+			break;
+	}
+
+	/* The everything in the queue is being refreshed */
+	if (i >= priv->refresh_queue->len) {
+		priv->refresh_idle_id = -1;
+		return FALSE;
+	}
 	
-	priv->refreshing = TRUE;
-
-	/* To track what we don't find on the server */
-	not_found = g_ptr_array_new ();
-	g_ptr_array_set_size (not_found, priv->attendees->len);
-	for (i = 0; i < priv->attendees->len; i++)
-		g_ptr_array_index (not_found, i) = g_ptr_array_index (priv->attendees, i);
-
+	/* Indicate we are trying to refresh it */
+	qdata->refreshing = TRUE;
+	
 	/* Check the server for free busy data */	
 	if (priv->client) {
-		GList *fb_data, *users = NULL, *l;
+		GList *fb_data, *users = NULL;
 		struct icaltimetype itt;
 		time_t startt, endt;
+		const char *user;
 		
 		itt = icaltime_null_time ();
-		itt.year = g_date_year (&start->date);
-		itt.month = g_date_month (&start->date);
-		itt.day = g_date_day (&start->date);
-		itt.hour = start->hour;
-		itt.minute = start->minute;
+		itt.year = g_date_year (&qdata->start.date);
+		itt.month = g_date_month (&qdata->start.date);
+		itt.day = g_date_day (&qdata->start.date);
+		itt.hour = qdata->start.hour;
+		itt.minute = qdata->start.minute;
 		startt = icaltime_as_timet_with_zone (itt, priv->zone);
 
 		itt = icaltime_null_time ();
-		itt.year = g_date_year (&end->date);
-		itt.month = g_date_month (&end->date);
-		itt.day = g_date_day (&end->date);
-		itt.hour = end->hour;
-		itt.minute = end->minute;
+		itt.year = g_date_year (&qdata->end.date);
+		itt.month = g_date_month (&qdata->end.date);
+		itt.day = g_date_day (&qdata->end.date);
+		itt.hour = qdata->end.hour;
+		itt.minute = qdata->end.minute;
 		endt = icaltime_as_timet_with_zone (itt, priv->zone);
-		
-		for (i = 0; i < priv->attendees->len; i++) {
-			EMeetingAttendee *ia = g_ptr_array_index (priv->attendees, i);
-			const char *user;
-			
-			user = itip_strip_mailto (e_meeting_attendee_get_address (ia));
-			users = g_list_append (users, g_strdup (user));
-		}
 
+		user = itip_strip_mailto (e_meeting_attendee_get_address (ia));
+		users = g_list_append (users, g_strdup (user));
 		fb_data = cal_client_get_free_busy (priv->client, users, startt, endt);
 
 		g_list_foreach (users, (GFunc)g_free, NULL);
 		g_list_free (users);
 
-		for (l = fb_data; l != NULL; l = l->next) {
-			CalComponent *comp = l->data;
-			EMeetingAttendee *ia = NULL;
-			CalComponentOrganizer org;
-			
-			/* Process the data for any attendees found */
-			cal_component_get_organizer (comp, &org);
-			for (i = 0; i < priv->attendees->len; i++) {
-				ia = g_ptr_array_index (priv->attendees, i);				
-				if (org.value && !strcmp (org.value, e_meeting_attendee_get_address (ia))) {
-					g_ptr_array_remove_fast (not_found, ia);
-					break;
-				}
-				ia = NULL;
-			}
-			
-			if (ia != NULL) {
-				char *comp_str;
+		if (fb_data != NULL) {
+			CalComponent *comp = fb_data->data;
+			char *comp_str;
 				
-				comp_str = cal_component_get_as_string (comp);
-				process_free_busy (im, ia, comp_str);
-				g_free (comp_str);
-			}
+			comp_str = cal_component_get_as_string (comp);
+			process_free_busy (qdata, comp_str);
+			g_free (comp_str);
+			return TRUE;
 		}
 	}
 
@@ -1419,29 +1466,54 @@ e_meeting_model_refresh_busy_periods (EMeetingModel *im,
 		gtk_main ();
 	}
 
-	string = g_string_new ("(or ");
-	for (i = 0; i < not_found->len; i++) {
-		EMeetingAttendee *ia = g_ptr_array_index (not_found, i);
-		char *query;
-		
-		if (!e_meeting_attendee_is_set_address (ia))
-			continue;
-		
-		e_meeting_attendee_clear_busy_periods (ia);
-
-		query = g_strdup_printf ("(contains \"email\" \"%s\")", itip_strip_mailto (e_meeting_attendee_get_address (ia)));
-		g_string_append (string, query);
-		g_free (query);
+	if (!e_meeting_attendee_is_set_address (ia)) {
+		process_callbacks (qdata);
+		return TRUE;
 	}
-	g_string_append_c (string, ')');
 	
-	if (not_found->len > 0) 
-		e_book_get_cursor (priv->ebook, string->str, cursor_cb, im);
-	else
-		process_callbacks (im);
+	query = g_strdup_printf ("(contains \"email\" \"%s\")", 
+				 itip_strip_mailto (e_meeting_attendee_get_address (ia)));
+	e_book_get_cursor (priv->ebook, query, cursor_cb, qdata);
+	g_free (query);
 
-	g_ptr_array_free (not_found, FALSE);
-	g_string_free (string, TRUE);
+	return TRUE;
+}
+		
+void
+e_meeting_model_refresh_all_busy_periods (EMeetingModel *im,
+					  EMeetingTime *start,
+					  EMeetingTime *end,
+					  EMeetingModelRefreshCallback call_back,
+					  gpointer data)
+{
+	EMeetingModelPrivate *priv;
+	int i;
+	
+	g_return_if_fail (im != NULL);
+	g_return_if_fail (E_IS_MEETING_MODEL (im));
+
+	priv = im->priv;
+	
+	for (i = 0; i < priv->attendees->len; i++)
+		refresh_queue_add (im, i, start, end, call_back, data);
+}
+
+void 
+e_meeting_model_refresh_busy_periods (EMeetingModel *im,
+				      int row,
+				      EMeetingTime *start,
+				      EMeetingTime *end,
+				      EMeetingModelRefreshCallback call_back,
+				      gpointer data)
+{
+	EMeetingModelPrivate *priv;
+	
+	g_return_if_fail (im != NULL);
+	g_return_if_fail (E_IS_MEETING_MODEL (im));
+
+	priv = im->priv;
+
+	refresh_queue_add (im, row, start, end, call_back, data);
 }
 
 ETableScrolled *

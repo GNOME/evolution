@@ -1,3 +1,42 @@
+2002-02-14  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* gui/e-meeting-model.c: use new column enums
+ 	(set_value_at): emit pre-change/cell change signals
+ 	(destroy): destroy refresh_queue and refresh_data
+ 	(init): init new elements
+ 	(refresh_queue_add): if the attendee is being refreshed already,
+ 	possibly update the start/end times to look for and update the
+ 	callback info, otherwise add it to the queue
+ 	(refresh_queue_remove): remove a refreshing attende from the queue
+ 	(process_callbacks): make all the callbacks and remove the
+ 	attendee from the queue
+ 	(process_free_busy): process the callbacks immediately if parsing
+ 	fails or on successful completion of processing
+ 	(async_close): process free busy
+	(cursor_cb): we're only looking for one at a time now
+ 	(refresh_busy_periods): idle callback to start processing the queue
+ 	(e_meeting_model_refresh_all_busy_periods): add every row to the queue
+ 	(e_meeting_model_refresh_busy_periods): add a single row to the queue
+ 
+ 	* gui/e-meeting-model.h: new protos, enum the columns
+ 
+ 	* gui/e-meeting-time-sel.c: use new compare time function
+ 	(e_meeting_time_selector_construct): listen for a cell changed
+ 	signal and use separate callbacks for rows_inserted and
+ 	rows_deleted
+ 	(e_meeting_time_selector_refresh_free_busy): util function to
+ 	refresh free busy info
+ 	(e_meeting_time_selector_on_update_free_busy): use above
+ 	(rows_inserted_cb): refresh free busy on the new rows
+ 	(cell_changed_cb): refresh free busy on the row when the address
+ 	changes
+ 	(rows_deleted_cb): redraw
+ 
+ 	* gui/e-meeting-utils.[hc]: a holding spot for a meeting time
+ 	comparison function
+ 
+ 	* gui/Makefile.am: compile new files
+ 
 2002-02-13  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/control-factory.c (set_prop): don't append 'calendar.ics'
