@@ -968,4 +968,6 @@ mail_composer_prefs_apply (MailComposerPrefs *prefs)
 	
 	/* Signatures */
 	/* FIXME: implement me */
+	
+	gconf_client_suggest_sync (prefs->gconf, NULL);
 }
