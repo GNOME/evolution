@@ -1,4 +1,4 @@
-/* Evolution calendar - Alarm notification engine
+/* Evolution calendar - Alarm queueing engine
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
@@ -19,17 +19,17 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef ALARM_NOTIFY_H
-#define ALARM_NOTIFY_H
+#ifndef ALARM_QUEUE_H
+#define ALARM_QUEUE_H
 
 #include <cal-client/cal-client.h>
 
 
-void alarm_notify_init (void);
-void alarm_notify_done (void);
+void alarm_queue_init (void);
+void alarm_queue_done (void);
 
-void alarm_notify_add_client (CalClient *client);
-void alarm_notify_remove_client (CalClient *client);
+void alarm_queue_add_client (CalClient *client);
+void alarm_queue_remove_client (CalClient *client);
 
 
 #endif

@@ -13,6 +13,7 @@ $(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
                 $(srcdir)/../../composer/Evolution-Composer.idl
 
+#SUBDIRS = alarm-notify dialogs
 SUBDIRS = dialogs
 
 help_base = $(datadir)/gnome/help/cal
@@ -35,19 +36,6 @@ INCLUDES = 						\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"
-
-LINK_FLAGS =								\
-	$(BONOBO_VFS_GNOME_LIBS)					\
-	$(EXTRA_GNOME_LIBS)						\
-	$(INTLLIBS)							\
-	dialogs/libcal-dialogs.a					\
-	$(top_builddir)/calendar/cal-client/libcal-client.la		\
-	$(top_builddir)/calendar/cal-util/libcal-util.la		\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a			\
-	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/libversit/libversit.la				\
-	$(top_builddir)/libical/src/libical/libical.la			\
-	$(top_builddir)/widgets/meeting-time-sel/libevolutionmtsel.a
 
 gladedir   = $(datadir)/evolution/glade
 
@@ -133,15 +121,23 @@ evolution_calendar_SOURCES =			\
 	widget-util.c				\
 	widget-util.h
 
-evolution_calendar_LDADD =					\
-	$(top_builddir)/shell/libeshell.a			\
+evolution_calendar_LDADD =								\
+	$(top_builddir)/shell/libeshell.a						\
+	$(top_builddir)/calendar/cal-client/libcal-client.la				\
+	$(top_builddir)/calendar/cal-util/libcal-util.la				\
+	$(top_builddir)/e-util/libeutil.la						\
 	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
-	$(EXTRA_GNOME_LIBS)					\
-	$(BONOBO_HTML_GNOME_LIBS)				\
-	$(top_builddir)/e-util/libeutil.la			\
-	$(LINK_FLAGS)
+	$(top_builddir)/libversit/libversit.la						\
+	$(top_builddir)/libical/src/libical/libical.la					\
+	$(top_builddir)/widgets/meeting-time-sel/libevolutionmtsel.a			\
+	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
+	dialogs/libcal-dialogs.a							\
+	$(BONOBO_HTML_GNOME_LIBS)							\
+	$(BONOBO_VFS_GNOME_LIBS)							\
+	$(EXTRA_GNOME_LIBS)								\
+	$(INTLLIBS)
 
-evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
+#evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
 oafdir = $(datadir)/oaf
 oaf_DATA = GNOME_Evolution_Calendar_Control.oafinfo GNOME_Evolution_Calendar.oafinfo 

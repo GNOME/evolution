@@ -1,3 +1,25 @@
+2001-01-09  Federico Mena Quintero  <federico@helixcode.com>
+
+	* idl/evolution-calendar.idl (AlarmNotify): New interface for the
+	alarm notification system.
+
+	* gui/alarm-notify: New directory for the alarm notification
+	daemon and its auxiliary stuff.
+
+	* gui/alarm-notify/alarm.[ch]: Moved over from gui/alarm.[ch].
+
+	* gui/alarm-notify/alarm-queue.[ch]: Moved over from
+	gui/alarm-notify.[ch].  Renamed functions from alarm_notify_*() to
+	alarm_queue_*().
+
+	* gui/alarm-notify/alarm-notify.[ch]: Implementation of the
+	GNOME::Evolution::Calendar::AlarmNotify interface.
+
+	* gui/Makefile.am (evolution_calendar_LDADD): Removed the
+	LINK_FLAGS variable and reordered the libraries to remove some
+	duplicated ones.
+	(SUBDIRS): Added the alarm-notify directory.
+
 2001-01-08  Iain Holmes  <iain@helixcode.com>
 
 	* gui/calendar-summary.c (generate_html_summary): Get the tasks

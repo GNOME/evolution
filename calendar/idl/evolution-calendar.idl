@@ -188,6 +188,15 @@ module Calendar {
 		void create (in string uri, in Listener listener)
 			raises (NilListener);
 	};
+
+	/* Interface to the alarm notification service */
+	interface AlarmNotify : Bonobo::Unknown {
+		/* Adds a calendar to the alarm notification system */
+		void addCalendar (in string uri);
+
+		/* Removes a calendar from the alarm notification system */
+		void removeCalendar (in string uri);
+	};
 };
 
 };

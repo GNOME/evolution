@@ -1,4 +1,4 @@
-/* Evolution calendar - Alarm notification engine
+/* Evolution calendar - Alarm queueing engine
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
@@ -26,12 +26,12 @@
 #include <gtk/gtksignal.h>
 #include <cal-util/timeutil.h>
 #include "alarm.h"
-#include "alarm-notify.h"
+#include "alarm-queue.h"
 
 
 
-/* Whether the notification system has been initialized */
-static gboolean alarm_notify_inited;
+/* Whether the queueing system has been initialized */
+static gboolean alarm_queue_inited;
 
 /* Clients we are monitoring for alarms */
 static GHashTable *client_alarms_hash = NULL;
@@ -98,7 +98,7 @@ queue_midnight_refresh (void)
 
 	midnight_refresh_id = alarm_add (midnight, midnight_refresh_cb, NULL, NULL);
 	if (!midnight_refresh_id) {
-		g_message ("alarm_notify_init(): Could not set up the midnight refresh alarm!");
+		g_message ("queue_midnight_refresh(): Could not set up the midnight refresh alarm!");
 		/* FIXME: what to do? */
 	}
 }
@@ -382,33 +382,33 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 
 
 /**
- * alarm_notify_init:
+ * alarm_queue_init:
  *
- * Initializes the alarm notification system.  This should be called near the
+ * Initializes the alarm queueing system.  This should be called near the
  * beginning of the program, after calling alarm_init().
  **/
 void
-alarm_notify_init (void)
+alarm_queue_init (void)
 {
-	g_return_if_fail (alarm_notify_inited == FALSE);
+	g_return_if_fail (alarm_queue_inited == FALSE);
 
 	client_alarms_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	queue_midnight_refresh ();
 
-	alarm_notify_inited = TRUE;
+	alarm_queue_inited = TRUE;
 }
 
 /**
- * alarm_notify_done:
+ * alarm_queue_done:
  *
- * Shuts down the alarm notification system.  This should be called near the end
+ * Shuts down the alarm queueing system.  This should be called near the end
  * of the program.  All the monitored calendar clients should already have been
- * unregistered with alarm_notify_remove_client().
+ * unregistered with alarm_queue_remove_client().
  **/
 void
-alarm_notify_done (void)
+alarm_queue_done (void)
 {
-	g_return_if_fail (alarm_notify_inited);
+	g_return_if_fail (alarm_queue_inited);
 
 	/* All clients must be unregistered by now */
 	g_return_if_fail (g_hash_table_size (client_alarms_hash) == 0);
@@ -420,29 +420,29 @@ alarm_notify_done (void)
 	alarm_remove (midnight_refresh_id);
 	midnight_refresh_id = NULL;
 
-	alarm_notify_inited = FALSE;
+	alarm_queue_inited = FALSE;
 }
 
 /**
- * alarm_notify_add_client:
+ * alarm_queue_add_client:
  * @client: A calendar client.
  *
- * Adds a calendar client to the alarm notification system.  Alarm trigger
+ * Adds a calendar client to the alarm queueing system.  Alarm trigger
  * notifications will be presented at the appropriate times.  The client should
- * be removed with alarm_notify_remove_client() when receiving notifications
+ * be removed with alarm_queue_remove_client() when receiving notifications
  * from it is no longer desired.
  *
- * A client can be added any number of times to the alarm notification system,
+ * A client can be added any number of times to the alarm queueing system,
  * but any single alarm trigger will only be presented once for a particular
  * client.  The client must still be removed the same number of times from the
- * notification system when it is no longer wanted.
+ * queueing system when it is no longer wanted.
  **/
 void
-alarm_notify_add_client (CalClient *client)
+alarm_queue_add_client (CalClient *client)
 {
 	ClientAlarms *ca;
 
-	g_return_if_fail (alarm_notify_inited);
+	g_return_if_fail (alarm_queue_inited);
 	g_return_if_fail (client != NULL);
 	g_return_if_fail (IS_CAL_CLIENT (client));
 
@@ -516,17 +516,17 @@ remove_client_alarms (ClientAlarms *ca)
 }
 
 /**
- * alarm_notify_remove_client:
+ * alarm_queue_remove_client:
  * @client: A calendar client.
  *
- * Removes a calendar client from the alarm notification system.
+ * Removes a calendar client from the alarm queueing system.
  **/
 void
-alarm_notify_remove_client (CalClient *client)
+alarm_queue_remove_client (CalClient *client)
 {
 	ClientAlarms *ca;
 
-	g_return_if_fail (alarm_notify_inited);
+	g_return_if_fail (alarm_queue_inited);
 	g_return_if_fail (client != NULL);
 	g_return_if_fail (IS_CAL_CLIENT (client));
 
