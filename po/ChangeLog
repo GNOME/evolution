@@ -1,3 +1,8 @@
+2001-09-28  Dan Winship  <danw@ximian.com>
+
+	* de.po: Fix a printf-format bug in the translation of the "On
+	DATE, PERSON wrote" string, noted on the evolution list.
+
 2001-09-28  Takuo KITAME  <kitame@debian.org>
 
 	* ja.po: Updated Japanese translation.

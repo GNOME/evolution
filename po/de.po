@@ -8550,7 +8550,7 @@ msgstr "ein unbekannter Absender"
 
 #: mail/mail-callbacks.c:784
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
-msgstr "Am %a, %Y-%m-%d um %H.%M schrieb %s:"
+msgstr "Am %a, %Y-%m-%d um %H.%M schrieb %%s:"
 
 #: mail/mail-callbacks.c:1162
 msgid "Move message(s) to"
