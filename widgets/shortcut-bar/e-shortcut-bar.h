@@ -57,6 +57,8 @@ struct _EShortcutBarGroup
 };
 
 
+#define E_TYPE_SHORTCUT_BAR	     (e_shortcut_bar_get_type ())
+#define SHORTCUT_BAR(obj)            GTK_CHECK_CAST (obj, e_shortcut_bar_get_type (), EShortcutBar)
 #define E_SHORTCUT_BAR(obj)          GTK_CHECK_CAST (obj, e_shortcut_bar_get_type (), EShortcutBar)
 #define E_SHORTCUT_BAR_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_shortcut_bar_get_type (), EShortcutBarClass)
 #define E_IS_SHORTCUT_BAR(obj)       GTK_CHECK_TYPE (obj, e_shortcut_bar_get_type ())

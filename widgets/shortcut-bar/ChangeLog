@@ -1,5 +1,9 @@
 2000-05-04  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shortcut-bar.h (E_TYPE_SHORTCUT_BAR): New #define.
+
+2000-05-04  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-icon-bar-bg-item.c (e_icon_bar_bg_item_draw): Initialize
 	`shadow' to placate compiler.
 
