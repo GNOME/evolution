@@ -25,6 +25,6 @@
 #include <cal-client/cal-client.h>
 #include <cal-util/cal-component.h>
 
-gboolean cancel_component_dialog (CalClient *client, CalComponent *comp, gboolean deleting);
+gboolean cancel_component_dialog (GtkWindow *parent, CalClient *client, CalComponent *comp, gboolean deleting);
 
 #endif

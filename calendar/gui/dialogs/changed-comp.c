@@ -23,9 +23,8 @@
 #endif
 
 #include <glib.h>
+#include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <gal/widgets/e-unicode.h>
 #include "changed-comp.h"
@@ -34,6 +33,7 @@
 
 /**
  * changed_component_dialog:
+ * @parent: Parent window for the dialog.
  * @comp: A calendar component
  * @deleted: Whether the object is being deleted or updated
  * @changed: Whether or not the user has made changes
@@ -44,11 +44,12 @@
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-changed_component_dialog (CalComponent *comp, gboolean deleted, gboolean changed)
+changed_component_dialog (GtkWindow *parent, CalComponent *comp, gboolean deleted, gboolean changed)
 {
 	GtkWidget *dialog;
 	CalComponentVType vtype;
 	char *str;
+	gint response;
 
 	vtype = cal_component_get_vtype (comp);
 
@@ -101,9 +102,14 @@ changed_component_dialog (CalComponent *comp, gboolean deleted, gboolean changed
 			str = g_strdup_printf (_("%s  You have made no changes, update the editor?"), str); 
 	}
 	
-	dialog = gnome_question_dialog_modal (str, NULL, NULL);
+	dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
+					 GTK_MESSAGE_QUESTION,
+					 GTK_BUTTONS_YES_NO, str);
 
-	if (gnome_dialog_run (GNOME_DIALOG (dialog)) == GNOME_YES)
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+
+	if (response == GTK_RESPONSE_YES)
 		return TRUE;
 	else
 		return FALSE;

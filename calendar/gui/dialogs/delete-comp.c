@@ -150,10 +150,11 @@ delete_component_dialog (CalComponent *comp,
 		}
 	}
 
-	dialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, "%s", str);
+	dialog = gtk_message_dialog_new (gtk_widget_get_toplevel (widget),
+					 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, "%s", str);
 	g_free (str);
-	ret = gtk_dialog_run((GtkDialog *)dialog) == GTK_RESPONSE_YES;
-	gtk_widget_destroy(dialog);
+	ret = gtk_dialog_run ((GtkDialog *)dialog) == GTK_RESPONSE_YES;
+	gtk_widget_destroy (dialog);
 
 	return ret;
 }

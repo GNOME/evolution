@@ -40,7 +40,7 @@
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-send_component_dialog (CalClient *client, CalComponent *comp, gboolean new)
+send_component_dialog (GtkWindow *parent, CalClient *client, CalComponent *comp, gboolean new)
 {
 	GtkWidget *dialog;
 	CalComponentVType vtype;
@@ -80,7 +80,7 @@ send_component_dialog (CalClient *client, CalComponent *comp, gboolean new)
 		return FALSE;
 	}
 	
-	dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+	dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_YES_NO, str);
 

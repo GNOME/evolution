@@ -40,7 +40,7 @@
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-cancel_component_dialog (CalClient *client, CalComponent *comp, gboolean deleting)
+cancel_component_dialog (GtkWindow *parent, CalClient *client, CalComponent *comp, gboolean deleting)
 {
 	GtkWidget *dialog;
 	CalComponentVType vtype;
@@ -81,12 +81,12 @@ cancel_component_dialog (CalClient *client, CalComponent *comp, gboolean deletin
 		break;
 
 	default:
-		g_message ("send_component_dialog(): "
+		g_message ("cancel_component_dialog(): "
 			   "Cannot handle object of type %d", vtype);
 		return FALSE;
 	}
 	
-	dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+	dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_YES_NO, str);
 
