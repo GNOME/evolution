@@ -1,5 +1,12 @@
 2000-10-23  JP Rosevear  <jpr@helixcode.com>
 
+	* conduits/calendar/Makefile.am: Add libeconduit-static.la
+
+	* conduits/calendar/calendar-conduit.c (post_sync): Use e_pilot_map_write
+	(pre_sync): Use e_pilot_map_read
+	
+2000-10-23  JP Rosevear  <jpr@helixcode.com>
+
 	* conduits/todo/Makefile.am: Add libeconduit-static.la
 
 	* conduits/todo/todo-conduit.c (post_sync): Use e_pilot_map_write

@@ -3,6 +3,7 @@ INCLUDES = 					\
 	-I$(top_srcdir)/calendar		\
 	-I$(top_srcdir)/libical/src/libical	\
 	-I$(top_builddir)/libical/src/libical	\
+	-I$(top_builddir)/e-util		\
 	$(BONOBO_VFS_GNOME_CFLAGS)		\
 	$(GNOME_PILOT_CFLAGS)
 
@@ -36,6 +37,7 @@ libecalendar_conduit_la_LIBADD = 					\
 	$(top_builddir)/calendar/cal-util/libcal-util-static.la		\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/libical/src/libical/libical-static.la		\
+	$(top_builddir)/e-util/libeconduit-static.la	 		\
 	$(BONOBO_VFS_GNOME_LIBS)					\
 	$(PISOCK_LIBDIR) $(PISOCK_LIBS) 				\
 	$(GNOME_LIBDIR) 						\
