@@ -5,13 +5,13 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.84 2001/07/11 21:00:22 menthos Exp $
+# $Id: sv.po,v 1.85 2001/07/12 14:10:05 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-07-11 22:57+0200\n"
-"PO-Revision-Date: 2001-07-11 22:59+0200\n"
+"POT-Creation-Date: 2001-07-12 16:01+0200\n"
+"PO-Revision-Date: 2001-07-12 16:03+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -834,7 +834,7 @@ msgid "_Company:"
 msgstr "_Företag:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
-#: calendar/gui/dialogs/meeting-page.c:1195 mail/folder-browser.c:1290
+#: calendar/gui/dialogs/meeting-page.c:1196 mail/folder-browser.c:1290
 #: mail/mail-config.glade.h:103 ui/evolution-mail-message.xml.h:78
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:45
 msgid "_Delete"
@@ -1911,54 +1911,54 @@ msgstr "Ö"
 msgid "W"
 msgstr "V"
 
-#: calendar/gui/calendar-model.c:529 calendar/gui/calendar-model.c:1175
+#: calendar/gui/calendar-model.c:529 calendar/gui/calendar-model.c:1174
 #: calendar/gui/dialogs/task-page.glade.h:8
 #: calendar/gui/e-calendar-table.c:368 mail/message-list.c:625
 msgid "High"
 msgstr "Hög"
 
-#: calendar/gui/calendar-model.c:531 calendar/gui/calendar-model.c:1177
-#: calendar/gui/calendar-model.c:1700
+#: calendar/gui/calendar-model.c:531 calendar/gui/calendar-model.c:1176
+#: calendar/gui/calendar-model.c:1699
 #: calendar/gui/dialogs/task-page.glade.h:11
 #: calendar/gui/e-calendar-table.c:369 mail/message-list.c:624
 msgid "Normal"
 msgstr "Normal"
 
-#: calendar/gui/calendar-model.c:533 calendar/gui/calendar-model.c:1179
+#: calendar/gui/calendar-model.c:533 calendar/gui/calendar-model.c:1178
 #: calendar/gui/dialogs/task-page.glade.h:10
 #: calendar/gui/e-calendar-table.c:370 mail/message-list.c:623
 msgid "Low"
 msgstr "Låg"
 
-#: calendar/gui/calendar-model.c:569 calendar/gui/calendar-model.c:1231
+#: calendar/gui/calendar-model.c:569 calendar/gui/calendar-model.c:1230
 #: calendar/gui/e-calendar-table.c:422
 msgid "Transparent"
 msgstr "Genomskinlig"
 
-#: calendar/gui/calendar-model.c:572 calendar/gui/calendar-model.c:1233
+#: calendar/gui/calendar-model.c:572 calendar/gui/calendar-model.c:1232
 #: calendar/gui/e-calendar-table.c:421
 msgid "Opaque"
 msgstr "Ogenomskinlig"
 
-#: calendar/gui/calendar-model.c:726 calendar/gui/calendar-model.c:1285
+#: calendar/gui/calendar-model.c:726 calendar/gui/calendar-model.c:1284
 #: calendar/gui/dialogs/task-page.glade.h:12
 #: calendar/gui/e-calendar-table.c:442
 msgid "Not Started"
 msgstr "Inte startad"
 
-#: calendar/gui/calendar-model.c:729 calendar/gui/calendar-model.c:1287
+#: calendar/gui/calendar-model.c:729 calendar/gui/calendar-model.c:1286
 #: calendar/gui/dialogs/task-page.glade.h:9
 #: calendar/gui/e-calendar-table.c:443
 msgid "In Progress"
 msgstr "Pågår"
 
-#: calendar/gui/calendar-model.c:732 calendar/gui/calendar-model.c:1289
+#: calendar/gui/calendar-model.c:732 calendar/gui/calendar-model.c:1288
 #: calendar/gui/dialogs/task-page.glade.h:6
 #: calendar/gui/e-calendar-table.c:444
 msgid "Completed"
 msgstr "Färdigt"
 
-#: calendar/gui/calendar-model.c:735 calendar/gui/calendar-model.c:1291
+#: calendar/gui/calendar-model.c:735 calendar/gui/calendar-model.c:1290
 #: calendar/gui/dialogs/task-page.glade.h:4
 #: calendar/gui/e-calendar-table.c:445 camel/camel-service.c:544
 #: camel/camel-service.c:580
@@ -1994,8 +1994,8 @@ msgstr ""
 "eller \"Ingen\""
 
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:987 calendar/gui/calendar-model.c:1229
-#: calendar/gui/calendar-model.c:1283
+#: calendar/gui/calendar-model.c:987 calendar/gui/calendar-model.c:1228
+#: calendar/gui/calendar-model.c:1282
 #: calendar/gui/dialogs/e-timezone-dialog.c:197
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:345 calendar/gui/e-calendar-table.c:420
@@ -2007,7 +2007,7 @@ msgstr ""
 msgid "None"
 msgstr "Ingen"
 
-#: calendar/gui/calendar-model.c:1079
+#: calendar/gui/calendar-model.c:1078
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -2017,41 +2017,41 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/calendar-model.c:1119
+#: calendar/gui/calendar-model.c:1118
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Procentvärdet måste vara mellan 0 och 100"
 
-#: calendar/gui/calendar-model.c:1160
+#: calendar/gui/calendar-model.c:1159
 msgid "The priority must be 'High', 'Normal', 'Low' or 'Undefined'."
 msgstr ""
 "Prioriteten måste vara \"Hög\", \"Normal\", \"Låg\" eller \"Odefinierad\"."
 
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:1173
+#: calendar/gui/calendar-model.c:1172
 #: calendar/gui/dialogs/task-page.glade.h:18
 #: calendar/gui/e-calendar-table.c:371
 msgid "Undefined"
 msgstr "Odefinierad"
 
-#: calendar/gui/calendar-model.c:1214
+#: calendar/gui/calendar-model.c:1213
 msgid "The transparency must be 'Transparent', 'Opaque', or 'None'."
 msgstr ""
 "Genomskinligheten måste vara \"Genomskinlig\", \"Ogenomskinlig\" eller "
 "\"Ingen\"."
 
-#: calendar/gui/calendar-model.c:1702
+#: calendar/gui/calendar-model.c:1701
 msgid "Recurring"
 msgstr "Återkommande"
 
-#: calendar/gui/calendar-model.c:1704
+#: calendar/gui/calendar-model.c:1703
 msgid "Assigned"
 msgstr "Tilldelad"
 
-#: calendar/gui/calendar-model.c:1710
+#: calendar/gui/calendar-model.c:1709
 msgid "Yes"
 msgstr "Ja"
 
-#: calendar/gui/calendar-model.c:1710
+#: calendar/gui/calendar-model.c:1709
 msgid "No"
 msgstr "Nej"
 
@@ -2229,7 +2229,7 @@ msgstr "Grundläggande"
 #: calendar/gui/dialogs/alarm-page.glade.h:3
 #: calendar/gui/dialogs/recurrence-page.glade.h:4
 #: calendar/gui/dialogs/task-details-page.glade.h:3
-#: calendar/gui/e-itip-control.c:293
+#: calendar/gui/e-itip-control.c:297
 msgid "Date/Time:"
 msgstr "Datum/tid:"
 
@@ -2245,7 +2245,7 @@ msgstr "Påminnelser"
 #: calendar/gui/dialogs/alarm-page.glade.h:11
 #: calendar/gui/dialogs/recurrence-page.glade.h:13
 #: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-itip-control.c:282 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:286 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Sammanfattning:"
 
@@ -2362,7 +2362,7 @@ msgid "Fri"
 msgstr "fre"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
-#: calendar/gui/dialogs/recurrence-page.c:985
+#: calendar/gui/dialogs/recurrence-page.c:978
 msgid "Friday"
 msgstr "fredag"
 
@@ -2371,7 +2371,7 @@ msgid "Mon"
 msgstr "mån"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: calendar/gui/dialogs/recurrence-page.c:981
+#: calendar/gui/dialogs/recurrence-page.c:974
 msgid "Monday"
 msgstr "måndag"
 
@@ -2392,7 +2392,7 @@ msgid "Sat"
 msgstr "lör"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
-#: calendar/gui/dialogs/recurrence-page.c:986
+#: calendar/gui/dialogs/recurrence-page.c:979
 msgid "Saturday"
 msgstr "lördag"
 
@@ -2413,7 +2413,7 @@ msgid "Sun"
 msgstr "sön"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
-#: calendar/gui/dialogs/recurrence-page.c:987
+#: calendar/gui/dialogs/recurrence-page.c:980
 msgid "Sunday"
 msgstr "söndag"
 
@@ -2430,7 +2430,7 @@ msgid "Thu"
 msgstr "tor"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
-#: calendar/gui/dialogs/recurrence-page.c:984
+#: calendar/gui/dialogs/recurrence-page.c:977
 msgid "Thursday"
 msgstr "torsdag"
 
@@ -2455,7 +2455,7 @@ msgid "Tue"
 msgstr "tis"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-#: calendar/gui/dialogs/recurrence-page.c:982
+#: calendar/gui/dialogs/recurrence-page.c:975
 msgid "Tuesday"
 msgstr "tisdag"
 
@@ -2464,7 +2464,7 @@ msgid "Wed"
 msgstr "ons"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
-#: calendar/gui/dialogs/recurrence-page.c:983
+#: calendar/gui/dialogs/recurrence-page.c:976
 msgid "Wednesday"
 msgstr "onsdag"
 
@@ -2539,27 +2539,27 @@ msgid "%s  You have made no changes, update the editor?"
 msgstr "%s  Du har inte gjort några ändringar, uppdatera redigeraren?"
 
 #: calendar/gui/dialogs/comp-editor-util.c:154
-#: calendar/gui/e-itip-control.c:546 calendar/gui/print.c:2115
+#: calendar/gui/e-itip-control.c:582 calendar/gui/print.c:2115
 msgid " to "
 msgstr " till "
 
 #: calendar/gui/dialogs/comp-editor-util.c:158
-#: calendar/gui/e-itip-control.c:550 calendar/gui/print.c:2119
+#: calendar/gui/e-itip-control.c:586 calendar/gui/print.c:2119
 msgid " (Completed "
 msgstr " (Färdigt "
 
 #: calendar/gui/dialogs/comp-editor-util.c:160
-#: calendar/gui/e-itip-control.c:552 calendar/gui/print.c:2121
+#: calendar/gui/e-itip-control.c:588 calendar/gui/print.c:2121
 msgid "Completed "
 msgstr "Färdigt "
 
 #: calendar/gui/dialogs/comp-editor-util.c:165
-#: calendar/gui/e-itip-control.c:557 calendar/gui/print.c:2126
+#: calendar/gui/e-itip-control.c:593 calendar/gui/print.c:2126
 msgid " (Due "
 msgstr " (Ska utföras "
 
 #: calendar/gui/dialogs/comp-editor-util.c:167
-#: calendar/gui/e-itip-control.c:559 calendar/gui/print.c:2128
+#: calendar/gui/e-itip-control.c:595 calendar/gui/print.c:2128
 msgid "Due "
 msgstr "Ska utföras "
 
@@ -2738,11 +2738,11 @@ msgstr "Slutti_d:"
 msgid "_Start time:"
 msgstr "_Starttid:"
 
-#: calendar/gui/dialogs/meeting-page.c:613
+#: calendar/gui/dialogs/meeting-page.c:614
 msgid "Sent By:"
 msgstr "Skickat av:"
 
-#: calendar/gui/dialogs/meeting-page.c:1190
+#: calendar/gui/dialogs/meeting-page.c:1191
 msgid "_Delegate To..."
 msgstr "_Delegera till..."
 
@@ -2755,28 +2755,36 @@ msgid "Common Name"
 msgstr "Vanligt namn"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
+msgid "Delegated From"
+msgstr "Delegerad från"
+
+#: calendar/gui/dialogs/meeting-page.etspec.h:4
+msgid "Delegated To"
+msgstr "Delegerad till"
+
+#: calendar/gui/dialogs/meeting-page.etspec.h:5
 msgid "Language"
 msgstr "Språk"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:4
+#: calendar/gui/dialogs/meeting-page.etspec.h:6
 msgid "Member"
 msgstr "Medlem"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:5
+#: calendar/gui/dialogs/meeting-page.etspec.h:7
 msgid "RSVP"
 msgstr "OSA"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:6
+#: calendar/gui/dialogs/meeting-page.etspec.h:8
 msgid "Role"
 msgstr "Roll"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:7
+#: calendar/gui/dialogs/meeting-page.etspec.h:9
 #: calendar/gui/e-calendar-table.etspec.h:13 filter/libfilter-i18n.h:32
 #: mail/message-list.etspec.h:8
 msgid "Status"
 msgstr "Status"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:8
+#: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:17 mail/mail-config.glade.h:96
 #: shell/glade/e-active-connection-dialog.glade.h:5
 msgid "Type"
@@ -2809,23 +2817,23 @@ msgstr "%a %d %b %Y"
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Detta möte har upprepningsregler som inte kan redigeras med Evolution."
 
-#: calendar/gui/dialogs/recurrence-page.c:954
+#: calendar/gui/dialogs/recurrence-page.c:947
 msgid "on"
 msgstr "vid"
 
-#: calendar/gui/dialogs/recurrence-page.c:980 filter/filter-datespec.c:81
+#: calendar/gui/dialogs/recurrence-page.c:973 filter/filter-datespec.c:81
 msgid "day"
 msgstr "dag"
 
-#: calendar/gui/dialogs/recurrence-page.c:1110
+#: calendar/gui/dialogs/recurrence-page.c:1103
 msgid "on the"
 msgstr "den"
 
-#: calendar/gui/dialogs/recurrence-page.c:1118
+#: calendar/gui/dialogs/recurrence-page.c:1111
 msgid "th"
 msgstr ":e"
 
-#: calendar/gui/dialogs/recurrence-page.c:1288
+#: calendar/gui/dialogs/recurrence-page.c:1281
 msgid "occurrences"
 msgstr "förekomster"
 
@@ -3011,14 +3019,14 @@ msgid "Edit this task"
 msgstr "Redigera denna uppgift"
 
 #: calendar/gui/e-calendar-table.c:880 calendar/gui/e-calendar-table.c:890
-#: calendar/gui/e-day-view.c:3332 calendar/gui/e-week-view.c:3165
+#: calendar/gui/e-day-view.c:3332 calendar/gui/e-week-view.c:3170
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-calendar.xml.h:10
 #: ui/evolution-mail-list.xml.h:4
 msgid "Cut"
 msgstr "Klipp ut"
 
 #: calendar/gui/e-calendar-table.c:881 calendar/gui/e-calendar-table.c:891
-#: calendar/gui/e-day-view.c:3334 calendar/gui/e-week-view.c:3167
+#: calendar/gui/e-day-view.c:3334 calendar/gui/e-week-view.c:3172
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-calendar.xml.h:5
 #: ui/evolution-mail-list.xml.h:2 ui/evolution-mail-message.xml.h:5
 msgid "Copy"
@@ -3026,7 +3034,7 @@ msgstr "Kopiera"
 
 #: calendar/gui/e-calendar-table.c:882 calendar/gui/e-calendar-table.c:892
 #: calendar/gui/e-day-view.c:3307 calendar/gui/e-day-view.c:3336
-#: calendar/gui/e-week-view.c:3141 calendar/gui/e-week-view.c:3169
+#: calendar/gui/e-week-view.c:3146 calendar/gui/e-week-view.c:3174
 #: ui/evolution-addressbook.xml.h:12 ui/evolution-calendar.xml.h:26
 #: ui/evolution-mail-list.xml.h:12
 msgid "Paste"
@@ -3137,13 +3145,13 @@ msgid "%d %b"
 msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:576 calendar/gui/e-week-view.c:308
+#: calendar/gui/e-day-view.c:576 calendar/gui/e-week-view.c:309
 #: calendar/gui/print.c:759
 msgid "am"
 msgstr "fm"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:579 calendar/gui/e-week-view.c:311
+#: calendar/gui/e-day-view.c:579 calendar/gui/e-week-view.c:312
 #: calendar/gui/print.c:761
 msgid "pm"
 msgstr "em"
@@ -3152,33 +3160,33 @@ msgstr "em"
 msgid "New Appointment"
 msgstr "Nytt möte"
 
-#: calendar/gui/e-day-view.c:3314 calendar/gui/e-week-view.c:3148
+#: calendar/gui/e-day-view.c:3314 calendar/gui/e-week-view.c:3153
 msgid "New All Day Event"
 msgstr "Nytt heldagsarrangemang"
 
-#: calendar/gui/e-day-view.c:3319 calendar/gui/e-week-view.c:3153
+#: calendar/gui/e-day-view.c:3319 calendar/gui/e-week-view.c:3158
 msgid "Go to Today"
 msgstr "Gå till idag"
 
-#: calendar/gui/e-day-view.c:3321 calendar/gui/e-week-view.c:3155
+#: calendar/gui/e-day-view.c:3321 calendar/gui/e-week-view.c:3160
 msgid "Go to Date..."
 msgstr "Gå till datum..."
 
-#: calendar/gui/e-day-view.c:3328 calendar/gui/e-week-view.c:3161
+#: calendar/gui/e-day-view.c:3328 calendar/gui/e-week-view.c:3166
 #: shell/e-shortcuts-view.c:468 ui/evolution-calendar.xml.h:24
 #: ui/evolution-message-composer.xml.h:12
 msgid "Open"
 msgstr "Öppna"
 
-#: calendar/gui/e-day-view.c:3330 calendar/gui/e-week-view.c:3163
+#: calendar/gui/e-day-view.c:3330 calendar/gui/e-week-view.c:3168
 msgid "Delete this Appointment"
 msgstr "Ta bort detta möte"
 
-#: calendar/gui/e-day-view.c:3345 calendar/gui/e-week-view.c:3183
+#: calendar/gui/e-day-view.c:3345 calendar/gui/e-week-view.c:3188
 msgid "Make this Occurrence Movable"
 msgstr "Gör denna förekomst flyttbar"
 
-#: calendar/gui/e-day-view.c:3347 calendar/gui/e-week-view.c:3185
+#: calendar/gui/e-day-view.c:3347 calendar/gui/e-week-view.c:3190
 msgid "Delete this Occurrence"
 msgstr "Ta bort denna förekomst"
 
@@ -3186,84 +3194,84 @@ msgstr "Ta bort denna förekomst"
 msgid "Delete all Occurrences"
 msgstr "Ta bort alla förekomster"
 
-#: calendar/gui/e-itip-control.c:613
+#: calendar/gui/e-itip-control.c:649
 msgid "This is an event that can be added to your calendar."
 msgstr "Detta är ett evenemang som kan läggas till i din kalender."
 
-#: calendar/gui/e-itip-control.c:616
+#: calendar/gui/e-itip-control.c:652
 msgid "This is a meeting request."
 msgstr "Detta är en mötesbegäran."
 
-#: calendar/gui/e-itip-control.c:619
+#: calendar/gui/e-itip-control.c:655
 msgid "This is one or more additions to a current meeting."
 msgstr "Detta är en eller flera tillägg till ett aktuellt möte."
 
-#: calendar/gui/e-itip-control.c:622
+#: calendar/gui/e-itip-control.c:658
 msgid "This is a request for the latest event information."
 msgstr "Detta är en begäran av den senaste evenemangsinformationen."
 
-#: calendar/gui/e-itip-control.c:625
+#: calendar/gui/e-itip-control.c:661
 msgid "This is a reply to a meeting request."
 msgstr "Detta är ett svar på en mötesbegäran."
 
-#: calendar/gui/e-itip-control.c:628
+#: calendar/gui/e-itip-control.c:664
 msgid "This is an event cancellation."
 msgstr "Detta är en evenemangsavbokning."
 
-#: calendar/gui/e-itip-control.c:631 calendar/gui/e-itip-control.c:670
-#: calendar/gui/e-itip-control.c:698
+#: calendar/gui/e-itip-control.c:667 calendar/gui/e-itip-control.c:707
+#: calendar/gui/e-itip-control.c:735
 msgid "The message is not understandable."
 msgstr "Detta meddelande kan inte förstås."
 
-#: calendar/gui/e-itip-control.c:655
+#: calendar/gui/e-itip-control.c:692
 msgid "This is an task that can be added to your calendar."
 msgstr "Detta är en uppgift som kan läggas till i din kalender."
 
-#: calendar/gui/e-itip-control.c:658
+#: calendar/gui/e-itip-control.c:695
 msgid "This is a task request."
 msgstr "Detta är en begäran om en uppgift."
 
-#: calendar/gui/e-itip-control.c:661
+#: calendar/gui/e-itip-control.c:698
 msgid "This is a request for the latest task information."
 msgstr "Detta är en begäran av den senaste uppgiftsinformationen."
 
-#: calendar/gui/e-itip-control.c:664
+#: calendar/gui/e-itip-control.c:701
 msgid "This is a reply to a task request."
 msgstr "Detta är ett svar på en uppgiftsbegäran."
 
-#: calendar/gui/e-itip-control.c:667
+#: calendar/gui/e-itip-control.c:704
 msgid "This is an task cancellation."
 msgstr "Detta är en uppgiftsavbokning."
 
-#: calendar/gui/e-itip-control.c:689
+#: calendar/gui/e-itip-control.c:726
 msgid "This is freebusy information."
 msgstr "Detta är ledig-/upptageninformation."
 
-#: calendar/gui/e-itip-control.c:692
+#: calendar/gui/e-itip-control.c:729
 msgid "This is a request for freebusy information."
 msgstr "Detta är en begäran av ledig-/upptageninformation."
 
-#: calendar/gui/e-itip-control.c:695
+#: calendar/gui/e-itip-control.c:732
 msgid "This is a reply to a freebusy request."
 msgstr "Detta är ett svar på en begäran av ledig-/upptageninformation."
 
-#: calendar/gui/e-itip-control.c:718
+#: calendar/gui/e-itip-control.c:755
 msgid "The message does not appear to be properly formed"
 msgstr "Meddelandet verkar inte vara korrekt utformat"
 
-#: calendar/gui/e-itip-control.c:737
+#: calendar/gui/e-itip-control.c:774
 msgid "The message contains only unsupported requests."
 msgstr "Meddelandet innehåller typer av begäran som inte stöds."
 
-#: calendar/gui/e-itip-control.c:753
+#: calendar/gui/e-itip-control.c:792
 msgid "The information contained in this attachment was not valid"
 msgstr "Informationen i denna bilaga var inte giltig"
 
-#: calendar/gui/e-itip-control.c:869
+#: calendar/gui/e-itip-control.c:883
 msgid "I couldn't update your calendar file!\n"
 msgstr "Jag kunde inte uppdatera din kalenderfil!\n"
 
-#: calendar/gui/e-itip-control.c:894
+#: calendar/gui/e-itip-control.c:908
 msgid "I couldn't remove the item from your calendar file!\n"
 msgstr "Jag kunde inte ta bort objektet från din kalenderfil!\n"
 
@@ -3331,11 +3339,11 @@ msgstr "Metoden som krävs för att läsa in \"%s\" stöds inte"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/e-week-view.c:3146 calendar/gui/e-week-view.c:3174
+#: calendar/gui/e-week-view.c:3151 calendar/gui/e-week-view.c:3179
 msgid "New Appointment..."
 msgstr "Nytt möte..."
 
-#: calendar/gui/e-week-view.c:3187
+#: calendar/gui/e-week-view.c:3192
 msgid "Delete All Occurrences"
 msgstr "Ta bort alla förekomster"
 
@@ -3355,12 +3363,12 @@ msgstr "Kommentaren innehåller"
 msgid "Has category"
 msgstr "Har kategorin"
 
-#: calendar/gui/gnome-cal.c:1060
+#: calendar/gui/gnome-cal.c:1058
 #, c-format
 msgid "Could not open the folder in `%s'"
 msgstr "Kunde inte öppna mappen i \"%s\""
 
-#: calendar/gui/gnome-cal.c:1071
+#: calendar/gui/gnome-cal.c:1069
 #, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr "Metoden som krävs för att öppna \"%s\" stöds inte"
@@ -3421,7 +3429,7 @@ msgstr "oktober"
 msgid "September"
 msgstr "september"
 
-#: calendar/gui/itip-utils.c:211
+#: calendar/gui/itip-utils.c:223
 msgid "An organizer must be set."
 msgstr "En organisatör måste vara angiven."
 
@@ -4509,7 +4517,7 @@ msgstr "Kunde inte ta bort mappsammanfattningsfilen \"%s\": %s"
 msgid "Could not delete folder index file `%s': %s"
 msgstr "Kunde inte ta bort mappindexfilen \"%s\": %s"
 
-#: camel/providers/local/camel-local-summary.c:405
+#: camel/providers/local/camel-local-summary.c:417
 #: camel/providers/local/camel-spool-summary.c:1153
 msgid "Unable to add message to summary: unknown reason"
 msgstr "Kunde inte lägga till meddelandet i sammanfattningen: okänd orsak"
@@ -7088,23 +7096,23 @@ msgstr "Göm"
 msgid "External Viewer"
 msgstr "Externt visningsprogram"
 
-#: mail/mail-display.c:1054
+#: mail/mail-display.c:1047
 msgid "Loading message content"
 msgstr "Läser in meddelandeinnehåll"
 
-#: mail/mail-display.c:1411
+#: mail/mail-display.c:1404
 msgid "Open Link in Browser"
 msgstr "Öppna länk i webbläsare"
 
-#: mail/mail-display.c:1413
+#: mail/mail-display.c:1406
 msgid "Copy Link Location"
 msgstr "Kopiera länkplats"
 
-#: mail/mail-display.c:1415
+#: mail/mail-display.c:1408
 msgid "Save Link as (FIXME)"
 msgstr "Spara länk som (FIXME)"
 
-#: mail/mail-display.c:1417
+#: mail/mail-display.c:1410
 msgid "Save Image as"
 msgstr "Spara bild som"
 
