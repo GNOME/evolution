@@ -38,6 +38,12 @@
 		<cmd name="ViewAttach" _label="Show attachments" _tip="Show / hide attachments"
 		type="toggle" state="0"/> 
 	
+                <cmd name="SecuritySign" _label="PGP Sign" _tip="Sign this message with your PGP key"
+		type="toggle" state="0"/>
+
+                <cmd name="SecurityEncrypt" _label="PGP Encrypt" _tip="Encrypt this message with PGP"
+		type="toggle" state="0"/>
+
 	</commands>
 
 
@@ -93,6 +99,14 @@
 		</submenu>
 
 		<placeholder name="Component"/>
+
+                <submenu name="Security" _label="_Security">
+
+                        <menuitem name="SecuritySign" verb="" _label="PGP Sign"/>
+
+                        <menuitem name="SecurityEncrypt" verb="" _label="PGP Encrypt"/>
+
+                </submenu>
 
 		<submenu name="Help" _label="_Help">
 	
