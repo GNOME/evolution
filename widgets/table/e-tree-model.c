@@ -43,7 +43,12 @@ static void add_visible_descendents_to_array (ETreeModel *etm, GNode *gnode, int
 static void
 etree_destroy (GtkObject *object)
 {
+	ETreeModel *etree = E_TREE_MODEL (object);
+
 	/* XXX lots of stuff to free here */
+	g_array_free (etree->row_array, TRUE);
+	
+	GTK_OBJECT_CLASS (e_tree_model_parent_class)->destroy (object);
 }
 
 static ETreePath*
