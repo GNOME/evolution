@@ -16,6 +16,7 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <e-card-types.h>
+#include <e-card-list.h>
 
 #define E_TYPE_CARD            (e_card_get_type ())
 #define E_CARD(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_CARD, ECard))
@@ -32,13 +33,13 @@ struct _ECard {
 
 	char            *fname;         /* The full name.                   */
 	ECardName       *name;          /* The structured name.             */
-	GList           *address;  	/* Delivery addresses (ECardDeliveryAddress *) */
+	ECardList       *address;  	/* Delivery addresses (ECardDeliveryAddress *) */
 #if 0
 	GList           *del_labels;    /* Delivery address labels
 					 * (ECardAddrLabel *)               */
 #endif
-	GList           *phone;         /* Phone numbers (ECardPhone *)     */
-	GList           *email;         /* Email addresses (char *)         */
+	ECardList       *phone;         /* Phone numbers (ECardPhone *)     */
+	ECardList       *email;         /* Email addresses (char *)         */
 #if 0
 	char            *url;	        /* The person's web page.           */
 

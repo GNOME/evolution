@@ -45,6 +45,9 @@ libebook_la_SOURCES =					\
 	e-book-view.c					\
 	e-book.c					\
 	e-card-cursor.c					\
+	e-card-iterator.c				\
+	e-card-list-iterator.c				\
+	e-card-list.c					\
 	e-card.c
 
 libebookincludedir = $(includedir)/backend
@@ -55,6 +58,9 @@ libebookinclude_HEADERS =				\
 	e-book-view.h					\
 	e-book.h					\
 	e-card-cursor.h					\
+	e-card-iterator.h				\
+	e-card-list-iterator.h				\
+	e-card-list.h					\
 	e-card.h
 
 test_client_SOURCES =					\

@@ -35,11 +35,8 @@ struct _EBookClass {
 	/*
 	 * Signals.
 	 */
-	void (* open_progress) (const char *msg, short percent);
-	void (* link_status)   (gboolean connected);
-	void (* card_changed)  (const char *id);
-	void (* card_removed)  (const char *id);
-	void (* card_added)    (const char *id);
+	void (* open_progress) (EBook *book, const char *msg, short percent);
+	void (* link_status)   (EBook *book, gboolean connected);
 };
 
 /* Callbacks for asynchronous functions. */

@@ -61,9 +61,10 @@ main (int argc, char **argv)
 	/* Fields */
 	char *fname;
 	ECardName *name;
-	GList *address;
-	GList *phone;
-	GList *email;
+	ECardList *address;
+	ECardList *phone;
+	ECardList *email;
+	ECardIterator *iterator;
 	ECardDate *bday;
 
 	gnome_init ("TestCard", "0.0", argc, argv);
@@ -114,19 +115,24 @@ main (int argc, char **argv)
 	  printf("BDay : %4d-%02d-%02d\n", bday->year, bday->month, bday->day);
 	}
 	if ( email ) {
-	  for ( ; email; email = email->next ) {
-	    printf("Email : %s\n", (char *) email->data);
+	  iterator = e_card_list_get_iterator(address);
+	  for (; e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
+	    printf("Email : %s\n", (char *) e_card_iterator_get(iterator));
 	  }
+	  gtk_object_unref(GTK_OBJECT(iterator));
 	}
 	if ( phone ) {
-	  for ( ; phone; phone = phone->next ) {
-	    ECardPhone *e_card_phone = (ECardPhone *) phone->data;
+	  iterator = e_card_list_get_iterator(address);
+	  for (; e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
+	    ECardPhone *e_card_phone = (ECardPhone *) e_card_iterator_get(iterator);
 	    printf("Phone ; %d : %s\n", e_card_phone->flags, e_card_phone->number);
 	  }
+	  gtk_object_unref(GTK_OBJECT(iterator));
 	}
 	if ( address ) {
-	  for ( ; address; address = address->next ) { 
-	    ECardDeliveryAddress *del_address = (ECardDeliveryAddress *) address->data;
+	  iterator = e_card_list_get_iterator(address);
+	  for (; e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
+	    ECardDeliveryAddress *del_address = (ECardDeliveryAddress *) e_card_iterator_get(iterator);
 	    printf("Address ; %d:\n", del_address->flags);
 	    if ( del_address->po )
 	      printf("  Po      : %s\n", del_address->po);
@@ -143,6 +149,7 @@ main (int argc, char **argv)
 	    if ( del_address->country )
 	      printf("  Country : %s\n", del_address->country);
 	  }
+	  gtk_object_unref(GTK_OBJECT(iterator));
 	}
 	printf("%s", e_card_get_vcard(card));
 	gtk_object_unref (GTK_OBJECT (card));

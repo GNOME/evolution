@@ -63,7 +63,7 @@ e_book_view_do_removed_event (EBookView                 *book_view,
 	gtk_signal_emit (GTK_OBJECT (book_view), e_book_view_signals [CARD_REMOVED],
 			 resp->cards);
 
-	g_list_foreach (resp->cards, (GFunc) g_free, NULL);
+	g_list_foreach (resp->cards, (GFunc) gtk_object_unref, NULL);
 	g_list_free (resp->cards);
 }
 
