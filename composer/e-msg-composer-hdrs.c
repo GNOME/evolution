@@ -135,22 +135,24 @@ create_dropdown_entry (EMsgComposerHdrs *hdrs,
 	gtk_combo_set_use_arrows (GTK_COMBO (combo), TRUE);
 	gtk_combo_set_case_sensitive (GTK_COMBO (combo), FALSE);
 	if (!strcmp (name, _("From:"))) {
-		GSList *ids, *stmp;
+		const MailConfigIdentity *id;
+		const GSList *accounts, *stmp;
 		GList *tmp;
-		MailConfigIdentity *id;
 		char *val;
 		
-		ids = mail_config_get_identities ();
-		stmp = ids;
+		accounts = mail_config_get_accounts ();
+		stmp = accounts;
 		while (stmp) {
+			const MailConfigAccount *account;
 			char *address, *addr_local;
 			
-			id = stmp->data;
-			g_assert (id);			
-			g_assert (id->name);
-			g_assert (id->address);
+			account = stmp->data;
+			g_assert (account);
+			g_assert (account->id);
+			g_assert (account->id->name);
+			g_assert (account->id->address);
 			
-			address = camel_internet_address_format_address(id->name, id->address);
+			address = camel_internet_address_format_address (account->id->name, account->id->address);
 			addr_local = e_utf8_to_gtk_string (combo, address);
 			g_free (address);
 			values = g_list_append (values, addr_local);
@@ -165,13 +167,13 @@ create_dropdown_entry (EMsgComposerHdrs *hdrs,
 			tmp = tmp->next;
 		}
 		g_list_free (values);
-
+		
 		id = mail_config_get_default_identity ();
 		g_assert (id);			
 		g_assert (id->name);
 		g_assert (id->address);
 		
-		val = camel_internet_address_format_address(id->name, id->address);
+		val = camel_internet_address_format_address (id->name, id->address);
 		
 		e_utf8_gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), val);
 		g_free (val);
