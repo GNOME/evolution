@@ -16,17 +16,17 @@
 #include <ical.h>
 #include <time.h>
 #include <Evolution-Composer.h>
+#include <e-components.h>
 
 #include "e-itip-control.h"
 #include <cal-util/cal-component.h>
 #include <cal-client/cal-client.h>
 #include "itip-utils.h"
 
+#define MAIL_COMPOSER_OAF_IID "OAFIID:GNOME_Evolution_Mail_Composer"
 
 #define DEFAULT_WIDTH 400
 #define DEFAULT_HEIGHT 300
-
-#define COMPOSER_OAFID "OAFIID:evolution-composer:evolution-mail:cd8618ea-53e1-4b9e-88cf-ec578bdb903b"
 
 extern gchar *evolution_dir;
 
@@ -231,7 +231,7 @@ send_itip_reply (EItipControlPrivate *priv)
 	CORBA_exception_init (&ev);
 
 	/* First, I obtain an object reference that represents the Composer. */
-	bonobo_server = bonobo_object_activate (COMPOSER_OAFID, 0);
+	bonobo_server = bonobo_object_activate (MAIL_COMPOSER_OAF_IID, 0);
 
 	g_return_if_fail (bonobo_server != NULL);
 
@@ -1044,10 +1044,9 @@ e_itip_control_factory_init (void)
 	if (factory != NULL)
 		return;
 
-	factory =
-		bonobo_generic_factory_new (
-		        "OAFIID:control-factory:e_itipview:10441fcf-9a4f-4bf9-a026-d50b5462d45a",
-			e_itip_control_factory, NULL);
+	factory = bonobo_generic_factory_new (
+		"OAFIID:GNOME_Evolution_Calendar_iTip_ControlFactory",
+		e_itip_control_factory, NULL);
 
 	if (factory == NULL)
 		g_error ("I could not register an iTip control factory.");

@@ -41,7 +41,7 @@
 
 #define PROPERTY_CALENDAR_URI_IDX 1
 
-#define CONTROL_FACTORY_ID   "OAFIID:control-factory:calendar:f4f90989-0f50-4af2-ad94-8bbdf331f0bc"
+#define CONTROL_FACTORY_ID   "OAFIID:GNOME_Evolution_Calendar_ControlFactory"
 
 
 CORBA_Environment ev;

@@ -1,0 +1,28 @@
+
+	Here is how both the Evolution implementation and IDL namespacing
+is to be organized, NB. for implementations and oafinfo filenames we replace
+'/' with '_'
+
+Files:
+
+/GNOME/Evolution/
+
+	Addressbook/
+	Calendar/
+		Control
+		gnomecal
+	Composer/
+	Mail/
+	Notes/		
+	Shell/
+	Summary/
+		test
+		rdf
+	Wombat/
+
+Components:
+
+	Shell components end in _ShellComponent, controls in _Control,
+executive summary components in _ExecutiveSummaryComponent and
+factories append 'Factory'.
+

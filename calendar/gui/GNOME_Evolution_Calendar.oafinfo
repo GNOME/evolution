@@ -1,6 +1,6 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:control-factory:e_itipview:10441fcf-9a4f-4bf9-a026-d50b5462d45a"
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_iTip_ControlFactory"
             type="exe"
             location="evolution-calendar">
 
@@ -13,9 +13,9 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:control:e_itipview:1eef8614-cce4-4398-aed4-f32e920fb6ad"
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_iTip_Control"
             type="factory"
-            location="OAFIID:control-factory:e_itipview:10441fcf-9a4f-4bf9-a026-d50b5462d45a">
+            location="OAFIID:GNOME_Evolution_Calendar_iTip_ControlFactory">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:Bonobo/Control:1.0"/>
@@ -34,7 +34,7 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:evolution-shell-component-factory:evolution-calendar:cba77062-1466-4aac-8ce7-b019eaf2e921"
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_ShellComponentFactory"
             type="exe"
             location="evolution-calendar">
 
@@ -47,9 +47,9 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:evolution-shell-component:evolution-calendar:2eb9eb63-d305-4918-9c35-faae5db19e51"
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_ShellComponent"
             type="factory"
-            location="OAFIID:evolution-shell-component-factory:evolution-calendar:cba77062-1466-4aac-8ce7-b019eaf2e921">
+            location="OAFIID:GNOME_Evolution_Calendar_ShellComponentFactory">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
@@ -62,7 +62,7 @@
 		       value="evolution-calendar.png"/>
 </oaf_server>
 
-<oaf_server iid="OAFIID:evolution-executive-summary-component-factory:evolution-calendar:6b45a890-fbc0-4f20-97d8-b8e344c059af"
+<oaf_server iid="OAFIID:GNOME_Evolution_ExecutiveSummaryComponentFactory"
 		type="exe"
 		location="evolution-calendar">
 
@@ -74,9 +74,9 @@
 			value="Factory for the Calendar Summary component."/>
 </oaf_server>
 
-<oaf_server iid="OAFIID:evolution-executive-summary-component:evolution-calendar:c80742c0-c7ae-4f53-9df2-33221864729c"
+<oaf_server iid="OAFIID:GNOME_Evolution_ExecutiveSummaryComponent"
 	    type="factory"
-	    location="OAFIID:evolution-executive-summary-component-factory:evolution-calendar:6b45a890-fbc0-4f20-97d8-b8e344c059af">
+	    location="OAFIID:GNOME_Evolution_ExecutiveSummaryComponentFactory">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution:SummaryComponent:1.0"/>

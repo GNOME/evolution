@@ -15,7 +15,7 @@
 #include "addressbook.h"
 #include "pas-book-factory.h"
 
-#define PAS_BOOK_FACTORY_OAF_ID "OAFIID:evolution:addressbook-server:0fbc844d-c721-4615-98d0-d67eacf42d80"
+#define PAS_BOOK_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_ServerFactory"
 
 static BonoboObjectClass          *pas_book_factory_parent_class;
 POA_GNOME_Evolution_Addressbook_BookFactory__vepv   pas_book_factory_vepv;

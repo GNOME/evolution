@@ -465,8 +465,7 @@ schedule_button_clicked_cb (GtkWidget *widget, gpointer data)
 	return;
 }
 
-#define COMPOSER_OAFID "OAFIID:evolution-composer:evolution-mail:cd8618ea-53e1-4b9e-88cf-ec578bdb903b"
-
+#define GNOME_EVOLUTION_COMPOSER_OAFIID "OAFIID:GNOME_Evolution_Mail_Composer"
 
 static gchar *itip_methods[] = {
 	"REQUEST",
@@ -503,7 +502,7 @@ send_calendar_info (itip_method_enum method, EMeetingEditorPrivate *priv)
 	CORBA_exception_init (&ev);
 
 	/* First, I obtain an object reference that represents the Composer. */
-	bonobo_server = bonobo_object_activate (COMPOSER_OAFID, 0);
+	bonobo_server = bonobo_object_activate (GNOME_EVOLUTION_COMPOSER_OAFIID, 0);
 
 	g_return_if_fail (bonobo_server != NULL);
 

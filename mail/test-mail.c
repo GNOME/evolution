@@ -32,7 +32,7 @@ create_container (void)
 	bonobo_ui_container_set_win (container, BONOBO_WINDOW (window));
 
 	control = bonobo_widget_new_control (
-		"OAFIID:control:evolution-mail:833d5a71-a201-4a0e-b7e6-5475c5c4cb45",
+		"OAFIID:GNOME_Evolution_Mail_Control",
 		bonobo_object_corba_objref (BONOBO_OBJECT (container)));
 	
 	if (control == NULL){

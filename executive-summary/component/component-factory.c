@@ -38,7 +38,7 @@
 #include "component-factory.h"
 #include "e-summary-factory.h"
 
-#define COMPONENT_FACTORY_IID "OAFIID:evolution-shell-component-factory:evolution-executive-summary:e030e71d-0c53-4118-8d48-28757f0a8504"
+#define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Summary_ShellComponentFactory"
 
 static BonoboGenericFactory *factory = NULL;
 static gint running_objects = 0;

@@ -58,7 +58,7 @@ evolution_addressbook_LDADD =						\
 evolution_addressbook_LDFLAGS = `gnome-config --libs gdk_pixbuf` -export-dynamic
 
 oafdir = $(datadir)/oaf
-oaf_DATA = addressbook.oafinfo
+oaf_DATA = GNOME_Evolution_Addressbook.oafinfo
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = ldap-server-dialog.glade

@@ -1,6 +1,6 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:factory:addressbook:select-names:b39eb1a1-f341-4d5a-9a91-e2616e206b2e"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_SelectNamesFactory"
             type="exe"
             location="evolution-addressbook">
 
@@ -13,9 +13,9 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:addressbook:select-names:39301deb-174b-40d1-8a6e-5edc300f7b61"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_SelectNames"
             type="factory"
-            location="OAFIID:factory:addressbook:select-names:b39eb1a1-f341-4d5a-9a91-e2616e206b2e">
+            location="OAFIID:GNOME_Evolution_Addressbook_SelectNamesFactory">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution/Addressbook/SelectNames"/>

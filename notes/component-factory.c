@@ -10,7 +10,7 @@
 
 #include "e-util/e-gui-utils.h"
 
-#define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:evolution-notes:f2f0f57f-27d9-4498-b54b-248f223ee772"
+#define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Notes_shellComponentFactory"
 
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "notes", "evolution-notes.png" },

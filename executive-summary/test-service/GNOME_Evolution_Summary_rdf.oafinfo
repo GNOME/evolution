@@ -1,6 +1,6 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:evolution-summary-component-factory:rdf-summary:8d7a395c-1036-4e54-8aa6-bd30fb5a1379"
+<oaf_server iid="OAFIID:GNOME_Evolution_Summary_rdf_SummaryComponentFactory"
 		type="exe"
 		location="rdf-summary">
 
@@ -12,9 +12,9 @@
 			value="Factory for the RDF summary."/>
 </oaf_server>
 
-<oaf_server iid="OAFIID:evolution-summary-component:rdf-summary:65610e8c-7994-4cde-ab35-c907f35e37c0"
+<oaf_server iid="OAFIID:GNOME_Evolution_Summary_rdf_SummaryComponent"
 		type="factory"
-		location="OAFIID:evolution-summary-component-factory:rdf-summary:8d7a395c-1036-4e54-8aa6-bd30fb5a1379">
+		location="OAFIID:GNOME_Evolution_Summary_rdf_SummaryComponentFactory">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:Evolution:SummaryComponent:1.0"/>

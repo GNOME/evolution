@@ -108,7 +108,7 @@ register_pcs (CORBA_Object obj)
 	OAF_RegistrationResult result;
 
 	result = oaf_active_server_register
-		("OAFIID:evolution:calendar-factory:1c915858-ece3-4a6f-9d81-ea0f108a9554",
+		("OAFIID:GNOME_Evolution_Wombat_CalendarFactory",
 		 obj);
 
 	switch (result) {

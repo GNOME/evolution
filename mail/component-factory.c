@@ -53,8 +53,8 @@ char *evolution_dir;
 
 static void create_vfolder_storage (EvolutionShellComponent *shell_component);
 
-#define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:evolution-mail:0ea887d5-622b-4b8c-b525-18aa1cbe18a6"
-#define SUMMARY_FACTORY_ID "OAFIID:evolution-executive-summary-component-factory:evolution-mail:be210cba-0eee-4def-84fa-643d50321217"
+#define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ShellComponentFactory"
+#define SUMMARY_FACTORY_ID   "OAFIID:GNOME_Evolution_Mail_ExecutiveSummaryComponentFactory"
 
 static BonoboGenericFactory *factory = NULL;
 static BonoboGenericFactory *summary_factory = NULL;

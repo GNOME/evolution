@@ -34,8 +34,6 @@
 
 #include <addressbook/printing/e-contact-print.h>
 
-#define CONTROL_FACTORY_ID "OAFIID:control-factory:addressbook:3e10597b-0591-4d45-b082-d781b7aa6e17"
-
 #define PROPERTY_FOLDER_URI          "folder_uri"
 
 #define PROPERTY_FOLDER_URI_IDX      1
@@ -651,9 +649,9 @@ addressbook_factory_init (void)
 	if (addressbook_control_factory != NULL)
 		return;
 
-	addressbook_control_factory = bonobo_generic_factory_new (CONTROL_FACTORY_ID,
-								  addressbook_factory,
-								  NULL);
+	addressbook_control_factory = bonobo_generic_factory_new (
+		"OAFIID:GNOME_Evolution_Addressbook_ControlFactory",
+		addressbook_factory, NULL);
 
 	if (addressbook_control_factory == NULL) {
 		g_error ("I could not register a Addressbook factory.");

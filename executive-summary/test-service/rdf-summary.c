@@ -30,7 +30,7 @@ static int wipe_trackers = FALSE;
 static int running_views = 0;
 
 static BonoboGenericFactory *factory = NULL;
-#define RDF_SUMMARY_ID "OAFIID:evolution-summary-component-factory:rdf-summary:8d7a395c-1036-4e54-8aa6-bd30fb5a1379"
+#define RDF_SUMMARY_ID "OAFIID:GNOME_Evolution_Summary_rdf_SummaryComponentFactory"
 
 /************ RDF Parser *******************/
 

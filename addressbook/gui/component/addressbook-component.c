@@ -36,7 +36,7 @@
 
 
 
-#define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:addressbook:dbf3bba0-4b0a-4f07-899b-1ec56fdf38a0"
+#define GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_ShellComponentFactory"
 
 /* Nasty hack for filters to be able to find folders */
 /* Not even used with addressbook??? */
@@ -125,7 +125,7 @@ addressbook_component_factory_init (void)
 	if (factory != NULL)
 		return;
 
-	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, factory_fn, NULL);
+	factory = bonobo_generic_factory_new (GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_FACTORY_ID, factory_fn, NULL);
 
 	if (factory == NULL)
 		g_error ("Cannot initialize the Evolution addressbook factory.");

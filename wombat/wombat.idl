@@ -4,9 +4,11 @@
  * Copyright 2000, Helix Code, Inc.
  */
 
+module GNOME {
 module Evolution {
 
 	interface Config {
 
 	};
+};
 };

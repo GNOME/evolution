@@ -1,6 +1,6 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:evolution:addressbook-server:0fbc844d-c721-4615-98d0-d67eacf42d80"
+<oaf_server iid="OAFIID:GNOME_Evolution_Wombat_ServerFactory"
             type="exe"
             location="wombat">
 
@@ -13,7 +13,7 @@
                        value="The Personal Addressbook Server"/>
 </oaf_server>
 
-<oaf_server iid="OAFIID:evolution:calendar-factory:1c915858-ece3-4a6f-9d81-ea0f108a9554"
+<oaf_server iid="OAFIID:GNOME_Evolution_Wombat_CalendarFactory"
             type="exe"
             location="wombat">
 

@@ -1,6 +1,6 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:control-factory:evolution-notes:e2471f2d-0589-4861-a25d-c21818f531d5"
+<oaf_server iid="OAFIID:GNOME_Evolution_Notes_controlFactory"
             type="exe"
             location="evolution-notes">
 
@@ -13,9 +13,9 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:control:evolution-notes:8e3fb723-aada-4112-99db-d51779e35a2a"
+<oaf_server iid="OAFIID:GNOME_Evolution_Notes_control"
 	type="factory"
-	location="OAFIID:control-factory:evolution-notes:e2471f2d-0589-4861-a25d-c21818f531d5">
+	location="OAFIID:GNOME_Evolution_Notes_controlFactory">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Control:1.0"/>
@@ -26,7 +26,7 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:evolution-shell-component-factory:evolution-notes:f2f0f57f-27d9-4498-b54b-248f223ee772"
+<oaf_server iid="OAFIID:GNOME_Evolution_Notes_shellComponentFactory"
 	type="exe"
 	location="evolution-notes">
 	
@@ -39,9 +39,9 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:evolution-shell-component:evolution-notes:92d95b91-3655-4746-ac68-01b21e2c5e44"
+<oaf_server iid="OAFIID:GNOME_Evolution_Notes_shellComponent"
 	type="factory"
-	location="OAFIID:evolution-shell-component-factory:evolution-notes:f2f0f57f-27d9-4498-b54b-248f223ee772">
+	location="OAFIID:GNOME_Evolution_Notes_shellComponentFactory">
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
 	</oaf_attribute>

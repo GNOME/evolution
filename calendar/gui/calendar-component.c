@@ -35,8 +35,8 @@
 #endif
 
 
-#define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:evolution-calendar:cba77062-1466-4aac-8ce7-b019eaf2e921"
-#define SUMMARY_FACTORY_ID "OAFIID:evolution-executive-summary-component-factory:evolution-calendar:6b45a890-fbc0-4f20-97d8-b8e344c059af"
+#define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_ShellComponentFactory"
+#define SUMMARY_FACTORY_ID   "OAFIID:GNOME_Evolution_Calendar_ExecutiveSummaryComponentFactory"
 
 static BonoboGenericFactory *factory = NULL;
 static BonoboGenericFactory *summary_factory = NULL;

@@ -128,7 +128,7 @@ evolution_calendar_LDADD =					\
 evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
 oafdir = $(datadir)/oaf
-oaf_DATA = calendar-control.oafinfo evolution-calendar.oafinfo 
+oaf_DATA = GNOME_Evolution_Calendar_Control.oafinfo GNOME_Evolution_Calendar.oafinfo 
 
 EXTRA_DIST =	 			\
 	$(glade_DATA)			\
@@ -146,8 +146,7 @@ EXTRA_DIST =	 			\
 	weekview.xpm			\
 	workweekview.xpm		\
 	yearview.xpm			\
-	calendar-control.oafinfo	\
-	evolution-calendar.oafinfo
+	$(oaf_DATA)
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(help_base)/C

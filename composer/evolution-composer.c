@@ -289,7 +289,7 @@ evolution_composer_new (void)
 E_MAKE_TYPE (evolution_composer, "EvolutionComposer", EvolutionComposer, class_init, init, PARENT_TYPE)
 
 
-#define COMPOSER_FACTORY_ID "OAFIID:evolution-composer-factory:evolution-mail:fcfda393-60ee-485f-b782-e9323434bff3"
+#define GNOME_EVOLUTION_MAIL_COMPOSER_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ComposerFactory"
 
 static BonoboObject *
 factory_fn (BonoboGenericFactory *factory, void *closure)
@@ -301,7 +301,7 @@ void
 evolution_composer_factory_init (void (*send) (EMsgComposer *, gpointer),
 				 void (*postpone) (EMsgComposer *, gpointer))
 {
-	if (bonobo_generic_factory_new (COMPOSER_FACTORY_ID,
+	if (bonobo_generic_factory_new (GNOME_EVOLUTION_MAIL_COMPOSER_FACTORY_ID,
 					factory_fn, NULL) == NULL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize Evolution's composer."));

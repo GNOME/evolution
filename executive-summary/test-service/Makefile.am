@@ -33,7 +33,8 @@ test_service_LDADD = 			\
 #	$(EXTRA_GNOME_LIBS)
 
 oafdir = $(datadir)/oaf
-oaf_DATA = test-service.oafinfo		\
-		rdf-summary.oafinfo
+oaf_DATA = \
+	GNOME_Evolution_Summary_test.oafinfo \
+	GNOME_Evolution_Summary_rdf.oafinfo
 
 EXTRA_DIST = $(oaf_DATA) 

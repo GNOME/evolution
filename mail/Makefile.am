@@ -131,7 +131,7 @@ test_mail_LDADD = \
 #test_thread_CFLAGS = -g $(THREADS_CFLAGS)
 
 oafdir = $(datadir)/oaf
-oaf_DATA = evolution-mail.oafinfo
+oaf_DATA = GNOME_Evolution_Mail.oafinfo
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = mail-config.glade mail-config-druid.glade local-config.glade

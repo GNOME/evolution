@@ -41,7 +41,7 @@
 #include "mail/mail-config.h"
 
 
-#define SELECT_NAMES_OAFID "OAFIID:addressbook:select-names:39301deb-174b-40d1-8a6e-5edc300f7b61"
+#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
 
 struct _EMsgComposerHdrsPrivate {
 	GNOME_Evolution_Addressbook_SelectNames corba_select_names;

@@ -47,7 +47,7 @@ typedef struct _UserData UserData;
 
 static int running_views = 0;
 
-#define TEST_SERVICE_ID "OAFIID:evolution-summary-component-factory:test-service:0ea887d5-622b-4b8c-b525-18aa1cbe18a6"
+#define TEST_SERVICE_ID "OAFIID:GNOME_Evolution_Summary_test_ComponentFactory"
 
 static BonoboGenericFactory *factory = NULL;
 

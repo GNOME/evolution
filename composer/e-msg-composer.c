@@ -63,7 +63,7 @@
 
 #include <libgnomevfs/gnome-vfs.h>
 
-#define HTML_EDITOR_CONTROL_ID "OAFIID:control:html-editor:63c5499b-8b0c-475a-9948-81ec96a9662c"
+#define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:control:html-editor:63c5499b-8b0c-475a-9948-81ec96a9662c"
 
 
 #define DEFAULT_WIDTH 600
@@ -1354,7 +1354,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 	
 	/* Editor component.  */
 	composer->editor = bonobo_widget_new_control (
-		HTML_EDITOR_CONTROL_ID,
+		GNOME_GTKHTML_EDITOR_CONTROL_ID,
 		bonobo_ui_component_get_container (composer->uic));
 	
 	if (!composer->editor)

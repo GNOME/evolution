@@ -3386,7 +3386,7 @@ set_address_flags (VObject *vobj, ECardAddressFlags flags)
 
 #include <Evolution-Composer.h>
 
-#define COMPOSER_OAFID "OAFIID:evolution-composer:evolution-mail:cd8618ea-53e1-4b9e-88cf-ec578bdb903b"
+#define COMPOSER_OAFID "OAFIID:GNOME_Evolution_Mail_Composer"
 
 void
 e_card_send (ECard *card, ECardDisposition disposition)

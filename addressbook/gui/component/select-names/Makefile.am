@@ -16,7 +16,7 @@ $(IDL_GENERATED): $(IDLS)
 		$(srcdir)/Evolution-Addressbook-SelectNames.idl
 
 oafdir = $(datadir)/oaf
-oaf_DATA = evolution-addressbook-select-names.oafinfo
+oaf_DATA = GNOME_Evolution_Addressbook_SelectNames.oafinfo
 
 #
 

@@ -73,7 +73,7 @@ static char *descriptions[] = {
 	N_("Open %s with the default GNOME application")
 };
 
-#define COMPOSER_IID "OAFIID:evolution-composer:evolution-mail:cd8618ea-53e1-4b9e-88cf-ec578bdb903b"
+#define COMPOSER_IID "OAFIID:GNOME_Evolution_Mail_Composer"
 
 gboolean e_summary_url_mail_compose (ESummary *esummary,
 				     const char *url);

@@ -389,7 +389,7 @@ cal_client_construct (CalClient *client)
 	priv = client->priv;
 
 	factory = (GNOME_Evolution_Calendar_CalFactory) oaf_activate_from_id (
-		"OAFIID:evolution:calendar-factory:1c915858-ece3-4a6f-9d81-ea0f108a9554",
+		"OAFIID:GNOME_Evolution_Wombat_CalendarFactory",
 		OAF_FLAG_NO_LOCAL, NULL, &ev);
 
 	result = CORBA_Object_is_nil (factory, &ev);

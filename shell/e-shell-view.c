@@ -1108,6 +1108,8 @@ setup_corba_interface (EShellView *shell_view,
 	BonoboControlFrame *control_frame;
 	EvolutionShellView *corba_interface;
 
+	g_return_if_fail (control != NULL);
+
 	priv = shell_view->priv;
 
 	control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (control));
@@ -1254,7 +1256,7 @@ get_control_for_uri (EShellView *shell_view,
 	CORBA_exception_init (&ev);
 
 	corba_control = GNOME_Evolution_ShellComponent_createView (handler, e_folder_get_physical_uri (folder),
-							      folder_type, &ev);
+								   folder_type, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
@@ -1262,6 +1264,9 @@ get_control_for_uri (EShellView *shell_view,
 	}
 
 	CORBA_exception_free (&ev);
+
+	if (corba_control == CORBA_OBJECT_NIL)
+		return NULL;
 
 	container = bonobo_ui_component_get_container (priv->ui_component);
 	control = bonobo_widget_new_control_from_objref (corba_control, container);

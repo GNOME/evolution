@@ -1,3 +1,9 @@
+2000-12-04  Michael Meeks  <michael@helixcode.com>
+
+	* e-shell-view.c (get_control_for_uri): return NULL if we can't
+	create a view.
+	(setup_evolution_shell_view_interface): add precondition.
+
 2000-12-04  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shortcuts-view.c (e_shortcuts_view_construct): Ref the

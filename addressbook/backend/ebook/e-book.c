@@ -20,7 +20,7 @@
 
 GtkObjectClass *e_book_parent_class;
 
-#define CARDSERVER_OAF_ID "OAFIID:evolution:addressbook-server:0fbc844d-c721-4615-98d0-d67eacf42d80"
+#define CARDSERVER_OAF_ID "OAFIID:GNOME_Evolution_Wombat_ServerFactory"
 
 typedef enum {
 	URINotLoaded,

@@ -34,9 +34,9 @@ wombat_LDADD =							\
 wombat_LDFLAGS = `gnome-config --libs gnorba` 
 
 oafdir = $(datadir)/oaf
-oaf_DATA = wombat.oafinfo
+oaf_DATA = GNOME_Evolution_Wombat.oafinfo
 
-EXTRA_DIST = wombat.oafinfo
+EXTRA_DIST = $(oaf_DATA)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
