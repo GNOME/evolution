@@ -14,6 +14,12 @@
   </code>
   <description lang="en">The To address matches <source type="address" name="receipient">receipients</source>.</description>
 </rule>
+<rule name="cc-address-other">
+  <code>
+   (match-all (header-contains "Cc" ${receipient}))
+  </code>
+  <description lang="en">The Cc address matches <source type="address" name="receipient">receipients</source>.</description>
+</rule>
 
 <rule name="subject-contains">
   <code>

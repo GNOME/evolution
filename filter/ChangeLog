@@ -1,3 +1,8 @@
+2000-06-29  Arik Devens  <arik@helixcode.com>
+	
+	* vfoldertypes.xml (ruleset type="match"): Added a Cc rule to
+	vfolders. Works like To except on the Cc of a message ;-)
+	
 2000-06-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-arg-types.c (arg_string_edit_value): Changed "Filter name"
