@@ -249,7 +249,7 @@ set_day_names (GnomeMonthItem *mitem)
 	int i;
 
 	for (i = 0; i < 7; i++)
-		gnome_canvas_item_set (mitem->items[ITEM_HEAD_LABEL + get_day_index (mitem, i)],
+		gnome_canvas_item_set (mitem->items[ITEM_HEAD_LABEL + i],
 				       "text", mitem->day_names[get_day_index (mitem, i)],
 				       NULL);
 }
