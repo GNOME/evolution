@@ -125,7 +125,7 @@ Gurl *g_url_new (const gchar* url_string)
 	}
 
 	if (slash && *(slash + 1))
-		g_url->path = g_strdup (slash + 1);
+		g_url->path = g_strdup (slash);
 	else
 		g_url->path = NULL;
 
@@ -135,7 +135,7 @@ Gurl *g_url_new (const gchar* url_string)
 gchar *
 g_url_to_string (const Gurl *url, gboolean show_passwd)
 {
-	return g_strdup_printf("%s%s%s%s%s%s%s%s%s%s%s%s%s",
+	return g_strdup_printf("%s%s%s%s%s%s%s%s%s%s%s%s",
 			       url->protocol ? url->protocol : "",
 			       url->protocol ? "://" : "",
 			       url->user ? url->user : "",
@@ -147,7 +147,6 @@ g_url_to_string (const Gurl *url, gboolean show_passwd)
 			       url->host,
 			       url->port ? ":" : "",
 			       url->port ? url->port : "",
-			       url->path ? "/" : "",
 			       url->path ? url->path : "");
 }
 
