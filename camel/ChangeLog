@@ -1,3 +1,37 @@
+2003-02-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-utils.c (imap_parse_body): Use
+	g_ascii_strdown() instead of g_strdown, since g_strdown is
+	deprecated.
+	(imap_parse_body): Same.
+
+	* providers/imap/camel-imap-folder.c (decode_internaldate): Use
+	strncasecmp() here too.
+	(parse_fetch_response): And here.
+	(camel_imap_folder_selected): Here too.
+
+	* providers/imap/camel-imap-utils.c (imap_namespace_decode): Use
+	strncasecmp() instead of g_strncasecmp() because the latter is
+	deprecated.
+
+	* providers/imap/camel-imap-store.c (imap_get_capability): Again here.
+	(hash_folder_name): Here too.
+	(compare_folder_name): And here.
+	(get_folder_online): Again.
+	(get_folder_offline): And again.
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_selected):
+	Same as below again.
+
+	* providers/imap/camel-imap-command.c (camel_imap_response_free):
+	Same as below.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_data): Use
+	strcasecmp() because g_strcasecmp() is deprecated.
+
+	* camel-url.c (camel_url_new_with_base): Use g_ascii_strdown()
+	instead of g_strdown, since g_strdown is deprecated.
+
 2003-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-gssapi.c (gssapi_challenge): Pass in some default

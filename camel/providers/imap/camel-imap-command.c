@@ -301,7 +301,7 @@ camel_imap_command_response (CamelImapStore *store, char **response,
 	
 	switch (*respbuf) {
 	case '*':
-		if (!g_strncasecmp (respbuf, "* BYE", 5)) {
+		if (!strncasecmp (respbuf, "* BYE", 5)) {
 			/* Connection was lost, no more data to fetch */
 			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
@@ -319,7 +319,7 @@ camel_imap_command_response (CamelImapStore *store, char **response,
 		respbuf = imap_read_untagged (store, respbuf, ex);
 		if (!respbuf)
 			type = CAMEL_IMAP_RESPONSE_ERROR;
-		else if (!g_strncasecmp(respbuf, "* OK [ALERT]", 12)) {
+		else if (!strncasecmp (respbuf, "* OK [ALERT]", 12)) {
 			char *msg;
 
 			/* for imap ALERT codes, account user@host */
@@ -382,13 +382,13 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 	if (*respbuf == '+')
 		return response;
 	p = strchr (respbuf, ' ');
-	if (p && !g_strncasecmp (p, " OK", 3))
+	if (p && !strncasecmp (p, " OK", 3))
 		return response;
 	
 	/* We should never get BAD, or anything else but +, OK, or NO
 	 * for that matter.
 	 */
-	if (!p || g_strncasecmp (p, " NO", 3) != 0) {
+	if (!p || strncasecmp (p, " NO", 3) != 0) {
 		g_warning ("Unexpected response from IMAP server: %s",
 			   respbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
@@ -554,9 +554,9 @@ camel_imap_response_free (CamelImapStore *store, CamelImapResponse *response)
 		if (response->folder) {
 			/* Check if it's something we need to handle. */
 			number = strtoul (resp + 2, &p, 10);
-			if (!g_strcasecmp (p, " EXISTS")) {
+			if (!strcasecmp (p, " EXISTS")) {
 				exists = number;
-			} else if (!g_strcasecmp (p, " EXPUNGE")) {
+			} else if (!strcasecmp (p, " EXPUNGE")) {
 				if (!expunged) {
 					expunged = g_array_new (FALSE, FALSE,
 								sizeof (int));
@@ -641,7 +641,7 @@ camel_imap_response_extract (CamelImapStore *store,
 		if (*resp == ' ')
 			resp = (char *) imap_next_word (resp);
 		
-		if (!g_strncasecmp (resp, type, len))
+		if (!strncasecmp (resp, type, len))
 			break;
 	}
 	

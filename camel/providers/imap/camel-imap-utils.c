@@ -95,7 +95,7 @@ imap_namespace_decode (const char **in, struct _namespace **namespace)
 	list = NULL;
 	tail = (struct _namespace *) &list;
 	
-	if (g_strncasecmp (inptr, "NIL", 3) != 0) {
+	if (strncasecmp (inptr, "NIL", 3) != 0) {
 		if (*inptr++ != '(')
 			goto exception;
 		
@@ -127,7 +127,7 @@ imap_namespace_decode (const char **in, struct _namespace **namespace)
 			/* get the namespace directory delimiter */
 			inptr = imap_next_word (inptr);
 			
-			if (!g_strncasecmp (inptr, "NIL", 3)) {
+			if (!strncasecmp (inptr, "NIL", 3)) {
 				inptr = imap_next_word (inptr);
 				node->delim = '\0';
 			} else if (*inptr++ == '"') {
@@ -819,7 +819,7 @@ imap_parse_body (const char **body_p, CamelFolder *folder,
 			return;
 		}
 		
-		g_strdown (subtype);
+		g_ascii_strdown (subtype, -1);
 		ci->type = header_content_type_new ("multipart", subtype);
 		g_free (subtype);
 		
@@ -848,8 +848,8 @@ imap_parse_body (const char **body_p, CamelFolder *folder,
 			*body_p = NULL;
 			return;
 		}
-		g_strdown (main_type);
-		g_strdown (subtype);
+		g_ascii_strdown (main_type, -1);
+		g_ascii_strdown (subtype, -1);
 		type = header_content_type_new (main_type, subtype);
 		g_free (main_type);
 		g_free (subtype);

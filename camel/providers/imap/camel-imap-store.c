@@ -519,7 +519,7 @@ imap_get_capability (CamelService *service, CamelException *ex)
 			continue;
 		}
 		for (i = 0; capabilities[i].name; i++) {
-			if (g_strcasecmp (capa, capabilities[i].name) == 0) {
+			if (strcasecmp (capa, capabilities[i].name) == 0) {
 				store->capabilities |= capabilities[i].flag;
 				break;
 			}
@@ -1470,7 +1470,7 @@ imap_noop (CamelStore *store, CamelException *ex)
 static guint
 hash_folder_name (gconstpointer key)
 {
-	if (g_strcasecmp (key, "INBOX") == 0)
+	if (strcasecmp (key, "INBOX") == 0)
 		return g_str_hash ("INBOX");
 	else
 		return g_str_hash (key);
@@ -1481,9 +1481,9 @@ compare_folder_name (gconstpointer a, gconstpointer b)
 {
 	gconstpointer aname = a, bname = b;
 
-	if (g_strcasecmp (a, "INBOX") == 0)
+	if (strcasecmp (a, "INBOX") == 0)
 		aname = "INBOX";
-	if (g_strcasecmp (b, "INBOX") == 0)
+	if (strcasecmp (b, "INBOX") == 0)
 		bname = "INBOX";
 	return g_str_equal (aname, bname);
 }
@@ -1549,7 +1549,7 @@ get_folder_online (CamelStore *store, const char *folder_name,
 	if (!camel_imap_store_connected (imap_store, ex))
 		return NULL;
 	
-	if (!g_strcasecmp (folder_name, "INBOX"))
+	if (!strcasecmp (folder_name, "INBOX"))
 		folder_name = "INBOX";
 
 	/* Lock around the whole lot to check/create atomically */
@@ -1625,7 +1625,7 @@ get_folder_offline (CamelStore *store, const char *folder_name,
 	    !camel_service_connect (CAMEL_SERVICE (store), ex))
 		return NULL;
 	
-	if (!g_strcasecmp (folder_name, "INBOX"))
+	if (!strcasecmp (folder_name, "INBOX"))
 		folder_name = "INBOX";
 	
 	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);

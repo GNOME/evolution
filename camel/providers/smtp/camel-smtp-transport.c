@@ -1287,7 +1287,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean ha
 	/* copy and remove the bcc headers */
 	header = CAMEL_MIME_PART (message)->headers;
 	while (header) {
-		if (!g_strcasecmp (header->name, "Bcc"))
+		if (!strcasecmp (header->name, "Bcc"))
 			bcc = g_slist_append (bcc, g_strdup (header->value));
 		header = header->next;
 	}

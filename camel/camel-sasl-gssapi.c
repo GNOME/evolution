@@ -28,7 +28,11 @@
 #ifdef HAVE_KRB5
 
 #include <string.h>
+#ifdef HAVE_MIT_KRB5
 #include <gssapi/gssapi.h>
+#else /* HAVE_HEIMDAL_KRB5 */
+#include <gssapi.h>
+#endif
 
 #include "camel-sasl-gssapi.h"
 

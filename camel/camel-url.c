@@ -79,7 +79,7 @@ camel_url_new_with_base (CamelURL *base, const char *url_string)
 
 	if (p > url_string && *p == ':') {
 		url->protocol = g_strndup (url_string, p - url_string);
-		g_strdown (url->protocol);
+		g_ascii_strdown (url->protocol, -1);
 		url_string = p + 1;
 	}
 
