@@ -9,6 +9,8 @@
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
+ * TODO: LRU Cache
+ *
  */
 
 #include <string.h>
@@ -21,10 +23,13 @@
 struct _EFont {
 	gint refcount;
 	GdkFont *font;
-	gboolean bytes;
+	GdkFont *bold;
+	gboolean twobyte;
 	unicode_iconv_t to;
 	unicode_iconv_t from;
 };
+
+static gchar *find_best_bold (gchar **namelist, gint length, gchar *weight);
 
 EFont *
 e_font_from_gdk_name (const gchar *name)
@@ -32,7 +37,7 @@ e_font_from_gdk_name (const gchar *name)
 	EFont * font;
 	GdkFont *gdkfont;
 
-	gdkfont = gdk_fontset_load (name);
+	gdkfont = gdk_font_load (name);
 	font = e_font_from_gdk_font (gdkfont);
 	gdk_font_unref (gdkfont);
 
@@ -46,6 +51,9 @@ e_font_from_gdk_font (GdkFont *gdkfont)
 	XFontStruct *xfs;
 	Atom font_atom, atom;
 	Bool status;
+	GdkFont *boldfont;
+
+	boldfont = NULL;
 
 	gdk_font_ref (gdkfont);
 
@@ -68,26 +76,58 @@ e_font_from_gdk_font (GdkFont *gdkfont)
 					   &atom);
 	}
 	if (status) {
+		gchar *c[14];
 		gchar *name, *p;
-		gchar *newname;
+		gchar *enc, *boldname;
+		gchar **namelist;
 		GdkFont *newfont;
-		gint i;
+		gint numfonts, len, i;
 
 		name = gdk_atom_name (atom);
-		newname = alloca (strlen (name) + 12);
-		strcpy (newname, name);
-		p = newname;
+		len = strlen (name) + 64; /* Hope that's sufficent */
+		p = name;
+
 		for (i = 0; i < 13; i++) {
-			/* Skip hyphen */
+			c[i] = p;
+			/* Skip text */
 			while (*p && (*p != '-')) p++;
-			if (*p) p++;
+			/* Replace hyphen with '\0' */
+			if (*p) *p++ = '\0';
 		}
-		g_snprintf (p, 12, "ISO10646-1");
-		newfont = gdk_font_load (newname);
+		c[i] = p;
+
+		p = alloca (len);
+
+		/* Compose name for unicode encoding */
+		enc = "iso10646-1";
+		g_snprintf (p, len, "%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s",
+			    c[0], c[1], c[2], c[3], c[4], c[5], c[6], c[7],
+			    c[8], c[9], c[10], c[11], c[12], enc);
+		/* Try to load unicode font */
+		newfont = gdk_font_load (p);
 		if (newfont) {
+			/* OK, use that */
 			gdk_font_unref (gdkfont);
 			gdkfont = newfont;
+		} else {
+			/* Nope, use original encoding */
+			enc = c[13];
 		}
+		/* Try to find bolder variant */
+		g_snprintf (p, len, "%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s",
+			    c[0], c[1], c[2], "*", c[4], c[5], "*", "*",
+			    c[8], c[9], c[10], c[11], "*", enc);
+		namelist = XListFonts (GDK_FONT_XDISPLAY (gdkfont),
+				       p, 32, &numfonts);
+		boldname = find_best_bold (namelist, numfonts, c[3]);
+		if (boldname) {
+			g_snprintf (p, len, "%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s",
+				    c[0], c[1], c[2], boldname, c[4], c[5], "*", "*",
+				    c[8], c[9], c[10], c[11], "*", enc);
+			boldfont = gdk_font_load (p);
+		}
+		XFreeFontNames (namelist);
+
 		g_free (name);
 	}
 
@@ -97,7 +137,8 @@ e_font_from_gdk_font (GdkFont *gdkfont)
 
 	font->refcount = 1;
 	font->font = gdkfont;
-	font->bytes = ((xfs->min_byte1 != 0) || (xfs->max_byte1 != 0)) ? 2 : 1;
+	font->bold = boldfont;
+	font->twobyte = ((xfs->min_byte1 != 0) || (xfs->max_byte1 != 0));
 	font->to = e_uiconv_to_gdk_font (font->font);
 	font->from = e_uiconv_from_gdk_font (font->font);
 
@@ -118,6 +159,7 @@ e_font_unref (EFont *font)
 
 	if (font->refcount < 1) {
 		gdk_font_unref (font->font);
+		if (font->bold) gdk_font_unref (font->bold);
 		g_free (font);
 	}
 }
@@ -160,7 +202,7 @@ e_font_to_native (EFont *font, gchar *native, gchar *utf, gint bytes)
 			ib += len;
 			ibl = bytes - (ib - utf);
 			if (ibl > bytes) ibl = 0;
-			if (font->bytes == 1) {
+			if (!font->twobyte) {
 				*ob++ = '_';
 				obl--;
 			} else {
@@ -191,10 +233,13 @@ e_font_draw_utf8_text (GdkDrawable *drawable, EFont *font, EFontStyle style, Gdk
 
 	native_bytes = e_font_to_native (font, native, text, numbytes);
 
-	gdk_draw_text (drawable, font->font, gc, x, y, native, native_bytes);
-
-	if (style & E_FONT_BOLD)
-		gdk_draw_text (drawable, font->font, gc, x + 1, y, native, native_bytes);
+	if ((style & E_FONT_BOLD) && (font->bold)) {
+		gdk_draw_text (drawable, font->bold, gc, x, y, native, native_bytes);
+	} else {
+		gdk_draw_text (drawable, font->font, gc, x, y, native, native_bytes);
+		if (style & E_FONT_BOLD)
+			gdk_draw_text (drawable, font->font, gc, x + 1, y, native, native_bytes);
+	}
 }
 
 gint
@@ -213,7 +258,11 @@ e_font_utf8_text_width (EFont *font, EFontStyle style, char *text, int numbytes)
 
 	native_bytes = e_font_to_native (font, native, text, numbytes);
 
-	width = gdk_text_width (font->font, native, native_bytes);
+	if ((style & E_FONT_BOLD) && (font->bold)) {
+		width = gdk_text_width (font->bold, native, native_bytes);
+	} else {
+		width = gdk_text_width (font->font, native, native_bytes);
+	}
 
 	return width;
 }
@@ -369,6 +418,59 @@ e_uiconv_to_gdk_font (GdkFont *font)
 	}
 
 	return uiconv;
+}
+
+static gchar *
+find_best_bold (gchar **namelist, gint length, gchar *weight)
+{
+	static GHashTable *wh = NULL;
+	gint sw, fw, bw;
+	gchar *s, *f, *b;
+	gchar *p;
+	gint i;
+
+	if (!wh) {
+		wh = g_hash_table_new (g_str_hash, g_str_equal);
+		g_hash_table_insert (wh, "light", GINT_TO_POINTER (1));
+		g_hash_table_insert (wh, "book", GINT_TO_POINTER (2));
+		g_hash_table_insert (wh, "regular", GINT_TO_POINTER (2));
+		g_hash_table_insert (wh, "medium", GINT_TO_POINTER (3));
+		g_hash_table_insert (wh, "demibold", GINT_TO_POINTER (5));
+		g_hash_table_insert (wh, "bold", GINT_TO_POINTER (6));
+		g_hash_table_insert (wh, "black", GINT_TO_POINTER (8));
+	}
+
+	s = alloca (strlen (weight));
+	strcpy (s, weight);
+	g_strdown (s);
+	sw = GPOINTER_TO_INT (g_hash_table_lookup (wh, s));
+	if (sw == 0) return NULL;
+
+	fw = 0; bw = 32;
+	f = NULL; b = NULL;
+
+	for (i = 0; i < length; i++) {
+		p = namelist[i];
+		if (*p) p++;
+		while (*p && (*p != '-')) p++;
+		if (*p) p++;
+		while (*p && (*p != '-')) p++;
+		if (*p) p++;
+		f = p;
+		while (*p && (*p != '-')) p++;
+		if (*p) *p = '\0';
+		g_strdown (f);
+		fw = GPOINTER_TO_INT (g_hash_table_lookup (wh, f));
+		if (fw && fw > sw) {
+			if (fw - 2 == sw) return namelist[i];
+			if (((fw > bw) && (bw == sw + 1)) || ((fw < bw) && (fw - 2 > sw))) {
+				bw = fw;
+				b = f;
+			}
+		}
+	}
+
+	return b;
 }
 
 
