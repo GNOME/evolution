@@ -1,3 +1,11 @@
+2001-10-04    <NotZed@Ximian.com>
+
+	* camel-store.c (camel_store_delete_folder): Change the order of
+	execution slightly.  We delete the folder first, then call the
+	classes delete folder, then cleanup the hashtable afterwards.
+	This is so deletes of vfolders work, since vee-store uses the
+	folder hashtable to store all of is vfolders :-/
+
 2001-10-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-service.c (camel_service_connect): Unregister the

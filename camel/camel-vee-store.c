@@ -261,7 +261,6 @@ vee_delete_folder(CamelStore *store, const char *folder_name, CamelException *ex
 		if (store->vtrash)
 			camel_vee_folder_remove_folder((CamelVeeFolder *)store->vtrash, folder);
 
-		/* FIXME: deleted event shoudl just pass out the folder name, not all this shit?? */
 		if (update) {
 			CamelFolderInfo *fi = g_malloc0(sizeof(*fi));
 
