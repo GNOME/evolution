@@ -69,9 +69,11 @@ html_new (gboolean white)
 			    GTK_SIGNAL_FUNC (html_size_req), NULL);
 	gtk_html_set_editable (GTK_HTML (html), FALSE);
 	style = gtk_rc_get_style (html);
-	gtk_html_set_default_background_color (GTK_HTML (html),
-					       white ? &style->white :
-					       &style->bg[0]);
+	if (style) {
+		gtk_html_set_default_background_color (GTK_HTML (html),
+						       white ? &style->white :
+						       &style->bg[0]);
+	}
 	gtk_widget_set_sensitive (html, FALSE);
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
