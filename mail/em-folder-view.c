@@ -928,8 +928,8 @@ static EMPopupItem emfv_popup_menu[] = {
 	{ EM_POPUP_IMAGE, "60.label.00/00.label", N_("None"), G_CALLBACK(emfv_popup_label_clear) },
 	{ EM_POPUP_BAR, "60.label.00/00.label.00" },
 
-	{ EM_POPUP_BAR, "70.emfv", NULL, NULL, NULL, NULL, EM_POPUP_SELECT_ONE },	
-	{ EM_POPUP_ITEM, "70.emfv.00", N_("Add Sender to Address_book"), G_CALLBACK(emfv_popup_add_sender), NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_ADD_SENDER },
+	{ EM_POPUP_BAR, "70.emfv", NULL, NULL, NULL, NULL, EM_POPUP_SELECT_ADD_SENDER },
+	{ EM_POPUP_ITEM, "70.emfv.00", N_("Add Sender to Address_book"), G_CALLBACK(emfv_popup_add_sender), NULL, NULL, EM_POPUP_SELECT_ADD_SENDER },
 
 	{ EM_POPUP_BAR, "80.emfv" },	
 	{ EM_POPUP_ITEM, "80.emfv.00", N_("Appl_y Filters"), G_CALLBACK(emfv_popup_apply_filters), NULL, "stock_mail-filters-apply" },

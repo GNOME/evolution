@@ -1,3 +1,8 @@
+2004-05-25  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-view.c (emfv_popup_menu[]): disable add sender to
+	addressbook bar if it is also disabled.  #58955.
+
 2004-05-24  Not Zed  <NotZed@Ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_build_extra_conf): don't
