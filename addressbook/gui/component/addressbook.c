@@ -178,9 +178,11 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 		char *prompt;
 		gboolean remember;
 		char *failed_auth;
+		guint32 flags = E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET;
 
 		if (previous_failure) {
 			failed_auth = _("Failed to authenticate.\n");
+			flags |= E_PASSWORDS_REPROMPT;
 		}
 		else {
 			failed_auth = "";
@@ -190,9 +192,9 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 					  failed_auth, e_source_peek_name (source), user);
 
 		remember = get_remember_password (source);
-		pass_dup = e_passwords_ask_password (prompt, component_name, uri, prompt, TRUE,
-                                                     E_PASSWORDS_REMEMBER_FOREVER, &remember,
-                                                     NULL);
+		pass_dup = e_passwords_ask_password (prompt, component_name, uri, prompt,
+						     flags, &remember,
+						     NULL);
 		if (remember != get_remember_password (source))
 			set_remember_password (source, remember);
 

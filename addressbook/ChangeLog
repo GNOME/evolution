@@ -1,3 +1,8 @@
+2004-08-10  Not Zed  <NotZed@Ximian.com>
+
+	* gui/component/addressbook.c (addressbook_authenticate): e
+	passwords api change/reprompt if we need to.
+
 2004-08-12  Sivaiah nallagatla <snallagatla@novell.com>
 
 	* gui/compoent/addressbook.c : just revering a local change 
