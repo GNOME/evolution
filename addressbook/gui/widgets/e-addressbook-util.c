@@ -24,6 +24,7 @@
 #include "ebook/e-destination.h"
 
 #include <gnome.h>
+#include <gal/util/e-util.h>
 
 #include "e-card-merging.h"
 #include <shell/evolution-shell-client.h>

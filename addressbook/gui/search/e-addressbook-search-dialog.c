@@ -112,7 +112,6 @@ e_addressbook_search_dialog_init (EAddressbookSearchDialog *view)
 {
 	GtkDialog *dialog = GTK_DIALOG (view);
 
-	gtk_window_set_policy(GTK_WINDOW(view), FALSE, TRUE, FALSE);
 	gtk_window_set_default_size (GTK_WINDOW (view), 550, 400);
 	gtk_window_set_title(GTK_WINDOW(view), _("Advanced Search"));
 	view->search = get_widget(view);

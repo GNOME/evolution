@@ -1,3 +1,13 @@
+2003-07-23  Dan Winship  <danw@ximian.com>
+
+	* gui/search/e-addressbook-search-dialog.c
+	(e_addressbook_search_dialog_init): Remove gtk_window_set_policy
+	call since that function is deprecated and it was just setting
+	everything to the default values anyway.
+
+	* gui/widgets/e-addressbook-util.c: #include gal/util/e-util.h for
+	e_free_object_list.
+
 2003-07-22  Dan Winship  <danw@ximian.com>
 
 	* backend/ebook/e-card.c: (e_card_new,
