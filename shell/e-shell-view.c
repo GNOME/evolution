@@ -812,6 +812,20 @@ shell_view_interface_set_title (EvolutionShellView *shell_view,
 	gtk_window_set_title (GTK_WINDOW (view), title);
 }
 
+static void
+unmerge_on_error (BonoboObject *object,
+		  CORBA_Object  cobject,
+		  CORBA_Environment *ev)
+{
+	BonoboWindow *win;
+
+	win = bonobo_ui_container_get_win (BONOBO_UI_CONTAINER (object));
+
+	if (win)
+		bonobo_window_deregister_component_by_ref (
+			win, cobject);
+}
+
 
 EShellView *
 e_shell_view_construct (EShellView *shell_view,
@@ -845,6 +859,8 @@ e_shell_view_construct (EShellView *shell_view,
 
 	container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (container, BONOBO_WINDOW (shell_view));
+	gtk_signal_connect (GTK_OBJECT (container), "system_exception",
+			    (GtkSignalFunc) unmerge_on_error, NULL);
 
 	priv->ui_component = bonobo_ui_component_new ("evolution");
 	bonobo_ui_component_set_container (priv->ui_component,

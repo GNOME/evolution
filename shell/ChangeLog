@@ -1,3 +1,9 @@
+2000-11-14  Michael Meeks  <michael@helixcode.com>
+
+	* e-shell-view.c (unmerge_on_error): add
+	(e_shell_view_construct): hook up to system_exception on
+	ui_container.
+
 2000-11-11  Matt Bissiri  <bissiri@eecs.umich.edu>
 
 	* e-shell.c: (setup_components), (save_settings_for_component):
