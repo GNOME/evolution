@@ -1,3 +1,11 @@
+2000-06-20  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* folder-browser.c (folder_browser_load_folder): Working on getting 
+	this to work :)
+
+	* component-factory.c (create_imap_storage): Should now correctly
+	construct the folder path allowing the selection of a folder.
+
 2000-06-20  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* mail-format.c (mail_generate_reply): Declare `evolution_dir'.

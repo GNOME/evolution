@@ -253,16 +253,16 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 	extern gchar *evolution_dir;
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
-	char *path, *source, *server, *p;
+	char *cpath, *source, *server, *p;
 	CamelStore *store;
 	CamelFolder *folder;
 	CamelException *ex;
 	GPtrArray *lsub;
 	int i, max;
 
-	path = g_strdup_printf ("=%s/config=/mail/source", evolution_dir);
-	source = gnome_config_get_string (path);
-	g_free (path);
+	cpath = g_strdup_printf ("=%s/config=/mail/source", evolution_dir);
+	source = gnome_config_get_string (cpath);
+	g_free (cpath);
 
 	if (strncasecmp (source, "imap://", 7))
 		return;
@@ -311,16 +311,17 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 	/* we need a way to set the namespace */
 	lsub = camel_folder_get_subfolder_names (folder, ex);
 
-	evolution_storage_new_folder (storage, "/INBOX", "mail", source, "description");
+	p = g_strdup_printf ("%s/INBOX", source);
+	evolution_storage_new_folder (storage, "/INBOX", "mail", p, "description");
 
 	max = lsub->len;
-	fprintf (stderr, "\n************* We have %d folders\n\n", max + 1);
 	for (i = 0; i < max; i++) {
-		char *path;
+		char *path, *buf;
 
 		path = g_strdup_printf ("/%s", (char *)lsub->pdata[i]);
+		buf = g_strdup_printf ("%s/mail%s", source, path);
 		g_print ("Adding %s\n", path);
-		evolution_storage_new_folder (storage, path, "mail", source, "description");
+		evolution_storage_new_folder (storage, path, "mail", buf, "description");
 	}
 
  cleanup:
