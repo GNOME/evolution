@@ -1,6 +1,12 @@
+2001-10-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (providers_config): Set the GdkWindow of the
+	FolderBrowser, not the GtkWindow...
+
 2001-10-26    <NotZed@Ximian.com>
 
-	* component-factory.c (owner_unset_cb): Use a timeout not an idle handler.
+	* component-factory.c (owner_unset_cb): Use a timeout not an idle
+	handler.
 
 	* mail-callbacks.c (providers_config): Only set the parent window.
 

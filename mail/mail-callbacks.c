@@ -2237,8 +2237,8 @@ providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
 	
 	if (!accounts_dialog) {
 		accounts_dialog = mail_accounts_dialog_new (fb->shell);
-		gtk_widget_set_parent_window (GTK_WIDGET (accounts_dialog), fb);
-
+		gtk_widget_set_parent_window (GTK_WIDGET (accounts_dialog),
+					      GTK_WIDGET (FB_WINDOW (fb))->window);
 		gtk_signal_connect (GTK_OBJECT (accounts_dialog), "destroy",
 				    accounts_dialog_close, NULL);
 		gnome_dialog_set_close (GNOME_DIALOG (accounts_dialog), TRUE);
