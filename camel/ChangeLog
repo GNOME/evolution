@@ -1,3 +1,20 @@
+2002-01-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_construct):
+	(connect_to_server): Use flags rather than a bunch of gboolean
+	variables.
+	(smtp_connect): Same.
+	(smtp_mail): Here too. Use the enhanced status codes if available.
+	(smtp_data): And again here.
+	(smtp_helo): Finally here. Also detect the ENHANCEDSTATUSCODES
+	extension.
+	(smtp_rcpt): Use the enhanced status codes if available.
+	(smtp_rset): Here too.
+	(smtp_quit): And finally here.
+
+	* camel-transport.h: Removed gboolean supports_8bit since this is
+	pretty local to only SMTP for now.
+
 2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Remove some old cruft.

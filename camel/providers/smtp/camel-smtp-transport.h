@@ -47,15 +47,21 @@ extern "C" {
 #define CAMEL_IS_SMTP_TRANSPORT(o)    (CAMEL_CHECK_TYPE((o), CAMEL_SMTP_TRANSPORT_TYPE))
 
 
+#define CAMEL_SMTP_TRANSPORT_IS_ESMTP            (1 << 0)
+#define CAMEL_SMTP_TRANSPORT_8BITMIME            (1 << 1)
+#define CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES (1 << 2)
+
+#define CAMEL_SMTP_TRANSPORT_USE_SSL             (1 << 3)
+
 typedef struct {
 	CamelTransport parent_object;
-
+	
 	CamelStream *istream, *ostream;
-
-	gboolean use_ssl, is_esmtp;
-
+	
+	guint32 flags;
+	
 	struct sockaddr_in localaddr;
-
+	
 	GHashTable *authtypes;
 	
 } CamelSmtpTransport;

@@ -120,18 +120,18 @@ camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_c
 static void
 camel_smtp_transport_init (gpointer object)
 {
-	CamelTransport *transport = CAMEL_TRANSPORT (object);
+	CamelSmtpTransport *smtp = CAMEL_SMTP_TRANSPORT (object);
 	
-	transport->supports_8bit = FALSE;
+	smtp->flags = 0;
 }
 
 CamelType
 camel_smtp_transport_get_type (void)
 {
-	static CamelType camel_smtp_transport_type = CAMEL_INVALID_TYPE;
+	static CamelType type = CAMEL_INVALID_TYPE;
 	
-	if (camel_smtp_transport_type == CAMEL_INVALID_TYPE) {
-		camel_smtp_transport_type =
+	if (type == CAMEL_INVALID_TYPE) {
+		type =
 			camel_type_register (CAMEL_TRANSPORT_TYPE,
 					     "CamelSmtpTransport",
 					     sizeof (CamelSmtpTransport),
@@ -142,7 +142,7 @@ camel_smtp_transport_get_type (void)
 					     NULL);
 	}
 	
-	return camel_smtp_transport_type;
+	return type;
 }
 
 static void
@@ -155,7 +155,7 @@ smtp_construct (CamelService *service, CamelSession *session,
 	CAMEL_SERVICE_CLASS (parent_class)->construct (service, session, provider, url, ex);
 	
 	if (camel_url_get_param (url, "use_ssl"))
-		smtp_transport->use_ssl = TRUE;
+		smtp_transport->flags |= CAMEL_SMTP_TRANSPORT_USE_SSL;
 }
 
 static const char *
@@ -236,7 +236,7 @@ connect_to_server (CamelService *service, CamelException *ex)
 	struct hostent *h;
 	guint32 addrlen;
 	int port, ret;
-
+	
 	if (!CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex))
 		return FALSE;
 	
@@ -245,14 +245,16 @@ connect_to_server (CamelService *service, CamelException *ex)
 		return FALSE;
 	
 	/* set some smtp transport defaults */
-	transport->is_esmtp = FALSE;
+	transport->flags &= ~(CAMEL_SMTP_TRANSPORT_IS_ESMTP |
+			      CAMEL_SMTP_TRANSPORT_8BITMIME |
+			      CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES);
+	
 	transport->authtypes = NULL;
-	CAMEL_TRANSPORT (transport)->supports_8bit = FALSE;
 	
 	port = service->url->port ? service->url->port : SMTP_PORT;
 	
 #if defined(HAVE_NSS) || defined(HAVE_OPENSSL)
-	if (transport->use_ssl) {
+	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL) {
 		port = service->url->port ? service->url->port : 465;
 #ifdef HAVE_NSS
 		/* use the preferred implementation - NSS */
@@ -268,7 +270,7 @@ connect_to_server (CamelService *service, CamelException *ex)
 #endif /* HAVE_NSS || HAVE_OPENSSL */
 	
 	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
-	camel_free_host(h);
+	camel_free_host (h);
 	if (ret == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      _("Could not connect to %s (port %d): %s"),
@@ -281,7 +283,7 @@ connect_to_server (CamelService *service, CamelException *ex)
 	/* get the localaddr - needed later by smtp_helo */
 	addrlen = sizeof (transport->localaddr);
 #ifdef HAVE_NSS
-	if (transport->use_ssl) {
+	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL) {
 		PRFileDesc *sockfd = camel_tcp_stream_get_socket (CAMEL_TCP_STREAM (tcp_stream));
 		PRNetAddr addr;
 		char hname[1024];
@@ -320,17 +322,17 @@ connect_to_server (CamelService *service, CamelException *ex)
 			return FALSE;
 		}
 		if (strstr (respbuf, "ESMTP"))
-			transport->is_esmtp = TRUE;
+			transport->flags |= CAMEL_SMTP_TRANSPORT_IS_ESMTP;
 	} while (*(respbuf+3) == '-'); /* if we got "220-" then loop again */
 	g_free (respbuf);
 	
 	/* send HELO (or EHLO, depending on the service type) */
-	if (!transport->is_esmtp) {
+	if (!(transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP)) {
 		/* If we did not auto-detect ESMTP, we should still send EHLO */
-		transport->is_esmtp = TRUE;
+		transport->flags |= CAMEL_SMTP_TRANSPORT_IS_ESMTP;
 		if (!smtp_helo (transport, NULL)) {
 			/* Okay, apprently this server doesn't support ESMTP */
-			transport->is_esmtp = FALSE;
+			transport->flags &= ~CAMEL_SMTP_TRANSPORT_IS_ESMTP;
 			smtp_helo (transport, ex);
 		}
 	} else {
@@ -375,7 +377,8 @@ smtp_connect (CamelService *service, CamelException *ex)
 		gboolean authenticated = FALSE;
 		char *errbuf = NULL;
 		
-		if (!transport->is_esmtp || !g_hash_table_lookup (transport->authtypes, service->url->authmech)) {
+		if (!(transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP) ||
+		    !g_hash_table_lookup (transport->authtypes, service->url->authmech)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 					      _("SMTP server %s does not support requested "
 						"authentication type %s"), service->url->host,
@@ -545,6 +548,7 @@ query_auth_types (CamelService *service, CamelException *ex)
 	}
 	
 	smtp_disconnect (service, TRUE, NULL);
+	
 	return types;
 }
 
@@ -601,8 +605,7 @@ smtp_send_to (CamelTransport *transport, CamelMedium *message,
 	
 	if (!recipients) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Cannot send message: "
-					"no recipients defined."));
+				      _("Cannot send message: no recipients defined."));
 		camel_operation_end (NULL);
 		return FALSE;
 	}
@@ -664,20 +667,36 @@ smtp_send (CamelTransport *transport, CamelMedium *message, CamelException *ex)
 	return status;
 }
 
+static const char *
+smtp_next_token (const char *buf)
+{
+	const unsigned char *token;
+	
+	token = (const unsigned char *) buf;
+	while (*token && !isspace ((int) *token))
+		token++;
+	
+	while (*token && isspace ((int) *token))
+		token++;
+	
+	return (const char *) token;
+}
+
 static gboolean
 smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 {
 	/* say hello to the server */
-	gchar *cmdbuf, *respbuf = NULL;
+	char *cmdbuf, *respbuf = NULL;
+	const char *token;
 	struct hostent *host;
 	
 	camel_operation_start_transient (NULL, _("SMTP Greeting"));
 	
 	/* get the local host name */
-	host = gethostbyaddr ((gchar *)&transport->localaddr.sin_addr, sizeof (transport->localaddr.sin_addr), AF_INET);
+	host = gethostbyaddr ((char *)&transport->localaddr.sin_addr, sizeof (transport->localaddr.sin_addr), AF_INET);
 	
 	/* hiya server! how are you today? */
-	if (transport->is_esmtp) {
+	if (transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP) {
 		if (host && host->h_name)
 			cmdbuf = g_strdup_printf ("EHLO %s\r\n", host->h_name);
 		else
@@ -719,17 +738,28 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 			return FALSE;
 		}
 		
-		if (strstrcase (respbuf, "8BITMIME")) {
-			d(fprintf (stderr, "This server supports 8bit MIME\n"));
-			CAMEL_TRANSPORT (transport)->supports_8bit = TRUE;
-		}
+		token = respbuf + 4;
 		
-		/* Only parse authtypes if we don't already have them */
-		if (transport->is_esmtp && strstr (respbuf, "AUTH") && !transport->authtypes) {
-			/* parse for supported AUTH types */
-			char *auths = strstr (respbuf, "AUTH") + 4;
-			
-			transport->authtypes = esmtp_get_authtypes (auths);
+		if (transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP) {
+			if (!strncmp (token, "8BITMIME", 8)) {
+				d(fprintf (stderr, "This server supports 8bit MIME\n"));
+				transport->flags |= CAMEL_SMTP_TRANSPORT_8BITMIME;
+			} else if (!strncmp (token, "ENHANCEDSTATUSCODES", 19)) {
+				d(fprintf (stderr, "This server supports enhanced status codes\n"));
+				transport->flags |= CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES;
+			} else if (!transport->authtypes && !strncmp (token, "AUTH", 4)) {
+				/* Don't bother parsing any authtypes if we already have a list.
+				 * Some servers will list AUTH twice, once the standard way and
+				 * once the way Microsoft Outlook requires them to be:
+				 *
+				 * 250-AUTH LOGIN PLAIN DIGEST-MD5 CRAM-MD5
+				 * 250-AUTH=LOGIN PLAIN DIGEST-MD5 CRAM-MD5
+				 **/
+				
+				/* parse for supported AUTH types */
+				token = smtp_next_token (token);
+				transport->authtypes = esmtp_get_authtypes (token);
+			}
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
 	g_free (respbuf);
@@ -742,7 +772,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 static gboolean
 smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 {
-	gchar *cmdbuf, *respbuf = NULL, *challenge;
+	char *cmdbuf, *respbuf = NULL, *challenge;
 	CamelSasl *sasl = NULL;
 	
 	camel_operation_start_transient (NULL, _("SMTP Authentication"));
@@ -848,10 +878,10 @@ static gboolean
 smtp_mail (CamelSmtpTransport *transport, const char *sender, gboolean has_8bit_parts, CamelException *ex)
 {
 	/* we gotta tell the smtp server who we are. (our email addy) */
-	gchar *cmdbuf, *respbuf = NULL;
+	char *cmdbuf, *respbuf = NULL;
 	
 	/* enclose address in <>'s since some SMTP daemons *require* that */
-	if (CAMEL_TRANSPORT (transport)->supports_8bit && has_8bit_parts)
+	if (transport->flags & CAMEL_SMTP_TRANSPORT_8BITMIME && has_8bit_parts)
 		cmdbuf = g_strdup_printf ("MAIL FROM: <%s> BODY=8BITMIME\r\n", sender);
 	else
 		cmdbuf = g_strdup_printf ("MAIL FROM: <%s>\r\n", sender);
@@ -875,13 +905,21 @@ smtp_mail (CamelSmtpTransport *transport, const char *sender, gboolean has_8bit_
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
+			const char *token;
 			int error;
 			
-			error = respbuf ? atoi (respbuf) : 0;
-			g_free (respbuf);
+			if (!respbuf || !(transport->flags & CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES)) {
+				error = respbuf ? atoi (respbuf) : 0;
+				token = get_smtp_error_string (error);
+			} else
+				token = respbuf + 4;
+			
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("MAIL FROM response error: %s: mail not sent"),
-					      get_smtp_error_string (error));
+					      _("MAIL FROM response error: %s"),
+					      token);
+			
+			g_free (respbuf);
+			
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
@@ -895,7 +933,7 @@ smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException 
 {
 	/* we gotta tell the smtp server who we are going to be sending
 	 * our email to */
-	gchar *cmdbuf, *respbuf = NULL;
+	char *cmdbuf, *respbuf = NULL;
 	
 	/* enclose address in <>'s since some SMTP daemons *require* that */
 	cmdbuf = g_strdup_printf ("RCPT TO: <%s>\r\n", recipient);
@@ -912,20 +950,28 @@ smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException 
 	g_free (cmdbuf);
 	
 	do {
-		/* Check for "250 Sender OK..." */
+		/* Check for "250 Recipient OK..." */
 		g_free (respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
 		
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
+			const char *token;
 			int error;
 			
-			error = respbuf ? atoi (respbuf) : 0;
-			g_free (respbuf);
+			if (!respbuf || !(transport->flags & CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES)) {
+				error = respbuf ? atoi (respbuf) : 0;
+				token = get_smtp_error_string (error);
+			} else
+				token = respbuf + 4;
+			
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("RCPT TO response error: %s: mail not sent"),
-					      get_smtp_error_string (error));
+					      _("RCPT TO response error: %s"),
+					      token);
+			
+			g_free (respbuf);
+			
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
@@ -948,7 +994,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 	/* if the message contains 8bit mime parts and the server
            doesn't support it, encode 8bit parts to the best
            encoding.  This will also enforce an encoding to keep the lines in limit */
-	if (has_8bit_parts && !CAMEL_TRANSPORT (transport)->supports_8bit)
+	if (has_8bit_parts && !(transport->flags & CAMEL_SMTP_TRANSPORT_8BITMIME))
 		camel_mime_message_encode_8bit_parts (CAMEL_MIME_MESSAGE (message));
 	
 	cmdbuf = g_strdup ("DATA\r\n");
@@ -972,13 +1018,21 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 		/* we should have gotten instructions on how to use the DATA command:
 		 * 354 Enter mail, end with "." on a line by itself
 		 */
+		const char *token;
 		int error;
-			
-		error = respbuf ? atoi (respbuf) : 0;
-		g_free (respbuf);
+		
+		if (!respbuf || !(transport->flags & CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES)) {
+			error = respbuf ? atoi (respbuf) : 0;
+			token = get_smtp_error_string (error);
+		} else
+			token = respbuf + 4;
+		
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("DATA response error: %s: mail not sent"),
-				      get_smtp_error_string (error));
+				      _("DATA response error: %s"),
+				      token);
+		
+		g_free (respbuf);
+		
 		return FALSE;
 	}
 	
@@ -1049,14 +1103,21 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
+			const char *token;
 			int error;
 			
-			error = respbuf ? atoi (respbuf) : 0;
-			g_free (respbuf);
+			if (!respbuf || !(transport->flags & CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES)) {
+				error = respbuf ? atoi (respbuf) : 0;
+				token = get_smtp_error_string (error);
+			} else
+				token = respbuf + 4;
+			
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("DATA response error: message termination: "
-						"%s: mail not sent"),
-					      get_smtp_error_string (error));
+					      _("DATA termination response error: %s"),
+					      token);
+			
+			g_free (respbuf);
+			
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
@@ -1069,7 +1130,7 @@ static gboolean
 smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 {
 	/* we are going to reset the smtp server (just to be nice) */
-	gchar *cmdbuf, *respbuf = NULL;
+	char *cmdbuf, *respbuf = NULL;
 	
 	cmdbuf = g_strdup ("RSET\r\n");
 	
@@ -1092,13 +1153,21 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
+			const char *token;
 			int error;
 			
-			error = respbuf ? atoi (respbuf) : 0;
-			g_free (respbuf);
+			if (!respbuf || !(transport->flags & CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES)) {
+				error = respbuf ? atoi (respbuf) : 0;
+				token = get_smtp_error_string (error);
+			} else
+				token = respbuf + 4;
+			
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("RSET response error: %s"),
-					      get_smtp_error_string (error));
+					      token);
+			
+			g_free (respbuf);
+			
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
@@ -1111,7 +1180,7 @@ static gboolean
 smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 {
 	/* we are going to reset the smtp server (just to be nice) */
-	gchar *cmdbuf, *respbuf = NULL;
+	char *cmdbuf, *respbuf = NULL;
 	
 	cmdbuf = g_strdup ("QUIT\r\n");
 	
@@ -1134,13 +1203,21 @@ smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "221", 3)) {
+			const char *token;
 			int error;
 			
-			error = respbuf ? atoi (respbuf) : 0;
-			g_free (respbuf);
+			if (!respbuf || !(transport->flags & CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES)) {
+				error = respbuf ? atoi (respbuf) : 0;
+				token = get_smtp_error_string (error);
+			} else
+				token = respbuf + 4;
+			
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("QUIT response error: %s: non-fatal"),
-					      get_smtp_error_string (error));
+					      _("QUIT response error: %s"),
+					      token);
+			
+			g_free (respbuf);
+			
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "221-" then loop again */
