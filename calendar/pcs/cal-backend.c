@@ -142,7 +142,7 @@ cal_backend_class_init (CalBackendClass *class)
 
 	class->get_uri = NULL;
 	class->get_email_address = NULL;
-	class->get_scheduling_information = NULL;
+	class->get_static_capabilities = NULL;
 	class->open = NULL;
 	class->is_loaded = NULL;
 	class->is_read_only = NULL;
@@ -204,16 +204,14 @@ cal_backend_get_email_address (CalBackend *backend)
 	return (* CLASS (backend)->get_email_address) (backend);
 }
 
-GNOME_Evolution_Calendar_SchedulingInformation
-cal_backend_get_scheduling_information (CalBackend *backend)
+const char *
+cal_backend_get_static_capabilities (CalBackend *backend)
 {
-	GNOME_Evolution_Calendar_SchedulingInformation si = {FALSE, FALSE};
-	
-	g_return_val_if_fail (backend != NULL, si);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), si);
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
 
-	g_assert (CLASS (backend)->get_scheduling_information != NULL);
-	return (* CLASS (backend)->get_scheduling_information) (backend);
+	g_assert (CLASS (backend)->get_static_capabilities != NULL);
+	return (* CLASS (backend)->get_static_capabilities) (backend);
 }
 
 /* Callback used when a Cal is destroyed */

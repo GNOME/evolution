@@ -95,6 +95,13 @@ static const int action_map[] = {
 	-1
 };
 
+static const char *action_map_cap[] = {
+	"no-display-alarms",
+	"no-audio-alarms",
+	"no-procedure-alarms",
+	"no-email-alarms"
+};
+
 static const int value_map[] = {
 	MINUTES,
 	HOURS,
@@ -474,6 +481,22 @@ get_alarm_string (CalComponentAlarm *alarm)
 	return str;
 }
 
+static void
+sensitize_buttons (AlarmPage *apage)
+{
+	AlarmPagePrivate *priv;
+	CalClient *client;
+	GtkCList *clist;
+	
+	priv = apage->priv;
+	
+	client = COMP_EDITOR_PAGE (apage)->client;
+	clist = GTK_CLIST (priv->list);
+
+	gtk_widget_set_sensitive (priv->add, cal_client_get_one_alarm_only (client) && clist->rows > 0 ? FALSE : TRUE);
+	gtk_widget_set_sensitive (priv->delete, clist->rows > 0 ? TRUE : FALSE);
+}
+
 /* Appends an alarm to the list */
 static void
 append_reminder (AlarmPage *apage, CalComponentAlarm *alarm)
@@ -494,7 +517,7 @@ append_reminder (AlarmPage *apage, CalComponentAlarm *alarm)
 	gtk_clist_select_row (clist, i, 0);
 	g_free (c[0]);
 
-	gtk_widget_set_sensitive (priv->delete, TRUE);
+	sensitize_buttons (apage);
 }
 
 /* fill_widgets handler for the alarm page */
@@ -506,8 +529,10 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	CalComponentText text;
 	GList *alarms, *l;
 	GtkCList *clist;
+	GtkWidget *menu;
 	CompEditorPageDates dates;
-
+	int i;
+	
 	apage = ALARM_PAGE (page);
 	priv = apage->priv;
 
@@ -549,6 +574,16 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	cal_obj_uid_list_free (alarms);
 
  out:
+
+	/* Alarm types */
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->action));
+	for (i = 0, l = GTK_MENU_SHELL (menu)->children; action_map[i] != -1; i++, l = l->next) {
+		if (cal_client_get_static_capability (page->client, action_map_cap[i]))
+			gtk_widget_set_sensitive (l->data, FALSE);
+		else
+			gtk_widget_set_sensitive (l->data, TRUE);
+	}
+	
 
 	priv->updating = FALSE;
 }
@@ -794,10 +829,7 @@ delete_clicked_cb (GtkButton *button, gpointer data)
 	if (sel >= clist->rows)
 		sel--;
 
-	if (clist->rows > 0)
-		gtk_clist_select_row (clist, sel, 0);
-	else
-		gtk_widget_set_sensitive (priv->delete, FALSE);
+	sensitize_buttons (apage);
 }
 
 /* Callback used when the alarm options button is clicked */

@@ -1,3 +1,30 @@
+2003-01-02  JP Rosevear  <jpr@ximian.com>
+
+	* gui/alarm-notify/alarm-queue.c (mail_notification): kill mail
+	notification code
+
+	* cal-client/cal-client.c (load_static_capabilities): grab static
+	capabilities string
+	(check_capability): see if a capability is in the string
+	(cal_client_get_one_alarm_only): accessor
+	(cal_client_get_organizer_must_attend): use check_capability
+	(cal_client_get_static_capability): ditto
+
+	* cal-client/cal-client.h: new, changed protos
+
+	* idl/evolution-calendar.idl: change over getSchedulingInformation
+	to a more general getStaticCapabilities call
+
+	* pcs/cal-backend-file.c
+	(cal_backend_file_get_static_capabilities): return
+	"no-email-alarms"
+
+	* pcs/cal-backend.c (cal_backend_get_static_capabilities): ditto
+
+	* pcs/cal-backend.h: ditto
+
+	* pcs/cal.c (impl_Cal_get_static_capabilities): ditto
+
 2002-12-30  JP Rosevear  <jpr@ximian.com>
 
 	* gui/alarm-notify/alarm-queue.c (get_default_address): utility

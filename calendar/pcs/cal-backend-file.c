@@ -93,7 +93,7 @@ static void cal_backend_file_destroy (GtkObject *object);
 static const char *cal_backend_file_get_uri (CalBackend *backend);
 static gboolean cal_backend_file_is_read_only (CalBackend *backend);
 static const char *cal_backend_file_get_email_address (CalBackend *backend);
-static GNOME_Evolution_Calendar_SchedulingInformation cal_backend_file_get_scheduling_information (CalBackend *backend);
+static const char *cal_backend_file_get_static_capabilities (CalBackend *backend);
 static CalBackendOpenStatus cal_backend_file_open (CalBackend *backend,
 						   const char *uristr,
 						   gboolean only_if_exists);
@@ -195,7 +195,7 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->get_uri = cal_backend_file_get_uri;
 	backend_class->is_read_only = cal_backend_file_is_read_only;
 	backend_class->get_email_address = cal_backend_file_get_email_address;
-	backend_class->get_scheduling_information = cal_backend_file_get_scheduling_information;
+	backend_class->get_static_capabilities = cal_backend_file_get_static_capabilities;
 	backend_class->open = cal_backend_file_open;
 	backend_class->is_loaded = cal_backend_file_is_loaded;
 	backend_class->get_query = cal_backend_file_get_query;
@@ -488,12 +488,10 @@ cal_backend_file_get_email_address (CalBackend *backend)
 	return NULL;
 }
 
-static GNOME_Evolution_Calendar_SchedulingInformation
-cal_backend_file_get_scheduling_information (CalBackend *backend)
+static const char *
+cal_backend_file_get_static_capabilities (CalBackend *backend)
 {
-	GNOME_Evolution_Calendar_SchedulingInformation si = {FALSE, FALSE};
-
-	return si;
+	return "no-email-alarms";
 }
 
 /* Used from g_hash_table_foreach(), adds a category name to the sequence */

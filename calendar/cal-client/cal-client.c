@@ -51,9 +51,7 @@ struct _CalClientPrivate {
 	char *email_address;
 
 	/* Scheduling info */
-	gboolean scheduling_info_loaded;
-	gboolean organizer_must_attend;
-	gboolean save_schedules;
+	char *capabilities;
 	
 	/* The calendar factories we are contacting */
 	GList *factories;
@@ -250,9 +248,7 @@ cal_client_init (CalClient *client)
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
 	priv->uri = NULL;
 	priv->email_address = NULL;
-	priv->scheduling_info_loaded = FALSE;
-	priv->organizer_must_attend = FALSE;
-	priv->save_schedules = FALSE;
+	priv->capabilities = FALSE;
 	priv->factories = NULL;
 	priv->timezones = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->w_client = NULL;
@@ -387,6 +383,10 @@ cal_client_destroy (GtkObject *object)
 	if (priv->email_address) {
 		g_free (priv->email_address);
 		priv->email_address = NULL;
+	}
+	if (priv->capabilities) {
+		g_free (priv->capabilities);
+		priv->capabilities = NULL;
 	}
 
 	g_hash_table_foreach (priv->timezones, free_timezone, NULL);
@@ -1117,58 +1117,71 @@ cal_client_get_email_address (CalClient *client)
 }
 
 static void
-load_scheduling_info (CalClient *client) 
+load_static_capabilities (CalClient *client) 
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
-	GNOME_Evolution_Calendar_SchedulingInformation si;
+	char *cap;
 	
 	priv = client->priv;
 
-	if (priv->scheduling_info_loaded)
+	if (priv->capabilities)
 		return;
 	
 	CORBA_exception_init (&ev);
-	si = GNOME_Evolution_Calendar_Cal_getSchedulingInformation (priv->cal, &ev);
-	if (!BONOBO_EX (&ev)) {
-		priv->organizer_must_attend = si.organizerMustAttend;
-		priv->save_schedules = si.saveSchedules;
-		priv->scheduling_info_loaded = TRUE;
-	}
+	cap = GNOME_Evolution_Calendar_Cal_getStaticCapabilities (priv->cal, &ev);
+	if (!BONOBO_EX (&ev))
+		priv->capabilities = g_strdup (cap);
+	else
+		priv->capabilities = g_strdup ("");	
 	CORBA_exception_free (&ev);
+}
 
+static gboolean
+check_capability (CalClient *client, const char *cap) 
+{
+	CalClientPrivate *priv;
+	
+	priv = client->priv;
+
+	load_static_capabilities (client);
+	if (strstr (priv->capabilities, cap))
+		return TRUE;
+	
+	return FALSE;
+}
+
+gboolean
+cal_client_get_one_alarm_only (CalClient *client)
+{
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	return check_capability (client, "one-alarm-only");
 }
 
 gboolean 
 cal_client_get_organizer_must_attend (CalClient *client)
 {
-	CalClientPrivate *priv;
-
 	g_return_val_if_fail (client != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
-	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, FALSE);
+	return check_capability (client, "organizer-must-attend");
+}
 
-	load_scheduling_info (client);
-
-	return priv->organizer_must_attend;
+gboolean
+cal_client_get_static_capability (CalClient *client, const char *cap)
+{
+	return check_capability (client, cap);
 }
 
 gboolean 
 cal_client_get_save_schedules (CalClient *client)
 {
-	CalClientPrivate *priv;
-
 	g_return_val_if_fail (client != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
-	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, FALSE);
-
-	load_scheduling_info (client);
-
-	return priv->save_schedules;
+	return check_capability (client, "save-schedules");
 }
 
 /* Converts our representation of a calendar component type into its CORBA representation */
