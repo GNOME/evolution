@@ -63,30 +63,38 @@ static void imap_init (CamelFolder *folder, CamelStore *parent_store,
 		       CamelFolder *parent_folder, const gchar *name,
 		       gchar *separator, gboolean path_begns_with_sep,
 		       CamelException *ex);
+static void imap_finalize (CamelObject *object);
 static void imap_refresh_info (CamelFolder *folder, CamelException *ex);
 static void imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
 static void imap_expunge (CamelFolder *folder, CamelException *ex);
 
+/* message counts */
 static gint imap_get_message_count_internal (CamelFolder *folder, CamelException *ex);
 static gint imap_get_message_count (CamelFolder *folder);
 static gint imap_get_unread_message_count (CamelFolder *folder);
 
-static CamelMimeMessage *imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
-static void imap_append_message (CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, CamelException *ex);
-static void imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex);
-static void imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex);
+/* message manipulation */
+static CamelMimeMessage *imap_get_message (CamelFolder *folder, const gchar *uid,
+					   CamelException *ex);
+static void imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
+				 const CamelMessageInfo *info, CamelException *ex);
+static void imap_copy_message_to (CamelFolder *source, const char *uid,
+				  CamelFolder *destination, CamelException *ex);
+static void imap_move_message_to (CamelFolder *source, const char *uid,
+				  CamelFolder *destination, CamelException *ex);
 
+/* subfolder listing */
 static GPtrArray *imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex);
 static GPtrArray *imap_get_subfolder_names (CamelFolder *folder);
 
+/* summary info */
 static GPtrArray *imap_get_uids (CamelFolder *folder);
 static GPtrArray *imap_get_summary_internal (CamelFolder *folder, CamelException *ex);
 static GPtrArray *imap_get_summary (CamelFolder *folder);
 static const CamelMessageInfo *imap_get_message_info (CamelFolder *folder, const char *uid);
 
+/* searching */
 static GPtrArray *imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex);
-
-static void imap_finalize (CamelObject *object);
 
 /* flag methods */
 /*static guint32  imap_get_permanent_flags   (CamelFolder *folder, CamelException *ex);*/
@@ -359,67 +367,66 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 	/* determine which messages were successfully expunged */
 	node = result;
 	for (i = 0; node; i++) {
-		if (*node == '*') {
-			char *word;
-			
-			word = imap_next_word (node);
-			
-			if (!strncmp (word, "NO", 2)) {
-				/* Something failed, probably a Read-Only mailbox? */
-				CamelService *service = CAMEL_SERVICE (folder->parent_store);
-				char *reason, *ep;
-				
-				word = imap_next_word (word);
-				for (ep = word; *ep && *ep != '\n'; ep++);
-				reason = g_strndup (word, (gint)(ep - word));
-				
-				camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-						      "Could not EXPUNGE from IMAP server %s: %s.",
-						      service->url->host, reason ? reason :
-						      "Unknown error");
-				
-				g_free (reason);
-				break;
-			}
-			
-			/* else we have a message id? */
-			if (*word >= '0' && *word <= '9' && !strncmp ("EXPUNGE", imap_next_word (word), 7)) {
-				int id;
-				
-				id = atoi (word);
-				
-				d(fprintf (stderr, "Expunging message %d from the summary (i = %d)\n", id + i, i));
-				
-				if (id <= imap_folder->summary->len) {
-					CamelMessageInfo *info;
-					
-					info = (CamelMessageInfo *) imap_folder->summary->pdata[id - 1];
-					
-					/* remove from the lookup table and summary */
-					g_hash_table_remove (imap_folder->summary_hash, info->uid);
-					g_ptr_array_remove_index (imap_folder->summary, id - 1);
-					
-					/* free the info data */
-					g_free (info->subject);
-					g_free (info->from);
-					g_free (info->to);
-					g_free (info->cc);
-					g_free (info->uid);
-					g_free (info->message_id);
-					header_references_list_clear (&info->references);
-					g_free (info);
-					info = NULL;
-				} else {
-					/* Hopefully this should never happen */
-					d(fprintf (stderr, "imap expunge-error: message %d is out of range\n", id));
-				}
-			} else if (*word >= '0' && *word <= '9' && !strncmp ("RECENT", imap_next_word (word), 6)) {
-				recent = atoi (word);
-				if (!recent)
-					recent = -1;
-			}
-		} else {
+		char *word;
+		
+		if (*node != '*')
 			break;
+		
+		word = imap_next_word (node);
+		
+		if (!strncmp (word, "NO", 2)) {
+			/* Something failed, probably a Read-Only mailbox? */
+			CamelService *service = CAMEL_SERVICE (folder->parent_store);
+			char *reason, *ep;
+			
+			word = imap_next_word (word);
+			for (ep = word; *ep && *ep != '\n'; ep++);
+			reason = g_strndup (word, (gint)(ep - word));
+			
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      "Could not EXPUNGE from IMAP server %s: %s.",
+					      service->url->host, reason ? reason :
+					      "Unknown error");
+			
+			g_free (reason);
+			break;
+		}
+		
+		/* else we have a message id? */
+		if (*word >= '0' && *word <= '9' && !strncmp ("EXPUNGE", imap_next_word (word), 7)) {
+			int id;
+			
+			id = atoi (word);
+			
+			d(fprintf (stderr, "Expunging message %d from the summary (i = %d)\n", id + i, i));
+			
+			if (id <= imap_folder->summary->len) {
+				CamelMessageInfo *info;
+				
+				info = (CamelMessageInfo *) imap_folder->summary->pdata[id - 1];
+				
+				/* remove from the lookup table and summary */
+				g_hash_table_remove (imap_folder->summary_hash, info->uid);
+				g_ptr_array_remove_index (imap_folder->summary, id - 1);
+				
+				/* free the info data */
+				g_free (info->subject);
+				g_free (info->from);
+				g_free (info->to);
+				g_free (info->cc);
+				g_free (info->uid);
+				g_free (info->message_id);
+				header_references_list_clear (&info->references);
+				g_free (info);
+				info = NULL;
+			} else {
+				/* Hopefully this should never happen */
+				d(fprintf (stderr, "imap expunge-error: message %d is out of range\n", id));
+			}
+		} else if (*word >= '0' && *word <= '9' && !strncmp ("RECENT", imap_next_word (word), 6)) {
+			recent = atoi (word);
+			if (!recent)
+				recent = -1;
 		}
 		
 		for ( ; *node && *node != '\n'; node++);
@@ -456,7 +463,7 @@ imap_get_message_count_internal (CamelFolder *folder, CamelException *ex)
 	else
 		status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), folder,
 						      &result, ex, "EXAMINE %s", folder_path);
-
+	
 	g_free (folder_path);
 	
 	if (status != CAMEL_IMAP_OK)
@@ -580,7 +587,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, const Camel
 	
 	if (status != CAMEL_IMAP_OK)
 		return;
-
+	
 	g_free (result);
 	
 	camel_object_unref (CAMEL_OBJECT (memstream));
@@ -637,7 +644,7 @@ imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 	
 	if (status != CAMEL_IMAP_OK)
 		return;
-
+	
 	g_free (result);
 	
 	if (!(info = (CamelMessageInfo *)imap_get_message_info (source, uid))) {
@@ -689,20 +696,6 @@ imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 	g_return_val_if_fail (folder != NULL, g_ptr_array_new ());
 	
 	dir_sep = CAMEL_IMAP_STORE (folder->parent_store)->dir_sep;
-	
-#if 0
-	/* this is the old code, the new code hasn't been tested */
-	if (url && url->path) {
-		if (!strcmp (folder->full_name, url->path + 1))
-			namespace = g_strdup (url->path + 1);
-		else if (!g_strcasecmp (folder->full_name, "INBOX"))
-			namespace = g_strdup (url->path + 1); /* FIXME: erm...not sure */
-		else
-			namespace = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
-	} else {
-		namespace = g_strdup (folder->full_name);
-	}
-#endif
 	
 	if (url && url->path) {
 		char *path = url->path + 1;
@@ -937,7 +930,7 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 #endif
 	camel_object_unref (CAMEL_OBJECT (msgstream));
 	/*camel_object_unref (CAMEL_OBJECT (f_stream));*/
-
+	
 	d(fprintf (stderr, "*** We're returning... ***\n"));
 	
 	g_free (mesg);

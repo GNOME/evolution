@@ -83,13 +83,29 @@ enum {
 	CAMEL_IMAP_FAIL
 };
 
-gint camel_imap_command (CamelImapStore *store, CamelFolder *folder, CamelException *ex, char *fmt, ...);
-gint camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **ret, CamelException *ex, char *fmt, ...);
+gint camel_imap_command (CamelImapStore *store, CamelFolder *folder,
+			 CamelException *ex, char *fmt, ...);
+
+gint camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder,
+				  char **ret, CamelException *ex, char *fmt, ...);
 
 /* multi-transactional commands... */
-gint camel_imap_command_preliminary (CamelImapStore *store, char **cmdid, CamelException *ex, char *fmt, ...);
-gint camel_imap_command_continuation (CamelImapStore *store, char **ret, char *cmdid, char *cmdbuf, CamelException *ex);
-gint camel_imap_command_continuation_with_stream (CamelImapStore *store, char **ret, char *cmdid, CamelStream *cstream, CamelException *ex);
+gint camel_imap_command_preliminary (CamelImapStore *store,
+				     char **cmdid,
+				     CamelException *ex,
+				     char *fmt, ...);
+
+gint camel_imap_command_continuation (CamelImapStore *store,
+				      char **ret,
+				      char *cmdid,
+				      char *cmdbuf,
+				      CamelException *ex);
+
+gint camel_imap_command_continuation_with_stream (CamelImapStore *store,
+						  char **ret,
+						  char *cmdid,
+						  CamelStream *cstream,
+						  CamelException *ex);
 
 /* Standard Camel function */
 CamelType camel_imap_store_get_type (void);

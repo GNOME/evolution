@@ -81,9 +81,9 @@ camel_remote_store_class_init (CamelRemoteStoreClass *camel_remote_store_class)
 		CAMEL_SERVICE_CLASS (camel_remote_store_class);
 	CamelStoreClass *camel_store_class =
 		CAMEL_STORE_CLASS (camel_remote_store_class);
-
-	store_class = CAMEL_STORE_CLASS(camel_type_get_global_classfuncs (camel_store_get_type ()));
-
+	
+	store_class = CAMEL_STORE_CLASS (camel_type_get_global_classfuncs (camel_store_get_type ()));
+	
 	/* virtual method overload */
 	camel_service_class->connect = remote_connect;
 	camel_service_class->disconnect = remote_disconnect;
@@ -91,9 +91,9 @@ camel_remote_store_class_init (CamelRemoteStoreClass *camel_remote_store_class)
 	camel_service_class->query_auth_types_connected = remote_query_auth_types_connected;
 	camel_service_class->free_auth_types = remote_free_auth_types;
 	camel_service_class->get_name = remote_get_name;
-
+	
 	camel_store_class->get_folder_name = remote_get_folder_name;
-
+	
 	camel_remote_store_class->post_connect = remote_post_connect;
 	camel_remote_store_class->pre_disconnect = remote_pre_disconnect;
 	camel_remote_store_class->send_string = remote_send_string;
@@ -108,11 +108,11 @@ camel_remote_store_init (CamelObject *object)
 	CamelService *service = CAMEL_SERVICE (object);
 	CamelStore *store = CAMEL_STORE (object);
 	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
-
+	
 	service->url_flags |= CAMEL_SERVICE_URL_NEED_HOST;
-
+	
 	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
-
+	
 	remote_store->istream = NULL;
 	remote_store->ostream = NULL;
 	remote_store->timeout_id = 0;
@@ -134,13 +134,14 @@ camel_remote_store_get_type (void)
 	static CamelType camel_remote_store_type = CAMEL_INVALID_TYPE;
 	
 	if (camel_remote_store_type == CAMEL_INVALID_TYPE) {
-		camel_remote_store_type = camel_type_register (CAMEL_STORE_TYPE, "CamelRemoteStore",
-							       sizeof (CamelRemoteStore),
-							       sizeof (CamelRemoteStoreClass),
-							       (CamelObjectClassInitFunc) camel_remote_store_class_init,
-							       NULL,
-							       (CamelObjectInitFunc) camel_remote_store_init,
-							       (CamelObjectFinalizeFunc) NULL);
+		camel_remote_store_type =
+			camel_type_register (CAMEL_STORE_TYPE, "CamelRemoteStore",
+					     sizeof (CamelRemoteStore),
+					     sizeof (CamelRemoteStoreClass),
+					     (CamelObjectClassInitFunc) camel_remote_store_class_init,
+					     NULL,
+					     (CamelObjectInitFunc) camel_remote_store_init,
+					     (CamelObjectFinalizeFunc) NULL);
 	}
 	
 	return camel_remote_store_type;
@@ -199,7 +200,7 @@ static void
 refresh_folder_info (gpointer key, gpointer value, gpointer data)
 {
 	CamelFolder *folder = CAMEL_FOLDER (value);
-
+	
 	camel_folder_refresh_info (folder, (CamelException *) data);
 }
 
@@ -211,61 +212,64 @@ remote_connect (CamelService *service, CamelException *ex)
 	struct sockaddr_in sin;
 	gint fd;
 	gint port;
-
+	
 	h = camel_service_gethost (service, ex);
 	if (!h)
 		return FALSE;
-
+	
 	/* connect to the server */
 	sin.sin_family = h->h_addrtype;
-
+	
 	if (service->url->port)
 		port = service->url->port;
 	else {
 		CamelProvider *prov = camel_service_get_provider (service);
-
+		
 		port = prov->default_ports[CAMEL_PROVIDER_STORE];
 		g_assert (port); /* a remote service MUST define a valid default port */
 	}
-
-	sin.sin_port = htons(port);
-
+	
+	sin.sin_port = htons (port);
+	
 	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
 	
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
-	if (fd == -1 || connect (fd, (struct sockaddr *)&sin, sizeof(sin)) == -1) {
+	if (fd == -1 || connect (fd, (struct sockaddr *)&sin, sizeof (sin)) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not connect to %s (port %d): %s",
 				      service->url->host ? service->url->host : "(unknown host)", 
-				      port, strerror(errno));
+				      port, g_strerror (errno));
 		if (fd > -1)
 			close (fd);
 		
 		return FALSE;
 	}
-
+	
 	/* parent class connect initialization */
 	CAMEL_SERVICE_CLASS (store_class)->connect (service, ex);
 	
 	store->ostream = camel_stream_fs_new_with_fd (fd);
 	store->istream = camel_stream_buffer_new (store->ostream, CAMEL_STREAM_BUFFER_READ);
-
+	
 	/* Okay, good enough for us */
 	CAMEL_SERVICE (store)->connected = TRUE;
-
+	
 	/* implementation of postconnect */
 	CRSC (store)->post_connect (store, ex);
-
+	
 	if (camel_exception_is_set (ex)) {
-		/* FIXME: the real exception may get overridden? */
-		camel_service_disconnect (CAMEL_SERVICE (store), ex);
+		CamelException dex;
+		
+		camel_exception_init (&dex);
+		camel_service_disconnect (CAMEL_SERVICE (store), &dex);
 		return FALSE;
 	}
-
+	
 	return TRUE;
 }
 
-static gboolean timeout_cb (gpointer data)
+static gboolean
+timeout_cb (gpointer data)
 {
 	CRSC (data)->keepalive (CAMEL_REMOTE_STORE (data));
 	return TRUE;
@@ -278,12 +282,12 @@ remote_post_connect (CamelRemoteStore *store, CamelException *ex)
 	/* (Only if the implementation supports it) */
 	if (CRSC (store)->keepalive) {
 		CamelSession *session = camel_service_get_session (CAMEL_SERVICE (store));
-
+		
 		store->timeout_id = camel_session_register_timeout (session, 10 * 60 * 1000, 
 								    timeout_cb, 
 								    store);
 	}
-
+	
 	/* Let's make sure that any of our folders are brought up to speed */
 	g_hash_table_foreach (CAMEL_STORE (store)->folders, refresh_folder_info, ex);
 }
@@ -302,23 +306,23 @@ static gboolean
 remote_disconnect (CamelService *service, CamelException *ex)
 {
 	CamelRemoteStore *store = CAMEL_REMOTE_STORE (service);
-
+	
 	CRSC (service)->pre_disconnect (store, ex);
 	/* if the exception is set, screw it and dconn anyway */
-
+	
 	if (!CAMEL_SERVICE_CLASS (store_class)->disconnect (service, ex))
 		return FALSE;
-
+	
 	if (store->istream) {
 		camel_object_unref (CAMEL_OBJECT (store->istream));
 		store->istream = NULL;
 	}
-
+	
 	if (store->ostream) {
 		camel_object_unref (CAMEL_OBJECT (store->ostream));
 		store->ostream = NULL;
 	}
-
+	
 	return TRUE;
 }
 
@@ -332,13 +336,13 @@ static gint
 remote_send_string (CamelRemoteStore *store, CamelException *ex, char *fmt, va_list ap)
 {
 	gchar *cmdbuf;
-
+	
 	/* Check for connectedness. Failed (or cancelled) operations will
 	 * close the connection. */
-
+	
 	if (store->ostream == NULL) {
 		d(g_message ("remote: (send) disconnected, reconnecting."));
-
+		
 		if (!camel_service_connect (CAMEL_SERVICE (store), ex))
 			return -1;
 	}
@@ -349,11 +353,14 @@ remote_send_string (CamelRemoteStore *store, CamelException *ex, char *fmt, va_l
 	d(fprintf (stderr, "sending : \"%s\"\n", cmdbuf));
 	
 	if (camel_stream_printf (store->ostream, "%s", cmdbuf) == -1) {
+		CamelException dex;
+		
 		g_free (cmdbuf);
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				     g_strerror (errno));
-		/* FIXME: exception may be overridden */
-		camel_service_disconnect (CAMEL_SERVICE (store), ex);
+		
+		camel_exception_init (&dex);
+		camel_service_disconnect (CAMEL_SERVICE (store), &dex);
 		return -1;
 	}
 	g_free (cmdbuf);
@@ -378,14 +385,14 @@ camel_remote_store_send_string (CamelRemoteStore *store, CamelException *ex,
 {
 	va_list ap;
 	gint ret;
-
+	
 	g_return_val_if_fail (CAMEL_IS_REMOTE_STORE (store), -1);
 	g_return_val_if_fail (fmt, -1);
-
+	
 	va_start (ap, fmt);
 	ret = CRSC (store)->send_string (store, ex, fmt, ap);
 	va_end (ap);
-
+	
 	return ret;
 }
 
@@ -394,10 +401,10 @@ remote_send_stream (CamelRemoteStore *store, CamelStream *stream, CamelException
 {
 	/* Check for connectedness. Failed (or cancelled) operations will
 	 * close the connection. */
-
+	
 	if (store->ostream == NULL) {
 		d(g_message ("remote: (sendstream) disconnected, reconnecting."));
-
+		
 		if (!camel_service_connect (CAMEL_SERVICE (store), ex))
 			return -1;
 	}
@@ -405,10 +412,13 @@ remote_send_stream (CamelRemoteStore *store, CamelStream *stream, CamelException
 	d(fprintf (stderr, "(sending stream)\n"));
 	
 	if (camel_stream_write_to_stream (stream, store->ostream) < 0) {
+		CamelException dex;
+		
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				     g_strerror (errno));
-		/* FIXME: exception may be overridden */
-		camel_service_disconnect (CAMEL_SERVICE (store), ex);
+		
+		camel_exception_init (&dex);
+		camel_service_disconnect (CAMEL_SERVICE (store), &dex);
 		return -1;
 	}
 	
@@ -430,7 +440,7 @@ camel_remote_store_send_stream (CamelRemoteStore *store, CamelStream *stream, Ca
 {
 	g_return_val_if_fail (CAMEL_IS_REMOTE_STORE (store), -1);
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
-
+	
 	return CRSC (store)->send_stream (store, stream, ex);
 }
 
@@ -438,38 +448,41 @@ static gint
 remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 {
 	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
-
-	(*dest) = NULL;
-
+	
+	*dest = NULL;
+	
 	/* Check for connectedness. Failed (or cancelled) operations will
 	 * close the connection. We can't expect a read to have any
 	 * meaning if we reconnect, so always set an exception.
 	 */
-
+	
 	if (store->istream == NULL) {
 		g_message ("remote: (recv) disconnected, reconnecting.");
-
+		
 		camel_service_connect (CAMEL_SERVICE (store), ex);
-
+		
 		if (!camel_exception_is_set (ex))
 			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_NOT_CONNECTED,
 					     g_strerror (errno));
-
+		
 		return -1;
 	}
+	
+	*dest = camel_stream_buffer_read_line (stream);
+	
+	if (!*dest) {
+		CamelException dex;
 		
-	(*dest) = camel_stream_buffer_read_line (stream);
-
-	if (!(*dest)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				     g_strerror (errno));
-		/* FIXME: exception may be overridden */
-		camel_service_disconnect (CAMEL_SERVICE (store), ex);
+		
+		camel_exception_init (&dex);
+		camel_service_disconnect (CAMEL_SERVICE (store), &dex);
 		return -1;
 	}
-
-	d(fprintf (stderr, "received: %s\n", (*dest)));
-
+	
+	d(fprintf (stderr, "received: %s\n", *dest));
+	
 	return 0;
 }
 
@@ -490,7 +503,6 @@ camel_remote_store_recv_line (CamelRemoteStore *store, char **dest,
 {
 	g_return_val_if_fail (CAMEL_IS_REMOTE_STORE (store), -1);
 	g_return_val_if_fail (dest, -1);
-
+	
 	return CRSC (store)->recv_line (store, dest, ex);
 }
-

@@ -1,3 +1,11 @@
+2000-08-30  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-remote-store.c: Prevent exceptions from being overwritten
+
+	* providers/imap/camel-imap-folder.c (imap_expunge): Beautified
+	(imap_get_subfolder_names_internal): Removed old code as the
+	replacement code has now been tested and proven to work
+
 2000-08-29  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-utils.c: Removed old code that will

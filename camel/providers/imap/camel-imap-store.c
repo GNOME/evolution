@@ -75,13 +75,13 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	
 	remote_store_class = CAMEL_REMOTE_STORE_CLASS(camel_type_get_global_classfuncs 
 						      (camel_remote_store_get_type ()));
-
+	
 	/* virtual method overload */
 	camel_service_class->query_auth_types_generic = query_auth_types_generic;
 	camel_service_class->query_auth_types_connected = query_auth_types_connected;
-
+	
 	camel_store_class->get_folder = get_folder;
-
+	
 	camel_remote_store_class->post_connect = imap_post_connect;
 	camel_remote_store_class->pre_disconnect = imap_pre_disconnect;
 	camel_remote_store_class->keepalive = imap_keepalive;
@@ -92,11 +92,11 @@ camel_imap_store_init (gpointer object, gpointer klass)
 {
 	CamelService *service = CAMEL_SERVICE (object);
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (object);
-
+	
 	service->url_flags |= (CAMEL_SERVICE_URL_NEED_USER |
 			       CAMEL_SERVICE_URL_NEED_HOST |
 			       CAMEL_SERVICE_URL_ALLOW_PATH);
-
+	
 	imap_store->dir_sep = g_strdup ("/"); /*default*/
 	imap_store->current_folder = NULL;
 }
@@ -107,13 +107,14 @@ camel_imap_store_get_type (void)
 	static CamelType camel_imap_store_type = CAMEL_INVALID_TYPE;
 	
 	if (camel_imap_store_type == CAMEL_INVALID_TYPE)	{
-		camel_imap_store_type = camel_type_register (CAMEL_REMOTE_STORE_TYPE, "CamelImapStore",
-							     sizeof (CamelImapStore),
-							     sizeof (CamelImapStoreClass),
-							     (CamelObjectClassInitFunc) camel_imap_store_class_init,
-							     NULL,
-							     (CamelObjectInitFunc) camel_imap_store_init,
-							     (CamelObjectFinalizeFunc) NULL);
+		camel_imap_store_type =
+			camel_type_register (CAMEL_REMOTE_STORE_TYPE, "CamelImapStore",
+					     sizeof (CamelImapStore),
+					     sizeof (CamelImapStoreClass),
+					     (CamelObjectClassInitFunc) camel_imap_store_class_init,
+					     NULL,
+					     (CamelObjectInitFunc) camel_imap_store_init,
+					     (CamelObjectFinalizeFunc) NULL);
 	}
 	
 	return camel_imap_store_type;
@@ -175,9 +176,9 @@ imap_post_connect (CamelRemoteStore *remote_store, CamelException *ex)
 	CamelService *service = CAMEL_SERVICE (remote_store);
 	CamelImapStore *store = CAMEL_IMAP_STORE (remote_store);
 	CamelSession *session = camel_service_get_session (CAMEL_SERVICE (store));
-	gint status;
 	gchar *buf, *result, *errbuf = NULL;
 	gboolean authenticated = FALSE;
+	gint status;
 	
 	store->command = 0;
 	g_free (store->dir_sep);
@@ -513,14 +514,14 @@ static gint
 check_current_folder (CamelImapStore *store, CamelFolder *folder, char *fmt, CamelException *ex)
 {
 	CamelURL *url = CAMEL_SERVICE (store)->url;
-	char *r, *folder_path, *dir_sep;
-	int s;
+	char *result, *folder_path, *dir_sep;
+	int status;
 	
-	if (!folder)
-		return CAMEL_IMAP_OK;
-	if (store->current_folder == folder)
-		return CAMEL_IMAP_OK;
-	if (strncmp (fmt, "CREATE", 5) == 0)
+	/* return OK if we meet one of the following criteria:
+	 * 1. the command doesn't care about which folder we're in (folder == NULL)
+	 * 2. if we're already in the right folder (store->current_folder == folder)
+	 * 3. we're going to create a new folder */
+	if (!folder || store->current_folder == folder || !strncmp (fmt, "CREATE", 5))
 		return CAMEL_IMAP_OK;
 	
 	dir_sep = store->dir_sep;
@@ -529,21 +530,23 @@ check_current_folder (CamelImapStore *store, CamelFolder *folder, char *fmt, Cam
 		folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);
-		
-	s = camel_imap_command_extended (store, NULL, &r, ex, "SELECT %s", folder_path);
+	
+	status = camel_imap_command_extended (store, NULL, &result, ex, "SELECT %s", folder_path);
 	g_free (folder_path);
 	
-	if (!r || s != CAMEL_IMAP_OK) {
+	if (!result || status != CAMEL_IMAP_OK) {
 		store->current_folder = NULL;
-		return s;
+		return status;
 	}
+	g_free (result);
 	
-	g_free (r);
+	/* remember our currently selected folder */
 	store->current_folder = folder;
+	
 	return CAMEL_IMAP_OK;
 }
 
-static gint
+static gboolean
 send_command (CamelImapStore *store, char **cmdid, char *fmt, va_list ap, CamelException *ex)
 {
 	gchar *cmdbuf;
@@ -556,11 +559,11 @@ send_command (CamelImapStore *store, char **cmdid, char *fmt, va_list ap, CamelE
 		g_free (cmdbuf);
 		g_free (*cmdid);
 		*cmdid = NULL;
-		return CAMEL_IMAP_FAIL;
+		return FALSE;
 	}
 	
 	g_free (cmdbuf);
-	return CAMEL_IMAP_OK;
+	return TRUE;
 }
 
 static gint
@@ -578,8 +581,14 @@ slurp_response (CamelImapStore *store, CamelFolder *folder, char *cmdid, char **
 	expunged = g_ptr_array_new ();
 	
 	while (1) {
-		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0)
+		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0) {
+			for (i = 0; i < data->len; i++)
+				g_free (data->pdata[i]);
+			g_ptr_array_free (data, TRUE);
+			g_ptr_array_free (expunged, TRUE);
+			
 			return CAMEL_IMAP_FAIL;
+		}
 		
 		g_ptr_array_add (data, respbuf);
 		len += strlen (respbuf) + 1;
@@ -762,10 +771,11 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, CamelException *
 	
 	/* send the command */
 	va_start (ap, fmt);
-	status = send_command (store, &cmdid, fmt, ap, ex);
+        if (!send_command (store, &cmdid, fmt, ap, ex)) {
+		va_end (ap);
+		return CAMEL_IMAP_FAIL;
+	}
 	va_end (ap);
-	if (status != CAMEL_IMAP_OK)
-		return status;
 	
 	return parse_single_line (store, cmdid, ex);
 }
@@ -809,13 +819,14 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	status = check_current_folder (store, folder, fmt, ex);
 	if (status != CAMEL_IMAP_OK)
 		return status;
-	
+
 	/* send the command */
 	va_start (ap, fmt);
-	status = send_command (store, &cmdid, fmt, ap, ex);
+        if (!send_command (store, &cmdid, fmt, ap, ex)) {
+		va_end (ap);
+		return CAMEL_IMAP_FAIL;
+	}
 	va_end (ap);
-	if (status != CAMEL_IMAP_OK)
-		return status;
 	
 	return slurp_response (store, folder, cmdid, ret, FALSE, ex);
 }
@@ -838,7 +849,8 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
  * containing the rest of the response from the IMAP server. The
  * caller function is responsible for freeing @ret.
  * 
- * Return value: one of CAMEL_IMAP_PLUS, CAMEL_IMAP_OK,  or CAMEL_IMAP_FAIL
+ * Return value: one of CAMEL_IMAP_PLUS, CAMEL_IMAP_NO, CAMEL_IMAP_BAD
+ * or CAMEL_IMAP_FAIL
  * 
  * Note: on success (CAMEL_IMAP_PLUS), you will need to follow up with
  * a camel_imap_command_continuation call.
@@ -851,10 +863,11 @@ camel_imap_command_preliminary (CamelImapStore *store, char **cmdid, CamelExcept
 	
 	/* send the command */
 	va_start (ap, fmt);
-	status = send_command (store, cmdid, fmt, ap, ex);
+        if (!send_command (store, cmdid, fmt, ap, ex)) {
+		va_end (ap);
+		return CAMEL_IMAP_FAIL;
+	}
 	va_end (ap);
-	if (status != CAMEL_IMAP_OK)
-		return status;
 	
 	/* Read the response */
 	return parse_single_line (store, g_strdup (*cmdid), ex);
