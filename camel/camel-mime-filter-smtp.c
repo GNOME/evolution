@@ -101,7 +101,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 
 	/* first, see if we need to escape any from's */
 	while (inptr < inend) {
-		register int c = -1;
+		register gint c = -1;
 
 		if (midline)
 			while (inptr < inend && (c = *inptr++) != '\n')
@@ -143,7 +143,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 						tail = node;
 						inptr += 5;
 					} else {
-						if (!strncmp(inptr, ".\n", 2)) {
+						if (!strncmp(inptr, ".\n", 2) || !strncmp(inptr, ".\r\n", 3)) {
 							dotcount++;
 							node = alloca(sizeof(*node));
 							node->type = DOT_NODE;
