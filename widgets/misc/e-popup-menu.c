@@ -32,7 +32,7 @@
 #include "e-popup-menu.h"
 #include "e-gui-utils.h"
 
-#include <libgnome/gnome-i18n.h>
+#include <gal/util/e-i18n.h>
 
 #ifndef GNOME_APP_HELPER_H
 /* Copied this i18n function to use for the same purpose */

@@ -20,6 +20,8 @@
  * 02111-1307, USA.
  */
 
+#include <config.h>
+#include <gal/util/e-i18n.h>
 #include <gnome.h>
 #include "widget-color-combo.h"
 #include "color-palette.h"

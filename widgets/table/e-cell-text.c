@@ -53,6 +53,7 @@
 #include "gal/util/e-text-event-processor.h"
 #include "gal/e-text/e-text.h"
 #include "gal/util/e-text-event-processor-emacs-like.h"
+#include "gal/util/e-i18n.h"
 #include "e-table-tooltip.h"
 
 #define d(x)

@@ -352,14 +352,14 @@ compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_n
 
 	if (etgc->ecol->text) {
 		text = g_strdup_printf ((child_node->count == 1)
-					? U_("%s : %s (%d item)")
-					: U_("%s : %s (%d items)"),
+					? _("%s : %s (%d item)")
+					: _("%s : %s (%d items)"),
 					etgc->ecol->text, child_node->string,
 					(gint) child_node->count);
 	} else {
 		text = g_strdup_printf ((child_node->count == 1)
-					? U_("%s (%d item)")
-					: U_("%s (%d items)"),
+					? _("%s (%d item)")
+					: _("%s (%d items)"),
 					child_node->string,
 					(gint) child_node->count);
 	}

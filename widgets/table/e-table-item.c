@@ -41,6 +41,7 @@
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/util/e-util.h"
+#include "gal/util/e-i18n.h"
 #include <string.h>
 #include <stdlib.h>
 

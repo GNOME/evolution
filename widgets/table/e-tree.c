@@ -30,7 +30,7 @@
 #include <gtk/gtksignal.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
-#include "gal/util/e-i18n.h"
+#include <gal/util/e-i18n.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-canvas.h>
 
