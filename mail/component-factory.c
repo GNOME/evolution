@@ -948,7 +948,9 @@ create_component (void)
 	
 	evolution_mail_config_wizard_init ();
 	
-	evolution_shell_component_add_user_creatable_item (shell_component, "message", _("New Mail Message"), _("New _Mail Message"), 'm');
+	evolution_shell_component_add_user_creatable_item (shell_component, "message",
+							   _("New Mail Message"), _("New _Mail Message"), 'm',
+							   NULL);
 
 	for (i=0;i<sizeof(shell_component_handlers)/sizeof(shell_component_handlers[0]);i++) {
 		shell_component_handlers[i].hand = gtk_signal_connect(GTK_OBJECT(shell_component),
