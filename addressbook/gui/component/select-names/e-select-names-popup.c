@@ -93,6 +93,8 @@ popup_info_free (PopupInfo *info)
 static void
 popup_info_cleanup (GtkWidget *w, gpointer info)
 {
+	g_signal_handlers_disconnect_matched (G_OBJECT (w), G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, info);
+
 	popup_info_free ((PopupInfo *) info);
 }
 
