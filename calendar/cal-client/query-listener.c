@@ -47,14 +47,14 @@ static void query_listener_init (QueryListener *ql);
 static void query_listener_destroy (GtkObject *object);
 
 static void impl_notifyObjUpdated (PortableServer_Servant servant,
-				   GNOME_Evolution_Calendar_CalObjUIDSeq *uids,
+				   const GNOME_Evolution_Calendar_CalObjUIDSeq *uids,
 				   CORBA_boolean query_in_progress,
 				   CORBA_long n_scanned,
 				   CORBA_long total,
 				   CORBA_Environment *ev);
 
 static void impl_notifyObjRemoved (PortableServer_Servant servant,
-				   GNOME_Evolution_Calendar_CalObjUID uid,
+				   const CORBA_char *uid,
 				   CORBA_Environment *ev);
 
 static void impl_notifyQueryDone (PortableServer_Servant servant,
@@ -146,7 +146,7 @@ query_listener_destroy (GtkObject *object)
 /* ::notifyObjUpdated() method */
 static void
 impl_notifyObjUpdated (PortableServer_Servant servant,
-		       GNOME_Evolution_Calendar_CalObjUIDSeq *uids,
+		       const GNOME_Evolution_Calendar_CalObjUIDSeq *uids,
 		       CORBA_boolean query_in_progress,
 		       CORBA_long n_scanned,
 		       CORBA_long total,
@@ -168,7 +168,7 @@ impl_notifyObjUpdated (PortableServer_Servant servant,
 /* ::notifyObjRemoved() method */
 static void
 impl_notifyObjRemoved (PortableServer_Servant servant,
-		       GNOME_Evolution_Calendar_CalObjUID uid,
+		       const CORBA_char *uid,
 		       CORBA_Environment *ev)
 {
 	QueryListener *ql;

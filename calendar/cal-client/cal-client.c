@@ -25,11 +25,10 @@
 #include <gtk/gtksignal.h>
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-moniker-util.h>
-#include <bonobo-config/bonobo-config-database.h>
 #include <libgnome/gnome-util.h>
 
 #include "e-util/e-component-listener.h"
+#include "e-util/e-config-listener.h"
 #include "cal-client-types.h"
 #include "cal-client.h"
 #include "cal-listener.h"
@@ -552,7 +551,7 @@ cal_set_mode_cb (CalListener *listener,
 
 /* Handle the obj_updated signal from the listener */
 static void
-obj_updated_cb (CalListener *listener, const GNOME_Evolution_Calendar_CalObjUID uid, gpointer data)
+obj_updated_cb (CalListener *listener, const CORBA_char *uid, gpointer data)
 {
 	CalClient *client;
 
@@ -562,7 +561,7 @@ obj_updated_cb (CalListener *listener, const GNOME_Evolution_Calendar_CalObjUID 
 
 /* Handle the obj_removed signal from the listener */
 static void
-obj_removed_cb (CalListener *listener, const GNOME_Evolution_Calendar_CalObjUID uid, gpointer data)
+obj_removed_cb (CalListener *listener, const CORBA_char *uid, gpointer data)
 {
 	CalClient *client;
 
@@ -865,31 +864,21 @@ get_fall_back_uri (gboolean tasks)
 static char *
 get_default_uri (gboolean tasks)
 {
-	Bonobo_ConfigDatabase db;
+	EConfigListener *db;
 	char *uri;
-	CORBA_Environment ev;
 
-	CORBA_exception_init (&ev);
+	db = e_config_listener_new ();
 	
-	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		CORBA_exception_free (&ev);
-		return NULL;
- 	}
-
 	if (tasks)
-		uri = bonobo_config_get_string (db, "/DefaultFolders/tasks_uri", &ev);
+		uri = e_config_listener_get_string (db, "/apps/Evolution/DefaultFolders/tasks_uri");
 	else
-		uri = bonobo_config_get_string (db, "/DefaultFolders/calendar_uri", &ev);
-	bonobo_object_release_unref (db, NULL);
+		uri = e_config_listener_get_string (db, "/apps/Evolution/DefaultFolders/calendar_uri");
+	g_object_unref (G_OBJECT (db));
 
-	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
+	if (!uri)
 		uri = get_fall_back_uri (tasks);
-	} else {
+	else
 		uri = cal_util_expand_uri (uri, tasks);
-	}
 	
 	return uri;
 }

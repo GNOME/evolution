@@ -63,10 +63,10 @@ typedef void (* CalListenerCalSetModeFn) (CalListener *listener,
 					  gpointer data);
 
 typedef void (* CalListenerObjUpdatedFn) (CalListener *listener,
-					  const GNOME_Evolution_Calendar_CalObjUID uid,
+					  const CORBA_char *uid,
 					  gpointer data);
 typedef void (* CalListenerObjRemovedFn) (CalListener *listener,
-					  const GNOME_Evolution_Calendar_CalObjUID uid,
+					  const CORBA_char *uid,
 					  gpointer data);
 
 typedef void (* CalListenerErrorOccurredFn) (CalListener *listener,

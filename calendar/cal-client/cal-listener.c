@@ -53,10 +53,10 @@ static void impl_notifyCalSetMode (PortableServer_Servant servant,
 				   GNOME_Evolution_Calendar_CalMode mode,
 				   CORBA_Environment *ev);
 static void impl_notifyObjUpdated (PortableServer_Servant servant,
-				   GNOME_Evolution_Calendar_CalObjUID uid,
+				   const CORBA_char *uid,
 				   CORBA_Environment *ev);
 static void impl_notifyObjRemoved (PortableServer_Servant servant,
-				   GNOME_Evolution_Calendar_CalObjUID uid,
+				   const CORBA_char *uid,
 				   CORBA_Environment *ev);
 static void impl_notifyErrorOccurred (PortableServer_Servant servant,
 				      const CORBA_char *message,
@@ -200,7 +200,7 @@ impl_notifyCalSetMode (PortableServer_Servant servant,
 /* ::notifyObjUpdated method */
 static void
 impl_notifyObjUpdated (PortableServer_Servant servant,
-		       GNOME_Evolution_Calendar_CalObjUID uid,
+		       const CORBA_char *uid,
 		       CORBA_Environment *ev)
 {
 	CalListener *listener;
@@ -219,7 +219,7 @@ impl_notifyObjUpdated (PortableServer_Servant servant,
 /* ::notifyObjRemoved method */
 static void
 impl_notifyObjRemoved (PortableServer_Servant servant,
-		       GNOME_Evolution_Calendar_CalObjUID uid,
+		       const CORBA_char *uid,
 		       CORBA_Environment *ev)
 {
 	CalListener *listener;

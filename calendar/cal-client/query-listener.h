@@ -61,7 +61,7 @@ typedef void (* QueryListenerObjUpdatedFn) (QueryListener *ql,
 					    gpointer data);
 
 typedef void (* QueryListenerObjRemovedFn) (QueryListener *ql,
-					    const GNOME_Evolution_Calendar_CalObjUID uid,
+					    const CORBA_char *uid,
 					    gpointer data);
 
 typedef void (* QueryListenerQueryDoneFn) (
