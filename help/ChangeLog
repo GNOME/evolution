@@ -1,3 +1,7 @@
+2001-08-29  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mainwindow.sgml: Added info about NS importing.
+
 2001-08-29  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-exec-summary.sgml: Rewrote this file to be...more up to date.

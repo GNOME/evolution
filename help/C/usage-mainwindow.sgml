@@ -247,7 +247,7 @@
 </para>
 <para>
     <note>
-      <title>Outlook 2000</title>
+      <title>Outlook 2000 Users</title>
       <para>
 	Outlook 2000 uses a proprietary format that
 	<application>Evolution</application> cannot import directly.
@@ -255,6 +255,18 @@
 	Windows, import the files into Mozilla mail, then reboot and
 	import from Mozilla.  Please see the FAQ at the Ximian website
 	for more information.
+      </para>
+    </note>     
+
+
+    <note>
+      <title>Netscape Users</title>
+      <para>
+	Before importing mail from Netscape, make sure you select
+	<menuchoice><guimenu>File</guimenu><guimenuitem>Compact All
+	Folders</guimenuitem></menuchoice>. If you don't,
+	<application>Evolution</application> will import your deleted
+	messages, and they will reappear in the mailboxes.
       </para>
     </note>     
 
