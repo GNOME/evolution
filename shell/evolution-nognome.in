@@ -1,9 +1,0 @@
-#!/bin/sh
-
-PATH=@prefix@/bin:@GNOME_PREFIX@/bin:${PATH}
-GNOME_PATH=@prefix@:@GNOME_PREFIX@
-LD_LIBRARY_PATH=@prefix@/lib:@GNOME_PREFIX@/lib:${LD_LIBRARY_PATH}
-
-export LD_LIBRARY_PATH GNOME_PATH PATH
-
-exec evolution
