@@ -33,12 +33,14 @@
 #include <fcntl.h>
 #include <errno.h>
 
+#include "em-popup.h"
+#include "em-utils.h"
+#include "em-format.h"
 #include "em-folder-tree.h"
 #include "em-folder-browser.h"
 #include "em-folder-selector.h"
 #include "em-folder-selection.h"
 
-#include "folder-browser-factory.h"
 #include "mail-config.h"
 #include "mail-component.h"
 #include "mail-folder-cache.h"
@@ -49,8 +51,6 @@
 #include "mail-send-recv.h"
 #include "mail-session.h"
 
-#include "em-popup.h"
-#include "em-utils.h"
 #include "em-migrate.h"
 
 #include <gtk/gtklabel.h>
@@ -232,6 +232,31 @@ folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, EMFol
 		em_folder_view_set_folder_uri (view, uri);
 }
 
+static void
+view_control_activate_cb (BonoboControl *control, gboolean activate, EMFolderView *view)
+{
+	BonoboUIComponent *uic;
+	
+	uic = bonobo_control_get_ui_component (control);
+	g_assert (uic != NULL);
+	
+	if (activate) {
+		Bonobo_UIContainer container;
+		
+		container = bonobo_control_get_remote_ui_container (control, NULL);
+		bonobo_ui_component_set_container (uic, container, NULL);
+		bonobo_object_release_unref (container, NULL);
+		
+		g_assert (container == bonobo_ui_component_get_container(uic));
+		g_return_if_fail (container != CORBA_OBJECT_NIL);
+		
+		em_folder_view_activate (view, uic, activate);
+	} else {
+		em_folder_view_activate (view, uic, activate);
+		bonobo_ui_component_unset_container (uic, NULL);
+	}
+}
+
 
 /* GObject methods.  */
 
@@ -304,6 +329,7 @@ impl_createControls (PortableServer_Servant servant,
 	
 	tree_widget = (GtkWidget *) priv->emft;
 	view_widget = em_folder_browser_new ();
+	em_format_set_session ((EMFormat *) ((EMFolderView *) view_widget)->preview, session);
 	
 	gtk_widget_show (tree_widget);
 	gtk_widget_show (view_widget);
@@ -313,6 +339,8 @@ impl_createControls (PortableServer_Servant servant,
 	
 	*corba_tree_control = CORBA_Object_duplicate (BONOBO_OBJREF (tree_control), ev);
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
+	
+	g_signal_connect (view_control, "activate", G_CALLBACK (view_control_activate_cb), view_widget);
 	
 	g_signal_connect (tree_widget, "folder-selected", G_CALLBACK (folder_selected_cb), view_widget);
 }
@@ -396,7 +424,7 @@ mail_component_init (MailComponent *component)
 	if (camel_mkdir (priv->base_directory, 0777) == -1 && errno != EEXIST)
 		abort ();
 	
-	priv->emft = em_folder_tree_new ();
+	priv->emft = (EMFolderTree *) em_folder_tree_new ();
 	
 	/* EPFIXME: Turn into an object?  */
 	mail_session_init (priv->base_directory);
@@ -642,7 +670,7 @@ mail_component_get_tree_model (MailComponent *component)
 {
 	EMFolderTreeModel *model;
 	
-	model = em_folder_tree_get_model ((GtkTreeView *) component->priv->emft);
+	model = em_folder_tree_get_model (component->priv->emft);
 	g_object_ref (model);
 	
 	return model;

@@ -1,8 +1,14 @@
 2003-11-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser-factory.[c,h]: Removed.
+
 	* mail-component.c (folder_selected_cb): Don't create a new view
 	anymore, simply set the new folder uri on the folder browser. This
 	makes the mailer use a lot less memory than in 1.x
+	(view_control_activate_cb): Moved here from
+	folder-browser-factory.c
+	(impl_createControls): Connect to the activate signal on the view
+	control.
 
 2003-11-14  Jeffrey Stedfast  <fejj@ximian.com>
 

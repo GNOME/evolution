@@ -119,8 +119,6 @@ libevolution_mail_la_SOURCES =			\
 	em-junk-plugin.h			\
 	em-html-stream.c			\
 	em-html-stream.h			\
-	folder-browser-factory.c		\
-	folder-browser-factory.h		\
 	mail-account-editor.c			\
 	mail-account-editor.h			\
 	mail-account-gui.c			\
