@@ -59,6 +59,7 @@ typedef struct  {
 
 struct _ItipViewPrivate {
 	ItipViewMode mode;
+	ECalSourceType type;
 	
 	GtkWidget *sender_label;
 	char *organizer;
@@ -273,7 +274,7 @@ format_date_and_time_x		(struct tm	*date_tm,
 }
 
 static void
-set_sender_text (ItipView *view)
+set_calendar_sender_text (ItipView *view)
 {
 	ItipViewPrivate *priv;
 	const char *organizer, *attendee;
@@ -338,6 +339,93 @@ set_sender_text (ItipView *view)
 	gtk_label_set_use_markup (GTK_LABEL (priv->sender_label), TRUE);
 
 	g_free (sender);
+}
+
+static void
+set_tasklist_sender_text (ItipView *view)
+{
+	ItipViewPrivate *priv;
+	const char *organizer, *attendee;
+	char *sender = NULL;
+
+	priv = view->priv;
+
+	organizer = priv->organizer ? priv->organizer : _("An unknown person");
+	attendee = priv->attendee ? priv->attendee : _("An unknown person");
+	
+	switch (priv->mode) {
+	case ITIP_VIEW_MODE_PUBLISH:
+		if (priv->sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has published the following task:"), organizer, priv->sentby);
+		else
+			sender = g_strdup_printf (_("<b>%s</b> has published the following task:"), organizer);
+		break;
+	case ITIP_VIEW_MODE_REQUEST:
+		/* FIXME is the delegator stuff handled correctly here? */
+		if (priv->delegator) {
+			sender = g_strdup_printf (_("<b>%s</b> requests the assignment of %s to the following task:"), organizer, priv->delegator);
+		} else {
+			if (priv->sentby)
+				sender = g_strdup_printf (_("<b>%s</b> through %s has assigned you a task:"), organizer, priv->sentby);
+			else
+				sender = g_strdup_printf (_("<b>%s</b> has assigned you a task:"), organizer);
+		}
+		break;
+	case ITIP_VIEW_MODE_ADD:
+		/* FIXME What text for this? */
+		if (priv->sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to add to an existing task:"), organizer, priv->sentby);
+		else
+			sender = g_strdup_printf (_("<b>%s</b> wishes to add to an existing task:"), organizer);
+		break;
+	case ITIP_VIEW_MODE_REFRESH:
+		sender = g_strdup_printf (_("<b>%s</b> wishes to receive the latest information for the following assigned task:"), attendee);
+		break;
+	case ITIP_VIEW_MODE_REPLY:
+		sender = g_strdup_printf (_("<b>%s</b> has sent back the following assigned task response:"), attendee);
+		break;
+	case ITIP_VIEW_MODE_CANCEL:
+		if (priv->sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has cancelled the following assigned task:"), organizer, priv->sentby);
+		else
+			sender = g_strdup_printf (_("<b>%s</b> has cancelled the following assigned task:"), organizer);
+		break;
+	case ITIP_VIEW_MODE_COUNTER:
+		sender = g_strdup_printf (_("<b>%s</b> has proposed the following task assignment changes:"), attendee);
+		break;
+	case ITIP_VIEW_MODE_DECLINECOUNTER:
+		if (priv->sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has declined the following assigned task:"), organizer, priv->sentby);
+		else
+			sender = g_strdup_printf (_("<b>%s</b> has declined the following assigned task:"), organizer);
+		break;
+	default:
+		break;
+	}
+
+	gtk_label_set_text (GTK_LABEL (priv->sender_label), sender);
+	gtk_label_set_use_markup (GTK_LABEL (priv->sender_label), TRUE);
+
+	g_free (sender);
+}
+
+static void
+set_sender_text (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	priv = view->priv;
+	
+	switch (priv->type) {
+	case E_CAL_SOURCE_TYPE_EVENT:
+		set_calendar_sender_text (view);
+		break;
+	case E_CAL_SOURCE_TYPE_TODO:
+		set_tasklist_sender_text (view);
+		break;
+	default:
+		break;
+	}
 }
 
 static void
@@ -861,6 +949,35 @@ itip_view_get_mode (ItipView *view)
 	
 	return priv->mode;
 }
+
+void
+itip_view_set_item_type (ItipView *view, ECalSourceType type)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+	
+	priv->type = type;
+
+	set_sender_text (view);
+}
+
+ECalSourceType
+itip_view_get_item_type (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, ITIP_VIEW_MODE_NONE);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), ITIP_VIEW_MODE_NONE);
+	
+	priv = view->priv;
+	
+	return priv->type;
+}
+
 
 void
 itip_view_set_organizer (ItipView *view, const char *organizer)

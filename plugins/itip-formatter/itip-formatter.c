@@ -382,7 +382,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	/* If the query fails, we'll just ignore it */
 	/* FIXME Limit the calendars checked for conflicts? */
 	/* FIXME What happens for recurring conflicts? */
-	if (e_cal_get_object_list (ecal, fd->sexp, &objects, NULL) && g_list_length (objects) > 0) {
+	if (pitip->type == E_CAL_SOURCE_TYPE_EVENT && e_cal_get_object_list (ecal, fd->sexp, &objects, NULL) && g_list_length (objects) > 0) {
 		itip_view_add_upper_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, 
 						      "An appointment in the calendar '%s' conflicts with this meeting", e_source_peek_name (source));
 
@@ -465,8 +465,23 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 				itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
 			}
 		} else if (!pitip->current_ecal) {
-			itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, 
-							      "Unable to find this meeting in any calendar");
+			switch (pitip->type) {
+			case E_CAL_SOURCE_TYPE_EVENT:
+				itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, 
+								      "Unable to find this meeting in any calendar");
+				break;
+			case E_CAL_SOURCE_TYPE_TODO:
+				itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, 
+								      "Unable to find this task in any task list");
+				break;
+			case E_CAL_SOURCE_TYPE_JOURNAL:
+				itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, 
+								      "Unable to find this journal entry in any journal");
+				break;
+			default:
+				g_assert_not_reached ();
+				break;
+			}
 		}
 		
 		g_free (fd->uid);
@@ -763,9 +778,35 @@ send_item (FormatItipPObject *pitip)
 		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, pitip->current_ecal, NULL);
 		g_object_unref (comp);
 
-		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "Meeting information sent");
+		switch (pitip->type) {
+		case E_CAL_SOURCE_TYPE_EVENT:
+			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "Meeting information sent");
+			break;
+		case E_CAL_SOURCE_TYPE_TODO:
+			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "Task information sent");
+			break;
+		case E_CAL_SOURCE_TYPE_JOURNAL:
+			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "Journal entry information sent");
+			break;
+		default:
+			g_assert_not_reached ();
+			break;
+		}
 	} else {
-		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, "Unable to send meeting information, the meeting does not exist");
+		switch (pitip->type) {
+		case E_CAL_SOURCE_TYPE_EVENT:
+			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, "Unable to send meeting information, the meeting does not exist");
+			break;
+		case E_CAL_SOURCE_TYPE_TODO:
+			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, "Unable to send task information, the task does not exist");
+			break;
+		case E_CAL_SOURCE_TYPE_JOURNAL:
+			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, "Unable to send journal entry information, the journal entry does not exist");
+			break;
+		default:
+			g_assert_not_reached ();
+			break;
+		}
 	}
 }
 
@@ -1060,6 +1101,8 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_ERROR);
 	}
 
+	itip_view_set_item_type (ITIP_VIEW (pitip->view), pitip->type);
+	
 	switch (pitip->method) {
 	case ICAL_METHOD_PUBLISH:
 	case ICAL_METHOD_REQUEST:
@@ -1202,7 +1245,21 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	/* Recurrence info */
 	/* FIXME Better recurring description */
 	if (e_cal_component_has_recurrences (pitip->comp)) {
-		itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "This meeting recurs");
+		/* FIXME Tell the user we don't support recurring tasks */
+		switch (pitip->type) {
+		case E_CAL_SOURCE_TYPE_EVENT:
+			itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "This meeting recurs");
+			break;
+		case E_CAL_SOURCE_TYPE_TODO:
+			itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "This task recurs");
+			break;
+		case E_CAL_SOURCE_TYPE_JOURNAL:
+			itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "This journal recurs");
+			break;
+		default:
+			g_assert_not_reached ();
+			break;
+		}
 	}
 	
 	gtk_container_add (GTK_CONTAINER (eb), pitip->view);
@@ -1298,7 +1355,7 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	/* Create a new notebook page */
 	page = gtk_vbox_new (FALSE, 0);
 	GTK_CONTAINER (page)->border_width = 12;
-	tab_label = gtk_label_new (_("Meetings"));
+	tab_label = gtk_label_new (_("Meetings and Tasks"));
 	gtk_notebook_append_page (GTK_NOTEBOOK (hook_data->parent), page, tab_label);
 
 	/* Frame */

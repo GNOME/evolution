@@ -1,5 +1,21 @@
 2005-01-07  JP Rosevear  <jpr@novell.com>
 
+	* itip-view.h: new protos
+
+	* itip-view.c (set_tasklist_sender_text): task sender messages
+	(set_calendar_sender_text): calendar sender messages
+	(set_sender_text): select above as appropriate
+	(itip_view_set_item_type): accessor
+	(itip_view_get_item_type): ditto
+
+	* itip-formatter.c (find_cal_opened_cb): messages for
+	meetings/tasks/journals
+	(send_item): ditto
+	(format_itip_object): ditto
+	(itip_formatter_page_factory): change page title
+
+2005-01-07  JP Rosevear  <jpr@novell.com>	
+
 	* itip-formatter.c (view_response_cb): ensure there is only one
 	attendee in the RSVP even if the user is duplicated
 

@@ -28,6 +28,7 @@
 #include <glib-object.h>
 #include <gtk/gtkhbox.h>
 #include <libedataserver/e-source-list.h>
+#include <libecal/e-cal.h>
 
 G_BEGIN_DECLS
 
@@ -74,7 +75,6 @@ typedef enum {
 	ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS
 } ItipViewInfoItemType;
 
-
 struct _ItipView {
 	GtkHBox parent_instance;
 	
@@ -95,6 +95,9 @@ GtkWidget *itip_view_new      (void);
 
 void itip_view_set_mode (ItipView *view, ItipViewMode mode);
 ItipViewMode itip_view_get_mode (ItipView *view);
+
+void itip_view_set_item_type (ItipView *view, ECalSourceType type);
+ECalSourceType itip_view_get_item_type (ItipView *view);
 
 void itip_view_set_organizer (ItipView *view, const char *organizer);
 const char *itip_view_get_organizer (ItipView *view);
