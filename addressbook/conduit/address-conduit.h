@@ -54,7 +54,8 @@ struct _EAddrLocalRecord {
 typedef struct _EAddrConduitContext EAddrConduitContext;
 struct _EAddrConduitContext {
 	EAddrConduitCfg *cfg;
-
+	GnomePilotDBInfo *dbi;
+	
 	struct AddressAppInfo ai;
 
 	EBook *ebook;

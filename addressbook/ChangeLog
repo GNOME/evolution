@@ -1,3 +1,11 @@
+2001-09-27  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c (local_record_from_ecard): use the old
+	record (if there was one) so as not to overwrite fields we don't
+	sync
+	(pre_sync): store the dbi in the context and don't make it object
+	data
+
 2001-09-26  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-book-factory.c (pas_book_factory_destroy): use
