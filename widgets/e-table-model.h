@@ -23,7 +23,7 @@ typedef struct {
 	const char *(*column_name)      (ETableModel *etm, int col);
 	int         (*row_count)        (ETableModel *etm);
 	void       *(*value_at)         (ETableModel *etm, int col, int row);
-	void        (*set_value_at)     (ETableModel *etm, int col, int row, void *value);
+	void        (*set_value_at)     (ETableModel *etm, int col, int row, const void *value);
 	gboolean    (*is_cell_editable) (ETableModel *etm, int col, int row);
 
 	/*
@@ -40,7 +40,7 @@ int         e_table_model_column_count     (ETableModel *e_table_model);
 const char *e_table_model_column_name      (ETableModel *e_table_model, int col);
 int         e_table_model_row_count        (ETableModel *e_table_model);
 void       *e_table_model_value_at         (ETableModel *e_table_model, int col, int row);
-void        e_table_model_set_value_at     (ETableModel *e_table_model, int col, int row, void *data);
+void        e_table_model_set_value_at     (ETableModel *e_table_model, int col, int row, const void *data);
 gboolean    e_table_model_is_cell_editable (ETableModel *e_table_model, int col, int row);
 
 /*

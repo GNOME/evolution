@@ -61,7 +61,7 @@ e_table_model_value_at (ETableModel *e_table_model, int col, int row)
 }
 
 void
-e_table_model_set_value_at (ETableModel *e_table_model, int col, int row, void *data)
+e_table_model_set_value_at (ETableModel *e_table_model, int col, int row, const void *data)
 {
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));

@@ -47,7 +47,7 @@ simple_value_at (ETableModel *etm, int col, int row)
 }
 
 static void
-simple_set_value_at (ETableModel *etm, int col, int row, void *val)
+simple_set_value_at (ETableModel *etm, int col, int row, const void *val)
 {
 	ETableSimple *simple = (ETableSimple *)etm;
 

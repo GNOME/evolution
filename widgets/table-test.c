@@ -151,7 +151,7 @@ value_at (ETableModel *etc, int col, int row, void *data)
 }
 
 static void
-set_value_at (ETableModel *etc, int col, int row, void *val, void *data)
+set_value_at (ETableModel *etc, int col, int row, const void *val, void *data)
 {
 	g_assert (col < cols);
 	g_assert (row < lines);
@@ -236,6 +236,7 @@ main (int argc, char *argv [])
 		"x",  10,
 		"y",  30,
 		"drawgrid", TRUE,
+		"drawfocus", TRUE,
 		NULL);
 	gtk_main ();
 

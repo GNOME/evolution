@@ -28,14 +28,14 @@ typedef struct {
 	int              header_dim_change_id;
 	int              header_structure_change_id;
 	int              table_model_change_id;
-	int              table_model_selection_id;
 	
 	GdkGC           *fill_gc;
 	GdkGC           *grid_gc;
 	GdkGC           *focus_gc;
 
 	unsigned int     draw_grid:1;
-
+	unsigned int     draw_focus:1;
+	
 	int              focused_col, focused_row;
 
 	/*
@@ -52,6 +52,12 @@ typedef struct {
 
 	GSList          *selection;
 	GtkSelectionMode selection_mode;
+
+	/*
+	 * During edition
+	 */
+	int              editing_col, editing_row;
+	void            *edit_ctx;
 } ETableItem;
 
 typedef struct {
@@ -84,5 +90,12 @@ void             e_table_item_set_selection_mode (ETableItem *e_table_Item,
 						  GtkSelectionMode selection_mode);
 gboolean         e_table_item_is_row_selected    (ETableItem *e_table_Item,
 						  int row);
+
+void             e_table_item_leave_edit         (ETableItem *eti);
+void             e_table_item_enter_edit         (ETableItem *eti, int col, int row);
+
+void             e_table_item_redraw_range       (ETableItem *eti,
+						  int start_col, int start_row,
+						  int end_col, int end_row);
 
 #endif /* _E_TABLE_ITEM_H_ */

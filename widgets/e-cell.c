@@ -13,7 +13,7 @@
 #define PARENT_TYPE gtk_object_get_type()
 
 static ECellView *
-ec_realize (ECell *e_cell, GnomeCanvas *canvas)
+ec_realize (ECell *e_cell, void *view)
 {
 	return NULL;
 }
@@ -28,20 +28,20 @@ ec_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	 int col, int row, gboolean selected,
 	 int x1, int y1, int x2, int y2)
 {
-	g_warning ("e-cell-draw invoked\n");
+	g_error ("e-cell-draw invoked\n");
 }
 
 static gint
 ec_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
 {
-	g_warning ("e-cell-event invoked\n");
+	g_error ("e-cell-event invoked\n");
 	return 0;
 }
 
 static gint
 ec_height (ECellView *ecell_view, int col, int row)
 {
-	g_warning ("e-cell-event invoked\n");
+	g_error ("e-cell-event invoked\n");
 	return 0;
 }
 
@@ -98,10 +98,10 @@ e_cell_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
 }
 
 ECellView *
-e_cell_realize (ECell *ecell, GnomeCanvas *canvas)
+e_cell_realize (ECell *ecell, void *view)
 {
 	return E_CELL_CLASS (GTK_OBJECT (ecell)->klass)->realize (
-		ecell, canvas);
+		ecell, view);
 }
 
 void
@@ -125,3 +125,16 @@ e_cell_height (ECellView *ecell_view, int col, int row)
 		ecell_view, col, row);
 }
 
+void *
+e_cell_enter_edit (ECellView *ecell_view, int col, int row)
+{
+	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->enter_edit (
+		ecell_view, col, row);
+}
+
+void
+e_cell_leave_edit (ECellView *ecell_view, int col, int row, void *edit_context)
+{
+	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->leave_edit (
+		ecell_view, col, row, edit_context);
+}

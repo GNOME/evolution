@@ -7,7 +7,7 @@ typedef int         (*ETableSimpleColumnCountFn)    (ETableModel *etm, void *dat
 typedef	const char *(*ETableSimpleColumnNameFn)     (ETableModel *etm, int col, void *data);
 typedef	int         (*ETableSimpleRowCountFn)       (ETableModel *etm, void *data);
 typedef	void       *(*ETableSimpleValueAtFn)        (ETableModel *etm, int col, int row, void *data);
-typedef	void        (*ETableSimpleSetValueAtFn)     (ETableModel *etm, int col, int row, void *val, void *data);
+typedef	void        (*ETableSimpleSetValueAtFn)     (ETableModel *etm, int col, int row, const void *val, void *data);
 typedef	gboolean    (*ETableSimpleIsCellEditableFn) (ETableModel *etm, int col, int row, void *data);
 
 typedef struct {

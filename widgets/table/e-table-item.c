@@ -37,6 +37,7 @@ enum {
 	ARG_TABLE_X,
 	ARG_TABLE_Y,
 	ARG_TABLE_DRAW_GRID,
+	ARG_TABLE_DRAW_FOCUS,
 	ARG_LENGHT_THRESHOLD
 };
 
@@ -51,7 +52,6 @@ enum {
 static void
 eti_realize_cell_views (ETableItem *eti)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
 	int i;
 	
 	/*
@@ -63,7 +63,7 @@ eti_realize_cell_views (ETableItem *eti)
 	for (i = 0; i < eti->n_cells; i++){
 		ETableCol *col = e_table_header_get_column (eti->header, i);
 		
-		eti->cell_views [i] = e_cell_realize (col->ecell, item->canvas);
+		eti->cell_views [i] = e_cell_realize (col->ecell, eti);
 	}
 }
 
@@ -117,12 +117,9 @@ eti_remove_table_model (ETableItem *eti)
 
 	gtk_signal_disconnect (GTK_OBJECT (eti->table_model),
 			       eti->table_model_change_id);
-	gtk_signal_disconnect (GTK_OBJECT (eti->table_model),
-			       eti->table_model_selection_id);
 	gtk_object_unref (GTK_OBJECT (eti->table_model));
 
 	eti->table_model_change_id = 0;
-	eti->table_model_selection_id = 0;
 	eti->table_model = NULL;
 }
 
@@ -284,7 +281,9 @@ eti_row_diff (ETableItem *eti, int start_row, int end_row)
  * border as well.
  */
 static void
-eti_request_region_redraw (ETableItem *eti, int start_col, int start_row, int end_col, int end_row, int border)
+eti_request_region_redraw (ETableItem *eti,
+			   int start_col, int start_row,
+			   int end_col, int end_row, int border)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (eti)->canvas;
 	int x1, y1, width, height;
@@ -301,10 +300,25 @@ eti_request_region_redraw (ETableItem *eti, int start_col, int start_row, int en
 				     eti->y1 + y1 + height + 1 + border);
 }
 
-static void
-eti_table_model_row_selection (ETableModel *table_model, int row, gboolean selected, ETableItem *eti)
+void
+e_table_item_redraw_range (ETableItem *eti,
+			   int start_col, int start_row,
+			   int end_col, int end_row)
 {
-	eti_request_region_redraw (eti, 0, row, eti->cols - 1, row, 0);
+	int border;
+	
+	g_return_if_fail (eti != NULL);
+	g_return_if_fail (E_IS_TABLE_ITEM (eti));
+
+	if ((start_col == eti->focused_col) ||
+	    (end_col   == eti->focused_col) ||
+	    (start_row == eti->focused_row) ||
+	    (end_row   == eti->focused_row))
+		border = 2;
+	else
+		border = 0;
+
+	eti_request_region_redraw (eti, start_col, start_row, end_col, end_row, border);
 }
 
 static void
@@ -313,14 +327,11 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 	g_assert (eti->table_model == NULL);
 	
 	eti->table_model = table_model;
-	gtk_object_ref (GTK_OBJECT (table_model));
+	gtk_object_ref (GTK_OBJECT (eti->table_model));
 	
 	eti->table_model_change_id = gtk_signal_connect (
 		GTK_OBJECT (table_model), "model_changed",
 		GTK_SIGNAL_FUNC (eti_table_model_changed), eti);
-	eti->table_model_selection_id = gtk_signal_connect (
-		GTK_OBJECT (table_model), "row_selection",
-		GTK_SIGNAL_FUNC (eti_table_model_row_selection), eti);
 	eti_table_model_changed (table_model, eti);
 }
 
@@ -418,6 +429,11 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	case ARG_TABLE_DRAW_GRID:
 		eti->draw_grid = GTK_VALUE_BOOL (*arg);
+		break;
+
+	case ARG_TABLE_DRAW_FOCUS:
+		eti->draw_focus = GTK_VALUE_BOOL (*arg);
+		break;
 	}
 	eti_update (item, NULL, NULL, 0);
 }
@@ -529,7 +545,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	int f_x1, f_x2, f_y1, f_y2;
 	gboolean f_found;
 
-	printf ("Rect: %d %d %d %d\n", x, y, width, height);
+/*	printf ("Rect: %d %d %d %d\n", x, y, width, height); */
 	/*
 	 * Clear the background
 	 */
@@ -604,7 +620,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		height = eti_row_height (eti, row);
 
 		xd = x_offset;
-		printf ("paint: %d %d\n", yd, yd + height);
+/*		printf ("paint: %d %d\n", yd, yd + height); */
 
 		selected = g_slist_find (eti->selection, GINT_TO_POINTER (row)) != NULL;
 		
@@ -631,9 +647,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	/*
 	 * Draw focus
 	 */
-	if (f_found){
-		printf ("FOUD: %d %d %d %d!\n",
-			f_x1 - 1, f_y1 - 1, f_x2 - f_x1 + 2 , f_y2 - f_y1 + 2);
+	if (f_found && eti->draw_focus){
 		gdk_draw_rectangle (
 			drawable, eti->focus_gc, FALSE,
 			f_x1 - 1, f_y1 - 1, f_x2 - f_x1 + 2 , f_y2 - f_y1 + 2);
@@ -725,6 +739,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	}
 		
 	case GDK_KEY_PRESS:
+		printf ("KEYPRESS!\n");
+		
 		if (eti->focused_col == -1)
 			return FALSE;
 
@@ -781,6 +797,7 @@ eti_row_selection (ETableItem *eti, int row, gboolean selected)
 		eti->selection = g_slist_prepend (eti->selection, GINT_TO_POINTER (row));
 	else
 		eti->selection = g_slist_remove (eti->selection, GINT_TO_POINTER (row));
+	
 }
 
 static void
@@ -813,6 +830,8 @@ eti_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_TABLE_Y);
 	gtk_object_add_arg_type ("ETableItem::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);
+	gtk_object_add_arg_type ("ETableItem::drawfocus", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_FOCUS);
 
 	eti_signals [ROW_SELECTION] =
 		gtk_signal_new ("row_selection",
@@ -862,6 +881,11 @@ e_table_item_focus (ETableItem *eti, int col, int row)
 	eti->focused_row = row;
 
 	eti_request_region_redraw (eti, col, row, col, row, FOCUSED_BORDER);
+
+	/*
+	 * make sure we have the Gtk Focus
+	 */
+	gtk_widget_grab_focus (GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas));
 }
 
 void
@@ -944,7 +968,7 @@ void
 e_table_item_select_row (ETableItem *eti, int row)
 {
 	g_return_if_fail (eti != NULL);
-	g_return_if_fail (E_IS_TABLE_ITEM (eti));	
+	g_return_if_fail (E_IS_TABLE_ITEM (eti));
 
 	switch (eti->selection_mode){
 	case GTK_SELECTION_SINGLE:
@@ -973,3 +997,28 @@ e_table_item_select_row (ETableItem *eti, int row)
 		
 	}
 }
+
+void
+e_table_item_enter_edit (ETableItem *eti, int col, int row)
+{
+	g_return_if_fail (eti != NULL);
+	g_return_if_fail (E_IS_TABLE_ITEM (eti));
+
+	eti->editing_col = col;
+	eti->editing_row = row;
+
+	eti->edit_ctx = e_cell_enter_edit (eti->cell_views [col], col, row);
+}
+
+void
+e_table_item_leave_edit (ETableItem *eti)
+{
+	g_return_if_fail (eti != NULL);
+	g_return_if_fail (E_IS_TABLE_ITEM (eti));
+
+	e_cell_leave_edit (eti->cell_views [eti->editing_col], eti->editing_col, eti->editing_row, eti->edit_ctx);
+	eti->editing_col = -1;
+	eti->editing_row = -1;
+	eti->edit_ctx = NULL;
+}
+

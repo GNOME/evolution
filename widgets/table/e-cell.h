@@ -1,7 +1,7 @@
 #ifndef _E_CELL_H_
 #define _E_CELL_H_
 
-#include <libgnomeui/gnome-canvas.h>
+#include <gdk/gdktypes.h>
 #include "e-table-model.h"
 
 #define E_CELL_TYPE        (e_cell_get_type ())
@@ -29,19 +29,22 @@ struct _ECellView {
 typedef struct {
 	GtkObjectClass parent_class;
 
-	ECellView *(*realize)   (ECell *, GnomeCanvas *canvas);
-	void       (*unrealize) (ECellView *);
+	ECellView *(*realize)   (ECell *ecell, void *view);
+	void       (*unrealize) (ECellView *e_cell_view);
 	void   	   (*draw)      (ECellView *ecell_view, GdkDrawable *drawable,
 	       			 int col, int row, gboolean selected, int x1, int y1, int x2, int y2);
 	gint   	   (*event)     (ECellView *ecell_view, GdkEvent *event, int col, int row);
-	void   	   (*focus)     (ECellView *ecell, int col, int row, int x1, int y1, int x2, int y2);
-	void   	   (*unfocus)   (ECellView *ecell);
-	int        (*height)    (ECellView *ecell, int col, int row);
+	void   	   (*focus)     (ECellView *ecell_view, int col, int row, int x1, int y1, int x2, int y2);
+	void   	   (*unfocus)   (ECellView *ecell_view);
+	int        (*height)    (ECellView *ecell_view, int col, int row);
+
+	void      *(*enter_edit)(ECellView *ecell_view, int col, int row);
+	void       (*leave_edit)(ECellView *ecell_view, int col, int row, void *context);
 } ECellClass;
 
 GtkType    e_cell_get_type  (void);
 void       e_cell_event     (ECellView *ecell_view, GdkEvent *event, int col, int row);
-ECellView *e_cell_realize   (ECell *ecell, GnomeCanvas *canvas);
+ECellView *e_cell_realize   (ECell *ecell, void *view);
 void       e_cell_unrealize (ECellView *ecell_view);
 void       e_cell_draw      (ECellView *ecell_view, GdkDrawable *dr, 
 			     int col, int row, gboolean selected,
@@ -49,5 +52,8 @@ void       e_cell_draw      (ECellView *ecell_view, GdkDrawable *dr,
 void       e_cell_focus     (ECellView *ecell_view, int col, int row, int x1, int y1, int x2, int y2);
 void       e_cell_unfocus   (ECellView *ecell_view);
 int        e_cell_height    (ECellView *ecell_view, int col, int row);
+
+void      *e_cell_enter_edit(ECellView *ecell_view, int col, int row);
+void       e_cell_leave_edit(ECellView *ecell_view, int col, int row, void *edit_context);
 
 #endif /* _E_CELL_H_ */

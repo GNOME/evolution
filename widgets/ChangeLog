@@ -1,3 +1,16 @@
+1999-11-28  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-cell-text.c (ect_enter_edit, ect_leave_edit): New methods;
+	They implement editing.
+
+	* e-cell.h: new methods: enter_edit, leave_edit
+	
+	* e-table-model.h (set_value_at): make val argument const.
+
+	* e-table-simple.c (simple_set_value_at): Make value argument const;
+
+	* e-table-item.c (eti_set_arg): Add new mode: draw_focus;
+
 1999-11-27  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-item.c (eti_event): beginning of the keyboard navigation.
