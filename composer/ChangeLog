@@ -1,3 +1,9 @@
+2000-11-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer-attachment-bar.c (attach_to_multipart): Fix the
+	CTE kludge, calculate the best mime transfer encoding for the mime
+	part and use that. Include e-msg-composer-select-file.h
+
 2000-10-31  Radek Doulik  <rodo@helixcode.com>
 
 	* e-msg-composer.c (prepare_engine): new function, tries prepare

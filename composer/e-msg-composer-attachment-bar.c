@@ -29,6 +29,7 @@
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 
 #include "e-msg-composer.h"
+#include "e-msg-composer-select-file.h"
 #include "e-msg-composer-attachment.h"
 #include "e-msg-composer-attachment-bar.h"
 
@@ -220,7 +221,7 @@ update (EMsgComposerAttachmentBar *bar)
 			image = TRUE;
 		else
 			image = FALSE;
-
+		
 		if (image && attachment->pixbuf_cache == NULL) {
 			CamelDataWrapper *wrapper;
 			CamelStream *mstream;
@@ -389,13 +390,13 @@ add_from_user (EMsgComposerAttachmentBar *bar)
 {
 	EMsgComposer *composer;
 	char *file_name;
-
+	
 	composer = E_MSG_COMPOSER (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
-
+	
 	file_name = e_msg_composer_select_file (composer, _("Attach a file"));
-
+	
 	add_from_file (bar, file_name);
-
+	
 	g_free (file_name);
 }
 
@@ -655,27 +656,70 @@ e_msg_composer_attachment_bar_new (GtkAdjustment *adj)
 	return GTK_WIDGET (new);
 }
 
-
+/* FIXME: is_8bit() and best_encoding() should really be shared
+   between e-msg-composer.c and this file. */
+static gboolean
+is_8bit (const guchar *text)
+{
+	guchar *c;
+	
+	for (c = (guchar *) text; *c; c++)
+		if (*c > (guchar) 127)
+			return TRUE;
+	
+	return FALSE;
+}
+
+static int
+best_encoding (const guchar *text)
+{
+	guchar *ch;
+	int count = 0;
+	int total;
+	
+	for (ch = (guchar *) text; *ch; ch++)
+		if (*ch > (guchar) 127)
+			count++;
+	
+	total = (int) (ch - text);
+	
+	if ((float) count <= total * 0.17)
+		return CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
+	else
+		return CAMEL_MIME_PART_ENCODING_BASE64;
+}
+
 static void
 attach_to_multipart (CamelMultipart *multipart,
 		     EMsgComposerAttachment *attachment)
 {
 	GMimeContentField *content_type;
-
+	
 	content_type = camel_mime_part_get_content_type (attachment->body);
-
-	/* Kludge a bit on CTE. For now, we set QP for text and B64
-	 * for all else except message (which must be 7bit, 8bit, or
-	 * binary). FIXME.
-	 */
+	
 	if (!g_strcasecmp (content_type->type, "text")) {
-		camel_mime_part_set_encoding (attachment->body,
-					      CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
+		CamelStream *stream;
+		GByteArray *array;
+		guchar *text;
+		
+		array = g_byte_array_new ();
+		stream = camel_stream_mem_new_with_byte_array (array);
+		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (attachment->body), stream);
+		camel_object_unref (CAMEL_OBJECT (stream));
+		g_byte_array_append (array, "", 1);
+		text = array->data;
+		
+		if (is_8bit (text))
+			camel_mime_part_set_encoding (attachment->body, best_encoding (text));
+		else
+			camel_mime_part_set_encoding (attachment->body, CAMEL_MIME_PART_ENCODING_7BIT);
+		
+		g_byte_array_free (array, TRUE);
 	} else if (g_strcasecmp (content_type->type, "message") != 0) {
 		camel_mime_part_set_encoding (attachment->body,
 					      CAMEL_MIME_PART_ENCODING_BASE64);
 	}
-
+	
 	camel_multipart_add_part (multipart, attachment->body);
 }
 
