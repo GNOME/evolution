@@ -1,5 +1,8 @@
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
+	* gui/contact-editor/e-contact-editor.c: use bigger Save icon for
+	toolbar.
+
 	* gui/component/addressbook.c: use 'Save As' icon rather than 'Save'
 	as it seems more appropriate. Also added delete icon for menu.
 
