@@ -1,3 +1,8 @@
+2000-09-24  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer.c (get_signature): Updated to handle FIFO
+	streams.
+
 2000-09-19  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_construct): Don't g_error out

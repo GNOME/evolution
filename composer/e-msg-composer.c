@@ -313,50 +313,37 @@ build_message (EMsgComposer *composer)
 static char *
 get_signature (const char *sigfile)
 {
-	char *rawsig;
-	static char *htmlsig = NULL;
-	static time_t sigmodtime = -1;
-	struct stat st;
-	int fd;
-
+	GString *rawsig;
+	char buf[1024];
+	char *htmlsig = NULL;
+	int fd, n;
+	
 	if (!sigfile || !*sigfile) {
 		return NULL;
 	}
-
-	if (stat (sigfile, &st) == -1) {
-		char *msg;
-
-		msg = g_strdup_printf ("Could not open signature file %s:\n%s",
-				       sigfile, g_strerror (errno));
-		gnome_error_dialog (msg);
-		g_free (msg);
-
-		return NULL;
-	}
-
-	if (st.st_mtime == sigmodtime)
-		return htmlsig;
-
-	rawsig = g_malloc (st.st_size + 1);
+	
 	fd = open (sigfile, O_RDONLY);
 	if (fd == -1) {
 		char *msg;
-
+		
 		msg = g_strdup_printf ("Could not open signature file %s:\n%s",
 				       sigfile, g_strerror (errno));
 		gnome_error_dialog (msg);
 		g_free (msg);
-
+		
 		return NULL;
 	}
-
-	read (fd, rawsig, st.st_size);
-	rawsig[st.st_size] = '\0';
+	
+	rawsig = g_string_new ("");
+	while ((n = read (fd, buf, 1023)) > 0) {
+		buf[n] = '\0';
+		g_string_append (rawsig, buf);
+	}
 	close (fd);
-
-	htmlsig = e_text_to_html (rawsig, 0);
-	sigmodtime = st.st_mtime;
-
+	
+	htmlsig = e_text_to_html (rawsig->str, 0);
+	g_string_free (rawsig, TRUE);
+	
 	return htmlsig;
 }
 
