@@ -879,15 +879,15 @@ calendar_focus_change_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data
 static void
 connect_day_view_focus (GnomeCalendar *gcal, EDayView *dv)
 {
-	g_signal_connect (dv->top_canvas, "focus_in_event",
+	g_signal_connect_after (dv->top_canvas, "focus_in_event",
 			  G_CALLBACK (calendar_focus_change_cb), gcal);
-	g_signal_connect (dv->top_canvas, "focus_out_event",
+	g_signal_connect_after (dv->top_canvas, "focus_out_event",
 			  G_CALLBACK (calendar_focus_change_cb), gcal);
 
-	g_signal_connect (dv->main_canvas, "focus_in_event",
+	g_signal_connect_after (dv->main_canvas, "focus_in_event",
 			  G_CALLBACK (calendar_focus_change_cb), gcal);
-	g_signal_connect (dv->main_canvas, "focus_out_event",
-			  G_CALLBACK (calendar_focus_change_cb), gcal);
+	g_signal_connect_after (dv->main_canvas, "focus_out_event",
+				G_CALLBACK (calendar_focus_change_cb), gcal);
 }
 
 /* Connects to the focus change signals of a week view widget */
@@ -2464,7 +2464,7 @@ gnome_calendar_set_default_source (GnomeCalendar *gcal, ECalSourceType source_ty
 	priv = gcal->priv;
 
 	client = g_hash_table_lookup (priv->clients[source_type], e_source_peek_uid (source));
-	if (!client)
+	if (!client) 
 		return FALSE;
 	
 	switch (source_type) {
