@@ -3,74 +3,83 @@ Evolution 1.0.3, ???
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
-  * Summary
+  * Addressbook
 
-    #18025 -- Executive-summary crash upon switching to offline mode.
-              (Ettore)
+    #16097 -- Need a way to let the user specify the DN to
+              authenticate against.  (Toshok)
+    #16968 -- Changing search type immediately requeries.  (Toshok)
+    #20089 -- Cannot copy contacts with comma from "Contacts" to LDAP.
+              (Toshok)
+    #20690 -- LDAP contacts dont show when using letter shortcuts.
+              (Toshok)
+    #20740 -- LDAP performance problem.  (Toshok)
+    #16680 -- LDAP performance problem.  (Toshok)
+    #20871 -- SelectNames dialog needs search feedback.  (Toshok)
 
   * Calendar
 
     #14705 -- iMIP compatibility with versions of Outlook. (Better fix
-	      for the pseudo-fix in 1.0.1). We now support Outlook in
-	      both Workgroup and Internet-Only modes (Dan)
-    #19054 -- Minimum number of alarm repetitions should be 1. (Federico)
-    #19234 -- BYMONTH off-by-one in RRULE:FREQ=YEARLY (Damon)
-    #20510 -- Load free busy info as attendees are added (JP)
-    #20022 -- Itip addresses are case sensitive (JP)
-    #20226 -- Timezone data missing from some itip replies (JP)
-    #20346 -- Calendar should indicate if backend dies (Rodrigo)
-    #20780 -- Better subjects in iMIP messages (Dan)
-    #20787 -- Accepted/declined messages aren't always clear (JP)
+              for the pseudo-fix in 1.0.1). We now support Outlook in
+              both Workgroup and Internet-Only modes.  (Dan)
+    #19054 -- Minimum number of alarm repetitions should be
+              1. (Federico)
+    #19234 -- BYMONTH off-by-one in RRULE:FREQ=YEARLY.  (Damon)
+    #20510 -- Load free busy info as attendees are added.  (JP)
+    #20022 -- Itip addresses are case sensitive.  (JP)
+    #20226 -- Timezone data missing from some itip replies.  (JP)
+    #20346 -- Calendar should indicate if backend dies.  (Rodrigo)
+    #20780 -- Better subjects in iMIP messages.  (Dan)
+    #20787 -- Accepted/declined messages aren't always clear.  (JP)
     #20800 -- Sorting of free busy information in schedule page does
-	      not work (JP)
+	      not work.  (JP)
     #21198 -- Outlook didn't recognize Evolution's acceptance of an
-	      updated meeting request (Dan)
-    #20783 -- accepting updated meeting request doesn't work? (Rodrigo)
+	      updated meeting request.  (Dan)
+    #20783 -- Accepting updated meeting request doesn't work.  (Rodrigo)
     #21240 -- Calendar Reminders don't appear for appointments in remote
-              servers (Rodrigo)
-
-  * Shell
-
-    #20311 -- Make new windows opened through the right-click menu not
-              show the shortcut bar and the folder bar by default.  (Ettore)
+              servers.  (Rodrigo)
 
   * Mailer
 
     #19564 -- Don't crash when changing to disconnected mode.  (Michael)
     #20779 -- Set a 'name' parameter in the Content-Type header
               since Outlook doesn't seem to check the filename
-              parameter on the Content-Disposition header.     (Jeff)
+              parameter on the Content-Disposition header. (Jeff)
+    #21655 -- X-MailingList should prevail on X-BeenThere.  (Ettore)
 
-  * Addressbook
+  * Shell
 
-    #16097 -- Need a way to let the user specify the DN to
-              authenticate against (Toshok)
-    #16968 -- changing search type immediately requeries (Toshok)
-    #20089 -- Cannot copy contacts with comma from "Contacts" to LDAP (Toshok)
-    #20690 -- LDAP contacts dont show when using letter shortcuts (Toshok)
-    #20740, 16680 -- LDAP performance problems (Toshok)
-    #20871 -- selectnames dialog needs search feedback (Toshok)
+    #20234 -- Deleting folder gratuitiously causes /local to open.
+	      (Ettore)
+    #20237 -- Shell silently drops xfer errors.  (Ettore)
+    #20311 -- New window from shortcuts should not show the folder 
+              bar and the shortcut bar.  (Ettore)
+
+  * Summary
+
+    #18025 -- Summary crash upon switching to offline mode.  (Ettore)
 
 Other fixes:
 
   * Calendar
 
-    - Show more descriptive messages on opening errors (Rodrigo)
-    - Remove $filename.ics from remote URIs (Rodrigo)
+    - Show more descriptive messages on opening errors.  (Rodrigo)
+    - Remove $filename.ics from remote URIs.  (Rodrigo)
 
   * Addressbook
 
-    - Fix search weirdness in local addressbooks (Toshok)
+    - Fix search weirdness in local addressbooks.  (Toshok)
     - Let backends return general error status from load_uri instead
-      of just TRUE/FALSE (Toshok)
-    - EBook(View) handling fixes in select-names and EAddressbookModel (Clahey)
+      of just TRUE/FALSE.  (Toshok)
+    - EBook(View) handling fixes in ESelectNames and
+      EAddressbookModel.  (Clahey)
     - Rethink (and change) some of the default queries to ones that
       are at the same time useful and more easily implemented
       efficiently by the backends, in both the component's view and in
-      the select-names dialog. (Toshok)
+      the select-names dialog.  (Toshok)
     - Change the "beginswith" query implementation on the name field
       to search both first and last name, so it's a little more useful
-      in the general case. (Toshok)
+      in the general case.  (Toshok)
+
 
 Evolution 1.0.2, 01-24-2002
 ---------------------------
