@@ -91,7 +91,7 @@ struct _EItipControlPrivate {
 
 extern EvolutionShellClient *global_shell_client;	
 
-/* We intentionally use "calendar" instead of "calendar/*" here. We
+/* We intentionally use "calendar" instead of "calendar / *" here. We
  * don't want public calendars.
  */
 static const char *calendar_types[] = { "calendar", NULL };
@@ -1655,6 +1655,7 @@ update_item (EItipControl *itip)
 
 	clone = icalcomponent_new_clone (priv->ical_comp);
 	icalcomponent_add_component (priv->top_level, clone);
+	icalcomponent_set_method (priv->top_level, priv->method);
 
 	result = cal_client_update_objects (client, priv->top_level);
 	switch (result) {
@@ -2042,7 +2043,7 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 				send_item (itip);
 				break;
 			case 'C':
-				remove_item (itip);
+				update_item (itip);
 				break;
 			}
 		}

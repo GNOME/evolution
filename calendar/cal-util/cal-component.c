@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <glib.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include "cal-component.h"
 #include "timeutil.h"
@@ -3239,7 +3240,7 @@ cal_component_set_recurid (CalComponent *comp, CalComponentRange *recur_id)
 	set_datetime (comp, &priv->recur_id.recur_time,
 		      icalproperty_new_recurrenceid,
 		      icalproperty_set_recurrenceid,
-		      &recur_id->datetime);
+		      recur_id ? &recur_id->datetime : NULL);
 }
 
 /**

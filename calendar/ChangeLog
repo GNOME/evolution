@@ -1,3 +1,18 @@
+2002-11-26  Dan Winship  <danw@ximian.com>
+
+	* gui/e-itip-control.c (update_item): Set the VCALENDAR's METHOD.
+	(ok_clicked_cb): Use update_item, not remove_item, to process a
+	cancelation. Part of #33875.
+
+	* pcs/cal-backend-file.c (cal_backend_file_cancel_object): New,
+	handle an ICAL_METHOD_CANCEL update.
+	(cal_backend_file_update_objects): Call
+	cal_backend_file_update_object or cal_backend_file_cancel_object
+	as appropriate.
+
+	* cal-util/cal-component.c (cal_component_set_recurid): If
+	@recur_id is NULL, clear the recurrence-id.
+
 2002-11-26  Richard Li <Richard.Li@Sun.COM>
 
 	* cal-client/cal-client.c (cal_client_construct): removed extra call
