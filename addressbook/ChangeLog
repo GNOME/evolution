@@ -1,5 +1,11 @@
 2003-10-28 Leon Zhang <leon.zhang@sun.com>
 
+       * backend/pas/pas-backend-ldap.c:
+       (get_cursor_handler): prevent accessing LDAP without stop.
+       Fix bug 50583.
+
+2003-10-28 Leon Zhang <leon.zhang@sun.com>
+
 	* gui/widgets/e-minicard.c: (e_minicard_event): skip focus change
 	event if there is an activated popup menu.
 

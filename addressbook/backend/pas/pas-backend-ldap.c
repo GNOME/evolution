@@ -1839,6 +1839,7 @@ get_cursor_handler (LDAPOp *op, LDAPMessage *res)
 										   vcard);
 				g_object_unref (simple);
 			}
+			e = ldap_next_entry (ldap, res);
 		}
 	}
 	else if (msg_type == LDAP_RES_SEARCH_RESULT) {
