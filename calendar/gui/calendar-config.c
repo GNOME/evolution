@@ -613,6 +613,15 @@ calendar_config_set_hide_completed_tasks	(gboolean	hide)
 	gconf_client_set_bool (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED, hide, NULL);
 }
 
+guint 
+calendar_config_add_notification_hide_completed_tasks (GConfClientNotifyFunc func, gpointer data)
+{
+	guint id;
+	
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED , func, data, NULL, NULL);
+	
+	return id;	
+}
 
 CalUnits
 calendar_config_get_hide_completed_tasks_units	(void)
@@ -656,6 +665,15 @@ calendar_config_set_hide_completed_tasks_units	(CalUnits	cu)
 	g_free (units);
 }
 
+guint 
+calendar_config_add_notification_hide_completed_tasks_units (GConfClientNotifyFunc func, gpointer data)
+{
+	guint id;
+	
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_UNITS , func, data, NULL, NULL);
+	
+	return id;	
+}
 
 gint
 calendar_config_get_hide_completed_tasks_value	(void)
@@ -668,6 +686,16 @@ void
 calendar_config_set_hide_completed_tasks_value	(gint		value)
 {
 	gconf_client_set_int (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_VALUE, value, NULL);
+}
+
+guint 
+calendar_config_add_notification_hide_completed_tasks_value (GConfClientNotifyFunc func, gpointer data)
+{
+	guint id;
+	
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_VALUE , func, data, NULL, NULL);
+	
+	return id;	
 }
 
 /**

@@ -74,6 +74,7 @@ struct _ETasksPrivate {
 	GtkWidget *preview;
 	
 	gchar *current_uid;
+	char *sexp;
 
 	/* View instance and the view menus handler */
 	GalViewInstance *view_instance;
@@ -87,6 +88,7 @@ static void e_tasks_class_init (ETasksClass *class);
 static void e_tasks_init (ETasks *tasks);
 static void setup_widgets (ETasks *tasks);
 static void e_tasks_destroy (GtkObject *object);
+static void update_view (ETasks *tasks);
 
 static void backend_error_cb (ECal *client, const char *message, gpointer data);
 
@@ -168,12 +170,18 @@ search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer
 	ETasks *tasks;
 	ETasksPrivate *priv;
 	ECalModel *model;
+	char *new_sexp = NULL;
+	char *real_sexp = NULL;
 
 	tasks = E_TASKS (data);
 	priv = tasks->priv;
 
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-	e_cal_model_set_search_query (model, sexp);
+	if (priv->sexp)
+		g_free (priv->sexp);
+	
+	priv->sexp = g_strdup (sexp);
+	
+	update_view (tasks);
 }
 
 /* Callback used when the selected category in the search bar changes */
@@ -227,6 +235,41 @@ timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer 
 	ETasks *tasks = data;
 	
 	set_timezone (tasks);
+}
+
+static void
+update_view (ETasks *tasks)
+{
+	ETasksPrivate *priv;
+	ECalModel *model;
+	char *real_sexp = NULL;
+	char *new_sexp = NULL;
+	
+	priv = tasks->priv;
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+		
+	if ((new_sexp = calendar_config_get_hide_completed_tasks_sexp()) != NULL) {
+		real_sexp = g_strdup_printf ("(and %s %s)", new_sexp, priv->sexp);
+		e_cal_model_set_search_query (model, real_sexp);
+		g_free (new_sexp);
+		g_free (real_sexp);
+	} else
+		e_cal_model_set_search_query (model, priv->sexp);
+}
+
+static gboolean
+update_view_cb (ETasks *tasks)
+{	
+	update_view (tasks);
+
+	return TRUE;
+}
+
+static void
+config_hide_completed_tasks_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	update_view (data);
 }
 
 static void
@@ -292,6 +335,7 @@ setup_config (ETasks *tasks)
 {
 	ETasksPrivate *priv;
 	guint not;
+	guint timeout_id = 0;
 
 	priv = tasks->priv;
 	
@@ -300,6 +344,21 @@ setup_config (ETasks *tasks)
 	
 	not = calendar_config_add_notification_timezone (timezone_changed_cb, tasks);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+	
+	not = calendar_config_add_notification_hide_completed_tasks (config_hide_completed_tasks_changed_cb, 
+							      tasks);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+	
+	not = calendar_config_add_notification_hide_completed_tasks_units (config_hide_completed_tasks_changed_cb, 
+							      tasks);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+	
+	not = calendar_config_add_notification_hide_completed_tasks_value (config_hide_completed_tasks_changed_cb, 
+							      tasks);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+	
+	/* Timeout check to hide completed items */
+	timeout_id = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_view_cb, tasks, NULL);	
 }
 
 #define E_TASKS_TABLE_DEFAULT_STATE					\
@@ -421,7 +480,6 @@ static void
 e_tasks_init (ETasks *tasks)
 {
 	ETasksPrivate *priv;
-	ECalModel *model;
 	
 	priv = g_new0 (ETasksPrivate, 1);
 	tasks->priv = priv;
@@ -434,9 +492,9 @@ e_tasks_init (ETasks *tasks)
 	priv->view_instance = NULL;
 	priv->view_menus = NULL;
 	priv->current_uid = NULL;
+	priv->sexp = g_strdup ("#t");
 
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-	e_cal_model_set_search_query (model, "#t");
+	update_view (tasks);
 }
 
 /* Callback used when the set of categories changes in the calendar client */
@@ -502,7 +560,12 @@ e_tasks_destroy (GtkObject *object)
 			g_free (priv->current_uid);
 			priv->current_uid = NULL;
 		}
-
+	
+		if (priv->sexp) {
+			g_free (priv->sexp);
+			priv->sexp = NULL;
+		}
+	
 		if (priv->tasks_view_config) {
 			g_object_unref (priv->tasks_view_config);
 			priv->tasks_view_config = NULL;

@@ -121,6 +121,7 @@ struct _GnomeCalendarPrivate {
 	/* Calendar query for the date navigator */
 	GList       *dn_queries; /* list of CalQueries */
 	char        *sexp;
+	char        *todo_sexp;
 	guint        e_cal_view_timeout;
 	
 	/* This is the view currently shown. We use it to keep track of the
@@ -209,6 +210,8 @@ static void gnome_calendar_on_date_navigator_selection_changed (ECalendarItem   
 static void gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal);
 
 static void update_query (GnomeCalendar *gcal);
+
+static void update_todo_view (GnomeCalendar *gcal);
 
 
 static GtkVBoxClass *parent_class;
@@ -697,6 +700,8 @@ update_query (GnomeCalendar *gcal)
 	}
 
 	g_free (real_sexp);
+	
+	update_todo_view (gcal);
 }
 
 static void
@@ -705,6 +710,7 @@ set_search_query (GnomeCalendar *gcal, const char *sexp)
 	GnomeCalendarPrivate *priv;
 	ECalModel *model;
 	int i;
+	char *new_sexp = NULL;
 
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
@@ -726,8 +732,7 @@ set_search_query (GnomeCalendar *gcal, const char *sexp)
 		e_cal_model_set_search_query (e_calendar_view_get_model (priv->views[i]), sexp);
 
 	/* Set the query on the task pad */
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
-	e_cal_model_set_search_query (model, sexp);
+	update_todo_view (gcal);
 }
 
 /* Returns the current time, for the ECalendarItem. */
@@ -921,10 +926,52 @@ timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer 
 }
 
 static void
+update_todo_view (GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+	ECalModel *model;
+	char *sexp = NULL;
+	
+	priv = gcal->priv;
+	
+	/* Set the query on the task pad */
+	if (priv->todo_sexp) {
+		g_free (priv->todo_sexp);
+	}
+	
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
+		
+	if ((sexp = calendar_config_get_hide_completed_tasks_sexp()) != NULL) {
+		priv->todo_sexp = g_strdup_printf ("(and %s %s)", sexp, priv->sexp);
+		e_cal_model_set_search_query (model, priv->todo_sexp);
+		g_free (sexp);
+	} else {
+		priv->todo_sexp = g_strdup (priv->sexp);
+		e_cal_model_set_search_query (model, priv->todo_sexp);
+	}
+	
+}
+
+static gboolean
+update_todo_view_cb (GnomeCalendar *gcal)
+{	
+	update_todo_view(gcal);
+
+	return TRUE;
+}
+
+static void
+config_hide_completed_tasks_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	update_todo_view (data);
+}
+
+static void
 setup_config (GnomeCalendar *calendar)
 {
 	GnomeCalendarPrivate *priv;
 	guint not;
+	guint timeout_id = 0;
 
 	priv = calendar->priv;
 
@@ -938,6 +985,22 @@ setup_config (GnomeCalendar *calendar)
 	not = calendar_config_add_notification_timezone (timezone_changed_cb, calendar);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 
+	/* Hide completed tasks */
+	not = calendar_config_add_notification_hide_completed_tasks (config_hide_completed_tasks_changed_cb, 
+							      calendar);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+	
+	not = calendar_config_add_notification_hide_completed_tasks_units (config_hide_completed_tasks_changed_cb, 
+							      calendar);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+	
+	not = calendar_config_add_notification_hide_completed_tasks_value (config_hide_completed_tasks_changed_cb, 
+							      calendar);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+	
+	/* Timeout check to hide completed items */
+	timeout_id = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_todo_view_cb, calendar, NULL);
+	
 	/* Pane positions */
 	priv->hpane_pos = calendar_config_get_hpane_pos ();
 	priv->vpane_pos = calendar_config_get_vpane_pos ();
@@ -953,7 +1016,7 @@ setup_widgets (GnomeCalendar *gcal)
 	gchar *filename;
 	ETable *etable;
 	int i;
-	
+
 	priv = gcal->priv;
 
 	priv->search_bar = cal_search_bar_new ();
@@ -1018,7 +1081,8 @@ setup_widgets (GnomeCalendar *gcal)
 	filename = g_build_filename (calendar_component_peek_config_directory (calendar_component_peek ()),
 				     "TaskPad", NULL);
 	e_calendar_table_load_state (E_CALENDAR_TABLE (priv->todo), filename);
-	e_cal_model_set_search_query (e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), "#t");
+	
+	update_todo_view (gcal);
 	g_free (filename);
 
 	etable = e_calendar_table_get_table (E_CALENDAR_TABLE (priv->todo));
@@ -1114,6 +1178,7 @@ gnome_calendar_init (GnomeCalendar *gcal)
 
 	priv->dn_queries = NULL;	
 	priv->sexp = g_strdup ("#t"); /* Match all */
+	priv->todo_sexp = g_strdup ("#t");
 
 	priv->view_instance = NULL;
 	priv->view_menus = NULL;
@@ -1206,6 +1271,11 @@ gnome_calendar_destroy (GtkObject *object)
 		if (priv->sexp) {
 			g_free (priv->sexp);
 			priv->sexp = NULL;
+		}
+		
+		if (priv->todo_sexp) {
+			g_free (priv->todo_sexp);
+			priv->todo_sexp = NULL;
 		}
 
 		if (priv->e_cal_view_timeout) {

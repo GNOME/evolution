@@ -1,3 +1,18 @@
+2004-04-30  Gary Ekker  <gekker@novell.com>
+
+	* gui/e-tasks.c: (e_tasks_init): Set up the model to use the correct 
+	query. Setup callbacks for gconf changes. Add an idle timeout to hide 
+	completed items.
+	Add update_view, update_view_cb, and 
+	config_hide_completed_tasks_changed_cb to update the model view.
+
+	* gui/gnome-cal.c: ditto
+	
+	* gui/calendar-config.h: Add notifications for hide_completed_tasks
+	settings.
+
+	* gui/calendar-config.c: ditto
+
 2004-04-30  Not Zed  <NotZed@Ximian.com>
 
 	* gui/dialogs/meeting-page.c (get_widgets): make the entry

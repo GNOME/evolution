@@ -173,12 +173,15 @@ void	    calendar_config_set_tasks_overdue_color	(const char *color);
 /* Settings to hide completed tasks. */
 gboolean  calendar_config_get_hide_completed_tasks	(void);
 void	  calendar_config_set_hide_completed_tasks	(gboolean	hide);
+guint	  calendar_config_add_notification_hide_completed_tasks (GConfClientNotifyFunc func, gpointer data);
 
 CalUnits  calendar_config_get_hide_completed_tasks_units(void);
 void	  calendar_config_set_hide_completed_tasks_units(CalUnits	units);
+guint	  calendar_config_add_notification_hide_completed_tasks_units (GConfClientNotifyFunc func, gpointer data);
 
 gint	  calendar_config_get_hide_completed_tasks_value(void);
 void	  calendar_config_set_hide_completed_tasks_value(gint		value);
+guint	  calendar_config_add_notification_hide_completed_tasks_value (GConfClientNotifyFunc func, gpointer data);
 
 char*	  calendar_config_get_hide_completed_tasks_sexp (void);
 
