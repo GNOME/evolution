@@ -33,7 +33,6 @@
 #include <libgnomeui/gnome-window-icon.h>
 #include <glade/glade.h>
 #include <e-util/e-time-utils.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-scroll-frame.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
