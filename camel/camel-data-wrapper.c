@@ -126,6 +126,12 @@ _finalize (GtkObject *object)
 	if (camel_data_wrapper->mime_type)
 		gmime_content_field_unref (camel_data_wrapper->mime_type);
 
+	if (camel_data_wrapper->input_stream)
+		gtk_object_unref (GTK_OBJECT (camel_data_wrapper->input_stream));
+
+	if (camel_data_wrapper->output_stream)
+		gtk_object_unref (GTK_OBJECT (camel_data_wrapper->output_stream));
+
 	parent_class->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelDataWrapper::finalize\n");
 }
@@ -140,6 +146,8 @@ _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	g_assert (data_wrapper);
 	data_wrapper->input_stream = stream;
+	if (stream)
+		gtk_object_ref (GTK_OBJECT (stream));
 }
 
 
@@ -176,6 +184,8 @@ _set_output_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	g_assert (data_wrapper);
 	data_wrapper->output_stream = stream;
+	if (stream)
+		gtk_object_ref (GTK_OBJECT (stream));
 }
 
 void 

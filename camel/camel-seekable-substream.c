@@ -143,12 +143,14 @@ static void
 _finalize (GtkObject *object)
 {
 	CamelSeekableStream *seekable_stream;
+	CamelSeekableSubstream *seekable_substream;
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelSeekableSubstream::finalize\n");
 	
 	seekable_stream = CAMEL_SEEKABLE_STREAM (object);
+	seekable_substream = CAMEL_SEEKABLE_SUBSTREAM (object);
 
-	if (seekable_stream->parent_stream)
-		gtk_object_unref (seekable_stream->parent_stream);
+	if (seekable_substream->parent_stream)
+		gtk_object_unref (GTK_OBJECT (seekable_substream->parent_stream));
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelSeekableSubstream::finalize\n");
@@ -195,7 +197,7 @@ _init_with_seekable_stream_and_bounds	 (CamelSeekableSubstream *seekable_substre
 	
 	/* store the parent stream */
 	seekable_substream->parent_stream = parent_stream;
-	gtk_object_ref (parent_stream);
+	gtk_object_ref (GTK_OBJECT (parent_stream));
 
 	/* set the bound of the substream */
 	_set_bounds (seekable_substream, inf_bound, sup_bound);
@@ -446,11 +448,13 @@ _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 	default:
 		return -1;
 	}
+
 	if (!seek_done) {
 		if (real_offset > 0) {
 			seekable_stream->cur_pos = MIN (real_offset, substream_len);
 		} else 
 			seekable_stream->cur_pos = 0;
+		printf ("** set in substream %p, offset=%d\n", stream, real_offset);
 	}
 	
 

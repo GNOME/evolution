@@ -1,4 +1,21 @@
+2000-02-17  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-formatter.c (handle_text_plain): 
+	revamped so that it uses the output stream
+	of the data wrapper
+	(handle_text_html): ditto.
+	
+	
+	* camel/camel-simple-data-wrapper.h: 
+	* camel/camel-simple-data-wrapper.c (camel_simple_data_wrapper_new): 
+	use (void) instead of ().
+	(_get_output_stream): simple implementation. 
+
 2000-02-16  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-data-wrapper.c (_set_input_stream): ref input stream
+	(_set_output_stream): ref output stream
+	(_finalize): unref input and output streams
 
 	* camel/camel-seekable-substream.c (_set_bounds): don't
 	seek the begining of the substream.
@@ -109,6 +126,28 @@
 	New function. Allows to get the current position 
 	of a seekable stream.
 	
+
+2000-02-16  Matt Loper  <matt@helixcode.com>
+
+	* tests/ui-tests/message-browser.c (tree_selection_changed): New
+	callback function, which will later change the main html window to
+	reflect the newly-selected tree item.
+	(get_gtk_html_contents_window): New function. Gets the content
+	part of a message.
+	(get_gtk_html_header_window): New function. Will get the header
+	part of a message, when applicable.
+
+	* camel/camel-formatter.c (str_tolower): Now returns a new string,
+	rather than changing it in place.
+	(initialize_camel_formatter): New function; gives a root
+	CamelDataWrapper and a stream to a CamelFormatter.
+	(camel_formatter_wrapper_to_html): New function. Translates any
+	CamelDataWrapper into html.
+	(lookup_unique_id): Allows the root object to be a
+	CamelDataWrapper, which is more general than the previously
+	required CamelMimeMessage.
+
+
 2000-02-14  NotZed  <notzed@zedzone.helixcode.com>
 
 	* configure.in (EXTRA_GNOME_CFLAGS): Add libunicode to CFLAGS/LIBS.

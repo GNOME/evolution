@@ -4,8 +4,9 @@ SUBDIRS =
 
 libcamelmboxincludedir = $(includedir)/camel
 
+lib_LTLIBRARIES = libcamelmbox.la
 
-provider_LTLIBRARIES = libcamelmbox.la
+#provider_LTLIBRARIES = libcamelmbox.la
 
 INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 	-I$(top_srcdir)/intl			\

@@ -1,3 +1,6 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+
 /*--------------------------------*-C-*---------------------------------*
  *
  * Author :
@@ -19,7 +22,6 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  *
- *
  *----------------------------------------------------------------------*/
 
 #ifndef CAMEL_FORMATTER_H
@@ -36,7 +38,7 @@ extern "C" {
 #define CAMEL_FORMATTER_TYPE     (camel_formatter_get_type ())
 #define CAMEL_FORMATTER(obj)     (GTK_CHECK_CAST((obj), CAMEL_FORMATTER_TYPE, CamelFormatter))
 #define CAMEL_FORMATTER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_FORMATTER_TYPE, CamelFormatterClass))
-#define CAMEL_IS_CAMEL_FORMATTER(o)    (GTK_CHECK_TYPE((o), CAMEL_FORMATTER_TYPE))
+#define CAMEL_IS_FORMATTER(o)    (GTK_CHECK_TYPE((o), CAMEL_FORMATTER_TYPE))
 
 typedef struct _CamelFormatterPrivate CamelFormatterPrivate;
 
@@ -59,12 +61,14 @@ GtkType  camel_formatter_get_type (void);
 /* Public functions */
 CamelFormatter* camel_formatter_new (void);
 
-/* The main job of CamelFormatter is to take a mime message, and
-   produce html from it. */
 void camel_formatter_mime_message_to_html (CamelFormatter* formatter,
 					   CamelMimeMessage* mime_message,
 					   CamelStream* header_stream,
 					   CamelStream* body_stream);
+
+void camel_formatter_wrapper_to_html (CamelFormatter* formatter,
+				      CamelDataWrapper* data_wrapper,
+				      CamelStream* header_stream);
 
 
 #ifdef __cplusplus

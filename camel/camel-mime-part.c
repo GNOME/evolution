@@ -63,6 +63,7 @@ static CamelMediumClass *parent_class=NULL;
 
 /* Returns the class for a CamelMimePart */
 #define CMP_CLASS(so) CAMEL_MIME_PART_CLASS (GTK_OBJECT(so)->klass)
+#define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
 
 /* from GtkObject */
 static void            _finalize (GtkObject *object);
@@ -74,6 +75,7 @@ static void            _construct_from_stream        (CamelDataWrapper *data_wra
 						      CamelStream *stream);
 static void            _set_input_stream             (CamelDataWrapper *data_wrapper, 
 						      CamelStream *stream);
+static CamelStream * _get_output_stream        (CamelDataWrapper *data_wrapper);
 
 
 /* from CamelMedia */ 
@@ -178,6 +180,7 @@ camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 	camel_data_wrapper_class->write_to_stream     = _write_to_stream;
 	camel_data_wrapper_class->construct_from_stream = _construct_from_stream;
 	camel_data_wrapper_class->set_input_stream    = _set_input_stream;
+	camel_data_wrapper_class->get_output_stream    = _get_output_stream;
 
 	gtk_object_class->finalize                    = _finalize;
 }
@@ -823,6 +826,10 @@ _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	g_assert (CAMEL_IS_SEEKABLE_STREAM (stream));
 	seekable_stream = CAMEL_SEEKABLE_STREAM (stream);
 
+	/* call parent class implementation */
+	CAMEL_DATA_WRAPPER_CLASS (parent_class)->set_input_stream (data_wrapper, stream);
+
+
 	camel_mime_part_construct_headers_from_stream (mime_part, stream);
 	
 	/* set the input stream for the content object */
@@ -831,7 +838,20 @@ _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		camel_seekable_substream_new_with_seekable_stream_and_bounds (seekable_stream,
 									      content_stream_inf_bound, 
 									      -1);
+	
+
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::set_input_stream leaving\n");
+
+}
+
+
+static CamelStream *
+_get_output_stream (CamelDataWrapper *data_wrapper)
+{
+	
+	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_output_stream leaving\n");
+	return camel_data_wrapper_get_input_stream (data_wrapper);
+	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_output_stream leaving\n");
 
 }
 

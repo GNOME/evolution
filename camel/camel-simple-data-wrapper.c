@@ -35,10 +35,15 @@ static  CamelDataWrapperClass *parent_class=NULL;
 /* Returns the class for a CamelDataWrapper */
 #define CSDW_CLASS(so) CAMEL_SIMPLE_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
 
-static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
-static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
-static void _finalize (GtkObject *object);
-static CamelStream *_get_stream (CamelDataWrapper *data_wrapper);
+static void            _construct_from_stream     (CamelDataWrapper *data_wrapper, 
+						   CamelStream *stream);
+static void            _write_to_stream           (CamelDataWrapper *data_wrapper, 
+						   CamelStream *stream);
+static void            _finalize                  (GtkObject *object);
+static CamelStream *   _get_stream                (CamelDataWrapper *data_wrapper);
+static CamelStream *   _get_output_stream         (CamelDataWrapper *data_wrapper);
+
+
 
 static void
 camel_simple_data_wrapper_class_init (CamelSimpleDataWrapperClass *camel_simple_data_wrapper_class)
@@ -52,6 +57,7 @@ camel_simple_data_wrapper_class_init (CamelSimpleDataWrapperClass *camel_simple_
 	/* virtual method overload */
 	camel_data_wrapper_class->write_to_stream = _write_to_stream;
 	camel_data_wrapper_class->construct_from_stream = _construct_from_stream;
+	camel_data_wrapper_class->get_output_stream = _get_output_stream;
 
 	camel_data_wrapper_class->get_stream = _get_stream;
 
@@ -111,7 +117,7 @@ _finalize (GtkObject *object)
  * Return value: 
  **/
 CamelSimpleDataWrapper *
-camel_simple_data_wrapper_new ()
+camel_simple_data_wrapper_new (void)
 {
 	CamelSimpleDataWrapper *simple_data_wrapper;
 	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Entering new()\n");
@@ -227,4 +233,15 @@ _get_stream (CamelDataWrapper *data_wrapper)
 	}
 
 	return simple_data_wrapper->stream;
+}
+
+
+static CamelStream *
+_get_output_stream (CamelDataWrapper *data_wrapper)
+{
+	
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper::get_output_stream leaving\n");
+	return camel_data_wrapper_get_input_stream (data_wrapper);
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper::get_output_stream leaving\n");
+
 }

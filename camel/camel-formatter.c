@@ -1,4 +1,5 @@
- 
+ /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*--------------------------------*-C-*---------------------------------*
  *
  * Author :
@@ -27,8 +28,8 @@
 
 #include "camel-log.h"
 #include <libgnome/libgnome.h>
-#include <ctype.h> // for isprint
-#include <string.h> // for strstr
+#include <ctype.h>    /* for isprint */
+#include <string.h>   /* for strstr  */
 
 /*
  * The CamelFormatter takes a mime message, and produces html from it,
@@ -36,9 +37,6 @@
  * The flow of execution goes something like this:
  *
  *     camel_formatter_mime_message_to_html()
- *                 |
- *                 V
- *         handle_mime_message()
  *                 |
  *                 V
  *        call_handler_function()
@@ -57,7 +55,7 @@ static void handle_image                (CamelFormatter *formatter,
 				         CamelDataWrapper *wrapper);
 static void handle_vcard                (CamelFormatter *formatter,
 				         CamelDataWrapper *wrapper);
-static void handle_mime_message         (CamelFormatter *formatter,
+static void handle_mime_part            (CamelFormatter *formatter,
 			                 CamelDataWrapper *wrapper);
 static void handle_multipart_mixed      (CamelFormatter *formatter,
 				         CamelDataWrapper *wrapper);
@@ -76,16 +74,22 @@ static gchar* text_to_html (const guchar *input,
 
 /* compares strings case-insensitively */
 static gint strcase_equal (gconstpointer v, gconstpointer v2);
-static void str_tolower (gchar* str);
+static gchar* str_tolower (gchar* str);
 
 /* writes the header info for a mime message into a stream */
 static void write_header_info_to_stream (CamelMimeMessage* mime_message,
 					 CamelStream* stream);
 
+/* dispatch html printing via mimetype */
+static void call_handler_function (CamelFormatter* formatter,
+				   CamelDataWrapper* wrapper,
+				   gchar* mimetype_whole, 
+				   gchar* mimetype_main);
+
 static GtkObjectClass *parent_class = NULL;
 
 struct _CamelFormatterPrivate {
-	CamelMimeMessage *current_root;
+	CamelDataWrapper *current_root;
 	CamelStream *stream;
 	GHashTable *attachments;
 };
@@ -109,12 +113,73 @@ debug (const gchar *format, ...)
 	g_free (string);
 }
 
+static void
+initialize_camel_formatter (CamelFormatter* formatter,
+			    CamelDataWrapper* data_wrapper,
+			    CamelStream* stream)
+{
+	CamelFormatterPrivate* fmt = formatter->priv;
+
+	/* initialize members of our formatter */
+	fmt->current_root = data_wrapper;
+	fmt->stream = stream;
+	if (fmt->attachments)
+		g_hash_table_destroy (fmt->attachments);
+	fmt->attachments = g_hash_table_new (g_str_hash, strcase_equal);
+}
+
+
+/**
+ * camel_formatter_wrapper_to_html: 
+ * @formatter: the camel formatter object
+ * @data_wrapper: the data wrapper
+ * @stream: byte stream where data will be written 
+ *
+ * Writes a CamelDataWrapper out, as html, into a stream passed in as
+ * a parameter.
+ **/
+void camel_formatter_wrapper_to_html (CamelFormatter* formatter,
+				      CamelDataWrapper* data_wrapper,
+				      CamelStream* stream_out)
+{
+	CamelFormatterPrivate* fmt = formatter->priv;
+	gchar *mimetype_whole =
+		g_strdup_printf ("%s/%s",
+				 data_wrapper->mime_type->type,
+				 data_wrapper->mime_type->subtype);
+
+	g_print ("camel_formatter_wrapper_to_html: entered\n");
+	g_assert (formatter && data_wrapper && stream_out);
+
+	/* give the root CamelDataWrapper and the stream to the formatter */
+	initialize_camel_formatter (formatter, data_wrapper, stream_out);
+	
+	if (stream_out) {
+		
+		/* write everything to the stream */
+		camel_stream_write_string (
+			fmt->stream, "<html><body bgcolor=\"white\">\n");
+		call_handler_function (
+			formatter,
+			data_wrapper,
+			mimetype_whole,
+			data_wrapper->mime_type->type);
+		
+		camel_stream_write_string (fmt->stream, "\n</body></html>\n");
+	}
+	
+
+	g_free (mimetype_whole);
+}
+
 
 /**
  * camel_formatter_mime_message_to_html: 
  * @formatter: the camel formatter object
  * @mime_message: the input mime message
- * @stream: byte stream where data will be written 
+ * @header_stream: byte stream where data will be written (can be
+ * NULL)
+ * @body_stream: byte stream where data will be written (required)
  *
  * Writes a CamelMimeMessage out, as html, into a stream passed in as
  * a parameter.
@@ -125,41 +190,37 @@ camel_formatter_mime_message_to_html (CamelFormatter* formatter,
 				      CamelStream* header_stream,
 				      CamelStream* body_stream)
 {
-	CamelFormatterPrivate* fmt = formatter->priv;
-
 	g_print ("camel_formatter_mime_message_to_html: entered\n");
-	g_assert (mime_message);
+
+	g_assert (formatter != NULL);
+	g_assert (CAMEL_IS_FORMATTER (formatter));
+	g_assert (mime_message != NULL);
+	g_assert (CAMEL_IS_MIME_MESSAGE (mime_message));
 	
-	/* initialize members of our formatter */
-	fmt->current_root = mime_message;
-	fmt->stream = body_stream;
-	if (fmt->attachments)
-		g_hash_table_destroy (fmt->attachments);
-	fmt->attachments = g_hash_table_new (g_str_hash, strcase_equal);
+	g_assert (header_stream || body_stream);
+
+	/* give the root CamelDataWrapper and the stream to the
+           formatter */
+	initialize_camel_formatter (formatter,
+				    CAMEL_DATA_WRAPPER (mime_message),
+				    body_stream);
+	
+	if (body_stream) {
+		/* Write the contents of the mime message to the stream */
+		camel_stream_write_string (body_stream, "<html><body>\n");
+		call_handler_function (
+			formatter,
+			CAMEL_DATA_WRAPPER (mime_message),
+			"message/rfc822",
+			"message");
+		camel_stream_write_string (body_stream, "\n</body></html>\n");
+	}
 	
 	/* write the subj:, to:, from: etc. fields out as html to the
            header stream */
 	if (header_stream)
 		write_header_info_to_stream (mime_message,
 					     header_stream);
-
-	/* write everything to the stream */
-	if (body_stream) {
-		
-		camel_stream_write_string (fmt->stream, "<html><body>\n");
-		
-		handle_mime_message (
-			formatter,
-			CAMEL_DATA_WRAPPER (mime_message));
-		
-		camel_stream_write_string (fmt->stream,
-					   "\n</body></html>\n");
-	}
-	else {
-		g_print ("camel-formatter.c: ");
-	        g_print ("camel_formatter_mime_message_to_html: ");
-		g_print ("you don't want the body??\n");
-	}
 }
 
 /* we're maintaining a hashtable of mimetypes -> functions;
@@ -168,7 +229,7 @@ typedef void (*mime_handler_fn) (CamelFormatter *formatter,
 				 CamelDataWrapper *data_wrapper);
 
 static gchar*
-lookup_unique_id (CamelMimeMessage* root, CamelDataWrapper* child)
+lookup_unique_id (CamelDataWrapper* root, CamelDataWrapper* child)
 {
 	/* TODO: assert our return value != NULL */
 
@@ -186,7 +247,7 @@ get_bonobo_tag_for_object (CamelFormatter* formatter,
 			   gchar* mimetype)
 {
 	
-	CamelMimeMessage* root = formatter->priv->current_root;
+	CamelDataWrapper* root = formatter->priv->current_root;
 	char* uid = lookup_unique_id (root, wrapper);
 	const char* goad_id = gnome_mime_get_value (
 		mimetype, "bonobo-goad_id");
@@ -218,24 +279,29 @@ get_bonobo_tag_for_object (CamelFormatter* formatter,
 static void
 call_handler_function (CamelFormatter* formatter,
 		       CamelDataWrapper* wrapper,
-		       gchar* mimetype_whole, /* ex. "image/jpeg" */
-		       gchar* mimetype_main)  /* ex. "image" */
+		       gchar* mimetype_whole_in, /* ex. "image/jpeg" */
+		       gchar* mimetype_main_in)  /* ex. "image" */
 {
 	mime_handler_fn handler_function = NULL;
+	gchar* mimetype_whole = NULL;
+	gchar* mimetype_main = NULL;
 
 	g_assert (formatter);
-	g_assert (mimetype_whole || mimetype_main);
+	g_assert (mimetype_whole_in || mimetype_main_in);
 	g_assert (wrapper);
 	
 /*
  * Try to find a handler function in our own lookup table
  */
-	str_tolower (mimetype_whole);
-	str_tolower (mimetype_main);	
-	
-	if (mimetype_whole)
+	if (mimetype_whole_in) {
+		mimetype_whole = str_tolower (mimetype_whole_in);
+
 		handler_function = g_hash_table_lookup (
 			mime_function_table, mimetype_whole);
+	}
+
+	if (mimetype_main_in)
+		mimetype_main = str_tolower (mimetype_main_in);	
 
 	if (mimetype_main && !handler_function)
 		handler_function = g_hash_table_lookup (
@@ -261,7 +327,9 @@ call_handler_function (CamelFormatter* formatter,
 			camel_stream_write_string (
 				formatter->priv->stream, bonobo_tag);
 			g_free (bonobo_tag);
-
+			if (mimetype_whole) g_free (mimetype_whole);
+			if (mimetype_main) g_free (mimetype_main);			
+			
 			return; 
 		}
 	}
@@ -275,6 +343,8 @@ call_handler_function (CamelFormatter* formatter,
 		debug ("no function or bonobo object found for mimetype \"%s\"\n",
 		       mimetype_whole?mimetype_whole:mimetype_main);
 	}
+	if (mimetype_whole) g_free (mimetype_whole);
+	if (mimetype_main) g_free (mimetype_main);				
 }
 
 
@@ -313,7 +383,8 @@ text_to_html (const guchar *input,
 			out = &buffer[index];
 		}
 
-		/* By default one has to encode at least '<', '>', '"' and '&'.  */
+		/* By default one has to encode at least '<', '>', '"'
+                   and '&'.  */
 		if (*cur == '<') {
 			*out++ = '&';
 			*out++ = 'l';
@@ -373,7 +444,7 @@ text_to_html (const guchar *input,
 
 static void
 write_field_to_stream (const gchar* description, const gchar* value,
-		       CamelStream *stream)
+		       CamelStream *stream, gboolean as_table_row)
 {
 	gchar *s;
 	guint ev_length;
@@ -386,8 +457,12 @@ write_field_to_stream (const gchar* description, const gchar* value,
 	
 	g_assert (description && value);
 	
-	s = g_strdup_printf ("<b>%s</b>: %s<br>\n",
-			      description, encoded_value);
+	s = g_strdup_printf ("%s<b>%s</b>%s%s%s\n",
+			     as_table_row?"<tr><td>":"",
+			     description,
+			     as_table_row?"</td><td>":" ",
+			     encoded_value,
+			     as_table_row?"</td></tr>":"<br>");
 
 	camel_stream_write_string (stream, s);
 	g_free (encoded_value);
@@ -398,7 +473,8 @@ write_field_to_stream (const gchar* description, const gchar* value,
 static void
 write_recipients_to_stream (const gchar* recipient_type,
 			    const GList* recipients,
-			    CamelStream* stream)
+			    CamelStream* stream,
+			    gboolean as_table_row)
 {
 	/* list of recipients, like "elvis@graceland; bart@springfield" */
 	gchar *recipients_string = NULL;
@@ -417,10 +493,10 @@ write_recipients_to_stream (const gchar* recipient_type,
 		
 		recipients = recipients->next;
 	}
-	write_field_to_stream (recipient_type, recipients_string, stream);
+	write_field_to_stream (recipient_type, recipients_string, stream,
+			       as_table_row);
 
 	g_free (recipients_string);
-	camel_stream_write_string (stream, "<br><br>\n");	
 }
 
 
@@ -434,23 +510,25 @@ write_header_info_to_stream (CamelMimeMessage* mime_message,
 
 	g_assert (mime_message && stream);
 
+	camel_stream_write_string (stream, "<table>");
+	
 	/* A few fields will probably be available from the mime_message;
 	   for each one that's available, write it to the output stream
 	   with a helper function, 'write_field_to_stream'. */
 	if ((s = (gchar*)camel_mime_message_get_subject (mime_message))) {
-		write_field_to_stream ("Subject: ", s, stream);
+		write_field_to_stream ("Subject: ", s, stream, TRUE);
 	}
 
 	if ((s = (gchar*)camel_mime_message_get_from (mime_message))) {
-		write_field_to_stream ("From: ", s, stream);
+		write_field_to_stream ("From: ", s, stream, TRUE);
 	}
 
 	if ((s = (gchar*)camel_mime_message_get_received_date (mime_message))) {
-		write_field_to_stream ("Received Date: ", s, stream);
+		write_field_to_stream ("Received Date: ", s, stream, TRUE);
 	}
 
 	if ((s = (gchar*)camel_mime_message_get_sent_date (mime_message))) {
-		write_field_to_stream ("Sent Date: ", s, stream);
+		write_field_to_stream ("Sent Date: ", s, stream, TRUE);
 	}		
  
 	/* Fill out the "To:" recipients line */
@@ -458,19 +536,21 @@ write_header_info_to_stream (CamelMimeMessage* mime_message,
 		mime_message, CAMEL_RECIPIENT_TYPE_TO);
 	
 	if (recipients)
-		write_recipients_to_stream ("To:", recipients, stream);
+		write_recipients_to_stream ("To:", recipients, stream, TRUE);
 
 	/* Fill out the "CC:" recipients line */
 	recipients = camel_mime_message_get_recipients (
 		mime_message, CAMEL_RECIPIENT_TYPE_CC);
 	if (recipients)
-		write_recipients_to_stream ("CC:", recipients, stream);	
+		write_recipients_to_stream ("CC:", recipients, stream, TRUE);	
 
 	/* Fill out the "BCC:" recipients line */
 	recipients = camel_mime_message_get_recipients (
 		mime_message, CAMEL_RECIPIENT_TYPE_BCC);	
 	if (recipients)
-		write_recipients_to_stream ("BCC:", recipients, stream);
+		write_recipients_to_stream ("BCC:", recipients, stream, TRUE);
+
+	camel_stream_write_string (stream, "</table>");	
 }
 
 /* case-insensitive string comparison */
@@ -480,15 +560,17 @@ strcase_equal (gconstpointer v, gconstpointer v2)
 	return g_strcasecmp ((const gchar*) v, (const gchar*)v2) == 0;
 }
 
-static void
+static gchar*
 str_tolower (gchar* str)
 {
 	int i;
 	int len = strlen (str);
+	gchar* new_str = g_strdup (str);
 	
 	for (i = 0; i < len; i++) {
-		str[i] = tolower (str[i]);
+		new_str[i] = tolower (str[i]);
 	}
+	return new_str;
 }
 
  
@@ -505,70 +587,120 @@ str_tolower (gchar* str)
 static void
 handle_text_plain (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 {
-	CamelSimpleDataWrapper* simple_data_wrapper;
 	gchar* text;
+	CamelStream *wrapper_output_stream;
+	gchar tmp_buffer[4096];
+	gint nb_bytes_read;
+	gboolean empty_text = TRUE;
 
 	debug ("handle_text_plain: entered\n");
-
-	/* Plain text is embodied in a CamelSimpleDataWrapper */
-	g_assert (CAMEL_IS_SIMPLE_DATA_WRAPPER (wrapper));
-	simple_data_wrapper = CAMEL_SIMPLE_DATA_WRAPPER (wrapper);
-
+	
 	camel_stream_write_string (formatter->priv->stream,
 				   "\n<!-- text/plain below -->\n");
 
-	/* If there's any text, write it to the stream */
-	if (simple_data_wrapper->byte_array->len != 0) {
+	if (strcmp (wrapper->mime_type->subtype, "richtext") == 0) {
 
-		int returned_strlen;
-
-		g_assert (simple_data_wrapper->byte_array->data);
-
-		/* replace '<' with '&lt;', etc. */
-		text = text_to_html (simple_data_wrapper->byte_array->data,
-				     simple_data_wrapper->byte_array->len,
-				     &returned_strlen);
-					
-		camel_stream_write_string (formatter->priv->stream, text);
-		g_free (text);
+		camel_stream_write_string (
+			formatter->priv->stream,
+			"<center><b><table bgcolor=\"b0b0ff\" cellpadding=3><tr><td>Warning: the following richtext may not");
+		camel_stream_write_string (
+			formatter->priv->stream,
+			" be formatted correctly. </b></td></tr></table></center><br>");
 	}
-	else 
-		debug ("Warning: handle_text_plain: length of byte array is zero!\n");
 
+	/* get the output stream of the data wrapper */
+	wrapper_output_stream = camel_data_wrapper_get_output_stream (wrapper);
+	
+	if (CAMEL_IS_SEEKABLE_STREAM (wrapper_output_stream))
+		camel_seekable_stream_seek (CAMEL_SEEKABLE_STREAM (wrapper_output_stream),
+					    0, 
+					    CAMEL_STREAM_SET);
+	
+
+	do {
+
+		/* read next chunk of text */
+		nb_bytes_read = camel_stream_read (wrapper_output_stream,
+						   tmp_buffer,
+						   4096);
+		printf ("after camel_stream_read, nb_bytes_read=%d\n", nb_bytes_read);
+		/* If there's any text, write it to the stream */
+		if (nb_bytes_read > 0) {
+			
+			int returned_strlen;
+			
+			empty_text = FALSE;
+
+			/* replace '<' with '&lt;', etc. */
+			text = text_to_html (tmp_buffer,
+					     nb_bytes_read,
+					     &returned_strlen);
+			
+			camel_stream_write_string (formatter->priv->stream, text);
+			g_free (text);
+		}
+		
+		
+	} while (!camel_stream_eos (wrapper_output_stream));
+
+
+	if (empty_text) {
+		debug ("Warning: handle_text_plain: text part is empty!\n");
+		camel_stream_write_string (formatter->priv->stream,
+					   "<b>(empty)</b>");
+	}
+	
 	debug ("handle_text_plain: exiting\n");
 }
 
 static void
 handle_text_html (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 {
-	CamelSimpleDataWrapper* simple_data_wrapper;
-	gchar* text;
+	CamelStream *wrapper_output_stream;
+	gchar tmp_buffer[4096];
+	gint nb_bytes_read;
+	gboolean empty_text = TRUE;
 	
+
 	debug ("handle_text_html: entered\n");
 
-        /* text is embodied in a CamelSimpleDataWrapper */
-	g_assert (CAMEL_IS_SIMPLE_DATA_WRAPPER (wrapper));
-	simple_data_wrapper = CAMEL_SIMPLE_DATA_WRAPPER (wrapper);	
+	/* get the output stream of the data wrapper */
+	wrapper_output_stream = camel_data_wrapper_get_output_stream (wrapper);
+	
+	if (CAMEL_IS_SEEKABLE_STREAM (wrapper_output_stream))
+		camel_seekable_stream_seek (CAMEL_SEEKABLE_STREAM (wrapper_output_stream),
+					    0, 
+					    CAMEL_STREAM_SET);
 
-	/* If there's any text, write it to the stream */
-	if (simple_data_wrapper->byte_array->len != 0) {
-
-		int returned_strlen;
-
-		g_assert (simple_data_wrapper->byte_array->data);
-
-		/* replace '<' with '&lt;', etc. */
-		text = g_strndup (simple_data_wrapper->byte_array->data,
-				  simple_data_wrapper->byte_array->len);
-
-		camel_stream_write_string (formatter->priv->stream,
+	/* write the header */
+	camel_stream_write_string (formatter->priv->stream,
 					   "\n<!-- text/html below -->\n");
-		camel_stream_write_string (formatter->priv->stream, text);
 
-		g_free (text);
+	do {
+
+		/* read next chunk of text */
+		nb_bytes_read = camel_stream_read (wrapper_output_stream,
+						   tmp_buffer,
+						   4096);
+
+		/* If there's any text, write it to the stream */
+		if (nb_bytes_read > 0) {
+
+			empty_text = FALSE;
+			
+			/* write the buffer to the formater output  stream */
+			camel_stream_write (formatter->priv->stream, tmp_buffer, nb_bytes_read);
+		}
+		
+		
+	} while (!camel_stream_eos (wrapper_output_stream));
+
+
+	if (empty_text) {
+		debug ("Warning: handle_text_html: html part is empty!\n");
+		camel_stream_write_string (formatter->priv->stream,
+					   "<b>(empty)</b>");
 	}
-	else 
-		debug ("Warning: handle_text_html: length of byte array is zero!\n");
 
 	debug ("handle_text_html: exiting\n");		
 }
@@ -595,7 +727,7 @@ handle_image (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 static void
 handle_vcard (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 {
-	gchar* vcard;
+	gchar* vcard = NULL;
 	debug ("handle_vcard: entered\n");
 
 	camel_stream_write_string (formatter->priv->stream,
@@ -607,23 +739,23 @@ handle_vcard (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 }
 
 static void
-handle_mime_message (CamelFormatter *formatter,
-		     CamelDataWrapper *wrapper)
+handle_mime_part (CamelFormatter *formatter,
+		  CamelDataWrapper *wrapper)
 {
-	CamelMimeMessage* mime_message; 
+	CamelMimePart* mime_part; 
 	CamelDataWrapper* message_contents; 
 
 	g_assert (formatter);
 	g_assert (wrapper);
-	g_assert (CAMEL_IS_MIME_MESSAGE (wrapper));
+	g_assert (CAMEL_IS_MIME_PART (wrapper));
 	
-	mime_message = CAMEL_MIME_MESSAGE (wrapper);
+	mime_part = CAMEL_MIME_PART (wrapper);
 	message_contents =
-		camel_medium_get_content_object (CAMEL_MEDIUM (mime_message));
+		camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 	
 	g_assert (message_contents);
 	
-	debug ("handle_mime_message: entered\n");
+	debug ("handle_mime_part: entered\n");
 	camel_stream_write_string (formatter->priv->stream,
 				   "\n<!-- mime message below -->\n");
 	
@@ -632,14 +764,14 @@ handle_mime_message (CamelFormatter *formatter,
 
 	/* dispatch the correct handler function for the mime type */
 	call_handler_function (formatter, message_contents,
-			       MIME_TYPE_WHOLE (mime_message),
-			       MIME_TYPE_MAIN (mime_message));
+			       MIME_TYPE_WHOLE (mime_part),
+			       MIME_TYPE_MAIN (mime_part));
 	
 	/* close up the table we opened */
 //	camel_stream_write_string (formatter->priv->stream,
 //				   "\n\n</td></tr></table>\n\n");
 	
-	debug ("handle_mime_message: exiting\n");
+	debug ("handle_mime_part: exiting\n");
 }
 
 
@@ -661,7 +793,8 @@ find_preferred_displayable_body_part_in_multipart_alternative (
         /* TODO: DO LEAF-LOOKUP HERE FOR OTHER MIME-TYPES!!! */
 
 	for (i = 0; i < max_multiparts; i++) {
-		CamelMimeBodyPart* body_part = camel_multipart_get_part (multipart, i);
+		CamelMimeBodyPart* body_part =
+			camel_multipart_get_part (multipart, i);
 
 		if (!strcase_equal (MIME_TYPE_MAIN (body_part), "text"))
 			continue;
@@ -774,12 +907,14 @@ handle_multipart_alternative (CamelFormatter *formatter,
 	
 	debug ("handle_multipart_alternative: entered\n");
 
-	mime_part = find_preferred_displayable_body_part_in_multipart_alternative(
+	mime_part =
+		find_preferred_displayable_body_part_in_multipart_alternative(
 		multipart);	
 	if (mime_part) {
 
 		CamelDataWrapper* contents =
-			camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+			camel_medium_get_content_object (
+				CAMEL_MEDIUM (mime_part));
 
 		call_handler_function (formatter, contents,
 				       MIME_TYPE_WHOLE (mime_part),
@@ -794,7 +929,7 @@ handle_unknown_type (CamelFormatter *formatter,
 		     CamelDataWrapper *wrapper)
 {
 	gchar* tag;
-	CamelMimeMessage* root = formatter->priv->current_root;
+	CamelDataWrapper* root = formatter->priv->current_root;
 	char* uid = lookup_unique_id (root, wrapper);	
 
 	debug ("handle_unknown_type: entered\n");
@@ -846,14 +981,19 @@ camel_formatter_class_init (CamelFormatterClass *camel_formatter_class)
 
 	/* hook up mime types to functions that handle them */
 	ADD_HANDLER ("text/plain", handle_text_plain);
+	ADD_HANDLER ("text/richtext", handle_text_plain);	
 	ADD_HANDLER ("text/html", handle_text_html);
 	ADD_HANDLER ("multipart/alternative", handle_multipart_alternative);
 	ADD_HANDLER ("multipart/related", handle_multipart_related);
 	ADD_HANDLER ("multipart/mixed", handle_multipart_mixed);	
-	ADD_HANDLER ("message/rfc822", handle_mime_message);
+	ADD_HANDLER ("message/rfc822", handle_mime_part);
 	ADD_HANDLER ("image/", handle_image);
 	ADD_HANDLER ("vcard/", handle_vcard);			
 
+	/* body parts don't have mime parts per se, so camel
+	   sticks on the following one */
+	ADD_HANDLER ("mime/body-part", handle_mime_part);
+	
         /* virtual method overload */
 	gtk_object_class->finalize = _finalize;
 }
@@ -893,9 +1033,3 @@ camel_formatter_get_type (void)
 	
 	return camel_formatter_type;
 }
-
-
-
-
-
-

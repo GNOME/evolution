@@ -503,6 +503,10 @@ _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMultipart::_set_input_stream\n");
+
+	/* call parent class implementation */
+	parent_class->set_input_stream (data_wrapper, stream);
+
 	boundary = camel_multipart_get_boundary (multipart);
 	g_return_if_fail (boundary);
 	
@@ -535,6 +539,9 @@ _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 			camel_seekable_substream_new_with_seekable_stream_and_bounds (seekable_stream,
 										      part_begining, 
 										      part_end);
+		CAMEL_LOG_FULL_DEBUG ("CamelMultipart::set_input_stream, use a substream,\n"
+				      "\tbegining = %d\n"
+				      "\tend      = %d\n",part_begining, part_end);
 
 		/* the seekable substream may change the position of the stream
 		   so we must save it before calling set_input_stream */
@@ -542,6 +549,8 @@ _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 		camel_data_wrapper_set_input_stream (CAMEL_DATA_WRAPPER (body_part), 
 						     CAMEL_STREAM (body_part_input_stream));
+		CAMEL_LOG_FULL_DEBUG ("CamelMultipart::set_input_stream," 
+				      "new body part has input stream : %p\n", body_part_input_stream);
 
 		/* restore the stream position */
 		camel_seekable_stream_seek (seekable_stream, saved_stream_pos, CAMEL_STREAM_SET);
