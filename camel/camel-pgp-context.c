@@ -1347,7 +1347,8 @@ pgp_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 	g_byte_array_free (ciphertext, TRUE);
 	g_free (passphrase);
 	
-	if (retval != 0 || !*plaintext) {
+	/* gpg returns '1' if it succeedes in decrypting but can't verify the signature */
+	if (!(retval == 0 || (context->priv->type == CAMEL_PGP_TYPE_GPG && retval == 1)) || !*plaintext) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "%s", diagnostics);
 		g_free (plaintext);

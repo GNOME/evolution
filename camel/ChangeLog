@@ -1,3 +1,11 @@
+2001-08-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-context.c (pgp_decrypt): Sigh, if gpg returns '1' it
+	means that the key is bad but it did succeede in decrypting the
+	block so to make users happy (even though I find this a
+	questionable action) we are going to ignore the error and show it
+	to the user anyway. This fixes bug #6136.
+
 2001-08-03  Not Zed  <NotZed@Ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_connect): special
