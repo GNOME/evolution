@@ -37,7 +37,7 @@ void enumerate_msg (MessageList *ml, const char *uid, gpointer data);
 
 void fetch_mail            (GtkWidget *widget, gpointer user_data);
 void send_queued_mail      (GtkWidget *widget, gpointer user_data);
-void send_receieve_mail    (GtkWidget *widget, gpointer user_data);
+void send_receive_mail     (GtkWidget *widget, gpointer user_data);
 
 void compose_msg           (GtkWidget *widget, gpointer user_data);
 void send_to_url           (const char *url);

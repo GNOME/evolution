@@ -175,7 +175,7 @@ select_first_unread (CamelObject *object, gpointer event_data, gpointer data)
 #endif
 
 void
-send_receieve_mail (GtkWidget *widget, gpointer user_data)
+send_receive_mail (GtkWidget *widget, gpointer user_data)
 {
 	const MailConfigAccount *account;
 

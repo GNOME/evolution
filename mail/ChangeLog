@@ -1,3 +1,8 @@
+2001-01-23  Dan Winship  <danw@ximian.com>
+
+	* folder-browser-factory.c: 
+	* mail-callbacks.c (send_receive_mail): Fix spelling.
+
 2001-01-24  Not Zed  <NotZed@Ximian.com>
 
 	* mail-ops.c (fetch_mail_fetch): Set the default folder when
