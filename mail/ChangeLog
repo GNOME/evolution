@@ -1,3 +1,10 @@
+2004-12-14  JP Rosevear  <jpr@novell.com>
+
+	Fixes #68759
+	
+	* mail-account-gui.c (service_check_supported): fix typo in
+	routine name
+
 2004-12-08  Hans Petter Jansson  <hpj@novell.com>
 
 	* importers/pine-importer.c: Include <libebook/e-destination.h> from

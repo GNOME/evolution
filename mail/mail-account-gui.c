@@ -904,7 +904,7 @@ service_check_supported (GtkButton *button, gpointer user_data)
 	
 	window = gtk_widget_get_ancestor (GTK_WIDGET (button), GTK_TYPE_WINDOW);
 	
-	if (mail_config_check_service (service->url, gsvc->provider_type, &authtypes, GTK_WINDOW (window))) {
+	if (mail_check_service (service->url, gsvc->provider_type, &authtypes, GTK_WINDOW (window))) {
 		build_auth_menu (gsvc, gsvc->provider->authtypes, authtypes, TRUE);
 		if (!authtypes) {
 			/* provider doesn't support any authtypes */
