@@ -5,3 +5,8 @@ Makefile
 Makefile.in
 *.lo
 *.la
+Evolution-Addressbook-SelectNames-stubs.c
+Evolution-Addressbook-SelectNames-skels.c
+Evolution-Addressbook-SelectNames-common.c
+Evolution-Addressbook-SelectNames.h
+
