@@ -1639,10 +1639,8 @@ emae_option_toggle(EMAccountEditorService *service, CamelURL *url, const char *t
 	GtkWidget *w;
 
 	/* FIXME: how do we get the default value ever? */
-	w = g_object_new(gtk_check_button_get_type(),
-			 "label", text,
-			 "active", camel_url_get_param(url, name) != NULL,
-			 NULL);
+	w = gtk_check_button_new_with_mnemonic (text);
+	g_object_set_data ((GObject *)w, "active", camel_url_get_param (url, name) != NULL);
 	g_object_set_data((GObject *)w, "option-name", (void *)name);
 	g_signal_connect(w, "toggled", G_CALLBACK(emae_option_toggle_changed), service);
 	gtk_widget_show(w);
@@ -1785,7 +1783,7 @@ emae_receive_options_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *par
 	row = ((GtkTable *)parent)->nrows;
 
 	box = gtk_hbox_new(FALSE, 4);
-	w = gtk_check_button_new_with_label(_("Automatically check for _new mail every"));
+	w = gtk_check_button_new_with_mnemonic (_("Automatically check for _new mail every"));
 	emae_account_toggle_widget(emae, (GtkToggleButton *)w, E_ACCOUNT_SOURCE_AUTO_CHECK);
 	gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, 0);
 
@@ -2067,7 +2065,7 @@ static EMConfigItem emae_editor_items[] = {
 	{ E_CONFIG_SECTION, "10.receive/30.auth", "vbox179", emae_widget_glade },
 
 	/* Most sections for this is auto-generated fromt the camel config */
-	{ E_CONFIG_PAGE, "20.receive_options", N_("Receiving Options"), },
+	{ E_CONFIG_PAGE, "20.receive_options", N_("Receiving O_ptions"), },
 	{ E_CONFIG_SECTION_TABLE, "20.receive_options/10.mailcheck", N_("Checking for New Mail"), },
 	{ E_CONFIG_ITEM_TABLE, "20.receive_options/10.mailcheck/00.autocheck", NULL, emae_receive_options_item, },
 
@@ -2145,7 +2143,7 @@ static EMConfigItem emae_druid_items[] = {
 	{ E_CONFIG_SECTION, "10.receive/30.auth", "vbox179", emae_widget_glade },
 
 	/* Most sections for this is auto-generated fromt the camel config */
-	{ E_CONFIG_PAGE, "20.receive_options", N_("Receiving Options"), },
+	{ E_CONFIG_PAGE, "20.receive_options", N_("Receiving O_ptions"), },
 	{ E_CONFIG_SECTION_TABLE, "20.receive_options/10.mailcheck", N_("Checking for New Mail"), },
 	{ E_CONFIG_ITEM_TABLE, "20.receive_options/10.mailcheck/00.autocheck", NULL, emae_receive_options_item, },
 

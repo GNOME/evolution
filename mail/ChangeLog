@@ -1,3 +1,14 @@
+2004-12-01  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* em-account-editor.c: (emae_option_toggle),
+	(emae_receive_options_item):add mnemonic for buttons.
+	* em-format-html-display.c: (efhd_attachment_button):add atk name
+	for the popup button.
+	* mail-account-gui.c: (mail_account_gui_build_extra_conf):add 
+	access key for checkbox.
+	* message-list.c: (message_list_construct):add a atk name for the
+	message list.
+
 2004-11-22  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #69339.

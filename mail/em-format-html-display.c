@@ -1213,6 +1213,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		{ NULL, 0, 0 },
 		{ "text/uri-list", 0, 1 },
 	};
+	AtkObject *a11y;
 
 	/* FIXME: handle default shown case */
 	d(printf("adding attachment button/content\n"));
@@ -1292,6 +1293,11 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	button = gtk_button_new();
 	/*GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);*/
 	gtk_container_add((GtkContainer *)button, gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_NONE));
+
+	a11y = gtk_widget_get_accessible (button);
+	atk_object_set_name (a11y, _("Attachment Button"));
+
+
 	g_signal_connect(button, "button_press_event", G_CALLBACK(efhd_attachment_popup), info);
 	g_signal_connect(button, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
 	g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_popup_menu), info);

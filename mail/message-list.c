@@ -1997,6 +1997,7 @@ message_list_class_init (MessageListClass *message_list_class)
 static void
 message_list_construct (MessageList *message_list)
 {
+	AtkObject *a11y;
 	gboolean construct_failed;
 	message_list->model =
 		e_tree_memory_callbacks_new (ml_tree_icon_at,
@@ -2037,6 +2038,11 @@ message_list_construct (MessageList *message_list)
 	message_list->tree = e_tree_scrolled_get_tree(E_TREE_SCROLLED (message_list));
 	if (!construct_failed)
 		e_tree_root_node_set_visible (message_list->tree, FALSE);
+
+	if (atk_get_root () != NULL) {
+		a11y = gtk_widget_get_accessible (message_list->tree);
+		atk_object_set_name (a11y, _("Message List"));
+	}
 
 	g_signal_connect((message_list->tree), "cursor_activated",
 			 G_CALLBACK (on_cursor_activated_cmd),

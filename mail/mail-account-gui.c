@@ -1091,7 +1091,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 					enable_widget = path_label;
 				} else {
 					/* make a new label */
-					label = gtk_label_new (entries[i].text);
+					label = gtk_label_new_with_mnemonic (entries[i].text);
 					gtk_table_resize (cur_table, cur_table->nrows + 1, 2);
 					gtk_table_attach (cur_table, label, 0, 2, rows, rows + 1,
 							  GTK_EXPAND | GTK_FILL, 0, 0, 0);
@@ -1106,7 +1106,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			GtkWidget *checkbox;
 			gboolean active;
 			
-			checkbox = gtk_check_button_new_with_label (entries[i].text);
+			checkbox = gtk_check_button_new_with_mnemonic (entries[i].text);
 			if (url)
 				active = camel_url_get_param (url, entries[i].name) != NULL;
 			else
@@ -1143,9 +1143,10 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 				entry = path;
 			} else {
 				/* make a new text entry with label */
-				label = gtk_label_new (entries[i].text);
+				label = gtk_label_new_with_mnemonic (entries[i].text);
 				gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
 				entry = gtk_entry_new ();
+				gtk_label_set_mnemonic_widget (label, entry);
 				
 				gtk_table_attach (cur_table, label, 0, 1, rows, rows + 1,
 						  GTK_FILL, 0, 0, 0);
@@ -1211,7 +1212,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			}
 			
 			hbox = gtk_hbox_new (FALSE, 0);
-			checkbox = gtk_check_button_new_with_label (pre);
+			checkbox = gtk_check_button_new_with_mnemonic (pre);
 			g_free (pre);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbox), enable);
 			adj = gtk_adjustment_new (def, min, max, 1, 1, 1);
