@@ -440,7 +440,7 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	if (e_meeting_model_count_actual_attendees (priv->model) < 1) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  "Atleast one attendee is required.");
+			  "At least one attendee is required.");
 		return FALSE;
 	}
 	set_attendees (comp, e_meeting_model_get_attendees (priv->model));
@@ -731,6 +731,25 @@ right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer da
 
 
 
+/* Callback used when the ETable gets a focus-out event.  We have to commit any
+ * pending click-to-add state for if the event editor is being destroyed.
+ */
+static gint
+table_canvas_focus_out_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
+{
+	MeetingPage *mpage;
+	MeetingPagePrivate *priv;
+	ETable *etable;
+
+	mpage = MEETING_PAGE (data);
+	priv = mpage->priv;
+
+	etable = e_table_scrolled_get_table (priv->etable);
+
+	e_table_commit_click_to_add (etable);
+	return TRUE;
+}
+
 /**
  * meeting_page_construct:
  * @mpage: An task details page.
@@ -776,6 +795,9 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm)
 	real_table = e_table_scrolled_get_table (priv->etable);
 	gtk_signal_connect (GTK_OBJECT (real_table),
 			    "right_click", GTK_SIGNAL_FUNC (right_click_cb), mpage);
+
+	gtk_signal_connect (GTK_OBJECT (real_table->table_canvas), "focus_out_event",
+			    GTK_SIGNAL_FUNC (table_canvas_focus_out_cb), mpage);
 
 	gtk_widget_show (GTK_WIDGET (priv->etable));
 	gtk_box_pack_start (GTK_BOX (priv->main), GTK_WIDGET (priv->etable), TRUE, TRUE, 2);

@@ -1,5 +1,11 @@
 2001-10-30  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/dialogs/meeting-page.c (table_canvas_focus_out_cb): Commit
+	the ETable click-to-add for if the dialog is being destroyed.
+	Should fix bug #13959.
+
+2001-10-30  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/itip-utils.c (itip_send_comp): Allocate enough space for the
 	string!  (was missing the null terminator) Possibly fixes #13924.
 	Thanks a *LOT* to Michael Zucchi for running this through Purify.
