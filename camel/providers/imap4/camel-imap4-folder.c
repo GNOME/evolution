@@ -106,6 +106,7 @@ static void
 camel_imap4_folder_init (CamelIMAP4Folder *folder, CamelIMAP4FolderClass *klass)
 {
 	folder->utf7_name = NULL;
+	folder->cachedir = NULL;
 }
 
 static void
@@ -114,6 +115,70 @@ camel_imap4_folder_finalize (CamelObject *object)
 	CamelIMAP4Folder *folder = (CamelIMAP4Folder *) object;
 	
 	g_free (folder->utf7_name);
+	g_free (folder->cachedir);
+}
+
+static char *
+imap_get_summary_filename (const char *path)
+{
+	/* /path/to/imap/summary */
+	return g_build_filename (path, "summary", NULL);
+}
+
+static char *
+imap_build_filename (const char *toplevel_dir, const char *full_name)
+{
+	const char *inptr = full_name;
+	int subdirs = 0;
+	char *path, *p;
+	
+	if (*full_name == '\0')
+		return g_strdup (toplevel_dir);
+	
+	while (*inptr != '\0') {
+		if (*inptr == '/')
+			subdirs++;
+		inptr++;
+	}
+	
+	path = g_malloc (strlen (toplevel_dir) + (inptr - full_name) + (12 * subdirs) + 2);
+	p = g_stpcpy (path, toplevel_dir);
+	
+	if (p[-1] != '/')
+		*p++ = '/';
+	
+	inptr = full_name;
+	while (*inptr != '\0') {
+		while (*inptr != '/' && *inptr != '\0')
+			*p++ = *inptr++;
+		
+		if (*inptr == '/') {
+			p = g_stpcpy (p, "/subfolders/");
+			inptr++;
+			
+			/* strip extranaeous '/'s */
+			while (*inptr == '/')
+				inptr++;
+		}
+	}
+	
+	*p = '\0';
+	
+	return path;
+}
+
+static char *
+imap_store_build_filename (void *store, const char *full_name)
+{
+	CamelIMAP4Store *imap_store = (CamelIMAP4Store *) store;
+	char *toplevel_dir;
+	char *path;
+	
+	toplevel_dir = g_strdup_printf ("%s/folders", imap_store->storage_path);
+	path = imap_build_filename (toplevel_dir, full_name);
+	g_free (toplevel_dir);
+	
+	return path;
 }
 
 static char
@@ -173,6 +238,7 @@ camel_imap4_folder_new (CamelStore *store, const char *full_name, CamelException
 	CamelIMAP4Folder *imap_folder;
 	char *utf7_name, *name, *p;
 	CamelFolder *folder;
+	char *path;
 	char sep;
 	
 	if (!(p = strrchr (full_name, '/')))
@@ -203,6 +269,14 @@ camel_imap4_folder_new (CamelStore *store, const char *full_name, CamelException
 	imap_folder->utf7_name = utf7_name;
 	
 	folder->summary = camel_imap4_summary_new (folder);
+	imap_folder->cachedir = imap_store_build_filename (store, folder->full_name);
+	camel_mkdir (imap_folder->cachedir, 0777);
+	
+	path = imap_get_summary_filename (imap_folder->cachedir);
+	camel_folder_summary_set_filename (folder->summary, path);
+	g_free (path);
+	
+	camel_folder_summary_header_load (folder->summary);
 	
 	if (camel_imap4_engine_select_folder (((CamelIMAP4Store *) store)->engine, folder, ex) == -1) {
 		camel_object_unref (folder);

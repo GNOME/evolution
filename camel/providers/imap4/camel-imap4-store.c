@@ -149,13 +149,21 @@ camel_imap4_store_finalize (CamelObject *object)
 	
 	if (store->engine)
 		camel_object_unref (store->engine);
+	
+	g_free (store->storage_path);
 }
 
 
 static void
 imap4_construct (CamelService *service, CamelSession *session, CamelProvider *provider, CamelURL *url, CamelException *ex)
 {
+	CamelIMAP4Store *imap_store = (CamelIMAP4Store *) service;
+	
 	CAMEL_SERVICE_CLASS (parent_class)->construct (service, session, provider, url, ex);
+	if (camel_exception_is_set (ex))
+		return;
+	
+	imap_store->storage_path = camel_session_get_storage_path (session, service, ex);
 }
 
 static char *
@@ -884,6 +892,7 @@ imap4_delete_folder (CamelStore *store, const char *folder_name, CamelException 
 	switch (ic->result) {
 	case CAMEL_IMAP4_RESULT_OK:
 		/* deleted */
+		/* FIXME: emit the "folder_deleted" signal? */
 		/*fi = imap4_build_folder_info (store, folder_name);
 		camel_object_trigger_event (store, "folder_deleted", fi);
 		camel_folder_info_free (fi);*/
@@ -909,7 +918,58 @@ imap4_delete_folder (CamelStore *store, const char *folder_name, CamelException 
 static void
 imap4_rename_folder (CamelStore *store, const char *old_name, const char *new_name, CamelException *ex)
 {
-
+	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	char *old_uname, *new_uname;
+	CamelIMAP4Command *ic;
+	int id;
+	
+	if (!g_ascii_strcasecmp (old_name, "INBOX")) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot rename folder `%s' to `%s': Special folder"),
+				      old_name, new_name);
+		
+		return;
+	}
+	
+	CAMEL_SERVICE_LOCK (store, connect_lock);
+	
+	old_uname = imap4_folder_utf7_name (store, old_name, '\0');
+	new_uname = imap4_folder_utf7_name (store, new_name, '\0');
+	
+	ic = camel_imap4_engine_queue (engine, NULL, "RENAME %S %S\r\n", old_uname, new_uname);
+	g_free (old_uname);
+	g_free (new_uname);
+	
+	while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
+		;
+	
+	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
+		camel_exception_xfer (ex, &ic->ex);
+		camel_imap4_command_unref (ic);
+		CAMEL_SERVICE_UNLOCK (store, connect_lock);
+		return;
+	}
+	
+	switch (ic->result) {
+	case CAMEL_IMAP4_RESULT_OK:
+		/* FIXME: need to update state on the renamed folder object */
+		break;
+	case CAMEL_IMAP4_RESULT_NO:
+		/* FIXME: would be good to save the NO reason into the err message */
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot rename folder `%s' to `%s': Invalid mailbox name"),
+				      old_name, new_name);
+		break;
+	case CAMEL_IMAP4_RESULT_BAD:
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot rename folder `%s' to `%s': Bad command"),
+				      old_name, new_name);
+		break;
+	}
+	
+	camel_imap4_command_unref (ic);
+	
+	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 }
 
 static int
@@ -1093,6 +1153,7 @@ imap4_subscribe_folder (CamelStore *store, const char *folder_name, CamelExcepti
 	switch (ic->result) {
 	case CAMEL_IMAP4_RESULT_OK:
 		/* subscribed */
+		/* FIXME: emit the "folder_subscribed" signal? */
 		/*fi = imap4_build_folder_info (store, folder_name);
 		  fi->flags |= CAMEL_FOLDER_NOCHILDREN;
 		  camel_object_trigger_event (store, "folder_subscribed", fi);
@@ -1143,6 +1204,7 @@ imap4_unsubscribe_folder (CamelStore *store, const char *folder_name, CamelExcep
 	switch (ic->result) {
 	case CAMEL_IMAP4_RESULT_OK:
 		/* unsubscribed */
+		/* FIXME: emit the "folder_unsubscribed" signal? */
 		/*fi = imap4_build_folder_info (store, folder_name);
 		  camel_object_trigger_event (store, "folder_unsubscribed", fi);
 		  camel_folder_info_free (fi);*/
