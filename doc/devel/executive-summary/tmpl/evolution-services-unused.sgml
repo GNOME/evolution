@@ -1,8 +1,0 @@
-<!-- ##### SIGNAL ExecutiveSummaryHtmlView::handle-uri ##### -->
-<para>
-
-</para>
-
-@executivesummaryhtmlview: the object which received the signal.
-@arg1: 
-
