@@ -1,6 +1,6 @@
-2004-10-22  Harish Krishnaswamy <kharish@novell.com>
+2004-10-20  JP Rosevear  <jpr@novell.com>
 
-	* mark-calendar-offline.c: implement a plugin that lets the user mark a
-	calendar to be available for off-line use, if it is not already set to be so
-	and vice versa
+	* select-one-source.c: implement a plugin that allows the user to
+	limit the displayed task lists or calendars to the current
+	calendar or task list
 	
