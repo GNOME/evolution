@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 2.1.5, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 2.1.6, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -1098,11 +1098,11 @@ fi
 
 dnl --- Required version numbers
 
-GAL_REQUIRED=2.3.4
+GAL_REQUIRED=2.3.5
 GAL_PACKAGE=2.4
-GTKHTML_REQUIRED=3.5.5
+GTKHTML_REQUIRED=3.5.7
 GTKHTML_PACKAGE=3.6
-EDS_REQUIRED=1.1.5
+EDS_REQUIRED=1.1.6
 EDS_PACKAGE=1.2
 BONOBOUI_REQUIRED=2.4.2
 GNOME_VFS_REQUIRED=2.4
@@ -1332,12 +1332,14 @@ AC_SUBST(plugindir)
 EVO_PLUGIN_RULE=$srcdir/plugin.mk
 AC_SUBST_FILE(EVO_PLUGIN_RULE)
 
-AC_ARG_ENABLE(plugins, [  --enable-plugins=[no/all/list]      Enable plugins.],enable_plugins="$enableval",enable_plugins=base)
+AC_ARG_ENABLE(plugins, [  --enable-plugins=[no/base/all/experimental/list]      Enable plugins.],enable_plugins="$enableval",enable_plugins=all)
 
 dnl Add any new plugins here
 plugins_base="calendar-file calendar-http calendar-weather groupwise-account-setup itip-formatter plugin-manager send-options shared-folder groupwise-send-options exchange-account-setup groupwise-status-tracking default-source addressbook-file addressbook-groupwise" 
 
-plugins_all="bbdb subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-meeting mail-to-task folder-unsubscribe mark-calendar-offline audio-inline mailing-list-actions backup-restore new-mail-notify" 
+plugins_standard="bbdb subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-task folder-unsubscribe mark-calendar-offline audio-inline mailing-list-actions new-mail-notify" 
+
+plugins_experimental="backup-restore folder-unsubscribe mail-to-meeting"
 
 case x"$enable_plugins" in
 xno)
@@ -1345,12 +1347,16 @@ xno)
 	msg_plugins="no (some core functionality will not be available)"
 	;;
 xall | x | xyes)
-	plugins_enabled="$plugins_base $plugins_all"
+	plugins_enabled="$plugins_base $plugins_standard"
 	msg_plugins="yes (all)"
 	;;
 xbase)
 	plugins_enabled="$plugins_base"
 	msg_plugins="yes ($plugins_base)"
+	;;
+xexperimental)
+	plugins_enabled="$plugins_base $plugins_standard $plugins_experimental"
+	msg_plugins="yes ($plugins_base $plugins_standard $plugins_experimental)"
 	;;
 *)
 	plugins_enabled="$enable_plugins"
@@ -1358,8 +1364,9 @@ xbase)
 	;;
 esac
 AC_SUBST(plugins_enabled)
-AC_SUBST(plugins_all)
 AC_SUBST(plugins_base)
+AC_SUBST(plugins_standard)
+AC_SUBST(plugins_experimental)
 
 if echo ${plugins_enabled} | grep -q "audio-inline"
 then

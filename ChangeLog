@@ -1,3 +1,18 @@
+2005-02-28  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: bump version, requires
+
+2005-02-28  JP Rosevear  <jpr@novell.com>
+  
+  	* configure.in: add startup wizard plugin
+	
+2005-02-28  JP Rosevear  <jpr@novell.com>
+  
+  	* plugins/Makefile.am: dist standard and experimental plugins
+  
+  	* configure.in: move "all" plugins to standard and experimental
+  	and default to building the standard set
+ 		
 2005-02-27  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: add mail/default/de to ac_output to fix the build
