@@ -11,6 +11,8 @@
 #define E_IS_SHELL_VIEW(o)       (GTK_CHECK_TYPE ((o), E_SHELL_VIEW_TYPE))
 #define E_IS_SHELL_VIEW_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_SHELL_VIEW_TYPE))
 
+typedef struct _EShellViewPrivate EShellViewPrivate;
+
 struct _EShellView {
 	GnomeApp parent;
 
@@ -22,13 +24,13 @@ struct _EShellView {
 
 
 	EFolder   *efolder;
-/*
-	 *
-	 */
-	char shortcut_displayed;
+
+	gboolean  shortcut_displayed;
 	GtkWidget *shortcut_hpaned;
 	GtkWidget *shortcut_bar;
 	GtkWidget *contents;
+
+	EShellViewPrivate *priv;
 };
 
 typedef struct {

@@ -24,6 +24,14 @@
 
 static GtkObjectClass *parent_class;
 
+struct _EShellViewPrivate 
+{
+	/* a hashtable of e-folders -> widgets */
+	GHashTable *folder_views;
+	GtkWidget *notebook;
+};
+
+
 static void
 esv_destroy (GtkObject *object)
 {
@@ -31,6 +39,8 @@ esv_destroy (GtkObject *object)
 
 	e_shell_unregister_view (eshell_view->eshell, eshell_view);
 
+	g_hash_table_destroy (eshell_view->priv->folder_views);	
+	g_free (eshell_view->priv);	
 	parent_class->destroy (object);
 }
 
@@ -162,30 +172,47 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 
 }
 
+
+
 void
 e_shell_view_set_view (EShellView *eshell_view, EFolder *efolder)
 {
-	GtkWidget *w;
-	Bonobo_UIHandler uih;
+	GtkWidget *notebook = eshell_view->priv->notebook;
+	GtkWidget *folder_view = g_hash_table_lookup (
+		eshell_view->priv->folder_views, efolder);
 
-	uih = bonobo_object_corba_objref (BONOBO_OBJECT (eshell_view->uih));
+	/* if we found a notebook page in our hash, that represents
+	   this efolder, switch to it */
+	if (folder_view) {
+		
+		int notebook_page = gtk_notebook_page_num (
+			GTK_NOTEBOOK(notebook),
+			folder_view);		
+		g_assert (notebook_page != -1);
 
-	w = get_view (eshell_view, efolder, uih);
-
-	if (eshell_view->contents){
-		gtk_widget_destroy (eshell_view->contents);
+		gtk_notebook_set_page (GTK_NOTEBOOK (notebook), notebook_page);
 	}
-	
-	eshell_view->contents = w;
+	else {
+		/* get a new control that represents this efolder,
+		 * append it to our notebook, and put it in our hash */
+		Bonobo_UIHandler uih =
+			bonobo_object_corba_objref (
+				BONOBO_OBJECT (eshell_view->uih));
+ 
+		GtkWidget *w = get_view (eshell_view, efolder, uih);
+		int new_page_index;
 
-	if (!w)
-		return;
+		if (!w) return;
+		
+		gtk_notebook_append_page (GTK_NOTEBOOK (notebook), w, NULL);
 
-	if (eshell_view->shortcut_displayed){
-		gtk_paned_pack2 (GTK_PANED (eshell_view->shortcut_hpaned),
-				 eshell_view->contents, FALSE, TRUE);
-	} else {
-		gnome_app_set_contents (GNOME_APP (eshell_view), eshell_view->contents);
+		new_page_index = gtk_notebook_page_num (
+			GTK_NOTEBOOK(notebook),
+			folder_view);		
+
+		g_hash_table_insert (eshell_view->priv->folder_views,
+				     efolder, w);
+		gtk_notebook_set_page (GTK_NOTEBOOK (notebook),new_page_index);
 	}
 }
 
@@ -196,7 +223,13 @@ e_shell_view_new (EShell *eshell, EFolder *efolder, gboolean show_shortcut_bar)
 
 	eshell_view = gtk_type_new (e_shell_view_get_type ());
 
-	gnome_app_construct (GNOME_APP (eshell_view), "Evolution", "Evolution");
+	eshell_view->priv = g_new (EShellViewPrivate, 1);
+	eshell_view->priv->folder_views =
+		g_hash_table_new (g_direct_hash, g_direct_equal);
+	eshell_view->priv->notebook = NULL;
+
+	gnome_app_construct (GNOME_APP (eshell_view),
+			     "Evolution", "Evolution");
 
 	eshell_view->eshell = eshell;
 	e_shell_view_setup (eshell_view);
@@ -205,6 +238,27 @@ e_shell_view_new (EShell *eshell, EFolder *efolder, gboolean show_shortcut_bar)
 	e_shell_register_view (eshell, eshell_view);
 	eshell_view->shortcut_displayed = show_shortcut_bar;
 	e_shell_view_setup_shortcut_display (eshell_view);
+
+	/* create our notebook, if it hasn't been created already */
+	if (!eshell_view->priv->notebook) {
+		eshell_view->priv->notebook = gtk_notebook_new();
+
+		gtk_notebook_set_show_tabs (
+			GTK_NOTEBOOK (eshell_view->priv->notebook),
+			FALSE);
+
+		gtk_widget_show (eshell_view->priv->notebook);
+		
+		if (eshell_view->shortcut_displayed){
+			gtk_paned_pack2 (
+				GTK_PANED (eshell_view->shortcut_hpaned),
+				eshell_view->priv->notebook, FALSE, TRUE);
+		}
+		else {
+			gnome_app_set_contents (GNOME_APP (eshell_view),
+						eshell_view->priv->notebook);
+		}
+	}
 
 	e_shell_view_set_view (eshell_view, efolder);
 	
