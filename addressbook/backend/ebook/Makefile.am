@@ -50,6 +50,15 @@ libebookinclude_HEADERS =				\
 	e-card-types.h					\
 	e-card.h
 
+
+#
+# make a static library for use by addressbook's conduit's shared library
+#
+noinst_LTLIBRARIES = libebook-static.la
+libebook_static_la_SOURCES = $(libebook_la_SOURCES)
+libebook_static_la_LDFLAGS = --all-static
+
+
 test_client_SOURCES =					\
 	test-client.c
 

@@ -1,3 +1,8 @@
+2000-07-25  Seth Alves  <alves@hungry.com>
+
+	* Makefile.am (libeutil_static_la_LDFLAGS): build static version
+	of library for conduit to use
+
 2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-util.c, e-util.h: Added a bunch of e_marshal functions.

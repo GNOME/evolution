@@ -69,7 +69,7 @@ conduit_destroy_configuration(AddressbookConduitCfg **c)
 {
 	g_return_if_fail(c!=NULL);
 	g_return_if_fail(*c!=NULL);
-	g_free(*c);
+	//g_free(*c); FIX ME
 	*c = NULL;
 }
 
@@ -898,7 +898,9 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 
 	printf ("in address's conduit_get_gpilot_conduit\n");
 
-	retval = gnome_pilot_conduit_standard_abs_new ("AddressDB", 0x746F646F);
+	retval = gnome_pilot_conduit_standard_abs_new ("AddressDB",
+						       0x61646472);
+
 	g_assert (retval != NULL);
 	gnome_pilot_conduit_construct(GNOME_PILOT_CONDUIT(retval),"AddressConduit");
 

@@ -42,8 +42,9 @@ libaddress_conduit_la_LDFLAGS = \
 	-rpath $(libdir)
 
 libaddress_conduit_la_LIBADD = 					\
-	$(top_builddir)/calendar/cal-client/libcal-client-static.la	\
-	$(top_builddir)/calendar/cal-util/libcal-util-static.la		\
+	$(top_builddir)/addressbook/backend/ebook/libebook-static.la	\
+	$(top_builddir)/e-util/libeutil-static.la			\
+	$(top_builddir)/addressbook/ename/libename-static.la		\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/libical/src/libical/libical-static.la		\
 	$(BONOBO_VFS_GNOME_LIBS)					\

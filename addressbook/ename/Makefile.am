@@ -30,6 +30,11 @@ libenameinclude_HEADERS =				\
 	e-name-western.h
 
 
+noinst_LTLIBRARIES = libename-static.la
+libename_static_la_SOURCES = $(libename_la_SOURCES)
+libename_static_la_LDFLAGS = --all-static
+
+
 noinst_PROGRAMS =					\
 	test-ename-western				\
 	test-ename-western-gtk

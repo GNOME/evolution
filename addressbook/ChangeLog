@@ -1,3 +1,11 @@
+2000-07-25  Seth Alves  <alves@hungry.com>
+
+	* ename/Makefile.am (libename_static_la_LDFLAGS): build static
+	version of the library for address conduit to use
+
+	* backend/ebook/Makefile.am: build a static version of the library
+	to link into the conduit
+
 2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/e-card.c: Added a #define for

@@ -41,3 +41,7 @@ libeutil_la_SOURCES =			\
 	e-util.h			\
 	e-xml-utils.c			\
 	e-xml-utils.h
+
+noinst_LTLIBRARIES = libeutil-static.la
+libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
+libeutil_static_la_LDFLAGS = --all-static
