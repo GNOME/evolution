@@ -18,6 +18,7 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-popup-menu.h>
 #include "mail-display.h"
+#include "mail-config.h"
 #include "mail.h"
 
 #include <bonobo.h>
@@ -555,6 +556,11 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 				   to pass a bunch of useful things to all embedded controls. */
 				const CamelInternetAddress *from;
 				char *from_address;
+				MailConfigIdentity *id;
+
+				id = mail_config_get_default_identity ();
+
+				g_assert (id != NULL);
 
 				CORBA_exception_init (&ev);
 
@@ -562,6 +568,8 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 				from_address = camel_address_encode((CamelAddress *)from);
 				bonobo_property_bag_client_set_value_string (prop_bag, "from_address", 
 									     from_address, &ev);
+				bonobo_property_bag_client_set_value_string (prop_bag, "my_address", 
+									     id->address, &ev);
 				g_free(from_address);
 				CORBA_exception_free (&ev);
 			}

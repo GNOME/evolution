@@ -2,7 +2,9 @@
 
 	* mail-display.c: (pixmap_press): modified some of the EPopupMenu
 	structures to account for differences in the popup menu API (as
-	informed by Jeff.)
+	informed by Jeff.
+	 (on_object_requested): passed the user's default email address
+	to the iTip control.
 
 2000-11-07  Ettore Perazzoli  <ettore@helixcode.com>
 
