@@ -1,3 +1,10 @@
+2004-02-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-file-utils.c (camel_file_util_encode_string): Since
+	decoding a string doesn't allow strings longer than 65536,
+	truncate strings that are longer than 65536 here. Fixes bug
+	#54319.
+
 2004-02-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-vee-folder.c (folder_added_uid): 64bit fix.
@@ -135,7 +142,7 @@
 
 	** See bug #47208.
 
-	* camel-filter-search.c (match_all): match-all with no arguments	
+	* camel-filter-search.c (match_all): match-all with no arguments
 	should always return TRUE.
 
 	* camel-folder-search.c (camel_folder_search_execute_expression):
