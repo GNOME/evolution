@@ -308,6 +308,8 @@ icaltimezone_get_location_from_vtimezone (icalcomponent *component)
 	prop = icalcomponent_get_next_property (component,
 						ICAL_X_PROPERTY);
     }
+
+    return NULL;
 }
 
 
@@ -881,8 +883,10 @@ icaltimezone_get_utc_offset		(icaltimezone	*zone,
 	       standard time instead. */
 	    want_daylight = (tt->is_daylight == 1) ? 1 : 0;
 
+#if 0
 	    if (zone_change->is_daylight == prev_zone_change->is_daylight)
 		printf (" **** Same is_daylight setting\n");
+#endif
 
 	    if (zone_change->is_daylight != want_daylight
 		&& prev_zone_change->is_daylight == want_daylight)
@@ -1143,9 +1147,8 @@ icaltimezone_get_tzid			(icaltimezone	*zone)
 char*
 icaltimezone_get_location		(icaltimezone	*zone)
 {
-    if (!zone->component)
-	icaltimezone_load_builtin_timezone (zone);
-
+    /* Note that for builtin timezones this comes from zones.tab so we don't
+       need to check the timezone is loaded here. */
     return zone->location;
 }
 
@@ -1164,9 +1167,8 @@ icaltimezone_get_tznames		(icaltimezone	*zone)
 double
 icaltimezone_get_latitude		(icaltimezone	*zone)
 {
-    if (!zone->component)
-	icaltimezone_load_builtin_timezone (zone);
-
+    /* Note that for builtin timezones this comes from zones.tab so we don't
+       need to check the timezone is loaded here. */
     return zone->latitude;
 }
 
@@ -1175,9 +1177,8 @@ icaltimezone_get_latitude		(icaltimezone	*zone)
 double
 icaltimezone_get_longitude		(icaltimezone	*zone)
 {
-    if (!zone->component)
-	icaltimezone_load_builtin_timezone (zone);
-
+    /* Note that for builtin timezones this comes from zones.tab so we don't
+       need to check the timezone is loaded here. */
     return zone->longitude;
 }
 
@@ -1309,6 +1310,9 @@ icaltimezone_get_builtin_timezone_from_tzid (const char *tzid)
     icaltimezone *zone;
 
     fprintf (stderr, "Getting builtin timezone from TZID: %s\n", tzid);
+
+    if (!tzid || !tzid[0])
+	return NULL;
 
     /* Check that the TZID starts with our unique prefix. */
     if (strncmp (tzid, TZID_PREFIX, TZID_PREFIX_LEN))

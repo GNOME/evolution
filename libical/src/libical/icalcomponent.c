@@ -573,6 +573,8 @@ icalcomponent_add_component (icalcomponent* parent, icalcomponent* child)
     if (cimpl->kind == ICAL_VTIMEZONE_COMPONENT) {
 	fprintf (stderr, "  it is a VTIMEZONE component.\n");
 
+	/* FIXME: Currently we are also creating this array when loading in
+	   a builtin VTIMEZONE, when we don't need it. */
 	if (!impl->timezones)
 	    impl->timezones = icaltimezone_array_new ();
 
