@@ -1430,13 +1430,10 @@ mail_config_signature_run_script (gchar *script)
 		setsid ();
 		
 		maxfd = sysconf (_SC_OPEN_MAX);
-		if (maxfd > 0) {
-			for (i = 0; i < maxfd; i++) {
-				if (i != STDIN_FILENO && i != STDOUT_FILENO && i != STDERR_FILENO)
-					close (i);
-			}
+		for (i = 3; i < maxfd; i++) {
+			if (i != STDIN_FILENO && i != STDOUT_FILENO && i != STDERR_FILENO)
+				fcntl (i, F_SETFD, FD_CLOEXEC);
 		}
-		
 		
 		execlp (script, script, NULL);
 		g_warning ("Could not execute %s: %s\n", script, g_strerror (errno));

@@ -1,3 +1,10 @@
+2003-12-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_signature_run_script): Use fcntl() to
+	set FD_CLOEXEC on each fd rather than close()ing it. Apparently
+	Linux's older pthread implementations use sockets and so this
+	fouls threading up. GO LINUX! GO!
+
 2003-12-01  Rodney Dawes  <dobey@ximian.com>
 
 	* GNOME_Evlution_Mail.server.in.in:
