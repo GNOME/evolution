@@ -1,6 +1,10 @@
 1999-07-28  Miguel de Icaza  <miguel@gnu.org>
 
-	* calendar-pilot-sync.c: Make the code not take arguments
+	* calendar-pilot-sync.c: (sync_object_to_pilot): If the enddate is
+	not set, set the repeatForever to 1.  This fixes all of the
+	birthdays problems I had.
+
+	Make the code not take arguments
 	(sync_cal_to_pilot): Nice event update information
 
 	* calendar.c (calendar_new): Add Event UID hash table.
