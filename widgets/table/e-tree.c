@@ -595,9 +595,14 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 		y = CLAMP(vadj->value + (2 * vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
 		e_tree_get_cell_at (et, 30, y, &row_local, &col_local);
+
+		if (row_local == -1)
+			row_local = e_table_model_row_count (E_TABLE_MODEL(et->priv->etta)) - 1;
+
 		row_local = e_tree_view_to_model_row (et, row_local);
 		col_local = e_selection_model_cursor_col (E_SELECTION_MODEL (et->priv->selection));
 		e_selection_model_select_as_key_press (E_SELECTION_MODEL (et->priv->selection), row_local, col_local, key->state);
+
 		return_val = 1;
 		break;
 	case GDK_Page_Up:
@@ -606,9 +611,14 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 		y = CLAMP(vadj->value - (vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
 		e_tree_get_cell_at (et, 30, y, &row_local, &col_local);
+
+		if (row_local == -1)
+			row_local = e_table_model_row_count (E_TABLE_MODEL(et->priv->etta)) - 1;
+
 		row_local = e_tree_view_to_model_row (et, row_local);
 		col_local = e_selection_model_cursor_col (E_SELECTION_MODEL (et->priv->selection));
 		e_selection_model_select_as_key_press (E_SELECTION_MODEL (et->priv->selection), row_local, col_local, key->state);
+
 		return_val = 1;
 		break;
 	case '=':

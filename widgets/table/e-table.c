@@ -522,6 +522,10 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 		y = CLAMP(vadj->value + (2 * vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
 		e_table_get_cell_at (et, 30, y, &row_local, &col_local);
+
+		if (row_local == -1)
+			row_local = e_table_model_row_count (et->model) - 1;
+
 		row_local = e_table_view_to_model_row (et, row_local);
 		col_local = e_selection_model_cursor_col (E_SELECTION_MODEL (et->selection));
 		e_selection_model_select_as_key_press (E_SELECTION_MODEL (et->selection), row_local, col_local, key->state);
@@ -533,6 +537,10 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 		y = CLAMP(vadj->value - (vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
 		e_table_get_cell_at (et, 30, y, &row_local, &col_local);
+
+		if (row_local == -1)
+			row_local = 0;
+
 		row_local = e_table_view_to_model_row (et, row_local);
 		col_local = e_selection_model_cursor_col (E_SELECTION_MODEL (et->selection));
 		e_selection_model_select_as_key_press (E_SELECTION_MODEL (et->selection), row_local, col_local, key->state);
