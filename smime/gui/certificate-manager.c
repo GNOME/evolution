@@ -177,10 +177,10 @@ delete_your (GtkWidget *widget, CertificateManagerData *cfm)
 				    4, &cert,
 				    -1);
 
-		if (cert) {
+		if (cert
+		    && e_cert_db_delete_cert (e_cert_db_peek (), cert)) {
 			GtkTreeIter child_iter;
 			printf ("DELETE\n");
-			e_cert_db_delete_cert (e_cert_db_peek (), cert);
 			gtk_tree_model_sort_convert_iter_to_child_iter (GTK_TREE_MODEL_SORT (cfm->yourcerts_streemodel),
 									&child_iter,
 									&iter);
@@ -421,10 +421,10 @@ delete_contact (GtkWidget *widget, CertificateManagerData *cfm)
 				    3, &cert,
 				    -1);
 
-		if (cert) {
+		if (cert
+		    && e_cert_db_delete_cert (e_cert_db_peek (), cert)) {
 			GtkTreeIter child_iter;
 			printf ("DELETE\n");
-			e_cert_db_delete_cert (e_cert_db_peek (), cert);
 			gtk_tree_model_sort_convert_iter_to_child_iter (GTK_TREE_MODEL_SORT (cfm->contactcerts_streemodel),
 									&child_iter,
 									&iter);
@@ -640,10 +640,10 @@ delete_ca (GtkWidget *widget, CertificateManagerData *cfm)
 				    1, &cert,
 				    -1);
 
-		if (cert) {
+		if (cert
+		    && e_cert_db_delete_cert (e_cert_db_peek (), cert)) {
 			GtkTreeIter child_iter;
 			printf ("DELETE\n");
-			e_cert_db_delete_cert (e_cert_db_peek (), cert);
 			gtk_tree_model_sort_convert_iter_to_child_iter (GTK_TREE_MODEL_SORT (cfm->authoritycerts_streemodel),
 									&child_iter,
 									&iter);
