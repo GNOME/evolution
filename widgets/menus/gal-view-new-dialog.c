@@ -24,6 +24,7 @@
 #include <config.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <gtk/gtk.h>
+#include <gtk/gtktreeselection.h>
 #include "gal-view-new-dialog.h"
 #include "gal-define-views-model.h"
 #include <gal/widgets/e-unicode.h>
@@ -65,7 +66,7 @@ gal_view_new_dialog_class_init (GalViewNewDialogClass *klass)
 	object_class->get_property = gal_view_new_dialog_get_property;
 	object_class->dispose      = gal_view_new_dialog_dispose;
 
-	g_object_class_install_property (object_class, PROP_FACTORY, 
+	g_object_class_install_property (object_class, PROP_NAME, 
 					 g_param_spec_string ("name",
 							      _("Name"),
 							      /*_( */"XXX blurb" /*)*/,
@@ -131,44 +132,107 @@ gal_view_new_dialog_new (GalViewCollection *collection)
 	return widget;
 }
 
+static void
+sensitize_ok_response (GalViewNewDialog *dialog)
+{
+	gboolean ok = TRUE;
+	const char *text;
+	
+	text = gtk_entry_get_text (GTK_ENTRY (dialog->entry));
+	if (!text || !text[0])
+		ok = FALSE;
+
+	if (!dialog->selected_factory)
+		ok = FALSE;
+
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, ok);
+}
+
+static gboolean
+selection_func (GtkTreeSelection  *selection,
+		GtkTreeModel      *model,
+		GtkTreePath       *path,
+		gboolean           path_currently_selected,
+		gpointer           data)
+{
+	GtkTreeIter iter;
+	GalViewNewDialog *dialog = data;
+
+	if (path_currently_selected)
+		return TRUE;
+
+	gtk_tree_model_get_iter (GTK_TREE_MODEL (dialog->list_store),
+				 &iter,
+				 (GtkTreePath*)path);
+
+	gtk_tree_model_get (GTK_TREE_MODEL (dialog->list_store),
+			    &iter,
+			    1, &dialog->selected_factory,
+			    -1);
+
+	printf ("%s factory selected\n", gal_view_factory_get_title(dialog->selected_factory));
+
+	sensitize_ok_response (dialog);
+
+	return TRUE;
+}
 
 static void
-gal_view_new_dialog_select_row_callback(GtkCList *list,
-					gint row,
-					gint column,
-					GdkEventButton *event,
-					GalViewNewDialog *dialog)
+entry_changed (GtkWidget *entry, gpointer data)
 {
-	dialog->selected_factory = gtk_clist_get_row_data(list,
-							  row);
+	GalViewNewDialog *dialog = data;
+
+	sensitize_ok_response (dialog);
 }
 
 GtkWidget*
 gal_view_new_dialog_construct (GalViewNewDialog  *dialog,
 			       GalViewCollection *collection)
 {
-	GtkWidget *list = glade_xml_get_widget(dialog->gui,
-					       "clist-type-list");
 	GList *iterator;
+	GtkTreeSelection *selection;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *rend;
+
 	dialog->collection = collection;
+	dialog->list = glade_xml_get_widget(dialog->gui,"list-type-list");
+	dialog->entry = glade_xml_get_widget(dialog->gui, "entry-name");
+	dialog->list_store = gtk_list_store_new (2,
+						 G_TYPE_STRING,
+						 G_TYPE_POINTER);
+
+	rend = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes ("factory title",
+							   rend,
+							   "text", 0,
+							   NULL);
+
+	gtk_tree_view_append_column (GTK_TREE_VIEW (dialog->list), column);
 
 	iterator = dialog->collection->factory_list;
-
 	for ( ; iterator; iterator = g_list_next(iterator) ) {
 		GalViewFactory *factory = iterator->data;
-		char *text[1];
-		int row;
+		GtkTreeIter iter;
 
 		g_object_ref(factory);
-		text[0] = (char *) gal_view_factory_get_title(factory);
-		row = gtk_clist_append(GTK_CLIST(list), text);
-		gtk_clist_set_row_data(GTK_CLIST(list), row, factory);
+		gtk_list_store_append (dialog->list_store,
+				       &iter);
+		gtk_list_store_set (dialog->list_store,
+				    &iter,
+				    0, gal_view_factory_get_title(factory),
+				    1, factory,
+				    -1);
 	}
 
-	g_signal_connect(list,
-			 "select_row",
-			 G_CALLBACK(gal_view_new_dialog_select_row_callback),
-			 dialog);
+	gtk_tree_view_set_model (GTK_TREE_VIEW (dialog->list), GTK_TREE_MODEL (dialog->list_store));
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (dialog->list));
+	gtk_tree_selection_set_select_function (selection, selection_func, dialog, NULL);
+
+	g_signal_connect (dialog->entry, "changed",
+			  G_CALLBACK (entry_changed), dialog);
+
+	sensitize_ok_response (dialog);
 
 	return GTK_WIDGET(dialog);
 }
@@ -183,7 +247,7 @@ gal_view_new_dialog_set_property (GObject *object, guint prop_id, const GValue *
 	
 	switch (prop_id){
 	case PROP_NAME:
-		entry = glade_xml_get_widget(dialog->gui, "entry-name");
+		
 		if (entry && GTK_IS_ENTRY(entry)) {
 			gtk_entry_set_text(GTK_ENTRY(entry), g_value_get_string (value));
 		}

@@ -25,6 +25,7 @@
 #define __GAL_VIEW_NEW_DIALOG_H__
 
 #include <gtk/gtkdialog.h>
+#include <gtk/gtkliststore.h>
 #include <glade/glade.h>
 #include <gal-view-collection.h>
 
@@ -59,6 +60,11 @@ struct _GalViewNewDialog
 
 	GalViewCollection *collection;
 	GalViewFactory *selected_factory;
+
+	GtkListStore *list_store;
+
+	GtkWidget *entry;
+	GtkWidget *list;
 };
 
 struct _GalViewNewDialogClass

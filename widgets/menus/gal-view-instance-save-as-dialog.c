@@ -214,7 +214,7 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 	dialog->model = NULL;
 	etable = glade_xml_get_widget(dialog->gui, "custom-replace");
 	if (etable) {
-		dialog->model = g_object_get_data(etable, "GalViewInstanceSaveAsDialog::model");
+		dialog->model = g_object_get_data(G_OBJECT (etable), "GalViewInstanceSaveAsDialog::model");
 		g_object_set(dialog->model,
 			     "collection", dialog->instance ? dialog->instance->collection : NULL,
 			     NULL);
@@ -241,7 +241,7 @@ gal_view_instance_save_as_dialog_create_etable(char *name, char *string1, char *
 	ETableModel *model;
 	model = gal_define_views_model_new();
 	table = e_table_scrolled_new(model, NULL, SPEC, NULL);
-	g_object_set_data(table, "GalViewInstanceSaveAsDialog::model", model);
+	g_object_set_data(G_OBJECT (table), "GalViewInstanceSaveAsDialog::model", model);
 	return table;
 }
 
