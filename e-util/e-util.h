@@ -3,6 +3,7 @@
 
 #include <glib.h>
 #include <gtk/gtktypeutils.h>
+#include <sys/types.h>
 
 #define E_MAKE_TYPE(l,str,t,ci,i,parent) \
 GtkType l##_get_type(void)\
@@ -40,7 +41,8 @@ void  e_free_object_list  (GList *list);
 void  e_free_string_list  (GList *list);
 
 char *e_read_file  (const char *filename);
-gint e_write_file(const char *filename, const char *data, int flags);
+int   e_write_file (const char *filename, const char *data, int flags);
+int   e_mkdir_hier (const char *path, mode_t mode);
 
 gchar **e_strsplit (const gchar *string,
 		    const gchar *delimiter,

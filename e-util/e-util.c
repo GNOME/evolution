@@ -166,6 +166,41 @@ e_write_file(const char *filename, const char *data, int flags)
 	return 0;
 }
 
+/**
+ * e_mkdir_hier:
+ * @path: a directory path
+ * @mode: a mode, as for mkdir(2)
+ *
+ * This creates the named directory with the given @mode, creating
+ * any necessary intermediate directories (with the same @mode).
+ *
+ * Return value: 0 on success, -1 on error, in which case errno will
+ * be set as for mkdir(2).
+ **/
+int
+e_mkdir_hier(const char *path, mode_t mode)
+{
+	char *copy, *p;
+
+	p = copy = g_strdup (path);
+	do {
+		p = strchr (p + 1, '/');
+		if (p)
+			*p = '\0';
+		if (access (copy, F_OK) == -1) {
+			if (mkdir (copy, mode) == -1) {
+				g_free (copy);
+				return -1;
+			}
+		}
+		if (p)
+			*p = '/';
+	} while (p);
+
+	g_free (copy);
+	return 0;
+}
+
 #if 0
 char *
 e_read_uri(const char *uri)
