@@ -157,6 +157,7 @@ exit_dialog_cb (int reply, ESignatureEditor *editor)
 		break;
 	case REPLY_CANCEL:
 	default:
+		break;
 	}
 }
 

@@ -316,6 +316,7 @@ mail_account_gui_auto_detect_extra_conf (MailAccountGui *gui)
 			}
 			break;
 			default:
+				break;
 			}
 		}
 		

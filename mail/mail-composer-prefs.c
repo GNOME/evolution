@@ -566,9 +566,9 @@ spell_load_values (MailComposerPrefs *prefs)
 	prefs->spell_error_color.green = 0;
 	prefs->spell_error_color.blue  = 0;
 	
-	GET (int, "/spell_error_color_red",   prefs->spell_error_color.red,,);
-	GET (int, "/spell_error_color_green", prefs->spell_error_color.green,,);
-	GET (int, "/spell_error_color_blue",  prefs->spell_error_color.blue,,);
+	GET (int, "/spell_error_color_red",   prefs->spell_error_color.red, (void)0, (int));
+	GET (int, "/spell_error_color_green", prefs->spell_error_color.green, (void)0, (int));
+	GET (int, "/spell_error_color_blue",  prefs->spell_error_color.blue, (void)0, (int));
 	GET (string, "/language", prefs->language_str, g_free (prefs->language_str), g_strdup);
 	
 	if (prefs->language_str == NULL)

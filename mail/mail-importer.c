@@ -24,6 +24,7 @@
 #include <config.h>
 #endif
 
+#include <sys/types.h>
 #include <dirent.h>
 #include <gmodule.h>
 #include <libgnome/gnome-defs.h>
