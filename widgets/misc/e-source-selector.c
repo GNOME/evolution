@@ -110,6 +110,15 @@ free_rebuild_data (ESourceSelectorRebuildData *rebuild_data)
 	g_free (rebuild_data);
 }
 
+static void
+clear_saved_primary_selection (ESourceSelector *selector)
+{
+	if (selector->priv->saved_primary_selection != NULL) {
+		gtk_tree_row_reference_free (selector->priv->saved_primary_selection);
+		selector->priv->saved_primary_selection = NULL;
+	}
+}
+
 static gboolean
 source_is_selected (ESourceSelector *selector,
 		    ESource *source)
@@ -157,8 +166,13 @@ find_source_iter (ESourceSelector *selector, ESource *source, GtkTreeIter *sourc
 					gtk_tree_model_get (model, source_iter, 0, &data, -1);
 					g_assert (E_IS_SOURCE (data));
 
-					if (E_SOURCE (data) == source)
+					if (E_SOURCE (data) == source) {
+						g_object_unref (data);
+						
 						return TRUE;
+					}
+					
+					g_object_unref (data);
 				} while (gtk_tree_model_iter_next (model, source_iter));
 			}
 		} while (gtk_tree_model_iter_next (model, &iter));
@@ -187,22 +201,22 @@ rebuild_existing_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, 
 			rebuild_data->deleted_uids = g_slist_prepend (rebuild_data->deleted_uids, 
 								      gtk_tree_row_reference_new (model, path));
 		}
-		
-		return FALSE;		
-	}
-
-	uid = e_source_peek_uid (E_SOURCE (node));
-	if (e_source_list_peek_source_by_uid (rebuild_data->selector->priv->list, uid)) {
-		g_hash_table_insert (rebuild_data->remaining_uids, g_strdup (uid), 
-				     gtk_tree_row_reference_new (model, path));
 	} else {
-		rebuild_data->deleted_uids = g_slist_prepend (rebuild_data->deleted_uids, 
-							      gtk_tree_row_reference_new (model, path));
-
-		if (g_hash_table_remove (rebuild_data->selector->priv->selected_sources, node))
-			rebuild_data->selection_changed = TRUE;
+		uid = e_source_peek_uid (E_SOURCE (node));
+		if (e_source_list_peek_source_by_uid (rebuild_data->selector->priv->list, uid)) {
+			g_hash_table_insert (rebuild_data->remaining_uids, g_strdup (uid), 
+					     gtk_tree_row_reference_new (model, path));
+		} else {
+			rebuild_data->deleted_uids = g_slist_prepend (rebuild_data->deleted_uids, 
+								      gtk_tree_row_reference_new (model, path));
+			
+			if (g_hash_table_remove (rebuild_data->selector->priv->selected_sources, node))
+				rebuild_data->selection_changed = TRUE;
+		}
 	}
 	
+	g_object_unref (node);
+
 	return FALSE;
 }
 	
@@ -338,6 +352,8 @@ toggle_cell_data_func (GtkTreeViewColumn *column,
 		else
 			g_object_set (renderer, "active", FALSE, NULL);
 	}
+
+	g_object_unref (data);
 }
 
 static void
@@ -384,6 +400,8 @@ text_cell_data_func (GtkTreeViewColumn *column,
 			g_free (color_string);
 		}
 	}
+
+	g_object_unref (data);
 }
 
 /* Custom selection function to make groups non selectable.  */
@@ -409,14 +427,25 @@ selection_func (GtkTreeSelection *selection,
 	if (! gtk_tree_model_get_iter (model, &iter, path))
 		return FALSE;
 
-	gtk_tree_model_get (model, &iter, 0, &data, -1);
-	if (E_IS_SOURCE_GROUP (data))
-		return FALSE;
 
-	if (source_is_selected (selector, E_SOURCE (data)))
+	gtk_tree_model_get (model, &iter, 0, &data, -1);
+	if (E_IS_SOURCE_GROUP (data)) {
+		g_object_unref (data);
+		
+		return FALSE;
+	}
+
+	if (source_is_selected (selector, E_SOURCE (data))) {
+		clear_saved_primary_selection (selector);
+		g_object_unref (data);
+		
 		return TRUE;
+	}
 
 	e_source_selector_select_source (selector, E_SOURCE (data));
+
+	clear_saved_primary_selection (selector);
+	g_object_unref (data);
 
 	return TRUE;
 }
@@ -441,23 +470,24 @@ cell_toggled_callback (GtkCellRendererToggle *renderer,
 	}
 
 	gtk_tree_model_get (model, &iter, 0, &data, -1);
-	if (! E_IS_SOURCE (data)) {
+	if (E_IS_SOURCE_GROUP (data)) {
 		gtk_tree_path_free (path);
-		return;
+	} else {
+		source = E_SOURCE (data);
+		if (source_is_selected (selector, source))
+			unselect_source (selector, source);
+		else
+			select_source (selector, source);
+		
+		selector->priv->toggled_last = TRUE;
+		
+		gtk_tree_model_row_changed (model, path, &iter);
+		g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
+		
+		gtk_tree_path_free (path);
 	}
-
-	source = E_SOURCE (data);
-	if (source_is_selected (selector, source))
-		unselect_source (selector, source);
-	else
-		select_source (selector, source);
-
-	selector->priv->toggled_last = TRUE;
 	
-	gtk_tree_model_row_changed (model, path, &iter);
-	g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
-
-	gtk_tree_path_free (path);
+	g_object_unref (data);	
 }
 
 static void
@@ -475,6 +505,9 @@ test_collapse_row_callback (GtkTreeView *treeview, GtkTreeIter *iter, GtkTreePat
 	GtkTreeIter child_iter;
 	
 	priv = selector->priv;
+
+	/* Clear this because something else has been clicked on now */
+	selector->priv->toggled_last = FALSE;
 
 	if (priv->saved_primary_selection)
 		return FALSE;
@@ -513,8 +546,7 @@ row_expanded_callback (GtkTreeView *treeview, GtkTreeIter *iter, GtkTreePath *pa
 		GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (selector));
 		gtk_tree_selection_select_iter (selection, &child_iter);
 
-		gtk_tree_row_reference_free (priv->saved_primary_selection);
-		priv->saved_primary_selection = NULL;
+		clear_saved_primary_selection (selector);
 	}
 
 	gtk_tree_path_free (child_path);
@@ -542,15 +574,20 @@ selector_button_press_event (GtkWidget *widget, GdkEventButton *event, ESourceSe
 		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->tree_store), &iter, path)) {
 			gtk_tree_model_get (GTK_TREE_MODEL (priv->tree_store), &iter, 0, &data, -1);
 			
-			if (E_IS_SOURCE_GROUP (data))
+			if (E_IS_SOURCE_GROUP (data)) {
+				g_object_unref (data);
+				
 				return FALSE;
-
+			}
+			
 			source = E_SOURCE (data);
 		}
 	}
 
-	if (source)
+	if (source) {
 		e_source_selector_set_primary_selection (selector, source);
+		g_object_unref (source);
+	}
 	
 	/* create the menu */
 	menu = gtk_menu_new ();
@@ -574,11 +611,6 @@ impl_dispose (GObject *object)
 		priv->selected_sources = NULL;
 	}
 
-	if (priv->saved_primary_selection != NULL) {
-		gtk_tree_row_reference_free (priv->saved_primary_selection);
-		priv->saved_primary_selection = NULL;
-	}
-
 	if (priv->rebuild_model_idle_id != 0) {
 		g_source_remove (priv->rebuild_model_idle_id);
 		priv->rebuild_model_idle_id = 0;
@@ -593,6 +625,8 @@ impl_dispose (GObject *object)
 		g_object_unref (priv->tree_store);
 		priv->tree_store = NULL;
 	}
+
+	clear_saved_primary_selection (E_SOURCE_SELECTOR (object));
 
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
@@ -666,7 +700,7 @@ init (ESourceSelector *selector)
 
 	priv->selected_sources = create_selected_sources_hash ();
 
-	priv->tree_store = gtk_tree_store_new (1, G_TYPE_POINTER);
+	priv->tree_store = gtk_tree_store_new (1, G_TYPE_OBJECT);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (selector), GTK_TREE_MODEL (priv->tree_store));
 
 	column = gtk_tree_view_column_new ();
@@ -927,9 +961,14 @@ e_source_selector_peek_primary_selection (ESourceSelector *selector)
 		return NULL;
 
 	gtk_tree_model_get (model, &iter, 0, &data, -1);
-	if (! E_IS_SOURCE (data))
+	if (! E_IS_SOURCE (data)) {
+		g_object_unref (data);
+		
 		return NULL;
-
+	}
+	
+	g_object_unref (data);
+	
 	return E_SOURCE (data);
 }
 

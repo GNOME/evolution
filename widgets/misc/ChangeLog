@@ -1,5 +1,24 @@
 2004-01-20  JP Rosevear <jpr@ximian.com>
 
+	* e-source-selector.c (clear_saved_primary_selection): util
+	routine to clear the row reference to the saved primary selection
+	(find_source_iter): unref the model data retrieved
+	(rebuild_existing_cb): ditto
+	(toggle_cell_data_func): ditto
+	(text_cell_data_func): ditto
+	(selection_func): ditto; clear the saved primary selection if
+	something else is selected
+	(cell_toggled_callback): ditto
+	(test_collapse_row_callback): clear the toggled_last flag
+	(row_expanded_callback): once we've restored the saved primary
+	selection, clear it
+	(selector_button_press_event): unref the model data
+	(impl_dispose): use clear_saved_primary_selection
+	(init): the store column holds object not pointer type
+	(e_source_selector_peek_primary_selection): unref the model data
+
+2004-01-20  JP Rosevear <jpr@ximian.com>
+
 	* e-source-selector.c (test_collapse_row_callback): check if the
 	collapsing node has its child selected, if so take a row reference
 	to remember the selection
