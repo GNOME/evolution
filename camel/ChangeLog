@@ -1,3 +1,16 @@
+2000-08-25  Peter Williams  <peterw@helixcode.com>
+
+	* camel.c (camel_init): Don't call unicode_init; code in e-util
+	will do it, and if unicode_init is called twice, you get an
+	infinite loop when looking up nonexistant encodings (patch
+	has been submitted to libunicode's maintainer).
+	
+	* camel-provider.h: Add a new field, default_ports, which
+	helps the configuration code guess about how to make CamelURL's
+	from providers.
+	
+	* providers/*/camel-*-provider.c: Specify default ports.
+
 2000-08-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c

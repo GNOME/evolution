@@ -42,6 +42,7 @@ static CamelProvider pop3_provider = {
 	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_IS_SOURCE,
 
 	{ 0, 0 },
+	{ 110, 0 },
 
 	NULL
 };

@@ -1,3 +1,14 @@
+2000-08-25  Peter Williams  <peterw@helixcode.com>
+
+	* mail-config-gui.c (service_page_item_new): If the service wants
+	a host, also let the user specify a port.
+	(MailDialogServicePageItem): Add members for the port GtkEntry and
+	the default port.
+	(service_page_get_url): Translate the port in the entry back into
+	the CamelURL.
+	(service_page_set_url): Read in the port from the URL or use
+	the default.
+
 2000-08-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-crypto.c (mail_crypto_openpgp_encrypt): Implemented PGP 2.x

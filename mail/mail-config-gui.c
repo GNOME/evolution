@@ -76,6 +76,7 @@ typedef struct
 	gboolean userneed;
 	GtkWidget *host;
 	gboolean hostneed;
+	GtkWidget *port;
 	GtkWidget *path;
 	gboolean pathneed;
 	GtkWidget *auth_optionmenu;
@@ -84,6 +85,7 @@ typedef struct
 	GtkWidget *auth_detect;
 	GtkWidget *keep_on_server;
 	gint pnum;
+	gint default_port;
 } MailDialogServicePageItem;
 
 struct _MailDialogServicePage
@@ -588,6 +590,18 @@ service_page_get_url (MailDialogServicePage *page)
 		url->user = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->user), 0, -1);
 	if (spitem->host)
 		url->host = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->host), 0, -1);
+	if (spitem->port) {
+		gchar *val;
+
+		val = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->port), 0, -1);
+
+		if (*val)
+			url->port = atoi (val);
+		else
+			url->port = 0;
+
+		g_free (val);
+	}
 	if (spitem->path) {
 		gchar *path;
 		path = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->path),
@@ -647,6 +661,21 @@ service_page_set_url (MailDialogServicePage *page, MailConfigService *service)
 	if (spitem->host && url && url->host)
 		e_utf8_gtk_entry_set_text (GTK_ENTRY (spitem->host), url->host);
 	
+	if (spitem->port) {
+		gchar *tmp;
+			
+		if (url && url->port) {
+			tmp = g_strdup_printf ("%d", url->port);
+		} else if (spitem->default_port) {
+			tmp = g_strdup_printf ("%d", spitem->default_port);
+		} else {
+			tmp = g_strdup ("");
+		}
+
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (spitem->port), tmp);
+		g_free (tmp);
+	}
+
 	if (spitem->path && url && url->path) {
 		if (url->host && *url->path)
 			e_utf8_gtk_entry_set_text (GTK_ENTRY (spitem->path),
@@ -901,6 +930,8 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 		item->host = service_page_add_elem (page, table, row++, _("Server:"));
 		item->hostneed = ((service_flags & CAMEL_SERVICE_URL_NEED_HOST)
 				  == CAMEL_SERVICE_URL_NEED_HOST);
+		item->port = service_page_add_elem (page, table, row++, _("Port:"));
+		item->default_port = mcs->provider->default_ports[mcs->type];
 	}
 
 	if (service_flags & CAMEL_SERVICE_URL_ALLOW_USER) {

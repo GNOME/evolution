@@ -41,6 +41,7 @@ static CamelProvider mbox_provider = {
 	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
 
 	{ 0, 0 },
+	{ 0, 0 },
 
 	NULL
 };

@@ -40,6 +40,7 @@ static CamelProvider smtp_provider = {
 	0,
 
 	{ 0, 0 },
+	{ 0, 25 },
 
 	NULL
 };

@@ -39,6 +39,7 @@ static CamelProvider news_provider = {
 	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_IS_STORAGE,
 
 	{ 0, 0 },
+	{ 119, 0 },
 
 	NULL
 };
@@ -55,6 +56,7 @@ static CamelProvider nntp_provider = {
 	CAMEL_PROVIDER_IS_REMOTE,
 
 	{ 0, 0 },
+	{ 119, 0 },
 
 	NULL
 };

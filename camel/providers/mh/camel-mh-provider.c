@@ -40,6 +40,7 @@ static CamelProvider mh_provider = {
 	CAMEL_PROVIDER_IS_STORAGE,
 
 	{0, 0},
+	{0, 0},
 
 	NULL
 };
