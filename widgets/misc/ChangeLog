@@ -1,5 +1,10 @@
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-multi-config-dialog.c (init): Change dialog from
+	OK/Apply/Cancel to Apply/Close/OK to be closer to the HIG.
+
+2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	* Makefile.am (widgetsinclude_HEADERS): Ooops, remove
 	e-bonobo-widget.h.
 	(libemiscwidgets_a_SOURCES): Likewise, remove e-bonobo-widget.c.

@@ -412,9 +412,9 @@ init (EMultiConfigDialog *multi_config_dialog)
 	gtk_widget_show (list_e_table);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (multi_config_dialog),
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,
 				GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (multi_config_dialog), GTK_RESPONSE_OK);
 	
