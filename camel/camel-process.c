@@ -79,10 +79,8 @@ camel_process_fork (const char *path, char **argv, int *infd, int *outfd, int *e
 		setsid ();
 		
 		if ((maxfd = sysconf (_SC_OPEN_MAX)) > 0) {
-			for (i = 0; i < maxfd; i++) {
-				if (i != STDIN_FILENO && i != STDOUT_FILENO && i != STDERR_FILENO)
-					fcntl (i, F_SETFD, FD_CLOEXEC);
-			}
+			for (i = 3; i < maxfd; i++)
+				fcntl (i, F_SETFD, FD_CLOEXEC);
 		}
 		
 		execv (path, argv);

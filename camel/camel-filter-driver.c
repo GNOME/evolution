@@ -692,12 +692,8 @@ pipe_to_system (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFil
 		setsid ();
 		
 		maxfd = sysconf (_SC_OPEN_MAX);
-		if (maxfd > 0) {
-			for (fd = 0; fd < maxfd; fd++) {
-				if (fd != STDIN_FILENO && fd != STDOUT_FILENO && fd != STDERR_FILENO)
-					fcntl (fd, F_SETFD, FD_CLOEXEC);
-			}
-		}
+		for (fd = 3; fd < maxfd; fd++)
+			fcntl (fd, F_SETFD, FD_CLOEXEC);
 		
 		args = g_ptr_array_new ();
 		for (i = 0; i < argc; i++)

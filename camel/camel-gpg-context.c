@@ -581,16 +581,11 @@ gpg_ctx_op_start (struct _GpgCtx *gpg)
 		setsid ();
 		
 		maxfd = sysconf (_SC_OPEN_MAX);
-		if (maxfd > 0) {
-			/* Loop over all fds. */
-			for (i = 0; i < maxfd; i++) {
-				if ((i != STDIN_FILENO) &&
-				    (i != STDOUT_FILENO) &&
-				    (i != STDERR_FILENO) &&
-				    (i != fds[7]) &&  /* status fd */
-				    (i != fds[8]))    /* passwd fd */
-					fcntl (i, F_SETFD, FD_CLOEXEC);
-			}
+		/* Loop over all fds. */
+		for (i = 3; i < maxfd; i++) {
+			/* don't close the status-fd or passwd-fd */
+			if (i != fds[7] && i != fds[8])
+				fcntl (i, F_SETFD, FD_CLOEXEC);
 		}
 		
 		/* run gpg */

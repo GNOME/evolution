@@ -1,5 +1,15 @@
 2003-12-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-process.c (camel_process_fork): Start at fd = 3.
+
+	* camel-gpg-context.c (gpg_ctx_op_start): Same.
+
+	* camel-filter-driver.c (pipe_to_system): Same.
+
+	* camel-filter-search.c (run_command): Start at fd = 3.
+
+2003-12-01  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-stream-process.c (do_exec_command): Same.
 
 	* camel-process.c (camel_process_fork): Same.
