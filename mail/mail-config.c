@@ -949,7 +949,7 @@ config_read (void)
 	
 	/* X-Mailer header display */
 	config->x_mailer_display_style = bonobo_config_get_long_with_default (
-		config->db, "/Mail/Format/x_mailer_display_style", 
+		config->db, "/Mail/Display/x_mailer_display_style", 
 		MAIL_CONFIG_XMAILER_NONE, NULL);
 
 	/* last filesel dir */
@@ -1318,7 +1318,7 @@ mail_config_write_on_exit (void)
 	
 	/* X-Mailer Display */
 	bonobo_config_set_long (config->db, 
-				"/Mail/Format/x_mailer_display_style", 
+				"/Mail/Display/x_mailer_display_style", 
 				config->x_mailer_display_style, NULL);
 	
 	/* last filesel dir */
