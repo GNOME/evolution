@@ -131,6 +131,7 @@ E_MAKE_TYPE(e_cell, "ECell", ECell, e_cell_class_init, e_cell_init, PARENT_TYPE)
  * @model_col: the column in the model
  * @view_col: the column in the view
  * @row: the row
+ * @flags: the flags passed to the ECellView.
  *
  * Dispatches the event @event to the @ecell_view for.
  *
@@ -226,7 +227,8 @@ e_cell_unrealize (ECellView *ecell_view)
  */
 void
 e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	     int model_col, int view_col, int row, ECellFlags flags, int x1, int y1, int x2, int y2)
+	     int model_col, int view_col, int row, ECellFlags flags,
+	     int x1, int y1, int x2, int y2)
 {
 	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->draw (
 		ecell_view, drawable, model_col, view_col, row, flags, x1, y1, x2, y2);
@@ -234,6 +236,13 @@ e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 /**
  * e_cell_print:
+ * @ecell_view: the ECellView to redraw
+ * @context: The GnomePrintContext where we output our printed data.
+ * @model_col: the column in the model being drawn.
+ * @view_col: the column in the view being drawn (what the model maps to).
+ * @row: the row being drawn
+ * @width: width 
+ * @height: height
  *
  * FIXME:
  */
@@ -303,6 +312,7 @@ e_cell_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
  * @model_col: the column in the model
  * @view_col: the column in the view
  * @row: the row
+ * @edit_context: the editing context
  *
  * Notifies the ECellView that editing is finished at @model_col, @row
  * rendered at @view_col, @row.

@@ -94,7 +94,7 @@ e_table_model_value_at (ETableModel *e_table_model, int col, int row)
  * @e_table_model: the table model to operate on.
  * @col: the column where the data will be stored in the model.
  * @row: the row where the data will be stored in the model. 
- * @data: the data to be stored.
+ * @value: the data to be stored.
  *
  * This function instructs the model to store the value in @data in the
  * the @e_table_model at column @col and row @row.  The @data typically
@@ -105,12 +105,12 @@ e_table_model_value_at (ETableModel *e_table_model, int col, int row)
  * be a pointer to a set of data, or a datum that fits inside a void *.
  */
 void
-e_table_model_set_value_at (ETableModel *e_table_model, int col, int row, const void *data)
+e_table_model_set_value_at (ETableModel *e_table_model, int col, int row, const void *value)
 {
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
-	ETM_CLASS (e_table_model)->set_value_at (e_table_model, col, row, data);
+	ETM_CLASS (e_table_model)->set_value_at (e_table_model, col, row, value);
 }
 
 /**

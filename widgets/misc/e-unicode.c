@@ -417,10 +417,10 @@ e_utf8_gtk_clist_append (GtkCList *clist, gchar *text[])
 
 /**
  * g_unichar_to_utf8:
- * @ch: a ISO10646 character code
- * @out: output buffer, must have at least 6 bytes of space.
- *       If %NULL, the length will be computed and returned
- *       and nothing will be written to @out.
+ * @c: a ISO10646 character code
+ * @outbuf: output buffer, must have at least 6 bytes of space.
+ *          If %NULL, the length will be computed and returned
+ *          and nothing will be written to @out.
  * 
  * Convert a single character to utf8
  * 

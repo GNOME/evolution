@@ -11,20 +11,16 @@
 #define E_IS_TABLE_COL(o)       (GTK_CHECK_TYPE ((o), E_TABLE_COL_TYPE))
 #define E_IS_TABLE_COL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_COL_TYPE))
 
-typedef struct _ETableCol ETableCol;
-typedef struct _ETableColClass ETableColClass;
-typedef enum _ETableColArrow ETableColArrow;
-
-enum _ETableColArrow {
+typedef enum {
 	E_TABLE_COL_ARROW_NONE = 0,
 	E_TABLE_COL_ARROW_UP,
 	E_TABLE_COL_ARROW_DOWN
-};
+} ETableColArrow;
 
 /*
  * Information about a single column
  */
-struct _ETableCol {
+typedef struct {
 	GtkObject    base;
 	char        *text;
 	GdkPixbuf   *pixbuf;
@@ -43,11 +39,11 @@ struct _ETableCol {
 	GtkJustification justification;
 
 	ECell         *ecell;
-};
+} ETableCol;
 
-struct _ETableColClass {
+typedef struct {
 	GtkObjectClass parent_class;
-};
+} ETableColClass;
 
 GtkType        e_table_col_get_type        (void);
 ETableCol     *e_table_col_new             (int col_idx, const char *text,

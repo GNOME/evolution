@@ -41,6 +41,7 @@ gal_view_factory_get_title       (GalViewFactory *factory)
 /**
  * gal_view_factory_new_view
  * @factory: The factory to use
+ * @name: the name for the view.
  *
  * Returns: The new view
  */

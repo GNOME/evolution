@@ -13,11 +13,7 @@
 #define E_IS_CELL(o)       (GTK_CHECK_TYPE ((o), E_CELL_TYPE))
 #define E_IS_CELL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CELL_TYPE))
 
-typedef struct _ECell ECell;
-typedef struct _ECellView ECellView;
-typedef enum   _ECellFlags ECellFlags;
-
-enum _ECellFlags {
+typedef enum {
 	E_CELL_SELECTED       = 1 << 0,
 
 	E_CELL_JUSTIFICATION  = 3 << 1,
@@ -32,20 +28,20 @@ enum _ECellFlags {
 	E_CELL_FOCUSED        = 1 << 3,
 
 	E_CELL_EDITING        = 1 << 4,
-};
+} ECellFlags;
 
-struct _ECell {
+typedef struct {
 	GtkObject       object;
-};
+} ECell;
 
-struct _ECellView {
+typedef struct {
 	ECell *ecell;
 	ETableModel *e_table_model;
 	void        *e_table_item_view;
 	
 	gint   focus_x1, focus_y1, focus_x2, focus_y2;
 	gint   focus_col, focus_row;
-};
+} ECellView;
 
 #define E_CELL_IS_FOCUSED(ecell_view) (ecell_view->focus_x1 != -1)
 
@@ -87,7 +83,7 @@ gint       e_cell_event     (ECellView *ecell_view, GdkEvent *event, int model_c
 void       e_cell_realize   (ECellView *ecell_view);
 void       e_cell_unrealize (ECellView *ecell_view);
 
-void       e_cell_draw      (ECellView *ecell_view, GdkDrawable *dr, 
+void       e_cell_draw      (ECellView *ecell_view, GdkDrawable *drawable, 
 			     int model_col, int view_col, int row, ECellFlags flags,
 			     int x1, int y1, int x2, int y2);
 void       e_cell_print      (ECellView *ecell_view, GnomePrintContext *context, 

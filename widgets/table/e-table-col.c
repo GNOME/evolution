@@ -151,7 +151,6 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
  * e_table_col_new_with_pixbuf:
  * @col_idx: the column we represent in the model
  * @pixbuf: the image to be used for the header
- * @text: a title for this column
  * @expansion: FIXME
  * @min_width: minimum width in pixels for this column
  * @ecell: the renderer to be used for this column

@@ -302,7 +302,7 @@ eth_do_insert (ETableHeader *eth, int pos, ETableCol *val)
 
 /**
  * e_table_header_add_column:
- * eth: the table header to add the column to.
+ * @eth: the table header to add the column to.
  * @tc: the ETableCol definition
  * @pos: position where the ETableCol will go.
  *

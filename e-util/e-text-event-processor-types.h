@@ -36,16 +36,9 @@ extern "C" {
 
 #include <gdk/gdktypes.h>
 
-typedef enum _ETextEventProcessorCommandPosition ETextEventProcessorCommandPosition;
-typedef enum _ETextEventProcessorCommandAction ETextEventProcessorCommandAction;
-typedef struct _ETextEventProcessorCommand ETextEventProcessorCommand;
-
 typedef union _ETextEventProcessorEvent ETextEventProcessorEvent;
-typedef struct _ETextEventProcessorEventButton ETextEventProcessorEventButton;
-typedef struct _ETextEventProcessorEventKey ETextEventProcessorEventKey;
-typedef struct _ETextEventProcessorEventMotion ETextEventProcessorEventMotion;
 
-enum _ETextEventProcessorCommandPosition {
+typedef enum {
 	E_TEP_VALUE,
 	E_TEP_SELECTION,
 
@@ -73,9 +66,9 @@ enum _ETextEventProcessorCommandPosition {
 	E_TEP_SELECT_WORD,
 	E_TEP_SELECT_ALL
 
-};
+} ETextEventProcessorCommandPosition;
 
-enum _ETextEventProcessorCommandAction {
+typedef enum {
 	E_TEP_MOVE,
 	E_TEP_SELECT,
 	E_TEP_DELETE,
@@ -91,39 +84,39 @@ enum _ETextEventProcessorCommandAction {
 	E_TEP_UNGRAB,
 
 	E_TEP_NOP
-};
+} ETextEventProcessorCommandAction;
 
-struct _ETextEventProcessorCommand {
+typedef struct {
 	ETextEventProcessorCommandPosition position;
 	ETextEventProcessorCommandAction action;
 	int value;
 	char *string;
 	guint32 time;
-};
+} ETextEventProcessorCommand;
 
-struct _ETextEventProcessorEventButton {
+typedef struct {
 	GdkEventType type;
 	guint32 time;
 	guint state;
 	guint button;
 	gint position;
-};
+} ETextEventProcessorEventButton;
 
-struct _ETextEventProcessorEventKey {
+typedef struct {
 	GdkEventType type;
 	guint32 time;
 	guint state;
 	guint keyval;
 	gint length;
 	gchar *string;
-};
+} ETextEventProcessorEventKey;
 
-struct _ETextEventProcessorEventMotion {
+typedef struct {
 	GdkEventType type;
 	guint32 time;
 	guint state;
 	gint position;
-};
+} ETextEventProcessorEventMotion;
 
 union _ETextEventProcessorEvent {
 	GdkEventType type;
