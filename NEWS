@@ -101,9 +101,10 @@ Mailer:
 
  Providers
 
-  - You can now leave POP mail on the server.  (Also fixed a bug that
-    resulted in the last message being left behind on the POP server
-    every time.) (Dan)
+  - You can now leave POP mail on the server. (This will [currently]
+    only work right with POP servers that support the UIDL command.
+    On other servers, it will never download some messages unless you
+    never delete mail.)
 
   - There is now an MH-like local store available, and code to convert
     a folder from one type to the other.  (Michael)
