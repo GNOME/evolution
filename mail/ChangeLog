@@ -1,3 +1,31 @@
+2000-05-27  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c: Various improvements:
+
+	(call_handler_function, etc): Add a "mime_type" argument to the
+	handlers, so that if a part is tagged as
+	"application/octet-stream", and we figure out that it's really
+	something else, the handler we call can know what that something
+	else is.
+
+	(handle_text_enriched): Small fixes to make this not do
+	text/enriched-specific syntax in text/richtext or vice versa.
+
+	(handle_mystery): Allow for mystery data that can't even be saved
+	to disk. (ie, unrecognized external-body). Let the caller specify
+	the URL to use.
+
+	(handle_message_external_body): New function to deal with
+	message/external-body parts. Generates URLs for anon-ftp,
+	local-file, and URL access-types, and a more-useful-than-before
+	descriptive message for other types.
+
+	(handle_audio, handle_undisplayable): Use gnome_mime_get_value to
+	try to get a description of the MIME type to display to the user
+	rather than the raw form. (This will only work if the user has
+	recent gnome-vfs installed. [If they don't, it works just like
+	it used to.])
+
 2000-05-26  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.c (handle_text_html): Fix a bug (security/stability)
