@@ -103,7 +103,7 @@ create_items_for_event (QuickView *qv, CalendarObject *co, double *y, double *ma
 		strftime (end, sizeof (end), "%H:%M", &end_tm);
 	}
 
-	str = g_copy_strings (start, " - ", end, " ", co->ico->summary, NULL);
+	str = g_strconcat (start, " - ", end, " ", co->ico->summary, NULL);
 
 	item = gnome_canvas_item_new (gnome_canvas_root (canvas),
 				      gnome_canvas_text_get_type (),

@@ -143,7 +143,7 @@ init_calendar (void)
 
 	for (i = 0; i < COLOR_PROP_LAST; i++) {
 		cspec = build_color_spec (color_props[i].r, color_props[i].g, color_props[i].b);
-		str = g_copy_strings (color_props[i].key, "=", cspec, NULL);
+		str = g_strconcat (color_props[i].key, "=", cspec, NULL);
 
 		color = gnome_config_get_string (str);
 		parse_color_spec (color, &color_props[i].r, &color_props[i].g, &color_props[i].b);

@@ -188,7 +188,7 @@ gnome_calendar_new (char *title)
 	gcal = GNOME_CALENDAR (retval);
 	
 	app->name = g_strdup ("calendar");
-	app->prefix = g_copy_strings ("/", app->name, "/", NULL);
+	app->prefix = g_strconcat ("/", app->name, "/", NULL);
 	
 	gtk_window_set_title(GTK_WINDOW(retval), title);
 
@@ -329,7 +329,7 @@ mail_notify (char *mail_address, char *text, time_t app_time)
 		       mail_address, NULL);
 		_exit (127);
 	}
-	command = g_copy_strings ("To: ", mail_address, "\n",
+	command = g_strconcat ("To: ", mail_address, "\n",
 				  "Subject: ", _("Reminder of your appointment at "),
 				  ctime (&app_time), "\n\n", text, "\n", NULL);
 	write (p [1], command, strlen (command));
@@ -365,7 +365,7 @@ calendar_notify (time_t time, CalendarAlarm *which, void *data)
 		GtkWidget *w;
 		char *msg;
 
-		msg = g_copy_strings (_("Reminder of your appointment at "),
+		msg = g_strconcat (_("Reminder of your appointment at "),
 					ctime (&app), "`",
 					ico->summary, "'", NULL);
 
@@ -395,7 +395,7 @@ calendar_notify (time_t time, CalendarAlarm *which, void *data)
 		GtkWidget *w;
 		char *msg;
 
-		msg = g_copy_strings (_("Reminder of your appointment at "),
+		msg = g_strconcat (_("Reminder of your appointment at "),
 					ctime (&app), "`",
 					ico->summary, "'", NULL);
 		w = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_INFO, "Ok", NULL);

@@ -1,3 +1,9 @@
+1998-12-30  Jeff Garzik  <jgarzik@pobox.com>
+
+	* gncal/calendar.c, gncal/gnome-cal.c, gncal/main.c,
+	  gncal/quick-view.c:
+	s/g_copy_strings/g_strconcat/
+
 1998-12-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	Rewrote the old and broken alarm system.  It never actually

@@ -339,7 +339,7 @@ calendar_save (Calendar *cal, char *fname)
 	}
 
 	if (g_file_exists (fname)){
-		char *backup_name = g_copy_strings (fname, "~", NULL);
+		char *backup_name = g_strconcat (fname, "~", NULL);
 
 		if (g_file_exists (backup_name)){
 			unlink (backup_name);
