@@ -1,3 +1,9 @@
+2002-05-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-composer-prefs.c (spell_save_values): Use a new macro,
+	STR_EQUAL, to tell if the 2 values are equal or not rather than
+	using strcmp since one or both strings could be NULL.
+
 2002-05-21  Not Zed  <NotZed@Ximian.com>
 
 	* folder-browser.c (folder_browser_config_search): Split the

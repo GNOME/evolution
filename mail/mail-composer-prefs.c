@@ -623,6 +623,8 @@ spell_load_values (MailComposerPrefs *prefs)
 #define SET(t,x,prop) \
         gconf_client_set_ ## t (prefs->gconf, GNOME_SPELL_GCONF_DIR x, prop, NULL);
 
+#define STR_EQUAL(str1, str2) ((str1 == NULL && str2 == NULL) || (str1 && str2 && !strcmp (str1, str2)))
+
 static void
 spell_save_values (MailComposerPrefs *prefs, gboolean force)
 {
@@ -631,7 +633,7 @@ spell_save_values (MailComposerPrefs *prefs, gboolean force)
 		SET (int, "/spell_error_color_green", prefs->spell_error_color.green);
 		SET (int, "/spell_error_color_blue",  prefs->spell_error_color.blue);
 	}
-	if (force || strcmp (prefs->language_str, prefs->language_str_orig)) {
+	if (force || !STR_EQUAL (prefs->language_str, prefs->language_str_orig)) {
 		SET (string, "/language", prefs->language_str);
 	}
 
