@@ -58,9 +58,9 @@ struct _AlarmNotifyPrivate {
 
 
 
-static void alarm_notify_class_init (AlarmNotifyClass *class);
-static void alarm_notify_init (AlarmNotify *an);
-static void alarm_notify_destroy (GtkObject *object);
+static void alarm_notify_class_init (AlarmNotifyClass *klass);
+static void alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass);
+static void alarm_notify_finalize (GObject *object);
 
 static void AlarmNotify_addCalendar (PortableServer_Servant servant,
 				     const CORBA_char *str_uri,
@@ -70,34 +70,34 @@ static void AlarmNotify_removeCalendar (PortableServer_Servant servant,
 					CORBA_Environment *ev);
 
 
-static BonoboXObjectClass *parent_class;
+static BonoboObjectClass *parent_class;
 
 
 
-BONOBO_X_TYPE_FUNC_FULL (AlarmNotify,
-			 GNOME_Evolution_Calendar_AlarmNotify,
-			 BONOBO_X_OBJECT_TYPE,
-			 alarm_notify);
+BONOBO_TYPE_FUNC_FULL (AlarmNotify,
+		       GNOME_Evolution_Calendar_AlarmNotify,
+		       BONOBO_TYPE_OBJECT,
+		       alarm_notify);
 
 /* Class initialization function for the alarm notify service */
 static void
-alarm_notify_class_init (AlarmNotifyClass *class)
+alarm_notify_class_init (AlarmNotifyClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) klass;
 
-	parent_class = gtk_type_class (BONOBO_X_OBJECT_TYPE);
+	parent_class = g_type_class_peek_parent (klass);
 
-	class->epv.addCalendar = AlarmNotify_addCalendar;
-	class->epv.removeCalendar = AlarmNotify_removeCalendar;
+	klass->epv.addCalendar = AlarmNotify_addCalendar;
+	klass->epv.removeCalendar = AlarmNotify_removeCalendar;
 
-	object_class->destroy = alarm_notify_destroy;
+	object_class->finalize = alarm_notify_finalize;
 }
 
 /* Object initialization function for the alarm notify system */
 static void
-alarm_notify_init (AlarmNotify *an)
+alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass)
 {
 	AlarmNotifyPrivate *priv;
 
@@ -118,14 +118,14 @@ destroy_loaded_client_cb (gpointer key, gpointer value, gpointer data)
 	lc = value;
 	
 	g_free (str_uri);
-	gtk_object_unref (GTK_OBJECT (lc->client));
+	g_object_unref (G_OBJECT (lc->client));
 	e_uri_free (lc->uri);
 	g_free (lc);
 }
 
-/* Destroy handler for the alarm notify system */
+/* Finalize handler for the alarm notify system */
 static void
-alarm_notify_destroy (GtkObject *object)
+alarm_notify_finalize (GObject *object)
 {
 	AlarmNotify *an;
 	AlarmNotifyPrivate *priv;
@@ -144,8 +144,8 @@ alarm_notify_destroy (GtkObject *object)
 	g_free (priv);
 	an->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -329,11 +329,13 @@ AlarmNotify_removeCalendar (PortableServer_Servant servant,
 	g_hash_table_remove (priv->uri_client_hash, str_uri);
 
 	g_free (orig_str);
-	gtk_signal_disconnect_by_data (GTK_OBJECT (lc->client), lc);
+	g_signal_handlers_disconnect_matched (GTK_OBJECT (lc->client),
+					      G_SIGNAL_MATCH_DATA,
+					      0, 0, NULL, NULL, lc);
 	if (lc->timeout_id != -1)
 		g_source_remove (lc->timeout_id);
 	alarm_queue_remove_client (lc->client);
-	gtk_object_unref (GTK_OBJECT (lc->client));
+	g_object_unref (G_OBJECT (lc->client));
 	e_uri_free (lc->uri);
 	g_free (lc);
 }
@@ -353,7 +355,7 @@ alarm_notify_new (void)
 {
 	AlarmNotify *an;
 
-	an = gtk_type_new (TYPE_ALARM_NOTIFY);
+	an = g_object_new (TYPE_ALARM_NOTIFY, NULL);
 	return an;
 }
 
@@ -431,11 +433,13 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 	if (g_hash_table_lookup_extended (priv->uri_client_hash, str_uri, &s, &lc)) {
 		g_hash_table_remove (priv->uri_client_hash, str_uri);
 
-		gtk_signal_disconnect_by_data (GTK_OBJECT (lc->client), lc);
+		g_signal_handlers_disconnect_matched (G_OBJECT (lc->client),
+						      G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, lc);
 		if (lc->timeout_id != -1)
 			g_source_remove (lc->timeout_id);
 		alarm_queue_remove_client (lc->client);
-		gtk_object_unref (GTK_OBJECT (lc->client));
+		g_object_unref (G_OBJECT (lc->client));
 		e_uri_free (lc->uri);
 
 		g_free (lc);
@@ -449,9 +453,9 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 		   correctly */
 		lc = g_new (LoadedClient, 1);
 
-		gtk_signal_connect (GTK_OBJECT (client), "cal_opened",
-				    GTK_SIGNAL_FUNC (cal_opened_cb),
-				    lc);
+		g_signal_connect (G_OBJECT (client), "cal_opened",
+				  G_CALLBACK (cal_opened_cb),
+				  lc);
 
 		if (cal_client_open_calendar (client, str_uri, FALSE)) {
 			lc->client = client;
@@ -462,7 +466,7 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 					     g_strdup (str_uri), lc);
 		} else {
 			g_free (lc);
-			gtk_object_unref (GTK_OBJECT (client));
+			g_object_unref (G_OBJECT (client));
 			client = NULL;
 		}
 	}

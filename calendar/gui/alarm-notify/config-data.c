@@ -49,7 +49,7 @@ locale_supports_12_hour_format (void)
 static void
 do_cleanup (void)
 {
-	gtk_object_unref (GTK_OBJECT (config));
+	g_object_unref (G_OBJECT (config));
 	config = NULL;
 	inited = FALSE;
 }

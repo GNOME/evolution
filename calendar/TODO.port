@@ -1,0 +1,2 @@
+* gui/alarm-notify/alarm-notify-dialog.c:
+	replace missing gnome_win_hints_* calls.

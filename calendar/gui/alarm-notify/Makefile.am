@@ -6,7 +6,7 @@ CORBA_GENERATED =				\
 
 idls = $(top_srcdir)/calendar/idl/evolution-calendar.idl
 
-idl_flags = `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
+idl_flags = $(IDL_INCLUDES) 
 
 $(CORBA_GENERATED): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(top_srcdir)/calendar/idl/evolution-calendar.idl
@@ -72,7 +72,7 @@ oaf_in_files = \
 
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
-@XML_I18N_MERGE_OAF_RULE@
+@INTLTOOL_OAF_RULE@
 
 EXTRA_DIST =		\
 	$(oaf_DATA)	\

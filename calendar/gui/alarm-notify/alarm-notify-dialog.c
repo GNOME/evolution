@@ -26,13 +26,13 @@
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkwindow.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-winhints.h>
+#if 0 
+#  include <libgnomeui/gnome-winhints.h>
+#endif
 #include <libgnomeui/gnome-window-icon.h>
 #include <glade/glade.h>
 #include <e-util/e-time-utils.h>
-#include <gal/util/e-unicode-i18n.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-scroll-frame.h>
 #include <gtkhtml/gtkhtml.h>
@@ -213,9 +213,9 @@ static void
 write_times (GtkHTMLStream *stream, char *start, char *end)
 {
 	if (start)
-		gtk_html_stream_printf (stream, "<b>%s</b> %s<br>", U_("Starting:"), start);
+		gtk_html_stream_printf (stream, "<b>%s</b> %s<br>", _("Starting:"), start);
 	if (end)
-		gtk_html_stream_printf (stream, "<b>%s</b> %s<br>", U_("Ending:"), end);
+		gtk_html_stream_printf (stream, "<b>%s</b> %s<br>", _("Ending:"), end);
 
 }
 
@@ -273,7 +273,7 @@ write_html_heading (GtkHTMLStream *stream, const char *message,
 				"</TABLE>",
 				bg_path,
 				image_path,
-				U_("Evolution Alarm"));
+				_("Evolution Alarm"));
 
 	gtk_html_stream_printf (stream, "<br><br><font size=\"+2\">%s</font><br><br>", message);
 
@@ -335,7 +335,7 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	an->func = func;
 	an->func_data = func_data;
 
-	an->xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-notify.glade", NULL);
+	an->xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-notify.glade", NULL, NULL);
 	if (!an->xml) {
 		g_message ("alarm_notify_dialog(): Could not load the Glade XML file!");
 		g_free (an);
@@ -402,9 +402,11 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	if (!GTK_WIDGET_REALIZED (an->dialog))
 		gtk_widget_realize (an->dialog);
 
+#if 0
 	gnome_win_hints_set_state (an->dialog, WIN_STATE_STICKY);
 	gnome_win_hints_set_layer (an->dialog, WIN_LAYER_ONTOP);
 	gnome_window_icon_set_from_file (GTK_WINDOW (an->dialog), EVOLUTION_ICONSDIR "/alarm.png");
+#endif
 
 	gtk_widget_show (an->dialog);
 	return TRUE;

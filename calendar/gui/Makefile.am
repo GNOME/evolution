@@ -20,11 +20,11 @@ IDL_GENERATED =                 			\
 	evolution-calendar-stubs.c
 
 $(IDL_GENERATED): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
                 $(srcdir)/../../composer/Evolution-Composer.idl
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
                 $(top_srcdir)/calendar/idl/evolution-calendar.idl
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
                 $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 
 BUILT_SOURCES = $(IDL_GENERATED)
@@ -187,7 +187,7 @@ oaf_in_files = \
 
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
-@XML_I18N_MERGE_OAF_RULE@
+@INTLTOOL_OAF_RULE@
 
 EXTRA_DIST =	 			\
 	$(glade_DATA)			\

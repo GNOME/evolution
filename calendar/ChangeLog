@@ -1,3 +1,31 @@
+2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend.c: use libxml2 headers.
+
+	* gui/alarm-notify/Makefile.am:
+	* gui/dialogs/Makefile.am:
+	* gui/Makefile.am: s/XML_I18N/INTLTOOL. Fixed execution of
+	$(ORBIT_IDL).
+
+	* gui/alarm-notify/alarm-notify.[ch]: converted to BonoboObject.
+
+	* gui/alarm-notify/alarm-notify-dialog.c: compilation fixes.
+	(alarm_notify_dialog): adapted to new glade_xml_new signature.
+
+	* gui/alarm-notify/alarm-queue.c: ported to BonoboActivation and
+	GtkStock and GtkDialog.
+
+	* gui/alarm-notify/notify-main.c: ported to BonoboActivation and
+	use GObject functions instead of GtkObject ones.
+
+	* gui/alarm-notify/save.h: removed BonoboConfig related functions.
+
+	* gui/alarm-notify/config-data.c: use GObject functions instead of
+	GtkObject ones.
+
+	* TODO.port: added file for keeping track of disabled things while we
+	port.
+
 2002-11-04  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-util/cal-util-marshal.list: added new marshallers.

@@ -22,10 +22,6 @@
 #define SAVE_H
 
 #include <time.h>
-#include <bonobo-conf/bonobo-config-database.h>
-
-Bonobo_ConfigDatabase get_config_db (void);
-void discard_config_db (Bonobo_ConfigDatabase db);
 
 void save_notification_time (time_t t);
 time_t get_saved_notification_time (void);

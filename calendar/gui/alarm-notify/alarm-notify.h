@@ -22,17 +22,17 @@
 #ifndef ALARM_NOTIFY_H
 #define ALARM_NOTIFY_H
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include "evolution-calendar.h"
 
 
 
 #define TYPE_ALARM_NOTIFY            (alarm_notify_get_type ())
-#define ALARM_NOTIFY(obj)            (GTK_CHECK_CAST ((obj), TYPE_ALARM_NOTIFY, AlarmNotify))
-#define ALARM_NOTIFY_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_ALARM_NOTIFY,		\
+#define ALARM_NOTIFY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_ALARM_NOTIFY, AlarmNotify))
+#define ALARM_NOTIFY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_ALARM_NOTIFY,		\
 				      AlarmNotifyClass))
-#define IS_ALARM_NOTIFY(obj)         (GTK_CHECK_TYPE ((obj), TYPE_ALARM_NOTIFY))
-#define IS_ALARM_NOTIFY_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), TYPE_ALARM_NOTIFY))
+#define IS_ALARM_NOTIFY(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_ALARM_NOTIFY))
+#define IS_ALARM_NOTIFY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_ALARM_NOTIFY))
 
 typedef struct _AlarmNotify AlarmNotify;
 typedef struct _AlarmNotifyClass AlarmNotifyClass;
@@ -40,19 +40,19 @@ typedef struct _AlarmNotifyClass AlarmNotifyClass;
 typedef struct _AlarmNotifyPrivate AlarmNotifyPrivate;
 
 struct _AlarmNotify {
-	BonoboXObject xobject;
+	BonoboObject xobject;
 
 	/* Private data */
 	AlarmNotifyPrivate *priv;
 };
 
 struct _AlarmNotifyClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_Calendar_AlarmNotify__epv epv;
 };
 
-GtkType alarm_notify_get_type (void);
+GType alarm_notify_get_type (void);
 
 AlarmNotify *alarm_notify_new (void);
 

@@ -24,14 +24,14 @@
 #endif
 
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-init.h>
+#include <libgnome/gnome-init.h>
+#include <libgnomeui/gnome-client.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <glade/glade.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-generic-factory.h>
-#include <liboaf/liboaf.h>
+#include <bonobo-activation/bonobo-activation.h>
 #include "alarm.h"
 #include "alarm-queue.h"
 #include "alarm-notify.h"
@@ -82,15 +82,15 @@ set_session_parameters (char **argv)
 
 	gnome_client_set_restart_command (master_client, 1, args);
 
-	gtk_signal_connect (GTK_OBJECT (master_client), "die",
-			    GTK_SIGNAL_FUNC (client_die_cb), NULL);
+	g_signal_connect (G_OBJECT (master_client), "die",
+			  G_CALLBACK (client_die_cb), NULL);
 }
 
 /* Factory function for the alarm notify service; just creates and references a
  * singleton service object.
  */
 static BonoboObject *
-alarm_notify_factory_fn (BonoboGenericFactory *factory, void *data)
+alarm_notify_factory_fn (BonoboGenericFactory *factory, const char *component_id, void *data)
 {
 	if (!alarm_notify_service) {
 		alarm_notify_service = alarm_notify_new ();
@@ -164,13 +164,10 @@ main (int argc, char **argv)
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 
-	if (gnome_init_with_popt_table ("evolution-alarm-notify", VERSION, argc, argv,
-					oaf_popt_options, 0, NULL) != 0)
-		g_error (_("Could not initialize GNOME"));
+	gnome_program_init ("evolution-alarm-notify", VERSION, LIBGNOME_MODULE, argc, argv, NULL);
+	bonobo_activation_init (argc, argv);
 
-	oaf_init (argc, argv);
-
-	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
+	if (bonobo_init (&argc, argv) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
 
 	if (!gnome_vfs_init ())
@@ -179,7 +176,7 @@ main (int argc, char **argv)
 	glade_gnome_init ();
 
 	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory",
-					      alarm_notify_factory_fn, NULL);
+					      (BonoboFactoryCallback) alarm_notify_factory_fn, NULL);
 	if (!factory)
 		g_error (_("Could not create the alarm notify service factory"));
 

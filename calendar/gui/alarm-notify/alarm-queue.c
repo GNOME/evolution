@@ -23,19 +23,18 @@
 #endif
 
 #include <glib.h>
-#include <liboaf/liboaf.h>
+#include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-object.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkbox.h>
+#include <gtk/gtkdialog.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkcheckbutton.h>
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtkstock.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-sound.h>
-#include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <cal-util/timeutil.h>
 #include "alarm.h"
@@ -566,8 +565,8 @@ edit_component (CompQueuedAlarms *cqa)
 	/* Get the factory */
 
 	CORBA_exception_init (&ev);
-	factory = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory",
-					0, NULL, &ev);
+	factory = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory",
+						      0, NULL, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("edit_component(): Could not activate the component editor factory");
@@ -733,16 +732,23 @@ static void
 mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
 {
 	GtkWidget *dialog;
+	GtkWidget *label;
 
 	/* FIXME */
 
 	display_notification (trigger, cqa, alarm_id, FALSE);
 
-	dialog = gnome_warning_dialog (_("Evolution does not support calendar reminders with\n"
-					 "email notifications yet, but this reminder was\n"
-					 "configured to send an email.  Evolution will display\n"
-					 "a normal reminder dialog box instead."));
-	gnome_dialog_run (GNOME_DIALOG (dialog));
+	dialog = gtk_dialog_new_with_buttons (_("Warning"),
+					      NULL, 0,
+					      GTK_STOCK_OK, GTK_RESPONSE_CANCEL,
+					      NULL);
+	label = gtk_label_new (_("Evolution does not support calendar reminders with\n"
+				 "email notifications yet, but this reminder was\n"
+				 "configured to send an email.  Evolution will display\n"
+				 "a normal reminder dialog box instead."));
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, TRUE, TRUE, 4);
+
+	gtk_dialog_run (GTK_DIALOG (dialog));
 }
 
 /* Performs notification of a procedure alarm */
@@ -756,10 +762,11 @@ procedure_notification_dialog (const char *cmd, const char *url)
 	if (is_blessed_program (url))
 		return TRUE;
 	
-	dialog = gnome_dialog_new (_("Warning"),
-				   GNOME_STOCK_BUTTON_YES,
-				   GNOME_STOCK_BUTTON_NO,
-				   NULL);
+	dialog = gtk_dialog_new_with_buttons (_("Warning"),
+					      NULL, 0,
+					      GTK_STOCK_NO, GTK_RESPONSE_CANCEL,
+					      GTK_STOCK_YES, GTK_RESPONSE_OK,
+					      NULL);
 
 	str = g_strdup_printf (_("An Evolution Calendar reminder is about to trigger. "
 				 "This reminder is configured to run the following program:\n\n"
@@ -770,21 +777,21 @@ procedure_notification_dialog (const char *cmd, const char *url)
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 			    label, TRUE, TRUE, 4);
 	g_free (str);
 
 	checkbox = gtk_check_button_new_with_label
 		(_("Do not ask me about this program again."));
 	gtk_widget_show (checkbox);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), 
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), 
 			    checkbox, TRUE, TRUE, 4);
 
 	/* Run the dialog */
-	btn = gnome_dialog_run (GNOME_DIALOG (dialog));
-	if (btn == GNOME_YES && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
+	btn = gtk_dialog_run (GTK_DIALOG (dialog));
+	if (btn == GTK_RESPONSE_OK && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
 		save_blessed_program (url);
-	gnome_dialog_close (GNOME_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 
 	return (btn == GNOME_YES);
 }
