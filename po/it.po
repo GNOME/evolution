@@ -967,7 +967,6 @@ msgid "Never"
 msgstr "Mai"
 
 #: addressbook/gui/component/ldap-config.glade.h:29
-#, fuzzy
 msgid ""
 "Now, you must specify how you want to connect to the LDAP server. The SSL "
 "(Secure Sockets Layer)\n"
@@ -5553,7 +5552,7 @@ msgstr "<i>Nessuno</i>"
 
 #: calendar/gui/e-itip-control.c:1061
 msgid "Location:"
-msgstr "Posizione Geografica:"
+msgstr "Posizione:"
 
 #: calendar/gui/e-itip-control.c:1075
 msgid "Status:"
@@ -5617,7 +5616,7 @@ msgstr "Rifiutare"
 
 #: calendar/gui/e-itip-control.c:1202
 msgid "Send Free/Busy Information"
-msgstr "Invia Informazioni sulla Disponibilità"
+msgstr "Invia informazioni sulla disponibilità"
 
 #: calendar/gui/e-itip-control.c:1215
 msgid "Update respondent status"
@@ -5625,7 +5624,7 @@ msgstr "Aggiorna stato risposta"
 
 #: calendar/gui/e-itip-control.c:1228
 msgid "Send Latest Information"
-msgstr "Invia Informazioni Correnti"
+msgstr "Invia informazioni correnti"
 
 #: calendar/gui/e-itip-control.c:1241 calendar/gui/itip-utils.c:434
 #: mail/mail-send-recv.c:387 mail/mail-send-recv.c:444
@@ -5640,7 +5639,7 @@ msgstr "<b>%s</b> ha pubblicato informazioni riguardo una riunione."
 
 #: calendar/gui/e-itip-control.c:1323
 msgid "Meeting Information"
-msgstr "Dettagli della Riunione"
+msgstr "Dettagli della riunione"
 
 #: calendar/gui/e-itip-control.c:1328
 #, c-format
@@ -5654,7 +5653,7 @@ msgstr "<b>%s</b> richiede la tua presenza ad una riunione."
 
 #: calendar/gui/e-itip-control.c:1331
 msgid "Meeting Proposal"
-msgstr "Proposta di Riunione"
+msgstr "Proposta di riunione"
 
 #: calendar/gui/e-itip-control.c:1335
 #, c-format
@@ -5663,7 +5662,7 @@ msgstr "<b>%s</b> vuole aggiungersi ad una riunione esistente."
 
 #: calendar/gui/e-itip-control.c:1336
 msgid "Meeting Update"
-msgstr "Aggiornamento Riunione"
+msgstr "Aggiornamento riunione"
 
 #: calendar/gui/e-itip-control.c:1340
 #, c-format
@@ -5672,7 +5671,7 @@ msgstr "<b>%s</b> vuole ricevere informazioni aggiornate sulla riunione."
 
 #: calendar/gui/e-itip-control.c:1341
 msgid "Meeting Update Request"
-msgstr "Richiesta di Aggiornamento sulla Riunione"
+msgstr "Richiesta di aggiornamento sulla riunione"
 
 #: calendar/gui/e-itip-control.c:1348
 #, c-format
@@ -5681,7 +5680,7 @@ msgstr "<b>%s</b> ha risposto ad una richiesta di riunione."
 
 #: calendar/gui/e-itip-control.c:1349
 msgid "Meeting Reply"
-msgstr "Risposta ad una Riunione"
+msgstr "Risposta ad una riunione"
 
 #: calendar/gui/e-itip-control.c:1356
 #, c-format
@@ -5690,17 +5689,17 @@ msgstr "<b>%s</b> ha annullato una riunione."
 
 #: calendar/gui/e-itip-control.c:1357
 msgid "Meeting Cancellation"
-msgstr "Annullamento Riunione"
+msgstr "Annullamento riunione"
 
 #: calendar/gui/e-itip-control.c:1364 calendar/gui/e-itip-control.c:1431
 #: calendar/gui/e-itip-control.c:1466
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
-msgstr "<b>%s</b> ha mandato un messaggio indecifrabile."
+msgstr "<b>%s</b> ha mandato un messaggio incomprensibile."
 
 #: calendar/gui/e-itip-control.c:1365
 msgid "Bad Meeting Message"
-msgstr "Messaggio di Richiesta Riunione Non Valido"
+msgstr "Messaggio di richiesta riunione non valido"
 
 #: calendar/gui/e-itip-control.c:1389
 #, c-format
@@ -5709,7 +5708,7 @@ msgstr "<b>%s</b> ha pubblicato informazioni sulle proprie attività."
 
 #: calendar/gui/e-itip-control.c:1390
 msgid "Task Information"
-msgstr "Informazioni sull'Attività"
+msgstr "Informazioni sull'attività"
 
 #: calendar/gui/e-itip-control.c:1395
 #, c-format
@@ -5723,7 +5722,7 @@ msgstr "<b>%s</b> ha richiesto che venga eseguito un compito."
 
 #: calendar/gui/e-itip-control.c:1398
 msgid "Task Proposal"
-msgstr "Proposta di Attività"
+msgstr "Proposta di attività"
 
 #: calendar/gui/e-itip-control.c:1402
 #, c-format
@@ -5732,7 +5731,7 @@ msgstr "<b>%s</b> vuole aggiungere informazioni ad una attività esistente."
 
 #: calendar/gui/e-itip-control.c:1403
 msgid "Task Update"
-msgstr "Aggiornamento Attività"
+msgstr "Aggiornamento attività"
 
 #: calendar/gui/e-itip-control.c:1407
 #, c-format
@@ -5741,7 +5740,7 @@ msgstr "<b>%s</b> vuole ricevere informazioni aggiornate sull'attività."
 
 #: calendar/gui/e-itip-control.c:1408
 msgid "Task Update Request"
-msgstr "Richiesta di Aggiornamento dell'Attività"
+msgstr "Richiesta di aggiornamento dell'attività"
 
 #: calendar/gui/e-itip-control.c:1415
 #, c-format
@@ -5750,7 +5749,7 @@ msgstr "<b>%s</b> ha risposto all'assegnamento di un compito."
 
 #: calendar/gui/e-itip-control.c:1416
 msgid "Task Reply"
-msgstr "Risposta all'Attività"
+msgstr "Risposta all'attività"
 
 #: calendar/gui/e-itip-control.c:1423
 #, c-format
@@ -5759,11 +5758,11 @@ msgstr "<b>%s</b> ha annullato un'attività."
 
 #: calendar/gui/e-itip-control.c:1424
 msgid "Task Cancellation"
-msgstr "Annullamento Attività"
+msgstr "Annullamento attività"
 
 #: calendar/gui/e-itip-control.c:1432
 msgid "Bad Task Message"
-msgstr "Messaggio di Attività Indecifrabile"
+msgstr "Messaggio di attività errato"
 
 #: calendar/gui/e-itip-control.c:1451
 #, c-format
@@ -5772,7 +5771,7 @@ msgstr "<b>%s</b> ha pubblicato informazioni sulla disponibilità."
 
 #: calendar/gui/e-itip-control.c:1452
 msgid "Free/Busy Information"
-msgstr "Informazioni sulla Disponibilità"
+msgstr "Informazioni sulla disponibilità"
 
 #: calendar/gui/e-itip-control.c:1456
 #, c-format
@@ -5781,7 +5780,7 @@ msgstr "<b>%s</b> richiede informazioni sulla disponibilità."
 
 #: calendar/gui/e-itip-control.c:1457
 msgid "Free/Busy Request"
-msgstr "Richiesta Disponibilità"
+msgstr "Richiesta disponibilità"
 
 #: calendar/gui/e-itip-control.c:1461
 #, c-format
@@ -5790,15 +5789,15 @@ msgstr "<b>%s</b> ha risposto a una richiesta di disponibilità."
 
 #: calendar/gui/e-itip-control.c:1462
 msgid "Free/Busy Reply"
-msgstr "Risposta Disponibilità"
+msgstr "Risposta disponibilità"
 
 #: calendar/gui/e-itip-control.c:1467
 msgid "Bad Free/Busy Message"
-msgstr "Messaggio di Disponibilità Indecifrabile"
+msgstr "Messaggio di disponibilità errato"
 
 #: calendar/gui/e-itip-control.c:1543
 msgid "The message does not appear to be properly formed"
-msgstr "Il messaggio sembra malformato"
+msgstr "Il messaggio non sembra ben impostato"
 
 #: calendar/gui/e-itip-control.c:1606
 msgid "The message contains only unsupported requests."
@@ -5840,23 +5839,19 @@ msgstr "Impossibile aggiornare il file di calendario!\n"
 
 #: calendar/gui/e-itip-control.c:1953 calendar/gui/e-itip-control.c:2019
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
-"Impossibile aggiornare lo stato del partecipante; l'elemento non esiste più"
+msgstr "Impossibile aggiornare lo stato del partecipante dato che l'elemento non esiste più"
 
 #: calendar/gui/e-itip-control.c:1974
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr ""
-"Questa risposta non proviene da un partecipante...aggiungerlo come "
-"partecipante?"
+msgstr "Questa risposta non proviene da un partecipante. Aggiungerlo come partecipante?"
 
 #: calendar/gui/e-itip-control.c:1986
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr ""
-"Impossibile aggiornare lo stato del partecipante; lo stato non è valido!\n"
+msgstr "Impossibile aggiornare lo stato del partecipante: lo stato non è valido!\n"
 
 #: calendar/gui/e-itip-control.c:2010
 msgid "You don't have the right permissions to update the calendar\n"
-msgstr "Non si possiede i diritti necessari per aggiornare il calendario\n"
+msgstr "Non si possiedono i diritti necessari per aggiornare il calendario\n"
 
 #: calendar/gui/e-itip-control.c:2013
 msgid "Attendee status updated\n"
@@ -5868,11 +5863,11 @@ msgstr "Impossibile aggiornare lo stato del partecipante!\n"
 
 #: calendar/gui/e-itip-control.c:2053
 msgid "Removal Complete"
-msgstr "Rimozione Completata"
+msgstr "Rimozione completata"
 
 #: calendar/gui/e-itip-control.c:2085 calendar/gui/e-itip-control.c:2135
 msgid "Item sent!\n"
-msgstr "Elemento Spedito!\n"
+msgstr "Elemento spedito!\n"
 
 #: calendar/gui/e-itip-control.c:2087 calendar/gui/e-itip-control.c:2139
 msgid "The item could not be sent!\n"
@@ -5880,11 +5875,11 @@ msgstr "L'elemento non può essere spedito!\n"
 
 #: calendar/gui/e-itip-control.c:2212
 msgid "Select Calendar Folder"
-msgstr "Scegli Cartella Calendario"
+msgstr "Scegli cartella calendario"
 
 #: calendar/gui/e-itip-control.c:2219
 msgid "Select Tasks Folder"
-msgstr "Scegli Cartella Azioni"
+msgstr "Scegli cartella azioni"
 
 #: calendar/gui/e-itip-control.glade.h:2
 #, no-c-format
@@ -5897,7 +5892,7 @@ msgstr "--a--"
 
 #: calendar/gui/e-itip-control.glade.h:4
 msgid "Calendar Message"
-msgstr "Messaggio del Calendario"
+msgstr "Messaggio del calendario"
 
 #: calendar/gui/e-itip-control.glade.h:5
 msgid "Date:"
@@ -5905,7 +5900,7 @@ msgstr "Data:"
 
 #: calendar/gui/e-itip-control.glade.h:7
 msgid "Loading Calendar"
-msgstr "Caricamento del Calendario"
+msgstr "Caricamento del calendario"
 
 #: calendar/gui/e-itip-control.glade.h:8
 msgid "Loading calendar..."
@@ -5913,7 +5908,7 @@ msgstr "Caricamento del calendario..."
 
 #: calendar/gui/e-itip-control.glade.h:10
 msgid "Server Message:"
-msgstr "Messaggio del Server:"
+msgstr "Messaggio del server:"
 
 #: calendar/gui/e-itip-control.glade.h:12
 msgid "date-end"
@@ -5929,11 +5924,11 @@ msgstr "Moderatori"
 
 #: calendar/gui/e-meeting-model.c:80 calendar/gui/e-meeting-model.c:1636
 msgid "Required Participants"
-msgstr "Partecipanti Richiesti"
+msgstr "Partecipanti richiesti"
 
 #: calendar/gui/e-meeting-model.c:81
 msgid "Optional Participants"
-msgstr "Partecipanti Opzionali"
+msgstr "Partecipanti opzionali"
 
 #: calendar/gui/e-meeting-model.c:82
 msgid "Resources"
@@ -5967,17 +5962,17 @@ msgstr "Moderatore"
 #: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
 #: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:769
 msgid "Required Participant"
-msgstr "Partecipante Richiesto"
+msgstr "Partecipante richiesto"
 
 #: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
 #: calendar/gui/e-meeting-model.c:770
 msgid "Optional Participant"
-msgstr "Partecipante Opzionale"
+msgstr "Partecipante opzionale"
 
 #: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
 #: calendar/gui/e-meeting-model.c:771
 msgid "Non-Participant"
-msgstr "Non Partecipante"
+msgstr "Non partecipante"
 
 #: calendar/gui/e-meeting-model.c:284 calendar/gui/e-meeting-model.c:307
 #: calendar/gui/e-meeting-model.c:540 calendar/gui/e-meeting-model.c:797
@@ -5996,7 +5991,7 @@ msgstr "Delegato"
 
 #: calendar/gui/e-meeting-model.c:296 calendar/gui/e-meeting-model.c:319
 msgid "In Process"
-msgstr "In Corso"
+msgstr "In corso"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
@@ -6034,7 +6029,7 @@ msgstr "_Opzioni"
 
 #: calendar/gui/e-meeting-time-sel.c:464
 msgid "Show _Only Working Hours"
-msgstr "Mostra s_olo le ore lavorative"
+msgstr "Mostra solo le _ore lavorative"
 
 #: calendar/gui/e-meeting-time-sel.c:474
 msgid "Show _Zoomed Out"
@@ -6042,7 +6037,7 @@ msgstr "Vista _allargata"
 
 #: calendar/gui/e-meeting-time-sel.c:489
 msgid "_Update Free/Busy"
-msgstr "A_ggiorna Disponibilità"
+msgstr "A_ggiorna disponibilità"
 
 #: calendar/gui/e-meeting-time-sel.c:504
 msgid "_<<"
@@ -6058,19 +6053,19 @@ msgstr ">_>"
 
 #: calendar/gui/e-meeting-time-sel.c:554
 msgid "_All People and Resources"
-msgstr "_Tutto il Personale e le Risorse"
+msgstr "_Tutto il personale e le risorse"
 
 #: calendar/gui/e-meeting-time-sel.c:563
 msgid "All _People and One Resource"
-msgstr "Tutto il _Personale e una Risorsa"
+msgstr "Tutto il _personale e una risorsa"
 
 #: calendar/gui/e-meeting-time-sel.c:572
 msgid "_Required People"
-msgstr "Personale _Richiesto"
+msgstr "Personale _richiesto"
 
 #: calendar/gui/e-meeting-time-sel.c:581
 msgid "Required People and _One Resource"
-msgstr "Personale Richiesto e _una risorsa"
+msgstr "Personale richiesto e _una risorsa"
 
 #: calendar/gui/e-meeting-time-sel.c:600
 msgid "Meeting _start time:"
@@ -6078,7 +6073,7 @@ msgstr "_Inizio appuntamento ore:"
 
 #: calendar/gui/e-meeting-time-sel.c:620
 msgid "Meeting _end time:"
-msgstr "T_ermine dell' appuntamento ore:"
+msgstr "T_ermine dell'appuntamento ore:"
 
 #: calendar/gui/e-tasks.c:360 calendar/gui/gnome-cal.c:2006
 #: calendar/gui/gnome-cal.c:2017
@@ -6124,7 +6119,7 @@ msgstr "Pulizia"
 
 #: calendar/gui/e-week-view.c:3581
 msgid "New _Appointment..."
-msgstr "Nuovo _Appuntamento..."
+msgstr "Nuovo _appuntamento..."
 
 #: calendar/gui/gnome-cal.c:1481
 #, c-format
@@ -6139,7 +6134,7 @@ msgstr "Il metodo richiesto per aprire `%s' non è supportato"
 #: calendar/gui/gnome-cal.c:1556
 #, c-format
 msgid "Adding alarms for %s"
-msgstr "Aggiunta Segnalazioni per %s"
+msgstr "Aggiunta segnalazioni per %s"
 
 #: calendar/gui/gnome-cal.c:1748
 #, c-format
@@ -6150,8 +6145,7 @@ msgid ""
 msgstr ""
 "Il backend del calendario per \n"
 "%s\n"
-"è crashato. E' necessario riavviare Evolution se si vuole continuare ad "
-"utilizzarlo"
+"è andato in crash. Per utilizzarlo nuovamente -bè necessario riavviare Evolution"-A
 
 #: calendar/gui/gnome-cal.c:1757
 #, c-format
@@ -6162,7 +6156,7 @@ msgid ""
 msgstr ""
 "Il backend per\n"
 "%s\n"
-"è crashato. E' necessario riavviare Evolution per continuare ad utilizzarlo"
+"è andato in crash. Per utilizzarlo nuovamente -bè necessario riavviare Evolution"-A
 
 #: calendar/gui/gnome-cal.c:1988
 #, c-format
@@ -6195,7 +6189,7 @@ msgstr "Vai alla data"
 
 #: calendar/gui/goto-dialog.glade.h:6
 msgid "Go To Today"
-msgstr "Vai A Oggi"
+msgstr "Vai a oggi"
 
 #: calendar/gui/goto-dialog.glade.h:7
 msgid "January"
@@ -6248,7 +6242,7 @@ msgstr "Informazioni sull'attività"
 
 #: calendar/gui/itip-utils.c:390 calendar/gui/itip-utils.c:499
 msgid "Journal information"
-msgstr "Informazioni di Diario"
+msgstr "Informazioni sull'agenda"
 
 #: calendar/gui/itip-utils.c:392 calendar/gui/itip-utils.c:517
 msgid "Free/Busy information"
@@ -6281,7 +6275,7 @@ msgstr "Informazioni iCalendar"
 
 #: calendar/gui/itip-utils.c:667
 msgid "You must be an attendee of the event."
-msgstr "Devi essere un partecipante all'evento."
+msgstr "È richiesta la propria partecipazione all'evento."
 
 #: calendar/gui/print.c:547
 msgid "Su"
@@ -6337,7 +6331,7 @@ msgstr "Settimana selezionata (%s  - %s) "
 #. Month
 #: calendar/gui/print.c:1920
 msgid "Selected month (%b %Y)"
-msgstr "Mese  selezionato (%b %Y)"
+msgstr "Mese selezionato (%b %Y)"
 
 #. Year
 #: calendar/gui/print.c:1927
@@ -6361,7 +6355,7 @@ msgstr "Priorità: %s"
 #: calendar/gui/print.c:2343
 #, c-format
 msgid "Percent Complete: %i"
-msgstr "Percentuale Completata: %i"
+msgstr "Percentuale completata: %i"
 
 #: calendar/gui/print.c:2355
 #, c-format
@@ -6381,15 +6375,15 @@ msgstr "Contatti: "
 #: calendar/gui/tasks-control.c:581 mail/mail-callbacks.c:2948
 #: my-evolution/e-summary.c:649
 msgid "Print Preview"
-msgstr "Anteprima di Stampa"
+msgstr "Anteprima di stampa"
 
 #: calendar/gui/print.c:2552
 msgid "Print Item"
-msgstr "Stampa Elemento"
+msgstr "Stampa elemento"
 
 #: calendar/gui/print.c:2625
 msgid "Print Setup"
-msgstr "Impostazione Pagina"
+msgstr "Impostazione pagina"
 
 #: calendar/gui/tasks-control.c:152
 msgid "The URI of the tasks folder to display"
@@ -6402,9 +6396,7 @@ msgid ""
 "\n"
 "Really erase these tasks?"
 msgstr ""
-"Questa operazione cancella definitivamente tutte le attività marcate come "
-"completate.  Se si continua, non sarà più possibile ripristinare questi "
-"messaggi.\n"
+"Questa operazione cancella definitivamente tutte le attività contrassegnate come completate. Se si continua, non sarà più possibile ripristinare questi messaggi.\n"
 "\n"
 "Cancellare comunque queste attività?"
 
@@ -6462,7 +6454,7 @@ msgstr "Calendario di Gnome"
 
 #: calendar/pcs/cal-backend-file.c:316
 msgid "Can't save calendar data: Malformed URI."
-msgstr "Impossibile salvare la data di calendario: URI malformata."
+msgstr "Impossibile salvare la data di calendario: URI malformulata."
 
 #: calendar/pcs/query.c:289
 msgid "time-now expects 0 arguments"
@@ -8318,17 +8310,17 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"E' stato riscontrato un messaggio di stato GnuPG inaspettato:\n"
+"È stato riscontrato un messaggio di stato GnuPG inaspettato:\n"
 "\n"
 "%s"
 
 #: camel/camel-gpg-context.c:777
 msgid "Failed to parse gpg userid hint."
-msgstr "Fallita analisi userid hint gpg."
+msgstr "Analisi userid hint gpg non riuscita."
 
 #: camel/camel-gpg-context.c:802
 msgid "Failed to parse gpg passphrase request."
-msgstr "Fallita analisi richiesta passphrase gpg."
+msgstr "Analisi richiesta passphrase gpg non riuscita."
 
 #: camel/camel-gpg-context.c:810
 #, c-format
@@ -8336,7 +8328,7 @@ msgid ""
 "You need a passphrase to unlock the key for\n"
 "user: \"%s\""
 msgstr ""
-"E' necessaria una passphrase per sbloccare la chiave\n"
+"È necessaria una passphrase per sbloccare la chiave\n"
 "per l'utente: \"%s\""
 
 #: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
@@ -8347,9 +8339,7 @@ msgstr "Annullato."
 
 #: camel/camel-gpg-context.c:839
 msgid "Failed to unlock secret key: 3 bad passphrases given."
-msgstr ""
-"Fallito lo sblocco della chiave segreta: sono state fornite 3 passphrases "
-"errate."
+msgstr "Sblocco della chiave segreta non riuscito: sono state fornite 3 passphrases errate."
 
 #: camel/camel-gpg-context.c:845
 #, c-format
@@ -8384,14 +8374,14 @@ msgstr "Impossibile elaborare con GPG %s: %s\n"
 #: camel/camel-gpg-context.c:1624
 #, c-format
 msgid "Failed to execute gpg: %s"
-msgstr "Fallita l'esecuzione di gpg: %s"
+msgstr "Esecuzione di gpg non riuscita: %s"
 
 #: camel/camel-gpg-context.c:1318 camel/camel-gpg-context.c:1395
 #: camel/camel-gpg-context.c:1464 camel/camel-gpg-context.c:1494
 #: camel/camel-gpg-context.c:1520 camel/camel-gpg-context.c:1550
 #: camel/camel-gpg-context.c:1595 camel/camel-gpg-context.c:1646
 msgid "Failed to execute gpg."
-msgstr "Fallita l'esecuzione di gpg."
+msgstr "Esecuzione di gpg non riuscita."
 
 #: camel/camel-gpg-context.c:1380
 #, c-format
@@ -8514,7 +8504,7 @@ msgstr "Questa parte del messaggio è firmata"
 
 #: camel/camel-multipart-signed.c:698
 msgid "parse error"
-msgstr "errore di analisi del testo"
+msgstr "Errore di analisi del testo"
 
 #: camel/camel-provider.c:132
 #, c-format
@@ -8543,7 +8533,7 @@ msgstr "Con questa opzione ci si connette al server usando un login anonimo."
 
 #: camel/camel-sasl-anonymous.c:110 camel/camel-sasl-plain.c:87
 msgid "Authentication failed."
-msgstr "Autenticazione fallita"
+msgstr "Autenticazione non riuscita"
 
 #: camel/camel-sasl-anonymous.c:119
 #, c-format
@@ -8551,7 +8541,7 @@ msgid ""
 "Invalid email address trace information:\n"
 "%s"
 msgstr ""
-"Informazioni di percorso di indirizzo email non valide:\n"
+"Informazioni di percorso di indirizzo Email non valide:\n"
 "%s"
 
 #: camel/camel-sasl-anonymous.c:131
@@ -8580,9 +8570,7 @@ msgstr "CRAM-MD5"
 msgid ""
 "This option will connect to the server using a secure CRAM-MD5 password, if "
 "the server supports it."
-msgstr ""
-"Con questa opzione ci si connette al server usando una password CRAM-MD5 "
-"sicura, se il server lo supporta."
+msgstr "Con questa opzione ci si connette al server usando una password CRAM-MD5 sicura, se il server la supporta."
 
 #: camel/camel-sasl-digest-md5.c:46
 msgid "DIGEST-MD5"
@@ -8628,8 +8616,7 @@ msgstr "GSSAPI"
 
 #: camel/camel-sasl-gssapi.c:50
 msgid "This option will connect to the server using Kerberos 5 authentication."
-msgstr ""
-"Con questa ci si connette al server usando Kerberos 5 per l'autenticazione."
+msgstr "Con questa opzione ci si connette al server usando Kerberos 5 per l'autenticazione."
 
 #: camel/camel-sasl-gssapi.c:148
 msgid ""
@@ -8641,7 +8628,7 @@ msgstr ""
 
 #: camel/camel-sasl-gssapi.c:153
 msgid "The provided target_name parameter was ill-formed."
-msgstr "Il parametro target_name fornito era malformato."
+msgstr "Il parametro target_name fornito era malformulato."
 
 #: camel/camel-sasl-gssapi.c:156
 msgid ""
@@ -8696,12 +8683,12 @@ msgstr "Le credenziali di riferimento sono scadute."
 #: camel/camel-sasl-kerberos4.c:219
 #: camel/providers/imap/camel-imap-store.c:1052
 msgid "Bad authentication response from server."
-msgstr "Cattiva risposta di autenticazione dal server."
+msgstr "Risposta di autenticazione dal server errata."
 
 #: camel/camel-sasl-gssapi.c:213
 #, c-format
 msgid "Failed to resolve host `%s': %s"
-msgstr "Fallita la risoluzione host '%s': %s"
+msgstr "Risoluzione host '%s' non riuscita: %s"
 
 #: camel/camel-sasl-gssapi.c:299
 msgid "Unsupported security layer."
@@ -8713,8 +8700,7 @@ msgstr "Kerberos 4"
 
 #: camel/camel-sasl-kerberos4.c:43
 msgid "This option will connect to the server using Kerberos 4 authentication."
-msgstr ""
-"Con questa ci si connette al server usando Kerberos 4 per l'autenticazione."
+msgstr "Con questa opzione ci si connette al server usando Kerberos 4 per l'autenticazione."
 
 #: camel/camel-sasl-kerberos4.c:162
 #, c-format
@@ -8731,12 +8717,11 @@ msgstr "Login"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
-msgstr ""
-"Con questa opzione ci si connette al server usando una semplice password."
+msgstr "Con questa opzione ci si connette al server usando una semplice password."
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
-msgstr "Stato di Autenticazione sconosciuto."
+msgstr "Stato di autenticazione sconosciuto."
 
 #: camel/camel-sasl-ntlm.c:31
 msgid "NTLM / SPA"
@@ -8760,8 +8745,7 @@ msgstr "POP prima di SMTP"
 
 #: camel/camel-sasl-popb4smtp.c:36
 msgid "This option will authorise a POP connection before attempting SMTP"
-msgstr ""
-"Con questa opzione si autorizza una connessione POP prima di tentare SMTP"
+msgstr "Con questa opzione si autorizza una connessione POP prima di tentare SMTP"
 
 #: camel/camel-sasl-popb4smtp.c:107
 msgid "POP Source URI"
@@ -8769,31 +8753,31 @@ msgstr "POP Sorgente URI"
 
 #: camel/camel-sasl-popb4smtp.c:111
 msgid "POP Before SMTP auth using an unknown transport"
-msgstr "autorizzazione POP prima di SMTP usando un trasporto sconosciuto"
+msgstr "Autorizzazione POP prima di SMTP usando un trasporto sconosciuto"
 
 #: camel/camel-sasl-popb4smtp.c:116
 msgid "POP Before SMTP auth using a non-pop source"
-msgstr "autorizzazione POP prima di SMTP usando una sorgente non-pop"
+msgstr "Autorizzazione POP prima di SMTP usando una sorgente non-pop"
 
 #: camel/camel-search-private.c:114
 #, c-format
 msgid "Regular expression compilation failed: %s: %s"
-msgstr "Compilazione dell'espressione regolare fallita: %s: %s"
+msgstr "Compilazione dell'espressione regolare non riuscita: %s: %s"
 
 #: camel/camel-service.c:282
 #, c-format
 msgid "URL '%s' needs a username component"
-msgstr "URL '%s' necessita di un componente per lo username "
+msgstr "URL '%s' necessita di un componente username "
 
 #: camel/camel-service.c:290
 #, c-format
 msgid "URL '%s' needs a host component"
-msgstr "URL '%s' necessita di un componente per l'host"
+msgstr "URL '%s' necessita di un componente host"
 
 #: camel/camel-service.c:298
 #, c-format
 msgid "URL '%s' needs a path component"
-msgstr "URL '%s' necessita di un componente per il percorso"
+msgstr "URL '%s' necessita di un componente percorso"
 
 #: camel/camel-service.c:750
 #, c-format
@@ -8808,17 +8792,17 @@ msgstr "Errore nella ricerca del nome: %s"
 #: camel/camel-service.c:804
 #, c-format
 msgid "Host lookup failed: cannot create thread: %s"
-msgstr "Ricerca dell'host fallita: impossibile creare il thread: %s"
+msgstr "Ricerca dell'host non riuscita. Impossibile creare il thread: %s"
 
 #: camel/camel-service.c:818
 #, c-format
 msgid "Host lookup failed: %s: host not found"
-msgstr "Ricerca dell'Host fallita: %s: host non trovato"
+msgstr "Ricerca dell'host non riuscita: %s: host non trovato"
 
 #: camel/camel-service.c:821
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
-msgstr "Ricerca dell'Host fallita: %s: motivo sconosciuto"
+msgstr "Ricerca dell'host fallita: %s: motivo sconosciuto"
 
 #: camel/camel-service.c:880
 msgid "Resolving address"
@@ -8826,15 +8810,15 @@ msgstr "Risoluzione indirizzo"
 
 #: camel/camel-service.c:949
 msgid "Host lookup failed: host not found"
-msgstr "Ricerca dell'Host fallita: host non trovato"
+msgstr "Ricerca dell'host fallita: host non trovato"
 
 #: camel/camel-service.c:952
 msgid "Host lookup failed: unknown reason"
-msgstr "Ricerca dell'Host fallita: motivo sconosciuto"
+msgstr "Ricerca dell'host non riuscita: motivo sconosciuto"
 
 #: camel/camel-session.c:75
 msgid "Virtual folder email provider"
-msgstr "Fornitore di cartelle email virtuali "
+msgstr "Fornitore di cartelle Email virtuali "
 
 #: camel/camel-session.c:77
 msgid "For reading mail as a query of another set of folders"
@@ -13287,7 +13271,7 @@ msgstr "Puntatore a dati esterni sconosciuti (tipo \"%s\")"
 
 #: mail/mail-format.c:1838
 msgid "Malformed external-body part."
-msgstr "Parte esterna del messaggio malformata."
+msgstr "Parte esterna del messaggio malformulata."
 
 #: mail/mail-local.c:541 mail/mail-local.c:543
 #, c-format
