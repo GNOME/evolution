@@ -466,8 +466,6 @@ finalize_offline_hash_foreach (void *key,
 
 	CORBA_exception_init (&ev);
 
-	g_print ("Putting component off-line -- %s", component_info->id);
-
 	GNOME_Evolution_Offline_goOffline (component_info->offline_interface,
 					   component_info->progress_listener_interface,
 					   &ev);

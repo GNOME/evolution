@@ -606,7 +606,6 @@ setup_components (EShell *shell,
 			e_shell_user_creatable_items_handler_add_component
 				(priv->user_creatable_items_handler,
 				 e_component_registry_get_component_by_id (priv->component_registry, info->iid));
-			g_print ("Evolution component activated successfully -- %s\n", info->iid);
 		}
 
 		if (splash != NULL)

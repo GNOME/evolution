@@ -381,8 +381,6 @@ start_import (const char *folderpath,
 		return;
 	}
 
-	g_print ("Importing with: %s\n", real_iid);
-
 	icd = g_new (ImporterComponentData, 1);
 	icd->stop = FALSE;
 	icd->destroyed = FALSE;
@@ -497,7 +495,6 @@ item_selected (GtkWidget *item,
 
 	g_free (data->choosen_iid);
 	iid = gtk_object_get_data (GTK_OBJECT (item), "oafiid");
-	g_print ("iid: %s\n", iid);
 	if (iid == NULL)
 		data->choosen_iid = g_strdup ("Automatic");
 	else

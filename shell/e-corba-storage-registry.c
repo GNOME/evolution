@@ -81,8 +81,6 @@ impl_StorageRegistry_addStorage (PortableServer_Servant servant,
 	EStorage *storage;
 	GNOME_Evolution_StorageListener listener_interface;
 
-	g_print ("Shell: Registering storage -- %s\n", name);
-
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage_registry = E_CORBA_STORAGE_REGISTRY (bonobo_object);
 	priv = storage_registry->priv;
@@ -122,8 +120,6 @@ impl_StorageRegistry_removeStorageByName (PortableServer_Servant servant,
 	ECorbaStorageRegistry *storage_registry;
 	ECorbaStorageRegistryPrivate *priv;
 	EStorage *storage;
-
-	g_print ("Shell: Removing storage -- %s\n", name);
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage_registry = E_CORBA_STORAGE_REGISTRY (bonobo_object);

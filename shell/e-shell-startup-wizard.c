@@ -143,8 +143,6 @@ druid_event_notify_cb (BonoboListener *listener,
 
 		page = g_list_nth_data (page_list, pagenum);
 		gnome_druid_set_page (GNOME_DRUID (data->druid), page);
-	} else {
-		g_print ("Event: %s\n", name);
 	}
 }
 
@@ -787,10 +785,8 @@ e_shell_startup_wizard_create (void)
 	CORBA_exception_free (&ev);
 
 	if (runbefore == TRUE) {
-		g_print ("Already run\n");
 		bonobo_object_release_unref (data->db, NULL);
 		g_free (data);
-
 		return TRUE;
 	}
 

@@ -1,5 +1,54 @@
 2001-09-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Remove a bunch of debugging messages, as per #7741.]
+
+	* evolution-wizard.c (impl_GNOME_Evolution_Wizard_notifyAction):
+	Removed debugging messages.
+
+	* e-storage-set.c (storage_removed_folder_cb): Removed debugging
+	message.
+
+	* e-storage-set-view.c (tree_drag_begin): Removed debugging
+	message.
+	(tree_drag_data_received): Removed debugging messages.
+
+	* e-shortcuts.c (idle_cb): Removed debugging message.
+
+	* e-shortcuts-view-model.c (get_icon_for_item): Removed debugging
+	message.
+
+	* e-shell.c (setup_components): Removed debugging message.
+
+	* e-shell-startup-wizard.c (druid_event_notify_cb): Removed
+	debugging message.
+	(e_shell_startup_wizard_create): Removed debugging message.
+
+	* e-shell-offline-handler.c (finalize_offline_hash_foreach):
+	Removed debugging message.
+
+	* e-shell-importer.c (start_import): Removed debugging message.
+	(item_selected): Same here.
+
+	* e-local-storage.c (async_xfer_folder_step): Removed debugging
+	message.
+
+	* e-corba-storage.c (impl_StorageListener_notifyFolderCreated):
+	Changed the error from a g_print() into a g_warning().  Removed
+	debugging message.
+
+	* e-corba-storage-registry.c (impl_StorageRegistry_addStorage):
+	Removed debugging message.
+	(impl_StorageRegistry_removeStorageByName): Likewise.
+
+	* e-component-registry.c (component_free): Removed debugging
+	message.
+	(register_component): Don't printf() about the registered folder
+	type.
+	(register_component): Don't printf() about the registered schema
+	type.
+
+2001-09-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (pop_up_folder_bar): Disable DnD on the
 	EStorageSetView to avoid strange behaviors.
 	(reparent_storage_set_view_box_and_destroy_popup): Re-enable DnD

@@ -68,8 +68,6 @@ get_icon_for_item (EShortcutsViewModel *shortcuts_view_model,
 								 want_mini);
 	}
 
-	g_print ("(%s is not a folder!)\n", item->name);
-
 	return NULL;
 }
 

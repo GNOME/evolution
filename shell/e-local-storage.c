@@ -756,8 +756,6 @@ async_xfer_folder_step (ELocalStorage *local_storage,
 
 	priv = local_storage->priv;
 
-	g_print ("async_xfer_folder_step %s -> %s\n", source_path, destination_path);
-
 	source_folder = e_storage_get_folder (E_STORAGE (local_storage), source_path);
 	g_assert (source_folder != NULL);
 

@@ -458,7 +458,6 @@ idle_cb (void *data)
 	priv = shortcuts->priv;
 
 	if (priv->dirty) {
-		g_print ("Saving shortcuts -- %s\n", priv->file_name);
 		if (! e_shortcuts_save (shortcuts, NULL))
 			g_warning ("Saving of shortcuts failed -- %s", priv->file_name);
 		else

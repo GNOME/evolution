@@ -61,8 +61,6 @@ spit_out_shortcuts (EvolutionShellClient *shell_client)
 	CORBA_Environment ev;
 	int i, j;
 
-	g_print ("** Getting shortcuts from the shell:\n");
-
 	CORBA_exception_init (&ev);
 
 	shortcuts_interface = evolution_shell_client_get_shortcuts_interface (shell_client);

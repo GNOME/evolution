@@ -88,8 +88,6 @@ component_free (Component *component)
 	GNOME_Evolution_ShellComponent_unsetOwner (corba_shell_component, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)
 		g_warning ("Cannot unregister component -- %s", component->id);
-	else
-		g_print ("Component unregistered successfully -- %s\n", component->id);
 	CORBA_exception_free (&ev);
 
 	g_free (component->id);
@@ -203,9 +201,6 @@ register_component (EComponentRegistry *component_registry,
 				     component)) {
 			g_warning ("Cannot register type `%s' for component %s",
 				   type->name, component->id);
-		} else {
-			g_print ("Registered type for component -- (%s) %s\n",
-				 type->name, component->id);
 		}
 	}
 
@@ -225,8 +220,6 @@ register_component (EComponentRegistry *component_registry,
 			schema = supported_schemas->_buffer[i];
 			if (! e_uri_schema_registry_set_handler_for_schema (uri_schema_registry, schema, component->client))
 				g_warning ("Cannot register schema `%s' for component %s", schema, component->id);
-			else
-				g_print ("Registered handler for schema `%s' -- %s\n", schema, component->id);
 		}
 
 		CORBA_free (supported_schemas);

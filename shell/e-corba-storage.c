@@ -113,7 +113,7 @@ impl_StorageListener_notifyFolderCreated (PortableServer_Servant servant,
 	e_folder_set_unread_count (e_folder, folder->unreadCount);
 
 	if (! e_storage_new_folder (storage, path, e_folder)) {
-		g_print ("Cannot register folder -- %s %s\n", path, folder->displayName);
+		g_warning ("Cannot register folder -- %s %s\n", path, folder->displayName);
 		CORBA_exception_set (ev,
 				     CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_StorageListener_Exists,
@@ -121,8 +121,6 @@ impl_StorageListener_notifyFolderCreated (PortableServer_Servant servant,
 		gtk_object_unref (GTK_OBJECT (e_folder));
 		return;
 	}
-
-	g_print ("Folder registered successfully -- %s %s\n", path, folder->displayName);
 }
 
 static void

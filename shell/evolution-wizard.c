@@ -106,7 +106,6 @@ impl_GNOME_Evolution_Wizard_notifyAction (PortableServer_Servant servant,
 		return;
 	}
 
-	g_print ("Emit something\n");
 	switch (action) {
 	case GNOME_Evolution_Wizard_NEXT:
 		gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[NEXT],
@@ -124,7 +123,6 @@ impl_GNOME_Evolution_Wizard_notifyAction (PortableServer_Servant servant,
 		break;
 
 	case GNOME_Evolution_Wizard_FINISH:
-		g_print ("Emit finish\n");
 		gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[FINISH],
 				 pagenumber);
 		break;

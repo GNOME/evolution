@@ -831,7 +831,6 @@ tree_drag_begin (ETree *etree,
 	storage_set_view = E_STORAGE_SET_VIEW (etree);
 	priv = storage_set_view->priv;
 
-	g_print ("%s -- %d\n", __FUNCTION__, row);
 	g_free (priv->selected_row_path);
 	priv->selected_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path));
 
@@ -1179,13 +1178,11 @@ tree_drag_data_received (ETree *etree,
 
 		switch (context->action) {
 		case GDK_ACTION_MOVE:
-			g_print ("EStorageSetView: Moving from `%s' to `%s'\n", source_path, destination_path);
 			e_storage_set_async_xfer_folder (priv->storage_set, source_path, destination_path, TRUE,
 							 folder_xfer_callback, NULL);
 			handled = TRUE;
 			break;
 		case GDK_ACTION_COPY:
-			g_print ("EStorageSetView: Copying from `%s' to `%s'\n", source_path, destination_path);
 			e_storage_set_async_xfer_folder (priv->storage_set, source_path, destination_path, FALSE,
 							 folder_xfer_callback, NULL);
 			handled = TRUE;
