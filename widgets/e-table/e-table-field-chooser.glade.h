@@ -5,3 +5,5 @@
  */
 
 gchar *s = N_("Field Chooser");
+gchar *s = N_("To add a column to your table, drag it into\n"
+              "the location in which you want it to appear.");

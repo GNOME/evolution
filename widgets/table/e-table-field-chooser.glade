@@ -75,12 +75,30 @@
       <class>GtkVBox</class>
       <name>vbox-top</name>
       <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
+      <spacing>4</spacing>
       <child>
 	<padding>0</padding>
 	<expand>True</expand>
 	<fill>True</fill>
       </child>
+
+      <widget>
+	<class>GtkLabel</class>
+	<name>label1</name>
+	<label>To add a column to your table, drag it into
+the location in which you want it to appear.</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>0.5</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+      </widget>
 
       <widget>
 	<class>GtkScrolledWindow</class>
