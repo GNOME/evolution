@@ -796,7 +796,6 @@ e_shell_construct (EShell *shell,
 
 	g_free (shortcut_path);
 
-	sleep (2);
 	gtk_widget_unref (splash);
 	gtk_widget_destroy (splash);
 

@@ -314,11 +314,20 @@ void
 e_shell_command_add_to_shortcut_bar (EShell *shell,
 				     EShellView *shell_view)
 {
+	EShortcuts *shortcuts;
+	int group_num;
+	char *uri;
+
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (shell_view != NULL && E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
-	g_warning ("To be implemented");
+	shortcuts = e_shell_get_shortcuts (shell);
+	group_num = e_shell_view_get_current_shortcuts_group_num (shell_view);
+	uri = e_shell_view_get_current_uri (shell_view);
+
+	e_shortcuts_add_shortcut (shortcuts, group_num, -1, uri);
 }
 
 

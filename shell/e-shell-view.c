@@ -677,6 +677,22 @@ setup_progress_bar (EShellView *shell_view)
 	bonobo_object_unref (BONOBO_OBJECT (control));
 }
 
+int
+e_shell_view_get_current_shortcuts_group_num (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+	EShortcutsView *shortcuts_view;
+	int group;
+
+	priv = shell_view->priv;
+
+	shortcuts_view = E_SHORTCUTS_VIEW (priv->shortcut_bar);
+
+	group = e_group_bar_get_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)));
+
+	return group;
+}
+
 static void
 setup_widgets (EShellView *shell_view)
 {

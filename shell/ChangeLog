@@ -1,3 +1,20 @@
+2001-05-30  Jason Leach  <jleach@ximian.com>
+
+	* e-shell.c (e_shell_construct): Removed an unecessary sleep(2)
+	call, so evolution will start up 2 seconds faster now.
+
+2001-05-30  Jason Leach  <jleach@ximian.com>
+
+	* e-shell-view-menu.c: Connect the AddFolderToShortcutBar verb to
+	their implementation functions.
+
+	* e-shell-view.c (e_shell_view_get_current_shortcuts_group_num):
+	New function, use it to find out which shourtcut group is
+	currently open on the shortcut bar.
+
+	* e-shell-folder-commands.c (e_shell_command_add_to_shortcut_bar):
+	Implement this using new function described above.
+
 2001-05-29  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-shell-view.c (setup_progress_bar): Added missing castt.
