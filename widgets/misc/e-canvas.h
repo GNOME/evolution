@@ -66,12 +66,18 @@ enum {
 	E_CANVAS_ITEM_SELECTION_DELETE_DATA   = 1 << 2,
 };
 
+typedef struct {
+	GnomeCanvasItem *item;
+	gpointer         id;
+} ECanvasSelectionInfo;
+
 struct _ECanvas
 {
-	GnomeCanvas  parent;
-
-	int          idle_id;
-	GList       *selection;
+	GnomeCanvas parent;
+		             
+	int                   idle_id;
+	GList                *selection;
+	ECanvasSelectionInfo *cursor;
 };
 
 struct _ECanvasClass

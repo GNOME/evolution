@@ -45,11 +45,6 @@ enum {
 
 static guint e_canvas_signals [LAST_SIGNAL] = { 0, };
 
-typedef struct {
-	GnomeCanvasItem *item;
-	gpointer         id;
-} ECanvasSelectionInfo;
-
 GtkType
 e_canvas_get_type (void)
 {
@@ -113,6 +108,7 @@ static void
 e_canvas_init (ECanvas *canvas)
 {
 	canvas->selection = NULL;
+	canvas->cursor = NULL;
 }
 
 static void
@@ -519,6 +515,7 @@ e_canvas_item_set_cursor (GnomeCanvasItem *item, gpointer id)
 		func(item, flags, id);
 	
 	canvas->selection = g_list_prepend(canvas->selection, info);
+	canvas->cursor = info;
 }
 
 void
@@ -538,9 +535,19 @@ e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 	g_return_if_fail(GNOME_IS_CANVAS_ITEM(item));
 	g_return_if_fail(item->canvas != NULL);
 	g_return_if_fail(E_IS_CANVAS(item->canvas));
+	
+	flags = E_CANVAS_ITEM_SELECTION_SELECT;
+	canvas = E_CANVAS(item->canvas);
+	
+	if (canvas->cursor) {
+		func = gtk_object_get_data(GTK_OBJECT(canvas->cursor->item), "ECanvasItem::selection_callback");
+		if (func)
+			func(canvas->cursor->item, flags, canvas->cursor->id);
+	}
+	
+	gnome_canvas_item_grab_focus(item);
 
 	flags = E_CANVAS_ITEM_SELECTION_SELECT | E_CANVAS_ITEM_SELECTION_CURSOR;
-	canvas = E_CANVAS(item->canvas);
 
 	info = g_new(ECanvasSelectionInfo, 1);
 	info->item = item;
@@ -551,6 +558,7 @@ e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 		func(item, flags, id);
 	
 	canvas->selection = g_list_prepend(canvas->selection, info);
+	canvas->cursor = info;
 }
 
 void
@@ -575,12 +583,17 @@ e_canvas_item_remove_selection (GnomeCanvasItem *item, gpointer id)
 		if (info->item == item) {
 			ECanvasItemSelectionCompareFunc compare_func;
 			compare_func = gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_compare_callback");
+
 			if (compare_func(info->item, info->id, id, 0) == 0) {
 				ECanvasItemSelectionFunc func;
 				func = gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_callback");
 				if (func)
 					func(info->item, flags, info->id);
 				canvas->selection = g_list_remove_link(canvas->selection, list);
+
+				if (canvas->cursor == info)
+					canvas->cursor = NULL;
+
 				g_free(info);
 				g_list_free_1(list);
 				break;
