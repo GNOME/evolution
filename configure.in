@@ -6,7 +6,7 @@ cflags_set=${CFLAGS+set}
 
 EVOLUTION_MAJOR_VERSION=0
 EVOLUTION_MINOR_VERSION=0
-EVOLUTION_MICRO_VERSION=1
+EVOLUTION_MICRO_VERSION=2
 VERSION=$EVOLUTION_MINOR_VERSION.$EVOLUTION_MICRO_VERSION
 PACKAGE=evolution
 
@@ -193,7 +193,7 @@ fi
 dnl **************************************************
 dnl * Print check
 dnl **************************************************
-AC_MSG_CHECKING(for GnomePrint libraries >= 0.13)
+AC_MSG_CHECKING(for GnomePrint libraries >= 0.20)
 if gnome-config --libs print > /dev/null 2>&1; then 
     vers=`gnome-config --modversion print | sed -e "s/gnome-print-//" | \
         awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
@@ -326,7 +326,7 @@ if gnome-config --libs gtkhtml > /dev/null 2>&1; then
 	vers=`gnome-config --modversion gtkhtml`
 	case $vers
 	in
-	    gtkhtml-0.1) gtkhtml_ok=false ;;
+	    gtkhtml-0.5) gtkhtml_ok=false ;;
 	    *) gtkhtml_ok=true ;;
 	esac
 else
@@ -336,7 +336,7 @@ fi
 if $gtkhtml_ok; then
 	AC_MSG_RESULT($vers found)
 else
-	AC_MSG_ERROR(GtkHTML 0.2 or later is required to compile Evolution)
+	AC_MSG_ERROR(GtkHTML 0.5 or later is required to compile Evolution)
 fi
 
 GTKHTML_CFLAGS="`gnome-config --cflags gtkhtml`"

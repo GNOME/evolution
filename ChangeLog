@@ -1,3 +1,8 @@
+2000-07-10  Jeffrey Stedfast <fejj@helixcode.com>
+
+	* configure.in: Updated to check for required GtkHTML and
+	gnome-print
+
 2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* configure.in: Remove the conduits stuff for now.  They depend on
