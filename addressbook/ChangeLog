@@ -1,3 +1,34 @@
+2003-01-08  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-addressbook-view.h: add
+	E_ADDRESSBOOK_VIEW_TREEVIEW to the enum, ifdef'ed out.
+
+	* gui/widgets/e-addressbook-view.c
+	(e_addressbook_view_class_init): add ifdefed treeview code.
+	(init_collection): same.
+	(display_view): same.
+	(get_selection_model): same.
+	(treeview_row_activated): same.
+	(create_treeview_view): same.
+	(change_view_type): same.xo
+	(e_addressbook_view_print): same.
+	(e_addressbook_view_print_preview): same.
+
+	* gui/widgets/Makefile.am: add in the treeview sources (commented
+	out).
+
+2003-01-08  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/gal-view-minicard.c (gal_view_minicard_edit): add
+	parent arg.
+
+	* gui/widgets/e-addressbook-treeview-adapter.[ch]: new files, for
+	a GtkTreeView view of contacts.
+	
+	* gui/widgets/gal-view-treeview.[ch]: same
+	
+	* gui/widgets/gal-view-favroty-treeview.[ch]: same
+	
 2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/Makefile.am: $(datadir)/evolution/images instead

@@ -30,6 +30,7 @@
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-treeview-selection-model.h>
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
 #include <gal/util/e-xml-utils.h>
@@ -45,12 +46,19 @@
 
 #include "gal-view-factory-minicard.h"
 #include "gal-view-minicard.h"
+#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
+#include "gal-view-factory-treeview.h"
+#include "gal-view-treeview.h"
+#endif
 
 #include "e-addressbook-marshal.h"
 #include "e-addressbook-view.h"
 #include "e-addressbook-model.h"
 #include "e-addressbook-util.h"
 #include "e-addressbook-table-adapter.h"
+#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
+#include "e-addressbook-treeview-adapter.h"
+#endif
 #include "e-addressbook-reflow-adapter.h"
 #include "e-minicard-view-widget.h"
 #include "e-contact-save-as.h"
@@ -184,7 +192,13 @@ e_addressbook_view_class_init (EAddressbookViewClass *klass)
 					 g_param_spec_int ("type",
 							   _("Type"),
 							   /*_( */"XXX blurb" /*)*/,
-							   E_ADDRESSBOOK_VIEW_NONE, E_ADDRESSBOOK_VIEW_MINICARD, E_ADDRESSBOOK_VIEW_NONE,
+							   E_ADDRESSBOOK_VIEW_NONE, 
+#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
+							   E_ADDRESSBOOK_VIEW_TREEVIEW,
+#else
+							   E_ADDRESSBOOK_VIEW_MINICARD,
+#endif
+							   E_ADDRESSBOOK_VIEW_NONE,
 							   G_PARAM_READWRITE));
 
 	e_addressbook_view_signals [STATUS_MESSAGE] =
@@ -397,6 +411,12 @@ init_collection (void)
 		gal_view_collection_add_factory (collection, factory);
 		g_object_unref (factory);
 
+#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
+		factory = gal_view_factory_treeview_new ();
+		gal_view_collection_add_factory (collection, factory);
+		g_object_unref (factory);
+#endif
+
 		gal_view_collection_load(collection);
 	}
 }
@@ -414,6 +434,12 @@ display_view(GalViewInstance *instance,
 		change_view_type (address_view, E_ADDRESSBOOK_VIEW_MINICARD);
 		gal_view_minicard_attach (GAL_VIEW_MINICARD(view), E_MINICARD_VIEW_WIDGET (address_view->object));
 	}
+#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
+	else if (GAL_IS_VIEW_TREEVIEW (view)) {
+		change_view_type (address_view, E_ADDRESSBOOK_VIEW_TREEVIEW);
+		gal_view_treeview_attach (GAL_VIEW_TREEVIEW(view), GTK_TREE_VIEW (address_view->object));
+	}
+#endif
 	address_view->current_view = view;
 }
 
@@ -523,8 +549,13 @@ get_selection_model (EAddressbookView *view)
 {
 	if (view->view_type == E_ADDRESSBOOK_VIEW_MINICARD)
 		return e_minicard_view_widget_get_selection_model (E_MINICARD_VIEW_WIDGET(view->object));
-	else
+	else if (view->view_type == E_ADDRESSBOOK_VIEW_TABLE)
 		return e_table_get_selection_model (e_table_scrolled_get_table (E_TABLE_SCROLLED(view->widget)));
+#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
+	else if (view->view_type == E_ADDRESSBOOK_VIEW_TREEVIEW) {
+		return e_treeview_get_selection_model (GTK_TREE_VIEW (view->object));
+	}
+#endif
 }
 
 /* Popup menu stuff */
@@ -1080,7 +1111,7 @@ create_alphabet (EAddressbookView *view)
 }
 
 static void
-minicard_selection_change (EMinicardViewWidget *widget, EAddressbookView *view)
+selection_changed (GObject *o, EAddressbookView *view)
 {
 	command_state_change (view);
 }
@@ -1111,7 +1142,7 @@ create_minicard_view (EAddressbookView *view)
 	g_object_set_data (G_OBJECT (adapter), "view", view);
 
 	g_signal_connect(minicard_view, "selection_change",
-			 G_CALLBACK(minicard_selection_change), view);
+			 G_CALLBACK(selection_changed), view);
 
 	g_signal_connect(minicard_view, "right_click",
 			 G_CALLBACK(minicard_right_click), view);
@@ -1190,12 +1221,6 @@ table_white_space_event(ETableScrolled *table, GdkEvent *event, EAddressbookView
 	} else {
 		return FALSE;
 	}
-}
-
-static void
-table_selection_change(ETableScrolled *table, EAddressbookView *view)
-{
-	command_state_change (view);
 }
 
 static void
@@ -1305,11 +1330,8 @@ static void
 create_table_view (EAddressbookView *view)
 {
 	ETableModel *adapter;
-	ECardSimple *simple;
 	GtkWidget *table;
 	
-	simple = e_card_simple_new(NULL);
-
 	adapter = e_addressbook_table_adapter_new(view->model);
 
 	/* Here we create the table.  We give it the three pieces of
@@ -1327,7 +1349,7 @@ create_table_view (EAddressbookView *view)
 	g_signal_connect(e_table_scrolled_get_table(E_TABLE_SCROLLED(table)), "white_space_event",
 			 G_CALLBACK(table_white_space_event), view);
 	g_signal_connect(e_table_scrolled_get_table(E_TABLE_SCROLLED(table)), "selection_change",
-			 G_CALLBACK(table_selection_change), view);
+			 G_CALLBACK(selection_changed), view);
 
 	/* drag & drop signals */
 	e_table_drag_source_set (E_TABLE(E_TABLE_SCROLLED(table)->table), GDK_BUTTON1_MASK,
@@ -1345,10 +1367,102 @@ create_table_view (EAddressbookView *view)
 			 0, 0);
 
 	gtk_widget_show( GTK_WIDGET(table) );
+}
+
+#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
+static void
+treeview_row_activated(GtkTreeView *treeview,
+		       GtkTreePath *path, GtkTreeViewColumn *column,
+		       EAddressbookView *view)
+{
+	EAddressbookModel *model = view->model;
+	int row = gtk_tree_path_get_indices (path)[0];
+	ECard *card = e_addressbook_model_get_card(model, row);
+	EBook *book;
+
+	g_object_get(model,
+		     "book", &book,
+		     NULL);
+		
+	g_assert (E_IS_BOOK (book));
+
+	if (e_card_evolution_list (card))
+		e_addressbook_show_contact_list_editor (book, card, FALSE, view->editable);
+	else
+		e_addressbook_show_contact_editor (book, card, FALSE, view->editable);
+}
+
+static void
+create_treeview_view (EAddressbookView *view)
+{
+	GtkTreeModel *adapter;
+	ECardSimple *simple;
+	GtkWidget *treeview;
+	GtkWidget *scrolled;
+	int i;
+
+	simple = e_card_simple_new(NULL);
+
+	adapter = e_addressbook_treeview_adapter_new(view->model);
+
+	scrolled = gtk_scrolled_window_new (NULL, NULL);
+	treeview = gtk_tree_view_new_with_model (adapter);
+
+	gtk_widget_show (treeview);
+
+	gtk_container_add (GTK_CONTAINER (scrolled), treeview);
+
+	for (i = 0; i < 15; i ++) {
+		GtkTreeViewColumn *column =
+			gtk_tree_view_column_new_with_attributes (e_card_simple_get_name (simple, i),
+								  gtk_cell_renderer_text_new (),
+								  "text", i,
+								  NULL);
+
+		gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
+	}
+
+	view->object = G_OBJECT(treeview);
+	view->widget = scrolled;
+
+	gtk_tree_selection_set_mode (gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview)), GTK_SELECTION_MULTIPLE);
+	gtk_tree_view_enable_model_drag_source (GTK_TREE_VIEW (treeview), 
+						GDK_BUTTON1_MASK,
+						drag_types,
+						num_drag_types,
+						GDK_ACTION_MOVE);
+
+	g_signal_connect(treeview, "row_activated",
+			 G_CALLBACK (treeview_row_activated), view);
+#if 0
+	g_signal_connect(e_table_scrolled_get_table(E_TABLE_SCROLLED(table)), "right_click",
+			 G_CALLBACK(table_right_click), view);
+
+	/* drag & drop signals */
+	e_table_drag_source_set (E_TABLE(E_TABLE_SCROLLED(table)->table), GDK_BUTTON1_MASK,
+				 drag_types, num_drag_types, GDK_ACTION_MOVE);
+	
+	g_signal_connect (E_TABLE_SCROLLED(table)->table,
+			  "table_drag_data_get",
+			  G_CALLBACK (table_drag_data_get),
+			  view);
+#endif
+
+
+	g_signal_connect(e_treeview_get_selection_model (GTK_TREE_VIEW (treeview)), "selection_changed",
+			 G_CALLBACK(selection_changed), view);
+
+	gtk_table_attach(GTK_TABLE(view), scrolled,
+			 0, 1,
+			 0, 1,
+			 GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
+			 0, 0);
+
+	gtk_widget_show( GTK_WIDGET(scrolled) );
 
 	g_object_unref (simple);
 }
-
+#endif
 
 static void
 change_view_type (EAddressbookView *view, EAddressbookViewType view_type)
@@ -1369,8 +1483,13 @@ change_view_type (EAddressbookView *view, EAddressbookViewType view_type)
 	case E_ADDRESSBOOK_VIEW_TABLE:
 		create_table_view (view);
 		break;
+#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
+	case E_ADDRESSBOOK_VIEW_TREEVIEW:
+		create_treeview_view (view);
+		break;
+#endif
 	default:
-		g_warning ("view_type must be either TABLE or MINICARD\n");
+		g_warning ("view_type not recognized.");
 		return;
 	}
 
@@ -1518,7 +1637,8 @@ e_addressbook_view_print(EAddressbookView *view)
 		print = e_contact_print_dialog_new(book, query);
 		g_free(query);
 		gtk_widget_show_all(print);
-	} else if (view->view_type == E_ADDRESSBOOK_VIEW_TABLE) {
+	}
+	else if (view->view_type == E_ADDRESSBOOK_VIEW_TABLE) {
 		GtkWidget *dialog;
 		EPrintable *printable;
 		ETable *etable;
@@ -1548,6 +1668,11 @@ e_addressbook_view_print(EAddressbookView *view)
 
 		gtk_widget_show(dialog);
 	}
+#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
+	else if (view->view_type == E_ADDRESSBOOK_VIEW_TREEVIEW) {
+		/* XXX */
+	}
+#endif
 }
 
 void
@@ -1563,7 +1688,8 @@ e_addressbook_view_print_preview(EAddressbookView *view)
 			      NULL);
 		e_contact_print_preview(book, query);
 		g_free(query);
-	} else if (view->view_type == E_ADDRESSBOOK_VIEW_TABLE) {
+	}
+	else if (view->view_type == E_ADDRESSBOOK_VIEW_TABLE) {
 		EPrintable *printable;
 		ETable *etable;
 		GnomePrintMaster *master;
@@ -1600,6 +1726,11 @@ e_addressbook_view_print_preview(EAddressbookView *view)
 		g_object_unref (master);
 		g_object_unref (printable);
 	}
+#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
+	else if (view->view_type == E_ADDRESSBOOK_VIEW_TREEVIEW) {
+		/* XXX */
+	}
+#endif
 }
 
 static void

@@ -50,6 +50,13 @@ libeminicard_a_SOURCES =			\
 	gal-view-minicard.c			\
 	gal-view-minicard.h
 
+#TREEVIEW_SOURCES=	e-addressbook-treeview-adapter.c	\
+#			e-addressbook-treeview-adapter.h	\
+#			gal-view-factory-treeview.c		\
+#			gal-view-factory-treeview.h		\
+#			gal-view-treeview.c			\
+#			gal-view-treeview.h
+
 # GLib marshalling cruft
 
 e-addressbook-marshal.h: e-addressbook-marshal.list
