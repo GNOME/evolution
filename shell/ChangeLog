@@ -1,3 +1,11 @@
+2001-06-11  Jason Leach  <jleach@ximian.com>
+
+	* evolution-storage.c (impl_Storage_async_create_folder): Fixed
+	folder creation on IMAP storages (by notifying bonobo listener
+	with the result).
+
+	* evolution-storage-listener.c: Some cleaning.
+
 2001-06-08  Iain Holmes  <iain@ximian.com>
 
 	* e-setup.c (check_dir_recur): Don't copy the old Executive-Summary dir.

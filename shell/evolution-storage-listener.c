@@ -66,7 +66,7 @@ gtk_object_from_servant (PortableServer_Servant servant)
 
 static void
 impl_GNOME_Evolution_StorageListener_notifyDestroyed (PortableServer_Servant servant,
-					  CORBA_Environment *ev)
+						      CORBA_Environment *ev)
 {
 	EvolutionStorageListener *listener;
 	EvolutionStorageListenerPrivate *priv;
@@ -79,9 +79,9 @@ impl_GNOME_Evolution_StorageListener_notifyDestroyed (PortableServer_Servant ser
 
 static void
 impl_GNOME_Evolution_StorageListener_notifyFolderCreated (PortableServer_Servant servant,
-					   const CORBA_char *path,
-					   const GNOME_Evolution_Folder *folder,
-					   CORBA_Environment *ev)
+							  const CORBA_char *path,
+							  const GNOME_Evolution_Folder *folder,
+							  CORBA_Environment *ev)
 {
 	EvolutionStorageListener *listener;
 	EvolutionStorageListenerPrivate *priv;
@@ -94,10 +94,10 @@ impl_GNOME_Evolution_StorageListener_notifyFolderCreated (PortableServer_Servant
 
 static void
 impl_GNOME_Evolution_StorageListener_notifyFolderUpdated (PortableServer_Servant servant,
-					      const CORBA_char *path,
-					      const CORBA_char *display_name,
-					      CORBA_boolean highlighted,
-					      CORBA_Environment *ev)
+							  const CORBA_char *path,
+							  const CORBA_char *display_name,
+							  CORBA_boolean highlighted,
+							  CORBA_Environment *ev)
 {
 	EvolutionStorageListener *listener;
 	EvolutionStorageListenerPrivate *priv;
@@ -110,9 +110,9 @@ impl_GNOME_Evolution_StorageListener_notifyFolderUpdated (PortableServer_Servant
 }
 
 static void
-impl_GNOME_Evolution_StorageListener_removed_folder (PortableServer_Servant servant,
-					       const CORBA_char *path,
-					       CORBA_Environment *ev)
+impl_GNOME_Evolution_StorageListener_notifyFolderRemoved (PortableServer_Servant servant,
+							  const CORBA_char *path,
+							  CORBA_Environment *ev)
 {
 	EvolutionStorageListener *listener;
 	EvolutionStorageListenerPrivate *priv;
@@ -225,7 +225,7 @@ corba_class_init (void)
 	epv->notifyDestroyed     = impl_GNOME_Evolution_StorageListener_notifyDestroyed;
 	epv->notifyFolderCreated = impl_GNOME_Evolution_StorageListener_notifyFolderCreated;
 	epv->notifyFolderUpdated = impl_GNOME_Evolution_StorageListener_notifyFolderUpdated;
-	epv->notifyFolderRemoved = impl_GNOME_Evolution_StorageListener_removed_folder;
+	epv->notifyFolderRemoved = impl_GNOME_Evolution_StorageListener_notifyFolderRemoved;
 
 	vepv = & my_GNOME_Evolution_StorageListener_vepv;
 	vepv->_base_epv                     = base_epv;

@@ -65,6 +65,7 @@ struct _EvolutionStoragePrivate {
 enum {
 	CREATE_FOLDER,
 	REMOVE_FOLDER,
+
 	LAST_SIGNAL
 };
 
@@ -286,6 +287,23 @@ storage_gtk_to_corba_result (EvolutionStorageResult result)
 }
 
 static void
+notify_bonobo_listener (const Bonobo_Listener listener,
+			EvolutionStorageResult result,
+			const char *physical_path,
+			CORBA_Environment *ev)
+{
+	CORBA_any any;
+	GNOME_Evolution_Storage_FolderResult folder_result;
+
+	folder_result.result = storage_gtk_to_corba_result (result);
+	folder_result.path = CORBA_string_dup (physical_path ? physical_path : "");
+	any._type = TC_GNOME_Evolution_Storage_FolderResult;
+	any._value = &folder_result;
+
+	Bonobo_Listener_event (listener, "result", &any, ev);
+}
+
+static void
 impl_Storage_async_create_folder (PortableServer_Servant servant,
 				  const CORBA_char *path,
 				  const CORBA_char *type,
@@ -296,13 +314,18 @@ impl_Storage_async_create_folder (PortableServer_Servant servant,
 {
 	BonoboObject *bonobo_object;
 	EvolutionStorage *storage;
+	int int_result;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage = EVOLUTION_STORAGE (bonobo_object);
 
+	int_result = GNOME_Evolution_Storage_UNSUPPORTED_OPERATION;
 	gtk_signal_emit (GTK_OBJECT (storage), signals[CREATE_FOLDER],
-			 listener, path, type, description, parent_physical_uri);
+			 path, type, description, parent_physical_uri, &int_result);
+
+	notify_bonobo_listener (listener, int_result, path, ev);
 }
+
 
 static void
 impl_Storage_async_remove_folder (PortableServer_Servant servant,
@@ -314,8 +337,6 @@ impl_Storage_async_remove_folder (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 	EvolutionStorage *storage;
 	int int_result;
-	CORBA_any any;
-	GNOME_Evolution_Storage_Result corba_result;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage = EVOLUTION_STORAGE (bonobo_object);
@@ -324,11 +345,7 @@ impl_Storage_async_remove_folder (PortableServer_Servant servant,
 	gtk_signal_emit (GTK_OBJECT (storage), signals[REMOVE_FOLDER],
 			 path, physical_uri, &int_result);
 
-	corba_result = storage_gtk_to_corba_result (int_result);
-	any._type = TC_GNOME_Evolution_Storage_Result;
-	any._value = &corba_result;
-
-	Bonobo_Listener_event (listener, "result", &any, ev);
+	notify_bonobo_listener (listener, int_result, path, ev);
 }
 
 static void
@@ -444,29 +461,6 @@ corba_class_init (void)
 	vepv->GNOME_Evolution_Storage_epv = evolution_storage_get_epv ();
 }
 
-/* The worst signal marshaller in Scotland */
-typedef void (*GtkSignal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER) (GtkObject *,
-									 gpointer, gpointer, gpointer, gpointer, gpointer,
-									 gpointer user_data);
-
-static void
-e_marshal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER (GtkObject *object,
-							 GtkSignalFunc func,
-							 gpointer func_data,
-							 GtkArg *args)
-{
-	GtkSignal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER rfunc;
-	
-	rfunc = (GtkSignal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER) func;
-	(*rfunc) (object,
-		  GTK_VALUE_POINTER (args[0]),
-		  GTK_VALUE_POINTER (args[1]),
-		  GTK_VALUE_POINTER (args[2]),
-		  GTK_VALUE_POINTER (args[3]),
-		  GTK_VALUE_POINTER (args[4]),
-		  func_data);
-}
-
 static void
 class_init (EvolutionStorageClass *klass)
 {
@@ -482,7 +476,7 @@ class_init (EvolutionStorageClass *klass)
 						 object_class->type,
 						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 								    create_folder),
-						 e_marshal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER,
+						 e_marshal_INT__POINTER_POINTER_POINTER_POINTER,
 						 GTK_TYPE_INT, 4,
 						 GTK_TYPE_STRING,
 						 GTK_TYPE_STRING,
