@@ -1,3 +1,10 @@
+2000-11-18  Matt Bissiri  <matt@bissiri.org>
+
+	* gui/component/Makefile.am:
+	Add widgets/menus/libmenus.la to evolution_addressbook_LDADD
+	so that it will link properly now that gal-view-menus.[ch]
+	was moved from gal into evolution.
+
 2000-11-15  JP Rosevear  <jpr@helixcode.com>
 
 	* backend/pas/pas-backend-file.c (pas_backend_file_book_view_copy): 
