@@ -1,3 +1,8 @@
+2001-09-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-folder-title-bar.c (unrealize): Only
+	gtk_widget_destroy() the icon_widget if it's not NULL.
+
 2001-09-12  Iain Holmes  <iain@ximian.com>
 
 	* importers/evolution-importer-client.c 

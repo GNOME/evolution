@@ -381,8 +381,10 @@ unrealize (GtkWidget *widget)
 	folder_title_bar = E_SHELL_FOLDER_TITLE_BAR (widget);
 	priv = folder_title_bar->priv;
 
-	gtk_widget_destroy (priv->icon_widget);
-	priv->icon_widget = NULL;
+	if (priv->icon_widget != NULL) {
+		gtk_widget_destroy (priv->icon_widget);
+		priv->icon_widget = NULL;
+	}
 }
 
 static void
