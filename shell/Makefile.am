@@ -17,7 +17,8 @@ INCLUDES =							\
 	-DLIBDIR=\""$(datadir)"\"				\
 	-DG_LOG_DOMAIN=\"evolution-shell\"			\
 	$(TZDIALOG_CFLAGS)					\
-	$(SHELL_CFLAGS)
+	$(SHELL_CFLAGS)						\
+	$(EVOLUTION_TEST_CFLAGS)
 
 noinst_PROGRAMS = evolution
 
@@ -178,12 +179,13 @@ component_LTLIBRARIES = libevolution-test.la
 endif
 
 libevolution_test_la_SOURCES =		\
+	$(IDL_GENERATED)		\
 	evolution-test-component.c	\
 	evolution-test-component.h
 
 libevolution_test_la_LIBADD = 		\
 	libeshell.la			\
-	$(SHELL_LIBS)
+	$(EVOLUTION_CALENDAR_LIBS)
 
 libevolution_test_la_LDFLAGS = -avoid-version -module
 
