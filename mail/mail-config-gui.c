@@ -698,8 +698,6 @@ service_page_item_auth_fill (MailDialogServicePage *page,
 	GtkWidget *menu, *item, *firstitem = NULL;
 
 	menu = gtk_menu_new ();
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (spitem->auth_optionmenu), 
-				  menu);
 	for (; authtypes; authtypes = authtypes->next) {
 		authtype = authtypes->data;
 
@@ -720,6 +718,8 @@ service_page_item_auth_fill (MailDialogServicePage *page,
 	}
 	gtk_widget_show_all (menu);
 
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (spitem->auth_optionmenu), 
+				  menu);
 	gtk_option_menu_set_history (GTK_OPTION_MENU (spitem->auth_optionmenu), 0);
 	if (firstitem)
 		service_page_item_auth_activate (firstitem, spitem);
@@ -1061,7 +1061,6 @@ service_page_new (const char *label_text, GSList *services)
 
 	page->optionmenu = gtk_option_menu_new ();
 	menu = gtk_menu_new ();
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (page->optionmenu), menu);
 	gtk_box_pack_start (GTK_BOX (hbox), page->optionmenu, TRUE, TRUE, 0);
 	
 	/* Notebook */
@@ -1092,7 +1091,8 @@ service_page_new (const char *label_text, GSList *services)
 		gtk_menu_append (GTK_MENU (menu), spitem->item);
 		page->items = g_list_append (page->items, spitem);
 	}
-	
+
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (page->optionmenu), menu);
 	service_page_menuitem_activate (first_item, page);
 	gtk_option_menu_set_history (GTK_OPTION_MENU (page->optionmenu), 0);
 
