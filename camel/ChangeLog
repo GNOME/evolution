@@ -1,3 +1,8 @@
+2002-05-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-search.c (shell_exec): New filter function to pipe
+	a message to another program.
+
 2002-05-09  Not Zed  <NotZed@Ximian.com>
 
 	* camel-service.c (camel_service_disconnect): Instead of testing

@@ -29,10 +29,19 @@
 /* (from glibc headers:
    POSIX says that <sys/types.h> must be included (by the caller) before <regex.h>.  */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <regex.h>
 #include <string.h>
+#include <unistd.h>
 #include <ctype.h>
+#include <fcntl.h>
+#include <errno.h>
+
+#include <signal.h>
+#include <sys/wait.h>
+
 
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>
@@ -47,6 +56,7 @@
 #include "camel-exception.h"
 #include "camel-multipart.h"
 #include "camel-stream-mem.h"
+#include "camel-stream-fs.h"
 #include "camel-search-private.h"
 
 #include "camel-url.h"
@@ -83,6 +93,7 @@ static ESExpResult *get_current_date (struct _ESExp *f, int argc, struct _ESExpR
 static ESExpResult *get_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *shell_exec (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 
 /* builtin functions */
 static struct {
@@ -111,6 +122,7 @@ static struct {
 	{ "get-score",          (ESExpFunc *) get_score,          0 },
 	{ "get-source",         (ESExpFunc *) get_source,         0 },
 	{ "get-size",           (ESExpFunc *) get_size,           0 },
+	{ "shell-exec",         (ESExpFunc *) shell_exec,         0 },
 };
 
 
@@ -496,6 +508,124 @@ get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageS
 	r = e_sexp_result_new(f, ESEXP_RES_INT);
 	r->value.number = fms->info->size / 1024;
 
+	return r;
+}
+
+static int
+run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	CamelMimeMessage *message;
+	CamelStream *stream;
+	int result, status;
+	int in_fds[2];
+	pid_t pid;
+	
+	if (pipe (in_fds) == -1) {
+		camel_exception_setv (fms->ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to create pipe to '%s': %s"),
+				      argv[0]->value.string, g_strerror (errno));
+		return -1;
+	}
+	
+	if (!(pid = fork ())) {
+		/* child process */
+		GPtrArray *args;
+		int maxfd, i;
+		
+		if (dup2 (in_fds[0], STDIN_FILENO) < 0)
+			_exit (255);
+		
+		setsid ();
+		
+		maxfd = sysconf (_SC_OPEN_MAX);
+		if (maxfd > 0) {
+			for (i = 0; i < maxfd; i++) {
+				if (i != STDIN_FILENO && i != STDOUT_FILENO && i != STDERR_FILENO)
+					close (i);
+			}
+		}
+		
+		args = g_ptr_array_new ();
+		for (i = 0; i < argc; i++) {
+			g_ptr_array_add (args, argv[i]->value.string);
+		}
+		g_ptr_array_add (args, NULL);
+		
+		execvp (argv[i]->value.string, (char **) args->pdata);
+		
+		g_ptr_array_free (args, TRUE);
+		
+		fprintf (stderr, "Could not execute %s: %s\n", argv[0]->value.string,
+			 g_strerror (errno));
+		_exit (255);
+	} else if (pid < 0) {
+		camel_exception_setv (fms->ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to create create child process '%s': %s"),
+				      argv[0]->value.string, g_strerror (errno));
+		return -1;
+	}
+	
+	/* parent process */
+	close (in_fds[0]);
+	fcntl (in_fds[1], F_SETFL, O_NONBLOCK);
+	
+	stream = camel_stream_fs_new_with_fd (in_fds[1]);
+	
+	message = camel_filter_search_get_message (fms, f);
+	
+	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream) == -1 ||
+	    camel_stream_flush (stream) == -1) {
+		if (errno == EINTR)
+			camel_exception_set (fms->ex, CAMEL_EXCEPTION_USER_CANCEL, "User Cancelled");
+		else
+			camel_exception_setv (fms->ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Failed to write message to '%s': %s"),
+					      argv[0]->value.string, g_strerror (errno));
+	}
+	
+	camel_object_unref (CAMEL_OBJECT (stream));
+	
+	result = waitpid (pid, &status, 0);
+	
+	if (result == -1 && errno == EINTR) {
+		/* child process is hanging... */
+		kill (pid, SIGTERM);
+		sleep (1);
+		result = waitpid (pid, &status, WNOHANG);
+		if (result == 0) {
+			/* ...still hanging, set phasers to KILL */
+			kill (pid, SIGKILL);
+			sleep (1);
+			result = waitpid (pid, &status, WNOHANG);
+		}
+	}
+	
+	if (!camel_exception_is_set (fms->ex) && result != -1 && WIFEXITED (status))
+		return WEXITSTATUS (status);
+	else
+		return -1;	
+}
+
+static ESExpResult *
+shell_exec (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	ESExpResult *r;
+	int retval, i;
+	
+	/* make sure all args are strings */
+	for (i = 0; i < argc; i++) {
+		if (argv[i]->type != ESEXP_RES_STRING) {
+			retval = -1;
+			goto done;
+		}
+	}
+	
+	retval = run_command (f, argc, argv, fms);
+	
+ done:
+	r = e_sexp_result_new (f, ESEXP_RES_INT);
+	r->value.number = retval;
+	
 	return r;
 }
 
