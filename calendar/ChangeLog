@@ -1,4 +1,11 @@
 2004-11-25  Chenthill Palanisamy  <pchenthill@novell.com>
+		
+	* gui/dialogs/event-deitor.c (show_meeting): removed the
+	call for comp_editor_show_page, so that the event page
+	shows up at first instead of meeting page when a meeting
+	is opened.
+
+2004-11-25  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* calendar-errors.xml: Added two error ids to display use
 	it when the meeting is created without a summary.

@@ -372,8 +372,6 @@ show_meeting (EventEditor *ee)
 		comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown);
 	}
 	
-	comp_editor_show_page (COMP_EDITOR (ee),
-			       COMP_EDITOR_PAGE (priv->meet_page));
 }
 
 void
