@@ -315,9 +315,10 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
 		item = gtk_image_menu_item_new_with_label (label);
 
 		/* load the image */
-		image = gtk_image_new_from_stock (pixmap, GTK_ICON_SIZE_MENU);
-		if (!image)
+		if (g_file_test (pixmap, G_FILE_TEST_EXISTS))
 			image = gtk_image_new_from_file (pixmap);
+		else
+			image = gtk_image_new_from_stock (pixmap, GTK_ICON_SIZE_MENU);
 
 		if (image) {
 			gtk_widget_show (image);

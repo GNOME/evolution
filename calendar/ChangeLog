@@ -1,5 +1,12 @@
 2003-12-17  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/tasks-component.c (add_popup_menu_item):
+	* gui/calendar-component.c (add_popup_menu_item): use g_file_test
+	to check if the 'pixmap' argument is a file. If so, get the pixmap
+	from it, or gtk_image_new_from_stock will return an empty pixmap.
+
+2003-12-17  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/gnome-cal.c (client_cal_opened_cb): set a correct status
 	message.
 
