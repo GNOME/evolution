@@ -1,3 +1,20 @@
+2003-05-05  Jakub Steiner <jimmac@ximian.com>
+
+	* evolution-contacts-plain.png
+	* evolution-contacts.png:
+	* globe.png:
+	* malehead.png:
+	* next-message.png:
+	* previous-message.png:
+	* receive-24.png:
+	* reply-to-all.png:
+	* reply.png:
+	* send-24-receive.png:
+	* send-24.png:
+	* send-receive.xpm:
+	* send.png: quick fix of the artwork, the rest goes to the
+	  (future) icon theme
+
 2003-04-29  Chris Toshok  <toshok@ximian.com>
 
 	* Makefile.am (images_DATA): add stock-edit-{16,24}.png
