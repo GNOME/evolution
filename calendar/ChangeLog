@@ -5,6 +5,7 @@
 	(fill_popup_menu_callback): add popup menu items here.
 	(add_popup_menu_item): new function to add items to the
 	popup menu.
+	(new_calendar_cb): callbacks for the popup menu items.
 
 2003-10-28  Rodrigo Moya <rodrigo@ximian.com>
 

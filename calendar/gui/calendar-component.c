@@ -30,6 +30,7 @@
 #include "calendar-commands.h"
 #include "gnome-cal.h"
 #include "migration.h"
+#include "dialogs/new-calendar.h"
 
 #include "widgets/misc/e-source-selector.h"
 
@@ -146,9 +147,15 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
 }
 
 static void
+new_calendar_cb (GtkWidget *widget, ESourceSelector *selector)
+{
+	new_calendar_dialog (GTK_WINDOW (gtk_widget_get_toplevel (widget)));
+}
+
+static void
 fill_popup_menu_callback (ESourceSelector *selector, GtkMenu *menu, CalendarComponent *comp)
 {
-	add_popup_menu_item (menu, _("_New Calendar"), NULL, NULL, selector);
+	add_popup_menu_item (menu, _("_New Calendar"), NULL, G_CALLBACK (new_calendar_cb), selector);
 }
 
 static void
