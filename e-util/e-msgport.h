@@ -82,7 +82,5 @@ int e_mutex_destroy(EMutex *m);
 int e_mutex_lock(EMutex *m);
 int e_mutex_unlock(EMutex *m);
 void e_mutex_assert_locked(EMutex *m);
-/* this uses pthread cond's */
-int e_mutex_cond_wait(void *cond, EMutex *m);
 
 #endif

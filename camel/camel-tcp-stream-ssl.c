@@ -89,7 +89,6 @@ struct _CamelTcpStreamSSLPrivate {
 	CamelService *service;
 	char *expected_host;
 	gboolean ssl_mode;
-	guint32 flags;
 };
 
 static void
@@ -161,7 +160,6 @@ camel_tcp_stream_ssl_get_type (void)
  * camel_tcp_stream_ssl_new:
  * @service: camel service
  * @expected_host: host that the stream is expected to connect with.
- * @flags: ENABLE_SSL2, ENABLE_SSL3 and/or ENABLE_TLS
  *
  * Since the SSL certificate authenticator may need to prompt the
  * user, a CamelService is needed. @expected_host is needed as a
@@ -170,7 +168,7 @@ camel_tcp_stream_ssl_get_type (void)
  * Return value: a ssl stream (in ssl mode)
  **/
 CamelStream *
-camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host, guint32 flags)
+camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host)
 {
 	CamelTcpStreamSSL *stream;
 	
@@ -179,7 +177,6 @@ camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host, guin
 	stream->priv->service = service;
 	stream->priv->expected_host = g_strdup (expected_host);
 	stream->priv->ssl_mode = TRUE;
-	stream->priv->flags = flags;
 	
 	return CAMEL_STREAM (stream);
 }
@@ -189,7 +186,6 @@ camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host, guin
  * camel_tcp_stream_ssl_new_raw:
  * @service: camel service
  * @expected_host: host that the stream is expected to connect with.
- * @flags: ENABLE_SSL2, ENABLE_SSL3 and/or ENABLE_TLS
  *
  * Since the SSL certificate authenticator may need to prompt the
  * user, a CamelService is needed. @expected_host is needed as a
@@ -198,7 +194,7 @@ camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host, guin
  * Return value: a ssl-capable stream (in non ssl mode)
  **/
 CamelStream *
-camel_tcp_stream_ssl_new_raw (CamelService *service, const char *expected_host, guint32 flags)
+camel_tcp_stream_ssl_new_raw (CamelService *service, const char *expected_host)
 {
 	CamelTcpStreamSSL *stream;
 	
@@ -207,7 +203,6 @@ camel_tcp_stream_ssl_new_raw (CamelService *service, const char *expected_host, 
 	stream->priv->service = service;
 	stream->priv->expected_host = g_strdup (expected_host);
 	stream->priv->ssl_mode = FALSE;
-	stream->priv->flags = flags;
 	
 	return CAMEL_STREAM (stream);
 }
@@ -630,49 +625,37 @@ camel_certdb_nss_cert_get(CamelCertDB *certdb, CERTCertificate *cert)
 {
 	char *fingerprint, *path;
 	CamelCert *ccert;
-	struct stat st;
-	size_t nread;
-	ssize_t n;
 	int fd;
-	
-	fingerprint = cert_fingerprint (cert);
-	ccert = camel_certdb_get_cert (certdb, fingerprint);
+	ssize_t len;
+	struct stat st;
+
+	fingerprint = cert_fingerprint(cert);
+	ccert = camel_certdb_get_cert(certdb, fingerprint);
 	if (ccert == NULL) {
-		g_free (fingerprint);
+		g_free(fingerprint);
 		return ccert;
 	}
-	
+
 	if (ccert->rawcert == NULL) {
-		path = g_strdup_printf ("%s/.camel_certs/%s", getenv ("HOME"), fingerprint);
-		if (stat (path, &st) == -1
-		    || (fd = open (path, O_RDONLY)) == -1) {
-			g_warning ("could not load cert %s: %s", path, strerror (errno));
-			g_free (fingerprint);
-			g_free (path);
-			camel_cert_set_trust (certdb, ccert, CAMEL_CERT_TRUST_UNKNOWN);
-			camel_certdb_touch (certdb);
-			
+		path = g_strdup_printf("%s/.camel_certs/%s", getenv("HOME"), fingerprint);
+		if (stat(path, &st) == -1
+		    || (fd = open(path, O_RDONLY)) == -1) {
+			g_warning("could not load cert %s: %s", path, strerror(errno));
+			g_free(fingerprint);
+			g_free(path);
+			camel_cert_set_trust(certdb, ccert, CAMEL_CERT_TRUST_UNKNOWN);
+			camel_certdb_touch(certdb);
+
 			return ccert;
 		}
 		g_free(path);
 		
-		ccert->rawcert = g_byte_array_new ();
-		g_byte_array_set_size (ccert->rawcert, st.st_size);
-		
-		nread = 0;
-		do {
-			do {
-				n = read (fd, ccert->rawcert->data + nread, st.st_size - nread);
-			} while (n == -1 && errno == EINTR);
-			
-			if (n > 0)
-				nread += n;
-		} while (nread < st.st_size && n != -1);
-		
-		close (fd);
-		
-		if (nread != st.st_size) {
-			g_warning ("cert size read truncated %s: %d != %ld", path, nread, st.st_size);
+		ccert->rawcert = g_byte_array_new();
+		g_byte_array_set_size(ccert->rawcert, st.st_size);
+		len = read(fd, ccert->rawcert->data, st.st_size);
+		close(fd);
+		if (len != st.st_size) {
+			g_warning("cert size read truncated %s: %d != %ld", path, len, st.st_size);
 			g_byte_array_free(ccert->rawcert, TRUE);
 			ccert->rawcert = NULL;
 			g_free(fingerprint);
@@ -728,12 +711,11 @@ camel_certdb_nss_cert_set(CamelCertDB *certdb, CamelCert *ccert, CERTCertificate
 	struct stat st;
 	
 	fingerprint = ccert->fingerprint;
-	
+
 	if (ccert->rawcert == NULL)
-		ccert->rawcert = g_byte_array_new ();
-	
-	g_byte_array_set_size (ccert->rawcert, cert->derCert.len);
-	memcpy (ccert->rawcert->data, cert->derCert.data, cert->derCert.len);
+		ccert->rawcert = g_byte_array_new();
+	g_byte_array_set_size(ccert->rawcert, cert->derCert.len);
+	memcpy(ccert->rawcert->data, cert->derCert.data, cert->derCert.len);
 	
 	dir = g_strdup_printf ("%s/.camel_certs", getenv ("HOME"));
 	if (stat (dir, &st) == -1 && mkdir (dir, 0700) == -1) {
@@ -745,19 +727,19 @@ camel_certdb_nss_cert_set(CamelCertDB *certdb, CamelCert *ccert, CERTCertificate
 	path = g_strdup_printf ("%s/%s", dir, fingerprint);
 	g_free (dir);
 	
-	stream = camel_stream_fs_new_with_name (path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	stream = camel_stream_fs_new_with_name(path, O_WRONLY|O_CREAT|O_TRUNC, 0600);
 	if (stream != NULL) {
-		if (camel_stream_write (stream, ccert->rawcert->data, ccert->rawcert->len) == -1) {
-			g_warning ("Could not save cert: %s: %s", path, strerror (errno));
-			unlink (path);
+		if (camel_stream_write(stream, ccert->rawcert->data, ccert->rawcert->len) != ccert->rawcert->len) {
+			g_warning("Could not save cert: %s: %s", path, strerror(errno));
+			unlink(path);
 		}
-		camel_stream_close (stream);
-		camel_object_unref (stream);
+		camel_stream_close(stream);
+		camel_object_unref(stream);
 	} else {
-		g_warning ("Could not save cert: %s: %s", path, strerror (errno));
+		g_warning("Could not save cert: %s: %s", path, strerror(errno));
 	}
 	
-	g_free (path);
+	g_free(path);
 }
 
 
@@ -996,19 +978,6 @@ enable_ssl (CamelTcpStreamSSL *ssl, PRFileDesc *fd)
 		return NULL;
 	
 	SSL_OptionSet (ssl_fd, SSL_SECURITY, PR_TRUE);
-	if (ssl->priv->flags & CAMEL_TCP_STREAM_SSL_ENABLE_SSL2)
-		SSL_OptionSet (ssl_fd, SSL_ENABLE_SSL2, PR_TRUE);
-	else
-		SSL_OptionSet (ssl_fd, SSL_ENABLE_SSL2, PR_FALSE);
-	if (ssl->priv->flags & CAMEL_TCP_STREAM_SSL_ENABLE_SSL3)
-		SSL_OptionSet (ssl_fd, SSL_ENABLE_SSL3, PR_TRUE);
-	else
-		SSL_OptionSet (ssl_fd, SSL_ENABLE_SSL3, PR_FALSE);
-	if (ssl->priv->flags & CAMEL_TCP_STREAM_SSL_ENABLE_TLS)
-		SSL_OptionSet (ssl_fd, SSL_ENABLE_TLS, PR_TRUE);
-	else
-		SSL_OptionSet (ssl_fd, SSL_ENABLE_TLS, PR_FALSE);
-	
 	SSL_SetURL (ssl_fd, ssl->priv->expected_host);
 	
 	/*SSL_GetClientAuthDataHook (sslSocket, ssl_get_client_auth, (void *) certNickname);*/

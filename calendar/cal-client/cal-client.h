@@ -21,24 +21,21 @@
 #ifndef CAL_CLIENT_H
 #define CAL_CLIENT_H
 
-#include <glib-object.h>
+#include <libgnome/gnome-defs.h>
+#include <gtk/gtkobject.h>
 #include <cal-util/cal-recur.h>
 #include <cal-util/cal-util.h>
 #include <cal-client/cal-query.h>
 
-G_BEGIN_DECLS
+BEGIN_GNOME_DECLS
 
 
 
 #define CAL_CLIENT_TYPE            (cal_client_get_type ())
-#define CAL_CLIENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), CAL_CLIENT_TYPE, CalClient))
-#define CAL_CLIENT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), CAL_CLIENT_TYPE, CalClientClass))
-#define IS_CAL_CLIENT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), CAL_CLIENT_TYPE))
-#define IS_CAL_CLIENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), CAL_CLIENT_TYPE))
-
-#define CAL_CLIENT_OPEN_STATUS_ENUM_TYPE     (cal_client_open_status_enum_get_type ())
-#define CAL_CLIENT_SET_MODE_STATUS_ENUM_TYPE (cal_client_set_mode_status_enum_get_type ())
-#define CAL_MODE_ENUM_TYPE                   (cal_mode_enum_get_type ())
+#define CAL_CLIENT(obj)            (GTK_CHECK_CAST ((obj), CAL_CLIENT_TYPE, CalClient))
+#define CAL_CLIENT_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), CAL_CLIENT_TYPE, CalClientClass))
+#define IS_CAL_CLIENT(obj)         (GTK_CHECK_TYPE ((obj), CAL_CLIENT_TYPE))
+#define IS_CAL_CLIENT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), CAL_CLIENT_TYPE))
 
 typedef struct _CalClient CalClient;
 typedef struct _CalClientClass CalClientClass;
@@ -93,14 +90,14 @@ typedef enum {
 } CalClientLoadState;
 
 struct _CalClient {
-	GObject object;
+	GtkObject object;
 
 	/* Private data */
 	CalClientPrivate *priv;
 };
 
 struct _CalClientClass {
-	GObjectClass parent_class;
+	GtkObjectClass parent_class;
 
 	/* Notification signals */
 
@@ -124,11 +121,7 @@ typedef gchar * (* CalClientAuthFunc) (CalClient *client,
                                       const gchar *key,
                                       gpointer user_data);
 
-GType cal_client_get_type (void);
-
-GType cal_client_open_status_enum_get_type (void);
-GType cal_client_set_mode_status_enum_get_type (void);
-GType cal_mode_enum_get_type (void);
+GtkType cal_client_get_type (void);
 
 CalClient *cal_client_construct (CalClient *client);
 
@@ -228,6 +221,6 @@ char* cal_client_get_component_as_string (CalClient *client,
 
 
 
-G_END_DECLS
+END_GNOME_DECLS
 
 #endif

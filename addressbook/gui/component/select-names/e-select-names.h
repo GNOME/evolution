@@ -22,15 +22,17 @@
 
 #include <glib.h>
 #include <gtk/gtkwidget.h>
-#include <gtk/gtkdialog.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-table-scrolled.h>
 
-#include "evolution-shell-client.h"
-#include "e-addressbook-model.h"
+#include <addressbook/gui/widgets/e-addressbook-model.h>
 
 #include "e-select-names-model.h"
+#include "e-util/e-list.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -45,11 +47,11 @@ extern "C" {
  * --------------------------------------------------------------------------------
  */
 
-#define E_TYPE_SELECT_NAMES		(e_select_names_get_type ())
-#define E_SELECT_NAMES(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SELECT_NAMES, ESelectNames))
-#define E_SELECT_NAMES_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SELECT_NAMES, ESelectNamesClass))
-#define E_IS_SELECT_NAMES(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SELECT_NAMES))
-#define E_IS_SELECT_NAMES_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_SELECT_NAMES))
+#define E_SELECT_NAMES_TYPE			(e_select_names_get_type ())
+#define E_SELECT_NAMES(obj)			(GTK_CHECK_CAST ((obj), E_SELECT_NAMES_TYPE, ESelectNames))
+#define E_SELECT_NAMES_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_SELECT_NAMES_TYPE, ESelectNamesClass))
+#define E_IS_SELECT_NAMES(obj)		(GTK_CHECK_TYPE ((obj), E_SELECT_NAMES_TYPE))
+#define E_IS_SELECT_NAMES_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_SELECT_NAMES_TYPE))
 
 typedef struct _ESelectNames       ESelectNames;
 typedef struct _ESelectNamesClass  ESelectNamesClass;
@@ -57,7 +59,7 @@ typedef struct _ESelectNamesFolder ESelectNamesFolder;
 
 struct _ESelectNames
 {
-	GtkDialog parent;
+	GnomeDialog parent;
 	
 	/* item specific fields */
 	GladeXML *gui;
@@ -71,29 +73,31 @@ struct _ESelectNames
 	GtkWidget *categories;
 	GtkWidget *select_entry;
 	GtkWidget *status_message;
+	GtkWidget *status_image;
 	char *def;
 	ESelectNamesFolder *current_folder;
-
-	/* signal handlers */
-	gulong status_id;
-	gulong search_id;
 };
 
 struct _ESelectNamesClass
 {
-	GtkDialogClass parent_class;
+	GnomeDialogClass parent_class;
 };
 
 
-GtkWidget *e_select_names_new          (EvolutionShellClient *shell_client);
-GType      e_select_names_get_type     (void);
+GtkWidget *e_select_names_new          (void);
+GtkType    e_select_names_get_type     (void);
 
-void       e_select_names_add_section  (ESelectNames         *e_select_names,
-				       	const char           *name,
-				       	const char           *id,
-				       	ESelectNamesModel    *source);
-void       e_select_names_set_default  (ESelectNames         *e_select_names,
-					const char           *id);
+void       e_select_names_add_section  (ESelectNames *e_select_names,
+				       	char         *name,
+				       	char         *id,
+				       	ESelectNamesModel *source);
+ESelectNamesModel *e_select_names_get_source   (ESelectNames *e_select_names,
+						char *id);
+void e_select_names_set_default (ESelectNames *e_select_names,
+				 const char *id);
+/* Returns a ref counted list of addresses. */
+EList     *e_select_names_get_section  (ESelectNames *e_select_names,
+				       	char         *id);
 
 #ifdef __cplusplus
 }

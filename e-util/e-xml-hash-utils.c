@@ -38,7 +38,7 @@ e_xml_to_hash (xmlDoc *doc, EXmlHashType type)
 
 	root = xmlDocGetRootElement (doc);
 	for (node = root->xmlChildrenNode; node; node = node->next) {
-		if (node->name == NULL || node->type != XML_ELEMENT_NODE)
+		if (node->name == NULL)
 			continue;
 
 		if (type == E_XML_HASH_TYPE_OBJECT_UID &&

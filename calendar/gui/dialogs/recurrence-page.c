@@ -1,14 +1,11 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /* Evolution calendar - Recurrence page of the calendar component dialogs
  *
- * Copyright (C) 2001-2003 Ximian, Inc.
+ * Copyright (C) 2001 Ximian, Inc.
  *
  * Authors: Federico Mena-Quintero <federico@ximian.com>
  *          Miguel de Icaza <miguel@ximian.com>
  *          Seth Alves <alves@hungry.com>
  *          JP Rosevear <jpr@ximian.com>
- *          Hans Petter Jansson <hpj@ximiman.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -28,27 +25,21 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
-#include <gtk/gtktogglebutton.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkspinbutton.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-time-utils.h>
 #include <widgets/misc/e-dateedit.h>
-#include <cal-util/cal-recur.h>
 #include <cal-util/timeutil.h>
 #include "../calendar-config.h"
 #include "../tag-calendar.h"
 #include "../weekday-picker.h"
 #include "comp-editor-util.h"
-#include "../e-date-time-list.h"
 #include "recurrence-page.h"
 
 
@@ -131,6 +122,40 @@ static const int ending_types_map[] = {
 	-1
 };
 
+static const char *date_suffix[] = {
+	N_("st"),
+	N_("nd"),
+	N_("rd"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("st"),
+	N_("nd"),
+	N_("rd"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("st")
+};
+
 /* Private part of the RecurrencePage structure */
 struct _RecurrencePagePrivate {
 	/* Component we use to expand the recurrence rules for the preview */
@@ -140,6 +165,7 @@ struct _RecurrencePagePrivate {
 	GladeXML *xml;
 
 	/* Widgets from the Glade file */
+
 	GtkWidget *main;
 
 	GtkWidget *summary;
@@ -180,16 +206,14 @@ struct _RecurrencePagePrivate {
 	int ending_count;
 
 	/* More widgets from the Glade file */
+
 	GtkWidget *exception_date;
-	GtkWidget *exception_list;  /* This is a GtkTreeView now */
+	GtkWidget *exception_list;
 	GtkWidget *exception_add;
 	GtkWidget *exception_modify;
 	GtkWidget *exception_delete;
 
 	GtkWidget *preview_bin;
-
-	/* Store for exception_list */
-	EDateTimeList *exception_list_store;
 
 	/* For the recurrence preview, the actual widget */
 	GtkWidget *preview_calendar;
@@ -201,7 +225,7 @@ struct _RecurrencePagePrivate {
 
 static void recurrence_page_class_init (RecurrencePageClass *class);
 static void recurrence_page_init (RecurrencePage *rpage);
-static void recurrence_page_finalize (GObject *object);
+static void recurrence_page_destroy (GtkObject *object);
 
 static GtkWidget *recurrence_page_get_widget (CompEditorPage *page);
 static void recurrence_page_focus_main_widget (CompEditorPage *page);
@@ -224,21 +248,41 @@ static CompEditorPageClass *parent_class = NULL;
  * 
  * Return value: The type ID of the #RecurrencePage class.
  **/
+GtkType
+recurrence_page_get_type (void)
+{
+	static GtkType recurrence_page_type;
 
-E_MAKE_TYPE (recurrence_page, "RecurrencePage", RecurrencePage, recurrence_page_class_init,
-	     recurrence_page_init, TYPE_COMP_EDITOR_PAGE);
+	if (!recurrence_page_type) {
+		static const GtkTypeInfo recurrence_page_info = {
+			"RecurrencePage",
+			sizeof (RecurrencePage),
+			sizeof (RecurrencePageClass),
+			(GtkClassInitFunc) recurrence_page_class_init,
+			(GtkObjectInitFunc) recurrence_page_init,
+			NULL, /* reserved_1 */
+			NULL, /* reserved_2 */
+			(GtkClassInitFunc) NULL
+		};
+
+		recurrence_page_type = gtk_type_unique (TYPE_COMP_EDITOR_PAGE,
+							&recurrence_page_info);
+	}
+
+	return recurrence_page_type;
+}
 
 /* Class initialization function for the recurrence page */
 static void
 recurrence_page_class_init (RecurrencePageClass *class)
 {
 	CompEditorPageClass *editor_page_class;
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 
 	editor_page_class = (CompEditorPageClass *) class;
-	object_class = (GObjectClass *) class;
+	object_class = (GtkObjectClass *) class;
 
-	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
+	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = recurrence_page_get_widget;
 	editor_page_class->focus_main_widget = recurrence_page_focus_main_widget;
@@ -247,7 +291,7 @@ recurrence_page_class_init (RecurrencePageClass *class)
 	editor_page_class->set_summary = recurrence_page_set_summary;
 	editor_page_class->set_dates = recurrence_page_set_dates;
 
-	object_class->finalize = recurrence_page_finalize;
+	object_class->destroy = recurrence_page_destroy;
 }
 
 /* Object initialization function for the recurrence page */
@@ -290,9 +334,18 @@ recurrence_page_init (RecurrencePage *rpage)
 	priv->comp = NULL;
 }
 
+/* Frees the CalComponentDateTime stored in the GtkCList */
+static void
+free_exception_date_time (CalComponentDateTime *dt)
+{
+	g_free (dt->value);
+	g_free ((char*)dt->tzid);
+	g_free (dt);
+}
+
 /* Destroy handler for the recurrence page */
 static void
-recurrence_page_finalize (GObject *object)
+recurrence_page_destroy (GtkObject *object)
 {
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
@@ -304,25 +357,20 @@ recurrence_page_finalize (GObject *object)
 	priv = rpage->priv;
 
 	if (priv->xml) {
-		g_object_unref((priv->xml));
+		gtk_object_unref (GTK_OBJECT (priv->xml));
 		priv->xml = NULL;
 	}
 
 	if (priv->comp) {
-		g_object_unref((priv->comp));
+		gtk_object_unref (GTK_OBJECT (priv->comp));
 		priv->comp = NULL;
-	}
-
-	if (priv->exception_list_store) {
-		g_object_unref (priv->exception_list_store);
-		priv->exception_list_store = NULL;
 	}
 
 	g_free (priv);
 	rpage->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
@@ -376,38 +424,62 @@ clear_widgets (RecurrencePage *rpage)
 	priv->month_num = MONTH_NUM_DAY;
 	priv->month_day = MONTH_DAY_NTH;
 
-	g_signal_handlers_block_matched (priv->none, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	g_signal_handlers_block_matched (priv->simple, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	g_signal_handlers_block_matched (priv->custom, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->none), rpage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->simple), rpage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->custom), rpage);
 	e_dialog_radio_set (priv->none, RECUR_NONE, type_map);
-	g_signal_handlers_unblock_matched (priv->none, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	g_signal_handlers_unblock_matched (priv->simple, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	g_signal_handlers_unblock_matched (priv->custom, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->none), rpage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->simple), rpage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->custom), rpage);
 
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (priv->interval_value));
-	g_signal_handlers_block_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (adj), rpage);
 	e_dialog_spin_set (priv->interval_value, 1);
-	g_signal_handlers_unblock_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (adj), rpage);
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->interval_unit));
-	g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (menu), rpage);
 	e_dialog_option_menu_set (priv->interval_unit,
 				  ICAL_DAILY_RECURRENCE,
 				  freq_map);
-	g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
 
 	priv->ending_date_tt = icaltime_today ();
 	priv->ending_count = 1;
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->ending_menu));
-	g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (menu), rpage);
 	e_dialog_option_menu_set (priv->ending_menu, 
 				  ENDING_FOREVER,
 				  ending_types_map);
-	g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
 
 	/* Exceptions list */
-	e_date_time_list_clear (priv->exception_list_store);
+	gtk_clist_clear (GTK_CLIST (priv->exception_list));
+}
+
+/* Builds a static string out of an exception date */
+static char *
+get_exception_string (CalComponentDateTime *dt)
+{
+	static char buf[256];
+	struct tm tmp_tm;
+
+	tmp_tm.tm_year = dt->value->year - 1900;
+	tmp_tm.tm_mon = dt->value->month - 1;
+	tmp_tm.tm_mday = dt->value->day;
+	tmp_tm.tm_hour = dt->value->hour;
+	tmp_tm.tm_min = dt->value->minute;
+	tmp_tm.tm_sec = dt->value->second;
+	tmp_tm.tm_isdst = -1;
+
+	tmp_tm.tm_wday = time_day_of_week (dt->value->day,
+					   dt->value->month - 1,
+					   dt->value->year);
+
+	e_time_format_date_and_time (&tmp_tm, calendar_config_get_24_hour_format(), FALSE, FALSE, buf, sizeof (buf));
+
+	return buf;
 }
 
 /* Appends an exception date to the list */
@@ -415,14 +487,39 @@ static void
 append_exception (RecurrencePage *rpage, CalComponentDateTime *datetime)
 {
 	RecurrencePagePrivate *priv;
-	GtkTreeView *view;
-	GtkTreeIter  iter;
+	CalComponentDateTime *dt;
+	char *c[1];
+	int i;
+	GtkCList *clist;
+	struct icaltimetype *tt;
 
 	priv = rpage->priv;
-	view = GTK_TREE_VIEW (priv->exception_list);
 
-	e_date_time_list_append (priv->exception_list_store, &iter, datetime);
-	gtk_tree_selection_select_iter (gtk_tree_view_get_selection (view), &iter);
+	dt = g_new (CalComponentDateTime, 1);
+	dt->value = g_new (struct icaltimetype, 1);
+	*dt->value = *datetime->value;
+	dt->tzid = g_strdup (datetime->tzid);
+
+	clist = GTK_CLIST (priv->exception_list);
+
+	gtk_signal_handler_block_by_data (GTK_OBJECT (clist), rpage);
+
+	c[0] = get_exception_string (dt);
+	i = gtk_clist_append (clist, c);
+
+	gtk_clist_set_row_data_full (clist, i, dt, (GtkDestroyNotify) free_exception_date_time);
+
+	gtk_clist_select_row (clist, i, 0);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (clist), rpage);
+
+	tt = dt->value;
+	e_date_edit_set_date (E_DATE_EDIT (priv->exception_date), 
+			      tt->year, tt->month, tt->day);
+	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->exception_date), 
+				     tt->hour, tt->minute);
+
+	gtk_widget_set_sensitive (priv->exception_modify, TRUE);
+	gtk_widget_set_sensitive (priv->exception_delete, TRUE);
 }
 
 /* Fills in the exception widgets with the data from the calendar component */
@@ -431,10 +528,13 @@ fill_exception_widgets (RecurrencePage *rpage, CalComponent *comp)
 {
 	RecurrencePagePrivate *priv;
 	GSList *list, *l;
-	gboolean added = FALSE;
+	gboolean added;
 
 	priv = rpage->priv;
+
 	cal_component_get_exdate_list (comp, &list);
+
+	added = FALSE;
 
 	for (l = list; l; l = l->next) {
 		CalComponentDateTime *cdt;
@@ -446,6 +546,9 @@ fill_exception_widgets (RecurrencePage *rpage, CalComponent *comp)
 	}
 
 	cal_component_free_exdate_list (list);
+
+	if (added)
+		gtk_clist_select_row (GTK_CLIST (priv->exception_list), 0, 0);
 }
 
 /* Computes a weekday mask for the start day of a calendar component,
@@ -755,13 +858,11 @@ fill_component (RecurrencePage *rpage, CalComponent *comp)
 {
 	RecurrencePagePrivate *priv;
 	enum recur_type recur_type;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gboolean valid_iter;
+	GtkCList *exception_list;
 	GSList *list;
+	int i;
 
 	priv = rpage->priv;
-	model = GTK_TREE_MODEL (priv->exception_list_store);
 
 	recur_type = e_dialog_radio_get (priv->none, type_map);
 
@@ -789,18 +890,15 @@ fill_component (RecurrencePage *rpage, CalComponent *comp)
 	/* Set exceptions */
 
 	list = NULL;
-
-	for (valid_iter = gtk_tree_model_get_iter_first (model, &iter); valid_iter;
-	     valid_iter = gtk_tree_model_iter_next (model, &iter)) {
-		const CalComponentDateTime *dt;
-		CalComponentDateTime *cdt;
+	exception_list = GTK_CLIST (priv->exception_list);
+	for (i = 0; i < exception_list->rows; i++) {
+		CalComponentDateTime *cdt, *dt;
 
 		cdt = g_new (CalComponentDateTime, 1);
 		cdt->value = g_new (struct icaltimetype, 1);
 
-		dt = e_date_time_list_get_date_time (E_DATE_TIME_LIST (model), &iter);
+		dt = gtk_clist_get_row_data (exception_list, i);
 		g_assert (dt != NULL);
-
 		if (!icaltime_is_valid_time (*dt->value)) {
 			comp_editor_page_display_validation_error (COMP_EDITOR_PAGE (rpage),
 								   _("Recurrence date is invalid"),
@@ -810,6 +908,10 @@ fill_component (RecurrencePage *rpage, CalComponent *comp)
 
 		*cdt->value = *dt->value;
 		cdt->tzid = g_strdup (dt->tzid);
+
+#if 0
+		g_print ("Adding exception is_date: %i\n", cdt->value->is_date);
+#endif
 
 		list = g_slist_prepend (list, cdt);
 	}
@@ -879,7 +981,7 @@ preview_recur (RecurrencePage *rpage)
 
 	tag_calendar_by_comp (E_CALENDAR (priv->preview_calendar), comp,
 			      COMP_EDITOR_PAGE (rpage)->client, zone, TRUE, FALSE);
-	g_object_unref(comp);
+	gtk_object_unref (GTK_OBJECT (comp));
 }
 
 /* Callback used when the recurrence weekday picker changes */
@@ -929,8 +1031,8 @@ make_weekly_special (RecurrencePage *rpage)
 	weekday_picker_set_days (wp, priv->weekday_day_mask);
 	weekday_picker_set_blocked_days (wp, priv->weekday_blocked_day_mask);
 
-	g_signal_connect((wp), "changed",
-			    G_CALLBACK (weekday_picker_changed_cb),
+	gtk_signal_connect (GTK_OBJECT (wp), "changed",
+			    GTK_SIGNAL_FUNC (weekday_picker_changed_cb),
 			    rpage);
 }
 
@@ -942,7 +1044,7 @@ month_num_submenu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 	int month_index;
 	
 	item = gtk_menu_get_active (GTK_MENU (menu_shell));
-	item = gtk_menu_get_active (GTK_MENU (gtk_menu_item_get_submenu (GTK_MENU_ITEM (item))));
+	item = gtk_menu_get_active (GTK_MENU (GTK_MENU_ITEM (item)->submenu));
 
 	month_index = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (item)));
 	gtk_object_set_user_data (GTK_OBJECT (data), GINT_TO_POINTER (month_index));
@@ -957,8 +1059,12 @@ make_recur_month_num_submenu (const char *title, int start, int end)
 	
 	submenu = gtk_menu_new ();
 	for (i = start; i < end; i++) {
-		item = gtk_menu_item_new_with_label (_(cal_recur_nth[i]));
-		gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
+		char *date;
+		
+		date = g_strdup_printf ("%d%s", i + 1, _(date_suffix[i]));
+		item = gtk_menu_item_new_with_label (date);
+		g_free (date);
+		gtk_menu_append (GTK_MENU (submenu), item);
 		gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (i + 1));
 		gtk_widget_show (item);
 	}	
@@ -983,6 +1089,7 @@ make_recur_month_num_menu (int month_index)
 
 	GtkWidget *menu, *submenu, *item, *submenu_item;
 	GtkWidget *omenu;
+	char *date;
 	int i;
 
 	menu = gtk_menu_new ();
@@ -990,32 +1097,34 @@ make_recur_month_num_menu (int month_index)
 	/* Relation */
 	for (i = 0; i < sizeof (options) / sizeof (options[0]); i++) {
 		item = gtk_menu_item_new_with_label (_(options[i]));
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
 	}
 
 	/* Current date */
-	item = gtk_menu_item_new_with_label (_(cal_recur_nth[month_index - 1]));
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+	date = g_strdup_printf ("%d%s", month_index, _(date_suffix[month_index - 1]));
+	item = gtk_menu_item_new_with_label (date);
+	g_free (date);
+	gtk_menu_append (GTK_MENU (menu), item);
 	gtk_widget_show (item);
 
 	/* Other Submenu */
 	submenu = gtk_menu_new ();
 	submenu_item = gtk_menu_item_new_with_label (_("Other Date"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), submenu_item);
+	gtk_menu_append (GTK_MENU (menu), submenu_item);
 	gtk_widget_show (submenu_item);
 
 	item = make_recur_month_num_submenu ("1st to 10th", 0, 10);
-	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
+	gtk_menu_append (GTK_MENU (submenu), item);
 	item = make_recur_month_num_submenu ("11th to 20th", 10, 20);
-	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
+	gtk_menu_append (GTK_MENU (submenu), item);
 	item = make_recur_month_num_submenu ("21st to 31st", 20, 31);
-	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
+	gtk_menu_append (GTK_MENU (submenu), item);
 
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (submenu_item), submenu);
 	gtk_object_set_user_data (GTK_OBJECT (submenu_item), GINT_TO_POINTER (month_index));
-	g_signal_connect((submenu), "selection_done",
-			    G_CALLBACK (month_num_submenu_selection_done_cb),
+	gtk_signal_connect (GTK_OBJECT (submenu), "selection_done",
+			    GTK_SIGNAL_FUNC (month_num_submenu_selection_done_cb),
 			    submenu_item);
 
 	omenu = gtk_option_menu_new ();
@@ -1049,7 +1158,7 @@ make_recur_month_menu (void)
 		GtkWidget *item;
 
 		item = gtk_menu_item_new_with_label (_(options[i]));
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
 	}
 
@@ -1077,6 +1186,7 @@ month_num_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 
 	if (month_num == MONTH_NUM_OTHER) {
 		GtkWidget *label, *item;
+		char *date;
 
 		item = gtk_menu_get_active (GTK_MENU (menu_shell));
 		priv->month_index = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (item)));
@@ -1085,7 +1195,9 @@ month_num_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 		e_dialog_option_menu_set (priv->month_num_menu, month_num, month_num_options_map);
 
 		label = GTK_BIN (priv->month_num_menu)->child;
-		gtk_label_set_text (GTK_LABEL (label), _(cal_recur_nth[priv->month_index - 1]));
+		date = g_strdup_printf ("%d%s", priv->month_index, _(date_suffix[priv->month_index - 1]));
+		gtk_label_set_text (GTK_LABEL (label), date);
+		g_free (date);
 
 		e_dialog_option_menu_set (priv->month_num_menu, 0, month_num_options_map);
 		e_dialog_option_menu_set (priv->month_num_menu, month_num, month_num_options_map);
@@ -1189,16 +1301,16 @@ make_monthly_special (RecurrencePage *rpage)
 				  priv->month_day,
 				  month_day_options_map);
 
-	g_signal_connect((adj), "value_changed",			    G_CALLBACK (month_index_value_changed_cb),
+	gtk_signal_connect (GTK_OBJECT (adj), "value_changed",			    GTK_SIGNAL_FUNC (month_index_value_changed_cb),
 			    rpage);
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->month_num_menu));
-	g_signal_connect((menu), "selection_done",
-			    G_CALLBACK (month_num_menu_selection_done_cb),
+	gtk_signal_connect (GTK_OBJECT (menu), "selection_done",
+			    GTK_SIGNAL_FUNC (month_num_menu_selection_done_cb),
 			    rpage);
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->month_day_menu));
-	g_signal_connect((menu), "selection_done",
-			    G_CALLBACK (month_day_menu_selection_done_cb),
+	gtk_signal_connect (GTK_OBJECT (menu), "selection_done",
+			    GTK_SIGNAL_FUNC (month_day_menu_selection_done_cb),
 			    rpage);
 }
 
@@ -1217,15 +1329,15 @@ make_recurrence_special (RecurrencePage *rpage)
 
 	priv = rpage->priv;
 
-	if (priv->month_num_menu != NULL) {
-		gtk_widget_destroy (priv->month_num_menu);
-		priv->month_num_menu = NULL;
-	}
 	if (GTK_BIN (priv->special)->child != NULL) {
 		gtk_widget_destroy (GTK_BIN (priv->special)->child);
 
 		priv->weekday_picker = NULL;
 		priv->month_day_menu = NULL;
+	}
+	if (priv->month_num_menu != NULL) {
+		gtk_widget_destroy (priv->month_num_menu);
+		priv->month_num_menu = NULL;
 	}
 
 	frequency = e_dialog_option_menu_get (priv->interval_unit, freq_map);
@@ -1306,8 +1418,8 @@ make_ending_until_special (RecurrencePage *rpage)
 			      priv->ending_date_tt.month,
 			      priv->ending_date_tt.day);
 
-	g_signal_connect((de), "changed",
-			    G_CALLBACK (ending_until_changed_cb), rpage);
+	gtk_signal_connect (GTK_OBJECT (de), "changed",
+			    GTK_SIGNAL_FUNC (ending_until_changed_cb), rpage);
 
 	/* Make sure the EDateEdit widget uses our timezones to get the
 	   current time. */
@@ -1360,8 +1472,8 @@ make_ending_count_special (RecurrencePage *rpage)
 
 	e_dialog_spin_set (priv->ending_count_spin, priv->ending_count);
 
-	g_signal_connect((adj), "value_changed",
-			    G_CALLBACK (ending_count_value_changed_cb),
+	gtk_signal_connect (GTK_OBJECT (adj), "value_changed",
+			    GTK_SIGNAL_FUNC (ending_count_value_changed_cb),
 			    rpage);
 }
 
@@ -1421,7 +1533,7 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 	priv = rpage->priv;
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->ending_menu));
-	g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (menu), rpage);
 
 	if (r->count == 0) {
 		if (r->until.year == 0) {
@@ -1471,7 +1583,7 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 					  ending_types_map);
 	}
 
-	g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
 
 	make_ending_special (rpage);
 }
@@ -1505,7 +1617,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	 */
 
 	if (priv->comp)
-		g_object_unref((priv->comp));
+		gtk_object_unref (GTK_OBJECT (priv->comp));
 
 	priv->comp = cal_component_clone (comp);
 
@@ -1613,11 +1725,11 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 			goto custom;
 
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->interval_unit));
-		g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+		gtk_signal_handler_block_by_data (GTK_OBJECT (menu), rpage);
 		e_dialog_option_menu_set (priv->interval_unit,
 					  ICAL_DAILY_RECURRENCE,
 					  freq_map);
-		g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+		gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
 		break;
 
 	case ICAL_WEEKLY_RECURRENCE: {
@@ -1680,11 +1792,11 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		priv->weekday_day_mask = day_mask;
 
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->interval_unit));
-		g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+		gtk_signal_handler_block_by_data (GTK_OBJECT (menu), rpage);
 		e_dialog_option_menu_set (priv->interval_unit,
 					  ICAL_WEEKLY_RECURRENCE,
 					  freq_map);
-		g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+		gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
 		break;
 	}
 
@@ -1779,11 +1891,11 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 			goto custom;
 
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->interval_unit));
-		g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+		gtk_signal_handler_block_by_data (GTK_OBJECT (menu), rpage);
 		e_dialog_option_menu_set (priv->interval_unit,
 					  ICAL_MONTHLY_RECURRENCE,
 					  freq_map);
-		g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+		gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
 		break;
 
 	case ICAL_YEARLY_RECURRENCE:
@@ -1796,11 +1908,11 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 			goto custom;
 
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->interval_unit));
-		g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+		gtk_signal_handler_block_by_data (GTK_OBJECT (menu), rpage);
 		e_dialog_option_menu_set (priv->interval_unit,
 					  ICAL_YEARLY_RECURRENCE,
 					  freq_map);
-		g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+		gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
 		break;
 
 	default:
@@ -1809,13 +1921,13 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 	/* If we got here it means it is a simple recurrence */
 
-	g_signal_handlers_block_matched (priv->none, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	g_signal_handlers_block_matched (priv->simple, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	g_signal_handlers_block_matched (priv->custom, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->none), rpage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->simple), rpage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->custom), rpage);
 	e_dialog_radio_set (priv->simple, RECUR_SIMPLE, type_map);
-	g_signal_handlers_unblock_matched (priv->none, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	g_signal_handlers_unblock_matched (priv->simple, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	g_signal_handlers_unblock_matched (priv->custom, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->none), rpage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->simple), rpage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->custom), rpage);
 
 	gtk_widget_set_sensitive (priv->custom, FALSE);
 
@@ -1823,9 +1935,9 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	make_recurrence_special (rpage);
 
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (priv->interval_value));
-	g_signal_handlers_block_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (adj), rpage);
 	e_dialog_spin_set (priv->interval_value, r->interval);
-	g_signal_handlers_unblock_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (adj), rpage);
 
 	fill_ending_date (rpage, r);
 
@@ -1833,13 +1945,13 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
  custom:
 
-	g_signal_handlers_block_matched (priv->none, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	g_signal_handlers_block_matched (priv->simple, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	g_signal_handlers_block_matched (priv->custom, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->none), rpage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->simple), rpage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->custom), rpage);
 	e_dialog_radio_set (priv->custom, RECUR_CUSTOM, type_map);
-	g_signal_handlers_unblock_matched (priv->none, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	g_signal_handlers_unblock_matched (priv->simple, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	g_signal_handlers_unblock_matched (priv->custom, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->none), rpage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->simple), rpage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->custom), rpage);
 
 	gtk_widget_set_sensitive (priv->custom, TRUE);
 	sensitize_recur_widgets (rpage);
@@ -1868,11 +1980,14 @@ recurrence_page_set_summary (CompEditorPage *page, const char *summary)
 {
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
+	gchar *s;
 	
 	rpage = RECURRENCE_PAGE (page);
 	priv = rpage->priv;
 
-	gtk_label_set_text (GTK_LABEL (priv->summary), summary);
+	s = e_utf8_to_gtk_string (priv->summary, summary);
+	gtk_label_set_text (GTK_LABEL (priv->summary), s);
+	g_free (s);
 }
 
 /* set_dates handler for the recurrence page */
@@ -1949,14 +2064,14 @@ get_widgets (RecurrencePage *rpage)
 	/* Get the GtkAccelGroup from the toplevel window, so we can install
 	   it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
-	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
+	accel_groups = gtk_accel_groups_from_object (GTK_OBJECT (toplevel));
 	if (accel_groups) {
 		page->accel_group = accel_groups->data;
 		gtk_accel_group_ref (page->accel_group);
 	}
 
 	gtk_widget_ref (priv->main);
-	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
+	gtk_widget_unparent (priv->main);
 
 	priv->summary = GW ("summary");
 	priv->date_time = GW ("date-time");
@@ -1974,7 +2089,6 @@ get_widgets (RecurrencePage *rpage)
 	priv->custom_warning_bin = GW ("custom-warning-bin");
 	      
 	priv->exception_date = GW ("exception-date");
-	gtk_widget_show (priv->exception_date);
 	priv->exception_list = GW ("exception-list");
 	priv->exception_add = GW ("exception-add");
 	priv->exception_modify = GW ("exception-modify");
@@ -2113,24 +2227,24 @@ exception_modify_cb (GtkWidget *widget, gpointer data)
 {
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
-	GtkTreeSelection *selection;
-	CalComponentDateTime dt;
-	struct icaltimetype icaltime = icaltime_null_time ();
+	GtkCList *clist;
+	CalComponentDateTime *dt;
 	struct icaltimetype *tt;
-	GtkTreeIter iter;
+	int sel;
 
 	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list));
-	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
-		g_warning ("Could not get a selection to modify.");
+	clist = GTK_CLIST (priv->exception_list);
+	if (!clist->selection)
 		return;
-	}
+
 	field_changed (rpage);
 
-	dt.value = &icaltime;
-	tt = dt.value;
+	sel = GPOINTER_TO_INT (clist->selection->data);
+
+	dt = gtk_clist_get_row_data (clist, sel);
+	tt = dt->value;
 	e_date_edit_get_date (E_DATE_EDIT (priv->exception_date), 
 			      &tt->year, &tt->month, &tt->day);
 	tt->hour = 0;
@@ -2138,10 +2252,12 @@ exception_modify_cb (GtkWidget *widget, gpointer data)
 	tt->second = 0;
 	tt->is_date = 1;
 
-	/* No TZID, since we are using a DATE value now. */
-	dt.tzid = NULL;
+	/* We get rid of any old TZID, since we are using a DATE value now. */
+	g_free ((char*)dt->tzid);
+	dt->tzid = NULL;
 
-	e_date_time_list_set_date_time (priv->exception_list_store, &iter, &dt);
+	gtk_clist_set_text (clist, sel, 0, get_exception_string (dt));
+
 	preview_recur (rpage);
 }
 
@@ -2151,36 +2267,31 @@ exception_delete_cb (GtkWidget *widget, gpointer data)
 {
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
-	GtkTreeSelection *selection;
-	GtkTreeIter iter;
-	GtkTreePath *path;
-	gboolean valid_iter;
+	GtkCList *clist;
+	int sel;
 
 	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list));
-	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
-		g_warning ("Could not get a selection to delete.");
+	clist = GTK_CLIST (priv->exception_list);
+	if (!clist->selection)
 		return;
-	}
 
 	field_changed (rpage);
 
-	path = gtk_tree_model_get_path (GTK_TREE_MODEL (priv->exception_list_store), &iter);
-	e_date_time_list_remove (priv->exception_list_store, &iter);
+	sel = GPOINTER_TO_INT (clist->selection->data);
 
-	/* Select closest item after removal */
-	valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->exception_list_store), &iter, path);
-	if (!valid_iter) {
-		gtk_tree_path_prev (path);
-		valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->exception_list_store), &iter, path);
+	gtk_clist_remove (clist, sel);
+	if (sel >= clist->rows)
+		sel--;
+
+	if (clist->rows > 0)
+		gtk_clist_select_row (clist, sel, 0);
+	else {
+		gtk_widget_set_sensitive (priv->exception_modify, FALSE);
+		gtk_widget_set_sensitive (priv->exception_delete, FALSE);
 	}
 
-	if (valid_iter)
-		gtk_tree_selection_select_iter (selection, &iter);
-
-	gtk_tree_path_free (path);
 	preview_recur (rpage);
 }
 
@@ -2189,27 +2300,24 @@ exception_delete_cb (GtkWidget *widget, gpointer data)
  * exception's value.
  */
 static void
-exception_selection_changed_cb (GtkTreeSelection *selection, gpointer data)
+exception_select_row_cb (GtkCList *clist, gint row, gint col,
+			 GdkEvent *event, gpointer data)
 {
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
-	const CalComponentDateTime *dt;
+	CalComponentDateTime *dt;
 	struct icaltimetype *t;
-	GtkTreeIter iter;
 
 	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;
 
-	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
-		gtk_widget_set_sensitive (priv->exception_modify, FALSE);
-		gtk_widget_set_sensitive (priv->exception_delete, FALSE);
+	/* Sometimes GtkCList emits a 'row-selected' signal for row 0 when
+	   there are 0 rows in the list (after you delete the last row).
+	   So we check that the row is valid here. */
+	if (row >= clist->rows)
 		return;
-	}
 
-	gtk_widget_set_sensitive (priv->exception_modify, TRUE);
-	gtk_widget_set_sensitive (priv->exception_delete, TRUE);
-
-	dt = e_date_time_list_get_date_time (priv->exception_list_store, &iter);
+	dt = gtk_clist_get_row_data (clist, row);
 	g_assert (dt != NULL);
 
 	t = dt->value;
@@ -2240,8 +2348,6 @@ init_widgets (RecurrencePage *rpage)
 	ECalendar *ecal;
 	GtkAdjustment *adj;
 	GtkWidget *menu;
-	GtkTreeViewColumn *column;
-	GtkCellRenderer *cell_renderer;
 
 	priv = rpage->priv;
 
@@ -2249,8 +2355,8 @@ init_widgets (RecurrencePage *rpage)
 
 	priv->preview_calendar = e_calendar_new ();
 	ecal = E_CALENDAR (priv->preview_calendar);
-	g_signal_connect((ecal->calitem), "date_range_changed",
-			    G_CALLBACK (preview_date_range_changed_cb),
+	gtk_signal_connect (GTK_OBJECT (ecal->calitem), "date_range_changed",
+			    GTK_SIGNAL_FUNC (preview_date_range_changed_cb),
 			    rpage);
 	calendar_config_configure_e_calendar (ecal);
 	e_calendar_item_set_max_days_sel (ecal->calitem, 0);
@@ -2270,62 +2376,46 @@ init_widgets (RecurrencePage *rpage)
 
 	/* Recurrence types */
 
-	g_signal_connect((priv->none), "toggled",
-			    G_CALLBACK (type_toggled_cb), rpage);
-	g_signal_connect((priv->simple), "toggled",
-			    G_CALLBACK (type_toggled_cb), rpage);
-	g_signal_connect((priv->custom), "toggled",
-			    G_CALLBACK (type_toggled_cb), rpage);
+	gtk_signal_connect (GTK_OBJECT (priv->none), "toggled",
+			    GTK_SIGNAL_FUNC (type_toggled_cb), rpage);
+	gtk_signal_connect (GTK_OBJECT (priv->simple), "toggled",
+			    GTK_SIGNAL_FUNC (type_toggled_cb), rpage);
+	gtk_signal_connect (GTK_OBJECT (priv->custom), "toggled",
+			    GTK_SIGNAL_FUNC (type_toggled_cb), rpage);
 
 	/* Recurrence interval */
 
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (priv->interval_value));
-	g_signal_connect((adj), "value_changed",
-			    G_CALLBACK (interval_value_changed_cb),
+	gtk_signal_connect (GTK_OBJECT (adj), "value_changed",
+			    GTK_SIGNAL_FUNC (interval_value_changed_cb),
 			    rpage);
 
 	/* Recurrence units */
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->interval_unit));
-	g_signal_connect((menu), "selection_done",
-			    G_CALLBACK (interval_selection_done_cb),
+	gtk_signal_connect (GTK_OBJECT (menu), "selection_done",
+			    GTK_SIGNAL_FUNC (interval_selection_done_cb),
 			    rpage);
 
 	/* Recurrence ending */
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->ending_menu));
-	g_signal_connect((menu), "selection_done",
-			    G_CALLBACK (ending_selection_done_cb), rpage);
+	gtk_signal_connect (GTK_OBJECT (menu), "selection_done",
+			    GTK_SIGNAL_FUNC (ending_selection_done_cb), rpage);
 
 	/* Exception buttons */
 
-	g_signal_connect((priv->exception_add), "clicked",
-			    G_CALLBACK (exception_add_cb), rpage);
-	g_signal_connect((priv->exception_modify), "clicked",
-			    G_CALLBACK (exception_modify_cb), rpage);
-	g_signal_connect((priv->exception_delete), "clicked",
-			    G_CALLBACK (exception_delete_cb), rpage);
+	gtk_signal_connect (GTK_OBJECT (priv->exception_add), "clicked",
+			    GTK_SIGNAL_FUNC (exception_add_cb), rpage);
+	gtk_signal_connect (GTK_OBJECT (priv->exception_modify), "clicked",
+			    GTK_SIGNAL_FUNC (exception_modify_cb), rpage);
+	gtk_signal_connect (GTK_OBJECT (priv->exception_delete), "clicked",
+			    GTK_SIGNAL_FUNC (exception_delete_cb), rpage);
 
-	gtk_widget_set_sensitive (priv->exception_modify, FALSE);
-	gtk_widget_set_sensitive (priv->exception_delete, FALSE);
+	/* Selections in the exceptions list */
 
-	/* Exception list */
-
-	/* Model */
-	priv->exception_list_store = e_date_time_list_new ();
-	gtk_tree_view_set_model (GTK_TREE_VIEW (priv->exception_list),
-				 GTK_TREE_MODEL (priv->exception_list_store));
-
-	/* View */
-	column = gtk_tree_view_column_new ();
-	gtk_tree_view_column_set_title (column, "Date/Time");
-	cell_renderer = GTK_CELL_RENDERER (gtk_cell_renderer_text_new ());
-	gtk_tree_view_column_pack_start (column, cell_renderer, TRUE);
-	gtk_tree_view_column_add_attribute (column, cell_renderer, "text", E_DATE_TIME_LIST_COLUMN_DESCRIPTION);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (priv->exception_list), column);
-
-	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list)), "changed",
-			  G_CALLBACK (exception_selection_changed_cb), rpage);
+	gtk_signal_connect (GTK_OBJECT (priv->exception_list), "select_row",
+			    GTK_SIGNAL_FUNC (exception_select_row_cb), rpage);
 }
 
 
@@ -2347,7 +2437,7 @@ recurrence_page_construct (RecurrencePage *rpage)
 	priv = rpage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR 
-				   "/recurrence-page.glade", NULL, NULL);
+				   "/recurrence-page.glade", NULL);
 	if (!priv->xml) {
 		g_message ("recurrence_page_construct(): "
 			   "Could not load the Glade XML file!");
@@ -2378,9 +2468,9 @@ recurrence_page_new (void)
 {
 	RecurrencePage *rpage;
 
-	rpage = g_object_new (TYPE_RECURRENCE_PAGE, NULL);
+	rpage = gtk_type_new (TYPE_RECURRENCE_PAGE);
 	if (!recurrence_page_construct (rpage)) {
-		g_object_unref((rpage));
+		gtk_object_unref (GTK_OBJECT (rpage));
 		return NULL;
 	}
 

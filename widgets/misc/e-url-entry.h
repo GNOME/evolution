@@ -24,10 +24,6 @@
 #ifndef _E_URL_ENTRY_H_
 #define _E_URL_ENTRY_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gtk/gtk.h>
 
 #ifdef __cplusplus
@@ -36,10 +32,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TYPE_URL_ENTRY			(e_url_entry_get_type ())
-#define E_URL_ENTRY(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_URL_ENTRY, EUrlEntry))
-#define E_URL_ENTRY_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_URL_ENTRY, EUrlEntryClass))
-#define E_IS_URL_ENTRY(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_URL_ENTRY))
-#define E_IS_URL_ENTRY_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_URL_ENTRY))
+#define E_URL_ENTRY(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_URL_ENTRY, EUrlEntry))
+#define E_URL_ENTRY_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_URL_ENTRY, EUrlEntryClass))
+#define E_IS_URL_ENTRY(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_URL_ENTRY))
+#define E_IS_URL_ENTRY_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_URL_ENTRY))
 
 
 typedef struct _EUrlEntry        EUrlEntry;

@@ -24,16 +24,16 @@
 #include <config.h>
 
 #include <Evolution-Composer.h>
-
-#include <string.h>
+#include <bonobo/bonobo-object-client.h>
+#include <popt.h>
 #include <gal/util/e-util.h>
-#include <bonobo-activation/bonobo-activation.h>
+#include <gal/util/e-i18n.h>
+#include <liboaf/liboaf.h>
 #include <gtk/gtkmain.h>
 
 #include <bonobo/bonobo-main.h>
 
-#include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-ui-init.h>
+#include <libgnomeui/gnome-init.h>
 
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
@@ -48,13 +48,13 @@
 #define NOTNULL(x) ((x) ? (x) : "")
 
 typedef struct {
-	char *filename;
-	char *basename;
-	char *content;
-	int   size;
-	char *description;
-	char *content_type;
-	gboolean show_inline;
+       char *filename;
+       char *basename;
+       char *content;
+       int   size;
+       char *description;
+       char *content_type;
+       gboolean show_inline;
 } attachment_t;
 
 GList *attachments; /* Of type attachment_t */
@@ -64,196 +64,194 @@ char *subject;
 static void
 free_attachment (attachment_t *attachment)
 {
-	g_free (attachment->content);
-	g_free (attachment->filename);
-	g_free (attachment->basename);
-	g_free (attachment->content_type);
-	g_free (attachment->description);
-	g_free (attachment);
+       g_free (attachment->content);
+       g_free (attachment->filename);
+       g_free (attachment->basename);
+       g_free (attachment->content_type);
+       g_free (attachment->description);
+       g_free (attachment);
 }
 
-static GnomeVFSResult
+GnomeVFSResult
 elc_read_entire_file (const char *uri,
-		      int *file_size,
-		      char **file_contents,
-		      char **content_type)
+                     int *file_size,
+                     char **file_contents,
+                     char **content_type)
 {
-	GnomeVFSResult result;
-	GnomeVFSHandle *handle;
-	char *buffer;
-	GnomeVFSFileSize total_bytes_read;
-	GnomeVFSFileSize bytes_read;
+       GnomeVFSResult result;
+       GnomeVFSHandle *handle;
+       char *buffer;
+       GnomeVFSFileSize total_bytes_read;
+       GnomeVFSFileSize bytes_read;
 
-	*file_size = 0;
-	*file_contents = NULL;
+       *file_size = 0;
+       *file_contents = NULL;
 
-	/* Open the file. */
-	result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
-	if (result != GNOME_VFS_OK) {
-		return result;
-	}
+       /* Open the file. */
+       result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
+       if (result != GNOME_VFS_OK) {
+               return result;
+       }
 
-	/* Read the whole thing. */
-	buffer = NULL;
-	total_bytes_read = 0;
-	do {
-		buffer = g_realloc (buffer, total_bytes_read + READ_CHUNK_SIZE);
-		result = gnome_vfs_read (handle,
-					 buffer + total_bytes_read,
-					 READ_CHUNK_SIZE,
-					 &bytes_read);
-		if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
-			g_free (buffer);
-			gnome_vfs_close (handle);
-			return result;
-		}
+       /* Read the whole thing. */
+       buffer = NULL;
+       total_bytes_read = 0;
+       do {
+               buffer = g_realloc (buffer, total_bytes_read + READ_CHUNK_SIZE);
+               result = gnome_vfs_read (handle,
+                                        buffer + total_bytes_read,
+                                        READ_CHUNK_SIZE,
+                                        &bytes_read);
+               if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
+                       g_free (buffer);
+                       gnome_vfs_close (handle);
+                       return result;
+               }
 
-		/* Check for overflow. */
-		if (total_bytes_read + bytes_read < total_bytes_read) {
-			g_free (buffer);
-			gnome_vfs_close (handle);
-			return GNOME_VFS_ERROR_TOO_BIG;
-		}
+               /* Check for overflow. */
+               if (total_bytes_read + bytes_read < total_bytes_read) {
+                       g_free (buffer);
+                       gnome_vfs_close (handle);
+                       return GNOME_VFS_ERROR_TOO_BIG;
+               }
 
-		total_bytes_read += bytes_read;
-	} while (result == GNOME_VFS_OK);
+               total_bytes_read += bytes_read;
+       } while (result == GNOME_VFS_OK);
 
-	if (content_type) {
-		GnomeVFSFileInfo *info;
+       if (content_type) {
+               GnomeVFSFileInfo *info;
 
-		info = gnome_vfs_file_info_new ();
-		result = gnome_vfs_get_file_info_from_handle (handle, info,
-							      GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
-							      GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-		if (result == GNOME_VFS_OK)
-			*content_type = g_strdup (gnome_vfs_file_info_get_mime_type (info));
-		else
-			*content_type = g_strdup ("application/octet-stream");
+               info = gnome_vfs_file_info_new ();
+               result = gnome_vfs_get_file_info_from_handle (handle, info,
+                                                             GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
+                                                             GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+               if (result == GNOME_VFS_OK)
+                       *content_type = g_strdup (gnome_vfs_file_info_get_mime_type (info));
+               else
+                       *content_type = g_strdup ("application/octet-stream");
 
-		gnome_vfs_file_info_unref (info);
-	}
+               gnome_vfs_file_info_unref (info);
+       }
 
-	/* Close the file. */
-	result = gnome_vfs_close (handle);
-	if (result != GNOME_VFS_OK) {
-		g_free (buffer);
-		return result;
-	}
+       /* Close the file. */
+       result = gnome_vfs_close (handle);
+       if (result != GNOME_VFS_OK) {
+               g_free (buffer);
+               return result;
+       }
 
-	/* Return the file. */
-	*file_size = total_bytes_read;
-	*file_contents = g_realloc (buffer, total_bytes_read);
-	return GNOME_VFS_OK;
+       /* Return the file. */
+       *file_size = total_bytes_read;
+       *file_contents = g_realloc (buffer, total_bytes_read);
+       return GNOME_VFS_OK;
 }
 
 
 static void
-do_send (GNOME_Evolution_Composer composer_server)
+do_send (BonoboObjectClient *bonobo_server)
 {
-	CORBA_Environment ev;
+       GNOME_Evolution_Composer composer_server;
+       CORBA_Environment ev;
 
-	GNOME_Evolution_Composer_AttachmentData *attach_data;
+       GNOME_Evolution_Composer_AttachmentData *attach_data;
 
-	GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
+       GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
 
-	CORBA_exception_init (&ev);
+       composer_server = bonobo_object_corba_objref (BONOBO_OBJECT (bonobo_server));
 
-	attachments = g_list_reverse (attachments);
+       CORBA_exception_init (&ev);
 
-	while (attachments) {
-		attachment_t *attachment = attachments->data;
-		GList *temp;
+       attachments = g_list_reverse (attachments);
 
-		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc();
-		attach_data->_maximum = attach_data->_length = attachment->size;
-		attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
-		strcpy (attach_data->_buffer, attachment->content);
+       while (attachments) {
+               attachment_t *attachment = attachments->data;
+               GList *temp;
 
-		GNOME_Evolution_Composer_attachData (composer_server, 
-						     NOTNULL (attachment->content_type),
-						     NOTNULL (attachment->basename),
-						     NOTNULL (attachment->description),
-						     attachment->show_inline,
-						     attach_data,
-						     &ev);
+               attach_data = GNOME_Evolution_Composer_AttachmentData__alloc();
+               attach_data->_maximum = attach_data->_length = attachment->size;
+               attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
+               strcpy (attach_data->_buffer, attachment->content);
 
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_printerr ("evolution-sendmail.c: I couldn't attach data to the composer via CORBA! Aagh.\n");
-			CORBA_exception_free (&ev);
-			return;
-		}
+               GNOME_Evolution_Composer_attachData (composer_server, 
+                                                    NOTNULL (attachment->content_type),
+                                                    NOTNULL (attachment->basename),
+                                                    NOTNULL (attachment->description),
+                                                    attachment->show_inline,
+                                                    attach_data,
+                                                    &ev);
 
-		CORBA_free (attach_data);
+               if (ev._major != CORBA_NO_EXCEPTION) {
+                       g_printerr ("evolution-sendmail.c: I couldn't attach data to the composer via CORBA! Aagh.\n");
+                       CORBA_exception_free (&ev);
+                       return;
+               }
 
-		free_attachment (attachment);
+               CORBA_free (attach_data);
 
-		temp = attachments;
-		attachments = g_list_remove_link (attachments, attachments);
-		g_list_free_1 (temp);
-	}
+               free_attachment (attachment);
 
-	to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	to_list->_maximum = to_list->_length = 0;
+               temp = attachments;
+               attachments = g_list_remove_link (attachments, attachments);
+               g_list_free_1 (temp);
+       }
 
-	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	cc_list->_maximum = cc_list->_length = 0;
+       to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+       to_list->_maximum = to_list->_length = 0;
 
-	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	bcc_list->_maximum = bcc_list->_length = 0;
+       cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+       cc_list->_maximum = cc_list->_length = 0;
 
-	GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, NOTNULL (subject), &ev);
+       bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+       bcc_list->_maximum = bcc_list->_length = 0;
 
-	CORBA_free (to_list);
-	CORBA_free (cc_list);
-	CORBA_free (bcc_list);
+       GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, NOTNULL (subject), &ev);
 
-	GNOME_Evolution_Composer_show (composer_server, &ev);
+       CORBA_free (to_list);
+       CORBA_free (cc_list);
+       CORBA_free (bcc_list);
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_printerr ("evolution-sendmail.c: I couldn't show the composer via CORBA! Aagh.\n");
-		CORBA_exception_free (&ev);
-		return;
-	}
+       GNOME_Evolution_Composer_show (composer_server, &ev);
 
-	CORBA_exception_free (&ev);
+       if (ev._major != CORBA_NO_EXCEPTION) {
+               g_printerr ("evolution-sendmail.c: I couldn't show the composer via CORBA! Aagh.\n");
+               CORBA_exception_free (&ev);
+               return;
+       }
+
+       CORBA_exception_free (&ev);
 }
 
 
-static GNOME_Evolution_Composer
+static BonoboObjectClient *
 get_composer ()
 {
-	CORBA_Object shell;
-	GNOME_Evolution_Composer composer;
+       BonoboObjectClient *bonobo_server;
 
-	/* First, I obtain an object reference that represents the Shell, to make sure it's running. */
-	shell = bonobo_activation_activate_from_id (E_SHELL_OAFIID, 0, NULL, NULL);
+       /* First, I obtain an object reference that represents the Shell, to make sure it's running. */
+       bonobo_server = bonobo_object_activate (E_SHELL_OAFIID, 0);
 
-	printf ("shell == %p\n", shell);
+       g_return_val_if_fail (bonobo_server != NULL, NULL);
 
-	g_return_val_if_fail (shell != CORBA_OBJECT_NIL, NULL);
+       /* Next, I obtain an object reference that represents the Composer. */
+       bonobo_server = bonobo_object_activate (COMPOSER_OAFIID, 0);
 
-	/* Next, I obtain an object reference that represents the Composer. */
-	composer = bonobo_activation_activate_from_id (COMPOSER_OAFIID, 0, NULL, NULL);
-
-	printf ("composer == %p\n", composer);
-
-	return composer;
+       return bonobo_server;
 }
 
 static gboolean
 composer_timeout (gpointer data)
 {
-	GNOME_Evolution_Composer composer;
+       BonoboObjectClient *bonobo_server;
 
-	composer = get_composer ();
+       bonobo_server = get_composer ();
 
-	if (composer != CORBA_OBJECT_NIL) {
-		do_send (composer);
-		gtk_main_quit ();
-		return FALSE;
-	} else {
-		return TRUE;
-	}
+       if (bonobo_server) {
+               do_send (bonobo_server);
+               gtk_main_quit ();
+               return FALSE;
+       } else {
+               return TRUE;
+       }
 }
 
 static void
@@ -333,25 +331,26 @@ static struct poptOption cap_options[] = {
 int
 main(int argc, char *argv[])
 {
-	GNOME_Evolution_Composer composer;
+       BonoboObjectClient *bonobo_server;
 
         bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
         textdomain (PACKAGE);
 
-	gnome_program_init ("evolution-launch-composer", VERSION,
-			    LIBGNOMEUI_MODULE, argc, argv,
-			    GNOME_PROGRAM_STANDARD_PROPERTIES,
-			    GNOME_PARAM_POPT_TABLE, cap_options,
-			    NULL);
+       gnome_vfs_init ();
 
-	composer = get_composer ();
+       gnome_init_with_popt_table ("evolution-launch-composer", VERSION, argc, argv, cap_options, 0, NULL);
 
-	if (composer != CORBA_OBJECT_NIL) {
-		do_send (composer);
-	} else {
-		g_timeout_add(1000, composer_timeout, NULL);
-		bonobo_main ();
-	}
+       if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
+               g_error (_("Could not initialize Bonobo"));
 
-	return 0;
+       bonobo_server = get_composer ();
+
+       if (bonobo_server) {
+               do_send (bonobo_server);
+       } else {
+               g_timeout_add(1000, composer_timeout, NULL);
+               gtk_main ();
+       }
+
+       return 0;
 }

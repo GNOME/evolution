@@ -23,8 +23,10 @@
 #endif
 
 #include <glib.h>
-#include <gtk/gtkmessagedialog.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <gal/widgets/e-unicode.h>
 #include "send-comp.h"
@@ -45,7 +47,6 @@ send_component_dialog (CalClient *client, CalComponent *comp, gboolean new)
 	GtkWidget *dialog;
 	CalComponentVType vtype;
 	char *str;
-	gint response;
 
 	if (cal_client_get_save_schedules (client))
 		return FALSE;
@@ -80,14 +81,9 @@ send_component_dialog (CalClient *client, CalComponent *comp, gboolean new)
 		return FALSE;
 	}
 	
-	dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-					 GTK_MESSAGE_QUESTION,
-					 GTK_BUTTONS_YES_NO, str);
+	dialog = gnome_question_dialog_modal (str, NULL, NULL);
 
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-
-	if (response == GTK_RESPONSE_YES)
+	if (gnome_dialog_run (GNOME_DIALOG (dialog)) == GNOME_YES)
 		return TRUE;
 	else
 		return FALSE;

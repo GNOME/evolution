@@ -28,16 +28,18 @@
 #include <unistd.h>
 #include <glib.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkstock.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <bonobo/bonobo-ui-container.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/widgets/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <evolution-shell-component-utils.h>
 #include "../print.h"
@@ -88,7 +90,7 @@ struct _CompEditorPrivate {
 static void comp_editor_class_init (CompEditorClass *class);
 static void comp_editor_init (CompEditor *editor);
 static gint comp_editor_key_press_event (GtkWidget *d, GdkEventKey *e);
-static void comp_editor_finalize (GObject *object);
+static void comp_editor_destroy (GtkObject *object);
 
 static void real_set_cal_client (CompEditor *editor, CalClient *client);
 static void real_edit_comp (CompEditor *editor, CalComponent *comp);
@@ -150,27 +152,48 @@ static GtkObjectClass *parent_class;
 
 
 
-E_MAKE_TYPE (comp_editor, "CompEditor", CompEditor, comp_editor_class_init, comp_editor_init,
-	     BONOBO_TYPE_WINDOW);
+GtkType
+comp_editor_get_type (void)
+{
+	static GtkType comp_editor_type = 0;
+
+	if (!comp_editor_type) {
+		static const GtkTypeInfo comp_editor_info = {
+			"CompEditor",
+			sizeof (CompEditor),
+			sizeof (CompEditorClass),
+			(GtkClassInitFunc) comp_editor_class_init,
+			(GtkObjectInitFunc) comp_editor_init,
+			NULL, /* reserved_1 */
+			NULL, /* reserved_2 */
+			(GtkClassInitFunc) NULL
+		};
+
+		comp_editor_type = gtk_type_unique (BONOBO_TYPE_WINDOW,
+						    &comp_editor_info);
+	}
+
+	return comp_editor_type;
+}
 
 /* Class initialization function for the calendar component editor */
 static void
 comp_editor_class_init (CompEditorClass *klass)
 {
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = GTK_OBJECT_CLASS (klass);
 	widget_class = GTK_WIDGET_CLASS (klass);
 
-	parent_class = g_type_class_ref(BONOBO_TYPE_WINDOW);
+	parent_class = gtk_type_class (BONOBO_TYPE_WINDOW);
 
 	klass->set_cal_client = real_set_cal_client;
 	klass->edit_comp = real_edit_comp;
 	klass->send_comp = real_send_comp;
 
 	widget_class->key_press_event = comp_editor_key_press_event;
-	object_class->finalize = comp_editor_finalize;
+	object_class->destroy = comp_editor_destroy;
 }
 
 /* Creates the basic in the editor */
@@ -184,23 +207,22 @@ setup_widgets (CompEditor *editor)
 	priv = editor->priv;
 
 	/* Window and basic vbox */
-	container = bonobo_ui_container_new ();
-	editor = (CompEditor *) bonobo_window_construct (BONOBO_WINDOW (editor), container,
-							 "event-editor", "iCalendar Editor");
-	g_signal_connect((editor), "delete_event",
-			    G_CALLBACK (delete_event_cb), editor);
+	bonobo_window_construct (BONOBO_WINDOW (editor),
+				 "event-editor", "iCalendar Editor");
+	gtk_signal_connect (GTK_OBJECT (editor), "delete_event",
+			    GTK_SIGNAL_FUNC (delete_event_cb), editor);
 
 	priv->uic = bonobo_ui_component_new_default ();
-	bonobo_ui_component_set_container (priv->uic,
-					   bonobo_object_corba_objref (BONOBO_OBJECT (container)),
-					   NULL);
+	container = bonobo_ui_container_new ();
+	bonobo_ui_container_set_win (container, BONOBO_WINDOW (editor));
+	bonobo_ui_component_set_container (priv->uic, BONOBO_OBJREF (container));
 	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (BONOBO_WINDOW (editor)),
 					  "/evolution/UIConf/kvps");
 
 	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, editor);
 	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR,
-			       EVOLUTION_UIDIR "/evolution-comp-editor.xml",
-			       "evolution-calendar", NULL);
+			       "evolution-comp-editor.xml",
+			       "evolution-calendar");
 	e_pixmaps_update (priv->uic, pixmaps);
 
 	vbox = gtk_vbox_new (FALSE, GNOME_PAD_SMALL);
@@ -253,7 +275,7 @@ comp_editor_key_press_event (GtkWidget *d, GdkEventKey *e)
 
 /* Destroy handler for the calendar component editor */
 static void
-comp_editor_finalize (GObject *object)
+comp_editor_destroy (GtkObject *object)
 {
 	CompEditor *editor;
 	CompEditorPrivate *priv;
@@ -262,24 +284,24 @@ comp_editor_finalize (GObject *object)
 	editor = COMP_EDITOR (object);
 	priv = editor->priv;
 
-	g_signal_handlers_disconnect_matched (priv->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), editor);
 
 	/* We want to destroy the pages after the widgets get destroyed,
 	   since they have lots of signal handlers connected to the widgets
 	   with the pages as the data. */
 	for (l = priv->pages; l != NULL; l = l->next)
-		g_object_unref((l->data));
+		gtk_object_unref (GTK_OBJECT (l->data));
 
 	if (priv->comp) {
-		g_object_unref((priv->comp));
+		gtk_object_unref (GTK_OBJECT (priv->comp));
 		priv->comp = NULL;
 	}
 
 	g_free (priv);
 	editor->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 static gboolean
@@ -298,7 +320,7 @@ save_comp (CompEditor *editor)
 	clone = cal_component_clone (priv->comp);
 	for (l = priv->pages; l != NULL; l = l->next) {
 		if (!comp_editor_page_fill_component (l->data, clone)) {
-			g_object_unref((clone));
+			gtk_object_unref (GTK_OBJECT (clone));
 			comp_editor_show_page (editor, COMP_EDITOR_PAGE (l->data));
 			return FALSE;
 		}
@@ -310,7 +332,7 @@ save_comp (CompEditor *editor)
 	else
 		cal_component_abort_sequence (clone);
 
-	g_object_unref((priv->comp));
+	gtk_object_unref (GTK_OBJECT (priv->comp));
 	priv->comp = clone;
 
 	priv->updating = TRUE;
@@ -401,7 +423,7 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 		return TRUE;
 
 	switch (save_component_dialog (GTK_WINDOW (editor))) {
-	case GTK_RESPONSE_YES: /* Save */
+	case 0: /* Save */
 		if (cal_component_is_instance (priv->comp))
 			if (!recur_component_dialog (priv->comp, &priv->mod, GTK_WINDOW (editor)))
 				return FALSE;
@@ -412,9 +434,9 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 			return TRUE;
 		else
 			return FALSE;
-	case GTK_RESPONSE_NO: /* Discard */
+	case 1: /* Discard */
 		return TRUE;
-	case GTK_RESPONSE_CANCEL: /* Cancel */
+	case 2: /* Cancel */
 	default:
 		return FALSE;
 	}
@@ -441,7 +463,7 @@ close_dialog (CompEditor *editor)
 
 	priv = editor->priv;
 
-	gtk_widget_destroy (GTK_WIDGET (editor));
+	gtk_object_destroy (GTK_OBJECT (editor));
 }
 
 
@@ -627,7 +649,7 @@ comp_editor_append_page (CompEditor *editor,
 
 	priv = editor->priv;
 
-	g_object_ref((page));
+	gtk_object_ref (GTK_OBJECT (page));
 
 	/* If we are editing something, fill the widgets with current info */
 	if (priv->comp != NULL) {
@@ -635,7 +657,7 @@ comp_editor_append_page (CompEditor *editor,
 
 		comp = comp_editor_get_current_comp (editor);
 		comp_editor_page_fill_widgets (page, comp);
-		g_object_unref((comp));
+		gtk_object_unref (GTK_OBJECT (comp));
 	}
 
 	page_widget = comp_editor_page_get_widget (page);
@@ -649,19 +671,19 @@ comp_editor_append_page (CompEditor *editor,
 	gtk_notebook_append_page (priv->notebook, page_widget, label_widget);
 
 	/* Listen for things happening on the page */
-	g_signal_connect(page, "changed",
-			    G_CALLBACK (page_changed_cb), editor);
-	g_signal_connect(page, "summary_changed",
-			    G_CALLBACK (page_summary_changed_cb), editor);
-	g_signal_connect(page, "dates_changed",
-			    G_CALLBACK (page_dates_changed_cb), editor);
+	gtk_signal_connect (GTK_OBJECT (page), "changed",
+			    GTK_SIGNAL_FUNC (page_changed_cb), editor);
+	gtk_signal_connect (GTK_OBJECT (page), "summary_changed",
+			    GTK_SIGNAL_FUNC (page_summary_changed_cb), editor);
+	gtk_signal_connect (GTK_OBJECT (page), "dates_changed",
+			    GTK_SIGNAL_FUNC (page_dates_changed_cb), editor);
 
 	/* Listen for when the page is mapped/unmapped so we can
 	   install/uninstall the appropriate GtkAccelGroup. */
-	g_signal_connect((page_widget), "map",
-			    G_CALLBACK (page_mapped_cb), page);
-	g_signal_connect((page_widget), "unmap",
-			    G_CALLBACK (page_unmapped_cb), page);
+	gtk_signal_connect (GTK_OBJECT (page_widget), "map",
+			    GTK_SIGNAL_FUNC (page_mapped_cb), page);
+	gtk_signal_connect (GTK_OBJECT (page_widget), "unmap",
+			    GTK_SIGNAL_FUNC (page_unmapped_cb), page);
 
 	/* The first page is the main page of the editor, so we ask it to focus
 	 * its main widget.
@@ -697,13 +719,13 @@ comp_editor_remove_page (CompEditor *editor, CompEditorPage *page)
 		return;
 	
 	/* Disconnect all the signals added in append_page(). */
-	g_signal_handlers_disconnect_matched (page, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
-	g_signal_handlers_disconnect_matched (page_widget, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page);
+	gtk_signal_disconnect_by_data (GTK_OBJECT (page), editor);
+	gtk_signal_disconnect_by_data (GTK_OBJECT (page_widget), page);
 
 	gtk_notebook_remove_page (priv->notebook, page_num);
 
 	priv->pages = g_list_remove (priv->pages, page);
-	g_object_unref((page));
+	gtk_object_unref (GTK_OBJECT (page));
 }
 
 /**
@@ -747,7 +769,7 @@ comp_editor_set_cal_client (CompEditor *editor, CalClient *client)
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
-	klass = COMP_EDITOR_CLASS (G_OBJECT_GET_CLASS (editor));
+	klass = COMP_EDITOR_CLASS (GTK_OBJECT (editor)->klass);
 
 	if (klass->set_cal_client)
 		klass->set_cal_client (editor, client);
@@ -778,7 +800,7 @@ comp_editor_get_cal_client (CompEditor *editor)
 static char *
 make_title_from_comp (CalComponent *comp)
 {
-	char *title, *title_utf8;
+	char *title;
 	const char *type_string;
 	CalComponentVType type;
 	CalComponentText text;
@@ -804,15 +826,14 @@ make_title_from_comp (CalComponent *comp)
 
 	cal_component_get_summary (comp, &text);
 	if (text.value) {
-		title = g_strdup_printf (type_string, text.value);
-	} else {
+		char *summary;
+		summary = e_utf8_to_locale_string (text.value);
+		title = g_strdup_printf (type_string, summary);
+		g_free (summary);
+	} else
 		title = g_strdup_printf (type_string, _("No summary"));
-	}
 
-	title_utf8 = g_locale_to_utf8 (title, -1, NULL, NULL, NULL);
-	g_free (title);
-
-	return title_utf8;
+	return title;
 }
 
 static const char *
@@ -821,18 +842,18 @@ make_icon_from_comp (CalComponent *comp)
 	CalComponentVType type;
 
 	if (!comp)
-		return EVOLUTION_IMAGESDIR "/evolution-calendar-mini.png";
+		return EVOLUTION_ICONSDIR "/evolution-calendar-mini.png";
 
 	type = cal_component_get_vtype (comp);
 	switch (type) {
 	case CAL_COMPONENT_EVENT:
-		return EVOLUTION_IMAGESDIR "/buttons/new_appointment.png";
+		return EVOLUTION_ICONSDIR "/buttons/new_appointment.png";
 		break;
 	case CAL_COMPONENT_TODO:
-		return EVOLUTION_IMAGESDIR "/buttons/new_task.png";
+		return EVOLUTION_ICONSDIR "/buttons/new_task.png";
 		break;
 	default:
-		return EVOLUTION_IMAGESDIR "/evolution-calendar-mini.png";
+		return EVOLUTION_ICONSDIR "/evolution-calendar-mini.png";
 	}
 }
 
@@ -890,13 +911,13 @@ real_set_cal_client (CompEditor *editor, CalClient *client)
 		g_return_if_fail (IS_CAL_CLIENT (client));
 		g_return_if_fail (cal_client_get_load_state (client) ==
 				  CAL_CLIENT_LOAD_LOADED);
-		g_object_ref((client));
+		gtk_object_ref (GTK_OBJECT (client));
 	}
 
 	if (priv->client) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client),
 					       editor);
-		g_object_unref((priv->client));
+		gtk_object_unref (GTK_OBJECT (priv->client));
 	}
 
 	priv->client = client;
@@ -905,11 +926,11 @@ real_set_cal_client (CompEditor *editor, CalClient *client)
 	for (elem = priv->pages; elem; elem = elem->next)
 		comp_editor_page_set_cal_client (elem->data, client);
 
-	g_signal_connect((priv->client), "obj_updated",
-			    G_CALLBACK (obj_updated_cb), editor);
+	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_updated",
+			    GTK_SIGNAL_FUNC (obj_updated_cb), editor);
 
-	g_signal_connect((priv->client), "obj_removed",
-			    G_CALLBACK (obj_removed_cb), editor);
+	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
+			    GTK_SIGNAL_FUNC (obj_removed_cb), editor);
 }
 
 static void
@@ -923,7 +944,7 @@ real_edit_comp (CompEditor *editor, CalComponent *comp)
 	priv = editor->priv;
 
 	if (priv->comp) {
-		g_object_unref((priv->comp));
+		gtk_object_unref (GTK_OBJECT (priv->comp));
 		priv->comp = NULL;
 	}
 
@@ -953,9 +974,9 @@ real_send_comp (CompEditor *editor, CalComponentItipMethod method)
 
 	if (itip_send_comp (method, priv->comp, priv->client, NULL)) {
 		tmp_comp = priv->comp;
-		g_object_ref((tmp_comp));
+		gtk_object_ref (GTK_OBJECT (tmp_comp));
 		comp_editor_edit_comp (editor, tmp_comp);
-		g_object_unref((tmp_comp));
+		gtk_object_unref (GTK_OBJECT (tmp_comp));
 		
 		comp_editor_set_changed (editor, TRUE);
 		save_comp (editor);
@@ -986,7 +1007,7 @@ comp_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
 
-	klass = COMP_EDITOR_CLASS (G_OBJECT_GET_CLASS (editor));
+	klass = COMP_EDITOR_CLASS (GTK_OBJECT (editor)->klass);
 
 	if (klass->edit_comp)
 		klass->edit_comp (editor, comp);
@@ -1065,7 +1086,7 @@ comp_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 	g_return_val_if_fail (editor != NULL, FALSE);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
-	klass = COMP_EDITOR_CLASS (G_OBJECT_GET_CLASS (editor));
+	klass = COMP_EDITOR_CLASS (GTK_OBJECT (editor)->klass);
 
 	if (klass->send_comp)
 		return klass->send_comp (editor, method);
@@ -1105,19 +1126,14 @@ comp_editor_merge_ui (CompEditor *editor,
 		      EPixmap *component_pixmaps)
 {
 	CompEditorPrivate *priv;
-	char *path;
 
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
 	priv = editor->priv;
 
-	path = g_strconcat (EVOLUTION_UIDIR "/", filename, NULL);
-
-	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR, path, "evolution-calendar", NULL);
+	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR, filename, "evolution-calendar");
 	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, editor);
-
-	g_free (path);
 
 	if (component_pixmaps != NULL)
 		e_pixmaps_update (priv->uic, component_pixmaps);
@@ -1278,7 +1294,7 @@ print_cmd (GtkWidget *widget, gpointer data)
 
 	comp = comp_editor_get_current_comp (editor);
 	print_comp (comp, editor->priv->client, FALSE);
-	g_object_unref((comp));
+	gtk_object_unref (GTK_OBJECT (comp));
 }
 
 static void
@@ -1291,7 +1307,7 @@ print_preview_cmd (GtkWidget *widget, gpointer data)
 
 	comp = comp_editor_get_current_comp (editor);
 	print_comp (comp, editor->priv->client, TRUE);
-	g_object_unref((comp));
+	gtk_object_unref (GTK_OBJECT (comp));
 }
 
 static void
@@ -1327,7 +1343,7 @@ page_changed_cb (GtkObject *obj, gpointer data)
 	priv->changed = TRUE;
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
-		e_notice (editor, GTK_MESSAGE_INFO,
+		e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
 			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
@@ -1351,7 +1367,7 @@ page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data)
 	priv->changed = TRUE;
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
-		e_notice (editor, GTK_MESSAGE_INFO,
+		e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
 			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
@@ -1375,7 +1391,7 @@ page_dates_changed_cb (GtkObject *obj,
 	priv->changed = TRUE;
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
-		e_notice (editor, GTK_MESSAGE_INFO,
+		e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
 			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
@@ -1399,7 +1415,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 			status = cal_client_get_object (priv->client, uid, &comp);
 			if (status == CAL_CLIENT_GET_SUCCESS) {
 				comp_editor_edit_comp (editor, comp);
-				g_object_unref((comp));
+				gtk_object_unref (GTK_OBJECT (comp));
 			} else {
 				GtkWidget *dlg;
 

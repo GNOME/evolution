@@ -33,8 +33,11 @@
 
 #include "Evolution-Addressbook-SelectNames.h"
 
-#include "e-util/e-dialog-utils.h"
+#include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-unicode.h>
 
+#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 
@@ -42,10 +45,7 @@
 #include <bonobo/bonobo-listener.h>
 #include <bonobo/bonobo-widget.h>
 
-#include <bonobo-activation/bonobo-activation.h>
-
 #include <gtk/gtk.h>
-#include <gtk/gtksignal.h>
 
 
 /* Timeout for showing the progress dialog (msecs).  */
@@ -89,9 +89,9 @@ user_clicked (GtkWidget *button, GNOME_Evolution_Addressbook_SelectNames corba_i
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Addressbook_SelectNames_activateDialog (corba_iface, "User", &ev);
 
-	if (BONOBO_EX (&ev))
-		g_warning ("Cannot activate SelectNames dialog -- %s", BONOBO_EX_REPOID (&ev));
-
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Cannot activate SelectNames dialog -- %s", BONOBO_EX_ID (&ev));
+	}
 	CORBA_exception_free (&ev);
 }
 
@@ -111,23 +111,23 @@ setup_name_selector (GladeXML *glade_xml,
 
 	CORBA_exception_init (&ev);
 
-	corba_iface = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Addressbook_SelectNames",
-							  0, NULL, &ev);
+	corba_iface = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Addressbook_SelectNames",
+					    0, NULL, &ev);
 	if (corba_iface == CORBA_OBJECT_NIL || BONOBO_EX (&ev)) {
-		g_warning ("Cannot activate SelectNames -- %s", BONOBO_EX_REPOID (&ev));
+		g_warning ("Cannot activate SelectNames -- %s", BONOBO_EX_ID (&ev));
 		CORBA_exception_free (&ev);
 		return CORBA_OBJECT_NIL;
 	}
 
 	GNOME_Evolution_Addressbook_SelectNames_addSectionWithLimit (corba_iface, "User", "User", 1, &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning ("Cannot add SelectNames section -- %s", BONOBO_EX_REPOID (&ev));
+		g_warning ("Cannot add SelectNames section -- %s", BONOBO_EX_ID (&ev));
 		goto err;
 	}
 
 	control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (corba_iface, "User", &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning ("Cannot get SelectNames section -- %s", BONOBO_EX_REPOID (&ev));
+		g_warning ("Cannot get SelectNames section -- %s", BONOBO_EX_ID (&ev));
 		goto err;
 	}
 
@@ -136,7 +136,8 @@ setup_name_selector (GladeXML *glade_xml,
 	gtk_widget_show (control_widget);
 
 	button = glade_xml_get_widget (glade_xml, "button-user");
-	g_signal_connect (button, "clicked", G_CALLBACK (user_clicked), corba_iface);
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    user_clicked, corba_iface);
 
 	CORBA_exception_free (&ev);
 	*iface_ret = corba_iface;
@@ -158,20 +159,8 @@ server_option_menu_item_activate_callback (GtkMenuItem *menu_item,
 	if (*storage_name_return != NULL)
 		g_free (*storage_name_return);
 
-	*storage_name_return = g_strdup ((const char *) g_object_get_data (G_OBJECT (menu_item), "storage_name"));
-}
-
-static void
-folder_name_entry_changed_callback (GtkEditable *editable,
-				    void *data)
-{
-	GtkDialog *dialog = GTK_DIALOG (data);
-	const char *folder_name_text = gtk_entry_get_text (GTK_ENTRY (editable));
-
-	if (*folder_name_text == '\0')
-		gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, FALSE);
-	else
-		gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, TRUE);
+	*storage_name_return = g_strdup ((const char *) gtk_object_get_data (GTK_OBJECT (menu_item),
+									     "storage_name"));
 }
 
 static void
@@ -201,14 +190,15 @@ setup_server_option_menu (EShell *shell,
 
 		storage_name = e_storage_get_name (E_STORAGE (p->data));
 
-		menu_item = gtk_menu_item_new_with_label (storage_name);
-		g_signal_connect (menu_item, "activate",
-				  G_CALLBACK (server_option_menu_item_activate_callback),
-				  storage_name_return);
-		g_object_set_data_full (G_OBJECT (menu_item), "storage_name", g_strdup (storage_name), g_free);
+		menu_item = e_utf8_gtk_menu_item_new_with_label (GTK_MENU (menu), storage_name);
+		gtk_signal_connect (GTK_OBJECT (menu_item), "activate",
+				    GTK_SIGNAL_FUNC (server_option_menu_item_activate_callback),
+				    storage_name_return);
+		gtk_object_set_data_full (GTK_OBJECT (menu_item), "storage_name",
+					  g_strdup (storage_name), g_free);
 
 		gtk_widget_show (menu_item);
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
+		gtk_menu_append (GTK_MENU (menu), menu_item);
 
 		if (*storage_name_return == NULL)
 			*storage_name_return = g_strdup (storage_name);
@@ -231,11 +221,10 @@ show_dialog (EShell *shell,
 	GtkWidget *dialog;
 	GtkWidget *name_selector_widget;
 	GtkWidget *folder_name_entry;
-	char *user_email_address;
-	int response;
+	int button_num;
 
 	glade_xml = glade_xml_new (EVOLUTION_GLADEDIR "/e-shell-shared-folder-picker-dialog.glade",
-				   NULL, NULL);
+				   NULL);
 	g_assert (glade_xml != NULL);
 
 	name_selector_widget = setup_name_selector (glade_xml, &corba_iface);
@@ -248,40 +237,22 @@ show_dialog (EShell *shell,
 	dialog = glade_xml_get_widget (glade_xml, "dialog");
 	g_assert (dialog != NULL);
 
-	folder_name_entry = glade_xml_get_widget (glade_xml, "folder-name-entry");
+	gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
 
-	/* Connect the callback to set the OK button insensitive when there is
-	   no text in the folder_name_entry.  Notice that we put a value there
-	   by default so the OK button is sensitive by default.  */
-	g_signal_connect (folder_name_entry, "changed",
-			  G_CALLBACK (folder_name_entry_changed_callback), dialog);
-
-	while (TRUE) {
-		response = gtk_dialog_run (GTK_DIALOG (dialog));
-		if (response == GTK_RESPONSE_CANCEL) {
-			g_free (*storage_name_return);
-			*storage_name_return = NULL;
-			gtk_widget_destroy (dialog);
-			bonobo_object_release_unref (corba_iface, NULL);
-			return FALSE;
-		}
-
-		bonobo_widget_get_property (BONOBO_WIDGET (name_selector_widget),
-					    "addresses", TC_CORBA_string, &user_email_address,
-					    NULL);
-
-		if (user_email_address != NULL && *user_email_address != '\0')
-			break;
-
-		g_free (user_email_address);
-
-		/* It would be nice to insensitivize the OK button appropriately
-		   instead of doing this, but unfortunately we can't do this for the
-		   Bonobo control.  */
-		e_notice (dialog, GTK_MESSAGE_ERROR, _("Please select a user."));
+	button_num = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	if (button_num == 1) {	/* Cancel */
+		g_free (*storage_name_return);
+		*storage_name_return = NULL;
+		gtk_widget_destroy (dialog);
+		bonobo_object_release_unref (corba_iface, NULL);
+		return FALSE;
 	}
 
-	*user_email_address_return = user_email_address;
+	bonobo_widget_get_property (BONOBO_WIDGET (name_selector_widget),
+				    "addresses", user_email_address_return,
+				    NULL);
+
+	folder_name_entry = glade_xml_get_widget (glade_xml, "folder-name-entry");
 	*folder_name_return = g_strdup (gtk_entry_get_text (GTK_ENTRY (folder_name_entry)));
 
 	gtk_widget_destroy (dialog);
@@ -310,21 +281,29 @@ cleanup_discovery (DiscoveryData *discovery_data)
 
 	g_free (discovery_data->user_email_address);
 	g_free (discovery_data->folder_name);
-	g_object_unref (discovery_data->storage);
+	gtk_object_unref (GTK_OBJECT (discovery_data->storage));
 	g_free (discovery_data);
 }
 
 static int
 progress_bar_timeout_callback (void *data)
 {
-	gtk_progress_bar_pulse (GTK_PROGRESS_BAR (data));
+	GtkAdjustment *adjustment;
+	float value;
+
+	adjustment = GTK_PROGRESS (data)->adjustment;
+	value = adjustment->value + 1;
+	if (value > adjustment->upper)
+		value = adjustment->lower;
+
+	gtk_progress_set_value (GTK_PROGRESS (data), value);
 
 	return TRUE;
 }
 
 static void
-progress_bar_weak_notify (void *data,
-			  GObject *where_the_object_was)
+progress_bar_destroy_callback (GtkObject *object,
+			       void *data)
 {
 	int timeout_id;
 
@@ -332,10 +311,19 @@ progress_bar_weak_notify (void *data,
 	g_source_remove (timeout_id);
 }
 
+static int
+progress_dialog_close_callback (GnomeDialog *dialog,
+				void *data)
+{
+	/* Don't allow the dialog to be closed through the window manager close
+	   command.  */
+	return TRUE;
+}
+
 /* This is invoked if the "Cancel" button is clicked.  */
 static void
-progress_dialog_clicked_callback (GtkDialog *dialog,
-				  int response,
+progress_dialog_clicked_callback (GnomeDialog *dialog,
+				  int button_number,
 				  void *data)
 {
 	DiscoveryData *discovery_data;
@@ -371,37 +359,43 @@ create_progress_dialog (EShell *shell,
 	int timeout_id;
 	char *text;
 
-	dialog = gtk_dialog_new_with_buttons (_("Opening Folder"), NULL, 0,
-					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					      NULL);
-	gtk_widget_set_size_request (dialog, 300, -1);
-	gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
+	dialog = gnome_dialog_new (_("Opening Folder"), GNOME_STOCK_BUTTON_CANCEL, NULL);
+	gtk_widget_set_usize (dialog, 300, -1);
+	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, FALSE, FALSE);
+
+	gtk_signal_connect (GTK_OBJECT (dialog), "close",
+			    GTK_SIGNAL_FUNC (progress_dialog_close_callback), NULL);
 
 	text = g_strdup_printf (_("Opening Folder \"%s\""), folder_name);
 	label = gtk_label_new (text);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, FALSE, TRUE, 0);
 	g_free (text);
 
 	text = g_strdup_printf (_("in \"%s\" ..."), e_storage_get_name (storage));
 	label = gtk_label_new (text);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, FALSE, TRUE, 0);
 	g_free (text);
 
 	progress_bar = gtk_progress_bar_new ();
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), progress_bar, FALSE, TRUE, 0);
+	gtk_progress_set_activity_mode (GTK_PROGRESS (progress_bar), TRUE);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), progress_bar, FALSE, TRUE, 0);
 
 	timeout_id = g_timeout_add (50, progress_bar_timeout_callback, progress_bar);
-	g_object_weak_ref (G_OBJECT (progress_bar), progress_bar_weak_notify, GINT_TO_POINTER (timeout_id));
+	gtk_signal_connect (GTK_OBJECT (progress_bar), "destroy",
+			    GTK_SIGNAL_FUNC (progress_bar_destroy_callback),
+			    GINT_TO_POINTER (timeout_id));
 
 	timeout_id = g_timeout_add (PROGRESS_DIALOG_DELAY, progress_dialog_show_timeout_callback, dialog);
-	g_object_weak_ref (G_OBJECT (progress_bar), progress_bar_weak_notify, GINT_TO_POINTER (timeout_id));
+	gtk_signal_connect (GTK_OBJECT (progress_bar), "destroy",
+			    GTK_SIGNAL_FUNC (progress_bar_destroy_callback),
+			    GINT_TO_POINTER (timeout_id));
 
 	return dialog;
 }
 
 static void
-shell_weak_notify (void *data,
-		   GObject *where_the_object_was)
+shell_destroy_callback (GtkObject *object,
+			void *data)
 {
 	DiscoveryData *discovery_data;
 
@@ -410,8 +404,8 @@ shell_weak_notify (void *data,
 }
 
 static void
-shell_view_weak_notify (void *data,
-			GObject *where_the_object_was)
+shell_view_destroy_callback (GtkObject *object,
+			     void *data)
 {
 	DiscoveryData *discovery_data;
 
@@ -420,8 +414,8 @@ shell_view_weak_notify (void *data,
 }
 
 static void
-storage_weak_notify (void *data,
-		     GObject *where_the_object_was)
+storage_destroy_callback (GtkObject *object,
+			  void *data)
 {
 	DiscoveryData *discovery_data;
 
@@ -461,7 +455,8 @@ shared_folder_discovery_callback (EStorage *storage,
 		else
 			e_shell_create_view (shell, uri, NULL);
 	} else {
-		e_notice (parent, GTK_MESSAGE_ERROR,
+		e_notice (parent ? GTK_WINDOW (parent) : NULL,
+			  GNOME_MESSAGE_BOX_ERROR,
 			  _("Could not open shared folder: %s."),
 			  e_storage_result_to_string (result));
 	}
@@ -496,14 +491,19 @@ discover_folder (EShell *shell,
 	discovery_data->user_email_address = g_strdup (user_email_address);
 	discovery_data->folder_name        = g_strdup (folder_name);
 	discovery_data->storage            = storage;
-	g_object_ref (storage);
+	gtk_object_ref (GTK_OBJECT (storage));
 
-	g_object_weak_ref (G_OBJECT (shell), shell_weak_notify, discovery_data);
-	g_object_weak_ref (G_OBJECT (parent), shell_view_weak_notify, discovery_data);
-	g_object_weak_ref (G_OBJECT (storage), storage_weak_notify, discovery_data);
+	gtk_signal_connect (GTK_OBJECT (shell), "destroy",
+			    GTK_SIGNAL_FUNC (shell_destroy_callback), discovery_data);
 
-	g_signal_connect (dialog, "clicked",
-			  G_CALLBACK (progress_dialog_clicked_callback), discovery_data);
+	gtk_signal_connect (GTK_OBJECT (parent), "destroy",
+			    GTK_SIGNAL_FUNC (shell_view_destroy_callback), discovery_data);
+
+	gtk_signal_connect (GTK_OBJECT (storage), "destroy",
+			    GTK_SIGNAL_FUNC (storage_destroy_callback), discovery_data);
+
+	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
+			    GTK_SIGNAL_FUNC (progress_dialog_clicked_callback), discovery_data);
 
 	e_storage_async_discover_shared_folder (storage,
 						user_email_address,
@@ -514,7 +514,7 @@ discover_folder (EShell *shell,
 
  error:
 	/* FIXME: Be more verbose?  */
-	e_notice (parent, GTK_MESSAGE_ERROR,
+	e_notice (GTK_WINDOW (parent), GNOME_MESSAGE_BOX_ERROR,
 		  _("Cannot find the specified shared folder."));
 }
 
@@ -523,9 +523,9 @@ void
 e_shell_show_shared_folder_picker_dialog (EShell *shell,
 					  EShellView *parent)
 {
-	char *user_email_address = NULL;
-	char *storage_name = NULL;
-	char *folder_name = NULL;
+	char *user_email_address;
+	char *storage_name;
+	char *folder_name;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 

@@ -35,7 +35,6 @@
 #include <gal/util/e-util.h>
 
 #include <bonobo/bonobo-ui-util.h>
-#include <bonobo/bonobo-exception.h>
 
 #include <libgnome/gnome-i18n.h>
 
@@ -44,11 +43,10 @@
 
 #include <stdlib.h>
 #include <ctype.h>
-#include <string.h>
 
 
-#define PARENT_TYPE G_TYPE_OBJECT
-static GObjectClass *parent_class = NULL;
+#define PARENT_TYPE gtk_object_get_type ()
+static GtkObjectClass *parent_class = NULL;
 
 
 #define VERB_PREFIX "ShellUserCreatableItemVerb"
@@ -106,11 +104,11 @@ component_new (const char *id,
 	new = g_new (Component, 1);
 
 	new->component_client = client;
-	g_object_ref (client);
+	gtk_object_ref (GTK_OBJECT (client));
 
 	CORBA_exception_init (&ev);
 
-	objref = evolution_shell_component_client_corba_objref (client);
+	objref = bonobo_object_corba_objref (BONOBO_OBJECT (client));
 	new->type_list = GNOME_Evolution_ShellComponent__get_userCreatableItemTypes (objref, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)
@@ -124,7 +122,7 @@ component_new (const char *id,
 static void
 component_free (Component *component)
 {
-	g_object_unref (component->component_client);
+	gtk_object_unref (GTK_OBJECT (component->component_client));
 
 	if (component->type_list != NULL)
 		CORBA_free (component->type_list);
@@ -248,7 +246,7 @@ free_menu_items (GSList *menu_items)
 		g_free (item->verb);
 
 		if (item->icon != NULL)
-			g_object_unref (item->icon);
+			gdk_pixbuf_unref (item->icon);
 
 		g_free (item->component_id);
 
@@ -299,20 +297,24 @@ append_xml_for_menu_item (GString *xml,
 	char *encoded_tooltip;
 
 	encoded_label = bonobo_ui_util_encode_str (item->label);
-	g_string_append_printf (xml, "<menuitem name=\"New:%s\" verb=\"%s\" label=\"%s\"",
-				item->verb, item->verb, encoded_label);
+	g_string_sprintfa (xml, "<menuitem name=\"New:%s\" verb=\"%s\" label=\"%s\"",
+			   item->verb, item->verb, encoded_label);
 
 	if (first)
-		g_string_append_printf (xml, " accel=\"*Control*N\"");
+		g_string_sprintfa (xml, " accel=\"*Control*N\"");
 	else if (item->shortcut != '\0')
-		g_string_append_printf (xml, " accel=\"*Control**Shift*%c\"", item->shortcut);
+		g_string_sprintfa (xml, " accel=\"*Control**Shift*%c\"", item->shortcut);
 
-	if (item->icon != NULL)
-		g_string_append_printf (xml, " pixtype=\"pixbuf\" pixname=\"%s\"",
-				   bonobo_ui_util_pixbuf_to_xml (item->icon));
+	if (item->icon != NULL) {
+		char *pixbuf_xml;
+		
+		pixbuf_xml = bonobo_ui_util_pixbuf_to_xml (item->icon);
+		g_string_sprintfa (xml, " pixtype=\"pixbuf\" pixname=\"%s\"", pixbuf_xml);
+		g_free (pixbuf_xml);
+	}
 
 	encoded_tooltip = bonobo_ui_util_encode_str (item->tooltip);
-	g_string_append_printf (xml, " tip=\"%s\"", encoded_tooltip);
+	g_string_sprintfa (xml, " tip=\"%s\"", encoded_tooltip);
 
 	g_string_append (xml, "/> ");
 
@@ -384,8 +386,8 @@ create_menu_xml (EShellUserCreatableItemsHandler *handler,
 	g_string_append (xml, "<placeholder name=\"EShellUserCreatableItemsPlaceholder\">");
 
 	/* 1. Add all the elements that are default for this component.  (Note
-	   that we don't need to do any sorting since the items are already
-	   sorted alphabetically.)  */
+	      that we don't need to do any sorting since the items are already
+	      sorted alphabetically.)  */
 
 	if (component_id != NULL) {
 		gboolean first = TRUE;
@@ -404,8 +406,7 @@ create_menu_xml (EShellUserCreatableItemsHandler *handler,
 	/* 2. Add a separator. */
 
 	if (component_id != NULL)
-		g_string_append_printf (xml,
-					"<separator f=\"\" name=\"EShellUserCreatableItemsHandlerSeparator\"/>");
+		g_string_sprintfa (xml, "<separator f=\"\" name=\"EShellUserCreatableItemsHandlerSeparator\"/>");
 
 	/* 3. Add the elements that are not default for this component.  */
 
@@ -475,14 +476,14 @@ execute_verb (EShellUserCreatableItemsHandler *handler,
 			CORBA_exception_init (&ev);
 
 			GNOME_Evolution_ShellComponent_userCreateNewItem
-				(evolution_shell_component_client_corba_objref (component->component_client),
+				(bonobo_object_corba_objref (BONOBO_OBJECT (component->component_client)),
 				 id,
 				 e_safe_corba_string (e_shell_view_get_current_physical_uri (shell_view)),
 				 e_safe_corba_string (e_shell_view_get_current_folder_type (shell_view)),
 				 &ev);
 
 			if (ev._major != CORBA_NO_EXCEPTION)
-				g_warning ("Error in userCreateNewItem -- %s", BONOBO_EX_REPOID (&ev));
+				g_warning ("Error in userCreateNewItem -- %s", ev._repo_id);
 
 			CORBA_exception_free (&ev);
 			return;
@@ -498,7 +499,7 @@ verb_fn (BonoboUIComponent *ui_component,
 	EShellUserCreatableItemsHandler *handler;
 	EShellView *shell_view;
 
-	shell_view = g_object_get_data (G_OBJECT (ui_component), SHELL_VIEW_KEY);
+	shell_view = gtk_object_get_data (GTK_OBJECT (ui_component), SHELL_VIEW_KEY);
 	g_assert (E_IS_SHELL_VIEW (shell_view));
 
 	handler = E_SHELL_USER_CREATABLE_ITEMS_HANDLER (data);
@@ -518,7 +519,7 @@ add_verbs (EShellUserCreatableItemsHandler *handler,
 	priv = handler->priv;
 
 	ui_component = e_shell_view_get_bonobo_ui_component (shell_view);
-	g_object_set_data (G_OBJECT (ui_component), SHELL_VIEW_KEY, shell_view);
+	gtk_object_set_data (GTK_OBJECT (ui_component), SHELL_VIEW_KEY, shell_view);
 
 	component_num = 0;
 	for (p = priv->components; p != NULL; p = p->next) {
@@ -582,9 +583,9 @@ setup_toolbar_button (EShellUserCreatableItemsHandler *handler,
 	e_combo_button_set_label (E_COMBO_BUTTON (combo_button), _("New"));
 	gtk_widget_show (combo_button);
 
-	g_signal_connect (combo_button, "activate_default",
-			  G_CALLBACK (combo_button_activate_default_callback),
-			  shell_view);
+	gtk_signal_connect (GTK_OBJECT (combo_button), "activate_default",
+			    GTK_SIGNAL_FUNC (combo_button_activate_default_callback),
+			    shell_view);
 
 	ui_component = e_shell_view_get_bonobo_ui_component (shell_view);
 	bonobo_window_add_popup (BONOBO_WINDOW (shell_view), GTK_MENU (menu), "/popups/NewPopup");
@@ -594,10 +595,10 @@ setup_toolbar_button (EShellUserCreatableItemsHandler *handler,
 	bonobo_ui_component_object_set (ui_component, "/Toolbar/NewComboButton",
 					BONOBO_OBJREF (control), NULL);
 
-	g_object_set_data (G_OBJECT (shell_view), COMBO_BUTTON_WIDGET_KEY, combo_button);
+	gtk_object_set_data (GTK_OBJECT (shell_view), COMBO_BUTTON_WIDGET_KEY, combo_button);
 
 	tooltips = gtk_tooltips_new ();
-	g_object_set_data (G_OBJECT (combo_button), TOOLTIPS_KEY, tooltips);
+	gtk_object_set_data (GTK_OBJECT (combo_button), TOOLTIPS_KEY, tooltips);
 }
 
 
@@ -624,10 +625,10 @@ shell_view_view_changed_callback (EShellView *shell_view,
 	handler = E_SHELL_USER_CREATABLE_ITEMS_HANDLER (data);
 	priv = handler->priv;
 
-	combo_button_widget = g_object_get_data (G_OBJECT (shell_view), COMBO_BUTTON_WIDGET_KEY);
+	combo_button_widget = gtk_object_get_data (GTK_OBJECT (shell_view), COMBO_BUTTON_WIDGET_KEY);
 	g_assert (E_IS_COMBO_BUTTON (combo_button_widget));
 
-	tooltips = g_object_get_data (G_OBJECT (combo_button_widget), TOOLTIPS_KEY);
+	tooltips = gtk_object_get_data (GTK_OBJECT (combo_button_widget), TOOLTIPS_KEY);
 	g_assert (tooltips != NULL);
 
 	default_menu_item = get_default_action_for_view (handler, shell_view);
@@ -657,10 +658,10 @@ shell_view_view_changed_callback (EShellView *shell_view,
 }
 
 
-/* GObject methods.  */
+/* GtkObject methods.  */
 
 static void
-impl_dispose (GObject *object)
+impl_destroy (GtkObject *object)
 {
 	EShellUserCreatableItemsHandler *handler;
 	EShellUserCreatableItemsHandlerPrivate *priv;
@@ -673,35 +674,21 @@ impl_dispose (GObject *object)
 		component_free ((Component *) p->data);
 
 	g_slist_free (priv->components);
-	priv->components = NULL;
-
-	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
-}
-
-static void
-impl_finalize (GObject *object)
-{
-	EShellUserCreatableItemsHandler *handler;
-	EShellUserCreatableItemsHandlerPrivate *priv;
-
-	handler = E_SHELL_USER_CREATABLE_ITEMS_HANDLER (object);
-	priv = handler->priv;
 
 	free_menu_items (priv->menu_items);
 
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
 static void
-class_init (GObjectClass *object_class)
+class_init (GtkObjectClass *object_class)
 {
-	parent_class = g_type_class_ref(PARENT_TYPE);
+	parent_class = gtk_type_class (PARENT_TYPE);
 
-	object_class->dispose  = impl_dispose;
-	object_class->finalize = impl_finalize;
+	object_class->destroy = impl_destroy;
 }
 
 static void
@@ -723,7 +710,7 @@ e_shell_user_creatable_items_handler_new (void)
 {
 	EShellUserCreatableItemsHandler *new;
 
-	new = g_object_new (e_shell_user_creatable_items_handler_get_type (), NULL);
+	new = gtk_type_new (e_shell_user_creatable_items_handler_get_type ());
 
 	return new;
 }
@@ -771,8 +758,8 @@ e_shell_user_creatable_items_handler_attach_menus (EShellUserCreatableItemsHandl
 	priv = handler->priv;
 
 	setup_toolbar_button (handler, shell_view);
-	g_signal_connect (shell_view, "view_changed",
-			  G_CALLBACK (shell_view_view_changed_callback), handler);
+	gtk_signal_connect (GTK_OBJECT (shell_view), "view_changed",
+			    GTK_SIGNAL_FUNC (shell_view_view_changed_callback), handler);
 
 	add_verbs (handler, shell_view);
 	menu_xml = create_menu_xml (handler,

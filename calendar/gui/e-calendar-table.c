@@ -37,6 +37,7 @@
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-cell-combo.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <e-util/e-dialog-utils.h>
 #include <widgets/misc/e-cell-date-edit.h>
@@ -125,8 +126,32 @@ static GdkPixbuf* icon_pixbufs[E_CALENDAR_MODEL_NUM_ICONS] = { 0 };
 static GtkTableClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
 
-E_MAKE_TYPE (e_calendar_table, "ECalendarTable", ECalendarTable, e_calendar_table_class_init,
-	     e_calendar_table_init, GTK_TYPE_TABLE);
+
+GtkType
+e_calendar_table_get_type (void)
+{
+	static GtkType e_calendar_table_type = 0;
+
+	if (!e_calendar_table_type){
+		GtkTypeInfo e_calendar_table_info = {
+			"ECalendarTable",
+			sizeof (ECalendarTable),
+			sizeof (ECalendarTableClass),
+			(GtkClassInitFunc) e_calendar_table_class_init,
+			(GtkObjectInitFunc) e_calendar_table_init,
+			NULL, /* reserved 1 */
+			NULL, /* reserved 2 */
+			(GtkClassInitFunc) NULL
+		};
+
+		parent_class = gtk_type_class (GTK_TYPE_TABLE);
+		e_calendar_table_type = gtk_type_unique (GTK_TYPE_TABLE,
+							 &e_calendar_table_info);
+	}
+
+	return e_calendar_table_type;
+}
+
 
 static void
 e_calendar_table_class_init (ECalendarTableClass *class)
@@ -320,11 +345,11 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	 * Normal string fields.
 	 */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
-		      "strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-		      "bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-		      "color_column", CAL_COMPONENT_FIELD_COLOR,
-		      NULL);
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+			"color_column", CAL_COMPONENT_FIELD_COLOR,
+			NULL);
 
 	e_table_extras_add_cell (extras, "calstring", cell);
 
@@ -333,15 +358,15 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	 * Date fields.
 	 */
 	cell = e_cell_date_edit_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
-		      "strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-		      "bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-		      "color_column", CAL_COMPONENT_FIELD_COLOR,
-		      NULL);
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+			"color_column", CAL_COMPONENT_FIELD_COLOR,
+			NULL);
 
 	popup_cell = e_cell_date_edit_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	g_object_unref (cell);
+	gtk_object_unref (GTK_OBJECT (cell));
 	e_table_extras_add_cell (extras, "dateedit", popup_cell);
 	cal_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);
 
@@ -356,21 +381,21 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Classification field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
-		      "strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-		      "bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-		      "color_column", CAL_COMPONENT_FIELD_COLOR,
-		      "editable", FALSE,
-		      NULL);
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+			"color_column", CAL_COMPONENT_FIELD_COLOR,
+			"editable", FALSE,
+			NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	g_object_unref (cell);
+	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, (char*) _("Public"));
-	strings = g_list_append (strings, (char*) _("Private"));
-	strings = g_list_append (strings, (char*) _("Confidential"));
+	strings = g_list_append (strings, (char*) U_("Public"));
+	strings = g_list_append (strings, (char*) U_("Private"));
+	strings = g_list_append (strings, (char*) U_("Confidential"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 
@@ -378,22 +403,22 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Priority field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
-		      "strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-		      "bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-		      "color_column", CAL_COMPONENT_FIELD_COLOR,
-		      "editable", FALSE,
-		      NULL);
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+			"color_column", CAL_COMPONENT_FIELD_COLOR,
+			"editable", FALSE,
+			NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	g_object_unref (cell);
+	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, (char*) _("High"));
-	strings = g_list_append (strings, (char*) _("Normal"));
-	strings = g_list_append (strings, (char*) _("Low"));
-	strings = g_list_append (strings, (char*) _("Undefined"));
+	strings = g_list_append (strings, (char*) U_("High"));
+	strings = g_list_append (strings, (char*) U_("Normal"));
+	strings = g_list_append (strings, (char*) U_("Low"));
+	strings = g_list_append (strings, (char*) U_("Undefined"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 
@@ -401,28 +426,28 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Percent field. */
 	cell = e_cell_percent_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
-		      "strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-		      "bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-		      "color_column", CAL_COMPONENT_FIELD_COLOR,
-		      NULL);
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+			"color_column", CAL_COMPONENT_FIELD_COLOR,
+			NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	g_object_unref (cell);
+	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, (char*) _("0%"));
-	strings = g_list_append (strings, (char*) _("10%"));
-	strings = g_list_append (strings, (char*) _("20%"));
-	strings = g_list_append (strings, (char*) _("30%"));
-	strings = g_list_append (strings, (char*) _("40%"));
-	strings = g_list_append (strings, (char*) _("50%"));
-	strings = g_list_append (strings, (char*) _("60%"));
-	strings = g_list_append (strings, (char*) _("70%"));
-	strings = g_list_append (strings, (char*) _("80%"));
-	strings = g_list_append (strings, (char*) _("90%"));
-	strings = g_list_append (strings, (char*) _("100%"));
+	strings = g_list_append (strings, (char*) U_("0%"));
+	strings = g_list_append (strings, (char*) U_("10%"));
+	strings = g_list_append (strings, (char*) U_("20%"));
+	strings = g_list_append (strings, (char*) U_("30%"));
+	strings = g_list_append (strings, (char*) U_("40%"));
+	strings = g_list_append (strings, (char*) U_("50%"));
+	strings = g_list_append (strings, (char*) U_("60%"));
+	strings = g_list_append (strings, (char*) U_("70%"));
+	strings = g_list_append (strings, (char*) U_("80%"));
+	strings = g_list_append (strings, (char*) U_("90%"));
+	strings = g_list_append (strings, (char*) U_("100%"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 
@@ -430,20 +455,20 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Transparency field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
-		      "strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-		      "bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-		      "color_column", CAL_COMPONENT_FIELD_COLOR,
-		      "editable", FALSE,
-		      NULL);
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+			"color_column", CAL_COMPONENT_FIELD_COLOR,
+			"editable", FALSE,
+			NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	g_object_unref (cell);
+	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, (char*) _("Free"));
-	strings = g_list_append (strings, (char*) _("Busy"));
+	strings = g_list_append (strings, (char*) U_("Free"));
+	strings = g_list_append (strings, (char*) U_("Busy"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 
@@ -451,22 +476,22 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Status field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
-		      "strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-		      "bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-		      "color_column", CAL_COMPONENT_FIELD_COLOR,
-		      "editable", FALSE,
-		      NULL);
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+			"color_column", CAL_COMPONENT_FIELD_COLOR,
+			"editable", FALSE,
+			NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	g_object_unref (cell);
+	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, (char*) _("Not Started"));
-	strings = g_list_append (strings, (char*) _("In Progress"));
-	strings = g_list_append (strings, (char*) _("Completed"));
-	strings = g_list_append (strings, (char*) _("Cancelled"));
+	strings = g_list_append (strings, (char*) U_("Not Started"));
+	strings = g_list_append (strings, (char*) U_("In Progress"));
+	strings = g_list_append (strings, (char*) U_("Completed"));
+	strings = g_list_append (strings, (char*) U_("Cancelled"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 
@@ -507,7 +532,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 						     extras,
 						     EVOLUTION_ETSPECDIR "/e-calendar-table.etspec",
 						     NULL);
-	g_object_unref (extras);
+	gtk_object_unref (GTK_OBJECT (extras));
 
 	cal_table->etable = table;
 	gtk_table_attach (GTK_TABLE (cal_table), table, 0, 1, 0, 1,
@@ -516,9 +541,15 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 
 	e_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (table));
-	g_signal_connect (e_table, "double_click", G_CALLBACK (e_calendar_table_on_double_click), cal_table);
-	g_signal_connect (e_table, "right_click", G_CALLBACK (e_calendar_table_on_right_click), cal_table);
-	g_signal_connect (e_table, "key_press", G_CALLBACK (e_calendar_table_on_key_press), cal_table);
+	gtk_signal_connect (GTK_OBJECT (e_table), "double_click",
+			    GTK_SIGNAL_FUNC (e_calendar_table_on_double_click),
+			    cal_table);
+	gtk_signal_connect (GTK_OBJECT (e_table), "right_click",
+			    GTK_SIGNAL_FUNC (e_calendar_table_on_right_click),
+			    cal_table);
+	gtk_signal_connect (GTK_OBJECT (e_table), "key_press",
+			    GTK_SIGNAL_FUNC (e_calendar_table_on_key_press),
+			    cal_table);
 
 	/* Set up the invisible widget for the clipboard selections */
 	cal_table->invisible = gtk_invisible_new ();
@@ -526,15 +557,22 @@ e_calendar_table_init (ECalendarTable *cal_table)
 				  clipboard_atom,
 				  GDK_SELECTION_TYPE_STRING,
 				  0);
-	g_signal_connect (cal_table->invisible, "selection_get",
-			  G_CALLBACK (selection_get), cal_table);
-	g_signal_connect (cal_table->invisible, "selection_clear_event",
-			  G_CALLBACK (selection_clear_event), cal_table);
-	g_signal_connect (cal_table->invisible, "selection_received",
-			  G_CALLBACK (selection_received), cal_table);
-	g_signal_connect (cal_table->invisible, "destroy",
-			  G_CALLBACK (invisible_destroyed), cal_table);
-
+	gtk_signal_connect (GTK_OBJECT (cal_table->invisible),
+			    "selection_get",
+			    GTK_SIGNAL_FUNC (selection_get),
+			    (gpointer) cal_table);
+	gtk_signal_connect (GTK_OBJECT (cal_table->invisible),
+			    "selection_clear_event",
+			    GTK_SIGNAL_FUNC (selection_clear_event),
+			    (gpointer) cal_table);
+	gtk_signal_connect (GTK_OBJECT (cal_table->invisible),
+			    "selection_received",
+			    GTK_SIGNAL_FUNC (selection_received),
+			    (gpointer) cal_table);
+	gtk_signal_connect (GTK_OBJECT (cal_table->invisible),
+			    "destroy",
+			    GTK_SIGNAL_FUNC (invisible_destroyed),
+			    (gpointer) cal_table);
 	cal_table->clipboard_selection = NULL;
 }
 
@@ -550,7 +588,7 @@ e_calendar_table_new (void)
 {
 	GtkWidget *cal_table;
 
-	cal_table = GTK_WIDGET (g_object_new (e_calendar_table_get_type (), NULL));
+	cal_table = GTK_WIDGET (gtk_type_new (e_calendar_table_get_type ()));
 
 	return cal_table;
 }
@@ -581,7 +619,7 @@ e_calendar_table_destroy (GtkObject *object)
 
 	cal_table = E_CALENDAR_TABLE (object);
 
-	g_object_unref (cal_table->model);
+	gtk_object_unref (GTK_OBJECT (cal_table->model));
 	cal_table->model = NULL;
 
 	if (cal_table->invisible)
@@ -947,27 +985,27 @@ enum {
 
 
 static EPopupMenu tasks_popup_menu [] = {
-	E_POPUP_ITEM (N_("_Open"), GTK_SIGNAL_FUNC (e_calendar_table_on_open_task), MASK_SINGLE),
-	E_POPUP_ITEM (N_("_Save as..."), GTK_SIGNAL_FUNC (e_calendar_table_on_save_as), MASK_SINGLE),
-	E_POPUP_ITEM (N_("_Print..."), GTK_SIGNAL_FUNC (e_calendar_table_on_print_task), MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Open"), e_calendar_table_on_open_task, MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Save as..."), e_calendar_table_on_save_as, MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Print..."), e_calendar_table_on_print_task, MASK_SINGLE),
 
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM (N_("C_ut"), GTK_SIGNAL_FUNC (e_calendar_table_on_cut), MASK_EDITABLE),
-	E_POPUP_ITEM (N_("_Copy"), GTK_SIGNAL_FUNC (e_calendar_table_on_copy), 0),
-	E_POPUP_ITEM (N_("_Paste"), GTK_SIGNAL_FUNC (e_calendar_table_on_paste), MASK_EDITABLE),
+	E_POPUP_ITEM (N_("C_ut"), e_calendar_table_on_cut, MASK_EDITABLE),
+	E_POPUP_ITEM (N_("_Copy"), e_calendar_table_on_copy, 0),
+	E_POPUP_ITEM (N_("_Paste"), e_calendar_table_on_paste, MASK_EDITABLE),
 
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Assign Task"), GTK_SIGNAL_FUNC (e_calendar_table_on_assign), MASK_SINGLE | MASK_EDITABLE | MASK_ASSIGNABLE),
-	E_POPUP_ITEM (N_("_Forward as iCalendar"), GTK_SIGNAL_FUNC (e_calendar_table_on_forward), MASK_SINGLE),
-	E_POPUP_ITEM (N_("_Mark as Complete"), GTK_SIGNAL_FUNC (mark_as_complete_cb), MASK_SINGLE | MASK_EDITABLE),
-	E_POPUP_ITEM (N_("_Mark Selected Tasks as Complete"), GTK_SIGNAL_FUNC (mark_as_complete_cb), MASK_MULTIPLE | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("_Assign Task"), e_calendar_table_on_assign, MASK_SINGLE | MASK_EDITABLE | MASK_ASSIGNABLE),
+	E_POPUP_ITEM (N_("_Forward as iCalendar"), e_calendar_table_on_forward, MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Mark as Complete"), mark_as_complete_cb, MASK_SINGLE | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("_Mark Selected Tasks as Complete"), mark_as_complete_cb, MASK_MULTIPLE | MASK_EDITABLE),
 	
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Delete"), GTK_SIGNAL_FUNC (delete_cb), MASK_SINGLE | MASK_EDITABLE),
-	E_POPUP_ITEM (N_("_Delete Selected Tasks"), GTK_SIGNAL_FUNC (delete_cb), MASK_MULTIPLE | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("_Delete"), delete_cb, MASK_SINGLE | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("_Delete Selected Tasks"), delete_cb, MASK_MULTIPLE | MASK_EDITABLE),
 
 	E_POPUP_TERMINATOR
 };
@@ -1176,7 +1214,7 @@ e_calendar_table_save_state (ECalendarTable	*cal_table,
 static void
 invisible_destroyed (GtkWidget *invisible, ECalendarTable *cal_table)
 {
-	g_object_unref (cal_table->invisible);
+	gtk_object_unref (GTK_OBJECT (cal_table->invisible));
 	cal_table->invisible = NULL;
 }
 
@@ -1268,7 +1306,7 @@ selection_received (GtkWidget *invisible,
 					calendar_model_get_cal_client (cal_table->model),
 					tmp_comp);
 				free (uid);
-				g_object_unref (tmp_comp);
+				gtk_object_unref (GTK_OBJECT (tmp_comp));
 			}
 			subcomp = icalcomponent_get_next_component (
 				vcal_comp, ICAL_ANY_COMPONENT);
@@ -1284,7 +1322,7 @@ selection_received (GtkWidget *invisible,
 		cal_client_update_object (
 			calendar_model_get_cal_client (cal_table->model),
 			comp);
-		g_object_unref (comp);
+		gtk_object_unref (GTK_OBJECT (comp));
 	}
 
 	calendar_model_set_status_message (e_calendar_table_get_model (cal_table), NULL);

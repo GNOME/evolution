@@ -1,14 +1,12 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /* Evolution calendar - Alarm page of the calendar component dialogs
  *
- * Copyright (C) 2001-2003 Ximian, Inc.
+ * Copyright (C) 2001 Ximian, Inc.
  *
  * Authors: Federico Mena-Quintero <federico@ximian.com>
  *          Miguel de Icaza <miguel@ximian.com>
  *          Seth Alves <alves@hungry.com>
  *          JP Rosevear <jpr@ximian.com>
- *          Hans Petter Jansson <hpj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -29,11 +27,8 @@
 #endif
 
 #include <string.h>
-#include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtksignal.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkoptionmenu.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
@@ -44,7 +39,6 @@
 #include "../calendar-config.h"
 #include "comp-editor-util.h"
 #include "alarm-options.h"
-#include "../e-alarm-list.h"
 #include "alarm-page.h"
 
 
@@ -75,9 +69,6 @@ struct _AlarmPagePrivate {
 
 	/* Alarm options dialog and the alarm we maintain */
 	CalComponentAlarm *alarm;
-
-	/* Alarm store for the GtkTreeView list widget */
-	EAlarmList *list_store;
 
 	gboolean updating;
 };
@@ -134,7 +125,7 @@ static const int time_map[] = {
 
 static void alarm_page_class_init (AlarmPageClass *class);
 static void alarm_page_init (AlarmPage *apage);
-static void alarm_page_finalize (GObject *object);
+static void alarm_page_destroy (GtkObject *object);
 
 static GtkWidget *alarm_page_get_widget (CompEditorPage *page);
 static void alarm_page_focus_main_widget (CompEditorPage *page);
@@ -155,21 +146,41 @@ static CompEditorPageClass *parent_class = NULL;
  *
  * Return value: The type ID of the #AlarmPage class.
  **/
+GtkType
+alarm_page_get_type (void)
+{
+	static GtkType alarm_page_type;
 
-E_MAKE_TYPE (alarm_page, "AlarmPage", AlarmPage, alarm_page_class_init,
-	     alarm_page_init, TYPE_COMP_EDITOR_PAGE);
+	if (!alarm_page_type) {
+		static const GtkTypeInfo alarm_page_info = {
+			"AlarmPage",
+			sizeof (AlarmPage),
+			sizeof (AlarmPageClass),
+			(GtkClassInitFunc) alarm_page_class_init,
+			(GtkObjectInitFunc) alarm_page_init,
+			NULL, /* reserved_1 */
+			NULL, /* reserved_2 */
+			(GtkClassInitFunc) NULL
+		};
+
+		alarm_page_type = gtk_type_unique (TYPE_COMP_EDITOR_PAGE,
+						   &alarm_page_info);
+	}
+
+	return alarm_page_type;
+}
 
 /* Class initialization function for the alarm page */
 static void
 alarm_page_class_init (AlarmPageClass *class)
 {
 	CompEditorPageClass *editor_page_class;
-	GObjectClass *gobject_class;
+	GtkObjectClass *object_class;
 
 	editor_page_class = (CompEditorPageClass *) class;
-	gobject_class = (GObjectClass *) class;
+	object_class = (GtkObjectClass *) class;
 
-	parent_class = g_type_class_ref (TYPE_COMP_EDITOR_PAGE);
+	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = alarm_page_get_widget;
 	editor_page_class->focus_main_widget = alarm_page_focus_main_widget;
@@ -178,7 +189,7 @@ alarm_page_class_init (AlarmPageClass *class)
 	editor_page_class->set_summary = alarm_page_set_summary;
 	editor_page_class->set_dates = alarm_page_set_dates;
 
-	gobject_class->finalize = alarm_page_finalize;
+	object_class->destroy = alarm_page_destroy;
 }
 
 /* Object initialization function for the alarm page */
@@ -209,7 +220,7 @@ alarm_page_init (AlarmPage *apage)
 
 	/* create the default alarm, which will contain the
 	 * X-EVOLUTION-NEEDS-DESCRIPTION property, so that we
-	 * set a correct description if none is set */
+	 * set a correct description if none is ser */
 	priv->alarm = cal_component_alarm_new ();
 
 	icalcomp = cal_component_alarm_get_icalcomponent (priv->alarm);
@@ -222,7 +233,7 @@ alarm_page_init (AlarmPage *apage)
 
 /* Destroy handler for the alarm page */
 static void
-alarm_page_finalize (GObject *object)
+alarm_page_destroy (GtkObject *object)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
@@ -234,7 +245,7 @@ alarm_page_finalize (GObject *object)
 	priv = apage->priv;
 
 	if (priv->xml) {
-		g_object_unref (priv->xml);
+		gtk_object_unref (GTK_OBJECT (priv->xml));
 		priv->xml = NULL;
 	}
 
@@ -243,16 +254,11 @@ alarm_page_finalize (GObject *object)
 		priv->alarm = NULL;
 	}
 
-	if (priv->list_store) {
-		g_object_unref (priv->list_store);
-		priv->list_store = NULL;
-	}
-
 	g_free (priv);
 	apage->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
@@ -305,7 +311,174 @@ clear_widgets (AlarmPage *apage)
 	e_dialog_option_menu_set (priv->time, CAL_ALARM_TRIGGER_RELATIVE_START, time_map);
 
 	/* List data */
-	e_alarm_list_clear (priv->list_store);
+	gtk_clist_clear (GTK_CLIST (priv->list));
+}
+
+/* Builds a string for the duration of the alarm.  If the duration is zero, returns NULL. */
+static char *
+get_alarm_duration_string (struct icaldurationtype *duration)
+{
+	GString *string = g_string_new (NULL);
+	char *ret;
+	gboolean have_something;
+
+	have_something = FALSE;
+
+	if (duration->days > 1) {
+		g_string_sprintf (string, _("%d days"), duration->days);
+		have_something = TRUE;
+	} else if (duration->days == 1) {
+		g_string_append (string, _("1 day"));
+		have_something = TRUE;
+	}
+
+	if (duration->weeks > 1) {
+		g_string_sprintf (string, _("%d weeks"), duration->weeks);
+		have_something = TRUE;
+	} else if (duration->weeks == 1) {
+		g_string_append (string, _("1 week"));
+		have_something = TRUE;
+	}
+
+	if (duration->hours > 1) {
+		g_string_sprintf (string, _("%d hours"), duration->hours);
+		have_something = TRUE;
+	} else if (duration->hours == 1) {
+		g_string_append (string, _("1 hour"));
+		have_something = TRUE;
+	}
+
+	if (duration->minutes > 1) {
+		g_string_sprintf (string, _("%d minutes"), duration->minutes);
+		have_something = TRUE;
+	} else if (duration->minutes == 1) {
+		g_string_append (string, _("1 minute"));
+		have_something = TRUE;
+	}
+
+	if (duration->seconds > 1) {
+		g_string_sprintf (string, _("%d seconds"), duration->seconds);
+		have_something = TRUE;
+	} else if (duration->seconds == 1) {
+		g_string_append (string, _("1 second"));
+		have_something = TRUE;
+	}
+
+	if (have_something) {
+		ret = string->str;
+		g_string_free (string, FALSE);
+		return ret;
+	} else {
+		g_string_free (string, TRUE);
+		return NULL;
+	}
+}
+
+static char *
+get_alarm_string (CalComponentAlarm *alarm)
+{
+	CalAlarmAction action;
+	CalAlarmTrigger trigger;
+	char string[256];
+	char *base, *str = NULL, *dur;
+
+	string [0] = '\0';
+
+	cal_component_alarm_get_action (alarm, &action);
+	cal_component_alarm_get_trigger (alarm, &trigger);
+
+	switch (action) {
+	case CAL_ALARM_AUDIO:
+		base = _("Play a sound");
+		break;
+
+	case CAL_ALARM_DISPLAY:
+		base = _("Display a message");
+		break;
+
+	case CAL_ALARM_EMAIL:
+		base = _("Send an email");
+		break;
+
+	case CAL_ALARM_PROCEDURE:
+		base = _("Run a program");
+		break;
+
+	case CAL_ALARM_NONE:
+	case CAL_ALARM_UNKNOWN:
+	default:
+		base = _("Unknown action to be performed");
+		break;
+	}
+
+	/* FIXME: This does not look like it will localize correctly. */
+
+	switch (trigger.type) {
+	case CAL_ALARM_TRIGGER_RELATIVE_START:
+		dur = get_alarm_duration_string (&trigger.u.rel_duration);
+
+		if (dur) {
+			if (trigger.u.rel_duration.is_neg)
+				str = g_strdup_printf (_("%s %s before the start of the appointment"),
+						       base, dur);
+			else
+				str = g_strdup_printf (_("%s %s after the start of the appointment"),
+						       base, dur);
+
+			g_free (dur);
+		} else
+			str = g_strdup_printf (_("%s at the start of the appointment"), base);
+
+		break;
+
+	case CAL_ALARM_TRIGGER_RELATIVE_END:
+		dur = get_alarm_duration_string (&trigger.u.rel_duration);
+
+		if (dur) {
+			if (trigger.u.rel_duration.is_neg)
+				str = g_strdup_printf (_("%s %s before the end of the appointment"),
+						       base, dur);
+			else
+				str = g_strdup_printf (_("%s %s after the end of the appointment"),
+						       base, dur);
+
+			g_free (dur);
+		} else
+			str = g_strdup_printf (_("%s at the end of the appointment"), base);
+
+		break;
+
+	case CAL_ALARM_TRIGGER_ABSOLUTE: {
+		struct icaltimetype itt;
+		icaltimezone *utc_zone, *current_zone;
+		char *location;
+		struct tm tm;
+		char buf[256];
+
+		/* Absolute triggers come in UTC, so convert them to the local timezone */
+
+		itt = trigger.u.abs_time;
+
+		utc_zone = icaltimezone_get_utc_timezone ();
+		location = calendar_config_get_timezone ();
+		current_zone = icaltimezone_get_builtin_timezone (location);
+
+		tm = icaltimetype_to_tm_with_zone (&itt, utc_zone, current_zone);
+
+		e_time_format_date_and_time (&tm, calendar_config_get_24_hour_format (),
+					     FALSE, FALSE, buf, sizeof (buf));
+
+		str = g_strdup_printf (_("%s at %s"), base, buf);
+
+		break; }
+
+	case CAL_ALARM_TRIGGER_NONE:
+	default:
+		str = g_strdup_printf (_("%s for an unknown trigger type"), base);
+		break;
+	}
+
+	return str;
 }
 
 static void
@@ -313,19 +486,15 @@ sensitize_buttons (AlarmPage *apage)
 {
 	AlarmPagePrivate *priv;
 	CalClient *client;
-	GtkTreeSelection *selection;
-	GtkTreeIter iter;
-	gboolean have_selected;
-
+	GtkCList *clist;
+	
 	priv = apage->priv;
-
+	
 	client = COMP_EDITOR_PAGE (apage)->client;
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list));
-	have_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
+	clist = GTK_CLIST (priv->list);
 
-	gtk_widget_set_sensitive (priv->add,
-				  cal_client_get_one_alarm_only (client) && have_selected ? FALSE : TRUE);
-	gtk_widget_set_sensitive (priv->delete, have_selected);
+	gtk_widget_set_sensitive (priv->add, cal_client_get_one_alarm_only (client) && clist->rows > 0 ? FALSE : TRUE);
+	gtk_widget_set_sensitive (priv->delete, clist->rows > 0 ? TRUE : FALSE);
 }
 
 /* Appends an alarm to the list */
@@ -333,14 +502,20 @@ static void
 append_reminder (AlarmPage *apage, CalComponentAlarm *alarm)
 {
 	AlarmPagePrivate *priv;
-	GtkTreeView *view;
-	GtkTreeIter  iter;
+	GtkCList *clist;
+	char *c[1];
+	int i;
 
 	priv = apage->priv;
-	view = GTK_TREE_VIEW (priv->list);
 
-	e_alarm_list_append (priv->list_store, &iter, alarm);
-	gtk_tree_selection_select_iter (gtk_tree_view_get_selection (view), &iter);
+	clist = GTK_CLIST (priv->list);
+
+	c[0] = get_alarm_string (alarm);
+	i = gtk_clist_append (clist, c);
+
+	gtk_clist_set_row_data_full (clist, i, alarm, (GtkDestroyNotify) cal_component_alarm_free);
+	gtk_clist_select_row (clist, i, 0);
+	g_free (c[0]);
 
 	sensitize_buttons (apage);
 }
@@ -351,9 +526,10 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
-	GtkWidget *menu;
 	CalComponentText text;
 	GList *alarms, *l;
+	GtkCList *clist;
+	GtkWidget *menu;
 	CompEditorPageDates dates;
 	int i;
 	
@@ -381,6 +557,7 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 	alarms = cal_component_get_alarm_uids (comp);
 
+	clist = GTK_CLIST (priv->list);
 	for (l = alarms; l != NULL; l = l->next) {
 		CalComponentAlarm *ca, *ca_copy;
 		const char *auid;
@@ -417,11 +594,9 @@ alarm_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
-	GtkTreeView *view;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gboolean valid_iter;
 	GList *list, *l;
+	GtkCList *clist;
+	int i;
 
 	apage = ALARM_PAGE (page);
 	priv = apage->priv;
@@ -439,16 +614,13 @@ alarm_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	/* Add the new alarms */
 
-	view  = GTK_TREE_VIEW  (priv->list);
-	model = GTK_TREE_MODEL (priv->list_store);
-
-	for (valid_iter = gtk_tree_model_get_iter_first (model, &iter); valid_iter;
-	     valid_iter = gtk_tree_model_iter_next (model, &iter)) {
+	clist = GTK_CLIST (priv->list);
+	for (i = 0; i < clist->rows; i++) {
 		CalComponentAlarm *alarm, *alarm_copy;
 		icalcomponent *icalcomp;
 		icalproperty *icalprop;
 
-		alarm = (CalComponentAlarm *) e_alarm_list_get_alarm (priv->list_store, &iter);
+		alarm = gtk_clist_get_row_data (clist, i);
 		g_assert (alarm != NULL);
 
 		/* We set the description of the alarm if it's got
@@ -490,11 +662,14 @@ alarm_page_set_summary (CompEditorPage *page, const char *summary)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
+	gchar *s;
 
 	apage = ALARM_PAGE (page);
 	priv = apage->priv;
 
-	gtk_label_set_text (GTK_LABEL (priv->summary), summary);
+	s = e_utf8_to_gtk_string (priv->summary, summary);
+	gtk_label_set_text (GTK_LABEL (priv->summary), s);
+	g_free (s);
 }
 
 /* set_dates handler for the alarm page */
@@ -512,7 +687,7 @@ alarm_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 
 
 
-/* Gets the widgets from the XML file and returns TRUE if they are all available. */
+/* Gets the widgets from the XML file and returns if they are all available. */
 static gboolean
 get_widgets (AlarmPage *apage)
 {
@@ -532,14 +707,14 @@ get_widgets (AlarmPage *apage)
 	/* Get the GtkAccelGroup from the toplevel window, so we can install
 	   it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
-	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
+	accel_groups = gtk_accel_groups_from_object (GTK_OBJECT (toplevel));
 	if (accel_groups) {
 		page->accel_group = accel_groups->data;
 		gtk_accel_group_ref (page->accel_group);
 	}
 
 	gtk_widget_ref (priv->main);
-	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
+	gtk_widget_unparent (priv->main);
 
 	priv->summary = GW ("summary");
 	priv->date_time = GW ("date-time");
@@ -656,36 +831,23 @@ delete_clicked_cb (GtkButton *button, gpointer data)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
-	GtkTreeSelection *selection;
-	GtkTreeIter iter;
-	GtkTreePath *path;
-	gboolean valid_iter;
+	GtkCList *clist;
+	int sel;
 
 	apage = ALARM_PAGE (data);
 	priv = apage->priv;
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list));
-	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
-		g_warning ("Could not get a selection to delete.");
+	clist = GTK_CLIST (priv->list);
+	if (!clist->selection)
 		return;
-	}
 
-	path = gtk_tree_model_get_path (GTK_TREE_MODEL (priv->list_store), &iter);
-	e_alarm_list_remove (priv->list_store, &iter);
+	sel = GPOINTER_TO_INT (clist->selection->data);
 
-	/* Select closest item after removal */
-	valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->list_store), &iter, path);
-	if (!valid_iter) {
-		gtk_tree_path_prev (path);
-		valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->list_store), &iter, path);
-	}
-
-	if (valid_iter)
-		gtk_tree_selection_select_iter (selection, &iter);
+	gtk_clist_remove (clist, sel);
+	if (sel >= clist->rows)
+		sel--;
 
 	sensitize_buttons (apage);
-
-	gtk_tree_path_free (path);
 }
 
 /* Callback used when the alarm options button is clicked */
@@ -714,51 +876,26 @@ static void
 init_widgets (AlarmPage *apage)
 {
 	AlarmPagePrivate *priv;
-	GtkTreeViewColumn *column;
-	GtkCellRenderer *cell_renderer;
 
 	priv = apage->priv;
 
 	/* Reminder buttons */
-	g_signal_connect ((priv->add), "clicked",
-			  G_CALLBACK (add_clicked_cb), apage);
-	g_signal_connect ((priv->delete), "clicked",
-			  G_CALLBACK (delete_clicked_cb), apage);
+	gtk_signal_connect (GTK_OBJECT (priv->add), "clicked",
+			    GTK_SIGNAL_FUNC (add_clicked_cb), apage);
+	gtk_signal_connect (GTK_OBJECT (priv->delete), "clicked",
+			    GTK_SIGNAL_FUNC (delete_clicked_cb), apage);
 
 	/* Connect the default signal handler to use to make sure we notify
 	 * upstream of changes to the widget values.
 	 */
-	g_signal_connect ((priv->add), "clicked",
-			  G_CALLBACK (field_changed_cb), apage);
-	g_signal_connect ((priv->delete), "clicked",
-			  G_CALLBACK (field_changed_cb), apage);
+	gtk_signal_connect (GTK_OBJECT (priv->add), "clicked",
+			    GTK_SIGNAL_FUNC (field_changed_cb), apage);
+	gtk_signal_connect (GTK_OBJECT (priv->delete), "clicked",
+			    GTK_SIGNAL_FUNC (field_changed_cb), apage);
 
 	/* Options button */
-	g_signal_connect ((priv->button_options), "clicked",
-			  G_CALLBACK (button_options_clicked_cb), apage);
-
-	/* Alarm list */
-
-	/* Model */
-	priv->list_store = e_alarm_list_new ();
-	gtk_tree_view_set_model (GTK_TREE_VIEW (priv->list),
-				 GTK_TREE_MODEL (priv->list_store));
-
-	/* View */
-	column = gtk_tree_view_column_new ();
-	gtk_tree_view_column_set_title (column, "Action/Trigger");  /* Not shown */
-	cell_renderer = GTK_CELL_RENDERER (gtk_cell_renderer_text_new ());
-	gtk_tree_view_column_pack_start (column, cell_renderer, TRUE);
-	gtk_tree_view_column_add_attribute (column, cell_renderer, "text", E_ALARM_LIST_COLUMN_DESCRIPTION);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (priv->list), column);
-
-	sensitize_buttons (apage);
-#if 0
-	/* If we want the alarm setup widgets to reflect the currently selected alarm, we
-	 * need to do something like this */
-	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list)), "changed",
-			  G_CALLBACK (alarm_selection_changed_cb), apage);
-#endif
+	gtk_signal_connect (GTK_OBJECT (priv->button_options), "clicked",
+			    GTK_SIGNAL_FUNC (button_options_clicked_cb), apage);
 }
 
 
@@ -780,7 +917,7 @@ alarm_page_construct (AlarmPage *apage)
 	priv = apage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-page.glade",
-				   NULL, NULL);
+				   NULL);
 	if (!priv->xml) {
 		g_message ("alarm_page_construct(): "
 			   "Could not load the Glade XML file!");
@@ -811,9 +948,9 @@ alarm_page_new (void)
 {
 	AlarmPage *apage;
 
-	apage = g_object_new (TYPE_ALARM_PAGE, NULL);
+	apage = gtk_type_new (TYPE_ALARM_PAGE);
 	if (!alarm_page_construct (apage)) {
-		g_object_unref ((apage));
+		gtk_object_unref (GTK_OBJECT (apage));
 		return NULL;
 	}
 

@@ -13,24 +13,22 @@
  */
 
 #include <config.h>
+#include <bonobo.h>
+#include <gnome.h>
+#include <liboaf/liboaf.h>
 #include <stdio.h>
 #include <ctype.h>
-#include <string.h>
 
 #include <e-book.h>
-#include <e-book-util.h>
 #include <e-card-simple.h>
 #include <e-destination.h>
-
-#include <libgnome/gnome-init.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-main.h>
 
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
 #define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_LDIF_ImporterFactory"
-#define COMPONENT_IID "OAFIID:GNOME_Evolution_Addressbook_LDIF_Importer"
+
+static BonoboGenericFactory *factory = NULL;
 
 static GHashTable *dn_card_hash;
 
@@ -240,17 +238,17 @@ parseLine( ECardSimple *simple, ECardDeliveryAddress *address, char **buf )
 
 		field_handled = FALSE;
 		for (i = 0; i < num_ldif_fields; i ++) {
-			if (!g_ascii_strcasecmp (ptr, ldif_fields[i].ldif_attribute)) {
+			if (!g_strcasecmp (ptr, ldif_fields[i].ldif_attribute)) {
 				if (ldif_fields[i].flags & FLAG_ADDRESS) {
-					if (!g_ascii_strcasecmp (ptr, "locality"))
+					if (!g_strcasecmp (ptr, "locality"))
 						address->city = g_strdup (ldif_value->str);
-					else if (!g_ascii_strcasecmp (ptr, "countryname"))
+					else if (!g_strcasecmp (ptr, "countryname"))
 						address->country = g_strdup (ldif_value->str);
-					else if (!g_ascii_strcasecmp (ptr, "postalcode"))
+					else if (!g_strcasecmp (ptr, "postalcode"))
 						address->code = g_strdup (ldif_value->str);
-					else if (!g_ascii_strcasecmp (ptr, "st"))
+					else if (!g_strcasecmp (ptr, "st"))
 						address->region = g_strdup (ldif_value->str);
-					else if (!g_ascii_strcasecmp (ptr, "streetaddress"))
+					else if (!g_strcasecmp (ptr, "streetaddress"))
 						address->street = g_strdup (ldif_value->str);
 				}
 				else {
@@ -264,16 +262,16 @@ parseLine( ECardSimple *simple, ECardDeliveryAddress *address, char **buf )
 
 		/* handle objectclass/dn/member out here */
 		if (!field_handled) {
-			if (!g_ascii_strcasecmp (ptr, "dn"))
+			if (!g_strcasecmp (ptr, "dn"))
 				g_hash_table_insert (dn_card_hash, g_strdup(ldif_value->str), simple->card);
-			else if (!g_ascii_strcasecmp (ptr, "objectclass") && !g_ascii_strcasecmp (ldif_value->str, "groupofnames")) {
+			else if (!g_strcasecmp (ptr, "objectclass") && !g_strcasecmp (ldif_value->str, "groupofnames")) {
 				e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_IS_LIST, "true");
 			}
-			else if (!g_ascii_strcasecmp (ptr, "member")) {
+			else if (!g_strcasecmp (ptr, "member")) {
 				EList *email;
-				g_object_get (simple->card,
-					      "email", &email,
-					      NULL);
+				gtk_object_get (GTK_OBJECT (simple->card),
+						"email", &email,
+						NULL);
 				e_list_append (email, ldif_value->str);
 			}
 		}
@@ -328,7 +326,7 @@ getNextLDIFEntry( FILE *f )
 	while (buf) {
 		if (!parseLine (simple, address, &buf)) {
 			/* parsing error */
-			g_object_unref (simple);
+			gtk_object_unref (GTK_OBJECT (simple));
 			e_card_delivery_address_unref (address);
 			return NULL;
 		}
@@ -376,17 +374,17 @@ resolve_list_card (LDIFImporter *gci, ECard *card)
 	if (!e_card_evolution_list (card))
 		return;
 
-	g_object_get (card,
-		      "email", &email,
-		      "full_name", &full_name,
-		      NULL);
+	gtk_object_get (GTK_OBJECT (card),
+			"email", &email,
+			"full_name", &full_name,
+			NULL);
 
 	/* set file_as to full_name so we don't later try and figure
            out a first/last name for the list. */
 	if (full_name)
-		g_object_set (card,
-			      "file_as", full_name,
-			      NULL);
+		gtk_object_set (GTK_OBJECT (card),
+				"file_as", full_name,
+				NULL);
 
 	email_iter = e_list_get_iterator (email);
 	while (e_iterator_is_valid (email_iter)) {
@@ -399,7 +397,7 @@ resolve_list_card (LDIFImporter *gci, ECard *card)
 			gchar *dest_xml;
 			e_destination_set_card (dest, dn_card, 0);  /* Hard-wired for default e-mail, since netscape only exports 1 email address */
 			dest_xml = e_destination_export (dest);
-			g_object_unref (dest);
+			gtk_object_unref (GTK_OBJECT (dest));
 			if (dest_xml) {
 				e_iterator_set (email_iter, dest_xml);
 				g_free (dest_xml);
@@ -450,18 +448,33 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 }
 
 static void
-ebook_open (LDIFImporter *gci, const char *uri)
+ebook_create (LDIFImporter *gci)
 {
+	gchar *path, *uri;
+	
 	gci->book = e_book_new ();
 
 	if (!gci->book) {
 		printf ("%s: %s(): Couldn't create EBook, bailing.\n",
 			__FILE__,
-			G_GNUC_FUNCTION);
+			__FUNCTION__);
 		return;
 	}
+#if 0
+	path = g_concat_dir_and_file (g_get_home_dir (),
+				      "evolution/local/Contacts/addressbook.db");
+	uri = g_strdup_printf ("file://%s", path);
+	g_free (path);
 
-	e_book_load_address_book_by_uri (gci->book, uri, book_open_cb, gci);
+	if (! e_book_load_uri (gci->book, uri, book_open_cb, gci)) {
+		printf ("error calling load_uri!\n");
+	}
+	g_free(uri);
+#endif
+
+	if (! e_book_load_default_book (gci->book, book_open_cb, gci)) {
+		g_warning ("Error calling load_default_book");
+	}
 }
 
 /* EvolutionImporter methods */
@@ -536,16 +549,16 @@ support_format_fn (EvolutionImporter *importer,
 }
 
 static void
-importer_destroy_cb (gpointer data,
-		     GObject *where_object_was)
+importer_destroy_cb (GtkObject *object,
+		     LDIFImporter *gci)
 {
-	bonobo_main_quit ();
+	gtk_main_quit ();
 }
 
 static gboolean
 load_file_fn (EvolutionImporter *importer,
 	      const char *filename,
-	      const char *uri,
+	      const char *folderpath,
 	      void *closure)
 {
 	LDIFImporter *gci;
@@ -555,33 +568,62 @@ load_file_fn (EvolutionImporter *importer,
 	gci->cardlist = NULL;
 	gci->iterator = NULL;
 	gci->ready = FALSE;
-	ebook_open (gci, uri);
+	ebook_create (gci);
 
 	return TRUE;
 }
 					   
 static BonoboObject *
 factory_fn (BonoboGenericFactory *_factory,
-	    const char *component_id,
 	    void *closure)
 {
 	EvolutionImporter *importer;
 	LDIFImporter *gci;
 
-	if (!strcmp (component_id, COMPONENT_IID)) {
-		gci = g_new (LDIFImporter, 1);
-		importer = evolution_importer_new (support_format_fn, load_file_fn, 
-						   process_item_fn, NULL, gci);
+	gci = g_new (LDIFImporter, 1);
+	importer = evolution_importer_new (support_format_fn, load_file_fn, 
+					   process_item_fn, NULL, gci);
 	
-		g_object_weak_ref (G_OBJECT (importer),
-				   importer_destroy_cb, gci);
+	gtk_signal_connect (GTK_OBJECT (importer), "destroy",
+			    GTK_SIGNAL_FUNC (importer_destroy_cb), gci);
 	
-		return BONOBO_OBJECT (importer);
-	}
-	else {
-		g_warning (COMPONENT_FACTORY_IID ": Don't know what to do with %s", component_id);
-		return NULL;
-	}
+	return BONOBO_OBJECT (importer);
 }
 
-BONOBO_ACTIVATION_FACTORY (COMPONENT_FACTORY_IID, "Evolution LDIF Importer Factory", VERSION, factory_fn, NULL);
+static void
+importer_init (void)
+{
+	if (factory != NULL)
+		return;
+
+	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_IID, 
+					      factory_fn, NULL);
+
+	if (factory == NULL) {
+		g_error ("Unable to create factory");
+	}
+
+	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
+}
+
+int
+main (int argc,
+      char **argv)
+{
+	CORBA_ORB orb;
+	
+	gnome_init_with_popt_table ("Evolution-LDIF-Importer",
+				    "0.0", argc, argv, oaf_popt_options, 0,
+				    NULL);
+	orb = oaf_init (argc, argv);
+	if (bonobo_init (orb, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE) {
+		g_error ("Could not initialize Bonobo.");
+	}
+
+	importer_init ();
+	bonobo_main ();
+
+	return 0;
+}
+
+

@@ -18,10 +18,15 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
+#include <gal/unicode/gunicode.h>
 
 #include "e-html-utils.h"
 

@@ -52,7 +52,7 @@ static void task_editor_class_init (TaskEditorClass *class);
 static void task_editor_init (TaskEditor *te);
 static void task_editor_edit_comp (CompEditor *editor, CalComponent *comp);
 static gboolean task_editor_send_comp (CompEditor *editor, CalComponentItipMethod method);
-static void task_editor_finalize (GObject *object);
+static void task_editor_destroy (GtkObject *object);
 
 static void assign_task_cmd (GtkWidget *widget, gpointer data);
 static void refresh_task_cmd (GtkWidget *widget, gpointer data);
@@ -83,26 +83,46 @@ static CompEditorClass *parent_class;
  *
  * Return value: The type ID of the #TaskEditor class.
  **/
+GtkType
+task_editor_get_type (void)
+{
+	static GtkType task_editor_type = 0;
 
-E_MAKE_TYPE (task_editor, "TaskEditor", TaskEditor, task_editor_class_init, task_editor_init,
-	     TYPE_COMP_EDITOR);
+	if (!task_editor_type) {
+		static const GtkTypeInfo task_editor_info = {
+			"TaskEditor",
+			sizeof (TaskEditor),
+			sizeof (TaskEditorClass),
+			(GtkClassInitFunc) task_editor_class_init,
+			(GtkObjectInitFunc) task_editor_init,
+			NULL, /* reserved_1 */
+			NULL, /* reserved_2 */
+			(GtkClassInitFunc) NULL
+		};
+
+		task_editor_type = gtk_type_unique (TYPE_COMP_EDITOR,
+						     &task_editor_info);
+	}
+
+	return task_editor_type;
+}
 
 /* Class initialization function for the event editor */
 static void
 task_editor_class_init (TaskEditorClass *klass)
 {
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 	CompEditorClass *editor_class;
 
-	object_class = (GObjectClass *) klass;
+	object_class = (GtkObjectClass *) klass;
 	editor_class = (CompEditorClass *) klass;
 
-	parent_class = g_type_class_ref(TYPE_COMP_EDITOR);
+	parent_class = gtk_type_class (TYPE_COMP_EDITOR);
 
 	editor_class->edit_comp = task_editor_edit_comp;
 	editor_class->send_comp = task_editor_send_comp;
 
-	object_class->finalize = task_editor_finalize;
+	object_class->destroy = task_editor_destroy;
 }
 
 static void
@@ -151,12 +171,12 @@ init_widgets (TaskEditor *te)
 
 	priv = te->priv;
 
-	g_signal_connect((priv->model), "model_row_changed",
-			    G_CALLBACK (model_row_changed_cb), te);
-	g_signal_connect((priv->model), "model_rows_inserted",
-			    G_CALLBACK (row_count_changed_cb), te);
-	g_signal_connect((priv->model), "model_rows_deleted",
-			    G_CALLBACK (row_count_changed_cb), te);
+	gtk_signal_connect (GTK_OBJECT (priv->model), "model_row_changed",
+			    GTK_SIGNAL_FUNC (model_row_changed_cb), te);
+	gtk_signal_connect (GTK_OBJECT (priv->model), "model_rows_inserted",
+			    GTK_SIGNAL_FUNC (row_count_changed_cb), te);
+	gtk_signal_connect (GTK_OBJECT (priv->model), "model_rows_deleted",
+			    GTK_SIGNAL_FUNC (row_count_changed_cb), te);
 }
 
 /* Object initialization function for the task editor */
@@ -182,22 +202,16 @@ task_editor_construct (TaskEditor *te, CalClient *client)
 	priv = te->priv;
 
 	priv->task_page = task_page_new ();
-	g_object_ref (priv->task_page);
-	gtk_object_sink (GTK_OBJECT (priv->task_page));
 	comp_editor_append_page (COMP_EDITOR (te), 
 				 COMP_EDITOR_PAGE (priv->task_page),
 				 _("Basic"));
 
 	priv->task_details_page = task_details_page_new ();
-	g_object_ref (priv->task_details_page);
-	gtk_object_sink (GTK_OBJECT (priv->task_details_page));
 	comp_editor_append_page (COMP_EDITOR (te),
 				 COMP_EDITOR_PAGE (priv->task_details_page),
 				 _("Details"));
 
 	priv->meet_page = meeting_page_new (priv->model, client);
-	g_object_ref (priv->meet_page);
-	gtk_object_sink (GTK_OBJECT (priv->meet_page));
 	comp_editor_append_page (COMP_EDITOR (te),
 				 COMP_EDITOR_PAGE (priv->meet_page),
 				 _("Assignment"));
@@ -243,42 +257,50 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 		priv->assignment_shown = FALSE;
 	} else {
 		GSList *l;
+		GList *addresses, *ll;
 		int row;
-		
-		if (!priv->assignment_shown)
+
+		if (!priv->assignment_shown) {
 			comp_editor_append_page (COMP_EDITOR (te),
 						 COMP_EDITOR_PAGE (priv->meet_page),
 						 _("Assignment"));
-
+		}
+	
 		for (l = attendees; l != NULL; l = l->next) {
 			CalComponentAttendee *ca = l->data;
 			EMeetingAttendee *ia;
 
 			ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_cal_component_attendee (ca));
- 			if (!comp_editor_get_user_org (editor))
- 				e_meeting_attendee_set_edit_level (ia,  E_MEETING_ATTENDEE_EDIT_NONE);
-  			e_meeting_model_add_attendee (priv->model, ia);			
-
-			g_object_unref(ia);
+			if (!comp_editor_get_user_org (editor))
+				e_meeting_attendee_set_edit_level (ia,  E_MEETING_ATTENDEE_EDIT_NONE);
+			e_meeting_model_add_attendee (priv->model, ia);
+			
+			gtk_object_unref (GTK_OBJECT (ia));
 		}
+
+		addresses = itip_addresses_get ();
+		for (ll = addresses; ll != NULL; ll = ll->next) {
+			EMeetingAttendee *ia;
+			ItipAddress *a = ll->data;
+				
+			ia = e_meeting_model_find_attendee (priv->model, a->address, &row);
+			if (ia != NULL)
+				e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
+		}
+		itip_addresses_free (addresses);
 
 		/* If we aren't the organizer we can still change our own status */
 		if (!comp_editor_get_user_org (editor)) {
-			EAccountList *accounts;
-			EAccount *account;
-			EIterator *it;
-
-			accounts = itip_addresses_get ();
-			for (it = e_list_get_iterator((EList *)accounts);e_iterator_is_valid(it);e_iterator_next(it)) {
+			addresses = itip_addresses_get ();
+			for (ll = addresses; ll != NULL; ll = ll->next) {
 				EMeetingAttendee *ia;
-
-				account = (EAccount*)e_iterator_get(it);
-
-				ia = e_meeting_model_find_attendee (priv->model, account->id->address, &row);
+				ItipAddress *a = ll->data;
+				
+				ia = e_meeting_model_find_attendee (priv->model, a->address, &row);
 				if (ia != NULL)
 					e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
 			}
-			g_object_unref(it);
+			itip_addresses_free (addresses);
 		} else if (cal_client_get_organizer_must_attend (client)) {
 			EMeetingAttendee *ia;
 
@@ -286,8 +308,8 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 			if (ia != NULL)
 				e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_NONE);
 		}
-
-		priv->assignment_shown = TRUE;		
+		
+		priv->assignment_shown = TRUE;
 	}
 	cal_component_free_attendee_list (attendees);
 
@@ -318,7 +340,7 @@ task_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 		
 		client = e_meeting_model_get_cal_client (priv->model);
 		result = itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp, client, NULL);
-		g_object_unref((comp));
+		gtk_object_unref (GTK_OBJECT (comp));
 
 		if (!result)
 			return FALSE;
@@ -333,7 +355,7 @@ task_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 
 /* Destroy handler for the event editor */
 static void
-task_editor_finalize (GObject *object)
+task_editor_destroy (GtkObject *object)
 {
 	TaskEditor *te;
 	TaskEditorPrivate *priv;
@@ -344,14 +366,14 @@ task_editor_finalize (GObject *object)
 	te = TASK_EDITOR (object);
 	priv = te->priv;
 
-	g_object_unref((priv->task_page));
-	g_object_unref((priv->task_details_page));
-	g_object_unref((priv->meet_page));
+	gtk_object_unref (GTK_OBJECT (priv->task_page));
+	gtk_object_unref (GTK_OBJECT (priv->task_details_page));
+	gtk_object_unref (GTK_OBJECT (priv->meet_page));
 	
-	g_object_unref((priv->model));
+	gtk_object_unref (GTK_OBJECT (priv->model));
 	
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 /**
@@ -368,7 +390,7 @@ task_editor_new (CalClient *client)
 {
 	TaskEditor *te;
 
-	te = g_object_new (TYPE_TASK_EDITOR, NULL);
+	te = TASK_EDITOR (gtk_type_new (TYPE_TASK_EDITOR));
 	return task_editor_construct (te, client);
 }
 

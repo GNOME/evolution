@@ -7,7 +7,6 @@
 #include <glib.h>
 #include <cal-client/cal-client.h>
 #include <cal-util/cal-component.h>
-#include <e-util/e-account-list.h>
 
 typedef enum {
 	CAL_COMPONENT_METHOD_PUBLISH,
@@ -20,8 +19,18 @@ typedef enum {
 	CAL_COMPONENT_METHOD_DECLINECOUNTER
 } CalComponentItipMethod;
 
-EAccountList *itip_addresses_get (void);
-EAccount *itip_addresses_get_default (void);
+typedef struct {
+	gchar *name;
+	gchar *address;
+	gchar *full;
+
+	gboolean default_address;
+} ItipAddress;
+
+GList *itip_addresses_get (void);
+ItipAddress *itip_addresses_get_default (void);
+void itip_address_free (ItipAddress *address);
+void itip_addresses_free (GList *addresses);
 
 gboolean itip_organizer_is_user (CalComponent *comp, CalClient *client);
 gboolean itip_sentby_is_user (CalComponent *comp);

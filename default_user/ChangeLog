@@ -2,34 +2,7 @@
 
 	* Makefile.am (install-data-hook): mkdir views and subdirs
 
-2003-03-10  Ettore Perazzoli  <ettore@ximian.com>
-
-	* local/Calendar/calendar.ics: New.
-	* local/Calendar/tasks.ics: New.
-
-2003-02-06  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am: Use privdatadir
-	* local/Trash/Makefile.am: Likewise.
-	* local/Tasks/Makefile.am: Likewise.
-	* local/Sent/Makefile.am: Likewise.
-	* local/Outbox/Makefile.am: Likewise.
-	* local/Inbox/Makefile.am: Likewise.
-	* local/Drafts/Makefile.am: Likewise.
-	* local/Contacts/Makefile.am: Likewise.
-	* local/Calendar/Makefile.am: Likewise.
-
-2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am: Version using $(BASE_VERSION).
-	* local/Trash/Makefile.am: Likewise.
-	* local/Tasks/Makefile.am: Likewise.
-	* local/Sent/Makefile.am: Likewise.
-	* local/Outbox/Makefile.am: Likewise.
-	* local/Inbox/Makefile.am: Likewise.
-	* local/Drafts/Makefile.am: Likewise.
-	* local/Contacts/Makefile.am: Likewise.
-	* local/Calendar/Makefile.am: Likewise.
+2003-01-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (instal-data-hook): Use $(DESTDIR); patch from Max
 	Horn <max@quendi.de>.

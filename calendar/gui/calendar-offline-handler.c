@@ -34,8 +34,8 @@
 #include <cal-client/cal-client.h>
 #include "calendar-offline-handler.h"
 
-#define PARENT_TYPE bonobo_object_get_type ()
-static BonoboObjectClass *parent_class = NULL;
+#define PARENT_TYPE bonobo_x_object_get_type ()
+static BonoboXObjectClass *parent_class = NULL;
 
 struct _CalendarOfflineHandlerPrivate {
 	CalClient *client;
@@ -152,11 +152,12 @@ backend_cal_opened_offline (CalClient *client, CalClientOpenStatus status, gpoin
 
 	if (status != CAL_CLIENT_OPEN_SUCCESS) {
 		update_offline (offline_handler);
-		g_object_unref (client);
+		gtk_object_unref (GTK_OBJECT (client));
 		return;
 	}
 
-	g_signal_connect (client, "cal_set_mode", G_CALLBACK (backend_cal_set_mode), offline_handler);
+	gtk_signal_connect (GTK_OBJECT (client), "cal_set_mode", 
+			    backend_cal_set_mode, offline_handler);
 	cal_client_set_mode (client, CAL_MODE_LOCAL);
 }
 
@@ -166,7 +167,7 @@ backend_cal_opened_online (CalClient *client, CalClientOpenStatus status, gpoint
 	CalendarOfflineHandler *offline_handler = data;
 
 	if (status != CAL_CLIENT_OPEN_SUCCESS) {
-		g_object_unref (G_OBJECT (client));
+		gtk_object_unref (GTK_OBJECT (client));
 		return;
 	}
 
@@ -182,11 +183,12 @@ backend_go_offline (gpointer data, gpointer user_data)
 	gboolean success;
 	
 	client = cal_client_new ();
-	g_signal_connect (client, "cal_opened", G_CALLBACK (backend_cal_opened_offline), offline_handler);
+	gtk_signal_connect (GTK_OBJECT (client), "cal_opened", 
+			    backend_cal_opened_offline, offline_handler);
 	success = cal_client_open_calendar (client, uri, TRUE);
 	if (!success) {
 		update_offline (offline_handler);
-		g_object_unref (client);
+		gtk_object_unref (GTK_OBJECT (client));
 		return;		
 	}	
 }
@@ -200,11 +202,11 @@ backend_go_online (gpointer data, gpointer user_data)
 	gboolean success;
 	
 	client = cal_client_new ();
-	g_signal_connect (G_OBJECT (client), "cal_opened", 
-			  G_CALLBACK (backend_cal_opened_online), offline_handler);
+	gtk_signal_connect (GTK_OBJECT (client), "cal_opened", 
+			    backend_cal_opened_online, offline_handler);
 	success = cal_client_open_calendar (client, uri, TRUE);
 	if (!success) {
-		g_object_unref (G_OBJECT (client));
+		gtk_object_unref (GTK_OBJECT (client));
 		return;		
 	}	
 }
@@ -245,10 +247,10 @@ impl_goOnline (PortableServer_Servant servant,
 	g_list_foreach (uris, backend_go_online, offline_handler);
 }
 
-/* GObject methods.  */
+/* GtkObject methods.  */
 
 static void
-impl_dispose (GObject *object)
+impl_destroy (GtkObject *object)
 {
 	CalendarOfflineHandler *offline_handler;
 	CalendarOfflineHandlerPrivate *priv;
@@ -262,22 +264,12 @@ impl_dispose (GObject *object)
 		CORBA_exception_init (&ev);
 		CORBA_Object_release (priv->listener_interface, &ev);
 		CORBA_exception_free (&ev);
-
-		priv->listener_interface = CORBA_OBJECT_NIL;
 	}
 
-}
-
-static void
-impl_finalize (GObject *object)
-{
-	CalendarOfflineHandler *offline_handler;
-	CalendarOfflineHandlerPrivate *priv;
-
-	offline_handler = CALENDAR_OFFLINE_HANDLER (object);
-	priv = offline_handler->priv;
-
 	g_free (priv);
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 /* GTK+ type initialization.  */
@@ -285,12 +277,11 @@ impl_finalize (GObject *object)
 static void
 calendar_offline_handler_class_init (CalendarOfflineHandlerClass *klass)
 {
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 	POA_GNOME_Evolution_Offline__epv *epv;
 
-	object_class = G_OBJECT_CLASS (klass);
-	object_class->dispose = impl_dispose;
-	object_class->finalize = impl_finalize;
+	object_class = GTK_OBJECT_CLASS (klass);
+	object_class->destroy = impl_destroy;
 
 	epv = & klass->epv;
 	epv->_get_isOffline    = impl__get_isOffline;
@@ -319,9 +310,9 @@ calendar_offline_handler_new (void)
 {
 	CalendarOfflineHandler *new;
 
-	new = g_object_new (calendar_offline_handler_get_type (), NULL);
+	new = gtk_type_new (calendar_offline_handler_get_type ());
 	
 	return new;
 }
 
-BONOBO_TYPE_FUNC_FULL (CalendarOfflineHandler, GNOME_Evolution_Offline, PARENT_TYPE, calendar_offline_handler);
+BONOBO_X_TYPE_FUNC_FULL (CalendarOfflineHandler, GNOME_Evolution_Offline, PARENT_TYPE, calendar_offline_handler);

@@ -25,16 +25,15 @@
 #endif
 
 #include <stdlib.h>
-#include <string.h>
-
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkstock.h>
-
-#include <gconf/gconf.h>
-#include <gconf/gconf-client.h>
-
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-config.h>
 #include <libgnome/gnome-sound.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-messagebox.h>
+#include <libgnomeui/gnome-stock.h>
+
+#include <gal/widgets/e-unicode.h>
 
 #include "camel/camel-filter-driver.h"
 #include "filter/filter-context.h"
@@ -80,7 +79,7 @@ typedef struct _MailSessionClass {
 
 } MailSessionClass;
 
-static char *get_password(CamelSession *session, const char *prompt, gboolean reprompt, gboolean secret, CamelService *service, const char *item, CamelException *ex);
+static char *get_password(CamelSession *session, const char *prompt, gboolean secret, CamelService *service, const char *item, CamelException *ex);
 static void forget_password(CamelSession *session, CamelService *service, const char *item, CamelException *ex);
 static gboolean alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt, gboolean cancel);
 static guint register_timeout(CamelSession *session, guint32 interval, CamelTimeoutCallback cb, gpointer camel_data);
@@ -151,26 +150,24 @@ make_key (CamelService *service, const char *item)
 
 /* ********************************************************************** */
 
-static GtkDialog *password_dialog = NULL;
+static GnomeDialog *password_dialogue = NULL;
 static EDList password_list = E_DLIST_INITIALISER(password_list);
+static int password_destroy_id;
 
 struct _pass_msg {
 	struct _mail_msg msg;
-	
+
 	CamelSession *session;
 	const char *prompt;
-	gboolean reprompt;
 	gboolean secret;
 	CamelService *service;
 	const char *item;
 	CamelException *ex;
-	
+
 	char *service_url;
 	char *key;
-	
-	EAccountService *config_service;
+
 	GtkWidget *check;
-	GtkWidget *entry;
 	char *result;
 	int ismain;
 };
@@ -178,28 +175,29 @@ struct _pass_msg {
 static void do_get_pass(struct _mail_msg *mm);
 
 static void
-pass_activate (GtkEntry *entry, void *data)
-{
-	if (password_dialog)
-		gtk_dialog_response (password_dialog, GTK_RESPONSE_OK);
-}
-
-static void
-pass_response (GtkDialog *dialog, int button, void *data)
+pass_got (char *string, void *data)
 {
 	struct _pass_msg *m = data;
 	
-	switch (button) {
-	case GTK_RESPONSE_OK:
-	{
+	if (string) {
+		MailConfigService *service = NULL;
+		const MailConfigAccount *mca;
 		gboolean cache, remember;
 		
-		m->result = g_strdup (gtk_entry_get_text ((GtkEntry *) m->entry));
-		remember = cache = m->check ? gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->check)) : FALSE;
-		
+		m->result = g_strdup (string);
+		remember = cache = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->check));
 		if (m->service_url) {
-			if (m->config_service) {
-				mail_config_service_set_save_passwd (m->config_service, cache);
+			mca = mail_config_get_account_by_source_url (m->service_url);
+			if (mca) {
+				service = mca->source;
+			} else {
+				mca = mail_config_get_account_by_transport_url (m->service_url);
+				if (mca)
+					service = mca->transport;
+			}
+			
+			if (service) {
+				mail_config_service_set_save_passwd (service, cache);
 				
 				/* set `cache' to TRUE because people don't want to have to
 				   re-enter their passwords for this session even if they told
@@ -217,80 +215,128 @@ pass_response (GtkDialog *dialog, int button, void *data)
 			
 			/* should we remember it between sessions? */
 			if (remember)
-				e_passwords_remember_password ("Mail", m->key);
+				e_passwords_remember_password (m->key);
 		}
-		break;
+	} else {
+		camel_exception_set(m->ex, CAMEL_EXCEPTION_USER_CANCEL, _("User canceled operation."));
 	}
-	default:
-		camel_exception_set (m->ex, CAMEL_EXCEPTION_USER_CANCEL, _("User canceled operation."));
-		break;
+
+	if (password_destroy_id) {
+		gtk_signal_disconnect((GtkObject *)password_dialogue, password_destroy_id);
+		password_destroy_id = 0;
 	}
-	
-	gtk_widget_destroy ((GtkWidget *) dialog);
-	
-	password_dialog = NULL;
-	e_msgport_reply ((EMsg *)m);
-	
-	if ((m = (struct _pass_msg *) e_dlist_remhead (&password_list)))
-		do_get_pass ((struct _mail_msg *) m);
+
+	password_dialogue = NULL;
+	e_msgport_reply((EMsg *)m);
+
+	if ((m = (struct _pass_msg *)e_dlist_remhead(&password_list)))
+		do_get_pass((struct _mail_msg *)m);
 }
 
 static void
-request_password (struct _pass_msg *m)
+request_password_deleted(GtkWidget *w, struct _pass_msg *m)
 {
-	EAccount *mca = NULL;
+	password_destroy_id = 0;
+	pass_got(NULL, m);
+}
+
+static void
+request_password(struct _pass_msg *m)
+{
+	const MailConfigAccount *mca = NULL;
+	GtkWidget *dialogue;
+	GtkWidget *check, *check_label, *entry;
+	GList *children, *iter;
+	gboolean show;
 	char *title;
-	
-	/* If we already have a password_dialog up, save this request till later */
-	if (!m->ismain && password_dialog) {
-		e_dlist_addtail (&password_list, (EDListNode *)m);
+	unsigned int accel_key;
+
+	/* If we already have a password_dialogue up, save this request till later */
+	if (!m->ismain && password_dialogue) {
+		e_dlist_addtail(&password_list, (EDListNode *)m);
 		return;
 	}
+
+	/* FIXME: Remove this total snot */
+
+	/* assume we can use any widget to translate string for display */
+	check_label = gtk_label_new ("");
+	password_dialogue = (GnomeDialog *)dialogue = gnome_request_dialog (m->secret, m->prompt, NULL, 0, pass_got, m, NULL);
+	password_destroy_id = gtk_signal_connect((GtkObject *)dialogue, "destroy", request_password_deleted, m);
+
+	check = gtk_check_button_new ();
+	gtk_misc_set_alignment (GTK_MISC (check_label), 0.0, 0.5);
+	accel_key = gtk_label_parse_uline (GTK_LABEL (check_label),
+					   m->service_url ? _("_Remember this password") :
+					   _("_Remember this password for the remainder of this session"));
+	gtk_widget_add_accelerator (check, "clicked",
+				    GNOME_DIALOG (password_dialogue)->accelerators,
+				    accel_key,
+				    GDK_MOD1_MASK, 0);
+	gtk_container_add (GTK_CONTAINER (check), check_label);
+
+	show = TRUE;
 	
 	if (m->service_url) {
-		if ((mca = mail_config_get_account_by_source_url (m->service_url)))
-			m->config_service = mca->source;
-		else if ((mca = mail_config_get_account_by_transport_url (m->service_url)))
-			m->config_service = mca->transport;
+		mca = mail_config_get_account_by_source_url(m->service_url);
+		if (mca)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), mca->source->save_passwd);
+		else {
+			mca = mail_config_get_account_by_transport_url (m->service_url);
+			if (mca)
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), mca->transport->save_passwd);
+			else {
+				d(printf ("Cannot figure out which account owns URL \"%s\"\n", m->service_url));
+				show = FALSE;
+			}
+		}
 	}
 	
-	if (mca)
-		title = g_strdup_printf (_("Enter Password for %s"), mca->name);
-	else
+	if (show)
+		gtk_widget_show_all (check);
+
+	/* do some dirty stuff to put the checkbutton after the entry */
+	entry = NULL;
+	children = gtk_container_children (GTK_CONTAINER (GNOME_DIALOG (dialogue)->vbox));
+	for (iter = children; iter; iter = iter->next) {
+		if (GTK_IS_ENTRY (iter->data)) {
+			entry = GTK_WIDGET (iter->data);
+			break;
+		}
+	}
+	g_list_free (children);
+	
+	if (entry) {
+		gtk_object_ref (GTK_OBJECT (entry));
+		gtk_container_remove (GTK_CONTAINER (GNOME_DIALOG (dialogue)->vbox), entry);
+	}
+	
+	gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox), check, TRUE, FALSE, 0);
+	
+	if (entry) {
+		gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox), entry, TRUE, FALSE, 0);
+		gtk_widget_grab_focus (entry);
+		gtk_object_unref (GTK_OBJECT (entry));
+	}
+	
+	m->check = check;
+	
+	if (mca) {
+		char *name;
+		
+		name = e_utf8_to_gtk_string (GTK_WIDGET (dialogue), mca->name);
+		title = g_strdup_printf (_("Enter Password for %s"), name);
+		g_free (name);
+	} else
 		title = g_strdup (_("Enter Password"));
 	
-	password_dialog = (GtkDialog *) gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION,
-								GTK_BUTTONS_OK_CANCEL, "%s", m->prompt);
-	gtk_window_set_title (GTK_WINDOW (password_dialog), title);
+	gtk_window_set_title (GTK_WINDOW (dialogue), title);
 	g_free (title);
-	
-	m->entry = gtk_entry_new ();
-	gtk_entry_set_visibility ((GtkEntry *) m->entry, !m->secret);
-	g_signal_connect (m->entry, "activate", G_CALLBACK (pass_activate), password_dialog);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), m->entry, TRUE, FALSE, 0);
-	gtk_widget_show (m->entry);
-	
-	if (m->reprompt && m->result) {
-		gtk_entry_set_text ((GtkEntry *) m->entry, m->result);
-		g_free (m->result);
-		m->result = NULL;
-	}
-	
-	if (m->service_url == NULL || m->service != NULL) {
-		m->check = gtk_check_button_new_with_mnemonic (m->service_url ? _("_Remember this password") :
-							       _("_Remember this password for the remainder of this session"));
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (m->check),
-					      m->config_service ? m->config_service->save_passwd : FALSE);
-		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), m->check, TRUE, FALSE, 0);
-		gtk_widget_show (m->check);
-	}
-	
-	if (m->ismain) {
-		pass_response(password_dialog, gtk_dialog_run (password_dialog), m);
-	} else {
-		g_signal_connect (password_dialog, "response", G_CALLBACK (pass_response), m);
-		gtk_widget_show ((GtkWidget *) password_dialog);
-	}
+
+	if (m->ismain)
+		gnome_dialog_run_and_close ((GnomeDialog *)dialogue);
+	else
+		gtk_widget_show(dialogue);
 }
 
 static void
@@ -300,15 +346,15 @@ do_get_pass(struct _mail_msg *mm)
 	MailSession *mail_session = MAIL_SESSION (m->session);
 	
 	if (!strcmp (m->item, "popb4smtp_uri")) {
-		char *url = camel_url_to_string (m->service->url, 0);
-		EAccount *account = mail_config_get_account_by_transport_url (url);
+		char *url = camel_url_to_string(m->service->url, 0);
+		const MailConfigAccount *account = mail_config_get_account_by_transport_url(url);
 		
 		g_free(url);
 		if (account)
 			m->result = g_strdup(account->source->url);
 	} else if (m->key) {
-		m->result = e_passwords_get_password ("Mail", m->key);
-		if (m->result == NULL || m->reprompt) {
+		m->result = e_passwords_get_password(m->key);
+		if (m->result == NULL) {
 			if (mail_session->interactive) {
 				request_password(m);
 				return;
@@ -336,13 +382,12 @@ static struct _mail_msg_op get_pass_op = {
 };
 
 static char *
-get_password (CamelSession *session, const char *prompt, gboolean reprompt, gboolean secret,
-	      CamelService *service, const char *item, CamelException *ex)
+get_password (CamelSession *session, const char *prompt, gboolean secret, CamelService *service, const char *item, CamelException *ex)
 {
 	struct _pass_msg *m, *r;
 	EMsgPort *pass_reply;
 	char *ret;
-	
+
 	/* We setup an async request and send it off, and wait for it to return */
 	/* If we're really in main, we dont of course ...
 	   ... but this shouldn't be allowed because of locking issues */
@@ -351,7 +396,6 @@ get_password (CamelSession *session, const char *prompt, gboolean reprompt, gboo
 	m->ismain = pthread_self() == mail_gui_thread;
 	m->session = session;
 	m->prompt = prompt;
-	m->reprompt = reprompt;
 	m->secret = secret;
 	m->service = service;
 	m->item = item;
@@ -360,11 +404,11 @@ get_password (CamelSession *session, const char *prompt, gboolean reprompt, gboo
 		m->service_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
 	m->key = make_key(service, item);
 
-	if (m->ismain) {
+	if (m->ismain)
 		do_get_pass((struct _mail_msg *)m);
-	} else {
+	else {
 		extern EMsgPort *mail_gui_port2;
-		
+
 		e_msgport_put(mail_gui_port2, (EMsg *)m);
 	}
 	
@@ -375,7 +419,7 @@ get_password (CamelSession *session, const char *prompt, gboolean reprompt, gboo
 	ret = m->result;
 	mail_msg_free(m);
 	e_msgport_destroy(pass_reply);
-	
+
 	return ret;
 }
 
@@ -383,8 +427,8 @@ static void
 main_forget_password (CamelSession *session, CamelService *service, const char *item, CamelException *ex)
 {
 	char *key = make_key (service, item);
-	
-	e_passwords_forget_password ("Mail", key);
+
+	e_passwords_forget_password (key);
 	
 	g_free (key);
 }
@@ -398,8 +442,9 @@ forget_password (CamelSession *session, CamelService *service, const char *item,
 
 /* ********************************************************************** */
 
-static GtkDialog *message_dialog;
-static EDList message_list = E_DLIST_INITIALISER(message_list);
+static GnomeDialog *message_dialogue;
+static EDList message_list = E_DLIST_INITIALISER(password_list);
+static guint message_destroy_id;
 
 struct _user_message_msg {
 	struct _mail_msg msg;
@@ -414,77 +459,88 @@ struct _user_message_msg {
 
 static void do_user_message (struct _mail_msg *mm);
 
+/* if we dont have to wait for reply, we just check to see if any newly waiting prompts are there */
+static void
+user_message_destroy_noreply(GnomeDialog *gd, void *data)
+{
+	struct _user_message_msg *m;
+
+	message_dialogue = NULL;
+	if ((m = (struct _user_message_msg *)e_dlist_remhead(&message_list)))
+		do_user_message((struct _mail_msg *)m);
+}
+
 /* clicked, send back the reply */
 static void
-user_message_response (GtkDialog *dialog, int button, struct _user_message_msg *m)
+user_message_clicked(GnomeDialog *gd, int button, struct _user_message_msg *m)
 {
-	gtk_widget_destroy ((GtkWidget *) dialog);
-	
-	message_dialog = NULL;
-	
-	/* if !allow_cancel, then we've already replied */
-	if (m->allow_cancel) {
-		m->result = button == GTK_RESPONSE_OK;
-		e_msgport_reply((EMsg *)m);
+	message_dialogue = NULL;
+
+	if (message_destroy_id) {
+		gtk_signal_disconnect((GtkObject *)gd, message_destroy_id);
+		message_destroy_id = 0;
 	}
-	
+
+	m->result = button == 0;
+	e_msgport_reply((EMsg *)m);
+
 	/* check for pendings */
 	if ((m = (struct _user_message_msg *)e_dlist_remhead(&message_list)))
 		do_user_message((struct _mail_msg *)m);
 }
 
 static void
-user_message_destroy_notify (struct _user_message_msg *m, GObject *deadbeef)
+user_message_destroy(GnomeDialog *gd, struct _user_message_msg *m)
 {
-	message_dialog = NULL;
+	message_destroy_id = 0;
+	user_message_clicked(gd, -1, m);
 }
 
 static void
 do_user_message (struct _mail_msg *mm)
 {
 	struct _user_message_msg *m = (struct _user_message_msg *)mm;
-	GtkMessageType msg_type;
-	
-	if (!m->ismain && message_dialog != NULL) {
-		e_dlist_addtail (&message_list, (EDListNode *)m);
+	const char *msg_type;
+
+	if (!m->ismain && message_dialogue != NULL) {
+		e_dlist_addtail(&message_list, (EDListNode *)m);
 		return;
 	}
-	
+
 	switch (m->type) {
 	case CAMEL_SESSION_ALERT_INFO:
-		msg_type = GTK_MESSAGE_INFO;
+		msg_type = GNOME_MESSAGE_BOX_INFO;
 		break;
 	case CAMEL_SESSION_ALERT_WARNING:
-		msg_type = GTK_MESSAGE_WARNING;
+		msg_type = GNOME_MESSAGE_BOX_WARNING;
 		break;
 	case CAMEL_SESSION_ALERT_ERROR:
-		msg_type = GTK_MESSAGE_ERROR;
+		msg_type = GNOME_MESSAGE_BOX_ERROR;
 		break;
 	default:
-		msg_type = GTK_MESSAGE_INFO;
+		msg_type = NULL;
 	}
-	
-	message_dialog = (GtkDialog *) gtk_message_dialog_new (
-		NULL, 0, msg_type,
-		m->allow_cancel ? GTK_BUTTONS_OK_CANCEL : GTK_BUTTONS_OK,
-		"%s", m->prompt);
-	gtk_dialog_set_default_response (message_dialog, m->allow_cancel ? GTK_RESPONSE_CANCEL : GTK_RESPONSE_OK);
-	g_object_set ((GObject *) message_dialog, "allow_shrink", TRUE, "allow_grow", TRUE, NULL);
-	
+
+	message_dialogue = (GnomeDialog *)gnome_message_box_new(m->prompt, msg_type, GNOME_STOCK_BUTTON_OK,
+								m->allow_cancel ? GNOME_STOCK_BUTTON_CANCEL : NULL,
+								NULL);
+	gnome_dialog_set_default(message_dialogue, 1);
+	gnome_dialog_set_close(message_dialogue, TRUE);
+	gtk_window_set_policy (GTK_WINDOW (message_dialogue), TRUE, TRUE, TRUE);
+
 	/* We only need to wait for the result if we allow cancel otherwise show but send result back instantly */
 	if (m->allow_cancel) {
-		if (m->ismain) {
-			user_message_response(message_dialog, gtk_dialog_run (message_dialog), m);
-		} else {
-			g_signal_connect (message_dialog, "response", G_CALLBACK (user_message_response), m);
-			gtk_widget_show ((GtkWidget *) message_dialog);
-		}
+		gtk_signal_connect((GtkObject*)message_dialogue, "clicked", user_message_clicked, m);
+		message_destroy_id = gtk_signal_connect((GtkObject*)message_dialogue, "destroy", user_message_destroy, m);
+		if (m->ismain)
+			gnome_dialog_run_and_close ((GnomeDialog *)message_dialogue);
+		else
+			gtk_widget_show((GtkWidget *)message_dialogue);
 	} else {
-		g_signal_connect (message_dialog, "response", G_CALLBACK (gtk_widget_destroy), message_dialog);
-		g_object_weak_ref ((GObject *) message_dialog, (GWeakNotify) user_message_destroy_notify, m);
-		gtk_widget_show ((GtkWidget *) message_dialog);
+		gtk_signal_connect((GtkObject *)message_dialogue, "destroy", user_message_destroy_noreply, NULL);
+		gtk_widget_show((GtkWidget *)message_dialogue);
 		m->result = TRUE;
-		e_msgport_reply ((EMsg *)m);
+		e_msgport_reply((EMsg *)m);
 	}
 }
 
@@ -595,31 +651,31 @@ timeout_timeout (struct _mail_msg *mm)
 }
 
 static void
-timeout_done (struct _mail_msg *mm)
+timeout_done(struct _mail_msg *mm)
 {
-	struct _timeout_msg *m = (struct _timeout_msg *) mm;
-	MailSession *ms = (MailSession *) m->session;
+	struct _timeout_msg *m = (struct _timeout_msg *)mm;
+	MailSession *ms = (MailSession *)m->session;
 	struct _timeout_data *td;
-	
+
 	if (!m->result) {
 		MAIL_SESSION_LOCK(ms, lock);
-		td = find_timeout (&ms->timeouts, m->id);
+		td = find_timeout(&ms->timeouts, m->id);
 		if (td) {
-			e_dlist_remove ((EDListNode *) td);
+			e_dlist_remove((EDListNode *)td);
 			if (td->timeout_id)
-				gtk_timeout_remove (td->timeout_id);
-			g_free (td);
+				gtk_timeout_remove(td->timeout_id);
+			g_free(td);
 		}
 		MAIL_SESSION_UNLOCK(ms, lock);
 	}
 }
 
 static void
-timeout_free (struct _mail_msg *mm)
+timeout_free(struct _mail_msg *mm)
 {
 	struct _timeout_msg *m = (struct _timeout_msg *)mm;
-	
-	camel_object_unref (m->session);
+
+	camel_object_unref((CamelObject *)m->session);
 }
 
 static struct _mail_msg_op timeout_op = {
@@ -634,63 +690,63 @@ camel_timeout (gpointer data)
 {
 	struct _timeout_data *td = data;
 	struct _timeout_msg *m;
-	
+
 	/* stop if we are removed pending */
 	if (td->removed)
 		return FALSE;
 	
-	m = mail_msg_new (&timeout_op, NULL, sizeof (*m));
-	
+	m = mail_msg_new(&timeout_op, NULL, sizeof (*m));
+
 	m->session = td->session;
-	camel_object_ref (td->session);
+	camel_object_ref((CamelObject *)td->session);
 	m->id = td->id;
 	
-	e_thread_put (mail_thread_queued, (EMsg *)m);
+	e_thread_put(mail_thread_queued, (EMsg *)m);
 	
 	return TRUE;
 }
 
 static void
-main_register_timeout (CamelSession *session, void *event_data, void *data)
+main_register_timeout(CamelSession *session, void *event_data, void *data)
 {
 	MailSession *ms = (MailSession *)session;
 	unsigned int handle = (unsigned int)event_data;
 	struct _timeout_data *td;
-	
+
 	MAIL_SESSION_LOCK(session, lock);
-	td = find_timeout (&ms->timeouts, handle);
+	td = find_timeout(&ms->timeouts, handle);
 	if (td) {
 		if (td->removed) {
-			e_dlist_remove ((EDListNode *) td);
+			e_dlist_remove((EDListNode *)td);
 			if (td->timeout_id)
-				gtk_timeout_remove (td->timeout_id);
-			g_free (td);
+				gtk_timeout_remove(td->timeout_id);
+			g_free(td);
 		} else {
-			td->timeout_id = gtk_timeout_add (td->interval, camel_timeout, td);
+			td->timeout_id = gtk_timeout_add(td->interval, camel_timeout, td);
 		}
 	}
 	MAIL_SESSION_UNLOCK(session, lock);
-	
-	camel_object_unref (ms);
+
+	camel_object_unref((CamelObject *)ms);
 }
 
 static guint
 register_timeout (CamelSession *session, guint32 interval, CamelTimeoutCallback cb, gpointer camel_data)
 {
 	struct _timeout_data *td;
-	MailSession *ms = (MailSession *) session;
+	MailSession *ms = (MailSession *)session;
 	guint ret;
-	
+
 	MAIL_SESSION_LOCK(session, lock);
-	
+
 	ret = ms->timeout_id;
-	ms->timeout_id++;
-	
+	ms->timeout_id ++;
+
 	/* just debugging, the timeout code now ignores excessive events anyway */
 	if (interval < 100)
-		g_warning ("Timeout requested %d is small, may cause performance problems", interval);
-	
-	td = g_malloc (sizeof (*td));
+		g_warning("Timeout requested %d is small, may cause performance problems", interval);
+
+	td = g_malloc(sizeof(*td));
 	td->cb = cb;
 	td->camel_data = camel_data;
 	td->interval = interval;
@@ -698,35 +754,34 @@ register_timeout (CamelSession *session, guint32 interval, CamelTimeoutCallback 
 	td->session = session;
 	td->removed = FALSE;
 	td->busy = FALSE;
-	e_dlist_addhead (&ms->timeouts, (EDListNode *) td);
-	
+	e_dlist_addhead(&ms->timeouts, (EDListNode *)td);
+
 	MAIL_SESSION_UNLOCK(session, lock);
-	
-	camel_object_ref (ms);
-	mail_async_event_emit (ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc) main_register_timeout,
-			       (CamelObject *) session, (void *) ret, NULL);
+
+	camel_object_ref((CamelObject *)ms);
+	mail_async_event_emit(ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc)main_register_timeout, (CamelObject *)session, (void *)ret, NULL);
 
 	return ret;
 }
 
 static void
-main_remove_timeout (CamelSession *session, void *event_data, void *data)
+main_remove_timeout(CamelSession *session, void *event_data, void *data)
 {
-	MailSession *ms = (MailSession *) session;
-	unsigned int handle = (unsigned int) event_data;
+	MailSession *ms = (MailSession *)session;
+	unsigned int handle = (unsigned int)event_data;
 	struct _timeout_data *td;
-	
+
 	MAIL_SESSION_LOCK(session, lock);
-	td = find_timeout (&ms->timeouts, handle);
+	td = find_timeout(&ms->timeouts, handle);
 	if (td) {
-		e_dlist_remove ((EDListNode *) td);
+		e_dlist_remove((EDListNode *)td);
 		if (td->timeout_id)
-			gtk_timeout_remove (td->timeout_id);
-		g_free (td);
+			gtk_timeout_remove(td->timeout_id);
+		g_free(td);
 	}
 	MAIL_SESSION_UNLOCK(session, lock);
-	
-	camel_object_unref (ms);
+
+	camel_object_unref((CamelObject *)ms);
 }
 
 static gboolean
@@ -735,21 +790,21 @@ remove_timeout (CamelSession *session, guint handle)
 	MailSession *ms = (MailSession *)session;
 	struct _timeout_data *td;
 	int remove = FALSE;
-	
+
 	MAIL_SESSION_LOCK(session, lock);
-	td = find_timeout (&ms->timeouts, handle);
+	td = find_timeout(&ms->timeouts, handle);
 	if (td && !td->removed) {
 		td->removed = TRUE;
 		remove = TRUE;
 	}
 	MAIL_SESSION_UNLOCK(session, lock);
-	
+
 	if (remove) {
-		camel_object_ref (ms);
-		mail_async_event_emit (ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc) main_remove_timeout,
-				       (CamelObject *) session, (void *) handle, NULL);
+		camel_object_ref((CamelObject *)ms);
+		mail_async_event_emit(ms->async, MAIL_ASYNC_GUI,
+				      (MailAsyncFunc)main_remove_timeout, (CamelObject *)session, (void *)handle, NULL);
 	} else
-		g_warning ("Removing a timeout i dont know about (or twice): %d", handle);
+		g_warning("Removing a timeout i dont know about (or twice): %d", handle);
 
 	return TRUE;
 }
@@ -779,37 +834,30 @@ static CamelFilterDriver *
 main_get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 {
 	CamelFilterDriver *driver;
+	RuleContext *fc;
 	GString *fsearch, *faction;
 	FilterRule *rule = NULL;
 	char *user, *system;
-	GConfClient *gconf;
-	RuleContext *fc;
-	long notify;
-	
-	gconf = gconf_client_get_default ();
 	
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
-	fc = (RuleContext *) filter_context_new ();
+	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
+	fc = (RuleContext *)filter_context_new ();
 	rule_context_load (fc, system, user);
 	g_free (user);
 	
 	driver = camel_filter_driver_new (session);
 	camel_filter_driver_set_folder_func (driver, get_folder, NULL);
 	
-	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/filters/log", NULL)) {
-		MailSession *ms = (MailSession *) session;
+	if (mail_config_get_filter_log ()) {
+		MailSession *ms = (MailSession *)session;
 		
 		if (ms->filter_logfile == NULL) {
-			char *filename;
+			const char *filename;
 			
-			filename = gconf_client_get_string (gconf, "/apps/evolution/mail/filters/logfile", NULL);
-			if (filename) {
+			filename = mail_config_get_filter_log_path ();
+			if (filename)
 				ms->filter_logfile = fopen (filename, "a+");
-				g_free (filename);
-			}
 		}
-		
 		if (ms->filter_logfile)
 			camel_filter_driver_set_logfile (driver, ms->filter_logfile);
 	}
@@ -826,25 +874,18 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	/* FIXME: we need a way to distinguish between filtering new
            mail and re-filtering a folder because both use the
            "incoming" filter type */
-	notify = gconf_client_get_int (gconf, "/apps/evolution/mail/notify/type", NULL);
-	if (notify != MAIL_CONFIG_NOTIFY_NOT && !strcmp (type, "incoming")) {
-		char *filename;
-		
+	if (mail_config_get_new_mail_notify () && !strcmp (type, "incoming")) {
 		g_string_truncate (faction, 0);
 		
 		g_string_append (faction, "(only-once \"new-mail-notification\" ");
 		
-		switch (notify) {
-		case MAIL_CONFIG_NOTIFY_PLAY_SOUND:
-			filename = gconf_client_get_string (gconf, "/apps/evolution/mail/notify/sound", NULL);
-			if (filename) {
-				g_string_append_printf (faction, "\"(play-sound \\\"%s\\\")\"", filename);
-				g_free (filename);
-				break;
-			}
-			/* fall through */
+		switch (mail_config_get_new_mail_notify ()) {
 		case MAIL_CONFIG_NOTIFY_BEEP:
 			g_string_append (faction, "\"(beep)\"");
+			break;
+		case MAIL_CONFIG_NOTIFY_PLAY_SOUND:
+			g_string_sprintfa (faction, "\"(play-sound \\\"%s\\\")\"",
+					   mail_config_get_new_mail_notify_sound_file ());
 			break;
 		default:
 			break;
@@ -861,15 +902,16 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 		g_string_truncate (faction, 0);
 		
 		filter_rule_build_code (rule, fsearch);
-		filter_filter_build_action ((FilterFilter *) rule, faction);
+		filter_filter_build_action ((FilterFilter *)rule, faction);
 		
-		camel_filter_driver_add_rule (driver, rule->name, fsearch->str, faction->str);
+		camel_filter_driver_add_rule (driver, rule->name,
+					      fsearch->str, faction->str);
 	}
 	
 	g_string_free (fsearch, TRUE);
 	g_string_free (faction, TRUE);
 	
-	g_object_unref (fc);
+	gtk_object_unref (GTK_OBJECT (fc));
 	
 	return driver;
 }
@@ -877,8 +919,8 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 static CamelFilterDriver *
 get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 {
-	return (CamelFilterDriver *) mail_call_main (MAIL_CALL_p_ppp, (MailMainFunc) main_get_filter_driver,
-						     session, type, ex);
+	return (CamelFilterDriver *)mail_call_main(MAIL_CALL_p_ppp, (MailMainFunc)main_get_filter_driver,
+						   session, type, ex);
 }
 
 char *
@@ -887,15 +929,15 @@ mail_session_get_password (const char *url_string)
 	CamelURL *url;
 	char *simple_url;
 	char *passwd;
-	
+
 	url = camel_url_new (url_string, NULL);
 	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	camel_url_free (url);
-	
-	passwd = e_passwords_get_password ("Mail", simple_url);
-	
+
+	passwd = e_passwords_get_password (simple_url);
+
 	g_free (simple_url);
-	
+
 	return passwd;
 }
 
@@ -905,13 +947,13 @@ mail_session_add_password (const char *url_string,
 {
 	CamelURL *url;
 	char *simple_url;
-	
+
 	url = camel_url_new (url_string, NULL);
 	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	camel_url_free (url);
-	
+
 	e_passwords_add_password (simple_url, passwd);
-	
+
 	g_free (simple_url);
 }
 
@@ -924,16 +966,16 @@ mail_session_remember_password (const char *url_string)
 	url = camel_url_new (url_string, NULL);
 	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	camel_url_free (url);
-	
-	e_passwords_remember_password ("Mail", simple_url);
-	
+
+	e_passwords_remember_password (simple_url);
+
 	g_free (simple_url);
 }
 
 void
 mail_session_forget_password (const char *key)
 {
-	e_passwords_forget_password ("Mail", key);
+	e_passwords_forget_password (key);
 }
 
 void
@@ -948,10 +990,10 @@ mail_session_init (void)
 	
 	camel_dir = g_strdup_printf ("%s/mail", evolution_dir);
 	camel_session_construct (session, camel_dir);
-	
+
 	/* The shell will tell us to go online. */
-	camel_session_set_online ((CamelSession *) session, FALSE);
-	
+	camel_session_set_online ((CamelSession *)session, FALSE);
+
 	g_free (camel_dir);
 }
 
@@ -969,31 +1011,31 @@ mail_session_set_interactive (gboolean interactive)
 	if (!interactive) {
 		struct _pass_msg *pm;
 		struct _user_message_msg *um;
-		
-		d(printf ("Gone non-interactive, checking for outstanding interactive tasks\n"));
-		
+
+		d(printf("Gone non-interactive, checking for outstanding interactive tasks\n"));
+
 		/* clear out pending password requests */
-		while ((pm = (struct _pass_msg *) e_dlist_remhead (&password_list))) {
-			d(printf ("Flushing password request : %s\n", pm->prompt));
-			e_msgport_reply ((EMsg *) pm);
+		while ((pm = (struct _pass_msg *)e_dlist_remhead(&password_list))) {
+			d(printf("Flushing password request : %s\n", pm->prompt));
+			e_msgport_reply((EMsg *)pm);
 		}
-		
+
 		/* destroy the current */
-		if (password_dialog) {
-			d(printf ("Destroying password dialogue\n"));
-			gtk_widget_destroy ((GtkWidget *) password_dialog);
+		if (password_dialogue) {
+			d(printf("Destroying password dialogue\n"));
+			gtk_object_destroy((GtkObject *)password_dialogue);
 		}
-		
+
 		/* same for pending user messages */
-		while ((um = (struct _user_message_msg *) e_dlist_remhead (&message_list))) {
-			d(printf ("Flusing message request: %s\n", um->prompt));
-			e_msgport_reply((EMsg *) um);
+		while ((um = (struct _user_message_msg *)e_dlist_remhead(&message_list))) {
+			d(printf("Flusing message request: %s\n", um->prompt));
+			e_msgport_reply((EMsg *)um);
 		}
-		
+
 		/* and the current */
-		if (message_dialog) {
+		if (message_dialogue) {
 			d(printf("Destroying message dialogue\n"));
-			gtk_widget_destroy ((GtkWidget *) message_dialog);
+			gtk_object_destroy((GtkObject *)message_dialogue);
 		}
 	}
 }

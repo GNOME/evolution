@@ -35,6 +35,7 @@ e_get_language_list (void)
 	GSList *list = NULL;
 	const char *env;
 	const char *p;
+	char *lang;
 
 	env = g_getenv ("LANGUAGE");
 	if (env == NULL) {

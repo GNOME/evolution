@@ -25,10 +25,9 @@
 #include <config.h>
 #endif
 
-#include <string.h>
 #include <gtk/gtksignal.h>
-#include <gtk/gtktextview.h>
 #include <gtk/gtktogglebutton.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
@@ -95,7 +94,7 @@ struct _EventPagePrivate {
 
 static void event_page_class_init (EventPageClass *class);
 static void event_page_init (EventPage *epage);
-static void event_page_finalize (GObject *object);
+static void event_page_destroy (GtkObject *object);
 
 static GtkWidget *event_page_get_widget (CompEditorPage *page);
 static void event_page_focus_main_widget (CompEditorPage *page);
@@ -116,21 +115,41 @@ static CompEditorPageClass *parent_class = NULL;
  * 
  * Return value: The type ID of the #EventPage class.
  **/
+GtkType
+event_page_get_type (void)
+{
+	static GtkType event_page_type;
 
-E_MAKE_TYPE (event_page, "EventPage", EventPage, event_page_class_init, event_page_init,
-	     TYPE_COMP_EDITOR_PAGE);
+	if (!event_page_type) {
+		static const GtkTypeInfo event_page_info = {
+			"EventPage",
+			sizeof (EventPage),
+			sizeof (EventPageClass),
+			(GtkClassInitFunc) event_page_class_init,
+			(GtkObjectInitFunc) event_page_init,
+			NULL, /* reserved_1 */
+			NULL, /* reserved_2 */
+			(GtkClassInitFunc) NULL
+		};
+
+		event_page_type = gtk_type_unique (TYPE_COMP_EDITOR_PAGE, 
+						   &event_page_info);
+	}
+
+	return event_page_type;
+}
 
 /* Class initialization function for the event page */
 static void
 event_page_class_init (EventPageClass *class)
 {
 	CompEditorPageClass *editor_page_class;
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 
 	editor_page_class = (CompEditorPageClass *) class;
-	object_class = (GObjectClass *) class;
+	object_class = (GtkObjectClass *) class;
 
-	parent_class = g_type_class_ref (TYPE_COMP_EDITOR_PAGE);
+	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = event_page_get_widget;
 	editor_page_class->focus_main_widget = event_page_focus_main_widget;
@@ -139,7 +158,7 @@ event_page_class_init (EventPageClass *class)
 	editor_page_class->set_summary = event_page_set_summary;
 	editor_page_class->set_dates = event_page_set_dates;
 
-	object_class->finalize = event_page_finalize;
+	object_class->destroy = event_page_destroy;
 }
 
 /* Object initialization function for the event page */
@@ -182,7 +201,7 @@ event_page_init (EventPage *epage)
 
 /* Destroy handler for the event page */
 static void
-event_page_finalize (GObject *object)
+event_page_destroy (GtkObject *object)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
@@ -202,15 +221,15 @@ event_page_finalize (GObject *object)
 	}
 
 	if (priv->xml) {
-		g_object_unref((priv->xml));
+		gtk_object_unref (GTK_OBJECT (priv->xml));
 		priv->xml = NULL;
 	}
 
 	g_free (priv);
 	epage->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
@@ -349,7 +368,7 @@ update_time (EventPage *epage, CalComponentDateTime *start_date, CalComponentDat
 
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time),
 					  epage);
-	g_signal_handlers_block_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), epage);
 
 	e_date_edit_set_date (E_DATE_EDIT (priv->start_time), start_tt->year,
 			      start_tt->month, start_tt->day);
@@ -370,7 +389,7 @@ update_time (EventPage *epage, CalComponentDateTime *start_date, CalComponentDat
 	   are the same. */
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_timezone),
 					  epage);
-	g_signal_handlers_block_matched (priv->end_timezone, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_timezone), epage);
 	
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->start_timezone),
 				       start_zone);
@@ -397,12 +416,12 @@ clear_widgets (EventPage *epage)
 	/* Summary, description */
 	e_dialog_editable_set (priv->summary, NULL);
 	e_dialog_editable_set (priv->location, NULL);
-	gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)), "", 0);
+	e_dialog_editable_set (priv->description, NULL);
 
 	/* Start and end times */
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time),
 					  epage);
-	g_signal_handlers_block_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), epage);
 
 	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), 0);
 	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), 0);
@@ -429,8 +448,8 @@ clear_widgets (EventPage *epage)
 
 static void
 contacts_changed_cb (BonoboListener    *listener,
-		     const char        *event_name,
-		     const CORBA_any   *arg,
+		     char              *event_name,
+		     CORBA_any         *arg,
 		     CORBA_Environment *ev,
 		     gpointer           data)
 {
@@ -485,8 +504,7 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	cal_component_get_description_list (comp, &l);
 	if (l) {
 		text = *(CalComponentText *)l->data;
-		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
-					  text.value, -1);
+		e_dialog_editable_set (priv->description, text.value);
 	}
 	cal_component_free_text_list (l);
 
@@ -582,12 +600,9 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	char *cat, *str;
 	CalComponentClassification classif;
 	CalComponentTransparency transparency;
-	GtkTextBuffer *text_buffer;
-	GtkTextIter text_iter_start, text_iter_end;
 
 	epage = EVENT_PAGE (page);
 	priv = epage->priv;
-	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description));
 
 	/* Summary */
 
@@ -619,10 +634,7 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	/* Description */
 
-	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
-	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
-	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
-
+	str = e_dialog_editable_get (priv->description);
 	if (!str || strlen (str) == 0)
 		cal_component_set_description_list (comp, NULL);
 	else {
@@ -773,24 +785,20 @@ get_widgets (EventPage *epage)
 	/* Get the GtkAccelGroup from the toplevel window, so we can install
 	   it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
-	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
+	accel_groups = gtk_accel_groups_from_object (GTK_OBJECT (toplevel));
 	if (accel_groups) {
 		page->accel_group = accel_groups->data;
 		gtk_accel_group_ref (page->accel_group);
 	}
 
 	gtk_widget_ref (priv->main);
-	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
+	gtk_widget_unparent (priv->main);
 
 	priv->summary = GW ("general-summary");
 	priv->location = GW ("location");
 
-	/* Glade's visibility flag doesn't seem to work for custom widgets */
 	priv->start_time = GW ("start-time");
-	gtk_widget_show (priv->start_time);
 	priv->end_time = GW ("end-time");
-	gtk_widget_show (priv->end_time);
-
 	priv->start_timezone = GW ("start-timezone");
 	priv->end_timezone = GW ("end-timezone");
 	priv->all_day_event = GW ("all-day-event");
@@ -1015,22 +1023,22 @@ times_updated (EventPage *epage, gboolean adjust_end_time)
 
 
 	if (set_start_date) {
-		g_signal_handlers_block_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), epage);
 		e_date_edit_set_date (E_DATE_EDIT (priv->start_time),
 				      start_tt.year, start_tt.month,
 				      start_tt.day);
 		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_time),
 					     start_tt.hour, start_tt.minute);
-		g_signal_handlers_unblock_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), epage);
 	}
 
 	if (set_end_date) {
-		g_signal_handlers_block_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), epage);
 		e_date_edit_set_date (E_DATE_EDIT (priv->end_time),
 				      end_tt.year, end_tt.month, end_tt.day);
 		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->end_time),
 					     end_tt.hour, end_tt.minute);
-		g_signal_handlers_unblock_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), epage);
 	}
 
 	/* Notify upstream */
@@ -1279,7 +1287,6 @@ static gboolean
 init_widgets (EventPage *epage)
 {
 	EventPagePrivate *priv;
-	GtkTextBuffer *text_buffer;
 	char *location;
 	icaltimezone *zone;
 
@@ -1295,77 +1302,71 @@ init_widgets (EventPage *epage)
 					   epage, NULL);
 
 	/* Summary */
-	g_signal_connect((priv->summary), "changed",
-			    G_CALLBACK (summary_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->summary), "changed",
+			    GTK_SIGNAL_FUNC (summary_changed_cb), epage);
 
-	/* Description */
-	text_buffer = gtk_text_buffer_new (NULL);
-	gtk_text_view_set_buffer (GTK_TEXT_VIEW (priv->description), text_buffer);
-	g_object_unref (text_buffer);
-
-	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (priv->description), GTK_WRAP_WORD);
+	/* Description - turn on word wrap. */
+	gtk_text_set_word_wrap (GTK_TEXT (priv->description), TRUE);
 
 	/* Start and end times */
-	g_signal_connect((priv->start_time), "changed",
-			    G_CALLBACK (date_changed_cb), epage);
-	g_signal_connect((priv->end_time), "changed",
-			    G_CALLBACK (date_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->start_time), "changed",
+			    GTK_SIGNAL_FUNC (date_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->end_time), "changed",
+			    GTK_SIGNAL_FUNC (date_changed_cb), epage);
 
-	g_signal_connect((priv->start_timezone), "changed",
-			    G_CALLBACK (start_timezone_changed_cb), epage);
-	g_signal_connect((priv->end_timezone), "changed",
-			    G_CALLBACK (end_timezone_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->start_timezone), "changed",
+			    GTK_SIGNAL_FUNC (start_timezone_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->end_timezone), "changed",
+			    GTK_SIGNAL_FUNC (end_timezone_changed_cb), epage);
 
-	g_signal_connect((priv->all_day_event), "toggled",
-			    G_CALLBACK (all_day_event_toggled_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->all_day_event), "toggled",
+			    GTK_SIGNAL_FUNC (all_day_event_toggled_cb), epage);
 
 	/* Contacts button */
-	g_signal_connect((priv->contacts_btn), "clicked",
-			    G_CALLBACK (contacts_clicked_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->contacts_btn), "clicked",
+			    GTK_SIGNAL_FUNC (contacts_clicked_cb), epage);
 
 	/* Categories button */
-	g_signal_connect((priv->categories_btn), "clicked",
-			    G_CALLBACK (categories_clicked_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->categories_btn), "clicked",
+			    GTK_SIGNAL_FUNC (categories_clicked_cb), epage);
 
 	/* Connect the default signal handler to use to make sure we notify
 	 * upstream of changes to the widget values.
 	 */
 
-	/* Belongs to priv->description */
-	g_signal_connect((text_buffer), "changed",
-			    G_CALLBACK (field_changed_cb), epage);
-
-	g_signal_connect((priv->summary), "changed",
-			    G_CALLBACK (field_changed_cb), epage);
-	g_signal_connect((priv->location), "changed",
-			    G_CALLBACK (field_changed_cb), epage);
-	g_signal_connect((priv->start_time), "changed",
-			    G_CALLBACK (field_changed_cb), epage);
-	g_signal_connect((priv->end_time), "changed",
-			    G_CALLBACK (field_changed_cb), epage);
-	g_signal_connect((priv->start_timezone), "changed",
-			    G_CALLBACK (field_changed_cb), epage);
-	g_signal_connect((priv->end_timezone), "changed",
-			    G_CALLBACK (field_changed_cb), epage);
-	g_signal_connect((priv->all_day_event), "toggled",
-			    G_CALLBACK (field_changed_cb), epage);
-	g_signal_connect((priv->classification_public),
-			    "toggled", G_CALLBACK (field_changed_cb),
+	gtk_signal_connect (GTK_OBJECT (priv->summary), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->location), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->start_time), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->end_time), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->start_timezone), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->end_timezone), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->all_day_event), "toggled",
+			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->description), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->classification_public),
+			    "toggled", GTK_SIGNAL_FUNC (field_changed_cb),
 			    epage);
-	g_signal_connect((priv->classification_private),
-			    "toggled", G_CALLBACK (field_changed_cb),
+	gtk_signal_connect (GTK_OBJECT (priv->classification_private),
+			    "toggled", GTK_SIGNAL_FUNC (field_changed_cb),
 			    epage);
-	g_signal_connect((priv->classification_confidential),
-			    "toggled", G_CALLBACK (field_changed_cb),
+	gtk_signal_connect (GTK_OBJECT (priv->classification_confidential),
+			    "toggled", GTK_SIGNAL_FUNC (field_changed_cb),
 			    epage);
-	g_signal_connect((priv->show_time_as_free),
-			    "toggled", G_CALLBACK (field_changed_cb),
+	gtk_signal_connect (GTK_OBJECT (priv->show_time_as_free),
+			    "toggled", GTK_SIGNAL_FUNC (field_changed_cb),
 			    epage);
-	g_signal_connect((priv->show_time_as_busy),
-			    "toggled", G_CALLBACK (field_changed_cb),
+	gtk_signal_connect (GTK_OBJECT (priv->show_time_as_busy),
+			    "toggled", GTK_SIGNAL_FUNC (field_changed_cb),
 			    epage);
-	g_signal_connect((priv->categories), "changed",
-			    G_CALLBACK (field_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->categories), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
 
 	/* Create the contacts entry, a corba control from the address book. */
 	priv->corba_select_names = comp_editor_create_contacts_component ();
@@ -1407,7 +1408,7 @@ event_page_construct (EventPage *epage)
 	priv = epage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/event-page.glade", 
-				   NULL, NULL);
+				   NULL);
 	if (!priv->xml) {
 		g_message ("event_page_construct(): " 
 			   "Could not load the Glade XML file!");
@@ -1442,9 +1443,9 @@ event_page_new (void)
 {
 	EventPage *epage;
 
-	epage = g_object_new (TYPE_EVENT_PAGE, NULL);
+	epage = gtk_type_new (TYPE_EVENT_PAGE);
 	if (!event_page_construct (epage)) {
-		g_object_unref ((epage));
+		gtk_object_unref (GTK_OBJECT (epage));
 		return NULL;
 	}
 
@@ -1464,9 +1465,5 @@ GtkWidget *make_timezone_entry (void);
 GtkWidget *
 make_timezone_entry (void)
 {
-	GtkWidget *w;
-
-	w = e_timezone_entry_new ();
-	gtk_widget_show (w);
-	return w;
+	return e_timezone_entry_new ();
 }

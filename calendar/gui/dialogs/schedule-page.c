@@ -30,7 +30,9 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkwindow.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
 #include <gal/e-table/e-cell-combo.h>
@@ -77,7 +79,7 @@ struct _SchedulePagePrivate {
 
 static void schedule_page_class_init (SchedulePageClass *class);
 static void schedule_page_init (SchedulePage *spage);
-static void schedule_page_finalize (GObject *object);
+static void schedule_page_destroy (GtkObject *object);
 
 static GtkWidget *schedule_page_get_widget (CompEditorPage *page);
 static void schedule_page_focus_main_widget (CompEditorPage *page);
@@ -99,21 +101,42 @@ static CompEditorPageClass *parent_class = NULL;
  * 
  * Return value: The type ID of the #SchedulePage class.
  **/
+GtkType
+schedule_page_get_type (void)
+{
+	static GtkType schedule_page_type;
 
-E_MAKE_TYPE (schedule_page, "SchedulePage", SchedulePage, schedule_page_class_init,
-	     schedule_page_init, TYPE_COMP_EDITOR_PAGE);
+	if (!schedule_page_type) {
+		static const GtkTypeInfo schedule_page_info = {
+			"SchedulePage",
+			sizeof (SchedulePage),
+			sizeof (SchedulePageClass),
+			(GtkClassInitFunc) schedule_page_class_init,
+			(GtkObjectInitFunc) schedule_page_init,
+			NULL, /* reserved_1 */
+			NULL, /* reserved_2 */
+			(GtkClassInitFunc) NULL
+		};
+
+		schedule_page_type = 
+			gtk_type_unique (TYPE_COMP_EDITOR_PAGE,
+					 &schedule_page_info);
+	}
+
+	return schedule_page_type;
+}
 
 /* Class initialization function for the schedule page */
 static void
 schedule_page_class_init (SchedulePageClass *class)
 {
 	CompEditorPageClass *editor_page_class;
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 
 	editor_page_class = (CompEditorPageClass *) class;
-	object_class = (GObjectClass *) class;
+	object_class = (GtkObjectClass *) class;
 
-	parent_class = g_type_class_ref (TYPE_COMP_EDITOR_PAGE);
+	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = schedule_page_get_widget;
 	editor_page_class->focus_main_widget = schedule_page_focus_main_widget;
@@ -122,7 +145,7 @@ schedule_page_class_init (SchedulePageClass *class)
 	editor_page_class->set_summary = NULL;
 	editor_page_class->set_dates = schedule_page_set_dates;
 
-	object_class->finalize = schedule_page_finalize;
+	object_class->destroy = schedule_page_destroy;
 }
 
 /* Object initialization function for the schedule page */
@@ -145,7 +168,7 @@ schedule_page_init (SchedulePage *spage)
 
 /* Destroy handler for the schedule page */
 static void
-schedule_page_finalize (GObject *object)
+schedule_page_destroy (GtkObject *object)
 {
 	SchedulePage *spage;
 	SchedulePagePrivate *priv;
@@ -157,17 +180,17 @@ schedule_page_finalize (GObject *object)
 	priv = spage->priv;
 
 	if (priv->xml) {
-		g_object_unref((priv->xml));
+		gtk_object_unref (GTK_OBJECT (priv->xml));
 		priv->xml = NULL;
 	}
 
-	g_object_unref((priv->model));
+	gtk_object_unref (GTK_OBJECT (priv->model));
 
 	g_free (priv);
 	spage->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
@@ -362,14 +385,14 @@ get_widgets (SchedulePage *spage)
 	/* Get the GtkAccelGroup from the toplevel window, so we can install
 	   it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
-	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
+	accel_groups = gtk_accel_groups_from_object (GTK_OBJECT (toplevel));
 	if (accel_groups) {
 		page->accel_group = accel_groups->data;
 		gtk_accel_group_ref (page->accel_group);
 	}
 
 	gtk_widget_ref (priv->main);
-	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
+	gtk_widget_unparent (priv->main);
 
 #undef GW
 
@@ -383,8 +406,8 @@ init_widgets (SchedulePage *spage)
 
 	priv = spage->priv;
 
-	g_signal_connect((priv->sel), 
-			    "changed", G_CALLBACK (times_changed_cb), spage);
+	gtk_signal_connect (GTK_OBJECT (priv->sel), 
+			    "changed", times_changed_cb, spage);
 
 	return TRUE;
 	
@@ -409,7 +432,7 @@ schedule_page_construct (SchedulePage *spage, EMeetingModel *emm)
 	priv = spage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR 
-				   "/schedule-page.glade", NULL, NULL);
+				   "/schedule-page.glade", NULL);
 	if (!priv->xml) {
 		g_message ("schedule_page_construct(): "
 			   "Could not load the Glade XML file!");
@@ -423,7 +446,7 @@ schedule_page_construct (SchedulePage *spage, EMeetingModel *emm)
 	}
 
 	/* Model */
-	g_object_ref((emm));
+	gtk_object_ref (GTK_OBJECT (emm));
 	priv->model = emm;
 	
 	/* Selector */
@@ -458,9 +481,9 @@ schedule_page_new (EMeetingModel *emm)
 {
 	SchedulePage *spage;
 
-	spage = g_object_new (TYPE_SCHEDULE_PAGE, NULL);
+	spage = gtk_type_new (TYPE_SCHEDULE_PAGE);
 	if (!schedule_page_construct (spage, emm)) {
-		g_object_unref((spage));
+		gtk_object_unref (GTK_OBJECT (spage));
 		return NULL;
 	}
 

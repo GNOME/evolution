@@ -23,10 +23,6 @@
 #ifndef __E_TITLE_BAR_H__
 #define __E_TITLE_BAR_H__
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gtk/gtkframe.h>
 
 #ifdef __cplusplus
@@ -35,10 +31,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TYPE_TITLE_BAR			(e_title_bar_get_type ())
-#define E_TITLE_BAR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_TITLE_BAR, ETitleBar))
-#define E_TITLE_BAR_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_TITLE_BAR, ETitleBarClass))
-#define E_IS_TITLE_BAR(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_TITLE_BAR))
-#define E_IS_TITLE_BAR_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_TITLE_BAR))
+#define E_TITLE_BAR(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_TITLE_BAR, ETitleBar))
+#define E_TITLE_BAR_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_TITLE_BAR, ETitleBarClass))
+#define E_IS_TITLE_BAR(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_TITLE_BAR))
+#define E_IS_TITLE_BAR_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_TITLE_BAR))
 
 
 enum _ETitleBarButtonMode {

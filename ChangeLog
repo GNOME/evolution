@@ -1,467 +1,95 @@
+== Version 1.2.4 ==
+
+2003-03-31  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Update version number to 1.2.4.
+
 2003-03-29  Duarte Loreto <happyguy_pt@hotmail.com>
 
         * AUTHORS: Added myself as new Portuguese translator.
 
-2003-03-28  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Ported check for "killall" vs. "killp" back from
-	1.2.
-
-2003-03-28  Ettore Perazzoli  <ettore@ximian.com>
-
-	* data/Makefile.am: Fix installation of the .desktop file.
-
-2003-03-27  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Add gal-2.0 to the list of packages to determine
-	WOMBAT_CFLAGS and WOMBAT_LIBS.
-
-2003-03-26  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Autogen help/Makefile.
-
-	* Makefile.am (SUBDIRS): Add help.  [#38234]
-
-2003-03-25  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* configure.in: Fixed Heimdal include path.
-
 2003-03-25  Rodney Dawes  <dobey@ximian.com>
 
-	* data/evolution.desktop.in: Fix 39901 and 40233
+	* configure.in: Fix the KRB5_CFLAGS to work with heimdal
+	Bump version to 1.2.3.99
 	
 2003-03-21  Rodney Dawes  <dobey@ximian.com>
 
 	* configure.in: Fix the mit krb5+krb4 check to work with --without-kr5
-
-2003-03-19  Ettore Perazzoli  <ettore@ximian.com>
-
-	* README: Updated considerably.
-
-2003-03-18  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* configure.in: Fixed a type-o in the krb5 checks.
-
-2003-03-19  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in (CAMEL_*, E_UTIL_*, ): Add gthread-2.0, to get any
-	thread-specific flags (like -D_REENTRANT).  Duh.  For #39886.
-	(LIBIBEX*): Removed old libibex stuff.
-
-2003-03-14  Chris Toshok  <toshok@ximian.com>
-
-	* tools/evolution-addressbook-export.c (save_cards): use
-	bonobo_main_quit, and clean this up a bit.
-
-2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* configure.in: Added AC_C_INLINE - this should fix bug #39171.
-
-2003-03-05  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* configure.in: Fix kerberos include paths.
-
-2003-03-05  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Update version number to 1.3.1.99.
-
-== Version 1.3.1 ==
-
-2003-02-28  Dan Winship  <danw@ximian.com>
-
-	* tools/Makefile.am (evolution_launch_composer_LDADD): Fix
-	dependencies
-
-2003-02-28  Hans Petter Jansson  <hpj@ximian.com>
-
-	* configure.in: Add calendar/importers/Makefile to output.
-
-2003-02-27  Chris Toshok  <toshok@ximian.com>
-
-	* tools/.cvsignore: ignore some stuff, yo.
 	
-	* tools/Makefile.am: add in the evolution-launch-composer stuff.
+2003-03-18  Rodney Dawes  <dobey@ximian.com>
 
-	* tools/evolution-launch-composer.c: port this from the 1.2 branch.
+	* configure.in: Fix typos in krb5 check to work --without-krb5
 
-2003-02-27  JP Rosevear  <jpr@ximian.com>
+== Version 1.2.3 ==
 
-	* configure.in: export gnome-pilot cflags
+2003-03-17  Ettore Perazzoli  <ettore@ximian.com>
 
-2003-02-21  Dan Winship  <danw@ximian.com>
+	* configure.in: Bump version number to 1.2.3.
 
-	* libversit/Makefile.am: Make this a shared library to prevent
-	linking portability problems
+2003-02-20  Dan Winship  <danw@ximian.com>
 
-	* tools/Makefile.am (evolution_addressbook_import_LDADD): cleanup
+	* configure.in (CAMEL_INCLUDEDIR): Remove the "/camel" since
+	you're supposed to be able to do "#include <camel/foo.h>"
 
 2003-02-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in (ENABLE_IPv6): AC_DEFINE() ENABLE_IPv6 if it should
 	be enabled.
 
-2003-02-07  Rodney Dawes  <dobey@ximian.com>
+	* acconfig.h: Added #undef ENABLE_IPv6
 
-	* data/Makefile.am: Fix installation of desktop/mime files
+2003-02-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Bump version number to 1.2.2.99.
+
+== Version 1.2.2 ==
+
+2003-02-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Bump version number to 1.2.2.
+
+2003-02-03  Rodney Dawes  <dobey@ximian.com>
+
+	* configure.in: Fix the KRB4_CFLAGS checks
 	
-2003-02-06  Ettore Perazzoli  <ettore@ximian.com>
+2002-12-05  Ettore Perazzoli  <ettore@ximian.com>
 
-	* configure.in: Add fr to ALL_LINGUAS again.
+	* configure.in: Bump version number to 1.2.1.99.
 
-2003-02-06  Rodney Dawes  <dobey@ximian.com>
+== Version 1.2.1 ==
 
-	* configure.in: Fix KRB4_CFLAGS to work correctly
-	* data/Makefile.am: Fix desktop file installation path
-	* data/evolution.desktop.in: Use correct binary and categories, add
-	StartupNotify=1 also, for startup-notification-enabled systems
-	
-2003-02-06  Dan Winship  <danw@ximian.com>
+2002-12-05  Ettore Perazzoli  <ettore@ximian.com>
 
-	* configure.in: export priv*dir for libical's configure to use.
+	* configure.in: Bump version to 1.2.1, require GAL 0.22 and
+	GtkHTML 1.1.7.
 
-	* evolution-addressbook.pc.in (Libs): Remove -L${libdir}.
-	(CFlags): s/includedir/privincludedir/
+2002-12-05  Ettore Perazzoli  <ettore@ximian.com>
 
-	* evolution-calendar.pc.in: Likewise
+	* tools/evolution-launch-composer.c: New.
 
-	* evolution-shell.pc.in: Likewise. Also change iconsdir to
-	imagesdir
+2002-11-26  Ettore Perazzoli  <ettore@ximian.com>
 
-	* sounds/Makefile.am: remove soundsdir def
+	* configure.in: Define KILL_PROCESS_CMD.
 
-	* tools/Makefile.am: subst in $(toolsdir) instead of $(bindir)
+2002-11-22  Not Zed  <NotZed@Ximian.com>
 
-	* tools/evolution-addressbook-clean.in:
-	s/EVOLUTION_BINDIR/EVOLUTION_TOOLSDIR/
+	* configure.in (E_UTIL_CFLAGS/LDFLAGS): Added NSPR stuff, so we
+	can nsprpoll on msgports.
 
-	* tools/evolution-addressbook-abuse.c (main):
-	s/PACKAGE/GETTEXT_PACKAGE/ in gettext init
-	* tools/evolution-addressbook-export.c (main): Likewise
-	* tools/evolution-addressbook-import.c (main): Likewise
+2002-11-07  Ettore Perazzoli  <ettore@ximian.com>
 
-2003-02-05  Dan Winship  <danw@ximian.com>
+	* configure.in (VERSION_COMMENT): 1.2.0.99.
 
-	* configure.in: Define and AC_SUBST privlibexecdir, privdatadir,
-	privincludedir, serverdir, evolutionuidir, imagesdir, buttonsdir,
-	soundsdir, gladedir, etspecdir, and viewsdir.
+== Version 1.2 ==
 
-	* data/Makefile.am (dtappintegrate, dtappunintegrate): use
-	privdatadir
+2002-11-06  Ettore Perazzoli  <ettore@ximian.com>
 
-2003-02-04  Dan Winship  <danw@ximian.com>
+	* configure.in: Version 1.2.0.
 
-	* configure.in: Update AC_DEFINEs to use the new syntax to make
-	acconfig.h unnecessary. (Remove unneeded HAVE_KDE_APPLNK define).
-	Call GNOME_COMPILE_WARNINGS and add $WARN_CFLAGS to CFLAGS to get
-	back to the evo 1.2 behavior of defaulting to -Wall everywhere.
-	Fix up privlibdir definition to avoid undefined variables in
-	evolution-shell.pc.
+2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
 
-	* acinclude.m4: Update AC_DEFINE
-
-	* acconfig.h: Gone
-
-2003-02-03  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in (EVOLUTION_MAIL): add gnome-vfs-module-2.0 to the
-	deps so we pick up the right include path.
-
-2003-02-03  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in: remove the --enable-shlib-components stuff.
-
-2003-01-28  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* configure.in (HAVE_KRB5): Updated to add gssapi libs, since this
-	is what we use krb5 for :-)
-
-2003-01-28  Rodney Dawes  <dobey@ximian.com>
-
-	* tools/Makefile.am (EXTRA_DIST): s/bin_SCRIPTS/tools_SCRIPTS/
-	
-2003-01-27  Ettore Perazzoli  <ettore@ximian.com>
-
-	* tools/evolution-addressbook-export.c: #include bonobo-activation
-	instead of oaf.
-	(main): Initialize using gnome_program_init().
-	(save_cards): Use g_main_loop_quit() instead of gtk_exit().
-
-	* tools/evolution-addressbook-import.c: Update include list for
-	GNOME 2.
-	(main): Initialize using gnome_program_init().
-	(unref_executable): Use g_main_loop_quit() instead of gtk_exit().
-	(add_cb): Likewise.
-
-	* tools/evolution-addressbook-abuse.c: Update include list for
-	GNOME 2.
-	(main): Initialize using gnome_program_init().
-	(use_addressbook): Use g_object_unref() instead of
-	gtk_object_unref().
-	(main): Use g_timeout_add() instead of gtk_timeout_add().
-	(add_cb): Use g_main_loop_quit() instead of gtk_exit().
-
-	* configure.in (AC_SUBST): Add tools/Makefile.
-
-	* Makefile.am (SUBDIRS): Add tools/ back into the list.
-
-	* tools/Makefile.am: Install everything in
-	$(datadir)/evolution-$(BASE_VERSION)/tools.
-	(INCLUDES): Add the defines that gnome_program_init() likes and
-	also add the _DISABLE_DEPRECATED stuff.
-
-2003-01-26  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in (AC_OUTPUT): add in the conduit Makefile's.
-	
-2003-01-26  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in: only do the CONDUIT_CFLAGS/LIBS stuff if pilot
-	conduits have been enabled.
-
-2003-01-26  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in: in the --enable-pilot-conduits stanza, use
-	PKG_CHECK_MODULES to get the gnome-pilot-2.0 (and therefore
-	pilot-link) cflags/libs before doing our utf-8 check.  also,
-	enable the addressbook/calendar CONDUIT_{CFLAGS/LIBS} variables.
-
-2003-01-24  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in (evolutionuidir): Define iconsdir.
-
-2003-01-24  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* configure.in (FULL_GNOME_DEPS): Doh. Use the
-	MANUAL_[NSPR,NSS]_[CFLAGS,LIBS] variables where appropriate.
-
-2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in (idldir): Define componentdir instead of
-	COMPONENT_DIR.  Set it to $privlibdir/components instead of
-	$libdir/evolution-$(BASE_VERSION)/components.
-
-2003-01-22  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* configure.in (MOZILLA_NSS): Simplify the whole process into
-	about 8 lines by using pkg-config.
-
-2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
-
-	* data/Makefile.am: For now, do not install the evolution.1
-	manpage.  Install all the other files with a -$(BASE_VERSION)
-	suffix.
-	(dtappintegrate): Update for the new location of cde_app_root.
-	(dtappunintegrate): Likewise.
-
-	* data/cde_app_root/dt/appconfig/appmanager/C/Ximian/Makefile.am
-	(cdeappmanagerdir): Version using $(BASE_VERSION).
-	* data/cde_app_root/dt/appconfig/types/C/Makefile.am
-	(cdetypesdir): Likewise.
-	* data/cde_app_root/dt/appconfig/icons/C/Makefile.am
-	(cdeiconsdir): Likewise.
-
-	* sounds/Makefile.am (soundsdir): Version using $(BASE_VERSION).
-
-	* configure.in: Define BASE_VERSION.  Set idldir to
-	$datadir/idl/evolution-$BASE_VERSION instead of just
-	$datadir/idl/evolution.
-
-2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in (ALL_LINGUAS): Remove fr for now, since it doesn't
-	seem to work.
-	(AC_OUTPUT): Remove calendar/importers/Makefile for now.
-
-2003-01-14  Rodney Dawes  <dobey@ximian.com>
-
-	* Makefile.am (EXTRA_DIST): intltool, not xml-i18n-tools
-	
-2003-01-07  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am (SUBDIRS): add po
-
-	* configure.in: Move ALL_LINGUAS definition to before
-	AM_GLIB_GNU_GETTEXT, or else no linguas for you!
-
-2003-01-06  Dan Winship  <danw@ximian.com>
-
-	* configure.in (AC_INIT): Use "Evolution", not "evolution", since
-	that becomes the value of the PACKAGE variable
-	(privlibdir): parse $VERSION by hand since.
-	EVOLUTION_MAJOR_VERSION, etc aren't defined any more (and trying
-	to pass a variable to AC_INIT won't work). This and the above
-	change fix the problem that privlibdir was being defined as
-	"${libdir}/Evolution/." instead of "${libdir}/evolution/1.3"
-	(GAL_VERSION): AC_SUBST this since it's needed in the .pc files
-	(idldir): define this here rather than in each Makefile.am that
-	needs it.
-	(AC_OUTPUT): Add .pc files
-
-	* Makefile.am (pkgconfig_DATA): Add pc files.
-	(confexec_DATA): Remove this (fooConf.sh files)
-	(SUBDIRS): Move filter earlier in the build. (I think it was
-	calendar that depends on it now?)
-	(%Conf.sh): Remove this. The .pc files are output by configure.in
-	now.
-
-	* camel.pc.in, evolution-addressbook.pc.in,
-	evolution-calendar.pc.in, evolution-shell.pc.in: Replace the
-	*Conf.sh files with these. In addition to the basic variables,
-	include camel_providerdir (in camel.pc) and idldir, IDL_INCLUDES
-	and privlibdir (in the others).
-
-2002-12-04  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Define COMPONENT_DIR.
-
-2002-11-22  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* configure.in: Add NSPR CFLAGS and LDFLAGS to the E_UTIL build
-	flags.
-
-2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: AC_OUTPUT(my-evolution/Makefile).
-
-2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am (changelogs): Add my-evolution.
-
-2002-11-20  Not Zed  <NotZed@Ximian.com>
-
-	* libibex/*: cvs removed it all.  Not much use having it around
-	anymore.
-
-2002-11-19  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Check for gconftool-2, and added
-	AM_GCONF_SOURCE_2.
-
-2002-11-18  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: Added back IMPORTERS_CFLAGS and
-	mail/importers/Makefile
-
-2002-11-16  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in: we require >= 0.0.9.99 of gal.
-
-2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Set up the my-evolution flags properly, do not
-	AC_SUBST GNOME_Evolution_Mail.server.in.
-
-2002-11-13  Not Zed  <NotZed@Ximian.com>
-
-	* Makefile.am (SUBDIRS): re-added filter, mail, composer
-
-	* configure.in: Added EVOLUTION_MAIL settings, and mail/makefile.
-
-2002-11-11  Joe Shaw  <joe@ximian.com>
-
-	* Makefile.am (SUBDIRS): remove tools for now, it's not in
-	configure.in.
-
-2002-11-11  Chris Toshok  <toshok@ximian.com>
-
-	* Makefile.am (SUBDIRS): add addressbook.
-
-2002-11-08  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in: add some more addressbook paths.
-
-2002-11-08  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: Added composer/Makefile & gtkhtml-3.0 deps.
-
-2002-11-07  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in (AC_OUTPUT): GNOME_Evolution_Summary.oaf.in = >
-	GNOME_Evolution_Summary.server.in
-
-2002-11-07  JP Rosevear  <jpr@ximian.com>
-
-	* configure.in: update e-util and calendar compile flags
-
-2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in: added libgnome-2.0 to camel requirements.
-
-2002-11-06  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in: add some more addressbook dirs to AC_OUTPUT.
-
-2002-11-05  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* configure.in: Re-enable the filter cflags/libs stuff.
-
-2002-11-05  Chris Toshok  <toshok@ximian.com>
-
-	* Makefile.am (SUBDIRS): add wombat.
-
-2002-11-05  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in: add wombat and addressbook compile flags, and add
-	wombat and some addressbook dirs to AC_OUTPUT.
-
-2002-11-05  Dan Winship  <danw@ximian.com>
-
-	* configure.in: change the commented-out soup check to refer to
-	the new soup 2.0 in the libsoup module
-
-2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in: use correct libgtkhtml-3.0 for calendar and added
-	generation of calendar GUI's directories.
-
-2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in: enabled libwombat.
-
-2002-11-04  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in:
-	* Makefile.am: added libversit directory to build.
-
-2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am (SUBDIRS): Add shell.
-
-2002-11-04  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in: added calendar/idl/Makefile to AC_OUTPUT
-
-2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Add an AM_GLIB_GNU_GETTEXT.
-
-2002-11-03  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in:
-	* Makefile.am: re-added calendar component (only non-UI stuff).
-
-	* data/Makefile.am: use intltools instead of xml-i18n-tools.
-
-2002-11-03  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: AC_PROG_INTLTOOL instead of
-	AM_PROG_XML_I18N_TOOLS.
-
-2002-11-01  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Update to use Autoconf 2.53.  Remove checks for
-	scrollkeeper.  Remove intl/Makefile and macros/Makefile from
-	AC_OUTPUT list.  Set up GETTEXT_PACKAGE.  Removed
-	AM_ACLOCAL_INCLUDE(macros).  Added AM_PATH_ORBIT2.
-	(EVO_SET_COMPILE_FLAGS): Use PKG_CHECK_MODULES.
-	(IDL_INCLUDES): New, -I params to pass to $(ORBIT_IDL) when
-	compiling IDL files into stubs.
-
-	* autogen.sh: Changed to use gnome-autogen.sh.
-
-2002-10-30  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: 1.1.90.99.
+	* configure.in: Version 1.1.90.99.
 
 == Version 1.1.90 (Release Candidate 1) ==
 

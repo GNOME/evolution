@@ -28,8 +28,8 @@
 
 #include "e-util/e-lang-utils.h"
 
-#include <libxml/parser.h>
-#include <libxml/xmlmemory.h>
+#include <gnome-xml/parser.h>
+#include <gnome-xml/xmlmemory.h>
 
 #include <string.h>
 #include <stdlib.h>
@@ -54,7 +54,7 @@ lookup_node (xmlNode *parent_node,
 {
 	xmlNode *p;
 
-	for (p = parent_node->children; p != NULL; p = p->next) {
+	for (p = parent_node->childs; p != NULL; p = p->next) {
 		if (strcmp ((const char *) p->name, node_name) == 0)
 			return p;
 	}
@@ -82,7 +82,7 @@ lookup_node_for_language (xmlNode *parent_node,
 {
 	xmlNode *p;
 
-	for (p = parent_node->children; p != NULL; p = p->next) {
+	for (p = parent_node->childs; p != NULL; p = p->next) {
 		xmlChar *node_language_id;
 
 		if (strcmp ((const char *) p->name, node_name) != 0)
@@ -219,7 +219,7 @@ e_component_info_load (const char *file_name)
 	new->uri_schemas               = NULL;
 	new->user_creatable_item_types = NULL;
 
-	for (p = root->children; p != NULL; p = p->next) {
+	for (p = root->childs; p != NULL; p = p->next) {
 		if (strcmp ((char *) p->name, "folder_type") == 0) 
 			add_folder_type (new, p, language_list);
 		else if (strcmp ((char *) p->name, "user_creatable_item_type") == 0)

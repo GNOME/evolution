@@ -1,335 +1,55 @@
-2003-03-31  Chris Toshok  <toshok@ximian.com>
+2003-03-05  Rodney Dawes  <dobey@ximian.com>
 
-	* ename/test-ename-western.c (do_name): print "" if the value is
-	NULL.
-	(main): add a couple of utf8 test cases (that still use western
-	orderings).
-
-	* ename/e-name-western.c (e_name_western_str_count_words):
-	utf8-ize this.
-	(e_name_western_cleanup_string): same.
-	(e_name_western_get_words_at_idx): same.
-	(e_name_western_get_one_prefix_at_str): same.
-	(e_name_western_get_prefix_at_str): same.
-	(e_name_western_extract_first): same.
-	(e_name_western_extract_middle): same.
-	(e_name_western_extract_nickname): same.
-	(e_name_western_extract_last): same.
-	(e_name_western_get_preceding_word): same.
-	(e_name_western_get_suffix_at_str_end): same.
-	(e_name_western_detect_backwards): same.
-	(e_name_western_reorder_asshole): same.
-	(FINISH_CHECK_MIDDLE_NAME_FOR_CONJUNCTION): same.
-	(e_name_western_fixup): same.
-	(e_name_western_parse): validate the string and truncate it if
-	need be.
-
-2003-03-27  JP Rosevear  <jpr@ximian.com>
-
-	* e-account-list.c (e_account_list_find): guard against NULL keys
-
-2003-03-25  Dan Winship  <danw@ximian.com>
-
-	* e-dialog-utils.c (e_notice): Move this here from gal. Use
-	e_dialog_set_transient_for so it DTRT for out-of-proc components.
-	(e_notice_with_xid): Like e_notice but with an X Window ID as the
-	parent window
-	(e_gnome_dialog_set_parent): Remove this, since it was marked
-	deprecated and only used in one place.
-	(e_file_dialog_save): Make this use GtkMessageDialog instead of
-	GnomeDialog
-	(e_dialog_set_transient_for_xid): #ifdef out gtk 2.2 api usage
-
-2003-03-25  Not Zed  <NotZed@Ximian.com>
-
-	* e-meta.c (meta_filename): fix a typo & some missing headers.
-
-2003-03-24  Dan Winship  <danw@ximian.com>
-
-	* e-dialog-utils.c (e_dialog_set_transient_for,
-	e_dialog_set_transient_for_xid): Rename, rewrite, make them
-	actually work.
-
-2003-03-25  Not Zed  <NotZed@Ximian.com>
-
-	* Makefile.am: Added e-meta.[ch] to libeutil
-
-	* e-meta.[ch]: simple api to implement meta-data for keyed
-	objects.
-
-2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-trie.c (e_trie_search): If the gunichar is 0xfffe, just skip
-	processing it. Maybe this will fix bug #39900.
-	(trie_utf8_getc): Removed unused labels to shutup the compiler.
-
-2003-03-19  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-sexp.h: Fix ESExpClass to never be an empty struct. Also make
-	ESExp optionally a subclass of GObject rather than GtkObject (not
-	that we'll probably ever make it so, but for completeness sake?).
-
-2003-03-18  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-trie.c (trie_utf8_getc): Don't use __inline__ as it is not
-	always defined.
-
-2003-03-13  Dan Winship  <danw@ximian.com>
-
-	* ename/e-address-western.c (e_address_western_parse): When
-	declaring a line to be part of "extended" because we don't know
-	what else to call it, keep the preceding "\n" so that the address
-	still looks the same when we reassemble the pieces later. Fixes
-	handling of non-US addresses
-
-2003-03-12  Dan Winship  <danw@ximian.com>
-
-	* e-xml-hash-utils.c (e_xml_to_hash): Update for a libxml2 change
-	that was making this code g_warn a lot
-
-2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
-
-	* e-request.c (e_request_string): Make the entry activate the
-	default response in the dialog.
-
-2003-03-03  Rodney Dawes  <dobey@ximian.com>
-
-	* e-proxy.c: Use gnome2 proxy settings
+	* e-proxy.c: Don't append trailing slash to paths for dir_exists calls
 	
-2003-03-02  Rodney Dawes  <dobey@ximian.com>
+2003-02-14  Rodney Dawes  <dobey@ximian.com>
 
-	* e-pilot-util.c: s/gnome-xml/libxml/
+	* e-proxy.c: Fixed a typo dir_exits should be dir_exists
 	
-2003-02-27  JP Rosevear  <jpr@ximian.com>
+2003-02-11  Rodney Dawes  <dobey@ximian.com>
 
-	* Makefile.am: include gnome-pilot cflags
+	* e-proxy.c (set_proxy): Priority use of gnome2 proxy settings if
+	they are set, as we are most likely running under gnome2.
+	
+2003-02-05  JP Rosevear  <jpr@ximian.com>
 
-2003-02-23  Jeffrey Stedfast  <fejj@ximian.com>
+	* e-xml-hash-utils.[hc]: back port from main line
 
-	* e-account-list.c (gconf_accounts_changed): 'uid' should not be
-	const.
+	* Makefile.am: build back ported files
 
-2003-02-20  Not Zed  <NotZed@Ximian.com>
+2003-02-04  Ettore Perazzoli  <ettore@ximian.com>
 
-	* e-account-list.c (e_account_list_get_default): helper to get the
-	dfault account.
-	(e_account_list_set_default): helper to set the default account.
-	(e_account_list_find): Helper to find accounts based on differnet
-	key types.
-	(e_account_list_add): helper to add account + emit added event.
-	(e_account_list_change): helper to emit changed event.
-	(e_account_list_remove): herlper to remove account + emit changed event.
+	* Makefile.am: Build e-pilot-settings into libeconduit if !
+	ENABLE_PILOT_CONDUITS, so we avoid doing a non-portable "ar cru"
+	without any object files [fails on OS X, reported by Max Horn
+	<max@quendi.de>].
 
-2003-02-22  Hans Petter Jansson  <hpj@ximian.com>
+2003-01-24  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* e-categories-config.c (e_categories_config_open_dialog_for_entry):
-	A result of 0 no longer indicates success; GTK_RESPONSE_OK does.
+	* e-categories-config.c: Fix #include <config.h>
+	* e-component-listener.c: Same
+	* e-config-listener.c: Here too.
+	* e-dialog-utils.c: And here.
+	* e-html-utils.c: And here.
+	* e-pilot-settings.h: And remove it here.
 
-2003-02-17  Chris Toshok  <toshok@ximian.com>
+2003-01-10  JP Rosevear  <jpr@ximian.com>
 
-	* e-account-list.c (gconf_accounts_changed): fix memleak - free
-	uid.
+	* e-xml-utils.[hc]: various xml utility routines
 
-2003-02-11  Not Zed  <NotZed@Ximian.com>
+	* e-xmlhash.[hc]: new files to manage an xml hash on disk
 
-	* e-trie.c (trie_utf8_getc): Instead of simply ignoring bad chars,
-	return the sentinal invalid char 0xfffe, so that we properly track
-	the start of sequences.
+	* Makefile.am: Build new files
 
-2003-02-10  Ettore Perazzoli  <ettore@ximian.com>
+2002-12-10  JP Rosevear  <jpr@ximian.com>
 
-	* Makefile.am (libeutil_static_la_DEPENDENCIES): Make
-	libeutil-static.la depend on libeutil.la so that parallel
-	compilations work; building them at the same time confuses
-	libtool.
-	(e-util-marshal.h, e-util-marshal.c): Use different tmp files so
-	these rules can happen in parallel.
-
-2003-02-05  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am (eutilincludedir, etc): define in terms of
-	privincludedir.
-
-	* ename/Makefile.am (libenameincludedir): Likewise
-
-	* e-account.c: Fix warnings
-	* e-account-list.c: Likewise
-	* e-config-listener.c: Likewise
-	* e-gui-utils.c: Likewise.
-	* e-lang-utils.c: Likewise
-	* e-msgport.c: Likewise
-	* e-passwords.c: Likewise
-
-	* e-categories-config.c
-	(e_categories_config_open_dialog_for_entry): Use g_object_get/_set
-	rather than gtk_
-
-	* e-url.c (e_uri_new): Use g_ascii_strdown instead of deprecated
-	g_strdown.
-
-2003-01-27  Ettore Perazzoli  <ettore@ximian.com>
-
-	* e-request.c (e_request_string): Port to GtkDialog.  Strdup the
-	text returned by GtkEntry after destroying the dialog, not before.
-	Use gtk_editable_select_region() instead of
-	gtk_entry_select_region().  Add a little bit of padding to make it
-	look less crampy and set a default width.
-
-	* e-dialog-utils.h (e_gnome_dialog_set_parent): Declare only if
-	GNOME_DISABLE_DEPRECATED is not #defined.
-	(e_gnome_warning_dialog_parented): Likewise.
-	(e_gnome_ok_cancel_dialog_parented): Likewise.
-
-2003-01-26  Chris Toshok  <toshok@ximian.com>
-
-	* e-pilot-settings.c (e_pilot_settings_new): ref/sink the pilot
-	settings to clear up that gtk warning.
-
-2003-01-25  Chris Toshok  <toshok@ximian.com>
-
-	* e-pilot-map.c (e_pilot_map_read): g_file_exists -> g_file_test.
-	(e_pilot_map_write): don't use doc->root.
-
-2003-01-25  Chris Toshok  <toshok@ximian.com>
-
-	* e-pilot-settings.[ch]: GObjectify this.
-
-2003-01-24  Hans Petter Jansson  <hpj@ximian.com>
-
-	* e-categories-config.c (initialize_categories_config): Enable
-	getting the categories master list from wombat.
-	(e_categories_config_open_dialog_for_entry): It's now a GtkDialog.
-
-2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am (eutilincludedir): Version using $(BASE_VERSION).
-	(econdincludedir): Likewise.
-	(edb3includedir): Likewise.
-	(imagesdir): Likewise.
-
-	* ename/Makefile.am: Install libename in $(privlibdir) and
-	$(includedir)/evolution-$(BASE_VERSION)/ename.
-
-2003-01-17  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-account-list.c: Changed signal names to use - instead of _
-	like the rest of Gtk2.
-
-	* e-account.c (e_account_import): New function that is basically
-	the old account_copy().
-
-2003-01-17  Dan Winship  <danw@ximian.com>
-
-	* e-xml-hash-utils.c: New, sort of from evolution-recurid-branch.
-
-2003-01-16  Dan Winship  <danw@ximian.com>
-
-	* e-account.c: New class, based on MailConfigAccount, for
-	describing an evolution (mail) account.
-
-	* e-account-list.c: New class for tracking the list of configured
-	accounts. (Also uses some code from mail-config.)
-
-	* e-list.c (e_list_construct, e_list_remove): New
-
-2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
-
-	* e-dialog-utils.c: Do not #include <e-bonobo-widget.h>.
-	(e_set_dialog_parent): Remove the BonoboWidget handling stuff (it
-	doesn't really work anyways).
-
-2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am (eutilinclude_HEADERS): Add e-dialog-utils.h.
-
-2003-01-09  Chris Toshok  <toshok@ximian.com>
-
-	* e-gui-utils.c (e_create_image_widget): change this to use
-	GtkImage instead of GnomeCanvas.
-
-2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am: Images are now in $(datadir)/evolution/images
-	instead of $(datadir)/images/evolution.
-
-2003-01-07  Dan Winship  <danw@ximian.com>
-
-	* e-config-listener.c (e_config_listener_remove_value): New.
-
-	* e-passwords.c (e_passwords_get_password): Don't look at the
-	passwords hash until calling e_passwords_init().
-
-2003-01-06  Dan Winship  <danw@ximian.com>
-
-	* e-html-utils.c: Add this back: Connector needs it, and there's
-	no reason for addressbook and calendar to be using camel to get
-	this functionality.
-
-	* Makefile.am (libeutil_la_SOURCES): re-add e-html-utils
-
-2003-01-02  Jeffrey Stedfast  <fejj@ximian.com>
-
-	A bunch of fixes to make e-util build with -DG_DISABLE_DEPRECATED
-	and -DGTK_DISABLE_DEPRECATED.
-
-2003-01-02  Ettore Perazzoli  <ettore@ximian.com>
-
-	* e-gtk-utils.c (e_signal_connect_full_while_alive): Get to
-	compile.
-	(e_signal_connect_while_alive): Like.
-
-2002-12-19  Ettore Perazzoli  <ettore@ximian.com>
-
-	* e-gtk-utils.c (e_signal_connect_while_alive): New.
-	(e_signal_connect_full_while_alive): Renamed from
-	e_gtk_signal_connect_full_while_alive().
-
-2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-html-utils.[c,h]: Removed. Back to the fiery depths of hell
-	from whence ye came!
+	* e-config-listener.c (e_config_listener_remove_dir): Fix warning
 
 2002-12-10  Rodrigo Moya <rodrigo@ximian.com>
 
-	* e-config-listener.[ch] (e_config_listener_remove_dir): new
-	function.
-
-2002-12-09  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-trie.c: New implementation of an Aho-Corasick trie.
-
-2002-12-09  Chris Toshok  <toshok@ximian.com>
-
-	* e-passwords.h: track changes to api (e_passwords_init is gone,
-	and several functions take the component name as an arg.)
-
-	* e-passwords.c (e_passwords_init): make this static, and allow
-	multiple calls.  Also, it no longer takes the component name.
-	(e_passwords_shutdown): make this deal with the case where
-	e_passwords_init wasn't called (no hashtable), and it no longer
-	needs to free component_name.
-	(e_passwords_forget_passwords): call e_passwords_init.
-	(e_passwords_clear_component_passwords): take component_name as an
-	arg, and call e_passwords_init.
-	(password_path): take component_name as an arg.
-	(e_passwords_remember_password): same, and call e_passwords_init.
-	(e_passwords_forget_password): same.
-	(e_passwords_get_password): same.
-	(e_passwords_add_password): call e_passwords_init.
-	(e_passwords_ask_password): take component_name as an arg.
-
-2002-12-07  Not Zed  <NotZed@Ximian.com>
-
-	* e-msgport.c (e_mutex_cond_wait): Allow an e-mutex to be used
-	with standard condition variables.
-
-2002-12-06  Chris Toshok  <toshok@ximian.com>
-
-	* e-categories-master-list-wombat.c (ecmlw_load): change to a more
-	gconf-like path (with underscores, etc.)
-	(ecmlw_save): same.
-
-2002-11-26  Dan Winship  <danw@ximian.com>
+	* e-config-listener.[ch] (e_config_listener_remove_dir): new function.
+		
+2002-11-25  Dan Winship  <danw@ximian.com>
 
 	* e-lang-utils.c (e_get_language_list): If the language is
 	something like "fr_FR", return both "fr_FR" and "fr" in the list.
@@ -346,142 +66,6 @@
 	isn't.
 	(e_msgport_get): skim off a notify byte on the pr pipe if set.
 	(): Include config.h, and nspr stuff if HAVE_NSS is set.
-
-2002-11-13  Ettore Perazzoli  <ettore@ximian.com>
-
-	* e-config-listener.c (e_config_listener_get_string_with_default):
-	Make sure we don't use a string value from a GConfValue that got
-	freed.
-
-2002-11-12  Chris Toshok  <toshok@ximian.com>
-
-	* Makefile.am
-	(eutilinclude_HEADERS): add e-password.h
-	(libeutil_la_SOURCES): add e-password.c
-
-	* e-passwords.[ch]: port this to gnome2's gnome-config-private.
-
-2002-11-11  Ettore Perazzoli  <ettore@ximian.com>
-
-	* e-config-listener.c (add_key): g_strdup() the value in the case
-	of a string value.
-
-2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* Makefile.am: Re-add e-proxy.c to the build.
-
-2002-11-08  Chris Toshok  <toshok@ximian.com>
-
-	* Makefile.am (eutilinclude_HEADERS): add e-categories-config.h
-	and e-categories-master-list-wombat.h
-	(libeutil_la_SOURCES): add e-categories-master-list-wombat.c
-
-	* e-categories-master-list-wombat.[ch]: port work.
-
-2002-11-07  JP Rosevear  <jpr@ximian.com>
-
-	* e-categories-config.c (e_categories_config_get_icon_for): pass
-	extra pixbuf param
-
-	* e-categories-config.h: use G_*_DECLS
-
-	* e-dialog-utils.c (save_ok): update g_file_test params
-
-	* Makefile.am: Compile some additional files
-
-2002-11-06  Chris Toshok  <toshok@ximian.com>
-
-	* e-config-listener.c (e_config_listener_set_boolean): init err to
-	NULL so if there isn't an error we aren't left with an unitialized
-	GError.  Fixes crash.
-	(e_config_listener_set_float): same.
-	(e_config_listener_set_long): same.
-	(e_config_listener_set_string): same.
-
-2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
-
-	* e-component-listener.[ch]: ported to GObject.
-
-	* Makefile.am: re-enabled e-component-listener.[ch]
-
-2002-11-03  Rodrigo Moya <rodrigo@ximian.com>
-
-	* e-config-listener.[ch] (e_config_listener_get_boolean,
-	e_config_listener_get_float, e_config_listener_get_long,
-	e_config_listener_get_string): new simpler functions, without
-	a default value.
-
-2002-11-03  Ettore Perazzoli  <ettore@ximian.com>
-
-	* e-config-listener.c (e_config_listener_get_float_with_default):
-	Removed unused variable.
-	(e_config_listener_get_long_with_default): Likewise.
-	(e_config_listener_get_string_with_default): Likewise.
-
-	* Makefile.am: Compile e-config-listener.[ch].
-
-2002-11-02  Chris Toshok  <toshok@ximian.com>
-
-	* Makefile.am: add marshal building stuff, add e-util-marshal.c to
-	SOURCES, and add e-util-marshal.list to EXTRA_DIST.
-
-	* e-util-marshal.list: add marshallers for e-util.
-
-	* e-list.c: convert to GObject.
-
-	* e-list.h: convert to GObject.
-
-	* e-iterator.c: convert to GObject.
-
-	* e-iterator.h: convert to GObject.
-
-	* e-list-iterator.c: convert to GObject.
-
-	* e-list-iterator.h: convert to GObject.
-
-	* .cvsignore: ignore e-util-marshal.[ch]
-
-2002-11-02  Ettore Perazzoli  <ettore@ximian.com>
-
-	* ename/Makefile.am (INCLUDES): Removed -I$(includedir).
-
-	* ename/test-ename-western-gtk.c: #include
-	<libgnomeui/gnome-ui-init.h> instead of <libgnomeui/gnome-init.h>.
-	(create_window): Added GTK_SIGNAL_FUNC() cast.
-	(main): Use gnome_program_init().
-
-	* e-db3-utils.c: Do not #include <libgnome/gnome-defs.h>.
-
-	* e-request.c: Do not #include <libgnomeui/gnome-stock.h>.
-
-	* e-memory.c (e_memchunk_clean): Replace GSearchFunc with
-	GCompareFunc.
-
-	* e-iterator.c (e_iterator_class_init): GTK2-ified.
-	(ECI_CLASS): Likewise.
-
-	* e-html-utils.c: Do not #include <gal/unicode/gunicode.h>.
-
-	* e-gui-utils.c: Don't #include <libgnome/gnome-defs.h>.
-	(e_create_image_widget): Pass NULL to gdk_pixbuf_new_from_file()
-	for the error arg.
-
-	* e-corba-utils.h: #include <orbit/orbit.h> instead of
-	<orb/orbit.h>.
-
-	* Makefile.am: Removed bonobo-factory-util.c,
-	bonobo-factory-util.h, e-categories-master-list-wombat.h,
-	e-categories-master-list-wombat.c, e-dialog-utils.c,
-	e-dialog-utils.h, e-proxy.c e-proxy.h for now.
-
-2002-11-02  Rodrigo Moya <rodrigo@ximian.com>
-
-	* e-config-listener.[ch]: ported to GConf and GObject.
-
-2002-11-01  Rodrigo Moya <rodrigo@ximian.com>
-
-	* e-config-listener.[ch]:
-	* e-component-listener.[ch]: compilation fixes for GNOME 2 porting.
 
 2002-10-24  Rodrigo Moya <rodrigo@ximian.com>
 

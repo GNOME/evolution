@@ -1,33 +1,7 @@
-2003-03-03  Ettore Perazzoli  <ettore@ximian.com>
+2002-11-06  Ettore Perazzoli  <ettore@ximian.com>
 
+	* splash.png: New artwork from Jakub.
 	* about-box.png: New artwork from Jakub.
-
-2003-02-06  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am: remove imagesdir, etc, which are now defined in
-	configure.in
-
-2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am (imagesdir): Version using $(BASE_VERSION).
-	(buttonsdir): Likewise.
-	(conduitsdir): Likewise.
-	(install-data-local): New rule to install evolution.png as
-	evolution-$(BASE_VERSION).png.
-	(EXTRA_DIST): Add evolution.png.
-
-2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am (imagesdir): Install images into
-	$(datadir)/evolution/images instead of
-	$(datadir)/images/evolution.
-	(buttonsdir): Likewise, these go into
-	$(datadir)/evolution/images/buttons now.
-	(conduits_DATA): Likewise, $(datadir)/evolution/images/conduits.
-
-2002-11-25  Ettore Perazzoli  <ettore@ximian.com>
-
-	* splash.png: New work-in-progress splash from Jakub.
 
 2002-10-28  Ettore Perazzoli  <ettore@ximian.com>
 

@@ -24,11 +24,7 @@
 #ifndef _E_PILOT_SETTINGS_H_
 #define _E_PILOT_SETTINGS_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <gtk/gtk.h>
+#include <gnome.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,10 +32,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TYPE_PILOT_SETTINGS			(e_pilot_settings_get_type ())
-#define E_PILOT_SETTINGS(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_PILOT_SETTINGS, EPilotSettings))
-#define E_PILOT_SETTINGS_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_PILOT_SETTINGS, EPilotSettingsClass))
-#define E_IS_PILOT_SETTINGS(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_PILOT_SETTINGS))
-#define E_IS_PILOT_SETTINGS_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_PILOT_SETTINGS))
+#define E_PILOT_SETTINGS(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_PILOT_SETTINGS, EPilotSettings))
+#define E_PILOT_SETTINGS_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_PILOT_SETTINGS, EPilotSettingsClass))
+#define E_IS_PILOT_SETTINGS(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_PILOT_SETTINGS))
+#define E_IS_PILOT_SETTINGS_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_PILOT_SETTINGS))
 
 
 typedef struct _EPilotSettings        EPilotSettings;
@@ -60,7 +56,7 @@ struct _EPilotSettingsClass {
 };
 
 
-GType      e_pilot_settings_get_type (void);
+GtkType    e_pilot_settings_get_type (void);
 GtkWidget *e_pilot_settings_new      (void);
 
 gboolean e_pilot_settings_get_secret (EPilotSettings *ps);

@@ -1,123 +1,48 @@
-2003-03-27  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am (EXTRA_DIST): Ooops, add omf.make.
-
-2003-03-26  Ettore Perazzoli  <ettore@ximian.com>
-
-	* C/evolution-1.4-C.omf: Renamed from evolution-C.omf.
-	* C/evolution-1.4.xml: Renamed from evolution.xml.
-
-	* Makefile.am (SUBDIRS): Remove "no" for now.
-
-	* xmldocs.make: Updated to most recent version on GNOME CVS.
-
-	* C/Makefile.am (docname): Add version.
-	(omffile): Likewise.
-
-2003-03-19  Aaron Weber  <aaron@ximian.com>
-
-	* Makefile.am: s/sgml/xml/ (DOH)
-
-2003-02-19  Aaron Weber  <aaron@ximian.com>
-
-	* C/preface.xml: add a couple "expert tips" that don't really go
-	anywhere else.
-	
-
-2003-02-18  Aaron Weber  <aaron@ximian.com>
-
-	* C/usage-exchange.xml: replaced image, updated for 1.2 layout
-	(different order, mostly). Changed name of a section for better
-	clarity; this may cause filenames to differ in future builds.
-	
-	* C/figures/exchange-receive-options.png: updated image. 
-
-2003-02-04  Aaron Weber  <aaron@ximian.com>
-
-	* C/apx-authors.xml: thx to Baris, adjust phrasing in assorted
-	places. tiny fixes, basically.
-
-2003-01-30  Aaron Weber  <aaron@ximian.com>
-
-	* C/usage-mainwindow.xml: updates from Baris Cicek.
-
 2003-01-15  Aaron Weber  <aaron@ximian.com>
 
-	* C/usage-mainwindow.xml:  Change links from  ghelp links to internal apx-fdl or apx-gpl
+	* C/usage-mainwindow.sgml: Change links from  ghelp links to internal apx-fdl or apx-gpl
 
-	* es/evolution.sgml: s/gnome-help/ghelp
+	* es/preface.sgml: s/gnome-help/ghelp/
 
-	* es/preface.sgml: s/gnome-help/ghelp
-
-2003-01-11  Aaron Weber  <aaron@ximian.com>
-
-	* C/usage-mail.xml: "Send Later" feature changed for 1.2 and I
-	didn't notice. Shame on me.
+	* es/evolution.sgml: s/gnome-help/ghelp/
 
 2002-12-16  Aaron Weber  <aaron@ximian.com>
 
-	* C/config-sync.xml: spelling/typos
+	* C/config-sync.sgml: spelling/typos
 
-	* C/usage-exchange.xml: spelling/typos
+	* C/usage-exchange.sgml: spelling/typos
 
-	* C/usage-mail.xml: spelling/typos
+	* C/usage-mail.sgml: spelling/typos
+	
 
-	* C/usage-mainwindow.xml: spelling/typos
+	* C/usage-mainwindow.sgml: spelling/typos
 
 2002-12-10  Aaron Weber  <aaron@ximian.com>
 
-	* C/config-prefs.xml: change directory server description.
-
-	* C/preface.xml: typo (bug 35362, "Resend" instead of "Redirect).
-	This whole section will need to be redone at some point.
+	* C/config-prefs.sgml: change directory server description.
 	
-2002-12-06  Aaron Weber  <aaron@ximian.com>
 
-	* C/usage-mail-org.xml: add spam filtering help.
+	* C/preface.sgml: change word from "Resend" to "redirect".
+
+	* C/config-prefs.sgml: rm "base" option for search scope dropdown.
 
 2002-11-19  Aaron Weber  <aaron@ximian.com>
 
-	* C/config-prefs.xml: fix typo as per bug 34152
+	* C/apx-authors.sgml: update URL.
+
+	* C/config-prefs.sgml: typo
+
+	* C/apx-gpl.sgml: add gpl/fdl files.
+	* C/apx-fdl.sgml new file (add fdl). These two are good to have with Evo in case it's shipped without other GNOME software.
+	* C/Makefile.am: added the two new files.
 	
-	* C/legal.xml: redo tags for legalnotice ordering. open/close for
-	actual preface is in evolution.xml and the LEGAL entity
-	(legal.xml) is now part of the preface. the legalnotice tag itself
-	merely says "hey, go look at the preface, legal info is there due
-	to rendering issues."
+2002-11-12  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
-	* C/apx-gpl.xml: new file. GPL! 
-	
-	* C/Makefile.am: New file: apx-gpl.xml. Re-alphabetize the files
-	listed as entities, and make the \'s line up so it looks pretty.
+	reviewed by: Ettore
 
-	* C/preface.xml: redo tags for legalnotice ordering. open/close
-	for actual preface is in evolution.xml and the LEGAL entity
-	(legal.xml) is now part of the preface.
-	
-	* C/evolution.xml: reorder, add GPL, put legalnotice inside
-	preface. Put actual <preface> tags in this file, so that the
-	preface could consist of sect1s which are the &LEGAL; and
-	&PREFACE; entities.
-
-2002-11-11  Aaron Weber  <aaron@ximian.com>
-
-	* C/config-prefs.xml: fix bug 27336, which is about how the Search
-	Base option description is wrong.
-
-2002-11-04  Aaron Weber  <aaron@ximian.com>
-
-	* C/*.sgml: All sgml files replaced with xml files. XML files
-	validated. Two new XML files-- apx-fdl.xml and legal.xml
-
-	* C/evolution-C.omf: Altered to fit the GDP template. This may now
-	work with the GNOME 2.0 DTD, although I could be wrong.
-
-	* sgmldocs.make: removed and replaced with xmldocs.make. This will
-	break all translations until they are also ported to XML. I will
-	probably begin doing that tomorrow, since it's just markup and not
-	language stuff.
-
-	* C/Makefile.am: added two files
+	* C/evolution-C.omf:
+	* no/evolution-no.omf:
+	fixe compliance with OMF V1.0 DTD (needed for scrollkeeper >= 0.3)
 
 2002-10-22  Aaron Weber  <aaron@ximian.com>
 

@@ -27,6 +27,7 @@
 
 #include <gtk/gtksignal.h>
 #include <gtk/gtktogglebutton.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
@@ -88,7 +89,7 @@ static const int priority_map[] = {
 
 static void task_details_page_class_init (TaskDetailsPageClass *class);
 static void task_details_page_init (TaskDetailsPage *tdpage);
-static void task_details_page_finalize (GObject *object);
+static void task_details_page_destroy (GtkObject *object);
 
 static GtkWidget *task_details_page_get_widget (CompEditorPage *page);
 static void task_details_page_focus_main_widget (CompEditorPage *page);
@@ -107,28 +108,49 @@ static CompEditorPageClass *parent_class = NULL;
  * 
  * Return value: The type ID of the #TaskDetailsPage class.
  **/
+GtkType
+task_details_page_get_type (void)
+{
+	static GtkType task_details_page_type;
 
-E_MAKE_TYPE (task_details_page, "TaskDetailsPage", TaskDetailsPage, task_details_page_class_init,
-	     task_details_page_init, TYPE_COMP_EDITOR_PAGE);
+	if (!task_details_page_type) {
+		static const GtkTypeInfo task_details_page_info = {
+			"TaskDetailsPage",
+			sizeof (TaskDetailsPage),
+			sizeof (TaskDetailsPageClass),
+			(GtkClassInitFunc) task_details_page_class_init,
+			(GtkObjectInitFunc) task_details_page_init,
+			NULL, /* reserved_1 */
+			NULL, /* reserved_2 */
+			(GtkClassInitFunc) NULL
+		};
+
+		task_details_page_type = 
+			gtk_type_unique (TYPE_COMP_EDITOR_PAGE,
+					 &task_details_page_info);
+	}
+
+	return task_details_page_type;
+}
 
 /* Class initialization function for the task page */
 static void
 task_details_page_class_init (TaskDetailsPageClass *class)
 {
 	CompEditorPageClass *editor_page_class;
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 
 	editor_page_class = (CompEditorPageClass *) class;
-	object_class = (GObjectClass *) class;
+	object_class = (GtkObjectClass *) class;
 
-	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
+	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = task_details_page_get_widget;
 	editor_page_class->focus_main_widget = task_details_page_focus_main_widget;
 	editor_page_class->fill_widgets = task_details_page_fill_widgets;
 	editor_page_class->fill_component = task_details_page_fill_component;
 
-	object_class->finalize = task_details_page_finalize;
+	object_class->destroy = task_details_page_destroy;
 }
 
 /* Object initialization function for the task page */
@@ -158,7 +180,7 @@ task_details_page_init (TaskDetailsPage *tdpage)
 
 /* Destroy handler for the task page */
 static void
-task_details_page_finalize (GObject *object)
+task_details_page_destroy (GtkObject *object)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
@@ -170,15 +192,15 @@ task_details_page_finalize (GObject *object)
 	priv = tdpage->priv;
 
 	if (priv->xml) {
-		g_object_unref((priv->xml));
+		gtk_object_unref (GTK_OBJECT (priv->xml));
 		priv->xml = NULL;
 	}
 
 	g_free (priv);
 	tdpage->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
@@ -452,24 +474,22 @@ get_widgets (TaskDetailsPage *tdpage)
 	/* Get the GtkAccelGroup from the toplevel window, so we can install
 	   it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
-	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
+	accel_groups = gtk_accel_groups_from_object (GTK_OBJECT (toplevel));
 	if (accel_groups) {
 		page->accel_group = accel_groups->data;
 		gtk_accel_group_ref (page->accel_group);
 	}
 
 	gtk_widget_ref (priv->main);
-	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
+	gtk_widget_unparent (priv->main);
 
 	priv->status = GW ("status");
 	priv->priority = GW ("priority");
 	priv->percent_complete = GW ("percent-complete");
 
 	priv->completed_date = GW ("completed-date");
-	gtk_widget_show (priv->completed_date);
 
 	priv->url_entry = GW ("url_entry");
-	gtk_widget_show (priv->url_entry);
 	priv->url = e_url_entry_get_entry (E_URL_ENTRY (priv->url_entry));
 	
 #undef GW
@@ -643,7 +663,7 @@ field_changed_cb (GtkWidget *widget, gpointer data)
 	
 	tdpage = TASK_DETAILS_PAGE (data);
 	priv = tdpage->priv;
-
+	
 	if (!priv->updating)
 		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tdpage));
 }
@@ -665,26 +685,26 @@ init_widgets (TaskDetailsPage *tdpage)
 	/* Connect signals. The Status, Percent Complete & Date Completed
 	   properties are closely related so whenever one changes we may need
 	   to update the other 2. */
-	g_signal_connect((GTK_OPTION_MENU (priv->status)->menu),
+	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->status)->menu),
 			    "deactivate",
-			    G_CALLBACK (status_changed), tdpage);
+			    GTK_SIGNAL_FUNC (status_changed), tdpage);
 
-	g_signal_connect((GTK_SPIN_BUTTON (priv->percent_complete)->adjustment),
+	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (priv->percent_complete)->adjustment),
 			    "value_changed",
-			    G_CALLBACK (percent_complete_changed), tdpage);
+			    GTK_SIGNAL_FUNC (percent_complete_changed), tdpage);
 
 	/* Priority */
-	g_signal_connect((GTK_OPTION_MENU (priv->priority)->menu),
+	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->priority)->menu),
 			    "deactivate",
-			    G_CALLBACK (field_changed_cb), tdpage);
+			    GTK_SIGNAL_FUNC (field_changed_cb), tdpage);
 
 	/* Completed Date */
-	g_signal_connect((priv->completed_date), "changed",
-			    G_CALLBACK (date_changed_cb), tdpage);
+	gtk_signal_connect (GTK_OBJECT (priv->completed_date), "changed",
+			    GTK_SIGNAL_FUNC (date_changed_cb), tdpage);
 
 	/* URL */
-	g_signal_connect((priv->url), "changed",
-			    G_CALLBACK (field_changed_cb), tdpage);
+	gtk_signal_connect (GTK_OBJECT (priv->url), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), tdpage);
 }
 
 
@@ -706,7 +726,7 @@ task_details_page_construct (TaskDetailsPage *tdpage)
 	priv = tdpage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR 
-				   "/task-details-page.glade", NULL, NULL);
+				   "/task-details-page.glade", NULL);
 	if (!priv->xml) {
 		g_message ("task_details_page_construct(): "
 			   "Could not load the Glade XML file!");
@@ -737,9 +757,9 @@ task_details_page_new (void)
 {
 	TaskDetailsPage *tdpage;
 
-	tdpage = g_object_new (TYPE_TASK_DETAILS_PAGE, NULL);
+	tdpage = gtk_type_new (TYPE_TASK_DETAILS_PAGE);
 	if (!task_details_page_construct (tdpage)) {
-		g_object_unref ((tdpage));
+		gtk_object_unref (GTK_OBJECT (tdpage));
 		return NULL;
 	}
 

@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <glib.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include "cal-util.h"
@@ -98,33 +99,6 @@ cal_util_new_top_level (void)
 	 */
 	prop = icalproperty_new_version ("2.0");
 	icalcomponent_add_property (icalcomp, prop);
-
-	return icalcomp;
-}
-
-static char *
-get_line_fn (char *buf, size_t size, void *file)
-{
-	return fgets (buf, size, file);
-}
-
-icalcomponent *
-cal_util_parse_ics_file (const char *filename)
-{
-	icalparser *parser;
-	icalcomponent *icalcomp;
-	FILE *file;
-
-	file = fopen (filename, "r");
-	if (!file)
-		return NULL;
-
-	parser = icalparser_new ();
-	icalparser_set_gen_data (parser, file);
-
-	icalcomp = icalparser_parse (parser, get_line_fn);
-	icalparser_free (parser);
-	fclose (file);
 
 	return icalcomp;
 }
@@ -483,7 +457,7 @@ cal_util_generate_alarms_for_comp (CalComponent *comp,
 
 	alarms = g_new (CalComponentAlarms, 1);
 	alarms->comp = comp;
-	g_object_ref (G_OBJECT (alarms->comp));
+	gtk_object_ref (GTK_OBJECT (alarms->comp));
 	alarms->alarms = g_slist_sort (aod.triggers, compare_alarm_instance);
 
 	return alarms;

@@ -24,12 +24,14 @@
 
 #include <string.h>
 #include <glib.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkhbox.h>
+#include <liboaf/liboaf.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-widget.h>
@@ -166,7 +168,7 @@ setup_select_names (Dialog *dialog)
 	
 	CORBA_exception_init (&ev);
 	
-	dialog->corba_select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
+	dialog->corba_select_names = oaf_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
 	if (BONOBO_EX (&ev))
 		return FALSE;
 	
@@ -256,19 +258,19 @@ init_widgets (Dialog *dialog)
 
 	dialog->canceled = TRUE;
 
-	g_signal_connect((dialog->toplevel), "delete_event",
-			    G_CALLBACK (toplevel_delete_event_cb), dialog);
+	gtk_signal_connect (GTK_OBJECT (dialog->toplevel), "delete_event",
+			    GTK_SIGNAL_FUNC (toplevel_delete_event_cb), dialog);
 
-	g_signal_connect((dialog->button_ok), "clicked",
-			    G_CALLBACK (button_ok_clicked_cb), dialog);
+	gtk_signal_connect (GTK_OBJECT (dialog->button_ok), "clicked",
+			    GTK_SIGNAL_FUNC (button_ok_clicked_cb), dialog);
 
-	g_signal_connect((dialog->button_cancel), "clicked",
-			    G_CALLBACK (button_cancel_clicked_cb), dialog);
+	gtk_signal_connect (GTK_OBJECT (dialog->button_cancel), "clicked",
+			    GTK_SIGNAL_FUNC (button_cancel_clicked_cb), dialog);
 
 	/* Alarm repeat */
 
-	g_signal_connect((dialog->repeat_toggle), "toggled",
-			    G_CALLBACK (repeat_toggle_toggled_cb), dialog);
+	gtk_signal_connect (GTK_OBJECT (dialog->repeat_toggle), "toggled",
+			    GTK_SIGNAL_FUNC (repeat_toggle_toggled_cb), dialog);
 }
 
 /* Fills the audio alarm widgets with the values from the alarm component */
@@ -350,7 +352,7 @@ alarm_to_malarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 				    "destinations", e_destination_exportv (destv), NULL);
 
 	for (i = 0; i < len; i++)
-		g_object_unref (GTK_OBJECT (destv[i]));
+		gtk_object_unref (GTK_OBJECT (destv[i]));
 	g_free (destv);
 
 	cal_component_free_attendee_list (attendee_list);
@@ -616,7 +618,7 @@ malarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 	
 	/* Attendees */
 	bonobo_widget_get_property (BONOBO_WIDGET (dialog->malarm_addresses), "destinations", 
-				    TC_CORBA_string, &str, NULL);
+				    &str, NULL);
 	destv = e_destination_importv (str);
 	g_free (str);
 	
@@ -761,23 +763,23 @@ alarm_options_dialog_run (CalComponentAlarm *alarm, const char *email, gboolean 
 
 	g_return_val_if_fail (alarm != NULL, FALSE);
 
- 	dialog.repeat = repeat;
- 	dialog.email = email;
-	dialog.xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-options.glade", NULL, NULL);
+	dialog.repeat = repeat;
+	dialog.email = email;
+	dialog.xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-options.glade", NULL);
 	if (!dialog.xml) {
 		g_message ("alarm_options_dialog_new(): Could not load the Glade XML file!");
 		return FALSE;
 	}
 
 	if (!get_widgets (&dialog)) {
-		g_object_unref(dialog.xml);
+		gtk_object_unref (GTK_OBJECT (dialog.xml));
 		return FALSE;
 	}
-
+	
 	if (!setup_select_names (&dialog)) {
-  		g_object_unref (dialog.xml);
-  		return FALSE;
-  	}
+		gtk_object_unref (GTK_OBJECT (dialog.xml));
+		return FALSE;
+	}
 
 	init_widgets (&dialog);
 
@@ -790,7 +792,7 @@ alarm_options_dialog_run (CalComponentAlarm *alarm, const char *email, gboolean 
 		dialog_to_alarm (&dialog, alarm);
 
 	gtk_widget_destroy (dialog.toplevel);
-	g_object_unref(dialog.xml);
+	gtk_object_unref (GTK_OBJECT (dialog.xml));
 
 	return TRUE;
 }

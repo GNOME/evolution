@@ -906,27 +906,6 @@ void e_mutex_assert_locked(EMutex *m)
 	pthread_mutex_unlock(&m->mutex);
 }
 
-int e_mutex_cond_wait(void *vcond, EMutex *m)
-{
-	int ret;
-	pthread_cond_t *cond = vcond;
-
-	switch(m->type) {
-	case E_MUTEX_SIMPLE:
-		return pthread_cond_wait(cond, &m->mutex);
-	case E_MUTEX_REC:
-		if (pthread_mutex_lock(&m->mutex) == -1)
-			return -1;
-		g_assert(m->owner == pthread_self());
-		ret = pthread_cond_wait(cond, &m->mutex);
-		g_assert(m->owner == pthread_self());
-		pthread_mutex_unlock(&m->mutex);
-		return ret;
-	default:
-		g_return_val_if_reached(-1);
-	}
-}
-
 #ifdef STANDALONE
 EMsgPort *server_port;
 

@@ -1,4 +1,5 @@
-<?xml version="1.0" standalone="no"?>
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE omf PUBLIC "-//OMF//DTD Scrollkeeper OMF Variant V1.0//EN" "http://scrollkeeper.sourceforge.net/dtds/scrollkeeper-omf-1.0/scrollkeeper-omf.dtd">
 <omf>
   <resource>
    <creator>
@@ -12,5 +13,6 @@
     <format mime="text/sgml"/>
     <identifier url="index.html"/>
     <language code="no"/>
+    <relation seriesid="6a2207d8-8aa4-11d6-8cb4-f0bb5a765891"/>
   </resource>
 </omf>

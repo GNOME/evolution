@@ -1,131 +1,15 @@
-2003-03-28  Ettore Perazzoli  <ettore@ximian.com>
+2002-11-26  Ettore Perazzoli  <ettore@ximian.com>
 
-	* GNOME_Evolution_WombatLDAP.server.in.in: Add InterfaceCheck
-	object.
-	* GNOME_Evolution_WombatNOLDAP.server.in.in: Likewise.
+	* wombat-moniker.c (wombat_lookup_interface_check): New function
+	to return a WombatInterfaceCheck object.
+	(wombat_moniker_resolve): Use it to return the interface check
+	object when requested to.
 
-	* wombat-interface-check.c: New, from evolution-1-2-branch.
-	* wombat-interface-check.h: Likewise.
+	* wombat-interface-check.c: New.
+	* wombat-interface-check.h: New.
 
-	* wombat.c (setup_pas): Removed argc/argv args.
-	(setup_pcs): Likewise.
-	(setup_interface_check): New interface to set up the
-	InterfaceCheck object.
-	(main): Call the latter.
+	* Evolution-Wombat.idl: New interface WombatInterfaceCheck.
 
-2003-03-13  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am (GNOME_Evolution_Wombat.server.in.in): Make this
-	depend on Makefile so it gets regenerated if you switch from
-	--without-openldap to --with-openldap
-
-2003-02-21  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am (evolution_wombat_LDADD): cleanup
-
-2003-02-19  Chris Toshok  <toshok@ximian.com>
-
-	* wombat.c (termination_handler): gtk_main_quit =>
-	bonobo_main_quit.
-
-2003-02-07  Rodney Dawes  <dobey@ximian.com>
-
-	* Makefile.am: privlibexecdir not evolibexecdir for the server file
-	
-2003-02-06  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am: cleanup
-
-	* wombat.c (main): s/PACKAGE/GETTEXT_PACKAGE/ in gettext init
-
-2003-02-01  Hans Petter Jansson  <hpj@ximian.com>
-
-	* Makefile.am: Make .server file point to where wombat is now
-	installed.
-
-2003-01-29  Rodney Dawes  <dobey@ximian.com>
-
-	* Makefile.am: Install wombat to
-	$(libexecdir)/evolution/$(BASE_VERSION)
-	
-2003-01-27  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am: Rename wombat to evolution-wombat.
-	* GNOME_Evolution_WombatLDAP.server.in.in: Updated accordingly.
-	* GNOME_Evolution_WombatNOLDAP.server.in.in: Likewise.
-
-2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am: Do not dist the .server.in files; just dist the
-	.server.in.in ones.
-	(EXTRA_DIST): Add GNOME_Evolution_WombatLDAP.server.in.in and
-	GNOME_Evolution_WombatNOLDAP.server.in.in
-
-2003-01-06  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am: Remove idldir definition. It's defined in
-	configure.in now.
-
-2002-12-06  Hans Petter Jansson  <hpj@ximian.com>
-
-	* GNOME_Evolution_WombatNOLDAP.server.in.in: It appears that
-	Ettore's @LIBEXECDIR@ change didn't make it in for this file.
-	Fixed that.
-
-2002-11-16  Chris Toshok  <toshok@ximian.com>
-
-	* GNOME_Evolution_WombatLDAP.server.in.in: remove the moniker
-	cruft.
-
-	* GNOME_Evolution_WombatNOLDAP.server.in.in: same.
-	
-2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am: Added rule to create
-	GNOME_Evolution_Wombat.server.in from
-	GNOME_Evolution_Wombat.server.in.in, substituting @LIBEXECDIR@.
-	Also install wombat in $libexecdir instead of $bindir.
-
-	* GNOME_Evolution_WombatNOLDAP.server.in.in: Renamed from
-	GNOME_Evolution_WombatNOLDAP.server.in.  Changed the location from
-	"wombat" to "@LIBEXECDIR@/wombat".
-
-	* GNOME_Evolution_WombatLDAP.server.in.in: Renamed from
-	GNOME_Evolution_WombatLDAP.server.in.  Changed the location from
-	"wombat" to "@LIBEXECDIR@/wombat".
-
-2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
-
-	* wombat.c: re-enabled calendar parts.
-
-2002-11-06  Chris Toshok  <toshok@ximian.com>
-
-	* Makefile.am (wombat_LDADD): remove libcamel.la from the link for
-	the time being.
-
-	* wombat.c: ifdef out (#ifdef PENDING_PORT_WORK) the calendar
-	stuff, since it doesn't link at the moment - undefined symbols in
-	pcs.  Also, include gtk.h so the gtk_* in the calendar portions
-	will still work.
-
-2002-11-05  Chris Toshok  <toshok@ximian.com>
-
-	* Makefile.am: change over from .oaf files to .server files and
-	remove the moniker stuff from the build.
-
-	* wombat.c: port over to gnome2, and nuke all the config moniker
-	stuff.
-
-	* wombat-moniker.[ch]: remove
-
-	* wombat-private-moniker.[ch]: remove
-
-	* GNOME_Evolution_WombatLDAP.server.in: rename the oaf.in file to this.
-	
-	* GNOME_Evolution_WombatNOLDAP.server.in: rename the oaf.in file to this.
-
-	* .cvsignore: s/oaf/server
-	
 2002-08-01  Chris Toshok  <toshok@ximian.com>
 
 	* wombat.c (last_calendar_gone_cb): remove the annoying fprintf

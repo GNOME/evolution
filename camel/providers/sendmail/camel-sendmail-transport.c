@@ -189,8 +189,6 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	/* Parent process. Write the message out. */
 	close (fd[0]);
 	out = camel_stream_fs_new_with_fd (fd[1]);
-	
-	/* workaround for lame sendmail implementations that can't handle CRLF eoln sequences */
 	filter = camel_stream_filter_new_with_stream (out);
 	crlf = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_DECODE, CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
 	camel_stream_filter_add (filter, crlf);

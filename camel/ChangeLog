@@ -1,56 +1,8 @@
-2003-03-31  Jeffrey Stedfast  <fejj@ximian.com>
+2003-03-28  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* camel-mime-filter-enriched.c (enriched_to_html): Use strncasecmp
-	for matching the nofill and /nofill tags. Also fixed to handle
-	enriched tags that require <param> tags.
-
-2003-03-28  Not Zed  <NotZed@Ximian.com>
-
-	* providers/local/camel-spool-store.c (get_folder): remove unused
-	var.
-
-	* providers/imap/camel-imap-utils.c (imap_parse_list_response):
-	moved an unused var to the #if 0'd out block.
-
-	* providers/imap/camel-imap-store.c
-	(parse_list_response_as_folder_info): remove unused vars.
-
-	* camel-index-control.c (main): deifne camel_init() before using
-	it.
-
-	* camel-vee-store.c (vee_get_folder): removed unused var.
-
-	* camel-stream-mem.c (stream_write): warning -> fixme.
-
-	* camel-stream-filter.c (_CamelStreamFilterPrivate): Add a ; to
-	the end of the struct definition.
-
-	* camel-store.c (camel_store_delete_folder): remove unused var.
-	(camel_store_rename_folder): "
-	(camel_store_unsubscribe_folder): "
-
-	* camel-mime-part.c (write_to_stream): Changed warning into a
-	TODO.
-	(construct_from_parser): removed warning, the code was fixed.
-
-	* camel-mime-message.c (construct_from_parser): Remove the
-	warning, the code was fixed.
-
-	* camel-mime-filter-enriched.c (camel_mime_filter_enriched_new):
-	Remove unused var.
-
-	* camel-medium.c (camel_medium_get_header): Removed warning, and
-	changed docs to reflect it.
-
-	* camel-gpg-context.c (gpg_ctx_parse_status): handle MODE_EXPORT
-	as a noop (warning).
-
-	* camel-folder.c (get_message_user_tag): changed a warning into a
-	fixme (its not that important).
-	(camel_folder_get_message_user_tag): "
-
-	* camel-data-cache.c (data_cache_finalise): removed unused vars.
-	(data_cache_expire): "
+	* camel-sasl-gssapi.c (gssapi_challenge): If we are using the
+	heimdal krb5 implementation, don't free outbuf ever. Seems to
+	segfault if we do.
 
 2003-03-27  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -59,143 +11,27 @@
 	release the outbuf gss_buffer_t since it shouldn't be set. Also
 	g_free (str) when we are done with it.
 
-	* camel-mime-utils.c (header_encode_phrase_merge_words): When we
-	remove a node from the list, make sure to g_list_free_1().
-	(header_encode_phrase_merge_words): Don't use
-	CAMEL_FOLD_PREENCODED as the upper-bound for merged-word length if
-	the merged-word will not be an rfc2047 encoded word. Instead, use
-	CAMEL_FOLD_SIZE-8 (which is the value we use in other places for
-	determining upper-bound lengths). Solves bug #38659.
-
-2003-03-27  Dan Winship  <danw@ximian.com>
-
-	* camel-url.c (append_url_encoded): Like camel_url_encode, but
-	works directly on an existing GString.
-	(camel_url_to_string, output_param): Use it.
-	(camel_url_encode): Likewise. Remove "escape_unsafe" arg since the
-	"unsafe" chars are the ones that should *always* be escaped, and
-	the places we were passing FALSE were wrong.
-	(camel_url_decode): replace with a new version
-
-	* camel-file-utils.c (camel_file_util_safe_filename): Remove extra
-	arg to camel_url_encode.
-
-	* tests/misc/url.c (main): Add tests of basic URL parsing and
-	unparsing
-
-2003-03-28  Not Zed  <NotZed@Ximian.com>
-
-	*
-	camel-mime-part-utils.c (simple_data_wrapper_construct_from_parser):
-	Do a more thorough check for html marked as text/plain.  Check
-	that the text starts with <html or <!doctype.  More complete fix
-	for #16817.
-
 2003-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-gssapi.c (camel_sasl_gssapi_finalize): Pass in the
-	addresses of the second args to the delete/release functions.
+	address of the second args to the delete/release functions. Also
+	#define gss_nt_service_name when using heimdal.
 
-2003-03-27  Not Zed  <NotZed@Ximian.com>
+2003-03-25  Rodney Dawes  <dobey@ximian.com>
 
-	* camel-object.c (camel_object_bag_list): Ignore whether or not
-	the bag is currently reserved.  We'll miss the new potential
-	object, but only 1.  Should address #40103.
-
-2003-03-25  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-service.c (camel_gethostbyaddr): Don't use setv when we
-	don't need the stdarg interface.
-	(camel_gethostbyname): Same.
-
+	* camel-sasl-gssapi.c: #include <gssapi.h> for heimdal, fixed CFLAGS
+	
 2003-03-24  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* camel-folder-search.c (search_user_tag): This expression can
-	never return an array. We must always return a string value.
-
-2003-03-24  Timo Sirainen  <tss@iki.fi>
-
-	* camel-imap-command.c (imap_read_untagged) Integer overflow fix.
-	If server sent a huge literal length, only a few bytes of memory
-	was allocated to it, but server could write as much data there as
-	it wanted.
-
-2003-03-21  Jeffrey Stedfast  <fejj@ximian.com>
-
-	Camel part of the fix for Lewing's bug #39204. Second half of the
-	patch should also fix it so that text/plain parts that are
-	detected as being text/html are rendered as html (not that I agree
-	with this mind you, but corporate customers want this "feature").
-
-	* camel-mime-part-utils.c
-	(simple_data_wrapper_construct_from_parser): If the part is
-	text/html and doesn't have a charset and we are able to find a
-	charset in the meta tags of the html content, set the charset
-	param on the content-type.
-	(camel_mime_part_construct_content_from_parser): After setting the
-	content object on the mime part, re-set the content-type of the
-	content object back to the one from the parser (as it may contain
-	changes from the original - see changes made to the ct in
-	simple_data_wrapper_construct_from_parser for details).
-
-2003-03-21  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-tcp-stream-ssl.c (camel_certdb_nss_cert_get): continue
-	reading the cert file until we've read it all or get a non-EINTR
-	errno.
-
-2003-03-21  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-sasl-gssapi.c: #include <com_err.h> instead of
-	#include <et/com_err.h>
+	* camel-sasl-gssapi.c: We don't want to #include <et/com_err.h",
+	we want to #include <com_err.h> instead.
+	#include <heimdal/gssapi.h> in the heimdal case.
 
 2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl.c: Plug in GSSAPI support.
 
-	* camel-sasl-gssapi.[c,h]: Various fixes to make it compile (fixed
-	type-o's mostly).
-
-2003-03-20  Dan Winship  <danw@ximian.com>
-
-	Handle raw 8-bit From data "correctly". (The same way we handle
-	raw 8-bit Subject data.)
-
-	* camel-mime-utils.c (header_decode_mailbox): Take a charset arg
-	and pass it to header_decode_string.
-	(header_decode_address): Take a charset arg and pass it to
-	header_decode_mailbox.
-	(header_mailbox_decode): Likewise.
-	(header_address_decode): Take a charset arg and pass it to
-	header_decode_address.
-
-	* camel-folder-summary.c (summary_format_address): Take a charset
-	arg and pass to header_address_decode.
-	(message_info_new, camel_message_info_new_from_header): Pass
-	charset to summary_format_address
-
-	* camel-internet-address.c (internet_decode): Update for
-	header_address_decode change. (Unfortunately we don't have a
-	charset to pass here.)
-
-	* camel-mime-message.c (camel_mime_message_build_mbox_from): Move
-	this here from camel-mbox-summary since the same functionality is
-	needed by evolution-mail too (and update for header_address_decode
-	change)
-
-	* providers/local/camel-mbox-summary.c
-	(camel_mbox_summary_build_from): Moved to CamelMimeMessage
-
-2003-03-17  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-part.c (process_header): Removed unused variable left
-	over from my previous fix.
-
-	* providers/smtp/camel-smtp-transport.c (smtp_send_to): Don't pass
-	'has_8bit_parts' to smtp_data() anymore.
-	(smtp_data): No longer takes 'has_8bit_parts' argument. Ignore
-	whether or not the message has 8bit parts when deciding what the
-	required encoding type we need to enforce. Fixes bug #39744.
+	* camel-sasl-gssapi.[c,h]: New source files implementing GSSAPI.
 
 2003-03-13  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -210,160 +46,12 @@
 	mailer uses "@@@%d" as a fake content-id value for parts without
 	content-ids) and don't allow for invalid content-type chars.
 
-2003-03-13  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-folder.c (get_uids): Don't add bogus uids to the uid
-	array. Might fix bug #38868 (it's the only way I can figure that
-	camel_folder_get_message_info() could possibly return NULL for the
-	Outbox folder).
-
-2003-03-12  Not Zed  <NotZed@Ximian.com>
-
-	* camel-object.c (remove_bag): removed, it was double-freeing the
-	key.
-	(save_object): Just save the object in an array.
-	(camel_object_bag_destroy): first save the object bag's objects in
-	a list, then remove them one at a time from the bag since we can't
-	remove hash table entries while we're in a foreach (PITA glib
-	shit).  For #39486.
-	(camel_object_bag_*): killed some warnings.
-
-2003-03-09  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-url-scanner.c (camel_url_addrspec_end): Doh! If inptr ==
-	pos + 1, then return FALSE (before it was checking for inptr ==
-	pos, but it will never be pos).
-
-2003-03-07  Not Zed  <NotZed@Ximian.com>
-
-	* camel-vee-folder.c (vee_search_by_expression): handle a null
-	return from search_by_expression, for bug #33786.
-
-2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap/camel-imap-utils.c (imap_next_word):
-	s/g_strncasecmp/strncasecmp/g
-
-	* camel-iconv.c: Updated to be an exact copy of e-iconv (except
-	names changed). We don't use this yet, but we may in the future.
-
-	* camel-url.c (camel_url_new_with_base): Here too.
-
-	* camel-sasl-kerberos4.c (krb4_challenge): Use camel_strdown()
-	here instead of g_strdown() since the latter has been deprecated.
-
-	* providers/imap/camel-imap-utils.c (imap_parse_body): Use
-	camel_strdown() since g_ascii_strdown() does not do what we
-	thought.
-
-	* providers/imap/camel-imap-store.c:
-	s/strstrcase/camel_strstrcase/g
-
-	* providers/imap/camel-imap-folder.c (do_append):
-	s/strstrcase/camel_strstrcase/
-	(handle_copyuid): Same.
-
-	* string-utils.c (camel_strdown): New function because the
-	g_ascii_strdown interface sucks.
-	(camel_strstrcase): Renamed from strstrcase.
-
-2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-text-index.c (camel_utf8_next): Same as below.
-
-	* camel-search-private.c (camel_utf8_getc): Updated since not all
-	platforms/compiles support __inline__.
-
-2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-part.c (camel_mime_part_get_encoding): Get rid of the
-	const return - it mismatches the prototype and we don't need it
-	anyway. Fixes bug #39173.
-
-2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
-
-	Fixes for bug #39170
-
-	* camel-store-summary.c (camel_store_info_set_string): Remove
-	return keyword.
-
-	* camel-session.c (camel_session_thread_msg_free): Remove return
-	keyword.
-	(camel_session_thread_wait): Same.
-
-	* camel-index.c (camel_index_cursor_reset): Remove return keyword.
-
-2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
-
-	Fixes for bug #39168
-
-	* providers/local/camel-spool-summary.c: Get rid of the empty
-	private struct.
-
-	* providers/local/camel-mbox-summary.c: Get rid of the empty
-	private struct.
-
-	* camel-vee-store.c: Get rid of the empty private struct.
-
-	* camel-mime-filter-from.c: Get rid of the empty private struct.
-
 2003-03-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/sendmail/camel-sendmail-transport.c
 	(sendmail_send_to): Add a CRLF filter to the output stream to
 	convert any CRLF sequences into plain old line-feeds to work
-	around a bug in some local transport programs.
-
-2003-03-04  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-object.h: s/class/klass in one place so that the header is
-	c++-safe.
-
-2003-03-03  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-tcp-stream-openssl.c (camel_tcp_stream_ssl_new): Updated
-	to use the new API from a fe commits ago for the NSS stream. This
-	is just to make it compile, but does not update the behaviour to
-	act like the NSS stream. Note that people shouldn't be using
-	OpenSSL anyway.
-	(camel_tcp_stream_ssl_new_raw): Same.
-
-	* camel-process.[c,h]: New source file containing convenience
-	functions for process creation/termination mainly for use with
-	Pipe filters but should be usable for anything we want.
-
-	* camel-io.[c,h]: New source files implementing read/write system
-	calls with proper error checking and cancellation
-	(ie. StreamFs::read/write and CamelTcpStreamRaw::read/write). No
-	sense duplicating the same code over and over. Now I can use this
-	same code easily in other i/o code (such as Pipe filters and gpg
-	code?).
-
-2003-03-03  Not Zed  <NotZed@Ximian.com>
-
-	* camel-store.c (camel_store_unsubscribe_folder): Do similar
-	folder != NULL checking as for delete_folder before passing a NULL
-	to object_bag_remove.
-
-2003-02-28  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-http-stream.c (http_connect): Here too.
-
-	* providers/smtp/camel-smtp-transport.c (connect_to_server): Same
-	as IMAP and POP.
-
-	* providers/imap/camel-imap-store.c (connect_to_server): Same as
-	the POP3 code.
-
-	* providers/pop3/camel-pop3-store.c (connect_to_server): Pass in
-	appropriate flags for camel_tcp_stream_ssl_new*() functions.
-
-	* camel-tcp-stream-ssl.c (enable_ssl): Not all ssl/tls streams
-	will want to allow each of SSLv2, SSLv3 and TLSv1 so use flags to
-	decide which to enable/disable.
-	(camel_tcp_stream_ssl_new): Now takes a flags argument to mask out
-	which SSL/TLS versions the stream should be compatable with.
-	(camel_tcp_stream_ssl_new_raw): Same.
+	around a bug in some local transport programs. Fixes bug #39138.
 
 2003-02-27  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -381,191 +69,16 @@
 	\n before the boundary really belongs to the boundary anyway) so
 	#if 0 this code out for now.
 
-2003-02-27  Not Zed  <NotZed@Ximian.com>
-
-	* camel-multipart-signed.c: Undo jeff's changes.
-
-	* providers/local/camel-spool-store.c (scan_dir): Fix a paste-o in
-	the object_bag_get key.
-
-2003-02-26  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-multipart-signed.c: Updated to use g_alloca instead of
-	alloca so that we can skip all the #ifdef checks and skip checking
-	for alloca in configure.in and all that foo.
-
-	* camel-store.c (camel_store_delete_folder): Make sure the folder
-	is non-NULL before trying to remove it from the store's
-	object-bag.
-
-2003-02-25  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-part-utils.c
-	(simple_data_wrapper_construct_from_parser): canonicalise the
-	charset name (if it is an iso charset) so that our strncasecmp to
-	see if it is an iso-8859-# charset will be guarenteed to work on
-	all systems.
-	(canon_charset_name): New function to return the canonical iso
-	charset name.
-	(simple_data_wrapper_construct_from_parser): If the charset is
-	NULL *or* the charset == "us-ascii" then check that it is 7bit
-	clean to decide if it is rawtext (we did not check the case where
-	charset was "us-ascii" before).
-
-2003-02-25  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-message.c: Same as the ones below.
-
-	* camel-mime-part.c: Reverted back to pre-camel-iconv
-
-	* camel-filter-search.c: Same as below.
-
-	* camel-folder-summary.c: Reverted back to pre-camel-iconv
-
-	* camel.c (camel_init): Reverted to pre-camel-iconv
-
-	* camel-charset-map.c (camel_charset_locale_name): Removed (part
-	of the revert).
-	(camel_charset_canonical_name): Same.
-
-	* camel-mime-filter-charset.c: Revert back to using e_iconv from GAL.
-
-	* camel-mime-part-utils.c: Revert back to using e_iconv from GAL.
-
-	* camel-mime-utils.c: Revert back to using e_iconv from GAL.
-
-	* camel-sasl-digest-md5.c: Revert back to using e-iconv from GAL.
-
-2003-02-24  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-charset-map.c (camel_charset_canonical_name): g_alloca
-	(strlen (charset) + 1) so we don't overflow the buffer.
-
-	* providers/pop3/camel-pop3-stream.c (stream_write): Don't write
-	the passwd, fixes "bug" #38601.
-
-	* camel-iconv.c: Make bucket->refcount 31 bits and bucket->used 1
-	bit instead of having each use their own 32bit int.
-	(iconv_cache_bucket_expire): Use g_iconv_close() here, missed this
-	before.
-	(camel_iconv): Might as well call g_iconv here even though it just
-	calls iconv directly.
-
-2003-02-21  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-iconv.c (camel_iconv_charset_name): New function...back
-	from the depths of hell from whence it came originally. Turns out
-	that g_iconv_open() is lame and can't handle all the stuff we used
-	to handle in e_iconv_charset_name().
-	(camel_iconv_open): Use camel_iconv_charset_name() on the to/from
-	charsets rather than camel_charset_canonical_name(). Now maybe
-	g_iconv_open will work for charsets such as "ks_c_5601-1987".
-
-	* providers/pop3/camel-pop3-store.c (pop3_connect): Reget the
-	capabilities after a successful authentication.
-
-	* providers/pop3/camel-pop3-engine.c (get_capabilities): If we are
-	in the TRANSACTION state and CAPA did not list UIDL as a supported
-	command, try checking for it the hard way.
-
-2003-02-23  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/smtp/camel-smtp-transport.c (smtp_data): Do it the
-	same way we just made the sendmail code do it.
-
-	* providers/sendmail/camel-sendmail-transport.c
-	(sendmail_send_to): My last change but in a better way.
-
 2003-02-22  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/smtp/camel-smtp-transport.c (smtp_data): Remove all
-	Bcc headers before sending to the smtp server.
 
 	* providers/sendmail/camel-sendmail-transport.c
 	(sendmail_send_to): Remove all Bcc headers before sending to
-	sendmail.
-
-2003-02-20  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel.c (camel_init): Call camel_iconv_init().
-	(camel_shutdown): Call camel_iconv_shutdown().
-
-	* camel-sasl-digest-md5.c (digest_response): Updated to use
-	camel-iconv and the new camel-charset-map functions.
-
-	* camel-mime-utils.c: Updated to use camel-iconv and the new
-	camel-charset-map functions.
-
-	* camel-mime-part-utils.c (check_html_charset): Use
-	camel_charset_canonical_name() instead of e_iconv_charset_name()
-	which is longer available.
-	(convert_buffer): Use camel-iconv.
-	(simple_data_wrapper_construct_from_parser): Since
-	camel_charset_iso_to_windows() returns the charset in it's
-	canonical format, no need to re-canonicalise it.
-
-	* camel-mime-part.c (process_header): Use
-	camel_charset_canonical_name() instead of e_iconv_charset_name()
-	which is longer available.
-
-	* camel-mime-message.c (process_header): Use
-	camel_charset_canonical_name() instead of e_iconv_charset_name()
-	which is longer available.
-
-	* camel-mime-filter-charset.c: Use camel-iconv.
-
-	* camel-folder-summary.c (message_info_new): Use
-	camel_charset_canonical_name() instead of e_iconv_charset_name()
-	which is longer available.
-	(content_info_new): Use camel_charset_locale_name().
-	(camel_message_info_new_from_header): Same as message_info_new().
-
-	* camel-search-private.c: Use g_alloca() instead of alloca().
-
-	* camel-filter-search.c (check_header): Use
-	camel_charset_canonical_name() instead of e_iconv_charset_name()
-	which is longer available.
-
-	* camel-charset-map.c (camel_charset_locale_name): New function,
-	replaces e_iconv_locale_charset().
-	(camel_charset_canonical_name): New function, similar to
-	e_iconv_charset_name() but instead of returning the iconv-friendly
-	name, it returns the canonical name. (g_iconv will do the
-	iconv-friendly name conversions for us).
-
-2003-02-20  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-filter-search.c (run_command): Redirect program's stdout
-	and stderr to /dev/null
-
-	* camel-filter-driver.c (pipe_to_system): Redirect the program's
-	stderr to /dev/null
-	(pipe_to_system): Write the pipe to a mem stream and use the mem
-	stream in the parser. Also, when setting an exception get the
-	errno from the parser so we can give more info about the error to
-	the user.
+	sendmail and restore them after it has been sent.
 
 2003-02-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (stream_connect): Fixed a type-o in the
 	ENABLE_IPv6 ifdef section.
-
-2003-02-19  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-filter-driver.c (pipe_message): New filter action that
-	pipes the message source to the user-program and reads back the
-	modified message and replaces driver->priv->message with the new
-	message object.
-	(do_copy): Check p->modified to make sure the message hasn't been
-	modified by the pipe-message action - if it has been modified,
-	default to the slower camel_folder_append_message() way of
-	copying.
-	(do_move): Same.
-	(pipe_to_system): Set p->modified to TRUE if the user-program gave
-	us back a message stream and we were able to parse it.
-	(camel_filter_driver_filter_message): If the message has been
-	modified, always use camel_folder_append_message() when appending
-	it to the default folder.
 
 2003-02-14  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -573,195 +86,10 @@
 	#38073.
 	(search_get_size): Implemented.
 
-2003-02-14  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-url-scanner.c (url_scanner_table_init): Mark chars with
-	the high-bit set as CTRL chars.
-	(camel_url_web_end): If the char before the start of the url is an
-	open-brace, watch out for the matching close-brace.
-	(camel_url_file_end): Same.
-
-2003-02-14  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-smime-context.c (smime_get_password): Same as the gpg and
-	pkcs7 contexts.
-
-	* camel-sasl-popb4smtp.c (popb4smtp_challenge): Updated for
-	camel_session_get_password().
-
-	* camel-pkcs7-context.c (get_password): Same as the gpg code.
-
-	* camel-gpg-context.c (gpg_ctx_parse_status): Updated for
-	camel_session_get_password().
-
-	* providers/smtp/camel-smtp-transport.c (smtp_connect): No need to
-	set USER_CANCEL exception here as it is done by
-	camel_session_get_password(). Also updated for the new
-	get_password() API change.
-
-	* providers/imap/camel-imap-store.c (imap_auth_loop): Updated for
-	camel_session_get_password() changes. We don't need to play the
-	"bad passwd" game here too, do we? Bah, probably should but I
-	don't feel like it for now. Maybe when we rewrite the IMAP
-	provider.
-
-	* camel-session.c (camel_session_get_password): Now takes a
-	'reprompt' argument that will force user-input to be given even if
-	we have the passwd cached.
-
-	* providers/pop3/camel-pop3-store.c (pop3_connect): Instead of
-	uncaching the passwd after we receive a -ERR from the POP server,
-	set 'reprompt' to TRUE to force user-input for the next password
-	prompt (ie, make sure the front-end knows not to just return the
-	cached value). The front-end can then decide to fill-in the
-	user-input field with the last passwd that the user supplied.
-	(pop3_try_authenticate): Now takes a reprompt argument which we
-	pass into camel_session_get_password().
-
-2003-02-05  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am (libcamelincludedir): Define in terms of
-	privincludedir.
-	(camellibexecdir): Define in terms of privlibexecdir
-	(libcamel_la_LDFLAGS): Remove -rpath. (automake will add that)
-
-	* providers/imap/Makefile.am (libcamelimapincludedir): Define in
-	terms of privincludedir.
-	(INCLUDES): Remove -I$(includedir)
-	* providers/local/Makefile.am: Likewise
-	* providers/nntp/Makefile.am: Likewise
-	* providers/pop3/Makefile.am: Likewise
-	* providers/sendmail/Makefile.am: Likewise
-	* providers/smtp/Makefile.am: Likewise
-
-2003-02-04  Not Zed  <NotZed@Ximian.com>
-
-	* camel-object.c (camel_object_bag_new): Init bag->owner to 0.
-
-2003-01-31  Not Zed  <NotZed@Ximian.com>
-
-	* camel-object.c (camel_object_bag_*): Changed to use a posix
-	semaphore instead of a condition variable + flag to reserve the
-	object bag because e_mutex_cond is broken.
-
-2003-02-04  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap/camel-imap-utils.c (imap_parse_body): Use
-	g_ascii_strdown() instead of g_strdown, since g_strdown is
-	deprecated.
-	(imap_parse_body): Same.
-
-	* providers/imap/camel-imap-folder.c (decode_internaldate): Use
-	strncasecmp() here too.
-	(parse_fetch_response): And here.
-	(camel_imap_folder_selected): Here too.
-
-	* providers/imap/camel-imap-utils.c (imap_namespace_decode): Use
-	strncasecmp() instead of g_strncasecmp() because the latter is
-	deprecated.
-
-	* providers/imap/camel-imap-store.c (imap_get_capability): Again here.
-	(hash_folder_name): Here too.
-	(compare_folder_name): And here.
-	(get_folder_online): Again.
-	(get_folder_offline): And again.
-
-	* providers/imap/camel-imap-folder.c (camel_imap_folder_selected):
-	Same as below again.
-
-	* providers/imap/camel-imap-command.c (camel_imap_response_free):
-	Same as below.
-
-	* providers/smtp/camel-smtp-transport.c (smtp_data): Use
-	strcasecmp() because g_strcasecmp() is deprecated.
-
-	* camel-url.c (camel_url_new_with_base): Use g_ascii_strdown()
-	instead of g_strdown, since g_strdown is deprecated.
-
-2003-01-28  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-sasl-gssapi.c (gssapi_challenge): Pass in some default
-	flags to gss_init_sec_context() (these default flags are defined
-	as a MUST in rfc1964).
-
-2003-01-22  Hans Petter Jansson  <hpj@ximan.com>
-
-	* Makefile.am: $(libexec) -> $(libexecdir)
-
-2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
-
-	* providers/imap/Makefile.am (libcamelimapincludedir): Update to
-	the new $(BASE_VERSION)-versioned path.
-	* providers/smtp/Makefile.am (libcamelsmtpincludedir): Likewise.
-	* providers/sendmail/Makefile.am (libcamelsendmailincludedir):
-	Likewise.
-	* providers/pop3/Makefile.am (libcamelpop3includedir): Likewise.
-	* providers/nntp/Makefile.am (libcamelnntpincludedir): Likewise.
-	* providers/local/Makefile.am (libcamellocalincludedir): Likewise.
-
-	* camel-lock-client.c (camel_lock_helper_init): Use
-	CAMEL_LIBEXECDIR instead of CAMEL_SBINDIR to find
-	camel-lock-helper.
-
-	* Makefile.am: Install camel-lock-helper and camel-index-control
-	in $(libexec)/evolution/$(BASE_VERSION)/camel.  Install
-	libcamel.la in $privlibdir.
-	(install-exec-hook): Update for the new location of
-	camel-lock-helper.
-	(libcamelincludedir): Version using $(BASE_VERSION).
-	(INCLUDES): Define CAMEL_LIBEXECDIR.
-
-2003-01-21  Jeffrey Stedfast  <fejj@ximian.com>
+2003-01-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-filter-canon.c (complete): Set the backbuflen to 0 so
 	that calling us again won't re-flush the same data.
-
-2003-01-17  Larry Ewing  <lewing@ximian.com>
-
-	* camel-mime-filter-enriched.c (enriched_to_html): only grow the
-	buffer when we are out of space.
-
-2003-01-14  Not Zed  <NotZed@Ximian.com>
-
-	* camel-mime-parser.c (folder_scan_step): If we have no
-	content-type header, set it to text/plain explcitly, rather than
-	NULL, because some code doesn't handle NULL.
-
-2003-01-14  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-sasl-gssapi.[c,h]: New source files implementing the
-	GSSAPI SASL mechanism.
-
-2003-01-13  Not Zed  <NotZed@Ximian.com>
-
-	* camel-mime-filter-tohtml.c: fix header include order.
-	
-	* camel-object.c (camel_object_bag_reserve): Add an assert to
-	check we're not trying to reserve the bag more than once in a
-	given thread.
-	(camel_object_bag_list): If we have reserved the bag, dont try and
-	cond wait.  Fixes a deadlock.
-
-	* camel-mime-filter-tohtml.c (writeln): Read the characters as
-	utf8, rather than as 8 bit bytes.  Remove the PRESERVE_8BIT as it
-	has no meaning.  Also change the default logic slightly so that 8
-	bit or greater characters are properly converted to entities.
-
-	* camel-utf8.c (camel_utf8_getc_limit): new function, gets a utf8
-	char, bounded by an end pointer.
-
-2003-01-07  Dan Winship  <danw@ximian.com>
-
-	* camel-provider.h (CamelProvider): add a "translation_domain"
-	field. (NULL for all providers in the camel source tree itself).
-
-	* camel-session.c (register_provider): Translate provider strings
-	in the correct domain
-
-2003-01-06  Not Zed  <NotZed@Ximian.com>
-
-	* camel-store.c (store_sync): init local exception before doing
-	anything.  fixes a crash.
 
 2003-01-04  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -770,51 +98,6 @@
 	(recipients) != 0 since it is illegal for recipients to be NULL
 	(camel_transport_send_to already checks this).
 
-2002-12-17  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap/camel-imap-utils.c: Replace calls to
-	g_string_sprintfa() with g_string_append_printf() since the former
-	seems to have been deprecated.
-
-	* providers/imap/camel-imap-search.c: Same.
-
-	* providers/imap/camel-imap-folder.c: Here too.
-
-	* providers/local/camel-mbox-summary.c: And here.
-
-	* providers/local/camel-local-summary.c: Replace
-	g_string_sprintf() with g_string_printf().
-
-	* camel-data-cache.c (data_cache_expire): Replace
-	g_string_sprintf() with g_string_printf().
-
-	* camel-url.c: Replace calls to g_string_sprintfa() with
-	g_string_append_printf() since the former seems to have been
-	deprecated.
-
-	* camel-service.c: Same.
-
-	* camel-mime-utils.c: Here too.
-
-2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-part-utils.c
-	(simple_data_wrapper_construct_from_parser): Detect text/html
-	parts that were marked as text/plain and re-tag them as text/html
-	parts. Note: currently just checks if the first non-lwsp char is a
-	'<' - but we might need to be smarter about this? *sigh* Stupid
-	Windows mailers.
-
-	* camel-mime-filter-tohtml.c (camel_text_to_html): New convenience
-	function to replace calls to e_text_to_html() in the
-	mailer/composer etc.
-
-	* camel.h: #include some headers we had forgotten to add
-	previously, also added camel-mime-filter-enriched.h.
-
-	* camel-mime-filter-enriched.[c,h]: New stream filter to convert
-	text/enriched and text/richtext into HTML.
-
 2002-12-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-multipart-signed.c (camel_multipart_signed_verify): Don't
@@ -822,118 +105,11 @@
 	raw data we received (all we want to do is convert o the canonical
 	CRLF format).
 
-2002-12-10  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-filter-tohtml.c (html_convert): Use camel-url-scanner
-	instead of regex.
-
-2002-12-09  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-url-scanner.c (camel_url_addrspec_end): Fixed to not be
-	fooled in the case where the address is followed immediately by a
-	period.
-	(camel_url_web_end): Made more robust.
-	(camel_url_scanner_scan): Oops. We need to set the match->pattern
-	string pointer to the correct pattern before executing the
-	start/end methods (as some of them rely on this info).
-
-2002-12-09  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-url-scanner.c: New code to scan for patterns (used only
-	for url pattern matching atm, but we may find other uses for this
-	and thus rename it? I dunno). Uses ETrie.
-
-2002-12-07  Not Zed  <NotZed@Ximian.com>
-
-	* camel-data-cache.c (data_cache_init): Use a bag instead of a
-	hashtable to track the cache streams.
-	(data_cache_finalise): Same.
-	(free_busy): No longer needed.
-	(data_cache_expire): use bag instead of hashtable.
-	(stream_finalised): No longer required.
-	(camel_data_cache_add): objectbagise
-	(camel_data_cache_get): "
-	(camel_data_cache_remove): "
-	(data_cache_path): Set the now expired date before running expiry,
-	so it plays better with multiple threads.  Still a couple of
-	harmless races.
-
-2002-12-06  Not Zed  <NotZed@Ximian.com>
-
-	* providers/local/camel-spool-store.c (scan_dir): folders ->
-	object bag.
-	(get_folder_info_mbox): folders -> object bag.
-
-	* providers/local/camel-mh-store.c (folder_info_new): folders ->
-	object bag.
-
-	* providers/local/camel-maildir-store.c (scan_dir): folders ->
-	object bag.
-
-	* providers/local/camel-local-store.c (rename_folder): folders ->
-	object bag.
-
-	* camel-private.h (CamelStorePrivate): Remove 'cache' lock,
-	handled by the objectbag.
-
-	* providers/imap/camel-imap-store.c (copy_folder): Removed.
-	(imap_store_refresh_folders): folders -> object bag.
-	(get_folder_counts): folders -> object bag.
-
-	* camel-vee-store.c (vee_get_folder): changes for folders
-	objectbag.
-	(vee_get_folder_info): Change to use folders objectbag.  Also,
-	dont refresh the base folder if we're in FAST mode.
-	(build_info): Removed, no longer needed.
-	(vee_rename_folder): Fixed for folders objectbag.
-
-	* camel-store.c (camel_store_init): init the folders objectbag.
-	(camel_store_finalize): Destroy the folders object bag.
-	(folder_matches): 
-	(folder_finalize): Removed, now handled implicitly by the
-	objectbag.
-	(camel_store_get_folder): object bag changes.
-	(camel_store_delete_folder): "
-	(get_subfolders): Removed, now handled without a callback.
-	(camel_store_rename_folder): Changed to use object bag of folders.	
-	(trash_add_folder): Removed.
-	(init_trash): use folders object bag.
-	(copy_folder_cache): 
-	(sync_folder): Removed, no longer needed.  Weird arsed code anyway.
-	(store_sync): Use folder object bag instead of hashtable.
-	(camel_store_unsubscribe_folder): "
-	(camel_store_init): remove cache_lock init, no longer used.
-	(camel_store_finalize): Same for cleanup.
-
-2002-12-05  Not Zed  <NotZed@Ximian.com>
-
-	* camel-store.h (struct _CamelStore): change folders from a
-	hashtable into a CamelObjectBag.
-
-	* camel-object.c (camel_object_ref): Use type_lock instead of
-	class lock for ref counting.
-	(camel_object_unref): Use type_lock instead of class lock for
-	unref.
-	(camel_object_unref): If the object is 'bagged', then also look
-	hooks, and remove it from any bags.
-	(camel_object_bag_new):
-	(camel_object_bag_destroy):
-	(camel_object_bag_add):
-	(camel_object_bag_get):
-	(camel_object_bag_remove_unlocked):
-	(camel_object_bag_list): 
-	(camel_object_bag_abort): 
-	(camel_object_bag_remove): New functions to implement a utility
-	object which can manage a 'bag' of weakly ref'd children in an
-	atomic & threadsafe way.
-
-2002-12-04  Jeffrey Stedfast  <fejj@ximian.com>
+2002-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store-summary.c
 	(camel_imap_store_summary_add_from_full): Properly handle the case
 	where the namespace is "". Fixes bug #34975
-
-2002-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* broken-date-parser.c (get_tzone): Fixed to not get false
 	positives when the token is shorter than the actual timezone
@@ -942,6 +118,12 @@
 	token is a special char (such as a '-') that is also used as a
 	token delimiter.
 
+2002-11-22  Not Zed  <NotZed@Ximian.com>
+
+	* camel-operation.c (camel_operation_cancel_prfd): Implement, gets
+	a nspr pr filedesc to poll/wait on
+	(struct _CamelOperation): include a pr filedesc.
+
 2002-11-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (stream_read): Use the new
@@ -949,29 +131,11 @@
 	so we can poll on it for cancellation stuff.
 	(stream_write): Same.
 
-2002-11-22  Not Zed  <NotZed@Ximian.com>
-
-	* camel-operation.c (camel_operation_cancel_prfd): Implement, gets
-	a nspr pr filedesc to poll/wait on
-	(struct _CamelOperation): include a pr filedesc.
-
-2002-11-21  Not Zed  <NotZed@Ximian.com>
-
-	* providers/imap/camel-imap-store-summary.c
-	(camel_imap_store_summary_namespace_find_path): If we have a
-	namespace of "", then always match any path.
-	(camel_imap_store_summary_namespace_find_full): Same, for full
-	names. Should address #33309 & friends.
-
 2002-11-19  Radek Doulik  <rodo@ximian.com>
 
 	* camel-mime-filter-tohtml.c (html_convert): added
 	CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT flag
 
-2002-11-18  Rodney Dawes  <dobey@ximian.com>
-
-	* tests/*/Makefile.am: Removed $(GNOME_LIBDIR) and $(GNOMEUI_LIBS)
-	
 2002-11-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_connect_online): If the
@@ -979,255 +143,6 @@
 	it obviously won't show up in a LSUB INBOX.*). If either INBOX is
 	not returned in the response or if the folder flags contain
 	\NoSelect, subscribe to INBOX and then try LSUB again.
-
-2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-filter-tohtml.c (html_convert): Rewritten. Much much
-	much cleaner implementation now, though uses malloc/free more
-	often than I'd like.
-
-2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap/camel-imap-folder.c (get_message_simple): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-
-	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-
-	* providers/pop3/camel-pop3-folder.c (pop3_refresh_info): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-	(pop3_get_message): Same.
-
-	* providers/local/camel-spool-summary.c (spool_summary_sync_full):
-	Use g_strerror when setting an exception string (we need it to be
-	in UTF-8).
-	(spool_summary_check): Here too.
-
-	* providers/local/camel-spool-store.c (construct): Use g_strerror
-	when setting an exception string (we need it to be in UTF-8).
-	(get_folder): Same.
-	(scan_dir): Here too.
-
-	* providers/local/camel-spool-folder.c (spool_lock): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-
-	* providers/local/camel-mh-summary.c (mh_summary_check): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-
-	* providers/local/camel-mh-store.c (delete_folder): Use g_strerror
-	when setting an exception string (we need it to be in UTF-8).
-
-	* providers/local/camel-mbox-summary.c (summary_update): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-	(mbox_summary_sync_full): Here too.
-	(mbox_summary_sync_quick): Same.
-	(mbox_summary_sync): Also here.
-	(camel_mbox_summary_sync_mbox): Again here.
-
-	* providers/local/camel-mbox-folder.c (mbox_lock): Use g_strerror
-	when setting an exception string (we need it to be in UTF-8).
-	(mbox_append_message): Same.
-	(mbox_get_message): Here too.
-
-	* providers/local/camel-maildir-summary.c (maildir_summary_load):
-	Use g_strerror when setting an exception string (we need it to be
-	in UTF-8).
-	(maildir_summary_check): Same.
-
-	* providers/local/camel-maildir-store.c (get_folder): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-	(delete_folder): Same.
-	(delete_folder): Here too.
-
-	* providers/local/camel-local-summary.c (local_summary_sync): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-
-	* providers/local/camel-local-store.c (get_folder): Use g_strerror
-	when setting an exception string (we need it to be in UTF-8).
-	(create_folder): Same.
-	(xrename): Here too.
-	(rename_folder): And here.
-	(delete_folder): Also here.
-
-	* camel-provider.c (camel_provider_init): For debugging printfs,
-	we want to use normal strerror (we want locale charset, not
-	UTF-8).
-
-	* camel-movemail.c (camel_movemail): Use g_strerror when setting
-	an exception string (we need it to be in UTF-8).
-	(movemail_external): Same.
-	(camel_movemail_copy_file): Here too.
-	(camel_movemail_solaris): Also here.
-
-	* camel-mime-utils.c (rfc2047_decode_word): For debugging printfs,
-	we want to use normal strerror (we want locale charset, not
-	UTF-8).
-	(header_encode_param): Same.
-
-	* camel-mime-part-utils.c (convert_buffer): For debugging printfs,
-	we want to use normal strerror (we want locale charset, not
-	UTF-8).
-
-	* camel-lock-client.c (camel_lock_helper_init): Use g_strerror
-	when setting an exception string (we need it to be in UTF-8).
-
-	* camel-data-cache.c (camel_data_cache_remove): Use g_strerror
-	when setting an exception string (we need it to be in UTF-8).
-
-	* camel-tcp-stream-raw.c (flaky_tcp_write): For debugging printfs,
-	we want to use normal strerror (we want locale charset, not
-	UTF-8).
-	(flaky_tcp_read): Same.
-
-	* camel-gpg-context.c (gpg_ctx_op_step): For debugging printfs, we
-	want to use normal strerror (we want locale charset, not UTF-8).
-
-	* camel-service.c (camel_gethostbyname): Use g_strerror when
-	setting an exception string (we need it to be in UTF-8).
-
-	* camel-lock.c (camel_lock_dot): Use g_strerror when setting an
-	exception string (we need it to be in UTF-8).
-	(camel_lock_fcntl): Same.
-
-2002-11-07  Not Zed  <NotZed@Ximian.com>
-
-	* camel-mime-part.c (camel_mime_part_set_content_type): constify
-	the content_type.
-
-2002-11-07  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-i18n.h: Added.
-
-	* camel-object.h: #include camel-i18n.h instead of gnome-i18n.h
-
-	* camel-lock.c: Same.
-
-2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
-
-	* camel-object.h: removed gnome-defs.h, it does not exist.
-
-2002-11-05  Not Zed  <NotZed@Ximian.com>
-
-	* Makefile.am (camel_lock_helper_LDADD): Created temporary link
-	list, we need to link with something for gettext.
-
-	* camel.h: Remove gstring-util.h and hash-table-utils.h.
-
-	* camel-text-index.c: 
-	(text_index_normalise): Changed for g_utf8_strdown api change.
-
-	* camel-search-private.c:
-	* camel-mime-utils.c:
-	* camel-mime-part-utils.c:
-	* camel-html-parser.c:
-	* camel-charset-map.c: Include glib/gunicode.h from glib instead
-	of gal.
-
-	* camel-filter-driver.c: Remove include of gtk/gtk.h, should never
-	have been there.
-
-2002-11-01  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-utils.c (g_string_append_len): Removed. Glib2 has
-	this function.
-
-	* providers/local/camel-local-store.c (delete_folder): Use
-	g_path_get_basename instead of g_strdup (g_basename (filename)).
-
-	* camel-uid-cache.c (camel_uid_cache_new): Use g_path_get_dirname
-	since g_dirname has been deprecated.
-
-2002-10-31  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-gpg-context.c (camel_gpg_context_class_init): Set the
-	virtual method pointers to the import/export methods.
-	(camel_gpg_context_init): Set the key_protocol string.
-	(gpg_hash_to_id): Handle 2 more hash types.
-	(gpg_id_to_hash): Same.
-	(gpg_ctx_op_step): Slight fixes to support import/export.
-	(gpg_ctx_parse_status): Fix to hack around the fact that importing
-	keys doesn't write to stdout.
-	(gpg_import_keys): Implemented.
-	(gpg_export_keys): Implemented.
-
-	* camel-cipher-context.c (camel_cipher_context_class_init): Hook
-	up default virtual methods for import/export.
-	(camel_cipher_import_keys): Implemented.
-	(camel_cipher_export_keys): Implemented.
-
-2002-10-31  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* Makefile.am: Removed hash-table-utils.[c,h] from the build.
-
-	* hash-table-utils.[c,h]: Removed.
-
-	* string-util.c: Imported g_strcase[hash,equal] into here so we
-	can remove hash-table-utils.[c,h].
-
-	* camel-medium.c: Removed #include "hash-table-utils.h"
-
-	* camel-mime-message.c: Same here.
-
-	* camel-mime-part.c: And here.
-
-	* camel-session.c: Here too.
-
-	* providers/imap/camel-imap-store-summary.c: #include
-	string-utils.h instead of hash-table-utils.h
-
-	* camel-charset-map.c: Same.
-
-	* camel-folder-summary.c: Here too.
-
-	* camel-provider.c: Again here.
-
-	* camel-store-summary.c: And again...
-
-2002-10-31  Jeffrey Stedfast  <fejj@ximian.com>
-
-	Remove a ton of useless snot.
-
-	* Makefile.am: Remove gstring-util.[c,h] from the build.
-
-	* gstring-util.[c,h]: Removed.
-
-	* string-utils.c (string_equal_for_glist): Removed.
-	(string_split): Removed.
-	(string_trim): Removed.
-	(string_prefix): Removed.
-	(string_unquote): Removed.
-	(strip): Removed.
-
-	* hash-table-utils.c (g_hash_table_generic_free): Removed.
-
-	g_str[n]casecmp functions are deprecated in glib2.
-
-	* string-utils.c (strstrcase): Use strncasecmp instead of
-	g_strncasecmp.
-
-	* hash-table-utils.c (g_strcase_equal): Use strcasecmp
-	instead of g_strcasecmp.
-
-	* camel-smime-utils.c (camel_smime_is_smime_v3_signed): Same.
-	(camel_smime_is_smime_v3_encrypted): Here too.
-
-	* camel-sasl-digest-md5.c (decode_data_type): And here.
-	(parse_server_challenge): Again here.
-
-	* camel-pgp-mime.c (camel_pgp_mime_is_rfc2015_signed): Same.
-	(camel_pgp_mime_is_rfc2015_encrypted): Same
-
-	* camel-mime-part-utils.c (check_html_charset): Here too.
-
-	* camel-folder-summary.c (camel_system_flag): Same.
 
 2002-10-25  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -1589,7 +504,7 @@
 	* camel-filter-search.c (camel_filter_search_match): Take new
 	session arg.  Update callers.
 	(symbols[]): changed get-source to header-source
-	(header_source): Changed from get_source.  Now a boolean, returns
+	(header_source): Chagned from get_source.  Now a boolean, returns
 	true if source matches one of the arguments.  Uses the provider
 	url comparison directly for accurate checking.  Makes 'filter on
 	source' work.
@@ -1810,7 +725,7 @@
 
 	* tests/misc/utf7.c: some utf7/utf8 tests.
 
-	* providers/imap/camel-imap-utils.c (imap_mailbox_encode): Changed
+	* providers/imap/camel-imap-utils.c (imap_mailbox_encode): Chagned
 	to use camel_utf8_utf7 code.
 	(imap_mailbox_decode): As above, using camel_utf8_utf7.  'UTF-7'
 	isn't a widely support iconv() codeset, and besides the new code
@@ -1975,7 +890,7 @@
 2002-08-19  Peter Williams  <peterw@ximian.com>
 
 	Plug some large leaks in the indexing code.
-
+	
 	* camel-mime-filter-index.c (camel_mime_filter_index_set_index): Unref
 	the old index if necessary.
 
@@ -3552,7 +2467,7 @@
 	<prez@magick.tm> to make camel only use literals if it needs to
 	for simple strings.  Changed slightly to use imap_is_atom() and
 	more consistent formatting.
-	* providers/imap/camel-imap-utils.c (imap_is_atom): Changed from
+	providers/imap/camel-imap-utils.c (imap_is_atom): Chagned from
 	imap_needs_quoting().
 
 	** Merged in camel-object2 branch.  Simpler camelobject
@@ -5203,7 +4118,7 @@
 	(get_message_simple): Here too.
 	(add_message_from_data): And here.
 
-2001-11-14  Not Zed  <NotZed@Ximian.com>
+2001-11-14    <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (folder_changed_remove_uid): Use the uid
 	rather than vuid for unmatched.  Also add the uid to unmatched if
@@ -5328,7 +4243,7 @@
 	since we'll just waste time in there mallocing left and right only
 	to arrive at the single response line "* BYE" again :-)
 
-2001-11-13  Not Zed  <NotZed@Ximian.com>
+2001-11-13    <NotZed@Ximian.com>
 
 	* camel-filter-search.c (get_source): If we have no source string,
 	then use undefined, which should always evaluate to FALSE.  Fix
@@ -5345,7 +4260,7 @@
 	pipe()'s fail, clean up any pipes that may have succeeded. Also
 	close the password fds.
 
-2001-11-09  Not Zed  <NotZed@Ximian.com>
+2001-11-09    <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_auth_loop): If we get a
 	user cancel and that causes us to fail to authenticate, abort
@@ -5394,13 +4309,13 @@
 	that we don't get 2 threads trying to read from our stream at the
 	same time.
 
-2001-11-01  Not Zed  <NotZed@Ximian.com>
+2001-11-01    <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (folder_changed_change): Move all searching
 	operations outside of any locks except subfolder lock, same as
 	build_folder.  Fix for #14294.
 
-2001-10-31  Not Zed  <NotZed@Ximian.com>
+2001-10-31    <NotZed@Ximian.com>
 
 	* providers/local/camel-spool-folder.c (spool_get_message): Same
 	as below.
@@ -5429,7 +4344,7 @@
 	(folder_scan_init_with_fd): Setup errno depeding on ok/failure.
 	(folder_scan_init_with_stream): Same.
 
-2001-10-30  Not Zed  <NotZed@Ximian.com>
+2001-10-30    <NotZed@Ximian.com>
 
 	* camel-operation.c (camel_operation_new): Dont setup cancel_fd.
 	(camel_operation_cancel_fd): If cancel_fd not created, set it up.
@@ -5464,7 +4379,7 @@
 
 	* camel-mime-part.c (free_headers): Fix this to match get_headers.
 
-2001-10-30  Not Zed  <NotZed@Ximian.com>
+2001-10-30    <NotZed@Ximian.com>
 
 	* providers/local/camel-local-store.c (rename_folder): Dont try to
 	move ibex if we have none.
@@ -5477,7 +4392,7 @@
 	* camel-mime-utils.c (camel_mime_utils_init): Removed unused
 	variable.
 
-2001-10-30  Not Zed  <NotZed@Ximian.com>
+2001-10-30    <NotZed@Ximian.com>
 
 	* camel-mime-utils.c (header_decode_mailbox): w(x) out some warnings.
 
@@ -5512,7 +4427,7 @@
 	* camel-stream-buffer.h: Removed CAMEL_STREAM_BUFFER_NEWLINE since
 	it never got used anywhere and it isn't supported anyway.
 
-2001-10-30  Not Zed  <NotZed@Ximian.com>
+2001-10-30    <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c
 	(parse_list_response_as_folder_info): If we get an empty name,
@@ -5524,7 +4439,7 @@
 	imap_get_message): Set an X-Evolution-Source header on the
 	returned message so replies come from the right identity.
 
-2001-10-29  Not Zed  <NotZed@Ximian.com>
+2001-10-29    <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (folder_changed_change): If we're not going
 	to search on a changed uid, make sure we change out copy still.
@@ -5568,7 +4483,7 @@
 	is being connected and thinks it's online, but the session is
 	offline, then mark the service offline as well. Fixes 13683.
 
-2001-10-29  Not Zed  <NotZed@Ximian.com>
+2001-10-29    <NotZed@Ximian.com>
 
 	* camel-mime-utils.c: Turn off w() -> warnings.
 
@@ -5590,7 +4505,7 @@
 	* camel-store.c (get_subfolders): Fix the 'is this a matching
 	folder or subfolder' logic.
 
-2001-10-28  Not Zed  <NotZed@Ximian.com>
+2001-10-28    <NotZed@Ximian.com>
 
 	* providers/local/camel-local-store.c (rename_folder): Changed to
 	call ibex_move to rename it internally.
@@ -5611,7 +4526,7 @@
 	0. Still seems to be a bug in select() if it's telling us the
 	socket is ready for data when it really isn't but oh well.
 
-2001-10-28  Not Zed  <NotZed@Ximian.com>
+2001-10-28    <NotZed@Ximian.com>
 
 	* providers/local/camel-local-folder.c
 	(camel_local_folder_construct): Use path not protocol as the path
@@ -5627,7 +4542,7 @@
 	camelfolders before emitting the folderchanged event (otherwise
 	vstore fails to pick up change.
 
-2001-10-27  Not Zed  <NotZed@Ximian.com>
+2001-10-27    <NotZed@Ximian.com>
 
 	* camel-store.c (camel_store_init): Always use a default dir_sep
 	of '/'.
@@ -5644,7 +4559,7 @@
 	* providers/local/camel-local-folder.c (local_rename): Implement
 	local rename of folder objects.
 
-2001-10-26  Not Zed  <NotZed@Ximian.com>
+2001-10-26    <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (camel_vee_folder_class_init): Hook into
 	rename function.
@@ -5695,7 +4610,7 @@
 	reading from it and get no data from it since it is already at the
 	EOS. This may fix bug #12943.
 
-2001-10-25  Not Zed  <NotZed@Ximian.com>
+2001-10-25    <NotZed@Ximian.com>
 
 	* camel-search-private.c (utf8_get): Remove the stupid warning
 	that should never have been there in the first place.
@@ -5712,7 +4627,7 @@
 
 	* camel-mime-filter-charset.c (reset, complete, filter): "
 
-2001-10-24  Not Zed  <NotZed@Ximian.com>
+2001-10-24    <NotZed@Ximian.com>
 
 	* camel-mime-filter-basic.c (complete): For qp decoding, if the
 	data isn't really qp encoded, we could possible grow the buffer by
@@ -5743,11 +4658,11 @@
 	* camel-mime-utils.c (mail_list_magic): Remove an extra * in one
 	of the regexps that glibc apparently doesn't mind but bsd does.
 
-2001-10-23  Not Zed  <NotZed@Ximian.com>
+2001-10-23    <NotZed@Ximian.com>
 
 	* providers/local/camel-mbox-summary.c: made d(x) x recompile again.
 
-2001-10-22  Not Zed  <NotZed@Ximian.com>
+2001-10-22    <NotZed@Ximian.com>
 
 	* providers/local/camel-spool-summary.c (summary_rebuild): No, use
 	Storing, as the other code does :p
@@ -5765,7 +4680,7 @@
 	kludging around a inline-pgp signed part, do some charset
 	conversion to protect any 8bit text.
 
-2001-10-22  Not Zed  <NotZed@Ximian.com>
+2001-10-22    <NotZed@Ximian.com>
 
 	* camel-filter-search.c, camel-folder-search.c (check_header): Use
 	search_type_mlist for mailing list searches.
@@ -5819,7 +4734,7 @@
 	* camel-store.c (camel_folder_info_build): Updated comments to
 	make the code a bit more clear.
 
-2001-10-21  Not Zed  <NotZed@Ximian.com>
+2001-10-21    <NotZed@Ximian.com>
 
 	* camel-store.c (CS_CLASS): Dont do the macro stuff - basically so
 	you can actually debug calls.
@@ -5829,7 +4744,7 @@
 	vuid, since its alloca'd now.
 	(folder_changed_change): Kill a compile warning.
 
-2001-10-20  Not Zed  <NotZed@Ximian.com>
+2001-10-20    <NotZed@Ximian.com>
 
 	* camel-folder.c (move_messages_to): If no exception supplied, use
 	a local one.
@@ -5841,7 +4756,7 @@
 	destination folder is the vfolder source folder, then
 	set_message_flags on it.
 
-2001-10-19  Not Zed  <NotZed@Ximian.com>
+2001-10-19    <NotZed@Ximian.com>
 
 	* camel-session.c (register_provider): When registering provider,
 	translate all strings.
@@ -5885,7 +4800,7 @@
 	is x-unknown or some other x- charset, always set the rawtext bit
 	to TRUE.
 
-2001-10-18  Not Zed  <NotZed@Ximian.com>
+2001-10-18    <NotZed@Ximian.com>
 
 	* camel-store.c (camel_store_unsubscribe_folder): If we are
 	unsubscribing from a folder we have loaded, set the folder
@@ -5916,7 +4831,7 @@
 	Cyrus imapd workaround...instead of checking to see if info->flags
 	== FLAGGED, just check to see if it contains any IMAP flags.
 
-2001-10-17  Not Zed  <NotZed@Ximian.com>
+2001-10-17    <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-folder.c
 	(camel_maildir_folder_new): Use '.' as the inbox name for filter
@@ -5947,7 +4862,7 @@
 	* camel-filter-driver.c (do_copy): Add an optimization for when
 	destination folder is the same as the source folder.
 
-2001-10-17  Not Zed  <NotZed@Ximian.com>
+2001-10-17    <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_info_online):
 	(parse_list_response_as_folder_info): Patch from Danw, Use unread
@@ -5987,7 +4902,7 @@
 	parent directory exists before trying to open the filename, if it
 	doesn't, create it.
 
-2001-10-16  Not Zed  <NotZed@Ximian.com>
+2001-10-16    <NotZed@Ximian.com>
 
 	* camel-mime-utils.c (header_address_decode): If no content, dont
 	try and decode further and spit meaningless warnings.
@@ -6025,7 +4940,7 @@
 	filter, it was completely broken - instead remove the header and
 	set it again after we send.
 
-2001-10-12  Not Zed  <NotZed@Ximian.com>
+2001-10-12    <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (camel_vee_folder_remove_folder): Unhook from
 	all events before removing folder.
@@ -6034,7 +4949,7 @@
 	(subfolder_deleted): When the folder is deleted, remove it from
 	the vfolder automagically.
 
-2001-10-11  Not Zed  <NotZed@Ximian.com>
+2001-10-11    <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (vee_search_by_uids): convert the uids list
 	to a subset appropriate for each subfolder before trying to search
@@ -6057,7 +4972,7 @@
 	* camel-tcp-stream-ssl.c (ssl_bad_cert): Hack around the fact that
 	adding a cert to nss's certdb seems to not work.
 
-2001-10-10  Not Zed  <NotZed@Ximian.com>
+2001-10-10    <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (vee_sync): Only re-build the folder if we're
 	expunging.  Also only clear out the changed folders list if we're
@@ -6068,12 +4983,12 @@
 	* camel-charset-map.c (camel_charset_map_init): Added a hack for
 	Solaris systems.
 
-2001-10-10  Not Zed  <NotZed@Ximian.com>
+2001-10-10    <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-store.c (scan_dir): oops, we want
 	get_unread_message_count, not get_message_count!
 
-2001-10-09  Not Zed  <NotZed@Ximian.com>
+2001-10-09    <NotZed@Ximian.com>
 
 	* camel-service.c (camel_service_disconnect): Duplicate connect
 	code that unregisters a cancel op if we created one.
@@ -6156,7 +5071,7 @@
 	uu encoder.
 	(uuencode_step): New function to uuencode a block of data.
 
-2001-10-05  Not Zed  <NotZed@Ximian.com>
+2001-10-05    <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (subscribe_folder): Use a
 	folder_subscribed event rather than a folder_created one.
@@ -6202,7 +5117,7 @@
 	(subscribe_folder): Here too.
 	(unsubscribe_folder): And here.
 
-2001-10-05  Not Zed  <NotZed@Ximian.com>
+2001-10-05    <NotZed@Ximian.com>
 
 	* camel-mime-utils.c (header_decode_mailbox): Try harder to get
 	broken names out of addresses.  Unencoded ,'s in names will still
@@ -6211,7 +5126,7 @@
 	past a '.', even if we can't decode the next part.  Fix for some
 	annoying bug #.
 
-2001-10-04  Not Zed  <NotZed@Ximian.com>
+2001-10-04    <NotZed@Ximian.com>
 
 	* camel-store.c (camel_store_delete_folder): Change the order of
 	execution slightly.  We delete the folder first, then call the
@@ -6224,7 +5139,7 @@
 	* camel-service.c (camel_service_connect): Unregister the
 	operation before unreffing it.
 
-2001-10-03  Not Zed  <NotZed@Ximian.com>
+2001-10-03    <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
 	Remove now unused 'recents' array/freeing func.
@@ -6287,7 +5202,7 @@
 	* camel-tcp-stream-ssl.c (ssl_bad_cert): Import the certificate if
 	the user accepts it.
 
-2001-10-02  Not Zed  <NotZed@Ximian.com>
+2001-10-02    <NotZed@Ximian.com>
 
 	* providers/local/camel-local-provider.c (local_url_hash,
 	local_url_equal): for hashing/comparing local url's, we ignore
@@ -6325,7 +5240,7 @@
 	conversion fails, for whatever reason, retry using the user's
 	locale charset.
 
-2001-10-02  Not Zed  <NotZed@Ximian.com>
+2001-10-02    <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-store.c (get_folder_info): Go back
 	to using the store url's path, not the toplevel_dir thing.
@@ -6467,7 +5382,7 @@
 	* providers/imap/camel-imap-folder.c (get_content): and one that
 	doesn't
 
-2001-09-27  Not Zed  <NotZed@Ximian.com>
+2001-09-27    <NotZed@Ximian.com>
 
 	* camel-service.c (camel_service_connect): Dont re-register the
 	connect_op if we got it by calling 'operation_registered', which
@@ -6529,7 +5444,7 @@
 	* camel-operation.c (camel_operation_registered): Deal with the
 	possibility that there's no registered op.
 
-2001-09-26  Not Zed  <NotZed@Ximian.com>
+2001-09-26    <NotZed@Ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_message): If
 	we get a search error, just abort, dont try and fall back and copy
@@ -6562,7 +5477,7 @@
 	* camel-pgp-mime.c (camel_pgp_mime_is_rfc2015_signed): block out
 	some code if ENABLE_PEDANTIC_PGPMIME is not defined.
 
-2001-09-26  Not Zed  <NotZed@Ximian.com>
+2001-09-26    <NotZed@Ximian.com>
 
 	* camel-vee-store.c: Emptied VeeStorePrivate, member wasn't used.
 
@@ -6606,7 +5521,7 @@
 	* Makefile.am (camel-lock-helper): Add $(EXEEXT) for Automake 1.5
 	compatibility.
 
-2001-09-25  Not Zed  <NotZed@Ximian.com>
+2001-09-25    <NotZed@Ximian.com>
 
 	* camel-folder.c (get_unread_message_count): Only unref info if we
 	got it.
@@ -6640,7 +5555,7 @@
 	Fixes at least ximian 8593, and probably 6024 and maybe 10366,
 	at least for OpenSSL. There may be a parallel NSS bug?
 
-2001-09-25  Not Zed  <NotZed@Ximian.com>
+2001-09-25    <NotZed@Ximian.com>
 
 	* camel-stream-buffer.c (stream_write_all): A "safe write"
 	function that always writes out all data asked of it, till
@@ -6648,7 +5563,7 @@
 	(stream_write): Rewritten.  What was i on when i wrote that
 	originally, how did it ever work with tcp streams ...
 
-2001-09-24  Not Zed  <NotZed@Ximian.com>
+2001-09-24    <NotZed@Ximian.com>
 
 	* camel-folder.c (append_message): Set the exception to
 	FOLDER_INVALID rather than making out it worked.  A fix for #7025.
@@ -6718,7 +5633,7 @@
 	(pgp_encrypt): And here.
 	(pgp_decrypt): Here too.
 
-2001-09-21  Not Zed  <NotZed@Ximian.com>
+2001-09-21    <NotZed@Ximian.com>
 
 	* camel-store.c (create_folder): Set the exception if
 	create_folder isn't implemented.
@@ -6730,7 +5645,7 @@
 	break folder creation (returning nodes from the root path when it
 	shouldn't be?).
 
-2001-09-21  Not Zed  <NotZed@Ximian.com>
+2001-09-21    <NotZed@Ximian.com>
 
 	* camel-vee-store.c (vee_get_folder_info): Force a refresh of
 	vfolders before storing their count.  This essentially makes
@@ -6750,7 +5665,7 @@
 	(vee_refresh_info): Refresh folder, re-run queries on any changed
 	folders.
 
-2001-09-20  Not Zed  <NotZed@Ximian.com>
+2001-09-20    <NotZed@Ximian.com>
 
 	* camel-folder-summary.c (camel_folder_summary_header_load): New
 	function to just load the summary.  Not much use yet, until unread
@@ -6844,7 +5759,7 @@
 	`data' isn't a CamelService...cuz it's not supposed to be! It's a
 	CamelTcpStreamSSL object...doh!
 
-2001-09-19  Not Zed  <NotZed@Ximian.com>
+2001-09-19    <NotZed@Ximian.com>
 
 	* General cleanup of camel debug printfs.
 	
@@ -6861,14 +5776,14 @@
 
 	* camel-mime-utils.c: Match mailing-list header List-Owner.
 
-2001-09-18  Not Zed  <NotZed@Ximian.com>
+2001-09-18    <NotZed@Ximian.com>
 
 	* camel-vee-store.c (vee_get_folder): Fix the uri genereated for
 	the folderinfo for the folder_created event.
 
 	* camel-store.h: Added 'total' to CamelFolderInfo.
 
-2000-09-18  Not Zed  <NotZed@Ximian.com>
+2000-09-18    <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-folder.c
 	(camel_maildir_folder_new): If filter inbox is set on the store,
@@ -6955,7 +5870,7 @@
 	session_thread_queue, session_thread_wait): default implementation
 	of session threads stuff.
 
-2001-09-17  Not Zed  <NotZed@Ximian.com>
+2001-09-17    <NotZed@Ximian.com>
 
 	* camel-folder.c (camel_folder_change_info_recent_uid): New
 	function to add a 'recent' uid to the change info.
@@ -7010,7 +5925,7 @@
 	URI of a folder.
 	(get_uri): Default implementation.
 
-2001-09-14  Not Zed  <NotZed@Ximian.com>
+2001-09-14    <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (camel_vee_folder_set_folders): New function,
 	set the complete list of folders on a vfolder, all at once.
@@ -7029,7 +5944,7 @@
 	* camel-store.h: Add a new flags CAMEL_STORE_VTRASH -> store
 	supports vtrash.
 
-2001-09-13  Not Zed  <NotZed@Ximian.com>
+2001-09-13    <NotZed@Ximian.com>
 
 	* camel-vee-store.c (vee_get_folder_info): Implement.
 	(build_info): Used to build a folder record from the folders
@@ -7056,7 +5971,7 @@
 	name?query syntax to setup vfolder, but set the expression
 	directly.  Also fixes a small memleak.
 
-2001-09-12  Not Zed  <NotZed@Ximian.com>
+2001-09-12    <NotZed@Ximian.com>
 
 	* camel-store.c (camel_store_delete_folder): Fixed warnings with a
 	cast.
@@ -7125,7 +6040,7 @@
 	* camel-filter-driver.c (camel_filter_driver_filter_mbox): free
 	the source url in the nonfailure case.
 
-2001-09-12  Not Zed  <NotZed@Ximian.com>
+2001-09-12    <NotZed@Ximian.com>
 
 	* camel-folder-search.h: Change the 'not' virtual method from an
 	immediate e-sexp function to a non-immediate one, which is what it
@@ -7142,7 +6057,7 @@
 	* camel-filter-driver.c (camel_filter_driver_filter_mbox): Unref
 	the message info.
 
-2001-09-10  Not Zed  <NotZed@Ximian.com>
+2001-09-10    <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-store.c (get_folder_info): Pass in
 	a hashtalbe used for finding visited nodes.
@@ -7169,7 +6084,7 @@
 	* camel-charset-map.c (camel_charset_to_iconv): Get rid of the
 	g_warning, we no longer really need that.
 
-2001-09-10  Not Zed  <NotZed@Ximian.com>
+2001-09-10    <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (camel_imap_msg_new): Forgot
 	to return the newly allocated msg.
@@ -7216,7 +6131,7 @@
 	(camel_mime_part_construct_content_from_parser): Reuse the
 	original boundary instead of generating our own.
 
-2001-09-06  Not Zed  <NotZed@Ximian.com>
+2001-09-06    <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-folder.c (filter_proc): Thread
 	function to perform filtering.
@@ -7796,7 +6711,7 @@
 
 2001-07-31  Not Zed  <NotZed@Ximian.com>
 
-	* camel-folder.c (camel_folder_init): Changed mutexes to
+	* camel-folder.c (camel_folder_init): Chagned mutexes to
 	e_mutexes, folder lock recursive.  This fixes the imap filtering
 	bug, or at least some cases of it.
 	(camel_folder_finalize): Free mutexes.
@@ -9972,7 +8887,7 @@
 	* providers/smtp/camel-smtp-provider.c: Same
 	* providers/smtp/camel-smtp-transport.c: #ifdef HAVE_CONFIG_H, mark
 	strings for translations.
-
+	
 2001-03-29  Dan Winship  <danw@ximian.com>
 
 	* camel-url.c (camel_url_to_string): change "gboolean show_passwd"
@@ -10009,7 +8924,7 @@
 	* camel-search-private.c: #include <config.h>
 	* camel-vee-folder.c: Mark string for translation.
 	* providers/local/camel-mbox-summary.c: #include <config.h>
-
+	
 2001-04-03  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_sync): If we don't
@@ -10597,7 +9512,7 @@
 2001-03-16  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* providers/pop3/camel-pop3-folder.c: Added #include <config.h>
-
+	
 2001-03-16  Dan Winship  <danw@ximian.com>
 
 	* camel-mime-utils.c (header_msgid_generate): Don't use
@@ -11863,7 +10778,7 @@
 2001-01-19  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* providers/smtp/camel-smtp-provider.c: Mark strings for translation.
-
+	
 2001-01-19  Not Zed  <NotZed@Ximian.com>
 
 	* camel-filter-driver.c (report_status): Add a percentage complete
@@ -11912,7 +10827,7 @@
 	New smtp error-code to string mapping function.
 	(smtp_connect): Use the new error->string function for reporting
 	useful errors.
-	(smtp_helo): Same. Also use a case-insensitive strstr for 8BITMIME
+	(smtp_helo): Same. Also use a case-insensitive strstr for 8BITMIEM
 	as it seems Exchange sends back lowercase for that one single SMTP
 	extension. Everything else is uppercase. I'm seeing a lack of love
 	for that extension by Microsoft dudes...
@@ -14619,7 +13534,7 @@
 	* camel-charset-map.c, camel-charset-map-private.h: synced all charsets
 	with ones found in libunicode. Just include more "iso/*.h" and rebuild
 	...private.h with this.
-
+	
 2000-10-31  Dan Winship  <danw@helixcode.com>
 
 	* camel-service.c (service_disconnect): Add a new argument, clean,
@@ -14733,7 +13648,7 @@
 	Content-type parameters when the quoting is mandatory, and deal
 	with embedded quotes/backslashes when quoting.
 
-2000-10-27  JPR  <jpr@helixcode.com>
+2000-10-27    <jpr@helixcode.com>
 
 	* providers/pop3/Makefile.am: Tidy up build
 
@@ -14747,7 +13662,7 @@
 2000-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* camel-exceptions-list.def: Add newline to kill warnings.
-
+	
 2000-10-25  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_info): Fix folder
@@ -16844,6 +15759,7 @@
 
 	* providers/imap/camel-imap-folder.c:
 	(summary_get_internal): Same as above.
+	
 
 2000-07-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
@@ -18781,6 +17697,7 @@
 
 	* camel-mime-part.c (camel_mime_part_set_content): Change
 	camel_data_wrapper_new to camel_simple_data_wrapper_new.
+	
 
 2000-05-17  Darin Adler  <darin@eazel.com>
 
@@ -18919,12 +17836,12 @@
 	* camel-mime-message.c (finalize): Free message_uid.
 	(finalize): Free the recipients hashtable.
 
-2000-05-11  NotZed  <notzed@helixcode.com>
+2000-05-11    <notzed@helixcode.com>
 
 	* camel-folder-summary.c (camel_folder_summary_finalise): Free
 	summary items and charset filters.
 
-2000-05-10  NotZed  <notzed@helixcode.com>
+2000-05-10    <notzed@helixcode.com>
 
 	* camel-folder-summary.c (camel_folder_summary_finalise): Don't
 	free stuff in p, after we've free'd p.
@@ -19120,7 +18037,7 @@
 	* providers/smtp/camel-smtp-provider.c: Note in the description
 	that this provider is not yet tested.
 
-2000-05-08  NotZed  <notzed@helixcode.com>
+2000-05-08    <notzed@helixcode.com>
 
 	* camel-mime-part.c (write_to_stream): Free the filter stream when
 	done.
@@ -19181,7 +18098,7 @@
 	returns, and automagically translates 'From ' into '>From' as
 	necessary.
 
-2000-05-07  NotZed  <notzed@helixcode.com>
+2000-05-07    <notzed@helixcode.com>
 
 	* camel-mime-filter.c (filter_run): Oops, forgot to add the
 	backlen to the pre-buffer (*poof*).
@@ -19208,7 +18125,7 @@
 	(camel_mbox_summary_load): Removed some fo that checking, it needs
 	more code to work reliably.
 
-2000-05-07  NotZed  <notzed@helixcode.com>
+2000-05-07    <notzed@helixcode.com>
 
 	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_load):
 	Set the size and mtime of the mbox we indexed once done.
@@ -19275,7 +18192,7 @@
 
 	Commented out some memory profiling stuff.
 
-2000-05-05  NotZed  <notzed@helixcode.com>
+2000-05-05    <notzed@helixcode.com>
 
 	* camel-mime-utils.c (header_decode_mailbox): Plug a memory leak.
 	(header_decode_text): Fixed memory leaks with g_string_append().
@@ -19283,7 +18200,7 @@
 	glib api is so awful ...
 	(header_content_type_decode): More memory leaks.
 
-2000-05-05  NotZed  <notzed@helixcode.com>
+2000-05-05    <notzed@helixcode.com>
 
 	* camel-mime-parser.c (folder_scan_init_with_fd): Make sure we
 	init the end of buffer sentinal!
@@ -19466,7 +18383,7 @@
 	(header_append): Also move the header-start tracking stuff here.
 	Could be a static function to save code.
 
-2000-05-02  NotZed  <notzed@helixcode.com>
+2000-05-02    <notzed@helixcode.com>
 
 	* camel-mime-part-utils.c
 	(simple_data_wrapper_construct_from_parser): Dont use autofill on
@@ -21375,16 +20292,19 @@
 	* camel-stream-b64.[ch] :
 	b64 encoding/decoding is now implemented as
 	a stream. 
+	
 
 2000-02-21  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel-seekable-substream.c (_reemit_parent_signal): 
 	emit "data_available" when parent stream emits it. 
 
+
 2000-02-21  NotZed  <NotZed@HelixCode.com>
 
 	* providers/mbox/Makefile.am: Uh, fixed LIBADD again.  What was
 	there was never ever going to work, wasn't it tested?
+
 
 2000-02-21  Dan Winship  <danw@helixcode.com>
 

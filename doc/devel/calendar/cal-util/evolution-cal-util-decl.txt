@@ -525,6 +525,11 @@ CalComponent *comp
 CalComponent *comp
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_component_is_instance</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalComponent *comp
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_component_get_sequence</NAME>
 <RETURNS>void  </RETURNS>
 CalComponent *comp, int **sequence
@@ -613,6 +618,11 @@ GSList *categ_list
 <NAME>cal_component_free_datetime</NAME>
 <RETURNS>void  </RETURNS>
 CalComponentDateTime *dt
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_free_range</NAME>
+<RETURNS>void  </RETURNS>
+CalComponentRange *range
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_component_free_exdate_list</NAME>
@@ -838,6 +848,21 @@ CalComponentAlarm *alarm, CalAlarmTrigger *trigger
 CalComponentAlarm *alarm, CalAlarmTrigger trigger
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_component_alarm_get_attendee_list</NAME>
+<RETURNS>void  </RETURNS>
+CalComponentAlarm *alarm, GSList **attendee_list
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_alarm_set_attendee_list</NAME>
+<RETURNS>void  </RETURNS>
+CalComponentAlarm *alarm, GSList *attendee_list
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_alarm_has_attendees</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalComponentAlarm *alarm
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_component_alarm_get_icalcomponent</NAME>
 <RETURNS>icalcomponent  *</RETURNS>
 CalComponentAlarm *alarm
@@ -884,6 +909,15 @@ typedef enum {
 } CalObjType;
 </ENUM>
 <ENUM>
+<NAME>CalObjModType</NAME>
+typedef enum {
+	CALOBJ_MOD_THIS          = 1 << 0,
+	CALOBJ_MOD_THISANDPRIOR  = 1 << 1,
+	CALOBJ_MOD_THISANDFUTURE = 1 << 2,
+	CALOBJ_MOD_ALL           = 0x07
+} CalObjModType;
+</ENUM>
+<ENUM>
 <NAME>CalMode</NAME>
 typedef enum {
 	CAL_MODE_INVALID = -1,
@@ -905,12 +939,12 @@ void
 <FUNCTION>
 <NAME>cal_util_generate_alarms_for_comp</NAME>
 <RETURNS>CalComponentAlarms  *</RETURNS>
-CalComponent *comp,time_t start,time_t end,CalRecurResolveTimezoneFn resolve_tzid,gpointer user_data,icaltimezone *default_timezone
+CalComponent *comp,time_t start,time_t end,CalAlarmAction *omit,CalRecurResolveTimezoneFn resolve_tzid,gpointer user_data,icaltimezone *default_timezone
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_util_generate_alarms_for_list</NAME>
 <RETURNS>int  </RETURNS>
-GList *comps,time_t start,time_t end,GSList **comp_alarms,CalRecurResolveTimezoneFn resolve_tzid,gpointer user_data,icaltimezone *default_timezone
+GList *comps,time_t start,time_t end,CalAlarmAction *omit,GSList **comp_alarms,CalRecurResolveTimezoneFn resolve_tzid,gpointer user_data,icaltimezone *default_timezone
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_util_resolve_tzid</NAME>

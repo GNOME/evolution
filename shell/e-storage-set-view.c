@@ -33,7 +33,6 @@
 #include "e-icon-factory.h"
 #include "e-folder-dnd-bridge.h"
 #include "e-shell-constants.h"
-#include "e-shell-marshal.h"
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -41,16 +40,14 @@
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-cell-tree.h>
+#include <gal/unicode/gunicode.h>
 
+#include <glib.h>
+#include <gnome.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-popup-menu.h>
-
-#include <bonobo/bonobo-window.h>
 #include <bonobo/bonobo-ui-util.h>
-
-#include <gtk/gtksignal.h>
-
-#include <string.h>
+#include <libgnome/gnome-util.h>
 
 #include "check-empty.xpm"
 #include "check-filled.xpm"
@@ -325,7 +322,7 @@ get_pixbuf_for_folder (EStorageSetView *storage_set_view,
 	icon_pixbuf_height = gdk_pixbuf_get_height (icon_pixbuf);
 
 	if (icon_pixbuf_width == E_SHELL_MINI_ICON_SIZE && icon_pixbuf_height == E_SHELL_MINI_ICON_SIZE) {
-		scaled_pixbuf = g_object_ref (icon_pixbuf);
+		scaled_pixbuf = gdk_pixbuf_ref (icon_pixbuf);
 	} else {
 		scaled_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (icon_pixbuf),
 						gdk_pixbuf_get_has_alpha (icon_pixbuf),
@@ -410,13 +407,37 @@ convert_gdk_drag_action_set_to_corba (GdkDragAction action)
 /* The weakref callback for priv->ui_component.  */
 
 static void
-ui_container_destroy_notify (void *data,
-			     GObject *where_the_object_was)
+ui_container_destroy_notify (void *data)
 {
 	EStorageSetViewPrivate *priv  = (EStorageSetViewPrivate *) data;
 
 	priv->ui_container = NULL;
 }	
+
+
+/* Custom marshalling function.  */
+
+typedef void (* GtkSignal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING) (GtkObject *object,
+								      GdkDragContext *action,
+								      const char *,
+								      const char *,
+								      const char *);
+
+static void
+marshal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING (GtkObject *object,
+						   GtkSignalFunc func,
+						   void *func_data,
+						   GtkArg *args)
+{
+	GtkSignal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING rfunc;
+
+	rfunc = (GtkSignal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING) func;
+	(* rfunc) (object,
+		   GTK_VALUE_POINTER (args[0]),
+		   GTK_VALUE_STRING (args[1]),
+		   GTK_VALUE_STRING (args[2]),
+		   GTK_VALUE_STRING (args[3]));
+}
 
 
 /* DnD selection setup stuff.  */
@@ -671,16 +692,16 @@ setup_folder_properties_items_if_corba_storage_clicked (EStorageSetView *storage
 		item = (const ECorbaStoragePropertyItem *) p->data;
 		num_property_items ++;
 
-		g_string_append_printf (xml, "<menuitem name=\"EStorageSetView:FolderPropertyItem:%d\"",
-					num_property_items);
-		g_string_append_printf (xml, " verb=\"EStorageSetView:FolderPropertyItem:%d\"",
-					num_property_items);
+		g_string_sprintfa (xml, "<menuitem name=\"EStorageSetView:FolderPropertyItem:%d\"",
+				   num_property_items);
+		g_string_sprintfa (xml, " verb=\"EStorageSetView:FolderPropertyItem:%d\"",
+				   num_property_items);
 
 		encoded_tooltip = bonobo_ui_util_encode_str (item->tooltip);
-		g_string_append_printf (xml, " tip=\"%s\"", encoded_tooltip);
+		g_string_sprintfa (xml, " tip=\"%s\"", encoded_tooltip);
 
 		encoded_label = bonobo_ui_util_encode_str (item->label);
-		g_string_append_printf (xml, " label=\"%s\"/>", encoded_label);
+		g_string_sprintfa (xml, " label=\"%s\"/>", encoded_label);
 
 		g_free (encoded_tooltip);
 		g_free (encoded_label);
@@ -693,8 +714,8 @@ setup_folder_properties_items_if_corba_storage_clicked (EStorageSetView *storage
 	data->corba_storage    = E_CORBA_STORAGE (storage);
 	data->num_items        = num_property_items;
 
-	g_object_ref (data->storage_set_view);
-	g_object_ref (data->corba_storage);
+	gtk_object_ref (GTK_OBJECT (data->storage_set_view));
+	gtk_object_ref (GTK_OBJECT (data->corba_storage));
 
 	for (i = 1; i <= num_property_items; i ++) {
 		char *verb;
@@ -742,8 +763,8 @@ remove_property_items (EStorageSetView *storage_set_view,
 		}
 	}
 
-	g_object_unref (data->storage_set_view);
-	g_object_unref (data->corba_storage);
+	gtk_object_unref (GTK_OBJECT (data->storage_set_view));
+	gtk_object_unref (GTK_OBJECT (data->corba_storage));
 
 	g_free (data);
 }
@@ -756,13 +777,13 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 	EStorageSetViewPrivate *priv;
 	EFolderTypeRegistry *folder_type_registry;
 	EFolder *folder;
-	GtkWidget *menu, *window;
+	GtkWidget *menu;
 	FolderPropertyItemsData *folder_property_items_data;
 
 	priv = storage_set_view->priv;
 
 	folder = e_storage_set_get_folder (priv->storage_set, priv->right_click_row_path);
-	g_object_ref (folder);
+	gtk_object_ref (GTK_OBJECT (folder));
 
 	folder_type_registry = e_storage_set_get_folder_type_registry (priv->storage_set);
 	g_assert (folder_type_registry != NULL);
@@ -770,10 +791,7 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 	handler = e_folder_type_registry_get_handler_for_type (folder_type_registry,
 							       e_folder_get_type_string (folder));
 	menu = gtk_menu_new ();
-
-	window = gtk_widget_get_ancestor (GTK_WIDGET (storage_set_view),
-					  BONOBO_TYPE_WINDOW);
-	bonobo_window_add_popup (BONOBO_WINDOW (window),
+	bonobo_window_add_popup (bonobo_ui_container_get_win (priv->ui_container),
 				 GTK_MENU (menu), "/popups/FolderPopup");
 
 	bonobo_ui_component_set (priv->ui_component,
@@ -790,8 +808,7 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 
 	gtk_widget_show (GTK_WIDGET (menu));
 
-	gnome_popup_menu_do_popup_modal (GTK_WIDGET (menu), NULL, NULL, event, NULL,
-					 GTK_WIDGET (storage_set_view));
+	gnome_popup_menu_do_popup_modal (GTK_WIDGET (menu), NULL, NULL, event, NULL);
 
 	if (folder_property_items_data != NULL)
 		remove_property_items (storage_set_view, folder_property_items_data);
@@ -802,7 +819,7 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 										 e_folder_get_physical_uri (folder),
 										 e_folder_get_type_string (folder));
 
-	g_object_unref (folder);
+	gtk_object_unref (GTK_OBJECT (folder));
 	gtk_widget_destroy (GTK_WIDGET (menu));
 
 	e_tree_right_click_up (E_TREE (storage_set_view));
@@ -812,14 +829,20 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 /* GtkObject methods.  */
 
 static void
-pixbuf_free_func (gpointer key, gpointer value, gpointer user_data)
+path_free_func (gpointer key, gpointer value, gpointer user_data)
 {
 	g_free (key);
-	g_object_unref ((GdkPixbuf*)value);
 }
 
 static void
-impl_dispose (GObject *object)
+pixbuf_free_func (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	gdk_pixbuf_unref ((GdkPixbuf*)value);
+}
+
+static void
+impl_destroy (GtkObject *object)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
@@ -827,21 +850,26 @@ impl_dispose (GObject *object)
 	storage_set_view = E_STORAGE_SET_VIEW (object);
 	priv = storage_set_view->priv;
 
-	if (priv->etree_model != NULL) {
-		/* Destroy the tree.  */
-		e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), priv->root_node);
-		g_object_unref (priv->etree_model);
-		priv->etree_model = NULL;
+	/* need to destroy our tree */
+	e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), priv->root_node);
+	gtk_object_unref (GTK_OBJECT (priv->etree_model));
 
-		/* (The data in the hash table was all freed by freeing the tree.)  */
-		g_hash_table_destroy (priv->path_to_etree_node);
-		priv->path_to_etree_node = NULL;
+	/* the data in the hash table was all freed by freeing the tree */
+	g_hash_table_foreach (priv->path_to_etree_node, path_free_func, NULL);
+	g_hash_table_destroy (priv->path_to_etree_node);
+
+	/* now free up all the type_names and pixbufs stored in the
+           hash table and destroy the hash table itself */
+	g_hash_table_foreach (priv->type_name_to_pixbuf, pixbuf_free_func, NULL);
+	g_hash_table_destroy (priv->type_name_to_pixbuf);
+
+	if (priv->checkboxes) {
+		g_hash_table_foreach (priv->checkboxes, (GHFunc) g_free, NULL);
+		g_hash_table_destroy (priv->checkboxes);
+		priv->checkboxes = NULL;
 	}
 
-	if (priv->storage_set != NULL) {
-		g_object_unref (priv->storage_set);
-		priv->storage_set = NULL;
-	}
+	gtk_object_unref (GTK_OBJECT (priv->storage_set));
 
 	if (priv->drag_corba_source_interface != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
@@ -858,35 +886,6 @@ impl_dispose (GObject *object)
 		CORBA_Object_release (priv->drag_corba_source_interface, &ev);
 
 		CORBA_exception_free (&ev);
-
-		priv->drag_corba_source_interface = CORBA_OBJECT_NIL;
-	}
-
-	if (priv->ui_component != NULL) {
-		bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
-		priv->ui_component = NULL;
-	}
-
-	/* (No unreffing for priv->ui_container since we use a weakref.)  */
-
-	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
-}
-
-static void
-impl_finalize (GObject *object)
-{
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-
-	storage_set_view = E_STORAGE_SET_VIEW (object);
-	priv = storage_set_view->priv;
-
-	g_hash_table_foreach (priv->type_name_to_pixbuf, pixbuf_free_func, NULL);
-	g_hash_table_destroy (priv->type_name_to_pixbuf);
-
-	if (priv->checkboxes != NULL) {
-		g_hash_table_foreach (priv->checkboxes, (GHFunc) g_free, NULL);
-		g_hash_table_destroy (priv->checkboxes);
 	}
 
 	if (priv->drag_corba_source_context != NULL)
@@ -895,12 +894,17 @@ impl_finalize (GObject *object)
 	if (priv->drag_corba_data != NULL)
 		CORBA_free (priv->drag_corba_data);
 
+	if (priv->ui_component != NULL)
+		bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
+
+	/* (No unreffing for priv->ui_container since we use a weakref.)  */
+
 	g_free (priv->selected_row_path);
 	g_free (priv->right_click_row_path);
 
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
@@ -981,7 +985,7 @@ impl_tree_drag_begin (ETree *etree,
 
 	CORBA_exception_init (&ev);
 
-	corba_component = evolution_shell_component_client_corba_objref (component_client);
+	corba_component = bonobo_object_corba_objref (BONOBO_OBJECT (component_client));
 	priv->drag_corba_source_interface = Bonobo_Unknown_queryInterface (corba_component,
 									   "IDL:GNOME/Evolution/ShellComponentDnd/SourceFolder:1.0",
 									   &ev);
@@ -1098,11 +1102,10 @@ impl_tree_drag_data_get (ETree *etree,
 								&ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)
-		gtk_selection_data_set (selection_data,
-					selection_data->target, 8, "", -1);
+		gtk_selection_data_set (selection_data, selection_data->target, 8, "", -1);
 	else
 		gtk_selection_data_set (selection_data,
-					gdk_atom_intern (priv->drag_corba_data->target, FALSE),
+					priv->drag_corba_data->target,
 					priv->drag_corba_data->format,
 					priv->drag_corba_data->bytes._buffer,
 					priv->drag_corba_data->bytes._length);
@@ -1161,7 +1164,7 @@ impl_tree_drag_motion (ETree *tree,
 		return FALSE;
 
 	folder_path = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model),
-						   e_tree_node_at_row (E_TREE (storage_set_view), row));
+					    e_tree_node_at_row (E_TREE (storage_set_view), row));
 	if (folder_path == NULL)
 		return FALSE;
 
@@ -1263,11 +1266,14 @@ impl_right_click (ETree *etree,
 	priv->right_click_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path));
 
 	if (priv->ui_container) {
-		g_signal_emit (storage_set_view, signals[FOLDER_CONTEXT_MENU_POPPING_UP], 0, priv->right_click_row_path);
+		gtk_signal_emit (GTK_OBJECT (storage_set_view),
+				 signals[FOLDER_CONTEXT_MENU_POPPING_UP],
+				 priv->right_click_row_path);
 
 		popup_folder_menu (storage_set_view, (GdkEventButton *) event);
 
-		g_signal_emit (storage_set_view, signals[FOLDER_CONTEXT_MENU_POPPED_DOWN], 0);
+		gtk_signal_emit (GTK_OBJECT (storage_set_view),
+				 signals[FOLDER_CONTEXT_MENU_POPPED_DOWN]);
 	}
 
 	g_free (priv->right_click_row_path);
@@ -1292,8 +1298,8 @@ impl_cursor_activated (ETree *tree,
 	if (path) {
 		priv->selected_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), path));
 
-		g_signal_emit (storage_set_view, signals[FOLDER_SELECTED], 0,
-			       priv->selected_row_path);
+		gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
+				 priv->selected_row_path);
 	}
 	else
 		priv->selected_row_path = NULL;
@@ -1451,7 +1457,9 @@ etree_value_at (ETreeModel *etree,
 
 			name_with_unread = g_strdup_printf ("%s (%d)", folder_name,
 							    unread_count);
-			g_object_set_data_full (G_OBJECT (folder), "name_with_unread", name_with_unread, g_free);
+			gtk_object_set_data_full (GTK_OBJECT (folder),
+						  "name_with_unread",
+						  name_with_unread, g_free);
 
 			return (void *) name_with_unread;
 		} else
@@ -1489,7 +1497,8 @@ etree_fill_in_children (ETreeModel *etree,
 	parent = e_tree_model_node_get_parent (etree, tree_path);
 	path = (char *) e_tree_memory_node_get_data (E_TREE_MEMORY(etree), parent);
 	if (tree_path == e_tree_model_node_get_first_child (etree, parent)) {
-		g_signal_emit (storage_set_view, signals[FOLDER_OPENED], 0, path);
+		gtk_signal_emit (GTK_OBJECT (storage_set_view),
+				 signals[FOLDER_OPENED], path);
 	}
 }
 
@@ -1533,7 +1542,8 @@ etree_set_value_at (ETreeModel *etree,
 		}
 
 		e_tree_model_node_col_changed (etree, tree_path, col);
-		g_signal_emit (storage_set_view, signals[CHECKBOXES_CHANGED], 0);
+		gtk_signal_emit (GTK_OBJECT (storage_set_view),
+				 signals[CHECKBOXES_CHANGED]);
 		break;
 	}
 }
@@ -1784,14 +1794,13 @@ close_folder_cb (EStorageSet *storage_set,
 static void
 class_init (EStorageSetViewClass *klass)
 {
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 	ETreeClass *etree_class;
 
-	parent_class = g_type_class_ref(PARENT_TYPE);
+	parent_class = gtk_type_class (PARENT_TYPE);
 
-	object_class = G_OBJECT_CLASS (klass);
-	object_class->dispose  = impl_dispose;
-	object_class->finalize = impl_finalize;
+	object_class = GTK_OBJECT_CLASS (klass);
+	object_class->destroy = impl_destroy;
 
 	etree_class = E_TREE_CLASS (klass);
 	etree_class->right_click             = impl_right_click;
@@ -1807,65 +1816,61 @@ class_init (EStorageSetViewClass *klass)
 	etree_class->tree_drag_data_received = impl_tree_drag_data_received;
 
 	signals[FOLDER_SELECTED]
-		= g_signal_new ("folder_selected",
-				G_OBJECT_CLASS_TYPE (object_class),
-				G_SIGNAL_RUN_FIRST,
-				G_STRUCT_OFFSET (EStorageSetViewClass, folder_selected),
-				NULL, NULL,
-				e_shell_marshal_NONE__STRING,
-				G_TYPE_NONE, 1,
-				G_TYPE_STRING);
+		= gtk_signal_new ("folder_selected",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_selected),
+				  gtk_marshal_NONE__STRING,
+				  GTK_TYPE_NONE, 1,
+				  GTK_TYPE_STRING);
 
 	signals[FOLDER_OPENED]
-		= g_signal_new ("folder_opened",
-				G_OBJECT_CLASS_TYPE (object_class),
-				G_SIGNAL_RUN_FIRST,
-				G_STRUCT_OFFSET (EStorageSetViewClass, folder_opened),
-				NULL, NULL,
-				e_shell_marshal_NONE__STRING,
-				G_TYPE_NONE, 1,
-				G_TYPE_STRING);
+		= gtk_signal_new ("folder_opened",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_opened),
+				  gtk_marshal_NONE__STRING,
+				  GTK_TYPE_NONE, 1,
+				  GTK_TYPE_STRING);
 
 	signals[DND_ACTION]
-		= g_signal_new ("dnd_action",
-				G_OBJECT_CLASS_TYPE (object_class),
-				G_SIGNAL_RUN_FIRST,
-				G_STRUCT_OFFSET (EStorageSetViewClass, dnd_action),
-				NULL, NULL,
-				e_shell_marshal_NONE__POINTER_POINTER_POINTER_POINTER,
-				G_TYPE_NONE, 4,
-				G_TYPE_POINTER,
-				G_TYPE_POINTER,
-				G_TYPE_POINTER,
-				G_TYPE_POINTER);
+		= gtk_signal_new ("dnd_action",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, dnd_action),
+				  marshal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING,
+				  GTK_TYPE_NONE, 4,
+				  GTK_TYPE_GDK_DRAG_CONTEXT,
+				  GTK_TYPE_STRING,
+				  GTK_TYPE_STRING,
+				  GTK_TYPE_STRING);
 
 	signals[FOLDER_CONTEXT_MENU_POPPING_UP]
-		= g_signal_new ("folder_context_menu_popping_up",
-				G_OBJECT_CLASS_TYPE (object_class),
-				G_SIGNAL_RUN_FIRST,
-				G_STRUCT_OFFSET (EStorageSetViewClass, folder_context_menu_popping_up),
-				NULL, NULL,
-				e_shell_marshal_NONE__STRING,
-				G_TYPE_NONE, 1,
-				G_TYPE_STRING);
+		= gtk_signal_new ("folder_context_menu_popping_up",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_context_menu_popping_up),
+				  gtk_marshal_NONE__STRING,
+				  GTK_TYPE_NONE, 1,
+				  GTK_TYPE_STRING);
 
 	signals[FOLDER_CONTEXT_MENU_POPPED_DOWN]
-		= g_signal_new ("folder_context_menu_popped_down",
-				G_OBJECT_CLASS_TYPE (object_class),
-				G_SIGNAL_RUN_FIRST,
-				G_STRUCT_OFFSET (EStorageSetViewClass, folder_context_menu_popped_down),
-				NULL, NULL,
-				e_shell_marshal_NONE__NONE,
-				G_TYPE_NONE, 0);
+		= gtk_signal_new ("folder_context_menu_popped_down",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_context_menu_popped_down),
+				  gtk_marshal_NONE__NONE,
+				  GTK_TYPE_NONE, 0);
 
 	signals[CHECKBOXES_CHANGED]
-		= g_signal_new ("checkboxes_changed",
-				G_OBJECT_CLASS_TYPE (object_class),
-				G_SIGNAL_RUN_FIRST,
-				G_STRUCT_OFFSET (EStorageSetViewClass, checkboxes_changed),
-				NULL, NULL,
-				e_shell_marshal_NONE__NONE,
-				G_TYPE_NONE, 0);
+		= gtk_signal_new ("checkboxes_changed",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, checkboxes_changed),
+				  gtk_marshal_NONE__NONE,
+				  GTK_TYPE_NONE, 0);
+
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	checks [0] = gdk_pixbuf_new_from_xpm_data (check_empty_xpm);
 	checks [1] = gdk_pixbuf_new_from_xpm_data (check_filled_xpm);
@@ -1993,18 +1998,18 @@ setup_folder_changed_callbacks (EStorageSetView *storage_set_view,
 	folder_changed_callback_data->storage_set_view = storage_set_view;
 	folder_changed_callback_data->path = g_strdup (path);
 
-	e_signal_connect_while_alive (folder, "name_changed",
-				      G_CALLBACK (folder_name_changed_cb),
-				      folder_changed_callback_data,
-				      storage_set_view);
+	gtk_signal_connect_while_alive (GTK_OBJECT (folder), "name_changed",
+					GTK_SIGNAL_FUNC (folder_name_changed_cb),
+					folder_changed_callback_data,
+					GTK_OBJECT (storage_set_view));
 
-	e_signal_connect_full_while_alive (folder, "changed",
-					   G_CALLBACK (folder_changed_cb),
-					   NULL,
-					   folder_changed_callback_data,
-					   folder_changed_callback_data_destroy_notify,
-					   FALSE, FALSE,
-					   storage_set_view);
+	e_gtk_signal_connect_full_while_alive (GTK_OBJECT (folder), "changed",
+					       GTK_SIGNAL_FUNC (folder_changed_cb),
+					       NULL,
+					       folder_changed_callback_data,
+					       folder_changed_callback_data_destroy_notify,
+					       FALSE, FALSE,
+					       GTK_OBJECT (storage_set_view));
 }
 
 
@@ -2107,12 +2112,11 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 
 	priv->ui_container = ui_container;
 	if (ui_container != NULL) {
-		g_object_weak_ref (G_OBJECT (ui_container), ui_container_destroy_notify, priv);
+		gtk_object_weakref (GTK_OBJECT (ui_container), ui_container_destroy_notify, priv);
 
 		priv->ui_component = bonobo_ui_component_new_default ();
 		bonobo_ui_component_set_container (priv->ui_component,
-						   bonobo_object_corba_objref (BONOBO_OBJECT (ui_container)),
-						   NULL);
+						   bonobo_object_corba_objref (BONOBO_OBJECT (ui_container)));
 	}
 
 	priv->etree_model = e_tree_memory_callbacks_new (etree_icon_at,
@@ -2146,7 +2150,7 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 
 	extras = e_table_extras_new ();
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set((cell), "bold_column", 1, NULL);
+	gtk_object_set (GTK_OBJECT (cell), "bold_column", 1, NULL);
 	e_table_extras_add_cell (extras, "render_tree",
 				 e_cell_tree_new (NULL, NULL, TRUE, cell));
 
@@ -2158,21 +2162,35 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 
 	e_tree_root_node_set_visible (E_TREE(storage_set_view), FALSE);
 
-	g_object_unref (extras);
+	gtk_object_unref (GTK_OBJECT (extras));
 
-	g_object_ref (storage_set);
+	gtk_object_ref (GTK_OBJECT (storage_set));
 	priv->storage_set = storage_set;
 
 	e_tree_drag_dest_set (E_TREE (storage_set_view), 0, NULL, 0, GDK_ACTION_MOVE | GDK_ACTION_COPY);
 
-	g_signal_connect_object (storage_set, "new_storage", G_CALLBACK (new_storage_cb), storage_set_view, 0);
-	g_signal_connect_object (storage_set, "removed_storage", G_CALLBACK (removed_storage_cb), storage_set_view, 0);
-	g_signal_connect_object (storage_set, "new_folder", G_CALLBACK (new_folder_cb), storage_set_view, 0);
-	g_signal_connect_object (storage_set, "updated_folder", G_CALLBACK (updated_folder_cb), storage_set_view, 0);
-	g_signal_connect_object (storage_set, "removed_folder", G_CALLBACK (removed_folder_cb), storage_set_view, 0);
-	g_signal_connect_object (storage_set, "close_folder", G_CALLBACK (close_folder_cb), storage_set_view, 0);
+	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "new_storage",
+					GTK_SIGNAL_FUNC (new_storage_cb), storage_set_view,
+					GTK_OBJECT (storage_set_view));
+	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "removed_storage",
+					GTK_SIGNAL_FUNC (removed_storage_cb), storage_set_view,
+					GTK_OBJECT (storage_set_view));
+	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "new_folder",
+					GTK_SIGNAL_FUNC (new_folder_cb), storage_set_view,
+					GTK_OBJECT (storage_set_view));
+	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "updated_folder",
+					GTK_SIGNAL_FUNC (updated_folder_cb), storage_set_view,
+					GTK_OBJECT (storage_set_view));
+	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "removed_folder",
+					GTK_SIGNAL_FUNC (removed_folder_cb), storage_set_view,
+					GTK_OBJECT (storage_set_view));
+	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "close_folder",
+					GTK_SIGNAL_FUNC (close_folder_cb), storage_set_view,
+					GTK_OBJECT (storage_set_view));
 
-	g_signal_connect_object (priv->etree_model, "fill_in_children", G_CALLBACK (etree_fill_in_children), storage_set_view, 0);
+	gtk_signal_connect_while_alive (GTK_OBJECT (priv->etree_model), "fill_in_children",
+					GTK_SIGNAL_FUNC (etree_fill_in_children), storage_set_view,
+					GTK_OBJECT (storage_set_view));
 
 	insert_storages (storage_set_view);
 }
@@ -2186,7 +2204,7 @@ e_storage_set_view_new (EStorageSet *storage_set,
 
 	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
 
-	new = g_object_new (e_storage_set_view_get_type (), NULL);
+	new = gtk_type_new (e_storage_set_view_get_type ());
 
 	e_storage_set_view_construct (E_STORAGE_SET_VIEW (new), storage_set, ui_container);
 
@@ -2228,7 +2246,7 @@ e_storage_set_view_set_current_folder (EStorageSetView *storage_set_view,
 	g_free (priv->selected_row_path);
 	priv->selected_row_path = g_strdup (path);
 
-	g_signal_emit (storage_set_view, signals[FOLDER_SELECTED], 0, path);
+	gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED], path);
 }
 
 const char *
@@ -2324,6 +2342,8 @@ e_storage_set_view_set_show_checkboxes (EStorageSetView *storage_set_view,
 		state->columns [0] = 1;
 	e_tree_set_state_object (E_TREE (storage_set_view), state);
 
+	gtk_object_unref (GTK_OBJECT (state));
+
 	priv->has_checkbox_func = has_checkbox_func;
 	priv->has_checkbox_func_data = func_data;
 }
@@ -2355,7 +2375,7 @@ e_storage_set_view_enable_search (EStorageSetView *storage_set_view,
 
 void
 e_storage_set_view_set_checkboxes_list (EStorageSetView *storage_set_view,
-					GSList          *checkboxes)
+					GList           *checkboxes)
 {
 	gboolean changed = FALSE;
 	EStorageSetViewPrivate *priv = storage_set_view->priv;
@@ -2369,7 +2389,7 @@ e_storage_set_view_set_checkboxes_list (EStorageSetView *storage_set_view,
 
 	if (checkboxes) {
 		priv->checkboxes = g_hash_table_new (g_str_hash, g_str_equal);
-		for (; checkboxes; checkboxes = g_slist_next (checkboxes)) {
+		for (; checkboxes; checkboxes = g_list_next (checkboxes)) {
 			char *path = checkboxes->data;
 
 			if (g_hash_table_lookup (priv->checkboxes, path))
@@ -2392,22 +2412,21 @@ essv_add_to_list (gpointer	key,
 		  gpointer	value,
 		  gpointer	user_data)
 {
-	GSList **list = user_data;
+	GList **list = user_data;
 
-	*list = g_slist_prepend (*list, g_strdup (key));
+	*list = g_list_prepend (*list, g_strdup (key));
 }
 
-GSList *
+GList *
 e_storage_set_view_get_checkboxes_list (EStorageSetView *storage_set_view)
 {
-	GSList *list = NULL;
+	GList *list = NULL;
 
 	if (storage_set_view->priv->checkboxes) {
 		g_hash_table_foreach (storage_set_view->priv->checkboxes, essv_add_to_list, &list);
 
-		list = g_slist_reverse (list);
+		list = g_list_reverse (list);
 	}
-
 	return list;
 }
 

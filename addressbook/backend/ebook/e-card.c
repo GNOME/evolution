@@ -12,6 +12,7 @@
 
 #include "e-card.h"
 
+#include <gal/util/e-i18n.h>
 #include <gal/widgets/e-unicode.h>
 
 #include <ctype.h>
@@ -21,13 +22,15 @@
 #include <time.h>
 #include <math.h>
 
-#include <bonobo/bonobo-i18n.h>
+#include <gtk/gtkobject.h>
+#include <bonobo/bonobo-object-client.h>
 #include <gal/util/e-util.h>
 
 #include <libversit/vcc.h>
 #include "e-util/ename/e-name-western.h"
 #include "e-util/ename/e-address-western.h"
 #include "e-book.h"
+#include "e-destination.h"
 
 #define is_a_prop_of(obj,prop) (isAPropertyOf ((obj),(prop)))
 #define str_val(obj) (the_str = (vObjectValueType (obj))? fakeCString (vObjectUStringZValue (obj)) : calloc (1, 1))
@@ -39,55 +42,53 @@
 #define XEV_LIST_SHOW_ADDRESSES "X-EVOLUTION-LIST-SHOW_ADDRESSES"
 #define XEV_RELATED_CONTACTS "X-EVOLUTION-RELATED_CONTACTS"
 
-/* Object property IDs */
+/* Object argument IDs */
 enum {
-	PROP_0,
-	PROP_FILE_AS,
-	PROP_FULL_NAME,
-	PROP_NAME,
-	PROP_ADDRESS,
-	PROP_ADDRESS_LABEL,
-	PROP_PHONE,
-	PROP_EMAIL,
-	PROP_BIRTH_DATE,
-	PROP_URL,
-	PROP_ORG,
-	PROP_ORG_UNIT,
-	PROP_OFFICE,
-	PROP_TITLE,
-	PROP_ROLE,
-	PROP_MANAGER,
-	PROP_ASSISTANT,
-	PROP_NICKNAME,
-	PROP_SPOUSE,
-	PROP_ANNIVERSARY,
-	PROP_MAILER,
-	PROP_CALURI,
-	PROP_FBURL,
-	PROP_ICSCALENDAR,
-	PROP_NOTE,
-	PROP_RELATED_CONTACTS,
-	PROP_CATEGORIES,
-	PROP_CATEGORY_LIST,
-	PROP_WANTS_HTML,
-	PROP_WANTS_HTML_SET,
-	PROP_EVOLUTION_LIST,
-	PROP_EVOLUTION_LIST_SHOW_ADDRESSES,
-	PROP_ARBITRARY,
-	PROP_ID,
-	PROP_LAST_USE,
-	PROP_USE_SCORE,
+	ARG_0,
+	ARG_FILE_AS,
+	ARG_FULL_NAME,
+	ARG_NAME,
+	ARG_ADDRESS,
+	ARG_ADDRESS_LABEL,
+	ARG_PHONE,
+	ARG_EMAIL,
+	ARG_BIRTH_DATE,
+	ARG_URL,
+	ARG_ORG,
+	ARG_ORG_UNIT,
+	ARG_OFFICE,
+	ARG_TITLE,
+	ARG_ROLE,
+	ARG_MANAGER,
+	ARG_ASSISTANT,
+	ARG_NICKNAME,
+	ARG_SPOUSE,
+	ARG_ANNIVERSARY,
+	ARG_MAILER,
+	ARG_CALURI,
+	ARG_FBURL,
+	ARG_ICSCALENDAR,
+	ARG_NOTE,
+	ARG_RELATED_CONTACTS,
+	ARG_CATEGORIES,
+	ARG_CATEGORY_LIST,
+	ARG_WANTS_HTML,
+	ARG_WANTS_HTML_SET,
+	ARG_EVOLUTION_LIST,
+	ARG_EVOLUTION_LIST_SHOW_ADDRESSES,
+	ARG_ARBITRARY,
+	ARG_ID,
+	ARG_LAST_USE,
+	ARG_USE_SCORE,
 };
-
-static GObjectClass *parent_class;
 
 static void parse(ECard *card, VObject *vobj, char *default_charset);
 static void e_card_init (ECard *card);
 static void e_card_class_init (ECardClass *klass);
 
-static void e_card_dispose (GObject *object);
-static void e_card_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
-static void e_card_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
+static void e_card_destroy (GtkObject *object);
+static void e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
+static void e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 
 static void assign_string(VObject *vobj, char *default_charset, char **string);
 
@@ -182,25 +183,24 @@ struct {
  * 
  * Return value: The type ID of the &ECard class.
  **/
-GType
+GtkType
 e_card_get_type (void)
 {
-	static GType card_type = 0;
+	static GtkType card_type = 0;
 
 	if (!card_type) {
-		static const GTypeInfo card_info =  {
-			sizeof (ECardClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) e_card_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
+		GtkTypeInfo card_info = {
+			"ECard",
 			sizeof (ECard),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) e_card_init,
+			sizeof (ECardClass),
+			(GtkClassInitFunc) e_card_class_init,
+			(GtkObjectInitFunc) e_card_init,
+			NULL, /* reserved_1 */
+			NULL, /* reserved_2 */
+			(GtkClassInitFunc) NULL
 		};
 
-		card_type = g_type_register_static (G_TYPE_OBJECT, "ECard", &card_info, 0);
+		card_type = gtk_type_unique (gtk_object_get_type (), &card_info);
 	}
 
 	return card_type;
@@ -209,7 +209,7 @@ e_card_get_type (void)
 ECard *
 e_card_new_with_default_charset (char *vcard, char *default_charset)
 {
-	ECard *card = g_object_new (E_TYPE_CARD, NULL);
+	ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
 	VObject *vobj = Parse_MIME(vcard, strlen(vcard));
 	while(vobj) {
 		VObject *next;
@@ -248,7 +248,7 @@ e_card_duplicate(ECard *card)
 	
 	if (card->book) {
 		new_card->book = card->book;
-		g_object_ref (new_card->book);
+		gtk_object_ref (GTK_OBJECT (new_card->book));
 	}
 
 	return new_card;
@@ -282,7 +282,7 @@ e_card_get_use_score(ECard *card)
 	e_card_get_today (&today);
 	g_date_set_dmy (&last_use, card->last_use->day, card->last_use->month, card->last_use->year);
 
-	days_since_last_use = g_date_get_julian (&today) - g_date_get_julian (&last_use);
+	days_since_last_use = g_date_julian (&today) - g_date_julian (&last_use);
 	
 	/* Apply a seven-day "grace period" to the use score decay. */
 	days_since_last_use -= 7;
@@ -306,9 +306,9 @@ e_card_touch(ECard *card)
 	if (card->last_use == NULL)
 		card->last_use = g_new (ECardDate, 1);
 
-	card->last_use->day   = g_date_get_day (&today);
-	card->last_use->month = g_date_get_month (&today);
-	card->last_use->year  = g_date_get_year (&today);
+	card->last_use->day   = g_date_day (&today);
+	card->last_use->month = g_date_month (&today);
+	card->last_use->year  = g_date_year (&today);
 
 	card->raw_use_score   = use_score + 1.0;
 }
@@ -360,10 +360,10 @@ e_card_set_book (ECard *card, EBook *book)
 	g_return_if_fail (card && E_IS_CARD (card));
 	
 	if (card->book)
-		g_object_unref (card->book);
+		gtk_object_unref (GTK_OBJECT (card->book));
 	card->book = book;
 	if (card->book)
-		g_object_ref (card->book);
+		gtk_object_ref (GTK_OBJECT (card->book));
 }
 
 gchar *
@@ -543,7 +543,7 @@ e_card_get_vobject (const ECard *card, gboolean assumeUTF8)
 			if (!(is_ascii || assumeUTF8))
 				addPropValue (addressprop, "CHARSET", "UTF-8");
 		}
-		g_object_unref(iterator);
+		gtk_object_unref(GTK_OBJECT(iterator));
 	}
 
 	if ( card->address_label ) {
@@ -558,7 +558,7 @@ e_card_get_vobject (const ECard *card, gboolean assumeUTF8)
 			
 			set_address_flags (labelprop, address_label->flags);
 		}
-		g_object_unref(iterator);
+		gtk_object_unref(GTK_OBJECT(iterator));
 	}
 
 	if ( card->phone ) { 
@@ -570,7 +570,7 @@ e_card_get_vobject (const ECard *card, gboolean assumeUTF8)
 			
 			set_phone_flags (phoneprop, phone->flags);
 		}
-		g_object_unref(iterator);
+		gtk_object_unref(GTK_OBJECT(iterator));
 	}
 
 	if ( card->email ) { 
@@ -580,7 +580,7 @@ e_card_get_vobject (const ECard *card, gboolean assumeUTF8)
 			emailprop = ADD_PROP_VALUE(vobj, VCEmailAddressProp, (char *) e_iterator_get(iterator));
 			addProp (emailprop, VCInternetProp);
 		}
-		g_object_unref(iterator);
+		gtk_object_unref(GTK_OBJECT(iterator));
 	}
 
 	if ( card->bday ) {
@@ -834,9 +834,9 @@ parse_email(ECard *card, VObject *vobj, char *default_charset)
 	EList *list;
 
 	assign_string(vobj, default_charset, &next_email);
-	g_object_get(card,
-		     "email", &list,
-		     NULL);
+	gtk_object_get(GTK_OBJECT(card),
+		       "email", &list,
+		       NULL);
 	e_list_append(list, next_email);
 	g_free (next_email);
 }
@@ -864,9 +864,9 @@ parse_phone(ECard *card, VObject *vobj, char *default_charset)
 	assign_string(vobj, default_charset, &(next_phone->number));
 	next_phone->flags = get_phone_flags(vobj);
 
-	g_object_get(card,
-		     "phone", &list,
-		     NULL);
+	gtk_object_get(GTK_OBJECT(card),
+		       "phone", &list,
+		       NULL);
 	e_list_append(list, next_phone);
 	e_card_phone_unref (next_phone);
 }
@@ -886,9 +886,9 @@ parse_address(ECard *card, VObject *vobj, char *default_charset)
 	next_addr->code    = e_v_object_get_child_value (vobj, VCPostalCodeProp,    default_charset);
 	next_addr->country = e_v_object_get_child_value (vobj, VCCountryNameProp,   default_charset);
 
-	g_object_get(card,
-		     "address", &list,
-		     NULL);
+	gtk_object_get(GTK_OBJECT(card),
+		       "address", &list,
+		       NULL);
 	e_list_append(list, next_addr);
 	e_card_delivery_address_unref (next_addr);
 }
@@ -902,9 +902,9 @@ parse_address_label(ECard *card, VObject *vobj, char *default_charset)
 	next_addr->flags   = get_address_flags (vobj);
 	assign_string(vobj, default_charset, &next_addr->data);
 
-	g_object_get(card,
-		     "address_label", &list,
-		     NULL);
+	gtk_object_get(GTK_OBJECT(card),
+		       "address_label", &list,
+		       NULL);
 	e_list_append(list, next_addr);
 	e_card_address_label_unref (next_addr);
 }
@@ -1063,7 +1063,7 @@ add_list_unique(ECard *card, EList *list, char *string)
 		e_list_append(list, temp);
 	}
 	g_free(temp);
-	g_object_unref(iterator);
+	gtk_object_unref(GTK_OBJECT(iterator));
 }
 
 static void
@@ -1073,9 +1073,9 @@ do_parse_categories(ECard *card, char *str)
 	char *copy = g_new(char, length + 1);
 	int i, j;
 	EList *list;
-	g_object_get(card,
-		     "category_list", &list,
-		     NULL);
+	gtk_object_get(GTK_OBJECT(card),
+		       "category_list", &list,
+		       NULL);
 	for (i = 0, j = 0; str[i]; i++, j++) {
 		switch (str[i]) {
 		case '\\':
@@ -1198,9 +1198,9 @@ parse_arbitrary(ECard *card, VObject *vobj, char *default_charset)
 
 	assign_string(vobj, default_charset, &(arbitrary->value));
 	
-	g_object_get(card,
-		     "arbitrary", &list,
-		     NULL);
+	gtk_object_get(GTK_OBJECT(card),
+		       "arbitrary", &list,
+		       NULL);
 	e_list_append(list, arbitrary);
 	e_card_arbitrary_unref(arbitrary);
 }
@@ -1242,7 +1242,7 @@ parse_use_score(ECard *card, VObject *vobj, char *default_charset)
 static void
 parse_attribute(ECard *card, VObject *vobj, char *default_charset)
 {
-	ParsePropertyFunc function = g_hash_table_lookup(E_CARD_GET_CLASS(card)->attribute_jump_table, vObjectName(vobj));
+	ParsePropertyFunc function = g_hash_table_lookup(E_CARD_CLASS(GTK_OBJECT(card)->klass)->attribute_jump_table, vObjectName(vobj));
 	if ( function )
 		function(card, vobj, default_charset);
 }
@@ -1280,11 +1280,9 @@ static void
 e_card_class_init (ECardClass *klass)
 {
 	int i;
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS(klass);
-
-	parent_class = g_type_class_ref (G_TYPE_OBJECT);
+	object_class = GTK_OBJECT_CLASS(klass);
 
 	klass->attribute_jump_table = g_hash_table_new(g_str_hash, g_str_equal);
 
@@ -1292,257 +1290,81 @@ e_card_class_init (ECardClass *klass)
 		g_hash_table_insert(klass->attribute_jump_table, attribute_jump_array[i].key, attribute_jump_array[i].function);
 	}
 
-	object_class->dispose = e_card_dispose;
-	object_class->get_property = e_card_get_property;
-	object_class->set_property = e_card_set_property;
+	gtk_object_add_arg_type ("ECard::file_as",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FILE_AS);
+	gtk_object_add_arg_type ("ECard::full_name",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FULL_NAME);  
+	gtk_object_add_arg_type ("ECard::name",
+				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_NAME);
+	gtk_object_add_arg_type ("ECard::address",
+				 GTK_TYPE_OBJECT, GTK_ARG_READABLE, ARG_ADDRESS);
+	gtk_object_add_arg_type ("ECard::address_label",
+				 GTK_TYPE_OBJECT, GTK_ARG_READABLE, ARG_ADDRESS_LABEL);
+	gtk_object_add_arg_type ("ECard::phone",
+				 GTK_TYPE_OBJECT, GTK_ARG_READABLE, ARG_PHONE);
+	gtk_object_add_arg_type ("ECard::email",
+				 GTK_TYPE_OBJECT, GTK_ARG_READABLE, ARG_EMAIL);
+	gtk_object_add_arg_type ("ECard::birth_date",
+				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_BIRTH_DATE);
+	gtk_object_add_arg_type ("ECard::url",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_URL);  
+	gtk_object_add_arg_type ("ECard::org",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ORG);
+	gtk_object_add_arg_type ("ECard::org_unit",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ORG_UNIT);
+	gtk_object_add_arg_type ("ECard::office",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_OFFICE);
+	gtk_object_add_arg_type ("ECard::title",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_TITLE);  
+	gtk_object_add_arg_type ("ECard::role",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ROLE);
+	gtk_object_add_arg_type ("ECard::manager",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_MANAGER);
+	gtk_object_add_arg_type ("ECard::assistant",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ASSISTANT);
+	gtk_object_add_arg_type ("ECard::nickname",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_NICKNAME);
+	gtk_object_add_arg_type ("ECard::spouse",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_SPOUSE);
+	gtk_object_add_arg_type ("ECard::anniversary",
+				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_ANNIVERSARY);
+	gtk_object_add_arg_type ("ECard::mailer",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_MAILER);
+	gtk_object_add_arg_type ("ECard::caluri",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_CALURI);
+	gtk_object_add_arg_type ("ECard::fburl",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FBURL);
+	gtk_object_add_arg_type ("ECard::icscalendar",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ICSCALENDAR);
+	gtk_object_add_arg_type ("ECard::note",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_NOTE);
+	gtk_object_add_arg_type ("ECard::related_contacts",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_RELATED_CONTACTS);
+	gtk_object_add_arg_type ("ECard::categories",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_CATEGORIES);
+	gtk_object_add_arg_type ("ECard::category_list",
+				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_CATEGORY_LIST);
+	gtk_object_add_arg_type ("ECard::wants_html",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_WANTS_HTML);
+	gtk_object_add_arg_type ("ECard::wants_html_set",
+				 GTK_TYPE_BOOL, GTK_ARG_READABLE, ARG_WANTS_HTML);
+	gtk_object_add_arg_type ("ECard::list",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_EVOLUTION_LIST);
+	gtk_object_add_arg_type ("ECard::list_show_addresses",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_EVOLUTION_LIST_SHOW_ADDRESSES);
+	gtk_object_add_arg_type ("ECard::arbitrary",
+				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_ARBITRARY);
+	gtk_object_add_arg_type ("ECard::id",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ID);
+	gtk_object_add_arg_type ("ECard::last_use",
+				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_LAST_USE);
+	gtk_object_add_arg_type ("ECard::use_score",
+				 GTK_TYPE_FLOAT, GTK_ARG_READWRITE, ARG_USE_SCORE);
 
-	g_object_class_install_property (object_class, PROP_FILE_AS, 
-					 g_param_spec_string ("file_as",
-							      _("File As"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_FULL_NAME, 
-					 g_param_spec_string ("full_name",
-							      _("Full Name"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_NAME, 
-					 g_param_spec_pointer ("name",
-							       _("Name"),
-							       /*_( */"XXX blurb" /*)*/,
-							       G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_ADDRESS, 
-					 g_param_spec_object ("address",
-							      _("Address"),
-							      /*_( */"XXX blurb" /*)*/,
-							      E_TYPE_LIST,
-							      G_PARAM_READABLE));
-
-	g_object_class_install_property (object_class, PROP_ADDRESS_LABEL, 
-					 g_param_spec_object ("address_label",
-							      _("Address Label"),
-							      /*_( */"XXX blurb" /*)*/,
-							      E_TYPE_LIST,
-							      G_PARAM_READABLE));
-
-	g_object_class_install_property (object_class, PROP_PHONE, 
-					 g_param_spec_object ("phone",
-							      _("Phone"),
-							      /*_( */"XXX blurb" /*)*/,
-							      E_TYPE_LIST,
-							      G_PARAM_READABLE));
-
-	g_object_class_install_property (object_class, PROP_EMAIL, 
-					 g_param_spec_object ("email",
-							      _("Email"),
-							      /*_( */"XXX blurb" /*)*/,
-							      E_TYPE_LIST,
-							      G_PARAM_READABLE));
-
-	g_object_class_install_property (object_class, PROP_BIRTH_DATE, 
-					 g_param_spec_pointer ("birth_date",
-							       _("Birth date"),
-							       /*_( */"XXX blurb" /*)*/,
-							       G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_URL, 
-					 g_param_spec_string ("url",
-							      _("URL"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_ORG, 
-					 g_param_spec_string ("org",
-							      _("Organization"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_ORG_UNIT, 
-					 g_param_spec_string ("org_unit",
-							      _("Organizational Unit"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_OFFICE, 
-					 g_param_spec_string ("office",
-							      _("Office"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_TITLE, 
-					 g_param_spec_string ("title",
-							      _("Title"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_ROLE, 
-					 g_param_spec_string ("role",
-							      _("Role"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_MANAGER, 
-					 g_param_spec_string ("manager",
-							      _("Manager"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_ASSISTANT, 
-					 g_param_spec_string ("assistant",
-							      _("Assistant"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_NICKNAME, 
-					 g_param_spec_string ("nickname",
-							      _("Nickname"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_SPOUSE, 
-					 g_param_spec_string ("spouse",
-							      _("Spouse"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_ANNIVERSARY, 
-					 g_param_spec_pointer ("anniversary",
-							       _("Anniversary"),
-							       /*_( */"XXX blurb" /*)*/,
-							       G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_MAILER, 
-					 g_param_spec_string ("mailer",
-							      _("Mailer"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_CALURI, 
-					 g_param_spec_string ("caluri",
-							      _("Calendar URI"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_FBURL, 
-					 g_param_spec_string ("fburl",
-							      _("Free/Busy URL"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_ICSCALENDAR, 
-					 g_param_spec_string ("icscalendar",
-							      _("ICS Calendar"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_NOTE, 
-					 g_param_spec_string ("note",
-							      _("Note"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_RELATED_CONTACTS, 
-					 g_param_spec_string ("related_contacts",
-							      _("Related Contacts"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_CATEGORIES, 
-					 g_param_spec_string ("categories",
-							      _("Categories"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_CATEGORY_LIST, 
-					 g_param_spec_object ("category list",
-							      _("Category List"),
-							      /*_( */"XXX blurb" /*)*/,
-							      E_TYPE_LIST,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_WANTS_HTML, 
-					 g_param_spec_boolean ("wants_html",
-							       _("Wants HTML"),
-							       /*_( */"XXX blurb" /*)*/,
-							       FALSE,
-							       G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_WANTS_HTML_SET, 
-					 g_param_spec_boolean ("wants_html_set",
-							       _("Wants HTML set"),
-							       /*_( */"XXX blurb" /*)*/,
-							       FALSE,
-							       G_PARAM_READABLE));
-
-	g_object_class_install_property (object_class, PROP_EVOLUTION_LIST, 
-					 g_param_spec_boolean ("list",
-							       _("List"),
-							       /*_( */"XXX blurb" /*)*/,
-							       FALSE,
-							       G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_EVOLUTION_LIST_SHOW_ADDRESSES, 
-					 g_param_spec_boolean ("list_show_addresses",
-							       _("List Show Addresses"),
-							       /*_( */"XXX blurb" /*)*/,
-							       FALSE,
-							       G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_ARBITRARY, 
-					 g_param_spec_object ("arbitrary",
-							      _("Arbitrary"),
-							      /*_( */"XXX blurb" /*)*/,
-							      E_TYPE_LIST,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_ID, 
-					 g_param_spec_string ("id",
-							      _("ID"),
-							      /*_( */"XXX blurb" /*)*/,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_LAST_USE, 
-					 g_param_spec_pointer ("last_use",
-							       _("Last Use"),
-							       /*_( */"XXX blurb" /*)*/,
-							       G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_USE_SCORE, 
-					 /* XXX at some point we
-					    should remove
-					    LAX_VALIDATION and figure
-					    out some hard min & max
-					    scores. */
-					 g_param_spec_float ("use_score",
-							     _("Use Score"),
-							     /*_( */"XXX blurb" /*)*/,
-							     0.0,
-							     0.0,
-							     0.0,
-							     G_PARAM_READWRITE | G_PARAM_LAX_VALIDATION));
+	object_class->destroy = e_card_destroy;
+	object_class->get_arg = e_card_get_arg;
+	object_class->set_arg = e_card_set_arg;
 }
 
 ECardPhone *
@@ -1936,7 +1758,7 @@ e_card_email_match_single_string (const gchar *a, const gchar *b)
 	for (xa=a; *xa && *xa != '@'; ++xa);
 	for (xb=b; *xb && *xb != '@'; ++xb);
 
-	if (xa-a != xb-b || *xa != *xb || g_ascii_strncasecmp (a, b, xa-a))
+	if (xa-a != xb-b || *xa != *xb || g_strncasecmp (a, b, xa-a))
 		return FALSE;
 
 	if (*xa == '\0')
@@ -1977,7 +1799,7 @@ e_card_email_match_string (const ECard *card, const gchar *str)
 		if (e_card_email_match_single_string (e_iterator_get (iter), str))
 			return TRUE;
 	}
-	g_object_unref (iter);
+	gtk_object_unref (GTK_OBJECT (iter));
 
 	return FALSE;
 }
@@ -1996,14 +1818,14 @@ e_card_email_find_number (const ECard *card, const gchar *email)
 
 	iter = e_list_get_iterator (card->email);
 	for (e_iterator_reset (iter); e_iterator_is_valid (iter); e_iterator_next (iter)) {
-		if (!g_ascii_strcasecmp (e_iterator_get (iter), email))
+		if (!g_strcasecmp (e_iterator_get (iter), email))
 			goto finished;
 		++count;
 	}
 	count = -1;
 
  finished:
-	g_object_unref (iter);
+	gtk_object_unref (GTK_OBJECT (iter));
 
 	return count;
 }
@@ -2013,82 +1835,75 @@ e_card_email_find_number (const ECard *card, const gchar *email)
  */
 
 static void
-e_card_dispose (GObject *object)
+e_card_destroy (GtkObject *object)
 {
 	ECard *card = E_CARD(object);
+	g_free(card->id);
+	if (card->book)
+		gtk_object_unref (GTK_OBJECT (card->book));
+	g_free(card->file_as);
+	g_free(card->fname);
+	e_card_name_unref(card->name);
+	g_free(card->bday);
 
-#define FREE_IF(x) do { if ((x)) { g_free (x); x = NULL; } } while (0)
-#define UNREF_IF(x) do { if ((x)) { g_object_unref (x); x = NULL; } } while (0)
+	g_free(card->url);
+	g_free(card->org);
+	g_free(card->org_unit);
+	g_free(card->office);
+	g_free(card->title);
+	g_free(card->role);
+	g_free(card->manager);
+	g_free(card->assistant);
+	g_free(card->nickname);
+	g_free(card->spouse);
+	g_free(card->anniversary);
+	g_free(card->caluri);
+	g_free(card->fburl);
+	g_free(card->icscalendar);
+	g_free(card->note);
+	g_free(card->related_contacts);
 
-	FREE_IF (card->id);
-	UNREF_IF (card->book);
-	FREE_IF(card->file_as);
-	FREE_IF(card->fname);
-	if (card->name) {
-		e_card_name_unref(card->name);
-		card->name = NULL;
-	}
-	FREE_IF(card->bday);
-
-	FREE_IF(card->url);
-	FREE_IF(card->org);
-	FREE_IF(card->org_unit);
-	FREE_IF(card->office);
-	FREE_IF(card->title);
-	FREE_IF(card->role);
-	FREE_IF(card->manager);
-	FREE_IF(card->assistant);
-	FREE_IF(card->nickname);
-	FREE_IF(card->spouse);
-	FREE_IF(card->anniversary);
-	FREE_IF(card->caluri);
-	FREE_IF(card->fburl);
-	FREE_IF(card->icscalendar);
-	FREE_IF(card->note);
-	FREE_IF(card->related_contacts);
-
-	UNREF_IF (card->categories);
-	UNREF_IF (card->email);
-	UNREF_IF (card->phone);
-	UNREF_IF (card->address);
-	UNREF_IF (card->address_label);
-
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		G_OBJECT_CLASS (parent_class)->dispose (object);
+	if (card->categories)
+		gtk_object_unref(GTK_OBJECT(card->categories));
+	if (card->email)
+		gtk_object_unref(GTK_OBJECT(card->email));
+	if (card->phone)
+		gtk_object_unref(GTK_OBJECT(card->phone));
+	if (card->address)
+		gtk_object_unref(GTK_OBJECT(card->address));
+	if (card->address_label)
+		gtk_object_unref(GTK_OBJECT(card->address_label));
 }
 
 
 /* Set_arg handler for the card */
 static void
-e_card_set_property (GObject *object,
-		     guint prop_id,
-		     const GValue *value,
-		     GParamSpec *pspec)
+e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	ECard *card;
 	
 	card = E_CARD (object);
 
-	switch (prop_id) {
-	case PROP_FILE_AS:
+	switch (arg_id) {
+	case ARG_FILE_AS:
 		g_free(card->file_as);
-		card->file_as = g_strdup(g_value_get_string (value));
+		card->file_as = g_strdup(GTK_VALUE_STRING(*arg));
 		if (card->file_as == NULL)
 			card->file_as = g_strdup("");
 		break;
 
-	case PROP_FULL_NAME:
+	case ARG_FULL_NAME:
 		g_free(card->fname);
-		card->fname = g_strdup(g_value_get_string (value));
+		card->fname = g_strdup(GTK_VALUE_STRING(*arg));
 		if (card->fname == NULL)
 			card->fname = g_strdup("");
 
 		e_card_name_unref (card->name);
 		card->name = e_card_name_from_string (card->fname);
 		break;
-	case PROP_NAME:
+	case ARG_NAME:
 		e_card_name_unref (card->name);
-		card->name = e_card_name_ref(g_value_get_pointer (value));
+		card->name = e_card_name_ref(GTK_VALUE_POINTER(*arg));
 		if (card->name == NULL)
 			card->name = e_card_name_new();
 		if (card->fname == NULL) {
@@ -2108,193 +1923,189 @@ e_card_set_property (GObject *object,
 			card->file_as = string;
 		}
 		break;
-	case PROP_CATEGORIES:
+	case ARG_CATEGORIES:
 		if (card->categories)
-			g_object_unref(card->categories);
+			gtk_object_unref(GTK_OBJECT(card->categories));
 		card->categories = NULL;
-		if (g_value_get_string (value))
-			do_parse_categories(card, (char*)g_value_get_string (value));
+		if (GTK_VALUE_STRING(*arg))
+			do_parse_categories(card, GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_CATEGORY_LIST:
+	case ARG_CATEGORY_LIST:
 		if (card->categories)
-			g_object_unref(card->categories);
-		card->categories = E_LIST(g_value_get_object(value));
+			gtk_object_unref(GTK_OBJECT(card->categories));
+		card->categories = E_LIST(GTK_VALUE_OBJECT(*arg));
 		if (card->categories)
-			g_object_ref(card->categories);
+			gtk_object_ref(GTK_OBJECT(card->categories));
 		break;
-	case PROP_BIRTH_DATE:
+	case ARG_BIRTH_DATE:
 		g_free(card->bday);
-		if (g_value_get_pointer (value)) {
+		if (GTK_VALUE_POINTER (*arg)) {
 			card->bday = g_new (ECardDate, 1);
-			memcpy (card->bday, g_value_get_pointer (value), sizeof (ECardDate));
+			memcpy (card->bday, GTK_VALUE_POINTER (*arg), sizeof (ECardDate));
 		} else {
 			card->bday = NULL;
 		}
 		break;
-	case PROP_URL:
+	case ARG_URL:
 		g_free(card->url);
-		card->url = g_strdup(g_value_get_string(value));
+		card->url = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_ORG:
+	case ARG_ORG:
 		g_free(card->org);
-		card->org = g_strdup(g_value_get_string(value));
+		card->org = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_ORG_UNIT:
+	case ARG_ORG_UNIT:
 		g_free(card->org_unit);
-		card->org_unit = g_strdup(g_value_get_string(value));
+		card->org_unit = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_OFFICE:
+	case ARG_OFFICE:
 		g_free(card->office);
-		card->office = g_strdup(g_value_get_string(value));
+		card->office = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_TITLE:
+	case ARG_TITLE:
 		g_free(card->title);
-		card->title = g_strdup(g_value_get_string(value));
+		card->title = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_ROLE:
+	case ARG_ROLE:
 		g_free(card->role);
-		card->role = g_strdup(g_value_get_string(value));
+		card->role = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_MANAGER:
+	case ARG_MANAGER:
 		g_free(card->manager);
-		card->manager = g_strdup(g_value_get_string(value));
+		card->manager = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_ASSISTANT:
+	case ARG_ASSISTANT:
 		g_free(card->assistant);
-		card->assistant = g_strdup(g_value_get_string(value));
+		card->assistant = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_NICKNAME:
+	case ARG_NICKNAME:
 		g_free(card->nickname);
-		card->nickname = g_strdup(g_value_get_string(value));
+		card->nickname = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_SPOUSE:
+	case ARG_SPOUSE:
 		g_free(card->spouse);
-		card->spouse = g_strdup(g_value_get_string(value));
+		card->spouse = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_ANNIVERSARY:
+	case ARG_ANNIVERSARY:
 		g_free(card->anniversary);
-		if (g_value_get_pointer (value)) {
+		if (GTK_VALUE_POINTER (*arg)) {
 			card->anniversary = g_new (ECardDate, 1);
-			memcpy (card->anniversary, g_value_get_pointer (value), sizeof (ECardDate));
+			memcpy (card->anniversary, GTK_VALUE_POINTER (*arg), sizeof (ECardDate));
 		} else {
 			card->anniversary = NULL;
 		}
 		break;
-	case PROP_MAILER:
+	case ARG_MAILER:
 		g_free(card->mailer);
-		card->mailer = g_strdup(g_value_get_string(value));
+		card->mailer = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_CALURI:
+	case ARG_CALURI:
 		g_free(card->caluri);
-		card->caluri = g_strdup(g_value_get_string(value));
+		card->caluri = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_FBURL:
+	case ARG_FBURL:
 		g_free(card->fburl);
-		card->fburl = g_strdup(g_value_get_string(value));
+		card->fburl = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_ICSCALENDAR:
+	case ARG_ICSCALENDAR:
 		g_free(card->icscalendar);
-		card->icscalendar = g_strdup(g_value_get_string(value));
+		card->icscalendar = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_NOTE:
+	case ARG_NOTE:
 		g_free (card->note);
-		card->note = g_strdup(g_value_get_string(value));
+		card->note = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_RELATED_CONTACTS:
+	case ARG_RELATED_CONTACTS:
 		g_free (card->related_contacts);
-		card->related_contacts = g_strdup(g_value_get_string(value));
+		card->related_contacts = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
-	case PROP_WANTS_HTML:
-		card->wants_html = g_value_get_boolean (value);
+	case ARG_WANTS_HTML:
+		card->wants_html = GTK_VALUE_BOOL(*arg);
 		card->wants_html_set = TRUE;
 		break;
-	case PROP_ARBITRARY:
+	case ARG_ARBITRARY:
 		if (card->arbitrary)
-			g_object_unref(card->arbitrary);
-		card->arbitrary = E_LIST(g_value_get_pointer(value));
+			gtk_object_unref(GTK_OBJECT(card->arbitrary));
+		card->arbitrary = E_LIST(GTK_VALUE_OBJECT(*arg));
 		if (card->arbitrary)
-			g_object_ref(card->arbitrary);
+			gtk_object_ref(GTK_OBJECT(card->arbitrary));
 		break;
-	case PROP_ID:
+	case ARG_ID:
 		g_free(card->id);
-		card->id = g_strdup(g_value_get_string(value));
+		card->id = g_strdup(GTK_VALUE_STRING(*arg));
 		if (card->id == NULL)
 			card->id = g_strdup ("");
 		break;
-	case PROP_LAST_USE:
+	case ARG_LAST_USE:
 		g_free(card->last_use);
-		if (g_value_get_pointer (value)) {
+		if (GTK_VALUE_POINTER (*arg)) {
 			card->last_use = g_new (ECardDate, 1);
-			memcpy (card->last_use, g_value_get_pointer (value), sizeof (ECardDate));
+			memcpy (card->last_use, GTK_VALUE_POINTER (*arg), sizeof (ECardDate));
 		} else {
 			card->last_use = NULL;
 		}
 		break;
-	case PROP_USE_SCORE:
-		card->raw_use_score = g_value_get_float (value);
+	case ARG_USE_SCORE:
+		card->raw_use_score = GTK_VALUE_FLOAT(*arg);
 		break;
-	case PROP_EVOLUTION_LIST:
-		card->list = g_value_get_boolean (value);
+	case ARG_EVOLUTION_LIST:
+		card->list = GTK_VALUE_BOOL(*arg);
 		break;
-	case PROP_EVOLUTION_LIST_SHOW_ADDRESSES:
-		card->list_show_addresses = g_value_get_boolean (value);
+	case ARG_EVOLUTION_LIST_SHOW_ADDRESSES:
+		card->list_show_addresses = GTK_VALUE_BOOL(*arg);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-		break;
+		return;
 	}
 }
 
 /* Get_arg handler for the card */
 static void
-e_card_get_property (GObject *object,
-		     guint prop_id,
-		     GValue *value,
-		     GParamSpec *pspec)
+e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	ECard *card;
 
 	card = E_CARD (object);
 
-	switch (prop_id) {
-	case PROP_FILE_AS:
-		g_value_set_string (value, card->file_as);
+	switch (arg_id) {
+	case ARG_FILE_AS:
+		GTK_VALUE_STRING (*arg) = card->file_as;
 		break;
-	case PROP_FULL_NAME:
-		g_value_set_string (value, card->fname);
+	case ARG_FULL_NAME:
+		GTK_VALUE_STRING (*arg) = card->fname;
 		break;
-	case PROP_NAME:
-		g_value_set_pointer (value, card->name);
+	case ARG_NAME:
+		GTK_VALUE_POINTER(*arg) = card->name;
 		break;
-	case PROP_ADDRESS:
+	case ARG_ADDRESS:
 		if (!card->address)
 			card->address = e_list_new((EListCopyFunc) e_card_delivery_address_ref,
 						   (EListFreeFunc) e_card_delivery_address_unref,
 						   NULL);
-		g_value_set_object (value, card->address);
+		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->address);
 		break;
-	case PROP_ADDRESS_LABEL:
+	case ARG_ADDRESS_LABEL:
 		if (!card->address_label)
 			card->address_label = e_list_new((EListCopyFunc) e_card_address_label_ref,
 							 (EListFreeFunc) e_card_address_label_unref,
 							 NULL);
-		g_value_set_object (value, card->address_label);
+		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->address_label);
 		break;
-	case PROP_PHONE:
+	case ARG_PHONE:
 		if (!card->phone)
 			card->phone = e_list_new((EListCopyFunc) e_card_phone_ref,
 						 (EListFreeFunc) e_card_phone_unref,
 						 NULL);
-		g_value_set_object (value, card->phone);
+		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->phone);
 		break;
-	case PROP_EMAIL:
+	case ARG_EMAIL:
 		if (!card->email)
 			card->email = e_list_new((EListCopyFunc) g_strdup, 
 						 (EListFreeFunc) g_free,
 						 NULL);
-		g_value_set_object (value, card->email);
+		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->email);
 		break;
-	case PROP_CATEGORIES:
+	case ARG_CATEGORIES:
 		{
 			int i;
 			char ** strs;
@@ -2310,102 +2121,103 @@ e_card_get_property (GObject *object,
 				strs[i] = (char *)e_iterator_get(iterator);
 			}
 			strs[i] = 0;
-			g_value_set_string(value, g_strjoinv(", ", strs));
+			GTK_VALUE_STRING(*arg) = g_strjoinv(", ", strs);
 			g_free(strs);
 		}
 		break;
-	case PROP_CATEGORY_LIST:
+	case ARG_CATEGORY_LIST:
 		if (!card->categories)
 			card->categories = e_list_new((EListCopyFunc) g_strdup, 
 						      (EListFreeFunc) g_free,
 						      NULL);
-		g_value_set_object (value, card->categories);
+		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->categories);
 		break;
-	case PROP_BIRTH_DATE:
-		g_value_set_pointer (value, card->bday);
+	case ARG_BIRTH_DATE:
+		GTK_VALUE_POINTER(*arg) = card->bday;
 		break;
-	case PROP_URL:
-		g_value_set_string (value, card->url);
+	case ARG_URL:
+		GTK_VALUE_STRING(*arg) = card->url;
 		break;
-	case PROP_ORG:
-		g_value_set_string (value, card->org);
+	case ARG_ORG:
+		GTK_VALUE_STRING(*arg) = card->org;
 		break;
-	case PROP_ORG_UNIT:
-		g_value_set_string (value, card->org_unit);
+	case ARG_ORG_UNIT:
+		GTK_VALUE_STRING(*arg) = card->org_unit;
 		break;
-	case PROP_OFFICE:
-		g_value_set_string (value, card->office);
+	case ARG_OFFICE:
+		GTK_VALUE_STRING(*arg) = card->office;
 		break;
-	case PROP_TITLE:
-		g_value_set_string (value, card->title);
+	case ARG_TITLE:
+		GTK_VALUE_STRING(*arg) = card->title;
 		break;
-	case PROP_ROLE:
-		g_value_set_string (value, card->role);
+	case ARG_ROLE:
+		GTK_VALUE_STRING(*arg) = card->role;
 		break;
-	case PROP_MANAGER:
-		g_value_set_string (value, card->manager);
+	case ARG_MANAGER:
+		GTK_VALUE_STRING(*arg) = card->manager;
 		break;
-	case PROP_ASSISTANT:
-		g_value_set_string (value, card->assistant);
+	case ARG_ASSISTANT:
+		GTK_VALUE_STRING(*arg) = card->assistant;
 		break;
-	case PROP_NICKNAME:
-		g_value_set_string (value, card->nickname);
+	case ARG_NICKNAME:
+		GTK_VALUE_STRING(*arg) = card->nickname;
 		break;
-	case PROP_SPOUSE:
-		g_value_set_string (value, card->spouse);
+	case ARG_SPOUSE:
+		GTK_VALUE_STRING(*arg) = card->spouse;
 		break;
-	case PROP_ANNIVERSARY:
-		g_value_set_pointer (value, card->anniversary);
+	case ARG_ANNIVERSARY:
+		GTK_VALUE_POINTER(*arg) = card->anniversary;
 		break;
-	case PROP_MAILER:
-		g_value_set_string (value, card->mailer);
+	case ARG_MAILER:
+		GTK_VALUE_STRING(*arg) = card->mailer;
 		break;
-	case PROP_CALURI:
-		g_value_set_string (value, card->caluri);
+	case ARG_CALURI:
+		GTK_VALUE_STRING(*arg) = card->caluri;
 		break;
-	case PROP_FBURL:
-		g_value_set_string (value, card->fburl);
+	case ARG_FBURL:
+		GTK_VALUE_STRING(*arg) = card->fburl;
 		break;
-	case PROP_ICSCALENDAR:
-		g_value_set_string (value, card->icscalendar);
+	case ARG_ICSCALENDAR:
+		GTK_VALUE_STRING(*arg) = card->icscalendar;
 		break;
-	case PROP_NOTE:
-		g_value_set_string (value, card->note);
+	case ARG_NOTE:
+		GTK_VALUE_STRING(*arg) = card->note;
 		break;
-	case PROP_RELATED_CONTACTS:
-		g_value_set_string (value, card->related_contacts);
+	case ARG_RELATED_CONTACTS:
+		GTK_VALUE_STRING(*arg) = card->related_contacts;
 		break;
-	case PROP_WANTS_HTML:
-		g_value_set_boolean (value, card->wants_html);
+	case ARG_WANTS_HTML:
+		GTK_VALUE_BOOL(*arg) = card->wants_html;
 		break;
-	case PROP_WANTS_HTML_SET:
-		g_value_set_boolean (value, card->wants_html_set);
+	case ARG_WANTS_HTML_SET:
+		GTK_VALUE_BOOL(*arg) = card->wants_html_set;
 		break;
-	case PROP_ARBITRARY:
+	case ARG_ARBITRARY:
 		if (!card->arbitrary)
 			card->arbitrary = e_list_new((EListCopyFunc) e_card_arbitrary_ref,
 						     (EListFreeFunc) e_card_arbitrary_unref,
 						     NULL);
 
-		g_value_set_object (value, card->arbitrary);
+		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->arbitrary);
 		break;
-	case PROP_ID:
-		g_value_set_string (value, card->id);
+	case ARG_ID:
+		GTK_VALUE_STRING(*arg) = card->id;
 		break;
-	case PROP_LAST_USE:
-		g_value_set_pointer (value, card->last_use);
+	case ARG_LAST_USE:
+		GTK_VALUE_POINTER(*arg) = card->last_use;
 		break;
-	case PROP_USE_SCORE:
-		g_value_set_float (value, e_card_get_use_score (card));
+
+	case ARG_USE_SCORE:
+		GTK_VALUE_FLOAT(*arg) = e_card_get_use_score (card);
 		break;
-	case PROP_EVOLUTION_LIST:
-		g_value_set_boolean (value, card->list);
+	case ARG_EVOLUTION_LIST:
+		GTK_VALUE_BOOL(*arg) = card->list;
 		break;
-	case PROP_EVOLUTION_LIST_SHOW_ADDRESSES:
-		g_value_set_boolean (value, card->list_show_addresses);
+	case ARG_EVOLUTION_LIST_SHOW_ADDRESSES:
+		GTK_VALUE_BOOL(*arg) = card->list_show_addresses;
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		arg->type = GTK_TYPE_INVALID;
 		break;
 	}
 }
@@ -2461,7 +2273,7 @@ e_card_load_cards_from_file_with_default_charset(const char *filename, char *def
 	GList *list = NULL;
 	while(vobj) {
 		VObject *next;
-		ECard *card = g_object_new (E_TYPE_CARD, NULL);
+		ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
 		parse(card, vobj, default_charset);
 		next = nextVObjectInList(vobj);
 		cleanVObject(vobj);
@@ -2485,7 +2297,7 @@ e_card_load_cards_from_string_with_default_charset(const char *str, char *defaul
 	GList *list = NULL;
 	while(vobj) {
 		VObject *next;
-		ECard *card = g_object_new (E_TYPE_CARD, NULL);
+		ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
 		parse(card, vobj, default_charset);
 		next = nextVObjectInList(vobj);
 		cleanVObject(vobj);
@@ -2506,32 +2318,32 @@ void
 e_card_free_empty_lists (ECard *card)
 {
 	if (card->address && e_list_length (card->address) == 0) {
-		g_object_unref (card->address);
+		gtk_object_unref (GTK_OBJECT (card->address));
 		card->address = NULL;
 	}
 
 	if (card->address_label && e_list_length (card->address_label) == 0) {
-		g_object_unref (card->address_label);
+		gtk_object_unref (GTK_OBJECT (card->address_label));
 		card->address_label = NULL;
 	}
 
 	if (card->phone && e_list_length (card->phone) == 0) {
-		g_object_unref (card->phone);
+		gtk_object_unref (GTK_OBJECT (card->phone));
 		card->phone = NULL;
 	}
 
 	if (card->email && e_list_length (card->email) == 0) {
-		g_object_unref (card->email);
+		gtk_object_unref (GTK_OBJECT (card->email));
 		card->email = NULL;
 	}
 
 	if (card->categories && e_list_length (card->categories) == 0) {
-		g_object_unref (card->categories);
+		gtk_object_unref (GTK_OBJECT (card->categories));
 		card->categories = NULL;
 	}
 
 	if (card->arbitrary && e_list_length (card->arbitrary) == 0) {
-		g_object_unref (card->arbitrary);
+		gtk_object_unref (GTK_OBJECT (card->arbitrary));
 		card->arbitrary = NULL;
 	}
 }
@@ -2732,6 +2544,278 @@ set_address_flags (VObject *vobj, ECardAddressFlags flags)
 			addProp (vobj, addr_pairs[i].id);
 		}
 	}
+}
+
+#include <Evolution-Composer.h>
+
+#define COMPOSER_OAFID "OAFIID:GNOME_Evolution_Mail_Composer"
+
+void
+e_card_list_send (GList *cards, ECardDisposition disposition)
+{
+	BonoboObjectClient *bonobo_server;
+	GNOME_Evolution_Composer composer_server;
+	CORBA_Environment ev;
+
+	if (cards == NULL)
+		return;
+	
+	/* First, I obtain an object reference that represents the Composer. */
+	bonobo_server = bonobo_object_activate (COMPOSER_OAFID, 0);
+
+	g_return_if_fail (bonobo_server != NULL);
+
+	composer_server = bonobo_object_corba_objref (BONOBO_OBJECT (bonobo_server));
+
+	CORBA_exception_init (&ev);
+
+	if (disposition == E_CARD_DISPOSITION_AS_TO) {
+		GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
+		CORBA_char *subject;
+		int to_i, bcc_i;
+		GList *iter;
+		gint to_length = 0, bcc_length = 0;
+
+		/* Figure out how many addresses of each kind we have. */
+		for (iter = cards; iter != NULL; iter = g_list_next (iter)) {
+			ECard *card = E_CARD (iter->data);
+			if (e_card_evolution_list (card)) {
+				gint len = card->email ? e_list_length (card->email) : 0;
+				if (e_card_evolution_list_show_addresses (card))
+					to_length += len;
+				else
+					bcc_length += len;
+			} else {
+				if (card->email != NULL)
+					++to_length;
+			}
+		}
+
+		/* Now I have to make a CORBA sequences that represents a recipient list with
+		   the right number of entries, for the cards. */
+		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		to_list->_maximum = to_length;
+		to_list->_length = to_length;
+		if (to_length > 0) {
+			to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (to_length);
+		}
+
+		cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		cc_list->_maximum = cc_list->_length = 0;
+		
+		bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		bcc_list->_maximum = bcc_length;
+		bcc_list->_length = bcc_length;
+		if (bcc_length > 0) {
+			bcc_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (bcc_length);
+		}
+
+		to_i = 0;
+		bcc_i = 0;
+		while (cards != NULL) {
+			ECard *card = cards->data;
+			EIterator *iterator;
+			gchar *name, *addr;
+			gboolean is_list, is_hidden, free_name_addr;
+			GNOME_Evolution_Composer_Recipient *recipient;
+
+			if (card->email != NULL) {
+
+				is_list = e_card_evolution_list (card);
+				is_hidden = is_list && !e_card_evolution_list_show_addresses (card);
+			
+				for (iterator = e_list_get_iterator (card->email); e_iterator_is_valid (iterator); e_iterator_next (iterator)) {
+					
+					if (is_hidden) {
+						recipient = &(bcc_list->_buffer[bcc_i]);
+						++bcc_i;
+					} else {
+						recipient = &(to_list->_buffer[to_i]);
+						++to_i;
+					}
+					
+					name = "";
+					addr = "";
+					free_name_addr = FALSE;
+					if (e_iterator_is_valid (iterator)) {
+						
+						if (is_list) {
+							/* We need to decode the list entries, which are XMLified EDestinations. */
+							EDestination *dest = e_destination_import (e_iterator_get (iterator));
+							if (dest != NULL) {
+								name = g_strdup (e_destination_get_name (dest));
+								addr = g_strdup (e_destination_get_email (dest));
+								free_name_addr = TRUE;
+								gtk_object_unref (GTK_OBJECT (dest));
+							}
+							
+						} else { /* is just a plain old card */
+							if (card->name)
+								name = e_card_name_to_string (card->name);
+							addr = g_strdup ((char *) e_iterator_get (iterator));
+							free_name_addr = TRUE;
+						}
+					}
+					
+					recipient->name    = CORBA_string_dup (name ? name : "");
+					recipient->address = CORBA_string_dup (addr ? addr : "");
+					
+					if (free_name_addr) {
+						g_free ((gchar *) name);
+						g_free ((gchar *) addr);
+					}
+					
+					/* If this isn't a list, we quit after the first (i.e. the default) address. */
+					if (!is_list)
+						break;
+					
+				}
+				gtk_object_unref (GTK_OBJECT (iterator));
+			}
+
+			cards = g_list_next (cards);
+		}
+
+		subject = CORBA_string_dup ("");
+
+		GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, subject, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_printerr ("gui/e-meeting-edit.c: I couldn't set the composer headers via CORBA! Aagh.\n");
+			CORBA_exception_free (&ev);
+			return;
+		}
+
+		CORBA_free (to_list);
+		CORBA_free (cc_list);
+		CORBA_free (bcc_list);
+		CORBA_free (subject);
+	}
+
+	if (disposition == E_CARD_DISPOSITION_AS_ATTACHMENT) {
+		CORBA_char *content_type, *filename, *description;
+		GNOME_Evolution_Composer_AttachmentData *attach_data;
+		CORBA_boolean show_inline;
+		char *tempstr;
+
+		GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
+		CORBA_char *subject;
+		
+		content_type = CORBA_string_dup ("text/x-vcard");
+		filename = CORBA_string_dup ("");
+
+		if (cards->next) {
+			description = CORBA_string_dup (_("Multiple VCards"));
+		} else {
+			char *file_as;
+
+			gtk_object_get(GTK_OBJECT(cards->data),
+				       "file_as", &file_as,
+				       NULL);
+
+			tempstr = g_strdup_printf (_("VCard for %s"), file_as);
+			description = CORBA_string_dup (tempstr);
+			g_free (tempstr);
+		}
+
+		show_inline = FALSE;
+
+		tempstr = e_card_list_get_vcard (cards);
+		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc();
+		attach_data->_maximum = attach_data->_length = strlen (tempstr);
+		attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
+		strcpy (attach_data->_buffer, tempstr);
+		g_free (tempstr);
+
+		GNOME_Evolution_Composer_attachData (composer_server, 
+						     content_type, filename, description,
+						     show_inline, attach_data,
+						     &ev);
+	
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_printerr ("gui/e-meeting-edit.c: I couldn't attach data to the composer via CORBA! Aagh.\n");
+			CORBA_exception_free (&ev);
+			return;
+		}
+	
+		CORBA_free (content_type);
+		CORBA_free (filename);
+		CORBA_free (description);
+		CORBA_free (attach_data);
+
+		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		to_list->_maximum = to_list->_length = 0;
+		
+		cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		cc_list->_maximum = cc_list->_length = 0;
+
+		bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		bcc_list->_maximum = bcc_list->_length = 0;
+
+		if (!cards || cards->next) {
+			subject = CORBA_string_dup ("Contact information");
+		} else {
+			ECard *card = cards->data;
+			const gchar *tempstr2;
+
+			tempstr2 = NULL;
+			gtk_object_get(GTK_OBJECT(card),
+				       "file_as", &tempstr2,
+				       NULL);
+			if (!tempstr2 || !*tempstr2)
+				gtk_object_get(GTK_OBJECT(card),
+					       "full_name", &tempstr2,
+					       NULL);
+			if (!tempstr2 || !*tempstr2)
+				gtk_object_get(GTK_OBJECT(card),
+					       "org", &tempstr2,
+					       NULL);
+			if (!tempstr2 || !*tempstr2) {
+				EList *list;
+				EIterator *iterator;
+				gtk_object_get(GTK_OBJECT(card),
+					       "email", &list,
+					       NULL);
+				iterator = e_list_get_iterator (list);
+				if (e_iterator_is_valid (iterator)) {
+					tempstr2 = e_iterator_get (iterator);
+				}
+				gtk_object_unref (GTK_OBJECT (iterator));
+			}
+
+			if (!tempstr2 || !*tempstr2)
+				tempstr = g_strdup_printf ("Contact information");
+			else
+				tempstr = g_strdup_printf ("Contact information for %s", tempstr2);
+			subject = CORBA_string_dup (tempstr);
+			g_free (tempstr);
+		}
+		
+		GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, subject, &ev);
+
+		CORBA_free (to_list);
+		CORBA_free (cc_list);
+		CORBA_free (bcc_list);
+		CORBA_free (subject);
+	}
+
+	GNOME_Evolution_Composer_show (composer_server, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_printerr ("gui/e-meeting-edit.c: I couldn't show the composer via CORBA! Aagh.\n");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	CORBA_exception_free (&ev);
+}
+
+void
+e_card_send (ECard *card, ECardDisposition disposition)
+{
+	GList *list;
+	list = g_list_prepend (NULL, card);
+	e_card_list_send (list, disposition);
+	g_list_free (list);
 }
 
 gboolean
