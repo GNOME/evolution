@@ -1,5 +1,7 @@
 2003-03-04  JP Rosevear  <jpr@ximian.com>
 
+	Merging in 1.2 stuff
+	
 	Fixes #35598
 	
 	* gui/dialogs/task-details-page.c
