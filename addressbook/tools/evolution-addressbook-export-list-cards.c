@@ -296,7 +296,7 @@ e_card_simple_csv_get_name (ECardSimpleFieldCSV csv_field)
 
 	if (simple_field != NOMAP) {
 		a_simple_card = E_CARD_SIMPLE (g_object_new (E_TYPE_CARD_SIMPLE, NULL));
-		name = g_strdup (e_card_simple_get_name (a_simple_card, simple_field));
+		name = g_strdup (e_card_simple_get_ecard_field (a_simple_card, simple_field));
 		g_object_unref (G_OBJECT (a_simple_card));
 	} else {
 		name = g_strdup (csv_field_data[csv_field].csv_name);

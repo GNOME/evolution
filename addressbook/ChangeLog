@@ -1,5 +1,13 @@
 2003-04-28  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #41843]
+	* tools/evolution-addressbook-export-list-cards.c
+	(e_card_simple_csv_get_name): use e_card_simple_get_ecard_field
+	instead of e_card_simple_get_name, so the return value won't be
+	localized.
+
+2003-04-28  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #41779 ]
 	* gui/component/e-address-popup.c (mini_wizard_container_add): we
 	don't need to call gtk_widget_destroy on the old child, since
