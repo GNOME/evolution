@@ -561,8 +561,12 @@ pop3_get_response (CamelPop3Store *store, char **ret, CamelException *ex)
 		status = CAMEL_POP3_OK;
 	else if (!strncmp (respbuf, "-ERR", 4))
 		status = CAMEL_POP3_ERR;
-	else
+	else {
 		status = CAMEL_POP3_FAIL;
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      _("Unexpected response from POP server: %s"),
+				      respbuf);
+	}
 	
 	if (ret) {
 		if (status != CAMEL_POP3_FAIL) {
