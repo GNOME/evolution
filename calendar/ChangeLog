@@ -1,3 +1,10 @@
+2001-08-08  Damon Chaplin  <damon@ximian.com>
+
+	* gui/goto-dialog.glade: removed underlined accelerator key from
+	"_Go To Today" button. GnomeDialog doesn't actually support underlined
+	accelerator keys for buttons. We could hack it, like Glade does, if
+	we really need to. Fixes bug #6418.
+
 2001-08-08  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/e-day-view.c (update_query): Stop editing any event.  Fixes

@@ -60,7 +60,7 @@
 	<name>button4</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
-	<label>_Go to Today</label>
+	<label>Go To Today</label>
 	<stock_pixmap>GNOME_STOCK_PIXMAP_JUMP_TO</stock_pixmap>
       </widget>
 
