@@ -48,6 +48,7 @@ enum {
 	ARG_0,
 	ARG_WIDTH,
 	ARG_HEIGHT,
+	ARG_HAS_FOCUS,
 	ARG_FIELD,
 	ARG_FIELDNAME
 };
@@ -103,6 +104,8 @@ e_minicard_label_class_init (EMinicardLabelClass *klass)
 			   GTK_ARG_READWRITE, ARG_WIDTH); 
   gtk_object_add_arg_type ("EMinicardLabel::height", GTK_TYPE_DOUBLE, 
 			   GTK_ARG_READABLE, ARG_HEIGHT);
+  gtk_object_add_arg_type ("EMinicardLabel::has_focus", GTK_TYPE_BOOL, 
+			   GTK_ARG_READWRITE, ARG_HAS_FOCUS);
   gtk_object_add_arg_type ("EMinicardLabel::field", GTK_TYPE_STRING, 
 			   GTK_ARG_READWRITE, ARG_FIELD);
   gtk_object_add_arg_type ("EMinicardLabel::fieldname", GTK_TYPE_STRING, 
@@ -148,6 +151,10 @@ e_minicard_label_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	  _update_label( e_minicard_label );
 	  gnome_canvas_item_request_update (item);
 	  break;
+	case ARG_HAS_FOCUS:
+		if (e_minicard_label->field && GTK_VALUE_BOOL(*arg))
+			gnome_canvas_item_grab_focus(e_minicard_label->field);
+		break;
 	case ARG_FIELD:
 	  if ( e_minicard_label->field )
 	    gnome_canvas_item_set( e_minicard_label->field, "text", GTK_VALUE_STRING (*arg), NULL );
@@ -178,6 +185,9 @@ e_minicard_label_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_HEIGHT:
 	  GTK_VALUE_DOUBLE (*arg) = e_minicard_label->height;
 	  break;
+	case ARG_HAS_FOCUS:
+		GTK_VALUE_BOOL (*arg) = e_minicard_label->has_focus;
+		break;
 	case ARG_FIELD:
 	  if ( e_minicard_label->field )
 	    {
@@ -317,6 +327,7 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 				   "outline_color", "grey50", 
 				   "fill_color", "grey90",
 				   NULL );
+	    e_minicard_label->has_focus = TRUE;
 	  }
 	else
 	  {
@@ -324,6 +335,7 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 				   "outline_color", NULL, 
 				   "fill_color", NULL,
 				   NULL );
+	    e_minicard_label->has_focus = FALSE;
 	  }
       }
       break;

@@ -61,6 +61,8 @@ struct _EMinicard
 	GnomeCanvasItem *header_text;
 	GList *fields; /* Of type GnomeCanvasItem. */
 	
+	gboolean has_focus;
+	
 	double width;
 	double height;
 };
@@ -69,7 +71,7 @@ struct _EMinicardClass
 {
 	GnomeCanvasGroupClass parent_class;
 
-	void (* resize) (EMinicard *text);
+	void (* resize) (EMinicard *minicard);
 };
 
 

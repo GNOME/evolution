@@ -49,6 +49,7 @@ enum {
 	ARG_0,
 	ARG_WIDTH,
 	ARG_HEIGHT,
+	ARG_HAS_FOCUS,
 	ARG_CARD
 };
 
@@ -103,6 +104,8 @@ e_minicard_class_init (EMinicardClass *klass)
 			   GTK_ARG_READWRITE, ARG_WIDTH); 
   gtk_object_add_arg_type ("EMinicard::height", GTK_TYPE_DOUBLE, 
 			   GTK_ARG_READABLE, ARG_HEIGHT);
+  gtk_object_add_arg_type ("EMinicard::has_focus", GTK_TYPE_BOOL,
+			   GTK_ARG_READWRITE, ARG_HAS_FOCUS);
   gtk_object_add_arg_type ("EMinicard::card", GTK_TYPE_OBJECT, 
 			   GTK_ARG_READWRITE, ARG_CARD);
  
@@ -124,6 +127,7 @@ e_minicard_init (EMinicard *minicard)
   minicard->fields = NULL;
   minicard->width = 10;
   minicard->height = 10;
+  minicard->has_focus = FALSE;
 }
 
 static void
@@ -141,6 +145,14 @@ e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	  _update_card(e_minicard);
 	  gnome_canvas_item_request_update (item);
 	  break;
+	case ARG_HAS_FOCUS:
+		if (e_minicard->fields)
+			gnome_canvas_item_set(GNOME_CANVAS_ITEM(e_minicard->fields->data),
+					      "has_focus", GTK_VALUE_BOOL(*arg),
+					      NULL);
+		else
+			gnome_canvas_item_grab_focus(GNOME_CANVAS_ITEM(e_minicard));
+		break;
 	case ARG_CARD:
 	  /*	  e_minicard->card = GTK_VALUE_POINTER (*arg);
 	  _update_card(e_minicard);
@@ -163,6 +175,9 @@ e_minicard_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_HEIGHT:
 	  GTK_VALUE_DOUBLE (*arg) = e_minicard->height;
 	  break;
+	case ARG_HAS_FOCUS:
+		GTK_VALUE_BOOL (*arg) = e_minicard->has_focus;
+		break;
 	case ARG_CARD:
 	  /* GTK_VALUE_POINTER (*arg) = e_minicard->card; */
 	  break;
@@ -218,42 +233,61 @@ e_minicard_realize (GnomeCanvasItem *item)
 				 "fill_color", "black",
 				 "text", "Chris Lahey",
 				 NULL );
-
+	
 	gtk_signal_connect(GTK_OBJECT(e_minicard->header_text),
 			   "resize",
 			   GTK_SIGNAL_FUNC(_resize),
 			   (gpointer) e_minicard);
+	if ( rand() % 2 ) {
+		new_item = gnome_canvas_item_new( group,
+						  e_minicard_label_get_type(),
+						  "x", (double) 2,
+						  "y", e_minicard->height,
+						  "width", e_minicard->width - 4,
+						  "fieldname", "Full Name:",
+						  "field", "Christopher James Lahey",
+						  NULL );
+		e_minicard->fields = g_list_append( e_minicard->fields, new_item);
+		
+		gtk_signal_connect(GTK_OBJECT(new_item),
+				   "resize",
+				   GTK_SIGNAL_FUNC(_resize),
+				   (gpointer) e_minicard);
+	}
 	
-	new_item = gnome_canvas_item_new( group,
-					  e_minicard_label_get_type(),
-					  "x", (double) 2,
-					  "y", e_minicard->height,
-					  "width", e_minicard->width - 4,
-					  "fieldname", "Full Name:",
-					  "field", "Christopher James Lahey",
-					  NULL );
-	e_minicard->fields = g_list_append( e_minicard->fields, new_item);
-	
-	gtk_signal_connect(GTK_OBJECT(new_item),
-			   "resize",
-			   GTK_SIGNAL_FUNC(_resize),
-			   (gpointer) e_minicard);
-	
-	new_item = gnome_canvas_item_new( group,
-					  e_minicard_label_get_type(),
-					  "x", (double) 2,
-					  "y", e_minicard->height,
-					  "width", e_minicard->width - 4.0,
-					  "fieldname", "Email:",
-					  "field", "clahey@helixcode.com",
-					  NULL );
-	e_minicard->fields = g_list_append( e_minicard->fields, new_item);
-
-	gtk_signal_connect(GTK_OBJECT(new_item),
-			   "resize",
-			   GTK_SIGNAL_FUNC(_resize),
-			   (gpointer) e_minicard);
-	
+	if (rand() % 2) {
+		new_item = gnome_canvas_item_new( group,
+						  e_minicard_label_get_type(),
+						  "x", (double) 2,
+						  "y", e_minicard->height,
+						  "width", e_minicard->width - 4,
+						  "fieldname", "Address:",
+						  "field", "100 Main St\nHome town, USA",
+						  NULL );
+		e_minicard->fields = g_list_append( e_minicard->fields, new_item);
+		
+		gtk_signal_connect(GTK_OBJECT(new_item),
+				   "resize",
+				   GTK_SIGNAL_FUNC(_resize),
+				   (gpointer) e_minicard);
+	}
+       
+	if (rand() % 2) {
+		new_item = gnome_canvas_item_new( group,
+						  e_minicard_label_get_type(),
+						  "x", (double) 2,
+						  "y", e_minicard->height,
+						  "width", e_minicard->width - 4.0,
+						  "fieldname", "Email:",
+						  "field", "clahey@helixcode.com",
+						  NULL );
+		e_minicard->fields = g_list_append( e_minicard->fields, new_item);
+		
+		gtk_signal_connect(GTK_OBJECT(new_item),
+				   "resize",
+				   GTK_SIGNAL_FUNC(_resize),
+				   (gpointer) e_minicard);
+	}
 	_update_card( e_minicard );
 	
 	if (!item->canvas->aa) {
@@ -298,6 +332,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 	    gnome_canvas_item_set( e_minicard->header_text, 
 				   "fill_color", "white",
 				   NULL );
+	    e_minicard->has_focus = TRUE;
 	  }
 	else
 	  {
@@ -305,11 +340,12 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 				   "outline_color", NULL, 
 				   NULL );
 	    gnome_canvas_item_set( e_minicard->header_rect, 
-				   "fill_color", "grey50",
+				   "fill_color", "grey70",
 				   NULL );
 	    gnome_canvas_item_set( e_minicard->header_text, 
 				   "fill_color", "black",
 				   NULL );
+	    e_minicard->has_focus = FALSE;
 	  }
       }
       break;
@@ -317,15 +353,21 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 	    if (event->key.length == 1 && event->key.string[0] == '\t') {
 		    GList *list;
 		    for (list = e_minicard->fields; list; list = list->next) {
-			    EMinicardLabel *label = E_MINICARD_LABEL (list->data);
-			    if (label->field == label->field->canvas->focused_item) {
+			    GnomeCanvasItem *item = GNOME_CANVAS_ITEM (list->data);
+			    gboolean has_focus;
+			    gtk_object_get(GTK_OBJECT(item),
+					   "has_focus", &has_focus,
+					   NULL);
+			    if (has_focus) {
 				    if (event->key.state & GDK_SHIFT_MASK)
 					    list = list->prev;
 				    else
 					    list = list->next;
 				    if (list) {
-					    label = E_MINICARD_LABEL (list->data);
-					    gnome_canvas_item_grab_focus(label->field);
+					    item = GNOME_CANVAS_ITEM (list->data);
+					    gnome_canvas_item_set(item,
+								  "has_focus", TRUE,
+								  NULL);
 					    return 1;
 				    } else {
 					    return 0;
@@ -357,7 +399,7 @@ _update_card( EMinicard *e_minicard )
 				"text_height", &text_height,
 				NULL );
 		
-		e_minicard->height = text_height + 12.0;
+		e_minicard->height = text_height + 10.0;
 		
 		gnome_canvas_item_set( e_minicard->header_rect,
 				       "y2", text_height + 9.0,
@@ -387,7 +429,7 @@ _update_card( EMinicard *e_minicard )
 				       "y2", (double) e_minicard->height - 1.0,
 				       NULL );
 		gnome_canvas_item_set( e_minicard->header_rect,
-				       "x2", (double) e_minicard->width - 4.0,
+				       "x2", (double) e_minicard->width - 3.0,
 				       NULL );
 		gnome_canvas_item_set( e_minicard->header_text,
 				       "clip_width", (double) e_minicard->width - 12,

@@ -62,6 +62,8 @@ struct _EMinicardLabel
   GnomeCanvasItem *rect;
   char *fieldname_text;
   char *field_text;
+
+	gboolean has_focus;
 };
 
 struct _EMinicardLabelClass

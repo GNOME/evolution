@@ -75,6 +75,12 @@ enum {
 };
 
 
+enum {
+  TARGET_STRING,
+  TARGET_TEXT,
+  TARGET_COMPOUND_TEXT
+};
+
 static void e_text_class_init (ETextClass *class);
 static void e_text_init (EText *text);
 static void e_text_destroy (GtkObject *object);
@@ -95,6 +101,8 @@ static void e_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf);
 static gint e_text_event (GnomeCanvasItem *item, GdkEvent *event);
 
 static void e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data);
+
+static guint32 e_text_get_event_time (EText *text);
 
 static ETextSuckFont *e_suck_font (GdkFont *font);
 static void e_suck_font_free (ETextSuckFont *suckfont);
@@ -1124,7 +1132,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			int x, int y, int width, int height)
 {
 	EText *text;
-	GdkRectangle rect;
+	GdkRectangle rect, *clip_rect;
 	struct line *lines;
 	int i;
 	int xpos, ypos;
@@ -1140,6 +1148,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	if (!text->text || !text->font)
 		return;
 
+	clip_rect = NULL;
 	if (text->clip) {
 		rect.x = text->clip_cx - x;
 		rect.y = text->clip_cy - y;
@@ -1148,6 +1157,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		
 		gdk_gc_set_clip_rectangle (text->gc, &rect);
 		gdk_gc_set_clip_rectangle (GTK_WIDGET(canvas)->style->fg_gc[GTK_STATE_SELECTED], &rect);
+		clip_rect = &rect;
 	}
 	lines = text->lines;
 	ypos = text->cy + text->font->ascent;
@@ -1182,13 +1192,17 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 									 lines->text + sel_start - start_char,
 									 sel_end - sel_start);
 					sel_rect.height = text->font->ascent + text->font->descent;
-					gdk_draw_rectangle (drawable,
-							    text->gc,
-							    TRUE,
-							    sel_rect.x,
-							    sel_rect.y,
-							    sel_rect.width,
-							    sel_rect.height);
+					gtk_paint_flat_box(GTK_WIDGET(item->canvas)->style,
+							   drawable,
+							   GTK_STATE_SELECTED,
+							   GTK_SHADOW_NONE,
+							   clip_rect,
+							   GTK_WIDGET(item->canvas),
+							   "text",
+							   sel_rect.x,
+							   sel_rect.y,
+							   sel_rect.width,
+							   sel_rect.height);
 					gdk_draw_text (drawable,
 						       text->font,
 						       text->gc,
@@ -1896,6 +1910,89 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 	}
 
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
+}
+#if 0
+static void
+e_text_real_copy_clipboard (EText *text)
+{
+  guint32 time;
+  gint selection_start_pos; 
+  gint selection_end_pos;
+
+  g_return_if_fail (text != NULL);
+  g_return_if_fail (E_IS_TEXT (text));
+  
+  time = gtk_text_get_event_time (text);
+  selection_start_pos = MIN (text->selection_start, text->selection_end);
+  selection_end_pos = MAX (text->selection_start, text->selection_end);
+ 
+  if (selection_start_pos != selection_end_pos)
+    {
+      if (gtk_selection_owner_set (GTK_WIDGET (text->canvas),
+				   clipboard_atom,
+				   time))
+	      text->clipboard_text = "";
+    }
+}
+
+static void
+e_text_real_paste_clipboard (EText *text)
+{
+  guint32 time;
+
+  g_return_if_fail (text != NULL);
+  g_return_if_fail (E_IS_TEXT (text));
+  
+  time = e_text_get_event_time (text);
+  if (text->editable)
+	  gtk_selection_convert (GTK_WIDGET(text->widget),
+				 clipboard_atom,
+				 gdk_atom_intern ("COMPOUND_TEXT", FALSE), time);
+}
+#endif
+
+/* Get the timestamp of the current event. Actually, the only thing
+ * we really care about below is the key event
+ */
+static guint32
+e_text_get_event_time (EText *text)
+{
+  GdkEvent *event;
+  guint32 tm = GDK_CURRENT_TIME;
+  
+  event = gtk_get_current_event();
+  
+  if (event)
+    switch (event->type)
+      {
+      case GDK_MOTION_NOTIFY:
+	tm = event->motion.time; break;
+      case GDK_BUTTON_PRESS:
+      case GDK_2BUTTON_PRESS:
+      case GDK_3BUTTON_PRESS:
+      case GDK_BUTTON_RELEASE:
+	tm = event->button.time; break;
+      case GDK_KEY_PRESS:
+      case GDK_KEY_RELEASE:
+	tm = event->key.time; break;
+      case GDK_ENTER_NOTIFY:
+      case GDK_LEAVE_NOTIFY:
+	tm = event->crossing.time; break;
+      case GDK_PROPERTY_NOTIFY:
+	tm = event->property.time; break;
+      case GDK_SELECTION_CLEAR:
+      case GDK_SELECTION_REQUEST:
+      case GDK_SELECTION_NOTIFY:
+	tm = event->selection.time; break;
+      case GDK_PROXIMITY_IN:
+      case GDK_PROXIMITY_OUT:
+	tm = event->proximity.time; break;
+      default:			/* use current time */
+	break;
+      }
+  gdk_event_free(event);
+  
+  return tm;
 }
 
 

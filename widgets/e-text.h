@@ -65,8 +65,8 @@ BEGIN_GNOME_DECLS
  * ellipsis             string                  RW              The characters to use as ellipsis.  NULL = "...".
  *
  * These are not implemented yet:
- * multi_line           boolean                 RW              Line wrap when not editing.
- * multi_line_on_edit   boolean                 RW              Switch to line wrap when editing.
+ * line_wrap            boolean                 RW              Line wrap when not editing.
+ * line_wrap_on_edit    boolean                 RW              Switch to line wrap when editing.
  * background           boolean                 RW              Draw a background rectangle.
  * background_on_edit   boolean                 RW              Draw a background when editing.
  */
@@ -148,7 +148,7 @@ struct _EText {
 	int selection_end;              /* End of selection */
 	gboolean select_by_word;        /* Current selection is by word */
 
-	/* This section is for drag scrolling. */
+	/* This section is for drag scrolling and blinking cursor. */
 	gint timeout_id;                /* Current timeout id for scrolling */
 	GTimer *timer;                  /* Timer for blinking cursor and scrolling */
 
@@ -160,6 +160,8 @@ struct _EText {
 	gboolean button_down;           /* Is mouse button 1 down */
 
 	ETextEventProcessor *tep;       /* Text Event Processor */
+
+	GtkWidget *invisible;           /* For selection handling. */
 };
 
 struct _ETextClass {

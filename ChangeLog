@@ -1,3 +1,30 @@
+2000-01-13  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/e-canvas-utils.c, widgets/e-canvas-utils.h:
+	e_canvas_item_move_absolute is just a helper function not supplied
+	by the gnome_canvas.[ch] I put it here so that multiple items can
+	use it.
+
+	* widgets/e-reflow.c, widgets/e-reflow.h: This item contains a
+	number of other items and places them into multiple columns.  The
+	items contained must support a number of arguments and signals to
+	allow the reflow to interact with them.
+
+	* widgets/test-reflow.c: This is a test program for e-reflow.
+
+	* widgets/e-text.c, widgets/e-text.h: Added properly drawn
+	selected text.  Added some preliminary code for X selection
+	handling and cut & paste.
+
+	* widgets/e-minicard.c, widgets/e-minicard.h: Added ARG_HAS_FOCUS
+	handling.  Made label display random for more interesting tests of
+	multiple cards.  Tweaked sizing information for better display.
+
+	* widgets/e-minicard-label.c, widgets/e-minicard-label.h: Added
+	ARG_HAS_FOCUS handling.
+
+	* widgets/Makefile.am: Added the reflow test and reflow files.
+
 2000-01-12  bertrand  <bertrand@helixcode.com>
 
 	* camel/providers/mbox/camel-mbox-parser.h (camel_mbox_parse_file): 
@@ -28,8 +55,7 @@
 	disabled gmime-rfc2047 as it depends on libunicode
 	and is not used for the moment. 
 
-
-2000-01-12    <clahey@galapagos.helixcode.com>
+2000-01-12  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-minicard.c, widgets/e-minicard.h: Added a resize
 	signal for when the card changes height.  Made it so that when you
@@ -43,7 +69,7 @@
 
 	* widgets/Makefile.am: Removed an extraneous build target.
 
-2000-01-11    <clahey@galapagos.helixcode.com>
+2000-01-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text-event-processor-emacs-like.c: Blocked the tab key
 	from getting inserted into the buffer since the renderer doesn't

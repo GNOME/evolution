@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* e-minicard.h
+/* e-reflow.h
  * Copyright (C) 2000  Helix Code, Inc.
  * Author: Chris Lahey <clahey@helixcode.com>
  *
@@ -18,8 +18,8 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
-#ifndef __E_MINICARD_H__
-#define __E_MINICARD_H__
+#ifndef __E_REFLOW_H__
+#define __E_REFLOW_H__
 
 #include <gnome.h>
 
@@ -28,58 +28,61 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-/* EMinicard - A small card displaying information about a contact.
+/* EReflow - A canvas item container.
  *
  * The following arguments are available:
  *
  * name		type		read/write	description
  * --------------------------------------------------------------------------------
- * width        double          RW              width of the card
- * height       double          R               height of the card
- * card		ECard*		RW		Pointer to the ECard
+ * width        double          R               width of the reflow
+ * height       double          RW              height of the reflow
  */
 
-#define E_MINICARD_TYPE			(e_minicard_get_type ())
-#define E_MINICARD(obj)			(GTK_CHECK_CAST ((obj), E_MINICARD_TYPE, EMinicard))
-#define E_MINICARD_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_MINICARD_TYPE, EMinicardClass))
-#define E_IS_MINICARD(obj)		(GTK_CHECK_TYPE ((obj), E_MINICARD_TYPE))
-#define E_IS_MINICARD_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_MINICARD_TYPE))
+#define E_REFLOW_TYPE			(e_reflow_get_type ())
+#define E_REFLOW(obj)			(GTK_CHECK_CAST ((obj), E_REFLOW_TYPE, EReflow))
+#define E_REFLOW_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_REFLOW_TYPE, EReflowClass))
+#define E_IS_REFLOW(obj)		(GTK_CHECK_TYPE ((obj), E_REFLOW_TYPE))
+#define E_IS_REFLOW_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_REFLOW_TYPE))
 
 
-typedef struct _EMinicard       EMinicard;
-typedef struct _EMinicardClass  EMinicardClass;
+typedef struct _EReflow       EReflow;
+typedef struct _EReflowClass  EReflowClass;
 
-struct _EMinicard
+struct _EReflow
 {
 	GnomeCanvasGroup parent;
 	
 	/* item specific fields */
-	/*  ECard *card; */
+	/*  EBook *book; */
 	
-	GnomeCanvasItem *rect;
-	GnomeCanvasItem *header_rect;
-	GnomeCanvasItem *header_text;
-	GList *fields; /* Of type GnomeCanvasItem. */
-	
-	gboolean has_focus;
+	GList *items; /* Of type GnomeCanvasItem */
+	GList *columns; /* Of type GList pointing to type GnomeCanvasItem (points into items) */
+	gint column_count; /* Number of columnns */
 	
 	double width;
 	double height;
+       
+	double column_width;
+
+	int idle;
 };
 
-struct _EMinicardClass
+struct _EReflowClass
 {
 	GnomeCanvasGroupClass parent_class;
 
-	void (* resize) (EMinicard *minicard);
+	void (* resize) (EReflow *reflow);
 };
 
-
-GtkType    e_minicard_get_type (void);
+/* To be added to a reflow, an item must have the arguments "x", "y",
+   and "width" as Read/Write arguments and "height" as a Read Only
+   argument.  It must also have a "resize" signal. */
+void       e_reflow_add_item(EReflow *e_reflow, GnomeCanvasItem *item);
+GtkType    e_reflow_get_type (void);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
 
-#endif /* __E_MINICARD_H__ */
+#endif /* __E_REFLOW_H__ */

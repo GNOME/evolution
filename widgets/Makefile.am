@@ -11,12 +11,16 @@ noinst_LIBRARIES =				\
 	libevolutionwidgets.a
 
 libevolutionwidgets_a_SOURCES = 		\
+	e-canvas-utils.c			\
+	e-canvas-utils.h			\
 	e-cursors.c				\
 	e-cursors.h				\
 	e-minicard.c				\
 	e-minicard.h				\
 	e-minicard-label.c			\
 	e-minicard-label.h			\
+	e-reflow.c				\
+	e-reflow.h				\
 	e-text.c				\
 	e-text.h				\
 	e-text-event-processor.c		\
@@ -26,7 +30,8 @@ libevolutionwidgets_a_SOURCES = 		\
 
 noinst_PROGRAMS =	\
 	minicard-label-test	\
-	minicard-test
+	minicard-test		\
+	reflow-test
 
 minicard_label_test_SOURCES = 	\
 	test-minicard-label.c
@@ -39,5 +44,12 @@ minicard_test_SOURCES = 	\
 	test-minicard.c
 
 minicard_test_LDADD =	\
+	$(EXTRA_GNOME_LIBS)	\
+	libevolutionwidgets.a	
+
+reflow_test_SOURCES = 	\
+	test-reflow.c
+
+reflow_test_LDADD =	\
 	$(EXTRA_GNOME_LIBS)	\
 	libevolutionwidgets.a	
