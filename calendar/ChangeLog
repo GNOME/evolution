@@ -1,3 +1,8 @@
+2000-11-07   Jesse Pavel   <jpavel@helixcode.com>
+
+	*gui/e-itip-control.c, gui/e-itip-control.glade: changed the GUI,
+	and added some extra feedback for the user.
+
 2000-11-07  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/weekday-picker.h (WeekdayPickerClass): Added a "changed"
