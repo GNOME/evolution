@@ -13,8 +13,8 @@ BEGIN_GNOME_DECLS
 #define E_TABLE_SCROLLED_TYPE        (e_table_scrolled_get_type ())
 #define E_TABLE_SCROLLED(o)          (GTK_CHECK_CAST ((o), E_TABLE_SCROLLED_TYPE, ETableScrolled))
 #define E_TABLE_SCROLLED_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SCROLLED_TYPE, ETableScrolledClass))
-#define E_IS_SCROLLED_TABLE(o)       (GTK_CHECK_TYPE ((o), E_TABLE_SCROLLED_TYPE))
-#define E_IS_SCROLLED_TABLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_SCROLLED_TYPE))
+#define E_IS_TABLE_SCROLLED(o)       (GTK_CHECK_TYPE ((o), E_TABLE_SCROLLED_TYPE))
+#define E_IS_TABLE_SCROLLED_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_SCROLLED_TYPE))
 
 typedef struct {
 	EScrollFrame parent;
