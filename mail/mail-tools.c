@@ -372,7 +372,7 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 	 * am sure --Larry
 	 */
 	want_plain = FALSE;
-	text = mail_get_message_body (contents, want_plain, want_plain);
+	text = mail_get_message_body (contents, want_plain, FALSE);
 	
 	/* Set the quoted reply text. */
 	if (text) {
@@ -427,19 +427,51 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 gchar *
 mail_tool_forward_message (CamelMimeMessage *message, gboolean quoted)
 {
-	char *title, *body, *ret;
-	gboolean send_html;
 	GConfClient *gconf;
+	char *text;
 	
 	gconf = mail_config_get_gconf_client ();
-	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
 	
-	body = mail_get_message_body (CAMEL_DATA_WRAPPER (message), !send_html, quoted);
-	title = _("Forwarded Message");
-	ret = g_strdup_printf ("-----%s-----<br>%s", title, body ? body : "");
-	g_free (body);
+	text = mail_get_message_body (CAMEL_DATA_WRAPPER (message), FALSE, FALSE);
 	
-	return ret;
+	if (text != NULL) {
+		char *sig, *p, *ret_text;
+		
+		/* FIXME: this code should be merged with the quote_message() code above somehow... */
+		
+		/* look for the signature and strip it off */
+		sig = text;
+	        while ((p = strstr (sig, "\n-- \n")))
+			sig = p + 1;
+		
+		if (sig != text)
+			*sig = '\0';
+		
+		if (quoted) {
+			char *colour;
+			
+			colour = gconf_client_get_string (gconf, "/apps/evolution/mail/display/citation_colour", NULL);
+			
+			ret_text = g_strdup_printf ("-----%s-----<br>"
+						    "<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"orig\" value=\"1\">-->"
+						    "<font color=\"%s\">\n%s%s%s</font>"
+						    "<!--+GtkHTML:<DATA class=\"ClueFlow\" clear=\"orig\">-->",
+						    _("Forwarded Message"),
+						    colour ? colour : "#737373",
+						    "<blockquote type=cite><i>", text,
+						    "</i></blockquote>");
+			
+			g_free (colour);
+		} else {
+			ret_text = g_strdup_printf ("-----%s-----<br>%s", _("Forwarded Message"), text ? text : "");
+		}
+		
+		g_free (text);
+		
+		return ret_text;
+	}
+	
+	return NULL;
 }
 
 

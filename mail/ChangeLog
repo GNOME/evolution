@@ -1,17 +1,26 @@
+2003-07-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-tools.c (mail_tool_forward_message): Strip the signature
+	from the body text. Fixes bug #45523. While we're here, also fix
+	the code to quote exactly the same way as the
+	mail_tool_quote_message() function.
+	(mail_tool_quote_message): The last arg should not be
+	'want_plain', because that arg is for whether or not the body
+	should be quoted.
+
 2003-07-04  Maxx Cao  <maxx.cao@sun.com>
-                                                                                
-        ** For bug #41839
-                                                                                
-        * mail-display.c (do_attachment_header): Attachment buttons made
-        accessable with keyboard (focusable). "Inline" button is disabled
-        when attachment can't be viewed inline.
-        (do_signature): Signature button made accessable with keyboard
-        (focusable).
-        (button_press): Function changed to an event callback (originally
-        gtkbutton signal callback).
-        (popup_menu_placement_callback): Function added to place popup
-        menu (of attachment) beside button when activated by keyboard.
-                                                                                
+
+	** For bug #41839
+
+	* mail-display.c (do_attachment_header): Attachment buttons made
+	accessable with keyboard (focusable). "Inline" button is disabled
+	when attachment can't be viewed inline.
+	(do_signature): Signature button made accessable with keyboard
+	(focusable).
+	(button_press): Function changed to an event callback (originally
+	gtkbutton signal callback).
+	(popup_menu_placement_callback): Function added to place popup
+	menu (of attachment) beside button when activated by keyboard.
 
 2003-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
