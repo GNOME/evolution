@@ -58,6 +58,7 @@
 #include <libart_lgpl/art_rgb_bitmap_affine.h>
 
 #define BORDER_INDENT 4
+#define d(x)
 
 enum {
 	E_TEXT_CHANGED,
@@ -3659,13 +3660,15 @@ e_text_request_paste (EText *text)
 		if (type >= format_count) {
 			if (text->queued_requests) {
 				guint32 *new_time = text->queued_requests->data;
-				text->queued_requests = g_list_remove_link (text->queued_requests, text->queued_requests);
+				text->queued_requests = g_list_remove_link (text->queued_requests, text->queued_requests); 
 				text->last_time_request = *new_time;
 				g_free (new_time);
 
 				type = -1;
+				continue;
 			} else {
 				text->last_type_request = -1;
+				d(g_print ("Setting last_type_request to %d at line %d\n", text->last_type_request, __LINE__));
 				text->last_time_request = 0;
 				return;
 			}
@@ -3674,6 +3677,11 @@ e_text_request_paste (EText *text)
 		format_atom = atoms [type];
 	}
 
+	/* This must come before the gtk_selection_convert because sometimes _selection_received is called reentrantly. */
+
+	text->last_type_request = type;
+	d(g_print ("Setting last_type_request to %d at line %d\n", text->last_type_request, __LINE__));
+
 	/* And request the format target for the required selection */
 	invisible = e_text_get_invisible(text);
 	gtk_selection_convert(invisible,
@@ -3681,7 +3689,6 @@ e_text_request_paste (EText *text)
 			      format_atom,
 			      text->last_time_request);
 
-	text->last_type_request = type;
 	return;
 }
 
@@ -3693,6 +3700,7 @@ _selection_received (GtkInvisible *invisible,
 {
 	init_atoms ();
 	if (selection_data->length < 0) {
+		d(g_print ("Calling e_text_request_paste at line %d\n", __LINE__));
 		e_text_request_paste (text);
 		return;
 	} else if (selection_data->type == atoms[E_STRING_ATOM]) {
@@ -3719,12 +3727,14 @@ _selection_received (GtkInvisible *invisible,
 		e_text_command(text->tep, &command, text);
 	}
 	text->last_type_request = -1;
+	d(g_print ("Setting last_type_request to %d at line %d\n", text->last_type_request, __LINE__));
 	if (text->queued_requests) {
 		SelectionAndTime *new_request = text->queued_requests->data;
 		text->queued_requests = g_list_remove_link (text->queued_requests, text->queued_requests);
 		text->last_time_request = new_request->time;
 		text->last_selection_request = new_request->selection;
 		g_free (new_request);
+		d(g_print ("Calling e_text_request_paste at line %d\n", __LINE__));
 		e_text_request_paste (text);
 	}
 }
@@ -3737,6 +3747,7 @@ e_text_get_selection(EText *text, GdkAtom selection, guint32 time)
 	if (text->last_type_request == -1) {
 		text->last_time_request = time;
 		text->last_selection_request = selection;
+		d(g_print ("Calling e_text_request_paste at line %d\n", __LINE__));
 		e_text_request_paste (text);
 	} else {
 		SelectionAndTime *new_request = g_new (SelectionAndTime, 1);
@@ -4158,6 +4169,7 @@ e_text_init (EText *text)
 	text->allow_newlines          = TRUE;
 
 	text->last_type_request       = -1;
+	d(g_print ("Setting last_type_request to %d at line %d\n", text->last_type_request, __LINE__));
 	text->last_time_request       = 0;
 	text->queued_requests         = NULL;
 
