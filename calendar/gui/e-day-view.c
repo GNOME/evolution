@@ -1597,6 +1597,8 @@ update_query (EDayView *day_view)
 	CalQuery *old_query;
 	char *real_sexp;
 
+	e_day_view_stop_editing_event (day_view);
+
 	e_day_view_free_events (day_view);
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
