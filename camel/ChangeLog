@@ -1,16 +1,15 @@
 2004-07-12 Sivaiah Nallagatla <snallagatla@novell.com>
 
-        * providers/groupwise/camel-gw-listener.c : (add_esource)
-        (modify_esource) (add_addressbook_source)
-        (modify_addressbook_sources) : pass "use_ssl" value to these functions and
-        set it on e-source
-        (add_calendar_tasks_source) : read the "use_ssl" param
-        from camel url and pass it to add_esource) calls
-        (get_addressbook_names_from_server) : use "https" or http
-        depending upon whther ssl is enabled or not
-        (account_changed) : compare urls from account
-        instead of uris formed to know wheter somehting in the account
-        changed
+	* providers/groupwise/camel-gw-listener.c (add_esource,
+	modify_esource, add_addressbook_source,
+	modify_addressbook_sources): pass "use_ssl" value to these
+	functions and set it on e-source
+	(add_calendar_tasks_source): read the "use_ssl" param from camel
+	url and pass it to add_esource) calls
+	(get_addressbook_names_from_server): use "https" or http depending
+	upon whther ssl is enabled or not
+	(account_changed): compare urls from account instead of uris
+	formed to know wheter somehting in the account changed
 
 2004-07-09  Not Zed  <NotZed@Ximian.com>
 
