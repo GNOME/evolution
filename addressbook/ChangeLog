@@ -1,3 +1,18 @@
+2003-04-07  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names-popup.c
+	(remove_recipient_cb): ifdef this out to quiet the compiler.
+	(remove_all_recipients_cb): same.
+	(toggle_html_mail_cb): same.
+	(populate_popup_card): change the #if 0 to #if
+	TOO_MANY_MENU_ITEMS.
+	(popup_menu_list): nuke, as it's handled by populate_popup_card.
+	(populate_popup_nocard): rename popup_menu_nocard to this, and
+	implement it as in populate_popup_card.
+	(e_select_names_populate_popup): we don't need the card, since we
+	don't check if it's a list here anymore.  also, remove the #if 0
+	surrounding the nocard case.
+{
 2003-04-07  Not Zed  <NotZed@Ximian.com>
  
  	Fixes #40252.
