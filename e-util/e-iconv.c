@@ -45,7 +45,7 @@
 #define ICONV_ISO_NEEDS_DASH (1)
 #endif
 
-#define cd(x)
+#define cd(x) 
 
 #ifdef G_THREADS_ENABLED
 static GStaticMutex lock = G_STATIC_MUTEX_INIT;
@@ -119,22 +119,24 @@ struct {
 	   e_iconv_charset_name() so I'm not going to bother
 	   putting them all in here either... */
 #endif
-	{ "ks_c_5601-1987", "euc-kr"     },
+	{ "utf-8",          "UTF-8"      },
+
+	{ "ks_c_5601-1987", "EUC-KR"     },
 
 	/* FIXME: Japanese/Korean/Chinese stuff needs checking */
-	{ "euckr-0",        "euc-kr"     },
-	{ "big5-0",         "big5"       },
-	{ "big5.eten-0",    "big5"       },
-	{ "big5hkscs-0",    "big5hkcs"   },
+	{ "euckr-0",        "EUC-KR"     },
+	{ "big5-0",         "BIG5"       },
+	{ "big5.eten-0",    "BIG5"       },
+	{ "big5hkscs-0",    "BIG5HKCS"   },
 	{ "gb2312-0",       "gb2312"     },
 	{ "gb2312.1980-0",  "gb2312"     },
 	{ "gb18030-0",      "gb18030"    },
-	{ "gbk-0",          "gbk"        },
+	{ "gbk-0",          "GBK"        },
 
-	{ "eucjp-0",        "euc-jp"  	 },
+	{ "eucjp-0",        "eucJP"  	 },
 	{ "ujis-0",         "ujis"  	 },
-	{ "jisx0208.1983-0","shift-jis"  },
-	{ "jisx0212.1990-0","shift-jis"  },
+	{ "jisx0208.1983-0","SJIS"       },
+	{ "jisx0212.1990-0","SJIS"       },
 	{ NULL,             NULL         }
 };
 
@@ -196,7 +198,6 @@ e_iconv_init(int keep)
 		from = g_strdup(known_iconv_charsets[i].charset);
 		to = g_strdup(known_iconv_charsets[i].iconv_name);
 		g_strdown(from);
-		g_strdown(to);
 		g_hash_table_insert(iconv_charsets, from, to);
 	}
 
@@ -270,17 +271,17 @@ const char *e_iconv_charset_name(const char *charset)
 #ifdef ICONV_ISO_NEEDS_DASH
 		ret = g_strdup_printf("iso-%s", tmp);
 #else
-		ret = g_strdup_printf("iso%s", tmp);
+		ret = g_strdup_printf("ISO%s", tmp);
 #endif
 	} else if (strncmp(name, "windows-", 8) == 0) {
 		/* Convert windows-nnnnn or windows-cpnnnnn to cpnnnn */
 		tmp = name+8;
 		if (strncmp(tmp, "cp", 2))
 			tmp+=2;
-		ret = g_strdup_printf("cp%s", tmp);
+		ret = g_strdup_printf("CP%s", tmp);
 	} else {
-		/* Just assume its ok enough as is */
-		ret = g_strdup(name);
+		/* Just assume its ok enough as is, case and all */
+		ret = g_strdup(charset);
 	}
 
 	g_hash_table_insert(iconv_charsets, g_strdup(name), ret);
@@ -322,7 +323,6 @@ iconv_t e_iconv_open(const char *oto, const char *ofrom)
 
 	to = e_iconv_charset_name(oto);
 	from = e_iconv_charset_name(ofrom);
-
 	tofrom = alloca(strlen(to) +strlen(from) + 2);
 	sprintf(tofrom, "%s%%%s", to, from);
 
@@ -373,15 +373,19 @@ iconv_t e_iconv_open(const char *oto, const char *ofrom)
 			e_dlist_addhead(&ic->open, (EDListNode *)in);
 		}
 	} else {
-		ip = iconv_open(to, from);
 		cd(printf("creating new iconv converter '%s'\n", ic->conv));
+		ip = iconv_open(to, from);
 		in = g_malloc(sizeof(*in));
 		in->ip = ip;
-		in->busy = TRUE;
 		in->parent = ic;
 		e_dlist_addhead(&ic->open, (EDListNode *)in);
-		if (ip != (iconv_t)-1)
+		if (ip != (iconv_t)-1) {
 			g_hash_table_insert(iconv_cache_open, ip, in);
+			in->busy = TRUE;
+		} else {
+			g_warning("Could not open converter for '%s' to '%s' charset", from, to);
+			in->busy = FALSE;
+		}
 	}
 
 	UNLOCK();
