@@ -90,11 +90,14 @@ static gboolean imap_connect_offline (CamelService *service, CamelException *ex)
 static gboolean imap_disconnect_online (CamelService *service, gboolean clean, CamelException *ex);
 static gboolean imap_disconnect_offline (CamelService *service, gboolean clean, CamelException *ex);
 static void imap_noop (CamelStore *store, CamelException *ex);
+static CamelFolder *imap_get_junk(CamelStore *store, CamelException *ex);
+static CamelFolder *imap_get_trash(CamelStore *store, CamelException *ex);
 static GList *query_auth_types (CamelService *service, CamelException *ex);
 static guint hash_folder_name (gconstpointer key);
 static gint compare_folder_name (gconstpointer a, gconstpointer b);
 static CamelFolder *get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
 static CamelFolder *get_folder_offline (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
+
 static CamelFolderInfo *create_folder (CamelStore *store, const char *parent_name, const char *folder_name, CamelException *ex);
 static void             delete_folder (CamelStore *store, const char *folder_name, CamelException *ex);
 static void             rename_folder (CamelStore *store, const char *old_name, const char *new_name, CamelException *ex);
@@ -153,6 +156,8 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	camel_store_class->subscribe_folder = subscribe_folder;
 	camel_store_class->unsubscribe_folder = unsubscribe_folder;
 	camel_store_class->noop = imap_noop;
+	camel_store_class->get_trash = imap_get_trash;
+	camel_store_class->get_junk = imap_get_junk;
 	
 	camel_disco_store_class->can_work_offline = can_work_offline;
 	camel_disco_store_class->connect_online = imap_connect_online;
@@ -1630,6 +1635,40 @@ imap_noop (CamelStore *store, CamelException *ex)
 	}
 	
 	CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
+}
+
+static CamelFolder *
+imap_get_trash(CamelStore *store, CamelException *ex)
+{
+	CamelFolder *folder = CAMEL_STORE_CLASS(parent_class)->get_trash(store, ex);
+
+	if (folder) {
+		char *state = g_build_filename(((CamelImapStore *)store)->storage_path, "system", "Trash.cmeta", NULL);
+
+		camel_object_set(folder, NULL, CAMEL_OBJECT_STATE_FILE, state, NULL);
+		g_free(state);
+		/* no defaults? */
+		camel_object_state_read(folder);
+	}
+
+	return folder;
+}
+
+static CamelFolder *
+imap_get_junk(CamelStore *store, CamelException *ex)
+{
+	CamelFolder *folder = CAMEL_STORE_CLASS(parent_class)->get_junk(store, ex);
+
+	if (folder) {
+		char *state = g_build_filename(((CamelImapStore *)store)->storage_path, "system", "Junk.cmeta", NULL);
+
+		camel_object_set(folder, NULL, CAMEL_OBJECT_STATE_FILE, state, NULL);
+		g_free(state);
+		/* no defaults? */
+		camel_object_state_read(folder);
+	}
+
+	return folder;
 }
 
 static guint

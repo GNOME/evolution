@@ -50,7 +50,9 @@
 static void construct (CamelService *service, CamelSession *session, CamelProvider *provider, CamelURL *url, CamelException *ex);
 static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex);
 static char *get_name(CamelService *service, gboolean brief);
-static CamelFolder *get_inbox (CamelStore *store, CamelException *ex);
+static CamelFolder *local_get_inbox (CamelStore *store, CamelException *ex);
+static CamelFolder *local_get_junk(CamelStore *store, CamelException *ex);
+static CamelFolder *local_get_trash(CamelStore *store, CamelException *ex);
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex);
 static void delete_folder(CamelStore *store, const char *folder_name, CamelException *ex);
 static void rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex);
@@ -70,7 +72,9 @@ camel_local_store_class_init (CamelLocalStoreClass *camel_local_store_class)
 	camel_service_class->construct = construct;
 	camel_service_class->get_name = get_name;
 	camel_store_class->get_folder = get_folder;
-	camel_store_class->get_inbox = get_inbox;
+	camel_store_class->get_inbox = local_get_inbox;
+	camel_store_class->get_trash = local_get_trash;
+	camel_store_class->get_junk = local_get_junk;
 	camel_store_class->get_folder_info = get_folder_info;
 	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
 
@@ -168,11 +172,45 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 }
 
 static CamelFolder *
-get_inbox(CamelStore *store, CamelException *ex)
+local_get_inbox(CamelStore *store, CamelException *ex)
 {
 	camel_exception_set(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 			    _("Local stores do not have an inbox"));
 	return NULL;
+}
+
+static CamelFolder *
+local_get_trash(CamelStore *store, CamelException *ex)
+{
+	CamelFolder *folder = CAMEL_STORE_CLASS(parent_class)->get_trash(store, ex);
+
+	if (folder) {
+		char *state = g_build_filename(((CamelLocalStore *)store)->toplevel_dir, ".Trash.cmeta", NULL);
+
+		camel_object_set(folder, NULL, CAMEL_OBJECT_STATE_FILE, state, NULL);
+		g_free(state);
+		/* no defaults? */
+		camel_object_state_read(folder);
+	}
+
+	return folder;
+}
+
+static CamelFolder *
+local_get_junk(CamelStore *store, CamelException *ex)
+{
+	CamelFolder *folder = CAMEL_STORE_CLASS(parent_class)->get_junk(store, ex);
+
+	if (folder) {
+		char *state = g_build_filename(((CamelLocalStore *)store)->toplevel_dir, ".Junk.cmeta", NULL);
+
+		camel_object_set(folder, NULL, CAMEL_OBJECT_STATE_FILE, state, NULL);
+		g_free(state);
+		/* no defaults? */
+		camel_object_state_read(folder);
+	}
+
+	return folder;
 }
 
 static char *

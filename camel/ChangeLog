@@ -1,5 +1,15 @@
 2004-05-17  Not Zed  <NotZed@Ximian.com>
 
+	** Bug #56050.
+
+	* providers/imap/camel-imap-store.c (imap_get_trash) 
+	(imap_get_junk): similar to below.
+
+	* providers/local/camel-local-store.c (local_get_trash)
+	(local_get_junk): set state file on trash/junk to something we know
+	about.
+
+2004-05-17  Not Zed  <NotZed@Ximian.com>
 	* providers/local/camel-mh-store.c (fill_fi): if we have no folder
 	in-memory, load it if we're not doing it fast to get really up to
 	date unread counts.  #57616.
