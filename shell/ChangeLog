@@ -1,3 +1,7 @@
+2001-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-activity-client.c: Removed debugging messages.
+
 2001-07-31  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-activity-client.c (evolution_activity_client_update):
