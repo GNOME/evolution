@@ -1,3 +1,9 @@
+2001-03-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-message.c (write_to_stream): Don't spew a warning if
+	the message-id wasn't set by the application, not a big deal since
+	we create one right here.
+
 2001-03-26  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-command.c (camel_imap_command): keep a

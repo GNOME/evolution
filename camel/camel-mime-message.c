@@ -463,19 +463,15 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		g_warning("No from set for message");
 		camel_medium_set_header((CamelMedium *)mm, "From", "");
 	}
-	if (!camel_medium_get_header((CamelMedium *)mm, "Date")) {
-		g_warning("Application did not set date, using 'now'");
+	if (!camel_medium_get_header((CamelMedium *)mm, "Date"))
 		camel_mime_message_set_date(mm, CAMEL_MESSAGE_DATE_CURRENT, 0);
-	}
-	if (mm->subject == NULL) {
-		g_warning("Application did not set subject, creating one");
+	
+	if (mm->subject == NULL)
 		camel_mime_message_set_subject(mm, "No Subject");
-	}
-	if (mm->message_id == NULL) {
-		g_warning ("Application did not set message-id, creating one");
+	
+	if (mm->message_id == NULL)
 		camel_mime_message_set_message_id (mm, NULL);
-	}
-
+	
 	/* FIXME: "To" header needs to be set explicitly as well ... */
 
 	if (!camel_medium_get_header ((CamelMedium *)mm, "Mime-Version"))
