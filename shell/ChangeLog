@@ -1,3 +1,7 @@
+2001-11-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-about-box.c: Add more contributors to the box.
+
 2001-11-14  Damon Chaplin  <damon@ximian.com>
 
 	* e-shell-startup-wizard.c (finish_func): make timezone default to
