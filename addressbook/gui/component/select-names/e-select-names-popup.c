@@ -323,6 +323,8 @@ popup_menu_nocard (PopupInfo *info)
 	memset (uiinfo, 0, sizeof (uiinfo));
 
 	str = e_destination_get_name (info->dest);
+	if (str == NULL)
+		str = _("Unnamed Contact");
 
 	uiinfo[i].type = GNOME_APP_UI_ITEM;
 	uiinfo[i].label = (gchar *) str;
@@ -373,6 +375,9 @@ e_select_names_popup (ESelectNamesModel *model, GdkEventButton *ev, gint pos)
 		return;
 
 	dest = e_select_names_model_get_destination (model, index);
+	if (e_destination_is_empty (dest))
+		return;
+
 	card = e_destination_get_card (dest);
 
 	info = popup_info_new (model, dest, pos, index);

@@ -189,7 +189,7 @@ e_destination_clear (EDestination *dest)
 }
 
 gboolean
-e_destination_is_empty (EDestination *dest)
+e_destination_is_empty (const EDestination *dest)
 {
 	struct _EDestinationPrivate *p;
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), TRUE);
@@ -405,7 +405,7 @@ e_destination_get_name (const EDestination *dest)
 
 		if (priv->name == NULL || *priv->name == '\0') {
 			g_free (priv->name);
-			priv->name = e_destination_get_email (dest);
+			priv->name = g_strdup (e_destination_get_email (dest));
 		}
 	}
 	
