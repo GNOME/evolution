@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-11-01 08:47+0100\n"
-"PO-Revision-Date: 2001-11-01 08:52+0100\n"
+"POT-Creation-Date: 2001-11-05 11:10+0100\n"
+"PO-Revision-Date: 2001-11-05 11:15+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12434,34 +12434,46 @@ msgid "Specify where to create the folder:"
 msgstr "Okre¶l miejsce stworzenia folderu:"
 
 #: shell/glade/evolution-startup-wizard.glade.h:1
-msgid "First Run Setup Assistant"
-msgstr "Druid wstêpnej konfiguracji"
+msgid "Evolution Setup Assistant"
+msgstr "Druid ustawieñ Evolution"
 
 #: shell/glade/evolution-startup-wizard.glade.h:1
-msgid "Importing Data"
-msgstr "Importowanie danych"
-
-#: shell/glade/evolution-startup-wizard.glade.h:1
-msgid "Setup Assistant"
-msgstr "Druid konfiguracji"
+msgid "Importing Files"
+msgstr "Importowanie plików"
 
 #: shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Timezone "
 msgstr "Strefa czasowa"
 
 #: shell/glade/evolution-startup-wizard.glade.h:1
-msgid ""
-"Welcome to the Evolution first run setup assistant\n"
-"\n"
-"This assistant will help you get started"
-msgstr ""
-"Witaj w druidzie wstêpnej konfiguracji Evolution\n"
-"\n"
-"Pomo¿e ci on rozpocz±c pracê z programem"
+msgid "Welcome"
+msgstr "Witaj"
 
 #: shell/glade/evolution-startup-wizard.glade.h:1
-msgid "Your configuration is complete."
-msgstr "Konfiguracja zosta³a zakoñczona."
+msgid ""
+"Welcome to Evolution. The next few screens will allow\n"
+"Evolution to connect to your email accounts, and to import\n"
+"files from other applications. \n"
+"\n"
+"Please click the \"Next\" button to continue. "
+msgstr ""
+"Witaj w Evolution. Na kolejnych kilku ekranach mo¿esz podaæ\n"
+"informacje, które pozwol± na ³±czenie siê z twoimi kontami\n"
+"e-mail oraz na importowanie plików z innych aplikacji.\n"
+"\n"
+"Aby kontynuowaæ, kliknij \"Naprzód\"."
+
+#: shell/glade/evolution-startup-wizard.glade.h:1
+msgid ""
+"You have successfully entered all of the information\n"
+"needed to setup Evolution. \n"
+"\n"
+"Click the \"Finish\" button to save your settings. "
+msgstr ""
+"Zosta³y wprowadzone wszystkie informacje, potrzebne do\n"
+"ustawienia Evolution.\n"
+"\n"
+"Aby zapisaæ ustawienia, kliknij \"Zakoñcz\"."
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
