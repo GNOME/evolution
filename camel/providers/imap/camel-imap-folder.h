@@ -48,6 +48,7 @@ struct _CamelImapFolder {
 	struct _CamelImapFolderPrivate *priv;
 
 	CamelFolderSearch *search;
+	CamelImapMessageCache *cache;
 };
 
 
@@ -63,7 +64,7 @@ typedef struct {
 CamelFolder *camel_imap_folder_new (CamelStore *parent,
 				    const char *folder_name,
 				    const char *short_name,
-				    const char *summary_file,
+				    const char *folder_dir,
 				    CamelException *ex);
 
 void camel_imap_folder_selected (CamelFolder *folder,
@@ -72,6 +73,12 @@ void camel_imap_folder_selected (CamelFolder *folder,
 
 void camel_imap_folder_changed (CamelFolder *folder, int exists,
 				GArray *expunged, CamelException *ex);
+
+CamelStream *camel_imap_folder_fetch_data (CamelImapFolder *imap_folder,
+					   const char *uid,
+					   const char *section_text,
+					   gboolean cache_only,
+					   CamelException *ex);
 
 /* Standard Camel function */
 CamelType camel_imap_folder_get_type (void);

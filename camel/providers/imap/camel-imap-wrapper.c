@@ -24,14 +24,10 @@
 
 #include <config.h>
 
+#include "camel-imap-folder.h"
 #include "camel-imap-wrapper.h"
-#include "camel-imap-command.h"
-#include "camel-imap-store.h"
-#include "camel-imap-utils.h"
 #include "camel-imap-private.h"
 #include "camel-exception.h"
-#include "camel-folder.h"
-#include "camel-stream-mem.h"
 #include "camel-stream-filter.h"
 #include "camel-mime-filter-basic.h"
 #include "camel-mime-filter-crlf.h"
@@ -109,54 +105,15 @@ camel_imap_wrapper_get_type (void)
 }
 
 
-static int
-write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
+static void
+imap_wrapper_hydrate (CamelImapWrapper *imap_wrapper, CamelStream *stream)
 {
-	CamelImapWrapper *imap_wrapper = CAMEL_IMAP_WRAPPER (data_wrapper);
-	CamelImapStore *store;
-	CamelImapResponse *response;
-	CamelStream *memstream;
+	CamelDataWrapper *data_wrapper = CAMEL_DATA_WRAPPER (imap_wrapper);
 	CamelStreamFilter *filterstream;
 	CamelMimeFilter *filter;
 	CamelContentType *ct;
-	char *result, *p, *body;
-	int len;
 
-	CAMEL_IMAP_WRAPPER_LOCK (imap_wrapper, lock);
-	if (!data_wrapper->offline) {
-		CAMEL_IMAP_WRAPPER_UNLOCK (imap_wrapper, lock);
-		return parent_class->write_to_stream (data_wrapper, stream);
-	}
-
-	store = CAMEL_IMAP_STORE (imap_wrapper->folder->parent_store);
-	CAMEL_IMAP_STORE_LOCK (store, command_lock);
-	response = camel_imap_command (store, imap_wrapper->folder, NULL,
-				       "UID FETCH %s BODY.PEEK[%s]",
-				       imap_wrapper->uid,
-				       imap_wrapper->part_spec);
-	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
-	if (!response)
-		goto lose;
-
-	result = camel_imap_response_extract (response, "FETCH", NULL);
-	if (!result)
-		goto lose;
-
-	p = strchr (result, ']');
-	if (!p) {
-		g_free (result);
-		goto lose;
-	}
-	p += 2;
-
-	body = imap_parse_nstring (&p, &len);
-	g_free (result);
-	if (!body)
-		goto lose;
-
-	memstream = camel_stream_mem_new_with_buffer (body, len);
-	g_free (body);
-	filterstream = camel_stream_filter_new_with_stream (memstream);
+	filterstream = camel_stream_filter_new_with_stream (stream);
 
 	if (camel_mime_part_get_encoding (imap_wrapper->part) ==
 	    CAMEL_MIME_PART_ENCODING_BASE64) {
@@ -198,37 +155,64 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	imap_wrapper->uid = NULL;
 	g_free (imap_wrapper->part_spec);
 	imap_wrapper->part = NULL;
+}
 
+
+static int
+write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
+{
+	CamelImapWrapper *imap_wrapper = CAMEL_IMAP_WRAPPER (data_wrapper);
+
+	CAMEL_IMAP_WRAPPER_LOCK (imap_wrapper, lock);
+	if (data_wrapper->offline) {
+		CamelStream *datastream;
+
+		datastream = camel_imap_folder_fetch_data (
+			imap_wrapper->folder, imap_wrapper->uid,
+			imap_wrapper->part_spec, FALSE, NULL);
+		if (!datastream) {
+			CAMEL_IMAP_WRAPPER_UNLOCK (imap_wrapper, lock);
+			errno = ENETUNREACH;
+			return -1;
+		}
+
+		imap_wrapper_hydrate (imap_wrapper, datastream);
+		camel_object_unref (CAMEL_OBJECT (datastream));
+	}
 	CAMEL_IMAP_WRAPPER_UNLOCK (imap_wrapper, lock);
 
 	return parent_class->write_to_stream (data_wrapper, stream);
-
- lose:
-	CAMEL_IMAP_WRAPPER_UNLOCK (imap_wrapper, lock);
-	errno = ENETUNREACH;
-	return -1;
 }
 
 
 CamelDataWrapper *
-camel_imap_wrapper_new (CamelFolder *folder, CamelContentType *type,
+camel_imap_wrapper_new (CamelImapFolder *imap_folder, CamelContentType *type,
 			const char *uid, const char *part_spec,
 			CamelMimePart *part)
 {
 	CamelImapWrapper *imap_wrapper;
+	CamelStream *stream;
 
 	imap_wrapper = (CamelImapWrapper *)camel_object_new(camel_imap_wrapper_get_type());
 
 	camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (imap_wrapper), type);
 	((CamelDataWrapper *)imap_wrapper)->offline = TRUE;
 
-	imap_wrapper->folder = folder;
-	camel_object_ref (CAMEL_OBJECT (folder));
+	imap_wrapper->folder = imap_folder;
+	camel_object_ref (CAMEL_OBJECT (imap_folder));
 	imap_wrapper->uid = g_strdup (uid);
 	imap_wrapper->part_spec = g_strdup (part_spec);
 
 	/* Don't ref this, it's our parent. */
 	imap_wrapper->part = part;
+
+	/* Try the cache. */
+	stream = camel_imap_folder_fetch_data (imap_folder, uid, part_spec,
+					       TRUE, NULL);
+	if (stream) {
+		imap_wrapper_hydrate (imap_wrapper, stream);
+		camel_object_unref (CAMEL_OBJECT (stream));
+	}
 
 	return (CamelDataWrapper *)imap_wrapper;
 }

@@ -337,13 +337,13 @@ skip_asn (char **str_p)
 	}
 }
 
-static void
-skip_list (char **str_p)
+void
+imap_skip_list (char **str_p)
 {
 	skip_char (str_p, '(');
 	while (*str_p && **str_p != ')') {
 		if (**str_p == '(')
-			skip_list (str_p);
+			imap_skip_list (str_p);
 		else
 			skip_asn (str_p);
 		if (*str_p && **str_p == ' ')
@@ -495,7 +495,7 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 		child = NULL;
 		if (header_content_type_is (type, "message", "rfc822")) {
 			skip_char (&body, ' ');
-			skip_list (&body); /* envelope */
+			imap_skip_list (&body); /* envelope */
 			skip_char (&body, ' ');
 			child = camel_folder_summary_content_info_new (folder->summary);
 			imap_parse_body (&body, folder, child);

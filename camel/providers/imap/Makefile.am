@@ -22,6 +22,7 @@ INCLUDES = -I.. \
 libcamelimap_la_SOURCES = 			\
 	camel-imap-command.c			\
 	camel-imap-folder.c			\
+	camel-imap-message-cache.c		\
 	camel-imap-provider.c			\
 	camel-imap-search.c			\
 	camel-imap-store.c			\
@@ -32,6 +33,7 @@ libcamelimap_la_SOURCES = 			\
 libcamelimapinclude_HEADERS =			\
 	camel-imap-command.h			\
 	camel-imap-folder.h			\
+	camel-imap-message-cache.h		\
 	camel-imap-search.h			\
 	camel-imap-store.h			\
 	camel-imap-summary.h			\

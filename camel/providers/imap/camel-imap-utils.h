@@ -55,6 +55,8 @@ void imap_parse_body (char **body_p, CamelFolder *folder,
 
 char *imap_quote_string (const char *str);
 
+void imap_skip_list (char **str_p);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -30,10 +30,11 @@ extern "C" {
 
 #include "camel-types.h"
 
-typedef struct _CamelImapResponse CamelImapResponse;
-typedef struct _CamelImapFolder   CamelImapFolder;
-typedef struct _CamelImapSearch   CamelImapSearch;
-typedef struct _CamelImapStore    CamelImapStore;
-typedef struct _CamelImapSummary  CamelImapSummary;
+typedef struct _CamelImapFolder       CamelImapFolder;
+typedef struct _CamelImapMessageCache CamelImapMessageCache;
+typedef struct _CamelImapResponse     CamelImapResponse;
+typedef struct _CamelImapSearch       CamelImapSearch;
+typedef struct _CamelImapStore        CamelImapStore;
+typedef struct _CamelImapSummary      CamelImapSummary;
 
 #endif /* CAMEL_IMAP_TYPES_H */

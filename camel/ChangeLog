@@ -1,3 +1,50 @@
+2001-03-15  Dan Winship  <danw@ximian.com>
+
+	First batch of disconnected IMAP-related stuff. This adds local
+	caching of message parts, but NOT any actual disconnected support.
+	(But it should speed up IMAP use.)
+
+	* providers/imap/camel-imap-message-cache.c: New class for caching
+	message data to disk, and removing it when it's no longer
+	relevant. Will eventually also support merging message parts
+	together to save on files. Or maybe using a db instead of files?
+
+	* providers/imap/camel-imap-private.h: Add a cache_lock to
+	CamelImapFolderPrivate. This lock must be recursive, so make both
+	locks EMutexes rather than GMutex.
+
+	* providers/imap/camel-imap-folder.c (parse_fetch_response): "The
+	only FETCH response parser you need!" Replaces the various
+	almost-correct bits of code formerly scattered throughout this
+	file with a single fully-correct function that can handle any
+	FETCH response at any time, so we don't get confused by seeing a
+	flags update when we were only expecting a message body, etc.
+	(camel_imap_folder_fetch_data): FETCH a message body part either
+	from the cache or the server
+	(camel_imap_folder_changed): Remove expunged messages from the
+	message cache.
+	(camel_imap_folder_new): Change to take a directory instead of a
+	summary file name. Create a CamelImapMessageCache for the folder.
+	(imap_finalize): Unref the message cache.
+	(camel_imap_folder_selected, imap_rescan, get_content,
+	get_message, imap_get_message, imap_update_summary): Redone a
+	bunch to use parse_fetch_data, CamelImapMessageCache, etc.
+
+	* providers/imap/camel-imap-store.c (get_folder): Pass directory
+	name to camel_imap_folder_new, not summary filename. Use
+	e_path_to_physical to generate a path with /subfolders/ inserted
+	between directory components.
+
+	* providers/imap/camel-imap-wrapper.c (camel_imap_wrapper_new):
+	Call camel_imap_folder_fetch_data (with cache_only TRUE) and if
+	the data is cached, return an online datawrapper rather than an
+	offline one.
+	(write_to_stream): Use camel_imap_folder_fetch_data (with
+	cache_only FALSE) here too
+
+	* providers/imap/camel-imap-utils.c (imap_skip_list): Renamed from
+	skip_list and made non-static.
+
 2001-03-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.h: Uninclude prnetdb.h since it's not

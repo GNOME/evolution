@@ -31,6 +31,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <camel/camel-data-wrapper.h>
+#include "camel-imap-types.h"
 
 #define CAMEL_IMAP_WRAPPER_TYPE     (camel_imap_wrapper_get_type ())
 #define CAMEL_IMAP_WRAPPER(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_IMAP_WRAPPER_TYPE, CamelImapWrapper))
@@ -43,7 +44,7 @@ typedef struct
 
 	struct _CamelImapWrapperPrivate *priv;
 
-	CamelFolder *folder;
+	CamelImapFolder *folder;
 	char *uid, *part_spec;
 	CamelMimePart *part;
 } CamelImapWrapper;
@@ -57,7 +58,7 @@ typedef struct {
 CamelType camel_imap_wrapper_get_type (void);
 
 /* Constructor */
-CamelDataWrapper *camel_imap_wrapper_new (CamelFolder *folder,
+CamelDataWrapper *camel_imap_wrapper_new (CamelImapFolder *imap_folder,
 					  CamelContentType *type,
 					  const char *uid,
 					  const char *part_spec,

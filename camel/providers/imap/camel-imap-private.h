@@ -54,13 +54,14 @@ struct _CamelImapStorePrivate {
 
 struct _CamelImapFolderPrivate {
 #ifdef ENABLE_THREADS
-	GMutex *search_lock;	/* for locking the search object */
+	EMutex *search_lock;	/* for locking the search object */
+	EMutex *cache_lock;     /* for locking the cache object */
 #endif
 };
 
 #ifdef ENABLE_THREADS
-#define CAMEL_IMAP_FOLDER_LOCK(f, l) (g_mutex_lock(((CamelImapFolder *)f)->priv->l))
-#define CAMEL_IMAP_FOLDER_UNLOCK(f, l) (g_mutex_unlock(((CamelImapFolder *)f)->priv->l))
+#define CAMEL_IMAP_FOLDER_LOCK(f, l) (e_mutex_lock(((CamelImapFolder *)f)->priv->l))
+#define CAMEL_IMAP_FOLDER_UNLOCK(f, l) (e_mutex_unlock(((CamelImapFolder *)f)->priv->l))
 #else
 #define CAMEL_IMAP_FOLDER_LOCK(f, l)
 #define CAMEL_IMAP_FOLDER_UNLOCK(f, l)

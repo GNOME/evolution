@@ -32,6 +32,7 @@
 #include <errno.h>
 
 #include <gal/util/e-util.h>
+#include "e-util/e-path.h"
 
 #include "camel-imap-store.h"
 #include "camel-imap-folder.h"
@@ -729,7 +730,7 @@ get_folder (CamelStore *store, const char *folder_name, guint32 flags,
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelFolder *new_folder = NULL;
-	char *short_name, *summary_file, *p;
+	char *short_name, *folder_dir;
 	gboolean selectable;
 
 	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
@@ -757,22 +758,18 @@ get_folder (CamelStore *store, const char *folder_name, guint32 flags,
 		return NULL;
 	}
 
-	summary_file = g_strdup_printf ("%s/%s/#summary",
-					imap_store->storage_path,
-					folder_name);
-	p = strrchr (summary_file, '/');
-	*p = '\0';
-	if (e_mkdir_hier (summary_file, S_IRWXU) == 0) {
-		*p = '/';
+	folder_dir = e_path_to_physical (imap_store->storage_path,
+					 folder_name);
+	if (e_mkdir_hier (folder_dir, S_IRWXU) == 0) {
 		new_folder = camel_imap_folder_new (store, folder_name,
-						    short_name, summary_file,
+						    short_name, folder_dir,
 						    ex);
 	} else {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create directory %s: %s"),
-				      summary_file, g_strerror (errno));
+				      folder_dir, g_strerror (errno));
 	}
-	g_free (summary_file);
+	g_free (folder_dir);
 	g_free (short_name);
 
 	if (camel_exception_is_set (ex))
