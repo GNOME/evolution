@@ -1,3 +1,8 @@
+2003-11-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (emft_popup_rename_folder): Fixed a FIXME to
+	not use the OS-specific g_path_*() stuff.
+
 2003-11-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-selector.c (emfs_create_name_activate): Emit the

@@ -103,12 +103,6 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-
-#define MESSAGE_RFC822_TYPE   "message/rfc822"
-#define TEXT_URI_LIST_TYPE    "text/uri-list"
-#define UID_LIST_TYPE         "x-uid-list"
-#define FOLDER_TYPE           "x-folder"
-
 /* Drag & Drop types */
 enum DndDragType {
 	DND_DRAG_TYPE_FOLDER,          /* drag an evo folder */
@@ -123,17 +117,17 @@ enum DndDropType {
 };
 
 static GtkTargetEntry drag_types[] = {
-	{ UID_LIST_TYPE,       0, DND_DRAG_TYPE_FOLDER         },
-	{ TEXT_URI_LIST_TYPE,  0, DND_DRAG_TYPE_TEXT_URI_LIST  },
+	{ "x-uid-list",       0, DND_DRAG_TYPE_FOLDER         },
+	{ "text/uri-list",    0, DND_DRAG_TYPE_TEXT_URI_LIST  },
 };
 
 static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 
 static GtkTargetEntry drop_types[] = {
-	{ UID_LIST_TYPE,       0, DND_DROP_TYPE_UID_LIST       },
-	{ FOLDER_TYPE,         0, DND_DROP_TYPE_FOLDER         },
-	{ MESSAGE_RFC822_TYPE, 0, DND_DROP_TYPE_MESSAGE_RFC822 },
-	{ TEXT_URI_LIST_TYPE,  0, DND_DROP_TYPE_TEXT_URI_LIST  },
+	{ "x-uid-list" ,      0, DND_DROP_TYPE_UID_LIST       },
+	{ "x-folder",         0, DND_DROP_TYPE_FOLDER         },
+	{ "message/rfc822",   0, DND_DROP_TYPE_MESSAGE_RFC822 },
+	{ "text/uri-list",    0, DND_DROP_TYPE_TEXT_URI_LIST  },
 };
 
 static const int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
@@ -1000,9 +994,9 @@ em_folder_tree_get_folder_info__got (struct _mail_msg *mm)
 	/* get the first child (which will be a dummy node) */
 	gtk_tree_model_iter_children ((GtkTreeModel *) model, &iter, &root);
 	
-	/* FIXME: camel is totally on crack here, @top's folder info
-	 * should be @fi and fi->child should be what we want to fill
-	 * our tree with... *sigh* */
+	/* FIXME: camel's IMAP code is totally on crack here, @top's
+	 * folder info should be @fi and fi->child should be what we
+	 * want to fill our tree with... *sigh* */
 	if (m->top && !strcmp (m->fi->full_name, m->top)) {
 		if (!(fi = m->fi->child))
 			fi = m->fi->sibling;
@@ -1367,7 +1361,6 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 	
 	camel_object_unref (store);
 	
-	/* FIXME: camel_store_create_folder should just take full path names */
 	full_name = path[0] == '/' ? path + 1 : path;
 	namebuf = g_strdup (full_name);
 	if (!(name = strrchr (namebuf, '/'))) {
@@ -1547,10 +1540,12 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	char *prompt, *folder_path, *name, *new_name, *uri;
 	GtkTreeSelection *selection;
+	const char *full_name, *p;
 	gboolean done = FALSE;
 	GtkTreeModel *model;
-	GtkTreeIter iter;
 	CamelStore *store;
+	GtkTreeIter iter;
+	size_t base_len;
 	
 	selection = gtk_tree_view_get_selection (priv->treeview);
 	gtk_tree_selection_get_selected (selection, &model, &iter);
@@ -1558,6 +1553,12 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 			    COL_STRING_DISPLAY_NAME, &name,
 			    COL_POINTER_CAMEL_STORE, &store,
 			    COL_STRING_URI, &uri, -1);
+	
+	full_name = folder_path[0] == '/' ? folder_path + 1 : folder_path;
+	if ((p = strrchr (full_name, '/')))
+		base_len = (size_t) (p - full_name);
+	else
+		base_len = 0;
 	
 	prompt = g_strdup_printf (_("Rename the \"%s\" folder to:"), name);
 	while (!done) {
@@ -1570,11 +1571,17 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 		} else {
 			CamelFolderInfo *fi;
 			CamelException ex;
-			char *base, *path;
+			char *path, *p;
 			
-			/* FIXME: we can't use the os independent path crap here, since we want to control the format */
-			base = g_path_get_dirname (folder_path);
-			path = g_build_filename (base, new_name, NULL);
+			if (base_len > 0) {
+				path = g_malloc (base_len + strlen (new_name) + 2);
+				memcpy (path, full_name, base_len);
+				p = path + base_len;
+				*p++ = '/';
+				strcpy (p, new_name);
+			} else {
+				path = g_strdup (new_name);
+			}
 			
 			camel_exception_init (&ex);
 			if ((fi = camel_store_get_folder_info (store, path, CAMEL_STORE_FOLDER_INFO_FAST, &ex)) != NULL) {
@@ -1602,7 +1609,6 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 			}
 			
 			g_free (path);
-			g_free (base);
 		}
 		
 		g_free (new_name);
