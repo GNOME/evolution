@@ -1,4 +1,4 @@
-imagesdir = $(datadir)/images/evolution
+imagesdir = $(datadir)/evolution/images/
 images_DATA = \
 	16_copy.png			\
 	16_customize.png		\
@@ -166,7 +166,7 @@ images_DATA = \
 	working-16.png			\
 	world_map-960.png
 
-buttonsdir = $(datadir)/images/evolution/buttons
+buttonsdir = $(datadir)/evolution/images/buttons
 buttons_DATA = 				\
 	arrow-right-24.png		\
 	arrow-left-24.png		\
@@ -213,7 +213,7 @@ glade_DATA = 					\
 	thankyou.png				\
 	timezone-48.png
 
-conduitsdir = $(datadir)/images/evolution/conduits
+conduitsdir = $(datadir)/evolution/images/conduits
 conduits_DATA =				\
 	evo-16-address-conduit.png   	\
 	evo-16-todo-conduit.png     	\

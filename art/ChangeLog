@@ -1,3 +1,12 @@
+2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (imagesdir): Install images into
+	$(datadir)/evolution/images instead of
+	$(datadir)/images/evolution.
+	(buttonsdir): Likewise, these go into
+	$(datadir)/evolution/images/buttons now.
+	(conduits_DATA): Likewise, $(datadir)/evolution/images/conduits.
+
 2002-11-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	* splash.png: New work-in-progress splash from Jakub.
