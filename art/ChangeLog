@@ -1,3 +1,8 @@
+2002-03-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* forward.xpm, reply.xpm, reply_to_all.xpm: Rename the internal
+	structure to coincide with the filenames.
+
 2002-02-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* about-box.png, splash.png: New cool artwork from Jakub.

@@ -1,5 +1,5 @@
 /* XPM */
-static char * 16_reply_xpm[] = {
+static char * reply_xpm[] = {
 "16 16 27 1",
 " 	c None",
 ".	c #010101",
