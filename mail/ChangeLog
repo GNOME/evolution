@@ -1,5 +1,9 @@
 2000-04-25  Dan Winship  <danw@helixcode.com>
 
+	* mail-format.c (reply_body): Fix some bugs that crept into reply
+	generation. This needs a lot more work to deal correctly with
+	complicated bodies.
+
 	* mail-display.c, mail-format.c: Redo large chunks of this. The
 	mail display now consists of a vbox in a scrolled window, in which
 	we put multiple GtkHTML objects. This means broken HTML in one

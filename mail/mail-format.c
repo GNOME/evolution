@@ -983,7 +983,7 @@ reply_body (CamelDataWrapper *data, gboolean *html)
 {
 	CamelMultipart *mp;
 	CamelMimePart *subpart;
-	int i, nparts;
+	int i, nparts, disparts;
 	char *subtext, *old;
 	const char *boundary, *disp, *subtype;
 	char *text = NULL;
@@ -1036,14 +1036,23 @@ reply_body (CamelDataWrapper *data, gboolean *html)
 	 *   - are text/plain or message
 	 *   - are not explicitly tagged with non-inline disposition
 	 */
+	*html = FALSE;
 	boundary = camel_multipart_get_boundary (mp);
-	for (i = 0; i < nparts; i++) {
+	for (i = disparts = 0; i < nparts; i++) {
 		subpart = CAMEL_MIME_PART (camel_multipart_get_part (mp, i));
+
+		mime_type = camel_mime_part_get_content_type (subpart);
+		if (strcasecmp (mime_type->type, "text") == 0) {
+			if (strcasecmp (mime_type->subtype, "plain") != 0)
+				continue;
+		} else if (strcasecmp (mime_type->type, "message") != 0)
+			continue;
 
 		disp = camel_mime_part_get_disposition (subpart);
 		if (disp && strcasecmp (disp, "inline") != 0)
 			continue;
 
+		data = camel_medium_get_content_object (CAMEL_MEDIUM (subpart));
 		subtext = get_data_wrapper_text (data);
 		if (text) {
 			old = text;
@@ -1051,6 +1060,7 @@ reply_body (CamelDataWrapper *data, gboolean *html)
 						boundary, subtext);
 			g_free (subtext);
 			g_free (old);
+			disparts++;
 		} else
 			text = subtext;
 	}
@@ -1058,9 +1068,11 @@ reply_body (CamelDataWrapper *data, gboolean *html)
 	if (!text)
 		return NULL;
 
-	old = text;
-	text = g_strdup_printf ("%s\n--%s--\n", text, boundary);
-	g_free (old);
+	if (disparts > 1) {
+		old = text;
+		text = g_strdup_printf ("%s\n--%s--\n", text, boundary);
+		g_free (old);
+	}
 
 	return text;
 }
