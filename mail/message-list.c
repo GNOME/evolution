@@ -412,6 +412,9 @@ message_list_select (MessageList *message_list, int base_row,
 		vrow += direction;
 	}
 
+	g_free (message_list->cursor_uid);
+	message_list->cursor_uid = NULL;
+
 	gtk_signal_emit(GTK_OBJECT (message_list), message_list_signals [MESSAGE_SELECTED], NULL);
 }
 
@@ -1978,15 +1981,21 @@ static void
 on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_data)
 {
 	MessageList *message_list;
+	const char *new_uid;
 	
 	message_list = MESSAGE_LIST (user_data);
 
+	if (path == NULL)
+		new_uid = NULL;
+	else
+		new_uid = get_message_uid(message_list, path);
+
+	if (message_list->cursor_uid != NULL && !strcmp (message_list->cursor_uid, new_uid))
+		return;
+
 	message_list->cursor_row = row;
 	g_free(message_list->cursor_uid);
-	if (path == NULL)
-		message_list->cursor_uid = NULL;
-	else
-		message_list->cursor_uid = g_strdup(get_message_uid(message_list, path));
+	message_list->cursor_uid = g_strdup (new_uid);
 
 	if (!message_list->idle_id) {
 		message_list->idle_id =
