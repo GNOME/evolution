@@ -1,3 +1,8 @@
+2001-11-20  Dan Winship  <danw@ximian.com>
+
+	* e-passwords.c (e_passwords_forget_password): Clear the password
+	in bonobo-conf as well. Fixes ximian 14893.
+
 2001-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (libeutil_la_LIBADD): Remove `-lc'.  It makes the
