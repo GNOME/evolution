@@ -1,3 +1,8 @@
+2001-12-13  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* conduit/address-conduit.c (local_record_from_ecard): Make sure
+ 	to copy the custom fields so they are not overwritten
+
 2001-12-13  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-book-util.c (simple_query_new): Used

@@ -700,6 +700,11 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 				local->addr->phoneLabel[i] = addr.phoneLabel[i];
 			}
 			local->addr->showPhone = addr.showPhone;
+			for (i = 0; i < 4; i++) {
+				if (addr.entry[entryCustom1 + i])
+					local->addr->entry[entryCustom1 + i] = 
+						strdup (addr.entry[entryCustom1 + i]);
+			}
 			free_Address (&addr);
 		}
 	}
