@@ -164,6 +164,7 @@ camel_imap4_engine_finalize (CamelObject *object)
 /**
  * camel_imap4_engine_new:
  * @service: service
+ * @reconnect: reconnect callback function
  *
  * Returns a new imap4 engine
  **/
