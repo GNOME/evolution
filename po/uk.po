@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.5\n"
 "POT-Creation-Date: 2003-04-01 20:51+0300\n"
-"PO-Revision-Date: 2003-04-01 12:33--500\n"
+"PO-Revision-Date: 2003-04-01 12:45--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -7843,7 +7843,7 @@ msgstr "Європа/Лісабон"
 
 #: calendar/zones.h:306
 msgid "Europe/Ljubljana"
-msgstr "Європа/Любляча"
+msgstr "Європа/Любляна"
 
 #: calendar/zones.h:307
 msgid "Europe/London"
@@ -18634,7 +18634,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1239
 msgid "Ljubljana"
-msgstr ""
+msgstr "Любляна"
 
 #: my-evolution/Locations.h:1240
 msgid "Logan"
