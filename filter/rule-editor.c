@@ -22,6 +22,7 @@
 #include <config.h>
 
 #include <glib.h>
+#include <gtk/gtkframe.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-stock.h>

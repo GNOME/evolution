@@ -1,3 +1,15 @@
+2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* filter-editor.c: Fix headers.
+	* filter-filter.c: Same here.
+	* filter-option.c: Same here.
+	* filter-part.c: Same here.
+	* filter-rule.c: Same here.
+	* rule-editor.c: Same here.
+	* score-editor.c: Same here.
+	* vfolder-editor.c: Same here.
+	* vfolder-rule.c: Same here.
+	
 2001-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-filter.c (option_activate): Set the newpart on the

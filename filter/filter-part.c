@@ -24,6 +24,8 @@
 #include <string.h>
 
 #include <glib.h>
+#include <gtk/gtkbox.h>
+#include <gtk/gtkhbox.h>
 #include <gnome-xml/xmlmemory.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>

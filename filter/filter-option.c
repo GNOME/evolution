@@ -22,6 +22,8 @@
 
 #include <string.h>
 #include <glib.h>
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkoptionmenu.h>
 #include <gnome-xml/xmlmemory.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>

@@ -22,6 +22,9 @@
 #include <config.h>
 
 #include <glib.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkoptionmenu.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
