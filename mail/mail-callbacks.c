@@ -2301,6 +2301,8 @@ do_edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, voi
 		camel_medium_remove_header (CAMEL_MEDIUM (messages->pdata[i]), "X-Mailer");
 		
 		composer = e_msg_composer_new_with_message (messages->pdata[i]);
+		e_msg_composer_unset_changed (composer);
+		e_msg_composer_drop_editor_undo (composer);
 		
 		if (composer) {
 			ccd = ccd_new ();
