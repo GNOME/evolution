@@ -27,6 +27,7 @@
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object-directory.h>
 #include <liboaf/liboaf.h>
+#include <glade/glade.h>
 
 #ifdef GTKHTML_HAVE_GCONF
 #include <gconf/gconf.h>

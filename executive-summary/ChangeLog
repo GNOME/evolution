@@ -1,3 +1,28 @@
+2000-12-12  Christopher James Lahey  <clahey@helixcode.com>
+
+	* component/e-summary-callbacks.c: Added #include
+	<e-summary-callbacks.h>.
+	(destroy_prefs_cb): Added a cast.
+	(configure_summary): Added a cast.
+
+	* component/e-summary-callbacks.h: Added #include "e-summary.h"
+
+	* component/e-summary-url.c (e_summary_url_click): Removed an
+	unused variable.
+
+	* component/e-summary-util.c: Added #include <e-summary-util.h>
+
+	* component/e-summary.c: Added #include <gtkhtml/htmlselection.h>.
+	(e_summary_queue_rebuild): Added a cast.
+
+	* component/main.c: Added #include <glade/glade.h>.
+
+	* test-service/main.c: Changed some variable types to make casting
+	easier.
+
+	* test-service/rdf-summary.c: Changed some variable types to make
+	casting easier.
+
 2000-12-12  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am (EXTRA_DIST): Add stuff. (From campd.)
@@ -5,8 +30,8 @@
 2000-12-11  Iain Holmes  <iain@helixcode.com>
 
 	* evolution-services/executive-summary-html-view.h: Add a define
-	for the "html_changed" signal to name space it. Change the function
-	declarations to fit with the below change too.
+	for the "html_changed" signal to name space it. Change the
+	function declarations to fit with the below change too.
 
 	* evolution-services/executive-summary-html-view.c 
 	(executive_summary_html_view_new): Create a default BonoboEventSource

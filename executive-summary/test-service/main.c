@@ -173,7 +173,9 @@ static BonoboObject *
 create_view (ExecutiveSummaryComponentFactory *_factory,
 	     void *closure)
 {
-	BonoboObject *component, *view, *bag, *stream;
+	BonoboObject *component, *view;
+	BonoboPersistStream *stream;
+	BonoboPropertyBag *bag;
 	UserData *ud;
 
 	/* Create the component object */
@@ -213,24 +215,24 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	   window_title: For the window title.
 	   window_icon: For the window icon.
 	*/
-	bonobo_property_bag_add (BONOBO_PROPERTY_BAG (bag),
+	bonobo_property_bag_add (bag,
 				 "window_title", PROPERTY_TITLE,
 				 BONOBO_ARG_STRING,
 				 NULL,
 				 "The title of this components window", 0);
-	bonobo_property_bag_add (BONOBO_PROPERTY_BAG (bag),
+	bonobo_property_bag_add (bag,
 				 "window_icon", PROPERTY_ICON,
 				 BONOBO_ARG_STRING,
 				 NULL,
 				 "The icon for this component's window", 0);
 
 	/* Now add the interface */
-	bonobo_object_add_interface (component, bag);
+	bonobo_object_add_interface (component, BONOBO_OBJECT(bag));
 
 	/* Add the Bonobo::PersistStream interface */
 	stream = bonobo_persist_stream_new (load_from_stream, save_to_stream,
 					    NULL, content_types, NULL);
-	bonobo_object_add_interface (component, stream);
+	bonobo_object_add_interface (component, BONOBO_OBJECT(stream));
 
 	running_views++;
 	/* Return the ExecutiveSummaryComponent object */

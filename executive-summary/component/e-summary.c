@@ -32,6 +32,7 @@
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-stream.h>
 #include <gtkhtml/htmlengine.h>
+#include <gtkhtml/htmlselection.h>
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -617,7 +618,7 @@ e_summary_queue_rebuild (ESummary *esummary)
 	if (priv->idle != 0)
 		return;
 
-	priv->idle = g_idle_add (e_summary_rebuild_page, esummary);
+	priv->idle = g_idle_add ((GSourceFunc) e_summary_rebuild_page, esummary);
 }
 
 static void

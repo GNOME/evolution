@@ -462,8 +462,6 @@ e_summary_url_click (GtkWidget *widget,
 
 		num_pages = Bonobo_PropertyControl__get_pageCount (window->propertycontrol, &ev);
 		for (i = 0; i < num_pages; i++) {
-			char *pagename;
-
 			control = Bonobo_PropertyControl_getControl (window->propertycontrol, i, &ev);
 			if (ev._major != CORBA_NO_EXCEPTION) {
 				g_warning ("Unable to get property control.");

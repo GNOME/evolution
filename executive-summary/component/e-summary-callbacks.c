@@ -31,6 +31,7 @@
 
 #include <liboaf/liboaf.h>
 #include <glade/glade.h>
+#include <e-summary-callbacks.h>
 
 #include "e-summary.h"
 
@@ -128,7 +129,7 @@ static void
 destroy_prefs_cb (GtkObject *object,
 		  PropertyData *data)
 {
-	gtk_object_unref (data->xml);
+	gtk_object_unref (GTK_OBJECT(data->xml));
 	g_free (data);
 }
 
@@ -191,7 +192,7 @@ configure_summary (GtkWidget *widget,
 	data->xml = glade_xml_new (EVOLUTION_GLADEDIR
 				   "/executive-summary-config.glade", NULL);
 	prefs = glade_xml_get_widget (data->xml, "summaryprefs");
-	data->box = prefs;
+	data->box = GNOME_PROPERTY_BOX(prefs);
 	html_page = glade_xml_get_widget (data->xml, "htmlpage");
 
 	if (esummary->prefs->page != NULL)

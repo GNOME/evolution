@@ -40,8 +40,8 @@ enum {
 struct _RdfSummary {
 	BonoboObject *component;
 	BonoboObject *view;
-	BonoboObject *bag;
-	BonoboObject *property_control;
+	BonoboPropertyBag *bag;
+	BonoboPropertyControl *property_control;
 
 	GtkWidget *rdf;
 	GtkWidget *g_limit;
@@ -194,7 +194,7 @@ tree_walk (xmlNodePtr root,
 
 	arg = bonobo_arg_new (BONOBO_ARG_STRING);
 	BONOBO_ARG_SET_STRING (arg, t);
-	bonobo_property_bag_set_value (BONOBO_PROPERTY_BAG (summary->bag),
+	bonobo_property_bag_set_value (summary->bag,
 				       "window_title", (const BonoboArg *) arg,
 				       NULL);
 	bonobo_arg_release (arg);
@@ -212,7 +212,7 @@ tree_walk (xmlNodePtr root,
 		icon = layer_find_url (image->childs, "url", "apple-red.png");
 		arg = bonobo_arg_new (BONOBO_ARG_STRING);
 		BONOBO_ARG_SET_STRING (arg, icon);
-		bonobo_property_bag_set_value (BONOBO_PROPERTY_BAG (summary->bag),
+		bonobo_property_bag_set_value (summary->bag,
 					       "window_icon", 
 					       (const BonoboArg *) arg, NULL);
 		bonobo_arg_release (arg);
@@ -417,7 +417,7 @@ static void
 entry_changed (GtkEntry *entry,
 		  RdfSummary *summary)
 {
-	bonobo_property_control_changed (BONOBO_PROPERTY_CONTROL (summary->property_control), NULL);
+	bonobo_property_control_changed (summary->property_control, NULL);
 }
 
 static BonoboControl *
@@ -481,7 +481,7 @@ property_action (GtkObject *property_control,
 		g_free (summary->location);
 		summary->location = g_strdup (gtk_entry_get_text (GTK_ENTRY (summary->rdf)));
 		summary->limit = atoi (gtk_entry_get_text (GTK_ENTRY (summary->g_limit)));
-		g_idle_add (download, summary);
+		g_idle_add ((GSourceFunc) download, summary);
 		break;
  
 	case Bonobo_PropertyControl_HELP:
@@ -498,7 +498,10 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	     void *closure)
 {
 	RdfSummary *summary;
-	BonoboObject *component, *view, *bag, *property, *event_source;
+	BonoboObject *component, *view;
+	BonoboEventSource *event_source;
+	BonoboPropertyBag *bag;
+	BonoboPropertyControl *property;
 	char *html = "<b>Loading RDF file. . .<br>Please wait</b>";
 	
 	summary = g_new (RdfSummary, 1);
@@ -518,7 +521,7 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	   interface aggregated */
 	event_source = bonobo_event_source_new ();
 
-	view = executive_summary_html_view_new_full (BONOBO_EVENT_SOURCE (event_source));
+	view = executive_summary_html_view_new_full (event_source);
 	summary->view = view;
 	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (view),
 					      html);
@@ -526,28 +529,28 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 
 	bag = bonobo_property_bag_new (get_prop, set_prop, summary);
 	summary->bag = bag;
-	bonobo_property_bag_add (BONOBO_PROPERTY_BAG (bag),
+	bonobo_property_bag_add (bag,
 				 "window_title", PROPERTY_TITLE,
 				 BONOBO_ARG_STRING, NULL,
 				 "The title of this component's window", 0);
-	bonobo_property_bag_add (BONOBO_PROPERTY_BAG (bag),
+	bonobo_property_bag_add (bag,
 				 "window_icon", PROPERTY_ICON,
 				 BONOBO_ARG_STRING, NULL,
 				 "The icon for this component's window", 0);
-	bonobo_object_add_interface (component, bag);
+	bonobo_object_add_interface (component, BONOBO_OBJECT(bag));
 				 
 	property = bonobo_property_control_new_full (property_control, 1,
-						     BONOBO_EVENT_SOURCE (event_source),
+						     event_source,
 						     summary);
 	summary->property_control = property;
 
 	gtk_signal_connect (GTK_OBJECT (property), "action",
 			    GTK_SIGNAL_FUNC (property_action), summary);
 
-	bonobo_object_add_interface (component, property);
+	bonobo_object_add_interface (component, BONOBO_OBJECT(property));
 
 	running_views++;
-	gtk_timeout_add (5000, download, summary);
+	gtk_timeout_add (5000, (GSourceFunc) download, summary);
 
 	return component;
 }
@@ -556,10 +559,10 @@ static BonoboObject *
 factory_fn (BonoboGenericFactory *_factory,
 	    void *closure)
 {
-	ExecutiveSummaryComponentFactory *component_factory;
+	BonoboObject *component_factory;
 
 	component_factory = executive_summary_component_factory_new (create_view, NULL);
-	return BONOBO_OBJECT (component_factory);
+	return component_factory;
 }
 
 static void

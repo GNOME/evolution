@@ -21,6 +21,8 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <e-summary-util.h>
+
 #include <gnome.h>
 
 char *
