@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=Todo conduit 
-Comment=Configure the todo conduit
-Exec=todo-conduit-control-applet --cap-id=1
-Terminal=0
-Type=Application

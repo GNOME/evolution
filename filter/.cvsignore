@@ -1,5 +1,0 @@
-filter-editor
-*.la
-*.lo
-.libs
-filter-driver
