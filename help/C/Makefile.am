@@ -13,6 +13,15 @@ figs = \
 	figures/evo_rule_a.png			\
 	figures/evo_send_setup_a.png		\
 	figures/evo_timezone_a.png		\
+	figures/evo_gwreceive_a.png		\
+	figures/evo_imapreceive_a.png		\
+	figures/evo_mail_callout_a.eps		\
+	figures/evo_maildirreceive_a.png	\
+	figures/evo_mboxreceive_a.png		\
+	figures/evo_mereceive_a.png		\
+	figures/evo_mhreceive_a.png		\
+	figures/evo_popreceive_a.png		\
+	figures/evo_usereceive_a.png		\
 	figures/mail_mainwindow_a.png		\
 	figures/calendar.png			\
 	figures/config-cal.png			\
