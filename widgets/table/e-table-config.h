@@ -18,9 +18,11 @@ typedef struct {
 	GtkWidget    *frames;
 	GtkWidget    *radio_ascending;
 	GtkWidget    *radio_descending;
+	GtkWidget    *view_check; /* Only for group dialog */
 	guint         changed_id, toggled_id;
 	void *e_table_config;
 } ETableConfigSortWidgets; 
+
 
 typedef struct {
 	GtkObject parent;
@@ -44,6 +46,7 @@ typedef struct {
 	GtkWidget *fields_label;
 
 	ETableConfigSortWidgets sort [4];
+	ETableConfigSortWidgets group [4];
 
 	/*
 	 * List of valid column names
