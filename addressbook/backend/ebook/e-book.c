@@ -57,6 +57,7 @@ struct _EBookPrivate {
 
 	gchar *uri;
 
+	gulong listener_signal;
 	gulong died_signal;
 };
 
@@ -773,8 +774,8 @@ e_book_load_uri (EBook                     *book,
 		return;
 	}
 
-	g_signal_connect (book->priv->listener, "responses_queued",
-			  G_CALLBACK (e_book_check_listener_queue), book);
+	book->priv->listener_signal = g_signal_connect (book->priv->listener, "responses_queued",
+							G_CALLBACK (e_book_check_listener_queue), book);
 
 	load_uri_data = g_new (EBookLoadURIData, 1);
 	load_uri_data->open_response = open_response;
@@ -1605,9 +1606,15 @@ e_book_dispose (GObject *object)
 				CORBA_exception_init (&ev);
 			}
 		}
-
+		
 		CORBA_exception_free (&ev);
 
+		if (book->priv->listener) {
+			g_signal_handler_disconnect (book->priv->comp_listener, book->priv->listener_signal);
+			bonobo_object_unref (book->priv->listener);
+			book->priv->listener = NULL;
+		}
+		
 		if (book->priv->comp_listener) {
 			g_signal_handler_disconnect (book->priv->comp_listener, book->priv->died_signal);
 			g_object_unref (book->priv->comp_listener);

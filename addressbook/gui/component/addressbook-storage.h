@@ -64,6 +64,7 @@ typedef struct {
 
 void addressbook_storage_setup (EvolutionShellComponent *shell_component,
 				const char *evolution_homedir);
+void addressbook_storage_cleanup (void);
 
 EvolutionStorage  *addressbook_get_other_contact_storage (void);
 GList             *addressbook_storage_get_sources (void);

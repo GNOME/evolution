@@ -390,6 +390,8 @@ owner_unset_cb (EvolutionShellComponent *shell_component,
 
 	if (owner_count == 0)
 		global_shell_client = NULL;
+
+	addressbook_storage_cleanup ();
 }
 
 /* FIXME We should perhaps take the time to figure out if the book is editable. */

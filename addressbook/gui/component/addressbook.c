@@ -77,6 +77,7 @@ typedef struct {
 	ESearchBar *search;
 	gint        ecml_changed_id;
 	GtkWidget *vbox;
+	EBook *book;
 	EvolutionActivityClient *activity;
 	BonoboControl *control;
 	BonoboPropertyBag *properties;
@@ -422,23 +423,6 @@ control_activate_cb (BonoboControl *control,
 	}
 }
 
-static void
-addressbook_view_ref (AddressbookView *view)
-{
-	g_assert (view->refs > 0);
-	++view->refs;
-}
-
-static void
-addressbook_view_unref (AddressbookView *view)
-{
-	g_assert (view->refs > 0);
-	--view->refs;
-	if (view->refs == 0) {
-		g_free (view);
-	}
-}
-
 static ECategoriesMasterList *
 get_master_list (void)
 {
@@ -452,23 +436,14 @@ get_master_list (void)
 static void
 addressbook_view_clear (AddressbookView *view)
 {
-	EBook *book;
-
-	if (view->uri && view->view) {
-		g_object_get(view->view,
-			     "book", &book,
-			     NULL);
-		g_object_unref (book);
+	if (view->book) {
+		g_object_unref (view->book);
+		view->book = NULL;
 	}
 	
 	if (view->properties) {
 		bonobo_object_unref (BONOBO_OBJECT(view->properties));
 		view->properties = NULL;
-	}
-
-	if (view->view) {
-		gtk_widget_destroy (GTK_WIDGET (view->view));
-		view->view = NULL;
 	}
 		
 	g_free(view->passwd);
@@ -477,13 +452,28 @@ addressbook_view_clear (AddressbookView *view)
 	g_free(view->uri);
 	view->uri = NULL;
 
-	if (view->refs == 0)
-		g_free(view);
-
 	if (view->ecml_changed_id != 0) {
 		g_signal_handler_disconnect (get_master_list(),
 					     view->ecml_changed_id);
 		view->ecml_changed_id = 0;
+	}
+}
+
+static void
+addressbook_view_ref (AddressbookView *view)
+{
+	g_assert (view->refs > 0);
+	++view->refs;
+}
+
+static void
+addressbook_view_unref (AddressbookView *view)
+{
+	g_assert (view->refs > 0);
+	--view->refs;
+	if (view->refs == 0) {
+		addressbook_view_clear (view);
+		g_free (view);
 	}
 }
 
@@ -494,10 +484,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 
 	if (status == E_BOOK_STATUS_SUCCESS) {
 		view->failed_to_load = FALSE;
-
-		g_object_set(view->view,
-			     "book", book,
-			     NULL);
+		view->book = book;
 	}
 	else {
 		char *label_string;
@@ -562,17 +549,12 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 
 		gtk_widget_show_all (warning_dialog);
 	}
-
-	g_object_unref (book);
 }
 
 static void
 destroy_callback(gpointer data, GObject *where_object_was)
 {
 	AddressbookView *view = data;
-	if (view->view && view->view->model && view->view->model->book_view)
-		e_book_view_stop (view->view->model->book_view);
-	addressbook_view_clear (view);
 	addressbook_view_unref (view);
 }
 
@@ -767,20 +749,16 @@ set_prop (BonoboPropertyBag *bag,
 	AddressbookView *view = user_data;
 
 	char *uri_data;
-	EBook *book;
 	
 	switch (arg_id) {
 
 	case PROPERTY_FOLDER_URI_IDX:
-		g_object_get(view->view,
-			     "book", &book,
-			     NULL);
 		if (view->uri) {
 			/* we've already had a uri set on this view, so unload it */
-			e_book_unload_uri (book);
+			e_book_unload_uri (view->book); 
 			g_free (view->uri);
 		} else {
-			book = e_book_new ();
+			view->book = e_book_new ();
 		}
 
 		view->failed_to_load = FALSE;
@@ -789,7 +767,7 @@ set_prop (BonoboPropertyBag *bag,
 		
 		uri_data = e_book_expand_uri (view->uri);
 
-		addressbook_load_uri (book, uri_data, book_open_cb, view);
+		addressbook_load_uri (view->book, uri_data, book_open_cb, view);
 
 		g_free(uri_data);
 
@@ -920,12 +898,6 @@ retrieve_shell_view_interface_from_control (BonoboControl *control)
 	GNOME_Evolution_ShellView shell_view_interface;
 	CORBA_Environment ev;
 
-	shell_view_interface = g_object_get_data (G_OBJECT (control),
-						  "shell_view_interface");
-
-	if (shell_view_interface)
-		return shell_view_interface;
-
 	control_frame = bonobo_control_get_control_frame (control, NULL);
 
 	if (control_frame == NULL)
@@ -936,13 +908,6 @@ retrieve_shell_view_interface_from_control (BonoboControl *control)
 							       "IDL:GNOME/Evolution/ShellView:1.0",
 							       &ev);
 	CORBA_exception_free (&ev);
-
-	if (shell_view_interface != CORBA_OBJECT_NIL)
-		g_object_set_data (G_OBJECT (control),
-				   "shell_view_interface",
-				   shell_view_interface);
-	else
-		g_warning ("Control frame doesn't have Evolution/ShellView.");
 
 	return shell_view_interface;
 }
@@ -1051,6 +1016,8 @@ set_folder_bar_label (EAddressbookView *eav, const char *message, AddressbookVie
 			   bonobo_exception_get_text (&ev));
 
 	CORBA_exception_free (&ev);
+
+	bonobo_object_release_unref (shell_view_interface, NULL);
 }
 
 /* Our global singleton config database */

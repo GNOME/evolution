@@ -107,6 +107,15 @@ addressbook_storage_setup (EvolutionShellComponent *shell_component,
 #endif 
 }
 
+void
+addressbook_storage_cleanup (void)
+{
+	if (storage != NULL) {
+		bonobo_object_unref (storage);
+		storage = NULL;
+	}
+}
+
 #ifdef HAVE_LDAP
 static void
 notify_listener (const Bonobo_Listener listener, 

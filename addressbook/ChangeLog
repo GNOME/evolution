@@ -1,3 +1,25 @@
+2003-05-14  JP Rosevear  <jpr@ximian.com>
+
+	* gui/component/addressbook.c (addressbook_view_unref): clear the
+	view
+	(book_open_cb): track the book in the view, don't unref the book
+	(set_prop): set the book
+	(retrieve_shell_view_interface_from_control): get the shell view
+	every time
+	(set_folder_bar_label): release and unref the shell view
+
+	* gui/component/addressbook-storage.h: add proto
+
+	* gui/component/addressbook-storage.c
+	(addressbook_storage_cleanup): unref the storage
+
+	* gui/component/addressbook-component.c (owner_unset_cb): clean up
+	storage
+
+	* backend/ebook/e-book.c (e_book_load_uri): track the listener
+	signal
+	(e_book_dispose): unref the listener and disconnect the signal
+
 2003-05-13  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names-text-model.c
