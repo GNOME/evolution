@@ -1,14 +1,17 @@
-1999-08-05  root  <guiheneu@linoleum.inria.fr>
-
-
 1999-08-05  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* tests/test4.c: 
+	test mh provider.
+	
+	* camel/providers/MH/camel-mh-folder.c (_get_message): 
+	implemented
+	
 	* camel/camel-folder.c (_get_message): 
 	new method. 
 	(camel_folder_get_message): 
 	corresponding public call
 	
-* camel/README.HACKING: 
+	* camel/README.HACKING: 
 	Some notes.
 
 	* camel/CODING.STYLE: 
@@ -19,6 +22,7 @@
 
 	* camel/providers/MH/camel-mh-folder.c (_list_subfolders): 
 	minor typo fixes.
+
 
 1999-08-04  bertrand  <Bertrand.Guiheneuf@aful.org>
 

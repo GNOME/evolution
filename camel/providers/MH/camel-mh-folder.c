@@ -32,6 +32,7 @@
 #include "camel-mh-store.h"
 #include "gstring-util.h"
 #include "camel-log.h"
+#include "camel-stream-fs.h"
 
 
 static CamelFolderClass *parent_class=NULL;
@@ -48,6 +49,7 @@ static gboolean _create(CamelFolder *folder);
 static gboolean _delete (CamelFolder *folder, gboolean recurse);
 static gboolean _delete_messages (CamelFolder *folder);
 static GList *_list_subfolders (CamelFolder *folder);
+static CamelMimeMessage *_get_message (CamelFolder *folder, gint number);
 
 static void
 camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
@@ -64,6 +66,7 @@ camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
 	camel_folder_class->delete = _delete;
 	camel_folder_class->delete_messages = _delete_messages;
 	camel_folder_class->list_subfolders = _list_subfolders;
+	camel_folder_class->get_message = _get_message;
 	
 }
 
@@ -216,7 +219,7 @@ _delete (CamelFolder *folder, gboolean recurse)
 	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::delete removing directory %s\n", directory_path);
 	rmdir_error = rmdir (directory_path);
 	if (rmdir_error == -1) {
-		CAMEL_LOG_FULL_WARNING ("CamelMhFolder::delete Error when removing directory %s\n", directory_path);
+		CAMEL_LOG_WARNING ("CamelMhFolder::delete Error when removing directory %s\n", directory_path);
 		CAMEL_LOG_FULL_DEBUG ( "  Full error text is : %s\n", strerror(errno));
 	}
 
@@ -265,7 +268,7 @@ _delete_messages (CamelFolder *folder)
 			unlink_error = unlink(entry_name);
 
 			if (unlink_error == -1) {
-				CAMEL_LOG_FULL_WARNING ("CamelMhFolder::delete_messages Error when deleting file %s\n", entry_name);
+				CAMEL_LOG_WARNING ("CamelMhFolder::delete_messages Error when deleting file %s\n", entry_name);
 				CAMEL_LOG_FULL_DEBUG ( "  Full error text is : %s\n", strerror(errno));
 			}
 		}
@@ -335,3 +338,43 @@ _list_subfolders(CamelFolder *folder)
 
 
 
+static CamelMimeMessage *
+_get_message (CamelFolder *folder, gint number)
+{
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
+	gchar *directory_path;
+	gchar *message_file_name;
+	struct stat stat_buf;
+	gint stat_error = 0;
+	CamelStream *input_stream;
+	CamelMimeMessage *message;
+
+	g_assert(folder);
+
+	/* call default implementation */
+	parent_class->delete_messages (folder);
+
+	directory_path = mh_folder->directory_path;
+	if (!directory_path) return NULL;
+	
+	if (!camel_folder_exists (folder)) return NULL;
+
+	message_file_name = g_strdup_printf ("%s/%d", directory_path, number);
+	stat_error = stat (message_file_name, &stat_buf);
+	
+	if ((stat_error == -1) || (!S_ISREG (stat_buf.st_mode))) {
+		g_free (message_file_name);
+		return NULL;
+	} else {
+		input_stream = camel_stream_fs_new_with_name (message_file_name, CAMEL_STREAM_FS_READ);
+		g_free (message_file_name);
+		if (!input_stream) return NULL;
+#warning use session field here
+		message = camel_mime_message_new_with_session ( (CamelSession *)NULL);
+		camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
+		gtk_object_unref (GTK_OBJECT (input_stream));
+		
+	}
+
+	return message;   
+}

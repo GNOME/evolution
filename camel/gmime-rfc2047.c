@@ -131,7 +131,7 @@ gchar
 				gchar *charset, *encoding, *text, *end;
 				gchar dc[4096];
 				charset = data+1;
-				encoding = strchr(charset, '?');
+				encoding = strchr (charset, '?');
 				
 				if (!encoding) break;
 				encoding++;

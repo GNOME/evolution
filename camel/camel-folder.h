@@ -122,7 +122,7 @@ const gchar *camel_folder_get_name (CamelFolder *folder);
 /*  void camel_folder_set_full_name (CamelFolder *folder, const gchar *name); */
 const gchar *camel_folder_get_full_name (CamelFolder *folder);
 CamelMimeMessage *camel_folder_get_message (CamelFolder *folder, gint number);
-
+gboolean camel_folder_exists (CamelFolder *folder);
 
 
 

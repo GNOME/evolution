@@ -316,6 +316,13 @@ _can_hold_messages (CamelFolder *folder)
 
 
 
+static gboolean
+_exists (CamelFolder *folder)
+{
+    return FALSE;
+}
+
+
 /**
  * _exists: tests if the folder object exists in its parent store.
  * @folder: folder object
@@ -326,10 +333,10 @@ _can_hold_messages (CamelFolder *folder)
  * 
  * Return value: true if the folder exists on the store false otherwise 
  **/
-static gboolean
-_exists (CamelFolder *folder)
+gboolean
+camel_folder_exists (CamelFolder *folder)
 {
-    return FALSE;
+    return (CF_CLASS(folder)->exists (folder));
 }
 
 
