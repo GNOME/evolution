@@ -962,7 +962,8 @@ e_icon_bar_item_released (EIconBar *icon_bar,
 	button = event->button.button;
 
 	if (button == 1) {
-		if (icon_bar->pressed_item_num == icon_bar->mouse_over_item_num) {
+		if (icon_bar->pressed_item_num != -1
+		    && icon_bar->pressed_item_num == icon_bar->mouse_over_item_num) {
 			gtk_signal_emit (GTK_OBJECT (icon_bar),
 					 e_icon_bar_signals[ITEM_SELECTED],
 					 event, item_num);

@@ -1,3 +1,10 @@
+2000-02-07  Damon Chaplin  <damon@helixcode.com>
+
+	* widgets/shortcut-bar/e-group-bar.c (e_group_bar_draw): finished.
+
+	* widgets/shortcut-bar/e-icon-bar.c (e_icon_bar_item_released): 
+	check that an item was pressed.
+
 2000-02-03  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-formatter.c (find_preferred_displayable_body_part_in_multipart_alternative): 
@@ -50,6 +57,7 @@
 	* addressbook/printing/e-contact-print-types.h: Added a type field
 	for different types of print styles.
 
+>>>>>>> 1.206
 2000-01-28  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text.c (e_text_command): Handle the grab and ungrab

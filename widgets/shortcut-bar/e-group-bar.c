@@ -582,15 +582,11 @@ e_group_bar_draw (GtkWidget    *widget,
 	EGroupBar *group_bar;
 	EGroupBarChild *group;
 	gint group_num;
-#if 0
 	GdkRectangle child_area;
-#endif
+
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (E_IS_GROUP_BAR (widget));
    
-	g_print ("In e_group_bar_draw %i,%i %ix%i\n", area->x, area->y,
-		 area->width, area->height);
-
 	if (GTK_WIDGET_DRAWABLE (widget)) {
 		group_bar = E_GROUP_BAR (widget);
 	
@@ -599,12 +595,14 @@ e_group_bar_draw (GtkWidget    *widget,
 		     group_num++) {
 			group = &g_array_index (group_bar->children,
 						EGroupBarChild, group_num);
-			/* FIXME */
-#if 0
-			if (GTK_WIDGET_DRAWABLE (child->widget) &&
-			    gtk_widget_intersect (child->widget, area, &child_area))
-				gtk_widget_draw (child->widget, &child_area);
-#endif
+
+			if (GTK_WIDGET_DRAWABLE (group->button)
+			    && gtk_widget_intersect (group->button, area, &child_area))
+				gtk_widget_draw (group->button, &child_area);
+
+			if (GTK_WIDGET_DRAWABLE (group->child)
+			    && gtk_widget_intersect (group->child, area, &child_area))
+				gtk_widget_draw (group->child, &child_area);
 		}
 	}
 }
