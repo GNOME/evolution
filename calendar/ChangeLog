@@ -1,3 +1,11 @@
+2001-11-14  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/calendar-model.c (date_value_to_string): Convert the buffer
+	to UTF8.
+	(calendar_model_value_to_string): Do not convert the string fields
+	to UTF8 again; they are already in UTF8.  Fixes the UTF8-related
+	bits of bug #15304.
+
 2001-11-14  Damon Chaplin  <damon@ximian.com>
 
 	* gui/calendar-model.c: 

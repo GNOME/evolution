@@ -1680,7 +1680,7 @@ date_value_to_string (ETableModel *etm, const void *value)
 	e_time_format_date_and_time (&tmp_tm, priv->use_24_hour_format,
 				     TRUE, FALSE,
 				     buffer, sizeof (buffer));
-	return g_strdup (buffer);
+	return e_utf8_from_locale_string (buffer);
 }
 
 
@@ -1698,7 +1698,7 @@ calendar_model_value_to_string (ETableModel *etm, int col, const void *value)
 	case CAL_COMPONENT_FIELD_TRANSPARENCY:
 	case CAL_COMPONENT_FIELD_URL:
 	case CAL_COMPONENT_FIELD_STATUS:
-		return e_utf8_from_locale_string (value);
+		return g_strdup (value);
 
 	case CAL_COMPONENT_FIELD_COMPLETED:
 	case CAL_COMPONENT_FIELD_DTEND:
