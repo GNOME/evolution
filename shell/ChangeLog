@@ -34,6 +34,12 @@
 	E_SHELL_DEFAULTURI_PREFIX.
 	(handle_default_uri): Removed.
 
+2002-07-12  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am (INCLUDES): Add -I$(builddir)/libical/src/libical
+	for the generated ical.h (some headers rely on this because
+	they too get installed.)
+ 
 2002-07-14  Rodrigo Moya <rodrigo@ximian.com>
 
 	* evolution-storage.c (impl_Storage_getFolderAtPath): no need to
@@ -59,12 +65,6 @@
 	parent_window and then unref after you are done using it.
 	[#27673]
 
-2002-07-12  Peter Williams  <peterw@ximian.com>
-
-	* Makefile.am (INCLUDES): Add -I$(builddir)/libical/src/libical
-	for the generated ical.h (some headers rely on this because
-	they too get installed.)
- 
 2002-07-12  Peter Williams  <peterw@ximian.com>
 
 	* Makefile.am (eshellinclude_HEADERS): Install some headers
@@ -337,7 +337,7 @@
 	* e-shell-startup-wizard.c (startup_wizard_cancel): Unref the
 	ETimezoneDialog.
 	(finish_func): Likewise.
- 
+
 2002-07-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fixes #27354.]
