@@ -163,4 +163,18 @@
   <secondary>Your calendars will not be available until Evolution is restarted.</secondary>
  </error>
 
+ <error id="prompt-delete-calendar" type="question" modal="true" default="GTK_RESPONSE_CANCEL">
+  <primary>Delete calendar '{0}'?</primary>
+  <secondary>This calendar will be removed permanently.</secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
+ </error>
+
+ <error id="prompt-delete-task-list" type="question" modal="true" default="GTK_RESPONSE_CANCEL">
+  <primary>Delete task list '{0}'?</primary>
+  <secondary>This task list will be removed permanently.</secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
+ </error>
+
 </error-list>

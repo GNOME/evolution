@@ -1,3 +1,36 @@
+2004-10-01  Not Zed  <NotZed@Ximian.com>
+
+	* gui/tasks-component.c (create_component_view): cast warning
+	away.
+	(create_component_view): connect to popup_event rather than
+	fill_popup_menu.
+
+	* gui/calendar-component.c (create_component_view): cast a warning
+	away.
+
+	* calendar-errors.xml: add prompt-delete-task-list.
+
+	* gui/tasks-component.c (fill_popup_menu_cb): renamed to
+	popup_event_cb, make use e-cal-popup.
+	(edit_task_list_cb, new_task_list_cb, delete_task_list_cb) 
+	(copy_task_list_cb): deja-vu.  update for api.
+	(add_popup_menu_item): killed. murdered. drawn and quatered.
+	(delete_task_list_cb): use e-error for the delete prompt.
+
+	* gui/calendar-component.c (create_component_view): hook onto
+	popup event instead of fill_popup_menu.
+
+	* calendar-errors.xml: added prompt-delete-calendar.
+
+	* gui/calendar-component.c (fill_popup_menu_cb): rename to
+	popup_event_cb, make use e-cal-popup.
+	(edit_calendar_cb, new_calendar_cb, delete_calendar_cb) 
+	(copy_calendar_cb): fix for api changes.
+	(add_popup_menu_item): removed.
+	(delete_calendar_cb): use e-error for the delete thing.
+
+	* gui/e-cal-popup.[ch]: calendar popup driver.
+
 2004-09-29  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #64683

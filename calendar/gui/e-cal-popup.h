@@ -1,0 +1,145 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ *  Authors: Michael Zucchi <notzed@ximian.com>
+ *
+ *  Copyright 2004 Novell, Inc. (www.novell.com)
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; version 2 of the License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
+ */
+
+#ifndef __E_CAL_POPUP_H__
+#define __E_CAL_POPUP_H__
+
+#include <glib-object.h>
+
+#include "e-util/e-popup.h"
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
+
+typedef struct _ECalPopup ECalPopup;
+typedef struct _ECalPopupClass ECalPopupClass;
+
+/**
+ * enum _e_cal_popup_target_t - A list of mail popup target types.
+ * 
+ * @E_CAL_POPUP_TARGET_SELECT: A selection of cards
+ * @E_CAL_POPUP_TARGET_SOURCE: A source selection.
+ *
+ * Defines the value of the targetid for all ECalPopup target types.
+ **/
+enum _e_cal_popup_target_t {
+	E_CAL_POPUP_TARGET_SELECT,
+	E_CAL_POPUP_TARGET_SOURCE,
+};
+
+/**
+ * enum _e_cal_popup_target_select_t - ECalPopupTargetSelect qualifiers.
+ * 
+ * @E_CAL_POPUP_SELECT_ONE: Only one item is selected.
+ * @E_CAL_POPUP_SELECT_MANY: One ore more items are selected.
+ * 
+ **/
+enum _e_cal_popup_target_select_t {
+	E_CAL_POPUP_SELECT_ONE                = 1<<1,
+	E_CAL_POPUP_SELECT_MANY               = 1<<2,
+};
+
+/**
+ * enum _e_cal_popup_target_source_t - ECalPopupTargetSource qualifiers.
+ * 
+ * @E_CAL_POPUP_SOURCE_PRIMARY: Has a primary selection.
+ * @E_CAL_POPUP_SOURCE_SYSTEM: Is a 'system' folder.
+ * 
+ **/
+enum _e_cal_popup_target_source_t {
+	E_CAL_POPUP_SOURCE_PRIMARY = 1<<0,
+	E_CAL_POPUP_SOURCE_SYSTEM = 1<<1,	/* system folder */
+	E_CAL_POPUP_SOURCE_USER = 1<<2, /* user folder (!system) */
+};
+
+typedef struct _ECalPopupTargetSelect ECalPopupTargetSelect;
+typedef struct _ECalPopupTargetSource ECalPopupTargetSource;
+
+/**
+ * struct _ECalPopupTargetSelect - A list of address cards.
+ * 
+ * @target: Superclass.
+ *
+ * Used to represent a selection of appointments as context for a popup
+ * menu.
+ *
+ * FIXME: impelemnt me
+ **/
+struct _ECalPopupTargetSelect {
+	EPopupTarget target;
+};
+
+/**
+ * struct _ECalPopupTargetSource - A source target.
+ * 
+ * @target: Superclass.
+ * @selector: Selector holding the source selection.
+ *
+ * This target is used to represent a source selection.
+ **/
+struct _ECalPopupTargetSource {
+	EPopupTarget target;
+
+	struct _ESourceSelector *selector;
+};
+
+typedef struct _EPopupItem ECalPopupItem;
+
+/* The object */
+struct _ECalPopup {
+	EPopup popup;
+
+	struct _ECalPopupPrivate *priv;
+};
+
+struct _ECalPopupClass {
+	EPopupClass popup_class;
+};
+
+GType e_cal_popup_get_type(void);
+
+ECalPopup *e_cal_popup_new(const char *menuid);
+
+ECalPopupTargetSelect *e_cal_popup_target_new_select(ECalPopup *eabp);
+ECalPopupTargetSource *e_cal_popup_target_new_source(ECalPopup *eabp, struct _ESourceSelector *selector);
+
+/* ********************************************************************** */
+
+typedef struct _ECalPopupHook ECalPopupHook;
+typedef struct _ECalPopupHookClass ECalPopupHookClass;
+
+struct _ECalPopupHook {
+	EPopupHook hook;
+};
+
+struct _ECalPopupHookClass {
+	EPopupHookClass hook_class;
+};
+
+GType e_cal_popup_hook_get_type(void);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* __E_CAL_POPUP_H__ */

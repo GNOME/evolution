@@ -112,3 +112,11 @@ char *s = N_("Your tasks will not be available until Evolution is restarted.");
 char *s = N_("The Evolution calendar has quit unexpectedly.");
 /* calendar:calendar-crashed secondary */
 char *s = N_("Your calendars will not be available until Evolution is restarted.");
+/* calendar:prompt-delete-calendar primary */
+char *s = N_("Delete calendar '{0}'?");
+/* calendar:prompt-delete-calendar secondary */
+char *s = N_("This calendar will be removed permanently.");
+/* calendar:prompt-delete-task-list primary */
+char *s = N_("Delete task list '{0}'?");
+/* calendar:prompt-delete-task-list secondary */
+char *s = N_("This task list will be removed permanently.");
