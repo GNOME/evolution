@@ -431,6 +431,7 @@ camel/providers/Makefile
 camel/providers/mbox/Makefile
 camel/providers/pop3/Makefile
 camel/providers/sendmail/Makefile
+camel/providers/smtp/Makefile
 camel/providers/vee/Makefile
 composer/Makefile
 widgets/Makefile

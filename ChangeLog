@@ -1,3 +1,7 @@
+2000-05-22  Jeff Stedfast  <fejj@helixcode.com>
+
+	* configure.in: Readded camel/providers/smtp 
+
 2000-05-22  Szabolcs BAN <shooby@gnome.hu>
 
 	* configure.in: Added Hungarian language
