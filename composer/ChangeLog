@@ -1,3 +1,11 @@
+2001-05-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (build_message): If we are creating a message
+	with only a single part (ie no attachments and we will not be
+	signing/encrypting the part) then `part = CAMEL_MIME_PART(message)` 
+	otherwise create a new MIME part and set it's content-object as the 
+	message's content-object at a later date.
+
 2001-05-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (add_inlined_image): Don't wrap content-id with

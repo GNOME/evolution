@@ -412,7 +412,11 @@ build_message (EMsgComposer *composer)
 			camel_object_unref (CAMEL_OBJECT (body));
 			break;
 		case MSG_FORMAT_PLAIN:
-			part = camel_mime_part_new ();
+			/* FIXME: this is just evil... */
+			if (!(composer->pgp_sign || composer->pgp_encrypt))
+				part = CAMEL_MIME_PART (new);
+			else
+				part = camel_mime_part_new ();
 			
 			content_type = best_content (plain);
 			camel_mime_part_set_content (CAMEL_MIME_PART (part), plain, strlen (plain), content_type);
@@ -482,15 +486,20 @@ build_message (EMsgComposer *composer)
 			goto exception;
 	}
 	
-	camel_medium_set_content_object (CAMEL_MEDIUM (new),
-					 camel_medium_get_content_object (CAMEL_MEDIUM (part)));
-	camel_object_unref (CAMEL_OBJECT (part));
+	/* set the toplevel mime part of the message */
+	if (part != CAMEL_MIME_PART (new)) {
+		camel_medium_set_content_object (CAMEL_MEDIUM (new),
+						 camel_medium_get_content_object (CAMEL_MEDIUM (part)));
+		camel_object_unref (CAMEL_OBJECT (part));
+	}
 	
 	return new;
 	
  exception:
 	
-	camel_object_unref (CAMEL_OBJECT (part));
+	if (part != CAMEL_MIME_PART (new))
+		camel_object_unref (CAMEL_OBJECT (part));
+	
 	camel_object_unref (CAMEL_OBJECT (new));
 	
 	if (camel_exception_is_set (&ex)) {
