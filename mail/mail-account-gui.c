@@ -22,6 +22,7 @@
  *
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -1206,8 +1207,11 @@ sig_fill_options (MailAccountGui *gui)
 	menu_text = gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_text));
 	menu_html = gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_html));
 	
-	clear_menu (menu_text);
-	clear_menu (menu_html);
+	if (menu_text)
+		clear_menu (menu_text);
+	
+	if (menu_html)
+		clear_menu (menu_html);
 	
 	gtk_menu_append (GTK_MENU (menu_text), gtk_menu_item_new_with_label (_("None")));
 	gtk_menu_append (GTK_MENU (menu_html), gtk_menu_item_new_with_label (_("None")));

@@ -1,5 +1,8 @@
 2002-05-21  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (sig_fill_options): Only clear the text/html
+	signature menus if they are non-NULL.
+
 	* mail-composer-prefs.c (spell_save_values): Use a new macro,
 	STR_EQUAL, to tell if the 2 values are equal or not rather than
 	using strcmp since one or both strings could be NULL.
