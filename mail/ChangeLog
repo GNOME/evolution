@@ -1,3 +1,8 @@
+2002-03-19  Larry Ewing  <lewing@ximian.com>
+
+	* mail-display.c: add missing NULL closure data to popup menu
+	initialization.
+
 2002-03-19  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (evolution_mail_LDADD): s/libversit.la/libversit.a/

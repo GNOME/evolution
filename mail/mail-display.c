@@ -1752,15 +1752,15 @@ enum {
 
 static EPopupMenu link_menu [] = {
 	{ N_("Open Link in Browser"), NULL,
-	  GTK_SIGNAL_FUNC (link_open_in_browser),  NULL,  MASK_URL },
+	  GTK_SIGNAL_FUNC (link_open_in_browser),  NULL, NULL,  MASK_URL },
 	{ N_("Copy Link Location"), NULL,
-	  GTK_SIGNAL_FUNC (link_copy_location), NULL,  MASK_URL },
+	  GTK_SIGNAL_FUNC (link_copy_location), NULL, NULL,  MASK_URL },
 #if 0
 	{ N_("Save Link as (FIXME)"), NULL,
-	  GTK_SIGNAL_FUNC (link_save_as), NULL,  MASK_URL },
+	  GTK_SIGNAL_FUNC (link_save_as), NULL, NULL,  MASK_URL },
 #endif
 	{ N_("Save Image as..."), NULL,
-	  GTK_SIGNAL_FUNC (image_save_as), NULL, MASK_SRC }, 
+	  GTK_SIGNAL_FUNC (image_save_as), NULL, NULL, MASK_SRC }, 
      
 	TERMINATOR
 };
