@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-06-12 16:41-0400\n"
-"PO-Revision-Date: 2002-06-24 15:31-0400\n"
+"PO-Revision-Date: 2002-06-25 19:14-0400\n"
 "Last-Translator: Radka Doulíková <doulikova@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1104,7 +1104,7 @@ msgstr "_Omezení stahování"
 #: ui/evolution-signature-editor.xml.h:10 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:17
 msgid "_Edit"
-msgstr "_Upravit"
+msgstr "_Úpravy"
 
 #: addressbook/gui/component/ldap-config.glade.h:115
 msgid "_Edit Mapping"
@@ -3752,7 +3752,7 @@ msgstr "hodinu/-y"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:11 filter/filter-datespec.c:85
 msgid "minutes"
-msgstr "minutu/-y"
+msgstr "minuty"
 
 #: calendar/gui/dialogs/alarm-page.c:309
 #, c-format
@@ -5615,16 +5615,16 @@ msgstr ""
 
 #: calendar/gui/e-week-view.c:3438
 msgid "New _Appointment..."
-msgstr ""
+msgstr "Nová _událost..."
 
 #: calendar/gui/e-week-view.c:3489
 msgid "_Delete this Appointment"
-msgstr ""
+msgstr "_Zru¹it tuto událost"
 
 #: calendar/gui/gnome-cal.c:1521
 #, c-format
 msgid "Could not open the folder in `%s'"
-msgstr ""
+msgstr "Nelze otevøít slo¾ku v `%s'"
 
 #: calendar/gui/gnome-cal.c:1532
 #, c-format
@@ -9994,35 +9994,35 @@ msgstr ""
 
 #: filter/filter-datespec.c:80
 msgid "year"
-msgstr ""
+msgstr "rok"
 
 #: filter/filter-datespec.c:80
 msgid "years"
-msgstr ""
+msgstr "roky/let"
 
 #: filter/filter-datespec.c:81
 msgid "month"
-msgstr ""
+msgstr "mìsíc"
 
 #: filter/filter-datespec.c:81
 msgid "months"
-msgstr ""
+msgstr "mìsíce/-ù"
 
 #: filter/filter-datespec.c:82
 msgid "week"
-msgstr ""
+msgstr "týden"
 
 #: filter/filter-datespec.c:82
 msgid "weeks"
-msgstr ""
+msgstr "týdny/-ù"
 
 #: filter/filter-datespec.c:84
 msgid "hour"
-msgstr ""
+msgstr "hodinu"
 
 #: filter/filter-datespec.c:85
 msgid "minute"
-msgstr ""
+msgstr "minutu"
 
 #: filter/filter-datespec.c:86 mail/mail-config.glade.h:189
 msgid "seconds"
@@ -10042,12 +10042,17 @@ msgid ""
 "whatever the time is when the filter is run\n"
 "or vfolder is opened."
 msgstr ""
+"Datum zprávy bude porovnáváno s èasem,\n"
+"kdy bude spu¹tìn filtr nebo\n"
+"bude otevøena vslo¾ka."
 
 #: filter/filter-datespec.c:294
 msgid ""
 "The message's date will be compared against\n"
 "the time that you specify here."
 msgstr ""
+"Datum zprávy bude porovnáváno \n"
+"s èasem, který urèíte zde."
 
 #: filter/filter-datespec.c:334
 msgid ""
@@ -10055,41 +10060,44 @@ msgid ""
 "a time relative to when the filter is run;\n"
 "\"a week ago\", for example."
 msgstr ""
+"Datum zprávy bude porovnáváno s èasem \n"
+"vztahujícím se k okam¾iku, kdy bude spu¹tìn filtr;\n"
+"(napø. \"týden nazpìt\"). "
 
 #. keep in sync with FilterDatespec_type!
 #: filter/filter-datespec.c:369
 msgid "the current time"
-msgstr ""
+msgstr "souèasným èasem"
 
 #: filter/filter-datespec.c:369
 msgid "a time you specify"
-msgstr ""
+msgstr "s èasem, který urèíte"
 
 #: filter/filter-datespec.c:370
 msgid "a time relative to the current time"
-msgstr ""
+msgstr "s èasem vztahujícím se k souèasnému èasu"
 
 #. The dialog
 #: filter/filter-datespec.c:394
 msgid "Select a time to compare against"
-msgstr ""
+msgstr "Vybrat èas pro porovnání"
 
 #. The label
 #: filter/filter-datespec.c:428
 msgid "Compare against"
-msgstr ""
+msgstr "Porovnat s"
 
 #: filter/filter-datespec.c:546 filter/filter-datespec.c:725
 msgid "now"
-msgstr ""
+msgstr "nyní"
 
 #: filter/filter-datespec.c:575
 msgid " ago"
-msgstr ""
+msgstr " nazpìt"
 
 #: filter/filter-datespec.c:621
 msgid "ago"
-msgstr ""
+msgstr "nazpìt"
 
 #: filter/filter-datespec.c:711 mail/message-list.c:1053
 msgid "%b %d %l:%M %p"
@@ -10097,7 +10105,7 @@ msgstr "%d %b %k:%M"
 
 #: filter/filter-datespec.c:722
 msgid "<click here to select a date>"
-msgstr ""
+msgstr "<pro výbìr data kliknout sem>"
 
 #: filter/filter-editor.c:132 filter/filter.glade.h:3
 msgid "Filter Rules"
@@ -10197,7 +10205,7 @@ msgstr "Editovat filtry"
 
 #: filter/filter.glade.h:2
 msgid "Edit VFolders"
-msgstr ""
+msgstr "Editovat Vslo¾ky"
 
 #: filter/filter.glade.h:4
 msgid "Incoming"
@@ -10209,7 +10217,7 @@ msgstr "Odchozí"
 
 #: filter/filter.glade.h:6 filter/vfolder-editor.c:130
 msgid "Virtual Folders"
-msgstr ""
+msgstr "Virtuální slo¾ky"
 
 #: filter/filter.glade.h:11
 msgid "specific folders only"
@@ -10306,7 +10314,7 @@ msgstr "Koncept"
 
 #: filter/libfilter-i18n.h:21
 msgid "ends with"
-msgstr "konèí"
+msgstr "konèí na"
 
 #: filter/libfilter-i18n.h:22
 msgid "Execute Shell Command"
@@ -10339,11 +10347,11 @@ msgstr "je"
 
 #: filter/libfilter-i18n.h:29
 msgid "is after"
-msgstr ""
+msgstr "je po"
 
 #: filter/libfilter-i18n.h:30
 msgid "is before"
-msgstr ""
+msgstr "je pøed"
 
 #: filter/libfilter-i18n.h:31
 msgid "is Flagged"
@@ -10367,7 +10375,7 @@ msgstr ""
 
 #: filter/libfilter-i18n.h:36 mail/folder-browser.c:1713
 msgid "Label"
-msgstr "Nápis"
+msgstr ""
 
 #: filter/libfilter-i18n.h:37
 msgid "Mailing list"
@@ -10375,7 +10383,7 @@ msgstr ""
 
 #: filter/libfilter-i18n.h:38
 msgid "Message Body"
-msgstr ""
+msgstr "Tìlo zprávy"
 
 #: filter/libfilter-i18n.h:39
 msgid "Message Header"
@@ -10383,7 +10391,7 @@ msgstr ""
 
 #: filter/libfilter-i18n.h:40
 msgid "Move to Folder"
-msgstr ""
+msgstr "Pøesunout do slo¾ky"
 
 #: filter/libfilter-i18n.h:41
 msgid "Play Sound"
@@ -10395,7 +10403,7 @@ msgstr "Èíst"
 
 #: filter/libfilter-i18n.h:43
 msgid "Recipients"
-msgstr "Pøíjemci"
+msgstr "Pøíjemce"
 
 #: filter/libfilter-i18n.h:44
 msgid "Regex Match"
@@ -10420,7 +10428,7 @@ msgstr ""
 
 #: filter/libfilter-i18n.h:49
 msgid "Size (kB)"
-msgstr ""
+msgstr "Velikost (kB)"
 
 #: filter/libfilter-i18n.h:50
 msgid "sounds like"
@@ -10436,7 +10444,7 @@ msgstr ""
 
 #: filter/libfilter-i18n.h:53
 msgid "starts with"
-msgstr "zaèíná"
+msgstr "zaèíná na"
 
 #: filter/libfilter-i18n.h:55
 msgid "Stop Processing"
@@ -10730,11 +10738,11 @@ msgstr "Varování: Neposlané zprávy"
 
 #: mail/component-factory.c:998
 msgid "New Mail Message"
-msgstr ""
+msgstr "Nový dopis"
 
 #: mail/component-factory.c:998 ui/evolution-mail-global.xml.h:16
 msgid "_Mail Message"
-msgstr ""
+msgstr "_Dopis"
 
 #: mail/component-factory.c:1025
 msgid "Cannot initialize Evolution's mail component."
@@ -12450,11 +12458,11 @@ msgstr ""
 
 #: mail/mail-send-recv.c:287
 msgid "Send & Receive Mail"
-msgstr ""
+msgstr "Odeslat a pøijmout po¹tu"
 
 #: mail/mail-send-recv.c:289
 msgid "Cancel All"
-msgstr ""
+msgstr "Zru¹it v¹e"
 
 #: mail/mail-send-recv.c:349
 msgid "Updating..."
@@ -12556,15 +12564,15 @@ msgstr ""
 #: mail/mail-vfolder.c:727 my-evolution/e-summary-mail.c:259
 #: my-evolution/e-summary-mail.c:733
 msgid "VFolders"
-msgstr ""
+msgstr "Vslo¾ky"
 
 #: mail/mail-vfolder.c:784
 msgid "vFolders"
-msgstr ""
+msgstr "vslo¾ky"
 
 #: mail/mail-vfolder.c:824
 msgid "Edit VFolder"
-msgstr ""
+msgstr "Editovat Vslo¾ku"
 
 #: mail/mail-vfolder.c:840
 #, c-format
@@ -22600,11 +22608,11 @@ msgstr ""
 
 #: my-evolution/e-summary-calendar.c:365 my-evolution/e-summary-calendar.c:383
 msgid "Appointments"
-msgstr ""
+msgstr "Události"
 
 #: my-evolution/e-summary-calendar.c:366
 msgid "No appointments"
-msgstr ""
+msgstr "®ádné události"
 
 #: my-evolution/e-summary-calendar.c:400
 msgid "%k:%M %d %B"
@@ -22620,7 +22628,7 @@ msgstr ""
 
 #: my-evolution/e-summary-mail.c:152
 msgid "Mail summary"
-msgstr ""
+msgstr "Po¹ta"
 
 #: my-evolution/e-summary-mail.c:264 my-evolution/e-summary-mail.c:409
 #: my-evolution/e-summary-mail.c:736 shell/e-local-storage.c:1022
@@ -22676,15 +22684,15 @@ msgstr ""
 
 #: my-evolution/e-summary-tasks.c:251
 msgid "No tasks"
-msgstr ""
+msgstr "®ádné úkoly"
 
 #: my-evolution/e-summary-tasks.c:291
 msgid "(No Description)"
-msgstr ""
+msgstr "(Není popis)"
 
 #: my-evolution/e-summary-weather.c:71
 msgid "My Weather"
-msgstr ""
+msgstr "Moje poèasí"
 
 #: my-evolution/e-summary-weather.c:279
 msgid "There was an error downloading data for"
@@ -22692,7 +22700,7 @@ msgstr ""
 
 #: my-evolution/e-summary-weather.c:501
 msgid "Weather"
-msgstr ""
+msgstr "Poèasí"
 
 #: my-evolution/e-summary.c:193
 msgid "%A, %B %e %Y"
@@ -22704,7 +22712,7 @@ msgstr "Prosím èekejte..."
 
 #: my-evolution/e-summary.c:580 ui/my-evolution.xml.h:2
 msgid "Print Summary"
-msgstr ""
+msgstr "Tisknout shrnutí"
 
 #: my-evolution/e-summary.c:626
 msgid "Printing of Summary failed"
@@ -22744,11 +22752,11 @@ msgstr "míle"
 
 #: my-evolution/metar.c:41
 msgid "kilometers"
-msgstr ""
+msgstr "kilometry"
 
 #: my-evolution/metar.c:44
 msgid "Clear sky"
-msgstr ""
+msgstr "Jasno"
 
 #: my-evolution/metar.c:45
 msgid "Broken clouds"
@@ -22764,7 +22772,7 @@ msgstr ""
 
 #: my-evolution/metar.c:48
 msgid "Overcast"
-msgstr ""
+msgstr "Zata¾eno"
 
 #: my-evolution/metar.c:56 my-evolution/metar.c:74 my-evolution/metar.c:485
 msgid "Invalid"
@@ -24739,7 +24747,7 @@ msgstr ""
 
 #: shell/evolution-folder-selector-button.c:86
 msgid "<click here to select a folder>"
-msgstr ""
+msgstr "kliknout sem pro vybrání slo¾ky"
 
 #: shell/evolution-shell-component-utils.c:124
 #, c-format
@@ -25063,15 +25071,15 @@ msgstr "Vyjmout výbìr"
 
 #: ui/evolution-addressbook.xml.h:11
 msgid "Delete selected contacts"
-msgstr ""
+msgstr "Smazat vybrané kontakty"
 
 #: ui/evolution-addressbook.xml.h:13
 msgid "Move Contact(s) to Another Folder..."
-msgstr ""
+msgstr "Pøesunout kontakt(-y) do jiné slo¾ky"
 
 #: ui/evolution-addressbook.xml.h:14
 msgid "Move to Folder..."
-msgstr ""
+msgstr "Pøesunout do slo¾ky..."
 
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:14
 msgid "Paste the clipboard"
@@ -25083,7 +25091,7 @@ msgstr ""
 
 #: ui/evolution-addressbook.xml.h:20
 msgid "Print selected contacts"
-msgstr ""
+msgstr "Tisknout vybrané kontakty"
 
 #: ui/evolution-addressbook.xml.h:22
 msgid "Save selected contacts as a VCard."
@@ -25095,7 +25103,7 @@ msgstr "Vybrat v¹e"
 
 #: ui/evolution-addressbook.xml.h:24
 msgid "Select all contacts"
-msgstr ""
+msgstr "Vybrat v¹echny kontakty"
 
 #: ui/evolution-addressbook.xml.h:25
 msgid "Send a mess to the selected contacts."
@@ -25404,7 +25412,7 @@ msgstr ""
 
 #: ui/evolution-mail-global.xml.h:9
 msgid "Open a window for composing a mail message"
-msgstr ""
+msgstr "Otevøít okno pro psaní dopisu"
 
 #: ui/evolution-mail-global.xml.h:10
 msgid "Permanently remove all deleted messages from all folders"
@@ -25525,7 +25533,7 @@ msgstr ""
 
 #: ui/evolution-mail-list.xml.h:26 ui/evolution-tasks.xml.h:18
 msgid "_Expunge"
-msgstr ""
+msgstr "_Vymazat"
 
 #: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:45
 msgid "_Folder"
@@ -26388,7 +26396,7 @@ msgstr ""
 
 #: ui/evolution.xml.h:55
 msgid "_Send / Receive"
-msgstr ""
+msgstr "_Odeslat / pøijmout"
 
 #: ui/evolution.xml.h:56
 msgid "_Shortcut"
@@ -26400,7 +26408,7 @@ msgstr ""
 
 #: ui/my-evolution.xml.h:3
 msgid "Print summary"
-msgstr ""
+msgstr "Tisknout shrnutí"
 
 #: ui/my-evolution.xml.h:4
 msgid "Reload"
@@ -26408,7 +26416,7 @@ msgstr "Obnovit"
 
 #: ui/my-evolution.xml.h:5
 msgid "Reload the view"
-msgstr ""
+msgstr "Obnovit náhled"
 
 #: views/addressbook/galview.xml.h:1
 msgid "Address Cards"
