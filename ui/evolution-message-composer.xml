@@ -2,18 +2,18 @@
 	<commands>
 
 	        <cmd name="FileOpen" _label="Open" hidden="1"
-		_tip="Open a file" pixtype="stock" pixname="Open" accel="*Control*o"/>
+		_tip="Open a file" pixtype="stock" pixname="gtk-open" accel="*Control*o"/>
 		
 	        <cmd name="FileSave" _label="Save"
-		_tip="Save the current file" pixtype="pixbuf"
+		_tip="Save the current file" pixtype="stock" pixname="gtk-save"
 		accel="*Ctrl*s"/>
 		
 	        <cmd name="FileSaveAs" _label="Save As"
 	        _tip="Save the current file with a different name"
-		pixtype="pixbuf"/>
+		pixtype="stock" pixname="gtk-save-as"/>
 		
 	        <cmd name="FileClose" _label="Close"
-		_tip="Close the current file" pixtype="stock" pixname="Close"
+		_tip="Close the current file" pixtype="stock" pixname="gtk-close"
 		accel="*Ctrl*w"/>
 		
 		<cmd name="FileSaveInFolder" _label="Save in folder..."
@@ -28,6 +28,7 @@
 		pixtype="pixbuf"/>
 		
 		<cmd name="DeleteAll" _label="_Delete all"
+		pixtype="stock" pixname="gtk-delete"
 		_tip="Delete all but signature"/>
 
 		<cmd name="FormatHtml" _label="HT_ML" _tip="Send the mail in HTML format"

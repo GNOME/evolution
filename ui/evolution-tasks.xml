@@ -60,9 +60,9 @@
 
     <separator/>
 
-    <toolitem name="Delete" _label="Delete" verb="TasksDelete"/>
-
     <toolitem name="Print" _label="Print" verb="TasksPrint"/>
+
+    <toolitem name="Delete" _label="Delete" verb="TasksDelete"/>
 
   </dockitem>
 

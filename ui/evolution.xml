@@ -5,10 +5,10 @@
       accel="*Control**Shift*w"/>
 
     <cmd name="FileClose" _label="Close" _tip="Close this window"
-      pixtype="stock" pixname="Close" accel="*Control*w"/>
+      pixtype="stock" pixname="gtk-close" accel="*Control*w"/>
 
     <cmd name="FileExit" _label="E_xit" _tip="Exit the program"
-      pixtype="stock" pixname="Quit" accel="*Control*q"/>
+      pixtype="stock" pixname="gtk-quit" accel="*Control*q"/>
 
     <cmd name="HelpSubmitBug" _label="Submit Bug Report"
       _tip="Submit a bug report using Bug Buddy"/>
@@ -20,7 +20,7 @@
     <cmd name="ForgetPasswords"
      _tip="Forget remembered passwords so you will be prompted for them again"/>
 
-    <cmd name="Settings" pixtype="pixbuf"/>
+    <cmd name="Settings" pixtype="stock" pixname="gtk-preferences"/>
 
     <cmd name="ToggleOffline" 
       _label="_Work Offline"
@@ -33,7 +33,7 @@
 
   <menu>
     <submenu name="File" _label="_File">
-      <submenu name="New" _label="_New">
+      <submenu name="New" _label="_New" pixtype="stock" pixname="gtk-new">
 	<placeholder name="ComponentItems"/>
       </submenu>
 
@@ -80,7 +80,7 @@
     </submenu>
 
     <submenu name="Tools" _label="_Tools">
-      <menuitem name="Settings" verb="" _label="_Settings..." _tip="Change Evolution's settings" pixtype="pixbuf"/>
+      <menuitem name="Settings" verb="" _label="_Settings..." _tip="Change Evolution's settings"/>
       <separator/>
       <placeholder name="ComponentPlaceholder"/>
       <menuitem name="PilotSettings" verb="" _label="Pi_lot Settings..." _tip="Set up Pilot configuration"/>

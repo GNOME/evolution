@@ -1,3 +1,19 @@
+2004-05-25  William Jon McCann  <mccann@jhu.edu>
+
+	* evolution-message-composer.xml: 
+	* evolution-composer-entries.xml: 
+	* evolution-contact-list-editor.xml: 
+	* evolution-contact-editor.xml: 
+	* evolution.xml: 
+	* evolution-mail-message.xml: 
+	* evolution-mail-list.xml: 
+	* evolution-mail-global.xml: 
+	* evolution-addressbook.xml: use stock icons where possible.
+	Calendar and tasks already use stock icons.
+
+	* evolution-tasks.xml: swap positions of delete and print icons
+	to be consistent with the other components.
+
 2004-05-19  Not Zed  <NotZed@Ximian.com>
 
 	* evolution.xml: Added View->Window menu.

@@ -146,17 +146,17 @@
     <cmd name="MessageSaveAs"
      _tip="Save the message as a text file"
      accel="*Control**Alt*s"
-     pixtype="pixbuf"/>
+     pixtype="stock" pixname="gtk-save-as"/>
 
     <cmd name="MessageSearch"
      _tip="Search for text in the body of the displayed message"
      accel="*Control*s"
-     pixtype="pixbuf"/>
+     pixtype="stock" pixname="gtk-find"/>
 
     <cmd name="MessageUndelete"
      _tip="Un-delete the selected messages"
      accel="*Control*u"
-     pixtype="pixbuf"/>
+     pixtype="stock" pixname="gtk-undelete"/>
 
     <cmd name="PrintMessage"
      _tip="Print this message"

@@ -1,17 +1,17 @@
 <Root>
         <commands>
-		<cmd name="ContactListEditorSave" pixtype="pixbuf" accel="*Control*s"/>
-		<cmd name="ContactListEditorSaveAs" pixtype="pixbuf" accel="*Control**Shift*s"/>
+		<cmd name="ContactListEditorSave" pixtype="stock" pixname="gtk-save" accel="*Control*s"/>
+		<cmd name="ContactListEditorSaveAs" pixtype="stock" pixname="gtk-save-as" accel="*Control**Shift*s"/>
 
 		<cmd name="ContactListEditorSendAs"/>
 		<cmd name="ContactListEditorSendTo"/>
 
 		<cmd name="ContactListEditorDelete"
 		 _tip="Delete this list"
-		 pixtype="pixbuf" accel="*Control*d"/>
+		 pixtype="stock" pixname="gtk-delete" accel="*Control*d"/>
 
 		<cmd name="ContactListEditorClose"
-		 pixtype="stock" pixname="Close" accel="*Control*w"/>
+		 pixtype="stock" pixname="gtk-close" accel="*Control*w"/>
 
 		<cmd name="ContactListEditorSaveClose"
 		 _tip="Save the list and close the dialog box"
@@ -29,7 +29,7 @@
 
 			<separator/>
 
-		        <menuitem name="ContactListEditorDelete" verb="" _label="_Delete..." pixtype="pixbuf"/>
+		        <menuitem name="ContactListEditorDelete" verb="" _label="_Delete..."/>
 
 			<separator/>
 

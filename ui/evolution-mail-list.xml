@@ -4,15 +4,15 @@
 
     <cmd name="EditCut"
      _tip="Cut selected message(s) to the clipboard"
-     accel="*Control*x" pixtype="pixbuf"/>
+     accel="*Control*x" pixtype="stock" pixname="gtk-cut"/>
 
     <cmd name="EditCopy"
      _tip="Copy selected message(s) to the clipboard"
-     accel="*Control*c" pixtype="pixbuf"/>
+     accel="*Control*c" pixtype="stock" pixname="gtk-copy"/>
 
     <cmd name="EditPaste"
      _tip="Paste message(s) from the clipboard"
-     accel="*Control*v" pixtype="pixbuf"/>
+     accel="*Control*v" pixtype="stock" pixname="gtk-paste"/>
 
     <cmd name="EditInvertSelection"
      _tip="Select all and only the messages that are not currently selected"
@@ -28,7 +28,7 @@
 
     <cmd name="ChangeFolderProperties"
      _tip="Change the properties of this folder"
-     pixtype="pixbuf"/>
+     pixtype="stock" pixname="gtk-properties"/>
 
     <cmd name="FolderExpunge"
      _tip="Permanently remove all deleted messages from this folder"

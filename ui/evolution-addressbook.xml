@@ -2,16 +2,17 @@
   <commands>
     <cmd name="ContactDelete"
 	 _tip="Delete selected contacts"
+	 pixtype="stock" pixname="gtk-delete"
 	 accel="*Control*d"/>
 
     <cmd name="ContactsPrint"
 	 _tip="Print selected contacts"
-	 pixtype="stock" pixname="Print"
+	 pixtype="stock" pixname="gtk-print"
 	 accel="*Control*p"/>
 
     <cmd name="ContactsPrintPreview"
 	 _tip="Previews the contacts to be printed"
-	 pixtype="stock" pixname="Print"/>
+	 pixtype="stock" pixname="gtk-print-preview"/>
 
     <cmd name="ContactsView"
 	 _tip="View the current contact"
@@ -19,17 +20,20 @@
 
     <cmd name="ContactStop"
 	 _tip="Stop Loading"
-	 pixtype="stock" pixname="Stop"/>
+	 pixtype="stock" pixname="gtk-stop"/>
 
     <cmd name="ContactsCut" _label="Cut" _tip="Cut the selection"
+	 pixtype="stock" pixname="gtk-cut"
 	 accel="*Control*x"/>
 
     <cmd name="ContactsCopy" _label="Copy"
 	 _tip="Copy the selection"
+	 pixtype="stock" pixname="gtk-copy"
 	 accel="*Control*c"/>
 
     <cmd name="ContactsPaste" _label="Paste"
 	 _tip="Paste the clipboard"
+	 pixtype="stock" pixname="gtk-paste"
 	 accel="*Control*v"/>
 
     <cmd name="ContactsSelectAll" _label="Select All"
@@ -38,6 +42,7 @@
 
     <cmd name="ContactsSaveAsVCard" _label="Save as VCard..."
 	 _tip="Save selected contacts as a VCard."
+	 pixtype="stock" pixname="gtk-save-as"
 	 accel="*Control**Alt*s"/>
 
     <cmd name="ContactsSendContactToOther" _label="Forward Contact"
@@ -66,17 +71,14 @@
 	<menuitem name="ContactsView"
 		  verb="" _label="_Open"/>
 	<menuitem name="ContactsSaveAsVCard"
-		  verb="" _label="_Save as VCard..."
-		  pixtype="pixbuf"/>
+		  verb="" _label="_Save as VCard..."/>
       </placeholder>
 
       <placeholder name="Print">
 	<menuitem name="ContactsPrintPreview" verb=""
-		  _label="Print Pre_view"
-		  pixtype="pixbuf"/>
+		  _label="Print Pre_view"/>
 	<menuitem name="ContactsPrint" verb=""
-		  _label="_Print..."
-		  pixtype="pixbuf"/>
+		  _label="_Print..."/>
       </placeholder>
 
     </submenu>
@@ -93,19 +95,15 @@
 
 	<separator f="" name="eadbk2"/>
 
-	<menuitem name="ContactsCut" verb="" _label="C_ut"
-		  pixtype="pixbuf"/>
+	<menuitem name="ContactsCut" verb="" _label="C_ut"/>
 	
-	<menuitem name="ContactsCopy" verb="" _label="_Copy"
-		  pixtype="pixbuf"/>
+	<menuitem name="ContactsCopy" verb="" _label="_Copy"/>
 	
-	<menuitem name="ContactsPaste" verb="" _label="_Paste"
-		  pixtype="pixbuf"/>
+	<menuitem name="ContactsPaste" verb="" _label="_Paste"/>
 
 	<separator f="" name="eadbk6"/>
 
-	<menuitem name="ContactDelete" verb=""
-		  _label="_Delete" pixtype="pixbuf"/>
+	<menuitem name="ContactDelete" verb="" _label="_Delete"/>
       </submenu>
 
     </placeholder>
@@ -131,10 +129,10 @@
 
   <dockitem name="Toolbar">
     <toolitem name="ContactsPrint" verb=""
-	      _label="Print" pixtype="pixbuf"/>
+	      _label="Print"/>
 
     <toolitem name="ContactDelete" verb=""
-	      _label="Delete" pixtype="pixbuf"/>
+	      _label="Delete"/>
 
     <toolitem name="ContactStop" verb=""
 	      _label="Stop"/>

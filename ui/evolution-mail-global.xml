@@ -14,7 +14,7 @@
 
     <cmd name="MailStop"
      _tip="Cancel the current mail operation"
-     pixtype="stock" pixname="Stop"/>
+     pixtype="stock" pixname="gtk-stop"/>
 
     <cmd name="ToolsFilters"
      _tip="Create or edit rules for filtering new mail"/>

@@ -3,7 +3,7 @@
     <submenu name="File" _label="_File">
 
         <menuitem name="FileCloseWin" verb=""
-        pixtype="stock" pixname="Close" _label="_Close" accel="*Control*w"/>
+        pixtype="stock" pixname="gtk-close" _label="_Close" accel="*Control*w"/>
 
     </submenu>
 
