@@ -49,7 +49,11 @@ enum {
 	EM_FOLDER_VIEW_SELECT_HIDDEN = EM_POPUP_SELECT_LAST<<1,
 	EM_FOLDER_VIEW_SELECT_NEXT_MSG = EM_POPUP_SELECT_LAST<<2,
 	EM_FOLDER_VIEW_SELECT_PREV_MSG = EM_POPUP_SELECT_LAST<<3,
-	EM_FOLDER_VIEW_SELECT_LAST = EM_POPUP_SELECT_LAST<<4,
+	EM_FOLDER_VIEW_SELECT_LISTONLY = EM_POPUP_SELECT_LAST<<4,
+	EM_FOLDER_VIEW_SELECT_DISPLAY = EM_POPUP_SELECT_LAST<<5,
+	EM_FOLDER_VIEW_SELECT_SELECTION = EM_POPUP_SELECT_LAST<<6,
+	EM_FOLDER_VIEW_SELECT_NOSELECTION = EM_POPUP_SELECT_LAST<<7,
+	EM_FOLDER_VIEW_SELECT_LAST = EM_POPUP_SELECT_LAST<<8,
 };
 
 struct _EMFolderViewEnable {
@@ -122,7 +126,7 @@ GtkWidget *em_folder_view_new(void);
 #define em_folder_view_set_folder_uri(emfv, uri) EM_FOLDER_VIEW_GET_CLASS (emfv)->set_folder_uri((emfv), (uri))
 #define em_folder_view_set_message(emfv, uid, nomarkseen) EM_FOLDER_VIEW_GET_CLASS (emfv)->set_message((emfv), (uid), (nomarkseen))
 
-EMPopupTargetSelect *em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup *emp);
+EMPopupTargetSelect *em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup *emp, int on_display);
 
 int em_folder_view_mark_selected(EMFolderView *emfv, guint32 mask, guint32 set);
 int em_folder_view_open_selected(EMFolderView *emfv);

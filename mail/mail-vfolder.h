@@ -18,6 +18,7 @@ FilterPart *vfolder_create_part (const char *name);
 FilterRule *vfolder_clone_rule (FilterRule *in);
 void vfolder_gui_add_rule (EMVFolderRule *rule);
 void vfolder_gui_add_from_message (CamelMimeMessage *msg, int flags, const char *source);
+void vfolder_gui_add_from_address (CamelInternetAddress *addr, int flags, const char *source);
 
 /* add a uri that is now (un)available to vfolders in a transient manner */
 void mail_vfolder_add_uri(CamelStore *store, const char *uri, int remove);

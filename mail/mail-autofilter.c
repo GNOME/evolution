@@ -223,6 +223,29 @@ rule_match_mlist(RuleContext *context, FilterRule *rule, const char *mlist)
 }
 
 static void
+rule_from_address (FilterRule *rule, RuleContext *context, CamelInternetAddress* addr, int flags)
+{
+	rule->grouping = FILTER_GROUP_ANY;
+
+	if (flags & AUTO_FROM) {
+		const char *name, *address;
+		char *namestr;
+		
+		camel_internet_address_get (addr, 0, &name, &address);
+		rule_add_sender (context, rule, address);
+		if (name == NULL || name[0] == '\0')
+			name = address;
+		namestr = g_strdup_printf(_("Mail from %s"), name);
+		filter_rule_set_name (rule, namestr);
+		g_free (namestr);
+	}
+	if (flags & AUTO_TO) {
+		rule_match_recipients (context, rule, addr);
+	}
+
+}
+
+static void
 rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg, int flags)
 {
 	CamelInternetAddress *addr;
@@ -287,6 +310,20 @@ em_vfolder_rule_from_message (EMVFolderContext *context, CamelMimeMessage *msg, 
 	rule = em_vfolder_rule_new ();
 	em_vfolder_rule_add_source (rule, euri);
 	rule_from_message ((FilterRule *)rule, (RuleContext *)context, msg, flags);
+	g_free(euri);
+
+	return (FilterRule *)rule;
+}
+
+FilterRule *
+em_vfolder_rule_from_address (EMVFolderContext *context, CamelInternetAddress *addr, int flags, const char *source)
+{
+	EMVFolderRule *rule;
+	char *euri = em_uri_from_camel(source);
+
+	rule = em_vfolder_rule_new ();
+	em_vfolder_rule_add_source (rule, euri);
+	rule_from_address ((FilterRule *)rule, (RuleContext *)context, addr, flags);
 	g_free(euri);
 
 	return (FilterRule *)rule;

@@ -1120,6 +1120,17 @@ vfolder_gui_add_from_message(CamelMimeMessage *msg, int flags, const char *sourc
 	vfolder_gui_add_rule(rule);
 }
 
+void
+vfolder_gui_add_from_address(CamelInternetAddress *addr, int flags, const char *source)
+{
+	EMVFolderRule *rule;
+
+	g_return_if_fail (addr != NULL);
+	
+	rule = (EMVFolderRule*)em_vfolder_rule_from_address(context, addr, flags, source);
+	vfolder_gui_add_rule(rule);
+}
+
 static void
 vfolder_foreach_cb (gpointer key, gpointer data, gpointer user_data)
 {

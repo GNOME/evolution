@@ -1,3 +1,41 @@
+2005-02-18  Rodney Dawes  <dobey@novell.com>
+
+	* mail/em-folder-view.c (emfv_popup_copy_text): New method to copy
+	the selected text in the mail display, to the clipboard
+	(emfv_popup_items): Restructure this list for the new context menus
+	layout that we are moving to, to improve the UI
+	(emfv_popup): Add a third argument for whether we are on the mail
+	display or not, so that we can pop up the correct portion of the menus
+	Pass the on_display argument on to create the popup target
+	Only generate the label items if we are on the list and not the display
+	(emp_uri_popup_vfolder_{sender,recipient}): New methods to create
+	vfolders to and from mailto: addresses from the context menu
+	(emfv_enable_menus): Create the target here for clicking on the list
+	(em_folder_view_get_popup_target): Add a third argument so that we
+	can tell whether we are on the display or not
+	Set the appropriate flags on the target for whether we are on the
+	message display,, and whether or not there is selected text in it
+	(emfv_list_right_click): We aren't rigt-clicking on the display here
+	(emfv_popup_menu): We aren't right-clicking on the mail display here
+	(emfv_uri_popups): Add the submenu for creating a vfolder from mailto:
+	(emfv_format_popup_event): We are right-clickingo nt he display here
+
+	* mail/em-folder-view.h: Add the new flags we need for the mail
+	context menus popup target here
+	(em_folderiew_get_popup_target): Add the on_display argument
+
+	* mail/em-popup.c (emp_standard_uri_popups): Fix the label and mnemonic
+	for the Send New Message popup item for mailto: addresses
+
+	* mail/mail-autofilter.c (rule_from_address):
+	(em_vfolder_rule_from_address): New methods to create a vfolder based
+	on a CamelInternetAddress object that we get from the mailer
+
+	* mail/mail-vfolder.[ch] (vfolder_gui_add_from_address): New method to
+	create a vfolder rule based on the mailto: addresses
+
+	Fixes #23822
+
 2005-02-15  Radek Doulik  <rodo@novell.com>
 
 	* em-junk-filter.c: use camel_debug

@@ -546,7 +546,7 @@ emp_uri_popup_address_add(EPopup *ep, EPopupItem *item, void *data)
 
 static EPopupItem emp_standard_uri_popups[] = {
 	{ E_POPUP_ITEM, "00.uri.00", N_("_Open Link in Browser"), emp_uri_popup_link_open, NULL, NULL, EM_POPUP_URI_NOT_MAILTO },
-	{ E_POPUP_ITEM, "00.uri.10", N_("Se_nd message to..."), emp_uri_popup_address_send, NULL, NULL, EM_POPUP_URI_MAILTO },
+	{ E_POPUP_ITEM, "00.uri.10", N_("_Send New Message To..."), emp_uri_popup_address_send, NULL, NULL, EM_POPUP_URI_MAILTO },
 	{ E_POPUP_ITEM, "00.uri.20", N_("_Add to Addressbook"), emp_uri_popup_address_add, NULL, NULL, EM_POPUP_URI_MAILTO },
 };
 

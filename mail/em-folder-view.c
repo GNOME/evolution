@@ -87,6 +87,7 @@
 #include <gtkhtml/htmlengine.h>
 #include <gtkhtml/htmlengine-save.h>
 #include <gtkhtml/htmlengine-edit-cut-and-paste.h>
+#include <gtkhtml/htmlselection.h>
 
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -680,6 +681,13 @@ emfv_popup_print(EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
+emfv_popup_copy_text(EPopup *ep, EPopupItem *pitem, void *data)
+{
+	EMFolderView *emfv = data;
+	html_engine_copy (((EMFormatHTML *)emfv->preview)->html->engine);
+}
+
+static void
 emfv_popup_reply_sender(EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderView *emfv = data;
@@ -961,64 +969,55 @@ EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_mlist, AUTO_MLIST)
 /* TODO: Move some of these to be 'standard' menu's */
 
 static EPopupItem emfv_popup_items[] = {
-	{ E_POPUP_ITEM, "00.emfv.00", N_("_Open"), emfv_popup_open, NULL, NULL, 0 },
-	{ E_POPUP_ITEM, "00.emfv.01", N_("_Edit as New Message..."), emfv_popup_edit, NULL, NULL, EM_POPUP_SELECT_EDIT },
-	{ E_POPUP_ITEM, "00.emfv.02", N_("_Save As..."), emfv_popup_saveas, NULL, "stock_save-as", 0 },
-	{ E_POPUP_ITEM, "00.emfv.03", N_("_Print"), emfv_popup_print, NULL, "stock_print", 0 },
+	{ E_POPUP_ITEM, "00.emfv.00", N_("_Copy"), emfv_popup_copy_text, NULL, "stock_copy", EM_FOLDER_VIEW_SELECT_DISPLAY|EM_FOLDER_VIEW_SELECT_SELECTION },
 
-	{ E_POPUP_BAR, "10.emfv" },
-	{ E_POPUP_ITEM, "10.emfv.00", N_("_Reply to Sender"), emfv_popup_reply_sender, NULL, "stock_mail-reply", EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "10.emfv.01", N_("Reply to _List"), emfv_popup_reply_list, NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST },
-	{ E_POPUP_ITEM, "10.emfv.02", N_("Reply to _All"), emfv_popup_reply_all, NULL, "stock_mail-reply-to-all", EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "10.emfv.03", N_("_Forward"), emfv_popup_forward, NULL, "stock_mail-forward", EM_POPUP_SELECT_MANY },
+	{ E_POPUP_BAR, "10.emfv", NULL, NULL, NULL, NULL },
 
-	{ E_POPUP_BAR, "20.emfv", NULL, NULL, NULL, NULL, EM_POPUP_SELECT_FLAG_FOLLOWUP|EM_POPUP_SELECT_FLAG_COMPLETED|EM_POPUP_SELECT_FLAG_CLEAR },
-	{ E_POPUP_ITEM, "20.emfv.00", N_("Follo_w Up..."), emfv_popup_flag_followup, NULL, "stock_mail-flag-for-followup",  EM_POPUP_SELECT_FLAG_FOLLOWUP },
-	{ E_POPUP_ITEM, "20.emfv.01", N_("Fla_g Completed"), emfv_popup_flag_completed, NULL, NULL, EM_POPUP_SELECT_FLAG_COMPLETED },
-	{ E_POPUP_ITEM, "20.emfv.02", N_("Cl_ear Flag"), emfv_popup_flag_clear, NULL, NULL, EM_POPUP_SELECT_FLAG_CLEAR },
-	
-	{ E_POPUP_BAR, "30.emfv" },
-	{ E_POPUP_ITEM, "30.emfv.00", N_("Mar_k as Read"), emfv_popup_mark_read, NULL, "stock_mail-open", EM_POPUP_SELECT_MARK_READ },
-	{ E_POPUP_ITEM,  "30.emfv.01", N_("Mark as _Unread"), emfv_popup_mark_unread, NULL, "stock_mail-unread", EM_POPUP_SELECT_MARK_UNREAD },
-	{ E_POPUP_ITEM, "30.emfv.02", N_("Mark as _Important"), emfv_popup_mark_important, NULL, "stock_mail-priority-high", EM_POPUP_SELECT_MARK_IMPORTANT },
-	{ E_POPUP_ITEM, "30.emfv.03", N_("_Mark as Unimportant"), emfv_popup_mark_unimportant, NULL, NULL, EM_POPUP_SELECT_MARK_UNIMPORTANT },
-	{ E_POPUP_ITEM, "30.emfv.04", N_("Mark as _Junk"), emfv_popup_mark_junk, NULL, "stock_spam", EM_POPUP_SELECT_MANY },
-	{ E_POPUP_ITEM, "30.emfv.05", N_("Mark as _Not Junk"), emfv_popup_mark_nojunk, NULL, "stock_not-spam", EM_POPUP_SELECT_MANY },
-	
-	{ E_POPUP_BAR, "40.emfv" },
-	{ E_POPUP_ITEM, "40.emfv.00", N_("_Delete"), emfv_popup_delete, NULL, "stock_delete", EM_POPUP_SELECT_DELETE },
-	{ E_POPUP_ITEM, "40.emfv.01", N_("U_ndelete"), emfv_popup_undelete, NULL, "stock_undelete", EM_POPUP_SELECT_UNDELETE },
+	{E_POPUP_ITEM, "10.emfv.00", N_("Reply to _All"), emfv_popup_reply_all, NULL, "stock_mail-reply-to-all", EM_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "10.emfv.01", N_("_Reply to Sender"), emfv_popup_reply_sender, NULL, "stock_mail-reply", EM_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "10.emfv.02", N_("_Forward"), emfv_popup_forward, NULL, "stock_mail-forward", EM_POPUP_SELECT_MANY },
 
-	{ E_POPUP_BAR, "50.emfv" },
-	{ E_POPUP_ITEM, "50.emfv.00", N_("Mo_ve to Folder..."), emfv_popup_move },
-	{ E_POPUP_ITEM, "50.emfv.01", N_("_Copy to Folder..."), emfv_popup_copy },
+	{ E_POPUP_BAR, "20.emfv", NULL, NULL, NULL, NULL },
+	{ E_POPUP_ITEM, "20.emfv.00", N_("_Edit as New Message..."), emfv_popup_edit, NULL, NULL, EM_POPUP_SELECT_EDIT },
+	{ E_POPUP_ITEM, "20.emfv.01", N_("_Save As..."), emfv_popup_saveas, NULL, "stock_save-as", EM_POPUP_SELECT_MANY },
+	{ E_POPUP_ITEM, "20.emfv.02", N_("_Print"), emfv_popup_print, NULL, "stock_print", EM_POPUP_SELECT_ONE },
 
-	{ E_POPUP_BAR, "60.label" },
-	{ E_POPUP_SUBMENU, "60.label.00", N_("Label") },
-	{ E_POPUP_IMAGE, "60.label.00/00.label", N_("None"), emfv_popup_label_clear },
-	{ E_POPUP_BAR, "60.label.00/00.label.00" },
+	{ E_POPUP_BAR, "40.emfv", NULL, NULL, NULL, NULL },
+	{ E_POPUP_ITEM, "40.emfv.00", N_("_Delete"), emfv_popup_delete, NULL, "stock_delete", EM_POPUP_SELECT_DELETE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "40.emfv.01", N_("U_ndelete"), emfv_popup_undelete, NULL, "stock_undelete", EM_POPUP_SELECT_UNDELETE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "40.emfv.02", N_("Mo_ve to Folder..."), emfv_popup_move, NULL, "stock_mail-move", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "40.emfv.03", N_("_Copy to Folder..."), emfv_popup_copy, NULL, "stock_mail-copy", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
 
-	{ E_POPUP_BAR, "70.emfv", NULL, NULL, NULL, NULL, EM_POPUP_SELECT_ADD_SENDER },
-	{ E_POPUP_ITEM, "70.emfv.00", N_("Add Sender to Address_book"), emfv_popup_add_sender, NULL, NULL, EM_POPUP_SELECT_ADD_SENDER },
+	{ E_POPUP_BAR, "50.emfv", NULL, NULL, NULL, NULL },
+	{ E_POPUP_ITEM, "50.emfv.02", N_("Mark as _Important"), emfv_popup_mark_important, NULL, "stock_mail-priority-high", EM_POPUP_SELECT_MARK_IMPORTANT|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "50.emfv.03", N_("_Mark as Unimportant"), emfv_popup_mark_unimportant, NULL, NULL, EM_POPUP_SELECT_MARK_UNIMPORTANT|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "50.emfv.01", N_("Mark as _Junk"), emfv_popup_mark_junk, NULL, "stock_spam", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "50.emfv.02", N_("Mark as _Not Junk"), emfv_popup_mark_nojunk, NULL, "stock_not-spam", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "50.emfv.05", N_("Mark for Follo_w Up..."), emfv_popup_flag_followup, NULL, "stock_mail-flag-for-followup",  EM_POPUP_SELECT_FLAG_FOLLOWUP|EM_FOLDER_VIEW_SELECT_LISTONLY },
 
-	{ E_POPUP_BAR, "80.emfv" },	
-	{ E_POPUP_ITEM, "80.emfv.00", N_("Appl_y Filters"), emfv_popup_apply_filters, NULL, "stock_mail-filters-apply" },
-	{ E_POPUP_ITEM, "80.emfv.01", N_("F_ilter Junk"), emfv_popup_filter_junk, NULL, "stock_spam" },
+	{ E_POPUP_SUBMENU, "60.label.00", N_("Label"), NULL, NULL, NULL, EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "60.label.00/00.label", N_("None"), emfv_popup_label_clear, NULL, NULL, EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_BAR, "60.label.00/00.label.00", NULL, NULL, NULL, NULL },
 
-	{ E_POPUP_BAR, "90.filter", NULL, NULL, NULL, NULL, EM_POPUP_SELECT_ONE },
-	{ E_POPUP_SUBMENU, "90.filter.00", N_("Crea_te Rule From Message"), NULL, NULL, NULL, EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "90.filter.00/00.00", N_("vFolder on _Subject"), emfv_popup_vfolder_subject, NULL, NULL, EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "90.filter.00/00.01", N_("vFolder on Se_nder"), emfv_popup_vfolder_sender, NULL, NULL, EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "90.filter.00/00.02", N_("vFolder on _Recipients"), emfv_popup_vfolder_recipients, NULL, NULL, EM_POPUP_SELECT_ONE },
+	{ E_POPUP_BAR, "70.emfv.06", NULL, NULL, NULL, NULL },
+
+	{ E_POPUP_ITEM, "70.emfv.07", N_("Fla_g Completed"), emfv_popup_flag_completed, NULL, "stock_mail-flag-for-followup-done", EM_POPUP_SELECT_FLAG_COMPLETED|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "70.emfv.08", N_("Cl_ear Flag"), emfv_popup_flag_clear, NULL, NULL, EM_POPUP_SELECT_FLAG_CLEAR|EM_FOLDER_VIEW_SELECT_LISTONLY },
+ 
+	{ E_POPUP_BAR, "90.filter", NULL, NULL, NULL, NULL },
+	{ E_POPUP_SUBMENU, "90.filter.00", N_("Crea_te Rule From Message"), NULL, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "90.filter.00/00.00", N_("vFolder on _Subject"), emfv_popup_vfolder_subject, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "90.filter.00/00.01", N_("vFolder on Se_nder"), emfv_popup_vfolder_sender, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "90.filter.00/00.02", N_("vFolder on _Recipients"), emfv_popup_vfolder_recipients, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "90.filter.00/00.03", N_("vFolder on Mailing _List"),
-	  emfv_popup_vfolder_mlist, NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST },
+	  emfv_popup_vfolder_mlist, NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	
-	{ E_POPUP_BAR, "90.filter.00/10", NULL, NULL, NULL, NULL, EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "90.filter.00/10.00", N_("Filter on Sub_ject"), emfv_popup_filter_subject, NULL, NULL, EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "90.filter.00/10.01", N_("Filter on Sen_der"), emfv_popup_filter_sender, NULL, NULL, EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "90.filter.00/10.02", N_("Filter on Re_cipients"), emfv_popup_filter_recipients,  NULL, NULL, EM_POPUP_SELECT_ONE },
+	{ E_POPUP_BAR, "90.filter.00/10", NULL, NULL, NULL, NULL },
+	{ E_POPUP_ITEM, "90.filter.00/10.00", N_("Filter on Sub_ject"), emfv_popup_filter_subject, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "90.filter.00/10.01", N_("Filter on Sen_der"), emfv_popup_filter_sender, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "90.filter.00/10.02", N_("Filter on Re_cipients"), emfv_popup_filter_recipients,  NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "90.filter.00/10.03", N_("Filter on _Mailing List"),
-	  emfv_popup_filter_mlist, NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST },
+	  emfv_popup_filter_mlist, NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST|EM_FOLDER_VIEW_SELECT_LISTONLY },
 };
 
 static void
@@ -1043,7 +1042,7 @@ emfv_popup_items_free(EPopup *ep, GSList *items, void *data)
 }
        
 static void
-emfv_popup(EMFolderView *emfv, GdkEvent *event)
+emfv_popup(EMFolderView *emfv, GdkEvent *event, int on_display)
 {
 	GSList *menus = NULL, *l, *label_list = NULL;
 	GtkMenu *menu;
@@ -1059,7 +1058,7 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event)
 	 * This is the context menu shown on the message list or over a message.
 	 */
 	emp = em_popup_new("org.gnome.evolution.mail.folderview.popup");
-	target = em_folder_view_get_popup_target(emfv, emp);
+	target = em_folder_view_get_popup_target(emfv, emp, on_display);
 
 	for (i=0;i<sizeof(emfv_popup_items)/sizeof(emfv_popup_items[0]);i++)
 		menus = g_slist_prepend(menus, &emfv_popup_items[i]);
@@ -1067,33 +1066,37 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event)
 	e_popup_add_items((EPopup *)emp, menus, NULL, emfv_popup_items_free, emfv);
 
 	i = 1;
-	for (l = mail_config_get_labels(); l; l = l->next) {
-		EPopupItem *item;
-		MailConfigLabel *label = l->data;
-		GdkPixmap *pixmap;
-		GdkColor colour;
-		GdkGC *gc;
+	if (!on_display) {
+		for (l = mail_config_get_labels(); l; l = l->next) {
+			EPopupItem *item;
+			MailConfigLabel *label = l->data;
+			GdkPixmap *pixmap;
+			GdkColor colour;
+			GdkGC *gc;
 		
-		item = g_malloc0(sizeof(*item));
-		item->type = E_POPUP_IMAGE;
-		item->path = g_strdup_printf("60.label.00/00.label.%02d", i++);
-		item->label = label->name;
-		item->activate = emfv_popup_label_set;
-		item->user_data = label->tag;
+			item = g_malloc0(sizeof(*item));
+			item->type = E_POPUP_IMAGE;
+			item->path = g_strdup_printf("60.label.00/00.label.%02d", i++);
+			item->label = label->name;
+			item->activate = emfv_popup_label_set;
+			item->user_data = label->tag;
 
-		gdk_color_parse(label->colour, &colour);
-		gdk_color_alloc(gdk_colormap_get_system(), &colour);
+			item->visible = EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY;
+
+			gdk_color_parse(label->colour, &colour);
+			gdk_color_alloc(gdk_colormap_get_system(), &colour);
 		
-		pixmap = gdk_pixmap_new(((GtkWidget *)emfv)->window, 16, 16, -1);
-		gc = gdk_gc_new(((GtkWidget *)emfv)->window);
-		gdk_gc_set_foreground(gc, &colour);
-		gdk_draw_rectangle(pixmap, gc, TRUE, 0, 0, 16, 16);
-		gdk_gc_unref(gc);
+			pixmap = gdk_pixmap_new(((GtkWidget *)emfv)->window, 16, 16, -1);
+			gc = gdk_gc_new(((GtkWidget *)emfv)->window);
+			gdk_gc_set_foreground(gc, &colour);
+			gdk_draw_rectangle(pixmap, gc, TRUE, 0, 0, 16, 16);
+			gdk_gc_unref(gc);
 
-		item->image = gtk_image_new_from_pixmap(pixmap, NULL);
-		gtk_widget_show(item->image);
+			item->image = gtk_image_new_from_pixmap(pixmap, NULL);
+			gtk_widget_show(item->image);
 
-		label_list = g_slist_prepend(label_list, item);
+			label_list = g_slist_prepend(label_list, item);
+		}
 	}
 
 	e_popup_add_items((EPopup *)emp, label_list, NULL, emfv_popup_labels_free, emfv);
@@ -1466,6 +1469,56 @@ vfolder_type_got_message (CamelFolder *folder, const char *uid, CamelMimeMessage
 }
 
 static void
+emp_uri_popup_vfolder_sender(EPopup *ep, EPopupItem *pitem, void *data)
+{
+	EMFolderView *emfv = data;
+	EMPopupTargetURI *t = (EMPopupTargetURI *)ep->target;
+	CamelURL *url;	
+	CamelInternetAddress *addr;
+	
+	url = camel_url_new(t->uri, NULL);
+	if (url == NULL) {
+		g_warning("cannot parse url '%s'", t->uri);
+		return;
+	}
+
+	if (url->path && url->path[0]) {
+		addr = camel_internet_address_new ();
+		camel_address_decode (CAMEL_ADDRESS (addr), url->path);
+		vfolder_gui_add_from_address (addr, AUTO_FROM, emfv->folder_uri);
+		camel_object_unref (addr);
+	}
+	
+	camel_url_free(url);	
+	
+}
+
+
+static void
+emp_uri_popup_vfolder_recipient(EPopup *ep, EPopupItem *pitem, void *data)
+{
+	EMFolderView *emfv = data;
+	EMPopupTargetURI *t = (EMPopupTargetURI *)ep->target;
+	CamelURL *url;	
+	CamelInternetAddress *addr;
+	
+	url = camel_url_new(t->uri, NULL);
+	if (url == NULL) {
+		g_warning("cannot parse url '%s'", t->uri);
+		return;
+	}
+
+	if (url->path && url->path[0]) {
+		addr = camel_internet_address_new ();
+		camel_address_decode (CAMEL_ADDRESS (addr), url->path);
+		vfolder_gui_add_from_address (addr, AUTO_TO, emfv->folder_uri);
+		camel_object_unref (addr);
+	}
+
+	camel_url_free(url);	
+}
+
+static void
 vfolder_type_uid (CamelFolder *folder, const char *uid, const char *uri, int type)
 {
 	struct _filter_data *data;
@@ -1710,7 +1763,7 @@ emfv_enable_menus(EMFolderView *emfv)
 		EMPopup *emp = em_popup_new("dummy");
 		EMPopupTargetSelect *t;
 
-		t = em_folder_view_get_popup_target(emfv, emp);
+		t = em_folder_view_get_popup_target(emfv, emp, FALSE);
 		disable_mask = t->target.mask;
 		e_popup_target_free((EPopup *)emp, t);
 		g_object_unref(emp);
@@ -1949,7 +2002,7 @@ int em_folder_view_print(EMFolderView *emfv, int preview)
 }
 
 EMPopupTargetSelect *
-em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup *emp)
+em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup *emp, int on_display)
 {
 	EMPopupTargetSelect *t;
 
@@ -1967,6 +2020,16 @@ em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup *emp)
 
 	if (message_list_can_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0))
 		t->target.mask &= ~EM_FOLDER_VIEW_SELECT_PREV_MSG;
+
+	if (on_display)
+		t->target.mask &= ~EM_FOLDER_VIEW_SELECT_DISPLAY;
+	else
+		t->target.mask &= ~EM_FOLDER_VIEW_SELECT_LISTONLY;
+
+	if (html_engine_is_selection_active(((EMFormatHTML *)emfv->preview)->html->engine))
+		t->target.mask &= ~EM_FOLDER_VIEW_SELECT_SELECTION;
+	else
+		t->target.mask &= ~EM_FOLDER_VIEW_SELECT_NOSELECTION;
 
 	/* See bug #54770 */
 	if (!emfv->hide_deleted)
@@ -2118,7 +2181,7 @@ emfv_list_double_click(ETree *tree, gint row, ETreePath path, gint col, GdkEvent
 static int
 emfv_list_right_click(ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, EMFolderView *emfv)
 {
-	emfv_popup(emfv, event);
+	emfv_popup(emfv, event, FALSE);
 
 	return TRUE;
 }
@@ -2176,7 +2239,7 @@ emfv_popup_menu (GtkWidget *widget)
 		ret = em_format_html_display_popup_menu (emfv->preview);
 		
 	if (!ret)
-		emfv_popup (emfv, NULL);
+		emfv_popup (emfv, NULL, FALSE);
 
 	return TRUE;
 }
@@ -2226,7 +2289,11 @@ emp_uri_popup_link_copy(EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem emfv_uri_popups[] = {
-	{ E_POPUP_ITEM, "00.uri.01", N_("_Copy Link Location"), emp_uri_popup_link_copy, NULL, NULL, EM_POPUP_URI_NOT_MAILTO },
+	{ E_POPUP_ITEM, "00.uri.15", N_("_Copy Link Location"), emp_uri_popup_link_copy, NULL, NULL, EM_POPUP_URI_NOT_MAILTO },
+
+	{ E_POPUP_SUBMENU, "99.uri.00", N_("Create _vFolder"), NULL, NULL, NULL, EM_POPUP_URI_MAILTO },
+	{ E_POPUP_ITEM, "99.uri.00/00.10", N_("_From this Address"), emp_uri_popup_vfolder_sender, NULL, NULL, EM_POPUP_URI_MAILTO },
+	{ E_POPUP_ITEM, "99.uri.00/00.00", N_("_To this Address"), emp_uri_popup_vfolder_recipient, NULL, NULL, EM_POPUP_URI_MAILTO },
 };
 
 static void
@@ -2258,7 +2325,7 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 
 		message_list_free_uids(emfv->list, uids);
 		if (doit)
-			emfv_popup(emfv, (GdkEvent *)event);
+			emfv_popup(emfv, (GdkEvent *)event, TRUE);
 		return doit;
 	}
 
