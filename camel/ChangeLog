@@ -261,7 +261,6 @@
 	Modify the interface so that we can limit the size of the uid set
 	string returned.
 
->>>>>>> 1.1366
 2002-01-14  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-search.c (imap_body_contains):
