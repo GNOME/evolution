@@ -79,6 +79,7 @@ quit_box_new (void)
 	GtkWidget *frame;
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_policy (GTK_WINDOW (window), FALSE, FALSE, FALSE);
 	gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
 
 	/* (Just to prevent smart-ass window managers like Sawfish from setting

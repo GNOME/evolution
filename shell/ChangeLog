@@ -1,5 +1,10 @@
 2002-05-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (quit_box_new): Set @allow_shrink and @allow_grow to
+	FALSE for the window.  Fixes #17534.
+
+2002-05-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-selection-dialog.c
 	(e_shell_folder_selection_dialog_construct): Pass FALSE for
 	@allow_shrink.  Fixes #15688.
