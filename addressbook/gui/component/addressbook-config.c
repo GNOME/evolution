@@ -891,7 +891,7 @@ eabc_details_limit(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 	sdialog->limit_spinbutton = glade_xml_get_widget (gui, "download-limit-spinbutton");
 	tmp = e_source_get_property(sdialog->source, "limit");
 	gtk_spin_button_set_value((GtkSpinButton *)sdialog->limit_spinbutton, tmp?g_strtod(tmp, NULL):100.0);
-	g_signal_connect (sdialog->limit_spinbutton, "changed", G_CALLBACK (limit_changed_cb), sdialog);
+	g_signal_connect (sdialog->limit_spinbutton, "value_changed", G_CALLBACK (limit_changed_cb), sdialog);
 
 	g_object_unref(gui);
 

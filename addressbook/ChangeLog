@@ -1,3 +1,11 @@
+2005-02-09  Sivaiah Nallagatla <snallagatla@novell.com>
+                                                                                
+        * gui/component/addressbook-config.c
+        (eabc_details_limit) : connect to "value_changed"
+        signal of spin button instead of "changed"
+                                                                                
+        Fixes #72369
+
 2005-02-09  Hans Petter Jansson  <hpj@novell.com>
 
 	* gui/contact-editor/Makefile.am:
