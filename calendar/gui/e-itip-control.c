@@ -53,9 +53,11 @@
 struct _EItipControlPrivate {
 	GtkWidget *html;
 
+#if 0
 	GtkWidget *count;
 	GtkWidget *next;
 	GtkWidget *prev;
+#endif
 
 	CalClient *event_client;
 	CalClient *task_client;
@@ -118,8 +120,10 @@ static void class_init	(EItipControlClass	 *klass);
 static void init	(EItipControl		 *itip);
 static void destroy	(GtkObject               *obj);
 
+#if 0
 static void prev_clicked_cb (GtkWidget *widget, gpointer data);
 static void next_clicked_cb (GtkWidget *widget, gpointer data);
+#endif
 static void url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer data);
 static void ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar *encoding, gpointer data);
 
@@ -221,7 +225,7 @@ static void
 init (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	GtkWidget *hbox, *scrolled_window;
+	GtkWidget *scrolled_window;
 
 	priv = g_new0 (EItipControlPrivate, 1);
 
@@ -231,6 +235,7 @@ init (EItipControl *itip)
 	priv->addresses = itip_addresses_get ();
 
 	/* Header */
+#if 0
 	priv->prev = gnome_stock_button (GNOME_STOCK_BUTTON_PREV);
 	gtk_widget_show (priv->prev);
 	priv->next = gnome_stock_button (GNOME_STOCK_BUTTON_NEXT);
@@ -246,6 +251,7 @@ init (EItipControl *itip)
 			    GTK_SIGNAL_FUNC (prev_clicked_cb), itip);
 	gtk_signal_connect (GTK_OBJECT (priv->next), "clicked",
 			    GTK_SIGNAL_FUNC (next_clicked_cb), itip);
+#endif
 
 	/* Get the cal clients */
 	priv->event_client = start_calendar_server (
@@ -416,6 +422,7 @@ find_attendee_partstat (icalcomponent *ical_comp, const char *address)
 	return ICAL_PARTSTAT_NONE;
 }
 
+#if 0
 static void
 set_label (EItipControl *itip)
 {
@@ -446,6 +453,7 @@ set_button_status (EItipControl *itip)
 	else
 		gtk_widget_set_sensitive (priv->prev, TRUE);
 }
+#endif
 
 static void
 write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
@@ -1006,6 +1014,7 @@ get_next (icalcompiter *iter)
 	return ret;
 }
 
+#if 0
 static icalcomponent *
 get_prev (icalcompiter *iter)
 {
@@ -1022,6 +1031,7 @@ get_prev (icalcompiter *iter)
 
 	return ret;
 }
+#endif
 
 static void
 show_current (EItipControl *itip)
@@ -1033,8 +1043,10 @@ show_current (EItipControl *itip)
 
 	priv = itip->priv;
 
+#if 0
 	set_label (itip);
 	set_button_status (itip);
+#endif
 
 	if (priv->comp)
 		gtk_object_unref (GTK_OBJECT (priv->comp));
@@ -1312,9 +1324,10 @@ remove_item (EItipControl *itip)
 		client = priv->event_client;
 
 	cal_component_get_uid (priv->comp, &uid);
-	if (cal_client_remove_object (client, uid))
+	if (cal_client_remove_object (client, uid)) {
 		dialog = gnome_ok_dialog (_("Removal Complete"));
-	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	}
 }
 
 static void
@@ -1404,6 +1417,7 @@ send_freebusy (EItipControl *itip)
 	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
 
+#if 0
 static void
 prev_clicked_cb (GtkWidget *widget, gpointer data)
 {
@@ -1431,6 +1445,7 @@ next_clicked_cb (GtkWidget *widget, gpointer data)
 
 	show_current (itip);
 }
+#endif
 
 static void
 url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer data)
