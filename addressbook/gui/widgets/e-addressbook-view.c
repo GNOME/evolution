@@ -446,16 +446,10 @@ eab_view_new (void)
 	gtk_container_add (GTK_CONTAINER (eav->paned), eav->widget);
 	gtk_widget_show (eav->widget);
 
-	eav->scrolled = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (eav->scrolled), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (eav->scrolled), GTK_SHADOW_IN);
 	eav->contact_display = eab_contact_display_new ();
-
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (eav->scrolled), eav->contact_display);
+	gtk_container_add (GTK_CONTAINER (eav->paned), eav->contact_display);
 	gtk_widget_show (eav->contact_display);
 
-	gtk_container_add (GTK_CONTAINER (eav->paned), eav->scrolled);
-	gtk_widget_show (eav->scrolled);
 	gtk_widget_show (eav->paned);
 
 	/* gtk selection crap */

@@ -1054,6 +1054,7 @@ addressbook_new_control (void)
 
 	view->notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (view->notebook), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (view->notebook), FALSE);
 
 	g_object_weak_ref (G_OBJECT (view->notebook), destroy_callback, view);
 
