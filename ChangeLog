@@ -1,3 +1,7 @@
+2001-03-14  Dan Winship  <danw@ximian.com>
+
+	* README: Pull up some of the clarifications from the 0.9 branch
+
 2001-03-13  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in: add -lresolv to LDAP_LIBS if it's there.
