@@ -279,10 +279,13 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	cancel_fd = camel_operation_cancel_fd(NULL);
 	if (cancel_fd == -1) {
 		do {
-			v = write (stream_fs->fd, buffer+written, n-written);
+			do {
+				v = write (stream_fs->fd, buffer+written, n-written);
+			} while (v == -1 && errno == EINTR);
+
 			if (v > 0)
 				written += v;
-		} while (v == -1 && errno == EINTR);
+		} while (v != -1 && written < n);
 	} else {
 		fd_set rdset, wrset;
 		int error, flags, fdmax;

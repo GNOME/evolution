@@ -188,8 +188,13 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	cancel_fd = camel_operation_cancel_fd (NULL);
 	if (cancel_fd == -1) {
 		do {
-			written = write (tcp_stream_raw->sockfd, buffer, n);
-		} while (written == -1 && errno == EINTR);
+			do {
+				w = write (tcp_stream_raw->sockfd, buffer+written, n-written);
+			} while (w == -1 && errno == EINTR);
+
+			if (w > 0)
+				written += w;
+		} while (w != -1 && written < n);
 	} else {
 		fd_set rdset, wrset;
 		int flags, fdmax;
