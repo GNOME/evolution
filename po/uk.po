@@ -3830,9 +3830,8 @@ msgstr "Повторення"
 
 #: calendar/gui/dialogs/event-editor.c:203
 #: calendar/gui/dialogs/event-editor.c:355
-#, fuzzy
 msgid "Scheduling"
-msgstr "Планувати зустр╕ч"
+msgstr "Планування"
 
 #: calendar/gui/dialogs/event-editor.c:208
 #: calendar/gui/dialogs/event-editor.c:358
@@ -3905,15 +3904,13 @@ msgid "That person is already attending the meeting!"
 msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.c:685
-#, fuzzy
 msgid "_Delegate To..."
-msgstr "Стерти..."
+msgstr "Доручити..."
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:1
 #: calendar/gui/e-meeting-time-sel.etspec.h:1
-#, fuzzy
 msgid "Attendee"
-msgstr "Весь супров╕д"
+msgstr "В╕дв╕дування"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
@@ -3923,15 +3920,13 @@ msgstr "Дата завершення"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
 #: calendar/gui/e-meeting-time-sel.etspec.h:3
-#, fuzzy
 msgid "Delegated From"
-msgstr "Стерто"
+msgstr "Доручив "
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:4
 #: calendar/gui/e-meeting-time-sel.etspec.h:4
-#, fuzzy
 msgid "Delegated To"
-msgstr "Стерто"
+msgstr "Доручено"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:5
 #: calendar/gui/e-meeting-time-sel.etspec.h:5
@@ -4042,18 +4037,16 @@ msgid "_Modify"
 msgstr "Зм╕нити"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:11
-#, fuzzy
 msgid "_No recurrence"
-msgstr "Без повторення"
+msgstr "Без пер╕одичност╕"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:13
-#, fuzzy
 msgid "_Simple recurrence"
-msgstr "Просте повторення"
+msgstr "Проста пер╕одичн╕сть"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:15
 msgid "for"
-msgstr "в"
+msgstr "для"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:16
 msgid "forever"
@@ -4195,13 +4188,13 @@ msgstr "Клацн╕ть щоб додати завдання"
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:163
 #: e-util/e-time-utils.c:354
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr ""
+msgstr "%a %d.%m.%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: calendar/gui/e-cell-date-edit-text.c:123 e-util/e-time-utils.c:158
 #: e-util/e-time-utils.c:363
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr ""
+msgstr "%a %d.%m.%Y %I:%M:%S %p"
 
 #: calendar/gui/e-cell-date-edit-text.c:128
 #, c-format
@@ -4216,7 +4209,7 @@ msgstr ""
 
 #: calendar/gui/e-calendar-table.etspec.h:3
 msgid "Alarms"
-msgstr "Си╜нали"
+msgstr "Спов╕щення"
 
 #: calendar/gui/e-calendar-table.etspec.h:6 camel/camel-filter-driver.c:721
 #: camel/camel-filter-driver.c:837
@@ -4257,9 +4250,8 @@ msgid "Summary"
 msgstr "Зведення"
 
 #: calendar/gui/e-calendar-table.etspec.h:16
-#, fuzzy
 msgid "Task sort"
-msgstr "Сортувати завдання"
+msgstr "Сортування завдання"
 
 #: calendar/gui/e-calendar-table.etspec.h:18
 msgid "URL"
@@ -11083,12 +11075,12 @@ msgid "Move folder"
 msgstr "Перенести теку"
 
 #: shell/e-shell-folder-commands.c:385
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot delete folder:\n"
 "%s"
 msgstr ""
-"Не вдалось стерти теку \"%s\":\n"
+"Не вдалось стерти теку:\n"
 "%s"
 
 #: shell/e-shell-folder-commands.c:401
@@ -11098,9 +11090,9 @@ msgstr "Стерти \"%s\""
 
 #. "Are you sure..." label
 #: shell/e-shell-folder-commands.c:411
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to remove the \"%s\" folder?"
-msgstr "Ви впевнен╕, що хочете стерти завдання \"%s\"?"
+msgstr "Ви впевнен╕, що хочете стерти теку \"%s\"?"
 
 #: shell/e-shell-folder-commands.c:488
 #, c-format
@@ -11446,6 +11438,8 @@ msgid ""
 "Do you really want to remove group\n"
 "`%s' from the shortcut bar?"
 msgstr ""
+"Ви справд╕ бажа╓те видалити групу\n"
+"\"%s\" з панел╕ ярлик╕в?"
 
 #: shell/e-shortcuts-view.c:181
 msgid "Don't remove"
@@ -11752,9 +11746,8 @@ msgid "Folder type:"
 msgstr "Тип теки:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:3
-#, fuzzy
 msgid "Specify where to create the folder:"
-msgstr "Не вистача╓ м╕сця для створення теки"
+msgstr "Вкаж╕ть, де створити теку:"
 
 #: shell/glade/evolution-startup-wizard.glade.h:3
 msgid "First Run Setup Assistant"
@@ -11765,9 +11758,8 @@ msgid "Importing Data"
 msgstr "╤мпортування даних"
 
 #: shell/glade/evolution-startup-wizard.glade.h:8
-#, fuzzy
 msgid "Setup Assistant"
-msgstr "Пом╕чник"
+msgstr "Пом╕чник налаштування"
 
 #: shell/glade/evolution-startup-wizard.glade.h:9
 msgid "Timezone "
@@ -11781,9 +11773,8 @@ msgid ""
 msgstr ""
 
 #: shell/glade/evolution-startup-wizard.glade.h:13
-#, fuzzy
 msgid "Your configuration is complete."
-msgstr "Конф╕╜урац╕я пошти"
+msgstr "Налаштування завершено."
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
@@ -12778,29 +12769,24 @@ msgid "Text Si_ze"
 msgstr "Розм╕р тексту"
 
 #: ui/evolution-mail-message.xml.h:85
-#, fuzzy
 msgid "Un-delete the selected messages"
-msgstr "Надрукувати вибране пов╕домлення"
+msgstr "В╕дновити в╕бран╕ пов╕домлення"
 
 #: ui/evolution-mail-message.xml.h:86
-#, fuzzy
 msgid "VFolder on Mailing _List..."
-msgstr "Ф╕льтр списку розсилки"
+msgstr "В╕рткальна тека за списком листування..."
 
 #: ui/evolution-mail-message.xml.h:87
-#, fuzzy
 msgid "VFolder on Se_nder..."
-msgstr "В╕ртуальна тека в╕дправника"
+msgstr "В╕ртуальна тека за в╕дправником..."
 
 #: ui/evolution-mail-message.xml.h:88
-#, fuzzy
 msgid "VFolder on _Recipients..."
-msgstr "В╕ртуальна тека отримувач╕в"
+msgstr "В╕ртуальна тека за отримувачами..."
 
 #: ui/evolution-mail-message.xml.h:89
-#, fuzzy
 msgid "VFolder on _Subject..."
-msgstr "В╕ртуальна тека теми"
+msgstr "В╕ртуальна тека за темою..."
 
 #: ui/evolution-mail-message.xml.h:91
 msgid "_Apply Filters"
@@ -13218,14 +13204,12 @@ msgid "Toggle whether to show the folder bar"
 msgstr "Перемикнути стан показу панел╕ тек"
 
 #: ui/evolution.xml.h:27
-#, fuzzy
 msgid "Toggle whether to show the shortcut bar"
-msgstr "Перемикнути стан показу панел╕ тек"
+msgstr "Перемикнути стан показу панел╕ ярлик╕в"
 
 #: ui/evolution.xml.h:28
-#, fuzzy
 msgid "Toggle whether we are working offline."
-msgstr "Перемикнути стан показу панел╕ тек"
+msgstr "Перемикнути стан роботи на л╕н╕╖"
 
 #: ui/evolution.xml.h:29
 msgid "View the selected folder"
