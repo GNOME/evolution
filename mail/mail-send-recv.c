@@ -515,11 +515,11 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 	char *oldkey;
 
 	g_mutex_lock(info->data->lock);
-	folder = g_hash_table_lookup(info->data->folders, uri);
+	oldinfo = g_hash_table_lookup(info->data->folders, uri);
 	g_mutex_unlock(info->data->lock);
-	if (folder) {
-		camel_object_ref((CamelObject *)folder);
-		return folder;
+	if (oldinfo) {
+		camel_object_ref((CamelObject *)oldinfo->folder);
+		return oldinfo->folder;
 	}
 	folder = mail_tool_uri_to_folder(uri, ex);
 	if (!folder)

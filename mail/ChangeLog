@@ -1,5 +1,10 @@
 2001-03-29  Dan Winship  <danw@ximian.com>
 
+	* mail-send-recv.c (receive_get_folder): Doh! This was storing
+	"struct _folder_info"s in the cache and then trying to read them
+	back as CamelFolders. Fixicate. Fixes the "crash with 2 POP
+	accounts" bug.
+
 	* session.c (auth_callback): Update call to camel_url_to_string.
 	(Don't include the params in the password hash table key.)
 
