@@ -1222,9 +1222,8 @@ forward (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-transfer_msg (GtkWidget *widget, gpointer user_data, gboolean delete_from_source)
+transfer_msg (FolderBrowser *fb, gboolean delete_from_source)
 {
-	FolderBrowser *fb = user_data;
 	MessageList *ml = fb->message_list;
 	GPtrArray *uids;
 	char *uri, *physical, *path;
@@ -1242,7 +1241,7 @@ transfer_msg (GtkWidget *widget, gpointer user_data, gboolean delete_from_source
 		desc = _("Copy message(s) to");
 	
 	evolution_shell_client_user_select_folder (global_shell_client,
-						   GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+						   GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (fb))),
 						   desc, last,
 						   allowed_types, &uri, &physical);
 	if (!uri)
@@ -1264,25 +1263,25 @@ transfer_msg (GtkWidget *widget, gpointer user_data, gboolean delete_from_source
 void
 move_msg_cb (GtkWidget *widget, gpointer user_data)
 {
-	transfer_msg (widget, user_data, TRUE);
+	transfer_msg (user_data, TRUE);
 }
 
 void
 move_msg (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	transfer_msg (GTK_WIDGET (user_data), NULL, TRUE);
+	transfer_msg (user_data, TRUE);
 }
 
 void
 copy_msg_cb (GtkWidget *widget, gpointer user_data)
 {
-	transfer_msg (widget, user_data, FALSE);
+	transfer_msg (user_data, FALSE);
 }
 
 void
 copy_msg (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	transfer_msg (GTK_WIDGET (user_data), NULL, FALSE);
+	transfer_msg (user_data, FALSE);
 }
 
 /* Copied from e-shell-view.c */
