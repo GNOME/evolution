@@ -505,8 +505,8 @@ cobject_state_write(CamelObject *obj, FILE *fp)
 
 	scan = meta;
 	while (scan) {
-		if (camel_file_util_encode_string(fp, meta->name) == -1
-		    || camel_file_util_encode_string(fp, meta->value) == -1)
+		if (camel_file_util_encode_string(fp, scan->name) == -1
+		    || camel_file_util_encode_string(fp, scan->value) == -1)
 			goto abort;
 		scan = scan->next;
 	}

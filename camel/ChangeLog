@@ -1,5 +1,9 @@
 2004-01-29  Not Zed  <NotZed@Ximian.com>
 
+	* camel-object.c (cobject_state_write): output scan->name and
+	scan->value for writing metadata, rather than meta->name/value
+	which just duplicates the last entry, related to #53195.
+
 	* camel-url.c (camel_url_free): zero out passwd/user/host before
 	freeing them.
 
