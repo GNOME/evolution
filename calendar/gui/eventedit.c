@@ -1386,12 +1386,13 @@ ee_rp_init_exceptions (EventEditor *ee)
 	gtk_box_pack_start (GTK_BOX (ivbox), widget, FALSE, FALSE, 0);
 
 	ee->recur_ex_clist = widget = gtk_clist_new (1);
+	sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_container_add (GTK_CONTAINER (sw), widget);
 	gtk_clist_set_selection_mode (GTK_CLIST (widget), GTK_SELECTION_BROWSE);
-#if 0
-	gtk_clist_set_policy (GTK_CLIST (widget), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-#endif
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	fill_exception_clist (ee);
-	gtk_box_pack_start (GTK_BOX (hbox), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), sw, TRUE, TRUE, 0);
 
 	/* Done, add to main table */
 
