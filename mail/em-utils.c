@@ -994,7 +994,7 @@ em_utils_selection_get_uidlist(GtkSelectionData *data, CamelFolder *dest, int mo
 void
 em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids)
 {
-	const char *tmpdir;
+	char *tmpdir;
 	CamelStream *fstream;
 	char *uri, *p, *file = NULL;
 	int fd;
@@ -1023,6 +1023,7 @@ em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtr
 
 	p = uri = g_alloca (strlen (tmpdir) + strlen(file) + 16);
 	p += sprintf (uri, "file:///%s/%s", tmpdir, file);
+	g_free(tmpdir);
 	g_free(file);
 	
 	fd = open(uri + 7, O_WRONLY | O_CREAT | O_EXCL, 0666);
@@ -1104,8 +1105,8 @@ emu_save_part_done(CamelMimePart *part, char *name, int done, void *data)
 char *
 em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part)
 {
-	const char *tmpdir, *filename;
-	char *path, *mfilename = NULL;
+	const char *filename;
+	char *tmpdir, *path, *mfilename = NULL;
 	int done;
 
 	tmpdir = e_mkdtemp("evolution-tmp-XXXXXX");
@@ -1125,6 +1126,7 @@ em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part)
 	}
 
 	path = g_build_filename(tmpdir, filename, NULL);
+	g_free(tmpdir);
 	g_free(mfilename);
 
 	/* FIXME: This doesn't handle default charsets */

@@ -1,3 +1,8 @@
+2004-07-13  Dan Winship  <danw@novell.com>
+
+	* em-utils.c (em_utils_selection_set_urilist,
+	em_utils_temp_save_part): free return value from e_mkdtemp
+
 2004-07-09  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-browser.c (emfb_folder_expunge): only call expunge if
