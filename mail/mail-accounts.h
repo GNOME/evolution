@@ -54,6 +54,7 @@ struct _MailAccountsDialog {
 	GtkButton *mail_edit;
 	GtkButton *mail_delete;
 	GtkButton *mail_default;
+	GtkButton *mail_able;
 	
 	const GSList *news;
 	gint news_row;

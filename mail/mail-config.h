@@ -34,7 +34,6 @@ extern "C" {
 typedef struct {
 	gchar *name;
 	gchar *address;
-	gchar *reply_to;
 	gchar *organization;
 	gchar *signature;
 } MailConfigIdentity;
@@ -44,9 +43,8 @@ typedef struct {
 	gboolean keep_on_server;
 	gboolean auto_check;
 	gint auto_check_time;
-	gboolean enabled;
-	
 	gboolean save_passwd;
+	gboolean enabled;
 } MailConfigService;
 
 typedef struct {
@@ -132,7 +130,7 @@ GSList *mail_config_get_sources (void);
 /* static utility functions */
 char *mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix);
 
-gboolean  mail_config_check_service (CamelURL *url, CamelProviderType type, gboolean connect, GList **authtypes);
+gboolean  mail_config_check_service (const char *url, CamelProviderType type, GList **authtypes);
 
 #ifdef __cplusplus
 }

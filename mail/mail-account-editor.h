@@ -28,57 +28,20 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <gnome.h>
-#include <glade/glade.h>
-#include <camel.h>
-#include "mail-config.h"
+#include <libgnomeui/gnome-dialog.h>
+#include "mail-account-gui.h"
 
 #define MAIL_ACCOUNT_EDITOR_TYPE        (mail_account_editor_get_type ())
 #define MAIL_ACCOUNT_EDITOR(o)          (GTK_CHECK_CAST ((o), MAIL_ACCOUNT_EDITOR_TYPE, MailAccountEditor))
 #define MAIL_ACCOUNT_EDITOR_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), MAIL_ACCOUNT_EDITOR_TYPE, MailAccountEditorClass))
-#define IS_MAIL_ACCOUNT_EDITOR(o)       (GTK_CHECK_TYPE ((o), MAIL_ACCOUNT_EDITOR_TYPE))
-#define IS_MAIL_ACCOUNT_EDITOR_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MAIL_ACCOUNT_EDITOR_TYPE))
+#define MAIL_IS_ACCOUNT_EDITOR(o)       (GTK_CHECK_TYPE ((o), MAIL_ACCOUNT_EDITOR_TYPE))
+#define MAIL_IS_ACCOUNT_EDITOR_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MAIL_ACCOUNT_EDITOR_TYPE))
 
 struct _MailAccountEditor {
 	GnomeDialog parent;
 	
-	const MailConfigAccount *account;
-	
-	GladeXML *gui;
-	
-	/* Identity / General */
-	GtkEntry *account_name;
-	GtkEntry *name;
-	GtkEntry *email;
-	GtkEntry *reply_to;
-	GtkEntry *organization;
-	GnomeFileEntry *signature;
-	
-	/* Source */
-	GtkWidget *source_type;       /* this is generic because we don't know the widget-type */
-	GtkEntry *source_host;
-	GtkEntry *source_user;
-	GtkEntry *source_passwd;
-	GtkEntry *source_path;
-	GtkCheckButton *source_save_passwd;
-	GtkOptionMenu *source_auth;
-	
-	GtkCheckButton *keep_on_server;
-	
-	GtkCheckButton *source_auto_check;
-	GtkSpinButton *source_auto_timeout;
-	
-	GtkCheckButton *source_enabled;
-	
-	/* Transport */
-	GtkWidget *transport_type;    /* Same here... */
-	GtkEntry *transport_host;
-	GtkOptionMenu *transport_auth;
-	GtkEntry *transport_user;
-	GtkEntry *transport_passwd;
-	GtkCheckButton *transport_save_passwd;
-	
-	const CamelProvider *transport;
+	MailAccountGui *gui;
+	GtkNotebook *notebook;
 };
 
 typedef struct _MailAccountEditor MailAccountEditor;
@@ -92,7 +55,7 @@ typedef struct {
 
 GtkType mail_account_editor_get_type (void);
 
-MailAccountEditor *mail_account_editor_new (const MailConfigAccount *account);
+MailAccountEditor *mail_account_editor_new (MailConfigAccount *account);
 
 #ifdef __cplusplus
 }

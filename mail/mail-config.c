@@ -69,7 +69,6 @@ identity_copy (const MailConfigIdentity *id)
 	new = g_new0 (MailConfigIdentity, 1);
 	new->name = g_strdup (id->name);
 	new->address = g_strdup (id->address);
-	new->reply_to = g_strdup (id->reply_to);
 	new->organization = g_strdup (id->organization);
 	new->signature = g_strdup (id->signature);
 	
@@ -84,7 +83,6 @@ identity_destroy (MailConfigIdentity *id)
 	
 	g_free (id->name);
 	g_free (id->address);
-	g_free (id->reply_to);
 	g_free (id->organization);
 	g_free (id->signature);
 	
@@ -238,9 +236,6 @@ config_read (void)
 		path = g_strdup_printf ("identity_name_%d", i);
 		id->name = gnome_config_get_string (path);
 		g_free (path);
-		path = g_strdup_printf ("identity_replyto_%d", i);
-		id->reply_to = gnome_config_get_string (path);
-		g_free (path);
 		path = g_strdup_printf ("identity_address_%d", i);
 		id->address = gnome_config_get_string (path);
 		g_free (path);
@@ -309,6 +304,7 @@ config_read (void)
 	}
 	gnome_config_pop_prefix ();
 	
+#ifdef ENABLE_NNTP
 	/* News */
 	str = g_strdup_printf ("=%s/config/News=/Sources/", evolution_dir);
 	gnome_config_push_prefix (str);
@@ -328,6 +324,7 @@ config_read (void)
 		config->news = g_slist_append (config->news, n);
 	}
 	gnome_config_pop_prefix ();
+#endif
 	
 	/* Format */
 	str = g_strdup_printf ("=%s/config/Mail=/Format/send_html", 
@@ -472,6 +469,7 @@ mail_config_write (void)
 	}
 	gnome_config_pop_prefix ();
 	
+#ifdef ENABLE_NNTP
 	/* News */
 	str = g_strdup_printf ("=%s/config/News=/Sources/", evolution_dir);
 	gnome_config_push_prefix (str);
@@ -490,6 +488,7 @@ mail_config_write (void)
 		g_free (path);
 	}
 	gnome_config_pop_prefix ();
+#endif
 	
 	gnome_config_sync ();
 }
@@ -880,9 +879,8 @@ mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 struct _check_msg {
 	struct _mail_msg msg;
 
-	char *url;
+	const char *url;
 	CamelProviderType type;
-	gboolean connect;
 	GList **authtypes;
 	gboolean *success;
 };
@@ -891,66 +889,49 @@ static void check_service_check(struct _mail_msg *mm)
 {
 	struct _check_msg *m = (struct _check_msg *)mm;
 	CamelService *service = NULL;
-	
-	if (m->authtypes) {
-		service = camel_session_get_service (session, m->url, m->type, &mm->ex);
-		if (!service)
-			return;
-		if (m->connect)
-			*m->authtypes = camel_service_query_auth_types (service, &mm->ex);
-		else
-			*m->authtypes = g_list_copy (service->provider->authtypes);
-	} else if (m->connect) {
-		service = camel_session_get_service_connected (session, m->url, m->type, &mm->ex);
-	}
-	if (service)
-		camel_object_unref (CAMEL_OBJECT (service));
 
+	service = camel_session_get_service (session, m->url, m->type, &mm->ex);
+	if (!service)
+		return;
+
+	if (m->authtypes)
+		*m->authtypes = camel_service_query_auth_types (service, &mm->ex);
+	else
+		camel_service_connect (service, &mm->ex);
+
+	camel_object_unref (CAMEL_OBJECT (service));
 	*m->success = !camel_exception_is_set(&mm->ex);
-}
-
-static void check_service_free(struct _mail_msg *mm)
-{
-	struct _check_msg *m = (struct _check_msg *)mm;
-
-	g_free(m->url);
 }
 
 static struct _mail_msg_op check_service_op = {
 	NULL,
 	check_service_check,
 	NULL,
-	check_service_free
+	NULL
 };
 
 /**
  * mail_config_check_service:
  * @url: service url
  * @type: provider type
- * @connect: whether or not the check service should connect
- * @authtypes: list of auth types gathered by this method
+ * @authtypes: set to list of supported authtypes on return if non-%NULL.
  *
- * Checks the service for validity. If @connect is TRUE then a
- * connection with the server is attempted and if successful will fill
- * in the @authtypes list. If @connect is FALSE then @authtypes will
- * be generated without a connection and thus will not necessarily
- * reflect what the server supports.
+ * Checks the service for validity. If @authtypes is non-%NULL, it will
+ * be filled in with a list of supported authtypes.
  *
- * Returns TRUE on success or FALSE on error.
- *
+ * Return value: %TRUE on success or %FALSE on error.
  **/
 
 gboolean
-mail_config_check_service (CamelURL *url, CamelProviderType type, gboolean connect, GList **authtypes)
+mail_config_check_service (const char *url, CamelProviderType type, GList **authtypes)
 {
 	gboolean ret = FALSE;
 	struct _check_msg *m;
 	int id;
 
 	m = mail_msg_new(&check_service_op, NULL, sizeof(*m));
-	m->url = camel_url_to_string(url, TRUE);
+	m->url = url;
 	m->type = type;
-	m->connect = connect;
 	m->authtypes = authtypes;
 	m->success = &ret;
 

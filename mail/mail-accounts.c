@@ -102,7 +102,7 @@ load_accounts (MailAccountsDialog *dialog)
 	
 	while (node) {
 		CamelURL *url;
-		gchar *text[2];
+		gchar *text[3];
 		
 		account = node->data;
 		
@@ -110,17 +110,17 @@ load_accounts (MailAccountsDialog *dialog)
 			url = camel_url_new (account->source->url, NULL);
 		else
 			url = NULL;
-		
-		text[0] = g_strdup (account->name);
-		text[1] = g_strdup_printf ("%s%s", url && url->protocol ? url->protocol : _("None"),
+
+		text[0] = (account->source && account->source->enabled) ? "+" : "";
+		text[1] = account->name;
+		text[2] = g_strdup_printf ("%s%s", url && url->protocol ? url->protocol : _("None"),
 					   account->default_account ? _(" (default)") : "");
 		
 		if (url)
 			camel_url_free (url);
 		
 		gtk_clist_append (dialog->mail_accounts, text);
-		g_free (text[0]);
-		g_free (text[1]);
+		g_free (text[2]);
 		
 		/* set the account on the row */
 		gtk_clist_set_row_data (dialog->mail_accounts, i, (gpointer) account);
@@ -132,23 +132,31 @@ load_accounts (MailAccountsDialog *dialog)
 	gtk_clist_thaw (dialog->mail_accounts);
 }
 
+#ifdef ENABLE_NTTP
 static void
 load_news (MailAccountsDialog *dialog)
 {
 	/* FIXME: implement */
 	;
 }
+#endif
 
 /* mail callbacks */
 static void
 mail_select (GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
-	
+	MailConfigAccount *account = gtk_clist_get_row_data (clist, row);
+
 	dialog->accounts_row = row;
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_edit), TRUE);
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_delete), TRUE);
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_default), TRUE);
+	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_able), TRUE);
+	if (account->source && account->source->enabled)
+		gtk_label_set_text (GTK_LABEL (GTK_BIN (dialog->mail_able)->child), _("Disable"));
+	else
+		gtk_label_set_text (GTK_LABEL (GTK_BIN (dialog->mail_able)->child), _("Enable"));
 }
 
 static void
@@ -160,6 +168,7 @@ mail_unselect (GtkCList *clist, gint row, gint column, GdkEventButton *event, gp
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_edit), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_delete), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_default), FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_able), FALSE);
 }
 
 static void
@@ -197,7 +206,7 @@ mail_edit (GtkButton *button, gpointer data)
 	MailAccountsDialog *dialog = data;
 	
 	if (dialog->accounts_row >= 0) {
-		const MailConfigAccount *account;
+		MailConfigAccount *account;
 		MailAccountEditor *editor;
 		
 		account = gtk_clist_get_row_data (dialog->mail_accounts, dialog->accounts_row);
@@ -259,6 +268,7 @@ mail_delete (GtkButton *button, gpointer data)
 			gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_edit), FALSE);
 			gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_delete), FALSE);
 			gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_default), FALSE);
+			gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_able), FALSE);
 		}
 	}
 }
@@ -275,6 +285,24 @@ mail_default (GtkButton *button, gpointer data)
 		row = dialog->accounts_row;
 		account = gtk_clist_get_row_data (dialog->mail_accounts, row);
 		mail_config_set_default_account (account);
+		mail_config_write ();
+		load_accounts (dialog);
+		gtk_clist_select_row (dialog->mail_accounts, row, 0);
+	}
+}
+
+static void
+mail_able (GtkButton *button, gpointer data)
+{
+	MailAccountsDialog *dialog = data;
+	const MailConfigAccount *account;
+
+	if (dialog->accounts_row >= 0) {
+		int row;
+
+		row = dialog->accounts_row;
+		account = gtk_clist_get_row_data (dialog->mail_accounts, row);
+		account->source->enabled = !account->source->enabled;
 		mail_config_write ();
 		load_accounts (dialog);
 		gtk_clist_select_row (dialog->mail_accounts, row, 0);
@@ -446,7 +474,7 @@ construct (MailAccountsDialog *dialog)
 	GladeXML *gui;
 	GtkWidget *notebook;
 	
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "mail-accounts-dialog");
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
 	dialog->gui = gui;
 	
 	/* get our toplevel widget */
@@ -480,6 +508,9 @@ construct (MailAccountsDialog *dialog)
 	dialog->mail_default = GTK_BUTTON (glade_xml_get_widget (gui, "cmdMailDefault"));
 	gtk_signal_connect (GTK_OBJECT (dialog->mail_default), "clicked",
 			    GTK_SIGNAL_FUNC (mail_default), dialog);
+	dialog->mail_able = GTK_BUTTON (glade_xml_get_widget (gui, "cmdMailAble"));
+	gtk_signal_connect (GTK_OBJECT (dialog->mail_able), "clicked",
+			    GTK_SIGNAL_FUNC (mail_able), dialog);
 	
 #if defined (ENABLE_NNTP)
 	dialog->news_accounts = GTK_CLIST (glade_xml_get_widget (gui, "clistAccounts"));

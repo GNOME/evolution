@@ -1,3 +1,46 @@
+2001-03-27  Dan Winship  <danw@ximian.com>
+
+	* mail-config.glade: Probably the very last new config dialog
+	ever. (Ha ha). From Anna, based on a story by me.
+
+	* mail-account-gui.c: New code for the new mail-config.glade. This
+	abstracts out all of the common code between the account editor
+	and the druid. It also handles the spiffy new provider-specific
+	config stuff.
+
+	FIXME: The code to check if a service is ok or not is no longer
+	there... waiting until the online/offline stuff from the shell
+	appears.
+
+	* mail-account-editor.c, mail-config-druid.c: These are much
+	smaller now, since most of the interesting bits moved to
+	mail-account-gui.c
+
+	* mail-accounts.c: Add an enabled/disabled column/button to
+	replace the checkbox that used to be in the editor, because it
+	really makes more sense to have it out here. This looks ugly.
+	Probably ought to ETable it...
+	(load_accounts): Fill in the enabled column.
+	(mail_select, mail_unselect): toggle the sensitivity and name of
+	the Enable/Disable button appropriately
+	(mail_able): Handle the enable/disable button.
+
+	* mail-config.c: Remove reply-to from MailConfigIdentity since it
+	didn't belong there (and wasn't being saved anyway).
+	(mail_config_check_service): Simplify this a bit. This really
+	needs to pop up a dialog with a "connecting..." message and a
+	cancel button.
+
+	* mail-ops.c (uid_cachename_hack): Kludge, copied+modified from
+	mail_config_folder_to_cachename to deal with the different
+	behavior of the URL code now. Will go away when the keep-on-server
+	code moves.
+	(get_folderinfo_get): Only pass "subscribed_only" to
+	camel_store_get_folder_info if the store supports subscriptions...
+	
+	* mail-local.c (local_provider): Update this to reflect the
+	CamelProvider structure change
+
 2001-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (transfer_msg): Add "vtrash" as an allowed mail

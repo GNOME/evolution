@@ -55,6 +55,8 @@ evolution_mail_SOURCES =		\
 	mail-accounts.h			\
 	mail-account-editor.c		\
 	mail-account-editor.h		\
+	mail-account-gui.c		\
+	mail-account-gui.h		\
 	mail-autofilter.c		\
 	mail-autofilter.h		\
 	mail-callbacks.c		\
