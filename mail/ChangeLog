@@ -1,3 +1,9 @@
+2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-searching-tokenizer.c (camel_utf8_getc): Don't use __inline__
+	as not all platforms/compilers support this keyword.
+	(g): Same.
+
 2003-03-06  Not Zed  <NotZed@Ximian.com>
 
 	* component-factory.c (owner_unset_cb): remove debug printf.

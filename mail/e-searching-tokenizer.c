@@ -118,7 +118,7 @@ shared_state_unref (SharedState *shared)
 /* Utility functions */
 
 /* This is faster and safer than glib2's utf8 abomination, but isn't exported from camel as yet */
-static __inline__ guint32
+static inline guint32
 camel_utf8_getc(const unsigned char **ptr)
 {
 	register unsigned char *p = (unsigned char *)*ptr;
@@ -248,7 +248,7 @@ dump_trie(struct _state *s, int d)
     http://www-sr.informatik.uni-tuebingen.de/~buehler/AC/AC.html
    for a neat demo */
 
-static __inline__ struct _match *
+static inline struct _match *
 g(struct _state *q, guint32 c)
 {
 	struct _match *m = q->matches;
