@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-05-03 20:49+0200\n"
-"PO-Revision-Date: 2000-05-03 23:06+02:00\n"
+"POT-Creation-Date: 2000-05-06 12:28+0200\n"
+"PO-Revision-Date: 2000-05-06 12:31+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -274,7 +274,7 @@ msgstr "_E-post"
 
 #: mail/folder-browser-factory.c:151
 msgid "_Expunge"
-msgstr ""
+msgstr "_Fjern"
 
 #: mail/folder-browser-factory.c:275
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
@@ -292,31 +292,31 @@ msgstr "Om forhåndsvisning av meldinger skal brukes"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "E-post komponent: Kunne ikke initialisere Bonobo"
 
-#: mail/message-list.c:431
+#: mail/message-list.c:424
 msgid "Priority"
 msgstr "Prioritet"
 
-#: mail/message-list.c:445
+#: mail/message-list.c:438
 msgid "From"
 msgstr "Fra"
 
-#: mail/message-list.c:452
+#: mail/message-list.c:445
 msgid "Subject"
 msgstr "Emne"
 
-#: mail/message-list.c:459
+#: mail/message-list.c:452
 msgid "Sent"
 msgstr "Sendt"
 
-#: mail/message-list.c:466
+#: mail/message-list.c:459
 msgid "Receive"
 msgstr "Motta"
 
-#: mail/message-list.c:473
+#: mail/message-list.c:466
 msgid "To"
 msgstr "Til"
 
-#: mail/message-list.c:480
+#: mail/message-list.c:473
 msgid "Size"
 msgstr "Størrelse"
 
