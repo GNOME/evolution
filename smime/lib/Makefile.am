@@ -33,3 +33,5 @@ MARSHAL_GENERATED = smime-marshal.c smime-marshal.h
 
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
+
+EXTRA_DIST = smime-marshal.list

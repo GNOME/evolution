@@ -1,3 +1,7 @@
+2004-06-15  Jeffrey Stedfast  <fejj@novell.com>
+
+	* lib/Makefile.am: Added smime-marshal.list to EXTRA_DIST
+
 2004-06-08  Chris Toshok  <toshok@ximian.com>
 
 	* lib/e-cert-db.[ch]: quiet the compiler, and dobey.
