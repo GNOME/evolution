@@ -22,28 +22,28 @@
 #ifndef WOMBAT_CLIENT_H
 #define WOMBAT_CLIENT_H
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include "Evolution-Wombat.h"
 
 G_BEGIN_DECLS
 
 #define WOMBAT_TYPE_CLIENT            (wombat_client_get_type())
-#define WOMBAT_CLIENT(obj)            GTK_CHECK_CAST(obj, WOMBAT_TYPE_CLIENT, WombatClient)
-#define WOMBAT_CLIENT_CLASS(klass)    GTK_CHECK_CLASS_CAST(klass, WOMBAT_TYPE_CLIENT, WombatClientClass)
-#define WOMBAT_IS_CLIENT(obj)         GTK_CHECK_TYPE(obj, WOMBAT_TYPE_CLIENT)
-#define WOMBAT_IS_CLIENT_CLASS(klass) (GTK_CHECK_CLASS_TYPE((klass), WOMBAT_TYPE_CLIENT))
+#define WOMBAT_CLIENT(obj)            G_TYPE_CHECK_INSTANCE_CAST(obj, WOMBAT_TYPE_CLIENT, WombatClient)
+#define WOMBAT_CLIENT_CLASS(klass)    G_TYPE_CHECK_CLASS_CAST(klass, WOMBAT_TYPE_CLIENT, WombatClientClass)
+#define WOMBAT_IS_CLIENT(obj)         G_TYPE_CHECK_INSTANCE_TYPE(obj, WOMBAT_TYPE_CLIENT)
+#define WOMBAT_IS_CLIENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), WOMBAT_TYPE_CLIENT))
 
 typedef struct _WombatClient        WombatClient;
 typedef struct _WombatClientClass   WombatClientClass;
 typedef struct _WombatClientPrivate WombatClientPrivate;
 
 struct _WombatClient {
-	BonoboXObject        object;
+	BonoboObject        object;
 	WombatClientPrivate *priv;
 };
 
 struct _WombatClientClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_WombatClient__epv epv;
 };
@@ -56,7 +56,7 @@ typedef void    (* WombatClientForgetPasswordFn) (WombatClient *client,
 						  const gchar *key,
 						  gpointer user_data);
 
-GtkType       wombat_client_get_type  (void);
+GType         wombat_client_get_type  (void);
 
 WombatClient *wombat_client_construct (WombatClient *client,
 				       WombatClientGetPasswordFn get_password_fn,

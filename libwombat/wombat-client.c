@@ -21,7 +21,7 @@
 
 #include "wombat-client.h"
 
-#define PARENT_TYPE BONOBO_X_OBJECT_TYPE
+#define PARENT_TYPE BONOBO_TYPE_OBJECT
 
 struct _WombatClientPrivate {
 	WombatClientGetPasswordFn    get_password;
@@ -30,8 +30,10 @@ struct _WombatClientPrivate {
 };
 
 static void wombat_client_class_init (WombatClientClass *klass);
-static void wombat_client_init       (WombatClient *client);
-static void wombat_client_destroy    (GtkObject *objct);
+static void wombat_client_init       (WombatClient *client, WombatClientClass *klass);
+static void wombat_client_finalize   (GObject *objct);
+
+static GObjectClass *parent_class = NULL;
 
 /*
  * CORBA interface implementation
@@ -44,7 +46,7 @@ impl_GNOME_Evolution_WombatClient_getPassword (PortableServer_Servant servant,
 {
 	WombatClient *client;
 
-	client = WOMBAT_CLIENT (bonobo_x_object (servant));
+	client = WOMBAT_CLIENT (bonobo_object_from_servant (servant));
 	g_return_val_if_fail (WOMBAT_IS_CLIENT (client), NULL);
 	g_return_val_if_fail (client->priv != NULL, NULL);
 
@@ -61,7 +63,7 @@ impl_GNOME_Evolution_WombatClient_forgetPassword (PortableServer_Servant servant
 {
 	WombatClient *client;
 
-	client = WOMBAT_CLIENT (bonobo_x_object (servant));
+	client = WOMBAT_CLIENT (bonobo_object_from_servant (servant));
 	g_return_if_fail (WOMBAT_IS_CLIENT (client));
 	g_return_if_fail (client->priv != NULL);
 
@@ -75,25 +77,26 @@ impl_GNOME_Evolution_WombatClient_forgetPassword (PortableServer_Servant servant
 static void
 wombat_client_class_init (WombatClientClass *klass)
 {
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS(klass);
+	GObjectClass *object_class = G_OBJECT_CLASS(klass);
 	POA_GNOME_Evolution_WombatClient__epv *epv = &klass->epv;
 
-	object_class->destroy = wombat_client_destroy;
+	parent_class = g_type_class_peek_parent (klass);
+
+	object_class->finalize = wombat_client_finalize;
 
 	epv->getPassword = impl_GNOME_Evolution_WombatClient_getPassword;
 	epv->forgetPassword = impl_GNOME_Evolution_WombatClient_forgetPassword;
 }
 
 static void
-wombat_client_init (WombatClient *client)
+wombat_client_init (WombatClient *client, WombatClientClass *klass)
 {
 	client->priv = g_new0 (WombatClientPrivate, 1);
 }
 
 static void
-wombat_client_destroy (GtkObject *object)
+wombat_client_finalize (GObject *object)
 {
-	GtkObjectClass *parent_class;
 	WombatClient *client = (WombatClient *) object;
 
 	g_return_if_fail (WOMBAT_IS_CLIENT (client));
@@ -104,37 +107,11 @@ wombat_client_destroy (GtkObject *object)
 	}
 
 	/* call parent class' destroy handler */
-	parent_class = GTK_OBJECT_CLASS (gtk_type_class (PARENT_TYPE));
-	if (parent_class->destroy != NULL)
-		parent_class->destroy (GTK_OBJECT(client));
+	if (parent_class->finalize != NULL)
+		parent_class->finalize (object);
 }
 
-/**
- * wombat_client_get_type
- */
-GtkType
-wombat_client_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type) {
-		GtkTypeInfo info = {
-                        "WombatClient",
-                        sizeof (WombatClient),
-                        sizeof (WombatClientClass),
-                        (GtkClassInitFunc) wombat_client_class_init,
-                        (GtkObjectInitFunc) wombat_client_init,
-                        (GtkArgSetFunc) NULL,
-                        (GtkArgSetFunc) NULL
-                };
-                type = bonobo_x_type_unique(
-                        PARENT_TYPE,
-                        POA_GNOME_Evolution_WombatClient__init, NULL,
-                        GTK_STRUCT_OFFSET (WombatClientClass, epv),
-                        &info);
-	}
-	return type;
-}
+BONOBO_TYPE_FUNC_FULL(WombatClient, GNOME_Evolution_WombatClient, PARENT_TYPE, wombat_client)
 
 /**
  * wombat_client_construct
@@ -165,7 +142,7 @@ wombat_client_new (WombatClientGetPasswordFn get_password_fn,
 {
 	WombatClient *client;
 
-	client = WOMBAT_CLIENT (gtk_type_new (WOMBAT_TYPE_CLIENT));
+	client = WOMBAT_CLIENT (g_object_new (WOMBAT_TYPE_CLIENT, NULL));
 	return wombat_client_construct (client,
 					get_password_fn,
 					forget_password_fn,
