@@ -11,7 +11,7 @@
         * gui/e-cal-view.h: delete the ECalViewMoveDirection type declaration
         which was added by mistake yesterday.
 
-        * Changelog: add a missed entry for calender-commands.c.
+        * ChangeLog: add a missed entry for calender-commands.c.
 
 2004-01-07  Rodrigo Moya <rodrigo@ximian.com>
 
