@@ -1930,12 +1930,12 @@ msgstr ""
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: calendar/gui/calendar-model.c:893 e-util/e-time-utils.c:307
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr ""
+msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: calendar/gui/calendar-model.c:896 e-util/e-time-utils.c:316
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr ""
+msgstr "%a %d/%m/%Y %I:%M:%S %p"
 
 #: calendar/gui/calendar-model.c:901
 #, c-format
@@ -5563,7 +5563,7 @@ msgstr ""
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:477
 #: widgets/misc/e-dateedit.c:1480
 msgid "%m/%d/%Y"
-msgstr ""
+msgstr "%d/%m/%Y"
 
 #. strptime format for a time of day, in 12-hour format.
 #: e-util/e-time-utils.c:99 e-util/e-time-utils.c:264
@@ -5593,7 +5593,7 @@ msgstr ""
 
 #: e-util/e-time-utils.c:240
 msgid "%d/%m/%Y"
-msgstr ""
+msgstr "%m/%d/%Y"
 
 #: e-util/e-time-utils.c:241
 msgid "%Y/%m/%d"
@@ -5609,19 +5609,19 @@ msgstr ""
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:473
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:2505
 msgid "%a %m/%d/%Y"
-msgstr ""
+msgstr "%a %d/%m/%Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:303
 msgid "%a %m/%d/%Y %H:%M"
-msgstr ""
+msgstr "%a %d/%m/%Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:312
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr ""
+msgstr "%a %d/%m/%Y %I:%M %p"
 
 #: filter/filter-datespec.c:80
 msgid "year"
