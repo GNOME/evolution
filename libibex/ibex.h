@@ -22,6 +22,8 @@
 #define IBEX_H
 
 #include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <glib.h>
 
 struct ibex;
@@ -34,7 +36,7 @@ typedef struct ibex ibex;
 /* Open the named ibex index file. If CREATE is true, create the file
  * if it doesn't already exist.
  */
-ibex *ibex_open (char *file, gboolean create);
+ibex *ibex_open (char *file, int flags, int mode);
 
 /* Write the ibex to disk. */
 int ibex_write (ibex *ib);

@@ -61,7 +61,7 @@ main (int argc, char **argv)
 	if (argc == 0)
 		usage ();
 
-	ib = ibex_open (file, FALSE);
+	ib = ibex_open (file, O_RDWR|O_CREAT, 0600);
 	if (!ib) {
 		printf ("Couldn't open %s: %s\n", file, strerror (errno));
 		exit (1);

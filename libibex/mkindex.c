@@ -60,7 +60,7 @@ main (int argc, char **argv)
 	if (argc == 0)
 		usage ();
 
-	ib = ibex_open (file, TRUE);
+	ib = ibex_open (file, O_CREAT|O_RDWR, 0600);
 	if (!ib) {
 		fprintf (stderr, "Couldn't open index file %s: %s\n",
 			 file, strerror (errno));

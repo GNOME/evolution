@@ -1,3 +1,12 @@
+2000-03-26  NotZed  <NotZed@HelixCode.com>
+
+	* lookup.c (main): Fixed call to ibex_open.
+
+	* mkindex.c (main): Fixed call to ibex_open.
+
+	* file.c (ibex_open): Changed to accept flags and mode equivalent
+	to open(2).
+
 2000-02-25  Dan Winship  <danw@helixcode.com>
 
 	* *.c: add gtk-doc-style comments

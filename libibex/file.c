@@ -56,14 +56,17 @@ static void free_word (gpointer key, gpointer value, gpointer data);
 /**
  * ibex_open: open (or possibly create) an ibex index
  * @file: the name of the file
- * @create: whether or not to create the file if it doesn't exist.
+ * @flags: open flags, see open(2).
+ * @mode: If O_CREAT is passed in flags, then the file mode
+ * to create the new file with.  It will be anded with the current
+ * umask.
  *
  * Open and/or create the named ibex file and return a handle to it.
  *
  * Return value: an ibex handle, or NULL if an error occurred.
  **/
 ibex *
-ibex_open (char *file, gboolean create)
+ibex_open (char *file, int flags, int mode)
 {
 	ibex *ib;
 	FILE *f;
@@ -73,9 +76,44 @@ ibex_open (char *file, gboolean create)
 	ibex_file **ibfs = NULL;
 	int i;
 	GPtrArray *refs;
+	int fd;
+	char *modestr;
 
-	f = fopen (file, "r");
-	if (!f && (errno != ENOENT || !create)) {
+	fd = open(file, flags, mode);
+	if (fd == -1) {
+		printf("open failed :(\n");
+		return NULL;
+	}
+
+	/* yuck, this is because we use FILE * interface
+	   internally */
+	switch (flags & O_ACCMODE) {
+	case O_RDONLY:
+		modestr = "r";
+		break;
+	case O_RDWR:
+		if (flags & O_APPEND)
+			modestr = "a+";
+		else
+			modestr = "w+";
+		break;
+	case O_WRONLY:
+		if (flags & O_APPEND)
+			modestr = "a";
+		else
+			modestr = "w";
+		break;
+	default:
+		if (flags & O_APPEND)
+			modestr = "a+";
+		else
+			modestr = "r+";
+		break;
+	}
+
+	f = fdopen(fd, modestr);
+	if (f == NULL) {
+		printf("fdopen failed, modestr = '%s'\n", modestr);
 		if (errno == 0)
 			errno = ENOMEM;
 		return NULL;
@@ -91,11 +129,11 @@ ibex_open (char *file, gboolean create)
 	if (!f)
 		return ib;
 
-	/* Check version. */
+	/* Check version.  If its empty, then we have just created it */
 	if (fread (vbuf, 1, sizeof (vbuf), f) != sizeof (vbuf)) {
-		if (feof (f))
-			errno = EINVAL;
-		goto errout;
+		if (feof (f)) {
+			return ib;
+		}
 	}
 	if (strncmp (vbuf, IBEX_VERSION, sizeof (vbuf) != 0)) {
 		errno = EINVAL;
@@ -141,6 +179,7 @@ ibex_open (char *file, gboolean create)
 	return ib;
 
 errout:
+
 	fclose (f);
 	g_tree_traverse (ib->files, free_file, G_IN_ORDER, NULL);
 	g_tree_destroy (ib->files);
