@@ -22,7 +22,6 @@
 
 #include "filter-message-search.h"
 #include <e-util/e-sexp.h>
-#include <gal/util/e-util.h>
 #include <regex.h>
 
 typedef struct {

@@ -176,6 +176,11 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	else
 		fs->score = 0;
 	
+	if (fs->score > 3)
+		fs->score = 3;
+	else if (fs->score < -3)
+		fs->score = -3;
+	
 	return 0;
 }
 
@@ -194,7 +199,7 @@ get_widget (FilterElement *fe)
 	GtkObject *adjustment;
 	FilterScore *fs = (FilterScore *)fe;
 	
-	adjustment = gtk_adjustment_new (0.0, -100.0, 100.0, 1.0, 1.0, 1.0);
+	adjustment = gtk_adjustment_new (0.0, -3.0, 3.0, 1.0, 1.0, 1.0);
 	spin = gtk_spin_button_new (GTK_ADJUSTMENT (adjustment), 1.0, 0);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (spin), TRUE);
 	

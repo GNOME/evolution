@@ -15,6 +15,7 @@
    </input>
    <input type="string" name="sender"/>
  </part>
+
  <part name="to">
    <title>Recipients</title>
    <input type="optionlist" name="recipient-type">
@@ -36,6 +37,7 @@
    </input>
    <input type="address" name="recipient"/>
  </part>
+
  <part name="subject">
    <title>Subject</title>
    <input type="optionlist" name="subject-type">
@@ -56,7 +58,7 @@
  </part>
 
  <part name="header">
-   <title>Message header</title>
+   <title>Specific header</title>
    <input type="string" name="header-field"/>
    <input type="optionlist" name="header-type">
     <option value="contains">
@@ -93,36 +95,37 @@
    </input>
    <input type="string" name="word"/>
  </part>
+
  <part name="sexp">
    <title>Expression</title>
    <input type="code" name="code"/>
-  </part>
+ </part>
 
  <part name="sent-date">
-  <title>Message was sent</title>
+  <title>Date sent</title>
   <input type="optionlist" name="date-spec-type">
+   <option value="is">
+    <title>is</title>
+    <code>
+       (match-all (= (get-sent-date) ${versus}))
+    </code>
+   </option>
+   <option value="is-not">
+    <title>is not</title>
+    <code>
+       (match-all (not (= (get-sent-date) ${versus})))
+    </code>
+   </option>
    <option value="before">
-    <title>before</title>
+    <title>was before</title>
     <code>
        (match-all (&lt; (get-sent-date) ${versus}))
     </code>
    </option>
-   <option value="on-or-before">
-    <title>on or before</title>
-    <code>
-       (match-all (not (&gt; (get-sent-date) ${versus})))
-    </code>
-   </option>
    <option value="after">
-    <title>after</title>
+    <title>was after</title>
     <code>
        (match-all (&gt; (get-sent-date) ${versus}))
-    </code>
-   </option>
-   <option value="on-or-after">
-    <title>on or after</title>
-    <code>
-       (match-all (not (&lt; (get-sent-date) ${versus})))
     </code>
    </option>
   </input>    
@@ -131,30 +134,30 @@
  </part>
 
  <part name="recv-date">
-  <title>Message was received</title>
+  <title>Date received</title>
   <input type="optionlist" name="date-spec-type">
+   <option value="is">
+    <title>is</title>
+    <code>
+       (match-all (= (get-received-date) ${versus}))
+    </code>
+   </option>
+   <option value="is-not">
+    <title>is not</title>
+    <code>
+       (match-all (not (= (get-received-date) ${versus})))
+    </code>
+   </option>
    <option value="before">
-    <title>before</title>
+    <title>was before</title>
     <code>
        (match-all (&lt; (get-received-date) ${versus}))
     </code>
    </option>
-   <option value="on-or-before">
-    <title>on or before</title>
-    <code>
-       (match-all (not (&gt; (get-received-date) ${versus})))
-    </code>
-   </option>
    <option value="after">
-    <title>after</title>
+    <title>was after</title>
     <code>
        (match-all (&gt; (get-received-date) ${versus}))
-    </code>
-   </option>
-   <option value="on-or-after">
-    <title>on or after</title>
-    <code>
-       (match-all (not (&lt; (get-received-date) ${versus})))
     </code>
    </option>
   </input>    
@@ -163,33 +166,33 @@
  </part>
 
  <part name="score">
-  <title>Message score</title>
+  <title>Priority</title>
   <input type="optionlist" name="score-type">
    <option value="less-than">
-    <title>less than</title>
+    <title>is</title>
     <code>
-       (match-all (&lt; (get-score) ${versus}))
+       (match-all (= (get-score) ${versus}))
     </code>
    </option>
-   <option value="less-than-or-equal">
-    <title>less than or equal to</title>
+   <option value="is-not">
+    <title>is not</title>
     <code>
-       (match-all (not (&gt; (get-score) ${versus})))
+       (match-all (not (= (get-score) ${versus})))
     </code>
    </option>
    <option value="greater-than">
-    <title>greater than</title>
+    <title>is greater than</title>
     <code>
        (match-all (&gt; (get-score) ${versus}))
     </code>
    </option>
-   <option value="greater-than-or-equal">
-    <title>greater than or equal to</title>
+   <option value="less-than">
+    <title>is less than</title>
     <code>
-       (match-all (not (&lt; (get-score) ${versus})))
+       (match-all (&lt; (get-score) ${versus}))
     </code>
    </option>
-  </input>    
+  </input>
   <input type="score" name="versus">
   </input>
  </part>

@@ -1,3 +1,21 @@
+2000-09-18  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filtertypes.xml: Modified to use more intuitive naming
+
+	* score-rule.c (xml_decode): Make sure the score is within our
+	range
+	(get_widget): Changed range to -3 to +3
+
+	* filter-score.c (get_widget): Changed range to -3 to +3
+	(xml_decode): Make sure the score is within our range
+
+	* filter-rule.c (get_widget): Rearranged widgets.
+
+	* filter-filter.c (get_widget): Rearranged widgets.
+
+	* filter-editor.c (filter_editor_construct): Updated to allow for
+	double-clicking on a rule to edit it.
+
 2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* filter-editor.c, filter-filter.c, filter-folder.c,

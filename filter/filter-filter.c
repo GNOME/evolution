@@ -2,6 +2,7 @@
  *  Copyright (C) 2000 Helix Code Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfasr <fejj@helixcode.com>
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Library General Public License
@@ -28,14 +29,14 @@
 
 #define d(x)
 
-static xmlNodePtr xml_encode(FilterRule *);
-static int xml_decode(FilterRule *, xmlNodePtr, struct _RuleContext *f);
+static xmlNodePtr xml_encode (FilterRule *);
+static int xml_decode (FilterRule *, xmlNodePtr, struct _RuleContext *f);
 /*static void build_code(FilterRule *, GString *out);*/
-static GtkWidget *get_widget(FilterRule *fr, struct _RuleContext *f);
+static GtkWidget *get_widget (FilterRule *fr, struct _RuleContext *f);
 
-static void filter_filter_class_init	(FilterFilterClass *class);
-static void filter_filter_init	(FilterFilter *gspaper);
-static void filter_filter_finalise	(GtkObject *obj);
+static void filter_filter_class_init (FilterFilterClass *class);
+static void filter_filter_init (FilterFilter *gspaper);
+static void filter_filter_finalise (GtkObject *obj);
 
 #define _PRIVATE(x) (((FilterFilter *)(x))->priv)
 
@@ -77,46 +78,46 @@ filter_filter_class_init (FilterFilterClass *class)
 {
 	GtkObjectClass *object_class;
 	FilterRuleClass *filter_rule = (FilterRuleClass *)class;
-
+	
 	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class(filter_rule_get_type ());
-
+	parent_class = gtk_type_class (filter_rule_get_type ());
+	
 	object_class->finalize = filter_filter_finalise;
-
+	
 	/* override methods */
 	filter_rule->xml_encode = xml_encode;
 	filter_rule->xml_decode = xml_decode;
 	/*filter_rule->build_code = build_code;*/
 	filter_rule->get_widget = get_widget;
-
+	
 	/* signals */
-
-	gtk_object_class_add_signals(object_class, signals, LAST_SIGNAL);
+	
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
 filter_filter_init (FilterFilter *o)
 {
-	o->priv = g_malloc0(sizeof(*o->priv));
+	o->priv = g_malloc0 (sizeof (*o->priv));
 }
 
 static void
-unref_list(GList *l)
+unref_list (GList *l)
 {
 	while (l) {
-		gtk_object_unref((GtkObject *)l->data);
-		l = g_list_next(l);
+		gtk_object_unref (GTK_OBJECT (l->data));
+		l = g_list_next (l);
 	}
 }
 
 static void
-filter_filter_finalise(GtkObject *obj)
+filter_filter_finalise (GtkObject *obj)
 {
 	FilterFilter *o = (FilterFilter *)obj;
-
-	unref_list(o->actions);
-
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+	
+	unref_list (o->actions);
+	
+        ((GtkObjectClass *)(parent_class))->finalize (obj);
 }
 
 /**
@@ -127,104 +128,113 @@ filter_filter_finalise(GtkObject *obj)
  * Return value: A new #FilterFilter object.
  **/
 FilterFilter *
-filter_filter_new(void)
+filter_filter_new (void)
 {
 	FilterFilter *o = (FilterFilter *)gtk_type_new(filter_filter_get_type ());
 	return o;
 }
 
-void		filter_filter_add_action	(FilterFilter *fr, FilterPart *fp)
+void
+filter_filter_add_action (FilterFilter *fr, FilterPart *fp)
 {
-	fr->actions = g_list_append(fr->actions, fp);
+	fr->actions = g_list_append (fr->actions, fp);
 }
 
-void		filter_filter_remove_action	(FilterFilter *fr, FilterPart *fp)
+void
+filter_filter_remove_action (FilterFilter *fr, FilterPart *fp)
 {
-	fr->actions = g_list_remove(fr->actions, fp);
+	fr->actions = g_list_remove (fr->actions, fp);
 }
 
-void		filter_filter_replace_action(FilterFilter *fr, FilterPart *fp, FilterPart *new)
+void
+filter_filter_replace_action (FilterFilter *fr, FilterPart *fp, FilterPart *new)
 {
 	GList *l;
 
-	l = g_list_find(fr->actions, fp);
+	l = g_list_find (fr->actions, fp);
 	if (l) {
 		l->data = new;
 	} else {
-		fr->actions = g_list_append(fr->actions, new);
+		fr->actions = g_list_append (fr->actions, new);
 	}
 }
 
-void		filter_filter_build_action	(FilterFilter *fr, GString *out)
+void
+filter_filter_build_action (FilterFilter *fr, GString *out)
 {
-	g_string_append(out, "(begin\n");
-	filter_part_build_code_list(fr->actions, out);
-	g_string_append(out, ")\n");
+	g_string_append (out, "(begin\n");
+	filter_part_build_code_list (fr->actions, out);
+	g_string_append (out, ")\n");
 }
 
-static xmlNodePtr xml_encode(FilterRule *fr)
+static xmlNodePtr
+xml_encode (FilterRule *fr)
 {
 	xmlNodePtr node, set, work;
 	GList *l;
 	FilterFilter *ff = (FilterFilter *)fr;
-
-        node = ((FilterRuleClass *)(parent_class))->xml_encode(fr);
-	g_assert(node != NULL);
-	set = xmlNewNode(NULL, "actionset");
-	xmlAddChild(node, set);
+	
+        node = ((FilterRuleClass *)(parent_class))->xml_encode (fr);
+	g_assert (node != NULL);
+	set = xmlNewNode (NULL, "actionset");
+	xmlAddChild (node, set);
 	l = ff->actions;
 	while (l) {
-		work = filter_part_xml_encode((FilterPart *)l->data);
-		xmlAddChild(set, work);
-		l = g_list_next(l);
+		work = filter_part_xml_encode ((FilterPart *)l->data);
+		xmlAddChild (set, work);
+		l = g_list_next (l);
 	}
+	
 	return node;
 
 }
 
-static void load_set(xmlNodePtr node, FilterFilter *ff, RuleContext *f)
+static void
+load_set (xmlNodePtr node, FilterFilter *ff, RuleContext *f)
 {
 	xmlNodePtr work;
 	char *rulename;
 	FilterPart *part;
-
+	
 	work = node->childs;
 	while (work) {
-		if (!strcmp(work->name, "part")) {
-			rulename = xmlGetProp(work, "name");
-			part = filter_context_find_action((FilterContext *)f, rulename);
+		if (!strcmp (work->name, "part")) {
+			rulename = xmlGetProp (work, "name");
+			part = filter_context_find_action ((FilterContext *)f, rulename);
 			if (part) {
-				part = filter_part_clone(part);
-				filter_part_xml_decode(part, work);
-				filter_filter_add_action(ff, part);
+				part = filter_part_clone (part);
+				filter_part_xml_decode (part, work);
+				filter_filter_add_action (ff, part);
 			} else {
-				g_warning("cannot find rule part '%s'\n", rulename);
+				g_warning ("cannot find rule part '%s'\n", rulename);
 			}
-			xmlFree(rulename);
+			xmlFree (rulename);
 		} else {
-			g_warning("Unknwon xml node in part: %s", work->name);
+			g_warning ("Unknwon xml node in part: %s", work->name);
 		}
 		work = work->next;
 	}
 }
 
-static int xml_decode(FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
+static int
+xml_decode (FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 {
 	xmlNodePtr work;
 	FilterFilter *ff = (FilterFilter *)fr;
 	int result;
 	
-        result = ((FilterRuleClass *)(parent_class))->xml_decode(fr, node, f);
+        result = ((FilterRuleClass *)(parent_class))->xml_decode (fr, node, f);
 	if (result != 0)
 		return result;
-
+	
 	work = node->childs;
 	while (work) {
-		if (!strcmp(work->name, "actionset")) {
-			load_set(work, ff, f);
+		if (!strcmp (work->name, "actionset")) {
+			load_set (work, ff, f);
 		}
 		work = work->next;
 	}
+	
 	return 0;
 }
 
@@ -240,79 +250,83 @@ struct _part_data {
 	GtkWidget *partwidget, *container;
 };
 
-static void option_activate(GtkMenuItem *item, struct _part_data *data)
+static void
+option_activate (GtkMenuItem *item, struct _part_data *data)
 {
-	FilterPart *part = gtk_object_get_data((GtkObject *)item, "part");
+	FilterPart *part = gtk_object_get_data (GTK_OBJECT (item), "part");
 	FilterPart *newpart;
-
+	
 	/* dont update if we haven't changed */
-	if (!strcmp(part->title, data->part->title))
+	if (!strcmp (part->title, data->part->title))
 		return;
-
+	
 	/* here we do a widget shuffle, throw away the old widget/rulepart,
 	   and create another */
 	if (data->partwidget)
-		gtk_container_remove((GtkContainer *)data->container, data->partwidget);
-	newpart = filter_part_clone(part);
-	filter_filter_replace_action((FilterFilter *)data->fr, data->part, newpart);
-	gtk_object_unref((GtkObject *)data->part);
+		gtk_container_remove (GTK_CONTAINER (data->container), data->partwidget);
+	
+	newpart = filter_part_clone (part);
+	filter_filter_replace_action ((FilterFilter *)data->fr, data->part, newpart);
+	gtk_object_unref (GTK_OBJECT (data->part));
 	data->part = newpart;
-	data->partwidget = filter_part_get_widget(newpart);
+	data->partwidget = filter_part_get_widget (newpart);
 	if (data->partwidget)
-		gtk_box_pack_start((GtkBox *)data->container, data->partwidget, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (data->container), data->partwidget, FALSE, FALSE, 0);
 }
 
 static GtkWidget *
-get_rule_part_widget(FilterContext *f, FilterPart *newpart, FilterRule *fr)
+get_rule_part_widget (FilterContext *f, FilterPart *newpart, FilterRule *fr)
 {
 	FilterPart *part = NULL;
-	GtkMenu *menu;
-	GtkMenuItem *item;
-	GtkOptionMenu *omenu;
-	GtkHBox *hbox;
+	GtkWidget *menu;
+	GtkWidget *item;
+	GtkWidget *omenu;
+	GtkWidget *hbox;
 	GtkWidget *p;
-	int index=0, current=0;
+	int index = 0, current = 0;
 	struct _part_data *data;
 	gchar *s;
-
-	data = g_malloc0(sizeof(*data));
+	
+	data = g_malloc0 (sizeof (*data));
 	data->fr = fr;
 	data->f = f;
 	data->part = newpart;
-
-	hbox = (GtkHBox *)gtk_hbox_new(FALSE, 0);
-	p = filter_part_get_widget(newpart);
-
+	
+	hbox = gtk_hbox_new (FALSE, 0);
+	p = filter_part_get_widget (newpart);
+	
 	data->partwidget = p;
-	data->container = (GtkWidget *)hbox;
-
-	menu = (GtkMenu *)gtk_menu_new();
-	while ((part=filter_context_next_action(f, part))) {
-		s = e_utf8_to_gtk_string ((GtkWidget *) menu, part->title);
-		item = (GtkMenuItem *)gtk_menu_item_new_with_label(s);
+	data->container = hbox;
+	
+	menu = gtk_menu_new ();
+	while ((part = filter_context_next_action (f, part))) {
+		s = e_utf8_to_gtk_string (menu, part->title);
+		item = gtk_menu_item_new_with_label (s);
 		g_free (s);
-		gtk_object_set_data((GtkObject *)item, "part", part);
-		gtk_signal_connect((GtkObject *)item, "activate", option_activate, data);
-		gtk_menu_append(menu, (GtkWidget *)item);
-		gtk_widget_show((GtkWidget *)item);
-		if (!strcmp(newpart->title, part->title)) {
+		
+		gtk_object_set_data (GTK_OBJECT (item), "part", part);
+		gtk_signal_connect (GTK_OBJECT (item), "activate", option_activate, data);
+		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_widget_show (item);
+		
+		if (!strcmp (newpart->title, part->title)) {
 			current = index;
 		}
 		index++;
 	}
-
-	omenu = (GtkOptionMenu *)gtk_option_menu_new();
-	gtk_option_menu_set_menu(omenu, (GtkWidget *)menu);
-	gtk_option_menu_set_history(omenu, current);
-	gtk_widget_show((GtkWidget *)omenu);
-
-	gtk_box_pack_start((GtkBox *)hbox, (GtkWidget *)omenu, FALSE, FALSE, 0);
+	
+	omenu = gtk_option_menu_new ();
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), current);
+	gtk_widget_show (omenu);
+	
+	gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 0);
 	if (p) {
-		gtk_box_pack_start((GtkBox *)hbox, p, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (hbox), p, FALSE, FALSE, 0);
 	}
-	gtk_widget_show_all((GtkWidget *)hbox);
-
-	return (GtkWidget *)hbox;
+	gtk_widget_show_all (hbox);
+	
+	return hbox;
 }
 
 struct _rule_data {
@@ -322,94 +336,113 @@ struct _rule_data {
 };
 
 static void
-less_parts(GtkWidget *button, struct _rule_data *data)
+less_parts (GtkWidget *widget, struct _rule_data *data)
 {
 	GList *l;
 	FilterPart *part;
 	GtkWidget *w;
-
+	
 	l = ((FilterFilter *)data->fr)->actions;
-	if (g_list_length(l) < 2)
+	if (g_list_length (l) < 2)
 		return;
-
+	
 	/* remove the last one from the list */
-	l = g_list_last(l);
+	l = g_list_last (l);
 	part = l->data;
-	filter_filter_remove_action((FilterFilter *)data->fr, part);
-	gtk_object_unref((GtkObject *)part);
-
+	filter_filter_remove_action ((FilterFilter *)data->fr, part);
+	gtk_object_unref (GTK_OBJECT (part));
+	
 	/* and from the display */
-	l = g_list_last(GTK_BOX(data->parts)->children);
-	w = ((GtkBoxChild *)l->data)->widget;
-	gtk_container_remove((GtkContainer *)data->parts, w);
+	l = g_list_last (GTK_BOX (data->parts)->children);
+	w = ((GtkBoxChild *) l->data)->widget;
+	gtk_container_remove (GTK_CONTAINER (data->parts), w);
 }
 
 static void
-more_parts(GtkWidget *button, struct _rule_data *data)
+more_parts (GtkWidget *widget, struct _rule_data *data)
 {
 	FilterPart *new;
 	GtkWidget *w;
-
+	
 	/* create a new rule entry, use the first type of rule */
-	new = filter_context_next_action((FilterContext *)data->f, NULL);
+	new = filter_context_next_action ((FilterContext *)data->f, NULL);
 	if (new) {
-		new = filter_part_clone(new);
-		filter_filter_add_action((FilterFilter *)data->fr, new);
-		w = get_rule_part_widget(data->f, new, data->fr);
-		gtk_box_pack_start((GtkBox *)data->parts, w, FALSE, FALSE, 0);
+		new = filter_part_clone (new);
+		filter_filter_add_action ((FilterFilter *)data->fr, new);
+		w = get_rule_part_widget (data->f, new, data->fr);
+		gtk_box_pack_start (GTK_BOX (data->parts), w, FALSE, FALSE, 0);
 	}
 }
 
-static GtkWidget *get_widget(FilterRule *fr, struct _RuleContext *f)
+static GtkWidget *
+get_widget (FilterRule *fr, struct _RuleContext *f)
 {
 	GtkWidget *widget;
-	GtkVBox *parts, *inframe;
-	GtkHBox *hbox;
+	GtkWidget *parts, *inframe;
+	GtkWidget *hbox;
+	GtkWidget *button, *pixmap;
 	GtkWidget *w;
-	GtkFrame *frame;
+	GtkWidget *frame;
+	GtkWidget *scrolledwindow;
+	GtkObject *hadj, *vadj;
 	GList *l;
 	FilterPart *part;
 	struct _rule_data *data;
 	FilterFilter *ff = (FilterFilter *)fr;
-
-	d(printf("filter filter.get widget\n"));
-
-        widget = ((FilterRuleClass *)(parent_class))->get_widget(fr, f);
-
-	/* and now for the action area */
-	frame = (GtkFrame *)gtk_frame_new("Perform actions");
-	inframe = (GtkVBox *)gtk_vbox_new(FALSE, 3);
-	gtk_container_add((GtkContainer *)frame, (GtkWidget *)inframe);
 	
-	parts = (GtkVBox *)gtk_vbox_new(FALSE, 3);
-	data = g_malloc0(sizeof(*data));
+        widget = ((FilterRuleClass *)(parent_class))->get_widget (fr, f);
+	
+	/* and now for the action area */
+	frame = gtk_frame_new (_("Then"));
+	inframe = gtk_vbox_new (FALSE, 3);
+	gtk_container_add (GTK_CONTAINER (frame), inframe);
+	
+	parts = gtk_vbox_new (FALSE, 3);
+	data = g_malloc0 (sizeof (*data));
 	data->f = (FilterContext *)f;
 	data->fr = fr;
-	data->parts = (GtkWidget *)parts;
+	data->parts = parts;
+	
+	hbox = gtk_hbox_new (FALSE, 3);
+	
+	pixmap = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_ADD);
+	button = gnome_pixmap_button (pixmap, _("Add action"));
+	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+	gtk_signal_connect (GTK_OBJECT (button), "clicked", more_parts, data);
+	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 3);
+	
+	pixmap = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_REMOVE);
+	button = gnome_pixmap_button (pixmap, _("Remove action"));
+	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+	gtk_signal_connect (GTK_OBJECT (button), "clicked", less_parts, data);
+	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 3);
+	
+	gtk_box_pack_start (GTK_BOX (inframe), hbox, FALSE, FALSE, 3);
 	
 	l = ff->actions;
 	while (l) {
 		part = l->data;
-		d(printf("adding action %s\n", part->title));
-		w = get_rule_part_widget((FilterContext *)f, part, fr);
-		gtk_box_pack_start((GtkBox *)parts, (GtkWidget *)w, FALSE, FALSE, 3);
-		l = g_list_next(l);
+		d(printf ("adding action %s\n", part->title));
+		w = get_rule_part_widget ((FilterContext *)f, part, fr);
+		gtk_box_pack_start (GTK_BOX (parts), w, FALSE, FALSE, 3);
+		l = g_list_next (l);
 	}
-	gtk_box_pack_start((GtkBox *)inframe, (GtkWidget *)parts, FALSE, FALSE, 3);
 	
-	hbox = (GtkHBox *)gtk_hbox_new(FALSE, 3);
-	w = gtk_button_new_with_label(_("Less"));
-	gtk_signal_connect((GtkObject *)w, "clicked", less_parts, data);
-	gtk_box_pack_end((GtkBox *)hbox, (GtkWidget *)w, FALSE, FALSE, 3);
-	w = gtk_button_new_with_label(_("More"));
-	gtk_signal_connect((GtkObject *)w, "clicked", more_parts, data);
-	gtk_box_pack_end((GtkBox *)hbox, (GtkWidget *)w, FALSE, FALSE, 3);
-	gtk_box_pack_start((GtkBox *)inframe, (GtkWidget *)hbox, FALSE, FALSE, 3);
-
-	gtk_widget_show_all((GtkWidget *)frame);
-
-	gtk_box_pack_start((GtkBox *)widget, (GtkWidget *)frame, FALSE, FALSE, 3);
-
+	hadj = gtk_adjustment_new (0.0, 0.0, 1.0, 1.0 ,1.0, 1.0);
+	vadj = gtk_adjustment_new (0.0, 0.0, 1.0, 1.0 ,1.0, 1.0);
+	scrolledwindow = gtk_scrolled_window_new (GTK_ADJUSTMENT (hadj), GTK_ADJUSTMENT (vadj));
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow),
+                                        GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	
+	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolledwindow), parts);
+	
+	gtk_box_pack_start (GTK_BOX (inframe), scrolledwindow, FALSE, FALSE, 3);
+	
+	/*gtk_box_pack_start (GTK_BOX (inframe), parts, FALSE, FALSE, 3);*/
+	
+	gtk_widget_show_all (frame);
+	
+	gtk_box_pack_start (GTK_BOX (widget), frame, FALSE, FALSE, 3);
+	
 	return widget;
 }
-
