@@ -805,6 +805,11 @@ e_msg_composer_hdrs_get_reply_to (EMsgComposerHdrs *hdrs)
 	gtk_object_get (GTK_OBJECT (hdrs->priv->reply_to.entry),
 			"text", &reply_to, NULL);
 	
+	if (!reply_to || *reply_to == '\0') {
+		g_free (reply_to);
+		return NULL;
+	}
+	
 	addr = camel_internet_address_new ();
 	if (camel_address_unformat (CAMEL_ADDRESS (addr), reply_to) == -1) {
 		g_free (reply_to);
