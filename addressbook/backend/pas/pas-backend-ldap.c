@@ -6,7 +6,7 @@
  * Copyright 2000, Helix Code, Inc.
  */
 
-/*#define DEBUG*/
+#define DEBUG
 
 #include "config.h"  
 #include <gtk/gtksignal.h>
@@ -16,6 +16,7 @@
 
 #ifdef DEBUG
 #define LDAP_DEBUG
+#define LDAP_DEBUG_ADD
 #endif
 #include <ldap.h>
 #ifdef DEBUG
@@ -107,9 +108,13 @@ static void     ldap_op_finished (LDAPOp *op);
 
 static ECardSimple *build_card_from_entry (LDAP *ldap, LDAPMessage *e);
 
-static void email_populate_func(ECardSimple *card, char **values);
-struct berval** email_ber_func(ECardSimple *card);
-gboolean email_compare_func (ECardSimple *ecard1, ECardSimple *ecard2);
+static void email_populate (ECardSimple *card, char **values);
+struct berval** email_ber (ECardSimple *card);
+gboolean email_compare (ECardSimple *ecard1, ECardSimple *ecard2);
+
+static void homephone_populate (ECardSimple *card, char **values);
+struct berval** homephone_ber (ECardSimple *card);
+gboolean homephone_compare (ECardSimple *ecard1, ECardSimple *ecard2);
 
 struct prop_info {
 	ECardSimpleField field_id;
@@ -137,13 +142,20 @@ struct prop_info {
 /*  	E_CARD_SIMPLE_FIELD_FILE_AS, */
 	STRING_PROP (E_CARD_SIMPLE_FIELD_FULL_NAME,     "full_name", "cn" ),
 	STRING_PROP (E_CARD_SIMPLE_FIELD_FAMILY_NAME,   "family_name", "sn" ),
-	LIST_PROP   (E_CARD_SIMPLE_FIELD_EMAIL,         "email", "mail", email_populate_func, email_ber_func, email_compare_func),
+	LIST_PROP   (E_CARD_SIMPLE_FIELD_EMAIL,         "email", "mail", email_populate, email_ber, email_compare),
 /*      don't need E_CARD_SIMPLE_FIELD_EMAIL_2, */
 /*      don't need E_CARD_SIMPLE_FIELD_EMAIL_3, */
 
 	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, "phone", "telephoneNumber"),
+
+#if 0
+	LIST_PROP (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, "business_phone", "businessPhone", business_populate, business_ber, business_compare),
+#endif
 /*  	E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, */
-	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_HOME,    "home_phone", "homePhone"),
+/*      E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2, */
+
+	LIST_PROP (E_CARD_SIMPLE_FIELD_PHONE_HOME,    "home_phone", "homePhone", homephone_populate, homephone_ber, homephone_compare),
+/*	don't need E_CARD_SIMPLE_FIELD_PHONE_HOME_2, */
 	STRING_PROP (E_CARD_SIMPLE_FIELD_ORG,           "org", "o"),
 	STRING_PROP (E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS, "business_address", "postalAddress"),
 	STRING_PROP (E_CARD_SIMPLE_FIELD_ADDRESS_HOME, "home_address", "homePostalAddress"),
@@ -151,8 +163,6 @@ struct prop_info {
 /*      E_CARD_SIMPLE_FIELD_PHONE_CAR, */
 	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, "business_fax", "facsimileTelephoneNumber"), 
 /*      E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX, */
-/*      E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2, */
-/*      E_CARD_SIMPLE_FIELD_PHONE_HOME_2, */
 	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_ISDN, "isdn", "internationalISDNNumber"), 
 /*      E_CARD_SIMPLE_FIELD_PHONE_OTHER, */
 	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_PAGER,   "pager", "pager"),
@@ -162,8 +172,8 @@ struct prop_info {
 	STRING_PROP (E_CARD_SIMPLE_FIELD_OFFICE,        "office",  "roomNumber"),
 	STRING_PROP (E_CARD_SIMPLE_FIELD_TITLE,         "title", "title"),
 /*      E_CARD_SIMPLE_FIELD_ROLE, */
-	STRING_PROP (E_CARD_SIMPLE_FIELD_MANAGER,       "manager",  "manager"),
-	STRING_PROP (E_CARD_SIMPLE_FIELD_ASSISTANT,     "assistant", "secretary"),
+/*	STRING_PROP (E_CARD_SIMPLE_FIELD_MANAGER,       "manager",  "manager"), */
+/*	STRING_PROP (E_CARD_SIMPLE_FIELD_ASSISTANT,     "assistant", "secretary"), */
 	/* map nickname to displayName */
 	STRING_PROP (E_CARD_SIMPLE_FIELD_NICKNAME,      "nickname",  "displayName"),
 /*      E_CARD_SIMPLE_FIELD_SPOUSE, */
@@ -177,7 +187,6 @@ struct prop_info {
 
 #undef STRING_PROP
 #undef LIST_PROP
-#undef STRUCT_PROP
 };
 
 static int num_prop_infos = sizeof(prop_info) / sizeof(prop_info[0]);
@@ -439,7 +448,7 @@ build_mods_from_ecards (ECardSimple *current, ECardSimple *new, gboolean *new_dn
 		if (adding) {
 			/* if we're creating a new card, include it if the
                            field is there at all */
-			include = (new_prop != NULL);
+			include = (new_prop && *new_prop);
 		}
 		else {
 			/* if we're modifying an existing card,
@@ -450,7 +459,7 @@ build_mods_from_ecards (ECardSimple *current, ECardSimple *new, gboolean *new_dn
 			current_prop = e_card_simple_get (current, prop_info[i].field_id);
 
 			if (new_prop && current_prop)
-				include = strcmp (new_prop, current_prop);
+				include = *new_prop && strcmp (new_prop, current_prop);
 			else
 				include = (!!new_prop != !!current_prop);
 		}
@@ -559,6 +568,41 @@ create_card_handler (PASBackend *backend, LDAPOp *op)
 	g_ptr_array_add (mod_array, objectclass_mod);
 
 	g_ptr_array_add (mod_array, NULL);
+
+#ifdef LDAP_DEBUG_ADD
+	{
+		int i;
+		printf ("Sending the following to the server as ADD\n");
+
+		for (i = 0; g_ptr_array_index(mod_array, i); i ++) {
+			LDAPMod *mod = g_ptr_array_index(mod_array, i);
+			if (mod->mod_op & LDAP_MOD_DELETE)
+				printf ("del ");
+			else if (mod->mod_op & LDAP_MOD_REPLACE)
+				printf ("rep ");
+			else
+				printf ("add ");
+			if (mod->mod_op & LDAP_MOD_BVALUES)
+				printf ("ber ");
+			else
+				printf ("    ");
+
+			printf (" %s:\n", mod->mod_type);
+
+			if (mod->mod_op & LDAP_MOD_BVALUES) {
+				int j;
+				for (j = 0; mod->mod_bvalues[j] && mod->mod_bvalues[j]->bv_val; j++)
+					printf ("\t\t'%s'\n", mod->mod_bvalues[j]->bv_val);
+			}
+			else {
+				int j;
+
+				for (j = 0; mod->mod_values[j]; j++)
+					printf ("\t\t'%s'\n", mod->mod_values[j]);
+			}
+		}
+	}
+#endif
 
 	ldap_mods = (LDAPMod**)mod_array->pdata;
 
@@ -762,7 +806,11 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 			ldap_mods = (LDAPMod**)mod_array->pdata;
 
 			/* actually perform the ldap modify */
-			ldap_error = ldap_modify_s (ldap, id, ldap_mods);
+#ifdef OPENLDAP2
+			ldap_error = ldap_modify_ext_s (ldap, id, ldap_mods, NULL, NULL);
+#else
+			ldap_error = ldap_modify (ldap, id, ldap_mods);
+#endif
 			if (ldap_error != LDAP_SUCCESS)
 				ldap_perror (ldap, "ldap_modify_s");
 		}
@@ -977,8 +1025,10 @@ pas_backend_ldap_process_get_cursor (PASBackend *backend,
 	ldap_op_process ((LDAPOp*)op);
 }
 
+
+/* List property functions */
 static void
-email_populate_func(ECardSimple *card, char **values)
+email_populate(ECardSimple *card, char **values)
 {
 	int i;
 
@@ -988,7 +1038,7 @@ email_populate_func(ECardSimple *card, char **values)
 }
 
 struct berval**
-email_ber_func(ECardSimple *card)
+email_ber(ECardSimple *card)
 {
 	struct berval** result;
 	const char *emails[3];
@@ -1010,7 +1060,7 @@ email_ber_func(ECardSimple *card)
 	for (i = 0; i < 3; i ++) {
 		if (emails[i]) {
 			result[j]->bv_val = g_strdup (emails[i]);
-			result[j++]->bv_len = strlen (emails[i]) + 1;
+			result[j++]->bv_len = strlen (emails[i]);
 		}
 	}
 
@@ -1020,7 +1070,7 @@ email_ber_func(ECardSimple *card)
 }
 
 gboolean
-email_compare_func (ECardSimple *ecard1, ECardSimple *ecard2)
+email_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 {
 	const char *email1, *email2;
 	int i;
@@ -1034,6 +1084,70 @@ email_compare_func (ECardSimple *ecard1, ECardSimple *ecard2)
 			equal = !strcmp (email1, email2);
 		else
 			equal = (!!email1 == !!email2);
+
+		if (!equal)
+			return equal;
+	}
+
+	return FALSE;;
+}
+
+static void
+homephone_populate(ECardSimple *card, char **values)
+{
+	if (values[0])
+		e_card_simple_set (card, E_CARD_SIMPLE_FIELD_PHONE_HOME, values[0]);
+	if (values[1])
+		e_card_simple_set (card, E_CARD_SIMPLE_FIELD_PHONE_HOME_2, values[1]);
+}
+
+struct berval**
+homephone_ber(ECardSimple *card)
+{
+	struct berval** result;
+	const char *homephones[3];
+	int i, j, num;
+
+	num = 0;
+	if ((homephones[0] = e_card_simple_get (card, E_CARD_SIMPLE_FIELD_PHONE_HOME)))
+		num++;
+	if ((homephones[1] = e_card_simple_get (card, E_CARD_SIMPLE_FIELD_PHONE_HOME_2)))
+		num++;
+
+	result = g_new (struct berval*, num + 1);
+
+	for (i = 0; i < num; i ++)
+		result[i] = g_new (struct berval, 1);
+
+	j = 0;
+	for (i = 0; i < 2; i ++) {
+		if (homephones[i]) {
+			result[j]->bv_val = g_strdup (homephones[i]);
+			result[j++]->bv_len = strlen (homephones[i]);
+		}
+	}
+
+	result[num] = NULL;
+
+	return result;
+}
+
+gboolean
+homephone_compare (ECardSimple *ecard1, ECardSimple *ecard2)
+{
+	int phone_ids[2] = { E_CARD_SIMPLE_FIELD_PHONE_HOME, E_CARD_SIMPLE_FIELD_PHONE_HOME_2 };
+	const char *phone1, *phone2;
+	int i;
+
+	for (i = 0; i < 2; i ++) {
+		gboolean equal;
+		phone1 = e_card_simple_get (ecard1, phone_ids[i]);
+		phone2 = e_card_simple_get (ecard2, phone_ids[i]);
+
+		if (phone1 && phone2)
+			equal = !strcmp (phone1, phone2);
+		else
+			equal = (!!phone1 == !!phone2);
 
 		if (!equal)
 			return equal;
