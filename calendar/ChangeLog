@@ -1,3 +1,10 @@
+2005-01-03  JP Rosevear  <jpr@novell.com>
+
+	Fixes #69663
+	
+	* gui/e-cal-model-tasks.c (is_complete): look at the percent
+	complete and status properties as well for completeness clues
+
 2005-01-03  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-cal-model.c (e_cal_model_set_time_range): redo the queries

@@ -371,8 +371,18 @@ is_complete (ECalModelComponent *comp_data)
 	icalproperty *prop;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
+	if (prop)
+		return TRUE;
 
-	return prop ? TRUE : FALSE;
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PERCENTCOMPLETE_PROPERTY);
+	if (prop && icalproperty_get_percentcomplete (prop) == 100)
+		return TRUE;
+
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
+	if (prop && icalproperty_get_status (prop) == ICAL_STATUS_COMPLETED)
+		return TRUE;
+	
+	return FALSE;
 }
 
 typedef enum {
