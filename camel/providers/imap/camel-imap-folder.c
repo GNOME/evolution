@@ -157,7 +157,7 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 	CamelImapResponse *response;
 	char *resp;
 	guint32 validity = 0;
-	int i, exists;
+	int i, exists = 0;
 
 	camel_folder_construct (folder, parent, folder_name, short_name);
 

@@ -1,3 +1,9 @@
+2001-01-03  Christopher James Lahey  <clahey@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new):
+	Initialize the exists variable so that we don't do random things
+	if the imap server misbehaves.
+
 2000-12-29  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-folder.c (camel_folder_move_message_to): REmove warning,
