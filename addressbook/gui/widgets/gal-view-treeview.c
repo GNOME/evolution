@@ -92,8 +92,15 @@ static void
 gal_view_treeview_dispose         (GObject *object)
 {
 	GalViewTreeView *view = GAL_VIEW_TREEVIEW(object);
-	gal_view_treeview_detach (view);
-	g_free(view->title);
+
+	if (view->title != NULL) {
+		gal_view_treeview_detach (view);
+		g_free(view->title);
+		view->title = NULL;
+	}
+
+	if (G_OBJECT_CLASS (gal_view_treeview_parent_class)->dispose)
+		(* G_OBJECT_CLASS (gal_view_treeview_parent_class)->dispose) (object);
 }
 
 static void

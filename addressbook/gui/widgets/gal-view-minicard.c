@@ -89,8 +89,15 @@ static void
 gal_view_minicard_dispose         (GObject *object)
 {
 	GalViewMinicard *view = GAL_VIEW_MINICARD(object);
-	gal_view_minicard_detach (view);
-	g_free(view->title);
+
+	if (view->title != NULL) {
+		gal_view_minicard_detach (view);
+		g_free(view->title);
+		view->title = NULL;
+	}
+
+	if (G_OBJECT_CLASS (gal_view_minicard_parent_class)->dispose)
+		(* G_OBJECT_CLASS (gal_view_minicard_parent_class)->dispose) (object);
 }
 
 static void

@@ -74,13 +74,22 @@ e_address_widget_destroy (GtkObject *obj)
 	EAddressWidget *addr = E_ADDRESS_WIDGET (obj);
 
 	g_free (addr->name);
+	addr->name = NULL;
+
 	g_free (addr->email);
+	addr->email = NULL;
 
-	if (addr->query_tag)
+	if (addr->query_tag) {
 		e_book_simple_query_cancel (common_book, addr->query_tag);
+		addr->query_tag = 0;
+	}
 
-	if (addr->query_idle_tag)
+	if (addr->query_idle_tag) {
 		g_source_remove (addr->query_idle_tag);
+		addr->query_idle_tag = 0;
+	}
+
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (obj);
 }
 
 static gint

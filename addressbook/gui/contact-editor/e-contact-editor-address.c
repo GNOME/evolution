@@ -457,6 +457,9 @@ e_contact_editor_address_dispose (GObject *object)
 		e_card_delivery_address_unref(e_contact_editor_address->address);
 		e_contact_editor_address->address = NULL;
 	}
+
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 GtkWidget*
