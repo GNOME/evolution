@@ -367,7 +367,7 @@ static gchar
  * (a protocol-level error occurred, and Camel is uncertain of the
  * result of the command.)
  **/
-int
+gint
 camel_imap_command (CamelImapStore *store, char **ret, char *fmt, ...)
 {
 	gchar *cmdbuf, *respbuf;
@@ -403,9 +403,10 @@ camel_imap_command (CamelImapStore *store, char **ret, char *fmt, ...)
 
 	fprintf(stderr, "received: %s\n", respbuf);
 
+        /* TODO: We should really check the command id, da? */
 	if (!strncmp (respbuf + 11, "OK", 2))
 		status = CAMEL_IMAP_OK;
-	else if (!strncmp (respbuf + 11, "BAD", 3))
+	else if (!strncmp (respbuf + 11, "NO", 2))
 		status = CAMEL_IMAP_ERR;
 	else
 		status = CAMEL_IMAP_FAIL;
@@ -424,41 +425,81 @@ camel_imap_command (CamelImapStore *store, char **ret, char *fmt, ...)
 }
 
 /**
- * camel_imap_command_get_additional_data: get "additional data" from
- * an IMAP command.
+ * camel_imap_command_extended: Send a command to a IMAP server and get
+ * a multi-line response.
  * @store: the IMAP store
+ * @ret: a pointer to return the full server response in
+ * @fmt: a printf-style format string, followed by arguments
+ *
+ * This command sends the command specified by @fmt and the following
+ * arguments to the connected IMAP store specified by @store. It then
+ * reads the server's response and parses out the status code.
+ * Camel_imap_command_extended will set it to point to a buffer containing the
+ * response from the IMAP server. (If @ret was passed but there was The caller
+ * must free this buffer when it is done with it.
  *
  * This command gets the additional data returned by "multi-line" IMAP
- * commands, such as LIST, RETR, TOP, and UIDL. This command _must_
- * be called after a successful (CAMEL_IMAP_OK) call to
- * camel_imap_command for a command that has a multi-line response.
+ * commands, such as SELECT, LIST, LSUB, and various other commands.
  * The returned data is un-byte-stuffed, and has lines termined by
  * newlines rather than CR/LF pairs.
  *
- * Return value: the data, which the caller must free.
+ * Return value: one of CAMEL_IMAP_OK (command executed successfully),
+ * CAMEL_IMAP_ERR (command encounted an error), or CAMEL_IMAP_FAIL
+ * (a protocol-level error occurred, and Camel is uncertain of the
+ * result of the command.)
  **/
-char *
-camel_imap_command_get_additional_data (CamelImapStore *store,
-					CamelException *ex)
+
+gint
+camel_imap_command_extended (CamelImapStore *store, char **ret, char *fmt, ...)
 {
 	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
 	GPtrArray *data;
-	char *buf;
-	int i, status = CAMEL_IMAP_OK;
+	gchar *cmdid, *cmdbuf, *respbuf, *code;
+	va_list app;
+	gint i, status = CAMEL_IMAP_OK;
+
+	/* Create the command */
+	cmdid = g_strdup_printf("A%.5d", store->command++);
+	va_start (ap, fmt);
+	cmdbuf = g_strdup_vprintf (fmt, ap);
+	va_end (ap);
+
+	fprintf(stderr, "sending : %s %s\r\n", cmdid, cmdbuf);
+
+	if (camel_stream_printf (store->ostream, "%s %s\r\n", cmdid, cmdbuf) == -1) {
+		g_free(cmdbuf);
+		g_free(cmdid);
+
+		*ret = g_strdup(strerror(errno));
+
+		return CAMEL_IMAP_FAIL;
+	}
+	g_free(cmdbuf);
+	g_free(cmdid);
 
 	data = g_ptr_array_new ();
 	while (1) {
-		buf = camel_stream_buffer_read_line (stream);
-		if (!buf) {
-			status = CAMEL_IMAP_FAIL;
+		respbuf = camel_stream_buffer_read_line (stream);
+		if (!respbuf || !strncmp(respbuf, cmdid, strlen(cmdid)) ) {
+			/* IMAP's last response starts with our command id */
 			break;
 		}
 
-		if (!strcmp (buf, "."))
-			break;
-		if (*buf == '.')
-			memmove (buf, buf + 1, strlen (buf));
-		g_ptr_array_add (data, buf);
+		fprintf(stderr, "received: %s\n", respbuf);
+
+		g_ptr_array_add (data, respbuf);
+	}
+
+	if (respbuf) {
+		code = respbuf + strlen(cmdid) + 1;
+		if (!strncmp(code, "OK", 2))
+			status = CAMEL_IMAP_OK;
+		else if (!strncmp(code, "NO", 2))
+			status = CAMEL_IMAP_ERR;
+		else
+			status = CAMEL_IMAP_FAIL;
+	} else {
+		status = CAMEL_IMAP_FAIL;
 	}
 
 	if (status == CAMEL_IMAP_OK) {
@@ -468,14 +509,23 @@ camel_imap_command_get_additional_data (CamelImapStore *store,
 		 */
 		g_ptr_array_add (data, "");
 		g_ptr_array_add (data, NULL);
-		buf = g_strjoinv ("\n", (char **)data->pdata);
-	} else
-		buf = NULL;
+		*ret = g_strjoinv ("\n", (gchar **)data->pdata);
+	} else {
+		if (status != CAMEL_IMAP_FAIL)
+		        *ret = g_strdup (strchr (respbuf, ' ' + 1);
+		else
+			*ret = NULL;
+	}
 
 	for (i = 0; i < data->len - 2; i++)
 		g_free (data->pdata[i]);
 	g_ptr_array_free (data, TRUE);
 
-	return buf;
+	return status;
 }
+
+
+
+
+
 

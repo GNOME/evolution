@@ -48,6 +48,9 @@ typedef struct {
 	gchar *folder_dir_path;    /* contains the subfolders */
 	gchar *index_file_path;	   /* index of body contents */
 
+	ibex *index;		   /* index for this folder */
+	CamelImapSummary *summary;
+	CamelFolderSearch *search; /* used to run searches, we just use the real thing (tm) */
 } CamelImapFolder;
 
 
