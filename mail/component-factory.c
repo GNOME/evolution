@@ -33,6 +33,8 @@
 #include "Evolution.h"
 #include "evolution-storage.h"
 
+#include "e-util/e-bonobo-factory-util.h"
+
 #include "folder-browser-factory.h"
 #include "evolution-shell-component.h"
 #include "evolution-shell-component-dnd.h"
@@ -46,11 +48,10 @@
 #include "mail-session.h"
 #include "mail-mt.h"
 #include "mail-importer.h"
+#include "mail-send-recv.h"
 #include "mail-vfolder.h"             /* vfolder_create_storage */
 
 #include "component-factory.h"
-
-#include "mail-send-recv.h"
 
 char *default_drafts_folder_uri;
 CamelFolder *drafts_folder = NULL;
@@ -704,7 +705,9 @@ handle_external_uri_cb (EvolutionShellComponent *shell_component,
 }
 
 static BonoboObject *
-component_fn (BonoboGenericFactory *factory, void *closure)
+component_fn (BonoboGenericFactory *factory,
+	      const char *component_id,
+	      void *closure)
 {
 	EvolutionShellComponentDndDestinationFolder *destination_interface;
 	MailOfflineHandler *offline_handler;
@@ -746,8 +749,8 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 void
 component_factory_init (void)
 {
-	component_factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID,
-							component_fn, NULL);
+	component_factory = e_bonobo_generic_factory_multi_display_new (COMPONENT_FACTORY_ID,
+									component_fn, NULL);
 
 	evolution_mail_config_factory_init ();
 	evolution_folder_info_factory_init ();
