@@ -38,7 +38,7 @@
 #include "string-utils.h"
 #include "camel-utf8.h"
 
-#define d(x) x
+#define d(x)
 
 const char *
 imap_next_word (const char *buf)
@@ -191,6 +191,7 @@ imap_namespace_decode (const char **in, struct _namespace **namespace)
 	return FALSE;
 }
 
+#if d(!)0
 static void
 namespace_dump (struct _namespace *namespace)
 {
@@ -228,6 +229,7 @@ namespaces_dump (struct _namespaces *namespaces)
 	namespace_dump (namespaces->shared);
 	printf ("\n");
 }
+#endif
 
 struct _namespaces *
 imap_parse_namespace_response (const char *response)
@@ -235,7 +237,7 @@ imap_parse_namespace_response (const char *response)
 	struct _namespaces *namespaces;
 	const char *inptr;
 	
-	printf ("parsing: %s\n", response);
+	d(printf ("parsing: %s\n", response));
 	
 	if (*response != '*')
 		return NULL;
@@ -272,7 +274,7 @@ imap_parse_namespace_response (const char *response)
 	if (!imap_namespace_decode (&inptr, &namespaces->shared))
 		goto exception;
 	
-	namespaces_dump (namespaces);
+	d(namespaces_dump (namespaces));
 	
 	return namespaces;
 	

@@ -1,5 +1,7 @@
 2003-04-22  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-utils.c: Disable debugging printfs.
+
 	* providers/imap/camel-imap-store.c (imap_connect_online): #if 0
 	out some code that parsed the namespaces since the results aren't
 	used and they generate debugging output.
