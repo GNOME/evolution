@@ -130,14 +130,6 @@ mail_format_mime_message (CamelMimeMessage *mime_message,
 static void
 free_url (gpointer key, gpointer value, gpointer data)
 {
-	char *url = key;
-
-	/* If it's an "x-evolution-data" URL, the value is a byte
-	 * array. Otherwise it's a CamelMimePart which is part of the
-	 * message and will be freed from elsewhere.
-	 */
-	if (!strncmp (url, "x-evolution-data:", 17))
-		g_byte_array_free (value, TRUE);
 	g_free (key);
 }
 
@@ -154,7 +146,6 @@ static const char *
 get_cid (CamelMimePart *part, struct mail_format_data *mfd)
 {
 	char *cid;
-	const char *filename;
 	gpointer orig_name, value;
 
 	/* If we have a real Content-ID, use it. If we don't,
@@ -549,6 +540,12 @@ handle_text_plain_flowed (CamelMimePart *part, const char *mime_type,
 	mail_html_write (mfd->html, mfd->stream, "</tt>\n");
 }
 
+static void
+free_byte_array (GtkWidget *widget, gpointer user_data)
+{
+	g_byte_array_free (user_data, TRUE);
+}
+
 /* text/enriched (RFC 1896) or text/richtext (included in RFC 1341) */
 static void
 handle_text_enriched (CamelMimePart *part, const char *mime_type,
@@ -706,6 +703,8 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 
 	xed = g_strdup_printf ("x-evolution-data:%p", part);
 	g_hash_table_insert (mfd->urls, xed, ba);
+	gtk_signal_connect (GTK_OBJECT (mfd->root), "destroy",
+			    GTK_SIGNAL_FUNC (free_byte_array), ba);
 	mail_html_write (mfd->html, mfd->stream,
 			 "<iframe src=\"%s\" frameborder=0 scrolling=no>"
 			 "</iframe>", xed);
@@ -882,7 +881,6 @@ get_url_for_icon (const char *icon_name, struct mail_format_data *mfd)
 {
 	static GHashTable *icons;
 	char *icon_path = gnome_pixmap_file (icon_name), buf[1024], *url;
-	int fd, nread;
 	GByteArray *ba;
 
 	if (!icons)
@@ -891,29 +889,28 @@ get_url_for_icon (const char *icon_name, struct mail_format_data *mfd)
 	if (!icon_path)
 		return "file:///dev/null";
 
-	url = g_hash_table_lookup (icons, icon_path);
-	if (url) {
-		g_free (icon_path);
-		return url;
+	ba = g_hash_table_lookup (icons, icon_path);
+	if (!ba) {
+		int fd, nread;
+
+		fd = open (icon_path, O_RDONLY);
+		if (fd == -1) {
+			g_free (icon_path);
+			return "file:///dev/null";
+		}
+
+		ba = g_byte_array_new ();
+
+		while (1) {
+			nread = read (fd, buf, sizeof (buf));
+			if (nread < 1)
+				break;
+			g_byte_array_append (ba, buf, nread);
+		}
+		close (fd);
+
+		g_hash_table_insert (icons, icon_path, ba);
 	}
-
-	fd = open (icon_path, O_RDONLY);
-	if (fd == -1) {
-		g_free (icon_path);
-		return "file:///dev/null";
-	}
-
-	ba = g_byte_array_new ();
-
-	while (1) {
-		nread = read (fd, buf, sizeof (buf));
-		if (nread < 1)
-			break;
-		g_byte_array_append (ba, buf, nread);
-	}
-	close (fd);
-
-	g_hash_table_insert (icons, icon_path, ba);
 	g_free (icon_path);
 
 	url = g_strdup_printf ("x-evolution-data:%p", ba);
@@ -921,7 +918,6 @@ get_url_for_icon (const char *icon_name, struct mail_format_data *mfd)
 
 	return url;
 }
-	
 
 static void
 handle_mystery (CamelMimePart *part, struct mail_format_data *mfd,

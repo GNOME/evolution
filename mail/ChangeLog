@@ -1,3 +1,14 @@
+2000-05-31  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (free_url, handle_text_enriched,
+	get_url_for_icon): Fix up memory management of x-evolution-data
+	URLs so the URLs and/or their data don't get freed while there are
+	still references to them.
+
+	* message-list.c (message_list_init_header): redo the (unused)
+	online status column to no longer refer to pixmaps that no longer
+	exist.
+
 2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* folder-browser-factory.c (control_activate): Put the toolbar

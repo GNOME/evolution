@@ -492,8 +492,8 @@ message_list_init_header (MessageList *message_list)
 	gtk_object_sink (GTK_OBJECT (message_list->header_model));
 
 	message_list->table_cols [COL_ONLINE_STATUS] =
-		e_table_col_new_with_pixbuf (
-			COL_ONLINE_STATUS, states_pixmaps [5].pixbuf,
+		e_table_col_new (
+			COL_ONLINE_STATUS, _("Online Status"),
 			0.0, COL_CHECK_BOX_WIDTH,
 			message_list->render_online_status,
 			g_int_compare, FALSE);
