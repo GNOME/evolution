@@ -1,6 +1,11 @@
 Version 0.6
 -----------
 
+General:
+
+  - Split out lots of functionality to gal.  Evolution now depends on
+    gal. (Chris, Gal Team)
+
 Shell:
 
   - Added a cute splash screen.  (Ettore, TigerT)
@@ -13,18 +18,6 @@ Shell:
 
   - Updated to use the new toolbar and UI merging code from Bonobo.
     (Michael Meeks, Ettore)
-
-Calendar:
-
-  - Improved todo list and calendar view gui (Damon)
-
-  - Printing works again (Federico)
-
-  - Config dialog improvement and implementation (Damon)
-
-  - Todo and calendar conduits working, except for archiving (JP)
-
-  - vEvent iTip mail attachments can now be added to your calendar (Jesse)
 
 Mail:
 
@@ -76,6 +69,34 @@ Mail:
   - New "Select All" command. "Mark all messages as seen" became "Mark
     (selected) messages seen". (Jeff)
 
+Calendar:
+
+  - Improved todo list and calendar view gui (Damon)
+
+  - Printing works again (Federico)
+
+  - Config dialog improvement and implementation (Damon)
+
+  - Todo and calendar conduits working, except for archiving (JP)
+
+Addressbook:
+
+  - Lots of internal refactoring of addressbook, including changes due
+    to gal. (Chris, Chris)
+
+  - Lots of bug fixes. (Chris, Chris, Matt Bissiri, Iain, Dan)
+
+  - Added a working field to save whether the contact wants HTML. (Chris)
+
+  - Added "Stop" and "View All" toolbar buttons. (Chris)
+
+  - Lots of work on modifiable LDAP. (Chris)
+
+  - Recognizes a lot more Prefixes and Suffixes when parsing names. (Nat)
+
+  - The card view doesn't write out cards unless they've changed. (Chris)
+
+  - New layout of address editor dialog. (Anna, Chris)
 
 Version 0.5.1, "Salamended", 2000-09-15
 ---------------------------------------
