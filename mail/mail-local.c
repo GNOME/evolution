@@ -690,7 +690,7 @@ static void
 do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	reconfigure_folder_input_t *input = (reconfigure_folder_input_t *) in_data;
-	MailLocalFolder *local_folder;
+	MailLocalFolder *local_folder = NULL;
 	CamelStore *fromstore = NULL, *tostore = NULL;
 	char *fromurl = NULL, *tourl = NULL;
 	CamelFolder *fromfolder = NULL, *tofolder = NULL;
@@ -699,7 +699,7 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	char *metapath;
 	char *tmpname;
 	CamelURL *url = NULL;
-	struct _local_meta *meta;
+	struct _local_meta *meta = NULL;
 	guint32 flags;
 
 	d(printf("reconfiguring folder: %s to type %s\n", input->fb->uri, input->newtype));
@@ -825,7 +825,7 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	}
 
  cleanup:
-	if (!local_folder->folder)
+	if (local_folder && !local_folder->folder)
 		do_register_folder (local_folder, NULL, ex);
 	if (tofolder)
 		camel_object_unref (CAMEL_OBJECT (tofolder));
@@ -835,7 +835,8 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 		camel_object_unref (CAMEL_OBJECT (fromstore));
 	if (tostore)
 		camel_object_unref (CAMEL_OBJECT (tostore));
-	free_metainfo(meta);
+	if (meta)
+		free_metainfo(meta);
 	g_free(fromurl);
 	g_free(tourl);
 	if (url)

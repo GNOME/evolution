@@ -1,3 +1,8 @@
+2001-02-13  Christopher James Lahey  <clahey@ximian.com>
+
+	* mail-local.c (do_reconfigure_folder): Fix some uninitialized
+	variables.
+
 2001-02-12  Not Zed  <NotZed@Ximian.com>
 
 	* message-list.c (build_tree): if doing a full update, save the
