@@ -797,9 +797,8 @@ elide_quotes (const gchar *str)
 
 	if (c) {
 		while (*c) {
-			if (*c == '"')
-				*c = '\'';
-			++c;
+			if (*c != '"')
+				++c;
 		}
 	}
 	return cpy;
@@ -818,20 +817,27 @@ write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *fi
 	
 	i = 0;
 	while (camel_internet_address_get (addr, i, &name, &email)) {
+		CamelInternetAddress *subaddr;
+		gchar *addr_txt, *addr_url;
 		gboolean have_name = name && *name;
 		gboolean have_email = email && *email;
 		gchar *name_arg = NULL;
 		gchar *email_arg = NULL;
 		gchar *name_disp = NULL;
 		gchar *email_disp = NULL;
+
+		subaddr = camel_internet_address_new ();
+		camel_internet_address_add (subaddr, name, email);
+		addr_txt = camel_address_encode (CAMEL_ADDRESS (subaddr));
+		addr_url = camel_url_encode (addr_txt, TRUE, NULL);
+		camel_object_unref (CAMEL_OBJECT (subaddr));
 		
 		if (have_name) {
-			name_arg = elide_quotes (name);
 			name_disp = e_text_to_html (name, 0);
 		}
 		
 		if (have_email) {
-			email_arg = elide_quotes (email);
+			email_arg = elide_quotes (email); /* should never be an issue */
 			email_disp = e_text_to_html (email, 0);
 		}
 		
@@ -844,15 +850,11 @@ write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *fi
 				email_disp = g_strdup ("???");
 			}
 			
-			if (have_name) {
-				mail_html_write (md->html, md->stream,
-						 "%s &lt;<a href=\"mailto:%s <%s>\">%s</a>&gt;",
-						 name_disp, name_arg, email_arg, email_disp);
-			} else {
-				mail_html_write (md->html, md->stream,
-						 "<a href=\"mailto:%s\">%s</a>",
-						 email_arg, email_disp);
-			}
+			mail_html_write (md->html, md->stream,
+					 "%s &lt;<a href=\"mailto:%s\">%s</a>&gt;",
+					 have_name ? name_disp : "",
+					 addr_url,
+					 email_disp);
 			
 		} else {
 			char *str;
@@ -866,6 +868,8 @@ write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *fi
 		g_free (email_arg);
 		g_free (name_disp);
 		g_free (email_disp);
+		g_free (addr_txt);
+		g_free (addr_url);
 		
 		i++;
 	}

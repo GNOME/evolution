@@ -1734,13 +1734,16 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 
 				if (url && !g_strncasecmp (url, "mailto:", 7)) {
 					PopupInfo *pop;
+					gchar *url_decoded = g_strdup (url);
+					camel_url_decode (url_decoded);
 
 					popup_thing = bonobo_widget_new_control ("OAFIID:GNOME_Evolution_Addressbook_AddressPopup",
 										 CORBA_OBJECT_NIL);
 
 					bonobo_widget_set_property (BONOBO_WIDGET (popup_thing),
-								    "email", url+7,
+								    "email", url_decoded+7,
 								    NULL);
+					g_free (url_decoded);
 					
 					pop = make_popup_window (popup_thing);
 

@@ -1,3 +1,12 @@
+2001-09-26  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-display.c (html_button_press_event): Decode our URL before
+	extracting the address to pop up contact info.
+
+	* mail-format.c (write_address): When writing out a mailto: link,
+	make sure we construct a valid URL w/ correct encoding.  Make sure
+	our address is properly quoted, if necessary.
+
 2001-09-26  Dan Winship  <danw@ximian.com>
 
 	* mail-folder-cache.c: Add a big comment explaining unread message

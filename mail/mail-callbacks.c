@@ -607,7 +607,7 @@ create_msg_composer (const char *url)
 	
 	account   = mail_config_get_default_account ();
 	send_html = mail_config_get_send_html ();
-	
+
 	composer = url ? e_msg_composer_new_from_url (url) : e_msg_composer_new ();
 	
 	if (composer) {
