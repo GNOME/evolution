@@ -39,7 +39,7 @@ static guint jobs_idle_id;
 
 
 /* Runs a job and dequeues it */
-static gint
+static gboolean
 run_job (gpointer data)
 {
 	Job *job;
@@ -88,7 +88,7 @@ job_add (JobFunc func, gpointer data)
 		jobs_head = g_slist_append (NULL, job);
 		jobs_tail = jobs_head;
 
-		jobs_idle_id = gtk_idle_add (run_job, NULL);
+		jobs_idle_id = g_idle_add (run_job, NULL);
 	} else {
 		g_assert (jobs_tail != NULL);
 		g_assert (jobs_idle_id != 0);

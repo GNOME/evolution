@@ -23,7 +23,7 @@ AM_MAINTAINER_MODE
 AC_CANONICAL_HOST
 
 AM_ACLOCAL_INCLUDE(macros)
-GNOME_INIT
+GNOME_INIT(capplet)
 GNOME_COMPILE_WARNINGS
 AC_ISC_POSIX
 AC_PROG_CC
@@ -119,10 +119,37 @@ EXTRA_GNOME_CFLAGS_THREADS="`gnome-config --cflags gnomeui libglade gdk_pixbuf g
 AC_SUBST(EXTRA_GNOME_LIBS_THREADS)
 AC_SUBST(EXTRA_GNOME_CFLAGS_THREADS)
 
+BONOBO_VFS_GNOME_LIBS="`gnome-config --libs gnomeui bonobo libglade gdk_pixbuf gnomecanvaspixbuf vfs `"
+BONOBO_VFS_GNOME_CFLAGS="`gnome-config --cflags gnomeui bonobo libglade gdk_pixbuf gnomecanvaspixbuf vfs `"
+AC_SUBST(BONOBO_VFS_GNOME_LIBS)
+AC_SUBST(BONOBO_VFS_GNOME_CFLAGS)
+
+dnl ******************************
+dnl Pilot checking
+dnl ******************************
+GNOME_PILOT_CHECK
+
+dnl ******************************
+dnl Gnome-VFS checking
+dnl ******************************
+AC_MSG_CHECKING(for GNOME-VFS)
+if gnome-config --libs vfs > /dev/null 2>&1; then
+	vfs_ok=true
+else
+	vfs_ok=false
+fi
+
+if $vfs_ok; then
+	AC_MSG_RESULT(found)
+else
+	AC_MSG_ERROR(GNOME-VFS is required to compile Evolution)
+fi
 
 AC_ARG_WITH(camel-hard-log-level, [  --with-camel-hard-log-level=level  value of log level in camel (0-10)],
             camel_hard_log_level="$withval", camel_hard_log_level="0")
 AC_DEFINE_UNQUOTED(CAMEL_HARD_LOG_LEVEL, $camel_hard_log_level)
+
+AC_SUBST(CAPPLET_LIBS)
 	
 AC_OUTPUT([
 Makefile
@@ -151,4 +178,6 @@ mail/Makefile
 data/Makefile
 libversit/Makefile
 calendar/Makefile
+calendar/doc/Makefile
+calendar/doc/C/Makefile
 ])

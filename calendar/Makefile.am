@@ -1,10 +1,14 @@
 SUBDIRS = doc
 
 idldir = $(datadir)/idl
-idl_DATA = GnomeCal.idl
+idl_DATA = 			\
+	GnomeCal.idl		\
+	gnome-calendar.idl
 
 gnorbadir = $(sysconfdir)/CORBA/servers
-gnorba_DATA = gnomecal.gnorba
+gnorba_DATA =			\
+	gnomecal.gnorba		\
+	tlacuache.gnorba
 
 help_base = $(datadir)/gnome/help/cal
 
@@ -13,7 +17,8 @@ extra_pilot_bins = 				\
 		calendar-conduit-control-applet	\
 		calendar-pilot-sync
 endif
-bin_PROGRAMS = gnomecal $(extra_pilot_bins)
+
+bin_PROGRAMS = gnomecal tlacuache $(extra_pilot_bins)
 
 INCLUDES = 						\
 	-I$(includedir)					\
@@ -29,11 +34,8 @@ GNOMECAL_CORBA_GENERATED =	\
 	GnomeCal-skels.c	\
 	GnomeCal-stubs.c
 
-$(GNOMECAL_CORBA_GENERATED): my_gnomecal_idl
-
-my_gnomecal_idl: GnomeCal.idl
+$(GNOMECAL_CORBA_GENERATED): GnomeCal.idl
 	orbit-idl $(srcdir)/GnomeCal.idl
-	touch my_gnomecal_idl
 
 corba-cal.c		\
 corba-cal.h		\
@@ -107,10 +109,44 @@ calendar_pilot_sync_SOURCES =	\
 	timeutil.c		\
 	timeutil.h
 
+GNOME_CALENDAR_CORBA_GENERATED =	\
+	gnome-calendar.h		\
+	gnome-calendar-common.c		\
+	gnome-calendar-skels.c		\
+	gnome-calendar-stubs.c
+
+$(GNOME_CALENDAR_CORBA_GENERATED): gnome-calendar.idl
+	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl $(srcdir)/gnome-calendar.idl
+
+tlacuache_SOURCES =				\
+	$(GNOME_CALENDAR_CORBA_GENERATED)	\
+	cal.c					\
+	cal.h					\
+	cal-backend.c				\
+	cal-backend.h				\
+	cal-common.h				\
+	cal-factory.c				\
+	cal-factory.h				\
+	calobj.c				\
+	calobj.h				\
+	job.c					\
+	job.h					\
+	timeutil.c				\
+	timeutil.h				\
+	tlacuache.c
+
 LINK_FLAGS = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEGNORBA_LIBS) \
 	$(INTLLIBS) \
+	../libversit/libversit.la
+
+tlacuache_INCLUDES =			\
+	$(INCLUDES)			\
+	-DG_LOG_DOMAIN=\"tlacuache\"
+
+tlacuache_LDADD =			\
+	$(BONOBO_VFS_GNOME_LIBS)	\
 	../libversit/libversit.la
 
 calendar_pilot_sync_LDADD =	\
@@ -184,6 +220,10 @@ calendar_conduit_control_applet_LDADD = \
 #	$(GNOMEUI_LIBS) \
 #	$(GNOME_PILOT_LIBS) \
 #	$(INTLLIBS) 
+
+gnomecal_INCLUDES =			\
+	$(INCLUDES)			\
+	-DG_LOG_DOMAIN=\"gnomecal\"
 
 gnomecal_LDADD = $(LINK_FLAGS)
 

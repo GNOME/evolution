@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include "cal-backend.h"
+#include "calobj.h"
 #include "../libversit/vcc.h"
 
 
@@ -209,7 +210,7 @@ load_from_vobject (CalBackend *backend, VObject *vobject)
 		this = nextVObject (&i);
 		object_name = vObjectName (this);
 #if 0
-		/* FIXME?  What is this used for? */
+		/* FIXME?  What is this used for in gnomecal? */
 		if (strcmp (object_name, VCDCreatedProp) == 0) {
 			cal->created = time_from_isodate (str_val (this));
 			continue;
@@ -248,7 +249,7 @@ load_from_vobject (CalBackend *backend, VObject *vobject)
 CalBackend *
 cal_backend_new (void)
 {
-	return CAL_BACKEND (gtk_type_new (TYPE_CAL_BACKEND));
+	return CAL_BACKEND (gtk_type_new (CAL_BACKEND_TYPE));
 }
 
 /**
@@ -266,7 +267,7 @@ cal_backend_get_uri (CalBackend *backend)
 	CalBackendPrivate *priv;
 
 	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
 
 	priv = backend->priv;
 	g_return_val_if_fail (priv->loaded, NULL);
@@ -297,7 +298,7 @@ cal_backend_add_cal (CalBackend *backend, Cal *cal)
 	g_return_if_fail (cal != NULL);
 	g_return_if_fail (IS_CAL (cal));
 
-	gtk_object_ref (cal);
+	gtk_object_ref (GTK_OBJECT (cal));
 	priv->clients = g_list_prepend (priv->clients, cal);
 }
 
@@ -328,9 +329,9 @@ cal_backend_remove_cal (CalBackend *backend, Cal *cal)
 	if (!l)
 		return;
 
-	gtk_object_unref (cal);
+	gtk_object_unref (GTK_OBJECT (cal));
 	priv->clients = g_list_remove_link (priv->clients, l);
-	g_list_free1 (l);
+	g_list_free_1 (l);
 }
 
 /**

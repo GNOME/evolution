@@ -31,7 +31,7 @@ typedef struct {
 	CalBackend *backend;
 
 	/* Listener on the client we notify */
-	GNOME_Calendar_listener listener;
+	GNOME_Calendar_Listener listener;
 } CalPrivate;
 
 
@@ -119,8 +119,7 @@ cal_destroy (GtkObject *object)
 {
 	Cal *cal;
 	CalPrivate *priv;
-	GList *l;
-	CORBA_Environment *ev;
+	CORBA_Environment ev;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_CAL (object));
@@ -129,20 +128,17 @@ cal_destroy (GtkObject *object)
 	priv = cal->priv;
 
 	CORBA_exception_init (&ev);
+	CORBA_Object_release (priv->listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("cal_destroy(): could not release the listener");
 
-	for (l = priv->listeners; l; l = l->next) {
-		GNOME_Unknown_unref (l->data, &ev);
-		CORBA_Object_release (l->data, &ev);
-	}
-
-	g_list_free (priv->listeners);
+	CORBA_exception_free (&ev);
 
 	g_free (priv);
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
-
 
 
 
@@ -155,11 +151,20 @@ Cal_get_uri (PortableServer_Servant servant,
 {
 	Cal *cal;
 	CalPrivate *priv;
+	GnomeVFSURI *uri;
+	char *str_uri;
+	CORBA_char *str_uri_copy;
 
 	cal = CAL (gnome_object_from_servant (servant));
 	priv = cal->priv;
 
-	return CORBA_string_dup (priv->uri);
+	uri = cal_backend_get_uri (priv->backend);
+	str_uri = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
+	str_uri_copy = CORBA_string_dup (str_uri);
+	g_free (str_uri);
+
+	return str_uri_copy;
+
 }
 
 /**
@@ -176,7 +181,7 @@ cal_get_epv (void)
 	POA_GNOME_Calendar_Cal__epv *epv;
 
 	epv = g_new0 (POA_GNOME_Calendar_Cal__epv, 1);
-	epv->get_uri = Cal_get_uri;
+	epv->_get_uri = Cal_get_uri;
 
 	return epv;
 }
@@ -207,8 +212,8 @@ cal_construct (Cal *cal,
 
 	g_return_val_if_fail (cal != NULL, NULL);
 	g_return_val_if_fail (IS_CAL (cal), NULL);
-	g_return_val_if_fail (backend != NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend));
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
 
 	priv = cal->priv;
 
@@ -283,14 +288,14 @@ cal_new (CalBackend *backend, GNOME_Calendar_Listener listener)
 	CORBA_Environment ev;
 	gboolean ret;
 
-	g_return_val_if_fail (backend != NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend));
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
 
 	cal = CAL (gtk_type_new (CAL_TYPE));
 	corba_cal = cal_corba_object_create (GNOME_OBJECT (cal));
 
 	CORBA_exception_init (&ev);
-	ret = CORBA_object_is_nil (corba_cal, &ev);
+	ret = CORBA_Object_is_nil ((CORBA_Object) corba_cal, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION || ret) {
 		g_message ("cal_new(): could not create the CORBA object");
 		gtk_object_unref (GTK_OBJECT (cal));
@@ -303,7 +308,7 @@ cal_new (CalBackend *backend, GNOME_Calendar_Listener listener)
 	retval = cal_construct (cal, corba_cal, backend, listener);
 	if (!retval) {
 		g_message ("cal_new(): could not construct the calendar client interface");
-		gtk_object_unref (cal);
+		gtk_object_unref (GTK_OBJECT (cal));
 		return NULL;
 	}
 

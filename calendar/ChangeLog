@@ -1,5 +1,22 @@
 2000-01-24  Federico Mena Quintero  <federico@helixcode.com>
 
+	* tlacuache.c: New main module for the Tlacuache personal calendar
+	server.
+
+	* tlacuache.gnorba: New gnorba file for Tlacuache, the GNOME
+	personal calendar server.
+
+	* Makefile.am: Added the stuff necessary to build Tlacuache.
+
+	* cal.c (Cal_get_uri): Convert the URI to a string before
+	returning it.
+
+	* cal-factory.c (CalFactory_create): Doh, this function is void.
+
+	* job.c (job_add): Use g_idle_add(), not gtk_idle_add().
+
+2000-01-24  Federico Mena Quintero  <federico@helixcode.com>
+
 	* cal-backend.c (cal_backend_remove_cal): New function to remove a
 	calendar client interface object from a backend.
 	(cal_backend_load): Convert the URI to string and use

@@ -1,3 +1,11 @@
+2000-01-24  Federico Mena Quintero  <federico@helixcode.com>
+
+	* configure.in: Added the gnome-pilot and capplet checks; they
+	will likely be reworked for the Evolution framework, but for now
+	the calendar/ directory needs them.
+
+	* configure.in: Added checks for gnome-vfs.
+
 2000-01-24  bertrand  <bertrand@helixcode.com>
 
 	* camel/camel-seekable-stream.c: 

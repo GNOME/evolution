@@ -23,6 +23,7 @@
 #define CAL_BACKEND_H
 
 #include <libgnome/gnome-defs.h>
+#include <libgnomevfs/gnome-vfs.h>
 #include "gnome-calendar.h"
 #include "cal-common.h"
 #include "cal.h"

@@ -89,7 +89,7 @@ init_cal_factory_corba_class (void)
 static void
 cal_factory_class_init (CalFactoryClass *class)
 {
-	GtkObjectClass *parent_class;
+	GtkObjectClass *object_class;
 
 	object_class = (GtkObjectClass *) class;
 
@@ -156,7 +156,7 @@ cal_factory_destroy (GtkObject *object)
 /* CalFactory::load method */
 static void
 CalFactory_load (PortableServer_Servant servant,
-		 CORBA_char *uri,
+		 const CORBA_char *uri,
 		 GNOME_Calendar_Listener listener,
 		 CORBA_Environment *ev)
 {
@@ -170,9 +170,9 @@ CalFactory_load (PortableServer_Servant servant,
 }
 
 /* CalFactory::create method */
-static GNOME_Calendar_Cal
+static void
 CalFactory_create (PortableServer_Servant servant,
-		   CORBA_char *uri,
+		   const CORBA_char *uri,
 		   GNOME_Calendar_Listener listener,
 		   CORBA_Environment *ev)
 {
@@ -226,7 +226,7 @@ lookup_backend (CalFactory *factory, GnomeVFSURI *uri)
 	priv = factory->priv;
 
 	backend = g_hash_table_lookup (priv->backends, uri);
-	return cal;
+	return backend;
 }
 
 /* Loads a calendar backend and puts it in the factory's backend hash table */
@@ -236,7 +236,6 @@ load_backend (CalFactory *factory, GnomeVFSURI *uri, GNOME_Calendar_Listener lis
 	CalFactoryPrivate *priv;
 	CalBackend *backend;
 	CalBackendLoadStatus status;
-	CORBA_Environment ev;
 
 	priv = factory->priv;
 
@@ -256,7 +255,7 @@ load_backend (CalFactory *factory, GnomeVFSURI *uri, GNOME_Calendar_Listener lis
 		return backend;
 
 	case CAL_BACKEND_LOAD_ERROR:
-		gtk_object_unref (backend);
+		gtk_object_unref (GTK_OBJECT (backend));
 		return NULL;
 
 	default:
@@ -310,7 +309,7 @@ add_calendar_client (CalFactory *factory, CalBackend *backend, GNOME_Calendar_Li
 static void
 load_fn (gpointer data)
 {
-	LoadCreateJobData jd;
+	LoadCreateJobData *jd;
 	CalFactory *factory;
 	GnomeVFSURI *uri;
 	GNOME_Calendar_Listener listener;
@@ -447,7 +446,7 @@ cal_factory_new (void)
 
 	if (ev._major != CORBA_NO_EXCEPTION || retval) {
 		g_message ("cal_factory_new(): could not create the CORBA factory");
-		gtk_object_unref (factory);
+		gtk_object_unref (GTK_OBJECT (factory));
 		CORBA_exception_free (&ev);
 		return NULL;
 	}

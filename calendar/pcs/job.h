@@ -22,6 +22,8 @@
 #ifndef JOB_H
 #define JOB_H
 
+#include <glib.h>
+
 
 
 typedef void (* JobFunc) (gpointer data);
