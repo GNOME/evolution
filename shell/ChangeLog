@@ -1,3 +1,8 @@
+2001-06-08  Jason Leach  <jleach@ximian.com>
+
+	* e-shell.c (e_shell_construct): Fix splash setup to keep it from
+	giving two Gtk-CRITICAL assertions when you do --no-splash.
+
 2001-06-06  Jon Trowbridge  <trow@ximian.com>
 
 	* evolution-storage.c (impl_Storage_async_create_folder): Changed

@@ -727,11 +727,11 @@ init (EShell *shell)
  * Return value: %FALSE if the shell cannot be registered; %TRUE otherwise.
  **/
 gboolean
-e_shell_construct (EShell *shell,
+e_shell_construct (EShell               *shell,
 		   GNOME_Evolution_Shell corba_object,
-		   const char *iid,
-		   const char *local_directory,
-		   gboolean show_splash)
+		   const char           *iid,
+		   const char           *local_directory,
+		   gboolean              show_splash)
 {
 	GtkWidget *splash;
 	EShellPrivate *priv;
@@ -748,14 +748,9 @@ e_shell_construct (EShell *shell,
 	if (register_shell (shell, iid) != OAF_REG_SUCCESS)
 		return FALSE;
 
-	if (! show_splash) {
-		splash = NULL;
-	} else {
+	if (show_splash) {
 		splash = e_splash_new ();
 		gtk_widget_show (splash);
-
-		/* Keep our own reference */
-		gtk_object_ref (GTK_OBJECT (splash));
 	}
 
 	while (gtk_events_pending ())
@@ -772,7 +767,7 @@ e_shell_construct (EShell *shell,
 	if (! setup_corba_storages (shell))
 		return FALSE;
 
-	if (splash != NULL)
+	if (show_splash)
 		setup_components (shell, E_SPLASH (splash));
 	else
 		setup_components (shell, NULL);
@@ -797,8 +792,8 @@ e_shell_construct (EShell *shell,
 
 	g_free (shortcut_path);
 
-	gtk_widget_unref (splash);
-	gtk_widget_destroy (splash);
+	if (show_splash)
+		gtk_widget_destroy (splash);
 
 	return TRUE;
 }
@@ -814,7 +809,7 @@ e_shell_construct (EShell *shell,
  **/
 EShell *
 e_shell_new (const char *local_directory,
-	     gboolean show_splash)
+	     gboolean    show_splash)
 {
 	EShell *new;
 	EShellPrivate *priv;
