@@ -1,6 +1,7 @@
 2001-07-11  Jason Leach  <jleach@ximian.com>
 
-	[Fix bug #4389: ETableSpecification still in .c file]
+	[Fix bug #4389: ETableSpecification still in e-calendar-table.c
+	file]
 	
 	* gui/e-calendar-table.etspec: New file containing the spec that
 	was in e-calendar-table.c as a big string.
@@ -18,7 +19,7 @@
 
 2001-07-10  Jason Leach  <jleach@ximian.com>
 
-	[Fix bug #4388: ETableSpecification still in .c file]
+	[Fix bug #4388: ETableSpecification still in meeting-page.c file]
 
 	* gui/dialogs/meeting-page.etspec: New file containing the spec
 	that was previously in meeting-page.c as a string.
