@@ -1,3 +1,8 @@
+2001-05-16  JP Rosevear  <jpr@ximian.com>
+
+	* src/libical/Makefile.am: Fixes to make it make dist and make
+	distcheck.  Kind of kludgy but they seem to work.  Time will tell.
+
 2001-05-10  JP Roseveaer  <jpr@ximian.com>
 
 	* src/libical/icaltime.c (set_tz, unset_tz): plug leak
