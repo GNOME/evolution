@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-07 22:01+0200\n"
+"POT-Creation-Date: 2004-02-09 15:17-0500\n"
 "PO-Revision-Date: 2004-02-04 20:45+0200\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Gnome Finnish Translation Team <laatu@gnome-fi.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: addressbook/conduit/address-conduit.c:272
@@ -46,7 +46,6 @@ msgstr "Määrittele automaatinen täydennys tästä"
 #. can not get name, should be a bug of e-book.Anyway, should set a default name.
 #.
 #. name = e_book_get_name (book);
-#. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
 #: calendar/gui/migration.c:362 mail/importers/netscape-importer.c:1844
@@ -191,14 +190,13 @@ msgid "Migrating `%s':"
 msgstr "Siirretään  '%s'"
 
 #. create the local source group
-#: addressbook/gui/component/addressbook-migrate.c:405
+#: addressbook/gui/component/addressbook-migrate.c:406
 #: calendar/gui/migration.c:425 calendar/gui/migration.c:502
 msgid "On This Computer"
 msgstr "Tällä tietokoneella"
 
 #. Create the default Person addressbook
-#. orange
-#: addressbook/gui/component/addressbook-migrate.c:413
+#: addressbook/gui/component/addressbook-migrate.c:414
 #: calendar/gui/migration.c:433 calendar/gui/migration.c:510
 #: filter/filter-label.c:123 mail/em-migrate.c:925 mail/mail-config.c:65
 #: mail/mail-config.glade.h:90
@@ -206,15 +204,15 @@ msgid "Personal"
 msgstr "Henkilökohtainen"
 
 #. Create the LDAP source group
-#: addressbook/gui/component/addressbook-migrate.c:421
+#: addressbook/gui/component/addressbook-migrate.c:422
 msgid "On LDAP Servers"
 msgstr "LDAP-palvelimilla"
 
-#: addressbook/gui/component/addressbook-migrate.c:549
+#: addressbook/gui/component/addressbook-migrate.c:550
 msgid "LDAP Servers"
 msgstr "LDAP-palvelimet"
 
-#: addressbook/gui/component/addressbook-migrate.c:669
+#: addressbook/gui/component/addressbook-migrate.c:670
 msgid "Autocompletion Settings"
 msgstr "Automaattisen täydennyksen asetukset"
 
@@ -987,7 +985,7 @@ msgstr "Ry_hmät..."
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 #: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1255
 #: calendar/gui/e-cal-view.c:1286 calendar/gui/e-calendar-table.c:1057
-#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:1566
+#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:2111
 #: mail/em-folder-view.c:772 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:110
@@ -3081,17 +3079,17 @@ msgstr "Korttinäkymä"
 msgid "GTK Tree View"
 msgstr "GTK puunäkymä"
 
-#: addressbook/gui/widgets/test-reflow.c:119
+#: addressbook/gui/widgets/test-reflow.c:106
 msgid "Reflow Test"
 msgstr "Uudelleenvirtauksen testi"
 
-#: addressbook/gui/widgets/test-reflow.c:120
+#: addressbook/gui/widgets/test-reflow.c:107
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Tekijänoikeudet (C) 2000, Ximin, Inc."
 
-#: addressbook/gui/widgets/test-reflow.c:122
+#: addressbook/gui/widgets/test-reflow.c:109
 msgid "This should test the reflow canvas item"
 msgstr "Tämä testaa reflow canvas:ia"
 
@@ -3760,10 +3758,6 @@ msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#. strftime format %a = abbreviated weekday name,
-#. %d = day of month, %b = abbreviated month name.
-#. You can change the order but don't change the
-#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:434 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1365 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
@@ -4842,11 +4836,6 @@ msgid "_Start time:"
 msgstr "_Alkamisaika:"
 
 #. an empty string is the same as 'None'
-#. add a "None" option to the stores menu
-#. Put the "None" and "UTC" entries at the top of the combo's list.
-#. When "None" is selected we want the field to be cleared.
-#. Note that we don't show this here, since by default a 'None' date
-#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2086
@@ -5244,7 +5233,8 @@ msgstr "Tapaaminen"
 msgid "Due date is wrong"
 msgstr "Eräpäivä on virheellinen"
 
-#: calendar/gui/dialogs/task-page.c:543
+#: calendar/gui/dialogs/task-page.c:543 calendar/gui/e-cal-model-tasks.c:738
+#: calendar/gui/e-cal-model-tasks.c:766
 msgid "Due date is before start date!"
 msgstr "Eräpäivä on ennen aloituspäivää!"
 
@@ -5490,13 +5480,13 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/e-cal-model-tasks.c:932 calendar/gui/e-cal-model.c:841
+#: calendar/gui/e-cal-model-tasks.c:966 calendar/gui/e-cal-model.c:841
 #: calendar/gui/e-meeting-list-view.c:168 calendar/gui/e-meeting-store.c:159
 #: calendar/gui/e-meeting-store.c:169 calendar/gui/e-meeting-store.c:765
 msgid "Yes"
 msgstr "Kyllä"
 
-#: calendar/gui/e-cal-model-tasks.c:932 calendar/gui/e-cal-model.c:841
+#: calendar/gui/e-cal-model-tasks.c:966 calendar/gui/e-cal-model.c:841
 #: calendar/gui/e-meeting-list-view.c:169 calendar/gui/e-meeting-store.c:171
 msgid "No"
 msgstr "Ei"
@@ -5593,7 +5583,7 @@ msgstr "L_eikkaa"
 
 #: calendar/gui/e-cal-view.c:1245 calendar/gui/e-cal-view.c:1282
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1071
-#: mail/em-folder-tree.c:1559 ui/evolution-addressbook.xml.h:31
+#: mail/em-folder-tree.c:2104 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:18
 msgid "_Copy"
@@ -5731,20 +5721,12 @@ msgid "URL"
 msgstr "URL:"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 24-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 12-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -5768,10 +5750,6 @@ msgstr "%02.i minuutin välein"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#. strftime format %A = full weekday name, %d = day of
-#. month, %B = full month name. You can change the
-#. order but don't change the specifiers or add
-#. anything.
 #: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1348
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
@@ -5779,9 +5757,6 @@ msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#. strftime format %d = day of month, %b = abbreviated
-#. month name. You can change the order but don't
-#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1381
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
@@ -6339,10 +6314,6 @@ msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#. This is a strftime() format string %a = abbreviated weekday name,
-#. %m = month number, %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2093 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6351,10 +6322,6 @@ msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. This is the preferred date format for the locale.
-#. This is a strftime() format for a short date. %m = month,
-#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1606
 msgid "%m/%d/%Y"
@@ -6443,7 +6410,7 @@ msgstr "WWW-sivu:"
 msgid "Click to open %s"
 msgstr "Näpäytä avataksesi %s"
 
-#: calendar/gui/e-tasks.c:736 calendar/gui/gnome-cal.c:1898
+#: calendar/gui/e-tasks.c:736 calendar/gui/gnome-cal.c:1907
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6453,7 +6420,7 @@ msgstr ""
 "%s"
 
 #. FIXME: this doesn't remove the task list from the list or anything
-#: calendar/gui/e-tasks.c:755 calendar/gui/gnome-cal.c:1919
+#: calendar/gui/e-tasks.c:755 calendar/gui/gnome-cal.c:1928
 #, c-format
 msgid ""
 "The task backend for\n"
@@ -6494,12 +6461,12 @@ msgstr "Valtuutetaan seuraavat tehtävät...."
 msgid "Expunging"
 msgstr "Poistetaan poistettuja"
 
-#: calendar/gui/gnome-cal.c:1778
+#: calendar/gui/gnome-cal.c:1787
 #, c-format
 msgid "Opening %s"
 msgstr "Avataan %s"
 
-#: calendar/gui/gnome-cal.c:1927
+#: calendar/gui/gnome-cal.c:1936
 #, c-format
 msgid ""
 "The calendar backend for\n"
@@ -6510,7 +6477,7 @@ msgstr ""
 "%s\n"
 "on kaatunut."
 
-#: calendar/gui/gnome-cal.c:2786
+#: calendar/gui/gnome-cal.c:2799
 msgid "Purging"
 msgstr "Tyhjennetään"
 
@@ -8751,7 +8718,7 @@ msgstr "Siirretään viestejä"
 msgid "Copying messages"
 msgstr "Kopioidaan viestejä"
 
-#: camel/camel-folder.c:1572
+#: camel/camel-folder.c:1571
 msgid "Filtering new message(s)"
 msgstr "Suodatetaan uusia viestejä"
 
@@ -10086,7 +10053,7 @@ msgstr ""
 
 #: camel/providers/local/camel-local-store.c:138
 #: camel/providers/local/camel-local-store.c:227
-#: camel/providers/local/camel-mbox-store.c:331
+#: camel/providers/local/camel-mbox-store.c:335
 #: camel/providers/local/camel-spool-store.c:116
 #, c-format
 msgid "Store root %s is not an absolute path"
@@ -10124,19 +10091,19 @@ msgid "Could not rename '%s': %s"
 msgstr "Uudelleennimeäminen epäonnistui '%s': %s"
 
 #: camel/providers/local/camel-local-store.c:397
-#: camel/providers/local/camel-mbox-store.c:260
+#: camel/providers/local/camel-mbox-store.c:264
 #, c-format
 msgid "Could not delete folder summary file `%s': %s"
 msgstr "Kansion yhteenvetotiedostoa %s ei voitu poistaa: %s"
 
 #: camel/providers/local/camel-local-store.c:407
-#: camel/providers/local/camel-mbox-store.c:272
+#: camel/providers/local/camel-mbox-store.c:276
 #, c-format
 msgid "Could not delete folder index file `%s': %s"
 msgstr "Kansion sisällysluetteloa %s ei voitu poistaa: %s"
 
 #: camel/providers/local/camel-local-store.c:429
-#: camel/providers/local/camel-mbox-store.c:295
+#: camel/providers/local/camel-mbox-store.c:299
 #, c-format
 msgid "Could not delete folder meta file `%s': %s"
 msgstr "Kansion metatiedon poistaminen epäonnistui '%s': %s"
@@ -10176,7 +10143,7 @@ msgstr ""
 "%s"
 
 #: camel/providers/local/camel-maildir-store.c:110
-#: camel/providers/local/camel-mbox-store.c:157
+#: camel/providers/local/camel-mbox-store.c:161
 #: camel/providers/local/camel-mh-store.c:209
 #: camel/providers/local/camel-spool-store.c:167
 #, c-format
@@ -10278,7 +10245,7 @@ msgstr "Kansio näyttäisi olevan peruuttamattomasti vaurioitunut."
 msgid "Message construction failed: Corrupt mailbox?"
 msgstr "Viestin koostaminen epäonnistui: vaurioitunut postilaatikko?"
 
-#: camel/providers/local/camel-mbox-store.c:149
+#: camel/providers/local/camel-mbox-store.c:153
 #, c-format
 msgid ""
 "Could not open file `%s':\n"
@@ -10287,7 +10254,7 @@ msgstr ""
 "Tiedostoa '%s' ei voitu avata:\n"
 "%s"
 
-#: camel/providers/local/camel-mbox-store.c:166
+#: camel/providers/local/camel-mbox-store.c:170
 #, c-format
 msgid ""
 "Could not create directory `%s':\n"
@@ -10296,7 +10263,7 @@ msgstr ""
 "Kansiota %s eoi voitu luoda:\n"
 "%s"
 
-#: camel/providers/local/camel-mbox-store.c:178
+#: camel/providers/local/camel-mbox-store.c:182
 #, c-format
 msgid ""
 "Could not create file `%s':\n"
@@ -10305,15 +10272,15 @@ msgstr ""
 "Tiedostoa '%s' ei voitu avata:\n"
 "%s"
 
-#: camel/providers/local/camel-mbox-store.c:188
-#: camel/providers/local/camel-mbox-store.c:231
+#: camel/providers/local/camel-mbox-store.c:192
+#: camel/providers/local/camel-mbox-store.c:235
 #, c-format
 msgid "`%s' is not a regular file."
 msgstr "`%s' ei ole tavallinen tiedosto."
 
-#: camel/providers/local/camel-mbox-store.c:212
-#: camel/providers/local/camel-mbox-store.c:223
-#: camel/providers/local/camel-mbox-store.c:246
+#: camel/providers/local/camel-mbox-store.c:216
+#: camel/providers/local/camel-mbox-store.c:227
+#: camel/providers/local/camel-mbox-store.c:250
 #, c-format
 msgid ""
 "Could not delete folder `%s':\n"
@@ -10322,39 +10289,39 @@ msgstr ""
 "Kansiota '%s' ei voitu poistaa:\n"
 "%s"
 
-#: camel/providers/local/camel-mbox-store.c:238
+#: camel/providers/local/camel-mbox-store.c:242
 #, c-format
 msgid "Folder `%s' is not empty. Not deleted."
 msgstr "Kansio '%s' ei ole tyhjä, sitä ei poistettu."
 
-#: camel/providers/local/camel-mbox-store.c:337
+#: camel/providers/local/camel-mbox-store.c:341
 msgid "Cannot create a folder by this name."
 msgstr "Tämännimistä kansiota ei voida luoda."
 
-#: camel/providers/local/camel-mbox-store.c:350
+#: camel/providers/local/camel-mbox-store.c:354
 #, c-format
 msgid "Cannot create directory `%s': %s."
 msgstr "Hakemistoa %s ei voitu luoda: %s."
 
-#: camel/providers/local/camel-mbox-store.c:364
+#: camel/providers/local/camel-mbox-store.c:368
 #, c-format
 msgid "Cannot create folder: %s: %s"
 msgstr "Kansiota ei voida luoda: %s: %s"
 
-#: camel/providers/local/camel-mbox-store.c:366
+#: camel/providers/local/camel-mbox-store.c:370
 msgid "Folder already exists"
 msgstr "Kansio on jo olemassa"
 
-#: camel/providers/local/camel-mbox-store.c:448
+#: camel/providers/local/camel-mbox-store.c:452
 msgid "The new folder name is illegal."
 msgstr "Kansion nimi ei ole sallittu."
 
-#: camel/providers/local/camel-mbox-store.c:461
+#: camel/providers/local/camel-mbox-store.c:465
 #, c-format
 msgid "Could not rename `%s': `%s': %s"
 msgstr "%s:n uudelleennimeäminen epäonnistui: %s: %s"
 
-#: camel/providers/local/camel-mbox-store.c:536
+#: camel/providers/local/camel-mbox-store.c:540
 #, c-format
 msgid "Could not rename '%s' to %s: %s"
 msgstr "Uudelleennimeäminen %s:stä %s:ksi epäonnistui: %s"
@@ -10398,7 +10365,7 @@ msgstr "Lähdekansiota %s ei voitu sulkea: %s"
 msgid "Could not close temp folder: %s"
 msgstr "Väliaikaista kansiota ei voitu sulkea: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:560 mail/em-folder-tree.c:1521
+#: camel/providers/local/camel-mbox-summary.c:560 mail/em-folder-tree.c:2066
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr "Kansiota ei voitu uudelleen nimetä: %s"
@@ -11678,16 +11645,12 @@ msgstr "Synkronointiryhmät:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %d/%m/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%a %d/%m/%Y %H:%M"
@@ -11739,31 +11702,23 @@ msgid "%m/%d/%Y %H"
 msgstr "%d.%m.%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
-#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
-#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
-#. strftime format of a time in 12-hour format,
-#. without seconds.
-#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1416 widgets/misc/e-dateedit.c:1641
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
-#. strftime format of a time in 24-hour format,
-#. without seconds.
-#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1413 widgets/misc/e-dateedit.c:1638
 msgid "%H:%M"
@@ -12567,7 +12522,7 @@ msgstr "<Valitse kansio näpäyttämällä tästä>"
 msgid "Create New Folder"
 msgstr "Luo uusi kansio"
 
-#: mail/em-folder-selector.c:137 mail/em-folder-tree.c:1298
+#: mail/em-folder-selector.c:137 mail/em-folder-tree.c:1843
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:4
 msgid "Specify where to create the folder:"
 msgstr "Määrittele mihin kansio luodaan:"
@@ -12578,121 +12533,101 @@ msgid "Folder _name:"
 msgstr "Kansion _nimi:"
 
 #. On This Computer is always first and VFolders is always last
-#: mail/em-folder-tree-model.c:201 mail/em-folder-tree-model.c:203
+#: mail/em-folder-tree-model.c:160 mail/em-folder-tree-model.c:162
 #: mail/mail-component.c:170
 msgid "On this Computer"
 msgstr "Tällä tietokoneella"
 
-#: mail/em-folder-tree-model.c:205 mail/em-folder-tree-model.c:207
+#: mail/em-folder-tree-model.c:164 mail/em-folder-tree-model.c:166
 #: mail/mail-vfolder.c:853
 msgid "VFolders"
 msgstr "vKansiot"
 
-#: mail/em-folder-tree-model.c:215 mail/em-folder-tree-model.c:217
+#: mail/em-folder-tree-model.c:174 mail/em-folder-tree-model.c:176
 msgid "UNMATCHED"
 msgstr "EI VASTAAVAA"
 
 #. Inbox is always first
-#: mail/em-folder-tree-model.c:243 mail/em-folder-tree-model.c:245
+#: mail/em-folder-tree-model.c:202 mail/em-folder-tree-model.c:204
 #: shell/e-shortcuts.c:1085
 msgid "Inbox"
 msgstr "Saapuneet"
 
-#: mail/em-folder-tree-model.c:488 mail/em-folder-tree-model.c:771
+#: mail/em-folder-tree-model.c:447 mail/em-folder-tree-model.c:730
 msgid "Loading..."
 msgstr "Ladataan..."
 
-#: mail/em-folder-tree-model.c:1175
+#: mail/em-folder-tree.c:818
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Viestiä ei voida tiputtaa ylätason taltioon"
 
-#: mail/em-folder-tree-model.c:1414 mail/em-utils.c:2085
-#, c-format
-msgid "Could not create temporary directory: %s"
-msgstr "Väliaikaishakemistoa ei voitu luoda: %s"
-
-#: mail/em-folder-tree-model.c:1423
-#, c-format
-msgid "Could not create temporary mbox store: %s"
-msgstr "Väliaikaista mbox-taltiota ei voitu luoda: %s"
-
-#: mail/em-folder-tree-model.c:1432
-#, c-format
-msgid "Could not create temporary mbox folder: %s"
-msgstr "Väliaikaista mbox-hakemistoa ei voitu luoda: %s"
-
-#: mail/em-folder-tree-model.c:1447
-#, c-format
-msgid "Could not copy messages to temporary mbox folder: %s"
-msgstr "Viestejä ei voitu kopioida väliaikaiseen mbox-kansioon: %s"
-
-#: mail/em-folder-tree.c:1176 mail/em-folder-tree.c:1263
+#: mail/em-folder-tree.c:1721 mail/em-folder-tree.c:1808
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: mail/em-folder-tree.c:1192 mail/em-folder-tree.c:1205
+#: mail/em-folder-tree.c:1737 mail/em-folder-tree.c:1750
 #: mail/em-folder-view.c:657 mail/em-folder-view.c:671
 msgid "Select folder"
 msgstr "Valitse kansio"
 
-#: mail/em-folder-tree.c:1298
+#: mail/em-folder-tree.c:1843
 msgid "Create folder"
 msgstr "Luo uusi kansio"
 
-#: mail/em-folder-tree.c:1417
+#: mail/em-folder-tree.c:1962
 #, c-format
 msgid "Could not delete folder: %s"
 msgstr "Kansiota ei voitu poistaa: %s"
 
-#: mail/em-folder-tree.c:1438
+#: mail/em-folder-tree.c:1983
 #, c-format
 msgid "Really delete folder \"%s\" and all of its subfolders?"
 msgstr "Poistetaanko todella kansio \"%s\" ja kaikki sen alikansiot?"
 
-#: mail/em-folder-tree.c:1448 shell/e-shell-folder-commands.c:416
+#: mail/em-folder-tree.c:1993 shell/e-shell-folder-commands.c:416
 #, c-format
 msgid "Delete \"%s\""
 msgstr "Poista \"%s\""
 
-#: mail/em-folder-tree.c:1482 shell/e-shell-folder-commands.c:534
+#: mail/em-folder-tree.c:2027 shell/e-shell-folder-commands.c:534
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Nimeä '%s' uudelleen: "
 
-#: mail/em-folder-tree.c:1484 shell/e-shell-folder-commands.c:541
+#: mail/em-folder-tree.c:2029 shell/e-shell-folder-commands.c:541
 msgid "Rename Folder"
 msgstr "Nimeä kansio uudestaan"
 
-#: mail/em-folder-tree.c:1508 shell/e-shell-folder-commands.c:554
+#: mail/em-folder-tree.c:2053 shell/e-shell-folder-commands.c:554
 #, c-format
 msgid "A folder named \"%s\" already exists. Please use a different name."
 msgstr "Kansio nimeltään \"%s\" on jo olemassa. Valitse toinen nimi."
 
-#: mail/em-folder-tree.c:1554 ui/evolution-addressbook.xml.h:45
+#: mail/em-folder-tree.c:2099 ui/evolution-addressbook.xml.h:45
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:35
 msgid "_View"
 msgstr "_Näytä"
 
-#: mail/em-folder-tree.c:1555
+#: mail/em-folder-tree.c:2100
 msgid "Open in _New Window"
 msgstr "Avaa _uudessa ikkunassa"
 
-#: mail/em-folder-tree.c:1560
+#: mail/em-folder-tree.c:2105
 msgid "_Move"
 msgstr "_Siirrä"
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:1564
+#: mail/em-folder-tree.c:2109
 msgid "_New Folder..."
 msgstr "_Uusi kansio..."
 
-#: mail/em-folder-tree.c:1567 shell/e-shortcuts-view.c:427
+#: mail/em-folder-tree.c:2112 shell/e-shortcuts-view.c:427
 msgid "_Rename"
 msgstr "_Nimeä uudestaan"
 
-#: mail/em-folder-tree.c:1570 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2115 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "_Ominaisuudet..."
 
@@ -13237,6 +13172,11 @@ msgstr "Tallenna viesti..."
 #: mail/em-utils.c:1615
 msgid "Add address"
 msgstr "Lisää osoite"
+
+#: mail/em-utils.c:2085
+#, c-format
+msgid "Could not create temporary directory: %s"
+msgstr "Väliaikaishakemistoa ei voitu luoda: %s"
 
 #: mail/em-utils.c:2403
 #, c-format
@@ -18374,6 +18314,15 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% valmiina)"
+
+#~ msgid "Could not create temporary mbox store: %s"
+#~ msgstr "Väliaikaista mbox-taltiota ei voitu luoda: %s"
+
+#~ msgid "Could not create temporary mbox folder: %s"
+#~ msgstr "Väliaikaista mbox-hakemistoa ei voitu luoda: %s"
+
+#~ msgid "Could not copy messages to temporary mbox folder: %s"
+#~ msgstr "Viestejä ei voitu kopioida väliaikaiseen mbox-kansioon: %s"
 
 #~ msgid "Copy to folder..."
 #~ msgstr "_Kopioi kansioon..."
