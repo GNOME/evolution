@@ -1804,7 +1804,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				eti->drag_state    = e->button.state;
 				eti->grabbed       = TRUE;
 				if (!gnome_canvas_item_grab(item,
-							    (1 << (4 + e->button.button)) | GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK, 
+							    (1 << (4 + e->button.button)) | GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK, 
 							    NULL, e->button.time))
 					gtk_grab_add (GTK_WIDGET (item->canvas));
 			}
