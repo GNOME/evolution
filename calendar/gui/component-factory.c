@@ -30,8 +30,9 @@
 #include "component-factory.h"
 #include "control-factory.h"
 #include "calendar-config.h"
+#if WANT_THE_EXECUTIVE_SUMMARY
 #include "calendar-summary.h"
-
+#endif
 
 
 #define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:evolution-calendar:cba77062-1466-4aac-8ce7-b019eaf2e921"
