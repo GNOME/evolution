@@ -1,3 +1,7 @@
+2003-02-27  Rodney Dawes  <dobey@ximian.com>
+
+	* Makefile.am (evolution_SOURCES): Add e-config-upgrade.h
+	
 2003-02-26  Chris Toshok  <toshok@ximian.com>
 
 	* e-folder-list.c (e_folder_list_parse_xml): make this more robust
