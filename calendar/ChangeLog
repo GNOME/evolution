@@ -1,3 +1,10 @@
+2005-02-02  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #72090
+
+	* gui/calendar-component.c (impl_handleURI): don't assume the URI is
+	always correct.
+
 2005-02-01  Rodney Dawes  <dobey@novell.com>
 
 	* gui/dialogs/comp-editor.c (setup_widgets): Clean up the spacing

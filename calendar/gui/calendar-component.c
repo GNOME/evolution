@@ -635,48 +635,50 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 		time_t start = -1, end = -1;
 
 		p = euri->query;
-		while (*p) {
-			len = strcspn (p, "=&");
+		if (p) {
+			while (*p) {
+				len = strcspn (p, "=&");
 			
-			/* If it's malformed, give up. */
-			if (p[len] != '=')
-				break;
+				/* If it's malformed, give up. */
+				if (p[len] != '=')
+					break;
 			
-			header = (char *) p;
-			header[len] = '\0';
-			p += len + 1;
+				header = (char *) p;
+				header[len] = '\0';
+				p += len + 1;
 			
-			clen = strcspn (p, "&");
+				clen = strcspn (p, "&");
 			
-			content = g_strndup (p, clen);
+				content = g_strndup (p, clen);
 
-			if (!g_ascii_strcasecmp (header, "startdate")) {
-				start = time_from_isodate (content);
-			} else if (!g_ascii_strcasecmp (header, "enddate")) {
-				end = time_from_isodate (content);
-			}
+				if (!g_ascii_strcasecmp (header, "startdate")) {
+					start = time_from_isodate (content);
+				} else if (!g_ascii_strcasecmp (header, "enddate")) {
+					end = time_from_isodate (content);
+				}
 			
-			g_free (content);
-			
-			p += clen;
-			if (*p == '&') {
-				p++;
-				if (!strcmp (p, "amp;"))
-					p += 4;
-			}
-		}		
+				g_free (content);
 
-		if (start != -1) {
-			GList *l;
+				p += clen;
+				if (*p == '&') {
+					p++;
+					if (!strcmp (p, "amp;"))
+						p += 4;
+				}
+			}
+
+			if (start != -1) {
+				GList *l;
 			
-			if (end == -1)
-				end = start;				
+				if (end == -1)
+					end = start;
 			
-			l = g_list_last (priv->views);
-			if (l) {
-				CalendarComponentView *view = l->data;
+				l = g_list_last (priv->views);
+				if (l) {
+					CalendarComponentView *view = l->data;
 				
-				gnome_calendar_set_selected_time_range (view->calendar, start, end);
+					gnome_calendar_set_selected_time_range (view->calendar, start, end);
+				}
 			}
 		}
 
