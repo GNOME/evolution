@@ -73,7 +73,7 @@ etcta_add_table_header (ETableClickToAdd *etcta, ETableHeader *header)
 {
 	etcta->eth = header;
 	if (etcta->eth)
-		gtk_object_ref (GTK_OBJECT (etcta->eth));
+		g_object_ref (etcta->eth);
 	if (etcta->row)
 		gnome_canvas_item_set(GNOME_CANVAS_ITEM(etcta->row),
 				      "ETableHeader", header,
@@ -90,7 +90,7 @@ etcta_drop_table_header (ETableClickToAdd *etcta)
 
 	header = GTK_OBJECT (etcta->eth);
 
-	gtk_object_unref (header);
+	g_object_unref (header);
 	etcta->eth = NULL;
 }
 

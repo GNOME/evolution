@@ -248,7 +248,7 @@ etfci_drop_full_header (ETableFieldChooserItem *etfci)
 	etfci->full_header_dimension_change_id = 0;
 
 	if (header)
-		gtk_object_unref (header);
+		g_object_unref (header);
 	etfci->full_header = NULL;
 	etfci->height = 0;
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
@@ -298,7 +298,7 @@ etfci_drop_table_header (ETableFieldChooserItem *etfci)
 	etfci->table_header_dimension_change_id = 0;
 
 	if (header)
-		gtk_object_unref (header);
+		g_object_unref (header);
 	etfci->header = NULL;
 	etfci->height = 0;
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
