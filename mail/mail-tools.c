@@ -117,6 +117,25 @@ mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
 	return folder;
 }
 
+const gchar *
+mail_tool_get_folder_name (CamelFolder *folder)
+{
+	const char *name = camel_folder_get_full_name (folder);
+	char *path;
+
+	/* This is a kludge. */
+
+	if (strcmp (name, "//mbox") && strcmp (name, "//mh"))
+		return name;
+
+	/* For mbox/mh, return the parent store's final path component. */
+	path = CAMEL_SERVICE (folder->parent_store)->url->path;
+	if (strchr (path, '/'))
+		return strrchr (path, '/') + 1;
+	else
+		return path;
+}
+
 gchar *
 mail_tool_get_local_inbox_url (void)
 {

@@ -391,9 +391,9 @@ describe_expunge_folder (gpointer in_data, gboolean gerund)
 	CamelFolder *f = CAMEL_FOLDER (in_data);
 
 	if (gerund)
-		return g_strdup_printf ("Expunging \"%s\"", f->full_name);
+		return g_strdup_printf ("Expunging \"%s\"", mail_tool_get_folder_name (f));
 	else
-		return g_strdup_printf ("Expunge \"%s\"", f->full_name);
+		return g_strdup_printf ("Expunge \"%s\"", mail_tool_get_folder_name (f));
 }
 
 static void
@@ -464,12 +464,12 @@ describe_refile_messages (gpointer in_data, gboolean gerund)
 		return
 			g_strdup_printf
 			("Moving messages from \"%s\" into \"%s\"",
-			 input->source->full_name, input->dest_uri);
+			 mail_tool_get_folder_name (input->source), input->dest_uri);
 	else
 		return
 			g_strdup_printf
 			("Move messages from \"%s\" into \"%s\"",
-			 input->source->full_name, input->dest_uri);
+			 mail_tool_get_folder_name (input->source), input->dest_uri);
 }
 
 static void
@@ -586,10 +586,10 @@ describe_flag_messages (gpointer in_data, gboolean gerund)
 
 	if (gerund)
 		return g_strdup_printf ("Marking messages in folder \"%s\"",
-					input->source->full_name);
+					mail_tool_get_folder_name (input->source));
 	else
 		return g_strdup_printf ("Mark messages in folder \"%s\"",
-					input->source->full_name);
+					mail_tool_get_folder_name (input->source));
 }
 
 static void
@@ -870,10 +870,10 @@ describe_attach_message (gpointer in_data, gboolean gerund)
 		return
 			g_strdup_printf
 			("Attaching messages from folder \"%s\"",
-			 input->folder->full_name);
+			 mail_tool_get_folder_name (input->folder));
 	else
 		return g_strdup_printf ("Attach messages from \"%s\"",
-					input->folder->full_name);
+					mail_tool_get_folder_name (input->folder));
 }
 
 static void
@@ -1411,9 +1411,9 @@ describe_sync_folder (gpointer in_data, gboolean gerund)
 	CamelFolder *f = CAMEL_FOLDER (in_data);
 
 	if (gerund) {
-		return g_strdup_printf ("Synchronizing \"%s\"", f->full_name);
+		return g_strdup_printf ("Synchronizing \"%s\"", mail_tool_get_folder_name (f));
 	} else {
-		return g_strdup_printf ("Synchronize \"%s\"", f->full_name);
+		return g_strdup_printf ("Synchronize \"%s\"", mail_tool_get_folder_name (f));
 	}
 }
 
@@ -1616,10 +1616,10 @@ describe_edit_messages (gpointer in_data, gboolean gerund)
 	if (gerund)
 		return g_strdup_printf
 			("Opening messages from folder \"%s\"",
-			 input->folder->full_name);
+			 mail_tool_get_folder_name (input->folder));
 	else
 		return g_strdup_printf ("Open messages from \"%s\"",
-					input->folder->full_name);
+					mail_tool_get_folder_name (input->folder));
 }
 
 static void
@@ -1800,10 +1800,10 @@ describe_view_messages (gpointer in_data, gboolean gerund)
 	if (gerund)
 		return g_strdup_printf
 			("Viewing messages from folder \"%s\"",
-			 input->folder->full_name);
+			 mail_tool_get_folder_name (input->folder));
 	else
 		return g_strdup_printf ("View messages from \"%s\"",
-					input->folder->full_name);
+					mail_tool_get_folder_name (input->folder));
 }
 
 static void

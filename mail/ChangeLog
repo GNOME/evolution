@@ -1,3 +1,12 @@
+2000-08-11  Dan Winship  <danw@helixcode.com>
+
+	* mail-tools.c (mail_tool_get_folder_name): Add a function to
+	return a useful name for a folder (not just "mbox" or "mh" for
+	any local folder.)
+
+	* mail-ops.c: Use mail_tool_get_folder_name rather than
+	folder->full_name when printing folder names.
+
 2000-08-11  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-tools.c (mail_tool_get_local_inbox_url): Properly handle
