@@ -128,6 +128,7 @@ camel_formatter_mime_message_to_html (CamelFormatter* formatter,
 	CamelFormatterPrivate* fmt = formatter->priv;
 
 	g_print ("camel_formatter_mime_message_to_html: entered\n");
+	g_assert (mime_message);
 	
 	/* initialize members of our formatter */
 	fmt->current_root = mime_message;
@@ -138,18 +139,27 @@ camel_formatter_mime_message_to_html (CamelFormatter* formatter,
 	
 	/* write the subj:, to:, from: etc. fields out as html to the
            header stream */
-	write_header_info_to_stream (mime_message,
-				     header_stream);
+	if (header_stream)
+		write_header_info_to_stream (mime_message,
+					     header_stream);
 
 	/* write everything to the stream */
-	camel_stream_write_string (fmt->stream, "<html><body>\n");
-
-	handle_mime_message (
-		formatter,
-		CAMEL_DATA_WRAPPER (mime_message));
-
-	camel_stream_write_string (fmt->stream,
-				   "\n</body></html>\n");	
+	if (body_stream) {
+		
+		camel_stream_write_string (fmt->stream, "<html><body>\n");
+		
+		handle_mime_message (
+			formatter,
+			CAMEL_DATA_WRAPPER (mime_message));
+		
+		camel_stream_write_string (fmt->stream,
+					   "\n</body></html>\n");
+	}
+	else {
+		g_print ("camel-formatter.c: ");
+	        g_print ("camel_formatter_mime_message_to_html: ");
+		g_print ("you don't want the body??\n");
+	}
 }
 
 /* we're maintaining a hashtable of mimetypes -> functions;
@@ -213,7 +223,10 @@ call_handler_function (CamelFormatter* formatter,
 {
 	mime_handler_fn handler_function = NULL;
 
+	g_assert (formatter);
 	g_assert (mimetype_whole || mimetype_main);
+	g_assert (wrapper);
+	
 /*
  * Try to find a handler function in our own lookup table
  */
@@ -544,13 +557,13 @@ handle_text_html (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 		g_assert (simple_data_wrapper->byte_array->data);
 
 		/* replace '<' with '&lt;', etc. */
-		text = text_to_html (simple_data_wrapper->byte_array->data,
-				     simple_data_wrapper->byte_array->len,
-				     &returned_strlen);
+		text = g_strndup (simple_data_wrapper->byte_array->data,
+				  simple_data_wrapper->byte_array->len);
 
 		camel_stream_write_string (formatter->priv->stream,
 					   "\n<!-- text/html below -->\n");
 		camel_stream_write_string (formatter->priv->stream, text);
+
 		g_free (text);
 	}
 	else 
@@ -596,18 +609,23 @@ static void
 handle_mime_message (CamelFormatter *formatter,
 		     CamelDataWrapper *wrapper)
 {
-	CamelMimeMessage* mime_message =
-		CAMEL_MIME_MESSAGE (wrapper);
-	
-	CamelDataWrapper* message_contents =
-		camel_medium_get_content_object (CAMEL_MEDIUM (mime_message));
+	CamelMimeMessage* mime_message; 
+	CamelDataWrapper* message_contents; 
 
+	g_assert (formatter);
+	g_assert (wrapper);
+	mime_message = CAMEL_MIME_MESSAGE (wrapper);
+	message_contents =
+		camel_medium_get_content_object (CAMEL_MEDIUM (mime_message));
+	
+	g_assert (message_contents);
+	
 	debug ("handle_mime_message: entered\n");
 	camel_stream_write_string (formatter->priv->stream,
 				   "\n<!-- mime message below -->\n");
 	
-	camel_stream_write_string (formatter->priv->stream,
-				   "<table width=95% border=1><tr><td>\n\n");		
+//	camel_stream_write_string (formatter->priv->stream,
+//				   "<table width=95% border=1><tr><td>\n\n");		
 
 	/* dispatch the correct handler function for the mime type */
 	call_handler_function (formatter, message_contents,
@@ -615,8 +633,8 @@ handle_mime_message (CamelFormatter *formatter,
 			       MIME_TYPE_MAIN (mime_message));
 	
 	/* close up the table we opened */
-	camel_stream_write_string (formatter->priv->stream,
-				   "\n\n</td></tr></table>\n\n");
+//	camel_stream_write_string (formatter->priv->stream,
+//				   "\n\n</td></tr></table>\n\n");
 	
 	debug ("handle_mime_message: exiting\n");
 }
@@ -660,32 +678,8 @@ find_preferred_displayable_body_part_in_multipart_alternative (
 	return NULL;
 }
 
-/* we're maintaining a hashtable of mimetypes -> functions;
- * those functions have the following signature...*/
-typedef void (*multipart_foreach_fn) (CamelMimeBodyPart* mime_part,
-				      CamelFormatter* stream,
-				      gpointer user_data);
 
-static void
-multipart_foreach (CamelMultipart *multipart,
-		   multipart_foreach_fn* fn,
-		   CamelFormatter* formatter,
-		   gpointer user_data)
-{
-	int i, max_multiparts;
-
-	max_multiparts = camel_multipart_get_number (multipart);	
-	for (i = 0; i < max_multiparts; i++) {
-		CamelMimeBodyPart* body_part =
-			camel_multipart_get_part (multipart, i);
-
-		(*fn)(body_part, formatter, user_data);
-	}	
-}
-
-
-/* called for each body part in a multipart/mixed, through
-   'multipart_foreach' */
+/* called for each body part in a multipart/mixed */
 static void
 print_camel_body_part (CamelMimeBodyPart* body_part,
 		       CamelFormatter* formatter,
@@ -714,17 +708,33 @@ static void
 handle_multipart_mixed (CamelFormatter *formatter,
 			CamelDataWrapper *wrapper)
 {
-	CamelMultipart* mp = CAMEL_MULTIPART (wrapper);
+	CamelMultipart* mp;
 	gboolean text_printed_yet = FALSE;
+
+	g_assert (formatter);
+	g_assert (wrapper);
+	g_assert (CAMEL_IS_MULTIPART (wrapper));
 	
-	debug ("handle_multipart_mixed: entered\n");
+	mp = CAMEL_MULTIPART (wrapper);
+	g_assert (mp);
+	
+//	debug ("handle_multipart_mixed: entered\n");
 
-	multipart_foreach (
-		mp, (multipart_foreach_fn*)print_camel_body_part,
-		formatter,
-		&text_printed_yet);
 
-	debug ("handle_multipart_mixed: exiting\n");	
+	{
+		int i, max_multiparts;
+
+		max_multiparts = camel_multipart_get_number (mp);	
+		for (i = 0; i < max_multiparts; i++) {
+			CamelMimeBodyPart* body_part =
+				camel_multipart_get_part (mp, i);
+
+			print_camel_body_part (body_part, formatter, &text_printed_yet);
+		}
+	}
+
+
+//	debug ("handle_multipart_mixed: exiting\n");	
 }
 
 static void

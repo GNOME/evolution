@@ -1,5 +1,10 @@
 2000-02-13  Matt Loper  <matt@helixcode.com>
 
+	* html-stream.c (html_stream_new): Second param of gtk_html_begin
+	should be "", not NULL.
+	(html_stream_new): gtk_html_parse() is deprecated, so the call was
+	removed.
+
 	* html-stream.h: HTMLStreamClass's parent changed to
 	CamelStreamClass, not CamelStream.
 

@@ -25,6 +25,7 @@
 #include <camel/camel-stream-fs.h>
 #include <camel/gmime-utils.h>
 #include "../../mail/html-stream.h"
+#include <camel/camel-formatter.h>
 
 /* gtkhtml stuff */
 #include <gtkhtml/gtkhtml.h>
@@ -54,7 +55,6 @@ handle_tree_item (CamelDataWrapper* object, GtkWidget* tree_ctrl)
 	gchar* containee_label;
 	      
 	GtkWidget* subtree = NULL;
-
 
 	tree_item = gtk_tree_item_new_with_label (label);
 	gtk_tree_append (GTK_TREE (tree_ctrl), tree_item);
@@ -106,6 +106,7 @@ handle_tree_item (CamelDataWrapper* object, GtkWidget* tree_ctrl)
 						  GTK_WIDGET (subtree));
 			}	
 		}
+		gtk_tree_item_expand (GTK_TREE_ITEM (tree_item));		
 	}
 }
 
@@ -160,14 +161,93 @@ filename_to_camel_msg (gchar* filename)
 }
 
 /*----------------------------------------------------------------------*
+ *           Filling out the HTML view of a mime message
+ *----------------------------------------------------------------------*/
+
+static void
+mime_message_to_html (CamelMimeMessage *msg, gchar** header_string,
+		      gchar** body_string)
+{
+	CamelFormatter* cmf = camel_formatter_new();
+	CamelStream* header_stream =
+		camel_stream_mem_new (CAMEL_STREAM_FS_WRITE);	
+	CamelStream* body_stream =
+		camel_stream_mem_new (CAMEL_STREAM_FS_WRITE);
+
+	g_assert (header_string && body_string);
+
+	camel_formatter_mime_message_to_html (
+		cmf, msg, header_stream, body_stream);
+
+	*header_string = g_strndup (
+		CAMEL_STREAM_MEM (header_stream)->buffer->data,
+		CAMEL_STREAM_MEM (header_stream)->buffer->len);
+	*body_string = g_strndup (
+		CAMEL_STREAM_MEM (body_stream)->buffer->data,
+		CAMEL_STREAM_MEM (body_stream)->buffer->len);
+}
+
+static GtkWidget*
+get_gtk_html_window (gchar* filename)
+{
+	static GtkWidget* scroll_wnd = NULL;
+	static GtkWidget* html_widget = NULL;
+	CamelMimeMessage* mime_message;
+	HTMLStream* html_stream;
+	gchar *body_string;
+	gchar *header_string;
+
+	g_assert (filename);
+	g_print ("filename: %s\n", filename);
+	
+	/* create the html widget and scroll window, if they haven't
+           already been created */
+	if (!html_widget) {
+		html_widget = gtk_html_new();
+		scroll_wnd = gtk_scrolled_window_new (NULL, NULL);
+		gtk_container_add (GTK_CONTAINER (scroll_wnd), html_widget);
+	}
+
+	html_stream = HTML_STREAM (html_stream_new (GTK_HTML (html_widget)));
+	mime_message = filename_to_camel_msg (filename);
+
+	g_assert (html_stream && mime_message);
+	
+	/* turn the mime message into html, and
+	   write it to the html stream */
+	mime_message_to_html (mime_message, &header_string, &body_string);
+	g_print ("strlen: %d\n%s\n", strlen (body_string), body_string);
+	
+	camel_stream_write (CAMEL_STREAM (html_stream),
+			    body_string,
+			    strlen (body_string));
+
+	camel_stream_close (CAMEL_STREAM (html_stream));
+	
+	g_free (header_string);
+	g_free (body_string);
+	
+	gtk_widget_set_usize (scroll_wnd, 500, 400);
+	return scroll_wnd;
+}
+
+
+
+/*----------------------------------------------------------------------*
  *                  Menu callbacks and information
  *----------------------------------------------------------------------*/
+
+static gchar* fileselection_prev_file = NULL;
 
 static void
 open_ok (GtkWidget *widget, GtkFileSelection *fs)
 {
 	int ret;
 	GtkWidget *error_dialog;
+
+	if (fileselection_prev_file)
+		g_free (fileselection_prev_file);
+	
 	if(!g_file_exists (gtk_file_selection_get_filename (fs))) {
 		error_dialog = gnome_message_box_new (
 			_("File not found"),
@@ -183,8 +263,14 @@ open_ok (GtkWidget *widget, GtkFileSelection *fs)
 	else {
 		gchar *filename = gtk_file_selection_get_filename (fs);
 		CamelMimeMessage* message = filename_to_camel_msg (filename);
+		
+		fileselection_prev_file = g_strdup (filename);
+		
 		if (message)
+		{
 			get_message_tree_ctrl (message);
+			get_gtk_html_window (filename);
+		}
 		
 		gtk_widget_destroy (GTK_WIDGET (fs));
 	}
@@ -195,9 +281,11 @@ static void
 file_menu_open_cb (GtkWidget *widget, void* data)
 {
 	GtkFileSelection *fs;
-	
+
 	fs = GTK_FILE_SELECTION (
 		gtk_file_selection_new (_("Open Mime Message")));
+
+	gtk_file_selection_set_filename (fs, fileselection_prev_file);
 	
 	gtk_signal_connect (GTK_OBJECT (fs->ok_button), "clicked",
 			    (GtkSignalFunc) open_ok,
@@ -229,35 +317,6 @@ static GnomeUIInfo main_menu[] = {
 	GNOMEUIINFO_MENU_FILE_TREE (file_menu),
 	GNOMEUIINFO_END
 };
-
-
-/*----------------------------------------------------------------------*
- *           Filling out the HTML view of a mime message
- *----------------------------------------------------------------------*/
-
-static GtkWidget*
-get_gtk_html_window (gchar* filename)
-{
-	static GtkWidget* scroll_wnd = NULL;
-	static GtkWidget* html_widget = NULL;
-	HTMLStream* html_stream;
-
-	g_assert (filename);
-
-	if (!html_widget) {
-		html_widget = gtk_html_new();
-		scroll_wnd = gtk_scrolled_window_new (NULL, NULL);
-		gtk_container_add (GTK_CONTAINER (scroll_wnd), html_widget);
-	}
-
-	html_stream = html_stream_new (GTK_HTML (html_widget));
-
-	camel_stream_write (CAMEL_STREAM (html_stream),
-			    "<html><body>hello</body></html>",
-			    sizeof("<html><body>hello</body></html>"));
-
-	return scroll_wnd;
-}
 
 
 int

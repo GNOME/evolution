@@ -103,8 +103,7 @@ html_stream_new (GtkHTML *html)
 
 	gtk_object_ref (GTK_OBJECT (html));
 
-	html_stream->gtk_html_stream = gtk_html_begin (html, NULL);
-	gtk_html_parse (html);
+	html_stream->gtk_html_stream = gtk_html_begin (html, "");
 	
 	html_stream->gtk_html = html;
 
