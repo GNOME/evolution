@@ -30,8 +30,9 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <dirent.h>
-#include <stdio.h> /* rename() */
-#include <string.h> /* strlen() */
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 
 #include <gtk/gtklabel.h>
 #include <libgnome/gnome-defs.h>

@@ -1,5 +1,17 @@
 2001-06-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (e_shell_construct): Set `splash' to NULL when
+	@show_splash is false, so the compiler doesn't complain.
+
+	* e-shell-view-menu.c: #include <gtk/gtkmain.h>.
+
+	* e-setup.c: #include <unistd.h>.
+
+	* importer/intelligent.c: #include <gtk/gtkhbox.h> and
+	<gtk/gtkdrawingarea.h>.
+
+2001-06-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c: New member `menu_hint_label' in
 	`EShellViewPrivate'.
 	(init): Init to NULL.

@@ -27,8 +27,12 @@
 #endif
 
 #include "intelligent.h"
+
 #include <glib.h>
+
+#include <gtk/gtkdrawingarea.h>
 #include <gtk/gtkbox.h>
+#include <gtk/gtkhbox.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmain.h>

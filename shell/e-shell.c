@@ -776,7 +776,9 @@ e_shell_construct (EShell               *shell,
 	if (register_shell (shell, iid) != OAF_REG_SUCCESS)
 		return FALSE;
 
-	if (show_splash) {
+	if (! show_splash) {
+		splash = NULL;
+	} else {
 		splash = e_splash_new ();
 		gtk_widget_show (splash);
 	}
