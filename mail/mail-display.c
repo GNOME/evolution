@@ -2645,6 +2645,8 @@ display_notify (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, gpointer d
 	} else if (!strcmp (tkey, "/citation_color") 
 		   || !strcmp (tkey, "/mark_citations")) {
 		mail_display_queue_redisplay (md);
+	} else if (!strcmp (tkey, "/caret_mode")) {
+		gtk_html_set_caret_mode(md->html, gconf_value_get_bool (gconf_entry_get_value(entry)));
 	}
 }
 
@@ -2691,6 +2693,7 @@ mail_display_new (void)
 	
 	gconf = mail_config_get_gconf_client ();
 	gtk_html_set_animate (GTK_HTML (html), gconf_client_get_bool (gconf, "/apps/evolution/mail/display/animate_images", NULL));
+	gtk_html_set_caret_mode (GTK_HTML (html), gconf_client_get_bool (gconf, "/apps/evolution/mail/display/caret_mode", NULL));
 	
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/display",GCONF_CLIENT_PRELOAD_NONE, NULL);
 	mail_display->priv->display_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display",

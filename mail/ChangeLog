@@ -1,3 +1,10 @@
+2003-07-15  Yuedong Du  <yuedong.du@sun.com>
+
+	* mail-config.c: (config_write_style), (mail_config_init): remove
+	the use of caret mode widget style.
+	* mail-display.c: (display_notify), (mail_display_new): use new
+	gtkhtml api to set caret mode.
+
 2003-07-11  Antonio Xu  <antonio.xu@sun.com>
 
 	* folder-browser-ui.c: Change the EditPaste mask to IS_0MESSAGE so
