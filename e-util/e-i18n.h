@@ -34,8 +34,14 @@
 #    define N_(String) (String)
 #endif
 
-#ifndef __GNOME_I18N_H__
+/*
+ * Do not remove the following define, nor do surround it with ifdefs.
+ *
+ * If you get any `redefined' errors, it means that you are including
+ * -incorrectly- a header file provided by gnome-libs before this file.
+ * To correctly solve this issue include this file before any libgnome/
+ * libgnomeui headers
+ */
 #define __GNOME_I18N_H__ 1
-#endif
 
 #endif /* __E_I18N_H__ */
