@@ -1,3 +1,18 @@
+2002-12-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (guess_me_from_accounts): Use the same logic as
+	mail_generate_reply(). Fixes bug #34882
+
+	Fixes bug #34315
+
+	* component-factory.c (message_rfc822_dnd): Return TRUE if we
+	successfully handled all messages in the mbox stream, or FALSE
+	otherwise.
+	(destination_folder_handle_drop): For TEXT_URI_LIST, use the
+	retval from message_rfc822_dnd() rather than relying on an
+	exception, because one will not always necessarily be set. For
+	MESSAGE_RFC822, also use the retval from message_rfc822_dnd().
+
 2002-12-03  Not Zed  <NotZed@Ximian.com>
 
 	* folder-browser.c (folder_browser_finalise/destroy): frobbed
