@@ -1,3 +1,15 @@
+2001-05-02  JP Rosevear  <jpr@ximian.com>
+
+	* gui/component/addressbook.c (addressbook_view_free): unref the
+	book if the view is being destroyed
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_process_get_book_view): unref the book_view when
+	we are finished, it is only interesting if someone else has reffed
+	it now (weak reference)
+	(pas_backend_file_add_client): unref the book for the same reason
+	as above
+
 2001-04-30  JP Rosevear  <jpr@ximian.com>
 
 	* backend/pas/pas-backend-file.c (vcard_matches_search): if the

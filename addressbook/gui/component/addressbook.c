@@ -352,6 +352,14 @@ control_activate_cb (BonoboControl *control,
 static void
 addressbook_view_free(AddressbookView *view)
 {
+	EBook *book;
+	
+	gtk_object_get(GTK_OBJECT(view->view),
+		       "book", &book,
+		       NULL);
+	if (view->uri)
+		gtk_object_unref (GTK_OBJECT (book));
+	
 	if (view->properties)
 		bonobo_object_unref(BONOBO_OBJECT(view->properties));
 	g_free(view->passwd);

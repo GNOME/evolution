@@ -1018,6 +1018,7 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	g_free(req->search);
 	CORBA_exception_init(&ev);
 
+	bonobo_object_unref (BONOBO_OBJECT (book_view));
 	bonobo_object_release_unref (req->listener, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -1456,6 +1457,8 @@ pas_backend_file_add_client (PASBackend             *backend,
 			pas_book_report_writable (book, bf->priv->writable);
 	}
 
+	bonobo_object_unref (BONOBO_OBJECT (book));
+	
 	return TRUE;
 }
 
