@@ -1,5 +1,5 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* e-shell-view.c
+/* e-shell-view-menu.c
  *
  * Copyright (C) 2000, 2001  Ximian, Inc.
  *
