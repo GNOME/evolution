@@ -1,6 +1,6 @@
 2004-03-11  Jeffrey Stedfast  <fejj@ximian.com>
 
-	Fix for bug #55267
+	Fix for bug #55267.
 
 	* e-filter-bar.c (set_property): Use efb->setquery properly (set
 	to TRUE before calling set_item_id and FLASE afterwards). Also
