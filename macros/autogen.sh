@@ -77,7 +77,7 @@ do
     	## debug
     	test -n "$macrodirs" && echo \`aclocal\' will also look in \`$macrodirs\'
     	(cd $i; \
-    	aclocalinclude=""; \
+        aclocalinclude="$ACLOCAL_FLAGS"; \
     	for k in $macrodirs; do \
     	    if test -d $k; then aclocalinclude="$aclocalinclude -I $k"; \
     	    else echo "**Warning**: No such directory \`$k'.  Ignored."; fi; \

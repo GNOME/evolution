@@ -1,3 +1,10 @@
+Fri Apr 24 16:43:38 1998  Owen Taylor  <otaylor@gtk.org>
+
+	* autogen.sh: Pass the results of the environment variable
+	ACLOCAL_FLAGS to aclocal. This allows, for instance,
+
+	 ACLOCAL_FLAGS="-I /home/owen/share/aclocal/" autogen.sh
+	
 Sun Apr 19 01:35:53 EDT 1998 Gregory McLean <gregm@comstar.net>
 
         * gnome-x-checks.m4: Updated the gtk check to check for 1.0.0
