@@ -225,7 +225,7 @@ glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade message
 MARSHAL_GENERATED = em-marshal.c em-marshal.h
 @EVO_MARSHAL_RULE@
 
-etspec_DATA = mail-accounts.etspec message-list.etspec subscribe-dialog.etspec
+etspec_DATA = message-list.etspec
 
 idl_DATA = $(MAILER_IDL)
 
