@@ -78,7 +78,7 @@
 /* The minimum amount of space wanted on each side of the date string. */
 #define E_DAY_VIEW_DATE_X_PAD	4
 
-#define E_DAY_VIEW_LARGE_FONT_PTSIZE 24
+#define E_DAY_VIEW_LARGE_FONT_PTSIZE 18
 
 /* The offset from the top/bottom of the canvas before auto-scrolling starts.*/
 #define E_DAY_VIEW_AUTO_SCROLL_OFFSET	16

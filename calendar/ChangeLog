@@ -1,3 +1,10 @@
+2003-03-17  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes #39736
+
+	* gui/e-day-view.c: Reduce the size of the large-digits font so it's
+	en par with the one in 1.2.
+
 2003-03-14  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #39740
