@@ -182,10 +182,10 @@ e_calendar_table_class_init (ECalendarTableClass *class)
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
 	"   cell=\"string\"   compare=\"string\"/>"				\
         "  <ETableColumn model_col=\"13\" pixbuf=\"icon\" "			\
-	"   expansion=\"1.0\" minimum_width=\"22\" resizable=\"false\" "	\
+	"   expansion=\"1.0\" minimum_width=\"16\" resizable=\"false\" "	\
 	"   cell=\"icon\"     compare=\"integer\"/>"				\
         "  <ETableColumn model_col=\"14\" pixbuf=\"complete\" "			\
-	"   expansion=\"1.0\" minimum_width=\"22\" resizable=\"false\" "	\
+	"   expansion=\"1.0\" minimum_width=\"16\" resizable=\"false\" "	\
 	"   cell=\"checkbox\" compare=\"integer\"/>"				\
 	"  <ETableState>"							\
 	"    <column source=\"13\"/>"						\
