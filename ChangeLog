@@ -1,3 +1,14 @@
+2000-02-07  Matt Loper  <matt.loper@splashtech.com>
+
+	* tests/test-formatter.c (print_usage_and_quit): New function,
+	which gives usage information.
+
+	* camel/camel-formatter.c: made the 'stream' a member of the
+	CamelFormatter class, so that streams don't have to be explicitly
+	sent as a param where a CamelFormatter is also sent..
+	(handle_text_plain): Use 'encode_entities' to change '<' to
+	'&gt;', etc.
+
 2000-02-07  Damon Chaplin  <damon@helixcode.com>
 
 	* widgets/shortcut-bar/e-group-bar.c (e_group_bar_draw): finished.

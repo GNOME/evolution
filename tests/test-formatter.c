@@ -21,6 +21,17 @@ convert_to_html_and_print (CamelMimeMessage *msg)
 		 (CAMEL_STREAM_MEM(stream))->buffer->data);
 }
 
+static void
+print_usage_and_quit()
+{
+	g_print ("\nUsage: test-formatter [MIME-MESSAGE-FILE]\n\n");
+	g_print ("Where MIME-MESSAGE-FILE is in the \"message/rfc822\"\n");
+	g_print ("mime format.\n\n");
+	
+	exit(0);
+}
+
+
 int
 main (int argc, char**argv)
 {
@@ -28,8 +39,12 @@ main (int argc, char**argv)
 	CamelMimeMessage *message;
 	CamelStream *input_stream;
 	
+//	CamelStream *foo = CAMEL_STREAM(NULL);
 	
 	gtk_init (&argc, &argv);
+	if (argc == 1 || argc > 2)
+		print_usage_and_quit();
+	
 	camel_init ();
 	camel_debug_level = CAMEL_LOG_LEVEL_FULL_DEBUG;
 		
