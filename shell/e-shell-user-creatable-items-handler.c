@@ -268,7 +268,7 @@ get_default_action_for_view (EShellUserCreatableItemsHandler *handler,
 
 	view_component_id = e_shell_view_get_current_component_id (shell_view);
 	if (view_component_id == NULL)
-		return NULL;
+		return priv->default_menu_item;
 
 	for (p = priv->menu_items; p != NULL; p = p->next) {
 		const MenuItem *item;
