@@ -1,3 +1,8 @@
+2002-09-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser-ui.c: Allow users to delete already deleted
+	messages, fixes bug #30827.
+
 2002-09-24  Not Zed  <NotZed@Ximian.com>
 
 	* folder-browser.c (folder_browser_query_changed): Always do a

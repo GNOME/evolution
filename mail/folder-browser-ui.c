@@ -249,7 +249,7 @@ struct _UINode default_ui_nodes[] = {
 	{ "MessageApplyFilters",      IS_NMESSAGE },
 	{ "MessageCopy",              IS_NMESSAGE },
 	{ "MessageMove",              IS_NMESSAGE },
-	{ "MessageDelete",            IS_NMESSAGE & ~HAS_UNDELETED },
+	{ "MessageDelete",            IS_NMESSAGE },
 	{ "MessageUndelete",          IS_NMESSAGE & ~HAS_DELETED },
 	{ "MessageMarkAsRead",        IS_NMESSAGE & ~HAS_UNREAD },
 	{ "MessageMarkAsUnRead",      IS_NMESSAGE & ~HAS_READ },
