@@ -26,7 +26,10 @@
 #include <libgnome/gnome-i18n.h>
 #include "e-cal-model-calendar.h"
 #include "e-cell-date-edit-text.h"
+#include "itip-utils.h"
 #include "misc.h"
+#include "dialogs/recur-comp.h"
+#include "dialogs/send-comp.h"
 
 struct _ECalModelCalendarPrivate {
 };
@@ -112,7 +115,7 @@ get_dtend (ECalModelCalendar *model, ECalModelComponent *comp_data)
 
 	if (!comp_data->dtend) {
 		icalproperty *prop;
-		icaltimezone *zone;
+		icaltimezone *zone, *model_zone;
 		gboolean got_zone = FALSE;
 
 		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTEND_PROPERTY);
@@ -125,11 +128,12 @@ get_dtend (ECalModelCalendar *model, ECalModelComponent *comp_data)
 		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_end), &zone, NULL))
 			got_zone = TRUE;
 
-		if ((e_cal_model_get_flags (E_CAL_MODEL (model)) & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES) &&
-		    (e_cal_util_component_has_recurrences (comp_data->icalcomp))) {
-			if (got_zone)
+		if (e_cal_model_get_flags (E_CAL_MODEL (model)) & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES) {
+			if (got_zone) {
 				tt_end = icaltime_from_timet_with_zone (comp_data->instance_end, tt_end.is_date, zone);
-			else
+				if ((model_zone = e_cal_model_get_timezone (E_CAL_MODEL (model))))
+					icaltimezone_convert_time (&tt_end, zone, model_zone);
+			} else
 				tt_end = icaltime_from_timet (comp_data->instance_end, tt_end.is_date);
 		}
 
@@ -329,6 +333,8 @@ static void
 ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value)
 {
 	ECalModelComponent *comp_data;
+	CalObjModType mod = CALOBJ_MOD_ALL;
+	ECalComponent *comp;
 	ECalModelCalendar *model = (ECalModelCalendar *) etm;
 
 	g_return_if_fail (E_IS_CAL_MODEL_CALENDAR (model));
@@ -344,6 +350,20 @@ ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	if (!comp_data)
 		return;
 
+	comp = e_cal_component_new ();
+	if (!e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp))) {
+		g_object_unref (comp);
+		return;
+	}
+
+	/* ask about mod type */
+	if (e_cal_component_is_instance (comp)) {
+		if (!recur_component_dialog (comp_data->client, comp, &mod, NULL)) {
+			g_object_unref (comp);
+			return;
+		}
+	}
+
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
 		set_dtend (comp_data, value);
@@ -356,12 +376,17 @@ ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value)
 		break;
 	}
 
-	/* FIXME ask about mod type */
-	if (!e_cal_modify_object (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL)) {
+	if (e_cal_modify_object (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL)) {
+		if (itip_organizer_is_user (comp, comp_data->client) &&
+		    send_component_dialog (NULL, comp_data->client, comp, FALSE))
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, comp_data->client, NULL);
+	} else {
 		g_warning (G_STRLOC ": Could not modify the object!");
 		
 		/* FIXME Show error dialog */
 	}
+
+	g_object_unref (comp);
 }
 
 static gboolean

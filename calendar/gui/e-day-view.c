@@ -286,6 +286,7 @@ static ECalendarViewPosition e_day_view_convert_position_in_main_canvas (EDayVie
 								    gint *event_num_return);
 static gboolean e_day_view_find_event_from_uid (EDayView *day_view,
 						const gchar *uid,
+						const gchar *rid,
 						gint *day_return,
 						gint *event_num_return);
 
@@ -507,7 +508,7 @@ process_component (EDayView *day_view, ECalModelComponent *comp_data)
 {
 	EDayViewEvent *event;
 	gint day, event_num;
-	const char *uid;
+	const char *uid, *rid;
 	ECalComponent *comp;
 	AddEventData add_event_data;
 
@@ -524,11 +525,15 @@ process_component (EDayView *day_view, ECalModelComponent *comp_data)
 	}
 
 	e_cal_component_get_uid (comp, &uid);
+	if (e_cal_component_is_instance (comp))
+		rid = e_cal_component_get_recurid_as_string (comp);
+	else
+		rid = NULL;
 
 	/* If the event already exists and the dates didn't change, we can
 	   update the event fairly easily without changing the events arrays
 	   or computing a new layout. */
-	if (e_day_view_find_event_from_uid (day_view, uid, &day, &event_num)) {
+	if (e_day_view_find_event_from_uid (day_view, uid, rid, &day, &event_num)) {
 		ECalComponent *tmp_comp;
 		
 		if (day == E_DAY_VIEW_LONG_EVENT)
@@ -546,7 +551,8 @@ process_component (EDayView *day_view, ECalModelComponent *comp_data)
 #if 0
 			g_print ("updated object's dates unchanged\n");
 #endif
-			e_day_view_foreach_event_with_uid (day_view, uid, e_day_view_update_event_cb, comp_data);
+			/* e_day_view_foreach_event_with_uid (day_view, uid, e_day_view_update_event_cb, comp_data); */
+			e_day_view_update_event_cb (day_view, day, event_num, comp_data);
 			gtk_widget_queue_draw (day_view->top_canvas);
 			gtk_widget_queue_draw (day_view->main_canvas);
 			return;
@@ -557,19 +563,25 @@ process_component (EDayView *day_view, ECalModelComponent *comp_data)
 #if 0
 		g_print ("dates changed - removing occurrences\n");
 #endif
-		e_day_view_foreach_event_with_uid (day_view, uid,
-						   e_day_view_remove_event_cb,
-						   NULL);
+		e_day_view_remove_event_cb (day_view, day, event_num, NULL);
 
 		g_object_unref (tmp_comp);
+	} else {
+		if (rid && e_day_view_find_event_from_uid (day_view, uid, NULL, &day, &event_num)) {
+			if (day == E_DAY_VIEW_LONG_EVENT)
+				event = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
+			else
+				event = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
+
+			if (!e_cal_util_component_is_instance (event->comp_data->icalcomp))
+				e_day_view_remove_event_cb (day_view, day, event_num, NULL);
+		}
 	}
 
-	/* Add the occurrences of the event */
+	/* Add the object */
 	add_event_data.day_view = day_view;
 	add_event_data.comp_data = comp_data;
-	e_cal_generate_instances_for_object (comp_data->client, comp_data->icalcomp, day_view->lower,
-					     day_view->upper,
-					     e_day_view_add_event, &add_event_data);
+	e_day_view_add_event (comp, comp_data->instance_start, comp_data->instance_end, &add_event_data);
 
 	g_object_unref (comp);
 }
@@ -640,55 +652,35 @@ model_rows_inserted_cb (ETableModel *etm, int row, int count, gpointer user_data
 
 }
 
-static gboolean
-row_deleted_check_cb (EDayView	*day_view, gint day, gint event_num, gpointer data)
-{	
-	GHashTable *uids = data;
-	EDayViewEvent *event;
-	ECalModel *model;
-	const char *uid;
-	
-	if (day == E_DAY_VIEW_LONG_EVENT) {
-		event = &g_array_index (day_view->long_events, EDayViewEvent,
-					event_num);
-	} else {
-		event = &g_array_index (day_view->events[day], EDayViewEvent,
-					event_num);
-	}
-
-	uid = icalcomponent_get_uid (event->comp_data->icalcomp);
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-
-	if (!e_cal_model_get_component_for_uid (model, uid))
-		g_hash_table_insert (uids, g_strdup(uid), GINT_TO_POINTER (1));
-
-	return TRUE;
-}
-
-static void
-remove_uid_cb (gpointer key, gpointer value, gpointer data)
-{
-	EDayView *day_view = data;
-	char *uid = key;
-	
-	e_day_view_foreach_event_with_uid (day_view, uid, e_day_view_remove_event_cb, NULL);
-	g_free(uid);
-}
-
 static void
 model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
-	GHashTable *uids;
+	int i;
 	
 	e_day_view_stop_editing_event (day_view);
 	
-	uids = g_hash_table_new (g_str_hash, g_str_equal);
-	
-	e_day_view_foreach_event (day_view, row_deleted_check_cb, uids);
-	g_hash_table_foreach (uids, remove_uid_cb, day_view);
+	for (i = row + count; i > row; i--) {
+		gint day, event_num;
+		const char *uid, *rid = NULL;
+		ECalModelComponent *comp_data;
 
-	g_hash_table_destroy (uids);
+		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (etm), i - 1);
+		if (!comp_data)
+			continue;
+
+		uid = icalcomponent_get_uid (comp_data->icalcomp);
+		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
+			icalproperty *prop;
+
+			prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
+			if (prop)
+				rid = icaltime_as_ical_string (icalcomponent_get_recurrenceid (comp_data->icalcomp));
+		}
+
+		if (e_day_view_find_event_from_uid (day_view, uid, rid, &day, &event_num))
+			e_day_view_remove_event_cb (day_view, day, event_num, NULL);
+	}
 	
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
@@ -1080,6 +1072,7 @@ e_day_view_new (void)
 	GObject *day_view;
 
 	day_view = g_object_new (e_day_view_get_type (), NULL);
+	e_cal_model_set_flags (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES);
 	
 	return GTK_WIDGET (day_view);
 }
@@ -1778,6 +1771,9 @@ e_day_view_remove_event_cb (EDayView *day_view,
 		event = &g_array_index (day_view->events[day],
 					EDayViewEvent, event_num);
 
+	if (!event)
+		return TRUE;
+
 	/* If we were editing this event, set editing_event_day to -1 so
 	   on_editing_stopped doesn't try to update the event. */
 	if (day_view->editing_event_day == day
@@ -1970,12 +1966,13 @@ e_day_view_find_event_from_item (EDayView *day_view,
 static gboolean
 e_day_view_find_event_from_uid (EDayView *day_view,
 				const gchar *uid,
+				const gchar *rid,
 				gint *day_return,
 				gint *event_num_return)
 {
 	EDayViewEvent *event;
 	gint day, event_num;
-	const char *u;
+	const char *u, *r;
 
 	if (!uid)
 		return FALSE;
@@ -1988,6 +1985,14 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 
 			u = icalcomponent_get_uid (event->comp_data->icalcomp);
 			if (u && !strcmp (uid, u)) {
+				if (rid && *rid) {
+					r = icaltime_as_ical_string (icalcomponent_get_recurrenceid (event->comp_data->icalcomp));
+					if (!r || !*r)
+						continue;
+					if (strcmp (rid, r) != 0)
+						continue;
+				}
+
 				*day_return = day;
 				*event_num_return = event_num;
 				return TRUE;
@@ -4866,7 +4871,7 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 
-	if (e_day_view_find_event_from_uid (day_view, uid, &day, &event_num)) {
+	if (e_day_view_find_event_from_uid (day_view, uid, NULL, &day, &event_num)) {
 		e_day_view_start_editing_event (day_view, day, event_num,
 						initial_text);
 	} else {

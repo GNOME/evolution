@@ -116,8 +116,19 @@ recur_component_dialog (ECal *client,
 		*mod = CALOBJ_MOD_THISANDPRIOR;
 	else if (rb_future && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb_future)))
 		*mod = CALOBJ_MOD_THISANDFUTURE;
-	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb_all)))
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb_all))) {
 		*mod = CALOBJ_MOD_ALL;
+
+		/* remove the RECURRENCE-ID from the object if modifying ALL instances */
+		if (ret) {
+			icalproperty *prop;
+
+			prop = icalcomponent_get_first_property (e_cal_component_get_icalcomponent (comp),
+								 ICAL_RECURRENCEID_PROPERTY);
+			if (prop)
+				icalcomponent_remove_property (e_cal_component_get_icalcomponent (comp), prop);
+		}
+	}
 
 	gtk_widget_destroy (dialog);
 

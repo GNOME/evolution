@@ -1,4 +1,58 @@
-2004-12-18 James Bowes  <bowes@cs.dal.ca>
+2004-12-21  Rodrigo Moya <rodrigo@novell.com>
+
+	Merge from recurrences-work-branch
+
+	* gui/e-cal-model.c (free_comp_data): renamed to
+	e_cal_model_free_component_data and made it public.
+	(clear_objects_array, e_cal_view_objects_removed_cb,
+	remove_client_objects): use e_cal_model_free_component_data.
+	(get_dtstart): get the DTSTART correctly for recurrences.
+	(add_instance_cb): initialize all members of ECalModelComponent, and
+	use the correct icalcomponent when setting the field.
+	(set_instance_times): new function to set the instance_* fields of
+	the ECalModelComponent when not expanding recurrences.
+	(e_cal_view_objects_added_cb): expand recurrences for all objects when
+	the model is set to expand. Call set_instance_times when not
+	expanding recurrences.
+	(e_cal_view_objects_modified_cb): made it remove objects and re-add
+	them.
+	(copy_ecdv): check values before using them.
+	(e_cal_model_copy_component_data): Added code to copy the instance_* and
+	color fields.
+
+	* gui/e-cal-model-calendar.c (get_dtend): get the DTEND correctly for
+	recurrences.
+	(ecmc_set_value_at): ask user which instances to modify.
+
+	* gui/e-day-view.c (e_day_view_find_event_from_uid): changed to search
+	by UID and RID if given.
+	(process_component): changed to not expand recurrences at all, this is
+	now done on the model.
+	(row_deleted_check_cb, remove_uid_cb): removed these functions.
+	(model_rows_deleted_cb): changed to just remove the rows signalled from
+	the model, which is the responsible for the recurrence expansion.
+	(e_day_view_new): set the model to expand recurrences.
+	(e_day_view_remove_event_cb): check the value searched in the array.
+	(e_day_view_do_key_press): use e_day_view_find_event_from_uid correctly.
+
+	* gui/e-week-view.c (e_week_view_find_event_from_uid): changed to search
+	by UID and RID if given.
+	(process_component_recur_cb): removed.
+	(process_component): changed to not expand recurrences at all, this is
+	now done on the model.
+	(row_deleted_check_cb, remove_uid_cb): removed these functions.
+	(model_rows_deleted_cb): changed to just remove the rows signalled from
+	the model, which is the responsible for the recurrence expansion.
+	(e_week_view_new): set the model to expand recurrences.
+	(e_week_view_remove_event_cb): check the value searched in the array.
+	Set the ECalModelComponent field to NULL after freeing it.
+	(e_week_view_do_key_press): use e_week_view_find_event_from_uid
+	correctly.
+
+	* gui/dialogs/recur-comp.c (recur_component_dialog): remove the
+	RECURRENCE-ID from the object when modifying all instances.
+
+2004-12-18  James Bowes  <bowes@cs.dal.ca>
 
 	* gui/apps_evolution_calendar.schemas.in.in: Add schema for Free/Busy
 	template uri.
