@@ -949,9 +949,11 @@ static gboolean
 smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bit_parts, CamelException *ex)
 {
 	/* now we can actually send what's important :p */
-	char *cc, *cmdbuf, *respbuf = NULL;
+	char *cmdbuf, *respbuf = NULL;
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *crlffilter;
+	struct _header_raw *header;
+	GSList *h, *bcc = NULL;
 	int ret;
 	
 	/* if the message contains 8bit mime parts and the server
@@ -1000,8 +1002,15 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlffilter));
 	camel_object_unref (CAMEL_OBJECT (crlffilter));
 	
-	cc = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "Cc"));
-	camel_medium_remove_header (CAMEL_MEDIUM (message), "Cc");
+	/* copy the bcc headers */
+	header = CAMEL_MIME_PART (message)->headers;
+	while (header) {
+		if (!g_strcasecmp (header->name, "Bcc"))
+			bcc = g_slist_append (bcc, g_strdup (header->value));
+		header = header->next;
+	}
+	
+	camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");
 	
 	ret = camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (filtered_stream));
 	if (ret == -1 || camel_stream_flush (CAMEL_STREAM (filtered_stream)) == -1) {
@@ -1012,16 +1021,28 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 		
 		camel_object_unref (CAMEL_OBJECT (filtered_stream));
 		
-		camel_medium_set_header (CAMEL_MEDIUM (message), "Cc", cc);
-		g_free (cc);
+		if (bcc) {
+			h = bcc;
+			while (h) {
+				camel_medium_add_header (CAMEL_MEDIUM (message), "Bcc", h->data);
+				g_free (h->data);
+				h = h->next;
+			}
+			g_slist_free (bcc);
+		}
 		
 		return FALSE;
 	}
 	
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
-	if (cc) {
-		camel_medium_set_header (CAMEL_MEDIUM (message), "Cc", cc);
-		g_free (cc);
+	if (bcc) {
+		h = bcc;
+		while (h) {
+			camel_medium_add_header (CAMEL_MEDIUM (message), "Bcc", h->data);
+			g_free (h->data);
+			h = h->next;
+		}
+		g_slist_free (bcc);
 	}
 	
 	/* terminate the message body */
