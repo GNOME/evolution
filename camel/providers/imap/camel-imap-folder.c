@@ -185,10 +185,10 @@ camel_imap_folder_get_type (void)
 }
 
 CamelFolder *
-camel_imap_folder_new (CamelStore *parent, char *folder_name)
+camel_imap_folder_new (CamelStore *parent, const char *folder_name)
 {
 	CamelFolder *folder = CAMEL_FOLDER (camel_object_new (camel_imap_folder_get_type ()));
-	char *dir_sep, *short_name;
+	const char *dir_sep, *short_name;
 	
 	dir_sep = CAMEL_IMAP_STORE (parent)->dir_sep;
 	short_name = strrchr (folder_name, *dir_sep);
@@ -571,7 +571,7 @@ imap_get_subfolder_info_internal (CamelFolder *folder, CamelException *ex)
 		}
 	}
 	
-	if (!strcmp (folder->name, namespace) && !found_inbox) {
+	if (!*folder->name && !found_inbox) {
 		fi = g_new0 (CamelFolderInfo, 1);
 		fi->full_name = g_strdup ("INBOX");
 		fi->name = g_strdup ("INBOX");

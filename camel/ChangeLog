@@ -1,3 +1,14 @@
+2000-09-22  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c
+	(imap_get_subfolder_info_internal): The root folder's name is "",
+	not the namespace.
+	(camel_imap_folder_new): constify folder_name.
+
+	* providers/imap/camel-imap-store.c (get_folder): Create the
+	folder with folder_name, not folder_path.
+	(camel_imap_command_preliminary): Don't free cmdid here.
+
 2000-09-21  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-utils.c (imap_create_flag_list): New

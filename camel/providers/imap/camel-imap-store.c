@@ -389,16 +389,15 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 	gboolean exists = FALSE;
 	gboolean selectable;
 	
-	folder_path = camel_imap_store_folder_path (imap_store, folder_name);
-	new_folder = camel_imap_folder_new (store, folder_path);
+	new_folder = camel_imap_folder_new (store, folder_name);
 
 	/* this is the top-level dir, we already know it exists - it has to! */
 	if (!*folder_name) {
-		g_free (folder_path);
 		camel_folder_refresh_info (new_folder, ex);
 		return new_folder;
 	}
 
+	folder_path = camel_imap_store_folder_path (imap_store, folder_name);
 	if (imap_folder_exists (imap_store, folder_path, &selectable, ex)) {
 		exists = TRUE;
 		if (!selectable)
@@ -1034,13 +1033,10 @@ camel_imap_command_preliminary (CamelImapStore *store, char **cmdid, CamelExcept
 		return CAMEL_IMAP_FAIL;
 	
 	/* Check for '+' which indicates server is ready for command continuation */
-	if (*respbuf == '+') {
-		g_free (cmdid);
+	if (*respbuf == '+')
 		return CAMEL_IMAP_PLUS;
-	}
 	
 	status = camel_imap_status (*cmdid, respbuf);
-	g_free (cmdid);
 	
 	if (respbuf) {
 		/* get error response and set exception accordingly */
