@@ -1,3 +1,10 @@
+2002-11-12  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	reviewed by: Ettore Perazzoli
+
+	* e-shell-settings-dialog.c: (page_new): Ensure we get 
+	an UTF-8 translated string.
+
 2002-11-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* main.c (show_development_warning): Removed.

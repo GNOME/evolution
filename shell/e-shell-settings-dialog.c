@@ -32,11 +32,11 @@
 #include "e-util/e-lang-utils.h"
 
 #include <gal/util/e-util.h>
+#include <gal/util/e-unicode-i18n.h>
 
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-exception.h>
-
-#include <bonobo-activation/bonobo-activation.h>
+#include <liboaf/liboaf.h>
 
 #include <string.h>
 
@@ -60,7 +60,7 @@ set_dialog_size (EShellSettingsDialog *dialog)
 	GdkFont *font;
 	int width, height;
 
-	font = gtk_style_get_font (GTK_WIDGET (dialog)->style);
+	font = GTK_WIDGET (dialog)->style->font;
 	width = gdk_string_width (font, "M") * 72;
 	height = (font->ascent + font->descent) * 35;
 
@@ -74,7 +74,7 @@ struct _Page {
 	char *title;
 	char *description;
 	GdkPixbuf *icon;
-	Bonobo_ActivationProperty *type;
+	OAF_Property *type;
 	int priority;
 	EConfigPage *page_widget;
 };
@@ -84,7 +84,7 @@ static Page *
 page_new (const char *title,
 	  const char *description,
 	  GdkPixbuf *icon,
-	  Bonobo_ActivationProperty *type,
+	  OAF_Property *type,
 	  int priority,
 	  EConfigPage *page_widget)
 {
@@ -94,8 +94,8 @@ page_new (const char *title,
 		gdk_pixbuf_ref (icon);
 
 	page = g_new (Page, 1);
-	page->title       = g_strdup (_(title));
-	page->description = g_strdup (_(description));
+	page->title       = g_strdup (U_(title));
+	page->description = g_strdup (U_(description));
 	page->icon        = icon;
 	page->type        = type;
 	page->priority    = priority;
@@ -142,7 +142,7 @@ static void
 load_pages (EShellSettingsDialog *dialog)
 {
 	EShellSettingsDialogPrivate *priv;
-	Bonobo_ServerInfoList *control_list;
+	OAF_ServerInfoList *control_list;
 	CORBA_Environment ev;
 	GSList *language_list;
 	GList *page_list;
@@ -153,9 +153,9 @@ load_pages (EShellSettingsDialog *dialog)
 	
 	CORBA_exception_init (&ev);
 
-	control_list = bonobo_activation_query ("defined(evolution:config_item:title)", NULL, &ev);
+	control_list = oaf_query ("defined(evolution:config_item:title)", NULL, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION || control_list == NULL) {
-		g_warning ("Cannot load configuration pages -- %s", BONOBO_EX_REPOID (&ev));
+		g_warning ("Cannot load configuration pages -- %s", ev._repo_id);
 		CORBA_exception_free (&ev);
 		return;
 	}
@@ -165,45 +165,45 @@ load_pages (EShellSettingsDialog *dialog)
 	page_list = NULL;
 	for (i = 0; i < control_list->_length; i ++) {
 		CORBA_Object corba_object;
-		Bonobo_ServerInfo *info;
+		OAF_ServerInfo *info;
 		const char *title;
 		const char *description;
 		const char *icon_path;
 		const char *priority_string;
-		Bonobo_ActivationProperty *type;
+		OAF_Property *type;
 		int priority;
 		GdkPixbuf *icon;
 
 		info = & control_list->_buffer[i];
 
-		title       	= bonobo_server_info_prop_lookup (info, "evolution:config_item:title", language_list);
-		description 	= bonobo_server_info_prop_lookup (info, "evolution:config_item:description", language_list);
-		icon_path   	= bonobo_server_info_prop_lookup (info, "evolution:config_item:icon_name", NULL);
-		type            = bonobo_server_info_prop_find   (info, "evolution:config_item:type");
-		priority_string = bonobo_server_info_prop_lookup (info, "evolution:config_item:priority", NULL);
+		title       	= oaf_server_info_prop_lookup (info, "evolution:config_item:title", language_list);
+		description 	= oaf_server_info_prop_lookup (info, "evolution:config_item:description", language_list);
+		icon_path   	= oaf_server_info_prop_lookup (info, "evolution:config_item:icon_name", NULL);
+		type            = oaf_server_info_prop_find (info, "evolution:config_item:type");
+		priority_string = oaf_server_info_prop_lookup (info, "evolution:config_item:priority", NULL);
 
 		if (icon_path == NULL) {
 			icon = NULL;
 		} else {
 			if (g_path_is_absolute (icon_path)) {
-				icon = gdk_pixbuf_new_from_file (icon_path, NULL);
+				icon = gdk_pixbuf_new_from_file (icon_path);
 			} else {
 				char *real_icon_path;
 
 				real_icon_path = g_concat_dir_and_file (EVOLUTION_IMAGES, icon_path);
-				icon = gdk_pixbuf_new_from_file (real_icon_path, NULL);
+				icon = gdk_pixbuf_new_from_file (real_icon_path);
 				g_free (real_icon_path);
 			}
 		}
 
-		if (type != NULL && type->v._d != Bonobo_ACTIVATION_P_STRINGV)
+		if (type != NULL && type->v._d != OAF_P_STRINGV)
 			type = NULL;
 		if (priority_string == NULL)
 			priority = 0xffff;
 		else
 			priority = atoi (priority_string);
 
-		corba_object = bonobo_activation_activate_from_id ((char *) info->iid, 0, NULL, &ev);
+		corba_object = oaf_activate_from_id ((char *) info->iid, 0, NULL, &ev);
 
 		if (! BONOBO_EX (&ev)) {
 			Page *page;
@@ -213,7 +213,7 @@ load_pages (EShellSettingsDialog *dialog)
 
 			page_list = g_list_prepend (page_list, page);
 		} else {
-			g_warning ("Cannot activate %s -- %s", info->iid, BONOBO_EX_REPOID (&ev));
+			g_warning ("Cannot activate %s -- %s", info->iid, BONOBO_EX_ID (&ev));
 		}
 
 		if (icon != NULL)
@@ -233,7 +233,7 @@ load_pages (EShellSettingsDialog *dialog)
 						page->page_widget);
 
 		if (page->type != NULL) {
-			Bonobo_StringList list = page->type->v._u.value_stringv;
+			GNOME_stringlist list = page->type->v._u.value_stringv;
 			
 			for (j = 0; j < list._length; j++) {
 				if (g_hash_table_lookup (priv->types, list._buffer[j]) == NULL)
