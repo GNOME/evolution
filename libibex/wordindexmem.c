@@ -164,6 +164,7 @@ ibex_create_word_index_mem(struct _memcache *bc, blockid_t *wordroot, blockid_t 
 	return idx;
 }
 
+#if (d(!)0) || defined(MALLOC_CHECK)
 static void
 node_sanity(char *key, struct _wordcache *node, void *data)
 {
@@ -184,6 +185,7 @@ cache_sanity(struct _IBEXWord *idx)
 #endif
 	g_hash_table_foreach(idx->wordcache, (GHFunc)node_sanity, idx);
 }
+#endif
 
 static void word_index_pre(struct _IBEXWord *idx)
 {
@@ -237,6 +239,7 @@ sync_free_value(void *key, void *value, void *data)
 	return TRUE;
 }
 
+#if d(!)0
 static void
 sync_value(void *key, void *value, void *data)
 {
@@ -245,6 +248,7 @@ sync_value(void *key, void *value, void *data)
 
 	sync_cache_entry(idx, cache);
 }
+#endif
 
 static void word_index_post(struct _IBEXWord *idx)
 {

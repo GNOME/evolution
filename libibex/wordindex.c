@@ -131,7 +131,7 @@ ibex_create_word_index(struct _memcache *bc, blockid_t *wordroot, blockid_t *nam
 	return idx;
 }
 
-#if 1
+#if d(!)0
 static void
 cache_sanity(struct _wordcache *head)
 {

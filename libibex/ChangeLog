@@ -1,3 +1,12 @@
+2000-12-12  Christopher James Lahey  <clahey@helixcode.com>
+
+	* wordindex.c (cache_sanity): Made cache_sanity only be included
+	if d(x) is defined as x.
+
+	* wordindexmem.c: Made node_sanity and cache_sanity only be
+	included if d(x) is defined as x or if MALLOC_CHECK is defined.
+	Made sync_value only be included if d(x) is defined as x.
+
 2000-11-28  Not Zed  <NotZed@HelixCode.com>
 
 	* index.h: Turn off index stats by default.
