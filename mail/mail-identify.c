@@ -34,6 +34,8 @@
 #include <libgnomevfs/gnome-vfs-mime-sniff-buffer.h>
 #include "mail.h"
 
+static const char *identify_by_magic (CamelDataWrapper *data, MailDisplay *md);
+
 /**
  * mail_identify_mime_part:
  * @part: a CamelMimePart
@@ -46,10 +48,17 @@ char *
 mail_identify_mime_part (CamelMimePart *part, MailDisplay *md)
 {
 	const char *filename, *type;
-	GnomeVFSMimeSniffBuffer *sniffer;
-	CamelStream *memstream;
 	CamelDataWrapper *data;
-	GByteArray *ba;
+
+	/* If the MIME part data is online, try file magic first,
+	 * since it's more reliable.
+	 */
+	data = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	if (!camel_data_wrapper_is_offline (data)) {
+		type = identify_by_magic (data, md);
+		if (type)
+			return g_strdup (type);
+	}
 
 	/* Try identifying based on name in Content-Type or
 	 * filename in Content-Disposition.
@@ -62,35 +71,40 @@ mail_identify_mime_part (CamelMimePart *part, MailDisplay *md)
 			return g_strdup (type);
 	}
 
-
-	/* Try file magic. */
-	data = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	/* FIXME: In a perfect world, we would not load the content just
-	 * to identify the MIME type.
-	 */
-	if (mail_content_loaded (data, md)) {		
-		ba = g_byte_array_new ();
-		memstream = camel_stream_mem_new_with_byte_array (ba);
-		camel_data_wrapper_write_to_stream (data, memstream);
-		if (ba->len) {
-			sniffer = gnome_vfs_mime_sniff_buffer_new_from_memory (
-				ba->data, ba->len);
-			type = gnome_vfs_get_mime_type_for_buffer (sniffer);
-			gnome_vfs_mime_sniff_buffer_free (sniffer);
-		} else
-			type = NULL;
-		camel_object_unref (CAMEL_OBJECT (memstream));
-
-		if (type)
-			return g_strdup (type);
-	}
-
 	/* Another possibility to try is the x-mac-type / x-mac-creator
 	 * parameter to Content-Type used by some Mac email clients. That
 	 * would require a Mac type to mime type conversion table.
 	 */
 
+	/* If the data part is offline, then we didn't try magic
+	 * before, so force it to be loaded so we can try again later.
+	 * FIXME: In a perfect world, we would not load the content
+	 * just to identify the MIME type.
+	 */
+	if (camel_data_wrapper_is_offline (data))
+		mail_content_loaded (data, md);
 
-	/* We give up. */
 	return NULL;
+}
+
+static const char *
+identify_by_magic (CamelDataWrapper *data, MailDisplay *md)
+{
+	GnomeVFSMimeSniffBuffer *sniffer;
+	CamelStream *memstream;
+	const char *type;
+	GByteArray *ba;
+
+	ba = g_byte_array_new ();
+	memstream = camel_stream_mem_new_with_byte_array (ba);
+	camel_data_wrapper_write_to_stream (data, memstream);
+	if (ba->len) {
+		sniffer = gnome_vfs_mime_sniff_buffer_new_from_memory (ba->data, ba->len);
+		type = gnome_vfs_get_mime_type_for_buffer (sniffer);
+		gnome_vfs_mime_sniff_buffer_free (sniffer);
+	} else
+		type = NULL;
+	camel_object_unref (CAMEL_OBJECT (memstream));
+
+	return type;
 }

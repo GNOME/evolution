@@ -1,3 +1,12 @@
+2001-05-24  Dan Winship  <danw@ximian.com>
+
+	* mail-identify.c (mail_identify_mime_part): If the message data
+	is online, sniff the data for a MIME type first, and use the
+	filename second. Makes it more reliable, and deals with the
+	specific case of "application/octet-stream; name=foo.vcf" which
+	gnome-vfs will identify as vcalendar, but which can also be a
+	vcard.
+
 2001-05-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (try_inline_pgp_sig): Only write the message up to
