@@ -131,4 +131,6 @@ ETreePath* e_tree_model_node_insert_id      (ETreeModel *tree_model, ETreePath *
 /* depth first traversal of path's descendents, calling func on each one */
 void       e_tree_model_node_traverse (ETreeModel *model, ETreePath *path, ETreePathFunc func, gpointer data);
 
+void       e_tree_model_show_node (ETreeModel *etm, ETreePath* node);
+
 #endif /* _E_TREE_MODEL_H */

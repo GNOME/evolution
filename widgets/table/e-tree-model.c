@@ -41,7 +41,7 @@ struct ETreeModelPriv {
 	GHashTable *expanded_state; /* used for loading/saving expanded state */
 	GString    *sort_group;	/* for caching the last sort group info */
 	gboolean    expanded_default; /* whether nodes are created expanded or collapsed by default */
-	gboolean   frozen;	/* has there been a pre-change event on us? */
+	gint        frozen;
 };
 
 struct ETreePath {
@@ -179,7 +179,7 @@ e_tree_model_freeze(ETreeModel *etm)
 {
 	ETreeModelPriv *priv = etm->priv;
 
-	priv->frozen = TRUE;
+	priv->frozen ++;
 }
 
 void
@@ -187,8 +187,11 @@ e_tree_model_thaw(ETreeModel *etm)
 {
 	ETreeModelPriv *priv = etm->priv;
 
-	priv->frozen = FALSE;
-	e_table_model_changed(E_TABLE_MODEL(etm));
+	if (priv->frozen > 0)
+		priv->frozen --;
+	if (priv->frozen == 0) {
+		e_table_model_changed(E_TABLE_MODEL(etm));
+	}
 }
 
 
@@ -373,6 +376,18 @@ etree_set_expanded (ETreeModel *etm, ETreePath* node, gboolean expanded)
 		node->visible_descendents = 0;
 
 		e_tree_model_node_collapsed (etm, node);
+	}
+}
+
+void
+e_tree_model_show_node (ETreeModel *etm, ETreePath* node)
+{
+	ETreePath *parent;
+
+	parent = e_tree_model_node_get_parent(etm, node);
+	if (parent) {
+		e_tree_model_show_node(etm, parent);
+		e_tree_model_node_set_expanded(etm, parent, TRUE);
 	}
 }
 
@@ -711,6 +726,7 @@ e_tree_model_construct (ETreeModel *etree)
 	priv->row_array = g_array_new (FALSE, FALSE, sizeof(ETreePath*));
 	priv->expanded_state = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->sort_group = g_string_new("");
+	priv->frozen = 0;
 }
 
 ETreeModel *
@@ -955,7 +971,7 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 							      parent_row + position + 1 + child_offset, new_path);
 
 			/* only do this if we know a changed signal isn't coming later on */
-			if (!priv->frozen)
+			if (priv->frozen == 0)
 				e_table_model_row_inserted (E_TABLE_MODEL(tree_model), parent_row + position + 1 + child_offset);
 		}
 
@@ -1090,7 +1106,7 @@ e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 		}
 
 		/* tell the system we've removed (these) nodes */
-		if (!priv->frozen) {
+		if (priv->frozen == 0) {
 			if (dochanged) {
 				e_table_model_changed(E_TABLE_MODEL(etree));
 			} else {
@@ -1114,7 +1130,7 @@ add_visible_descendents_to_array (ETreeModel *etm, ETreePath *node, int *row, in
 	/* add a row for this node */
 	e_table_model_pre_change(E_TABLE_MODEL (etm));
 	priv->row_array = g_array_insert_val (priv->row_array, (*row), node);
-	if (!priv->frozen)
+	if (priv->frozen == 0)
 		e_table_model_row_inserted (E_TABLE_MODEL (etm), (*row));
 	(*row) ++;
 	(*count) ++;
@@ -1365,7 +1381,7 @@ e_tree_model_node_sort (ETreeModel *tree_model,
 
 	g_free (sort_info);
 
-	if (!priv->frozen)
+	if (priv->frozen == 0)
 		e_table_model_changed (E_TABLE_MODEL (tree_model));
 }
 
