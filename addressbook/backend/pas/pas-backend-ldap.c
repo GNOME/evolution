@@ -1429,6 +1429,43 @@ business_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 	return TRUE;
 }
 
+#define IS_RFC2254_CHAR(c) ((c) == '*' || (c) =='\\' || (c) == '(' || (c) == ')' || (c) == '\0')
+static char hex[] = "0123456789abcdef";
+static char *
+rfc2254_escape(char *str)
+{
+	int i;
+	int len = strlen(str);
+	int newlen = 0;
+
+	for (i = 0; i < len; i ++) {
+		if (IS_RFC2254_CHAR(str[i]))
+			newlen += 3;
+		else
+			newlen ++;
+	}
+
+	if (len == newlen) {
+		return g_strdup (str);
+	}
+	else {
+		char *newstr = g_malloc0 (newlen + 1);
+		int j = 0;
+		for (i = 0; i < len; i ++) {
+			if (IS_RFC2254_CHAR(str[i])) {
+				newstr[j++] = '\\';
+				newstr[j++] = hex[(str[i]&0xf0) >> 4];
+				newstr[j++] = hex[str[i]&0x0f];
+			}
+			else {
+				newstr[j++] = str[i];
+			}
+		}
+		return newstr;
+	}
+		
+}
+
 static ESExpResult *
 func_and(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
@@ -1529,7 +1566,7 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 	    && argv[0]->type == ESEXP_RES_STRING
 	    && argv[1]->type == ESEXP_RES_STRING) {
 		char *propname = argv[0]->value.string;
-		char *str = argv[1]->value.string;
+		char *str = rfc2254_escape(argv[1]->value.string);
 		gboolean one_star = FALSE;
 
 		if (strlen(str) == 0)
@@ -1573,6 +1610,8 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 								       str,
 								       one_star ? "" : "*"));
 		}
+
+		g_free (str);
 	}
 
 	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
@@ -1591,7 +1630,7 @@ func_is(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 	    && argv[0]->type == ESEXP_RES_STRING
 	    && argv[1]->type == ESEXP_RES_STRING) {
 		char *propname = argv[0]->value.string;
-		char *str = argv[1]->value.string;
+		char *str = rfc2254_escape(argv[1]->value.string);
 		char *ldap_attr = query_prop_to_ldap(propname);
 
 		if (ldap_attr)
@@ -1604,6 +1643,8 @@ func_is(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 			*list = g_list_prepend(*list,
 					       g_strdup("objectClass=MyBarnIsBiggerThanYourBarn"));
 		}
+
+		g_free (str);
 	}
 
 	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
@@ -1622,7 +1663,7 @@ func_beginswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *da
 	    && argv[0]->type == ESEXP_RES_STRING
 	    && argv[1]->type == ESEXP_RES_STRING) {
 		char *propname = argv[0]->value.string;
-		char *str = argv[1]->value.string;
+		char *str = rfc2254_escape(argv[1]->value.string);
 		char *ldap_attr = query_prop_to_ldap(propname);
 		gboolean one_star = FALSE;
 
@@ -1634,6 +1675,7 @@ func_beginswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *da
 					       g_strdup_printf("(%s=%s*)",
 							       ldap_attr,
 							       str));
+		g_free (str);
 	}
 
 	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
@@ -1652,7 +1694,7 @@ func_endswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 	    && argv[0]->type == ESEXP_RES_STRING
 	    && argv[1]->type == ESEXP_RES_STRING) {
 		char *propname = argv[0]->value.string;
-		char *str = argv[1]->value.string;
+		char *str = rfc2254_escape(argv[1]->value.string);
 		char *ldap_attr = query_prop_to_ldap(propname);
 		gboolean one_star = FALSE;
 
@@ -1664,6 +1706,7 @@ func_endswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 					       g_strdup_printf("(%s=*%s)",
 							       ldap_attr,
 							       str));
+		g_free (str);
 	}
 
 	r = e_sexp_result_new(f, ESEXP_RES_BOOL);

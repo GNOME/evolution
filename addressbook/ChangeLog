@@ -1,3 +1,12 @@
+2001-08-08  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (rfc2254_escape): escape *, \, (,
+	and ), as per rfc2254.
+	(func_contains): escape the string.
+	(func_is): same.
+	(func_beginswith): same.
+	(func_endswith): same.
+
 2001-08-08  Nat Friedman  <nat@ximian.com>
 
 	* gui/widgets/e-addressbook-reflow-adapter.c (print_envelope): If 0'd out
