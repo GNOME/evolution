@@ -1064,15 +1064,17 @@ get_folderinfo_desc (struct _mail_msg *mm, int done)
 static void
 add_vtrash_info (CamelStore *store, CamelFolderInfo *info)
 {
-	CamelFolderInfo *fi, *vtrash;
+	CamelFolderInfo *fi, *vtrash, *parent;
 	char *uri, *path;
 	CamelURL *url;
 	
 	g_return_if_fail (info != NULL);
-	
-	for (fi = info; fi->sibling; fi = fi->sibling) {
+
+	parent = NULL;
+	for (fi = info; fi; fi = fi->sibling) {
 		if (!strcmp (fi->name, CAMEL_VTRASH_NAME))
 			break;
+		parent = fi;
 	}
 	
 	/* create our vTrash URL */
@@ -1083,7 +1085,7 @@ add_vtrash_info (CamelStore *store, CamelFolderInfo *info)
 	uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 	camel_url_free (url);
 	
-	if (fi->sibling) {
+	if (fi) {
 		/* We're going to replace the physical Trash folder with our vTrash folder */
 		vtrash = fi;
 		g_free (vtrash->full_name);
@@ -1092,8 +1094,12 @@ add_vtrash_info (CamelStore *store, CamelFolderInfo *info)
 	} else {
 		/* There wasn't a Trash folder so create a new folder entry */
 		vtrash = g_new0 (CamelFolderInfo, 1);
-		vtrash->parent = fi;
-		fi->sibling = vtrash;
+
+		g_assert(parent != NULL);
+
+		/* link it into the right spot */
+		vtrash->sibling = parent->sibling;
+		parent->sibling = vtrash;
 	}
 	
 	/* Fill in the new fields */
@@ -1108,9 +1114,8 @@ add_vtrash_info (CamelStore *store, CamelFolderInfo *info)
 static void
 add_unmatched_info(CamelFolderInfo *fi)
 {
-	for (; fi->sibling; fi = fi->sibling) {
+	for (; fi; fi = fi->sibling) {
 		if (!strcmp(fi->full_name, CAMEL_UNMATCHED_NAME)) {
-			printf("renaming unmatched!\n");
 			g_free(fi->name);
 			fi->name = g_strdup(U_("Unmatched"));
 			g_free(fi->path);

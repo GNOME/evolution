@@ -803,6 +803,10 @@ folder_browser_set_shell_view(FolderBrowser *fb, GNOME_Evolution_ShellView shell
 	
 	fb->shell_view = CORBA_Object_duplicate(shell_view, &ev);
 	CORBA_exception_free(&ev);
+
+	/* small hack, at this point we've just been activated */
+	if (fb->shell_view != CORBA_OBJECT_NIL)
+		update_status_bar(fb);
 }
 
 extern CamelFolder *drafts_folder, *sent_folder, *outbox_folder;

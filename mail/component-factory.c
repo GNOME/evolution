@@ -1016,7 +1016,7 @@ mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const ch
 	 * see if this belongs in the shell's folder list. If so, add
 	 * it.
 	 */
-		
+
 	prov = camel_session_get_provider (session, uri, &ex);
 	if (prov == NULL) {
 		/* FIXME: real error dialog */
@@ -1040,7 +1040,7 @@ mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const ch
 		 || (strcmp (prov->protocol, "maildir") == 0)
 		 || (strcmp (prov->protocol, "vfolder") == 0)))
 		return;
-	
+
 	store = camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
 	if (store == NULL) {
 		/* FIXME: real error dialog */

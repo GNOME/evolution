@@ -35,12 +35,13 @@
 #include <bonobo/bonobo-exception.h>
 #include <camel/camel-store.h>
 #include <camel/camel-folder.h>
+#include <camel/camel-vtrash-folder.h>
 
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
 #include "mail-ops.h"
 
-#define d(x)
+#define d(x) 
 
 /* note that many things are effectively serialised by having them run in
    the main loop thread which they need to do because of corba/gtk calls */
@@ -75,14 +76,18 @@ update_1folder(struct _folder_info *mfi, CamelFolderInfo *info)
 	CamelFolder *folder;
 	int unread;
 	CORBA_Environment ev;
+	extern CamelFolder *outbox_folder;
 
 	si  = mfi->store_info;
 
 	LOCK(info_lock);
 	folder = mfi->folder;
-	if (folder)
-		unread = camel_folder_get_unread_message_count(folder);
-	else if (info)
+	if (folder) {
+		if (CAMEL_IS_VTRASH_FOLDER(folder) || folder == outbox_folder)
+			unread = camel_folder_get_message_count(folder);
+		else
+			unread = camel_folder_get_unread_message_count(folder);
+	} else if (info)
 		unread = info->unread_message_count;
 	else
 		unread = -1;
@@ -170,7 +175,7 @@ real_note_folder(CamelFolder *folder, void *event_data, void *data)
 	si = g_hash_table_lookup(stores, store);
 	UNLOCK(info_lock);
 	if (si == NULL) {
-		g_warning("Adding a folder `%s' to a store which hasn't been added yet?\n", folder->full_name);
+		g_warning("Adding a folder `%s' to a store %p which hasn't been added yet?\n", folder->full_name, store);
 		camel_object_unref((CamelObject *)folder);
 		return;
 	}

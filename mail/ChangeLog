@@ -1,3 +1,12 @@
+2001-09-20    <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_set_shell_view): Update the
+	status bar here, assuming we've just been activated.
+
+	* mail-ops.c (add_vtrash_info): Scan whole list, rather than
+	missing the last one.  Also dont assume its always the last,
+	otherwise we could lose following folders.
+
 2001-09-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-tools.c (mail_tool_uri_to_folder): Don't "note" the folder
@@ -18,6 +27,7 @@
 	(context_rule_added): Lock around hash access.
 	(context_rule_removed): "
 	(rule_changed): Lock around list access.
+	(all): d(x) out debug printfs
 
 	* mail-local.c (storage_listener_startup): Fix for api change.
 	(local_storage_new_folder_cb): Dont skip over leading / in path.
@@ -32,6 +42,9 @@
 	(mail_note_store): Consolidate note_store interface, pass storage
 	or corba_storage to it.
 	(mail_note_local_store): Removed.
+	(update_1folder): If its a vtrash folder, or the outbox_folder,
+	and we have a folder, then make the 'count' the total message
+	count, not unread messages count.
 
 2001-09-20  Jeffrey Stedfast  <fejj@ximian.com>
 

@@ -36,7 +36,7 @@
 
 #include "e-util/e-unicode-i18n.h"
 
-#define d(x) x
+#define d(x)
 
 struct _vfolder_info {
 	char *name;
@@ -163,7 +163,7 @@ vfolder_setup_do(struct _mail_msg *mm)
 	GList *l, *list = NULL;
 	CamelFolder *folder;
 
-	printf("Setting up vfolder: %s\n", m->folder->full_name);
+	d(printf("Setting up vfolder: %s\n", m->folder->full_name));
 
 	camel_vee_folder_set_expression((CamelVeeFolder *)m->folder, m->query);
 
@@ -295,7 +295,7 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 		return;
 	}
 
-	printf("Filter rule changed? for folder '%s'!!\n", folder->name);
+	d(printf("Filter rule changed? for folder '%s'!!\n", folder->name));
 
 	/* work out the work to do, then do it in another thread */
 	sourceuri = NULL;
@@ -326,7 +326,7 @@ static void context_rule_added(RuleContext *ctx, FilterRule *rule)
 {
 	CamelFolder *folder;
 
-	printf("rule added: %s\n", rule->name);
+	d(printf("rule added: %s\n", rule->name));
 
 	/* this always runs quickly */
 	folder = camel_store_get_folder(vfolder_store, rule->name, 0, NULL);
@@ -347,7 +347,7 @@ static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
 	char *key, *path;
 	CamelFolder *folder;
 
-	printf("rule removed; %s\n", rule->name);
+	d(printf("rule removed; %s\n", rule->name));
 
 	/* TODO: remove from folder info cache? */
 
@@ -385,7 +385,7 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 	FilterRule *rule;
 	char *user;
 
-	printf("Folder deleted: %s\n", info->name);
+	d(printf("Folder deleted: %s\n", info->name));
 	store = store;
 
 	/* delete it from our list */
@@ -426,7 +426,7 @@ vfolder_load_storage(GNOME_Evolution_Shell shell)
 	camel_object_hook_event((CamelObject *)vfolder_store, "folder_deleted",
 				(CamelObjectEventHookFunc)store_folder_deleted, NULL);
 
-	printf("got store '%s' = %p\n", storeuri, vfolder_store);
+	d(printf("got store '%s' = %p\n", storeuri, vfolder_store));
 	mail_load_storage_by_uri(shell, storeuri, U_("VFolders"));
 
 	/* load our rules */
