@@ -17,12 +17,56 @@ AC_DEFUN([GNOME_LIBGTOP_SYSDEPS],[
 	AC_SUBST(libgtop_use_machine_h)
 	AC_SUBST(libgtop_need_server)
 
+	AC_ARG_WITH(linux-table,
+	[  --with-linux-table      Use the table () function from Martin Baulig],[
+	linux_table="$withval"],[linux_table=auto])
+
+	AC_MSG_CHECKING(for table function in Linux Kernel)
+
+	if test $linux_table = yes ; then
+	  AC_CHECK_HEADER(linux/table.h, linux_table=yes, linux_table=no)
+	elif test $linux_table = auto ; then
+	  AC_TRY_RUN([
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <unistd.h>
+#include <linux/unistd.h>
+#include <linux/table.h>
+
+#include <syscall.h>
+
+static inline _syscall3 (int, table, int, type, union table *, tbl, const void *, param);
+
+int
+main (void)
+{
+	union table tbl;
+	int ret;
+
+	ret = table (TABLE_VERSION, NULL, NULL);
+
+	if (ret == -1)
+		exit (-errno);
+
+	exit (ret < 1 ? ret : 0);
+}
+], linux_table=yes, linux_table=no, linux_table=no)
+	fi
+
+	AC_MSG_RESULT($linux_table)
+
 	AC_MSG_CHECKING(for libgtop sysdeps directory)
 
 	case "$host_os" in
 	linux*)
-	  libgtop_sysdeps_dir=linux
-	  libgtop_use_machine_h=yes
+	  if test x$linux_table = xyes ; then
+	    libgtop_sysdeps_dir=kernel
+	    libgtop_use_machine_h=no
+	  else
+	    libgtop_sysdeps_dir=linux
+	    libgtop_use_machine_h=yes
+	  fi
 	  libgtop_need_server=no
 	  ;;
 	sunos4*)

@@ -1,3 +1,8 @@
+1998-06-13  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-sysdeps.m4: Added check for the table ()
+	system call in the linux kernel.
+
 1998-06-11  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-x-checks.m4 (USE_DEVGTK): Use AC_EGREP_CPP rather than
