@@ -3,7 +3,8 @@
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
- * Author: Federico Mena-Quintero <federico@helixcode.com>
+ * Authors: Federico Mena-Quintero <federico@helixcode.com>
+ *          JP Rosevear <jpr@helixcode.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +40,7 @@ enum {
 
 static void cal_backend_class_init (CalBackendClass *class);
 static void cal_backend_init (CalBackend *backend);
+static void cal_backend_destroy (GtkObject *object);
 static gboolean cal_backend_log_sync (CalBackend *backend);
 static GHashTable *cal_backend_get_log_entries (CalBackend *backend, 
 						CalObjType type,
@@ -95,6 +97,8 @@ cal_backend_class_init (CalBackendClass *class)
 
 	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
 
+	object_class->destroy = cal_backend_destroy;
+
 	cal_backend_signals[LAST_CLIENT_GONE] =
 		gtk_signal_new ("last_client_gone",
 				GTK_RUN_FIRST,
@@ -112,6 +116,31 @@ cal_backend_init (CalBackend *backend)
 {
 	backend->uri = NULL;
 	backend->entries = NULL;
+	backend->timer = -1;
+}
+
+static void
+cal_backend_destroy (GtkObject *object)
+{
+	CalBackend *backend;
+	
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (object));
+
+	backend = CAL_BACKEND (object);
+
+	if (backend->timer != -1) {
+		gtk_timeout_remove (backend->timer);
+		backend->timer = -1;
+	}
+
+ 	if (backend->uri) {
+		cal_backend_log_sync (backend);
+		gnome_vfs_uri_unref (backend->uri);
+	}
+	
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
@@ -141,7 +170,7 @@ cal_backend_set_uri (CalBackend *backend, GnomeVFSURI *uri)
 	if (backend->uri)
 		gnome_vfs_uri_unref (backend->uri);
 
-	if (backend->timer)
+	if (backend->timer != -1)
 		gtk_timeout_remove (backend->timer);
 
 
@@ -733,11 +762,6 @@ cal_backend_last_client_gone (CalBackend *backend)
 	g_return_if_fail (backend != NULL);
 	g_return_if_fail (IS_CAL_BACKEND (backend));
 
-	cal_backend_log_sync (backend);
-
 	gtk_signal_emit (GTK_OBJECT (backend), cal_backend_signals[LAST_CLIENT_GONE]);
 }
-
-
-
 

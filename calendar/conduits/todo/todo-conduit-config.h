@@ -29,7 +29,7 @@
 #include <libgpilotdCM/gnome-pilot-conduit-management.h>
 #include <libgpilotdCM/gnome-pilot-conduit-config.h>
 
-/* This is the configuration of the GnomeCal conduit. */
+/* Configuration info */
 typedef struct _EToDoConduitCfg EToDoConduitCfg;
 struct _EToDoConduitCfg {
 	gboolean open_secret;

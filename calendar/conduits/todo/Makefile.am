@@ -26,7 +26,10 @@ e_todo_conduit_control_applet_LDADD = \
 e_todo_conduitsdir=$(libdir)/gnome-pilot/conduits
 e_todo_conduits_LTLIBRARIES = libetodo_conduit.la
 
-libetodo_conduit_la_SOURCES = todo-conduit.c
+libetodo_conduit_la_SOURCES = \
+	todo-conduit.c 		\
+	todo-conduit.h		\
+	todo-conduit-config.h 
 
 libetodo_conduit_la_LIBADD = 					\
 	$(top_builddir)/calendar/cal-client/libcal-client-static.la	\

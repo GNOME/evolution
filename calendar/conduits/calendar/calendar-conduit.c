@@ -1074,11 +1074,13 @@ delete_archive_record (GnomePilotConduitSyncAbs *conduit,
 		       ECalLocalRecord *local,
 		       ECalConduitContext *ctxt)
 {
+	int retval = 0;
+	
 	g_return_val_if_fail(local!=NULL,-1);
 
 	LOG ("delete_archive_record: doing nothing\n");
 
-        return -1;
+        return retval;
 }
 
 static gint
