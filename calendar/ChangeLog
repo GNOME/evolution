@@ -1,3 +1,7 @@
+Sun May 17 17:55:03 1998  Havoc Pennington  <hp@pobox.com>
+
+	* gncal-todo.c (simple_todo_editor): Close dialog when return is pressed.
+
 1998-05-15  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gnome-cal.c (mark_gtk_calendar_day): Bug free version of the

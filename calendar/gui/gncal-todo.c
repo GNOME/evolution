@@ -128,6 +128,7 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 			    dialog);
 
 	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE(entry));
 
 	gtk_window_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
 	gtk_widget_show (dialog);
