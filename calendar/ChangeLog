@@ -1,3 +1,25 @@
+2000-05-25  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/evolution-calendar-control.c: Removed.
+
+	* gui/main.c: New.
+
+	* gui/control-factory.c: New.
+	* gui/control-factory.h: New.
+
+	* gui/calendar-component-factory.c: New.
+	* gui/calendar-component-factory.c: New.
+
+	* gui/evolution-calendar-control.c (calendar_control_factory):
+	Renamed from `calendar_factory'.
+	(calendar_control_factory_init): Renamed from
+	`calendar_factory_init'.
+
+	* gui/Makefile.am: Link with the files from `$(builddir)/shell'.
+
+	* gui/evolution-calendar.gnorba: New.
+	* gui/evolution-calendar.oafinfo: New.
+
 2000-05-24  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/Makefile.am: Added libepaned.a.

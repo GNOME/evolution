@@ -822,8 +822,8 @@ change_view_type (AddressbookView *view, AddressbookViewType view_type)
 }
 
 
-static BonoboObject *
-addressbook_factory (BonoboGenericFactory *Factory, void *closure)
+BonoboControl *
+addressbook_factory_new_control (void)
 {
 	AddressbookView *view;
 
@@ -863,7 +863,13 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 	gtk_signal_connect (GTK_OBJECT (view->control), "activate",
 			    control_activate_cb, view);
 
-	return BONOBO_OBJECT (view->control);
+	return view->control;
+}
+
+static BonoboObject *
+addressbook_factory (BonoboGenericFactory *Factory, void *closure)
+{
+	return BONOBO_OBJECT (addressbook_factory_new_control ());
 }
 
 void

@@ -33,8 +33,8 @@ evolution_SOURCES = 			\
 	e-corba-storage.h		\
 	e-corba-storage-registry.c	\
 	e-corba-storage-registry.h	\
-	e-folder-type-repository.c	\
-	e-folder-type-repository.h	\
+	e-folder-type-registry.c	\
+	e-folder-type-registry.h	\
 	e-folder.c			\
 	e-folder.h			\
 	e-local-folder.c		\
@@ -43,6 +43,8 @@ evolution_SOURCES = 			\
 	e-local-storage.h		\
 	e-setup.c			\
 	e-setup.h			\
+	e-component-registry.h		\
+	e-component-registry.c		\
 	e-shell-constants.h		\
 	e-shell-utils.c			\
 	e-shell-utils.h			\
@@ -64,6 +66,8 @@ evolution_SOURCES = 			\
 	e-storage-watcher.h		\
 	e-storage.c			\
 	e-storage.h			\
+	evolution-shell-component.c	\
+	evolution-shell-component.h	\
 	main.c
 
 Evolution-impl.o: Evolution.h

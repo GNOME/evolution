@@ -27,4 +27,30 @@
 
 </oaf_server>
 
+<oaf_server iid="OAFIID:evolution-shell-component-factory:addressbook:dbf3bba0-4b0a-4f07-899b-1ec56fdf38a0"
+            type="exe"
+            location="evolution-addressbook">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/GenericFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+	               value="Factory for the Evolution addressbook component."/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:evolution-shell-component:addressbook:b7a26547-7014-4bb5-98ab-2bcac2bb55ca"
+            type="factory"
+            location="OAFIID:evolution-shell-component-factory:addressbook:dbf3bba0-4b0a-4f07-899b-1ec56fdf38a0">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Evolution/ShellComponent:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+	               value="Evolution component for handling contacts."/>
+
+</oaf_server>
+
 </oaf_info>

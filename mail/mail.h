@@ -22,8 +22,11 @@
 #include "camel/camel.h"
 #include "composer/e-msg-composer.h"
 
+/* FIXME FIXME FIXME this sucks sucks sucks sucks */
+
 /* folder-browser-factory */
-void folder_browser_factory_init (void);
+void           folder_browser_factory_init         (void);
+BonoboControl *folder_browser_factory_new_control  (void);
 
 /* mail-config */
 void mail_config_druid (void);

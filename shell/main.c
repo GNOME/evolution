@@ -33,6 +33,8 @@
 
 #define STARTUP_URI "evolution:/local/Inbox"
 
+static EShell *shell;
+
 
 static void
 no_views_left_cb (EShell *shell, gpointer data)
@@ -140,11 +142,26 @@ development_warning ()
 } 
 
 static gint
-new_view_idle_cb (gpointer data)
+idle_cb (gpointer data)
 {
-	EShell *shell;
+	char *evolution_directory;
 
-	shell = E_SHELL (data);
+	evolution_directory = (char *) data;
+
+	shell = e_shell_new (evolution_directory);
+	g_free (evolution_directory);
+
+	if (shell == NULL) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot initialize the Evolution shell."));
+		exit (1);
+	}
+
+	gtk_signal_connect (GTK_OBJECT (shell), "no_views_left",
+			    GTK_SIGNAL_FUNC (no_views_left_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell), "destroy",
+			    GTK_SIGNAL_FUNC (destroy_cb), NULL);
+
 	e_shell_new_view (shell, STARTUP_URI);
 
 	if (!getenv ("EVOLVE_ME_HARDER"))
@@ -157,7 +174,6 @@ new_view_idle_cb (gpointer data)
 int
 main (int argc, char **argv)
 {
-	EShell *shell;
 	char *evolution_directory;
 
 	init_corba (&argc, argv);
@@ -179,19 +195,7 @@ main (int argc, char **argv)
 		exit (1);
 	}
 
-	shell = e_shell_new (evolution_directory);
-	if (shell == NULL) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot initialize the Evolution shell."));
-		exit (1);
-	}
-
-	gtk_signal_connect (GTK_OBJECT (shell), "no_views_left",
-			    GTK_SIGNAL_FUNC (no_views_left_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (shell), "destroy",
-			    GTK_SIGNAL_FUNC (destroy_cb), NULL);
-
-	gtk_idle_add (new_view_idle_cb, shell);
+	gtk_idle_add (idle_cb, evolution_directory);
 
 	bonobo_main ();
 

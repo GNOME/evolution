@@ -3,6 +3,7 @@
 
 #include <bonobo/bonobo-control.h>
 
-void             addressbook_factory_init (void);
+BonoboControl *addressbook_factory_new_control  (void);
+void           addressbook_factory_init         (void);
 
 #endif /* __ADDRESSBOOK_H__ */

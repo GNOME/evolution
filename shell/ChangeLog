@@ -1,3 +1,58 @@
+2000-05-25  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-storage-set-view.c (e_storage_set_view_construct): Set the
+	dotted line type again.  Dotted is less butt-ugly than continuous.
+
+	* e-shell-view.c (show_error): Display page zero in the notebook.
+
+	* main.c (idle_cb): Renamed from `new_view_idle_cb'.  Create the
+	EShell object here, because now the shell depends on the GLib loop
+	to be running for correct operation.
+	(main): Don't create the EShell here.
+
+	* e-storage-set-view.c (get_pixmap_and_mask_for_folder): If the
+	icon is not found, set the returned pixmap and mask to NULL.
+
+	* e-shell.c (e_shell_construct): Added precondition: @corba_object
+	must be non-nil.
+	(e_shell_new): Added precondition: @local_direcory must be
+	non-null.
+
+	* evolution-shell-component.c: New.
+	* evolution-shell-component.h: New.
+
+	* e-shell.c: New member `component_registry' in `EShellPrivate'.
+	(init): Initialize to NULL.
+	(destroy): Unref it.
+	(setup_components): New function to set up the compnent registry
+	and initialize the mail, calendar and addressbook components.
+	(e_shell_construct): Call it.
+
+	* e-storage-set.c: Updated to use EFolderTypeRegistry.
+	* e-storage-set.h: Likewise.
+	* e-shortcuts.c: Likewise.
+	* e-shortcuts.h: Likewise.
+	* e-shell.c: Likewise.
+
+	* e-shell.h: Likewise.
+	* e-shell-view.c: Likewise.
+	* e-shortcuts-view.c: Likewise.
+	* e-storage-set-view.c: Likewise.
+
+	* e-component-registry.c: New.
+	* e-component-registry.h: New.
+
+	* e-folder-type-registry.c: New.
+	* e-folder-type-registry.h: New.
+
+	* e-folder-type-repository.c: Removed.
+	* e-folder-type-repository.h: Removed.
+
+	* Evolution-ShellComponent.idl: New struct `FolderType'; new type
+	`FolderTypeList'. New attribute `supported_types'.
+	(ShellComponent::set_owner): Renamed from `set_shell'.
+	(ShellComponent::create_view): New.
+
 2000-05-24  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-shell-view.c: Was using the wrong include here.

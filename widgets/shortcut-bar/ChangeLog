@@ -1,5 +1,8 @@
 2000-05-25  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shortcut-bar.c (e_shortcut_bar_load_image): Leak plug: free
+	pathname returned from `gnome_pixmap_file()'.
+
 	* Makefile.am: Add `-I$(top_srcdir)'.
 
 2000-05-24  Christopher James Lahey  <clahey@helixcode.com>

@@ -15,6 +15,7 @@
 #include <e-util/e-cursors.h>
 
 #include "addressbook.h"
+#include "addressbook-component.h"
 
 #ifdef USING_OAF
 
@@ -65,7 +66,13 @@ main (int argc, char **argv)
 
 	init_bonobo (argc, argv);
 
+	/* FIXME: Messy names here.  This file should be `main.c'.  `addressbook.c' should
+           be `addressbook-control-factory.c' and the functions should be called
+           `addressbook_control_factory_something()'.  And `addressbook-component.c'
+           should be `addressbook-component-factory.c'.  */
+
 	addressbook_factory_init ();
+	addressbook_component_factory_init ();
 
 	e_cursors_init();
 

@@ -76,8 +76,8 @@ struct _EShortcutsPrivate {
 	/* The storage set to which these shortcuts are associated.  */
 	EStorageSet *storage_set;
 
-	/* The folder type repository.  */
-	EFolderTypeRepository *folder_type_repository;
+	/* The folder type registry.  */
+	EFolderTypeRegistry *folder_type_registry;
 
 	/* A list of ShortcutGroups.  */
 	GList *groups;
@@ -265,8 +265,8 @@ destroy (GtkObject *object)
 	if (priv->storage_set != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->storage_set));
 
-	if (priv->folder_type_repository != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->folder_type_repository));
+	if (priv->folder_type_registry != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->folder_type_registry));
 
 	unload_shortcuts (shortcuts);
 
@@ -307,7 +307,7 @@ init (EShortcuts *shortcuts)
 void
 e_shortcuts_construct (EShortcuts  *shortcuts,
 		       EStorageSet *storage_set,
-		       EFolderTypeRepository *folder_type_repository)
+		       EFolderTypeRegistry *folder_type_registry)
 {
 	EShortcutsPrivate *priv;
 
@@ -323,13 +323,13 @@ e_shortcuts_construct (EShortcuts  *shortcuts,
 	gtk_object_ref (GTK_OBJECT (storage_set));
 	priv->storage_set = storage_set;
 
-	gtk_object_ref (GTK_OBJECT (folder_type_repository));
-	priv->folder_type_repository = folder_type_repository;
+	gtk_object_ref (GTK_OBJECT (folder_type_registry));
+	priv->folder_type_registry = folder_type_registry;
 }
 
 EShortcuts *
 e_shortcuts_new (EStorageSet *storage_set,
-		 EFolderTypeRepository *folder_type_repository)
+		 EFolderTypeRegistry *folder_type_registry)
 {
 	EShortcuts *new;
 
@@ -337,7 +337,7 @@ e_shortcuts_new (EStorageSet *storage_set,
 	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
 
 	new = gtk_type_new (e_shortcuts_get_type ());
-	e_shortcuts_construct (new, storage_set, folder_type_repository);
+	e_shortcuts_construct (new, storage_set, folder_type_registry);
 
 	return new;
 }

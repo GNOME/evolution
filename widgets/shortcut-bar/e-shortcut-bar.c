@@ -650,5 +650,7 @@ e_shortcut_bar_load_image (const gchar *filename)
 	else
 		g_warning ("Couldn't find pixmap: %s", filename);
 
+	g_free (pathname);
+
 	return image;
 }

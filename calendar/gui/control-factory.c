@@ -1,4 +1,29 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* control-factory.c
+ *
+ * Copyright (C) 2000  Helix Code, Inc.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
+ * Author: Ettore Perazzoli
+ */
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <config.h>
 #include <gnome.h>
@@ -19,6 +44,8 @@
 #include <gui/gnome-cal.h>
 #include <gui/calendar-commands.h>
 
+#include "control-factory.h"
+
 #define PROPERTY_CALENDAR_URI "folder_uri"
 
 #define PROPERTY_CALENDAR_URI_IDX 1
@@ -28,6 +55,7 @@
 #else
 #define CONTROL_FACTORY_ID   "control-factory:calendar"
 #endif
+
 
 CORBA_Environment ev;
 CORBA_ORB orb;
@@ -43,30 +71,6 @@ control_activate_cb (BonoboControl *control,
 	else
 		calendar_control_deactivate (control);
 }
-
-
-
-static void
-init_bonobo (int *argc, char **argv)
-{
-#ifdef USING_OAF
-	/* FIXME: VERSION instead of "0.0".  */
-	gnome_init_with_popt_table ("evolution-calendar", "0.0",
-				    *argc, argv, oaf_popt_options,
-				    0, NULL);
-	oaf_init (*argc, argv);
-#else
-	gnome_CORBA_init_with_popt_table (
-		"evolution-calendar", "0.0",
-		argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
-#endif
-
-	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
-		g_error (_("Could not initialize Bonobo"));
-
-	glade_gnome_init ();
-}
-
 
 
 static void
@@ -92,6 +96,7 @@ get_prop (BonoboPropertyBag *bag,
 		g_warning ("Unhandled arg %d\n", arg_id);
 	}
 }
+
 
 static void
 set_prop (BonoboPropertyBag *bag,
@@ -136,15 +141,13 @@ calendar_properties_init (GnomeCalendar *gcal)
 }
 
 
-
-static BonoboObject *
-calendar_control_factory (BonoboGenericFactory *Factory, void *closure)
+static BonoboControl *
+create_control (void)
 {
 	BonoboControl *control;
+	GnomeCalendar *cal;
 
-	/* Create the control. */
-	GnomeCalendar *cal = new_calendar (full_name, NULL, NULL, 0);
-
+	cal = new_calendar (full_name, NULL, NULL, 0);
 	gtk_widget_show (GTK_WIDGET (cal));
 
 	control = bonobo_control_new (GTK_WIDGET (cal));
@@ -155,12 +158,19 @@ calendar_control_factory (BonoboGenericFactory *Factory, void *closure)
 	gtk_signal_connect (GTK_OBJECT (control), "activate",
 			    control_activate_cb, cal);
 
-	return BONOBO_OBJECT (control);
+	return control;
 }
 
 
-static void
-calendar_control_factory_init (void)
+static BonoboObject *
+control_factory (BonoboGenericFactory *Factory, void *closure)
+{
+	return BONOBO_OBJECT (create_control ());
+}
+
+
+void
+control_factory_init (void)
 {
 	static BonoboGenericFactory *factory = NULL;
 
@@ -169,33 +179,15 @@ calendar_control_factory_init (void)
 
 	puts ("XXXXXX - initializing calendar factory!!!");
 
-	factory = bonobo_generic_factory_new (CONTROL_FACTORY_ID, calendar_control_factory, NULL);
+	factory = bonobo_generic_factory_new (CONTROL_FACTORY_ID, control_factory, NULL);
 
 	if (factory == NULL)
 		g_error ("I could not register a Calendar control factory.");
 }
 
 
-int
-main (int argc, char **argv)
+BonoboControl *
+control_factory_new_control (void)
 {
-	init_bonobo (&argc, argv);
-	glade_gnome_init ();
-	alarm_init ();
-
-	init_calendar ();
-
-	//g_log_set_always_fatal ((GLogLevelFlags) 0xFFFF);
-	g_log_set_always_fatal (G_LOG_LEVEL_ERROR |
-				G_LOG_LEVEL_CRITICAL |
-				G_LOG_LEVEL_WARNING);
-
-	CORBA_exception_init (&ev);
-
-	calendar_control_factory_init ();
-	component_factory_init ();
-
-	bonobo_main ();
-
-	return 0;
+	return create_control ();
 }

@@ -6,12 +6,16 @@
  *
  * (C) 2000 Helix Code, Inc.
  */
+
 #include <config.h>
 #include <gnome.h>
 #include <bonobo/bonobo-main.h>
 #include <glade/glade.h>
+
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-cursors.h"
+
+#include "component-factory.h"
 #include "mail.h"
 
 #ifdef USING_OAF
@@ -71,12 +75,9 @@ main (int argc, char *argv [])
 	e_cursors_init ();
 
 	folder_browser_factory_init ();
+	component_factory_init ();
 
 	bonobo_main ();
 
 	return 0;
 }
-
-
-
-

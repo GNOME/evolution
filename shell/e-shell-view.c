@@ -117,18 +117,18 @@ setup_menus (EShellView *shell_view)
 }
 
 static gboolean
-bonobo_widget_is_dead (BonoboWidget *bw)
+bonobo_widget_is_dead (BonoboWidget *bonobo_widget)
 {
-	BonoboObject *boc = BONOBO_OBJECT (bonobo_widget_get_server (bw));
-	CORBA_Object obj = bonobo_object_corba_objref (boc);
-
+	BonoboControlFrame *control_frame;
+	CORBA_Object corba_object;
 	CORBA_Environment ev;
-	
-	gboolean is_dead = FALSE;
+	gboolean is_dead;
+
+	control_frame = bonobo_widget_get_control_frame (bonobo_widget);
+	corba_object = bonobo_control_frame_get_control (control_frame);
 
 	CORBA_exception_init (&ev);
-	if (CORBA_Object_non_existent(obj, &ev))
-		is_dead = TRUE;
+	is_dead = CORBA_Object_non_existent (corba_object, &ev);
 	CORBA_exception_free (&ev);
 
 	return is_dead;
@@ -446,11 +446,10 @@ set_icon (EShellView *shell_view,
 	if (type == NULL) {
 		icon_path = NULL;
 	} else {
-		EFolderTypeRepository *folder_type_repository;
+		EFolderTypeRegistry *folder_type_registry;
 
-		folder_type_repository = e_shell_get_folder_type_repository (priv->shell);
-		icon_name = e_folder_type_repository_get_icon_name_for_type (folder_type_repository,
-									     type);
+		folder_type_registry = e_shell_get_folder_type_registry (priv->shell);
+		icon_name = e_folder_type_registry_get_icon_name_for_type (folder_type_registry, type);
 		if (icon_name == NULL)
 			icon_path = NULL;
 		else
@@ -550,6 +549,7 @@ show_error (EShellView *shell_view,
 {
 	EShellViewPrivate *priv;
 	GtkWidget *label;
+	GtkNotebook *notebook;
 	char *s;
 
 	priv = shell_view->priv;
@@ -560,25 +560,30 @@ show_error (EShellView *shell_view,
 
 	gtk_widget_show (label);
 
-	gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook), 0);
-	gtk_notebook_prepend_page (GTK_NOTEBOOK (priv->notebook), label, NULL);
+	notebook = GTK_NOTEBOOK (priv->notebook);
+
+	gtk_notebook_remove_page (notebook, 0);
+	gtk_notebook_prepend_page (notebook, label, NULL);
+	gtk_notebook_set_page (notebook, 0);
 }
 
-/* Create a new view for @uri with @control.  It assumes a view for @uri does
-   not exist yet.  */
+/* Create a new view for @uri with @control.  It assumes a view for @uri does not exist yet.  */
 static GtkWidget *
 get_control_for_uri (EShellView *shell_view,
 		     const char *uri)
 {
 	EShellViewPrivate *priv;
-	EFolderTypeRepository *folder_type_repository;
+	EFolderTypeRegistry *folder_type_registry;
 	EStorageSet *storage_set;
 	EFolder *folder;
 	Bonobo_UIHandler corba_uih;
-	const char *control_id;
+	BonoboObjectClient *handler_client;
+	Bonobo_Control corba_control;
+	Evolution_ShellComponent handler;
 	const char *path;
 	const char *folder_type;
 	GtkWidget *control;
+	CORBA_Environment ev;
 
 	priv = shell_view->priv;
 
@@ -591,7 +596,7 @@ get_control_for_uri (EShellView *shell_view,
 		return NULL;
 
 	storage_set = e_shell_get_storage_set (priv->shell);
-	folder_type_repository = e_shell_get_folder_type_repository (priv->shell);
+	folder_type_registry = e_shell_get_folder_type_registry (priv->shell);
 
 	folder = e_storage_set_get_folder (storage_set, path);
 	if (folder == NULL)
@@ -601,20 +606,26 @@ get_control_for_uri (EShellView *shell_view,
 	if (folder_type == NULL)
 		return NULL;
 
-	control_id = e_folder_type_repository_get_control_id_for_type (folder_type_repository,
-								       folder_type);
-	if (control_id == NULL)
+	handler_client = e_folder_type_registry_get_handler_for_type (folder_type_registry, folder_type);
+	if (handler_client == NULL)
 		return NULL;
+
+	handler = bonobo_object_corba_objref (BONOBO_OBJECT (handler_client));
+	if (handler_client == CORBA_OBJECT_NIL)
+		return NULL;
+
+	CORBA_exception_init (&ev);
+
+	corba_control = Evolution_ShellComponent_create_view (handler, e_folder_get_physical_uri (folder), &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	CORBA_exception_free (&ev);
 
 	corba_uih = bonobo_object_corba_objref (BONOBO_OBJECT (priv->uih));
-	control = bonobo_widget_new_control (control_id, corba_uih);
-
-	if (control == NULL)
-		return NULL;
-
-	bonobo_widget_set_property (BONOBO_WIDGET (control),
-				    "folder_uri", e_folder_get_physical_uri (folder),
-				    NULL);
+	control = bonobo_widget_new_control_from_objref (corba_control, corba_uih);
 
 	return control;
 }
@@ -626,6 +637,8 @@ show_existing_view (EShellView *shell_view,
 {
 	EShellViewPrivate *priv;
 	int notebook_page;
+
+	g_print ("Already have view for %s\n", uri);
 
 	priv = shell_view->priv;
 

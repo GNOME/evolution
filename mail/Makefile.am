@@ -12,6 +12,7 @@ INCLUDES = \
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/camel				\
 	-I$(top_builddir)/shell				\
+	-I$(top_srcdir)/shell				\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
@@ -27,8 +28,17 @@ EVOLUTION_MAIL_CORBA_GENERATED = \
 	Mail-skels.c		\
 	Mail-stubs.c
 
+# FIXME We should make a libeshell library instead of this gross hack.
+SHELL_OBJS =					\
+	$(top_builddir)/shell/Evolution-common.o \
+	$(top_builddir)/shell/Evolution-stubs.o	\
+	$(top_builddir)/shell/Evolution-skels.o	\
+	$(top_builddir)/shell/evolution-shell-component.o
+
 evolution_mail_SOURCES =		\
 	$(EVOLUTION_MAIL_CORBA_GENERATED)	\
+	component-factory.c		\
+	component-factory.h		\
 	folder-browser.c		\
 	folder-browser.h		\
 	folder-browser-factory.c	\
@@ -48,9 +58,7 @@ evolution_mail_SOURCES =		\
 
 
 evolution_mail_LDADD = 					\
-	../shell/Evolution-common.o			\
-	../shell/Evolution-stubs.o			\
-	../shell/Evolution-skels.o			\
+	$(SHELL_OBJS)					\
 	../composer/libcomposer.la		 	\
 	$(top_builddir)/widgets/e-paned/libepaned.a	\
 	../widgets/e-table/libetable.a			\

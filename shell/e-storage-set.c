@@ -52,7 +52,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 struct _EStorageSetPrivate {
 	GList *storages;
 
-	EFolderTypeRepository *folder_type_repository;
+	EFolderTypeRegistry *folder_type_registry;
 };
 
 
@@ -69,7 +69,7 @@ destroy (GtkObject *object)
 
 	e_free_object_list (priv->storages);
 
-	gtk_object_unref (GTK_OBJECT (priv->folder_type_repository));
+	gtk_object_unref (GTK_OBJECT (priv->folder_type_registry));
 
 	g_free (priv);
 
@@ -116,7 +116,7 @@ init (EStorageSet *storage_set)
 	priv = g_new (EStorageSetPrivate, 1);
 
 	priv->storages = NULL;
-	priv->folder_type_repository = NULL;
+	priv->folder_type_registry = NULL;
 
 	storage_set->priv = priv;
 }
@@ -124,25 +124,25 @@ init (EStorageSet *storage_set)
 
 void
 e_storage_set_construct (EStorageSet *storage_set,
-			 EFolderTypeRepository *folder_type_repository)
+			 EFolderTypeRegistry *folder_type_registry)
 {
 	g_return_if_fail (storage_set != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
 
 	GTK_OBJECT_UNSET_FLAGS (storage_set, GTK_FLOATING);
 
-	gtk_object_ref (GTK_OBJECT (folder_type_repository));
-	storage_set->priv->folder_type_repository = folder_type_repository;
+	gtk_object_ref (GTK_OBJECT (folder_type_registry));
+	storage_set->priv->folder_type_registry = folder_type_registry;
 }
 
 EStorageSet *
-e_storage_set_new (EFolderTypeRepository *folder_type_repository)
+e_storage_set_new (EFolderTypeRegistry *folder_type_registry)
 {
 	EStorageSet *new;
 
 	new = gtk_type_new (e_storage_set_get_type ());
 
-	e_storage_set_construct (new, folder_type_repository);
+	e_storage_set_construct (new, folder_type_registry);
 
 	return new;
 }
@@ -287,13 +287,13 @@ e_storage_set_new_view (EStorageSet *storage_set)
 }
 
 
-EFolderTypeRepository *
-e_storage_set_get_folder_type_repository (EStorageSet *storage_set)
+EFolderTypeRegistry *
+e_storage_set_get_folder_type_registry (EStorageSet *storage_set)
 {
 	g_return_val_if_fail (storage_set != NULL, NULL);
 	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
 
-	return storage_set->priv->folder_type_repository;
+	return storage_set->priv->folder_type_registry;
 }
 
 

@@ -30,7 +30,7 @@
 
 #include <gtk/gtkwidget.h>
 
-#include "e-folder-type-repository.h"
+#include "e-folder-type-registry.h"
 #include "e-storage-set.h"
 
 #ifdef __cplusplus
@@ -60,29 +60,26 @@ struct _EShortcutsClass {
 };
 
 
-GtkType     e_shortcuts_get_type   (void);
-void        e_shortcuts_construct  (EShortcuts            *shortcuts,
-				    EStorageSet           *storage_set,
-				    EFolderTypeRepository *folder_type_repository);
-EShortcuts *e_shortcuts_new        (EStorageSet           *storage_set,
-				    EFolderTypeRepository *folder_type_repository);
+GtkType      e_shortcuts_get_type                (void);
+void         e_shortcuts_construct               (EShortcuts          *shortcuts,
+						  EStorageSet         *storage_set,
+						  EFolderTypeRegistry *folder_type_registry);
+EShortcuts  *e_shortcuts_new                     (EStorageSet         *storage_set,
+						  EFolderTypeRegistry *folder_type_registry);
 
-GList       *e_shortcuts_get_group_titles        (EShortcuts *shortcuts);
-GList       *e_shortcuts_get_shortcuts_in_group  (EShortcuts *shortcuts,
-						  const char *group_title);
+GList       *e_shortcuts_get_group_titles        (EShortcuts          *shortcuts);
+GList       *e_shortcuts_get_shortcuts_in_group  (EShortcuts          *shortcuts,
+						  const char          *group_title);
+EStorageSet *e_shortcuts_get_storage_set         (EShortcuts          *shortcuts);
+GtkWidget   *e_shortcuts_new_view                (EShortcuts          *shortcuts);
+gboolean     e_shortcuts_load                    (EShortcuts          *shortcuts,
+						  const char          *path);
+gboolean     e_shortcuts_save                    (EShortcuts          *shortcuts,
+						  const char          *path);
 
-EStorageSet *e_shortcuts_get_storage_set         (EShortcuts *shortcuts);
-
-GtkWidget *e_shortcuts_new_view  (EShortcuts *shortcuts);
-
-gboolean  e_shortcuts_load  (EShortcuts *shortcuts,
-			     const char *path);
-gboolean  e_shortcuts_save  (EShortcuts *shortcuts,
-			     const char *path);
-
-const char *e_shortcuts_get_uri  (EShortcuts *shortcuts,
-				  int         group_num,
-				  int         num);
+const char  *e_shortcuts_get_uri                 (EShortcuts          *shortcuts,
+						  int                  group_num,
+						  int                  num);
 
 #ifdef __cplusplus
 }

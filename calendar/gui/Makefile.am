@@ -7,6 +7,8 @@ CPPFLAGS =					\
 
 INCLUDES = 						\
 	-DG_LOG_DOMAIN=\"calendar-gui\"			\
+	-I$(top_builddir)/shell				\
+	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/libical/src/libical		\
@@ -39,6 +41,10 @@ evolution_calendar_SOURCES =			\
 	alarm.h					\
 	calendar-commands.c			\
 	calendar-commands.h			\
+	control-factory.c			\
+	control-factory.h			\
+	component-factory.c			\
+	component-factory.h			\
 	e-day-view-main-item.c			\
 	e-day-view-main-item.h			\
 	e-day-view-time-item.c			\
@@ -59,7 +65,6 @@ evolution_calendar_SOURCES =			\
 	event-editor.h				\
 	event-editor-utils.c			\
 	event-editor-utils.h			\
-	evolution-calendar-control.c		\
 	getdate.y				\
 	gncal-todo.c				\
 	gncal-todo.h				\
@@ -70,6 +75,7 @@ evolution_calendar_SOURCES =			\
 	goto.c					\
 	layout.c				\
 	layout.h				\
+	main.c					\
 	mark.c					\
 	mark.h					\
 	popup-menu.c				\
@@ -78,7 +84,15 @@ evolution_calendar_SOURCES =			\
 	print.h					\
 	prop.c
 
+# FIXME We should make a libeshell library instead of this gross hack.
+SHELL_OBJS =					\
+	$(top_builddir)/shell/Evolution-common.o \
+	$(top_builddir)/shell/Evolution-stubs.o	\
+	$(top_builddir)/shell/Evolution-skels.o	\
+	$(top_builddir)/shell/evolution-shell-component.o
+
 evolution_calendar_LDADD =					\
+	$(SHELL_OBJS)						\
 	$(EXTRA_GNOME_LIBS)					\
 	$(BONOBO_HTML_GNOME_LIBS)				\
 	$(top_builddir)/widgets/e-text/libetext.a		\
@@ -89,10 +103,10 @@ evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
 if USING_OAF
 oafdir = $(datadir)/oaf
-oaf_DATA = calendar-control.oafinfo
+oaf_DATA = calendar-control.oafinfo evolution-calendar.oafinfo
 else
 gnorbadir = $(sysconfdir)/CORBA/servers
-gnorba_DATA = calendar-control.gnorba
+gnorba_DATA = calendar-control.gnorba evolution-calendar.gnorba
 endif
 
 EXTRA_DIST =			\

@@ -408,7 +408,7 @@ get_pixmap_and_mask_for_folder (EStorageSetView *storage_set_view,
 				GdkPixmap **pixmap_return,
 				GdkBitmap **mask_return)
 {
-	EFolderTypeRepository *folder_type_repository;
+	EFolderTypeRegistry *folder_type_registry;
 	EStorageSet *storage_set;
 	const char *type_name;
 	GdkPixbuf *icon_pixbuf;
@@ -417,11 +417,17 @@ get_pixmap_and_mask_for_folder (EStorageSetView *storage_set_view,
 	GdkGC *gc;
 
 	storage_set = storage_set_view->priv->storage_set;
-	folder_type_repository = e_storage_set_get_folder_type_repository (storage_set);
+	folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
 
 	type_name = e_folder_get_type_string (folder);
-	icon_pixbuf = e_folder_type_repository_get_icon_for_type (folder_type_repository,
-								  type_name, TRUE);
+	icon_pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry,
+								type_name, TRUE);
+
+	if (icon_pixbuf == NULL) {
+		*pixmap_return = NULL;
+		*mask_return = NULL;
+		return;
+	}
 
 	scaled_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (icon_pixbuf),
 					gdk_pixbuf_get_has_alpha (icon_pixbuf),
@@ -555,9 +561,7 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 
 	/* Set up GtkCTree/GtkCList parameters.  */
 	gtk_ctree_construct (ctree, 1, 0, NULL);
-#if 0
 	gtk_ctree_set_line_style (ctree, GTK_CTREE_LINES_DOTTED);
-#endif
 	gtk_clist_set_selection_mode (GTK_CLIST (ctree), GTK_SELECTION_BROWSE);
 	gtk_clist_set_row_height (GTK_CLIST (ctree), E_SHELL_MINI_ICON_SIZE);
 	

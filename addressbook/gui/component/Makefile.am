@@ -6,6 +6,9 @@ INCLUDES =						\
 	$(EXTRA_GNOME_CFLAGS)				\
 	$(GNOME_INCLUDEDIR)				\
 	-I$(top_srcdir)					\
+	-I$(top_builddir)				\
+	-I$(top_srcdir)/shell				\
+	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/widgets/e-text			\
 	-I$(top_srcdir)/widgets/e-table			\
 	-I$(top_srcdir)/addressbook/gui/minicard	\
@@ -27,11 +30,21 @@ evolution_addressbook_SOURCES = 	\
 	e-ldap-server-dialog.h		\
 	e-addressbook-model.c		\
 	e-addressbook-model.h		\
+	addressbook-component.c		\
+	addressbook-component.h		\
 	addressbook-factory.c		\
 	addressbook.c			\
 	addressbook.h
 
+# FIXME We should make a libeshell library instead of this gross hack.
+SHELL_OBJS =					\
+	$(top_builddir)/shell/Evolution-common.o \
+	$(top_builddir)/shell/Evolution-stubs.o	\
+	$(top_builddir)/shell/Evolution-skels.o	\
+	$(top_builddir)/shell/evolution-shell-component.o
+
 evolution_addressbook_LDADD =						\
+	$(SHELL_OBJS)							\
 	$(EXTRA_GNOME_LIBS)						\
 	$(BONOBO_HTML_GNOME_LIBS)					\
 	$(top_builddir)/addressbook/gui/minicard/libeminicard.a		\

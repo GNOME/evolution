@@ -1,3 +1,23 @@
+2000-05-25  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* main.c (main): Initialize the component factory.
+
+	* Makefile.am (evolution_mail_LDADD): Link with
+	`evolution-shell-component.o' from the shell directory.
+
+	* evolution-mail.oafinfo: Updated with the
+	Evolution::ShellComponent OAFIID.
+
+	* evolution-mail.gnorba: Updated with the
+	Evolution::ShellComponent GOAD ID.
+
+	* folder-browser-factory.c (folder_browser_factory_new_control):
+	New function; code moved out from `folder_browser_factory'.
+	(folder_browser_factory): Use it.
+
+	* component-factory.c: New.
+	* component-factory.h: New.
+
 2000-05-24  Dan Winship  <danw@helixcode.com>
 
 	* mail-ops.c (composer_send_cb): connect to and disconnect from

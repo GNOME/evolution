@@ -149,7 +149,7 @@ icon_callback (EShortcutBar *shortcut_bar,
 	       const char *uri,
 	       gpointer data)
 {
-	EFolderTypeRepository *folder_type_repository;
+	EFolderTypeRegistry *folder_type_registry;
 	EShortcuts *shortcuts;
 	EStorageSet *storage_set;
 	EFolder *folder;
@@ -159,7 +159,7 @@ icon_callback (EShortcutBar *shortcut_bar,
 	shortcuts = E_SHORTCUTS (data);
 
 	storage_set = e_shortcuts_get_storage_set (shortcuts);
-	folder_type_repository = e_storage_set_get_folder_type_repository (storage_set);
+	folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
 
 	folder = e_storage_set_get_folder (storage_set,
 					   get_storage_set_path_from_uri (uri));
@@ -172,7 +172,7 @@ icon_callback (EShortcutBar *shortcut_bar,
 		return NULL;
 
 	/* FIXME mini icons?  */
-	pixbuf = e_folder_type_repository_get_icon_for_type (folder_type_repository, type, FALSE);
+	pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry, type, FALSE);
 	if (pixbuf != NULL)
 		gdk_pixbuf_ref (pixbuf);
 

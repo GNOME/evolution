@@ -10,4 +10,14 @@ repo_id=IDL:BonoboControl/evolution-mail:1.0 IDL:GNOME/Control:1.0
 description=Evolution mail folder display component.
 location_info=control-factory:evolution-mail
 
+[evolution-shell-component-factory:evolution-mail]
+type=exe
+repo_id=IDL:GNOME/GenericFactory:1.0
+description=Factory for the Evolution mail component.
+location_info=evolution-mail
 
+[evolution-shell-component:evolution-mail]
+type=factory
+repo_id=IDL:Evolution/ShellComponent:1.0
+description=Evolution component for handling mail.
+location_info=evolution-shell-component-factory:evolution-mail

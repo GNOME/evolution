@@ -62,20 +62,20 @@ struct _EShellClass {
 };
 
 
-GtkType    e_shell_get_type   (void);
-void       e_shell_construct  (EShell          *shell,
-			       Evolution_Shell  corba_object,
-			       const char      *local_directory);
-EShell    *e_shell_new        (const char      *local_directory);
+GtkType              e_shell_get_type                  (void);
+void                 e_shell_construct                 (EShell          *shell,
+							Evolution_Shell  corba_object,
+							const char      *local_directory);
 
-GtkWidget *e_shell_new_view   (EShell          *shell,
-			       const char      *uri);
+EShell              *e_shell_new                       (const char      *local_directory);
+GtkWidget           *e_shell_new_view                  (EShell          *shell,
+							const char      *uri);
 
-EShortcuts            *e_shell_get_shortcuts               (EShell *shell);
-EStorageSet           *e_shell_get_storage_set             (EShell *shell);
-EFolderTypeRepository *e_shell_get_folder_type_repository  (EShell *shell);
+EShortcuts          *e_shell_get_shortcuts             (EShell          *shell);
+EStorageSet         *e_shell_get_storage_set           (EShell          *shell);
+EFolderTypeRegistry *e_shell_get_folder_type_registry  (EShell          *shell);
 
-void  e_shell_quit  (EShell *shell);
+void                 e_shell_quit                      (EShell          *shell);
 
 #ifdef __cplusplus
 }
