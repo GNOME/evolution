@@ -115,7 +115,7 @@ struct prop_info {
 	ECardSimpleField field_id;
 	char *query_prop;
 	char *ldap_attr;
-#define PROP_TYPE_NORMAL   0x01
+#define PROP_TYPE_STRING   0x01
 #define PROP_TYPE_LIST     0x02
 #define PROP_DN            0x04
 	int prop_type;
@@ -131,21 +131,51 @@ struct prop_info {
 
 } prop_info[] = {
 
-#define DN_NORMAL_PROP(fid,q,a) {fid, q, a, PROP_TYPE_NORMAL | PROP_DN, NULL}
-#define DN_LIST_PROP(fid,q,a,ctor,ber,cmp) {fid, q, a, PROP_TYPE_LIST | PROP_DN, ctor, ber, cmp}
 #define LIST_PROP(fid,q,a,ctor,ber,cmp) {fid, q, a, PROP_TYPE_LIST, ctor, ber, cmp}
-#define NORMAL_PROP(fid,q,a) {fid, q, a, PROP_TYPE_NORMAL, NULL}
+#define STRING_PROP(fid,q,a) {fid, q, a, PROP_TYPE_STRING, NULL}
 
-	DN_NORMAL_PROP (E_CARD_SIMPLE_FIELD_FULL_NAME, "full_name", "cn" ),
-	DN_NORMAL_PROP (E_CARD_SIMPLE_FIELD_FAMILY_NAME, "family_name", "sn" ),
-	NORMAL_PROP    (E_CARD_SIMPLE_FIELD_TITLE,     "title", "title"),
-	DN_NORMAL_PROP (E_CARD_SIMPLE_FIELD_ORG,       "org", "o"),
-	NORMAL_PROP    (E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, "phone", "telephonenumber"),
-	LIST_PROP      (E_CARD_SIMPLE_FIELD_EMAIL, "email", "mail", email_populate_func, email_ber_func, email_compare_func)
+/*  	E_CARD_SIMPLE_FIELD_FILE_AS, */
+	STRING_PROP (E_CARD_SIMPLE_FIELD_FULL_NAME,     "full_name", "cn" ),
+	STRING_PROP (E_CARD_SIMPLE_FIELD_FAMILY_NAME,   "family_name", "sn" ),
+	LIST_PROP   (E_CARD_SIMPLE_FIELD_EMAIL,         "email", "mail", email_populate_func, email_ber_func, email_compare_func),
+	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, "phone", "telephoneNumber"),
+/*  	E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, */
+	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_HOME,    "home_phone", "homePhone"),
+	STRING_PROP (E_CARD_SIMPLE_FIELD_ORG,           "org", "o"),
+/* XXX 	STRUCT_PROP (E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS, "business_address", "postalAddress", ....), */
+/* XXX 	STRUCT_PROP (E_CARD_SIMPLE_FIELD_ADDRESS_HOME, "home_address", "homePostalAddress", ....), */
+	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_MOBILE,  "mobile", "mobile"),
+/*      E_CARD_SIMPLE_FIELD_PHONE_CAR, */
+/*  	E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, */
+/*      E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX, */
+/*      E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2, */
+/*      E_CARD_SIMPLE_FIELD_PHONE_HOME_2, */
+/*      E_CARD_SIMPLE_FIELD_PHONE_ISDN, */
+/*      E_CARD_SIMPLE_FIELD_PHONE_OTHER, */
+	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_PAGER,   "pager", "pager"),
+/*      E_CARD_SIMPLE_FIELD_ADDRESS_OTHER, */
+/*      E_CARD_SIMPLE_FIELD_EMAIL_2, */
+/*      E_CARD_SIMPLE_FIELD_EMAIL_3, */
+	STRING_PROP (E_CARD_SIMPLE_FIELD_URL,           "uri", "labeledURI"),
+	STRING_PROP (E_CARD_SIMPLE_FIELD_ORG_UNIT,      "org_unit",  "ou"),
+	STRING_PROP (E_CARD_SIMPLE_FIELD_OFFICE,        "office",  "roomNumber"),
+	STRING_PROP (E_CARD_SIMPLE_FIELD_TITLE,         "title", "title"),
+/*      E_CARD_SIMPLE_FIELD_ROLE, */
+	STRING_PROP (E_CARD_SIMPLE_FIELD_MANAGER,       "manager",  "manager"),
+/*      E_CARD_SIMPLE_FIELD_ASSISTANT, */
+/*      E_CARD_SIMPLE_FIELD_NICKNAME, */
+/*      E_CARD_SIMPLE_FIELD_SPOUSE, */
+/*      E_CARD_SIMPLE_FIELD_NOTE, */
+/*      E_CARD_SIMPLE_FIELD_FBURL, */
+/*      E_CARD_SIMPLE_FIELD_ANNIVERSARY, */
+/*      E_CARD_SIMPLE_FIELD_BIRTH_DATE, */
+/*  	E_CARD_SIMPLE_FIELD_MAILER, */
+/*  	E_CARD_SIMPLE_FIELD_NAME_OR_ORG, */
 
-#undef DN_NORMAL_PROP
-#undef DN_LIST_PROP
-#undef NORMAL_PROP
+
+#undef STRING_PROP
+#undef LIST_PROP
+#undef STRUCT_PROP
 };
 
 static int num_prop_infos = sizeof(prop_info) / sizeof(prop_info[0]);
@@ -446,7 +476,7 @@ build_mods_from_ecards (ECardSimple *current, ECardSimple *new, gboolean *new_dn
 			
 			mod->mod_type = g_strdup (prop_info[i].ldap_attr);
 
-			if (prop_info[i].prop_type & PROP_TYPE_NORMAL) {
+			if (prop_info[i].prop_type & PROP_TYPE_STRING) {
 				mod->mod_values = g_new (char*, 2);
 				mod->mod_values[0] = new_prop;
 				mod->mod_values[1] = NULL;
@@ -529,11 +559,17 @@ create_card_handler (PASBackend *backend, LDAPOp *op)
 
 	ldap_mods = (LDAPMod**)mod_array->pdata;
 
-	g_print ("adding card dn: %s\n", dn);
+	if (op->view)
+		pas_book_view_notify_status_message (op->view, "Adding card to LDAP server");
+
 	/* actually perform the ldap add */
 	ldap_error = ldap_add_s (ldap, dn, ldap_mods);
 
-	g_print ("ldap_add_s returned 0x%x (%s) status\n", ldap_error, ldap_err2string(ldap_error));
+	if (op->view)
+		pas_book_view_notify_status_message (op->view, "");
+
+	if (ldap_error != LDAP_SUCCESS)
+		ldap_perror (ldap, "ldap_add_s");
 
 	/* and clean up */
 	free_mods (mod_array);
@@ -566,8 +602,17 @@ pas_backend_ldap_process_create_card (PASBackend *backend,
 				      PASRequest *req)
 {
 	LDAPCreateOp *create_op = g_new (LDAPCreateOp, 1);
+	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
+	PASBookView *book_view = NULL;
 
-	ldap_op_init ((LDAPOp*)create_op, backend, book, NULL, create_card_handler, create_card_dtor);
+	if (bl->priv->book_views) {
+		PASBackendLDAPBookView *v = bl->priv->book_views->data;
+		book_view = v->book_view;
+	}
+
+	ldap_op_init ((LDAPOp*)create_op, backend, book,
+		      book_view,
+		      create_card_handler, create_card_dtor);
 
 	create_op->vcard = req->vcard;
 
@@ -589,6 +634,8 @@ remove_card_handler (PASBackend *backend, LDAPOp *op)
 	int ldap_error;
 
 	ldap_error = ldap_delete_s (bl->priv->ldap, remove_op->id);
+	if (ldap_error != LDAP_SUCCESS)
+		ldap_perror (bl->priv->ldap, "ldap_delete_s");
 
 	response = ldap_error_to_response (ldap_error);
 
@@ -614,8 +661,17 @@ pas_backend_ldap_process_remove_card (PASBackend *backend,
 				      PASRequest *req)
 {
 	LDAPRemoveOp *remove_op = g_new (LDAPRemoveOp, 1);
+	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
+	PASBookView *book_view = NULL;
 
-	ldap_op_init ((LDAPOp*)remove_op, backend, book, NULL, remove_card_handler, remove_card_dtor);
+	if (bl->priv->book_views) {
+		PASBackendLDAPBookView *v = bl->priv->book_views->data;
+		book_view = v->book_view;
+	}
+
+	ldap_op_init ((LDAPOp*)remove_op, backend, book,
+		      book_view,
+		      remove_card_handler, remove_card_dtor);
 
 	remove_op->id = req->id;
 
@@ -704,7 +760,8 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 
 			/* actually perform the ldap modify */
 			ldap_error = ldap_modify_s (ldap, id, ldap_mods);
-			g_print ("ldap_modify_s returned 0x%x (%s) status\n", ldap_error, ldap_err2string(ldap_error));
+			if (ldap_error != LDAP_SUCCESS)
+				ldap_perror (ldap, "ldap_modify_s");
 		}
 		else {
 			g_print ("modify list empty.  no modification sent\n");
@@ -742,8 +799,17 @@ pas_backend_ldap_process_modify_card (PASBackend *backend,
 				      PASRequest *req)
 {
 	LDAPModifyOp *modify_op = g_new (LDAPModifyOp, 1);
+	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
+	PASBookView *book_view = NULL;
 
-	ldap_op_init ((LDAPOp*)modify_op, backend, book, NULL, modify_card_handler, modify_card_dtor);
+	if (bl->priv->book_views) {
+		PASBackendLDAPBookView *v = bl->priv->book_views->data;
+		book_view = v->book_view;
+	}
+
+	ldap_op_init ((LDAPOp*)modify_op, backend, book,
+		      book_view,
+		      modify_card_handler, modify_card_dtor);
 
 	modify_op->vcard = req->vcard;
 
@@ -1322,7 +1388,7 @@ build_card_from_entry (LDAP *ldap, LDAPMessage *e)
 			values = ldap_get_values (ldap, e, attr);
 
 			if (values) {
-				if (info->prop_type & PROP_TYPE_NORMAL) {
+				if (info->prop_type & PROP_TYPE_STRING) {
 				/* if it's a normal property just set the string */
 					e_card_simple_set (card, info->field_id, values[0]);
 

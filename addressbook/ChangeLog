@@ -1,3 +1,14 @@
+2001-01-11  Chris Toshok  <toshok@helixcode.com>
+
+	* backend/pas/pas-backend-ldap.c
+	(pas_backend_ldap_process_create_card): get a book view from
+	somewhere so we can give status messages - choose the first one in
+	the list.
+	(pas_backend_ldap_process_modify_card): same.
+	(pas_backend_ldap_process_remove_card): same.
+	(prop_info): add more properties, like home_phone, mobile, pager,
+	uri, org_unit, office, title, and manager.
+
 2001-01-09  Miguel de Icaza  <miguel@gnu.org>
 
 	* gui/widgets/Makefile.am (minicard_widget_test_LDADD): Put GNOME
