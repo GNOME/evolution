@@ -715,7 +715,7 @@ get_matching (CamelFolder *folder, guint32 flags, guint32 mask, char **set)
 		g_string_free (gset, FALSE);
 		return matches;
 	} else {
-		*set = NULL
+		*set = NULL;
 		g_string_free (gset, TRUE);
 		g_ptr_array_free (matches, TRUE);
 		return NULL;
