@@ -1,3 +1,8 @@
+2000-04-14  Chris Toshok  <toshok@helixcode.com>
+
+	* Makefile.am (wombat_LDADD): use BONOBO_VFS_GNOME_LIBS instead of
+	BONOBO_HTML_GNOME_LIBS.  fixes freebsd's problem running wombat.
+
 2000-04-14  Federico Mena Quintero  <federico@helixcode.com>
 
 	* wombat.c (setup_pcs): Must pass "object" for the kind to

@@ -17,7 +17,7 @@ wombat_SOURCES = 	\
 
 wombat_LDADD =							\
 	$(EXTRA_GNOME_LIBS)					\
-	$(BONOBO_HTML_GNOME_LIBS)				\
+	$(BONOBO_VFS_GNOME_LIBS)				\
 	$(top_builddir)/addressbook/backend/pas/libpas.la	\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(top_builddir)/calendar/pcs/libpcs.la			\
