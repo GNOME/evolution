@@ -1067,7 +1067,7 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		/* ViewThreaded */
 		if (emfv->folder
 		    && (sstate = camel_object_meta_get(emfv->folder, "evolution:thread_list"))) {
-			state = sstate[0] == '1';
+			state = sstate[0] != '0';
 			g_free(sstate);
 		} else {
 			state = gconf_client_get_bool(gconf, "/apps/evolution/mail/display/thread_list", NULL);
