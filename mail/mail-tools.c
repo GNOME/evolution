@@ -88,7 +88,7 @@ void mail_tool_camel_lock_down (void)
 
 CamelFolder *
 mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
-				   gboolean create, CamelException *ex)
+				   guint32 flags, CamelException *ex)
 {
 	CamelStore *store;
 	CamelFolder *folder;
@@ -109,7 +109,7 @@ mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
 	 *}
 	 */
 
-	folder = camel_store_get_folder (store, name, create, ex);
+	folder = camel_store_get_folder (store, name, flags, ex);
 	camel_object_unref (CAMEL_OBJECT (store));
 	mail_tool_camel_lock_down();
 
@@ -136,12 +136,12 @@ mail_tool_get_folder_name (CamelFolder *folder)
 }
 
 gchar *
-mail_tool_get_local_inbox_url (void)
+mail_tool_get_local_inbox_url (int *index)
 {
 	char *uri, *new;
 
 	uri = g_strdup_printf("file://%s/local/Inbox", evolution_dir);
-	new = mail_local_map_uri(uri);
+	new = mail_local_map_uri(uri, index);
 	g_free(uri);
 	return new;
 }
@@ -163,9 +163,13 @@ mail_tool_get_local_inbox (CamelException *ex)
 {
 	gchar *url;
 	CamelFolder *folder;
+	int index;
+	guint32 flags = CAMEL_STORE_FOLDER_CREATE;
 
-	url = mail_tool_get_local_inbox_url();
-	folder = mail_tool_get_folder_from_urlname (url, "mbox", TRUE, ex);
+	url = mail_tool_get_local_inbox_url(&index);
+	if (index)
+		flags |= CAMEL_STORE_FOLDER_BODY_INDEX;
+	folder = mail_tool_get_folder_from_urlname (url, "mbox", flags, ex);
 	g_free (url);
 	return folder;
 }
@@ -174,7 +178,7 @@ CamelFolder *
 mail_tool_get_inbox (const gchar *url, CamelException *ex)
 {
 	/* FIXME: should be smarter? get_default_folder, etc */
-	return mail_tool_get_folder_from_urlname (url, "inbox", FALSE, ex);
+	return mail_tool_get_folder_from_urlname (url, "inbox", 0, ex);
 }
 	
 
@@ -516,7 +520,7 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 				/*for ( ; *ptr && *ptr == '/'; ptr++);*/
 				
 				folder_uri = g_strdup (ptr);				
-				folder = camel_store_get_folder (store, folder_uri, TRUE, ex);
+				folder = camel_store_get_folder (store, folder_uri, CAMEL_STORE_FOLDER_CREATE, ex);
 				g_free (folder_uri);
 			}
 		}
@@ -533,7 +537,7 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 			if (*ptr == '/') {
 				ptr++;
 				folder_path = ptr;
-				folder = camel_store_get_folder (store, folder_path, FALSE, ex);
+				folder = camel_store_get_folder (store, folder_path, 0, ex);
 			}
 		}
 

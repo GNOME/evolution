@@ -374,7 +374,7 @@ message_list_drag_data_get (ETable             *table,
 		url = g_strdup_printf ("file:%s", dirname);
 		
 		ex = camel_exception_new ();
-		folder = mail_tool_get_folder_from_urlname (url, filename, TRUE, ex);
+		folder = mail_tool_get_folder_from_urlname (url, filename, CAMEL_STORE_FOLDER_CREATE, ex);
 		if (camel_exception_is_set (ex)) {
 			camel_exception_free (ex);
 			g_free (url);

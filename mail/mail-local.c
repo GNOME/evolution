@@ -33,8 +33,9 @@
 #include <config.h>
 #endif
 #include <bonobo.h>
-#include <gnome.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>
+#include <gnome-xml/xmlmemory.h>
 
 #include "Evolution.h"
 #include "evolution-storage.h"
@@ -60,6 +61,7 @@ struct _local_meta {
 
 	char *format;		/* format of mailbox */
 	char *name;		/* name of mbox itself */
+	int indexed;		/* do we index the body? */
 };
 
 static struct _local_meta *
@@ -85,8 +87,16 @@ load_metainfo(const char *path)
 	node = node->childs;
 	while (node) {
 		if (!strcmp(node->name, "folder")) {
+			char *index;
 			meta->format = xmlGetProp(node, "type");
 			meta->name = xmlGetProp(node, "name");
+			index = xmlGetProp(node, "index");
+			if (index) {
+				meta->indexed = atoi(index);
+				xmlFree(index);
+			} else
+				meta->indexed = TRUE;
+			
 		}
 		node = node->next;
 	}
@@ -96,6 +106,7 @@ load_metainfo(const char *path)
 dodefault:
 	meta->format = g_strdup("mbox"); /* defaults */
 	meta->name = g_strdup("mbox");
+	meta->indexed = TRUE;
 	if (doc)
 		xmlFreeDoc(doc);
 	return meta;
@@ -126,6 +137,7 @@ save_metainfo(struct _local_meta *meta)
 	node  = xmlNewChild(root, NULL, "folder", NULL);
 	xmlSetProp(node, "type", meta->format);
 	xmlSetProp(node, "name", meta->name);
+	xmlSetProp(node, "index", meta->indexed?"1":"0");
 
 	ret = xmlSaveFile(meta->path, doc);
 	xmlFreeDoc(doc);
@@ -134,13 +146,16 @@ save_metainfo(struct _local_meta *meta)
 
 /* maps a local uri to the real type */
 char *
-mail_local_map_uri(const char *uri)
+mail_local_map_uri(const char *uri, int *index)
 {
 	CamelURL *url;
 	char *metapath;
 	char *storename;
 	struct _local_meta *meta;
 	CamelException *ex;
+
+	if (index)
+		*index = TRUE;
 
 	if (strncmp(uri, "file:", 5)) {
 		g_warning("Trying to map non-local uri: %s", uri);
@@ -159,6 +174,9 @@ mail_local_map_uri(const char *uri)
 	meta = load_metainfo(metapath);
 	g_free(metapath);
 
+	if (index)
+		*index = meta->indexed;
+
 	/* change file: to format: */
 	camel_url_set_protocol(url, meta->format);
 	storename = camel_url_to_string(url, TRUE);
@@ -175,6 +193,7 @@ mail_tool_local_uri_to_folder(const char *uri, CamelException *ex)
 	char *storename;
 	CamelFolder *folder = NULL;
 	struct _local_meta *meta;
+	int flags;
 
 	if (strncmp(uri, "file:", 5)) {
 		return NULL;
@@ -197,8 +216,11 @@ mail_tool_local_uri_to_folder(const char *uri, CamelException *ex)
 	storename = camel_url_to_string(url, TRUE);
 
 	printf("store name is  %s\n", storename);
+	flags = 0;
+	if (meta->indexed)
+		flags |= CAMEL_STORE_FOLDER_BODY_INDEX;
 
-	folder = mail_tool_get_folder_from_urlname (storename, meta->name, FALSE, ex);
+	folder = mail_tool_get_folder_from_urlname (storename, meta->name, flags, ex);
 	camel_url_free(url);
 	g_free (storename);
 	free_metainfo(meta);
@@ -297,6 +319,7 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	char *uri;
 	CamelURL *url = NULL;
 	struct _local_meta *meta;
+	guint32 flags;
 
 	printf("reconfiguring folder: %s to type %s\n", input->fb->uri, input->newtype);
 
@@ -342,7 +365,7 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	if (camel_exception_is_set(ex))
 		goto cleanup;
 
-	/* rename the old mbox and open it again */
+	/* rename the old mbox and open it again, without indexing */
 	tmpname = g_strdup_printf("%s_reconfig", meta->name);
 	printf("renaming %s to %s, and opening it\n", meta->name, tmpname);
 	update_progress("Renaming old folder and opening", 0.0);
@@ -353,8 +376,9 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 		mail_tool_camel_lock_down ();
 		goto cleanup;
 	}
-
-	fromfolder = camel_store_get_folder(fromstore, tmpname, TRUE, ex);
+	
+	/* we dont need to set the create flag ... or need an index if it has one */
+	fromfolder = camel_store_get_folder(fromstore, tmpname, 0, ex);
 	if (fromfolder == NULL || camel_exception_is_set(ex)) {
 		/* try and recover ... */
 		camel_exception_clear (ex);
@@ -367,7 +391,10 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	printf("Creating the destination mbox\n");
 	update_progress("Creating new folder", 0.0);
 
-	tofolder = camel_store_get_folder(tostore, meta->name, TRUE, ex);
+	flags = CAMEL_STORE_FOLDER_CREATE;
+	if (meta->indexed)
+		flags |= CAMEL_STORE_FOLDER_BODY_INDEX;
+	tofolder = camel_store_get_folder(tostore, meta->name, flags, ex);
 	if (tofolder == NULL || camel_exception_is_set(ex)) {
 		printf("cannot open destination folder\n");
 		/* try and recover ... */

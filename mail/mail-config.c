@@ -27,6 +27,7 @@
 
 #include <config.h>
 #include <pwd.h>
+#include <ctype.h>
 
 #include <gnome.h>
 #include <gtkhtml/gtkhtml.h>

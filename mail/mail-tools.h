@@ -35,13 +35,13 @@ void mail_tool_camel_lock_down (void);
 /* Get a CamelFolder from a root url and a foldername (uses the global session)*/
 CamelFolder *
 mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
-				   gboolean create, CamelException *ex);
+				   guint32 flags, CamelException *ex);
 
 /* Get a useful name for a given CamelFolder (ie, not "mbox") */
 const gchar *mail_tool_get_folder_name (CamelFolder *folder);
 
-/* Get the url for the local inbox */
-gchar *mail_tool_get_local_inbox_url (void);
+/* Get the url for the local inbox, index returns if the mailbox is indexed */
+gchar *mail_tool_get_local_inbox_url (int *index);
 
 /* Get the filename for our movemail folder or storage */
 gchar *mail_tool_get_local_movemail_path (void);

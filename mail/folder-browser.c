@@ -482,7 +482,6 @@ folder_browser_gui_init (FolderBrowser *fb)
 	fb->search_entry = gtk_entry_new();
 	gtk_widget_show(fb->search_entry);
 	gtk_signal_connect(GTK_OBJECT (fb->search_entry), "activate", search_activate, fb);
-	gtk_signal_connect(GTK_OBJECT (fb->search_entry), "changed", search_activate, fb);
 	searchbutton = (GtkButton *)gtk_button_new_with_label(_("Full Search"));
 	gtk_widget_show((GtkWidget *)searchbutton);
 	label = gtk_label_new(_("Search"));

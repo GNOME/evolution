@@ -1,3 +1,43 @@
+2000-10-18  Not Zed  <NotZed@HelixCode.com>
+
+	* folder-browser.c (folder_browser_gui_init): No, we REALLY dont
+	want to perform an immediate search as the keys are pressed.
+
+	* mail-display.c (on_object_requested): Kill a minor warning with
+	a cast.
+
+	* mail-config.c: Include mising ctype.h to kill a warning.
+
+	* message-thread.c (main): Fixed the test case for api changes.
+
+	* message-list.c (message_list_drag_data_get): Set some flags to
+	get_folder().  I dont even think this will work because
+	mail_tool_get_folder doesn't handle file url's.
+
+	* mail-vfolder.c (vfolder_uri_to_folder): Pass appropriate flags.
+
+	* mail-ops.c (do_setup_folder): Pass appropriate flags.  Hmm,
+	whats the difference between setup and create.  *shrug*
+	(do_create_folder): Pass appropriate flags to get_folder.  Needs a
+	way to specify the index flag.
+
+	* mail-tools.c (mail_tool_get_folder_from_urlname): Changed create
+	to flags argument.
+	(mail_tool_get_local_inbox_url): Add an index argument.
+	(mail_tool_get_local_inbox): honour index flag.
+	(mail_tool_get_inbox): Changed for api change.
+	(mail_tool_uri_to_folder): Fixed calls to store_get_folder();
+
+	* mail-local.c (load_metainfo): Added an indexed field to the metainfo.
+	(save_metainfo): And save it too.
+	(do_reconfigure_folder): Honour index flag when creating the new
+	folder.  Do not open the old folder with an index at all.
+	(mail_local_map_uri): Add an index argument - tells if the mbox is
+	indexed.
+	(mail_tool_local_uri_to_folder): Create & pass flags properly.
+	(#include gnome.h): Dont include all of gnome, just what we use,
+	and explicity include xml-memory, so we get xmlFree().
+
 2000-10-16  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* folder-browser.c (search_full_clicked): Un #if 0'd out

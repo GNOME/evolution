@@ -29,13 +29,26 @@
 #include "component-factory.h"
 #include "mail.h"
 
+static int blowup(int status)
+{
+	printf("memory blew up, status %d\n", status);
+	/*abort();*/
+}
+
 int
 main (int argc, char *argv [])
 {
 	CORBA_ORB orb;
-	
-	/* free (malloc (10));*/
 
+#if 0
+	/* used to make elfence work */
+#if 0
+	free (malloc (10));
+#else
+	/*mtrace();*/
+	mcheck(blowup);
+#endif
+#endif
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 

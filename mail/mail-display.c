@@ -490,7 +490,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 			gtk_widget_set_usize (pixmap, 24, 24);
 			pbl->pixmap = pixmap;
 			
-			g_idle_add_full (G_PRIORITY_LOW, pixbuf_gen_idle, 
+			g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc)pixbuf_gen_idle, 
 					 pbl, NULL);
 		} else {
 			icon = gnome_vfs_mime_get_value (eb->type, "icon-filename");

@@ -643,7 +643,7 @@ main (int argc, char**argv)
 		return -1;
 	}
 
-	folder = camel_store_get_folder (store, "mbox", TRUE, ex);
+	folder = camel_store_get_folder (store, "mbox", 0, ex);
 	if (camel_exception_get_id (ex)) {
 		printf ("Exception caught in camel_store_get_folder\n"
 			"Full description : %s\n", camel_exception_get_description (ex));

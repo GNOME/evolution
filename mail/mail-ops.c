@@ -1881,8 +1881,10 @@ do_create_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 			Evolution_ShellComponentListener_UNSUPPORTED_TYPE;
 	else {
 		camel_url = g_strdup_printf ("mbox://%s", input->uri);
+		/* FIXME: supply a way to make indexes optional */
 		folder = mail_tool_get_folder_from_urlname (camel_url,
-							    "mbox", TRUE, ex);
+							    "mbox", CAMEL_STORE_FOLDER_CREATE
+							    |CAMEL_STORE_FOLDER_BODY_INDEX, ex);
 		g_free (camel_url);
 
 		if (!camel_exception_is_set (ex)) {
@@ -2259,7 +2261,9 @@ do_setup_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 	url = g_strdup_printf ("mbox://%s/local/%s", evolution_dir,
 			       input->name);
 	*(input->folder) = mail_tool_get_folder_from_urlname (url, "mbox",
-							      TRUE, ex);
+							      CAMEL_STORE_FOLDER_CREATE
+							      |CAMEL_STORE_FOLDER_BODY_INDEX,
+							      ex);
 	g_free (url);
 }
 
