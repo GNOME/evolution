@@ -233,6 +233,28 @@ camel_url_free (CamelURL *url)
 	g_free (url);
 }
 
+void camel_url_set_protocol(CamelURL *url, const char *p)
+{
+	g_free(url->protocol);
+	url->protocol = g_strdup(p);
+}
+
+void camel_url_set_host(CamelURL *url, const char *h)
+{
+	g_free(url->host);
+	url->host = g_strdup(h);
+}
+
+void camel_url_set_port(CamelURL *url, int port)
+{
+	url->port = port;
+}
+void camel_url_set_path(CamelURL *url, const char *p)
+{
+	g_free(url->path);
+	url->path = g_strdup(p);
+}
+
 
 /**
  * camel_url_encode:

@@ -53,9 +53,14 @@ CamelURL *camel_url_new (const char *url_string, CamelException *ex);
 char *camel_url_to_string (CamelURL *url, gboolean show_password);
 void camel_url_free (CamelURL *url);
 
-char *camel_url_encode (char *part, gboolean escape_unsafe,
-			char *escape_extra);
+char *camel_url_encode (char *part, gboolean escape_unsafe, char *escape_extra);
 void camel_url_decode (char *part);
+
+/* for editing url's */
+void camel_url_set_protocol(CamelURL *url, const char *);
+void camel_url_set_host(CamelURL *url, const char *);
+void camel_url_set_port(CamelURL *url, int port);
+void camel_url_set_path(CamelURL *url, const char *);
 
 /* for putting url's into hash tables */
 guint camel_url_hash (const void *v);

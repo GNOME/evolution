@@ -38,6 +38,8 @@ static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
 				gboolean create, CamelException *ex);
 static void delete_folder (CamelStore *store, const char *folder_name,
 			   CamelException *ex);
+static void rename_folder (CamelStore *store, const char *old_name,
+			   const char *new_name, CamelException *ex);
 
 static char *get_folder_name (CamelStore *store, const char *folder_name,
 			      CamelException *ex);
@@ -62,6 +64,7 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	/* virtual method definition */
 	camel_store_class->get_folder = get_folder;
 	camel_store_class->delete_folder = delete_folder;
+	camel_store_class->rename_folder = rename_folder;
 	camel_store_class->get_folder_name = get_folder_name;
 	camel_store_class->get_root_folder_name = get_root_folder_name;
 	camel_store_class->get_default_folder_name = get_default_folder_name;
@@ -136,6 +139,16 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	g_warning ("CamelStore::delete_folder not implemented for `%s'",
 		   gtk_type_name (GTK_OBJECT_TYPE (store)));
+}
+
+static void rename_folder (CamelStore *store, const char *old_name,
+			   const char *new_name, CamelException *ex)
+{
+	g_warning ("CamelStore::rename_folder not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (store)));
+	camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+			     "rename folder unimplemented for: %s",
+			     gtk_type_name (GTK_OBJECT_TYPE (store)));
 }
 
 
@@ -284,6 +297,33 @@ camel_store_delete_folder (CamelStore *store, const char *folder_name,
 	if (name) {
 		CS_CLASS (store)->delete_folder (store, name, ex);
 		g_free (name);
+	}
+}
+
+/**
+ * camel_store_rename_folder:
+ * @store: 
+ * @old_name: 
+ * @new_name: 
+ * @ex: 
+ * 
+ * Rename a named folder to a new name.
+ **/
+void             camel_store_rename_folder      (CamelStore *store,
+						 const char *old_name,
+						 const char *new_name,
+						 CamelException *ex)
+{
+	char *old, *new;
+
+	old = CS_CLASS (store)->get_folder_name(store, old_name, ex);
+	if (old) {
+		new = CS_CLASS (store)->get_folder_name(store, new_name, ex);
+		if (new) {
+			CS_CLASS (store)->rename_folder(store, old, new, ex);
+			g_free(new);
+		}
+		g_free(old);
 	}
 }
 

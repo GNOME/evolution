@@ -1,3 +1,33 @@
+2000-08-07  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/mh/camel-mh-folder.c (mh_append_message): Only retry
+	another uid if we had a name clash, otherwise fail.
+
+2000-08-04  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-url.c (camel_url_set_protocol): 
+	(camel_url_set_host): 
+	(camel_url_set_path): 
+	(camel_url_set_port): Url editing functions.
+
+2000-08-02  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/mh/camel-mh-summary.c (camel_mh_summary_sync): Expunge
+	from the end, so the index isn't messed up when you remove a
+	message.
+
+	* providers/mh/camel-mh-folder.c (mh_append_message): Fix a bug
+	where it would never open an output file/uid.
+
+	* providers/mbox/camel-mbox-store.c (rename_folder):
+	Implementation for mbox as well.
+
+	* camel-store.c (camel_store_rename_folder): New method to rename folders.
+	(rename_folder): Default implementation.
+
+	* providers/mh/camel-mh-store.c (delete_folder): Implement this.
+	(rename_folder): Implement a rename operation.
+
 2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c

@@ -268,7 +268,6 @@ static gint mh_get_unread_message_count(CamelFolder * folder)
 	return count;
 }
 
-/* FIXME: this may need some tweaking for performance? */
 static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, guint32 flags, CamelException * ex)
 {
 	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
@@ -285,7 +284,7 @@ static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, 
 		uid = camel_folder_summary_next_uid_string((CamelFolderSummary *)mh_folder->summary);
 		name = g_strdup_printf("%s/%s", mh_folder->folder_file_path, uid);
 		output_stream = camel_stream_fs_new_with_name(name, O_WRONLY|O_CREAT|O_EXCL, 0600);
-	} while (output_stream == NULL || errno != EEXIST);
+	} while (output_stream == NULL && errno == EEXIST);
 
 	if (output_stream == NULL)
 		goto fail;

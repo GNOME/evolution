@@ -44,6 +44,7 @@ static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
 				gboolean create, CamelException *ex);
 static void delete_folder (CamelStore *store, const char *folder_name,
 			   CamelException *ex);
+static void rename_folder(CamelStore *store, const char *old_name, const char *new_name, CamelException *ex);
 static char *get_folder_name (CamelStore *store, const char *folder_name,
 			      CamelException *ex);
 
@@ -58,6 +59,7 @@ camel_mbox_store_class_init (CamelMboxStoreClass *camel_mbox_store_class)
 
 	camel_store_class->get_folder = get_folder;
 	camel_store_class->delete_folder = delete_folder;
+	camel_store_class->rename_folder = rename_folder;
 	camel_store_class->get_folder_name = get_folder_name;
 }
 
@@ -169,8 +171,7 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 	struct stat st;
 	int status;
 
-	name = g_strdup_printf ("%s%s", CAMEL_SERVICE (store)->url->path,
-				folder_name);
+	name = g_strdup_printf ("%s%s", CAMEL_SERVICE (store)->url->path, folder_name);
 	if (stat (name, &st) == -1) {
 		if (errno == ENOENT) {
 			/* file doesn't exist - it's kinda like deleting it ;-) */
@@ -217,6 +218,51 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "Could not delete folder `%s':\n%s",
 				      folder_name, g_strerror (errno));
+	}
+}
+
+static int xrename(char *oldp, char *newp, char *prefix, char *suffix, CamelException *ex)
+{
+	struct stat st;
+	char *old = g_strconcat(prefix, oldp, suffix, 0);
+	char *new = g_strconcat(prefix, newp, suffix, 0);
+	int ret = -1;
+
+	printf("renaming %s%s to %s%s\n", oldp, suffix, newp, suffix);
+
+	/* FIXME: this has races ... */
+	if (!(stat(new, &st) == -1 && errno==ENOENT)) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+				     "Could not rename folder %s to %s: destination exists",
+				     old, new);
+	} else if (rename(old, new) == 0 || errno==ENOENT) {
+		ret = 0;
+	} else if (stat(old, &st) == -1 && errno==ENOENT && stat(new, &st) == 0) {
+		/* for nfs, check if the rename worked anyway ... */
+		ret = 0;
+	}
+	printf("success = %d\n", ret);
+
+	g_free(old);
+	g_free(new);
+	return ret;
+}
+
+static void rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex)
+{
+	char *path = CAMEL_SERVICE (store)->url->path;
+
+	/* try to rollback failures, has obvious races */
+	if (xrename(old, new, path, ".ibex", ex)) {
+		return;
+	}
+	if (xrename(old, new, path, "-ev-summary", ex)) {
+		xrename(new, old, path, ".ibex", ex);
+		return;
+	}
+	if (xrename(old, new, path, "", ex)) {
+		xrename(new, old, path, "-ev-summary", ex);
+		xrename(new, old, path, ".ibex", ex);
 	}
 }
 

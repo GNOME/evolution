@@ -258,15 +258,17 @@ int		camel_mh_summary_sync(CamelMhSummary * mhs, int expunge, CamelException *ex
 	CamelMessageInfo *info;
 	char *name;
 
+	printf("summary_sync(expunge=%s)\n", expunge?"true":"false");
+
 	if (!expunge)
 		return 0;
 
 	count = camel_folder_summary_count((CamelFolderSummary *)mhs);
-	for (i=0;i<count;i++) {
+	for (i=count-1;i>=0;i--) {
 		info = camel_folder_summary_index((CamelFolderSummary *)mhs, i);
 		if (info && info->flags & CAMEL_MESSAGE_DELETED) {
 			name = g_strdup_printf("%s/%s", mhs->mh_path, info->uid);
-			d(printf("deleting %s\n", name));
+			(printf("deleting %s\n", name));
 			if (unlink(name) == 0 || errno==ENOENT) {
 				camel_folder_summary_remove((CamelFolderSummary *)mhs, info);
 			}

@@ -43,6 +43,7 @@
 static char *get_name(CamelService * service, gboolean brief);
 static CamelFolder *get_folder(CamelStore * store, const char *folder_name, gboolean create, CamelException * ex);
 static void delete_folder(CamelStore * store, const char *folder_name, CamelException * ex);
+static void rename_folder(CamelStore *store, const char *old_name, const char *new_name, CamelException *ex);
 static char *get_folder_name(CamelStore * store, const char *folder_name, CamelException * ex);
 
 static void camel_mh_store_class_init(CamelMhStoreClass * camel_mh_store_class)
@@ -55,6 +56,7 @@ static void camel_mh_store_class_init(CamelMhStoreClass * camel_mh_store_class)
 
 	camel_store_class->get_folder = get_folder;
 	camel_store_class->delete_folder = delete_folder;
+	camel_store_class->rename_folder = rename_folder;
 	camel_store_class->get_folder_name = get_folder_name;
 }
 
@@ -107,8 +109,11 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, gboo
 
 	name = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
 
+	printf("getting folder: %s\n", name);
 	if (stat(name, &st) == -1) {
 		int fd;
+		
+		printf("doesn't exist ...\n");
 
 		if (errno != ENOENT) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
@@ -120,12 +125,15 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, gboo
 					     "Folder `%s' does not exist.", folder_name);
 			goto done;
 		}
+		printf("creating ...\n");
 
-		if (mkdir (name, 0600) != 0) {
+		if (mkdir(name, 0700) != 0) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 					     "Could not create folder `%s':" "\n%s", folder_name, g_strerror(errno));
 			goto done;
 		}
+		printf("created ok?\n");
+
 	} else if (!S_ISDIR(st.st_mode)) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER, "`%s' is not a directory.", name);
 		goto done;
@@ -142,11 +150,52 @@ done:
 static void delete_folder(CamelStore * store, const char *folder_name, CamelException * ex)
 {
 	char *name;
+	struct stat st;
+	char *str;
 
 	name = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
-	camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-			     "Could not delete folder `%s':\n%s", folder_name, "not implemented");
+	if (stat(name, &st) == -1) {
+		if (errno != ENOENT)
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+					     "Could not delete folder `%s': %s", folder_name, strerror(errno));
+	} else {
+		/* this will 'fail' if there are still messages in the directory -
+		   but only the metadata is lost */
+		str = g_strdup_printf("%s/ev-summary", name);
+		unlink(str);
+		g_free(str);
+		str = g_strdup_printf("%s/ev-index.ibex", name);
+		unlink(str);
+		g_free(str);
+		if (rmdir(name) == -1) {
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+					     "Could not delete folder `%s': %s", folder_name, strerror(errno));
+		}
+	}
 	g_free(name);
+}
+
+static void rename_folder (CamelStore *store, const char *old_name, const char *new_name, CamelException *ex)
+{
+	char *old, *new;
+	struct stat st;
+
+	old = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, old_name);
+	new = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, new_name);
+	if (stat(new, &st) == -1 && errno == ENOENT) {
+		if (stat(old, &st) == 0 && S_ISDIR(st.st_mode)) {
+			if (rename(old, new) != 0) {
+				camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+						     "Could not rename folder `%s': %s", old_name, strerror(errno));
+			}
+		} else {
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+					     "Could not rename folder `%s': %s", old_name, strerror(errno));
+		}
+	} else {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+				     "Could not rename folder `%s': %s exists", old_name, new_name);
+	}
 }
 
 static char *get_folder_name(CamelStore * store, const char *folder_name, CamelException * ex)
