@@ -1,3 +1,8 @@
+2000-03-01  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* src/libicalss/Makefile.am (INCLUDES): Include from
+	`$(top_srcdir)/src/libical'.
+
 2000-02-26  Seth Alves  <alves@hungry.com>
 
 	* src/libical/icalitipy.y: renamed icalitip.y so automake bung is easy

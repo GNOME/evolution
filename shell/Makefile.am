@@ -1,12 +1,12 @@
 
 bin_PROGRAMS = evolution
 
-INCLUDES = \
+INCLUDES = 						\
+	-I$(top_srcdir)/widgets				\
+	-I$(top_srcdir)					\
 	$(BONOBO_GNOME_CFLAGS)				\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\
-	-I$(srcdir)/../widgets
-
+	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"
 
 EVOLUTION_CORBA_GENERATED = 	\
 	Evolution.h		\
@@ -40,7 +40,7 @@ $(EVOLUTION_CORBA_GENERATED): Evolution.idl
 evolution_LDADD = 					\
 	../widgets/shortcut-bar/libshortcut-bar.a	\
 	../widgets/e-text/libetext.a			\
-	../e-util/libeutil.a				\
+	../e-util/libeutil.la				\
 	$(BONOBO_GNOME_LIBS)				
 
 EXTRA_DIST = Evolution.idl

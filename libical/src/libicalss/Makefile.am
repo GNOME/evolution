@@ -1,3 +1,6 @@
+INCLUDES =					\
+	-I$(top_srcdir)/src/libical
+
 lib_LTLIBRARIES = libicalss.la
 
 libicalss_la_SOURCES =		\
@@ -8,5 +11,3 @@ libicalss_la_SOURCES =		\
 	icalcomponent.h		\
 	icalstore.c		\
 	icalstore.h
-
-INCLUDES = -I../libical/

@@ -9,11 +9,15 @@ providerdir = $(pkglibdir)/camel-providers/$(VERSION)
 
 provider_LTLIBRARIES = libcamelmbox.la
 
-INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
+INCLUDES = -I.. \
+	-I$(srcdir)/..				\
+	-I$(top_srcdir)/camel			\
 	-I$(top_srcdir)/intl			\
-	$(GTK_INCLUDEDIR) -I$(top_srcdir)/camel	\
 	-I$(top_srcdir)/libibex			\
-	-I$(top_srcdir)/e-util
+	-I$(top_srcdir)/e-util			\
+	-I$(top_srcdir)				\
+	-I$(includedir)				\
+	$(GTK_INCLUDEDIR)
 
 libcamelmbox_la_SOURCES = 			\
 	camel-mbox-folder.c			\

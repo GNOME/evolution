@@ -3,14 +3,15 @@ bin_PROGRAMS =	evolution-mail test-mail
 providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 
 INCLUDES = \
+	-I$(top_srcdir)/widgets				\
+	-I$(top_srcdir)/widgets/e-text			\
+	-I$(top_srcdir)					\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\
-	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"	\
-	-I$(top_srcdir)/widgets				\
-	-I$(top_srcdir)/widgets/e-text
+	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"
 
 EVOLUTION_MAIL_CORBA_GENERATED = \
 	Mail.h			\

@@ -179,6 +179,28 @@ BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobo libglade gdk_pixbuf gtkh
 AC_SUBST(BONOBO_HTML_GNOME_LIBS)
 AC_SUBST(BONOBO_HTML_GNOME_CFLAGS)
 
+dnl ******************************
+dnl GtkHTML checking
+dnl ******************************
+
+AC_MSG_CHECKING(for GtkHTML)
+if gnome-config --libs gtkhtml > /dev/null 2>&1; then
+	gtkhtml_ok=true
+else
+	gtkhtml_ok=false
+fi
+
+if $gtkhtml_ok; then
+	AC_MSG_RESULT(found)
+else
+	AC_MSG_ERROR(GtkHTML is required to compile Evolution)
+fi
+
+GTKHTML_CFLAGS="`gnome-config --cflags gtkhtml`"
+GTKHTML_LIBS="`gnome-config --libs gtkhtml`"
+
+AC_SUBST(GTKHTML_CFLAGS)
+AC_SUBST(GTKHTML_LIBS)
 
 dnl ******************************
 dnl Gnome-VFS checking
@@ -258,4 +280,5 @@ calendar/doc/C/Makefile
 calendar/idl/Makefile
 calendar/cal-client/Makefile
 calendar/pcs/Makefile
+filter/Makefile
 ])
