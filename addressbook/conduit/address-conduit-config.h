@@ -52,7 +52,7 @@ addrconduit_load_configuration (EAddrConduitCfg **c, guint32 pilot_id)
 	g_assert (*c != NULL);
 
 	(*c)->pilot_id = pilot_id;
-	management = gnome_pilot_conduit_management_new ("EAddress", GNOME_PILOT_CONDUIT_MGMT_NAME);
+	management = gnome_pilot_conduit_management_new ("e_address_conduit", GNOME_PILOT_CONDUIT_MGMT_ID);
 	config = gnome_pilot_conduit_config_new (management, pilot_id);
 	if (!gnome_pilot_conduit_config_is_enabled (config, &(*c)->sync_type))
 		(*c)->sync_type = GnomePilotConduitSyncTypeNotSet;

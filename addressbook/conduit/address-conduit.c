@@ -502,97 +502,78 @@ is_syncable (EAddrConduitContext *ctxt, EAddrLocalRecord *local)
 	ECardSimpleField next_mail, next_home, next_work, next_fax;
 	ECardSimpleField next_other, next_main, next_pager, next_mobile;
 	gboolean syncable = TRUE;
-	int i, l = 0, lastphone = entryPhone5;
+	int i, l = 0;
 
-	/* See if the fields are in priority order */
-	for ( ; lastphone >= entryPhone1; lastphone--) {
-		const char *phone_str = local->addr->entry[lastphone];
-
-		if (phone_str && *phone_str)
-			break;
-	}
-
-	/* if they are all blank */
-	if (lastphone < entryPhone1)
-		return TRUE;
-
-	/* See if the fields are in priority order */
-	for (i = entryPhone1; i <= lastphone && priority_label[l] != NULL; i++) {
-		char *phonelabel = ctxt->ai.phoneLabels[local->addr->phoneLabel[i - entryPhone1]];
-
-		for ( ; priority_label[l] != NULL; l++)
-			if (!strcmp (phonelabel, priority_label[l]))
-				break;
-	}
-	
-	if (priority_label[l] == NULL)
-		return FALSE;
-			 
-	/* See if there are fields we can't sync */
+	/* See if there are fields we can't sync or not in priority order */
 	get_next_init (&next_mail, &next_home, &next_work, &next_fax,
 		       &next_other, &next_main, &next_pager, &next_mobile);
 	
-	for (i = entryPhone1; i <= entryPhone5; i++) {
+	for (i = entryPhone1; i <= entryPhone5 && syncable; i++) {
 		char *phonelabel = ctxt->ai.phoneLabels[local->addr->phoneLabel[i - entryPhone1]];
 		const char *phone_str = local->addr->entry[i];
+		gboolean empty = !(phone_str && *phone_str);
+		
+		if (empty)
+			continue;
+		
+		for ( ; priority_label[l] != NULL; l++)
+			if (!strcmp (phonelabel, priority_label[l]))
+				break;
+
+		if (priority_label[l] == NULL) {
+			syncable = FALSE;
+			continue;
+		}
 		
 		if (!strcmp (phonelabel, "E-mail")) {
-			if (is_next_done (next_mail)) {
+			if (is_next_done (next_mail) || next_mail != priority[l]) {
 				syncable = FALSE;
 				break;
 			}
-			if (phone_str && *phone_str)
-				next_mail = get_next_mail (&next_mail);
+			next_mail = get_next_mail (&next_mail);
 		} else if (!strcmp (phonelabel, "Home")) {
-			if (is_next_done (next_home)) {
+			if (is_next_done (next_home) || next_home != priority[l]) {
 				syncable = FALSE;
 				break;
 			}
-			if (phone_str && *phone_str)
-				next_home = get_next_home (&next_home);
+			next_home = get_next_home (&next_home);
 		} else if (!strcmp (phonelabel, "Work")) {
-			if (is_next_done (next_work)) {
+			if (is_next_done (next_work) || next_work != priority[l]) {
 				syncable = FALSE;
 				break;
 			}
-			if (phone_str && *phone_str)
-				next_work = get_next_work (&next_work);
+			next_work = get_next_work (&next_work);
 		} else if (!strcmp (phonelabel, "Fax")) {
-			if (is_next_done (next_fax)) {
+			if (is_next_done (next_fax) || next_fax != priority[l]) {
 				syncable = FALSE;
 				break;
 			}
-			if (phone_str && *phone_str)
-				next_fax = get_next_fax (&next_fax);
+			next_fax = get_next_fax (&next_fax);
 		} else if (!strcmp (phonelabel, "Other")) {
-			if (is_next_done (next_other)) {
+			if (is_next_done (next_other) || next_other != priority[l]) {
 				syncable = FALSE;
 				break;
 			}
-			if (phone_str && *phone_str)
-				next_other = get_next_other (&next_other);
+			next_other = get_next_other (&next_other);
 		} else if (!strcmp (phonelabel, "Main")) {
-			if (is_next_done (next_main)) {
+			if (is_next_done (next_main) || next_main != priority[l]) {
 				syncable = FALSE;
 				break;
 			}
-			if (phone_str && *phone_str)
-				next_main = get_next_main (&next_main);
+			next_main = get_next_main (&next_main);
 		} else if (!strcmp (phonelabel, "Pager")) {
-			if (is_next_done (next_pager)) {
+			if (is_next_done (next_pager) || next_pager != priority[l]) {
 				syncable = FALSE;
 				break;
 			}
-			if (phone_str && *phone_str)
-				next_pager = get_next_pager (&next_pager);
+			next_pager = get_next_pager (&next_pager);
 		} else if (!strcmp (phonelabel, "Mobile")) {
-			if (is_next_done (next_mobile)) {
+			if (is_next_done (next_mobile) || next_mobile != priority[l]) {
 				syncable = FALSE;
 				break;
 			}
-			if (phone_str && *phone_str)
-				next_mobile = get_next_mobile (&next_mobile);
-		}		
+			next_mobile = get_next_mobile (&next_mobile);
+		}
 	}
 
 	return syncable;
