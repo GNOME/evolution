@@ -1,3 +1,8 @@
+2004-05-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-gzip.c (camel_mime_filter_gzip_finalize):
+	Don't leak the zlib stream internals.
+
 2004-05-27  Jeffrey Stedfast  <fejj@novell.com>
 
 	Fixes bug #59191.

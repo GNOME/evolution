@@ -149,6 +149,11 @@ camel_mime_filter_gzip_finalize (CamelObject *object)
 	CamelMimeFilterGZip *gzip = (CamelMimeFilterGZip *) object;
 	struct _CamelMimeFilterGZipPrivate *priv = gzip->priv;
 	
+	if (gzip->mode == CAMEL_MIME_FILTER_GZIP_MODE_ZIP)
+		deflateEnd (priv->stream);
+	else
+		inflateEnd (priv->stream);
+	
 	g_free (priv->stream);
 	g_free (priv);
 }
