@@ -1,5 +1,11 @@
 2004-04-07  JP Rosevear <jpr@ximian.com>
 
+	* gui/e-cal-model.c (e_cal_model_set_default_client): just add the
+	client, we have protection against re-adding it any how
+	(cal_opened_cb): stop listening to the open signal
+
+2004-04-07  JP Rosevear <jpr@ximian.com>
+
 	* gui/gnome-cal.c (gnome_calendar_dayjump): remove extra set view
 	params
 	(gnome_calendar_set_view): simplify, just set the current view id
@@ -20,7 +26,8 @@
 	* gui/e-day-view.c (time_range_changed_cb): only set the selection
 	if we can't preserve an existing selection
 
-	* gui/control-factory.c (set_prop): 
+	* gui/control-factory.c (set_prop): allow list view, remove
+	default view usage
 
 	* gui/calendar-config.h: remove protos
 

@@ -1075,20 +1075,11 @@ e_cal_model_set_default_client (ECalModel *model, ECal *client)
 
 	priv = model->priv;
 
-	/* See if we already know about the client */
-	for (l = priv->clients; l != NULL; l = l->next) {
-		ECalModelClient *client_data = l->data;
+	/* Make sure its in the model */
+	e_cal_model_add_client (model, client);
 
-		if (client == client_data->client)
-			found = TRUE;
-	}
-
-	/* If its not found, add it */
-	if (!found)
-		e_cal_model_add_client (model, client);
-	
-	/* Store the default client */
-	priv->default_client = client;
+	/* Store the default client */	
+	priv->default_client = e_cal_model_get_client_for_uri (model, e_cal_get_uri (client));
 }
 
 /**
@@ -1312,7 +1303,7 @@ update_e_cal_view_for_client (ECalModel *model, ECalModelClient *client_data)
 	/* Skip if this client has not finished loading yet */
 	if (e_cal_get_load_state (client_data->client) != E_CAL_LOAD_LOADED)
 		return;
-
+	
 	/* free the previous query, if any */
 	if (client_data->query) {
 		g_signal_handlers_disconnect_matched (client_data->query, G_SIGNAL_MATCH_DATA,
@@ -1354,13 +1345,16 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
 {
 	ECalModel *model = (ECalModel *) user_data;
 	ECalModelClient *client_data;
-	
+
 	if (status != E_CALENDAR_STATUS_OK) {
 		e_cal_model_remove_client (model, client);
 
 		return;
 	}
 	
+	/* Stop listening for this calendar to be opened */
+	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA, 0, 0, NULL, cal_opened_cb, model);
+
 	client_data = find_client_data (model, client);
 	g_assert (client_data);
 	
