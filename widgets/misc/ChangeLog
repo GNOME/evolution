@@ -1,3 +1,8 @@
+2005-03-01  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-search-bar.c (subitem_activated_cb): Make the entry widget
+	grab focus. Fixes bug #60551.
+
 2005-02-21  Rodney Dawes  <dobey@novell.com>
 
 	* e-combo-button.c (paint): Fix the calculation of which shadow type
