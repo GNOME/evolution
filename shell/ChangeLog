@@ -1,3 +1,8 @@
+2004-12-29  Rodrigo Moya <rodrigo@novell.com>
+
+	* main.c (show_development_warning): 2.0 is the current stable
+	version.
+
 2004-12-23  Sivaiah Nallaagatla <snallagatla@novell.com>
                                                                                                                              
         * e-shell.c (e_shell_go_offline)
