@@ -1231,21 +1231,27 @@ do_forward_non_attached (CamelFolder *folder, char *uid, CamelMimeMessage *messa
 static void
 forward_message (FolderBrowser *fb, MailConfigForwardStyle style)
 {
+	GPtrArray *uids;
+	int i;
+	
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
 	
 	if (!check_send_configuration (fb))
 		return;
 	
-	if (fb->mail_display && fb->mail_display->current_message) {
-		do_forward_non_attached (fb->folder, NULL,
-					 fb->mail_display->current_message,
-					 GINT_TO_POINTER (style));
-	} else {
-		mail_get_message (fb->folder, fb->message_list->cursor_uid,
-				  do_forward_non_attached, GINT_TO_POINTER (style),
+	uids = g_ptr_array_new ();
+	message_list_foreach (fb->message_list, enumerate_msg, uids);
+	
+	for (i = 0; i < uids->len; i++) {
+		mail_get_message (fb->folder, uids->pdata[i],
+				  do_forward_non_attached,
+				  GINT_TO_POINTER (style),
 				  mail_thread_new);
+		g_free (uids->pdata[i]);
 	}
+	
+	g_ptr_array_free (uids, TRUE);
 }
 
 void

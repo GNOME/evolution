@@ -1,3 +1,8 @@
+2002-03-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (forward_message): Forward all selected
+	messages. Fixes bug #21190.
+
 2002-02-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (handle_text_html): Get the Content-Base if the
