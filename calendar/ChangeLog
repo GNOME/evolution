@@ -1,3 +1,8 @@
+2005-01-04  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-week-view.c (model_rows_deleted_cb): search our internal data
+	for the correct event.
+
 2005-01-04  Harry Lu  <harry.lu@sun.com>
 
 	* gui/calendar-component.c: (create_component_view): add a11y name 

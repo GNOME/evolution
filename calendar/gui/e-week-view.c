@@ -399,8 +399,27 @@ model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
 	
 	/* FIXME Stop editing? */
 	
-	for (i = row + count; i > row; i--)
-		e_week_view_remove_event_cb (week_view, i - 1, NULL);
+	for (i = row + count; i > row; i--) {
+		gint event_num;
+		const char *uid, *rid = NULL;
+		ECalModelComponent *comp_data;
+
+		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (etm), i - 1);
+		if (!comp_data)
+			continue;
+
+		uid = icalcomponent_get_uid (comp_data->icalcomp);
+		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
+			icalproperty *prop;
+
+			prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
+			if (prop)
+				rid = icaltime_as_ical_string (icalcomponent_get_recurrenceid (comp_data->icalcomp));
+		}
+
+		if (e_week_view_find_event_from_uid (week_view, uid, rid, &event_num))
+			e_week_view_remove_event_cb (week_view, event_num, NULL);
+	}
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 	e_week_view_queue_layout (week_view);
