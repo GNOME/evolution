@@ -882,11 +882,18 @@ e_config_create_window(EConfig *emp, struct _GtkWindow *parent, const char *titl
 	e_config_create_widget(emp);
 
 	if (emp->type == E_CONFIG_BOOK) {
-		w = gtk_dialog_new_with_buttons(title, parent, GTK_DIALOG_DESTROY_WITH_PARENT,
+		w = gtk_dialog_new_with_buttons(title, parent,
+						GTK_DIALOG_DESTROY_WITH_PARENT |
+						GTK_DIALOG_NO_SEPARATOR,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						GTK_STOCK_OK, GTK_RESPONSE_OK,
 						NULL);
 		g_signal_connect(w, "response", G_CALLBACK(ec_dialog_response), emp);
+
+		gtk_widget_ensure_style (w);
+		gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (w)->vbox), 0);
+		gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (w)->action_area), 12);
+
 		gtk_box_pack_start((GtkBox *)((GtkDialog *)w)->vbox, emp->widget, TRUE, TRUE, 0);
 	} else {
 		/* response is handled directly by the druid stuff */

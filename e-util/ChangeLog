@@ -1,3 +1,9 @@
+2005-01-06  Rodney Dawes  <dobey@novell.com>
+
+	* e-config.c (e_config_create_window): Add the GTK_DIALOG_NOSEPARATOR
+	flag, and set appropriate border widths around the main dialog vbox,
+	and action area, to be more HIG compliant
+
 2005-01-06  JP Rosevear  <jpr@novell.com>
 
 	* e-error-tool.c (main): use the base name only, so if a full path
