@@ -1,3 +1,7 @@
+1998-02-19  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome.m4: Remove `GNOME_CHECK_GNOME'.
+
 1998-02-18  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-support.m4 (GNOME_SUPPORT_CHECKS): Replace `strcasecmp' if
