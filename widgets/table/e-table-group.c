@@ -134,7 +134,9 @@ e_table_group_construct (GnomeCanvasGroup *parent,
 	g_object_ref (etg->header);
 	etg->model = model;
 	g_object_ref (etg->model);
-	gnome_canvas_item_construct (GNOME_CANVAS_ITEM (etg), parent, 0, NULL);
+	g_object_set (G_OBJECT (etg),
+		"parent", parent,
+		NULL);
 }
 
 /**
