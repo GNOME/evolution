@@ -1,3 +1,13 @@
+2000-09-29  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view.c (popup_storage_set_view_button_clicked): Renamed
+	from `popup_storage_set_view_close_button_clicked'.
+	(storage_set_view_box_map_cb): Updated accordingly.  Connect to
+	"button_clicked" instead of "close_button_clicked".
+	(disconnect_popup_signals): Updated accordingly.
+	(e_shell_view_set_folder_bar_mode): Update the button mode of the
+	title bar according to the folder bar mode.
+
 2000-09-28  Dan Winship  <danw@helixcode.com>
 
 	* e-corba-storage.c (impl_StorageListener_new_folder): Don't print

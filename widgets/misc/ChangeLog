@@ -1,3 +1,17 @@
+2000-09-29  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-title-bar.c: New member `pin_gtk_pixmap' in
+	`ETitleBarPrivate'.  Signal "close_button_clicked" renamed to
+	"button_clicked".  Signal "title_button_press_event" renamed to
+	"label_button_press_event".
+	(init): Init new members.
+	(close_button_realize_cb): Create the pin pixmap.  Call
+	`show_and_hide_pixmaps_according_to_mode()'.
+	(e_title_bar_show_close_button): Renamed to
+	`e_title_bar_show_button'.
+	(e_title_bar_get_button_mode): New.
+	(e_title_bar_set_button_mode): New.
+
 2000-09-23  Damon Chaplin  <damon@helixcode.com>
 
 	* e-calendar.c: use pixmaps instead of GtkArrows to look better.
