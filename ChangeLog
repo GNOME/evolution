@@ -1,3 +1,7 @@
+2003-10-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: Removed pedantic pgp/mime configure flag.
+
 2003-10-22  Dan Winship  <danw@ximian.com>
 
 	* executive-summary/*: Removed; this code has not been used since

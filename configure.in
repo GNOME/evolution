@@ -695,16 +695,6 @@ AC_SUBST(KRB4_CFLAGS)
 AC_SUBST(KRB4_LDFLAGS)
 
 
-dnl ==========================
-dnl Pedantic PGP/MIME
-dnl ==========================
-AC_ARG_ENABLE(pedantic-pgp-mime, 
-[  --enable-pedantic-pgp-mime=[no/yes] Enable pedantic PGP/MIME handling (not recommended)],,enable_pedantic_pgp_mime=no)
-if test "x$enable_pedantic_pgp_mime" = "xyes"; then
-	AC_DEFINE(ENABLE_PEDANTIC_PGPMIME,1,[Probably don't want this])
-fi
-
-
 dnl ********************************************************************************
 dnl security extension support (SSL and S/MIME)
 dnl
