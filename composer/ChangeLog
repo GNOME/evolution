@@ -1,3 +1,7 @@
+2001-04-26  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (INCLUDES): Remove UNICODE_CFLAGS
+
 2001-04-25  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_set_send_html): block/unblock

@@ -1,5 +1,7 @@
 2001-04-26  Dan Winship  <danw@ximian.com>
 
+	* Makefile.am (INCLUDES): Remove UNICODE_CFLAGS
+
 	* mail-format.c (handle_text_plain_flowed): Use <font color=...>
 	to mark citations rather than italicizing them, which has never
 	looked very nice. Now this is more consistent with the non-flowed

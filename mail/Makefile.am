@@ -24,7 +24,6 @@ INCLUDES = \
 	$(EXTRA_GNOME_CFLAGS)				\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	$(GNOME_VFS_CFLAGS)				\
-	$(UNICODE_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\
 	$(THREADS_CFLAGS)				\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
@@ -150,7 +149,6 @@ test_mail_LDADD = \
 #	$(top_builddir)/e-util/libeutil.la	\
 #	$(top_builddir)/libibex/libibex.la	\
 #	$(BONOBO_HTML_GNOME_LIBS)		\
-#	$(UNICODE_LIBS)				\
 #	$(THREADS_LIBS)
 #
 #test_thread_CFLAGS = -g $(THREADS_CFLAGS)

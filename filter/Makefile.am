@@ -12,7 +12,6 @@ INCLUDES = 					\
 	-I $(top_builddir)/shell		\
 	-I $(GNOME_INCLUDEDIR)			\
 	$(GTKHTML_CFLAGS)			\
-	$(UNICODE_CFLAGS)			\
 	$(BONOBO_GNOME_CFLAGS)			\
 	$(EXTRA_GNOME_CFLAGS)			\
 	-DFILTER_GLADEDIR=\"$(gladedir)\"	\
