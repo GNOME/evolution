@@ -1,3 +1,11 @@
+2001-08-27  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* gui/component/addressbook.c (addressbook_factory_new_control):
+	For every category:
+	- set .translate to FALSE (e_categories_master_list_nth returns
+	translated category name)
+	- convert category name in UTF-8 to locale's encoding
+
 2001-08-23  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* gui/component/select-names/e-select-names-popup.c
