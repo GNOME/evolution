@@ -1,5 +1,9 @@
 2001-05-09  Christopher James Lahey  <clahey@ximian.com>
 
+	* .cvsignore: Added .cvsignore.
+
+2001-05-09  Christopher James Lahey  <clahey@ximian.com>
+
 	* elm-importer.c, netscape-importer.c, pine-importer.c: Include
 	bonobo-context.h.
 
