@@ -199,7 +199,5 @@ main (int argc, char **argv)
 
 	bonobo_main ();
 
-	g_free (evolution_directory);
-
 	return 0;
 }
