@@ -672,19 +672,12 @@ camel_mbox_summary_sync (CamelMboxSummary *mbs, gboolean expunge, CamelException
 				goto error;
 			}
 
-			xev = camel_mime_parser_header (mp, "X-Evolution", &xevoffset);
-			if (xev && header_evolution_decode (xev, &uid, &flags) != -1) {
-				char name[64];
+			/* Check if the X-Evolution header is valid.  */
 
-				sprintf (name, "%u", uid);
-				if (strcmp (name, info->info.uid)) {
-					d(printf ("Summary mismatch, aborting leaving mailbox intact\n"));
-					camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-							      "Summary mismatch, aborting leaving mailbox intact");
-					goto error;
-				}
+			xev = camel_mime_parser_header (mp, "X-Evolution", &xevoffset);
+			if (xev && header_evolution_decode (xev, &uid, &flags) != -1)
 				xevok = TRUE;
-			}
+
 			xevnew = header_evolution_encode (strtoul (info->info.uid, NULL, 10), info->info.flags & 0xffff);
 			if (quick) {
 				if (!xevok) {

@@ -310,6 +310,7 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	uid = camel_folder_summary_next_uid (CAMEL_FOLDER_SUMMARY (mbox_folder->summary));
 	xev = g_strdup_printf ("%08x-0000", uid);
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Evolution", xev);
+	g_print ("%s -- %s\n", __FUNCTION__, xev);
 	g_free (xev);
 
 	/* we must write this to the non-filtered stream ... */

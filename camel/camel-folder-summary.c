@@ -421,7 +421,7 @@ retry:
 		info->uid = camel_folder_summary_next_uid_string (s);
 	}
 	if (g_hash_table_lookup(s->messages_uid, info->uid)) {
-		g_warning("Trying to insert message with clashing uid.  new uid re-assigned");
+		g_warning("Trying to insert message with clashing uid (%s).  new uid re-assigned", info->uid);
 		g_free(info->uid);
 		info->uid = NULL;
 		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
@@ -457,10 +457,7 @@ CamelMessageInfo *camel_folder_summary_add_from_parser(CamelFolderSummary *s, Ca
 
 		camel_mime_parser_unstep(mp);
 
-		/* FIXME: better uid assignment method? */
-		if (info->uid == NULL) {
-			info->uid = camel_folder_summary_next_uid_string (s);
-		}
+		camel_folder_summary_add(s, info);
 
 		if (p->index) {
 			if (p->filter_index == NULL)
@@ -477,8 +474,6 @@ CamelMessageInfo *camel_folder_summary_add_from_parser(CamelFolderSummary *s, Ca
 		} else {
 			camel_mime_parser_drop_step(mp);
 		}
-
-		camel_folder_summary_add(s, info);
 	}
 	return info;
 }

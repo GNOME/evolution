@@ -1,3 +1,19 @@
+2000-07-05  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_sync):
+	Update the X-Evolution: header even if the in-memory UID and the
+	saved UID are not the same.  Otherwise mboxes with clashing UIDs
+	can never be fixed.
+
+	* camel-folder-summary.c
+	(camel_folder_summary_add_from_parser): Add the message to the
+	summary before doing any ibex stuff.  In fact, this might also
+	have the side effect of reassigning the UID so it needs to be done
+	before we start using the UID.
+
+	* providers/mbox/camel-mbox-folder.c (mbox_append_message): Add
+	debugging message to keep track of the UIDs we add.
+
 2000-07-05  Dan Winship  <danw@helixcode.com>
 
 	* camel-folder-summary.c: Add "Cc" to summary and bump summary
