@@ -1,5 +1,19 @@
 2000-09-08  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* evolution-storage.c: New member `folder_tree' in
+	`EvolutionStoragePrivate'.
+	(init): Initialize it.
+	(destroy): Destroy it.
+	(list_through_listener): New.
+	(add_listener): Use it to list all the current folders through the
+	listener.
+	(evolution_storage_new_folder): Add the thingie to the
+	`folder_tree'.
+	(evolution_storage_removed_folder): Remove the thingie from the
+	`folder_tree'.
+
+2000-09-08  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-storage.c: Replaced the `path_to_folder' GHashTable with an
 	EFolderTree named `folder_tree'.
 	(init): Updated accordingly.

@@ -31,6 +31,8 @@
 
 #include "e-util/e-util.h"
 
+#include "e-folder-tree.h"
+
 #include "evolution-storage.h"
 
 
@@ -40,11 +42,45 @@ static BonoboObjectClass *parent_class = NULL;
 struct _EvolutionStoragePrivate {
 	char *name;
 
+	EFolderTree *folder_tree;
+
 	GList *corba_storage_listeners;
 };
 
 
 /* Utility functions.  */
+
+static void
+list_through_listener_foreach (EFolderTree *tree,
+			       const char *path,
+			       void *data,
+			       void *closure)
+{
+	const Evolution_Folder *corba_folder;
+	Evolution_StorageListener corba_listener;
+	CORBA_Environment ev;
+
+	corba_folder = (Evolution_Folder *) data;
+	corba_listener = (Evolution_StorageListener) closure;
+
+	CORBA_exception_init (&ev);
+	Evolution_StorageListener_new_folder (corba_listener, path, corba_folder, &ev);
+	CORBA_exception_free (&ev);
+}
+
+static void
+list_through_listener (EvolutionStorage *storage,
+		       Evolution_StorageListener listener,
+		       CORBA_Environment *ev)
+{
+	EvolutionStoragePrivate *priv;
+
+	priv = storage->priv;
+
+	e_folder_tree_foreach (priv->folder_tree,
+			       list_through_listener_foreach,
+			       listener);
+}
 
 static void
 add_listener (EvolutionStorage *storage,
@@ -69,7 +105,24 @@ add_listener (EvolutionStorage *storage,
 	priv->corba_storage_listeners = g_list_prepend (priv->corba_storage_listeners,
 							listener_copy);
 
+	list_through_listener (storage, listener_copy, &ev);
+
 	CORBA_exception_free (&ev);
+}
+
+
+/* Functions for the EFolderTree in the storage.  */
+
+static void
+folder_destroy_notify (EFolderTree *tree,
+		       const char *path,
+		       void *data,
+		       void *closure)
+{
+	Evolution_Folder *corba_folder;
+
+	corba_folder = (Evolution_Folder *) data;
+	CORBA_free (data);
 }
 
 
@@ -131,6 +184,9 @@ destroy (GtkObject *object)
 
 	g_free (priv->name);
 
+	if (priv->folder_tree != NULL)
+		e_folder_tree_destroy (priv->folder_tree);
+
 	CORBA_exception_init (&ev);
 
 	for (p = priv->corba_storage_listeners; p != NULL; p = p->next) {
@@ -190,6 +246,7 @@ init (EvolutionStorage *storage)
 	EvolutionStoragePrivate *priv;
 
 	priv = g_new (EvolutionStoragePrivate, 1);
+	priv->folder_tree             = e_folder_tree_new (folder_destroy_notify, storage);
 	priv->name                    = NULL;
 	priv->corba_storage_listeners = NULL;
 
@@ -340,10 +397,9 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 {
 	EvolutionStorageResult result;
 	EvolutionStoragePrivate *priv;
-	Evolution_Folder corba_folder;
+	Evolution_Folder *corba_folder;
 	CORBA_Environment ev;
 	GList *p;
-	const char *path_basename;
 
 	g_return_val_if_fail (evolution_storage != NULL,
 			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
@@ -357,33 +413,41 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 
 	priv = evolution_storage->priv;
 
-	path_basename = g_basename (path);
-
-	/* Yuck.  */
-	corba_folder.display_name = (CORBA_char *) display_name;
-	corba_folder.description  = (CORBA_char *) description;
-	corba_folder.type         = (CORBA_char *) type;
-	corba_folder.physical_uri = (CORBA_char *) physical_uri;
-
 	CORBA_exception_init (&ev);
+
+	corba_folder = Evolution_Folder__alloc ();
+	corba_folder->display_name = CORBA_string_dup (display_name);
+	corba_folder->description  = CORBA_string_dup (description);
+	corba_folder->type         = CORBA_string_dup (type);
+	corba_folder->physical_uri = CORBA_string_dup (physical_uri);
+
+	result = EVOLUTION_STORAGE_OK;
 
 	for (p = priv->corba_storage_listeners; p != NULL; p = p->next) {
 		Evolution_StorageListener listener;
 
 		listener = p->data;
-		Evolution_StorageListener_new_folder (listener, path, &corba_folder, &ev);
+		Evolution_StorageListener_new_folder (listener, path, corba_folder, &ev);
+
+		if (ev._major == CORBA_NO_EXCEPTION)
+			continue;
+
+		if (ev._major != CORBA_USER_EXCEPTION)
+			result = EVOLUTION_STORAGE_ERROR_CORBA;
+		else if (strcmp (CORBA_exception_id (&ev), ex_Evolution_StorageListener_Exists) == 0)
+			result = EVOLUTION_STORAGE_ERROR_EXISTS;
+		else
+			result = EVOLUTION_STORAGE_ERROR_GENERIC;
+
+		break;
 	}
 
-	if (ev._major == CORBA_NO_EXCEPTION)
-		result = EVOLUTION_STORAGE_OK;
-	else if (ev._major != CORBA_USER_EXCEPTION)
-		result = EVOLUTION_STORAGE_ERROR_CORBA;
-	else if (strcmp (CORBA_exception_id (&ev), ex_Evolution_StorageListener_Exists) == 0)
-		result = EVOLUTION_STORAGE_ERROR_EXISTS;
-	else
-		result = EVOLUTION_STORAGE_ERROR_GENERIC;
-
 	CORBA_exception_free (&ev);
+
+	if (result == EVOLUTION_STORAGE_OK) {
+		if (! e_folder_tree_add (priv->folder_tree, path, corba_folder))
+			result = EVOLUTION_STORAGE_ERROR_EXISTS;
+	}
 
 	return result;
 }
@@ -411,23 +475,33 @@ evolution_storage_removed_folder (EvolutionStorage *evolution_storage,
 
 	CORBA_exception_init (&ev);
 
+	result = EVOLUTION_STORAGE_OK;
+
 	for (p = priv->corba_storage_listeners; p != NULL; p = p->next) {
 		Evolution_StorageListener listener;
 
 		listener = p->data;
 		Evolution_StorageListener_removed_folder (listener, path, &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			continue;
+
+		if (ev._major != CORBA_USER_EXCEPTION)
+			result = EVOLUTION_STORAGE_ERROR_CORBA;
+		else if (strcmp (CORBA_exception_id (&ev), ex_Evolution_StorageListener_NotFound) == 0)
+			result = EVOLUTION_STORAGE_ERROR_NOTFOUND;
+		else
+			result = EVOLUTION_STORAGE_ERROR_GENERIC;
+
+		break;
 	}
 
-	if (ev._major == CORBA_NO_EXCEPTION)
-		result = EVOLUTION_STORAGE_OK;
-	else if (ev._major != CORBA_USER_EXCEPTION)
-		result = EVOLUTION_STORAGE_ERROR_CORBA;
-	else if (strcmp (CORBA_exception_id (&ev), ex_Evolution_StorageListener_NotFound) == 0)
-		result = EVOLUTION_STORAGE_ERROR_NOTFOUND;
-	else
-		result = EVOLUTION_STORAGE_ERROR_GENERIC;
-
 	CORBA_exception_free (&ev);
+
+	if (result == EVOLUTION_STORAGE_OK) {
+		if (! e_folder_tree_remove (priv->folder_tree, path))
+			result = EVOLUTION_STORAGE_ERROR_NOTFOUND;
+	}
 
 	return result;
 }
