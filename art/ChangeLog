@@ -1,3 +1,7 @@
+2001-07-12  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: extra dist another xpm
+
 2001-07-12    <tigert@ximian.com>
 
 	* delete_message.[png,xpm]: New versions for the trashcan icon.

@@ -155,6 +155,7 @@ EXTRA_DIST = \
 	task-assigned.xpm		\
 	task-recurring.xpm		\
 	task.xpm			\
+	timezone-16.xpm			\
 	tree-expanded.xpm		\
 	tree-unexpanded.xpm		\
 	$(images_DATA)			\
