@@ -1,7 +1,12 @@
 2001-10-21    <NotZed@Ximian.com>
 
+	* camel-store.c (CS_CLASS): Dont do the macro stuff - basically so
+	you can actually debug calls.
+	(camel_store_uri_cmp): New function to compare store objects.
+
 	* camel-vee-folder.c (vee_folder_add_info): oops, dont free the
 	vuid, since its alloca'd now.
+	(folder_changed_change): Kill a compile warning.
 
 2001-10-20    <NotZed@Ximian.com>
 

@@ -196,6 +196,7 @@ void             camel_store_unsubscribe_folder       (CamelStore *store,
 						       const char *folder_name,
 						       CamelException *ex);
 
+gboolean	 camel_store_uri_cmp		      (CamelStore *store, const char *uria, const char *urib);
 
 /* utility needed by some stores */
 int camel_mkdir_hier (const char *path, mode_t mode);

@@ -43,7 +43,7 @@
 static CamelServiceClass *parent_class = NULL;
 
 /* Returns the class for a CamelStore */
-#define CS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CS_CLASS(so) ((CamelStoreClass *)((CamelObject *)(so))->classfuncs)
 
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
 				guint32 flags, CamelException *ex);
@@ -1027,4 +1027,14 @@ camel_mkdir_hier (const char *path, mode_t mode)
 	
 	g_free (copy);
 	return 0;
+}
+
+
+/* Return true if these uri's refer to the same object */
+gboolean
+camel_store_uri_cmp(CamelStore *store, const char *uria, const char *urib)
+{
+	g_assert(CAMEL_IS_STORE(store));
+
+	return CS_CLASS(store)->compare_folder_name(uria, urib);
 }

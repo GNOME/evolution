@@ -1307,7 +1307,7 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 		dd(printf(" Vfolder %supdate\nuids match:", (vf->flags & CAMEL_STORE_VEE_FOLDER_AUTO)?"auto-":""));
 		matches_hash = g_hash_table_new(g_str_hash, g_str_equal);
 		for (i=0;i<matches->len;i++) {
-			dd(printf(" %s", matches->pdata[i]));
+			dd(printf(" %s", (char *)matches->pdata[i]));
 			g_hash_table_insert(matches_hash, matches->pdata[i], matches->pdata[i]);
 		}
 		dd(printf("\n"));
