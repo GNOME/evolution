@@ -1,5 +1,84 @@
-Version 0.6
+Version 0.8
 -----------
+
+Mail:
+
+  Display:
+  - The folder tree now shows unread message counts for mail
+    folders. For local folders, this updates in real time. For IMAP,
+    it only updates when you "Get Mail". To be continued. (Dan)
+  - New "important" column in the message list. User-settable. (Dan)
+  - The message list "Size" column now displays more prettily and
+    sorts correctly (Jeff)
+  - New command to view the raw source to a message. (Jeff)
+  - More reliable MIME icon code in the mailer and the composer.
+    (Dan, Iain)
+  - Lots of internationalization fixes (Dan, Kjartan)
+
+  Composer / Outgoing mail
+  - Various fixes to use the best charset and MIME encoding for
+    outgoing messages (Michael, Jeff)
+  - You can now forward messages inline, instead of attaching them.
+    Forwarding multiple messages now results in a multipart/digest
+    attachment. (Jeff)
+  - Replies are now preceded by "On DATE, PERSON wrote:" (Jeff)
+  - HTML signature support (Radek)
+  - Inline image support (Radek)
+  - Fixes for addresses with commas (Jeff, Michael)
+  - Fix to not allow attaching directories, devices, etc (Jeff)
+  - Fixed the sign of the GMT offset in generated Date headers
+    (Michael)
+  - Fixed a bug in base64 encoding (Michael)
+  - Fixed a problem in connecting to non-ESMTP SMTP servers (Jeff)
+
+  Miscellaneous Commands / Features:
+  - The mailer will now remember your passwords, if you configure
+    that option for a service. (Dan)
+  - New "Apply Filters" command to apply filter rules to selected
+    messages (Jeff)
+  - No more "No new mail" dialog. (Jeff)
+  - Individual messages can now be saved to disk (Jeff)
+  - Synced the Message menu with the right-click menu. (Jeff)
+  - Mailer now uses the same search bar as the addressbook (Anna,
+    Chris, Jeff)
+
+  Filters:
+  - FIXME
+
+  IMAP:
+  - "Get Mail" now scans all folders. (Dan)
+  - IMAP password dialog no longer pops up at startup: click on
+    the server in the folder tree to connect. (Dan)
+  - Folder subscription support. (Chris Toshok, Dan)
+  - Various IMAP folder naming fixes. (May fix Cyrus support) (Dan)
+  - Seen/deleted flags are preserved across "Get Mail" (Jeff)
+  - Fixed a bug that could cause messages to be marked as seen
+    even when the UI thought they weren't. (Dan)
+  - Fixes for IMAP folders with spaces in their names (again).
+    (Jeff)
+  - IMAP Kerberos 4 authentication support (Dan)
+
+  POP3:
+  - Fixed a bunch of error cases in POP3 connection (Dan)
+  - Fixed POP3 to more reliably delete messages when it was supposed
+    to be doing so (Dan)
+
+  Local mail:
+  - Major local mail rewrite that fixed memory leaks, reduced
+    memory consumption, improved efficiency, etc. (Michael)
+  - Maildir support (Michael)
+  - Local mail folders are now locked (via dot locking and/or
+    fcntl/flock) while Evolution is modifying them, and it will
+    notice if they've changed while it's not looking. (Michael)
+  
+
+Version 0.7, "Loch Ness Monster", ????
+--------------------------------------
+There have been no verified sightings of this release.
+
+
+Version 0.6, "Procompsognathus", 2000-10-19
+-------------------------------------------
 
 General:
 
