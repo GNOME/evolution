@@ -356,12 +356,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			gtk_signal_connect(GTK_OBJECT(etcta->row), "key_press",
 					   GTK_SIGNAL_FUNC(item_key_press), etcta);
-		}
-		/* Fall through.  No break; */
-	case GDK_BUTTON_RELEASE:
-	case GDK_2BUTTON_PRESS:
-	case GDK_3BUTTON_PRESS:
-		if (etcta->row) {
+
 			gnome_canvas_item_i2w (item, &e->button.x, &e->button.y);
 			gnome_canvas_item_w2i (etcta->row, &e->button.x, &e->button.y);
 			gtk_signal_emit_by_name(GTK_OBJECT(etcta->row), "event", e, &ret_val);
