@@ -6748,32 +6748,32 @@ msgstr "Нев╕рна автенф╕кац╕на в╕дпов╕дь в╕д сервера.\n"
 #: camel/providers/smtp/camel-smtp-transport.c:875
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
-msgstr ""
+msgstr "Затримка в╕дпов╕д╕ на MAIL FROM: %s: пошту не в╕д╕слано"
 
 #: camel/providers/smtp/camel-smtp-transport.c:894
 #, c-format
 msgid "MAIL FROM response error: %s: mail not sent"
-msgstr ""
+msgstr "Помилка в╕дпов╕д╕ на MAIL FROM: %s: пошту не в╕д╕слано"
 
 #: camel/providers/smtp/camel-smtp-transport.c:919
-#, fuzzy, c-format
+#, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
-msgstr "Створити новий календар"
+msgstr "Затримка в╕дпов╕д╕ на RCPT TO: %s: пошту не в╕д╕слано"
 
 #: camel/providers/smtp/camel-smtp-transport.c:938
-#, fuzzy, c-format
+#, c-format
 msgid "RCPT TO response error: %s: mail not sent"
-msgstr "Створити новий календар"
+msgstr "Помилка в╕дпов╕д╕ на RCPT TO: %s: пошту не в╕д╕слано"
 
 #: camel/providers/smtp/camel-smtp-transport.c:972
-#, fuzzy, c-format
+#, c-format
 msgid "DATA request timed out: %s: mail not sent"
-msgstr "Створити новий календар"
+msgstr "Затримка в╕дпов╕д╕ на DATA: %s: пошту не в╕д╕слано"
 
 #: camel/providers/smtp/camel-smtp-transport.c:991
 #, c-format
 msgid "DATA response error: %s: mail not sent"
-msgstr ""
+msgstr "Помилка в╕дпов╕д╕ на DATA: %s: пошту не в╕д╕слано"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1031
 #: camel/providers/smtp/camel-smtp-transport.c:1049
