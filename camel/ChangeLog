@@ -1,3 +1,13 @@
+2000-12-01  Dan Winship  <danw@helixcode.com>
+
+	* camel-service.c (camel_service_disconnect): Don't
+	g_return_if_fail if the service is already disconnected. Just
+	return.
+
+	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate):
+	Return FALSE (don't try again) if we get CAMEL_POP3_FAIL.
+	(pop3_connect): If we don't succeed, disconnect.
+
 2000-11-30  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c

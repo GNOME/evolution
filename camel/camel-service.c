@@ -259,7 +259,9 @@ camel_service_disconnect (CamelService *service, gboolean clean,
 {
 	gboolean res;
 
-	g_return_val_if_fail (service->connected, FALSE);	
+	if (!service->connected)
+		return TRUE;
+
 	res = CSERV_CLASS (service)->disconnect (service, clean, ex);
 	service->connected = FALSE;
 	return res;

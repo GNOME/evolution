@@ -449,7 +449,7 @@ pop3_try_authenticate (CamelService *service, gboolean kpop,
 	}
 
 	g_free (msg);
-	return camel_exception_is_set (ex);
+	return status == CAMEL_POP3_ERR;
 }
 
 static gboolean
@@ -515,8 +515,10 @@ pop3_connect (CamelService *service, CamelException *ex)
 		g_free (errbuf);
 	} while (tryagain);
 
-	if (camel_exception_is_set (ex))
+	if (camel_exception_is_set (ex)) {
+		camel_service_disconnect (service, TRUE, ex);
 		return FALSE;
+	}
 
 	return TRUE;
 }
