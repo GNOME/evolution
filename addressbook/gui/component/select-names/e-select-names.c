@@ -632,24 +632,30 @@ e_select_names_new (EvolutionShellClient *shell_client)
 	ESelectNames *e_select_names;
 	const char *selector_types[] = { "contacts/*", NULL };
 	char *contacts_uri;
+	char *contacts_path;
 	GtkWidget *button;
 	EConfigListener *db;
 
 	e_select_names = g_object_new (E_TYPE_SELECT_NAMES, NULL);
 
 	db = e_book_get_config_database ();
-	contacts_uri = e_config_listener_get_string_with_default (
-		db, "/apps/evolution/addressbook/select_names/last_used_uri",
-		NULL, NULL);
-	if (!contacts_uri)
+	contacts_uri = e_config_listener_get_string (
+		db, "/apps/evolution/addressbook/select_names/last_used_uri");
+	if (!contacts_uri || !strcmp (contacts_uri, ""))
 		contacts_uri = g_strdup (e_book_get_default_book_uri ());
+	
+	if (!strcmp (strrchr (contacts_uri, '/') + 1, "addressbook.db"))
+		contacts_path = g_dirname (contacts_uri);
+	else
+		contacts_path = g_strdup (contacts_uri);
 
 	button = glade_xml_get_widget (e_select_names->gui, "folder-selector");
 	evolution_folder_selector_button_construct (EVOLUTION_FOLDER_SELECTOR_BUTTON (button),
 						    shell_client,
 						    _("Find contact in"),
-						    contacts_uri,
+						    contacts_path,
 						    selector_types);
+	g_free (contacts_path);
 
 	addressbook_model_set_uri(e_select_names, e_select_names->model, contacts_uri);
 

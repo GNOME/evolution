@@ -1,3 +1,11 @@
+2004-03-10  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/component/select-names/e-select-names.c (e_select_names_new):
+	Compare the last_used_uri key against NULL and empty string, and get
+	the default book if either of those are true
+	Strip addressbook.db from the contacts_uri for passing to the folder
+	selector button, if addressbook.db is in the contacts_uri
+
 2004-02-19  Hans Petter Jansson  <hpj@ximian.com>
 
 	Fixes #45308 and duplicates.
