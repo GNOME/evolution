@@ -1,3 +1,7 @@
+2002-04-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: Add checks for gethostbyaddr_r
+
 2002-04-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Check for socklen_t and if it doesn't exist,
