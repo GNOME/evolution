@@ -76,6 +76,7 @@ static ECardSimpleFieldData field_data[] =
 {
 	{ E_CARD_SIMPLE_FIELD_FILE_AS,            "file_as",     "File As",       "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 	{ E_CARD_SIMPLE_FIELD_FULL_NAME,          "full_name",   "Name",          "Name",     0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_FAMILY_NAME,        "family_name", "Family Name",   "Family Name",  0,                               E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
 	{ E_CARD_SIMPLE_FIELD_EMAIL,              "",            "Email",         "Email",    E_CARD_SIMPLE_EMAIL_ID_EMAIL,   	   E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
 	{ E_CARD_SIMPLE_FIELD_PHONE_PRIMARY,      "",            "Primary",       "Prim",     E_CARD_SIMPLE_PHONE_ID_PRIMARY,      E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
 	{ E_CARD_SIMPLE_FIELD_PHONE_BUSINESS,     "",            "Business",      "Bus",      E_CARD_SIMPLE_PHONE_ID_BUSINESS,     E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
@@ -725,6 +726,7 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 	const ECardPhone *phone;
 	const char *string;
 	ECardDate *date;
+	ECardName *name;
 	switch(type) {
 	case E_CARD_SIMPLE_INTERNAL_TYPE_STRING:
 		gtk_object_get(GTK_OBJECT(simple->card),
@@ -766,6 +768,11 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 				       "org", &string,
 				       NULL);
 			return g_strdup(string);
+		case E_CARD_SIMPLE_FIELD_FAMILY_NAME:
+			gtk_object_get (GTK_OBJECT(simple->card),
+					"name", &name,
+					NULL);
+			return g_strdup (name->family);
 		default:
 			return NULL;
 		}
