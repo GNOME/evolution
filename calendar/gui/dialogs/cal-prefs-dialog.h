@@ -47,6 +47,11 @@ typedef struct _CalPrefsDialogClass  CalPrefsDialogClass;
 
 typedef struct _CalPrefsDialogPrivate CalPrefsDialogPrivate;
 
+typedef enum {
+	CAL_PREFS_DIALOG_PAGE_CALENDAR,
+	CAL_PREFS_DIALOG_PAGE_TASKS
+} CalPrefsDialogPage;
+
 struct _CalPrefsDialog
 {
 	GtkObject object;
@@ -62,10 +67,10 @@ struct _CalPrefsDialogClass
 
 
 GtkType		cal_prefs_dialog_get_type	(void);
-CalPrefsDialog* cal_prefs_dialog_construct	(CalPrefsDialog *prefs);
-CalPrefsDialog* cal_prefs_dialog_new		(void);
+CalPrefsDialog* cal_prefs_dialog_construct	(CalPrefsDialog *prefs, CalPrefsDialogPage page);
+CalPrefsDialog* cal_prefs_dialog_new		(CalPrefsDialogPage page);
 
-void		cal_prefs_dialog_show		(CalPrefsDialog *prefs);
+void		cal_prefs_dialog_show		(CalPrefsDialog *prefs, CalPrefsDialogPage page);
 
 END_GNOME_DECLS
 

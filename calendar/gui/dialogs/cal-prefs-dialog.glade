@@ -89,7 +89,7 @@
 
     <widget>
       <class>GtkNotebook</class>
-      <name>notebook1</name>
+      <name>toplevel-notebook</name>
       <can_focus>True</can_focus>
       <show_tabs>True</show_tabs>
       <show_border>True</show_border>

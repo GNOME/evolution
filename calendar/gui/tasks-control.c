@@ -29,6 +29,7 @@
 #include <libgnome/gnome-util.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-util.h>
+#include "dialogs/cal-prefs-dialog.h"
 #include "calendar-config.h"
 #include "e-tasks.h"
 #include "tasks-control.h"
@@ -71,6 +72,9 @@ static void tasks_control_paste_cmd             (BonoboUIComponent      *uic,
 						 gpointer                data,
 						 const gchar            *path);
 static void tasks_control_delete_cmd		(BonoboUIComponent	*uic,
+						 gpointer		 data,
+						 const char		*path);
+static void tasks_control_settings_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
 
@@ -234,6 +238,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("TasksCopy", tasks_control_copy_cmd),
 	BONOBO_UI_VERB ("TasksPaste", tasks_control_paste_cmd),
 	BONOBO_UI_VERB ("TasksDelete", tasks_control_delete_cmd),
+	BONOBO_UI_VERB ("TasksSettings", tasks_control_settings_cmd),
 
 	BONOBO_UI_VERB_END
 };
@@ -242,6 +247,7 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/File/New/NewFirstItem/NewTask",	"evolution-tasks-mini.png"),
 	E_PIXMAP ("/menu/File/Print/Print",			"print.xpm"),
 	E_PIXMAP ("/menu/File/Print/Print Preview",		"print-preview.xpm"),
+	E_PIXMAP ("/menu/Tools/Component/TasksSettings",	"configure_16_calendar.xpm"),
 	E_PIXMAP ("/Toolbar/New",				"buttons/new_appointment.png"),
 	E_PIXMAP ("/Toolbar/Print",				"buttons/print.png"),
 	E_PIXMAP_END
@@ -365,4 +371,19 @@ tasks_control_delete_cmd		(BonoboUIComponent	*uic,
 
 	tasks = E_TASKS (data);
 	e_tasks_delete_selected (tasks);
+}
+
+/* Callback used for the tasks settings command */
+static void
+tasks_control_settings_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
+{
+	ETasks *tasks;
+	static CalPrefsDialog *prefs_dialog = NULL;
+
+	tasks = E_TASKS (data);
+
+	if (!prefs_dialog)
+		prefs_dialog = cal_prefs_dialog_new (CAL_PREFS_DIALOG_PAGE_TASKS);
+	else
+		cal_prefs_dialog_show (prefs_dialog, CAL_PREFS_DIALOG_PAGE_TASKS);
 }

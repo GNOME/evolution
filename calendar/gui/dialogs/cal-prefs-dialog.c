@@ -47,6 +47,8 @@ struct _CalPrefsDialogPrivate {
 
 	GtkWidget *dialog;
 
+	GtkWidget *toplevel_notebook;
+
 	GtkWidget *timezone;
 	GtkWidget *working_days[7];
 	GtkWidget *week_start_day;
@@ -120,23 +122,26 @@ cal_prefs_dialog_init (CalPrefsDialog *prefs)
 
 /**
  * cal_prefs_dialog_new:
- * @Returns: a new #CalPrefsDialog.
+ * @page: Page to show when the dialog is popped up.
  *
  * Creates a new #CalPrefsDialog.
+ *
+ * Return value: a new #CalPrefsDialog.
  **/
 CalPrefsDialog *
-cal_prefs_dialog_new (void)
+cal_prefs_dialog_new (CalPrefsDialogPage page)
 {
 	CalPrefsDialog *prefs;
 
 	prefs = CAL_PREFS_DIALOG (gtk_type_new (cal_prefs_dialog_get_type ()));
-	return cal_prefs_dialog_construct (prefs);
+	return cal_prefs_dialog_construct (prefs, page);
 }
 
 
 /**
  * cal_prefs_dialog_construct:
  * @prefs: A #CalPrefsDialog.
+ * @page: Page to show when the dialog is popped up.
  * 
  * Constructs a task editor by loading its Glade XML file.
  * 
@@ -145,7 +150,7 @@ cal_prefs_dialog_new (void)
  * destroyed.
  **/
 CalPrefsDialog *
-cal_prefs_dialog_construct (CalPrefsDialog *prefs)
+cal_prefs_dialog_construct (CalPrefsDialog *prefs, CalPrefsDialogPage page)
 {
 	CalPrefsDialogPrivate *priv;
 
@@ -170,7 +175,7 @@ cal_prefs_dialog_construct (CalPrefsDialog *prefs)
 
 	cal_prefs_dialog_show_config (prefs);
 
-	gtk_widget_show (priv->dialog);
+	cal_prefs_dialog_show (prefs, page);
 
 	return prefs;
 
@@ -193,6 +198,8 @@ get_widgets (CalPrefsDialog *prefs)
 #define GW(name) glade_xml_get_widget (priv->xml, name)
 
 	priv->dialog = GW ("cal-prefs-dialog");
+
+	priv->toplevel_notebook = GW ("toplevel-notebook");
 
 	/* The indices must be 0 (Sun) to 6 (Sat). */
 	priv->working_days[0] = GW ("sun_button");
@@ -220,6 +227,7 @@ get_widgets (CalPrefsDialog *prefs)
 #undef GW
 
 	return (priv->dialog
+		&& priv->toplevel_notebook
 		&& priv->timezone
 		&& priv->working_days[0]
 		&& priv->working_days[1]
@@ -276,9 +284,10 @@ cal_prefs_dialog_create_time_edit (void)
 
 
 void
-cal_prefs_dialog_show		(CalPrefsDialog *prefs)
+cal_prefs_dialog_show (CalPrefsDialog *prefs, CalPrefsDialogPage page)
 {
 	CalPrefsDialogPrivate *priv;
+	int page_num;
 
 	g_return_if_fail (IS_CAL_PREFS_DIALOG (prefs));
 
@@ -292,6 +301,22 @@ cal_prefs_dialog_show		(CalPrefsDialog *prefs)
 		cal_prefs_dialog_show_config (prefs);
 		gtk_widget_show (priv->dialog);
 	}
+
+	switch (page) {
+	case CAL_PREFS_DIALOG_PAGE_CALENDAR:
+		page_num = 0;
+		break;
+
+	case CAL_PREFS_DIALOG_PAGE_TASKS:
+		page_num = 2;
+		break;
+
+	default:
+		g_assert_not_reached ();
+		return;
+	}
+
+	gtk_notebook_set_page (GTK_NOTEBOOK (priv->toplevel_notebook), page_num);
 }
 
 

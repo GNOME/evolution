@@ -75,6 +75,24 @@
 
 	* pcs/cal-backend-file.c (cal_backend_file_get_free_busy): implemented
 
+2001-07-28  Federico Mena Quintero  <federico@ximian.com>
+
+	Fixes bug #5352.
+
+	* gui/dialogs/cal-prefs-dialog.c (cal_prefs_dialog_show): Added a
+	`page' argument so that we can select which page to show when
+	popping up the dialog.
+	(cal_prefs_dialog_construct): Added the `page' argument as well.
+	(cal_prefs_dialog_new): Likewise.
+
+	* gui/calendar-commands.c (settings_cmd): Set the page to the main
+	calendar settings one.
+
+	* gui/tasks-control.c (tasks_control_settings_cmd): Implemented
+	callback for the "Task Settings" command.
+	(verbs): Added the "TasksSettings" verb.
+	(pixmaps): Added an icon for the tasks settings command.
+
 2001-07-27  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c (local_record_from_comp):

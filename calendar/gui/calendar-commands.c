@@ -266,9 +266,9 @@ static void
 settings_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	if (!preferences_dialog)
-		preferences_dialog = cal_prefs_dialog_new ();
+		preferences_dialog = cal_prefs_dialog_new (CAL_PREFS_DIALOG_PAGE_CALENDAR);
 	else
-		cal_prefs_dialog_show (preferences_dialog);
+		cal_prefs_dialog_show (preferences_dialog, CAL_PREFS_DIALOG_PAGE_CALENDAR);
 }
 
 static void
