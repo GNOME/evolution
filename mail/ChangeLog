@@ -1,3 +1,9 @@
+2003-09-21  Rodney Dawes  <dobey@ximian.com>
+
+	* subscribe-dialog.glade: Make the dialog an actual GtkDialog,
+	and make the dialog be more HIG-compliant, as well as fix dialog
+	resizing
+	
 2003-09-18  Antonio Xu  <antonio.xu@sun.com>
 
 	* mail-display.c (mail_display_render): Set default text color as
