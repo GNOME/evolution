@@ -840,7 +840,6 @@ destroy (GtkObject *object)
 	g_hash_table_destroy (priv->uri_to_control);
 
 	gtk_widget_destroy (priv->offline_toggle);
-	gtk_widget_destroy (priv->offline_toggle_pixmap);
 	gtk_widget_destroy (priv->progress_bar);
 
 	bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
@@ -1379,7 +1378,7 @@ update_for_current_uri (EShellView *shell_view)
 
 	path = get_storage_set_path_from_uri (priv->uri);
 
-	if (strcmp (priv->uri, "evolution:/My Evolution") == 0) {
+	if (priv->uri != NULL && strcmp (priv->uri, "evolution:/My Evolution") == 0) {
 		/* Special case for My Evolution */
 		folder_name = g_strdup (_("My Evolution"));
 		is_my_evolution = TRUE;

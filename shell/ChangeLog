@@ -1,3 +1,10 @@
+2001-06-11  Dan Winship  <danw@ximian.com>
+
+	* e-shell-view.c (destroy): Don't destroy the
+	offline_toggle_pixmap: the offline_toggle 0wnz it.
+	(update_for_current_uri): Check priv->uri isn't NULL before
+	strcmp()ing it.
+
 2001-06-11  Jason Leach  <jleach@ximian.com>
 
 	* evolution-storage.c (impl_Storage_async_create_folder): Fixed
