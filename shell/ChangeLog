@@ -1,5 +1,14 @@
 2001-10-30  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-component-registry.c (sleep_with_g_main_loop): New utility
+	function.
+	(sleep_with_g_main_loop_timeout_callback): Callback function for
+	`sleep_with_g_main_loop()'.
+	(wait_for_corba_object_to_die): Use `sleep_with_g_main_loop()'
+	instead of `sleep()'.
+
+2001-10-30  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (development_warning): Removed.
 	(idle_cb): Don't call it.
 	(warning_dialog_clicked_callback): Removed.

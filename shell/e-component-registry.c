@@ -60,6 +60,30 @@ struct _EComponentRegistryPrivate {
 
 /* Utility functions.  */
 
+static int
+sleep_with_g_main_loop_timeout_callback (void *data)
+{
+	GMainLoop *loop;
+
+	loop = (GMainLoop *) data;
+	g_main_quit (loop);
+
+	return FALSE;
+}
+
+/* This function is like `sleep()', but it uses the GMainLoop so CORBA
+   invocations can get through.  */
+static void
+sleep_with_g_main_loop (int num_seconds)
+{
+	GMainLoop *loop;
+
+	loop = g_main_new (TRUE);
+	g_timeout_add (1000 * num_seconds, sleep_with_g_main_loop_timeout_callback, loop);
+	g_main_run (loop);
+	g_main_destroy (loop);
+}
+
 static void
 wait_for_corba_object_to_die (Bonobo_Unknown corba_objref,
 			      const char *id)
@@ -74,7 +98,7 @@ wait_for_corba_object_to_die (Bonobo_Unknown corba_objref,
 			break;
 
 		g_print ("Waiting for component to die -- %s (%d)\n", id, count);
-		sleep (1);
+		sleep_with_g_main_loop (1);
 		count ++;
 	}
 }
