@@ -624,7 +624,7 @@ e_cell_date_edit_rebuild_time_list		(ECellDateEdit	*ecde)
 {
 	GtkList *list;
 	GtkWidget *listitem;
-	char buffer[40], *format;
+	char buffer[40];
 	struct tm tmp_tm;
 	gint hour, min;
 

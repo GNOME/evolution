@@ -1,3 +1,11 @@
+2001-05-31  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-dropdown-button.c (impl_button_press_event): Removed unused
+	variable.
+
+	* e-cell-date-edit.c (e_cell_date_edit_rebuild_time_list): Removed
+	unused variable.
+
 2001-05-07  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* misc/e-filter-bar.h: xgettext does not find N_() in #defines. So

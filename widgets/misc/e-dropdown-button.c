@@ -121,7 +121,6 @@ impl_button_press_event (GtkWidget *widget,
 {
 	EDropdownButton *dropdown_button;
 	EDropdownButtonPrivate *priv;
-	GtkStateType new_state;
 
 	dropdown_button = E_DROPDOWN_BUTTON (widget);
 	priv = dropdown_button->priv;
