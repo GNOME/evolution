@@ -310,16 +310,15 @@ folder_browser_ui_add_list (FolderBrowser *fb)
 {
 	int state;
 	BonoboUIComponent *uic = fb->uicomp;
-
+	
 	ui_add (fb, "list", list_verbs, list_pixcache);
-
+	
 	/* Hide Deleted */
-
-	if (fb->folder && CAMEL_IS_VTRASH_FOLDER(fb->folder)) {
-		bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "sensitive", "0", NULL);
+	if (fb->folder && CAMEL_IS_VTRASH_FOLDER (fb->folder)) {
+		bonobo_ui_component_set_prop (uic, "/commands/HideDeleted", "sensitive", "0", NULL);
 		state = FALSE;
 	} else {
-		state = mail_config_get_hide_deleted();
+		state = mail_config_get_hide_deleted ();
 	}
 	bonobo_ui_component_set_prop (uic, "/commands/HideDeleted", "state", state ? "1" : "0", NULL);
 	bonobo_ui_component_add_listener (uic, "HideDeleted", folder_browser_toggle_hide_deleted,
@@ -327,21 +326,18 @@ folder_browser_ui_add_list (FolderBrowser *fb)
 	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
 	folder_browser_toggle_hide_deleted (uic, "", Bonobo_UIComponent_STATE_CHANGED,
 					    state ? "1" : "0", fb);
-
+	
 	/* Threaded toggle */
-
 	state = mail_config_get_thread_list (FOLDER_BROWSER (fb)->uri);
 	bonobo_ui_component_set_prop (uic, "/commands/ViewThreaded", "state", state ? "1" : "0", NULL);
 	bonobo_ui_component_add_listener (uic, "ViewThreaded", folder_browser_toggle_threads, fb);
 	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
 	folder_browser_toggle_threads (uic, "", Bonobo_UIComponent_STATE_CHANGED, state ? "1" : "0", fb);
-
+	
 	/* Property menu */
-
 	folder_browser_setup_property_menu (fb, fb->uicomp);
-
+	
 	/* View menu */
-
 	folder_browser_setup_view_menus (fb, fb->uicomp);
 }
 
@@ -349,7 +345,6 @@ void
 folder_browser_ui_rm_list (FolderBrowser *fb)
 {
 	/* View menu */
-
 	folder_browser_discard_view_menus (fb);
 }
 

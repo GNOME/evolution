@@ -75,7 +75,7 @@ control_activate (BonoboControl     *control,
 		  BonoboUIComponent *uic,
 		  FolderBrowser     *fb)
 {
-	GtkWidget         *folder_browser;
+	GtkWidget *folder_browser;
 	Bonobo_UIContainer container;
 
 	container = bonobo_control_get_remote_ui_container (control);

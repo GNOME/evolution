@@ -394,14 +394,6 @@ struct _pass_msg {
 	GtkWidget *tb;
 };
 
-/* libgnomeui's idea of an api/gui is very weird ... hence this dumb hack */
-static void
-focus_on_entry (GtkWidget *widget, void *user_data)
-{
-	if (GTK_IS_ENTRY (widget))
-		gtk_widget_grab_focus (widget);
-}
-
 static void
 pass_got (char *string, void *data)
 {
@@ -410,7 +402,7 @@ pass_got (char *string, void *data)
 	if (string) {
 		const MailConfigAccount *mca;
 		gboolean remember;
-
+		
 		m->result = g_strdup (string);
 		
 		remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->tb));
@@ -435,15 +427,15 @@ do_get_pass(struct _mail_msg *mm)
 	GtkWidget *dialogue;
 	GtkWidget *tb, *entry;
 	GList *children, *iter;
-
+	
 	/* this api is just awful ... hence the hacks */
-	dialogue = gnome_request_dialog(m->secret, m->prompt, NULL,
-					0, pass_got, m, NULL);
+	dialogue = gnome_request_dialog (m->secret, m->prompt, NULL,
+					 0, pass_got, m, NULL);
 	
 	/* Remember the password? */
 	tb = gtk_check_button_new_with_label (_("Remember this password"));
 	gtk_widget_show (tb);
-
+	
 	mca = mail_config_get_account_by_source_url (m->service_url);
 	if (mca)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tb), mca->source->save_passwd);
@@ -456,41 +448,40 @@ do_get_pass(struct _mail_msg *mm)
 			gtk_widget_hide (tb);
 		}
 	}
-
+	
 	/* do some dirty stuff to put the checkbutton after the entry */
 	entry = NULL;
 	children = gtk_container_children (GTK_CONTAINER (GNOME_DIALOG (dialogue)->vbox));
-
+	
 	for (iter = children; iter; iter = iter->next) {
 		if (GTK_IS_ENTRY (iter->data)) {
 			entry = GTK_WIDGET (iter->data);
 			break;
 		}
 	}
-
+	
 	g_list_free (children);
-
+	
 	if (entry) {
 		gtk_object_ref (GTK_OBJECT (entry));
 		gtk_container_remove (GTK_CONTAINER (GNOME_DIALOG (dialogue)->vbox), entry);
 	}
-
+	
 	gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox),
 			  tb, TRUE, FALSE, 0);
-
+	
 	if (entry) {
 		gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox), entry, TRUE, FALSE, 0);
+		gtk_widget_grab_focus (entry);
 		gtk_object_unref (GTK_OBJECT (entry));
 	}
-
+	
 	m->tb = tb;
-
-	e_container_foreach_leaf((GtkContainer *)dialogue, focus_on_entry, NULL);
-
+	
 	/* hrm, we can't run this async since the gui_port from which we're called
 	   will reply to our message for us */
-	gnome_dialog_run_and_close((GnomeDialog *)dialogue);
-
+	gnome_dialog_run_and_close ((GnomeDialog *)dialogue);
+	
 	/*gtk_widget_show(dialogue);*/
 }
 
@@ -498,7 +489,7 @@ static void
 do_free_pass(struct _mail_msg *mm)
 {
 	/*struct _pass_msg *m = (struct _pass_msg *)mm;*/
-
+	
 	/* the string is passed out so we dont need to free it */
 }
 
@@ -511,43 +502,43 @@ struct _mail_msg_op get_pass_op = {
 
 /* returns the password, or NULL if cancelled */
 char *
-mail_get_password(CamelService *service, const char *prompt, gboolean secret)
+mail_get_password (CamelService *service, const char *prompt, gboolean secret)
 {
 	char *ret;
 	struct _pass_msg *m, *r;
 	EMsgPort *pass_reply;
-
-	pass_reply = e_msgport_new();
-
-	m = mail_msg_new(&get_pass_op, pass_reply, sizeof(*m));
-
+	
+	pass_reply = e_msgport_new ();
+	
+	m = mail_msg_new (&get_pass_op, pass_reply, sizeof (struct _pass_msg));
+	
 	m->prompt = prompt;
 	m->secret = secret;
 	m->service_url = camel_url_to_string (service->url, 
 					      CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
-
-	if (pthread_self() == mail_gui_thread) {
-		do_get_pass((struct _mail_msg *)m);
+	
+	if (pthread_self () == mail_gui_thread) {
+		do_get_pass ((struct _mail_msg *)m);
 		r = m;
 	} else {
 		static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-
+		
 		/* we want this single-threaded, this is the easiest way to do it without blocking ? */
-		pthread_mutex_lock(&lock);
-		e_msgport_put(mail_gui_port, (EMsg *)m);
-		e_msgport_wait(pass_reply);
-		r = (struct _pass_msg *)e_msgport_get(pass_reply);
-		pthread_mutex_unlock(&lock);
+		pthread_mutex_lock (&lock);
+		e_msgport_put (mail_gui_port, (EMsg *)m);
+		e_msgport_wait (pass_reply);
+		r = (struct _pass_msg *)e_msgport_get (pass_reply);
+		pthread_mutex_unlock (&lock);
 	}
-
-	g_assert(r == m);
-
+	
+	g_assert (r == m);
+	
 	ret = m->result;
-
+	
 	g_free (m->service_url);
-	mail_msg_free(m);
-	e_msgport_destroy(pass_reply);
-
+	mail_msg_free (m);
+	e_msgport_destroy (pass_reply);
+	
 	return ret;
 }
 

@@ -154,6 +154,8 @@ get_password (CamelSession *session, const char *prompt, gboolean secret,
 	char *key, *ans;
 	
 	key = make_key (service, item);
+	if (!key)
+		return NULL;
 	
 	ans = g_hash_table_lookup (mail_session->passwords, key);
 	if (ans) {
