@@ -1,3 +1,8 @@
+2001-07-12  Jason Leach  <jleach@ximian.com>
+
+	* backend/ebook/evolution-vcard-importer.c (support_format_fn):
+	Crash fix because strcmp() hates NULL arguments.  Bug #3777.
+
 2001-07-11  Jason Leach  <jleach@ximian.com>
 
 	* gui/component/select-names/e-select-names.c (remove_cb): Added
