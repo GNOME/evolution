@@ -728,7 +728,6 @@ delete_event (GtkWidget *widget,
 	EShell *shell;
 
 	shell = e_shell_view_get_shell (E_SHELL_VIEW (widget));
-/*  	e_shell_quit (shell); */
 
 	/* FIXME: Is this right, or should it be FALSE? */
 	return FALSE;

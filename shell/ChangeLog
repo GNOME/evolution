@@ -1,3 +1,19 @@
+2001-05-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c
+	(populate_folder_context_menu_with_common_items): Removed.
+	(popup_folder_menu): Instead of creating the component and the
+	folder popup definition here, just do `bonobo_window_add_popup()'
+	and assume that "/popups/FolderPopup" is defined in the toplevel
+	window's UI xml file.
+
+2001-05-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-shell-component-client.c: Moved some functions around
+	to avoid the warning about the static
+	`free_ShellComponentListener_servant()' function being used prior
+	to declaration.
+
 2001-05-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view-menu.c (command_run_bugbuddy): `#if 0'ed out.

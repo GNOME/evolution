@@ -703,39 +703,12 @@ folder_context_menu_remove_cb (BonoboUIComponent *uih,
 }
 
 static void
-populate_folder_context_menu_with_common_items (EStorageSetView *storage_set_view,
-						BonoboUIComponent *uih)
-{
-	static char popup_xml[] = 
-		"<submenu name=\"Folder\" _label=\"Folder\">\n"
-		"  <menuitem name=\"Activate\" verb=\"ActivateView\" _label=\"_View\" _tip=\"View the selected folder\"/>\n"
-		"  <menuitem name=\"Remove\" verb=\"RemoveFolder\" _label=\"_Remove\" _tip=\"Remove the selected folder\"/>\n"
-		"  <placeholder name=\"componentPlaceholder\" delimit=\"top\"/>\n"
-#ifdef DEBUG_XML
-		"  <separator/>\n"
-		"  <menuitem name=\"Dump\" verb=\"BonoboUIDump\" _label=\"_Dump XML\" _tip=\"Dump the bonobo xml\"/>\n"
-#endif
-		"</submenu>\n";
-
-	bonobo_ui_component_add_verb (uih, "ActivateView",
-				      folder_context_menu_activate_cb,
-				      storage_set_view);
-
-	bonobo_ui_component_add_verb (uih, "RemoveFolder",
-				      folder_context_menu_remove_cb,
-				      storage_set_view);
-
-	bonobo_ui_component_set_translate (uih, "/popups/folderPopup", popup_xml, NULL);
-}
-
-static void
 popup_folder_menu (EStorageSetView *storage_set_view,
 		   GdkEventButton *event)
 {
 	EvolutionShellComponentClient *handler;
 	EStorageSetViewPrivate *priv;
 	EFolderTypeRegistry *folder_type_registry;
-	BonoboUIComponent *uih;
 	EFolder *folder;
 	GtkWidget *menu;
 
@@ -754,20 +727,9 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 							       e_folder_get_type_string (folder));
 	g_assert (handler != NULL);
 
-	uih = bonobo_ui_component_new ("folder-popup");
-
-	bonobo_ui_component_set_container (uih,
-					   bonobo_object_corba_objref (BONOBO_OBJECT (priv->container)));
-
-	bonobo_ui_component_set (uih, "/",
-				 "<popups> <popup name=\"folderPopup\"/> </popups>", NULL);
-
-	populate_folder_context_menu_with_common_items (storage_set_view, uih);
-
 	menu = gtk_menu_new ();
-
 	bonobo_window_add_popup (bonobo_ui_container_get_win (priv->container),
-				 GTK_MENU (menu), "/popups/folderPopup");
+				 GTK_MENU (menu), "/popups/FolderPopup");
 
 	evolution_shell_component_client_populate_folder_context_menu (handler,
 								       priv->container,
@@ -776,8 +738,6 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 
 	gtk_widget_show (GTK_WIDGET (menu));
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, 0);
-
-	bonobo_object_unref (BONOBO_OBJECT (uih));
 }
 
 
