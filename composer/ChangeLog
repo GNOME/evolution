@@ -1,3 +1,9 @@
+2003-01-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-hdrs.c (create_from_optionmenu): Use gconf to get
+	the default account index.
+	(e_msg_composer_hdrs_set_from_account): Same.
+
 2003-01-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment-bar.c (get_default_charset): New

@@ -40,6 +40,9 @@
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtktooltips.h>
 
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
 #include <gal/e-text/e-entry.h>
 
 #include <camel/camel.h>
@@ -132,7 +135,7 @@ static void
 e_msg_composer_hdrs_and_string_free (EMsgComposerHdrsAndString *emchas)
 {
 	if (emchas->hdrs)
-		g_object_unref(emchas->hdrs);
+		g_object_unref (emchas->hdrs);
 	g_free (emchas->string);
 }
 
@@ -145,7 +148,7 @@ e_msg_composer_hdrs_and_string_create (EMsgComposerHdrs *hdrs, const char *strin
 	emchas->hdrs = hdrs;
 	emchas->string = g_strdup (string);
 	if (emchas->hdrs)
-		g_object_ref(emchas->hdrs);
+		g_object_ref (emchas->hdrs);
 	
 	return emchas;
 }
@@ -176,14 +179,14 @@ from_changed (GtkWidget *item, gpointer data)
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (data);
 	const char *reply_to;
 	
-	hdrs->account = g_object_get_data(G_OBJECT(item), "account");
+	hdrs->account = g_object_get_data ((GObject *) item, "account");
 	
 	/* we do this rather than calling e_msg_composer_hdrs_set_reply_to()
 	   because we don't want to change the visibility of the header */
 	reply_to = hdrs->account->id->reply_to;
 	e_entry_set_text (E_ENTRY (hdrs->priv->reply_to.entry), reply_to ? reply_to : "");
 	
-	g_signal_emit(hdrs, signals [FROM_CHANGED], 0);
+	g_signal_emit (hdrs, signals [FROM_CHANGED], 0);
 }
 
 static GtkWidget *
@@ -195,12 +198,14 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	GPtrArray *addresses;
 	GtkWidget *item, *hbox;
 	int i = 0, history = 0, m, matches;
-	int default_account;
+	GConfClient *gconf;
+	int index;
 	
 	omenu = gtk_option_menu_new ();
 	menu = gtk_menu_new ();
 	
-	default_account = mail_config_get_default_account_num ();
+	gconf = gconf_client_get_default ();
+	index = gconf_client_get_int (gconf, "/apps/evolution/mail/default_account", NULL);
 	
 	/* Make list of account email addresses */
 	addresses = g_ptr_array_new ();
@@ -210,7 +215,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 		if (account->id->address)
 			g_ptr_array_add (addresses, account->id->address);
 	}
-
+	
 	while (accounts) {
 		char *label;
 		
@@ -240,11 +245,10 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 			item = gtk_menu_item_new_with_label (label);
 			g_free (label);
 			
-			g_object_set_data(G_OBJECT(item), "account", account_copy (account));
-			g_signal_connect(G_OBJECT (item), "activate",
-					    G_CALLBACK (from_changed), hdrs);
+			g_object_set_data ((GObject *) item, "account", account_copy (account));
+			g_signal_connect (item, "activate", G_CALLBACK (from_changed), hdrs);
 			
-			if (i == default_account) {
+			if (i == index) {
 				first = item;
 				history = i;
 			}
@@ -252,20 +256,21 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 			/* this is so we can later set which one we want */
 			hdrs->priv->from_options = g_slist_append (hdrs->priv->from_options, item);
 			
-			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 			gtk_widget_show (item);
 			i++;
 		}
 		
 		accounts = accounts->next;
 	}
+	
 	g_ptr_array_free (addresses, TRUE);
 	
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
 	
 	if (first) {
 		gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), history);
-		g_signal_emit_by_name(first, "activate", hdrs);
+		g_signal_emit_by_name (first, "activate", hdrs);
 	}
 	
 	hbox = gtk_hbox_new (FALSE, 3);
@@ -273,7 +278,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	gtk_widget_show (omenu);
 	gtk_widget_show (hbox);
 	
-	g_object_set_data(G_OBJECT(hbox), "from_menu", omenu);
+	g_object_set_data ((GObject *) hbox, "from_menu", omenu);
 	
 	return hbox;
 }
@@ -581,16 +586,16 @@ destroy (GtkObject *object)
 
 		if (priv->tooltips) {
 			gtk_object_destroy (GTK_OBJECT (priv->tooltips));
-			g_object_unref(priv->tooltips);
+			g_object_unref (priv->tooltips);
 			priv->tooltips = NULL;
 		}
-
+		
 		l = priv->from_options;
 		while (l) {
 			MailConfigAccount *account;
 			GtkWidget *item = l->data;
 			
-			account = g_object_get_data(G_OBJECT(item), "account");
+			account = g_object_get_data ((GObject *) item, "account");
 			account_destroy (account);
 			
 			l = l->next;
@@ -615,7 +620,7 @@ class_init (EMsgComposerHdrsClass *class)
 	object_class = GTK_OBJECT_CLASS (class);
 	object_class->destroy = destroy;
 	
-	parent_class = g_type_class_ref(gtk_table_get_type ());
+	parent_class = g_type_class_ref (gtk_table_get_type ());
 	
 	signals[SHOW_ADDRESS_DIALOG] =
 		g_signal_new ("show_address_dialog",
@@ -663,8 +668,8 @@ init (EMsgComposerHdrs *hdrs)
 	priv = g_new0 (EMsgComposerHdrsPrivate, 1);
 	
 	priv->tooltips = gtk_tooltips_new ();
-	g_object_ref(priv->tooltips);
-	gtk_object_sink((GtkObject *)priv->tooltips);
+	g_object_ref (priv->tooltips);
+	gtk_object_sink ((GtkObject *) priv->tooltips);
 
 	hdrs->priv = priv;
 }
@@ -705,7 +710,7 @@ e_msg_composer_hdrs_new (BonoboUIComponent *uic, int visible_mask, int visible_f
 	priv->uic = uic;
 	
 	if (!setup_corba (new)) {
-		g_object_unref(new);
+		g_object_unref (new);
 		return NULL;
 	}
 	
@@ -794,9 +799,9 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 		camel_mime_message_set_recipients (msg, header, bcc_addr);
 	}
 	
-	camel_object_unref(to_addr);
-	camel_object_unref(cc_addr);
-	camel_object_unref(bcc_addr);
+	camel_object_unref (to_addr);
+	camel_object_unref (cc_addr);
+	camel_object_unref (bcc_addr);
 }
 
 static void
@@ -823,12 +828,12 @@ e_msg_composer_hdrs_to_message_internal (EMsgComposerHdrs *hdrs,
 	} else {
 		camel_mime_message_set_from (msg, addr);
 	}
-	camel_object_unref(addr);
+	camel_object_unref (addr);
 	
  	addr = e_msg_composer_hdrs_get_reply_to (hdrs);
 	if (addr) {
 		camel_mime_message_set_reply_to (msg, addr);
-		camel_object_unref(addr);
+		camel_object_unref (addr);
 	}
 	
 	if (hdrs->visible_mask & E_MSG_COMPOSER_VISIBLE_MASK_RECIPIENTS) {
@@ -875,19 +880,20 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 				      const char *account_name)
 {
 	GtkOptionMenu *omenu;
+	GConfClient *gconf;
 	GtkWidget *item;
+	int index = -1;
 	GSList *l;
 	int i = 0;
-	int default_account = 0;
 	
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
 	omenu = GTK_OPTION_MENU (e_msg_composer_hdrs_get_from_omenu (hdrs));
 	
-	if (account_name)
-		default_account = -1;
-	else
-		default_account = mail_config_get_default_account_num ();
+	gconf = gconf_client_get_default ();
+	
+	if (!account_name)
+		index = gconf_client_get_int (gconf, "/apps/evolution/mail/default_account", NULL);
 	
 	/* find the item that represents the account and activate it */
 	l = hdrs->priv->from_options;
@@ -895,19 +901,19 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 		MailConfigAccount *account;
 		item = l->data;
 		
-		account = g_object_get_data(G_OBJECT(item), "account");
+		account = g_object_get_data ((GObject *) item, "account");
 		if (account_name) {
 			if (account->name && !strcmp (account_name, account->name)) {
 				/* set the correct optionlist item */
 				gtk_option_menu_set_history (omenu, i);
-				g_signal_emit_by_name (G_OBJECT (item), "activate", hdrs);
+				g_signal_emit_by_name (item, "activate", hdrs);
 				
 				return;
 			}
-		} else if (i == default_account) {
+		} else if (i == index) {
 			/* set the default optionlist item */
 			gtk_option_menu_set_history (omenu, i);
-			g_signal_emit_by_name (G_OBJECT (item), "activate", hdrs);
+			g_signal_emit_by_name (item, "activate", hdrs);
 			
 			return;
 		}
@@ -1222,5 +1228,5 @@ e_msg_composer_hdrs_get_from_omenu (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	return GTK_WIDGET (g_object_get_data(G_OBJECT(hdrs->priv->from.entry), "from_menu"));
+	return GTK_WIDGET (g_object_get_data ((GObject *) hdrs->priv->from.entry, "from_menu"));
 }
