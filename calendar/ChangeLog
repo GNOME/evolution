@@ -1,5 +1,14 @@
 2003-12-03  JP Rosevear <jpr@ximian.com>
 
+	* gui/tasks-component.c (impl_dispose): free up the notifications
+	and the ecal
+	(config_create_ecal_changed_cb): clear the create_ecal if the
+	primary selection changes
+	(setup_create_ecal): find a default ecal to do creation with
+	(impl_requestCreateItem): use above
+
+2003-12-03  JP Rosevear <jpr@ximian.com>
+
 	* gui/tasks-component.c (rename_task_list_cb): cast the parent
 	(impl_createControls): add notification for primary tasks
 	(config_primary_selection_changed_cb): handle primary selection

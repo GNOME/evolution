@@ -66,6 +66,8 @@ struct _TasksComponentPrivate {
 	ETasks *tasks;
 	GtkWidget *source_selector;
 
+	ECal *create_ecal;
+	
 	GList *notifications;
 };
 
@@ -432,7 +434,8 @@ static void
 impl_dispose (GObject *object)
 {
 	TasksComponentPrivate *priv = TASKS_COMPONENT (object)->priv;
-
+	GList *l;
+	
 	if (priv->source_list != NULL) {
 		g_object_unref (priv->source_list);
 		priv->source_list = NULL;
@@ -447,6 +450,15 @@ impl_dispose (GObject *object)
 		g_object_unref (priv->gconf_client);
 		priv->gconf_client = NULL;
 	}
+
+	if (priv->create_ecal) {
+		g_object_unref (priv->create_ecal);
+		priv->create_ecal = NULL;
+	}
+
+	for (l = priv->notifications; l; l = l->next)
+		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
+	priv->notifications = NULL;
 
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
@@ -584,29 +596,114 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 }
 
 static void
+config_create_ecal_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{	
+	TasksComponent *component = data;
+	TasksComponentPrivate *priv;
+	
+	priv = component->priv;
+
+	g_object_unref (priv->create_ecal);
+	priv->create_ecal = NULL;
+	
+	priv->notifications = g_list_remove (priv->notifications, GUINT_TO_POINTER (id));
+}
+
+static gboolean
+setup_create_ecal (TasksComponent *component) 
+{
+	TasksComponentPrivate *priv;
+	ESource *source = NULL;
+	char *uid;
+	guint not;
+	
+	priv = component->priv;
+
+	if (priv->create_ecal)
+		return TRUE; 
+
+	/* Try to use the client from the calendar first to avoid re-opening things */
+	if (priv->tasks) {
+		ECal *default_ecal;
+		
+		default_ecal = e_tasks_get_default_client (priv->tasks);
+		if (default_ecal) {
+			priv->create_ecal = g_object_ref (default_ecal);
+			return TRUE;
+		}
+	}
+	
+	/* Get the current primary calendar, or try to set one if it doesn't already exist */		
+	uid = calendar_config_get_primary_tasks ();
+	if (uid) {
+		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
+		g_free (uid);
+
+		priv->create_ecal = e_cal_new (source, CALOBJ_TYPE_TODO);
+	} 
+
+	if (!priv->create_ecal) {
+		/* Try to create a default if there isn't one */
+		source = find_first_source (priv->source_list);
+		if (source)
+			priv->create_ecal = e_cal_new (source, CALOBJ_TYPE_TODO);
+	}
+		
+	if (priv->create_ecal) {
+		if (!e_cal_open (priv->create_ecal, FALSE, NULL)) {
+			GtkWidget *dialog;
+			
+			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
+							 _("Unable to open the task list '%s' for creating events and meetings"), 
+							   e_source_peek_name (source));
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
+
+			return FALSE;
+		}
+	} else {
+		GtkWidget *dialog;
+			
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
+						 _("There is no calendar available for creating tasks"));
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+
+		return FALSE;
+	}		
+
+	/* Handle the fact it may change on us */
+	not = calendar_config_add_notification_primary_calendar (config_create_ecal_changed_cb, 
+								 component);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+
+	/* Save the primary source for use elsewhere */
+	calendar_config_set_primary_tasks (e_source_peek_uid (source));
+
+	return TRUE;
+}
+
+static void
 impl_requestCreateItem (PortableServer_Servant servant,
 			const CORBA_char *item_type_name,
 			CORBA_Environment *ev)
 {
 	TasksComponent *tasks_component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
 	TasksComponentPrivate *priv;
-	ECal *ecal;
 	ECalComponent *comp;
 	TaskEditor *editor;
 	
 	priv = tasks_component->priv;
-	
-	ecal = e_tasks_get_default_client (E_TASKS (priv->tasks));
-	if (!ecal) {
-		/* FIXME We should display a gui dialog or something */
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
-		g_warning (G_STRLOC ": No default client");
-	}
+
+	if (!setup_create_ecal (tasks_component))
+		return;	
 		
-	editor = task_editor_new (ecal);
+	editor = task_editor_new (priv->create_ecal);
 	
 	if (strcmp (item_type_name, CREATE_TASK_ID) == 0) {
-		comp = get_default_task (ecal);
+		comp = get_default_task (priv->create_ecal);
 	} else {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
 		return;
