@@ -1,5 +1,11 @@
 1998-11-12  Andrew T. Veliath  <andrewv@usa.net>
 
+	* gnome-orbit-check.m4: Remove AC_DEFINE(HAVE_ORBIT). Add
+	AM_CONDITIONAL for HAVE_ORBIT.  gnome-gnorba-check.m4: Same with
+	HAVE_GNORBA.  Change GNOME_ORBIT_HOOK and GNOME_GNORBA_HOOK to use
+	AC_CACHE_CHECK, setting both gnome_cv_orbit_found and
+	gnome_cv_gnorba_found.
+
 	* gnome.m4: (GNOME_INIT_HOOK): Add GNOME_GNORBA_CHECK if
 	gnome-config is found.  New GNOMEGNORBA_LIBS library variable
 	(GNOMEGNORBA_LIBS is a superset of GNOMEUI_LIBS).  Update

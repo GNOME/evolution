@@ -6,23 +6,27 @@ dnl
 
 AC_DEFUN([GNOME_GNORBA_HOOK],[
 	GNOME_ORBIT_HOOK([],$2)
-	AC_MSG_CHECKING(for gnorba libraries)
-	GNORBA_CFLAGS=
-	GNORBA_LIBS=
-	if test -n "$ORBIT_LIBS"; then
+	AC_CACHE_CHECK([for gnorba libraries],gnome_cv_gnorba_found,[
+		gnome_cv_gnorba_found=no
+		if test x$gnome_cv_orbit_found = xyes; then
+			GNORBA_CFLAGS="`gnome-config --cflags gnorba gnomeui`"
+			GNORBA_LIBS="`gnome-config --libs gnorba gnomeui`"
+			if test -n "$GNORBA_LIBS"; then
+				gnome_cv_gnorba_found=yes
+			fi
+		fi
+	])
+	AM_CONDITIONAL(HAVE_GNORBA, test x$gnome_cv_gnorba_found = xyes)
+	if test x$gnome_cv_orbit_found = xyes; then
 		$1
 		GNORBA_CFLAGS="`gnome-config --cflags gnorba gnomeui`"
 		GNORBA_LIBS="`gnome-config --libs gnorba gnomeui`"
-	fi
-	if test -n "$GNORBA_LIBS"; then
 		AC_SUBST(GNORBA_CFLAGS)
 		AC_SUBST(GNORBA_LIBS)
-		AC_MSG_RESULT(yes)
 	else
 	    	if test x$2 = xfailure; then
-			AC_MSG_ERROR(Could not find gnorba libraries)
+			AC_MSG_ERROR(gnorba library not installed or installation problem)
 	    	fi
-		AC_MSG_RESULT(no)
 	fi
 ])
 
