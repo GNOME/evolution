@@ -1,3 +1,9 @@
+2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/Makefile.am: Remove pilot stuff for now.
+
+	* Makefile.am (SUBDIRS): Remove `conduits'.
+
 2000-07-10  Dan Winship  <danw@helixcode.com>
 
 	* gui/Makefile.am (EXTRA_DIST): remove gnomecal.conduit

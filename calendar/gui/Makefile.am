@@ -2,13 +2,7 @@ SUBDIRS = dialogs
 
 help_base = $(datadir)/gnome/help/cal
 
-if HAVE_GNOME_PILOT
-CPS = calendar-pilot-sync
-else
-CPS =
-endif
-
-bin_PROGRAMS = evolution-calendar $(CPS)
+bin_PROGRAMS = evolution-calendar
 
 CPPFLAGS =					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
@@ -104,26 +98,6 @@ evolution_calendar_LDADD =					\
 
 evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
-if HAVE_GNOME_PILOT
-calendar_pilot_sync_SOURCES =			\
-	    calendar-pilot-sync.c
-
-calendar_pilot_sync_INCLUDES =			\
-	    $(INCLUDES)				\
-	    $(GNOME_PILOT_CFLAGS)		\
-	    $(PISOCK_INCLUDEDIR)		\
-	    $(GNOME_CONDUIT_INCLUDEDIR)
-
-calendar_pilot_sync_LDADD = -lpisock		\
-	    $(BONOBO_VFS_GNOME_LIBS)		\
-	    $(LINK_FLAGS)			\
-	    $(EXTRA_GNOME_LIBS)			\
-	    $(BONOBO_HTML_GNOME_LIBS)		\
-	    $(GNOME_PILOT_LIBS)			\
-	    $(PISOCK_LIBS)
-endif
-
-
 if USING_OAF
 oafdir = $(datadir)/oaf
 oaf_DATA = calendar-control.oafinfo evolution-calendar.oafinfo
@@ -162,4 +136,3 @@ evolution-calendar.pure: evolution-calendar
 	$(PLINK) $(evolution_calendar_LDFLAGS) $(evolution_calendar_OBJECTS) $(evolution_calendar_LDADD) $(LIBS)
 
 endif
-
