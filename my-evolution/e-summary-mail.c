@@ -76,7 +76,7 @@ folder_gen_html (ESummaryMailFolder *folder,
 	char *str, *pretty_name, *uri;
 	
 	pretty_name = make_pretty_foldername (folder->name);
-	uri = g_strconcat ("evolution:/local", folder->name, NULL); 
+	uri = g_strconcat ("evolution:/Local Folders", folder->name, NULL); 
 	str = g_strdup_printf ("<tr><td><a href=\"%s\"><pre>%s</pre></a></td><td align=\"Left\"><pre>%d/%d</pre></td></tr>", 
 			       uri, pretty_name, folder->unread, folder->count);
 	g_free (uri);
@@ -99,7 +99,7 @@ e_summary_mail_generate_html (ESummary *summary)
 	mail = summary->mail;
 	string = g_string_new ("<dl><dt><img src=\"ico-mail.png\" "
 	                       "align=\"middle\" alt=\"\" width=\"48\" "
-	                       "height=\"48\"> <b><a href=\"evolution:/local/Inbox\">");
+	                       "height=\"48\"> <b><a href=\"evolution:/Local Folders/Inbox\">");
 	s = e_utf8_from_locale_string (_("Mail summary"));
 	g_string_append (string, s);
 	g_free (s);
@@ -252,7 +252,7 @@ e_summary_mail_init (ESummary *summary,
 {
 	ESummaryMail *mail;
 	CORBA_Environment ev;
-	GNOME_Evolution_LocalStorage local_storage;
+	GNOME_Evolution_Storage local_storage;
 	EvolutionStorageListener *listener;
 	GNOME_Evolution_StorageListener corba_listener;
 

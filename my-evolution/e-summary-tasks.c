@@ -206,7 +206,7 @@ generate_html (gpointer data)
 		s2 = e_utf8_from_locale_string (_("No tasks"));
 		g_free (tasks->html);
 		tasks->html = g_strconcat ("<dl><dt><img src=\"ico-calendar.png\" align=\"middle\" "
-		                              "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Tasks\">",
+		                              "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/Local Folders/Tasks\">",
 		                              s1, "</a></b></dt><dd><b>", s2, "</b></dd></dl>", NULL);
 		g_free (s1);
 		g_free (s2);
@@ -217,7 +217,7 @@ generate_html (gpointer data)
 		char *s;
 
 		string = g_string_new ("<dl><dt><img src=\"ico-calendar.png\" align=\"middle\" "
-		                       "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Tasks\">");
+		                       "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/Local Folders/Tasks\">");
 		s = e_utf8_from_locale_string (_("Tasks"));
 		g_string_append (string, s);
 		g_free (s);
@@ -241,12 +241,12 @@ generate_html (gpointer data)
 			if (completed == NULL) {
 				tmp = g_strdup_printf ("<img align=\"middle\" src=\"es-appointments.png\" "
 						       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
-						       "<font size=\"-1\"><a href=\"evolution:/local/Tasks\">%s</a></font><br>", 
+						       "<font size=\"-1\"><a href=\"evolution:/Local Folders/Tasks\">%s</a></font><br>", 
 						       text.value);
 			} else {
 				tmp = g_strdup_printf ("<img align=\"middle\" src=\"es-appointments.png\" "
 						       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
-						       "<font size=\"-1\"><strike><a href=\"evolution:/local/Tasks\">%s</a></strike></font><br>",
+						       "<font size=\"-1\"><strike><a href=\"evolution:/Local Folders/Tasks\">%s</a></strike></font><br>",
 						       text.value);
 			}
 

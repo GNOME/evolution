@@ -1,8 +1,15 @@
+2001-07-19  Jason Leach  <jleach@ximian.com>
+
+	* e-summary-tasks.c: Update the evolution:/local/ URI's to
+	evolution:/Local Folders/ to go along with todays shell changes.
+
+	* e-summary-mail.c: Ditto.	
+
+	* e-summary-calendar.c: Ditto.
+	
 2001-07-19  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-rdf.c (display_doc): Fix HTML
-
-2001-07-19  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-mail.c (folder_gen_html): correct the folder name.
 
