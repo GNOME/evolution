@@ -274,6 +274,20 @@ option_changed (ESearchBar *esb, void *data)
 	efb->setquery = FALSE;
 }
 
+static void clear_rules(EFilterBar *efb, GPtrArray *rules)
+{
+	int i;
+	FilterRule *rule;
+
+	/* clear out any data on old rules */
+	for (i=0;i<rules->len;i++) {
+		rule = rules->pdata[i];
+		gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, efb);
+		gtk_object_unref((GtkObject *)rule);
+	}
+	g_ptr_array_set_size (rules, 0);
+}
+
 static GArray *
 build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrArray *rules)
 {
@@ -283,6 +297,8 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 	GArray *menu = g_array_new (FALSE, FALSE, sizeof (ESearchBarItem));
 	ESearchBarItem item;
 	char *source;
+
+	clear_rules(efb, rules);
 	
 	/* find a unique starting point for the id's of our items */
 	for (i = 0; items[i].id != -1; i++) {
@@ -311,6 +327,8 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 		item.text = rule->name;
 		item.subitems = NULL;
 		g_array_append_vals (menu, &item, 1);
+		gtk_object_ref((GtkObject *)rule);
+		gtk_signal_connect((GtkObject *)rule, "changed", rule_changed, efb);
 		g_ptr_array_add (rules, rule);
 	}
 	
@@ -333,18 +351,10 @@ generate_menu (ESearchBar *esb, ESearchBarItem *items)
 {
 	EFilterBar *efb = (EFilterBar *)esb;
 	GArray *menu;
-	int i;
 
-	g_ptr_array_set_size (efb->menu_rules, 0);
 	menu = build_items (esb, items, 0, &efb->menu_base, efb->menu_rules);
 	((ESearchBarClass *)parent_class)->set_menu (esb, (ESearchBarItem *)menu->data);
 	g_array_free (menu, TRUE);
-
-	for (i=0;i<efb->menu_rules->len;i++) {
-		if (g_hash_table_lookup(efb->change_ids, efb->menu_rules->pdata[i]) == 0)
-			g_hash_table_insert(efb->change_ids, efb->menu_rules->pdata[i], 
-					    (void *)gtk_signal_connect(efb->menu_rules->pdata[i], "changed", rule_changed, efb));
-	}
 }
 
 static ESearchBarSubitem *
@@ -419,7 +429,6 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 	GArray *menu;
 	EFilterBar *efb = (EFilterBar *)esb;
 	
-	g_ptr_array_set_size (efb->option_rules, 0);
 	menu = build_items (esb, items, 1, &efb->option_base, efb->option_rules);
 	((ESearchBarClass *)parent_class)->set_option (esb, (ESearchBarItem *)menu->data);
 	g_array_free (menu, TRUE);
@@ -440,13 +449,8 @@ static void
 context_rule_removed (RuleContext *context, FilterRule *rule, gpointer user_data)
 {
 	EFilterBar *efb = E_FILTER_BAR (user_data);
-	int id;
 
-	id = (int)g_hash_table_lookup(efb->change_ids, rule);
-	if (id != 0) {
-		g_hash_table_remove(efb->change_ids, rule);
-		gtk_signal_disconnect((GtkObject *)rule, id);
-	}
+	gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, efb);
 }
 
 static void
@@ -483,14 +487,6 @@ impl_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 }
 
 static void
-remove_change_handler(FilterRule *rule, void *value, EFilterBar *bar)
-{
-	int id = (int)value;
-
-	gtk_signal_disconnect((GtkObject *)rule, id);
-}
-
-static void
 destroy (GtkObject *object)
 {
 	EFilterBar *bar;
@@ -499,14 +495,18 @@ destroy (GtkObject *object)
 	g_return_if_fail (E_IS_FILTER_BAR (object));
 	
 	bar = E_FILTER_BAR (object);
+
+	gtk_signal_disconnect_by_func(GTK_OBJECT (bar->context), context_changed, bar);
+	gtk_signal_disconnect_by_func(GTK_OBJECT (bar->context), context_rule_removed, bar);
+
+	clear_rules(bar, bar->menu_rules);
+	clear_rules(bar, bar->option_rules);
+
 	gtk_object_unref (GTK_OBJECT (bar->context));
 	g_ptr_array_free (bar->menu_rules, TRUE);
 	g_ptr_array_free (bar->option_rules, TRUE);
 	g_free (bar->systemrules);
 	g_free (bar->userrules);
-
-	g_hash_table_foreach(bar->change_ids, (GHFunc)remove_change_handler, bar);
-	g_hash_table_destroy(bar->change_ids);
 
 	if (bar->default_items)
 		free_items (bar->default_items);
@@ -564,7 +564,6 @@ init (EFilterBar *efb)
 	
 	efb->menu_rules = g_ptr_array_new ();
 	efb->option_rules = g_ptr_array_new ();
-	efb->change_ids = g_hash_table_new(NULL, NULL);
 }
 
 
