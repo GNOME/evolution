@@ -8,9 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.2.99\n"
-"POT-Creation-Date: 2002-01-30 17:20+0100\n"
-"PO-Revision-Date: 2002-01-30 17:14+0100\n"
-"Last-Translator: Frederic Riss <frederic.riss@laposte.net>\n"
+"POT-Creation-Date: 2002-02-12 12:14+0100\n"
+"PO-Revision-Date: 2002-02-12 12:14+0100\n"
+"Last-Translator: Christophe Merlet (RedFox) <redfox@eikonex.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.h:1
 msgid "Factory to import LDIF files into Evolution."
-msgstr "Usine à outils pour importer des fichiers LDIF dans Evolution"
+msgstr "Fabrique pour importer des fichiers LDIF dans Evolution"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.h:2
 msgid "Imports LDIF files into Evolution."
@@ -26,7 +26,7 @@ msgstr "Importation de fichiers LDIF dans Evolution"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.oaf.in.h:1
 msgid "Factory to import VCard files into Evolution."
-msgstr "Utilitaire pour importer des fichiers VCard dans Evolution"
+msgstr "Fabrique pour importer des fichiers VCard dans Evolution"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.oaf.in.h:2
 msgid "Imports VCard files into Evolution."
@@ -727,11 +727,11 @@ msgstr "Composant pour le traitement des contacts."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:7
 msgid "Factory for the Addressbook Minicard control"
-msgstr "Utilitaire de contrôle Minicard du carnet d'adresses"
+msgstr "fabrique de contrôle Minicard du carnet d'adresses"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:8
 msgid "Factory for the Addressbook's address displayer"
-msgstr "Utilitaire d'affichage des adresses du carnet"
+msgstr "Fabrique d'affichage des adresses du carnet"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:9
 msgid "Factory for the Addressbook's address popup"
@@ -2820,7 +2820,7 @@ msgstr ""
 
 #: addressbook/gui/widgets/gal-view-factory-minicard.c:26
 msgid "Card View"
-msgstr "Vue carte : "
+msgstr "Vue carte"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
@@ -4652,7 +4652,7 @@ msgstr "Durée de la sieste (minutes)"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
 msgid "_Edit appointment"
-msgstr "Éditer le rendez-vous"
+msgstr "_Éditer le rendez-vous"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:670
 msgid "No description available."
@@ -4892,7 +4892,7 @@ msgstr "Tâches"
 
 #: calendar/gui/component-factory.c:69
 msgid "Folder containing to-do items"
-msgstr "Dossier contenant des éléments « À Faire »"
+msgstr "Dossier contenant des éléments « À faire »"
 
 #: calendar/gui/component-factory.c:642 ui/evolution-calendar.xml.h:7
 msgid "Create a new appointment"
@@ -4917,19 +4917,19 @@ msgstr "L'URI que le calendrier affichera"
 
 #: calendar/gui/dialogs/alarm-options.c:359
 msgid "Audio Alarm Options"
-msgstr "Options d'alarme sonore"
+msgstr "Options de l'alarme sonore"
 
 #: calendar/gui/dialogs/alarm-options.c:368
 msgid "Message Alarm Options"
-msgstr "Options Message d'Alarme"
+msgstr "Options du message d'alarme"
 
 #: calendar/gui/dialogs/alarm-options.c:377
 msgid "Mail Alarm Options"
-msgstr "Options Alarme E-mail"
+msgstr "Options d'alarme par mail"
 
 #: calendar/gui/dialogs/alarm-options.c:386
 msgid "Program Alarm Options"
-msgstr "Options Alarm Programme"
+msgstr "Options du programme d'alarme"
 
 #: calendar/gui/dialogs/alarm-options.c:395
 msgid "Unknown Alarm Options"
@@ -4937,7 +4937,7 @@ msgstr "Options Alarme inconnue"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:1
 msgid "Alarm Repeat"
-msgstr "Répétition Alarme"
+msgstr "Répétition de l'alarme"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:2
 msgid "Message to Display"
@@ -4945,7 +4945,7 @@ msgstr "Message à afficher"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
 msgid "Play sound:"
-msgstr "Émettre Son : "
+msgstr "Émettre le son :"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
 msgid "Repeat the alarm"
@@ -4953,7 +4953,7 @@ msgstr "Répéter l'alarme"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:5
 msgid "Run program:"
-msgstr "Lancer programme"
+msgstr "Exécuter le programme :"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:6
 msgid ""
@@ -5032,7 +5032,7 @@ msgstr " 1 seconde"
 #: calendar/gui/dialogs/alarm-page.c:373
 #: calendar/gui/dialogs/alarm-page.glade.h:4
 msgid "Play a sound"
-msgstr "Emettre un son"
+msgstr "Émettre un son"
 
 #: calendar/gui/dialogs/alarm-page.c:377
 #: calendar/gui/dialogs/alarm-page.glade.h:3
@@ -5041,12 +5041,12 @@ msgstr "Afficher un message"
 
 #: calendar/gui/dialogs/alarm-page.c:381
 msgid "Send an email"
-msgstr "Envoyer un E-mail"
+msgstr "Envoyer un courrier"
 
 #: calendar/gui/dialogs/alarm-page.c:385
 #: calendar/gui/dialogs/alarm-page.glade.h:6
 msgid "Run a program"
-msgstr "Lancer un programme"
+msgstr "Exécuter un programme"
 
 #: calendar/gui/dialogs/alarm-page.c:391
 msgid "Unknown action to be performed"
@@ -5118,11 +5118,11 @@ msgstr "_Options..."
 
 #: calendar/gui/dialogs/alarm-page.glade.h:11 filter/libfilter-i18n.h:34
 msgid "after"
-msgstr "aprés le"
+msgstr "aprés"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:12 filter/libfilter-i18n.h:35
 msgid "before"
-msgstr "avant le"
+msgstr "avant"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:13
 #: calendar/gui/dialogs/recurrence-page.glade.h:14
@@ -5131,7 +5131,7 @@ msgstr "jour(s)"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:14
 msgid "end of appointment"
-msgstr "Fin du rendez-vous"
+msgstr "la fin du rendez-vous"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:15
 msgid "hour(s)"
@@ -5143,7 +5143,7 @@ msgstr "minute(s)"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:17
 msgid "start of appointment"
-msgstr "Début du rendez-vous"
+msgstr "le début du rendez-vous"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "05 minutes"
@@ -5363,7 +5363,7 @@ msgstr "Êtes-vous sûr de vouloir annuler et supprimer l'entrée de journal ?"
 
 #: calendar/gui/dialogs/changed-comp.c:59
 msgid "This event has been deleted."
-msgstr "Cet évènement a été supprimé."
+msgstr "Cet événement a été supprimé."
 
 #: calendar/gui/dialogs/changed-comp.c:63
 msgid "This task has been deleted."
@@ -5387,7 +5387,7 @@ msgstr "%s  Vous n'avez fait aucune modification. Fermer l'éditeur ?"
 
 #: calendar/gui/dialogs/changed-comp.c:83
 msgid "This event has been changed."
-msgstr "Cet évènement a été modifié."
+msgstr "Cet événement a été modifié."
 
 #: calendar/gui/dialogs/changed-comp.c:87
 msgid "This task has been changed."
@@ -5411,7 +5411,7 @@ msgstr "%s  Vous n'avez fait aucune modification, Mettre à jour l'éditeur ?"
 
 #: calendar/gui/dialogs/comp-editor-util.c:188 calendar/gui/print.c:2164
 msgid " to "
-msgstr " À "
+msgstr " à "
 
 #: calendar/gui/dialogs/comp-editor-util.c:192 calendar/gui/print.c:2168
 msgid " (Completed "
@@ -5527,7 +5527,7 @@ msgstr "Carnet d'adresses..."
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:2
 msgid "Delegate To:"
-msgstr "Délégué À :"
+msgstr "Délégué à :"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:3
 msgid "Enter Delegate"
@@ -5539,7 +5539,7 @@ msgstr "Rendez-vous"
 
 #: calendar/gui/dialogs/event-editor.c:190
 msgid "Reminder"
-msgstr "Rappeler"
+msgstr "Rappel"
 
 #: calendar/gui/dialogs/event-editor.c:195
 msgid "Recurrence"
@@ -5661,7 +5661,7 @@ msgstr "Délégué par"
 #: calendar/gui/dialogs/meeting-page.etspec.h:5
 #: calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Delegated To"
-msgstr "Délégué À"
+msgstr "Délégué à"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:6
 #: calendar/gui/e-meeting-time-sel.etspec.h:6
@@ -5738,11 +5738,11 @@ msgstr "ième"
 
 #: calendar/gui/dialogs/recurrence-page.c:1269
 msgid "occurrences"
-msgstr "récurrences"
+msgstr "occcurrences"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "A_dd"
-msgstr "Ajouter"
+msgstr "_Ajouter"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
@@ -5758,19 +5758,19 @@ msgstr "Aperçu"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:7
 msgid "Recurrence Rule"
-msgstr "Règle de Récurrence"
+msgstr "Règle de récurrence"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "_Custom recurrence"
-msgstr "Récurrence courante"
+msgstr "Récurrence _personnalisée"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:10
 msgid "_Modify"
-msgstr "Modifier"
+msgstr "_Modifier"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:11
 msgid "_No recurrence"
-msgstr "Aucune récurrence"
+msgstr "_Aucune récurrence"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "_Simple recurrence"
@@ -5790,7 +5790,7 @@ msgstr "mois"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:18
 msgid "until"
-msgstr "jusqu'à"
+msgstr "jusqu'au"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:19
 msgid "week(s)"
@@ -6080,20 +6080,20 @@ msgstr "pm"
 
 #: calendar/gui/e-day-view.c:3527 calendar/gui/e-week-view.c:3410
 msgid "New All Day _Event"
-msgstr "Nouvel évènement de journée complète"
+msgstr "Nouvel _événement de journée complète"
 
 #: calendar/gui/e-day-view.c:3537 calendar/gui/e-week-view.c:3420
 #: ui/evolution-calendar.xml.h:17
 msgid "Go to _Today"
-msgstr "Aller à aujourd'hui"
+msgstr "Aller à _aujourd'hui"
 
 #: calendar/gui/e-day-view.c:3539 calendar/gui/e-week-view.c:3422
 msgid "_Go to Date..."
-msgstr "Aller à la date"
+msgstr "Aller à la _date..."
 
 #: calendar/gui/e-day-view.c:3548 calendar/gui/e-week-view.c:3430
 msgid "_Delete this Appointment"
-msgstr "Supprimer ce rendez-vous"
+msgstr "_Supprimer ce rendez-vous"
 
 #: calendar/gui/e-day-view.c:3567 calendar/gui/e-week-view.c:3455
 msgid "Make this Occurrence _Movable"
@@ -6105,7 +6105,7 @@ msgstr "Supprimer cette occurence"
 
 #: calendar/gui/e-day-view.c:3571 calendar/gui/e-week-view.c:3459
 msgid "Delete _All Occurrences"
-msgstr "Supprimer toutes les occurences"
+msgstr "Supprimer _toutes les occurences"
 
 #: calendar/gui/e-itip-control.c:536
 msgid "Meeting begins: <b>"
@@ -6743,7 +6743,7 @@ msgstr "Un organizer doit être configuré"
 
 #: calendar/gui/itip-utils.c:313 calendar/gui/itip-utils.c:355
 msgid "Event information"
-msgstr "Information évenement"
+msgstr "Information de l'événement"
 
 #: calendar/gui/itip-utils.c:315 calendar/gui/itip-utils.c:357
 msgid "Task information"
@@ -7248,7 +7248,7 @@ msgstr "Ne peut ouvrir le message"
 #: camel/camel-filter-driver.c:693 camel/camel-filter-driver.c:705
 #, c-format
 msgid "Failed on message %d"
-msgstr "Anomalie message %d"
+msgstr "Anomalie au message %d"
 
 #: camel/camel-filter-driver.c:719 camel/camel-filter-driver.c:832
 msgid "Syncing folder"
@@ -7257,12 +7257,12 @@ msgstr "Synchronisation du dossier"
 #: camel/camel-filter-driver.c:789
 #, c-format
 msgid "Getting message %d of %d"
-msgstr "Résupération du message %d parmis %d"
+msgstr "Récupération du message %d sur %d"
 
 #: camel/camel-filter-driver.c:794 camel/camel-filter-driver.c:812
 #, c-format
 msgid "Failed at message %d of %d"
-msgstr "Anomalie message %d du %d"
+msgstr "Anomalie au message %d sur %d"
 
 #: camel/camel-filter-driver.c:921
 #, c-format
@@ -10497,7 +10497,7 @@ msgid ""
 "Apparently-To header.\n"
 "Send anyway?"
 msgstr ""
-"Il est possible que le serveur de courrier puisse révèler les destinataires "
+"Il est possible que le serveur de courrier puisse révéler les destinataires "
 "en ajoutant un entête Apparently-To.\n"
 "Envoyer quand même ?"
 
@@ -11259,7 +11259,7 @@ msgstr "De"
 
 #: mail/mail-format.c:889
 msgid "Reply-To"
-msgstr "Répondre- À :"
+msgstr "Répondre à :"
 
 #: mail/mail-format.c:893 mail/message-list.etspec.h:10
 msgid "To"
@@ -23503,7 +23503,7 @@ msgstr "(Aucun)"
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
-"Ximian Evolution est en ligne. Cliquez sur ce bouton pour tavailler hors "
+"Ximian Evolution est en ligne. Cliquez sur ce bouton pour travailler hors "
 "ligne."
 
 #: shell/e-shell-view.c:1641
@@ -23514,7 +23514,7 @@ msgstr "Ximian Evloution va travailler hors ligne."
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
-"Ximian Evolution est hors ligne. Cliquez sur ce bouton pour tavailler en "
+"Ximian Evolution est hors ligne. Cliquez sur ce bouton pour travailler en "
 "ligne."
 
 #: shell/e-shell.c:651
@@ -24130,7 +24130,7 @@ msgstr "_Imprimer..."
 
 #: ui/evolution-addressbook.xml.h:38
 msgid "_Save as VCard"
-msgstr "Enregistrer comme VCard"
+msgstr "_Enregistrer comme VCard"
 
 #: ui/evolution-addressbook.xml.h:39
 msgid "_Search for Contacts"
@@ -24146,19 +24146,19 @@ msgstr "Configurer le paramétrage du calendrier"
 
 #: ui/evolution-calendar.xml.h:4
 msgid "Create a New All Day _Event"
-msgstr "Créer un nouvel évènement pour la journée entière"
+msgstr "Créer un nouvel _événement pour la journée entière"
 
 #: ui/evolution-calendar.xml.h:5
 msgid "Create a New _Task"
-msgstr "Crée une nouvelle tache"
+msgstr "Crée une nouvelle _tâche"
 
 #: ui/evolution-calendar.xml.h:6
 msgid "Create a _New Appointment"
-msgstr "Créer un nouveau rendez-vous"
+msgstr "Créer un _nouveau rendez-vous"
 
 #: ui/evolution-calendar.xml.h:9
 msgid "Create an event for the whole day"
-msgstr "Créer un évènement pour la journée entière"
+msgstr "Créer un événement pour la journée entière"
 
 #: ui/evolution-calendar.xml.h:11
 msgid "Day"
@@ -24170,7 +24170,7 @@ msgstr "Supprimer le rendez-vous"
 
 #: ui/evolution-calendar.xml.h:13 ui/evolution-mail-message.xml.h:40
 msgid "Go To"
-msgstr "Aller À"
+msgstr "Aller à"
 
 #: ui/evolution-calendar.xml.h:14
 msgid "Go back"
@@ -24186,11 +24186,11 @@ msgstr "Aller à la _date"
 
 #: ui/evolution-calendar.xml.h:18
 msgid "Go to a specific date"
-msgstr "Aller à une date précise"
+msgstr "Va à une date précise"
 
 #: ui/evolution-calendar.xml.h:19
 msgid "Go to today"
-msgstr "Aller à aujourd'hui"
+msgstr "Va à aujourd'hui"
 
 #: ui/evolution-calendar.xml.h:20
 msgid "Month"
@@ -24202,7 +24202,7 @@ msgstr "Nouveau RDV"
 
 #: ui/evolution-calendar.xml.h:22 ui/evolution-tasks.xml.h:10
 msgid "New Task"
-msgstr "Nlle Tâche"
+msgstr "Nlle tâche"
 
 #: ui/evolution-calendar.xml.h:24
 msgid "Previews the calendar to be printed"
@@ -24210,11 +24210,11 @@ msgstr "prévisualise le message a imprimer"
 
 #: ui/evolution-calendar.xml.h:25 ui/evolution-comp-editor.xml.h:9
 msgid "Print Pre_view"
-msgstr "_Aperçu Avant Impression"
+msgstr "_Aperçu avant impression"
 
 #: ui/evolution-calendar.xml.h:26
 msgid "Print this calendar"
-msgstr "Imprimer ce calendrier"
+msgstr "Imprime ce calendrier"
 
 #: ui/evolution-calendar.xml.h:27
 msgid "Publish Free/Busy information for this calendar"
@@ -24222,15 +24222,15 @@ msgstr "Publier l'information Libre/Occupé pour ce calendrier"
 
 #: ui/evolution-calendar.xml.h:28
 msgid "Show one day"
-msgstr "Afficher une journée"
+msgstr "Affiche une journée"
 
 #: ui/evolution-calendar.xml.h:29
 msgid "Show one month"
-msgstr "Afficher un mois"
+msgstr "Affiche un mois"
 
 #: ui/evolution-calendar.xml.h:30
 msgid "Show one week"
-msgstr "Afficher une semaine"
+msgstr "Affiche une semaine"
 
 #: ui/evolution-calendar.xml.h:31
 msgid "Show the working week"
@@ -24266,7 +24266,7 @@ msgstr "Fermer"
 
 #: ui/evolution-comp-editor.xml.h:3
 msgid "Close this item"
-msgstr "Fermer cet élément"
+msgstr "Ferme cet élément"
 
 #: ui/evolution-comp-editor.xml.h:5 ui/evolution-contact-editor.xml.h:3
 msgid "Delete this item"
@@ -24279,11 +24279,11 @@ msgstr "Barre d'outils principale"
 
 #: ui/evolution-comp-editor.xml.h:7
 msgid "Preview the printed item"
-msgstr "Prévisualiser l'élément à  imprimer"
+msgstr "Prévisualise l'élément à imprimer"
 
 #: ui/evolution-comp-editor.xml.h:10 ui/evolution-contact-editor.xml.h:6
 msgid "Print this item"
-msgstr "Imprimer cet élément"
+msgstr "Imprime cet élément"
 
 #: ui/evolution-comp-editor.xml.h:11
 msgid "Print..."
@@ -24298,15 +24298,15 @@ msgstr "Enregistrer"
 #: ui/evolution-contact-list-editor.xml.h:6
 #: ui/evolution-signature-editor.xml.h:4
 msgid "Save and Close"
-msgstr "Enregistrer et Quitter"
+msgstr "Enregistrer et fermer"
 
 #: ui/evolution-comp-editor.xml.h:15
 msgid "Save the item and close the dialog box"
-msgstr "Enregistrer le contact et fermer la boîte de dialogue"
+msgstr "Enregistre le contact et ferme la boîte de dialogue"
 
 #: ui/evolution-comp-editor.xml.h:16
 msgid "Save this item to disk"
-msgstr "Enregistrer cet élément sur le disque"
+msgstr "Enregistre cet élément sur le disque"
 
 #: ui/evolution-comp-editor.xml.h:18 ui/evolution-contact-editor.xml.h:12
 #: ui/evolution-contact-list-editor.xml.h:11
@@ -24329,7 +24329,7 @@ msgstr "Enregistrer _sous..."
 
 #: ui/evolution-contact-editor.xml.h:9
 msgid "Save the contact and close the dialog box"
-msgstr "Enregistrer le contact et fermer la boîte de dialogue"
+msgstr "Enregistre le contact et ferme la boîte de dialogue"
 
 #: ui/evolution-contact-editor.xml.h:15
 #: ui/evolution-contact-list-editor.xml.h:12
@@ -24340,7 +24340,7 @@ msgstr "_Enregistrer"
 
 #: ui/evolution-contact-list-editor.xml.h:3
 msgid "Delete this list"
-msgstr "Supprimer cette liste"
+msgstr "Supprime cette liste"
 
 #: ui/evolution-contact-list-editor.xml.h:4
 msgid "Delete..."
@@ -24348,7 +24348,7 @@ msgstr "Supprimer..."
 
 #: ui/evolution-contact-list-editor.xml.h:7
 msgid "Save the list and close the dialog box"
-msgstr "Enregistrer la liste et fermer la boîte de dialogue"
+msgstr "Enregistre la liste et ferme la boîte de dialogue"
 
 #: ui/evolution-contact-list-editor.xml.h:8
 msgid "Se_nd list to other..."
@@ -24360,7 +24360,7 @@ msgstr "Envoyer un _message à la liste..."
 
 #: ui/evolution-event-editor.xml.h:1
 msgid "Cancel Mee_ting"
-msgstr "Annuler la réunion"
+msgstr "Annuler la _réunion"
 
 #: ui/evolution-event-editor.xml.h:2
 msgid "Cancel the meeting for this item"
@@ -24957,7 +24957,7 @@ msgstr "_Outils"
 
 #: ui/evolution-mail-messagedisplay.xml.h:2 ui/evolution.xml.h:5
 msgid "Close this window"
-msgstr "Fermer cette fenetre"
+msgstr "Ferme cette fenetre"
 
 #: ui/evolution-mail-messagedisplay.xml.h:5
 #: ui/evolution-message-composer.xml.h:45
@@ -25147,7 +25147,7 @@ msgstr "_Ouvrir..."
 
 #: ui/evolution-message-composer.xml.h:52
 msgid "_Reply-To Field"
-msgstr "Champ _Répondre À"
+msgstr "Champ _répondre à"
 
 #: ui/evolution-message-composer.xml.h:54
 msgid "_Security"
@@ -25347,7 +25347,7 @@ msgstr "À _propos de Ximian Evolution..."
 
 #: ui/evolution.xml.h:34
 msgid "_Copy..."
-msgstr "_Copier"
+msgstr "_Copier..."
 
 #: ui/evolution.xml.h:38
 msgid "_Folder Bar"
@@ -25407,7 +25407,7 @@ msgstr "Recharger la vue"
 
 #: ui/my-evolution.xml.h:8
 msgid "_Summary Settings..."
-msgstr "Réglages résumé"
+msgstr "Réglages _résumé..."
 
 #: views/addressbook/galview.xml.h:1
 msgid "Address Cards"
@@ -25415,7 +25415,7 @@ msgstr "Cartes Adresse"
 
 #: views/addressbook/galview.xml.h:2
 msgid "By Company"
-msgstr "Par Société"
+msgstr "Par société"
 
 #: views/addressbook/galview.xml.h:3
 msgid "Phone List"
@@ -25423,15 +25423,15 @@ msgstr "Liste de téléphones"
 
 #: views/mail/galview.xml.h:1
 msgid "By Sender"
-msgstr "Par Expéditeur"
+msgstr "Par expéditeur"
 
 #: views/mail/galview.xml.h:2
 msgid "By Status"
-msgstr "Par État"
+msgstr "Par état"
 
 #: views/mail/galview.xml.h:3
 msgid "By Subject"
-msgstr "Par Sujet"
+msgstr "Par sujet"
 
 #: views/mail/galview.xml.h:4
 msgid "Messages"
@@ -25449,7 +25449,7 @@ msgstr "UTC"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "Select a Time Zone"
-msgstr "Sélectionner un fuseau Horaire"
+msgstr "Sélectionner un fuseau horaire"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
 msgid "Selection:"
