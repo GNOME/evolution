@@ -26,41 +26,36 @@ time_t time_add_month (time_t time, int months);
 time_t time_add_year (time_t time, int years);
 
 
-/* Returns the number of days in the specified month.  Years are full years (starting from year 1).
- * Months are in [0, 11].
- */
+/* Returns the number of days in the specified month.  Years are full years
+   (starting from year 1). Months are in [0, 11]. */
 int time_days_in_month (int year, int month);
 
-/* Converts the specified date to a time_t at the start of the specified day.  Years are full years
- * (starting from year 1).  Months are in [0, 11].  Days are 1-based.
- */
+/* Converts the specified date to a time_t at the start of the specified day.
+   Years are full years (starting from year 1).  Months are in [0, 11].
+   Days are 1-based. */
 time_t time_from_day (int year, int month, int day);
 
-/* For the functions below, time ranges are considered to contain the start time, but not the end
- * time.
- */
+/* For the functions below, time ranges are considered to contain the start
+   time, but not the end time. */
 
-/* These two functions take a time value and return the beginning or end of the corresponding year,
- * respectively.
- */
+/* These two functions take a time value and return the beginning or end of
+   the corresponding year, respectively. */
 time_t time_year_begin (time_t t);
 time_t time_year_end (time_t t);
 
-/* These two functions take a time value and return the beginning or end of the corresponding month,
- * respectively.
- */
+/* These two functions take a time value and return the beginning or end of
+   the corresponding month, respectively. */
 time_t time_month_begin (time_t t);
 time_t time_month_end (time_t t);
 
-/* These functions take a time value and return the beginning or end of the corresponding week,
- * respectively.  This takes into account the global week_starts_on_monday flag.
- */
-time_t time_week_begin (time_t t);
-time_t time_week_end (time_t t);
+/* These functions take a time value and return the beginning or end of the
+   corresponding week, respectively. week_start_day should use the same values
+   as mktime(), i.e. 0 (Sun) to 6 (Sat). */
+time_t time_week_begin (time_t t, int week_start_day);
+time_t time_week_end (time_t t, int week_start_day);
 
-/* These two functions take a time value and return the beginning or end of the corresponding day,
- * respectively.
- */
+/* These two functions take a time value and return the beginning or end of
+   the corresponding day, respectively. */
 time_t time_day_begin (time_t t);
 time_t time_day_end (time_t t);
 

@@ -319,35 +319,45 @@ time_month_end (time_t t)
 	return mktime (&tm);
 }
 
+/* Returns the start of the week. week_start_day should use the same values
+   as mktime(), i.e. 0 (Sun) to 6 (Sat). */
 time_t
-time_week_begin (time_t t)
+time_week_begin (time_t t, int week_start_day)
 {
 	struct tm tm;
-
-	/* FIXME: make it take week_starts_on_monday into account */
+	int offset;
 
 	tm = *localtime (&t);
+
+	/* Calculate the current offset from the week start day. */
+	offset = (tm.tm_wday + 7 - week_start_day) % 7;
+
 	tm.tm_hour = 0;
 	tm.tm_min  = 0;
 	tm.tm_sec  = 0;
-	tm.tm_mday -= tm.tm_wday;
+	tm.tm_mday -= offset;
 	tm.tm_isdst = -1;
 
 	return mktime (&tm);
 }
 
+/* Returns the end of the week. week_start_day should use the same values
+   as mktime(), i.e. 0 (Sun) to 6 (Sat). */
 time_t
-time_week_end (time_t t)
+time_week_end (time_t t, int week_start_day)
 {
 	struct tm tm;
-
-	/* FIXME: make it take week_starts_on_monday into account */
+	int offset;
 
 	tm = *localtime (&t);
+
+	/* Calculate the current offset from the week start day. */
+	offset = (tm.tm_wday + 7 - week_start_day) % 7;
+
 	tm.tm_hour = 0;
 	tm.tm_min  = 0;
 	tm.tm_sec  = 0;
-	tm.tm_mday += 7 - tm.tm_wday;
+	tm.tm_mday += 7 - offset;
 	tm.tm_isdst = -1;
 
 	return mktime (&tm);

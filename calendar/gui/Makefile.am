@@ -65,6 +65,8 @@ evolution_calendar_SOURCES =			\
 	component-factory.h			\
 	e-calendar-table.h			\
 	e-calendar-table.c			\
+	e-day-view-layout.c			\
+	e-day-view-layout.h			\
 	e-day-view-main-item.c			\
 	e-day-view-main-item.h			\
 	e-day-view-time-item.c			\
@@ -79,6 +81,8 @@ evolution_calendar_SOURCES =			\
 	e-meeting-edit.c			\
 	e-week-view-event-item.c		\
 	e-week-view-event-item.h		\
+	e-week-view-layout.c			\
+	e-week-view-layout.h			\
 	e-week-view-main-item.c			\
 	e-week-view-main-item.h			\
 	e-week-view-titles-item.c		\

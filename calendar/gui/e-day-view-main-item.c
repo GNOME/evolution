@@ -29,6 +29,7 @@
  */
 
 #include <config.h>
+#include "e-day-view-layout.h"
 #include "e-day-view-main-item.h"
 
 static void e_day_view_main_item_class_init (EDayViewMainItemClass *class);
@@ -390,7 +391,9 @@ e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
 
-		if (!e_day_view_find_long_event_days (day_view, event,
+		if (!e_day_view_find_long_event_days (event,
+						      day_view->days_shown,
+						      day_view->day_starts,
 						      &start_day, &end_day))
 			continue;
 

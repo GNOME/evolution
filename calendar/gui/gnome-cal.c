@@ -1031,6 +1031,28 @@ gnome_calendar_get_cal_client (GnomeCalendar *gcal)
 	return priv->client;
 }
 
+/**
+ * gnome_calendar_get_task_pad_cal_client:
+ * @gcal: A calendar view.
+ *
+ * Queries the calendar client interface object that a calendar view is using
+ * for the Task Pad.
+ *
+ * Return value: A calendar client interface object.
+ **/
+CalClient *
+gnome_calendar_get_task_pad_cal_client (GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+
+	g_return_val_if_fail (gcal != NULL, NULL);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+
+	priv = gcal->priv;
+
+	return priv->task_pad_client;
+}
+
 gboolean
 gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 {

@@ -53,6 +53,7 @@
 #include "e-meeting-edit.h"
 #include "e-day-view-time-item.h"
 #include "e-day-view-top-item.h"
+#include "e-day-view-layout.h"
 #include "e-day-view-main-item.h"
 
 /* Images */
@@ -266,27 +267,9 @@ static void e_day_view_update_event_label (EDayView *day_view,
 static void e_day_view_update_long_event_label (EDayView *day_view,
 						gint event_num);
 
-static void e_day_view_layout_long_events (EDayView *day_view);
-static void e_day_view_layout_long_event (EDayView	   *day_view,
-					  EDayViewEvent *event,
-					  guint8	   *grid);
 static void e_day_view_reshape_long_events (EDayView *day_view);
 static void e_day_view_reshape_long_event (EDayView *day_view,
 					   gint event_num);
-static void e_day_view_layout_day_events (EDayView *day_view,
-					  gint	day);
-static void e_day_view_layout_day_event (EDayView   *day_view,
-					 gint	    day,
-					 EDayViewEvent *event,
-					 guint8	   *grid,
-					 guint16   *group_starts);
-static void e_day_view_expand_day_event (EDayView	   *day_view,
-					 gint	    day,
-					 EDayViewEvent *event,
-					 guint8	   *grid);
-static void e_day_view_recalc_cols_per_row (EDayView *day_view,
-					    gint      day,
-					    guint16  *group_starts);
 static void e_day_view_reshape_day_events (EDayView *day_view,
 					   gint day);
 static void e_day_view_reshape_day_event (EDayView *day_view,
@@ -297,8 +280,6 @@ static void e_day_view_reshape_resize_long_event_rect_item (EDayView *day_view);
 static void e_day_view_reshape_resize_rect_item (EDayView *day_view);
 
 static void e_day_view_ensure_events_sorted (EDayView *day_view);
-static gint e_day_view_event_sort_func (const void *arg1,
-					const void *arg2);
 
 static void e_day_view_start_editing_event (EDayView *day_view,
 					    gint day,
@@ -2909,7 +2890,9 @@ e_day_view_on_long_event_click (EDayView *day_view,
 	if (!(cal_component_has_recurrences (event->comp))
 	    && (pos == E_DAY_VIEW_POS_LEFT_EDGE
 		|| pos == E_DAY_VIEW_POS_RIGHT_EDGE)) {
-		if (!e_day_view_find_long_event_days (day_view, event,
+		if (!e_day_view_find_long_event_days (event,
+						      day_view->days_shown,
+						      day_view->day_starts,
 						      &start_day, &end_day))
 			return;
 
@@ -4163,7 +4146,7 @@ e_day_view_add_event (CalComponent *comp,
 void
 e_day_view_check_layout (EDayView *day_view)
 {
-	gint day;
+	gint day, rows_in_top_display, top_canvas_height, top_rows;
 
 	/* Don't bother if we aren't visible. */
 	if (!GTK_WIDGET_VISIBLE (day_view))
@@ -4174,7 +4157,10 @@ e_day_view_check_layout (EDayView *day_view)
 
 	for (day = 0; day < day_view->days_shown; day++) {
 		if (day_view->need_layout[day])
-			e_day_view_layout_day_events (day_view, day);
+			e_day_view_layout_day_events (day_view->events[day],
+						      day_view->rows,
+						      day_view->mins_per_row,
+						      day_view->cols_per_row[day]);
 
 		if (day_view->need_layout[day]
 		    || day_view->need_reshape[day]) {
@@ -4188,8 +4174,25 @@ e_day_view_check_layout (EDayView *day_view)
 		day_view->need_reshape[day] = FALSE;
 	}
 
-	if (day_view->long_events_need_layout)
-		e_day_view_layout_long_events (day_view);
+	if (day_view->long_events_need_layout) {
+		e_day_view_layout_long_events (day_view->long_events,
+					       day_view->days_shown,
+					       day_view->day_starts,
+					       &rows_in_top_display);
+
+		/* Set the height of the top canvas based on the row height
+		   and the number of rows needed (min 1 + 1 for the dates + 1
+		   space for DnD).*/
+		if (day_view->rows_in_top_display != rows_in_top_display) {
+			day_view->rows_in_top_display = rows_in_top_display;
+			top_rows = MAX (1, rows_in_top_display);
+			top_canvas_height = (top_rows + 2)
+				* day_view->top_row_height;
+			gtk_widget_set_usize (day_view->top_canvas, -1,
+					      top_canvas_height);
+		}
+	}
+
 
 	if (day_view->long_events_need_layout
 	    || day_view->long_events_need_reshape)
@@ -4197,88 +4200,6 @@ e_day_view_check_layout (EDayView *day_view)
 
 	day_view->long_events_need_layout = FALSE;
 	day_view->long_events_need_reshape = FALSE;
-}
-
-
-static void
-e_day_view_layout_long_events (EDayView *day_view)
-{
-	EDayViewEvent *event;
-	gint event_num, old_rows_in_top_display, top_canvas_height, top_rows;
-	guint8 *grid;
-
-	/* This is a temporary 2-d grid which is used to place events.
-	   Each element is 0 if the position is empty, or 1 if occupied.
-	   We allocate the maximum size possible here, assuming that each
-	   event will need its own row. */
-	grid = g_new0 (guint8,
-		       day_view->long_events->len * E_DAY_VIEW_MAX_DAYS);
-
-	/* Reset the number of rows in the top display to 0. It will be
-	   updated as events are layed out below. */
-	old_rows_in_top_display = day_view->rows_in_top_display;
-	day_view->rows_in_top_display = 0;
-
-	/* Iterate over the events, finding which days they cover, and putting
-	   them in the first free row available. */
-	for (event_num = 0; event_num < day_view->long_events->len;
-	     event_num++) {
-		event = &g_array_index (day_view->long_events,
-					EDayViewEvent, event_num);
-		e_day_view_layout_long_event (day_view, event, grid);
-	}
-
-	/* Free the grid. */
-	g_free (grid);
-
-	/* Set the height of the top canvas based on the row height and the
-	   number of rows needed (min 1 + 1 for the dates + 1 space for DnD).*/
-	if (day_view->rows_in_top_display != old_rows_in_top_display) {
-		top_rows = MAX (1, day_view->rows_in_top_display);
-		top_canvas_height = (top_rows + 2) * day_view->top_row_height;
-		gtk_widget_set_usize (day_view->top_canvas, -1,
-				      top_canvas_height);
-	}
-}
-
-
-static void
-e_day_view_layout_long_event (EDayView	   *day_view,
-			      EDayViewEvent *event,
-			      guint8	   *grid)
-{
-	gint start_day, end_day, free_row, day, row;
-
-	event->num_columns = 0;
-
-	if (!e_day_view_find_long_event_days (day_view, event,
-					      &start_day, &end_day))
-		return;
-
-	/* Try each row until we find a free one. */
-	row = 0;
-	do {
-		free_row = row;
-		for (day = start_day; day <= end_day; day++) {
-			if (grid[row * E_DAY_VIEW_MAX_DAYS + day]) {
-				free_row = -1;
-				break;
-			}
-		}
-		row++;
-	} while (free_row == -1);
-
-	event->start_row_or_col = free_row;
-	event->num_columns = 1;
-
-	/* Mark the cells as full. */
-	for (day = start_day; day <= end_day; day++) {
-		grid[free_row * E_DAY_VIEW_MAX_DAYS + day] = 1;
-	}
-
-	/* Update the number of rows in the top canvas if necessary. */
-	day_view->rows_in_top_display = MAX (day_view->rows_in_top_display,
-					     free_row + 1);
 }
 
 
@@ -4435,225 +4356,6 @@ e_day_view_reshape_long_event (EDayView *day_view,
 			       NULL);
 	e_canvas_item_move_absolute(event->canvas_item,
 				    text_x, item_y);
-}
-
-
-/* Find the start and end days for the event. */
-gboolean
-e_day_view_find_long_event_days (EDayView	*day_view,
-				 EDayViewEvent	*event,
-				 gint		*start_day_return,
-				 gint		*end_day_return)
-{
-	gint day, start_day, end_day;
-
-	start_day = -1;
-	end_day = -1;
-
-	for (day = 0; day < day_view->days_shown; day++) {
-		if (start_day == -1
-		    && event->start < day_view->day_starts[day + 1])
-			start_day = day;
-		if (event->end > day_view->day_starts[day])
-			end_day = day;
-	}
-
-	/* Sanity check. */
-	if (start_day < 0 || start_day >= day_view->days_shown
-	    || end_day < 0 || end_day >= day_view->days_shown
-	    || end_day < start_day) {
-		g_warning ("Invalid date range for event");
-		return FALSE;
-	}
-
-	*start_day_return = start_day;
-	*end_day_return = end_day;
-
-	return TRUE;
-}
-
-
-static void
-e_day_view_layout_day_events (EDayView *day_view,
-			      gint	day)
-{
-	EDayViewEvent *event;
-	gint row, event_num;
-	guint8 *grid;
-
-	/* This is a temporary array which keeps track of rows which are
-	   connected. When an appointment spans multiple rows then the number
-	   of columns in each of these rows must be the same (i.e. the maximum
-	   of all of them). Each element in the array corresponds to one row
-	   and contains the index of the first row in the group of connected
-	   rows. */
-	guint16 group_starts[12 * 24];
-
-	/* Reset the cols_per_row array, and initialize the connected rows so
-	   that all rows are not connected - each row is the start of a new
-	   group. */
-	for (row = 0; row < day_view->rows; row++) {
-		day_view->cols_per_row[day][row] = 0;
-		group_starts[row] = row;
-	}
-
-	/* This is a temporary 2-d grid which is used to place events.
-	   Each element is 0 if the position is empty, or 1 if occupied. */
-	grid = g_new0 (guint8, day_view->rows * E_DAY_VIEW_MAX_COLUMNS);
-
-
-	/* Iterate over the events, finding which rows they cover, and putting
-	   them in the first free column available. Increment the number of
-	   events in each of the rows it covers, and make sure they are all
-	   in one group. */
-	for (event_num = 0; event_num < day_view->events[day]->len;
-	     event_num++) {
-		event = &g_array_index (day_view->events[day], EDayViewEvent,
-					event_num);
-
-		e_day_view_layout_day_event (day_view, day, event,
-					     grid, group_starts);
-	}
-
-	/* Recalculate the number of columns needed in each row. */
-	e_day_view_recalc_cols_per_row (day_view, day, group_starts);
-
-	/* Iterate over the events again, trying to expand events horizontally
-	   if there is enough space. */
-	for (event_num = 0; event_num < day_view->events[day]->len;
-	     event_num++) {
-		event = &g_array_index (day_view->events[day], EDayViewEvent,
-					event_num);
-		e_day_view_expand_day_event (day_view, day, event, grid);
-	}
-
-	/* Free the grid. */
-	g_free (grid);
-}
-
-
-/* Finds the first free position to place the event in.
-   Increments the number of events in each of the rows it covers, and makes
-   sure they are all in one group. */
-static void
-e_day_view_layout_day_event (EDayView	   *day_view,
-			     gint	    day,
-			     EDayViewEvent *event,
-			     guint8	   *grid,
-			     guint16	   *group_starts)
-{
-	gint start_row, end_row, free_col, col, row, group_start;
-
-	start_row = event->start_minute / day_view->mins_per_row;
-	end_row = (event->end_minute - 1) / day_view->mins_per_row;
-
-	event->num_columns = 0;
-
-	/* If the event can't currently be seen, just return. */
-	if (start_row >= day_view->rows || end_row < 0)
-		return;
-
-	/* Make sure we don't go outside the visible times. */
-	start_row = CLAMP (start_row, 0, day_view->rows - 1);
-	end_row = CLAMP (end_row, 0, day_view->rows - 1);
-
-	/* Try each column until we find a free one. */
-	for (col = 0; col < E_DAY_VIEW_MAX_COLUMNS; col++) {
-		free_col = col;
-		for (row = start_row; row <= end_row; row++) {
-			if (grid[row * E_DAY_VIEW_MAX_COLUMNS + col]) {
-				free_col = -1;
-				break;
-			}
-		}
-
-		if (free_col != -1)
-			break;
-	}
-
-	/* If we can't find space for the event, just return. */
-	if (free_col == -1)
-		return;
-
-	/* The event is assigned 1 col initially, but may be expanded later. */
-	event->start_row_or_col = free_col;
-	event->num_columns = 1;
-
-	/* Determine the start index of the group. */
-	group_start = group_starts[start_row];
-
-	/* Increment number of events in each of the rows the event covers.
-	   We use the cols_per_row array for this. It will be sorted out after
-	   all the events have been layed out. Also make sure all the rows that
-	   the event covers are in one group. */
-	for (row = start_row; row <= end_row; row++) {
-		grid[row * E_DAY_VIEW_MAX_COLUMNS + free_col] = 1;
-		day_view->cols_per_row[day][row]++;
-		group_starts[row] = group_start;
-	}
-
-	/* If any following rows should be in the same group, add them. */
-	for (row = end_row + 1; row < day_view->rows; row++) {
-		if (group_starts[row] > end_row)
-			break;
-		group_starts[row] = group_start;
-	}
-}
-
-
-/* For each group of rows, find the max number of events in all the
-   rows, and set the number of cols in each of the rows to that. */
-static void
-e_day_view_recalc_cols_per_row (EDayView *day_view,
-				gint	  day,
-				guint16  *group_starts)
-{
-	gint start_row = 0, row, next_start_row, max_events;
-
-	while (start_row < day_view->rows) {
-
-		max_events = 0;
-		for (row = start_row; row < day_view->rows && group_starts[row] == start_row; row++)
-			max_events = MAX (max_events, day_view->cols_per_row[day][row]);
-
-		next_start_row = row;
-
-		for (row = start_row; row < next_start_row; row++)
-			day_view->cols_per_row[day][row] = max_events;
-
-		start_row = next_start_row;
-	}
-}
-
-
-/* Expands the event horizontally to fill any free space. */
-static void
-e_day_view_expand_day_event (EDayView	   *day_view,
-			     gint	    day,
-			     EDayViewEvent *event,
-			     guint8	   *grid)
-{
-	gint start_row, end_row, col, row;
-	gboolean clashed;
-
-	start_row = event->start_minute / day_view->mins_per_row;
-	end_row = (event->end_minute - 1) / day_view->mins_per_row;
-
-	/* Try each column until we find a free one. */
-	clashed = FALSE;
-	for (col = event->start_row_or_col + 1; col < day_view->cols_per_row[day][start_row]; col++) {
-		for (row = start_row; row <= end_row; row++) {
-			if (grid[row * E_DAY_VIEW_MAX_COLUMNS + col]) {
-				clashed = TRUE;
-				break;
-			}
-		}
-
-		if (clashed)
-			break;
-
-		event->num_columns++;
-	}
 }
 
 
@@ -4837,7 +4539,7 @@ e_day_view_ensure_events_sorted (EDayView *day_view)
 }
 
 
-static gint
+gint
 e_day_view_event_sort_func (const void *arg1,
 			    const void *arg2)
 {
@@ -5774,7 +5476,9 @@ e_day_view_get_long_event_position	(EDayView	*day_view,
 	if (event->num_columns == 0)
 		return FALSE;
 
-	if (!e_day_view_find_long_event_days (day_view, event,
+	if (!e_day_view_find_long_event_days (event,
+					      day_view->days_shown,
+					      day_view->day_starts,
 					      start_day, end_day))
 		return FALSE;
 
@@ -6037,7 +5741,9 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 					day_view->drag_event_num);
 		row = event->start_row_or_col + 1;
 
-		if (!e_day_view_find_long_event_days (day_view, event,
+		if (!e_day_view_find_long_event_days (event,
+						      day_view->days_shown,
+						      day_view->day_starts,
 						      &start_day, &end_day))
 			return;
 
@@ -6450,8 +6156,9 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 				day -= day_view->drag_event_offset;
 				day = MAX (day, 0);
 
-				e_day_view_find_long_event_days (day_view,
-								 event,
+				e_day_view_find_long_event_days (event,
+								 day_view->days_shown,
+								 day_view->day_starts,
 								 &start_day,
 								 &end_day);
 				num_days = end_day - start_day + 1;

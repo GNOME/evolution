@@ -1,3 +1,23 @@
+2001-05-28  Damon Chaplin  <damon@ximian.com>
+
+	* gui/e-week-view-layout.[hc]: 
+	* gui/e-day-view-layout.[hc]: new files to contain layout code split
+	off from EDayView an EWeekView, so we can use it for printing.
+
+	* gui/print.c: rewritten to use the same layout code as the EDayView
+	and EWeekView widgets.
+
+	* gui/gnome-cal.c (gnome_calendar_get_task_pad_cal_client): added
+	function so we can get the CalClient used for the TaskPad for printing.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): added
+	e-day-view-layout.[hc] amd e-week-view-layout.[hc].
+
+	* cal-util/timeutil.c (time_week_begin): 
+	(time_week_end): added week_start_day argument.
+
+	* cal-util/cal-recur.c: added comments describing problems in it.
+
 2001-05-27  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/component-factory.c (remove_folder): implemented the

@@ -89,6 +89,11 @@ extern "C" {
 /* The padding below the date string in the Month view. */
 #define E_WEEK_VIEW_DATE_B_PAD		1
 
+/* We use a 7-bit field to store row numbers in EWeekViewEventSpan, so the
+   maximum number or rows we can allow is 127. It is very unlikely to be
+   reached anyway. */
+#define E_WEEK_VIEW_MAX_ROWS_PER_CELL	127
+
 /* These index our colors array. */
 typedef enum
 {
@@ -444,6 +449,10 @@ void	   e_week_view_convert_time_to_display	(EWeekView	*week_view,
 						 gchar	       **suffix,
 						 gint		*suffix_width);
 gint	   e_week_view_get_time_string_width	(EWeekView	*week_view);
+
+gint	   e_week_view_event_sort_func		(const void	*arg1,
+						 const void	*arg2);
+
 
 #ifdef __cplusplus
 }

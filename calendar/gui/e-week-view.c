@@ -50,6 +50,7 @@
 #include "goto.h"
 #include "e-meeting-edit.h"
 #include "e-week-view-event-item.h"
+#include "e-week-view-layout.h"
 #include "e-week-view-main-item.h"
 #include "e-week-view-titles-item.h"
 
@@ -62,11 +63,6 @@
 	"-adobe-utopia-regular-r-normal-*-*-100-*-*-p-*-iso8859-*"
 #define E_WEEK_VIEW_SMALL_FONT_FALLBACK	\
 	"-adobe-helvetica-medium-r-normal-*-*-80-*-*-p-*-iso8859-*"
-
-/* We use a 7-bit field to store row numbers in EWeekViewEventSpan, so the
-   maximum number or rows we can allow is 127. It is very unlikely to be
-   reached anyway. */
-#define E_WEEK_VIEW_MAX_ROWS_PER_CELL	127
 
 #define E_WEEK_VIEW_JUMP_BUTTON_WIDTH	16
 #define E_WEEK_VIEW_JUMP_BUTTON_HEIGHT	8
@@ -115,23 +111,11 @@ static gboolean e_week_view_add_event (CalComponent *comp,
 				       time_t	  end,
 				       gpointer	  data);
 static void e_week_view_check_layout (EWeekView *week_view);
-static void e_week_view_layout_events (EWeekView *week_view);
-static void e_week_view_layout_event (EWeekView	   *week_view,
-				      EWeekViewEvent   *event,
-				      guint8	   *grid,
-				      GArray	   *spans);
 static void e_week_view_ensure_events_sorted (EWeekView *week_view);
-static gint e_week_view_event_sort_func (const void *arg1,
-					 const void *arg2);
 static void e_week_view_reshape_events (EWeekView *week_view);
 static void e_week_view_reshape_event_span (EWeekView *week_view,
 					    gint event_num,
 					    gint span_num);
-static gint e_week_view_find_day (EWeekView *week_view,
-				  time_t time_to_find,
-				  gboolean include_midnight_in_prev_day);
-static gint e_week_view_find_span_end (EWeekView *week_view,
-				       gint day);
 static void e_week_view_recalc_day_starts (EWeekView *week_view,
 					   time_t lower);
 static void e_week_view_on_adjustment_changed (GtkAdjustment *adjustment,
@@ -1751,85 +1735,22 @@ e_week_view_get_day_position	(EWeekView	*week_view,
 				 gint		*day_w,
 				 gint		*day_h)
 {
-	gint week, day_of_week, row, col, weekend_col, box, weekend_box;
+	gint cell_x, cell_y, cell_h;
 
-	*day_x = *day_y = *day_w = *day_h = 0;
-	g_return_if_fail (day >= 0);
+	e_week_view_layout_get_day_position (day,
+					     week_view->multi_week_view,
+					     week_view->weeks_shown,
+					     week_view->display_start_day,
+					     week_view->compress_weekend,
+					     &cell_x, &cell_y, &cell_h);
 
-	if (week_view->multi_week_view) {
-		g_return_if_fail (day < week_view->weeks_shown * 7);
+	*day_x = week_view->col_offsets[cell_x];
+	*day_y = week_view->row_offsets[cell_y];
 
-		week = day / 7;
-		col = day % 7;
-		day_of_week = (week_view->display_start_day + day) % 7;
-		if (week_view->compress_weekend && day_of_week >= 5) {
-			/* In the compressed view Saturday is above Sunday and
-			   both have just one row as opposed to 2 for all the
-			   other days. */
-			if (day_of_week == 5) {
-				*day_y = week_view->row_offsets[week * 2];
-				*day_h = week_view->row_heights[week * 2];
-			} else {
-				*day_y = week_view->row_offsets[week * 2 + 1];
-				*day_h = week_view->row_heights[week * 2 + 1];
-				col--;
-			}
-			/* Both Saturday and Sunday are in the same column. */
-			*day_x = week_view->col_offsets[col];
-			*day_w = week_view->col_widths[col];
-		} else {
-			/* If the weekend is compressed and the day is after
-			   the weekend we have to move back a column. */
-			if (week_view->compress_weekend) {
-				/* Calculate where the weekend column is.
-				   Note that 5 is Saturday. */
-				weekend_col = (5 + 7 - week_view->display_start_day) % 7;
-				if (col > weekend_col)
-					col--;
-			}
-
-			*day_y = week_view->row_offsets[week * 2];
-			*day_h = week_view->row_heights[week * 2]
-				+ week_view->row_heights[week * 2 + 1];
-			*day_x = week_view->col_offsets[col];
-			*day_w = week_view->col_widths[col];
-		}
-	} else {
-		g_return_if_fail (day < 7);
-
-		/* Calculate which box to place the day in, from 0-5.
-		   Note that in the week view the weekends are always
-		   compressed and share a box. */
-		box = day;
-		day_of_week = (week_view->display_start_day + day) % 7;
-		weekend_box = (5 + 7 - week_view->display_start_day) % 7;
-		if (box > weekend_box)
-			box--;
-
-		if (box < 3) {
-			*day_x = week_view->col_offsets[0];
-			*day_w = week_view->col_widths[0];
-		} else {
-			*day_x = week_view->col_offsets[1];
-			*day_w = week_view->col_widths[1];
-		}
-
-		row = (box % 3) * 2;
-		if (day_of_week < 5) {
-			*day_y = week_view->row_offsets[row];
-			*day_h = week_view->row_heights[row]
-				+ week_view->row_heights[row + 1];
-		} else if (day_of_week == 5) {
-			/* Saturday. */
-			*day_y = week_view->row_offsets[row];
-			*day_h = week_view->row_heights[row];
-
-		} else {
-			/* Sunday. */
-			*day_y = week_view->row_offsets[row + 1];
-			*day_h = week_view->row_heights[row + 1];
-		}
-	}
+	*day_w = week_view->col_widths[cell_x];
+	*day_h = week_view->row_heights[cell_y];
+	if (cell_h == 2)
+		*day_h += week_view->row_heights[cell_y + 1];
 }
 
 
@@ -1851,7 +1772,7 @@ e_week_view_get_span_position	(EWeekView	*week_view,
 {
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
-	gint end_day_of_week, num_days;
+	gint num_days;
 	gint start_x, start_y, start_w, start_h;
 	gint end_x, end_y, end_w, end_h;
 
@@ -1865,35 +1786,14 @@ e_week_view_get_span_position	(EWeekView	*week_view,
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + span_num);
 
-	if (span->row >= week_view->rows_per_cell)
+	if (!e_week_view_layout_get_span_position (event, span,
+						   week_view->rows_per_cell,
+						   week_view->rows_per_compressed_cell,
+						   week_view->display_start_day,
+						   week_view->multi_week_view,
+						   week_view->compress_weekend,
+						   &num_days)) {
 		return FALSE;
-
-	end_day_of_week = (week_view->display_start_day + span->start_day + span->num_days - 1) % 7;
-	num_days = span->num_days;
-	/* Check if the row will not be visible in compressed cells. */
-	if (span->row >= week_view->rows_per_compressed_cell) {
-		if (week_view->multi_week_view) {
-			if (week_view->compress_weekend) {
-				/* If it ends on a Saturday and is 1 day long
-				   we skip it, else we shorten it. If it ends
-				   on a Sunday it must be 1 day long and we
-				   skip it. */
-				if (end_day_of_week == 5) {	   /* Sat */
-					if (num_days == 1) {
-						return FALSE;
-					} else {
-						num_days--;
-					}
-				} else if (end_day_of_week == 6) { /* Sun */
-					return FALSE;
-				}
-			}
-		} else {
-			/* All spans are 1 day long in the week view, so we
-			   just skip it. */
-			if (end_day_of_week > 4)
-				return FALSE;
-		}
 	}
 
 	e_week_view_get_day_position (week_view, span->start_day,
@@ -2235,161 +2135,20 @@ e_week_view_check_layout (EWeekView *week_view)
 	e_week_view_ensure_events_sorted (week_view);
 
 	if (week_view->events_need_layout)
-		e_week_view_layout_events (week_view);
+		week_view->spans = e_week_view_layout_events
+			(week_view->events, week_view->spans,
+			 week_view->multi_week_view,
+			 week_view->weeks_shown,
+			 week_view->compress_weekend,
+			 week_view->display_start_day,
+			 week_view->day_starts,
+			 week_view->rows_per_day);
 
 	if (week_view->events_need_layout || week_view->events_need_reshape)
 		e_week_view_reshape_events (week_view);
 
 	week_view->events_need_layout = FALSE;
 	week_view->events_need_reshape = FALSE;
-}
-
-
-static void
-e_week_view_layout_events (EWeekView *week_view)
-{
-	EWeekViewEvent *event;
-	EWeekViewEventSpan *span;
-	gint num_days, day, event_num, span_num;
-	guint8 *grid;
-	GArray *spans, *old_spans;
-
-	/* This is a temporary 2-d grid which is used to place events.
-	   Each element is 0 if the position is empty, or 1 if occupied.
-	   We allocate the maximum size possible here, assuming that each
-	   event will need its own row. */
-	grid = g_new0 (guint8, E_WEEK_VIEW_MAX_ROWS_PER_CELL * 7
-		       * E_WEEK_VIEW_MAX_WEEKS);
-
-	/* We create a new array of spans, which will replace the old one. */
-	spans = g_array_new (FALSE, FALSE, sizeof (EWeekViewEventSpan));
-
-	/* Clear the number of rows used per day. */
-	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
-	for (day = 0; day <= num_days; day++) {
-		week_view->rows_per_day[day] = 0;
-	}
-
-	/* Iterate over the events, finding which weeks they cover, and putting
-	   them in the first free row available. */
-	for (event_num = 0; event_num < week_view->events->len; event_num++) {
-		event = &g_array_index (week_view->events, EWeekViewEvent,
-					event_num);
-		e_week_view_layout_event (week_view, event, grid, spans);
-	}
-
-	/* Free the grid. */
-	g_free (grid);
-
-	/* Replace the spans array. */
-	old_spans = week_view->spans;
-	week_view->spans = spans;
-
-	/* Destroy the old spans array, destroying any unused canvas items. */
-	if (old_spans) {
-		for (span_num = 0; span_num < old_spans->len; span_num++) {
-			span = &g_array_index (old_spans, EWeekViewEventSpan,
-					       span_num);
-			if (span->background_item)
-				gtk_object_destroy (GTK_OBJECT (span->background_item));
-			if (span->text_item)
-				gtk_object_destroy (GTK_OBJECT (span->text_item));
-		}
-		g_array_free (old_spans, TRUE);
-	}
-}
-
-
-static void
-e_week_view_layout_event (EWeekView	   *week_view,
-			  EWeekViewEvent   *event,
-			  guint8	   *grid,
-			  GArray	   *spans)
-{
-	gint start_day, end_day, span_start_day, span_end_day, rows_per_cell;
-	gint free_row, row, day, span_num, spans_index, num_spans, max_day;
-	EWeekViewEventSpan span, *old_span;
-
-	start_day = e_week_view_find_day (week_view, event->start, FALSE);
-	end_day = e_week_view_find_day (week_view, event->end, TRUE);
-	max_day = week_view->multi_week_view ? week_view->weeks_shown * 7 - 1
-		: 7 - 1;
-	start_day = CLAMP (start_day, 0, max_day);
-	end_day = CLAMP (end_day, 0, max_day);
-
-#if 0
-	g_print ("In e_week_view_layout_event Start:%i End: %i\n",
-		 start_day, end_day);
-#endif
-
-	/* Iterate through each of the spans of the event, where each span
-	   is a sequence of 1 or more days displayed next to each other. */
-	span_start_day = start_day;
-	rows_per_cell = E_WEEK_VIEW_MAX_ROWS_PER_CELL;
-	span_num = 0;
-	spans_index = spans->len;
-	num_spans = 0;
-	while (span_start_day <= end_day) {
-		span_end_day = e_week_view_find_span_end (week_view,
-							  span_start_day);
-		span_end_day = MIN (span_end_day, end_day);
-#if 0
-		g_print ("  Span start:%i end:%i\n", span_start_day,
-			 span_end_day);
-#endif
-		/* Try each row until we find a free one or we fall off the
-		   bottom of the available rows. */
-		row = 0;
-		free_row = -1;
-		while (free_row == -1 && row < rows_per_cell) {
-			free_row = row;
-			for (day = span_start_day; day <= span_end_day;
-			     day++) {
-				if (grid[day * rows_per_cell + row]) {
-					free_row = -1;
-					break;
-				}
-			}
-			row++;
-		};
-
-		if (free_row != -1) {
-			/* Mark the cells as full. */
-			for (day = span_start_day; day <= span_end_day;
-			     day++) {
-				grid[day * rows_per_cell + free_row] = 1;
-				week_view->rows_per_day[day] = MAX (week_view->rows_per_day[day], free_row + 1);
-			}
-#if 0
-			g_print ("  Span start:%i end:%i row:%i\n",
-				 span_start_day, span_end_day, free_row);
-#endif
-			/* Add the span to the array, and try to reuse any
-			   canvas items from the old spans. */
-			span.start_day = span_start_day;
-			span.num_days = span_end_day - span_start_day + 1;
-			span.row = free_row;
-			span.background_item = NULL;
-			span.text_item = NULL;
-			if (event->num_spans > span_num) {
-				old_span = &g_array_index (week_view->spans, EWeekViewEventSpan, event->spans_index + span_num);
-				span.background_item = old_span->background_item;
-				span.text_item = old_span->text_item;
-				old_span->background_item = NULL;
-				old_span->text_item = NULL;
-			}
-
-			g_array_append_val (spans, span);
-			num_spans++;
-		}
-
-		span_start_day = span_end_day + 1;
-		span_num++;
-	}
-
-	/* Set the event's spans. */
-	event->spans_index = spans_index;
-	event->num_spans = num_spans;
 }
 
 
@@ -2406,7 +2165,7 @@ e_week_view_ensure_events_sorted (EWeekView *week_view)
 }
 
 
-static gint
+gint
 e_week_view_event_sort_func (const void *arg1,
 			     const void *arg2)
 {
@@ -2705,76 +2464,6 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 			       "clip_height", (gdouble) text_h,
 			       NULL);
 	e_canvas_item_move_absolute (span->text_item, text_x, text_y);
-}
-
-
-/* Finds the day containing the given time.
-   If include_midnight_in_prev_day is TRUE then if the time exactly
-   matches the start of a day the previous day is returned. This is useful
-   when calculating the end day of an event. */
-static gint
-e_week_view_find_day (EWeekView *week_view,
-		      time_t time_to_find,
-		      gboolean include_midnight_in_prev_day)
-{
-	gint num_days, day;
-	time_t *day_starts;
-
-	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
-	day_starts = week_view->day_starts;
-
-	if (time_to_find < day_starts[0])
-		return -1;
-	if (time_to_find > day_starts[num_days])
-		return num_days;
-
-	for (day = 1; day <= num_days; day++) {
-		if (time_to_find <= day_starts[day]) {
-			if (time_to_find == day_starts[day]
-			    && !include_midnight_in_prev_day)
-				return day;
-			return day - 1;
-		}
-	}
-
-	g_assert_not_reached ();
-	return num_days;
-}
-
-
-/* This returns the last possible day in the same span as the given day.
-   A span is all the days which are displayed next to each other from left to
-   right. In the week view all spans are only 1 day, since Tuesday is below
-   Monday rather than beside it etc. In the month view, if the weekends are not
-   compressed then each week is a span, otherwise we have to break a span up
-   on Saturday, use a separate span for Sunday, and start again on Monday. */
-static gint
-e_week_view_find_span_end (EWeekView *week_view,
-			   gint day)
-{
-	gint week, col, sat_col, end_col;
-
-	if (week_view->multi_week_view) {
-		week = day / 7;
-		col = day % 7;
-
-		/* We default to the last column in the row. */
-		end_col = 6;
-
-		/* If the weekend is compressed we must end any spans on
-		   Saturday and Sunday. */
-		if (week_view->compress_weekend) {
-			sat_col = (5 + 7 - week_view->display_start_day) % 7;
-			if (col <= sat_col)
-				end_col = sat_col;
-			else if (col == sat_col + 1)
-				end_col = sat_col + 1;
-		}
-
-		return week * 7 + end_col;
-	} else {
-		return day;
-	}
 }
 
 

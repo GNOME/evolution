@@ -582,10 +582,6 @@ gboolean   e_day_view_get_long_event_position	(EDayView	*day_view,
 						 gint		*item_y,
 						 gint		*item_w,
 						 gint		*item_h);
-gboolean   e_day_view_find_long_event_days	(EDayView	*day_view,
-						 EDayViewEvent	*event,
-						 gint		*start_day,
-						 gint		*end_day);
 
 void	   e_day_view_start_selection		(EDayView	*day_view,
 						 gint		 day,
@@ -607,6 +603,9 @@ void	   e_day_view_convert_time_to_display	(EDayView	*day_view,
 						 gint		*suffix_width);
 gint	   e_day_view_get_time_string_width	(EDayView	*day_view);
 
+
+gint	   e_day_view_event_sort_func		(const void	*arg1,
+						 const void	*arg2);
 
 #ifdef __cplusplus
 }

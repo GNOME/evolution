@@ -84,6 +84,24 @@
  *   the BYSETPOS property is used to select which of the occurrences are
  *   finally output. If BYSETPOS is not specified then all the occurrences are
  *   output.
+ *
+ *
+ * FIXME: I think there are a few errors in this code:
+ *
+ *  1) I'm not sure it should be generating events in parallel like it says
+ *     above. That needs to be checked.
+ *
+ *  2) I didn't think about timezone changes when implementing this. I just
+ *     assumed all the occurrences of the event would be in local time.
+ *     But when clocks go back or forwards due to daylight-saving time, some
+ *     special handling may be needed, especially for the shorter frequencies.
+ *     e.g. for a MINUTELY frequency it should probably iterate over all the
+ *     minutes before and after clocks go back (i.e. some may be the same local
+ *     time but have different UTC offsets). For longer frequencies, if an
+ *     occurrence lands on the overlapping or non-existant time when clocks
+ *     go back/forward, then it may need to choose which of the times to use
+ *     or move the time forward or something. I'm not sure this is clear in the
+ *     spec.
  */
 
 /* Define this for some debugging output. */

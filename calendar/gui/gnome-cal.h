@@ -65,6 +65,7 @@ GtkWidget *gnome_calendar_construct		(GnomeCalendar *gcal);
 GtkWidget *gnome_calendar_new			(void);
 
 CalClient *gnome_calendar_get_cal_client	(GnomeCalendar *gcal);
+CalClient *gnome_calendar_get_task_pad_cal_client(GnomeCalendar *gcal);
 
 gboolean   gnome_calendar_open                  (GnomeCalendar *gcal, const char *str_uri);
 /*
