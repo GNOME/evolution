@@ -1,3 +1,9 @@
+2005-01-26  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-config.c (ech_check): If the plugin isn't enabled, return TRUE
+	so that the suer doesn't get locked in one of the account druid
+	pages.
+
 2005-01-21  JP Rosevear  <jpr@novell.com>
 
 	Fixes #46404

@@ -331,7 +331,7 @@ struct _EConfigHookPageCheckData {
  * cancelling a configuration edit.
  *
  * Each plugin that hooks into a given configuration page will define
- * all of the tiems for that page in a single group.
+ * all of the items for that page in a single group.
  **/
 struct _EConfigHookGroup {
 	struct _EConfigHook *hook; /* parent pointer */

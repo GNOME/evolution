@@ -1245,7 +1245,10 @@ ech_check(EConfig *ec, const char *pageid, void *data)
 {
 	struct _EConfigHookGroup *group = data;
 	EConfigHookPageCheckData hdata;
-
+	
+	if (!group->hook->hook.plugin->enabled)
+		return TRUE;
+	
 	hdata.config = ec;
 	hdata.target = ec->target;
 	hdata.pageid = pageid?pageid:"";
