@@ -2,8 +2,8 @@
 
 	* Makefile.am (images_DATA): Added `online.png' and `offline.png'.
 
-	* online.png: New.
-	* offline.png: New.
+	* online.png: New icon by Tuomas.
+	* offline.png: New icon by Tuomas.
 
 2001-05-14  Duncan Mak  <duncan@ximian.com>
 
