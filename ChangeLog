@@ -1,3 +1,7 @@
+2005-01-08 Harish Krishnaswamy <kharish@novell.com>
+	* configure.in : Add gnome-vfs-module-2.0 to Evo compile flags for
+	the calendar.
+
 2005-01-08  Hans Petter Jansson  <hpj@novell.com>
 
 	* configure.in: Add libedataserverui to the e-util libs and cflags.
