@@ -1,3 +1,8 @@
+2000-07-25  Peter Williams  <peterw@helixcode.com>
+
+	* Makefile.am (libeutil_static_la_LDFLAGS): Build both libraries
+	(a typo didn't build libeutil.la, only -static.)
+
 2000-07-25  Seth Alves  <alves@hungry.com>
 
 	* Makefile.am (libeutil_static_la_LDFLAGS): build static version
