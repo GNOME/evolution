@@ -20,20 +20,29 @@
     <para>
        If you haven't used a handheld device with your computer
        before, you'll need to run the GNOME <application>Control
-       Center</application> and make sure that <application>Pilot
-       Link</application> is properly configured. Then, select the
-       <application>Evolution</application> <glossterm
-       linkend="conduit">conduits</glossterm> under the
-       <guilabel>Pilot Conduits</guilabel> section of the Control
-       Center.
-  </para>
+       Center</application> by selecting
+       <menuchoice><guimenu>System</guimenu><guimenuitem>Settings</guimenuitem></menuchoice>,
+       and make sure that <application>Pilot Link</application> is
+       properly configured.
+    </para>
     <para>
         Once your computer and your Palm-OS device are talking happily
-        to each other, you'll have to decide what exactly you want
-        them to do with the data they exchange.  To enable a conduit, click the
-        <guibutton>Enable</guibutton> to enable it and click
-        <guibutton>Settings</guibutton>.  Your options may vary
-        depending on the conduit, but typically they will be:
+        to each other, select the <glossterm
+        linkend="conduit">conduits</glossterm> you want under the
+        <guilabel>Pilot Conduits</guilabel> section of the Control
+        Center.  You may use conduits to synchronize data with several
+        applications; the <application>Ximian Evolution</application>
+        conduits are labelled <guilabel>EAddress</guilabel>, for the
+        address cards in your Contact Manager,
+        <guilabel>ECalendar</guilabel>, for your Calendar, and
+        <guilabel>ETodo</guilabel>, for your Task List.
+    </para>
+   <para>
+      To enable a conduit, click the
+        <guibutton>Enable</guibutton> to enable it, and click
+        <guibutton>Settings</guibutton> to change what it will do when
+        activated.  Your options may vary depending on the conduit,
+        but typically they will be:
 
         <variablelist>
          <varlistentry>
@@ -101,20 +110,18 @@
     </para>
 
     <para>
-      Select a behavior for each conduit available.  For the most
-      part, you'll want to stick with
+      Select the behavior you want for each conduit you choose to use.
+      If you're not sure, go ahead and stick with
       <guilabel>Synchronize</guilabel>.  Then, put your handheld on
-      its cradle and press the synchronization button.
+      its cradle and press the HotSync button.
     </para>
-
-
       <para> 
          <tip> 
 	  <title>Data Loss Prevention</title> 
 	  <para>
 	    It's always a good idea to make a backup.  To do that,
-	    make a copy of your
-	    <filename>~/evolution</filename> directory.
+	    make a copy of the <filename>evolution</filename>
+	    directory inside your home directory.
           </para>
 	</tip>
        </para>
