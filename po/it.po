@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "POT-Creation-Date: 2004-01-26 13:51-0500\n"
-"PO-Revision-Date: 2004-01-26 18:36+0100\n"
+"PO-Revision-Date: 2004-01-27 16:28+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team:  <tp@lists.linux.it>,<it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -92,9 +92,9 @@ msgid "Manager your S/Mime certificates here"
 msgstr "Gestione dei certificati S/Mime"
 
 #: addressbook/gui/component/addressbook-component.c:212
-#, fuzzy, c-format
+#, c-format
 msgid "Addressbook '%s' will be removed. Are you sure you want to continue?"
-msgstr "Il calendario '%s' sarà rimosso. Sei sicuro di voler continuare?"
+msgstr "L'agenda '%s' sarà rimossa. Sei sicuro di voler continuare?"
 
 #: addressbook/gui/component/addressbook-component.c:268
 #: addressbook/gui/component/ldap-config.glade.h:28
@@ -174,15 +174,13 @@ msgid "Migrating..."
 msgstr "In migrazione..."
 
 #: addressbook/gui/component/addressbook-migrate.c:54
-#, fuzzy
 msgid ""
 "The location and hierarchy of the Evolution contact folders has changed "
 "since Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"La posizione e la gerarchia delle cartelle di posta di Evolution è cambiata "
-"dalla versione 1.x.\n"
+"La posizione e la gerarchia delle cartelle dei contatti di Evolution è cambiata dalla versione 1.x.\n"
 "\n"
 "Attendere che Evolution finisca la migrazione delle cartelle..."
 
@@ -210,19 +208,16 @@ msgstr "Personale"
 
 #. Create the LDAP source group
 #: addressbook/gui/component/addressbook-migrate.c:402
-#, fuzzy
 msgid "On LDAP Servers"
-msgstr "Modifica server LDAP"
+msgstr "Su server LDAP"
 
 #: addressbook/gui/component/addressbook-migrate.c:529
-#, fuzzy
 msgid "LDAP Servers"
-msgstr "Modifica server LDAP"
+msgstr "Server LDAP"
 
 #: addressbook/gui/component/addressbook-migrate.c:649
-#, fuzzy
 msgid "Autocompletion Settings"
-msgstr "Autocompletamento"
+msgstr "Impostazioni autocompletamento"
 
 #: addressbook/gui/component/addressbook.c:273
 msgid ""
@@ -324,9 +319,8 @@ msgid "EFolderList xml for the list of completion uris"
 msgstr "EFolderList xml per l'elenco del completamento delle uri"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
-#, fuzzy
 msgid "Position of the vertical pane in main view"
-msgstr "Posizione del pannello verticale nella vista mensile"
+msgstr "Posizione del pannello verticale nella vista principale"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
 msgid ""
@@ -402,9 +396,8 @@ msgid "Addressbook Creation Assistant"
 msgstr "Assistente alla creazione della rubrica"
 
 #: addressbook/gui/component/ldap-config.glade.h:12
-#, fuzzy
 msgid "Addressbook Properties"
-msgstr "Sorgenti della rubrica"
+msgstr "Proprietà della rubrica"
 
 #: addressbook/gui/component/ldap-config.glade.h:13
 msgid "Addressbook Sources"
@@ -849,34 +842,28 @@ msgstr "Sorgente"
 
 #: addressbook/gui/component/select-names/e-select-names.c:494
 #: addressbook/gui/component/select-names/select-names.glade.h:6
-#, fuzzy
 msgid "Select Contacts from Address Book"
 msgstr "Seleziona contatti dalla rubrica"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
-#, fuzzy
 msgid "<b>Contacts</b>"
-msgstr "<b>Stato:</b>"
+msgstr "<b>Contatti</b>"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:3
-#, fuzzy
 msgid "<b>Show Contacts</b>"
-msgstr "Mostra contatti"
+msgstr "<b>Mostra contatti</b>"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:4
-#, fuzzy
 msgid "Address _Book:"
-msgstr "Rubrica"
+msgstr "Ru_brica:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
-#, fuzzy
 msgid "C_ategory:"
-msgstr "_Categoria:"
+msgstr "C_ategoria:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:7
-#, fuzzy
 msgid "_Find"
-msgstr "Trova"
+msgstr "_Trova"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid " B_usiness:"
@@ -947,13 +934,12 @@ msgid "Full _Name..."
 msgstr "_Nome e cognome..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:19
-#, fuzzy
 msgid ""
 "If this person has the ability to participate in a video conference, enter "
 "their address here."
 msgstr ""
-"Se la persona indicata pubblica informazioni di calendario su Internet,\n"
-"inserirne qui la URL."
+"Se la persona indicata può partecipare in una video conferenza, inserirne "
+"qui il suo indirizzo."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid ""
@@ -965,9 +951,8 @@ msgstr ""
 "inserirne qui la URL."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
-#, fuzzy
 msgid "Instant Messaging"
-msgstr "Messaggio _importante successivo"
+msgstr "Messaggi istantanei"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "New phone type"
@@ -2048,9 +2033,8 @@ msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:62
-#, fuzzy
 msgid "AOL Instant Messenger"
-msgstr "Messaggio _importante successivo"
+msgstr "Messenger AOL"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:63
 #: addressbook/gui/contact-editor/e-contact-editor.c:2837
@@ -2059,12 +2043,11 @@ msgstr "Jabber"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:64
 msgid "Yahoo Messenger"
-msgstr ""
+msgstr "Messenger Yahoo"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:65
-#, fuzzy
 msgid "MSN Messenger"
-msgstr "Invia _messaggio"
+msgstr "Messenger MSN"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:66
 #: addressbook/gui/contact-editor/e-contact-editor.c:2840
@@ -2073,20 +2056,17 @@ msgstr "ICQ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:116
 #: addressbook/gui/contact-editor/e-contact-editor.c:710
-#, fuzzy
 msgid "Service"
-msgstr "Servizio pronto"
+msgstr "Servizio"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:125
 #: calendar/gui/dialogs/cal-prefs-dialog.c:426
-#, fuzzy
 msgid "Location"
-msgstr "Posizione:"
+msgstr "Posizione"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:132
-#, fuzzy
 msgid "Username"
-msgstr "_Nome utente:"
+msgstr "Nome utente"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:245
 #: addressbook/gui/contact-editor/e-contact-editor.c:2527
@@ -4328,11 +4308,8 @@ msgid "before every appointment"
 msgstr "prima di ogni appuntamento"
 
 #: calendar/gui/dialogs/calendar-setup.c:156
-#, fuzzy
 msgid "You must specify a location to get the calendar from."
-msgstr ""
-"Il gruppo '%s' è remoto. Devi specificare una locazione da cui prelevare il "
-"calendario"
+msgstr "È necessario specificare una luogo da cui prelevare il calendario."
 
 #: calendar/gui/dialogs/calendar-setup.c:164
 #, c-format
@@ -5309,55 +5286,47 @@ msgstr "Risposta di autenticazione dal server errata."
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:3
 msgid "Calendars selected for publishing"
-msgstr ""
+msgstr "Calendari selezionati per la pubblicazione"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:4
-#, fuzzy
 msgid "Daily"
-msgstr "Giorno"
+msgstr "Giornaliero"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:5
-#, fuzzy
 msgid "Free/Busy Editor"
-msgstr "Informazioni sulla disponibilità"
+msgstr "Modifica informazioni sulla disponibilità"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
-#, fuzzy
 msgid "Free/Busy Publishing Location"
-msgstr "Richiesta disponibilità"
+msgstr "Locazione per la pubblicazione delle informazioni sulla disponibilità"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
-#, fuzzy
 msgid "Login name:"
-msgstr "Nome dell'e_lenco:"
+msgstr "Nome di login:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:8
-#, fuzzy
 msgid "Password:"
-msgstr "Password"
+msgstr "Password:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:9
 msgid "Publishing Frequency"
-msgstr ""
+msgstr "Frequenza di pubblicazione"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:10
-#, fuzzy
 msgid "Remember password"
-msgstr "Ricorda questa password"
+msgstr "Ricorda la password"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:11
-#, fuzzy
 msgid "URL:"
-msgstr "URL"
+msgstr "URL:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:12
 msgid "User Publishes"
-msgstr ""
+msgstr "L'utente pubblica"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:13
-#, fuzzy
 msgid "Weekly"
-msgstr "Settimana"
+msgstr "Settimanalmente"
 
 #: calendar/gui/e-alarm-list.c:395
 #, c-format
@@ -6502,6 +6471,9 @@ msgid ""
 "%s\n"
 " has crashed."
 msgstr ""
+"Il backend delle attività per\n"
+"%s\n"
+" è andato in crash."
 
 #: calendar/gui/e-tasks.c:846
 #, fuzzy, c-format
@@ -6551,6 +6523,9 @@ msgid ""
 "%s\n"
 " has crashed."
 msgstr ""
+"Il backend del calendario per\n"
+"%s\n"
+" è andato in crash."
 
 #: calendar/gui/gnome-cal.c:2808
 msgid "Purging"
@@ -13025,17 +13000,16 @@ msgstr "Errore sconosciuto durante la verifica della firma"
 
 #: mail/em-format-html-display.c:1064
 msgid "Completed on %B %d, %Y, %l:%M %p"
-msgstr ""
+msgstr "Completato il %d %B %Y, %l:%M %p"
 
 #: mail/em-format-html-display.c:1072
-#, fuzzy
 msgid "Overdue:"
-msgstr "Attività scadute:"
+msgstr "Scadute:"
 
+# per il %d %b %l:%M %p
 #: mail/em-format-html-display.c:1075
-#, fuzzy
 msgid "by %B %d, %Y, %l:%M %p"
-msgstr "%b %d %l:%M %p"
+msgstr "per il %d %b %l:%M %p"
 
 #: mail/em-format-html-display.c:1145
 msgid "_View Inline"
@@ -13699,11 +13673,11 @@ msgstr "Usa caratteri personalizzati per mostrare la posta"
 
 #: mail/evolution-mail.schemas.in.in.h:79
 msgid "Use only local spam tests."
-msgstr ""
+msgstr "Usa solo test di spam locale."
 
 #: mail/evolution-mail.schemas.in.in.h:80
 msgid "Use only the local spam tests (no DNS)."
-msgstr ""
+msgstr "Usa solo test di spam locale (senza DNS)."
 
 #: mail/evolution-mail.schemas.in.in.h:81
 msgid "Variable width font"
@@ -13759,12 +13733,11 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:93
 msgid "port for starting user runned spamd"
-msgstr ""
+msgstr "porta per l'esecuzione utente di spamd"
 
 #: mail/evolution-mail.schemas.in.in.h:94
-#, fuzzy
 msgid "spamd port"
-msgstr "Importa"
+msgstr "porta di spamd"
 
 #: mail/importers/GNOME_Evolution_Mail_Elm_Intelligent_Importer.server.in.in.h:1
 msgid "Evolution Elm importer"
@@ -14053,9 +14026,8 @@ msgid "Compose a new mail message"
 msgstr "Componi un nuovo messaggio di posta"
 
 #: mail/mail-component.c:577
-#, fuzzy
 msgid "URI of the mail source that the view will display"
-msgstr "UID della sorgente contatti che la vista mostrerà"
+msgstr "URI della sorgente posta che la vista mostrerà"
 
 #: mail/mail-config-druid.c:367 mail/mail-config.glade.h:67
 msgid "Identity"
@@ -14128,9 +14100,8 @@ msgid "Connecting to server..."
 msgstr "Connessione al server..."
 
 #: mail/mail-config.glade.h:3
-#, fuzzy
 msgid "    "
-msgstr "      "
+msgstr "    "
 
 #: mail/mail-config.glade.h:4
 msgid " _Check for supported types "
@@ -14278,7 +14249,7 @@ msgstr "Firma _sempre i messaggi in uscita (predefinito)"
 
 #: mail/mail-config.glade.h:48
 msgid "Do _Not Check Incoming Mail For IMAP Accounts"
-msgstr ""
+msgstr "_Non controllare la nuova posta in ingresso per account IMAP"
 
 #: mail/mail-config.glade.h:49
 msgid "Do not quote original message"
@@ -14649,9 +14620,8 @@ msgid "_Junk"
 msgstr "Da _cestinare"
 
 #: mail/mail-config.glade.h:160
-#, fuzzy
 msgid "_Load images if sender is in address book"
-msgstr "_Carica le immagini se il mittente è nella rubrica"
+msgstr "Carica _le immagini se il mittente è nella rubrica"
 
 #: mail/mail-config.glade.h:161
 msgid "_Local Tests Only"
@@ -16013,19 +15983,16 @@ msgstr ""
 "%s"
 
 #: shell/evolution-test-component.c:140
-#, fuzzy
 msgid "New Test"
-msgstr "Nuova attività"
+msgstr "Nuovo test"
 
 #: shell/evolution-test-component.c:141
-#, fuzzy
 msgid "_Test"
-msgstr "Test"
+msgstr "_Test"
 
 #: shell/evolution-test-component.c:142
-#, fuzzy
 msgid "Create a new test item"
-msgstr "Crea un nuovo elenco attività"
+msgstr "Crea una nuova voce di test"
 
 #: shell/glade/e-active-connection-dialog.glade.h:1
 msgid "Active Connections"
@@ -18454,42 +18421,3 @@ msgstr "Testo"
 #: widgets/misc/e-search-bar.c:930
 msgid "Find _Now"
 msgstr "_Trova ora"
-
-#~ msgid "Could not create a directory for the new addressbook."
-#~ msgstr "Impossibile creare la directory per la nuova rubrica."
-
-#, fuzzy
-#~ msgid "Select Contents from Address Book"
-#~ msgstr "Seleziona contatti dalla rubrica"
-
-#~ msgid "Birthdays"
-#~ msgstr "Compleanni"
-
-#~ msgid "Could not create directory for new calendar"
-#~ msgstr "Impossibile creare la directory per il nuovo calendario"
-
-#~ msgid ""
-#~ "The task backend for\n"
-#~ "%s\n"
-#~ " has crashed. You will have to restart Evolution in order to use it again"
-#~ msgstr ""
-#~ "Il backend per\n"
-#~ "%s\n"
-#~ "è andato in crash. Per utilizzarlo nuovamente è necessario riavviare "
-#~ "Evolution"
-
-#~ msgid ""
-#~ "The calendar backend for\n"
-#~ "%s\n"
-#~ " has crashed. You will have to restart Evolution in order to use it again"
-#~ msgstr ""
-#~ "Il backend del calendario per \n"
-#~ "%s\n"
-#~ "è andato in crash. Per utilizzarlo nuovamente è necessario riavviare "
-#~ "Evolution"
-
-#~ msgid "Spam"
-#~ msgstr "Spam"
-
-#~ msgid "Failed to migrate `%s': %s"
-#~ msgstr "Impossibile la migrazione di `%s': %s"
