@@ -82,7 +82,6 @@ typedef struct {
 	
 	char *pgp_path;
 	CamelPgpType pgp_type;
-	gboolean remember_pgp_passphrase;
 	
 	MailConfigHTTPMode http_mode;
 	MailConfigForwardStyle default_forward_style;
@@ -554,9 +553,6 @@ config_read (void)
 	config->pgp_type = bonobo_config_get_long_with_default (config->db, 
 	        "/Mail/PGP/type", CAMEL_PGP_TYPE_NONE, NULL);
 	
-	config->remember_pgp_passphrase = bonobo_config_get_boolean_with_default (
-		config->db, "/Mail/Prompts/remember_passphrase", TRUE, NULL);
-	
 	/* HTTP images */
 	config->http_mode = bonobo_config_get_long_with_default (config->db, 
 		"/Mail/Display/http_images", MAIL_CONFIG_HTTP_SOMETIMES, NULL);
@@ -844,9 +840,6 @@ mail_config_write_on_exit (void)
 	
 	bonobo_config_set_long (config->db, "/Mail/PGP/type", 
 				config->pgp_type, NULL);
-	
-	bonobo_config_set_boolean (config->db, "/Mail/Prompts/remember_passphrase",
-				   config->remember_pgp_passphrase, NULL);	
 	
 	/* HTTP images */
 	bonobo_config_set_long (config->db, "/Mail/Display/http_images", 
@@ -1320,18 +1313,6 @@ mail_config_set_pgp_path (const char *pgp_path)
 	g_free (config->pgp_path);
 	
 	config->pgp_path = g_strdup (pgp_path);
-}
-
-gboolean
-mail_config_get_remember_pgp_passphrase (void)
-{
-	return config->remember_pgp_passphrase;
-}
-
-void
-mail_config_set_remember_pgp_passphrase (gboolean value)
-{
-	config->remember_pgp_passphrase = value;
 }
 
 MailConfigHTTPMode

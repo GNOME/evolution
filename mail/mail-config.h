@@ -161,9 +161,6 @@ void         mail_config_set_pgp_type (CamelPgpType pgp_type);
 const char *mail_config_get_pgp_path (void);
 void        mail_config_set_pgp_path (const char *pgp_path);
 
-gboolean    mail_config_get_remember_pgp_passphrase (void);
-void        mail_config_set_remember_pgp_passphrase (gboolean value);
-
 MailConfigHTTPMode mail_config_get_http_mode (void);
 void               mail_config_set_http_mode (MailConfigHTTPMode);
 

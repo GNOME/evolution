@@ -91,10 +91,10 @@ struct _MailAccountsDialog {
 	GtkToggleButton *empty_trash;
 	GtkToggleButton *filter_log;
 	GnomeFileEntry *filter_log_path;
+	GtkToggleButton *confirm_expunge;
 	
 	/* PGP page */
 	GnomeFileEntry *pgp_path;
-	GtkToggleButton *remember_passwd;
 
 	/* Pixmaps for the clist */
 	GdkPixmap *mark_pixmap;

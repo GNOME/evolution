@@ -2932,20 +2932,6 @@ Quoted
       </widget>
 
       <widget>
-	<class>GtkCheckButton</class>
-	<name>chkRememberPGPPassphrase</name>
-	<can_focus>True</can_focus>
-	<label>_Remember PGP Passphrase until exit</label>
-	<active>True</active>
-	<draw_indicator>True</draw_indicator>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
-
-      <widget>
 	<class>GtkHBox</class>
 	<name>hbox56</name>
 	<homogeneous>False</homogeneous>
@@ -3051,6 +3037,20 @@ Quoted
 	    <text></text>
 	  </widget>
 	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkCheckButton</class>
+	<name>chkConfirmExpunge</name>
+	<can_focus>True</can_focus>
+	<label>Confirm when Expunging a folder</label>
+	<active>False</active>
+	<draw_indicator>True</draw_indicator>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
       </widget>
     </widget>
 

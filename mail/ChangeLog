@@ -1,3 +1,27 @@
+2001-09-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (decode_pgp): Update to not send the
+	remember-passphrase option to the context, it doesn't need it
+	anymore.
+	(try_inline_pgp_sig): Same.
+
+	* mail-accounts.c (construct): The remember-passphrase option is
+	no longer there. This can now be set on the passphrase prompt
+	dialog.
+	(construct): Add confirm expunge options.
+
+	* mail-config.c (config_read): We no longer read-in the
+	remember-passphrase state because we no longer need it.
+	(mail_config_write_on_exit): We no longer save it either.
+	(mail_config_get_remember_pgp_passphrase): Removed.
+	(mail_config_set_remember_pgp_passphrase): Removed.
+
+	* mail-crypto.c (mail_crypto_pgp_mime_part_sign): No longer do we
+	need to send the remember passphrase state to the pgp context.
+	(mail_crypto_pgp_mime_part_verify): Same.
+	(mail_crypto_pgp_mime_part_encrypt): Here too.
+	(mail_crypto_pgp_mime_part_decrypt): And here.
+
 2001-09-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Patch for Automake 1.5 compatibility pointed out by Richard

@@ -1340,8 +1340,7 @@ decode_pgp (CamelStream *ciphertext, CamelStream *plaintext, MailDisplay *md)
 		CamelPgpContext *ctx;
 		
 		ctx = camel_pgp_context_new (session, mail_config_get_pgp_type (),
-					     mail_config_get_pgp_path (),
-					     mail_config_get_remember_pgp_passphrase ());
+					     mail_config_get_pgp_path ());
 		
 		if (ctx) {
 			camel_pgp_decrypt (ctx, ciphertext, plaintext, &ex);
@@ -1500,8 +1499,7 @@ try_inline_pgp_sig (char *start, CamelMimePart *part, MailDisplay *md)
 	mail_html_write (md->html, md->stream, "<hr>");
 	
 	context = camel_pgp_context_new (session, mail_config_get_pgp_type (),
-					 mail_config_get_pgp_path (),
-					 mail_config_get_remember_pgp_passphrase ());
+					 mail_config_get_pgp_path ());
 	
 	if (context) {
 		CamelMimeFilterCharset *charset_filter;
