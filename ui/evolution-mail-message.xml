@@ -188,7 +188,7 @@
 
     <submenu name="Edit">
       <placeholder name="MailMessageEdit">
-        <menuitem name="MessageSearch" verb="" _label="S_earch Message"/>
+        <menuitem name="MessageSearch" verb="" _label="S_earch Message..."/>
 
         <separator/>
 

@@ -1,3 +1,8 @@
+2001-08-23  Larry Ewing  <lewing@ximian.com>
+
+	* evolution-mail-message.xml: added ... to Search Message to
+	indicate that it pops up a dialog.
+
 2001-08-21  Damon Chaplin  <damon@ximian.com>
 
 	* evolution-calendar.xml: 'All-Day' -> 'All Day' to be consistent
