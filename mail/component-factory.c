@@ -837,8 +837,8 @@ idle_quit (gpointer user_data)
 	static int shutdown_shutdown = FALSE;
 
 	if (!shutdown_shutdown) {
-		if (mail_msg_active(-1)) {
-			/* short sleep? */
+		if (e_thread_busy(NULL) || mail_msg_active(-1)) {
+			usleep(10000);
 			return TRUE;
 		}
 

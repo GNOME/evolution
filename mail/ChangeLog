@@ -1,3 +1,9 @@
+2002-05-06  Not Zed  <NotZed@Ximian.com>
+
+	* component-factory.c (idle_quit): Check all threads are idle as
+	well, using new e_thread_busy call.  Should fix #22553?  Also
+	sleep a little bit, to let the other threads run.
+
 2002-05-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (sig_new_text): Update the code to actually
