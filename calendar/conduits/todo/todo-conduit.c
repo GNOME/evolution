@@ -48,7 +48,7 @@
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
-#define CONDUIT_VERSION "0.1.5"
+#define CONDUIT_VERSION "0.1.6"
 
 #define DEBUG_TODOCONDUIT 1
 /* #undef DEBUG_TODOCONDUIT */
@@ -96,6 +96,8 @@ struct _EToDoConduitCfg {
 	guint32 pilot_id;
 	GnomePilotConduitSyncType  sync_type;
 
+	ESourceList *source_list;
+	ESource *source;
 	gboolean secret;
 	gint priority;
 
@@ -109,6 +111,8 @@ todoconduit_load_configuration (guint32 pilot_id)
 	GnomePilotConduitManagement *management;
 	GnomePilotConduitConfig *config;
 	gchar prefix[256];
+
+
 	g_snprintf (prefix, 255, "/gnome-pilot.d/e-todo-conduit/Pilot_%u/",
 		    pilot_id);
 	
@@ -130,7 +134,21 @@ todoconduit_load_configuration (guint32 pilot_id)
 	
 	/* Custom settings */
 	gnome_config_push_prefix (prefix);
-
+	
+	if (!e_cal_get_sources (&c->source_list, E_CAL_SOURCE_TYPE_TODO, NULL))
+		c->source_list = NULL;
+	if (c->source_list) {
+		c->source = e_pilot_get_sync_source (c->source_list);
+		if (!c->source)
+			c->source = e_source_list_peek_source_any (c->source_list);
+		if (c->source) {
+			g_object_ref (c->source);
+		} else {
+			g_object_unref (c->source_list);
+			c->source_list = NULL;
+		}
+	}
+	
 	c->secret = gnome_config_get_bool ("secret=FALSE");
 	c->priority = gnome_config_get_int ("priority=3");
 	c->last_uri = gnome_config_get_string ("last_uri");
@@ -149,6 +167,7 @@ todoconduit_save_configuration (EToDoConduitCfg *c)
 		    c->pilot_id);
 
 	gnome_config_push_prefix (prefix);
+	e_pilot_set_sync_source (c->source_list, c->source);
 	gnome_config_set_bool ("secret", c->secret);
 	gnome_config_set_int ("priority", c->priority);
 	gnome_config_set_string ("last_uri", c->last_uri);
@@ -169,6 +188,10 @@ todoconduit_dupe_configuration (EToDoConduitCfg *c)
 	retval->sync_type = c->sync_type;
 	retval->pilot_id = c->pilot_id;
 
+	if (c->source_list)
+		retval->source_list = g_object_ref (c->source_list);
+	if (c->source)
+		retval->source = g_object_ref (c->source);
 	retval->secret = c->secret;
 	retval->priority = c->priority;
 	retval->last_uri = g_strdup (c->last_uri);
@@ -181,6 +204,8 @@ todoconduit_destroy_configuration (EToDoConduitCfg *c)
 {
 	g_return_if_fail (c != NULL);
 
+	g_object_unref (c->source_list);
+	g_object_unref (c->source);
 	g_free (c->last_uri);
 	g_free (c);
 }
@@ -270,7 +295,7 @@ static EToDoConduitContext *
 e_todo_context_new (guint32 pilot_id) 
 {
 	EToDoConduitContext *ctxt = g_new0 (EToDoConduitContext, 1);
-
+	
 	ctxt->cfg = todoconduit_load_configuration (pilot_id);
 	ctxt->new_cfg = todoconduit_dupe_configuration (ctxt->cfg);
 	ctxt->gui = NULL;
@@ -399,13 +424,15 @@ static int
 start_calendar_server (EToDoConduitContext *ctxt)
 {
 	g_return_val_if_fail (ctxt != NULL, -2);
-	
-	/* FIXME Need a mechanism for the user to select uri's */
-	/* FIXME Can we use the cal model? */
-	
-	if (!e_cal_open_default (&ctxt->client, E_CAL_SOURCE_TYPE_TODO, NULL, NULL, NULL))
+
+	if (ctxt->cfg->source) {
+		ctxt->client = e_cal_new (ctxt->cfg->source, E_CAL_SOURCE_TYPE_TODO);
+		if (!e_cal_open (ctxt->client, TRUE, NULL)) 
+			return -1;
+	} else if (!e_cal_open_default (&ctxt->client, E_CAL_SOURCE_TYPE_TODO, NULL, NULL, NULL)) {
 		return -1;
-	
+	}
+
 	return 0;
 }
 
@@ -1292,6 +1319,9 @@ prepare (GnomePilotConduitSyncAbs *conduit,
 static void
 fill_widgets (EToDoConduitContext *ctxt)
 {
+	if (ctxt->cfg->source)
+		e_pilot_settings_set_source (E_PILOT_SETTINGS (ctxt->ps), 
+					     ctxt->cfg->source);
 	e_pilot_settings_set_secret (E_PILOT_SETTINGS (ctxt->ps),
 				     ctxt->cfg->secret);
 
@@ -1304,8 +1334,11 @@ create_settings_window (GnomePilotConduit *conduit,
 			EToDoConduitContext *ctxt)
 {
 	LOG (g_message ( "create_settings_window" ));
+	
+	if (!ctxt->cfg->source_list)	
+		return -1;
 
-	ctxt->ps = e_pilot_settings_new ();
+	ctxt->ps = e_pilot_settings_new (ctxt->cfg->source_list);
 	ctxt->gui = e_todo_gui_new (E_PILOT_SETTINGS (ctxt->ps));
 
 	gtk_container_add (GTK_CONTAINER (parent), ctxt->ps);
@@ -1315,6 +1348,7 @@ create_settings_window (GnomePilotConduit *conduit,
 	
 	return 0;
 }
+
 static void
 display_settings (GnomePilotConduit *conduit, EToDoConduitContext *ctxt)
 {
@@ -1328,6 +1362,10 @@ save_settings    (GnomePilotConduit *conduit, EToDoConduitContext *ctxt)
 {
 	LOG (g_message ( "save_settings" ));
 
+	if (ctxt->new_cfg->source)
+		g_object_unref (ctxt->new_cfg->source);
+	ctxt->new_cfg->source = e_pilot_settings_get_source (E_PILOT_SETTINGS (ctxt->ps));
+	g_object_ref (ctxt->new_cfg->source);
 	ctxt->new_cfg->secret = e_pilot_settings_get_secret (E_PILOT_SETTINGS (ctxt->ps));
 	e_todo_gui_fill_config (ctxt->gui, ctxt->new_cfg);
 	

@@ -1,6 +1,8 @@
 INCLUDES = 					\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
+	-I$(top_srcdir)/widgets/misc		\
+	-I$(top_builddir)/widgets/misc		\
 	$(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)
 
 # Calendar Conduit
@@ -13,6 +15,7 @@ libecalendar_conduit_la_LDFLAGS = -module -avoid-version
 libecalendar_conduit_la_LIBADD = 					\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/e-util/libeconduit.la	 			\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la	 		\
 	$(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
 e-calendar-$(BASE_VERSION).conduit: e-calendar.conduit.in

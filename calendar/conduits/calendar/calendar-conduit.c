@@ -94,6 +94,8 @@ struct _ECalConduitCfg {
 	guint32 pilot_id;
 	GnomePilotConduitSyncType  sync_type;
 
+	ESourceList *source_list;
+	ESource *source;
 	gboolean secret;
 	gboolean multi_day_split;
 	
@@ -130,6 +132,19 @@ calconduit_load_configuration (guint32 pilot_id)
 	g_snprintf (prefix, 255, "/gnome-pilot.d/e-calendar-conduit/Pilot_%u/", pilot_id);
 	gnome_config_push_prefix (prefix);
 
+	if (!e_cal_get_sources (&c->source_list, E_CAL_SOURCE_TYPE_EVENT, NULL))
+		c->source_list = NULL;
+	if (c->source_list) {
+		c->source = e_pilot_get_sync_source (c->source_list);
+		if (!c->source)
+			c->source = e_source_list_peek_source_any (c->source_list);
+		if (c->source) {
+			g_object_ref (c->source);
+		} else {
+			g_object_unref (c->source_list);
+			c->source_list = NULL;
+		}
+	}
 	c->secret = gnome_config_get_bool ("secret=FALSE");
 	c->multi_day_split = gnome_config_get_bool ("multi_day_split=TRUE");
 	if ((c->last_uri = gnome_config_get_string ("last_uri")) && !strncmp (c->last_uri, "file://", 7)) {
@@ -164,6 +179,7 @@ calconduit_save_configuration (ECalConduitCfg *c)
 	g_snprintf (prefix, 255, "/gnome-pilot.d/e-calendar-conduit/Pilot_%u/", c->pilot_id);
 	gnome_config_push_prefix (prefix);
 
+	e_pilot_set_sync_source (c->source_list, c->source);
 	gnome_config_set_bool ("secret", c->secret);
 	gnome_config_set_bool ("multi_day_split", c->multi_day_split);
 	gnome_config_set_string ("last_uri", c->last_uri);
@@ -184,6 +200,11 @@ calconduit_dupe_configuration (ECalConduitCfg *c)
 	retval = g_new0 (ECalConduitCfg, 1);
 	retval->pilot_id = c->pilot_id;
 	retval->sync_type = c->sync_type;
+
+	if (c->source_list)
+		retval->source_list = g_object_ref (c->source_list);
+	if (c->source)
+		retval->source = g_object_ref (c->source);
 	retval->secret = c->secret;
 	retval->multi_day_split = c->multi_day_split;
 	retval->last_uri = g_strdup (c->last_uri);
@@ -196,6 +217,8 @@ calconduit_destroy_configuration (ECalConduitCfg *c)
 {
 	g_return_if_fail (c != NULL);
 
+	g_object_unref (c->source_list);
+	g_object_unref (c->source);
 	g_free (c->last_uri);
 	g_free (c);
 }
@@ -407,14 +430,17 @@ static int
 start_calendar_server (ECalConduitContext *ctxt)
 {
 	g_return_val_if_fail (ctxt != NULL, -2);
-	
-	/* FIXME Need a mechanism for the user to select uri's */
-	/* FIXME Can we use the cal model? */
-	
-	if (!e_cal_open_default (&ctxt->client, E_CAL_SOURCE_TYPE_EVENT, NULL, NULL, NULL))
+
+	if (ctxt->cfg->source) {
+		ctxt->client = e_cal_new (ctxt->cfg->source, E_CAL_SOURCE_TYPE_EVENT);
+		if (!e_cal_open (ctxt->client, TRUE, NULL))
+			return -1;
+	} else if (!e_cal_open_default (&ctxt->client, E_CAL_SOURCE_TYPE_EVENT, NULL, NULL, NULL)) {
 		return -1;
-	
-	return 0;
+	}
+
+        return 0;
+
 }
 
 /* Utility routines */
@@ -1801,6 +1827,9 @@ prepare (GnomePilotConduitSyncAbs *conduit,
 static void
 fill_widgets (ECalConduitContext *ctxt)
 {
+	if (ctxt->cfg->source)
+		e_pilot_settings_set_source (E_PILOT_SETTINGS (ctxt->ps),
+					     ctxt->cfg->source);	
 	e_pilot_settings_set_secret (E_PILOT_SETTINGS (ctxt->ps),
 				     ctxt->cfg->secret);
 
@@ -1813,8 +1842,11 @@ create_settings_window (GnomePilotConduit *conduit,
 			ECalConduitContext *ctxt)
 {
 	LOG (g_message ( "create_settings_window" ));
+	
+	if (!ctxt->cfg->source_list)
+		return -1;
 
-	ctxt->ps = e_pilot_settings_new ();
+	ctxt->ps = e_pilot_settings_new (ctxt->cfg->source_list);
 	ctxt->gui = e_cal_gui_new (E_PILOT_SETTINGS (ctxt->ps));
 
 	gtk_container_add (GTK_CONTAINER (parent), ctxt->ps);
@@ -1835,8 +1867,12 @@ display_settings (GnomePilotConduit *conduit, ECalConduitContext *ctxt)
 static void
 save_settings    (GnomePilotConduit *conduit, ECalConduitContext *ctxt)
 {
-	LOG (g_message ( "save_settings" ));
+        LOG (g_message ( "save_settings" ));
 
+	if (ctxt->new_cfg->source)
+		g_object_unref (ctxt->new_cfg->source);
+	ctxt->new_cfg->source = g_object_ref (e_pilot_settings_get_source (E_PILOT_SETTINGS (ctxt->ps)));
+	g_object_ref (ctxt->new_cfg->source);
 	ctxt->new_cfg->secret =
 		e_pilot_settings_get_secret (E_PILOT_SETTINGS (ctxt->ps));
 	e_cal_gui_fill_config (ctxt->gui, ctxt->new_cfg);
