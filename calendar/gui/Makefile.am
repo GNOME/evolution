@@ -42,8 +42,6 @@ glade_DATA = 					\
 glade_messages = event-editor-dialog.glade.h
 
 evolution_calendar_SOURCES =			\
-	e-day-view.c				\
-	e-day-view.h				\
 	alarm.c					\
 	alarm.h					\
 	calendar-commands.c			\

@@ -1,3 +1,40 @@
+2000-08-21  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/e-day-view.c 
+	(e_day_view_update_event): Use CalComponent
+	instead of iCalObject.  Work around not having a compare
+	dates routine for two CalComponents.
+	(e_day_view_reshape_long_event): Use CalComponent instead
+	of iCalObject, #if some alarm stuff
+	(e_day_view_reshape_day_event): ditto
+	(e_day_view_reload_events): Use revamped CalClient
+	(e_day_view_update_event_cb): Use CalComponent
+	instead of iCalObject
+	(e_day_view_foreach_event_with_uid): ditto
+	(e_day_view_remove_event_cb): ditto
+	(e_day_view_update_event_label): ditto
+	(e_day_view_find_event_from_uid): ditto
+	(e_day_view_on_event_click): ditto
+	(e_day_view_on_event_right_click): ditto
+	(e_day_view_on_new_appointment): ditto
+	(e_day_view_on_edit_appointment): ditto
+	(e_day_view_on_delete_occurrence): ditto
+	(e_day_view_on_delete_appointment): ditto
+	(e_day_view_on_unrecur_appointment): ditto
+	(e_day_view_on_top_canvas_motion): ditto
+	(e_day_view_on_main_canvas_motion): ditto
+	(e_day_view_finish_long_event_resize): ditto
+	(e_day_view_finish_resize): ditto
+	(e_day_view_free_event_array): ditto
+	(e_day_view_add_event): ditto
+	(e_day_view_key_press): ditto
+	(e_day_view_on_editing_stopped): ditto
+	(e_day_view_update_top_canvas_drag): ditto
+	(e_day_view_update_main_canvas_drag): ditto
+	(e_day_view_on_drag_data_get): ditto
+	(e_day_view_on_top_canvas_drag_data_received): ditto
+	(e_day_view_on_main_canvas_drag_data_received): ditto
+
 2000-08-20  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons):

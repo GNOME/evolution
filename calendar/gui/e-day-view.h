@@ -146,7 +146,7 @@ typedef enum
 
 typedef struct _EDayViewEvent EDayViewEvent;
 struct _EDayViewEvent {
-	iCalObject *ico;
+	CalComponent *comp;
 	time_t start;
 	time_t end;
 	guint8 start_row_or_col;/* The start column for normal events, or the
