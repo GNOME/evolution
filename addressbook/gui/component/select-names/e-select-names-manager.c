@@ -428,7 +428,7 @@ uris_listener (EConfigListener *db, const char *key,
 	char *val;
 
 	/* return if it's not the key we're interested in */
-	if (!strcmp (key, "/apps/evolution/addressbook/completion/uris"))
+	if (strcmp (key, "/apps/evolution/addressbook/completion/uris"))
 		return;
 
 	val = e_config_listener_get_string (db, "/apps/evolution/addressbook/completion/uris");

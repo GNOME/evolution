@@ -1,5 +1,10 @@
 2002-12-17  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-manager.c
+	(uris_listener): oops, use strcmp, not !strcmp here.
+
+2002-12-17  Chris Toshok  <toshok@ximian.com>
+
 	[ Fixes bug #35135 ]
 	* backend/ebook/e-book-util.c (set_default_book_uri_local): don't
 	free the default_book_uri here, it's done in set_default_book_uri.
