@@ -1,3 +1,8 @@
+2000-02-17  Dan Winship  <danw@helixcode.com>
+
+	* camel/url-util.c (g_url_to_string): New function to convert
+	a Gurl back into a char *.
+
 2000-02-17  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-formatter.c (handle_text_plain): 

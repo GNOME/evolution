@@ -51,6 +51,7 @@ typedef struct {
    I chose not to use it */
 
 Gurl *g_url_new (const gchar *url_string);
+gchar *g_url_to_string (const Gurl *url, gboolean show_password);
 void g_url_free (Gurl *url);
 
 #ifdef __cplusplus

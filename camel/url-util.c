@@ -35,7 +35,10 @@
  * ";AUTH=mech" addition comes from RFC 2384, "POP URL Scheme".
  */
 
-/* XXX TODO: recover the words between #'s or ?'s after the path */
+/* XXX TODO:
+ * recover the words between #'s or ?'s after the path
+ * % escapes
+ */
 
 #include <string.h>
 #include <config.h>
@@ -127,6 +130,25 @@ Gurl *g_url_new (const gchar* url_string)
 		g_url->path = NULL;
 
 	return g_url;
+}
+
+gchar *
+g_url_to_string (const Gurl *url, gboolean show_passwd)
+{
+	return g_strdup_printf("%s%s%s%s%s%s%s%s%s%s%s%s%s",
+			       url->protocol ? url->protocol : "",
+			       url->protocol ? "://" : "",
+			       url->user ? url->user : "",
+			       url->authmech ? ";auth=" : "",
+			       url->authmech ? url->authmech : "",
+			       url->passwd && show_passwd ? ":" : "",
+			       url->passwd && show_passwd ? url->passwd : "",
+			       url->user ? "@" : "",
+			       url->host,
+			       url->port ? ":" : "",
+			       url->port ? url->port : "",
+			       url->path ? "/" : "",
+			       url->path ? url->path : "");
 }
 
 void
