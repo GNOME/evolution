@@ -474,7 +474,6 @@ esma_set_selection_end (ESelectionModel *selection, int row)
 		    selected_range_end == view_row + 1) {
 			e_selection_model_selection_row_changed(selection, selected_range_end);
 			e_selection_model_selection_row_changed(selection, view_row);
-			return;
 		}
 	}
 	e_selection_model_selection_changed(selection);
