@@ -2512,6 +2512,8 @@ cal_client_discard_alarm (CalClient *client, CalComponent *comp, const char *aui
 	g_return_val_if_fail (IS_CAL_COMPONENT (comp), CAL_CLIENT_RESULT_NOT_FOUND);
 	g_return_val_if_fail (auid != NULL, CAL_CLIENT_RESULT_NOT_FOUND);
 
+	priv = client->priv;
+
 	cal_component_get_uid (comp, &uid);
 
 	CORBA_exception_init (&ev);

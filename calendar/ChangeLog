@@ -1,3 +1,8 @@
+2003-05-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.c (cal_client_discard_alarm): added missing
+	assignment.
+
 2003-05-05  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #41811
