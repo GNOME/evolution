@@ -563,13 +563,10 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 		+ E_DAY_VIEW_ICON_Y_PAD;
 	comp = event->comp;
 
-#if 0
-	if (ico->dalarm.enabled || ico->malarm.enabled
-	    || ico->palarm.enabled || ico->aalarm.enabled) {
+	if (cal_component_has_alarms (comp)) {
 		draw_reminder_icon = TRUE;
 		num_icons++;
 	}
-#endif
 
 	if (cal_component_has_recurrences (comp)) {
 		draw_recurrence_icon = TRUE;

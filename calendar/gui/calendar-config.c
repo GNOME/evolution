@@ -96,7 +96,7 @@ config_read				(void)
 	config->hpane_pos = gnome_config_get_float ("HPanePosition=1");
 	config->vpane_pos = gnome_config_get_float ("VPanePosition=1");
 	config->month_hpane_pos = gnome_config_get_float ("MonthHPanePosition=0");
-	config->month_vpane_pos = gnome_config_get_float ("MonthVPanePosition=0");
+	config->month_vpane_pos = gnome_config_get_float ("MonthVPanePosition=1");
 	config->compress_weekend = gnome_config_get_bool ("CompressWeekend=1");
 	config->show_event_end = gnome_config_get_bool ("ShowEventEndTime=1");
 

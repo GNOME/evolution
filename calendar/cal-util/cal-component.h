@@ -294,6 +294,7 @@ typedef struct {
 	} u;
 } CalComponentAlarmTrigger;
 
+gboolean cal_component_has_alarms (CalComponent *comp);
 CalComponentAlarm *cal_component_get_first_alarm (CalComponent *comp);
 CalComponentAlarm *cal_component_get_next_alarm (CalComponent *comp);
 

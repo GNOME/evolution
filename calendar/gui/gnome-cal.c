@@ -522,6 +522,8 @@ gnome_calendar_dayjump (GnomeCalendar *gcal, time_t time)
 	priv->selection_end_time = time_add_day (priv->selection_start_time, 1);
 	if (priv->day_button)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->day_button), TRUE);
+	else
+		gnome_calendar_set_view (gcal, "dayview", FALSE, TRUE);
 }
 
 void

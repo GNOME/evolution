@@ -134,7 +134,7 @@ e_calendar_table_class_init (ECalendarTableClass *class)
 
 
 #define E_CALENDAR_TABLE_SPEC				\
-	"<ETableSpecification click-to-add=\"true\"> draw-grid=\"true\""	\
+	"<ETableSpecification click-to-add=\"true\" _click-to-add-message=\"Click to add a task\" draw-grid=\"true\">"	\
         "<ETableColumn model_col= \"0\" _title=\"Categories\"            expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
         "<ETableColumn model_col= \"1\" _title=\"Classification\"        expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
         "<ETableColumn model_col= \"2\" _title=\"Completion Date\"       expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
@@ -221,9 +221,6 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	/* Create the table */
 
 	table = e_table_scrolled_new (model, extras, E_CALENDAR_TABLE_SPEC, NULL);
-	gtk_object_set (GTK_OBJECT (table),
-			"click_to_add_message", "Click here to add a new Task",
-			NULL);
 	gtk_table_attach (GTK_TABLE (cal_table), table, 0, 1, 0, 1,
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (table);

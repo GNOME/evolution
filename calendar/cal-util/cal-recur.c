@@ -578,6 +578,11 @@ cal_recur_generate_instances (CalComponent		*comp,
 			      CalRecurInstanceFn	 cb,
 			      gpointer                   cb_data)
 {
+#if 0
+	g_print ("In cal_recur_generate_instances comp: %p\n", comp);
+	g_print ("  start: %li - %s", start, ctime (&start));
+	g_print ("  end  : %li - %s", end, ctime (&end));
+#endif
 	cal_recur_generate_instances_of_rule (comp, NULL, start, end,
 					      cb, cb_data);
 }
@@ -1119,7 +1124,7 @@ generate_instances_for_chunk (CalComponent	*comp,
 			break;
 		}
 
-		if (end_time < interval_start_time)
+		if (end_time <= interval_start_time)
 			continue;
 
 		cb_status = (*cb) (comp, start_time, end_time, cb_data);
@@ -3171,13 +3176,22 @@ static void
 cal_obj_time_add_hours		(CalObjTime *cotime,
 				 gint	     hours)
 {
-	guint hour;
+	gint hour, days;
 
-	/* We use a guint to avoid overflow on the guint8. */
+	/* We use a gint to avoid overflow on the guint8. */
 	hour = cotime->hour + hours;
 	cotime->hour = hour % 24;
-	if (hour >= 24)
-		cal_obj_time_add_days (cotime, hour / 24);
+	if (hour >= 0) {
+		if (hour >= 24)
+			cal_obj_time_add_days (cotime, hour / 24);
+	} else {
+		days = hour / 24;
+		if (cotime->hour != 0) {
+			cotime->hour += 24;
+			days -= 1;
+		}
+		cal_obj_time_add_days (cotime, days);
+	}
 }
 
 
@@ -3187,13 +3201,22 @@ static void
 cal_obj_time_add_minutes	(CalObjTime *cotime,
 				 gint	     minutes)
 {
-	guint minute;
+	gint minute, hours;
 
-	/* We use a guint to avoid overflow on the guint8. */
+	/* We use a gint to avoid overflow on the guint8. */
 	minute = cotime->minute + minutes;
 	cotime->minute = minute % 60;
-	if (minute >= 60)
-		cal_obj_time_add_hours (cotime, minute / 60);
+	if (minute >= 0) {
+		if (minute >= 60)
+			cal_obj_time_add_hours (cotime, minute / 60);
+	} else {
+		hours = minute / 60;
+		if (cotime->minute != 0) {
+			cotime->minute += 60;
+			hours -= 1;
+		}
+		cal_obj_time_add_hours (cotime, hours);
+	}
 }
 
 
@@ -3203,13 +3226,22 @@ static void
 cal_obj_time_add_seconds	(CalObjTime *cotime,
 				 gint	     seconds)
 {
-	guint second;
+	gint second, minutes;
 
-	/* We use a guint to avoid overflow on the guint8. */
+	/* We use a gint to avoid overflow on the guint8. */
 	second = cotime->second + seconds;
 	cotime->second = second % 60;
-	if (second >= 60)
-		cal_obj_time_add_minutes (cotime, second / 60);
+	if (second >= 0) {
+		if (second >= 60)
+			cal_obj_time_add_minutes (cotime, second / 60);
+	} else {
+		minutes = second / 60;
+		if (cotime->second != 0) {
+			cotime->second += 60;
+			minutes -= 1;
+		}
+		cal_obj_time_add_minutes (cotime, minutes);
+	}
 }
 
 

@@ -451,9 +451,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		icon_x -= icon_x_inc;
 	}
 
-#if 0
-	if (ico->dalarm.enabled || ico->malarm.enabled
-	    || ico->palarm.enabled || ico->aalarm.enabled) {
+	if (cal_component_has_alarms (comp)) {
 		gdk_gc_set_clip_origin (gc, icon_x, icon_y);
 		gdk_gc_set_clip_mask (gc, day_view->reminder_mask);
 		gdk_draw_pixmap (drawable, gc,
@@ -464,7 +462,6 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		icon_x -= icon_x_inc;
 	}
 	gdk_gc_set_clip_mask (gc, NULL);
-#endif
 
 	/* Draw the start & end times, if necessary.
 	   Note that GtkLabel adds 1 to the ascent so we must do that to be

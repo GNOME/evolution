@@ -2235,15 +2235,12 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	}
 
 	num_icons = 0;
-#if 0
 	if (show_icons) {
-		if (ico->dalarm.enabled || ico->malarm.enabled
-		    || ico->palarm.enabled || ico->aalarm.enabled)
+		if (cal_component_has_alarms (comp))
 			num_icons++;
-		if (ico->recur)
+		if (cal_component_has_recurrences (comp))
 			num_icons++;
 	}
-#endif
 
 	/* Create the background canvas item if necessary. */
 	if (!span->background_item) {

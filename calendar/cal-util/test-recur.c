@@ -141,6 +141,7 @@ generate_occurrences	(icalcomponent	*icalcomp)
 		g_print ("#############################################################################\n");
 		g_print ("%s\n\n", icalcomponent_as_ical_string (tmp_icalcomp));
 
+		occurrences = 0;
 		cal_recur_generate_instances (comp, -1, -1,
 					      occurrence_cb, &occurrences);
 

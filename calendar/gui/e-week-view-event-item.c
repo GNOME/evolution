@@ -507,13 +507,10 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 
 	gc = week_view->main_gc;
 
-#if 0
-	if (ico->dalarm.enabled || ico->malarm.enabled
-	    || ico->palarm.enabled || ico->aalarm.enabled) {
+	if (cal_component_has_alarms (comp)) {
 		draw_reminder_icon = TRUE;
 		num_icons++;
 	}
-#endif
 
 	if (cal_component_has_recurrences (comp)) {
 		draw_recurrence_icon = TRUE;
