@@ -1,5 +1,9 @@
 2001-12-07  Dan Winship  <danw@ximian.com>
 
+	* mail-send-recv.c (receive_update_got_store): If updating a store
+	that we don't have an associated storage for, just request a
+	folder tree and then free it. (For the Connector)
+
 	* mail-callbacks.h: Add missing part of Jeff's 12-03 patch so this
 	actually compiles.
 

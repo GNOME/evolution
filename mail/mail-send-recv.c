@@ -608,6 +608,14 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 }
 
 static void
+receive_update_got_folderinfo (CamelStore *store, CamelFolderInfo *info, void *data)
+{
+	if (info)
+		camel_store_free_folder_info (store, info);
+	receive_done ("", data);
+}
+
+static void
 receive_update_got_store (char *uri, CamelStore *store, void *data)
 {
 	struct _send_info *info = data;
@@ -619,7 +627,12 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 			mail_note_store(store, storage, CORBA_OBJECT_NIL, receive_update_done, info);
 			/*bonobo_object_unref (BONOBO_OBJECT (storage));*/
 		} else {
-			receive_done ("", info);
+			/* If we get here, store must be an external
+			 * storage other than /local. (Eg, Exchange).
+			 * Do a get_folder_info just to force it to
+			 * update itself.
+			 */
+			mail_get_folderinfo(store, receive_update_got_folderinfo, info);
 		}
 	} else {
 		receive_done ("", info);
