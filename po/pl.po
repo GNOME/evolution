@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-10-19 10:25+0200\n"
-"PO-Revision-Date: 2001-10-19 10:30+0200\n"
+"POT-Creation-Date: 2001-10-22 18:18+0200\n"
+"PO-Revision-Date: 2001-10-22 18:25+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2677,6 +2677,15 @@ msgid "Other Address"
 msgstr "Inny adres"
 
 #: addressbook/gui/widgets/e-minicard-control.c:1
+#, c-format
+msgid "and %d other cards."
+msgstr "oraz %d innych kart."
+
+#: addressbook/gui/widgets/e-minicard-control.c:1
+msgid "and one other card."
+msgstr "oraz jedna inna karta."
+
+#: addressbook/gui/widgets/e-minicard-control.c:1
 msgid "Save in addressbook"
 msgstr "Zapisz w ksi±¿ce adresowej"
 
@@ -3207,6 +3216,12 @@ msgstr "Tak"
 #: calendar/gui/e-meeting-model.c:1
 msgid "No"
 msgstr "Nie"
+
+#. No time range is set, so don't start a query
+#: calendar/gui/calendar-model.c:1 calendar/gui/e-day-view.c:1
+#: calendar/gui/e-week-view.c:1
+msgid "Searching"
+msgstr "Wyszukiwanie"
 
 #: calendar/gui/calendar-view-factory.c:1 views/calendar/galview.xml.h:1
 msgid "Day View"
@@ -4917,6 +4932,11 @@ msgstr "Czas _koñca spotkania:"
 
 #: calendar/gui/e-tasks.c:1
 #, c-format
+msgid "Opening tasks at %s"
+msgstr "Otwieranie zadañ z %s"
+
+#: calendar/gui/e-tasks.c:1
+#, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr "Nie mo¿na wczytaæ zadania w \"%s\""
 
@@ -4938,6 +4958,11 @@ msgstr "Nie mo¿na otworzyæ folderu w \"%s\""
 #, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr "Metoda wymagana do otwarcia \"%s\" nie jest obs³ugiwana"
+
+#: calendar/gui/gnome-cal.c:1
+#, c-format
+msgid "Opening calendar at %s"
+msgstr "Otwieranie kalendarza z %s"
 
 #: calendar/gui/goto-dialog.glade.h:1
 msgid "April"
@@ -11834,28 +11859,8 @@ msgid "Bug buddy could not be run."
 msgstr "Nie mo¿na uruchomiæ Bug buddy."
 
 #: shell/e-shell-view-menu.c:1
-msgid "Ximian Evolution"
-msgstr "Ximian Evolution"
-
-#: shell/e-shell-view-menu.c:1
-msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
-msgstr "Copyright 1999, 2000, 2001 Ximian, Inc."
-
-#: shell/e-shell-view-menu.c:1
-msgid ""
-"Ximian Evolution is a suite of groupware applications\n"
-"for mail, calendaring, and contact management\n"
-"within the GNOME desktop environment."
-msgstr ""
-"Ximian Evolution to funkcjonuj±cy w ¶rodowisku\n"
-"GNOME pakiet aplikacji do komunikacji\n"
-"grupowej za po¶rednictwem poczty\n"
-"elektronicznej, wspólnego kalendarza i\n"
-"systemu zarz±dzania kontaktami.\n"
-" \n"
-"Komentarze na temat lokalizacji programu\n"
-"prosimy wysy³aæ na adres:\n"
-"translators@gnome.pl"
+msgid "About Ximian Evolution"
+msgstr "Informacje o Ximian Evolution"
 
 #: shell/e-shell-view-menu.c:1
 msgid "Go to folder..."
@@ -13082,6 +13087,10 @@ msgid "Create a virtual folder for this subject"
 msgstr "Tworzy wirtualny folder dla tego tematu"
 
 #: ui/evolution-mail-message.xml.h:1
+msgid "Decrease the text size"
+msgstr "Zmniejsza rozmiar tekstu"
+
+#: ui/evolution-mail-message.xml.h:1
 msgid "Display the next important message"
 msgstr "Wy¶wietla kolejny wa¿ny list"
 
@@ -13166,6 +13175,10 @@ msgid "Forward the selected message to someone as an attachment"
 msgstr "Przesy³a zaznaczony list do innej osoby w postaci za³±cznika"
 
 #: ui/evolution-mail-message.xml.h:1
+msgid "Increase the text size"
+msgstr "Zwiêksza rozmiar tekstu"
+
+#: ui/evolution-mail-message.xml.h:1
 msgid "Load _Images"
 msgstr "Pobierz _obrazy"
 
@@ -13236,6 +13249,10 @@ msgstr ""
 "wys³anie"
 
 #: ui/evolution-mail-message.xml.h:1
+msgid "Original Si_ze"
+msgstr "_Pierwotny rozmiar"
+
+#: ui/evolution-mail-message.xml.h:1
 msgid "Preview the message to be printed"
 msgstr "Wy¶wietla podgl±d listu w postaci przygotowanej do druku"
 
@@ -13268,8 +13285,16 @@ msgid "Reply to All"
 msgstr "Wszystkim"
 
 #: ui/evolution-mail-message.xml.h:1
+msgid "Reset the text to its original size"
+msgstr "Przywraca pierwotny rozmiar tekstu"
+
+#: ui/evolution-mail-message.xml.h:1
 msgid "S_earch Message..."
 msgstr "_Przeszukaj list..."
+
+#: ui/evolution-mail-message.xml.h:1
+msgid "S_maller"
+msgstr "_Mniejszy"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "Save the message as a text file"
@@ -13302,6 +13327,10 @@ msgstr "Wy¶wietla list wraz ze wszystkimi nag³ówkami"
 #: ui/evolution-mail-message.xml.h:1
 msgid "Show the raw email source of the message"
 msgstr "Wy¶wietla list w surowej, ¼ród³owej postaci"
+
+#: ui/evolution-mail-message.xml.h:1
+msgid "Text Si_ze"
+msgstr "_Rozmiar tekstu"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "Un-delete the selected messages"
@@ -13338,6 +13367,10 @@ msgstr "_Stwórz filtr na podstawie listu"
 #: ui/evolution-mail-message.xml.h:1
 msgid "_Forward Message"
 msgstr "_Prze¶lij list"
+
+#: ui/evolution-mail-message.xml.h:1
+msgid "_Larger"
+msgstr "_Wiêkszy"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "_Message Display"
