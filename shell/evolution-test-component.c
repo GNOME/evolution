@@ -27,8 +27,10 @@
 #endif
 
 #include "evolution-shell-component.h"
+
 #include "evolution-activity-client.h"
 #include "evolution-config-control.h"
+#include "evolution-storage.h"
 
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-generic-factory.h>
@@ -56,7 +58,7 @@ static EvolutionShellClient *parent_shell = NULL;
 static int timeout_id = 0;
 
 
-/* Test the configuration control.  */
+/* TEST #1: Configuration Control.  */
 
 static BonoboObject *
 create_configuration_page (void)
@@ -94,7 +96,7 @@ register_configuration_control_factory (void)
 }
 
 
-/* Test the ::Shortcut interface.  */
+/* TEST #2: The ::Shortcut interface.  */
 
 static void
 spit_out_shortcuts (EvolutionShellClient *shell_client)
@@ -146,7 +148,7 @@ spit_out_shortcuts (EvolutionShellClient *shell_client)
 }
 
 
-/* Test the multiple folder selector.  */
+/* TEST #4: The multiple folder selector.  */
 
 static void
 dialog_clicked_callback (GnomeDialog *dialog,
@@ -254,6 +256,80 @@ create_new_folder_selector (EvolutionShellComponent *shell_component)
 	gtk_widget_show (dialog);
 
 	CORBA_exception_free (&ev);
+}
+
+
+/* TEST #5: Test custom storage.  */
+
+static int
+shared_folder_discovery_timeout_callback (void *data)
+{
+	CORBA_Environment ev;
+	Bonobo_Listener listener;
+	CORBA_any any;
+	GNOME_Evolution_Storage_DiscoverSharedFolderResult result;
+
+	listener = (Bonobo_Listener) data;
+
+	result.result = GNOME_Evolution_Storage_OK;
+	result.storagePath = "/Shared Folders/The Public Folder";
+	result.physicalURI = "blah://bleh.net:3764/bluh/bleh/blih";
+	result.type = "test";
+
+	any._type = TC_GNOME_Evolution_Storage_DiscoverSharedFolderResult;
+	any._value = &result;
+
+	CORBA_exception_init (&ev);
+
+	Bonobo_Listener_event (listener, "result", &any, &ev);
+	if (BONOBO_EX (&ev))
+		g_warning ("Cannot report result for shared folder discovery -- %s",
+			   BONOBO_EX_ID (&ev));
+
+	CORBA_Object_release (listener, &ev);
+
+	CORBA_exception_free (&ev);
+
+	return FALSE;
+}
+
+static void
+storage_discover_shared_folder_callback (EvolutionStorage *storage,
+					 const char *user,
+					 const char *folder_name,
+					 Bonobo_Listener listener,
+					 void *data)
+{
+	CORBA_Environment ev;
+	Bonobo_Listener listener_copy;
+
+	CORBA_exception_init (&ev);
+	listener_copy = CORBA_Object_duplicate (listener, &ev);
+	CORBA_exception_free (&ev);
+
+	g_timeout_add (1000, shared_folder_discovery_timeout_callback, listener_copy);
+}
+
+static void
+setup_custom_storage (EvolutionShellClient *shell_client)
+{
+	EvolutionStorage *the_storage;
+	EvolutionStorageResult result;
+
+	the_storage = evolution_storage_new ("TestStorage", TRUE);
+
+	gtk_signal_connect (GTK_OBJECT (the_storage), "discover_shared_folder",
+			    GTK_SIGNAL_FUNC (storage_discover_shared_folder_callback), shell_client);
+
+	result = evolution_storage_register_on_shell (the_storage, BONOBO_OBJREF (shell_client));
+	if (result != EVOLUTION_STORAGE_OK) {
+		g_warning ("Cannot register storage on the shell.");
+		bonobo_object_unref (BONOBO_OBJECT (the_storage));
+		return;
+	}
+
+	evolution_storage_new_folder (the_storage, "/FirstFolder", "FirstFolder", "mail", "file:///tmp/blah", "", 0);
+	evolution_storage_new_folder (the_storage, "/SecondFolder", "SecondFolder", "calendar", "file:///tmp/bleh", "", 0);
 }
 
 
@@ -432,6 +508,8 @@ owner_set_callback (EvolutionShellComponent *shell_component,
 		g_warning ("Shell doesn't have a ::Activity interface -- weird!");
 
 	spit_out_shortcuts (shell_client);
+
+	setup_custom_storage (shell_client);
 }
 
 static int

@@ -105,6 +105,11 @@ struct _EvolutionStorageClass {
 	void (*update_folder) (EvolutionStorage *storage,
 			       const char *path,
 			       int unread_count);
+
+	void (*discover_shared_folder) (EvolutionStorage *storage,
+					const char *user,
+					const char *folder_name,
+					Bonobo_Listener listener);
 };
 
 

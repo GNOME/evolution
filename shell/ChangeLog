@@ -1,3 +1,43 @@
+2002-05-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-test-component.c: Added some tests for the custom
+	storage.
+
+	* evolution-storage.c: New signal DISCOVER_SHARED_FOLDER.
+	(impl_Storage_asyncXferFolder): Renamed from
+	impl_Storage_async_xfer_folder.
+	(impl_Storage_asyncRemoveFolder): Renamed from
+	impl_Storage_async_remove_folder.
+	(impl_Storage_asyncCreateFolder): Renamed from
+	impl_Storage_async_create_folder.
+	(impl_Storage_asyncOpenFolder): Renamed from
+	impl_storage_async_open_folder.
+	(impl_Storage_addListener): Renamed from
+	impl_Storage_add_listener.
+	(impl_Storage_removeListener): Renamed from
+	impl_Storage_remove_listener.
+	(impl_Storage_asyncDiscoverSharedFolder): New, implementation for
+	::asyncDiscoverSharedFolder.
+	(evolution_storage_get_epv): Install the CORBA method here.
+	(class_init): Set up the "discover_shared_folder" signal here.
+	(e_marshal_NONE__POINTER_POINTER): Yet Another Marshaller.  Die
+	die die.
+
+	* Evolution-Storage.idl (Storage::asyncDiscoverSharedFolder): New
+	method.
+	(StorageListener::notifySharedFolderDiscovered): New method.
+
+	* e-shell-shared-folder-picker-dialog.c: New.
+	* e-shell-shared-folder-picker-dialog.h: New.
+
+	* e-shell-view-menu.c (command_open_other_users_folder): New,
+	implementation for the FileOpenOtherUsersFolder verb.
+
+	* Makefile.am: Generate stubs and skels for
+	Evolution::Addressbook::SelectNames as well.
+
+	* glade/e-shell-shared-folder-picker-dialog.glade: New.
+
 2002-05-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-local-storage.c (construct): Pass %FALSE as

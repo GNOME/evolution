@@ -13,7 +13,7 @@ INCLUDES = -O							\
 	-DG_LOG_DOMAIN=\"evolution-shell\"			\
 	$(SHELL_CFLAGS)
 
-# CORBA stuff
+# Shell CORBA stuff
 
 IDLS = \
 	Evolution-Activity.idl			\
@@ -42,6 +42,21 @@ Evolution-impl.o: Evolution.h
 $(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
 		$(srcdir)/Evolution.idl
+
+# SelectNames CORBA stuff
+
+SELECT_NAMES_IDL = \
+	$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
+
+SELECT_NAMES_IDL_GENERATED = 			   \
+	Evolution-Addressbook-SelectNames.h	   \
+	Evolution-Addressbook-SelectNames-common.c \
+	Evolution-Addressbook-SelectNames-skels.c  \
+	Evolution-Addressbook-SelectNames-stubs.c
+
+$(SELECT_NAMES_IDL_GENERATED): $(SELECT_NAMES_IDL)
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
+		$(SELECT_NAMES_IDL)
 
 # IDL install
 
@@ -102,6 +117,7 @@ libeshell_la_SOURCES = 				\
 bin_PROGRAMS = evolution
 
 evolution_SOURCES =				\
+	$(SELECT_NAMES_IDL_GENERATED)		\
 	e-activity-handler.c			\
 	e-activity-handler.h			\
 	e-component-info.c			\
@@ -151,6 +167,8 @@ evolution_SOURCES =				\
 	e-shell-offline-handler.h		\
 	e-shell-settings-dialog.c		\
 	e-shell-settings-dialog.h		\
+	e-shell-shared-folder-picker-dialog.c 	\
+	e-shell-shared-folder-picker-dialog.h 	\
 	e-shell-startup-wizard.c		\
 	e-shell-startup-wizard.h		\
 	e-shell-user-creatable-items-handler.c	\
@@ -223,7 +241,10 @@ oaf_in_files = GNOME_Evolution_Shell.oaf.in
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
 etspecdir = $(datadir)/evolution/etspec/
-etspec_DATA = e-storage-set-view.etspec e-storage-set-view-checkboxes.etstate e-storage-set-view-no-checkboxes.etstate
+etspec_DATA = \
+	e-storage-set-view.etspec		 \
+	e-storage-set-view-checkboxes.etstate	 \
+	e-storage-set-view-no-checkboxes.etstate
 
 @XML_I18N_MERGE_OAF_RULE@
 
@@ -248,8 +269,8 @@ evolution.pure: evolution
 
 endif
 
-CLEANFILES = $(IDL_GENERATED)
-BUILT_SOURCES = $(IDL_GENERATED)
+CLEANFILES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

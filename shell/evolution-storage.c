@@ -68,6 +68,7 @@ enum {
 	XFER_FOLDER,
 	UPDATE_FOLDER,
 	OPEN_FOLDER,
+	DISCOVER_SHARED_FOLDER,
 
 	LAST_SIGNAL
 };
@@ -320,13 +321,13 @@ impl_Storage__get_folderList (PortableServer_Servant servant,
 }
 
 static void
-impl_Storage_async_create_folder (PortableServer_Servant servant,
-				  const CORBA_char *path,
-				  const CORBA_char *type,
-				  const CORBA_char *description,
-				  const CORBA_char *parent_physical_uri,
-				  const Bonobo_Listener listener,
-				  CORBA_Environment *ev)
+impl_Storage_asyncCreateFolder (PortableServer_Servant servant,
+				const CORBA_char *path,
+				const CORBA_char *type,
+				const CORBA_char *description,
+				const CORBA_char *parent_physical_uri,
+				const Bonobo_Listener listener,
+				CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	CORBA_Object obj_dup;
@@ -342,11 +343,11 @@ impl_Storage_async_create_folder (PortableServer_Servant servant,
 
 
 static void
-impl_Storage_async_remove_folder (PortableServer_Servant servant,
-				  const CORBA_char *path,
-				  const CORBA_char *physical_uri,
-				  const Bonobo_Listener listener,
-				  CORBA_Environment *ev)
+impl_Storage_asyncRemoveFolder (PortableServer_Servant servant,
+				const CORBA_char *path,
+				const CORBA_char *physical_uri,
+				const Bonobo_Listener listener,
+				CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionStorage *storage;
@@ -361,12 +362,12 @@ impl_Storage_async_remove_folder (PortableServer_Servant servant,
 }
 
 static void
-impl_Storage_async_xfer_folder (PortableServer_Servant servant,
-				const CORBA_char *source_path,
-				const CORBA_char *destination_path,
-				const CORBA_boolean remove_source,
-				const Bonobo_Listener listener,
-				CORBA_Environment *ev)
+impl_Storage_asyncXferFolder (PortableServer_Servant servant,
+			      const CORBA_char *source_path,
+			      const CORBA_char *destination_path,
+			      const CORBA_boolean remove_source,
+			      const Bonobo_Listener listener,
+			      CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionStorage *storage;
@@ -425,9 +426,9 @@ impl_Storage_updateFolder (PortableServer_Servant servant,
 }
 
 static void
-impl_Storage_async_open_folder (PortableServer_Servant servant,
-				const CORBA_char *path,
-				CORBA_Environment *ev)
+impl_Storage_asyncOpenFolder (PortableServer_Servant servant,
+			      const CORBA_char *path,
+			      CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionStorage *storage;
@@ -439,9 +440,26 @@ impl_Storage_async_open_folder (PortableServer_Servant servant,
 }
 
 static void
-impl_Storage_add_listener (PortableServer_Servant servant,
-			   const GNOME_Evolution_StorageListener listener,
-			   CORBA_Environment *ev)
+impl_Storage_asyncDiscoverSharedFolder (PortableServer_Servant servant,
+					const CORBA_char *user,
+					const CORBA_char *folder_name,
+					Bonobo_Listener listener,
+					CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionStorage *storage;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage = EVOLUTION_STORAGE (bonobo_object);
+
+	gtk_signal_emit (GTK_OBJECT (storage), signals[DISCOVER_SHARED_FOLDER],
+			 user, folder_name, listener);
+}
+
+static void
+impl_Storage_addListener (PortableServer_Servant servant,
+			  const GNOME_Evolution_StorageListener listener,
+			  CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionStorage *storage;
@@ -454,9 +472,9 @@ impl_Storage_add_listener (PortableServer_Servant servant,
 }
 
 static void
-impl_Storage_remove_listener (PortableServer_Servant servant,
-			      const GNOME_Evolution_StorageListener listener,
-			      CORBA_Environment *ev)
+impl_Storage_removeListener (PortableServer_Servant servant,
+			     const GNOME_Evolution_StorageListener listener,
+			     CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionStorage *storage;
@@ -646,6 +664,17 @@ class_init (EvolutionStorageClass *klass)
 					       GTK_TYPE_NONE, 1,
 					       GTK_TYPE_STRING);
 
+	signals[DISCOVER_SHARED_FOLDER] = gtk_signal_new ("discover_shared_folder",
+							  GTK_RUN_LAST,
+							  object_class->type,
+							  GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+									     discover_shared_folder),
+							  e_marshal_NONE__POINTER_POINTER_POINTER,
+							  GTK_TYPE_NONE, 3,
+							  GTK_TYPE_STRING,
+							  GTK_TYPE_STRING,
+							  GTK_TYPE_POINTER);
+
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	corba_class_init ();
@@ -673,16 +702,17 @@ evolution_storage_get_epv (void)
 	POA_GNOME_Evolution_Storage__epv *epv;
 
 	epv = g_new0 (POA_GNOME_Evolution_Storage__epv, 1);
-	epv->_get_name             = impl_Storage__get_name;
-	epv->_get_hasSharedFolders = impl_Storage__get_hasSharedFolders;
-	epv->_get_folderList       = impl_Storage__get_folderList;
-	epv->asyncCreateFolder     = impl_Storage_async_create_folder;
-	epv->asyncRemoveFolder     = impl_Storage_async_remove_folder;
-	epv->asyncXferFolder       = impl_Storage_async_xfer_folder;
-	epv->asyncOpenFolder       = impl_Storage_async_open_folder;
-	epv->updateFolder          = impl_Storage_updateFolder;
-	epv->addListener           = impl_Storage_add_listener;
-	epv->removeListener        = impl_Storage_remove_listener;
+	epv->_get_name                 = impl_Storage__get_name;
+	epv->_get_hasSharedFolders     = impl_Storage__get_hasSharedFolders;
+	epv->_get_folderList           = impl_Storage__get_folderList;
+	epv->asyncCreateFolder         = impl_Storage_asyncCreateFolder;
+	epv->asyncRemoveFolder         = impl_Storage_asyncRemoveFolder;
+	epv->asyncXferFolder           = impl_Storage_asyncXferFolder;
+	epv->asyncOpenFolder           = impl_Storage_asyncOpenFolder;
+	epv->updateFolder              = impl_Storage_updateFolder;
+	epv->asyncDiscoverSharedFolder = impl_Storage_asyncDiscoverSharedFolder;
+	epv->addListener               = impl_Storage_addListener;
+	epv->removeListener            = impl_Storage_removeListener;
 
 	return epv;
 }

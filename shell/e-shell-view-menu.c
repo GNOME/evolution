@@ -30,6 +30,7 @@
 
 #include "e-shell-view-menu.h"
 
+#include "e-shell-shared-folder-picker-dialog.h"
 #include "e-shell-folder-creation-dialog.h"
 #include "e-shell-folder-selection-dialog.h"
 
@@ -399,6 +400,23 @@ command_add_folder_to_shortcut_bar (BonoboUIComponent *uih,
 }
 
 
+/* Opening other users' folders.  */
+
+static void
+command_open_other_users_folder (BonoboUIComponent *uih,
+				 void *data,
+				 const char *path)
+{
+	EShellView *shell_view;
+	EShell *shell;
+
+	shell_view = E_SHELL_VIEW (data);
+	shell = e_shell_view_get_shell (shell_view);
+
+	e_shell_show_shared_folder_picker_dialog (shell, shell_view);
+}
+
+
 /* Going to a folder.  */
 
 static void
@@ -627,6 +645,7 @@ static BonoboUIVerb new_verbs [] = {
 
 static BonoboUIVerb file_verbs [] = {
 	BONOBO_UI_VERB ("FileImporter", (BonoboUIVerbFn) show_import_wizard),
+	BONOBO_UI_VERB ("FileOpenOtherUsersFolder", command_open_other_users_folder),
 	BONOBO_UI_VERB ("FileGoToFolder", command_goto_folder),
 	BONOBO_UI_VERB ("FileCreateFolder", command_create_folder),
 	BONOBO_UI_VERB ("FileClose", command_close),

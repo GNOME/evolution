@@ -64,6 +64,12 @@ struct _EvolutionStorageListenerClass {
 	void (* has_subfolders)  (EvolutionStorageListener *storage_listener,
 				  const char *path,
 				  const char *message);
+
+	void (* shared_folder_discovery_result) (EvolutionStorageListener *storage_listener,
+						 const char *user,
+						 const char *folder_name,
+						 const char *storage_path,
+						 const char *physical_uri);
 };
 
 
