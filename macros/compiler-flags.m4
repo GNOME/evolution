@@ -70,9 +70,14 @@ AC_DEFUN([GNOME_CXX_WARNINGS],[
   fi
   AC_MSG_RESULT($warnCXXFLAGS)
 
-  AC_MSG_CHECKING(what language compliance flags to pass to the C compiler)
-  complCFLAGS=
-    if test "x$GCC" = "xyes"; then
+   AC_ARG_ENABLE(iso-cxx,
+     [  --enable-iso-cxx          Try to warn if code is not ISO C++ ],,
+     enable_iso_cxx=no)
+
+   AC_MSG_CHECKING(what language compliance flags to pass to the C++ compiler)
+   complCXXFLAGS=
+   if test "x$enable_iso_cxx" != "xno"; then
+     if test "x$GCC" = "xyes"; then
       case " $CXXFLAGS " in
       *[\ \	]-ansi[\ \	]*) ;;
       *) complCXXFLAGS="$complCXXFLAGS -ansi" ;;
@@ -82,7 +87,8 @@ AC_DEFUN([GNOME_CXX_WARNINGS],[
       *[\ \	]-pedantic[\ \	]*) ;;
       *) complCXXFLAGS="$complCXXFLAGS -pedantic" ;;
       esac
-    fi
+     fi
+   fi
   AC_MSG_RESULT($complCXXFLAGS)
   CXXFLAGS="$CXXFLAGS $warnCXXFLAGS $complCXXFLAGS"
 ])
