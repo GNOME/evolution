@@ -9,7 +9,7 @@
 #include "camel-stream-fs.h"
 #include "camel.h"
 
-void
+int
 main (int argc, char**argv)
 {
 	GHashTable *header_table;
@@ -37,6 +37,6 @@ main (int argc, char**argv)
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), output_stream);
 	camel_stream_close (output_stream);
 
-	
+	return 0;
 
 }

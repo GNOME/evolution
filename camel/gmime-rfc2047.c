@@ -1,8 +1,8 @@
 /* 
  * gmime-rfc2047.c: implemention of RFC2047
  *
- * Copyright (C) 1999 Robert Brady <rwb197@ecs.soton.ac.uk>
- *
+ * Copyright (C) 1999 Bertrand Guiheneuf <Bertrand.Guiheneuf@inria.fr> .
+ * 
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
  * published by the Free Software Foundation; either version 2 of the
@@ -29,14 +29,9 @@
 
 #define NOT_RANKED -1
 
-/* base64 code from tin. This should be changed to use the base64 code Miguel comitted */
+/* This should be changed ASAP to use the base64 code Miguel comitted */
 
-const char base64_alphabet[64] =
-{
-	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
-	'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
-	'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-	'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'};
+const char *base64_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 static unsigned char base64_rank[256];
 static int base64_rank_table_built;
