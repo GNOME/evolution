@@ -427,46 +427,10 @@ write_field_to_stream (const char *description, const char *value,
 }
 
 static void
-write_recipients_to_stream (const gchar *recipient_type,
-			    const CamelInternetAddress *recipients,
-			    gboolean optional, gboolean bold,
-			    GtkHTML *html, GtkHTMLStream *stream)
-{
-	int i;
-	char *recipients_string = NULL;
-	const char *name, *addr;
-
-	i = 0;
-	while (camel_internet_address_get (recipients, i++, &name, &addr)) {
-		char *old_string = recipients_string;
-
-		if (*name) {
-			recipients_string = g_strdup_printf (
-				"%s%s\"%s\" <%s>",
-				old_string ? old_string : "",
-				old_string ? ", " : "",
-				name, addr);
-		} else {
-			recipients_string = g_strdup_printf (
-				"%s%s%s", old_string ? old_string : "",
-				old_string ? ", " : "", addr);
-		}
-		g_free (old_string);
-	}
-
-	if (recipients_string || !optional) {
-		write_field_to_stream (recipient_type, recipients_string,
-				       bold, html, stream);
-	}
-	g_free (recipients_string);
-}
-
-
-
-static void
 write_headers (CamelMimeMessage *message, struct mail_format_data *mfd)
 {
 	const CamelInternetAddress *recipients;
+	char *string;
 
 	mail_html_write (mfd->html, mfd->stream,
 			 "<table bgcolor=\"#EEEEEE\" width=\"100%%\" "
@@ -477,24 +441,34 @@ write_headers (CamelMimeMessage *message, struct mail_format_data *mfd)
 			       camel_mime_message_get_from (message),
 			       TRUE, mfd->html, mfd->stream);
 
-	if (camel_mime_message_get_reply_to (message)) {
-		write_field_to_stream ("Reply-To:",
-				       camel_mime_message_get_reply_to (message),
-				       FALSE, mfd->html, mfd->stream);
+	string = camel_mime_message_get_reply_to (message);
+	if (string) {
+		write_field_to_stream ("Reply-To:", string, FALSE,
+				       mfd->html, mfd->stream);
 	}
 
-	write_recipients_to_stream ("To:",
-				    camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO),
-				    FALSE, TRUE, mfd->html, mfd->stream);
+	recipients = camel_mime_message_get_recipients (
+		message, CAMEL_RECIPIENT_TYPE_TO);
+	string = camel_address_encode (CAMEL_ADDRESS (recipients));
+	write_field_to_stream ("To:", string ? string : "", TRUE,
+			       mfd->html, mfd->stream);
+	g_free (string);
 
-	recipients = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
-	write_recipients_to_stream ("Cc:", recipients, TRUE, TRUE,
-				    mfd->html, mfd->stream);
-	write_field_to_stream ("Subject: ",
+	recipients = camel_mime_message_get_recipients (
+		message, CAMEL_RECIPIENT_TYPE_CC);
+	string = camel_address_encode (CAMEL_ADDRESS (recipients));
+	if (string) {
+		write_field_to_stream ("Cc:", string, TRUE,
+				       mfd->html, mfd->stream);
+	}
+	g_free (string);
+
+	write_field_to_stream ("Subject:",
 			       camel_mime_message_get_subject (message),
 			       TRUE, mfd->html, mfd->stream);
 
-	mail_html_write (mfd->html, mfd->stream, "</table></td></tr></table></center><p>");
+	mail_html_write (mfd->html, mfd->stream,
+			 "</table></td></tr></table></center><p>");
 }
 
 
@@ -1729,7 +1703,11 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 		i = 0;
 		cc = NULL;
 		while (camel_internet_address_get (recip, i++, &name, &addr)) {
-			fulladdr = g_strdup_printf ("%s <%s>", name, addr);
+			if (*name) {
+				fulladdr = g_strdup_printf ("\"%s\" <%s>",
+							    name, addr);
+			} else
+				fulladdr = g_strdup (addr);
 			cc = g_list_append (cc, fulladdr);
 		}
 
@@ -1737,7 +1715,11 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 			CAMEL_RECIPIENT_TYPE_CC);
 		i = 0;
 		while (camel_internet_address_get (recip, i++, &name, &addr)) {
-			fulladdr = g_strdup_printf ("%s <%s>", name, addr);
+			if (*name) {
+				fulladdr = g_strdup_printf ("\"%s\" <%s>",
+							    name, addr);
+			} else
+				fulladdr = g_strdup (addr);
 			cc = g_list_append (cc, fulladdr);
 		}
 	} else
