@@ -1,7 +1,12 @@
+2001-09-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-tools.c (mail_tool_uri_to_folder): Don't "note" the folder
+	if we failed to get it.
+
 2001-09-20  Iain Holmes  <iain@ximian.com>
 
-	* mail-account-gui.c (mail_account_gui_new): Set the sensitivity of the
-	edit buttons correctly.
+	* mail-account-gui.c (mail_account_gui_new): Set the sensitivity
+	of the edit buttons correctly.
 
 2001-09-20    <NotZed@Ximian.com>
 
