@@ -710,6 +710,9 @@ e_shell_construct (EShell *shell,
 	} else {
 		splash = e_splash_new ();
 		gtk_widget_show (splash);
+
+		/* Keep our own reference */
+		gtk_object_ref (GTK_OBJECT (splash));
 	}
 
 	while (gtk_events_pending ())
@@ -753,6 +756,7 @@ e_shell_construct (EShell *shell,
 	g_free (shortcut_path);
 
 	sleep (2);
+	gtk_widget_unref (splash);
 	gtk_widget_destroy (splash);
 
 	return TRUE;

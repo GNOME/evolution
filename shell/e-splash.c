@@ -321,6 +321,7 @@ e_splash_construct (ESplash *splash,
 	gtk_window_set_position (GTK_WINDOW (splash), GTK_WIN_POS_CENTER);
 	gtk_window_set_policy (GTK_WINDOW (splash), FALSE, FALSE, FALSE);
 	gtk_window_set_default_size (GTK_WINDOW (splash), image_width, image_height);
+
 }
 
 /**
@@ -369,6 +370,9 @@ e_splash_add_icon (ESplash *splash,
 	g_return_val_if_fail (E_IS_SPLASH (splash), 0);
 	g_return_val_if_fail (icon_pixbuf != NULL, 0);
 
+	if (GTK_OBJECT_DESTROYED (splash))
+		return 0;
+	
 	priv = splash->priv;
 
 	icon = icon_new (splash, icon_pixbuf);
@@ -400,6 +404,9 @@ e_splash_set_icon_highlight  (ESplash *splash,
 	g_return_if_fail (splash != NULL);
 	g_return_if_fail (E_IS_SPLASH (splash));
 
+	if (GTK_OBJECT_DESTROYED (splash))
+		return;
+	
 	priv = splash->priv;
 
 	icon = (Icon *) g_list_nth (priv->icons, num)->data;
