@@ -1,6 +1,9 @@
 Version 0.16 (Beta 6)
 ---------------------
 
+FIXME FIXME FIXME: Note that the "Version 0.15" header below does not
+have information beta date.
+
 Shell:
 
 Mailer:
@@ -43,9 +46,18 @@ Calendar:
 
   - Compilation fixes for latest Bonobo (Rodrigo)
 
-  - Fixed problem with exceptions to recurring events. (Damon)
+  - Fixed problem with exceptions to recurring events [#11278]. (Damon)
 
-  - Fixed handling of UNTIL property in recurring events. (Damon)
+  - Fixed handling of UNTIL property in recurring events [#5034]. (Damon)
+
+  - The alarm daemon will now notify you of alarms that should have
+    occurred while it was not running [#884].  (Federico)
+
+  - Handle monthly-by-day and "last day" recurrences in the conduits.  (JP)
+
+  - Added priorities to the fields in the attendee list [#7158]. (Chris)
+
+  - Enhancements to the event editor for meetings. (JP)
 
 Summary:
 
