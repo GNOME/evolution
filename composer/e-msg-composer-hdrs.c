@@ -190,22 +190,9 @@ add_header (EMsgComposerHdrs *hdrs,
 		entry = gtk_entry_new ();
 
 	if (entry != NULL) {
-		GtkWidget *widget_to_attach;
-
-		/* The entries we get from ::SelectNames don't have a frame.
-                   FIXME: They should.  */
-		if (GTK_IS_ENTRY (entry)) {
-			widget_to_attach = entry;
-		} else {
-			widget_to_attach = gtk_frame_new (NULL);
-			gtk_frame_set_shadow_type (GTK_FRAME (widget_to_attach), GTK_SHADOW_IN);
-			gtk_container_add (GTK_CONTAINER (widget_to_attach), entry);
-			gtk_widget_show (widget_to_attach);
-		}
-
 		gtk_widget_show (entry);
 
-		gtk_table_attach (GTK_TABLE (hdrs), widget_to_attach,
+		gtk_table_attach (GTK_TABLE (hdrs), entry,
 				  1, 2, priv->num_hdrs, priv->num_hdrs + 1,
 				  GTK_FILL | GTK_EXPAND, GTK_FILL,
 				  2, 2);
