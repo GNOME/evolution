@@ -273,11 +273,12 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 		if (!strcmp (n->name, type)) {
 			gchar *decstr;
 			str = xmlNodeGetContent (n);
-			decstr = e_utf8_xml1_decode (str);
-			if (str)
+			if (str) {
+				decstr = e_utf8_xml1_decode (str);
 				xmlFree (str);
-			d(printf ("  '%s'\n", decstr));
-			fi->values = g_list_append (fi->values, decstr);
+				d(printf ("  '%s'\n", decstr));
+				fi->values = g_list_append (fi->values, decstr);
+			}
 		} else {
 			g_warning ("Unknown node type '%s' encountered decoding a %s\n", n->name, type);
 		}

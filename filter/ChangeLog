@@ -1,3 +1,9 @@
+2001-10-15    <NotZed@Ximian.com>
+
+	* filter-input.c (xml_decode): If we have no node content, dont
+	append any value or try to decode it.  Gets rid of a bunch of
+	annoying warnings.
+
 2001-10-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* vfolder-rule.c (validate): And again here.
