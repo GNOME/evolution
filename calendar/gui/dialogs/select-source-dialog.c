@@ -31,6 +31,13 @@
 #include "select-source-dialog.h"
 
 static void
+row_activated_cb (GtkTreeView *tree_view, GtkTreePath *path,
+		  GtkTreeViewColumn *column, GtkWidget *dialog)
+{
+        gtk_dialog_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+}
+
+static void
 primary_selection_changed_cb (ESourceSelector *selector, gpointer user_data)
 {
 	ESource **our_selection = user_data;
@@ -77,10 +84,10 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Select destination"));
 	gtk_window_set_transient_for (GTK_WINDOW (dialog),
 				      GTK_WINDOW (parent));
-	gtk_window_set_default_size (GTK_WINDOW (dialog), 300, 520);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 320, 240);
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-	gtk_widget_realize (dialog);
+	gtk_widget_ensure_style (dialog);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 0);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 12);
 
@@ -88,6 +95,7 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
 
 	vbox = gtk_vbox_new (FALSE, 12);
@@ -103,7 +111,7 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
 	g_free (label_text);
 	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
@@ -125,6 +133,10 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 	gtk_widget_show (scroll);
 	source_selector = e_source_selector_new (source_list);
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (source_selector), FALSE);
+
+	g_signal_connect (G_OBJECT (source_selector), "row_activated",
+			  G_CALLBACK (row_activated_cb), dialog);
+
 	g_signal_connect (G_OBJECT (source_selector), "primary_selection_changed",
 			  G_CALLBACK (primary_selection_changed_cb), &selected_source);
 	gtk_widget_show (source_selector);

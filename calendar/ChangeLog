@@ -1,3 +1,16 @@
+2004-06-21  Rodney Dawes  <dobey@novell.com>
+
+	Fixes #56892
+
+	* gui/dialogs/select-source-dialog.c (row_activated_cb): Add this
+	callback to activate the OK button when we double-click or press
+	the Enter key on a row
+	(select_source_dialog): Change the default size to be reasonable
+	Use ensure_style instead of realize on the dialog
+	Set the default response for the dialog to OK
+	Fix the packing of the group label to not have extraneous padding
+	Connect up the callback for row_activated
+
 2004-06-18  Jeffrey Stedfast  <fejj@novell.com>
 
 	Fixes bug #57592
