@@ -83,10 +83,14 @@ update_1folder(struct _folder_info *mfi, CamelFolderInfo *info)
 	LOCK(info_lock);
 	folder = mfi->folder;
 	if (folder) {
-		if (CAMEL_IS_VTRASH_FOLDER(folder) || folder == outbox_folder)
+		if (CAMEL_IS_VTRASH_FOLDER (folder) || folder == outbox_folder) {
 			unread = camel_folder_get_message_count(folder);
-		else
-			unread = camel_folder_get_unread_message_count(folder);
+		} else {
+			if (info)
+				unread = (info->unread_message_count == -1) ? 0 : info->unread_message_count;
+			else
+				unread = camel_folder_get_unread_message_count (folder);
+		}
 	} else if (info)
 		unread = (info->unread_message_count==-1)?0:info->unread_message_count;
 	UNLOCK(info_lock);

@@ -1,3 +1,11 @@
+2001-09-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-folder-cache.c (update_1folder): The folder-info needs to
+	take priority over the folder because of the way IMAP works (which
+	is that it doesn't actually update the folders until you SELECT
+	them and so when you do get_folder_info(), it doesn't actually
+	SELECT the folders, it just STATUS's them).
+
 2001-09-25    <NotZed@Ximian.com>
 
 	* folder-browser.c (folder_browser_destroy): Deal with destroy vs
