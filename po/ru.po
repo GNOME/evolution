@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "POT-Creation-Date: 2004-06-03 11:14-0400\n"
-"PO-Revision-Date: 2004-07-08 16:47+0300\n"
+"PO-Revision-Date: 2004-07-13 16:22+0300\n"
 "Last-Translator: Leonid Kanter <leon@asplinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -176,40 +176,34 @@ msgstr ""
 "Производится преобразование папок для новой версии..."
 
 #: addressbook/gui/component/addressbook-migrate.c:1118
-#, fuzzy
 msgid ""
 "The format of mailing list contacts has changed.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Расположение и иерархия папок контактов Evolution изменились после версии 1."
-"x.\n"
+"Формат контактов почтовых списков изменился.\n"
 "\n"
 "Производится преобразование папок для новой версии..."
 
 #: addressbook/gui/component/addressbook-migrate.c:1127
-#, fuzzy
 msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Расположение и иерархия папок контактов Evolution изменились после версии 1."
-"x.\n"
+"Способ сохранения некоторых телефонных номеров в Evolution изменился.\n"
 "\n"
 "Производится преобразование папок для новой версии..."
 
 #: addressbook/gui/component/addressbook-migrate.c:1137
-#, fuzzy
 msgid ""
 "Evolution's Palm Sync changelog and map files have changed.\n"
 "\n"
 "Please be patient while Evolution migrates your Pilot Sync data..."
 msgstr ""
-"Расположение и иерархия папок контактов Evolution изменились после версии 1."
-"x.\n"
+"Способ хранения данных компонента Palm Sync изменился.\n"
 "\n"
-"Производится преобразование папок для новой версии..."
+"Производится преобразование ваших данных Pilot Sync..."
 
 #: addressbook/gui/component/addressbook-view.c:675
 #, c-format
@@ -448,18 +442,16 @@ msgid "Search _base:"
 msgstr "_База поиска:"
 
 #: addressbook/gui/component/ldap-config.glade.h:28
-#, fuzzy
 msgid "Search base only"
-msgstr "База поиска:"
+msgstr "Только база поиска"
 
 #: addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search base:"
 msgstr "База поиска:"
 
 #: addressbook/gui/component/ldap-config.glade.h:30
-#, fuzzy
 msgid "Search scope:"
-msgstr "_Диапазон поиска: "
+msgstr "Диапазон поиска:"
 
 #: addressbook/gui/component/ldap-config.glade.h:31
 msgid ""
@@ -730,7 +722,7 @@ msgstr "<b>Мгновенные сообщения</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:5
 msgid "<b>Job</b>"
-msgstr "<b>Работа</b> "
+msgstr "<b>Работа</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
 msgid "<b>Miscellaneous</b>"
@@ -749,9 +741,8 @@ msgid "<b>Web Addresses</b>"
 msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:10
-#, fuzzy
 msgid "<b>Work</b>"
-msgstr "<b>К:</b> "
+msgstr "<b>Работа</b> "
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: addressbook/gui/contact-editor/e-contact-editor.c:178
@@ -829,7 +820,7 @@ msgstr "MSN Messenger"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "Mailing Address"
-msgstr "Электронная почта"
+msgstr "Почтовый адрес"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 msgid "Manager:"
@@ -873,9 +864,8 @@ msgid "State/Province:"
 msgstr "Область/край:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:39
-#, fuzzy
 msgid "Title:"
-msgstr "Заголовок:"
+msgstr "Должность:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:40
 msgid "Video Chat:"
@@ -2646,9 +2636,8 @@ msgid "Add address to existing contact \"%s\""
 msgstr "Добавить адрес к существующему контакту \"%s\""
 
 #: addressbook/gui/widgets/eab-popup-control.c:870
-#, fuzzy
 msgid "Querying Address Book..."
-msgstr "Поиск в адресной книге..."
+msgstr "Запрашивается адресная книга..."
 
 #: addressbook/gui/widgets/eab-popup-control.c:953
 msgid "Edit Contact Info"
@@ -4131,29 +4120,24 @@ msgid "60 minutes"
 msgstr "60 минут"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
-#, fuzzy
 msgid "<b>Alerts</b>"
-msgstr "<b>К:</b> "
+msgstr "<b>Сигналы</b> "
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
-#, fuzzy
 msgid "<b>General</b>"
-msgstr "<b>К:</b> "
+msgstr "<b>Общие</b> "
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
-#, fuzzy
 msgid "<b>Task List</b>"
-msgstr "<b>Параметры списка задач</b>"
+msgstr "<b>Список задач</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
-#, fuzzy
 msgid "<b>Time</b>"
-msgstr "<b>К:</b> "
+msgstr "<b>Время</b> "
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
-#, fuzzy
 msgid "<b>Work Week</b>"
-msgstr "<b>К:</b> "
+msgstr "<b>Рабочая неделя</b> "
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "Calendar and Tasks Settings"
@@ -4176,7 +4160,6 @@ msgid "Days"
 msgstr "Дней"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
-#, fuzzy
 msgid "Display"
 msgstr "Отображение"
 
@@ -6365,9 +6348,8 @@ msgid "Evolution's Tasks component"
 msgstr "Компонент задач Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#, fuzzy
 msgid "_Calendars"
-msgstr "Календари"
+msgstr "_Календари"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:14
 #: views/tasks/galview.xml.h:3
@@ -10272,14 +10254,12 @@ msgid "Apply filters to new messages in INBOX on this server"
 msgstr "Применить фильтры к новым сообщениям в папке \"Входящие\" на этом сервере"
 
 #: camel/providers/imap/camel-imap-provider.c:66
-#, fuzzy
 msgid "Check new messages for Junk contents"
-msgstr "Проверять новую почту во всех папках"
+msgstr "Проверять, являются ли новые сообщения спамом"
 
 #: camel/providers/imap/camel-imap-provider.c:68
-#, fuzzy
 msgid "Only check for Junk messages in the INBOX folder"
-msgstr "Проверять новую почту во всех папках"
+msgstr "Проверять, являются ли новые сообщения спамом, только в папке \"Входящие\""
 
 #: camel/providers/imap/camel-imap-provider.c:76
 msgid "IMAP"
@@ -11250,7 +11230,7 @@ msgstr "Sendmail"
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
-msgstr "Использовать программу \"sendmail\" для доставки почты."
+msgstr "Для доставки почты путем запуска программы \"sendmail\" на локальной системе."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
@@ -11299,11 +11279,10 @@ msgid "SMTP"
 msgstr "SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:39
-#, fuzzy
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
 msgstr ""
-"Для доставки почты с помощью подключения к удалённому почтовому узлу по "
-"протоколу SMTP.\n"
+"Для доставки почты путем подключения к удалённому почтовому концентратору по "
+"протоколу SMTP."
 
 #: camel/providers/smtp/camel-smtp-transport.c:174
 msgid "Syntax error, command unrecognized"
@@ -13915,9 +13894,8 @@ msgid "Mail Preferences"
 msgstr "Настройка почты"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:15
-#, fuzzy
 msgid "_Mail"
-msgstr "_Почта:"
+msgstr "_Почта"
 
 #: mail/importers/elm-importer.c:88
 msgid "Evolution is importing your old Elm mail"
@@ -14355,7 +14333,7 @@ msgstr "<span weight=\"bold\">Составление сообщений</span>"
 
 #: mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Configuration</span>"
-msgstr "<span weight=\"bold\">Настройка</span>"
+msgstr "<span weight=\"bold\">Параметры</span>"
 
 #: mail/mail-config.glade.h:16
 msgid "<span weight=\"bold\">Default Behavior</span>"
@@ -14399,7 +14377,7 @@ msgstr "<span weight=\"bold\">Уведомление о новой почте</s
 
 #: mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Optional Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Дополнительная информация</span>"
 
 #: mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Options</span>"
@@ -14419,7 +14397,7 @@ msgstr "<span weight=\"bold\">Требуемая информация</span>"
 
 #: mail/mail-config.glade.h:31
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
 
 #: mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Security</span>"
@@ -14431,7 +14409,7 @@ msgstr "<span weight=\"bold\">Отправленные и черновики</sp
 
 #: mail/mail-config.glade.h:34
 msgid "<span weight=\"bold\">Server Configuration</span>"
-msgstr "<span weight=\"bold\">Конфигурация сервера</span>"
+msgstr "<span weight=\"bold\">Параметры сервера</span>"
 
 #: mail/mail-config.glade.h:35
 #, fuzzy
@@ -14485,9 +14463,8 @@ msgid "Automatically _insert smiley images"
 msgstr "_Автоматически вставлять изображение эмоций"
 
 #: mail/mail-config.glade.h:49
-#, fuzzy
 msgid "Automatically check for _new mail every"
-msgstr "_Автоматически проверять новую почту каждые"
+msgstr "Автоматически проверять _новую почту каждые"
 
 #: mail/mail-config.glade.h:50
 msgid "Baltic (ISO-8859-13)"
@@ -15971,7 +15948,7 @@ msgstr "почта"
 #: shell/e-shell.c:588 shell/e-shell.c:589
 #, c-format
 msgid "%ld KB"
-msgstr "%d КБ"
+msgstr "%ld КБ"
 
 #: shell/e-shell.c:786
 msgid "Uknown system error."
@@ -18293,11 +18270,11 @@ msgstr "_Открыть задачу"
 
 #: ui/evolution.xml.h:1
 msgid "About Evolution..."
-msgstr "О программе Ximian Evolution"
+msgstr "О программе Ximian Evolution..."
 
 #: ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
-msgstr "Изменить настройки Evolution"
+msgstr "Настроить Evolution"
 
 #: ui/evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
@@ -18338,7 +18315,7 @@ msgstr "Новое _окно"
 
 #: ui/evolution.xml.h:15
 msgid "Pi_lot Settings..."
-msgstr "Изменить настройки утилиты _Pilot..."
+msgstr "Настроить утилиту для подключения _Pilot..."
 
 #: ui/evolution.xml.h:16
 msgid "Send / Receive"
