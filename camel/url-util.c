@@ -108,7 +108,7 @@ Gurl *g_url_new (const gchar* url_string)
 	slash = strchr (url_string, '/');
 	colon = strchr (url_string, ':');
 	if (slash && colon > slash)
-		colon == 0;
+		colon = 0;
 
 	if (colon) {
 		g_url->host = g_strndup (url_string, colon - url_string);
