@@ -1,5 +1,8 @@
 2001-08-21  Peter Williams  <peterw@ximian.com>
 
+	* mail-account-editor.c (apply_changes): Honor the return value of 
+	mail_account_gui_save.
+
 	* mail-ops.c (sync_folder_desc): Say which folder is getting saved.
 
 2001-08-21  Dan Winship  <danw@ximian.com>

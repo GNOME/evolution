@@ -108,7 +108,8 @@ apply_changes (MailAccountEditor *editor)
 		return FALSE;
 	}
 	
-	mail_account_gui_save (editor->gui);
+	if (mail_account_gui_save (editor->gui))
+		return FALSE;
 	
 	/* FIXME: uh, what the hell is this for? */
 	account = editor->gui->account;
