@@ -300,7 +300,7 @@ export GNOME_PATH=/opt/gnome:/usr
 	    </para>
 
 	    <programlisting>
-file ~/evolution/local/Contacts/addressbook.db
+                file ~/evolution/local/Contacts/addressbook.db
 	    </programlisting>
 
 	    <para>

@@ -121,17 +121,14 @@
     <!-- ************** FOLLOWING PARAGRAPH FOR DRAFT ONLY ************* -->
       <para>
         This version of the <application>Evolution</application>
-        User's Guide is a <emphasis>draft</emphasis>. It describes
-        version 0.6 of the software.  It is missing huge
-        chunks of information, and many of the features it describes
-        are unimplemented.  All the content is subject to change,
-        especially if you help.  Please send comments on the guide to
-        <email>aaron@ximian.com</email>. If you would like to work
-        on the guide please contact me or see the GNOME Documentation
-        project <ulink
+        User's Guide is a <emphasis>draft</emphasis>.  Please send
+        comments on the guide to <email>aaron@ximian.com</email>. The
+        first person to send me some good constructive criticism wins
+        a free Ximian t-shirt. Include preferred shirt size and postal
+        address. If you would like to work on the guide please contact
+        me or see the GNOME Documentation project <ulink
         url="http://developer.gnome.org/projects/gdp">web
-        site</ulink>.  This paragraph will be removed in later
-        versions of the manual.
+        site</ulink>.
       </para>
     <!-- ************* END DRAFT ONLY PARAGRAPH ************** -->
 
@@ -179,18 +176,17 @@
   <sect1 id="commontasks">
     <title>Quick Reference for Common Tasks</title>
     <para>
-        You might want to copy this section and tape it to
-        the wall next to your computer: it's a very short summary of
-        most of the things you'll want to do with
-        <application>Evolution</application>, and pointers to the
-        sections of the book where you'll find more in-depth
-        description of those tasks.
+        You might want to copy this section and tape it to the wall
+        next to your computer: it's a very short summary of most of
+        the things you'll want to do with
+        <application>Evolution</application>.  Read <xref
+        linkend="menuref"> if you would like a complete list of
+        keyboard shortcuts for menu commands.
     </para>
+
     <sect2 id="quickref-newthings">
       <title>Opening or Creating Anything</title>
       <para>
-         Here are the keyboard shortcuts and menu items you're most
-         likely to use:
          
           <variablelist>
 
@@ -308,7 +304,8 @@
                 Click <guibutton>Get Mail</guibutton> in the
                 toolbar. There is no keyboard shortcut for this task,
                 but you can ask <application>Evolution</application>
-                to check for new mail periodically. To do so, FIXME.
+                to check for new mail periodically in the
+                <guilabel>Mail Settings</guilabel> dialog.
                 </para>
 	    </listitem>
 	  </varlistentry>
