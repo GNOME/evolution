@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Evolution CVS HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2005-01-29 16:22+0200\n"
+"PO-Revision-Date: 2005-02-01 11:01+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -11377,7 +11377,7 @@ msgstr "Maildir kataloogi ei saa avada %s: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:549
 msgid "Checking folder consistency"
-msgstr "Kausta kooskõlalisuse kontroll"
+msgstr "Kausta kooskõlalisuse kontrollimine"
 
 #: camel/providers/local/camel-maildir-summary.c:652
 msgid "Checking for new messages"
@@ -18855,7 +18855,7 @@ msgstr ""
 
 #: ui/evolution-mail-list.xml.h:9
 msgid "Mark All as _Read"
-msgstr "Märgi Kõik loetuks"
+msgstr "Märgi kõik _loetuks"
 
 #: ui/evolution-mail-list.xml.h:10
 msgid "Mark all visible messages as read"
