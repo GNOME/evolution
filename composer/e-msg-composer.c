@@ -3131,7 +3131,7 @@ e_msg_composer_flush_pending_body (EMsgComposer *composer, gboolean apply)
 
 static void
 add_attachments_handle_mime_part (EMsgComposer *composer, CamelMimePart *mime_part, 
-				  gboolean just_inlines, int depth)
+				  gboolean just_inlines, gboolean related, int depth)
 {
 	CamelContentType *content_type;
 	CamelDataWrapper *wrapper;
@@ -3148,6 +3148,8 @@ add_attachments_handle_mime_part (EMsgComposer *composer, CamelMimePart *mime_pa
 		if (camel_mime_part_get_content_id (mime_part) ||
 		    camel_mime_part_get_content_location (mime_part))
 			e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
+	} else if (related && header_content_type_is (content_type, "image", "*")) {
+		e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
 	} else {
 		if (header_content_type_is (content_type, "text", "*")) {
 			const char *disposition;
@@ -3167,19 +3169,22 @@ add_attachments_from_multipart (EMsgComposer *composer, CamelMultipart *multipar
 {
 	/* find appropriate message attachments to add to the composer */
 	CamelMimePart *mime_part;
+	gboolean related;
 	int i, nparts;
 	
+	related = header_content_type_is (CAMEL_DATA_WRAPPER (multipart)->mime_type, "multipart", "related");
+		
 	if (CAMEL_IS_MULTIPART_SIGNED (multipart)) {
 		mime_part = camel_multipart_get_part (multipart, CAMEL_MULTIPART_SIGNED_CONTENT);
-		add_attachments_handle_mime_part (composer, mime_part, just_inlines, depth);
+		add_attachments_handle_mime_part (composer, mime_part, just_inlines, related, depth);
 	} else if (CAMEL_IS_MULTIPART_ENCRYPTED (multipart)) {
 		/* what should we do in this case? */
 	} else {
 		nparts = camel_multipart_get_number (multipart);
-		
+
 		for (i = 0; i < nparts; i++) {
 			mime_part = camel_multipart_get_part (multipart, i);
-			add_attachments_handle_mime_part (composer, mime_part, just_inlines, depth);
+			add_attachments_handle_mime_part (composer, mime_part, just_inlines, related, depth);
 		}
 	}
 }

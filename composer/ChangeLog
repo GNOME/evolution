@@ -1,3 +1,13 @@
+2003-04-22  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (add_attachments_handle_mime_part): added
+	related argument, TRUE means that container of mime_part is
+	multipart/related
+	(add_attachments_handle_mime_part): add images as inline when
+	related is TRUE
+	(add_attachments_from_multipart): pass related to
+	add_attachments_handle_mime_part
+
 2003-04-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment.glade: Change the order of the
