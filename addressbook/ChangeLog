@@ -1,3 +1,13 @@
+2001-11-15  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* printing/e-contact-print-envelope.c (ecpe_linelist_dimensions),
+	printing/e-contact-print.c (e_contact_divide_text, e_contact_output,
+	e_contact_rectangle, e_contact_print_letter_tab,
+	e_contact_print_letter_heading, e_contact_get_card_size,
+	e_contact_print_card, e_contact_print_phone_list):
+	s/gnome_font_get_width_string/gnome_font_get_width_utf8/
+	s/gnome_font_get_width_string_n/gnome_font_get_width_utf8_sized/
+
 2001-11-14  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (search_for_dn): check against

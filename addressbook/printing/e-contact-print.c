@@ -78,7 +78,7 @@ struct _EContactPrintContext
 static gint
 e_contact_divide_text(GnomePrintContext *pc, GnomeFont *font, double width, const gchar *text, GList **return_val /* Of type char[] */)
 {
-	if ( width == -1 || gnome_font_get_width_string(font, text) <= width ) {
+	if ( width == -1 || gnome_font_get_width_utf8(font, text) <= width ) {
 		if ( return_val ) {
 			*return_val = g_list_append(*return_val, g_strdup(text));
 		}
@@ -94,22 +94,22 @@ e_contact_divide_text(GnomePrintContext *pc, GnomeFont *font, double width, cons
 		l = strlen(text);
 		for ( i = 0; i < l; i++ ) {
 			if ( text[i] == ' ' ) {
-				if ( (!firstword) && x + gnome_font_get_width_string_n(font, text + lastend, i - lastend) > width ) {
+				if ( (!firstword) && x + gnome_font_get_width_utf8_sized(font, text + lastend, i - lastend) > width ) {
 					if (return_val) {
 						*return_val = g_list_append(*return_val, g_strndup(text + linestart, lastend - linestart));
 					}
-					x = gnome_font_get_width_string(font, "    ");
+					x = gnome_font_get_width_utf8(font, "    ");
 					linestart = lastend + 1;
-					x += gnome_font_get_width_string_n(font, text + linestart, i - linestart);
+					x += gnome_font_get_width_utf8_sized(font, text + linestart, i - linestart);
 					lastend = i;
 					linecount ++;
 				} else {
-					x += gnome_font_get_width_string_n(font, text + lastend, i - lastend);
+					x += gnome_font_get_width_utf8_sized(font, text + lastend, i - lastend);
 					lastend = i;
 				}
 				firstword = 0;
 			} else if ( text[i] == '\n' ) {
-				if ( (!firstword) && x + gnome_font_get_width_string_n(font, text + lastend, i - lastend) > width ) {
+				if ( (!firstword) && x + gnome_font_get_width_utf8_sized(font, text + lastend, i - lastend) > width ) {
 					if (return_val) {
 						*return_val = g_list_append(*return_val, g_strndup(text + linestart, lastend - linestart));
 					}
@@ -123,12 +123,12 @@ e_contact_divide_text(GnomePrintContext *pc, GnomeFont *font, double width, cons
 				linestart = i + 1;
 				lastend = i + 1;
 				linecount ++;
-				x = gnome_font_get_width_string(font, "    ");
+				x = gnome_font_get_width_utf8(font, "    ");
 
 				firstword = 1;
 			}
 		}
-		if ( (!firstword) && x + gnome_font_get_width_string_n(font, text + lastend, i - lastend) > width ) {
+		if ( (!firstword) && x + gnome_font_get_width_utf8_sized(font, text + lastend, i - lastend) > width ) {
 			if (return_val) {
 				*return_val = g_list_append(*return_val, g_strndup(text + linestart, lastend - linestart));
 			}
@@ -149,7 +149,7 @@ e_contact_divide_text(GnomePrintContext *pc, GnomeFont *font, double width, cons
 		gint i;
 		gint l;
 		gchar *hyphenation;
-		double x = - gnome_font_get_width_string(font, "    ") * SCALE;
+		double x = - gnome_font_get_width_utf8(font, "    ") * SCALE;
 		HnjParams hnjparams;
 
 		hnjparams.set_width = width * SCALE + x;
@@ -266,7 +266,7 @@ e_contact_output(GnomePrintContext *pc, GnomeFont *font, double x, double y, dou
 		y -= gnome_font_get_descender(font);
 		y -= .2 * gnome_font_get_size (font);
 		if ( first_line ) {
-			x += gnome_font_get_width_string(font, "    ");
+			x += gnome_font_get_width_utf8(font, "    ");
 			first_line = 0;
 		}
 	}
@@ -318,7 +318,7 @@ e_contact_rectangle(GnomePrintContext *pc,
 static double
 e_contact_get_letter_tab_width (EContactPrintContext *ctxt)
 {
-	return gnome_font_get_width_string(ctxt->letter_tab_font, "123") + 4 + 18;
+	return gnome_font_get_width_utf8(ctxt->letter_tab_font, "123") + 4 + 18;
 }
 
 static double
@@ -348,15 +348,15 @@ e_contact_print_letter_tab (EContactPrintContext *ctxt)
 		if ( character >= ctxt->first_char_on_page && character <= ctxt->last_char_on_page ) {
 			e_contact_rectangle( ctxt->pc, x + 1, y - 1, x + tab_width - 1, y - (tab_height - 1), 0, 0, 0 );
 			gnome_print_setrgbcolor( ctxt->pc, 1, 1, 1 );
-			e_contact_output( ctxt->pc, ctxt->letter_tab_font, x + tab_width / 2 - gnome_font_get_width_string(ctxt->letter_tab_font, string) / 2, y - (tab_height - font_size) / 2, -1, string );
+			e_contact_output( ctxt->pc, ctxt->letter_tab_font, x + tab_width / 2 - gnome_font_get_width_utf8(ctxt->letter_tab_font, string) / 2, y - (tab_height - font_size) / 2, -1, string );
 		} else {
 			gnome_print_setrgbcolor( ctxt->pc, 0, 0, 0 );
-			e_contact_output( ctxt->pc, ctxt->letter_tab_font, x + tab_width / 2 - gnome_font_get_width_string(ctxt->letter_tab_font, string) / 2, y - (tab_height - font_size) / 2, -1, string );
+			e_contact_output( ctxt->pc, ctxt->letter_tab_font, x + tab_width / 2 - gnome_font_get_width_utf8(ctxt->letter_tab_font, string) / 2, y - (tab_height - font_size) / 2, -1, string );
 		}
 		y -= tab_height;
 	}
 	gnome_print_grestore( ctxt->pc );
-	return gnome_font_get_width_string(ctxt->style->body_font, "123") + gnome_font_get_size (ctxt->style->body_font) / 5;
+	return gnome_font_get_width_utf8(ctxt->style->body_font, "123") + gnome_font_get_size (ctxt->style->body_font) / 5;
 }
 
 static double
@@ -374,14 +374,14 @@ e_contact_print_letter_heading (EContactPrintContext *ctxt, gchar *character)
 	gdouble ascender, descender;
 	gdouble width;
 
-	width = gnome_font_get_width_string(ctxt->letter_heading_font, "m") * 1.7;
+	width = gnome_font_get_width_utf8(ctxt->letter_heading_font, "m") * 1.7;
 	ascender = gnome_font_get_ascender(ctxt->letter_heading_font);
 	descender = gnome_font_get_descender(ctxt->letter_heading_font);
 	gnome_print_gsave( ctxt->pc );
 	e_contact_rectangle( ctxt->pc, ctxt->x, ctxt->y, ctxt->x + width, ctxt->y - (ascender + descender + 6), 0, 0, 0);
 	gnome_print_setrgbcolor(ctxt->pc, 1, 1, 1);
 	ctxt->y -= 4;
-	e_contact_output(ctxt->pc, ctxt->letter_heading_font, ctxt->x + (width - gnome_font_get_width_string(ctxt->letter_heading_font, character))/ 2, ctxt->y, -1, character);
+	e_contact_output(ctxt->pc, ctxt->letter_heading_font, ctxt->x + (width - gnome_font_get_width_utf8(ctxt->letter_heading_font, character))/ 2, ctxt->y, -1, character);
 	ctxt->y -= ascender + descender;
 	ctxt->y -= 2;
 	ctxt->y -= 3;
@@ -430,8 +430,8 @@ e_contact_get_card_size(ECardSimple *simple, EContactPrintContext *ctxt)
 		string = e_card_simple_get(simple, field);
 		if (string && *string) {
 			double xoff = 0;
-			xoff += gnome_font_get_width_string(ctxt->style->body_font, e_card_simple_get_name(simple, field));
-			xoff += gnome_font_get_width_string(ctxt->style->body_font, ":  ");
+			xoff += gnome_font_get_width_utf8(ctxt->style->body_font, e_card_simple_get_name(simple, field));
+			xoff += gnome_font_get_width_utf8(ctxt->style->body_font, ":  ");
 			height += e_contact_text_height(ctxt->pc, ctxt->style->body_font, column_width - xoff, string);
 			height += .2 * gnome_font_get_size (ctxt->style->body_font);
 		}
@@ -490,9 +490,9 @@ e_contact_print_card (ECardSimple *simple, EContactPrintContext *ctxt)
 		if (string && *string) {
 			double xoff = 0;
 			e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, -1, e_card_simple_get_name(simple, field));
-			xoff += gnome_font_get_width_string(ctxt->style->body_font, e_card_simple_get_name(simple, field));
+			xoff += gnome_font_get_width_utf8(ctxt->style->body_font, e_card_simple_get_name(simple, field));
 			e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, -1, ":  ");
-			xoff += gnome_font_get_width_string(ctxt->style->body_font, ":  ");
+			xoff += gnome_font_get_width_utf8(ctxt->style->body_font, ":  ");
 			e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, column_width - xoff, string);
 			ctxt->y -= e_contact_text_height(ctxt->pc, ctxt->style->body_font, column_width - xoff, string);
 			ctxt->y -= .2 * gnome_font_get_size (ctxt->style->body_font);
@@ -708,8 +708,8 @@ e_contact_print_phone_list (ECard *card, EContactPrintContext *ctxt)
 	
 	xoff = column_width - 9 * gnome_font_get_size (ctxt->style->body_font);
 	dotwidth = xoff - 
-		gnome_font_get_width_string(ctxt->style->body_font, e_card_get_string_fileas(card)) - 
-		gnome_font_get_width_string(ctxt->style->body_font, " ");
+		gnome_font_get_width_utf8(ctxt->style->body_font, e_card_get_string_fileas(card)) - 
+		gnome_font_get_width_utf8(ctxt->style->body_font, " ");
 	dotcount = dotwidth / gnome_font_get_width(ctxt->style->body_font, '.');
 	dots = g_new(gchar, dotcount + 1);
 	for (i = 0; i < dotcount; i++)
@@ -723,7 +723,7 @@ e_contact_print_phone_list (ECard *card, EContactPrintContext *ctxt)
 			gchar *field = e_card_get_string(card, shown_fields->data);
 			e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, -1, shown_fields->data);
 			e_contact_output(ctxt->pc, ctxt->style->body_font, 
-					 ctxt->x + column_width - gnome_font_get_width_string(ctxt->style->body_font, 
+					 ctxt->x + column_width - gnome_font_get_width_utf8(ctxt->style->body_font, 
 											      field),
 					 ctxt->y,
 					 -1,
