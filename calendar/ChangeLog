@@ -1,3 +1,9 @@
+2004-02-04  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (open_ecal): open calendars asynchronously.
+	(client_cal_opened_cb): on success, add the clients to the models here.
+	(gnome_calendar_add_event_source, gnome_calendar_construct): not here.
+
 2004-02-04  Kidd Wang  <kidd.wang@sun.com>
 
 	* gui/dialogs/alarm-page.glade: change the access key for adding a
