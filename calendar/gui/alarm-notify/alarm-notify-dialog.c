@@ -318,6 +318,7 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	GtkHTMLStream *stream;
 	icaltimezone *current_zone;
 	char *buf, *title;
+	GdkPixbuf *pixbuf;
 
 	g_return_val_if_fail (trigger != -1, NULL);
 
@@ -397,7 +398,10 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 		gtk_widget_realize (an->dialog);
 
 	gtk_window_stick (GTK_WINDOW (an->dialog));
-	gtk_window_set_icon_from_file (GTK_WINDOW (an->dialog), EVOLUTION_IMAGESDIR "/alarm.png", NULL);
+
+	pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/alarm.png", NULL);
+	gtk_window_set_icon (GTK_WINDOW (an->dialog), pixbuf);
+	g_object_unref (pixbuf);
 
 	gtk_widget_show (an->dialog);
 	return an;
