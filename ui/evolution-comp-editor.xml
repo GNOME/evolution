@@ -3,15 +3,13 @@
 <commands>
 
         <cmd name="FilePrint" _label="Print..."
-	_tip="Print this item" pixtype="stock" pixname="Print"/>
+	_tip="Print this item"/>
 
         <cmd name="FilePrintPreview" _label="Print Pre_view"
-          _tip="Preview the printed item"
-	  pixtype="stock" pixname="Print"/>
+          _tip="Preview the printed item"/>
 
         <cmd name="FilePrintSetup" _label="Print S_etup"
-          _tip="Setup the page settings for your current printer"
-	  pixtype="stock" pixname="Print"/>
+          _tip="Setup the page settings for your current printer"/>
 
         <cmd name="FileSaveAndClose" _label="Save and Close"
 	_tip="Save the appointment and close the dialog box"
@@ -45,9 +43,9 @@
 
 	<separator/>
 
-	<menuitem name="FilePrint" verb=""/>
+	<menuitem name="FilePrint" verb="" pixtype="pixbuf"/>
 
-	<menuitem name="FilePrintPreview" verb=""/>
+	<menuitem name="FilePrintPreview" verb="" pixtype="pixbuf"/>
 
 	<menuitem name="FilePrintSetup" verb=""/>
 
@@ -84,9 +82,9 @@
 
 	<separator/>
         
-	<toolitem name="FilePrint" verb="" _label="Print" priority="1"/>
+	<toolitem name="FilePrint" verb="" _label="Print" priority="1" pixtype="pixbuf"/>
 
-	<toolitem name="FilePrintPreview" verb="" _label="Print Preview" priority="1"/>
+	<toolitem name="FilePrintPreview" verb="" _label="Print Preview" priority="1" pixtype="pixbuf"/>
 
 	<separator/>
 

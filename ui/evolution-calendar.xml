@@ -4,7 +4,7 @@
 		<cmd name="CalendarOpen"   _tip="Open Calendar" _label="Open"/>
 		<cmd name="CalendarSaveAs" _tip="Save calendar as something else" _label="Save As"/>
 		<cmd name="CalendarPrint"  _tip="Print this Calendar" _label="Print"
-		 pixtype="stock" pixname="Print"/>
+		 pixtype="pixbuf"/>
 		<cmd name="CalendarPreferences" _tip="Alter preferences"/>
 		<cmd name="EditNewAppointment" _label="New Appointment"
 		 priority="1" _tip="Create a new appointment" pixtype="stock" pixname="New"/>
@@ -124,7 +124,7 @@
 
 		<separator/>
 
-		<toolitem name="Print" verb="CalendarPrint"/>
+		<toolitem name="Print" verb="CalendarPrint" pixtype = "pixbuf"/>
 
 		<separator/>
 
