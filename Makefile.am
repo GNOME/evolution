@@ -2,6 +2,8 @@ SUBDIRS =					\
 	po					\
 	macros					\
 	camel					\
+	e-util					\
+	widgets					\
 	composer				\
 	tests
 

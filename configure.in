@@ -24,7 +24,7 @@ AC_CANONICAL_HOST
 
 AM_ACLOCAL_INCLUDE(macros)
 GNOME_INIT
-
+GNOME_COMPILE_WARNINGS
 AC_ISC_POSIX
 AC_PROG_CC
 AC_PROG_CPP
@@ -84,10 +84,15 @@ else
     AC_MSG_ERROR(Did not find libGlade installed)
 fi
 
-EXTRA_GNOME_LIBS="`gnome-config --libs gnomeui libglade ` `glib-config --libs gthread`"
-EXTRA_GNOME_CFLAGS="`gnome-config --cflags gnomeui libglade ` `glib-config --cflags gthread`"
+EXTRA_GNOME_LIBS="`gnome-config --libs gnomeui libglade `"
+EXTRA_GNOME_CFLAGS="`gnome-config --cflags gnomeui libglade `"
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
+
+EXTRA_GNOME_LIBS_THREADS="`gnome-config --libs gnomeui libglade ` `glib-config --libs gthread`"
+EXTRA_GNOME_CFLAGS_THREADS="`gnome-config --cflags gnomeui libglade ` `glib-config --cflags gthread`"
+AC_SUBST(EXTRA_GNOME_LIBS_THREADS)
+AC_SUBST(EXTRA_GNOME_CFLAGS_THREADS)
 
 
 AC_ARG_WITH(camel-hard-log-level, [  --with-camel-hard-log-level=level  value of log level in camel (0-10)],
@@ -98,6 +103,7 @@ AC_OUTPUT([
 Makefile
 macros/Makefile
 po/Makefile.in
+e-util/Makefile
 camel/Makefile
 camel/providers/Makefile
 camel/providers/MH/Makefile
@@ -110,4 +116,7 @@ tests/Makefile
 tests/ui-tests/Makefile
 widgets/Makefile
 widgets/meeting-time-sel/Makefile
+widgets/shortcut-bar/Makefile
+widgets/e-table/Makefile
+shell/Makefile
 ])

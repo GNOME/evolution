@@ -1,16 +1,11 @@
-
-SUBDIRS =
-	meeting-time-sel
-
 INCLUDES =					\
-	-I$(top_srcdir)/camel			\
-	-I$(top_builddir)/camel			\
-	$(GNOME_INCLUDEDIR)
+	$(GNOME_INCLUDEDIR)			\
+	-I$(top_srcdir)/e-util
 
 noinst_LIBRARIES =				\
-	libevolutionwidgets.a
+	libetable.a
 
-libevolutionwidgets_a_SOURCES = 		\
+libetable_a_SOURCES = 				\
 	e-cell.c				\
 	e-cell.h				\
 	e-cell-checkbox.c			\
@@ -19,8 +14,6 @@ libevolutionwidgets_a_SOURCES = 		\
 	e-cell-text.h				\
 	e-cell-toggle.c				\
 	e-cell-toggle.h				\
-	e-cursors.c				\
-	e-cursors.h				\
 	e-table.c				\
 	e-table.h				\
 	e-table-col.c				\
@@ -51,9 +44,10 @@ table_test_SOURCES = 	\
 	test-cols.c	\
 	table-test.c 
 
-table_test_LDADD =		\
-	$(EXTRA_GNOME_LIBS)	\
-	libevolutionwidgets.a	
+table_test_LDADD =				\
+	$(EXTRA_GNOME_LIBS)			\
+	libetable.a				\
+	$(top_builddir)/e-util/libeutil.a
 
 table_test_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 

@@ -1,3 +1,15 @@
+2000-01-05  Miguel de Icaza  <miguel@gnu.org>
+
+	* shell/Makefile.am: New file.
+
+	* configure.in (EXTRA_GNOME_CFLAGS_THREADS,
+	EXTRA_GNOME_LIBS_THREADS): New variables that hold the thread
+	version of the compile/link lines.
+
+1999-11-20  Miguel de Icaza  <miguel@gnu.org>
+
+	* configure.in (PACKAGE): Raise warning level.
+
 2000-01-04  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/providers/mbox/camel-mbox-folder.c (_list_subfolders): 

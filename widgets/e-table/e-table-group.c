@@ -12,7 +12,7 @@
 #include "e-table-group.h"
 #include "e-table-item.h"
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
-#include "e-util.h"
+#include <e-util/e-util.h>
 
 #define TITLE_HEIGHT         16
 #define GROUP_INDENT         10
