@@ -3,8 +3,7 @@
 	* configure.in: Bumped required gal version to 0.2.99.4 for
 	e_str_make_safe.
 
-	* README: Added some necessary :'s in the pilot-link cvs
-	stuff.
+	* README: Added some necessary :'s in the pilot-link cvs stuff.
 
 2000-11-30  Gediminas Paulauskas <menesis@delfi.lt>
 

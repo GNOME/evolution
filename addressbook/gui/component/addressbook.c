@@ -401,7 +401,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 			  "correctness and reenter.  If not, you probably have\n"
 			  "attempted to access an LDAP server.  If you wish to be\n"
 			  "able to use LDAP, you'll need to download and install\n"
-			  "OpenLDAP and recompile and install evolution.\n"));
+			  "OpenLDAP and recompile and install Evolution.\n"));
 		gtk_misc_set_alignment(GTK_MISC(label),
 				       0, .5);
 		gtk_label_set_justify(GTK_LABEL(label),
