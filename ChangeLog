@@ -1,3 +1,7 @@
+2001-04-21  Duncan Mak  <duncan@ximian.com>
+
+	* art/Makefile.am (images_DATA): Added in composer-message.png.
+
 2001-04-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: `mail/importers/Makefile' must come after

@@ -23,6 +23,7 @@ images_DATA = \
 	butterfly.png			\
 	cellphone.png       		\
 	delete_message.xpm		\
+	compose-message.png		\
 	envelope.png        		\
 	evolution-calendar-mini.png 	\
 	evolution-calendar.png 		\
