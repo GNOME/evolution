@@ -1,5 +1,17 @@
 2000-07-21  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-folder.c (imap_get_subfolder_names): Updated to
+	not strip out subfolders that are marked as \NoSelect because this will be
+	correctly handled in store->get_folder from now on.
+
+	* providers/imap/camel-imap-store.c (folder_is_selectable): New convenience
+	function for use in get_folder().
+	(parse_list_response): Now takes a char **flags argument which is needed by
+	folder_is_selectable().
+	(imap_connect): Updated to reflect changes to parse_list_response().
+
+2000-07-21  Jeffrey Stedfast  <fejj@helixcode.com>
+	
 	* providers/imap/camel-imap-stream.c (stream_read): Updated with some of the
 	same fixes I've made to camel-imap-folder.c like recalculating message part
 	lengths.

@@ -739,7 +739,7 @@ imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 			ret = imap_parse_subfolder_line (buf, namespace, &flags, &sep, &folder);
 			g_free (buf);
 			
-			if (!ret || (flags && strstr (flags, "NoSelect"))) {
+			if (!ret /*|| (flags && strstr (flags, "NoSelect"))*/) {
 				g_free (flags);
 				g_free (sep);
 				g_free (folder);

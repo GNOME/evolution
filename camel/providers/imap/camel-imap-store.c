@@ -226,10 +226,11 @@ get_name (CamelService *service, gboolean brief)
 }
 
 static gboolean
-parse_list_response (gchar *buf, gchar **sep)
+parse_list_response (gchar *buf, gchar **flags, gchar **sep)
 {
 	gchar *ptr, *eptr;
 
+	*flags = NULL;
 	*sep = NULL;
 
 	if (strncasecmp (buf, "* LIST", 6))
@@ -243,6 +244,7 @@ parse_list_response (gchar *buf, gchar **sep)
 	eptr = strstr (ptr, ")");
 	if (!eptr)
 		return FALSE;
+	*flags = g_strndup (ptr, (gint)(eptr - ptr));
 
 	ptr = strstr (eptr, "\"");
 	if (!ptr)
@@ -398,9 +400,9 @@ imap_connect (CamelService *service, CamelException *ex)
 				      "Unknown error");
 	} else {
 		if (!strncasecmp (result, "* LIST", 6)) {
-			char *sep;
+			char *flags, *sep;
 
-			if (parse_list_response (result, &sep)) {
+			if (parse_list_response (result, &flags, &sep)) {
 				if (*sep) {
 					g_free (store->dir_sep);
 					store->dir_sep = g_strdup (sep);
@@ -533,6 +535,37 @@ imap_create (CamelFolder *folder, CamelException *ex)
 	return TRUE;
 }
 
+static gboolean
+folder_is_selectable (CamelStore *store, const char *folder_path)
+{
+	char *result, *flags, *sep;
+	int status;
+
+	if (!strcmp (folder_path, "INBOX"))
+		return TRUE;
+	
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), NULL,
+					      &result, "LIST \"\" %s", folder_path);
+	if (status != CAMEL_IMAP_OK) {
+		g_free (result);
+		return FALSE;
+	}
+
+	if (parse_list_response (result, &flags, &sep)) {
+		gboolean retval;
+		
+		retval = !e_strstrcase (flags, "NoSelect");
+		g_free (flags);
+		g_free (sep);
+
+		return retval;
+	}
+	g_free (flags);
+	g_free (sep);
+
+	return FALSE;
+}
+
 static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelException *ex)
 {
@@ -548,8 +581,12 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 		folder_path = g_strdup ("INBOX");
 	else
 		folder_path = g_strdup (folder_name);
-	
+
 	new_folder = camel_imap_folder_new (store, folder_path, ex);
+	
+	if (!folder_is_selectable (store, folder_path)) {
+		return new_folder;
+	}
 
 	if (create && !imap_create (new_folder, ex)) {
 		return NULL;
@@ -800,10 +837,15 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		g_ptr_array_add (data, respbuf);
 		len += strlen (respbuf) + 1;
 
+		/* If recent was somehow set and this response doesn't begin with a '*'
+		   then recent must have been misdetected */
+		if (recent && *respbuf != '*')
+			recent = 0;
+
 		if (*respbuf == '*' && (ptr = strstr (respbuf, "RECENT"))) {
 			char *rcnt, *ercnt;
-
-			d(fprintf (stderr, "*** We found a 'RECENT' flag: %s", respbuf));
+			
+			d(fprintf (stderr, "*** We may have found a 'RECENT' flag: %s", respbuf));
 			/* Make sure it's in the form: "* %d RECENT" */
 			rcnt = respbuf + 2;
 			if (*rcnt > '0' || *rcnt < '9') {
