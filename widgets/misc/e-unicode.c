@@ -257,7 +257,7 @@ e_utf8_from_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 	ib = string;
 	ibl = bytes;
 	new = ob = g_new (gchar, ibl * 6 + 1);
-	obl = ibl * 6 + 1;
+	obl = ibl * 6;
 
 	while (ibl > 0) {
 		e_iconv (ic, &ib, &ibl, &ob, &obl);
@@ -319,9 +319,9 @@ e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 
 	ib = string;
 	ibl = bytes;
-	new = ob = g_new (gchar, ibl * 4 + 1);
-	obl = ibl * 4 + 1;
-
+	new = ob = g_new (char, ibl * 4 + 4);
+	obl = ibl * 4;
+	
 	while (ibl > 0) {
 		e_iconv (ic, &ib, &ibl, &ob, &obl);
 		if (ibl > 0) {
@@ -337,13 +337,16 @@ e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 			ib += len;
 			ibl = bytes - (ib - string);
 			if (ibl > bytes) ibl = 0;
+			
+			/* FIXME: this is wrong... what if the destination charset is 16 or 32 bit? */
 			*ob++ = '_';
 			obl--;
 		}
 	}
-
-	*ob = '\0';
-
+	
+	/* Make sure to terminate with plenty of padding */
+	memset (ob, 0, 4);
+	
 	return new;
 }
 
@@ -446,7 +449,7 @@ e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes
 	ib = string;
 	ibl = bytes;
 	new = ob = g_new (gchar, ibl * 6 + 1);
-	obl = ibl * 6 + 1;
+	obl = ibl * 6;
 
 	while (ibl > 0) {
 		e_iconv (ic, &ib, &ibl, &ob, &obl);
@@ -505,8 +508,8 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 		/* If iconv is missing we assume either iso-10646 or iso-8859-1 */
 		xfs = GDK_FONT_XFONT (widget->style->font);
 		twobyte = (widget->style->font->type == GDK_FONT_FONTSET || ((xfs->min_byte1 != 0) || (xfs->max_byte1 != 0)));
-
-		new = g_new (unsigned char, bytes * 4 + 1);
+		
+		new = g_new (unsigned char, bytes * 4 + 2);
 		u = string;
 		len = 0;
 
@@ -517,14 +520,18 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 			}
 			new[len++] = uc & 0xff;
 		}
-		new[len] = '\0';
+		
+		new[len++] = '\0';
+		if (twobyte)
+			new[len] = '\0';
+		
 		return new;
 	}
 
 	ib = string;
 	ibl = bytes;
-	new = ob = g_new (gchar, ibl * 4 + 1);
-	obl = ibl * 4 + 1;
+	new = ob = g_new (gchar, ibl * 4 + 4);
+	obl = ibl * 4;
 
 	while (ibl > 0) {
 		e_iconv (ic, &ib, &ibl, &ob, &obl);
@@ -545,11 +552,12 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 			obl--;
 		}
 	}
-
-	*ob = '\0';
-
+	
+	/* Make sure to terminate with plenty of padding */
+	memset (ob, 0, 4);
+	
 	e_iconv_close(ic);
-
+	
 	return new;
 }
 
