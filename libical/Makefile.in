@@ -146,9 +146,7 @@ SUBDIRS = src
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
-DIST_COMMON =  README COPYING INSTALL Makefile.am Makefile.in TODO \
-config.guess config.sub configure install-sh ltconfig ltmain.sh missing \
-mkinstalldirs
+DIST_COMMON =  README Makefile.am Makefile.in TODO install-sh
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
