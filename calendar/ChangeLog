@@ -1,5 +1,12 @@
 1998-04-13  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* eventedit.c (event_editor_setup_time_frame): Re-aligned some
+	widgets to make it look prettier.
+	(ee_alarm_widgets): Likewise.
+	(ee_init_general_page): Likewise.
+	(ee_classification_widgets): Likewise.
+	(event_editor_init_widgets): Likewise.
+
 	* gnome-cal.c (day_view_range_activated): Create new object and
 	add it to the calendar.  You can now select a range in the
 	full-day view, hit Return, and a new event will be added at the

@@ -123,6 +123,9 @@ event_editor_setup_time_frame (EventEditor *ee)
 	
 	frame = gtk_frame_new (_("Time"));
 	t = GTK_TABLE (ee->general_time_table = gtk_table_new (1, 1, 0));
+	gtk_container_border_width (GTK_CONTAINER (t), 4);
+	gtk_table_set_row_spacings (t, 4);
+	gtk_table_set_col_spacings (t, 4);
 	gtk_container_add (GTK_CONTAINER (frame), ee->general_time_table);
 
 	/* 1. Start time */
@@ -132,29 +135,46 @@ event_editor_setup_time_frame (EventEditor *ee)
 			    GTK_SIGNAL_FUNC (adjust_end_time), ee);
 	gtk_signal_connect (GTK_OBJECT (start_time), "time_changed",
 			    GTK_SIGNAL_FUNC (check_times), ee);
-	gtk_table_attach (t, gtk_label_new (_("Start time")), 1, 2, 1, 2, 0, 0, 0, 0);
-	gtk_table_attach (t, start_time, 2, 3, 1, 2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_table_attach (t, gtk_label_new (_("Start time:")), 1, 2, 1, 2,
+			  GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
+	gtk_table_attach (t, start_time, 2, 3, 1, 2,
+			  GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
 
 	/* 2. End time */
 	ee->end_time   = end_time   = gnome_date_edit_new (ee->ical->dtend);
 	gnome_date_edit_set_popup_range ((GnomeDateEdit *) end_time,   day_begin, day_end);
 	gtk_signal_connect (GTK_OBJECT (end_time), "time_changed",
 			    GTK_SIGNAL_FUNC (check_times), ee);
-	gtk_table_attach (t, gtk_label_new (_("End time")), 1, 2, 2, 3, 0, 0, 0, 0);
-	gtk_table_attach (t, end_time, 2, 3, 2, 3,   GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_table_attach (t, gtk_label_new (_("End time:")), 1, 2, 2, 3,
+			  GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
+	gtk_table_attach (t, end_time, 2, 3, 2, 3,
+			  GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
 
 	/* 3. All day checkbox */
 	ee->general_allday = gtk_check_button_new_with_label (_("All day event"));
 	gtk_signal_connect (GTK_OBJECT (ee->general_allday), "toggled",
 			    GTK_SIGNAL_FUNC (set_all_day), ee);
-	gtk_table_attach (t, ee->general_allday, 3, 4, 1, 2, 0, 0, 0, 0);
+	gtk_table_attach (t, ee->general_allday, 3, 4, 1, 2,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  4, 0);
 	ee_check_all_day (ee);
 
 	/* 4. Recurring event checkbox */
 	ee->general_recur  = gtk_check_button_new_with_label (_("Recurring event"));
-	gtk_table_attach (t, ee->general_recur, 3, 4, 2, 3, 0, 0, 0, 0);
+	gtk_table_attach (t, ee->general_recur, 3, 4, 2, 3,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  4, 0);
 
-	gtk_container_border_width (GTK_CONTAINER (frame), 5);
 	return frame;
 }
 
@@ -199,8 +219,9 @@ alarm_toggle (GtkToggleButton *toggle, CalendarAlarm *alarm)
 	ee_alarm_setting (alarm, toggle->active);
 }
 
-#define FX GTK_FILL | GTK_EXPAND
-#define XCOL 6
+#define FXS (GTK_FILL | GTK_EXPAND | GTK_SHRINK)
+#define FS  (GTK_FILL | GTK_SHRINK)
+
 static void
 ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType type, int y)
 {
@@ -209,36 +230,36 @@ ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType t
 	alarm->w_enabled = gtk_check_button_new_with_label (str);
 	gtk_signal_connect (GTK_OBJECT (alarm->w_enabled), "toggled",
 			    GTK_SIGNAL_FUNC (alarm_toggle), alarm);
-	gtk_table_attach (table, alarm->w_enabled, 2, 3, y, y+1, FX, 0, 0, 0);
+	gtk_table_attach (table, alarm->w_enabled, 0, 1, y, y+1, FS, FS, 0, 0);
 
 	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (alarm->w_enabled), alarm->enabled);
 	
 	alarm->w_count = gtk_entry_new ();
 	gtk_widget_set_usize (alarm->w_count, 40, 0);
-	gtk_table_attach (table, alarm->w_count, 3, 4, y, y+1, FX, 0, 5, 0);
+	gtk_table_attach (table, alarm->w_count, 1, 2, y, y+1, FS, FS, 0, 0);
 	sprintf (buffer, "%d", alarm->count);
 	gtk_entry_set_text (GTK_ENTRY (alarm->w_count), buffer);
 	
 	alarm->w_timesel = timesel_new ();
 	gtk_option_menu_set_history (GTK_OPTION_MENU (alarm->w_timesel), alarm->units);
-	gtk_table_attach (table, alarm->w_timesel, 4, 5, y, y+1, 0, 0, 0, 0);
+	gtk_table_attach (table, alarm->w_timesel, 2, 3, y, y+1, FS, FS, 0, 0);
 	
 	switch (type){
 	case ALARM_MAIL:
 		alarm->w_label = gtk_label_new (_("Mail to:"));
 		gtk_misc_set_alignment (GTK_MISC (alarm->w_label), 1.0, 0.5);	
-		gtk_table_attach (table, alarm->w_label, XCOL, XCOL+1, y, y+1, FX, 0, 5, 0);
+		gtk_table_attach (table, alarm->w_label, 3, 4, y, y+1, FS, FS, 0, 0);
 		alarm->w_entry = gtk_entry_new ();
-		gtk_table_attach (table, alarm->w_entry, XCOL+1, XCOL+2, y, y+1, FX, 0, 6, 0);
+		gtk_table_attach (table, alarm->w_entry, 4, 5, y, y+1, FXS, FS, 0, 0);
 		gtk_entry_set_text (GTK_ENTRY (alarm->w_entry), alarm->data);
 		break;
 
 	case ALARM_PROGRAM:
 		alarm->w_label = gtk_label_new (_("Run program:"));
 		gtk_misc_set_alignment (GTK_MISC (alarm->w_label), 1.0, 0.5);	
-		gtk_table_attach (table, alarm->w_label, XCOL, XCOL+1, y, y+1, FX, 0, 5, 0);
+		gtk_table_attach (table, alarm->w_label, 3, 4, y, y+1, FS, FS, 0, 0);
 		alarm->w_entry = gnome_file_entry_new ("alarm-program", _("Select program to run at alarm time"));
-		gtk_table_attach (table, alarm->w_entry, XCOL+1, XCOL+2, y, y+1, 0, 0, 6, 0);
+		gtk_table_attach (table, alarm->w_entry, 4, 5, y, y+1, FXS, FS, 0, 0);
 		break;
 
 	default:
@@ -256,7 +277,9 @@ ee_alarm_widgets (EventEditor *ee)
 	l = gtk_frame_new (_("Alarms"));
 	
 	table = gtk_table_new (1, 1, 0);
-	gtk_table_set_row_spacings (GTK_TABLE (table), 3);
+	gtk_container_border_width (GTK_CONTAINER (table), 4);
+	gtk_table_set_row_spacings (GTK_TABLE (table), 4);
+	gtk_table_set_col_spacings (GTK_TABLE (table), 4);
 	gtk_container_add (GTK_CONTAINER (l), table);
 	
 	mailto  = gtk_label_new (_("Mail to:"));
@@ -283,7 +306,9 @@ ee_classification_widgets (EventEditor *ee)
 	GtkWidget *frame, *hbox;
 
 	frame = gtk_frame_new (_("Classification"));
-	hbox  = gtk_hbox_new (0, 0);
+
+	hbox  = gtk_hbox_new (TRUE, 0);
+	gtk_container_border_width (GTK_CONTAINER (hbox), 4);
 	gtk_container_add (GTK_CONTAINER (frame), hbox);
 	
 	rpub  = gtk_radio_button_new_with_label (NULL, _("Public"));
@@ -431,34 +456,44 @@ enum {
 	OWNER_LINE,
 	DESC_LINE,
 	SUMMARY_LINE,
-	TIME_LINE = 4,
+	TIME_LINE,
 	ALARM_LINE,
-	CLASS_LINE = 8
+	CLASS_LINE
 };
-
-#define LABEL_SPAN 2
 
 /* Create/setup the general page */
 static void
 ee_init_general_page (EventEditor *ee)
 {
-	GtkWidget *l, *frame;
-	
+	GtkWidget *l;
+	GtkWidget *hbox;
+
 	ee->general_table = (GtkTable *) gtk_table_new (1, 1, 0);
+	gtk_container_border_width (GTK_CONTAINER (ee->general_table), 4);
 	gtk_notebook_append_page (GTK_NOTEBOOK (ee->notebook), GTK_WIDGET (ee->general_table),
 				  gtk_label_new (_("General")));
 
-	l = adjust (gtk_label_new (_("Owner:")), 1.0, 0.5, 1.0, 1.0);
-	gtk_table_attach (ee->general_table, l,
-			  1, LABEL_SPAN, OWNER_LINE, OWNER_LINE + 1, GTK_FILL|GTK_EXPAND, 0, 0, 6);
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_table_attach (ee->general_table, hbox,
+			  0, 1, OWNER_LINE, OWNER_LINE + 1,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 4);
+	
+	l = gtk_label_new (_("Owner:"));
+	gtk_box_pack_start (GTK_BOX (hbox), l, FALSE, FALSE, 0);
 
 	ee->general_owner = gtk_label_new (ee->ical->organizer);
-	gtk_table_attach (ee->general_table, ee->general_owner,
-			  LABEL_SPAN, LABEL_SPAN + 1, OWNER_LINE, OWNER_LINE + 1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (ee->general_owner), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (hbox), ee->general_owner, TRUE, TRUE, 4);
 
 	l = gtk_label_new (_("Description:"));
+	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
 	gtk_table_attach (ee->general_table, l,
-			  1, LABEL_SPAN, DESC_LINE, DESC_LINE + 1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+			  0, 1, DESC_LINE, DESC_LINE + 1,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
 	
 	ee->general_summary = gtk_text_new (NULL, NULL);
 	gtk_text_freeze (GTK_TEXT (ee->general_summary));
@@ -467,22 +502,31 @@ ee_init_general_page (EventEditor *ee)
 	gtk_widget_set_usize (ee->general_summary, 0, 60);
 	gtk_text_set_editable (GTK_TEXT (ee->general_summary), 1);
 	gtk_table_attach (ee->general_table, ee->general_summary,
-			  1, 40, SUMMARY_LINE, SUMMARY_LINE+1, GTK_FILL|GTK_EXPAND, GTK_FILL|GTK_EXPAND, 6, 0);
-
-	frame = event_editor_setup_time_frame (ee);
-	gtk_table_attach (ee->general_table, frame,
-			  1, 40, TIME_LINE + 2, TIME_LINE + 3,
-			  GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+			  0, 1, SUMMARY_LINE, SUMMARY_LINE+1,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
 
 	l = ee_alarm_widgets (ee);
 	gtk_table_attach (ee->general_table, l,
-			  1, 40, ALARM_LINE, ALARM_LINE + 1,
-			  0, 0, 0, 0);
+			  0, 1, ALARM_LINE, ALARM_LINE + 1,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
+
+	l = event_editor_setup_time_frame (ee);
+	gtk_table_attach (ee->general_table, l,
+			  0, 1, TIME_LINE, TIME_LINE + 1,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
 
 	l = ee_classification_widgets (ee);
 	gtk_table_attach (ee->general_table, l,
-			  1, 40, CLASS_LINE, CLASS_LINE + 1,
-			  0, 0, 0, 0);
+			  0, 1, CLASS_LINE, CLASS_LINE + 1,
+			  GTK_EXPAND | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
 }
 
 static void
@@ -753,12 +797,12 @@ ee_init_recurrent_page (EventEditor *ee)
 static void
 event_editor_init_widgets (EventEditor *ee)
 {
-	ee->hbox = gtk_vbox_new (0, 0);
-	gtk_container_add (GTK_CONTAINER (ee), ee->hbox);
+	ee->vbox = gtk_vbox_new (0, 0);
+	gtk_container_add (GTK_CONTAINER (ee), ee->vbox);
 	gtk_container_border_width (GTK_CONTAINER (ee), 5);
 	
 	ee->notebook = gtk_notebook_new ();
-	gtk_box_pack_start (GTK_BOX (ee->hbox), ee->notebook, 1, 1, 0);
+	gtk_box_pack_start (GTK_BOX (ee->vbox), ee->notebook, 1, 1, 0);
 
 	/* Init the various configuration pages */
 	ee_init_general_page (ee);
@@ -766,10 +810,10 @@ event_editor_init_widgets (EventEditor *ee)
 	ee_init_recurrent_page (ee);
 	
 	/* Separator */
-	gtk_box_pack_start (GTK_BOX (ee->hbox), gtk_hseparator_new (), 1, 0, 0);
+	gtk_box_pack_start (GTK_BOX (ee->vbox), gtk_hseparator_new (), 0, 0, 0);
 
 	/* Buttons */
-	gtk_box_pack_start (GTK_BOX (ee->hbox), ee_create_buttons (ee), 0, 0, 5);
+	gtk_box_pack_start (GTK_BOX (ee->vbox), ee_create_buttons (ee), 0, 0, 5);
 	
 	/* We show all of the contained widgets */
 	gtk_widget_show_all (GTK_WIDGET (ee));

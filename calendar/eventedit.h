@@ -21,7 +21,6 @@ BEGIN_GNOME_DECLS
 typedef struct {
 	GtkWindow  window;
 	GtkWidget  *notebook;
-	GtkWidget  *hbox;
 	GtkWidget  *vbox;
 
         GtkWidget  *general;
