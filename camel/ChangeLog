@@ -1,3 +1,8 @@
+2001-03-30  Jon Trowbridge  <trow@ximian.com>
+
+	* camel-mime-message.c (camel_mime_message_set_source): Shrould
+	our source URL before putting it into X-Evolution-Source.
+
 2001-03-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_info): Don't

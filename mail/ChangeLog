@@ -1,3 +1,11 @@
+2001-03-30  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-display.c (mail_text_write): Add (commented-out)
+	E_TEXT_TO_HTML_CONVERT_ADDRESSES.
+
+	* mail-config.c (mail_config_get_account_by_source_url): 
+	Call e_url_equal to compare URLs.
+
 2001-03-30  Dan Winship  <danw@ximian.com>
 
 	* component-factory.c (debug_cb): If the EvolutionShellComponent

@@ -65,6 +65,54 @@ url_extract (const unsigned char **text, gboolean check)
 	return out;
 }
 
+/* FIXME */
+static gboolean
+is_email_address (const unsigned char *c)
+{
+	gboolean seen_at = FALSE, seen_postat = FALSE;
+
+	if (*c == '<')
+		++c;
+
+	while (*c && (isalnum ((gint) *c)
+		      || *c == '-'
+		      || *c == '_'
+		      || *c == (seen_at ? '.' : '@'))) {
+		
+		if (seen_at && !seen_postat) {
+			if (*c == '.')
+				return FALSE;
+			seen_postat = TRUE;
+		}
+
+		if (*c == '@')
+			seen_at = TRUE;
+
+		++c;
+	}
+
+	return seen_at && seen_postat && (isspace ((gint) *c) || *c == '>' || !*c);
+}
+
+static gchar *
+email_address_extract (const unsigned char **text)
+{
+	const unsigned char *end = *text;
+	char *out;
+
+	while (*end && !isspace (*end) && (*end != '>') && (*end < 0x80))
+		++end;
+
+	out = g_strndup (*text, end - *text);
+	if (!is_email_address (out)) {
+		g_free (out);
+		return NULL;
+	}
+
+	*text = end;
+	return out;
+}
+
 static gboolean
 is_citation (const unsigned char *c)
 {
@@ -114,6 +162,9 @@ is_citation (const unsigned char *c)
  *
  *   - E_TEXT_TO_HTML_CONVERT_URLS: wrap <a href="..."> </a> around
  *     strings that look like URLs.
+ *
+ *   - E_TEXT_TO_HTML_CONVERT_ADDRESSES: wrap <a href="mailto:..."> </a> around
+ *     strings that look like mail addresses.
  *
  *   - E_TEXT_TO_HTML_MARK_CITATION: wrap <font color="blue"> </font> around
  *     citations (lines beginning with "> ").
@@ -202,6 +253,36 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 				break;
 			unicode_get_utf8 (cur, &u);
 		}
+
+		if (unicode_isalpha (u)
+		    && (flags & E_TEXT_TO_HTML_CONVERT_ADDRESSES)
+		    && is_email_address (cur)) {
+			gchar *addr = NULL, *dispaddr = NULL;
+
+			addr = email_address_extract (&cur);
+			dispaddr = e_text_to_html (addr, 0);
+			
+			if (addr) {
+				gchar *outaddr = g_strdup_printf ("<a href=\"mailto:%s\">"
+								  "<!--+GtkHTML:<DATA class=\"Text\" key=\"email\" value=\"%s\">-->"
+								  "%s"
+								  "<!--+GtkHTML:<DATA class=\"Text\" clear=\"email\">--> "
+								  "</a>",
+								  addr, addr, dispaddr);
+				out = check_size (&buffer, &buffer_size, out, strlen(outaddr));
+				out += sprintf (out, "%s", outaddr);
+				col += strlen (addr);
+				g_free (addr);
+				g_free (dispaddr);
+				g_free (outaddr);
+			}
+
+			if (!*cur)
+				break;
+			unicode_get_utf8 (cur, &u);
+			
+		}
+
 		if (u == (unicode_char_t)-1) {
 			/* Sigh. Someone sent undeclared 8-bit data.
 			 * Assume it's iso-8859-1.

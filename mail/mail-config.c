@@ -35,6 +35,7 @@
 
 #include <gal/util/e-util.h>
 #include <e-util/e-html-utils.h>
+#include <e-util/e-url.h>
 #include "mail.h"
 #include "mail-config.h"
 #include "mail-ops.h"
@@ -772,22 +773,13 @@ mail_config_get_account_by_name (const char *account_name)
 	return NULL;
 }
 
-/*
-  We do a strncmp on the MIN of the url lengths rather than a straight strcmp because
-  I've observed extra stuff getting stuck on the end of urls in camel.  Hopefully
-  this work-around won't lead to any weirdness.
-*/
-
 const MailConfigAccount *
 mail_config_get_account_by_source_url (const char *source_url)
 {
 	const MailConfigAccount *account;
 	GSList *l;
-	gint src_len;
 
 	g_return_val_if_fail (source_url != NULL, NULL);
-
-	src_len = strlen (source_url);
 
 	l = config->accounts;
 	while (l) {
@@ -795,7 +787,7 @@ mail_config_get_account_by_source_url (const char *source_url)
 		if (account
 		    && account->source 
 		    && account->source->url
-		    && !strncmp (account->source->url, source_url, MIN (src_len, strlen (account->source->url))))
+		    && e_url_equal (account->source->url, source_url))
 			return account;
 		
 		l = l->next;

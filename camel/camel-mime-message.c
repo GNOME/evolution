@@ -32,6 +32,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "e-util/e-url.h"
+
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
 #include "camel-stream-mem.h"
@@ -404,8 +406,12 @@ camel_mime_message_set_recipients(CamelMimeMessage *mime_message, const char *ty
 void
 camel_mime_message_set_source(CamelMimeMessage *mime_message, const char *src)
 {
+	char *shrouded_src;
 	g_assert (mime_message);
-	camel_medium_add_header (CAMEL_MEDIUM (mime_message), "X-Evolution-Source", src);
+
+	shrouded_src = e_url_shroud (src);
+	camel_medium_add_header (CAMEL_MEDIUM (mime_message), "X-Evolution-Source", shrouded_src);
+	g_free (shrouded_src);
 }
 
 const char *

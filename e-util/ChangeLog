@@ -1,3 +1,18 @@
+2001-03-30  Jon Trowbridge  <trow@ximian.com>
+
+	* e-html-utils.c (e_text_to_html_full): Add support for converting
+	e-mail addresses to links.
+	(is_email_address): Added.  Identifies e-mail addresses.
+	(email_address_extract): Added.  Extracts a copy of the e-mail
+	address from the text.
+
+	* e-html-utils.h (E_TEXT_TO_HTML_CONVERT_ADDRESSES): Added.
+
+	* e-url.c (e_url_shroud): Added.  Copy a url, replacing
+	any plaintext passwords with a single *.
+	(e_url_equal): Compare two urls, taking into account that
+	they may or may not be shrouded.
+
 2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-corba-utils.h: Remove #include <glib.h>

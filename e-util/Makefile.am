@@ -41,6 +41,8 @@ libeutil_la_SOURCES =			\
 	e-sexp.h			\
 	e-time-utils.c			\
 	e-time-utils.h			\
+	e-url.c				\
+	e-url.h				\
 	e-dbhash.c			\
 	e-dbhash.h			\
 	md5-utils.c			\

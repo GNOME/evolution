@@ -920,6 +920,7 @@ mail_text_write (GtkHTML *html, GtkHTMLStream *stream,
 
 	htmltext = e_text_to_html_full (buf,
 					E_TEXT_TO_HTML_CONVERT_URLS |
+					/* E_TEXT_TO_HTML_CONVERT_ADDRESSES | */
 					E_TEXT_TO_HTML_CONVERT_NL |
 					E_TEXT_TO_HTML_CONVERT_SPACES |
 					(mail_config_get_citation_highlight () ? E_TEXT_TO_HTML_MARK_CITATION : 0),
