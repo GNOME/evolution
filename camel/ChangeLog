@@ -1,3 +1,8 @@
+2003-03-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-object.h: s/class/klass in one place so that the header is
+	c++-safe.
+
 2003-03-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-openssl.c (camel_tcp_stream_ssl_new): Updated

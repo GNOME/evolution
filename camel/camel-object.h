@@ -175,7 +175,7 @@ CamelType camel_type_register(CamelType parent, const char * name, /*unsigned in
 /* object class methods (types == classes now) */
 const char *camel_type_to_name (CamelType type);
 CamelType camel_name_to_type (const char *name);
-void camel_object_class_add_event (CamelObjectClass *class, const char *name, CamelObjectEventPrepFunc prep);
+void camel_object_class_add_event (CamelObjectClass *klass, const char *name, CamelObjectEventPrepFunc prep);
 
 void camel_object_class_dump_tree (CamelType root);
 
