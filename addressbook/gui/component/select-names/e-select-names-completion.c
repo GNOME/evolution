@@ -924,6 +924,7 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 		sexp = book_query_sexp (comp);
 		if (sexp && *sexp) {
 			GList *l;
+			gboolean async = FALSE;
 
 			if (out)
 				fprintf (out, "\n\n**** starting query: \"%s\"\n", comp->priv->query_text);
@@ -961,6 +962,7 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 					book_query_process_card_list (comp, book_data->cached_cards);
 				}
 				else {
+					async = TRUE;
 					e_select_names_completion_clear_cache (book_data);
 					book_data->cached_query_text = g_strdup (query_text);
 
@@ -975,6 +977,12 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 					fprintf (out, "]\n");
 			}
 
+			/* if we looped through all the books
+			   and were able to complete based
+			   solely on our cached cards, signal
+			   that the search is over. */
+			if (!async)
+				e_completion_end_search (E_COMPLETION (comp));
 		} else {
 			g_free (comp->priv->query_text);
 			comp->priv->query_text = NULL;

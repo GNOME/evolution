@@ -1,3 +1,16 @@
+2003-02-17  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_start_query): if we can complete solely
+	from our cached cards, call e_completion_end_search from here when
+	we're done.
+
+2003-02-17  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-component.c
+	(ensure_completion_uris_exist): plug memory leak (always free
+	val).
+
 2003-02-16  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-file.c
