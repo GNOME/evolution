@@ -77,6 +77,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->close = _close;
 	camel_folder_class->set_name = _set_name;
 	camel_folder_class->get_name = _get_name;
+	camel_folder_class->get_full_name = _get_full_name;
 	camel_folder_class->can_hold_folders = _can_hold_folders;
 	camel_folder_class->can_hold_messages = _can_hold_messages;
 	camel_folder_class->exists = _exists;
