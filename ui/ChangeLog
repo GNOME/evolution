@@ -1,3 +1,7 @@
+2001-07-04  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* evolution-mail-message.xml: MessageApplyFilters now has an icon.
+
 2001-07-03  Jason Leach  <jleach@ximian.com>
 
 	[Bug #3612: Accelerator for attach file in composer]

@@ -60,13 +60,18 @@ void e_pixmaps_update (BonoboUIComponent *uic, EPixmap *pixcache)
 			} else {
 				pixcache [i].pixbuf = bonobo_ui_util_pixbuf_to_xml (pixbuf);
 				gdk_pixbuf_unref (pixbuf);
+				bonobo_ui_component_set_prop (uic,
+					pixcache [i].path, "pixname",
+					pixcache [i].pixbuf, NULL);
 			}
 
 			g_free (path);
+		} else {
+			bonobo_ui_component_set_prop (uic, pixcache [i].path,
+						      "pixname",
+						      pixcache [i].pixbuf,
+						      NULL);
 		}
-		bonobo_ui_component_set_prop (uic, pixcache [i].path,
-					      "pixname", pixcache [i].pixbuf,
-					      NULL);
 	}
 }
 

@@ -1,5 +1,6 @@
 imagesdir = $(datadir)/images/evolution
 images_DATA = \
+	apply-filters-16.xpm		\
 	bcg.png				\
 	configure_16_addressbook.xpm	\
 	configure_16_calendar.xpm	\

@@ -1,3 +1,10 @@
+2001-07-04  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* evolution-shell-component-utils.c (e_pixmaps_update): set
+	"pixname" value only if pixbuf was loaded successfully. Otherwise
+	component crashes if image is not found. Should be checked for
+	sanity in bonobo_ui_component_set_prop IMHO.
+
 2001-07-03  Aaron Weber  <aaron@ximian.com>
 
 	* main.c (development_warning): Revised to make it less scary.

@@ -121,6 +121,7 @@ static EPixmap message_pixcache [] = {
 	E_PIXMAP ("/commands/MessageReplyAll", "reply_to_all.xpm"),
 	E_PIXMAP ("/commands/MessageReplySender", "reply.xpm"),
 	E_PIXMAP ("/commands/MessageForward", "forward.xpm"),
+	E_PIXMAP ("/commands/MessageApplyFilters", "apply-filters-16.xpm"),
 
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageReplySender", "buttons/reply.png"),
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageReplyAll", "buttons/reply-to-all.png"),

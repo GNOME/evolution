@@ -30,7 +30,8 @@
 
     <cmd name="MessageApplyFilters"
      _tip="Apply filter rules to the selected messages"
-     accel="*Control*y"/>
+     accel="*Control*y"
+     pixtype="pixbuf"/>
 
     <cmd name="MessageCopy"
      _tip="Copy selected messages to another folder"

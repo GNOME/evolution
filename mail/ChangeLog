@@ -1,3 +1,8 @@
+2001-07-04  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* folder-browser-ui.c (message_pixcache): set icon for ApplyFilters
+	command.
+
 2001-07-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_set_show_preview): Revert Sam's changes.
