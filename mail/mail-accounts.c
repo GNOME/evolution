@@ -349,6 +349,7 @@ mail_able (GtkButton *button, gpointer data)
 		row = dialog->accounts_row;
 		account = gtk_clist_get_row_data (dialog->mail_accounts, row);
 		account->source->enabled = !account->source->enabled;
+		mail_autoreceive_setup ();
 		mail_config_write ();
 		load_accounts (dialog);
 		gtk_clist_select_row (dialog->mail_accounts, row, 0);
