@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-06 17:46-0500\n"
-"PO-Revision-Date: 2005-02-06 19:18-0400\n"
+"POT-Creation-Date: 2005-02-07 11:44-0500\n"
+"PO-Revision-Date: 2005-02-07 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -6086,7 +6086,7 @@ msgstr "Due Date:"
 #. Status
 #: calendar/gui/e-cal-component-preview.c:222
 #: calendar/gui/e-itip-control.c:1132
-#: plugins/exchange-account-setup/exchange-account-setup.c:102
+#: plugins/exchange-account-setup/exchange-account-setup.c:129
 #: plugins/itip-formatter/itip-view.c:884
 msgid "Status:"
 msgstr "Status:"
@@ -13910,8 +13910,34 @@ msgstr "Mark as default folder"
 msgid "Mark as default folder"
 msgstr "Mark as default folder"
 
+#. i18n: "Secure Password Authentication" is an Outlookism
+#: plugins/exchange-account-setup/exchange-account-setup.c:53
+msgid "Secure Password"
+msgstr "Secure Password"
+
+#. i18n: "NTLM" probably doesn't translate
+#: plugins/exchange-account-setup/exchange-account-setup.c:56
+msgid ""
+"This option will connect to the Exchange server using secure password (NTLM) "
+"authentication."
+msgstr ""
+"This option will connect to the Exchange server using secure password (NTLM) "
+"authentication."
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:64
+msgid "Plaintext Password"
+msgstr "Plaintext Password"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:66
+msgid ""
+"This option will connect to the Exchange server using standard plaintext "
+"password authentication."
+msgstr ""
+"This option will connect to the Exchange server using standard plaintext "
+"password authentication."
+
 #. Description section
-#: plugins/exchange-account-setup/exchange-account-setup.c:86
+#: plugins/exchange-account-setup/exchange-account-setup.c:113
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -13919,31 +13945,39 @@ msgstr ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:113
+#: plugins/exchange-account-setup/exchange-account-setup.c:140
 msgid "I am in the office"
 msgstr "I am in the office"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:127
+#: plugins/exchange-account-setup/exchange-account-setup.c:154
 msgid "I am out of the office"
 msgstr "I am out of the office"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:141
+#: plugins/exchange-account-setup/exchange-account-setup.c:168
 msgid "Out of office Message:"
 msgstr "Out of office Message:"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:167
+#: plugins/exchange-account-setup/exchange-account-setup.c:194
 msgid "Exchange Settings"
 msgstr "Exchange Settings"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:305
+#: plugins/exchange-account-setup/exchange-account-setup.c:332
 #: plugins/exchange-account-setup/exchange-ask-password.c:200
 msgid "_OWA Url:"
 msgstr "_OWA URL:"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:313
+#: plugins/exchange-account-setup/exchange-account-setup.c:340
 #: plugins/exchange-account-setup/exchange-ask-password.c:193
 msgid "A_uthenticate"
 msgstr "A_uthenticate"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:457
+msgid "Authentication Type"
+msgstr "Authentication Type"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:471
+msgid "Ch_eck for Supported Types"
+msgstr "Ch_eck for Supported Types"
 
 #: plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
