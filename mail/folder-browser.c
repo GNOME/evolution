@@ -1351,7 +1351,7 @@ folder_browser_toggle_hide_deleted (BonoboUIComponent           *component,
 			       !atoi (state), NULL);
 	
 	if (!(fb->folder && (fb->folder->folder_flags & CAMEL_FOLDER_IS_TRASH)))
-		message_list_set_hidedeleted (fb->message_list, !atoi (state));
+		message_list_set_hidedeleted (fb->message_list, atoi (state));
 }
 
 void
