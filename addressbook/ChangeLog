@@ -1,5 +1,10 @@
 2003-03-30  Chris Toshok  <toshok@ximian.com>
 
+	* backend/ebook/e-vcard.[ch]: braindead, and *extremely* forgiving
+	vcard parser.  not for public consumption yet.
+
+2003-03-30  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #39381 (again) ]
 	* gui/component/e-address-popup.c (edit_contact_info_cb): add
 	"GtkWidget *button" first arg, so we don't crash.
