@@ -550,7 +550,7 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 		uid = g_datalist_get_data (&data, "UID");
 		flags = GPOINTER_TO_UINT (g_datalist_get_data (&data, "FLAGS"));
 		
-		if (!uid || !seq || seq >= summary_len) {
+		if (!uid || !seq || seq > summary_len) {
 			g_datalist_clear (&data);
 			continue;
 		}
@@ -628,9 +628,10 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 	 * repeatedly add the same number to the removed array.
 	 * See RFC2060 7.4.1)
 	 */
+
 	for (i = seq; i <= summary_len; i++)
 		g_array_append_val (removed, seq);
-	
+
 	/* And finally update the summary. */
 	camel_imap_folder_changed (folder, exists, removed, ex);
 	g_array_free (removed, TRUE);
