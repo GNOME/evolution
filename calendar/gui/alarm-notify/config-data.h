@@ -1,4 +1,4 @@
-/* Evolution calendar - Functions to save alarm notification times
+/* Evolution calendar - Configuration values for the alarm notification daemon
  *
  * Copyright (C) 2001 Ximian, Inc.
  *
@@ -19,19 +19,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef SAVE_H
-#define SAVE_H
+#ifndef CONFIG_DATA_H
+#define CONFIG_DATA_H
 
-#include <time.h>
-#include <bonobo-conf/bonobo-config-database.h>
+#include <glib.h>
+#include <ical.h>
 
-Bonobo_ConfigDatabase get_config_db (void);
-void discard_config_db (Bonobo_ConfigDatabase db);
+icaltimezone *config_data_get_timezone (void);
 
-void save_notification_time (time_t t);
-time_t get_saved_notification_time (void);
-
-void save_calendars_to_load (GPtrArray *uris);
-GPtrArray *get_calendars_to_load (void);
+gboolean config_data_get_24_hour_format (void);
 
 #endif

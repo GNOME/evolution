@@ -38,6 +38,7 @@
 #include "alarm.h"
 #include "alarm-notify-dialog.h"
 #include "alarm-queue.h"
+#include "config-data.h"
 #include "save.h"
 
 
@@ -120,10 +121,13 @@ static void
 queue_midnight_refresh (void)
 {
 	time_t midnight;
+	icaltimezone *zone;
 
 	g_assert (midnight_refresh_id == NULL);
 
-	midnight = time_day_end (time (NULL));
+	zone = config_data_get_timezone ();
+
+	midnight = time_day_end_with_zone (time (NULL), zone);
 
 	midnight_refresh_id = alarm_add (midnight, midnight_refresh_cb, NULL, NULL);
 	if (!midnight_refresh_id) {
@@ -347,11 +351,6 @@ load_alarms (ClientAlarms *ca, time_t start, time_t end)
 
 	comp_alarms = cal_client_get_alarms_in_range (ca->client, start, end);
 
-	/* All of the last day's alarms should have already triggered and should
-	 * have been removed, so we should have no pending components.
-	 */
-	g_assert (g_hash_table_size (ca->uid_alarms_hash) == 0);
-
 	for (l = comp_alarms; l; l = l->next) {
 		CalComponentAlarms *alarms;
 
@@ -367,9 +366,14 @@ static void
 load_alarms_for_today (ClientAlarms *ca)
 {
 	time_t now, day_end;
+	icaltimezone *zone;
 
 	now = time (NULL);
-	day_end = time_day_end (now);
+
+	zone = config_data_get_timezone ();
+
+	day_end = time_day_end_with_zone (now, zone);
+	load_alarms (ca, now, day_end);
 }
 
 /* Adds any alarms that should have occurred while the alarm daemon was not
@@ -460,13 +464,17 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	time_t now, day_end;
 	CalComponentAlarms *alarms;
 	gboolean found;
+	icaltimezone *zone;
 
 	ca = data;
 
 	remove_comp (ca, uid);
 
 	now = time (NULL);
-	day_end = time_day_end (now);
+
+	zone = config_data_get_timezone ();
+
+	day_end = time_day_end_with_zone (now, zone);
 
 	found = cal_client_get_alarms_for_object (ca->client, uid, now, day_end, &alarms);
 

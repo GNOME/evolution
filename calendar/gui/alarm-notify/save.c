@@ -26,7 +26,6 @@
 #include <bonobo/bonobo-arg.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
-#include <bonobo-conf/bonobo-config-database.h>
 #include "evolution-calendar.h"
 #include "save.h"
 
@@ -40,7 +39,7 @@
 
 
 /* Tries to get the config database object; returns CORBA_OBJECT_NIL on failure. */
-static Bonobo_ConfigDatabase
+Bonobo_ConfigDatabase
 get_config_db (void)
 {
 	CORBA_Environment ev;
@@ -59,7 +58,7 @@ get_config_db (void)
 }
 
 /* Syncs a database and unrefs it */
-static void
+void
 discard_config_db (Bonobo_ConfigDatabase db)
 {
 	CORBA_Environment ev;

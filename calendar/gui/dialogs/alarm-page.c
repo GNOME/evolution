@@ -33,7 +33,10 @@
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
 #include "e-util/e-dialog-widgets.h"
+#include "e-util/e-time-utils.h"
 #include "cal-util/cal-util.h"
+#include "cal-util/timeutil.h"
+#include "../calendar-config.h"
 #include "comp-editor-util.h"
 #include "alarm-options.h"
 #include "alarm-page.h"
@@ -428,20 +431,27 @@ get_alarm_string (CalComponentAlarm *alarm)
 		break;
 
 	case CAL_ALARM_TRIGGER_ABSOLUTE: {
-		time_t t;
+		struct icaltimetype itt;
+		icaltimezone *utc_zone, *current_zone;
+		char *location;
 		struct tm tm;
+		char buf[256];
 		char *date;
 
-		t = icaltime_as_timet (trigger.u.abs_time);
-		if (t == -1)
-			date = g_strdup_printf (_("%s at an unknown time"), base);
-		else {
-			char buf[256];
+		/* Absolute triggers come in UTC, so convert them to the local timezone */
 
-			tm = *localtime (&t);
-			strftime (buf, sizeof (buf), "%A %b %d %Y %H:%M", &tm);
-			date = g_strdup_printf (_("%s at %s"), base, buf);
-		}
+		itt = trigger.u.abs_time;
+
+		utc_zone = icaltimezone_get_utc_timezone ();
+		location = calendar_config_get_timezone ();
+		current_zone = icaltimezone_get_builtin_timezone (location);
+
+		tm = icaltimetype_to_tm_with_zone (&itt, utc_zone, current_zone);
+
+		e_time_format_date_and_time (&tm, calendar_config_get_24_hour_format (),
+					     FALSE, FALSE, buf, sizeof (buf));
+
+		date = g_strdup_printf (_("%s at %s"), base, buf);
 
 		break; }
 

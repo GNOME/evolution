@@ -114,6 +114,9 @@ void time_to_gdate_with_zone (GDate *date, time_t time, icaltimezone *zone);
  **************************************************************************/
 
 struct tm icaltimetype_to_tm (struct icaltimetype *itt);
+struct tm icaltimetype_to_tm_with_zone (struct icaltimetype *itt,
+					icaltimezone *from_zone,
+					icaltimezone *to_zone);
 struct icaltimetype tm_to_icaltimetype (struct tm *tm, gboolean is_date);
 
 #endif

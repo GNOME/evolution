@@ -114,7 +114,9 @@ alarm_ready_cb (gpointer data)
 	return FALSE;
 }
 
-/* Sets up a timeout for the next minute */
+/* Sets up a timeout for the next minute.  We do not need to be concerned with
+ * timezones here, as this is just a periodic check on the alarm queue.
+ */
 static void
 setup_timeout (time_t now)
 {

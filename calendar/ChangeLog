@@ -1,3 +1,36 @@
+2001-10-24  Federico Mena Quintero  <federico@ximian.com>
+
+	Fixes bug #5282.
+
+	* cal-util/timeutil.c (icaltimetype_to_tm_with_zone): New function
+	to avoid copying the same code all over the place.
+	(icaltimetype_to_tm): Also set the tm.tm_wday.
+
+	* gui/alarm-notify/alarm-queue.c (queue_midnight_refresh): Use
+	time_day_end_with_zone().
+	(load_alarms_for_today): Likewise.  And oops, we were only
+	computing the times and not loading the alarms.
+	(obj_updated_cb): Likewise.
+	(load_alarms): Removed assertion that is no longer valid because
+	we may load the alarms for a client in two stages.
+
+	* gui/dialogs/alarm-page.c (get_alarm_string): Convert absolute
+	trigger times to the local timezone.
+
+	* gui/alarm-notify/alarm-notify-dialog.c (write_html_heading):
+	Convert the times to the local timezone.
+	(alarm_notify_dialog): Likewise, for the window title.
+	(alarm_notify_dialog): Set the window layer to WIN_LAYER_ONTOP.
+
+	* gui/e-cell-date-edit-text.c (ecd_get_text): Use
+	icaltimetype_to_tm_with_zone().
+
+	* gui/alarm-notify/save.c (get_config_db): Made public.
+	(discard_config_db): Made public.
+
+	* gui/alarm-notify/config-data.[ch]: New files with functions to
+	fetch the calendar configuration data used by the alarm daemon.
+
 2001-10-23  Damon Chaplin  <damon@ximian.com>
 
 	* cal-util/cal-component.c (cal_component_event_dates_match): make sure

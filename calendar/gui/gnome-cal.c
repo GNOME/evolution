@@ -1341,7 +1341,7 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
-	e_week_view_set_status_message (priv->week_view, NULL);
+	e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
 
 	switch (status) {
 	case CAL_CLIENT_OPEN_SUCCESS:
@@ -1682,7 +1682,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 		FALSE);
 
 	message = g_strdup_printf (_("Opening calendar at %s"), str_uri);
-	e_week_view_set_status_message (priv->week_view, message);
+	e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), message);
 	g_free (message);
 
 	if (!cal_client_open_calendar (priv->client, str_uri, FALSE)) {

@@ -53,6 +53,8 @@ evolution_alarm_notify_SOURCES =	\
 	alarm-notify-dialog.h		\
 	alarm-queue.c			\
 	alarm-queue.h			\
+	config-data.c			\
+	config-data.h			\
 	notify-main.c			\
 	save.c				\
 	save.h

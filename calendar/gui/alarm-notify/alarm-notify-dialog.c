@@ -38,7 +38,9 @@
 #include <gal/widgets/e-scroll-frame.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
+#include "cal-util/timeutil.h"
 #include "alarm-notify-dialog.h"
+#include "config-data.h"
 
 
 GtkWidget *make_html_display (gchar *widget_name, char *s1, char *s2, int scroll, int shadow);
@@ -136,7 +138,7 @@ static void
 url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *stream, gpointer data)
 {
 
-	if (!strncmp ("file:///", url, strlen ("file:///"))) {	
+	if (!strncmp ("file:///", url, strlen ("file:///"))) {
 		FILE *fp;
 		const char *filename = url + strlen ("file://");
 		char buf[4096];
@@ -149,16 +151,16 @@ url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *stream, gpointe
 			gtk_html_stream_close (stream, GTK_HTML_STREAM_ERROR);
 			return;
 		}
-		
+
 		while ((len = fread (buf, 1, sizeof(buf), fp)) > 0)
 			gtk_html_stream_write (stream, buf, len);
-		
+
 		if (feof (fp)) {
 			fclose (fp);
 			gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
 			return;
-		} 
-		
+		}
+
 		fclose (fp);
 	}
 
@@ -174,7 +176,7 @@ make_html_display (gchar *widget_name, char *s1, char *s2, int scroll, int shado
 
 	gtk_widget_push_visual(gdk_rgb_get_visual());
 	gtk_widget_push_colormap(gdk_rgb_get_cmap());
-	
+
 	html = gtk_html_new();
 
 	gtk_html_set_default_content_type (GTK_HTML (html),
@@ -185,27 +187,27 @@ make_html_display (gchar *widget_name, char *s1, char *s2, int scroll, int shado
 			    GTK_SIGNAL_FUNC (url_requested_cb),
 			    NULL);
 
-	gtk_widget_pop_colormap();  
+	gtk_widget_pop_colormap();
 	gtk_widget_pop_visual();
 
 	frame = e_scroll_frame_new(NULL, NULL);
-    
+
 	e_scroll_frame_set_policy(E_SCROLL_FRAME(frame),
 				  GTK_POLICY_AUTOMATIC,
 				  GTK_POLICY_AUTOMATIC);
-	
-	
+
+
 	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (frame),
 					GTK_SHADOW_IN);
 
 	gtk_widget_set_usize (frame, 300, 200);
 
 	gtk_container_add(GTK_CONTAINER (frame), html);
-	
+
 	gtk_widget_show_all(frame);
-	
+
 	gtk_object_set_user_data(GTK_OBJECT (frame), html);
-	return frame;        
+	return frame;
 }
 
 static void
@@ -218,34 +220,51 @@ write_times (GtkHTMLStream *stream, char *start, char *end)
 
 }
 
+/* Converts a time_t to a string, relative to the specified timezone */
+static char *
+timet_to_str_with_zone (time_t t, icaltimezone *zone)
+{
+	struct icaltimetype itt;
+	struct tm tm;
+	char buf[256];
+
+	if (t == -1)
+		return g_strdup (_("invalid time"));
+
+	itt = icaltime_from_timet_with_zone (t, FALSE, zone);
+	tm = icaltimetype_to_tm (&itt);
+
+	e_time_format_date_and_time (&tm, config_data_get_24_hour_format (),
+				     FALSE, FALSE, buf, sizeof (buf));
+	return g_strdup (buf);
+}
+
 /* Creates a heading for the alarm notification dialog */
 static void
-write_html_heading (GtkHTMLStream *stream, const char *message, CalComponentVType vtype, time_t occur_start, time_t occur_end)
+write_html_heading (GtkHTMLStream *stream, const char *message,
+		    CalComponentVType vtype, time_t occur_start, time_t occur_end)
 {
 	char *buf;
-	char s[128], e[128];
-	char *start = NULL, *end = NULL;
+	char *start, *end;
 	char *bg_path = "file://" EVOLUTION_ICONSDIR "/bcg.png";
 	char *image_path = "file://" EVOLUTION_ICONSDIR "/alarm.png";
+	icaltimezone *current_zone;
 
-	if (occur_start != -1) {
-		struct tm tm;
+	/* Stringize the times */
 
-		tm = *localtime (&occur_start);
-		strftime (s, sizeof (s), "%A %b %d %Y %H:%M", &tm);
-		start = e_utf8_from_locale_string (s);
-	}
+	current_zone = config_data_get_timezone ();
 
-	if (occur_end != -1) {
-		struct tm tm;
+	buf = timet_to_str_with_zone (occur_start, current_zone);
+	start = e_utf8_from_locale_string (buf);
+	g_free (buf);
 
-		tm = *localtime (&occur_end);
-		strftime (e, sizeof (e), "%A %b %d %Y %H:%M", &tm);
-		end = e_utf8_from_locale_string (e);
-	}
+	buf = timet_to_str_with_zone (occur_end, current_zone);
+	end = e_utf8_from_locale_string (buf);
+	g_free (buf);
 
-	/* I love combinatorial explosion */
-	gtk_html_stream_printf (stream, 
+	/* Write the header */
+
+	gtk_html_stream_printf (stream,
 				"<HTML><BODY background=\"%s\">"
 				"<TABLE WIDTH=\"100%%\">"
 				"<TR>"
@@ -259,25 +278,25 @@ write_html_heading (GtkHTMLStream *stream, const char *message, CalComponentVTyp
 
 	gtk_html_stream_printf (stream, "<br><br><font size=\"+2\">%s</font><br><br>", message);
 
+	/* Write the times */
+
 	switch (vtype) {
 	case CAL_COMPONENT_EVENT:
-		/* gtk_html_stream_printf (stream, "%s<br>", U_("Notification about your appointment")); */
 		write_times (stream, start, end);
 		break;
+
 	case CAL_COMPONENT_TODO:
-		/* gtk_html_stream_printf (stream, "%s<br>", U_("Notification about your task")); */
 		write_times (stream, start, end);
 		break;
+
 	default:
 		/* Only VEVENTs and VTODOs can have alarms */
 		g_assert_not_reached ();
-		buf = NULL;
 		break;
 	}
 
 	g_free (start);
 	g_free (end);
-	return;
 }
 
 /**
@@ -289,10 +308,10 @@ write_html_heading (GtkHTMLStream *stream, const char *message, CalComponentVTyp
  * @message; Message to display in the dialog; usually comes from the component.
  * @func: Function to be called when a dialog action is invoked.
  * @func_data: Closure data for @func.
- * 
+ *
  * Runs the alarm notification dialog.  The specified @func will be used to
  * notify the client about result of the actions in the dialog.
- * 
+ *
  * Return value: TRUE on success, FALSE if the dialog could not be created.
  **/
 gboolean
@@ -301,9 +320,9 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 		     AlarmNotifyFunc func, gpointer func_data)
 {
 	AlarmNotify *an;
-	char buf[256];
-	struct tm tm_trigger;
 	GtkHTMLStream *stream;
+	icaltimezone *current_zone;
+	char *buf, *title;
 
 	g_return_val_if_fail (trigger != -1, FALSE);
 
@@ -346,9 +365,15 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 			    GTK_SIGNAL_FUNC (dialog_destroy_cb), an);
 
 	/* Title */
-	tm_trigger = *localtime (&trigger);
-	strftime (buf, sizeof (buf), _("Alarm on %A %b %d %Y %H:%M"), &tm_trigger);
-	gtk_window_set_title (GTK_WINDOW (an->dialog), buf);
+
+	current_zone = config_data_get_timezone ();
+
+	buf = timet_to_str_with_zone (trigger, current_zone);
+	title = g_strdup_printf (_("Alarm on %s"), buf);
+	g_free (buf);
+
+	gtk_window_set_title (GTK_WINDOW (an->dialog), title);
+	g_free (title);
 
 	/* html heading */
 	stream = gtk_html_begin (GTK_HTML (an->html));
@@ -360,7 +385,7 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	gtk_signal_connect (GTK_OBJECT (an->dialog), "delete_event",
 			    GTK_SIGNAL_FUNC (delete_event_cb),
 			    an);
-			    
+
 	gtk_signal_connect (GTK_OBJECT (an->close), "clicked",
 			    GTK_SIGNAL_FUNC (close_clicked_cb),
 			    an);
@@ -379,6 +404,7 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 		gtk_widget_realize (an->dialog);
 
 	gnome_win_hints_set_state (an->dialog, WIN_STATE_STICKY);
+	gnome_win_hints_set_layer (an->dialog, WIN_LAYER_ONTOP);
 	gnome_window_icon_set_from_file (GTK_WINDOW (an->dialog), EVOLUTION_ICONSDIR "/alarm.png");
 
 	gtk_widget_show (an->dialog);

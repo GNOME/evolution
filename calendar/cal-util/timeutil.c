@@ -532,12 +532,48 @@ icaltimetype_to_tm (struct icaltimetype *itt)
 		tm.tm_min = itt->minute;
 		tm.tm_hour = itt->hour;
 	}
-	
+
 	tm.tm_mday = itt->day;
 	tm.tm_mon = itt->month - 1;
 	tm.tm_year = itt->year - 1900;
+	tm.tm_wday = time_day_of_week (itt->day, itt->month - 1, itt->year);
 	tm.tm_isdst = -1;
 	
+	return tm;
+}
+
+/**
+ * icaltimetype_to_tm_with_zone:
+ * @itt: A time value.
+ * @from_zone: Source timezone.
+ * @to_zone: Destination timezone.
+ * 
+ * Converts a time value from one timezone to another, and returns a struct tm
+ * representation of the time.
+ * 
+ * Return value: The converted time as a struct tm.  All fields will be
+ * set properly except for tm.tm_yday.
+ **/
+struct tm
+icaltimetype_to_tm_with_zone (struct icaltimetype *itt,
+			      icaltimezone *from_zone,
+			      icaltimezone *to_zone)
+{
+	struct tm tm;
+	struct icaltimetype itt_copy;
+
+	memset (&tm, 0, sizeof (tm));
+	tm.tm_isdst = -1;
+
+	g_return_val_if_fail (itt != NULL, tm);
+	g_return_val_if_fail (from_zone != NULL, tm);
+	g_return_val_if_fail (to_zone != NULL, tm);
+
+	itt_copy = *itt;
+
+	icaltimezone_convert_time (&itt_copy, from_zone, to_zone);
+	tm = icaltimetype_to_tm (&itt_copy);
+
 	return tm;
 }
 

@@ -85,18 +85,7 @@ ecd_get_text (ECellText *cell, ETableModel *model, int col, int row)
 	   timezone, we convert it to the current timezone to display
 	   it in the table. If the user actually edits the value,
 	   it will be set to the current timezone. See set_value(). */
-	tt = dv->tt;
-	icaltimezone_convert_time (&tt, dv->zone, ecd->zone);
-
-	tmp_tm.tm_year = tt.year - 1900;
-	tmp_tm.tm_mon = tt.month - 1;
-	tmp_tm.tm_mday = tt.day;
-	tmp_tm.tm_hour = tt.hour;
-	tmp_tm.tm_min = tt.minute;
-	tmp_tm.tm_sec = tt.second;
-	tmp_tm.tm_isdst = -1;
-
-	tmp_tm.tm_wday = time_day_of_week (tt.day, tt.month - 1, tt.year);
+	tmp_tm = icaltimetype_to_tm_with_zone (&dv->tt, dv->zone, ecd->zone);
 
 	e_time_format_date_and_time (&tmp_tm, ecd->use_24_hour_format,
 				     TRUE, FALSE,
