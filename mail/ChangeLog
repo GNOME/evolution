@@ -1,5 +1,8 @@
 2001-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (transfer_msg): Add "vtrash" as an allowed mail
+	folder type.
+
 	* mail-ops.c (transfer_messages_transfer): Updated to reflect
 	changes made to the move/copy API in camel-folder.c
 	(add_vtrash_info): Use /Trash as the path instead of Trash.
