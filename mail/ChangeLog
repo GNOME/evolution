@@ -1,3 +1,19 @@
+2000-12-28  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (mail_part_is_inline, mail_get_message_body): Use
+	CamelContentType, and use header_content_type_is instead of doing
+	it by hand.
+	
+	(handle_text_plain): 
+	(handle_multipart_related): 
+	(find_preferred_alternative): 
+	(handle_message_external_body): Use CamelContentType and
+	header_content_type_* functions instead of GMimeContentField.
+
+	* mail-display.c (write_data_to_file, launch_cb): Use
+	CamelContentType and header_content_type_* functions instead of
+	GMimeContentField.
+
 2000-12-26  Iain Holmes  <iain@helixcode.com>
 
 	* mail-display.c (mail_display_init): Initialise the thumbnail cache.

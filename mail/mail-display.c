@@ -60,7 +60,7 @@ static gboolean
 write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 {
 	CamelMimeFilterCharset *charsetfilter;
-	GMimeContentField *content_type;
+	CamelContentType *content_type;
 	CamelStreamFilter *filtered_stream;
 	CamelStream *stream_fs;
 	CamelDataWrapper *data;
@@ -110,8 +110,8 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 	   the same algorithm camel uses */
 	
 	content_type = camel_mime_part_get_content_type (part);
-	if (gmime_content_field_is_type(content_type, "text", "*")
-	    && (charset = gmime_content_field_get_parameter (content_type, "charset"))
+	if (header_content_type_is(content_type, "text", "*")
+	    && (charset = header_content_type_param (content_type, "charset"))
 	    && strcasecmp(charset, "utf-8") != 0) {
 		charsetfilter = camel_mime_filter_charset_new_convert ("utf-8", charset);
 		filtered_stream = camel_stream_filter_new_with_stream (stream_fs);
@@ -245,11 +245,11 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 {
 	CamelMimePart *part = gtk_object_get_data (user_data, "CamelMimePart");
 	GnomeVFSMimeApplication *app;
-	GMimeContentField *content_type;
+	CamelContentType *content_type;
 	char *mime_type, *tmpl, *tmpdir, *filename, *argv[2];
 
 	content_type = camel_mime_part_get_content_type (part);
-	mime_type = gmime_content_field_get_mime_type (content_type);
+	mime_type = header_content_type_format (content_type);
 	app = gnome_vfs_mime_get_default_application (mime_type);
 	g_free (mime_type);
 

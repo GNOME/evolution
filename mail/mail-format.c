@@ -460,8 +460,7 @@ gboolean
 mail_part_is_inline (CamelMimePart *part)
 {
 	const char *disposition;
-	GMimeContentField *content_type;
-	const char *mime_type;
+	CamelContentType *content_type;
 
 	/* If it has an explicit disposition, return that. */
 	disposition = camel_mime_part_get_disposition (part);
@@ -472,14 +471,13 @@ mail_part_is_inline (CamelMimePart *part)
 	 * be customizable.
 	 */
 	content_type = camel_mime_part_get_content_type (part);
-	mime_type = gmime_content_field_get_mime_type (content_type);
-	if (!g_strncasecmp (mime_type, "message/", 8))
+	if (!header_content_type_is (content_type, "message", "*"))
 		return TRUE;
 
 	/* Otherwise, display it inline if it's "anonymous", and
 	 * as an attachment otherwise.
 	 */
-	return is_anonymous (part, mime_type);
+	return is_anonymous (part, header_content_type_format (content_type));
 }
 
 static void
@@ -692,7 +690,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	char *text, *p, *start;
-	GMimeContentField *type;
+	CamelContentType *type;
 	const char *format;
 	int i;
 
@@ -702,7 +700,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 
 	/* Check for RFC 2646 flowed text. */
 	type = camel_mime_part_get_content_type (part);
-	format = gmime_content_field_get_parameter (type, "format");
+	format = header_content_type_param (type, "format");
 	if (format && !g_strcasecmp (format, "flowed"))
 		return handle_text_plain_flowed (text, md);
 
@@ -1264,7 +1262,7 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	CamelMultipart *mp;
 	CamelMimePart *body_part, *display_part = NULL;
-	GMimeContentField *content_type;
+	CamelContentType *content_type;
 	const char *start;
 	int i, nparts;
 
@@ -1273,7 +1271,7 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 	nparts = camel_multipart_get_number (mp);	
 
 	content_type = camel_mime_part_get_content_type (part);
-	start = gmime_content_field_get_parameter (content_type, "start");
+	start = header_content_type_param (content_type, "start");
 	if (start) {
 		int len;
 
@@ -1328,8 +1326,8 @@ find_preferred_alternative (CamelMultipart *multipart, gboolean want_plain)
 	nparts = camel_multipart_get_number (multipart);
 	for (i = 0; i < nparts; i++) {
 		CamelMimePart *part = camel_multipart_get_part (multipart, i);
-		char *mime_type = gmime_content_field_get_mime_type (
-			camel_mime_part_get_content_type (part));
+		CamelContentType *type = camel_mime_part_get_content_type (part);
+		char *mime_type = header_content_type_format (type);
 
 		g_strdown (mime_type);
 		if (want_plain && !strcmp (mime_type, "text/plain"))
@@ -1402,12 +1400,12 @@ static gboolean
 handle_message_external_body (CamelMimePart *part, const char *mime_type,
 			      MailDisplay *md)
 {
-	GMimeContentField *type;
+	CamelContentType *type;
 	const char *access_type;
 	char *url = NULL, *desc = NULL;
 
 	type = camel_mime_part_get_content_type (part);
-	access_type = gmime_content_field_get_parameter (type, "access-type");
+	access_type = header_content_type_param (type, "access-type");
 	if (!access_type)
 		goto fallback;
 
@@ -1416,12 +1414,12 @@ handle_message_external_body (CamelMimePart *part, const char *mime_type,
 		const char *name, *site, *dir, *mode, *ftype;
 		char *path;
 
-		name = gmime_content_field_get_parameter (type, "name");
-		site = gmime_content_field_get_parameter (type, "site");
+		name = header_content_type_param (type, "name");
+		site = header_content_type_param (type, "site");
 		if (name == NULL || site == NULL)
 			goto fallback;
-		dir = gmime_content_field_get_parameter (type, "directory");
-		mode = gmime_content_field_get_parameter (type, "mode");
+		dir = header_content_type_param (type, "directory");
+		mode = header_content_type_param (type, "mode");
 
 		/* Generate the path. */
 		if (dir) {
@@ -1451,10 +1449,10 @@ handle_message_external_body (CamelMimePart *part, const char *mime_type,
 	} else if (!g_strcasecmp (access_type, "local-file")) {
 		const char *name, *site;
 
-		name = gmime_content_field_get_parameter (type, "name");
+		name = header_content_type_param (type, "name");
 		if (name == NULL)
 			goto fallback;
-		site = gmime_content_field_get_parameter (type, "site");
+		site = header_content_type_param (type, "site");
 
 		url = g_strdup_printf ("file://%s%s", *name == '/' ? "" : "/",
 				       name);
@@ -1472,7 +1470,7 @@ handle_message_external_body (CamelMimePart *part, const char *mime_type,
 
 		/* RFC 2017 */
 
-		urlparam = gmime_content_field_get_parameter (type, "url");
+		urlparam = header_content_type_param (type, "url");
 		if (urlparam == NULL)
 			goto fallback;
 
@@ -1534,7 +1532,7 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is
 	char *subtext, *old;
 	const char *boundary;
 	char *text = NULL;
-	GMimeContentField *mime_type;
+	CamelContentType *mime_type;
 	
 	/* We only include text, message, and multipart bodies. */
 	mime_type = camel_data_wrapper_get_mime_type_field (data);
@@ -1543,25 +1541,25 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is
 	 * images. But if we don't do it this way, we don't get
 	 * the headers...
 	 */
-	if (g_strcasecmp (mime_type->type, "message") == 0) {
+	if (header_content_type_is (mime_type, "message", "*")) {
 		*is_html = FALSE;
 		return get_data_wrapper_text (data);
 	}
 	
-	if (g_strcasecmp (mime_type->type, "text") == 0) {
-		*is_html = !g_strcasecmp (mime_type->subtype, "html");
+	if (header_content_type_is (mime_type, "text", "*")) {
+		*is_html = header_content_type_is (mime_type, "text", "html");
 		return get_data_wrapper_text (data);
 	}
 	
 	/* If it's not message and it's not text, and it's not
 	 * multipart, we don't want to deal with it.
 	 */
-	if (g_strcasecmp (mime_type->type, "multipart") != 0)
+	if (!header_content_type_is (mime_type, "multipart", "*"))
 		return NULL;
 	
 	mp = CAMEL_MULTIPART (data);
 	
-	if (g_strcasecmp (mime_type->subtype, "alternative") == 0) {
+	if (header_content_type_is (mime_type, "multipart", "alternative")) {
 		/* Pick our favorite alternative and reply to it. */
 		
 		subpart = find_preferred_alternative (mp, want_plain);
