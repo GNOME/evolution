@@ -1,3 +1,15 @@
+1999-08-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* calendar.c (calendar_object_changed): Modify the
+	object->last_mod field.
+	(calendar_add_object): Ditto.
+
+	Closes bug #676
+	
+	* main.c (save_calendar_cmd): Fix problem in which we warned the
+	user about the calendar being modified the first time the calendar
+	was used. 
+
 1999-08-22  Tomas Ogren  <stric@ing.umu.se>
 
 	* gnomecal.gnorba: "GenericFactoy" is wrong...

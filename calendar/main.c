@@ -15,6 +15,7 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <ctype.h>
+#include <errno.h>
 #include "calendar.h"
 #include "alarm.h"
 #include "eventedit.h"
@@ -422,7 +423,12 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 	if (gcal->cal->filename){
 		struct stat s;
 		
-		stat (gcal->cal->filename, &s);
+		if (stat (gcal->cal->filename, &s) == -1){
+			if (errno == ENOENT)
+				calendar_save (gcal->cal, gcal->cal->filename);
+
+			return;
+		}
 
 		if (s.st_mtime != gcal->cal->file_time){
 			GtkWidget *box;
