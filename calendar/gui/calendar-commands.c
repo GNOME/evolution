@@ -399,35 +399,6 @@ purge_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 	gtk_widget_destroy (dialog);
 }
 
-/* Does a queryInterface on the control's parent control frame for the ShellView interface */
-static GNOME_Evolution_ShellView
-get_shell_view_interface (BonoboControl *control)
-{
-	Bonobo_ControlFrame control_frame;
-	GNOME_Evolution_ShellView shell_view;
-	CORBA_Environment ev;
-
-	control_frame = bonobo_control_get_control_frame (control, NULL);
-
-	g_assert (control_frame != CORBA_OBJECT_NIL);
-
-	CORBA_exception_init (&ev);
-	shell_view = Bonobo_Unknown_queryInterface (control_frame,
-						    "IDL:GNOME/Evolution/ShellView:" BASE_VERSION,
-						    &ev);
-	if (BONOBO_EX (&ev)) {
-		g_message ("get_shell_view_interface(): "
-			   "Could not queryInterface() on the control frame");
-		shell_view = CORBA_OBJECT_NIL;
-		goto out;
-	}
-
-	CORBA_exception_free (&ev);
-
- out:
-
-	return shell_view;
-}
 
 const gchar *
 calendar_get_text_for_folder_bar_label (GnomeCalendar *gcal)
@@ -531,62 +502,6 @@ calendar_get_text_for_folder_bar_label (GnomeCalendar *gcal)
 	return buffer;
 }
 
-/* Displays the currently displayed time range in the folder bar label on the
-   shell view, according to which view we are showing. */
-void
-calendar_set_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
-{
-	char *buffer = (char *)calendar_get_text_for_folder_bar_label (gcal);
-	control_util_set_folder_bar_label (control, buffer);
-}
-
-void
-control_util_set_folder_bar_label (BonoboControl *control, char *label)
-{
-	GNOME_Evolution_ShellView shell_view;
-	CORBA_Environment ev;
-
-	shell_view = get_shell_view_interface (control);
-	if (shell_view == CORBA_OBJECT_NIL)
-		return;
-
-	CORBA_exception_init (&ev);
-	GNOME_Evolution_ShellView_setFolderBarLabel (shell_view, label, &ev);
-
-	if (BONOBO_EX (&ev))
-		g_message ("control_util_set_folder_bar_label(): Could not set the folder bar label");
-
-	CORBA_exception_free (&ev);
-
-	bonobo_object_release_unref (shell_view, NULL);
-}
-
-void
-control_util_show_settings (GnomeCalendar *gcal)
-{
-	BonoboControl *control;
-	GNOME_Evolution_ShellView shell_view;
-	CORBA_Environment ev;
-
-	control = g_object_get_data (G_OBJECT (gcal), "control");
-	if (control == NULL)
-		return;
-
-	shell_view = get_shell_view_interface (control);
-	if (shell_view == CORBA_OBJECT_NIL)
-		return;
-
-	CORBA_exception_init (&ev);
-	
-	GNOME_Evolution_ShellView_showSettings (shell_view, &ev);
-	
-	if (BONOBO_EX (&ev))
-		g_message ("control_util_show_settings(): Could not show settings");
-
-	CORBA_exception_free (&ev);
-
-	bonobo_object_release_unref (shell_view, NULL);
-}
 
 /* Sensitizes the UI Component menu/toolbar calendar commands based on the
  * number of selected events. (This will always be 0 or 1 currently.)  If enable
@@ -692,18 +607,6 @@ sensitize_taskpad_commands (GnomeCalendar *gcal, BonoboControl *control, gboolea
 	bonobo_ui_component_set_prop (uic, "/commands/Delete", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",
 				      NULL);
-}
-
-/* Callback used when the dates shown by the GnomeCalendar are changed.
-   We want to update the dates in the folder bar. */
-static void
-gcal_calendar_dates_change_cb (GnomeCalendar *gcal, gpointer data)
-{
-	BonoboControl *control;
-
-	control = BONOBO_CONTROL (data);
-
-	calendar_set_folder_bar_label (gcal, control);
 }
 
 /* Callback used when the selection in the calendar views changes */
@@ -857,9 +760,6 @@ calendar_control_activate (BonoboControl *control,
 
 	gnome_calendar_setup_view_menus (gcal, uic);
 
-	g_signal_connect (gcal, "dates_shown_changed",
-			  G_CALLBACK (gcal_calendar_dates_change_cb),
-			  control);
 	g_signal_connect (gcal, "calendar_focus_change",
 			  G_CALLBACK (gcal_calendar_focus_change_cb), control);
 	g_signal_connect (gcal, "taskpad_focus_change",
@@ -876,8 +776,6 @@ calendar_control_activate (BonoboControl *control,
 #if 0
 	calendar_config_check_timezone_set ();
 #endif
-
-	calendar_set_folder_bar_label (gcal, control);
 
 	focus = g_new (FocusData, 1);
 	focus->calendar_focused = FALSE;

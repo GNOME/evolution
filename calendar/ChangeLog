@@ -1,3 +1,23 @@
+2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/tasks-control.c (tasks_control_activate): Do not call
+	control_util_set_folder_bar_label().
+
+	* gui/e-calendar-table.c (e_calendar_table_set_status_message):
+	Use e_activity_handler_operation_progressing(), not
+	evolution_activity_client_update().
+
+	* gui/e-cal-view.c: Remove settings menu.
+	(on_settings): Remove.
+
+	* gui/calendar-commands.c (get_shell_view_interface): Remove.
+	(control_util_set_folder_bar_label): Remove.
+	(calendar_set_folder_bar_label): Remove.
+	(control_util_show_settings): Remove.
+	(gcal_calendar_dates_change_cb): Remove.
+	(calendar_control_activate): Do not connect, do not call
+	calendar_set_folder_bar_label().
+
 2003-12-03  JP Rosevear <jpr@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_destroy): free the notification

@@ -1091,15 +1091,6 @@ on_publish (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-on_settings (GtkWidget *widget, gpointer user_data)
-{
-	ECalendarView *cal_view;
-
-	cal_view = E_CALENDAR_VIEW (user_data);
-	control_util_show_settings (cal_view->priv->calendar);
-}
-
-static void
 on_delete_appointment (GtkWidget *widget, gpointer user_data)
 {
 	ECalendarView *cal_view;
@@ -1206,10 +1197,6 @@ static EPopupMenu main_items [] = {
 	E_POPUP_SEPARATOR,
 
 	E_POPUP_ITEM (N_("_Publish Free/Busy Information"), GTK_SIGNAL_FUNC (on_publish), 0),
-
-	E_POPUP_SEPARATOR,
-
-	E_POPUP_ITEM (N_("_Settings..."), GTK_SIGNAL_FUNC (on_settings), 0),
 
 	E_POPUP_TERMINATOR
 };

@@ -335,8 +335,6 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 #if 0
 	calendar_config_check_timezone_set ();
 #endif
-
-	control_util_set_folder_bar_label (control, "");
 }
 
 

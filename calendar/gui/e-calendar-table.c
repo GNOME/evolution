@@ -1459,6 +1459,6 @@ e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *mes
 
                 g_free (client_id);
         } else {
-                evolution_activity_client_update (activity_handler, cal_table->activity_id, message, -1.0);
+                e_activity_handler_operation_progressing (activity_handler, cal_table->activity_id, message, -1.0);
 	}
 }
