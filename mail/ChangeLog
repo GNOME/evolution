@@ -1,3 +1,24 @@
+2003-02-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (uri_to_key): Removed.
+	(lookup_signature): Removed.
+	(xml_get_int): Removed.
+	(xml_get_bool): Removed.
+	(mail_config_get_time_24hour): Removed.
+
+	* evolution-mail.schemas: s/long/int/g and change default_account
+	to be a string instead of an int.
+
+	* mail-config.c (mail_config_get_default_account): default_account
+	now uses the account uid, so change the code a bit to match uid
+	strings rather than use an index.
+	(mail_config_remove_account): Same here. simplifies the code a
+	bunch.
+	(mail_config_set_default_account): Here too.
+
+	* folder-browser-ui.c (folder_browser_ui_setup_view_menus): Update
+	the GalView path.
+
 2003-02-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-session.c (do_get_pass): Change the logic here

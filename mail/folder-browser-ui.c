@@ -357,10 +357,9 @@ folder_browser_ui_setup_view_menus (FolderBrowser *fb)
 		gal_view_collection_set_title (collection, _("Mail"));
 		
 		local_dir = gnome_util_prepend_user_home ("/evolution/views/mail/");
-		gal_view_collection_set_storage_directories
-			(collection,
-			 EVOLUTION_GALVIEWSDIR "/evolution/views/mail/",
-			 local_dir);
+		gal_view_collection_set_storage_directories (collection,
+							     EVOLUTION_GALVIEWSDIR "/mail/",
+							     local_dir);
 		g_free (local_dir);
 		
 		spec = e_table_specification_new ();

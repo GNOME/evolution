@@ -85,9 +85,6 @@ typedef struct {
 	
 	GSList *labels;
 	guint label_notify_id;
-	
-	/* readonly fields from calendar */
-	int time_24hour;
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -123,34 +120,6 @@ signature_destroy (MailConfigSignature *sig)
 	g_free (sig);
 }
 
-static gboolean
-xml_get_bool (xmlNodePtr node, const char *name)
-{
-	gboolean bool = FALSE;
-	char *buf;
-	
-	if ((buf = xmlGetProp (node, name))) {
-		bool = (!strcmp (buf, "true") || !strcmp (buf, "yes"));
-		xmlFree (buf);
-	}
-	
-	return bool;
-}
-
-static int
-xml_get_int (xmlNodePtr node, const char *name)
-{
-	int number = 0;
-	char *buf;
-	
-	if ((buf = xmlGetProp (node, name))) {
-		number = strtol (buf, NULL, 10);
-		xmlFree (buf);
-	}
-	
-	return number;
-}
-
 static char *
 xml_get_prop (xmlNodePtr node, const char *name)
 {
@@ -173,27 +142,6 @@ xml_get_content (xmlNodePtr node)
 	xmlFree (buf);
 	
 	return val;
-}
-
-static MailConfigSignature *
-lookup_signature (int id)
-{
-	MailConfigSignature *sig;
-	GSList *l;
-	
-	if (id == -1)
-		return NULL;
-	
-	l = config->signatures;
-	while (l != NULL) {
-		sig = (MailConfigSignature *) l->data;
-		if (sig->id == id)
-			return sig;
-		
-		l = l->next;
-	}
-	
-	return NULL;
 }
 
 void
@@ -584,23 +532,6 @@ mail_config_is_corrupt (void)
 	return config->corrupt;
 }
 
-static char *
-uri_to_key (const char *uri)
-{
-	char *rval, *ptr;
-	
-	if (!uri)
-		return NULL;
-	
-	rval = g_strdup (uri);
-	
-	for (ptr = rval; *ptr; ptr++)
-		if (*ptr == '/' || *ptr == ':')
-			*ptr = '_';
-	
-	return rval;
-}
-
 GSList *
 mail_config_get_labels (void)
 {
@@ -664,7 +595,7 @@ mail_config_get_default_account (void)
 {
 	EAccount *account = NULL;
 	EIterator *iter;
-	int index, n;
+	char *uid;
 	
 	if (config == NULL)
 		mail_config_init ();
@@ -672,18 +603,20 @@ mail_config_get_default_account (void)
 	if (!config->accounts)
 		return NULL;
 	
-	index = gconf_client_get_int (config->gconf, "/apps/evolution/mail/default_account", NULL);
+	uid = gconf_client_get_string (config->gconf, "/apps/evolution/mail/default_account", NULL);
 	
 	iter = e_list_get_iterator ((EList *) config->accounts);
-	n = 0;
 	
 	while (e_iterator_is_valid (iter)) {
-		if (n == index) {
-			account = (EAccount *) e_iterator_get (iter);
-			break;
+		account = (EAccount *) e_iterator_get (iter);
+		
+		if (!strcmp (account->uid, uid)) {
+			g_object_unref (iter);
+			g_free (uid);
+			
+			return account;
 		}
 		
-		n++;
 		e_iterator_next (iter);
 	}
 	
@@ -693,7 +626,7 @@ mail_config_get_default_account (void)
 		e_iterator_reset (iter);
 		account = (EAccount *) e_iterator_get (iter);
 		
-		gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", 0, NULL);
+		gconf_client_set_string (config->gconf, "/apps/evolution/mail/default_account", account->uid, NULL);
 	}
 	
 	g_object_unref (iter);
@@ -839,35 +772,17 @@ mail_config_add_account (EAccount *account)
 void
 mail_config_remove_account (EAccount *account)
 {
-	EAccount *acnt = NULL;
-	EIterator *iter;
-	int index, cur;
+	char *uid;
 	
-	cur = gconf_client_get_int (config->gconf, "/apps/evolution/mail/default_account", NULL);
+	uid = gconf_client_get_string (config->gconf, "/apps/evolution/mail/default_account", NULL);
 	
 	if (account == mail_config_get_default_account ()) {
 		/* the default account has been deleted, the new
                    default becomes the first account in the list */
-		gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", 0, NULL);
-	} else {
-		/* adjust the default to make sure it points to the same one */
-		index = 0;
-		iter = e_list_get_iterator ((EList *) config->accounts);
-		while (e_iterator_is_valid (iter)) {
-			acnt = (EAccount *) e_iterator_get (iter);
-			if (acnt == account)
-				break;
-			
-			index++;
-			e_iterator_next (iter);
-		}
-		
-		g_object_unref (iter);
-		
-		if (cur > index)
-			gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", cur - 1, NULL);
+		gconf_client_set_string (config->gconf, "/apps/evolution/mail/default_account", account->uid, NULL);
 	}
 	
+	g_free (uid);
 	g_object_ref (account);
 	e_list_remove ((EList *) config->accounts, account);
 	g_signal_emit_by_name (config->accounts, "account-removed", account);
@@ -879,29 +794,7 @@ mail_config_remove_account (EAccount *account)
 void
 mail_config_set_default_account (EAccount *account)
 {
-	EIterator *iter;
-	EAccount *acnt;
-	int index = -1;
-	int i = 0;
-	
-	iter = e_list_get_iterator ((EList *) config->accounts);
-	while (e_iterator_is_valid (iter)) {
-		acnt = (EAccount *) e_iterator_get (iter);
-		if (acnt == account) {
-			index = i;
-			break;
-		}
-		
-		i++;
-		e_iterator_next (iter);
-	}
-	
-	g_object_unref (iter);
-	
-	if (index == -1)
-		return;
-	
-	gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", index, NULL);
+	gconf_client_set_string (config->gconf, "/apps/evolution/mail/default_account", account->uid, NULL);
 }
 
 EAccountIdentity *
@@ -1659,10 +1552,3 @@ mail_config_signature_set_html (MailConfigSignature *sig, gboolean html)
 		mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_HTML_CHANGED, sig);
 	}
 }
-
-int
-mail_config_get_time_24hour(void)
-{
-	return config->time_24hour;
-}
-
