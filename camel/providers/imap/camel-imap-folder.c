@@ -65,6 +65,7 @@ static CamelFolderClass *parent_class = NULL;
 static void imap_finalize (CamelObject *object);
 static void imap_refresh_info (CamelFolder *folder, CamelException *ex);
 static void imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
+static const char *imap_get_full_name (CamelFolder *folder);
 static void imap_expunge (CamelFolder *folder, CamelException *ex);
 
 /* message counts */
@@ -113,6 +114,7 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	camel_folder_class->refresh_info = imap_refresh_info;
 	camel_folder_class->sync = imap_sync;
 	camel_folder_class->expunge = imap_expunge;
+	camel_folder_class->get_full_name = imap_get_full_name;
 	
 	camel_folder_class->get_uids = imap_get_uids;
 	camel_folder_class->free_uids = camel_folder_free_nop;
@@ -169,22 +171,17 @@ camel_imap_folder_get_type (void)
 
 CamelFolder *
 camel_imap_folder_new (CamelStore *parent, const char *folder_name,
-		       const char *summary_file, CamelException *ex)
+		       const char *short_name, const char *summary_file,
+		       CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (parent);
 	CamelFolder *folder = CAMEL_FOLDER (camel_object_new (camel_imap_folder_get_type ()));
 	CamelImapFolder *imap_folder = (CamelImapFolder *)folder;
 	CamelImapResponse *response;
-	const char *dir_sep, *short_name, *resp;
+	const char *resp;
 	guint32 validity = 0;
 	int i;
 
-	dir_sep = CAMEL_IMAP_STORE (parent)->dir_sep;
-	short_name = strrchr (folder_name, *dir_sep);
-	if (short_name)
-		short_name++;
-	else
-		short_name = folder_name;
 	camel_folder_construct (folder, parent, folder_name, short_name);
 
 	response = camel_imap_command (imap_store, folder, ex, NULL);
@@ -393,6 +390,21 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 	imap_sync (folder, TRUE, ex);
 }
 
+static const char *
+imap_get_full_name (CamelFolder *folder)
+{
+	CamelURL *url = ((CamelService *)folder->parent_store)->url;
+	int len;
+
+	if (!url->path || !*url->path)
+		return folder->full_name;
+	len = strlen (url->path + 1);
+	if (!strncmp (url->path + 1, folder->full_name, len) &&
+	    strlen (folder->full_name) > len + 1)
+		return folder->full_name + len + 1;
+	return folder->full_name;
+}	
+
 static gint
 imap_get_message_count (CamelFolder *folder)
 {
@@ -428,9 +440,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
 	CamelMimeFilter *crlf_filter;
 	CamelStreamFilter *streamfilter;
 	GByteArray *ba;
-	char *folder_path, *flagstr, *result;
-	
-	folder_path = camel_imap_store_folder_path (store, folder->full_name);
+	char *flagstr, *result;
 	
 	/* create flag string param */
 	if (info && info->flags)
@@ -455,9 +465,8 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
 	camel_object_unref (CAMEL_OBJECT (memstream));
 
 	response = camel_imap_command (store, NULL, ex, "APPEND %s%s%s {%d}",
-				       folder_path, flagstr ? " " : "",
+				       folder->full_name, flagstr ? " " : "",
 				       flagstr ? flagstr : "", ba->len);
-	g_free (folder_path);
 	g_free (flagstr);
 	
 	if (!response) {
@@ -486,13 +495,10 @@ imap_copy_message_to (CamelFolder *source, const char *uid,
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (source->parent_store);
 	CamelImapResponse *response;
-	char *folder_path;
 	
-	folder_path = camel_imap_store_folder_path (store, destination->full_name);
 	response = camel_imap_command (store, source, ex, "UID COPY %s \"%s\"",
-				       uid, folder_path);
+				       uid, destination->full_name);
 	camel_imap_response_free (response);
-	g_free (folder_path);
 
 	/* FIXME: This should go away once folder_changed is being
 	 * emitted by camel_imap_folder_changed on appends again.
@@ -509,13 +515,10 @@ imap_move_message_to (CamelFolder *source, const char *uid,
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (source->parent_store);
 	CamelImapResponse *response;
-	char *folder_path;
 
-	folder_path = camel_imap_store_folder_path (store, destination->full_name);	
 	response = camel_imap_command (store, source, ex, "UID COPY %s \"%s\"",
-				       uid, folder_path);
+				       uid, destination->full_name);
 	camel_imap_response_free (response);
-	g_free (folder_path);
 
 	if (camel_exception_is_set (ex))
 		return;

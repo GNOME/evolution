@@ -69,16 +69,12 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 
 	/* Check for current folder */
 	if (folder && (!fmt || folder != store->current_folder)) {
-		char *folder_path;
 		CamelImapResponse *response;
 
-		folder_path = camel_imap_store_folder_path (store,
-							    folder->full_name);
 		store->current_folder = NULL;
 		response = camel_imap_command (store, NULL, ex,
-					       "SELECT \"%s\"", folder_path);
-		g_free (folder_path);
-
+					       "SELECT \"%s\"",
+					       folder->full_name);
 		if (!response)
 			return NULL;
 		store->current_folder = folder;

@@ -60,6 +60,7 @@ typedef struct {
 /* public methods */
 CamelFolder *camel_imap_folder_new (CamelStore *parent,
 				    const char *folder_name,
+				    const char *short_name,
 				    const char *summary_file,
 				    CamelException *ex);
 

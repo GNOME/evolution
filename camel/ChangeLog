@@ -1,5 +1,46 @@
 2000-10-29  Dan Winship  <danw@helixcode.com>
 
+	Improved IMAP namespace handling: leave the namespace in the
+	folder names rather than constantly prepending it and stripping it
+	off. Also some subscription fixes.
+
+	* camel-store.c (camel_folder_info_build): Fix for the case where
+	@top isn't in @folders.
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): Add
+	a "short_name" argument rather than figuring it out ourselves.
+	(imap_get_full_name): Implementation of CamelFolder::get_full_name
+	that strips off namespace so the user doesn't have to see it.
+	(imap_append_message, imap_copy_message_to, imap_move_message_to):
+	Use folder->full_name rather than calling
+	camel_imap_store_get_folder_path.
+
+	* providers/imap/camel-imap-utils.c (imap_parse_list_response):
+	Update this: make @flags a bitmask and @sep a char rather than a
+	string. Make all of the out arguments optional. Handle literals in
+	the server response.
+
+	* providers/imap/camel-imap-store.c (imap_connect): Do a better
+	job of getting the correct dir_sep for the namespace we're using.
+	Construct a base_url here that will be used by get_folder_info.
+	(camel_imap_store_folder_path): Removed
+	(imap_folder_exists): Add an argument to return the short name of
+	the folder (parsed out of the LIST response). Update for
+	imap_parse_list_response change.
+	(get_folder): Update for the various other changes.
+	(get_folder_info): Update for the various other changes. Be more
+	consistent about the returned layout: put everything underneath
+	the "namespace" directory, including INBOX, even if it doesn't
+	belong there. Don't destroy the list of subscribed folders until
+	we've actually gotten the new list.
+	(folder_subscribed, subscribe_folder, unsubscribe_folder): Use
+	folder_name directly rather than camel_imap_store_folder_Path.
+
+	* providers/imap/camel-imap-command.c (camel_imap_command): Update
+	for folder name changes.
+
+2000-10-29  Dan Winship  <danw@helixcode.com>
+
 	* camel.h: Remove md5-utils.h include since it's not part of Camel
 	any more.
 

@@ -32,7 +32,11 @@ extern "C" {
 
 char *imap_next_word (const char *buf);
 
-gboolean imap_parse_list_response (const char *buf, const char *namespace, char **flags, char **sep, char **folder);
+#define IMAP_LIST_FLAG_NOINFERIORS	(1 << 0)
+#define IMAP_LIST_FLAG_NOSELECT		(1 << 1)
+#define IMAP_LIST_FLAG_MARKED		(1 << 2)
+#define IMAP_LIST_FLAG_UNMARKED		(1 << 3)
+gboolean imap_parse_list_response (const char *buf, int *flags, char *sep, char **folder);
 
 char *imap_translate_sexp (const char *expression);
 
@@ -40,6 +44,7 @@ char *imap_create_flag_list (guint32 flags);
 guint32 imap_parse_flag_list (const char *flag_list);
 
 char *imap_parse_nstring (char **str_p, int *len);
+char *imap_parse_astring (char **str_p, int *len);
 
 #ifdef __cplusplus
 }

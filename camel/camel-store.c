@@ -525,10 +525,15 @@ camel_folder_info_build (GPtrArray *folders, CamelFolderInfo *top,
 
 	/* Hash the folders. */
 	hash = g_hash_table_new (g_str_hash, g_str_equal);
+	pfi = top;
 	for (i = 0; i < folders->len; i++) {
 		fi = folders->pdata[i];
+		if (fi == top)
+			pfi = NULL;
 		g_hash_table_insert (hash, fi->full_name, fi);
 	}
+	if (pfi)
+		g_hash_table_insert (hash, pfi->full_name, pfi);
 
 	/* Now find parents. */
 	for (i = 0; i < folders->len; i++) {

@@ -56,7 +56,7 @@ typedef struct {
 	CamelImapServerLevel server_level;
 	gboolean has_status_capability;
 	
-	gchar *dir_sep, *storage_path;
+	gchar dir_sep, *storage_path, *base_url;
 	
 	gboolean connected;
 
@@ -72,8 +72,6 @@ typedef struct {
 
 /* Standard Camel function */
 CamelType camel_imap_store_get_type (void);
-
-char *camel_imap_store_folder_path (CamelImapStore *store, const char *name);
 
 #ifdef __cplusplus
 }

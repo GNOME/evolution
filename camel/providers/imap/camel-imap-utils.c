@@ -20,6 +20,7 @@
  *
  */
 
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -46,64 +47,81 @@ imap_next_word (const char *buf)
 	return word;
 }
 
+/**
+ * imap_parse_list_response:
+ * @buf: the LIST or LSUB response
+ * @flags: a pointer to a variable to store the flags in, or %NULL
+ * @sep: a pointer to a variable to store the hierarchy separator in, or %NULL
+ * @folder: a pointer to a variable to store the folder name in, or %NULL
+ *
+ * Parses a LIST or LSUB response and returns the desired parts of it.
+ * If @folder is non-%NULL, its value must be freed by the caller.
+ *
+ * Return value: whether or not the response was successfully parsed.
+ **/
 gboolean
-imap_parse_list_response (const char *buf, const char *namespace, char **flags, char **sep, char **folder)
+imap_parse_list_response (const char *buf, int *flags, char *sep, char **folder)
 {
-	char *word, *ep, *f;
-	
-	*flags = NULL;
-	*sep = NULL;
-	*folder = NULL;
-	
+	char *word;
+	int len;
+
 	if (*buf != '*')
 		return FALSE;
-	
+
 	word = imap_next_word (buf);
 	if (g_strncasecmp (word, "LIST", 4) && g_strncasecmp (word, "LSUB", 4))
 		return FALSE;
-	
+
 	/* get the flags */
 	word = imap_next_word (word);
 	if (*word != '(')
 		return FALSE;
-	
+
+	if (flags)
+		*flags = 0;
+
 	word++;
-	for (ep = word; *ep && *ep != ')'; ep++);
-	if (*ep != ')')
-		return FALSE;
-	
-	*flags = g_strndup (word, (gint)(ep - word));
-	
-	/* get the directory separator */
-	word = imap_next_word (ep);
-	if (*word) {
-		if (!strncmp (word, "NIL", 3)) {
-			*sep = NULL;
-		} else {
-			for (ep = word; *ep && *ep != ' '; ep++);
-			*sep = g_strndup (word, (gint)(ep - word));
-			string_unquote (*sep);
+	while (*word != ')') {
+		len = strcspn (word, " )");
+		if (flags) {
+			if (!g_strncasecmp (word, "\\Noinferiors", len))
+				*flags |= IMAP_LIST_FLAG_NOINFERIORS;
+			else if (!g_strncasecmp (word, "\\Noselect", len))
+				*flags |= IMAP_LIST_FLAG_NOSELECT;
+			else if (!g_strncasecmp (word, "\\Marked", len))
+				*flags |= IMAP_LIST_FLAG_MARKED;
+			else if (!g_strncasecmp (word, "\\Unmarked", len))
+				*flags |= IMAP_LIST_FLAG_UNMARKED;
 		}
-	} else {
-		return FALSE;
+
+		word += len;
+		while (*word == ' ')
+			word++;
 	}
-	
-	/* get the folder name */
+
+	/* get the directory separator */
 	word = imap_next_word (word);
-	*folder = g_strdup (word);
-	g_strstrip (*folder);
-	string_unquote (*folder);
-	
-	/* chop out the folder prefix */
-	if (*namespace && !strncmp (*folder, namespace, strlen (namespace))) {
-		f = *folder + strlen (namespace);
-		if (*sep && !strncmp (f, *sep, strlen (*sep)))
-			f += strlen (*sep);
-		memmove (*folder, f, strlen (f) + 1);
+	if (!strncmp (word, "NIL", 3)) {
+		if (sep)
+			*sep = '\0';
+	} else if (*word++ == '"') {
+		if (*word == '\\')
+			word++;
+		if (sep)
+			*sep = *word;
+		word++;
+		if (*word++ != '"')
+			return FALSE;
+	} else
+		return FALSE;
+
+	if (folder) {
+		/* get the folder name */
+		word = imap_next_word (word);
+		*folder = imap_parse_astring (&word, &len);
+		return *folder != NULL;
 	}
-	
-	string_unquote (*folder);  /* unquote the mailbox if it's quoted */
-	
+
 	return TRUE;
 }
 
@@ -632,3 +650,39 @@ imap_parse_nstring (char **str_p, int *len)
 	}
 }
 
+/**
+ * imap_parse_astring:
+ * @str_p: a pointer to a string
+ * @len: a pointer to an int to return the length in
+ *
+ * This parses an "astring" (an atom, a quoted string, or a literal)
+ * starting at *@str_p. On success, *@str_p will point to the first
+ * character after the end of the astring, and *@len will contain
+ * the length of the returned string. On failure, *@str_p will be
+ * set to %NULL.
+ *
+ * This assumes that the string is in the form returned by
+ * camel_imap_command(): that line breaks are indicated by LF rather
+ * than CRLF.
+ *
+ * Return value: the parsed string, or %NULL if no string
+ * was parsed. (In this case, *@str_p will also be %NULL.)
+ **/
+char *
+imap_parse_astring (char **str_p, int *len)
+{
+	char *p;
+
+	if (**str_p == '{' || **str_p == '"')
+		return imap_parse_nstring (str_p, len);
+
+	p = *str_p;
+	while (isascii ((unsigned char)*p) &&
+	       !strchr ("(){ \"\\%*", *p))
+		p++;
+
+	*len = p - *str_p;
+	p = g_strndup (*str_p, *len);
+	*str_p += *len;
+	return p;
+}
