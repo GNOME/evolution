@@ -272,7 +272,7 @@ e_shell_command_open_folder_in_other_window (EShell *shell,
 		folder_path = e_shell_view_get_current_path (shell_view);
 
 	uri = g_strconcat (E_SHELL_URI_PREFIX, folder_path, NULL);
-	view = e_shell_create_view (shell, uri);
+	view = e_shell_create_view (shell, uri, shell_view);
 	g_free (uri);
 
 	gtk_widget_show (GTK_WIDGET (view));

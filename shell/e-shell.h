@@ -101,7 +101,8 @@ EShell                *e_shell_new        (const char            *local_director
 					   EShellConstructResult *construct_result_return);
 
 EShellView *e_shell_create_view  (EShell     *shell,
-				  const char *uri);
+				  const char *uri,
+				  EShellView *template_view);
 
 const char          *e_shell_get_local_directory       (EShell          *shell);
 EShortcuts          *e_shell_get_shortcuts             (EShell          *shell);

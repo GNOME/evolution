@@ -1,5 +1,25 @@
 2001-10-12  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fix #7643, Starting new view doesn't honor "view" settings.]
+
+	* e-shell-view-menu.c (command_open_folder_in_new_window): Pass
+	the parent @shell_view as the @template_view arg to
+	`e_shell_create_view()'
+
+	* e-shell-view.c (activate_shortcut_cb): Pass the _view as the
+	@template_view arg to `e_shell_create_view()'.
+
+	* e-shell-folder-commands.c
+	(e_shell_command_open_folder_in_other_window): Pass the parent
+	@shell_view as the @template_view arg to `e_shell_create_view()'.
+
+	* e-shell.c (e_shell_create_view): New arg @template_view.
+	(impl_Shell_createNewView): Pass %NULL as @template_view when
+	calling it.
+	(e_shell_restore_from_settings): Likewise.
+
+2001-10-12  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (quit_box_new): Also flush GDK after flushing GTK.
 	Otherwise GTK might queue draw requests to X that don't get
 	executed.

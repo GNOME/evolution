@@ -327,7 +327,7 @@ command_open_folder_in_new_window (BonoboUIComponent *uih,
 	shell = e_shell_view_get_shell (shell_view);
 
 	uri = g_strconcat (E_SHELL_URI_PREFIX, get_path_for_folder_op (shell_view), NULL);
-	new_view = e_shell_create_view (shell, uri);
+	new_view = e_shell_create_view (shell, uri, shell_view);
 	g_free (uri);
 
 	gtk_widget_show (GTK_WIDGET (new_view));
