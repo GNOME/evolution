@@ -1,5 +1,11 @@
 2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* pcs/cal-backend.c (cal_backend_ref_categories): Do not put the
+	category in both the changed_categories and the categories hashes;
+	fixes a double-free when finalizing the CalBackend.
+
+2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/gnome-cal.c (gnome_calendar_setup_view_menus): Use
 	EVOLUTION_GALVIEWSDIR.
 

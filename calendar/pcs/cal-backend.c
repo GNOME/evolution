@@ -1149,7 +1149,6 @@ cal_backend_ref_categories (CalBackend *backend, GSList *categories)
 				c = g_new (CalBackendCategory, 1);
 				c->name = g_strdup (name);
 				c->refcount = 1;
-				g_hash_table_insert (priv->categories, c->name, c);
 				g_hash_table_insert (priv->changed_categories, c->name, c);
 			}
 		}
