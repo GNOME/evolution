@@ -1,3 +1,8 @@
+2002-02-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder-summary.h: Remove the CAMEL_MESSAGE_NEEDS_REPLY
+	flag, we no longer will be using this.
+
 2002-02-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-http-stream.c (stream_read): Use camel_mime_parser_read to
