@@ -1,4 +1,4 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+got t/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* mail-component-factory.c
  *
  * Authors: Ettore Perazzoli <ettore@ximian.com>
@@ -44,9 +44,9 @@
 
 
 #define FACTORY_ID	"OAFIID:GNOME_Evolution_Mail_Factory:" BASE_VERSION
-
 #define COMPONENT_ID	"OAFIID:GNOME_Evolution_Mail_Component:" BASE_VERSION
 #define COMPOSER_ID	"OAFIID:GNOME_Evolution_Mail_Composer:" BASE_VERSION
+#define MAIL_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_Control:" BASE_VERSION
 #define FOLDER_INFO_ID	"OAFIID:GNOME_Evolution_FolderInfo:" BASE_VERSION
 #define MAIL_CONFIG_ID	"OAFIID:GNOME_Evolution_MailConfig:" BASE_VERSION
 #define WIZARD_ID	"OAFIID:GNOME_Evolution_Mail_Wizard:" BASE_VERSION
@@ -65,6 +65,8 @@ factory (BonoboGenericFactory *factory,
 
 		bonobo_object_ref (BONOBO_OBJECT (component));
 		return BONOBO_OBJECT (component);
+	} else if (strcmp(component_id, MAIL_CONTROL_ID) == 0) {
+		return (BonoboObject *) mail_control_new ();
 	} else if (strcmp(component_id, MAIL_CONFIG_ID) == 0) {
 		return (BonoboObject *)g_object_new (evolution_mail_config_get_type (), NULL);
 	} else if (strcmp(component_id, WIZARD_ID) == 0) {

@@ -1,3 +1,8 @@
+2004-01-23  Larry Ewing  <lewing@ximian.com>
+
+	* mail-component-factory.c (factory): add the control id to the
+	factory.
+
 2004-01-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.c (upgrade_xml_uris_1_4): Handle where the file: url
