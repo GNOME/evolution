@@ -206,6 +206,7 @@ void cal_component_set_new_vtype (CalComponent *comp, CalComponentVType type);
 
 gboolean cal_component_set_icalcomponent (CalComponent *comp, icalcomponent *icalcomp);
 icalcomponent *cal_component_get_icalcomponent (CalComponent *comp);
+void cal_component_rescan (CalComponent *comp);
 
 CalComponentVType cal_component_get_vtype (CalComponent *comp);
 
@@ -270,6 +271,7 @@ void cal_component_set_last_modified (CalComponent *comp, struct icaltimetype *t
 
 void cal_component_get_organizer (CalComponent *comp, CalComponentOrganizer *organizer);
 void cal_component_set_organizer (CalComponent *comp, CalComponentOrganizer *organizer);
+gboolean cal_component_has_organizer (CalComponent *comp);
 
 void cal_component_get_percent (CalComponent *comp, int **percent);
 void cal_component_set_percent (CalComponent *comp, int *percent);
@@ -308,6 +310,7 @@ void cal_component_set_url (CalComponent *comp, const char *url);
 
 void cal_component_get_attendee_list (CalComponent *comp, GSList **attendee_list);
 void cal_component_set_attendee_list (CalComponent *comp, GSList *attendee_list);
+gboolean cal_component_has_attendees (CalComponent *comp);
 
 gboolean cal_component_event_dates_match (CalComponent *comp1, CalComponent *comp2);
 

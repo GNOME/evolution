@@ -27,6 +27,8 @@ typedef struct {
 } ItipAddress;
 
 GList *itip_addresses_get (void);
+ItipAddress *itip_addresses_get_default (void);
+void itip_address_free (ItipAddress *address);
 void itip_addresses_free (GList *addresses);
 
 const gchar *itip_strip_mailto (const gchar *address);

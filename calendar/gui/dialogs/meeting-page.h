@@ -52,10 +52,11 @@ typedef struct {
 } MeetingPageClass;
 
 
-GtkType      meeting_page_get_type  (void);
-MeetingPage *meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm);
-MeetingPage *meeting_page_new       (EMeetingModel *emm);
-CalComponent *meeting_page_get_cancel_comp (MeetingPage *mpage);
+GtkType       meeting_page_get_type          (void);
+MeetingPage  *meeting_page_construct         (MeetingPage   *mpage,
+					      EMeetingModel *emm);
+MeetingPage  *meeting_page_new               (EMeetingModel *emm);
+CalComponent *meeting_page_get_cancel_comp   (MeetingPage   *mpage);
 
 
 

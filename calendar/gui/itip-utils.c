@@ -78,10 +78,34 @@ error_dialog (gchar *str)
 	gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
 }
 
+static Bonobo_ConfigDatabase db = NULL;
+
+static ItipAddress *
+get_address (long num) 
+{
+	ItipAddress *a;
+	gchar *path;
+		
+	a = g_new0 (ItipAddress, 1);
+
+	/* get the identity info */
+	path = g_strdup_printf ("/Mail/Accounts/identity_name_%ld", num);
+	a->name = bonobo_config_get_string (db, path, NULL);
+	g_free (path);
+
+	path = g_strdup_printf ("/Mail/Accounts/identity_address_%ld", num);
+	a->address = bonobo_config_get_string (db, path, NULL);
+	g_free (path);
+
+	a->full = g_strdup_printf ("%s <%s>", a->name, a->address);
+
+	return a;
+}
+
 GList *
 itip_addresses_get (void)
 {
-	static Bonobo_ConfigDatabase db = NULL;
+
 	CORBA_Environment ev;
 	GList *addresses = NULL;
 	glong len, def, i;
@@ -106,27 +130,53 @@ itip_addresses_get (void)
 
 	for (i = 0; i < len; i++) {
 		ItipAddress *a;
-		gchar *path;
-		
-		a = g_new0 (ItipAddress, 1);
 
-		/* get the identity info */
-		path = g_strdup_printf ("/Mail/Accounts/identity_name_%ld", i);
-		a->name = bonobo_config_get_string (db, path, NULL);
-		g_free (path);
-
-		path = g_strdup_printf ("/Mail/Accounts/identity_address_%ld", i);
-		a->address = bonobo_config_get_string (db, path, NULL);
-		g_free (path);
-
+		a = get_address (i);
 		if (i == def)
 			a->default_address = TRUE;
 
-		a->full = g_strdup_printf ("%s <%s>", a->name, a->address);
 		addresses = g_list_append (addresses, a);
 	}
 
 	return addresses;
+}
+
+ItipAddress *
+itip_addresses_get_default (void)
+{
+	CORBA_Environment ev;
+	ItipAddress *a;
+	glong def;
+
+	if (db == NULL) {
+		CORBA_exception_init (&ev);
+ 
+		db = bonobo_get_object ("wombat:", 
+					"Bonobo/ConfigDatabase", 
+					&ev);
+	
+		if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+			CORBA_exception_free (&ev);
+			return NULL;
+		}
+		
+		CORBA_exception_free (&ev);
+	}
+
+	def = bonobo_config_get_long_with_default (db, "/Mail/Accounts/default_account", 0, NULL);
+	a = get_address (def);
+	a->default_address = TRUE;
+
+	return a;
+}
+
+void
+itip_address_free (ItipAddress *address) 
+{
+	g_free (address->name);
+	g_free (address->address);
+	g_free (address->full);
+	g_free (address);
 }
 
 void
@@ -136,11 +186,7 @@ itip_addresses_free (GList *addresses)
 	
 	for (l = addresses; l != NULL; l = l->next) {
 		ItipAddress *a = l->data;
-
-		g_free (a->name);
-		g_free (a->address);
-		g_free (a->full);
-		g_free (a);
+		itip_address_free (a);
 	}
 	g_list_free (addresses);
 }
@@ -189,33 +235,6 @@ typedef struct {
 	icalcomponent *icomp;	
 } ItipUtilTZData;
 
-static void
-foreach_tzid_callback (icalparameter *param, gpointer data)
-{
-	ItipUtilTZData *tz_data = data;	
-	const char *tzid;
-	icaltimezone *zone;
-	icalcomponent *vtimezone_comp;
-
-	/* Get the TZID string from the parameter. */
-	tzid = icalparameter_get_tzid (param);
-	if (!tzid || g_hash_table_lookup (tz_data->tzids, tzid))
-		return;
-
-	/* Check if it is a builtin timezone. If it isn't, return. */
-	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
-	if (!zone)
-		return;
-
-	/* Convert it to a string and add it to the hash. */
-	vtimezone_comp = icaltimezone_get_component (zone);
-	if (!vtimezone_comp)
-		return;
-
-	icalcomponent_add_component (tz_data->icomp, icalcomponent_new_clone (vtimezone_comp));
-	g_hash_table_insert (tz_data->tzids, (char *)tzid, (char *)tzid);	
-}
-
 static GNOME_Evolution_Composer_RecipientList *
 comp_to_list (CalComponentItipMethod method, CalComponent *comp)
 {
@@ -230,6 +249,11 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp)
 	case CAL_COMPONENT_METHOD_CANCEL:
 		cal_component_get_attendee_list (comp, &attendees);
 		len = g_slist_length (attendees);
+		if (len <= 0) {
+			error_dialog (_("Atleast one attendee is necessary"));
+			cal_component_free_attendee_list (attendees);
+			return NULL;
+		}
 		
 		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 		to_list->_maximum = len;
@@ -246,6 +270,7 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp)
 				recipient->name = CORBA_string_dup ("");
 			recipient->address = CORBA_string_dup (itip_strip_mailto (att->value));
 		}
+		cal_component_free_attendee_list (attendees);
 		break;
 
 	case CAL_COMPONENT_METHOD_REPLY:
@@ -288,7 +313,6 @@ static CORBA_char *
 comp_subject (CalComponent *comp) 
 {
 	CalComponentText caltext;
-
 	cal_component_get_summary (comp, &caltext);
 	if (caltext.value != NULL)	
 		return CORBA_string_dup (caltext.value);
@@ -365,61 +389,295 @@ comp_description (CalComponent *comp)
 	}
 }
 
+static void
+foreach_tzid_callback (icalparameter *param, gpointer data)
+{
+	ItipUtilTZData *tz_data = data;	
+	const char *tzid;
+	icaltimezone *zone;
+	icalcomponent *vtimezone_comp;
+
+	/* Get the TZID string from the parameter. */
+	tzid = icalparameter_get_tzid (param);
+	if (!tzid || g_hash_table_lookup (tz_data->tzids, tzid))
+		return;
+
+	/* Check if it is a builtin timezone. If it isn't, return. */
+	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	if (!zone)
+		return;
+
+	/* Convert it to a string and add it to the hash. */
+	vtimezone_comp = icaltimezone_get_component (zone);
+	if (!vtimezone_comp)
+		return;
+
+	icalcomponent_add_component (tz_data->icomp, icalcomponent_new_clone (vtimezone_comp));
+	g_hash_table_insert (tz_data->tzids, (char *)tzid, (char *)tzid);	
+}
+
 static char *
 comp_string (CalComponentItipMethod method, CalComponent *comp)
 {
-	CalComponent *clone;		
-	icalcomponent *icomp, *iclone;
+	icalcomponent *top_level, *icomp;
 	icalproperty *prop;
 	icalvalue *value;
 	gchar *ical_string;
 	ItipUtilTZData tz_data;
 		
-	icomp = cal_util_new_top_level ();
+	top_level = cal_util_new_top_level ();
 
 	prop = icalproperty_new (ICAL_METHOD_PROPERTY);
 	value = icalvalue_new_method (itip_methods_enum[method]);
 	icalproperty_set_value (prop, value);
-	icalcomponent_add_property (icomp, prop);
+	icalcomponent_add_property (top_level, prop);
 
-	/* Strip off attributes barred from appearing */
-	clone = cal_component_clone (comp);
-	switch (method) {
-	case CAL_COMPONENT_METHOD_PUBLISH:
-		cal_component_set_attendee_list (clone, NULL);
-		break;			
-	case CAL_COMPONENT_METHOD_REPLY:
-	case CAL_COMPONENT_METHOD_CANCEL:
-	case CAL_COMPONENT_METHOD_REFRESH:
-	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
-		cal_component_remove_all_alarms (clone);
-		break;
-	default:
-	}
-
-	iclone = cal_component_get_icalcomponent (clone);
+	icomp = cal_component_get_icalcomponent (comp);
 		
 	/* Add the timezones */
 	tz_data.tzids = g_hash_table_new (g_str_hash, g_str_equal);
-	tz_data.icomp = icomp;		
-	icalcomponent_foreach_tzid (iclone, foreach_tzid_callback, &tz_data);
+	tz_data.icomp = top_level;		
+	icalcomponent_foreach_tzid (icomp, foreach_tzid_callback, &tz_data);
 	g_hash_table_destroy (tz_data.tzids);
 
-	icalcomponent_add_component (icomp, iclone);
-	ical_string = icalcomponent_as_ical_string (icomp);
-	icalcomponent_remove_component (icomp, iclone);
+	icalcomponent_add_component (top_level, icomp);
+	ical_string = icalcomponent_as_ical_string (top_level);
+	icalcomponent_remove_component (top_level, icomp);
 	
-	icalcomponent_free (icomp);
-	gtk_object_unref (GTK_OBJECT (clone));	
+	icalcomponent_free (top_level);
 	
 	return ical_string;	
 }
 
+static gboolean
+comp_limit_attendees (CalComponent *comp) 
+{
+	icalcomponent *icomp;
+	GList *addresses;
+	icalproperty *prop;
+	gboolean found = FALSE, match = FALSE;
+	
+	icomp = cal_component_get_icalcomponent (comp);
+	addresses = itip_addresses_get ();	
+
+	for (prop = icalcomponent_get_first_property (icomp, ICAL_ATTENDEE_PROPERTY);
+	     prop != NULL;
+	     prop = icalcomponent_get_next_property (icomp, ICAL_ATTENDEE_PROPERTY))
+	{
+		icalvalue *value;
+		const char *attendee, *text;
+		GList *l;
+
+		/* If we've already found something, just erase the rest */
+		if (found) {
+			icalcomponent_remove_property (icomp, prop);
+			icalproperty_free (prop);
+			continue;
+		}
+		
+		value = icalproperty_get_value (prop);
+		if (!value)
+			continue;
+
+		attendee = icalvalue_get_string (value);
+
+		text = itip_strip_mailto (attendee);
+		for (l = addresses; l != NULL; l = l->next) {
+			ItipAddress *a = l->data;
+
+			if (strstr (text, a->address))
+				found = match = TRUE;
+		}
+		if (!match) {
+			icalcomponent_remove_property (icomp, prop);
+			icalproperty_free (prop);
+		}
+		match = FALSE;
+	}
+	itip_addresses_free (addresses);
+
+	return found;
+}
+
+static void
+comp_sentby (CalComponent *comp)
+{
+	CalComponentOrganizer organizer;
+	GList *addresses, *l;
+	const char *strip;
+	gboolean is_user = FALSE;
+	
+	cal_component_get_organizer (comp, &organizer);
+	if (!organizer.value) {
+		ItipAddress *a = itip_addresses_get_default ();
+
+		organizer.value = g_strdup_printf ("MAILTO:%s", a->address);
+		organizer.sentby = NULL;
+		organizer.cn = a->name;
+		organizer.language = NULL;
+		
+		cal_component_set_organizer (comp, &organizer);
+		g_free ((char *) organizer.value);
+		itip_address_free (a);
+		
+		return;
+	}
+	
+	strip = itip_strip_mailto (organizer.value);
+
+	addresses = itip_addresses_get ();
+	for (l = addresses; l != NULL; l = l->next) {
+		ItipAddress *a = l->data;
+		
+		if (!strcmp (a->address, strip)) {
+			is_user = TRUE;
+			break;
+		}
+	}
+	if (!is_user) {
+		ItipAddress *a = itip_addresses_get_default ();
+		
+		organizer.value = g_strdup (organizer.value);
+		organizer.sentby = g_strdup_printf ("MAILTO:%s", a->address);
+		organizer.cn = g_strdup (organizer.cn);
+		organizer.language = g_strdup (organizer.language);
+		
+		cal_component_set_organizer (comp, &organizer);
+
+		g_free ((char *)organizer.value);
+		g_free ((char *)organizer.sentby);
+		g_free ((char *)organizer.cn);
+		g_free ((char *)organizer.language);
+		itip_address_free (a);
+	}
+	
+	itip_addresses_free (addresses);
+}
+static CalComponent *
+comp_minimal (CalComponent *comp, gboolean attendee)
+{
+	CalComponent *clone;
+	icalcomponent *icomp;
+	icalproperty *prop;
+	CalComponentOrganizer organizer;
+	const char *uid;
+	GSList *comments;
+	struct icaltimetype itt;
+	CalComponentRange *recur_id;
+	
+	clone = cal_component_new ();
+	cal_component_set_new_vtype (clone, cal_component_get_vtype (comp));
+
+	if (attendee) {
+		GSList *attendees;
+		
+		cal_component_get_attendee_list (comp, &attendees);
+		cal_component_set_attendee_list (clone, attendees);
+
+		if (!comp_limit_attendees (clone)) {
+			error_dialog ("You are not an attendee!");
+			goto error;
+		}
+	}
+	
+	itt = icaltime_from_timet_with_zone (time (NULL), FALSE,
+					     icaltimezone_get_utc_timezone ());
+	cal_component_set_dtstamp (clone, &itt);
+
+	cal_component_get_organizer (comp, &organizer);
+	if (organizer.value == NULL)
+		goto error;
+	cal_component_set_organizer (clone, &organizer);
+
+	cal_component_get_uid (comp, &uid);
+	cal_component_set_uid (clone, uid);
+
+	cal_component_get_comment_list (comp, &comments);
+	if (g_slist_length (comments) <= 1) {
+		cal_component_set_comment_list (clone, comments);
+	} else {
+		GSList *l = comments;
+		
+		comments = g_slist_remove_link (comments, l);
+		cal_component_set_comment_list (clone, l);
+		cal_component_free_text_list (l);
+	}
+	cal_component_free_text_list (comments);
+	
+	cal_component_get_recurid (comp, &recur_id);
+	cal_component_set_recurid (clone, recur_id);
+	
+	icomp = cal_component_get_icalcomponent (comp);
+	for (prop = icalcomponent_get_first_property (icomp, ICAL_X_PROPERTY);
+	     prop != NULL;
+	     prop = icalcomponent_get_next_property (icomp, ICAL_X_PROPERTY))
+	{
+		icalproperty *p;
+		
+		p = icalproperty_new_clone (prop);
+		icalcomponent_add_property (icomp, p);
+	}
+
+	cal_component_rescan (clone);
+	
+	return clone;
+
+ error:
+	gtk_object_unref (GTK_OBJECT (clone));
+	return NULL;
+}
+
+static CalComponent *
+comp_compliant (CalComponentItipMethod method, CalComponent *comp)
+{
+	CalComponent *clone, *temp_clone;
+	
+	clone = cal_component_clone (comp);
+
+	/* We delete incoming alarms anyhow, and this helps with outlook */
+	cal_component_remove_all_alarms (clone);
+
+	/* Comply with itip spec */
+	switch (method) {
+	case CAL_COMPONENT_METHOD_PUBLISH:
+		comp_sentby (clone);
+		cal_component_set_attendee_list (clone, NULL);
+		break;
+	case CAL_COMPONENT_METHOD_REQUEST:
+		comp_sentby (clone);
+		break;
+	case CAL_COMPONENT_METHOD_CANCEL:
+		comp_sentby (clone);
+		break;	
+	case CAL_COMPONENT_METHOD_REPLY:
+		break;
+	case CAL_COMPONENT_METHOD_ADD:
+		break;
+	case CAL_COMPONENT_METHOD_REFRESH:
+		/* Need to remove almost everything */
+		temp_clone = comp_minimal (clone, TRUE);
+		gtk_object_unref (GTK_OBJECT (clone));
+		clone = temp_clone;
+		break;
+	case CAL_COMPONENT_METHOD_COUNTER:
+		break;
+	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
+		/* Need to remove almost everything */
+		temp_clone = comp_minimal (clone, FALSE);
+		clone = temp_clone;
+		break;
+	default:
+	}
+
+	return clone;
+}
+
 void
-itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
+itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp)
 {
 	BonoboObjectClient *bonobo_server;
 	GNOME_Evolution_Composer composer_server;
+	CalComponent *comp = NULL;
 	GNOME_Evolution_Composer_RecipientList *to_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *cc_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *bcc_list = NULL;
@@ -437,6 +695,10 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 	g_return_if_fail (bonobo_server != NULL);
 	composer_server = BONOBO_OBJREF (bonobo_server);
 
+	comp = comp_compliant (method, send_comp);
+	if (comp == NULL)
+		goto cleanup;
+	
 	to_list = comp_to_list (method, comp);
 	if (to_list == NULL)
 		goto cleanup;
@@ -492,6 +754,9 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
  cleanup:
 	CORBA_exception_free (&ev);
 
+	if (comp != NULL)
+		gtk_object_unref (GTK_OBJECT (comp));
+		
 	if (to_list != NULL)
 		CORBA_free (to_list);
 	if (cc_list != NULL)

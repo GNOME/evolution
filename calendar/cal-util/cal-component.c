@@ -262,7 +262,7 @@ free_alarm_cb (gpointer key, gpointer value, gpointer data)
  * does, it means we don't own it and we shouldn't free it.
  */
 static void
-free_icalcomponent (CalComponent *comp)
+free_icalcomponent (CalComponent *comp, gboolean free)
 {
 	CalComponentPrivate *priv;
 
@@ -273,11 +273,11 @@ free_icalcomponent (CalComponent *comp)
 
 	/* Free the icalcomponent */
 
-	if (icalcomponent_get_parent (priv->icalcomp) == NULL)
+	if (free && icalcomponent_get_parent (priv->icalcomp) == NULL) {
 		icalcomponent_free (priv->icalcomp);
-
-	priv->icalcomp = NULL;
-
+		priv->icalcomp = NULL;
+	}
+	
 	/* Free the mappings */
 
 	priv->uid = NULL;
@@ -350,7 +350,7 @@ cal_component_destroy (GtkObject *object)
 	comp = CAL_COMPONENT (object);
 	priv = comp->priv;
 
-	free_icalcomponent (comp);
+	free_icalcomponent (comp, TRUE);
 	g_hash_table_destroy (priv->alarm_uid_hash);
 	priv->alarm_uid_hash = NULL;
 
@@ -919,7 +919,7 @@ cal_component_set_new_vtype (CalComponent *comp, CalComponentVType type)
 
 	priv = comp->priv;
 
-	free_icalcomponent (comp);
+	free_icalcomponent (comp, TRUE);
 
 	if (type == CAL_COMPONENT_NO_TYPE)
 		return;
@@ -997,7 +997,7 @@ cal_component_set_icalcomponent (CalComponent *comp, icalcomponent *icalcomp)
 	if (priv->icalcomp == icalcomp)
 		return TRUE;
 
-	free_icalcomponent (comp);
+	free_icalcomponent (comp, TRUE);
 
 	if (!icalcomp) {
 		priv->icalcomp = NULL;
@@ -1043,6 +1043,25 @@ cal_component_get_icalcomponent (CalComponent *comp)
 	g_return_val_if_fail (priv->need_sequence_inc == FALSE, NULL);
 
 	return priv->icalcomp;
+}
+
+void
+cal_component_rescan (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+
+	/* Clear everything out */
+	free_icalcomponent (comp, FALSE);
+	g_hash_table_destroy (priv->alarm_uid_hash);
+	priv->alarm_uid_hash = NULL;
+
+	scan_icalcomponent (comp);
+	ensure_mandatory_properties (comp);
 }
 
 /**
@@ -3747,6 +3766,22 @@ cal_component_set_attendee_list (CalComponent *comp, GSList *attendee_list)
 	g_return_if_fail (priv->icalcomp != NULL);
 
 	set_attendee_list (comp, &priv->attendee_list, attendee_list);
+}
+
+gboolean
+cal_component_has_attendees (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+
+	g_return_val_if_fail (comp != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
+
+	priv = comp->priv;
+
+	if (g_slist_length (priv->attendee_list) > 0)
+		return TRUE;
+	
+	return FALSE;
 }
 
 

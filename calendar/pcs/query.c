@@ -28,6 +28,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtksignal.h>
+#include <bonobo/bonobo-exception.h>
 #include <gal/widgets/e-unicode.h>
 #include <e-util/e-sexp.h>
 #include <cal-util/cal-recur.h>
@@ -163,7 +164,7 @@ query_destroy (GtkObject *object)
 		CORBA_exception_init (&ev);
 		bonobo_object_release_unref (priv->ql, &ev);
 
-		if (ev._major != CORBA_NO_EXCEPTION)
+		if (BONOBO_EX (&ev))
 			g_message ("query_destroy(): Could not unref the listener\n");
 
 		CORBA_exception_free (&ev);
@@ -930,7 +931,7 @@ add_component (Query *query, const char *uid, gboolean query_in_progress, int n_
 		total,
 		&ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev))
 		g_message ("add_component(): Could not notify the listener of an "
 			   "updated component");
 
@@ -963,7 +964,7 @@ remove_component (Query *query, const char *uid)
 		(char *) uid,
 		&ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev))
 		g_message ("remove_component(): Could not notify the listener of a "
 			   "removed component");
 
@@ -1081,7 +1082,7 @@ ensure_sexp (Query *query)
 			error_str,
 			&ev);
 
-		if (ev._major != CORBA_NO_EXCEPTION)
+		if (BONOBO_EX (&ev))
 			g_message ("ensure_sexp(): Could not notify the listener of "
 				   "a parse error");
 
@@ -1140,7 +1141,7 @@ match_component (Query *query, const char *uid,
 			error_str,
 			&ev);
 
-		if (ev._major != CORBA_NO_EXCEPTION)
+		if (BONOBO_EX (&ev))
 			g_message ("match_component(): Could not notify the listener of "
 				   "an evaluation error");
 
@@ -1155,7 +1156,7 @@ match_component (Query *query, const char *uid,
 			_("Evaluation of the search expression did not yield a boolean value"),
 			&ev);
 
-		if (ev._major != CORBA_NO_EXCEPTION)
+		if (BONOBO_EX (&ev))
 			g_message ("match_component(): Could not notify the listener of "
 				   "an unexpected result value type when evaluating the "
 				   "search expression");
@@ -1202,7 +1203,7 @@ process_component_cb (gpointer data)
 			"",
 			&ev);
 
-		if (ev._major != CORBA_NO_EXCEPTION)
+		if (BONOBO_EX (&ev))
 			g_message ("process_component_cb(): Could not notify the listener of "
 				   "a finished query");
 
@@ -1371,7 +1372,7 @@ query_construct (Query *query,
 
 	CORBA_exception_init (&ev);
 	priv->ql = CORBA_Object_duplicate (ql, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("query_construct(): Could not duplicate the listener");
 		priv->ql = CORBA_OBJECT_NIL;
 		CORBA_exception_free (&ev);

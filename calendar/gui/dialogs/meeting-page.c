@@ -382,15 +382,21 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 	if (organizer.value != NULL) {
 		const gchar *strip = itip_strip_mailto (organizer.value);
-		gchar *s = e_utf8_to_gtk_string (priv->existing_organizer, strip);
+		gchar *s, *string;
 
 		gtk_widget_hide (priv->organizer_table);
 		gtk_widget_show (priv->existing_organizer_table);
 		gtk_widget_hide (priv->invite);
 		
+		if (organizer.cn != NULL)
+			string = g_strdup_printf ("%s <%s>", organizer.cn, strip);
+		else
+			string = g_strdup (strip);
+		s = e_utf8_to_gtk_string (priv->existing_organizer, string);
 		gtk_label_set_text (GTK_LABEL (priv->existing_organizer), s);
 		g_free (s);
-		
+		g_free (string);
+
 		priv->existing = TRUE;
 	} else {
 		gtk_widget_hide (priv->other_organizer_lbl);
@@ -655,10 +661,11 @@ other_clicked_cb (GtkWidget *widget, gpointer data)
 	mpage = MEETING_PAGE (data);
 	priv = mpage->priv;
 
+	gtk_widget_hide (priv->organizer_lbl);
+	gtk_widget_hide (priv->organizer);
+	gtk_widget_hide (priv->other_organizer_btn);
 	gtk_widget_show (priv->other_organizer_lbl);
 	gtk_widget_show (priv->other_organizer);
-
-	gtk_label_set_text (GTK_LABEL (priv->organizer_lbl), _("Sent By:"));
 
 	priv->other = TRUE;
 }

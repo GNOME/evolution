@@ -857,15 +857,16 @@ static icalcomponent *
 get_next (icalcompiter *iter)
 {
 	icalcomponent *ret = NULL;
-	icalcomponent_kind kind = ICAL_NO_COMPONENT;
+	icalcomponent_kind kind;
 
-	while (kind != ICAL_VEVENT_COMPONENT
-	       && kind != ICAL_VTODO_COMPONENT
-	       && kind != ICAL_VFREEBUSY_COMPONENT) {
+	do {
 		icalcompiter_next (iter);
 		ret = icalcompiter_deref (iter);
 		kind = icalcomponent_isa (ret);
-	}
+	} while (ret != NULL 
+		 && kind != ICAL_VEVENT_COMPONENT
+		 && kind != ICAL_VTODO_COMPONENT
+		 && kind != ICAL_VFREEBUSY_COMPONENT);
 
 	return ret;
 }
@@ -989,6 +990,11 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 	    && kind != ICAL_VTODO_COMPONENT
 	    && kind != ICAL_VFREEBUSY_COMPONENT)
 		priv->ical_comp = get_next (&priv->iter);
+
+	if (priv->ical_comp == NULL) {
+		write_error_html (itip, _("The attachment has no viewable calendar items"));		
+		return;
+	}
 
 	priv->total = icalcomponent_count_components (priv->main_comp, ICAL_VEVENT_COMPONENT);
 	priv->total += icalcomponent_count_components (priv->main_comp, ICAL_VTODO_COMPONENT);
@@ -1130,6 +1136,7 @@ update_attendee_status (EItipControl *itip)
 				change_status (cal_component_get_icalcomponent (comp),
 					       itip_strip_mailto (a->value),
 					       partstat);
+				cal_component_rescan (comp);
 			} else {
 				dialog = gnome_warning_dialog (_("Attendee status could "
 								 "not be updated because "
@@ -1334,14 +1341,17 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 				break;
 			case 'A':
 				change_status (priv->ical_comp, priv->my_address, ICAL_PARTSTAT_ACCEPTED);
+				cal_component_rescan (priv->comp);
 				update_item (itip);
 				break;
 			case 'T':
 				change_status (priv->ical_comp, priv->my_address, ICAL_PARTSTAT_TENTATIVE);
+				cal_component_rescan (priv->comp);
 				update_item (itip);
 				break;
 			case 'D':
 				change_status (priv->ical_comp, priv->my_address, ICAL_PARTSTAT_DECLINED);
+				cal_component_rescan (priv->comp);
 				update_item (itip);
 				break;
 			case 'F':
@@ -1399,6 +1409,7 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 					icalproperty_free (prop);
 				}
 			}
+			cal_component_rescan (comp);
 			itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp);
 		} else {
 			GtkWidget *dialog;
