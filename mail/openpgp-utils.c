@@ -1013,7 +1013,7 @@ swrite (const char *data, int len)
 	char *template;
 	int fd;
 	
-	template = g_strdup ("/tmp/gmime-crypto-XXXXXX");
+	template = g_strdup ("/tmp/evolution-pgp.XXXXXX");
 	fd = mkstemp (template);
 	if (fd == -1) {
 		g_free (template);
@@ -1033,7 +1033,6 @@ openpgp_verify (const gchar *in, gint inlen, const gchar *sigin, gint siglen, Ca
 	char *cleartext = NULL;
 	char *diagnostics = NULL;
 	int passwd_fds[2];
-	char passwd_fd[32];
 	char *sigfile = NULL;
 	int retval, i, clearlen;
 	gboolean valid = TRUE;
@@ -1119,7 +1118,6 @@ openpgp_verify (const gchar *in, gint inlen, const gchar *sigin, gint siglen, Ca
 		g_free (sigfile);
 	}
 	
-	/* FIXME: maybe we should always set an exception? */
 	if (retval != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "%s", diagnostics);

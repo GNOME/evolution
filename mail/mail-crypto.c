@@ -259,9 +259,10 @@ pgp_mime_part_verify (CamelMimePart *mime_part, CamelException *ex)
 	CamelMimePart *part, *sigpart;
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *crlf_filter;
+	CamelStream *stream;
+	GByteArray *content, *signature;
 	gboolean valid = FALSE;
-	CamelStreamMem *sigstream, *cstream;
-
+	
 	g_return_val_if_fail (mime_part != NULL, FALSE);
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (mime_part), FALSE);
 	
@@ -273,25 +274,31 @@ pgp_mime_part_verify (CamelMimePart *mime_part, CamelException *ex)
 	
 	/* get the plain part */
 	part = camel_multipart_get_part (multipart, 0);
-	cstream = (CamelStreamMem *)camel_stream_mem_new ();
+	content = g_byte_array_new ();
+	stream = camel_stream_mem_new ();
+	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), content);
 	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE, CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
-	filtered_stream = camel_stream_filter_new_with_stream ((CamelStream *)cstream);
+	filtered_stream = camel_stream_filter_new_with_stream (stream);
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlf_filter));
 	camel_object_unref (CAMEL_OBJECT (crlf_filter));
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (part), CAMEL_STREAM (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
+	camel_object_unref (CAMEL_OBJECT (stream));
 	
 	/* get the signed part */
 	sigpart = camel_multipart_get_part (multipart, 1);
-	sigstream = (CamelStreamMem *)camel_stream_mem_new ();
-	camel_data_wrapper_write_to_stream (camel_medium_get_content_object (CAMEL_MEDIUM (sigpart)), (CamelStream *)sigstream);
+	signature = g_byte_array_new ();
+	stream = camel_stream_mem_new ();
+	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), signature);
+	camel_data_wrapper_write_to_stream (camel_medium_get_content_object (CAMEL_MEDIUM (sigpart)), stream);
+	camel_object_unref (CAMEL_OBJECT (stream));
 	
 	/* verify */
-	valid = openpgp_verify (cstream->buffer->data, cstream->buffer->len,
-				sigstream->buffer->data, sigstream->buffer->len, ex);
-
-	camel_object_unref (CAMEL_OBJECT (sigstream));
-	camel_object_unref (CAMEL_OBJECT (cstream));
+	valid = openpgp_verify (content->data, content->len,
+				signature->data, signature->len, ex);
+	
+	g_byte_array_free (content, TRUE);
+	g_byte_array_free (signature, TRUE);
 	
 	return valid;
 }
