@@ -88,15 +88,17 @@ static void
 message_tag_followup_class_init (MessageTagFollowUpClass *klass)
 {
 	GtkObjectClass *object_class;
+	MessageTagEditorClass *editor_class;
 	
 	object_class = (GtkObjectClass *) klass;
+	editor_class = (MessageTagEditorClass *) klass;
 	parent_class = gtk_type_class (message_tag_editor_get_type ());
 	
 	object_class->finalize = message_tag_followup_finalise;
 	
-	parent_class->get_name = tag_get_name;
-	parent_class->get_value = tag_get_value;
-	parent_class->set_value = tag_set_value;
+	editor_class->get_name = tag_get_name;
+	editor_class->get_value = tag_get_value;
+	editor_class->set_value = tag_set_value;
 }
 
 static void
@@ -130,7 +132,7 @@ message_tag_followup_finalise (GtkObject *obj)
 
 
 static const char *
-tag_get_name  (MessageTagEditor *editor)
+tag_get_name (MessageTagEditor *editor)
 {
 	return "follow-up";
 }

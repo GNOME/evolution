@@ -63,6 +63,7 @@
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
 #include "folder-browser-ui.h"
+#include "message-tag-followup.h"
 
 #include "mail-local.h"
 #include "mail-config.h"
@@ -1433,7 +1434,8 @@ enum {
 	CAN_MARK_IMPORTANT         = 1<<8,
 	CAN_MARK_UNIMPORTANT       = 1<<9,
 	CAN_FLAG_FOR_FOLLOWUP      = 1<<10,
-	CAN_FLAG_COMPLETED         = 1<<11
+	CAN_FLAG_COMPLETED         = 1<<11,
+	CAN_CLEAR_FLAG             = 1<<12
 };
 
 #define MLIST_VFOLDER (3)
@@ -1473,7 +1475,7 @@ static EPopupMenu context_menu[] = {
 	
 	{ N_("Flag for Follow-up"),         NULL, GTK_SIGNAL_FUNC (flag_for_followup),       NULL, CAN_FLAG_FOR_FOLLOWUP },
 	{ N_("Flag Completed"),             NULL, GTK_SIGNAL_FUNC (flag_followup_completed), NULL, CAN_FLAG_COMPLETED },
-	{ N_("Clear Flag"),                 NULL, GTK_SIGNAL_FUNC (flag_followup_clear),     NULL, CAN_FLAG_COMPLETED },
+	{ N_("Clear Flag"),                 NULL, GTK_SIGNAL_FUNC (flag_followup_clear),     NULL, CAN_CLEAR_FLAG },
 	
 	/* separator here? */
 	
@@ -1522,9 +1524,16 @@ context_menu_position_func (GtkMenu *menu, gint *x, gint *y,
 }
 
 static gboolean
-followup_tag_complete (const char *tag)
+followup_tag_complete (const char *tag_value)
 {
-	return FALSE;
+	struct _FollowUpTag *tag;
+	gboolean ret;
+	
+	tag = message_tag_followup_decode (tag_value);
+	ret = tag->completed != (time_t) 0 ? TRUE : FALSE;
+	g_free (tag);
+	
+	return ret;
 }
 
 /* handle context menu over message-list */
@@ -1579,6 +1588,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		gboolean have_unimportant = FALSE;
 		gboolean have_flag_for_followup = FALSE;
 		gboolean have_flag_completed = FALSE;
+		gboolean have_flag_incomplete = FALSE;
 		gboolean have_unflagged = FALSE;
 		const char *tag;
 		
@@ -1606,6 +1616,8 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 				have_flag_for_followup = TRUE;
 				if (followup_tag_complete (tag))
 					have_flag_completed = TRUE;
+				else
+					have_flag_incomplete = TRUE;
 			} else
 				have_unflagged = TRUE;
 			
@@ -1630,39 +1642,43 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		if (!have_important)
 			enable_mask |= CAN_MARK_UNIMPORTANT;
 		
+		if (!have_flag_for_followup)
+			enable_mask |= CAN_CLEAR_FLAG;
 		if (!have_unflagged)
 			enable_mask |= CAN_FLAG_FOR_FOLLOWUP;
-		if (!(have_flag_for_followup && have_flag_completed))
+		if (!have_flag_incomplete)
 			enable_mask |= CAN_FLAG_COMPLETED;
 		
 		/*
 		 * Hide items that wont get used.
 		 */
-		if (!(have_unseen && have_seen)){
+		if (!(have_unseen && have_seen)) {
 			if (have_seen)
 				hide_mask |= CAN_MARK_READ;
 			else
 				hide_mask |= CAN_MARK_UNREAD;
 		}
 		
-		if (!(have_undeleted && have_deleted)){
+		if (!(have_undeleted && have_deleted)) {
 			if (have_deleted)
 				hide_mask |= CAN_DELETE;
 			else
 				hide_mask |= CAN_UNDELETE;
 		}
 		
-		if (!(have_important && have_unimportant)){
+		if (!(have_important && have_unimportant)) {
 			if (have_important)
 				hide_mask |= CAN_MARK_IMPORTANT;
 			else
 				hide_mask |= CAN_MARK_UNIMPORTANT;
 		}
 		
+		if (!have_flag_for_followup)
+			hide_mask |= CAN_CLEAR_FLAG;
 		if (!have_unflagged)
-			enable_mask |= CAN_FLAG_FOR_FOLLOWUP;
-		if (!(have_flag_for_followup && have_flag_completed))
-			enable_mask |= CAN_FLAG_COMPLETED;
+			hide_mask |= CAN_FLAG_FOR_FOLLOWUP;
+		if (!have_flag_incomplete)
+			hide_mask |= CAN_FLAG_COMPLETED;
 	}
 	
 	/* free uids */
