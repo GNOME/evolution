@@ -1,3 +1,8 @@
+2005-01-08  Not Zed  <NotZed@Ximian.com>
+
+	* e-url.c (e_url_shroud): dont' use '%.*s' for truncating string
+	output.
+
 2005-01-09  JP Rosevear  <jpr@novell.com>
 
 	* e-url.c (e_uri_new): fix parsing of query string

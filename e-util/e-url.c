@@ -56,7 +56,9 @@ e_url_shroud (const char *url)
 	}
 
 	if (first_colon && last_at && first_colon < last_at) {
-		shrouded = g_strdup_printf ("%.*s%s", first_colon - url, url, last_at);
+		shrouded = g_malloc(first_colon - url + strlen(last_at)+1);
+		memcpy(shrouded, url, first_colon-url);
+		strcpy(shrouded + (first_colon-url), last_at);
 	} else {
 		shrouded = g_strdup (url);
 	}
