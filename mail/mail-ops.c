@@ -1337,7 +1337,12 @@ get_store_get (struct _mail_msg *mm)
 {
 	struct _get_store_msg *m = (struct _get_store_msg *)mm;
 	
-	m->store = camel_session_get_store (session, m->uri, &mm->ex);
+	/*camel_session_get_store connects us, which we don't want to do on startup. */
+
+	m->store = camel_session_get_service (session, m->uri,
+					      CAMEL_PROVIDER_STORE,
+					      &mm->ex);
+
 }
 
 static void
@@ -2205,17 +2210,23 @@ static void set_offline_do(struct _mail_msg *mm)
 {
 	struct _set_offline_msg *m = (struct _set_offline_msg *)mm;
 
-	if (!CAMEL_IS_DISCO_STORE (m->store) ||
-	    !camel_disco_store_can_work_offline (CAMEL_DISCO_STORE (m->store))) {
-		if (m->offline) {
-			camel_service_disconnect (CAMEL_SERVICE (m->store),
-						  TRUE, &mm->ex);
+	if (CAMEL_IS_DISCO_STORE (m->store)) {
+		if (!m->offline) {
+			camel_disco_store_set_status (CAMEL_DISCO_STORE (m->store),
+						      CAMEL_DISCO_STORE_ONLINE,
+						      &mm->ex);
+			return;
+		} else if (camel_disco_store_can_work_offline (CAMEL_DISCO_STORE (m->store))) {
+			camel_disco_store_set_status (CAMEL_DISCO_STORE (m->store),
+						      CAMEL_DISCO_STORE_OFFLINE,
+						      &mm->ex);
+			return;
 		}
-	} else {
-		camel_disco_store_set_status (CAMEL_DISCO_STORE (m->store),
-					      m->offline ? CAMEL_DISCO_STORE_OFFLINE : CAMEL_DISCO_STORE_ONLINE,
-					      &mm->ex);
 	}
+
+	if (m->offline)
+		camel_service_disconnect (CAMEL_SERVICE (m->store),
+					  TRUE, &mm->ex);
 }
 
 static void set_offline_done(struct _mail_msg *mm)

@@ -1,3 +1,15 @@
+2002-07-23  Peter Williams  <peterw@ximian.com>
+
+	* mail-ops.c (get_store_get): Call camel_session_get_service
+	instead of camel_session_get_store, as _get_store calls
+	_get_service_connected which is not what we want to do on startup.
+	(set_offline_do): Rework the logic here. It was failing when
+	trying to go online with a disco store that couldn't work offline.
+
+	* mail-folder-cache.c (mail_note_store): If we're using an offline
+	(well, non-online) disco store that cannot work offline, don't get
+	the folderinfo as that will fail.
+
 2002-07-24  Radek Doulik  <rodo@ximian.com>
 
 	* mail-composer-prefs.c (sig_add): use

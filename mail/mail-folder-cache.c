@@ -36,6 +36,7 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-vee-store.h>
+#include <camel/camel-disco-store.h>
 #include <gal/util/e-unicode-i18n.h>
 
 #include "mail-mt.h"
@@ -761,12 +762,17 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 		camel_object_hook_event((CamelObject *)store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
 	}
 
-	ud = g_malloc(sizeof(*ud));
-	ud->done = done;
-	ud->data = data;
-	ud->id = mail_get_folderinfo(store, update_folders, ud);
 
-	e_dlist_addtail(&si->folderinfo_updates, (EDListNode *)ud);
+	if (!CAMEL_IS_DISCO_STORE (store) ||
+	    camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_ONLINE ||
+	    camel_disco_store_can_work_offline (CAMEL_DISCO_STORE (store))) {
+		ud = g_malloc(sizeof(*ud));
+		ud->done = done;
+		ud->data = data;
+		ud->id = mail_get_folderinfo(store, update_folders, ud);
+		
+		e_dlist_addtail(&si->folderinfo_updates, (EDListNode *)ud);
+	}
 
 	UNLOCK(info_lock);
 }
