@@ -3,6 +3,8 @@
 	* e-time-utils.c (e_time_parse_date): if the year was two digits,
 	add the current century
 
+	Fixes # 17252
+	
 2002-08-16  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-config-listener.[ch]: new class for config database access and
