@@ -54,7 +54,11 @@ extern "C" {
 struct _EMsgComposer {
 	BonoboWindow parent;
 	
+	/* Main UIComponent */
 	BonoboUIComponent *uic;
+
+	/* UIComponent for the non-control GtkEntries */
+	BonoboUIComponent *entry_uic;
 	
 	GtkWidget *hdrs;
 	GPtrArray *extra_hdr_names, *extra_hdr_values;

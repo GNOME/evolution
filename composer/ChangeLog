@@ -1,3 +1,20 @@
+2003-09-11  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-msg-composer.h (EMsgComposer): Added an entry_uic field for a
+	BonoboUIComponent for the non-control entries (e.g. the Subject
+	line).
+
+	* e-msg-composer.c (create_composer): Set autoactivate to true on
+	the HTML control's BonoboControlFrame.
+	(setup_ui): Create the composer->entry_uic.
+	(destroy): Free the composer->entry_uic.
+	(entry_verbs): New array of verbs for the non-control entries.
+	Moved the Edit* verbs to here, as they should not be part of the
+	main set.
+	(composer_entry_focus_in_event_cb): Load
+	evolution-composer-entries.xml here for the non-control entries' UI.
+	(composer_entry_focus_out_event_cb): Remove the menu items.
+
 2003-08-22  Antonio Xu  <antonio.xu@sun.com>
 
 	* e-msg-composer-attachment.c (): Connect response signal to

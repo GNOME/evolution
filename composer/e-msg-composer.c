@@ -1956,11 +1956,6 @@ static BonoboUIVerb verbs [] = {
 	
 	BONOBO_UI_VERB ("FileSend", menu_file_send_cb),
 	
-	BONOBO_UI_VERB ("EditCut", menu_edit_cut_cb),
-	BONOBO_UI_VERB ("EditCopy", menu_edit_copy_cb),
-	BONOBO_UI_VERB ("EditPaste", menu_edit_paste_cb),
-	BONOBO_UI_VERB ("SelectAll", menu_edit_select_all_cb),
-	
 	BONOBO_UI_VERB ("DeleteAll", menu_edit_delete_all_cb),
 	
 	BONOBO_UI_VERB_END
@@ -2223,6 +2218,10 @@ setup_ui (EMsgComposer *composer)
 	mail_config_signature_register_client ((MailConfigSignatureClient) sig_event_client, composer);
 	
 	bonobo_ui_component_thaw (composer->uic, NULL);
+
+	/* Create the UIComponent for the non-control entries */
+
+	composer->entry_uic = bonobo_ui_component_new_default ();
 }
 
 
@@ -2463,6 +2462,11 @@ destroy (GtkObject *object)
 	if (composer->uic) {
 		bonobo_object_unref (BONOBO_OBJECT (composer->uic));
 		composer->uic = NULL;
+	}
+
+	if (composer->entry_uic) {
+		bonobo_object_unref (BONOBO_OBJECT (composer->entry_uic));
+		composer->entry_uic = NULL;
 	}
 	
 	/* FIXME?  I assume the Bonobo widget will get destroyed
@@ -2850,15 +2854,36 @@ composer_key_pressed (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	return FALSE; /* Not handled. */
 }
 
+/* Verbs for non-control entries */
+static BonoboUIVerb entry_verbs [] = {
+	BONOBO_UI_VERB ("EditCut", menu_edit_cut_cb),
+	BONOBO_UI_VERB ("EditCopy", menu_edit_copy_cb),
+	BONOBO_UI_VERB ("EditPaste", menu_edit_paste_cb),
+	BONOBO_UI_VERB ("EditSelectAll", menu_edit_select_all_cb),
+	BONOBO_UI_VERB_END
+};
 
 /* All this snot is so that Cut/Copy/Paste work. */
 static gboolean
 composer_entry_focus_in_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer user_data)
 {
 	EMsgComposer *composer = user_data;
-	
+	BonoboUIContainer *container;
+
 	composer->focused_entry = widget;
-	bonobo_ui_component_add_verb_list_with_data (composer->uic, verbs, composer);
+
+	container = bonobo_window_get_ui_container (BONOBO_WINDOW (composer));
+	bonobo_ui_component_set_container (composer->entry_uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)), NULL);
+
+	bonobo_ui_component_add_verb_list_with_data (composer->entry_uic, entry_verbs, composer);
+
+	bonobo_ui_component_freeze (composer->entry_uic, NULL);
+
+	bonobo_ui_util_set_ui (composer->entry_uic, PREFIX,
+			       EVOLUTION_UIDIR "/evolution-composer-entries.xml",
+			       "evolution-composer-entries", NULL);
+	
+	bonobo_ui_component_thaw (composer->entry_uic, NULL);
 	
 	return FALSE;
 }
@@ -2870,6 +2895,8 @@ composer_entry_focus_out_event_cb (GtkWidget *widget, GdkEventFocus *event, gpoi
 	
 	g_assert (composer->focused_entry == widget);
 	composer->focused_entry = NULL;
+
+	bonobo_ui_component_unset_container (composer->entry_uic, NULL);
 	
 	return FALSE;
 }
@@ -2883,12 +2910,12 @@ setup_cut_copy_paste (EMsgComposer *composer)
 	hdrs = (EMsgComposerHdrs *) composer->hdrs;
 	
 	entry = e_msg_composer_hdrs_get_subject_entry (hdrs);
-	g_signal_connect (entry, "focus-in-event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
-	g_signal_connect (entry, "focus-out-event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
+	g_signal_connect (entry, "focus_in_event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
+	g_signal_connect (entry, "focus_out_event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
 	
 	entry = e_msg_composer_hdrs_get_reply_to_entry (hdrs);
-	g_signal_connect (entry, "focus-in-event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
-	g_signal_connect (entry, "focus-out-event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
+	g_signal_connect (entry, "focus_in_event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
+	g_signal_connect (entry, "focus_out_event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
 }
 
 static void
@@ -2922,6 +2949,7 @@ create_composer (int visible_mask)
 	CORBA_Environment ev;
 	GConfClient *gconf;
 	int vis;
+	BonoboControlFrame *control_frame;
 	
 	composer = g_object_new (E_TYPE_MSG_COMPOSER, "win_name", _("Compose a message"), NULL);
 	gtk_window_set_title ((GtkWindow *) composer, _("Compose a message"));
@@ -2992,6 +3020,9 @@ create_composer (int visible_mask)
 		gtk_object_destroy (GTK_OBJECT (composer));
 		return NULL;
 	}
+
+	control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (composer->editor));
+	bonobo_control_frame_set_autoactivate (control_frame, TRUE);
 	
 	/* let the editor know which mode we are in */
 	bonobo_widget_set_property (BONOBO_WIDGET (composer->editor), 
