@@ -1,3 +1,15 @@
+2001-10-17  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_upgrade_db):
+	add upgrade from 0.1 to 0.2, where we make sure id dbt's match
+	vcard id's, fixes longstanding bug (#7406) where cards were not
+	modifiable or removable after having been created during a 1-2
+	week long window in early betas.
+	(PAS_BACKEND_FILE_VERSION): change to 0.2
+	(PAS_ID_PREFIX): #define this here.
+	(pas_backend_file_create_unique_id): use PAS_ID_PREFIX instead of
+	the string.
+
 2001-10-16  Iain Holmes  <iain@ximian.com>
 
 	* backend/ebook/evolution-ldif-importer.c (support_format_fn): Return

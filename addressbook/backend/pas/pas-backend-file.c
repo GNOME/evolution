@@ -40,7 +40,9 @@
 #include "pas-backend-card-sexp.h"
 
 #define PAS_BACKEND_FILE_VERSION_NAME "PAS-DB-VERSION"
-#define PAS_BACKEND_FILE_VERSION "0.1"
+#define PAS_BACKEND_FILE_VERSION "0.2"
+
+#define PAS_ID_PREFIX "pas-id-"
 
 static PASBackendClass *pas_backend_file_parent_class;
 typedef struct _PASBackendFileCursorPrivate PASBackendFileCursorPrivate;
@@ -217,7 +219,7 @@ pas_backend_file_create_unique_id (char *vcard)
 	   it's doubtful 2^32 id's will be created in a second, so we
 	   should be okay. */
 	static guint c = 0;
-	return g_strdup_printf ("pas-id-%08lX%08X", time(NULL), c++);
+	return g_strdup_printf (PAS_ID_PREFIX "%08lX%08X", time(NULL), c++);
 }
 
 static gboolean
@@ -578,17 +580,7 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 	char          *vcard_string;
 	const char    *id;
 
-	/* This is disgusting, but for a time cards were added with
-           ID's that are no longer used (they contained both the uri
-           and the id.) If we recognize it as a uri (file:///...) trim
-           off everything before the last '/', and use that as the
-           id.*/
-	if (!strncmp (req->id, "file:///", strlen ("file:///"))) {
-		id = strrchr (req->id, '/') + 1;
-	}
-	else
-		id = req->id;
-
+	id = req->id;
 	string_to_dbt (id, &id_dbt);
 	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
 
@@ -1099,29 +1091,100 @@ pas_backend_file_book_destroy_cb (PASBook *book, gpointer data)
 	pas_backend_remove_client (PAS_BACKEND (backend), book);
 }
 
+/*
+** versions:
+**
+** 0.0 just a list of cards
+**
+** 0.1 same as 0.0, but with the version tag
+**
+** 0.2 not a real format upgrade, just a hack to fix broken ids caused
+**     by a bug in early betas, but we only need to convert them if
+**     the previous version is 0.1, since the bug existed after 0.1
+**     came about.
+*/
 static gboolean
 pas_backend_file_upgrade_db (PASBackendFile *bf, char *old_version)
 {
-	if (!strcmp (old_version, "0.0")) {
-		/* 0.0 is the same as 0.1, we just need to add the version */
-		DB  *db = bf->priv->file_db;
-		DBT version_name_dbt, version_dbt;
-		int db_error;
-
-		string_to_dbt (PAS_BACKEND_FILE_VERSION_NAME, &version_name_dbt);
-		string_to_dbt (PAS_BACKEND_FILE_VERSION, &version_dbt);
-
-		db_error = db->put (db, NULL, &version_name_dbt, &version_dbt, 0);
-		if (db_error == 0)
-			return TRUE;
-		else
-			return FALSE;
-	}
-	else {
+	DB  *db = bf->priv->file_db;
+	int db_error;
+	DBT version_name_dbt, version_dbt;
+	
+	if (strcmp (old_version, "0.0")
+	    && strcmp (old_version, "0.1")) {
 		g_warning ("unsupported version '%s' found in PAS backend file\n",
 			   old_version);
 		return FALSE;
 	}
+
+	if (!strcmp (old_version, "0.1")) {
+		/* we just loop through all the cards in the db,
+                   giving them valid ids if they don't have them */
+		DBT  id_dbt, vcard_dbt;
+		DBC *dbc;
+		int  card_failed = 0;
+
+		db_error = db->cursor (db, NULL, &dbc, 0);
+		if (db_error != 0) {
+			g_warning ("unable to get cursor");
+			return FALSE;
+		}
+
+		memset (&id_dbt, 0, sizeof (id_dbt));
+		memset (&vcard_dbt, 0, sizeof (vcard_dbt));
+
+		db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_FIRST);
+
+		while (db_error == 0) {
+			if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME) + 1
+			    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
+				ECard *card;
+
+				card = e_card_new (vcard_dbt.data);
+
+				/* the cards we're looking for are
+				   created with a normal id dbt, but
+				   with the id field in the vcard set
+				   to something that doesn't match.
+				   so, we need to modify the card to
+				   have the same id as the the dbt. */
+				if (strcmp (id_dbt.data, e_card_get_id (card))) {
+					char *vcard;
+
+					e_card_set_id (card, id_dbt.data);
+
+					vcard = e_card_get_vcard (card);
+					string_to_dbt (vcard, &vcard_dbt);
+
+					db_error = db->put (db, NULL,
+							    &id_dbt, &vcard_dbt, 0);
+
+					g_free (vcard);
+
+					if (db_error != 0)
+						card_failed++;
+				}
+
+				gtk_object_unref (GTK_OBJECT(card));
+			}
+
+			db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_NEXT);
+		}
+
+		if (card_failed) {
+			g_warning ("failed to update %d cards\n", card_failed);
+			return FALSE;
+		}
+	}
+
+	string_to_dbt (PAS_BACKEND_FILE_VERSION_NAME, &version_name_dbt);
+	string_to_dbt (PAS_BACKEND_FILE_VERSION, &version_dbt);
+
+	db_error = db->put (db, NULL, &version_name_dbt, &version_dbt, 0);
+	if (db_error == 0)
+		return TRUE;
+	else
+		return FALSE;
 }
 
 static gboolean
