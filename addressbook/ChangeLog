@@ -1,3 +1,8 @@
+2002-09-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* backend/pas/Makefile.am (libpas_a_SOURCES): Add
+	$(CORBA_SOURCE_H) here.
+
 2002-09-05  Anna Dirks  <anna@ximian.com>
 	* gui/component/GNOME_Evolution_Addressbook.oaf.in : Changed the 
 	description of the Directory Servers page of the settings dialog 
