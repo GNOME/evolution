@@ -1,3 +1,11 @@
+2000-05-08  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* pcs/cal.h: Include "calendar/pcs/evolution-calendar.h" instead
+	of "evolution-calendar.h".
+
+	* pcs/cal-backend.h: Include "calendar/pcs/evolution-calendar.h"
+	instead of "evolution-calendar.h".
+
 2000-05-08  Seth Alves  <alves@hungry.com>
 
 	* gui/e-day-view.c (e_day_view_on_delete_appointment): call
