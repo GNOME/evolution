@@ -3562,12 +3562,12 @@ camel_header_decode_date(const char *in, int *saveoffset)
 		offset = (*inptr++)=='-'?-1:1;
 		offset = offset * camel_header_decode_int(&inptr);
 		d(printf("abs signed offset = %d\n", offset));
-		if (offset < -1200 || offset > 1200)
+		if (offset < -1200 || offset > 1400)
 			offset = 0;
 	} else if (isdigit(*inptr)) {
 		offset = camel_header_decode_int(&inptr);
 		d(printf("abs offset = %d\n", offset));
-		if (offset < -1200 || offset > 1200)
+		if (offset < -1200 || offset > 1400)
 			offset = 0;
 	} else {
 		char *tz = decode_token(&inptr);

@@ -1,3 +1,10 @@
+2003-10-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_decode_date): Allow timezone offsets
+	to be up to 14 hours ahead of UTC. Fixes bug #49357.
+
+	* broken-date-parser.c (get_tzone): Same.
+
 2003-10-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_helo): Removed an
