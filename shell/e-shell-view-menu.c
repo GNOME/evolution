@@ -424,8 +424,8 @@ menu_do_misc (BonoboUIComponent *component,
 }
 
 
-#define SHORTCUT_BAR_TOGGLE_PATH "/menu/View/ShortcutBar"
-#define FOLDER_BAR_TOGGLE_PATH "/menu/View/FolderBar"
+#define SHORTCUT_BAR_TOGGLE_PATH "/View/ShortcutBar"
+#define FOLDER_BAR_TOGGLE_PATH "/View/FolderBar"
 
 void
 e_shell_view_menu_setup (EShellView *shell_view)

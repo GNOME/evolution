@@ -1,5 +1,9 @@
 2000-09-14  Michael Meeks  <michael@helixcode.com>
 
+	* e-shell-view-menu.c: Remove sillies in toggle paths.
+
+2000-09-14  Michael Meeks  <michael@helixcode.com>
+
 	* e-shell-view.c: move fn to bonobo.
 
 2000-09-14  Christopher James Lahey  <clahey@helixcode.com>

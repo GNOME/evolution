@@ -158,11 +158,11 @@
 
 		<toolitem name="Print" verb="MessagePrint"
 		_label="Print" _descr="Print the selected message"
-		pixtype="pixbuf"/>
+		pixtype="stock" pixname="Print"/>
 
 		<toolitem name="Delete" verb="MessageDelete"
 		_label="Delete" _descr="Delete this message"
-		pixtype="pixbuf"/>
+		pixtype="stock" pixname="Trash"/>
 
 	</dockitem>
 </Root>
