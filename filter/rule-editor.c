@@ -25,8 +25,9 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
-
 #include <gal/widgets/e-unicode.h>
 #include <gal/util/e-unicode-i18n.h>
 #include "rule-editor.h"
@@ -230,6 +231,18 @@ add_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 			/* no need to popup a dialog because the validate code does that. */
 			return;
 		}
+
+		if (rule_context_find_rule(re->context, re->edit->name, re->edit->source)) {
+			GtkWidget *dialog;
+			char *what;
+
+			what = g_strdup_printf(_("Rule name '%s' is not unique, choose another"), re->edit->name);
+			dialog = gnome_ok_dialog (what);
+			g_free(what);
+			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+
+			return;
+		}
 		
 		gtk_object_ref (GTK_OBJECT (re->edit));
 		string = e_utf8_to_gtk_string (GTK_WIDGET (re->list), re->edit->name);
@@ -305,11 +318,25 @@ edit_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 	GtkWidget *item;
 	char *string;
 	int pos;
-	
+	struct _FilterRule *rule;
+
 	switch (button) {
 	case 0:
 		if (!filter_rule_validate (re->edit)) {
 			/* no need to popup a dialog because the validate code does that. */
+			return;
+		}
+
+		rule = rule_context_find_rule(re->context, re->edit->name, re->edit->source);
+		if (rule != NULL && rule != re->current) {
+			GtkWidget *dialog;
+			char *what;
+
+			what = g_strdup_printf(_("Rule name '%s' is not unique, choose another"), re->edit->name);
+			dialog = gnome_ok_dialog (what);
+			g_free(what);
+			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+
 			return;
 		}
 		
