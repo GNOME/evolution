@@ -735,7 +735,7 @@ msgstr "Фабрика для отображателя адреса из адресной книги"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:9
 msgid "Factory for the Addressbook's address popup"
-msgstr "Фабрика для всплыващего окна адреса из адресной книги"
+msgstr "Фабрика для всплывающего окна адреса из адресной книги"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:10
 msgid "Factory for the sample Addressbook control"
@@ -878,7 +878,7 @@ msgid ""
 "in a search. Contact your server administrator for more information."
 msgstr ""
 "Эта информация используется Вашим сервером LDAP для определения того, какие "
-"узлы используются в поиске. Свяжитесь с администраторм Вашего сервера для "
+"узлы используются в поиске. Свяжитесь с администратором Вашего сервера для "
 "получения дополнительной информации."
 
 #: addressbook/gui/component/addressbook-config.glade.h:24
@@ -887,7 +887,7 @@ msgid ""
 "server administrator for more information."
 msgstr ""
 "Это основной узел для произведения поиска на сервере LDAP. Свяжитесь с "
-"администраторм Вашего сервера для получения дополнительной информации."
+"администратором Вашего сервера для получения дополнительной информации."
 
 #: addressbook/gui/component/addressbook-config.glade.h:25
 msgid ""
@@ -1029,7 +1029,7 @@ msgstr ""
 "Эта версия Evolution не имеет встроенной поддержки LDAP.\n"
 "Если вы хотите использовать LDAP в Evolution, вы должны\n"
 "пересобрать программу из исходных текстов из CVS после\n"
-"установки OpenLDAP, который можно найти по пририведённой\n"
+"установки OpenLDAP, который можно найти по приведенной\n"
 "ниже ссылке.\n"
 
 #: addressbook/gui/component/addressbook.c:521
@@ -1527,7 +1527,7 @@ msgstr "Бурунди"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:164
 msgid "Cambodia"
-msgstr "Кажбоджа"
+msgstr "Камбоджа"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:165
 msgid "Cameroon"
@@ -1794,7 +1794,7 @@ msgstr "Гондурас"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:225
 #: my-evolution/Locations.h:946
 msgid "Hong Kong"
-msgstr "Гонгконг"
+msgstr "Гонконг"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:226
 #: my-evolution/Locations.h:966
@@ -1987,7 +1987,7 @@ msgstr "Монтсеррат"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:269
 #: my-evolution/Locations.h:1470
 msgid "Morocco"
-msgstr "Морокко"
+msgstr "Марокко"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:270
 msgid "Mozambique"
@@ -2255,7 +2255,7 @@ msgstr "Швеция"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:330
 #: my-evolution/Locations.h:2183
 msgid "Switzerland"
-msgstr "Щвейцария"
+msgstr "Швейцария"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:331
 #: my-evolution/Locations.h:2205
@@ -3287,7 +3287,7 @@ msgstr "Описание содержит"
 
 #: calendar/gui/cal-search-bar.c:58
 msgid "Comment contains"
-msgstr "Коментарий содержит"
+msgstr "Комментарий содержит"
 
 #: calendar/gui/cal-search-bar.c:416
 msgid "Unmatched"
@@ -5362,7 +5362,7 @@ msgstr "Африка/Хараре"
 
 #: calendar/zones.h:31
 msgid "Africa/Johannesburg"
-msgstr "Африка/Йоханесбург"
+msgstr "Африка/Йоханнесбург"
 
 #: calendar/zones.h:32
 msgid "Africa/Kampala"
@@ -5706,7 +5706,7 @@ msgstr ""
 
 #: calendar/zones.h:117
 msgid "America/Kentucky/Louisville"
-msgstr "Америка/Кентуки/Луисвиль"
+msgstr "Америка/Кентукки/Луисвиль"
 
 #: calendar/zones.h:118
 msgid "America/Kentucky/Monticello"
@@ -6090,7 +6090,7 @@ msgstr "Азия/Харбин"
 
 #: calendar/zones.h:213
 msgid "Asia/Hong_Kong"
-msgstr "Азия/Гонгконг"
+msgstr "Азия/Гонконг"
 
 #: calendar/zones.h:214
 msgid "Asia/Hovd"
@@ -6314,7 +6314,7 @@ msgstr "Атлантика/Мадера"
 
 #: calendar/zones.h:269
 msgid "Atlantic/Reykjavik"
-msgstr "Атлантика/Рейкъявик"
+msgstr "Атлантика/Рейкьявик"
 
 #: calendar/zones.h:270
 msgid "Atlantic/South_Georgia"
@@ -7344,7 +7344,7 @@ msgstr ""
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
-msgstr "Неизвестное состоиние идентификации."
+msgstr "Неизвестное состояние идентификации."
 
 #: camel/camel-sasl-plain.c:32 camel/providers/imap/camel-imap-provider.c:80
 #: camel/providers/nntp/camel-nntp-store.c:149
@@ -8962,7 +8962,7 @@ msgid ""
 "Unable to activate address selector control."
 msgstr ""
 "Не удалось создать окно редактора:\n"
-"Невозможно активировать упраляющий элемент выбора адреса."
+"Невозможно активировать управляющий элемент выбора адреса."
 
 #: composer/e-msg-composer.c:2374 composer/e-msg-composer.c:2429
 msgid ""
@@ -9523,7 +9523,7 @@ msgstr "только указанные папки"
 
 #: filter/filter.glade.h:12
 msgid "vFolder Sources"
-msgstr "Источники виртуалных папкок"
+msgstr "Источники виртуалных папок"
 
 #: filter/filter.glade.h:13
 msgid "with all active remote folders"
@@ -11034,7 +11034,7 @@ msgstr "Не удалось создать контекст S/MIME certonly"
 
 #: mail/mail-crypto.c:236
 msgid "Could not create a S/MIME encryption context."
-msgstr "Не удалось создать контекст нифрования S/MIME"
+msgstr "Не удалось создать контекст шифрования S/MIME"
 
 #: mail/mail-crypto.c:267
 msgid "Could not create a S/MIME envelope context."
@@ -11506,7 +11506,7 @@ msgstr "Настройка виртуальной папки: %s"
 #: mail/mail-vfolder.c:203
 #, c-format
 msgid "Updating vfolders for uri: %s"
-msgstr "Обновление виртульных папок для uri: %s"
+msgstr "Обновление виртуальных папок для uri: %s"
 
 #: mail/mail-vfolder.c:419
 #, c-format
@@ -11853,7 +11853,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:47
 msgid "Albuquerque"
-msgstr "Альбукерк"
+msgstr "Альбукерке"
 
 #: my-evolution/Locations.h:48
 msgid "Alderney"
@@ -14137,7 +14137,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:642
 msgid "Edinburgh"
-msgstr "Единбург"
+msgstr "Эдинбург"
 
 #: my-evolution/Locations.h:643
 msgid "Edmonton"
@@ -18402,7 +18402,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1749
 msgid "Pittsburgh"
-msgstr "Питсбург"
+msgstr "Питтсбург"
 
 #: my-evolution/Locations.h:1750
 msgid "Pittsburgh-West Mifflin"
@@ -18878,7 +18878,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1872
 msgid "Reykjavik"
-msgstr "Рейкъявик"
+msgstr "Рейкьявик"
 
 #: my-evolution/Locations.h:1873
 msgid "Reynosa"
@@ -21575,7 +21575,7 @@ msgstr "Подождите пожалуйста..."
 
 #: my-evolution/e-summary.c:566 ui/my-evolution.xml.h:3
 msgid "Print Summary"
-msgstr "Напеечатать Сводку"
+msgstr "Напечатать Сводку"
 
 #: my-evolution/e-summary.c:612
 msgid "Printing of Summary failed"
@@ -25295,7 +25295,7 @@ msgstr "Панель ярлыков"
 
 #: ui/my-evolution.xml.h:1
 msgid "Change the settings for the summary"
-msgstr "Изменить настрйки Сводки"
+msgstr "Изменить настройки Сводки"
 
 #: ui/my-evolution.xml.h:4
 msgid "Print summary"
@@ -25419,7 +25419,7 @@ msgstr "Центральноевропейская"
 
 #: widgets/misc/e-charset-picker.c:61
 msgid "Chinese"
-msgstr "Китайскаяй"
+msgstr "Китайская"
 
 #: widgets/misc/e-charset-picker.c:62
 msgid "Cyrillic"
