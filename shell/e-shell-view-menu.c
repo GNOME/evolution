@@ -73,6 +73,7 @@ const char *authors[] = {
 	"Iain Holmes",
 	"Tuomas Kuosmanen",
 	"Christopher J. Lahey",
+	"Jason Leach",
 	"Matthew Loper",
 	"Federico Mena",
 	"Eskil Heyn Olsen",

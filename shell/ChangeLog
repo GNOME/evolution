@@ -1,5 +1,7 @@
 2001-08-16  Jason Leach  <jleach@ximian.com>
 
+	* e-shell-view-menu.c (authors): Add myself.
+
 	* e-shell-view.c (folder_selected_cb): Desensitize the
 	move/copy/delete/rename in the menus (including right click) for
 	stock folders.
