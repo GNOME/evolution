@@ -397,12 +397,6 @@ ml_value_is_empty (ETableModel *etm, int col, const void *value, void *data)
 	}
 }
 
-static void
-ml_thaw (ETableModel *etm, void *data)
-{
-	e_table_model_changed (etm);
-}
-
 static struct {
 	char **image_base;
 	GdkPixbuf  *pixbuf;
@@ -625,7 +619,7 @@ message_list_init (GtkObject *object)
 		ml_set_value_at, ml_is_cell_editable,
 		ml_duplicate_value, ml_free_value,
 		ml_initialize_value, ml_value_is_empty,
-		ml_thaw, message_list);
+		message_list);
 
 	message_list_init_renderers (message_list);
 	message_list_init_header (message_list);
