@@ -1,5 +1,9 @@
 2001-02-15  Dan Winship  <danw@ximian.com>
 
+	* camel-folder-thread.c (container_parent_child): Deal with
+	out-of-order References headers so they don't cause messages to
+	disappear in threaded view.
+
 	* providers/imap/camel-imap-folder.c (fetch_medium): IMAP4
 	(pre-rev1) doesn't allow BODY.PEEK[], so use RFC822.PEEK instead
 	in that case.
