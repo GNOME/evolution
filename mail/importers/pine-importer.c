@@ -264,15 +264,15 @@ import_contacts(PineImporter *importer)
 	if (fp == NULL)
 		return;
 
+	primary = e_source_list_peek_source_any(source_list);
 	/* FIXME Better error handling */
-	if ((book = e_book_new()) == NULL) {
+	if ((book = e_book_new(primary,NULL)) == NULL) {
 		fclose(fp);
 		g_warning ("Could not create EBook.");
 		return;
 	}
 	
-	primary = e_source_list_peek_source_any(source_list);
-	e_book_load_source(book, primary, TRUE, NULL);
+	e_book_open(book, TRUE, NULL);
 	g_object_unref(primary);
 	g_object_unref(source_list);
 

@@ -1732,11 +1732,12 @@ em_utils_in_addressbook(CamelInternetAddress *iaddr)
 		GList *contacts;
 		EBook *book;
 
-		book = e_book_new();
-
 		printf(" checking '%s'\n", e_source_get_uri(source));
 
-		if (!e_book_load_source(book, source, TRUE, &err)) {
+		book = e_book_new(source, &err);
+
+		if (!book
+		    || !e_book_open(book, TRUE, &err)) {
 			printf("couldn't load source?\n");
 			g_clear_error(&err);
 			g_object_unref(book);
