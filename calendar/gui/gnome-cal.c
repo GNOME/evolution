@@ -409,7 +409,7 @@ calendar_notify (time_t time, CalendarAlarm *which, void *data)
 	guint tag;
 
 	if (&ico->aalarm == which){
-		time_t app = ico->dalarm.trigger + ico->dalarm.offset;
+		time_t app = ico->aalarm.trigger + ico->aalarm.offset;
 		GtkWidget *w;
 		char *msg;
 

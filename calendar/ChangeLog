@@ -1,3 +1,8 @@
+1999-10-19  Russell Steinthal  <rms39@columbia.edu>
+
+	* gnome-cal.c (calendar_notify): Fix typos which were causing
+	invalid times in audio notification dialogs; fixes Bug #2561
+
 1999-10-18  Russell Steinthal  <rms39@columbia.edu>
 
 	* gncal-day-panel.c (gncal_day_panel_new): Placed the various
