@@ -34,7 +34,7 @@
 
 #include "camel-mbox-folder.h"
 #include "camel-mbox-store.h"
-#include "gstring-util.h"
+#include "string-utils.h"
 #include "camel-log.h"
 #include "camel-stream-buffered-fs.h"
 #include "camel-folder-summary.h"
@@ -641,10 +641,13 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 	GList *file_list;
 	gchar *entry_name;
 	gchar *full_entry_name;
+	gchar *real_folder_name;
 	struct dirent *dir_entry;
 	DIR *dir_handle;
+	gboolean folder_suffix_found;
 	
 	gchar *io_error_text;
+	
 
 
 	/* check if the folder object exists */
@@ -697,8 +700,17 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 			if (entry_name[0] != '.') {
 				CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::list_subfolders adding "
 						      "%s\n", entry_name);
+
+				/* if the folder is a netscape folder, remove the 
+				   ".sdb" from the name */
+				real_folder_name = string_prefix (entry_name, ".sdb", &folder_suffix_found);
+				/* stick here the tests for other folder suffixes if any */
+				
+				if (!folder_suffix_found) real_folder_name = g_strdup (entry_name);
+				
+				/* add the folder name to the list */
 				subfolder_name_list = g_list_append (subfolder_name_list, 
-								     g_strdup (entry_name));
+								     real_folder_name);
 			}
 		}
 		/* read next entry */

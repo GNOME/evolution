@@ -253,23 +253,61 @@ string_trim (gchar *string, const gchar *trim_chars, StringTrimOption options)
 
 
 
+/**
+ * remove_suffix: remove a suffix from a string
+ * @s: the string to remove the suffix from. 
+ * @suffix: the suffix to remove
+ * @suffix_found : suffix found flag
+ *
+ * Remove a suffix from a string. If the 
+ * string ends with the full suffix, a copy 
+ * of the string without the suffix is returned and
+ * @suffix_found is set to %TRUE. 
+ * Otherwise, NULL is returned and
+ * @suffix_found is set to %FALSE. 
+ * 
+ * Return value: an allocated copy of the string without the suffix or NULL if the suffix was not found.
+ **/
 gchar *
-string_prefix (const gchar *s, const gchar *suffix)
+string_prefix (const gchar *s, const gchar *suffix, gboolean *suffix_found)
 {
 	guint s_len, suf_len;
 	guint suffix_pos;
+	char *result_string;
 
 	g_assert (s);
 	g_assert (suffix);
+	g_assert (suffix_found);
 
 	s_len = strlen (s);
 	suf_len = strlen (suffix);
 
-	if (s_len < suf_len)
-		return null;
-
+	/* if the string is shorter than the suffix, do nothing */
+	if (s_len < suf_len) {
+		*suffix_found = FALSE
+		return NULL;
+	}
+	
+	/* theoretical position of the prefix */
 	suffix_pos = s_len - suf_len;
 
-	if (!strncmp (s+suffix_pos, suffix, suf_len))
-		
+	/* compare the right hand side of the string with the suffix */
+	if (!strncmp (s+suffix_pos, suffix, suf_len)) {
+
+		/* if the suffix matches, check that there are 
+		   characters before */
+		if (suffix_pos == 0) {
+			result_string = NULL;
+			*suffix_found = TRUE;
+		} else { 
+			result_string = g_strndup (s, suffix_pos);
+			*suffix_found = TRUE;
+		}
+
+	} else { 
+		result_string = NULL;
+		*suffix_found = FALSE;
+	}
+
+	return result_string;
 }

@@ -1,4 +1,17 @@
-1999-12-26  Bertrand Guiheneuf  <guiheneu@localhost.localdomain>
+2000-01-03  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/providers/mbox/camel-mbox-folder.c (_list_subfolders): 
+	detects netscape ".sdb" folders as well as simple 
+	non-suffixed folders (as the ones used in pine).
+	
+
+	* camel/string-utils.c (string_prefix): 
+	finished implementation. 
+	(string_prefix): added a boolean flag to indicate if the 
+	suffix has been found. When the suffix does not match, 
+	return NULL.
+
+1999-12-26 bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-exception.c (camel_exception_setv): 
 	new function. Allow printf-like description
