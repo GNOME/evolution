@@ -1,3 +1,8 @@
+2001-01-10  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* POTFILES.in: Added all the new source files and removed the old
+	ones, yadda yadda.
+
 2001-01-09  Federico Mena Quintero  <federico@helixcode.com>
 
 	* POTFILES.in: Removed .oaf.in files until the whole of Evolution
