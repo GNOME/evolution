@@ -34,7 +34,6 @@
 
 	* C/fig/config-mail.png: changed filename from config-prefs.png
 
-	<<<<<<< ChangeLog
 2000-06-01  Aaron Weber  <aaron@helixcode.com>
 
 	* C/config-prefs.sgml: filename was wrong, altered.
@@ -59,7 +58,6 @@
 	* C/fig/filter-new-fig.png: same
 	* C/fig/config-camel.png: same
 
-=======
 2000-06-01  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am: recurse into the C directory
@@ -69,7 +67,6 @@
 	(http://www.gnome.org/gdp/) set up on your machine, but won't make
 	the build fail if you don't.
 
->>>>>>> 1.9
 2000-05-29  Aaron Weber  <aaron@helixcode.com>
 
 	* C/usage-contact.sgml: incorporated kevins notes.
@@ -208,8 +205,3 @@
 2000-02-25  Federico Mena Quintero  <federico@helixcode.com>
 
 	* calendar.sgml: New file for the Evolution calendaring white paper.
-
-
-
-
-	
