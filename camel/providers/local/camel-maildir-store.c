@@ -279,6 +279,33 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 	else
 		unread = 0;
 	CAMEL_STORE_UNLOCK(store, cache_lock);
+
+	/* if we dont have a folder, then scan the directory and get the unread
+	   count from there, which is reasonably cheap (on decent filesystem) */
+	/* Well we could get this from the summary, but this is more accurate */
+	if (folder == NULL) {
+		unread = 0;
+		dir = opendir(new);
+		if (dir) {
+			/* we assume that all files here are unread ones */
+			while ( (d = readdir(dir)) ) {
+				if (d->d_name[0] != '.')
+					unread++;
+			}
+			closedir(dir);
+		}
+		dir = opendir(cur);
+		if (dir) {
+			/* any files with flags but not the 'S' (seen) flag are unread */
+			while ( (d = readdir(dir)) ) {
+				char *p = strstr(d->d_name, ":2,");
+
+				if (p && strchr(p, 'S') == NULL)
+					unread++;
+			}
+			closedir(dir);
+		}
+	}
 	
 	fi = camel_folder_info_new(uri, path, base, unread);
 	
@@ -293,6 +320,8 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 	g_free(tmp);
 	g_free(cur);
 	g_free(new);
+
+	unread = 0;
 
 	/* always look further if asked */
 	if (((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) || parent == NULL)) {

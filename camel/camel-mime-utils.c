@@ -1194,7 +1194,7 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 			proclen = 0;
 			p = inptr;
 			i = 0;
-			while (p < (in+len) && convlen < (75 - strlen("=?utf-8?q??="))) {
+			while (p < (in+len) && convlen < (75 - strlen("=?utf-8?q\?\?="))) {
 				unsigned char c = *p++;
 
 				if (c >= 0xc0)
@@ -2313,12 +2313,21 @@ header_decode_mailbox(const char **in)
 				} else {
 					name = g_string_append_c(name, ' ');
 				}
+			} else {
+				/* Fix for stupidly-broken-mailers that like to put '.''s in names unquoted */
+				/* see bug #8147 */
+				if (*inptr && *inptr != '<') {
+					g_warning("Working around stupid mailer bug #5: unescaped characters in names");
+					name = g_string_append_c(name, *inptr++);
+					pre = header_decode_word(&inptr);
+				}
 			}
 			g_free(last);
 		}
 		header_decode_lwsp(&inptr);
 		if (*inptr == '<') {
 			closeme = TRUE;
+		try_address_again:
 			inptr++;
 			header_decode_lwsp(&inptr);
 			if (*inptr == '@') {
@@ -2375,6 +2384,14 @@ header_decode_mailbox(const char **in)
 		addr = g_string_append(addr, dom);
 		g_free(dom);
 	} else {
+		/* If we get a <, the address was probably a name part, lets try again shall we? */
+		/* Another fix for seriously-broken-mailers */
+		if (name == NULL && *inptr == '<') {
+			name = addr;
+			addr = g_string_new("");
+			closeme = TRUE;
+			goto try_address_again;
+		}
 		w(g_warning("invalid address, no '@' domain part at %c: %s", *inptr, *in));
 	}
 

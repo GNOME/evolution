@@ -658,6 +658,36 @@ camel_folder_summary_save(CamelFolderSummary *s)
 	return 0;
 }
 
+/**
+ * camel_folder_summary_header_load:
+ * @s: Summary object.
+ * 
+ * Only load the header information from the summary,
+ * keep the rest on disk.  This should only be done on
+ * a fresh summary object.
+ * 
+ * Return value: -1 on error.
+ **/
+int camel_folder_summary_header_load(CamelFolderSummary *s)
+{
+	FILE *in;
+	int ret;
+
+	g_assert(s->summary_path);
+
+	in = fopen(s->summary_path, "r");
+	if (in == NULL)
+		return -1;
+
+	CAMEL_SUMMARY_LOCK(s, io_lock);
+	ret = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->summary_header_load(s, in);
+	CAMEL_SUMMARY_UNLOCK(s, io_lock);
+	
+	fclose(in);
+	s->flags &= ~CAMEL_SUMMARY_DIRTY;
+	return ret;
+}
+
 static void
 summary_assign_uid(CamelFolderSummary *s, CamelMessageInfo *info)
 {

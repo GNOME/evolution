@@ -1,5 +1,19 @@
 2001-09-20    <NotZed@Ximian.com>
 
+	* camel-folder-summary.c (camel_folder_summary_header_load): New
+	function to just load the summary.  Not much use yet, until unread
+	counts are stored in the summary (which now looks like too much
+	work!).
+
+	* camel-mime-utils.c (header_decode_mailbox): Crappy fix for
+	stupid mailers.  If we get 'name b. name <foo>' then treat it as
+	'"name b. name" <foo>'.  See 8147.
+	(header_decode_mailbox): Another fix for really broken mailers
+	that have things that look like addresses followed by <address>
+	bits.
+	(rfc2047_encode_word): Escape ??= to avoid some bizarre warning
+	about trigraphs.
+
 	* providers/local/camel-local-folder.c
 	(camel_local_folder_construct): Setup unread count properly, and
 	also setup the url properly.
@@ -9,6 +23,8 @@
 	(scan_dir): Dont include empty host part in url for folder.
 	(scan_dir): Lookup folder counts for any folders we currenty have
 	open.
+	(scan_dir): If we dont have the folder open, then scan the 'new'
+	and 'cur' folders for new and unread messages to count instead.
 
 	* providers/local/camel-spool-store.c (get_folder_info): If we
 	have this folder open, then set unread from the folder itself.

@@ -219,6 +219,9 @@ void 	 camel_folder_summary_set_uid	      (CamelFolderSummary *s, guint32 uid);
 int camel_folder_summary_load(CamelFolderSummary *);
 int camel_folder_summary_save(CamelFolderSummary *);
 
+/* only load the header */
+int camel_folder_summary_header_load(CamelFolderSummary *);
+
 /* set the dirty bit on the summary */
 void camel_folder_summary_touch(CamelFolderSummary *s);
 
