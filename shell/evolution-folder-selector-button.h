@@ -70,6 +70,8 @@ GtkWidget *evolution_folder_selector_button_new       (EvolutionShellClient     
 						       const char                    *initial_uri,
 						       const char                    *possible_types[]);
 
+void evolution_folder_selector_button_set_uri (EvolutionFolderSelectorButton *button, const char *uri);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

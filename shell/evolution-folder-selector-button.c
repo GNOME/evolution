@@ -272,20 +272,20 @@ evolution_folder_selector_button_construct (EvolutionFolderSelectorButton *folde
 	EvolutionFolderSelectorButtonPrivate *priv;
 	GNOME_Evolution_Folder *folder;
 	int count;
-
+	
 	g_return_if_fail (EVOLUTION_IS_FOLDER_SELECTOR_BUTTON (folder_selector_button));
 	g_return_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client));
 	g_return_if_fail (possible_types != NULL);
-
+	
 	priv = folder_selector_button->priv;
-
+	
 	priv->shell_client = shell_client;
 	bonobo_object_ref (BONOBO_OBJECT (shell_client));
 	priv->corba_storage_registry = evolution_shell_client_get_storage_registry_interface (shell_client);
-
+	
 	priv->title = g_strdup (title);
 	priv->uri = g_strdup (initial_uri);
-
+	
 	if (initial_uri)
 		folder = get_folder_for_uri (folder_selector_button, initial_uri);
 	else
@@ -293,7 +293,7 @@ evolution_folder_selector_button_construct (EvolutionFolderSelectorButton *folde
 	set_icon_and_label (folder_selector_button, folder);
 	if (folder)
 		CORBA_free (folder);
-
+	
 	for (count = 0; possible_types[count]; count++)
 		;
 	priv->possible_types = g_new (char *, count + 1);
@@ -319,9 +319,9 @@ evolution_folder_selector_button_new (EvolutionShellClient *shell_client,
 				      const char *possible_types[])
 {
 	EvolutionFolderSelectorButton *folder_selector_button;
-
+	
 	folder_selector_button = gtk_type_new (evolution_folder_selector_button_get_type ());
-
+	
 	evolution_folder_selector_button_construct (folder_selector_button,
 						    shell_client,
 						    title,
@@ -330,6 +330,29 @@ evolution_folder_selector_button_new (EvolutionShellClient *shell_client,
 	return (GtkWidget *)folder_selector_button;
 }
 
+
+void
+evolution_folder_selector_button_set_uri (EvolutionFolderSelectorButton *button, const char *uri)
+{
+	EvolutionFolderSelectorButtonPrivate *priv;
+	GNOME_Evolution_Folder *folder;
+	
+	g_return_if_fail (EVOLUTION_IS_FOLDER_SELECTOR_BUTTON (button));
+	
+	priv = button->priv;
+	
+	g_free (priv->uri);
+	priv->uri = g_strdup (uri);
+	
+	if (uri)
+		folder = get_folder_for_uri (button, uri);
+	else
+		folder = NULL;
+	
+	set_icon_and_label (button, folder);
+	if (folder)
+		CORBA_free (folder);
+}
 
 
 E_MAKE_TYPE (evolution_folder_selector_button, "EvolutionFolderSelectorButton", EvolutionFolderSelectorButton, class_init, init, PARENT_TYPE)
