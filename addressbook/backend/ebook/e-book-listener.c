@@ -187,20 +187,18 @@ impl_BookListener_respond_get_changes (PortableServer_Servant servant,
 		EBookChange *change = g_new (EBookChange, 1);
 		GNOME_Evolution_Addressbook_BookChangeItem corba_change = changes->_buffer[i];
 
-		switch (corba_change._d) {
+		switch (corba_change.changeType) {
 		case GNOME_Evolution_Addressbook_ContactAdded:
 			change->change_type = E_BOOK_CHANGE_CARD_ADDED;
-			change->vcard = g_strdup (corba_change._u.add_vcard);
 			break;
 		case GNOME_Evolution_Addressbook_ContactDeleted:
 			change->change_type = E_BOOK_CHANGE_CARD_DELETED;
-			change->id = g_strdup (corba_change._u.del_id);
 			break;
 		case GNOME_Evolution_Addressbook_ContactModified:
 			change->change_type = E_BOOK_CHANGE_CARD_MODIFIED;
-			change->vcard = g_strdup (corba_change._u.mod_vcard);
 			break;
 		}
+		change->contact = e_contact_new_from_vcard (corba_change.vcard);
 
 		response.list = g_list_prepend (response.list, change);
 	}

@@ -448,8 +448,8 @@ pas_backend_change_add_new     (const char *vcard)
 {
 	GNOME_Evolution_Addressbook_BookChangeItem* new_change = GNOME_Evolution_Addressbook_BookChangeItem__alloc();
 
-	new_change->_d = GNOME_Evolution_Addressbook_ContactAdded;
-	new_change->_u.add_vcard = CORBA_string_dup (vcard);
+	new_change->changeType= GNOME_Evolution_Addressbook_ContactAdded;
+	new_change->vcard = CORBA_string_dup (vcard);
 
 	return new_change;
 }
@@ -459,19 +459,19 @@ pas_backend_change_modify_new  (const char *vcard)
 {
 	GNOME_Evolution_Addressbook_BookChangeItem* new_change = GNOME_Evolution_Addressbook_BookChangeItem__alloc();
 
-	new_change->_d = GNOME_Evolution_Addressbook_ContactModified;
-	new_change->_u.mod_vcard = CORBA_string_dup (vcard);
+	new_change->changeType= GNOME_Evolution_Addressbook_ContactModified;
+	new_change->vcard = CORBA_string_dup (vcard);
 
 	return new_change;
 }
 
 GNOME_Evolution_Addressbook_BookChangeItem*
-pas_backend_change_delete_new  (const char *id)
+pas_backend_change_delete_new  (const char *vcard)
 {
 	GNOME_Evolution_Addressbook_BookChangeItem* new_change = GNOME_Evolution_Addressbook_BookChangeItem__alloc();
 
-	new_change->_d = GNOME_Evolution_Addressbook_ContactDeleted;
-	new_change->_u.del_id = CORBA_string_dup (id);
+	new_change->changeType= GNOME_Evolution_Addressbook_ContactDeleted;
+	new_change->vcard = CORBA_string_dup (vcard);
 
 	return new_change;
 }

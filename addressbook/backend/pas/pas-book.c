@@ -612,17 +612,7 @@ pas_book_respond_get_changes (PASBook                                *book,
 	for (i = 0, l = changes; l; l = l->next, i ++) {
 		GNOME_Evolution_Addressbook_BookChangeItem *change = (GNOME_Evolution_Addressbook_BookChangeItem*)l->data;
 		changelist._buffer[i] = *change;
-		switch (change->_d) {
-		case GNOME_Evolution_Addressbook_ContactAdded:
-			changelist._buffer[i]._u.add_vcard = CORBA_string_dup (change->_u.add_vcard);
-			break;
-		case GNOME_Evolution_Addressbook_ContactModified:
-			changelist._buffer[i]._u.mod_vcard = CORBA_string_dup (change->_u.mod_vcard);
-			break;
-		case GNOME_Evolution_Addressbook_ContactDeleted:
-			changelist._buffer[i]._u.del_id = CORBA_string_dup (change->_u.del_id);
-			break;
-		}
+		changelist._buffer[i].vcard = CORBA_string_dup (change->vcard);
 	}
 
 	g_list_foreach (changes, (GFunc)CORBA_free, NULL);

@@ -515,6 +515,7 @@ typedef struct {
 	GList *mod_cards;
 	GList *mod_ids;
 	GList *del_ids;
+	GList *del_cards;
 } PASBackendFileChangeContext;
 
 static void
@@ -530,10 +531,21 @@ pas_backend_file_changes_foreach_key (const char *key, gpointer user_data)
 	db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
 	
 	if (db_error != 0) {
+		EContact *contact;
 		char *id = id_dbt.data;
+		char *vcard_string;
+
+		contact = e_contact_new ();
+		e_contact_set (contact, E_CONTACT_UID, id);
+		
+		vcard_string = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
 
 		ctx->del_ids = g_list_append (ctx->del_ids,
 					      g_strdup (id));
+		ctx->del_cards = g_list_append (ctx->del_cards,
+						vcard_string);
+
+		g_object_unref (contact);
 	}
 }
 
@@ -645,14 +657,17 @@ pas_backend_file_get_changes (PASBackendSync *backend,
 
 			g_free (i->data);
 			g_free (v->data);		
-		}	
-		for (i = ctx.del_ids; i != NULL; i = i->next){
+		}
+		for (i = ctx.del_ids, v = ctx.del_cards; i != NULL; i = i->next, v = v->next){	
 			char *id = i->data;
-
+			char *vcard = v->data;
+			
 			e_dbhash_remove (ehash, id);
+			
 			changes = g_list_prepend (changes,
-						  pas_backend_change_delete_new (id));
+						  pas_backend_change_delete_new (vcard));
 			g_free (i->data);
+			g_free (v->data);
 		}
 
 		e_dbhash_write (ehash);

@@ -34,6 +34,39 @@
 	"evolution:button_label" property on the component for use in the
 	shell.
 
+2003-10-21  JP Rosevear <jpr@ximian.com>
+ 
+ 	* conduit/address-conduit.c: make it work with the new ebook api
+ 
+ 	* backend/pas/pas-book.c (pas_book_respond_get_changes): put the
+ 	vcard in for every change
+ 
+ 	* backend/pas/pas-backend.c (pas_backend_change_add_new): just use
+ 	the vcard field
+ 	(pas_backend_change_modify_new): ditto
+ 	(pas_backend_change_delete_new): ditto
+ 
+ 	* backend/pas/pas-backend-file.c
+ 	(pas_backend_file_changes_foreach_key): create a fake contact with
+ 	the uid
+ 	(pas_backend_file_get_changes): add the card to the changes
+ 
+ 	* backend/ebook/tests/ebook/test-changes.c (main): just print the
+ 	uid
+ 
+ 	* backend/ebook/e-book.c (e_book_free_change_list): unref the
+ 	contact
+ 
+ 	* backend/ebook/e-book-types.h: the change struct contains an
+ 	EContact now
+ 
+ 	* backend/ebook/e-book-listener.c
+ 	(impl_BookListener_respond_get_changes): create the contact from
+ 	the vcard string
+ 
+ 	* backend/idl/addressbook.idl: Book change item is no longer a
+ 	union, it always gives back a card
+	
 2003-10-21  Chris Toshok  <toshok@ximian.com>
 
 	* tools/evolution-addressbook-abuse.c: use the synchronous api for

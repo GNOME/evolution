@@ -13,6 +13,7 @@
 #define __E_BOOK_TYPES_H__
 
 #include <glib.h>
+#include <ebook/e-contact.h>
 
 G_BEGIN_DECLS
 
@@ -59,8 +60,7 @@ typedef enum {
 
 typedef struct {
 	EBookChangeType  change_type;
-	char            *vcard; /* used in the ADDED/MODIFIED case */
-	char            *id;    /* used in the DELETED case */
+	EContact        *contact;
 } EBookChange;
 
 G_END_DECLS

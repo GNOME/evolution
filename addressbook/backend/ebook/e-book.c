@@ -1244,7 +1244,7 @@ e_book_free_change_list (GList *change_list)
 	for (l = change_list; l; l = l->next) {
 		EBookChange *change = l->data;
 
-		g_free (change->vcard);
+		g_object_unref (change->contact);
 		g_free (change);
 	}
 

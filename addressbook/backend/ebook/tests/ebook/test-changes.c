@@ -71,7 +71,7 @@ main (int argc, char **argv)
 		exit(0);
 	}
 
-	printf ("got changed vcard back: %s\n", change->vcard);
+	printf ("got changed vcard back: %s\n", e_contact_get_const (change->contact, E_CONTACT_UID));
 
 	e_book_free_change_list (changes);
 
