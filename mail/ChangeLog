@@ -21,6 +21,15 @@
 	not '\0').
 	(address_compare): Use e_mail_address_compare.
 
+2000-11-19  Peter Williams  <peterw@helixcode.com>
+
+	* mail-ops.c (update_changed_folders): Instead of making the CORBA
+	call in the dispatch thread, store the new display names and have
+	cleanup_fetch_mail make the CORBA calls. Fixes deadlocks.
+	(cleanup_fech_mail): Loop through the update_infos and make the
+	CORBA calls.
+	(setup_fetch_mail): Clear some new data items.
+
 2000-11-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-format.c (mail_generate_reply): Use the new quote_message

@@ -48,8 +48,16 @@ typedef struct fetch_mail_input_s
 }
 fetch_mail_input_t;
 
+typedef struct fetch_mail_update_info_s {
+	gchar *name;
+	gchar *display;
+	gboolean new_messages;
+} fetch_mail_update_info_t;
+
 typedef struct fetch_mail_data_s {
 	gboolean empty;
+	EvolutionStorage *storage;
+	GPtrArray *update_infos;
 } fetch_mail_data_t;
 
 static gchar *
@@ -79,6 +87,9 @@ setup_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	fetch_mail_data_t *data = (fetch_mail_data_t *) op_data;
 	
 	data->empty = FALSE;
+	data->storage = NULL;
+	data->update_infos = NULL;
+
 	if (input->destination)
 		camel_object_ref (CAMEL_OBJECT (input->destination));
 }
@@ -120,22 +131,26 @@ mail_op_report_status (FilterDriver *driver, enum filter_status_t status, const 
 static void
 update_changed_folders (CamelStore *store, CamelFolderInfo *info,
 			EvolutionStorage *storage, const char *path,
-			CamelException *ex)
+			GPtrArray *update_infos, CamelException *ex)
 {
-	CamelFolder *folder;
-	char *name, *display;
+	char *name;
 
 	name = g_strdup_printf ("%s/%s", path, info->name);
+
 	if (info->url) {
+		CamelFolder *folder;
+		fetch_mail_update_info_t *update_info;
+
+		update_info = g_new (fetch_mail_update_info_t, 1);
+		update_info->name = g_strdup (name);
+
 		if (info->unread_message_count > 0) {
-			display = g_strdup_printf ("%s (%d)", info->name,
-						   info->unread_message_count);
-			evolution_storage_update_folder (storage, name,
-							 display, TRUE);
-			g_free (display);
+			update_info->new_messages = TRUE;
+			update_info->display = g_strdup_printf ("%s (%d)", info->name,
+								info->unread_message_count);
 		} else {
-			evolution_storage_update_folder (storage, name,
-							 info->name, FALSE);
+			update_info->new_messages = FALSE;
+			update_info->display = g_strdup (info->name);
 		}
 
 		/* This is a bit of a hack... if the store is already
@@ -150,14 +165,17 @@ update_changed_folders (CamelStore *store, CamelFolderInfo *info,
 				camel_folder_refresh_info (folder, ex);
 			camel_object_unref (CAMEL_OBJECT (folder));
 		}
+
+		/* Save our info to update */
+		g_ptr_array_add (update_infos, update_info);
 	}
 	if (!camel_exception_is_set (ex) && info->sibling) {
 		update_changed_folders (store, info->sibling, storage,
-					path, ex);
+					path, update_infos, ex);
 	}
 	if (!camel_exception_is_set (ex) && info->child) {
 		update_changed_folders (store, info->child, storage,
-					name, ex);
+					name, update_infos, ex);
 	}
 	g_free (name);
 }
@@ -192,7 +210,10 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			return;
 		}
 
-		update_changed_folders (store, info, storage, "", ex);
+		data->storage = storage;
+		data->update_infos = g_ptr_array_new ();
+		update_changed_folders (store, info, storage, "", data->update_infos, ex);
+
 		camel_store_free_folder_info (store, info);
 		camel_object_unref (CAMEL_OBJECT (store));
 		gtk_object_unref (GTK_OBJECT (storage));
@@ -314,6 +335,25 @@ cleanup_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		dialog = gnome_ok_dialog (str);
 		g_free (str);
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	}
+
+	if (data->update_infos) {
+		int i;
+
+		for (i = 0; i < data->update_infos->len; i++) {
+			fetch_mail_update_info_t *update_info;
+
+			update_info = (fetch_mail_update_info_t *) data->update_infos->pdata[i];
+			evolution_storage_update_folder (data->storage,
+							 update_info->name,
+							 update_info->display,
+							 update_info->new_messages);
+			g_free (update_info->name);
+			g_free (update_info->display);
+			g_free (update_info);
+		}
+
+		g_ptr_array_free (data->update_infos, TRUE);
 	}
 
 	g_free (input->source_url);
