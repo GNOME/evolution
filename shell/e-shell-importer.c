@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include <glib.h>
+#include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page-edge.h>
@@ -933,6 +934,18 @@ import_druid_cancel (GnomeDruid *druid,
   	gtk_widget_destroy (GTK_WIDGET (data->dialog));
 }
 
+static gboolean
+import_druid_esc (GnomeDruid *druid, 
+		  GdkEventKey *event, 
+		  ImportData *data)
+{
+	if (event->keyval == GDK_Escape) {
+		gtk_widget_destroy (GTK_WIDGET (data->dialog));
+		return TRUE;
+	} else
+		return FALSE;
+}
+
 static void
 import_druid_weak_notify (void *blah,
 			  GObject *where_the_object_was)
@@ -1215,6 +1228,8 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 	data->druid = glade_xml_get_widget (data->wizard, "druid1");
 	g_signal_connect (data->druid, "cancel",
 			  G_CALLBACK (import_druid_cancel), data);
+	g_signal_connect (data->druid, "key_press_event",
+			  G_CALLBACK (import_druid_esc), data);
 
 	gtk_button_set_use_underline ((GtkButton *)((GnomeDruid *)data->druid)->finish, TRUE);
 	gtk_button_set_label((GtkButton *)((GnomeDruid *)data->druid)->finish, _("_Import"));

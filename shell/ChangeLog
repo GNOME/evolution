@@ -1,3 +1,9 @@
+2005-01-20  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* e-shell-importer.c: (import_druid_esc),
+	(e_shell_importer_start_import):
+	Close import wizard on 'ESC'
+
 2005-01-09  JP Rosevear  <jpr@novell.com>
 
 	* e-shell.c (impl_Shell_handleURI): open a new window if we get a
