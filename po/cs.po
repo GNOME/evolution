@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-06-12 16:41-0400\n"
-"PO-Revision-Date: 2002-06-25 19:14-0400\n"
+"PO-Revision-Date: 2002-06-26 19:09-0400\n"
 "Last-Translator: Radka Doulíková <doulikova@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,11 +23,11 @@ msgstr "Importuje soubory LDIF do Evolution."
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.oaf.in.h:1
 msgid "Factory to import VCard files into Evolution."
-msgstr ""
+msgstr "Továrna pro importování souborù Vkarta do Evolution."
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.oaf.in.h:2
 msgid "Imports VCard files into Evolution."
-msgstr ""
+msgstr "Importuje soubory Vkarta do Evolution."
 
 #: addressbook/backend/ebook/e-card-simple.c:60
 #: addressbook/gui/widgets/e-addressbook-view.c:335
@@ -10893,19 +10893,19 @@ msgstr ""
 #. separator here?
 #: mail/folder-browser.c:1696 ui/evolution-mail-message.xml.h:43
 msgid "Mar_k as Read"
-msgstr ""
+msgstr "Oznaèit jako _pøeètené"
 
 #: mail/folder-browser.c:1697
 msgid "Mark as _Unread"
-msgstr ""
+msgstr "Oznaèit jako _nepøeètené"
 
 #: mail/folder-browser.c:1698
 msgid "Mark as _Important"
-msgstr ""
+msgstr "Oznaèit jako _dùle¾ité"
 
 #: mail/folder-browser.c:1699
 msgid "_Mark as Unimportant"
-msgstr ""
+msgstr "_Oznaèit jako nedùle¾ité"
 
 #: mail/folder-browser.c:1704
 msgid "U_ndelete"
@@ -10913,11 +10913,11 @@ msgstr ""
 
 #: mail/folder-browser.c:1708
 msgid "Mo_ve to Folder..."
-msgstr ""
+msgstr "Pøe_sunout do slo¾ky..."
 
 #: mail/folder-browser.c:1709 ui/evolution-addressbook.xml.h:35
 msgid "_Copy to Folder..."
-msgstr ""
+msgstr "_Kopírovat do slo¾ky..."
 
 #: mail/folder-browser.c:1717
 msgid "Add Sender to Address_book"
@@ -10929,7 +10929,7 @@ msgstr ""
 
 #: mail/folder-browser.c:1725
 msgid "Crea_te Rule From Message"
-msgstr ""
+msgstr "Vy_tvoøit pravidlo ze zprávy"
 
 #: mail/folder-browser.c:1990
 msgid "VFolder on M_ailing List"
@@ -11496,7 +11496,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:30
 msgid "Configuration"
-msgstr ""
+msgstr "Nastavení"
 
 #: mail/mail-config.glade.h:31
 msgid ""
@@ -24589,23 +24589,23 @@ msgstr ""
 
 #: shell/e-shortcuts-view.c:232
 msgid "_Small Icons"
-msgstr ""
+msgstr "_Malé ikony"
 
 #: shell/e-shortcuts-view.c:233
 msgid "Show the shortcuts as small icons"
-msgstr ""
+msgstr "Zobrazit zkratky jako malé ikony"
 
 #: shell/e-shortcuts-view.c:235
 msgid "_Large Icons"
-msgstr ""
+msgstr "_Velké ikony"
 
 #: shell/e-shortcuts-view.c:236
 msgid "Show the shortcuts as large icons"
-msgstr ""
+msgstr "Zobrazit zkratky jako velké ikony"
 
 #: shell/e-shortcuts-view.c:247
 msgid "_New Group..."
-msgstr ""
+msgstr "_Nová skupina..."
 
 #: shell/e-shortcuts-view.c:248
 msgid "Create a new shortcut group"
@@ -24613,7 +24613,7 @@ msgstr ""
 
 #: shell/e-shortcuts-view.c:250
 msgid "_Remove this Group..."
-msgstr ""
+msgstr "_Odstranit tuto skupinu..."
 
 #: shell/e-shortcuts-view.c:251
 msgid "Remove this shortcut group"
@@ -24621,7 +24621,7 @@ msgstr ""
 
 #: shell/e-shortcuts-view.c:253
 msgid "Re_name this Group..."
-msgstr ""
+msgstr "Pøe_jmenovat tuto skupinu..."
 
 #: shell/e-shortcuts-view.c:254
 msgid "Rename this shortcut group"
@@ -24637,11 +24637,11 @@ msgstr ""
 
 #: shell/e-shortcuts-view.c:379
 msgid "Rename shortcut"
-msgstr ""
+msgstr "Pøejmenovat zkratku"
 
 #: shell/e-shortcuts-view.c:380
 msgid "Rename selected shortcut to:"
-msgstr ""
+msgstr "Pøejmenovat vybranou zkratku na:"
 
 #: shell/e-shortcuts-view.c:392
 msgid "Open the folder linked to this shortcut"
@@ -24649,7 +24649,7 @@ msgstr ""
 
 #: shell/e-shortcuts-view.c:394 ui/evolution.xml.h:22
 msgid "Open in New _Window"
-msgstr ""
+msgstr "Otevøít v _novém oknì"
 
 #: shell/e-shortcuts-view.c:394
 msgid "Open the folder linked to this shortcut in a new window"
@@ -24661,11 +24661,11 @@ msgstr "_Pøejmenovat"
 
 #: shell/e-shortcuts-view.c:397
 msgid "Rename this shortcut"
-msgstr ""
+msgstr "Pøejmenovat tuto zkratku"
 
 #: shell/e-shortcuts-view.c:399
 msgid "Re_move"
-msgstr ""
+msgstr "_Odstranit"
 
 #: shell/e-shortcuts-view.c:399
 msgid "Remove this shortcut from the shortcut bar"
@@ -24673,7 +24673,7 @@ msgstr ""
 
 #: shell/e-shortcuts.c:621
 msgid "Error saving shortcuts."
-msgstr ""
+msgstr "Chyba pøi ukládání zkratek."
 
 #: shell/e-shortcuts.c:1024
 msgid "Shortcuts"
@@ -24689,7 +24689,7 @@ msgstr ""
 
 #: shell/e-storage.c:489
 msgid "A folder with the same name already exists"
-msgstr ""
+msgstr "Slo¾ka se stejným jménem ji¾ existuje"
 
 #: shell/e-storage.c:491
 msgid "The specified folder type is not valid"
@@ -24701,11 +24701,11 @@ msgstr ""
 
 #: shell/e-storage.c:495
 msgid "Not enough space to create the folder"
-msgstr ""
+msgstr "Pro vytvoøení slo¾ky není dostatek místa"
 
 #: shell/e-storage.c:497
 msgid "The folder is not empty"
-msgstr ""
+msgstr "Slo¾ka není prázdná"
 
 #: shell/e-storage.c:499
 msgid "The specified folder was not found"
@@ -24717,7 +24717,7 @@ msgstr ""
 
 #: shell/e-storage.c:505
 msgid "Operation not supported"
-msgstr ""
+msgstr "Operace není podporovaná"
 
 #: shell/e-storage.c:507
 msgid "The specified type is not supported in this storage"
@@ -24733,12 +24733,12 @@ msgstr ""
 
 #: shell/e-storage.c:513
 msgid "Cannot create a folder with that name"
-msgstr ""
+msgstr "Nelze vytvoøit slo¾ku s tímto jménem"
 
 #: shell/e-task-widget.c:191
 #, c-format
 msgid "%s (...)"
-msgstr ""
+msgstr "%s (...)"
 
 #: shell/e-task-widget.c:196
 #, c-format
@@ -24797,7 +24797,7 @@ msgstr ""
 
 #: shell/evolution-shell-component.c:1093
 msgid "Not found"
-msgstr ""
+msgstr "Nenalezeno"
 
 #: shell/evolution-shell-component.c:1095
 msgid "Unsupported type"
@@ -24813,7 +24813,7 @@ msgstr ""
 
 #: shell/evolution-shell-component.c:1101
 msgid "Internal error"
-msgstr ""
+msgstr "Vnitøní chyba"
 
 #: shell/evolution-shell-component.c:1105
 msgid "Exists"
@@ -24941,7 +24941,7 @@ msgstr ""
 
 #: shell/importer/intelligent.c:196
 msgid "Don't import"
-msgstr ""
+msgstr "Neimportovat"
 
 #: shell/importer/intelligent.c:198
 msgid "Don't ask me again"
@@ -24953,7 +24953,7 @@ msgstr ""
 
 #: shell/main.c:91
 msgid "Evolution"
-msgstr ""
+msgstr "Evolution"
 
 #: shell/main.c:97
 msgid "Evolution is now exiting ..."
@@ -25047,7 +25047,7 @@ msgstr ""
 
 #: ui/evolution-addressbook.xml.h:3
 msgid "Copy Contact(s) to Another Folder..."
-msgstr ""
+msgstr "Kopírovat kontakt(y) do jiné slo¾ky..."
 
 #: ui/evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
@@ -25055,15 +25055,15 @@ msgstr "Kopírovat výbìr"
 
 #: ui/evolution-addressbook.xml.h:5
 msgid "Copy to Folder..."
-msgstr ""
+msgstr "Kopírovat do slo¾ky..."
 
 #: ui/evolution-addressbook.xml.h:6
 msgid "Create new contact"
-msgstr ""
+msgstr "Vytvoøit nový kontakt"
 
 #: ui/evolution-addressbook.xml.h:7
 msgid "Create new contact list"
-msgstr ""
+msgstr "Vytvoøit nový seznam kontaktù"
 
 #: ui/evolution-addressbook.xml.h:9 ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
@@ -25107,15 +25107,15 @@ msgstr "Vybrat v¹echny kontakty"
 
 #: ui/evolution-addressbook.xml.h:25
 msgid "Send a mess to the selected contacts."
-msgstr ""
+msgstr "Poslat zprávu vybraným kontaktùm."
 
 #: ui/evolution-addressbook.xml.h:26
 msgid "Send message to contact"
-msgstr ""
+msgstr "Poslat zprávu kontaktu"
 
 #: ui/evolution-addressbook.xml.h:27
 msgid "Send selected contacts to another person."
-msgstr ""
+msgstr "Poslat vybrané kontakty jiné osobì."
 
 #: ui/evolution-addressbook.xml.h:28
 msgid "Stop"
@@ -25356,7 +25356,7 @@ msgstr ""
 
 #: ui/evolution-event-editor.xml.h:3 ui/evolution-task-editor.xml.h:5
 msgid "Forward as i_Calendar"
-msgstr ""
+msgstr "Pøeposlat jako i_kalendáø"
 
 #: ui/evolution-event-editor.xml.h:4 ui/evolution-task-editor.xml.h:6
 msgid "Forward this item via email"
@@ -25400,15 +25400,15 @@ msgstr ""
 
 #: ui/evolution-mail-global.xml.h:6
 msgid "Empty _Trash"
-msgstr ""
+msgstr "Vyprázdnit _ko¹"
 
 #: ui/evolution-mail-global.xml.h:7
 msgid "Forget _Passwords"
-msgstr ""
+msgstr "Zapomenout _hesla"
 
 #: ui/evolution-mail-global.xml.h:8
 msgid "Forget remembered passwords so you will be prompted for them again"
-msgstr ""
+msgstr "Zapomene zapamatovaná hesla, tak¾e budete znovu vyzváni k jejich zadání"
 
 #: ui/evolution-mail-global.xml.h:9
 msgid "Open a window for composing a mail message"
@@ -25416,7 +25416,7 @@ msgstr "Otevøít okno pro psaní dopisu"
 
 #: ui/evolution-mail-global.xml.h:10
 msgid "Permanently remove all deleted messages from all folders"
-msgstr ""
+msgstr "Trvale odstraní v¹echny smazané zprávy ze v¹ech slo¾ek"
 
 #: ui/evolution-mail-global.xml.h:11
 msgid "Show message preview window"
@@ -25428,11 +25428,11 @@ msgstr ""
 
 #: ui/evolution-mail-global.xml.h:13
 msgid "Virtual Folder _Editor..."
-msgstr ""
+msgstr "_Editor virtuální slo¾ky..."
 
 #: ui/evolution-mail-global.xml.h:15
 msgid "_Filters..."
-msgstr ""
+msgstr "_Filtry..."
 
 #: ui/evolution-mail-global.xml.h:17
 msgid "_Preview Pane"
@@ -25448,27 +25448,27 @@ msgstr ""
 
 #: ui/evolution-mail-list.xml.h:2
 msgid "Copy selected messages"
-msgstr ""
+msgstr "Kopírovat vybrané zprávy"
 
 #: ui/evolution-mail-list.xml.h:3
 msgid "Cu_t"
-msgstr "Vyøíznout"
+msgstr "Vyøí_znout"
 
 #: ui/evolution-mail-list.xml.h:4
 msgid "Cut selected messages"
-msgstr ""
+msgstr "Vyjmout vybrané zprávy"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
-msgstr ""
+msgstr "Skrýt _vybrané zprávy"
 
 #: ui/evolution-mail-list.xml.h:6
 msgid "Hide _Deleted Messages"
-msgstr ""
+msgstr "Skrýt _smazané zprávy"
 
 #: ui/evolution-mail-list.xml.h:7
 msgid "Hide _Read Messages"
-msgstr ""
+msgstr "Skrýt _pøeètené zprávy"
 
 #: ui/evolution-mail-list.xml.h:8
 msgid ""
@@ -25889,7 +25889,7 @@ msgstr "_Pøeposlat zprávu"
 
 #: ui/evolution-mail-message.xml.h:98
 msgid "_Go To"
-msgstr ""
+msgstr "_Jít na"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "_Inline"
@@ -25897,7 +25897,7 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:100
 msgid "_Larger"
-msgstr ""
+msgstr "_Vìt¹í"
 
 #: ui/evolution-mail-message.xml.h:101
 msgid "_Message Display"
@@ -25905,11 +25905,11 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:102
 msgid "_Move to Folder"
-msgstr ""
+msgstr "_Pøesunout do slo¾ky"
 
 #: ui/evolution-mail-message.xml.h:103
 msgid "_Next Message"
-msgstr ""
+msgstr "_Následující zpráva"
 
 #: ui/evolution-mail-message.xml.h:104
 msgid "_Normal Display"
@@ -25933,7 +25933,7 @@ msgstr "_Nástroje"
 
 #: ui/evolution-mail-message.xml.h:112
 msgid "_Undelete"
-msgstr ""
+msgstr "_Obnovit smazané"
 
 #: ui/evolution-mail-messagedisplay.xml.h:2 ui/evolution.xml.h:5
 msgid "Close this window"
@@ -26180,15 +26180,15 @@ msgstr ""
 
 #: ui/evolution-task-editor.xml.h:3
 msgid "Cancel Task"
-msgstr ""
+msgstr "Zru¹it úkol"
 
 #: ui/evolution-task-editor.xml.h:4
 msgid "Cancel this task"
-msgstr ""
+msgstr "Zru¹it tento úkol"
 
 #: ui/evolution-task-editor.xml.h:7
 msgid "Obtain the latest task information"
-msgstr ""
+msgstr "Získat poslední informace o úkolu"
 
 #: ui/evolution-task-editor.xml.h:8
 msgid "Re_fresh Task"
@@ -26196,23 +26196,23 @@ msgstr ""
 
 #: ui/evolution-tasks.xml.h:3
 msgid "Copy selected task"
-msgstr ""
+msgstr "Kopírovat vybraný úkol"
 
 #: ui/evolution-tasks.xml.h:5
 msgid "Cut selected task"
-msgstr ""
+msgstr "Vyjmout vybraný úkol"
 
 #: ui/evolution-tasks.xml.h:6
 msgid "Delete completed tasks"
-msgstr ""
+msgstr "Smazat dokonèené úkoly"
 
 #: ui/evolution-tasks.xml.h:7
 msgid "Delete selected tasks"
-msgstr ""
+msgstr "Smazat vybrané úkoly"
 
 #: ui/evolution-tasks.xml.h:8
 msgid "Mar_k as Complete"
-msgstr ""
+msgstr "Oznaèit jako _dokonèený"
 
 #: ui/evolution-tasks.xml.h:10
 msgid "Paste task from the clipboard"
@@ -26224,7 +26224,7 @@ msgstr ""
 
 #: ui/evolution-tasks.xml.h:13
 msgid "Print the list of tasks"
-msgstr ""
+msgstr "Tisknout seznam úkolù"
 
 #: ui/evolution.xml.h:1
 msgid "About Ximian Evolution..."
@@ -26236,15 +26236,15 @@ msgstr ""
 
 #: ui/evolution.xml.h:3
 msgid "Change the name of this folder"
-msgstr ""
+msgstr "Zmìnit jméno této slo¾ky"
 
 #: ui/evolution.xml.h:6
 msgid "Copy this folder"
-msgstr ""
+msgstr "Kopírovat tuto slo¾ku"
 
 #: ui/evolution.xml.h:7
 msgid "Create _New Folder..."
-msgstr ""
+msgstr "Vytvoøit _novou slo¾ku..."
 
 #: ui/evolution.xml.h:8
 msgid "Create a link to this folder in the shortcut bar"
@@ -26256,11 +26256,11 @@ msgstr "Vytvoøit novou slo¾ku"
 
 #: ui/evolution.xml.h:10
 msgid "Delete this folder"
-msgstr ""
+msgstr "Smazat tuto slo¾ku"
 
 #: ui/evolution.xml.h:11
 msgid "Display a different folder"
-msgstr ""
+msgstr "Zobrazit jinou slo¾ku"
 
 #: ui/evolution.xml.h:12
 msgid "E_xit"
@@ -26284,15 +26284,15 @@ msgstr ""
 
 #: ui/evolution.xml.h:18
 msgid "Move this folder to another place"
-msgstr ""
+msgstr "Pøesunout tuto slo¾ku na jiné místo"
 
 #: ui/evolution.xml.h:19
 msgid "Open Other _User's Folder..."
-msgstr ""
+msgstr "Otevøít slo¾ku _jiného u¾ivatele..."
 
 #: ui/evolution.xml.h:20
 msgid "Open a folder that is made available by some other user on the server"
-msgstr ""
+msgstr "Otevøít slo¾ku, která je zpøístupnìna jiným u¾ivatelem na serveru"
 
 #: ui/evolution.xml.h:21
 msgid "Open in New Window"
@@ -26328,7 +26328,7 @@ msgstr ""
 
 #: ui/evolution.xml.h:30
 msgid "Toggle"
-msgstr ""
+msgstr "Pøepínaè"
 
 #: ui/evolution.xml.h:31
 msgid "Toggle fullscreen mode"
@@ -26368,15 +26368,15 @@ msgstr ""
 
 #: ui/evolution.xml.h:47
 msgid "_Go to Folder..."
-msgstr ""
+msgstr "_Jít na slo¾ku..."
 
 #: ui/evolution.xml.h:49
 msgid "_Import..."
-msgstr ""
+msgstr "_Importovat..."
 
 #: ui/evolution.xml.h:50
 msgid "_Move..."
-msgstr ""
+msgstr "_Pøesunout..."
 
 #: ui/evolution.xml.h:51
 msgid "_New"
@@ -26392,7 +26392,7 @@ msgstr ""
 
 #: ui/evolution.xml.h:54
 msgid "_Rename..."
-msgstr ""
+msgstr "Pøe_jmenovat..."
 
 #: ui/evolution.xml.h:55
 msgid "_Send / Receive"
@@ -26420,15 +26420,15 @@ msgstr "Obnovit náhled"
 
 #: views/addressbook/galview.xml.h:1
 msgid "Address Cards"
-msgstr ""
+msgstr "Karty s adresami"
 
 #: views/addressbook/galview.xml.h:2
 msgid "By Company"
-msgstr ""
+msgstr "Podle spoleènosti"
 
 #: views/addressbook/galview.xml.h:3
 msgid "Phone List"
-msgstr ""
+msgstr "Telefonní seznam"
 
 #: views/mail/galview.xml.h:1
 msgid "As Sent Folder"
@@ -26440,7 +26440,7 @@ msgstr ""
 
 #: views/mail/galview.xml.h:3
 msgid "By Sender"
-msgstr ""
+msgstr "Podle odesílatele"
 
 #: views/mail/galview.xml.h:4
 msgid "By Status"
@@ -26448,7 +26448,7 @@ msgstr ""
 
 #: views/mail/galview.xml.h:5
 msgid "By Subject"
-msgstr ""
+msgstr "Podle pøedmìtu"
 
 #: views/mail/galview.xml.h:6
 msgid "Messages"
@@ -26466,7 +26466,7 @@ msgstr ""
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "Select a Time Zone"
-msgstr ""
+msgstr "Vybrat èasové pásmo"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
 msgid "Selection:"
@@ -26474,7 +26474,7 @@ msgstr "Výbìr:"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
 msgid "Time Zones"
-msgstr ""
+msgstr "Èasová pásma"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid ""
@@ -26482,6 +26482,8 @@ msgid ""
 "zone.\n"
 " Use the right mouse button to zoom out."
 msgstr ""
+"Pro pøiblí¾ení se na oblast mapy a výbìr èaového pásma pou¾ijte levé tlaèítko my¹i.\n"
+"Pro oddálení pou¾ijte pravé tlaèítko my¹i."
 
 #: widgets/menus/gal-view-menus.c:295
 msgid "_Current View"
@@ -26513,7 +26515,7 @@ msgstr ""
 
 #: widgets/misc/e-cell-date-edit.c:234 widgets/misc/e-dateedit.c:438
 msgid "Now"
-msgstr ""
+msgstr "Nyní"
 
 #: widgets/misc/e-cell-date-edit.c:242 widgets/misc/e-dateedit.c:444
 msgid "Today"
@@ -26522,11 +26524,11 @@ msgstr "Dnes"
 #: widgets/misc/e-cell-date-edit.c:797
 #, c-format
 msgid "The time must be in the format: %s"
-msgstr ""
+msgstr "Èas musí být ve formátu: %s"
 
 #: widgets/misc/e-cell-percent.c:77
 msgid "The percent value must be between 0 and 100, inclusive"
-msgstr ""
+msgstr "Procentuální hodnota musí být mezi 0 a 100 vèetnì."
 
 #: widgets/misc/e-charset-picker.c:59
 msgid "Baltic"
@@ -26607,23 +26609,23 @@ msgstr ""
 
 #: widgets/misc/e-clipped-label.c:111
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: widgets/misc/e-filter-bar.c:146
 msgid "Search Editor"
-msgstr ""
+msgstr "Editor vyhledávání"
 
 #: widgets/misc/e-filter-bar.c:162
 msgid "Save Search"
-msgstr ""
+msgstr "Ulo¾it vyhledávání"
 
 #: widgets/misc/e-filter-bar.h:91 widgets/misc/e-filter-bar.h:98
 msgid "_Save Search..."
-msgstr ""
+msgstr "_Ulo¾it vyhledávání..."
 
 #: widgets/misc/e-filter-bar.h:92 widgets/misc/e-filter-bar.h:99
 msgid "_Edit Saved Searches..."
-msgstr ""
+msgstr "_Upravit ulo¾ená vyhledávání..."
 
 #: widgets/misc/e-filter-bar.h:93 widgets/misc/e-filter-bar.h:100
 msgid "_Advanced..."
