@@ -846,6 +846,9 @@ e_name_western_fixup (ENameWestern *name, ENameWesternIdxs *idxs)
 		/* Finnish */
 		CHECK_MIDDLE_NAME_FOR_CONJUNCTION_CASE ("ja");
 
+		/* French */
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION_CASE ("et");
+
 		/* Russian */
 		CHECK_MIDDLE_NAME_FOR_CONJUNCTION ("\xd0\x98"); /* u+0418 */
 		CHECK_MIDDLE_NAME_FOR_CONJUNCTION ("\xd0\xb8"); /* u+0438 */

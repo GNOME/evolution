@@ -1,5 +1,12 @@
 2001-10-29  Christopher James Lahey  <clahey@ximian.com>
 
+	* ename/e-name-western.c (e_name_western_fixup): Added French
+	conjunction.
+
+	* e-host-utils.c: Don't define gethost_mutex unless we need it.
+
+2001-10-29  Christopher James Lahey  <clahey@ximian.com>
+
 	* ename/e-name-western.c: Cleaned this up a bit.
 
 2001-10-29  Christopher James Lahey  <clahey@ximian.com>

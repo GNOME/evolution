@@ -28,7 +28,9 @@
 #include <stdio.h>
 #include <errno.h>
 
+#ifndef HAVE_GETHOSTBYNAME_R
 G_LOCK_DEFINE_STATIC (gethost_mutex);
+#endif
 
 /**
  * e_gethostbyname_r:
