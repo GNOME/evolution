@@ -48,6 +48,7 @@ typedef gboolean (* EvolutionImporterSupportFormatFn) (EvolutionImporter *import
 typedef gboolean (* EvolutionImporterLoadFileFn) (EvolutionImporter *importer,
 						  const char *filename,
 						  const char *physical_uri,
+						  const char *folder_type,
 						  void *closure);
 typedef void (* EvolutionImporterProcessItemFn) (EvolutionImporter *importer,
 						 CORBA_Object listener,

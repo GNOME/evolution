@@ -72,6 +72,7 @@ module Evolution {
 		 * loadFile:
 		 * @filename: The filename of the file.
 		 * @folderpath: The full pathname to the folder.
+		 * @foldertpe: The type of the folder to import to.
 		 * 
 		 * Loads the file and prepares an Importer object that can
 		 * process files of this type.
@@ -79,7 +80,8 @@ module Evolution {
 		 * Returns: An Importer object.
 		 */
 		boolean loadFile (in string filename,
-				  in string folderpath);
+				  in string folderpath,
+				  in string foldertype);
 	};
 
 	interface IntelligentImporter : Bonobo::Unknown {

@@ -72,6 +72,7 @@ static CORBA_boolean
 impl_GNOME_Evolution_Importer_loadFile (PortableServer_Servant servant,
 					const CORBA_char *filename,
 					const CORBA_char *physical_uri,
+					const CORBA_char *folder_type,
 					CORBA_Environment *ev)
 {
 	EvolutionImporter *importer;
@@ -81,7 +82,7 @@ impl_GNOME_Evolution_Importer_loadFile (PortableServer_Servant servant,
 	priv = importer->priv;
 
 	if (priv->load_file_fn != NULL)
-		return (priv->load_file_fn) (importer, filename, physical_uri, priv->closure);
+		return (priv->load_file_fn) (importer, filename, physical_uri, folder_type, priv->closure);
 	else
 		return FALSE;
 }

@@ -478,7 +478,8 @@ show_error (const char *message,
 static void
 start_import (const char *physical_uri,
 	      const char *filename,
-	      const char *iid)
+	      const char *iid,
+	      const char *folder_type)
 {
 	ImporterComponentData *icd;
 	char *label;
@@ -546,7 +547,7 @@ start_import (const char *physical_uri,
 	}
 	g_free (real_iid);
 
-	if (evolution_importer_client_load_file (icd->client, filename, physical_uri) == FALSE) {
+	if (evolution_importer_client_load_file (icd->client, filename, physical_uri, folder_type) == FALSE) {
 		label = g_strdup_printf (_("Error loading %s"), filename);
 		show_error (label, _("Evolution Error"));
 
@@ -966,7 +967,7 @@ folder_selected (EShellFolderSelectionDialog *dialog,
 	gtk_widget_destroy (data->dialog);
 	gtk_widget_hide (GTK_WIDGET (dialog));
 
-	start_import (e_folder_get_physical_uri (folder), filename, iid);
+	start_import (e_folder_get_physical_uri (folder), filename, iid, e_folder_get_type_string (folder));
 
 	g_free (iid);
 	g_free (filename);

@@ -1,3 +1,17 @@
+2003-04-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* importer/GNOME_Evolution_Importer.idl:
+	* importer/evolution-importer.[ch]: added "foldertype" argument to
+	GNOME::Evolution::Importer.
+
+	* importer/evolution-importer-client.[ch]
+	(evolution_importer_client_load_file): added "folder_type" argument
+	and use it in the call to GNOME_Evolution_Importer_loadFile.
+
+	* e-shell-importer.c (start_import): added "folder_type" argument and
+	use it in the call to evolution_importer_client_load_file.
+	(folder_selected): pass in the "folder_type" argument to start_import,
+
 2003-04-02  Not Zed  <NotZed@Ximian.com>
 
 	[#40652]

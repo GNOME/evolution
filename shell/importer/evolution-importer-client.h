@@ -61,7 +61,8 @@ gboolean evolution_importer_client_support_format (EvolutionImporterClient *clie
 						   const char *filename);
 gboolean evolution_importer_client_load_file (EvolutionImporterClient *client,
 					      const char *filename,
-					      const char *physical_uri);
+					      const char *physical_uri,
+					      const char *folder_type);
 void evolution_importer_client_process_item (EvolutionImporterClient *client,
 					     EvolutionImporterListener *listener);
 const char *evolution_importer_client_get_error (EvolutionImporterClient *client);
