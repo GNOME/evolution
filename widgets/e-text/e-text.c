@@ -1898,6 +1898,24 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	case GDK_BUTTON_PRESS: /* Fall Through */
 	case GDK_BUTTON_RELEASE:
+		if ((!text->editing) 
+		    && text->editable 
+		    && event->type == GDK_BUTTON_RELEASE
+		    && event->button.button == 1) {
+			GdkEventButton button = event->button;
+
+			gnome_canvas_item_grab_focus (item);
+
+			e_tep_event.type = GDK_BUTTON_PRESS;
+			e_tep_event.button.time = button.time;
+			e_tep_event.button.state = button.state;
+			e_tep_event.button.button = button.button;
+			e_tep_event.button.position = _get_position_from_xy(text, button.x, button.y);
+			_get_tep(text);
+			return_val = e_text_event_processor_handle_event (text->tep,
+									  &e_tep_event);
+			e_tep_event.type = GDK_BUTTON_RELEASE;
+		}		
 		if (text->editing) {
 			GdkEventButton button = event->button;
 			e_tep_event.button.time = button.time;
@@ -1916,9 +1934,6 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			text->lastx = button.x;
 			text->lasty = button.y;
 			text->last_state = button.state;
-		} else if (text->editable && event->type == GDK_BUTTON_RELEASE && event->button.button == 1) {
-			gnome_canvas_item_grab_focus (item);
-			return 1;
 		}
 		break;
 	case GDK_MOTION_NOTIFY:
