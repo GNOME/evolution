@@ -1,3 +1,8 @@
+2004-02-25  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: add "$xhave_nss = xyes" to the AM_CONDITIONAL for
+	ENABLE_SMIME.
+
 2004-02-24  JP Rosevear <jpr@ximian.com>
 
 	* marshal.mk: make sure to use the srcdir to build the list
