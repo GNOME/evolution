@@ -117,13 +117,13 @@ ea_gnome_calendar_new (GtkWidget *widget)
 
 	/* listen on view type change
 	 */
+	g_signal_connect (widget, "dates_shown_changed",
+			  G_CALLBACK (ea_gcal_dates_change_cb),
+			  accessible);
 	notebook = gnome_calendar_get_view_notebook_widget (gcal);
 	if (notebook) {
 		g_signal_connect (notebook, "switch_page",
 				  G_CALLBACK (ea_gcal_switch_view_cb),
-				  accessible);
-		g_signal_connect (widget, "dates_shown_changed",
-				  G_CALLBACK (ea_gcal_dates_change_cb),
 				  accessible);
 	}
 
@@ -213,10 +213,19 @@ static void
 ea_gcal_switch_view_cb (GtkNotebook *widget, GtkNotebookPage *page,
 			guint index, gpointer data)
 {
-	g_signal_emit_by_name (G_OBJECT(data), "children_changed",
-			       0, NULL, NULL);
+	GtkWidget *new_widget;
+
+	new_widget = gtk_notebook_get_nth_page (widget, index);
+
+	/* views are always the second child in gnome calendar
+	 */
+	if (new_widget)
+		g_signal_emit_by_name (G_OBJECT(data), "children_changed::add",
+				       1, gtk_widget_get_accessible (new_widget), NULL);
+
 #ifdef ACC_DEBUG
-	printf ("AccDebug: switch view: children_changed notified\n");
+	printf ("AccDebug: view switch to widget %p (index=%d) \n",
+		new_widget, index);
 #endif
 }
 
@@ -231,4 +240,9 @@ ea_gcal_dates_change_cb (GnomeCalendar *gcal, gpointer data)
 
 	new_name = calendar_get_text_for_folder_bar_label (gcal);
 	atk_object_set_name (ATK_OBJECT(data), new_name);
+	g_signal_emit_by_name (data, "visible_data_changed");
+
+#ifdef ACC_DEBUG
+	printf ("AccDebug: calendar dates changed, label=%s\n", new_name);
+#endif
 }

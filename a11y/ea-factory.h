@@ -32,7 +32,32 @@
 #include <glib-object.h>
 #include <atk/atkobject.h>
 
-#define EA_FACTORY(type, type_as_function, opt_create_accessible)	\
+#define EA_FACTORY_PARTA_GOBJECT(type, type_as_function, opt_create_accessible)	\
+static AtkObject*								\
+type_as_function ## _factory_create_accessible (GObject *obj)			\
+{                                                                               \
+  AtkObject *accessible;							\
+  g_return_val_if_fail (G_IS_OBJECT (obj), NULL);				\
+  accessible = opt_create_accessible (G_OBJECT (obj));	                 	\
+  return accessible;	                                                        \
+}
+
+#define EA_FACTORY_PARTA(type, type_as_function, opt_create_accessible)	        \
+static AtkObject*								\
+type_as_function ## _factory_create_accessible (GObject *obj)			\
+{                                                                               \
+  GtkWidget *widget;								\
+  AtkObject *accessible;							\
+                                                                                \
+  g_return_val_if_fail (GTK_IS_WIDGET (obj), NULL);				\
+										\
+  widget = GTK_WIDGET (obj);							\
+										\
+  accessible = opt_create_accessible (widget);					\
+  return accessible;	                                                        \
+}
+
+#define EA_FACTORY_PARTB(type, type_as_function, opt_create_accessible)	        \
 										\
 static GType									\
 type_as_function ## _factory_get_accessible_type (void)				\
@@ -40,20 +65,6 @@ type_as_function ## _factory_get_accessible_type (void)				\
   return type;									\
 }										\
 										\
-static AtkObject*								\
-type_as_function ## _factory_create_accessible (GObject *obj)			\
-{										\
-  GtkWidget *widget;								\
-  AtkObject *accessible;							\
-										\
-  g_return_val_if_fail (GTK_IS_WIDGET (obj), NULL);				\
-										\
-  widget = GTK_WIDGET (obj);							\
-										\
-  accessible = opt_create_accessible (widget);					\
-										\
-  return accessible;								\
-}										\
 										\
 static void									\
 type_as_function ## _factory_class_init (AtkObjectFactoryClass *klass)		\
@@ -72,8 +83,8 @@ type_as_function ## _factory_get_type (void)					\
     char *name;									\
     static const GTypeInfo tinfo =						\
     {										\
-      sizeof (AtkObjectFactoryClass),					\
-      NULL, NULL, (GClassInitFunc) type_as_function ## _factory_class_init,			\
+      sizeof (AtkObjectFactoryClass),				         	\
+      NULL, NULL, (GClassInitFunc) type_as_function ## _factory_class_init,	\
       NULL, NULL, sizeof (AtkObjectFactory), 0, NULL, NULL			\
     };										\
 										\
@@ -86,9 +97,17 @@ type_as_function ## _factory_get_type (void)					\
   return t;									\
 }
 
-#define EA_SET_FACTORY(widget_type, type_as_function)			\
+#define EA_FACTORY(type, type_as_function, opt_create_accessible)	        \
+        EA_FACTORY_PARTA(type, type_as_function, opt_create_accessible)	        \
+        EA_FACTORY_PARTB(type, type_as_function, opt_create_accessible)
+
+#define EA_FACTORY_GOBJECT(type, type_as_function, opt_create_accessible)	\
+        EA_FACTORY_PARTA_GOBJECT(type, type_as_function, opt_create_accessible)	\
+        EA_FACTORY_PARTB(type, type_as_function, opt_create_accessible)
+
+#define EA_SET_FACTORY(obj_type, type_as_function)		         	\
 	atk_registry_set_factory_type (atk_get_default_registry (),		\
-				       widget_type,				\
+				       obj_type,				\
 				       type_as_function ## _factory_get_type ())
 
 #endif /* _EA_FACTORY_H__ */

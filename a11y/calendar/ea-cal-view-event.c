@@ -36,6 +36,12 @@ static G_CONST_RETURN gchar* ea_cal_view_event_get_description (AtkObject *acces
 static AtkObject* ea_cal_view_event_get_parent (AtkObject *accessible);
 static gint ea_cal_view_event_get_index_in_parent (AtkObject *accessible);
 
+/* component interface */
+static void atk_component_interface_init (AtkComponentIface *iface);
+static void ea_cal_view_get_extents (AtkComponent *component,
+				     gint *x, gint *y, gint *width, gint *height,
+				     AtkCoordType coord_type);
+
 static gpointer parent_class = NULL;
 
 GType
@@ -61,6 +67,12 @@ ea_cal_view_event_get_type (void)
 			NULL /* value table */
 		};
 
+		static const GInterfaceInfo atk_component_info = {
+			(GInterfaceInitFunc) atk_component_interface_init,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL
+		};
+
 		/*
 		 * Figure out the size of the class and instance
 		 * we are run-time deriving from (atk object for E_TEXT, in this case)
@@ -77,6 +89,8 @@ ea_cal_view_event_get_type (void)
 		/* we inherit the component, text and other interfaces from E_TEXT */
 		type = g_type_register_static (derived_atk_type,
 					       "EaCalViewEvent", &tinfo, 0);
+		g_type_add_interface_static (type, ATK_TYPE_COMPONENT,
+					     &atk_component_info);
 	}
 
 	return type;
@@ -103,7 +117,6 @@ ea_cal_view_event_new (GObject *obj)
 	AtkObject *atk_obj = NULL;
 	GObject *target_obj;
 	ECalView *cal_view;
-
 
 	g_return_val_if_fail (E_IS_TEXT (obj), NULL);
 	cal_view = ea_calendar_helpers_get_cal_view_from (GNOME_CANVAS_ITEM (obj));
@@ -136,10 +149,13 @@ ea_cal_view_event_new (GObject *obj)
 		target_obj = obj;
 
 	if (!atk_obj) {
+		static AtkRole event_role = ATK_ROLE_INVALID;
 		atk_obj = ATK_OBJECT (g_object_new (EA_TYPE_CAL_VIEW_EVENT,
 						    NULL));
 		atk_object_initialize (atk_obj, target_obj);
-		atk_obj->role = ATK_ROLE_TEXT;
+		if (event_role == ATK_ROLE_INVALID)
+			event_role = atk_role_register ("Calendar Event");
+		atk_obj->role = event_role;
 #ifdef ACC_DEBUG
 		printf ("EvoAcc: ea_cal_view_event created %p for item=%p\n",
 			atk_obj, target_obj);
@@ -327,4 +343,118 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 		return -1;
 	}
 	return -1;
+}
+
+/* Atk Component Interface */
+
+static void 
+atk_component_interface_init (AtkComponentIface *iface)
+{
+  g_return_if_fail (iface != NULL);
+
+  iface->get_extents = ea_cal_view_get_extents;
+}
+
+static void 
+ea_cal_view_get_extents (AtkComponent   *component,
+                         gint           *x,
+                         gint           *y,
+                         gint           *width,
+                         gint           *height,
+                         AtkCoordType   coord_type)
+{
+	GObject *g_obj;
+	GnomeCanvasItem *canvas_item;
+	gint x_window, y_window;
+	gint scroll_x, scroll_y;
+	ECalView *cal_view;
+	gint item_x, item_y, item_w, item_h;
+	GtkWidget *canvas = NULL;
+
+	g_return_if_fail (EA_IS_CAL_VIEW_EVENT (component));
+
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(component));
+	if (!g_obj)
+		/* defunct object*/
+		return;
+	g_return_if_fail (E_IS_TEXT (g_obj));
+
+	canvas_item = GNOME_CANVAS_ITEM (g_obj);
+	cal_view = ea_calendar_helpers_get_cal_view_from (canvas_item);
+	if (!cal_view)
+		return;
+
+	if (E_IS_DAY_VIEW (cal_view)) {
+		gint day, event_num;
+
+		if (!e_day_view_find_event_from_item (E_DAY_VIEW (cal_view),
+						      canvas_item,
+						      &day, &event_num))
+			return;
+		if (day == E_DAY_VIEW_LONG_EVENT) {
+			gint start_day, end_day;
+			if (!e_day_view_get_long_event_position (E_DAY_VIEW (cal_view),
+								 event_num,
+								 &start_day,
+								 &end_day,
+								 &item_x,
+								 &item_y,
+								 &item_w,
+								 &item_h))
+				return;
+			canvas = E_DAY_VIEW (cal_view)->top_canvas;
+		}
+		else {
+			if (!e_day_view_get_event_position (E_DAY_VIEW (cal_view), day,
+							    event_num,
+							    &item_x, &item_y,
+							    &item_w, &item_h))
+
+				return;
+			canvas = E_DAY_VIEW (cal_view)->main_canvas;
+		}
+	}
+	else if (E_IS_WEEK_VIEW (cal_view)) {
+		gint event_num, span_num;
+		if (!e_week_view_find_event_from_item (E_WEEK_VIEW (cal_view),
+						       canvas_item, &event_num,
+						       &span_num))
+			return;
+
+		if (!e_week_view_get_span_position (E_WEEK_VIEW (cal_view),
+						    event_num, span_num,
+						    &item_x, &item_y, &item_w))
+			return;
+		item_h = E_WEEK_VIEW_ICON_HEIGHT;
+		canvas = E_WEEK_VIEW (cal_view)->main_canvas;
+	}
+	else
+		return;
+
+	if (!canvas)
+		return;
+
+	gdk_window_get_origin (canvas->window,
+			       &x_window, &y_window);
+	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (canvas), &scroll_x, &scroll_y);
+
+	*x = item_x + x_window - scroll_x;
+	*y = item_y + y_window - scroll_y;
+	*width = item_w;
+	*height = item_h;
+
+	if (coord_type == ATK_XY_WINDOW) {
+		GdkWindow *window;
+		gint x_toplevel, y_toplevel;
+
+		window = gdk_window_get_toplevel (GTK_WIDGET (cal_view)->window);
+		gdk_window_get_origin (window, &x_toplevel, &y_toplevel);
+
+		*x -= x_toplevel;
+		*y -= y_toplevel;
+	}
+
+#ifdef ACC_DEBUG
+	printf ("Event Bounds (%d, %d, %d, %d)\n", *x, *y, *width, *height);
+#endif
 }

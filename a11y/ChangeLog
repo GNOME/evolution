@@ -1,3 +1,13 @@
+2003-08-27  Bolian Yin <bolian.yin@sun.com>
+
+	* Makefile.am: add widgets directory; move calendar idl stuff to calendar directory; stop make a single shared lib for whole a11y stuff.
+	* ea-factory.h: make factory macros available to GOBJECT
+	* calendar/Makefile.am: add calendar idl stuff
+	* calendar/ea-cal-view-event.c: add atkcomponent interface.
+	* calendar/ea-gnome-calendar.c (ea_gcal_switch_view_cb): add details for "children_changed".
+	* new widgets directory for widgets a11y stuff, new files are:
+		widgets/Makefile.am, widgets/ea-calendar-item.c, widgets/ea-calendar-item.h, widgets/ea-widgets.c, widgets/ea-widgets.h
+
 2003-08-20  Rodrigo Moya <rodrigo@ximian.com>
 
 	* calendar/ea-cal-view-event.c (ea_cal_view_event_get_name):
