@@ -64,6 +64,7 @@ static EMJunkPlugin spam_assassin_plugin = {
 };
 
 static gboolean em_junk_sa_tested = FALSE;
+static gboolean em_junk_sa_spamd_tested = FALSE;
 static gboolean em_junk_sa_use_spamc = FALSE;
 static gboolean em_junk_sa_available = FALSE;
 static int em_junk_sa_spamd_port = -1;
@@ -202,7 +203,24 @@ em_junk_sa_test_spamd_running (int port)
 	return pipe_to_sa (NULL, "From test@127.0.0.1", argv) == 0;
 }
 
-#define SPAMD_PORT      7830
+static void
+em_junk_sa_test_spamassassin (void)
+{
+	char *argv[4] = {
+		"/bin/sh",
+		"-c",
+		"spamassassin --version",
+		NULL,
+	};
+	
+	if (pipe_to_sa (NULL, NULL, argv) != 0)
+		em_junk_sa_available = FALSE;
+	else
+		em_junk_sa_available = TRUE;
+
+	em_junk_sa_tested = TRUE;
+}
+
 #define MAX_SPAMD_PORTS 1
 
 static void
@@ -210,20 +228,7 @@ em_junk_sa_test_spamd (void)
 {
 	int port = em_junk_sa_get_daemon_port ();
 	int i;
-	char *argv[6] = {
-		"/bin/sh",
-		"-c",
-		"spamassassin --version",
-		NULL,
-	};
-	
-	if (pipe_to_sa (NULL, NULL, argv) != 0) {
-		em_junk_sa_available = FALSE;
-		em_junk_sa_tested = TRUE;
-		return;
-	}
-	
-	em_junk_sa_available = TRUE;
+
 	em_junk_sa_use_spamc = FALSE;
 	
 	if (em_junk_sa_test_spamd_running (-1)) {
@@ -240,6 +245,7 @@ em_junk_sa_test_spamd (void)
 	}
 	
 	if (!em_junk_sa_use_spamc) {
+		char *argv[6];
 		char port_buf[12];
 		int i = 0;
 		
@@ -270,7 +276,7 @@ em_junk_sa_test_spamd (void)
 	
 	d(fprintf (stderr, "use spamd %d at port %d\n", em_junk_sa_use_spamc, em_junk_sa_spamd_port));
 	
-	em_junk_sa_tested = TRUE;
+	em_junk_sa_spamd_tested = TRUE;
 }
 
 static gboolean
@@ -284,6 +290,9 @@ em_junk_sa_is_available (void)
 	}
 
 	if (!em_junk_sa_tested)
+		em_junk_sa_test_spamassassin ();
+
+	if (em_junk_sa_available && !em_junk_sa_spamd_tested && em_junk_sa_get_use_daemon ())
 		em_junk_sa_test_spamd ();
 
 	pthread_mutex_unlock (&em_junk_sa_init_lock);

@@ -1,3 +1,9 @@
+2004-02-06  Radek Doulik  <rodo@ximian.com>
+
+	* em-junk-filter.c (em_junk_sa_test_spamd): split into
+	spamassassin and spamd tests
+	(em_junk_sa_is_available): test spamd only if spamd usage enabled
+
 2004-02-06  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #53258.
