@@ -67,6 +67,7 @@ static void em_folder_tree_model_finalize (GObject *obj);
 
 /* interface init methods */
 static void tree_model_iface_init (GtkTreeModelIface *iface);
+static void tree_sortable_iface_init (GtkTreeSortableIface *iface);
 static void tree_drag_dest_iface_init (GtkTreeDragDestIface *iface);
 static void tree_drag_source_iface_init (GtkTreeDragSourceIface *iface);
 
@@ -124,6 +125,11 @@ em_folder_tree_model_get_type (void)
 			NULL,
 			NULL
 		};
+		static const GInterfaceInfo sortable_info = {
+			(GInterfaceInitFunc) tree_sortable_iface_init,
+			NULL,
+			NULL
+		};
 		static const GInterfaceInfo drag_dest_info = {
 			(GInterfaceInitFunc) tree_drag_dest_iface_init,
 			NULL,
@@ -139,6 +145,8 @@ em_folder_tree_model_get_type (void)
 		
 		g_type_add_interface_static (type, GTK_TYPE_TREE_MODEL,
 					     &tree_model_info);
+		g_type_add_interface_static (type, GTK_TYPE_TREE_SORTABLE,
+					     &sortable_info);
 		g_type_add_interface_static (type, GTK_TYPE_TREE_DRAG_DEST,
 					     &drag_dest_info);
 		g_type_add_interface_static (type, GTK_TYPE_TREE_DRAG_SOURCE,
@@ -171,12 +179,50 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
 			      G_TYPE_POINTER);
 }
 
+static int
+sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data)
+{
+	gboolean astore, bstore;
+	char *aname, *bname;
+	
+	gtk_tree_model_get (model, a, COL_BOOL_IS_STORE, &astore, COL_STRING_DISPLAY_NAME, &aname, -1);
+	gtk_tree_model_get (model, b, COL_BOOL_IS_STORE, &bstore, COL_STRING_DISPLAY_NAME, &bname, -1);
+	
+	if (astore && bstore) {
+		/* On This Computer is always first and VFolders is always last */
+		if (!strcmp (aname, _("On this Computer")))
+			return -1;
+		if (!strcmp (bname, _("On this Computer")))
+			return 1;
+		if (!strcmp (aname, _("VFolders")))
+			return 1;
+		if (!strcmp (bname, _("VFolders")))
+			return -1;
+	} else {
+		/* Inbox is always first */
+		if (aname && (!strcmp (aname, "INBOX") || !strcmp (aname, _("Inbox"))))
+			return -1;
+		if (bname && (!strcmp (bname, "INBOX") || !strcmp (bname, _("Inbox"))))
+			return 1;
+	}
+	
+	if (aname == NULL) {
+		if (bname == NULL)
+			return 0;
+	} else if (bname == NULL)
+		return 1;
+	
+	return g_utf8_collate (aname, bname);
+}
+
 static void
 em_folder_tree_model_init (EMFolderTreeModel *model)
 {
 	model->store_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	model->uri_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	model->expanded = g_hash_table_new (g_str_hash, g_str_equal);
+	
+	gtk_tree_sortable_set_default_sort_func ((GtkTreeSortable *) model, sort_cb, NULL, NULL);
 }
 
 static void

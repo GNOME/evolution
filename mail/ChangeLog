@@ -1,7 +1,11 @@
 2004-01-15  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* em-folder-tree-model.c (em_folder_tree_model_new): Make the
-	model sorted. Fixes bug #52888.
+	Fixes bug #52888
+	
+	* em-folder-tree-model.c (sort_cb): New sort function for the
+	folder-tree.
+	(em_folder_tree_model_init): Set the default sort func.
+	(em_folder_tree_model_new): Set the default sort column.
 
 	* em-folder-browser.c (emfb_list_built): Don't select the first
 	unread mesg in the case where no mesg was previously
