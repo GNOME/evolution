@@ -1,5 +1,9 @@
 2001-07-24  Peter Williams  <peterw@ximian.com>
 
+	* evolution-message-composer.xml: Move Insert File from the File
+	menu into the Insert Menu. Change the accelerators to reflect
+	what's being inserted and add ellipses.
+
 	* evolution-mail-global.xml: Add "Compose New Message" to the
 	Actions menu as suggested in bug #866. Also fix it so that the
 	pixmaps for the Compose menu items are displayed.

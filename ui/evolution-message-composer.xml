@@ -20,6 +20,7 @@
 		_tip="Save the message in a specified folder"/>
 		
 		<cmd name="FileInsertFile" _label="Insert text file..."
+                accel="*Ctrl**Alt*f"
 		_tip="Insert a file as text into the message"/>
 		
 		<cmd name="FileSend" _label="Send" _tip="Send this message now"
@@ -30,7 +31,7 @@
 		pixtype="stock" pixname="Send Mail"/> 
 		
 		<cmd name="FileAttach" _label="Attach" _tip="Attach a file"
-		accel="*Ctrl**Alt*f"
+		accel="*Ctrl**Alt*a"
 		pixtype="pixbuf"/>
 		
 		<cmd name="DeleteAll" _label="_Delete all"
@@ -90,8 +91,6 @@
                         <menuitem name="FileSaveDraft" verb="" _label="Save _Draft"/>
 			<placeholder name="Print" delimit="top"/>
 			<separator/>
-			<menuitem name="FileInsertFile" verb="" _label="_Insert text file..."/>
-			<separator/>
 			<menuitem name="FileClose" verb="" _label="_Close"/>
 		</submenu>
 		
@@ -118,7 +117,9 @@
 		
                 <submenu name="Insert" _label="_Insert">
 	                <menuitem name="FileAttach" verb=""
-	                _label="_Attachment"/>
+	                _label="_Attachment..."/>
+			<menuitem name="FileInsertFile" verb="" 
+                        _label="Inline Text _File..."/>
                 	<placeholder name="Component"/>
                 </submenu>
 		
