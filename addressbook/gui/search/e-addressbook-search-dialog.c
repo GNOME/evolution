@@ -46,26 +46,26 @@ enum {
 GtkType
 e_addressbook_search_dialog_get_type (void)
 {
-  static GtkType type = 0;
+	static GtkType type = 0;
 
-  if (!type)
-    {
-      static const GtkTypeInfo info =
-      {
-        "EAddressbookSearchDialog",
-        sizeof (EAddressbookSearchDialog),
-        sizeof (EAddressbookSearchDialogClass),
-        (GtkClassInitFunc) e_addressbook_search_dialog_class_init,
-        (GtkObjectInitFunc) e_addressbook_search_dialog_init,
-        /* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
+	if (!type)
+	{
+		static const GtkTypeInfo info =
+		{
+			"EAddressbookSearchDialog",
+			sizeof (EAddressbookSearchDialog),
+			sizeof (EAddressbookSearchDialogClass),
+			(GtkClassInitFunc) e_addressbook_search_dialog_class_init,
+			(GtkObjectInitFunc) e_addressbook_search_dialog_init,
+			/* reserved_1 */ NULL,
+			/* reserved_2 */ NULL,
+			(GtkClassInitFunc) NULL,
+		};
 
-      type = gtk_type_unique (PARENT_TYPE, &info);
-    }
+		type = gtk_type_unique (PARENT_TYPE, &info);
+	}
 
-  return type;
+	return type;
 }
 
 static void
@@ -120,16 +120,20 @@ get_query (EAddressbookSearchDialog *view)
 }
 
 static void
-button_press (GtkWidget *widget, EAddressbookSearchDialog *dialog)
+button_press (GtkWidget *widget, int button, EAddressbookSearchDialog *dialog)
 {
 	char *query;
 
-	gtk_widget_show(dialog->scrolled_window);
-	query = get_query(dialog);
-	gtk_object_set(GTK_OBJECT(dialog->view),
-		       "query", query,
-		       NULL);
-	g_free(query);
+	if (button == 0) {
+		gtk_widget_show(dialog->scrolled_window);
+		query = get_query(dialog);
+		gtk_object_set(GTK_OBJECT(dialog->view),
+			       "query", query,
+			       NULL);
+		g_free(query);
+	}
+	else
+		gnome_dialog_close(GNOME_DIALOG (dialog));
 }
 
 static void
@@ -144,17 +148,21 @@ e_addressbook_search_dialog_init (EAddressbookSearchDialog *view)
 	gtk_box_pack_start(GTK_BOX(dialog->vbox), view->search, FALSE, FALSE, 0);
 	gtk_widget_show(view->search);
 
-	button = gtk_button_new_with_label(_("Search"));
-	gtk_box_pack_start(GTK_BOX(dialog->vbox), button, FALSE, FALSE, 0);
-	gtk_signal_connect(GTK_OBJECT(button), "clicked",
+	gnome_dialog_append_buttons(dialog,
+				    _("Search"),
+				    GNOME_STOCK_BUTTON_CANCEL, NULL);
+	
+	gnome_dialog_set_default(dialog, 0);
+
+	gtk_signal_connect(GTK_OBJECT(dialog), "clicked",
 			   GTK_SIGNAL_FUNC(button_press), view);
-	gtk_widget_show(button);
 
 	view->view = e_minicard_view_widget_new();
 	gtk_widget_show(view->view);
 
 	view->scrolled_window = e_scroll_frame_new(NULL, NULL);
-	e_scroll_frame_set_policy(E_SCROLL_FRAME(view->scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
+	e_scroll_frame_set_policy(E_SCROLL_FRAME(view->scrolled_window),
+				  GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
 	gtk_container_add(GTK_CONTAINER(view->scrolled_window), view->view);
 	
 	gtk_box_pack_start(GTK_BOX(dialog->vbox), view->scrolled_window, TRUE, TRUE, 0);

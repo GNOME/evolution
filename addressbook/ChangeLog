@@ -1,3 +1,11 @@
+2001-01-23  Jason Leach  <jasonleach@usa.net>
+	
+	(Fix #1225: advanced search cancel/close)
+	
+	* gui/search/e-addressbook-search-dialog.c
+	(e_addressbook_search_dialog_init): Set it up with Search and a
+	Cancel button, Search is still the default.
+
 2001-01-23  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (local_record_from_ecard): properly ref
