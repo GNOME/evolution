@@ -1,6 +1,5 @@
 INCLUDES =								\
 	-I$(top_srcdir)							\
-	-I$(top_srcdir)/libical/src					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(TZDIALOG_CFLAGS)
