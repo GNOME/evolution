@@ -2269,6 +2269,65 @@ e_day_view_set_selected_time_range	(EDayView	*day_view,
 	}
 }
 
+static void
+e_day_view_set_selected_time_range_in_top	(EDayView	*day_view,
+						 time_t		 start_time,
+						 time_t		 end_time)
+{
+	time_t lower;
+	gint start_row, start_col, end_row, end_col;
+	gboolean need_redraw = FALSE, start_in_grid, end_in_grid;
+
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	/* Calculate the first day that should be shown, based on start_time
+	   and the days_shown setting. If we are showing 1 day it is just the
+	   start of the day given by start_time, otherwise it is the previous
+	   work-week start day. */
+	if (!day_view->work_week_view) {
+		lower = time_day_begin_with_zone (start_time, day_view->zone);
+	} else {
+		lower = e_day_view_find_work_week_start (day_view, start_time);
+	}
+
+	/* See if we need to change the days shown. */
+	if (lower != day_view->lower) {
+		e_day_view_recalc_day_starts (day_view, lower);
+		update_query (day_view);
+	}
+
+	/* Set the selection. */
+	start_in_grid = e_day_view_convert_time_to_grid_position (day_view,
+								  start_time,
+								  &start_col,
+								  &start_row);
+	end_in_grid = e_day_view_convert_time_to_grid_position (day_view,
+								end_time - 60,
+								&end_col,
+								&end_row);
+
+	if (start_row != day_view->selection_start_row
+	    || start_col != day_view->selection_start_day) {
+		need_redraw = TRUE;
+		day_view->selection_in_top_canvas = TRUE;
+		day_view->selection_start_row = -1;
+		day_view->selection_start_day = start_col;
+	}
+
+	if (end_row != day_view->selection_end_row
+	    || end_col != day_view->selection_end_day) {
+		need_redraw = TRUE;
+		day_view->selection_in_top_canvas = TRUE;
+		day_view->selection_end_row = -1;
+		day_view->selection_end_day = end_col;
+	}
+
+	if (need_redraw) {
+		gtk_widget_queue_draw (day_view->top_canvas);
+		gtk_widget_queue_draw (day_view->main_canvas);
+	}
+}
+
 
 /* Finds the start of the working week which includes the given time. */
 static time_t
@@ -2988,6 +3047,9 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 		if (!GTK_WIDGET_HAS_FOCUS (day_view))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
+		e_day_view_start_selection (day_view, day, -1);
+		e_day_view_finish_selection (day_view);
+
 		e_day_view_on_event_right_click (day_view, event, -1, -1);
 	}
 
@@ -3122,6 +3184,9 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 		if (!GTK_WIDGET_HAS_FOCUS (day_view))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
+		e_day_view_start_selection (day_view, day, row);
+		e_day_view_finish_selection (day_view);
+
 		e_day_view_on_event_right_click (day_view, event, -1, -1);
 	}
 
@@ -3202,6 +3267,8 @@ e_day_view_on_long_event_button_press (EDayView		*day_view,
 		if (!destroyed) {
 			gtk_signal_disconnect (GTK_OBJECT (e->comp), id);
 
+			e_day_view_set_selected_time_range_in_top (day_view, e->start, e->end);
+			
 			e_day_view_on_event_right_click (day_view, event,
 							 E_DAY_VIEW_LONG_EVENT,
 							 event_num);
@@ -3252,6 +3319,8 @@ e_day_view_on_event_button_press (EDayView	  *day_view,
 		if (!destroyed) {
 			gtk_signal_disconnect (GTK_OBJECT (e->comp), id);
 
+			e_day_view_set_selected_time_range (day_view, e->start, e->end);
+	
 			e_day_view_on_event_right_click (day_view, event,
 							 day, event_num);
 		}
@@ -4651,7 +4720,6 @@ e_day_view_finish_selection (EDayView *day_view)
 	day_view->selection_is_being_dragged = FALSE;
 	e_day_view_update_calendar_selection_time (day_view);
 }
-
 
 static void
 e_day_view_update_long_event_resize (EDayView *day_view,

@@ -2199,6 +2199,14 @@ e_week_view_on_button_press (GtkWidget *widget,
 	} else if (event->button == 3) {
 		if (!GTK_WIDGET_HAS_FOCUS (week_view))
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
+
+		week_view->selection_start_day = day;
+		week_view->selection_end_day = day;
+		week_view->selection_drag_pos = E_WEEK_VIEW_DRAG_NONE;
+		
+		/* FIXME: Optimise? */
+		gtk_widget_queue_draw (week_view->main_canvas);
+
 		e_week_view_show_popup_menu (week_view, event, -1);
 	}
 
@@ -3047,6 +3055,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 			if (!destroyed) {
 				gtk_signal_disconnect (GTK_OBJECT (e->comp), id);
+				
+				e_week_view_set_selected_time_range (week_view, e->start, e->end);
 
 				e_week_view_show_popup_menu (week_view,
 							     (GdkEventButton*) gdkevent,
