@@ -1,3 +1,9 @@
+2002-06-11  Not Zed  <NotZed@Ximian.com>
+
+	* folder-info.c (do_get_info): If we dont get a folder, dont try
+	and get details off it.  Should get rid of most of those annoying
+	summary warnings, but not the cause of them.
+
 2002-06-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (account_able_clicked): Comment out the code to
@@ -47,6 +53,18 @@
 	(regen_list_regened): If we were cancelled, do nothing.
 	(regen_list_regen): If we were cancelled, shortcut processing.
 	This is all for #23571.
+
+	* message-list.c (regen_list_regen): Change the way we calculate
+	the hide deleted messages and tree view options.  Do it based on a
+	search and uid's rather than a summary.
+	(regen_list_regened): Handle changes to tree storage.
+	(mail_regen_list): The tree is now stored between updates, so we
+	can update the tree structure incrementally.  This blows out
+	memory use some however.  We need an etree that uses this as its
+	model directly?
+	(message_list_destroy): Free the thread tree.
+	(message_list_set_folder): Clear the thread tree when changing
+	folder.
 
 2002-06-05  Jeffrey Stedfast  <fejj@ximian.com>
 

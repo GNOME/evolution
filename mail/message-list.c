@@ -1220,6 +1220,9 @@ message_list_destroy (GtkObject *object)
 		camel_object_unref (CAMEL_OBJECT (message_list->folder));
 	}
 
+	if (message_list->thread_tree)
+		camel_folder_thread_messages_unref(message_list->thread_tree);
+
 	gtk_object_unref (GTK_OBJECT (message_list->extras));
 	gtk_object_unref (GTK_OBJECT (message_list->model));
 
@@ -2018,6 +2021,11 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, g
 		camel_object_unref (CAMEL_OBJECT (message_list->folder));
 	}
 
+	if (message_list->thread_tree) {
+		camel_folder_thread_messages_unref(message_list->thread_tree);
+		message_list->thread_tree = NULL;
+	}
+
 	message_list->folder = camel_folder;
 
 	if (message_list->cursor_uid) {
@@ -2407,6 +2415,8 @@ hide_save_state (MessageList *ml)
 struct _regen_list_msg {
 	struct _mail_msg msg;
 
+	int complete;
+
 	MessageList *ml;
 	char *search;
 	char *hideexpr;
@@ -2439,14 +2449,26 @@ static void
 regen_list_regen (struct _mail_msg *mm)
 {
 	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
-	GPtrArray *uids, *uidnew, *showuids;
+	GPtrArray *uids, *uidnew, *showuids, *searchuids = NULL;
 	CamelMessageInfo *info;
 	int i;
 
-	if (m->search)
-		uids = camel_folder_search_by_expression (m->folder, m->search, &mm->ex);
-	else
-		uids = camel_folder_get_uids (m->folder);
+	/* if we have hidedeleted on, use a search to find it out, merge with existing search if set */
+	if (m->hidedel) {
+		char *expr;
+
+		if (m->search) {
+			expr = alloca(strlen(m->search) + 64);
+			sprintf(expr, "(and (match-all (not (system-flag \"deleted\")))\n %s)", m->search);
+		} else
+			expr = "(match-all (not (system-flag \"deleted\")))";
+		searchuids = uids = camel_folder_search_by_expression (m->folder, expr, &mm->ex);
+	} else {
+		if (m->search)
+			searchuids = uids = camel_folder_search_by_expression (m->folder, m->search, &mm->ex);
+		else
+			uids = camel_folder_get_uids (m->folder);
+	}
 	
 	if (camel_exception_is_set (&mm->ex))
 		return;
@@ -2528,32 +2550,32 @@ regen_list_regen (struct _mail_msg *mm)
 	
 	MESSAGE_LIST_UNLOCK(m->ml, hide_lock);
 
-	if (!camel_operation_cancel_check(mm->cancel)) {	
-		m->summary = g_ptr_array_new ();
-		for (i = 0; i < showuids->len; i++) {
-			info = camel_folder_get_message_info (m->folder, showuids->pdata[i]);
-			if (info) {
-				/* FIXME: should this be taken account of in above processing? */
-				if (m->hidedel && (info->flags & CAMEL_MESSAGE_DELETED) != 0)
-					camel_folder_free_message_info (m->folder, info);
-				else
-					g_ptr_array_add (m->summary, info);
+	if (!camel_operation_cancel_check(mm->cancel)) {
+		/* update/build a new tree */
+		if (m->dotree) {
+			if (m->tree)
+				camel_folder_thread_messages_apply(m->tree, showuids);
+			else
+				m->tree = camel_folder_thread_messages_new(m->folder, showuids);
+		} else {
+			m->summary = g_ptr_array_new ();
+			for (i = 0; i < showuids->len; i++) {
+				info = camel_folder_get_message_info (m->folder, showuids->pdata[i]);
+				if (info)
+					g_ptr_array_add(m->summary, info);
 			}
 		}
-		
-		if (m->dotree)
-			m->tree = camel_folder_thread_messages_new_summary (m->summary);
-		else
-			m->tree = NULL;
 	}
 
 	if (uidnew)
 		g_ptr_array_free (uidnew, TRUE);
-	
-	if (m->search)
-		camel_folder_search_free (m->folder, uids);
+
+	if (searchuids)
+		camel_folder_search_free (m->folder, searchuids);
 	else
 		camel_folder_free_uids (m->folder, uids);
+
+	m->complete = TRUE;
 }
 
 static void
@@ -2563,16 +2585,21 @@ regen_list_regened (struct _mail_msg *mm)
 
 	if (GTK_OBJECT_DESTROYED(m->ml))
 		return;
-	
-	if (m->summary == NULL)
-		return;
 
+	if (!m->complete)
+		return;
+	
 	if (camel_operation_cancel_check(mm->cancel))
 		return;
 
-	if (m->dotree)
+	if (m->dotree) {
 		build_tree (m->ml, m->tree, m->changes);
-	else
+		g_assert(m->ml->thread_tree == NULL || m->ml->thread_tree == m->tree);
+		if (m->ml->thread_tree == NULL) {
+			m->ml->thread_tree = m->tree;
+			m->tree = NULL;
+		}
+	} else
 		build_flat (m->ml, m->summary, m->changes);
 
 	gtk_signal_emit (GTK_OBJECT (m->ml), message_list_signals[MESSAGE_LIST_BUILT]);
@@ -2591,7 +2618,7 @@ regen_list_free (struct _mail_msg *mm)
 	}
 	
 	if (m->tree)
-		camel_folder_thread_messages_destroy (m->tree);
+		camel_folder_thread_messages_unref (m->tree);
 	
         if (m->ml->search && m->ml->search != m->search)
                 g_free (m->ml->search);
@@ -2625,6 +2652,19 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 	
 	if (ml->folder == NULL)
 		return;
+
+	/* cancel any outstanding regeneration requests, we rebuild from scratch anyway */
+	if (ml->regen) {
+		GList *l = ml->regen;
+
+		while (l) {
+			struct _mail_msg *mm = l->data;
+
+			if (mm->cancel)
+				camel_operation_cancel(mm->cancel);
+			l = l->next;
+		}
+	}
 	
 #ifndef BROKEN_ETREE
 	/* this can sometimes crash,so ... */
@@ -2648,6 +2688,14 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 	gtk_object_ref (GTK_OBJECT (ml));
 	m->folder = ml->folder;
 	camel_object_ref (CAMEL_OBJECT (m->folder));
+
+	if ((!m->hidedel || !m->dotree) && ml->thread_tree) {
+		camel_folder_thread_messages_unref(ml->thread_tree);
+		ml->thread_tree = NULL;
+	} else if (ml->thread_tree) {
+		m->tree = ml->thread_tree;
+		camel_folder_thread_messages_ref(m->tree);
+	}
 
 	ml->regen = g_list_prepend(ml->regen, m);
 	

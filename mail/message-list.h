@@ -89,6 +89,9 @@ struct _MessageList {
 	/* list of outstanding regeneration requests */
 	GList *regen;
 
+	/* the current camel folder thread tree, if any */
+	struct _CamelFolderThread *thread_tree;
+
 	/* for message/folder chagned event handling */
 	struct _MailAsyncEvent *async_event;
 };

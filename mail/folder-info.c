@@ -76,22 +76,12 @@ do_get_info (struct _mail_msg *mm)
 {
 	struct _folder_info_msg *m = (struct _folder_info_msg *) mm;
 	CamelFolder *folder;
-	CamelException *ex;
 
-	ex = camel_exception_new ();
-	folder = mail_tool_uri_to_folder (m->foldername, 0, ex);
-	if (camel_exception_is_set (ex)) {
-		g_warning ("Camel exception: %s", camel_exception_get_description (ex));
+	folder = mail_tool_uri_to_folder (m->foldername, 0, NULL);
+	if (folder) {
+		m->read = camel_folder_get_message_count (folder);
+		m->unread = camel_folder_get_unread_message_count (folder);
 	}
-
-	camel_exception_free (ex);
-
-	if (folder == NULL) {
-		g_warning ("Camel returned NULL for %s\n", m->foldername);
-	}
-	
-	m->read = camel_folder_get_message_count (folder);
-	m->unread = camel_folder_get_unread_message_count (folder);
 }
 
 static void
