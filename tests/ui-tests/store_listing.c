@@ -198,7 +198,7 @@ expunge_selected_folders ()
 		if (folder && IS_CAMEL_FOLDER (folder)) {
 			folder_name = camel_folder_get_name (folder);
 			printf ("folder to expunge : %s\n", folder_name);
-			camel_folder_expunge (folder);
+			camel_folder_expunge (folder, FALSE);
 			/* reshowing the folder this way is uggly
 			   but allows to check the message are
 			   correctly renoved and the cache works correctly */
@@ -277,7 +277,8 @@ on_message_delete_activate (GtkWidget *widget, void *data)
 int
 main(int argc, char *argv[])
 {
-	
+	GtkWidget *new_store_gnome_entry;
+
 	gnome_init ("store_listing", "1.0", argc, argv);
 	
 	glade_gnome_init ();
@@ -288,8 +289,11 @@ main(int argc, char *argv[])
 	_session = camel_session_new ();
 	camel_provider_register_as_module ("../../camel/providers/MH/.libs/libcamelmh.so");
 	
+	new_store_gnome_entry = glade_xml_get_widget (xml, "new-store-entry");
+	gnome_entry_load_history (GNOME_ENTRY (new_store_gnome_entry));
 	gtk_main ();
-	
+	gnome_entry_save_history (GNOME_ENTRY (new_store_gnome_entry));
+
 	return 0;
 }
 

@@ -421,7 +421,8 @@
       <widget>
 	<class>GnomeEntry</class>
 	<name>new-store-entry</name>
-	<max_saved>10</max_saved>
+	<history_id>store_name_history</history_id>
+	<max_saved>15</max_saved>
 	<child>
 	  <padding>0</padding>
 	  <expand>False</expand>

@@ -100,7 +100,7 @@ typedef struct {
 	CamelStore *  (*get_parent_store) (CamelFolder *folder);
 	CamelFolderOpenMode (*get_mode) (CamelFolder *folder);
 	GList *  (*list_subfolders) (CamelFolder *folder);
-	GList *  (*expunge) (CamelFolder *folder);
+	void  (*expunge) (CamelFolder *folder);
 	CamelMimeMessage * (*get_message) (CamelFolder *folder, gint number);
 	gint   (*get_message_count) (CamelFolder *folder);
 	gint   (*append_message) (CamelFolder *folder, CamelMimeMessage *message);
@@ -124,7 +124,7 @@ CamelFolder *camel_folder_get_parent_folder (CamelFolder *folder);
 CamelStore *camel_folder_get_parent_store (CamelFolder *folder);
 CamelFolderOpenMode camel_folder_get_mode (CamelFolder *folder);
 GList *camel_folder_list_subfolders (CamelFolder *folder);
-GList *camel_folder_expunge (CamelFolder *folder);
+GList *camel_folder_expunge (CamelFolder *folder, gboolean want_list);
 void camel_folder_set_name (CamelFolder *folder, const gchar *name);
 const gchar *camel_folder_get_name (CamelFolder *folder);
 /*  void camel_folder_set_full_name (CamelFolder *folder, const gchar *name); */

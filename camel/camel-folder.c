@@ -49,7 +49,7 @@ static CamelFolder *_get_parent_folder (CamelFolder *folder);
 static CamelStore *_get_parent_store (CamelFolder *folder);
 static CamelFolderOpenMode _get_mode (CamelFolder *folder);
 static GList *_list_subfolders (CamelFolder *folder);
-static GList *_expunge (CamelFolder *folder);
+static void _expunge (CamelFolder *folder);
 static CamelMimeMessage *_get_message (CamelFolder *folder, gint number);
 static gint _get_message_count (CamelFolder *folder);
 static gint _append_message (CamelFolder *folder, CamelMimeMessage *message);
@@ -196,7 +196,7 @@ _open (CamelFolder *folder, CamelFolderOpenMode mode)
 static void
 _close (CamelFolder *folder, gboolean expunge)
 {
-	if (expunge) CF_CLASS(folder)->expunge(folder);
+	if (expunge) camel_folder_expunge (folder, FALSE);
 	folder->open_state = FOLDER_CLOSE;
 }
 
@@ -747,12 +747,21 @@ camel_folder_list_subfolders (CamelFolder *folder)
 
 
 
-static GList *
+static void
 _expunge (CamelFolder *folder)
 {
-	return NULL;
+
 }
 
+/* util func. Should not stay here */
+gint
+camel_mime_message_number_cmp (gconstpointer a, gconstpointer b)
+{
+	CamelMimeMessage *m_a = CAMEL_MIME_MESSAGE (a);
+	CamelMimeMessage *m_b = CAMEL_MIME_MESSAGE (b);
+
+	return (m_a->message_number - (m_b->message_number));
+}
 
 /**
  * camel_folder_expunge: physically delete messages marked as "DELETED"
@@ -764,15 +773,83 @@ _expunge (CamelFolder *folder)
  * Return value: list of expunged message objects.
  **/
 GList *
-camel_folder_expunge (CamelFolder *folder)
+camel_folder_expunge (CamelFolder *folder, gboolean want_list)
 {
-	return CF_CLASS (folder)->expunge (folder);
+	GList *expunged_list = NULL;
+	CamelMimeMessage *message;
+	GList *message_node;
+	GList *next_message_node;
+	guint nb_expunged = 0;
+
+	
+	/* sort message list by ascending message number */
+	if (folder->message_list)
+		folder->message_list = g_list_sort (folder->message_list, camel_mime_message_number_cmp);
+
+	/* call provider method, 
+	 *  PROVIDERS MUST SET THE EXPUNGED FLAGS TO TRUE
+	 * when they expunge a message of the active message list */
+	CF_CLASS (folder)->expunge (folder);
+	
+	message_node = folder->message_list;
+
+	/* look in folder message list which messages
+	 * need to be expunged  */
+	while ( message_node) {
+		message = CAMEL_MIME_MESSAGE (message_node->data);
+
+		/* we may free message_node so get the next node now */
+		next_message_node = message_node->next;
+
+		if (message) {
+			CAMEL_LOG_FULL_DEBUG ("CamelFolder::expunge, examining message %d\n", message->message_number);
+			if (message->expunged) {
+				if (want_list) 
+					expunged_list = g_list_append (expunged_list, message);
+				/* remove the message from active message list */
+				g_list_remove_link (folder->message_list, message_node);
+				g_list_free_1 (message_node);
+				nb_expunged++;
+			} else {
+				/* readjust message number */
+				CAMEL_LOG_FULL_DEBUG ("CamelFolder:: Readjusting message number %d", 
+						      message->message_number);
+				message->message_number -= nb_expunged;
+				CAMEL_LOG_FULL_DEBUG (" to %d\n", message->message_number);
+			}
+		}
+		else {
+			CAMEL_LOG_WARNING ("CamelFolder::expunge warning message_node contains no message\n");
+		}
+		message_node = next_message_node;
+		CAMEL_LOG_FULL_DEBUG ("CamelFolder::expunge, examined message node %p\n", message_node);
+	}
+	
+	return expunged_list;
 }
 
 
 
 static CamelMimeMessage *
 _get_message (CamelFolder *folder, gint number)
+{
+	return NULL;
+}
+
+
+
+
+/**
+ * _get_message: return the message corresponding to that number in the folder
+ * @folder: a CamelFolder object
+ * @number: the number of the message within the folder.
+ * 
+ * Return the message corresponding to that number within the folder.
+ * 
+ * Return value: A pointer on the corresponding message or NULL if no corresponding message exists
+ **/
+CamelMimeMessage *
+camel_folder_get_message (CamelFolder *folder, gint number)
 {
 	CamelMimeMessage *a_message;
 	CamelMimeMessage *new_message = NULL;
@@ -803,38 +880,14 @@ _get_message (CamelFolder *folder, gint number)
 		
 		CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message message node = %p\n", message_node);
 	}
-	return new_message;
-}
-
-
-
-
-/**
- * _get_message: return the message corresponding to that number in the folder
- * @folder: a CamelFolder object
- * @number: the number of the message within the folder.
- * 
- * Return the message corresponding to that number within the folder.
- * 
- * Return value: A pointer on the corresponding message or NULL if no corresponding message exists
- **/
-CamelMimeMessage *
-camel_folder_get_message (CamelFolder *folder, gint number)
-{
-	CamelMimeMessage *new_message;
-	new_message = CF_CLASS (folder)->get_message (folder, number);
-
-
-	/* now put the new message in the list of messages got from
-	 * this folder. If people show concerns about this code being
-	 * here, we will let the providers do it by themself 
-	 * Update: I am actually concern. This will go into util routines
-	 * and providers will have to do the job themself :) */
+	if (!new_message) new_message = CF_CLASS (folder)->get_message (folder, number);
 	if (!new_message) return NULL;
+
 	/* if the message has not been already put in 
-	 * this folder message list, put it in */
+	 * this folder active message list, put it in */
 	if ((!folder->message_list) || (!g_list_find (folder->message_list, new_message)))
 	    folder->message_list = g_list_append (folder->message_list, new_message);
+	
 	return new_message;
 }
 

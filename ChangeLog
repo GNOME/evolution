@@ -1,3 +1,29 @@
+1999-08-15  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-folder.c (camel_folder_expunge): 
+	moved the active list readjustment code here.
+	Much saner, providers won't have to worry about
+	that.
+
+	* camel/providers/MH/camel-mh-folder.c (_expunge): 
+	no more active list readjustment stuff.
+
+	* camel/camel-folder.h: the expunge virtual no more
+	returns a list of expunged messages. Now providers
+	only have to set the expunge flag on the expunged
+	messages.
+
+	* camel/camel-folder.c (camel_folder_get_message): 
+	moved the caching code here. Finally, I don't want
+	providers to crash the libs with a bad message cache
+	implementation. 
+	(_close): do not call the CamelFolder virtual expunge 
+	method directly, use camel_folder_expunge() instead.
+	(camel_folder_expunge): added the want_list param. 
+	The client can decide if it wants the expunged message
+	list or not. If yes, it'll have to unref the messages 
+	itself.
+
 1999-08-14  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* tests/ui-tests/store_listing.c (delete_selected_messages): 

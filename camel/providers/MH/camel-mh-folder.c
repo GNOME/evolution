@@ -52,7 +52,7 @@ static GList *_list_subfolders (CamelFolder *folder);
 static CamelMimeMessage *_get_message (CamelFolder *folder, gint number);
 static gint _get_message_count (CamelFolder *folder);
 static gint _append_message (CamelFolder *folder, CamelMimeMessage *message);
-static GList *_expunge (CamelFolder *folder);
+static void _expunge (CamelFolder *folder);
 
 
 static void
@@ -421,8 +421,6 @@ _get_message (CamelFolder *folder, gint number)
 	
 	g_assert(folder);
 	
-	message = parent_class->get_message (folder, number);
-	if (message) return message;
 	
 	directory_path = mh_folder->directory_path;
 	if (!directory_path) return NULL;	
@@ -573,17 +571,9 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message)
 
 
 
-gint
-camel_mime_message_number_cmp (gconstpointer a, gconstpointer b)
-{
-	CamelMimeMessage *m_a = CAMEL_MIME_MESSAGE (a);
-	CamelMimeMessage *m_b = CAMEL_MIME_MESSAGE (b);
-
-	return (m_a->message_number - (m_b->message_number));
-}
 
 
-static GList *
+static void
 _expunge (CamelFolder *folder)
 {
 	/* For the moment, we look in the folder active message
@@ -591,67 +581,38 @@ _expunge (CamelFolder *folder)
 	 * the gtk_object->destroy signal be used to expunge
 	 * freed messages objects marked DELETED ? 
 	 */
-	GList *expunged_list = NULL;
 	CamelMimeMessage *message;
 	GList *message_node;
-	GList *next_message_node;
 	gchar *fullpath;
 	gint unlink_error;
-	guint nb_expunged = 0;
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelFolder::expunge\n");
 	
-	/* sort message list by ascending message number */
-	if (folder->message_list)
-		folder->message_list = g_list_sort (folder->message_list, camel_mime_message_number_cmp);
-
 	message_node = folder->message_list;
 
 	/* look in folder message list which messages
 	 * need to be expunged  */
 	while ( message_node) {
 		message = CAMEL_MIME_MESSAGE (message_node->data);
-
-		/* we may free message_node so get the next node now */
-		next_message_node = message_node->next;
-
-		if (message) {
-			CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::expunge, examining message %d\n", message->message_number);
-			if (camel_mime_message_get_flag (message, "DELETED")) {
-				/* expunge the message */
-				fullpath = gtk_object_get_data (GTK_OBJECT (message), "fullpath");
-				CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::expunge, message fullpath is %s\n", 
-						      fullpath);
-				unlink_error = unlink(fullpath);
-				if (unlink_error != -1) {
-					expunged_list = g_list_append (expunged_list, message);
-					message->expunged = TRUE;
-					/* remove the message from active message list */
-					g_list_remove_link (folder->message_list, message_node);
-					g_list_free_1 (message_node);
-					nb_expunged++;
-				} else {
-					CAMEL_LOG_WARNING ("CamelMhFolder:: could not unlink %s (message %d)\n", 
-							   fullpath, message->message_number);
-					CAMEL_LOG_FULL_DEBUG ("  Full error text is : %s\n", strerror(errno));
-				}
-				
+		
+		if (message && camel_mime_message_get_flag (message, "DELETED")) {
+			CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::expunge, expunging  message %d\n", message->message_number);
+			/* expunge the message */
+			fullpath = gtk_object_get_data (GTK_OBJECT (message), "fullpath");
+			CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::expunge, message fullpath is %s\n", 
+					      fullpath);
+			unlink_error = unlink(fullpath);
+			if (unlink_error != -1) {
+				message->expunged = TRUE;
 			} else {
-				/* readjust message number */
-				CAMEL_LOG_FULL_DEBUG ("CamelMhFolder:: Readjusting message number %d", 
-						      message->message_number);
-				message->message_number -= nb_expunged;
-				CAMEL_LOG_FULL_DEBUG (" to %d\n", message->message_number);
+				CAMEL_LOG_WARNING ("CamelMhFolder:: could not unlink %s (message %d)\n", 
+						   fullpath, message->message_number);
+				CAMEL_LOG_FULL_DEBUG ("  Full error text is : %s\n", strerror(errno));
 			}
 		}
-		else {
-			CAMEL_LOG_WARNING ("CamelMhFolder::expunge warning message_node contains no message\n");
-			
-		}
-		message_node = next_message_node;
+		message_node = message_node->next;
 		CAMEL_LOG_FULL_DEBUG ("CamelFolder::expunge, examined message node %p\n", message_node);
 	}
-
+	
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelFolder::expunge\n");
-	return expunged_list;
 }
