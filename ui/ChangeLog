@@ -1,3 +1,8 @@
+2001-08-16  JP Rosevear  <jpr@ximian.com>
+
+	* evolution-task-editor.xml: rename menu item to Assign Task and
+	tidy
+
 2001-08-16  Anna Marie Dirks  <anna@ximian.com>
 
 	* evolution-mail-message.xml : removed the Print Setup menu

@@ -2,14 +2,14 @@
 
 <commands>
 
-	<cmd name="ActionDelegateTask" _label="Delegate Task"
-        _tip="Schedule a meeting for this item"/>
+	<cmd name="ActionAssignTask" _label="Assign Task"
+        _tip="Assign this task to others"/>
 
 	<cmd name="ActionRefreshTask" _label="Re_fresh Task"
-        _tip="Obtain the latest meeting information"/>
+        _tip="Obtain the latest task information"/>
 
 	<cmd name="ActionCancelTask" _label="Cancel Task"
-        _tip="Cancel the meeting for this item"/>
+        _tip="Cancel this task"/>
 
 	<cmd name="ActionForward" _label="Forward as i_Calendar"
         _tip="Forward this item via email"/>
@@ -22,7 +22,7 @@
 
 	<placeholder name="Actions">
 
-	         <menuitem name="ActionDelegateTask" verb=""/>
+	         <menuitem name="ActionAssignTask" verb=""/>
 
 	         <menuitem name="ActionRefreshTask" verb=""/>
 
