@@ -1,3 +1,13 @@
+2002-06-03  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vee-folder.c (camel_vee_folder_add_folder):
+	(folder_changed_change):
+	(folder_changed_remove_uid):
+	(folder_changed_add_uid):
+	(vee_folder_build_folder): Check that any unmatched operation is
+	not concerning any vfolder.  Other vfolders should never be part of any
+	unmatched handling.  For #24615, and others probably.
+
 2002-06-02  Not Zed  <NotZed@Ximian.com>
 
 	* camel-sasl.c (camel_sasl_new): 

@@ -348,7 +348,7 @@ camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub)
 		camel_object_ref((CamelObject *)sub);
 		p->folders = g_list_append(p->folders, sub);
 	}
-	if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0) {
+	if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0 && !CAMEL_IS_VEE_FOLDER(sub)) {
 		camel_object_ref((CamelObject *)sub);
 		up->folders = g_list_append(up->folders, sub);
 	}
@@ -983,10 +983,12 @@ folder_added_uid(char *uidin, void *value, struct _update_data *u)
 	if ( (mi = vee_folder_add_uid(u->vf, u->source, uidin, u->hash)) ) {
 		camel_folder_change_info_add_uid(u->vf->changes, camel_message_info_uid(mi));
 
-		if (g_hash_table_lookup_extended(unmatched_uids, camel_message_info_uid(mi), (void **)&oldkey, (void **)&n)) {
-			g_hash_table_insert(unmatched_uids, oldkey, (void *)(n+1));
-		} else {
-			g_hash_table_insert(unmatched_uids, g_strdup(camel_message_info_uid(mi)), (void *)1);
+		if (!CAMEL_IS_VEE_FOLDER(u->source)) {
+			if (g_hash_table_lookup_extended(unmatched_uids, camel_message_info_uid(mi), (void **)&oldkey, (void **)&n)) {
+				g_hash_table_insert(unmatched_uids, oldkey, (void *)(n+1));
+			} else {
+				g_hash_table_insert(unmatched_uids, g_strdup(camel_message_info_uid(mi)), (void *)1);
+			}
 		}
 	}
 }
@@ -1048,7 +1050,8 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 					camel_folder_summary_remove_index(folder->summary, i);
 					camel_folder_change_info_remove_uid(vf->changes, camel_message_info_uid(mi));
 					i--;
-					if (g_hash_table_lookup_extended(unmatched_uids, uid, (void **)&oldkey, (void **)&n)) {
+					if (!CAMEL_IS_VEE_FOLDER(source)
+					    && g_hash_table_lookup_extended(unmatched_uids, uid, (void **)&oldkey, (void **)&n)) {
 						if (n == 1) {
 							g_hash_table_remove(unmatched_uids, oldkey);
 							g_free(oldkey);
@@ -1090,7 +1093,8 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 	}
 
 	/* now allhash contains all potentially new uid's for the unmatched folder, process */
-	g_hash_table_foreach(allhash, (GHFunc)unmatched_check_uid, &u);
+	if (!CAMEL_IS_VEE_FOLDER(source))
+		g_hash_table_foreach(allhash, (GHFunc)unmatched_check_uid, &u);
 
 	/* copy any changes so we can raise them outside the lock */
 	if (camel_folder_change_info_changed(folder_unmatched->changes)) {
@@ -1151,7 +1155,7 @@ folder_changed_add_uid(CamelFolder *sub, const char *uid, const char hash[8], Ca
 	vuid = camel_message_info_uid(vinfo);
 	camel_folder_change_info_add_uid(vf->changes,  vuid);
 
-	if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0) {
+	if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0 && !CAMEL_IS_VEE_FOLDER(sub)) {
 		if (g_hash_table_lookup_extended(unmatched_uids, vuid, (void **)&oldkey, (void **)&n)) {
 			g_hash_table_insert(unmatched_uids, oldkey, (void *)(n+1));
 		} else {
@@ -1185,7 +1189,7 @@ folder_changed_remove_uid(CamelFolder *sub, const char *uid, const char hash[8],
 		camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)vinfo);
 	}
 
-	if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0) {
+	if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0 && !CAMEL_IS_VEE_FOLDER(sub)) {
 		if (keep) {
 			if (g_hash_table_lookup_extended(unmatched_uids, vuid, (void **)&oldkey, (void **)&n)) {
 				if (n == 1) {
@@ -1390,7 +1394,7 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 				memcpy(vuid, hash, 8);
 				strcpy(vuid+8, uid);
 				
-				if (g_hash_table_lookup(unmatched_uids, vuid) == NULL) {
+				if (!CAMEL_IS_VEE_FOLDER(sub) && g_hash_table_lookup(unmatched_uids, vuid) == NULL) {
 					dd(printf("  adding uid '%s' to Unmatched [newly unmatched]\n", (char *)uid));
 					vinfo = (CamelVeeMessageInfo *)camel_folder_get_message_info((CamelFolder *)folder_unmatched, vuid);
 					if (vinfo == NULL) {
