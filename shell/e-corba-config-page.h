@@ -23,10 +23,6 @@
 #ifndef _E_CORBA_CONFIG_PAGE_H_
 #define _E_CORBA_CONFIG_PAGE_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-config-page.h"
 
 #include "Evolution.h"

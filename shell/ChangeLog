@@ -1,3 +1,13 @@
+2002-06-19  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-corba-config-page.h: Remove #include <config.h>
+	* e-shell-about-box.h: Same
+	* e-history.h: Same
+	* e-shell-importer.c: gtk_widget_show() all items in the optionmenu
+	before showing it.
+	* e-shell-offline-handler.h: Remove #include <config.h>
+	* e-shell-settings-dialog.h: Same.
+	
 2002-05-31  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-storage-set-view.c

@@ -23,10 +23,6 @@
 #ifndef _E_SHELL_OFFLINE_HANDLER_H_
 #define _E_SHELL_OFFLINE_HANDLER_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gtk/gtkobject.h>
 
 #include "e-component-registry.h"

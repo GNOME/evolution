@@ -23,10 +23,6 @@
 #ifndef _E_SHELL_ABOUT_BOX_H_
 #define _E_SHELL_ABOUT_BOX_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gnome.h>
 
 #ifdef __cplusplus

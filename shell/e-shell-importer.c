@@ -589,7 +589,7 @@ create_plugin_menu (ImportData *data)
 
 		item = gtk_menu_item_new_with_label (name);
 		g_free (name);
-
+		gtk_widget_show (item);
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
 				    GTK_SIGNAL_FUNC (item_selected), data);
 
