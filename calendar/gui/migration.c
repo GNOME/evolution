@@ -20,11 +20,19 @@
  * Author: Rodrigo Moya <rodrigo@ximian.com>
  */
 
+#include <string.h>
 #include <bonobo/bonobo-i18n.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-xfer.h>
+#include <gtk/gtkwidget.h>
+#include <gtk/gtkvbox.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkprogressbar.h>
 #include <gal/util/e-util.h>
+#include <libecal/e-cal.h>
 #include <e-util/e-bconf-map.h>
+#include <e-util/e-folder-map.h>
 #include "migration.h"
 
 static e_gconf_map_t calendar_display_map[] = {
@@ -106,76 +114,221 @@ e_gconf_map_list_t task_remap_list[] = {
 	{ 0 },
 };
 
-static gboolean
-process_old_dir (ESourceGroup *source_group, const char *path,
-		 const char *filename, const char *name, const char *base_uri)
+static GtkWidget *window;
+static GtkLabel *label;
+static GtkProgressBar *progress;
+
+static void
+setup_progress_dialog (gboolean tasks)
 {
-	char *s;
-	GnomeVFSURI *from, *to;
-	GnomeVFSResult vres;
-	ESource *source;
-	GDir *dir;
-	gboolean retval = TRUE;
+	GtkWidget *vbox, *hbox, *w;
+	
+	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title ((GtkWindow *) window, _("Migrating..."));
+	gtk_window_set_modal ((GtkWindow *) window, TRUE);
+	gtk_container_set_border_width ((GtkContainer *) window, 6);
+	
+	vbox = gtk_vbox_new (FALSE, 6);
+	gtk_widget_show (vbox);
+	gtk_container_add ((GtkContainer *) window, vbox);
+	
+	if (tasks)
+		w = gtk_label_new (_("The location and hierarchy of the Evolution task "
+				     "folders has changed since Evolution 1.x.\n\nPlease be "
+				     "patient while Evolution migrates your folders..."));
+	else
+		w = gtk_label_new (_("The location and hierarchy of the Evolution calendar "
+				     "folders has changed since Evolution 1.x.\n\nPlease be "
+				     "patient while Evolution migrates your folders..."));
 
-	s = g_build_filename (path, filename, NULL);
-	if (!g_file_test (s, G_FILE_TEST_EXISTS)) {
-		g_free (s);
-		return FALSE;
+	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
+	gtk_widget_show (w);
+	gtk_box_pack_start_defaults ((GtkBox *) vbox, w);
+	
+	hbox = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show (hbox);
+	gtk_box_pack_start_defaults ((GtkBox *) vbox, hbox);
+	
+	label = (GtkLabel *) gtk_label_new ("");
+	gtk_widget_show ((GtkWidget *) label);
+	gtk_box_pack_start_defaults ((GtkBox *) hbox, (GtkWidget *) label);
+	
+	progress = (GtkProgressBar *) gtk_progress_bar_new ();
+	gtk_widget_show ((GtkWidget *) progress);
+	gtk_box_pack_start_defaults ((GtkBox *) hbox, (GtkWidget *) progress);
+	
+	gtk_widget_show (window);
+}
+
+static void
+dialog_close (void)
+{
+	gtk_widget_destroy ((GtkWidget *) window);
+}
+
+static void
+dialog_set_folder_name (const char *folder_name)
+{
+	char *text;
+	
+	text = g_strdup_printf (_("Migrating `%s':"), folder_name);
+	gtk_label_set_text (label, text);
+	g_free (text);
+	
+	gtk_progress_bar_set_fraction (progress, 0.0);
+	
+	while (gtk_events_pending ())
+		gtk_main_iteration ();
+}
+
+static void
+dialog_set_progress (double percent)
+{
+	char text[5];
+	
+	snprintf (text, sizeof (text), "%d%%", (int) (percent * 100.0f));
+	
+	gtk_progress_bar_set_fraction (progress, percent);
+	gtk_progress_bar_set_text (progress, text);
+	
+	while (gtk_events_pending ())
+		gtk_main_iteration ();
+}
+
+static gboolean
+check_for_conflict (ESourceGroup *group, char *name)
+{
+	GSList *sources;
+	GSList *s;
+
+	sources = e_source_group_peek_sources (group);
+
+	for (s = sources; s; s = s->next) {
+		ESource *source = E_SOURCE (s->data);
+
+		if (!strcmp (e_source_peek_name (source), name))
+			return TRUE;
 	}
 
-	/* transfer the old file to its new location */
-	from = gnome_vfs_uri_new (s);
-	g_free (s);
-	if (!from)
-		return FALSE;
+	return FALSE;
+}
 
-	to = gnome_vfs_uri_new (s);
-	g_free (s);
-	if (!to) {
-		gnome_vfs_uri_unref (from);
-		return FALSE;
-	}
+static char *
+get_source_name (ESourceGroup *group, const char *path)
+{
+	char **p = g_strsplit (path, "/", 0);
+	int i, j, starting_index;
+	int num_elements;
+	gboolean conflict;
+	GString *s = g_string_new ("");
 
-	vres = gnome_vfs_xfer_uri ((const GnomeVFSURI *) from,
-				   (const GnomeVFSURI *) to,
-				   GNOME_VFS_XFER_DEFAULT,
-				   GNOME_VFS_XFER_ERROR_MODE_ABORT,
-				   GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
-				   NULL, NULL);
-	gnome_vfs_uri_unref (from);
-	gnome_vfs_uri_unref (to);
+	for (i = 0; p[i]; i ++) ;
 
-	if (vres != GNOME_VFS_OK)
-		return FALSE;
+	num_elements = i;
+	i--;
 
-	/* Find the default source we create or create a new source */
-	source = e_source_group_peek_source_by_name (source_group, name);
-	if (!source)
-		source = e_source_new (name, base_uri);
-	e_source_group_add_source (source_group, source, -1);
+	/* p[i] is now the last path element */
 
-	/* process subfolders */
-	s = g_build_filename (path, "subfolders", NULL);
-	dir = g_dir_open (s, 0, NULL);
-	if (dir) {
-		const char *name;
-		char *tmp_s;
-
-		while ((name = g_dir_read_name (dir))) {
-			tmp_s = g_build_filename (s, name, NULL);
-			if (g_file_test (tmp_s, G_FILE_TEST_IS_DIR)) {
-				retval = process_old_dir (source_group, tmp_s, filename, name, name);
-			}
-
-			g_free (tmp_s);
+	/* check if it conflicts */
+	starting_index = i;
+	do {
+		g_string_assign (s, "");
+		for (j = starting_index; j < num_elements; j += 2) {
+			if (j != starting_index)
+				g_string_append_c (s, '_');
+			g_string_append (s, p[j]);
 		}
 
-		g_dir_close (dir);
+		conflict = check_for_conflict (group, s->str);
+
+
+		/* if there was a conflict back up 2 levels (skipping the /subfolder/ element) */
+		if (conflict)
+			starting_index -= 2;
+
+		/* we always break out if we can't go any further,
+		   regardless of whether or not we conflict. */
+		if (starting_index < 0)
+			break;
+
+	} while (conflict);
+
+	return g_string_free (s, FALSE);
+}
+
+static gboolean
+migrate_ical (ECal *old_ecal, ECal *new_ecal)
+{
+	GList *l, *objects;
+	int num_added = 0;
+	int num_objects;
+	gboolean retval = TRUE;
+	
+	/* both ecals are loaded, start the actual migration */
+	if (!e_cal_get_object_list (old_ecal, "#t", &objects, NULL))
+		return FALSE;
+
+	num_objects = g_list_length (objects);
+	for (l = objects; l; l = l->next) {
+		icalcomponent *ical_comp = l->data;
+		GError *error = NULL;
+
+		if (!e_cal_create_object (new_ecal, ical_comp, NULL, &error)) {
+			g_warning ("Migration of object failed: %s", error->message);
+			retval = FALSE;
+		}
+		
+		g_clear_error (&error);
+
+		num_added ++;
+		dialog_set_progress ((double)num_added / num_objects);
 	}
 
-	g_free (s);
-
 	return retval;
+}
+
+static gboolean
+migrate_ical_folder (char *old_path, ESourceGroup *dest_group, char *source_name, ECalSourceType type)
+{
+	ECal *old_ecal = NULL, *new_ecal = NULL;
+	ESource *old_source;
+	ESource *new_source;
+	ESourceGroup *group;
+	char *old_uri = g_strdup_printf ("file://%s", old_path);
+	GError *error = NULL;
+	gboolean retval = FALSE;
+	
+	group = e_source_group_new ("", old_uri);
+	old_source = e_source_new ("", "");
+	e_source_set_group (old_source, group);
+	g_object_unref (group);
+
+	new_source = e_source_new (source_name, source_name);
+	e_source_set_group (new_source, dest_group);
+
+	dialog_set_folder_name (source_name);
+
+	old_ecal = e_cal_new (old_source, type);
+	if (!e_cal_open (old_ecal, TRUE, &error)) {
+		g_warning ("failed to load source ecal for migration: `%s'", error->message);
+		goto finish;
+	}
+
+	new_ecal = e_cal_new (new_source, type);
+	if (!e_cal_open (new_ecal, FALSE, &error)) {
+		g_warning ("failed to load destination ecal for migration: `%s'", error->message);
+		goto finish;
+	}
+
+	retval = migrate_ical (old_ecal, new_ecal);
+
+ finish:
+	g_clear_error (&error);
+	g_object_unref (old_ecal);
+	g_object_unref (new_ecal);
+	g_free (old_uri);
+
+	return retval;	
 }
 
 static ESourceGroup *
@@ -351,21 +504,38 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 
 		if (minor <= 4) {
 			ESourceGroup *on_this_computer;
-			char *path;
+			GSList *migration_dirs, *l;
+			char *path, *local_cal_folder;
+
+			setup_progress_dialog (FALSE);
 
 			if (!create_calendar_sources (component, calendar_component_peek_source_list (component), &on_this_computer, NULL, NULL))
 				return FALSE;
 
-			/* FIXME Look for all top level calendars */
-			path = g_build_filename (g_get_home_dir (), "evolution/local/Calendar", NULL);
-			if (!g_file_test (path, G_FILE_TEST_IS_DIR)) {
-				g_free (path);
-				return FALSE;
-			}
-			retval = process_old_dir (on_this_computer, path, "calendar.ics", _("Personal"), "Personal");
+			path = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
+			migration_dirs = e_folder_map_local_folders (path, "calendar");
+			local_cal_folder = g_build_filename (path, "Calendar", NULL);
 			g_free (path);
+
+			for (l = migration_dirs; l; l = l->next) {
+				char *source_name;
+			
+				if (!strcmp (l->data, local_cal_folder))
+					source_name = g_strdup (_("Personal"));
+				else
+					source_name = get_source_name (on_this_computer, (char*)l->data + strlen (path) + 1);
+
+				if (!migrate_ical_folder (l->data, on_this_computer, source_name, E_CAL_SOURCE_TYPE_EVENT))
+					retval = FALSE;
+				
+				g_free (source_name);
+			}
+			
+			g_free (local_cal_folder);
 			
 			e_source_list_sync (calendar_component_peek_source_list (component), NULL);
+
+			dialog_close ();
 		}
 
 		if (minor == 5 && revision < 2) {
@@ -421,21 +591,38 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision)
 
 		if (minor <= 4) {
 			ESourceGroup *on_this_computer;
-			char *path;
+			GSList *migration_dirs, *l;
+			char *path, *local_task_folder;
 
+			setup_progress_dialog (TRUE);
+			
 			if (!create_task_sources (component, tasks_component_peek_source_list (component), &on_this_computer))
 				return FALSE;
 			
-			/* FIXME Look for all top level tasks */
-			path = g_build_filename (g_get_home_dir (), "evolution/local/Tasks", NULL);
-			if (!g_file_test (path, G_FILE_TEST_IS_DIR)) {
-				g_free (path);
-				return FALSE;
-			}
-			retval = process_old_dir (on_this_computer, path, "tasks.ics", _("Personal"), "Personal");
+			path = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
+			migration_dirs = e_folder_map_local_folders (path, "tasks");
+			local_task_folder = g_build_filename (path, "Tasks", NULL);
 			g_free (path);
 			
+			for (l = migration_dirs; l; l = l->next) {
+				char *source_name;
+			
+				if (!strcmp (l->data, local_task_folder))
+					source_name = g_strdup (_("Personal"));
+				else
+					source_name = get_source_name (on_this_computer, (char*)l->data + strlen (path) + 1);
+
+				if (!migrate_ical_folder (l->data, on_this_computer, source_name, E_CAL_SOURCE_TYPE_TODO))
+					retval = FALSE;
+				
+				g_free (source_name);
+			}
+			
+			g_free (local_task_folder);
+			
 			e_source_list_sync (tasks_component_peek_source_list (component), NULL);
+
+			dialog_close ();
 		}		
 	}
 	

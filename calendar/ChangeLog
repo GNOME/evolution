@@ -1,3 +1,17 @@
+2004-01-24  JP Rosevear <jpr@ximian.com>
+
+	* gui/migration.c (setup_progress_dialog): display a progress
+	dialog
+	(dialog_close): destroy it
+	(dialog_set_folder_name): display the folder being migrated
+	(dialog_set_progress): update the progress
+	(check_for_conflict): make sure we don't name anything the same
+	(get_source_name): create a source name
+	(migrate_ical): migrate the events/tasks from one ecal to another
+	(migrate_ical_folder): migrate a specific folder
+	(migrate_calendars): use above
+	(migrate_tasks): ditto
+
 2004-01-23  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/e-itip-control.c: Use PUBLISH if no METHOD defined
