@@ -1,3 +1,5 @@
+SUBDIRS = . ename
+
 imagesdir = $(datadir)/images/evolution
 
 INCLUDES =					\
