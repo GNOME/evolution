@@ -30,7 +30,6 @@ INCLUDES = 						\
 	-I$(top_srcdir)/libical/src/libical		\
 	-I$(top_builddir)/libical/src/libical		\
 	-I$(top_srcdir)/widgets				\
-	-I$(top_srcdir)/executive-summary		\
 	-I$(includedir)					\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	$(GNOME_VFS_CFLAGS)				\
@@ -54,8 +53,6 @@ evolution_calendar_SOURCES =			\
 	calendar-commands.h			\
 	calendar-model.c			\
 	calendar-model.h			\
-	calendar-summary.c			\
-	calendar-summary.h			\
 	comp-util.c				\
 	comp-util.h				\
 	control-factory.c			\
@@ -112,8 +109,8 @@ evolution_calendar_SOURCES =			\
 
 evolution_calendar_LDADD =								\
 	alarm-notify/libalarm.a								\
-	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
 	$(DB3_LDADD)									\
+	$(top_builddir)/widgets/menus/libmenus.la					\
 	$(top_builddir)/shell/libeshell.la						\
 	$(top_builddir)/calendar/cal-client/libcal-client.la				\
 	$(top_builddir)/calendar/cal-util/libcal-util.la				\
@@ -122,7 +119,7 @@ evolution_calendar_LDADD =								\
 	$(top_builddir)/libical/src/libical/libical.la					\
 	$(top_builddir)/widgets/meeting-time-sel/libevolutionmtsel.a			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
-	$(top_builddir)/widgets/menus/libmenus.la					\
+	$(EXTRA_GNOME_LIBS)				\
 	dialogs/libcal-dialogs.a							\
 	$(BONOBO_HTML_GNOME_LIBS)							\
 	$(GNOME_VFS_LIBS)								\

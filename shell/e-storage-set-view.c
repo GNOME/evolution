@@ -1332,26 +1332,48 @@ etree_icon_at (ETreeModel *etree,
 	       ETreePath tree_path,
 	       void *model_data)
 {
+	EFolderTypeRegistry *folder_type_registry;
 	EStorageSetView *storage_set_view;
 	EStorageSet *storage_set;
+	GdkPixbuf *icon_pixbuf;
 	EFolder *folder;
 	char *path;
+	int depth;
 
 	/* folders are from depth 2 on.  depth 1 are storages and 0 is
-           our (invisible) root node. */
-	if (e_tree_model_node_depth (etree, tree_path) < 2)
+           our My Evolution root node. */
+	depth = e_tree_model_node_depth (etree, tree_path);
+
+	switch (depth) {
+	case 0: /* My Evolution */
+		storage_set_view = E_STORAGE_SET_VIEW (model_data);
+		storage_set = storage_set_view->priv->storage_set;
+		
+		folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
+		
+		icon_pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry,
+									"My Evolution", TRUE);
+
+		return icon_pixbuf;
+
+	case 1:
 		return NULL;
-
-	storage_set_view = E_STORAGE_SET_VIEW (model_data);
-	storage_set = storage_set_view->priv->storage_set;
-
-	path = (char*)e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
-
-	folder = e_storage_set_get_folder (storage_set, path);
-	if (folder == NULL)
+		
+	case 2:
+		storage_set_view = E_STORAGE_SET_VIEW (model_data);
+		storage_set = storage_set_view->priv->storage_set;
+		
+		path = (char*)e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
+		
+		folder = e_storage_set_get_folder (storage_set, path);
+		if (folder == NULL)
+			return NULL;
+		
+		return get_pixbuf_for_folder (storage_set_view, folder);
+		
+	default:
 		return NULL;
-
-	return get_pixbuf_for_folder (storage_set_view, folder);
+	}
 }
 
 /* This function returns the number of columns in our ETreeModel. */
@@ -1414,7 +1436,7 @@ etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_dat
 	if (storage != NULL && col == 0)
 		return (void *) e_storage_get_name (storage);
 
-	return NULL;
+	return g_strdup ("My Evolution");
 }
 
 static void
@@ -1873,7 +1895,7 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 	e_tree_memory_set_node_destroy_func (E_TREE_MEMORY (priv->etree_model), (GFunc) g_free, NULL);
 	e_tree_memory_set_expanded_default (E_TREE_MEMORY (priv->etree_model), TRUE);
 
-	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1, g_strdup ("/Root Node"));
+	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1, g_strdup ("/My Evolution"));
 
 	extras = e_table_extras_new ();
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
@@ -1884,7 +1906,7 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 	e_tree_construct_from_spec_file (E_TREE (storage_set_view), priv->etree_model, extras,
 					 EVOLUTION_ETSPECDIR "/e-storage-set-view.etspec", NULL);
 
-	e_tree_root_node_set_visible (E_TREE(storage_set_view), FALSE);
+	e_tree_root_node_set_visible (E_TREE(storage_set_view), TRUE);
 
 	gtk_object_unref (GTK_OBJECT (extras));
 
@@ -1995,7 +2017,7 @@ e_storage_set_view_set_show_folders (EStorageSetView *storage_set_view,
 	e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), priv->root_node);
 
 	/* now re-add the root node */
-	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1, g_strdup ("/Root Node"));
+	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1, g_strdup ("/My Evolution"));
 
 	/* then reinsert the storages after setting the "show_folders"
 	   flag.  insert_storages will call insert_folders if

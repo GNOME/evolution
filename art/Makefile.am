@@ -1,21 +1,31 @@
 imagesdir = $(datadir)/images/evolution
 images_DATA = \
+	bcg.png				\
 	configure_16_addressbook.xpm	\
 	configure_16_calendar.xpm	\
 	configure_16_folder.xpm		\
 	configure_16_mail.xpm		\
 	copy_16_message.xpm		\
 	edit.xpm			\
+	empty.gif			\
 	encrypt.xpm			\
+	es-appointments.png		\
+	es-weather.png			\
 	folder.xpm			\
 	forward.xpm			\
+	ico-calendar.png		\
+	ico-mail.png			\
+	ico-rdf.png			\
+	ico-weather.png			\
 	import.png			\
 	import.xpm			\
 	move_message.xpm		\
 	offline.png			\
 	online.png			\
+	pattern.png			\
 	print.xpm			\
 	print-preview.xpm		\
+	rdf.png				\
 	reply.xpm			\
 	reply_to_all.xpm		\
 	save.xpm			\

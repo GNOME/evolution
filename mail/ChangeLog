@@ -1,3 +1,20 @@
+2001-06-07  Iain Holmes  <iain@ximian.com>
+
+	* GNOME_Evolution_Mail.oaf.in: Add server info for FolderInfo
+	Remove server info for the Summary server
+
+	* Mail.idl: Add a FolderInfo interface to retreive information about
+	a mail folder.
+
+	* Makefile.am: Remove the executive summary stuff. Add the folder-info
+	files.
+
+	* component-factory.c: Remove the mail-summary.h include.
+	Remove summary_factory.
+	(summary_fn): Remove.
+	(component_factory_init): Remove the summary_factory creation.
+	Initialise the info_factory.
+
 2001-06-08  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-ops.c (mail_send_message): Reattach X-Evolution-Account

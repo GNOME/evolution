@@ -28,6 +28,17 @@ module Evolution {
 		MessageList getMessageList ();
 	};
 
+	interface FolderInfo : Bonobo::Unknown {
+		struct MessageCount {
+			string path;
+			long count;
+			long unread;
+		};
+
+		void getInfo (in string foldername,
+			      in Bonobo::Listener listener);
+	};
+
 	interface MailConfig : Bonobo::Unknown {
 
 		struct Identity {

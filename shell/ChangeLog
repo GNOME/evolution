@@ -1,3 +1,31 @@
+2001-06-08  Iain Holmes  <iain@ximian.com>
+
+	* e-setup.c (check_dir_recur): Don't copy the old Executive-Summary dir.
+	(e_setup): If there is an Executive-Summary dir in ~/evolution/local
+	ask it the user wants to remove it.
+	(e_shell_rm_dir): Function to completely delete a directory.
+
+2001-06-07  Iain Holmes  <iain@ximian.com>
+
+	* evolution-storage.c (impl_Storage_async_create_folder): Removed
+	debug spew.
+
+	* e-shell-importer.c (start_import): Removed spew.
+
+	* e-shell-view.c (update_window_icon): Take a gboolean to say if
+	the folder is my evolution. Do special cased things for My Evolution.
+	(update_folder_title_bar): Same.
+	(update_for_current_uri): Find out if the uri is the my evolution one
+	and act accordingly.
+	(get_control_for_uri): Handle the toplevel My Evolution.
+	
+	* e-storage-set-view.c (etree_icon_at): Get an icon for the toplevel
+	My Evolution.
+	(etree_value_at): Default is to return "My Evolution"
+	(e_storage_set_view_construct): Set the toplevel to be called "My 
+	Evolution" and show it.
+	(e_storage_set_view_set_show_folders): Same.
+
 2001-06-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-commands.c (e_shell_command_add_to_shortcut_bar):

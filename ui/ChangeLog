@@ -1,3 +1,7 @@
+2001-06-08  Iain Holmes  <iain@ximian.com>
+
+	* evolution-executive-summary.xml: Change for the new stuff.
+
 2001-06-05  Jason Leach  <jleach@ximian.com>
 
 	* evolution.xml: Fix a little thing where it was actually saying

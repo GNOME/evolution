@@ -1,3 +1,16 @@
+2001-06-07  Iain Holmes  <iain@ximian.com>
+
+	* empty.gif:
+	  es-weather.png
+	  es-appointments.png
+	  ico-calendar.png
+	  ico-mail.png
+	  ico-rdf.png
+	  ico-weather.png
+	  bcg.png
+	  rdf.png
+	  pattern.png: Added all these for the new My Evolution
+
 2001-06-04  Jakub Steiner <jimmac@ximian.com>
 
 	* timezone-16.xpm: for events in a diffrent timezone

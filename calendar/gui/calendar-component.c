@@ -29,13 +29,12 @@
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 
+#include <bonobo/bonobo-generic-factory.h>
 #include "evolution-shell-component.h"
-#include <executive-summary/evolution-services/executive-summary-component.h>
 #include "component-factory.h"
 #include "tasks-control-factory.h"
 #include "control-factory.h"
 #include "calendar-config.h"
-#include "calendar-summary.h"
 #include "tasks-control.h"
 #include "tasks-migrate.h"
 
@@ -44,7 +43,6 @@
 #define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_ShellComponentFactory"
 
 static BonoboGenericFactory *factory = NULL;
-static BonoboGenericFactory *summary_factory = NULL;
 char *evolution_dir;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
@@ -332,16 +330,12 @@ factory_fn (BonoboGenericFactory *factory,
 void
 component_factory_init (void)
 {
-	if (factory != NULL && factory != NULL)
+	if (factory != NULL)
 		return;
 
 	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, factory_fn, NULL);
 
-	summary_factory = calendar_summary_factory_init ();
-
 	if (factory == NULL)
 		g_error ("Cannot initialize Evolution's calendar component.");
 
-	if (summary_factory == NULL)
-		g_error ("Cannot initialize Evolution's calendar summary component.");
 }

@@ -1,3 +1,10 @@
+2001-06-08  Iain Holmes  <iain@ximian.com>
+
+	* Makefile.am: Byebye executive-summary, hello my-evolution
+
+	* configure.in: Remove all the executive-summary Makefiles. Add the
+	my-evolution.
+
 2001-06-08  Jon Trowbridge  <trow@ximian.com>
 
 	* AUTHORS: Vanity, thy name is trow.

@@ -69,6 +69,12 @@ check_dir_recur (const char *evolution_directory,
 			continue;
 		}
 
+		/* Hack to not copy the old Executive-Summary dir */
+		if (strcmp (current->d_name, "Executive-Summary") == 0) {
+			current = readdir (def);
+			continue;
+		}
+
 		fullname = g_concat_dir_and_file (evolution_directory,
 						  current->d_name);
 		fulldefaultname = g_concat_dir_and_file (current_directory,
@@ -240,6 +246,48 @@ copy_default_stuff (const char *evolution_directory)
 	return retval;
 }
 
+static void
+e_shell_rm_dir (const char *path)
+{
+	DIR *base;
+	struct stat statbuf;
+	struct dirent *contents;
+
+	stat (path, &statbuf);
+	if (!S_ISDIR (statbuf.st_mode)) {
+		/* Not a directory */
+		g_message ("Removing: %s", path);
+		unlink (path);
+		return;
+	} else {
+		g_message ("Opening: %s", path);
+		base = opendir (path);
+
+		if (base == NULL)
+			return;
+
+		contents = readdir (base);
+		while (contents != NULL) {
+			char *fullpath;
+
+			if (strcmp (contents->d_name, ".") == 0|| 
+			    strcmp (contents->d_name, "..") ==0) {
+				contents = readdir (base);
+				continue;
+			}
+
+			fullpath = g_concat_dir_and_file (path, contents->d_name);
+			e_shell_rm_dir (fullpath);
+			g_free (fullpath);
+
+			contents = readdir (base);
+		}
+
+		closedir (base);
+		rmdir (path);
+	}
+}
+
 
 gboolean
 e_setup (const char *evolution_directory)
@@ -261,6 +309,33 @@ e_setup (const char *evolution_directory)
 	/* Make sure this is really our directory, not an Evolution
 	 * build tree or something like that.
 	 */
+	file = g_strdup_printf ("%s/local/Executive-Summary", evolution_directory);
+	if (stat (file, &statinfo) == 0) {
+		if (S_ISDIR (statinfo.st_mode)) {
+			GtkWidget *dialog;
+
+			dialog = gnome_message_box_new (_("Evolution has detected an old\n"
+							  "Executive-Summary directory.\n"
+							  "This needs to be removed before\n"
+							  "Evolution will run.\n"
+							  "Do you want me to remove this directory?"),
+							GNOME_MESSAGE_BOX_INFO,
+							GNOME_STOCK_BUTTON_YES,
+							GNOME_STOCK_BUTTON_NO,
+							NULL);
+			switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
+			case 0:
+				e_shell_rm_dir (file);
+				break;
+
+			default:
+				return FALSE;
+			}
+		}
+	}
+
+	g_free (file);
+
 	file = g_strdup_printf ("%s/shortcuts.xml", evolution_directory);
 	if (stat (file, &statinfo) != 0) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,

@@ -49,7 +49,6 @@
 
 #include "component-factory.h"
 
-#include "mail-summary.h"
 #include "mail-send-recv.h"
 
 char *default_drafts_folder_uri;
@@ -64,7 +63,6 @@ char *evolution_dir;
 #define SUMMARY_FACTORY_ID   "OAFIID:GNOME_Evolution_Mail_ExecutiveSummaryComponentFactory"
 
 static BonoboGenericFactory *component_factory = NULL;
-static BonoboGenericFactory *summary_factory = NULL;
 static GHashTable *storages_hash;
 
 /* EvolutionShellComponent methods and signals.  */
@@ -326,7 +324,6 @@ idle_quit (gpointer user_data)
 	if (e_list_length (folder_browser_factory_get_control_list ()))
 		return TRUE;
 
-	bonobo_object_unref (BONOBO_OBJECT (summary_factory));
 	bonobo_object_unref (BONOBO_OBJECT (component_factory));
 	g_hash_table_foreach (storages_hash, free_storage, NULL);
 	g_hash_table_destroy (storages_hash);
@@ -390,24 +387,16 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 	return BONOBO_OBJECT (shell_component);
 }
 
-static BonoboObject *
-summary_fn (BonoboGenericFactory *factory, void *closure)
-{
-	return executive_summary_component_factory_new (create_summary_view, 
-							NULL);
-}
-
 void
 component_factory_init (void)
 {
 	component_factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID,
 							component_fn, NULL);
-	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID,
-						      summary_fn, NULL);
 
 	evolution_mail_config_factory_init ();
+	evolution_folder_info_factory_init ();
 
-	if (component_factory == NULL || summary_factory == NULL) {
+	if (component_factory == NULL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize Evolution's mail component."));
 		exit (1);

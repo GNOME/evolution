@@ -940,11 +940,7 @@ po/Makefile.in
 e-util/Makefile
 e-util/ename/Makefile
 libibex/Makefile
-executive-summary/Makefile
-executive-summary/evolution-services/Makefile
-executive-summary/idl/Makefile
-executive-summary/component/Makefile
-executive-summary/test-service/Makefile
+my-evolution/Makefile
 camel/Makefile
 camel/providers/Makefile
 camel/providers/pop3/Makefile

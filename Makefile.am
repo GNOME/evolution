@@ -20,7 +20,6 @@ SUBDIRS =			\
         e-util                  \
         widgets                 \
         shell                   \
-	executive-summary	\
         libibex                 \
         camel                   \
         filter                  \
@@ -32,6 +31,7 @@ SUBDIRS =			\
         calendar                \
         wombat                  \
 	importers		\
+	my-evolution		\
         art                     \
 	ui			\
         default_user            \

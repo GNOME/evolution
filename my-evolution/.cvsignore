@@ -1,0 +1,12 @@
+.deps
+.libs
+.pure
+Makefile
+Makefile.in
+Mail-stubs.c
+Mail-skels.c
+Mail-common.c
+Mail.h
+evolution-executive-summary
+evolution-executive-summary.pure
+GNOME_Evolution_Summary.oaf

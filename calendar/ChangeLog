@@ -1,3 +1,13 @@
+2001-06-08  Iain Holmes  <iain@ximian.com>
+
+	* gui/component-factory.c: Removed the executive-summary includes.
+	(component_factory_init): Don't init the summary factory.
+
+	* gui/calendar-summary.[ch]: Removed.
+
+	* gui/Makefile.am: Remove executive-summary stuff, move some libs 
+	around a bit.
+
 2001-06-04  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/recurrence-page.c (recurrence_page_set_dates):

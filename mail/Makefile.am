@@ -17,8 +17,6 @@ INCLUDES = \
 	-I$(top_builddir)/composer			\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
-	-I$(top_builddir)/executive-summary		\
-	-I$(top_srcdir)/executive-summary		\
 	-I$(top_srcdir)/shell/importer			\
 	-I$(top_builddir)/shell/importer		\
 	$(MAILER_CFLAGS)				\
@@ -47,6 +45,8 @@ evolution_mail_SOURCES =		\
 	folder-browser.h		\
 	folder-browser-factory.c	\
 	folder-browser-factory.h	\
+	folder-info.c			\
+	folder-info.h			\
 	mail-accounts.c			\
 	mail-accounts.h			\
 	mail-account-editor.c		\
@@ -85,8 +85,6 @@ evolution_mail_SOURCES =		\
 	mail-send-recv.h		\
 	mail-session.c			\
 	mail-session.h			\
-	mail-summary.c			\
-	mail-summary.h			\
 	mail-tools.c			\
 	mail-tools.h			\
 	mail-types.h			\
@@ -113,24 +111,12 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/filter/libfilter.la		\
-	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
 	$(top_builddir)/shell/importer/libevolution-importer.la				\
 	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(MAILER_LIBS)
 
 evolution_mail_LDFLAGS =				\
 	-export-dynamic
-
-#evolution_outlook_importer_SOURCES =			\
-#	evolution-outlook-importer.c
-
-#evolution_outlook_importer_LDADD =			\
-#	$(BONOBO_GNOME_LIBS)				\
-#	$(EXTRA_GNOME_LIBS)				\
-#	$(top_builddir)/e-util/libeutil.la		\
-#	$(top_builddir)/shell/importer/libevolution-importer.la	\
-#	$(CAMEL_OBJS_EXTRA)				\
-#	$(top_builddir)/camel/libcamel.la
 
 test_mail_SOURCES = \
 	test-mail.c

@@ -394,7 +394,6 @@ start_import (const char *folderpath,
 	g_free (real_iid);
 
 	/* NULL for folderpath means use Inbox */
-	g_message ("Folderpath: %s", folderpath);
 	if (*folderpath == '/') {
 		folderpath = strchr (folderpath + 1, '/');
 	}

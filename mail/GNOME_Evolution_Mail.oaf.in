@@ -123,4 +123,22 @@
 		       _value="Mail configuration interface"/>
 </oaf_server>
 
+<oaf_server iid="OAFIID:GNOME_Evolution_FolderInfo_Factory"
+	    type="exe"
+	    location="evolution-mail">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/GenericFactory:1.0"/>
+	</oaf_attribute>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_FolderInfo"
+	    type="factory"
+	    location="OAFIID:GNOME_Evolution_FolderInfo_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/FolderInfo:1.0"/>
+	</oaf_attribute>
+</oaf_server>
+
 </oaf_info>
