@@ -1,5 +1,11 @@
 2003-03-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-importer.c (get_name_from_component_info): Look for the
+	"evolution:menu_name" property instead of "evolution:menu-name".
+	[#39692]
+
+2003-03-19  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-folder-selector-button.c (set_folder): If you can't
 	get a pixbuf icon for the folder's type, do not crash.  [#39599]
 

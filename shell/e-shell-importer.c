@@ -331,8 +331,7 @@ get_name_from_component_info (const Bonobo_ServerInfo *info)
 	Bonobo_ActivationProperty *property;
 	const char *name;
 
-	property = bonobo_server_info_prop_find ((Bonobo_ServerInfo *) info,
-					      "evolution:menu-name");
+	property = bonobo_server_info_prop_find ((Bonobo_ServerInfo *) info, "evolution:menu_name");
 	if (property == NULL || property->v._d != Bonobo_ACTIVATION_P_STRING)
 		return NULL;
 
