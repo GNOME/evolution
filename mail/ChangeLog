@@ -1,5 +1,8 @@
 2000-09-15  Dan Winship  <danw@helixcode.com>
 
+	* mail-callbacks.c (transfer_msg): Revert **Temp fix** from below
+	since the relevant shell bug has been fixed now.
+
 	* mail-ops.c (do_fetch_mail): Fix the sense of the "keep on
 	server" check so we're not doing this backwards. Don't
 	get_message_flags, because POP doesn't support it and it's

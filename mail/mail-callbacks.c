@@ -478,20 +478,22 @@ transfer_msg (GtkWidget *widget, gpointer user_data, gboolean delete_from_source
 	extern EvolutionShellClient *global_shell_client;
 	static char *last = NULL;
 	
+	if (last == NULL)
+		last = g_strdup ("");
 	
 	if (delete_from_source)
 		desc = _("Move message(s) to");
 	else
 		desc = _("Copy message(s) to");
 	
-	evolution_shell_client_user_select_folder (global_shell_client,
-						   desc, /* last ? last : */ "",
-						   allowed_types, &uri, &physical);
+	evolution_shell_client_user_select_folder  (global_shell_client,
+						    desc,
+						    last, allowed_types, &uri, &physical);
 	if (!uri)
 		return;
 	
 	path = strchr (uri, '/');
-	if (!last || (last && path && strcmp (last, path))) {
+	if (path && strcmp (last, path) != 0) {
 		g_free (last);
 		last = g_strdup (path);
 	}
