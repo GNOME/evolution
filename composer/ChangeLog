@@ -1,3 +1,10 @@
+2003-07-01  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer-attachment-bar.c (pixbuf_for_mime_type): Gone.
+	(update): Use e_icon_for_mime_type instead.
+
+	* Makefile.am (INCLUDES): remove EVOLUTION_IMAGESDIR define
+
 2003-06-25  Antonio Xu  <antonio.xu@sun.com>
 
 	* e-msg-composer.c (handle_mailto): Change file url to absolute
