@@ -1,3 +1,12 @@
+2000-07-12  Seth Alves  <alves@hungry.com>
+
+	* conduits/calendar/calendar-conduit.c: fixed various problems
+
+	* cal-client/Makefile.am: build a static version of the library
+	to link with the conduits
+
+	* cal-util/Makefile.am: same
+
 2000-07-11  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-component.c (scan_property): Handle the COMPLETED

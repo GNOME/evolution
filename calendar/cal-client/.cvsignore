@@ -14,3 +14,4 @@ cal-client.lo
 cal-listener.lo
 libcal-client.la
 client-test
+libcal-client-static.la

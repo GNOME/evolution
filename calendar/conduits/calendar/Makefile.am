@@ -31,7 +31,6 @@ calendar_conduit_control_applet_LDADD = \
 #		$(top_builddir)/gpilotd/libgpilotdconduit.la \
 
 
-if HAVE_GNOME_PILOT
 # calendar_conduit
 calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
 calendar_conduits_LTLIBRARIES = libcalendar_conduit.la
@@ -44,24 +43,23 @@ libcalendar_conduit_la_SOURCES = \
 calendar.conduit: calendar.conduit.in Makefile
 	sed -e 's^\@prefix\@^$(prefix)^g' < $(srcdir)/calendar.conduit.in > calendar.conduit.tmp \
 	&& mv calendar.conduit.tmp calendar.conduit
-endif 
 
+#
+# conduit
+#
 
 libcalendar_conduit_la_LDFLAGS = \
 	-rpath $(libdir)
 
-libcalendar_conduit_la_LIBADD = 				\
-	$(BONOBO_VFS_GNOME_LIBS)				\
-	$(PISOCK_LIBDIR) $(PISOCK_LIBS) 			\
-	$(GNOME_LIBDIR) 					\
+libcalendar_conduit_la_LIBADD = 					\
+	$(top_builddir)/calendar/cal-client/libcal-client-static.la	\
+	$(top_builddir)/calendar/cal-util/libcal-util-static.la		\
+	$(top_builddir)/libversit/libversit.la				\
+	$(top_builddir)/libical/src/libical/libical-static.la		\
+	$(BONOBO_VFS_GNOME_LIBS)					\
+	$(PISOCK_LIBDIR) $(PISOCK_LIBS) 				\
+	$(GNOME_LIBDIR) 						\
 	$(GNOME_LIBS)
-
-#	$(top_builddir)/calendar/cal-client/libcal-client.la	\
-#	$(top_builddir)/calendar/cal-util/libcal-util.la	\
-#	$(top_builddir)/libversit/libversit.la			\
-#	$(top_builddir)/libical/src/libical/libical.la 		\
-
-
 
 ccenterdir = $(datadir)/control-center
 ccenterPalmPilotdir = $(ccenterdir)/Peripherals

@@ -12,6 +12,10 @@ INCLUDES =						\
 	-I$(top_builddir)/libical/src/libical		\
         $(GNOME_INCLUDEDIR)
 
+#
+# cal util library
+#
+
 lib_LTLIBRARIES = libcal-util.la
 
 libcal_util_la_SOURCES = 	\
@@ -33,6 +37,18 @@ libcal_utilinclude_HEADERS =	\
 	cal-util.h		\
 	calobj.h		\
 	timeutil.h
+
+#
+# static library for use in conduits' shared libraries
+#
+noinst_LTLIBRARIES = libcal-util-static.la
+libcal_util_static_la_SOURCES = $(libcal_util_la_SOURCES)
+libcal_util_static_la_LDFLAGS = --all-static
+
+
+#
+# test program
+#
 
 icalendar_test_SOURCES =	\
 	icalendar-test.c	\

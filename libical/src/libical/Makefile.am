@@ -51,6 +51,13 @@ include_HEADERS=\
 	pvl.h
 
 
+#
+# static convenience library for use in conduits
+#
+
+noinst_LTLIBRARIES = libical-static.la
+libical_static_la_SOURCES = $(libical_a_SOURCES)
+libical_static_la_LDFLAGS = --all-static
 
 EXTRA_DIST = icallexer.c icalyacc.c icalyacc.h
 
