@@ -16,9 +16,7 @@ e_calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
 e_calendar_conduits_LTLIBRARIES = libecalendar_conduit.la
 
 libecalendar_conduit_la_SOURCES = 	\
-	calendar-conduit.c		\
-	calendar-conduit.h		\
-	calendar-conduit-config.h
+	calendar-conduit.c
 
 libecalendar_conduit_la_LDFLAGS = -module -avoid-version
 libecalendar_conduit_la_LIBADD = 					\

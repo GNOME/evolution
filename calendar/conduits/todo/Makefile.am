@@ -16,9 +16,7 @@ e_todo_conduitsdir=$(libdir)/gnome-pilot/conduits
 e_todo_conduits_LTLIBRARIES = libetodo_conduit.la
 
 libetodo_conduit_la_SOURCES = 	\
-	todo-conduit.c 		\
-	todo-conduit.h		\
-	todo-conduit-config.h 
+	todo-conduit.c
 
 libetodo_conduit_la_LDFLAGS = -module -avoid-version
 libetodo_conduit_la_LIBADD = 						\
