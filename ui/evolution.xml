@@ -74,10 +74,60 @@
       <separator/>
 
       <submenu name="Folder" _label="_Folder">
-	<menuitem name="Folder" verb="NewFolder"
+	<menuitem name="Folder"
+                  verb="NewFolder"
 		  _label="_New Folder"
 		  accel="*Control**Shift*e"
 		  pixtype="pixbuf"/>
+
+        <separator/>
+
+        <menuitem name="OpenFolderInNewWindow"
+                  verb="OpenFolderInNewWindow"
+                  _label="Open in New _Window"
+                  _tip="Open this folder in an other window"/>
+        
+        <separator/>
+
+        <menuitem name="MoveFolder"
+                  verb="MoveFolder"
+                  _label="_Move..."
+                  _tip="Move this folder to another place"/>
+
+        <menuitem name="CopyFolder"
+                  verb="CopyFolder"
+                  _label="_Copy..."
+                  _tip="Copy this folder"/>
+
+        <separator/>
+
+        <menuitem name="DeleteFolder"
+                  verb="DeleteFolder"
+                  _label="_Delete"
+                  _tip="_Delete this folder"/>
+
+        <menuitem name="RenameFolder"
+                  verb="RenameFolder"
+                  _label="_Rename..."
+                  _tip="Change the name of this folder"/>
+
+        <separator/>
+
+        <menuitem name="AddFolderToShortcutBar"
+                  verb="AddFolderToShortcutBar"
+                  _label="Add to _Shortcut Bar"
+                  _tip="Create a link to this folder in the shortcut bar"/>
+        
+        <separator/>
+
+        <placeholder name="ComponentPlaceholder"
+                     delimit="top"/>
+
+        <menuitem name="ChangeFolderProperties"
+                  verb="ChangeFolderProperties"
+                  _label="_Properties..."
+                  _tip="Change the properties for this folder"/>
+
       </submenu>
       
       <menuitem name="FileGoToFolder" verb=""
@@ -173,20 +223,62 @@
 
   <popups>
     <popup name="FolderPopup">
-      <submenu name="Folder" _label="Folder">
-	<menuitem name="Activate"
-		  verb="ActivateView"
-		  _label="_View"
-		  _tip="View the selected folder"/>
+      <menuitem name="ActivateView"
+		verb="ActivateView"
+		_label="_View"
+		_tip="View the selected folder"/>
 
-	<menuitem name="Remove"
-		  verb="RemoveFolder"
-		  _label="_Remove"
-		  _tip="Remove the selected folder"/>
+      <menuitem name="OpenFolderInNewWindow"
+		verb="OpenFolderInNewWindow"
+		_label="Open in New Window"
+		_tip="Open this folder in an other window"/>
+      
+      <separator/>
 
-	<placeholder name="ComponentPlaceholder"
-		     delimit="top"/>
-      </submenu>
+      <menuitem name="MoveFolder"
+		verb="MoveFolder"
+		_label="_Move..."
+		_tip="Move this folder to another place"/>
+
+      <menuitem name="CopyFolder"
+		verb="CopyFolder"
+		_label="_Copy..."
+		_tip="Copy this folder"/>
+
+      <separator/>
+
+      <menuitem name="DeleteFolder"
+                verb="DeleteFolder"
+                _label="_Delete"
+                _tip="_Delete this folder"/>
+
+      <menuitem name="RenameFolder"
+                verb="RenameFolder"
+                _label="_Rename..."
+                _tip="Change the name of this folder"/>
+
+      <menuitem name="CreateNewFolder"
+                verb="NewFolder"
+                _label="Create _New Folder..."
+                _tip="Create a new folder"/>
+
+      <separator/>
+
+      <menuitem name="AddFolderToShortcutBar"
+                verb="AddFolderToShortcutBar"
+                _label="Add to _Shortcut Bar"
+                _tip="Create a link to this folder in the shortcut bar"/>
+                
+      <separator/>
+
+      <placeholder name="ComponentPlaceholder"
+		   delimit="top"/>
+
+      <menuitem name="ChangeFolderProperties"
+                verb="ChangeFolderProperties"
+                _label="_Properties..."
+                _tip="Change the properties for this folder"/>
+
     </popup>
   </popups>
 

@@ -1,3 +1,8 @@
+2001-05-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution.xml: Add commands for the Folder submenu in the File
+	menu.
+
 2001-05-17  Chris Toshok  <toshok@ximian.com>
 
 	* evolution-addressbook.xml: add <commands> for the toolbar/menu
