@@ -260,6 +260,28 @@ void mail_msg_wait(unsigned int msgid)
 	}
 }
 
+void mail_msg_wait_all(void)
+{
+	struct _mail_msg *m;
+	int ismain = pthread_self() == mail_gui_thread;
+
+	if (ismain) {
+		MAIL_MT_LOCK(mail_msg_lock);
+		while (g_hash_table_size(mail_msg_active) > 0) {
+			MAIL_MT_UNLOCK(mail_msg_lock);
+			gtk_main_iteration();
+			MAIL_MT_LOCK(mail_msg_lock);
+		}
+		MAIL_MT_UNLOCK(mail_msg_lock);
+	} else {
+		MAIL_MT_LOCK(mail_msg_lock);
+		while (g_hash_table_size(mail_msg_active) > 0) {
+			pthread_cond_wait(&mail_msg_cond, &mail_msg_lock);
+		}
+		MAIL_MT_UNLOCK(mail_msg_lock);
+	}
+}
+
 EMsgPort		*mail_gui_port;
 static GIOChannel	*mail_gui_channel;
 EMsgPort		*mail_gui_reply_port;
@@ -366,16 +388,19 @@ mail_msg_received(EThread *e, EMsg *msg, void *data)
 	}
 }
 
-static void mail_msg_cleanup(void)
+void mail_msg_cleanup(void)
 {
+	mail_msg_wait_all();
+
 	e_thread_destroy(mail_thread_queued_slow);
 	e_thread_destroy(mail_thread_queued);
 	e_thread_destroy(mail_thread_new);
 
+	g_io_channel_unref(mail_gui_channel);
+	g_io_channel_unref(mail_gui_reply_channel);
+
 	e_msgport_destroy(mail_gui_port);
 	e_msgport_destroy(mail_gui_reply_port);
-
-	/* FIXME: channels too, etc */
 }
 
 void mail_msg_init(void)
@@ -406,8 +431,6 @@ void mail_msg_init(void)
 
 	mail_msg_active = g_hash_table_new(NULL, NULL);
 	mail_gui_thread = pthread_self();
-
-	atexit(mail_msg_cleanup);
 }
 
 /* ********************************************************************** */
@@ -449,6 +472,8 @@ pass_got (char *string, void *data)
 				if (mca)
 					service = mca->transport;
 			}
+			
+			mail_config_service_set_save_passwd (service, remember);
 			
 			if (mca) {
 				mail_config_service_set_save_passwd (service, remember);

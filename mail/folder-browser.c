@@ -109,13 +109,13 @@ enum {
 static guint folder_browser_signals [LAST_SIGNAL] = {0, };
 
 static void
-folder_browser_destroy (GtkObject *object)
+folder_browser_finalise (GtkObject *object)
 {
 	FolderBrowser *folder_browser;
 	CORBA_Environment ev;
-	
-	folder_browser = FOLDER_BROWSER (object);
-	
+
+	folder_browser = FOLDER_BROWSER(object);
+
 	CORBA_exception_init (&ev);
 	
 	if (folder_browser->search_full)
@@ -124,17 +124,22 @@ folder_browser_destroy (GtkObject *object)
 	if (folder_browser->sensitize_timeout_id)
 		g_source_remove (folder_browser->sensitize_timeout_id);
 
-	if (folder_browser->shell != CORBA_OBJECT_NIL)
+	if (folder_browser->shell != CORBA_OBJECT_NIL) {
 		CORBA_Object_release (folder_browser->shell, &ev);
+		folder_browser->shell = CORBA_OBJECT_NIL;
+	}
 
-	if (folder_browser->shell_view != CORBA_OBJECT_NIL)
+	if (folder_browser->shell_view != CORBA_OBJECT_NIL) {
 		CORBA_Object_release(folder_browser->shell_view, &ev);
+		folder_browser->shell_view = CORBA_OBJECT_NIL;
+	}
 
 	if (folder_browser->uicomp)
 		bonobo_object_unref (BONOBO_OBJECT (folder_browser->uicomp));
 	
 	g_free (folder_browser->uri);
-	
+	folder_browser->uri = NULL;
+
 	if (folder_browser->folder) {
 		camel_object_unhook_event(CAMEL_OBJECT(folder_browser->folder), "folder_changed",
 					  folder_changed, folder_browser);
@@ -142,13 +147,8 @@ folder_browser_destroy (GtkObject *object)
 					  folder_changed, folder_browser);
 		mail_sync_folder (folder_browser->folder, NULL, NULL);
 		camel_object_unref (CAMEL_OBJECT (folder_browser->folder));
+		folder_browser->folder = NULL;
 	}
-	
-	if (folder_browser->message_list)
-		gtk_widget_destroy (GTK_WIDGET (folder_browser->message_list));
-	
-	if (folder_browser->mail_display)
-		gtk_widget_destroy (GTK_WIDGET (folder_browser->mail_display));
 	
 	CORBA_exception_free (&ev);
 	
@@ -163,9 +163,31 @@ folder_browser_destroy (GtkObject *object)
 	}
 	
 	gtk_object_unref (GTK_OBJECT (folder_browser->invisible));
+	folder_browser->invisible = NULL;
+
 	if (folder_browser->clipboard_selection)
 		g_byte_array_free (folder_browser->clipboard_selection, TRUE);
+
+	folder_browser_parent_class->finalize(object);
+}
+
+static void
+folder_browser_destroy (GtkObject *object)
+{
+	FolderBrowser *folder_browser;
 	
+	folder_browser = FOLDER_BROWSER (object);
+	
+	if (folder_browser->message_list) {
+		gtk_widget_destroy (GTK_WIDGET (folder_browser->message_list));
+		folder_browser->message_list = NULL;
+	}
+	
+	if (folder_browser->mail_display) {
+		gtk_widget_destroy (GTK_WIDGET (folder_browser->mail_display));
+		folder_browser->mail_display = NULL;
+	}
+		
 	folder_browser_parent_class->destroy (object);
 }
 
@@ -173,6 +195,7 @@ static void
 folder_browser_class_init (GtkObjectClass *object_class)
 {
 	object_class->destroy = folder_browser_destroy;
+	object_class->finalize = folder_browser_finalise;
 	
 	folder_browser_parent_class = gtk_type_class (PARENT_TYPE);
 	
@@ -630,6 +653,9 @@ folder_browser_copy (GtkWidget *menuitem, FolderBrowser *fb)
 	gboolean cut;
 	int i;
 	
+	if (fb->message_list == NULL)
+		return;
+
 	cut = menuitem == NULL;
 	
 	if (!GTK_WIDGET_HAS_FOCUS (fb->message_list)) {
@@ -748,6 +774,9 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 	FolderBrowser *fb = data;
 	
 	d(printf ("got folder '%s' = %p\n", uri, folder));
+
+	if (fb->message_list == NULL)
+		goto done;
 	
 	fb->folder = folder;
 	if (folder == NULL)
@@ -824,7 +853,10 @@ folder_browser_is_drafts (FolderBrowser *fb)
 	const GSList *accounts;
 	MailConfigAccount *account;
 	
-	g_return_val_if_fail (IS_FOLDER_BROWSER (fb) && fb->uri, FALSE);
+	g_return_val_if_fail (IS_FOLDER_BROWSER (fb), FALSE);
+
+	if (fb->uri == NULL)
+		return FALSE;
 	
 	if (fb->folder == drafts_folder)
 		return TRUE;
@@ -854,8 +886,11 @@ folder_browser_is_sent (FolderBrowser *fb)
 	const GSList *accounts;
 	MailConfigAccount *account;
 	
-	g_return_val_if_fail (IS_FOLDER_BROWSER (fb) && fb->uri, FALSE);
-	
+	g_return_val_if_fail (IS_FOLDER_BROWSER (fb), FALSE);
+
+	if (fb->uri == NULL)
+		return FALSE;
+
 	if (fb->folder == sent_folder)
 		return TRUE;
 	

@@ -603,8 +603,12 @@ unref_standard_folders (void)
 	int i;
 	
 	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++) {
-		if (standard_folders[i].folder)
-			camel_object_unref (CAMEL_OBJECT (*standard_folders[i].folder));
+		if (standard_folders[i].folder) {
+			CamelFolder *folder = *standard_folders[i].folder;
+
+			*standard_folders[i].folder = NULL;
+			camel_object_unref (CAMEL_OBJECT (folder));
+		}
 	}
 }
 
@@ -712,6 +716,8 @@ free_storage (gpointer service, gpointer storage, gpointer data)
 static gboolean
 idle_quit (gpointer user_data)
 {
+	mail_msg_wait_all();
+
 	if (e_list_length (folder_browser_factory_get_control_list ()))
 		return TRUE;
 
@@ -730,6 +736,8 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 
 	if (mail_config_get_empty_trash_on_exit ())
 		empty_trash (NULL, NULL, NULL);
+
+	mail_msg_wait_all();
 	
 	unref_standard_folders ();
 	mail_importer_uninit ();

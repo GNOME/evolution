@@ -1,3 +1,35 @@
+2001-09-25    <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_destroy): Deal with destroy vs
+	finalise semantics.  Only destroy widgets here.
+	(folder_browser_finalise): object finalise function, actually
+	unref/free all other objects here.
+	(folder_browser_class_init): Init the finalise hook.
+	(got_folder): Check if message_list == NULL -> we've been
+	destroyed before the thread got a chance to finish loading the
+	folder.
+	(folder_browser_is_drafts): Dont use a g_return_if_fail to return
+	in what could be a valid state of the object.
+	(folder_browser_is_sent): Likewise.
+	(folder_browser_copy): Do nothing if message_list == NULL.
+
+	* main.c (main): call  mail_msg_cleanup() before leaving threads.
+
+	* component-factory.c (owner_unset_cb): Wait for all outstanding
+	operations to finish before setting up to quit.
+	(idle_quit): Wait for all outstanding ops to finish before
+	cleanup.
+	(unref_standard_folders): NULL out the standard folder before
+	unreffing it.
+
+	* mail-mt.c (mail_msg_wait_all): New function to wait for all
+	outstanding thread operations.
+	(mail_msg_cleanup): Destroy the io channels before we're
+	finished.  Also wait for all outstanding threads first.  Made
+	public.
+	(mail_msg_init): Dont call mail_msg_cleanup atexit automatically.
+
+
 2001-09-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (get_data_wrapper_text): If the data wrapper

@@ -139,6 +139,9 @@ main (int argc, char *argv [])
 
 	GDK_THREADS_ENTER ();
 	bonobo_main ();
+
+	mail_msg_cleanup();
+
 	GDK_THREADS_LEAVE ();
 	
 	mail_config_write_on_exit ();
