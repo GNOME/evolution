@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "POT-Creation-Date: 2002-10-28 16:49-0500\n"
-"PO-Revision-Date: 2003-01-28 17:51+0100\n"
+"PO-Revision-Date: 2003-01-29 15:24+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2676,7 +2676,7 @@ msgstr "Conferma sovrascrittura"
 
 #: addressbook/gui/contact-editor/file-exists.glade.h:2
 msgid "Don't bother translating this string.  It's not used."
-msgstr ""
+msgstr "Don't bother translating this string.  It's not used."
 
 #: addressbook/gui/contact-editor/file-exists.glade.h:3
 msgid "Overwrite"
@@ -27281,19 +27281,16 @@ msgid "Send / Receive"
 msgstr "Invia / Ricevi"
 
 #: ui/evolution.xml.h:30
-#, fuzzy
 msgid "Send queued items and retrieve new items"
-msgstr "Invia la posta in coda e ricevi quella nuova"
+msgstr "Invia gli elementi in coda e ricevi quelli nuovi"
 
 #: ui/evolution.xml.h:31
-#, fuzzy
 msgid "Set up Pilot conduit configuration"
-msgstr "Configurazione della Posta"
+msgstr "Imposta configurazione Pilot Conduit"
 
 #: ui/evolution.xml.h:32
-#, fuzzy
 msgid "Set up Pilot configuration"
-msgstr "Configurazione della Posta"
+msgstr "Imposta configurazione Pilot"
 
 #: ui/evolution.xml.h:33
 msgid "Show information about Ximian Evolution"
@@ -27348,9 +27345,8 @@ msgid "_Folder Bar"
 msgstr "Barra delle _Cartelle"
 
 #: ui/evolution.xml.h:52
-#, fuzzy
 msgid "_Folder..."
-msgstr "_Cartelle"
+msgstr "Cartella..."
 
 #: ui/evolution.xml.h:53
 msgid "_Go to Folder..."
@@ -27373,9 +27369,8 @@ msgid "_New Folder"
 msgstr "_Nuova Cartella"
 
 #: ui/evolution.xml.h:59
-#, fuzzy
 msgid "_Remove Other User's Folder"
-msgstr "Crea _Nuova cartella..."
+msgstr "_Rimuovi Cartella degli Altri Utenti"
 
 #: ui/evolution.xml.h:60
 msgid "_Rename..."
@@ -27390,9 +27385,8 @@ msgid "_Shortcut Bar"
 msgstr "_Barra dei Collegamenti"
 
 #: ui/evolution.xml.h:64
-#, fuzzy
 msgid "_Shortcut..."
-msgstr "_Collegamento"
+msgstr "_Scorciatoia..."
 
 #: ui/my-evolution.xml.h:3
 msgid "Print summary"
@@ -27407,39 +27401,32 @@ msgid "Reload the view"
 msgstr "Aggiorna questa vista"
 
 #: views/addressbook/galview.xml.h:1
-#, fuzzy
 msgid "By _Company"
-msgstr "Per Ditta"
+msgstr "Per Società"
 
 #: views/addressbook/galview.xml.h:2
-#, fuzzy
 msgid "_Address Cards"
-msgstr "Card con Indirizzo"
+msgstr "Card Indirizzo"
 
 #: views/addressbook/galview.xml.h:3
-#, fuzzy
 msgid "_Phone List"
-msgstr "Lista Telefoni"
+msgstr "Elenco Telefoni"
 
 #: views/calendar/galview.xml.h:1
-#, fuzzy
 msgid "W_eek View"
 msgstr "Vista Settimanale"
 
 #: views/calendar/galview.xml.h:2
-#, fuzzy
 msgid "_Day View"
 msgstr "Vista Giornaliera"
 
 #: views/calendar/galview.xml.h:3
-#, fuzzy
 msgid "_Month View"
-msgstr "Vista Mensile"
+msgstr "Vista _Mensile"
 
 #: views/calendar/galview.xml.h:4
-#, fuzzy
 msgid "_Work Week View"
-msgstr "Vista della Settimana Lavorativa"
+msgstr "Vista Settimana Lavorativa"
 
 #: views/mail/galview.xml.h:1
 msgid "As Sent Folder"
@@ -27447,7 +27434,7 @@ msgstr "Come Cartella Inviati"
 
 #: views/mail/galview.xml.h:2
 msgid "By Follow Up Flag"
-msgstr ""
+msgstr "Per Segnato come Seguente"
 
 #: views/mail/galview.xml.h:3
 msgid "By Sender"
@@ -27466,12 +27453,10 @@ msgid "Messages"
 msgstr "Messaggi"
 
 #: views/tasks/galview.xml.h:1
-#, fuzzy
 msgid "With _Category"
-msgstr "Con Categoria"
+msgstr "Con _Categoria"
 
 #: views/tasks/galview.xml.h:2
-#, fuzzy
 msgid "_Tasks"
 msgstr "_Attività"
 
@@ -27638,19 +27623,16 @@ msgid "Save Search"
 msgstr "Salva Ricerca"
 
 #: widgets/misc/e-filter-bar.h:91 widgets/misc/e-filter-bar.h:98
-#, fuzzy
 msgid "_Save Search..."
-msgstr "Salva Ricerca"
+msgstr "_Salva Ricerca..."
 
 #: widgets/misc/e-filter-bar.h:92 widgets/misc/e-filter-bar.h:99
-#, fuzzy
 msgid "_Edit Saved Searches..."
-msgstr "Aggiungi alle Ricerche Salvate"
+msgstr "Modifica Ricerche Salvate..."
 
 #: widgets/misc/e-filter-bar.h:93 widgets/misc/e-filter-bar.h:100
-#, fuzzy
 msgid "_Advanced..."
-msgstr "Avanzato..."
+msgstr "_Avanzata..."
 
 #: widgets/misc/e-messagebox.c:152
 msgid "Information"
@@ -27674,12 +27656,10 @@ msgid "Don't show this message again."
 msgstr "Non mostrare questo messagio in futuro."
 
 #: widgets/misc/e-search-bar.c:521
-#, fuzzy
 msgid "_Find Now"
 msgstr "Trova Ora"
 
 #: widgets/misc/e-search-bar.c:522
-#, fuzzy
 msgid "_Clear"
 msgstr "Annulla"
 
