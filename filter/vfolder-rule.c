@@ -258,6 +258,14 @@ select_source(GtkWidget *w, GtkWidget *child, struct _source_data *data)
 	set_sensitive(data);
 }
 
+static void
+select_source_with(GtkWidget *w, struct _source_data *data)
+{
+	char *source = gtk_object_get_data((GtkObject *)w, "source");
+
+	filter_rule_set_source((FilterRule *)data->vr, source);
+}
+
 static void source_add(GtkWidget *widget, struct _source_data *data)
 {
 	const char *allowed_types[] = { "mail", NULL };
@@ -313,6 +321,14 @@ static void source_remove(GtkWidget *widget, struct _source_data *data)
 	set_sensitive(data);
 }
 
+/* DO NOT internationalise these strings */
+const char *source_names[] = {
+	"specific",
+	"local",
+	"remote_active",
+	"local_remote_active"
+};
+
 static GtkWidget *get_widget(FilterRule *fr, struct _RuleContext *f)
 {
 	GtkWidget *widget, *frame, *w;
@@ -320,7 +336,7 @@ static GtkWidget *get_widget(FilterRule *fr, struct _RuleContext *f)
 	const char *source;
 	VfolderRule *vr = (VfolderRule *)fr;
 	struct _source_data *data;
-	int i;
+	int i, row;
 	GList *l;
 
         widget = ((FilterRuleClass *)(parent_class))->get_widget(fr, f);
@@ -354,6 +370,31 @@ static GtkWidget *get_widget(FilterRule *fr, struct _RuleContext *f)
 	}
 	gtk_list_append_items(data->list, l);
 	gtk_signal_connect((GtkObject *)w, "select_child", select_source, data);
+
+        w = glade_xml_get_widget (gui, "source_option");
+	l = GTK_MENU_SHELL (GTK_OPTION_MENU (w)->menu)->children;
+	i = 0;
+	row = 0;
+	while (l) {
+		GtkWidget *b = GTK_WIDGET (l->data);
+
+		/* make sure that the glade is in sync with the source list! */
+		if (i < sizeof (source_names) / sizeof (source_names[0])) {
+			gtk_object_set_data (GTK_OBJECT (b), "source", (char *)source_names[i]);
+			if (fr->source && strcmp(source_names[i], fr->source) == 0) {
+				row = i;
+			}
+		} else {
+			g_warning("Glade file " FILTER_GLADEDIR "/filter.glade out of sync with editor code");
+		}
+		gtk_signal_connect (GTK_OBJECT (b), "activate", select_source_with, data);
+		
+		i++;
+		l = l->next;
+	}
+
+	gtk_option_menu_set_history(GTK_OPTION_MENU(w), row);
+
 	set_sensitive(data);
 
 	gtk_box_pack_start(GTK_BOX(widget), frame, TRUE, TRUE, 3);

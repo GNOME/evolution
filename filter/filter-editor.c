@@ -429,10 +429,11 @@ select_source (GtkMenuItem *mi, struct _editor_data *data)
 	set_sensitive (data);
 }
 
+/* these strings must not be internationalised!!!! */
 static char *source_names[] = {
-	N_("incoming"),
+	"incoming",
 	/*"demand",*/
-	N_("outgoing")
+	"outgoing"
 };
 
 GtkWidget *
