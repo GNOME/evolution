@@ -24,10 +24,6 @@
 #ifndef __E_SELECT_NAMES_BONOBO_H__
 #define __E_SELECT_NAMES_BONOBO_H__
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <bonobo/bonobo-object.h>
 
 #include "Evolution-Addressbook-SelectNames.h"

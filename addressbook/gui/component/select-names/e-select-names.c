@@ -481,7 +481,7 @@ e_select_names_init (ESelectNames *e_select_names)
 				    NULL);
 	gnome_dialog_set_default(GNOME_DIALOG(e_select_names), 0);
 
-	gtk_window_set_title(GTK_WINDOW(e_select_names), "Select Contacts from Addressbook"); 
+	gtk_window_set_title(GTK_WINDOW(e_select_names), _("Select Contacts from Addressbook")); 
 	gtk_window_set_policy(GTK_WINDOW(e_select_names), FALSE, TRUE, FALSE);
 
 	e_select_names->table = E_TABLE_SCROLLED(glade_xml_get_widget(gui, "table-source"));

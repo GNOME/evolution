@@ -1,5 +1,6 @@
 2001-08-11  Kjartan Maraas  <kmaraas@gnome.org>
 
+	* gui/component/select-names/e-select-names.c: Mark a string for translation.
 	* This fixes bug #7052
 	* printing/e-contact-print.h: Add headers to make it stand on itw own.
 	* printing/e-contact-print.c: Marked some strings for translation.
