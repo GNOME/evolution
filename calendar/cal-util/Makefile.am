@@ -50,5 +50,5 @@ test_recur_SOURCES = 	\
 test_recur_LDADD = 	\
 	libcal-util.la	\
 	$(top_builddir)/libversit/libversit.la		\
-	$(top_builddir)/libical/src/libical/libical.la	\
+	$(top_builddir)/libical/src/libical/libical.a	\
 	$(EXTRA_GNOME_LIBS)

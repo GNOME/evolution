@@ -1,3 +1,7 @@
+2000-06-15  Damon Chaplin  <damon@helixcode.com>
+
+	* cal-util/Makefile.am (test_recur_LDADD): use libical.a
+
 2000-06-15  Dan Winship  <danw@helixcode.com>
 
 	* cal-util/Makefile.am (noinst_PROGRAMS): merge the two separate
@@ -132,6 +136,19 @@
 	widgets.  Use the correct radio group for all of them!
 	(print_calendar): Do the dialog box here.  We may want to split
 	this function later into smaller chunks.
+
+2000-06-05  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_button_press): 
+	allow the right button to popup the menu, even when the event is
+	being edited.
+
+	* gui/e-week-view.c: 
+	* gui/e-day-view.c: Set the keyboard focus to the EDayView/EWeekView
+	when the right button is clicked, so that any event being edited is
+	saved before any action (e.g. opening the Event Editor dialog) is
+	started. Note that this won't work if we switch to asynchronous
+	notification.
 
 2000-06-02  Federico Mena Quintero  <federico@helixcode.com>
 
