@@ -11,7 +11,6 @@ INCLUDES =						\
 	-I$(top_builddir)/libical/src/libical		\
 	$(GNOME_INCLUDEDIR)				\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
-	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"
 
 bin_PROGRAMS =	\

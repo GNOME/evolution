@@ -6,7 +6,6 @@ INCLUDES = \
 	-I$(top_srcdir)/widgets/e-text			\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	$(EXTRA_GNOME_CFLAGS)				\
-	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\

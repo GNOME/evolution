@@ -161,7 +161,6 @@ build_menus(GalViewMenus *menus)
 	int length;
 	int i;
 	GalViewCollection *collection = menus->priv->collection;
-	char *label;
 
 	root = bonobo_ui_node_new("Root");
 	menu = bonobo_ui_node_new_child(root, "menu");
@@ -179,10 +178,17 @@ build_menus(GalViewMenus *menus)
 	length = gal_view_collection_get_count(collection);
 	for (i = 0; i < length; i++) {
 		char *verb;
+		char *label;
 		GalViewCollectionItem *item = gal_view_collection_get_view_item(collection, i);
 		menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 		bonobo_ui_node_set_attr(menuitem, "name", item->id);
-		bonobo_ui_node_set_attr(menuitem, "_label", item->title);
+
+		/* bonobo displays this string so it must be in locale */
+		label = e_utf8_to_locale_string(item->title);
+		/* All labels are bonobo_ui_util_decode_str()ed,
+		 * so even translated label must be set with _label */
+		bonobo_ui_node_set_attr(menuitem, "_label", label);
+		g_free(label);
 
 		verb = g_strdup_printf("DefineViews:%s", item->id);
 		bonobo_ui_node_set_attr(menuitem, "verb", verb);

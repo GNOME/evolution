@@ -26,7 +26,6 @@ INCLUDES = \
 	$(GNOME_VFS_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\
 	$(THREADS_CFLAGS)				\
-	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
