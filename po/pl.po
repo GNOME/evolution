@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-22 16:38+0200\n"
+"POT-Creation-Date: 2003-07-25 07:56+0200\n"
 "PO-Revision-Date: 2003-05-04 16:42+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -76,9 +76,8 @@ msgstr "Głwn"
 #: addressbook/backend/ebook/e-card.c:1409
 #: addressbook/gui/contact-editor/e-contact-editor.c:1737
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:2
-#, fuzzy
 msgid "Assistant"
-msgstr "Telefon asystenta"
+msgstr "Asystent"
 
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
@@ -89,9 +88,8 @@ msgstr "Praca"
 
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
-#, fuzzy
 msgid "Bus"
-msgstr "Zajęty"
+msgstr "Zaj"
 
 #: addressbook/backend/ebook/e-card-simple.c:66
 #: addressbook/gui/contact-editor/e-contact-editor.c:1741
@@ -100,32 +98,27 @@ msgstr "Telefon kontaktowy"
 
 #: addressbook/backend/ebook/e-card-simple.c:67
 #: addressbook/gui/contact-editor/e-contact-editor.c:1743
-#, fuzzy
 msgid "Company"
-msgstr "Telefon firmowy"
+msgstr "Firma"
 
 #: addressbook/backend/ebook/e-card-simple.c:67
-#, fuzzy
 msgid "Comp"
-msgstr "S_kopiuj"
+msgstr "Firm"
 
 #: addressbook/backend/ebook/e-card-simple.c:68
 #: addressbook/backend/ebook/e-card-simple.c:71
 #: addressbook/gui/contact-editor/e-contact-editor.c:1744
 #: addressbook/gui/contact-editor/e-contact-editor.c:1810
-#, fuzzy
 msgid "Home"
 msgstr "Dom"
 
 #: addressbook/backend/ebook/e-card-simple.c:69
 #: addressbook/backend/ebook/e-card.c:1367
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:28
-#, fuzzy
 msgid "Organization"
-msgstr "_Organizacja:"
+msgstr "Organizacja"
 
 #: addressbook/backend/ebook/e-card-simple.c:69
-#, fuzzy
 msgid "Org"
 msgstr "Org"
 
@@ -136,9 +129,8 @@ msgstr "Komórka"
 
 #: addressbook/backend/ebook/e-card-simple.c:73
 #: addressbook/gui/contact-editor/e-contact-editor.c:1742
-#, fuzzy
 msgid "Car"
-msgstr "Przewodniczenie"
+msgstr "Samochód"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
 #: addressbook/gui/contact-editor/e-contact-editor.c:1740
@@ -180,9 +172,8 @@ msgstr "ISDN"
 #: addressbook/backend/ebook/e-card-simple.c:85
 #: addressbook/gui/contact-editor/e-contact-editor.c:1749
 #: addressbook/gui/contact-editor/e-contact-editor.c:1811
-#, fuzzy
 msgid "Other"
-msgstr "Inny..."
+msgstr "Inne"
 
 #: addressbook/backend/ebook/e-card-simple.c:80
 #: addressbook/gui/contact-editor/e-contact-editor.c:1750
@@ -193,21 +184,18 @@ msgstr "Inny faks"
 #: addressbook/backend/ebook/e-card-simple.c:81
 #: addressbook/gui/contact-editor/e-contact-editor.c:1751
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:32
-#, fuzzy
 msgid "Pager"
 msgstr "Pager"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
 #: addressbook/gui/contact-editor/e-contact-editor.c:1753
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
-#, fuzzy
 msgid "Radio"
 msgstr "Radio"
 
 #: addressbook/backend/ebook/e-card-simple.c:83
 #: addressbook/gui/contact-editor/e-contact-editor.c:1754
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
-#, fuzzy
 msgid "Telex"
 msgstr "Teleks"
 
@@ -232,13 +220,12 @@ msgstr "E-mail 3"
 
 #: addressbook/backend/ebook/e-card-simple.c:88
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:40
-#, fuzzy
 msgid "Web Site"
 msgstr "Witryna sieci web"
 
 #: addressbook/backend/ebook/e-card-simple.c:88
 msgid "Url"
-msgstr "Url"
+msgstr "URL"
 
 #: addressbook/backend/ebook/e-card-simple.c:89
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:11
@@ -262,49 +249,41 @@ msgstr "Bro"
 #: addressbook/backend/ebook/e-card-simple.c:91
 #: addressbook/backend/ebook/e-card.c:1388
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:39
-#, fuzzy
 msgid "Title"
-msgstr "_Tytuł:"
+msgstr "Tytuł"
 
 #: addressbook/backend/ebook/e-card-simple.c:92
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:34
-#, fuzzy
 msgid "Profession"
-msgstr "Z_awód:"
+msgstr "Zawód"
 
 #: addressbook/backend/ebook/e-card-simple.c:92
-#, fuzzy
 msgid "Prof"
 msgstr "Zawd"
 
 #: addressbook/backend/ebook/e-card-simple.c:93
 #: addressbook/backend/ebook/e-card.c:1402
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
-#, fuzzy
 msgid "Manager"
-msgstr "Menadżer"
+msgstr "Menedżer"
 
 #: addressbook/backend/ebook/e-card-simple.c:93
-#, fuzzy
 msgid "Man"
 msgstr "Mndż."
 
 #: addressbook/backend/ebook/e-card-simple.c:94
-#, fuzzy
 msgid "Ass"
 msgstr "Asys."
 
 #: addressbook/backend/ebook/e-card-simple.c:95
 #: addressbook/backend/ebook/e-card.c:1416
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:25
-#, fuzzy
 msgid "Nickname"
-msgstr "Przy_domek:"
+msgstr "Pseudonim"
 
 #: addressbook/backend/ebook/e-card-simple.c:95
-#, fuzzy
 msgid "Nick"
-msgstr "Przd."
+msgstr "Pseud."
 
 #: addressbook/backend/ebook/e-card-simple.c:96
 #: addressbook/backend/ebook/e-card.c:1423
@@ -315,9 +294,8 @@ msgstr "Małżonek"
 #: addressbook/backend/ebook/e-card-simple.c:97
 #: addressbook/backend/ebook/e-card.c:1464
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:26
-#, fuzzy
 msgid "Note"
-msgstr "Nazwa"
+msgstr "Notatka"
 
 #: addressbook/backend/ebook/e-card-simple.c:98
 #: addressbook/backend/ebook/e-card.c:1443
@@ -361,14 +339,12 @@ msgstr "Data urodzenia"
 #: addressbook/backend/ebook/e-card-simple.c:105
 #: addressbook/backend/ebook/e-card.c:1478
 #: calendar/gui/e-calendar-table.etspec.h:4
-#, fuzzy
 msgid "Categories"
-msgstr "Kategorią jest"
+msgstr "Kategorie"
 
 #: addressbook/backend/ebook/e-card-simple.c:106
-#, fuzzy
 msgid "Family Name"
-msgstr "Nazwa pola"
+msgstr "Nazwisko"
 
 #: addressbook/backend/ebook/e-card-simple.c:335
 msgid "ECard"
@@ -388,7 +364,7 @@ msgstr "Lista kontaktów bez nazwy"
 #: addressbook/gui/contact-editor/fullname.glade.h:4
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Full Name"
-msgstr "Pełna nazwa"
+msgstr "Pełne imię i nazwisko"
 
 #: addressbook/backend/ebook/e-card.c:1326
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:96
@@ -400,7 +376,6 @@ msgid "Address Label"
 msgstr "Etykieta adresu"
 
 #: addressbook/backend/ebook/e-card.c:1340
-#, fuzzy
 msgid "Phone"
 msgstr "Telefon"
 
@@ -420,14 +395,12 @@ msgstr "Jednostka organizacyjna"
 #: addressbook/backend/ebook/e-card.c:1395
 #: calendar/gui/dialogs/meeting-page.etspec.h:9
 #: calendar/gui/e-meeting-time-sel.etspec.h:9
-#, fuzzy
 msgid "Role"
 msgstr "Rola"
 
 #: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:963
-#, fuzzy
 msgid "Mailer"
-msgstr "Mndż."
+msgstr ""
 
 #: addressbook/backend/ebook/e-card.c:1450
 msgid "Free/Busy URL"
@@ -454,7 +427,6 @@ msgid "Wants HTML set"
 msgstr "Wymaga ustawienia HTML"
 
 #: addressbook/backend/ebook/e-card.c:1506
-#, fuzzy
 msgid "List"
 msgstr "Lista"
 
@@ -936,9 +908,8 @@ msgstr "Źródła książki adresowej"
 
 #: addressbook/gui/component/ldap-config.glade.h:13 mail/mail-account-gui.c:62
 #: mail/mail-config.glade.h:16
-#, fuzzy
 msgid "Always"
-msgstr "Albania"
+msgstr "Zawsze"
 
 #: addressbook/gui/component/ldap-config.glade.h:14
 msgid "Anonymously"
@@ -958,9 +929,8 @@ msgstr ""
 "Kliknij przycisk \"Zakończ\" aby zapisać wprowadzone ustawienia."
 
 #: addressbook/gui/component/ldap-config.glade.h:19
-#, fuzzy
 msgid "Connecting"
-msgstr "Nawiązywanie połączenia..."
+msgstr "Nawiązywanie połączenia"
 
 #: addressbook/gui/component/ldap-config.glade.h:20
 msgid "Distinguished _name:"
@@ -992,9 +962,8 @@ msgstr "Zakończone"
 
 #: addressbook/gui/component/ldap-config.glade.h:26
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
-#, fuzzy
 msgid "General"
-msgstr "Ogó_lne"
+msgstr "Ogólne"
 
 #: addressbook/gui/component/ldap-config.glade.h:27
 msgid "LDAP Configuration Assistant"
@@ -1002,7 +971,6 @@ msgstr "Druid konfiguracji LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:28 mail/mail-account-gui.c:64
 #: mail/mail-config.glade.h:74
-#, fuzzy
 msgid "Never"
 msgstr "Nigdy"
 
@@ -1300,9 +1268,8 @@ msgid "_Timeout (minutes):"
 msgstr "_Czas oczekiwania (minuty):"
 
 #: addressbook/gui/component/ldap-config.glade.h:91
-#, fuzzy
 msgid "cards"
-msgstr "Brak kart"
+msgstr "karty"
 
 #: addressbook/gui/component/ldap-config.glade.h:92
 msgid "connecting-tab"
@@ -1327,9 +1294,8 @@ msgstr "Usuń wszystko"
 #: addressbook/gui/component/select-names/e-select-names-popup.c:211
 #: addressbook/gui/component/select-names/e-select-names.c:694
 #: composer/e-msg-composer-attachment-bar.c:507
-#, fuzzy
 msgid "Remove"
-msgstr "_Usuń"
+msgstr "Usuń"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:218
 msgid "View Contact List"
@@ -1418,7 +1384,6 @@ msgid "Business fa_x:"
 msgstr "Faks sł_użbowy:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
-#, fuzzy
 msgid "Collaboration"
 msgstr "Współpraca"
 
@@ -2773,9 +2738,8 @@ msgid "_Last:"
 msgstr "_Nazwisko:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:16
-#, fuzzy
 msgid "_Middle:"
-msgstr "_Komórka:"
+msgstr "_Środkowe:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:17
 msgid "_Suffix:"
@@ -2819,9 +2783,8 @@ msgid "Save List as VCard"
 msgstr "Zapisz listę w formacie VCard"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
-#, fuzzy
 msgid "Contact"
-msgstr "Kontakty"
+msgstr "Kontakt"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:3
@@ -2884,7 +2847,6 @@ msgstr "liczba kart: %d"
 #: addressbook/gui/widgets/e-addressbook-view.c:187
 #: addressbook/gui/widgets/e-minicard-view-widget.c:113
 #: addressbook/gui/widgets/e-minicard-view.c:471
-#, fuzzy
 msgid "Query"
 msgstr "Zapytanie"
 
@@ -2893,7 +2855,6 @@ msgid "Error getting book view"
 msgstr "Błąd przy pobieraniu widoku książki adresowej"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:400
-#, fuzzy
 msgid "Model"
 msgstr "Model"
 
@@ -2946,14 +2907,12 @@ msgstr "Protokół nie jest obsługiwany"
 #: camel/camel-service.c:875 camel/camel-service.c:917
 #: camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
-#, fuzzy
 msgid "Cancelled"
-msgstr "Anulowano."
+msgstr "Anulowano"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:44
-#, fuzzy
 msgid "Authentication Failed"
-msgstr "Uwierzytelnienie nie powiodło się."
+msgstr "Uwierzytelnienie nie powiodło się"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:45
 msgid "Authentication Required"
@@ -2976,7 +2935,6 @@ msgid "Do you want to save changes?"
 msgstr "Czy chcesz zapisać zmiany?"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:77
-#, fuzzy
 msgid "_Discard"
 msgstr "_Porzuć"
 
@@ -3012,7 +2970,6 @@ msgstr ""
 "Czy na pewno chcesz wyświetlić te wszystkie karty?"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:328
-#, fuzzy
 msgid "Move card to"
 msgstr "Przeniesienie kart do folderu"
 
@@ -3041,9 +2998,8 @@ msgstr "Plik VCard z pozycją %s"
 #: calendar/gui/dialogs/meeting-page.etspec.h:11
 #: calendar/gui/e-calendar-table.etspec.h:18
 #: calendar/gui/e-meeting-time-sel.etspec.h:11
-#, fuzzy
 msgid "Type"
-msgstr "Typ:"
+msgstr "Rodzaj"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:398
 #: importers/evolution-gnomecard-importer.c:228 importers/pine-importer.c:642
@@ -3103,9 +3059,8 @@ msgid "Print"
 msgstr "Wydrukuj"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:904
-#, fuzzy
 msgid "Print Envelope"
-msgstr "Wydrukuj _kopertę..."
+msgstr "Wydrukuj kopertę"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:908
 msgid "Copy to folder..."
@@ -3117,30 +3072,26 @@ msgstr "Przenieś do folderu..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:912
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
-#, fuzzy
 msgid "Cut"
-msgstr "_Wytnij"
+msgstr "Wytnij"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:913
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:8
 #: ui/evolution-tasks.xml.h:2
-#, fuzzy
 msgid "Copy"
-msgstr "S_kopiuj"
+msgstr "Skopiuj"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:914
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:10
-#, fuzzy
 msgid "Paste"
-msgstr "Wk_lej"
+msgstr "Wklej"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:11
 #: mail/mail-accounts.c:234 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
-#, fuzzy
 msgid "Delete"
-msgstr "_Usuń"
+msgstr "Usuń"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:919
 #: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3690
@@ -3222,22 +3173,20 @@ msgid "Home Phone 2"
 msgstr "Telefon domowy 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:24
-#, fuzzy
 msgid "Mobile Phone"
-msgstr "Telefon domowy"
+msgstr "Telefon komórkowy"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:29
 msgid "Other Address"
 msgstr "Inny adres"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:31
-#, fuzzy
 msgid "Other Phone"
-msgstr "Telefon samochodowy"
+msgstr "Inny telefon"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 msgid "Primary Phone"
-msgstr "Główny telefon"
+msgstr "Telefon główny"
 
 #: addressbook/gui/widgets/e-minicard-control.c:204
 #, c-format
@@ -3264,12 +3213,10 @@ msgstr "Wysokość"
 
 #: addressbook/gui/widgets/e-minicard-label.c:129
 #: addressbook/gui/widgets/e-minicard.c:161
-#, fuzzy
 msgid "Has Focus"
-msgstr "Posiada kursor"
+msgstr "Posiada skupienie"
 
 #: addressbook/gui/widgets/e-minicard-label.c:136
-#, fuzzy
 msgid "Field"
 msgstr "Pole"
 
@@ -3319,9 +3266,8 @@ msgid "Adapter"
 msgstr "po"
 
 #: addressbook/gui/widgets/e-minicard.c:169
-#, fuzzy
 msgid "Selected"
-msgstr "Wybrano:"
+msgstr "Wybrano"
 
 #: addressbook/gui/widgets/e-minicard.c:176
 msgid "Has Cursor"
@@ -3337,9 +3283,8 @@ msgstr "Widok drzewiasty GTK"
 
 #: addressbook/printing/e-contact-print-envelope.c:217
 #: addressbook/printing/e-contact-print-envelope.c:238
-#, fuzzy
 msgid "Print envelope"
-msgstr "Wydrukuj _kopertę..."
+msgstr "Wydrukuj koportę"
 
 #: addressbook/printing/e-contact-print.c:1139
 msgid "Print cards"
@@ -3347,9 +3292,8 @@ msgstr "Wydrukuj karty"
 
 #: addressbook/printing/e-contact-print.c:1204
 #: addressbook/printing/e-contact-print.c:1226
-#, fuzzy
 msgid "Print card"
-msgstr "Wydrukuj karty"
+msgstr "Wydrukuj kartę"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
@@ -3368,45 +3312,38 @@ msgid "Body"
 msgstr "Treść"
 
 #: addressbook/printing/e-contact-print.glade.h:5
-#, fuzzy
 msgid "Bottom:"
-msgstr "Estonia"
+msgstr "Dół:"
 
 #: addressbook/printing/e-contact-print.glade.h:6
-#, fuzzy
 msgid "Dimensions:"
-msgstr "Prze_działy czasu:"
+msgstr "Wymiary:"
 
 #: addressbook/printing/e-contact-print.glade.h:7
 msgid "F_ont..."
 msgstr "_Czcionka..."
 
 #: addressbook/printing/e-contact-print.glade.h:8
-#, fuzzy
 msgid "Fonts"
-msgstr "miesięcy"
+msgstr "Czcionek"
 
 #: addressbook/printing/e-contact-print.glade.h:9
-#, fuzzy
 msgid "Footer:"
 msgstr "Stopka:"
 
 #: addressbook/printing/e-contact-print.glade.h:10
-#, fuzzy
 msgid "Format"
-msgstr "_Format"
+msgstr "Format"
 
 #: addressbook/printing/e-contact-print.glade.h:11
-#, fuzzy
 msgid "Header"
-msgstr "Później"
+msgstr "Nagłówek"
 
 #: addressbook/printing/e-contact-print.glade.h:12
 msgid "Header/Footer"
-msgstr "Główka/Stopka"
+msgstr "Nagłówek/Stopka"
 
 #: addressbook/printing/e-contact-print.glade.h:13
-#, fuzzy
 msgid "Headings"
 msgstr "Nagłówki"
 
@@ -3427,9 +3364,8 @@ msgid "Include:"
 msgstr "Dołączanie:"
 
 #: addressbook/printing/e-contact-print.glade.h:18
-#, fuzzy
 msgid "Landscape"
-msgstr "Później"
+msgstr "Poziome"
 
 #: addressbook/printing/e-contact-print.glade.h:19
 msgid "Left:"
@@ -3440,7 +3376,6 @@ msgid "Letter tabs on side"
 msgstr "Zakładki liter z boku"
 
 #: addressbook/printing/e-contact-print.glade.h:21
-#, fuzzy
 msgid "Margins"
 msgstr "Marginesy"
 
@@ -3453,13 +3388,11 @@ msgid "Options"
 msgstr "Opcje"
 
 #: addressbook/printing/e-contact-print.glade.h:24
-#, fuzzy
 msgid "Orientation"
 msgstr "Ułożenie"
 
 #: addressbook/printing/e-contact-print.glade.h:25
 #: my-evolution/Locations.h:1670
-#, fuzzy
 msgid "Page"
 msgstr "Strona"
 
@@ -3468,19 +3401,16 @@ msgid "Page Setup:"
 msgstr "Ustawienia strony:"
 
 #: addressbook/printing/e-contact-print.glade.h:27
-#, fuzzy
 msgid "Paper"
 msgstr "Papier"
 
 #: addressbook/printing/e-contact-print.glade.h:28
-#, fuzzy
 msgid "Paper source:"
-msgstr "Źródło VFolderów"
+msgstr "Źródło papieru:"
 
 #: addressbook/printing/e-contact-print.glade.h:29
-#, fuzzy
 msgid "Portrait"
-msgstr "Portret"
+msgstr "Pionowe"
 
 #: addressbook/printing/e-contact-print.glade.h:30
 msgid "Preview:"
@@ -3503,9 +3433,8 @@ msgid "Sections:"
 msgstr "Sekcje:"
 
 #: addressbook/printing/e-contact-print.glade.h:35
-#, fuzzy
 msgid "Shading"
-msgstr "Nagłówki"
+msgstr "Cieniowanie"
 
 #: addressbook/printing/e-contact-print.glade.h:36
 msgid "Size:"
@@ -3520,9 +3449,8 @@ msgid "Style name:"
 msgstr "Nazwa stylu:"
 
 #: addressbook/printing/e-contact-print.glade.h:39
-#, fuzzy
 msgid "Top:"
-msgstr "Dla:"
+msgstr "Góra:"
 
 #: addressbook/printing/e-contact-print.glade.h:40
 msgid "Type:"
@@ -3674,9 +3602,8 @@ msgstr "Wysoki"
 #: calendar/gui/calendar-model.c:1709
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-calendar-table.c:402 mail/message-list.c:752
-#, fuzzy
 msgid "Normal"
-msgstr "Kuba"
+msgstr "Zwykły"
 
 #: calendar/cal-util/cal-util.c:554 calendar/cal-util/cal-util.c:576
 #: calendar/gui/dialogs/task-details-page.glade.h:8
@@ -3715,9 +3642,8 @@ msgid "Could not read pilot's ToDo application block"
 msgstr "Nie można odczytać bloku aplikacji \"do zrobienia\" Pilota"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#, fuzzy
 msgid "Calendar and Tasks"
-msgstr "Ustawienia kalendarza i zadań"
+msgstr "Kalendarz i zadania"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 msgid "Configure your timezone, Calendar and Task List here "
@@ -3737,9 +3663,8 @@ msgid "Evolution Calendar configuration control"
 msgstr "Generator formantu konfiguracji Zestawienia Evolution."
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
-#, fuzzy
 msgid "Evolution Calendar scheduling message viewer"
-msgstr "Przeglądarka kalendarza Evolution"
+msgstr "Przeglądarka wiadomości terminarza dla kalendarza Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
 msgid "Evolution Calendar viewer"
@@ -3758,14 +3683,12 @@ msgid "Evolution Calendar alarm notification service"
 msgstr "Usługa przypominania za pomocą alarmu dla kalendarza Evolution"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:212
-#, fuzzy
 msgid "Starting:"
-msgstr "Początek:"
+msgstr "Rozpoczęcie:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:214
-#, fuzzy
 msgid "Ending:"
-msgstr "Ostrzeżenie"
+msgstr "Zakończenie:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:227
 msgid "invalid time"
@@ -3803,7 +3726,6 @@ msgstr "Brak opisu."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:843
 #: calendar/gui/alarm-notify/alarm-queue.c:867 widgets/misc/e-messagebox.c:161
-#, fuzzy
 msgid "Warning"
 msgstr "Ostrzeżenie"
 
@@ -3857,9 +3779,8 @@ msgid "Description contains"
 msgstr "Opis zawiera"
 
 #: calendar/gui/cal-search-bar.c:52
-#, fuzzy
 msgid "Comment contains"
-msgstr "nie zawiera"
+msgstr "Komentarz zawiera"
 
 #: calendar/gui/cal-search-bar.c:358 mail/mail-ops.c:1106
 msgid "Unmatched"
@@ -3904,9 +3825,8 @@ msgstr ""
 #: importers/netscape-importer.c:1873 mail/importers/netscape-importer.c:1843
 #: my-evolution/my-evolution.glade.h:2 shell/e-local-storage.c:177
 #: shell/e-shortcuts.c:1085
-#, fuzzy
 msgid "Calendar"
-msgstr "K_alendarz:"
+msgstr "Kalendarz"
 
 #: calendar/gui/calendar-component.c:71
 msgid "Folder containing appointments and events"
@@ -3966,7 +3886,6 @@ msgid "Create a new meeting request"
 msgstr "Tworzy nową prośbę o spotkanie"
 
 #: calendar/gui/calendar-component.c:742
-#, fuzzy
 msgid "New task"
 msgstr "Nowe zadanie"
 
@@ -3992,9 +3911,8 @@ msgstr "Tworzy nowy termin całodniowy"
 
 #: calendar/gui/calendar-model.c:405 calendar/gui/calendar-model.c:964
 #: calendar/gui/e-calendar-table.c:380
-#, fuzzy
 msgid "Private"
-msgstr "P_rywatny"
+msgstr "Prywatny"
 
 #: calendar/gui/calendar-model.c:408 calendar/gui/calendar-model.c:966
 #: calendar/gui/e-calendar-table.c:381
@@ -4002,9 +3920,8 @@ msgid "Confidential"
 msgstr "Tajny"
 
 #: calendar/gui/calendar-model.c:411 calendar/gui/e-calendar-table.c:379
-#, fuzzy
 msgid "Public"
-msgstr "Pu_bliczny"
+msgstr "Publiczny"
 
 #: calendar/gui/calendar-model.c:523
 msgid "N"
@@ -4024,9 +3941,8 @@ msgstr "W"
 
 #: calendar/gui/calendar-model.c:590 calendar/gui/calendar-model.c:1134
 #: calendar/gui/e-calendar-table.c:453
-#, fuzzy
 msgid "Free"
-msgstr "_Wolny"
+msgstr "Wolny"
 
 #: calendar/gui/calendar-model.c:592 calendar/gui/e-calendar-table.c:454
 #: calendar/gui/e-meeting-time-sel.c:406
@@ -4037,15 +3953,14 @@ msgstr "Zajęty"
 #: calendar/gui/calendar-model.c:750 calendar/gui/calendar-model.c:1178
 #: calendar/gui/dialogs/task-details-page.glade.h:10
 #: calendar/gui/e-calendar-table.c:474 calendar/gui/print.c:2298
-#, fuzzy
 msgid "Not Started"
-msgstr "Przed rozpoczęciem"
+msgstr "Nie uruchomiony"
 
 #: calendar/gui/calendar-model.c:753 calendar/gui/calendar-model.c:1180
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-calendar-table.c:475 calendar/gui/print.c:2301
 msgid "In Progress"
-msgstr "Trwające"
+msgstr "W trakcie"
 
 #: calendar/gui/calendar-model.c:756 calendar/gui/calendar-model.c:1182
 #: calendar/gui/dialogs/task-details-page.glade.h:4
@@ -4066,7 +3981,7 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
-#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2064
+#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2065
 #: mail/folder-browser.c:1774 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
@@ -4081,9 +3996,8 @@ msgid "Recurring"
 msgstr "Powtarzanie"
 
 #: calendar/gui/calendar-model.c:1713
-#, fuzzy
 msgid "Assigned"
-msgstr "Przyporządkowanie"
+msgstr "Przyporządkowano"
 
 #: calendar/gui/calendar-model.c:1719 calendar/gui/e-meeting-model.c:266
 #: calendar/gui/e-meeting-model.c:276 calendar/gui/e-meeting-model.c:534
@@ -4109,9 +4023,8 @@ msgid "Week View"
 msgstr "Widok tygodnia"
 
 #: calendar/gui/calendar-view-factory.c:127
-#, fuzzy
 msgid "Month View"
-msgstr "Widok _miesiąca"
+msgstr "Widok miesiąca"
 
 #: calendar/gui/comp-editor-factory.c:456
 msgid "Error while opening the calendar"
@@ -4171,9 +4084,8 @@ msgid "Message to Send"
 msgstr "Treść wysyłanego listu"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:5
-#, fuzzy
 msgid "Play sound:"
-msgstr "Odtworzenie dźwięku"
+msgstr "Odtworzenie dźwięku:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:6
 msgid "Repeat the alarm"
@@ -4192,9 +4104,8 @@ msgid "With these arguments:"
 msgstr "Argumenty programu:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter.glade.h:17
-#, fuzzy
 msgid "days"
-msgstr "dzień"
+msgstr "dni"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:11
 msgid "dialog1"
@@ -4231,9 +4142,8 @@ msgid "Play a sound"
 msgstr "Odtworzenie dźwięku"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:5
-#, fuzzy
 msgid "Reminders"
-msgstr "Przypomnienie!!"
+msgstr "Przypomnienia"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:469
 msgid "Run a program"
@@ -4258,9 +4168,8 @@ msgid "after"
 msgstr "po"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:11
-#, fuzzy
 msgid "before"
-msgstr "jest przed"
+msgstr "przed"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:12
 #: calendar/gui/dialogs/recurrence-page.glade.h:14
@@ -4304,7 +4213,6 @@ msgid "60 minutes"
 msgstr "60 minut"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:14
-#, fuzzy
 msgid "Alerts"
 msgstr "Alarmy"
 
@@ -4331,14 +4239,12 @@ msgstr "Dni"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 #: calendar/gui/dialogs/recurrence-page.c:1040
 #: calendar/gui/e-itip-control.c:677
-#, fuzzy
 msgid "Friday"
 msgstr "Piątek"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
-#, fuzzy
 msgid "Hours"
-msgstr "godzin"
+msgstr "Godzin"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Minutes"
@@ -4347,7 +4253,6 @@ msgstr "Minut"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: calendar/gui/dialogs/recurrence-page.c:1036
 #: calendar/gui/e-itip-control.c:673
-#, fuzzy
 msgid "Monday"
 msgstr "Poniedziałek"
 
@@ -4358,9 +4263,8 @@ msgstr "_Nie"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/dialogs/recurrence-page.c:1041
 #: calendar/gui/e-itip-control.c:678
-#, fuzzy
 msgid "Saturday"
-msgstr "Niedziela"
+msgstr "Sobota"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 msgid "Sh_ow a reminder"
@@ -4391,12 +4295,10 @@ msgstr "Lista zadań"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: calendar/gui/dialogs/recurrence-page.c:1039
 #: calendar/gui/e-itip-control.c:676
-#, fuzzy
 msgid "Thursday"
 msgstr "Czwartek"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
-#, fuzzy
 msgid "Time"
 msgstr "Czas"
 
@@ -4411,9 +4313,8 @@ msgstr "Format czasu:"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1037
 #: calendar/gui/e-itip-control.c:674
-#, fuzzy
 msgid "Tuesday"
-msgstr "Dziś"
+msgstr "Środa"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "W_eek starts:"
@@ -4459,9 +4360,8 @@ msgid "_Display"
 msgstr "Wyświ_etlanie"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
-#, fuzzy
 msgid "_Fri"
-msgstr "_Plik"
+msgstr "_Pią"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 #: mail/mail-config.glade.h:147
@@ -4494,9 +4394,8 @@ msgid "_Time divisions:"
 msgstr "Prze_działy czasu:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
-#, fuzzy
 msgid "_Tue"
-msgstr "Wt"
+msgstr "_Wto"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Wed"
@@ -4600,7 +4499,6 @@ msgid " (Completed "
 msgstr " (Zakończone "
 
 #: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2222
-#, fuzzy
 msgid "Completed "
 msgstr "Zakończone"
 
@@ -4781,9 +4679,8 @@ msgid "Appointment"
 msgstr "Termin"
 
 #: calendar/gui/dialogs/event-editor.c:206
-#, fuzzy
 msgid "Reminder"
-msgstr "Przypomnienie!!"
+msgstr "Przypomnienie"
 
 #: calendar/gui/dialogs/event-editor.c:213
 #, fuzzy
@@ -4799,9 +4696,8 @@ msgstr "Planowanie"
 #: calendar/gui/dialogs/event-editor.c:227
 #: calendar/gui/dialogs/event-editor.c:295
 #: calendar/gui/dialogs/event-editor.c:439 ui/evolution-event-editor.xml.h:6
-#, fuzzy
 msgid "Meeting"
-msgstr "Spot_kanie"
+msgstr "Spotkanie"
 
 #: calendar/gui/dialogs/event-page.c:603 calendar/gui/dialogs/task-page.c:507
 msgid "Start date is wrong"
@@ -4852,7 +4748,6 @@ msgstr "Data i czas"
 msgid "F_ree"
 msgstr "_Wolny"
 
-# FIXME (cyba): skrót klawiszowy
 #: calendar/gui/dialogs/event-page.glade.h:9
 msgid "L_ocation:"
 msgstr "P_ołożenie:"
@@ -4933,15 +4828,13 @@ msgstr "Oddelegowane do"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:6
 #: calendar/gui/e-meeting-time-sel.etspec.h:6
-#, fuzzy
 msgid "Language"
-msgstr "Język(i)"
+msgstr "Język"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:7
 #: calendar/gui/e-meeting-time-sel.etspec.h:7
-#, fuzzy
 msgid "Member"
-msgstr "Członkowie"
+msgstr "Członek"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
 #: calendar/gui/e-itip-control.c:1179
@@ -4953,9 +4846,8 @@ msgstr "RSVP"
 #: calendar/gui/e-calendar-table.etspec.h:15
 #: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:58
 #: mail/message-list.etspec.h:12
-#, fuzzy
 msgid "Status"
-msgstr "Stan:"
+msgstr "Stan"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-itip-control.glade.h:9
@@ -4993,7 +4885,6 @@ msgid "This and Future Instances"
 msgstr "Ta instancja i przyszłe"
 
 #: calendar/gui/dialogs/recur-comp.c:77
-#, fuzzy
 msgid "All Instances"
 msgstr "Wszystkie instancje"
 
@@ -5020,7 +4911,6 @@ msgid "second"
 msgstr "sekund"
 
 #: calendar/gui/dialogs/recurrence-page.c:982
-#, fuzzy
 msgid "third"
 msgstr "trzeci"
 
@@ -5029,7 +4919,6 @@ msgid "fourth"
 msgstr "czwarty"
 
 #: calendar/gui/dialogs/recurrence-page.c:984
-#, fuzzy
 msgid "last"
 msgstr "ostatni"
 
@@ -5047,9 +4936,8 @@ msgid "on the"
 msgstr "w"
 
 #: calendar/gui/dialogs/recurrence-page.c:1357
-#, fuzzy
 msgid "occurrences"
-msgstr "_Brak powtarzalności"
+msgstr ""
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "A_dd"
@@ -5065,9 +4953,8 @@ msgid "Exceptions"
 msgstr "Wyjątki"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:6
-#, fuzzy
 msgid "Preview"
-msgstr "Podgląd:"
+msgstr "Podgląd"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:7
 msgid "Recurrence Rule"
@@ -5099,16 +4986,14 @@ msgid "for"
 msgstr "czwarty"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:16
-#, fuzzy
 msgid "forever"
-msgstr "Przenieś"
+msgstr ""
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:17
 msgid "month(s)"
 msgstr "miesięcy"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:18
-#, fuzzy
 msgid "until"
 msgstr "aż do"
 
@@ -5130,7 +5015,7 @@ msgstr ""
 "\n"
 "Czy chcesz zapisać wprowadzone zmiany?"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1565
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1566
 msgid "_Discard Changes"
 msgstr "_Porzuć zmiany"
 
@@ -5165,14 +5050,12 @@ msgid "% Complete"
 msgstr "% zakończenia"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:5
-#, fuzzy
 msgid "Date Completed:"
-msgstr "Zakończone"
+msgstr "Data zakończenia:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
-#, fuzzy
 msgid "Progress"
-msgstr "Trwające"
+msgstr "Postęp"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
 msgid "URL:"
@@ -5187,7 +5070,6 @@ msgid "_Status:"
 msgstr "_Stan:"
 
 #: calendar/gui/dialogs/task-editor.c:192
-#, fuzzy
 msgid "Basic"
 msgstr "Proste"
 
@@ -5427,15 +5309,13 @@ msgid "Click to add a task"
 msgstr "Kliknij, aby dodać zadanie"
 
 #: calendar/gui/e-calendar-table.etspec.h:3
-#, fuzzy
 msgid "Alarms"
 msgstr "Alarmy"
 
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1156
 #: camel/camel-filter-driver.c:1251
-#, fuzzy
 msgid "Complete"
-msgstr "Gotowe."
+msgstr "Gotowe"
 
 #: calendar/gui/e-calendar-table.etspec.h:8
 msgid "Completion Date"
@@ -5458,16 +5338,14 @@ msgid "Priority"
 msgstr "Priorytet"
 
 #: calendar/gui/e-calendar-table.etspec.h:14
-#, fuzzy
 msgid "Start Date"
-msgstr "Cza_s rozpoczęcia:"
+msgstr "Data rozpoczęcia"
 
 #: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:56 shell/e-shell.c:750
 #: shell/e-shortcuts.c:1082
-#, fuzzy
 msgid "Summary"
-msgstr "Zestawienie:"
+msgstr "Zestawienie"
 
 #: calendar/gui/e-calendar-table.etspec.h:17
 msgid "Task sort"
@@ -5605,9 +5483,8 @@ msgid "Every %d days"
 msgstr "Co %d dni"
 
 #: calendar/gui/e-itip-control.c:726
-#, fuzzy
 msgid "Every week"
-msgstr "Co %d tygodni"
+msgstr "Co tydzień"
 
 #: calendar/gui/e-itip-control.c:728
 #, c-format
@@ -5638,9 +5515,8 @@ msgid "The %s %s of "
 msgstr "%s. %s "
 
 #: calendar/gui/e-itip-control.c:766
-#, fuzzy
 msgid "every month"
-msgstr "co %d miesięcy"
+msgstr "co miesiąc"
 
 #: calendar/gui/e-itip-control.c:771
 #, c-format
@@ -5671,16 +5547,15 @@ msgstr "<b>Początek:</b> "
 
 #: calendar/gui/e-itip-control.c:833
 msgid "<b>Ends:</b> "
-msgstr "<b>Koniec:<b>"
+msgstr "<b>Koniec:</b>"
 
 #: calendar/gui/e-itip-control.c:853
 msgid "<b>Completed:</b> "
 msgstr "<b>Zakończone:</b> "
 
 #: calendar/gui/e-itip-control.c:863
-#, fuzzy
 msgid "<b>Due:</b> "
-msgstr "<b>Koniec:<b>"
+msgstr "<b>Termin końcowy:</b>"
 
 #: calendar/gui/e-itip-control.c:900 calendar/gui/e-itip-control.c:953
 msgid "iCalendar Information"
@@ -6052,9 +5927,8 @@ msgid "--to--"
 msgstr "--do--"
 
 #: calendar/gui/e-itip-control.glade.h:4
-#, fuzzy
 msgid "Calendar Message"
-msgstr "Zdarzenia kalendarza"
+msgstr "Wiadomość kalendarza"
 
 #: calendar/gui/e-itip-control.glade.h:5
 msgid "Date:"
@@ -6081,7 +5955,6 @@ msgid "date-start"
 msgstr "data-końcowa"
 
 #: calendar/gui/e-meeting-model.c:79
-#, fuzzy
 msgid "Chair Persons"
 msgstr "Osoby przewodniczące"
 
@@ -6099,15 +5972,13 @@ msgstr "Zasoby"
 
 #: calendar/gui/e-meeting-model.c:197 calendar/gui/e-meeting-model.c:214
 #: calendar/gui/e-meeting-model.c:530 calendar/gui/e-meeting-model.c:752
-#, fuzzy
 msgid "Individual"
 msgstr "Osoba"
 
 #: calendar/gui/e-meeting-model.c:199 calendar/gui/e-meeting-model.c:216
 #: calendar/gui/e-meeting-model.c:753
-#, fuzzy
 msgid "Group"
-msgstr "Nazwa grupy:"
+msgstr "Grupa"
 
 #: calendar/gui/e-meeting-model.c:201 calendar/gui/e-meeting-model.c:218
 #: calendar/gui/e-meeting-model.c:754
@@ -6116,13 +5987,11 @@ msgstr "Zasób"
 
 #: calendar/gui/e-meeting-model.c:203 calendar/gui/e-meeting-model.c:220
 #: calendar/gui/e-meeting-model.c:755
-#, fuzzy
 msgid "Room"
 msgstr "Pomieszczenie"
 
 #: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:249
 #: calendar/gui/e-meeting-model.c:768
-#, fuzzy
 msgid "Chair"
 msgstr "Przewodniczenie"
 
@@ -6158,9 +6027,8 @@ msgid "Delegated"
 msgstr "Oddelegowane"
 
 #: calendar/gui/e-meeting-model.c:296 calendar/gui/e-meeting-model.c:319
-#, fuzzy
 msgid "In Process"
-msgstr "Trwające"
+msgstr ""
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
@@ -6339,12 +6207,10 @@ msgid "Opening default tasks folder"
 msgstr "Otwieranie domyślnego folderu zadań"
 
 #: calendar/gui/goto-dialog.glade.h:1
-#, fuzzy
 msgid "April"
-msgstr "E-mail"
+msgstr "Kwiecień"
 
 #: calendar/gui/goto-dialog.glade.h:2
-#, fuzzy
 msgid "August"
 msgstr "Sierpień"
 
@@ -6353,7 +6219,6 @@ msgid "December"
 msgstr "Grudzień"
 
 #: calendar/gui/goto-dialog.glade.h:4
-#, fuzzy
 msgid "February"
 msgstr "Luty"
 
@@ -6366,24 +6231,20 @@ msgid "Go To Today"
 msgstr "Przejdź do dziś"
 
 #: calendar/gui/goto-dialog.glade.h:7
-#, fuzzy
 msgid "January"
 msgstr "Styczeń"
 
 #: calendar/gui/goto-dialog.glade.h:8
-#, fuzzy
 msgid "July"
 msgstr "Lipiec"
 
 #: calendar/gui/goto-dialog.glade.h:9
-#, fuzzy
 msgid "June"
 msgstr "Czerwiec"
 
 #: calendar/gui/goto-dialog.glade.h:10
-#, fuzzy
 msgid "March"
-msgstr "_Znajdź"
+msgstr "Marzec"
 
 #: calendar/gui/goto-dialog.glade.h:11
 msgid "May"
@@ -6435,9 +6296,8 @@ msgid "Updated"
 msgstr "Aktualizacja"
 
 #: calendar/gui/itip-utils.c:443
-#, fuzzy
 msgid "Refresh"
-msgstr "Odśwież listę"
+msgstr "Odśwież"
 
 #: calendar/gui/itip-utils.c:447
 msgid "Counter-proposal"
@@ -6461,7 +6321,6 @@ msgid "Su"
 msgstr "Ni"
 
 #: calendar/gui/print.c:547
-#, fuzzy
 msgid "Mo"
 msgstr "Po"
 
@@ -6470,9 +6329,8 @@ msgid "Tu"
 msgstr "Wt"
 
 #: calendar/gui/print.c:547
-#, fuzzy
 msgid "We"
-msgstr "Tydzień"
+msgstr "Śr"
 
 #: calendar/gui/print.c:548
 msgid "Th"
@@ -6483,9 +6341,8 @@ msgid "Fr"
 msgstr "Pt"
 
 #: calendar/gui/print.c:548
-#, fuzzy
 msgid "Sa"
-msgstr "_Sob"
+msgstr "So"
 
 #. Day
 #: calendar/gui/print.c:1875
@@ -6521,9 +6378,8 @@ msgid "Selected year (%Y)"
 msgstr "Wybrany rok (%Y)"
 
 #: calendar/gui/print.c:2255
-#, fuzzy
 msgid "Task"
-msgstr "_Zadanie"
+msgstr "Zadanie"
 
 #: calendar/gui/print.c:2314
 #, c-format
@@ -6557,9 +6413,8 @@ msgstr "Kontakty: "
 #: calendar/gui/print.c:2518 calendar/gui/print.c:2604
 #: calendar/gui/tasks-control.c:564 mail/mail-callbacks.c:2948
 #: my-evolution/e-summary.c:649
-#, fuzzy
 msgid "Print Preview"
-msgstr "Podgląd wyd_ruku"
+msgstr "Podgląd wydruku"
 
 #: calendar/gui/print.c:2552
 msgid "Print Item"
@@ -6784,23 +6639,23 @@ msgstr "Afryka/Addis_Abeba"
 
 #: calendar/zones.h:10
 msgid "Africa/Algiers"
-msgstr ""
+msgstr "Afryka/Algier"
 
 #: calendar/zones.h:11
 msgid "Africa/Asmera"
-msgstr ""
+msgstr "Afryka/Asmara"
 
 #: calendar/zones.h:12
 msgid "Africa/Bamako"
-msgstr ""
+msgstr "Afryka/Bamako"
 
 #: calendar/zones.h:13
 msgid "Africa/Bangui"
-msgstr ""
+msgstr "Afryka/Bangi"
 
 #: calendar/zones.h:14
 msgid "Africa/Banjul"
-msgstr ""
+msgstr "Afryka/Bandźul"
 
 #: calendar/zones.h:15
 msgid "Africa/Bissau"
@@ -6808,15 +6663,15 @@ msgstr "Afryka/Bissau"
 
 #: calendar/zones.h:16
 msgid "Africa/Blantyre"
-msgstr ""
+msgstr "Afryka/Blantyre"
 
 #: calendar/zones.h:17
 msgid "Africa/Brazzaville"
-msgstr ""
+msgstr "Afryka/Brazzaville"
 
 #: calendar/zones.h:18
 msgid "Africa/Bujumbura"
-msgstr ""
+msgstr "Afryka/Bużumbura"
 
 #: calendar/zones.h:19
 msgid "Africa/Cairo"
@@ -6828,11 +6683,11 @@ msgstr "Afryka/Casablanca"
 
 #: calendar/zones.h:21
 msgid "Africa/Ceuta"
-msgstr ""
+msgstr "Afryka/Ceuta"
 
 #: calendar/zones.h:22
 msgid "Africa/Conakry"
-msgstr ""
+msgstr "Afryka/Konakri"
 
 #: calendar/zones.h:23
 msgid "Africa/Dakar"
@@ -6840,20 +6695,19 @@ msgstr "Afryka/Dakar"
 
 #: calendar/zones.h:24
 msgid "Africa/Dar_es_Salaam"
-msgstr ""
+msgstr "Afryka/Dar_es-Salaam"
 
 #: calendar/zones.h:25
-#, fuzzy
 msgid "Africa/Djibouti"
-msgstr "Dżibuti"
+msgstr "Afryka/Dżibuti"
 
 #: calendar/zones.h:26
 msgid "Africa/Douala"
-msgstr ""
+msgstr "Afryka/Douala"
 
 #: calendar/zones.h:27
 msgid "Africa/El_Aaiun"
-msgstr ""
+msgstr "Afryka/El_Aaiun"
 
 #: calendar/zones.h:28
 msgid "Africa/Freetown"
@@ -6861,11 +6715,11 @@ msgstr "Afryka/Freetown"
 
 #: calendar/zones.h:29
 msgid "Africa/Gaborone"
-msgstr ""
+msgstr "Afryka/Gaborne"
 
 #: calendar/zones.h:30
 msgid "Africa/Harare"
-msgstr ""
+msgstr "Afryka/Harara"
 
 #: calendar/zones.h:31
 msgid "Africa/Johannesburg"
@@ -6873,15 +6727,15 @@ msgstr "Afryka/Johannesburg"
 
 #: calendar/zones.h:32
 msgid "Africa/Kampala"
-msgstr ""
+msgstr "Afryka/Kampala"
 
 #: calendar/zones.h:33
 msgid "Africa/Khartoum"
-msgstr ""
+msgstr "Afryka/Chartum"
 
 #: calendar/zones.h:34
 msgid "Africa/Kigali"
-msgstr ""
+msgstr "Afryka/Kigali"
 
 #: calendar/zones.h:35
 msgid "Africa/Kinshasa"
@@ -6893,19 +6747,19 @@ msgstr "Afryka/Lagos"
 
 #: calendar/zones.h:37
 msgid "Africa/Libreville"
-msgstr ""
+msgstr "Afryka/Libreville"
 
 #: calendar/zones.h:38
 msgid "Africa/Lome"
-msgstr ""
+msgstr "Afryka/Lome"
 
 #: calendar/zones.h:39
 msgid "Africa/Luanda"
-msgstr ""
+msgstr "Afryka/Luanda"
 
 #: calendar/zones.h:40
 msgid "Africa/Lubumbashi"
-msgstr ""
+msgstr "Afryka/Lubumbashi"
 
 #: calendar/zones.h:41
 msgid "Africa/Lusaka"
@@ -6913,15 +6767,15 @@ msgstr "Afryka/Lusaka"
 
 #: calendar/zones.h:42
 msgid "Africa/Malabo"
-msgstr ""
+msgstr "Afryka/Malabo"
 
 #: calendar/zones.h:43
 msgid "Africa/Maputo"
-msgstr ""
+msgstr "Afryka/Maputo"
 
 #: calendar/zones.h:44
 msgid "Africa/Maseru"
-msgstr ""
+msgstr "Afryka/Maseru"
 
 #: calendar/zones.h:45
 msgid "Africa/Mbabane"
@@ -6929,11 +6783,11 @@ msgstr "Afryka/Mbabane"
 
 #: calendar/zones.h:46
 msgid "Africa/Mogadishu"
-msgstr "Afryka/Mogadisz"
+msgstr "Afryka/Mogadiszu"
 
 #: calendar/zones.h:47
 msgid "Africa/Monrovia"
-msgstr "Afryka/Monrowia"
+msgstr "Afryka/Monrovia"
 
 #: calendar/zones.h:48
 msgid "Africa/Nairobi"
@@ -6941,27 +6795,27 @@ msgstr "Afryka/Nairobi"
 
 #: calendar/zones.h:49
 msgid "Africa/Ndjamena"
-msgstr ""
+msgstr "Afryka/Ndżamena"
 
 #: calendar/zones.h:50
 msgid "Africa/Niamey"
-msgstr ""
+msgstr "Afryka/Niamej"
 
 #: calendar/zones.h:51
 msgid "Africa/Nouakchott"
-msgstr ""
+msgstr "Afryka/Nawakszut"
 
 #: calendar/zones.h:52
 msgid "Africa/Ouagadougou"
-msgstr ""
+msgstr "Afryka/Wagadugu"
 
 #: calendar/zones.h:53
 msgid "Africa/Porto-Novo"
-msgstr ""
+msgstr "Afryka/Porto_Novo"
 
 #: calendar/zones.h:54
 msgid "Africa/Sao_Tome"
-msgstr ""
+msgstr "Afryka/Sao_Tome"
 
 #: calendar/zones.h:55
 msgid "Africa/Timbuktu"
@@ -6969,7 +6823,7 @@ msgstr "Afryka/Timbuktu"
 
 #: calendar/zones.h:56
 msgid "Africa/Tripoli"
-msgstr ""
+msgstr "Afryka/Trypolis"
 
 #: calendar/zones.h:57
 msgid "Africa/Tunis"
@@ -6977,68 +6831,59 @@ msgstr "Afryka/Tunis"
 
 #: calendar/zones.h:58
 msgid "Africa/Windhoek"
-msgstr ""
+msgstr "Afryka/Windhuk"
 
 #: calendar/zones.h:59
-#, fuzzy
 msgid "America/Adak"
-msgstr "Samoa Amerykańska"
+msgstr "Ameryka/Adak"
 
 #: calendar/zones.h:60
-#, fuzzy
 msgid "America/Anchorage"
-msgstr "Samoa Amerykańska"
+msgstr "Ameryka/Anchorage"
 
 #: calendar/zones.h:61
-#, fuzzy
 msgid "America/Anguilla"
-msgstr "Anguilla"
+msgstr "Ameryka/Anguilla"
 
 #: calendar/zones.h:62
-#, fuzzy
 msgid "America/Antigua"
-msgstr "Samoa Amerykańska"
+msgstr "Ameryka/Antiqua"
 
 #: calendar/zones.h:63
-#, fuzzy
 msgid "America/Araguaina"
-msgstr "Nikaragua"
+msgstr "Ameryka/Araguaina"
 
 #: calendar/zones.h:64
 msgid "America/Aruba"
 msgstr "Ameryka/Aruba"
 
 #: calendar/zones.h:65
-#, fuzzy
 msgid "America/Asuncion"
-msgstr "Samoa Amerykańska"
+msgstr "Ameryka/Asuncion"
 
 #: calendar/zones.h:66
-#, fuzzy
 msgid "America/Barbados"
-msgstr "Barbados"
+msgstr "Ameryka/Barbados"
 
 #: calendar/zones.h:67
 msgid "America/Belem"
-msgstr ""
+msgstr "Ameryka/Belem"
 
 #: calendar/zones.h:68
-#, fuzzy
 msgid "America/Belize"
-msgstr "Belize"
+msgstr "Ameryka/Belize"
 
 #: calendar/zones.h:69
 msgid "America/Boa_Vista"
-msgstr ""
+msgstr "Ameryka/Boa_Vista"
 
 #: calendar/zones.h:70
-#, fuzzy
 msgid "America/Bogota"
-msgstr "Samoa Amerykańska"
+msgstr "Ameryka/Bogota"
 
 #: calendar/zones.h:71
 msgid "America/Boise"
-msgstr ""
+msgstr "Ameryka/Boise"
 
 #: calendar/zones.h:72
 msgid "America/Buenos_Aires"
@@ -7046,72 +6891,63 @@ msgstr "Ameryka/Buenos_Aires"
 
 #: calendar/zones.h:73
 msgid "America/Cambridge_Bay"
-msgstr ""
+msgstr "Ameryka/Cambridge_Bay"
 
 #: calendar/zones.h:74
 msgid "America/Cancun"
-msgstr ""
+msgstr "Ameryka/Cancun"
 
 #: calendar/zones.h:75
-#, fuzzy
 msgid "America/Caracas"
-msgstr "Samoa Amerykańska"
+msgstr "Ameryka/Caracas"
 
 #: calendar/zones.h:76
-#, fuzzy
 msgid "America/Catamarca"
-msgstr "Samoa Amerykańska"
+msgstr "Ameryka/Catamarca"
 
 #: calendar/zones.h:77
 msgid "America/Cayenne"
-msgstr ""
+msgstr "Ameryka/Kajenna"
 
 #: calendar/zones.h:78
-#, fuzzy
 msgid "America/Cayman"
-msgstr "Samoa Amerykańska"
+msgstr "Ameryka/Kajmany"
 
 #: calendar/zones.h:79
-#, fuzzy
 msgid "America/Chicago"
-msgstr "Samoa Amerykańska"
+msgstr "Ameryka/Chicago"
 
 #: calendar/zones.h:80
 msgid "America/Chihuahua"
-msgstr ""
+msgstr "Ameryka/Chihuahua"
 
 #: calendar/zones.h:81
-#, fuzzy
 msgid "America/Cordoba"
-msgstr "Samoa Amerykańska"
+msgstr "Ameryka/Cordoba"
 
 #: calendar/zones.h:82
-#, fuzzy
 msgid "America/Costa_Rica"
-msgstr "Kostaryka"
+msgstr "Ameryka/Kostaryka"
 
 #: calendar/zones.h:83
-#, fuzzy
 msgid "America/Cuiaba"
-msgstr "Samoa Amerykańska"
+msgstr "Ameryka/Cuiaba"
 
 #: calendar/zones.h:84
-#, fuzzy
 msgid "America/Curacao"
-msgstr "Samoa Amerykańska"
+msgstr "Ameryka/Curacao"
 
 #: calendar/zones.h:85
 msgid "America/Danmarkshavn"
-msgstr ""
+msgstr "Ameryka/Danmarkshavn"
 
 #: calendar/zones.h:86
-#, fuzzy
 msgid "America/Dawson"
-msgstr "Samoa Amerykańska"
+msgstr "Ameryka/Dawson"
 
 #: calendar/zones.h:87
 msgid "America/Dawson_Creek"
-msgstr ""
+msgstr "Ameryka/Dawson_Creek"
 
 #: calendar/zones.h:88
 msgid "America/Denver"
@@ -7122,63 +6958,57 @@ msgid "America/Detroit"
 msgstr "Ameryka/Detroit"
 
 #: calendar/zones.h:90
-#, fuzzy
 msgid "America/Dominica"
-msgstr "Dominika"
+msgstr "Ameryka/Dominika"
 
 #: calendar/zones.h:91
-#, fuzzy
 msgid "America/Edmonton"
-msgstr "Samoa Amerykańska"
+msgstr "Ameryka/Edmonton"
 
 #: calendar/zones.h:92
 msgid "America/Eirunepe"
-msgstr ""
+msgstr "Ameryka/Eirunepe"
 
 #: calendar/zones.h:93
-#, fuzzy
 msgid "America/El_Salvador"
-msgstr "Salwador"
+msgstr "Ameryka/Salwador"
 
 #: calendar/zones.h:94
 msgid "America/Fortaleza"
-msgstr ""
+msgstr "Ameryka/Fortaleza"
 
 #: calendar/zones.h:95
 msgid "America/Glace_Bay"
-msgstr ""
+msgstr "Ameryka/Glace_Bay"
 
+# Znowu ktoś przenosi grenlandię do ameryki
 #: calendar/zones.h:96
-#, fuzzy
 msgid "America/Godthab"
-msgstr "Samoa Amerykańska"
+msgstr "Arktyka/Godthab"
 
 #: calendar/zones.h:97
 msgid "America/Goose_Bay"
-msgstr ""
+msgstr "Ameryka/Goose_Bay"
 
 #: calendar/zones.h:98
 msgid "America/Grand_Turk"
-msgstr ""
+msgstr "Ameryka/Grand_Turk"
 
 #: calendar/zones.h:99
-#, fuzzy
 msgid "America/Grenada"
-msgstr "Samoa Amerykańska"
+msgstr "Ameryka/Grenada"
 
 #: calendar/zones.h:100
-#, fuzzy
 msgid "America/Guadeloupe"
-msgstr "Gwadelupa"
+msgstr "Ameryka/Gwadelupa"
 
 #: calendar/zones.h:101
-#, fuzzy
 msgid "America/Guatemala"
-msgstr "Gwatemala"
+msgstr "Ameryka/Gwatemala"
 
 #: calendar/zones.h:102
 msgid "America/Guayaquil"
-msgstr ""
+msgstr "Ameryka/Guayaquil"
 
 #: calendar/zones.h:103
 msgid "America/Guyana"
@@ -8747,7 +8577,6 @@ msgid "Could not load %s: No initialization code in module."
 msgstr "Nie można wczytać %s: Brak kodu inicjującego w module."
 
 #: camel/camel-sasl-anonymous.c:33
-#, fuzzy
 msgid "Anonymous"
 msgstr "Anonimowo"
 
@@ -8937,7 +8766,6 @@ msgstr ""
 "%s"
 
 #: camel/camel-sasl-login.c:32
-#, fuzzy
 msgid "Login"
 msgstr "Logowanie"
 
@@ -9533,9 +9361,8 @@ msgstr "Przeglądanie i przechowywanie poczty na serwerach IMAP."
 #: camel/providers/imap/camel-imap-provider.c:80
 #: camel/providers/nntp/camel-nntp-store.c:267
 #: camel/providers/pop3/camel-pop3-provider.c:71 mail/mail-config.glade.h:83
-#, fuzzy
 msgid "Password"
-msgstr "Zapomnij _hasła"
+msgstr "Hasło"
 
 #: camel/providers/imap/camel-imap-provider.c:82
 msgid "This option will connect to the IMAP server using a plaintext password."
@@ -10222,7 +10049,7 @@ msgstr "Usuwanie po %s dniach"
 
 #: camel/providers/pop3/camel-pop3-provider.c:46
 msgid "Disable support for all POP3 extensions"
-msgstr ""
+msgstr "Wyłączenie wsparcia dla wszystkich rozszerzeń POP3"
 
 #: camel/providers/pop3/camel-pop3-provider.c:54 mail/mail-config.glade.h:82
 msgid "POP"
@@ -10317,9 +10144,8 @@ msgstr "Folder \"%s\" nie istnieje."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
 #: mail/mail-config.glade.h:107
-#, fuzzy
 msgid "Sendmail"
-msgstr "sendmail"
+msgstr "Sendmail"
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:38
 msgid ""
@@ -10868,7 +10694,7 @@ msgstr ""
 "Odnaleziono niezapisane pliki z poprzedniej sesji Evolution.\n"
 "Czy chcesz spróbować je odzyskać?"
 
-#: composer/e-msg-composer.c:1560
+#: composer/e-msg-composer.c:1561
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10879,28 +10705,28 @@ msgstr ""
 "\n"
 "Czy chcesz zapisać zmiany?"
 
-#: composer/e-msg-composer.c:1569
+#: composer/e-msg-composer.c:1570
 msgid "Warning: Modified Message"
 msgstr "Uwaga: Zmodyfikowany list"
 
-#: composer/e-msg-composer.c:1601
+#: composer/e-msg-composer.c:1602
 msgid "Open file"
 msgstr "Otwarcie pliku"
 
-#: composer/e-msg-composer.c:2025
+#: composer/e-msg-composer.c:2026
 msgid "Signature:"
 msgstr "Podpis:"
 
-#: composer/e-msg-composer.c:2065 mail/mail-account-gui.c:1261
+#: composer/e-msg-composer.c:2066 mail/mail-account-gui.c:1261
 msgid "Autogenerated"
 msgstr "Wygenerowany automatycznie"
 
-#: composer/e-msg-composer.c:2241 composer/e-msg-composer.c:2910
-#: composer/e-msg-composer.c:2911
+#: composer/e-msg-composer.c:2242 composer/e-msg-composer.c:2911
+#: composer/e-msg-composer.c:2912
 msgid "Compose a message"
 msgstr "Tworzenie listu"
 
-#: composer/e-msg-composer.c:2942
+#: composer/e-msg-composer.c:2943
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -10908,7 +10734,7 @@ msgstr ""
 "Nie można otworzyć okna tworzenia listu:\n"
 "Nie można uaktywnić formantu wyboru adresu."
 
-#: composer/e-msg-composer.c:2970
+#: composer/e-msg-composer.c:2971
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10920,7 +10746,7 @@ msgstr ""
 "Upewnij się, że w systemie zainstalowane są\n"
 "poprawne wersje pakietów gtkhtml i  libgtkhtml.\n"
 
-#: composer/e-msg-composer.c:3037
+#: composer/e-msg-composer.c:3038
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10928,7 +10754,7 @@ msgstr ""
 "Nie można otworzyć okna tworzenia listu:\n"
 "Nie można uaktywnić komponentu edytora HTML-a."
 
-#: composer/e-msg-composer.c:4063
+#: composer/e-msg-composer.c:4064
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10953,9 +10779,8 @@ msgid "calendar information"
 msgstr "informacje kalendarza"
 
 #: default_user/searches.xml.h:1
-#, fuzzy
 msgid "Body contains"
-msgstr "zawiera"
+msgstr "Treść zawiera"
 
 #: default_user/searches.xml.h:2
 msgid "Body does not contain"
@@ -11286,9 +11111,8 @@ msgid "<click here to select a date>"
 msgstr "<kliknij, aby wybrać datę>"
 
 #: filter/filter-datespec.c:278 filter/filter-datespec.c:289
-#, fuzzy
 msgid "now"
-msgstr "Śnieg"
+msgstr "teraz"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: filter/filter-datespec.c:285
@@ -11318,9 +11142,8 @@ msgstr "Wybór pliku"
 
 #. and now for the action area
 #: filter/filter-filter.c:491
-#, fuzzy
 msgid "Then"
-msgstr "Cz"
+msgstr "Wtedy"
 
 #: filter/filter-folder.c:155
 msgid "You must specify a folder."
@@ -11342,21 +11165,18 @@ msgstr ""
 
 #: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
 #: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1411
-#, fuzzy
 msgid "Important"
-msgstr "Importowanie"
+msgstr "Ważne"
 
 #. red
 #: filter/filter-label.c:122 mail/mail-config.c:66
 #: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1412
-#, fuzzy
 msgid "Work"
 msgstr "Praca"
 
 #. orange
 #: filter/filter-label.c:123 mail/mail-config.c:67 mail/mail-config.glade.h:84
 #: shell/e-config-upgrade.c:1413
-#, fuzzy
 msgid "Personal"
 msgstr "Osobiste"
 
@@ -11369,12 +11189,10 @@ msgstr "Do zrobienia"
 #. blue
 #: filter/filter-label.c:125 mail/mail-config.c:69 mail/mail-config.glade.h:66
 #: shell/e-config-upgrade.c:1415
-#, fuzzy
 msgid "Later"
-msgstr "po"
+msgstr "Później"
 
 #: filter/filter-part.c:531 shell/evolution-test-component.c:63
-#, fuzzy
 msgid "Test"
 msgstr "Test"
 
@@ -11407,14 +11225,12 @@ msgid "if any criteria are met"
 msgstr "przy spełnieniu któregokolwiek z kryteriów"
 
 #: filter/filter-rule.c:895
-#, fuzzy
 msgid "incoming"
-msgstr "Przetwarzanie"
+msgstr "przychodzące"
 
 #: filter/filter-rule.c:895
-#, fuzzy
 msgid "outgoing"
-msgstr "Wychodzące"
+msgstr "wychodzące"
 
 #: filter/filter.glade.h:1
 msgid "Compare against"
@@ -11429,9 +11245,8 @@ msgid "Edit VFolders"
 msgstr "Modyfikacja VFolderów"
 
 #: filter/filter.glade.h:5
-#, fuzzy
 msgid "Incoming"
-msgstr "Przetwarzanie"
+msgstr "Przychodzące"
 
 #: filter/filter.glade.h:6
 msgid "Outgoing"
@@ -11470,7 +11285,6 @@ msgid "a time relative to the current time"
 msgstr "czasem podanym względem bieżącego"
 
 #: filter/filter.glade.h:16
-#, fuzzy
 msgid "ago"
 msgstr "temu"
 
@@ -11532,9 +11346,8 @@ msgid "Assign Score"
 msgstr "Przypisz punkty"
 
 #: filter/libfilter-i18n.h:5
-#, fuzzy
 msgid "Attachments"
-msgstr "załącznik"
+msgstr "Załączniki"
 
 #: filter/libfilter-i18n.h:6
 msgid "Beep"
@@ -11609,12 +11422,10 @@ msgid "Expression"
 msgstr "Wyrażenie"
 
 #: filter/libfilter-i18n.h:25
-#, fuzzy
 msgid "Follow Up"
-msgstr "Po_dążaj..."
+msgstr "Podążaj"
 
 #: filter/libfilter-i18n.h:27
-#, fuzzy
 msgid "is"
 msgstr "jest"
 
@@ -11639,7 +11450,6 @@ msgid "is less than"
 msgstr "jest mniejszy niż"
 
 #: filter/libfilter-i18n.h:33
-#, fuzzy
 msgid "is not"
 msgstr "nie jest"
 
@@ -11648,14 +11458,12 @@ msgid "is not Flagged"
 msgstr "nie jest oznaczony"
 
 #: filter/libfilter-i18n.h:35 mail/folder-browser.c:1822
-#, fuzzy
 msgid "Label"
 msgstr "Etykieta"
 
 #: filter/libfilter-i18n.h:36
-#, fuzzy
 msgid "Mailing list"
-msgstr "lista dyskusyjna %s"
+msgstr "Lista dyskusyjna"
 
 #: filter/libfilter-i18n.h:37
 msgid "Message Body"
@@ -11678,9 +11486,8 @@ msgid "Play Sound"
 msgstr "Odtworzenie dźwięku"
 
 #: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:68
-#, fuzzy
 msgid "Read"
-msgstr "Nagłówki"
+msgstr "Przeczytane"
 
 #: filter/libfilter-i18n.h:43
 msgid "Recipients"
@@ -11709,14 +11516,12 @@ msgstr "zwraca mniej niż"
 
 #: filter/libfilter-i18n.h:49 filter/score-rule.c:184 filter/score-rule.c:186
 #: mail/message-list.etspec.h:10
-#, fuzzy
 msgid "Score"
 msgstr "Punkty"
 
 #: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1820
-#, fuzzy
 msgid "Sender"
-msgstr "Wyślij"
+msgstr "Nadawca"
 
 #: filter/libfilter-i18n.h:51
 msgid "Set Status"
@@ -11752,9 +11557,8 @@ msgstr "Zatrzymanie przetwarzania"
 
 #: filter/libfilter-i18n.h:60 mail/mail-format.c:934
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
-#, fuzzy
 msgid "Subject"
-msgstr "Temat:"
+msgstr "Temat"
 
 #: filter/libfilter-i18n.h:61
 msgid "Unset Status"
@@ -11767,7 +11571,6 @@ msgid "Rule name '%s' is not unique, choose another."
 msgstr "Nazwa reguły \"%s\" nie jest unikalna, wybierz inną."
 
 #: filter/rule-editor.c:170
-#, fuzzy
 msgid "Rules"
 msgstr "Reguły"
 
@@ -11834,9 +11637,8 @@ msgstr "Analizowanie %s"
 #: mail/folder-browser-ui.c:360 mail/importers/elm-importer.c:526
 #: mail/importers/netscape-importer.c:2085 mail/importers/pine-importer.c:572
 #: my-evolution/my-evolution.glade.h:4
-#, fuzzy
 msgid "Mail"
-msgstr "_Poczta:"
+msgstr "Poczta"
 
 #: importers/elm-importer.c:545 mail/importers/elm-importer.c:547
 msgid ""
@@ -11847,7 +11649,6 @@ msgstr ""
 "Czy chcesz zaimportować je do Evolution?"
 
 #: importers/elm-importer.c:574 mail/importers/elm-importer.c:568
-#, fuzzy
 msgid "Elm"
 msgstr "Elm"
 
@@ -11926,19 +11727,16 @@ msgstr "Analizowanie katalogu"
 
 #: importers/netscape-importer.c:2047 mail/importers/netscape-importer.c:2015
 #: shell/e-shell-startup-wizard.c:556
-#, fuzzy
 msgid "Starting import"
-msgstr "Uruchamianie inteligentnych importerów"
+msgstr "Uruchamianie importu"
 
 #: importers/netscape-importer.c:2133 mail/importers/netscape-importer.c:2090
-#, fuzzy
 msgid "Settings"
-msgstr "_Ustawienia..."
+msgstr "Ustawienia"
 
 #: importers/netscape-importer.c:2138 mail/importers/netscape-importer.c:2095
-#, fuzzy
 msgid "Mail Filters"
-msgstr "Modyfikacja filtrów"
+msgstr "Filtry poczty"
 
 #: importers/netscape-importer.c:2161 mail/importers/netscape-importer.c:2119
 msgid ""
@@ -11961,9 +11759,8 @@ msgstr ""
 "Czy chcesz zaimportować je do Evolution?"
 
 #: importers/pine-importer.c:691 mail/importers/pine-importer.c:618
-#, fuzzy
 msgid "Pine"
-msgstr "Wydrukuj"
+msgstr "Pine"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "Composer Preferences"
@@ -12080,9 +11877,8 @@ msgid "New Mail Message"
 msgstr "Nowy list"
 
 #: mail/component-factory.c:1067
-#, fuzzy
 msgid "_Mail Message"
-msgstr "Nowy list"
+msgstr "_List"
 
 #: mail/component-factory.c:1068
 msgid "Compose a new mail message"
@@ -12114,9 +11910,8 @@ msgid "Properties for \"%s\""
 msgstr "Właściwości \"%s\""
 
 #: mail/folder-browser-ui.c:488
-#, fuzzy
 msgid "Properties"
-msgstr "Właściwości..."
+msgstr "Właściwości"
 
 #: mail/folder-browser.c:329 mail/mail-display.c:395 mail/mail-display.c:973
 #, c-format
@@ -12224,7 +12019,6 @@ msgid "_Forward"
 msgstr "_Prześlij"
 
 #: mail/folder-browser.c:1799
-#, fuzzy
 msgid "Follo_w Up..."
 msgstr "Po_dążaj..."
 
@@ -12293,9 +12087,8 @@ msgid "VFolder on M_ailing List (%s)"
 msgstr "VFolder w oparciu o _listę dyskusyjną (%s)"
 
 #: mail/folder-browser.h:26 mail/mail-config.glade.h:39
-#, fuzzy
 msgid "Default"
-msgstr "D_omyślne"
+msgstr "Domyślne"
 
 #: mail/folder-info.c:70
 msgid "Getting Folder Information"
@@ -12357,7 +12150,6 @@ msgid "maildir"
 msgstr "maildir"
 
 #: mail/local-config.glade.h:8
-#, fuzzy
 msgid "mbox"
 msgstr "mbox"
 
@@ -12407,7 +12199,6 @@ msgstr "Unieaktywnij"
 #: mail/mail-accounts.c:312 mail/mail-accounts.c:351 mail/mail-accounts.c:393
 #: mail/mail-composer-prefs.c:675 mail/mail-composer-prefs.c:693
 #: mail/mail-composer-prefs.c:717
-#, fuzzy
 msgid "Enable"
 msgstr "Aktywne"
 
@@ -12432,9 +12223,9 @@ msgid "Protocol"
 msgstr "Protokół"
 
 #: mail/mail-autofilter.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "Mail to %s"
-msgstr "List od %s"
+msgstr "List do %s"
 
 #: mail/mail-autofilter.c:238
 #, c-format
@@ -12663,9 +12454,8 @@ msgstr ""
 "%s"
 
 #: mail/mail-callbacks.c:2789
-#, fuzzy
 msgid "Filters"
-msgstr "_Filtry..."
+msgstr "Filtry"
 
 #: mail/mail-callbacks.c:2830
 #, c-format
@@ -12673,9 +12463,8 @@ msgid "Page %d of %d"
 msgstr "Strona %d z %d"
 
 #: mail/mail-callbacks.c:2886
-#, fuzzy
 msgid "Print Message"
-msgstr "Drukuje list"
+msgstr "Wydrukuj list"
 
 #: mail/mail-callbacks.c:2954
 msgid "Printing of message failed"
@@ -12712,9 +12501,8 @@ msgid "Signature(s)"
 msgstr "Podpis(y)"
 
 #: mail/mail-config-druid.c:380 mail/mail-config.glade.h:61
-#, fuzzy
 msgid "Identity"
-msgstr "_Tożsamość"
+msgstr "Tożsamość"
 
 #: mail/mail-config-druid.c:382
 msgid ""
@@ -12839,9 +12627,8 @@ msgid "Attach original message"
 msgstr "Załączenie oryginalnego listu"
 
 #: mail/mail-config.glade.h:21 mail/message-list.etspec.h:1
-#, fuzzy
 msgid "Attachment"
-msgstr "załącznik"
+msgstr "Załącznik"
 
 #: mail/mail-config.glade.h:22
 msgid "Authentication"
@@ -12904,9 +12691,8 @@ msgid "De_fault"
 msgstr "D_omyślne"
 
 #: mail/mail-config.glade.h:40
-#, fuzzy
 msgid "Default Behavior"
-msgstr "Domyślny priorytet:"
+msgstr "Domyślne zachowanie"
 
 #: mail/mail-config.glade.h:41
 msgid "Default character _encoding:"
@@ -12930,9 +12716,8 @@ msgstr ""
 "Bez podpisywania próśb o _spotkanie (dla zgodności z programem Outlook)"
 
 #: mail/mail-config.glade.h:47 shell/glade/evolution-startup-wizard.glade.h:1
-#, fuzzy
 msgid "Done"
-msgstr "Rola"
+msgstr "Gotowe"
 
 #: mail/mail-config.glade.h:48
 msgid "Drafts _folder:"
@@ -13339,7 +13124,6 @@ msgid "_Signatures"
 msgstr "_Podpisy"
 
 #: mail/mail-config.glade.h:167
-#, fuzzy
 msgid "_Standard Font:"
 msgstr "_Zwykła czcionka:"
 
@@ -13360,9 +13144,8 @@ msgid "color"
 msgstr "kolor"
 
 #: mail/mail-config.glade.h:172
-#, fuzzy
 msgid "description"
-msgstr "Brak opisu"
+msgstr "opis"
 
 #: mail/mail-crypto.c:84
 msgid "Could not create a S/MIME signature context."
@@ -13423,9 +13206,8 @@ msgid "View Inline (via %s)"
 msgstr "Wyświetl na miejscu (za pomocą programu %s)"
 
 #: mail/mail-display.c:544
-#, fuzzy
 msgid "Hide"
-msgstr "Wyższy"
+msgstr "Ukryj"
 
 #: mail/mail-display.c:564
 msgid "External Viewer"
@@ -13480,9 +13262,8 @@ msgstr ""
 "Nie można przetworzyć jako list MIME. Wyświetlanie w postaci źródłowej."
 
 #: mail/mail-format.c:785 mail/message-list.etspec.h:2
-#, fuzzy
 msgid "Date"
-msgstr "Data:"
+msgstr "Data"
 
 #: mail/mail-format.c:871
 msgid "Bad Address"
@@ -13490,9 +13271,8 @@ msgstr "Niepoprawny adres"
 
 #: mail/mail-format.c:912 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
-#, fuzzy
 msgid "From"
-msgstr "Od:"
+msgstr "Od"
 
 #: mail/mail-format.c:916
 msgid "Reply-To"
@@ -13814,7 +13594,6 @@ msgid "Find:"
 msgstr "Znajdź:"
 
 #: mail/mail-search.c:346
-#, fuzzy
 msgid "Matches:"
 msgstr "Dopasowania:"
 
@@ -13863,9 +13642,8 @@ msgid "Enter Password for %s"
 msgstr "Wprowadź hasło dla %s"
 
 #: mail/mail-session.c:261
-#, fuzzy
 msgid "Enter Password"
-msgstr "Wprowadź hasło dla %s"
+msgstr "Wprowadź hasło"
 
 #: mail/mail-session.c:284
 msgid "_Remember this password"
@@ -13891,7 +13669,6 @@ msgstr ""
 "Czy chcesz je zapisać?"
 
 #: mail/mail-signature-editor.c:229
-#, fuzzy
 msgid "_Discard changes"
 msgstr "_Porzuć zmiany"
 
@@ -13978,12 +13755,10 @@ msgid "%s - Message"
 msgstr "%s - List"
 
 #: mail/message-list.c:741
-#, fuzzy
 msgid "Unseen"
 msgstr "Niewidziany"
 
 #: mail/message-list.c:742
-#, fuzzy
 msgid "Seen"
 msgstr "Widziany"
 
@@ -14000,9 +13775,8 @@ msgid "Multiple Messages"
 msgstr "Wiele listów"
 
 #: mail/message-list.c:749
-#, fuzzy
 msgid "Lowest"
-msgstr "Niższy"
+msgstr "Najniższy"
 
 #: mail/message-list.c:750
 msgid "Lower"
@@ -14067,14 +13841,12 @@ msgid "Original Location"
 msgstr "Oryginalne położenie"
 
 #: mail/message-list.etspec.h:9
-#, fuzzy
 msgid "Received"
 msgstr "Odebrany"
 
 #: mail/message-list.etspec.h:11
-#, fuzzy
 msgid "Size"
-msgstr "Rozmiar:"
+msgstr "Rozmiar"
 
 #: mail/message-tag-followup.c:62
 #, fuzzy
@@ -14095,9 +13867,8 @@ msgid "For Your Information"
 msgstr "Do twojej informacji"
 
 #: mail/message-tag-followup.c:66 ui/evolution-mail-message.xml.h:36
-#, fuzzy
 msgid "Forward"
-msgstr "_Prześlij"
+msgstr "Prześlij"
 
 #: mail/message-tag-followup.c:67
 msgid "No Response Necessary"
@@ -14162,9 +13933,8 @@ msgstr "Odsubskrybowywanie folderu \"%s\""
 
 #: mail/subscribe-dialog.c:1270 mail/subscribe-dialog.etspec.h:1
 #: shell/e-storage-set-view.etspec.h:2
-#, fuzzy
 msgid "Folder"
-msgstr "Foldery"
+msgstr "Folder"
 
 #: mail/subscribe-dialog.c:1499
 msgid "No server has been selected"
@@ -14175,9 +13945,8 @@ msgid "Please select a server."
 msgstr "Wybierz serwer."
 
 #: mail/subscribe-dialog.glade.h:1
-#, fuzzy
 msgid "Folder Subscriptions"
-msgstr "Brak opisu"
+msgstr "Subskrypcje folderów"
 
 #: mail/subscribe-dialog.glade.h:2
 msgid "None Selected"
@@ -14221,162 +13990,148 @@ msgid "Summary Preferences"
 msgstr "Ustawienia zestawienia"
 
 #: my-evolution/Locations.h:1
-#, fuzzy
 msgid "Aarhus"
-msgstr "Alarmy"
+msgstr "Arhus"
 
 #: my-evolution/Locations.h:2
-#, fuzzy
 msgid "Abakan"
-msgstr "Azerbejdżan"
+msgstr "Abakan"
 
 #: my-evolution/Locations.h:3
 msgid "Abbotsford"
-msgstr ""
+msgstr "Abbotsford"
 
 #: my-evolution/Locations.h:4
-#, fuzzy
 msgid "Aberdeen"
-msgstr "Uczestnik"
+msgstr "Aberdeen"
 
 #: my-evolution/Locations.h:5
-#, fuzzy
 msgid "Abha"
-msgstr "Aruba"
+msgstr "Abha"
 
 #: my-evolution/Locations.h:6
-#, fuzzy
 msgid "Abilene"
-msgstr "Telefon przenośny"
+msgstr "Abilene"
 
 #: my-evolution/Locations.h:7
 msgid "Abingdon"
-msgstr ""
+msgstr "Abingdon"
 
 #: my-evolution/Locations.h:8
 msgid "Abu Dhabi"
-msgstr ""
+msgstr "Abu Zabi"
 
 #: my-evolution/Locations.h:9
 msgid "Abu Dhabi - Bateen"
-msgstr ""
+msgstr "Abu Zabi - Bateen"
 
 #: my-evolution/Locations.h:10
 msgid "Acajutla"
-msgstr ""
+msgstr "Acajutla"
 
 #: my-evolution/Locations.h:11
 msgid "Acapulco"
 msgstr "Acapulco"
 
 #: my-evolution/Locations.h:12
-#, fuzzy
 msgid "Acarigua"
-msgstr "Nikaragua"
+msgstr "Acarigua"
 
 #: my-evolution/Locations.h:13
 msgid "Adak"
-msgstr ""
+msgstr "Adak"
 
 #: my-evolution/Locations.h:14
-#, fuzzy
 msgid "Adana"
-msgstr "Albania"
+msgstr "Adana"
 
 #: my-evolution/Locations.h:15
 msgid "Adana/Incirlik"
-msgstr ""
+msgstr "Adana/Incirlik"
 
 #: my-evolution/Locations.h:16
 msgid "Adelaide"
 msgstr "Adelajda"
 
 #: my-evolution/Locations.h:17
-#, fuzzy
 msgid "Aden"
-msgstr "Szwecja"
+msgstr "Aden"
 
 #: my-evolution/Locations.h:18
-#, fuzzy
 msgid "Adrar"
-msgstr "Andora"
+msgstr "Adrar"
 
 #: my-evolution/Locations.h:19
 msgid "Aeroparque"
-msgstr ""
+msgstr "Aeroparque"
 
 #: my-evolution/Locations.h:20
 msgid "Aeropuerto del Norte"
-msgstr ""
+msgstr "Aeropuerto del Norte"
 
 #: my-evolution/Locations.h:21
-#, fuzzy
 msgid "Afonsos"
-msgstr "Anonimowy"
+msgstr "Afonsos"
 
 #: my-evolution/Locations.h:22
-#, fuzzy
 msgid "Africa"
-msgstr "Afryka Południowa"
+msgstr "Afryka"
 
 #: my-evolution/Locations.h:23
 msgid "Afyon"
-msgstr ""
+msgstr "Afyonkarahisar"
 
 #: my-evolution/Locations.h:24
-#, fuzzy
 msgid "Agen"
-msgstr "Argentyna"
+msgstr "Agen"
 
 #: my-evolution/Locations.h:25
-#, fuzzy
 msgid "Aguascaliantes"
-msgstr "Australia"
+msgstr "Aguascaliantes"
 
 #: my-evolution/Locations.h:26
 msgid "Ahmadabad"
-msgstr ""
+msgstr "Ahmadabad"
 
 #: my-evolution/Locations.h:27
 msgid "Ahwaz"
-msgstr ""
+msgstr "Ahwaz"
 
 #: my-evolution/Locations.h:28
 msgid "Ainsworth"
-msgstr ""
+msgstr "Ainsworth"
 
 #: my-evolution/Locations.h:29
 msgid "Air Force"
-msgstr ""
+msgstr "Air Force"
 
 #: my-evolution/Locations.h:30
 msgid "Ajaccio/Campo dell'Oro"
-msgstr ""
+msgstr "Ajaccio/Campo dell'Oro"
 
 #: my-evolution/Locations.h:31
 msgid "Akeno Ab"
-msgstr ""
+msgstr "Akeno Ab"
 
 #: my-evolution/Locations.h:32
 msgid "Akita Airport"
-msgstr ""
+msgstr "Akita Lotnisko"
 
 #: my-evolution/Locations.h:33
 msgid "Akron"
-msgstr ""
+msgstr "Akron"
 
 #: my-evolution/Locations.h:34
 msgid "Akrotiri"
-msgstr ""
+msgstr "Akrotiri"
 
 #: my-evolution/Locations.h:35
-#, fuzzy
 msgid "Alabama"
-msgstr "Albania"
+msgstr "Alabama"
 
 #: my-evolution/Locations.h:36
 msgid "Al Ahsa"
-msgstr ""
+msgstr "Al Ahsa"
 
 #: my-evolution/Locations.h:37
 msgid "Al Ain"
@@ -14384,36 +14139,31 @@ msgstr "Al Ain"
 
 #: my-evolution/Locations.h:38
 msgid "Alamogordo"
-msgstr ""
+msgstr "Alamogordo"
 
 #: my-evolution/Locations.h:39
-#, fuzzy
 msgid "Alamosa"
-msgstr "Alarmy"
+msgstr "Alamosa"
 
 #: my-evolution/Locations.h:40
-#, fuzzy
 msgid "Alaska"
-msgstr "Alarmy"
+msgstr "Alaska"
 
 #: my-evolution/Locations.h:41
 msgid "Al Baha"
-msgstr ""
+msgstr "Al Baha"
 
 #: my-evolution/Locations.h:43
-#, fuzzy
 msgid "Albany"
-msgstr "Albania"
+msgstr "Albany"
 
 #: my-evolution/Locations.h:44
-#, fuzzy
 msgid "Albenga"
-msgstr "Albania"
+msgstr "Albenga"
 
 #: my-evolution/Locations.h:45
-#, fuzzy
 msgid "Alberta"
-msgstr "Alarmy"
+msgstr "Alberta"
 
 #: my-evolution/Locations.h:46
 msgid "Alborg"
@@ -14425,338 +14175,295 @@ msgstr "Albuquerque"
 
 #: my-evolution/Locations.h:48
 msgid "Alderney"
-msgstr ""
+msgstr "Alderney"
 
 #: my-evolution/Locations.h:49
-#, fuzzy
 msgid "Alesund"
-msgstr "Alarmy"
+msgstr "Alesund"
 
 #: my-evolution/Locations.h:50
-#, fuzzy
 msgid "Alexandria"
-msgstr "Albania"
+msgstr "Alexandria"
 
 #: my-evolution/Locations.h:51
 msgid "Alexandria-Esler"
-msgstr ""
+msgstr "Alexandria-Esle"
 
 #: my-evolution/Locations.h:52
 msgid "Alexandria/Nouzha"
-msgstr ""
+msgstr "Aleksandria"
 
 #: my-evolution/Locations.h:53
 msgid "Alexandroupolis"
 msgstr "Aleksandropolis"
 
 #: my-evolution/Locations.h:55
-#, fuzzy
 msgid "Alghero"
-msgstr "Algieria"
+msgstr "Alghero"
 
 #: my-evolution/Locations.h:56
-#, fuzzy
 msgid "Algona"
-msgstr "Angola"
+msgstr "Algona"
 
 #: my-evolution/Locations.h:57
 msgid "Alicante"
-msgstr ""
+msgstr "Alicante"
 
 #: my-evolution/Locations.h:58
 msgid "Alice"
-msgstr ""
+msgstr "Alice"
 
 #: my-evolution/Locations.h:59
 msgid "Alice Springs"
-msgstr ""
+msgstr "Alice Springs"
 
 #: my-evolution/Locations.h:60
 msgid "Al-Jouf"
-msgstr ""
+msgstr "Al-Jou"
 
 #: my-evolution/Locations.h:61
 msgid "Allentown"
-msgstr ""
+msgstr "Allentown"
 
 #: my-evolution/Locations.h:62
-#, fuzzy
 msgid "Alliance"
-msgstr "Wszystkie instancje"
+msgstr "Alliance"
 
 #: my-evolution/Locations.h:63
-#, fuzzy
 msgid "Alma"
-msgstr "Alarmy"
+msgstr "Alma"
 
 #: my-evolution/Locations.h:64
-#, fuzzy
 msgid "Almeria"
-msgstr "Algieria"
+msgstr "Almeria"
 
 #: my-evolution/Locations.h:65
-#, fuzzy
 msgid "Alpena"
-msgstr "Albania"
+msgstr "Alpena"
 
 #: my-evolution/Locations.h:66
 msgid "Al Qaysumah"
-msgstr ""
+msgstr "Al Qaysumah"
 
 #: my-evolution/Locations.h:67
-#, fuzzy
 msgid "Alta"
-msgstr "Malta"
+msgstr "Alta"
 
 #: my-evolution/Locations.h:68
-#, fuzzy
 msgid "Altamira"
-msgstr "Albania"
+msgstr "Altamira"
 
 #: my-evolution/Locations.h:69
-#, fuzzy
 msgid "Alton"
-msgstr "C_zynności"
+msgstr "Alton"
 
 #: my-evolution/Locations.h:70
 msgid "Altoona"
-msgstr ""
+msgstr "Altoona"
 
 #: my-evolution/Locations.h:71
-#, fuzzy
 msgid "Alturas"
-msgstr "Zawsze"
+msgstr "Alturas"
 
 #: my-evolution/Locations.h:72
-#, fuzzy
 msgid "Altus"
-msgstr "Alarmy"
+msgstr "Altus"
 
 #: my-evolution/Locations.h:73
 msgid "Amami Airport"
-msgstr ""
+msgstr "Amami Lotnisko"
 
 #: my-evolution/Locations.h:74
 msgid "Amapala"
-msgstr ""
+msgstr "Amapala"
 
 #: my-evolution/Locations.h:75
-#, fuzzy
 msgid "Amarillo"
-msgstr "E-mail"
+msgstr "Amarillo"
 
 #: my-evolution/Locations.h:76
 msgid "Amasya"
-msgstr ""
+msgstr "Amasya"
 
 #: my-evolution/Locations.h:77
-#, fuzzy
 msgid "Ambler"
-msgstr "Członek"
+msgstr "Ambler"
 
 #: my-evolution/Locations.h:78
-#, fuzzy
 msgid "Amelia"
-msgstr "Armenia"
+msgstr "Amelia"
 
 #: my-evolution/Locations.h:79
-#, fuzzy
 msgid "Amendola"
-msgstr "Angola"
+msgstr "Amendola"
 
 #: my-evolution/Locations.h:80
-#, fuzzy
 msgid "Ames"
-msgstr "mile"
+msgstr "Ames"
 
 #: my-evolution/Locations.h:81
 msgid "Amritsar"
-msgstr ""
+msgstr "Amrytsar"
 
 #: my-evolution/Locations.h:82
-#, fuzzy
 msgid "Amsterdam"
-msgstr "Austria"
+msgstr "Amsterdam"
 
 #: my-evolution/Locations.h:83
-#, fuzzy
 msgid "Anadyr"
-msgstr "Andora"
+msgstr "Anadyr"
 
 #: my-evolution/Locations.h:84
 msgid "Anaktuvuk"
-msgstr ""
+msgstr "Anaktuvuk"
 
 #: my-evolution/Locations.h:85
-#, fuzzy
 msgid "Anapa"
-msgstr "Japonia"
+msgstr "Anapa"
 
 #: my-evolution/Locations.h:86
-#, fuzzy
 msgid "Anchorage"
-msgstr "Andora"
+msgstr "Anchorage"
 
 #: my-evolution/Locations.h:87
 msgid "Anchorage - Elmendorf AFB"
-msgstr ""
+msgstr "Anchorage - Elmendorf AFB"
 
 #: my-evolution/Locations.h:88
-#, fuzzy
 msgid "Ancona"
-msgstr "Angola"
+msgstr "Ankona"
 
 #: my-evolution/Locations.h:89
 msgid "Andahuayla"
-msgstr ""
+msgstr "Andahuayla"
 
 #: my-evolution/Locations.h:90
-#, fuzzy
 msgid "Anderson"
-msgstr "Osobiste"
+msgstr "Anderson"
 
 #: my-evolution/Locations.h:91
-#, fuzzy
 msgid "Andoya"
-msgstr "Andora"
+msgstr "Andoya"
 
 #: my-evolution/Locations.h:92
-#, fuzzy
 msgid "Andravida"
-msgstr "Osoba"
+msgstr "Andravida"
 
 #: my-evolution/Locations.h:93
 msgid "Andrews AFB"
-msgstr ""
+msgstr "Andrews AFB"
 
 #: my-evolution/Locations.h:94
 msgid "Angleton"
-msgstr ""
+msgstr "Angleton"
 
 #: my-evolution/Locations.h:95
-#, fuzzy
 msgid "Aniak"
-msgstr "Armenia"
+msgstr "Aniak"
 
 #: my-evolution/Locations.h:96
 msgid "Ankara/Esenboga"
-msgstr ""
+msgstr "Ankara/Esenboga"
 
 #: my-evolution/Locations.h:97
 msgid "Ankara/Etimesgut"
-msgstr ""
+msgstr "Ankara/Etimesgut"
 
 #: my-evolution/Locations.h:98
 msgid "Annaba"
-msgstr ""
+msgstr "Annaba"
 
 #: my-evolution/Locations.h:99
 msgid "Ann Arbor"
-msgstr ""
+msgstr "Ann Arbor"
 
 #: my-evolution/Locations.h:100
 msgid "Annette"
-msgstr ""
+msgstr "Annette"
 
 #: my-evolution/Locations.h:101
-#, fuzzy
 msgid "Anniston"
-msgstr "Afganistan"
+msgstr "Anniston"
 
 #: my-evolution/Locations.h:102
-#, fuzzy
 msgid "Antalya"
-msgstr "Włochy"
+msgstr "Antalya"
 
 #: my-evolution/Locations.h:103
-#, fuzzy
 msgid "Antartica"
-msgstr "Antarktyka"
+msgstr "Antartica"
 
 #: my-evolution/Locations.h:104
-#, fuzzy
 msgid "Antigo"
-msgstr "Angola"
+msgstr "Antigo"
 
 #: my-evolution/Locations.h:105
-#, fuzzy
 msgid "Antigua"
-msgstr "Anguilla"
+msgstr "Antigua"
 
 #: my-evolution/Locations.h:106
-#, fuzzy
 msgid "Antigua and Barbuda"
 msgstr "Antigua i Barbuda"
 
 #: my-evolution/Locations.h:107
-#, fuzzy
 msgid "Antofagasta"
-msgstr "Afganistan"
+msgstr "Antofagasta"
 
 #: my-evolution/Locations.h:108
 msgid "Antwerpen/Deurne"
-msgstr ""
+msgstr "Antwerpia/Deurne"
 
 #: my-evolution/Locations.h:109
 msgid "Aomori Airport"
-msgstr ""
+msgstr "Aomori Lotnisko"
 
 #: my-evolution/Locations.h:110
 msgid "Apalachicola"
-msgstr ""
+msgstr "Apalachicola"
 
 #: my-evolution/Locations.h:111
 msgid "Appleton"
-msgstr ""
+msgstr "Appleton"
 
 #: my-evolution/Locations.h:112
-#, fuzzy
 msgid "Aquadilla"
-msgstr "Anguilla"
+msgstr "Aquadilla"
 
 #: my-evolution/Locations.h:113
-#, fuzzy
 msgid "Aracaju"
-msgstr "Makao"
+msgstr "Aracaju"
 
 #: my-evolution/Locations.h:114
-#, fuzzy
 msgid "Arad"
-msgstr "Aruba"
+msgstr "Arad"
 
 #: my-evolution/Locations.h:115
-#, fuzzy
 msgid "Arar"
-msgstr "Aruba"
+msgstr "Arar"
 
 #: my-evolution/Locations.h:116
-#, fuzzy
 msgid "Araxos"
-msgstr "Laos"
+msgstr "Araxos"
 
 #: my-evolution/Locations.h:117
-#, fuzzy
 msgid "Arcata"
-msgstr "Antarktyka"
+msgstr "Arcata"
 
 #: my-evolution/Locations.h:118
 msgid "Ardmore"
-msgstr ""
+msgstr "Ardmore"
 
 #: my-evolution/Locations.h:119
-#, fuzzy
 msgid "Arequipa"
-msgstr "Armenia"
+msgstr "Arequipa"
 
 #: my-evolution/Locations.h:121
-#, fuzzy
 msgid "Arica"
-msgstr "Austria"
+msgstr "Arica"
 
 #: my-evolution/Locations.h:122
-#, fuzzy
 msgid "Arizona"
-msgstr "Argentyna"
+msgstr "Arizona"
 
 #: my-evolution/Locations.h:123
 msgid "Arkansas"
@@ -14767,140 +14474,121 @@ msgid "Arkhangelsk"
 msgstr "Archangielsk"
 
 #: my-evolution/Locations.h:125
-#, fuzzy
 msgid "Arlington"
-msgstr "Ułożenie"
+msgstr "Arlington"
 
 #: my-evolution/Locations.h:126
-#, fuzzy
 msgid "Artigas"
-msgstr "Argentyna"
+msgstr "Artigas"
 
 #: my-evolution/Locations.h:127
 msgid "Asahikawa Ab"
-msgstr ""
+msgstr "Asahikawa Ab"
 
 #: my-evolution/Locations.h:128
 msgid "Asahikawa Airport"
-msgstr ""
+msgstr "Asahikawa Lotnisko"
 
 #: my-evolution/Locations.h:129
 msgid "Ashburnam"
-msgstr ""
+msgstr "Ashburnam"
 
 #: my-evolution/Locations.h:130
 msgid "Asheville"
-msgstr ""
+msgstr "Asheville"
 
 #: my-evolution/Locations.h:131
-#, fuzzy
 msgid "Ashfield"
-msgstr "Przyporządkowany"
+msgstr "Ashfield"
 
 #: my-evolution/Locations.h:132
 msgid "Ashiya Ab"
-msgstr ""
+msgstr "Ashiya Ab"
 
 #: my-evolution/Locations.h:133
-#, fuzzy
 msgid "Ashland"
-msgstr "Tajlandia"
+msgstr "Ashland"
 
 #: my-evolution/Locations.h:134
-#, fuzzy
 msgid "Asia"
-msgstr "Austria"
+msgstr "Azja"
 
 #: my-evolution/Locations.h:135
-#, fuzzy
 msgid "Aspen"
-msgstr "Otwórz"
+msgstr "Aspen"
 
 #: my-evolution/Locations.h:136
-#, fuzzy
 msgid "Asswan"
-msgstr "Asys."
+msgstr "Asswan"
 
 #: my-evolution/Locations.h:137
-#, fuzzy
 msgid "Astoria"
-msgstr "Austria"
+msgstr "Astoria"
 
 #: my-evolution/Locations.h:138
-#, fuzzy
 msgid "Astrakhan"
-msgstr "Australia"
+msgstr "Astrakhan"
 
 #: my-evolution/Locations.h:139
-#, fuzzy
 msgid "Asturias"
-msgstr "Austria"
+msgstr "Asturia"
 
 #: my-evolution/Locations.h:140
-#, fuzzy
 msgid "Asuncion"
-msgstr "Reunion"
+msgstr "Asuncion"
 
+# To nie są ataeny tylko miasto w USA
 #: my-evolution/Locations.h:141
-#, fuzzy
 msgid "Athens"
-msgstr "Załączniki"
+msgstr "Athens"
 
 #: my-evolution/Locations.h:142
-#, fuzzy
 msgid "Athinai"
-msgstr "Chiny"
+msgstr "Athinai"
 
 #: my-evolution/Locations.h:143
-#, fuzzy
 msgid "Atlanta"
-msgstr "Albania"
+msgstr "Atlanta"
 
 #: my-evolution/Locations.h:144
-#, fuzzy
 msgid "Atlantic"
-msgstr "Automatycznie"
+msgstr "Atlantyk"
 
 #: my-evolution/Locations.h:145
 msgid "Atlantic City"
-msgstr ""
+msgstr "Atlantic City"
 
 #: my-evolution/Locations.h:146
 msgid "Atsugi US NAS"
-msgstr ""
+msgstr "Atsugi US NAS"
 
 #: my-evolution/Locations.h:147
 msgid "Auburn"
-msgstr ""
+msgstr "Auburn"
 
 #: my-evolution/Locations.h:148
-#, fuzzy
 msgid "Auckland"
-msgstr "Islandia"
+msgstr "Auckland"
 
 #: my-evolution/Locations.h:149
 msgid "Augsburg"
-msgstr ""
+msgstr "Augsburg"
 
 #: my-evolution/Locations.h:150
-#, fuzzy
 msgid "Augusta"
-msgstr "Sierpień"
+msgstr "Augusta"
 
 #: my-evolution/Locations.h:151
-#, fuzzy
 msgid "Aurora"
-msgstr "Andora"
+msgstr "Aurora"
 
 #: my-evolution/Locations.h:152
-#, fuzzy
 msgid "Austin"
-msgstr "Austria"
+msgstr "Austin"
 
 #: my-evolution/Locations.h:153
-#, fuzzy
 msgid "Australasia"
-msgstr "Australia"
+msgstr "Australasia"
 
 #: my-evolution/Locations.h:156
 msgid "Avalon"
@@ -14908,16 +14596,15 @@ msgstr "Avalon"
 
 #: my-evolution/Locations.h:157
 msgid "Aviano"
-msgstr ""
+msgstr "Aviano"
 
 #: my-evolution/Locations.h:158
 msgid "Ayacucho"
-msgstr ""
+msgstr "Ayacucho"
 
 #: my-evolution/Locations.h:159
-#, fuzzy
 msgid "Bage"
-msgstr "Strona"
+msgstr "Bage"
 
 #: my-evolution/Locations.h:160
 msgid "Bagotville"
@@ -14933,7 +14620,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:165
 msgid "Baker City"
-msgstr ""
+msgstr "Baker City"
 
 #: my-evolution/Locations.h:166
 msgid "Bakersfield"
@@ -14957,18 +14644,16 @@ msgid "Ball Mountain"
 msgstr "Treść zawiera"
 
 #: my-evolution/Locations.h:171
-#, fuzzy
 msgid "Baltimore"
-msgstr "Bałtycki"
+msgstr "Baltimore"
 
 #: my-evolution/Locations.h:172
 msgid "Baltimore-Glen Burnie"
 msgstr ""
 
 #: my-evolution/Locations.h:173
-#, fuzzy
 msgid "Banak"
-msgstr "Botswana"
+msgstr "Banak"
 
 #: my-evolution/Locations.h:174
 #, fuzzy
@@ -14990,9 +14675,8 @@ msgid "Barbers Point"
 msgstr ""
 
 #: my-evolution/Locations.h:178
-#, fuzzy
 msgid "Barcelona"
-msgstr "Macedonia"
+msgstr "Barcelona"
 
 #: my-evolution/Locations.h:179
 #, fuzzy
@@ -15004,9 +14688,8 @@ msgid "Bar Harbor"
 msgstr ""
 
 #: my-evolution/Locations.h:181
-#, fuzzy
 msgid "Bari"
-msgstr "Bahrain"
+msgstr "Bari"
 
 #: my-evolution/Locations.h:182
 msgid "Bariloche"
@@ -15041,12 +14724,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:189
 msgid "Barrow"
-msgstr ""
+msgstr "Barrow"
 
 #: my-evolution/Locations.h:190
-#, fuzzy
 msgid "Barter Island"
-msgstr "Wyspy Faroe"
+msgstr "Wyspy Bartera"
 
 #: my-evolution/Locations.h:191
 msgid "Bartlesville"
@@ -15057,40 +14739,36 @@ msgid "Bartow"
 msgstr ""
 
 #: my-evolution/Locations.h:193
-#, fuzzy
 msgid "Bastia"
-msgstr "Proste"
+msgstr "Bastia"
 
 #: my-evolution/Locations.h:194
 msgid "Batesville"
 msgstr ""
 
 #: my-evolution/Locations.h:195
-#, fuzzy
 msgid "Batman"
-msgstr "Bhutan"
+msgstr "Batman"
 
 #: my-evolution/Locations.h:196
 msgid "Baton Rouge"
-msgstr ""
+msgstr "Baton Rouge"
 
 #: my-evolution/Locations.h:197
 msgid "Battle Creek"
-msgstr ""
+msgstr "Battle Creek"
 
 #: my-evolution/Locations.h:198
 msgid "Battle Mountain"
-msgstr ""
+msgstr "Battle Mountain"
 
 #: my-evolution/Locations.h:199
-#, fuzzy
 msgid "Bauru"
-msgstr "Nauru"
+msgstr "Bauru"
 
 #: my-evolution/Locations.h:200
-#, fuzzy
 msgid "Bayamo"
-msgstr "Bahamy"
+msgstr "Bayamo"
 
 #: my-evolution/Locations.h:201
 msgid "Bayreuth"
@@ -15103,11 +14781,11 @@ msgstr "Bałtycki"
 
 #: my-evolution/Locations.h:203
 msgid "Beaufort"
-msgstr ""
+msgstr "Beaufort"
 
 #: my-evolution/Locations.h:204
 msgid "Beaumont"
-msgstr ""
+msgstr "Beaumont"
 
 #: my-evolution/Locations.h:205
 msgid "Beaumont-Port Arthur"
@@ -15123,24 +14801,20 @@ msgid "Beauvechain"
 msgstr "Bahrain"
 
 #: my-evolution/Locations.h:208
-#, fuzzy
 msgid "Beckley"
-msgstr "Belize"
+msgstr "Beckley"
 
 #: my-evolution/Locations.h:209
-#, fuzzy
 msgid "Bedford"
-msgstr "przed"
+msgstr "Bedford"
 
 #: my-evolution/Locations.h:210
-#, fuzzy
 msgid "Beijing"
-msgstr "Benin"
+msgstr "Pekin"
 
 #: my-evolution/Locations.h:211
-#, fuzzy
 msgid "Beirut"
-msgstr "Białoruś"
+msgstr "Bejrut"
 
 #: my-evolution/Locations.h:212
 msgid "Beja"
@@ -15153,11 +14827,11 @@ msgstr "Belize"
 
 #: my-evolution/Locations.h:214
 msgid "Belfast/Aldergrove"
-msgstr ""
+msgstr "Belfast/Aldergrove"
 
 #: my-evolution/Locations.h:215
 msgid "Belfast/Harbour"
-msgstr ""
+msgstr "Belfast/Harbour"
 
 #: my-evolution/Locations.h:217
 msgid "Belgorod"
@@ -15215,7 +14889,7 @@ msgstr "Odśwież"
 
 #: my-evolution/Locations.h:230
 msgid "Bergamo"
-msgstr ""
+msgstr "Bergamo"
 
 #: my-evolution/Locations.h:231
 #, fuzzy
@@ -15231,13 +14905,12 @@ msgid "Berlevag"
 msgstr ""
 
 #: my-evolution/Locations.h:234
-#, fuzzy
 msgid "Berlin"
-msgstr "Benin"
+msgstr "Berlin"
 
 #: my-evolution/Locations.h:235
 msgid "Berlin-Tegel"
-msgstr ""
+msgstr "Berlin-Tegel"
 
 #: my-evolution/Locations.h:236
 msgid "Berlin-Tempelhof"
@@ -15319,7 +14992,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:254
 msgid "Bismark"
-msgstr ""
+msgstr "Bismark"
 
 #: my-evolution/Locations.h:255
 msgid "Blackpool"
@@ -15374,9 +15047,8 @@ msgid "Bocas del Toro"
 msgstr ""
 
 #: my-evolution/Locations.h:267
-#, fuzzy
 msgid "Bodo"
-msgstr "Książka"
+msgstr "Bodo"
 
 #: my-evolution/Locations.h:268
 msgid "Bogota/Eldorado"
@@ -15398,7 +15070,7 @@ msgstr "Polska"
 
 #: my-evolution/Locations.h:273
 msgid "Bombay/Santacruz"
-msgstr ""
+msgstr "Bombaj/Santacruz"
 
 #: my-evolution/Locations.h:274
 #, fuzzy
@@ -15410,9 +15082,8 @@ msgid "Bordeaux"
 msgstr "Bordeaux"
 
 #: my-evolution/Locations.h:276
-#, fuzzy
 msgid "Borger"
-msgstr "bez końca"
+msgstr "Borger"
 
 #: my-evolution/Locations.h:277
 msgid "Bornholm"
@@ -15423,14 +15094,12 @@ msgid "Boscombe Down"
 msgstr ""
 
 #: my-evolution/Locations.h:279
-#, fuzzy
 msgid "Bosnia-Herzegovina"
 msgstr "Bośnia i Hercegowina"
 
 #: my-evolution/Locations.h:280
-#, fuzzy
 msgid "Boston"
-msgstr "Estonia"
+msgstr "Boston"
 
 #: my-evolution/Locations.h:281
 #, fuzzy
@@ -15457,9 +15126,8 @@ msgid "Bozeman"
 msgstr "Koreański"
 
 #: my-evolution/Locations.h:286
-#, fuzzy
 msgid "Bradford"
-msgstr "Barbados"
+msgstr "Bradford"
 
 #: my-evolution/Locations.h:287
 msgid "Bradshaw Field"
@@ -15471,41 +15139,36 @@ msgid "Brainerd"
 msgstr "Ukraina"
 
 #: my-evolution/Locations.h:289
-#, fuzzy
 msgid "Brasilia"
-msgstr "Brazylia"
+msgstr "Brasilia"
 
 #: my-evolution/Locations.h:290
 msgid "Brasschaat"
 msgstr ""
 
 #: my-evolution/Locations.h:291
-#, fuzzy
 msgid "Bratislava"
-msgstr "Brazylia"
+msgstr "Bratysława"
 
 #: my-evolution/Locations.h:292
-#, fuzzy
 msgid "Bratsk"
-msgstr "Szkice"
+msgstr "Brack"
 
 #: my-evolution/Locations.h:293
 msgid "Braunschweig"
 msgstr ""
 
 #: my-evolution/Locations.h:295
-#, fuzzy
 msgid "Bremen"
-msgstr "Jemen"
+msgstr "Bremen"
 
 #: my-evolution/Locations.h:296
 msgid "Bremerton"
 msgstr ""
 
 #: my-evolution/Locations.h:297
-#, fuzzy
 msgid "Brest"
-msgstr "Zachód"
+msgstr "Brześć"
 
 #: my-evolution/Locations.h:298
 msgid "Bridgeport"
@@ -15521,9 +15184,8 @@ msgid "Brisbane"
 msgstr "Brisbane"
 
 #: my-evolution/Locations.h:301
-#, fuzzy
 msgid "Bristol"
-msgstr "Brazylia"
+msgstr "Bristol"
 
 #: my-evolution/Locations.h:302
 msgid "British Columbia"
@@ -15566,9 +15228,8 @@ msgid "Brownsville"
 msgstr ""
 
 #: my-evolution/Locations.h:311
-#, fuzzy
 msgid "Brunswick"
-msgstr "Burundi"
+msgstr "Brunszwik"
 
 #: my-evolution/Locations.h:312
 msgid "Brussels-National Airport"
@@ -15664,9 +15325,8 @@ msgid "Cairns"
 msgstr "Przewodniczenie"
 
 #: my-evolution/Locations.h:334
-#, fuzzy
 msgid "Cairo"
-msgstr "Przewodniczenie"
+msgstr "Kair"
 
 #: my-evolution/Locations.h:335
 msgid "Calabozo"
@@ -15682,9 +15342,8 @@ msgid "Caldwell"
 msgstr "Telefon"
 
 #: my-evolution/Locations.h:338
-#, fuzzy
 msgid "Calgary"
-msgstr "Wyczyść"
+msgstr "Calgary"
 
 #: my-evolution/Locations.h:339
 msgid "Cali/Alfonso Bonillaaragon"
@@ -15696,9 +15355,8 @@ msgid "Caliente"
 msgstr "Kalendarz"
 
 #: my-evolution/Locations.h:341
-#, fuzzy
 msgid "California"
-msgstr "Nowa Kaledonia"
+msgstr "Kalifornia"
 
 #: my-evolution/Locations.h:342
 msgid "Calvi-Ste-Catherine"
@@ -15715,14 +15373,12 @@ msgid "Camarillo"
 msgstr "Telefon"
 
 #: my-evolution/Locations.h:345
-#, fuzzy
 msgid "Cambridge"
-msgstr "Karta"
+msgstr "Cambridge"
 
 #: my-evolution/Locations.h:346
-#, fuzzy
 msgid "Cameron"
-msgstr "Kamerun"
+msgstr ""
 
 #: my-evolution/Locations.h:347
 #, fuzzy
@@ -16079,19 +15735,19 @@ msgstr "Chiny"
 
 #: my-evolution/Locations.h:426
 msgid "Chicago-DuPage"
-msgstr ""
+msgstr "Chicago-DuPage"
 
 #: my-evolution/Locations.h:427
 msgid "Chicago-Lakefront"
-msgstr ""
+msgstr "Chicago-Lakefront"
 
 #: my-evolution/Locations.h:428
 msgid "Chicago-Midway"
-msgstr ""
+msgstr "Chicago-Midway"
 
 #: my-evolution/Locations.h:429
 msgid "Chicago-O'Hare"
-msgstr ""
+msgstr "Chicago-O'Hare"
 
 #: my-evolution/Locations.h:430
 msgid "Chichijima"
@@ -16248,12 +15904,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:467
 msgid "Clermont-Ferrand"
-msgstr ""
+msgstr "Clermont-Ferrand"
 
 #: my-evolution/Locations.h:468
-#, fuzzy
 msgid "Cleveland"
-msgstr "Grenlandia"
+msgstr "Cleveland"
 
 #: my-evolution/Locations.h:469
 msgid "Cleveland/Cuyahoga"
@@ -16284,11 +15939,9 @@ msgstr ""
 msgid "Cocoa Beach"
 msgstr ""
 
-# [cyba] Nie mam pewności, ale jest zatoka Cooka, cieśnina, góry, więc chyba...
 #: my-evolution/Locations.h:476
-#, fuzzy
 msgid "Cocos Island"
-msgstr "Wyspy Cooka"
+msgstr "Wyspy Kokosowe"
 
 #: my-evolution/Locations.h:477
 #, fuzzy
@@ -16324,18 +15977,16 @@ msgid "Colonia"
 msgstr "Columbia"
 
 #: my-evolution/Locations.h:485
-#, fuzzy
 msgid "Colorado"
-msgstr "Tornado"
+msgstr "Colorado"
 
 #: my-evolution/Locations.h:486
 msgid "Colorado Springs"
 msgstr ""
 
 #: my-evolution/Locations.h:487
-#, fuzzy
 msgid "Columbia"
-msgstr "Columbia"
+msgstr "Kolumbia"
 
 #: my-evolution/Locations.h:488
 msgid "Columbia-McEntire"
@@ -16381,9 +16032,8 @@ msgid "Conceicao Do Araguaia"
 msgstr ""
 
 #: my-evolution/Locations.h:498
-#, fuzzy
 msgid "Concepcion"
-msgstr "Nawiązywanie połączenia"
+msgstr "Concepcion"
 
 #: my-evolution/Locations.h:499
 #, fuzzy
@@ -16400,9 +16050,8 @@ msgid "Connaught"
 msgstr "Kontakt"
 
 #: my-evolution/Locations.h:502
-#, fuzzy
 msgid "Connecticut"
-msgstr "Nawiązywanie połączenia"
+msgstr "Connecticut"
 
 #: my-evolution/Locations.h:503
 #, fuzzy
@@ -16419,9 +16068,8 @@ msgid "Copper Harbor"
 msgstr ""
 
 #: my-evolution/Locations.h:506
-#, fuzzy
 msgid "Cordoba"
-msgstr "Columbia"
+msgstr "Cordoba"
 
 #: my-evolution/Locations.h:507
 #, fuzzy
@@ -24934,168 +24582,160 @@ msgid "Wyoming"
 msgstr "Przetwarzanie"
 
 #: my-evolution/Locations.h:2495
-#, fuzzy
 msgid "Xiamen"
-msgstr "Czas"
+msgstr "Siamen"
 
 #: my-evolution/Locations.h:2496
 msgid "Yacuiba"
-msgstr ""
+msgstr "Yacuiba"
 
 #: my-evolution/Locations.h:2497
 msgid "Yakima"
-msgstr ""
+msgstr "Yakima"
 
 #: my-evolution/Locations.h:2498
 msgid "Yakushima"
-msgstr ""
+msgstr "Yakushima"
 
 #: my-evolution/Locations.h:2499
 msgid "Yakutat"
-msgstr ""
+msgstr "Yakutat"
 
 #: my-evolution/Locations.h:2500
 msgid "Yakutsk"
-msgstr ""
+msgstr "Jakuck"
 
 #: my-evolution/Locations.h:2501
 msgid "Yamagata Airport"
-msgstr ""
+msgstr "Yamagata Lotnisko"
 
 #: my-evolution/Locations.h:2502
 msgid "Yamaguchi Ube Airport"
-msgstr ""
+msgstr "Yamaguchi Ube Lotnisko"
 
 #: my-evolution/Locations.h:2503
 msgid "Yankton"
-msgstr ""
+msgstr "Yankton"
 
 #: my-evolution/Locations.h:2504
-#, fuzzy
 msgid "Yao Airport"
-msgstr "Nie importuj"
+msgstr "Yao Lotnisko"
 
 #: my-evolution/Locations.h:2505
 msgid "Yechon Ab"
-msgstr ""
+msgstr "Yechon Ab"
 
 #: my-evolution/Locations.h:2506
 msgid "Yekaterinburg"
-msgstr "Jekaterinburg"
+msgstr "Jekaterynburg"
 
 #: my-evolution/Locations.h:2507
 msgid "Yellowknife"
-msgstr ""
+msgstr "Yellowknife"
 
 #: my-evolution/Locations.h:2508
 msgid "Yellowstone"
-msgstr ""
+msgstr "Yellowstone"
 
 #: my-evolution/Locations.h:2510
-#, fuzzy
 msgid "Yenbo"
-msgstr "Nadchodzące"
+msgstr "Yenbo"
 
 #: my-evolution/Locations.h:2511
 msgid "Yeoju Range"
-msgstr ""
+msgstr "Yeoju Range"
 
 #: my-evolution/Locations.h:2512
 msgid "Yeonpyeungdo"
-msgstr ""
+msgstr "Yeonpyeungdo"
 
 #: my-evolution/Locations.h:2513
 msgid "Yeovilton"
-msgstr ""
+msgstr "Yeovilton"
 
 #: my-evolution/Locations.h:2514
 msgid "Yokosuka Fwf"
-msgstr ""
+msgstr "Yokosuka Fwf"
 
 #: my-evolution/Locations.h:2515
 msgid "Yokota Ab"
-msgstr ""
+msgstr "Yokota Ab"
 
 #: my-evolution/Locations.h:2516
 msgid "Yongsan/H-208 Hp"
-msgstr ""
+msgstr "Yongsan/H-208 Hp"
 
 #: my-evolution/Locations.h:2517
 msgid "Yoro"
-msgstr ""
+msgstr "Yoro"
 
 #: my-evolution/Locations.h:2518
 msgid "Yosu"
-msgstr ""
+msgstr "Yosu"
 
 #: my-evolution/Locations.h:2519
 msgid "Youngstown"
-msgstr ""
+msgstr "Youngstown"
 
 #: my-evolution/Locations.h:2520
 msgid "Ypsilanti"
-msgstr ""
+msgstr "Ypsilanti"
 
 #: my-evolution/Locations.h:2522
 msgid "Yukon"
-msgstr ""
+msgstr "Jukon"
 
 #: my-evolution/Locations.h:2523
 msgid "Yuma MCAS"
-msgstr ""
+msgstr "Yuma MCAS"
 
 #: my-evolution/Locations.h:2524
 msgid "Yurimaguas"
-msgstr ""
+msgstr "Yurimaguas"
 
 #: my-evolution/Locations.h:2525
 msgid "Yuzhno-Sakhalinsk"
-msgstr ""
+msgstr "Jużnosachalińsk"
 
 #: my-evolution/Locations.h:2526
 msgid "Zacatecas"
-msgstr ""
+msgstr "Zacatecas"
 
 #: my-evolution/Locations.h:2527
-#, fuzzy
 msgid "Zadar"
-msgstr "Kalendarz"
+msgstr "Zadar"
 
 #: my-evolution/Locations.h:2528
-#, fuzzy
 msgid "Zagreb"
-msgstr "Strona"
+msgstr "Zagrzeb"
 
 #: my-evolution/Locations.h:2529
 msgid "Zakinthos"
-msgstr ""
+msgstr "Zakinthos"
 
 #: my-evolution/Locations.h:2530
 msgid "Zama Airfield"
-msgstr ""
+msgstr "Zama Lotnisko"
 
 #: my-evolution/Locations.h:2531
-#, fuzzy
 msgid "Zanesville"
-msgstr "Anulowane"
+msgstr "Zanesville"
 
 #: my-evolution/Locations.h:2532
-#, fuzzy
 msgid "Zaragoza"
-msgstr "Paragwaj"
+msgstr "Saragossa"
 
 #: my-evolution/Locations.h:2533
 msgid "Zell Am See"
-msgstr ""
+msgstr "Zell am See"
 
 #: my-evolution/Locations.h:2534
 msgid "Zuni Pueblo"
-msgstr ""
+msgstr "Zuni Pueblo"
 
 #: my-evolution/Locations.h:2535
-#, fuzzy
 msgid "Zurich"
-msgstr "Turecki"
+msgstr "Zurych"
 
 #: my-evolution/component-factory.c:56
 msgid "Folder containing the Evolution Summary"
@@ -25135,9 +24775,8 @@ msgid "Quotes of the Day"
 msgstr "Cytaty dnia"
 
 #: my-evolution/e-summary-preferences.c:565
-#, fuzzy
 msgid "New News Feed"
-msgstr "Źródło nowości"
+msgstr "Źródło nowych wiadomości"
 
 #: my-evolution/e-summary-preferences.c:581
 msgid "_URL:"
@@ -25152,14 +24791,12 @@ msgid "News Feed"
 msgstr "Źródło nowości"
 
 #: my-evolution/e-summary-shown.c:496
-#, fuzzy
 msgid "All"
 msgstr "Wszystkie"
 
 #: my-evolution/e-summary-shown.c:521 my-evolution/e-summary-table.c:58
-#, fuzzy
 msgid "Shown"
-msgstr "Śnieg"
+msgstr "Wyświetlane"
 
 #: my-evolution/e-summary-tasks.c:330
 msgid "No tasks"
@@ -25178,9 +24815,8 @@ msgid "There was an error downloading data for"
 msgstr "Przy pobieraniu danych dla położenia %s wystąpił błąd"
 
 #: my-evolution/e-summary-weather.c:479 my-evolution/my-evolution.glade.h:16
-#, fuzzy
 msgid "Weather"
-msgstr "Moja pogoda"
+msgstr "Pogoda"
 
 #. translators: Put here a list of codes for locations you want to
 #. see in My Evolution by default. You can find the list of all
@@ -25199,9 +24835,8 @@ msgid "Please wait..."
 msgstr "Poczekaj chwilę..."
 
 #: my-evolution/e-summary.c:622 ui/my-evolution.xml.h:2
-#, fuzzy
 msgid "Print Summary"
-msgstr "Wydrukowanie zestawienia nie powiodło się"
+msgstr "Wydrukowanie zestawienia"
 
 #: my-evolution/e-summary.c:655
 msgid "Printing of Summary failed"
@@ -25216,9 +24851,8 @@ msgid " C"
 msgstr "°C"
 
 #: my-evolution/metar.c:34
-#, fuzzy
 msgid "knots"
-msgstr "węzły"
+msgstr "węzłów"
 
 #: my-evolution/metar.c:34
 msgid "kph"
@@ -25234,23 +24868,20 @@ msgid "mmHg"
 msgstr "mmHg"
 
 #: my-evolution/metar.c:42
-#, fuzzy
 msgid "miles"
-msgstr "minut"
+msgstr "mil"
 
 #: my-evolution/metar.c:42
 msgid "kilometers"
-msgstr "kilometry"
+msgstr "kilometrów"
 
 #: my-evolution/metar.c:45
-#, fuzzy
 msgid "Clear sky"
-msgstr "Wy_czyść"
+msgstr "Bezchmurno"
 
 #: my-evolution/metar.c:46
-#, fuzzy
 msgid "Broken clouds"
-msgstr "Kilka chmur"
+msgstr "Drobne chmury"
 
 #: my-evolution/metar.c:47
 msgid "Scattered clouds"
@@ -25269,49 +24900,42 @@ msgid "Invalid"
 msgstr "Niepoprawna wartość"
 
 #: my-evolution/metar.c:64
-#, fuzzy
 msgid "Variable"
-msgstr "_Zmienna szerokość:"
+msgstr "Zmienna"
 
 #: my-evolution/metar.c:65
-#, fuzzy
 msgid "North"
-msgstr "Norwegia"
+msgstr "Północ"
 
 #: my-evolution/metar.c:65
 msgid "North - NorthEast"
 msgstr "Północ - północny wschód"
 
 #: my-evolution/metar.c:65
-#, fuzzy
 msgid "Northeast"
-msgstr "Północny zachód"
+msgstr "Północny wschód"
 
 #: my-evolution/metar.c:65
 msgid "East - NorthEast"
 msgstr "Wschód - północny wschód"
 
 #: my-evolution/metar.c:66
-#, fuzzy
 msgid "East"
-msgstr "Istnieje"
+msgstr "Wschód"
 
 #: my-evolution/metar.c:66
-#, fuzzy
 msgid "East - Southeast"
-msgstr "Wschód - północny wschód"
+msgstr "Wschód - południowy wschód"
 
 #: my-evolution/metar.c:66
-#, fuzzy
 msgid "Southeast"
-msgstr "Południowy zachód"
+msgstr "Południowy wschód"
 
 #: my-evolution/metar.c:66
 msgid "South - Southeast"
 msgstr "Południe - południowy wschód"
 
 #: my-evolution/metar.c:67
-#, fuzzy
 msgid "South"
 msgstr "Południe"
 
@@ -25328,7 +24952,6 @@ msgid "West - Southwest"
 msgstr "Zachód - południowy zachód"
 
 #: my-evolution/metar.c:68
-#, fuzzy
 msgid "West"
 msgstr "Zachód"
 
@@ -28719,9 +28342,8 @@ msgid "HT_ML"
 msgstr "_HTML"
 
 #: ui/evolution-message-composer.xml.h:10
-#, fuzzy
 msgid "Open"
-msgstr "_Otwórz"
+msgstr "Otwórz"
 
 #: ui/evolution-message-composer.xml.h:11
 msgid "Open a file"
@@ -28852,9 +28474,8 @@ msgid "_Reply-To Field"
 msgstr "Pole Odpowiedź _do"
 
 #: ui/evolution-message-composer.xml.h:48
-#, fuzzy
 msgid "_Security"
-msgstr "B_ezpieczeństwo"
+msgstr "_Bezpieczeństwo"
 
 #: ui/evolution-signature-editor.xml.h:4
 msgid "H_TML"
@@ -28893,18 +28514,16 @@ msgid "Unsubscribe"
 msgstr "Wypisz"
 
 #: ui/evolution-task-editor.xml.h:1
-#, fuzzy
 msgid "Assign Task"
-msgstr "P_rzypisz zadanie"
+msgstr "Przypisz zadanie"
 
 #: ui/evolution-task-editor.xml.h:2
 msgid "Assign this task to others"
 msgstr "Przypisuje zadanie innej osobie"
 
 #: ui/evolution-task-editor.xml.h:3
-#, fuzzy
 msgid "Cancel Task"
-msgstr "Anuluje zadanie"
+msgstr "Anuluj zadanie"
 
 #: ui/evolution-task-editor.xml.h:4
 msgid "Cancel this task"
@@ -29071,7 +28690,6 @@ msgid "Submit a bug report using Bug Buddy"
 msgstr "Wysyła zgłoszenie błędu za pomocą Bug Buddy"
 
 #: ui/evolution.xml.h:34
-#, fuzzy
 msgid "Toggle"
 msgstr "Przełącz"
 
@@ -29105,9 +28723,8 @@ msgid "_Copy..."
 msgstr "S_kopiuj..."
 
 #: ui/evolution.xml.h:48
-#, fuzzy
 msgid "_Folder Bar"
-msgstr "_Folder"
+msgstr "_Pasek folderu"
 
 #: ui/evolution.xml.h:49
 msgid "_Folder..."
@@ -29134,9 +28751,8 @@ msgid "_New"
 msgstr "_Nowy"
 
 #: ui/evolution.xml.h:55
-#, fuzzy
 msgid "_New Folder"
-msgstr "Nowy VFolder"
+msgstr "_Nowy folder"
 
 #: ui/evolution.xml.h:56
 msgid "_New Folder..."
@@ -29168,7 +28784,6 @@ msgid "Print summary"
 msgstr "Zestawienie poczty"
 
 #: ui/my-evolution.xml.h:4
-#, fuzzy
 msgid "Reload"
 msgstr "Odśwież"
 
@@ -29177,9 +28792,8 @@ msgid "Reload the view"
 msgstr "Odświeża widok"
 
 #: views/addressbook/galview.xml.h:1
-#, fuzzy
 msgid "By _Company"
-msgstr "S_kopiuj"
+msgstr "Według _firmy"
 
 #: views/addressbook/galview.xml.h:2
 msgid "_Address Cards"
@@ -29247,9 +28861,8 @@ msgid "Select a Time Zone"
 msgstr "Wybór strefy czasowej"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
-#, fuzzy
 msgid "Time Zones"
-msgstr "Strefa c_zasowa:"
+msgstr "Strefy czasowe"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid ""
@@ -29262,9 +28875,8 @@ msgstr ""
 "Przyciśnięcie prawego przycisku przywraca zwykłe powiększenie."
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
-#, fuzzy
 msgid "_Selection:"
-msgstr "Sekcje:"
+msgstr "_Zaznaczenie:"
 
 #: widgets/menus/gal-view-menus.c:290
 msgid "_Current View"
@@ -29312,7 +28924,6 @@ msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Wartość procentowa musi się zawierać w przedziale od 0 do 100 włącznie"
 
 #: widgets/misc/e-charset-picker.c:61
-#, fuzzy
 msgid "Baltic"
 msgstr "Bałtycki"
 
@@ -29321,9 +28932,8 @@ msgid "Central European"
 msgstr "Środkowoeuropejski"
 
 #: widgets/misc/e-charset-picker.c:63
-#, fuzzy
 msgid "Chinese"
-msgstr "Chiny"
+msgstr "Chiński"
 
 #: widgets/misc/e-charset-picker.c:64
 msgid "Cyrillic"
@@ -29338,39 +28948,32 @@ msgid "Hebrew"
 msgstr "Hebrajski"
 
 #: widgets/misc/e-charset-picker.c:67
-#, fuzzy
 msgid "Japanese"
 msgstr "Japoński"
 
 #: widgets/misc/e-charset-picker.c:68
-#, fuzzy
 msgid "Korean"
 msgstr "Koreański"
 
 #: widgets/misc/e-charset-picker.c:69
-#, fuzzy
 msgid "Turkish"
-msgstr "Śmietnik"
+msgstr "Turecki"
 
 #: widgets/misc/e-charset-picker.c:70
-#, fuzzy
 msgid "Unicode"
 msgstr "Unicode"
 
 #: widgets/misc/e-charset-picker.c:71
-#, fuzzy
 msgid "Western European"
-msgstr "Środkowoeuropejski"
+msgstr "Zachodnioeuropejski"
 
 #: widgets/misc/e-charset-picker.c:88 widgets/misc/e-charset-picker.c:89
 #: widgets/misc/e-charset-picker.c:90
-#, fuzzy
 msgid "Traditional"
 msgstr "Tradycyjny"
 
 #: widgets/misc/e-charset-picker.c:91 widgets/misc/e-charset-picker.c:92
 #: widgets/misc/e-charset-picker.c:93 widgets/misc/e-charset-picker.c:94
-#, fuzzy
 msgid "Simplified"
 msgstr "Uproszczony"
 
@@ -29426,19 +29029,16 @@ msgid "_Advanced..."
 msgstr "_Zaawansowane..."
 
 #: widgets/misc/e-messagebox.c:154
-#, fuzzy
 msgid "Information"
-msgstr "Brak informacji"
+msgstr "Informacja"
 
 #: widgets/misc/e-messagebox.c:168
-#, fuzzy
 msgid "Error"
-msgstr "Bez błędu"
+msgstr "Błąd"
 
 #: widgets/misc/e-messagebox.c:175
-#, fuzzy
 msgid "Question"
-msgstr "Austria"
+msgstr "Pytanie"
 
 #: widgets/misc/e-messagebox.c:182
 msgid "Message"
@@ -29492,7 +29092,3 @@ msgstr "Przeglądarka kalendarza iTip/iMip"
 #, fuzzy
 msgid "Evolution Addressbook local file backend"
 msgstr "Przeglądarka miniaturowych kart książki adresowej Evolution"
-
-#, fuzzy
-#~ msgid "Marquette"
-#~ msgstr "Martynika"
