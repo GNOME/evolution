@@ -25,10 +25,10 @@
 #include <config.h>
 #endif
 
+#include "e-folder-tree.h"
+
 #include <string.h>
 #include <glib.h>
-
-#include "e-folder-tree.h"
 
 
 struct _Folder {

@@ -27,6 +27,7 @@
 
 #include <string.h>
 
+#include <glib.h>
 #include <gtk/gtkobject.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktypeutils.h>

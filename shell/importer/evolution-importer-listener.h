@@ -24,6 +24,7 @@
 #ifndef EVOLUTION_IMPORTER_LISTENER_H
 #define EVOLUTION_IMPORTER_LISTENER_H
 
+#include <glib.h>
 #include <bonobo/bonobo-xobject.h>
 #include <importer/GNOME_Evolution_Importer.h>
 #include "evolution-importer.h"

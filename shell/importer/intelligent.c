@@ -26,6 +26,8 @@
 #include <config.h>
 #endif
 
+#include "intelligent.h"
+#include <glib.h>
 #include <gtk/gtkbox.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtklabel.h>
@@ -44,7 +46,6 @@
 
 #include <liboaf/liboaf.h>
 
-#include "intelligent.h"
 #include "GNOME_Evolution_Importer.h"
 
 /* Prototypes */
@@ -64,7 +65,7 @@ start_importer (const char *iid)
 
 	GtkWidget *dialog, *label, *ask;
 	gboolean dontaskagain;
-	char *str, *prefix;
+	char *prefix;
 
 	if (iid == NULL || *iid == '\0')
 		return;

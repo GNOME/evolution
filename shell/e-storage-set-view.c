@@ -26,6 +26,9 @@
 #include <config.h>
 #endif
 
+#include "e-storage-set-view.h"
+
+#include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
@@ -39,8 +42,6 @@
 
 #include "e-shell-constants.h"
 #include "e-local-storage.h"
-#include "e-storage-set-view.h"
-
 #ifdef JUST_FOR_TRANSLATORS
 static char *list [] = {
 	N_("Folder"),

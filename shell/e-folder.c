@@ -25,11 +25,12 @@
 #include <config.h>
 #endif
 
+#include "e-folder.h"
+
+#include <glib.h>
 #include <gtk/gtksignal.h>
 
 #include <gal/util/e-util.h>
-
-#include "e-folder.h"
 
 
 #define PARENT_TYPE GTK_TYPE_OBJECT

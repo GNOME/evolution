@@ -38,6 +38,7 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <unistd.h>
 
 #include <gnome-xml/parser.h>

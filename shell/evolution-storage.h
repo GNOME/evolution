@@ -24,6 +24,7 @@
 #ifndef __EVOLUTION_STORAGE_H__
 #define __EVOLUTION_STORAGE_H__
 
+#include <glib.h>
 #include <bonobo/bonobo-object.h>
 
 #include "Evolution.h"

@@ -1,3 +1,16 @@
+2001-04-25  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-component-register.c, e-corba-storage.c, e-folder-tree.c,
+	e-folder-tree.h, e-folder.c, e-local-folder.c, e-shell.c,
+	e-shortcuts-view-model.c, e-shortcuts.c, e-splash.c, 
+	e-storage-set-view.c, e-storage-set.c, evolution-local-storage.c,
+	evolution-shell-component-client.c, evolution-shell-component.c,
+	evolution-storage.[ch], importer/evolution-importer-client.[ch],
+	importer/evolution-importer-listener.[ch],
+	importer/evolution-importer.[ch],
+	importer/evolution-intelligent-importer.[ch], importer/intelligent.c:
+	#include <glib.h> and move corresponding local includes to the top.
+	
 2001-04-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-splash.c: #include gnome-window-icon.h

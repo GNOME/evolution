@@ -26,6 +26,9 @@
 #include <config.h>
 #endif
 
+#include "evolution-importer-client.h"
+
+#include <glib.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-main.h>
 #include <gal/util/e-util.h>
@@ -33,8 +36,6 @@
 #include <liboaf/liboaf.h>
 
 #include "GNOME_Evolution_Importer.h"
-#include "evolution-importer-client.h"
-
 
 #define PARENT_TYPE BONOBO_OBJECT_CLIENT_TYPE
 static BonoboObjectClass *parent_class = NULL;

@@ -25,12 +25,13 @@
 #include <config.h>
 #endif
 
+#include "e-corba-storage.h"
+
+#include <glib.h>
 #include <bonobo/bonobo-main.h>
 #include <gal/util/e-util.h>
 
 #include "Evolution.h"
-
-#include "e-corba-storage.h"
 
 
 #define PARENT_TYPE E_TYPE_STORAGE

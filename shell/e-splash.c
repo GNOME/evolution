@@ -25,6 +25,7 @@
 #include <config.h>
 #endif
 
+#include "e-splash.h"
 #include <gtk/gtkframe.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
@@ -32,7 +33,6 @@
 #include <libgnomeui/gnome-window-icon.h>
 #include <gal/util/e-util.h>
 
-#include "e-splash.h"
 
 
 #define PARENT_TYPE gtk_window_get_type ()

@@ -24,6 +24,7 @@
 #ifndef EVOLUTION_IMPORTER_CLIENT_H
 #define EVOLUTION_IMPORTER_CLIENT_H
 
+#include <glib.h>
 #include <bonobo/bonobo-object-client.h>
 #include <importer/evolution-importer.h>
 #include <importer/evolution-importer-listener.h>

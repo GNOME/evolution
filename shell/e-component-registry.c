@@ -25,13 +25,15 @@
 #include <config.h>
 #endif
 
+#include "e-component-registry.h"
+
+#include <glib.h>
 #include <gtk/gtktypeutils.h>
 
 #include <gal/util/e-util.h>
 
 #include "Evolution.h"
 
-#include "e-component-registry.h"
 #include "e-shell-utils.h"
 #include "evolution-shell-component-client.h"
 

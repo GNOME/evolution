@@ -24,6 +24,8 @@
 #ifndef _E_FOLDER_TREE_H_
 #define _E_FOLDER_TREE_H_
 
+#include <glib.h>
+
 
 typedef struct _EFolderTree EFolderTree;
 

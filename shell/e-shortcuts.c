@@ -43,8 +43,11 @@
 #include <config.h>
 #endif
 
+#include "e-shortcuts.h"
+
 #include <string.h>
 
+#include <glib.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkobject.h>
 #include <gtk/gtksignal.h>
@@ -61,7 +64,6 @@
 
 #include "e-shortcuts-view.h"
 
-#include "e-shortcuts.h"
 #include "e-shell-constants.h"
 
 

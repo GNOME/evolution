@@ -25,11 +25,11 @@
 #include <config.h>
 #endif
 
+#include "evolution-intelligent-importer.h"
+
 #include <bonobo/bonobo-object.h>
 
 #include "GNOME_Evolution_Importer.h"
-#include "evolution-intelligent-importer.h"
-
 
 #define PARENT_TYPE BONOBO_X_OBJECT_TYPE
 static BonoboObjectClass *parent_class = NULL;
