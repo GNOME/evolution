@@ -1,3 +1,7 @@
+2001-08-21  Damon Chaplin  <damon@ximian.com>
+
+	* e-gray-bar.c (endarken_style): unref the rc_style.
+
 2001-08-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell.c: #include "e-shell-startup-wizard.h".
