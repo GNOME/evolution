@@ -3,6 +3,7 @@ lib_LTLIBRARIES = libicalvcal.la
 INCLUDES =			\
 	-I$(top_builddir)	\
 	-I$(top_srcdir)/src/libical	\
+	-I$(top_builddir)/src/libical	\
 	-I$(top_srcdir)/src/libicalss	\
 	-I$(srcdir)
 

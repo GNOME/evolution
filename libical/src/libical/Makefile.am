@@ -7,7 +7,7 @@ YFLAGS = -d -v -t -pical_yy
 LFLAGS = -Pical_yy
 LEX_OUTPUT_ROOT = lex.ical_yy
 
-all: ical.h
+BUILT_SOURCES = ical.h
 
 INCLUDES =			\
 	-I$(top_builddir)	\
@@ -64,9 +64,9 @@ COMBINEDHEADERS =					\
 	$(top_srcdir)/src/libical/icalenums.h		\
 	$(top_srcdir)/src/libical/icaltypes.h		\
 	$(top_srcdir)/src/libical/icalrecur.h		\
-	$(top_srcdir)/src/libical/icalvalue.h		\
-	$(top_srcdir)/src/libical/icalparameter.h	\
-	$(top_srcdir)/src/libical/icalproperty.h	\
+	$(top_builddir)/src/libical/icalvalue.h		\
+	$(top_builddir)/src/libical/icalparameter.h	\
+	$(top_builddir)/src/libical/icalproperty.h	\
 	$(top_srcdir)/src/libical/pvl.h			\
 	$(top_srcdir)/src/libical/icalcomponent.h	\
 	$(top_srcdir)/src/libical/icalparser.h		\
@@ -77,6 +77,7 @@ COMBINEDHEADERS =					\
 	$(top_srcdir)/src/libical/icalmime.h 
 
 BUILT_SOURCES =			\
+	ical.h			\
 	icalparameter.c		\
 	icalparameter.h		\
 	icalproperty.c		\
@@ -85,7 +86,7 @@ BUILT_SOURCES =			\
 	icalvalue.c		\
 	icalvalue.h
 
-ical.h: $(COMBINEDHEADERS) $(BUILT_SOURCES)
+ical.h: $(COMBINEDHEADERS)
 	cat $(COMBINEDHEADERS)				\
 	| egrep -v "#include.*\"ical"			\
 	| egrep -v "#include.*\"pvl\.h\"" > ical.h
@@ -102,11 +103,11 @@ PARAMETERDEPS =	\
 	icalparameter.h.in
 
 icalparameter.h: $(PARAMETERDEPS) 
-	$(PERL) $(ICALSCRIPTS)/mkderivedparameters.pl -i icalparameter.h.in -h $(DESIGNDATA)/param-c-types.txt > icalparameter.newh \
+	$(PERL) $(ICALSCRIPTS)/mkderivedparameters.pl -i $(srcdir)/icalparameter.h.in -h $(DESIGNDATA)/param-c-types.txt > icalparameter.newh \
 	&& mv icalparameter.newh icalparameter.h 
 
 icalparameter.c: $(PARAMETERDEPS) icalparameter.h
-	$(PERL) $(ICALSCRIPTS)/mkderivedparameters.pl -i icalparameter.c.in -c $(DESIGNDATA)/param-c-types.txt > icalparameter.newc \
+	$(PERL) $(ICALSCRIPTS)/mkderivedparameters.pl -i $(srcdir)/icalparameter.c.in -c $(DESIGNDATA)/param-c-types.txt > icalparameter.newc \
 	&& mv icalparameter.newc icalparameter.c
 
 # properties
@@ -120,12 +121,12 @@ PROPERTYDEPS =					\
 
 
 icalproperty.h: $(PROPERTYDEPS)
-	$(PERL) $(ICALSCRIPTS)/mkderivedproperties.pl -i icalproperty.h.in -h \
+	$(PERL) $(ICALSCRIPTS)/mkderivedproperties.pl -i $(srcdir)/icalproperty.h.in -h \
 		$(DESIGNDATA)/prop-to-value.txt \
 		${DESIGNDATA}/value-c-types.txt > icalproperty.h 
 
 icalproperty.c: $(PROPERTYDEPS) icalproperty.h 
-	$(PERL) $(ICALSCRIPTS)/mkderivedproperties.pl -i icalproperty.c.in -c \
+	$(PERL) $(ICALSCRIPTS)/mkderivedproperties.pl -i $(srcdir)/icalproperty.c.in -c \
 		$(DESIGNDATA)/prop-to-value.txt \
 		${DESIGNDATA}/value-c-types.txt > icalproperty.c
 
@@ -137,7 +138,7 @@ RESTRICTIONDEPS =				\
 	icalrestriction.c.in
 
 icalrestriction.c: $(RESTRICTIONDEPS)
-	$(PERL) $(ICALSCRIPTS)/mkrestrictiontable.pl  -i icalrestriction.c.in \
+	$(PERL) $(ICALSCRIPTS)/mkrestrictiontable.pl  -i $(srcdir)/icalrestriction.c.in \
 		$(DESIGNDATA)/restrictions.csv > icalrestriction.c
 
 # values
@@ -149,17 +150,26 @@ VALUEDEPS =					\
 	icalvalue.h.in
 
 icalvalue.h: $(VALUEDEPS)
-	$(PERL) $(ICALSCRIPTS)/mkderivedvalues.pl -i icalvalue.h.in -h \
+	$(PERL) $(ICALSCRIPTS)/mkderivedvalues.pl -i $(srcdir)/icalvalue.h.in -h \
 		$(DESIGNDATA)/value-c-types.txt > icalvalue.h
 
 icalvalue.c: $(VALUEDEPS) icalvalue.h
-	$(PERL) $(ICALSCRIPTS)/mkderivedvalues.pl  -i icalvalue.c.in -c \
+	$(PERL) $(ICALSCRIPTS)/mkderivedvalues.pl  -i $(srcdir)/icalvalue.c.in -c \
 		$(DESIGNDATA)/value-c-types.txt > icalvalue.c
 
 
 
 # housekeeping
 CONFIG_CLEAN_FILES = y.output
+
+CLEANFILES =			\
+	icalparameter.h		\
+	icalparameter.c		\
+	icalproperty.h		\
+	icalproperty.c		\
+	icalrestriction.c	\
+	icalvalue.h		\
+	icalvalue.c
 
 EXTRA_DIST =			\
 	icalparameter.c.in	\
