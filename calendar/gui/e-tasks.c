@@ -102,6 +102,16 @@ enum {
 	LAST_SIGNAL
 };
 
+enum DndTargetType {
+	TARGET_VCALENDAR
+};
+
+static GtkTargetEntry list_drag_types[] = {
+	{ "text/calendar",                0, TARGET_VCALENDAR },
+	{ "text/x-calendar",              0, TARGET_VCALENDAR }
+};
+static const int num_list_drag_types = sizeof (list_drag_types) / sizeof (list_drag_types[0]);
+
 static GtkTableClass *parent_class;
 static guint e_tasks_signals[LAST_SIGNAL] = { 0 };
 
@@ -325,6 +335,96 @@ setup_config (ETasks *tasks)
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));	
 }
 
+static void
+table_drag_data_get (ETable             *table,
+		     int                 row,
+		     int                 col,
+		     GdkDragContext     *context,
+		     GtkSelectionData   *selection_data,
+		     guint               info,
+		     guint               time,
+		     ETasks             *tasks)
+{
+	ETasksPrivate *priv;
+	ECalModelComponent *comp_data;
+
+	priv = tasks->priv;
+
+	if (priv->current_uid) {
+		ETableModel *model;
+
+		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+
+		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
+
+		if (info == TARGET_VCALENDAR) {
+			/* we will pass an icalcalendar component for both types */
+			char *comp_str;
+			icalcomponent *vcal;
+		
+			vcal = e_cal_util_new_top_level ();
+			e_cal_util_add_timezones_from_component (vcal, comp_data->icalcomp);
+			icalcomponent_add_component (
+			        vcal,
+				icalcomponent_new_clone (comp_data->icalcomp));
+
+			comp_str = icalcomponent_as_ical_string (vcal);
+			if (comp_str) {
+				gtk_selection_data_set (selection_data, selection_data->target,
+							8, comp_str, strlen (comp_str));
+			}
+			icalcomponent_free (vcal);
+		}
+	}
+}
+
+/*
+static void
+table_drag_begin (ETable         *table,
+		  int             row,
+		  int             col,
+		  GdkDragContext *context,
+		  ETasks         *tasks)
+{
+
+}
+
+
+static void
+table_drag_end (ETable         *table,
+		int             row,
+		int             col,
+		GdkDragContext *context,
+		ETasks         *tasks)
+{
+
+}
+*/
+
+static void 
+table_drag_data_delete (ETable         *table,
+			int             row,
+			int             col,
+			GdkDragContext *context,
+			ETasks         *tasks)
+{
+	ETasksPrivate *priv;
+	ECalModelComponent *comp_data;
+	ETableModel *model;
+	gboolean read_only = TRUE;
+	
+	priv = tasks->priv;
+	
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
+
+	e_cal_is_read_only (comp_data->client, &read_only, NULL);
+	if (read_only)
+		return;
+
+	e_cal_remove_object (comp_data->client, icalcomponent_get_uid (comp_data->icalcomp), NULL);
+}
+
 #define E_TASKS_TABLE_DEFAULT_STATE					\
 	"<?xml version=\"1.0\"?>"					\
 	"<ETableState>"							\
@@ -373,6 +473,27 @@ setup_widgets (ETasks *tasks)
 	e_table_set_state (etable, E_TASKS_TABLE_DEFAULT_STATE);
 	gtk_paned_add1 (GTK_PANED (paned), priv->tasks_view);
 	gtk_widget_show (priv->tasks_view);
+
+
+	e_table_drag_source_set (etable, GDK_BUTTON1_MASK,
+				 list_drag_types, num_list_drag_types,
+				 GDK_ACTION_MOVE|GDK_ACTION_COPY|GDK_ACTION_ASK);
+	
+	g_signal_connect (etable, "table_drag_data_get",
+			  G_CALLBACK(table_drag_data_get), tasks);
+	g_signal_connect (etable, "table_drag_data_delete",
+			  G_CALLBACK(table_drag_data_delete), tasks);
+	/*
+	e_table_drag_dest_set (e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table)),
+			       0, list_drag_types, num_list_drag_types, GDK_ACTION_LINK);
+
+	g_signal_connect (e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table)),
+			  "table_drag_motion", G_CALLBACK(table_drag_motion_cb), editor);
+	g_signal_connect (e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table)),
+			  "table_drag_drop", G_CALLBACK (table_drag_drop_cb), editor);
+	g_signal_connect (e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table)),
+			  "table_drag_data_received", G_CALLBACK(table_drag_data_received_cb), editor);
+	*/
 
 	g_signal_connect (etable, "cursor_change", G_CALLBACK (table_cursor_change_cb), tasks);
 	g_signal_connect (etable, "selection_change", G_CALLBACK (table_selection_change_cb), tasks);

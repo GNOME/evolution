@@ -37,8 +37,7 @@ camel_nntp_get_grouplist_from_server (CamelNNTPStore *store, CamelException *ex)
 	CamelNNTPGroupList *list;
 
 	CAMEL_NNTP_STORE_LOCK(store);
-	status = camel_nntp_command (store, ex, NULL,
-				     "LIST");
+	status = camel_nntp_command (store, ex, NULL, &line, "LIST");
 
 	if (status != NNTP_LIST_FOLLOWS) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,

@@ -1,3 +1,82 @@
+2004-06-03  Not Zed  <NotZed@Ximian.com>
+
+	* providers/nntp/camel-nntp-store.c (camel_nntp_command):
+	disconnect if we get an io error or user cancellation.
+	(nntp_disconnect_online): reset current folder.
+	(connect_to_server): and here too just to make sure.
+
+	* providers/nntp/camel-nntp-folder.c (nntp_folder_sync_online):
+	only save the summary, don't update from server, thats what
+	refresh info does.
+	(nntp_folder_download_message): fix exception handling.
+	(nntp_folder_cache_message): same.
+	(nntp_folder_get_message): ditto, plus major cleanup.
+	(nntp_folder_download_message): take combined uid so it can cache
+	and lookup properly.  duh.
+
+	* providers/nntp/camel-nntp-store.c
+	(nntp_store_get_subscribed_folder_info): if not fast, then open
+	the folder, and update it.  Yeah i've given up trying to worry
+	about performance vs usability.
+
+	* providers/nntp/camel-nntp-summary.c (camel_nntp_summary_check):
+	update the storesummary if we update the folder summary.  Hmm,
+	isn't duplicated data meant to be a bad thing? :P
+
+	* providers/nntp/camel-nntp-store.c (camel_nntp_store_set_folder):
+	removed, now handled by nntp_command.
+	(nntp_connected): removed, now handled by nntp_command.
+
+	* camel-string-utils.c (camel_tolower): added ascii to-lower
+	function.
+	(camel_toupper): and upper, for completeness.
+
+	* camel-store-summary.c (CAMEL_STORE_SUMMARY_VERSION): bumped file
+	version by 1.  This is a mess, version 1 files treated the
+	bitfield 'flags' with bit number values not bits.  Messy.
+
+	* providers/nntp/camel-nntp-store-summary.c (store_info_save):
+	write last/first count.
+	(CAMEL_NNTP_STORE_SUMMARY_VERSION): bump version to 1.
+	(store_info_load): if we're loading >= version 1, then load
+	last/first counts.
+
+	* providers/nntp/camel-nntp-store.c
+	(nntp_store_get_folder_info_all): pass the whole line to
+	store_info_from_line, dont strip last/first info.
+	(nntp_store_info_update): renamed from info_new_from_line.  only
+	add if not present.  handle updates, try and handle unread counts
+	and readonly status.
+
+2004-06-02  Not Zed  <NotZed@Ximian.com>
+
+	* providers/nntp/camel-nntp-store.c: setup xover once we've
+	started.
+
+	* providers/nntp/camel-nntp-summary.c: (xover_setup): moved to
+	nntp store.
+
+	* providers/nntp/camel-nntp-folder.c (folder_check)
+	(folder_check_free, camel_nntp_folder_new): remove async summary
+	stuff.
+
+	* providers/nntp/camel-nntp-store.c (camel_nntp_command): take
+	exception argument again, and folder argument.  do retry logic and
+	auth logic differently.
+	(camel_nntp_raw_command): raw command interface, dont try
+	reconnect or anything fancy.  pass i/o errors straight out, etc.
+	(camel_nntp_try_authenticate): change to return return codes &
+	take exception.
+
+	* providers/nntp/camel-nntp-summary.c (camel_nntp_summary_new):
+	just take path argument.
+	(camel_nntp_summary_check): take a store, and a folder name.
+	(add_range_head, add_range_xover): remove the time based update
+	events, they never had any effect anyway.  Take store argument.
+	(xover_setup): take store argument.
+
+	* camel-folder-search.c (search_match_threads): remove debug.
+
 2004-06-01  Not Zed  <NotZed@Ximian.com>
 
 	** A few fixes for better rfc compliance, and cleaner code.

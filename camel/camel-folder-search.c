@@ -780,7 +780,6 @@ search_match_threads(struct _ESExp *f, int argc, struct _ESExpTerm **argv, Camel
 		r = e_sexp_term_eval(f, argv[i]);
 	}
 
-	printf("match-threads, result %d\n", r==NULL?-1:r->type);
 	if (r == NULL || r->type != ESEXP_RES_ARRAY_PTR)
 		e_sexp_fatal_error(f, _("(match-threads) expects an array result"));
 

@@ -49,6 +49,7 @@ struct _EContactListEditor
 
 	/* item specific fields */
 	EBook *book;
+
 	EContact *contact;
 
 	/* UI handler */
@@ -66,6 +67,7 @@ struct _EContactListEditor
 	GtkWidget *list_image_button;
 	GtkWidget *visible_addrs_checkbutton;
 	GtkWidget *list_image;
+	GtkWidget *source_menu;
 
 	/* Whether we are editing a new contact or an existing one */
 	guint is_new_list : 1;
@@ -81,6 +83,10 @@ struct _EContactListEditor
 
 	/* Whether an async wombat call is in progress */
 	guint in_async_call : 1;
+
+	/* ID for async load_source call */
+	guint  load_source_id;
+	EBook *load_book;
 };
 
 struct _EContactListEditorClass

@@ -1,3 +1,66 @@
+2004-06-02  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/addressbook-migrate.c
+	(migrate_contact_folder_to_source): Add missing negation that caused
+	a crash.
+
+2004-06-02  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-migrate.c (addressbook_migrate):
+	remove hidden field migration, and add in a phase to clear the
+	absolute_uri properties on ESources.
+
+2004-06-02  Rodney Dawes  <dobey@novell.com>
+
+	* gui/component/addressbook-config.c (focus_help, add_focus_handler):
+	Don't need these two functions any more
+	(source_to_dialog, auth_optionmenu_func):
+	Don't try to change the notebook page or set the widget sensitive,
+	for a notebook that doesn't exist any more
+	(reparent_to_vbox): Don't need this function any more, as the
+	widgets are all contained in the same dialog in the glade now
+	(setup_general_tab, setup_connecting_tab, setup_searching_tab):
+	We don't need to do the focus-based "tooltip" stuff any more
+	We just use tooltips on the widgets now
+	(ssl_optionmenu_selected, add_ssl_activate_cb):
+	We don't need the ssl_optionmenu_selected callback any more, as the
+	tooltips are just set on the necessary widgets now
+	(query_for_supported_bases): Set the border widths on the dialog's
+	vbox and action_area to be compliant with the HIG
+	(addressbook_add_server_dialog): Unref the GConfClient object
+	(addressbook_config_edit_source): Create the source_list so that
+	we can actually save the changes that we make here
+	Create the GladeXML with only the widget subtree that we need to
+	use here, to avoid popping up other visible dialogs
+	Set the border widths on the dialog's vbox and action_area to be
+	compliant with the HIG
+	We don't need to reparent widgets to vboxes any more, as the widgets
+	are now part of the dialog's widget tree
+	If we are without LDAP or not in LDAP mode, then hide the notebook
+	borders, and change the border size of its child to appear as though
+	we are a normal non-LDAP dialog
+	We don't need to set the type hint on the window as we are no a
+	real GtkDialog
+
+	* gui/component/ldap-config.glade: Update the properties dialogs to
+	be compliant with the HIG layout
+	Get rid of some of the extra windows and put their children in the
+	appropriate places in the properties dialog
+	Make the properties dialog be a real GtkDialog
+
+	Fixes #41141
+
+2004-06-01  Larry Ewing  <lewing@ximian.com>
+
+	* gui/contact-list-editor/e-contact-list-editor.c: Add in a source
+	option menu to the dialog and make is sensitive only on new lists.
+
+	* gui/contact-list-editor/e-contact-list-editor.h: add load_book
+	fields for async book loading.
+	
+	* gui/contact-list-editor/contact-list-editor.glade: add the new
+	source selector in a table reorder some of the other widgets.
+	
 2004-05-28  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/eab-contact-display.c (render_contact): render all

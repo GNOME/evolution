@@ -39,6 +39,7 @@ void camel_string_list_free (GList *string_list);
 char *camel_strstrcase (const char *haystack, const char *needle);
 
 const char *camel_strdown (char *str);
+char camel_tolower(char c);
 
 #ifdef __cplusplus
 }

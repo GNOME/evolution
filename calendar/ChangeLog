@@ -5,6 +5,49 @@
 	(list_changed_cb): track the removals in a list so we don't
 	clobber the hash table data during the foreach loop
 
+2004-06-02  Chris Toshok  <toshok@ximian.com>
+
+	* gui/migration.c (migrate_calendars): remove absolute_uri from
+	ESource's.
+	(migrate_tasks): same.
+
+2004-06-02  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-meeting-list-view.c (start_addressbook_server): removed
+	pre-completion code, not needed anymore.
+	(emlv_finalize): no need to unref the book anymore.
+	(emlv_init): don't call start_addressbook_server.
+
+	* gui/e-meeting-store.c (start_addressbook_server): removed.
+	(ems_finalize): no need to unref the book anymore.
+
+	* gui/dialogs/copy-source-dialog.c (copy_source): fixed
+	leak and pass the correct icalcomponent to e_cal_modify_object.
+
+2004-06-02  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #59333
+
+	* gui/dialogs/task-page.c (task_page_fill_widgets): guard against
+	list items being NULL.
+
+2004-06-02  Larry Ewing  <lewing@ximian.com>
+
+	* gui/e-tasks.c (table_drag_data_delete): add a drag delete handler.
+	(table_drag_data_get): support text/vcard drags.
+	(setup_widgets): setup the etable as a drag source.
+
+	* gui/tasks-component.c: add source selector Drag & Drop handlers.
+
+2004-06-01  Larry Ewing  <lewing@ximian.com>
+
+	* gui/dialogs/calendar-setup.c: rename can_add to is_mutable, add
+	sensitivity logic for both readonly and mutable cases.  The
+	esource attributes are a complete mess and need discussion.
+
+	* gui/dialogs/calendar-setup.glade: remove edit dialogs and name
+	the tables.
+
 2004-06-01  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #59369

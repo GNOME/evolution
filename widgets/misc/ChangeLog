@@ -1,3 +1,12 @@
+2004-06-01  Christian Neumair  <chris@gnome-de.org>
+
+	* Makefile.am (test_error_LDADD): Link test-error against libeutil.
+
+2004-06-01  Anders Carlsson  <andersca@gnome.org>
+
+	* e-expander.c (e_expander_expose): Don't propagate the expose
+	to the label widget, the parent expose handler does that.
+
 2004-05-28  Anders Carlsson  <andersca@gnome.org>
 
 	* e-error.c (e_error_newv): Use the constructed title string.

@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 1.5.8, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 1.5.9, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -1009,9 +1009,9 @@ AC_DEFUN(EVO_SET_COMPILE_FLAGS, [
 
 dnl --- Required version numbers
 
-GAL_REQUIRED=2.1.9
-GTKHTML_REQUIRED=3.1.14
-EDS_REQUIRED=0.0.93
+GAL_REQUIRED=2.1.10
+GTKHTML_REQUIRED=3.1.15
+EDS_REQUIRED=0.0.94
 BONOBOUI_REQUIRED=2.4.2
 
 AC_SUBST(GAL_REQUIRED)
@@ -1151,7 +1151,7 @@ BASE_VERSION=`echo $VERSION | awk -F. '{print $1 "." $2;}'`
 AC_SUBST(BASE_VERSION)
 AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
 
-UPGRADE_REVISION=11
+UPGRADE_REVISION=12
 AC_SUBST(UPGRADE_REVISION)
 AC_DEFINE_UNQUOTED(UPGRADE_REVISION, "$UPGRADE_REVISION", [The number of times we've upgraded since the BASE_VERSION release])
 

@@ -172,8 +172,9 @@ test_source_option_menu_LDADD =			\
 test_error_SOURCES = 	\
 	test-error.c
 
-test_error_LDADD = 		\
-	./libemiscwidgets.la	\
+test_error_LDADD = 				\
+	$(top_builddir)/e-util/libeutil.la	\
+	./libemiscwidgets.la			\
 	$(GNOME_FULL_LIBS)
 
 

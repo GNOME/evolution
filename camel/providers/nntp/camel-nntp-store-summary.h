@@ -50,6 +50,8 @@ enum {
 struct _CamelNNTPStoreInfo {
 	CamelStoreInfo info;
 	char *full_name;
+	guint32 first;		/* from LIST or NEWGROUPS return */
+	guint32 last;
 };
 
 #define NNTP_DATE_SIZE 14

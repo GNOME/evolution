@@ -182,9 +182,21 @@ mc_add_store(MailComponent *component, CamelStore *store, const char *name, void
 }
 
 static void
+mc_add_local_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
+{
+	/*MailComponent *mc = data;*/
+	int i;
+
+	for (i=0;i<sizeof(mc_default_folders)/sizeof(mc_default_folders[0]);i++) {
+		if (mc_default_folders[i].folder)
+			mail_note_folder(mc_default_folders[i].folder);
+	}
+}
+
+static void
 mc_add_local_store(CamelStore *store, const char *name, MailComponent *mc)
 {
-	mc_add_store(mc, store, name, NULL);
+	mc_add_store(mc, store, name, mc_add_local_store_done);
 	camel_object_unref(store);
 	g_object_unref(mc);
 }

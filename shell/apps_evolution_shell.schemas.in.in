@@ -84,6 +84,18 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/shell/view_defaults/toolbar_visible</key>
+      <applyto>/apps/evolution/shell/view_defaults/toolbar_visible</applyto>
+      <owner>evolution</owner>
+      <type>bool</type>
+      <default>TRUE</default>
+      <locale name="C">
+        <short>Toolbar is visible</short>
+        <long>Whether the toolbar should be visible.</long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/shell/view_defaults/component_id</key>
       <applyto>/apps/evolution/shell/view_defaults/component_id</applyto>
       <owner>evolution</owner>
