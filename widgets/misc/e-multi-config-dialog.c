@@ -377,10 +377,14 @@ init (EMultiConfigDialog *multi_config_dialog)
 	ECell *text;
 	ECell *vbox;
 
+	gtk_dialog_set_has_separator (GTK_DIALOG (multi_config_dialog), FALSE);
+	gtk_widget_realize (GTK_WIDGET (multi_config_dialog));
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (multi_config_dialog)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (multi_config_dialog)->action_area), 12);
+
 	hbox = gtk_hbox_new (FALSE, 6);
-	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6); 
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 12); 
 	dialog_vbox = GTK_DIALOG (multi_config_dialog)->vbox;
-	gtk_box_set_spacing (GTK_BOX (dialog_vbox), 6); 
 	
 	gtk_container_add (GTK_CONTAINER (dialog_vbox), hbox);
 

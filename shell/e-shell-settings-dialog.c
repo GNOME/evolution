@@ -272,21 +272,6 @@ load_pages (EShellSettingsDialog *dialog)
 }
 
 
-/* GtkWidget methods.  */
-
-static void
-impl_realize (GtkWidget *widget)
-{
-	EShellSettingsDialog *dialog;
-
-	dialog = E_SHELL_SETTINGS_DIALOG (widget);
-
-	set_dialog_size (dialog);
-
-	(* GTK_WIDGET_CLASS (parent_class)->realize) (widget);
-}
-
-
 /* GtkObject methods.  */
 
 static gboolean
@@ -319,13 +304,9 @@ static void
 class_init (EShellSettingsDialog *class)
 {
 	GObjectClass *object_class;
-	GtkWidgetClass *widget_class;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = impl_finalize;
-
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->realize = impl_realize;
 
 	parent_class = g_type_class_ref(PARENT_TYPE);
 }
@@ -341,8 +322,8 @@ init (EShellSettingsDialog *dialog)
 	dialog->priv = priv;
 
 	load_pages (dialog);
+	set_dialog_size (dialog);
 	
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6); 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Evolution Settings"));
 }
 
