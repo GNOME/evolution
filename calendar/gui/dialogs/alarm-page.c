@@ -70,6 +70,47 @@ struct _AlarmPagePrivate {
 	gboolean updating;
 };
 
+/* "relative" types */
+enum {
+	BEFORE,
+	AFTER
+};
+
+/* Time units */
+enum {
+	MINUTES,
+	HOURS,
+	DAYS
+};
+
+/* Option menu maps */
+static const int action_map[] = {
+	CAL_ALARM_DISPLAY,
+	CAL_ALARM_AUDIO,
+	CAL_ALARM_EMAIL,
+	CAL_ALARM_PROCEDURE,
+	-1
+};
+
+static const int value_map[] = {
+	MINUTES,
+	HOURS,
+	DAYS,
+	-1
+};
+
+static const int relative_map[] = {
+	BEFORE,
+	AFTER,
+	-1
+};
+
+static const int time_map[] = {
+	CAL_ALARM_TRIGGER_RELATIVE_START,
+	CAL_ALARM_TRIGGER_RELATIVE_END,
+	-1
+};
+
 
 
 static void alarm_page_class_init (AlarmPageClass *class);
@@ -269,6 +310,13 @@ clear_widgets (AlarmPage *apage)
 
 	/* Start date */
 	gtk_label_set_text (GTK_LABEL (priv->date_time), "");
+
+	/* Sane defaults */
+	e_dialog_option_menu_set (priv->action, CAL_ALARM_DISPLAY, action_map);
+	e_dialog_spin_set (priv->interval_value, 15);
+	e_dialog_option_menu_set (priv->value_units, MINUTES, value_map);
+	e_dialog_option_menu_set (priv->relative, BEFORE, relative_map);
+	e_dialog_option_menu_set (priv->time, CAL_ALARM_TRIGGER_RELATIVE_START, time_map);
 
 	/* List data */
 	free_alarms (apage);
@@ -538,47 +586,6 @@ alarm_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 }
 
 
-
-/* "relative" types */
-enum {
-	BEFORE,
-	AFTER
-};
-
-/* Time units */
-enum {
-	MINUTES,
-	HOURS,
-	DAYS
-};
-
-/* Option menu maps */
-static const int action_map[] = {
-	CAL_ALARM_DISPLAY,
-	CAL_ALARM_AUDIO,
-	CAL_ALARM_EMAIL,
-	CAL_ALARM_PROCEDURE,
-	-1
-};
-
-static const int value_map[] = {
-	MINUTES,
-	HOURS,
-	DAYS,
-	-1
-};
-
-static const int relative_map[] = {
-	BEFORE,
-	AFTER,
-	-1
-};
-
-static const int time_map[] = {
-	CAL_ALARM_TRIGGER_RELATIVE_START,
-	CAL_ALARM_TRIGGER_RELATIVE_END,
-	-1
-};
 
 /* Gets the widgets from the XML file and returns if they are all available. */
 static gboolean
