@@ -26,7 +26,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-xobject.h>
-#include "calendar/pcs/evolution-calendar.h"
+#include "evolution-calendar.h"
 #include "cal-common.h"
 
 BEGIN_GNOME_DECLS
