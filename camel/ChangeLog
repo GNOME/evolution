@@ -1,3 +1,10 @@
+2001-02-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/local/camel-local-provider.c: mbox, mh, and maildir
+	camel-url's need absolute paths.
+
+	* camel-provider.h (CAMEL_URL_PATH_IS_ABSOLUTE): New flaggy flag.
+
 2001-02-08  Dan Winship  <danw@ximian.com>
 
 	* camel-store.c: Rewrite a bunch. Replace the existing folder

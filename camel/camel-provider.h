@@ -76,6 +76,7 @@ extern char *camel_provider_type_name[CAMEL_NUM_PROVIDER_TYPES];
 #define CAMEL_URL_NEED_PORT	 (1 << 10 | 1 << 4)
 #define CAMEL_URL_NEED_PATH	 (1 << 11 | 1 << 5)
 
+#define CAMEL_URL_PATH_IS_ABSOLUTE (1 << 12)
 
 typedef struct {
 	/* Provider name used in CamelURLs. */
