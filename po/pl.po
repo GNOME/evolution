@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-11-24 13:59+0100\n"
-"PO-Revision-Date: 2001-11-24 14:00+0100\n"
+"POT-Creation-Date: 2001-12-04 17:34+0100\n"
+"PO-Revision-Date: 2001-12-04 17:36+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2449,6 +2449,10 @@ msgstr "Edytor listy kontaktów"
 msgid "Contact List Editor"
 msgstr "Edytor listy kontaktów"
 
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:1
+msgid "Save List as VCard"
+msgstr "Zapisz listê jako VCard"
+
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 msgid "Add Anyway"
 msgstr "Dodaj mimo tego"
@@ -3524,7 +3528,6 @@ msgstr "Zestawienie:"
 msgid "_Options..."
 msgstr "_Opcje..."
 
-#. Automatically generated. Do not edit.
 #: calendar/gui/dialogs/alarm-page.glade.h:1 filter/libfilter-i18n.h:1
 msgid "after"
 msgstr "po"
@@ -4792,7 +4795,7 @@ msgstr ""
 "Nie mo¿na uaktualniæ stanu uczestnika, poniewa¿ jest on nieprawid³owy!\n"
 
 #: calendar/gui/e-itip-control.c:1
-msgid "Attendee status ould not be updated!\n"
+msgid "Attendee status could not be updated!\n"
 msgstr "Nie mo¿na uaktualniæ stanu uczestnika!\n"
 
 #: calendar/gui/e-itip-control.c:1
@@ -4896,6 +4899,7 @@ msgstr "Pomieszczenie"
 #: calendar/gui/e-meeting-model.c:1 calendar/gui/e-meeting-model.c:1
 #: calendar/gui/e-meeting-model.c:1 calendar/gui/e-meeting-model.c:1
 #: calendar/gui/e-meeting-model.c:1
+#: camel/providers/smtp/camel-smtp-transport.c:1
 #: camel/providers/smtp/camel-smtp-transport.c:1
 #: widgets/misc/e-charset-picker.c:1 widgets/misc/e-charset-picker.c:1
 msgid "Unknown"
@@ -5123,7 +5127,7 @@ msgid "September"
 msgstr "Wrzesieñ"
 
 #: calendar/gui/itip-utils.c:1
-msgid "Atleast one attendee is necessary"
+msgid "At least one attendee is necessary"
 msgstr "Wymagany jest co najmniej jeden uczestnik"
 
 #: calendar/gui/itip-utils.c:1
@@ -5871,6 +5875,14 @@ msgstr "Nie mo¿na odszyfrowaæ listu: nie podano has³a"
 #, c-format
 msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
 msgstr "Nie mo¿na odszyfrowaæ listu: nie mo¿na stworzyæ potoku do GPG/PGP: %s"
+
+#: camel/camel-pgp-mime.c:1
+msgid "This is a digitally signed message part"
+msgstr "To jest czê¶æ listu podpisana cyfrowo"
+
+#: camel/camel-pgp-mime.c:1
+msgid "This is an encrypted message part"
+msgstr "To jest zaszyfrowana czê¶æ listu"
 
 #: camel/camel-provider.c:1
 #, c-format
@@ -8042,6 +8054,7 @@ msgstr "ze wszystkimi lokalnymi i aktywnymi zdalnymi folderami"
 msgid "with all local folders"
 msgstr "ze wszystkimi lokalnymi folderami"
 
+#. Automatically generated. Do not edit.
 #: filter/libfilter-i18n.h:1
 msgid "Assign Color"
 msgstr "Przypisz kolor"
@@ -8053,10 +8066,6 @@ msgstr "Przypisz punkty"
 #: filter/libfilter-i18n.h:1
 msgid "Attachments"
 msgstr "Za³±czniki"
-
-#: filter/libfilter-i18n.h:1
-msgid "contains"
-msgstr "zawiera"
 
 #: filter/libfilter-i18n.h:1
 msgid "Copy to Folder"
@@ -8075,26 +8084,6 @@ msgid "Deleted"
 msgstr "Usuniêty"
 
 #: filter/libfilter-i18n.h:1
-msgid "does not contain"
-msgstr "nie zawiera"
-
-#: filter/libfilter-i18n.h:1
-msgid "does not end with"
-msgstr "nie koñczy siê na"
-
-#: filter/libfilter-i18n.h:1
-msgid "does not exist"
-msgstr "nie istnieje"
-
-#: filter/libfilter-i18n.h:1
-msgid "does not sound like"
-msgstr "nie brzmi jak"
-
-#: filter/libfilter-i18n.h:1
-msgid "does not start with"
-msgstr "nie rozpoczyna siê od"
-
-#: filter/libfilter-i18n.h:1
 msgid "Do Not Exist"
 msgstr "Nie istnieje"
 
@@ -8103,16 +8092,8 @@ msgid "Draft"
 msgstr "Roboczy"
 
 #: filter/libfilter-i18n.h:1
-msgid "ends with"
-msgstr "koñczy siê na"
-
-#: filter/libfilter-i18n.h:1
 msgid "Exist"
 msgstr "Istnieje"
-
-#: filter/libfilter-i18n.h:1
-msgid "exists"
-msgstr "istnieje"
 
 #: filter/libfilter-i18n.h:1
 msgid "Expression"
@@ -8121,22 +8102,6 @@ msgstr "Wyra¿enie"
 #: filter/libfilter-i18n.h:1
 msgid "Important"
 msgstr "Wa¿ny"
-
-#: filter/libfilter-i18n.h:1
-msgid "is"
-msgstr "jest"
-
-#: filter/libfilter-i18n.h:1
-msgid "is greater than"
-msgstr "jest wiêkszy ni¿"
-
-#: filter/libfilter-i18n.h:1
-msgid "is less than"
-msgstr "jest mniejszy ni¿"
-
-#: filter/libfilter-i18n.h:1
-msgid "is not"
-msgstr "nie jest"
 
 #: filter/libfilter-i18n.h:1
 msgid "Mailing list"
@@ -8161,14 +8126,6 @@ msgstr "List zosta³ wys³any"
 #: filter/libfilter-i18n.h:1
 msgid "Move to Folder"
 msgstr "Przenie¶ do folderu"
-
-#: filter/libfilter-i18n.h:1
-msgid "on or after"
-msgstr "w lub po"
-
-#: filter/libfilter-i18n.h:1
-msgid "on or before"
-msgstr "w lub przed"
 
 #: filter/libfilter-i18n.h:1
 msgid "Read"
@@ -8204,20 +8161,12 @@ msgid "Size (kB)"
 msgstr "Rozmiar (KB)"
 
 #: filter/libfilter-i18n.h:1
-msgid "sounds like"
-msgstr "brzmi jak"
-
-#: filter/libfilter-i18n.h:1
 msgid "Source Account"
 msgstr "Konto ¼ród³owe"
 
 #: filter/libfilter-i18n.h:1
 msgid "Specific header"
 msgstr "Okre¶lony nag³ówek"
-
-#: filter/libfilter-i18n.h:1
-msgid "starts with"
-msgstr "rozpoczyna siê od"
 
 #: filter/libfilter-i18n.h:1
 msgid "Stop Processing"
@@ -8227,6 +8176,70 @@ msgstr "Zatrzymanie przetwarzania"
 #: mail/message-list.etspec.h:1
 msgid "Subject"
 msgstr "Temat"
+
+#: filter/libfilter-i18n.h:1
+msgid "contains"
+msgstr "zawiera"
+
+#: filter/libfilter-i18n.h:1
+msgid "does not contain"
+msgstr "nie zawiera"
+
+#: filter/libfilter-i18n.h:1
+msgid "does not end with"
+msgstr "nie koñczy siê na"
+
+#: filter/libfilter-i18n.h:1
+msgid "does not exist"
+msgstr "nie istnieje"
+
+#: filter/libfilter-i18n.h:1
+msgid "does not sound like"
+msgstr "nie brzmi jak"
+
+#: filter/libfilter-i18n.h:1
+msgid "does not start with"
+msgstr "nie rozpoczyna siê od"
+
+#: filter/libfilter-i18n.h:1
+msgid "ends with"
+msgstr "koñczy siê na"
+
+#: filter/libfilter-i18n.h:1
+msgid "exists"
+msgstr "istnieje"
+
+#: filter/libfilter-i18n.h:1
+msgid "is greater than"
+msgstr "jest wiêkszy ni¿"
+
+#: filter/libfilter-i18n.h:1
+msgid "is less than"
+msgstr "jest mniejszy ni¿"
+
+#: filter/libfilter-i18n.h:1
+msgid "is not"
+msgstr "nie jest"
+
+#: filter/libfilter-i18n.h:1
+msgid "is"
+msgstr "jest"
+
+#: filter/libfilter-i18n.h:1
+msgid "on or after"
+msgstr "w lub po"
+
+#: filter/libfilter-i18n.h:1
+msgid "on or before"
+msgstr "w lub przed"
+
+#: filter/libfilter-i18n.h:1
+msgid "sounds like"
+msgstr "brzmi jak"
+
+#: filter/libfilter-i18n.h:1
+msgid "starts with"
+msgstr "rozpoczyna siê od"
 
 #: filter/libfilter-i18n.h:1
 msgid "was after"
@@ -12847,13 +12860,13 @@ msgstr "Drukuje bie¿±cy element"
 msgid "Print..."
 msgstr "Wydrukuj..."
 
-#: ui/evolution-comp-editor.xml.h:1 ui/evolution-contact-list-editor.xml.h:1
-#: ui/evolution-message-composer.xml.h:1
+#: ui/evolution-comp-editor.xml.h:1 ui/evolution-message-composer.xml.h:1
 #: ui/evolution-signature-editor.xml.h:1 widgets/misc/e-filter-bar.c:1
 msgid "Save"
 msgstr "Zapisz"
 
 #: ui/evolution-comp-editor.xml.h:1 ui/evolution-contact-editor.xml.h:1
+#: ui/evolution-contact-list-editor.xml.h:1
 #: ui/evolution-signature-editor.xml.h:1
 msgid "Save and Close"
 msgstr "Zapisz i zamknij"
