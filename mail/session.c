@@ -90,7 +90,8 @@ mail_session_accept_dialog (const char *prompt, const char *key, gboolean async)
 	if (!async) {
 		dialog = gnome_dialog_new (_("Do you accept?"),
 					   GNOME_STOCK_BUTTON_YES,
-					   GNOME_STOCK_BUTTON_NO);
+					   GNOME_STOCK_BUTTON_NO,
+					   NULL);
 		gnome_dialog_set_default (GNOME_DIALOG (dialog), 1);
 		
 		label = gtk_label_new (prompt);
