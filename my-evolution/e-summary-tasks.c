@@ -19,6 +19,7 @@
 #include <cal-util/timeutil.h>
 
 #include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-object.h>
 #include <liboaf/liboaf.h>
 
 struct _ESummaryTasks {
@@ -249,7 +250,7 @@ generate_html (gpointer data)
 			cal_component_get_completed (comp, &completed);
 			
 			if (completed == NULL) {
-				tmp = g_strdup_printf ("<img align=\"middle\" src=\"task.xpm\" "
+				tmp = g_strdup_printf ("<img align=\"middle\" src=\"task.png\" "
 						       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
 						       "<font size=\"-1\"><a href=\"tasks:/%s\">%s</a></font><br>", 
 						       uid, text.value ? text.value : _("(No Description)"));
@@ -261,11 +262,11 @@ generate_html (gpointer data)
 						       text.value);
 #endif
 				cal_component_free_icaltimetype (completed);
-				gtk_object_unref (comp);
+				gtk_object_unref (GTK_OBJECT (comp));
 				continue;
 			}
 
-			gtk_object_unref (comp);
+			gtk_object_unref (GTK_OBJECT (comp));
 			g_string_append (string, tmp);
 			g_free (tmp);
 		}
@@ -321,7 +322,7 @@ e_summary_tasks_protocol (ESummary *summary,
 	CORBA_exception_init (&ev);
 	factory = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory", 0, NULL, &ev);
 	if (BONOBO_EX (&ev)) {
-		g_message ("%d: Could not activate the component editor factory (%s)", __FUNCTION__,
+		g_message ("%s: Could not activate the component editor factory (%s)", __FUNCTION__,
 			   CORBA_exception_id (&ev));
 		CORBA_exception_free (&ev);
 		return;

@@ -360,7 +360,7 @@ e_summary_calendar_protocol (ESummary *summary,
 	CORBA_exception_init (&ev);
 	factory = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory", 0, NULL, &ev);
 	if (BONOBO_EX (&ev)) {
-		g_message ("%d: Could not activate the component editor factory (%s)", __FUNCTION__,
+		g_message ("%s: Could not activate the component editor factory (%s)", __FUNCTION__,
 			   CORBA_exception_id (&ev));
 		CORBA_exception_free (&ev);
 		return;

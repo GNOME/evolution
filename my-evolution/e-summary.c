@@ -29,6 +29,7 @@
 #include <bonobo/bonobo-listener.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
+#include <bonobo/bonobo-ui-component.h>
 #include <bonobo-conf/bonobo-config-database.h>
 
 #include <libgnome/gnome-paper.h>
@@ -88,6 +89,7 @@ typedef struct _ProtocolListener {
 	void *closure;
 } ProtocolListener;
 
+static GHashTable *images_cache = NULL;
 
 static void
 free_protocol (gpointer key, gpointer value, gpointer user_data)
@@ -245,8 +247,18 @@ e_pixmap_file (const char *filename)
 	g_free (edir);
 
 	/* Fall back to the gnome_pixmap_file */
-	return gnome_pixmap_file (filename);
+	ret = gnome_pixmap_file (filename);
+	if (ret == NULL) {
+		g_warning ("Could not find pixmap for %s", filename);
+	}
+
+	return ret;
 }
+
+struct _imgcache {
+	char *buffer;
+	int bufsize;
+};
 
 static void
 close_callback (GnomeVFSAsyncHandle *handle,
@@ -254,9 +266,17 @@ close_callback (GnomeVFSAsyncHandle *handle,
 		gpointer data)
 {
 	DownloadInfo *info = data;
+	struct _imgcache *img;
 
-	g_free (info->uri);
-	g_free (info->buffer);
+	if (images_cache == NULL) {
+		images_cache = g_hash_table_new (g_str_hash, g_str_equal);
+	}
+
+	img = g_new (struct _imgcache, 1);
+	img->buffer = info->buffer;
+	img->bufsize = info->bufsize;
+
+	g_hash_table_insert (images_cache, info->uri, img);
 	g_free (info);
 }
 
@@ -279,7 +299,7 @@ read_callback (GnomeVFSAsyncHandle *handle,
 		gtk_html_stream_close (info->stream, GTK_HTML_STREAM_ERROR);
 		gnome_vfs_async_close (handle, close_callback, info);
 	} else if (bytes_read == 0) {
-		gtk_html_stream_write (info->stream, info->buffer, info->ptr - info->buffer);
+		gtk_html_stream_write (info->stream, info->buffer, info->bufsize);
 		gtk_html_stream_close (info->stream, GTK_HTML_STREAM_OK);
 		gnome_vfs_async_close (handle, close_callback, info);
 	} else {
@@ -347,6 +367,7 @@ e_summary_url_requested (GtkHTML *html,
 	char *filename;
 	GnomeVFSAsyncHandle *handle;
 	DownloadInfo *info;
+	struct _imgcache *img = NULL;
 
 	if (strncasecmp (url, "file:", 5) == 0) {
 		url += 5;
@@ -362,12 +383,21 @@ e_summary_url_requested (GtkHTML *html,
 		return;
 	}
 
-	info = g_new (DownloadInfo, 1);
-	info->stream = stream;
-	info->uri = filename;
+	if (images_cache != NULL) {
+		img = g_hash_table_lookup (images_cache, filename);
+	}
 
-	gnome_vfs_async_open (&handle, filename, GNOME_VFS_OPEN_READ,
-			      (GnomeVFSAsyncOpenCallback) open_callback, info);
+	if (img == NULL) {
+		info = g_new (DownloadInfo, 1);
+		info->stream = stream;
+		info->uri = filename;
+
+		gnome_vfs_async_open (&handle, filename, GNOME_VFS_OPEN_READ,
+				      (GnomeVFSAsyncOpenCallback) open_callback, info);
+	} else {
+		gtk_html_stream_write (stream, img->buffer, img->bufsize);
+		gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
+	}
 }
 
 static void
@@ -563,9 +593,12 @@ do_summary_print (ESummary *summary,
 }
 
 void
-e_summary_print (GtkWidget *widget,
-		 ESummary *summary)
+e_summary_print (BonoboUIComponent *component,
+		 gpointer userdata,
+		 const char *cname)
 {
+	ESummary *summary = userdata;
+
 	do_summary_print (summary, FALSE);
 }
 
@@ -686,9 +719,12 @@ e_summary_reconfigure (ESummary *summary)
 }
 
 void
-e_summary_reload (GtkWidget *widget,
-		  ESummary *summary)
+e_summary_reload (BonoboUIComponent *component,
+		  gpointer userdata,
+		  const char *cname)
 {
+	ESummary *summary = userdata;
+
 	e_summary_reconfigure (summary);
 }
 

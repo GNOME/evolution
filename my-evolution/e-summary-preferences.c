@@ -1407,9 +1407,11 @@ property_box_destroy_cb (GtkObject *object,
 }
 
 void
-e_summary_configure (GtkWidget *widget,
-		     ESummary *summary)
+e_summary_configure (BonoboUIComponent *component,
+		     gpointer userdata,
+		     const char *cname)
 {
+	ESummary *summary = userdata;
 	PropertyData *pd;
 
 	if (summary->prefs_window != NULL) {
@@ -1433,7 +1435,7 @@ e_summary_configure (GtkWidget *widget,
 	g_return_if_fail (pd->xml != NULL);
 
 	pd->box = GNOME_PROPERTY_BOX (glade_xml_get_widget (pd->xml, "dialog1"));
-	summary->prefs_window = pd->box;
+	summary->prefs_window = GTK_WIDGET (pd->box);
 
 	gtk_window_set_title (GTK_WINDOW (pd->box), _("Summary Settings"));
 	if (make_property_dialog (pd) == FALSE) {
