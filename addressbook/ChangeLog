@@ -1,3 +1,12 @@
+2001-10-24  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/addressbook-factory.c (main): Initialize
+	gnome-vfs.
+
+	* gui/component/addressbook-component.c (xfer_file): Added.
+	(Copied from the calendar.)
+	(xfer_folder): Fixed to allow renaming of contact folders.
+
 2001-10-24  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c

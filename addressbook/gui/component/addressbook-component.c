@@ -25,6 +25,12 @@
 #include <config.h>
 #endif
 
+#include <libgnomevfs/gnome-vfs-types.h>
+#include <libgnomevfs/gnome-vfs-uri.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
+#include <libgnomevfs/gnome-vfs-directory.h>
+#include <libgnomevfs/gnome-vfs-file-info.h>
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>
@@ -183,6 +189,92 @@ remove_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_free(&ev);
 }
 
+/* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
+
+/* This code is cut & pasted from calendar/gui/component-factory.c */
+
+static GNOME_Evolution_ShellComponentListener_Result
+xfer_file (GnomeVFSURI *base_src_uri,
+	   GnomeVFSURI *base_dest_uri,
+	   const char *file_name,
+	   int remove_source)
+{
+	GnomeVFSURI *src_uri, *dest_uri;
+	GnomeVFSHandle *hin, *hout;
+	GnomeVFSResult result;
+	GnomeVFSFileInfo file_info;
+	GnomeVFSFileSize size;
+	char *buffer;
+	
+	src_uri = gnome_vfs_uri_append_file_name (base_src_uri, file_name);
+
+	result = gnome_vfs_open_uri (&hin, src_uri, GNOME_VFS_OPEN_READ);
+	if (result == GNOME_VFS_ERROR_NOT_FOUND) {
+		gnome_vfs_uri_unref (src_uri);
+		return GNOME_Evolution_ShellComponentListener_OK; /* No need to xfer anything.  */
+	}
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_uri_unref (src_uri);
+		return GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+	}
+
+	result = gnome_vfs_get_file_info_uri (src_uri, &file_info, GNOME_VFS_FILE_INFO_DEFAULT);
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_uri_unref (src_uri);
+		return GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+	}
+
+	dest_uri = gnome_vfs_uri_append_file_name (base_dest_uri, file_name);
+
+	result = gnome_vfs_create_uri (&hout, dest_uri, GNOME_VFS_OPEN_WRITE, FALSE, 0600);
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_close (hin);
+		gnome_vfs_uri_unref (src_uri);
+		gnome_vfs_uri_unref (dest_uri);
+		return GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+	}
+
+	/* write source file to destination file */
+	buffer = g_malloc (file_info.size);
+	result = gnome_vfs_read (hin, buffer, file_info.size, &size);
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_close (hin);
+		gnome_vfs_close (hout);
+		gnome_vfs_uri_unref (src_uri);
+		gnome_vfs_uri_unref (dest_uri);
+		g_free (buffer);
+		return GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+	}
+
+	result = gnome_vfs_write (hout, buffer, file_info.size, &size);
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_close (hin);
+		gnome_vfs_close (hout);
+		gnome_vfs_uri_unref (src_uri);
+		gnome_vfs_uri_unref (dest_uri);
+		g_free (buffer);
+		return GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+	}
+
+	if (remove_source) {
+		char *text_uri;
+
+		/* Sigh, we have to do this as there is no gnome_vfs_unlink_uri(). :-(  */
+
+		text_uri = gnome_vfs_uri_to_string (src_uri, GNOME_VFS_URI_HIDE_NONE);
+		result = gnome_vfs_unlink (text_uri);
+		g_free (text_uri);
+	}
+
+	gnome_vfs_close (hin);
+	gnome_vfs_close (hout);
+	gnome_vfs_uri_unref (src_uri);
+	gnome_vfs_uri_unref (dest_uri);
+	g_free (buffer);
+
+	return GNOME_Evolution_ShellComponentListener_OK;
+}
+
 static void
 xfer_folder (EvolutionShellComponent *shell_component,
 	     const char *source_physical_uri,
@@ -193,8 +285,12 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	     void *closure)
 {
 	CORBA_Environment ev;
-	char *source_path;
-	char *destination_path;
+
+	GnomeVFSURI *src_uri;
+	GnomeVFSURI *dest_uri;
+	GnomeVFSResult result;
+
+	CORBA_exception_init (&ev);
 	
 	if (!IS_CONTACT_TYPE (type)) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
@@ -212,6 +308,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 		CORBA_exception_free(&ev);
 		return;
 	}
+
 	if (strncmp (source_physical_uri, "file://", 7)
 	    || strncmp (destination_physical_uri, "file://", 7)) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
@@ -221,18 +318,28 @@ xfer_folder (EvolutionShellComponent *shell_component,
 		return;
 	}
 
-	/* strip the 'file://' from the beginning of each uri and add addressbook.db */
-	source_path = g_concat_dir_and_file (source_physical_uri + 7, "addressbook.db");
-	destination_path = g_concat_dir_and_file (destination_physical_uri + 7, "addressbook.db");
+	/* check URIs */
+	src_uri = gnome_vfs_uri_new (source_physical_uri);
+	dest_uri = gnome_vfs_uri_new (destination_physical_uri);
+	if (!src_uri || ! dest_uri) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_INVALID_URI,
+			&ev);
+		gnome_vfs_uri_unref (src_uri);
+		gnome_vfs_uri_unref (dest_uri);
+		CORBA_exception_free (&ev);
+		return;
+	}
 
-	CORBA_exception_init (&ev);
+	result = xfer_file (src_uri, dest_uri, "addressbook.db", remove_source);
+	
+	GNOME_Evolution_ShellComponentListener_notifyResult (listener, result, &ev);
 
-	/* XXX always fail for now, until the above stuff is written */
-	GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED, &ev);
+	gnome_vfs_uri_unref (src_uri);
+	gnome_vfs_uri_unref (dest_uri);
 
-	g_free (source_path);
-	g_free (destination_path);
-	CORBA_exception_free (&ev);
+        CORBA_exception_free (&ev);	
 }
 
 static char*

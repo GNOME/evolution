@@ -16,6 +16,7 @@ INCLUDES =							\
 	-I$(top_srcdir)/addressbook/backend			\
 	-I$(top_builddir)/addressbook/backend			\
 	$(BONOBO_HTML_GNOME_CFLAGS)				\
+	$(GNOME_VFS_CFLAGS)					\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
@@ -49,6 +50,7 @@ evolution_addressbook_LDADD =						\
 	$(top_builddir)/shell/libeshell.la				\
 	$(EXTRA_GNOME_LIBS)						\
 	$(BONOBO_HTML_GNOME_LIBS)					\
+	$(GNOME_VFS_LIBS)						\
 	$(BONOBO_CONF_LIBS)						\
 	$(top_builddir)/addressbook/gui/widgets/libeminicard.a		\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
