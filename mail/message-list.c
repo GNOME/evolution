@@ -2396,6 +2396,7 @@ static void hide_load_state(MessageList *ml)
 
 				if (camel_folder_summary_decode_string(in, &olduid) != -1) {
 					uid =  e_mempool_strdup(ml->hidden_pool, olduid);
+					g_free (olduid);
 					g_hash_table_insert(ml->hidden, uid, uid);
 				}
 			}

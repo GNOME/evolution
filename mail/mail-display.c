@@ -264,8 +264,27 @@ inline_cb (GtkWidget *widget, gpointer user_data)
 	mail_display_queue_redisplay (md);
 }
 
+static void
+button_press (GtkWidget *widget, CamelMimePart *part)
+{
+	MailDisplay *md;
+
+	md = gtk_object_get_data (GTK_OBJECT (widget), "MailDisplay");
+	if (md == NULL) {
+		g_warning ("No MailDisplay on button!");
+		return;
+	}
+
+	if (mail_part_is_inline (part))
+		camel_mime_part_set_disposition (part, "attachment");
+	else
+		camel_mime_part_set_disposition (part, "inline");
+
+	mail_display_queue_redisplay (md);
+}
+
 static gboolean
-pixmap_press (GtkWidget *ebox, GdkEventButton *event, EScrollFrame *user_data)
+pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 {
 	EPopupMenu menu[] = {
 		{ N_("Save to Disk..."), NULL,
@@ -280,14 +299,16 @@ pixmap_press (GtkWidget *ebox, GdkEventButton *event, EScrollFrame *user_data)
 	MailMimeHandler *handler;
 	int mask = 0;
 
+#ifdef USE_OLD_DISPLAY_STYLE
 	if (event->button != 3) {
 		gtk_propagate_event (GTK_WIDGET (user_data),
 				     (GdkEvent *)event);
 		return TRUE;
 	}
+#endif
 
-	part = gtk_object_get_data (GTK_OBJECT (ebox), "CamelMimePart");
-	handler = mail_lookup_handler (gtk_object_get_data (GTK_OBJECT (ebox),
+	part = gtk_object_get_data (GTK_OBJECT (widget), "CamelMimePart");
+	handler = mail_lookup_handler (gtk_object_get_data (GTK_OBJECT (widget),
 							    "mime_type"));
 
 	/* Save item */
@@ -332,7 +353,7 @@ pixmap_press (GtkWidget *ebox, GdkEventButton *event, EScrollFrame *user_data)
 		mask |= 2;
 	}
 
-	e_popup_menu_run (menu, (GdkEvent *)event, mask, 0, ebox);
+	e_popup_menu_run (menu, (GdkEvent *)event, mask, 0, widget);
 	g_free (menu[1].name);
 	g_free (menu[2].name);
 	return TRUE;
@@ -478,7 +499,7 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 	/* Add the pixbuf to the cache */
 
 	g_hash_table_insert (pbl->md->thumbnail_cache, pbl->cid, mini);
-	gtk_widget_set_usize (pbl->pixmap, width, height);
+  	gtk_widget_set_usize (pbl->pixmap, 24, 24);
 
 	gtk_signal_disconnect (GTK_OBJECT (pbl->eb), pbl->destroy_id);
 	if (pbl->loader) {
@@ -613,7 +634,12 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 
 	if (cid != eb->classid) {
 		/* This is a part wrapper */
+#ifdef USE_OLD_DISPLAY_STYLE
 		GtkWidget *ebox;
+#else
+		GtkWidget *button, *mainbox, *hbox, *arrow, *popup;
+		MailMimeHandler *handler;
+#endif
 		struct _PixbufLoader *pbl;
 
 		pbl = g_new0 (struct _PixbufLoader, 1);
@@ -640,6 +666,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 		g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc)pixbuf_gen_idle, 
 				 pbl, NULL);
 
+#ifdef USE_OLD_DISPLAY_STYLE
 		ebox = gtk_event_box_new ();
 		gtk_widget_set_sensitive (GTK_WIDGET (ebox), TRUE);
 		gtk_widget_add_events (GTK_WIDGET (ebox),
@@ -657,6 +684,56 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 		gtk_container_add (GTK_CONTAINER (ebox), pbl->pixmap);
 		gtk_widget_show_all (ebox);
 		gtk_container_add (GTK_CONTAINER (eb), ebox);
+#else
+		mainbox = gtk_hbox_new (FALSE, 0);
+
+		button = gtk_button_new ();
+		gtk_object_set_data (GTK_OBJECT (button), "MailDisplay", md);
+
+		gtk_signal_connect (GTK_OBJECT (button), "clicked",
+				    GTK_SIGNAL_FUNC (button_press), medium);
+
+		hbox = gtk_hbox_new (FALSE, 2);
+		gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
+
+		if (mail_part_is_inline (medium)) {
+			arrow = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_DOWN);
+		} else {
+			arrow = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_FORWARD);
+		}
+		gtk_box_pack_start (GTK_BOX (hbox), arrow, TRUE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (hbox), pbl->pixmap, TRUE, TRUE, 0);
+		gtk_container_add (GTK_CONTAINER (button), hbox);
+
+		popup = gtk_button_new ();
+		gtk_container_add (GTK_CONTAINER (popup),
+				   gtk_arrow_new (GTK_ARROW_DOWN,
+						  GTK_SHADOW_ETCHED_IN));
+
+		gtk_object_set_data (GTK_OBJECT (popup), "MailDisplay", md);
+		gtk_object_set_data (GTK_OBJECT (popup), "CamelMimePart",
+				     medium);
+		gtk_object_set_data_full (GTK_OBJECT (popup), "mime_type",
+					  g_strdup (eb->type),
+					  (GDestroyNotify)g_free);
+
+		gtk_signal_connect (GTK_OBJECT (popup), "button_press_event",
+				    GTK_SIGNAL_FUNC (pixmap_press), md->scroll);
+
+		gtk_box_pack_start (GTK_BOX (mainbox), button, TRUE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (mainbox), popup, TRUE, TRUE, 0);
+		gtk_widget_show_all (mainbox);
+
+		handler = mail_lookup_handler (eb->type);
+		if (handler && handler->builtin) {
+			gtk_widget_set_sensitive (button, TRUE);
+		} else {
+			gtk_widget_set_sensitive (button, FALSE);
+		}
+
+		gtk_container_add (GTK_CONTAINER (eb), mainbox);
+#endif
+
 		return TRUE;
 	}
 

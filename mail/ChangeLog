@@ -1,3 +1,12 @@
+2001-02-06  Iain Holmes  <iain@ximian.com>
+
+	* mail-display.c (pixbuf_gen_idle): Set the size of the icon to 24x24
+	always.
+	(button_press): Function to toggle the disposition of an attachment.
+	(on_object_requested): New way to indicate functions on attachments.
+	
+	* message-list.c (hide_load_state): Free the olduid.
+
 2001-02-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config-druid.c (set_defaults): Updated to checkfor
