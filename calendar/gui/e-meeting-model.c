@@ -705,6 +705,7 @@ destroy (GtkObject *obj)
 {
 	EMeetingModel *im = E_MEETING_MODEL (obj);
 	EMeetingModelPrivate *priv;
+	GList *l;
 	int i;
 	
 	priv = im->priv;
@@ -712,7 +713,9 @@ destroy (GtkObject *obj)
 	for (i = 0; i < priv->attendees->len; i++)
 		gtk_object_unref (GTK_OBJECT (g_ptr_array_index (priv->attendees, i)));
 	g_ptr_array_free (priv->attendees, TRUE); 
-	
+
+	for (l = priv->tables; l != NULL; l = l->next)
+		gtk_signal_disconnect_by_data (GTK_OBJECT (l->data), im);
 	g_list_free (priv->tables);
 	
 	if (priv->client != NULL)

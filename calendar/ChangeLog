@@ -1,11 +1,18 @@
-2002-08-20  JP Rosevear  <jpr@ximian.com>
+2002-08-19  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-meeting-model.c (destroy): disconnect destroy signal
+	callbacks on tables
+
+	Fixes #28231
+
+2002-08-19  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/itip-utils.c (comp_toplevel_with_zones): clone the ical
 	component before adding it
 
 	Fixes #29061
 	
-2002-08-20  JP Rosevear  <jpr@ximian.com>
+2002-08-19  JP Rosevear  <jpr@ximian.com>
 	
 	* gui/comp-editor-factory.c (get_default_event): make sure to get
 	the date in the current zone, not at UTC
