@@ -772,7 +772,7 @@ popup_event_callback(ESourceSelector *selector, ESource *source, GdkEventButton 
 	int i;
 	GtkMenu *menu;
 
-	ep = eab_popup_new("com.novell.evolution.addressbook.source.popup");
+	ep = eab_popup_new("org.gnome.evolution.addressbook.source.popup");
 	t = eab_popup_target_new_source(ep, selector);
 	t->target.widget = (GtkWidget *)view->priv->notebook;
 
@@ -1098,7 +1098,7 @@ addressbook_view_init (AddressbookView *view)
 			  G_CALLBACK (source_list_changed_cb), view);
 
 	priv->creatable_items_handler = e_user_creatable_items_handler_new ("contacts", NULL, NULL);
-	priv->menu = eab_menu_new("com.novell.evolution.addressbook.view");
+	priv->menu = eab_menu_new("org.gnome.evolution.addressbook.view");
 
 	g_signal_connect (priv->folder_view_control, "activate",
 			  G_CALLBACK (control_activate_cb), view);

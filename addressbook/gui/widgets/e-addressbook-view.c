@@ -983,7 +983,7 @@ do_popup_menu(EABView *view, GdkEvent *event)
 		e_selection_model_foreach(selection_model, get_card_1, contact_and_book);
 	}
 
-	ep = eab_popup_new("com.novell.evolution.addressbook.view.popup");
+	ep = eab_popup_new("org.gnome.evolution.addressbook.view.popup");
 	t = eab_popup_target_new_select(ep, view->book, !eab_model_editable(view->model), cards);
 	t->target.widget = (GtkWidget *)view;
 

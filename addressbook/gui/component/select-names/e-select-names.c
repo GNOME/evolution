@@ -705,7 +705,7 @@ section_right_click_cb (ETable *et, int row, int col, GdkEvent *ev, ESelectNames
 	int i;
 	GtkMenu *menu;
 
-	ep = eab_popup_new("com.novell.evolution.addressbook.selectNames.popup");
+	ep = eab_popup_new("org.gnome.evolution.addressbook.selectNames.popup");
 	t = eab_popup_target_new_select_names(ep, child->source, row);
 	t->target.widget = (GtkWidget *)et;
 
