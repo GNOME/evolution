@@ -1,5 +1,14 @@
 2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-selection-model.c, e-table-selection-model.h: New files
+	for doing a selection model.  Not finished yet and thus not in
+	Makefile.am.
+
+	* e-table.c, e-table.h: Renamed the new dnd signals so that they
+	won't conflict with the widget signals.
+
+2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table.c, e-table.h: Implemented some of the drag & drop code.
 	Drops all report as being on row 0, col 0.  Also, automatic drags
 	don't set the row and column being dragged from.

@@ -88,55 +88,55 @@ typedef struct {
 					   GtkAdjustment *vadjustment);
 
 	/* Source side drag signals */
-	void (* drag_begin)	           (ETable	       *table,
+	void (* table_drag_begin)	           (ETable	       *table,
+						    int                 row,
+						    int                 col,
+						    GdkDragContext     *context);
+	void (* table_drag_end)	           (ETable	       *table,
 					    int                 row,
 					    int                 col,
 					    GdkDragContext     *context);
-	void (* drag_end)	           (ETable	       *table,
-					    int                 row,
-					    int                 col,
-					    GdkDragContext     *context);
-	void (* drag_data_get)             (ETable             *table,
-					    int                 row,
-					    int                 col,
-					    GdkDragContext     *context,
-					    GtkSelectionData   *selection_data,
-					    guint               info,
-					    guint               time);
-	void (* drag_data_delete)          (ETable	       *table,
-					    int                 row,
-					    int                 col,
-					    GdkDragContext     *context);
-
+	void (* table_drag_data_get)             (ETable             *table,
+						  int                 row,
+						  int                 col,
+						  GdkDragContext     *context,
+						  GtkSelectionData   *selection_data,
+						  guint               info,
+						  guint               time);
+	void (* table_drag_data_delete)          (ETable	       *table,
+						  int                 row,
+						  int                 col,
+						  GdkDragContext     *context);
+	
 	/* Target side drag signals */	   
-	void (* drag_leave)	           (ETable	       *table,
-					    int                 row,
-					    int                 col,
-					    GdkDragContext     *context,
-					    guint               time);
-	gboolean (* drag_motion)           (ETable	       *table,
-					    int                 row,
-					    int                 col,
-					    GdkDragContext     *context,
-					    gint                x,
-					    gint                y,
-					    guint               time);
-	gboolean (* drag_drop)             (ETable	       *table,
-					    int                 row,
-					    int                 col,
-					    GdkDragContext     *context,
-					    gint                x,
-					    gint                y,
-					    guint               time);
-	void (* drag_data_received)        (ETable             *table,
-					    int                 row,
-					    int                 col,
-					    GdkDragContext     *context,
-					    gint                x,
-					    gint                y,
-					    GtkSelectionData   *selection_data,
-					    guint               info,
-					    guint               time);
+	void (* table_drag_leave)	           (ETable	       *table,
+						    int                 row,
+						    int                 col,
+						    GdkDragContext     *context,
+						    guint               time);
+	gboolean (* table_drag_motion)           (ETable	       *table,
+						  int                 row,
+						  int                 col,
+						  GdkDragContext     *context,
+						  gint                x,
+						  gint                y,
+						  guint               time);
+	gboolean (* table_drag_drop)             (ETable	       *table,
+						  int                 row,
+						  int                 col,
+						  GdkDragContext     *context,
+						  gint                x,
+						  gint                y,
+						  guint               time);
+	void (* table_drag_data_received)        (ETable             *table,
+						  int                 row,
+						  int                 col,
+						  GdkDragContext     *context,
+						  gint                x,
+						  gint                y,
+						  GtkSelectionData   *selection_data,
+						  guint               info,
+						  guint               time);
 } ETableClass;
 
 GtkType     e_table_get_type   		    (void);
