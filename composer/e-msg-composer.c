@@ -1175,7 +1175,7 @@ save (EMsgComposer *composer, const char *default_filename)
 	if (default_filename != NULL)
 		filename = g_strdup (default_filename);
 	else
-		filename = e_msg_composer_select_file (composer, _("Save as..."));
+		filename = e_msg_composer_select_file (composer, _("Save as..."), TRUE);
 	
 	if (filename == NULL)
 		return;
@@ -1573,7 +1573,7 @@ menu_file_open_cb (BonoboUIComponent *uic,
 	
 	composer = E_MSG_COMPOSER (data);
 	
-	file_name = e_msg_composer_select_file (composer, _("Open file"));
+	file_name = e_msg_composer_select_file (composer, _("Open file"), FALSE);
 	if (file_name == NULL)
 		return;
 	

@@ -27,7 +27,8 @@
 #include "e-msg-composer.h"
 
 char *e_msg_composer_select_file (EMsgComposer *composer,
-				  const char *title);
+				  const char *title,
+				  gboolean save_mode);
 
 GPtrArray *e_msg_composer_select_file_attachments (EMsgComposer *composer,
 						   gboolean *inline_p);
