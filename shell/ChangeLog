@@ -1,3 +1,7 @@
+2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am: Remove the `ui.xml' stuff.
+
 2000-09-11  Dan Winship  <danw@helixcode.com>
 
 	* main.c (main): Initialize libunicode
