@@ -438,6 +438,7 @@ static struct _RDFInfo rdfs[] = {
 	{"http://www.bsdtoday.com/backend/bt.rdf", "BSD Today"},
 	{"http://beyond2000.com/b2k.rdf", "Beyond 2000"},
 	{"http://www.cnn.com/cnn.rss", "CNN"},
+        {"http://www.debianplanet.org/debianplanet/backend.php", "Debian Planet"},
 	{"http://www.dictionary.com/wordoftheday/wotd.rss", N_("Dictionary.com Word of the Day")},
 	{"http://www.dvdreview.com/rss/newschannel.rss", "DVD Review"},
 	{"http://freshmeat.net/backend/fm.rdf", "Freshmeat"},
@@ -1482,6 +1483,7 @@ e_summary_configure (BonoboUIComponent *component,
 	g_return_if_fail (pd->xml != NULL);
 
 	pd->box = GNOME_PROPERTY_BOX (glade_xml_get_widget (pd->xml, "dialog1"));
+	gtk_widget_hide (pd->box->help_button);
 	summary->prefs_window = GTK_WIDGET (pd->box);
 
 	gtk_window_set_title (GTK_WINDOW (pd->box), _("Summary Settings"));

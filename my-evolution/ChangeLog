@@ -1,3 +1,8 @@
+2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-preferences.c (e_summary_configure): Remove the
+	help_button in the property box.
+
 2001-10-19  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-mail.c (e_summary_mail_init): set the summary->mail to
