@@ -488,6 +488,8 @@ setup_offline_toggle (EShellWindow *window)
 	EShellWindowPrivate *priv;
 	GtkWidget *toggle;
 	GtkWidget *image;
+	GtkWidget *label;
+	GtkWidget *hbox;
 
 	priv = window->priv;
 
@@ -497,13 +499,16 @@ setup_offline_toggle (EShellWindow *window)
 
 	g_signal_connect (toggle, "clicked",
 			  G_CALLBACK (offline_toggle_clicked_callback), window);
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (toggle), hbox);
 
 	image = gtk_image_new_from_pixmap (offline_pixmap, offline_mask);
+	gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
 
-	gtk_container_add (GTK_CONTAINER (toggle), image);
+	label = gtk_label_new ("");
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
-	gtk_widget_show (toggle);
-	gtk_widget_show (image);
+	gtk_widget_show_all (toggle);
 
 	priv->offline_toggle       = toggle;
 	priv->offline_toggle_image = image;
