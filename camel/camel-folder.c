@@ -74,8 +74,8 @@ static gboolean _can_hold_folders  (CamelFolder *folder);
 static gboolean _can_hold_messages (CamelFolder *folder);
 static gboolean _exists  (CamelFolder  *folder, CamelException *ex);
 static gboolean _is_open (CamelFolder *folder);
-static const GList *_list_permanent_flags (CamelFolder *folder,
-					   CamelException *ex);
+static guint32 _get_permanent_flags (CamelFolder *folder,
+				     CamelException *ex);
 static CamelFolderOpenMode _get_mode      (CamelFolder *folder,
 					   CamelException *ex);
 
@@ -108,7 +108,7 @@ static gint _get_message_count        (CamelFolder *folder,
 
 static gboolean _delete_messages (CamelFolder *folder, 
 				  CamelException *ex);
-static GList * _expunge         (CamelFolder *folder, 
+static void _expunge         (CamelFolder *folder, 
 			      CamelException *ex);
 static void _append_message  (CamelFolder *folder, 
 			      CamelMimeMessage *message, 
@@ -172,7 +172,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->delete_message_by_number = _delete_message_by_number;
 	camel_folder_class->get_message_count = _get_message_count;
 	camel_folder_class->append_message = _append_message;
-	camel_folder_class->list_permanent_flags = _list_permanent_flags;
+	camel_folder_class->get_permanent_flags = _get_permanent_flags;
 	camel_folder_class->copy_message_to = _copy_message_to;
 	camel_folder_class->get_message_uid = _get_message_uid;
 	camel_folder_class->get_message_by_uid = _get_message_by_uid;
@@ -224,7 +224,6 @@ _finalize (GtkObject *object)
 
 	g_free (camel_folder->name);
 	g_free (camel_folder->full_name);
-	g_free (camel_folder->permanent_flags);
 
 	if (camel_folder->parent_store)
 		gtk_object_unref (GTK_OBJECT (camel_folder->parent_store));
@@ -974,12 +973,11 @@ camel_folder_list_subfolders (CamelFolder *folder, CamelException *ex)
 
 
 
-static GList *
+static void
 _expunge (CamelFolder *folder, CamelException *ex)
 {
 	g_warning ("CamelFolder::expunge not implemented for `%s'",
 		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
-	return NULL;
 }
 
 
@@ -991,7 +989,7 @@ _expunge (CamelFolder *folder, CamelException *ex)
  * 
  * Return value: list of expunged messages 
  **/
-GList *
+void
 camel_folder_expunge (CamelFolder *folder, CamelException *ex)
 {
 	g_assert (folder != NULL);
@@ -1154,18 +1152,18 @@ camel_folder_append_message (CamelFolder *folder,
 }
 
 
-static const GList *
-_list_permanent_flags (CamelFolder *folder, CamelException *ex)
+static guint32
+_get_permanent_flags (CamelFolder *folder, CamelException *ex)
 {
 	return folder->permanent_flags;
 }
 
 
-const GList *
-camel_folder_list_permanent_flags (CamelFolder *folder, CamelException *ex)
+guint32
+camel_folder_get_permanent_flags (CamelFolder *folder, CamelException *ex)
 {
 	g_assert (folder != NULL);
-	return CF_CLASS (folder)->list_permanent_flags (folder, ex);
+	return CF_CLASS (folder)->get_permanent_flags (folder, ex);
 }
 
 

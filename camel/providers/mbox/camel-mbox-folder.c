@@ -57,31 +57,32 @@ static CamelFolderClass *parent_class=NULL;
 #define CMBOXS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
 
 
-static void _init (CamelFolder *folder, CamelStore *parent_store,
+static void mbox_init (CamelFolder *folder, CamelStore *parent_store,
 		   CamelFolder *parent_folder, const gchar *name,
 		   gchar separator, CamelException *ex);
 
-static void _open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex);
-static void _close (CamelFolder *folder, gboolean expunge, CamelException *ex);
-static gboolean _exists (CamelFolder *folder, CamelException *ex);
-static gboolean _create(CamelFolder *folder, CamelException *ex);
-static gboolean _delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
-static gboolean _delete_messages (CamelFolder *folder, CamelException *ex);
-static GList *_list_subfolders (CamelFolder *folder, CamelException *ex);
-static CamelMimeMessage *_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex);
-static gint _get_message_count (CamelFolder *folder, CamelException *ex);
-static void _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
-static GList *_get_uid_list  (CamelFolder *folder, CamelException *ex);
-static CamelMimeMessage *_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex);
+static void mbox_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex);
+static void mbox_close (CamelFolder *folder, gboolean expunge, CamelException *ex);
+static gboolean mbox_exists (CamelFolder *folder, CamelException *ex);
+static gboolean mbox_create(CamelFolder *folder, CamelException *ex);
+static gboolean mbox_delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
+static gboolean mbox_delete_messages (CamelFolder *folder, CamelException *ex);
+static GList *mbox_list_subfolders (CamelFolder *folder, CamelException *ex);
+static CamelMimeMessage *mbox_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex);
+static gint mbox_get_message_count (CamelFolder *folder, CamelException *ex);
+static void mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
+static GList *mbox_get_uid_list  (CamelFolder *folder, CamelException *ex);
+static CamelMimeMessage *mbox_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex);
+
+static void mbox_expunge (CamelFolder *folder, CamelException *ex);
 #if 0
-static void _expunge (CamelFolder *folder, CamelException *ex);
 static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder, CamelException *ex);
 static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 #endif
 
 GPtrArray *summary_get_message_info (CamelFolder *folder, int first, int count);
 
-static void _finalize (GtkObject *object);
+static void mbox_finalize (GtkObject *object);
 
 static void
 camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
@@ -94,24 +95,24 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	/* virtual method definition */
 
 	/* virtual method overload */
-	camel_folder_class->init = _init;
-	camel_folder_class->open = _open;
-	camel_folder_class->close = _close;
-	camel_folder_class->exists = _exists;
-	camel_folder_class->create = _create;
-	camel_folder_class->delete = _delete;
-	camel_folder_class->delete_messages = _delete_messages;
-	camel_folder_class->list_subfolders = _list_subfolders;
-	camel_folder_class->get_message_by_number = _get_message_by_number;
-	camel_folder_class->get_message_count = _get_message_count;
-	camel_folder_class->append_message = _append_message;
-	camel_folder_class->get_uid_list = _get_uid_list;
+	camel_folder_class->init = mbox_init;
+	camel_folder_class->open = mbox_open;
+	camel_folder_class->close = mbox_close;
+	camel_folder_class->exists = mbox_exists;
+	camel_folder_class->create = mbox_create;
+	camel_folder_class->delete = mbox_delete;
+	camel_folder_class->delete_messages = mbox_delete_messages;
+	camel_folder_class->list_subfolders = mbox_list_subfolders;
+	camel_folder_class->get_message_by_number = mbox_get_message_by_number;
+	camel_folder_class->get_message_count = mbox_get_message_count;
+	camel_folder_class->append_message = mbox_append_message;
+	camel_folder_class->get_uid_list = mbox_get_uid_list;
+	camel_folder_class->expunge = mbox_expunge;
 #if 0
-	camel_folder_class->expunge = _expunge;
 	camel_folder_class->copy_message_to = _copy_message_to;
 	camel_folder_class->get_message_uid = _get_message_uid;
 #endif
-	camel_folder_class->get_message_by_uid = _get_message_by_uid;
+	camel_folder_class->get_message_by_uid = mbox_get_message_by_uid;
 
 	camel_folder_class->search_by_expression = camel_mbox_folder_search_by_expression;
 	camel_folder_class->search_complete = camel_mbox_folder_search_complete;
@@ -119,12 +120,12 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 
 	camel_folder_class->get_message_info = summary_get_message_info;
 
-	gtk_object_class->finalize = _finalize;
+	gtk_object_class->finalize = mbox_finalize;
 	
 }
 
 static void           
-_finalize (GtkObject *object)
+mbox_finalize (GtkObject *object)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (object);
 
@@ -159,7 +160,7 @@ camel_mbox_folder_get_type (void)
 }
 
 static void 
-_init (CamelFolder *folder, CamelStore *parent_store,
+mbox_init (CamelFolder *folder, CamelStore *parent_store,
        CamelFolder *parent_folder, const gchar *name, gchar separator,
        CamelException *ex)
 {
@@ -180,6 +181,12 @@ _init (CamelFolder *folder, CamelStore *parent_store,
 	folder->has_uid_capability = TRUE;
 	folder->has_search_capability = TRUE;
 
+	folder->permanent_flags = CAMEL_MESSAGE_ANSWERED |
+		CAMEL_MESSAGE_DELETED |
+		CAMEL_MESSAGE_DRAFT |
+		CAMEL_MESSAGE_FLAGGED |
+		CAMEL_MESSAGE_SEEN;
+
  	mbox_folder->summary = NULL;
 
 	/* now set the name info */
@@ -196,7 +203,7 @@ _init (CamelFolder *folder, CamelStore *parent_store,
 }
 
 static void
-_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
+mbox_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 
@@ -222,12 +229,16 @@ _open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
 }
 
 static void
-_close (CamelFolder *folder, gboolean expunge, CamelException *ex)
+mbox_close (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 
 	/* call parent implementation */
 	parent_class->close (folder, expunge, ex);
+
+	if (expunge) {
+		mbox_expunge(folder, ex);
+	}
 
 	/* save index */
 	if (mbox_folder->index) {
@@ -240,9 +251,21 @@ _close (CamelFolder *folder, gboolean expunge, CamelException *ex)
 }
 
 
+static void
+mbox_expunge (CamelFolder *folder, CamelException *ex)
+{
+	CamelMboxFolder *mbox = (CamelMboxFolder *)folder;
+
+	if (camel_mbox_summary_expunge(mbox->summary) == -1) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID, /* FIXME: right error code */
+				      "Could not expunge: %s", strerror(errno));
+	}
+}
+
+
 /* FIXME: clean up this snot */
 static gboolean
-_exists (CamelFolder *folder, CamelException *ex)
+mbox_exists (CamelFolder *folder, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder;
 	struct stat stat_buf;
@@ -305,7 +328,7 @@ _exists (CamelFolder *folder, CamelException *ex)
 
 /* FIXME: clean up this snot */
 static gboolean
-_create (CamelFolder *folder, CamelException *ex)
+mbox_create (CamelFolder *folder, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 	const gchar *folder_file_path, *folder_dir_path;
@@ -376,7 +399,7 @@ _create (CamelFolder *folder, CamelException *ex)
 
 /* FIXME: cleanup */
 static gboolean
-_delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
+mbox_delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 	const gchar *folder_file_path, *folder_dir_path;
@@ -476,7 +499,7 @@ _delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 
 /* TODO: remove this */
 gboolean
-_delete_messages (CamelFolder *folder, CamelException *ex)
+mbox_delete_messages (CamelFolder *folder, CamelException *ex)
 {
 	
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
@@ -535,7 +558,7 @@ _delete_messages (CamelFolder *folder, CamelException *ex)
 
 /* FIXME: cleanup */
 static GList *
-_list_subfolders (CamelFolder *folder, CamelException *ex)
+mbox_list_subfolders (CamelFolder *folder, CamelException *ex)
 {
 	GList *subfolder_name_list = NULL;
 
@@ -653,7 +676,7 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 }
 
 static gint
-_get_message_count (CamelFolder *folder, CamelException *ex)
+mbox_get_message_count (CamelFolder *folder, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = (CamelMboxFolder *)folder;
 
@@ -678,7 +701,7 @@ _get_message_count (CamelFolder *folder, CamelException *ex)
 /* FIXME: this may need some tweaking for performance? */
 /* FIXME: MUST check all sytem call return codes MUST MUST */
 static void
-_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
+mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder), *source_folder;
 	CamelStream *output_stream;
@@ -786,7 +809,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 
 
 static GList *
-_get_uid_list (CamelFolder *folder, CamelException *ex) 
+mbox_get_uid_list (CamelFolder *folder, CamelException *ex) 
 {
 	GList *uid_list = NULL;
 	CamelMboxFolder *mbox_folder = (CamelMboxFolder *)folder;
@@ -803,7 +826,7 @@ _get_uid_list (CamelFolder *folder, CamelException *ex)
 }
 
 static CamelMimeMessage *
-_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
+mbox_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = (CamelMboxFolder *)folder;
 	CamelMboxMessageInfo *info;
@@ -818,11 +841,27 @@ _get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 		return NULL;
 	}
 
-	return _get_message_by_uid (folder, info->info.uid, ex);
+	return mbox_get_message_by_uid (folder, info->info.uid, ex);
 }
 
+/* track flag changes in the summary */
+static void
+message_changed(CamelMimeMessage *m, int type, CamelMboxFolder *mf)
+{
+	printf("Message changed: %s: %d\n", m->message_uid, type);
+	switch (type) {
+	case MESSAGE_FLAGS_CHANGED:
+		camel_mbox_summary_set_flags_by_uid(mf->summary, m->message_uid, m->flags);
+		break;
+	default:
+		printf("Unhandled message change event: %d\n", type);
+		break;
+	}
+}
+
+
 static CamelMimeMessage *
-_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
+mbox_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 	CamelStream *message_stream;
@@ -872,6 +911,10 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	message->folder = folder;
 	gtk_object_ref((GtkObject *)folder);
 	message->message_uid = g_strdup(uid);
+	message->flags = info->info.flags;
+	printf("%p flags = %x = %x\n", message, info->info.flags, message->flags);
+
+	gtk_signal_connect((GtkObject *)message, "message_changed", message_changed, folder);
 
 	return message;
 }

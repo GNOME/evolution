@@ -29,6 +29,8 @@
 
 #include <gtk/gtk.h>
 
+#include <camel/camel-mime-message.h>
+
 #include <camel/camel-mime-parser.h>
 #include <camel/camel-mime-filter.h>
 #include <camel/camel-mime-filter-basic.h>
@@ -374,6 +376,7 @@ message_struct_new(CamelMimeParser *mp, CamelMboxMessageContentInfo *parent, int
 
 	ms->info.content = (CamelMessageContentInfo *)body_part_new(mp, parent, start, body);
 	ms->xev_offset = xev_offset;
+
 	return ms;
 }
 
@@ -674,6 +677,10 @@ error:
 
 #define SAVEIT
 
+/* TODO: Allow to sync with current summary info, without over-writing flags if they
+   already exist there */
+/* TODO: Lazy sync, make this read-only, and dont write out xev headers unless we need
+   to? */
 static int index_folder(CamelMboxSummary *s, int startoffset)
 {
 	CamelMimeParser *mp;
@@ -705,7 +712,7 @@ static int index_folder(CamelMboxSummary *s, int startoffset)
 	int write_offset = 0;	/* how much does the dest differ from the source pos */
 	int old_offset = 0;
 
-	guint32 newuid;
+	guint32 newuid, newflags;
 	off_t xevoffset = -1;
 
 	char *tmpname;
@@ -761,6 +768,7 @@ static int index_folder(CamelMboxSummary *s, int startoffset)
 		case HSCAN_MULTIPART:
 		case HSCAN_HEADER: /* starting a new header */
 			newuid=~0;
+			newflags=0;
 			if (!toplevel) {
 				char name[32];
 				unsigned int olduid, oldflags;
@@ -775,6 +783,7 @@ static int index_folder(CamelMboxSummary *s, int startoffset)
 					if (header_evolution_decode(xev, &olduid, &oldflags) != ~0) {
 						d(printf(" uid = %d = %x\n", olduid, olduid));
 						newuid = olduid;
+						newflags = oldflags;
 #if 0
 						while (camel_mime_parser_step(mp, &data, &datalen) != HSCAN_FROM_END)
 							;
@@ -834,6 +843,7 @@ static int index_folder(CamelMboxSummary *s, int startoffset)
 					parent = (CamelMboxMessageContentInfo *)message->info.content;
 					if (newuid != ~0) {
 						message->info.uid = g_strdup_printf("%u", newuid);
+						message->info.flags = newflags;
 					} else {
 						g_warning("This shouldn't happen?");
 					}
@@ -848,6 +858,7 @@ static int index_folder(CamelMboxSummary *s, int startoffset)
 				body = (CamelMboxMessageContentInfo *)message->info.content;
 				if (newuid != ~0) {
 					message->info.uid = g_strdup_printf("%u", newuid);
+					message->info.flags = newflags;
 				} else {
 					g_warning("This shouldn't happen?");
 				}
@@ -1258,6 +1269,218 @@ guint32 camel_mbox_summary_set_uid(CamelMboxSummary *s, guint32 uid)
 	}
 	return s->nextuid;
 }
+
+void camel_mbox_summary_set_flags_by_uid(CamelMboxSummary *s, const char *uid, guint32 flags)
+{
+	CamelMessageInfo *info;
+
+	info = (CamelMessageInfo *)camel_mbox_summary_uid(s, uid);
+	if (info != NULL) {
+		if (info->flags != flags) {
+			info->flags = flags | CAMEL_MESSAGE_FOLDER_FLAGGED;
+			s->dirty = TRUE;
+		}
+	} else {
+		g_warning("Message has dissapeared from summary?  uid %s", uid);
+	}
+}
+
+/* update offsets in the summary to take account deleted parts */
+static void
+offset_content(CamelMboxMessageContentInfo *content, off_t offset)
+{
+	content->pos -= offset;
+	content->bodypos -= offset;
+	content->endpos -= offset;
+	content = (CamelMboxMessageContentInfo *)content->info.childs;
+	while (content) {
+		offset_content(content, offset);
+		content = (CamelMboxMessageContentInfo *)content->info.next;
+	}
+}
+
+void camel_mbox_summary_remove_uid(CamelMboxSummary *s, const char *uid)
+{
+	CamelMboxMessageInfo *oldinfo;
+	char *olduid;
+
+	if (g_hash_table_lookup_extended(s->message_uid, uid, (void *)&olduid, (void *)&oldinfo)) {
+#if 0
+		/* FIXME: this code should be executed to update the summary info,
+		   however, only if we're not depending on the info not changing yet */
+		off_t offset = info->endpos - info->pos;
+		int i, count, got = FALSE;
+
+		count = s->messages->len;
+		for (i=0;i<count;i++) {
+			CamelMboxMessageInfo *minfo = g_ptr_array_index(s->messages, i);
+			if (got) {
+				offset_content(minfo, offset);
+			} else if (minfo == info) {
+				got = TRUE;
+			}
+		}
+#endif
+		g_hash_table_remove(s->message_uid, uid);
+		g_ptr_array_remove(s->messages, oldinfo);
+		message_struct_free(oldinfo);
+		g_free(olduid);
+	}
+}
+
+/* perform expunge/update xev headers, etc */
+/* TODO: merge this with the indexing code, so that it can index new parts
+   without having to reread everything again? */
+/* TODO: sync with the mbox, if it has changed */
+int
+camel_mbox_summary_expunge(CamelMboxSummary *s)
+{
+	int quick = TRUE, work=FALSE;
+	int i, count;
+	CamelMboxMessageInfo *info;
+
+	printf("Executing expunge ...\n");
+
+	count = camel_mbox_summary_message_count(s);
+	for (i=0;quick && i<count;i++) {
+		info = camel_mbox_summary_index(s, i);
+		if (info->xev_offset == -1 || info->info.flags & CAMEL_MESSAGE_DELETED)
+			quick = FALSE;
+		else
+			work |= (info->info.flags & CAMEL_MESSAGE_FOLDER_FLAGGED) != 0;
+	}
+	if (quick) {
+		int fd;
+		char name[32];
+
+		if (!work)
+			return 0;
+
+		camel_mbox_summary_save(s);
+
+		fd = open(s->folder_path, O_WRONLY);
+
+		if (fd == -1) {
+			g_error("Cannot open folder for update: %s", strerror(errno));
+			return -1;
+		}
+
+		/* poke in the new xev info */
+		for (i=0;i<count;i++) {
+			info = camel_mbox_summary_index(s, i);
+			g_assert(info);
+			g_assert(info->xev_offset != -1);
+			if (info->info.flags & CAMEL_MESSAGE_FOLDER_FLAGGED) {
+				printf("Setting new flags to message %s = %04x\n", info->info.uid, info->info.flags & 0xffff);
+				lseek(fd, info->xev_offset, SEEK_SET);
+				sprintf(name, "X-Evolution: %08x-%04x\n\n", (unsigned int)strtoul(info->info.uid, NULL, 10), info->info.flags & 0xffff);
+				write(fd, name, strlen(name));
+				info->info.flags &= ~CAMEL_MESSAGE_FOLDER_FLAGGED;
+			}
+		}
+		close(fd);
+	} else {
+		char *tmpname;
+		int fd, fdout;
+		int last_write = 0, offset = 0, summary_end = 0, last_start = 0;
+		CamelMboxMessageContentInfo *content;
+		struct stat st;
+
+		printf("We must expunge messages and/or write headers\n");
+
+		/* FIXME: This should check the current summary is correct */
+
+		/* we have to write out new headers or delete messages, starting from message i */
+
+		fd = open(s->folder_path, O_RDONLY);
+		if (fd == -1) {
+			g_error("Cannot open folder for read: %s", strerror(errno));
+			return -1;
+		}
+
+		tmpname = g_strdup_printf("%s.tmp", s->folder_path);
+		fdout = open(tmpname, O_WRONLY|O_CREAT|O_TRUNC, 0600);
+		if (fdout == -1) {
+			g_error("Cannot open tmp file for write: %s", strerror(errno));
+			close(fd);
+			g_free(tmpname);
+			return -1;
+		}
+
+		for (i=0;i<count;i++) {
+			info = camel_mbox_summary_index(s, i);
+			g_assert(info);
+			g_assert(info->info.content);
+
+			content = (CamelMboxMessageContentInfo *)info->info.content;
+
+			/* FIXME: Must also write out xev headers etc, as appropriate? */
+
+			/* we need to use the end of the previous message, becuase the beginning of
+			   this message doesn't include the "^From " line. */
+
+			/* do we remove this message? */
+			if (info->info.flags & CAMEL_MESSAGE_DELETED) {
+				printf("Deleting message: %s\n", info->info.uid);
+				camel_mbox_summary_copy_block(fd, fdout, last_write, last_start-last_write);
+				last_write = content->endpos;
+				last_start = last_write;
+				offset += (content->endpos - content->pos);
+
+				/* remove this message from the index */
+				if (s->index) {
+					char name[32];
+
+					sprintf(name, "%x", info->info.uid);
+					ibex_unindex(s->index, name);
+				}
+
+				camel_mbox_summary_remove_uid(s, info->info.uid);
+				i--; /* redo this index */
+				count--;
+			} else {
+				printf("Keeping message: %s\n", info->info.uid);
+				last_start = content->endpos;
+				offset_content(content, offset);
+				summary_end = content->endpos;
+			}
+		}
+		/* copy the rest of the file ... */
+		camel_mbox_summary_copy_block(fd, fdout, last_write, INT_MAX);
+
+		close(fd);
+		if (close(fdout) == -1) {
+			g_error("Cannot close tmp folder: %s", strerror(errno));
+			unlink(tmpname);
+			g_free(tmpname);
+			return -1;
+		}
+
+		if (rename(tmpname, s->folder_path) == -1) {
+			g_error("Cannot rename folder: %s", strerror(errno));
+			unlink(tmpname);
+			g_free(tmpname);
+			return -1;
+		}
+
+		/* force an index sync */
+		if (s->index) {
+			ibex_write(s->index);
+		}
+
+		/* update summary size to match the actual (written) folder size ... */
+		s->size = summary_end;
+		/* and the time to match the newly written time, so we dont update needlessly */
+		if (stat(s->folder_path, &st) == 0) {
+			s->time = st.st_mtime;
+		}
+
+		camel_mbox_summary_save(s);
+	}
+
+	return 0;
+}
+
 
 #if 0
 int main(int argc, char **argv)

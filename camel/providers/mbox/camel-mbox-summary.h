@@ -63,14 +63,20 @@ void camel_mbox_summary_unref(CamelMboxSummary *);
 int camel_mbox_summary_load(CamelMboxSummary *);
 int camel_mbox_summary_save(CamelMboxSummary *);
 int camel_mbox_summary_check(CamelMboxSummary *);
+int camel_mbox_summary_expunge(CamelMboxSummary *);
 
 guint32 camel_mbox_summary_next_uid(CamelMboxSummary *);
 /* set the minimum uid */
 guint32 camel_mbox_summary_set_uid(CamelMboxSummary *s, guint32 uid);
 
 CamelMboxMessageInfo *camel_mbox_summary_uid(CamelMboxSummary *s, const char *uid);
+/* dont use this function yet ... */
+void camel_mbox_summary_remove_uid(CamelMboxSummary *s, const char *uid);
 CamelMboxMessageInfo *camel_mbox_summary_index(CamelMboxSummary *, int index);
 int camel_mbox_summary_message_count(CamelMboxSummary *);
+
+/* set flags within a summary item */
+void camel_mbox_summary_set_flags_by_uid(CamelMboxSummary *s, const char *uid, guint32 flags);
 
 /* TODO: should be in a utility library */
 int camel_mbox_summary_copy_block(int fromfd, int tofd, off_t readpos, size_t bytes);

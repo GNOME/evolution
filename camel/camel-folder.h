@@ -96,7 +96,6 @@ typedef struct {
 	gchar *uid;
 	guint32 flags;
 
-
 	time_t date_sent;
 	time_t date_received;
 
@@ -116,7 +115,7 @@ struct _CamelFolder
 	gchar separator;
 	CamelStore *parent_store;
 	CamelFolder *parent_folder;
-	GList *permanent_flags;
+	guint32 permanent_flags;
 
 	gboolean can_hold_folders:1;
 	gboolean can_hold_messages:1;
@@ -194,8 +193,8 @@ typedef struct {
 	GList *  (*list_subfolders)   (CamelFolder *folder, 
 				       CamelException *ex);
 
-	GList *  (*expunge)  (CamelFolder *folder, 
-			   CamelException *ex);
+	void (*expunge)  (CamelFolder *folder, 
+			  CamelException *ex);
 
 	gboolean (*has_message_number_capability) (CamelFolder *folder);
 
@@ -214,8 +213,8 @@ typedef struct {
 				 CamelMimeMessage *message, 
 				 CamelException *ex);
 	
-	const GList * (*list_permanent_flags) (CamelFolder *folder, 
-					       CamelException *ex);
+	guint32 (*get_permanent_flags) (CamelFolder *folder,
+					CamelException *ex);
 
 	void   (*copy_message_to) (CamelFolder *folder, 
 				   CamelMimeMessage *message, 
@@ -291,7 +290,7 @@ gboolean           camel_folder_delete                 (CamelFolder *folder,
 							CamelException *ex);
 gboolean           camel_folder_delete_messages        (CamelFolder *folder, 
 							CamelException *ex);
-GList *            camel_folder_expunge                (CamelFolder *folder, 
+void		   camel_folder_expunge                (CamelFolder *folder, 
 							CamelException *ex);
 
 
@@ -303,8 +302,9 @@ const gchar *      camel_folder_get_full_name          (CamelFolder *folder);
 /* various properties accessors */
 gboolean           camel_folder_exists                 (CamelFolder *folder, 
 							CamelException *ex);
-const GList *      camel_folder_list_permanent_flags   (CamelFolder *folder, 
+guint32		   camel_folder_get_permanent_flags    (CamelFolder *folder,
 							CamelException *ex);
+
 CamelFolderOpenMode camel_folder_get_mode              (CamelFolder *folder, 
 							CamelException *ex);
 gboolean           camel_folder_is_open                (CamelFolder *folder);

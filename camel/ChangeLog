@@ -1,3 +1,49 @@
+2000-05-01  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-summary.c
+	(camel_mbox_summary_set_flags_by_uid): New function to update the
+	flags in the summary.
+	(camel_mbox_summary_expunge): Expunge messages from a folder.
+	(offset_content): Re-align offsets of summary when messages
+	added/removed to an existing summary.
+	(camel_mbox_summary_remove_uid): Remove a message summary entry by
+	uid.
+	(index_folder): Restore flags from X-Evolution header, if they are set.
+
+	* providers/mbox/camel-mbox-folder.c (_get_message_by_uid):
+	Connect to the message_changed signal.
+	(_init): Set permanent flags to something reasonable.  No user
+	flags yet ...
+	(message_changed): If the flags of the message change, update the
+	flags in the summary.
+	(mbox_expunge): Implement the expunge.
+	(camel_mbox_folder_class_init): Renamed all leading _'s to mbox_'s
+
+	* camel-folder.c (_finalize): Uh, dont free permanent_flags
+	anymore (this wouldn't failed anyway, it was a GList !!!)
+
+	* camel-folder.h (struct _CamelFolder): Change permanent_flags to
+	a bitfield.
+	(list_permanent_flags): Renamed to get_permanent_flags, and
+	returns a bitfield.
+	(camel_folder_expunge): Changed expunge to a void type.  The
+	messages would no longer be useful after they have been removed
+	...
+
+	* camel-mime-message.c (set_flag): Removed.
+	(camel_mime_message_set_flag): Removed.
+	(get_flag): Removed.
+	(camel_mime_message_get_flag): Removed.
+	(add_flag_to_list): Removed.
+	(get_flag_list): Removed.
+	(camel_mime_message_get_flag_list): Removed.
+	(camel_mime_message_get_flags): New interface to get system flags.
+	(camel_mime_message_set_flags):  " to set ".
+	(camel_mime_message_get_user_flag): To get a user flag.
+	(camel_mime_message_set_user_flag): To set a user flag.
+	(finalize): Hmm, the old one free'd the key and data, not good
+	when the data is a boolean ...
+
 2000-04-30  Dan Winship  <danw@helixcode.com>
 
 	* camel-provider.h: Tweak the definition of CamelProvider. Among
