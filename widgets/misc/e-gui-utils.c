@@ -60,7 +60,7 @@ kill_popup_menu (GtkWidget *widget, GtkMenu *menu)
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (GTK_IS_MENU (menu));
 
-	g_object_unref (menu);
+	gtk_widget_destroy (menu);
 }
 
 void
