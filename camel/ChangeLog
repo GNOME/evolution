@@ -1,3 +1,12 @@
+2002-05-28  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-maildir-folder.c (maildir_refresh_info):
+	Implement.  Run a summary check to update for any newly arrived
+	messages.
+
+	* providers/local/camel-maildir-store.c (scan_dir): If we have a
+	folder, execute a refresh_info on it, to suck in any new stuff.
+
 2002-05-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_log): Use the
@@ -23,6 +32,7 @@
 	code using CamelRemoteStore.
 	(camel_nntp_command): Don't call camel_remote_store_connected().
 
+>>>>>>> 1.1492
 2002-05-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (content_info_get_part_spec):
@@ -49,6 +59,7 @@
 	* providers/imap/camel-imap-store.c (connect_to_server): Added
 	some NULL protection fixes.
 
+>>>>>>> 1.1491
 2002-05-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-remote-store.c: Removed from the build. Glory glory
