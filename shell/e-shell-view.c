@@ -936,11 +936,12 @@ update_for_current_uri (EShellView *shell_view)
 	if (folder == NULL)
 		folder_name = _("None");
 	else
-		folder_name = e_folder_get_name (folder);
+		folder_name = e_utf8_to_gtk_string ((GtkWidget *) shell_view, e_folder_get_name (folder));
 
 	window_title = g_strdup_printf (_("Evolution - %s"), folder_name);
 	gtk_window_set_title (GTK_WINDOW (shell_view), window_title);
 	g_free (window_title);
+	g_free (folder_name);
 
 	update_folder_title_bar (shell_view, folder);
 

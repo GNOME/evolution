@@ -285,7 +285,9 @@ e_minicard_realize (GnomeCanvasItem *item)
 				 "width", (double) ( e_minicard->width - 12 ),
 				 "clip", TRUE,
 				 "use_ellipsis", TRUE,
-				 "font", "lucidasans-bold-10",
+#if 0
+				 "font", "fixed-bold-10",
+#endif
 				 "fill_color_gdk", &canvas->style->fg[GTK_STATE_NORMAL],
 				 "text", "",
 				 NULL );
@@ -626,11 +628,9 @@ get_left_width(EMinicard *e_minicard)
 	gchar *name;
 	ECardSimpleField field;
 	gdouble width = -1;
-	static GdkFont *font = NULL;
+	GdkFont *font;
 
-	if (font == NULL) {
-		font = gdk_font_load("lucidasans-10");
-	}
+	font = ((GtkWidget *) ((GnomeCanvasItem *) e_minicard)->canvas)->style->font;
 
 	for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST; field++) {
 		gdouble this_width;

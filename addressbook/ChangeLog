@@ -1,3 +1,11 @@
+2000-09-08  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* gui/minicard/e-minicard-label.c (e_minicard_label_construct):
+	Use canvas default font
+
+	* gui/minicard/e-minicard.c (e_minicard_realize): Ditto
+	(get_left_width): Ditto
+
 2000-09-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* contact-editor/e-contact-editor-categories.c: Fixed a few warnings.

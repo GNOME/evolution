@@ -1,3 +1,7 @@
+2000-09-08  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* e-font.c: Use experimental 16-bit font stuff for EFonts
+
 2000-09-08  Dan Winship  <danw@helixcode.com>
 
 	* e-popup-menu.h: remove consts from the EPopupMenu structure: the

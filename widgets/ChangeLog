@@ -1,3 +1,7 @@
+2000-09-08  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* e-text/e-text.c (calc_line_widths): Fix byte/char confusion
+
 2000-08-30  Federico Mena Quintero  <federico@helixcode.com>
 
 	* e-paned/e-hpaned.c (e_hpaned_motion): Do not flicker while

@@ -683,8 +683,8 @@ calc_line_widths (EText *text)
 {
 	struct line *lines;
 	int i;
-	int j;
 	gdouble clip_width;
+	gchar *p;
 
 	/* Make sure line has been split */
 	if (text->text && text->num_lines == 0)
@@ -721,10 +721,10 @@ calc_line_widths (EText *text)
 			    clip_width >= 0) {
 				if (text->font) {
 					lines->ellipsis_length = 0;
-					for (j = 0; j < lines->length; j++ ) {
-						if (e_font_utf8_text_width (text->font, E_FONT_PLAIN, lines->text, j) + text->ellipsis_width
-						    <= clip_width)
-							lines->ellipsis_length = j;
+					for (p = lines->text; p && *p && (p - lines->text) < lines->length; p = unicode_next_utf8 (p)) {
+						if (e_font_utf8_text_width (text->font, E_FONT_PLAIN, lines->text, p - lines->text) +
+						    text->ellipsis_width <= clip_width)
+							lines->ellipsis_length = p - lines->text;
 						else
 							break;
 					}

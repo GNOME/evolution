@@ -1,3 +1,7 @@
+2000-09-08  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* e-shell-view.c (update_for_current_uri): Translate UTF-8 string
+
 2000-09-08  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* evolution-storage.c (list_through_listener_foreach): Don't crash

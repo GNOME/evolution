@@ -220,11 +220,9 @@ e_minicard_label_construct (GnomeCanvasItem *item)
 {
 	EMinicardLabel *e_minicard_label;
 	GnomeCanvasGroup *group;
-	static GdkFont *font = NULL;
+	GdkFont *font;
 
-	if (font == NULL) {
-		font = gdk_font_load("lucidasans-10");
-	}
+	font = ((GtkWidget *) item->canvas)->style->font;
 
 	e_minicard_label = E_MINICARD_LABEL (item);
 	group = GNOME_CANVAS_GROUP( item );
