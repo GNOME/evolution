@@ -143,15 +143,15 @@ static struct {
 	char *text;
 } info[] = {
 	{ "identity_html",
-	  N_("Please enter your name and email address below. The \"optional\" fields below do not need to be filled in,\nunless you wish to include this information in email you send.") },
+	  N_("Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send.") },
 	{ "source_html",
-	  N_("Please enter information about your incoming mail server below. If you are not sure, ask your system\nadministrator or Internet Service Provider.") },
+	  N_("Please enter information about your incoming mail server below. If you are not sure, ask your system administrator or Internet Service Provider.") },
 	{ "extra_html",
 	  N_("Please select among the following options") },
 	{ "transport_html",
-	  N_("Please enter information about the way you will send mail. If you are not sure, ask your system\nadministrator or Internet Service Provider.") },
+	  N_("Please enter information about the way you will send mail. If you are not sure, ask your system administrator or Internet Service Provider.") },
 	{ "management_html",
-	  N_("You are almost done with the mail configuration process. The identity, incoming mail server and\noutgoing mail transport method which you provided will be grouped together to\nmake an Evolution mail account. Please enter a name for this account in the space below.\nThis name will be used for display purposes only.") }
+	  N_("You are almost done with the mail configuration process. The identity, incoming mail server and outgoing mail transport method which you provided will be grouped together to make an Evolution mail account. Please enter a name for this account in the space below. This name will be used for display purposes only.") }
 };
 static int num_info = (sizeof (info) / sizeof (info[0]));
 
@@ -160,19 +160,24 @@ create_label (const char *name)
 {
 	GtkWidget *widget, *align;
 	int i;
-
+	
 	for (i = 0; i < num_info; i++) {
 		if (!strcmp (name, info[i].name))
 			break;
 	}
+	
 	g_return_val_if_fail (i != num_info, NULL);
 	
 	widget = gtk_label_new (_(info[i].text));
-
+	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_FILL);
+	gtk_widget_show (widget);
+	
 	align = gtk_alignment_new (0.0, 0.5, 1.0, 1.0);
 	gtk_container_add (GTK_CONTAINER (align), widget);
-
-	gtk_widget_show_all (align);
+	
+	gtk_widget_show (align);
+	
 	return align;
 }
 

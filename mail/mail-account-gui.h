@@ -68,13 +68,13 @@ typedef struct {
 	GtkEntry *email_address;
 	GtkEntry *reply_to;
 	GtkEntry *organization;
-
+	
 	/* signatures */
 	GtkWidget *sig_option_menu;
-
+	
 	MailConfigSignature *def_signature;
 	gboolean auto_signature;
-
+	
 	/* incoming mail */
 	MailAccountGuiService source;
 	GtkToggleButton *source_auto_check;

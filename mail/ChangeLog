@@ -1,5 +1,9 @@
 2002-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config-druid.c (create_label): Make the gtk label line-wrap
+	instead of us forcing \n's in the label, that was just
+	wrong. Fixes bug #10320.
+
 	* mail-callbacks.c (composer_send_cb): Make sure that the url
 	isn't an empty string and also make sure to free it when we're
 	done with it. Also check that we got the folder - if it is NULL,
