@@ -1,3 +1,7 @@
+2000-02-21  Matt Loper  <matt@helixcode.com>
+
+	* .cvsignore: New file.
+
 2000-02-18  NotZed  <NotZed@HelixCode.com>
 
 	* blank/check.xpm: Added forgotten files.

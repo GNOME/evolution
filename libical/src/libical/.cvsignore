@@ -2,3 +2,6 @@ Makefile
 .deps
 icalitip.c
 Makefile.in
+*.lo
+*.la
+.libs

@@ -1,3 +1,7 @@
+2000-02-21  Matt Loper  <matt@helixcode.com>
+
+	* .cvsignore: Added mkindex.
+
 2000-02-21  NotZed  <NotZed@HelixCode.com>
 
 	* Makefile.am: change noinst_LIBRARIES to noinst_LTLIBRARIES, and supply -static to
