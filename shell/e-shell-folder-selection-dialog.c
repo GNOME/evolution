@@ -217,9 +217,11 @@ set_default_folder (EShellFolderSelectionDialog *shell_folder_selection_dialog,
 	EShellFolderSelectionDialogPrivate *priv;
 	char *default_path;
 
+	g_assert (default_uri != NULL);
+
 	priv = shell_folder_selection_dialog->priv;
 
-	if (default_uri && strncmp (default_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
+	if (strncmp (default_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
 		/* `evolution:' URI.  */
 		default_path = g_strdup (default_uri + E_SHELL_URI_PREFIX_LEN);
 	} else {
@@ -294,7 +296,8 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 							      g_strdup (allowed_types[i]));
 	}
 
-	set_default_folder (folder_selection_dialog, default_uri);
+	if (default_uri != NULL)
+		set_default_folder (folder_selection_dialog, default_uri);
 
 	scroll_frame = e_scroll_frame_new (NULL, NULL);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll_frame),

@@ -1,5 +1,12 @@
 2000-09-11  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell-folder-selection-dialog.c (set_default_folder): Work on
+	the assumption that @default_uri is not NULL.
+	(e_shell_folder_selection_dialog_construct): Only call if the
+	@default_uri is not NULL.
+
+2000-09-11  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-local-storage.c (new_folder): Removed debugging message.
 
 2000-09-11  Ettore Perazzoli  <ettore@helixcode.com>
