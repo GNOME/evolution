@@ -1,11 +1,18 @@
 2001-10-03    <NotZed@Ximian.com>
 
+	* mail-folder-cache.c (folder_changed): Dont wait for event to
+	finish before returning.  This could however mean we process it
+	after things have vanished below us?  Fixes another case of ctrl-d
+	deadlock.
+
 	* folder-browser.c (update_status_bar): If we have hide deleted
 	set, then dont count deleted messages in the 'total' messages
 	count.  Fixes #6591.
 
 	* mail-ops.c (add_vtrash_info): If we have a fragment, override
 	that, rather than the path.  Fixes #5251.
+	(remove_folder_get): Freeze/thaw around deleting all messages in
+	folder.
 
 2001-10-03  Rodrigo Moya <rodrigo@ximian.com>
 

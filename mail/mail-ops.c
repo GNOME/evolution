@@ -1382,9 +1382,11 @@ remove_folder_get (struct _mail_msg *mm)
 	
 	/* Delete every message in this folder, then expunge it */
 	uids = camel_folder_get_uids (folder);
+	camel_folder_freeze(folder);
 	for (i = 0; i < uids->len; i++)
 		camel_folder_delete_message (folder, uids->pdata[i]);
 	camel_folder_sync (folder, TRUE, NULL);
+	camel_folder_thaw(folder);
 	camel_folder_free_uids (folder, uids);
 	
 	/* if the store supports subscriptions, unsubscribe from this folder... */

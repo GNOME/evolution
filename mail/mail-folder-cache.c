@@ -196,7 +196,8 @@ folder_changed(CamelObject *o, gpointer event_data, gpointer user_data)
 		return;
 
 	d(printf("Fodler changed!\n"));
-	mail_msg_wait(mail_proxy_event((CamelObjectEventHookFunc)real_folder_changed, o, NULL, mfi));
+	/* hopefully our mfi isn't lost while this is executing ... */
+	mail_proxy_event((CamelObjectEventHookFunc)real_folder_changed, o, NULL, mfi);
 }
 
 static void
