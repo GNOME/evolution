@@ -233,7 +233,7 @@ e_book_listener_queue_get_supported_fields_response (EBookListener *listener,
 	resp->fields = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
 
 	for (i = 0; i < fields->_length; i ++) {
-		e_list_append (resp->fields, g_strdup (fields->_buffer[i]));
+		e_list_append (resp->fields, fields->_buffer[i]);
 	}
 
 	e_book_listener_queue_response (listener, resp);

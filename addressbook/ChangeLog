@@ -1,5 +1,11 @@
 2001-06-20  Chris Toshok  <toshok@ximian.com>
 
+	* backend/ebook/e-book-listener.c
+	(e_book_listener_queue_get_supported_fields_response): fix memory
+	leak.
+
+2001-06-20  Chris Toshok  <toshok@ximian.com>
+
 	* contact-editor/e-contact-editor.c: add prototype for
 	close_dialog to remove warnings.
 
