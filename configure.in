@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 2.0.1, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 2.0.2, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -1062,9 +1062,9 @@ fi
 
 dnl --- Required version numbers
 
-GAL_REQUIRED=2.2.2
-GTKHTML_REQUIRED=3.2.2
-EDS_REQUIRED=1.0.1
+GAL_REQUIRED=2.2.3
+GTKHTML_REQUIRED=3.2.3
+EDS_REQUIRED=1.0.2
 BONOBOUI_REQUIRED=2.4.2
 
 AC_SUBST(GAL_REQUIRED)
@@ -1166,7 +1166,7 @@ AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 fi
 
 dnl --- evolution-calendar flags
-EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.2 >= 2.2.0)
+EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.2 >= 2.2.1)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
