@@ -520,6 +520,7 @@ widgets/misc/Makefile
 widgets/shortcut-bar/Makefile
 addressbook/Makefile
 addressbook/ename/Makefile
+addressbook/conduit/Makefile
 addressbook/contact-editor/Makefile
 addressbook/printing/Makefile
 addressbook/backend/Makefile

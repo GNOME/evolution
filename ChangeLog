@@ -1,3 +1,7 @@
+2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Added addressbook/conduit/Makefile.
+
 2000-07-21  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text/e-text.c: Made focus in not change your selection
