@@ -1,3 +1,7 @@
+2004-09-27  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-account-editor.c: Changed the SSL option menu labels.
+
 2004-09-21  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #63521.

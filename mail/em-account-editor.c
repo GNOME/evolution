@@ -285,9 +285,9 @@ static struct {
 	char *label;
 	char *value;
 } ssl_options[] = {
-	{ N_("Always"), "always" },
-	{ N_("Whenever Possible"), "when-possible" },
-	{ N_("Never"), "never" }
+	{ N_("SSL encryption"), "always" },
+	{ N_("TLS encryption"), "when-possible" },
+	{ N_("No encryption"), "never" }
 };
 
 #define num_ssl_options (sizeof (ssl_options) / sizeof (ssl_options[0]))
