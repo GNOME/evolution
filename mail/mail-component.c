@@ -172,7 +172,8 @@ static void
 mc_add_store(MailComponent *component, CamelStore *store, const char *name, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data))
 {
 	struct _store_info *si;
-
+	char *uri;
+	
 	MAIL_COMPONENT_DEFAULT(component);
 
 	si = store_info_new(store, name);
@@ -329,10 +330,17 @@ mc_startup(MailComponent *mc)
 static void
 folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, guint32 flags, EMFolderView *view)
 {
-	if ((flags & CAMEL_FOLDER_NOSELECT) || !path || !strcmp (path, ""))
+	EMFolderTreeModel *model;
+	
+	if ((flags & CAMEL_FOLDER_NOSELECT) || !path) {
 		em_folder_view_set_folder (view, NULL, NULL);
-	else
+	} else {
+		model = em_folder_tree_get_model (emft);
+		em_folder_tree_model_set_selected (model, uri);
+		em_folder_tree_model_save_state (model);
+		
 		em_folder_view_set_folder_uri (view, uri);
+	}
 }
 
 static int
@@ -526,19 +534,26 @@ impl_createControls (PortableServer_Servant servant,
 	GtkWidget *tree_widget, *vbox, *info;
 	GtkWidget *view_widget;
 	GtkWidget *statusbar_widget;
-
+	char *uri;
+	
 	mail_session_set_interactive(TRUE);
 	mc_startup(mail_component);
 
 	view_widget = em_folder_browser_new ();
 	/* so error boxes have a parent if none supplied */
 	e_error_default_parent((GtkWindow *)view_widget);
-
+	
 	tree_widget = (GtkWidget *) em_folder_tree_new_with_model (priv->model);
 	em_folder_tree_set_excluded ((EMFolderTree *) tree_widget, 0);
 	em_folder_tree_enable_drag_and_drop ((EMFolderTree *) tree_widget);
+	
+	if ((uri = em_folder_tree_model_get_selected (priv->model))) {
+		em_folder_tree_set_selected ((EMFolderTree *) tree_widget, uri);
+		g_free (uri);
+	}
+	
 	em_format_set_session ((EMFormat *) ((EMFolderView *) view_widget)->preview, session);
-
+	
 	g_signal_connect (view_widget, "on-url", G_CALLBACK (view_on_url), mail_component);
 	em_folder_view_set_statusbar ((EMFolderView*)view_widget, FALSE);
 	

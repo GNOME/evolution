@@ -76,6 +76,8 @@ struct _EMFolderTreePrivate {
 	GtkTreeView *treeview;
 	EMFolderTreeModel *model;
 	
+	char *select_uri;   /* uri to load when the proper store/etc have been populated */
+	
 	char *selected_uri;
 	char *selected_path;
 
@@ -372,6 +374,7 @@ em_folder_tree_finalize (GObject *obj)
 		emft->priv->lost_folders = NULL;
 	}
 	
+	g_free (emft->priv->select_uri);
 	g_free (emft->priv->selected_uri);
 	g_free (emft->priv->selected_path);
 	g_free (emft->priv);
@@ -560,6 +563,7 @@ static void
 emft_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTreeIter *iter, EMFolderTree *emft)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
+	gboolean is_store;
 	CamelStore *store;
 	EAccount *account;
 	char *path, *key;
@@ -567,7 +571,11 @@ emft_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTree
 	gtk_tree_model_get ((GtkTreeModel *) model, iter,
 			    COL_STRING_FULL_NAME, &path,
 			    COL_POINTER_CAMEL_STORE, &store,
+			    COL_BOOL_IS_STORE, &is_store,
 			    -1);
+	
+	if (is_store)
+		path = "";
 	
 	si = g_hash_table_lookup (model->store_hash, store);
 	if ((account = mail_config_get_account_by_name (si->display_name))) {
@@ -1685,6 +1693,7 @@ static void
 emft_update_model_expanded_state (struct _EMFolderTreePrivate *priv, GtkTreeIter *iter, gboolean expanded)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
+	gboolean is_store;
 	CamelStore *store;
 	EAccount *account;
 	char *path, *key;
@@ -1692,7 +1701,11 @@ emft_update_model_expanded_state (struct _EMFolderTreePrivate *priv, GtkTreeIter
 	gtk_tree_model_get ((GtkTreeModel *) priv->model, iter,
 			    COL_STRING_FULL_NAME, &path,
 			    COL_POINTER_CAMEL_STORE, &store,
+			    COL_BOOL_IS_STORE, &is_store,
 			    -1);
+	
+	if (is_store && path == NULL)
+		path = "";
 	
 	si = g_hash_table_lookup (priv->model->store_hash, store);
 	if ((account = mail_config_get_account_by_name (si->display_name))) {
@@ -1714,8 +1727,10 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	struct _EMFolderTreeGetFolderInfo *m;
+	CamelStore *store, *store2;
+	char *select_uri = NULL;
 	GtkTreeModel *model;
-	CamelStore *store;
+	CamelException ex;
 	gboolean load;
 	char *path;
 	
@@ -1734,6 +1749,17 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 		return;
 	}
 	
+	camel_exception_init (&ex);
+	if (priv->select_uri &&
+	    (store2 = (CamelStore *) camel_session_get_service (session, priv->select_uri, CAMEL_PROVIDER_STORE, &ex))) {
+		if (store2 == store) {
+			select_uri = priv->select_uri;
+			priv->select_uri = NULL;
+		}
+		camel_object_unref (store2);
+	}
+	camel_exception_clear (&ex);
+	
 	m = mail_msg_new (&get_folder_info_op, NULL, sizeof (struct _EMFolderTreeGetFolderInfo));
 	m->root = gtk_tree_row_reference_new (model, tree_path);
 	camel_object_ref (store);
@@ -1742,7 +1768,7 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 	g_object_ref(emft);
 	m->top = g_strdup (path);
 	m->flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
-	m->select_uri = NULL;
+	m->select_uri = select_uri;
 	
 	e_thread_put (mail_thread_new, (EMsg *) m);
 }
@@ -2703,6 +2729,7 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 	}
 	
 	if (!(si = g_hash_table_lookup (priv->model->store_hash, store))) {
+		priv->select_uri = g_strdup (uri);
 		camel_object_unref (store);
 		return;
 	}
@@ -2802,7 +2829,7 @@ emft_save_state (EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	
-	em_folder_tree_model_save_expanded (priv->model);
+	em_folder_tree_model_save_state (priv->model);
 	priv->save_state_id = 0;
 	
 	return FALSE;

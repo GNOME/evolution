@@ -1,3 +1,30 @@
+2004-06-10  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fixes bug #58825. Ugh. Really Gross Hack (tm).
+
+	* em-folder-tree.c (emft_tree_row_expanded): If the store that we
+	are expanding matches the uri that we've been requested to select
+	(e.g. from before the store was added to the tree), then give the
+	uri to the get_folder_info_op.
+	(em_folder_tree_set_selected): If the store for the uri isn't in
+	the tree yet, save the uri for later.
+
+	* mail-component.c (folder_selected_cb): Set the selected state of
+	the folder-tree and save it.
+	(impl_createControls): Restore the selected state on the
+	folder-tree.
+
+	* em-folder-tree-model.c (em_folder_tree_model_set_selected): New
+	function to set the selected-uri saved state.
+	(em_folder_tree_model_get_selected): New function to get the
+	selected uri saved state.
+	(em_folder_tree_model_save_state): Renamed.
+
+	* em-folder-tree.c (emft_update_model_expanded_state): Don't let
+	path be NULL if the node is a store node (path == NULL for any
+	other case is a bug).
+	(emft_maybe_expand_row): Same.
+
 2004-06-10  Not Zed  <NotZed@Ximian.com>
 
 	* message-list.c (message_list_set_selected): use new
