@@ -31,6 +31,7 @@
 #include "wombat-moniker.h"
 
 #define CAL_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_CalendarFactory"
+#define PAS_BOOK_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_ServerFactory"
 
 /* The and addressbook calendar factories */
 
@@ -102,7 +103,7 @@ setup_pas (int argc, char **argv)
 			    GTK_SIGNAL_FUNC (last_book_gone_cb),
 			    NULL);
 
-	if (!pas_book_factory_activate (pas_book_factory)) {
+	if (!pas_book_factory_activate (pas_book_factory, PAS_BOOK_FACTORY_OAF_ID)) {
 		bonobo_object_unref (BONOBO_OBJECT (pas_book_factory));
 		pas_book_factory = NULL;
 		return FALSE;
