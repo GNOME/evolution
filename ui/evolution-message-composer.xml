@@ -112,7 +112,14 @@
 
 
 		<submenu name="Edit" _label="_Edit">
+			 <placeholder name="EditUndoRedo"/>
+			 <separator/>
+			 <placeholder name="EditCutCopyPaste"/>
 			 <menuitem name="DeleteAll" _label="_Delete all" verb="" accel="*Ctrl**Alt*d"/>
+			 <separator/>
+			 <placeholder name="EditFindReplace"/>
+			 <separator/>
+			 <placeholder name="EditMisc"/>
 		</submenu>
               
 		<submenu name="View" _label="_View">
