@@ -423,9 +423,9 @@ do_update_subfolders (CamelStore *store, CamelFolderInfo *info, void *data)
 	}
 	
 	if (uinfo->done)
-		uinfo->done (store, uinfo->data);
-	
-	gtk_object_unref ((GtkObject *)uinfo->storage);
+		uinfo->done(store, uinfo->data);
+
+	bonobo_object_unref((BonoboObject *)uinfo->storage);
 	g_free (uinfo);
 }
 

@@ -29,6 +29,10 @@
 	(mail_storage_create_folder): Same.
 	(folder_deleted): Same.
 
+	* mail-send-recv.c (receive_update_got_store): Same.
+
+	* mail-ops.c (do_update_subfolders): Same.
+
 	* subscribe-dialog.c (fe_destroy): Unref the e_storage since
 	lookup_store gives us a ref.
 

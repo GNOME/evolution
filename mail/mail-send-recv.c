@@ -589,7 +589,7 @@ receive_update_got_store(char *uri, CamelStore *store, void *data)
 		EvolutionStorage *storage = mail_lookup_storage(store);
 		if (storage) {
 			mail_update_subfolders(store, storage, receive_update_done, info);
-			gtk_object_unref((GtkObject *)storage);
+			bonobo_object_unref((BonoboObject *)storage);
 		} else {
 			receive_done("", info);
 		}
