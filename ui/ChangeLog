@@ -1,3 +1,8 @@
+2000-12-13  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-mail.xml: Make the forward button in the toolbar
+	forward as an attachment.
+
 2000-12-13  Radek Doulik  <rodo@helixcode.com>
 
 	* evolution-message-composer.xml: redone shortcuts

@@ -207,7 +207,7 @@
     _label="Reply to All" _tip="Reply to all recipients of this message"
     pixtype="pixbuf"/>
 
-    <toolitem name="Forward" verb="MessageForwardInlined"
+    <toolitem name="Forward" verb="MessageForwardAttached"
     _label="Forward" _tip="Forward this message"
     pixtype="pixbuf"/>
 
