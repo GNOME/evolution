@@ -17,6 +17,8 @@ Evolution-DataServer.h
 ID
 Makefile
 Makefile.in
+apps_evolution_shell-1.5.schemas
+apps_evolution_shell-1.5.schemas.in
 evolution
 evolution-nognome
 evolution-test-component
