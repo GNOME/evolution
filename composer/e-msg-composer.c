@@ -1017,7 +1017,7 @@ create_menubar_format (EMsgComposer *composer,
 		       BonoboUIHandler *uih)
 {
 	bonobo_ui_handler_menu_new_subtree (uih, "/Format",
-					    _("_Format"),
+					    _("F_ormat"),
 					    NULL, -1,
 					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					    0, 0);
