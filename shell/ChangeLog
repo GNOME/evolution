@@ -1,3 +1,11 @@
+2001-07-09  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-shortcuts-view.c: Make the "Rename" item be a
+	GNOMEUIINFO_ITEM_NONE() since we don't have a stock icon; likewise
+	for the "Open in New Window".  This gets rid of warnings from
+	gnome-libs.  Use a better stock icon for the "Remove" command, and
+	add a stock icon to the "Open" command.
+
 2001-07-09  Jason Leach  <jleach@ximian.com>
 
 	* e-shell-view.c (updated_folder_cb): It's very possible that
