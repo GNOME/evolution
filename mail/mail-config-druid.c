@@ -832,41 +832,40 @@ mail_config_druid_get_sigfile (MailConfigDruid *druid)
 }
 
 
-int
-mail_config_druid_get_incoming_type (MailConfigDruid *druid)
-{
-
-}
-
 char *
-mail_config_druid_get_incoming_hostname (MailConfigDruid *druid)
+mail_config_druid_get_source_url (MailConfigDruid *druid)
 {
+	char *source_url, *host, *pport;
+	CamelURL *url;
+	int port;
+	
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
 	
-	return g_strdup (gtk_entry_get_text (druid->incoming_hostname));
-}
-
-
-char *
-mail_config_druid_get_incoming_username (MailConfigDruid *druid)
-{
-	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
+	url = g_new0 (CamelURL, 1);
+	/* FIXME: get the real protocol */
+	url->protocol = g_strdup ("pop3");
+	url->user = g_strdup (gtk_entry_get_text (druid->incoming_username));
+	url->authmech = g_strdup (druid->authmech);
+	url->passwd = g_strdup (gtk_entry_get_text (druid->password));
+	host = g_strdup (gtk_entry_get_text (druid->incoming_hostname));
+	if (host && (pport = strchr (host, ':'))) {
+		port = atoi (pport + 1);
+		*pport = '\0';
+	}
+	url->host = host;
+	url->port = port;
+	url->path = g_strdup (gtk_entry_get_text (druid->incoming_path));
 	
-	return g_strdup (gtk_entry_get_text (druid->incoming_username));
-}
-
-
-char *
-mail_config_druid_get_incoming_path (MailConfigDruid *druid)
-{
-	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
+	/* only 'show password' if we intend to save it */
+	source_url = camel_url_to_string (url, GTK_TOGGLE_BUTTON (druid->save_password)->active);
+	camel_url_free (url);
 	
-	return g_strdup (gtk_entry_get_text (druid->incoming_path));
+	return source_url;
 }
 
 
 gboolean
-mail_config_druid_get_incoming_keep_mail (MailConfigDruid *druid)
+mail_config_druid_get_keep_mail_on_server (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
 	
@@ -874,24 +873,8 @@ mail_config_druid_get_incoming_keep_mail (MailConfigDruid *druid)
 }
 
 
-int
-mail_config_druid_get_auth_type (MailConfigDruid *druid)
-{
-	
-}
-
-
-char *
-mail_config_druid_get_passwd (MailConfigDruid *druid)
-{
-	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
-	
-	return g_strdup (gtk_entry_get_text (druid->password));
-}
-
-
 gboolean
-mail_config_druid_get_save_passwd (MailConfigDruid *druid)
+mail_config_druid_get_save_password (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
 	
@@ -899,19 +882,30 @@ mail_config_druid_get_save_passwd (MailConfigDruid *druid)
 }
 
 
-int
-mail_config_druid_get_outgoing_type (MailConfigDruid *druid)
-{
-	
-}
-
-
 char *
-mail_config_druid_get_outgoing_hostname (MailConfigDruid *druid)
+mail_config_druid_get_transport_url (MailConfigDruid *druid)
 {
+	char *transport_url, *host, *pport;
+	CamelURL *url;
+	int port;
+	
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
 	
-	return g_strdup (gtk_entry_get_text (druid->outgoing_hostname));
+	url = g_new0 (CamelURL, 1);
+	/* FIXME: get the real protocol */
+	url->protocol = g_strdup ("smtp");
+	host = g_strdup (gtk_entry_get_text (druid->incoming_hostname));
+	if (host && (pport = strchr (host, ':'))) {
+		port = atoi (pport + 1);
+		*pport = '\0';
+	}
+	url->host = host;
+	url->port = port;
+	
+	transport_url = camel_url_to_string (url, FALSE);
+	camel_url_free (url);
+	
+	return transport_url;
 }
 
 

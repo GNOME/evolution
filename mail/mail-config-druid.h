@@ -112,27 +112,15 @@ char *mail_config_druid_get_organization (MailConfigDruid *druid);
 
 char *mail_config_druid_get_sigfile (MailConfigDruid *druid);
 
-int mail_config_druid_get_incoming_type (MailConfigDruid *druid);
+char *mail_config_druid_get_source_url (MailConfigDruid *druid);
 
-char *mail_config_druid_get_incoming_hostname (MailConfigDruid *druid);
+gboolean mail_config_druid_get_keep_mail_on_server (MailConfigDruid *druid);
 
-char *mail_config_druid_get_incoming_username (MailConfigDruid *druid);
+gboolean mail_config_druid_get_save_password (MailConfigDruid *druid);
 
-char *mail_config_druid_get_incoming_path (MailConfigDruid *druid);
+char *mail_config_druid_get_transport_url (MailConfigDruid *druid);
 
-gboolean mail_config_druid_get_incoming_keep_mail (MailConfigDruid *druid);
-
-int mail_config_druid_get_auth_type (MailConfigDruid *druid);
-
-char *mail_config_druid_get_passwd (MailConfigDruid *druid);
-
-gboolean mail_config_druid_get_save_passwd (MailConfigDruid *druid);
-
-int mail_config_druid_get_outgoing_type (MailConfigDruid *druid);
-
-char *mail_config_druid_get_outgoing_hostname (MailConfigDruid *druid);
-
-gboolean mail_config_druid_get_outgoing_requires_auth (MailConfigDruid *druid);
+gboolean mail_config_druid_get_transport_requires_auth (MailConfigDruid *druid);
 
 #ifdef __cplusplus
 }

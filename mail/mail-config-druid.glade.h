@@ -11,8 +11,8 @@ gchar *s = N_("Welcome to the Evolution Mail Configuration Druid.\n"
               "Click \"Next\" to begin. ");
 gchar *s = N_("Identity");
 gchar *s = N_("Required");
-gchar *s = N_("Full Name:");
 gchar *s = N_("Email Address:");
+gchar *s = N_("Full Name:");
 gchar *s = N_("Optional");
 gchar *s = N_("Organization:");
 gchar *s = N_("Signature file:");

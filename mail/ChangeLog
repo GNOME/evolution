@@ -2,6 +2,9 @@
 
 	* mail-config-druid.c (mail_config_druid_get_incoming_keep_mail):
 	Renamed from _delete_mail
+	(mail_config_druid_get_transport_url): New convenience function
+	that replaces the get_hostname, get_protocol, etc.
+	(mail_config_druid_get_source_url): Same.
 
 	* mail-config-druid.glade: Changed "Delete mail from server" to
 	"Keep mail on server" as this has a more positive ring to it. Both
