@@ -78,6 +78,7 @@ create_ondemand_hooks (FolderBrowser *fb, BonoboUIHandler *uih)
  */
 BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("PrintMessage", print_msg),
+	BONOBO_UI_VERB ("PrintPreviewMessage", print_preview_msg),
 	
 	/* Edit Menu */
 	BONOBO_UI_VERB ("EditSelectAll", select_all),

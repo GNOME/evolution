@@ -1,3 +1,12 @@
+2000-09-29  Miguel de Icaza  <miguel@helixcode.com>
+
+	* folder-browser-factory.c: Add print preview verb here.
+
+	* mail-callbacks.c (do_mail_print): Handle printing here, the
+	complete engine.
+	(mail_print_preview_msg): new. does print previewing.
+	(mail_print_msg): does printing of the message.
+
 2000-09-29  Chris Toshok  <toshok@helixcode.com>
 
 	* subscribe-control-factory.c, subscribe-control-factory.h: nuked.

@@ -69,31 +69,32 @@ char *mail_get_message_body (CamelDataWrapper *data, gboolean want_plain,
 char *mail_identify_mime_part (CamelMimePart *part);
 
 /* mail-callbacks */
-void fetch_mail (GtkWidget *widget, gpointer user_data);
-void send_queued_mail (GtkWidget *widget, gpointer user_data);
+void fetch_mail         (GtkWidget *widget, gpointer user_data);
+void send_queued_mail   (GtkWidget *widget, gpointer user_data);
 void send_receieve_mail (GtkWidget *widget, gpointer user_data);
 
-void compose_msg (GtkWidget *widget, gpointer user_data);
-void send_to_url (const char *url);
-void forward_msg (GtkWidget *widget, gpointer user_data);
-void reply_to_sender (GtkWidget *widget, gpointer user_data);
-void reply_to_all (GtkWidget *widget, gpointer user_data);
-void delete_msg (GtkWidget *widget, gpointer user_data);
-void move_msg (GtkWidget *widget, gpointer user_data);
-void copy_msg (GtkWidget *widget, gpointer user_data);
-void print_msg (GtkWidget *widget, gpointer user_data);
-void edit_msg (GtkWidget *widget, gpointer user_data);
-void view_msg (GtkWidget *widget, gpointer user_data);
+void compose_msg        (GtkWidget *widget, gpointer user_data);
+void send_to_url        (const char *url);
+void forward_msg        (GtkWidget *widget, gpointer user_data);
+void reply_to_sender    (GtkWidget *widget, gpointer user_data);
+void reply_to_all       (GtkWidget *widget, gpointer user_data);
+void delete_msg         (GtkWidget *widget, gpointer user_data);
+void move_msg           (GtkWidget *widget, gpointer user_data);
+void copy_msg           (GtkWidget *widget, gpointer user_data);
+void print_msg          (GtkWidget *widget, gpointer user_data);
+void print_preview_msg  (GtkWidget *widget, gpointer user_data);
+void edit_msg           (GtkWidget *widget, gpointer user_data);
+void view_msg           (GtkWidget *widget, gpointer user_data);
 
-void select_all (BonoboUIHandler *uih, void *user_data, const char *path);
-void unselect_all (BonoboUIHandler *uih, void *user_data, const char *path);
-void mark_as_seen (BonoboUIHandler *uih, void *user_data, const char *path);
-void mark_as_unseen (BonoboUIHandler *uih, void *user_data, const char *path);
+void select_all      (BonoboUIHandler *uih, void *user_data, const char *path);
+void unselect_all    (BonoboUIHandler *uih, void *user_data, const char *path);
+void mark_as_seen    (BonoboUIHandler *uih, void *user_data, const char *path);
+void mark_as_unseen  (BonoboUIHandler *uih, void *user_data, const char *path);
 
-void edit_message (BonoboUIHandler *uih, void *user_data, const char *path);
-void view_message (BonoboUIHandler *uih, void *user_data, const char *path);
-void expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path);
-void filter_edit (BonoboUIHandler *uih, void *user_data, const char *path);
+void edit_message    (BonoboUIHandler *uih, void *user_data, const char *path);
+void view_message    (BonoboUIHandler *uih, void *user_data, const char *path);
+void expunge_folder  (BonoboUIHandler *uih, void *user_data, const char *path);
+void filter_edit     (BonoboUIHandler *uih, void *user_data, const char *path);
 void vfolder_edit_vfolders (BonoboUIHandler *uih, void *user_data, const char *path);
 void providers_config (BonoboUIHandler *uih, void *user_data, const char *path);
 void manage_subscriptions (BonoboUIHandler *uih, void *user_data, const char *path);
@@ -103,7 +104,9 @@ void configure_folder (BonoboUIHandler *uih, void *user_data, const char *path);
 void mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolean to_all);
 void composer_send_cb (EMsgComposer *composer, gpointer data);
 void composer_postpone_cb (EMsgComposer *composer, gpointer data);
-void mail_print_msg (MailDisplay *md);
+
+void mail_print_preview_msg (MailDisplay *md);
+void mail_print_msg         (MailDisplay *md);
 
 void run_filter_ondemand (BonoboUIHandler *uih, gpointer user_data, const char *path);
 
@@ -124,10 +127,12 @@ void forget_passwords (BonoboUIHandler *uih, void *user_data,
 extern CamelSession *session;
 
 /* message-list */
-void vfolder_subject(GtkWidget *w, FolderBrowser *fb);
-void vfolder_sender(GtkWidget *w, FolderBrowser *fb);
-void vfolder_recipient(GtkWidget *w, FolderBrowser *fb);
-void filter_subject(GtkWidget *w, FolderBrowser *fb);
-void filter_sender(GtkWidget *w, FolderBrowser *fb);
-void filter_recipient(GtkWidget *w, FolderBrowser *fb);
-void filter_mlist(GtkWidget *w, FolderBrowser *fb);
+void vfolder_subject   (GtkWidget *w, FolderBrowser *fb);
+void vfolder_sender    (GtkWidget *w, FolderBrowser *fb);
+void vfolder_recipient (GtkWidget *w, FolderBrowser *fb);
+
+void filter_subject    (GtkWidget *w, FolderBrowser *fb);
+void filter_sender     (GtkWidget *w, FolderBrowser *fb);
+void filter_recipient  (GtkWidget *w, FolderBrowser *fb);
+void filter_mlist      (GtkWidget *w, FolderBrowser *fb);
+

@@ -27,6 +27,7 @@
 #include "mail-tools.h"
 #include "mail-display.h"
 #include "mail.h"
+#include "shell/e-setup.h"
 #include "e-util/e-html-utils.h"
 #include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs-mime-info.h>

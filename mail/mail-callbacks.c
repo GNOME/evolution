@@ -41,6 +41,7 @@
 #include "filter/filter-editor.h"
 #include "filter/filter-driver.h"
 #include <gal/e-table/e-table.h>
+#include <gal/widgets/e-gui-utils.h>
 
 /* FIXME: is there another way to do this? */
 #include "Evolution.h"
@@ -723,6 +724,105 @@ providers_config (BonoboUIHandler *uih, void *user_data, const char *path)
 	mail_config ((FOLDER_BROWSER (user_data))->shell);
 }
 
+/*
+ * FIXME: This routine could be made generic, by having a closure
+ * function plus data, and having the whole process be taken care
+ * of for you
+ */
+static void
+do_mail_print (MailDisplay *md, gboolean preview)
+{
+	GnomePrintContext *print_context;
+	GnomePrintMaster *print_master;
+	GnomePrintDialog *gpd;
+	GnomePrinter *printer = NULL;
+	int copies = 1;
+	int collate = FALSE;
+
+	if (!preview){
+
+		gpd = GNOME_PRINT_DIALOG (
+			gnome_print_dialog_new (_("Print Message"), GNOME_PRINT_DIALOG_COPIES));
+		gnome_dialog_set_default (GNOME_DIALOG (gpd), GNOME_PRINT_PRINT);
+
+		switch (gnome_dialog_run (GNOME_DIALOG (gpd))){
+		case GNOME_PRINT_PRINT:
+			break;
+			
+		case GNOME_PRINT_PREVIEW:
+			preview = TRUE;
+			break;
+
+		case -1:
+			return;
+
+		default:
+			gnome_dialog_close (GNOME_DIALOG (gpd));
+			return;
+		}
+
+		gnome_print_dialog_get_copies (gpd, &copies, &collate);
+		printer = gnome_print_dialog_get_printer (gpd);
+		gnome_dialog_close (GNOME_DIALOG (gpd));
+	}
+
+	print_master = gnome_print_master_new ();
+
+/*	FIXME: set paper size gnome_print_master_set_paper (print_master,  */
+
+	if (printer)
+		gnome_print_master_set_printer (print_master, printer);
+	gnome_print_master_set_copies (print_master, copies, collate);
+	print_context = gnome_print_master_get_context (print_master);
+	gtk_html_print (md->html, print_context);
+	gnome_print_master_close (print_master);
+
+	if (preview){
+		gboolean landscape = FALSE;
+		GnomePrintMasterPreview *preview;
+		
+		preview = gnome_print_master_preview_new_with_orientation (
+			print_master, _("Print Preview"), landscape);
+		gtk_widget_show (GTK_WIDGET (preview));
+	} else {
+		int result = gnome_print_master_print (print_master);
+
+		if (result == -1){
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				  _("Printing of message failed"));
+		}
+	}
+	gtk_object_unref (GTK_OBJECT (print_master));
+}
+
+void
+mail_print_preview_msg (MailDisplay *md)
+{
+	do_mail_print (md, TRUE);
+}
+
+void
+mail_print_msg (MailDisplay *md)
+{
+	do_mail_print (md, FALSE);
+}
+
+void
+print_msg (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = user_data;
+
+	mail_print_msg (fb->mail_display);
+}
+
+void
+print_preview_msg (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = user_data;
+
+	mail_print_preview_msg (fb->mail_display);
+}
+
 void
 manage_subscriptions (BonoboUIHandler *uih, void *user_data, const char *path)
 {
@@ -730,33 +830,6 @@ manage_subscriptions (BonoboUIHandler *uih, void *user_data, const char *path)
 	GtkWidget *subscribe = subscribe_control_new ();
 
 	gtk_widget_show (subscribe);
-}
-
-void
-mail_print_msg (MailDisplay *md)
-{
-	GnomePrintMaster *print_master;
-	GnomePrintContext *print_context;
-	GtkWidget *preview;
-	
-	print_master = gnome_print_master_new ();
-	
-	print_context = gnome_print_master_get_context (print_master);
-	gtk_html_print (md->html, print_context);
-	
-	preview = GTK_WIDGET (gnome_print_master_preview_new (
-		print_master, "Mail Print Preview"));
-	gtk_widget_show (preview);
-	
-	gtk_object_unref (GTK_OBJECT (print_master));
-}
-
-void
-print_msg (GtkWidget *button, gpointer user_data)
-{
-	FolderBrowser *fb = user_data;
-	
-	mail_print_msg (fb->mail_display);
 }
 
 void
