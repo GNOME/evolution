@@ -2,6 +2,22 @@
 <INCLUDE>gnome.h</INCLUDE>
 
 <SECTION>
+<FILE>camel-folder</FILE>
+CamelFolder
+<TITLE>CamelFolder</TITLE>
+camel_folder_create
+camel_folder_delete
+camel_folder_delete_messages
+camel_folder_get_parent_folder
+camel_folder_get_parent_store
+camel_folder_get_mode
+<SUBSECTION Standard>
+CAMEL_FOLDER
+camel_folder_get_type
+CAMEL_FOLDER_CLASS
+</SECTION>
+
+<SECTION>
 <FILE>camel-service</FILE>
 CamelService
 <TITLE>CamelService</TITLE>
