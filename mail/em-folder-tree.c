@@ -939,17 +939,21 @@ struct _EMFolderTreeGetFolderInfo {
 	GtkTreeRowReference *root;
 	EMFolderTree *emft;
 	CamelStore *store;
+	guint32 flags;
 	char *top;
 	
 	/* output data */
 	CamelFolderInfo *fi;
+	
+	/* uri to select if any after the op is done */
+	char *select_uri;
 };
 
 static void
 em_folder_tree_get_folder_info__get (struct _mail_msg *mm)
 {
 	struct _EMFolderTreeGetFolderInfo *m = (struct _EMFolderTreeGetFolderInfo *) mm;
-	guint32 flags = 0;
+	guint32 flags = m->flags;
 	
 	if (camel_store_supports_subscriptions (m->store))
 		flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
@@ -1016,6 +1020,9 @@ em_folder_tree_get_folder_info__got (struct _mail_msg *mm)
 	}
 	
 	gtk_tree_store_set (model, &root, COL_BOOL_LOAD_SUBDIRS, FALSE, -1);
+	
+	if (m->select_uri)
+		em_folder_tree_set_selected (m->emft, m->select_uri);
 }
 
 static void
@@ -1028,6 +1035,7 @@ em_folder_tree_get_folder_info__free (struct _mail_msg *mm)
 	gtk_tree_row_reference_free (m->root);
 	/*g_object_unref (m->emft);*/
 	camel_object_unref (m->store);
+	g_free (m->select_uri);
 	g_free (m->top);
 }
 
@@ -1069,6 +1077,8 @@ tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *tree_p
 	m->store = store;
 	m->emft = emft;
 	m->top = g_strdup (top);
+	m->flags = 0;
+	m->select_uri = NULL;
 	
 	e_thread_put (mail_thread_new, (EMsg *) m);
 }
@@ -2203,14 +2213,15 @@ void
 em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
+	struct _EMFolderTreeGetFolderInfo *m;
 	struct _EMFolderTreePrivate *priv;
 	GtkTreeSelection *selection;
 	GtkTreeRowReference *row;
 	GtkTreePath *tree_path;
 	CamelStore *store;
 	CamelException ex;
+	char *path, *p;
 	CamelURL *url;
-	char *path;
 	
 	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
 	
@@ -2227,25 +2238,60 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 		return;
 	}
 	
-	camel_object_unref (store);
-	
-	if (!(url = camel_url_new (uri, NULL)))
-		return;
-	
-	path = url->fragment ? url->fragment : url->path;
-	row = g_hash_table_lookup (si->path_hash, path);
-	camel_url_free (url);
-	
-	if (row != NULL) {
-		/* this is easy... */
-		selection = gtk_tree_view_get_selection (priv->treeview);
-		tree_path = gtk_tree_row_reference_get_path (row);
-		gtk_tree_selection_select_path (selection, tree_path);
-		gtk_tree_path_free (tree_path);
+	if (!(url = camel_url_new (uri, NULL))) {
+		camel_object_unref (store);
 		return;
 	}
 	
-	/* FIXME: need to fill out parent paths and stuff so we can select the requested path */
+	path = url->fragment ? url->fragment : url->path;
+	if ((row = g_hash_table_lookup (si->path_hash, path))) {
+		/* the folder-info node has already been loaded */
+		selection = gtk_tree_view_get_selection (priv->treeview);
+		tree_path = gtk_tree_row_reference_get_path (row);
+		gtk_tree_view_expand_to_path (priv->treeview, tree_path);
+		gtk_tree_selection_select_path (selection, tree_path);
+		gtk_tree_path_free (tree_path);
+		camel_object_unref (store);
+		camel_url_free (url);
+		return;
+	}
+	
+	/* look for the first of our parent folders that has already been loaeed */
+	p = path + strlen (path);
+	while (p > path) {
+		if (*p == '/') {
+			*p = '\0';
+			
+			if ((row = g_hash_table_lookup (si->path_hash, path)))
+				break;
+		}
+		
+		p--;
+	}
+	
+	if (row == NULL) {
+		/* none of the folders of the desired store have been loaded yet */
+		row = si->row;
+		path = NULL;
+	} else {
+		if (path[0] == '/')
+			path++;
+	}
+	
+	/* FIXME: this gets all the subfolders of our first loaded
+	 * parent folder - ideally we'd only get what we needed, but
+	 * it's probably not worth the effort */
+	m = mail_msg_new (&get_folder_info_op, NULL, sizeof (struct _EMFolderTreeGetFolderInfo));
+	m->root = gtk_tree_row_reference_copy (row);
+	m->store = store;
+	m->emft = emft;
+	m->top = path ? g_strdup (path) : NULL;
+	m->flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
+	m->select_uri = g_strdup (uri);
+	
+	e_thread_put (mail_thread_new, (EMsg *) m);
+	
+	camel_url_free (url);
 }
 
 
