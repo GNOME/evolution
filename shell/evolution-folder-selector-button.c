@@ -163,6 +163,16 @@ clicked (GtkButton *button)
 						   (const char **)priv->possible_types,
 						   &return_folder);
 
+	/* If the parent gets destroyed despite our best efforts (eg,
+	 * because its own parent got destroyed), then the folder
+	 * selector button will have been destroyed too and we need
+	 * to just bail out here.
+	 */
+	if (GTK_OBJECT_DESTROYED (parent_window)) {
+		gtk_object_unref (GTK_OBJECT (parent_window));
+		return;
+	}
+
 	gtk_widget_set_sensitive (GTK_WIDGET (parent_window), TRUE);
 	gtk_object_unref (GTK_OBJECT (parent_window));
 

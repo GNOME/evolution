@@ -1,3 +1,10 @@
+2002-09-30  Dan Winship  <danw@ximian.com>
+
+	* evolution-folder-selector-button.c (clicked): If we return from
+	evolution_shell_client_user_select_folder to find that our parent
+	window has been destroyed, unref it and bail out, since that means
+	we've been destroyed (and probably finalized) too. #31360
+
 2002-09-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-local-storage.c (load_folder): Always return TRUE, even in the
