@@ -1,3 +1,7 @@
+2003-04-04  Dan Winship  <danw@ximian.com>
+
+	* gui/e-itip-control.c (write_html): Don't free static string.
+
 2003-04-04  JP Rosevear  <jpr@ximian.com>
 
 	* cal-client/cal-client.c (get_default_uri): guard against empty

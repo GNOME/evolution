@@ -1048,7 +1048,8 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	html = text.value ? camel_text_to_html (text.value, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0) : _("<i>None</i>");
 	gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>",
 				_("Summary:"), html);
-	g_free (html);
+	if (text.value)
+		g_free (html);
 	
 	/* Location */
 	cal_component_get_location (priv->comp, &string);
