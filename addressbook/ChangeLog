@@ -1,5 +1,17 @@
 2003-04-28  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #41910 ] 
+	* gui/contact-list-editor/e-contact-list-model.c
+	(e_contact_list_model_remove_row): change from model_changed to
+	row_deleted here.  model_changed causes the table to free its
+	ETableSelection, which is what we iterate over when deleting
+	contacts.
+	(e_contact_list_model_add_destination): no need to be calling
+	model_changed here either.
+
+
+2003-04-28  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #41843]
 	* tools/evolution-addressbook-export-list-cards.c
 	(e_card_simple_csv_get_name): use e_card_simple_get_ecard_field
