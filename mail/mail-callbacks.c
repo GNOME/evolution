@@ -1289,7 +1289,7 @@ reply_to_sender (GtkWidget *widget, gpointer user_data)
 	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !check_send_configuration (fb))
 		return;
 	
-	mail_reply(fb->folder, NULL, fb->message_list->cursor_uid, REPLY_SENDER);
+	mail_reply (fb->folder, NULL, fb->message_list->cursor_uid, REPLY_SENDER);
 }
 
 void
@@ -1418,7 +1418,6 @@ static void
 forward_message (FolderBrowser *fb, MailConfigForwardStyle style)
 {
 	GPtrArray *uids;
-	int i;
 	
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;

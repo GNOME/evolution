@@ -178,6 +178,8 @@ construct (MailAccountEditor *editor, MailConfigAccount *account, MailAccountsTa
 	mail_account_gui_setup (editor->gui, GTK_WIDGET (editor));
 	
 	mail_account_gui_build_extra_conf (editor->gui, source->url);
+	
+	gtk_widget_grab_focus (GTK_WIDGET (editor->gui->account_name));
 }
 
 MailAccountEditor *
