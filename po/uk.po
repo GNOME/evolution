@@ -2558,7 +2558,7 @@ msgstr ""
 #: camel/providers/imap/camel-imap-command.c:453
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
-msgstr ""
+msgstr "Неоч╕кувана в╕дпов╕дь OK в╕д сервера IMAP: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:216
 #, c-format
@@ -2650,9 +2650,9 @@ msgstr "\"%s\" не ╓ звичайним файлом."
 
 #: camel/providers/local/camel-local-store.c:137
 #: camel/providers/local/camel-local-store.c:153
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder: %s: %s"
-msgstr "Не вдалося стерти теку \"%s\": %s"
+msgstr "Не вдалося отримати теку: %s: %s"
 
 #: camel/providers/local/camel-local-store.c:168
 msgid "Local stores do not have a root folder"
@@ -3061,7 +3061,7 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:555
 #, c-format
 msgid "No such folder `%s'."
-msgstr ""
+msgstr "Нев╕рна тека \"%s\"."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:34
 msgid "Sendmail"
@@ -3074,34 +3074,34 @@ msgid ""
 msgstr ""
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:105
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
-msgstr "Створити новий календар"
+msgstr "Не вдалося створити канал до sendmail: %s: пошту не в╕д╕слано"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:122
 #, c-format
 msgid "Could not fork sendmail: %s: mail not sent"
-msgstr ""
+msgstr "Не вдалося розгалудити sendmail: %s: пошту не в╕д╕слано"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:148
-#, fuzzy, c-format
+#, c-format
 msgid "Could not send message: %s"
-msgstr "Переслати це пов╕домлення"
+msgstr "Не вдалося в╕д╕слати пов╕домлення: %s"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:161
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
-msgstr ""
+msgstr "sendmail завершився си╜налом %s: пошту не в╕д╕слано."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:168
 #, c-format
 msgid "Could not execute %s: mail not sent."
-msgstr ""
+msgstr "Не вдалося виконати %s: пошту не в╕д╕слано."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:173
 #, c-format
 msgid "sendmail exited with status %d: mail not sent."
-msgstr ""
+msgstr "sendmail завершився з станом %d: пошту не в╕д╕слано."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:220
 msgid "sendmail"
@@ -3109,7 +3109,7 @@ msgstr "sendmail"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:222
 msgid "Mail delivery via the sendmail program"
-msgstr ""
+msgstr "Достачання пошти через програму sendmail"
 
 #: camel/providers/smtp/camel-smtp-provider.c:36
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
@@ -3134,7 +3134,7 @@ msgstr ""
 #: camel/providers/smtp/camel-smtp-transport.c:292
 #: camel/providers/smtp/camel-smtp-transport.c:297
 msgid "CRAM-MD5"
-msgstr ""
+msgstr "CRAM-MD5"
 
 #: camel/providers/smtp/camel-smtp-transport.c:294
 msgid ""
@@ -3142,26 +3142,26 @@ msgid ""
 msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:332
-#, fuzzy, c-format
+#, c-format
 msgid "SMTP server %s"
-msgstr "Сервер:"
+msgstr "Сервер SMTP %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:334
 #, c-format
 msgid "SMTP mail delivery via %s"
-msgstr ""
+msgstr "Достачання пошти SMTP через %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:359
 msgid "Cannot send message: sender address not defined."
-msgstr ""
+msgstr "Неможливо в╕д╕слати пов╕домлення: адреса в╕дправника не визначена."
 
 #: camel/providers/smtp/camel-smtp-transport.c:366
 msgid "Cannot send message: sender address not valid."
-msgstr ""
+msgstr "Неможливо в╕д╕слати пов╕домлення: адреса в╕дправника не в╕рна."
 
 #: camel/providers/smtp/camel-smtp-transport.c:380
 msgid "Cannot send message: no recipients defined."
-msgstr ""
+msgstr "Неможливо в╕д╕слати пов╕домлення: не визначено отримувач╕в"
 
 #: camel/providers/smtp/camel-smtp-transport.c:474
 #, c-format
@@ -4756,7 +4756,7 @@ msgstr "Переслати пов╕домлення без теми"
 #: mail/mail-ops.c:1593
 #, c-format
 msgid "Retrieving message number %d of %d (uid \"%s\")"
-msgstr ""
+msgstr "Отримання пов╕домлення %d з %d (uid \"%s\")"
 
 #: mail/mail-ops.c:1610
 msgid ""
@@ -5711,7 +5711,7 @@ msgstr ""
 
 #: po/tmp/evolution-event-editor.xml.h:23
 msgid "FIXME: Address _Book..."
-msgstr ""
+msgstr "Адресна книга..."
 
 #: po/tmp/evolution-event-editor.xml.h:24
 msgid "FIXME: Ch_oose Form..."
@@ -5722,9 +5722,8 @@ msgid "FIXME: Chec_k Names"
 msgstr ""
 
 #: po/tmp/evolution-event-editor.xml.h:26
-#, fuzzy
 msgid "FIXME: Cop_y to Folder..."
-msgstr "Скоп╕ювати у теку"
+msgstr "Скоп╕ювати у теку..."
 
 #: po/tmp/evolution-event-editor.xml.h:27
 msgid "FIXME: D_esign a Form..."
@@ -5740,7 +5739,7 @@ msgstr ""
 
 #: po/tmp/evolution-event-editor.xml.h:30
 msgid "FIXME: Fi_rst Item in Folder"
-msgstr ""
+msgstr "Перший елемент у тец╕"
 
 #: po/tmp/evolution-event-editor.xml.h:31
 msgid "FIXME: For_ward"
@@ -5764,14 +5763,13 @@ msgstr "Вставити файл"
 
 #: po/tmp/evolution-event-editor.xml.h:36
 msgid "FIXME: It_em..."
-msgstr ""
+msgstr "Елемент..."
 
 #: po/tmp/evolution-event-editor.xml.h:37
 msgid "FIXME: Paste _Special... "
 msgstr ""
 
 #: po/tmp/evolution-event-editor.xml.h:38
-#, fuzzy
 msgid "FIXME: Print Pre_view"
 msgstr "Перегляд друку"
 
@@ -5798,7 +5796,7 @@ msgstr "Зберегти долучення"
 
 #: po/tmp/evolution-event-editor.xml.h:44
 msgid "FIXME: Script _Debugger"
-msgstr ""
+msgstr "Налагодження скрипт╕в"
 
 #: po/tmp/evolution-event-editor.xml.h:45
 msgid "FIXME: Task _Request"
@@ -5869,7 +5867,7 @@ msgstr ""
 
 #: po/tmp/evolution-event-editor.xml.h:61
 msgid "FIXME: _Spelling..."
-msgstr ""
+msgstr "Граматика..."
 
 #: po/tmp/evolution-event-editor.xml.h:62
 msgid "FIXME: _Standard"
@@ -5877,7 +5875,7 @@ msgstr ""
 
 #: po/tmp/evolution-event-editor.xml.h:63
 msgid "FIXME: _Task"
-msgstr ""
+msgstr "Завдання"
 
 #: po/tmp/evolution-event-editor.xml.h:64
 msgid "FIXME: _Unread Item"
@@ -5902,20 +5900,19 @@ msgstr "Шукати дал╕"
 
 #: po/tmp/evolution-event-editor.xml.h:70
 msgid "Go to the next item"
-msgstr ""
+msgstr "Перейти до наступного елементу"
 
 #: po/tmp/evolution-event-editor.xml.h:71
 msgid "Go to the previous item"
-msgstr ""
+msgstr "Перейти до попереднього елементу"
 
 #: po/tmp/evolution-event-editor.xml.h:72
 msgid "Modify the file's properties"
 msgstr ""
 
 #: po/tmp/evolution-event-editor.xml.h:73
-#, fuzzy
 msgid "N_ext"
-msgstr "Вийти"
+msgstr "Наступний"
 
 #: po/tmp/evolution-event-editor.xml.h:75
 msgid "Paste"
@@ -5926,14 +5923,12 @@ msgid "Paste the clipboard"
 msgstr "Вставити буфер обм╕ну"
 
 #: po/tmp/evolution-event-editor.xml.h:77
-#, fuzzy
 msgid "Pre_vious"
-msgstr "Перегляд:"
+msgstr "Попередн╕й"
 
 #: po/tmp/evolution-event-editor.xml.h:78
-#, fuzzy
 msgid "Previous"
-msgstr "Перегляд:"
+msgstr "Попередн╕й"
 
 #: po/tmp/evolution-event-editor.xml.h:79
 msgid "Print S_etup..."
@@ -6190,12 +6185,11 @@ msgstr "Вибрати все"
 
 #: po/tmp/evolution-mail.xml.h:44
 msgid "Send queued mail and retrieve new mail"
-msgstr ""
+msgstr "В╕д╕слати пов╕домлення з черги та отримати нов╕"
 
 #: po/tmp/evolution-mail.xml.h:45
-#, fuzzy
 msgid "Show _All messages"
-msgstr "Показати все"
+msgstr "Показати вс╕ пов╕домлення"
 
 #: po/tmp/evolution-mail.xml.h:46
 #, fuzzy
@@ -6541,7 +6535,7 @@ msgstr "Установки"
 
 #: po/tmp/evolution.xml.h:33
 msgid "_Task (FIXME)"
-msgstr ""
+msgstr "Завдання"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
