@@ -944,7 +944,7 @@ request_quit (EvolutionShellComponent *shell_component,
 	if (!e_msg_composer_request_close_all ())
 		return FALSE;
 	
-	if (!camel_folder_get_message_count (outbox_folder))
+	if (!outbox_folder || !camel_folder_get_message_count (outbox_folder))
 		return TRUE;
 	
 	dialog = gnome_message_box_new (_("You have unsent messages, do you wish to quit anyway?"),

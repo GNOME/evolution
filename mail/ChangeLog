@@ -1,3 +1,8 @@
+2002-08-07  Peter Williams  <peterw@ximian.com>
+
+	* component-factory.c (request_quit): If outbox_folder is NULL, don't
+	try and get its message count (this should never happen, but has.)
+
 2002-08-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-local.c (save_metainfo): No need to save a temporary file
