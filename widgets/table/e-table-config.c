@@ -574,13 +574,13 @@ configure_dialog (GladeXML *gui, const char *widget_name, ETableConfig *config)
 #endif
 
 static void
-connect_button (ETableConfig *config, GladeXML *gui, const char *widget_name, GtkSignalFunc cback)
+connect_button (ETableConfig *config, GladeXML *gui, const char *widget_name, GCallback cback)
 {
 	GtkWidget *button = glade_xml_get_widget (gui, widget_name);
 
 	if (button) {
 		g_signal_connect (G_OBJECT (button), "clicked",
-				  G_CALLBACK (cback), config);
+				  cback, config);
 	}
 }
 
@@ -642,7 +642,7 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 		snprintf (buffer, sizeof (buffer), "sort-combo-%d", i + 1);
 		config->sort [i].combo = GTK_COMBO_TEXT (
 			glade_xml_get_widget (gui, buffer));
-
+		gtk_widget_show (GTK_WIDGET (config->sort [i].combo));
 		gtk_combo_text_add_item (config->sort [i].combo, "", "");
 
 		snprintf (buffer, sizeof (buffer), "frame-sort-%d", i + 1);
@@ -746,6 +746,7 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 		snprintf (buffer, sizeof (buffer), "group-combo-%d", i + 1);
 		config->group [i].combo = GTK_COMBO_TEXT (
 			glade_xml_get_widget (gui, buffer));
+		gtk_widget_show (GTK_WIDGET (config->group [i].combo));
 
 		gtk_combo_text_add_item (config->group [i].combo, "", "");
 
@@ -961,20 +962,26 @@ config_button_down (GtkWidget *widget, ETableConfig *config)
 static void
 configure_fields_dialog (ETableConfig *config, GladeXML *gui)
 {
-	config->available = e_table_scrolled_get_table (E_TABLE_SCROLLED (glade_xml_get_widget (gui, "custom-available")));
+	GtkWidget *scrolled;
+
+	scrolled = glade_xml_get_widget (gui, "custom-available");
+	config->available = e_table_scrolled_get_table (E_TABLE_SCROLLED (scrolled));
 	g_object_get (config->available,
 		      "model", &config->available_model,
 		      NULL);
+	gtk_widget_show_all (scrolled);
 
-	config->shown = e_table_scrolled_get_table (E_TABLE_SCROLLED (glade_xml_get_widget (gui, "custom-shown")));
+	scrolled = glade_xml_get_widget (gui, "custom-shown");
+	config->shown = e_table_scrolled_get_table (E_TABLE_SCROLLED (scrolled));
 	g_object_get (config->shown,
 		      "model", &config->shown_model,
 		      NULL);
+	gtk_widget_show_all (scrolled);
 
-	connect_button (config, gui, "button-add",    GTK_SIGNAL_FUNC (config_button_add));
-	connect_button (config, gui, "button-remove", GTK_SIGNAL_FUNC (config_button_remove));
-	connect_button (config, gui, "button-up",     GTK_SIGNAL_FUNC (config_button_up));
-	connect_button (config, gui, "button-down",   GTK_SIGNAL_FUNC (config_button_down));
+	connect_button (config, gui, "button-add",    G_CALLBACK (config_button_add));
+	connect_button (config, gui, "button-remove", G_CALLBACK (config_button_remove));
+	connect_button (config, gui, "button-up",     G_CALLBACK (config_button_up));
+	connect_button (config, gui, "button-down",   G_CALLBACK (config_button_down));
 
 	setup_fields (config);
 }
@@ -1021,9 +1028,9 @@ setup_gui (ETableConfig *config)
 	config->fields_label = glade_xml_get_widget (
 		gui, "label-fields");
 
-	connect_button (config, gui, "button-sort", GTK_SIGNAL_FUNC (config_button_sort));
-	connect_button (config, gui, "button-group", GTK_SIGNAL_FUNC (config_button_group));
-	connect_button (config, gui, "button-fields", GTK_SIGNAL_FUNC (config_button_fields));
+	connect_button (config, gui, "button-sort", G_CALLBACK (config_button_sort));
+	connect_button (config, gui, "button-group", G_CALLBACK (config_button_group));
+	connect_button (config, gui, "button-fields", G_CALLBACK (config_button_fields));
 	
 	configure_sort_dialog (config, gui);
 	configure_group_dialog (config, gui);
