@@ -2275,7 +2275,7 @@ on_selection_changed (GtkObject *obj, gpointer user_data)
 static void
 fb_resize_cb (GtkWidget *w, GtkAllocation *a, FolderBrowser *fb)
 {	
-	if (fb->preview_shown)
+	if (GTK_WIDGET_REALIZED (w) && fb->preview_shown)
 		mail_config_set_paned_size (a->height);
 }
 

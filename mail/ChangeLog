@@ -1,5 +1,11 @@
 2002-09-13  Dan Winship  <danw@ximian.com>
 
+	* folder-browser.c (fb_resize_cb): If the vpaned isn't realized,
+	don't call mail_config_set_paned_size. Fixes a problem with the
+	saved pane size being repeatedly lost (#29933)
+
+2002-09-13  Dan Winship  <danw@ximian.com>
+
 	* Mailer.idl: rename this from "Mail.idl" so that the generated .h
 	file won't overwrite "mail.h" on Mac OS X. Remove some
 	never-implemented IDL and add MailConfig_removeAccount.
