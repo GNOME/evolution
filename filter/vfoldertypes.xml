@@ -139,7 +139,7 @@
     <option value="is not">
      <title>is not</title>
      <code>
-	(match-all (not (header-matches "Subject" ${subject}))
+	(match-all (not (header-matches "Subject" ${subject})))
      </code>
     </option>
     <option value="starts with">
@@ -151,7 +151,7 @@
     <option value="not starts with">
      <title>does not start with</title>
      <code>
-	(match-all (not (header-starts-with "Subject" ${subject}))
+	(match-all (not (header-starts-with "Subject" ${subject})))
      </code>
     </option>
     <option value="ends with">
@@ -163,7 +163,7 @@
     <option value="not ends with">
      <title>does not end with</title>
      <code>
-	(match-all (not (header-ends-with "Subject" ${subject}))
+	(match-all (not (header-ends-with "Subject" ${subject})))
      </code>
     </option>
    </input>

@@ -1,3 +1,17 @@
+2003-08-05  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #42636.
+	
+	* vfoldertypes.xml: Fix some of the subject rules, they were
+	missing matching ')'s.
+
+2003-08-01  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #47208.
+
+	* filter-code.c (build_code): wrap the expression in a match-all
+	so boolean expressions work properly for folder searches.
+
 2003-07-23  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am: Use EVO_MARSHAL_RULE
