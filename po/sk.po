@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.9\n"
-"POT-Creation-Date: 2001-02-16 12:04+0100\n"
-"PO-Revision-Date: 2001-02-16 12:05CET\n"
+"POT-Creation-Date: 2001-02-19 13:32+0100\n"
+"PO-Revision-Date: 2001-02-19 13:33CET\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@rak.isternet.sk>\n"
 "MIME-Version: 1.0\n"
@@ -462,6 +462,14 @@ msgstr "Nie je mo¾né spusti» wombat"
 #: addressbook/conduit/address-conduit.c:687
 msgid "Could not read pilot's Address application block"
 msgstr "Nie je mo¾né preèíta» blok aplikácie Adresa z pilota"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in.h:1
+msgid "Configure the address conduit"
+msgstr "Nastavenie pre spojku adresára Evolution"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in.h:2
+msgid "Evolution Address conduit "
+msgstr "Spojka adresára Evolution"
 
 #: addressbook/contact-editor/contact-editor.glade.h:1
 #: addressbook/gui/component/addressbook-config.glade.h:1
@@ -1497,6 +1505,22 @@ msgstr "Chyba pri komunikácii s kalendárovým serverom"
 #: calendar/conduits/calendar/calendar-conduit.c:789
 msgid "Could not read pilot's Calendar application block"
 msgstr "Nie je mo¾né preèíta» blok aplikácie Calendar pilota"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in.h:1
+msgid "Configure the GnomeCal conduit"
+msgstr "Nastavenie spojky GnomeCal"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in.h:2
+msgid "Evolution Calendar conduit"
+msgstr "Spojka kalendára Evolution"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in.h:1
+msgid "Configure the todo conduit"
+msgstr "Nastavenie spojky pre todo Evolution."
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in.h:2
+msgid "Evolution ToDo conduit "
+msgstr "Spojka ToDo pre Evolution"
 
 #: calendar/conduits/todo/todo-conduit-control-applet.c:127
 msgid "Evolution ToDo Conduit"
@@ -3046,12 +3070,12 @@ msgstr "URI, ktoré bude zobrazova» prieèinok úloh"
 msgid "SMTWTFS"
 msgstr "NPUS©PS"
 
-#: camel/camel-filter-driver.c:767
+#: camel/camel-filter-driver.c:773
 #, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr "Chyba pri spracovávaní filtra: %s: %s"
 
-#: camel/camel-filter-driver.c:772
+#: camel/camel-filter-driver.c:778
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "Chyba pri vykonávaní filtra: %s: %s"
@@ -4260,7 +4284,8 @@ msgstr "Ulo¾i» zmeny do správy..."
 msgid "Error saving composition to 'Drafts': %s"
 msgstr "Chyba pri ukladaní do prieèinku 'Koncepty': %s"
 
-#: composer/e-msg-composer.c:819 shell/e-shell-view-menu.c:192
+#: composer/e-msg-composer.c:819 evolution.desktop.in.h:1
+#: shell/e-shell-view-menu.c:192
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -4913,15 +4938,15 @@ msgid "Edit VFolder Rule"
 msgstr "Upravi» pravidlo vprieèinku"
 
 #. mail_msg_wait (mail_get_trash ("file:/", got_folder, &trash_folder));
-#: mail/component-factory.c:215 mail/mail-ops.c:1746
+#: mail/component-factory.c:219 mail/mail-ops.c:1746
 msgid "Trash"
 msgstr "Odpadky"
 
-#: mail/component-factory.c:301
+#: mail/component-factory.c:305
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Nie je mo¾né inicializova» po¹tový komponent Evolution."
 
-#: mail/component-factory.c:374
+#: mail/component-factory.c:378
 msgid "Cannot register storage with shell"
 msgstr "Nie je mo¾né zaregistrova» sklad u shellu"
 
@@ -6212,7 +6237,7 @@ msgstr "Zadajte, kde vytvori» prieèinok"
 
 #. Importer isn't ready yet.
 #. Wait 5 seconds and try again.
-#: shell/importer/importer.c:155
+#: shell/importer/importer.c:156
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -6223,7 +6248,7 @@ msgstr ""
 "Importér nie je pripravený.\n"
 "Èakám 5 sekúnd a skúsim to znovu."
 
-#: shell/importer/importer.c:173 shell/importer/importer.c:200
+#: shell/importer/importer.c:174 shell/importer/importer.c:201
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -6232,7 +6257,7 @@ msgstr ""
 "Importujem %s\n"
 "Importujem polo¾ku %d."
 
-#: shell/importer/importer.c:307
+#: shell/importer/importer.c:308
 #, c-format
 msgid ""
 "There is no importer that is able to handle\n"
@@ -6242,11 +6267,11 @@ msgstr ""
 "%s\n"
 "nie je k dispozícii importér."
 
-#: shell/importer/importer.c:317
+#: shell/importer/importer.c:318
 msgid "Importing"
 msgstr "Importujem"
 
-#: shell/importer/importer.c:325
+#: shell/importer/importer.c:326
 #, c-format
 msgid ""
 "Importing %s.\n"
@@ -6255,12 +6280,12 @@ msgstr ""
 "Importujem %s\n"
 "Zaèínam %s"
 
-#: shell/importer/importer.c:340
+#: shell/importer/importer.c:341
 #, c-format
 msgid "Error loading %s"
 msgstr "Chyba pri naèítavaní %s"
 
-#: shell/importer/importer.c:355
+#: shell/importer/importer.c:356
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -6269,27 +6294,27 @@ msgstr ""
 "Importujem %s\n"
 "Importujem polo¾ku 1."
 
-#: shell/importer/importer.c:426
+#: shell/importer/importer.c:427
 msgid "Automatic"
 msgstr "Automaticky"
 
-#: shell/importer/importer.c:476
+#: shell/importer/importer.c:477
 msgid "Filename:"
 msgstr "Meno súboru:"
 
-#: shell/importer/import.glade.h:5 shell/importer/importer.c:481
+#: shell/importer/import.glade.h:5 shell/importer/importer.c:482
 msgid "Select a file"
 msgstr "Vyberte súbor"
 
-#: shell/importer/importer.c:491
+#: shell/importer/importer.c:492
 msgid "File type:"
 msgstr "Typ súboru:"
 
-#: shell/importer/import.glade.h:4 shell/importer/importer.c:572
+#: shell/importer/import.glade.h:4 shell/importer/importer.c:573
 msgid "Import"
 msgstr "Import"
 
-#: shell/importer/importer.c:605
+#: shell/importer/importer.c:606
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list.\n"
@@ -7924,4 +7949,8 @@ msgstr "init_corba(): Nie je mo¾né inicializova» GNOME"
 #: wombat/wombat.c:207
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Nie je mo¾né inicializova» Bonobo"
+
+#: evolution.desktop.in.h:2
+msgid "The Evolution groupware suite"
+msgstr "Sada nástrojov pre pracovné skupiny Evolution"
 
