@@ -23,6 +23,7 @@
 #define __EVOLUTION_SHELL_COMPONENT_UTILS_H__
 
 #include <bonobo/bonobo-ui-component.h>
+#include <gtk/gtkwindow.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,6 +41,9 @@ typedef struct _EPixmap {
 
 /* Takes an array of pixmaps, terminated by E_PIXMAP_END, and loads into uic */
 void e_pixmaps_update (BonoboUIComponent *uic, EPixmap *pixcache);
+
+void e_activation_failure_dialog (GtkWindow *parent, const char *msg,
+				  const char *oafiid, const char *repo_id);
 
 #ifdef __cplusplus
 }

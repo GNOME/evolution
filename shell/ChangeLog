@@ -1,3 +1,9 @@
+2001-10-13  Dan Winship  <danw@ximian.com>
+
+	* evolution-shell-component-utils.c (e_activation_failure_dialog):
+	New function to try to activate a component when you know it's
+	going to fail, and then pop up a dialog explaining why it failed.
+
 2001-10-12  Iain Holmes  <iain@ximian.com>
 
 	* e-shell-importer.c (prepare_intelligent_page): Flush the gdk 
