@@ -1113,17 +1113,23 @@ transfer_item_to (ECalendarViewEvent *event, ECal *dest_client, gboolean remove_
 	const char *uid;
 	char *new_uid;
 	icalcomponent *orig_icalcomp;
-
+	icalproperty *icalprop;
+	
 	uid = icalcomponent_get_uid (event->comp_data->icalcomp);
 
 	/* put the new object into the destination calendar */
 	if (e_cal_get_object (dest_client, uid, NULL, &orig_icalcomp, NULL)) {
 		icalcomponent_free (orig_icalcomp);
-
+		
+		
 		if (!e_cal_modify_object (dest_client, event->comp_data->icalcomp, CALOBJ_MOD_ALL, NULL))
 			return;
 	} else {
 		orig_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
+		
+		icalprop = icalproperty_new_x ("1");
+		icalproperty_set_x_name (icalprop, "X-EVOLUTION-MOVE-CALENDAR");
+		icalcomponent_add_property (orig_icalcomp, icalprop);
 
 		if (!remove_item) {
 			/* change the UID to avoid problems with duplicated UIDs */
