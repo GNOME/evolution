@@ -136,7 +136,7 @@ evolution_mail_SOURCES =		\
 
 # needs gtkhtml prop manager ported
 #	mail-font-prefs.c		\
-#	mail-font-prefs.h		\
+#	mail-font-prefs.h
 
 evolution_mail_LDADD = 					\
 	$(top_builddir)/camel/libcamel.la		\
@@ -152,7 +152,7 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(EVOLUTION_MAIL_LIBS)
 
-#	$(top_builddir)/shell/importer/libevolution-importer.la				\
+#	$(top_builddir)/shell/importer/libevolution-importer.la	
 
 evolution_mail_LDFLAGS =				\
 	-export-dynamic
