@@ -1,3 +1,7 @@
+2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	* configure.in: added libgnome-2.0 to camel requirements.
+
 2002-11-06  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in: add some more addressbook dirs to AC_OUTPUT.
