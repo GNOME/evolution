@@ -10,6 +10,9 @@
 
 	* notes/*: Removed; never finished and no one is working on it.
 
+	* tests/*: Removed; these are ancient. Camel regression tests are
+	in camel/tests now.
+
 	* configure.in (E_UTIL_{CFLAGS,LIBS}): Remove soup-2.0 since
 	e-proxy is gone.
 	(EVOLUTION_MAIL_{CFLAGS,LIBS}): Remove soup-2.0 since the mailer
