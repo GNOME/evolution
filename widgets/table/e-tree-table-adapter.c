@@ -994,12 +994,14 @@ ETreePath    e_tree_table_adapter_node_at_row (ETreeTableAdapter *etta, int row)
 {
 	if (row < 0)
 		return NULL;
-	if (row >= etta->priv->n_map)
-		return NULL;
-	if (etta->priv->root_visible)
-		return etta->priv->map_table[row];
-	else
-		return etta->priv->map_table[row + 1];
+	if (etta->priv->root_visible) {
+		if (row < etta->priv->n_map)
+			return etta->priv->map_table[row];
+	} else {
+		if (row + 1 < etta->priv->n_map)
+			return etta->priv->map_table[row + 1];
+	}
+	return NULL;
 }
 
 int    e_tree_table_adapter_row_of_node (ETreeTableAdapter *etta, ETreePath path)
