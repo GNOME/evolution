@@ -512,9 +512,9 @@ eti_remove_table_model (ETableItem *eti)
 			       eti->table_model_rows_inserted_id);
 	g_signal_handler_disconnect (G_OBJECT (eti->table_model),
 			       eti->table_model_rows_deleted_id);
-	g_object_unref (G_OBJECT (eti->table_model));
+	g_object_unref (eti->table_model);
 	if (eti->source_model)
-		g_object_unref (G_OBJECT (eti->source_model));
+		g_object_unref (eti->source_model);
 
 	eti->table_model_pre_change_id = 0;
 	eti->table_model_no_change_id = 0;
@@ -577,7 +577,7 @@ eti_remove_header_model (ETableItem *eti)
 		eti_unrealize_cell_views (eti);
 		eti_detach_cell_views (eti);
 	}
-	g_object_unref (G_OBJECT (eti->header));
+	g_object_unref (eti->header);
 
 
 	eti->header_structure_change_id = 0;
@@ -999,7 +999,7 @@ eti_idle_show_cursor_cb (gpointer data)
 		eti_check_cursor_bounds (eti);
 	}
 
-	g_object_unref (G_OBJECT (eti));
+	g_object_unref (eti);
 	return FALSE;
 }
 
@@ -1008,7 +1008,7 @@ eti_idle_maybe_show_cursor(ETableItem *eti)
 {
 	d(g_print ("%s: cursor on screen: %s\n", __FUNCTION__, eti->cursor_on_screen ? "TRUE" : "FALSE"));
 	if (eti->cursor_on_screen) {
-		g_object_ref (G_OBJECT (eti));
+		g_object_ref (eti);
 		g_idle_add (eti_idle_show_cursor_cb, eti);
 	}
 }
@@ -1237,7 +1237,7 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 	g_assert (eti->table_model == NULL);
 	
 	eti->table_model = table_model;
-	g_object_ref (G_OBJECT (eti->table_model));
+	g_object_ref (eti->table_model);
 
 	eti->table_model_pre_change_id = g_signal_connect (
 		G_OBJECT (table_model), "model_pre_change",
@@ -1276,7 +1276,7 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 		eti->uses_source_model = 1;
 		eti->source_model = E_TABLE_SUBSET(table_model)->source;
 		if (eti->source_model)
-			g_object_ref(G_OBJECT(eti->source_model));
+			g_object_ref(eti->source_model);
 	}
 
 	eti_freeze (eti);
@@ -1290,7 +1290,7 @@ eti_add_selection_model (ETableItem *eti, ESelectionModel *selection)
 	g_assert (eti->selection == NULL);
 	
 	eti->selection = selection;
-	g_object_ref (G_OBJECT (eti->selection));
+	g_object_ref (eti->selection);
 
 	eti->selection_change_id = gtk_signal_connect (
 		GTK_OBJECT (selection), "selection_changed",
@@ -1366,7 +1366,7 @@ eti_add_header_model (ETableItem *eti, ETableHeader *header)
 	g_assert (eti->header == NULL);
 	
 	eti->header = header;
-	g_object_ref (G_OBJECT (header));
+	g_object_ref (header);
 
 	eti_header_structure_changed (header, eti);
 	
@@ -3527,7 +3527,7 @@ static void
 e_table_item_printable_destroy (GtkObject *object,
 				ETableItemPrintContext *itemcontext)
 {
-	g_object_unref(G_OBJECT(itemcontext->item));
+	g_object_unref(itemcontext->item);
 	g_free(itemcontext);
 }
 
@@ -3548,7 +3548,7 @@ e_table_item_get_printable (ETableItem *item)
 
 	itemcontext = g_new(ETableItemPrintContext, 1);
 	itemcontext->item = item;
-	g_object_ref(G_OBJECT(item));
+	g_object_ref(item);
 	itemcontext->rows_printed = 0;
 
 	gtk_signal_connect (GTK_OBJECT(printable),

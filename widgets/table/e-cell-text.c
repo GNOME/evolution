@@ -704,7 +704,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		}
 	}
 
-	g_object_unref (G_OBJECT (layout));
+	g_object_unref (layout);
 }
 
 /*

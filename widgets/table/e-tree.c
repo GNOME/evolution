@@ -333,9 +333,9 @@ disconnect_header (ETree *e_tree)
 			g_signal_handler_disconnect (G_OBJECT (e_tree->priv->sort_info),
 					             e_tree->priv->group_info_change_id);
 
-		g_object_unref(G_OBJECT(e_tree->priv->sort_info));
+		g_object_unref(e_tree->priv->sort_info);
 	}
-	g_object_unref(G_OBJECT(e_tree->priv->header));
+	g_object_unref(e_tree->priv->header);
 	e_tree->priv->header = NULL;
 	e_tree->priv->sort_info = NULL;
 }
@@ -389,7 +389,7 @@ et_destroy (GtkObject *object)
 			if (et->priv->search_accept_id)
 				g_signal_handler_disconnect (G_OBJECT (et->priv->search),
 						     	      et->priv->search_accept_id);
-			g_object_unref (G_OBJECT (et->priv->search));
+			g_object_unref (et->priv->search);
 		}
 
 		if (et->priv->reflow_idle_id)
@@ -402,18 +402,18 @@ et_destroy (GtkObject *object)
 
 		et_disconnect_from_etta (et);
 
-		g_object_unref (G_OBJECT (et->priv->etta));
-		g_object_unref (G_OBJECT (et->priv->model));
-		g_object_unref (G_OBJECT (et->priv->sorted));
-		g_object_unref (G_OBJECT (et->priv->full_header));
+		g_object_unref (et->priv->etta);
+		g_object_unref (et->priv->model);
+		g_object_unref (et->priv->sorted);
+		g_object_unref (et->priv->full_header);
 		disconnect_header (et);
-		g_object_unref (G_OBJECT (et->priv->selection));
+		g_object_unref (et->priv->selection);
 		if (et->priv->spec)
-			g_object_unref (G_OBJECT (et->priv->spec));
+			g_object_unref (et->priv->spec);
 		et->priv->spec = NULL;
 
 		if (et->priv->sorter)
-			g_object_unref (G_OBJECT (et->priv->sorter));
+			g_object_unref (et->priv->sorter);
 		et->priv->sorter = NULL;
 
 		if (et->priv->header_canvas)
@@ -1191,7 +1191,7 @@ e_tree_set_state (ETree      *e_tree,
 	if (state->col_count > 0)
 		e_tree_set_state_object(e_tree, state);
 
-	g_object_unref(G_OBJECT(state));
+	g_object_unref(state);
 }
 
 /**
@@ -1218,7 +1218,7 @@ e_tree_load_state (ETree      *e_tree,
 	if (state->col_count > 0)
 		e_tree_set_state_object(e_tree, state);
 
-	g_object_unref(G_OBJECT(state));
+	g_object_unref(state);
 }
 
 /**
@@ -1241,7 +1241,7 @@ e_tree_get_state_object (ETree *e_tree)
 	state = e_table_state_new();
 	state->sort_info = e_tree->priv->sort_info;
 	if (state->sort_info)
-		g_object_ref(G_OBJECT(state->sort_info));
+		g_object_ref(state->sort_info);
 
 	state->col_count = e_table_header_count (e_tree->priv->header);
 	full_col_count = e_table_header_count (e_tree->priv->full_header);
@@ -1280,7 +1280,7 @@ e_tree_get_state (ETree *e_tree)
 
 	state = e_tree_get_state_object(e_tree);
 	string = e_table_state_save_to_string(state);
-	g_object_unref(G_OBJECT(state));
+	g_object_unref(state);
 	return string;
 }
 
@@ -1300,7 +1300,7 @@ e_tree_save_state (ETree      *e_tree,
 
 	state = e_tree_get_state_object(e_tree);
 	e_table_state_save_to_file(state, filename);
-	g_object_unref(G_OBJECT(state));
+	g_object_unref(state);
 }
 
 /**
@@ -1376,7 +1376,7 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	int i, col_count;
 
 	if (ete)
-		g_object_ref(G_OBJECT(ete));
+		g_object_ref(ete);
 	else
 		ete = e_table_extras_new();
 
@@ -1392,7 +1392,7 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	e_tree->priv->horizontal_scrolling = specification->horizontal_scrolling;
 
 	e_tree->priv->model = etm;
-	g_object_ref (G_OBJECT (etm));
+	g_object_ref (etm);
 
 	e_tree->priv->sorted = e_tree_sorted_new(etm, e_tree->priv->full_header, e_tree->priv->sort_info);
 
@@ -1450,7 +1450,7 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 
 	gtk_widget_pop_colormap ();
 
-	g_object_unref(G_OBJECT(ete));
+	g_object_unref(ete);
 
 	return e_tree;
 }
@@ -1489,19 +1489,19 @@ e_tree_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 		state = e_table_state_new();
 		e_table_state_load_from_string(state, state_str);
 		if (state->col_count <= 0) {
-			g_object_unref(G_OBJECT(state));
+			g_object_unref(state);
 			state = specification->state;
-			g_object_ref(G_OBJECT(state));
+			g_object_ref(state);
 		}
 	} else {
 		state = specification->state;
-		g_object_ref(G_OBJECT(state));
+		g_object_ref(state);
 	}
 
 	e_tree = et_real_construct (e_tree, etm, ete, specification, state);
 
 	e_tree->priv->spec = specification;
-	g_object_unref(G_OBJECT(state));
+	g_object_unref(state);
 
 	return e_tree;
 }
@@ -1537,31 +1537,31 @@ e_tree_construct_from_spec_file (ETree *e_tree, ETreeModel *etm, ETableExtras *e
 
 	specification = e_table_specification_new();
 	if (!e_table_specification_load_from_file(specification, spec_fn)) {
-		g_object_unref(G_OBJECT(specification));
+		g_object_unref(specification);
 		return NULL;
 	}
 
 	if (state_fn) {
 		state = e_table_state_new();
 		if (!e_table_state_load_from_file(state, state_fn)) {
-			g_object_unref(G_OBJECT(state));
+			g_object_unref(state);
 			state = specification->state;
-			g_object_ref(G_OBJECT(state));
+			g_object_ref(state);
 		}
 		if (state->col_count <= 0) {
-			g_object_unref(G_OBJECT(state));
+			g_object_unref(state);
 			state = specification->state;
-			g_object_ref(G_OBJECT(state));
+			g_object_ref(state);
 		}
 	} else {
 		state = specification->state;
-		g_object_ref(G_OBJECT(state));
+		g_object_ref(state);
 	}
 
 	e_tree = et_real_construct (e_tree, etm, ete, specification, state);
 
 	e_tree->priv->spec = specification;
-	g_object_unref(G_OBJECT(state));
+	g_object_unref(state);
 
 	return e_tree;
 }
@@ -1602,7 +1602,7 @@ e_tree_new (ETreeModel *etm, ETableExtras *ete, const char *spec, const char *st
 	ret_val = e_tree_construct (e_tree, etm, ete, spec, state);
 
 	if (ret_val == NULL) {
-		g_object_unref (G_OBJECT (e_tree));
+		g_object_unref (e_tree);
 	}
 
 	return (GtkWidget *) ret_val;
@@ -1643,7 +1643,7 @@ e_tree_new_from_spec_file (ETreeModel *etm, ETableExtras *ete, const char *spec_
 	ret_val = e_tree_construct_from_spec_file (e_tree, etm, ete, spec_fn, state_fn);
 
 	if (ret_val == NULL) {
-		g_object_unref (G_OBJECT (e_tree));
+		g_object_unref (e_tree);
 	}
 
 	return (GtkWidget *) ret_val;
@@ -2846,14 +2846,14 @@ context_destroyed (gpointer data)
 		scroll_off (et);
 		hover_off (et);
 	}
-	g_object_unref (G_OBJECT (et));
+	g_object_unref (et);
 }
 
 static void
 context_connect (ETree *et, GdkDragContext *context)
 {
 	if (g_dataset_get_data (context, "e-tree") == NULL) {
-		g_object_ref (G_OBJECT (et));
+		g_object_ref (et);
 		g_dataset_set_data_full (context, "e-tree", et, context_destroyed);
 	}
 }

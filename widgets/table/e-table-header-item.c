@@ -137,7 +137,7 @@ ethi_destroy (GtkObject *object){
 	}
 
 	if (ethi->full_header)
-		g_object_unref (G_OBJECT(ethi->full_header));
+		g_object_unref (ethi->full_header);
 	ethi->full_header = NULL;
 
 	if (ethi->config)
@@ -288,7 +288,7 @@ static void
 ethi_add_table_header (ETableHeaderItem *ethi, ETableHeader *header)
 {
 	ethi->eth = header;
-	g_object_ref (G_OBJECT (ethi->eth));
+	g_object_ref (ethi->eth);
 
 	ethi->height = e_table_header_item_get_height (ethi);
 
@@ -351,7 +351,7 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 				g_signal_handler_disconnect (
 					G_OBJECT(ethi->sort_info),
 					ethi->group_info_changed_id);
-			g_object_unref (G_OBJECT(ethi->sort_info));
+			g_object_unref (ethi->sort_info);
 		}
 		ethi->sort_info = GTK_VALUE_POINTER (*arg);
 		g_object_ref (ethi->sort_info);

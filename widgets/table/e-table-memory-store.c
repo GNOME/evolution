@@ -301,7 +301,7 @@ e_table_memory_store_new (ETableMemoryStoreColumnInfo *columns)
 	if (e_table_memory_store_construct (et, columns)) {
 		return (ETableModel *) et;
 	} else {
-		g_object_unref (G_OBJECT (et));
+		g_object_unref (et);
 		return NULL;
 	}
 }

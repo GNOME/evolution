@@ -424,7 +424,7 @@ etta_dispose (GObject *object)
 		g_signal_handler_disconnect (G_OBJECT (etta->priv->source),
 				             etta->priv->tree_model_node_request_collapse_id);
 
-		g_object_unref (G_OBJECT (etta->priv->source));
+		g_object_unref (etta->priv->source);
 		etta->priv->source = NULL;
 
 		etta->priv->tree_model_pre_change_id = 0;
@@ -868,7 +868,7 @@ e_tree_table_adapter_construct (ETreeTableAdapter *etta, ETreeModel *source)
 	ETreePath root;
 
 	etta->priv->source = source;
-	g_object_ref (G_OBJECT (source));
+	g_object_ref (source);
 
 	if (e_tree_model_has_save_id(source))
 		etta->priv->attributes = g_hash_table_new(g_str_hash, g_str_equal);

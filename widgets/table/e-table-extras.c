@@ -44,7 +44,7 @@ cell_hash_free(gchar	*key,
 {
 	g_free(key);
 	if (cell)
-		gtk_object_unref( GTK_OBJECT (cell));
+		g_object_unref(cell);
 }
 
 static void
@@ -200,11 +200,11 @@ e_table_extras_add_cell     (ETableExtras *extras,
 		g_hash_table_remove (extras->cells, old_key);
 		g_free (old_key);
 		if (old_cell)
-			gtk_object_unref (GTK_OBJECT(old_cell));
+			g_object_unref (old_cell);
 	}
 
 	if (cell) {
-		gtk_object_ref (GTK_OBJECT (cell));
+		g_object_ref (cell);
 		gtk_object_sink (GTK_OBJECT (cell));
 	}
 	g_hash_table_insert (extras->cells, g_strdup(id), cell);

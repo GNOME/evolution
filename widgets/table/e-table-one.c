@@ -157,7 +157,7 @@ one_dispose (GObject *object)
 	ETableOne *one = E_TABLE_ONE (object);
 	
 	if (one->source)
-		g_object_unref(G_OBJECT(one->source));
+		g_object_unref(one->source);
 	one->source = NULL;
 
 	G_OBJECT_CLASS (parent_class)->dispose (object);
@@ -214,7 +214,7 @@ e_table_one_new (ETableModel *source)
 	}
 	
 	if (source)
-		g_object_ref(G_OBJECT(source));
+		g_object_ref(source);
 	
 	return (ETableModel *) eto;
 }

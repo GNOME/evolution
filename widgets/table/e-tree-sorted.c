@@ -616,7 +616,7 @@ ets_dispose (GObject *object)
 		g_signal_handler_disconnect (G_OBJECT (priv->source),
 				             priv->tree_model_node_request_collapse_id);
 
-		g_object_unref (G_OBJECT (priv->source));
+		g_object_unref (priv->source);
 		priv->source = NULL;
 
 		priv->tree_model_pre_change_id = 0;
@@ -635,7 +635,7 @@ ets_dispose (GObject *object)
 				             priv->sort_info_changed_id);
 		priv->sort_info_changed_id = 0;
 
-		g_object_unref (G_OBJECT (priv->sort_info));
+		g_object_unref (priv->sort_info);
 		priv->sort_info = NULL;
 	}
 
@@ -646,7 +646,7 @@ ets_dispose (GObject *object)
 	}
 
 	if (priv->full_header)
-		g_object_unref(G_OBJECT(priv->full_header));
+		g_object_unref(priv->full_header);
 
 }
 
@@ -1260,11 +1260,11 @@ e_tree_sorted_construct (ETreeSorted *ets, ETreeModel *source, ETableHeader *ful
 {
 	ets->priv->source                              = source;
 	if (source)
-		g_object_ref(G_OBJECT(source));
+		g_object_ref(source);
 
 	ets->priv->full_header                         = full_header;
 	if (full_header)
-		g_object_ref(G_OBJECT(full_header));
+		g_object_ref(full_header);
 
 	e_tree_sorted_set_sort_info (ets, sort_info);
 
@@ -1368,12 +1368,12 @@ e_tree_sorted_set_sort_info (ETreeSorted *ets, ETableSortInfo *sort_info)
 			g_signal_handler_disconnect (G_OBJECT (ets->priv->sort_info),
 						     ets->priv->sort_info_changed_id);
 		ets->priv->sort_info_changed_id = 0;
-		g_object_unref (G_OBJECT (ets->priv->sort_info));
+		g_object_unref (ets->priv->sort_info);
 	}
 
 	ets->priv->sort_info = sort_info;
 	if (sort_info) {
-		g_object_ref(G_OBJECT(sort_info));
+		g_object_ref(sort_info);
 		ets->priv->sort_info_changed_id = g_signal_connect (G_OBJECT (ets->priv->sort_info), "sort_info_changed",
 								    G_CALLBACK (ets_sort_info_changed), ets);
 	}
