@@ -460,6 +460,7 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 					     g_strdup (str_uri), lc);
 
 		} else {
+			remove_uri_to_load (uri);
 			gtk_object_unref (GTK_OBJECT (client));
 			client = NULL;
 		}
