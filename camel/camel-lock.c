@@ -52,6 +52,8 @@
 
 #include "camel-lock.h"
 
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>  /* for _() */
 
 
