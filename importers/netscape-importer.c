@@ -382,9 +382,9 @@ netscape_import_accounts (NetscapeImporter *importer)
 	nstr = netscape_get_string ("mail.identity.organization");
 	id.organization = CORBA_string_dup (nstr ? nstr : "");
 	nstr = netscape_get_string ("mail.signature_file");
-	id.signature = CORBA_string_dup (nstr ? nstr : "");
+	/* FIXME rodo id.signature = CORBA_string_dup (nstr ? nstr : "");
 	id.html_signature = CORBA_string_dup ("");
-	id.has_html_signature = FALSE;
+	id.has_html_signature = FALSE; */
 
 	/* Create transport */
 	nstr = netscape_get_string ("network.hosts.smtp_server");
