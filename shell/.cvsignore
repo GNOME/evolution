@@ -15,6 +15,7 @@ ID
 Makefile
 Makefile.in
 evolution
+evolution-nognome
 evolution-test-component
 evolution.pure
 libeshell.la
