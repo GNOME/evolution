@@ -95,7 +95,6 @@ test_client_list_LDADD =				\
 	libebook.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
 	$(top_builddir)/camel/libcamel.la		\
-	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.a		\
 	$(top_builddir)/e-util/libeutil.la
@@ -107,7 +106,6 @@ test_card_LDADD =					\
 	libebook.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
 	$(top_builddir)/camel/libcamel.la		\
-	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.a		\
 	$(top_builddir)/e-util/libeutil.la
@@ -119,7 +117,6 @@ evolution_vcard_importer_LDADD =				\
 	libebook.la						\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)				\
 	$(top_builddir)/camel/libcamel.la			\
-	$(top_builddir)/libibex/libibex.la			\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
 	$(DB3_LDADD)						\
 	$(top_builddir)/e-util/ename/libename.la		\
@@ -133,7 +130,6 @@ evolution_ldif_importer_LDADD =					\
 	libebook.la						\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)				\
 	$(top_builddir)/camel/libcamel.la			\
-	$(top_builddir)/libibex/libibex.la			\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
 	$(DB3_LDADD)						\
 	$(top_builddir)/e-util/ename/libename.la		\
@@ -147,7 +143,6 @@ load_pine_addressbook_LDADD =				\
 	libebook.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
 	$(top_builddir)/camel/libcamel.la		\
-	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.a		\
 	$(top_builddir)/e-util/libeutil.la
@@ -160,7 +155,6 @@ load_gnomecard_addressbook_LDADD =			\
 	libebook.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
 	$(top_builddir)/camel/libcamel.la		\
-	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.a		\
 	$(top_builddir)/e-util/libeutil.la
