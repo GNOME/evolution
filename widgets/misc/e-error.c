@@ -472,7 +472,7 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 
 	if (e->title) {
 		ee_build_label(out, _(e->title), args);
-		gtk_window_set_title((GtkWindow *)dialog, _(e->title));
+		gtk_window_set_title((GtkWindow *)dialog, out->str);
 		g_string_truncate(out, 0);
 	} else
 		gtk_window_set_title((GtkWindow *)dialog, _(type_map[e->type].title));

@@ -1,3 +1,7 @@
+2004-05-28  Anders Carlsson  <andersca@gnome.org>
+
+	* e-error.c (e_error_newv): Use the constructed title string.
+
 2004-05-27  Rodney Dawes  <dobey@novell.com>
 
 	* Makefile.am (EXTRA_DIST): Add $(error_i18n)
