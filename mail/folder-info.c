@@ -233,7 +233,7 @@ evolution_folder_info_factory_fn (BonoboGenericFactory *factory,
 	EvolutionFolderInfo *info;
 	BonoboPropertyBag *pb;
 	
-	info = gtk_type_new (evolution_folder_info_get_type ());
+	info = g_object_new (evolution_folder_info_get_type (), NULL);
 	pb = bonobo_property_bag_new (get_prop, set_prop, info);
 	info->pb = pb;
 	/* Add properties */

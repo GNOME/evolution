@@ -633,7 +633,7 @@ mail_accounts_tab_new (GNOME_Evolution_Shell shell)
 {
 	MailAccountsTab *new;
 	
-	new = (MailAccountsTab *) gtk_type_new (mail_accounts_tab_get_type ());
+	new = (MailAccountsTab *) g_object_new (mail_accounts_tab_get_type (), NULL);
 	mail_accounts_tab_construct (new);
 	new->shell = shell;
 	

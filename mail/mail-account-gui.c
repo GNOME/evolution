@@ -1062,7 +1062,7 @@ mail_account_gui_folder_selector_button_new (char *widget_name,
 					     char *string1, char *string2,
 					     int int1, int int2)
 {
-	return (GtkWidget *)gtk_type_new (EVOLUTION_TYPE_FOLDER_SELECTOR_BUTTON);
+	return (GtkWidget *)g_object_new (EVOLUTION_TYPE_FOLDER_SELECTOR_BUTTON, NULL);
 }
 
 static gboolean

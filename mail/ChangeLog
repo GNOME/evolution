@@ -1,5 +1,14 @@
 2002-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* folder-info.c (evolution_folder_info_factory_fn): Use
+	g_object_new() instead of gtk_type_new().
+	* folder-browser.c (folder_browser_new): Likewise.
+	* mail-account-gui.c
+	(mail_account_gui_folder_selector_button_new): Likewise.
+	* mail-font-prefs.c (mail_font_prefs_new): Likewise.
+
+2002-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	* mail-format.c: Do not #include <libgnome/gnome-defs.h>.
 	* mail-importer.c: Likewise.
 	* mail-mt.c: Likewise.

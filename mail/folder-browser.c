@@ -2569,7 +2569,7 @@ folder_browser_new (const GNOME_Evolution_Shell shell, const char *uri)
 	
 	CORBA_exception_init (&ev);
 	
-	folder_browser = gtk_type_new (folder_browser_get_type ());
+	folder_browser = g_object_new (folder_browser_get_type (), NULL);
 	
 	my_folder_browser_init (folder_browser);
 	

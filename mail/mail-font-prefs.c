@@ -35,7 +35,7 @@ mail_font_prefs_new (void)
 {
 	MailFontPrefs *new;
 	
-	new = MAIL_FONT_PREFS (gtk_type_new (mail_font_prefs_get_type ()));
+	new = MAIL_FONT_PREFS (g_object_new (mail_font_prefs_get_type ()), NULL);
 	
 	return GTK_WIDGET (new);
 }

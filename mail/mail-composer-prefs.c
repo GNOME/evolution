@@ -900,7 +900,7 @@ mail_composer_prefs_new (void)
 {
 	MailComposerPrefs *new;
 	
-	new = (MailComposerPrefs *) gtk_type_new (mail_composer_prefs_get_type ());
+	new = (MailComposerPrefs *) g_object_new (mail_composer_prefs_get_type (), NULL);
 	mail_composer_prefs_construct (new);
 	
 	return (GtkWidget *) new;
