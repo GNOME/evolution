@@ -1,3 +1,8 @@
+2003-12-18  Calvin Liu <calvin.liu@sun.com>
+
+	* evolution-mail-message.xml: On [Action] menu, change [Forward]
+	to [Forward As...], [Forward Message] to [Forward].
+
 2003-12-17  Rodney Dawes  <dobey@ximian.com>
 
 	* evolution-mail-message.xml:
