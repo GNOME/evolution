@@ -1,3 +1,10 @@
+2002-05-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (camel_imap_store_class_init):
+	Overload the setv/getv CamelObject virtual methods.
+	(imap_setv): Implemented.
+	(imap_getv): Implemented.
+
 2002-05-13  Dan Winship  <danw@ximian.com>
 
 	* camel-folder.c (camel_folder_append_message): Add a "char
@@ -63,7 +70,7 @@
 
 	* providers/imap/camel-imap-folder.c (imap_get_message): Fetch the
 	BODYSTRUCTURE rather than BODY since BODY seems to be lacking some
-	of the data we need. This fixes bug #24131.
+	of the data we need. This fixes bug #24136.
 
 	* camel-transport.c (camel_transport_get_type): Might help if we
 	called camel_transport_class_init.

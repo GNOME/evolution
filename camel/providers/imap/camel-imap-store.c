@@ -67,6 +67,10 @@ static char imap_tag_prefix = 'A';
 static void construct (CamelService *service, CamelSession *session,
 		       CamelProvider *provider, CamelURL *url,
 		       CamelException *ex);
+
+static int imap_setv (CamelObject *object, CamelException *ex, CamelArgV *args);
+static int imap_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args);
+
 static gboolean can_work_offline (CamelDiscoStore *disco_store);
 static gboolean imap_connect_online (CamelService *service, CamelException *ex);
 static gboolean imap_connect_offline (CamelService *service, CamelException *ex);
@@ -102,6 +106,8 @@ static void get_folders_online (CamelImapStore *imap_store, const char *pattern,
 static void
 camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 {
+	CamelObjectClass *camel_object_class =
+		CAMEL_OBJECT_CLASS (camel_imap_store_class);
 	CamelServiceClass *camel_service_class =
 		CAMEL_SERVICE_CLASS (camel_imap_store_class);
 	CamelStoreClass *camel_store_class =
@@ -115,9 +121,12 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	remote_store_class = CAMEL_REMOTE_STORE_CLASS (camel_type_get_global_classfuncs (camel_remote_store_get_type ()));
 
 	/* virtual method overload */
+	camel_object_class->setv = imap_setv;
+	camel_object_class->getv = imap_getv;
+	
 	camel_service_class->construct = construct;
 	camel_service_class->query_auth_types = query_auth_types;
-
+	
 	camel_store_class->hash_folder_name = hash_folder_name;
 	camel_store_class->compare_folder_name = compare_folder_name;
 	camel_store_class->create_folder = create_folder;
@@ -293,6 +302,107 @@ construct (CamelService *service, CamelSession *session,
 		imap_store->parameters |= IMAP_PARAM_FILTER_INBOX;
 		store->flags |= CAMEL_STORE_FILTER_INBOX;
 	}
+}
+
+static int
+imap_setv (CamelObject *object, CamelException *ex, CamelArgV *args)
+{
+	CamelImapStore *store = (CamelImapStore *) object;
+	guint32 tag, flags;
+	int i;
+	
+	for (i = 0; i < args->argc; i++) {
+		tag = args->argv[i].tag;
+		
+		/* make sure this arg wasn't already handled */
+		if (tag & CAMEL_ARG_IGNORE)
+			continue;
+		
+		/* make sure this is an arg we're supposed to handle */
+		if ((tag & CAMEL_ARG_TAG) <= CAMEL_IMAP_STORE_ARG_FIRST ||
+		    (tag & CAMEL_ARG_TAG) >= CAMEL_IMAP_STORE_ARG_FIRST + 100)
+			continue;
+		
+		if (tag == CAMEL_IMAP_STORE_NAMESPACE) {
+			if (strcmp (store->namespace, args->argv[i].ca_str) != 0) {
+				g_free (store->namespace);
+				store->namespace = g_strdup (args->argv[i].ca_str);
+				/* the current imap code will need to do a reconnect for this to take effect */
+				/*reconnect = TRUE;*/
+			}
+		} else if (tag == CAMEL_IMAP_STORE_OVERRIDE_NAMESPACE) {
+			flags = args->argv[i].ca_int ? IMAP_PARAM_OVERRIDE_NAMESPACE : 0;
+			flags |= (store->parameters & ~IMAP_PARAM_OVERRIDE_NAMESPACE);
+			
+			if (store->parameters != flags) {
+				store->parameters = flags;
+				/* the current imap code will need to do a reconnect for this to take effect */
+				/*reconnect = TRUE;*/
+			}
+		} else if (tag == CAMEL_IMAP_STORE_CHECK_ALL) {
+			flags = args->argv[i].ca_int ? IMAP_PARAM_CHECK_ALL : 0;
+			flags |= (store->parameters & ~IMAP_PARAM_CHECK_ALL);
+			store->parameters = flags;
+			/* no need to reconnect for this option to take effect... */
+		} else if (tag == CAMEL_IMAP_STORE_FILTER_INBOX) {
+			flags = args->argv[i].ca_int ? IMAP_PARAM_FILTER_INBOX : 0;
+			flags |= (store->parameters & ~IMAP_PARAM_FILTER_INBOX);
+			store->parameters = flags;
+			/* no need to reconnect for this option to take effect... */
+		} else {
+			/* error?? */
+			continue;
+		}
+		
+		/* let our parent know that we've handled this arg */
+		camel_argv_ignore (args, i);
+	}
+	
+	/* FIXME: if we need to reconnect for a change to take affect,
+           we need to do it here... or, better yet, somehow chain it
+           up to CamelService's setv implementation. */
+	
+	return CAMEL_OBJECT_CLASS (disco_store_class)->setv (object, ex, args);
+}
+
+static int
+imap_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args)
+{
+	CamelImapStore *store = (CamelImapStore *) object;
+	guint32 tag;
+	int i;
+	
+	for (i = 0; i < args->argc; i++) {
+		tag = args->argv[i].tag;
+		
+		/* make sure this is an arg we're supposed to handle */
+		if ((tag & CAMEL_ARG_TAG) <= CAMEL_IMAP_STORE_ARG_FIRST ||
+		    (tag & CAMEL_ARG_TAG) >= CAMEL_IMAP_STORE_ARG_FIRST + 100)
+			continue;
+		
+		switch (tag) {
+		case CAMEL_IMAP_STORE_NAMESPACE:
+			/* get the username */
+			*args->argv[i].ca_str = store->namespace;
+			break;
+		case CAMEL_IMAP_STORE_OVERRIDE_NAMESPACE:
+			/* get the auth mechanism */
+			*args->argv[i].ca_int = store->parameters & IMAP_PARAM_OVERRIDE_NAMESPACE ? TRUE : FALSE;
+			break;
+		case CAMEL_IMAP_STORE_CHECK_ALL:
+			/* get the hostname */
+			*args->argv[i].ca_int = store->parameters & IMAP_PARAM_CHECK_ALL ? TRUE : FALSE;
+			break;
+		case CAMEL_IMAP_STORE_FILTER_INBOX:
+			/* get the port */
+			*args->argv[i].ca_int = store->parameters & IMAP_PARAM_FILTER_INBOX ? TRUE : FALSE;
+			break;
+		default:
+			/* error? */
+		}
+	}
+	
+	return CAMEL_OBJECT_CLASS (disco_store_class)->getv (object, ex, args);
 }
 
 static void
