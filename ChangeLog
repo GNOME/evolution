@@ -1,5 +1,11 @@
 2000-02-07  Christopher James Lahey  <clahey@helixcode.com>
 
+	* widgets/e-text.h, widgets/e-text.c: Added line wrap and a max
+	number of lines (max number of lines is only obeyed if text is not
+	being edited).
+
+2000-02-07  Christopher James Lahey  <clahey@helixcode.com>
+
 	* addressbook/printing/e-contact-print.c: Removed an unneccessary
 	include of libhnj.  All uses of libhnj are commented out.
 

@@ -63,10 +63,10 @@ BEGIN_GNOME_DECLS
  * editable             boolean                 RW              Can this item be edited
  * use_ellipsis         boolean                 RW              Whether to use ellipsises if text gets cut off.  Meaningless if clip == false.
  * ellipsis             string                  RW              The characters to use as ellipsis.  NULL = "...".
+ * line_wrap            boolean                 RW              Line wrap when not editing.
+ * max_line_wrap        int                     RW              Number of lines possible when doing line wrap.
  *
  * These are not implemented yet:
- * line_wrap            boolean                 RW              Line wrap when not editing.
- * line_wrap_on_edit    boolean                 RW              Switch to line wrap when editing.
  * background           boolean                 RW              Draw a background rectangle.
  * background_on_edit   boolean                 RW              Draw a background when editing.
  */
@@ -168,11 +168,15 @@ struct _EText {
 	gchar *clipboard_selection;     /* Clipboard selection text */
 	gint clipboard_length;          /* Clipboard selection text length*/
 
-	guint pointer_in : 1;
-	guint default_cursor_shown : 1;
+	guint pointer_in : 1;           /* Is the pointer currently over us? */
+	guint default_cursor_shown : 1; /* Is the default cursor currently shown? */
 
-	GdkCursor *default_cursor;
-	GdkCursor *i_cursor;
+	guint line_wrap : 1;            /* Do line wrap */
+
+	gint max_lines;                 /* Max number of lines (-1 = infinite) */
+
+	GdkCursor *default_cursor;      /* Default cursor (arrow) */
+	GdkCursor *i_cursor;            /* I beam cursor */
 };
 
 struct _ETextClass {
