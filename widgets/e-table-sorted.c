@@ -27,11 +27,77 @@ ets_destroy (GtkObject *object)
 	GTK_OBJECT_CLASS (ets_parent_class)->destroy (object);
 }
 
+static int
+ets_column_count (ETableModel *etm)
+{
+	ETableSorted *ets = (ETableSorted *)etm;
+
+	return e_table_model_column_count (ets->source);
+}
+
+static const char *
+ets_column_name (ETableModel *etm, int col)
+{
+	ETableSorted *ets = (ETableSorted *)etm;
+
+	return e_table_model_column_name (ets->source, col);
+}
+
+static int
+ets_row_count (ETableModel *etm)
+{
+	ETableSorted *ets = (ETableSorted *)etm;
+
+	return e_table_model_row_count (ets->source);
+}
+
+static void *
+ets_value_at (ETableModel *etm, int col, int row)
+{
+	ETableSorted *ets = (ETableSorted *)etm;
+
+	return e_table_model_value_at (ets->source, col, ets->map_table [row]);
+}
+
+static void
+ets_set_value_at (ETableModel *etm, int col, int row, void *val)
+{
+	ETableSorted *ets = (ETableSorted *)etm;
+
+	return e_table_model_set_value_at (ets->source, col, ets->map_table [row], val);
+}
+
+static gboolean
+ets_is_cell_editable (ETableModel *etm, int col, int row)
+{
+	ETableSorted *ets = (ETableSorted *)etm;
+
+	return e_table_model_is_cell_editable (ets->source, col, ets->map_table [row]);
+}
+
+static int
+ets_row_height (ETableModel *etm, int row)
+{
+	ETableSorted *ets = (ETableSorted *)etm;
+
+	return e_table_model_row_height (ets->source, ets->map_table [row]);
+}
+
 static void
 ets_class_init (GtkObjectClass *klass)
 {
+	ETableModelClass *table_class = (ETableModelClass *) klass;
+	
 	ets_parent_class = gtk_type_class (PARENT_TYPE);
 	klass->destroy = ets_destroy;
+
+	table_class->column_count     = ets_column_count;
+	table_class->column_name      = ets_column_name;
+	table_class->row_count        = ets_row_count;
+	table_class->value_at         = ets_value_at;
+	table_class->set_value_at     = ets_set_value_at;
+	table_class->is_cell_editable = ets_is_cell_editable;
+	table_class->row_height       = ets_row_height;
 }
 
 E_MAKE_TYPE(e_table_sorted, "ETableSorted", ETableSorted, ets_class_init, NULL, PARENT_TYPE);

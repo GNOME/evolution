@@ -1,3 +1,7 @@
+1999-11-19  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-sorted.c: Finished implementing.
+
 1999-11-18  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-model.c (e_table_model_class_init): Add model_changed
