@@ -1,3 +1,7 @@
+2000-03-13  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-day-view*.[hc]: new files for the Day/Work-Week views.
+
 2000-03-12  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/main.c (gnome_calendar_locate): Removed function now that it
