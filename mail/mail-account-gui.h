@@ -108,9 +108,17 @@ typedef struct {
 	GtkToggleButton *pgp_always_sign;
 	GtkToggleButton *pgp_no_imip_sign;
 	GtkToggleButton *pgp_always_trust;
-	GtkEntry *smime_key;
+
+	GtkToggleButton *smime_sign_default;
+	GtkEntry *smime_sign_key;
+	GtkButton *smime_sign_key_select;
+	GtkButton *smime_sign_key_clear;
+	GtkButton *smime_sign_select;
+	GtkToggleButton *smime_encrypt_default;
 	GtkToggleButton *smime_encrypt_to_self;
-	GtkToggleButton *smime_always_sign;
+	GtkEntry *smime_encrypt_key;
+	GtkButton *smime_encrypt_key_select;
+	GtkButton *smime_encrypt_key_clear;
 } MailAccountGui;
 
 

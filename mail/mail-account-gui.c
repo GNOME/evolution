@@ -1406,6 +1406,58 @@ prepare_signatures (MailAccountGui *gui)
 	}
 }
 
+#if defined (HAVE_NSS)
+static void
+smime_changed(MailAccountGui *gui)
+{
+	int act;
+	const char *tmp;
+
+	tmp = gtk_entry_get_text(gui->smime_sign_key);
+	act = tmp && tmp[0];
+	gtk_widget_set_sensitive((GtkWidget *)gui->smime_sign_key_clear, act);
+	gtk_widget_set_sensitive((GtkWidget *)gui->smime_sign_default, act);
+	if (!act)
+		gtk_toggle_button_set_active(gui->smime_sign_default, FALSE);
+
+	tmp = gtk_entry_get_text(gui->smime_encrypt_key);
+	act = tmp && tmp[0];
+	gtk_widget_set_sensitive((GtkWidget *)gui->smime_encrypt_key_clear, act);
+	gtk_widget_set_sensitive((GtkWidget *)gui->smime_encrypt_default, act);
+	gtk_widget_set_sensitive((GtkWidget *)gui->smime_encrypt_to_self, act);
+	if (!act) {
+		gtk_toggle_button_set_active(gui->smime_encrypt_default, FALSE);
+		gtk_toggle_button_set_active(gui->smime_encrypt_to_self, FALSE);
+	}
+}
+
+static void
+smime_sign_key_select(GtkWidget *w, MailAccountGui *gui)
+{
+	smime_changed(gui);
+}
+
+static void
+smime_sign_key_clear(GtkWidget *w, MailAccountGui *gui)
+{
+	gtk_entry_set_text(gui->smime_sign_key, "");
+	smime_changed(gui);
+}
+
+static void
+smime_encrypt_key_select(GtkWidget *w, MailAccountGui *gui)
+{
+	smime_changed(gui);
+}
+
+static void
+smime_encrypt_key_clear(GtkWidget *w, MailAccountGui *gui)
+{
+	gtk_entry_set_text(gui->smime_encrypt_key, "");
+	smime_changed(gui);
+}
+#endif
+
 MailAccountGui *
 mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 {
@@ -1544,14 +1596,31 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	gui->pgp_always_trust = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "pgp_always_trust"));
 	gtk_toggle_button_set_active (gui->pgp_always_trust, account->pgp_always_trust);
 	
-#if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
-	gui->smime_key = GTK_ENTRY (glade_xml_get_widget (gui->xml, "smime_key"));
-	if (account->smime_key)
-		gtk_entry_set_text (gui->smime_key, account->smime_key);
-	gui->smime_encrypt_to_self = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "smime_encrypt_to_self"));
-	gtk_toggle_button_set_active (gui->smime_encrypt_to_self, account->smime_encrypt_to_self);
-	gui->smime_always_sign = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "smime_always_sign"));
-	gtk_toggle_button_set_active (gui->smime_always_sign, account->smime_always_sign);
+#if defined (HAVE_NSS)
+	gui->smime_sign_key = (GtkEntry *)glade_xml_get_widget (gui->xml, "smime_sign_key");
+	if (account->smime_sign_key)
+		gtk_entry_set_text(gui->smime_sign_key, account->smime_sign_key);
+	gui->smime_sign_key_select = (GtkButton *)glade_xml_get_widget (gui->xml, "smime_sign_key_select");
+	gui->smime_sign_key_clear = (GtkButton *)glade_xml_get_widget (gui->xml, "smime_sign_key_clear");
+	g_signal_connect(gui->smime_sign_key_select, "clicked", G_CALLBACK(smime_sign_key_select), gui);
+	g_signal_connect(gui->smime_sign_key_clear, "clicked", G_CALLBACK(smime_sign_key_clear), gui);
+
+	gui->smime_sign_default = (GtkToggleButton *)glade_xml_get_widget (gui->xml, "smime_sign_default");
+	gtk_toggle_button_set_active(gui->smime_sign_default, account->smime_sign_default);
+
+	gui->smime_encrypt_key = (GtkEntry *)glade_xml_get_widget (gui->xml, "smime_encrypt_key");
+	if (account->smime_encrypt_key)
+		gtk_entry_set_text(gui->smime_encrypt_key, account->smime_encrypt_key);
+	gui->smime_encrypt_key_select = (GtkButton *)glade_xml_get_widget (gui->xml, "smime_encrypt_key_select");
+	gui->smime_encrypt_key_clear = (GtkButton *)glade_xml_get_widget (gui->xml, "smime_encrypt_key_clear");
+	g_signal_connect(gui->smime_encrypt_key_select, "clicked", G_CALLBACK(smime_encrypt_key_select), gui);
+	g_signal_connect(gui->smime_encrypt_key_clear, "clicked", G_CALLBACK(smime_encrypt_key_clear), gui);
+
+	gui->smime_encrypt_default = (GtkToggleButton *)glade_xml_get_widget (gui->xml, "smime_encrypt_default");
+	gtk_toggle_button_set_active(gui->smime_encrypt_default, account->smime_encrypt_default);
+	gui->smime_encrypt_to_self = (GtkToggleButton *)glade_xml_get_widget (gui->xml, "smime_encrypt_to_self");
+	gtk_toggle_button_set_active(gui->smime_encrypt_to_self, account->smime_encrypt_to_self);
+	smime_changed(gui);
 #else
 	{
 		/* Since we don't have NSS, hide the S/MIME config options */
@@ -1560,7 +1629,7 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 		frame = glade_xml_get_widget (gui->xml, "smime_frame");
 		gtk_widget_destroy (frame);
 	}
-#endif /* HAVE_NSS && SMIME_SUPPORTED */
+#endif /* HAVE_NSS */
 	
 	return gui;
 }
@@ -1940,11 +2009,14 @@ mail_account_gui_save (MailAccountGui *gui)
 	new->pgp_no_imip_sign = gtk_toggle_button_get_active (gui->pgp_no_imip_sign);
 	new->pgp_always_trust = gtk_toggle_button_get_active (gui->pgp_always_trust);
 	
-#if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
-	new->smime_key = g_strdup (gtk_entry_get_text (gui->smime_key));
+#if defined (HAVE_NSS)
+	new->smime_sign_default = gtk_toggle_button_get_active (gui->smime_sign_default);
+	new->smime_sign_key = g_strdup (gtk_entry_get_text (gui->smime_sign_key));
+
+	new->smime_encrypt_default = gtk_toggle_button_get_active (gui->smime_encrypt_default);
+	new->smime_encrypt_key = g_strdup (gtk_entry_get_text (gui->smime_encrypt_key));
 	new->smime_encrypt_to_self = gtk_toggle_button_get_active (gui->smime_encrypt_to_self);
-	new->smime_always_sign = gtk_toggle_button_get_active (gui->smime_always_sign);
-#endif /* HAVE_NSS && SMIME_SUPPORTED */
+#endif /* HAVE_NSS */
 	
 	is_storage = provider && (provider->flags & CAMEL_PROVIDER_IS_STORAGE) &&
 		!(provider->flags & CAMEL_PROVIDER_IS_EXTERNAL);

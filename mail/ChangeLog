@@ -1,3 +1,15 @@
+2003-10-31  Not Zed  <NotZed@Ximian.com>
+
+	* mail-config.glade: Rearranged smime config slightly, and added
+	encrypt key preference.
+
+	* mail-account-gui.c (mail_account_gui_save,
+	mail_account_gui_new): enable smime always if have_nss.  Added new
+	options in glade file and handle changed names.
+	(smime_changed, smime_sign_key_select, smime_sign_key_clear)
+	(smime_encrypt_key_select, smime_encrypt_key_clear): Add a bunch
+	of mostly dummy UI behaviour management stuff.
+
 2003-10-30  Not Zed  <NotZed@Ximian.com>
 
 	* em-format.c (em_format_is_inline): show application/x-pkcs7-mime
