@@ -1433,10 +1433,11 @@ em_utils_part_to_html(CamelMimePart *part, ssize_t *len, EMFormat *source)
 
 /**
  * em_utils_message_to_html:
- * @message: 
- * @source:
+ * @message:
  * @credits: 
  * @flags: EMFormatQuote flags
+ * @len:
+ * @source:
  *
  * Convert a message to html, quoting if the @credits attribution
  * string is given.
