@@ -949,9 +949,12 @@ e_meeting_edit (EMeetingEditor *editor)
 
 	priv->organizer_entry = glade_xml_get_widget (priv->xml, "organizer_entry");
 
-	if (icalcomponent_isa (priv->icalcomp) != ICAL_VEVENT_COMPONENT)
-		priv->vevent = icalcomponent_get_first_component(priv->icalcomp,ICAL_VEVENT_COMPONENT);
-	else
+	if (icalcomponent_isa (priv->icalcomp) != ICAL_VEVENT_COMPONENT) {
+		icalcompiter iter;
+
+		iter = icalcomponent_begin_component (priv->icalcomp, ICAL_VEVENT_COMPONENT);
+		priv->vevent = icalcompiter_deref (&iter);
+	} else
 		priv->vevent = priv->icalcomp;
 
 	g_assert (priv->vevent != NULL);

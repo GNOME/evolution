@@ -117,15 +117,17 @@ get_line		(char		*s,
 static void
 generate_occurrences	(icalcomponent	*icalcomp)
 {
-	icalcomponent *tmp_icalcomp;
-	CalComponent *comp;
-	gint occurrences;
+	icalcompiter iter;
 
-	for (tmp_icalcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
-	     tmp_icalcomp;
-	     tmp_icalcomp = icalcomponent_get_next_component (icalcomp, ICAL_ANY_COMPONENT)) {
+	for (iter = icalcomponent_begin_component (icalcomp, ICAL_ANY_COMPONENT);
+	     icalcompiter_deref (&iter) != NULL;
+	     icalcompiter_next (&iter)) {
+		icalcomponent *tmp_icalcomp;
+		CalComponent *comp;
 		icalcomponent_kind kind;
+		gint occurrences;
 
+		tmp_icalcomp = icalcompiter_deref (&iter);
 		kind = icalcomponent_isa (tmp_icalcomp);
 
 		if (!(kind == ICAL_VEVENT_COMPONENT

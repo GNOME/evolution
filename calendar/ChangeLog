@@ -1,3 +1,22 @@
+2000-11-24  Federico Mena Quintero  <federico@helixcode.com>
+
+	* pcs/cal-backend-file.c (scan_vcalendar): Use the new libical
+	external iterators (icalcomponent_begin_component() and friends);
+	the internal iterators are deprecated.
+
+	* cal-util/test-recur.c (generate_occurrences): Likewise.
+
+	* gui/e-itip-control.c (pstream_load): Likewise.
+
+	* gui/e-meeting-edit.c (e_meeting_edit): Likewise.
+
+	* pcs/cal-backend.c (cal_backend_log_entry): Plug leak.
+	(cal_backend_log_sync): Free the entry->uid.
+
+	* util/icalendar-save.[ch]: 
+	* util/icalendar-test.c: 
+	* util/icalendar.[ch]: Removed obsolete files.
+
 2000-11-21  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/task.xpm: Remove the check because it makes it look like the

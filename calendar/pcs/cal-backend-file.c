@@ -550,18 +550,21 @@ static void
 scan_vcalendar (CalBackendFile *cbfile)
 {
 	CalBackendFilePrivate *priv;
-	icalcomponent *icalcomp;
+	icalcompiter iter;
 
 	priv = cbfile->priv;
 	g_assert (priv->icalcomp != NULL);
 	g_assert (priv->comp_uid_hash != NULL);
 
-	for (icalcomp = icalcomponent_get_first_component (priv->icalcomp, ICAL_ANY_COMPONENT);
-	     icalcomp;
-	     icalcomp = icalcomponent_get_next_component (priv->icalcomp, ICAL_ANY_COMPONENT)) {
+	for (iter = icalcomponent_begin_component (priv->icalcomp, ICAL_ANY_COMPONENT);
+	     icalcompiter_deref (&iter) != NULL;
+	     icalcompiter_next (&iter)) {
+		icalcomponent *icalcomp;
 		icalcomponent_kind kind;
 		CalComponent *comp;
 
+		icalcomp = icalcompiter_deref (&iter);
+		
 		kind = icalcomponent_isa (icalcomp);
 
 		if (!(kind == ICAL_VEVENT_COMPONENT

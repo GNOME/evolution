@@ -479,7 +479,7 @@ cal_backend_log_entry (CalBackend *backend,
 		       CalObjType cot,
 		       CalBackendLogEntryType type)
 {
-	CalBackendLogEntry *entry = g_new0 (CalBackendLogEntry, 1);
+	CalBackendLogEntry *entry;
 	
 	g_assert (CLASS (backend)->get_type_by_uid != NULL);
 
@@ -565,6 +565,7 @@ cal_backend_log_sync (CalBackend *backend)
 		    || entry->time_stamp > end_time)
 			end_time = entry->time_stamp;
 
+		g_free (entry->uid);
 		g_free (entry);
 	}
 	cal_backend_set_node_timet (tnode, "start", start_time);

@@ -592,6 +592,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 {
 	EItipControlPrivate *priv = data;
 	gint pos, length, length2;
+	icalcompiter iter;
 	icalcomponent_kind comp_kind;
 	char message[256];
 	
@@ -617,8 +618,8 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 		return;
 	}
 
-	priv->comp = icalcomponent_get_first_component (priv->main_comp,
-							ICAL_ANY_COMPONENT);
+	iter = icalcomponent_begin_component (priv->main_comp, ICAL_ANY_COMPONENT);
+	priv->comp = icalcompiter_deref (&iter);
 
 #if 0
 	{   
