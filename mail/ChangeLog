@@ -2,6 +2,11 @@
 
 	* mail-ops.c (filter_edit): Function to bring up the filter editor.
 	(filter_druid_clicked): Save/close dialogue.
+	(fetch_mail): Apply filters to incoming mail ... *hold breath*
+	If we are coming from a non-indexed/searchable/etc source, then
+	copy it to an mbox first.  When copying mail from an mbox source,
+	dont remove it aftewards, open it for append, so partially
+	filtered mail isn't lost.
 
 	* Makefile.am (evolution_mail_LDADD): Added libfilter.
 	(INCLUDES): Add EVOLUTION_DATADIR, and fix matt's brokeneditor(tm)

@@ -30,6 +30,7 @@
 #include "folder-browser.h"
 #include "e-util/e-setup.h"
 #include "filter/filter-editor.h"
+#include "filter/filter-driver.h"
 
 #ifndef HAVE_MKSTEMP
 #include <fcntl.h>
@@ -78,9 +79,10 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	CamelException *ex;
 	CamelStore *store = NULL;
 	CamelFolder *folder = NULL;
-	int nmsgs, i;
-	CamelMimeMessage *msg = NULL;
 	char *path, *url = NULL;
+	FilterDriver *filter = NULL;
+	char *userrules, *systemrules;
+	char *tmp_mbox = NULL, *source;
 
 	if (!check_configured ())
 		return;
@@ -100,23 +102,18 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	path = CAMEL_SERVICE (fb->folder->parent_store)->url->path;
 	ex = camel_exception_new ();
 
+	tmp_mbox = g_strdup_printf ("%s/movemail", path);
+
 	/* If fetching mail from an mbox store, safely copy it to a
 	 * temporary store first.
 	 */
 	if (!strncmp (url, "mbox:", 5)) {
-		char *tmp_mbox, *source;
 		int tmpfd;
 
-		tmp_mbox = g_strdup_printf ("%s/movemail.XXXXXX", path);
-#ifdef HAVE_MKSTEMP
-		tmpfd = mkstemp (tmp_mbox);
-#else
-		if (mktemp (tmp_mbox)) {
-			tmpfd = open (tmp_mbox, O_RDWR | O_CREAT | O_EXCL,
-				      S_IRUSR | S_IWUSR);
-		} else
-			tmpfd = -1;
-#endif
+		printf("moving from a local mbox\n");
+
+		tmpfd = open (tmp_mbox, O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
+
 		if (tmpfd == -1) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "Couldn't create temporary "
@@ -137,80 +134,107 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 			/* FALL THROUGH */
 
 		case 0:
-			unlink (tmp_mbox);
-			g_free (tmp_mbox);
 			goto cleanup;
 		}
 
 		folder = camel_store_get_folder (fb->folder->parent_store,
 						 strrchr (tmp_mbox, '/') + 1,
 						 ex);
+		camel_folder_open (folder, FOLDER_OPEN_READ, ex);
+
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 			mail_exception_dialog ("Unable to move mail", ex, fb);
-			g_free (tmp_mbox);
 			goto cleanup;
 		}
 	} else {
+		CamelFolder *sourcefolder;
+
 		store = camel_session_get_store (session, url, ex);
 		if (!store) {
-			mail_exception_dialog ("Unable to get new mail",
-					       ex, fb);
+			mail_exception_dialog ("Unable to get new mail", ex, fb);
 			goto cleanup;
 		}
 		camel_service_connect_with_url (CAMEL_SERVICE (store),
 						url, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-			mail_exception_dialog ("Unable to get new mail",
-					       ex, fb);
+			mail_exception_dialog ("Unable to get new mail", ex, fb);
 			goto cleanup;
 		}
 
-		folder = camel_store_get_folder (store, "inbox", ex);
-		if (!folder) {
-			mail_exception_dialog ("Unable to get new mail",
-					       ex, fb);
+		sourcefolder = camel_store_get_folder (store, "inbox", ex);
+		camel_folder_open (sourcefolder, FOLDER_OPEN_READ, ex);
+		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+			mail_exception_dialog ("Unable to get new mail", ex, fb);
 			goto cleanup;
+		}
+
+		/* can we perform filtering on this source? */
+		if (!(sourcefolder->has_summary_capability
+		      && sourcefolder->has_uid_capability
+		      && sourcefolder->has_search_capability)) {
+			int i, count;
+
+			printf("folder isn't searchable, performing movemail ...\n");
+
+			folder = camel_store_get_folder (fb->folder->parent_store,
+							 strrchr (tmp_mbox, '/') + 1,
+							 ex);
+
+			if (!camel_folder_exists(folder, ex)) {
+				camel_folder_create(folder, ex);
+			}
+			
+			camel_folder_open(folder, FOLDER_OPEN_RW, ex);
+
+			if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+				mail_exception_dialog ("Unable to move mail", ex, fb);
+				goto cleanup;
+			}
+			
+			count = camel_folder_get_message_count (sourcefolder, ex);
+			printf("got %d messages in source\n", count);
+			for (i = 1; i <= count; i++) {
+				CamelMimeMessage *msg;
+				printf("copying message %d to dest\n", i);
+				msg = camel_folder_get_message_by_number (sourcefolder, i, ex);
+				if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+					mail_exception_dialog ("Unable to read message", ex, fb);
+					gtk_object_unref((GtkObject *)msg);
+					gtk_object_unref((GtkObject *)sourcefolder);
+					goto cleanup;
+				}
+
+				camel_folder_append_message (folder, msg, ex);
+				if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+					mail_exception_dialog ("Unable to write message", ex, fb);
+					gtk_object_unref((GtkObject *)msg);
+					gtk_object_unref((GtkObject *)sourcefolder);
+					goto cleanup;
+				}
+
+				camel_folder_delete_message_by_number(sourcefolder, i, ex);
+				gtk_object_unref((GtkObject *)msg);
+			}
+			gtk_object_unref((GtkObject *)sourcefolder);
+		} else {
+			printf("we can search on this folder, performing search!\n");
+			folder = sourcefolder;
 		}
 	}
 
-	camel_folder_open (folder, FOLDER_OPEN_READ, ex);
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+	/* apply filtering rules to this inbox */
+	filter = filter_driver_new();
+	userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
+	systemrules = g_strdup_printf("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
+	filter_driver_set_rules(filter, systemrules, userrules);
+	filter_driver_set_session(filter, session);
+	g_free(userrules);
+	g_free(systemrules);
+
+	if (filter_driver_run(filter, folder, fb->folder) == -1) {
 		mail_exception_dialog ("Unable to get new mail", ex, fb);
 		goto cleanup;
 	}
-
-	nmsgs = camel_folder_get_message_count (folder, ex);
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-		mail_exception_dialog ("Unable to get new mail", ex, fb);
-		goto cleanup;
-	}
-
-	if (nmsgs == 0)
-		goto cleanup;
-
-	for (i = 1; i <= nmsgs; i++) {
-		msg = camel_folder_get_message_by_number (folder, i, ex);
-		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-			mail_exception_dialog ("Unable to read message",
-					       ex, fb);
-			goto cleanup;
-		}
-
-		camel_folder_append_message (fb->folder, msg, ex);
-		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-			mail_exception_dialog ("Unable to write message",
-					       ex, fb);
-			goto cleanup;
-		}
-
-		camel_folder_delete_message_by_number (folder, i, ex);
-		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-			mail_exception_dialog ("Unable to delete message",
-					       ex, fb);
-			goto cleanup;
-		}
-	}
-	msg = NULL;
 
 	/* Redisplay. Ick. FIXME */
 	path = g_strdup_printf ("file://%s", path);
@@ -218,6 +242,10 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	g_free (path);
 
  cleanup:
+	g_free(tmp_mbox);
+
+	if (filter)
+		gtk_object_unref((GtkObject *)filter);
 	if (url)
 		g_free (url);
 	if (folder) {
@@ -230,8 +258,6 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		gtk_object_unref (GTK_OBJECT (store));
 	}
 	camel_exception_free (ex);
-	if (msg)
-		gtk_object_unref (GTK_OBJECT (msg));
 }
 
 
@@ -437,7 +463,7 @@ filter_druid_clicked(FilterEditor *fe, int button, FolderBrowser *fb)
 		g_free(user);
 	}
 	if (button != -1) {
-		gnome_dialog_close(fe);
+		gnome_dialog_close((GnomeDialog *)fe);
 	}
 }
 
@@ -451,13 +477,13 @@ void filter_edit (GtkWidget *button, gpointer user_data)
 	fe = filter_editor_new();
 
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	system = g_strdup_printf("%s/filtertypes.xml", EVOLUTION_DATADIR);
+	system = g_strdup_printf("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
 	filter_editor_set_rule_files(fe, system, user);
 	g_free(user);
 	g_free(system);
 	gnome_dialog_append_buttons((GnomeDialog *)fe, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, 0);
-	gtk_signal_connect(fe, "clicked", filter_druid_clicked, fb);
-	gtk_widget_show(fe);
+	gtk_signal_connect((GtkObject *)fe, "clicked", filter_druid_clicked, fb);
+	gtk_widget_show((GtkWidget *)fe);
 }
 
 
