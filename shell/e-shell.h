@@ -94,6 +94,10 @@ void                 e_shell_component_maybe_crashed   (EShell          *shell,
 							const char      *type_name,
 							EShellView      *shell_view);
 
+gboolean  e_shell_is_offline  (EShell *shell);
+void      e_shell_go_offline  (EShell *shell, EShellView *action_view);
+void      e_shell_go_online   (EShell *shell, EShellView *action_view);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

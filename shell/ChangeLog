@@ -1,3 +1,23 @@
+2001-05-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c: New members `is_offline' and `offline_handler' in
+	`EShellPrivate'.
+	(init): Init `is_offline' to %FALSE, `offline_handler' to %NULL.
+	(e_shell_is_offline): New.
+	(e_shell_go_online): New.
+	(e_shell_go_offline): New.
+
+	* e-shell-offline-handler.c: New.
+	* e-shell-offline-handler.h: New.
+
+	* evolution-shell-component-client.c: New member
+	`offline_interface' in `EvolutionShellComponentClientPrivate'.
+	(init): Init to `CORBA_OBJECT_NIL'.
+	(impl_destroy): Unref/release if not NIL.
+	(evolution_shell_component_client_get_offline_interface): New.
+
+	* Evolution-Offline.idl: New.
+
 2001-05-02  Chris Toshok  <toshok@ximian.com>
 
 	* evolution-shell-component-dnd.c: new file.

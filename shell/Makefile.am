@@ -17,6 +17,7 @@ INCLUDES = 								\
 
 IDLS = \
 	Evolution-LocalStorage.idl	\
+	Evolution-Offline.idl		\
 	Evolution-Session.idl		\
 	Evolution-Shell.idl		\
 	Evolution-ShellComponent.idl	\
@@ -102,6 +103,8 @@ evolution_SOURCES =				\
 	e-shell-folder-selection-dialog.h	\
 	e-shell-folder-title-bar.c		\
 	e-shell-folder-title-bar.h		\
+	e-shell-offline-handler.c		\
+	e-shell-offline-handler.h		\
 	e-shell-utils.c				\
 	e-shell-utils.h				\
 	e-shell-view-menu.c			\

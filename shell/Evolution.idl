@@ -13,6 +13,7 @@
 #include <Evolution-Session.idl>
 #include <Evolution-ShellComponent.idl>
 #include <Evolution-ShellComponentDnd.idl>
+#include <Evolution-Offline.idl>
 #include <Evolution-ShellView.idl>
 #include <Evolution-Storage.idl>
 #include <Evolution-StorageSetView.idl>

@@ -44,6 +44,7 @@
 #include "e-local-storage.h"
 #include "e-shell-constants.h"
 #include "e-shell-folder-selection-dialog.h"
+#include "e-shell-offline-handler.h"
 #include "e-shell-view.h"
 #include "e-shortcuts.h"
 #include "e-storage-set.h"
@@ -74,8 +75,15 @@ struct _EShellPrivate {
 
 	ECorbaStorageRegistry *corba_storage_registry;
 
+	/* This object handles going off-line.  If the pointer is not NULL, it
+	   means we have a going-off-line process in progress.  */
+	EShellOfflineHandler *offline_handler;
+
 	/* Names for the types of the folders that have maybe crashed.  */
 	GList *crash_type_names; /* char * */
+
+	/* Whether the shell is off-line or not.  */
+	guint is_offline : 1;
 };
 
 
@@ -606,6 +614,10 @@ destroy (GtkObject *object)
 	if (priv->corba_storage_registry != NULL)
 		bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry));
 
+	/* FIXME.  Maybe we should do something special here.  */
+	if (priv->offline_handler != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->offline_handler));
+
 	e_free_string_list (priv->crash_type_names);
 
 	g_free (priv);
@@ -680,7 +692,9 @@ init (EShell *shell)
 	priv->component_registry     = NULL;
 	priv->folder_type_registry   = NULL;
 	priv->corba_storage_registry = NULL;
+	priv->offline_handler        = NULL;
 	priv->crash_type_names       = NULL;
+	priv->is_offline             = FALSE;
 
 	shell->priv = priv;
 }
@@ -1254,6 +1268,97 @@ e_shell_component_maybe_crashed   (EShell *shell,
 		bonobo_window_deregister_dead_components (BONOBO_WINDOW (shell_view));
 
 	/* FIXME: we should probably re-start the component here */
+}
+
+
+/**
+ * e_shell_is_offline:
+ * @shell: A pointer to an EShell object.
+ * 
+ * Return whether @shell is working in off-line mode.
+ * 
+ * Return value: %TRUE if the @shell is working in off-line mode, %FALSE
+ * otherwise.
+ **/
+gboolean
+e_shell_is_offline (EShell *shell)
+{
+	g_return_val_if_fail (shell != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+
+	return shell->priv->is_offline;
+}
+
+/**
+ * e_shell_go_offline:
+ * @shell: 
+ * @action_view: 
+ * 
+ * Make the shell go into off-line mode.
+ **/
+void
+e_shell_go_offline (EShell *shell,
+		    EShellView *action_view)
+{
+	EShellPrivate *priv;
+
+	g_return_if_fail (shell != NULL);
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (action_view != NULL);
+	g_return_if_fail (action_view == NULL || E_IS_SHELL_VIEW (action_view));
+
+	priv = shell->priv;
+}
+
+/**
+ * e_shell_go_online:
+ * @shell: 
+ * @action_view: 
+ * 
+ * Make the shell go into on-line mode.
+ **/
+void
+e_shell_go_online (EShell *shell,
+		   EShellView *action_view)
+{
+	EShellPrivate *priv;
+	GList *component_ids;
+	GList *p;
+
+	g_return_if_fail (shell != NULL);
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (action_view == NULL || E_IS_SHELL_VIEW (action_view));
+
+	priv = shell->priv;
+
+	component_ids = e_component_registry_get_id_list (priv->component_registry);
+
+	for (p = component_ids; p != NULL; p = p->next) {
+		CORBA_Environment ev;
+		EvolutionShellComponentClient *client;
+		GNOME_Evolution_Offline offline_interface;
+		const char *id;
+
+		id = (const char *) p->data;
+		client = e_component_registry_get_component_by_id (priv->component_registry, id);
+
+		CORBA_exception_init (&ev);
+
+		offline_interface = evolution_shell_component_client_get_offline_interface (client);
+
+		if (CORBA_Object_is_nil (offline_interface, &ev) || ev._major != CORBA_NO_EXCEPTION) {
+			CORBA_exception_free (&ev);
+			continue;
+		}
+
+		GNOME_Evolution_Offline_goOnline (offline_interface, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("Error putting component `%s' online.", id);
+
+		CORBA_exception_free (&ev);
+	}
+
+	e_free_string_list (component_ids);
 }
 
 

@@ -53,6 +53,7 @@ struct _EvolutionShellComponentClientPrivate {
 
 	GNOME_Evolution_ShellComponentDnd_SourceFolder dnd_source_folder_interface;
 	GNOME_Evolution_ShellComponentDnd_DestinationFolder dnd_destination_folder_interface;
+	GNOME_Evolution_Offline offline_interface;
 };
 
 
@@ -295,6 +296,11 @@ impl_destroy (GtkObject *object)
 		CORBA_Object_release (priv->dnd_destination_folder_interface, &ev);
 	}
 
+	if (priv->offline_interface != CORBA_OBJECT_NIL) {
+		Bonobo_Unknown_unref (priv->offline_interface, &ev);
+		CORBA_Object_release (priv->offline_interface, &ev);
+	}
+
 	CORBA_exception_free (&ev);
 
 	g_free (priv);
@@ -329,6 +335,7 @@ init (EvolutionShellComponentClient *shell_component_client)
 
 	priv->dnd_source_folder_interface      = CORBA_OBJECT_NIL;
 	priv->dnd_destination_folder_interface = CORBA_OBJECT_NIL;
+	priv->offline_interface                = CORBA_OBJECT_NIL;
 
 	shell_component_client->priv = priv;
 }
@@ -449,6 +456,36 @@ evolution_shell_component_client_get_dnd_destination_interface (EvolutionShellCo
 	CORBA_exception_free (&ev);
 
 	priv->dnd_destination_folder_interface = interface;
+	return interface;
+}
+
+
+/* Querying the offline interface.  */
+
+GNOME_Evolution_Offline
+evolution_shell_component_client_get_offline_interface (EvolutionShellComponentClient *shell_component_client)
+{
+	EvolutionShellComponentClientPrivate *priv;
+	GNOME_Evolution_Offline interface;
+	CORBA_Environment ev;
+
+	priv = shell_component_client->priv;
+
+	if (priv->offline_interface != CORBA_OBJECT_NIL)
+		return priv->offline_interface;
+
+	CORBA_exception_init (&ev);
+
+	interface = Bonobo_Unknown_queryInterface (bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client)),
+						   "IDL:GNOME/Evolution/ShellComponent/Offline:1.0",
+						   &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		interface = CORBA_OBJECT_NIL;
+
+	CORBA_exception_free (&ev);
+
+	priv->offline_interface = interface;
 	return interface;
 }
 
