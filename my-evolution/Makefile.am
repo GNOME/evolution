@@ -81,7 +81,7 @@ glade_DATA = my-evolution.glade
 
 @XML_I18N_MERGE_OAF_RULE@
 
-EXTRA_DIST = $(oaf_in_files) $(oaf_DATA) $(Location_DATA)
+EXTRA_DIST = $(oaf_in_files) $(oaf_DATA) $(Location_DATA) $(glade_DATA)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
