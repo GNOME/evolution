@@ -1,3 +1,16 @@
+2005-01-24  Chenthill Palanisamy  <pchenthill@novell.com>
+
+
+	* org-gnome-send-options.eplug.in: Changed the item_type to
+	section instead of item.
+	* send-options.c (get_cnc): Made the necessary changes to get cnc
+	since some part of dependant code was changed in groupwise account
+	set up plugin.
+	(org_gnome_send_options): Changed the prototype of the function
+	to return the widget.
+	(send_options_commit): Added a warning message if the Modification
+	was not sent to the server.
+
 2005-01-12 Chenthill Palanisamy <pchenthill@novell.com>
 
 	* Makefile.am:

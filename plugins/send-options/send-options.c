@@ -43,7 +43,7 @@ EGwSendOptions *opts = NULL;
 gboolean changed = FALSE;
 EAccount *account;
 
-void org_gnome_send_options (EPlugin *epl, EConfigHookItemFactoryData *data);
+GtkWidget* org_gnome_send_options (EPlugin *epl, EConfigHookItemFactoryData *data);
 void send_options_commit (EPlugin *epl, EConfigHookItemFactoryData *data);
 void send_options_changed (EPlugin *epl, EConfigHookItemFactoryData *data);
 void send_options_abort (EPlugin *epl, EConfigHookItemFactoryData *data);
@@ -52,46 +52,49 @@ static EGwConnection *
 get_cnc ()
 {
 	EGwConnection *cnc;
-	char *uri, *use_ssl, *server_name, *user, *port, *pass = NULL;
+	char *uri, *failed_auth, *key, *prompt, *password = NULL;
 	CamelURL *url;
-	const char *poa_address, *property_value;
+	const char *poa_address, *use_ssl, *soap_port;
 	gboolean remember;
 
 	url = camel_url_new (account->source->url, NULL);
-	if (url == NULL) {
+	if (url == NULL) 
 		return NULL;
-	}
-	poa_address = camel_url_get_param (url, "poa");
+	poa_address = url->host; 
 	if (!poa_address || strlen (poa_address) ==0)
 		return NULL;
-		server_name = g_strdup (url->host);
-	user = g_strdup (url->user);
-	property_value =  camel_url_get_param (url, "soap_port");
-	use_ssl = g_strdup (camel_url_get_param (url, "soap_ssl"));
-	if(property_value == NULL)
-		port = g_strdup ("7181");
-	else if (strlen(property_value) == 0)
-		port = g_strdup ("7181");
-	else
-		port = g_strdup (property_value);
-		if (use_ssl)
-		uri = g_strconcat ("https://", server_name, ":", port, "/soap", NULL);	
-	else
-		uri = g_strconcat ("http://", server_name, ":", port, "/soap", NULL);
-	 	pass = e_passwords_get_password ("Groupwise", uri);
-	if (!pass)  {
-		char *prompt;
-		prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
-                                       "", poa_address, url->user);
-				
 	
-		pass = e_passwords_ask_password (prompt, "Groupwise", uri, prompt,
-                                                    E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember,
-					     NULL);
-		g_free (prompt);
+        soap_port = camel_url_get_param (url, "soap_port");
+        if (!soap_port || strlen (soap_port) == 0)
+                soap_port = "7191";
+	use_ssl = camel_url_get_param (url, "use_ssl");
+
+	key =  g_strdup_printf ("groupwise://%s@%s/", url->user, poa_address); 
+	
+	if (!g_str_equal (use_ssl, "never"))
+		uri = g_strdup_printf ("https://%s:%s/soap", poa_address, soap_port);
+	else 
+		uri = g_strdup_printf ("http://%s:%s/soap", poa_address, soap_port);
+	
+	failed_auth = "";
+	cnc = NULL;
+	
+	prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
+			failed_auth, poa_address, url->user);
+
+	password = e_passwords_get_password ("Groupwise", key);
+	if (!password)
+		password = e_passwords_ask_password (prompt, "Groupwise", key, prompt,
+				E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember, NULL);
+	g_free (prompt);
+
+	cnc = e_gw_connection_new (uri, url->user, password);
+	if (!E_IS_GW_CONNECTION(cnc) && use_ssl && g_str_equal (use_ssl, "when-possible")) {
+		char *http_uri = g_strconcat ("http://", uri + 8, NULL);
+		cnc = e_gw_connection_new (http_uri, url->user, password);
+		g_free (http_uri);
 	}
-		
-	cnc = e_gw_connection_new (uri, user, pass);
+
 	camel_url_free (url);
 	return cnc;
 }
@@ -180,18 +183,19 @@ e_sendoptions_clicked_cb (GtkWidget *button, gpointer data)
 	       	return;
 }
 
-void
+GtkWidget *
 org_gnome_send_options (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
-	GtkWidget *frame, *button, *label;
+	GtkWidget *frame, *button, *label, *vbox;
 	
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
 
 	if(!g_strrstr (account->source->url, "groupwise://"))
-		return;
+		return NULL;
 	
+	vbox = gtk_vbox_new (FALSE, 0);
 	frame = gtk_frame_new ("");
 	label = gtk_frame_get_label_widget (GTK_FRAME (frame));
 	gtk_label_set_markup (GTK_LABEL (label), "<b>Send Options</b>"); 
@@ -205,13 +209,15 @@ org_gnome_send_options (EPlugin *epl, EConfigHookItemFactoryData *data)
 	if (!GTK_WIDGET_TOPLEVEL (parent))
 	parent = NULL;
 
-	gtk_widget_set_size_request (button, -1, -1);
+	gtk_widget_set_size_request (button, 10, -1);
+	gtk_box_pack_start (GTK_BOX (vbox), frame, 0, 0, 0);
 	gtk_container_add (GTK_CONTAINER (frame), button);
-	gtk_container_set_border_width (GTK_CONTAINER (frame), 12);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
 	gtk_widget_show (frame);	
 	gtk_box_set_spacing (GTK_BOX (data->parent), 12);
-	gtk_box_pack_start (GTK_BOX (data->parent), frame, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (data->parent), vbox, FALSE, FALSE, 0);
+
+	return vbox;
 }
 
 static void
@@ -516,6 +522,7 @@ send_options_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
 			status = e_gw_connection_modify_settings (n_cnc, n_opts);
 	
 		if (!changed || status != E_GW_CONNECTION_STATUS_OK) {
+			g_warning (G_STRLOC "Cannot modify Send Options:  %s", e_gw_connection_get_error_message (status));
 			g_object_unref (n_opts);
 			n_opts = NULL;
 		} else
