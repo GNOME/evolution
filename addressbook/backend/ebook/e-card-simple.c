@@ -57,7 +57,6 @@ static ECardSimpleFieldData field_data[] =
 {
 	{ E_CARD_SIMPLE_FIELD_FILE_AS,            "file_as",         N_("File As"),       "",             0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 	{ E_CARD_SIMPLE_FIELD_FULL_NAME,          "full_name",       N_("Name"),          N_("Name"),     0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_FAMILY_NAME,        "family_name",     N_("Family Name"),   N_("Family Name"), 0,                                E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
 	{ E_CARD_SIMPLE_FIELD_EMAIL,              "email",           N_("Email"),         N_("Email"),    E_CARD_SIMPLE_EMAIL_ID_EMAIL,        E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
 	{ E_CARD_SIMPLE_FIELD_PHONE_PRIMARY,      "primary_phone",   N_("Primary"),       N_("Prim"),     E_CARD_SIMPLE_PHONE_ID_PRIMARY,      E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
 	{ E_CARD_SIMPLE_FIELD_PHONE_ASSISTANT,    "assistant_phone", N_("Assistant"),     N_("Assistant"),E_CARD_SIMPLE_PHONE_ID_ASSISTANT,    E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
@@ -101,6 +100,10 @@ static ECardSimpleFieldData field_data[] =
 	{ E_CARD_SIMPLE_FIELD_MAILER,             "mailer",          "",                  "",             0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 	{ E_CARD_SIMPLE_FIELD_NAME_OR_ORG,        "nameororg",       "",                  "",             0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
 	{ E_CARD_SIMPLE_FIELD_CATEGORIES,         "categories",      N_("Categories"),    N_("Categories"), 0,                                 E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_FAMILY_NAME,        "family_name",     N_("Family Name"),   N_("Family Name"), 0,                                E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
+ 	{ E_CARD_SIMPLE_FIELD_GIVEN_NAME,         "given_name",      "Given Name",    "Given Name",  0,                                E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
+ 	{ E_CARD_SIMPLE_FIELD_ADDITIONAL_NAME,    "additional_name",  "Additional Name", "Additional Name",  0,                        E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
+ 	{ E_CARD_SIMPLE_FIELD_NAME_SUFFIX,        "name_suffix",     "Name Suffix",   "Name Suffix",  0,                               E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
 };
 static int field_data_count = sizeof (field_data) / sizeof (field_data[0]);
 
@@ -826,6 +829,30 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 						"name", &name,
 						NULL);
 				return g_strdup (name->family);
+			} else
+				return NULL;
+		case E_CARD_SIMPLE_FIELD_GIVEN_NAME:
+			if (simple->card) {
+				gtk_object_get (GTK_OBJECT(simple->card),
+						"name", &name,
+						NULL);
+				return g_strdup (name->given);
+			} else
+				return NULL;
+		case E_CARD_SIMPLE_FIELD_ADDITIONAL_NAME:
+			if (simple->card) {
+				gtk_object_get (GTK_OBJECT(simple->card),
+						"name", &name,
+						NULL);
+				return g_strdup (name->additional);
+			} else
+				return NULL;
+		case E_CARD_SIMPLE_FIELD_NAME_SUFFIX:
+			if (simple->card) {
+				gtk_object_get (GTK_OBJECT(simple->card),
+						"name", &name,
+						NULL);
+				return g_strdup (name->suffix);
 			} else
 				return NULL;
 		default:

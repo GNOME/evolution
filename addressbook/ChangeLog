@@ -1,3 +1,12 @@
+2001-09-22  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/e-card-simple.c
+	(e_card_simple_get): add getters for the additional name fields.
+	(field_data): move FAMILY_NAME to the end of the list, and add
+	GIVEN_NAME, ADDITIONAL_NAME (middle name), and NAME_SUFFIX.
+	
+	* backend/ebook/e-card-simple.h: same.
+
 2001-09-21  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/addressbook.c (print_preview_cb): Hooked up print
