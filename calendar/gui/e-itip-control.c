@@ -895,8 +895,23 @@ remove_item (EItipControl *itip)
 }
 
 static void
-send_freebusy (void) 
+send_freebusy (EItipControl *itip)
 {
+	EItipControlPrivate *priv;
+	CalComponent *comp;
+	CalComponentDateTime datetime;
+	CalClientGetStatus status;
+	time_t start, end;
+
+	priv = itip->priv;
+	
+	cal_component_get_dtstart (priv->comp, &datetime);
+	start = icaltime_as_timet (*datetime.value);
+	cal_component_get_dtend (priv->comp, &datetime);
+	end = icaltime_as_timet (*datetime.value);
+	status = cal_client_get_free_busy (priv->event_client, start, end, &comp);
+	if (status == CAL_CLIENT_GET_SUCCESS)
+		itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp);
 }
 
 static void
@@ -983,7 +998,7 @@ ok_clicked_cb (GtkWidget *widget, gpointer data)
 			itip_send_comp (CAL_COMPONENT_METHOD_REPLY, priv->comp);
 
 	} else if (priv->map == request_fb_map) {
-		send_freebusy ();
+		send_freebusy (itip);
 
 	} else if (priv->map == reply_map) {
 		update_item (itip);

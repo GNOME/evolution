@@ -1,6 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
-/* Evolution calendar - Event editor dialog
+/* Evolution calendar - Task editor dialog
  *
  * Copyright (C) 2000 Ximian, Inc.
  * Copyright (C) 2001 Ximian, Inc.
@@ -8,6 +7,7 @@
  * Authors: Miguel de Icaza <miguel@ximian.com>
  *          Federico Mena-Quintero <federico@ximian.com>
  *          Seth Alves <alves@hungry.com>
+ *          JP Rosevear <jpr@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@
 #include "task-page.h"
 #include "task-details-page.h"
 #include "recurrence-page.h"
+#include "cancel-comp.h"
 #include "task-editor.h"
 
 struct _TaskEditorPrivate {
@@ -44,17 +45,24 @@ struct _TaskEditorPrivate {
 
 static void task_editor_class_init (TaskEditorClass *class);
 static void task_editor_init (TaskEditor *te);
+static void task_editor_edit_comp (CompEditor *editor, CalComponent *comp);
 static void task_editor_destroy (GtkObject *object);
 
+static void delegate_task_cmd (GtkWidget *widget, gpointer data);
+static void refresh_task_cmd (GtkWidget *widget, gpointer data);
+static void cancel_task_cmd (GtkWidget *widget, gpointer data);
 static void forward_cmd (GtkWidget *widget, gpointer data);
 
 static BonoboUIVerb verbs [] = {
+	BONOBO_UI_UNSAFE_VERB ("ActionDelegateTask", delegate_task_cmd),
+	BONOBO_UI_UNSAFE_VERB ("ActionRefreshTask", refresh_task_cmd),
+	BONOBO_UI_UNSAFE_VERB ("ActionCancelTask", cancel_task_cmd),
 	BONOBO_UI_UNSAFE_VERB ("ActionForward", forward_cmd),
 
 	BONOBO_UI_VERB_END
 };
 
-static CompEditor *parent_class;
+static CompEditorClass *parent_class;
 
 
 
@@ -92,13 +100,17 @@ task_editor_get_type (void)
 
 /* Class initialization function for the event editor */
 static void
-task_editor_class_init (TaskEditorClass *class)
+task_editor_class_init (TaskEditorClass *klass)
 {
 	GtkObjectClass *object_class;
+	CompEditorClass *editor_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GtkObjectClass *) klass;
+	editor_class = (CompEditorClass *) klass;
 
 	parent_class = gtk_type_class (TYPE_COMP_EDITOR);
+
+	editor_class->edit_comp = task_editor_edit_comp;
 
 	object_class->destroy = task_editor_destroy;
 }
@@ -125,6 +137,27 @@ task_editor_init (TaskEditor *te)
 	comp_editor_merge_ui (COMP_EDITOR (te), EVOLUTION_DATADIR 
 			      "/gnome/ui/evolution-task-editor.xml",
 			      verbs);
+}
+
+static void
+task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
+{
+	TaskEditor *te;
+	TaskEditorPrivate *priv;
+	GSList *attendees = NULL;
+	
+	te = TASK_EDITOR (editor);
+	priv = te->priv;
+	
+	cal_component_get_attendee_list (comp, &attendees);
+	if (attendees == NULL)
+		task_details_page_show_delegation (priv->task_details_page, FALSE);
+	else
+		task_details_page_show_delegation (priv->task_details_page, TRUE);
+	cal_component_free_attendee_list (attendees);
+
+	if (parent_class->edit_comp)
+		parent_class->edit_comp (editor, comp);
 }
 
 /* Destroy handler for the event editor */
@@ -156,6 +189,40 @@ TaskEditor *
 task_editor_new (void)
 {
 	return TASK_EDITOR (gtk_type_new (TYPE_TASK_EDITOR));
+}
+
+static void
+delegate_task_cmd (GtkWidget *widget, gpointer data)
+{
+	TaskEditor *te = TASK_EDITOR (data);
+	TaskEditorPrivate *priv;
+
+	priv = te->priv;
+
+	task_details_page_show_delegation (priv->task_details_page, TRUE);
+	comp_editor_show_page (COMP_EDITOR (te),
+			       COMP_EDITOR_PAGE (priv->task_details_page));
+}
+
+static void
+refresh_task_cmd (GtkWidget *widget, gpointer data)
+{
+	TaskEditor *te = TASK_EDITOR (data);
+	
+	comp_editor_send_comp (COMP_EDITOR (te), CAL_COMPONENT_METHOD_REFRESH);
+}
+
+static void
+cancel_task_cmd (GtkWidget *widget, gpointer data)
+{
+	TaskEditor *te = TASK_EDITOR (data);
+	CalComponent *comp;
+	
+	comp = comp_editor_get_current_comp (COMP_EDITOR (te));
+	if (cancel_component_dialog (comp)) {
+		comp_editor_send_comp (COMP_EDITOR (te), CAL_COMPONENT_METHOD_CANCEL);
+		comp_editor_delete_comp (COMP_EDITOR (te));
+	}
 }
 
 static void

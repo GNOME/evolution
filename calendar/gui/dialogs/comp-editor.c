@@ -104,8 +104,8 @@ static EPixmap pixmaps [] =
 	E_PIXMAP ("/menu/File/FilePrint",			"print.xpm"),
 	E_PIXMAP ("/menu/File/FilePrintPreview",		"print-preview.xpm"),
 
-	E_PIXMAP ("/Toolbar/Print",			        "print.xpm"),
-	E_PIXMAP ("/Toolbar/Print Preview",		        "print-preview.xpm"),
+	E_PIXMAP ("/Toolbar/FilePrint",			        "print.xpm"),
+	E_PIXMAP ("/Toolbar/FilePrintPreview",		        "print-preview.xpm"),
 
 	E_PIXMAP_END
 };
@@ -188,18 +188,20 @@ setup_widgets (CompEditor *editor)
 	bonobo_ui_component_set_container (priv->uic, BONOBO_OBJREF (container));
 	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (BONOBO_WINDOW (priv->window)),
 					  "/evolution/UIConf/kvps");
-	e_pixmaps_update (priv->uic, pixmaps);
 
 	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, editor);
 	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR "/gnome/gui",
 			       "evolution-comp-editor.xml", "evolution-calendar");
+	e_pixmaps_update (priv->uic, pixmaps);
 
 	vbox = gtk_vbox_new (FALSE, GNOME_PAD_SMALL);
+	gtk_widget_show (vbox);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), GNOME_PAD_SMALL);
 	bonobo_window_set_contents (BONOBO_WINDOW (priv->window), vbox);
 
 	/* Notebook */
 	priv->notebook = GTK_NOTEBOOK (gtk_notebook_new ());
+	gtk_widget_show (priv->notebook);
 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (priv->notebook),
 			    TRUE, TRUE, 0);
 }
@@ -297,7 +299,6 @@ comp_editor_append_page (CompEditor *editor,
 			    GTK_SIGNAL_FUNC (page_summary_changed_cb), editor);
 	gtk_signal_connect (GTK_OBJECT (page), "dates_changed",
 			    GTK_SIGNAL_FUNC (page_dates_changed_cb), editor);
-
 }
 
 /**
@@ -643,7 +644,7 @@ comp_editor_focus (CompEditor *editor)
 
 	priv = editor->priv;
 
-	gtk_widget_show_all (priv->window);
+	gtk_widget_show (priv->window);
 	raise_and_focus (priv->window);
 }
 

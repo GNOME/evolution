@@ -3727,7 +3727,7 @@ set_attendee_list (CalComponent *comp,
 		}
 		if (a->delto) {
 			attendee->delto_param = icalparameter_new_delegatedto (a->delto);
-			icalproperty_add_parameter (attendee->prop, attendee->delfrom_param);
+			icalproperty_add_parameter (attendee->prop, attendee->delto_param);
 		}
 		if (a->sentby) {
 			attendee->sentby_param = icalparameter_new_sentby (a->sentby);

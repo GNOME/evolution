@@ -204,8 +204,8 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 	description = CORBA_string_dup (tempstr);
 	show_inline = FALSE;
 
-	/* I need to create an encapsulating iCalendar component, and stuff our vEvent
-	   into it. */
+	/* Need to create an encapsulating iCalendar component, and
+	   stuff our component into it. */
 	{
 		icalcomponent *icomp, *clone;
 		icalproperty *prop;

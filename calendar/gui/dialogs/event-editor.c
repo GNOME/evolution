@@ -172,6 +172,7 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
 		priv->meeting_shown = FALSE;
 	}
+	cal_component_free_attendee_list (attendees);
 		
 	if (parent_class->edit_comp)
 		parent_class->edit_comp (editor, comp);

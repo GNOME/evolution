@@ -54,6 +54,13 @@ struct _TaskDetailsPagePrivate {
 
 	GtkWidget *url;
 
+	GtkWidget *organizer;
+	GtkWidget *organizer_lbl;
+	GtkWidget *delegated_to;
+	GtkWidget *delegated_to_lbl;
+	GtkWidget *delegated_from;
+	GtkWidget *delegated_from_lbl;	
+
 	gboolean updating;
 };
 
@@ -215,7 +222,9 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
+	GSList *list;
 	CalComponentText text;
+	CalComponentOrganizer organizer;
 	const char *url;
 	CompEditorPageDates dates;
 	
@@ -239,6 +248,23 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	cal_component_get_url (comp, &url);
 	e_dialog_editable_set (priv->url, url);
 
+	/* Delegation */
+	cal_component_get_organizer (comp, &organizer);
+	if (organizer.value)
+		e_dialog_editable_set (priv->organizer, organizer.value);
+
+	cal_component_get_attendee_list (comp, &list);
+	if (list != NULL) {
+		CalComponentAttendee *attendee;
+		
+		attendee = list->data;
+		if (attendee->delto)
+			e_dialog_editable_set (priv->delegated_to, attendee->delto);
+		if (attendee->delfrom)
+			e_dialog_editable_set (priv->delegated_from, attendee->delfrom);
+	}
+	cal_component_free_attendee_list (list);
+	
 	priv->updating = FALSE;
 }
 
@@ -248,7 +274,10 @@ task_details_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
+	GSList list;
 	CalComponentDateTime date;
+	CalComponentOrganizer organizer;
+	CalComponentAttendee attendee;
 	time_t t;
 	char *url;
 	
@@ -274,6 +303,31 @@ task_details_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	cal_component_set_url (comp, url);
 	if (url)
 		g_free (url);
+
+	/* Delegation */
+	organizer.value = e_dialog_editable_get (priv->organizer);
+	organizer.sentby = NULL;
+	organizer.cn = NULL;
+	organizer.language = NULL;
+	cal_component_set_organizer (comp, &organizer);
+	attendee.value = e_dialog_editable_get (priv->delegated_to);
+	attendee.member = NULL;
+	attendee.cutype = CAL_COMPONENT_CUTYPE_INDIVIDUAL;
+	attendee.role = CAL_COMPONENT_ROLE_REQUIRED;
+	attendee.status = CAL_COMPONENT_PARTSTAT_NEEDSACTION;
+	attendee.rsvp = TRUE;
+	attendee.delto = e_dialog_editable_get (priv->delegated_to);
+	attendee.delfrom = NULL;
+	attendee.sentby = NULL;
+	attendee.cn = NULL;
+	attendee.language = NULL;
+	list.data = &attendee;
+	list.next = NULL;
+	cal_component_set_attendee_list (comp, &list);
+	g_free ((char *)organizer.value);
+	g_free ((char *)attendee.value);
+	g_free ((char *)attendee.delto);
+	g_free ((char *)attendee.delfrom);
 }
 
 /* set_summary handler for the task page */
@@ -334,13 +388,26 @@ get_widgets (TaskDetailsPage *tdpage)
 
 	priv->url = GW ("url");
 
+	priv->organizer = GW ("organizer");
+	priv->organizer_lbl = GW ("organizer-label");
+	priv->delegated_to = GW ("delegated-to");
+	priv->delegated_to_lbl = GW ("delegated-to-label");
+	priv->delegated_from = GW ("delegated-from");
+	priv->delegated_from_lbl = GW ("delegated-from-label");
+
 #undef GW
 
 	return (priv->summary
 		&& priv->date_time
 		&& priv->completed_date
 		&& priv->completed_timezone
-		&& priv->url);
+		&& priv->url
+		&& priv->organizer
+		&& priv->organizer_lbl
+		&& priv->delegated_to
+		&& priv->delegated_to_lbl
+		&& priv->delegated_from
+		&& priv->delegated_from_lbl);
 }
 
 /* Callback used when the start or end date widgets change.  We check that the
@@ -400,6 +467,14 @@ init_widgets (TaskDetailsPage *tdpage)
 	/* URL */
 	gtk_signal_connect (GTK_OBJECT (priv->url), "changed",
 			    GTK_SIGNAL_FUNC (field_changed_cb), tdpage);
+
+	/* Delegation */
+	gtk_signal_connect (GTK_OBJECT (priv->organizer), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), tdpage);
+
+	gtk_signal_connect (GTK_OBJECT (priv->delegated_to), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), tdpage);
+
 }
 
 
@@ -459,6 +534,33 @@ task_details_page_new (void)
 	}
 
 	return tdpage;
+}
+
+void
+task_details_page_show_delegation (TaskDetailsPage *tdpage, gboolean show)
+{
+	TaskDetailsPagePrivate *priv;
+
+	priv = tdpage->priv;
+
+	if (show) {
+		gtk_widget_show (priv->organizer);
+		gtk_widget_show (priv->organizer_lbl);
+		gtk_widget_show (priv->delegated_to);
+		gtk_widget_show (priv->delegated_to_lbl);
+		gtk_widget_show (priv->delegated_from);
+		gtk_widget_show (priv->delegated_from_lbl);
+		comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (tdpage));
+	} else {
+		gtk_widget_hide (priv->organizer);
+		gtk_widget_hide (priv->organizer_lbl);
+		gtk_widget_hide (priv->delegated_to);
+		gtk_widget_hide (priv->delegated_to_lbl);
+		gtk_widget_hide (priv->delegated_from);
+		gtk_widget_hide (priv->delegated_from_lbl);
+	}
+
+//	gtk_widget_queue_draw (priv->main);
 }
 
 GtkWidget *task_details_page_create_date_edit (void);

@@ -1,4 +1,29 @@
-2001-06-30  Federico Mena Quintero  <federico@ximian.com>
+2001-07-02  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (send_freebusy): implement
+
+	* cal-util/cal-component.c (set_attendee_list): add the delto
+	property rather than the delfrom property twice
+
+	* gui/dialogs/task-editor.c (task_editor_edit_comp): show
+	delegation info if appropriate
+	(delegate_task_cmd): delegate command
+	(cancel_task_cmd): cancel command
+	(refresh_task_cmd): refresh command
+
+	* gui/dialogs/task-details-page.c: Load new widgets
+	(task_details_page_show_delegation): show/hide delegation info widgets
+
+	* gui/dialogs/task-details-page.h: new proto
+
+	* gui/dialogs/event-editor.c (event_editor_edit_comp): free
+	attendee list when finished
+
+	* gui/dialogs/comp-editor.c (setup_widgets): explicitly show the
+	widgets, update pixmaps after the verbs have been added
+	(comp_editor_focus): don't do a show all
+
+2001-07-02  Federico Mena Quintero  <federico@ximian.com>
 
 	Fixes bug #1406.
 
