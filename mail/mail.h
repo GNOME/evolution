@@ -46,11 +46,14 @@ char *mail_crypto_openpgp_encrypt (const char *plaintext,
 
 /* mail-format */
 void mail_format_mime_message (CamelMimeMessage *mime_message,
-				   GtkHTML *html, GtkHTMLStream *stream,
-				   CamelMimeMessage *root_message);
+			       GtkHTML *html, GtkHTMLStream *stream,
+			       CamelMimeMessage *root_message);
 
 EMsgComposer *mail_generate_reply (CamelMimeMessage *mime_message,
 				   gboolean to_all);
+
+char *mail_get_message_body (CamelDataWrapper *data, gboolean want_plain,
+			     gboolean *is_html);
 
 /* mail-identify */
 char *mail_identify_mime_part (CamelMimePart *part);

@@ -1557,9 +1557,8 @@ handle_via_external (CamelMimePart *part, const char *mime_type,
 	return TRUE;
 }
 
-
-static char *
-reply_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is_html)
+char *
+mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is_html)
 {
 	CamelMultipart *mp;
 	CamelMimePart *subpart;
@@ -1603,7 +1602,7 @@ reply_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is_html)
 
 		data = camel_medium_get_content_object (
 			CAMEL_MEDIUM (subpart));
-		return reply_body (data, want_plain, is_html);
+		return mail_get_message_body (data, want_plain, is_html);
 	}
 
 	nparts = camel_multipart_get_number (mp);
@@ -1622,7 +1621,7 @@ reply_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is_html)
 
 		data = camel_medium_get_content_object (
 			CAMEL_MEDIUM (subpart));
-		subtext = reply_body (data, want_plain, is_html);
+		subtext = mail_get_message_body (data, want_plain, is_html);
 		if (!subtext)
 			continue;
 		if (*is_html) {
@@ -1661,10 +1660,10 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	want_plain = !config->send_html;
 
 	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
-	text = reply_body (contents, want_plain, &is_html);
-
+	text = mail_get_message_body (contents, want_plain, &is_html);
+	
 	composer = E_MSG_COMPOSER (e_msg_composer_new ());
-
+	
 	/* Set the quoted reply text. */
 	if (text) {
 		char *repl_text;

@@ -1,5 +1,13 @@
 2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-format.c (mail_get_message_body): Renamed from reply_body()
+	so other functions can use it
+	(mail_generate_reply): Updated to reflect function name changes
+
+	* mail-ops.c (real_edit_msg): Attach a callback to the send signal
+
+2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* folder-browser-factory.c (control_activate): New menu item under
 	Actions to allow editing of messages.
 

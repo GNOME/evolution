@@ -630,12 +630,12 @@ void
 compose_msg (GtkWidget *widget, gpointer user_data)
 {
 	GtkWidget *composer;
-
+	
 	if (!check_configured ())
 		return;
-
+	
 	composer = create_msg_composer (NULL);
-
+	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
 	gtk_widget_show (composer);
@@ -854,6 +854,8 @@ real_edit_msg (MessageList *ml, const char *uid, gpointer user_data)
 	msg = camel_folder_get_message (ml->folder, uid, ex);
 	
 	composer = e_msg_composer_new_with_message (msg);
+	gtk_signal_connect (GTK_OBJECT (composer), "send",
+			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
 	gtk_widget_show (composer);
 }
 
@@ -863,8 +865,17 @@ edit_message (BonoboUIHandler *uih, void *user_data, const char *path)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	MessageList *ml = fb->message_list;
 	CamelException ex;
+	extern CamelFolder *drafts_folder;
 	
 	camel_exception_init (&ex);
+	
+	if (fb->folder != drafts_folder) {
+		camel_exception_setv (&ex, CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
+				      "FIXME: some error message about not being in the Drafts folder...");
+		mail_exception_dialog ("Could not open message for editing", &ex, fb);
+		return;
+	}
+	
 	message_list_foreach (ml, real_edit_msg, &ex);
 	if (camel_exception_is_set (&ex)) {
 		mail_exception_dialog ("Could not open message for editing", &ex, fb);
