@@ -1,3 +1,11 @@
+2004-04-21  JP Rosevear <jpr@ximian.com>
+
+	Fixes #55797
+	
+	* gui/calendar-component.c (create_new_event): force an all day
+	event if we are viewing the week, month or list view, which mimics
+	double click in the view
+
 2004-04-21  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* gui/migration.c: (migrate_calendars):
