@@ -547,7 +547,7 @@ eti_remove_selection_model (ETableItem *eti)
 			       eti->cursor_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (eti->selection),
 			       eti->cursor_activated_id);
-	gtk_object_unref (GTK_OBJECT (eti->selection));
+	g_object_unref (eti->selection);
 
 	eti->selection_change_id = 0;
 	eti->selection_row_change_id = 0;

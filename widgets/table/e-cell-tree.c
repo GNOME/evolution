@@ -664,7 +664,7 @@ ect_destroy (GtkObject *object)
 
 	/* destroy our subcell */
 	if (ect->subcell)
-		gtk_object_unref (GTK_OBJECT (ect->subcell));
+		g_object_unref (ect->subcell);
 	ect->subcell = NULL;
 
 	if (ect->open_pixbuf)
@@ -726,7 +726,7 @@ e_cell_tree_construct (ECellTree *ect,
 {		       
 	ect->subcell = subcell;
 	if (subcell) {
-		gtk_object_ref (GTK_OBJECT (subcell));
+		g_object_ref (subcell);
 		gtk_object_sink (GTK_OBJECT (subcell));
 	}
 	if (open_pixbuf)

@@ -99,7 +99,7 @@ etcta_add_one (ETableClickToAdd *etcta, ETableModel *one)
 {
 	etcta->one = one;
 	if (etcta->one)
-		gtk_object_ref (GTK_OBJECT(etcta->one));
+		g_object_ref (etcta->one);
 	if (etcta->row)
 		gnome_canvas_item_set(GNOME_CANVAS_ITEM(etcta->row),
 				      "ETableModel", one,
@@ -114,7 +114,7 @@ etcta_drop_one (ETableClickToAdd *etcta)
 {
 	if (!etcta->one)
 		return;
-	gtk_object_unref (GTK_OBJECT(etcta->one));
+	g_object_unref (etcta->one);
 	etcta->one = NULL;
 	gtk_object_set(GTK_OBJECT(etcta->selection),
 		       "model", NULL,
@@ -126,7 +126,7 @@ etcta_add_model (ETableClickToAdd *etcta, ETableModel *model)
 {
 	etcta->model = model;
 	if (etcta->model)
-		gtk_object_ref (GTK_OBJECT(etcta->model));
+		g_object_ref (etcta->model);
 }
 
 static void
@@ -135,7 +135,7 @@ etcta_drop_model (ETableClickToAdd *etcta)
 	etcta_drop_one (etcta);
 	if (!etcta->model)
 		return;
-	gtk_object_unref (GTK_OBJECT(etcta->model));
+	g_object_unref (etcta->model);
 	etcta->model = NULL;
 }
 
@@ -162,7 +162,7 @@ etcta_destroy (GtkObject *object)
 	etcta_drop_model (etcta);
 	etcta_drop_message (etcta);
 	if (etcta->selection)
-		gtk_object_unref (GTK_OBJECT(etcta->selection));
+		g_object_unref (etcta->selection);
 	etcta->selection = NULL;
 
 	if (GTK_OBJECT_CLASS (etcta_parent_class)->destroy)
@@ -312,7 +312,7 @@ finish_editing (ETableClickToAdd *etcta)
 
 		one = e_table_one_new(etcta->model);
 		etcta_add_one (etcta, one);
-		gtk_object_unref(GTK_OBJECT(one));
+		g_object_unref (one);
 
 		e_selection_model_clear(E_SELECTION_MODEL(etcta->selection));
 
@@ -357,7 +357,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			one = e_table_one_new(etcta->model);
 			etcta_add_one (etcta, one);
-			gtk_object_unref(GTK_OBJECT(one));
+			g_object_unref (one);
 			
 			e_selection_model_clear(E_SELECTION_MODEL(etcta->selection));
 

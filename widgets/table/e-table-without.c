@@ -300,7 +300,7 @@ e_table_without_new        (ETableModel                   *source,
 				       free_duplicated_key_func,
 				       closure)
 	    == NULL) {
-		gtk_object_unref (GTK_OBJECT (etw));
+		g_object_unref (etw);
 		return NULL;
 	}
 

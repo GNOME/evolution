@@ -80,7 +80,7 @@ etfci_destroy (GtkObject *object)
 	etfci_drop_full_header (etfci);
 
 	if (etfci->combined_header)
-		gtk_object_unref (GTK_OBJECT (etfci->combined_header));
+		g_object_unref (etfci->combined_header);
 	etfci->combined_header = NULL;
 
 	if (etfci->font)
@@ -123,7 +123,7 @@ etfci_rebuild_combined (ETableFieldChooserItem *etfci)
 	int i;
 
 	if (etfci->combined_header != NULL)
-		gtk_object_unref (GTK_OBJECT (etfci->combined_header));
+		g_object_unref (etfci->combined_header);
 
 	etfci->combined_header = e_table_header_new ();
 
@@ -270,7 +270,7 @@ static void
 etfci_add_full_header (ETableFieldChooserItem *etfci, ETableHeader *header)
 {
 	etfci->full_header = header;
-	gtk_object_ref (GTK_OBJECT (etfci->full_header));
+	g_object_ref (etfci->full_header);
 
 	etfci->full_header_structure_change_id = gtk_signal_connect (
 		GTK_OBJECT (header), "structure_change",
@@ -320,7 +320,7 @@ static void
 etfci_add_table_header (ETableFieldChooserItem *etfci, ETableHeader *header)
 {
 	etfci->header = header;
-	gtk_object_ref (GTK_OBJECT (etfci->header));
+	g_object_ref (etfci->header);
 
 	etfci->table_header_structure_change_id = gtk_signal_connect (
 		GTK_OBJECT (header), "structure_change",

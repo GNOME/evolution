@@ -283,7 +283,7 @@ ect_stop_editing (ECellTextView *text_view, gboolean commit)
 		g_object_weak_unref (G_OBJECT (edit->invisible), invisible_finalize, edit);
 	}
 	if (edit->tep)
-		gtk_object_unref (GTK_OBJECT(edit->tep));
+		g_object_unref (edit->tep);
 	if (edit->primary_selection)
 		g_free (edit->primary_selection);
 	if (edit->clipboard_selection)
@@ -2201,7 +2201,7 @@ _get_tep (CellEdit *edit)
 {
 	if (!edit->tep) {
 		edit->tep = e_text_event_processor_emacs_like_new ();
-		gtk_object_ref (GTK_OBJECT (edit->tep));
+		g_object_ref (edit->tep);
 		gtk_object_sink (GTK_OBJECT (edit->tep));
 		gtk_signal_connect (GTK_OBJECT(edit->tep),
 				   "command",

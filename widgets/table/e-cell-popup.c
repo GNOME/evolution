@@ -176,7 +176,7 @@ e_cell_popup_dispose (GObject *object)
 	ECellPopup *ecp = E_CELL_POPUP (object);
 
 	if (ecp->child)
-		gtk_object_unref (GTK_OBJECT (ecp->child));
+		g_object_unref (ecp->child);
 	ecp->child = NULL;
 
 	G_OBJECT_CLASS (parent_class)->dispose (object);
@@ -479,10 +479,10 @@ e_cell_popup_set_child			(ECellPopup	*ecp,
 	g_return_if_fail (E_IS_CELL_POPUP (ecp));
 
 	if (ecp->child)
-		gtk_object_unref (GTK_OBJECT (ecp->child));
+		g_object_unref (ecp->child);
 
 	ecp->child = child;
-	gtk_object_ref (GTK_OBJECT (child));
+	g_object_ref (child);
 }
 
 

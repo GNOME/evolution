@@ -408,7 +408,7 @@ ecv_destroy (GtkObject *object)
 	/* destroy our subcell */
 	for (i = 0; i < ecv->subcell_count; i++)
 		if (ecv->subcells[i])
-			gtk_object_unref (GTK_OBJECT (ecv->subcells[i]));
+			g_object_unref (ecv->subcells[i]);
 	g_free (ecv->subcells);
 	ecv->subcells = NULL;
 	ecv->subcell_count = 0;
@@ -485,5 +485,5 @@ e_cell_vbox_append (ECellVbox *vbox, ECell *subcell, int model_col)
 	vbox->model_cols[vbox->subcell_count - 1] = model_col;
 
 	if (subcell)
-		gtk_object_ref (GTK_OBJECT (subcell));
+		g_object_ref (subcell);
 }

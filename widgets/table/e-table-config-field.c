@@ -39,11 +39,11 @@ etcf_destroy (GtkObject *object)
 	ETableConfigField *etcf = E_TABLE_CONFIG_FIELD (object);
 
 	if (etct->spec)
-		gtk_object_unref(GTK_OBJECT(etcf->spec));
+		g_object_unref (etcf->spec);
 	etct->spec = NULL;
 
 	if (etct->sort_info)
-		gtk_object_unref(GTK_OBJECT(etcf->sort_info));
+		g_object_unref (etcf->sort_info);
 	etct->sort_info = NULL;
 
 	GTK_OBJECT_CLASS (etcf_parent_class)->destroy (object);
@@ -238,10 +238,10 @@ e_table_config_field_construct_nth (ETableConfigField   *etcf,
 	GtkWidget *internal_vbox2;
 
 	etcf->spec = spec;
-	gtk_object_ref(GTK_OBJECT(spec));
+	g_object_ref (spec);
 
 	etcf->sort_info = sort_info;
-	gtk_object_ref(GTK_OBJECT(sort_info));
+	g_object_ref (sort_info);
 
 	etcf->grouping = grouping;
 	etcf->n = n;

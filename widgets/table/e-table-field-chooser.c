@@ -191,15 +191,15 @@ e_table_field_chooser_destroy (GtkObject *object)
 	etfc->dnd_code = NULL;
 
 	if (etfc->full_header)
-		gtk_object_unref(GTK_OBJECT(etfc->full_header));
+		g_object_unref (etfc->full_header);
 	etfc->full_header = NULL;
 	
 	if (etfc->header)
-		gtk_object_unref(GTK_OBJECT(etfc->header));
+		g_object_unref (etfc->header);
 	etfc->header = NULL;
 
 	if (etfc->gui)
-		gtk_object_unref(GTK_OBJECT(etfc->gui));
+		g_object_unref (etfc->gui);
 	etfc->gui = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
@@ -229,13 +229,13 @@ e_table_field_chooser_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_FULL_HEADER:
 		if (etfc->full_header)
-			gtk_object_unref(GTK_OBJECT(etfc->full_header));
+			g_object_unref (etfc->full_header);
 		if (GTK_VALUE_OBJECT(*arg))
 			etfc->full_header = E_TABLE_HEADER(GTK_VALUE_OBJECT(*arg));
 		else
 			etfc->full_header = NULL;
 		if (etfc->full_header)
-			gtk_object_ref(GTK_OBJECT(etfc->full_header));
+			g_object_ref (etfc->full_header);
 		if (etfc->item)
 			gtk_object_set(GTK_OBJECT(etfc->item),
 				       "full_header", etfc->full_header,
@@ -243,13 +243,13 @@ e_table_field_chooser_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_HEADER:
 		if (etfc->header)
-			gtk_object_unref(GTK_OBJECT(etfc->header));
+			g_object_unref (etfc->header);
 		if (GTK_VALUE_OBJECT(*arg))
 			etfc->header = E_TABLE_HEADER(GTK_VALUE_OBJECT(*arg));
 		else
 			etfc->header = NULL;
 		if (etfc->header)
-			gtk_object_ref(GTK_OBJECT(etfc->header));
+			g_object_ref (etfc->header);
 		if (etfc->item)
 			gtk_object_set(GTK_OBJECT(etfc->item),
 				       "header", etfc->header,
