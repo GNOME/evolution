@@ -2,12 +2,13 @@
 # Copyright (C) 2000-2001 Free Software Foundation, Inc.
 # Jarkko Ranta <jjranta@cc.joensuu.fi> 2000-2001,
 # Sami Pesonen <spesonen@dlc.fi> 2002.
-#  
+# Sami Pesonen <spesonen@dlc.fi>, 2002.
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2002-05-06 14:32-0400\n"
-"PO-Revision-Date: 2002-03-28 07:36+0200\n"
+"POT-Creation-Date: 2002-05-10 19:34+0300\n"
+"PO-Revision-Date: 2002-05-09 10:02+0300\n"
 "Last-Translator: Sami Pesonen <spesonen@dlc.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,24 +17,24 @@ msgstr ""
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.h:1
 msgid "Factory to import LDIF files into Evolution."
-msgstr ""
+msgstr "Tehdas LDIF-tiedostojen tuomiseen Evolutioniin."
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.h:2
 msgid "Imports LDIF files into Evolution."
-msgstr ""
+msgstr "Tuo LDIF-tiedostot Evolutioniin."
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.oaf.in.h:1
 msgid "Factory to import VCard files into Evolution."
-msgstr ""
+msgstr "Tehdas VCard-tiedostojen tuomiseen Evolutioniin."
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.oaf.in.h:2
 msgid "Imports VCard files into Evolution."
-msgstr ""
+msgstr "Tuo VCard-tiedostoja Evolutioniin."
 
 #: addressbook/backend/ebook/e-card-simple.c:60
 #: addressbook/gui/widgets/e-addressbook-view.c:841
 msgid "File As"
-msgstr ""
+msgstr "Kortistoi nimellä"
 
 #: addressbook/backend/ebook/e-card-simple.c:61
 msgid "Name"
@@ -42,7 +43,7 @@ msgstr "Nimi"
 #: addressbook/backend/ebook/e-card-simple.c:62
 #: addressbook/gui/widgets/e-addressbook-view.c:843
 msgid "Email"
-msgstr "Sähkoposti"
+msgstr "Sähköposti"
 
 #: addressbook/backend/ebook/e-card-simple.c:63
 #: addressbook/gui/contact-editor/e-contact-editor.c:1659
@@ -58,7 +59,7 @@ msgstr "Ensisij"
 #: addressbook/gui/contact-editor/e-contact-editor.c:1644
 #: addressbook/gui/widgets/e-addressbook-view.c:875
 msgid "Assistant"
-msgstr ""
+msgstr "Apuri"
 
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
@@ -71,12 +72,12 @@ msgstr "Työ"
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
 msgid "Bus"
-msgstr ""
+msgstr "Linja-auto"
 
 #: addressbook/backend/ebook/e-card-simple.c:66
 #: addressbook/gui/contact-editor/e-contact-editor.c:1648
 msgid "Callback"
-msgstr ""
+msgstr "Vastaaja"
 
 #: addressbook/backend/ebook/e-card-simple.c:67
 #: addressbook/gui/contact-editor/e-contact-editor.c:1650
@@ -102,7 +103,7 @@ msgstr "Organisaatio"
 
 #: addressbook/backend/ebook/e-card-simple.c:69
 msgid "Org"
-msgstr ""
+msgstr "Org"
 
 #: addressbook/backend/ebook/e-card-simple.c:72
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
@@ -124,7 +125,7 @@ msgstr "Työ/faksi"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
 msgid "Bus Fax"
-msgstr ""
+msgstr "Linja-auto faksi"
 
 #: addressbook/backend/ebook/e-card-simple.c:75
 #: addressbook/gui/contact-editor/e-contact-editor.c:1653
@@ -170,24 +171,24 @@ msgstr "Muu faksi"
 #: addressbook/gui/contact-editor/e-contact-editor.c:1658
 #: addressbook/gui/widgets/e-addressbook-view.c:862
 msgid "Pager"
-msgstr ""
+msgstr "Hakulaite"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
 #: addressbook/gui/contact-editor/e-contact-editor.c:1660
 #: addressbook/gui/widgets/e-addressbook-view.c:863
 msgid "Radio"
-msgstr ""
+msgstr "Radio"
 
 #: addressbook/backend/ebook/e-card-simple.c:83
 #: addressbook/gui/contact-editor/e-contact-editor.c:1661
 #: addressbook/gui/widgets/e-addressbook-view.c:864
 msgid "Telex"
-msgstr ""
+msgstr "Telex"
 
 #: addressbook/backend/ebook/e-card-simple.c:84
 #: addressbook/gui/widgets/e-addressbook-view.c:865
 msgid "TTY"
-msgstr ""
+msgstr "TTY"
 
 #: addressbook/backend/ebook/e-card-simple.c:86
 #: addressbook/gui/component/e-address-popup.c:484
@@ -206,11 +207,11 @@ msgstr "Sähköposti 3"
 #: addressbook/backend/ebook/e-card-simple.c:88
 #: addressbook/gui/widgets/e-addressbook-view.c:869
 msgid "Web Site"
-msgstr ""
+msgstr "Nettisivut"
 
 #: addressbook/backend/ebook/e-card-simple.c:88
 msgid "Url"
-msgstr ""
+msgstr "URL"
 
 #: addressbook/backend/ebook/e-card-simple.c:89
 #: addressbook/gui/widgets/e-addressbook-view.c:870
@@ -219,7 +220,7 @@ msgstr "Osasto"
 
 #: addressbook/backend/ebook/e-card-simple.c:89
 msgid "Dep"
-msgstr ""
+msgstr "Ost"
 
 #: addressbook/backend/ebook/e-card-simple.c:90
 #: addressbook/gui/widgets/e-addressbook-view.c:871
@@ -228,12 +229,12 @@ msgstr "Asema"
 
 #: addressbook/backend/ebook/e-card-simple.c:90
 msgid "Off"
-msgstr "Asm"
+msgstr "Pois"
 
 #: addressbook/backend/ebook/e-card-simple.c:91
 #: addressbook/gui/widgets/e-addressbook-view.c:872
 msgid "Title"
-msgstr ""
+msgstr "Titteli"
 
 #: addressbook/backend/ebook/e-card-simple.c:92
 #: addressbook/gui/widgets/e-addressbook-view.c:873
@@ -242,29 +243,29 @@ msgstr "Ammatti"
 
 #: addressbook/backend/ebook/e-card-simple.c:92
 msgid "Prof"
-msgstr ""
+msgstr "Amm"
 
 #: addressbook/backend/ebook/e-card-simple.c:93
 #: addressbook/gui/widgets/e-addressbook-view.c:874
 msgid "Manager"
-msgstr ""
+msgstr "Esimies"
 
 #: addressbook/backend/ebook/e-card-simple.c:93
 msgid "Man"
-msgstr ""
+msgstr "Esm"
 
 #: addressbook/backend/ebook/e-card-simple.c:94
 msgid "Ass"
-msgstr ""
+msgstr "Apr"
 
 #: addressbook/backend/ebook/e-card-simple.c:95
 #: addressbook/gui/widgets/e-addressbook-view.c:876
 msgid "Nickname"
-msgstr "Kutsumanimi"
+msgstr "Lempinimi"
 
 #: addressbook/backend/ebook/e-card-simple.c:95
 msgid "Nick"
-msgstr ""
+msgstr "Lempi"
 
 #: addressbook/backend/ebook/e-card-simple.c:96
 #: addressbook/gui/widgets/e-addressbook-view.c:877
@@ -274,32 +275,32 @@ msgstr "Puoliso"
 #: addressbook/backend/ebook/e-card-simple.c:97
 #: addressbook/gui/widgets/e-addressbook-view.c:878
 msgid "Note"
-msgstr ""
+msgstr "Huomautuksia"
 
 #: addressbook/backend/ebook/e-card-simple.c:98
 msgid "Calendar URI"
-msgstr ""
+msgstr "Kalenteri URI"
 
 #: addressbook/backend/ebook/e-card-simple.c:98
 msgid "CALUri"
-msgstr ""
+msgstr "KalURI"
 
 #: addressbook/backend/ebook/e-card-simple.c:99
 #: addressbook/gui/widgets/e-addressbook-view.c:879
 msgid "Free-busy URL"
-msgstr ""
+msgstr "Vapaa-kiireinen URL"
 
 #: addressbook/backend/ebook/e-card-simple.c:99
 msgid "FBUrl"
-msgstr ""
+msgstr "VKURL"
 
 #: addressbook/backend/ebook/e-card-simple.c:100
 msgid "Anniversary"
-msgstr ""
+msgstr "Vuosipäivä"
 
 #: addressbook/backend/ebook/e-card-simple.c:100
 msgid "Anniv"
-msgstr ""
+msgstr "Vspv"
 
 #: addressbook/backend/ebook/e-card-simple.c:101
 msgid "Birth Date"
@@ -317,7 +318,7 @@ msgstr "Sukunimi"
 #: addressbook/backend/ebook/e-card-simple.c:788
 #, c-format
 msgid "%x"
-msgstr ""
+msgstr "%x"
 
 #: addressbook/backend/ebook/e-card.c:3712
 msgid "Card: "
@@ -368,6 +369,8 @@ msgid ""
 "\n"
 "  Suffix:     "
 msgstr ""
+"\n"
+"  Kirjain:     "
 
 #: addressbook/backend/ebook/e-card.c:3733
 msgid ""
@@ -398,6 +401,8 @@ msgid ""
 "\n"
 "  Ext:         "
 msgstr ""
+"\n"
+"  Ulkoinen:         "
 
 #: addressbook/backend/ebook/e-card.c:3748
 msgid ""
@@ -420,6 +425,8 @@ msgid ""
 "\n"
 "  Region:      "
 msgstr ""
+"\n"
+"  Alue:      "
 
 #: addressbook/backend/ebook/e-card.c:3751
 msgid ""
@@ -442,6 +449,8 @@ msgid ""
 "\n"
 "Delivery Label: "
 msgstr ""
+"\n"
+"Toimitusosoite: "
 
 #: addressbook/backend/ebook/e-card.c:3777
 msgid ""
@@ -480,6 +489,8 @@ msgid ""
 "\n"
 "Mailer: "
 msgstr ""
+"\n"
+"Postiohjelma: "
 
 #: addressbook/backend/ebook/e-card.c:3832
 msgid ""
@@ -502,12 +513,16 @@ msgid ""
 "\n"
 "Business Role: "
 msgstr ""
+"\n"
+"Työrooli: "
 
 #: addressbook/backend/ebook/e-card.c:3856
 msgid ""
 "\n"
 "Org: "
 msgstr ""
+"\n"
+"Org: "
 
 #: addressbook/backend/ebook/e-card.c:3857
 msgid ""
@@ -562,6 +577,8 @@ msgid ""
 "\n"
 "Comment: "
 msgstr ""
+"\n"
+"Kommentti: "
 
 #. if (crd->sound.prop.used) {
 #. if (crd->sound.type != SOUND_PHONETIC)
@@ -578,6 +595,8 @@ msgid ""
 "\n"
 "Unique String: "
 msgstr ""
+"\n"
+"Ainutlaatuinen lause: "
 
 #: addressbook/backend/ebook/e-card.c:3882
 msgid ""
@@ -589,12 +608,12 @@ msgstr ""
 
 #: addressbook/backend/ebook/e-card.c:4235
 msgid "Multiple VCards"
-msgstr ""
+msgstr "Useita VCardeja"
 
 #: addressbook/backend/ebook/e-card.c:4243
 #, c-format
 msgid "VCard for %s"
-msgstr ""
+msgstr "%s:n VCard"
 
 #: addressbook/backend/ebook/load-gnomecard-addressbook.c:21
 #: addressbook/backend/ebook/load-pine-addressbook.c:22
@@ -622,7 +641,7 @@ msgstr "Ladataan..."
 #. need a different error message here.
 #: addressbook/backend/pas/pas-backend-file.c:270
 msgid "Error in search expression."
-msgstr ""
+msgstr "Virhe etsittävässä ilmauksessa."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:522
 msgid "Connecting to LDAP server..."
@@ -630,7 +649,7 @@ msgstr "Yhdistetään LDAP-palvelimeen..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:532
 msgid "Unable to connect to LDAP server."
-msgstr "Yhdistäminen palvelimeen epäonnistui."
+msgstr "Yhdistäminen LDAP-palvelimeen epäonnistui."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:548
 msgid "Waiting for connection to LDAP server..."
@@ -638,23 +657,23 @@ msgstr "Odotetaan yhteyttä LDAP-palvelimeen..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:974
 msgid "Adding card to LDAP server..."
-msgstr ""
+msgstr "Lisäämässän korttia LDAP-palvelimelle..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1075
 msgid "Removing card from LDAP server..."
-msgstr ""
+msgstr "Poistamassa korttia LDAP-palvelimelta..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1185
 msgid "Modifying card from LDAP server..."
-msgstr ""
+msgstr "Muokkaamassa korttia LDAP-palvelimelta..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:2311
 msgid "Receiving LDAP search results..."
-msgstr ""
+msgstr "Saamassa LDAP etsintätuloksia..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:2317
 msgid "Restarting search."
-msgstr ""
+msgstr "Käynnistetään haku uudelleen."
 
 #: addressbook/conduit/address-conduit.c:296
 msgid "Cursor could not be loaded\n"
@@ -662,64 +681,64 @@ msgstr "Kohdistimen lataaminen epäonnistui\n"
 
 #: addressbook/conduit/address-conduit.c:309
 msgid "EBook not loaded\n"
-msgstr ""
+msgstr "EKirjaa ei ladattu\n"
 
 #: addressbook/conduit/address-conduit.c:1099
 #: calendar/conduits/calendar/calendar-conduit.c:1082
 #: calendar/conduits/todo/todo-conduit.c:698
 msgid "Could not start wombat server"
-msgstr ""
+msgstr "Wombat palvelinta ei voita käynnistää"
 
 #: addressbook/conduit/address-conduit.c:1100
 #: calendar/conduits/calendar/calendar-conduit.c:1083
 #: calendar/conduits/todo/todo-conduit.c:699
 msgid "Could not start wombat"
-msgstr ""
+msgstr "Wombattia ei voitu käynnistää"
 
 #: addressbook/conduit/address-conduit.c:1130
 #: addressbook/conduit/address-conduit.c:1133
 msgid "Could not read pilot's Address application block"
-msgstr ""
+msgstr "Pilotin osoitesovellukset tietoja ei voitu lukea"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:1
 msgid "A Bonobo control for an address popup."
-msgstr ""
+msgstr "Bonobo kontrolli osoitteiden ilmestymistä varten."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:2
 msgid "A Bonobo control for displaying an address."
-msgstr ""
+msgstr "Bonobo kontrolli osoitteiden näyttämiseen."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:3
 msgid "A sample Bonobo control which displays an addressbook."
-msgstr ""
+msgstr "Esimerkki kontrolli Bonobolle mikä näyttää osoitekirjan."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:4
 msgid "Control that displays an Evolution addressbook minicard."
-msgstr ""
+msgstr "Kontrolli mikä tulostaa Evolutionin osoitekirjan minikortin."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:5
 msgid "Evolution Addressbook minicard viewer"
-msgstr ""
+msgstr "Evolution osoitekirjan minikorttikatselija"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:6
 msgid "Evolution component for handling contacts."
-msgstr ""
+msgstr "Evolution komponentti kontaktien hoitamiseen."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:7
 msgid "Factory for the Addressbook Minicard control"
-msgstr ""
+msgstr "Tehdas osoitekirjan minikorttien hallintaan"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:8
 msgid "Factory for the Addressbook's address displayer"
-msgstr ""
+msgstr "Tehdas osoitekirjan osoitteiden näyttämiseen"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:9
 msgid "Factory for the Addressbook's address popup"
-msgstr ""
+msgstr "Tehdas osoitekirjan osoitteiden ilmestymiseen"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:10
 msgid "Factory for the sample Addressbook control"
-msgstr ""
+msgstr "Tehdas esimerkki osoitekirjan kontrolliin"
 
 #: addressbook/gui/component/addressbook-component.c:71
 #: calendar/gui/dialogs/comp-editor-util.c:310
@@ -730,7 +749,7 @@ msgstr "Kontaktit"
 
 #: addressbook/gui/component/addressbook-component.c:71
 msgid "Folder containing contact information"
-msgstr ""
+msgstr "Yhteystietojen kansio"
 
 #: addressbook/gui/component/addressbook-component.c:73
 msgid "LDAP Server"
@@ -738,7 +757,7 @@ msgstr "LDAP-palvelin"
 
 #: addressbook/gui/component/addressbook-component.c:73
 msgid "LDAP server containing contact information"
-msgstr ""
+msgstr "Yhteystiedot sisältävä LDAP-palvelin"
 
 #: addressbook/gui/component/addressbook-component.c:526
 #: ui/evolution-addressbook.xml.h:11
@@ -787,12 +806,12 @@ msgstr "Edistyneet"
 
 #: addressbook/gui/component/addressbook-config.glade.h:7
 msgid "Base"
-msgstr ""
+msgstr "Perusta"
 
 #: addressbook/gui/component/addressbook-config.glade.h:8
 #: calendar/gui/dialogs/task-editor.c:178
 msgid "Basic"
-msgstr ""
+msgstr "Perus"
 
 #: addressbook/gui/component/addressbook-config.glade.h:9
 msgid "Check this if the server requires you to authenticate."
@@ -804,7 +823,7 @@ msgstr "_Poista"
 
 #: addressbook/gui/component/addressbook-config.glade.h:11
 msgid "Distinguished name (DN)"
-msgstr ""
+msgstr "Eroava nimi (EN)"
 
 #: addressbook/gui/component/addressbook-config.glade.h:12
 msgid "Email address"
@@ -815,23 +834,25 @@ msgid ""
 "Evolution will use this Distinquished Name (DN) to authenticate you with the "
 "server"
 msgstr ""
+"Evolution käyttää tätä Eroavaa nimeä (EN) tunnistautumiseen palvelimella"
 
 #: addressbook/gui/component/addressbook-config.glade.h:14
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
 msgstr ""
+"Evolution käyttää tätä sähköpostiosoitetta tunnistautumiseen palvelimella"
 
 #: addressbook/gui/component/addressbook-config.glade.h:15
 msgid "One"
-msgstr ""
+msgstr "Yksi"
 
 #: addressbook/gui/component/addressbook-config.glade.h:16
 msgid "Search _base:"
-msgstr ""
+msgstr "Etsinnän _perusta:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:17
 msgid "Search s_cope: "
-msgstr ""
+msgstr "Etsinnän _rajat: "
 
 #: addressbook/gui/component/addressbook-config.glade.h:18
 msgid "Server Name"
@@ -839,7 +860,7 @@ msgstr "Palvelimen nimi"
 
 #: addressbook/gui/component/addressbook-config.glade.h:19
 msgid "Sub"
-msgstr ""
+msgstr "Ali"
 
 #: addressbook/gui/component/addressbook-config.glade.h:20
 msgid "The information below is required in order to add an addressbook.  "
@@ -847,19 +868,23 @@ msgstr "Allaolevat tiedot vaaditaan osoitekirjan lisäämiseksi.  "
 
 #: addressbook/gui/component/addressbook-config.glade.h:21
 msgid "This information is not required for most ldap servers. "
-msgstr ""
+msgstr "Näitä tietoja ei tarvita useimmissa LDAP-palvelimissa. "
 
 #: addressbook/gui/component/addressbook-config.glade.h:22
 msgid ""
 "This information is used by your ldap server to specify which nodes are used "
 "in a search. Contact your server administrator for more information."
 msgstr ""
+"Näitä tietoja käytetään LDAP-palvelimellasi määrittelemään mitä solmuja "
+"käytetään haussa. Ota yhteyttä palvelimen ylläpitäjään lisätietoja varten."
 
 #: addressbook/gui/component/addressbook-config.glade.h:23
 msgid ""
 "This is the base node for all your searches on the ldap server. Contact your "
 "server administrator for more information."
 msgstr ""
+"Tämä on perustasolmu kaikkiin hakuihin LDAP-palvelimelta. Ota yhteyttä "
+"palvelimen ylläpitäjään lisätietoja varten."
 
 #: addressbook/gui/component/addressbook-config.glade.h:24
 msgid ""
@@ -867,14 +892,16 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
+"Tämä on tapa jolla Evolution tunnistautuu. Huomaa, että asettamalla tämän "
+"\"Sähköpostiosoite\" asentoon vaatii anonyymin pääsyn LDAP-palvelimelle."
 
 #: addressbook/gui/component/addressbook-config.glade.h:25
 msgid "This is the name of the server where your addressbook is located."
-msgstr ""
+msgstr "Tämä on palvelimen nimi jossa osoitekirjasi sijaitsee."
 
 #: addressbook/gui/component/addressbook-config.glade.h:26
 msgid "This is the port that your ldap server uses."
-msgstr ""
+msgstr "Tämä on LDAP-palvelimesi käyttämä portti."
 
 #: addressbook/gui/component/addressbook-config.glade.h:27
 msgid ""
@@ -897,7 +924,7 @@ msgstr "_Lisää"
 
 #: addressbook/gui/component/addressbook-config.glade.h:30
 msgid "_Distinguished Name:"
-msgstr ""
+msgstr "_Eroava nimi:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:31
 #: filter/filter.glade.h:9 mail/mail-config.glade.h:98
@@ -940,6 +967,9 @@ msgid ""
 "means you have entered an incorrect URI, or the LDAP server\n"
 "is down"
 msgstr ""
+"Osoitekirjan avaus epäonnistui. Tämä merkitsee joko sitä,\n"
+"että olet antanut väärän URI:n tai että LDAP-palvelin on\n"
+"alhaalla."
 
 #: addressbook/gui/component/addressbook.c:499
 msgid ""
@@ -948,18 +978,24 @@ msgid ""
 "you must compile the program from the CVS sources after\n"
 "retrieving OpenLDAP from the link below.\n"
 msgstr ""
+"Tämä Evolutionin versiolla ei ole LDAP-tukea käännettynä.\n"
+"Jos haluat käyttää LDAP:ia Evolutionissa sinun täytyy\n"
+"kääntää ohjelma CVS lähdekoodista sen jälkeen kun olet\n"
+"hankkinut OpenLDAPin alla olevasta linkistä.\n"
 
 #: addressbook/gui/component/addressbook.c:507
 msgid ""
 "We were unable to open this addressbook.  Please check that the\n"
 "path exists and that you have permission to access it."
 msgstr ""
+"Tämän osoitekirjan avaus epäonnistui. Tarkista että polku on olemassa\n"
+"ja sinulla on oikeudet sen käyttämiseen."
 
 #: addressbook/gui/component/addressbook.c:641
 #: addressbook/gui/component/addressbook.c:644
 #, c-format
 msgid "Enter password for %s (user %s)"
-msgstr ""
+msgstr "Anna salasana käyttäjälle %s (käyttäjä %s)"
 
 #: addressbook/gui/component/addressbook.c:822
 msgid "Name begins with"
@@ -989,11 +1025,11 @@ msgstr "Edistyneet..."
 #: addressbook/gui/component/addressbook.c:1059
 #: calendar/gui/cal-search-bar.c:412
 msgid "Any Category"
-msgstr ""
+msgstr "Mikä tahansa ryhmä"
 
 #: addressbook/gui/component/addressbook.c:1143
 msgid "The URI that the Folder Browser will display"
-msgstr ""
+msgstr "Kansioselaimen näyttämä URI"
 
 #.
 #. * This is the code for the UI thingie that lets you manipulate the e-mail
@@ -1026,13 +1062,13 @@ msgstr "Lisää osoite olemassaolevaan kontaktiin \"%s\""
 
 #: addressbook/gui/component/e-address-popup.c:891
 msgid "Querying Addressbook..."
-msgstr ""
+msgstr "Kysellään osoitekirjasta..."
 
 #: addressbook/gui/component/e-address-popup.c:973
 #: addressbook/gui/component/e-address-widget.c:387
 #: addressbook/gui/component/select-names/e-select-names-popup.c:306
 msgid "Edit Contact Info"
-msgstr ""
+msgstr "Muokkaa kontaktin tietoja"
 
 #: addressbook/gui/component/e-address-popup.c:1003
 #: addressbook/gui/component/e-address-widget.c:423
@@ -1042,7 +1078,7 @@ msgstr "Lisää kontakteihin"
 
 #: addressbook/gui/component/e-address-popup.c:1046
 msgid "Merge E-Mail Address"
-msgstr ""
+msgstr "Yhdistä sähköpostiosoite"
 
 #: addressbook/gui/component/e-address-widget.c:364
 msgid "Disable Queries"
@@ -1054,11 +1090,11 @@ msgstr "Salli kyselyt (Vaarallista!)"
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:1
 msgid "Evolution's addressbook name selection interface."
-msgstr ""
+msgstr "Evolutionin osoitekirjan nimenvalintakäyttöliittymä."
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:2
 msgid "Factory for the Addressbook's name selection interface"
-msgstr ""
+msgstr "Tehdas osoitekirjan nimenvalinnankäyttöliittymään"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:163
 #: addressbook/gui/component/select-names/e-select-names.c:876
@@ -1086,7 +1122,7 @@ msgstr "Nimetön kontaktiluettelo"
 #: addressbook/gui/component/select-names/e-select-names-popup.c:440
 #, c-format
 msgid "(%d not shown)"
-msgstr ""
+msgstr "(%d ei näytetä)"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:506
 msgid "Unnamed Contact"
@@ -1101,6 +1137,12 @@ msgid ""
 "detailed description of the circumstances under which this error\n"
 "occurred.  Thank you."
 msgstr ""
+"Evolutionin ei onnistu saada paikallisen osoitekirjan sisältöä.\n"
+"Tämä voi johtua evolution-addresbook komponentin kaatumisesta.\n"
+"Auttaaksesi meitä paremmin ymmärtämään tätä ongelma ja lopulta\n"
+"ratkaisemaan tämän ongelman, lähetä sähköpostia englanniksi\n"
+"Jon Trowbridge <trow@ximian.com> yksityiskohtaisen selvityksen\n"
+"kera missä olosuhteissa tämä virhe sattui. Kiitos."
 
 #: addressbook/gui/component/select-names/e-select-names.c:618
 msgid ""
@@ -1109,10 +1151,14 @@ msgid ""
 "You may need to exit and restart Evolution in order to\n"
 "correct this problem."
 msgstr ""
+"Evolutionin ei onnistu saamaan osoitekirjan paikallista kopiota.\n"
+"Normaaleissa olosuhteissa tätä ei pitäisi koskaan sattua.\n"
+"Sinun täytyy ehkä poista ja käynnistää Evolution korjataksesi\n"
+"tämän ongelman."
 
 #: addressbook/gui/component/select-names/e-select-names.c:700
 msgid "Select Contacts from Addressbook"
-msgstr ""
+msgstr "Valitse kontakti osoitekirjasta"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:1
 msgid "C_ontaining:"
@@ -1132,7 +1178,7 @@ msgstr "Valitse nimet"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid "Show contacts matching the following criteria:"
-msgstr ""
+msgstr "Näytä kontakti mikä täyttää seuraavan kriteerin:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:6
 msgid "_Category:"
@@ -1148,7 +1194,7 @@ msgstr "_Vastaanottajat:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "A_ssistant's name:"
-msgstr ""
+msgstr "_Apurin nimi:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "Add_ress..."
@@ -1156,7 +1202,7 @@ msgstr "_Osoite..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "Anni_versary:"
-msgstr ""
+msgstr "_Vuosipäivä:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "Birthda_y:"
@@ -1174,7 +1220,7 @@ msgstr "Ry_hmät..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:9
 msgid "Collaboration"
-msgstr ""
+msgstr "Yhteistyö"
 
 #. Construct the app
 #: addressbook/gui/contact-editor/contact-editor.glade.h:10
@@ -1193,11 +1239,11 @@ msgstr "Yksityiskohtaiset"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "F_ree/Busy URL:"
-msgstr ""
+msgstr "V_apaa/kiireinen URL:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "File A_s:"
-msgstr ""
+msgstr "_Kortistoi:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
 msgid "Full _Name..."
@@ -1213,6 +1259,9 @@ msgid ""
 "Internet, enter the address\n"
 "of that information here."
 msgstr ""
+"Mikäli tämä henkilö julkaisee vapaa/kiireinen tai muita kalenteritietojaan "
+"Internetissä, anna osoite\n"
+"tälle tiedolle tähän."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "New phone type"
@@ -1220,7 +1269,7 @@ msgstr "Uusi puhelintyyppi"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
 msgid "No_tes:"
-msgstr ""
+msgstr "M_uistiinpanot:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "Organi_zation:"
@@ -1261,7 +1310,7 @@ msgstr "_Tehtävänimike:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Manager's Name:"
-msgstr ""
+msgstr "_Esimiehen nimi:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_Nickname:"
@@ -1273,7 +1322,7 @@ msgstr "_Asema:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Public Calendar URL:"
-msgstr ""
+msgstr "_Julkisen kalenterin URL:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Web page address:"
@@ -1293,7 +1342,7 @@ msgstr "Poista kontakti?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:757
 msgid "Category editor not available."
-msgstr ""
+msgstr "Ryhmäeditori ei ole saatavilla"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:764
 msgid "This contact belongs to these categories:"
@@ -1301,16 +1350,16 @@ msgstr "Tämä kontakti kuuluu näihin ryhmiin:"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:978
 msgid "Save Contact as VCard"
-msgstr ""
+msgstr "Tallenna kontakti VCardina"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1662
 msgid "TTY/TDD"
-msgstr ""
+msgstr "TTY/TDD"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2287
 #, c-format
 msgid "Could not find widget for a field: `%s'"
-msgstr ""
+msgstr "Ei voinut löytää säädintä kentälle: `%s'"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:298
 msgid "Contact Quick-Add"
@@ -1318,7 +1367,7 @@ msgstr "Kontaktin pikalisäys"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:300
 msgid "Edit Full"
-msgstr ""
+msgstr "Muokkaa kaikkea"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:326
 #: addressbook/gui/widgets/e-addressbook-view.c:842
@@ -1332,11 +1381,11 @@ msgstr "Sähköposti"
 #. This is a filename. Translators take note.
 #: addressbook/gui/contact-editor/e-contact-save-as.c:106
 msgid "card.vcf"
-msgstr ""
+msgstr "kortti.vcf"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:170
 msgid "list"
-msgstr ""
+msgstr "lista"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:201
 #, c-format
@@ -1344,6 +1393,8 @@ msgid ""
 "%s already exists\n"
 "Do you want to overwrite it?"
 msgstr ""
+"%s on jo olemassa\n"
+"Haluatkoi kirjoittaa yli?"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Address _2:"
@@ -1351,41 +1402,41 @@ msgstr "Osoite _2:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:2
 msgid "Afghanistan"
-msgstr ""
+msgstr "Afganistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:3
 #: my-evolution/Locations.h:42
 msgid "Albania"
-msgstr ""
+msgstr "Albania"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:4
 #: my-evolution/Locations.h:54
 msgid "Algeria"
-msgstr ""
+msgstr "Algeria"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:5
 msgid "American Samoa"
-msgstr ""
+msgstr "Amerikan Samoa"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "Andorra"
-msgstr ""
+msgstr "Andorra"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:7
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "Anguilla"
-msgstr ""
+msgstr "Anguilla"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:9
 msgid "Antarctica"
-msgstr ""
+msgstr "Antarktis"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:10
 msgid "Antigua And Barbuda"
-msgstr ""
+msgstr "Antigua ja Barbuda"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:11
 #: my-evolution/Locations.h:120
@@ -1473,16 +1524,16 @@ msgstr "Botswana"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:30
 msgid "Bouvet Island"
-msgstr ""
+msgstr "Bouvet Island"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:31
 #: my-evolution/Locations.h:294
 msgid "Brazil"
-msgstr ""
+msgstr "Brasilia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:32
 msgid "British Indian Ocean Territory"
-msgstr ""
+msgstr "Brittiläinen Intian-Valtameren alue"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:33
 msgid "British Virgin Islands"
@@ -1490,7 +1541,7 @@ msgstr "Neitsytsaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:34
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "Brunei Darussalam"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:35
 #: my-evolution/Locations.h:320
@@ -1555,7 +1606,7 @@ msgstr "Joulusaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:49
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "Kookossaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:50
 #: my-evolution/Locations.h:483
@@ -1564,7 +1615,7 @@ msgstr "Kolumbia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:51
 msgid "Comoros"
-msgstr ""
+msgstr "Komorit"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:52
 msgid "Congo"
@@ -1572,7 +1623,7 @@ msgstr "Kongo"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:53
 msgid "Cook Islands"
-msgstr ""
+msgstr "Cooksaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:54
 #: my-evolution/Locations.h:517
@@ -1581,7 +1632,7 @@ msgstr "Costa Rica"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:55
 msgid "Cote d'Ivoire"
-msgstr ""
+msgstr "Cote d'Ivoire"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:56
 msgid "Countr_y:"
@@ -1627,7 +1678,7 @@ msgstr "Dominikaaninen Tasavalta"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:65
 msgid "East Timor"
-msgstr ""
+msgstr "Itä-Timor"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:66
 #: my-evolution/Locations.h:639
@@ -1693,7 +1744,7 @@ msgstr "Polynesia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:80
 msgid "French Southern Territories"
-msgstr ""
+msgstr "Ranskan eteläiset alueet"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:81
 msgid "Gabon"
@@ -1767,11 +1818,11 @@ msgstr "Haiti"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:97
 msgid "Heard And McDonald Islands"
-msgstr ""
+msgstr "Heard ja McDonaldinsaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:98
 msgid "Holy See"
-msgstr ""
+msgstr "Vatikaani"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:99
 #: my-evolution/Locations.h:943
@@ -1833,7 +1884,7 @@ msgstr "Jordania"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:111
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Kazakstan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:112
 msgid "Kenya"
@@ -1841,7 +1892,7 @@ msgstr "Kenia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:113
 msgid "Kiribati"
-msgstr ""
+msgstr "Profession"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:114
 #: my-evolution/Locations.h:1141
@@ -1850,7 +1901,7 @@ msgstr "Kuwait"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:115
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "Kirgisia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:116
 msgid "Laos"
@@ -1868,7 +1919,7 @@ msgstr "Libanon"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:119
 msgid "Lesotho"
-msgstr ""
+msgstr "Lesotho"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:120
 #: my-evolution/Locations.h:1211
@@ -1891,15 +1942,15 @@ msgstr "Luxemburg"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:124
 msgid "Macau"
-msgstr ""
+msgstr "Macao"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:125
 msgid "Macedonia"
-msgstr ""
+msgstr "Asm"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:126
 msgid "Madagascar"
-msgstr ""
+msgstr "Madagaskar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:127
 msgid "Malawi"
@@ -1911,7 +1962,7 @@ msgstr "Malesia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:129
 msgid "Maldives"
-msgstr ""
+msgstr "Malediivit"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:130
 msgid "Mali"
@@ -1924,15 +1975,15 @@ msgstr "Malta"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:132
 msgid "Marshall Islands"
-msgstr ""
+msgstr "Marshallinsaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:133
 msgid "Martinique"
-msgstr ""
+msgstr "Martinique"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:134
 msgid "Mauritania"
-msgstr ""
+msgstr "Mauritania"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:135
 msgid "Mauritius"
@@ -1940,7 +1991,7 @@ msgstr "Mauritius"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:136
 msgid "Mayotte"
-msgstr ""
+msgstr "Mayotte"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:137
 #: my-evolution/Locations.h:1379
@@ -1949,7 +2000,7 @@ msgstr "Meksiko"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:138
 msgid "Micronesia"
-msgstr ""
+msgstr "0x8901624"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:139
 msgid "Monaco"
@@ -1957,24 +2008,24 @@ msgstr "Monaco"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:140
 msgid "Mongolia"
-msgstr ""
+msgstr "Mongolia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:141
 msgid "Montserrat"
-msgstr ""
+msgstr "Montserrat"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:142
 #: my-evolution/Locations.h:1462
 msgid "Morocco"
-msgstr ""
+msgstr "Morokko"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:143
 msgid "Mozambique"
-msgstr ""
+msgstr "Mosambik"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:144
 msgid "Myanmar"
-msgstr ""
+msgstr "Myanmar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:145
 msgid "Namibia"
@@ -1982,7 +2033,7 @@ msgstr "Namibia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:146
 msgid "Nauru"
-msgstr ""
+msgstr "Nauru"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:147
 msgid "Nepal"
@@ -2013,7 +2064,7 @@ msgstr "Nicaragua"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:153
 msgid "Niger"
-msgstr ""
+msgstr "Niger"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:154
 msgid "Nigeria"
@@ -2021,16 +2072,16 @@ msgstr "Nigeria"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:155
 msgid "Niue"
-msgstr ""
+msgstr "Niue"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:156
 #: my-evolution/Locations.h:1566
 msgid "Norfolk Island"
-msgstr ""
+msgstr "Norfolkinsaari"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:157
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "Pohjois-Mariaanit"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:158
 #: my-evolution/Locations.h:1579
@@ -2049,11 +2100,11 @@ msgstr "Pakistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:161
 msgid "Palau"
-msgstr ""
+msgstr "Palau"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:162
 msgid "Palestinian Territory"
-msgstr ""
+msgstr "Palestiina"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:163
 #: my-evolution/Locations.h:1674
@@ -2080,7 +2131,7 @@ msgstr "Filippiinit"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:168
 msgid "Pitcairn"
-msgstr ""
+msgstr "Pitcairn"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:169
 #: my-evolution/Locations.h:1755
@@ -2095,7 +2146,7 @@ msgstr "Portugal"
 #: addressbook/gui/contact-editor/fulladdr.glade.h:171
 #: my-evolution/Locations.h:1815
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Puerto Rico"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:172
 #: my-evolution/Locations.h:1827
@@ -2104,15 +2155,15 @@ msgstr "Qatar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:173
 msgid "Republic Of Korea"
-msgstr ""
+msgstr "Etelä-Korea"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:174
 msgid "Republic Of Moldova"
-msgstr ""
+msgstr "Moldova"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:175
 msgid "Reunion"
-msgstr ""
+msgstr "Yhteenliittymä"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:176
 #: my-evolution/Locations.h:1902
@@ -2125,23 +2176,23 @@ msgstr "Venäjä"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:178
 msgid "Rwanda"
-msgstr ""
+msgstr "Ruanda"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:179
 msgid "Saint Kitts And Nevis"
-msgstr ""
+msgstr "Saint Kitts ja Nevis"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:180
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Saint Lucia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:181
 msgid "Saint Vincent And The Grena-dines"
-msgstr ""
+msgstr "Saint Vincent ja Grenadiinit"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:182
 msgid "Samoa"
-msgstr ""
+msgstr "Bus"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:183
 msgid "San Marino"
@@ -2149,7 +2200,7 @@ msgstr "San Marino"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:184
 msgid "Sao Tome And Principe"
-msgstr ""
+msgstr "São Tomé ja Príncipe"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:185
 #: my-evolution/Locations.h:2025
@@ -2162,11 +2213,11 @@ msgstr "Senegal"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:187
 msgid "Seychelles"
-msgstr ""
+msgstr "Title"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:188
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Sierra Leone"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:189
 #: my-evolution/Locations.h:2080
@@ -2181,11 +2232,11 @@ msgstr "Slovakia"
 #: addressbook/gui/contact-editor/fulladdr.glade.h:191
 #: my-evolution/Locations.h:2094
 msgid "Slovenia"
-msgstr ""
+msgstr "Slovenia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:192
 msgid "Solomon Islands"
-msgstr ""
+msgstr "Salomonsaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:193
 msgid "Somalia"
@@ -2198,7 +2249,7 @@ msgstr "Etelä-Afrikka"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:195
 msgid "South Georgia And The South Sandwich Islands"
-msgstr ""
+msgstr "Etelä-Georgia ja Eteläiset Sandwichsaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:196
 #: my-evolution/Locations.h:2117
@@ -2211,11 +2262,11 @@ msgstr "Sri Lanka"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:198
 msgid "St. Helena"
-msgstr ""
+msgstr "Saint Helena"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:199
 msgid "St. Pierre And Miquelon"
-msgstr ""
+msgstr "Saint-Pierre ja Miquelon"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:200
 msgid "Sudan"
@@ -2228,11 +2279,11 @@ msgstr "Surinam"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:202
 msgid "Svalbard And Jan Mayen Islands"
-msgstr ""
+msgstr "Huippuvuoret ja Jan Mayen"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:203
 msgid "Swaziland"
-msgstr ""
+msgstr "Swazimaa"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:204
 #: my-evolution/Locations.h:2171
@@ -2251,7 +2302,7 @@ msgstr "Taiwan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:207
 msgid "Tajikistan"
-msgstr ""
+msgstr "Tadzikistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:208
 msgid "Thailand"
@@ -2263,7 +2314,7 @@ msgstr "Togo"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:210
 msgid "Tokelau"
-msgstr ""
+msgstr "Tokelau"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:211
 msgid "Tonga"
@@ -2284,19 +2335,19 @@ msgstr "Turkki"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:215
 msgid "Turkmenistan"
-msgstr ""
+msgstr "Turkmenistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:216
 msgid "Turks And Caicos Islands"
-msgstr ""
+msgstr "Turks- ja Caicossaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:217
 msgid "Tuvalu"
-msgstr ""
+msgstr "Tuvalu"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:218
 msgid "U.S. Virgin Islands"
-msgstr ""
+msgstr "Yhdysvaltain Neitsytsaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:219
 msgid "Uganda"
@@ -2317,7 +2368,7 @@ msgstr "Iso-Britannia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:223
 msgid "United Republic Of Tanzania"
-msgstr ""
+msgstr "Tansania"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:224
 #: my-evolution/Locations.h:2331
@@ -2326,7 +2377,7 @@ msgstr "Yhdysvallat"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:225
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "Yhdysvaltain pienet erillissaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:226
 #: my-evolution/Locations.h:2336
@@ -2335,11 +2386,11 @@ msgstr "Uruguay"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:227
 msgid "Uzbekistan"
-msgstr ""
+msgstr "Uzbekistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:228
 msgid "Vanuatu"
-msgstr ""
+msgstr "Vanuatu"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:229
 #: my-evolution/Locations.h:2367
@@ -2353,11 +2404,11 @@ msgstr "Vietnam"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:231
 msgid "Wallis And Futuna Islands"
-msgstr ""
+msgstr "Wallis ja Futuna"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:232
 msgid "Western Sahara"
-msgstr ""
+msgstr ">\\Ù@"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:233
 #: my-evolution/Locations.h:2499
@@ -2371,7 +2422,7 @@ msgstr "Jugoslavia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:235
 msgid "Zambia"
-msgstr ""
+msgstr "Sambia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:236
 msgid "Zimbabwe"
@@ -2403,11 +2454,11 @@ msgstr "Tarkasta kokonimi"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:2
 msgid "Dr."
-msgstr ""
+msgstr "Tri."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:3
 msgid "Esq."
-msgstr ""
+msgstr "Esq."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:4
 msgid "I"
@@ -2443,7 +2494,7 @@ msgstr "Nti."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:12
 msgid "Sr."
-msgstr ""
+msgstr "Sr."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:13
 msgid "_First:"
@@ -2459,15 +2510,15 @@ msgstr "_Toinen nimi:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:16
 msgid "_Suffix:"
-msgstr ""
+msgstr "_Etuliite:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:17
 msgid "_Title:"
-msgstr ""
+msgstr "_Titteli:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
 msgid "List _name:"
-msgstr ""
+msgstr "Listan _nimi:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
 msgid "Members"
@@ -2475,11 +2526,11 @@ msgstr "Jäsenet"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 msgid "Type an email address or drag a contact into the list below:"
-msgstr ""
+msgstr "Anna sähköpostiosoite tai vedä kontakti alla olevaan listaan:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "_Hide addresses when sending mail to this list"
-msgstr ""
+msgstr "_Piiloita osoitteet kun lähetät postia tälle listalle"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 #: calendar/gui/dialogs/recurrence-page.glade.h:12 filter/filter.glade.h:10
@@ -2497,16 +2548,16 @@ msgstr "Kontaktinhallinta"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:428
 msgid "Save List as VCard"
-msgstr ""
+msgstr "Tallenna lista VCardina"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 msgid "Add Anyway"
-msgstr ""
+msgstr "Lisää siitä huolimatta"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:2
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:4
 msgid "Duplicate Contact Detected"
-msgstr ""
+msgstr "Päällekkäinen kontakti poistettu"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:3
 msgid "New Contact:"
@@ -2521,6 +2572,8 @@ msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
+"Nimi tai sähköpostiosoite tälle kontaktille on jo olemassa\n"
+"tässä kansiossa. Haluasitko lisätä sen siitä huolimatta?"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:1
 msgid "Change Anyway"
@@ -2532,13 +2585,15 @@ msgstr "Muutettu kontakti:"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:3
 msgid "Conflicting Contact:"
-msgstr ""
+msgstr "Päällekkäinen kontakti:"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:5
 msgid ""
 "The changed email or name of this contact already\n"
 "exists in this folder.  Would you like to add it anyway?"
 msgstr ""
+"Vaihdettu sähköposti tai nimi tälle kontaktille on olemassa\n"
+"tässä kansiossa. Haluaisitko lisätä sen siitä huolimatta?"
 
 #: addressbook/gui/search/e-addressbook-search-dialog.c:145
 #: widgets/misc/e-filter-bar.c:238
@@ -2633,7 +2688,7 @@ msgstr "Tuntematon virhe"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:35
 msgid "Repository offline"
-msgstr ""
+msgstr "Tallennuspaikka paikallisena"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:36 shell/e-storage.c:516
 #: shell/evolution-shell-component.c:1035
@@ -2656,7 +2711,7 @@ msgstr "Protokollaa ei tueta"
 #: calendar/gui/calendar-model.c:763 calendar/gui/calendar-model.c:1197
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:481 calendar/gui/print.c:2276
-#: camel/camel-service.c:610 camel/camel-service.c:646
+#: camel/camel-service.c:611 camel/camel-service.c:647
 msgid "Cancelled"
 msgstr "Peruutettu"
 
@@ -2715,7 +2770,7 @@ msgstr "Ensisijainen puhelin"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:845
 msgid "Assistant Phone"
-msgstr ""
+msgstr "Assistentin puhelinnumero"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:846
 msgid "Business Phone"
@@ -2768,11 +2823,11 @@ msgstr "Muu osoite"
 #: addressbook/gui/widgets/e-minicard-control.c:185
 #, c-format
 msgid "and %d other cards."
-msgstr ""
+msgstr "ja %d muuta korttia."
 
 #: addressbook/gui/widgets/e-minicard-control.c:187
 msgid "and one other card."
-msgstr ""
+msgstr "ja yksi muu kortti."
 
 #: addressbook/gui/widgets/e-minicard-control.c:316
 msgid "Save in addressbook"
@@ -2786,10 +2841,14 @@ msgid ""
 "\n"
 "Double-click here to create a new Contact."
 msgstr ""
+"\n"
+"Tässä näkymässä ei ole kontakteja näytettäväksi\n"
+"\n"
+"Kaksoisnapsauta tähän luodaksesi uuden kontaktin."
 
 #: addressbook/gui/widgets/gal-view-factory-minicard.c:26
 msgid "Card View"
-msgstr ""
+msgstr "Korttinäkymä"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
@@ -2801,11 +2860,11 @@ msgstr "8 pt. Tahoma"
 
 #: addressbook/printing/e-contact-print.glade.h:3
 msgid "Blank forms at end:"
-msgstr ""
+msgstr "Tyhjä lomake lopussa:"
 
 #: addressbook/printing/e-contact-print.glade.h:4
 msgid "Body"
-msgstr ""
+msgstr "Leipäteksti"
 
 #: addressbook/printing/e-contact-print.glade.h:5
 msgid "Bottom:"
@@ -2829,7 +2888,7 @@ msgstr "Alatunniste:"
 
 #: addressbook/printing/e-contact-print.glade.h:10
 msgid "Format"
-msgstr ""
+msgstr "Muoto"
 
 #: addressbook/printing/e-contact-print.glade.h:11
 msgid "Header"
@@ -2841,11 +2900,11 @@ msgstr "Ylä-/Alatunniste"
 
 #: addressbook/printing/e-contact-print.glade.h:13
 msgid "Headings"
-msgstr ""
+msgstr "Otsikot"
 
 #: addressbook/printing/e-contact-print.glade.h:14
 msgid "Headings for each letter"
-msgstr ""
+msgstr "Jokaisen kirjeen otsikot"
 
 #: addressbook/printing/e-contact-print.glade.h:15
 msgid "Height:"
@@ -2853,11 +2912,11 @@ msgstr "Korkeus:"
 
 #: addressbook/printing/e-contact-print.glade.h:16
 msgid "Immediately follow each other"
-msgstr ""
+msgstr "Seuraa toisiaan heti paikalla"
 
 #: addressbook/printing/e-contact-print.glade.h:17
 msgid "Include:"
-msgstr ""
+msgstr "Sisällytä:"
 
 #: addressbook/printing/e-contact-print.glade.h:18
 msgid "Landscape"
@@ -2869,7 +2928,7 @@ msgstr "Vasen:"
 
 #: addressbook/printing/e-contact-print.glade.h:20
 msgid "Letter tabs on side"
-msgstr ""
+msgstr "Kirjeen sisennys sivussa"
 
 #: addressbook/printing/e-contact-print.glade.h:21
 msgid "Margins"
@@ -2914,7 +2973,7 @@ msgstr "Esikatselu:"
 
 #: addressbook/printing/e-contact-print.glade.h:31
 msgid "Print using gray shading"
-msgstr ""
+msgstr "Tulosta käyttäen harmaasävyjä"
 
 #: addressbook/printing/e-contact-print.glade.h:32
 msgid "Reverse on even pages"
@@ -2926,7 +2985,7 @@ msgstr "Oikea:"
 
 #: addressbook/printing/e-contact-print.glade.h:34
 msgid "Sections:"
-msgstr ""
+msgstr "Osa-alueita:"
 
 #: addressbook/printing/e-contact-print.glade.h:35
 msgid "Shading"
@@ -3149,59 +3208,59 @@ msgstr "Afrikka/Nairobi"
 
 #: calendar/zones.h:49
 msgid "Africa/Ndjamena"
-msgstr ""
+msgstr "Afrikka/Ndjamena"
 
 #: calendar/zones.h:50
 msgid "Africa/Niamey"
-msgstr ""
+msgstr "Afrikka/Niamey"
 
 #: calendar/zones.h:51
 msgid "Africa/Nouakchott"
-msgstr ""
+msgstr "Afrikka/Nouakchott"
 
 #: calendar/zones.h:52
 msgid "Africa/Ouagadougou"
-msgstr ""
+msgstr "Afrikka/Ouagadougou"
 
 #: calendar/zones.h:53
 msgid "Africa/Porto-Novo"
-msgstr ""
+msgstr "Afrikka/Porto-Novo"
 
 #: calendar/zones.h:54
 msgid "Africa/Sao_Tome"
-msgstr ""
+msgstr "Afrikka/Sao_Tome"
 
 #: calendar/zones.h:55
 msgid "Africa/Timbuktu"
-msgstr ""
+msgstr "Afrikka/Timbuktu"
 
 #: calendar/zones.h:56
 msgid "Africa/Tripoli"
-msgstr ""
+msgstr "Afrikka/Tripoli"
 
 #: calendar/zones.h:57
 msgid "Africa/Tunis"
-msgstr ""
+msgstr "Afrikka/Tunis"
 
 #: calendar/zones.h:58
 msgid "Africa/Windhoek"
-msgstr ""
+msgstr "Afrikka/Windhoek"
 
 #: calendar/zones.h:59
 msgid "America/Adak"
-msgstr ""
+msgstr "Amerikka/Adak"
 
 #: calendar/zones.h:60
 msgid "America/Anchorage"
-msgstr ""
+msgstr "Amerikka/Anchorage"
 
 #: calendar/zones.h:61
 msgid "America/Anguilla"
-msgstr ""
+msgstr "Amerikka/Anguilla"
 
 #: calendar/zones.h:62
 msgid "America/Antigua"
-msgstr ""
+msgstr "Amerikka/Antigua"
 
 #: calendar/zones.h:63
 msgid "America/Araguaina"
@@ -3209,11 +3268,11 @@ msgstr "Amerikka/Araguaina"
 
 #: calendar/zones.h:64
 msgid "America/Aruba"
-msgstr ""
+msgstr "Amerikka/Aruba"
 
 #: calendar/zones.h:65
 msgid "America/Asuncion"
-msgstr ""
+msgstr "Amerikka/Asuncion"
 
 #: calendar/zones.h:66
 msgid "America/Barbados"
@@ -3221,7 +3280,7 @@ msgstr "Amerikka/Barbados"
 
 #: calendar/zones.h:67
 msgid "America/Belem"
-msgstr ""
+msgstr "Amerikka/Belem"
 
 #: calendar/zones.h:68
 msgid "America/Belize"
@@ -3229,55 +3288,55 @@ msgstr "Amerikka/Belize"
 
 #: calendar/zones.h:69
 msgid "America/Boa_Vista"
-msgstr ""
+msgstr "Amerikka/Boa_Vista"
 
 #: calendar/zones.h:70
 msgid "America/Bogota"
-msgstr ""
+msgstr "Amerikka/Bogota"
 
 #: calendar/zones.h:71
 msgid "America/Boise"
-msgstr ""
+msgstr "Amerikka/Boise"
 
 #: calendar/zones.h:72
 msgid "America/Buenos_Aires"
-msgstr ""
+msgstr "Amerikka/Buenos_Aires"
 
 #: calendar/zones.h:73
 msgid "America/Cambridge_Bay"
-msgstr ""
+msgstr "Amerikka/Cambridge_Bay"
 
 #: calendar/zones.h:74
 msgid "America/Cancun"
-msgstr ""
+msgstr "Amerikka/Cancun"
 
 #: calendar/zones.h:75
 msgid "America/Caracas"
-msgstr ""
+msgstr "Amerikka/Caracas"
 
 #: calendar/zones.h:76
 msgid "America/Catamarca"
-msgstr ""
+msgstr "Amerikka/Catamarca"
 
 #: calendar/zones.h:77
 msgid "America/Cayenne"
-msgstr ""
+msgstr "Amerikka/Cayenne"
 
 #: calendar/zones.h:78
 msgid "America/Cayman"
-msgstr ""
+msgstr "Amerikka/Cayman"
 
 #: calendar/zones.h:79
 msgid "America/Chicago"
-msgstr ""
+msgstr "Amerikka/Chicago"
 
 #: calendar/zones.h:80
 msgid "America/Chihuahua"
-msgstr ""
+msgstr "Amerikka/Chihuahua"
 
 #: calendar/zones.h:81
 msgid "America/Cordoba"
-msgstr ""
+msgstr "Amerikka/Cordoba"
 
 #: calendar/zones.h:82
 msgid "America/Costa_Rica"
@@ -3285,31 +3344,31 @@ msgstr "Amerikka/Costa_Rica"
 
 #: calendar/zones.h:83
 msgid "America/Cuiaba"
-msgstr ""
+msgstr "Amerikka/Cuiaba"
 
 #: calendar/zones.h:84
 msgid "America/Curacao"
-msgstr ""
+msgstr "Amerikka/Curacao"
 
 #: calendar/zones.h:85
 msgid "America/Danmarkshavn"
-msgstr ""
+msgstr "Amerikka/Danmarkshavn"
 
 #: calendar/zones.h:86
 msgid "America/Dawson"
-msgstr ""
+msgstr "Amerikka/Dawson"
 
 #: calendar/zones.h:87
 msgid "America/Dawson_Creek"
-msgstr ""
+msgstr "Amerikka/Dawson_Creek"
 
 #: calendar/zones.h:88
 msgid "America/Denver"
-msgstr ""
+msgstr "Amerikka/Denver"
 
 #: calendar/zones.h:89
 msgid "America/Detroit"
-msgstr ""
+msgstr "Amerikka/Detroit"
 
 #: calendar/zones.h:90
 msgid "America/Dominica"
@@ -3317,11 +3376,11 @@ msgstr "Amerikka/Dominica"
 
 #: calendar/zones.h:91
 msgid "America/Edmonton"
-msgstr ""
+msgstr "Amerikka/Edmonton"
 
 #: calendar/zones.h:92
 msgid "America/Eirunepe"
-msgstr ""
+msgstr "Amerikka/Eirunepe"
 
 #: calendar/zones.h:93
 msgid "America/El_Salvador"
@@ -3329,23 +3388,23 @@ msgstr "Amerikka/El_Salvador"
 
 #: calendar/zones.h:94
 msgid "America/Fortaleza"
-msgstr ""
+msgstr "Amerikka/Fortaleza"
 
 #: calendar/zones.h:95
 msgid "America/Glace_Bay"
-msgstr ""
+msgstr "Amerikka/Glace_Bay"
 
 #: calendar/zones.h:96
 msgid "America/Godthab"
-msgstr ""
+msgstr "Amerikka/Godthab"
 
 #: calendar/zones.h:97
 msgid "America/Goose_Bay"
-msgstr ""
+msgstr "Amerikka/Goose_Bay"
 
 #: calendar/zones.h:98
 msgid "America/Grand_Turk"
-msgstr ""
+msgstr "Amerikka/Grand_Turk"
 
 #: calendar/zones.h:99
 msgid "America/Grenada"
@@ -3361,7 +3420,7 @@ msgstr "Amerikka/Guatemala"
 
 #: calendar/zones.h:102
 msgid "America/Guayaquil"
-msgstr ""
+msgstr "Amerikka/Guayaquil"
 
 #: calendar/zones.h:103
 msgid "America/Guyana"
@@ -3369,43 +3428,43 @@ msgstr "Amerikka/Guyana"
 
 #: calendar/zones.h:104
 msgid "America/Halifax"
-msgstr ""
+msgstr "Amerikka/Halifax"
 
 #: calendar/zones.h:105
 msgid "America/Havana"
-msgstr ""
+msgstr "Amerikka/Havanna"
 
 #: calendar/zones.h:106
 msgid "America/Hermosillo"
-msgstr ""
+msgstr "Amerikka/Hermosillo"
 
 #: calendar/zones.h:107
 msgid "America/Indiana/Indianapolis"
-msgstr ""
+msgstr "Amerikka/Indiana/Indianapolis"
 
 #: calendar/zones.h:108
 msgid "America/Indiana/Knox"
-msgstr ""
+msgstr "Amerikka/Indiana/Knox"
 
 #: calendar/zones.h:109
 msgid "America/Indiana/Marengo"
-msgstr ""
+msgstr "Amerikka/Indiana/Marengo"
 
 #: calendar/zones.h:110
 msgid "America/Indiana/Vevay"
-msgstr ""
+msgstr "Amerikka/Indiana/Vevay"
 
 #: calendar/zones.h:111
 msgid "America/Indianapolis"
-msgstr ""
+msgstr "Amerikka/Indianapolis"
 
 #: calendar/zones.h:112
 msgid "America/Inuvik"
-msgstr ""
+msgstr "Amerikka/Inuvik"
 
 #: calendar/zones.h:113
 msgid "America/Iqaluit"
-msgstr ""
+msgstr "Amerikka/Iqaluit"
 
 #: calendar/zones.h:114
 msgid "America/Jamaica"
@@ -3413,115 +3472,115 @@ msgstr "Amerikka/Jamaika"
 
 #: calendar/zones.h:115
 msgid "America/Jujuy"
-msgstr ""
+msgstr "Amerikka/Jujuy"
 
 #: calendar/zones.h:116
 msgid "America/Juneau"
-msgstr ""
+msgstr "Amerikka/Juneau"
 
 #: calendar/zones.h:117
 msgid "America/Kentucky/Louisville"
-msgstr ""
+msgstr "Amerikka/Kentucky/Louisville"
 
 #: calendar/zones.h:118
 msgid "America/Kentucky/Monticello"
-msgstr ""
+msgstr "Amerikka/Kentucky/Monticello"
 
 #: calendar/zones.h:119
 msgid "America/La_Paz"
-msgstr ""
+msgstr "Amerikka/La_Paz"
 
 #: calendar/zones.h:120
 msgid "America/Lima"
-msgstr ""
+msgstr "Amerikka/Lima"
 
 #: calendar/zones.h:121
 msgid "America/Los_Angeles"
-msgstr ""
+msgstr "Amerikka/Los_Angeles"
 
 #: calendar/zones.h:122
 msgid "America/Louisville"
-msgstr ""
+msgstr "Amerikka/Louisville"
 
 #: calendar/zones.h:123
 msgid "America/Maceio"
-msgstr ""
+msgstr "Amerikka/Maceio"
 
 #: calendar/zones.h:124
 msgid "America/Managua"
-msgstr ""
+msgstr "Amerikka/Managua"
 
 #: calendar/zones.h:125
 msgid "America/Manaus"
-msgstr ""
+msgstr "Amerikka/Manaus"
 
 #: calendar/zones.h:126
 msgid "America/Martinique"
-msgstr ""
+msgstr "Amerikka/Martinique"
 
 #: calendar/zones.h:127
 msgid "America/Mazatlan"
-msgstr ""
+msgstr "Amerikka/Mazatlan"
 
 #: calendar/zones.h:128
 msgid "America/Mendoza"
-msgstr ""
+msgstr "Amerikka/Mendoza"
 
 #: calendar/zones.h:129
 msgid "America/Menominee"
-msgstr ""
+msgstr "Amerikka/Menominee"
 
 #: calendar/zones.h:130
 msgid "America/Merida"
-msgstr ""
+msgstr "Amerikka/Merida"
 
 #: calendar/zones.h:131
 msgid "America/Mexico_City"
-msgstr ""
+msgstr "Amerikka/Mexico_City"
 
 #: calendar/zones.h:132
 msgid "America/Miquelon"
-msgstr ""
+msgstr "Amerikka/Miquelon"
 
 #: calendar/zones.h:133
 msgid "America/Monterrey"
-msgstr ""
+msgstr "Amerikka/Monterrey"
 
 #: calendar/zones.h:134
 msgid "America/Montevideo"
-msgstr ""
+msgstr "Amerikka/Montevideo"
 
 #: calendar/zones.h:135
 msgid "America/Montreal"
-msgstr ""
+msgstr "Amerikka/Montreal"
 
 #: calendar/zones.h:136
 msgid "America/Montserrat"
-msgstr ""
+msgstr "Amerikka/Montserrat"
 
 #: calendar/zones.h:137
 msgid "America/Nassau"
-msgstr ""
+msgstr "Amerikka/Nassau"
 
 #: calendar/zones.h:138
 msgid "America/New_York"
-msgstr ""
+msgstr "Amerikka/New_York"
 
 #: calendar/zones.h:139
 msgid "America/Nipigon"
-msgstr ""
+msgstr "Amerikka/Nipigon"
 
 #: calendar/zones.h:140
 msgid "America/Nome"
-msgstr ""
+msgstr "Amerikka/Nome"
 
 #: calendar/zones.h:141
 msgid "America/Noronha"
-msgstr ""
+msgstr "Amerikka/Noronha"
 
 #: calendar/zones.h:142
 msgid "America/North_Dakota/Center"
-msgstr ""
+msgstr "Amerikka/North_Dakota/Center"
 
 #: calendar/zones.h:143
 msgid "America/Panama"
@@ -3529,111 +3588,111 @@ msgstr "Amerikka/Panama"
 
 #: calendar/zones.h:144
 msgid "America/Pangnirtung"
-msgstr ""
+msgstr "Amerikka/Pangnirtung"
 
 #: calendar/zones.h:145
 msgid "America/Paramaribo"
-msgstr ""
+msgstr "Amerikka/Paramaribo"
 
 #: calendar/zones.h:146
 msgid "America/Phoenix"
-msgstr ""
+msgstr "Amerikka/Phoenix"
 
 #: calendar/zones.h:147
 msgid "America/Port-au-Prince"
-msgstr ""
+msgstr "Amerikka/Port-au-Prince"
 
 #: calendar/zones.h:148
 msgid "America/Port_of_Spain"
-msgstr ""
+msgstr "Amerikka/Port_of_Spain"
 
 #: calendar/zones.h:149
 msgid "America/Porto_Velho"
-msgstr ""
+msgstr "Amerikka/Porto_Velho"
 
 #: calendar/zones.h:150
 msgid "America/Puerto_Rico"
-msgstr ""
+msgstr "Amerikka/Puerto_Rico"
 
 #: calendar/zones.h:151
 msgid "America/Rainy_River"
-msgstr ""
+msgstr "Amerikka/Rainy_River"
 
 #: calendar/zones.h:152
 msgid "America/Rankin_Inlet"
-msgstr ""
+msgstr "Amerikka/Rankin_Inlet"
 
 #: calendar/zones.h:153
 msgid "America/Recife"
-msgstr ""
+msgstr "Amerikka/Recife"
 
 #: calendar/zones.h:154
 msgid "America/Regina"
-msgstr ""
+msgstr "Amerikka/Regina"
 
 #: calendar/zones.h:155
 msgid "America/Rio_Branco"
-msgstr ""
+msgstr "Amerikka/Rio_Branco"
 
 #: calendar/zones.h:156
 msgid "America/Rosario"
-msgstr ""
+msgstr "Amerikka/Rosario"
 
 #: calendar/zones.h:157
 msgid "America/Santiago"
-msgstr ""
+msgstr "Amerikka/Santiago"
 
 #: calendar/zones.h:158
 msgid "America/Santo_Domingo"
-msgstr ""
+msgstr "Amerikka/Santo_Domingo"
 
 #: calendar/zones.h:159
 msgid "America/Sao_Paulo"
-msgstr ""
+msgstr "Amerikka/Sao_Paulo"
 
 #: calendar/zones.h:160
 msgid "America/Scoresbysund"
-msgstr ""
+msgstr "Amerikka/Scoresbysund"
 
 #: calendar/zones.h:161
 msgid "America/Shiprock"
-msgstr ""
+msgstr "Amerikka/Shiprock"
 
 #: calendar/zones.h:162
 msgid "America/St_Johns"
-msgstr ""
+msgstr "Amerikka/St_Johns"
 
 #: calendar/zones.h:163
 msgid "America/St_Kitts"
-msgstr ""
+msgstr "Amerikka/St_Kitts"
 
 #: calendar/zones.h:164
 msgid "America/St_Lucia"
-msgstr ""
+msgstr "Amerikka/St_Lucia"
 
 #: calendar/zones.h:165
 msgid "America/St_Thomas"
-msgstr ""
+msgstr "Amerikka/St_Thomas"
 
 #: calendar/zones.h:166
 msgid "America/St_Vincent"
-msgstr ""
+msgstr "Amerikka/St_Vincent"
 
 #: calendar/zones.h:167
 msgid "America/Swift_Current"
-msgstr ""
+msgstr "Amerikka/Swift_Current"
 
 #: calendar/zones.h:168
 msgid "America/Tegucigalpa"
-msgstr ""
+msgstr "Amerikka/Tegucigalpa"
 
 #: calendar/zones.h:169
 msgid "America/Thule"
-msgstr ""
+msgstr "Amerikka/Thule"
 
 #: calendar/zones.h:170
 msgid "America/Thunder_Bay"
-msgstr ""
+msgstr "Amerikka/Thunder_Bay"
 
 #: calendar/zones.h:171
 msgid "America/Tijuana"
@@ -3641,99 +3700,99 @@ msgstr "Amerikka/Tijuana"
 
 #: calendar/zones.h:172
 msgid "America/Tortola"
-msgstr ""
+msgstr "Amerikka/Tortola"
 
 #: calendar/zones.h:173
 msgid "America/Vancouver"
-msgstr ""
+msgstr "Amerikka/Vancouver"
 
 #: calendar/zones.h:174
 msgid "America/Whitehorse"
-msgstr ""
+msgstr "Amerikka/Whitehorse"
 
 #: calendar/zones.h:175
 msgid "America/Winnipeg"
-msgstr ""
+msgstr "Amerikka/Winnipeg"
 
 #: calendar/zones.h:176
 msgid "America/Yakutat"
-msgstr ""
+msgstr "Amerikka/Yakutat"
 
 #: calendar/zones.h:177
 msgid "America/Yellowknife"
-msgstr ""
+msgstr "Amerikka/Yellowknife"
 
 #: calendar/zones.h:178
 msgid "Antarctica/Casey"
-msgstr ""
+msgstr "Antarktis/Casey"
 
 #: calendar/zones.h:179
 msgid "Antarctica/Davis"
-msgstr ""
+msgstr "Antarktis/Davis"
 
 #: calendar/zones.h:180
 msgid "Antarctica/DumontDUrville"
-msgstr ""
+msgstr "Antarktis/DumontDUrville"
 
 #: calendar/zones.h:181
 msgid "Antarctica/Mawson"
-msgstr ""
+msgstr "Antarktis/Mawson"
 
 #: calendar/zones.h:182
 msgid "Antarctica/McMurdo"
-msgstr ""
+msgstr "Antarktis/McMurdo"
 
 #: calendar/zones.h:183
 msgid "Antarctica/Palmer"
-msgstr ""
+msgstr "Antarktis/Palmer"
 
 #: calendar/zones.h:184
 msgid "Antarctica/South_Pole"
-msgstr ""
+msgstr "Antarktis/Etelä-napa"
 
 #: calendar/zones.h:185
 msgid "Antarctica/Syowa"
-msgstr ""
+msgstr "Antarktis/Syowa"
 
 #: calendar/zones.h:186
 msgid "Antarctica/Vostok"
-msgstr ""
+msgstr "Antarktis/Vostok"
 
 #: calendar/zones.h:187
 msgid "Arctic/Longyearbyen"
-msgstr ""
+msgstr "Arktinen/Longyearbyen"
 
 #: calendar/zones.h:188
 msgid "Asia/Aden"
-msgstr ""
+msgstr "Aasia/Aden"
 
 #: calendar/zones.h:189
 msgid "Asia/Almaty"
-msgstr ""
+msgstr "Aasia/Almaty"
 
 #: calendar/zones.h:190
 msgid "Asia/Amman"
-msgstr ""
+msgstr "Aasia/Amman"
 
 #: calendar/zones.h:191
 msgid "Asia/Anadyr"
-msgstr ""
+msgstr "Aasia/Anadyr"
 
 #: calendar/zones.h:192
 msgid "Asia/Aqtau"
-msgstr ""
+msgstr "Aasia/Aqtau"
 
 #: calendar/zones.h:193
 msgid "Asia/Aqtobe"
-msgstr ""
+msgstr "Aasia/Aqtobe"
 
 #: calendar/zones.h:194
 msgid "Asia/Ashgabat"
-msgstr ""
+msgstr "Aasia/Ashgabat"
 
 #: calendar/zones.h:195
 msgid "Asia/Baghdad"
-msgstr ""
+msgstr "Aasia/Baghdad"
 
 #: calendar/zones.h:196
 msgid "Asia/Bahrain"
@@ -3741,35 +3800,35 @@ msgstr "Aasia/Bahrain"
 
 #: calendar/zones.h:197
 msgid "Asia/Baku"
-msgstr ""
+msgstr "Aasia/Baku"
 
 #: calendar/zones.h:198
 msgid "Asia/Bangkok"
-msgstr ""
+msgstr "Aasia/Bangkok"
 
 #: calendar/zones.h:199
 msgid "Asia/Beirut"
-msgstr ""
+msgstr "Aasia/Beirut"
 
 #: calendar/zones.h:200
 msgid "Asia/Bishkek"
-msgstr ""
+msgstr "Aasia/Bishkek"
 
 #: calendar/zones.h:201
 msgid "Asia/Brunei"
-msgstr ""
+msgstr "Aasia/Brunei"
 
 #: calendar/zones.h:202
 msgid "Asia/Calcutta"
-msgstr ""
+msgstr "Aasia/Calcutta"
 
 #: calendar/zones.h:203
 msgid "Asia/Choibalsan"
-msgstr ""
+msgstr "Aasia/Choibalsan"
 
 #: calendar/zones.h:204
 msgid "Asia/Chongqing"
-msgstr ""
+msgstr "Aasia/Chongqing"
 
 #: calendar/zones.h:205
 msgid "Asia/Colombo"
@@ -3777,31 +3836,31 @@ msgstr "Aasia/Colombo"
 
 #: calendar/zones.h:206
 msgid "Asia/Damascus"
-msgstr ""
+msgstr "Aasia/Damascus"
 
 #: calendar/zones.h:207
 msgid "Asia/Dhaka"
-msgstr ""
+msgstr "Aasia/Dhaka"
 
 #: calendar/zones.h:208
 msgid "Asia/Dili"
-msgstr ""
+msgstr "Aasia/Dili"
 
 #: calendar/zones.h:209
 msgid "Asia/Dubai"
-msgstr ""
+msgstr "Aasia/Dubai"
 
 #: calendar/zones.h:210
 msgid "Asia/Dushanbe"
-msgstr ""
+msgstr "Aasia/Dushanbe"
 
 #: calendar/zones.h:211
 msgid "Asia/Gaza"
-msgstr ""
+msgstr "Aasia/Gaza"
 
 #: calendar/zones.h:212
 msgid "Asia/Harbin"
-msgstr ""
+msgstr "Aasia/Harbin"
 
 #: calendar/zones.h:213
 msgid "Asia/Hong_Kong"
@@ -3809,59 +3868,59 @@ msgstr "Aasia/Hong_Kong"
 
 #: calendar/zones.h:214
 msgid "Asia/Hovd"
-msgstr ""
+msgstr "Aasia/Hovd"
 
 #: calendar/zones.h:215
 msgid "Asia/Irkutsk"
-msgstr ""
+msgstr "Aasia/Irkutsk"
 
 #: calendar/zones.h:216
 msgid "Asia/Istanbul"
-msgstr ""
+msgstr "Aasia/Istanbul"
 
 #: calendar/zones.h:217
 msgid "Asia/Jakarta"
-msgstr ""
+msgstr "Aasia/Jakarta"
 
 #: calendar/zones.h:218
 msgid "Asia/Jayapura"
-msgstr ""
+msgstr "Aasia/Jayapura"
 
 #: calendar/zones.h:219
 msgid "Asia/Jerusalem"
-msgstr ""
+msgstr "Aasia/Jerusalem"
 
 #: calendar/zones.h:220
 msgid "Asia/Kabul"
-msgstr ""
+msgstr "Aasia/Kabul"
 
 #: calendar/zones.h:221
 msgid "Asia/Kamchatka"
-msgstr ""
+msgstr "Aasia/Kamchatka"
 
 #: calendar/zones.h:222
 msgid "Asia/Karachi"
-msgstr ""
+msgstr "Aasia/Karachi"
 
 #: calendar/zones.h:223
 msgid "Asia/Kashgar"
-msgstr ""
+msgstr "Aasia/Kashgar"
 
 #: calendar/zones.h:224
 msgid "Asia/Katmandu"
-msgstr ""
+msgstr "Aasia/Katmandu"
 
 #: calendar/zones.h:225
 msgid "Asia/Krasnoyarsk"
-msgstr ""
+msgstr "Aasia/Krasnoyarsk"
 
 #: calendar/zones.h:226
 msgid "Asia/Kuala_Lumpur"
-msgstr ""
+msgstr "Aasia/Kuala_Lumpur"
 
 #: calendar/zones.h:227
 msgid "Asia/Kuching"
-msgstr ""
+msgstr "Aasia/Kuching"
 
 #: calendar/zones.h:228
 msgid "Asia/Kuwait"
@@ -3869,43 +3928,43 @@ msgstr "Aasia/Kuwait"
 
 #: calendar/zones.h:229
 msgid "Asia/Macao"
-msgstr ""
+msgstr "Aasia/Macao"
 
 #: calendar/zones.h:230
 msgid "Asia/Magadan"
-msgstr ""
+msgstr "Aasia/Magadan"
 
 #: calendar/zones.h:231
 msgid "Asia/Manila"
-msgstr ""
+msgstr "Aasia/Manila"
 
 #: calendar/zones.h:232
 msgid "Asia/Muscat"
-msgstr ""
+msgstr "Aasia/Muscat"
 
 #: calendar/zones.h:233
 msgid "Asia/Nicosia"
-msgstr ""
+msgstr "Aasia/Nicosia"
 
 #: calendar/zones.h:234
 msgid "Asia/Novosibirsk"
-msgstr ""
+msgstr "Aasia/Novosibirsk"
 
 #: calendar/zones.h:235
 msgid "Asia/Omsk"
-msgstr ""
+msgstr "Aasia/Omsk"
 
 #: calendar/zones.h:236
 msgid "Asia/Phnom_Penh"
-msgstr ""
+msgstr "Aasia/Phnom_Penh"
 
 #: calendar/zones.h:237
 msgid "Asia/Pontianak"
-msgstr ""
+msgstr "Aasia/Pontianak"
 
 #: calendar/zones.h:238
 msgid "Asia/Pyongyang"
-msgstr ""
+msgstr "Aasia/Pyongyang"
 
 #: calendar/zones.h:239
 msgid "Asia/Qatar"
@@ -3913,31 +3972,31 @@ msgstr "Aasia/Qatar"
 
 #: calendar/zones.h:240
 msgid "Asia/Rangoon"
-msgstr ""
+msgstr "Aasia/Rangoon"
 
 #: calendar/zones.h:241
 msgid "Asia/Riyadh"
-msgstr ""
+msgstr "Aasia/Riyadh"
 
 #: calendar/zones.h:242
 msgid "Asia/Saigon"
-msgstr ""
+msgstr "Aasia/Saigon"
 
 #: calendar/zones.h:243
 msgid "Asia/Sakhalin"
-msgstr ""
+msgstr "Aasia/Sakhalin"
 
 #: calendar/zones.h:244
 msgid "Asia/Samarkand"
-msgstr ""
+msgstr "Aasia/Samarkand"
 
 #: calendar/zones.h:245
 msgid "Asia/Seoul"
-msgstr ""
+msgstr "Aasia/Seoul"
 
 #: calendar/zones.h:246
 msgid "Asia/Shanghai"
-msgstr ""
+msgstr "Aasia/Shanghai"
 
 #: calendar/zones.h:247
 msgid "Asia/Singapore"
@@ -3945,63 +4004,63 @@ msgstr "Aasia/Singapore"
 
 #: calendar/zones.h:248
 msgid "Asia/Taipei"
-msgstr ""
+msgstr "Aasia/Taipei"
 
 #: calendar/zones.h:249
 msgid "Asia/Tashkent"
-msgstr ""
+msgstr "Aasia/Tashkent"
 
 #: calendar/zones.h:250
 msgid "Asia/Tbilisi"
-msgstr ""
+msgstr "Aasia/Tbilisi"
 
 #: calendar/zones.h:251
 msgid "Asia/Tehran"
-msgstr ""
+msgstr "Aasia/Tehran"
 
 #: calendar/zones.h:252
 msgid "Asia/Thimphu"
-msgstr ""
+msgstr "Aasia/Thimphu"
 
 #: calendar/zones.h:253
 msgid "Asia/Tokyo"
-msgstr ""
+msgstr "Aasia/Tokio"
 
 #: calendar/zones.h:254
 msgid "Asia/Ujung_Pandang"
-msgstr ""
+msgstr "Aasia/Ujung_Pandang"
 
 #: calendar/zones.h:255
 msgid "Asia/Ulaanbaatar"
-msgstr ""
+msgstr "Aasia/Ulaanbaatar"
 
 #: calendar/zones.h:256
 msgid "Asia/Urumqi"
-msgstr ""
+msgstr "Aasia/Urumqi"
 
 #: calendar/zones.h:257
 msgid "Asia/Vientiane"
-msgstr ""
+msgstr "Aasia/Vientiane"
 
 #: calendar/zones.h:258
 msgid "Asia/Vladivostok"
-msgstr ""
+msgstr "Aasia/Vladivostok"
 
 #: calendar/zones.h:259
 msgid "Asia/Yakutsk"
-msgstr ""
+msgstr "Aasia/Yakutsk"
 
 #: calendar/zones.h:260
 msgid "Asia/Yekaterinburg"
-msgstr ""
+msgstr "Aasia/Yekaterinburg"
 
 #: calendar/zones.h:261
 msgid "Asia/Yerevan"
-msgstr ""
+msgstr "Aasia/Yerevan"
 
 #: calendar/zones.h:262
 msgid "Atlantic/Azores"
-msgstr ""
+msgstr "Atlantti/Azores"
 
 #: calendar/zones.h:263
 msgid "Atlantic/Bermuda"
@@ -4009,7 +4068,7 @@ msgstr "Atlantti/Bermudasaaret"
 
 #: calendar/zones.h:264
 msgid "Atlantic/Canary"
-msgstr ""
+msgstr "Atlantti/Canary"
 
 #: calendar/zones.h:265
 msgid "Atlantic/Cape_Verde"
@@ -4017,31 +4076,31 @@ msgstr "Atlantti/Kap_Verde"
 
 #: calendar/zones.h:266
 msgid "Atlantic/Faeroe"
-msgstr ""
+msgstr "Atlantti/Faeroe"
 
 #: calendar/zones.h:267
 msgid "Atlantic/Jan_Mayen"
-msgstr ""
+msgstr "Atlantti/Jan_Mayen"
 
 #: calendar/zones.h:268
 msgid "Atlantic/Madeira"
-msgstr ""
+msgstr "Atlantti/Madeira"
 
 #: calendar/zones.h:269
 msgid "Atlantic/Reykjavik"
-msgstr ""
+msgstr "Atlantti/Reykjavik"
 
 #: calendar/zones.h:270
 msgid "Atlantic/South_Georgia"
-msgstr ""
+msgstr "Atlantti/South_Georgia"
 
 #: calendar/zones.h:271
 msgid "Atlantic/St_Helena"
-msgstr ""
+msgstr "Atlantiti/St_Helena"
 
 #: calendar/zones.h:272
 msgid "Atlantic/Stanley"
-msgstr ""
+msgstr "Atlantti/Stanley"
 
 #: calendar/zones.h:273
 msgid "Australia/Adelaide"
@@ -4085,11 +4144,11 @@ msgstr "Australia/Sydney"
 
 #: calendar/zones.h:283
 msgid "Europe/Amsterdam"
-msgstr ""
+msgstr "Eurooppa/Amsterdam"
 
 #: calendar/zones.h:284
 msgid "Europe/Andorra"
-msgstr ""
+msgstr "Eurooppa/Andorra"
 
 #: calendar/zones.h:285
 msgid "Europe/Athens"
@@ -4097,43 +4156,43 @@ msgstr "Eurooppa/Ateena"
 
 #: calendar/zones.h:286
 msgid "Europe/Belfast"
-msgstr ""
+msgstr "Eurooppa/Belfast"
 
 #: calendar/zones.h:287
 msgid "Europe/Belgrade"
-msgstr ""
+msgstr "Eurooppa/Belgrad"
 
 #: calendar/zones.h:288
 msgid "Europe/Berlin"
-msgstr ""
+msgstr "Eurooppa/Berliini"
 
 #: calendar/zones.h:289
 msgid "Europe/Bratislava"
-msgstr ""
+msgstr "Eurooppa/Bratislava"
 
 #: calendar/zones.h:290
 msgid "Europe/Brussels"
-msgstr ""
+msgstr "Eurooppa/Brysseli"
 
 #: calendar/zones.h:291
 msgid "Europe/Bucharest"
-msgstr ""
+msgstr "Eurooppa/Bukarest"
 
 #: calendar/zones.h:292
 msgid "Europe/Budapest"
-msgstr ""
+msgstr "Eurooppa/Budapest"
 
 #: calendar/zones.h:293
 msgid "Europe/Chisinau"
-msgstr ""
+msgstr "Eurooppa/Chisinau"
 
 #: calendar/zones.h:294
 msgid "Europe/Copenhagen"
-msgstr ""
+msgstr "Eurooppa/Kööpenhamina"
 
 #: calendar/zones.h:295
 msgid "Europe/Dublin"
-msgstr ""
+msgstr "Eurooppa/Dublin"
 
 #: calendar/zones.h:296
 msgid "Europe/Gibraltar"
@@ -4145,27 +4204,27 @@ msgstr "Eurooppa/Helsinki"
 
 #: calendar/zones.h:298
 msgid "Europe/Istanbul"
-msgstr ""
+msgstr "Eurooppa/Istanbul"
 
 #: calendar/zones.h:299
 msgid "Europe/Kaliningrad"
-msgstr ""
+msgstr "Eurooppa/Kaliningrad"
 
 #: calendar/zones.h:300
 msgid "Europe/Kiev"
-msgstr ""
+msgstr "Eurooppa/Kiev"
 
 #: calendar/zones.h:301
 msgid "Europe/Lisbon"
-msgstr ""
+msgstr "Eurooppa/Lissabon"
 
 #: calendar/zones.h:302
 msgid "Europe/Ljubljana"
-msgstr ""
+msgstr "Eurooppa/Ljubljana"
 
 #: calendar/zones.h:303
 msgid "Europe/London"
-msgstr ""
+msgstr "Eurooppa/Lontoo"
 
 #: calendar/zones.h:304
 msgid "Europe/Luxembourg"
@@ -4173,15 +4232,15 @@ msgstr "Eurooppa/Luxemburg"
 
 #: calendar/zones.h:305
 msgid "Europe/Madrid"
-msgstr ""
+msgstr "Eurooppa/Madrid"
 
 #: calendar/zones.h:306
 msgid "Europe/Malta"
-msgstr ""
+msgstr "Eurooppa/Malta"
 
 #: calendar/zones.h:307
 msgid "Europe/Minsk"
-msgstr ""
+msgstr "Eurooppa/Minsk"
 
 #: calendar/zones.h:308
 msgid "Europe/Monaco"
@@ -4189,15 +4248,15 @@ msgstr "Eurooppa/Monaco"
 
 #: calendar/zones.h:309
 msgid "Europe/Moscow"
-msgstr ""
+msgstr "Eurooppa/Moskova"
 
 #: calendar/zones.h:310
 msgid "Europe/Nicosia"
-msgstr ""
+msgstr "Eurooppa/Nicosia"
 
 #: calendar/zones.h:311
 msgid "Europe/Oslo"
-msgstr ""
+msgstr "Eurooppa/Oslo"
 
 #: calendar/zones.h:312
 msgid "Europe/Paris"
@@ -4205,19 +4264,19 @@ msgstr "Eurooppa/Pariisi"
 
 #: calendar/zones.h:313
 msgid "Europe/Prague"
-msgstr ""
+msgstr "Eurooppa/Praha"
 
 #: calendar/zones.h:314
 msgid "Europe/Riga"
-msgstr ""
+msgstr "Eurooppa/Riika"
 
 #: calendar/zones.h:315
 msgid "Europe/Rome"
-msgstr ""
+msgstr "Eurooppa/Rooma"
 
 #: calendar/zones.h:316
 msgid "Europe/Samara"
-msgstr ""
+msgstr "Eurooppa/Samara"
 
 #: calendar/zones.h:317
 msgid "Europe/San_Marino"
@@ -4225,91 +4284,91 @@ msgstr "Eurooppa/San_Marino"
 
 #: calendar/zones.h:318
 msgid "Europe/Sarajevo"
-msgstr ""
+msgstr "Eurooppa/Sarajevo"
 
 #: calendar/zones.h:319
 msgid "Europe/Simferopol"
-msgstr ""
+msgstr "Eurooppa/Simferopol"
 
 #: calendar/zones.h:320
 msgid "Europe/Skopje"
-msgstr ""
+msgstr "Eurooppa/Skopje"
 
 #: calendar/zones.h:321
 msgid "Europe/Sofia"
-msgstr ""
+msgstr "Eurooppa/Sofia"
 
 #: calendar/zones.h:322
 msgid "Europe/Stockholm"
-msgstr ""
+msgstr "Eurooppa/Tukholma"
 
 #: calendar/zones.h:323
 msgid "Europe/Tallinn"
-msgstr ""
+msgstr "Eurooppa/Tallinna"
 
 #: calendar/zones.h:324
 msgid "Europe/Tirane"
-msgstr ""
+msgstr "Eurooppa/Tirane"
 
 #: calendar/zones.h:325
 msgid "Europe/Uzhgorod"
-msgstr ""
+msgstr "Eurooppa/Uzhgorod"
 
 #: calendar/zones.h:326
 msgid "Europe/Vaduz"
-msgstr ""
+msgstr "Eurooppa/Vaduz"
 
 #: calendar/zones.h:327
 msgid "Europe/Vatican"
-msgstr ""
+msgstr "Eurooppa/Vatikaani"
 
 #: calendar/zones.h:328
 msgid "Europe/Vienna"
-msgstr ""
+msgstr "Eurooppa/Vienna"
 
 #: calendar/zones.h:329
 msgid "Europe/Vilnius"
-msgstr ""
+msgstr "Eurooppa/Vilnius"
 
 #: calendar/zones.h:330
 msgid "Europe/Warsaw"
-msgstr ""
+msgstr "Eurooppa/Varsova"
 
 #: calendar/zones.h:331
 msgid "Europe/Zagreb"
-msgstr ""
+msgstr "Eurooppa/Zagreb"
 
 #: calendar/zones.h:332
 msgid "Europe/Zaporozhye"
-msgstr ""
+msgstr "Eurooppa/Zaporozhye"
 
 #: calendar/zones.h:333
 msgid "Europe/Zurich"
-msgstr ""
+msgstr "Eurooppa/Zurich"
 
 #: calendar/zones.h:334
 msgid "Indian/Antananarivo"
-msgstr ""
+msgstr "Indian/Antananarivo"
 
 #: calendar/zones.h:335
 msgid "Indian/Chagos"
-msgstr ""
+msgstr "Intian_Valtameri/Chagos"
 
 #: calendar/zones.h:336
 msgid "Indian/Christmas"
-msgstr ""
+msgstr "Intian_Valtameri/Christmas"
 
 #: calendar/zones.h:337
 msgid "Indian/Cocos"
-msgstr ""
+msgstr "Intian_Valtameri/Cocos"
 
 #: calendar/zones.h:338
 msgid "Indian/Comoro"
-msgstr ""
+msgstr "Intian_Valtameri/Comoro"
 
 #: calendar/zones.h:339
 msgid "Indian/Kerguelen"
-msgstr ""
+msgstr "Intian_Valtameri/Kerguelen"
 
 #: calendar/zones.h:340
 msgid "Indian/Mahe"
@@ -4317,7 +4376,7 @@ msgstr "Intian_valtameri/Mahe"
 
 #: calendar/zones.h:341
 msgid "Indian/Maldives"
-msgstr ""
+msgstr "Intian_Valtameri/Malediivit"
 
 #: calendar/zones.h:342
 msgid "Indian/Mauritius"
@@ -4325,171 +4384,171 @@ msgstr "Intian_valtameri/Mauritius"
 
 #: calendar/zones.h:343
 msgid "Indian/Mayotte"
-msgstr ""
+msgstr "Intian_Valtameri/Mayotte"
 
 #: calendar/zones.h:344
 msgid "Indian/Reunion"
-msgstr ""
+msgstr "Intian_Valtameri/Reunion"
 
 #: calendar/zones.h:345
 msgid "Pacific/Apia"
-msgstr ""
+msgstr "Tyynimeri/Apia"
 
 #: calendar/zones.h:346
 msgid "Pacific/Auckland"
-msgstr ""
+msgstr "Tyynimeri/Auckland"
 
 #: calendar/zones.h:347
 msgid "Pacific/Chatham"
-msgstr ""
+msgstr "Tyynimeri/Chatham"
 
 #: calendar/zones.h:348
 msgid "Pacific/Easter"
-msgstr ""
+msgstr "Tyynimeri/Easter"
 
 #: calendar/zones.h:349
 msgid "Pacific/Efate"
-msgstr ""
+msgstr "Tyynimeri/Efate"
 
 #: calendar/zones.h:350
 msgid "Pacific/Enderbury"
-msgstr ""
+msgstr "Tyynimeri/Enderbury"
 
 #: calendar/zones.h:351
 msgid "Pacific/Fakaofo"
-msgstr ""
+msgstr "Tyynimeri/Fakaofo"
 
 #: calendar/zones.h:352
 msgid "Pacific/Fiji"
-msgstr ""
+msgstr "Tyynimeri/Fiji"
 
 #: calendar/zones.h:353
 msgid "Pacific/Funafuti"
-msgstr ""
+msgstr "Tyynimeri/Funafuti"
 
 #: calendar/zones.h:354
 msgid "Pacific/Galapagos"
-msgstr ""
+msgstr "Tyynimeri/Galapagos"
 
 #: calendar/zones.h:355
 msgid "Pacific/Gambier"
-msgstr ""
+msgstr "Tyynimeri/Gambier"
 
 #: calendar/zones.h:356
 msgid "Pacific/Guadalcanal"
-msgstr ""
+msgstr "Tyynimeri/Guadalcanal"
 
 #: calendar/zones.h:357
 msgid "Pacific/Guam"
-msgstr ""
+msgstr "Pacific/Guam"
 
 #: calendar/zones.h:358
 msgid "Pacific/Honolulu"
-msgstr ""
+msgstr "Tyynimeri/Honolulu"
 
 #: calendar/zones.h:359
 msgid "Pacific/Johnston"
-msgstr ""
+msgstr "Tyynimeri/Johnston"
 
 #: calendar/zones.h:360
 msgid "Pacific/Kiritimati"
-msgstr ""
+msgstr "Tyynimeri/Kiritimati"
 
 #: calendar/zones.h:361
 msgid "Pacific/Kosrae"
-msgstr ""
+msgstr "Tyynimeri/Kosrae"
 
 #: calendar/zones.h:362
 msgid "Pacific/Kwajalein"
-msgstr ""
+msgstr "Tyynimeri/Kwajalein"
 
 #: calendar/zones.h:363
 msgid "Pacific/Majuro"
-msgstr ""
+msgstr "Tyynimeri/Majuro"
 
 #: calendar/zones.h:364
 msgid "Pacific/Marquesas"
-msgstr ""
+msgstr "Tyynimeri/Marquesas"
 
 #: calendar/zones.h:365
 msgid "Pacific/Midway"
-msgstr ""
+msgstr "Tyynimeri/Midway"
 
 #: calendar/zones.h:366
 msgid "Pacific/Nauru"
-msgstr ""
+msgstr "Tyynimeri/Nauru"
 
 #: calendar/zones.h:367
 msgid "Pacific/Niue"
-msgstr ""
+msgstr "Tyynimeri/Niue"
 
 #: calendar/zones.h:368
 msgid "Pacific/Norfolk"
-msgstr ""
+msgstr "Tyynimeri/Norfolk"
 
 #: calendar/zones.h:369
 msgid "Pacific/Noumea"
-msgstr ""
+msgstr "Tyynimeri/Noumea"
 
 #: calendar/zones.h:370
 msgid "Pacific/Pago_Pago"
-msgstr ""
+msgstr "Tyynimeri/Pago_Pago"
 
 #: calendar/zones.h:371
 msgid "Pacific/Palau"
-msgstr ""
+msgstr "Tyynimeri/Palau"
 
 #: calendar/zones.h:372
 msgid "Pacific/Pitcairn"
-msgstr ""
+msgstr "Tyynimeri/Pitcairn"
 
 #: calendar/zones.h:373
 msgid "Pacific/Ponape"
-msgstr ""
+msgstr "Tyynimeri/Ponape"
 
 #: calendar/zones.h:374
 msgid "Pacific/Port_Moresby"
-msgstr ""
+msgstr "Tyynimeri/Port_Moresby"
 
 #: calendar/zones.h:375
 msgid "Pacific/Rarotonga"
-msgstr ""
+msgstr "Tyynimeri/Rarotonga"
 
 #: calendar/zones.h:376
 msgid "Pacific/Saipan"
-msgstr ""
+msgstr "Tyynimeri/Saipan"
 
 #: calendar/zones.h:377
 msgid "Pacific/Tahiti"
-msgstr ""
+msgstr "Tyynimeri/Tahiti"
 
 #: calendar/zones.h:378
 msgid "Pacific/Tarawa"
-msgstr ""
+msgstr "Tyynimeri/Tarawa"
 
 #: calendar/zones.h:379
 msgid "Pacific/Tongatapu"
-msgstr ""
+msgstr "Tyynimeri/Tongatapu"
 
 #: calendar/zones.h:380
 msgid "Pacific/Truk"
-msgstr ""
+msgstr "Tyynimeri/Truk"
 
 #: calendar/zones.h:381
 msgid "Pacific/Wake"
-msgstr ""
+msgstr "Tyynimeri/Wake"
 
 #: calendar/zones.h:382
 msgid "Pacific/Wallis"
-msgstr ""
+msgstr "Tyynimeri/Wallis"
 
 #: calendar/zones.h:383
 msgid "Pacific/Yap"
-msgstr ""
+msgstr "Tyynimeri/Yap"
 
 #: calendar/cal-util/cal-component.c:1207
 msgid "Untitled appointment"
-msgstr ""
+msgstr "Nimetön tapaaminen"
 
 #: calendar/cal-util/cal-util.c:498 calendar/cal-util/cal-util.c:520
 #: calendar/gui/dialogs/task-details-page.glade.h:6
@@ -4525,64 +4584,64 @@ msgstr "Virhe kommunikoitaessa kalenteripalvelimen kanssa"
 #: calendar/conduits/calendar/calendar-conduit.c:1176
 #: calendar/conduits/calendar/calendar-conduit.c:1179
 msgid "Could not read pilot's Calendar application block"
-msgstr ""
+msgstr "Ei voinut lukea pilotin kalenterisovelluksen tietoja"
 
 #: calendar/conduits/todo/todo-conduit.c:760
 #: calendar/conduits/todo/todo-conduit.c:763
 msgid "Could not read pilot's ToDo application block"
-msgstr ""
+msgstr "Ei voinut lukea pilotin työlistasovelluksen tietoja"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "A Bonobo control which displays a task list."
-msgstr ""
+msgstr "Bonobokontrolli mikä näyttää työlistan."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:2
 msgid "A sample Bonobo control which displays an calendar."
-msgstr ""
+msgstr "Esimerkki Bonobokontrolli mikä näyttää kalenterin."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:3
 msgid "Evolution calendar executive summary component."
-msgstr ""
+msgstr "Evolutionin kalenterin yhteenvetokomponentti."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:4
 msgid "Evolution calendar iTip/iMip viewer"
-msgstr ""
+msgstr "Evolutionin kalenterin iTip/iMip katselija"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:5
 msgid "Evolution component for handling the calendar."
-msgstr ""
+msgstr "Evolution komponentti kalenterin käyttämiseen."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:6
 msgid "Factory for the Calendar Summary component."
-msgstr ""
+msgstr "Tehdas kalenterin yhteenvetokomponentille."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:7
 msgid "Factory for the Evolution Tasks control"
-msgstr ""
+msgstr "Tehdas Evolutionin työtehtävien kontrolliin"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:8
 msgid "Factory for the calendar iTip view control"
-msgstr ""
+msgstr "Tehdas kalenterin iTip näkymän kontolliin"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:9
 msgid "Factory for the sample Calendar control"
-msgstr ""
+msgstr "Tehdas esimerkkikalenterikontrolliin"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:10
 msgid "Factory to centralize calendar component editor dialogs"
-msgstr ""
+msgstr "Tehdas kalenterikontrollieditori -dialogien keskittämiseen"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:11
 msgid "Factory to create a component editor factory"
-msgstr ""
+msgstr "Tehdas komponenttieditoritehtaan luomiseen"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in.h:1
 msgid "Alarm notification service"
-msgstr ""
+msgstr "Hälytysilmoituspalvelu"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in.h:2
 msgid "Factory for the alarm notification service"
-msgstr ""
+msgstr "Tehdas hälytysilmoituspalvelua varten"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:216
 msgid "Starting:"
@@ -4603,7 +4662,7 @@ msgstr "Evolution hälytys"
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:371
 #, c-format
 msgid "Alarm on %s"
-msgstr ""
+msgstr "Hälytys on %s"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ui/evolution-comp-editor.xml.h:1
@@ -4612,11 +4671,11 @@ msgstr "_Sulje"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "Snoo_ze"
-msgstr ""
+msgstr "_Torkku"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "Snooze time (minutes)"
-msgstr ""
+msgstr "Torkkuaika (minuutteina)"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
 msgid "_Edit appointment"
@@ -4624,7 +4683,7 @@ msgstr "_Muokkaa tapaamista"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:670
 msgid "No description available."
-msgstr ""
+msgstr "Selitystä ei saatavilla."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:730
 msgid ""
@@ -4633,6 +4692,10 @@ msgid ""
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialog box instead."
 msgstr ""
+"Evolution ei tue kalenterin muistutuksia sähköposti-\n"
+"muistutuksien kera vielä, mutta tämä muistutus\n"
+"konfiguroitiin lähettämään sähköpostia. Evolution\n"
+"näyttää normaalin muistutusikkunan sen sijaan."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:781
 #, c-format
@@ -4644,6 +4707,12 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
+"Evolution kalenterin muistutus on juuri käynnistymässä.\n"
+"Tämä muistutus on asetettu ajamaan seuraavan ohjelman:\n"
+"\n"
+"        %s\n"
+"\n"
+"Oletko varma, että haluat ajaa tämän ohjelman?"
 
 #: calendar/gui/alarm-notify/notify-main.c:168 calendar/gui/main.c:57
 msgid "Could not initialize GNOME"
@@ -4651,11 +4720,11 @@ msgstr "Gnomen alustus ei onnistunut"
 
 #: calendar/gui/alarm-notify/notify-main.c:183
 msgid "Could not create the alarm notify service"
-msgstr ""
+msgstr "Ei voinut luoda hälytyksen tiedoituspalvelua"
 
 #: calendar/gui/alarm-notify/notify-main.c:188
 msgid "Could not create the alarm notify service factory"
-msgstr ""
+msgstr "Ei voinut luoda hälytyksen tiedoituspalvelu tehdasta"
 
 #: calendar/gui/calendar-commands.c:446
 msgid "%A %d %B %Y"
@@ -4689,7 +4758,7 @@ msgstr "%d %B"
 #: calendar/gui/calendar-commands.c:820
 msgid ""
 "Could not create the calendar view.  Please check your ORBit and OAF setup."
-msgstr ""
+msgstr "Ei voinut luoda kalenterinäkymää. Tarkista ORBit ja OAF asetukset."
 
 #: calendar/gui/calendar-model.c:418 calendar/gui/calendar-model.c:988
 #: calendar/gui/e-calendar-table.c:384
@@ -4757,6 +4826,9 @@ msgid ""
 "\n"
 "45.436845,125.862501"
 msgstr ""
+"Maantieteellinen asema pitää antaa seuraavassa muodossa:\n"
+"\n"
+"45.436845,125.862501"
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1189 calendar/gui/dialogs/meeting-page.c:312
@@ -4771,11 +4843,11 @@ msgstr "Määrittelemätön"
 
 #: calendar/gui/calendar-model.c:1713
 msgid "Recurring"
-msgstr ""
+msgstr "Toistuva"
 
 #: calendar/gui/calendar-model.c:1715
 msgid "Assigned"
-msgstr ""
+msgstr "Tekeillä"
 
 #: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:298
 #: calendar/gui/e-meeting-model.c:308 calendar/gui/e-meeting-model.c:537
@@ -4902,11 +4974,11 @@ msgstr "Näytettävä viesti"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
 msgid "Play sound:"
-msgstr ""
+msgstr "Soita ääni:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
 msgid "Repeat the alarm"
-msgstr ""
+msgstr "Toista hälytystä"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:5
 msgid "Run program:"
@@ -5361,7 +5433,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/comp-editor-util.c:188 calendar/gui/print.c:2185
 msgid " to "
-msgstr ""
+msgstr "0x89015d0"
 
 #: calendar/gui/dialogs/comp-editor-util.c:192 calendar/gui/print.c:2189
 msgid " (Completed "
@@ -5704,7 +5776,7 @@ msgstr "Poikkeukset"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:6
 msgid "Preview"
-msgstr ""
+msgstr "Esikatselu"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:7
 msgid "Recurrence Rule"
@@ -5920,7 +5992,7 @@ msgstr ""
 #: calendar/gui/e-calendar-table.c:1228
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
-msgstr "Napsauta lisääksesi tehtävän"
+msgstr "Napsauta lisätäksesi tehtävän"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: calendar/gui/e-cell-date-edit-text.c:118 e-util/e-time-utils.c:163
@@ -7643,22 +7715,22 @@ msgstr ""
 msgid "URL '%s' needs a path component"
 msgstr ""
 
-#: camel/camel-service.c:614
+#: camel/camel-service.c:615
 #, c-format
 msgid "Resolving: %s"
 msgstr ""
 
-#: camel/camel-service.c:641
+#: camel/camel-service.c:642
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr ""
 
-#: camel/camel-service.c:666
+#: camel/camel-service.c:667
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr ""
 
-#: camel/camel-service.c:668
+#: camel/camel-service.c:669
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr ""
@@ -8288,9 +8360,8 @@ msgid "Unknown error: %s"
 msgstr "Tuntematon virhe: %s"
 
 #: camel/providers/local/camel-mh-folder.c:172
-#, fuzzy
 msgid "MH append message cancelled"
-msgstr "Lähetä viesti kontaktille"
+msgstr "MH viestin lisäys keskeytetty"
 
 #: camel/providers/local/camel-mh-folder.c:175
 #, c-format
@@ -9481,7 +9552,7 @@ msgstr "Lähtevät"
 
 #: filter/filter.glade.h:6 filter/vfolder-editor.c:130
 msgid "Virtual Folders"
-msgstr ""
+msgstr "Virtuaalikansiot"
 
 #: filter/filter.glade.h:11
 msgid "specific folders only"
@@ -9595,7 +9666,7 @@ msgstr ""
 #: filter/libfilter-i18n.h:25 filter/score-rule.c:204 filter/score-rule.c:206
 #: mail/message-list.etspec.h:5
 msgid "Score"
-msgstr ""
+msgstr "Pisteet"
 
 #: filter/libfilter-i18n.h:26 mail/mail-callbacks.c:1405
 msgid "Sender"
@@ -9751,7 +9822,7 @@ msgstr ""
 #: importers/elm-importer.c:525 importers/netscape-importer.c:958
 #: importers/pine-importer.c:637 mail/component-factory.c:100
 msgid "Mail"
-msgstr ""
+msgstr "Posti"
 
 #: importers/elm-importer.c:545
 msgid ""
@@ -10482,7 +10553,7 @@ msgstr ""
 
 #: mail/mail-config.c:2190 mail/mail-config.c:2194
 msgid "Connecting to server..."
-msgstr ""
+msgstr "Yhdistetään palvelimeen..."
 
 #: mail/mail-config.glade.h:1
 msgid " _Check for supported types "
@@ -10576,7 +10647,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:28
 msgid "Display"
-msgstr ""
+msgstr "Näyttö"
 
 #: mail/mail-config.glade.h:29 shell/glade/evolution-startup-wizard.glade.h:2
 msgid "Done"
@@ -10629,7 +10700,7 @@ msgstr "Kerberos"
 
 #: mail/mail-config.glade.h:41
 msgid "Mail Configuration"
-msgstr ""
+msgstr "SÃ¤hkÃ¶postin asetukset"
 
 #: mail/mail-config.glade.h:43
 msgid "Mailbox location"
@@ -11750,663 +11821,663 @@ msgstr "Muutamia pilviä"
 
 #: my-evolution/metar.c:48
 msgid "Overcast"
-msgstr ""
+msgstr "Pilvistä"
 
 #: my-evolution/metar.c:56 my-evolution/metar.c:74 my-evolution/metar.c:485
 msgid "Invalid"
-msgstr ""
+msgstr "Epäkelpo"
 
 #: my-evolution/metar.c:63
 msgid "Variable"
-msgstr ""
+msgstr "Vaihteleva"
 
 #: my-evolution/metar.c:64
 msgid "North"
-msgstr ""
+msgstr "Pohjoinen"
 
 #: my-evolution/metar.c:64
 msgid "North - NorthEast"
-msgstr ""
+msgstr "Pohjoinen - Koillinen"
 
 #: my-evolution/metar.c:64
 msgid "Northeast"
-msgstr ""
+msgstr "Koillinen"
 
 #: my-evolution/metar.c:64
 msgid "East - NorthEast"
-msgstr ""
+msgstr "Itäinen - Koillinen"
 
 #: my-evolution/metar.c:65
 msgid "East"
-msgstr ""
+msgstr "Itäinen"
 
 #: my-evolution/metar.c:65
 msgid "East - Southeast"
-msgstr ""
+msgstr "Itäinen - Kaakkoinen"
 
 #: my-evolution/metar.c:65
 msgid "Southeast"
-msgstr ""
+msgstr "Kaakkoinen"
 
 #: my-evolution/metar.c:65
 msgid "South - Southeast"
-msgstr ""
+msgstr "Eteläinen - Kaakkoinen"
 
 #: my-evolution/metar.c:66
 msgid "South"
-msgstr ""
+msgstr "Eteläinen"
 
 #: my-evolution/metar.c:66
 msgid "South - Southwest"
-msgstr ""
+msgstr "Eteläinen - Lounainen"
 
 #: my-evolution/metar.c:66
 msgid "Southwest"
-msgstr ""
+msgstr "Lounainen"
 
 #: my-evolution/metar.c:66
 msgid "West - Southwest"
-msgstr ""
+msgstr "Läntinen - Lounainen"
 
 #: my-evolution/metar.c:67
 msgid "West"
-msgstr ""
+msgstr "Läntinen"
 
 #: my-evolution/metar.c:67
 msgid "West - Northwest"
-msgstr ""
+msgstr "Läntinen - Luoteinen"
 
 #: my-evolution/metar.c:67
 msgid "Northwest"
-msgstr ""
+msgstr "Luoteinen"
 
 #: my-evolution/metar.c:67
 msgid "North - Northwest"
-msgstr ""
+msgstr "Pohjoinen - Luoteinen"
 
 #. DRIZZLE
 #: my-evolution/metar.c:127
 msgid "Drizzle"
-msgstr ""
+msgstr "Tihkusadetta"
 
 #: my-evolution/metar.c:128
 msgid "Drizzle in the vicinity"
-msgstr ""
+msgstr "Alueella tihkusadetta"
 
 #: my-evolution/metar.c:129
 msgid "Light drizzle"
-msgstr ""
+msgstr "Kevyttä tihkusadetta"
 
 #: my-evolution/metar.c:130
 msgid "Moderate drizzle"
-msgstr ""
+msgstr "Kohtalaista tihkusadetta"
 
 #: my-evolution/metar.c:131
 msgid "Heavy drizzle"
-msgstr ""
+msgstr "Voimakasta tihkusadetta"
 
 #: my-evolution/metar.c:132
 msgid "Shallow drizzle"
-msgstr ""
+msgstr "Matalaa tihkusadetta"
 
 #: my-evolution/metar.c:133
 msgid "Patches of drizzle"
-msgstr ""
+msgstr "Paikoittain tihkusadetta"
 
 #: my-evolution/metar.c:134
 msgid "Partial drizzle"
-msgstr ""
+msgstr "Osittaista tihkusadetta"
 
 #: my-evolution/metar.c:135 my-evolution/metar.c:150
 msgid "Thunderstorm"
-msgstr ""
+msgstr "Ukonilma"
 
 #: my-evolution/metar.c:136
 msgid "Windy drizzle"
-msgstr ""
+msgstr "Tuulista tihkusadetta"
 
 #: my-evolution/metar.c:137
 msgid "Showers"
-msgstr ""
+msgstr "Kuuroja"
 
 #: my-evolution/metar.c:138
 msgid "Drifting drizzle"
-msgstr ""
+msgstr "Ajelehtivaa tihkusadetta"
 
 #: my-evolution/metar.c:139
 msgid "Freezing drizzle"
-msgstr ""
+msgstr "Jäätävää tihkusadetta"
 
 #. RAIN
 #: my-evolution/metar.c:142
 msgid "Rain"
-msgstr ""
+msgstr "Vesisadetta"
 
 #: my-evolution/metar.c:143
 msgid "Rain in the vicinity"
-msgstr ""
+msgstr "Alueella vesisadetta"
 
 #: my-evolution/metar.c:144
 msgid "Light rain"
-msgstr ""
+msgstr "Kevyttä sadetta"
 
 #: my-evolution/metar.c:145
 msgid "Moderate rain"
-msgstr ""
+msgstr "Kohtalaista sadetta"
 
 #: my-evolution/metar.c:146
 msgid "Heavy rain"
-msgstr ""
+msgstr "Voimakasta sadetta"
 
 #: my-evolution/metar.c:147
 msgid "Shallow rain"
-msgstr ""
+msgstr "Matalaa sadetta"
 
 #: my-evolution/metar.c:148
 msgid "Patches of rain"
-msgstr ""
+msgstr "Paikoittain sadetta"
 
 #: my-evolution/metar.c:149
 msgid "Partial rainfall"
-msgstr ""
+msgstr "Osittaista sadetta"
 
 #: my-evolution/metar.c:151
 msgid "Blowing rainfall"
-msgstr ""
+msgstr "Tuulista sadetta"
 
 #: my-evolution/metar.c:152
 msgid "Rain showers"
-msgstr ""
+msgstr "Sadekuuroja"
 
 #: my-evolution/metar.c:153
 msgid "Drifting rain"
-msgstr ""
+msgstr "Ajelehtivaa sadetta"
 
 #: my-evolution/metar.c:154
 msgid "Freezing rain"
-msgstr ""
+msgstr "Jäätävää sadetta"
 
 #. SNOW
 #: my-evolution/metar.c:157
 msgid "Snow"
-msgstr ""
+msgstr "Lumisadetta"
 
 #: my-evolution/metar.c:158
 msgid "Snow in the vicinity"
-msgstr ""
+msgstr "Alueella lumisadetta"
 
 #: my-evolution/metar.c:159
 msgid "Light snow"
-msgstr ""
+msgstr "Kevyttä lumisadetta"
 
 #: my-evolution/metar.c:160
 msgid "Moderate snow"
-msgstr ""
+msgstr "Kohtalaista lumisadetta"
 
 #: my-evolution/metar.c:161
 msgid "Heavy snow"
-msgstr ""
+msgstr "Voimakasta lumisadetta"
 
 #: my-evolution/metar.c:162
 msgid "Shallow snow"
-msgstr ""
+msgstr "Matalaa lumisadetta"
 
 #: my-evolution/metar.c:163
 msgid "Patches of snow"
-msgstr ""
+msgstr "Paikoittain lumisadetta"
 
 #: my-evolution/metar.c:164
 msgid "Partial snowfall"
-msgstr ""
+msgstr "Osittaista lumisadetta"
 
 #: my-evolution/metar.c:165 my-evolution/metar.c:180
 msgid "Snowstorm"
-msgstr ""
+msgstr "Lumipyry"
 
 #: my-evolution/metar.c:166
 msgid "Blowing snowfall"
-msgstr ""
+msgstr "Tuulista lumisadetta"
 
 #: my-evolution/metar.c:167
 msgid "Snow showers"
-msgstr ""
+msgstr "Lumikuuroja"
 
 #: my-evolution/metar.c:168
 msgid "Drifting snow"
-msgstr ""
+msgstr "Ajelehtivaa lumisadetta"
 
 #: my-evolution/metar.c:169
 msgid "Freezing snow"
-msgstr ""
+msgstr "Jäätävää lumisadetta"
 
 #. SNOW_GRAINS
 #: my-evolution/metar.c:172
 msgid "Snow grains"
-msgstr ""
+msgstr "Jyvässadetta"
 
 #: my-evolution/metar.c:173
 msgid "Snow grains in the vicinity"
-msgstr ""
+msgstr "Alueella jyvässadetta"
 
 #: my-evolution/metar.c:174
 msgid "Light snow grains"
-msgstr ""
+msgstr "Kevyttä jyvässadetta"
 
 #: my-evolution/metar.c:175
 msgid "Moderate snow grains"
-msgstr ""
+msgstr "Kohtalaista jyvässadetta"
 
 #: my-evolution/metar.c:176
 msgid "Heavy snow grains"
-msgstr ""
+msgstr "Voimakasta jyvässadetta"
 
 #: my-evolution/metar.c:177
 msgid "Shallow snow grains"
-msgstr ""
+msgstr "Matalaa jyvässadetta"
 
 #: my-evolution/metar.c:178
 msgid "Patches of snow grains"
-msgstr ""
+msgstr "Paikoittain jyvässadetta"
 
 #: my-evolution/metar.c:179
 msgid "Partial snow grains"
-msgstr ""
+msgstr "Osittaista jyväissadetta"
 
 #: my-evolution/metar.c:181
 msgid "Blowing snow grains"
-msgstr ""
+msgstr "Tuulista jyvässadetta"
 
 #: my-evolution/metar.c:182
 msgid "Snow grain showers"
-msgstr ""
+msgstr "Jyvässadekuuroja"
 
 #: my-evolution/metar.c:183
 msgid "Drifting snow grains"
-msgstr ""
+msgstr "Ajelehtivaa jyvässadetta"
 
 #: my-evolution/metar.c:184
 msgid "Freezing snow grains"
-msgstr ""
+msgstr "Jäätävää jyvässadetta"
 
 #. ICE_CRYSTALS
 #: my-evolution/metar.c:187
 msgid "Ice crystals"
-msgstr ""
+msgstr "Jääkiteitä"
 
 #: my-evolution/metar.c:188
 msgid "Ice crystals in the vicinity"
-msgstr ""
+msgstr "Alueella jääkiteitä"
 
 #: my-evolution/metar.c:189
 msgid "Few ice crystals"
-msgstr ""
+msgstr "Harvoja jääkiteitä"
 
 #: my-evolution/metar.c:190
 msgid "Moderate ice crystals"
-msgstr ""
+msgstr "Kohtalaisesti jääkiteitä"
 
 #: my-evolution/metar.c:191
 msgid "Heavy ice crystals"
-msgstr ""
+msgstr "Paljon jääkiteitä"
 
 #: my-evolution/metar.c:193
 msgid "Patches of ice crystals"
-msgstr ""
+msgstr "Paikoittain jääkiteitä"
 
 #: my-evolution/metar.c:194
 msgid "Partial ice crystals"
-msgstr ""
+msgstr "Osittain jääkiteitä"
 
 #: my-evolution/metar.c:195
 msgid "Ice crystal storm"
-msgstr ""
+msgstr "Jääkidemyrsky"
 
 #: my-evolution/metar.c:196
 msgid "Blowing ice crystals"
-msgstr ""
+msgstr "Tuulista jääkidettä"
 
 #: my-evolution/metar.c:197
 msgid "Showers of ice crystals"
-msgstr ""
+msgstr "Jääkidekuuroja"
 
 #: my-evolution/metar.c:198
 msgid "Drifting ice crystals"
-msgstr ""
+msgstr "Ajelehtivia jääkiteitä"
 
 #: my-evolution/metar.c:199
 msgid "Freezing ice crystals"
-msgstr ""
+msgstr "Jäätäviä jääkiteitä"
 
 #. ICE_PELLETS
 #: my-evolution/metar.c:202
 msgid "Ice pellets"
-msgstr ""
+msgstr "Jääjyvässadetta"
 
 #: my-evolution/metar.c:203
 msgid "Ice pellets in the vicinity"
-msgstr ""
+msgstr "Alueella jääjyvässadetta"
 
 #: my-evolution/metar.c:204
 msgid "Few ice pellets"
-msgstr ""
+msgstr "Vähän jääjyväsiä"
 
 #: my-evolution/metar.c:205
 msgid "Moderate ice pellets"
-msgstr ""
+msgstr "Kohtalaisesti jääjyväsiä"
 
 #: my-evolution/metar.c:206
 msgid "Heavy ice pellets"
-msgstr ""
+msgstr "Paljon jääjyväsiä"
 
 #: my-evolution/metar.c:207
 msgid "Shallow ice pellets"
-msgstr ""
+msgstr "Matalaa jääjyvässadetta"
 
 #: my-evolution/metar.c:208
 msgid "Patches of ice pellets"
-msgstr ""
+msgstr "Paikoittain jääjyvässadetta"
 
 #: my-evolution/metar.c:209
 msgid "Partial ice pellets"
-msgstr ""
+msgstr "Osittaista jääjyvässadetta"
 
 #: my-evolution/metar.c:210
 msgid "Ice pellet storm"
-msgstr ""
+msgstr "Jääjyväsmyrsky"
 
 #: my-evolution/metar.c:211
 msgid "Blowing ice pellets"
-msgstr ""
+msgstr "Tuulista jääjyvässadetta"
 
 #: my-evolution/metar.c:212
 msgid "Showers of ice pellets"
-msgstr ""
+msgstr "Jääjyvässadekuuroja"
 
 #: my-evolution/metar.c:213
 msgid "Drifting ice pellets"
-msgstr ""
+msgstr "Ajelehtivaa jääjyvässadetta"
 
 #: my-evolution/metar.c:214
 msgid "Freezing ice pellets"
-msgstr ""
+msgstr "Jäätävää jääjyvässadetta"
 
 #. HAIL
 #: my-evolution/Locations.h:883 my-evolution/metar.c:217
 msgid "Hail"
-msgstr ""
+msgstr "Rakeita"
 
 #: my-evolution/metar.c:218
 msgid "Hail in the vicinity"
-msgstr ""
+msgstr "Alueella raesadetta"
 
 #: my-evolution/metar.c:219 my-evolution/metar.c:234
 msgid "Light hail"
-msgstr ""
+msgstr "Kevyttä raesadetta"
 
 #: my-evolution/metar.c:220
 msgid "Moderate hail"
-msgstr ""
+msgstr "Kohtalaista raesadetta"
 
 #: my-evolution/metar.c:221
 msgid "Heavy hail"
-msgstr ""
+msgstr "Voimakasta raesadetta"
 
 #: my-evolution/metar.c:222
 msgid "Shallow hail"
-msgstr ""
+msgstr "Matalaa raesadetta"
 
 #: my-evolution/metar.c:223
 msgid "Patches of hail"
-msgstr ""
+msgstr "Ajoittain raesadetta"
 
 #: my-evolution/metar.c:224
 msgid "Partial hail"
-msgstr ""
+msgstr "Osittaista raesadetta"
 
 #: my-evolution/metar.c:225
 msgid "Hailstorm"
-msgstr ""
+msgstr "Jäämyrsky"
 
 #: my-evolution/metar.c:226
 msgid "Blowing hail"
-msgstr ""
+msgstr "Tuulista raesadetta"
 
 #: my-evolution/metar.c:227
 msgid "Hail showers"
-msgstr ""
+msgstr "Raekuuroja"
 
 #: my-evolution/metar.c:228
 msgid "Drifting hail"
-msgstr ""
+msgstr "Ajelehtivaa raesadetta"
 
 #: my-evolution/metar.c:229
 msgid "Freezing hail"
-msgstr ""
+msgstr "Jäätävää raesadetta"
 
 #. SMALL_HAIL
 #: my-evolution/metar.c:232
 msgid "Small hail"
-msgstr ""
+msgstr "Pikkuraesadetta"
 
 #: my-evolution/metar.c:233
 msgid "Small hail in the vicinity"
-msgstr ""
+msgstr "Alueella pikkuraesadetta"
 
 #: my-evolution/metar.c:235
 msgid "Moderate small hail"
-msgstr ""
+msgstr "Kohtalaista pikkuraesadetta"
 
 #: my-evolution/metar.c:236
 msgid "Heavy small hail"
-msgstr ""
+msgstr "Voimakasta pikkuraesadetta"
 
 #: my-evolution/metar.c:237
 msgid "Shallow small hail"
-msgstr ""
+msgstr "Matalaa pikkuraesadetta"
 
 #: my-evolution/metar.c:238
 msgid "Patches of small hail"
-msgstr ""
+msgstr "Ajoittaista pikkuraesadetta"
 
 #: my-evolution/metar.c:239
 msgid "Partial small hail"
-msgstr ""
+msgstr "Osittaista pikkuraesadetta"
 
 #: my-evolution/metar.c:240
 msgid "Small hailstorm"
-msgstr ""
+msgstr "Pikkuraemyrsky"
 
 #: my-evolution/metar.c:241
 msgid "Blowing small hail"
-msgstr ""
+msgstr "Tuulista pikkuraesadetta"
 
 #: my-evolution/metar.c:242
 msgid "Showers of small hail"
-msgstr ""
+msgstr "Pikkuraekuuroja"
 
 #: my-evolution/metar.c:243
 msgid "Drifting small hail"
-msgstr ""
+msgstr "Ajelehtivaa pikkuraesadetta"
 
 #: my-evolution/metar.c:244
 msgid "Freezing small hail"
-msgstr ""
+msgstr "Jäätävää pikkuraesadetta"
 
 #. PRECIPITATION
 #: my-evolution/metar.c:247
 msgid "Unknown precipitation"
-msgstr ""
+msgstr "Sademäärä tuntematon"
 
 #: my-evolution/metar.c:248
 msgid "Precipitation in the vicinity"
-msgstr ""
+msgstr "Alueella sadetta"
 
 #: my-evolution/metar.c:249
 msgid "Light precipitation"
-msgstr ""
+msgstr "Kevyttä sadetta"
 
 #: my-evolution/metar.c:250
 msgid "Moderate precipitation"
-msgstr ""
+msgstr "Kohtalaista sadetta"
 
 #: my-evolution/metar.c:251
 msgid "Heavy precipitation"
-msgstr ""
+msgstr "Voimakasta sadetta"
 
 #: my-evolution/metar.c:252
 msgid "Shallow precipitation"
-msgstr ""
+msgstr "Matalaa sadetta"
 
 #: my-evolution/metar.c:253
 msgid "Patches of precipitation"
-msgstr ""
+msgstr "Ajoittain sateista"
 
 #: my-evolution/metar.c:254
 msgid "Partial precipitation"
-msgstr ""
+msgstr "Osittain sateista"
 
 #: my-evolution/metar.c:255
 msgid "Unknown thunderstorm"
-msgstr ""
+msgstr "Tuntematon ukonilma"
 
 #: my-evolution/metar.c:256
 msgid "Blowing precipitation"
-msgstr ""
+msgstr "Tuulista sadetta"
 
 #: my-evolution/metar.c:257
 msgid "Showers, type unknown"
-msgstr ""
+msgstr "Kuuroja, tuntematonta tyyppiä"
 
 #: my-evolution/metar.c:258
 msgid "Drifting precipitation"
-msgstr ""
+msgstr "Ajelehtivaa sadetta"
 
 #: my-evolution/metar.c:259
 msgid "Freezing precipitation"
-msgstr ""
+msgstr "Jäätävää sadetta"
 
 #. MIST
 #: my-evolution/metar.c:262
 msgid "Mist"
-msgstr ""
+msgstr "Utuista"
 
 #: my-evolution/metar.c:263
 msgid "Mist in the vicinity"
-msgstr ""
+msgstr "Alueella utuista"
 
 #: my-evolution/metar.c:264
 msgid "Light mist"
-msgstr ""
+msgstr "Kevyesti utuista"
 
 #: my-evolution/metar.c:265
 msgid "Moderate mist"
-msgstr ""
+msgstr "Kohtalaisen utuista"
 
 #: my-evolution/metar.c:266
 msgid "Thick mist"
-msgstr ""
+msgstr "Sankkaa utua"
 
 #: my-evolution/metar.c:267
 msgid "Shallow mist"
-msgstr ""
+msgstr "Matalaa utua"
 
 #: my-evolution/metar.c:268
 msgid "Patches of mist"
-msgstr ""
+msgstr "Ajoittain utuista"
 
 #: my-evolution/metar.c:269
 msgid "Partial mist"
-msgstr ""
+msgstr "Osittain utuista"
 
 #: my-evolution/metar.c:271
 msgid "Mist with wind"
-msgstr ""
+msgstr "Utuista ja tuulista"
 
 #: my-evolution/metar.c:273
 msgid "Drifting mist"
-msgstr ""
+msgstr "Ajaelehtivaa utua"
 
 #: my-evolution/metar.c:274
 msgid "Freezing mist"
-msgstr ""
+msgstr "Jäätävää utua"
 
 #. FOG
 #: my-evolution/metar.c:277
 msgid "Fog"
-msgstr ""
+msgstr "Sumuista"
 
 #: my-evolution/metar.c:278
 msgid "Fog in the vicinity"
-msgstr ""
+msgstr "Alueella sumuista"
 
 #: my-evolution/metar.c:279
 msgid "Light fog"
-msgstr ""
+msgstr "Kevyttä sumua"
 
 #: my-evolution/metar.c:280
 msgid "Moderate fog"
-msgstr ""
+msgstr "Kohtalaisen sumuista"
 
 #: my-evolution/metar.c:281
 msgid "Thick fog"
-msgstr ""
+msgstr "Paksua sumua"
 
 #: my-evolution/metar.c:282
 msgid "Shallow fog"
-msgstr ""
+msgstr "Matalaa sumua"
 
 #: my-evolution/metar.c:283
 msgid "Patches of fog"
-msgstr ""
+msgstr "Ajoittain sumuista"
 
 #: my-evolution/metar.c:284
 msgid "Partial fog"
-msgstr ""
+msgstr "Osittaista sumua"
 
 #: my-evolution/metar.c:286
 msgid "Fog with wind"
-msgstr ""
+msgstr "Sumuista ja tuulista"
 
 #: my-evolution/metar.c:288
 msgid "Drifting fog"
-msgstr ""
+msgstr "Ajelehtivaa sumua"
 
 #: my-evolution/metar.c:289
 msgid "Freezing fog"
-msgstr ""
+msgstr "Jäätävää sumua"
 
 #. SMOKE
 #: my-evolution/metar.c:292
 msgid "Smoke"
-msgstr ""
+msgstr "Savuista"
 
 #: my-evolution/metar.c:293
 msgid "Smoke in the vicinity"
-msgstr ""
+msgstr "Alueella savuista"
 
 #: my-evolution/metar.c:294
 msgid "Thin smoke"
-msgstr ""
+msgstr "Ohutta savua"
 
 #: my-evolution/metar.c:295
 msgid "Moderate smoke"
-msgstr ""
+msgstr "Kohtalaisesti savua"
 
 #: my-evolution/metar.c:296
 msgid "Thick smoke"
-msgstr ""
+msgstr "Sankasti savua"
 
 #: my-evolution/metar.c:297
 msgid "Shallow smoke"
-msgstr ""
+msgstr "Matalasti savua"
 
 #: my-evolution/metar.c:298
 msgid "Patches of smoke"
-msgstr ""
+msgstr "Ajoittain savuista"
 
 #: my-evolution/metar.c:299
 msgid "Partial smoke"
-msgstr ""
+msgstr "Osittain savuista"
 
 #: my-evolution/metar.c:300
 msgid "Thunderous smoke"
@@ -12414,40 +12485,40 @@ msgstr ""
 
 #: my-evolution/metar.c:301
 msgid "Smoke with wind"
-msgstr ""
+msgstr "Savuista ja tuulista"
 
 #: my-evolution/metar.c:303
 msgid "Drifting smoke"
-msgstr ""
+msgstr "Ajelehtivaa savua"
 
 #. VOLCANIC_ASH
 #: my-evolution/metar.c:307
 msgid "Volcanic ash"
-msgstr ""
+msgstr "Tulivuoripölyä"
 
 #: my-evolution/metar.c:308
 msgid "Volcanic ash in the vicinity"
-msgstr ""
+msgstr "Alueella tulivuoripölyä"
 
 #: my-evolution/metar.c:310
 msgid "Moderate volcanic ash"
-msgstr ""
+msgstr "Kohtalaisesti tulivuoripölyä"
 
 #: my-evolution/metar.c:311
 msgid "Thick volcanic ash"
-msgstr ""
+msgstr "Sankkaa tulivuoripölyä"
 
 #: my-evolution/metar.c:312
 msgid "Shallow volcanic ash"
-msgstr ""
+msgstr "Matalaa tulivuoripölyä"
 
 #: my-evolution/metar.c:313
 msgid "Patches of volcanic ash"
-msgstr ""
+msgstr "Ajoittaista tulivuoripölyä"
 
 #: my-evolution/metar.c:314
 msgid "Partial volcanic ash"
-msgstr ""
+msgstr "Osittain tulivuoripölyä"
 
 #: my-evolution/metar.c:315
 msgid "Thunderous volcanic ash"
@@ -12455,7 +12526,7 @@ msgstr ""
 
 #: my-evolution/metar.c:316
 msgid "Blowing volcanic ash"
-msgstr ""
+msgstr "Tulivuoripölyä ja tuulista"
 
 #: my-evolution/metar.c:317
 msgid "Showers of volcanic ash"
@@ -12463,99 +12534,98 @@ msgstr ""
 
 #: my-evolution/metar.c:318
 msgid "Drifting volcanic ash"
-msgstr ""
+msgstr "Ajelehtivaa tulivuoripölyä"
 
 #: my-evolution/metar.c:319
 msgid "Freezing volcanic ash"
-msgstr ""
+msgstr "Jäätävää tulivuoripölyä"
 
 #. SAND
 #: my-evolution/metar.c:322
 msgid "Sand"
-msgstr ""
+msgstr "Hiekkaista"
 
 #: my-evolution/metar.c:323
 msgid "Sand in the vicinity"
-msgstr ""
+msgstr "Alueella hiekkaista"
 
 #: my-evolution/metar.c:324
 msgid "Light sand"
-msgstr ""
+msgstr "Kevyesti hiekkaista"
 
 #: my-evolution/metar.c:325
 msgid "Moderate sand"
-msgstr ""
+msgstr "Kohtalaisesti hiekkaista"
 
 #: my-evolution/metar.c:326
 msgid "Heavy sand"
-msgstr ""
+msgstr "Voimakkaasti hiekkaista"
 
 #: my-evolution/metar.c:328
 msgid "Patches of sand"
-msgstr ""
+msgstr "Ajoittain hiekkaista"
 
 #: my-evolution/metar.c:329
 msgid "Partial sand"
-msgstr ""
+msgstr "Osittain hiekkaista"
 
 #: my-evolution/metar.c:331
 msgid "Blowing sand"
-msgstr ""
+msgstr "Tuulista ja hiekkaista"
 
 #: my-evolution/metar.c:333
 msgid "Drifting sand"
-msgstr ""
+msgstr "Ajelehtivaa hiekkaa"
 
 #. HAZE
 #: my-evolution/metar.c:337
 msgid "Haze"
-msgstr ""
+msgstr "Autereista"
 
 #: my-evolution/metar.c:338
 msgid "Haze in the vicinity"
-msgstr ""
+msgstr "Alueella autereista"
 
 #: my-evolution/metar.c:339
 msgid "Light haze"
-msgstr ""
+msgstr "Kevyesti autereista"
 
 #: my-evolution/metar.c:340
 msgid "Moderate haze"
-msgstr ""
+msgstr "Kohtalaisesti autereista"
 
 #: my-evolution/metar.c:341
 msgid "Thick haze"
-msgstr ""
+msgstr "Voimakkaasti autereista"
 
 #: my-evolution/metar.c:342
 msgid "Shallow haze"
-msgstr ""
+msgstr "Matalasti autereista"
 
 #: my-evolution/metar.c:343
 msgid "Patches of haze"
-msgstr ""
+msgstr "Ajoittain autereista"
 
 #: my-evolution/metar.c:344
 msgid "Partial haze"
-msgstr ""
+msgstr "Osittain autereista"
 
 #: my-evolution/metar.c:346
 msgid "Haze with wind"
-msgstr ""
+msgstr "Autereista ja tuulista"
 
 #: my-evolution/metar.c:348
 msgid "Drifting haze"
-msgstr ""
+msgstr "Ajelehtivasti autereista"
 
 #: my-evolution/metar.c:349
 msgid "Freezing haze"
-msgstr ""
+msgstr "Jäätävästi autereista"
 
 #. SPRAY
 #: my-evolution/metar.c:352
-#, fuzzy
 msgid "Spray"
-msgstr "Lauantai"
+msgstr "Tihuuttaa"
 
 #: my-evolution/metar.c:353
 msgid "Spray in the vicinity"
@@ -12582,9 +12652,8 @@ msgid "Patches of spray"
 msgstr ""
 
 #: my-evolution/metar.c:359
-#, fuzzy
 msgid "Partial spray"
-msgstr "Ensisijainen"
+msgstr "Osittain tihuuttaa"
 
 #: my-evolution/metar.c:361
 msgid "Blowing spray"
@@ -12601,285 +12670,285 @@ msgstr ""
 #. DUST
 #: my-evolution/metar.c:367
 msgid "Dust"
-msgstr ""
+msgstr "Pölyistä"
 
 #: my-evolution/metar.c:368
 msgid "Dust in the vicinity"
-msgstr ""
+msgstr "Alueella pölyistä"
 
 #: my-evolution/metar.c:369
 msgid "Light dust"
-msgstr ""
+msgstr "Kevyesti pölyistä"
 
 #: my-evolution/metar.c:370
 msgid "Moderate dust"
-msgstr ""
+msgstr "Kohtalaisesti pölyistä"
 
 #: my-evolution/metar.c:371
 msgid "Heavy dust"
-msgstr ""
+msgstr "Voimakkaasti pölyistä"
 
 #: my-evolution/metar.c:373
 msgid "Patches of dust"
-msgstr ""
+msgstr "Ajoittain pölyistä"
 
 #: my-evolution/metar.c:374
 msgid "Partial dust"
-msgstr ""
+msgstr "Osittain pölyistä"
 
 #: my-evolution/metar.c:376
 msgid "Blowing dust"
-msgstr ""
+msgstr "Tuulista ja pölyistä"
 
 #: my-evolution/metar.c:378
 msgid "Drifting dust"
-msgstr ""
+msgstr "Ajelehtivaa pölyä"
 
 #. SQUALL
 #: my-evolution/metar.c:382
 msgid "Squall"
-msgstr ""
+msgstr "Ukkospuuskia"
 
 #: my-evolution/metar.c:383
 msgid "Squall in the vicinity"
-msgstr ""
+msgstr "Alueella ukkospuuskia"
 
 #: my-evolution/metar.c:384
 msgid "Light squall"
-msgstr ""
+msgstr "Kevyitä ukkospuuskia"
 
 #: my-evolution/metar.c:385
 msgid "Moderate squall"
-msgstr ""
+msgstr "Kohtalaisia ukkospuuskia"
 
 #: my-evolution/metar.c:386
 msgid "Heavy squall"
-msgstr ""
+msgstr "Voimakkaita ukkospuuskia"
 
 #: my-evolution/metar.c:389
 msgid "Partial squall"
-msgstr ""
+msgstr "Osittain ukkospuuskia"
 
 #: my-evolution/metar.c:390
 msgid "Thunderous squall"
-msgstr ""
+msgstr "Myrskyisiä ukkospuuskia"
 
 #: my-evolution/metar.c:391
 msgid "Blowing squall"
-msgstr ""
+msgstr "Tuulisia ukkospuuskia"
 
 #: my-evolution/metar.c:393
 msgid "Drifting squall"
-msgstr ""
+msgstr "Ajelehtivia ukkospuuskia"
 
 #: my-evolution/metar.c:394
 msgid "Freezing squall"
-msgstr ""
+msgstr "Jäätäviä ukkospuuskia"
 
 #. SANDSTORM
 #: my-evolution/metar.c:397
 msgid "Sandstorm"
-msgstr ""
+msgstr "Hiekkamyrsky"
 
 #: my-evolution/metar.c:398
 msgid "Sandstorm in the vicinity"
-msgstr ""
+msgstr "Alueella hiekkamyrsky"
 
 #: my-evolution/metar.c:399
 msgid "Light standstorm"
-msgstr ""
+msgstr "Kevyt hiekkamyrsky"
 
 #: my-evolution/metar.c:400
 msgid "Moderate sandstorm"
-msgstr ""
+msgstr "Kohtalainen hiekkamyrsky"
 
 #: my-evolution/metar.c:401
 msgid "Heavy sandstorm"
-msgstr ""
+msgstr "Voimakas hiekkamyrsky"
 
 #: my-evolution/metar.c:402
 msgid "Shallow sandstorm"
-msgstr ""
+msgstr "Matala hiekkamyrsky"
 
 #: my-evolution/metar.c:404
 msgid "Partial sandstorm"
-msgstr ""
+msgstr "Osittainen hiekkamyrsky"
 
 #: my-evolution/metar.c:405
 msgid "Thunderous sandstorm"
-msgstr ""
+msgstr "Ukkos- ja hiekkamyrsky"
 
 #: my-evolution/metar.c:406
 msgid "Blowing sandstorm"
-msgstr ""
+msgstr "Tuulinen heikkamyrsky"
 
 #: my-evolution/metar.c:408
 msgid "Drifting sandstorm"
-msgstr ""
+msgstr "Ajelehtiva hiekkamyrsky"
 
 #: my-evolution/metar.c:409
 msgid "Freezing sandstorm"
-msgstr ""
+msgstr "Jäätävä hiekkamyrsky"
 
 #. DUSTSTORM
 #: my-evolution/metar.c:412
 msgid "Duststorm"
-msgstr ""
+msgstr "Pölymyrsky"
 
 #: my-evolution/metar.c:413
 msgid "Duststorm in the vicinity"
-msgstr ""
+msgstr "Alueella pölymyrsky"
 
 #: my-evolution/metar.c:414
 msgid "Light duststorm"
-msgstr ""
+msgstr "Kevyt pölymyrsky"
 
 #: my-evolution/metar.c:415
 msgid "Moderate duststorm"
-msgstr ""
+msgstr "Kohtalainen pölymyrsky"
 
 #: my-evolution/metar.c:416
 msgid "Heavy duststorm"
-msgstr ""
+msgstr "Raskas pölymyrsky"
 
 #: my-evolution/metar.c:417
 msgid "Shallow duststorm"
-msgstr ""
+msgstr "Matala pölymyrsky"
 
 #: my-evolution/metar.c:419
 msgid "Partial duststorm"
-msgstr ""
+msgstr "Osittainen pölymyrsky"
 
 #: my-evolution/metar.c:420
 msgid "Thunderous duststorm"
-msgstr ""
+msgstr "Ukkos- ja pölymyrsky"
 
 #: my-evolution/metar.c:421
 msgid "Blowing duststorm"
-msgstr ""
+msgstr "Tuulinen pölymyrsky"
 
 #: my-evolution/metar.c:423
 msgid "Drifting duststorm"
-msgstr ""
+msgstr "Ajelehtiva pölymyrsky"
 
 #: my-evolution/metar.c:424
 msgid "Freezing duststorm"
-msgstr ""
+msgstr "Jäätävä pölymyrsky"
 
 #. FUNNEL_CLOUD
 #: my-evolution/metar.c:427
 msgid "Funnel cloud"
-msgstr ""
+msgstr "Suppilopilvistä"
 
 #: my-evolution/metar.c:428
 msgid "Funnel cloud in the vicinity"
-msgstr ""
+msgstr "Alueella suppilopilvistä"
 
 #: my-evolution/metar.c:429
 msgid "Light funnel cloud"
-msgstr ""
+msgstr "Kevyesti suppilopilvistä"
 
 #: my-evolution/metar.c:430
 msgid "Moderate funnel cloud"
-msgstr ""
+msgstr "Kohtalaisen suppilopilvistä"
 
 #: my-evolution/metar.c:431
 msgid "Thick funnel cloud"
-msgstr ""
+msgstr "Paksulti suppilopilvistä"
 
 #: my-evolution/metar.c:432
 msgid "Shallow funnel cloud"
-msgstr ""
+msgstr "Matalaa suppilopilvisyyttä"
 
 #: my-evolution/metar.c:433
 msgid "Patches of funnel clouds"
-msgstr ""
+msgstr "Ajoittain suppilopilvistä"
 
 #: my-evolution/metar.c:434
 msgid "Partial funnel clouds"
-msgstr ""
+msgstr "Osittain suppilopivistä"
 
 #: my-evolution/metar.c:436
 msgid "Funnel cloud w/ wind"
-msgstr ""
+msgstr "Suppilopilviä ja tuulista"
 
 #: my-evolution/metar.c:438
 msgid "Drifting funnel cloud"
-msgstr ""
+msgstr "Ajelehtivia suppilopilviä"
 
 #. TORNADO
 #: my-evolution/metar.c:442 my-evolution/metar.c:451
 msgid "Tornado"
-msgstr ""
+msgstr "Pyörremyrsky"
 
 #: my-evolution/metar.c:443
 msgid "Tornado in the vicinity"
-msgstr ""
+msgstr "Alueella pyörremyrsky"
 
 #: my-evolution/metar.c:445
 msgid "Moderate tornado"
-msgstr ""
+msgstr "Kohtalainen pyörremyrsky"
 
 #: my-evolution/metar.c:446
 msgid "Raging tornado"
-msgstr ""
+msgstr "Raivoava pyörremyrsky"
 
 #: my-evolution/metar.c:449
 msgid "Partial tornado"
-msgstr ""
+msgstr "Osittainen pyörremyrsky"
 
 #: my-evolution/metar.c:450
 msgid "Thunderous tornado"
-msgstr ""
+msgstr "Ukkosta ja pyörremyrsky"
 
 #: my-evolution/metar.c:453
 msgid "Drifting tornado"
-msgstr ""
+msgstr "Ajelehtiva pyörremyrsky"
 
 #: my-evolution/metar.c:454
 msgid "Freezing tornado"
-msgstr ""
+msgstr "Jäätävä pyörremyrsky"
 
 #. DUST_WHIRLS
 #: my-evolution/metar.c:457
 msgid "Dust whirls"
-msgstr ""
+msgstr "Pölypyörteitä"
 
 #: my-evolution/metar.c:458
 msgid "Dust whirls in the vicinity"
-msgstr ""
+msgstr "Alueella pölypyörteitä"
 
 #: my-evolution/metar.c:459
 msgid "Light dust whirls"
-msgstr ""
+msgstr "Kevyitä pölypyörteitä"
 
 #: my-evolution/metar.c:460
 msgid "Moderate dust whirls"
-msgstr ""
+msgstr "Kohtalaisia pölypyörteitä"
 
 #: my-evolution/metar.c:461
 msgid "Heavy dust whirls"
-msgstr ""
+msgstr "Voimakkaita pölypyörteitä"
 
 #: my-evolution/metar.c:462
 msgid "Shallow dust whirls"
-msgstr ""
+msgstr "Matalia pölypyörteitä"
 
 #: my-evolution/metar.c:463
 msgid "Patches of dust whirls"
-msgstr ""
+msgstr "Ajoittain pölypyörteitä"
 
 #: my-evolution/metar.c:464
 msgid "Partial dust whirls"
-msgstr ""
+msgstr "Osittain pölypyörteistä"
 
 #: my-evolution/metar.c:466
 msgid "Blowing dust whirls"
-msgstr ""
+msgstr "Tuulista ja pölypyörteitä"
 
 #: my-evolution/metar.c:468
 msgid "Drifting dust whirls"
-msgstr ""
+msgstr "Ajelehtivia pölypyörteitä"
 
 #: my-evolution/my-evolution.glade.h:1
 msgid " _Remove"
@@ -14835,7 +14904,7 @@ msgstr "Cocoa Beach"
 
 #: my-evolution/Locations.h:476
 msgid "Cocos Island"
-msgstr "Cocos Island"
+msgstr "Kookossaaret"
 
 #: my-evolution/Locations.h:477
 msgid "Cody"
@@ -23181,11 +23250,11 @@ msgstr "Virhe suoritettaessa %s"
 
 #: shell/e-shell-view-menu.c:691
 msgid "_Work Online"
-msgstr "Työskentele linjoilla"
+msgstr "_Verkkoyhteys päälle"
 
 #: shell/e-shell-view-menu.c:704 ui/evolution.xml.h:51
 msgid "_Work Offline"
-msgstr ""
+msgstr "_Verkkoyhteys pois päältä"
 
 #: shell/e-shell-view-menu.c:717 ui/evolution.xml.h:30
 msgid "Work Offline"
@@ -24132,7 +24201,7 @@ msgstr ""
 
 #: ui/evolution-mail-global.xml.h:17
 msgid "Virtual Folder _Editor..."
-msgstr ""
+msgstr "Virtuaalikansioiden _muokkain..."
 
 #: ui/evolution-mail-global.xml.h:19
 msgid "_Filters..."
@@ -24148,7 +24217,7 @@ msgstr "_Sähköpostiasetukset..."
 
 #: ui/evolution-mail-global.xml.h:22
 msgid "_Preview Pane"
-msgstr "_Esikatseluruutu:"
+msgstr "_Esikatseluruutu"
 
 #: ui/evolution-mail-global.xml.h:23
 msgid "_Send / Receive"
@@ -24249,7 +24318,7 @@ msgstr "Säikeistetty viesti-ikkuna"
 
 #: ui/evolution-mail-list.xml.h:26
 msgid "_Expunge"
-msgstr ""
+msgstr "_Poista"
 
 #: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:37
 msgid "_Folder"
@@ -24289,7 +24358,7 @@ msgstr "Kopioi valitut viestit uuteen kansioon"
 
 #: ui/evolution-mail-message.xml.h:8
 msgid "Create _Virtual Folder From Message"
-msgstr ""
+msgstr "Luo virtuaalikansio viestistä"
 
 #: ui/evolution-mail-message.xml.h:9
 msgid "Create a rule to filter messages from this sender"
@@ -24381,35 +24450,35 @@ msgstr "Välitä"
 
 #: ui/evolution-mail-message.xml.h:32
 msgid "Forward As"
-msgstr ""
+msgstr "Välitä"
 
 #: ui/evolution-mail-message.xml.h:33
 msgid "Forward _Attached"
-msgstr ""
+msgstr "Välitä _liitteenä"
 
 #: ui/evolution-mail-message.xml.h:34
 msgid "Forward _Inline"
-msgstr ""
+msgstr "Välitä _tekstin seassa"
 
 #: ui/evolution-mail-message.xml.h:35
 msgid "Forward _Quoted"
-msgstr ""
+msgstr "Välitä _lainattuna"
 
 #: ui/evolution-mail-message.xml.h:36
 msgid "Forward the selected message in the body of a new message"
-msgstr ""
+msgstr "Välittää valitun viestin uuden viestin runkona"
 
 #: ui/evolution-mail-message.xml.h:37
 msgid "Forward the selected message quoted like a reply"
-msgstr ""
+msgstr "Välittää valitun viestin lainattuna niinkuin vastauksessa"
 
 #: ui/evolution-mail-message.xml.h:38
 msgid "Forward the selected message to someone"
-msgstr ""
+msgstr "Välittää valitun viestin jollekin"
 
 #: ui/evolution-mail-message.xml.h:39
 msgid "Forward the selected message to someone as an attachment"
-msgstr ""
+msgstr "Välittää valitun viestin jollekin liitteenä"
 
 #: ui/evolution-mail-message.xml.h:41
 msgid "Increase the text size"
@@ -24425,7 +24494,7 @@ msgstr "Merkitse _tärkeäksi"
 
 #: ui/evolution-mail-message.xml.h:46
 msgid "Mark as Unimp_ortant"
-msgstr ""
+msgstr "Merkitse _ei-tärkeäksi"
 
 #: ui/evolution-mail-message.xml.h:47
 msgid "Mark the selected messages as having been read"
@@ -24441,7 +24510,7 @@ msgstr "Merkitse valitut viestit lukemattomiksi"
 
 #: ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected messages as unimportant"
-msgstr ""
+msgstr "Merkitsee valitun viestin ei-tärkeäksi"
 
 #: ui/evolution-mail-message.xml.h:51
 msgid "Mark the selected messages for deletion"
@@ -24485,7 +24554,7 @@ msgstr "Avaa valittu viesti muokkaimeen uudelleenlähettämistä varten"
 
 #: ui/evolution-mail-message.xml.h:61
 msgid "Original Si_ze"
-msgstr ""
+msgstr "_Alkuperäinen koko"
 
 #: ui/evolution-mail-message.xml.h:62
 msgid "Preview the message to be printed"
@@ -24521,7 +24590,7 @@ msgstr "Vastaa kaikille"
 
 #: ui/evolution-mail-message.xml.h:74
 msgid "Reset the text to its original size"
-msgstr ""
+msgstr "Alustaa tekstin alkuperäiseen kokoonsa"
 
 #: ui/evolution-mail-message.xml.h:75
 msgid "S_earch Message..."
@@ -24529,7 +24598,7 @@ msgstr "_Etsi viestiä..."
 
 #: ui/evolution-mail-message.xml.h:76
 msgid "S_maller"
-msgstr ""
+msgstr "_Pienempi"
 
 #: ui/evolution-mail-message.xml.h:77
 msgid "Save the message as a text file"
@@ -24545,7 +24614,7 @@ msgstr "Muuta nykyisen tulostimesi sivuasetuksia"
 
 #: ui/evolution-mail-message.xml.h:80
 msgid "Show Email _Source"
-msgstr ""
+msgstr "Näytä sähköpostin _lähdekoodi"
 
 #: ui/evolution-mail-message.xml.h:81
 msgid "Show Full _Headers"
@@ -24557,15 +24626,15 @@ msgstr "Näytä viesti normaalimuodossa"
 
 #: ui/evolution-mail-message.xml.h:83
 msgid "Show message with all email headers"
-msgstr ""
+msgstr "Näyttää viestin kaikkien otsikkotietojen kera"
 
 #: ui/evolution-mail-message.xml.h:84
 msgid "Show the raw email source of the message"
-msgstr ""
+msgstr "Näyttää sähköpostin lähdekoodin sellaisenaan"
 
 #: ui/evolution-mail-message.xml.h:85
 msgid "Text Si_ze"
-msgstr ""
+msgstr "Tekstin _koko"
 
 #: ui/evolution-mail-message.xml.h:86
 msgid "Un-delete the selected messages"
@@ -24573,27 +24642,27 @@ msgstr "Peruuta valittujen viestien poistaminen"
 
 #: ui/evolution-mail-message.xml.h:87
 msgid "VFolder on Mailing _List..."
-msgstr ""
+msgstr "VKansio _postituslistan mukaan..."
 
 #: ui/evolution-mail-message.xml.h:88
 msgid "VFolder on Se_nder..."
-msgstr ""
+msgstr "VKansio _lähettäjän mukaan..."
 
 #: ui/evolution-mail-message.xml.h:89
 msgid "VFolder on _Recipients..."
-msgstr ""
+msgstr "VKansio _vastaanottajien mukaan..."
 
 #: ui/evolution-mail-message.xml.h:90
 msgid "VFolder on _Subject..."
-msgstr ""
+msgstr "VKansio _otsikon mukaan..."
 
 #: ui/evolution-mail-message.xml.h:92
 msgid "_Apply Filters"
-msgstr ""
+msgstr "_Toteuta suodattimet"
 
 #: ui/evolution-mail-message.xml.h:93
 msgid "_Copy to Folder"
-msgstr ""
+msgstr "_Kopioi kansioon"
 
 #: ui/evolution-mail-message.xml.h:94
 msgid "_Create Filter From Message"
@@ -24609,7 +24678,7 @@ msgstr "_Suurempi"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "_Message Display"
-msgstr ""
+msgstr "_Viestinäkymä"
 
 #: ui/evolution-mail-message.xml.h:100
 msgid "_Move to Folder"
@@ -24617,7 +24686,7 @@ msgstr "_Siirrä kansioon"
 
 #: ui/evolution-mail-message.xml.h:101
 msgid "_Normal Display"
-msgstr ""
+msgstr "_Normaalinäkymä"
 
 #: ui/evolution-mail-message.xml.h:102
 msgid "_Open Message"
@@ -25118,7 +25187,7 @@ msgstr "Ryhmän mukaan"
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:209
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:702
 msgid "UTC"
-msgstr ""
+msgstr "GMT"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "Select a Time Zone"
@@ -25246,7 +25315,7 @@ msgstr "Muut..."
 
 #: widgets/misc/e-charset-picker.c:395
 msgid "Character Encoding"
-msgstr ""
+msgstr "Merkistön koodaus"
 
 #: widgets/misc/e-clipped-label.c:111
 msgid "..."
@@ -25254,7 +25323,7 @@ msgstr "..."
 
 #: widgets/misc/e-filter-bar.c:153
 msgid "Search Editor"
-msgstr ""
+msgstr "Etsintämuokkain"
 
 #: widgets/misc/e-filter-bar.c:169
 msgid "Save Search"
@@ -25322,3 +25391,9 @@ msgstr "init_corba(): GNOME:n alustus epäonnistui"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Bonobon alustus epäonnistui"
+
+#~ msgid ""
+#~ msgstr "Otsikko"
+
+#~ msgid ""
+#~ msgstr "Ammatti"
