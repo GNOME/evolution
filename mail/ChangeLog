@@ -1,3 +1,8 @@
+2003-07-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (mail_format_data_wrapper_write_to_stream): Revert
+	prior changes.
+
 2003-07-23  Dan Winship  <danw@ximian.com>
 
 	* folder-browser.c (message_list_drag_data_get): Fix type warnings
