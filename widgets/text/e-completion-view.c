@@ -150,6 +150,7 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 	gtk_object_class_add_signals (object_class, e_completion_view_signals, E_COMPLETION_VIEW_LAST_SIGNAL);
 
 	object_class->destroy = e_completion_view_destroy;
+
 	widget_class->key_press_event = e_completion_view_local_key_press_handler;
 }
 
@@ -306,7 +307,7 @@ e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *key_event, gpoin
 	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
 	gint dir = 0;
 	gboolean key_handled = TRUE;
-
+	
 	/* Start up a completion.*/
 	if (cv->complete_key && key_event->keyval == cv->complete_key && !cv->editable) {
 		gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_BROWSE], NULL);
@@ -380,6 +381,7 @@ e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *key_event, gpoin
 		gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_UNBROWSE]);
 
  stop_emission:
+	
 	if (key_handled)
 		gtk_signal_emit_stop_by_name (GTK_OBJECT (w), "key_press_event");
 
@@ -517,6 +519,8 @@ e_completion_view_construct (ECompletionView *cv, ECompletion *completion)
 
 	/* Make sure we don't call construct twice. */
 	g_return_if_fail (cv->completion == NULL);
+
+	GTK_WIDGET_SET_FLAGS (GTK_WIDGET (cv), GTK_CAN_FOCUS);
 
 	cv->completion = completion;
 	gtk_object_ref (GTK_OBJECT (completion));

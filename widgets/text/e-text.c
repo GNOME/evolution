@@ -2471,12 +2471,10 @@ e_text_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double
 	*y2 = *y1 + height;
 }
 
-static void
+static gboolean
 _get_xy_from_position (EText *text, gint position, gint *xp, gint *yp)
 {
-	if ( !text->lines )
-		return;
-	if (xp || yp) {
+	if (text->lines && (xp || yp)) {
 		struct line *lines = NULL;
 		int x, y;
 		double xd, yd;
@@ -2506,7 +2504,11 @@ _get_xy_from_position (EText *text, gint position, gint *xp, gint *yp)
 			*xp = x;
 		if (yp)
 			*yp = y;
+
+		return TRUE;
 	}
+
+	return FALSE;
 }
 
 static gint
@@ -3312,15 +3314,17 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		break;
 
 	case E_TEP_FORWARD_LINE:
-		_get_xy_from_position(text, text->selection_end, &x, &y);
-		y += e_font_height (text->font);
-		new_pos = _get_position_from_xy(text, x, y);
+		if (_get_xy_from_position(text, text->selection_end, &x, &y)) {
+			y += e_font_height (text->font);
+			new_pos = _get_position_from_xy(text, x, y);
+		}
 		break;
 
 	case E_TEP_BACKWARD_LINE:
-		_get_xy_from_position(text, text->selection_end, &x, &y);
-		y -= e_font_height (text->font);
-		new_pos = _get_position_from_xy(text, x, y);
+		if (_get_xy_from_position(text, text->selection_end, &x, &y)) {
+			y -= e_font_height (text->font);
+			new_pos = _get_position_from_xy(text, x, y);
+		}
 		break;
 
 	case E_TEP_SELECT_WORD:

@@ -49,6 +49,12 @@
 #include "e-text.h"
 #include "e-entry.h"
 
+#define EVIL_POINTER_WARPING_HACK
+
+#ifdef EVIL_POINTER_WARPING_HACK
+#include <gdk/gdkx.h>
+#endif
+
 #define MIN_ENTRY_WIDTH  150
 #define INNER_BORDER     2
 
@@ -457,13 +463,13 @@ e_entry_show_popup (EEntry *entry, gboolean visible)
 
 	if (visible) {
 		GtkAllocation *dim = &(GTK_WIDGET (entry)->allocation);
-		gint x, y, fudge;
+		gint x, y, xo, yo, fudge;
 		const GdkEventMask grab_mask = (GdkEventMask)GDK_BUTTON_PRESS_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_RELEASE_MASK;
 
 		/* Figure out where to put our popup. */
-		gdk_window_get_origin (GTK_WIDGET (entry)->window, &x, &y);
-		x += dim->x;
-		y += dim->height + dim->y;
+		gdk_window_get_origin (GTK_WIDGET (entry)->window, &xo, &yo);
+		x = xo + dim->x;
+		y = yo + dim->height + dim->y;
 
 		/* Put our popup slightly to the right and up, to try to give a visual cue that this popup
 		 is tied to this entry.  Otherwise one-row popups can sort of "blend" with an entry
@@ -475,16 +481,41 @@ e_entry_show_popup (EEntry *entry, gboolean visible)
 		gtk_widget_set_uposition (pop, x, y);
 		e_completion_view_set_width (E_COMPLETION_VIEW (entry->priv->completion_view), dim->width);
 
+#ifdef EVIL_POINTER_WARPING_HACK
+		/*
+		  I should have learned by now to listen to Havoc... 
+		  http://developer.gnome.org/doc/GGAD/faqs.html
+		*/
+		   
+		if (! entry->priv->popup_is_visible) {
+			GdkWindow *gwin = GTK_WIDGET (entry)->window;
+			gint xx, yy;
+			gdk_window_get_pointer (gwin, &xx, &yy, NULL);
+			xx += xo;
+			yy += yo;
+			
+			/* If we are inside the "zone of death" where the popup will appear, warp the pointer to safety.
+			   This is a horrible thing to do. */
+			if (y <= yy && yy < yy + dim->height && x <= xx && xx < xx + dim->width) {
+				XWarpPointer (GDK_WINDOW_XDISPLAY (gwin), None, GDK_WINDOW_XWINDOW (gwin),
+					      0, 0, 0, 0, 
+					      xx - xo, (y-1) - yo);
+			}
+		}
+#endif
+	
 		gtk_widget_show (pop);
 
 
 		if (! entry->priv->ptr_grab) {
-			entry->priv->ptr_grab = gdk_pointer_grab (GTK_WIDGET (entry->priv->completion_view)->window, TRUE,
-								  grab_mask, NULL, NULL, GDK_CURRENT_TIME);
-			if (entry->priv->ptr_grab)
-				gtk_grab_add (GTK_WIDGET (entry->priv->completion_view));
+			entry->priv->ptr_grab = (0 == gdk_pointer_grab (GTK_WIDGET (entry->priv->completion_view)->window, TRUE,
+									grab_mask, NULL, NULL, GDK_CURRENT_TIME));
+			if (entry->priv->ptr_grab) {
+ 				gtk_grab_add (GTK_WIDGET (entry->priv->completion_view));
+			}
 		}
-
+		
+		
 	} else {
 
 		gtk_widget_hide (pop);
@@ -497,8 +528,6 @@ e_entry_show_popup (EEntry *entry, gboolean visible)
 		entry->priv->ptr_grab = FALSE;
 
 		entry->priv->last_completion_pos = -1;
-
-
 	}
 
 	e_completion_view_set_editable (E_COMPLETION_VIEW (entry->priv->completion_view), visible);
@@ -668,6 +697,24 @@ button_press_cb (GtkWidget *w, GdkEvent *ev, gpointer user_data)
 	unbrowse_cb (E_COMPLETION_VIEW (w), entry);
 }
 
+static gint
+key_press_cb (GtkWidget *w, GdkEventKey *ev, gpointer user_data)
+{
+	gint rv = 0;
+	/* Forward signal */
+	gtk_signal_emit_by_name (GTK_OBJECT (user_data), "key_press_event", ev, &rv);
+	return rv;
+}
+
+static gint
+key_release_cb (GtkWidget *w, GdkEventKey *ev, gpointer user_data)
+{
+	gint rv = 0;
+	/* Forward signal */
+	gtk_signal_emit_by_name (GTK_OBJECT (user_data), "key_release_event", ev, &rv);
+	return rv;
+}
+
 void
 e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint delay, EEntryCompletionHandler handler)
 {
@@ -725,7 +772,16 @@ e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint del
 							      entry);
 
 	entry->priv->completion_view_popup = gtk_window_new (GTK_WINDOW_POPUP);
-			    
+
+	gtk_signal_connect (GTK_OBJECT (entry->priv->completion_view_popup),
+			    "key_press_event",
+			    GTK_SIGNAL_FUNC (key_press_cb),
+			    entry->canvas);
+	gtk_signal_connect (GTK_OBJECT (entry->priv->completion_view_popup),
+			    "key_release_event",
+			    GTK_SIGNAL_FUNC (key_release_cb),
+			    entry->canvas);
+
 	gtk_object_ref (GTK_OBJECT (entry->priv->completion_view_popup));
 	gtk_object_sink (GTK_OBJECT (entry->priv->completion_view_popup));
 	gtk_window_set_policy (GTK_WINDOW (entry->priv->completion_view_popup), FALSE, TRUE, FALSE);

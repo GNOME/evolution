@@ -6,7 +6,7 @@
 #include "e-completion.h"
 #include "e-entry.h"
 
-#define TIMEOUT 50
+#define TIMEOUT 10
 
 /* Dictionary Lookup test */
 
@@ -59,7 +59,7 @@ find_word (const gchar *str)
       a = m;
     else
       return m;
-  };
+  }
 
   return b;
 }
@@ -71,6 +71,7 @@ struct {
   gint current;
   gint len;
   gint limit;
+  gint count;
 } dict_info;
 static guint dict_tag = 0;
 
@@ -88,15 +89,19 @@ dict_check (gpointer ptr)
   }
 
   i = dict_info.current;
-  while (limit > 0 && i < word_count && g_strncasecmp (dict_info.txt, word_array[i], dict_info.len) == 0) {
+  while (limit > 0
+	 && i < word_count
+	 && dict_info.count < 50
+	 && g_strncasecmp (dict_info.txt, word_array[i], dict_info.len) == 0) {
     e_completion_found_match_full (dict_info.complete, word_array[i],
 				   dict_info.len / (double)strlen (word_array[i]),
 				   NULL, NULL);
     ++i;
     --limit;
+    ++dict_info.count;
   }
   dict_info.current = i;
-  dict_info.limit = MIN (dict_info.limit*2, 200);
+  dict_info.limit = MIN (dict_info.limit*2, 400);
   
   if (limit != 0) {
     dict_tag = 0;
@@ -125,10 +130,10 @@ begin_dict_search (ECompletion *complete, const gchar *txt, gint pos, gint limit
     dict_info.start = -1;
     dict_info.current = -1;
     dict_info.len = len;
-    dict_info.limit = 20;
+    dict_info.limit = 100;
+    dict_info.count = 0;
     dict_tag = gtk_timeout_add (TIMEOUT, dict_check, NULL);
   } else {
-    g_message ("halting");
     e_completion_end_search (complete);
   }
 }
