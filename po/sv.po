@@ -121,6 +121,8 @@ msgid ""
 "appearing in the recipient list of the message."
 msgstr ""
 ""
+"Ange adressen till den som ska ta emot extrakopian av meddelandet utan "
+"att den visas i mottagandelistan av meddelandet."
 
 #: composer/e-msg-composer-hdrs.c:141
 msgid "Subject:"
@@ -292,7 +294,7 @@ msgstr "En mapp som innehåller kontakter"
 
 #: shell/e-folder.c:156
 msgid "A folder containing calendar entries"
-msgstr ""
+msgstr "En mapp som innehåller kalenderposter"
 
 #: shell/e-folder.c:159
 msgid "A folder containing tasks"
@@ -304,19 +306,19 @@ msgstr "Evolution kan inte skapa sina lokala mappar"
 
 #: shell/e-service.c:166
 msgid "A service containing mail items"
-msgstr ""
+msgstr "En tjänst som innehåller postobjekt"
 
 #: shell/e-service.c:169
 msgid "A service containing contacts"
-msgstr ""
+msgstr "En tjänst som innehåller kontakter"
 
 #: shell/e-service.c:172
 msgid "A service containing calendar entries"
-msgstr ""
+msgstr "En tjänst som innehåller kalanderposter"
 
 #: shell/e-service.c:175
 msgid "A service containing tasks"
-msgstr ""
+msgstr "En tjänst som innehåller uppgifter"
 
 #: shell/e-shell-shortcut.c:99
 msgid "Large Icons"
@@ -441,7 +443,7 @@ msgstr "_Verktyg"
 
 #: shell/e-shell-view-menu.c:204
 msgid "_Actions"
-msgstr ""
+msgstr "_Händelser"
 
 #: shell/e-shell.c:257
 msgid "Today"
