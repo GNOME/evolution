@@ -108,6 +108,8 @@ e_entry_init (GtkObject *object)
 	e_entry->item = E_TEXT(gnome_canvas_item_new(gnome_canvas_root(e_entry->canvas),
 						     e_text_get_type(),
 						     "clip", TRUE,
+						     "fill_clip_rectangle", TRUE,
+						     "anchor", GTK_ANCHOR_NW,
 						     NULL));
 	e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item),
 				    INNER_BORDER,

@@ -53,6 +53,7 @@ BEGIN_GNOME_DECLS
  * clip_width		double			RW		Width of clip rectangle
  * clip_height		double			RW		Height of clip rectangle
  * clip			boolean			RW		Use clipping rectangle?
+ * fill_clip_rect       boolean                 RW              Whether the text item represents itself as being the size of the clipping rectangle.
  * x_offset		double			RW		Horizontal offset distance from anchor position
  * y_offset		double			RW		Vertical offset distance from anchor position
  * text_width		double			R		Used to query the width of the rendered text
@@ -129,6 +130,7 @@ struct _EText {
 	int height;			/* Rendered text height in pixels */
 
 	guint clip : 1;			/* Use clip rectangle? */
+	guint fill_clip_rectangle : 1;  /* Fill the clipping rectangle. */
 
 	/* Antialiased specific stuff follows */
 	ETextSuckFont *suckfont; /* Sucked font */

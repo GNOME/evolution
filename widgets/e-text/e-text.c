@@ -64,6 +64,7 @@ enum {
 	ARG_CLIP_WIDTH,
 	ARG_CLIP_HEIGHT,
 	ARG_CLIP,
+	ARG_FILL_CLIP_RECTANGLE,
 	ARG_X_OFFSET,
 	ARG_Y_OFFSET,
 	ARG_FILL_COLOR,
@@ -234,6 +235,8 @@ e_text_class_init (ETextClass *klass)
 				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_CLIP_HEIGHT);
 	gtk_object_add_arg_type ("EText::clip",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_CLIP);
+	gtk_object_add_arg_type ("EText::fill_clip_rectangle",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_FILL_CLIP_RECTANGLE);
 	gtk_object_add_arg_type ("EText::x_offset",
 				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_X_OFFSET);
 	gtk_object_add_arg_type ("EText::y_offset",
@@ -1095,6 +1098,11 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		needs_reflow = 1;
 		break;
 
+	case ARG_FILL_CLIP_RECTANGLE:
+		text->fill_clip_rectangle = GTK_VALUE_BOOL (*arg);
+		needs_update = 1;
+		break;
+
 	case ARG_X_OFFSET:
 		text->xofs = GTK_VALUE_DOUBLE (*arg);
 		text->needs_recalc_bounds = 1;
@@ -1271,6 +1279,10 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_CLIP:
 		GTK_VALUE_BOOL (*arg) = text->clip;
+		break;
+
+	case ARG_FILL_CLIP_RECTANGLE:
+		GTK_VALUE_BOOL (*arg) = text->fill_clip_rectangle;
 		break;
 
 	case ARG_X_OFFSET:
@@ -1884,6 +1896,35 @@ e_text_point (GnomeCanvasItem *item, double x, double y,
 	best = 1.0e36;
 
 	lines = text->lines;
+
+	if (text->fill_clip_rectangle) {
+		double clip_width;
+		double clip_height;
+
+		/* Calculate the width and heights */
+		calc_height (text);
+		calc_line_widths (text);
+		
+		if (text->clip_width < 0)
+			clip_width = text->max_width;
+		else
+			clip_width = text->clip_width;
+
+		/* Get canvas pixel coordinates for clip rectangle position */
+		clip_width = clip_width * item->canvas->pixels_per_unit;
+		if ( text->clip_height >= 0 )
+			clip_height = text->clip_height * item->canvas->pixels_per_unit;
+		else
+			clip_height = text->height * item->canvas->pixels_per_unit;
+
+		if (cx >= text->clip_cx &&
+		    cx <= text->clip_cx + clip_width &&
+		    cy >= text->clip_cy &&
+		    cy <= text->clip_cy + clip_height)
+			return 0;
+		else
+			return 1;
+	}
 
 	for (i = 0; i < text->num_lines; i++) {
 		/* Compute the coordinates of rectangle for the current line,

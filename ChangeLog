@@ -1,5 +1,14 @@
 2000-07-07  Christopher James Lahey  <clahey@helixcode.com>
 
+	* widgets/e-text/e-entry.c: Set "anchor" and "fill_clip_rectangle"
+	arguments.
+
+	* widgets/e-text/e-text.c, widgets/e-text/e-text.h: Added
+	"fill_clip_rectangle" argument which describes whether to accept
+	clicks throughout the clipping rectangle.
+
+2000-07-07  Christopher James Lahey  <clahey@helixcode.com>
+
 	* widgets/e-text/e-entry.c: Fixed some typos.
 
 2000-07-07  Tuomas Kuosmanen  <tigert@gimp.org>
