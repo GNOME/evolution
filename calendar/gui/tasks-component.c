@@ -839,6 +839,7 @@ create_component_view (TasksComponent *tasks_component)
 	TasksComponentView *component_view;
 	GtkWidget *selector_scrolled_window, *vbox;
 	GtkWidget *statusbar_widget;
+	AtkObject *a11y;
 	
 	priv = tasks_component->priv;
 
@@ -851,6 +852,8 @@ create_component_view (TasksComponent *tasks_component)
 	/* Create sidebar selector */
 	component_view->source_selector = e_source_selector_new (tasks_component->priv->source_list);
 	e_source_selector_set_select_new ((ESourceSelector *)component_view->source_selector, TRUE);
+	a11y = gtk_widget_get_accessible (GTK_WIDGET (component_view->source_selector));
+	atk_object_set_name (a11y, _("Task Source Selector"));
 
 	g_signal_connect (component_view->source_selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion), 
 			  tasks_component);

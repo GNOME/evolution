@@ -1042,6 +1042,7 @@ create_component_view (CalendarComponent *calendar_component)
 	GtkWidget *selector_scrolled_window, *vbox;
 	GtkWidget *statusbar_widget;
 	guint not;
+	AtkObject *a11y;
 	
 	priv = calendar_component->priv;
 
@@ -1055,6 +1056,8 @@ create_component_view (CalendarComponent *calendar_component)
 	/* Create sidebar selector */
 	component_view->source_selector = e_source_selector_new (calendar_component->priv->source_list);
 	e_source_selector_set_select_new ((ESourceSelector *)component_view->source_selector, TRUE);
+	a11y = gtk_widget_get_accessible (GTK_WIDGET (component_view->source_selector));
+	atk_object_set_name (a11y, _("Calendar Source Selector"));
 
 	g_signal_connect (component_view->source_selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion), 
 			  calendar_component);

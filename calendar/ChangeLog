@@ -1,3 +1,10 @@
+2005-01-04  Harry Lu  <harry.lu@sun.com>
+
+	* gui/calendar-component.c: (create_component_view): add a11y name 
+	to calendar sidebar selector.
+	* gui/tasks-component.c: (create_component_view): add a11y name 
+	to task sidebar selector.
+
 2005-01-03  JP Rosevear  <jpr@novell.com>
 
 	Fixes #69663
