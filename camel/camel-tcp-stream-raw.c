@@ -277,6 +277,7 @@ socket_connect (struct hostent *h, int port)
 	struct timeval tv;
 	socklen_t len;
 	int cancel_fd;
+	int errnosav;
 	int ret, fd;
 	
 	/* see if we're cancelled yet */
@@ -304,13 +305,15 @@ socket_connect (struct hostent *h, int port)
 	}
 #endif
 	
-	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
+	if ((fd = socket (h->h_addrtype, SOCK_STREAM, 0) == -1))
+		return -1;
 	
 	cancel_fd = camel_operation_cancel_fd (NULL);
 	if (cancel_fd == -1) {
-		ret = connect (fd, saddr, len);
-		if (ret == -1) {
+		if (connect (fd, saddr, len) == -1) {
+			errnosav = errno;
 			close (fd);
+			errno = errnosav;
 			return -1;
 		}
 		
@@ -322,14 +325,15 @@ socket_connect (struct hostent *h, int port)
 		flags = fcntl (fd, F_GETFL);
 		fcntl (fd, F_SETFL, flags | O_NONBLOCK);
 		
-		ret = connect (fd, saddr, len);
-		if (ret == 0) {
+		if (connect (fd, saddr, len) == 0) {
 			fcntl (fd, F_SETFL, flags);
 			return fd;
 		}
 		
 		if (errno != EINPROGRESS) {
+			errnosav = errno;
 			close (fd);
+			errno = errnosav;
 			return -1;
 		}
 		
@@ -359,7 +363,9 @@ socket_connect (struct hostent *h, int port)
 			len = sizeof (int);
 			
 			if (getsockopt (fd, SOL_SOCKET, SO_ERROR, &ret, &len) == -1) {
+				errnosav = errno;
 				close (fd);
+				errno = errnosav;
 				return -1;
 			}
 			

@@ -1,3 +1,8 @@
+2003-12-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-raw.c (socket_connect): Save errno and check
+	the return of the socket() call.
+
 2003-12-24  Rodrigo Moya <rodrigo@ximian.com>
 
 	* providers/groupwise/camel-groupwise-provider.c
@@ -9,8 +14,8 @@
 	* providers/groupwise/camel-groupwise-provider.c: removed useless
 	configuration options, and added other options from the IMAP
 	provider.
-	(camel_provider_module_init): register a SMTP transport object also, and
-	removed SASL registration, since we don't support it.
+	(camel_provider_module_init): register a SMTP transport object
+	also, and removed SASL registration, since we don't support it.
 
 2003-12-19  Sivaiah Nallagatla <snallagatla@novell.com>
 
