@@ -113,7 +113,7 @@ void mail_print_preview_msg (MailDisplay *md);
 void mail_print_msg         (MailDisplay *md);
 
 /* CamelStore callbacks */
-void folder_created (CamelStore *store, CamelFolderInfo *fi);
+void folder_created (CamelStore *store, const char *prefix, CamelFolderInfo *fi);
 void folder_deleted (CamelStore *store, CamelFolderInfo *fi);
 
 void mail_storage_create_folder (EvolutionStorage *storage, CamelStore *store, CamelFolderInfo *fi);

@@ -633,7 +633,7 @@ storage_create_folder (EvolutionStorage *storage,
 		       gpointer user_data)
 {
 	CamelStore *store = user_data;
-	char *name;
+	char *prefix, *name;
 	CamelURL *url;
 	CamelException ex;
 	CamelFolderInfo *fi;
@@ -648,9 +648,8 @@ storage_create_folder (EvolutionStorage *storage,
 	camel_exception_init (&ex);
 	if (*parent_physical_uri) {
 		url = camel_url_new (parent_physical_uri, NULL);
-		if (!url) {
+		if (!url)
 			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
-		}
 		
 		fi = camel_store_create_folder (store, url->path + 1, name, &ex);
 		camel_url_free (url);
@@ -666,7 +665,9 @@ storage_create_folder (EvolutionStorage *storage,
 	if (camel_store_supports_subscriptions (store))
 		camel_store_subscribe_folder (store, fi->full_name, NULL);
 	
-	folder_created (store, fi);
+	prefix = g_strndup (path, name - path - 1);
+	folder_created (store, prefix, fi);
+	g_free (prefix);
 	
 	camel_store_free_folder_info (store, fi);
 	

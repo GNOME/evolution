@@ -1819,15 +1819,12 @@ create_folders (EvolutionStorage *storage, const char *prefix, CamelFolderInfo *
 }
 
 void
-folder_created (CamelStore *store, CamelFolderInfo *fi)
+folder_created (CamelStore *store, const char *prefix, CamelFolderInfo *fi)
 {
 	EvolutionStorage *storage;
 	
 	if ((storage = mail_lookup_storage (store))) {
-		if (fi)
-			/* FIXME: this won't work. (the "prefix" is wrong) */
-			create_folders (storage, "", fi);
-		
+		create_folders (storage, prefix, fi);
 		gtk_object_unref (GTK_OBJECT (storage));
 	}
 }

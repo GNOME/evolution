@@ -1,3 +1,14 @@
+2001-06-26  Dan Winship  <danw@ximian.com>
+
+	* mail-mt.c (op_status_timeout): Don't pop up a progress dialog to
+	say "I already finished this a while ago".
+
+	* component-factory.c (storage_create_folder): Pass the path
+	prefix to folder_created so it can add it to the folder tree in
+	the right place.
+
+	* mail-callbacks.c (folder_created): Take a path prefix.
+
 2001-06-26  jacob berkman  <jacob@ximian.com>
 
 	* mail-config.c (mail_config_get_show_preview): make ettore stop

@@ -858,6 +858,11 @@ static int op_status_timeout(void *d)
 	data = msg->priv;
 
 	if (progress_dialogue == NULL) {
+		if (data->pc == 100) {
+			MAIL_MT_UNLOCK(mail_msg_lock);
+			return FALSE;
+		}
+
 		progress_dialogue = (GtkWindow *)gtk_window_new(GTK_WINDOW_DIALOG);
 		gtk_window_set_title(progress_dialogue, _("Evolution progress"));
 		gtk_window_set_policy(progress_dialogue, 0, 0, 1);
