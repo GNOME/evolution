@@ -1,8 +1,15 @@
 1999-03-10  Tomislav Vujec  <tvujec@carnet.hr>
 
-	* gnome.m4 (GNOME_INIT_HOOK): Wrapped position parameter in testing
-	for additional inits. It gets expanded while generating configure,
-	resulting in an empty parameter list - syntax error in for statement.
+	* aclocal-include.m4 (AM_ACLOCAL_INCLUDE): Add ACLOCAL_FLAGS in
+	ACLOCAL. This allows maintainer rules to work if any of the macros
+	change.
+
+1999-03-10  Tomislav Vujec  <tvujec@carnet.hr>
+
+	* gnome.m4 (GNOME_INIT_HOOK): Wrapped position parameter in
+	testing for additional inits. It gets expanded while generating
+	configure, resulting in an empty parameter list - syntax error in
+	for statement.
 
 1999-03-09  Raja R Harinath  <harinath@cs.umn.edu>
 
