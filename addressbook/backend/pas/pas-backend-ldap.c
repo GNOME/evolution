@@ -1810,6 +1810,11 @@ birthday_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 	return equal;
 }
 
+typedef struct {
+	GList *list;
+	PASBackendLDAP *bl;
+} PASBackendLDAPSExpData;
+
 #define IS_RFC2254_CHAR(c) ((c) == '*' || (c) =='\\' || (c) == '(' || (c) == ')' || (c) == '\0')
 static char *
 rfc2254_escape(char *str)
@@ -1847,7 +1852,7 @@ rfc2254_escape(char *str)
 static ESExpResult *
 func_and(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
-	GList **list = data;
+	PASBackendLDAPSExpData *ldap_data = data;
 	ESExpResult *r;
 	char ** strings;
 
@@ -1859,15 +1864,15 @@ func_and(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 		strings[argc+3 - 2] = g_strdup (")");
 		
 		for (i = 0; i < argc; i ++) {
-			GList *list_head = *list;
+			GList *list_head = ldap_data->list;
 			if (!list_head)
 				break;
 			strings[argc - i] = list_head->data;
-			*list = g_list_remove_link(list_head, list_head);
+			ldap_data->list = g_list_remove_link(list_head, list_head);
 			g_list_free_1(list_head);
 		}
 
-		*list = g_list_prepend(*list, g_strjoinv(" ", strings));
+		ldap_data->list = g_list_prepend(ldap_data->list, g_strjoinv(" ", strings));
 
 		for (i = 0 ; i < argc + 2; i ++)
 			g_free (strings[i]);
@@ -1884,7 +1889,7 @@ func_and(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 static ESExpResult *
 func_or(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
-	GList **list = data;
+	PASBackendLDAPSExpData *ldap_data = data;
 	ESExpResult *r;
 	char ** strings;
 
@@ -1896,15 +1901,15 @@ func_or(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 		strings[argc+3 - 2] = g_strdup (")");
 
 		for (i = 0; i < argc; i ++) {
-			GList *list_head = *list;
+			GList *list_head = ldap_data->list;
 			if (!list_head)
 				break;
 			strings[argc - i] = list_head->data;
-			*list = g_list_remove_link(list_head, list_head);
+			ldap_data->list = g_list_remove_link(list_head, list_head);
 			g_list_free_1(list_head);
 		}
 
-		*list = g_list_prepend(*list, g_strjoinv(" ", strings));
+		ldap_data->list = g_list_prepend(ldap_data->list, g_strjoinv(" ", strings));
 
 		for (i = 0 ; i < argc + 2; i ++)
 			g_free (strings[i]);
@@ -1921,13 +1926,13 @@ func_or(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 static ESExpResult *
 func_not(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
-	GList **list = data;
+	PASBackendLDAPSExpData *ldap_data = data;
 	ESExpResult *r;
 
 	/* just replace the head of the list with the NOT of it. */
 	if (argc > 0) {
-		char *term = (*list)->data;
-		(*list)->data = g_strdup_printf("(!%s)", term);
+		char *term = ldap_data->list->data;
+		ldap_data->list->data = g_strdup_printf("(!%s)", term);
 		g_free (term);
 	}
 
@@ -1940,7 +1945,7 @@ func_not(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 static ESExpResult *
 func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
-	GList **list = data;
+	PASBackendLDAPSExpData *ldap_data = data;
 	ESExpResult *r;
 
 	if (argc == 2
@@ -1977,7 +1982,7 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 			}
 			strcat (big_query, ")");
 
-			*list = g_list_prepend(*list, big_query);
+			ldap_data->list = g_list_prepend(ldap_data->list, big_query);
 
 			g_free (match_str);
 		}
@@ -1985,11 +1990,11 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 			char *ldap_attr = query_prop_to_ldap(propname);
 
 			if (ldap_attr)
-				*list = g_list_prepend(*list,
-						       g_strdup_printf("(%s=*%s%s)",
-								       ldap_attr,
-								       str,
-								       one_star ? "" : "*"));
+				ldap_data->list = g_list_prepend(ldap_data->list,
+								 g_strdup_printf("(%s=*%s%s)",
+										 ldap_attr,
+										 str,
+										 one_star ? "" : "*"));
 		}
 
 		g_free (str);
@@ -2004,7 +2009,7 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 static ESExpResult *
 func_is(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
-	GList **list = data;
+	PASBackendLDAPSExpData *ldap_data = data;
 	ESExpResult *r;
 
 	if (argc == 2
@@ -2015,14 +2020,14 @@ func_is(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 		char *ldap_attr = query_prop_to_ldap(propname);
 
 		if (ldap_attr)
-			*list = g_list_prepend(*list,
-					       g_strdup_printf("(%s=%s)",
-							       ldap_attr, str));
+			ldap_data->list = g_list_prepend(ldap_data->list,
+							 g_strdup_printf("(%s=%s)",
+									 ldap_attr, str));
 		else {
 			g_warning ("unknown query property\n");
 			/* we want something that'll always be false */
-			*list = g_list_prepend(*list,
-					       g_strdup("objectClass=MyBarnIsBiggerThanYourBarn"));
+			ldap_data->list = g_list_prepend(ldap_data->list,
+							 g_strdup("objectClass=MyBarnIsBiggerThanYourBarn"));
 		}
 
 		g_free (str);
@@ -2037,7 +2042,7 @@ func_is(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 static ESExpResult *
 func_beginswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
-	GList **list = data;
+	PASBackendLDAPSExpData *ldap_data = data;
 	ESExpResult *r;
 
 	if (argc == 2
@@ -2046,16 +2051,25 @@ func_beginswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *da
 		char *propname = argv[0]->value.string;
 		char *str = rfc2254_escape(argv[1]->value.string);
 		char *ldap_attr = query_prop_to_ldap(propname);
-		gboolean one_star = FALSE;
 
-		if (strlen(str) == 0)
-			one_star = TRUE;
+		/* insert hack for fileAs queries, since we need to do
+		   the right thing if the server supports them or not,
+		   and for entries that have no fileAs attribute. */
+		if (ldap_attr) {
+			if (!strcmp (ldap_attr, "fileAs")) {
+				ldap_data->list = g_list_prepend(ldap_data->list,
+								 g_strdup_printf(
+								 "(|(fileAs=%s*)(&(!(fileAs=*))(sn=%s*)))",
+								 str, str));
+			}
+			else {
+				ldap_data->list = g_list_prepend(ldap_data->list,
+								 g_strdup_printf("(%s=%s*)",
+										 ldap_attr,
+										 str));
+			}
+		}
 
-		if (ldap_attr)
-			*list = g_list_prepend(*list,
-					       g_strdup_printf("(%s=%s*)",
-							       ldap_attr,
-							       str));
 		g_free (str);
 	}
 
@@ -2068,7 +2082,7 @@ func_beginswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *da
 static ESExpResult *
 func_endswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
-	GList **list = data;
+	PASBackendLDAPSExpData *ldap_data = data;
 	ESExpResult *r;
 
 	if (argc == 2
@@ -2077,16 +2091,12 @@ func_endswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 		char *propname = argv[0]->value.string;
 		char *str = rfc2254_escape(argv[1]->value.string);
 		char *ldap_attr = query_prop_to_ldap(propname);
-		gboolean one_star = FALSE;
-
-		if (strlen(str) == 0)
-			one_star = TRUE;
 
 		if (ldap_attr)
-			*list = g_list_prepend(*list,
-					       g_strdup_printf("(%s=*%s)",
-							       ldap_attr,
-							       str));
+			ldap_data->list = g_list_prepend(ldap_data->list,
+							 g_strdup_printf("(%s=*%s)",
+									 ldap_attr,
+									 str));
 		g_free (str);
 	}
 
@@ -2113,23 +2123,26 @@ static struct {
 };
 
 static gchar *
-pas_backend_ldap_build_query (gchar *query)
+pas_backend_ldap_build_query (PASBackendLDAP *bl, gchar *query)
 {
 	ESExp *sexp;
 	ESExpResult *r;
 	gchar *retval;
-	GList *list = NULL;
+	PASBackendLDAPSExpData data;
 	int i;
+
+	data.list = NULL;
+	data.bl = bl;
 
 	sexp = e_sexp_new();
 
 	for(i=0;i<sizeof(symbols)/sizeof(symbols[0]);i++) {
 		if (symbols[i].type == 1) {
 			e_sexp_add_ifunction(sexp, 0, symbols[i].name,
-					     (ESExpIFunc *)symbols[i].func, &list);
+					     (ESExpIFunc *)symbols[i].func, &data);
 		} else {
 			e_sexp_add_function(sexp, 0, symbols[i].name,
-					    symbols[i].func, &list);
+					    symbols[i].func, &data);
 		}
 	}
 
@@ -2141,14 +2154,14 @@ pas_backend_ldap_build_query (gchar *query)
 	e_sexp_result_free(sexp, r);
 	e_sexp_unref (sexp);
 
-	if (list) {
-		if (list->next) {
+	if (data.list) {
+		if (data.list->next) {
 			g_warning ("conversion to ldap query string failed");
 			retval = NULL;
-			g_list_foreach (list, (GFunc)g_free, NULL);
+			g_list_foreach (data.list, (GFunc)g_free, NULL);
 		}
 		else {
-			retval = list->data;
+			retval = data.list->data;
 		}
 	}
 	else {
@@ -2156,7 +2169,7 @@ pas_backend_ldap_build_query (gchar *query)
 		retval = NULL;
 	}
 
-	g_list_free (list);
+	g_list_free (data.list);
 	return retval;
 }
 
@@ -2362,7 +2375,7 @@ ldap_search_handler (PASBackend *backend, LDAPOp *op)
 
 	/* it might not be NULL if we've been restarted */
 	if (search_op->ldap_query == NULL)
-		search_op->ldap_query = pas_backend_ldap_build_query(search_op->view->search);
+		search_op->ldap_query = pas_backend_ldap_build_query(PAS_BACKEND_LDAP (backend), search_op->view->search);
 
 	if (search_op->ldap_query != NULL) {
 		PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);

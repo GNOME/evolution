@@ -1,3 +1,24 @@
+2002-02-27  Chris Toshok  <toshok@ximian.com>
+
+	[fixes bug #20690]
+	* backend/pas/pas-backend-ldap.c (func_and): the data arg is not
+	GList** anymore, it's PASBackendLDAPSExpData*, so use
+	ldap_data->list instead of *list.
+	(func_or): same.
+	(func_not): same.
+	(func_contains): same.
+	(func_is): same.
+	(func_endswith): same.
+	(func_beginswith): same, but also special case the beginswith
+	"fileAs" query type (the one used by the alphabet buttons on the
+	right hand side, so we can deal with entries that don't have
+	fileAs attributes, and return meaningful responses.)
+	(pas_backend_ldap_build_query): initialize the
+	PASBackendLDAPSExpData struct and pass that instead of &list.
+	Also, take the PASBackendLDAP arg to add to the struct in case we
+	need it at some point in the future.
+	(ldap_search_handler): pass in the PASBackendLDAP.
+
 2002-02-26  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-file.c (pas_backend_file_search): move
