@@ -1,3 +1,21 @@
+2001-08-20  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-addressbook-reflow-adapter.c
+	(e_addressbook_reflow_adapter_class_init): fix arg info - we're
+	only passing 1 GTK_TYPE_POINTER arg, not 2.
+
+	* gui/widgets/e-minicard.c (e_minicard_event): lots of fixes for
+	DnD.  For GDK_BUTTON_PRESS, we grab immediately.  For
+	GDK_BUTTON_MOTION, we start the drag after a certain threshold,
+	and connect to the "drag_end" signal on our canvas so we'll know
+	when the drag is complete.  For GDK_BUTTON_RELEASE, we release the
+	grab if we were dragging and get the event.
+	(e_minicard_drag_end): new function, just remove the pointer/gtk
+	grabs and disconnect.
+
+	* gui/widgets/e-minicard.h (struct _EMinicard): add "gint
+	drag_button"
+
 2001-08-20  JP Rosevear  <jpr@ximian.com>
 
 	* backend/pas/pas-backend-file.c

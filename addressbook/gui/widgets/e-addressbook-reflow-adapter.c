@@ -548,7 +548,7 @@ e_addressbook_reflow_adapter_class_init (GtkObjectClass *object_class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (EAddressbookReflowAdapterClass, drag_begin),
 				gtk_marshal_INT__POINTER,
-				GTK_TYPE_INT, 2, GTK_TYPE_POINTER, GTK_TYPE_POINTER);
+				GTK_TYPE_INT, 1, GTK_TYPE_POINTER);
 
 
 	gtk_object_class_add_signals (object_class, e_addressbook_reflow_adapter_signals, LAST_SIGNAL);

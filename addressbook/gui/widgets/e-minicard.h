@@ -89,6 +89,7 @@ struct _EMinicard
 	guint editable : 1;
 
 	guint drag_button_down : 1;
+	gint drag_button;
 
 	gint button_x;
 	gint button_y;
