@@ -1,3 +1,8 @@
+2002-07-19  Not Zed  <NotZed@Ximian.com>
+
+	* mail-callbacks.c: Try including gtkhtml/gtkhtml.h instead.  Test
+	really is a 4 letter word obviously.
+
 2002-07-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-folder-cache.c: Removed bogus static pre-declaration.
