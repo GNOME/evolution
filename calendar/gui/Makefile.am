@@ -59,6 +59,11 @@ SUBDIRS = alarm-notify dialogs
 
 component_LTLIBRARIES = libevolution-calendar.la
 
+ecalendarincludedir = $(privincludedir)/calendar/gui
+
+ecalendarinclude_HEADERS =	\
+	e-cal-config.h
+
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"calendar-gui\"			\
 	-I$(top_builddir)/shell				\
@@ -115,6 +120,8 @@ libevolution_calendar_la_SOURCES =		\
 	e-alarm-list.h				\
 	e-cal-component-preview.c		\
 	e-cal-component-preview.h		\
+	e-cal-config.c				\
+	e-cal-config.h				\
 	e-cal-menu.c				\
 	e-cal-menu.h				\
 	e-cal-model-calendar.h			\

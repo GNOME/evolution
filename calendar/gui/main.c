@@ -45,6 +45,8 @@
 #include "tasks-control.h"
 #include "tasks-component.h"
 
+#include <e-util/e-plugin.h>
+#include "e-cal-config.h"
 
 #define FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_Factory:" BASE_VERSION
 
@@ -143,6 +145,7 @@ initialize (void)
 	/* Initialize plugin system */
 	e_plugin_hook_register_type (e_cal_popup_hook_get_type());
 	e_plugin_hook_register_type (e_cal_menu_hook_get_type());
+	e_plugin_hook_register_type (e_cal_config_hook_get_type ());
 }
 
 

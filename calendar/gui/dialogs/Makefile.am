@@ -89,7 +89,6 @@ glade_DATA =				\
 	alarm-dialog.glade		\
 	alarm-list-dialog.glade		\
 	cal-prefs-dialog.glade		\
-	calendar-setup.glade		\
 	e-delegate-dialog.glade		\
 	event-page.glade		\
 	meeting-page.glade		\
