@@ -2,7 +2,7 @@
 
 <commands>
 
-        <cmd name="FilePrint" _label="Print..."
+        <cmd name="FilePrint" _label="_Print..."
         _tip="Print this item"
         stockid="gtk-print"/>
 
@@ -10,22 +10,22 @@
         _tip="Preview the printed item"
         stockid="gtk-print-preview"/>
 
-        <cmd name="FileSave" _label="Save"
+        <cmd name="FileSave" _label="_Save"
 	_tip="Save the item and close the dialog box"
 	accel="*Control*s"
         stockid="gtk-save"/>
 
-        <cmd name="FileSaveAndClose" _label="Save and Close"
+        <cmd name="FileSaveAndClose" _label="Save and _Close"
 	_tip="Save the item and close the dialog box"
         accel="*Control*Return"
         stockid="gtk-save"/>
 
-        <cmd name="FileSaveAs" _label="Save As..."
+        <cmd name="FileSaveAs" _label="Save _As..."
 	_tip="Save this item to disk"
         accel="*Control*Alt*s"
         stockid="gtk-save-as"/>
 
-	<cmd name="FileDelete" _label="Delete"
+	<cmd name="FileDelete" _label="_Delete"
 	_tip="Delete this item"
         stockid="gtk-delete"/>
 
