@@ -369,10 +369,10 @@ comp_from_remote_record (GnomePilotConduitStandardAbs *conduit,
 	struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE, FALSE);
 	unsigned long pilot_status = GnomePilotRecordNothing;
 	CalComponentText summary = {NULL, NULL};
-	CalComponentText comment = {NULL, NULL};
+	CalComponentText description = {NULL, NULL};
 	CalComponentDateTime dt = {NULL, NULL};
 	struct icaltimetype due;
- 	GSList *comment_list;
+ 	GSList *d_list;
 
 	g_return_val_if_fail (remote != NULL, NULL);
 
@@ -396,10 +396,10 @@ comp_from_remote_record (GnomePilotConduitStandardAbs *conduit,
 	summary.value = todo.description;
 	cal_component_set_summary (comp, &summary);
 
-	comment.value = todo.note;
-	comment_list = g_slist_append (NULL, &comment);
-	cal_component_set_comment_list (comp, comment_list);
-	g_slist_free (comment_list);
+	description.value = todo.note;
+	d_list = g_slist_append (NULL, &description);
+	cal_component_set_comment_list (comp, d_list);
+	g_slist_free (d_list);
 
 	if (todo.complete) {
 		int percent = 100;
@@ -915,74 +915,76 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 	  EToDoConduitContext *ctxt)
 {
 	PilotRecord *p;
-	/* priority; FIX ME */
+	int *priority;
 	struct icaltimetype *completed;
 	CalComponentText summary;
-	GSList *comment_list = NULL;
-	CalComponentText *comment;
-
+	GSList *d_list = NULL;
+	CalComponentText *description;
+	CalComponentDateTime due;
+	time_t due_time;
+	CalComponentClassification classif;
+	
 	LOG ("transmit: encoding local %s\n", print_local (local));
 
-	g_return_val_if_fail(local!=NULL,-1);
-	g_return_val_if_fail(remote!=NULL,-1);
-	g_assert(local->comp!=NULL);
+	g_return_val_if_fail (local != NULL,-1);
+	g_return_val_if_fail (remote != NULL,-1);
+	g_assert (local->comp != NULL);
 
-	p = g_new0(PilotRecord,1);
+	p = g_new0 (PilotRecord,1);
 
 	p->ID = local->local.ID;
 	p->attr = local->local.attr;
 	p->archived = local->local.archived;
 	p->secret = local->local.secret;
 
-	local->todo = g_new0(struct ToDo,1);
-
-	{
-		CalComponentDateTime dtend;
-		time_t dtend_time_t;
-
-		cal_component_get_dtend (local->comp, &dtend);
-		dtend_time_t = icaltime_as_timet (*dtend.value);
-
-		local->todo->due = *localtime (&dtend_time_t);
-		local->todo->indefinite = (dtend.value->year == 0);
-	}
-
-/*  	local->todo->priority = local->comp->priority; */
-/*  	local->todo->priority = 1; */ /* FIX ME */
-
-	cal_component_get_completed (local->comp, &completed);
-	if (completed->year > 0)
-		local->todo->complete = 1; /* FIX ME */
+	local->todo = g_new0 (struct ToDo,1);
 
 	/* STOP: don't replace these with g_strdup, since free_ToDo
-	   uses free to deallocte */
-
+	   uses free to deallocate */
 	cal_component_get_summary (local->comp, &summary);
-	local->todo->description = 
-		/*  local->comp->summary == NULL ? NULL : strdup (summary.value); */
-		strdup ((char *) summary.value);
+	if (summary.value) 
+		local->todo->description = strdup ((char *) summary.value);
 
-
-	cal_component_get_comment_list (local->comp, &comment_list);
-	if (comment_list) {
-		comment = (CalComponentText *) comment_list->data;
-		if (comment && comment->value)
-			local->todo->note = strdup (comment->value);
+	cal_component_get_description_list (local->comp, &d_list);
+	if (d_list) {
+		description = (CalComponentText *) d_list->data;
+		if (description && description->value)
+			local->todo->note = strdup (description->value);
 		else
 			local->todo->note = NULL;
 	} else {
 		local->todo->note = NULL;
 	}
 
-	/*
-	LOG ("transmitting todo to pilot [%s] complete=%d/%ld\n",
-		local->comp->summary==NULL?"NULL":local->comp->summary,
-		local->todo->complete, local->comp->completed);
-	*/
+	cal_component_get_due (local->comp, &due);	
+	if (due.value) {
+		due_time = icaltime_as_timet (*due.value);
+		
+		local->todo->due = *localtime (&due_time);
+		local->todo->indefinite = 0;
+	} else {
+		local->todo->indefinite = 1;
+	}
+
+	cal_component_get_completed (local->comp, &completed);
+	if (completed) {
+		local->todo->complete = 1;
+		cal_component_free_icaltimetype (completed);
+	}	
+
+	cal_component_get_priority (local->comp, &priority);
+	if (priority) {
+		local->todo->priority = *priority;
+		cal_component_free_priority (priority);
+	}
+
+	cal_component_get_classification (local->comp, &classif);
+	if (classif == CAL_COMPONENT_CLASS_PRIVATE)
+		p->attr = p->attr & dlpRecAttrSecret;
 
 	/* Generate pilot record structure */
-	p->record = g_new0(char,0xffff);
-	p->length = pack_ToDo(local->todo,p->record,0xffff);
+	p->record = g_new0 (char,0xffff);
+	p->length = pack_ToDo (local->todo, p->record, 0xffff);
 
 	*remote = p;
 
@@ -998,21 +1000,22 @@ free_transmit (GnomePilotConduitStandardAbs *conduit,
 	LOG ("free_transmit: freeing %s\n",
 		print_local (local));
 
-	g_return_val_if_fail(local!=NULL,-1);
-	g_return_val_if_fail(remote!=NULL,-1);
+	g_return_val_if_fail (local != NULL, -1);
+	g_return_val_if_fail (remote != NULL, -1);
 
 	/* free_ToDo(local->todo); */ /* FIX ME is this needed? */
-	g_free((*remote)->record);
+	g_free ((*remote)->record);
 	*remote = NULL;
+
         return 0;
 }
 
 
 static gint
 compare (GnomePilotConduitStandardAbs *conduit,
-	    GCalLocalRecord *local,
-	    PilotRecord *remote,
-	    EToDoConduitContext *ctxt)
+	 GCalLocalRecord *local,
+	 PilotRecord *remote,
+	 EToDoConduitContext *ctxt)
 {
 	/* used by the quick compare */
 	PilotRecord *remoteOfLocal;
