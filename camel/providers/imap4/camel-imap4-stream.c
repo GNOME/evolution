@@ -604,7 +604,7 @@ camel_imap4_stream_unget_token (CamelIMAP4Stream *stream, camel_imap4_token_t *t
 
 
 /**
- * camel_imap4_stream_readline:
+ * camel_imap4_stream_line:
  * @stream: imap4 stream
  * @line: line pointer
  * @len: line length
@@ -661,6 +661,19 @@ camel_imap4_stream_line (CamelIMAP4Stream *stream, unsigned char **line, size_t 
 }
 
 
+/**
+ * camel_imap4_stream_literal:
+ * @stream: IMAP stream
+ * @literal: literal pointer
+ * @len: literal length
+ *
+ * Sets @literal to the beginning of the next chunk of the literal
+ * buffer from the IMAP stream and sets @len to the length of the
+ * @literal buffer.
+ *
+ * Returns >0 if more literal data exists, 0 if the end of the literal
+ * has been reached or -1 on fail.
+ **/
 int
 camel_imap4_stream_literal (CamelIMAP4Stream *stream, unsigned char **literal, size_t *len)
 {
