@@ -336,6 +336,7 @@ finish_func (GnomeDruidPage *page,
 {
 	CORBA_Environment ev;
 	char *displayname, *tz;
+	icaltimezone *zone;
 
 	/* Notify mailer */
 	CORBA_exception_init (&ev);
@@ -346,10 +347,13 @@ finish_func (GnomeDruidPage *page,
 	CORBA_exception_init (&ev);
 
 	e_timezone_dialog_get_timezone (E_TIMEZONE_DIALOG (data->timezone_page->etd), &displayname);
-	if (displayname == NULL)
+	/* We know it is a builtin timezone, as that is all the user can change
+	   it to. */
+	zone = e_timezone_dialog_get_builtin_timezone (displayname);
+	if (zone == NULL)
 		tz = g_strdup ("UTC");
 	else
-		tz = g_strdup (displayname);
+		tz = g_strdup (icaltimezone_get_location (zone));
 	
 	bonobo_config_set_string (data->db, "/Calendar/Display/Timezone", tz, &ev);
 	g_free (tz);
