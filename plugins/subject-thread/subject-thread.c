@@ -33,7 +33,7 @@
 
 #define GCONF_KEY "/apps/evolution/mail/display/thread_subject"
 
-GtkWidget *subject_thread_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
+GtkWidget *org_gnome_subject_thread_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 
 static void
 toggled_cb (GtkWidget *widget, EConfig *config)
@@ -45,7 +45,7 @@ toggled_cb (GtkWidget *widget, EConfig *config)
 }
 
 GtkWidget *
-subject_thread_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
+org_gnome_subject_thread_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 {
 	GtkWidget *check;
 	EMConfigTargetPrefs *target = (EMConfigTargetPrefs *) hook_data->config->target;
