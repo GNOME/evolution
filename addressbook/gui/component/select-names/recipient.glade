@@ -1,61 +1,45 @@
-<?xml version="1.0"?>
-<GTK-Interface>
+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd" >
 
-<project>
-  <name>Recipient</name>
-  <program_name>recipient</program_name>
-  <directory></directory>
-  <source_directory>src</source_directory>
-  <pixmaps_directory>pixmaps</pixmaps_directory>
-  <language>C</language>
-  <gnome_support>True</gnome_support>
-  <gettext_support>True</gettext_support>
-  <use_widget_names>True</use_widget_names>
-  <output_main_file>False</output_main_file>
-  <output_support_files>False</output_support_files>
-  <output_build_files>False</output_build_files>
-  <gnome_help_support>True</gnome_help_support>
-</project>
+<glade-interface>
+  <widget class="GtkWindow" id="window1">
+    <property name="visible">no</property>
+    <property name="title" translatable="yes">window1</property>
+    <property name="type">GTK_WINDOW_TOPLEVEL</property>
+    <property name="modal">no</property>
+    <property name="allow_shrink">no</property>
+    <property name="allow_grow">yes</property>
+    <property name="window-position">GTK_WIN_POS_NONE</property>
 
-<widget>
-  <class>GtkWindow</class>
-  <name>window1</name>
-  <visible>False</visible>
-  <title>window1</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <allow_shrink>False</allow_shrink>
-  <allow_grow>True</allow_grow>
-  <auto_shrink>False</auto_shrink>
+    <child>
+      <widget class="GtkHBox" id="hbox-top">
+        <property name="homogeneous">no</property>
+        <property name="spacing">4</property>
+        <property name="visible">yes</property>
 
-  <widget>
-    <class>GtkHBox</class>
-    <name>hbox-top</name>
-    <homogeneous>False</homogeneous>
-    <spacing>4</spacing>
+        <child>
+          <widget class="GtkAlignment" id="alignment1">
+            <property name="xalign">1.08033e-07</property>
+            <property name="yalign">0</property>
+            <property name="xscale">1</property>
+            <property name="yscale">0</property>
+            <property name="visible">yes</property>
 
-    <widget>
-      <class>GtkAlignment</class>
-      <name>alignment1</name>
-      <xalign>1.08033e-07</xalign>
-      <yalign>0</yalign>
-      <xscale>1</xscale>
-      <yscale>0</yscale>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>True</fill>
-      </child>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>text-button</name>
-	<can_focus>True</can_focus>
-	<label>-&gt;</label>
+            <child>
+              <widget class="GtkButton" id="text-button">
+                <property name="can_focus">yes</property>
+                <property name="label" translatable="yes">-&gt;</property>
+                <property name="visible">yes</property>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="padding">0</property>
+            <property name="expand">no</property>
+            <property name="fill">yes</property>
+          </packing>
+        </child>
       </widget>
-    </widget>
+    </child>
   </widget>
-</widget>
-
-</GTK-Interface>
+</glade-interface>

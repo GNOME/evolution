@@ -1,6 +1,22 @@
+2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/Makefile.am: Added rule to generate
+	GNOME_Evolution_Addressbook.server.in from
+	GNOME_Evolution_Addressbook.server.in.in, substituting
+	@LIBEXECDIR@.
+
+	* GNOME_Evolution_Addressbook.server.in.in: Renamed from
+	GNOME_Evolution_Addressbook.server.in.  Added @LIBEXECDIR@ before
+	the location of the executable.
+
+	* gui/component/select-names/select-names.glade: Ported to Glade
+	2.
+
+	* gui/component/select-names/recipient.glade: Ported to Glade 2.
+
 2002-11-15  Rodney Dawes  <dobey@ximian.com>
 
-	* gui/component/addressbook-component.c: Use bonobo_main_quit
+	* gui/component/addressbook-component.c: Use bonobo_main_quit.
 	
 2002-11-14  Chris Toshok  <toshok@ximian.com>
 

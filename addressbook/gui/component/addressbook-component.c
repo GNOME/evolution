@@ -378,7 +378,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 }
 
 static gboolean
-gtk_main_quit_cb (gpointer closure)
+bonobo_main_quit_cb (gpointer closure)
 {
 	bonobo_main_quit ();
 	return TRUE;
@@ -391,7 +391,7 @@ owner_unset_cb (EvolutionShellComponent *shell_component,
 {
 	owner_count --;
 	if (owner_count == 0) {
-		g_idle_add (gtk_main_quit_cb, NULL);
+		g_idle_add (bonobo_main_quit_cb, NULL);
 	}
 }
 

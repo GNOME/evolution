@@ -2,7 +2,7 @@
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_MiniCard_ControlFactory"
             type="exe"
-            location="evolution-addressbook">
+            location="@LIBEXECDIR@/evolution-addressbook">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>
@@ -36,7 +36,7 @@
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_ControlFactory"
             type="exe"
-            location="evolution-addressbook">
+            location="@LIBEXECDIR@/evolution-addressbook">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>
@@ -63,7 +63,7 @@
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_ShellComponent"
             type="exe"
-            location="evolution-addressbook">
+            location="@LIBEXECDIR@/evolution-addressbook">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
@@ -81,7 +81,7 @@
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_AddressWidgetFactory"
 	    type="exe"
-	    location="evolution-addressbook">
+	    location="@LIBEXECDIR@/evolution-addressbook">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>
@@ -108,7 +108,7 @@
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_AddressPopupFactory"
 	    type="exe"
-	    location="evolution-addressbook">
+	    location="@LIBEXECDIR@/evolution-addressbook">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>
@@ -135,7 +135,7 @@
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_ConfigControlFactory"
             type="exe"
-            location="evolution-addressbook">
+            location="@LIBEXECDIR@/evolution-addressbook">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/GenericFactory:1.0"/>

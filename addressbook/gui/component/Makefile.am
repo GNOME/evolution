@@ -27,7 +27,7 @@ INCLUDES =							\
 	$(LDAP_CFLAGS)						\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-bin_PROGRAMS =	\
+libexec_PROGRAMS =	\
 	evolution-addressbook
 
 evolution_addressbook_SOURCES = 	\
@@ -68,11 +68,13 @@ evolution_addressbook_LDADD =								\
 # not done yet:
 #	$(top_builddir)/filter/libfilter.la
 
-@INTLTOOL_SERVER_RULE@
+server_in_files = GNOME_Evolution_Addressbook.server.in.in
 
-serversdir = $(libdir)/bonobo/servers
-server_in_files = GNOME_Evolution_Addressbook.server.in
-servers_DATA = $(server_in_files:.server.in=.server)
+serverdir = $(libdir)/bonobo/servers
+server_DATA = $(server_in_files:.server.in.in=.server)
+$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
+@INTLTOOL_SERVER_RULE@
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = ldap-config.glade
@@ -84,7 +86,7 @@ etspec_DATA = addressbook-config.etspec
 
 EXTRA_DIST = 				\
 	$(glade_DATA)			\
-	$(servers_DATA)			\
+	$(server_DATA)			\
 	$(server_in_files)		\
 	$(etspec_DATA)
 
