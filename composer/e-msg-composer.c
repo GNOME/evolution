@@ -437,8 +437,8 @@ build_message (EMsgComposer *composer)
 		camel_exception_init (&ex);
 		from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
 		camel_internet_address_get (from, 0, NULL, &pgpid);
-		pgp_mime_part_sign (&part, pgpid, PGP_HASH_TYPE_SHA1,
-				    &ex);
+		mail_crypto_pgp_mime_part_sign (&part, pgpid, CAMEL_PGP_HASH_TYPE_SHA1,
+						&ex);
 		camel_object_unref (CAMEL_OBJECT (from));
 		if (camel_exception_is_set (&ex))
 			goto exception;
@@ -475,7 +475,7 @@ build_message (EMsgComposer *composer)
 			g_ptr_array_add (recipients, g_strdup (address));
 		}
 		
-		pgp_mime_part_encrypt (&part, recipients, &ex);
+		mail_crypto_pgp_mime_part_encrypt (&part, recipients, &ex);
 		for (i = 0; i < recipients->len; i++)
 			g_free (recipients->pdata[i]);
 		g_ptr_array_free (recipients, TRUE);
