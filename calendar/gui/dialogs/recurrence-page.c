@@ -508,8 +508,12 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 	RecurrencePagePrivate *priv;
 	enum recur_type type;
 	GtkWidget *label;
+	gboolean read_only;
 
 	priv = rpage->priv;
+
+	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (rpage)->client, &read_only, NULL))
+		read_only = TRUE;
 
 	type = e_dialog_radio_get (priv->none, type_map);
 
@@ -2345,6 +2349,14 @@ init_widgets (RecurrencePage *rpage)
 
 
 
+static void
+client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
+{
+	RecurrencePage *rpage = RECURRENCE_PAGE (page);
+
+	sensitize_recur_widgets (rpage);
+}
+
 /**
  * recurrence_page_construct:
  * @rpage: A recurrence page.
@@ -2376,6 +2388,9 @@ recurrence_page_construct (RecurrencePage *rpage)
 	}
 
 	init_widgets (rpage);
+
+	g_signal_connect (G_OBJECT (rpage), "client_changed",
+			  G_CALLBACK (client_changed_cb), NULL);
 
 	return rpage;
 }

@@ -335,7 +335,7 @@ sensitize_buttons (AlarmPage *apage)
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list));
 	have_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
-	if (e_cal_is_read_only (client, &read_only, NULL) && read_only)
+	if (e_cal_is_read_only (COMP_EDITOR_PAGE (apage)->client, &read_only, NULL) && read_only)
 		sensitivity = FALSE;
 	else
 		sensitivity = TRUE;

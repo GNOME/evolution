@@ -1,5 +1,14 @@
 2004-06-08  Rodrigo Moya <rodrigo@novell.com>
 
+	* gui/dialogs/recurrence-page.c (recurrence_page_construct): connect
+	to "client_changed" signal on the page.
+	(client_changed_cb): new callback.
+
+	* gui/dialogs/alarm-page.c (sensitize_buttons): fixed missing stuff
+	in last commit.
+
+2004-06-08  Rodrigo Moya <rodrigo@novell.com>
+
 	Fixes #59650
 
 	* gui/dialogs/alarm-page.c (alarm_page_construct): connect to
