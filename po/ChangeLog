@@ -1,3 +1,9 @@
+2002-04-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* POTFILES.in: Removed
+	addressbook/gui/component/addressbook-config.[c,glade] and added
+	in it's place ldap-config.[c,glade].
+
 2002-04-16  Christophe Merlet  <redfox@eikonex.org>
 
 	* fr.po: Updated French translation.
