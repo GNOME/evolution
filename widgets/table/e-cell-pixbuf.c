@@ -8,9 +8,7 @@
  */
 
 #include <stdio.h>
-#include <glib.h>
-#include <libgnomeui/libgnomeui.h>
-
+#include <libgnomeui/gnome-canvas.h>
 #include "e-cell-pixbuf.h"
 
 static ECellClass *parent_class;

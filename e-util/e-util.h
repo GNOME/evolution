@@ -2,7 +2,6 @@
 #define _E_UTIL_H_
 
 #include <sys/types.h>
-#include <glib.h>
 #include <gtk/gtktypeutils.h>
 
 #ifdef __cplusplus

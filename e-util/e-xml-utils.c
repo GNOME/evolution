@@ -24,13 +24,12 @@
 
 #include "e-xml-utils.h"
 
-#include "gal/util/e-i18n.h"
-#include <glib.h>
 #include <locale.h>
 #include <math.h>
+#include <string.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
-#include <libgnome/libgnome.h>
+#include "gal/util/e-i18n.h"
 
 xmlNode *
 e_xml_get_child_by_name (const xmlNode *parent, const xmlChar *child_name)

@@ -17,9 +17,35 @@ nnn *
 #include <gtk/gtksignal.h>
 #include <libgnomeui/gtkpixmapmenuitem.h>
 #include <libgnomeui/gnome-stock.h>
+
 #include "e-popup-menu.h"
 #include "e-gui-utils.h"
-#include "gal/util/e-i18n.h"
+
+#include <libgnome/gnome-i18n.h>
+
+#ifndef GNOME_APP_HELPER_H
+/* Copied this i18n function to use for the same purpose */
+
+#ifdef ENABLE_NLS
+#define L_(x) gnome_app_helper_gettext(x)
+
+static gchar *
+gnome_app_helper_gettext (const gchar *str)
+{
+	char *s;
+
+        s = gettext (str);
+	if ( s == str )
+	        s = dgettext (PACKAGE, str);
+
+	return s;
+}
+
+#else
+#define L_(x) x
+#endif
+
+#endif
 
 /*
  * Creates an item with an optional icon
@@ -86,7 +112,7 @@ e_popup_menu_create (EPopupMenu *menu_list, guint32 disable_mask, guint32 hide_m
 		if ((!(seperator && last_item_seperator)) && !(menu_list [i].disable_mask & hide_mask)) {
 			GtkWidget *item;
 			
-			item = make_item (menu, seperator ? "" : _(menu_list[i].name), menu_list[i].pixname);
+			item = make_item (menu, seperator ? "" : L_(menu_list[i].name), menu_list[i].pixname);
 			gtk_menu_append (menu, item);
 			
 			if (!menu_list[i].submenu) {

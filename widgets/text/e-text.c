@@ -24,6 +24,7 @@
 #include <math.h>
 #include <ctype.h>
 #include <unicode.h>
+#include <string.h>
 #include <gdk/gdkx.h> /* for BlackPixel */
 #include <gtk/gtkinvisible.h>
 #include <gtk/gtkmain.h>
@@ -34,11 +35,10 @@
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/widgets/e-unicode.h"
+#include "gal/util/e-text-event-processor-emacs-like.h"
 #include <libart_lgpl/art_affine.h>
 #include <libart_lgpl/art_rgb.h>
 #include <libart_lgpl/art_rgb_bitmap_affine.h>
-
-#include "gal/util/e-text-event-processor-emacs-like.h"
 
 #define BORDER_INDENT 4
 

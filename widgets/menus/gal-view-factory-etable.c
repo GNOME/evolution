@@ -8,10 +8,9 @@
  * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
+#include "gal/util/e-i18n.h"
 #include "gal-view-factory-etable.h"
 #include "gal-view-etable.h"
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
 
 #define GVFE_CLASS(e) ((GalViewFactoryEtableClass *)((GtkObject *)e)->klass)
 

@@ -21,7 +21,6 @@
 #ifndef __E_REFLOW_H__
 #define __E_REFLOW_H__
 
-#include <glib.h>
 #include <libgnomeui/gnome-canvas.h>
 
 #ifdef __cplusplus
