@@ -1,3 +1,9 @@
+2005-03-30  Li Yuan  <li.yuan@sun.com>
+
+	* itip-formatter.c: (itip_formatter_page_factory):
+	add a11y name to Conflict Search Table
+	Fixes #73914
+
 2005-03-11  JP Rosevear  <jpr@novell.com>
 
 	* itip-formatter.c (extract_itip_data): set the type appropriately
