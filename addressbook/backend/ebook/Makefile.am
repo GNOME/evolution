@@ -142,6 +142,7 @@ BUILT_SOURCES = $(CORBA_SOURCE)
 CLEANFILES   += $(BUILT_SOURCES)
 
 oafdir = $(datadir)/oaf
-oaf_DATA = GNOME_Evolution_Addressbook_GnomeCard_Importer.oafinfo
+oaf_DATA = GNOME_Evolution_Addressbook_GnomeCard_Importer.oafinfo	\
+	GNOME_Evolution_Addressbook_Pine_Importer.oafinfo
 
 EXTRA_DIST = $(oaf_DATA)
