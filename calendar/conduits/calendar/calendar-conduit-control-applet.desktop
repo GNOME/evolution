@@ -2,9 +2,11 @@
 Name=Calendar conduit
 Name[da]=Gnome kalender
 Name[no]=GNOME kalender
+Name[tr]=Takvim parçasý
 Comment=Configure the GnomeCal conduit
 Comment[da]=Konfigurér GnomeCal-komponent
 Comment[no]=Konfigurér GnomeCal-komponent
+Comment[tr]=GnomeCal takvim parçasý ayarlarý
 Exec=calendar-conduit-control-applet --cap-id=1
 Terminal=0
 Type=Application

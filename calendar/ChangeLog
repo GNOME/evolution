@@ -1,3 +1,10 @@
+2000-07-19  Fatih Demir	<kabalak@gmx.net>
+	
+	* conduits/calendar/calendar-conduit-control-applet.desktop:
+	
+	* conduits/todo/todo-conduit-control-applet.desktop:
+		Added the Turkish desktop entries.
+
 2000-07-18  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-component.c (cal_component_alarm_free): Free the
