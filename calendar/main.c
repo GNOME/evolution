@@ -401,7 +401,7 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page)
 
 	/* i18n: This "%s%s" indicates possession. Languages where the order is
        the inverse should translate it to "%2$s%1$s". */
-	g_snprintf(title, 128, _("%s%s"), full_name, _("'s calendar"), NULL);
+	g_snprintf(title, 128, _("%s%s"), full_name, _("'s calendar"));
 
 	toplevel = gnome_calendar_new (title);
 	if (gnome_parse_geometry (geometry, &xpos, &ypos, &width, &height)){
