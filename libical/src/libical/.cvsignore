@@ -3,6 +3,7 @@ icalyacc.c
 icallexer.c
 y.output
 Makefile
+Makefile.in
 icalversion.h
 .deps
 .libs
