@@ -2622,8 +2622,6 @@ do_drag_motion(ETree *et,
 
 	widget = GTK_WIDGET (et);
 
-	x -= widget->allocation.x;
-	y -= widget->allocation.y;
 	e_tree_get_cell_at (et,
 			    x,
 			    y,
@@ -2727,8 +2725,6 @@ hover_timeout (gpointer data)
 	int row, col;
 	ETreePath path;
 
-	x -= widget->allocation.x;
-	y -= widget->allocation.y;
 	e_tree_get_cell_at (et,
 			    x,
 			    y,
@@ -2878,9 +2874,6 @@ et_drag_motion(GtkWidget *widget,
 				  y,
 				  time);
 
-	x -= widget->allocation.x;
-	y -= widget->allocation.y;
-
 	if (y < 20)
 		direction |= ET_SCROLL_UP;
 	if (y > widget->allocation.height - 20)
@@ -2909,8 +2902,6 @@ et_drag_drop(GtkWidget *widget,
 	gboolean ret_val = FALSE;
 	int row, col;
 	ETreePath path;
-	y -= widget->allocation.y;
-	x -= widget->allocation.x;
 	e_tree_get_cell_at(et,
 			   x,
 			   y,
@@ -2974,8 +2965,6 @@ et_drag_data_received(GtkWidget *widget,
 {
 	int row, col;
 	ETreePath path;
-	y -= widget->allocation.y;
-	x -= widget->allocation.x;
 	e_tree_get_cell_at(et,
 			   x,
 			   y,
