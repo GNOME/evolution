@@ -74,7 +74,7 @@ pas_card_cursor_class_init (PASCardCursorClass *klass)
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	POA_GNOME_Evolution_Addressbook_CardCursor__epv *epv;
 
-	parent_class = g_type_class_ref (BONOBO_TYPE_OBJECT);
+	parent_class = g_type_class_peek_parent (klass);
 
 	object_class->dispose = pas_card_cursor_dispose;
 

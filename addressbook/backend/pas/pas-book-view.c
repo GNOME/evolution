@@ -228,7 +228,7 @@ pas_book_view_class_init (PASBookViewClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	pas_book_view_parent_class = g_object_new (BONOBO_TYPE_OBJECT, NULL);
+	pas_book_view_parent_class = g_type_class_peek_parent (klass);
 
 	object_class->dispose = pas_book_view_dispose;
 }

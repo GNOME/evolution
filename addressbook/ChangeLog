@@ -1,5 +1,32 @@
 2002-11-06  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-card-sexp.c
+	(pas_backend_card_sexp_class_init): use g_type_class_peek_parent.
+
+	* backend/pas/pas-card-cursor.c (pas_card_cursor_class_init): same.
+
+	* backend/pas/pas-book-view.c (pas_book_view_class_init): same.
+
+	* backend/pas/pas-book-factory.c (pas_book_factory_class_init): same.
+
+	* backend/pas/pas-backend-summary.c (pas_backend_summary_class_init): same.
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_class_init): same.
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_class_init): same.
+
+	* backend/ebook/e-book-marshal.list: ENUM -> INT.
+
+	* backend/ebook/e-book-view.c (e_book_view_dispose): guard against
+	this being called multiple times.
+	(e_book_view_class_init): ENUM -> INT in the sequence_complete
+	signal.
+	
+	* backend/ebook/e-book.c (e_book_do_response_open): un-ifdef the
+	component_died signal stuff.
+
+2002-11-06  Chris Toshok  <toshok@ximian.com>
+
 	* backend/ebook/e-book-util.c (e_book_expand_uri): call
 	g_build_filename, not g_build_path.
 

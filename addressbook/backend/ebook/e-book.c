@@ -421,11 +421,9 @@ e_book_do_response_open (EBook                 *book,
 		book->priv->corba_book  = resp->book;
 		book->priv->load_state  = URILoaded;
 
-#if PENDING_PORT_WORK
 		book->priv->comp_listener = e_component_listener_new (book->priv->corba_book, 0);
                 book->priv->died_signal = g_signal_connect (book->priv->comp_listener, "component_died",
 							    G_CALLBACK (backend_died_cb), book);
-#endif
 	}
 
 	op = e_book_pop_op (book);

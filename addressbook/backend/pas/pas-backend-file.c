@@ -1644,7 +1644,7 @@ pas_backend_file_class_init (PASBackendFileClass *klass)
 	GObjectClass    *object_class = G_OBJECT_CLASS (klass);
 	PASBackendClass *parent_class;
 
-	pas_backend_file_parent_class = g_type_class_ref (PAS_TYPE_BACKEND);
+	pas_backend_file_parent_class = g_type_class_peek_parent (klass);
 
 	parent_class = PAS_BACKEND_CLASS (klass);
 

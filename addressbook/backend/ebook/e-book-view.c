@@ -231,31 +231,34 @@ e_book_view_dispose (GObject *object)
 	EBookView             *book_view = E_BOOK_VIEW (object);
 	CORBA_Environment  ev;
 
-	if (book_view->priv->book) {
-		g_object_unref (book_view->priv->book);
-	}
-
-	if (book_view->priv->corba_book_view) {
-		CORBA_exception_init (&ev);
-
-		bonobo_object_release_unref (book_view->priv->corba_book_view, &ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("EBookView: Exception while releasing BookView\n");
+	if (book_view->priv) {
+		if (book_view->priv->book) {
+			g_object_unref (book_view->priv->book);
 		}
 
-		CORBA_exception_free (&ev);
-	}
+		if (book_view->priv->corba_book_view) {
+			CORBA_exception_init (&ev);
 
-	if (book_view->priv->listener) {
-		if (book_view->priv->responses_queued_id)
-			g_signal_handler_disconnect(book_view->priv->listener,
-						    book_view->priv->responses_queued_id);
-		e_book_view_listener_stop (book_view->priv->listener);
-		bonobo_object_unref (BONOBO_OBJECT(book_view->priv->listener));
-	}
+			bonobo_object_release_unref (book_view->priv->corba_book_view, &ev);
 
-	g_free (book_view->priv);
+			if (ev._major != CORBA_NO_EXCEPTION) {
+				g_warning ("EBookView: Exception while releasing BookView\n");
+			}
+
+			CORBA_exception_free (&ev);
+		}
+
+		if (book_view->priv->listener) {
+			if (book_view->priv->responses_queued_id)
+				g_signal_handler_disconnect(book_view->priv->listener,
+							    book_view->priv->responses_queued_id);
+			e_book_view_listener_stop (book_view->priv->listener);
+			bonobo_object_unref (BONOBO_OBJECT(book_view->priv->listener));
+		}
+
+		g_free (book_view->priv);
+		book_view->priv = NULL;
+	}
 
 	G_OBJECT_CLASS(parent_class)->dispose (object);
 }
@@ -303,9 +306,9 @@ e_book_view_class_init (EBookViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EBookViewClass, sequence_complete),
 			      NULL, NULL,
-			      e_book_marshal_NONE__ENUM,
+			      e_book_marshal_NONE__INT,
 			      G_TYPE_NONE, 1,
-			      G_TYPE_ENUM);
+			      G_TYPE_INT);
 
 	e_book_view_signals [STATUS_MESSAGE] =
 		g_signal_new ("status_message",

@@ -177,7 +177,7 @@ pas_backend_summary_class_init (PASBackendSummaryClass *klass)
 {
 	GObjectClass  *object_class = G_OBJECT_CLASS (klass);
 
-	parent_class = g_type_class_ref (G_TYPE_OBJECT);
+	parent_class = g_type_class_peek_parent (klass);
 
 	/* Set the virtual methods. */
 

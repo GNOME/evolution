@@ -562,7 +562,7 @@ pas_book_factory_class_init (PASBookFactoryClass *klass)
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	POA_GNOME_Evolution_Addressbook_BookFactory__epv *epv;
 
-	pas_book_factory_parent_class = g_type_class_ref (BONOBO_TYPE_OBJECT);
+	pas_book_factory_parent_class = g_type_class_peek_parent (klass);
 
 	object_class->dispose = pas_book_factory_dispose;
 

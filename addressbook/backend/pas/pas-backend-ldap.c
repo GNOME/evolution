@@ -3463,7 +3463,7 @@ pas_backend_ldap_class_init (PASBackendLDAPClass *klass)
 	/* get client side information (extensions present in the library) */
 	get_ldap_library_info ();
 
-	pas_backend_ldap_parent_class = g_type_class_ref (PAS_TYPE_BACKEND);
+	pas_backend_ldap_parent_class = g_type_class_peek_parent (klass);
 
 	parent_class = PAS_BACKEND_CLASS (klass);
 
