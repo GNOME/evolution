@@ -48,4 +48,11 @@ EXTRA_DIST = \
 	reply-to-all.png \
 	tree-expanded.xpm \
 	tree-unexpanded.xpm \
+	score-lowest.xpm \
+	score-lower.xpm \
+	score-low.xpm \
+	score-normal.xpm \
+	score-high.xpm \
+	score-higher.xpm \
+	score-highest.xpm \
 	$(images_DATA)

@@ -1,3 +1,8 @@
+2000-09-18  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* art/score-*.xpm: retarded looking icons for use with displaying
+	scores in the message-list view. These need a makeover BADLY ;-)
+
 2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* configure.in: Added check for gnome-app-lib.  Removed
