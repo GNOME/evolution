@@ -1,6 +1,9 @@
 2001-01-09  Radek Doulik  <rodo@helixcode.com>
 
 	* mail-format.c (write_headers): remove </center><p>
+	(handle_text_plain): add <font size=\"-3\">&nbsp</font><br> before
+	msg text
+	(handle_text_plain_flowed): ditto
 
 2001-01-09  Jeffrey Stedfast  <fejj@helixcode.com>
 

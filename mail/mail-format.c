@@ -706,7 +706,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	if (format && !g_strcasecmp (format, "flowed"))
 		return handle_text_plain_flowed (text, md);
 
-	mail_html_write (md->html, md->stream, "\n<!-- text/plain -->\n");
+	mail_html_write (md->html, md->stream, "\n<!-- text/plain -->\n<font size=\"-3\">&nbsp</font><br>\n");
 
 	p = text;
 	while (p) {
@@ -752,7 +752,7 @@ handle_text_plain_flowed (char *buf, MailDisplay *md)
 	gboolean br_pending = FALSE;
 
 	mail_html_write (md->html, md->stream,
-			 "\n<!-- text/plain, flowed -->\n<tt>\n");
+			 "\n<!-- text/plain, flowed -->\n<font size=\"-3\">&nbsp</font><br>\n<tt>\n");
 
 	for (line = buf; *line; line = eol + 1) {
 		/* Process next line */
