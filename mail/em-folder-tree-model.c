@@ -214,12 +214,20 @@ sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data
 			return -1;
 		
 		path = gtk_tree_model_get_path (model, a);
-		aname = gtk_tree_path_to_string (path);
-		gtk_tree_path_free (path);
+		if (path) {
+			aname = gtk_tree_path_to_string (path);
+			gtk_tree_path_free (path);
+		} else {
+			aname = g_strdup("");
+		}
 		
 		path = gtk_tree_model_get_path (model, b);
-		bname = gtk_tree_path_to_string (path);
-		gtk_tree_path_free (path);
+		if (path) {
+			bname = gtk_tree_path_to_string (path);
+			gtk_tree_path_free (path);
+		} else {
+			bname = g_strdup("");
+		}
 		
 		ret = strcmp (aname, bname);
 		g_free (aname);

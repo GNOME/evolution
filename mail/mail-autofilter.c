@@ -326,11 +326,13 @@ FilterRule *
 vfolder_rule_from_message (VfolderContext *context, CamelMimeMessage *msg, int flags, const char *source)
 {
 	VfolderRule *rule;
-	
+	char *euri = em_uri_from_camel(source);
+
 	rule = vfolder_rule_new ();
-	vfolder_rule_add_source (rule, source);
+	vfolder_rule_add_source (rule, euri);
 	rule_from_message ((FilterRule *)rule, (RuleContext *)context, msg, flags);
-	
+	g_free(euri);
+
 	return (FilterRule *)rule;
 }
 

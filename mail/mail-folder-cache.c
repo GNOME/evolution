@@ -932,23 +932,33 @@ mail_note_store(CamelStore *store, CamelOperation *op,
 struct _find_info {
 	const char *uri;
 	struct _folder_info *fi;
+	CamelURL *url;
 };
 
 /* look up on each storeinfo using proper hash function for that stores uri's */
 static void storeinfo_find_folder_info(CamelStore *store, struct _store_info *si, struct _find_info *fi)
 {
-	if (fi->fi == NULL)
-		fi->fi = g_hash_table_lookup(si->folders_uri, fi->uri);
+	if (fi->fi == NULL) {
+		if (((CamelService *)store)->provider->url_equal(fi->url, ((CamelService *)store)->url)) {
+			char *path = fi->url->fragment?fi->url->fragment:fi->url->path;
+
+			if (path[0] == '/')
+				path++;
+			fi->fi = g_hash_table_lookup(si->folders, path);
+		}
+	}
 }
 
 /* returns TRUE if the uri is available, folderp is set to a
    reffed folder if the folder has also already been opened */
 int mail_note_get_folder_from_uri(const char *uri, CamelFolder **folderp)
 {
-	struct _find_info fi = { uri, NULL };
+	struct _find_info fi = { uri, NULL, NULL };
 
 	if (stores == NULL)
 		return FALSE;
+
+	fi.url = camel_url_new(uri, NULL);
 
 	LOCK(info_lock);
 	g_hash_table_foreach(stores, (GHFunc)storeinfo_find_folder_info, &fi);
@@ -961,6 +971,8 @@ int mail_note_get_folder_from_uri(const char *uri, CamelFolder **folderp)
 		}
 	}
 	UNLOCK(info_lock);
+
+	camel_url_free(fi.url);
 
 	return fi.fi != NULL;
 }

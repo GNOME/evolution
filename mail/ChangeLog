@@ -1,5 +1,25 @@
 2004-01-16  Not Zed  <NotZed@Ximian.com>
 
+	* mail-folder-cache.c (storeinfo_find_folder_info): change this to
+	check the store using the provider url_cmp and just lookup the
+	folder name directly.  folder_compare can't be used for uri's,
+	this stuff was so broken, my fault :(
+
+	** See bug #52467.
+
+	* em-folder-tree-model.c (sort_cb): handle null path (root?).
+
+	* mail-vfolder.c (mail_vfolder_add_uri): map uri to euri before
+	processing.
+	(rule_changed): map uri to camel uri before looking up.
+	(mail_vfolder_delete_uri): handle as euri internally.
+	(mail_vfolder_rename_uri): "
+
+	* mail-autofilter.c (vfolder_rule_from_message): map camel uri to
+	euri before setting as vfolder source.
+
+2004-01-16  Not Zed  <NotZed@Ximian.com>
+
 	* default/C/Inbox: 
 	* default/C/Makefile.am: 
 	* default/Makefile.am: Startup files/folders.
