@@ -1,3 +1,8 @@
+2003-07-01  Dan Winship  <danw@ximian.com>
+
+	* mail-display.c (pixbuf_for_mime_type): Gone
+	(pixbuf_gen_idle): Use e_icon_for_mime_type instead.
+
 2003-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (filter_date): Use the newer utf8 versions of the
