@@ -45,8 +45,8 @@
         <ETableColumn model_col=\"0\" pixbuf=\"subscribed-image\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"cell_toggle\" compare=\"string\"/> \
         <ETableColumn model_col=\"1\" _title=\"Folder\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"cell_tree\" compare=\"string\"/> \
 	<ETableState>                   			        \
-		<column> 0 </column>     			        \
-		<column> 1 </column>     			        \
+		<column source=\"0\"/>                                  \
+		<column source=\"1\"/>                                  \
 	        <grouping></grouping>                                   \
 	</ETableState>                  			        \
 </ETableSpecification>"
@@ -54,7 +54,7 @@
 #define STORE_ETABLE_SPEC "<ETableSpecification cursor-mode=\"line\"> \
         <ETableColumn model_col=\"0\" _title=\"Store\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"cell_text\" compare=\"string\"/> \
 	<ETableState>                   			        \
-		<column> 0 </column>     			        \
+		<column source=\"0\"/>                                  \
 	        <grouping></grouping>                                   \
 	</ETableState>                  			        \
 </ETableSpecification>"

@@ -1,5 +1,10 @@
 2000-10-11  Christopher James Lahey  <clahey@helixcode.com>
 
+	* message-list.c, message-list.h, subscribe-dialog.c: Changed
+	these to use the proper form for the column element.
+
+2000-10-11  Christopher James Lahey  <clahey@helixcode.com>
+
 	* message-list.c, message-list.h, subscribe-dialog.c: Updated
 	these to the new ETable style of specifications.
 

@@ -862,8 +862,8 @@ message_list_get_layout (MessageList *message_list)
 			 "<ETableColumn model_col= \"6\" _title=\"Received\" expansion=\"20.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_date\" compare=\"integer\"/>"
 			 "<ETableColumn model_col= \"7\" _title=\"To\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"address_compare\"/>"
 			 "<ETableColumn model_col= \"8\" _title=\"Size\" expansion=\"6.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"string\"/>"
-			 "<ETableState> <column> 0 </column> <column> 3 </column>"
-			 "<column> 4 </column> <column> 5 </column>"
+			 "<ETableState> <column source=\"0\"/> <column source=\"3\"/>"
+			 "<column source=\"4\"/> <column source=\"5\"/>"
 			 "<grouping> </grouping> </ETableState>"
 			 "</ETableSpecification>");
 }
@@ -872,8 +872,8 @@ static void
 message_list_setup_etable(MessageList *message_list)
 {
 	char *state = "<ETableState>"
-		"<column> 0 </column> <column> 7 </column>"
-		"<column> 4 </column> <column> 5 </column> "
+		"<column source=\"0\"/> <column source=\"7\"/>"
+		"<column source=\"4\"/> <column source=\"5\"/>"
 		"<grouping> </grouping> </ETableState>";
 
 	/* build the spec based on the folder, and possibly from a saved file */
