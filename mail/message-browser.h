@@ -44,6 +44,8 @@ struct _MessageBrowser {
 	 * The current URI being displayed by the MessageBrowser
 	 */
 	FolderBrowser *fb;
+	gulong ml_built_id;
+	gulong loaded_id;
 };
 
 

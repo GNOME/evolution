@@ -1,3 +1,16 @@
+2003-06-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Might fix bug #45368 but I wouldn't bet on it.
+
+	* message-browser.c (message_browser_new): Record the signal id
+	for folder_loaded.
+	(message_browser_folder_loaded): disconnect by id rather than
+	searching for the handler. Save the id of the message_list_built
+	signal handler.
+	(message_browser_message_list_built): Disconnect the handler by
+	id.
+	(message_browser_destroy): Disconnect the signal handlers by id.
+
 2003-06-20  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #43887

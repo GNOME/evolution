@@ -1309,12 +1309,12 @@ message_list_destroy(GtkObject *object)
 	}
 	
 	if (message_list->extras) {
-		g_object_unref((message_list->extras));
+		g_object_unref (message_list->extras);
 		message_list->extras = NULL;
 	}
 	
 	if (message_list->model) {
-		g_object_unref((message_list->model));
+		g_object_unref (message_list->model);
 		message_list->model = NULL;
 	}
 	

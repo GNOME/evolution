@@ -69,8 +69,17 @@ message_browser_destroy (GtkObject *object)
 	
 	message_browser = MESSAGE_BROWSER (object);
 	
+	if (message_browser->ml_built_id) {
+		g_signal_handler_disconnect (message_browser->fb->message_list, message_browser->ml_built_id);
+		message_browser->ml_built_id = 0;
+	}
+	
+	if (message_browser->loaded_id) {
+		g_signal_handler_disconnect (message_browser->fb, message_browser->loaded_id);
+		message_browser->loaded_id = 0;
+	}
+	
 	if (message_browser->fb) {
-		g_signal_handlers_disconnect_matched (message_browser->fb, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, message_browser);
 		g_object_unref (message_browser->fb);
 		message_browser->fb = NULL;
 	}
@@ -212,7 +221,7 @@ message_browser_message_loaded (FolderBrowser *fb, const char *uid, MessageBrows
 	CamelMimeMessage *message;
 	char *subject = NULL;
 	char *title;
-
+	
 	folder_browser_ui_message_loaded(fb);
 	
 	message = fb->mail_display->current_message;
@@ -234,17 +243,21 @@ static void
 message_browser_message_list_built (MessageList *ml, MessageBrowser *mb)
 {
 	const char *uid = g_object_get_data (G_OBJECT (mb), "uid");
-
-	g_signal_handlers_disconnect_matched (ml, G_SIGNAL_MATCH_DATA|G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
-					      message_browser_message_list_built, mb);
+	
+	g_signal_handler_disconnect (ml, mb->ml_built_id);
+	mb->ml_built_id = 0;
+	
 	message_list_select_uid (ml, uid);
 }
 
 static void
 message_browser_folder_loaded (FolderBrowser *fb, const char *uri, MessageBrowser *mb)
 {
-	g_signal_connect (fb->message_list, "message_list_built",
-			  G_CALLBACK (message_browser_message_list_built), mb);
+	g_signal_handler_disconnect (fb, mb->loaded_id);
+	mb->loaded_id = 0;
+	
+	mb->ml_built_id = g_signal_connect (fb->message_list, "message_list_built",
+					    G_CALLBACK (message_browser_message_list_built), mb);
 }
 
 static void
@@ -353,7 +366,7 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	set_default_size (GTK_WIDGET (new));
 	
 	/* more evil hackery... */
-	g_signal_connect (fb, "folder_loaded", G_CALLBACK (message_browser_folder_loaded), new);
+	new->loaded_id = g_signal_connect (fb, "folder_loaded", G_CALLBACK (message_browser_folder_loaded), new);
 	g_signal_connect (fb, "message_loaded", G_CALLBACK (message_browser_message_loaded), new);
 	
 	return GTK_WIDGET (new);
