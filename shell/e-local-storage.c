@@ -841,7 +841,7 @@ async_xfer_folder_callback (EvolutionShellComponentClient *shell_component_clien
 	e_folder_set_physical_uri (destination_folder, new_physical_uri);
 	g_free (new_physical_uri);
 
-	e_local_folder_save (E_LOCAL_FOLDER (new_folder)); /* FIXME check for errors */
+	e_local_folder_save (E_LOCAL_FOLDER (destination_folder)); /* FIXME check for errors */
 	new_folder (xfer_data->local_storage, item->destination_path, destination_folder);
 
 	xfer_data->current_folder_item = xfer_data->current_folder_item->next;
