@@ -357,7 +357,7 @@ stream_eos (CamelStream *stream)
  * @max: Maxmimum number of characters to store.
  *
  * Read a line of characters up to the next newline character or
- * @max characters.
+ * @max-1 characters.
  *
  * If the newline character is encountered, then it will be
  * included in the buffer @buf.  The buffer will be #NUL terminated.

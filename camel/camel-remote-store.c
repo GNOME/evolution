@@ -409,7 +409,7 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 {
 	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
 	GByteArray *bytes;
-	gchar buf[1025], *ret;
+	gchar buf[1024], *ret;
 	gint nread;
 	
 	*dest = NULL;
@@ -434,10 +434,10 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 	bytes = g_byte_array_new ();
 	
 	do {
-		nread = camel_stream_buffer_gets (stream, buf, 1024);
+		nread = camel_stream_buffer_gets (stream, buf, sizeof (buf));
 		if (nread > 0)
 			g_byte_array_append (bytes, buf, nread);
-	} while (nread == 1024);
+	} while (nread == sizeof (buf) - 1);
 	
 	g_byte_array_append (bytes, "", 1);
 	ret = bytes->data;

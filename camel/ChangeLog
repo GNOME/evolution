@@ -1,3 +1,14 @@
+2000-12-21  Dan Winship  <danw@helixcode.com>
+
+	* camel-stream-buffer.c (camel_stream_buffer_gets): Update the
+	doc comment: since it always NUL-terminates the buffer, it reads
+	at most @max-1 bytes, not @max.
+
+	* camel-remote-store.c (remote_recv_line): Fix the "did
+	camel_stream_buffer_gets fill the whole buffer" check. Fixes a bug
+	when reading lines longer than 1024 characters (eg, IMAP SEARCH
+	responses in very large folders).
+
 2000-12-19  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_refresh_info): Oops.
