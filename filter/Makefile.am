@@ -14,6 +14,7 @@ INCLUDES = 					\
 	$(GTKHTML_CFLAGS)			\
 	$(UNICODE_CFLAGS)			\
 	$(BONOBO_GNOME_CFLAGS)			\
+	$(EXTRA_GNOME_CFLAGS)			\
 	-DFILTER_GLADEDIR=\"$(gladedir)\"	\
 	-DG_LOG_DOMAIN=\"filter\"
 ##
