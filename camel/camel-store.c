@@ -82,6 +82,34 @@ camel_store_get_type (void)
 
 
 
+/**
+ * camel_store_new: create a new store from an URL
+ * @url: The url representing this store
+ * 
+ * This routine creates a store from an URL name.
+ * The URL may be for example:
+ * pop3://user:passwd@host
+ * 
+ * WARNING : THIS METHOD DEFINITION IS SUBJECT TO 
+ * CHANGES.
+ * 
+ * Return value: the newly created store
+ **/
+CamelStore *
+camel_store_new(GString *url)
+{
+	/* this method must be overloaded by providers */
+	CamelStore *store;
+#warning must fill this
+	/* here si what will happen here :
+	   In fact the method will take a Session object as a supplemental 
+	   argument. From this object and from the url protocol 
+	   (pop/mh/mbox ...) the correct provider will be selected an the 
+	   corresponding store object will be created */
+	
+}
+
+
 /** 
  * camel_store_set_separator: set the character which separates this folder 
  * path from the folders names in a lower level of hierarchy.

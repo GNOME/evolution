@@ -70,6 +70,7 @@ typedef struct {
 /* Standard Gtk function */
 GtkType camel_store_get_type (void);
 
+CamelStore *camel_store_new(GString *url);
 CamelFolder *camel_store_get_folder(CamelStore *store, GString *folder_name);
 gchar camel_store_get_separator(CamelStore *store);
 

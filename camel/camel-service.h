@@ -44,6 +44,7 @@ typedef struct {
 	GtkObject parent_object;
 
 	gboolean connected;
+	GString *url; /* This may be a full object ? */
 
 } CamelService;
 

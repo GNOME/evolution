@@ -1,3 +1,9 @@
+1999-04-25  bertrand <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-provider.[ch]:
+	basic provider structure. Have to write the
+	code for dynamic loading.
+
 1999-04-24  bertrand <Bertrand.Guiheneuf@inria.fr>
 	
 	* camel/url-util.[ch]: s/new_g_url/g_url_new

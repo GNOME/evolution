@@ -14,6 +14,7 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 libcamel_la_SOURCES = 				\
 	camel-log.c				\
 	camel-folder.c				\
+	camel-provider.c			\
 	camel-service.c				\
 	camel-store.c				\
 	gstring-util.c				\
@@ -22,6 +23,7 @@ libcamel_la_SOURCES = 				\
 libcamelinclude_HEADERS =			\
 	camel-log.h				\
 	camel-folder.h				\
+	camel-provider.h			\
 	camel-service.h				\
 	camel-store.h				\
 	gstring-util.h			\
