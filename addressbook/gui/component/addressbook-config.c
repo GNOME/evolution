@@ -292,7 +292,7 @@ addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, Addressbo
 	dialog->scope = source ? source->scope : ADDRESSBOOK_LDAP_SCOPE_ONELEVEL;
 	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->scope_optionmenu), dialog->scope);
 
-	dialog->ssl = source ? source->auth : ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
+	dialog->ssl = source ? source->ssl : ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
 	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->ssl_optionmenu), dialog->ssl);
 }
 

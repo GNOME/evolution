@@ -1,3 +1,9 @@
+2002-08-16  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-config.c
+	(addressbook_source_dialog_set_source): fix c&p error that was
+	losing the ssl setting.
+
 2002-08-16  Iain <iain@ximian.com>
 
 	* backends/e-book/evolution-ldif-importer.c (ebook_create): Use the
