@@ -49,7 +49,7 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
 
   # see if we need to declare some functions.  Solaris is notorious for
   # putting functions into the `libc' but not listing them in the headers
-  AC_CHECK_HEADERS(string.h strings.h stdlib.h unistd.h)
+  AC_CHECK_HEADERS(string.h strings.h stdlib.h unistd.h dirent.h)
   GCC_NEED_DECLARATIONS(gethostname setreuid setregid getpagesize scandir)
 
   # Turn our LIBOBJS into libtool objects.  This is gross, but it
