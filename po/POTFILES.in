@@ -103,6 +103,13 @@ shell/e-storage.c
 shell/e-storage-set-view.c
 shell/main.c
 #tests/ui-tests/message-browser.c
+ui/evolution-addressbook-ldap.h
+ui/evolution-addressbook.h
+ui/evolution-calendar.h
+ui/evolution-contact-editor.h
+ui/evolution-mail.h
+ui/evolution-subscribe.h
+ui/evolution.h
 widgets/meeting-time-sel/e-meeting-time-sel.c
 widgets/misc/e-calendar.c
 widgets/misc/e-calendar-item.c
