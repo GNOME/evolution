@@ -1,3 +1,8 @@
+2004-08-13  Rodney Dawes  <dobey@novell.com>
+
+	* acinclude.m4: Revert previous EVO_LDAP_CHECK changes, aren't working
+	as well as expceted and determined in testing
+
 2004-08-13  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* configure.in:

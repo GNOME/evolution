@@ -31,13 +31,22 @@ AC_DEFUN([EVO_PURIFY_SUPPORT], [
 AC_DEFUN([EVO_LDAP_CHECK], [
 	default="$1"
 
-	AC_ARG_WITH(openldap,     [  --with-openldap=[no/yes/PREFIX]      Enable LDAP support in evolution], with_openldap="$withval", with_openldap="/usr")
-	AC_ARG_WITH(openldap-libs,[  --with-openldap-libs=DIR             Location of openldap libraries to link with], with_openldap_libs="$withval", with_openldap_libs="$with_openldap/lib")
-	AC_ARG_WITH(openldap-includes,[  --with-openldap-includes=DIR         Location of openldap libraries to link with], with_openldap_includes="$withval", with_openldap_includes="$with_openldap/include")
+	AC_ARG_WITH(openldap,     [  --with-openldap=[no/yes/PREFIX]      Enable LDAP support in evolution])
 	AC_ARG_WITH(static-ldap,  [  --with-static-ldap=[no/yes]          Link LDAP support statically into evolution ])
-
-	LDAP_CFLAGS="-I$with_openldap_includes"
-	LDAP_LDFLAGS="-L$with_openldap_libs"
+	AC_CACHE_CHECK([for OpenLDAP], ac_cv_with_openldap, ac_cv_with_openldap="${with_openldap:=$default}")
+	case $ac_cv_with_openldap in
+	no|"")
+		with_openldap=no
+		;;
+	yes)
+		with_openldap=/usr
+		;;
+	*)
+		with_openldap=$ac_cv_with_openldap
+		LDAP_CFLAGS="-I$ac_cv_with_openldap/include"
+		LDAP_LDFLAGS="-L$ac_cv_with_openldap/lib"
+		;;
+	esac
 
 	if test "$with_openldap" != no; then
 		AC_DEFINE(HAVE_LDAP,1,[Define if you have LDAP support])
@@ -71,20 +80,20 @@ AC_DEFUN([EVO_LDAP_CHECK], [
 		AC_CHECK_LIB(nsl, gethostbyaddr, LDAP_LIBS="$LDAP_LIBS -lnsl")
 		AC_CHECK_LIB(lber, ber_get_tag, [
 			if test "$with_static_ldap" = "yes"; then
-				LDAP_LIBS="$with_openldap_libs/liblber.a $LDAP_LIBS"
+				LDAP_LIBS="$with_openldap/lib/liblber.a $LDAP_LIBS"
 
 				# libldap might depend on OpenSSL... We need to pull
 				# in the dependency libs explicitly here since we're
 				# not using libtool for the configure test.
-				if test -f $with_openldap_libs/libldap.la; then
-					LDAP_LIBS="`. $with_openldap_libs/libldap.la; echo $dependency_libs` $LDAP_LIBS"
+				if test -f $with_openldap/lib/libldap.la; then
+					LDAP_LIBS="`. $with_openldap/lib/libldap.la; echo $dependency_libs` $LDAP_LIBS"
 				fi
 			else
 				LDAP_LIBS="-llber $LDAP_LIBS"
 			fi
 			AC_CHECK_LIB(ldap, ldap_open, [
 					if test $with_static_ldap = "yes"; then
-						LDAP_LIBS="$with_openldap_libs/libldap.a $LDAP_LIBS"
+						LDAP_LIBS="$with_openldap/lib/libldap.a $LDAP_LIBS"
 					else
 						LDAP_LIBS="-lldap $LDAP_LIBS"
 					fi],
