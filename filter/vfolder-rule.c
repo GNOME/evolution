@@ -252,8 +252,10 @@ xml_decode (FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 			while (work) {
 				if (!strcmp(work->name, "folder")) {
 					uri = xmlGetProp(work, "uri");
-					if (uri)
-						vr->sources = g_list_append(vr->sources, uri);
+					if (uri) {
+						vr->sources = g_list_append(vr->sources, g_strdup(uri));
+						xmlFree(uri);
+					}
 				}
 				work = work->next;
 			}

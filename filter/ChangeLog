@@ -1,3 +1,11 @@
+2001-09-27    <NotZed@Ximian.com>
+
+	* vfolder-rule.c (xml_decode): Use g_strdup for the uri, not the
+	xml memory.
+
+	* filter-driver.c, filter-message-search.c: Removed, again, how
+	did they come back???
+
 2001-09-13    <NotZed@Ximian.com>
 
 	* filter-filter.c (filter_filter_add_action): 
