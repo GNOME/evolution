@@ -92,7 +92,7 @@ static char *cal_backend_file_get_timezone_object (CalBackend *backend, const ch
 static GList *cal_backend_file_get_uids (CalBackend *backend, CalObjType type);
 static GList *cal_backend_file_get_objects_in_range (CalBackend *backend, CalObjType type,
 						     time_t start, time_t end);
-static char *cal_backend_file_get_free_busy (CalBackend *backend, time_t start, time_t end);
+static GList *cal_backend_file_get_free_busy (CalBackend *backend, GList *users, time_t start, time_t end);
 static GNOME_Evolution_Calendar_CalObjChangeSeq *cal_backend_file_get_changes (
 	CalBackend *backend, CalObjType type, const char *change_id);
 
@@ -1113,16 +1113,16 @@ cal_backend_file_get_objects_in_range (CalBackend *backend, CalObjType type,
 }
 
 /* Get_free_busy handler for the file backend */
-static char *
-cal_backend_file_get_free_busy (CalBackend *backend, time_t start, time_t end)
+static GList *
+cal_backend_file_get_free_busy (CalBackend *backend, GList *users, time_t start, time_t end)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
-	icalcomponent *vfb;
-	char *calobj;
-	struct icaltimetype itime;
 	GList *uids;
 	GList *l;
+	icalcomponent *vfb;
+	char *calobj;
+	GList *obj_list = NULL;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -1131,34 +1131,28 @@ cal_backend_file_get_free_busy (CalBackend *backend, time_t start, time_t end)
 	g_return_val_if_fail (start != -1 && end != -1, NULL);
 	g_return_val_if_fail (start <= end, NULL);
 
-	/* create the iCal VFREEBUSY component */
+	/* create the (unique) VFREEBUSY object that we'll return */
 	vfb = icalcomponent_new_vfreebusy ();
-	itime = icaltime_from_timet (start, 1);
-	icalcomponent_set_dtstart (vfb, itime);
-	itime = icaltime_from_timet (end, 1);
-	icalcomponent_set_dtend (vfb, itime);
+	icalcomponent_set_dtstart (vfb, icaltime_from_timet (start, 1));
+	icalcomponent_set_dtend (vfb, icaltime_from_timet (end, 1));
 
 	/* add all objects in the given interval */
 	uids = cal_backend_get_objects_in_range (CAL_BACKEND (cbfile),
 						 CALOBJ_TYPE_ANY, start, end);
 	for (l = uids; l != NULL; l = l->next) {
-		char *comp_str;
+		CalComponent *comp;
 		icalcomponent *icalcomp;
-		icalproperty *icalprop, *prop;
+		icalparameter *param;
+		icalproperty *prop;
 		struct icalperiodtype ipt;
 		char *uid = (char *) l->data;
 
-		/* FIXME: This looks quite inefficient. It is converting the
-		   component to a string and then parsing it again. It would
-		   be better to use lookup_component(). It needs to handle
-		   timezones as well, so it is probably easier to use the
-		   CalComponent wrapper functions. - Damon. */
-		comp_str = cal_backend_get_object (CAL_BACKEND (cbfile), uid);
-		if (!comp_str)
+		/* get the component from our internal list */
+		comp = lookup_component (cbfile, uid);
+		if (!comp)
 			continue;
 
-		icalcomp = icalparser_parse_string (comp_str);
-		g_free (comp_str);
+		icalcomp = cal_component_get_icalcomponent (comp);
 		if (!icalcomp)
 			continue;
 
@@ -1177,17 +1171,22 @@ cal_backend_file_get_free_busy (CalBackend *backend, time_t start, time_t end)
 		ipt.duration = icalcomponent_get_duration (icalcomp);
 
 		/* add busy information to the vfb component */
-		icalprop = icalproperty_new (ICAL_FREEBUSY_PROPERTY);
-		icalproperty_set_freebusy (icalprop, ipt);
-		icalcomponent_add_property (vfb, icalprop);
+		prop = icalproperty_new (ICAL_FREEBUSY_PROPERTY);
+		icalproperty_set_freebusy (prop, ipt);
+
+		param = icalparameter_new_fbtype (ICAL_FBTYPE_BUSY);
+		icalproperty_add_parameter (prop, param);
+
+		icalcomponent_add_property (vfb, prop);
 	}
 
-	calobj = g_strdup (icalcomponent_as_ical_string (vfb));
-
+	calobj = icalcomponent_as_ical_string (vfb);
+	obj_list = g_list_append (obj_list, g_strdup (calobj));
 	icalcomponent_free (vfb);
+
 	cal_obj_uid_list_free (uids);
 
-	return calobj;
+	return obj_list;
 }
 
 typedef struct 

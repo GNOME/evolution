@@ -122,8 +122,8 @@ GList *cal_client_get_changes (CalClient *client, CalObjType type, const char *c
 GList *cal_client_get_objects_in_range (CalClient *client, CalObjType type,
 					time_t start, time_t end);
 
-CalClientGetStatus cal_client_get_free_busy (CalClient *client, time_t start, time_t end,
-					     CalComponent **comp);
+GList *cal_client_get_free_busy (CalClient *client, GList *users,
+				 time_t start, time_t end);
 
 void cal_client_generate_instances (CalClient *client, CalObjType type,
 				    time_t start, time_t end,

@@ -134,15 +134,22 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 		    "unknown status value"));
 
 	if (status == CAL_CLIENT_OPEN_SUCCESS) {
-		CalComponent *comp;
+		GList *comp_list;
 
 		/* get free/busy information */
-		cal_client_get_free_busy (client, 0, time (NULL), &comp);
-		if (IS_CAL_COMPONENT (comp)) {
-			char *comp_str = cal_component_get_as_string (comp);
-			gtk_object_unref (GTK_OBJECT (comp));
-			cl_printf (client, "Free/Busy -> %s\n", comp_str);
-			g_free (comp_str);
+		comp_list = cal_client_get_free_busy (client, NULL, 0, time (NULL));
+		if (comp_list) {
+			GList *l;
+
+			for (l = comp_list; l; l = l->next) {
+				char *comp_str;
+
+				comp_str = cal_component_get_as_string (CAL_COMPONENT (l->data));
+				gtk_object_unref (GTK_OBJECT (l->data));
+				cl_printf (client, "Free/Busy -> %s\n", comp_str);
+				g_free (comp_str);
+			}
+			g_list_free (comp_list);
 		}
 
 		g_idle_add (list_uids, client);
@@ -225,9 +232,8 @@ main (int argc, char **argv)
 
 	dir = g_strdup_printf ("%s/evolution/local/Calendar/calendar.ics", g_get_home_dir ());
 	create_client (&client1, dir, FALSE);
-	create_client (&client2, "/cvs/evolution/calendar/cal-client/test.ics", TRUE);
-
 	g_free (dir);
+	create_client (&client2, "/cvs/evolution/calendar/cal-client/test.ics", TRUE);
 
 	bonobo_main ();
 	return 0;

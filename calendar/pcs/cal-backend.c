@@ -476,15 +476,16 @@ cal_backend_get_objects_in_range (CalBackend *backend, CalObjType type,
 /**
  * cal_backend_get_free_busy:
  * @backend: A calendar backend.
+ * @users: List of users to get free/busy information for.
  * @start: Start time for query.
  * @end: End time for query.
  * 
  * Gets a free/busy object for the given time interval
  * 
- * Return value: a free/busy object
+ * Return value: a list of CalObj's
  **/
-char *
-cal_backend_get_free_busy (CalBackend *backend, time_t start, time_t end)
+GList *
+cal_backend_get_free_busy (CalBackend *backend, GList *users, time_t start, time_t end)
 {
 	g_return_val_if_fail (backend != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
@@ -492,7 +493,7 @@ cal_backend_get_free_busy (CalBackend *backend, time_t start, time_t end)
 	g_return_val_if_fail (start <= end, NULL);
 
 	g_assert (CLASS (backend)->get_free_busy != NULL);
-	return (* CLASS (backend)->get_free_busy) (backend, start, end);
+	return (* CLASS (backend)->get_free_busy) (backend, users, start, end);
 }
 
 /**

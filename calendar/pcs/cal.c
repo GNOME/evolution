@@ -233,16 +233,19 @@ impl_Cal_get_objects_in_range (PortableServer_Servant servant,
 }
 
 /* Cal::get_free_busy method */
-static GNOME_Evolution_Calendar_CalObj
+static GNOME_Evolution_Calendar_CalObjSeq *
 impl_Cal_get_free_busy (PortableServer_Servant servant,
-			GNOME_Evolution_Calendar_Time_t start,
-			GNOME_Evolution_Calendar_Time_t end,
+			const GNOME_Evolution_Calendar_UserList *user_list,
+			const GNOME_Evolution_Calendar_Time_t start,
+			const GNOME_Evolution_Calendar_Time_t end,
 			CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
 	time_t t_start, t_end;
-	char *calobj;
+	GList *users = NULL;
+	GList *obj_list;
+	GNOME_Evolution_Calendar_CalObjSeq *seq;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
@@ -257,20 +260,46 @@ impl_Cal_get_free_busy (PortableServer_Servant servant,
 		return NULL;
 	}
 
-	calobj = cal_backend_get_free_busy (priv->backend, t_start, t_end);
-        if (calobj) {
-		CORBA_char *calobj_copy;
+	/* convert the CORBA user list to a GList */
+	if (user_list) {
+		int i;
 
-		calobj_copy = CORBA_string_dup (calobj);
-		g_free (calobj);
-		return calobj_copy;
+		for (i = 0; i < user_list->_length; i++)
+			users = g_list_append (users, user_list->_buffer[i]);
+	}
+
+	/* call the backend's get_free_busy method */
+	obj_list = cal_backend_get_free_busy (priv->backend, users, t_start, t_end);
+	g_list_free (users);
+        if (obj_list) {
+		GList *l;
+		gint count;
+		gint n;
+
+		count = g_list_length (obj_list);
+
+		seq = GNOME_Evolution_Calendar_CalObjSeq__alloc ();
+		CORBA_sequence_set_release (seq, TRUE);
+		seq->_length = count;
+		seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalObj_allocbuf (count);
+
+		for (l = obj_list, n = 0; l; l = l->next, n++) {
+			gchar *calobj = (gchar *) l->data;
+
+			seq->_buffer[n] = CORBA_string_dup (calobj);
+			g_free (calobj);
+		}
+
+		g_list_free (obj_list);
+
+		return seq;
 	}
 
 	CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-			     ex_GNOME_Evolution_Calendar_Cal_NotFound,
-			     NULL);
+                             ex_GNOME_Evolution_Calendar_Cal_NotFound,
+                             NULL);
 
-	return NULL;
+        return NULL;
 }
 
 /* Cal::get_alarms_in_range method */

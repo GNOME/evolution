@@ -28,6 +28,7 @@
 #include <libgnomevfs/gnome-vfs-types.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+#include <libgnomevfs/gnome-vfs-directory.h>
 
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-context.h>
@@ -121,17 +122,35 @@ create_folder (EvolutionShellComponent *shell_component,
 	       void *closure)
 {
 	CORBA_Environment ev;
+	GnomeVFSURI *uri;
 
-	CORBA_exception_init(&ev);
-	/* FIXME: I don't think we have to do anything to create a calendar
-	   or tasks folder - the '.ics' files are created automatically when
-	   needed. But I'm not sure - Damon. */
-	if (!strcmp(type, "calendar") || !strcmp(type, "tasks")) {
-		GNOME_Evolution_ShellComponentListener_notifyResult(listener, GNOME_Evolution_ShellComponentListener_OK, &ev);
-	} else {
-		GNOME_Evolution_ShellComponentListener_notifyResult(listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
+	CORBA_exception_init (&ev);
+
+	if (strcmp (type, FOLDER_CALENDAR) && strcmp (type, FOLDER_TASKS)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
+			&ev);
+		CORBA_exception_free (&ev);
+		return;
 	}
-	CORBA_exception_free(&ev);
+
+	uri = gnome_vfs_uri_new_private (physical_uri, TRUE, TRUE, TRUE);
+	if (uri) {
+		/* we don't need to do anything */
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_OK, &ev);
+		gnome_vfs_uri_unref (uri);
+	}
+	else {
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_INVALID_URI,
+			&ev);
+	}
+
+	CORBA_exception_free (&ev);
 }
 
 static void
@@ -142,14 +161,25 @@ remove_folder (EvolutionShellComponent *shell_component,
 	       void *closure)
 {
 	CORBA_Environment ev;
-	const char *file_name;
-	gchar *path;
-	int rv;
+	GnomeVFSURI *uri;
+	GnomeVFSResult result;
+	GList *file_list;
 
 	CORBA_exception_init(&ev);
 
+	/* check type */
+	if (strcmp (type, FOLDER_CALENDAR) && strcmp (type, FOLDER_TASKS)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
+			&ev);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
 	/* check URI */
-	if (strncmp (physical_uri, "file://", 7)) {
+	uri = gnome_vfs_uri_new_private (physical_uri, TRUE, TRUE, TRUE);
+	if (!uri) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener,
 			GNOME_Evolution_ShellComponentListener_INVALID_URI,
@@ -158,52 +188,64 @@ remove_folder (EvolutionShellComponent *shell_component,
 		return;
 	}
 
-	/* FIXME: check if there are subfolders? */
+	/* remove all files in that directory */
+	result = gnome_vfs_directory_list_load (&file_list, physical_uri, 0, NULL);
+	if (result == GNOME_VFS_OK) {
+		GList *l;
+		gboolean success = TRUE;
 
-	file_name = get_local_file_name_for_folder_type (type);
-	if (file_name == NULL) {
-		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
-								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
-								     &ev);
-		CORBA_exception_free (&ev);
-		return;
-	}
+		for (l = file_list; l; l = l->next) {
+			GnomeVFSFileInfo *file_info;
+			GnomeVFSURI *tmp_uri;
 
-	/* remove the .ics file */
-	path = g_concat_dir_and_file (physical_uri + 7, file_name);
-	rv = unlink (path);
-	g_free (path);
-	if (rv == 0) {
-		/* everything OK; notify the listener */
-		GNOME_Evolution_ShellComponentListener_notifyResult (
-			listener,
-			GNOME_Evolution_ShellComponentListener_OK,
-			&ev);
+			/* ignore hidden files */
+			file_info = (GnomeVFSFileInfo *) l->data;
+			if (!file_info || file_info->name[0] == '.')
+				continue;
+
+			if (file_info->type == GNOME_VFS_FILE_TYPE_DIRECTORY) {
+				GNOME_Evolution_ShellComponentListener_notifyResult (
+					listener,
+					GNOME_Evolution_ShellComponentListener_HAS_SUBFOLDERS,
+					&ev);
+				success = FALSE;
+				break;
+			}
+
+			tmp_uri = gnome_vfs_uri_new_private (physical_uri, TRUE, TRUE, TRUE);
+			tmp_uri = gnome_vfs_uri_append_file_name (tmp_uri, file_info->name);
+
+			result = gnome_vfs_unlink_from_uri (tmp_uri);
+			gnome_vfs_uri_unref (tmp_uri);
+			if (result != GNOME_VFS_OK) {
+				GNOME_Evolution_ShellComponentListener_notifyResult (
+					listener,
+					GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
+					&ev);
+				success = FALSE;
+				break;
+			}
+		}
+ 
+		if (success) {
+			GNOME_Evolution_ShellComponentListener_notifyResult (
+				listener,
+				GNOME_Evolution_ShellComponentListener_OK,
+				&ev);
+		}
 	}
 	else {
-		if (errno == EACCES || errno == EPERM)
-			GNOME_Evolution_ShellComponentListener_notifyResult (
-				listener,
-				GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
-				&ev);
-		else
-			GNOME_Evolution_ShellComponentListener_notifyResult (
-				listener,
-				GNOME_Evolution_ShellComponentListener_INVALID_URI, /*XXX*/
-				&ev);
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
+			&ev);
 	}
 
+	/* free memory */
+	gnome_vfs_file_info_list_free (file_list);
+	gnome_vfs_uri_unref (uri);
+
 	CORBA_exception_free(&ev);
-}
-
-/* callback used from icalparser_parse */
-static char *
-get_line_fn (char *s, size_t size, void *data)
-{
-	FILE *file;
-
-	file = data;
-	return fgets (s, size, file);
 }
 
 static void
@@ -216,110 +258,139 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	     void *closure)
 {
 	CORBA_Environment ev;
-	gchar *source_path;
-	FILE *fin;
-	icalparser *parser;
-	icalcomponent *icalcomp;
-	GnomeVFSHandle *handle;
-	GnomeVFSURI *uri;
-	GnomeVFSFileSize out;
-	char *buf;
-	const char *file_name;
+	GnomeVFSURI *src_uri;
+	GnomeVFSURI *dest_uri;
+	GnomeVFSResult result;
+	GList *file_list;
+	GList *l;
+	gboolean success = TRUE;
 
 	CORBA_exception_init (&ev);
 
-	/* check URI */
-	if (strncmp (source_physical_uri, "file://", 7)
-	    || strncmp (destination_physical_uri, "file://", 7)) {
+	/* check type */
+	if (strcmp (type, FOLDER_CALENDAR) && strcmp (type, FOLDER_TASKS)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
+			&ev);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	/* check URIs */
+	src_uri = gnome_vfs_uri_new_private (source_physical_uri, TRUE, TRUE, TRUE);
+	dest_uri = gnome_vfs_uri_new_private (destination_physical_uri, TRUE, TRUE, TRUE);
+	if (!src_uri || ! dest_uri) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener,
 			GNOME_Evolution_ShellComponentListener_INVALID_URI,
 			&ev);
+		gnome_vfs_uri_unref (src_uri);
+		gnome_vfs_uri_unref (dest_uri);
 		CORBA_exception_free (&ev);
 		return;
 	}
 
-	file_name = get_local_file_name_for_folder_type (type);
-	if (file_name == NULL) {
-		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
-								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
-								     &ev);
-		CORBA_exception_free (&ev);
-		return;
-	}
+	gnome_vfs_uri_unref (src_uri);
+	gnome_vfs_uri_unref (dest_uri);
 
-	/* open source and destination files */
-	source_path = g_concat_dir_and_file (source_physical_uri + 7, "calendar.ics");
-
-	fin = fopen (source_path, "r");
-	if (!fin) {
-		GNOME_Evolution_ShellComponentListener_notifyResult (
-			listener,
-			GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
-			&ev);
-		g_free (source_path);
-		CORBA_exception_free (&ev);
-		return;
-	}
-	parser = icalparser_new ();
-	icalparser_set_gen_data (parser, fin);
-	icalcomp = icalparser_parse (parser, get_line_fn);
-	icalparser_free (parser);
-	if (!icalcomp
-	    || icalcomponent_isa (icalcomp) != ICAL_VCALENDAR_COMPONENT) {
-		GNOME_Evolution_ShellComponentListener_notifyResult (
-			listener,
-			GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
-			&ev);
-		fclose (fin);
-		g_free (source_path);
-		if (icalcomp)
-			icalcomponent_free (icalcomp);
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	/* now, write the new file out */
-	uri = gnome_vfs_uri_new (destination_physical_uri);
-	if (gnome_vfs_create_uri (&handle, uri, GNOME_VFS_OPEN_WRITE, FALSE, 0666)
-	    != GNOME_VFS_OK) {
+	/* remove all files in that directory */
+	result = gnome_vfs_directory_list_load (&file_list, source_physical_uri, 0, NULL);
+	if (result != GNOME_VFS_OK) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener,
 			GNOME_Evolution_ShellComponentListener_INVALID_URI,
-			&ev);
-		fclose (fin);
-		g_free (source_path);
-		icalcomponent_free (icalcomp);
+                        &ev);
 		CORBA_exception_free (&ev);
 		return;
 	}
-	buf = icalcomponent_as_ical_string (icalcomp);
-	if (gnome_vfs_write (handle, buf, strlen (buf) * sizeof (char), &out)
-	    != GNOME_VFS_OK) {
-		GNOME_Evolution_ShellComponentListener_notifyResult (
-			listener,
-			GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
-			&ev);
-	}
-	else {
-		GNOME_Evolution_ShellComponentListener_notifyResult (
-			listener,
-			GNOME_Evolution_ShellComponentListener_OK,
-			&ev);
-	}
 
-	gnome_vfs_close (handle);
-	gnome_vfs_uri_unref (uri);
-	
-	/* free resources */
-	fclose (fin);
+	for (l = file_list; l; l = l->next) {
+		GnomeVFSFileInfo *file_info;
+                GnomeVFSHandle *hin;
+                GnomeVFSHandle *hout;
+                gpointer buffer;
+                GnomeVFSFileSize size;
 
-	if (remove_source)
-		unlink (source_path);
+                file_info = (GnomeVFSFileInfo *) l->data;
+                if (!file_info || file_info->name[0] == '.')
+                        continue;
 
-	g_free (source_path);
-	icalcomponent_free (icalcomp);
-	CORBA_exception_free (&ev);
+                /* open source and destination files */
+                src_uri = gnome_vfs_uri_new_private (source_physical_uri, TRUE, TRUE, TRUE);
+                src_uri = gnome_vfs_uri_append_file_name (src_uri, file_info->name);
+
+                result = gnome_vfs_open_uri (&hin, src_uri, GNOME_VFS_OPEN_READ);
+                gnome_vfs_uri_unref (src_uri);
+                if (result != GNOME_VFS_OK) {
+                        GNOME_Evolution_ShellComponentListener_notifyResult (
+                                listener,
+                                GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
+                                &ev);
+                        success = FALSE;
+			break;
+                }
+
+                dest_uri = gnome_vfs_uri_new_private (destination_physical_uri, TRUE, TRUE, TRUE);
+                dest_uri = gnome_vfs_uri_append_file_name (dest_uri, file_info->name);
+
+                result = gnome_vfs_create_uri (&hout, dest_uri, GNOME_VFS_OPEN_WRITE, FALSE, 0);
+                gnome_vfs_uri_unref (dest_uri);
+                if (result != GNOME_VFS_OK) {
+                        gnome_vfs_close (hin);
+                        GNOME_Evolution_ShellComponentListener_notifyResult (
+                                listener,
+                                GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
+                                &ev);
+                        success = FALSE;
+                        break;
+                }
+
+                /* write source file to destination file */
+                buffer = g_malloc (file_info->size);
+                result = gnome_vfs_read (hin, buffer, file_info->size, &size);
+                if (result != GNOME_VFS_OK) {
+			gnome_vfs_close (hin);
+                        gnome_vfs_close (hout);
+                        g_free (buffer);
+
+                        GNOME_Evolution_ShellComponentListener_notifyResult (
+                                listener,
+                                GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
+                                &ev);
+                        success = FALSE;
+                        break;
+                }
+                result = gnome_vfs_write (hout, buffer, file_info->size, &size);
+                if (result != GNOME_VFS_OK) {
+                        gnome_vfs_close (hin);
+                        gnome_vfs_close (hout);
+                        g_free (buffer);
+
+                        GNOME_Evolution_ShellComponentListener_notifyResult (
+                                listener,
+                                GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
+                                &ev);
+                        success = FALSE;
+			break;
+                }
+
+                /* free memory */
+                gnome_vfs_close (hin);
+                gnome_vfs_close (hout);
+                g_free (buffer);
+        }
+
+        if (success) {
+                GNOME_Evolution_ShellComponentListener_notifyResult (
+                        listener,
+                        GNOME_Evolution_ShellComponentListener_OK,
+                        &ev);
+        }
+
+        /* free memory */
+        gnome_vfs_file_info_list_free (file_list);
+        CORBA_exception_free (&ev);	
 }
 
 static GList *shells = NULL;

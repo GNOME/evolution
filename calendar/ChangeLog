@@ -1,3 +1,35 @@
+2001-09-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client-multi.[ch]: new class for managing multiple
+	calendars, with an API very similar to the CalClient one,
+	for ease of transition from one to the other
+
+	* gui/component-factory.c (xfer_folder, remove_folder, create_folder):
+	reworked to be able to manage folders for any calendar backend, and
+	not only the file: one
+
+2001-09-18  Rodrigo Moya <rodrigo@ximian.com>
+	
+	* idl/evolution-calendar.idl: changed signature for the getFreeBusy
+	method, to return a sequence of CalObj's, and added sequence of users
+	as a new parameter to that method
+
+	* cal-client/cal-client.c (cal_client_get_free_busy): adapted to new
+	IDL method signature, by adding a new "GList *users" parameter, for
+	callers to be able to specify a list of users
+
+	* pcs/cal-backend.[ch] (cal_backend_get_free_busy):
+	* pcs/cal-backend-file.c (cal_backend_file_get_free_busy): add the
+	"GList *users" parameter. In cal_backend_file_get_free_busy, call
+	lookup_component to get the CalComponent for each uid, instead
+	of calling cal_backend_get_object, which meant converting the
+	component to a string and then parsing it again.
+
+	* cal-client/client-test.c (cal_opened_cb):
+	* gui/e-itip-control.c (send_freebusy):
+	* gui/calendar-commands.c (publish_freebusy_cmd): adapted to
+	new getFreeBusy method signature
+
 2001-09-17  Damon Chaplin  <damon@ximian.com>
 
 	* gui/calendar-model.c: added a timeout to refresh the list every

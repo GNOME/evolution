@@ -332,21 +332,27 @@ publish_freebusy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 	CalClient *client;
-	CalClientGetStatus status;
-	CalComponent *comp;
-	icaltimezone *utc;
-	time_t start = time (NULL), end;
+	GList *comp_list;
+	time_t start, end;
 
 	gcal = GNOME_CALENDAR (data);
-
-	utc = icaltimezone_get_utc_timezone ();
-	start = time_day_begin_with_zone (start, utc);
-	end = time_add_week_with_zone (start, 6, utc);
+	gnome_calendar_get_current_time_range (gcal, &start, &end);
 
 	client = gnome_calendar_get_cal_client (gcal);
-	status = cal_client_get_free_busy (client, start, end, &comp);
-	if (status == CAL_CLIENT_GET_SUCCESS)
-		itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp);
+	/* FIXME: use the "users" parameter */
+	comp_list = cal_client_get_free_busy (client, NULL, start, end);
+	if (comp_list) {
+		GList *l;
+
+		for (l = comp_list; l; l = l->next) {
+			CalComponent *comp = CAL_COMPONENT (l->data);
+			itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp);
+
+			gtk_object_unref (GTK_OBJECT (comp));
+		}
+
+		g_free (comp_list);
+	}
 }
 
 /* Does a queryInterface on the control's parent control frame for the ShellView interface */

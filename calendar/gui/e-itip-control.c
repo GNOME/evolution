@@ -1193,9 +1193,9 @@ send_freebusy (EItipControl *itip)
 	EItipControlPrivate *priv;
 	CalComponent *comp;
 	CalComponentDateTime datetime;
-	CalClientGetStatus status;
 	time_t start, end;
 	GtkWidget *dialog;
+	GList *comp_list;
 
 	priv = itip->priv;
 	
@@ -1204,11 +1204,20 @@ send_freebusy (EItipControl *itip)
 	start = icaltime_as_timet (*datetime.value);
 	cal_component_get_dtend (priv->comp, &datetime);
 	end = icaltime_as_timet (*datetime.value);
-	status = cal_client_get_free_busy (priv->event_client, start, end, &comp);
+	comp_list = cal_client_get_free_busy (priv->event_client, NULL, start, end);
 
-	if (status == CAL_CLIENT_GET_SUCCESS) {
-		itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp);
+	if (comp_list) {
+		GList *l;
+
+		for (l = comp_list; l; l = l->next) {
+			CalComponent *comp = CAL_COMPONENT (l->data);
+			itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp);
+
+			gtk_object_unref (GTK_OBJECT (comp));
+		}
 		dialog = gnome_ok_dialog (_("Item sent!\n"));
+
+		g_list_free (comp_list);
 	} else {
 		dialog = gnome_warning_dialog (_("The item could not be sent!\n"));
 	}

@@ -21,6 +21,7 @@ module Calendar {
 	 * iCalendar string.
 	 */
 	typedef string CalObj;
+	typedef sequence<CalObj> CalObjSeq;
 
 	/* A unique identifier for a calendar component */
 	typedef string CalObjUID;
@@ -108,6 +109,9 @@ module Calendar {
 	/* Used to represent a list of components plus their triggers */
 	typedef sequence<CalComponentAlarms> CalComponentAlarmsSeq;
 
+	/* Used to represent users and lists of users */
+	typedef string User;
+	typedef sequence<User> UserList;
 
 	interface Query;
 
@@ -155,7 +159,7 @@ module Calendar {
 			raises (InvalidRange);
 
 		/* Returns free/busy objects for the given interval */
-		CalObj getFreeBusy (in Time_t start, in Time_t end);
+		CalObjSeq getFreeBusy (in UserList users, in Time_t start, in Time_t end);
 
 		/* Gets the alarms for the specified component that trigger in
 		 * the specified time range.  

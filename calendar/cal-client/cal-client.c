@@ -1224,56 +1224,86 @@ cal_client_get_objects_in_range (CalClient *client, CalObjType type, time_t star
 /**
  * cal_client_get_free_busy
  * @client:: A calendar client.
+ * @users: List of users to retrieve free/busy information for.
  * @start: Start time for query.
  * @end: End time for query.
  *
- * Gets free/busy information from the calendar server
+ * Gets free/busy information from the calendar server.
+ *
+ * Returns: a GList of VFREEBUSY CalComponents
  */
-CalClientGetStatus
-cal_client_get_free_busy (CalClient *client, time_t start, time_t end, CalComponent **comp)
+GList *
+cal_client_get_free_busy (CalClient *client, GList *users,
+			  time_t start, time_t end)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
-	CORBA_char *calobj;
-	icalcomponent *icalcomp;
+	GNOME_Evolution_Calendar_UserList *corba_list;
+	GNOME_Evolution_Calendar_CalObjSeq *calobj_list;
+	GList *l;
+	GList *comp_list = NULL;
+	int len, i;
 
-	g_return_val_if_fail (client != NULL, CAL_CLIENT_GET_NOT_FOUND);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, NULL);
 
-	g_return_val_if_fail (start != -1 && end != -1, CAL_CLIENT_GET_NOT_FOUND);
-	g_return_val_if_fail (start <= end, CAL_CLIENT_GET_NOT_FOUND);
-	g_return_val_if_fail (comp != NULL, CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (start != -1 && end != -1, NULL);
+	g_return_val_if_fail (start <= end, NULL);
 
-	*comp = NULL;
+	/* create the CORBA user list to be passed to the backend */
+	len = g_list_length (users);
 
+	corba_list = GNOME_Evolution_Calendar_UserList__alloc ();
+	CORBA_sequence_set_release (corba_list, TRUE);
+	corba_list->_length = len;
+	corba_list->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_User_allocbuf (len);
+
+	for (l = g_list_first (users), i = 0; l; l = l->next, i++)
+		corba_list->_buffer[i] = CORBA_string_dup ((CORBA_char *) l->data);
+
+	/* call the method on the backend */
 	CORBA_exception_init (&ev);
 
-	calobj = GNOME_Evolution_Calendar_Cal_getFreeBusy (priv->cal, start, end, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	calobj_list = GNOME_Evolution_Calendar_Cal_getFreeBusy (priv->cal, corba_list,
+								start, end, &ev);
+	CORBA_free (corba_list);
+	if (ev._major != CORBA_NO_EXCEPTION || !calobj_list) {
 		g_message ("cal_client_get_free_busy(): could not get the objects");
 		CORBA_exception_free (&ev);
-		return CAL_CLIENT_GET_NOT_FOUND;
+		return NULL;
 	}
+
+	for (i = 0; i < calobj_list->_length; i++) {
+		CalComponent *comp;
+		icalcomponent *icalcomp;
+		icalcomponent_kind kind;
+
+		icalcomp = icalparser_parse_string (calobj_list->_buffer[i]);
+		if (!icalcomp)
+			continue;
+
+		kind = icalcomponent_isa (icalcomp);
+		if (kind == ICAL_VFREEBUSY_COMPONENT) {
+			comp = cal_component_new ();
+			if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+				icalcomponent_free (icalcomp);
+				gtk_object_unref (GTK_OBJECT (comp));
+				continue;
+			}
+
+			comp_list = g_list_append (comp_list, comp);
+		}
+		else
+			icalcomponent_free (icalcomp);
+	}
+
 	CORBA_exception_free (&ev);
+	CORBA_free (calobj_list);
 
-	icalcomp = icalparser_parse_string (calobj);
-	CORBA_free (calobj);
-	if (!icalcomp) {
-		return CAL_CLIENT_GET_SYNTAX_ERROR;
-	}
-
-	*comp = cal_component_new ();
-	if (!cal_component_set_icalcomponent (*comp, icalcomp)) {
-		icalcomponent_free (icalcomp);
-		gtk_object_unref (GTK_OBJECT (*comp));
-		*comp = NULL;
-		return CAL_CLIENT_GET_SYNTAX_ERROR;
-	}
-
-	return CAL_CLIENT_GET_SUCCESS;
+	return comp_list;
 }
 
 /* Callback used when an object is updated and we must update the copy we have */
