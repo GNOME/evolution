@@ -465,7 +465,6 @@ static void selection_get (GtkWidget *invisible,
 			   guint info,
 			   guint time_stamp,
 			   EDayView *day_view);
-static void invisible_destroyed (GtkWidget *invisible, EDayView *day_view);
 
 static void e_day_view_queue_layout (EDayView *day_view);
 static void e_day_view_cancel_layout (EDayView *day_view);
@@ -843,8 +842,6 @@ e_day_view_init (EDayView *day_view)
 			  G_CALLBACK (selection_clear_event), (gpointer) day_view);
 	g_signal_connect (day_view->invisible, "selection_received",
 			  G_CALLBACK (selection_received), (gpointer) day_view);
-	g_signal_connect_after (day_view->invisible, "destroy",
-				G_CALLBACK (invisible_destroyed), (gpointer) day_view);
 
 	day_view->clipboard_selection = NULL;
 
@@ -920,21 +917,41 @@ e_day_view_destroy (GtkObject *object)
 		day_view->default_category = NULL;
 	}
 
-	gdk_cursor_destroy (day_view->normal_cursor);
-	gdk_cursor_destroy (day_view->move_cursor);
-	gdk_cursor_destroy (day_view->resize_width_cursor);
-	gdk_cursor_destroy (day_view->resize_height_cursor);
-
-	e_day_view_free_events (day_view);
-	g_array_free (day_view->long_events, TRUE);
-	day_view->long_events = NULL;
-	for (day = 0; day < E_DAY_VIEW_MAX_DAYS; day++) {
-		g_array_free (day_view->events[day], TRUE);
-		day_view->events[day] = NULL;
+	
+	if (day_view->normal_cursor) {
+		gdk_cursor_unref (day_view->normal_cursor);
+		day_view->normal_cursor = NULL;
+	}
+	if (day_view->move_cursor) {
+		gdk_cursor_unref (day_view->move_cursor);
+		day_view->move_cursor = NULL;
+	}
+	if (day_view->resize_width_cursor) {
+		gdk_cursor_unref (day_view->resize_width_cursor);
+		day_view->resize_width_cursor = NULL;
+	}
+	if (day_view->resize_height_cursor) {
+		gdk_cursor_unref (day_view->resize_height_cursor);
+		day_view->resize_height_cursor = NULL;
 	}
 
-	if (day_view->invisible)
+	if (day_view->long_events) {
+		e_day_view_free_events (day_view);
+		g_array_free (day_view->long_events, TRUE);
+		day_view->long_events = NULL;
+	}
+	
+	for (day = 0; day < E_DAY_VIEW_MAX_DAYS; day++) {
+		if (day_view->events[day]) {
+			g_array_free (day_view->events[day], TRUE);
+			day_view->events[day] = NULL;
+		}
+	}
+
+	if (day_view->invisible) {
 		gtk_widget_destroy (day_view->invisible);
+		day_view->invisible = NULL;
+	}
 	if (day_view->clipboard_selection) {
 		g_free (day_view->clipboard_selection);
 		day_view->clipboard_selection = NULL;
@@ -7569,12 +7586,6 @@ e_day_view_get_time_string_width	(EDayView	*day_view)
 				   day_view->pm_string_width);
 
 	return time_width;
-}
-
-static void
-invisible_destroyed (GtkWidget *invisible, EDayView *day_view)
-{
-	day_view->invisible = NULL;
 }
 
 static void

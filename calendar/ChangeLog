@@ -1,5 +1,25 @@
 2003-05-15  JP Rosevear  <jpr@ximian.com>
  
+ 	Fixes #43029
+ 	
+ 	* gui/e-week-view.c (e_week_view_init): don't listen for destroy
+ 	signal
+ 	(e_week_view_destroy): check for NULL and make invisible NULL
+ 	after we destroy it, unref cursors and NULL them out as well,
+ 	guard against freeing events multiple times
+ 
+ 	* gui/e-day-view.c (e_day_view_destroy): check for NULL and make
+ 	invisible NULL after we destroy it, unref cursors and NULL them
+ 	out as well, guard against freeing events multiple times
+ 	(e_day_view_init): don't listen for destroy signal
+ 
+ 	* gui/e-calendar-table.c (e_calendar_table_init): don't listen for
+ 	destroy signal
+ 	(e_calendar_table_destroy): check for NULL and make invisible NULL
+ 	after we destroy it
+	
+2003-05-15  JP Rosevear  <jpr@ximian.com>
+ 
 	Fixes #41930
  	
  	* idl/evolution-calendar.idl: Make sure everything that can raise

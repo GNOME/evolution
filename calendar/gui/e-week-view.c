@@ -218,7 +218,6 @@ static gboolean e_week_view_remove_event_cb (EWeekView *week_view,
 					     gpointer data);
 static gboolean e_week_view_recalc_display_start_day	(EWeekView	*week_view);
 
-static void invisible_destroyed   (GtkWidget *invisible, EWeekView *week_view);
 static void selection_get         (GtkWidget *invisible,
 				   GtkSelectionData *selection_data,
 				   guint info,
@@ -434,8 +433,6 @@ e_week_view_init (EWeekView *week_view)
 			  G_CALLBACK (selection_clear_event), (gpointer) week_view);
 	g_signal_connect (week_view->invisible, "selection_received",
 			  G_CALLBACK (selection_received), (gpointer) week_view);
-	g_signal_connect_after (week_view->invisible, "destroy",
-				G_CALLBACK (invisible_destroyed), (gpointer) week_view);
 
 	week_view->clipboard_selection = NULL;
 
@@ -469,10 +466,12 @@ e_week_view_destroy (GtkObject *object)
 
 	e_week_view_cancel_layout (week_view);
 
-	e_week_view_free_events (week_view);
-	g_array_free (week_view->events, TRUE);
-	week_view->events = NULL;
-
+	if (week_view->events) {
+		e_week_view_free_events (week_view);
+		g_array_free (week_view->events, TRUE);
+		week_view->events = NULL;
+	}
+	
 	if (week_view->client) {
 		g_signal_handlers_disconnect_matched (week_view->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, week_view);
 		g_object_unref (week_view->client);
@@ -501,12 +500,23 @@ e_week_view_destroy (GtkObject *object)
 		week_view->default_category = NULL;
 	}
 
-	gdk_cursor_destroy (week_view->normal_cursor);
-	gdk_cursor_destroy (week_view->move_cursor);
-	gdk_cursor_destroy (week_view->resize_width_cursor);
-
-	if (week_view->invisible)
+	if (week_view->normal_cursor) {
+		gdk_cursor_unref (week_view->normal_cursor);
+		week_view->normal_cursor = NULL;
+	}
+	if (week_view->move_cursor) {
+		gdk_cursor_unref (week_view->move_cursor);
+		week_view->move_cursor = NULL;
+	}
+	if (week_view->resize_width_cursor) {
+		gdk_cursor_unref (week_view->resize_width_cursor);
+		week_view->resize_width_cursor = NULL;
+	}
+	
+	if (week_view->invisible) {
 		gtk_widget_destroy (week_view->invisible);
+		week_view->invisible = NULL;
+	}
 	if (week_view->clipboard_selection) {
 		g_free (week_view->clipboard_selection);
 		week_view->clipboard_selection = NULL;
@@ -4215,12 +4225,6 @@ e_week_view_get_time_string_width	(EWeekView	*week_view)
 				   week_view->pm_string_width);
 
 	return time_width;
-}
-
-static void
-invisible_destroyed (GtkWidget *invisible, EWeekView *week_view)
-{
-	week_view->invisible = NULL;
 }
 
 static void

@@ -109,8 +109,6 @@ static void selection_get                       (GtkWidget *invisible,
 						 guint info,
 						 guint time_stamp,
 						 ECalendarTable *cal_table);
-static void invisible_destroyed                 (GtkWidget *invisible,
-						 ECalendarTable *cal_table);
 static struct tm e_calendar_table_get_current_time (ECellDateEdit *ecde,
 						    gpointer data);
 static void mark_row_complete_cb (int model_row, gpointer data);
@@ -534,8 +532,6 @@ e_calendar_table_init (ECalendarTable *cal_table)
 			  G_CALLBACK (selection_clear_event), cal_table);
 	g_signal_connect (cal_table->invisible, "selection_received",
 			  G_CALLBACK (selection_received), cal_table);
-	g_signal_connect_after (cal_table->invisible, "destroy",
-				G_CALLBACK (invisible_destroyed), cal_table);
 
 	cal_table->clipboard_selection = NULL;
 }
@@ -588,8 +584,10 @@ e_calendar_table_destroy (GtkObject *object)
 		cal_table->model = NULL;
 	}
 	
-	if (cal_table->invisible)
+	if (cal_table->invisible) {
 		gtk_widget_destroy (cal_table->invisible);
+		cal_table->invisible = NULL;
+	}
 	if (cal_table->clipboard_selection) {
 		g_free (cal_table->clipboard_selection);
 		cal_table->clipboard_selection = NULL;
@@ -1172,13 +1170,6 @@ e_calendar_table_save_state (ECalendarTable	*cal_table,
 
 	e_table_save_state (e_table_scrolled_get_table(E_TABLE_SCROLLED (cal_table->etable)),
 			    filename);
-}
-
-
-static void
-invisible_destroyed (GtkWidget *invisible, ECalendarTable *cal_table)
-{
-	cal_table->invisible = NULL;
 }
 
 static void
