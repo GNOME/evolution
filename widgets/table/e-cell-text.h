@@ -54,7 +54,7 @@ typedef struct {
 	int strikeout_column;
 	int bold_column;
 
-	ECellTextFilter *filter;
+	ECellTextFilter filter;
 } ECellText;
 
 typedef struct {

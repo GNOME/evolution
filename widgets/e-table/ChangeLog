@@ -1,3 +1,7 @@
+2000-06-01  Dan Winship  <danw@helixcode.com>
+
+	* e-cell-text.h: Remove an offending *.
+
 2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-sorted-variable.c: Made the sort when inserting a signal
