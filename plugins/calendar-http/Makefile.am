@@ -11,3 +11,5 @@ plugin_LTLIBRARIES = liborg-gnome-calendar-http.la
 
 liborg_gnome_calendar_http_la_SOURCES = calendar-http.c
 liborg_gnome_calendar_http_la_LDFLAGS = -module -avoid-version
+
+EXTRA_DIST = org-gnome-calendar-http.eplug.in

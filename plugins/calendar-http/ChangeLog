@@ -1,3 +1,7 @@
+2004-11-09  Rodney Dawes  <dobey@novell.com>
+
+	* Makefile.am: Add EXTRA_DIST variable for the eplug.in file
+
 2004-11-04  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am: duh, add this to cvs, remove Makefile.
