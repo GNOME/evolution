@@ -1,3 +1,13 @@
+2002-09-05  Mike Kestner  <mkestner@ximian.com>
+
+	* Makefile.am : no longer distribute the etstate files.
+	* e-shell-folder-selection-dialog.c : enable_search on the view.
+	* e-storage-set-view.c : add search_enabled flag handling.
+	(e_storage_set_view_set_show_checkboxes): manipulate the existing state
+	instead of loading a state file from disk.
+	(e_storage_set_view_enable_search): new. set a column in the sort_info
+	on the etree to allow keystroke jumping in the etree.
+	
 2002-09-05  Anna Marie Dirks  <anna@ximian.com>
 
 	* GNOME_Evolution_Shell.oaf.in : Changed the description

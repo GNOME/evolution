@@ -256,9 +256,7 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
 etspecdir = $(datadir)/evolution/etspec/
 etspec_DATA = \
-	e-storage-set-view.etspec		 \
-	e-storage-set-view-checkboxes.etstate	 \
-	e-storage-set-view-no-checkboxes.etstate
+	e-storage-set-view.etspec
 
 @XML_I18N_MERGE_OAF_RULE@
 

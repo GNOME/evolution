@@ -101,6 +101,9 @@ void      e_storage_set_view_set_show_checkboxes  (EStorageSetView              
 						   void                           *func_data);
 gboolean  e_storage_set_view_get_show_checkboxes  (EStorageSetView                *storage_set_view);
 
+void      e_storage_set_view_enable_search	  (EStorageSetView *storage_set_view,
+						   gboolean         enable);
+
 void      e_storage_set_view_set_checkboxes_list  (EStorageSetView                  *storage_set_view,
 						   GList                            *checkboxes);
 GList    *e_storage_set_view_get_checkboxes_list  (EStorageSetView                  *storage_set_view);

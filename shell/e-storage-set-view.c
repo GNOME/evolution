@@ -98,6 +98,7 @@ struct _EStorageSetViewPrivate {
 	unsigned int show_folders : 1;
 	unsigned int show_checkboxes : 1;
 	unsigned int allow_dnd : 1;
+	unsigned int search_enabled : 1;
 
 	/* The `Evolution::ShellComponentDnd::SourceFolder' interface for the
 	   folder we are dragging from, or CORBA_OBJECT_NIL if no dragging is
@@ -1876,6 +1877,7 @@ init (EStorageSetView *storage_set_view)
 	priv->show_folders                = TRUE;
 	priv->show_checkboxes             = FALSE;
 	priv->allow_dnd                   = TRUE;
+	priv->search_enabled              = FALSE;
 
 	priv->drag_corba_source_interface = CORBA_OBJECT_NIL;
 
@@ -2251,6 +2253,7 @@ e_storage_set_view_set_show_checkboxes (EStorageSetView *storage_set_view,
 					void *func_data)
 {
 	EStorageSetViewPrivate *priv;
+	ETableState *state;
 
 	g_return_if_fail (storage_set_view != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
@@ -2264,10 +2267,14 @@ e_storage_set_view_set_show_checkboxes (EStorageSetView *storage_set_view,
 
 	priv->show_checkboxes = show;
 
+	state = e_tree_get_state_object (E_TREE (storage_set_view));
+	g_free (state->columns);
+	state->col_count = show ? 2 : 1;
+	state->columns = g_new(int, state->col_count);
+	state->columns [state->col_count - 1] = 0;
 	if (show)
-		e_tree_load_state (E_TREE (storage_set_view), EVOLUTION_ETSPECDIR "/e-storage-set-view-checkboxes.etstate");
-	else
-		e_tree_load_state (E_TREE (storage_set_view), EVOLUTION_ETSPECDIR "/e-storage-set-view-no-checkboxes.etstate");
+		state->columns [0] = 1;
+	e_tree_set_state_object (E_TREE (storage_set_view), state);
 
 	priv->has_checkbox_func = has_checkbox_func;
 	priv->has_checkbox_func_data = func_data;
@@ -2280,6 +2287,35 @@ e_storage_set_view_get_show_checkboxes (EStorageSetView *storage_set_view)
 	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view), FALSE);
 
 	return storage_set_view->priv->show_checkboxes;
+}
+
+void
+e_storage_set_view_enable_search (EStorageSetView *storage_set_view,
+				  gboolean enable)
+{
+	ETableState *state;
+	ETableSortColumn col;
+
+	g_return_if_fail (storage_set_view != NULL);
+	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
+
+	enable = !! enable;
+
+	if (enable == storage_set_view->priv->search_enabled)
+		return;
+	
+	storage_set_view->priv->search_enabled = enable;
+
+	state = e_tree_get_state_object (E_TREE (storage_set_view));
+
+	if (enable) {
+		col.column = 0;
+		col.ascending = TRUE;
+		e_table_sort_info_sorting_set_nth (state->sort_info, 0, col);
+	} else
+		e_table_sort_info_sorting_truncate (state->sort_info, 0);
+
+	e_tree_set_state_object (E_TREE (storage_set_view), state);
 }
 
 void
