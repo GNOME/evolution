@@ -43,6 +43,7 @@ SUBDIRS = 			\
 	views			\
 	wombat			\
 	tools			\
+	help			\
 	po
 
 

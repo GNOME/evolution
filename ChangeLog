@@ -1,3 +1,9 @@
+2003-03-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Autogen help/Makefile.
+
+	* Makefile.am (SUBDIRS): Add help.  [#38234]
+
 2003-03-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Fixed Heimdal include path.

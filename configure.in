@@ -1331,6 +1331,8 @@ default_user/local/Trash/Makefile
 e-util/Makefile
 e-util/ename/Makefile
 filter/Makefile
+help/Makefile
+help/C/Makefile
 libversit/Makefile
 shell/Makefile
 shell/evolution-nognome
