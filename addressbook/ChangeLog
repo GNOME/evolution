@@ -1,3 +1,8 @@
+2000-08-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/search/addresstypes.xml: Changed a couple of input field
+	names.
+
 2000-08-10  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component/addressbook-component.c: Remove prototype for

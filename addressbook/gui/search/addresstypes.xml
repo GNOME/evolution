@@ -3,7 +3,7 @@
 <partset>
  <part name="name">
   <title>Sender</title>
-   <input type="optionlist" name="sender-type">
+   <input type="optionlist" name="name-type">
     <option value="contains">
         <title>contains</title>
 	<code>(contains "fullname" ${name}))</code>
@@ -17,7 +17,7 @@
  </part>
  <part name="email">
   <title>Sender</title>
-   <input type="optionlist" name="sender-type">
+   <input type="optionlist" name="email-type">
     <option value="contains">
         <title>contains</title>
 	<code>(contains "email" ${email}))</code>
