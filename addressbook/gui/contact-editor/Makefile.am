@@ -3,7 +3,7 @@ CPPFLAGS =					\
 	-DDATADIR=\""$(datadir)"\"
 
 INCLUDES =					\
-	$(GNOME_INCLUDEDIR)			\
+	$(BONOBO_GNOME_CFLAGS)			\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/addressbook/		\
 	-I$(top_srcdir)/addressbook/backend	\

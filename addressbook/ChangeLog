@@ -1,3 +1,9 @@
+2000-06-18    <ettore@helixcode.com>
+
+	* contact-editor/Makefile.am (INCLUDES): Use
+	`$(BONOBO_GNOME_CFLAGS)' so that we compile when Bonobo is not in
+	the default GNOME prefix.
+
 2000-06-17  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/minicard/e-minicard-label.c,

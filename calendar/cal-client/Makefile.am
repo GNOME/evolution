@@ -24,6 +24,7 @@ INCLUDES =						\
 	-I. 						\
 	-I.. 						\
 	-I$(top_builddir)				\
+	-I$(top_builddir)/libical/src/libical		\
 	-I$(top_srcdir)/libical/src/libical		\
 	$(BONOBO_GNOME_CFLAGS)
 

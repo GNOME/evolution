@@ -10,6 +10,7 @@ INCLUDES =						\
 	-I.. 						\
 	-I$(top_builddir)				\
 	-I$(top_srcdir)/libical/src/libical		\
+	-I$(top_builddir)/libical/src/libical		\
         $(GNOME_INCLUDEDIR)
 
 lib_LTLIBRARIES = libcal-util.la

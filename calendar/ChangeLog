@@ -1,3 +1,10 @@
+2000-06-18  Ettore Perazzoli <ettore@helixcode.com>
+
+	* cal-util/Makefile.am (INCLUDES): Include from
+	`$(top_builddir)/libical/src/libical' too.  [For the generated
+	libical `icalversion.h' header.]
+	* cal-client/Makefile.am (INCLUDES): Likewise.
+
 2000-06-18  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-day-view.c (e_day_view_on_top_canvas_drag_data_received): 
