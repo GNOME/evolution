@@ -640,14 +640,15 @@ e_summary_rdf_reconfigure (ESummary *summary)
 	/* Stop timeout */
 	gtk_timeout_remove (rdf->timeout);
 
-	for (old = rdf->rdfs; old; old = old->next) {
+	old = rdf->rdfs;
+	rdf->rdfs = NULL;
+	for (p = old; p; p = p->next) {
 		RDF *r;
 
-		r = old->data;
+		r = p->data;
 		rdf_free (r);
 	}
-	g_list_free (rdf->rdfs);
-	rdf->rdfs = NULL;
+	g_list_free (old);
 
 	for (p = summary->preferences->rdf_urls; p; p = p->next) {
 		e_summary_rdf_add_uri (summary, p->data);

@@ -1,3 +1,8 @@
+2001-10-05  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-rdf.c (e_summary_rdf_reconfigure): Set the RDF list to
+	NULL before destroying it to fix a race condition.
+
 2001-10-04  Iain Holmes  <iain@ximian.com>
 	
 	* my-evolution.glade: Capitalise stuff
