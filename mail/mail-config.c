@@ -506,7 +506,10 @@ get_service_url (GtkObject *table)
 	editable = gtk_object_get_data (table, "path_entry");
 	if (editable) {
 		char *path = gtk_editable_get_chars (editable, 0, -1);
-		url->path = g_strdup_printf ("/%s", path);
+		/* FIXME. I am a kludge. */
+		url->path = g_strdup_printf (
+			"%s%s", !strcmp (url->protocol, "imap") ? "/" : "",
+			path);
 		g_free (path);
 	}
 

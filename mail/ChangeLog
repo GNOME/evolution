@@ -1,3 +1,8 @@
+2000-07-27  Dan Winship  <danw@helixcode.com>
+
+	* mail-config.c (get_service_url): toss in a kludge to deal with
+	the IMAP vs mbox path problem for now.
+
 2000-07-26  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c, message-list.h: Removed counting of selected
