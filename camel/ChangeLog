@@ -3,6 +3,13 @@
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_init): Set
 	some default permanent_flags. This is the other cause of bug
 	#28038.
+	(imap_refresh_info): After calling camel_imap_command() with a
+	NULL format value (this is a shortcut to change the current_folder
+	by SELECTing it), call camel_imap_folder_selected(). This may have
+	been why permanent_flags never got set on the folder even after
+	going online in bug #28038.
+	(imap_update_summary): Same here. Also NULL-guard
+	camel_imap_response_free().
 
 2002-08-07  Jeffrey Stedfast  <fejj@ximian.com>
 

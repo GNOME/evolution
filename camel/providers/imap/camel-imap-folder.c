@@ -473,13 +473,16 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	}
 
 	/* If the folder isn't selected, select it (which will force
-	 * a rescan if one is needed.
+	 * a rescan if one is needed).
 	 */
 	CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
 	if (imap_store->current_folder != folder) {
 		CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
 		response = camel_imap_command (imap_store, folder, ex, NULL);
-		camel_imap_response_free (imap_store, response);
+		if (response) {
+			camel_imap_folder_selected (folder, response, NULL);
+			camel_imap_response_free (imap_store, response);
+		}
 		return;
 	}
 	CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
@@ -2264,7 +2267,10 @@ imap_update_summary (CamelFolder *folder, int exists,
 		
 		/* now re-select it and process the EXISTS response */
 		response = camel_imap_command (imap_store, folder, ex, NULL);
-		camel_imap_response_free (imap_store, response);
+		if (response) {
+			camel_imap_folder_selected (folder, response, NULL);
+			camel_imap_response_free (imap_store, response);
+		}
 	}
 	
 	return;
