@@ -1,5 +1,11 @@
 2005-01-14  JP Rosevear  <jpr@novell.com>
 
+	* itip-formatter.c (extract_itip_data): use
+	camel_data_wrapper_decode_to_stream instead of
+	camel_data_wrapper_write_to_stream 
+	
+2005-01-14  JP Rosevear  <jpr@novell.com>
+
 	* itip-formatter.c (format_itip_object): handle UTC dtstart/dtend
 	properly
 

@@ -951,7 +951,7 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 
 	content = camel_medium_get_content_object ((CamelMedium *) pitip->pobject.part);
 	mem = camel_stream_mem_new ();
-	camel_data_wrapper_write_to_stream (content, mem);
+	camel_data_wrapper_decode_to_stream (content, mem);
 
 	pitip->vcalendar = g_strndup (((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
 
