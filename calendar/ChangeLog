@@ -1,3 +1,11 @@
+2003-07-16  Andrew Wu <Yang.Wu@sun.com>
+	
+	Fixes #45772
+	
+	* gui/gnome-cal.c(gnome_calendar_goto_date): implemented Alt+Left/Right
+	  to go to the same day of the previous/next week.
+	* gui/gnome-cal.h:add two element in GnomeCalendarGotoDateType.
+
 2003-07-14  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #41676
