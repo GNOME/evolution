@@ -109,13 +109,25 @@ dnl **************************************************
 
 have_pthread=false
 
-AC_ARG_WITH(threads, [--with-threads include threads support],
-            [GNOME_PTHREAD_CHECK])
+AC_ARG_WITH(threads, [--with-threads include threads support],[
+        if test x$withval = xyes; then
+              test_thread=true
+        else
+              test_thread=false
+	fi
+],[
+	test_thread=false
+])
 
-if test "x$PTHREAD_LIB" = "x" ; then
-   have_pthread=false
+if $test_thread; then
+     GNOME_PTHREAD_CHECK
+     if test "x$PTHREAD_LIB" = "x" ; then
+         have_pthread=false
+     else
+         have_pthread=true
+     fi
 else
-   have_pthread=true
+     have_pthread=false
 fi
 
 AM_CONDITIONAL(ENABLE_THREADS, $have_pthread)

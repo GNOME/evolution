@@ -1,3 +1,7 @@
+2000-04-11  Miguel de Icaza  <miguel@gnu.org>
+
+	* configure.in (have_pthread): Properly use AC_ARG_WITH
+
 2000-04-11  Chris Toshok  <toshok@helixcode.com>
 
 	* wombat/Makefile.am (wombat_LDADD): add LDAP_LIBS here.
