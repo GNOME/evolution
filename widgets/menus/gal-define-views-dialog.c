@@ -100,7 +100,7 @@ gal_define_views_dialog_create_etable(char *name, char *string1, char *string2, 
 	ETableModel *model;
 	model = gal_define_views_model_new();
 	table = e_table_scrolled_new(model, NULL, SPEC, NULL);
-	gtk_object_set_data(table, "GalDefineViewsDialog::model", model);
+	gtk_object_set_data(GTK_OBJECT(table), "GalDefineViewsDialog::model", model);
 	return table;
 }
 
@@ -153,7 +153,6 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	GladeXML *gui;
 	GtkWidget *widget;
 	GtkWidget *etable;
-	ETableModel *model;
 
 	gui = glade_xml_new (GAL_GLADEDIR "/gal-define-views.glade", NULL);
 	dialog->gui = gui;

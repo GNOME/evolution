@@ -83,6 +83,10 @@ ETreePath *e_tree_model_node_insert        (ETreeModel *etree, ETreePath *parent
 ETreePath *e_tree_model_node_insert_before (ETreeModel *etree, ETreePath *parent, ETreePath *sibling, gpointer node_data);
 gpointer   e_tree_model_node_remove        (ETreeModel *etree, ETreePath *path);
 
+/* Freeze and thaw */
+void e_tree_model_freeze (ETreeModel *etree);
+void e_tree_model_thaw (ETreeModel *etree);
+
 /* node accessors */
 gboolean e_tree_model_node_is_root                 (ETreeModel *etree, ETreePath *path);
 gboolean e_tree_model_node_is_expandable           (ETreeModel *etree, ETreePath *path);
