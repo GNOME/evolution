@@ -1,4 +1,4 @@
-2003-11-26    <jpr@ximian.com>
+2003-11-26  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: make sure we always dist the smime stuff
 
