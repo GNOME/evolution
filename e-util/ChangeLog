@@ -1,3 +1,10 @@
+2000-05-19  Federico Mena Quintero  <federico@helixcode.com>
+
+	* e-dialog-widgets.[ch]: New files with utilities for hooking up
+	widgets in Glade-generated dialogs.
+
+	* Makefile.am (libeutil_la_SOURCES): Added e-dialog-widgets.[ch].
+
 2000-05-19  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-gui-utils.c, e-gui-utils.h: Added e_container_foreach_leaf.
