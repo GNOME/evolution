@@ -815,7 +815,7 @@ imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 	}
 	
 	if (!strcmp (folder->name, namespace) && !found_inbox) {
-		g_ptr_array_add (listing, "INBOX");
+		g_ptr_array_add (listing, g_strdup ("INBOX"));
 	}
 	
 	g_free (result);

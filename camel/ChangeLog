@@ -3,6 +3,8 @@
 	* providers/imap/camel-imap-folder.c (imap_get_summary_internal):
 	Don't assume the FETCH results will come back in the order they
 	were requested.
+	(imap_get_subfolder_names_internal): Add "INBOX" to the list as
+	g_malloc'ed memory, not a static string.
 
 2000-08-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
