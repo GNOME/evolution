@@ -47,8 +47,10 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              e_text_to_html  (Jeff)
     #41513 - plain text attachments not showing up in the composer  (Jeff)
     #41578 - up/down buttons broken in vfolder list  (Jeff)
+    #41648 - 1.2 -> 1.3 vfolder conversion  (Michael)
     #41730 - empty "Organization" headers  (Jeff)
     #41789 - bonobo components can pause/freeze the gui  (Jeff)
+    #42024 - improper use of Error dialog  (Jeff)
 
     And more...
 
