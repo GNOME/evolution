@@ -35,9 +35,9 @@ e_name_western_str_count_words (char *str)
 
 	word_count = 0;
 
-	for (p = str; p != NULL; p = strchr (p, ' ')) {
+	for (p = str; p != NULL; p = g_utf8_strchr (p, -1, ' ')) {
 		word_count ++;
-		p ++;
+		p = g_utf8_next_char (p);
 	}
 
 	return word_count;
@@ -54,21 +54,22 @@ e_name_western_cleanup_string (char **str)
 
 	/* skip any spaces and commas at the start of the string */
 	p = *str;
-	while (isspace ((unsigned char)*p) || *p == ',')
-		p ++;
+	while (g_unichar_isspace (g_utf8_get_char(p)) || *p == ',')
+		p = g_utf8_next_char (p);
 
 	/* make the copy we're going to return */
 	newstr = g_strdup (p);
 
 	if ( strlen(newstr) > 0) {
 		/* now search from the back, skipping over any spaces and commas */
-		p = newstr + strlen (newstr) - 1;
-		while (isspace ((unsigned char)*p) || *p == ',')
-			p --;
+		p = newstr + strlen (newstr);
+		p = g_utf8_prev_char (p);
+		while (g_unichar_isspace (g_utf8_get_char(p)) || *p == ',')
+			p = g_utf8_prev_char (p);
 		/* advance p to after the character that caused us to exit the
 		   previous loop, and end the string. */
-		if ((! isspace ((unsigned char)*p)) && *p != ',')
-			p ++;
+		if ((! g_unichar_isspace (g_utf8_get_char (p))) && *p != ',')
+			p = g_utf8_next_char (p);
 		*p = '\0';
 	}
 
@@ -79,35 +80,29 @@ e_name_western_cleanup_string (char **str)
 static char *
 e_name_western_get_words_at_idx (char *str, int idx, int num_words)
 {
-	char *words;
+	GString *words;
 	char *p;
 	int   word_count;
-	int   words_len;
 
 	/*
 	 * Walk to the end of the words.
 	 */
+	words = g_string_new ("");
 	word_count = 0;
 	p = str + idx;
 	while (word_count < num_words && *p != '\0') {
-		while (! isspace ((unsigned char)*p) && *p != '\0')
-			p ++;
+		while (! g_unichar_isspace (g_utf8_get_char (p)) && *p != '\0') {
+			words = g_string_append_unichar (words, g_utf8_get_char (p));
+			p = g_utf8_next_char (p);
+		}
 
-		while (isspace ((unsigned char)*p) && *p != '\0')
-			p ++;
+		while (g_unichar_isspace (g_utf8_get_char (p)) && *p != '\0')
+			p = g_utf8_next_char (p);
 
 		word_count ++;
 	}
 
-	words_len = p - str - idx - 1;
-
-	if (*p == '\0')
-		words_len ++;
-
-	words = g_malloc0 (1 + words_len);
-	strncpy (words, str + idx, words_len);
-
-	return words;
+	return g_string_free (words, FALSE);
 }
 
 /*
@@ -167,9 +162,9 @@ e_name_western_get_one_prefix_at_str (char *str)
 	 */
 	word = e_name_western_get_words_at_idx (str, 0, 1);
 
-	if (strlen (word) > 2 && 
-	    isalpha ((unsigned char) word [0]) &&
-	    isalpha ((unsigned char) word [1]) &&
+	if (g_utf8_strlen (word, -1) > 2 && 
+	    g_unichar_isalpha (g_utf8_get_char (word)) &&
+	    g_unichar_isalpha (g_utf8_get_char (g_utf8_next_char (word))) &&
 	    word [strlen (word) - 1] == '.')
 		return word;
 
@@ -194,8 +189,8 @@ e_name_western_get_prefix_at_str (char *str)
 
 	/* Check for a second prefix. */
 	p = str + strlen (pfx1);
-	while (isspace ((unsigned char)*p) && *p != '\0')
-		p ++;
+	while (g_unichar_isspace (g_utf8_get_char (p)) && *p != '\0')
+		p = g_utf8_next_char (p);
 
 	pfx2 = e_name_western_get_one_prefix_at_str (p);
 
@@ -258,8 +253,8 @@ e_name_western_extract_first (ENameWestern *name, ENameWesternIdxs *idxs)
 
 		/* Skip past white space. */
 		p = name->full + first_idx;
-		while (isspace ((unsigned char)*p) && *p != '\0')
-			p++;
+		while (g_unichar_isspace (g_utf8_get_char (p)) && *p != '\0')
+			p = g_utf8_next_char (p);
 
 		if (*p == '\0')
 			return;
@@ -295,7 +290,7 @@ static void
 e_name_western_extract_middle (ENameWestern *name, ENameWesternIdxs *idxs)
 {
 	char *word;
-	int   middle_idx;
+	char *middle;
 
 	/*
 	 * Middle names can only exist if you have a first name.
@@ -303,42 +298,44 @@ e_name_western_extract_middle (ENameWestern *name, ENameWesternIdxs *idxs)
 	if (idxs->first_idx == -1)
 		return;
 
-	middle_idx = idxs->first_idx + strlen (name->first) + 1;
+	middle = name->full + idxs->first_idx + strlen (name->first);
+	middle = g_utf8_next_char (middle);
 
-	if (middle_idx > strlen (name->full))
+	if (*middle == '\0')
 		return;
 	
 	/*
 	 * Search for the first space (or the terminating \0)
 	 */
-	while (isspace ((unsigned char)name->full [middle_idx]) &&
-	       name->full [middle_idx] != '\0')
-		middle_idx ++;
+	while (g_unichar_isspace (g_utf8_get_char (middle)) &&
+	       *middle != '\0')
+		middle = g_utf8_next_char (middle);
 		
-	if (name->full [middle_idx] == '\0')
+	if (*middle == '\0')
 		return;
 
 	/*
 	 * Skip past the nickname, if it's there.
 	 */
-	if (name->full [middle_idx] == '\"') {
+	if (*middle == '\"') {
 		if (idxs->nick_idx == -1)
 			return;
 
-		middle_idx = idxs->nick_idx + strlen (name->nick) + 1;
+		middle = name->full + idxs->nick_idx + strlen (name->nick);
+		middle = g_utf8_next_char (middle);
 		
-		while (isspace ((unsigned char)name->full [middle_idx]) &&
-		       name->full [middle_idx] != '\0')
-			middle_idx ++;
+		while (g_unichar_isspace (g_utf8_get_char (middle)) &&
+		       *middle != '\0')
+			middle = g_utf8_next_char (middle);
 
-		if (name->full [middle_idx] == '\0')
+		if (*middle == '\0')
 			return;
 	}
 
 	/*
 	 * Make sure this isn't the beginning of a complex last name.
 	 */
-	word = e_name_western_get_words_at_idx (name->full, middle_idx, 1);
+	word = e_name_western_get_words_at_idx (name->full, middle - name->full, 1);
 	if (e_name_western_is_complex_last_beginning (word)) {
 		g_free (word);
 		return;
@@ -361,48 +358,52 @@ e_name_western_extract_middle (ENameWestern *name, ENameWesternIdxs *idxs)
 		return;
 	}
 	
-	idxs->middle_idx = middle_idx;
+	idxs->middle_idx = middle - name->full;
 	name->middle = word;
 }
 
 static void
 e_name_western_extract_nickname (ENameWestern *name, ENameWesternIdxs *idxs)
 {
-	int   idx;
+	char *nick;
 	int   start_idx;
-	char *str;
+	GString *str;
 
 	if (idxs->first_idx == -1)
 		return;
 
 	if (idxs->middle_idx > idxs->first_idx)
-		idx = idxs->middle_idx + strlen (name->middle);
+		nick = name->full + idxs->middle_idx + strlen (name->middle);
 	else
-		idx = idxs->first_idx + strlen (name->first);
+		nick = name->full + idxs->first_idx + strlen (name->first);
 
-	while (name->full [idx] != '\"' && name->full [idx] != '\0')
-		idx ++;
+	while (*nick != '\"' && *nick != '\0')
+		nick = g_utf8_next_char (nick);
 
-	if (name->full [idx] != '\"')
+	if (*nick != '\"')
 		return;
 
-	start_idx = idx;
+	start_idx = nick - name->full;
 
 	/*
 	 * Advance to the next double quote.
 	 */
-	idx ++;
-	
-	while (name->full [idx] != '\"' && name->full [idx] != '\0')
-		idx ++;
+	str = g_string_new ("\"");
+	nick = g_utf8_next_char (nick);
 
-	if (name->full [idx] == '\0')
+	while (*nick != '\"' && *nick != '\0') {
+		str = g_string_append_unichar (str, g_utf8_get_char (nick));
+		nick = g_utf8_next_char (nick);
+	}
+
+	if (*nick == '\0') {
+		g_string_free (str, TRUE);
 		return;
+	}
+	str = g_string_append (str, "\"");
 
-	str = g_malloc0 (idx - start_idx + 2);
-	strncpy (str, name->full + start_idx, idx - start_idx + 1);
+	name->nick = g_string_free (str, FALSE);
 
-	name->nick = str;
 	idxs->nick_idx = start_idx;
 }
 
@@ -435,6 +436,7 @@ e_name_western_extract_last (ENameWestern *name, ENameWesternIdxs *idxs)
 {
 	char *word;
 	int   idx = -1;
+	char *last;
 
 	idx = e_name_western_last_get_max_idx (name, idxs);
 
@@ -463,14 +465,16 @@ e_name_western_extract_last (ENameWestern *name, ENameWesternIdxs *idxs)
 		return;
 	}
 
-	/* Skip past the white space. */
-	while (isspace ((unsigned char)name->full [idx]) && name->full [idx] != '\0')
-		idx ++;
+	last = name->full + idx;
 
-	if (name->full [idx] == '\0')
+	/* Skip past the white space. */
+	while (g_unichar_isspace (g_utf8_get_char (last)) && *last != '\0')
+		last = g_utf8_next_char (last);
+
+	if (*last == '\0')
 		return;
 
-	word = e_name_western_get_words_at_idx (name->full, idx, 1);
+	word = e_name_western_get_words_at_idx (name->full, last - name->full, 1);
 	e_name_western_cleanup_string (& word);
 	if (e_name_western_word_is_suffix (word)) {
 		g_free (word);
@@ -485,8 +489,8 @@ e_name_western_extract_last (ENameWestern *name, ENameWesternIdxs *idxs)
 	 * Amozorrutia" without dropping data and forcing the user
 	 * to retype it.
 	 */
-	name->last = g_strdup (name->full + idx);
-	idxs->last_idx = idx;
+	name->last = g_strdup (last);
+	idxs->last_idx = last - name->full;
 }
 
 static char *
@@ -498,14 +502,14 @@ e_name_western_get_preceding_word (char *str, int idx)
 
 	p = str + idx;
 
-	while (isspace ((unsigned char)*p) && p > str)
-		p --;
+	while (g_unichar_isspace (g_utf8_get_char (p)) && p > str)
+		p = g_utf8_prev_char (p);
 
-	while (! isspace ((unsigned char)*p) && p > str)
-		p --;
+	while (! g_unichar_isspace (g_utf8_get_char (p)) && p > str)
+		p = g_utf8_prev_char (p);
 
-	if (isspace ((unsigned char)*p))
-	    p ++;
+	if (g_unichar_isspace (g_utf8_get_char (p)))
+		p = g_utf8_next_char (p);
 
 	word_len = (str + idx) - p;
 	word = g_malloc0 (word_len + 1);
@@ -531,7 +535,8 @@ e_name_western_get_suffix_at_str_end (char *str)
 		char *word;
 
 		word = e_name_western_get_preceding_word (str, p - str);
-		nextp = p - strlen (word) - 1;
+		nextp = p - strlen (word);
+		nextp = g_utf8_prev_char (nextp);
 		
 		e_name_western_cleanup_string (& word);
 
@@ -561,7 +566,6 @@ e_name_western_get_suffix_at_str_end (char *str)
 static void
 e_name_western_extract_suffix (ENameWestern *name, ENameWesternIdxs *idxs)
 {
-
 	name->suffix = e_name_western_get_suffix_at_str_end (name->full);
 
 	if (name->suffix == NULL)
@@ -576,7 +580,7 @@ e_name_western_detect_backwards (ENameWestern *name, ENameWesternIdxs *idxs)
 	char *comma;
 	char *word;
 
-	comma = strchr (name->full, ',');
+	comma = g_utf8_strchr (name->full, -1, ',');
 
 	if (comma == NULL)
 		return FALSE;
@@ -629,14 +633,14 @@ e_name_western_reorder_asshole (ENameWestern *name, ENameWesternIdxs *idxs)
 	 * Everything from the end of the prefix to the comma is the
 	 * last name.
 	 */
-	comma = strchr (name->full, ',');
+	comma = g_utf8_strchr (name->full, -1, ',');
 	if (comma == NULL)
 		return;
 
 	p = name->full + (prefix == NULL ? 0 : strlen (prefix));
 
-	while (isspace ((unsigned char)*p) && *p != '\0')
-		p ++;
+	while (g_unichar_isspace (g_utf8_get_char (p)) && *p != '\0')
+		p = g_utf8_next_char (p);
 
 	last = g_malloc0 (comma - p + 1);
 	strncpy (last, p, comma - p);
@@ -650,10 +654,10 @@ e_name_western_reorder_asshole (ENameWestern *name, ENameWesternIdxs *idxs)
 	 * Firstmidnick is everything from the comma to the beginning
 	 * of the suffix.
 	 */
-	p = comma + 1;
+	p = g_utf8_next_char (comma);
 
-	while (isspace ((unsigned char)*p) && *p != '\0')
-		p ++;
+	while (g_unichar_isspace (g_utf8_get_char (p)) && *p != '\0')
+		p = g_utf8_next_char (p);
 
 	if (suffix != NULL) {
 		char *q;
@@ -661,14 +665,15 @@ e_name_western_reorder_asshole (ENameWestern *name, ENameWesternIdxs *idxs)
 		/*
 		 * Point q at the beginning of the suffix.
 		 */
-		q = name->full + strlen (name->full) - strlen (suffix) - 1;
+		q = name->full + strlen (name->full) - strlen (suffix);
+		q = g_utf8_prev_char (q);
 
 		/*
 		 * Walk backwards until we hit the space which
 		 * separates the suffix from firstmidnick.
 		 */
-		while (! isspace ((unsigned char)*q) && q > comma)
-			q --;
+		while (! g_unichar_isspace (g_utf8_get_char (q)) && q > comma)
+			q = g_utf8_prev_char (q);
 
 		if ((q - p + 1) > 0) {
 			firstmidnick = g_malloc0 (q - p + 1);
@@ -710,43 +715,49 @@ e_name_western_zap_nil (char **str, int *idx)
 	*str = NULL;
 }
 
-#define FINISH_CHECK_MIDDLE_NAME_FOR_CONJUNCTION	\
-	char *last_start = NULL;	\
-	if (name->last)	\
-		last_start = strchr (name->last, ' ');	\
-	if (last_start) {	\
-		char *new_last, *new_first;	\
-	\
-		new_last = g_strdup (last_start + 1);	\
-		*last_start = '\0';	\
-	\
+#define FINISH_CHECK_MIDDLE_NAME_FOR_CONJUNCTION			\
+	char *last_start = NULL;					\
+	if (name->last)							\
+		last_start = g_utf8_strchr (name->last, -1, ' ');	\
+	if (last_start) {						\
+		char *new_last, *new_first;				\
+									\
+		new_last = g_strdup (g_utf8_next_char (last_start));	\
+		*last_start = '\0';					\
+									\
 		idxs->last_idx += (last_start - name->last) + 1;	\
-	\
-		new_first = g_strdup_printf ("%s %s %s", name->first, name->middle, name->last);	\
-	\
-		g_free (name->first);	\
-		g_free (name->middle);	\
-		g_free (name->last);	\
-	\
-		name->first = new_first;	\
-		name->middle = NULL;	\
-		name->last = new_last;	\
-	\
-		idxs->middle_idx = -1;	\
-	} else {	\
-		char *new_first;	\
-	\
-		new_first = g_strdup_printf ("%s %s %s", name->first, name->middle, name->last);	\
-	\
-		g_free (name->first);	\
-		g_free (name->middle);	\
-		g_free (name->last);	\
-	\
-		name->first = new_first;	\
-		name->middle = NULL;	\
-		name->last = NULL;	\
-		idxs->middle_idx = -1;	\
-		idxs->last_idx = -1;	\
+									\
+		new_first = g_strdup_printf ("%s %s %s",		\
+					     name->first,		\
+					     name->middle,		\
+					     name->last);		\
+									\
+		g_free (name->first);					\
+		g_free (name->middle);					\
+		g_free (name->last);					\
+									\
+		name->first = new_first;				\
+		name->middle = NULL;					\
+		name->last = new_last;					\
+									\
+		idxs->middle_idx = -1;					\
+	} else {							\
+		char *new_first;					\
+									\
+		new_first = g_strdup_printf ("%s %s %s",		\
+					     name->first,		\
+					     name->middle,		\
+					     name->last);		\
+									\
+		g_free (name->first);					\
+		g_free (name->middle);					\
+		g_free (name->last);					\
+									\
+		name->first = new_first;				\
+		name->middle = NULL;					\
+		name->last = NULL;					\
+		idxs->middle_idx = -1;					\
+		idxs->last_idx = -1;					\
 	}
 
 #define CHECK_MIDDLE_NAME_FOR_CONJUNCTION(conj) \
@@ -795,10 +806,11 @@ e_name_western_fixup (ENameWestern *name, ENameWesternIdxs *idxs)
 			char *newlast;
 			char *p;
 
-			p = sfx - 1;
-			while (isspace ((unsigned char)*p) && p > name->last)
-				p --;
-			p ++;
+			p = sfx;
+			p = g_utf8_prev_char (p);
+			while (g_unichar_isspace (g_utf8_get_char (p)) && p > name->last)
+				p = g_utf8_prev_char (p);
+			p = g_utf8_next_char (p);
 
 			newlast = g_malloc0 (p - name->last + 1);
 			strncpy (newlast, name->last, p - name->last);
@@ -890,6 +902,12 @@ e_name_western_parse (const char *full_name)
 {
 	ENameWesternIdxs *idxs;
 	ENameWestern *wname;
+	char *end;
+
+	if (!g_utf8_validate (full_name, -1, (const char **)&end)) {
+		g_warning ("e_name_western_parse passed invalid UTF-8 sequence");
+		*end = '\0';
+	}
 
 	wname = g_new0 (ENameWestern, 1);
 

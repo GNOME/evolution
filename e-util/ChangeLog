@@ -1,3 +1,29 @@
+2003-03-31  Chris Toshok  <toshok@ximian.com>
+
+	* ename/test-ename-western.c (do_name): print "" if the value is
+	NULL.
+	(main): add a couple of utf8 test cases (that still use western
+	orderings).
+
+	* ename/e-name-western.c (e_name_western_str_count_words):
+	utf8-ize this.
+	(e_name_western_cleanup_string): same.
+	(e_name_western_get_words_at_idx): same.
+	(e_name_western_get_one_prefix_at_str): same.
+	(e_name_western_get_prefix_at_str): same.
+	(e_name_western_extract_first): same.
+	(e_name_western_extract_middle): same.
+	(e_name_western_extract_nickname): same.
+	(e_name_western_extract_last): same.
+	(e_name_western_get_preceding_word): same.
+	(e_name_western_get_suffix_at_str_end): same.
+	(e_name_western_detect_backwards): same.
+	(e_name_western_reorder_asshole): same.
+	(FINISH_CHECK_MIDDLE_NAME_FOR_CONJUNCTION): same.
+	(e_name_western_fixup): same.
+	(e_name_western_parse): validate the string and truncate it if
+	need be.
+
 2003-03-27  JP Rosevear  <jpr@ximian.com>
 
 	* e-account-list.c (e_account_list_find): guard against NULL keys

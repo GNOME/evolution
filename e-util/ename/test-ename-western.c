@@ -4,6 +4,7 @@
 #include <gtk/gtkmain.h>
 #include <ename/e-name-western.h>
 
+
 static void
 do_name (char *n)
 {
@@ -13,12 +14,12 @@ do_name (char *n)
 
 	printf ("Full Name: [%s]\n", n);
 
-	printf ("Prefix: [%s]\n", wname->prefix);
-	printf ("First:  [%s]\n", wname->first);
-	printf ("Middle: [%s]\n", wname->middle);
-	printf ("Nick:   [%s]\n", wname->nick);
-	printf ("Last:   [%s]\n", wname->last);
-	printf ("Suffix: [%s]\n", wname->suffix);
+	printf ("Prefix: [%s]\n", wname->prefix ? wname->prefix : "");
+	printf ("First:  [%s]\n", wname->first ? wname->first : "");
+	printf ("Middle: [%s]\n", wname->middle ? wname->middle : "");
+	printf ("Nick:   [%s]\n", wname->nick ? wname->nick : "");
+	printf ("Last:   [%s]\n", wname->last ? wname->last : "");
+	printf ("Suffix: [%s]\n", wname->suffix ? wname->suffix : "");
 
 	printf ("\n");
 
@@ -28,6 +29,7 @@ do_name (char *n)
 int
 main (int argc, char **argv)
 {
+	GString *str;
 	if (argc == 2) {
 		while (! feof (stdin)) {
 			char s[256];
@@ -67,5 +69,66 @@ main (int argc, char **argv)
 	do_name ("Nick Glennie-Smith");
 	do_name ("Dr von Johnson, Albert Roderick Jr");
 
+	/* create a name of the form:
+
+	   <Prefix> <First name> <Nickname> <Middle> <Last name> <Suffix>
+
+	   composed almost entirely of multibyte utf8 sequences.
+	*/
+	str = g_string_new ("Dr. ");
+
+	str = g_string_append_unichar (str, 0x5341);
+	str = g_string_append_unichar (str, 0x57CE);
+	str = g_string_append_unichar (str, 0x76EE);
+
+	str = g_string_append (str, " \"");
+	str = g_string_append_unichar (str, 0x5341);
+	str = g_string_append_unichar (str, 0x5341);
+	str = g_string_append (str, "\" ");
+
+	str = g_string_append_unichar (str, 0x5341);
+	str = g_string_append_unichar (str, 0x76EE);
+
+	str = g_string_append (str, " ");
+
+	str = g_string_append_unichar (str, 0x76EE);
+	str = g_string_append_unichar (str, 0x76EE);
+	str = g_string_append (str, ", Esquire");
+
+	do_name (str->str);
+
+	str = g_string_assign (str, "");
+
+	/* Now try a utf8 sequence of the form:
+
+	   Prefix Last, First Middle Suffix
+	*/
+
+	str = g_string_new ("Dr. ");
+
+	/* last */
+	str = g_string_append_unichar (str, 0x5341);
+	str = g_string_append_unichar (str, 0x57CE);
+	str = g_string_append_unichar (str, 0x76EE);
+
+	str = g_string_append (str, ", ");
+
+	/* first */
+	str = g_string_append_unichar (str, 0x5341);
+	str = g_string_append_unichar (str, 0x76EE);
+	str = g_string_append_unichar (str, 0x57CE);
+
+	str = g_string_append (str, " ");
+
+	/* middle */
+	str = g_string_append_unichar (str, 0x5341);
+	str = g_string_append_unichar (str, 0x76EE);
+	str = g_string_append_unichar (str, 0x76EE);
+	str = g_string_append_unichar (str, 0x76EE);
+
+	str = g_string_append (str, ", Esquire");
+
+	do_name (str->str);
+	
 	return 0;
 }
