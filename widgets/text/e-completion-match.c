@@ -141,11 +141,10 @@ e_completion_match_compare (const ECompletionMatch *a, const ECompletionMatch *b
 	return 0;
 }
 
-/* Copied from the above, with one addition. */
 gint
 e_completion_match_compare_alpha (const ECompletionMatch *a, const ECompletionMatch *b)
 {
-	gint rv;
+	gint rv, rv2;
 
 	/* Deal with NULL arguments. */
 	if (!(a || b)) {
@@ -158,17 +157,17 @@ e_completion_match_compare_alpha (const ECompletionMatch *a, const ECompletionMa
 	if ( (rv = (b->score > a->score) - (a->score > b->score)) )
 		return rv;
 
-	/* Consider the menu text in the sort. */
-	if ( (rv = strcmp (a->menu_text, b->menu_text)) )
-		return rv;
+	/* When the match text is the same, we use the major and minor fields */
+	rv2 = strcmp (a->match_text, b->match_text);
+	if (!rv2) {
+		if ( (rv = (b->sort_major < a->sort_major) - (a->sort_major < b->sort_major)) )
+			return rv;
 
-	if ( (rv = (b->sort_major < a->sort_major) - (a->sort_major < b->sort_major)) )
-		return rv;
+		if ( (rv = (b->sort_minor < a->sort_minor) - (a->sort_minor < b->sort_minor)) )
+			return rv;
+	}
 
-	if ( (rv = (b->sort_minor < a->sort_minor) - (a->sort_minor < b->sort_minor)) )
-		return rv;
-
-	return 0;
+	return strcmp (a->menu_text, b->menu_text);
 }
 
 ECompletionMatch *

@@ -320,7 +320,6 @@ e_completion_sort (ECompletion *complete)
 
 	sort_list = g_list_sort (sort_list, (GCompareFunc) e_completion_match_compare_alpha);
 
-
 	diff = FALSE;
 	count = 0;
 	i = complete->priv->matches;

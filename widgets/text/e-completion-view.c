@@ -584,7 +584,7 @@ end_completion_cb (ECompletion *completion, gpointer user_data)
 /*** Table Callbacks ***/
 
 static char *simple_spec = 
-"<ETableSpecification no-headers=\"true\" draw-grid=\"false\" cursor-mode=\"line\"> "
+"<ETableSpecification no-headers=\"true\" draw-grid=\"false\" cursor-mode=\"line\" alternating-row-colors=\"false\">"
 "  <ETableColumn model_col=\"0\" _title=\"Node\" expansion=\"1.0\" "
 "         minimum_width=\"16\" resizable=\"true\" cell=\"string\" "
 "         compare=\"string\"/> "
