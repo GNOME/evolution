@@ -1,3 +1,8 @@
+2004-10-07  JP Rosevear  <jpr@novell.com>
+
+	* gui/calendar-commands.c: guard config.h include, kill warning
+	and remove useless include
+
 2004-10-06  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #65932

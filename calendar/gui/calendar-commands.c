@@ -24,7 +24,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <pwd.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -48,7 +51,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-exception.h>
-#include <gal/util/e-util.h>
 #include <libecal/e-cal-time-util.h>
 #include "shell/Evolution.h"
 #include "calendar-commands.h"
@@ -80,7 +82,7 @@ file_open_event_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 
 	gcal = GNOME_CALENDAR (data);
 
-	e_calendar_view_open_event (gnome_calendar_get_current_view_widget (gcal));
+	e_calendar_view_open_event (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)));
 }
 
 
