@@ -1,3 +1,8 @@
+2001-03-30  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_add_client):
+	Tell new clients that are added whether they're writable.
+
 2001-03-29  Jon Trowbridge  <trow@ximian.com>
 
 	* printing/e-contact-print.c: Added #include <libgnome/gnome-paper.h>

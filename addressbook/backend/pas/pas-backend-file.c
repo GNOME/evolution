@@ -49,6 +49,7 @@ struct _PASBackendFilePrivate {
 	char     *uri;
 	DB       *file_db;
 	EList    *book_views;
+	gboolean writable;
 };
 
 struct _PASBackendFileCursorPrivate {
@@ -1404,6 +1405,8 @@ pas_backend_file_load_uri (PASBackend             *backend,
 		pas_book_report_writable (book, writable);
 	}
 
+	bf->priv->writable = writable;
+
 	return TRUE;
 }
 
@@ -1458,10 +1461,14 @@ pas_backend_file_add_client (PASBackend             *backend,
 	if (bf->priv->loaded) {
 		pas_book_respond_open (
 			book, GNOME_Evolution_Addressbook_BookListener_Success);
+		if (bf->priv->writable)
+			pas_book_report_writable (book, bf->priv->writable);
 	} else {
 		/* Open the book. */
 		pas_book_respond_open (
 			book, GNOME_Evolution_Addressbook_BookListener_Success);
+		if (bf->priv->writable)
+			pas_book_report_writable (book, bf->priv->writable);
 	}
 
 	return TRUE;
@@ -1585,6 +1592,7 @@ pas_backend_file_init (PASBackendFile *backend)
 	priv->clients    = NULL;
 	priv->book_views = e_list_new((EListCopyFunc) pas_backend_file_book_view_copy, (EListFreeFunc) pas_backend_file_book_view_free, NULL);
 	priv->uri        = NULL;
+	priv->writable   = FALSE;
 
 	backend->priv = priv;
 }
