@@ -40,7 +40,8 @@ static GtkContainerClass *parent_class = NULL;
 
 typedef struct {
 	GtkWidget *button_widget;
-	GtkWidget *label_widget;
+	GtkWidget *label;
+	GtkWidget *icon;
 	GtkWidget *hbox;
 	int id;
 } Button;
@@ -70,17 +71,20 @@ static unsigned int signals[NUM_SIGNALS] = { 0 };
 /* Utility functions.  */
 
 static Button *
-button_new (GtkWidget *button_widget, GtkWidget *label_widget, GtkWidget *hbox, int id)
+button_new (GtkWidget *button_widget, GtkWidget *label, GtkWidget *icon,
+	    GtkWidget *hbox, int id)
 {
 	Button *button = g_new (Button, 1);
 
 	button->button_widget = button_widget;
-	button->label_widget = label_widget;
+	button->label = label;
+	button->icon = icon;
 	button->hbox = hbox;
 	button->id = id;
 
 	g_object_ref (button_widget);
-	g_object_ref (label_widget);
+	g_object_ref (label);
+	g_object_ref (icon);
 	g_object_ref (hbox);
 
 	return button;
@@ -90,7 +94,8 @@ static void
 button_free (Button *button)
 {
 	g_object_unref (button->button_widget);
-	g_object_unref (button->label_widget);
+	g_object_unref (button->label);
+	g_object_unref (button->icon);
 	g_object_unref (button->hbox);
 	g_free (button);
 }
@@ -146,68 +151,75 @@ button_toggled_callback (GtkToggleButton *toggle_button,
 }
 
 
-/* Layout.  */
+/* Layout. */
 
 static int
-do_layout_text_buttons (ESidebar *sidebar)
+layout_buttons (ESidebar *sidebar)
 {
 	GtkAllocation *allocation = & GTK_WIDGET (sidebar)->allocation;
-	GSList *rows [g_slist_length (sidebar->priv->buttons)];
-	GSList *p;
+	gboolean icons_only = (sidebar->priv->mode == E_SIDEBAR_MODE_ICON);
+	int num_btns = g_slist_length (sidebar->priv->buttons), btns_per_row;
+	GSList **rows, *p;
+	Button *button;
 	int row_number;
-	int row_width;
 	int max_btn_width = 0, max_btn_height = 0;
-	int btns_required;
 	int row_last;
 	int x, y;
 	int i;
 
-	/* (Yes, this code calls gtk_widget_size_request() an ungodly number of times, but it's not
-	   like we care about performance here, and this makes the code simpler.)  */
+	/* (Yes, this code calls gtk_widget_size_request() an ungodly
+	 * number of times, but it's not like we care about
+	 * performance here, and this makes the code simpler.)
+	 */
 
-
-	/* 1. Figure out the max width and height */
+	/* Figure out the max width and height */
 	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
-		Button *button = p->data;
 		GtkRequisition requisition;
 
+		button = p->data;
 		gtk_widget_size_request (GTK_WIDGET (button->button_widget), &requisition);
 
-		max_btn_height = MAX (max_btn_height, requisition.height);	
+		max_btn_height = MAX (max_btn_height, requisition.height);
 		max_btn_width = MAX (max_btn_width, requisition.width);	
-
 	}
 
-	/* 2. Split the buttons into rows, depending on the max_btn_width.  */
-
-	row_number = 0;
-	rows [0] = NULL;
-	row_width = H_PADDING;
-	btns_required = allocation->width / (max_btn_width + H_PADDING);
-	for (; btns_required > 2; btns_required--) {
-		if (g_slist_length (sidebar->priv->buttons) % btns_required == 0)
-			break;
-
+	/* Figure out how many rows and columns we'll use. */
+	btns_per_row = allocation->width / (max_btn_width + H_PADDING);
+	if (!icons_only) {
+		/* If using text buttons, we want to try to have a
+		 * completely filled-in grid, but if we can't, we want
+		 * the odd row to have just a single button.
+		 */
+		while (num_btns % btns_per_row > 1)
+			btns_per_row--;
 	}
-	
-	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
-		Button *button = p->data;
 
-		if (g_slist_length (rows[row_number]) % btns_required == 0
-		    && rows [row_number] != NULL) {
+	/* Assign buttons to rows */
+	rows = g_new0 (GSList *, num_btns / btns_per_row + 1);
+
+	if (!icons_only && num_btns % btns_per_row != 0) {
+		button = sidebar->priv->buttons->data;
+		rows [0] = g_slist_append (rows [0], button->button_widget);
+
+		p = sidebar->priv->buttons->next;
+		row_number = 1;
+	} else {
+		p = sidebar->priv->buttons;
+		row_number = 0;
+	}
+
+	for (; p != NULL; p = p->next) {
+		button = p->data;
+
+		if (g_slist_length (rows [row_number]) == btns_per_row)
 			row_number ++;
-			rows [row_number] = NULL;
-			row_width = H_PADDING;
-		}
 
-		row_width += max_btn_width + H_PADDING;
 		rows [row_number] = g_slist_append (rows [row_number], button->button_widget);
 	}
 
 	row_last = row_number;
 
-	/* 3. Layout the buttons. */
-
+	/* Layout the buttons. */
 	y = allocation->y + allocation->height - V_PADDING - 1;
 	for (i = row_last; i >= 0; i --) {
 		int len, extra_width;
@@ -215,7 +227,10 @@ do_layout_text_buttons (ESidebar *sidebar)
 		y -= max_btn_height;
 		x = H_PADDING + allocation->x;
 		len = g_slist_length (rows[i]);
-		extra_width = (allocation->width - (len * max_btn_width ) - (len * H_PADDING)) / len;
+		if (sidebar->priv->mode == E_SIDEBAR_MODE_TEXT)
+			extra_width = (allocation->width - (len * max_btn_width ) - (len * H_PADDING)) / len;
+		else
+			extra_width = 0;
 		for (p = rows [i]; p != NULL; p = p->next) {
 			GtkAllocation child_allocation;
 
@@ -232,91 +247,9 @@ do_layout_text_buttons (ESidebar *sidebar)
 		y -= V_PADDING;
 	}
 
-	/* 4. Free stuff */
-
 	for (i = 0; i <= row_last; i ++)
 		g_slist_free (rows [i]);
-
-	return y;
-}
-
-static int
-do_layout_icon_buttons (ESidebar *sidebar)
-{
-	GtkAllocation *allocation = & GTK_WIDGET (sidebar)->allocation;
-	GSList *rows [g_slist_length (sidebar->priv->buttons)];
-	GSList *p;
-	int row_number;
-	int row_width;
-	int row_last;
-	int x, y;
-	int i;
-
-	/* (Yes, this code calls gtk_widget_size_request() an ungodly number of times, but it's not
-	   like we care about performance here, and this makes the code simpler.)  */
-
-	/* 1. Split the buttons into rows, depending on their width.  */
-
-	row_number = 0;
-	rows [0] = NULL;
-	row_width = H_PADDING;
-	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
-		Button *button = p->data;
-		GtkRequisition requisition;
-
-		gtk_widget_size_request (GTK_WIDGET (button->button_widget), &requisition);
-
-		if (row_width + requisition.width + H_PADDING >= allocation->width
-		    && rows [row_number] != NULL) {
-			row_number ++;
-			rows [row_number] = NULL;
-			row_width = H_PADDING;
-		}
-
-		row_width += requisition.width + H_PADDING;
-		rows [row_number] = g_slist_append (rows [row_number], button->button_widget);
-	}
-
-	row_last = row_number;
-
-	/* 2. Layout the buttons. */
-
-	y = allocation->y + allocation->height - V_PADDING - 1;
-	for (i = row_last; i >= 0; i --) {
-		int row_height = 0;
-
-		for (p = rows [i]; p != NULL; p = p->next) {
-			GtkRequisition requisition;
-
-			gtk_widget_size_request (GTK_WIDGET (p->data), &requisition);
-			row_height = MAX (row_height, requisition.height);
-		}
-
-		y -= row_height;
-		x = H_PADDING;
-		for (p = rows [i]; p != NULL; p = p->next) {
-			GtkRequisition requisition;
-			GtkAllocation child_allocation;
-
-			gtk_widget_size_request (GTK_WIDGET (p->data), &requisition);
-
-			child_allocation.x = x;
-			child_allocation.y = y;
-			child_allocation.width = requisition.width;
-			child_allocation.height = requisition.height;
-
-			gtk_widget_size_allocate (GTK_WIDGET (p->data), &child_allocation);
-
-			x += requisition.width + H_PADDING;
-		}
-
-		y -= V_PADDING;
-	}
-
-	/* 3. Free stuff */
-
-	for (i = 0; i <= row_last; i ++)
-		g_slist_free (rows [i]);
+	g_free (rows);
 
 	return y;
 }
@@ -328,17 +261,7 @@ do_layout (ESidebar *sidebar)
 	GtkAllocation child_allocation;
 	int y;
 
-	switch (sidebar->priv->mode) {
-	case E_SIDEBAR_MODE_TEXT:
-		y = do_layout_text_buttons (sidebar);
-		break;
-	case E_SIDEBAR_MODE_ICON:
-		y = do_layout_icon_buttons (sidebar);
-		break;
-	default:
-		g_assert_not_reached ();
-		return;
-	}
+	y = layout_buttons (sidebar);
 	
 	/* Place the selection widget.  */
 	child_allocation.x = allocation->x;
@@ -546,11 +469,11 @@ e_sidebar_add_button (ESidebar *sidebar,
 	icon_widget = gtk_image_new_from_pixbuf (icon);
 	label_widget = gtk_label_new (label);
 	gtk_misc_set_alignment (GTK_MISC (label_widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (hbox), icon_widget, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), icon_widget, sidebar->priv->mode == E_SIDEBAR_MODE_ICON, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), label_widget, TRUE, TRUE, 0);
 	gtk_container_add (GTK_CONTAINER (button_widget), hbox);
 
-	sidebar->priv->buttons = g_slist_append (sidebar->priv->buttons, button_new (button_widget, label_widget, hbox, id));
+	sidebar->priv->buttons = g_slist_append (sidebar->priv->buttons, button_new (button_widget, label_widget, icon_widget, hbox, id));
 	gtk_widget_set_parent (button_widget, GTK_WIDGET (sidebar));
 
 	if (sidebar->priv->mode == E_SIDEBAR_MODE_ICON)
@@ -587,10 +510,16 @@ e_sidebar_set_mode (ESidebar *sidebar, ESidebarMode mode)
 
 		switch (mode) {
 		case E_SIDEBAR_MODE_TEXT:
-			gtk_box_pack_start (GTK_BOX (button->hbox), button->label_widget, TRUE, TRUE, 0);
+			gtk_box_pack_start (GTK_BOX (button->hbox), button->label, TRUE, TRUE, 0);
+			gtk_container_child_set (GTK_CONTAINER (button->hbox), button->icon,
+						 "expand", FALSE,
+						 NULL);
 			break;
 		case E_SIDEBAR_MODE_ICON:
-			gtk_container_remove (GTK_CONTAINER (button->hbox), button->label_widget);
+			gtk_container_remove (GTK_CONTAINER (button->hbox), button->label);
+			gtk_container_child_set (GTK_CONTAINER (button->hbox), button->icon,
+						 "expand", TRUE,
+						 NULL);
 			break;
 		default:
 			g_assert_not_reached ();

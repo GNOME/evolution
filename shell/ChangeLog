@@ -1,3 +1,14 @@
+2004-05-05  Dan Winship  <danw@ximian.com>
+
+	* e-sidebar.c (layout_buttons): Change the algorithm so that if
+	the buttons can't be laid out perfectly rectangularly, then the
+	extra space is given to the first button (ie, Mail), rather than
+	the last button (eg, Connector). Also, merge the icons-only and
+	icons-plus-text layout code together since they were nearly
+	identical.
+	(e_sidebar_add_button, e_sidebar_set_mode): Tweak things a bit so
+	that in icons-only mode, the icons are centered in the buttons.
+
 2004-05-03  Dan Winship  <danw@ximian.com>
 
 	* e-shell-importer.c (e_shell_importer_start_import): Fix warnings
