@@ -215,7 +215,7 @@ ecb_set_property (GObject *object,
 		break;
 
 	case PROP_FILL_COLOR_GDK:
-		pcolor = g_value_get_pointer (value);
+		pcolor = g_value_get_boxed (value);
 		if (pcolor) {
 			color = *pcolor;
 		}
@@ -282,7 +282,7 @@ ecb_get_property (GObject *object,
 
 	switch (prop_id){
 	case PROP_FILL_COLOR_GDK:
-		g_value_set_pointer (value, gdk_color_copy (&ecb->priv->color));
+		g_value_set_boxed (value, gdk_color_copy (&ecb->priv->color));
 		break;
         case PROP_FILL_COLOR_RGBA:
 		g_value_set_uint (value, ecb->priv->rgba);
@@ -439,10 +439,11 @@ ecb_class_init (GObjectClass *object_class)
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_FILL_COLOR_GDK,
-					 g_param_spec_pointer ("fill_color_gdk",
-							       _( "GDK fill color" ),
-							       _( "GDK fill color" ),
-							       G_PARAM_READWRITE));
+					 g_param_spec_boxed ("fill_color_gdk",
+							     _( "GDK fill color" ),
+							     _( "GDK fill color" ),
+							     GDK_TYPE_COLOR,
+							     G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_FILL_COLOR_RGBA,
 					 g_param_spec_uint ("fill_color_rgba",
