@@ -17714,7 +17714,7 @@ msgstr "Vertrouw deze CA voor het identificeren van web pagina's."
 
 #: smime/gui/smime-ui.glade.h:41
 msgid "View"
-msgstr "Beel_d"
+msgstr "Tonen"
 
 #: smime/gui/smime-ui.glade.h:42
 msgid "You have certificates from these organizations that identify you:"
