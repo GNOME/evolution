@@ -99,6 +99,14 @@ CalendarAlarm alarm_defaults[4] = {
 /* We have one global preferences dialog. */
 static CalPrefsDialog *preferences_dialog = NULL;
 
+
+static void update_pixmaps	(BonoboUIComponent *uic);
+static void set_pixmap		(BonoboUIComponent *uic,
+				 const char        *xml_path,
+				 char		  **xpm_data);
+
+
+
 static void
 init_username (void)
 {
@@ -476,32 +484,6 @@ properties_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 
-#warning FIXME: reinstate this when radiobuttons are implemented
-#if 0
-/* Note: if the order of these is changed, make sure you change the indices
-   used to access the widgets in calendar_control_activate(). */
-static GnomeUIInfo gnome_toolbar_view_buttons [] = {
-	GNOMEUIINFO_RADIOITEM (N_("Day"),    N_("Show 1 day"),
-			       show_day_view_clicked,
-			       dayview_xpm),
-	GNOMEUIINFO_RADIOITEM (N_("5 Days"), N_("Show the working week"),
-			       show_work_week_view_clicked,
-			       workweekview_xpm),
-	GNOMEUIINFO_RADIOITEM (N_("Week"),   N_("Show 1 week"),
-			       show_week_view_clicked,
-			       weekview_xpm),
-	GNOMEUIINFO_RADIOITEM (N_("Month"),  N_("Show 1 month"),
-			       show_month_view_clicked,
-			       monthview_xpm),
-#if 0
-	GNOMEUIINFO_RADIOITEM (N_("Year"),   N_("Show 1 year"),
-			       show_year_view_clicked,
-			       yearview_xpm),
-#endif
-	GNOMEUIINFO_END
-};
-#endif
-
 BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("CalendarNew", new_calendar_cmd),
 	BONOBO_UI_UNSAFE_VERB ("CalendarOpen", open_calendar_cmd),
@@ -514,6 +496,11 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("CalendarToday", today_clicked),
 	BONOBO_UI_UNSAFE_VERB ("CalendarNext", next_clicked),
 	BONOBO_UI_UNSAFE_VERB ("CalendarGoto", goto_clicked),
+
+	BONOBO_UI_UNSAFE_VERB ("ShowDayView", show_day_view_clicked),
+	BONOBO_UI_UNSAFE_VERB ("ShowWorkWeekView", show_work_week_view_clicked),
+	BONOBO_UI_UNSAFE_VERB ("ShowWeekView", show_week_view_clicked),
+	BONOBO_UI_UNSAFE_VERB ("ShowMonthView", show_month_view_clicked),
 
 	BONOBO_UI_VERB_END
 };
@@ -535,13 +522,8 @@ calendar_control_activate (BonoboControl *control,
 	bonobo_object_release_unref (remote_uih, NULL);
 
 #if 0
-	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
-				   GTK_TOOLBAR_BOTH);
-	gnome_app_fill_toolbar_custom (GTK_TOOLBAR (toolbar),
-				       calendar_toolbar, &uibdata,
-				       /*app->accel_group*/ NULL);
-
-	/*gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));*/
+	/* FIXME: Need to update this to use new Bonobo ui stuff somehow.
+	   Also need radio buttons really. */
 
 	/* Note that these indices should correspond with the button indices
 	   in the gnome_toolbar_view_buttons UIINFO struct. */
@@ -553,36 +535,46 @@ calendar_control_activate (BonoboControl *control,
 
 	/* This makes the appropriate radio button in the toolbar active. */
 	gnome_calendar_update_view_buttons (cal);
-
-	gtk_widget_show_all (toolbar);
-
-	toolbar_frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (toolbar_frame), GTK_SHADOW_OUT);
-	gtk_container_add (GTK_CONTAINER (toolbar_frame), toolbar);
-	gtk_widget_show (toolbar_frame);
-
-	gtk_widget_show_all (toolbar_frame);
-
-	behavior = GNOME_DOCK_ITEM_BEH_EXCLUSIVE | GNOME_DOCK_ITEM_BEH_NEVER_VERTICAL;
-
-	if (!gnome_preferences_get_toolbar_detachable ())
-		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
-
-	toolbar_control = bonobo_control_new (toolbar_frame);
-
-	bonobo_ui_handler_dock_add (uih, "/Toolbar",
-				    bonobo_object_corba_objref (BONOBO_OBJECT (toolbar_control)),
-				    behavior,
-				    GNOME_DOCK_TOP,
-				    1, 1, 0);
 #endif
 	
 	bonobo_ui_component_add_verb_list_with_data (
 		uic, verbs, cal);
 
+	bonobo_ui_component_freeze (uic, NULL);
+
 	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
 			       "evolution-calendar.xml",
 			       "evolution-calendar");
+
+	update_pixmaps (uic);
+
+	bonobo_ui_component_thaw (uic, NULL);
+}
+
+
+static void
+update_pixmaps (BonoboUIComponent *uic)
+{
+	set_pixmap (uic, "/Toolbar/DayView",	  dayview_xpm);
+	set_pixmap (uic, "/Toolbar/WorkWeekView", workweekview_xpm);
+	set_pixmap (uic, "/Toolbar/WeekView",	  weekview_xpm);
+	set_pixmap (uic, "/Toolbar/MonthView",	  monthview_xpm);
+}
+
+
+static void
+set_pixmap (BonoboUIComponent *uic,
+	    const char        *xml_path,
+	    char	     **xpm_data)
+{
+	GdkPixbuf *pixbuf;
+
+	pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) xpm_data);
+	g_return_if_fail (pixbuf != NULL);
+
+	bonobo_ui_util_set_pixbuf (uic, xml_path, pixbuf);
+
+	gdk_pixbuf_unref (pixbuf);
 }
 
 

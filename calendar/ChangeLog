@@ -1,3 +1,15 @@
+2000-10-12  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/calendar-commands.c (calendar_control_activate): 
+	(update_pixmaps): 
+	(set_pixmap): set the pixmaps of the toolbar buttons for the views,
+	and removed a lot of old unused stuff. We'll use plain buttons for
+	the view buttons for now, until Bonobo toolbars support radio buttons.
+
+	* gui/gnome-cal.c (gnome_calendar_dayjump): check day_button is not
+	NULL before using it.
+	(gnome_calendar_update_view_buttons): check button is not NULL.
+
 2000-10-11  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-day-view-time-item.c (e_day_view_time_item_draw): got 12/24

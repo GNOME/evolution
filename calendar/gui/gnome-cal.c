@@ -520,7 +520,8 @@ gnome_calendar_dayjump (GnomeCalendar *gcal, time_t time)
 
 	priv->selection_start_time = time_day_begin (time);
 	priv->selection_end_time = time_add_day (priv->selection_start_time, 1);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->day_button), TRUE);
+	if (priv->day_button)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->day_button), TRUE);
 }
 
 void
@@ -2264,7 +2265,9 @@ gnome_calendar_update_view_buttons (GnomeCalendar *gcal)
 		return;
 	}
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (button), gcal);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (button), gcal);
+	if (button) {
+		gtk_signal_handler_block_by_data (GTK_OBJECT (button), gcal);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
+		gtk_signal_handler_unblock_by_data (GTK_OBJECT (button), gcal);
+	}
 }
