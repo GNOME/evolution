@@ -768,10 +768,6 @@ CalClient *
 cal_client_construct (CalClient *client)
 {
 	CalClientPrivate *priv;
-	GNOME_Evolution_Calendar_CalFactory factory;
-	Bonobo_ServerInfoList *servers;
-	CORBA_Environment ev;
-	int i;
 
 	g_return_val_if_fail (client != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);

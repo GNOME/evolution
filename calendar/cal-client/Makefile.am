@@ -21,7 +21,7 @@ $(CORBA_GENERATED): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(srcdir)/../idl/evolution-calendar.idl
 
 INCLUDES =						\
-        -DGNOMELOCALEDIR=\""$(localedir)"\"		\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DG_LOG_DOMAIN=\"cal-client\"			\
 	-I$(top_srcdir)/calendar			\
 	-I$(srcdir) -I$(top_srcdir) 			\
@@ -36,7 +36,7 @@ INCLUDES =						\
 
 privlib_LTLIBRARIES = libcal-client.la
 
-libcal_clientincludedir = $(includedir)/evolution-$(BASE_VERSION)/cal-client
+libcal_clientincludedir = $(privincludedir)/cal-client
 
 libcal_client_la_SOURCES =	\
 	$(CORBA_SOURCES_GENERATED)	\
