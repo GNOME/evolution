@@ -1,3 +1,7 @@
+2004-05-19  JP Rosevear  <jpr@novell.com>
+
+	* Makefile.am: don't dist the error .h file
+
 2004-05-19  Not Zed  <NotZed@Ximian.com>
 
 	* em-inline-filter.c (emif_add_part): if we end up with an

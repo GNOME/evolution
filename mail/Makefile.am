@@ -202,7 +202,7 @@ EXTRA_DIST = 				\
 	ChangeLog.pre-1-4		\
 	em-marshal.list			\
 	$(SPELL_IDL)			\
-	$(error_DATA) $(error_i18n)	\
+	$(error_DATA)			\
 	$(glade_DATA)			\
 	$(schema_DATA)			\
 	$(server_in_files)		\
