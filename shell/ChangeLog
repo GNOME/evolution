@@ -1,5 +1,9 @@
 2002-08-19  Dan Winship  <danw@ximian.com>
 
+	* e-shell-shared-folder-picker-dialog.c (show_dialog): Get the
+	"addresses" property of the select names control rather than
+	"text", so we get the email address too. #28953
+
 	* e-folder-type-registry.c
 	(e_folder_type_registry_type_registered,
 	e_folder_type_registry_unregister_type): Fix the names of these

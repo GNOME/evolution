@@ -233,16 +233,13 @@ show_dialog (EShell *shell,
 	     EShellView *parent,
 	     char **user_email_address_return,
 	     char **storage_name_return,
-	     char **folder_name_return/*,
-					char **mailbox_name_return*/)
+	     char **folder_name_return)
 {
 	GladeXML *glade_xml;
 	GtkWidget *dialog;
 	GtkWidget *name_selector_widget;
 	GtkWidget *folder_name_entry;
 	int button_num;
-	/*	GNOME_Evolution_Addressbook_SimpleCardList *simple_card_list;*/
-	
 
 	glade_xml = glade_xml_new (EVOLUTION_GLADEDIR "/e-shell-shared-folder-picker-dialog.glade",
 				   NULL);
@@ -269,7 +266,7 @@ show_dialog (EShell *shell,
 	}
 
 	bonobo_widget_get_property (BONOBO_WIDGET (name_selector_widget),
-				    "text", user_email_address_return,
+				    "addresses", user_email_address_return,
 				    NULL);
 
 	folder_name_entry = glade_xml_get_widget (glade_xml, "folder-name-entry");
