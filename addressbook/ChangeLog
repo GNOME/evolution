@@ -1,3 +1,10 @@
+2001-10-29  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_destroy): We were using
+	book_data->book_view immediately after unrefing it.  Reordered the
+	code a bit to avoid this.
+
 2001-10-29  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-book-factory.h: add prototype for

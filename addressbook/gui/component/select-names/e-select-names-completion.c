@@ -743,17 +743,22 @@ e_select_names_completion_destroy (GtkObject *object)
 
 	for (l = comp->priv->book_data; l; l = l->next) {
 		ESelectNamesCompletionBookData *book_data = l->data;
-		gtk_object_unref (GTK_OBJECT (book_data->book));
-		if (book_data->book_view)
-			gtk_object_unref (GTK_OBJECT (book_data->book_view));
+
 		if (book_data->card_added_tag) {
 			gtk_signal_disconnect (GTK_OBJECT (book_data->book_view), book_data->card_added_tag);
 			book_data->card_added_tag = 0;
 		}
+
 		if (book_data->seq_complete_tag) {
 			gtk_signal_disconnect (GTK_OBJECT (book_data->book_view), book_data->seq_complete_tag);
 			book_data->seq_complete_tag = 0;
 		}
+
+		gtk_object_unref (GTK_OBJECT (book_data->book));
+
+		if (book_data->book_view)
+			gtk_object_unref (GTK_OBJECT (book_data->book_view));
+
 		g_free (book_data);
 	}
 	g_list_free (comp->priv->book_data);
