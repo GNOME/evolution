@@ -77,7 +77,7 @@ development_warning ()
 
 	warning_dialog = gnome_dialog_new (
 		"Evolution 0.0",
-		GNOME_STOCK_OK,
+		GNOME_STOCK_BUTTON_OK,
 		NULL);
 
 	label = gtk_label_new (
