@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.41 2003/10/21 18:28:29 ettore Exp $
+#  $Id: Makefile.am,v 1.42 2003/10/23 14:42:45 danw Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -36,7 +36,7 @@ endif
 
 privlib_LTLIBRARIES = libical-evolution.la $(cxx_lib)
 
-CPPFLAGS = -DPACKAGE_DATA_DIR=\""$(privdatadir)"\"
+AM_CPPFLAGS = -DPACKAGE_DATA_DIR=\""$(privdatadir)"\"
 
 # CFLAGS = -g
 
@@ -115,7 +115,33 @@ endif
 
 libical_evolutionincludedir = $(privincludedir)/libical
 
-libical_evolutioninclude_HEADERS = ical.h icalmemory.h icalerror.h $(cxx_headers)
+libical_evolutioninclude_HEADERS = \
+	ical.h			\
+	icalarray.h		\
+	icalattach.h		\
+	icalcomponent.h		\
+	icalderivedparameter.h	\
+	icalderivedproperty.h	\
+	icalderivedvalue.h	\
+	icalduration.h		\
+	icalenums.h		\
+	icalerror.h		\
+	icallangbind.h		\
+	icalmemory.h		\
+	icalmime.h		\
+	icalparameter.h		\
+	icalparser.h		\
+	icalperiod.h		\
+	icalproperty.h		\
+	icalrecur.h		\
+	icalrestriction.h	\
+	icaltime.h		\
+	icaltimezone.h		\
+	icaltypes.h		\
+	icalvalue.h		\
+	pvl.h			\
+	sspm.h			\
+	$(cxx_headers)
 
 # ORDERING OF HEADERS IS SIGNIFICANT. Don't change this ordering. It
 # is required to make the combined header ical.h properly

@@ -1,3 +1,8 @@
+2003-10-23  Dan Winship  <danw@ximian.com>
+
+	* src/libical/Makefile.am (libical_evolutioninclude_HEADERS):
+	install all of the headers that ical.h now #includes
+
 2003-10-15  Rodrigo Moya <rodrigo@ximian.com>
 
 	* src/libicalss/icalssyacc.y: re-added missing header.
