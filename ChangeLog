@@ -1,3 +1,11 @@
+2000-04-20  NotZed  <NotZed@HelixCode.com>
+
+	* tests/test11.c: Fixed some headers.
+
+	* tests/Makefile.am (noinst_PROGRAMS): Removed test9.
+	(noinst_PROGRAMS): Removed test12, temporarirly (nntp not being
+	built).
+
 2000-04-20  Yukihiro Nakai <nakai@gnome.gr.jp>
 
 	* configure.in: Add Japanese to ALL_LINGUAS

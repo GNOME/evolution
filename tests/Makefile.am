@@ -25,19 +25,19 @@ LDADD = \
 #	$(top_builddir)/filter/libfilter.la \
 #	$(top_builddir)/libibex/libibex.a
 
-test9_LDADD = \
-	$(top_builddir)/camel/libcamel.la 	\
-	$(top_builddir)/camel/providers/mbox/libcamelmbox.la 	\
-	$(top_builddir)/libibex/libibex.la 	\
-	$(GNOME_LIBDIR) 			\
-	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
+#test9_LDADD = \
+#	$(top_builddir)/camel/libcamel.la 	\
+#	$(top_builddir)/camel/providers/mbox/libcamelmbox.la 	\
+#	$(top_builddir)/libibex/libibex.la 	\
+#	$(GNOME_LIBDIR) 			\
+#	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
 
-test12_LDADD = \
-	$(top_builddir)/camel/libcamel.la 	\
-	$(top_builddir)/camel/providers/nntp/libcamelnntp.la 	\
-	$(top_builddir)/libibex/libibex.la 	\
-	$(GNOME_LIBDIR) 			\
-	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
+#test12_LDADD = \
+#	$(top_builddir)/camel/libcamel.la 	\
+#	$(top_builddir)/camel/providers/nntp/libcamelnntp.la 	\
+#	$(top_builddir)/libibex/libibex.la 	\
+#	$(GNOME_LIBDIR) 			\
+#	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
 
 test_movemail_LDADD = \
 	$(top_builddir)/e-util/libeutil.la	\
@@ -58,12 +58,11 @@ noinst_PROGRAMS =  	\
 	test2		\
 	test3		\
 	test7		\
-	test9		\
 	test10		\
 	test11		\
-	test12		\
 	test-movemail	\
 	test-url	\
 	$(THREAD_RELATED_TESTS)
 
+#	test12		\
 #	test-formatter	
