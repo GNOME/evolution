@@ -32,8 +32,6 @@
 #include "e-util/e-corba-utils.h"
 #include "widgets/misc/e-combo-button.h"
 
-#include <gal/util/e-util.h>
-
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-control.h>
@@ -51,11 +49,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-
-
-#define PARENT_TYPE G_TYPE_OBJECT
-static GObjectClass *parent_class = NULL;
-
 
 struct _Component {
 	char *id, *alias;
@@ -109,6 +102,7 @@ enum {
 	LAST_PROP
 };
 
+G_DEFINE_TYPE (EUserCreatableItemsHandler, e_user_creatable_items_handler, G_TYPE_OBJECT)
 
 /* Component struct handling.  */
 
@@ -767,7 +761,7 @@ impl_dispose (GObject *object)
 		priv->accel_group = NULL;
 	}
 
-	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	(* G_OBJECT_CLASS (e_user_creatable_items_handler_parent_class)->dispose) (object);
 }
 
 static void
@@ -788,15 +782,16 @@ impl_finalize (GObject *object)
 
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (e_user_creatable_items_handler_parent_class)->finalize) (object);
 }
 
 
 static void
-class_init (GObjectClass *object_class)
+e_user_creatable_items_handler_class_init (EUserCreatableItemsHandlerClass *klass)
 {
-	parent_class = g_type_class_ref(PARENT_TYPE);
-
+	GObjectClass *object_class;
+	
+	object_class = G_OBJECT_CLASS (klass);
 	object_class->dispose      = impl_dispose;
 	object_class->finalize     = impl_finalize;
 	object_class->set_property = impl_set_property;
@@ -810,7 +805,7 @@ class_init (GObjectClass *object_class)
 }
 
 static void
-init (EUserCreatableItemsHandler *handler)
+e_user_creatable_items_handler_init (EUserCreatableItemsHandler *handler)
 {
 	EUserCreatableItemsHandlerPrivate *priv;
 
@@ -869,4 +864,4 @@ e_user_creatable_items_handler_activate (EUserCreatableItemsHandler *handler,
 					NULL);
 }
 
-E_MAKE_TYPE (e_user_creatable_items_handler, "EUserCreatableItemsHandler", EUserCreatableItemsHandler, class_init, init, PARENT_TYPE)
+

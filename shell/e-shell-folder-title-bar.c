@@ -34,16 +34,10 @@
 #include <libgnome/gnome-i18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include <gal/util/e-util.h>
-
 #include "widgets/misc/e-clipped-label.h"
 #include "e-shell-constants.h"
 #include "e-shell-marshal.h"
 #include "e-shell-folder-title-bar.h"
-
-
-#define PARENT_TYPE GTK_TYPE_HBOX
-static GtkHBox *parent_class = NULL;
 
 struct _EShellFolderTitleBarPrivate {
 	GdkPixbuf *icon;
@@ -82,6 +76,8 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
+
+G_DEFINE_TYPE (EShellFolderTitleBar, e_shell_folder_title_bar, GTK_TYPE_HBOX)
 
 
 /* Utility functions for managing icons and icon widgets.  */
@@ -323,7 +319,7 @@ impl_dispose (GObject *object)
 		priv->icon = NULL;
 	}
 
-	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	(* G_OBJECT_CLASS (e_shell_folder_title_bar_parent_class)->dispose) (object);
 }
 
 static void
@@ -337,7 +333,7 @@ impl_finalize (GObject *object)
 
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (e_shell_folder_title_bar_parent_class)->finalize) (object);
 }
 
 
@@ -394,14 +390,14 @@ impl_expose_event (GtkWidget *widget,
 			    widget->allocation.width,
 			    widget->allocation.height);
 
-	(* GTK_WIDGET_CLASS (parent_class)->expose_event) (widget, event);
+	(* GTK_WIDGET_CLASS (e_shell_folder_title_bar_parent_class)->expose_event) (widget, event);
 
 	return FALSE;
 }
 
 
 static void
-class_init (EShellFolderTitleBarClass *klass)
+e_shell_folder_title_bar_class_init (EShellFolderTitleBarClass *klass)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
@@ -413,8 +409,6 @@ class_init (EShellFolderTitleBarClass *klass)
 	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->size_allocate = impl_size_allocate;
 	widget_class->expose_event = impl_expose_event;
-
-	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	signals[TITLE_TOGGLED]
 		= g_signal_new ("title_toggled",
@@ -446,7 +440,7 @@ class_init (EShellFolderTitleBarClass *klass)
 }
 
 static void
-init (EShellFolderTitleBar *shell_folder_title_bar)
+e_shell_folder_title_bar_init (EShellFolderTitleBar *shell_folder_title_bar)
 {
 	EShellFolderTitleBarPrivate *priv;
 
@@ -745,5 +739,3 @@ e_shell_folder_title_bar_update_navigation_buttons  (EShellFolderTitleBar *folde
 	gtk_widget_set_sensitive (priv->forward_button, can_go_forward);
 }
 
-
-E_MAKE_TYPE (e_shell_folder_title_bar, "EShellFolderTitleBar", EShellFolderTitleBar, class_init, init, PARENT_TYPE)

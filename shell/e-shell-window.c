@@ -20,7 +20,9 @@
  * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "e-shell-window.h"
 
@@ -31,8 +33,6 @@
 #include "e-shell-marshal.h"
 #include "e-sidebar.h"
 #include "es-menu.h"
-
-#include <gal/util/e-util.h>
 
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkhbox.h>
@@ -53,10 +53,6 @@
 #include <gconf/gconf-client.h>
 
 #include <string.h>
-
-
-#define PARENT_TYPE gtk_window_get_type ()
-static GtkWindowClass *parent_class = NULL;
 
 
 /* A view for each component.  These are all created when EShellWindow is
@@ -121,6 +117,7 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
+G_DEFINE_TYPE (EShellWindow, e_shell_window, BONOBO_TYPE_WINDOW)
 
 /* The icons for the offline/online status.  */
 
@@ -704,7 +701,7 @@ impl_dispose (GObject *object)
 		priv->tooltips = NULL;
 	}
 
-	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	(* G_OBJECT_CLASS (e_shell_window_parent_class)->dispose) (object);
 }
 
 static void
@@ -719,21 +716,19 @@ impl_finalize (GObject *object)
 
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (e_shell_window_parent_class)->finalize) (object);
 }
 
 
 /* Initialization.  */
 
 static void
-class_init (EShellWindowClass *class)
+e_shell_window_class_init (EShellWindowClass *klass)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	signals[COMPONENT_CHANGED] = g_signal_new ("component_changed",
 						   G_OBJECT_CLASS_TYPE (object_class),
@@ -747,7 +742,7 @@ class_init (EShellWindowClass *class)
 }
 
 static void
-init (EShellWindow *shell_window)
+e_shell_window_init (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = g_new0 (EShellWindowPrivate, 1);
 
@@ -936,5 +931,3 @@ e_shell_window_show_settings (EShellWindow *window)
 	e_shell_show_settings (window->priv->shell, window->priv->current_view ? window->priv->current_view->component_alias : NULL, window);
 }
 
-
-E_MAKE_TYPE (e_shell_window, "EShellWindow", EShellWindow, class_init, init, BONOBO_TYPE_WINDOW)

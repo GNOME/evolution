@@ -26,18 +26,14 @@
 
 #include "e-history.h"
 
-#include <gal/util/e-util.h>
-
-
-#define PARENT_TYPE gtk_object_get_type ()
-static GtkObjectClass *parent_class = NULL;
-
 struct _EHistoryPrivate {
 	EHistoryItemFreeFunc item_free_function;
 
 	GList *items;
 	GList *current_item;
 };
+
+G_DEFINE_TYPE (EHistory, e_history, GTK_TYPE_OBJECT)
 
 
 /* GObject methods.  */
@@ -59,20 +55,21 @@ impl_finalize (GObject *object)
 
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (e_history_parent_class)->finalize) (object);
 }
 
 
 static void
-class_init (GObjectClass *object_class)
+e_history_class_init (EHistoryClass *klass)
 {
-	parent_class = g_type_class_ref(PARENT_TYPE);
-
+	GObjectClass *object_class;
+	
+	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = impl_finalize;
 }
 
 static void
-init (EHistory *history)
+e_history_init (EHistory *history)
 {
 	EHistoryPrivate *priv;
 
@@ -257,5 +254,3 @@ e_history_remove_matching (EHistory *history,
 	}
 }
 
-
-E_MAKE_TYPE (e_history, "EHistory", EHistory, class_init, init, GTK_TYPE_OBJECT)

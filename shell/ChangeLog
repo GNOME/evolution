@@ -1,3 +1,25 @@
+2004-12-21  JP Rosevear  <jpr@novell.com>
+
+	* e-corba-config-page.c: Convert to G_DEFINE_TYPE
+
+	* e-history.c: ditto
+
+	* e-shell-folder-title-bar.c: ditto
+
+	* e-shell-offline-handler.c: ditto
+
+	* e-shell-settings-dialog.c: ditto
+
+	* e-shell-window.c: ditto
+
+	* e-sidebar.c: ditto
+
+	* e-user-creatable-items-handler.c: ditto
+	
+	* e-component-registry.c: ditto
+
+	* importer/evolution-importer-client.c: ditto
+
 2004-12-09  Rodney Dawes  <dobey@novell.com>
 
 	* e-shell-window-commands.c: Use stock_new-window for the New Window

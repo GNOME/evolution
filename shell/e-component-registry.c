@@ -30,7 +30,6 @@
 #include <e-util/e-icon-factory.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <gal/util/e-util.h>
 
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-exception.h>
@@ -38,17 +37,13 @@
 #include <string.h>
 #include <stdlib.h>
 
-
-#define PARENT_TYPE G_TYPE_OBJECT
-static GObjectClass *parent_class = NULL;
-
-
 struct _EComponentRegistryPrivate {
 	GSList *infos;
 
 	int init:1;
 };
 
+G_DEFINE_TYPE (EComponentRegistry, e_component_registry, G_TYPE_OBJECT)
 
 /* EComponentInfo handling.  */
 
@@ -261,24 +256,22 @@ impl_finalize (GObject *object)
 	g_slist_foreach (priv->infos, (GFunc) component_info_free, NULL);
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (e_component_registry_parent_class)->finalize) (object);
 }
 
 
 static void
-class_init (EComponentRegistryClass *klass)
+e_component_registry_class_init (EComponentRegistryClass *klass)
 {
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = impl_finalize;
-
-	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 
 static void
-init (EComponentRegistry *registry)
+e_component_registry_init (EComponentRegistry *registry)
 {
 	registry->priv = g_new0 (EComponentRegistryPrivate, 1);
 }
@@ -354,7 +347,3 @@ e_component_registry_activate (EComponentRegistry *registry,
 	/* it isn't in the registry unless it is already activated */
 	return bonobo_object_dup_ref (info->iface, NULL);
 }
-
-
-E_MAKE_TYPE (e_component_registry, "EComponentRegistry", EComponentRegistry,
-	     class_init, init, PARENT_TYPE)

@@ -20,22 +20,18 @@
  * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "e-sidebar.h"
 
 #include "e-shell-marshal.h"
 
-#include <gal/util/e-util.h>
-
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtktogglebutton.h>
-
-
-#define PARENT_TYPE gtk_container_get_type ()
-static GtkContainerClass *parent_class = NULL;
 
 
 typedef struct {
@@ -63,6 +59,7 @@ enum {
 
 static unsigned int signals[NUM_SIGNALS] = { 0 };
 
+G_DEFINE_TYPE (ESidebar, e_sidebar, GTK_TYPE_CONTAINER)
 
 #define H_PADDING 6
 #define V_PADDING 6
@@ -365,7 +362,7 @@ impl_dispose (GObject *object)
 	g_slist_free (priv->buttons);
 	priv->buttons = NULL;
 
-	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	(* G_OBJECT_CLASS (e_sidebar_parent_class)->dispose) (object);
 }
 
 static void
@@ -375,18 +372,18 @@ impl_finalize (GObject *object)
 
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (e_sidebar_parent_class)->finalize) (object);
 }
 
 
 /* Initialization.  */
 
 static void
-class_init (ESidebarClass *class)
+e_sidebar_class_init (ESidebarClass *klass)
 {
-	GtkContainerClass *container_class = GTK_CONTAINER_CLASS (class);
-	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
-	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	GtkContainerClass *container_class = GTK_CONTAINER_CLASS (klass);
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	container_class->forall = impl_forall;
 	container_class->remove = impl_remove;
@@ -397,9 +394,6 @@ class_init (ESidebarClass *class)
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
-	parent_class = g_type_class_peek_parent (class);
-
-	
 	signals[BUTTON_SELECTED]
 		= g_signal_new ("button_selected",
 				G_OBJECT_CLASS_TYPE (object_class),
@@ -412,7 +406,7 @@ class_init (ESidebarClass *class)
 }
 
 static void
-init (ESidebar *sidebar)
+e_sidebar_init (ESidebar *sidebar)
 {
 	ESidebarPrivate *priv;
 
@@ -530,6 +524,3 @@ e_sidebar_set_mode (ESidebar *sidebar, ESidebarMode mode)
 
 	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
 }
-
-
-E_MAKE_TYPE (e_sidebar, "ESidebar", ESidebar, class_init, init, PARENT_TYPE)

@@ -29,20 +29,18 @@
 #include "Evolution.h"
 
 #include <string.h>
-#include <gal/util/e-util.h>
 
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-listener.h>
 
-
-#define PARENT_TYPE e_config_page_get_type ()
-static EConfigPageClass *parent_class = NULL;
 
 struct _ECorbaConfigPagePrivate {
 	GNOME_Evolution_ConfigControl config_control_interface;
 };
+
+G_DEFINE_TYPE (ECorbaConfigPage, e_corba_config_page, E_TYPE_CONFIG_PAGE)
 
 /* GObject methods.  */
 
@@ -65,7 +63,7 @@ impl_dispose (GObject *object)
 	
 	CORBA_exception_free (&ev);
 
-	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	(* G_OBJECT_CLASS (e_corba_config_page_parent_class)->dispose) (object);
 }
 
 static void
@@ -79,13 +77,13 @@ impl_finalize (GObject *object)
 
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (e_corba_config_page_parent_class)->finalize) (object);
 }
 
 /* GTK+ ctors.  */
 
 static void
-class_init (ECorbaConfigPageClass *class)
+e_corba_config_page_class_init (ECorbaConfigPageClass *class)
 {
 	GObjectClass *object_class;
 	EConfigPageClass *config_page_class;
@@ -95,12 +93,10 @@ class_init (ECorbaConfigPageClass *class)
 	object_class->finalize = impl_finalize;
 
 	config_page_class = E_CONFIG_PAGE_CLASS (class);
-
-	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 static void
-init (ECorbaConfigPage *corba_config_page)
+e_corba_config_page_init (ECorbaConfigPage *corba_config_page)
 {
 	ECorbaConfigPagePrivate *priv;
 
@@ -160,6 +156,3 @@ e_corba_config_page_new_from_objref (GNOME_Evolution_ConfigControl corba_object)
 
 	return GTK_WIDGET (corba_config_page);
 }
-
-
-E_MAKE_TYPE (e_corba_config_page, "ECorbaConfigPgae", ECorbaConfigPage, class_init, init, PARENT_TYPE)

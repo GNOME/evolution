@@ -41,8 +41,6 @@
 #include <gtk/gtktypeutils.h>
 #include <gtk/gtkwidget.h>
 
-#include <gal/util/e-util.h>
-
 #include <libgnome/gnome-i18n.h>
 
 #include <glade/glade-xml.h>
@@ -52,10 +50,6 @@
 
 
 #define GLADE_DIALOG_FILE_NAME EVOLUTION_GLADEDIR "/e-active-connection-dialog.glade"
-
-
-#define PARENT_TYPE GTK_TYPE_OBJECT
-static GtkObjectClass *parent_class = NULL;
 
 
 /* Private part.  */
@@ -114,6 +108,7 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
+G_DEFINE_TYPE (EShellOfflineHandler, e_shell_offline_handler, GTK_TYPE_OBJECT)
 
 /* Forward declarations for the dialog handling.  */
 
@@ -699,7 +694,7 @@ impl_dispose (GObject *object)
 		priv->dialog_gui = NULL;
 	}
 
-	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	(* G_OBJECT_CLASS (e_shell_offline_handler_parent_class)->dispose) (object);
 }
 
 static void
@@ -713,22 +708,20 @@ impl_finalize (GObject *object)
 
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (e_shell_offline_handler_parent_class)->finalize) (object);
 }
 
 
 /* GTK type handling.  */
 
 static void
-class_init (EShellOfflineHandlerClass *klass)
+e_shell_offline_handler_class_init (EShellOfflineHandlerClass *klass)
 {
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
-
-	parent_class = g_type_class_ref(gtk_object_get_type ());
 
 	signals[OFFLINE_PROCEDURE_STARTED]
 		= g_signal_new ("offline_procedure_started",
@@ -752,7 +745,7 @@ class_init (EShellOfflineHandlerClass *klass)
 
 
 static void
-init (EShellOfflineHandler *shell_offline_handler)
+e_shell_offline_handler_init (EShellOfflineHandler *shell_offline_handler)
 {
 	EShellOfflineHandlerPrivate *priv;
 
@@ -867,5 +860,3 @@ e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_ha
 	g_object_unref (offline_handler);
 }
 
-
-E_MAKE_TYPE (e_shell_offline_handler, "EShellOfflineHandler", EShellOfflineHandler, class_init, init, PARENT_TYPE)

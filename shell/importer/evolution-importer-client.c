@@ -32,12 +32,10 @@
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-exception.h>
-#include <gal/util/e-util.h>
 
 #include "GNOME_Evolution_Importer.h"
-
-#define PARENT_TYPE G_TYPE_OBJECT
-static GObjectClass *parent_class = NULL;
+
+G_DEFINE_TYPE (EvolutionImporterClient, evolution_importer_client, G_TYPE_OBJECT)
 
 
 static void
@@ -45,22 +43,21 @@ finalise (GObject *object)
 {
 	/* FIXME: should this unref the client->objref?? */
 
-	parent_class->finalize(object);
+	(* G_OBJECT_CLASS (evolution_importer_client_parent_class)->finalize) (object);
 }
 
 static void
-class_init (EvolutionImporterClientClass *klass)
+evolution_importer_client_class_init (EvolutionImporterClientClass *klass)
 {
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (klass);
-	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class->finalize = finalise;
 }
 
 static void
-init (EvolutionImporterClient *client)
+evolution_importer_client_init (EvolutionImporterClient *client)
 {
 }
 
@@ -267,6 +264,3 @@ evolution_importer_client_get_error (EvolutionImporterClient *client)
 	
 	return str;
 }
-
-E_MAKE_TYPE (evolution_importer_client, "EvolutionImporterClient",
-	     EvolutionImporterClient, class_init, init, PARENT_TYPE)

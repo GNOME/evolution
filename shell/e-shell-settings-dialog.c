@@ -30,8 +30,6 @@
 #include "e-corba-config-page.h"
 #include <e-util/e-icon-factory.h>
 
-#include <gal/util/e-util.h>
-
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-exception.h>
 
@@ -39,15 +37,11 @@
 
 #include <string.h>
 
-
-#define PARENT_TYPE e_multi_config_dialog_get_type ()
-static EMultiConfigDialogClass *parent_class = NULL;
-
-
-
 struct _EShellSettingsDialogPrivate {
 	GHashTable *types;
 };
+
+G_DEFINE_TYPE (EShellSettingsDialog, e_shell_settings_dialog, E_TYPE_MULTI_CONFIG_DIALOG)
 
 
 /* FIXME ugly hack to work around that sizing of invisible widgets is broken
@@ -295,23 +289,21 @@ impl_finalize (GObject *object)
 
 	g_free (priv);
 	
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (e_shell_settings_dialog_parent_class)->finalize) (object);
 }
 
 
 static void
-class_init (EShellSettingsDialog *class)
+e_shell_settings_dialog_class_init (EShellSettingsDialogClass *klass)
 {
 	GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS (class);
+	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = impl_finalize;
-
-	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 static void
-init (EShellSettingsDialog *dialog)
+e_shell_settings_dialog_init (EShellSettingsDialog *dialog)
 {
 	EShellSettingsDialogPrivate *priv;
 
@@ -367,7 +359,4 @@ e_shell_settings_dialog_show_type (EShellSettingsDialog *dialog, const char *typ
 	e_multi_config_dialog_show_page (E_MULTI_CONFIG_DIALOG (dialog), page);
 }
 
-
-E_MAKE_TYPE (e_shell_settings_dialog, "EShellSettingsDialog", EShellSettingsDialog,
-	     class_init, init, PARENT_TYPE)
 
