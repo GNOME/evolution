@@ -38,7 +38,7 @@ extern "C" {
 #include "e-util/e-msgport.h"
 
 struct _CamelNNTPStorePrivate {
-	EMutex *command_lock;	/* for locking the command stream for a complete operation */
+	int dummy;
 };
 
 #define CAMEL_NNTP_STORE_LOCK(f, l) (e_mutex_lock(((CamelNNTPStore *)f)->priv->l))

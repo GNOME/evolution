@@ -46,10 +46,8 @@ struct _CamelIMAPPCommandPart {
 typedef int (*CamelIMAPPEngineFunc)(struct _CamelIMAPPEngine *engine, guint32 id, void *data);
 typedef void (*CamelIMAPPCommandFunc)(struct _CamelIMAPPEngine *engine, struct _CamelIMAPPCommand *, void *data);
 
-/* FIXME: make this refcounted */
 struct _CamelIMAPPCommand {
-	struct _CamelIMAPPCommand *next;
-	struct _CamelIMAPPCommand *prev;
+	EMsg msg;
 
 	const char *name;	/* command name/type (e.g. FETCH) */
 
@@ -98,6 +96,9 @@ typedef enum _camel_imapp_engine_state_t {
 
 struct _CamelIMAPPEngine {
 	CamelObject parent_object;
+
+	/* incoming requests */
+	EMsgPort *port;
 
 	CamelIMAPPStream *stream;
 

@@ -42,8 +42,9 @@ object_init(CamelIMAPPEngine *ie, CamelIMAPPEngineClass *ieclass)
 {
 	ie->handlers = g_hash_table_new(g_str_hash, g_str_equal);
 	e_dlist_init(&ie->active);
-	e_dlist_init(&ie->queue);
 	e_dlist_init(&ie->done);
+
+	ie->port = e_msgport_new();
 
 	ie->tagprefix = ieclass->tagprefix;
 	ieclass->tagprefix++;
@@ -650,7 +651,7 @@ camel_imapp_engine_command_complete(CamelIMAPPEngine *imap, struct _CamelIMAPPCo
 	ic->complete_data = data;
 }
 
-/* FIXME: make imap command's refcounted */
+/* FIXME: make imap command's refcounted? */
 void
 camel_imapp_engine_command_free (CamelIMAPPEngine *imap, CamelIMAPPCommand *ic)
 {
@@ -659,60 +660,18 @@ camel_imapp_engine_command_free (CamelIMAPPEngine *imap, CamelIMAPPCommand *ic)
 	if (ic == NULL)
 		return;
 
-	/* validity check - we cant' free items still in any queue ... */
-	/* maybe we should just have another queue to keep them? */
-	{
-		CamelIMAPPCommand *iw;
-		int found = 0;
-
-		iw = (CamelIMAPPCommand *)imap->active.head;
-		while (iw->next) {
-			if (iw == ic) {
-				found = 1;
-				g_warning("command '%s' still in active queue", iw->name);
-				break;
-			}
-			iw = iw->next;
-		}
-		iw = (CamelIMAPPCommand *)imap->queue.head;
-		while (iw->next) {
-			if (iw == ic) {
-				found = 1;
-				g_warning("command '%s' still in waiting queue", iw->name);
-				break;
-			}
-			iw = iw->next;
-		}
-		iw = (CamelIMAPPCommand *)imap->done.head;
-		while (iw->next) {
-			if (iw == ic) {
-				found = 1;
-				break;
-			}
-			iw = iw->next;
-		}
-		if (!found) {
-			g_warning("command '%s' not found anywhere", ic->name);
-			abort();
-		}
-	}
-
-	e_dlist_remove((EDListNode *)ic);
+	/* Note the command must not be in any queue? */
 
 	if (ic->mem)
 		camel_object_unref((CamelObject *)ic->mem);
 	imap_free_status(ic->status);
 	g_free(ic->select);
 
-	cp = (CamelIMAPPCommandPart *)ic->parts.head;
-	cn = cp->next;
-	while (cn) {
+	while ( (cp = ((CamelIMAPPCommandPart *)e_dlist_remhead(&ic->parts))) ) {
 		g_free(cp->data);
 		if (cp->ob)
 			camel_object_unref(cp->ob);
 		g_free(cp);
-		cp = cn;
-		cn = cn->next;
 	}
 
 	g_free(ic);
@@ -724,51 +683,12 @@ camel_imapp_engine_command_queue(CamelIMAPPEngine *imap, CamelIMAPPCommand *ic)
 {
 	CamelIMAPPCommandPart *cp;
 
+	g_assert(ic->msg.reply_port);
+
 	if (ic->mem)
 		imap_engine_command_complete(imap, ic);
 
-	/* FIXME: remove select stuff */
-
-	/* see if we need to pre-queue a select command to select the right folder first */
-	if (ic->select && (imap->last_select == NULL || strcmp(ic->select, imap->last_select) != 0)) {
-		CamelIMAPPCommand *select;
-		
-		/* of course ... we can't do anything like store/search if we have to select
-		   first, because it'll mess up all the sequence numbers ... hrm ... bugger */
-
-		select = camel_imapp_engine_command_new(imap, "SELECT", NULL, "SELECT %s", ic->select);
-		g_free(imap->last_select);
-		imap->last_select = g_strdup(ic->select);
-		camel_imapp_engine_command_queue(imap, select);
-		/* how does it get freed? handle inside engine? */
-	}
-	
-	/* first, check if command can be sent yet ... queue if not */
-	if (imap->literal != NULL) {
-		printf("%p: queueing while literal active\n", ic);
-		e_dlist_addtail(&imap->queue, (EDListNode *)ic);
-		return;
-	}
-
-	cp = (CamelIMAPPCommandPart *)ic->parts.head;
-	g_assert(cp);
-	ic->current = cp;
-
-	/* how to handle exceptions here? */
-
-	printf("queueing command \"%c%05u %s\"\n", imap->tagprefix, ic->tag, cp->data);
-	camel_stream_printf((CamelStream *)imap->stream, "%c%05u %s\r\n", imap->tagprefix, ic->tag, cp->data);
-
-	if (cp->type & CAMEL_IMAPP_COMMAND_CONTINUATION) {
-		printf("%p: active literal\n", ic);
-		g_assert(cp->next);
-		imap->literal = ic;
-		e_dlist_addtail(&imap->active, (EDListNode *)ic);
-	} else {
-		printf("%p: active non-literal\n", ic);
-		g_assert(cp->next && cp->next->next == NULL);
-		e_dlist_addtail(&imap->active, (EDListNode *)ic);
-	}
+	e_msgport_put(imap->port, (EMsg *)ic);
 }
 
 CamelIMAPPCommand *
@@ -1074,6 +994,54 @@ imap_engine_command_addv(CamelIMAPPEngine *imap, CamelIMAPPCommand *ic, const ch
 	}
 
 	camel_stream_write((CamelStream *)ic->mem, ps, p-ps-1);
+}
+
+
+static void *
+cie_worker(void *data)
+{
+	/* FIXME: remove select stuff */
+
+	/* see if we need to pre-queue a select command to select the right folder first */
+	if (ic->select && (imap->last_select == NULL || strcmp(ic->select, imap->last_select) != 0)) {
+		CamelIMAPPCommand *select;
+		
+		/* of course ... we can't do anything like store/search if we have to select
+		   first, because it'll mess up all the sequence numbers ... hrm ... bugger */
+
+		select = camel_imapp_engine_command_new(imap, "SELECT", NULL, "SELECT %s", ic->select);
+		g_free(imap->last_select);
+		imap->last_select = g_strdup(ic->select);
+		camel_imapp_engine_command_queue(imap, select);
+		/* how does it get freed? handle inside engine? */
+	}
+	
+	/* first, check if command can be sent yet ... queue if not */
+	if (imap->literal != NULL) {
+		printf("%p: queueing while literal active\n", ic);
+		e_dlist_addtail(&imap->queue, (EDListNode *)ic);
+		return;
+	}
+
+	cp = (CamelIMAPPCommandPart *)ic->parts.head;
+	g_assert(cp);
+	ic->current = cp;
+
+	/* how to handle exceptions here? */
+
+	printf("queueing command \"%c%05u %s\"\n", imap->tagprefix, ic->tag, cp->data);
+	camel_stream_printf((CamelStream *)imap->stream, "%c%05u %s\r\n", imap->tagprefix, ic->tag, cp->data);
+
+	if (cp->type & CAMEL_IMAPP_COMMAND_CONTINUATION) {
+		printf("%p: active literal\n", ic);
+		g_assert(cp->next);
+		imap->literal = ic;
+		e_dlist_addtail(&imap->active, (EDListNode *)ic);
+	} else {
+		printf("%p: active non-literal\n", ic);
+		g_assert(cp->next && cp->next->next == NULL);
+		e_dlist_addtail(&imap->active, (EDListNode *)ic);
+	}
 }
 
 
