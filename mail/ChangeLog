@@ -1,3 +1,21 @@
+2004-01-21  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #53159.
+
+	* em-format.c (emf_message_rfc822): removed incorrect comment,
+	this is not a fallback.
+
+	* em-format-html.c (efh_text_plain): check the content-type of the
+	containee object, not the holder.
+
+	** See bug #52979.
+
+	* em-format-html.c: take out text/x-patch and put in text/* for a
+	text/plain fallback handler instead.
+
+	* em-format-html-display.c (efhd_find_handler): allow the bonobo
+	handlers to override the builtin ones.
+
 2004-01-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.c (em_migrate_imap_caches_1_4): New function to

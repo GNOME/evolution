@@ -664,6 +664,7 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *html_filter;
 	CamelMultipart *mp;
+	CamelDataWrapper *dw;
 	CamelContentType *type;
 	const char *format;
 	guint32 rgb = 0x737373, flags;
@@ -677,10 +678,11 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 
 	flags = efh->text_html_flags;
 	
+	dw = camel_medium_get_content_object((CamelMedium *)part);
+
 	/* Check for RFC 2646 flowed text. */
-	type = camel_mime_part_get_content_type(part);
-	if (camel_content_type_is (type, "text", "plain")
-	    && (format = camel_content_type_param (type, "format"))
+	if (camel_content_type_is(dw->mime_type, "text", "plain")
+	    && (format = camel_content_type_param(dw->mime_type, "format"))
 	    && !g_ascii_strcasecmp(format, "flowed"))
 		flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
 
@@ -703,9 +705,9 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 		null = camel_stream_null_new();
 		filtered_stream = camel_stream_filter_new_with_stream(null);
 		camel_object_unref(null);
-		inline_filter = em_inline_filter_new(camel_mime_part_get_encoding(part), ((CamelDataWrapper *)part)->mime_type);
+		inline_filter = em_inline_filter_new(camel_mime_part_get_encoding(part), dw->mime_type);
 		camel_stream_filter_add(filtered_stream, (CamelMimeFilter *)inline_filter);
-		camel_data_wrapper_write_to_stream(camel_medium_get_content_object((CamelMedium *)part), (CamelStream *)filtered_stream);
+		camel_data_wrapper_write_to_stream(dw, (CamelStream *)filtered_stream);
 		camel_stream_close((CamelStream *)filtered_stream);
 		camel_object_unref(filtered_stream);
 		mp = em_inline_filter_get_multipart(inline_filter);
@@ -1132,10 +1134,9 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "image/x-xpixmap", (EMFormatFunc)efh_image },
 	{ "text/enriched", (EMFormatFunc)efh_text_enriched },
 	{ "text/plain", (EMFormatFunc)efh_text_plain },
-	{ "text/x-patch", (EMFormatFunc)efh_text_plain },
 	{ "text/html", (EMFormatFunc)efh_text_html },
 	{ "text/richtext", (EMFormatFunc)efh_text_enriched },
-	/*{ "text/ *", (EMFormatFunc)efh_text_plain },*/
+	{ "text/*", (EMFormatFunc)efh_text_plain },
 	{ "message/external-body", (EMFormatFunc)efh_message_external },
 	{ "multipart/signed", (EMFormatFunc)efh_multipart_signed },
 	{ "multipart/related", (EMFormatFunc)efh_multipart_related },

@@ -1292,7 +1292,6 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 	camel_cipher_validity_free(valid);
 }
 
-/* this is only a fallback, any implementer should implement */
 static void
 emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
