@@ -1,3 +1,8 @@
+2004-09-03  Not Zed  <NotZed@Ximian.com>
+
+	* camel-tcp-stream-ssl.c (stream_connect): make ssl connection
+	async and cancellable, and minor api update to async connection.
+
 2004-08-27  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #64023.

@@ -1028,7 +1028,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 {
 	CamelTcpStreamSSL *ssl = CAMEL_TCP_STREAM_SSL (stream);
 	PRNetAddr netaddr;
-	PRFileDesc *fd;
+	PRFileDesc *fd, *cancel_fd;
 	
 	g_return_val_if_fail (host != NULL, -1);
 	
@@ -1070,26 +1070,37 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 		
 		fd = ssl_fd;
 	}
-	
-	if (PR_Connect (fd, &netaddr, CONNECT_TIMEOUT) == PR_FAILURE) {
+
+	cancel_fd = camel_operation_cancel_prfd(NULL);
+
+	if (PR_Connect (fd, &netaddr, cancel_fd?0:CONNECT_TIMEOUT) == PR_FAILURE) {
 		int errnosave;
 		
 		set_errno (PR_GetError ());
-		if (errno == EINPROGRESS) {
+		if (errno == EINPROGRESS || (cancel_fd && errno == ETIMEDOUT)) {
 			gboolean connected = FALSE;
-			PRPollDesc poll;
+			PRPollDesc poll[2];
+
+			poll[0].fd = fd;
+			poll[0].in_flags = PR_POLL_WRITE | PR_POLL_EXCEPT;
+			poll[1].fd = cancel_fd;
+			poll[1].in_flags = PR_POLL_READ;
 			
 			do {
-				poll.fd = fd;
-				poll.in_flags = PR_POLL_WRITE | PR_POLL_EXCEPT;
-				poll.out_flags = 0;
-				
-				if (PR_Poll (&poll, 1, CONNECT_TIMEOUT) == PR_FAILURE) {
+				poll[0].out_flags = 0;
+				poll[1].out_flags = 0;
+
+				if (PR_Poll (poll, cancel_fd?2:1, CONNECT_TIMEOUT) == PR_FAILURE) {
 					set_errno (PR_GetError ());
 					goto exception;
 				}
 				
-				if (PR_GetConnectStatus (&poll) == PR_FAILURE) {
+				if (poll[1].out_flags == PR_POLL_READ) {
+					errno = EINTR;
+					goto exception;
+				}
+
+				if (PR_ConnectContinue(fd, poll[0].out_flags) == PR_FAILURE) {
 					set_errno (PR_GetError ());
 					if (errno != EINPROGRESS)
 						goto exception;
