@@ -8,8 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: AC_PACKAGE_NAME AC_PACKAGE_VERSION\n"
-"POT-Creation-Date: 2003-09-15 14:36-0400\n"
-"PO-Revision-Date: 2003-06-07 08:32+0900\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-09-23 03:46+0900\n"
+"PO-Revision-Date: 2003-09-23 03:42+0900\n"
 "Last-Translator: Young-Ho, Cha <ganadist at mizi.com>\n"
 "Language-Team: GTP Korean <gnome-kr-translation@gnome.or.kr>\n"
 "MIME-Version: 1.0\n"
@@ -579,7 +580,7 @@ msgid "Evolution Addressbook folder viewer"
 msgstr "Evolution 주소록 minicard 보기"
 
 #: addressbook/gui/component/addressbook-component.c:76
-#: addressbook/gui/component/addressbook-component.c:625
+#: addressbook/gui/component/addressbook-component.c:628
 #: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1844
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 msgid "Contacts"
@@ -607,27 +608,27 @@ msgstr "연락처"
 msgid "Public folder containing contact information"
 msgstr "연락처 정보를 가지고 있는 폴더"
 
-#: addressbook/gui/component/addressbook-component.c:579
+#: addressbook/gui/component/addressbook-component.c:582
 msgid "New Contact"
 msgstr "새 연락처"
 
-#: addressbook/gui/component/addressbook-component.c:579
+#: addressbook/gui/component/addressbook-component.c:582
 msgid "_Contact"
 msgstr "연락처(_C)"
 
-#: addressbook/gui/component/addressbook-component.c:580
+#: addressbook/gui/component/addressbook-component.c:583
 msgid "Create a new contact"
 msgstr "새로운 연락처를 만듭니다"
 
-#: addressbook/gui/component/addressbook-component.c:583
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "New Contact List"
 msgstr "새 연락처 목록"
 
-#: addressbook/gui/component/addressbook-component.c:583
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "Contact _List"
 msgstr "연락처 목록(_L)"
 
-#: addressbook/gui/component/addressbook-component.c:584
+#: addressbook/gui/component/addressbook-component.c:587
 msgid "Create a new contact list"
 msgstr "새 연락처 목록을 만듭니다"
 
@@ -1185,7 +1186,7 @@ msgstr ""
 #: ui/evolution-signature-editor.xml.h:11 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:18
 msgid "_Edit"
-msgstr "고치기(_E)"
+msgstr "편집(_E)"
 
 #: addressbook/gui/component/ldap-config.glade.h:86
 msgid "_Log in method:"
@@ -3052,7 +3053,7 @@ msgstr "폴더로 이동..."
 #: addressbook/gui/widgets/e-addressbook-view.c:912
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
 msgid "Cut"
-msgstr "자르기"
+msgstr "잘라내기"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:913
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:8
@@ -3063,9 +3064,9 @@ msgstr "복사"
 #: addressbook/gui/widgets/e-addressbook-view.c:914
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:10
 msgid "Paste"
-msgstr "붙이기"
+msgstr "붙여 넣기"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:10
+#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:11
 #: mail/mail-accounts.c:234 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
@@ -4832,7 +4833,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:15
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:36
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:58
 #: mail/message-list.etspec.h:12
 msgid "Status"
 msgstr "상태"
@@ -5261,14 +5262,14 @@ msgstr "인쇄(_P)..."
 #: calendar/gui/e-week-view.c:3730 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
-msgstr "자르기(_U)"
+msgstr "잘라내기(_U)"
 
 #: calendar/gui/e-calendar-table.c:965 calendar/gui/e-day-view.c:3745
 #: calendar/gui/e-week-view.c:3731 ui/evolution-addressbook.xml.h:30
 #: ui/evolution-calendar.xml.h:29 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-tasks.xml.h:16
 msgid "_Copy"
-msgstr "복사하기(_C)"
+msgstr "복사(_C)"
 
 #: calendar/gui/e-calendar-table.c:966 calendar/gui/e-day-view.c:3710
 #: calendar/gui/e-day-view.c:3746 calendar/gui/e-week-view.c:3702
@@ -5276,7 +5277,7 @@ msgstr "복사하기(_C)"
 #: ui/evolution-calendar.xml.h:32 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-list.xml.h:29 ui/evolution-tasks.xml.h:20
 msgid "_Paste"
-msgstr "붙이기(_P)"
+msgstr "붙여 넣기(_P)"
 
 #: calendar/gui/e-calendar-table.c:970
 msgid "_Assign Task"
@@ -5446,7 +5447,7 @@ msgstr "설정(_S)..."
 #: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3724
 #: mail/folder-browser.c:1789 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
-msgstr "다른이름으로 저장(_S)..."
+msgstr "다른 이름으로 저장(_S)..."
 
 #: calendar/gui/e-day-view.c:3750 calendar/gui/e-week-view.c:3736
 #, fuzzy
@@ -11070,7 +11071,7 @@ msgstr ""
 "정규식 '%s'에서 에러:\n"
 "%s"
 
-#: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/mail-config.c:65
+#: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
 #: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1454
 msgid "Important"
 msgstr "중요"
@@ -11259,224 +11260,224 @@ msgid "Beep"
 msgstr "벨리즈"
 
 #: filter/libfilter-i18n.h:7
-msgid "Copy to Folder"
-msgstr "폴더로 복사"
-
-#: filter/libfilter-i18n.h:8
-msgid "Date received"
-msgstr "받은 날짜"
-
-#: filter/libfilter-i18n.h:9
-msgid "Date sent"
-msgstr "보낸 날짜"
-
-#: filter/libfilter-i18n.h:11
-msgid "Deleted"
-msgstr "지워짐"
-
-#: filter/libfilter-i18n.h:12
-msgid "Do Not Exist"
-msgstr "존재하지 않음"
-
-#: filter/libfilter-i18n.h:13
-msgid "Draft"
-msgstr "임시 보관함"
-
-#: filter/libfilter-i18n.h:14
-msgid "Exist"
-msgstr ""
-
-#: filter/libfilter-i18n.h:15
-msgid "Expression"
-msgstr "표현"
-
-#: filter/libfilter-i18n.h:16
-msgid "Follow Up"
-msgstr ""
-
-#: filter/libfilter-i18n.h:18 mail/folder-browser.c:1824
-#, fuzzy
-msgid "Label"
-msgstr "로렐"
-
-#: filter/libfilter-i18n.h:19
-msgid "Mailing list"
-msgstr "메일링 리스트"
-
-#: filter/libfilter-i18n.h:20
-msgid "Message Body"
-msgstr "메세지 본문"
-
-#: filter/libfilter-i18n.h:21
-msgid "Message Header"
-msgstr "메세지 머리말"
-
-#: filter/libfilter-i18n.h:22
-msgid "Move to Folder"
-msgstr "폴더로 이동"
-
-#: filter/libfilter-i18n.h:23
-#, fuzzy
-msgid "Pipe Message to Shell Command"
-msgstr "연락처로 메세지 보냄"
-
-#: filter/libfilter-i18n.h:24
-#, fuzzy
-msgid "Play Sound"
-msgstr "소리 연주:"
-
-#: filter/libfilter-i18n.h:25 mail/message-tag-followup.c:68
-msgid "Read"
-msgstr "읽음"
-
-#: filter/libfilter-i18n.h:26
-msgid "Recipients"
-msgstr "받는 사람"
-
-#: filter/libfilter-i18n.h:27
-msgid "Regex Match"
-msgstr ""
-
-#: filter/libfilter-i18n.h:28
-msgid "Replied to"
-msgstr "답장"
-
-#: filter/libfilter-i18n.h:29 filter/score-rule.c:184 filter/score-rule.c:186
-#: mail/message-list.etspec.h:10
-msgid "Score"
-msgstr ""
-
-#: filter/libfilter-i18n.h:30 mail/mail-callbacks.c:1820
-msgid "Sender"
-msgstr "보낸이"
-
-#: filter/libfilter-i18n.h:31
-msgid "Set Status"
-msgstr "상태 설정"
-
-#: filter/libfilter-i18n.h:32
-msgid "Shell Command"
-msgstr ""
-
-#: filter/libfilter-i18n.h:33
-msgid "Size (kB)"
-msgstr "크기 (kB)"
-
-#: filter/libfilter-i18n.h:34
-msgid "Source Account"
-msgstr ""
-
-#: filter/libfilter-i18n.h:35
-msgid "Specific header"
-msgstr ""
-
-#: filter/libfilter-i18n.h:37
-msgid "Stop Processing"
-msgstr ""
-
-#: filter/libfilter-i18n.h:38 mail/mail-format.c:937
-#: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
-msgid "Subject"
-msgstr "제목"
-
-#: filter/libfilter-i18n.h:39
-#, fuzzy
-msgid "Unset Status"
-msgstr "상태 설정"
-
-#: filter/libfilter-i18n.h:40
 msgid "contains"
 msgstr "포함"
 
-#: filter/libfilter-i18n.h:41
+#: filter/libfilter-i18n.h:8
+msgid "Copy to Folder"
+msgstr "폴더로 복사"
+
+#: filter/libfilter-i18n.h:9
+msgid "Date received"
+msgstr "받은 날짜"
+
+#: filter/libfilter-i18n.h:10
+msgid "Date sent"
+msgstr "보낸 날짜"
+
+#: filter/libfilter-i18n.h:12
+msgid "Deleted"
+msgstr "지워짐"
+
+#: filter/libfilter-i18n.h:13
 msgid "does not contain"
 msgstr "포함하지 않음"
 
-#: filter/libfilter-i18n.h:42
+#: filter/libfilter-i18n.h:14
 msgid "does not end with"
 msgstr "끝나지 않음"
 
-#: filter/libfilter-i18n.h:43
+#: filter/libfilter-i18n.h:15
 msgid "does not exist"
 msgstr "존재하지 않음"
 
-#: filter/libfilter-i18n.h:44
+#: filter/libfilter-i18n.h:16
 #, fuzzy
 msgid "does not return"
 msgstr "존재하지 않음"
 
-#: filter/libfilter-i18n.h:45
+#: filter/libfilter-i18n.h:17
 msgid "does not sound like"
 msgstr ""
 
-#: filter/libfilter-i18n.h:46
+#: filter/libfilter-i18n.h:18
 msgid "does not start with"
 msgstr "시작히지 않음"
 
-#: filter/libfilter-i18n.h:47
+#: filter/libfilter-i18n.h:19
+msgid "Do Not Exist"
+msgstr "존재하지 않음"
+
+#: filter/libfilter-i18n.h:20
+msgid "Draft"
+msgstr "임시 보관함"
+
+#: filter/libfilter-i18n.h:21
 msgid "ends with"
 msgstr ""
 
-#: filter/libfilter-i18n.h:48
+#: filter/libfilter-i18n.h:22
+msgid "Exist"
+msgstr ""
+
+#: filter/libfilter-i18n.h:23
 msgid "exists"
 msgstr ""
 
-#: filter/libfilter-i18n.h:49
-msgid "is Flagged"
+#: filter/libfilter-i18n.h:24
+msgid "Expression"
+msgstr "표현"
+
+#: filter/libfilter-i18n.h:25
+msgid "Follow Up"
 msgstr ""
 
-#: filter/libfilter-i18n.h:50
+#: filter/libfilter-i18n.h:27
+msgid "is"
+msgstr ""
+
+#: filter/libfilter-i18n.h:28
 #, fuzzy
 msgid "is after"
 msgstr "이후"
 
-#: filter/libfilter-i18n.h:51
+#: filter/libfilter-i18n.h:29
 #, fuzzy
 msgid "is before"
 msgstr "이전"
 
-#: filter/libfilter-i18n.h:52
+#: filter/libfilter-i18n.h:30
+msgid "is Flagged"
+msgstr ""
+
+#: filter/libfilter-i18n.h:31
 msgid "is greater than"
 msgstr "보다 큼"
 
-#: filter/libfilter-i18n.h:53
+#: filter/libfilter-i18n.h:32
 msgid "is less than"
 msgstr "보다 적음"
 
-#: filter/libfilter-i18n.h:54
-msgid "is not Flagged"
-msgstr ""
-
-#: filter/libfilter-i18n.h:55
+#: filter/libfilter-i18n.h:33
 msgid "is not"
 msgstr ""
 
-#: filter/libfilter-i18n.h:56
-msgid "is"
+#: filter/libfilter-i18n.h:34
+msgid "is not Flagged"
 msgstr ""
 
-#: filter/libfilter-i18n.h:57
+#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1824
 #, fuzzy
-msgid "returns greater than"
-msgstr "보다 큼"
+msgid "Label"
+msgstr "로렐"
 
-#: filter/libfilter-i18n.h:58
+#: filter/libfilter-i18n.h:36
+msgid "Mailing list"
+msgstr "메일링 리스트"
+
+#: filter/libfilter-i18n.h:37
+msgid "Message Body"
+msgstr "메세지 본문"
+
+#: filter/libfilter-i18n.h:38
+msgid "Message Header"
+msgstr "메세지 머리말"
+
+#: filter/libfilter-i18n.h:39
+msgid "Move to Folder"
+msgstr "폴더로 이동"
+
+#: filter/libfilter-i18n.h:40
 #, fuzzy
-msgid "returns less than"
-msgstr "보다 적음"
+msgid "Pipe Message to Shell Command"
+msgstr "연락처로 메세지 보냄"
 
-#: filter/libfilter-i18n.h:59
+#: filter/libfilter-i18n.h:41
+#, fuzzy
+msgid "Play Sound"
+msgstr "소리 연주:"
+
+#: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:68
+msgid "Read"
+msgstr "읽음"
+
+#: filter/libfilter-i18n.h:43
+msgid "Recipients"
+msgstr "받는 사람"
+
+#: filter/libfilter-i18n.h:44
+msgid "Regex Match"
+msgstr ""
+
+#: filter/libfilter-i18n.h:45
+msgid "Replied to"
+msgstr "답장"
+
+#: filter/libfilter-i18n.h:46
 #, fuzzy
 msgid "returns"
 msgstr "바쁨"
 
-#: filter/libfilter-i18n.h:60
+#: filter/libfilter-i18n.h:47
+#, fuzzy
+msgid "returns greater than"
+msgstr "보다 큼"
+
+#: filter/libfilter-i18n.h:48
+#, fuzzy
+msgid "returns less than"
+msgstr "보다 적음"
+
+#: filter/libfilter-i18n.h:49 filter/score-rule.c:184 filter/score-rule.c:186
+#: mail/message-list.etspec.h:10
+msgid "Score"
+msgstr ""
+
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1820
+msgid "Sender"
+msgstr "보낸이"
+
+#: filter/libfilter-i18n.h:51
+msgid "Set Status"
+msgstr "상태 설정"
+
+#: filter/libfilter-i18n.h:52
+msgid "Shell Command"
+msgstr ""
+
+#: filter/libfilter-i18n.h:53
+msgid "Size (kB)"
+msgstr "크기 (kB)"
+
+#: filter/libfilter-i18n.h:54
 msgid "sounds like"
 msgstr ""
 
-#: filter/libfilter-i18n.h:61
+#: filter/libfilter-i18n.h:55
+msgid "Source Account"
+msgstr ""
+
+#: filter/libfilter-i18n.h:56
+msgid "Specific header"
+msgstr ""
+
+#: filter/libfilter-i18n.h:57
 msgid "starts with"
 msgstr ""
+
+#: filter/libfilter-i18n.h:59
+msgid "Stop Processing"
+msgstr ""
+
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
+#: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
+msgid "Subject"
+msgstr "제목"
+
+#: filter/libfilter-i18n.h:61
+#, fuzzy
+msgid "Unset Status"
+msgstr "상태 설정"
 
 #: filter/rule-context.c:664 filter/rule-editor.c:241 filter/rule-editor.c:326
 #: mail/mail-vfolder.c:917
@@ -11760,7 +11761,7 @@ msgstr ""
 
 #: mail/component-factory.c:441
 msgid "Properties..."
-msgstr "설정..."
+msgstr "등록 정보..."
 
 #: mail/component-factory.c:441
 msgid "Change this folder's properties"
@@ -13087,28 +13088,28 @@ msgstr "그림 내려받는 중"
 msgid "Loading message content"
 msgstr "메시지 내용을 읽어 들임"
 
-#: mail/mail-display.c:1875
+#: mail/mail-display.c:1880
 msgid "Overdue:"
 msgstr ""
 
-#: mail/mail-display.c:1879
+#: mail/mail-display.c:1884
 #, fuzzy
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "%b %d %p %l:%M"
 
-#: mail/mail-display.c:2236
+#: mail/mail-display.c:2241
 msgid "Open Link in Browser"
 msgstr "브라우져에서 링크 열기"
 
-#: mail/mail-display.c:2237
+#: mail/mail-display.c:2242
 msgid "Copy Link Location"
 msgstr "링크위치 복사"
 
-#: mail/mail-display.c:2239
+#: mail/mail-display.c:2244
 msgid "Save Link as (FIXME)"
 msgstr "링크를 다른이름으로 저장 (고칠예정)"
 
-#: mail/mail-display.c:2241
+#: mail/mail-display.c:2246
 msgid "Save Image as..."
 msgstr "그림을 다른 이름으로 저장..."
 
@@ -13525,7 +13526,7 @@ msgstr "이 열쇠글 기억(_R)"
 #: mail/mail-session.c:285
 #, fuzzy
 msgid "_Remember this password for the remainder of this session"
-msgstr "이 세션에서 이 비밀번호를 기억"
+msgstr "이 세션에서 이 열쇠글을 기억"
 
 #: mail/mail-signature-editor.c:80
 #, fuzzy, c-format
@@ -27300,7 +27301,7 @@ msgstr "이 항목을 인쇄합니다"
 #: ui/evolution-contact-list-editor.xml.h:5
 #: ui/evolution-message-composer.xml.h:18
 msgid "Save _As..."
-msgstr "다른이름으로 저장(_A)..."
+msgstr "다른 이름으로 저장(_A)..."
 
 #: ui/evolution-comp-editor.xml.h:12 ui/evolution-contact-editor.xml.h:8
 #: ui/evolution-contact-list-editor.xml.h:6
@@ -27344,7 +27345,7 @@ msgstr "선택한 메세지를 다른 폴더로 복사합니다"
 
 #: ui/evolution-composer-entries.xml.h:2 ui/evolution-mail-list.xml.h:3
 msgid "Cu_t"
-msgstr "자르기(_T)"
+msgstr "잘라내기(_T)"
 
 #: ui/evolution-composer-entries.xml.h:3
 #, fuzzy
@@ -27603,7 +27604,7 @@ msgstr "선택 반전(_I)"
 
 #: ui/evolution-mail-list.xml.h:30
 msgid "_Properties..."
-msgstr "설정(_P)..."
+msgstr "등록 정보(_P)..."
 
 #: ui/evolution-mail-list.xml.h:31
 msgid "_Threaded Message List"
@@ -28096,7 +28097,7 @@ msgstr "저장"
 
 #: ui/evolution-message-composer.xml.h:17
 msgid "Save As"
-msgstr "다른이름으로 저장"
+msgstr "다른 이름으로 저장"
 
 #: ui/evolution-message-composer.xml.h:19
 msgid "Save _Draft"
@@ -28352,7 +28353,7 @@ msgstr "다른 폴더를 보임"
 
 #: ui/evolution.xml.h:14
 msgid "E_xit"
-msgstr "마침(_X)"
+msgstr "끝내기(_X)"
 
 #: ui/evolution.xml.h:15
 msgid "Evolution _Window"
