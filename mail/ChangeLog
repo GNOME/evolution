@@ -1,3 +1,9 @@
+2003-08-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (on_link_clicked): Don't pass cid: nor
+	thismessage: urls off to gnome_url_show(). See discussion of bug
+	#47541.
+
 2003-08-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (mail_send_message): Don't abort at the first failure

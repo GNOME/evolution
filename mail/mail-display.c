@@ -305,6 +305,10 @@ on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
 		send_to_url (url, NULL);
 	} else if (*url == '#') {
 		mail_display_jump_to_anchor (md, url);
+	} else if (!strncasecmp (url, "cid:", 4) != 0) {
+		/* FIXME: what do we do here? we can't pass to gnome_url_show() */
+	} else if (!strncasecmp (url, "thismessage:", 12)) {
+		/* FIXME: same as jump_to_anchor? */
 	} else {
 		GError *err = NULL;
 		
