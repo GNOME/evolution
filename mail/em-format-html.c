@@ -455,7 +455,6 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 	if (instream == NULL) {
 		char *proxy;
 
-		printf(" load http %d now=%d\n", job->format->load_http, job->format->load_http_now);
 
 		if (!(job->format->load_http_now
 		      || job->format->load_http == MAIL_CONFIG_HTTP_ALWAYS

@@ -2306,7 +2306,7 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config, EAccountSer
 	}
 	
 	if (CAMEL_PROVIDER_ALLOWS (gsvc->provider, CAMEL_URL_PART_AUTH) && url->user) {
-		if (gsvc->needs_auth && gtk_toggle_button_get_active(gsvc->needs_auth)) {
+		if (gsvc->needs_auth == NULL || gtk_toggle_button_get_active(gsvc->needs_auth)) {
 			CamelServiceAuthType *authtype;
 		
 			authtype = g_object_get_data(G_OBJECT(gsvc->authitem), "authtype");

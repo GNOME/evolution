@@ -1317,47 +1317,63 @@ em_utils_adjustment_page(GtkAdjustment *adj, gboolean down)
 
 /* ********************************************************************** */
 static char *emu_proxy_uri;
+static int emu_proxy_init = 0;
+static pthread_mutex_t emu_proxy_lock = PTHREAD_MUTEX_INITIALIZER;
 
 static void
-emu_set_proxy(GConfClient *client)
+emu_set_proxy(GConfClient *client, int needlock)
 {
-	char *server;
+	char *server, *uri = NULL;
 	int port;
 
-	if (!gconf_client_get_bool(client, "/system/http_proxy/use_http_proxy", NULL)) {
-		g_free(emu_proxy_uri);
-		emu_proxy_uri = NULL;
+	if (gconf_client_get_bool(client, "/system/http_proxy/use_http_proxy", NULL)) {
+		server = gconf_client_get_string(client, "/system/http_proxy/host", NULL);
+		port = gconf_client_get_int(client, "/system/http_proxy/port", NULL);
 
-		return;
-	}
+		if (server && server[0]) {
+			if (gconf_client_get_bool(client, "/system/http_proxy/use_authentication", NULL)) {
+				char *user = gconf_client_get_string(client, "/system/http_proxy/authentication_user", NULL);
+				char *pass = gconf_client_get_string(client, "/system/http_proxy/authentication_password", NULL);
 
-	/* TODO: Should lock ... */
-
-	server = gconf_client_get_string(client, "/system/http_proxy/host", NULL);
-	port = gconf_client_get_int(client, "/system/http_proxy/port", NULL);
-
-	if (server && server[0]) {
-		g_free(emu_proxy_uri);
-
-		if (gconf_client_get_bool(client, "/system/http_proxy/use_authentication", NULL)) {
-			char *user = gconf_client_get_string(client, "/system/http_proxy/authentication_user", NULL);
-			char *pass = gconf_client_get_string(client, "/system/http_proxy/authentication_password", NULL);
-
-			emu_proxy_uri = g_strdup_printf("http://%s:%s@%s:%d", user, pass, server, port);
-			g_free(user);
-			g_free(pass);
-		} else {
-			emu_proxy_uri = g_strdup_printf("http://%s:%d", server, port);
+				uri = g_strdup_printf("http://%s:%s@%s:%d", user, pass, server, port);
+				g_free(user);
+				g_free(pass);
+			} else {
+				uri = g_strdup_printf("http://%s:%d", server, port);
+			}
 		}
+
+		g_free(server);
 	}
 
-	g_free(server);
+	if (needlock)
+		pthread_mutex_lock(&emu_proxy_lock);
+
+	g_free(emu_proxy_uri);
+	emu_proxy_uri = uri;
+
+	if (needlock)
+		pthread_mutex_unlock(&emu_proxy_lock);
+
 }
 
 static void
 emu_proxy_changed(GConfClient *client, guint32 cnxn_id, GConfEntry *entry, gpointer user_data)
 {
-	emu_set_proxy(client);
+	emu_set_proxy(client, TRUE);
+}
+
+static void *
+emu_proxy_setup(void *data)
+{
+	GConfClient *client = gconf_client_get_default();
+
+	gconf_client_add_dir(client, "/system/http_proxy", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	gconf_client_notify_add(client, "/system/http_proxy", emu_proxy_changed, NULL, NULL, NULL);
+	emu_set_proxy(client, FALSE);
+	g_object_unref(client);
+
+	return NULL;
 }
 
 /**
@@ -1370,19 +1386,20 @@ emu_proxy_changed(GConfClient *client, guint32 cnxn_id, GConfEntry *entry, gpoin
 char *
 em_utils_get_proxy_uri(void)
 {
-	static int init;
+	char *uri;
 
-	if (!init) {
-		GConfClient *client = gconf_client_get_default();
+	pthread_mutex_lock(&emu_proxy_lock);
 
-		gconf_client_add_dir(client, "/system/http_proxy", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-		gconf_client_notify_add(client, "/system/http_proxy", emu_proxy_changed, NULL, NULL, NULL);
-		emu_set_proxy(client);
-		g_object_unref(client);
-		init = TRUE;
+	if (!emu_proxy_init) {
+		mail_call_main(MAIL_CALL_p_p, emu_proxy_setup, NULL);
+		emu_proxy_init = TRUE;
 	}
 
-	return g_strdup(emu_proxy_uri);
+	uri = g_strdup(emu_proxy_uri);
+
+	pthread_mutex_unlock(&emu_proxy_lock);
+
+	return uri;
 }
 
 /**

@@ -1,3 +1,32 @@
+2005-01-18  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #70768.
+
+	* em-folder-browser.c (emfb_mark_all_read): get the uid list from
+	the message-list (view) rather than folder (model).
+
+	* message-list.c (message_list_foreach): removed, no longer used.
+	(message_list_get_uids): new function replacing ml_foreach, get
+	visible uids's of messages.
+
+2005-01-18  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (emfh_gethttp): kill old 'load http 0 now=0' debug.
+
+	** See bug #70563.
+
+	* em-utils.c (emu_set_proxy, emu_proxy_setup)
+	(em_utils_get_proxy_uri): make sure the init code is called from
+	main thread (gconf usage), and add locking for data consistency.
+
+2005-01-08  Not Zed  <NotZed@Ximian.com>
+
+	* mail-account-gui.c (save_service): dont skip the authtype
+	setting if we don't have a needsauth widget at all (i.e. the store
+	page).
+
+	* em-folder-tree.c (emft_get_folder_info__desc): fix broken cast.
+
 2005-01-19  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #66943.

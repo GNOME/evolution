@@ -1700,7 +1700,7 @@ struct _EMFolderTreeGetFolderInfo {
 static char *
 emft_get_folder_info__desc(struct _mail_msg *mm, int done)
 {
-	struct _EMFolderTreeGetFolderInfo *m = (struct _get_folderinfo_msg *)mm;
+	struct _EMFolderTreeGetFolderInfo *m = (struct _EMFolderTreeGetFolderInfo *)mm;
 	char *ret, *name;
 
 	name = camel_service_get_name((CamelService *)m->store, TRUE);
