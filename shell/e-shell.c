@@ -745,6 +745,7 @@ init (EShell *shell)
 
 	priv->views = NULL;
 
+	priv->iid                    = NULL;
 	priv->local_directory        = NULL;
 	priv->storage_set            = NULL;
 	priv->local_storage          = NULL;
@@ -757,6 +758,7 @@ init (EShell *shell)
 	priv->offline_handler        = NULL;
 	priv->crash_type_names       = NULL;
 	priv->line_status            = E_SHELL_LINE_STATUS_ONLINE;
+	priv->db                     = CORBA_OBJECT_NIL;
 
 	shell->priv = priv;
 }

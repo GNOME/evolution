@@ -1,3 +1,9 @@
+2001-07-12  Dan Winship  <danw@ximian.com>
+
+	* e-shell.c (init): Initialize priv->db and priv->iid so that
+	destroy() won't crash if e_shell_construct bails out before
+	setting them. Reduces bug #4173 to #4169.
+
 2001-07-11  Iain Holmes  <iain@ximian.com>
 
 	* importers/intelligent.c (intelligent_importer_init): Sync the config
