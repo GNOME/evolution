@@ -1776,6 +1776,7 @@ cleanup_load_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 					  camel_folder_has_search_capability (input->
 									      fb->
 									      folder));
+		message_list_set_threaded(input->fb->message_list, mail_config_thread_list());
 		message_list_set_folder (input->fb->message_list, input->fb->folder);
 	}
 

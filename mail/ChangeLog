@@ -1,3 +1,42 @@
+2000-11-30  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-ops.c (cleanup_load_folder): Set threaded view before
+	setting the folder (cleanup some flash ons tartup).
+
+	* message-list.c (message_list_init): Initialise a mempool for uid
+	string storage.
+	(new_id_from_uid): Added messagelist arg, allocate strings from
+	uid_pool.
+	(new_id_from_subject): Same.  Fixed all callers.
+	(remove_node_diff): Dont free uid here.
+	(build_flat_diff): Nor here.
+	(clear_tree): Flush the mempool, rather than freeing the id's
+	directly.
+	(free_tree_ids): Removed, no longer required.
+	(free_tree_ids): Likewise.
+	(message_list_init): Dont connect to the table destroy signal
+	anymore to free the uid table.
+	(message_list_destroy): Free the uid pool here.
+	(*): Use accessors for messageid stuff.
+	(content_is_attachment): Removed, no longer required.
+	(ml_tree_value_at): Get the attachment flag directly from the
+	summary.
+	(ml_tree_value_at): For 'fake' nodes, try and do something better
+	than "?" for from, to, and size.
+	(subtree_size): New function, add up the total size of a subtree.
+	(subtree_earliest): Get the earliest date from a subtree.
+	(ml_tree_value_at): Return earliest date sent/received for fake
+	nodes.
+	(ml_tree_value_at): Return something to mark a fake subject line
+	as a fake subject, although i dont know, i guess this buggers up
+	sorting ...
+	(subtree_size): Check the info node is still there.
+	(subtree_earliest): Same here.
+	(subtree_unread): And here.  The info node might vanish if the
+	folder has changed/is changing and we try and redraw stuff while
+	its doing it.
+	(message_list_drag_data_get): Use accessors.
+
 2000-11-29  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c (message_list_drag_data_get): Implement.

@@ -55,8 +55,9 @@ struct _MessageList {
 	CamelFolder  *folder;
 
 	GHashTable	*uid_rowmap; /* key is the uid, value is the row number.
-					Note: The key string is owned by table_model */
-	
+					Note: The key string is owned by table_model (in uid_pool) */
+	struct _EMemPool *uid_pool; /* mempool to hold uid strings */
+
 	char *search;		/* current search string */
 
 	gboolean threaded;	/* are we displaying threaded view? */
