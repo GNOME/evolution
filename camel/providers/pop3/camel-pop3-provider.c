@@ -96,7 +96,7 @@ camel_provider_module_init (CamelSession *session)
 	pop3_provider.url_hash = camel_url_hash;
 	pop3_provider.url_equal = camel_url_equal;
 
-	pop3_provider.authtypes = g_list_concat(camel_remote_store_authtype_list(), camel_sasl_authtype_list(FALSE));
+	pop3_provider.authtypes = camel_sasl_authtype_list (FALSE);
 	auth = camel_sasl_authtype("LOGIN");
 	if (auth)
 		pop3_provider.authtypes = g_list_prepend(pop3_provider.authtypes, auth);

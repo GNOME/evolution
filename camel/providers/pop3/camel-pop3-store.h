@@ -34,7 +34,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <camel/camel-types.h>
-#include <camel/camel-remote-store.h>
+#include <camel/camel-store.h>
 #include "camel-pop3-engine.h"
 
 #define CAMEL_POP3_STORE_TYPE     (camel_pop3_store_get_type ())
@@ -44,7 +44,7 @@ extern "C" {
 
 
 typedef struct {
-	CamelRemoteStore parent_object;
+	CamelStore parent_object;
 
 	CamelPOP3Engine *engine; /* pop processing engine */
 
@@ -54,7 +54,7 @@ typedef struct {
 
 
 typedef struct {
-	CamelRemoteStoreClass parent_class;
+	CamelStoreClass parent_class;
 
 } CamelPOP3StoreClass;
 

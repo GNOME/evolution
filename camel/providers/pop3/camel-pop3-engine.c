@@ -44,7 +44,7 @@
 extern int camel_verbose_debug;
 #define dd(x) (camel_verbose_debug?(x):0)
 
-static void get_capabilities(CamelPOP3Engine *pe);
+static void get_capabilities(CamelPOP3Engine *pe, int read_greeting);
 
 static CamelObjectClass *parent_class = NULL;
 
@@ -96,6 +96,7 @@ camel_pop3_engine_get_type (void)
 
 /**
  * camel_pop3_engine_new:
+ * @source: source stream
  *
  * Returns a NULL stream.  A null stream is always at eof, and
  * always returns success for all reads and writes.
@@ -112,13 +113,28 @@ camel_pop3_engine_new(CamelStream *source)
 	pe->stream = (CamelPOP3Stream *)camel_pop3_stream_new(source);
 	pe->state = CAMEL_POP3_ENGINE_AUTH;
 
-	get_capabilities(pe);
+	get_capabilities(pe, TRUE);
 
 	return pe;
 }
 
+
+/**
+ * camel_pop3_engine_reget_capabilities:
+ * @engine: pop3 engine
+ *
+ * Regets server capabilities (needed after a STLS command is issued for example).
+ **/
+void
+camel_pop3_engine_reget_capabilities (CamelPOP3Engine *engine)
+{
+	g_return_if_fail (CAMEL_IS_POP3_ENGINE (engine));
+	
+	get_capabilities (engine, FALSE);
+}
+
+
 /* TODO: read implementation too?
-   STARTLS?
    etc? */
 struct {
 	char *cap;
@@ -128,6 +144,7 @@ struct {
 	{ "TOP" , CAMEL_POP3_CAP_TOP },
 	{ "UIDL", CAMEL_POP3_CAP_UIDL },
 	{ "PIPELINING", CAMEL_POP3_CAP_PIPE },
+	{ "STLS", CAMEL_POP3_CAP_STLS },  /* STARTTLS */
 };
 
 static void
@@ -171,25 +188,27 @@ cmd_capa(CamelPOP3Engine *pe, CamelPOP3Stream *stream, void *data)
 }
 
 static void
-get_capabilities(CamelPOP3Engine *pe)
+get_capabilities(CamelPOP3Engine *pe, int read_greeting)
 {
 	CamelPOP3Command *pc;
 	unsigned char *line, *apop, *apopend;
 	unsigned int len;
 	extern CamelServiceAuthType camel_pop3_password_authtype;
 	extern CamelServiceAuthType camel_pop3_apop_authtype;
-
-	/* first, read the greeting */
-	if (camel_pop3_stream_line(pe->stream, &line, &len) == -1
-	    || strncmp(line, "+OK", 3) != 0)
-		return;
-
-	if ((apop = strchr(line+3, '<'))
-	    && (apopend = strchr(apop, '>'))) {
-		apopend[1] = 0;
-		pe->apop = g_strdup(apop);
-		pe->capa = CAMEL_POP3_CAP_APOP;
-		pe->auth = g_list_append(pe->auth, &camel_pop3_apop_authtype);
+	
+	if (read_greeting) {
+		/* first, read the greeting */
+		if (camel_pop3_stream_line(pe->stream, &line, &len) == -1
+		    || strncmp(line, "+OK", 3) != 0)
+			return;
+		
+		if ((apop = strchr(line+3, '<'))
+		    && (apopend = strchr(apop, '>'))) {
+			apopend[1] = 0;
+			pe->apop = g_strdup(apop);
+			pe->capa = CAMEL_POP3_CAP_APOP;
+			pe->auth = g_list_append(pe->auth, &camel_pop3_apop_authtype);
+		}
 	}
 
 	pe->auth = g_list_prepend(pe->auth, &camel_pop3_password_authtype);

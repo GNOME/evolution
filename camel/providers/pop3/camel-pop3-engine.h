@@ -65,6 +65,7 @@ enum {
 	CAMEL_POP3_CAP_SASL = 1<<2,
 	CAMEL_POP3_CAP_TOP  = 1<<3,
 	CAMEL_POP3_CAP_PIPE = 1<<4,
+	CAMEL_POP3_CAP_STLS = 1<<5
 };
 
 typedef void (*CamelPOP3CommandFunc)(CamelPOP3Engine *pe, CamelPOP3Stream *stream, void *data);
@@ -114,6 +115,9 @@ struct _CamelPOP3EngineClass {
 guint		  camel_pop3_engine_get_type	(void);
 
 CamelPOP3Engine  *camel_pop3_engine_new		(CamelStream *source);
+
+void              camel_pop3_engine_reget_capabilities (CamelPOP3Engine *engine);
+
 void              camel_pop3_engine_command_free(CamelPOP3Engine *pe, CamelPOP3Command *pc);
 
 int 		  camel_pop3_engine_iterate	(CamelPOP3Engine *pe, CamelPOP3Command *pc);

@@ -42,7 +42,6 @@
 #include "camel-pop3-store.h"
 #include "camel-pop3-folder.h"
 #include "camel-stream-buffer.h"
-#include "camel-tcp-stream.h"
 #include "camel-session.h"
 #include "camel-exception.h"
 #include "camel-url.h"
@@ -50,11 +49,20 @@
 #include "camel-pop3-engine.h"
 #include "camel-sasl.h"
 #include "camel-data-cache.h"
+#include "camel-tcp-stream.h"
+#include "camel-tcp-stream-raw.h"
+#ifdef HAVE_NSS
+#include "camel-tcp-stream-ssl.h"
+#include <prnetdb.h>
+#endif
+#ifdef HAVE_OPENSSL
+#include "camel-tcp-stream-openssl.h"
+#endif
 
 /* Specified in RFC 1939 */
 #define POP3_PORT 110
 
-static CamelRemoteStoreClass *parent_class = NULL;
+static CamelStoreClass *parent_class = NULL;
 
 static void finalize (CamelObject *object);
 
@@ -76,9 +84,8 @@ camel_pop3_store_class_init (CamelPOP3StoreClass *camel_pop3_store_class)
 	CamelStoreClass *camel_store_class =
 		CAMEL_STORE_CLASS (camel_pop3_store_class);
 
-	parent_class = CAMEL_REMOTE_STORE_CLASS(camel_type_get_global_classfuncs 
-						(camel_remote_store_get_type ()));
-
+	parent_class = CAMEL_STORE_CLASS (camel_type_get_global_classfuncs (camel_store_get_type ()));
+	
 	/* virtual method overload */
 	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->connect = pop3_connect;
@@ -94,11 +101,7 @@ camel_pop3_store_class_init (CamelPOP3StoreClass *camel_pop3_store_class)
 static void
 camel_pop3_store_init (gpointer object, gpointer klass)
 {
-	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
-
-	remote_store->default_port = POP3_PORT;
-	/* FIXME: what should this port be?? */
-	remote_store->default_ssl_port = 995;
+	;
 }
 
 CamelType
@@ -107,7 +110,8 @@ camel_pop3_store_get_type (void)
 	static CamelType camel_pop3_store_type = CAMEL_INVALID_TYPE;
 
 	if (!camel_pop3_store_type) {
-		camel_pop3_store_type = camel_type_register (CAMEL_REMOTE_STORE_TYPE, "CamelPOP3Store",
+		camel_pop3_store_type = camel_type_register (CAMEL_STORE_TYPE,
+							     "CamelPOP3Store",
 							     sizeof (CamelPOP3Store),
 							     sizeof (CamelPOP3StoreClass),
 							     (CamelObjectClassInitFunc) camel_pop3_store_class_init,
@@ -135,20 +139,215 @@ finalize (CamelObject *object)
 		camel_object_unref((CamelObject *)pop3_store->cache);
 }
 
+enum {
+	USE_SSL_NEVER,
+	USE_SSL_ALWAYS,
+	USE_SSL_WHEN_POSSIBLE
+};
+
 static gboolean
-connect_to_server (CamelService *service, CamelException *ex)
+connect_to_server (CamelService *service, int ssl_mode, int try_starttls, int *stls_support, CamelException *ex)
 {
 	CamelPOP3Store *store = CAMEL_POP3_STORE (service);
-	gboolean result;
-
-  	result = CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex);
-
-	if (result == FALSE)
+	CamelStream *tcp_stream;
+	CamelPOP3Command *pc;
+	struct hostent *h;
+	int clean_quit;
+	int ret, port;
+	
+	h = camel_service_gethost (service, ex);
+	if (!h)
 		return FALSE;
-
-	store->engine = camel_pop3_engine_new(CAMEL_REMOTE_STORE(store)->ostream);
-
+	
+	port = service->url->port ? service->url->port : 110;
+	
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+	/* FIXME: check for "always" and "when-possible" to support STARTTLS */
+	if (camel_url_get_param (service->url, "use_ssl")) {
+		if (!try_starttls)
+			port = service->url->port ? service->url->port : 995;
+#ifdef HAVE_NSS
+		/* this is the preferred SSL implementation */
+		if (try_starttls)
+			tcp_stream = camel_tcp_stream_ssl_new_raw (service, service->url->host);
+		else
+			tcp_stream = camel_tcp_stream_ssl_new (service, service->url->host);
+#else
+		/* use openssl... */
+		if (try_starttls)
+			tcp_stream = camel_tcp_stream_openssl_new_raw (service, service->url->host);
+		else
+			tcp_stream = camel_tcp_stream_openssl_new (service, service->url->host);
+#endif /* HAVE_NSS */
+	} else {
+		tcp_stream = camel_tcp_stream_raw_new ();
+	}
+#else
+	tcp_stream = camel_tcp_stream_raw_new ();
+#endif /* HAVE_NSS || HAVE_OPENSSL */
+	
+	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
+	camel_free_host (h);
+	if (ret == -1) {
+		if (errno == EINTR)
+			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
+					     _("Connection cancelled"));
+		else
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      _("Could not connect to %s (port %d): %s"),
+					      service->url->host ? service->url->host : _("(unknown host)"),
+					      port, g_strerror (errno));
+		return FALSE;
+	}
+	
+	/* parent class connect initialization */
+	if (CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex) == FALSE) {
+		camel_object_unref (CAMEL_OBJECT (tcp_stream));
+		return FALSE;
+	}
+	
+	store->engine = camel_pop3_engine_new (tcp_stream);
+	
+	if (stls_support)
+		*stls_support = store->engine->capa & CAMEL_POP3_CAP_STLS;
+	
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+	if (store->engine) {
+		if (ssl_mode == USE_SSL_WHEN_POSSIBLE) {
+			if (store->engine->capa & CAMEL_POP3_CAP_STLS)
+				goto starttls;
+		} else if (ssl_mode == USE_SSL_ALWAYS) {
+			if (try_starttls) {
+				if (store->engine->capa & CAMEL_POP3_CAP_STLS) {
+				/* attempt to toggle STARTTLS mode */
+					goto starttls;
+				} else {
+				/* server doesn't support STARTTLS, abort */
+					camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+							      _("Failed to connect to POP server %s in secure mode: %s"),
+							      service->url->host, _("SSL/TLS extension not supported."));
+					/* we have the possibility of quitting cleanly here */
+					clean_quit = TRUE;
+					goto stls_exception;
+				}
+			}
+		}
+	}
+#endif /* HAVE_NSS || HAVE_OPENSSL */
+	
+	camel_object_unref (CAMEL_OBJECT (tcp_stream));
+	
 	return store->engine != NULL;
+	
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+ starttls:
+	/* as soon as we send a STLS command, all hope is lost of a clean QUIT if problems arise */
+	clean_quit = FALSE;
+	
+	pc = camel_pop3_engine_command_new (store->engine, 0, NULL, NULL, "STLS\r\n");
+	while (camel_pop3_engine_iterate (store->engine, NULL) > 0)
+		;
+	
+	ret = pc->state == CAMEL_POP3_COMMAND_OK;
+	camel_pop3_engine_command_free (store->engine, pc);
+	
+	if (ret == FALSE) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to connect to POP server %s in secure mode: %s"),
+				      service->url->host, store->engine->line);
+		goto stls_exception;
+	}
+	
+	/* Okay, now toggle SSL/TLS mode */
+#ifdef HAVE_NSS
+	ret = camel_tcp_stream_ssl_enable_ssl (CAMEL_TCP_STREAM_SSL (tcp_stream));
+#else /* HAVE_OPENSSL */
+	ret = camel_tcp_stream_openssl_enable_ssl (CAMEL_TCP_STREAM_OPENSSL (tcp_stream));
+#endif
+	
+	camel_object_unref (CAMEL_OBJECT (tcp_stream));
+	
+	if (ret == -1) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to connect to POP server %s in secure mode: %s"),
+				      service->url->host, _("SSL negotiations failed"));
+		goto stls_exception;
+	}
+	
+	/* rfc2595, section 4 states that after a successful STLS
+           command, the client MUST discard prior CAPA responses */
+	camel_pop3_engine_reget_capabilities (store->engine);
+	
+	return TRUE;
+	
+ stls_exception:
+	if (clean_quit) {
+		/* try to disconnect cleanly */
+		pc = camel_pop3_engine_command_new (store->engine, 0, NULL, NULL, "QUIT\r\n");
+		while (camel_pop3_engine_iterate (store->engine, NULL) > 0)
+			;
+		camel_pop3_engine_command_free (store->engine, pc);
+	}
+	
+	camel_object_unref (CAMEL_OBJECT (store->engine));
+	camel_object_unref (CAMEL_OBJECT (tcp_stream));
+	store->engine = NULL;
+	
+	return FALSE;
+#endif /* HAVE_NSS || HAVE_OPENSSL */
+}
+
+static struct {
+	char *value;
+	int mode;
+} ssl_options[] = {
+	{ "",              USE_SSL_ALWAYS        },
+	{ "always",        USE_SSL_ALWAYS        },
+	{ "when-possible", USE_SSL_WHEN_POSSIBLE },
+	{ "never",         USE_SSL_NEVER         },
+	{ NULL,            USE_SSL_NEVER         },
+};
+
+#define EXCEPTION_RETRY(ex) (camel_exception_get_id (ex) != CAMEL_EXCEPTION_USER_CANCEL && \
+			     camel_exception_get_id (ex) != CAMEL_EXCEPTION_SERVICE_UNAVAILABLE)
+
+static gboolean
+connect_to_server_wrapper (CamelService *service, CamelException *ex)
+{
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+	const char *use_ssl;
+	int stls_supported;
+	int i, ssl_mode;
+	
+	use_ssl = camel_url_get_param (service->url, "use_ssl");
+	if (use_ssl) {
+		for (i = 0; ssl_options[i].value; i++)
+			if (!strcmp (ssl_options[i].value, use_ssl))
+				break;
+		ssl_mode = ssl_options[i].mode;
+	} else
+		ssl_mode = USE_SSL_NEVER;
+	
+	if (ssl_mode == USE_SSL_ALWAYS) {
+		/* First try STARTTLS */
+		if (!connect_to_server (service, ssl_mode, TRUE, &stls_supported, ex) && 
+		    !stls_supported && EXCEPTION_RETRY (ex)) {
+			/* STARTTLS is unavailable - okay, now try old-style SSL */
+			camel_exception_clear (ex);
+			return connect_to_server (service, ssl_mode, FALSE, NULL, ex);
+		}
+		
+		return TRUE;
+	} else if (ssl_mode == USE_SSL_WHEN_POSSIBLE) {
+		/* If the server supports STARTTLS, use it */
+		return connect_to_server (service, ssl_mode, TRUE, NULL, ex);
+	} else {
+		/* User doesn't care about SSL */
+		return connect_to_server (service, ssl_mode, FALSE, NULL, ex);
+	}
+#else
+	return connect_to_server (service, USE_SSL_NEVER, FALSE, NULL, ex);
+#endif
 }
 
 extern CamelServiceAuthType camel_pop3_password_authtype;
@@ -162,15 +361,15 @@ query_auth_types (CamelService *service, CamelException *ex)
 
         types = CAMEL_SERVICE_CLASS (parent_class)->query_auth_types (service, ex);
 	if (camel_exception_is_set (ex))
-		return types;
+		return NULL;
 
-	if (connect_to_server (service, NULL)) {
+	if (connect_to_server_wrapper (service, NULL)) {
 		types = g_list_concat(types, g_list_copy(store->engine->auth));
 		pop3_disconnect (service, TRUE, NULL);
 	} else {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      _("Could not connect to POP server on "
-					"%s."), service->url->host);
+				      _("Could not connect to POP server on %s"),
+				      service->url->host);
 	}
 
 	return types;
@@ -341,7 +540,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 	char *errbuf = NULL;
 	gboolean tryagain;
 	CamelPOP3Store *store = (CamelPOP3Store *)service;
-
+	
 	if (store->cache == NULL) {
 		char *root;
 
@@ -357,7 +556,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 		}
 	}
 	
-	if (!connect_to_server (service, ex))
+	if (!connect_to_server_wrapper (service, ex))
 		return FALSE;
 	
 	camel_exception_clear (ex);
@@ -393,18 +592,18 @@ pop3_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 	
 	if (clean) {
 		CamelPOP3Command *pc;
-
+		
 		pc = camel_pop3_engine_command_new(store->engine, 0, NULL, NULL, "QUIT\r\n");
 		while (camel_pop3_engine_iterate(store->engine, NULL) > 0)
 			;
 		camel_pop3_engine_command_free(store->engine, pc);
 	}
-
-	camel_object_unref((CamelObject *)store->engine);
-	store->engine = NULL;
 	
 	if (!CAMEL_SERVICE_CLASS (parent_class)->disconnect (service, clean, ex))
 		return FALSE;
+	
+	camel_object_unref((CamelObject *)store->engine);
+	store->engine = NULL;
 	
 	return TRUE;
 }

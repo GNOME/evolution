@@ -1,3 +1,21 @@
+2002-03-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/pop3/camel-pop3-provider.c
+	(camel_provider_module_init): Don't call
+	camel_remote_store_get_authtypes since we no longer subclass
+	camel-remote-store.
+
+	* providers/pop3/camel-pop3-engine.c: Added STARTTLS to the
+	capabilities to look for.
+	(camel_pop3_engine_reget_capabilities): New function to re-get
+	capabilities.
+
+	* providers/pop3/camel-pop3-store.c: Updated to not subclass
+	CamelRemoteStore.
+	(connect_to_server): Rewritten to not depend on CamelRemoteStore's
+	connect implementation. Also added support for STLS (aka
+	STARTTLS).
+
 2002-03-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-mime.c (camel_pgp_mime_part_sign): Add support for
