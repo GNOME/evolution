@@ -1,3 +1,9 @@
+2004-08-27  Hans Petter Jansson  <hpj@ximian.com>
+
+	* em-utils.c (emu_can_save): Don't crash if we're passed a NULL
+	path. GtkFileChooser can return NULL filenames that get passed
+	to this function.
+
 2004-08-26  Christian Neumair  <chris@gnome-de.org>
 
 	* GNOME_Evolution_Mail.server.in.in:

@@ -369,7 +369,7 @@ emu_can_save(GtkWindow *parent, const char *path)
 {
 	struct stat st;
 	
-	if (path[0] == 0)
+	if (!path || path[0] == 0)
 		return FALSE;
 
 	/* make sure we can actually save to it... */
