@@ -1,3 +1,14 @@
+2002-07-09  Peter Williams  <peterw@ximian.com>
+
+	* libversit/Makefile.am (privlib_LIBRARIES): Install libversit.a so
+	that people compiling against the addressbook can do so successfully.
+
+	* Makefile.am: create our *Conf.sh files and dist them and install
+	them.
+
+	* configure.in: Define and subst some variables that the Conf.sh
+	file need.
+	
 2002-07-10  Peter Williams  <peterw@ximian.com>
 
 	* configure.in (privlibdir): Define a versioned library directory that we can

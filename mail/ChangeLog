@@ -1,3 +1,7 @@
+2002-07-08  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am: Reference the new libefilterbar.a.
+
 2002-07-17  Radek Doulik  <rodo@ximian.com>
 
 	* mail-callbacks.c (save_draft_done): use "saved" gtkhtml command

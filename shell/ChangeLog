@@ -25,6 +25,12 @@
 
 2002-07-12  Peter Williams  <peterw@ximian.com>
 
+	* Makefile.am (INCLUDES): Add -I$(builddir)/libical/src/libical
+	for the generated ical.h (some headers rely on this because
+	they too get installed.)
+ 
+2002-07-12  Peter Williams  <peterw@ximian.com>
+
 	* Makefile.am (eshellinclude_HEADERS): Install some headers
 	that weren't getting installed.
 

@@ -27,10 +27,10 @@
 #include <libgnome/gnome-defs.h>
 #include <cal-util/cal-util.h>
 #include <cal-util/cal-component.h>
-#include "evolution-calendar.h"
-#include "cal-common.h"
-#include "cal.h"
-#include "query.h"
+#include "pcs/evolution-calendar.h"
+#include "pcs/cal-common.h"
+#include "pcs/cal.h"
+#include "pcs/query.h"
 
 BEGIN_GNOME_DECLS
 

@@ -1,3 +1,8 @@
+2002-07-03  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am: Install libeutil, libeconduit, and libedb3util and
+	their headers.
+	
 2002-07-15  Not Zed  <NotZed@Ximian.com>
 
 	* e-sexp.c (term_eval_caststring): Cast to a string type.

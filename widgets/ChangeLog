@@ -1,3 +1,14 @@
+2002-07-09  Peter Williams  <peterw@ximian.com>
+
+	* e-timezone-dialog/Makefile.am: Add -I$(top_builddir)/libical/src/libical;
+	some headers that we rely on get installed, so they point to the ical.h that
+	gets generated and installed; consequently we need to be able to find the
+	generated ical.h
+
+	* misc/Makefile.am: Install libemiscwidgets.a and its headers. However,
+	break EFilterBar into a separate libefilterbar.a because we don't want
+	the installed library to depend on libfilter.
+
 2002-07-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-timezone-dialog/e-timezone-dialog.c (e_timezone_dialog_init):

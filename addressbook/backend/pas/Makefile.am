@@ -1,8 +1,11 @@
-CORBA_SOURCE =						\
-	addressbook.h					\
+CORBA_SOURCE_H = addressbook.h
+
+CORBA_SOURCE_C =					\
 	addressbook-common.c				\
 	addressbook-stubs.c				\
 	addressbook-skels.c
+
+CORBA_SOURCE = $(CORBA_SOURCE_H) $(CORBA_SOURCE_C)
 
 idls =							\
 	$(srcdir)/../idl/addressbook.idl
@@ -25,35 +28,45 @@ INCLUDES =						\
 LDAP_SCHEMA =						\
 	evolutionperson.schema
 
-LDAP_BACKEND_FILES = pas-backend-ldap.c pas-backend-ldap.h
+LDAP_BACKEND_FILES_C = pas-backend-ldap.c
+LDAP_BACKEND_FILES_H = pas-backend-ldap.h
 
 if ENABLE_LDAP
-LDAP_BACKEND = $(LDAP_BACKEND_FILES)
+LDAP_BACKEND_C = $(LDAP_BACKEND_FILES_C)
+LDAP_BACKEND_H = $(LDAP_BACKEND_FILES_H)
 else
-LDAP_BACKEND = 
+LDAP_BACKEND_C = 
+LDAP_BACKEND_H =
 endif
 
-noinst_LIBRARIES = libpas.a
+privlib_LIBRARIES = libpas.a
+
+pasincludedir = $(includedir)/evolution/pas
+
+pasinclude_HEADERS =					\
+	$(CORBA_SOURCE_H)				\
+	pas-book-factory.h				\
+	pas-book-view.h					\
+	pas-book.h					\
+	pas-backend-card-sexp.h				\
+	pas-backend-file.h				\
+	$(LDAP_BACKEND_H)				\
+	pas-backend.h					\
+	pas-backend-summary.h				\
+	pas-card-cursor.h
 
 libpas_a_SOURCES =					\
-	$(CORBA_SOURCE)					\
+	$(pasinclude_HEADERS)				\
+	$(CORBA_SOURCE_C)				\
 	pas-book-factory.c				\
-	pas-book-factory.h				\
 	pas-book-view.c					\
-	pas-book-view.h					\
 	pas-book.c					\
-	pas-book.h					\
 	pas-backend-card-sexp.c				\
-	pas-backend-card-sexp.h				\
 	pas-backend-file.c				\
-	pas-backend-file.h				\
-	$(LDAP_BACKEND)					\
+	$(LDAP_BACKEND_C)				\
 	pas-backend.c					\
-	pas-backend.h					\
 	pas-backend-summary.c				\
-	pas-backend-summary.h				\
-	pas-card-cursor.c				\
-	pas-card-cursor.h
+	pas-card-cursor.c
 
 BUILT_SOURCES = $(CORBA_SOURCE)
 CLEANFILES = $(BUILT_SOURCES)
@@ -61,4 +74,4 @@ CLEANFILES = $(BUILT_SOURCES)
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-EXTRA_DIST = $(LDAP_BACKEND_FILES) $(LDAP_SCHEMA)
+EXTRA_DIST = $(LDAP_BACKEND_FILES_C) $(LDAP_BACKEND_FILES_H) $(LDAP_SCHEMA)

@@ -17,6 +17,7 @@ INCLUDES =						\
 #
 
 lib_LTLIBRARIES = libcal-util.la
+privlib_LTLIBRARIES = libcal-util-static.la
 
 libcal_util_la_SOURCES = 	\
 	cal-component.c		\
@@ -35,9 +36,9 @@ libcal_utilinclude_HEADERS =	\
 #
 # static library for use in conduits' shared libraries
 #
-noinst_LTLIBRARIES = libcal-util-static.la
+#lib_LTLIBRARIES = libcal-util-static.la
 libcal_util_static_la_SOURCES = $(libcal_util_la_SOURCES)
-libcal_util_static_la_LDFLAGS = --all-static
+libcal_util_static_la_LDFLAGS = -all-static
 
 test_recur_SOURCES = 	\
 	 test-recur.c

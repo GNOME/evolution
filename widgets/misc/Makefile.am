@@ -9,46 +9,57 @@ INCLUDES =						\
 	-DG_LOG_DOMAIN=__FILE__				\
 	$(GNOME_FULL_CFLAGS)
 
-noinst_LIBRARIES =	\
+privlib_LIBRARIES =	\
 	libemiscwidgets.a
 
-libemiscwidgets_a_SOURCES = 	\
-	e-bonobo-widget.c	\
+widgetsincludedir = $(includedir)/evolution/widgets
+
+widgetsinclude_HEADERS = 	\
 	e-bonobo-widget.h	\
-	e-calendar.c		\
 	e-calendar.h		\
-	e-calendar-item.c	\
 	e-calendar-item.h	\
-	e-cell-date-edit.c	\
 	e-cell-date-edit.h	\
-	e-cell-percent.c	\
 	e-cell-percent.h	\
-	e-charset-picker.c	\
 	e-charset-picker.h	\
-	e-clipped-label.c	\
 	e-clipped-label.h	\
-	e-config-page.c		\
 	e-config-page.h		\
-	e-combo-button.c	\
 	e-combo-button.h	\
-	e-dateedit.c		\
 	e-dateedit.h		\
-	e-dropdown-button.c	\
 	e-dropdown-button.h	\
-	e-filter-bar.c		\
-	e-filter-bar.h		\
-	e-map.c			\
 	e-map.h			\
-	e-messagebox.c		\
 	e-messagebox.h		\
-	e-multi-config-dialog.c \
 	e-multi-config-dialog.h \
-	e-search-bar.c		\
 	e-search-bar.h		\
-	e-title-bar.c		\
 	e-title-bar.h		\
-	e-url-entry.c		\
 	e-url-entry.h
+
+libemiscwidgets_a_SOURCES = 	\
+	$(widgetsinclude_HEADERS) \
+	e-bonobo-widget.c	\
+	e-calendar.c		\
+	e-calendar-item.c	\
+	e-cell-date-edit.c	\
+	e-cell-percent.c	\
+	e-charset-picker.c	\
+	e-clipped-label.c	\
+	e-config-page.c		\
+	e-combo-button.c	\
+	e-dateedit.c		\
+	e-dropdown-button.c	\
+	e-map.c			\
+	e-messagebox.c		\
+	e-multi-config-dialog.c \
+	e-search-bar.c		\
+	e-title-bar.c		\
+	e-url-entry.c
+
+libemiscwidgets_a_LIBADD = $(top_builddir)/e-util/libeutil.la
+
+noinst_LIBRARIES = libefilterbar.a
+
+libefilterbar_a_SOURCES =	\
+	e-filter-bar.c		\
+	e-filter-bar.h
 
 noinst_PROGRAMS = 			\
 	test-calendar			\

@@ -1,6 +1,7 @@
 INCLUDES =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/libical/src/libical		\
+	-I$(top_builddir)/libical/src/libical		\
 	-DMAP_DIR=\""$(datadir)/images/evolution"\"	\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DG_LOG_DOMAIN=__FILE__				\

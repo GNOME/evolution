@@ -2,6 +2,7 @@ INCLUDES =						\
 	-DG_LOG_DOMAIN=\"wombat-pcs\"			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/calendar			\
+	-I$(top_builddir)/calendar			\
 	-I$(top_srcdir)/libical/src/libical		\
 	-I$(top_builddir)/libical/src/libical		\
 	-I$(top_srcdir)/libwombat			\
@@ -9,11 +10,15 @@ INCLUDES =						\
         -DGNOMELOCALEDIR=\""$(localedir)"\"		\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-CORBA_GENERATED =				\
-	evolution-calendar.h			\
+CORBA_GENERATED_H =				\
+	evolution-calendar.h
+
+CORBA_GENERATED_C =				\
 	evolution-calendar-common.c		\
 	evolution-calendar-skels.c		\
 	evolution-calendar-stubs.c
+
+CORBA_GENERATED = $(CORBA_GENERATED_H) $(CORBA_GENERATED_C)
 
 idls =						\
 	$(srcdir)/../idl/evolution-calendar.idl
@@ -23,26 +28,31 @@ idl_flags = -I $(srcdir) `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
 $(CORBA_GENERATED): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(srcdir)/../idl/evolution-calendar.idl
 
-noinst_LIBRARIES = libpcs.a
+pcsincludedir = $(includedir)/evolution/pcs
 
-libpcs_a_SOURCES =		\
-	$(CORBA_GENERATED)	\
-	cal.c			\
+privlib_LIBRARIES = libpcs.a
+
+pcsinclude_HEADERS = 		\
+	$(CORBA_GENERATED_H)	\
 	cal.h			\
-	cal-backend.c		\
 	cal-backend.h		\
-	cal-backend-file.c	\
 	cal-backend-file.h	\
-	cal-backend-util.c	\
 	cal-backend-util.h	\
 	cal-common.h		\
-	cal-factory.c		\
 	cal-factory.h		\
-	job.c			\
 	job.h			\
-	query.c			\
 	query.h
 
+libpcs_a_SOURCES =		\
+	$(pcsinclude_HEADERS)	\
+	$(CORBA_GENERATED_C)	\
+	cal.c			\
+	cal-backend.c		\
+	cal-backend-file.c	\
+	cal-backend-util.c	\
+	cal-factory.c		\
+	job.c			\
+	query.c
 
 BUILT_SOURCES = $(CORBA_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)

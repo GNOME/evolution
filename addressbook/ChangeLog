@@ -30,6 +30,14 @@
 
 2002-07-08  Peter Williams  <peterw@ximian.com>
 
+	* backend/ebook/Makefile.am: Install libebook-static.la. 
+	Also change --all-static to -all-static, which is the right flag.
+	
+	* backend/pas/Makefile.am: Install the PAS headers in 
+	$(includedir)/evolution/pas. Install libpas.a
+
+2002-07-08  Peter Williams  <peterw@ximian.com>
+
 	* gui/component/select-names/Makefile.am (idl_DATA): Install the
 	SelectNames IDL and ancillary changes.
 

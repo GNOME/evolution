@@ -37,7 +37,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/shell				\
         $(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-lib_LTLIBRARIES = libebook.la
+privlib_LTLIBRARIES = libebook.la libebook-static.la
 
 libebook_la_SOURCES =					\
 	$(CORBA_SOURCE)					\
@@ -73,10 +73,8 @@ libebookinclude_HEADERS =				\
 #
 # make a static library for use by addressbook's conduit's shared library
 #
-noinst_LTLIBRARIES = libebook-static.la
 libebook_static_la_SOURCES = $(libebook_la_SOURCES)
-libebook_static_la_LDFLAGS = --all-static
-
+libebook_static_la_LDFLAGS = -all-static
 
 test_client_SOURCES =					\
 	test-client.c

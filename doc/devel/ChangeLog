@@ -1,3 +1,11 @@
+2002-07-17  Peter Williams  <peterw@ximian.com>
+
+	* calendar/cal-util/Makefile.am (GTKDOC_LIBS): Because we're
+	using libtool as our LD, we can reference .la's and libtool
+	will DTRT for us.
+
+	* calendar/cal-client/Makefile.am (GTKDOC_LIBS): Same here.
+
 2002-03-19  Dan Winship  <danw@ximian.com>
 
 	* calendar/cal-util/Makefile.am (GTKDOC_LIBS): Update for

@@ -1225,6 +1225,20 @@ AM_CONDITIONAL(HAVE_KDE_APPLNK, test x"$KDE_APPLNK_DIR" != x)
 AC_SUBST(KDE_APPLNK_DIR)
 
 dnl ******************************
+dnl foo for *Conf.sh.in
+dnl ******************************
+
+EVOLUTION_LIBDIR="-L${libdir}"
+EVOLUTION_DATADIR="${datadir}"
+EVOLUTION_INCLUDEDIR="-I${includedir}/evolution"
+CAMEL_INCLUDEDIR="-I${includedir}/camel"
+
+AC_SUBST(EVOLUTION_LIBDIR)
+AC_SUBST(EVOLUTION_DATADIR)
+AC_SUBST(EVOLUTION_INCLUDEDIR)
+AC_SUBST(CAMEL_INCLUDEDIR)
+
+dnl ******************************
 dnl Makefiles
 dnl ******************************
 

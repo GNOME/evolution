@@ -24,7 +24,7 @@
 #define CAL_BACKEND_UTIL_H
 
 #include <bonobo-conf/bonobo-config-database.h>
-#include <cal-backend.h>
+#include <pcs/cal-backend.h>
 
 BEGIN_GNOME_DECLS
 

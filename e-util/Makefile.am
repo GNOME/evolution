@@ -2,6 +2,10 @@ SUBDIRS = . ename
 
 imagesdir = $(datadir)/images/evolution
 
+eutilincludedir = $(includedir)/evolution/e-util
+econdincludedir = $(includedir)/evolution/e-conduit
+edb3includedir = $(includedir)/evolution/e-db3util
+
 INCLUDES =								\
 	-I$(top_srcdir)							\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
@@ -11,73 +15,78 @@ INCLUDES =								\
 	$(PISOCK_CFLAGS)						\
 	$(E_UTIL_CFLAGS)
 
-noinst_LTLIBRARIES = libeutil.la libeutil-static.la \
-	libeconduit.la libeconduit-static.la \
-	libedb3util.la
+privlib_LTLIBRARIES = libeutil.la libedb3util.la libeconduit.la
+noinst_LTLIBRARIES = libeutil-static.la libeconduit-static.la
+
+eutilinclude_HEADERS = 				\
+	e-bonobo-factory-util.h			\
+	e-categories-master-list-wombat.h	\
+	e-categories-config.h			\
+	e-corba-utils.h				\
+	e-dialog-utils.h			\
+	e-dialog-widgets.h			\
+	e-gtk-utils.h				\
+	e-gui-utils.h				\
+	e-host-utils.h				\
+	e-html-utils.h				\
+	e-iterator.h				\
+	e-lang-utils.h				\
+	e-list-iterator.h			\
+	e-list.h				\
+	e-memory.h				\
+	e-mktemp.h				\
+	e-msgport.h				\
+	e-passwords.h				\
+	e-path.h				\
+	e-request.h				\
+	e-sexp.h				\
+	e-time-utils.h				\
+	e-url.h					\
+	md5-utils.h
 
 libeutil_la_SOURCES =				\
+	$(eutilinclude_HEADERS)			\
 	e-bonobo-factory-util.c			\
-	e-bonobo-factory-util.h			\
 	e-categories-master-list-wombat.c	\
-	e-categories-master-list-wombat.h	\
 	e-categories-config.c			\
-	e-categories-config.h			\
 	e-corba-utils.c				\
-	e-corba-utils.h				\
 	e-dialog-utils.c			\
-	e-dialog-utils.h			\
 	e-dialog-widgets.c			\
-	e-dialog-widgets.h			\
 	e-gtk-utils.c				\
-	e-gtk-utils.h				\
 	e-gui-utils.c				\
-	e-gui-utils.h				\
 	e-host-utils.c				\
-	e-host-utils.h				\
 	e-html-utils.c				\
-	e-html-utils.h				\
 	e-iterator.c				\
-	e-iterator.h				\
 	e-lang-utils.c				\
-	e-lang-utils.h				\
 	e-list-iterator.c			\
-	e-list-iterator.h			\
 	e-list.c				\
-	e-list.h				\
 	e-memory.c				\
-	e-memory.h				\
 	e-mktemp.c				\
-	e-mktemp.h				\
 	e-msgport.c				\
-	e-msgport.h				\
 	e-passwords.c				\
-	e-passwords.h				\
 	e-path.c				\
-	e-path.h				\
 	e-request.c				\
-	e-request.h				\
 	e-sexp.c				\
-	e-sexp.h				\
 	e-time-utils.c				\
-	e-time-utils.h				\
 	e-url.c					\
-	e-url.h					\
-	md5-utils.c				\
-	md5-utils.h
+	md5-utils.c
 
 libeutil_la_LIBADD = $(E_UTIL_LIBS)
 
 libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
 libeutil_static_la_LIBADD  = $(libeutil_la_LIBADD)
-libeutil_static_la_LDFLAGS = --all-static
+libeutil_static_la_LDFLAGS = -all-static
+
+econdinclude_HEADERS =		\
+	e-pilot-map.h		\
+	e-pilot-settings.h	\
+	e-pilot-util.h
 
 pilot_sources = \
+	$(econdinclude_HEADERS)	\
 	e-pilot-map.c		\
-	e-pilot-map.h		\
 	e-pilot-settings.c	\
-	e-pilot-settings.h	\
-	e-pilot-util.c		\
-	e-pilot-util.h
+	e-pilot-util.c
 
 if ENABLE_PILOT_CONDUITS
 pilot_compile = $(pilot_sources)
@@ -88,12 +97,15 @@ endif
 libeconduit_la_SOURCES = $(pilot_compile)
 
 libeconduit_static_la_SOURCES = $(libeconduit_la_SOURCES)
-libeconduit_static_la_LDFLAGS = --all-static
+libeconduit_static_la_LDFLAGS = -all-static
 
 EXTRA_DIST = $(pilot_sources)
 
-libedb3util_la_SOURCES =		\
-	e-db3-utils.c			\
+edb3include_HEADERS =			\
 	e-db3-utils.h			\
-	e-dbhash.c			\
 	e-dbhash.h
+
+libedb3util_la_SOURCES =		\
+	$(edb3include_HEADERS)		\
+	e-db3-utils.c			\
+	e-dbhash.c

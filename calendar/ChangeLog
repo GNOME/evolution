@@ -1,3 +1,19 @@
+2002-07-08  Peter Williams  <peterw@ximian.com>
+
+	* cal-util/Makefile.am: Install libcal-util-static.la
+	and fix the -all-static flag to make it install statically.
+	
+	* pcs/Makefile.am: Install libpcs.a and its headers.
+
+	* pcs/cal-backend-util.h: Same sort of include namespacing fix,
+	but for pcs.
+
+	* pcs/cal.h:
+	* pcs/query.h:
+	* pcs/cal-factory.h:
+	* pcs/cal-backend.h:
+	* pcs/cal-backend-file.h: Same.
+
 2002-07-17    <jpr@ximian.com>
 
 	* gui/calendar-model.c (calendar_model_value_at): use util

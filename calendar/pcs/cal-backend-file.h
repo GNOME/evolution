@@ -23,7 +23,7 @@
 #define CAL_BACKEND_FILE_H
 
 #include <libgnome/gnome-defs.h>
-#include "cal-backend.h"
+#include "pcs/cal-backend.h"
 
 BEGIN_GNOME_DECLS
 
