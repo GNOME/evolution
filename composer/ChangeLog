@@ -1,4 +1,4 @@
-2000-07-28  JP Rosevear  <jpr@arcavia.com>
+2000-07-28  JP Rosevear  <jpr@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_sig_file): New
 	function to create composer with sig file set.
