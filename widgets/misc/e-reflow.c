@@ -370,9 +370,7 @@ item_removed (EReflowModel *model, int i, EReflow *reflow)
 static void
 items_inserted (EReflowModel *model, int position, int count, EReflow *reflow)
 {
-	int i, c;
-	int oldcount;
-	int lowest_column;
+	int i, oldcount;
 
 	if (position < 0 || position > reflow->count)
 		return;

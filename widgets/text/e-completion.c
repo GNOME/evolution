@@ -56,7 +56,9 @@ static void e_completion_dispose    (GObject *object);
 
 static void     e_completion_add_match          (ECompletion *complete, ECompletionMatch *);
 static void     e_completion_clear_matches      (ECompletion *complete);
+#if 0
 static gboolean e_completion_sort               (ECompletion *complete);
+#endif
 
 #define PARENT_TYPE GTK_TYPE_OBJECT
 static GtkObjectClass *parent_class;
@@ -266,6 +268,7 @@ e_completion_new (void)
 	return E_COMPLETION (g_object_new (E_COMPLETION_TYPE, NULL));
 }
 
+#if 0
 static gboolean
 e_completion_sort (ECompletion *complete)
 {
@@ -296,6 +299,7 @@ e_completion_sort (ECompletion *complete)
 
 	return diff;
 }
+#endif
 
 void
 e_completion_found_match (ECompletion *complete, ECompletionMatch *match)

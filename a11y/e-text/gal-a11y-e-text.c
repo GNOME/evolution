@@ -7,6 +7,7 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include "gal-a11y-e-text.h"
 #include "gal-a11y-util.h"
 #include <atk/atkobject.h>
@@ -113,7 +114,7 @@ et_get_text (AtkText *text,
         gint start, end, real_start, real_end, len;
 	const char *full_text = et_get_full_text (text);
         if (full_text == NULL)
-                return;
+                return NULL;
         len = g_utf8_strlen (full_text, -1);
 
         start = MIN (MAX (0, start_offset), len);
@@ -333,7 +334,7 @@ et_get_text_after_offset (AtkText *text,
 		start = find_line_end (full_text, offset + 1, 1);
 		end = find_line_end (full_text, start + 1, 1);
 		break;
-	defalut:
+	default:
 		return NULL;
 	}
 
@@ -386,7 +387,7 @@ et_get_text_at_offset (AtkText *text,
 		start = find_line_end (full_text, offset, -1);
                 end = find_line_end (full_text, offset + 1, 1);
  		break;
-	defalut:
+	default:
 		return NULL;
 	}
 
@@ -519,8 +520,6 @@ et_get_character_extents (AtkText *text,
         gint x_widget, y_widget, x_window, y_window;
         GdkWindow *window;
         GtkWidget *widget;
-        int index;
-        int trailing;
 	PangoRectangle pango_pos;
 
         g_return_if_fail (ATK_IS_GOBJECT_ACCESSIBLE(text));
@@ -769,7 +768,6 @@ et_set_selection (AtkText *text,
 {
 	GObject *obj;
 	EText *etext;
-	int offset;
 
 	g_return_val_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text), FALSE);
 	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
@@ -1008,6 +1006,8 @@ _et_command_cb (ETextEventProcessor *tep,
 		break;
 	case E_TEP_SELECT:
 		g_signal_emit_by_name (text, "text-selection-changed");
+		break;
+	default:
 		break;
 	}
 }

@@ -144,6 +144,7 @@ static void e_text_insert(EText *text, const char *string);
 
 static void reset_layout_attrs (EText *text);
 
+#if 0
 /* GtkEditable Methods */
 static void e_text_editable_do_insert_text (GtkEditable    *editable,
 					    const gchar    *text,
@@ -164,7 +165,8 @@ static gboolean e_text_editable_get_selection_bounds (GtkEditable    *editable,
 static void e_text_editable_set_position (GtkEditable    *editable,
 					  gint            position);
 static gint e_text_editable_get_position (GtkEditable    *editable);
-				   
+#endif
+			   
 /* IM Context Callbacks */
 static void     e_text_commit_cb               (GtkIMContext *context,
 						const gchar  *str,
@@ -185,7 +187,7 @@ static GdkAtom clipboard_atom = GDK_NONE;
 
 /* Dispose handler for the text item */
 
-
+#if 0
 static void
 e_text_style_set (EText *text, GtkStyle *previous_style)
 {
@@ -196,6 +198,7 @@ e_text_style_set (EText *text, GtkStyle *previous_style)
 	}
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (text));
 }
+#endif
 
 static void
 e_text_dispose (GObject *object)
@@ -1910,7 +1913,6 @@ _do_tooltip (gpointer data)
 {
 #warning "need to sort out tooltip stuff."
 	EText *text = E_TEXT (data);
-	struct line *lines;
 	GtkWidget *canvas;
 	int i;
 	int max_width;
@@ -2227,7 +2229,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			/* Simulate a GdkEventButton here, so that we can call e_text_do_popup directly */
 
-			GdkEventButton *button = gdk_event_new (GDK_BUTTON_PRESS);
+			GdkEventButton *button = (GdkEventButton *) gdk_event_new (GDK_BUTTON_PRESS);
 			button->time = event->key.time;
 			button->button = 0;
 			e_text_do_popup (text, button, 0);
@@ -2525,8 +2527,6 @@ static void
 primary_clear_cb (GtkClipboard *clipboard,
 		  gpointer      data)
 {
-	EText *text = E_TEXT (data);
-
 #if notyet
 	/* XXX */
 	gtk_editable_select_region (GTK_EDITABLE (entry), entry->current_pos, entry->current_pos);
@@ -2731,6 +2731,7 @@ e_text_do_popup (EText *text, GdkEventButton *button, int position)
 					closure);
 }
 
+#if 0
 static void
 e_text_reset_im_context (EText *text)
 {
@@ -2739,6 +2740,7 @@ e_text_reset_im_context (EText *text)
 		gtk_im_context_reset (text->im_context);
 	}
 }
+#endif
 
 /* fixme: */
 
@@ -2808,7 +2810,6 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 	gunichar unival;
 	char *p = NULL;
 	gint new_pos = 0;
-	int index, trailing;
 
 	switch (command->position) {
 		
@@ -2922,10 +2923,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		break;
 
 	case E_TEP_FORWARD_LINE: {
-		int l;
-		PangoLayoutLine *line, *next_line;
 		int offset_into_line;
-		int next_line_length;
 		char *p;
 
 		offset_into_line = find_offset_into_line (text, text->selection_end, NULL);
@@ -2957,7 +2955,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		break;
 	}
 	case E_TEP_BACKWARD_LINE: {
-		char *p, *prev = NULL;
+		char *p;
 		int offset_into_line = find_offset_into_line (text, text->selection_end, &p);
 
 		if (offset_into_line == -1)
@@ -3163,7 +3161,6 @@ static void
 e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data)
 {
 	EText *text = E_TEXT(data);
-	int sel_start, sel_end;
 	gboolean scroll = TRUE;
 	gboolean use_start = TRUE;
 
@@ -3277,7 +3274,6 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		/* XXX do we really need the @trailing logic here?  if
 		   we don't we can scrap the loop and just use
 		   pango_layout_index_to_pos */
-		int i;
 		PangoLayoutLine *cur_line = NULL;
 		int selection_index;
 		PangoLayoutIter *iter = pango_layout_get_iter (text->layout);

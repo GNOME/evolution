@@ -243,7 +243,6 @@ static void
 e_text_model_real_insert_length (ETextModel *model, gint position, const gchar *text, gint length)
 {
 	EReposInsertShift repos;
-	gchar *new_text;
 	int model_len = e_text_model_real_get_text_length (model);
 	char *offs;
 	const char *p;
