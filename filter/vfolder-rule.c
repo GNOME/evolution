@@ -212,9 +212,9 @@ validate (FilterRule *fr)
 	/* We have to have at least one source set in the "specific" case.
 	   Do not translate this string! */
 	if (fr->source && !strcmp (fr->source, "specific") && VFOLDER_RULE (fr)->sources == NULL) {
-		dialog = gnome_ok_dialog (_("You need to to specify at least one folder as a source."));
+		dialog = gnome_ok_dialog (_("You need to specify at least one folder as a source."));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-		
+
 		return 0;
 	}
 	
