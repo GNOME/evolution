@@ -6789,22 +6789,22 @@ msgstr ""
 #: camel/providers/smtp/camel-smtp-transport.c:1092
 #, c-format
 msgid "RSET request timed out: %s"
-msgstr ""
+msgstr "затримка в╕дпов╕д╕ на RSET: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1111
-#, fuzzy, c-format
+#, c-format
 msgid "RSET response error: %s"
-msgstr "Нев╕дома помилка: %s"
+msgstr "помилка в╕дпов╕д╕ на RSET: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1134
 #, c-format
 msgid "QUIT request timed out: %s: non-fatal"
-msgstr ""
+msgstr "затримка в╕дпов╕д╕ на QUIT: %s: нефатально"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1153
 #, c-format
 msgid "QUIT response error: %s: non-fatal"
-msgstr ""
+msgstr "помилка в╕дпов╕д╕ на QUIT: %s: нефатально"
 
 #: composer/e-msg-composer-attachment-bar.c:101
 msgid "1 byte"
@@ -6849,14 +6849,14 @@ msgstr "Долучити файл до пов╕домлення"
 
 #: composer/e-msg-composer-attachment.c:168
 #: composer/e-msg-composer-attachment.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "Не вдалося отримати теку: %s: %s"
+msgstr "Неможливо долучити файл %s: %s"
 
 #: composer/e-msg-composer-attachment.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr "\"%s\" не ╓ звичайним файлом."
+msgstr "Неможливо долучити файл %s: не звичайний файл."
 
 #: composer/e-msg-composer-attachment.glade.h:1
 msgid "Attachment properties"
@@ -6934,11 +6934,13 @@ msgid "Attach a file"
 msgstr "Долучити файл"
 
 #: composer/e-msg-composer.c:664
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error while reading file %s:\n"
 "%s"
-msgstr "Помилка завантаження файлу: %s"
+msgstr ""
+"Помилка зчитування файлу: %s:\n"
+"%s"
 
 #: composer/e-msg-composer.c:847
 msgid "Save as..."
@@ -6975,28 +6977,34 @@ msgstr "Помилка доступу до файлу: %s"
 
 #: composer/e-msg-composer.c:1033
 msgid "Unable to retrieve message from editor"
-msgstr ""
+msgstr "Неможливо отримати пов╕домлення в╕д редактора"
 
 #: composer/e-msg-composer.c:1040
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to seek on file: %s\n"
 "%s"
-msgstr "Не вдалося зберегти список груп для %s: %s"
+msgstr ""
+"Неможливо спозиц╕онуватися у файл╕: %s\n"
+"%s"
 
 #: composer/e-msg-composer.c:1047
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to truncate file: %s\n"
 "%s"
-msgstr "Не вдалося зберегти список груп для %s: %s"
+msgstr ""
+"Неможливо обр╕зати файл: %s\n"
+"%s"
 
 #: composer/e-msg-composer.c:1056
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error autosaving message: %s\n"
 " %s"
-msgstr "Помилка збереження файлу: %s"
+msgstr ""
+"Помилка автозбереження файлу: %s\n"
+" %s"
 
 #: composer/e-msg-composer.c:1158
 msgid ""
@@ -7231,11 +7239,11 @@ msgstr "секунд"
 
 #: filter/filter-datespec.c:194
 msgid "You have forgotten to choose a date."
-msgstr ""
+msgstr "Ви забули вибрати дату."
 
 #: filter/filter-datespec.c:196
 msgid "You have chosen an invalid date."
-msgstr ""
+msgstr "Ви вибради нев╕рну дату."
 
 #: filter/filter-datespec.c:271
 msgid ""
@@ -7752,24 +7760,20 @@ msgid "Evolution mail composer."
 msgstr "Редактор пошти Evolutuion."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:3
-#, fuzzy
 msgid "Evolution mail executive summary component."
-msgstr "Не вдалося ╕н╕ц╕ал╕зувати поштовий компонент Evolutuion."
+msgstr "Компонент поштового виконавчого зведення Evolutuion."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:4
-#, fuzzy
 msgid "Evolution mail folder display component."
-msgstr "Не вдалося ╕н╕ц╕ал╕зувати поштовий компонент Evolutuion."
+msgstr "Компонент в╕дображення поштово╖ теки Evolutuion."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:5
-#, fuzzy
 msgid "Evolution mail folder factory component."
-msgstr "Не вдалося ╕н╕ц╕ал╕зувати поштовий компонент Evolutuion."
+msgstr "Компонент фабрики поштово╖ теки Evolutuion."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:6
-#, fuzzy
 msgid "Factory for the Evolution composer."
-msgstr "Не вдалося ╕н╕ц╕ал╕зувати поштовий компонент Evolutuion."
+msgstr "Фабрика для редактора Evolutuion."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:7
 #, fuzzy
@@ -7786,7 +7790,7 @@ msgstr "Тека, що м╕стить пошту"
 
 #: mail/component-factory.c:96
 msgid "Mail storage folder (internal)"
-msgstr ""
+msgstr "Тека збер╕гання пошти (внутр╕шня)"
 
 #: mail/component-factory.c:97
 msgid "Virtual Trash"
@@ -7913,9 +7917,8 @@ msgid "VFolder on _Recipients"
 msgstr "В╕ртуальна тека отримувач╕в"
 
 #: mail/folder-browser.c:1430
-#, fuzzy
 msgid "VFolder on Mailing _List"
-msgstr "Ф╕льтр списку розсилки"
+msgstr "Ф╕льтр списку листування"
 
 #: mail/folder-browser.c:1434
 msgid "Filter on Sub_ject"
@@ -7935,7 +7938,7 @@ msgstr "Ф╕льтр списку розсилки"
 
 #: mail/folder-browser.c:1445 ui/evolution-mail-message.xml.h:95
 msgid "_Edit as New Message..."
-msgstr ""
+msgstr "Виправити як нове пов╕домлення..."
 
 #: mail/folder-browser.c:1446 ui/evolution-mail-message.xml.h:104
 msgid "_Save As..."
@@ -7950,9 +7953,8 @@ msgid "_Reply to Sender"
 msgstr "В╕дпов╕сти в╕дправнику"
 
 #: mail/folder-browser.c:1452 ui/evolution-mail-message.xml.h:72
-#, fuzzy
 msgid "Reply to _List"
-msgstr "В╕дпов╕сти вс╕м"
+msgstr "В╕дпов╕сти у список"
 
 #: mail/folder-browser.c:1453 ui/evolution-mail-message.xml.h:71
 msgid "Reply to _All"
