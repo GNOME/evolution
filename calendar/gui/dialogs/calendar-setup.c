@@ -371,7 +371,7 @@ general_update_dialog (SourceDialog *source_dialog)
 	gboolean remote = FALSE;
 	gboolean mutable = source_group_is_mutable (source_dialog->source_group);
 
-	if (e_source_get_readonly (source_dialog->source))
+	if (source_dialog->source && e_source_get_readonly (source_dialog->source))
 		gtk_widget_set_sensitive (glade_xml_get_widget (source_dialog->gui_xml, "settings-table"), FALSE);
 
 	/* These are calendar specific so make sure we have them */
@@ -595,6 +595,23 @@ dialog_to_source (SourceDialog *source_dialog)
 }
 
 static void
+dialog_hide_unused_options (SourceDialog *source_dialog)
+{
+	ESource *source = source_dialog->source;
+
+	if (source && (!source_is_remote (source) || !source_group_is_mutable (source_dialog->source_group))) {
+		if (source_dialog->uri_hbox)
+			gtk_widget_hide (source_dialog->uri_hbox);
+		if (source_dialog->uri_label)
+			gtk_widget_hide (source_dialog->uri_label);
+		if (source_dialog->refresh_label)
+			gtk_widget_hide (source_dialog->refresh_label);
+		if (source_dialog->refresh_hbox)
+			gtk_widget_hide (source_dialog->refresh_hbox);
+	}
+}
+
+static void
 source_group_changed_sensitive (SourceDialog *source_dialog)
 {
 	source_dialog->source_group =
@@ -733,7 +750,8 @@ calendar_setup_edit_calendar (GtkWindow *parent, ESource *source)
 		g_list_free (icon_list);
 	}
 
-	gtk_widget_show_all (source_dialog->window);
+	dialog_hide_unused_options (source_dialog);
+	gtk_widget_show (source_dialog->window);
 	return TRUE;
 }
 
@@ -862,7 +880,8 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 		g_list_free (icon_list);
 	}
 
-	gtk_widget_show_all (source_dialog->window);
+	dialog_hide_unused_options (source_dialog);
+	gtk_widget_show (source_dialog->window);
 	return TRUE;
 }
 
