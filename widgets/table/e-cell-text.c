@@ -175,8 +175,6 @@ struct _CellEdit {
 
 	ETextEventProcessor *tep;       /* Text Event Processor */
 
-	/* Hmmm... this should probably be in native encoding? */
-
 	GtkWidget *invisible;           /* For selection handling */
 	gboolean has_selection;         /* TRUE if we have the selection */
 	gchar *primary_selection;       /* Primary selection text */
