@@ -1,3 +1,10 @@
+2001-10-02  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit.c (nth_weekday): handle -1 as
+	well
+	(comp_from_remote_record): fix monthly by day recurrences and
+	handle "last" day type
+
 2001-10-01  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/comp-editor.c (comp_editor_destroy): unref the page

@@ -326,9 +326,9 @@ is_empty_time (struct tm time)
 static short
 nth_weekday (int pos, icalrecurrencetype_weekday weekday)
 {
-	g_assert (pos > 0 && pos <= 5);
+	g_assert ((pos > 0 && pos <= 5) || (pos == -1));
 
-	return (pos << 3) | (int) weekday;
+	return ((abs (pos) * 8) + weekday) * (pos < 0 ? -1 : 1);
 }
 
 static GList *
@@ -704,7 +704,11 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	case repeatMonthlyByDay:
 		recur.freq = ICAL_MONTHLY_RECURRENCE;
 		recur.interval = appt.repeatFrequency;
-		recur.by_day[0] = nth_weekday (appt.repeatDay / 5, get_ical_day (appt.repeatDay % 5 - 1));
+		if (appt.repeatDay < domLastSun)
+			recur.by_day[0] = nth_weekday ((appt.repeatDay / 7) + 1, 
+						       get_ical_day (appt.repeatDay % 7));
+		else
+			recur.by_day[0] = nth_weekday (-1, get_ical_day (appt.repeatDay % 7));		
 		break;
 		
 	case repeatMonthlyByDate:
