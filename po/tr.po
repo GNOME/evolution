@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
 "POT-Creation-Date: 2000-06-05 12:01+0200\n"
-"PO-Revision-Date: 2000-06-05 12:31+0200\n"
+"PO-Revision-Date: 2000-06-05 15:14+0200\n"
 "Last-Translator: Fatih Demir <kabalak@gmx.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -451,11 +451,11 @@ msgstr "Pilot'a kopyala"
 
 #: calendar/gui/calendar-conduit-control-applet.c:55
 msgid "Merge From Pilot"
-msgstr ""
+msgstr "Pilot'den eþitle"
 
 #: calendar/gui/calendar-conduit-control-applet.c:56
 msgid "Merge To Pilot"
-msgstr ""
+msgstr "Pilot'le eþitle"
 
 #: calendar/gui/calendar-conduit-control-applet.c:142
 #: calendar/gui/todo-conduit-control-applet.c:110
@@ -464,7 +464,7 @@ msgstr "Eskil Heyn Olsen <deity@eskil.dk>"
 
 #: calendar/gui/calendar-conduit-control-applet.c:144
 msgid "GnomeCalendar Conduit"
-msgstr ""
+msgstr "GnomeCalendar Parçasý"
 
 #: calendar/gui/calendar-conduit-control-applet.c:145
 msgid "(C) 1998"
@@ -472,20 +472,20 @@ msgstr "Tel'if hakký (C) 1998"
 
 #: calendar/gui/calendar-conduit-control-applet.c:147
 msgid "Configuration utility for the calendar conduit.\n"
-msgstr ""
+msgstr "Takvim parçasý için ayarlama çerezi.\n"
 
 #: calendar/gui/calendar-conduit-control-applet.c:148
 msgid "gnome-calendar-conduit.png"
-msgstr ""
+msgstr "gnome-calendar-conduit.png"
 
 #: calendar/gui/calendar-conduit-control-applet.c:190
 msgid "Synchronize Action"
-msgstr ""
+msgstr "Eþtileme eylemi"
 
 #: calendar/gui/calendar-conduit-control-applet.c:261
 #: calendar/gui/todo-conduit-control-applet.c:194
 msgid "Conduit state"
-msgstr ""
+msgstr "PArça durumu"
 
 #: calendar/gui/calendar-conduit-control-applet.c:305
 #: calendar/gui/calendar-conduit-control-applet.c:316
@@ -495,6 +495,8 @@ msgid ""
 "No pilot configured, please choose the\n"
 "'Pilot Link Properties' capplet first."
 msgstr ""
+"Pilot ayarlanmamýþ, lütfen ilken\n"
+"'Pilot Link' Ayarlarýn cappletini çalýþtýr."
 
 #: calendar/gui/calendar-conduit-control-applet.c:332
 #: calendar/gui/calendar-conduit-control-applet.c:333
@@ -566,11 +568,11 @@ msgstr ""
 
 #: calendar/gui/calendar-pilot-sync.c:102
 msgid "pi_accept failed"
-msgstr ""
+msgstr "pi_accept baþarýsýz oldu"
 
 #: calendar/gui/calendar-pilot-sync.c:167
 msgid "\tObject did not exist, creating a new one\n"
-msgstr ""
+msgstr "\tNesne yoktu, yeni bir nesne yaratýyorum\n"
 
 #: calendar/gui/calendar-pilot-sync.c:174
 msgid ""
@@ -600,127 +602,127 @@ msgstr ""
 
 #: calendar/gui/print.c:265
 msgid "1st"
-msgstr ""
+msgstr "1.nci"
 
 #: calendar/gui/print.c:265
 msgid "2nd"
-msgstr ""
+msgstr "2.nci"
 
 #: calendar/gui/print.c:265
 msgid "3rd"
-msgstr ""
+msgstr "3.ncü"
 
 #: calendar/gui/print.c:265
 msgid "4th"
-msgstr ""
+msgstr "4.ncü"
 
 #: calendar/gui/print.c:265
 msgid "5th"
-msgstr ""
+msgstr "5.nci"
 
 #: calendar/gui/print.c:266
 msgid "6th"
-msgstr ""
+msgstr "6.ncý"
 
 #: calendar/gui/print.c:266
 msgid "7th"
-msgstr ""
+msgstr "7.nci"
 
 #: calendar/gui/print.c:266
 msgid "8th"
-msgstr ""
+msgstr "8.nci"
 
 #: calendar/gui/print.c:266
 msgid "9th"
-msgstr ""
+msgstr "8.ncu"
 
 #: calendar/gui/print.c:266
 msgid "10th"
-msgstr ""
+msgstr "10.ncu"
 
 #: calendar/gui/print.c:267
 msgid "11th"
-msgstr ""
+msgstr "11.nci"
 
 #: calendar/gui/print.c:267
 msgid "12th"
-msgstr ""
+msgstr "12.nci"
 
 #: calendar/gui/print.c:267
 msgid "13th"
-msgstr ""
+msgstr "13.ncü"
 
 #: calendar/gui/print.c:267
 msgid "14th"
-msgstr ""
+msgstr "14.ncü"
 
 #: calendar/gui/print.c:267
 msgid "15th"
-msgstr ""
+msgstr "15.nci"
 
 #: calendar/gui/print.c:268
 msgid "16th"
-msgstr ""
+msgstr "16.ncý"
 
 #: calendar/gui/print.c:268
 msgid "17th"
-msgstr ""
+msgstr "17.nci"
 
 #: calendar/gui/print.c:268
 msgid "18th"
-msgstr ""
+msgstr "18.nci"
 
 #: calendar/gui/print.c:268
 msgid "19th"
-msgstr ""
+msgstr "19.ncu"
 
 #: calendar/gui/print.c:268
 msgid "20th"
-msgstr ""
+msgstr "20.nci"
 
 #: calendar/gui/print.c:269
 msgid "21st"
-msgstr ""
+msgstr "21.nci"
 
 #: calendar/gui/print.c:269
 msgid "22nd"
-msgstr ""
+msgstr "22.nci"
 
 #: calendar/gui/print.c:269
 msgid "23rd"
-msgstr ""
+msgstr "23.ncü"
 
 #: calendar/gui/print.c:269
 msgid "24th"
-msgstr ""
+msgstr "24.ncü"
 
 #: calendar/gui/print.c:269
 msgid "25th"
-msgstr ""
+msgstr "25.nci"
 
 #: calendar/gui/print.c:270
 msgid "26th"
-msgstr ""
+msgstr "26.ncý"
 
 #: calendar/gui/print.c:270
 msgid "27th"
-msgstr ""
+msgstr "27.nci"
 
 #: calendar/gui/print.c:270
 msgid "28th"
-msgstr ""
+msgstr "28.nci"
 
 #: calendar/gui/print.c:270
 msgid "29th"
-msgstr ""
+msgstr "29.ncu"
 
 #: calendar/gui/print.c:270
 msgid "30th"
-msgstr ""
+msgstr "39.ncu"
 
 #: calendar/gui/print.c:271
 msgid "31st"
-msgstr ""
+msgstr "31.nci"
 
 #: calendar/gui/print.c:326
 msgid "Su"
@@ -772,31 +774,31 @@ msgstr "%b"
 #: calendar/gui/print.c:1043
 #, c-format
 msgid "Current week (%s %s %d - %s %d %d)"
-msgstr ""
+msgstr "Geçerli hafta ( %s %s %d - %s %d %d )"
 
 #: calendar/gui/print.c:1060
 #, c-format
 msgid "Current week (%s %s %d - %s %s %d %d)"
-msgstr ""
+msgstr "Geçerli hafta ( %s %s %d - %s %s %d %d )"
 
 #: calendar/gui/print.c:1066
 #, c-format
 msgid "Current week (%s %s %d %d - %s %s %d %d)"
-msgstr ""
+msgstr "Geçerli hafta ( %s %s %d %d - %s %s %d %d )"
 
 #. Month
 #: calendar/gui/print.c:1079
 msgid "Current month (%a %Y)"
-msgstr ""
+msgstr "Geçerli ay ( %a %Y )"
 
 #. Year
 #: calendar/gui/print.c:1086
 msgid "Current year (%Y)"
-msgstr ""
+msgstr "Geçerli yýl ( %Y )"
 
 #: calendar/gui/print.c:1123
 msgid "Print Calendar"
-msgstr ""
+msgstr "Takvimi yazdýr"
 
 #: calendar/gui/print.c:1288
 msgid "Print Preview"
@@ -816,7 +818,7 @@ msgstr "Yeni toplantý ..."
 #: calendar/gui/e-day-view.c:2243 calendar/gui/e-day-view.c:2250
 #: calendar/gui/e-week-view.c:2553 calendar/gui/e-week-view.c:2560
 msgid "Edit this appointment..."
-msgstr ""
+msgstr "Bu toplantýyý deðiþtir .."
 
 #: calendar/gui/e-day-view.c:2244 calendar/gui/e-week-view.c:2554
 msgid "Delete this appointment"
@@ -824,23 +826,23 @@ msgstr "Bu toplantýyý sil"
 
 #: calendar/gui/e-day-view.c:2251 calendar/gui/e-week-view.c:2561
 msgid "Make this appointment movable"
-msgstr ""
+msgstr "Bu toplantýyý taþýnabilir yap"
 
 #: calendar/gui/e-day-view.c:2252 calendar/gui/e-week-view.c:2562
 msgid "Delete this occurrence"
-msgstr "Bu oluþu sil"
+msgstr "Bu oluþumu sil"
 
 #: calendar/gui/e-day-view.c:2253 calendar/gui/e-week-view.c:2563
 msgid "Delete all occurrences"
-msgstr ""
+msgstr "Yekin oluþumlarý sil"
 
 #: calendar/gui/goto.c:82
 msgid "Year:"
-msgstr ""
+msgstr "Yýl :"
 
 #: calendar/gui/goto.c:264
 msgid "Go to date"
-msgstr ""
+msgstr "Tarihe git"
 
 #. Instructions
 #: calendar/gui/goto.c:275
@@ -889,7 +891,7 @@ msgstr ""
 
 #: calendar/gui/gncal-todo.c:321
 msgid "Edit this item..."
-msgstr ""
+msgstr "Bu birimi deðiþtir ..."
 
 #: calendar/gui/gncal-todo.c:322
 msgid "Delete this item"
@@ -897,11 +899,11 @@ msgstr "Bu birimi sil"
 
 #: calendar/gui/gncal-todo.c:420
 msgid "Summary"
-msgstr ""
+msgstr "Toplama"
 
 #: calendar/gui/gncal-todo.c:421 calendar/gui/prop.c:604
 msgid "Due Date"
-msgstr ""
+msgstr "Tarihe göre"
 
 #: calendar/gui/gncal-todo.c:422 calendar/gui/prop.c:605
 #: mail/message-list.c:541
@@ -976,53 +978,53 @@ msgstr ""
 #. Initialize by default to three-letter day names
 #: calendar/gui/gnome-month-item.c:736
 msgid "Sun"
-msgstr ""
+msgstr "Paz"
 
 #: calendar/gui/gnome-month-item.c:737
 msgid "Mon"
-msgstr ""
+msgstr "P.t"
 
 #: calendar/gui/gnome-month-item.c:738
 msgid "Tue"
-msgstr ""
+msgstr "Sal"
 
 #: calendar/gui/gnome-month-item.c:739
 msgid "Wed"
-msgstr ""
+msgstr "Çar"
 
 #: calendar/gui/gnome-month-item.c:740
 msgid "Thu"
-msgstr ""
+msgstr "Per"
 
 #: calendar/gui/gnome-month-item.c:741
 msgid "Fri"
-msgstr ""
+msgstr "Cum"
 
 #: calendar/gui/gnome-month-item.c:742
 msgid "Sat"
-msgstr ""
+msgstr "C.t"
 
 #: calendar/gui/prop.c:330
 msgid "Time display"
-msgstr ""
+msgstr "Zaman gösterimi"
 
 #. Time format
 #: calendar/gui/prop.c:334
 msgid "Time format"
-msgstr ""
+msgstr "Zaman þekli"
 
 #: calendar/gui/prop.c:335
 msgid "12-hour (AM/PM)"
-msgstr ""
+msgstr "12 saat (ö.ö./ö.s.)"
 
 #: calendar/gui/prop.c:336
 msgid "24-hour"
-msgstr ""
+msgstr "24 saat"
 
 #. Weeks start on
 #: calendar/gui/prop.c:346
 msgid "Weeks start on"
-msgstr ""
+msgstr "Hafta'nýn baþlama günü"
 
 #: calendar/gui/prop.c:347
 msgid "Sunday"
@@ -1055,11 +1057,11 @@ msgstr ""
 
 #: calendar/gui/prop.c:519
 msgid "Colors for display"
-msgstr ""
+msgstr "Gösterim renkler"
 
 #: calendar/gui/prop.c:522
 msgid "Colors"
-msgstr ""
+msgstr "Renkler"
 
 #: calendar/gui/prop.c:599
 msgid "Show on TODO List:"
@@ -1095,7 +1097,7 @@ msgstr ""
 
 #: calendar/gui/prop.c:780
 msgid "Alarms"
-msgstr ""
+msgstr "Ikazlar"
 
 #. build miscellaneous box
 #: calendar/gui/prop.c:783
@@ -1112,7 +1114,7 @@ msgstr ""
 
 #: calendar/gui/prop.c:814 calendar/gui/prop.c:831
 msgid " seconds"
-msgstr ""
+msgstr " saniye"
 
 #: calendar/gui/prop.c:820
 msgid "Enable snoozing for "
@@ -1129,7 +1131,7 @@ msgstr ""
 
 #: calendar/gui/todo-conduit-control-applet.c:113
 msgid "(C) 1998 the Free Software Foundation"
-msgstr ""
+msgstr "Tel'if hakký (C) 1998 Free Software Foundation"
 
 #: calendar/gui/todo-conduit-control-applet.c:115
 msgid "Configuration utility for the todo conduit.\n"
@@ -1137,11 +1139,11 @@ msgstr ""
 
 #: calendar/gui/todo-conduit-control-applet.c:116
 msgid "gnome-unknown.xpm"
-msgstr ""
+msgstr "gnome-unknown.xpm"
 
 #: calendar/gui/todo-conduit-control-applet.c:141
 msgid "Enabled"
-msgstr ""
+msgstr "Açýk"
 
 #: calendar/gui/dialogs/alarm-notify-dialog.c:181
 msgid "Alarm on %A %b %d %Y %H:%M"
@@ -1157,7 +1159,7 @@ msgstr "Toplantýyý deðiþtir"
 
 #: calendar/gui/event-editor.c:291
 msgid "No summary"
-msgstr ""
+msgstr "Toplama yok"
 
 #: calendar/gui/event-editor.c:295
 #, c-format
@@ -1167,7 +1169,7 @@ msgstr "Toplantý - %s"
 #: calendar/gui/event-editor.c:298
 #, c-format
 msgid "Task - %s"
-msgstr ""
+msgstr "Görev - %s"
 
 #: calendar/gui/event-editor.c:301
 #, c-format
@@ -1177,78 +1179,71 @@ msgstr "Günlük birimi - %s"
 #. Owner, summary
 #: calendar/gui/event-editor.c:591 calendar/gui/event-editor.c:685
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: calendar/gui/event-editor.c:1115
 msgid "FIXME: _Appointment"
-msgstr "FIXME : _Toplantý"
+msgstr "ABY : _Toplantý"
 
 #: calendar/gui/event-editor.c:1116
-#, fuzzy
 msgid "FIXME: Meeting Re_quest"
-msgstr "Toplantý is_teði"
+msgstr "ABY : Toplantý is_teði"
 
 #: calendar/gui/event-editor.c:1118
-#, fuzzy
 msgid "FIXME: _Mail Message"
-msgstr "e_Posta iletisi"
+msgstr "ABY : e_Posta iletisi"
 
 #: calendar/gui/event-editor.c:1119
-#, fuzzy
 msgid "FIXME: _Contact"
-msgstr "_Tanýk"
+msgstr "ABY : _Tanýk"
 
 #: calendar/gui/event-editor.c:1120
 msgid "FIXME: _Task"
-msgstr ""
+msgstr "ABY : _Görev"
 
 #: calendar/gui/event-editor.c:1121
-#, fuzzy
 msgid "FIXME: Task _Request"
-msgstr "Görev _isteði"
+msgstr "ABY : Görev _isteði"
 
 #: calendar/gui/event-editor.c:1122
-#, fuzzy
 msgid "FIXME: _Journal Entry"
-msgstr "Gü_nlük birimi"
+msgstr "ABY : Gü_nlük birimi"
 
 #: calendar/gui/event-editor.c:1123
 msgid "FIXME: _Note"
-msgstr ""
+msgstr "ABY : _Not"
 
 #: calendar/gui/event-editor.c:1125 calendar/gui/event-editor.c:1232
 msgid "FIXME: Ch_oose Form..."
-msgstr ""
+msgstr "ABY : Seçme _formu ..."
 
 #: calendar/gui/event-editor.c:1130
 msgid "FIXME: _Memo Style"
-msgstr ""
+msgstr "ABY : _Aný stili"
 
 #: calendar/gui/event-editor.c:1132
 msgid "FIXME: Define Print _Styles..."
-msgstr ""
+msgstr "ABY : Yazdýrma _stilini belirle"
 
 #: calendar/gui/event-editor.c:1139
 msgid "FIXME: S_end"
-msgstr ""
+msgstr "ABY : Gö_nder"
 
 #: calendar/gui/event-editor.c:1143
-#, fuzzy
 msgid "FIXME: Save Attac_hments..."
-msgstr "Eklem ekle ..."
+msgstr "ABY : Eklem _ekle ..."
 
 #: calendar/gui/event-editor.c:1145
-#, fuzzy
 msgid "FIXME: _Delete"
-msgstr "Sil"
+msgstr "ABY : _Sil"
 
 #: calendar/gui/event-editor.c:1146
 msgid "FIXME: _Move to Folder..."
-msgstr ""
+msgstr "ABY : Dizine _taþý ..."
 
 #: calendar/gui/event-editor.c:1147
 msgid "FIXME: Cop_y to Folder..."
-msgstr ""
+msgstr "ABY : Dizine _kopyala ..."
 
 #: calendar/gui/event-editor.c:1149
 msgid "Page Set_up"
@@ -1256,15 +1251,15 @@ msgstr "Sayfa _kurulumu"
 
 #: calendar/gui/event-editor.c:1150
 msgid "FIXME: Print Pre_view"
-msgstr ""
+msgstr "ABY : Yazdýrma önizlemesi"
 
 #: calendar/gui/event-editor.c:1171
 msgid "FIXME: Paste _Special..."
-msgstr ""
+msgstr "ABY : Ö_zel yapýþtýr ..."
 
 #: calendar/gui/event-editor.c:1176
 msgid "FIXME: Mark as U_nread"
-msgstr ""
+msgstr "ABY : _Okunmamýþ olarak iþaretle"
 
 #: calendar/gui/event-editor.c:1180
 msgid "_Object"
@@ -1272,43 +1267,43 @@ msgstr "_Nesne"
 
 #: calendar/gui/event-editor.c:1185 calendar/gui/event-editor.c:1192
 msgid "FIXME: _Item"
-msgstr ""
+msgstr "ABY : _Birim"
 
 #: calendar/gui/event-editor.c:1186 calendar/gui/event-editor.c:1193
 msgid "FIXME: _Unread Item"
-msgstr ""
+msgstr "ABY : _Okunmamýþ birim"
 
 #: calendar/gui/event-editor.c:1187
 msgid "FIXME: Fi_rst Item in Folder"
-msgstr ""
+msgstr "ABY : Dizindeki _ilk birim"
 
 #: calendar/gui/event-editor.c:1194
 msgid "FIXME: _Last Item in Folder"
-msgstr ""
+msgstr "ABY : Dizindeki _son birim"
 
 #: calendar/gui/event-editor.c:1199
 msgid "FIXME: _Standard"
-msgstr ""
+msgstr "ABY : _Vasat"
 
 #: calendar/gui/event-editor.c:1201
 msgid "FIXME: __Formatting"
-msgstr ""
+msgstr "ABY : __Þekillendirme"
 
 #: calendar/gui/event-editor.c:1204
 msgid "FIXME: _Customize..."
-msgstr ""
+msgstr "ABY : _Özelleþtir ..."
 
 #: calendar/gui/event-editor.c:1209
 msgid "Pre_vious"
-msgstr ""
+msgstr "_Geri"
 
 #: calendar/gui/event-editor.c:1210
 msgid "Ne_xt"
-msgstr ""
+msgstr "_Ileri"
 
 #: calendar/gui/event-editor.c:1212
 msgid "FIXME: Ca_lendar..."
-msgstr ""
+msgstr "ABY : _Takvim ..."
 
 #: calendar/gui/event-editor.c:1214
 msgid "_Toolbars"
@@ -1316,65 +1311,63 @@ msgstr "_Araç çubuklarý"
 
 #: calendar/gui/event-editor.c:1219
 msgid "FIXME: _File..."
-msgstr ""
+msgstr "ABY : _Dosya ..."
 
 #: calendar/gui/event-editor.c:1220
 msgid "FIXME: It_em..."
-msgstr ""
+msgstr "ABY : Bi_rim ..."
 
 #: calendar/gui/event-editor.c:1221
 msgid "FIXME: _Object..."
-msgstr ""
+msgstr "ABY : _Nesne ..."
 
 #: calendar/gui/event-editor.c:1226
-#, fuzzy
 msgid "FIXME: _Font..."
-msgstr "Yazý tipi ..."
+msgstr "ABY : _Yazý tipi ..."
 
 #: calendar/gui/event-editor.c:1227
 msgid "FIXME: _Paragraph..."
-msgstr ""
+msgstr "ABY : _Fýkra ..."
 
 #: calendar/gui/event-editor.c:1234
 msgid "FIXME: Desi_gn This Form"
-msgstr ""
+msgstr "ABY : Bu formu _düzenle"
 
 #: calendar/gui/event-editor.c:1235
 msgid "FIXME: D_esign a Form..."
-msgstr ""
+msgstr "ABY : _Bir formu düzenle ..."
 
 #: calendar/gui/event-editor.c:1237
 msgid "FIXME: Publish _Form..."
-msgstr ""
+msgstr "ABY : _Formu açikla ..."
 
 #: calendar/gui/event-editor.c:1238
 msgid "FIXME: Pu_blish Form As..."
-msgstr ""
+msgstr "ABY : Formu far_klý açikla ..."
 
 #: calendar/gui/event-editor.c:1240
 msgid "FIXME: Script _Debugger"
-msgstr ""
+msgstr "ABY : Denetlem çö_zümleyicisi"
 
 #: calendar/gui/event-editor.c:1245
 msgid "FIXME: _Spelling..."
-msgstr ""
+msgstr "ABY : _Imla ..."
 
 #: calendar/gui/event-editor.c:1247
 msgid "FIXME: Chec_k Names"
-msgstr ""
+msgstr "ABY : Isimleri gözden g_eçir"
 
 #: calendar/gui/event-editor.c:1248
 msgid "FIXME: Address _Book..."
-msgstr ""
+msgstr "ABY : Adres _defteri ..."
 
 #: calendar/gui/event-editor.c:1250
 msgid "_Forms"
 msgstr "_Þekiller"
 
 #: calendar/gui/event-editor.c:1255
-#, fuzzy
 msgid "FIXME: _New Appointment"
-msgstr "T_oplantý"
+msgstr "ABY : _Yeni toplantý"
 
 #: calendar/gui/event-editor.c:1257
 msgid "FIXME: Rec_urrence..."
@@ -1393,9 +1386,8 @@ msgid "FIXME: Forward as v_Calendar"
 msgstr ""
 
 #: calendar/gui/event-editor.c:1263
-#, fuzzy
 msgid "FIXME: For_ward"
-msgstr "Ilet"
+msgstr "ABY : _Ilet"
 
 #: calendar/gui/event-editor.c:1276
 msgid "_Insert"
@@ -1439,9 +1431,8 @@ msgid "FIXME: Invite Attendees..."
 msgstr ""
 
 #: calendar/gui/event-editor.c:1329
-#, fuzzy
 msgid "FIXME: Delete"
-msgstr "Sil"
+msgstr "ABY : Sil"
 
 #: calendar/gui/event-editor.c:1331
 msgid "FIXME: Previous"
@@ -1820,11 +1811,11 @@ msgstr ""
 
 #: mail/mail-config.c:1443
 msgid "Edit Source"
-msgstr ""
+msgstr "Kaynaðý deðiþtir"
 
 #: mail/mail-config.c:1445
 msgid "Add Source"
-msgstr ""
+msgstr "Kaynak ekle"
 
 #: mail/mail-config.c:1708
 msgid "Name"
@@ -1844,11 +1835,11 @@ msgstr "Imza dosyasý"
 
 #: mail/mail-config.c:1734
 msgid "Camel Providers Configuration"
-msgstr ""
+msgstr "Camel Sunucu Ayarlarý"
 
 #: mail/mail-config.c:1825
 msgid "Identities"
-msgstr ""
+msgstr "Þahsiyetler"
 
 #: mail/mail-config.c:1841 mail/mail-config.c:1940
 msgid "Add"
@@ -1856,7 +1847,7 @@ msgstr "Ekle"
 
 #: mail/mail-config.c:1850 mail/mail-config.c:1949
 msgid "Edit"
-msgstr ""
+msgstr "Deðiþtir"
 
 #: mail/mail-config.c:1924
 msgid "Mail sources"
@@ -1872,7 +1863,7 @@ msgstr ""
 
 #: mail/mail-config.c:2023
 msgid "Send messages in HTML format"
-msgstr ""
+msgstr "Iletileri HTML olarak gönder"
 
 #: mail/main.c:58
 msgid "Mail Component: I could not initialize Bonobo"
@@ -1880,7 +1871,7 @@ msgstr "ePosta parçasý : Bonobo'yu baþlatamadým"
 
 #: mail/message-list.c:527
 msgid "Online Status"
-msgstr ""
+msgstr "Baðlý olma durumu"
 
 #: mail/message-list.c:555
 msgid "From"
@@ -1952,15 +1943,15 @@ msgstr "Bonobo parçalar sistemini baþlatamadým."
 
 #: shell/e-setup.c:47
 msgid "Evolution installation"
-msgstr ""
+msgstr "Evolution yüklenmesi"
 
 #: shell/e-setup.c:51
 msgid "This seems to be the first time you run Evolution."
-msgstr ""
+msgstr "Bu Evolution'i ilk çalýþtýrmana benziyor ."
 
 #: shell/e-setup.c:52
 msgid "Please click \"OK\" to install the Evolution user files under"
-msgstr ""
+msgstr "\"Oldu\"'ya týklayýp, Evolution kullanýcý dosyalarýný"
 
 #: shell/e-setup.c:69
 #, c-format
@@ -1969,6 +1960,9 @@ msgid ""
 "%s\n"
 "Error: %s"
 msgstr ""
+"%s dizinini yaratamadým\n"
+"\n"
+"Hata : %s"
 
 #: shell/e-setup.c:84
 #, c-format
@@ -1976,10 +1970,12 @@ msgid ""
 "Cannot copy files into\n"
 "`%s'."
 msgstr ""
+"Dosyalarý `%s''ye\n"
+"kopyalayamadým ."
 
 #: shell/e-setup.c:88
 msgid "Evolution files successfully installed."
-msgstr ""
+msgstr "Evolution dosyalarý baþarýlý yüklendi."
 
 #: shell/e-setup.c:108
 #, c-format
@@ -1988,10 +1984,13 @@ msgid ""
 "Please remove it in order to allow installation\n"
 "of the Evolution user files."
 msgstr ""
+"`%s' bir dizin deðildir.\n"
+"Evolution kullanýcý dosyalarýnýn yüklenmesi\n"
+"için o'nu sil."
 
 #: shell/e-shell-view.c:112
 msgid "(No folder displayed)"
-msgstr ""
+msgstr "( Hiç bir dizin gösterilmiyor )"
 
 #: shell/e-shell-view.c:207
 msgid "Folders"
@@ -2018,15 +2017,15 @@ msgstr "Yerel kaydý kuramadým -- %s"
 
 #: shell/e-shell-folder-title-bar.c:353
 msgid "(Untitled)"
-msgstr ""
+msgstr "( Isimsiz )"
 
 #: shell/e-shortcut.c:469
 msgid "New group"
-msgstr ""
+msgstr "Yeni kitle"
 
 #: shell/e-shortcuts-view.c:235
 msgid "_Small icons"
-msgstr ""
+msgstr "_Ufak ikonalar"
 
 #: shell/e-shortcuts-view.c:236
 msgid "Show the shortcuts as small icons"
@@ -2042,15 +2041,15 @@ msgstr "Kýsayollarý büyük ikonalar olarak göster"
 
 #: shell/e-shortcuts-view.c:329
 msgid "Activate"
-msgstr ""
+msgstr "Geçerli yap"
 
 #: shell/e-shortcuts-view.c:329
 msgid "Activate this shortcut"
-msgstr ""
+msgstr "Bu kýsayolu geçerli yap"
 
 #: shell/e-shortcuts-view.c:332
 msgid "Remove this shortcut from the shortcut bar"
-msgstr ""
+msgstr "Bu kýsayolu kýsayol çubuðundan sil"
 
 #. you might have to call gnome_dialog_run() on the
 #. * dialog returned here, I don't remember...
@@ -2168,23 +2167,23 @@ msgstr "Dizinler çubuðunu gösterir"
 
 #: shell/e-shell-view-menu.c:355
 msgid "Help _Index"
-msgstr ""
+msgstr "Yardým _içeriði"
 
 #: shell/e-shell-view-menu.c:358
 msgid "Getting _Started"
-msgstr ""
+msgstr "Na_sýl baþlarým"
 
 #: shell/e-shell-view-menu.c:361
 msgid "Using the _Mailer"
-msgstr ""
+msgstr "_ePosta bölümünü kullanmak"
 
 #: shell/e-shell-view-menu.c:364
 msgid "Using the _Calendar"
-msgstr ""
+msgstr "_Takvimi kullanmak"
 
 #: shell/e-shell-view-menu.c:367
 msgid "Using the Cont_act Manager"
-msgstr ""
+msgstr "Ta_nýklar yöneticisini kullanmak"
 
 #: shell/e-shell-view-menu.c:372
 msgid "_Submit bug report"
@@ -2200,19 +2199,19 @@ msgstr "E_ylemler"
 
 #: shell/e-init.c:25
 msgid "Evolution can not create its local folders"
-msgstr ""
+msgstr "Evolution yerel dizinlerini yaratamadý"
 
 #: shell/e-shortcuts.c:358
 msgid "Error saving shortcuts."
-msgstr ""
+msgstr "Kýsayollarý kaydederken hata oldu."
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:374
 msgid "Tentative"
-msgstr ""
+msgstr "Giriþimli"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:375
 msgid "Busy"
-msgstr ""
+msgstr "Mesþgul"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:376
 msgid "Out of Office"
@@ -2220,11 +2219,11 @@ msgstr "Ofis'te deðil"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:377
 msgid "No Information"
-msgstr ""
+msgstr "Bilgi yok"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:393
 msgid "_Invite Others..."
-msgstr ""
+msgstr "Baþkalarý _davet et ..."
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:413
 msgid "_Options"
@@ -2232,43 +2231,43 @@ msgstr "_Seçenekler"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:430
 msgid "Show _Only Working Hours"
-msgstr ""
+msgstr "Sadece ça_lýþma saatleri göster"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:443
 msgid "Show _Zoomed Out"
-msgstr ""
+msgstr "_Uzaklaþtýrýlmýþ göster"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:461
 msgid "_Update Free/Busy"
-msgstr ""
+msgstr "Boþ/Meþgul'leri _yenile"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:479
 msgid "_<<"
-msgstr ""
+msgstr "_<<"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:496
 msgid "_Autopick"
-msgstr ""
+msgstr "_Otomatikman seç"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:510
 msgid ">_>"
-msgstr ""
+msgstr ">_>"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:527
 msgid "_All People and Resources"
-msgstr ""
+msgstr "_Yekin kiþiler ve kaynaklar"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:540
 msgid "All _People and One Resource"
-msgstr ""
+msgstr "Yekin _kiþiler ve bir kaynak"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:553
 msgid "_Required People"
-msgstr ""
+msgstr "_Gerekli kiþiler"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:566
 msgid "Required People and _One Resource"
-msgstr ""
+msgstr "Gerekli kiþiler ve _bir kaynak"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:589
 msgid "Meeting _start time:"
@@ -2280,7 +2279,7 @@ msgstr "Toplantý bitiþ saati :"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:725
 msgid "All Attendees"
-msgstr ""
+msgstr "Yekin ziyaretciler"
 
 #: widgets/shortcut-bar/e-group-bar.c:631
 #, c-format
