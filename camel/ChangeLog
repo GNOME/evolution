@@ -1,6 +1,13 @@
 2001-01-11  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_selected):
+	Fix a bug in previous commit: don't check for deleted messages if
+	there are no known messages in the folder (because it would end up
+	sending "FETCH 0 ...").
+
+2001-01-11  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_selected):
 	New function to check for added/deleted messages when re-selecting
 	a folder.
 	(imap_refresh_info, imap_rescan, imap_update_summary): Various
