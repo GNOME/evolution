@@ -9,6 +9,7 @@
 #include <gnome.h>
 #include "gnome-cal.h"
 #include "gnome-month-item.h"
+#include "timeutil.h"
 
 
 static void
@@ -16,13 +17,29 @@ highlight_current_day (GnomeMonthItem *mitem)
 {
 	struct tm *tm;
 	time_t t;
+	GnomeCanvasItem *label;
+	int i;
 
 	t = time (NULL);
 	tm = localtime (&t);
 
+	/* First clear all the days to normal */
+
+	for (i = 0; i < 42; i++) {
+		label = gnome_month_item_num2child (mitem, i + GNOME_MONTH_ITEM_DAY_LABEL);
+		gnome_canvas_item_set (label,
+				       "fill_color", "black",
+				       NULL);
+	}
+
+	/* Highlight the current day, if appropriate */
+
 	if ((mitem->year == (tm->tm_year + 1900)) && (mitem->month == tm->tm_mon)) {
-		;
-		/* FIXME */
+		i = gnome_month_item_day2index (mitem, tm->tm_mday);
+		label = gnome_month_item_num2child (mitem, i + GNOME_MONTH_ITEM_DAY_LABEL);
+		gnome_canvas_item_set (label,
+				       "fill_color", "blue",
+				       NULL);
 	}
 }
 
@@ -147,12 +164,66 @@ set_scroll_region (GtkWidget *widget, GtkAllocation *allocation, gpointer data)
 					allocation->width, allocation->height);
 }
 
+/* Event handler for day groups in the month item.  A button press makes the calendar jump to the
+ * selected day and destroys the Go-to dialog box.  Days are prelighted as appropriate on
+ * enter_notify and leave_notify events.
+ */
+static gint
+day_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
+{
+	GtkWidget *dialog;
+	GnomeCalendar *gcal;
+	GnomeMonthItem *mitem;
+	GnomeCanvasItem *box;
+	int child_num, day;
+
+	dialog = GTK_WIDGET (data);
+	gcal = gtk_object_get_data (GTK_OBJECT (dialog), "gnome_calendar");
+	mitem = gtk_object_get_data (GTK_OBJECT (dialog), "month_item");
+
+	child_num = gnome_month_item_child2num (mitem, item);
+	day = gnome_month_item_num2day (mitem, child_num);
+
+	if (day == 0)
+		return FALSE;
+
+	switch (event->type) {
+	case GDK_BUTTON_PRESS:
+		if ((event->button.button == 1) && (day != 0)) {
+			gnome_calendar_goto (gcal, time_from_day (mitem->year, mitem->month, day));
+			gtk_widget_destroy (dialog);
+		}
+		break;
+
+	case GDK_ENTER_NOTIFY:
+		box = gnome_month_item_num2child (mitem, child_num - GNOME_MONTH_ITEM_DAY_GROUP + GNOME_MONTH_ITEM_DAY_BOX);
+		gnome_canvas_item_set (box,
+				       "fill_color", "#ea60ea60ea60",
+				       NULL);
+		break;
+
+	case GDK_LEAVE_NOTIFY:
+		box = gnome_month_item_num2child (mitem, child_num - GNOME_MONTH_ITEM_DAY_GROUP + GNOME_MONTH_ITEM_DAY_BOX);
+		gnome_canvas_item_set (box,
+				       "fill_color", "#d6d6d6d6d6d6",
+				       NULL);
+		break;
+
+	default:
+		break;
+	}
+
+	return FALSE;
+}
+
 /* Creates the canvas with the month item for selecting days */
 static GtkWidget *
 create_days (GtkWidget *dialog, GnomeCalendar *gcal, int day, int month, int year)
 {
 	GtkWidget *canvas;
 	GnomeCanvasItem *mitem;
+	int i;
+	GnomeCanvasItem *day_group;
 
 	canvas = gnome_canvas_new ();
 	gnome_canvas_set_size (GNOME_CANVAS (canvas), 150, 120);
@@ -174,7 +245,29 @@ create_days (GtkWidget *dialog, GnomeCalendar *gcal, int day, int month, int yea
 			    (GtkSignalFunc) set_scroll_region,
 			    mitem);
 
+	/* Bind the day groups to our event handler */
+
+	for (i = 0; i < 42; i++) {
+		day_group = gnome_month_item_num2child (GNOME_MONTH_ITEM (mitem), i + GNOME_MONTH_ITEM_DAY_GROUP);
+		gtk_signal_connect (GTK_OBJECT (day_group), "event",
+				    (GtkSignalFunc) day_event,
+				    dialog);
+	}
+
 	return canvas;
+}
+
+static void
+goto_today (GtkWidget *widget, gpointer data)
+{
+	GtkWidget *dialog;
+	GnomeCalendar *gcal;
+
+	dialog = GTK_WIDGET (data);
+	gcal = gtk_object_get_data (GTK_OBJECT (dialog), "gnome_calendar");
+
+	gnome_calendar_goto_today (gcal);
+	gtk_widget_destroy (dialog);
 }
 
 /* Creates a "goto date" dialog and runs it */
@@ -183,6 +276,7 @@ goto_dialog (GnomeCalendar *gcal)
 {
 	GtkWidget *dialog;
 	GtkWidget *vbox;
+	GtkWidget *hbox;
 	GtkWidget *w;
 	struct tm *tm;
 
@@ -191,6 +285,7 @@ goto_dialog (GnomeCalendar *gcal)
 	dialog = gnome_dialog_new (_("Go to date"),
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
+	gtk_object_set_data (GTK_OBJECT (dialog), "gnome_calendar", gcal);
 
 	vbox = GNOME_DIALOG (dialog)->vbox;
 
@@ -222,9 +317,23 @@ goto_dialog (GnomeCalendar *gcal)
 	gtk_box_pack_start (GTK_BOX (vbox), w, TRUE, TRUE, 0);
 	gtk_widget_show (w);
 
+	/* Today button */
+
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+	gtk_widget_show (hbox);
+
+	w = gtk_button_new_with_label (_("Go to today"));
+	gtk_signal_connect (GTK_OBJECT (w), "clicked",
+			    (GtkSignalFunc) goto_today,
+			    dialog);
+	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
+	gtk_widget_show (w);
+
 	/* Run! */
 
 	gnome_dialog_set_modal (GNOME_DIALOG (dialog));
-
-	printf ("el dialogo regreso %d\n", gnome_dialog_run_and_destroy (GNOME_DIALOG (dialog)));
+	gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (gcal));
+	gtk_widget_show (dialog);
 }

@@ -68,6 +68,7 @@ EXTRA_DIST = \
 	topic.dat	\
 	gnome-cal.html	\
 	bell.xpm	\
+	goto.xpm	\
 	recur.xpm
 
 

@@ -16,6 +16,37 @@
 BEGIN_GNOME_DECLS
 
 
+/* These values are used to identify the canvas items that make up a complete GnomeMonthItem, which
+ * is made up of the following "pieces":
+ *
+ *	Headings line:
+ *		- 7 GnomeCanvasGroups:
+ *			Each group contains one box (GnomeCanvasRectangle) and one label
+ *			(GnomeCanvasText)
+ *
+ *	Day slots:
+ *		- 42 GnomeCanvasGroups:
+ *			Each group contains one box (GnomeCanvasRectangle) and one label
+ *			(GnomeCanvasText)
+ *
+ * The headings are organized from left to right.  The day slots are organized as a table in
+ * row-major order.
+ *
+ * If you want to access the individual items of the GnomeMonthItem, you can use these numbers with
+ * the gnome_month_item_num2child() function.  If you want to convert a number into the
+ * corresponding GnomeCanvasItem, you can use the gnome_month_item_child2num() function.
+ */
+typedef enum {
+	GNOME_MONTH_ITEM_HEAD_GROUP = 0,	/* 7 groups for headings */
+	GNOME_MONTH_ITEM_HEAD_BOX   = 7,	/* 7 boxes for headings */
+	GNOME_MONTH_ITEM_HEAD_LABEL = 14,	/* 7 labels for headings */
+	GNOME_MONTH_ITEM_DAY_GROUP  = 21,	/* 42 groups for days */
+	GNOME_MONTH_ITEM_DAY_BOX    = 63,	/* 42 boxes for days */
+	GNOME_MONTH_ITEM_DAY_LABEL  = 105,	/* 42 labels for days */
+	GNOME_MONTH_ITEM_LAST       = 147	/* total number of items */
+} GnomeMonthItemChild;
+
+
 #define GNOME_TYPE_MONTH_ITEM            (gnome_month_item_get_type ())
 #define GNOME_MONTH_ITEM(obj)            (GTK_CHECK_CAST ((obj), GNOME_TYPE_MONTH_ITEM, GnomeMonthItem))
 #define GNOME_MONTH_ITEM_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), GNOME_TYPE_MONTH_ITEM, GnomeMonthItemClass))
@@ -47,6 +78,7 @@ struct _GnomeMonthItem {
 	GtkAnchorType day_anchor;	/* Anchor side for the day number labels */
 
 	GnomeCanvasItem **items;	/* All the items that make up the calendar */
+	int day_numbers[42];		/* The numbers of the days */
 
 	int start_on_monday : 1;	/* Start the week on Monday?  If false, then start from Sunday */
 };
@@ -64,6 +96,26 @@ GnomeCanvasItem *gnome_month_item_new (GnomeCanvasGroup *parent);
 
 /* Constructor function useful for derived classes */
 void gnome_month_item_construct (GnomeMonthItem *mitem);
+
+/* Returns the child item defined by the child number (as specified on the GnomeMonthItemChild
+ * enumeration above).
+ */
+GnomeCanvasItem *gnome_month_item_num2child (GnomeMonthItem *mitem, GnomeMonthItemChild child_num);
+
+/* Returns the number of the specified child item, as defined on the GnomeMonthItemChild enumeration
+ * above.  If the specified object is not found, it returns -1.
+ */
+GnomeMonthItemChild gnome_month_item_child2num (GnomeMonthItem *mitem, GnomeCanvasItem *child);
+
+/* Returns the number of the day relevant to the specified child item.  Day numbers are 1-based.  If
+ * the specified child is outside the range of displayed days, then it returns 0.
+ */
+int gnome_month_item_num2day (GnomeMonthItem *mitem, GnomeMonthItemChild child_num);
+
+/* Returns the index (0-41) of the specified date within the table of days.  If the day number is
+ * invalid for the current monthly calendar, then -1 is returned.
+ */
+int gnome_month_item_day2index (GnomeMonthItem *mitem, int day_num);
 
 
 END_GNOME_DECLS

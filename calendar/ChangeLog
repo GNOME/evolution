@@ -1,3 +1,34 @@
+1998-08-18  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gnome-month-item.c (gnome_month_item_day2index): New public
+	function to get the displayed day index of the specified date.
+
+	* gnome-cal.c (gnome_calendar_goto_today): New public function to
+	jump to the current day.
+
+	* goto.c (day_event): Jump to the selected day when the user
+	clicks the mouse, and prelight days as appropriate.
+
+	* timeutil.c (time_from_day): New public function to build a
+	time_t from a year/month/day triplet.
+
+	* gnome-month-item.c (gnome_month_item_num2child): 
+	(gnome_month_item_child2num): New public functions to convert an
+	index into a child and vice-versa, respectively.
+	(gnome_month_item_num2day): New public function to convert a child
+	number into a displayed day number.
+
+	* goto.c (goto_dialog): Doh, use gnome-dialog properly :-)
+
+	* gnome-month-item.c (create_items): Use g_strdup()ed day names
+	from the start.
+
+1998-08-17  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* main.c (gnome_toolbar): Made it use goto.xpm.
+
+	* Makefile.am (EXTRA_DIST): Added goto.xpm to the list of files.
+
 1998-08-13  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gnome-month-item.c (gnome_month_item_set_arg): Doh.  Actually

@@ -12,15 +12,6 @@
 #include "gnome-month-item.h"
 
 
-/* These are indices into the items array of a GnomeMonthItem structure */
-enum {
-	ITEM_HEAD_GROUP = 0,	/* 7 groups */
-	ITEM_HEAD_BOX   = 7,	/* 7 boxes */
-	ITEM_HEAD_LABEL = 14,	/* 7 labels */
-	ITEM_DAY_GROUP  = 21,	/* 42 groups */
-	ITEM_DAY_BOX    = 63,	/* 42 boxes */
-	ITEM_DAY_LABEL  = 105	/* 42 labels */
-};
 
 
 /* Number of days in a month, for normal and leap years */
@@ -196,13 +187,13 @@ reshape_headings (GnomeMonthItem *mitem)
 
 	for (i = 0; i < 7; i++) {
 		/* Group */
-		gnome_canvas_item_set (mitem->items[ITEM_HEAD_GROUP + i],
+		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_HEAD_GROUP + i],
 				       "x", width * i,
 				       "y", 0.0,
 				       NULL);
 
 		/* Box */
-		gnome_canvas_item_set (mitem->items[ITEM_HEAD_BOX + i],
+		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_HEAD_BOX + i],
 				       "x1", 0.0,
 				       "y1", 0.0,
 				       "x2", width,
@@ -217,7 +208,7 @@ reshape_headings (GnomeMonthItem *mitem)
 				  mitem->head_height - mitem->head_padding,
 				  &x, &y);
 
-		gnome_canvas_item_set (mitem->items[ITEM_HEAD_LABEL + i],
+		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_HEAD_LABEL + i],
 				       "x", x,
 				       "y", y,
 				       "anchor", mitem->head_anchor,
@@ -242,13 +233,13 @@ reshape_days (GnomeMonthItem *mitem)
 	for (row = 0; row < 6; row++)
 		for (col = 0; col < 7; col++) {
 			/* Group */
-			gnome_canvas_item_set (mitem->items[ITEM_DAY_GROUP + i],
+			gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_DAY_GROUP + i],
 					       "x", width * col,
 					       "y", mitem->head_height + height * row,
 					       NULL);
 
 			/* Box */
-			gnome_canvas_item_set (mitem->items[ITEM_DAY_BOX + i],
+			gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_DAY_BOX + i],
 					       "x1", 0.0,
 					       "y1", 0.0,
 					       "x2", width,
@@ -263,7 +254,7 @@ reshape_days (GnomeMonthItem *mitem)
 					  height - mitem->day_padding,
 					  &x, &y);
 
-			gnome_canvas_item_set (mitem->items[ITEM_DAY_LABEL + i],
+			gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_DAY_LABEL + i],
 					       "x", x,
 					       "y", y,
 					       "anchor", mitem->day_anchor,
@@ -293,21 +284,21 @@ create_headings (GnomeMonthItem *mitem)
 
 	for (i = 0; i < 7; i++) {
 		/* Group */
-		mitem->items[ITEM_HEAD_GROUP + i] =
+		mitem->items[GNOME_MONTH_ITEM_HEAD_GROUP + i] =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem),
 					       gnome_canvas_group_get_type (),
 					       NULL);
 
 		/* Box */
-		mitem->items[ITEM_HEAD_BOX + i] =
-			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[ITEM_HEAD_GROUP + i]),
+		mitem->items[GNOME_MONTH_ITEM_HEAD_BOX + i] =
+			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[GNOME_MONTH_ITEM_HEAD_GROUP + i]),
 					       gnome_canvas_rect_get_type (),
 					       "fill_color", "black",
 					       NULL);
 
 		/* Label */
-		mitem->items[ITEM_HEAD_LABEL + i] =
-			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[ITEM_HEAD_GROUP + i]),
+		mitem->items[GNOME_MONTH_ITEM_HEAD_LABEL + i] =
+			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[GNOME_MONTH_ITEM_HEAD_GROUP + i]),
 					       gnome_canvas_text_get_type (),
 					       "fill_color", "white",
 					       "font", "-adobe-helvetica-medium-r-normal--10-*-72-72-p-*-iso8859-1",
@@ -412,11 +403,10 @@ static void
 set_days (GnomeMonthItem *mitem)
 {
 	int i, ofs;
-	int days[42];
 	int start, end;
 	char buf[100];
 
-	build_month (mitem->month, mitem->year, days, &start, &end);
+	build_month (mitem->month, mitem->year, mitem->day_numbers, &start, &end);
 
 	if (mitem->start_on_monday)
 		ofs = (start + 6) % 7;
@@ -426,15 +416,15 @@ set_days (GnomeMonthItem *mitem)
 	/* Clear days before start of month */
 
 	for (i = 0; i < ofs; i++)
-		gnome_canvas_item_set (mitem->items[ITEM_DAY_LABEL + i],
+		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_DAY_LABEL + i],
 				       "text", NULL,
 				       NULL);
 
 	/* Set days of month */
 
 	for (; start <= end; start++, i++) {
-		sprintf (buf, "%d", days[start]);
-		gnome_canvas_item_set (mitem->items[ITEM_DAY_LABEL + i],
+		sprintf (buf, "%d", mitem->day_numbers[start]);
+		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_DAY_LABEL + i],
 				       "text", buf,
 				       NULL);
 	}
@@ -442,7 +432,7 @@ set_days (GnomeMonthItem *mitem)
 	/* Clear days after end of month */
 
 	for (; i < 42; i++)
-		gnome_canvas_item_set (mitem->items[ITEM_DAY_LABEL + i],
+		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_DAY_LABEL + i],
 				       "text", NULL,
 				       NULL);
 }
@@ -457,22 +447,22 @@ create_days (GnomeMonthItem *mitem)
 
 	for (i = 0; i < 42; i++) {
 		/* Group */
-		mitem->items[ITEM_DAY_GROUP + i] =
+		mitem->items[GNOME_MONTH_ITEM_DAY_GROUP + i] =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem),
 					       gnome_canvas_group_get_type (),
 					       NULL);
 
 		/* Box */
-		mitem->items[ITEM_DAY_BOX + i] =
-			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[ITEM_DAY_GROUP + i]),
+		mitem->items[GNOME_MONTH_ITEM_DAY_BOX + i] =
+			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[GNOME_MONTH_ITEM_DAY_GROUP + i]),
 					       gnome_canvas_rect_get_type (),
 					       "outline_color", "black",
-					       "fill_color", "#d6d6d6",
+					       "fill_color", "#d6d6d6d6d6d6",
 					       NULL);
 
 		/* Label */
-		mitem->items[ITEM_DAY_LABEL + i] =
-			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[ITEM_DAY_GROUP + i]),
+		mitem->items[GNOME_MONTH_ITEM_DAY_LABEL + i] =
+			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[GNOME_MONTH_ITEM_DAY_GROUP + i]),
 					       gnome_canvas_text_get_type (),
 					       "fill_color", "black",
 					       "font", "-adobe-helvetica-medium-r-normal--10-*-72-72-p-*-iso8859-1",
@@ -489,7 +479,7 @@ set_day_names (GnomeMonthItem *mitem)
 	int i;
 
 	for (i = 0; i < 7; i++)
-		gnome_canvas_item_set (mitem->items[ITEM_HEAD_LABEL + i],
+		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_HEAD_LABEL + i],
 				       "text", mitem->day_names[mitem->start_on_monday ? ((i + 1) % 7) : i],
 				       NULL);
 }
@@ -498,30 +488,20 @@ set_day_names (GnomeMonthItem *mitem)
 static void
 create_items (GnomeMonthItem *mitem)
 {
-	/*  7 heading groups
-	 *  7 heading boxes
-	 *  7 heading labels
-	 * 42 day groups
-	 * 42 day boxes
-	 * 42 day labels
-	 * ------------------
-	 * 147 items total
-	 */
-
-	mitem->items = g_new (GnomeCanvasItem *, 147);
+	mitem->items = g_new (GnomeCanvasItem *, GNOME_MONTH_ITEM_LAST);
 
 	create_headings (mitem);
 	create_days (mitem);
 
 	/* Initialize by default to three-letter day names */
 
-	mitem->day_names[0] = _("Sun");
-	mitem->day_names[1] = _("Mon");
-	mitem->day_names[2] = _("Tue");
-	mitem->day_names[3] = _("Wed");
-	mitem->day_names[4] = _("Thu");
-	mitem->day_names[5] = _("Fri");
-	mitem->day_names[6] = _("Sat");
+	mitem->day_names[0] = g_strdup (_("Sun"));
+	mitem->day_names[1] = g_strdup (_("Mon"));
+	mitem->day_names[2] = g_strdup (_("Tue"));
+	mitem->day_names[3] = g_strdup (_("Wed"));
+	mitem->day_names[4] = g_strdup (_("Thu"));
+	mitem->day_names[5] = g_strdup (_("Fri"));
+	mitem->day_names[6] = g_strdup (_("Sat"));
 	
 	set_day_names (mitem);
 	reshape (mitem);
@@ -829,4 +809,68 @@ gnome_month_item_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		arg->type = GTK_TYPE_INVALID;
 		break;
 	}
+}
+
+GnomeCanvasItem *
+gnome_month_item_num2child (GnomeMonthItem *mitem, GnomeMonthItemChild child_num)
+{
+	g_return_val_if_fail (mitem != NULL, NULL);
+	g_return_val_if_fail (GNOME_IS_MONTH_ITEM (mitem), NULL);
+
+	return mitem->items[child_num];
+}
+
+GnomeMonthItemChild
+gnome_month_item_child2num (GnomeMonthItem *mitem, GnomeCanvasItem *child)
+{
+	int i;
+
+	g_return_val_if_fail (mitem != NULL, -1);
+	g_return_val_if_fail (GNOME_IS_MONTH_ITEM (mitem), -1);
+	g_return_val_if_fail (child != NULL, -1);
+	g_return_val_if_fail (GNOME_IS_CANVAS_ITEM (child), -1);
+
+	for (i = 0; i < GNOME_MONTH_ITEM_LAST; i++)
+		if (mitem->items[i] == child)
+			return i;
+
+	return -1;
+}
+
+int
+gnome_month_item_num2day (GnomeMonthItem *mitem, GnomeMonthItemChild child_num)
+{
+	g_return_val_if_fail (mitem != NULL, 0);
+	g_return_val_if_fail (GNOME_IS_MONTH_ITEM (mitem), 0);
+
+	if ((child_num >= GNOME_MONTH_ITEM_DAY_GROUP) && (child_num < GNOME_MONTH_ITEM_LAST)) {
+		child_num = (child_num - GNOME_MONTH_ITEM_DAY_GROUP) % 42;
+		return mitem->day_numbers[child_num];
+	} else
+		return 0;
+}
+
+int
+gnome_month_item_day2index (GnomeMonthItem *mitem, int day_num)
+{
+	int i;
+
+	g_return_val_if_fail (mitem != NULL, -1);
+	g_return_val_if_fail (GNOME_IS_MONTH_ITEM (mitem), -1);
+	g_return_val_if_fail (day_num >= 1, -1);
+
+	/* Find first day of month */
+
+	for (i = 0; mitem->day_numbers[i] == 0; i++)
+		;
+
+	/* Find the specified day */
+
+	for (; (mitem->day_numbers[i] != 0) && (i < 42); i++)
+		if (mitem->day_numbers[i] == day_num)
+			return i;
+
+	/* Bail out */
+
+	return -1;
 }

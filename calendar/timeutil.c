@@ -148,6 +148,19 @@ time_day_hour (time_t t, int hour)
 
 
 time_t
+time_from_day (int year, int month, int day)
+{
+	struct tm tm;
+
+	memset (&tm, 0, sizeof (tm));
+	tm.tm_year = year - 1900;
+	tm.tm_mon = month;
+	tm.tm_mday = day;
+
+	return mktime (&tm);
+}
+
+time_t
 time_start_of_day (time_t t)
 {
 	struct tm tm;

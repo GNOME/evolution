@@ -19,6 +19,7 @@
 #include "gnome-cal.h"
 #include "main.h"
 #include "timeutil.h"
+#include "goto.xpm"
 
 #define COOKIE_USER_HOME_DIR ((char *) -1)
 
@@ -223,7 +224,7 @@ next_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 static void
 today_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 {
-	gnome_calendar_goto (gcal, time (NULL));
+	gnome_calendar_goto_today (gcal);
 }
 
 static void
@@ -386,7 +387,7 @@ static GnomeUIInfo gnome_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (N_("Go to"), N_("Go to a specific date"), goto_clicked, GNOME_STOCK_PIXMAP_STOP),
+	GNOMEUIINFO_ITEM (N_("Go to"), N_("Go to a specific date"), goto_clicked, goto_xpm),
 
 	GNOMEUIINFO_END
 };

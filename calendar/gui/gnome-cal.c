@@ -153,6 +153,12 @@ gnome_calendar_dayjump (GnomeCalendar *gcal, time_t time)
 }
 
 void
+gnome_calendar_goto_today (GnomeCalendar *gcal)
+{
+	gnome_calendar_goto (gcal, time (NULL));
+}
+
+void
 gnome_calendar_set_view (GnomeCalendar *gcal, char *page_name)
 {
 	int page = 0;
