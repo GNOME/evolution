@@ -1,3 +1,9 @@
+2001-07-12  Iain Holmes  <iain@ximian.com>
+
+	* backend/e-book/evolution-vcard-importer.c (support_format_fn): Check
+	for no extension. Actually same as Jason's fix below :) but also check
+	the file contents.
+
 2001-07-12  JP Rosevear  <jpr@ximian.com>
 
 	* gui/component/addressbook-config.glade: add accelerators,

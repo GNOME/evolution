@@ -156,12 +156,9 @@ support_format_fn (EvolutionImporter *importer,
 	int i;
 
 	ext = strrchr (filename, '.');
-
-	/* Require an extension in order to strcmp with our list of
-           supported extensions */
-	if (ext == NULL)
-		return FALSE;
-
+	if (ext == NULL) {
+		return check_file_is_vcard (filename);
+	}
 	for (i = 0; supported_extensions[i] != NULL; i++) {
 		if (strcmp (supported_extensions[i], ext) == 0)
 			return check_file_is_vcard (filename);
