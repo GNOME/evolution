@@ -1,3 +1,7 @@
+2002-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-timezone-dialog/e-timezone-dialog.glade: Converted to Glade 2.
+
 2002-11-13  Not Zed  <NotZed@Ximian.com>
 
 	* menus/gal-view-menus.c: gnome-xml->libxml
