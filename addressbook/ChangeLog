@@ -1,5 +1,11 @@
 2004-01-24  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-migrate.c (migrate_local_folders):
+	oops.
+	(migrate_contact_folder): fix the unreffing.
+
+2004-01-24  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook-migrate.c (migrate_local_folders): use
 	_("Personal"), not "Personal".
 

@@ -295,7 +295,6 @@ migrate_contact_folder (char *old_path, ESourceGroup *dest_group, char *source_n
 	group = e_source_group_new ("", old_uri);
 	old_source = e_source_new ("", "");
 	e_source_set_group (old_source, group);
-	g_object_unref (group);
 
 	new_source = e_source_new (source_name, source_name);
 	e_source_set_group (new_source, dest_group);
@@ -317,8 +316,14 @@ migrate_contact_folder (char *old_path, ESourceGroup *dest_group, char *source_n
 	migrate_contacts (old_book, new_book);
 
  finish:
-	g_object_unref (old_book);
-	g_object_unref (new_book);
+	g_object_unref (new_source);
+	g_object_unref (old_source);
+	g_object_unref (dest_group);
+	g_object_unref (group);
+	if (old_book)
+		g_object_unref (old_book);
+	if (new_book)
+		g_object_unref (new_book);
 	g_free (old_uri);
 }
 
@@ -428,6 +433,7 @@ migrate_local_folders (AddressbookComponent *component, ESourceGroup *on_this_co
 		if (!strcmp ((char*)l->data, local_contact_folder))
 			continue;
 
+		source_name = get_source_name (on_this_computer, (char*)l->data);
 		migrate_contact_folder (l->data, on_this_computer, source_name);
 		g_free (source_name);
 	}
