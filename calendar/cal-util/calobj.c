@@ -25,7 +25,7 @@ static gint compare_exdates (gconstpointer a, gconstpointer b);
 
 
 
-static char *
+char *
 ical_gen_uid (void)
 {
 	static char *hostname;
@@ -541,15 +541,15 @@ setup_alarm_at (iCalObject *ico, CalendarAlarm *alarm, char *iso_time, VObject *
 }
 
 /*
- * Duplicates an iCalObject.  Implementation is a grand hack
+ * Duplicates an iCalObject.  Implementation is a grand hack.
+ * If you need the new ICalObject to have a new uid, free the current one,
+ * and call ical_gen_uid() to generate a new one.
  */
 iCalObject *
 ical_object_duplicate (iCalObject *o)
 {
 	VObject *vo;
 	iCalObject *new;
-
-	/* FIXME!!!!!  The UID needs to change!!! */
 
 	vo = ical_object_to_vobject (o);
 	switch (o->type){

@@ -247,13 +247,13 @@ typedef enum {
 
 CalObjFindStatus ical_object_find_in_string (const char *uid, const char *vcalobj, iCalObject **ico);
 
-char *ical_object_to_string (iCalObject *ico);
+char       *ical_object_to_string (iCalObject *ico);
 
 
 /* Returns the first toggled day in a weekday mask -- we do this because we do not support multiple
  * days on a monthly-by-pos recurrence.  If no days are toggled, it returns -1.
  */
-int ical_object_get_first_weekday (int weekday_mask);
+int	    ical_object_get_first_weekday (int weekday_mask);
 
 /* Returns the number of seconds configured to trigger the alarm in advance to an event */
 int         alarm_compute_offset (CalendarAlarm *a);
@@ -261,7 +261,10 @@ int         alarm_compute_offset (CalendarAlarm *a);
 
 /* Returns TRUE if the dates of both objects match, including any recurrence
    rules. */
-gboolean ical_object_compare_dates (iCalObject *ico1, iCalObject *ico2);
+gboolean    ical_object_compare_dates (iCalObject *ico1, iCalObject *ico2);
+
+/* Generates a new uid for a calendar object. Should be g_free'd eventually. */
+char	   *ical_gen_uid (void);
 
 END_GNOME_DECLS
 

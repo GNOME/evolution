@@ -282,8 +282,8 @@ static void e_day_view_on_new_appointment (GtkWidget *widget,
 					   gpointer data);
 static void e_day_view_on_edit_appointment (GtkWidget *widget,
 					    gpointer data);
-static void e_day_view_on_delete_occurance (GtkWidget *widget,
-					    gpointer data);
+static void e_day_view_on_delete_occurrence (GtkWidget *widget,
+					     gpointer data);
 static void e_day_view_on_delete_appointment (GtkWidget *widget,
 					      gpointer data);
 static void e_day_view_on_unrecur_appointment (GtkWidget *widget,
@@ -2227,10 +2227,10 @@ e_day_view_on_event_right_click (EDayView *day_view,
 	};
 
 	static struct menu_item recur_child_items[] = {
-		{ N_("Make this appointment movable"), (GtkSignalFunc) e_day_view_on_unrecur_appointment, NULL, TRUE },
 		{ N_("Edit this appointment..."), (GtkSignalFunc) e_day_view_on_edit_appointment, NULL, TRUE },
-		{ N_("Delete this occurance"), (GtkSignalFunc) e_day_view_on_delete_occurance, NULL, TRUE },
-		{ N_("Delete all occurances"), (GtkSignalFunc) e_day_view_on_delete_appointment, NULL, TRUE },
+		{ N_("Make this appointment movable"), (GtkSignalFunc) e_day_view_on_unrecur_appointment, NULL, TRUE },
+		{ N_("Delete this occurrence"), (GtkSignalFunc) e_day_view_on_delete_occurrence, NULL, TRUE },
+		{ N_("Delete all occurrences"), (GtkSignalFunc) e_day_view_on_delete_appointment, NULL, TRUE },
 		{ NULL, NULL, NULL, TRUE },
 		{ N_("New appointment..."), (GtkSignalFunc) e_day_view_on_new_appointment, NULL, TRUE }
 	};
@@ -2250,23 +2250,26 @@ e_day_view_on_event_right_click (EDayView *day_view,
 			event = &g_array_index (day_view->events[day],
 						EDayViewEvent, event_num);
 
-		/* Check if the event is being edited in the event editor. */
-		not_being_edited = (event->ico->user_data == NULL);
+		/* This used to be set only if the event wasn't being edited
+		   in the event editor, but we can't check that at present.
+		   We could possibly set up another method of checking it. */
+		not_being_edited = TRUE;
 
 		if (event->ico->recur) {
 			items = 6;
 			context_menu = &recur_child_items[0];
+			context_menu[0].sensitive = not_being_edited;
+			context_menu[1].sensitive = not_being_edited;
+			context_menu[2].sensitive = not_being_edited;
 			context_menu[3].sensitive = not_being_edited;
 			context_menu[5].sensitive = have_selection;
 		} else {
 			items = 4;
 			context_menu = &child_items[0];
+			context_menu[0].sensitive = not_being_edited;
+			context_menu[1].sensitive = not_being_edited;
 			context_menu[3].sensitive = have_selection;
 		}
-		/* These settings are common for each context sensitive menu */
-		context_menu[0].sensitive = not_being_edited;
-		context_menu[1].sensitive = not_being_edited;
-		context_menu[2].sensitive = not_being_edited;
 	}
 
 	for (i = 0; i < items; i++)
@@ -2303,6 +2306,7 @@ e_day_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 	EDayView *day_view;
 	EDayViewEvent *event;
 	GtkWidget *event_editor;
+	iCalObject *ico;
 
 	day_view = E_DAY_VIEW (data);
 
@@ -2310,13 +2314,17 @@ e_day_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 	if (event == NULL)
 		return;
 
-	event_editor = event_editor_new (day_view->calendar, event->ico);
+	/* We must duplicate the iCalObject, since the event editor will
+	   change the fields. */
+	ico = ical_object_duplicate (event->ico);
+
+	event_editor = event_editor_new (day_view->calendar, ico);
 	gtk_widget_show (event_editor);
 }
 
 
 static void
-e_day_view_on_delete_occurance (GtkWidget *widget, gpointer data)
+e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
@@ -2362,16 +2370,21 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	if (event == NULL)
 		return;
 	
-	/* New object */
-	/* FIXME: generate a new uid. */
+	/* For the unrecurred instance we duplicate the original object,
+	   create a new uid for it, get rid of the recurrence rules, and set
+	   the start & end times to the instances times. */
 	ico = ical_object_duplicate (event->ico);
+	g_free (ico->uid);
+	ico->uid = ical_gen_uid ();
 	g_free (ico->recur);
 	ico->recur = 0;
 	ico->dtstart = event->start;
 	ico->dtend   = event->end;
 	
-	/* Duplicate, and eliminate the recurrency fields */
+	/* For the recurring object, we add a exception to get rid of the
+	   instance. */
 	ical_object_add_exdate (event->ico, event->start);
+
 	gnome_calendar_object_changed (day_view->calendar, event->ico,
 				       CHANGE_ALL);
 	gnome_calendar_add_object (day_view->calendar, ico);
@@ -3745,6 +3758,8 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	   Note that user_name is a global variable. */
 	ico = ical_new ("", user_name, "");
 	ico->new = 1;
+	ico->created = time (NULL);
+	ico->last_mod = ico->created;
 
 	e_day_view_get_selected_time_range (day_view, &ico->dtstart,
 					    &ico->dtend);

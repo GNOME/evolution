@@ -1,3 +1,5 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * EventEditor widget
  * Copyright (C) 1998 the Free Software Foundation
@@ -1516,8 +1518,10 @@ event_editor_destroy (GtkObject *object)
 
 	ee = EVENT_EDITOR (object);
 
-	if (ee->ical)
-		ee->ical->user_data = NULL; /* we are no longer editing it */
+	if (ee->ical) {
+	  ical_object_destroy (ee->ical);
+	  ee->ical = NULL;
+	}	  
 }
 
 GtkWidget *

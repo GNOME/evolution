@@ -17,7 +17,10 @@ popup_menu (struct menu_item *items, int nitems, GdkEventButton *event)
 	GtkWidget *item;
 	int i;
 
-	menu = gtk_menu_new (); /* FIXME: this baby is never freed */
+	menu = gtk_menu_new ();
+
+	/* Make sure the menu is destroyed when it disappears. */
+	e_auto_kill_popup_menu_on_hide (menu);
 
 	for (i = 0; i < nitems; i++) {
 		if (items[i].text) {

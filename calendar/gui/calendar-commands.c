@@ -521,6 +521,8 @@ calendar_control_activate (BonoboControl *control,
 	GtkWidget *toolbar;
 	GnomeUIBuilderData uibdata;
 	BonoboUIHandler *uih = bonobo_control_get_ui_handler (control);
+	gchar *page_name;
+	gint button;
 	g_assert (uih);
 
 	uibdata.connect_func = do_ui_signal_connect;
@@ -528,6 +530,8 @@ calendar_control_activate (BonoboControl *control,
 	uibdata.is_interp = FALSE;
 	uibdata.relay_func = NULL;
 	uibdata.destroy_func = NULL;
+
+	g_print ("In calendar_control_activate\n");
 
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
 	bonobo_ui_handler_set_container (uih, remote_uih);
@@ -539,6 +543,26 @@ calendar_control_activate (BonoboControl *control,
 				       /*app->accel_group*/ NULL);
 
 	/*gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));*/
+
+	/* Note that these indices should correspond with the button indices
+	   in gnome_toolbar_view_buttons. */
+	page_name = gnome_calendar_get_current_view_name (cal);
+	if (!strcmp (page_name, "dayview")) {
+		button = 0;
+	} else if (!strcmp (page_name, "workweekview")) {
+		button = 1;
+	} else if (!strcmp (page_name, "weekview")) {
+		button = 2;
+	} else if (!strcmp (page_name, "monthview")) {
+		button = 3;
+	} else if (!strcmp (page_name, "yearview")) {
+		button = 4;
+	} else {
+		g_warning ("Unknown calendar view: %s", page_name);
+		button = 0;
+	}
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gnome_toolbar_view_buttons[button].widget), TRUE);
 
 	gtk_widget_show_all (toolbar);
 
@@ -611,6 +635,9 @@ calendar_control_deactivate (BonoboControl *control)
 {
 	BonoboUIHandler *uih = bonobo_control_get_ui_handler (control);
 	g_assert (uih);
+
+	g_print ("In calendar_control_deactivate\n");
+
 	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
  	bonobo_ui_handler_unset_container (uih);
 }

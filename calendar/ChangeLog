@@ -1,3 +1,40 @@
+2000-05-02  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/calendar-commands.c (calendar_control_activate): set the active
+	radio button here. Oops - it wasn't a Bonobo problem after all.
+
+	* gui/popup-menu.c (popup_menu): added call to
+	e_auto_kill_popup_menu_on_hide() to destroy the menu.
+
+	* gui/e-week-view.c (e_week_view_show_popup_menu): 
+	* gui/e-day-view.c (e_day_view_on_event_right_click): ico->user_data
+	isn't useful any more, since the event editor keeps its own iCalObject.
+	So for now we make the menu commands available even when the event is
+	being edited in the event editor.
+	Also corrected misspellings of 'occurance' -> 'occurrence'.
+
+	* gui/eventedit.c (event_editor_destroy): destroy the iCalObject.
+	The event editor now uses its own independent iCalObject.
+
+	* gui/e-week-view.c (e_week_view_on_unrecur_appointment): 
+	* gui/e-day-view.c (e_day_view_on_unrecur_appointment): create a new
+	uid for the new single instance. I'm not sure what we should do about
+	the creation/last modification times of the objects.
+	
+	* gui/e-week-view.c (e_week_view_on_edit_appointment): 
+	* gui/e-day-view.c (e_day_view_on_edit_appointment): duplicate the
+	iCalObject before passing it to the event editor, since it will change
+	the fields. If we don't duplicate it we won't know what has changed
+	when we get the "update_event" callback.
+
+	* gui/e-week-view.c (e_week_view_key_press): 
+	* gui/e-day-view.c (e_day_view_key_press): set the created and last_mod
+	times of the new iCalObject. We may want to set the default alarm as
+	well.
+
+	* cal-util/calobj.c (ical_gen_uid): made this function public so we
+	can generate new uids if necessary.
+
 2000-05-01  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/gnome-cal.[hc] (gnome_calendar_get_current_time_range): new

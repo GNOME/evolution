@@ -144,8 +144,8 @@ static void e_week_view_on_new_appointment (GtkWidget *widget,
 					    gpointer data);
 static void e_week_view_on_edit_appointment (GtkWidget *widget,
 					     gpointer data);
-static void e_week_view_on_delete_occurance (GtkWidget *widget,
-					     gpointer data);
+static void e_week_view_on_delete_occurrence (GtkWidget *widget,
+					      gpointer data);
 static void e_week_view_on_delete_appointment (GtkWidget *widget,
 					       gpointer data);
 static void e_week_view_on_unrecur_appointment (GtkWidget *widget,
@@ -974,7 +974,7 @@ e_week_view_update_event		(EWeekView	*week_view,
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-#if 0
+#if 1
 	g_print ("In e_week_view_update_event\n");
 #endif
 
@@ -1007,10 +1007,12 @@ e_week_view_update_event		(EWeekView	*week_view,
 	   update the event fairly easily without changing the events arrays
 	   or computing a new layout. */
 	if (e_week_view_find_event_from_uid (week_view, uid, &event_num)) {
+		g_print ("  updating existing event\n");
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
 
 		if (ical_object_compare_dates (event->ico, ico)) {
+			g_print ("  dates unchanged\n");
 			e_week_view_foreach_event_with_uid (week_view, uid, e_week_view_update_event_cb, ico);
 			gtk_widget_queue_draw (week_view->main_canvas);
 			return;
@@ -1018,6 +1020,7 @@ e_week_view_update_event		(EWeekView	*week_view,
 
 		/* The dates have changed, so we need to remove the
 		   old occurrrences before adding the new ones. */
+		g_print ("  dates changed\n");
 		e_week_view_foreach_event_with_uid (week_view, uid,
 						    e_week_view_remove_event_cb,
 						    NULL);
@@ -2463,6 +2466,8 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	   Note that user_name is a global variable. */
 	ico = ical_new ("", user_name, "");
 	ico->new = 1;
+	ico->created = time (NULL);
+	ico->last_mod = ico->created;
 	ico->dtstart = week_view->day_starts[week_view->selection_start_day];
 	ico->dtend = week_view->day_starts[week_view->selection_end_day + 1];
 
@@ -2510,10 +2515,10 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 	};
 
 	static struct menu_item recur_child_items[] = {
-		{ N_("Make this appointment movable"), (GtkSignalFunc) e_week_view_on_unrecur_appointment, NULL, TRUE },
 		{ N_("Edit this appointment..."), (GtkSignalFunc) e_week_view_on_edit_appointment, NULL, TRUE },
-		{ N_("Delete this occurance"), (GtkSignalFunc) e_week_view_on_delete_occurance, NULL, TRUE },
-		{ N_("Delete all occurances"), (GtkSignalFunc) e_week_view_on_delete_appointment, NULL, TRUE },
+		{ N_("Make this appointment movable"), (GtkSignalFunc) e_week_view_on_unrecur_appointment, NULL, TRUE },
+		{ N_("Delete this occurrence"), (GtkSignalFunc) e_week_view_on_delete_occurrence, NULL, TRUE },
+		{ N_("Delete all occurrences"), (GtkSignalFunc) e_week_view_on_delete_appointment, NULL, TRUE },
 		{ NULL, NULL, NULL, TRUE },
 		{ N_("New appointment..."), (GtkSignalFunc) e_week_view_on_new_appointment, NULL, TRUE }
 	};
@@ -2529,23 +2534,26 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 		event = &g_array_index (week_view->events,
 					EWeekViewEvent, event_num);
 
-		/* Check if the event is being edited in the event editor. */
-		not_being_edited = (event->ico->user_data == NULL);
+		/* This used to be set only if the event wasn't being edited
+		   in the event editor, but we can't check that at present.
+		   We could possibly set up another method of checking it. */
+		not_being_edited = TRUE;
 
 		if (event->ico->recur) {
 			num_items = 6;
 			context_menu = &recur_child_items[0];
+			context_menu[0].sensitive = not_being_edited;
+			context_menu[1].sensitive = not_being_edited;
+			context_menu[2].sensitive = not_being_edited;
 			context_menu[3].sensitive = not_being_edited;
 			context_menu[5].sensitive = have_selection;
 		} else {
 			num_items = 4;
 			context_menu = &child_items[0];
+			context_menu[0].sensitive = not_being_edited;
+			context_menu[1].sensitive = not_being_edited;
 			context_menu[3].sensitive = have_selection;
 		}
-		/* These settings are common for each context sensitive menu */
-		context_menu[0].sensitive = not_being_edited;
-		context_menu[1].sensitive = not_being_edited;
-		context_menu[2].sensitive = not_being_edited;
 	}
 
 	for (i = 0; i < num_items; i++)
@@ -2581,6 +2589,7 @@ e_week_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 	EWeekView *week_view;
 	EWeekViewEvent *event;
 	GtkWidget *event_editor;
+	iCalObject *ico;
 
 	week_view = E_WEEK_VIEW (data);
 
@@ -2590,13 +2599,17 @@ e_week_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
 
-	event_editor = event_editor_new (week_view->calendar, event->ico);
+	/* We must duplicate the iCalObject, since the event editor will
+	   change the fields. */
+	ico = ical_object_duplicate (event->ico);
+
+	event_editor = event_editor_new (week_view->calendar, ico);
 	gtk_widget_show (event_editor);
 }
 
 
 static void
-e_week_view_on_delete_occurance (GtkWidget *widget, gpointer data)
+e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
@@ -2648,15 +2661,21 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
 	
-	/* New object */
+	/* For the unrecurred instance we duplicate the original object,
+	   create a new uid for it, get rid of the recurrence rules, and set
+	   the start & end times to the instances times. */
 	ico = ical_object_duplicate (event->ico);
+	g_free (ico->uid);
+	ico->uid = ical_gen_uid ();
 	g_free (ico->recur);
 	ico->recur = 0;
 	ico->dtstart = event->start;
 	ico->dtend   = event->end;
 	
-	/* Duplicate, and eliminate the recurrency fields */
+	/* For the recurring object, we add a exception to get rid of the
+	   instance. */
 	ical_object_add_exdate (event->ico, event->start);
+
 	gnome_calendar_object_changed (week_view->calendar, event->ico,
 				       CHANGE_ALL);
 	gnome_calendar_add_object (week_view->calendar, ico);
