@@ -1,3 +1,8 @@
+2002-03-27  Larry Ewing  <lewing@ximian.com>
+
+	* Makefile.am: fix for the changes to GTKHTML_DATADIR that include
+	the release number.
+
 2002-03-18  Dan Winship  <danw@ximian.com>
 
 	* Evolution-Composer.idl, evolution-composer.c
