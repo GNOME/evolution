@@ -132,40 +132,37 @@ static gboolean
 configure_mail (FolderBrowser *fb)
 {
 	MailConfigDruid *druid;
+	GtkWidget *dialog;
 	
-	if (fb) {
-		GtkWidget *dialog;
-		
-		dialog = gnome_message_box_new (
-			_("You have not configured the mail client.\n"
-			  "You need to do this before you can send,\n"
-			  "receive or compose mail.\n"
-			  "Would you like to configure it now?"),
-			GNOME_MESSAGE_BOX_QUESTION,
-			GNOME_STOCK_BUTTON_YES,
-			GNOME_STOCK_BUTTON_NO, NULL);
-		
-		/*
-		 * Focus YES
-		 */
-		gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
-		gtk_widget_grab_focus (GTK_WIDGET (GNOME_DIALOG (dialog)->buttons->data));
-		
-		e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), FB_WINDOW (fb));
-		
-		switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
-		case 0:
-			druid = mail_config_druid_new (fb->shell);
-			gtk_signal_connect (GTK_OBJECT (druid), "destroy",
-					    GTK_SIGNAL_FUNC (druid_destroyed), NULL);
-			gtk_widget_show (GTK_WIDGET (druid));
-			gtk_grab_add (GTK_WIDGET (druid));
-			gtk_main ();
-			break;
-		case 1:
-		default:
-			break;
-		}
+	dialog = gnome_message_box_new (
+		_("You have not configured the mail client.\n"
+		  "You need to do this before you can send,\n"
+		  "receive or compose mail.\n"
+		  "Would you like to configure it now?"),
+		GNOME_MESSAGE_BOX_QUESTION,
+		GNOME_STOCK_BUTTON_YES,
+		GNOME_STOCK_BUTTON_NO, NULL);
+	
+	/*
+	 * Focus YES
+	 */
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+	gtk_widget_grab_focus (GTK_WIDGET (GNOME_DIALOG (dialog)->buttons->data));
+	
+	e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), FB_WINDOW (fb));
+	
+	switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
+	case 0:
+		druid = mail_config_druid_new (fb->shell);
+		gtk_signal_connect (GTK_OBJECT (druid), "destroy",
+				    GTK_SIGNAL_FUNC (druid_destroyed), NULL);
+		gtk_widget_show (GTK_WIDGET (druid));
+		gtk_grab_add (GTK_WIDGET (druid));
+		gtk_main ();
+		break;
+	case 1:
+	default:
+		break;
 	}
 	
 	return mail_config_is_configured ();
@@ -176,11 +173,12 @@ check_send_configuration (FolderBrowser *fb)
 {
 	const MailConfigAccount *account;
 	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return FALSE;
+	
 	/* Check general */
-	if (!mail_config_is_configured ()) {
-		if (!configure_mail (fb))
-			return FALSE;
-	}
+	if (!mail_config_is_configured () || !configure_mail (fb))
+		return FALSE;
 	
 	/* Get the default account */
 	account = mail_config_get_default_account ();
@@ -191,8 +189,7 @@ check_send_configuration (FolderBrowser *fb)
 		
 		message = e_gnome_warning_dialog_parented (_("You need to configure an identity\n"
 							     "before you can compose mail."),
-							   GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
-												GTK_TYPE_WINDOW)));
+							   FB_WINDOW (fb));
 		
 		gnome_dialog_set_close (GNOME_DIALOG (message), TRUE);
 		gtk_widget_show (message);
@@ -221,19 +218,21 @@ check_send_configuration (FolderBrowser *fb)
 void
 send_receive_mail (GtkWidget *widget, gpointer user_data)
 {
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	const MailConfigAccount *account;
 	
-	if (!mail_config_is_configured ()) {
-		if (!configure_mail (FOLDER_BROWSER (user_data)))
-			return;
-	}
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
+	if (!mail_config_is_configured () || !configure_mail (fb))
+		return;
 	
 	account = mail_config_get_default_account ();
 	if (!account || !account->transport) {
-		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data), GTK_TYPE_WINDOW);
 		GtkWidget *dialog;
 		
-		dialog = gnome_error_dialog_parented (_("You have not set a mail transport method"), GTK_WINDOW (win));
+		dialog = gnome_error_dialog_parented (_("You have not set a mail transport method"),
+						      FB_WINDOW (fb));
 		gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
 		gtk_widget_show (dialog);
 		
@@ -678,9 +677,10 @@ create_msg_composer (const char *url)
 void
 compose_msg (GtkWidget *widget, gpointer user_data)
 {
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GtkWidget *composer;
 	
-	if (!check_send_configuration (FOLDER_BROWSER (user_data)))
+	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !check_send_configuration (fb))
 		return;
 	
 	composer = create_msg_composer (NULL);
@@ -1039,8 +1039,8 @@ reply_to_sender (GtkWidget *widget, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	
 	/* FIXME: make this always load the message based on cursor */
-
-	if (!check_send_configuration (fb))
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !check_send_configuration (fb))
 		return;
 	
 	mail_reply (fb->folder, fb->mail_display->current_message, 
@@ -1052,9 +1052,9 @@ reply_to_list (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	
-	if (!check_send_configuration (fb))
+	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !check_send_configuration (fb))
 		return;
-
+	
 	/* FIXME: make this always load the message based on cursor */
 	
 	mail_reply (fb->folder, fb->mail_display->current_message, 
@@ -1066,7 +1066,7 @@ reply_to_all (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	
-	if (!check_send_configuration (fb))
+	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !check_send_configuration (fb))
 		return;
 	
 	/* FIXME: make this always load the message based on cursor */
@@ -1078,6 +1078,8 @@ reply_to_all (GtkWidget *widget, gpointer user_data)
 void
 enumerate_msg (MessageList *ml, const char *uid, gpointer data)
 {
+	g_return_if_fail (ml != NULL);
+	
 	g_ptr_array_add ((GPtrArray *) data, g_strdup (uid));
 }
 
@@ -1158,8 +1160,9 @@ do_forward_non_attached (CamelFolder *folder, char *uid, CamelMimeMessage *messa
 static void
 forward_message (FolderBrowser *fb, MailConfigForwardStyle style)
 {
-	if (!fb->message_list->cursor_uid)
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
+	
 	if (!check_send_configuration (fb))
 		return;
 	
@@ -1198,15 +1201,15 @@ do_forward_attach (CamelFolder *folder, GPtrArray *messages, CamelMimePart *part
 void
 forward_attached (GtkWidget *widget, gpointer user_data)
 {
-	FolderBrowser *fb = (FolderBrowser *)user_data;
+	FolderBrowser *fb = (FolderBrowser *) user_data;
 	GPtrArray *uids;
 	
-	if (!check_send_configuration (fb))
+	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !check_send_configuration (fb))
 		return;
 	
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
-	mail_build_attachment (fb->message_list->folder, uids, do_forward_attach,
+	mail_build_attachment (fb->folder, uids, do_forward_attach,
 			       uids->len == 1 ? fb->mail_display->current_message : NULL);
 }
 
@@ -1224,13 +1227,14 @@ forward (GtkWidget *widget, gpointer user_data)
 static void
 transfer_msg (FolderBrowser *fb, gboolean delete_from_source)
 {
-	MessageList *ml = fb->message_list;
-	GPtrArray *uids;
-	char *uri, *physical, *path;
-	char *desc;
 	const char *allowed_types[] = { "mail", "vtrash", NULL };
 	extern EvolutionShellClient *global_shell_client;
+	char *uri, *physical, *path, *desc;
 	static char *last = NULL;
+	GPtrArray *uids;
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
 	
 	if (last == NULL)
 		last = g_strdup ("");
@@ -1255,8 +1259,8 @@ transfer_msg (FolderBrowser *fb, gboolean delete_from_source)
 	g_free (uri);
 	
 	uids = g_ptr_array_new ();
-	message_list_foreach (ml, enumerate_msg, uids);
-	mail_transfer_messages (ml->folder, uids, delete_from_source,
+	message_list_foreach (fb->message_list, enumerate_msg, uids);
+	mail_transfer_messages (fb->folder, uids, delete_from_source,
 				physical, 0, NULL, NULL);
 }
 
@@ -1289,7 +1293,7 @@ static GtkWidget *
 find_socket (GtkContainer *container)
 {
         GList *children, *tmp;
-
+	
         children = gtk_container_children (container);
         while (children) {
                 if (BONOBO_IS_SOCKET (children->data))
@@ -1314,11 +1318,11 @@ popup_listener_cb (BonoboListener *listener,
 		   gpointer user_data)
 {
 	char *type = bonobo_event_subtype (event_name);
-
+	
 	if (!strcmp (type, "Destroy")) {
 		gtk_widget_destroy (GTK_WIDGET (user_data));
 	}
-
+	
 	g_free (type);
 }
 
@@ -1332,19 +1336,20 @@ addrbook_sender (GtkWidget *widget, gpointer user_data)
 	GtkWidget *win;
 	GtkWidget *control;
 	GtkWidget *socket;
-
+	
 	/* FIXME: make this use the cursor message id */
-
-	if (fb && fb->mail_display)
-		msg = fb->mail_display->current_message;
-
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
+	msg = fb->mail_display->current_message;
 	if (msg == NULL)
 		return;
-
+	
 	addr = camel_mime_message_get_from (msg);
 	if (addr == NULL)
 		return;
-
+	
 	addr_str = camel_address_format (CAMEL_ADDRESS (addr));
 
 	win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -1373,25 +1378,28 @@ void
 apply_filters (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-        MessageList *ml = fb->message_list;
 	GPtrArray *uids;
 	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
 	uids = g_ptr_array_new ();
-	message_list_foreach (ml, enumerate_msg, uids);
-
-	mail_filter_on_demand(fb->folder, uids);
+	message_list_foreach (fb->message_list, enumerate_msg, uids);
+	
+	mail_filter_on_demand (fb->folder, uids);
 }
 
 void
 select_all (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-        MessageList *ml = fb->message_list;
-	ESelectionModel *etsm = e_tree_get_selection_model (ml->tree);
-
-	if (ml->folder == NULL)
+	ESelectionModel *etsm;
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
-
+	
+	etsm = e_tree_get_selection_model (fb->message_list->tree);
+	
 	e_selection_model_select_all (etsm);
 }
 
@@ -1406,7 +1414,7 @@ static gboolean
 select_node (ETreeModel *tm, ETreePath path, gpointer user_data)
 {
 	thread_select_info_t *tsi = (thread_select_info_t *) user_data;
-
+	
 	g_ptr_array_add (tsi->paths, path);
 	return FALSE; /*not done yet*/
 }
@@ -1423,18 +1431,18 @@ thread_select_foreach (ETreePath path, gpointer user_data)
 	 * their children (ie, the current node must be inside the thread
 	 * that the user wants to mark.
 	 */
-
+	
 	if (e_tree_model_node_get_first_child (tm, path)) 
 		node = path;
 	else {
 		node = e_tree_model_node_get_parent (tm, path);
-
+		
 		/* Let's make an exception: if no parent, then we're about
 		 * to mark the whole tree. No. */
 		if (e_tree_model_node_is_root (tm, node)) 
 			node = path;
 	}
-
+	
 	e_tree_model_node_traverse (tm, node, select_node, tsi);
 }
 
@@ -1442,26 +1450,25 @@ void
 select_thread (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-        MessageList *ml = fb->message_list;
 	ETreeSelectionModel *selection_model;
 	thread_select_info_t tsi;
 	int i;
-
-	if (ml->folder == NULL)
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
-
+	
 	/* For every selected item, select the thread containing it.
 	 * We can't alter the selection while iterating through it,
 	 * so build up a list of paths.
 	 */
-
-	tsi.ml = ml;
+	
+	tsi.ml = fb->message_list;
 	tsi.paths = g_ptr_array_new ();
-
-	e_tree_selected_path_foreach (ml->tree, thread_select_foreach, &tsi);
-
-	selection_model = E_TREE_SELECTION_MODEL (e_tree_get_selection_model (ml->tree));
-
+	
+	e_tree_selected_path_foreach (fb->message_list->tree, thread_select_foreach, &tsi);
+	
+	selection_model = E_TREE_SELECTION_MODEL (e_tree_get_selection_model (fb->message_list->tree));
+	
 	for (i = 0; i < tsi.paths->len; i++)
 		e_tree_selection_model_add_to_selection (selection_model,
 							 tsi.paths->pdata[i]);
@@ -1472,12 +1479,13 @@ void
 invert_selection (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-        MessageList *ml = fb->message_list;
-	ESelectionModel *etsm = e_tree_get_selection_model (ml->tree);
-
-	if (ml->folder == NULL)
+	ESelectionModel *etsm;
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
-
+	
+	etsm = e_tree_get_selection_model (fb->message_list->tree);
+	
 	e_selection_model_invert_selection (etsm);
 }
 
@@ -1485,22 +1493,21 @@ invert_selection (BonoboUIComponent *uih, void *user_data, const char *path)
 static int
 flag_messages (FolderBrowser *fb, guint32 mask, guint32 set)
 {
-        MessageList *ml = fb->message_list;
 	GPtrArray *uids;
 	int i;
 	
-	if (ml->folder == NULL)
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return 0;
 	
 	/* could just use specific callback but i'm lazy */
 	uids = g_ptr_array_new ();
-	message_list_foreach (ml, enumerate_msg, uids);
-	camel_folder_freeze (ml->folder);
+	message_list_foreach (fb->message_list, enumerate_msg, uids);
+	camel_folder_freeze (fb->folder);
 	for (i = 0; i < uids->len; i++) {
-		camel_folder_set_message_flags (ml->folder, uids->pdata[i], mask, set);
+		camel_folder_set_message_flags (fb->folder, uids->pdata[i], mask, set);
 		g_free (uids->pdata[i]);
 	}
-	camel_folder_thaw (ml->folder);
+	camel_folder_thaw (fb->folder);
 	
 	g_ptr_array_free (uids, TRUE);
 	
@@ -1510,36 +1517,35 @@ flag_messages (FolderBrowser *fb, guint32 mask, guint32 set)
 static int
 toggle_flags (FolderBrowser *fb, guint32 mask)
 {
-        MessageList *ml = fb->message_list;
 	GPtrArray *uids;
 	int i;
 	
-	if (ml->folder == NULL)
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return 0;
 	
 	/* could just use specific callback but i'm lazy */
 	uids = g_ptr_array_new ();
-	message_list_foreach (ml, enumerate_msg, uids);
-	camel_folder_freeze (ml->folder);
+	message_list_foreach (fb->message_list, enumerate_msg, uids);
+	camel_folder_freeze (fb->folder);
 	for (i = 0; i < uids->len; i++) {
-		gint flags;
-
-		flags = camel_folder_get_message_flags (ml->folder, uids->pdata[i]);
-
+		int flags;
+		
+		flags = camel_folder_get_message_flags (fb->folder, uids->pdata[i]);
+		
 		if (flags & mask)
-			camel_folder_set_message_flags (ml->folder, uids->pdata[i], mask, 0);
+			camel_folder_set_message_flags (fb->folder, uids->pdata[i], mask, 0);
 		else {
 			if ((mask & CAMEL_MESSAGE_FLAGGED) && (flags & CAMEL_MESSAGE_DELETED))
-				camel_folder_set_message_flags (ml->folder, uids->pdata[i], CAMEL_MESSAGE_DELETED, 0);
-			camel_folder_set_message_flags (ml->folder, uids->pdata[i], mask, mask);
+				camel_folder_set_message_flags (fb->folder, uids->pdata[i], CAMEL_MESSAGE_DELETED, 0);
+			camel_folder_set_message_flags (fb->folder, uids->pdata[i], mask, mask);
 		}
 		
 		g_free (uids->pdata[i]);
 	}
-	camel_folder_thaw (ml->folder);
+	camel_folder_thaw (fb->folder);
 	
 	g_ptr_array_free (uids, TRUE);
-
+	
 	return i;
 }
 
@@ -1553,33 +1559,35 @@ void
 mark_as_unseen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
 	/* Remove the automatic mark-as-read timer first */
 	if (fb->seen_id) {
 		gtk_timeout_remove (fb->seen_id);
 		fb->seen_id = 0;
 	}
-
+	
 	flag_messages (fb, CAMEL_MESSAGE_SEEN, 0);
 }
 
 void
 mark_all_as_seen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	FolderBrowser *fb = user_data;
-        MessageList *ml = fb->message_list;
+	FolderBrowser *fb = FOLDER_BROWSER (fb);
 	GPtrArray *uids;
 	int i;
-
-	if (ml == NULL)
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
-
-	uids = camel_folder_get_uids(ml->folder);
-	camel_folder_freeze(ml->folder);
-	for (i=0;i<uids->len;i++)
-		camel_folder_set_message_flags(ml->folder, uids->pdata[i], CAMEL_MESSAGE_SEEN, ~0);
-	camel_folder_thaw(ml->folder);
-	g_ptr_array_free(uids, TRUE);
+	
+	uids = camel_folder_get_uids (fb->folder);
+	camel_folder_freeze (fb->folder);
+	for (i = 0; i < uids->len; i++)
+		camel_folder_set_message_flags (fb->folder, uids->pdata[i], CAMEL_MESSAGE_SEEN, ~0);
+	camel_folder_thaw (fb->folder);
+	g_ptr_array_free (uids, TRUE);
 }
 
 void
@@ -1604,19 +1612,34 @@ toggle_as_important (BonoboUIComponent *uih, void *user_data, const char *path)
 void
 zoom_in (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	gtk_html_zoom_in (FOLDER_BROWSER (user_data)->mail_display->html);
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
+	gtk_html_zoom_in (fb->mail_display->html);
 }
 
 void
 zoom_out (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	gtk_html_zoom_out (FOLDER_BROWSER (user_data)->mail_display->html);
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
+	gtk_html_zoom_out (fb->mail_display->html);
 }
 
 void
 zoom_reset (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	gtk_html_zoom_reset (FOLDER_BROWSER (user_data)->mail_display->html);
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
+	gtk_html_zoom_reset (fb->mail_display->html);
 }
 
 static void
@@ -1624,6 +1647,9 @@ do_edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, voi
 {
 	/*FolderBrowser *fb = data;*/
 	int i;
+	
+	if (messages == NULL)
+		return;
 	
 	for (i = 0; i < messages->len; i++) {
 		EMsgComposer *composer;
@@ -1640,7 +1666,7 @@ do_edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, voi
 					    composer_send_cb, NULL);
 			gtk_signal_connect (GTK_OBJECT (composer), "postpone",
 					    composer_postpone_cb, NULL);
-
+			
 			gtk_widget_show (GTK_WIDGET (composer));
 		}
 	}
@@ -1649,20 +1675,19 @@ do_edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, voi
 static gboolean
 are_you_sure (const char *msg, GPtrArray *uids, FolderBrowser *fb)
 {
-	GtkWidget *window = gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW);
 	GtkWidget *dialog;
 	char *buf;
 	int button, i;
-
+	
 	buf = g_strdup_printf (msg, uids->len);
-	dialog = e_gnome_ok_cancel_dialog_parented (buf, NULL, NULL, (GtkWindow *)window);
+	dialog = e_gnome_ok_cancel_dialog_parented (buf, NULL, NULL, FB_WINDOW (fb));
 	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	if (button != 0) {
 		for (i = 0; i < uids->len; i++)
 			g_free (uids->pdata[i]);
 		g_ptr_array_free (uids, TRUE);
 	}
-
+	
 	return button == 0;
 }
 
@@ -1687,7 +1712,7 @@ edit_msg_internal (FolderBrowser *fb)
 		
 		return;
 	}
-
+	
 	mail_get_messages (fb->folder, uids, do_edit_messages, fb);
 }
 
@@ -1695,6 +1720,9 @@ void
 edit_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
 	
 	if (!folder_browser_is_drafts (fb)) {
 		GtkWidget *dialog;
@@ -1732,6 +1760,9 @@ resend_msg (GtkWidget *widget, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GPtrArray *uids;
 	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
 	if (!folder_browser_is_sent (fb)) {
 		GtkWidget *dialog;
 		
@@ -1768,7 +1799,10 @@ search_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GtkWidget *w;
-
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
 	if (fb->mail_display->current_message == NULL) {
 		GtkWidget *dialog;
 		
@@ -1777,7 +1811,7 @@ search_msg (GtkWidget *widget, gpointer user_data)
 		gtk_widget_show (dialog);
 		return;
 	}
-
+	
 	w = mail_search_new (fb->mail_display);
 	gtk_widget_show_all (w);
 }
@@ -1786,7 +1820,10 @@ void
 load_images (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
 	mail_display_load_images (fb->mail_display);
 }
 
@@ -1856,6 +1893,9 @@ save_msg (GtkWidget *widget, gpointer user_data)
 	GPtrArray *uids;
 	char *title, *path;
 	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
@@ -1884,6 +1924,9 @@ delete_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	int deleted, row;
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
 	
 	deleted = flag_messages (fb, CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
 				 CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
@@ -1917,6 +1960,9 @@ next_msg (GtkWidget *button, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	int row;
 	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
 	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
 	message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_NEXT, 0, 0, FALSE);
 }
@@ -1926,6 +1972,9 @@ next_unread_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	int row;
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
 	
 	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
 	message_list_select (fb->message_list, row,
@@ -1939,6 +1988,9 @@ next_flagged_msg (GtkWidget *button, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	int row;
 	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
 	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
 	message_list_select (fb->message_list, row,
 			     MESSAGE_LIST_SELECT_NEXT,
@@ -1950,6 +2002,9 @@ previous_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	int row;
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
 	
 	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
 	message_list_select (fb->message_list, row,
@@ -1963,6 +2018,9 @@ previous_unread_msg (GtkWidget *button, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	int row;
 	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
 	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
 	message_list_select (fb->message_list, row,
 			     MESSAGE_LIST_SELECT_PREVIOUS,
@@ -1974,6 +2032,9 @@ previous_flagged_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	int row;
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
 	
 	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
 	message_list_select (fb->message_list, row,
@@ -1991,6 +2052,9 @@ expunged_folder (CamelFolder *f, void *data)
 {
 	FolderBrowser *fb = ((struct _expunged_folder_data *) data)->fb;
 	gboolean hidedeleted = ((struct _expunged_folder_data *) data)->hidedeleted;
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
 	
 	fb->expunging = NULL;
 	message_list_set_hidedeleted (fb->message_list, hidedeleted);
@@ -2043,6 +2107,9 @@ void
 expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
 	
 	if (fb->folder && (fb->expunging == NULL || fb->folder != fb->expunging) && confirm_expunge (fb)) {
 		struct _expunged_folder_data *data;
@@ -2166,7 +2233,10 @@ accounts_dialog_close (GtkWidget *widget, gpointer user_data)
 void
 providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	FolderBrowser *fb = user_data;
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
 	
 	if (!accounts_dialog) {
 		accounts_dialog = mail_accounts_dialog_new (fb->shell);
@@ -2254,7 +2324,10 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 void
 print_msg (GtkWidget *button, gpointer user_data)
 {
-	FolderBrowser *fb = user_data;
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
 	
 	do_mail_print (fb, FALSE);
 }
@@ -2262,7 +2335,10 @@ print_msg (GtkWidget *button, gpointer user_data)
 void
 print_preview_msg (GtkWidget *button, gpointer user_data)
 {
-	FolderBrowser *fb = user_data;
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
 	
 	do_mail_print (fb, TRUE);
 }
@@ -2299,13 +2375,15 @@ manage_subscriptions (BonoboUIComponent *uih, void *user_data, const char *path)
 void
 configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	FolderBrowser *fb = FOLDER_BROWSER(user_data);
-
-	if (fb->uri &&
-	    strncmp(fb->uri, "vfolder:", 8) == 0) {
-		vfolder_edit_rule(fb->uri);
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
+	if (fb->uri && strncmp (fb->uri, "vfolder:", 8) == 0) {
+		vfolder_edit_rule (fb->uri);
 	} else {
-		mail_local_reconfigure_folder(fb);
+		mail_local_reconfigure_folder (fb);
 	}
 }
 
@@ -2314,7 +2392,10 @@ do_view_message (CamelFolder *folder, char *uid, CamelMimeMessage *message, void
 {
 	FolderBrowser *fb = FOLDER_BROWSER (data);
 	
-	if (message && fb) {
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
+	if (message) {
 		GtkWidget *mb;
 		
 		camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
@@ -2330,7 +2411,7 @@ view_msg (GtkWidget *widget, gpointer user_data)
 	GPtrArray *uids;
 	int i;
 	
-	if (!fb->folder)
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
 	
 	uids = g_ptr_array_new ();
@@ -2351,6 +2432,9 @@ open_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	extern CamelFolder *outbox_folder;
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
 	
 	if (folder_browser_is_drafts (fb) || fb->folder == outbox_folder)
 		edit_msg_internal (fb);
@@ -2394,7 +2478,7 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 	
 	fb = user_data ? FOLDER_BROWSER (user_data) : NULL;
 	
-	if (fb && !confirm_expunge (fb))
+	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !confirm_expunge (fb))
 		return;
 	
 	camel_exception_init (&ex);

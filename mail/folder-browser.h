@@ -25,6 +25,8 @@
 
 #define FB_DEFAULT_CHARSET _("Default")
 
+#define FOLDER_BROWSER_IS_DESTROYED(fb) (!fb || !fb->folder || !fb->message_list || !fb->mail_display)
+
 typedef enum _FolderBrowserSelectionState {
 	FB_SELSTATE_NONE,
 	FB_SELSTATE_SINGLE,

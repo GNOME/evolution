@@ -1,3 +1,34 @@
+2001-10-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (reply_to_sender): Make sure the fb and it's
+	message-list exist.
+	(reply_to_list): same.
+	(reply_to_all): And here...
+	(forward_message): Here too.
+	(forward_attached): Again here.
+	(transfer_msg): Here too.
+	(apply_filters): Same.
+	(select_all): Yet again here...
+	(select_thread): And here.
+	(invert_selection): Same.
+	(flag_messages): Here too.
+	(mark_as_unseen): and here...
+	(mark_all_as_seen): ...
+	(zoom_in): 
+	(zoom_out): 
+	(zoom_reset): 
+	(search_msg): 
+	(load_images): 
+	(save_msg): 
+	(next_msg): 
+	(next_flagged_msg): 
+	(next_unread_msg): 
+	(previous_msg): 
+	(previous_unread_msg): 
+	(expunge_folder): 
+	(configure_folder): 
+	(empty_trash): 
+
 2001-10-23    <NotZed@Ximian.com>
 
 	* mail-mt.c: Added missing errno.h
