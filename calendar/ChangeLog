@@ -1,5 +1,12 @@
 2000-11-30  JP Rosevear  <jpr@helixcode.com>
 
+	* conduits/calendar/calendar-conduit.c (local_record_from_comp): Empty
+	by_day entries are no longer indicated by ICAL_RECURRENCE_ARRAY_MAX not
+	SHRT_MAX. Calculate weekly and monthly by date recurrences properly
+	(get_pilot_day): Convert ical day to corresponding integer for pilot day
+
+2000-11-30  JP Rosevear  <jpr@helixcode.com>
+
 	* conduits/calendar/calendar-conduit.c: Debug message cleanups
 	(get_ical_day): Fix off-by-one error which affected weekly occurences.
 	(comp_from_remote_record): Monthly by day and by date were reversed

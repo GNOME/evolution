@@ -231,6 +231,29 @@ get_ical_day (int day)
 	return ICAL_NO_WEEKDAY;
 }
 
+static int
+get_pilot_day (icalrecurrencetype_weekday wd) 
+{
+	switch (wd) {
+	case ICAL_SUNDAY_WEEKDAY:
+		return 0;
+	case ICAL_MONDAY_WEEKDAY:
+		return 1;
+	case ICAL_TUESDAY_WEEKDAY:
+		return 2;
+	case ICAL_WEDNESDAY_WEEKDAY:
+		return 3;
+	case ICAL_THURSDAY_WEEKDAY:
+		return 4;
+	case ICAL_FRIDAY_WEEKDAY:
+		return 5;
+	case ICAL_SATURDAY_WEEKDAY:
+		return 6;
+	default:
+		return -1;
+	}
+}
+
 static short
 nth_weekday (int pos, icalrecurrencetype_weekday weekday)
 {
@@ -330,7 +353,7 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	local->local.ID = e_pilot_map_lookup_pid (ctxt->map, uid);
 	compute_status (ctxt, local, uid);
 
-	local->appt = g_new0 (struct Appointment,1);
+	local->appt = g_new0 (struct Appointment, 1);
 
 	/* STOP: don't replace these with g_strdup, since free_Appointment
 	   uses free to deallocate */
@@ -382,13 +405,40 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 			break;
 		case ICAL_WEEKLY_RECURRENCE:
 			local->appt->repeatType = repeatWeekly;
-			for (i = 0; i<= 7 && recur->by_day[i] != SHRT_MAX; i++)
-				local->appt->repeatDays[0] = 0;
+			for (i = 0; i <= 7 && recur->by_day[i] != ICAL_RECURRENCE_ARRAY_MAX; i++) {
+				icalrecurrencetype_weekday wd;
+
+				wd = icalrecurrencetype_day_day_of_week (recur->by_day[i]);
+				local->appt->repeatDays[get_pilot_day (wd)] = 1;
+			}
+			
 			break;
 		case ICAL_MONTHLY_RECURRENCE:
-			if (recur->by_month_day[0] != SHRT_MAX) {
+			if (recur->by_month_day[0] != ICAL_RECURRENCE_ARRAY_MAX) {
 				local->appt->repeatType = repeatMonthlyByDate;
+				break;
 			}
+			
+			/* FIX ME Not going to work with -ve by_day */
+			local->appt->repeatType = repeatMonthlyByDay;
+			switch (icalrecurrencetype_day_position (recur->by_day[0])) {
+			case 1:
+				local->appt->repeatDay = dom1stSun;
+				break;
+			case 2:
+				local->appt->repeatDay = dom2ndSun;
+				break;
+			case 3:
+				local->appt->repeatDay = dom3rdSun;
+				break;
+			case 4:
+				local->appt->repeatDay = dom4thSun;
+				break;
+			case 5:
+				local->appt->repeatDay = domLastSun;
+				break;
+			}
+			local->appt->repeatDay += get_pilot_day (icalrecurrencetype_day_day_of_week (recur->by_day[0]));
 			break;
 		case ICAL_YEARLY_RECURRENCE:
 			local->appt->repeatType = repeatYearly;
