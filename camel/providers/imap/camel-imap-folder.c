@@ -802,7 +802,7 @@ imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 			
 			if (*dir) {
 				d(fprintf (stderr, "adding folder: %s\n", dir));
-				if (!strcmp (dir, "INBOX"))
+				if (!g_strcasecmp (dir, "INBOX"))
 					found_inbox = TRUE;
 				g_ptr_array_add (listing, dir);
 			}
