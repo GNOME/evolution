@@ -193,30 +193,25 @@ char *
 mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 {
 	const char *subject;
-	char *fwd_subj, *fromstr;
-	const CamelInternetAddress *from;
-
-	from = camel_mime_message_get_from(msg);
+	char *fwd_subj;
+	
 	subject = camel_mime_message_get_subject(msg);
-
-	if (from) {
-		fromstr = camel_address_format((CamelAddress *)from);
-		if (subject && *subject) {
-			fwd_subj = g_strdup_printf ("[%s] %s", fromstr, subject);
-		} else {
-			fwd_subj = g_strdup_printf (_("[%s] (forwarded message)"),
-						    fromstr);
-		}
-		g_free(fromstr);
+	
+	if (subject && *subject) {
+		fwd_subj = g_strdup_printf ("[Fwd: %s]", subject);
 	} else {
-		if (subject && *subject) {
-			if (strncmp (subject, "Fwd: ", 5) == 0)
-				subject += 4;
-			fwd_subj = g_strdup_printf ("Fwd: %s", subject);
+		const CamelInternetAddress *from;
+		char *fromstr;
+		
+		from = camel_mime_message_get_from (msg);
+		if (from) {
+			fromstr = camel_address_format (CAMEL_ADDRESS (from));
+			fwd_subj = g_strdup_printf ("[Fwd: %s]", fromstr);
+			g_free (fromstr);
 		} else
-			fwd_subj = g_strdup (_("Fwd: (no subject)"));
+			fwd_subj = g_strdup (_("[Fwd: No Subject]"));
 	}
-
+	
 	return fwd_subj;
 }
 

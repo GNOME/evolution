@@ -1,3 +1,8 @@
+2001-07-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-tools.c (mail_tool_generate_forward_subject): Do what was
+	suggested in #4596.
+
 2001-07-18  Peter Williams  <peterw@ximian.com>
 
 	* mail-accounts.c (construct): Add GTK_WIDGET to the charset
