@@ -1,3 +1,8 @@
+2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-search-bar.c (activate_by_subitems): Set the horizontal usize
+	of the entry to 4.
+
 2001-08-16  Jon Trowbridge  <trow@ximian.com>
 
 	* e-filter-bar.c (option_changed): Adjusted for renamed ESearchBar

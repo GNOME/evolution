@@ -136,6 +136,7 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 
 		if (esb->entry == NULL) {
 			esb->entry = gtk_entry_new();
+			gtk_widget_set_usize (esb->entry, 4, -1);
 			gtk_object_ref (GTK_OBJECT (esb->entry));
 			gtk_signal_connect (GTK_OBJECT (esb->entry), "activate",
 					    GTK_SIGNAL_FUNC (entry_activated_cb), esb);
