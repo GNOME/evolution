@@ -93,7 +93,6 @@
 	* component-factory.c (factory_destroy): Wait till all views have
 	gone and then destroy both factories.
 
->>>>>>> 1.805
 2000-12-21  Dan Winship  <danw@helixcode.com>
 
 	* mail-display.c (pixbuf_for_mime_type): Deal with the possibility
