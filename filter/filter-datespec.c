@@ -392,17 +392,6 @@ set_option_relative (GtkMenu *menu, FilterDatespec *fds)
 }
 
 static void
-dialog_response (GtkWidget *dialog, int button, FilterDatespec *fds)
-{
-	if (button == GTK_RESPONSE_ACCEPT) {
-		get_values (fds);
-		set_button (fds);
-	}
-	
-	gtk_widget_destroy (dialog);
-}
-
-static void
 button_clicked (GtkButton *button, FilterDatespec *fds)
 {
 	struct _FilterDatespecPrivate *p = PRIV(fds);
@@ -435,9 +424,12 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 	
 	gtk_box_pack_start ((GtkBox *) dialog->vbox, toplevel, TRUE, TRUE, 3);
 	
-	g_signal_connect (dialog, "response", G_CALLBACK (dialog_response), fds);
+	if (gtk_dialog_run (dialog) == GTK_RESPONSE_ACCEPT) {
+		get_values (fds);
+		set_button (fds);
+	}
 	
-	gtk_dialog_run (dialog);
+	gtk_widget_destroy (dialog);
 }
 
 static GtkWidget *

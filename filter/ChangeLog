@@ -5,6 +5,8 @@
 	"%d seconds ago", etc, and update the code in set_button that uses
 	them. Fixes #36245, translation clash between the "second" here
 	and the one in the calendar (where it's used as "2nd").
+	(button_clicked): Fix this so we don't get stuck inside
+	gtk_dialog_run's main loop forever.
 
 2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
 
