@@ -1,3 +1,8 @@
+2000-05-08  Larry Ewing  <lewing@helixcode.com>
+
+	* e-shortcuts.c (load_shortcuts_into_view): xmlFree the return
+	value of xmlGetProp.
+
 2000-05-07  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shortcuts-view.c (e_shortcuts_view_construct): Use

@@ -47,6 +47,7 @@
 #include <gtk/gtktypeutils.h>
 
 #include <gnome-xml/parser.h>
+#include <gnome-xml/xmlmemory.h>
 
 #include <string.h>
 
@@ -150,6 +151,7 @@ load_shortcuts (EShortcuts *shortcuts,
 
 		shortcut_group = g_new (ShortcutGroup, 1);
 		shortcut_group->title = g_strdup (shortcut_group_title);
+		xmlFree (shortcut_group_title);
 		shortcut_group->shortcuts = NULL;
 
 		for (q = p->childs; q != NULL; q = q->next) {
