@@ -1,5 +1,8 @@
 2004-05-24  Not Zed  <NotZed@Ximian.com>
 
+	* em-popup.c (em_popup_target_new_select): only enable add sender
+	if we also have 1 selected.  #56663.
+
 	* em-folder-view.c (emfv_enable_menus): remove some debug.
 
 	* em-format-html.c (efh_format_header): output commas between

@@ -478,7 +478,8 @@ em_popup_target_new_select(struct _CamelFolder *folder, const char *folder_uri, 
 		mask &= ~EM_POPUP_SELECT_EDIT;
 	
 	if (!(em_utils_folder_is_drafts(folder, folder_uri)
-	      || em_utils_folder_is_outbox(folder, folder_uri)))
+	      || em_utils_folder_is_outbox(folder, folder_uri))
+	    && uids->len == 1)
 		mask &= ~EM_POPUP_SELECT_ADD_SENDER;
 
 	if (uids->len == 1)
