@@ -2544,8 +2544,8 @@ gnome_calendar_get_visible_time_range (GnomeCalendar *gcal,
 
 	priv = gcal->priv;
 
-	e_cal_view_get_visible_time_range (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)),
-					   start_time, end_time);
+	retval = e_cal_view_get_visible_time_range (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)),
+						    start_time, end_time);
 
 	return retval;
 }
