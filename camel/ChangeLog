@@ -1,5 +1,8 @@
 2002-07-04  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/nntp/camel-nntp-provider.c: Set the IS_SOURCE provider
+	flag.
+
 	* providers/pop3/camel-pop3-store.c: Change all exceptions to
 	report which POP server failed (and tried to make a few of the
 	exceptions a bit more clear).
