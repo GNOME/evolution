@@ -1250,7 +1250,7 @@ rfc2047_encode_word(GString *outstring, const char *in, size_t len, const char *
 			   hopefully-small-enough chunks, and leave it at that */
 			convlen = MIN(inlen, CAMEL_FOLD_PREENCODED);
 			p = inptr;
-			if (e_iconv (ic, &inptr, &convlen, &out, &outlen) == (size_t) -1) {
+			if (e_iconv (ic, &inptr, &convlen, &out, &outlen) == (size_t) -1 && errno != EINVAL) {
 				w(g_warning("Conversion problem: conversion truncated: %s", strerror (errno)));
 				/* blah, we include it anyway, better than infinite loop ... */
 				inptr = p + convlen;
@@ -1279,7 +1279,7 @@ rfc2047_encode_word(GString *outstring, const char *in, size_t len, const char *
 			g_string_append (outstring, ascii);
 		}
 	}
-
+	
 	if (ic != (iconv_t) -1)
 		e_iconv_close (ic);
 }
@@ -1334,13 +1334,14 @@ camel_header_encode_string (const unsigned char *in)
 		if (g_unichar_isspace (c) && !last_was_space) {
 			/* we've reached the end of a 'word' */
 			if (word && !(last_was_encoded && encoding)) {
+				/* output lwsp between non-encoded words */
 				g_string_append_len (out, start, word - start);
 				start = word;
 			}
 			
 			switch (encoding) {
 			case 0:
-				out = g_string_append_len (out, word, inptr - start);
+				g_string_append_len (out, start, inptr - start);
 				last_was_encoded = FALSE;
 				break;
 			case 1:
@@ -1388,7 +1389,7 @@ camel_header_encode_string (const unsigned char *in)
 		
 		switch (encoding) {
 		case 0:
-			out = g_string_append_len (out, start, inptr - start);
+			g_string_append_len (out, start, inptr - start);
 			break;
 		case 1:
 			if (last_was_encoded)

@@ -1,3 +1,16 @@
+2004-01-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (rfc2047_encode_word): if e_iconv() returns
+	-1, check that errno != EINVAL - if errno *is* EINVAL, it just
+	means that our convlen wasn't long enough to include the whole
+	sequence. This is fine, we'll just start where we left off next
+	loop thru. Fixes bug #52593 (the buffer was duplicated because
+	state wasn't flushed).
+	(camel_header_encode_string): Fixed a type-o in loop where
+	encoding=0, don't g_string_append_len starting at 'word'
+	inptr-start bytes long - 'word' could be NULL and/or inptr-start
+	could be longer than inptr-word.
+
 2004-01-09  Rodney Dawes  <dobey@ximian.com>
 
 	* providers/groupwise/Makefile.am (EXTRA_DIST): libcamelgroupwise.urls
@@ -5,8 +18,9 @@
 
 2004-01-09  Sivaiah Nallagatla <snallagatla@novell.com>
 
-	* providers/groupwise/groupwise-config-listener.c (is_groupwise_account): added null check 
-	for source url to take care of accounts with Server Types as "None"
+	* providers/groupwise/groupwise-config-listener.c
+	(is_groupwise_account): added null check for source url to take
+	care of accounts with Server Types as "None"
  
 2004-01-09  Not Zed  <NotZed@Ximian.com>
 
@@ -36,12 +50,16 @@
 
 2004-01-08 Sivaiah Nallagatla <snallagatla@novell.com>
 
-	* providers/Makefile.am : add groupwise to SUBDIRS 
-	* providers/groupwise/camel-groupwise-provider.c: new camel provider for groupwise 
-	* providers/groupwise/groupwise-config-listener.[ch] : new class to add e-sources for groupwise calender and tasks 
-	* providers/groupwise/Makefile.am : added new files to Makefile.am  
-	 
+	* providers/Makefile.am : add groupwise to SUBDIRS
 
+	* providers/groupwise/camel-groupwise-provider.c: new camel
+	provider for groupwise
+
+	* providers/groupwise/groupwise-config-listener.[ch] : new class
+	to add e-sources for groupwise calender and tasks
+
+	* providers/groupwise/Makefile.am : added new files to Makefile.am
+	 
 2004-01-05  JP Rosevear <jpr@ximian.com>
 
 	* camel-utf8.c: include sys/types.h for freebsd
