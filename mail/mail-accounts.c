@@ -256,6 +256,7 @@ mail_default (GtkButton *button, gpointer data)
 	}
 }
 
+#ifdef ENABLE_NNTP
 /* news callbacks */
 static void
 news_select (GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data)
@@ -327,6 +328,7 @@ news_delete (GtkButton *button, gpointer data)
 		}
 	}
 }
+#endif /* ENABLE_NNTP */
 
 static void
 construct (MailAccountsDialog *dialog)

@@ -340,8 +340,8 @@ receive_status (CamelFilterDriver *driver, enum camel_filter_status_t status, in
 	   yet, so if this is necessary its not too hard to add */
 	/* the mail_gui_port receiver will free everything for us */
 	switch (status) {
-	case FILTER_STATUS_START:
-	case FILTER_STATUS_END:
+	case CAMEL_FILTER_STATUS_START:
+	case CAMEL_FILTER_STATUS_END:
 		m = mail_msg_new(&status_op, NULL, sizeof(*m));
 		m->desc = g_strdup(desc);
 		m->pc = pc;

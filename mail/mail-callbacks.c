@@ -43,7 +43,6 @@
 #include "folder-browser.h"
 #include "subscribe-dialog.h"
 #include "filter/filter-editor.h"
-#include "filter/filter-driver.h"
 #include <gal/e-table/e-table.h>
 #include <gal/widgets/e-gui-utils.h>
 #include "e-messagebox.h"

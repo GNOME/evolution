@@ -621,7 +621,7 @@ send_queue_send(struct _mail_msg *mm)
 		char *destination;
 		int pc = (100 * i)/uids->len;
 
-		report_status(m, FILTER_STATUS_START, pc, "Sending message %d of %d", i+1, uids->len);
+		report_status(m, CAMEL_FILTER_STATUS_START, pc, "Sending message %d of %d", i+1, uids->len);
 		
 		message = camel_folder_get_message(m->queue, uids->pdata[i], &mm->ex);
 		if (camel_exception_is_set(&mm->ex))
@@ -644,9 +644,9 @@ send_queue_send(struct _mail_msg *mm)
 	}
 
 	if (camel_exception_is_set(&mm->ex))
-		report_status(m, FILTER_STATUS_END, 100, "Failed on message %d of %d", i+1, uids->len);
+		report_status(m, CAMEL_FILTER_STATUS_END, 100, "Failed on message %d of %d", i+1, uids->len);
 	else
-		report_status(m, FILTER_STATUS_END, 100, "Complete.");
+		report_status(m, CAMEL_FILTER_STATUS_END, 100, "Complete.");
 
 	camel_folder_free_uids(m->queue, uids);
 

@@ -26,7 +26,7 @@
 #define MAIL_TOOLS_H
 
 #include <camel/camel.h>
-#include <filter/filter-driver.h> /*eek*/
+#include <camel/camel-filter-driver.h> /*eek*/
 
 /* A global recursive lock on Camel */
 void mail_tool_camel_lock_up (void);
@@ -93,7 +93,7 @@ mail_lookup_url_table (CamelMimeMessage *mime_message);
 
 /* Appropriate for filter_driver_run */
 CamelFolder *
-mail_tool_filter_get_folder_func (FilterDriver *d, const char *uri, void *data);
+mail_tool_filter_get_folder_func (CamelFilterDriver *d, const char *uri, void *data);
 
 gchar *mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...);
 

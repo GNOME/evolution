@@ -35,7 +35,6 @@
 #include "filter/vfolder-context.h"
 #include "filter/filter-option.h"
 #include "filter/filter-input.h"
-#include "filter/filter-driver.h"
 #include "mail.h" /*session*/
 #include "mail-tools.h"
 #include "mail-local.h"
@@ -291,7 +290,7 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 }
 
 CamelFolder *
-mail_tool_filter_get_folder_func (FilterDriver *d, const char *uri, void *data)
+mail_tool_filter_get_folder_func (CamelFilterDriver *d, const char *uri, void *data)
 {
 	return mail_tool_uri_to_folder_noex (uri);
 }

@@ -490,7 +490,7 @@ subscribe_folder_foreach (int model_row, gpointer closure)
 }
 
 static void
-subscribe_folders (GtkWidget *widget, gpointer user_data)
+subscribe_folders (BonoboUIComponent *componet, gpointer user_data, const char *cname)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
 
@@ -511,7 +511,7 @@ unsubscribe_folder_foreach (int model_row, gpointer closure)
 
 
 static void
-unsubscribe_folders (GtkWidget *widget, gpointer user_data)
+unsubscribe_folders (BonoboUIComponent *component, gpointer user_data, const char *cname)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
 
@@ -520,7 +520,7 @@ unsubscribe_folders (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-subscribe_refresh_list (GtkWidget *widget, gpointer user_data)
+subscribe_refresh_list (BonoboUIComponent *component, gpointer user_data, const char *cname)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
 
@@ -893,7 +893,7 @@ populate_store_list (SubscribeDialog *sc)
 	g_slist_free (sources);
 	
 	news = mail_config_get_news ();
-	g_slist_foreach (news, (GFunc)populate_store_foreach, sc);
+	g_slist_foreach ((GSList *)news, (GFunc)populate_store_foreach, sc);
 
 	e_table_model_changed (sc->store_model);
 }
