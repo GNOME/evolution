@@ -81,6 +81,13 @@
 
 #define PARENT_TYPE (bonobo_object_get_type ())
 
+struct _EMailAddress {
+	ENameWestern *wname;
+	gchar *address;
+};
+
+typedef struct _EMailAddress EMailAddress;
+
 static BonoboObjectClass *message_list_parent_class;
 static POA_GNOME_Evolution_MessageList__vepv evolution_message_list_vepv;
 
@@ -139,81 +146,108 @@ static GtkTargetEntry drag_types[] = {
 };
 static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 
-static gint
-address_compare (gconstpointer address1, gconstpointer address2)
+static EMailAddress *
+e_mail_address_new (const char *address)
 {
-	CamelInternetAddress *ia1, *ia2;
-	const char *name1, *name2;
-	const char *addr1, *addr2;
-	gint retval = 0;
+	CamelInternetAddress *cia;
+	EMailAddress *new;
+	const char *name, *addr;
 	
-	ia1 = camel_internet_address_new ();
-	ia2 = camel_internet_address_new ();
+	cia = camel_internet_address_new ();
+	camel_address_decode (CAMEL_ADDRESS (cia), address);
+	camel_internet_address_get (cia, 0, &name, &addr);
 	
-	camel_address_decode (CAMEL_ADDRESS (ia1), (const char *) address1);
-	camel_address_decode (CAMEL_ADDRESS (ia2), (const char *) address2);
-	
-	if (!camel_internet_address_get (ia1, 0, &name1, &addr1)) {
-		camel_object_unref (CAMEL_OBJECT (ia1));
-		camel_object_unref (CAMEL_OBJECT (ia2));
-		return 1;
-	}
-	
-	if (!camel_internet_address_get (ia2, 0, &name2, &addr2)) {
-		camel_object_unref (CAMEL_OBJECT (ia1));
-		camel_object_unref (CAMEL_OBJECT (ia2));
-		return -1;
-	}
-	
-	if (!name1 && !name2) {
-		/* if neither has a name we should compare addresses */
-		retval = g_strcasecmp (addr1, addr2);
+	new = g_new (EMailAddress, 1);
+	new->address = g_strdup (addr);
+	if (name && *name) {
+		new->wname = e_name_western_parse (name);
 	} else {
-		if (!name1)
-			retval = -1;
-		else if (!name2)
-			retval = 1;
-		else {
-			ENameWestern *wname1, *wname2;
+		new->wname = NULL;
+	}
+	
+	camel_object_unref (CAMEL_OBJECT (cia));
+	
+	return new;
+}
+
+static void
+e_mail_address_free (EMailAddress *addr)
+{
+	g_return_if_fail (addr != NULL);
+	
+	g_free (addr->address);
+	if (addr->wname)
+		e_name_western_free (addr->wname);
+	g_free (addr);
+}
+
+static gint
+e_mail_address_compare (gconstpointer address1, gconstpointer address2)
+{
+	const EMailAddress *addr1 = address1;
+	const EMailAddress *addr2 = address2;
+	gint retval;
+	
+	g_return_val_if_fail (addr1 != NULL, 1);
+	g_return_val_if_fail (addr2 != NULL, -1);
+	
+	if (!addr1->wname || !addr2->wname) {
+		/* have to compare addresses, one or both don't have names */
+		g_return_val_if_fail (addr1->address != NULL, 1);
+		g_return_val_if_fail (addr2->address != NULL, -1);
+		
+		retval = g_strcasecmp (addr1->address, addr2->address);
+	} else {
+		if (!addr1->wname->last && !addr2->wname->last) {
+			/* neither has a last name - default to address? */
+			/* FIXME: what do we compare next? */
+			g_return_val_if_fail (addr1->address != NULL, 1);
+			g_return_val_if_fail (addr2->address != NULL, -1);
 			
-			wname1 = e_name_western_parse (name1);
-			wname2 = e_name_western_parse (name2);
-			
-			if (!wname1->last && !wname2->last) {
-				/* neither has a last name */
-				retval = g_strcasecmp (name1, name2);
-			} else {
-				/* compare last names */
-				if (!wname1->last)
-					retval = -1;
-				else if (!wname2->last)
-					retval = 1;
-				else {
-					retval = g_strcasecmp (wname1->last, wname2->last);
-					if (!retval) {
-						/* last names are identical - compare first names */
-						if (!wname1->first)
-							retval = -1;
-						else if (!wname2->first)
-							retval = 1;
-						else {
-							retval = g_strcasecmp (wname1->first, wname2->first);
-							if (!retval) {
-								/* first names are identical - compare addresses */
-								retval = g_strcasecmp (addr1, addr2);
-							}
+			retval = g_strcasecmp (addr1->address, addr2->address);
+		} else {
+			/* compare last names */
+			if (!addr1->wname->last)
+				retval = -1;
+			else if (!addr2->wname->last)
+				retval = 1;
+			else {
+				retval = g_strcasecmp (addr1->wname->last, addr2->wname->last);
+				if (!retval) {
+					/* last names are identical - compare first names */
+					if (!addr1->wname->first)
+						retval = -1;
+					else if (!addr2->wname->first)
+						retval = 1;
+					else {
+						retval = g_strcasecmp (addr1->wname->first, addr2->wname->first);
+						if (!retval) {
+							/* first names are identical - compare addresses */
+							g_return_val_if_fail (addr1->address != NULL, 1);
+							g_return_val_if_fail (addr2->address != NULL, -1);
+							
+							retval = g_strcasecmp (addr1->address, addr2->address);
 						}
 					}
 				}
 			}
-			
-			e_name_western_free (wname1);
-			e_name_western_free (wname2);
 		}
 	}
 	
-	camel_object_unref (CAMEL_OBJECT (ia1));
-	camel_object_unref (CAMEL_OBJECT (ia2));
+	return retval;
+}
+
+static gint
+address_compare (gconstpointer address1, gconstpointer address2)
+{
+	EMailAddress *addr1, *addr2;
+	gint retval;
+	
+	addr1 = e_mail_address_new (address1);
+	addr2 = e_mail_address_new (address2);
+	retval = e_mail_address_compare (addr1, addr2);
+	e_mail_address_free (addr1);
+	e_mail_address_free (addr2);
 	
 	return retval;
 }
@@ -830,10 +864,10 @@ message_list_create_extras (void)
 	e_table_extras_add_pixbuf(extras, "score", states_pixmaps [11].pixbuf);
 	e_table_extras_add_pixbuf(extras, "attachment", states_pixmaps [4].pixbuf);
 	e_table_extras_add_pixbuf(extras, "flagged", states_pixmaps [5].pixbuf);
-
+	
 	e_table_extras_add_compare(extras, "address_compare", address_compare);
 	e_table_extras_add_compare(extras, "subject_compare", subject_compare);
-
+	
 	for (i = 0; i < 3; i++)
 		images [i] = states_pixmaps [i].pixbuf;
 	
@@ -851,10 +885,9 @@ message_list_create_extras (void)
 		images[i] = states_pixmaps [i + 5].pixbuf;
 	
 	e_table_extras_add_cell(extras, "render_score", e_cell_toggle_new (0, 7, images));
-
-	cell = e_cell_text_new (
-		NULL, GTK_JUSTIFY_LEFT);
 	
+	/* date cell */
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
 			"text_filter", filter_date,
 			NULL);
@@ -868,10 +901,9 @@ message_list_create_extras (void)
 			"color_column", COL_COLOUR,
 			NULL);
 	e_table_extras_add_cell(extras, "render_date", cell);
-
-	cell = e_cell_text_new (
-		NULL, GTK_JUSTIFY_LEFT);
-
+	
+	/* text cell */
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
 			"strikeout_column", COL_DELETED,
 			NULL);

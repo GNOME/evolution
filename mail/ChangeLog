@@ -1,3 +1,12 @@
+2000-11-20  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* message-list.c (e_mail_address_compare): New comparison function
+	that will replace address_compare if/when we ever go to save the
+	preparsed addresses in the ETable rather than parsing them each
+	time. Also fixed it so that we should get better sorting when
+	addresses don't contain name parts (I was checking for NULL but
+	not '\0').
+
 2000-11-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-format.c (mail_generate_reply): Use the new quote_message
