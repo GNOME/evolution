@@ -580,8 +580,8 @@ icalcomponent_count_components (icalcomponent* component,
 {
     int count=0;
     pvl_elem itr;
-    struct icalcomponent_impl *impl = 
-	(struct iccalcomponent_impl*)component;
+    struct icalcomponent_impl *impl =
+        (struct icalcomponent_impl*)component;
 
     icalerror_check_arg_rz( (component!=0), "component");
 
