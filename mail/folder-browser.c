@@ -340,6 +340,8 @@ etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 	} else if (ev->key.keyval == GDK_Delete ||
 		   ev->key.keyval == GDK_KP_Delete) {
 		delete_msg (NULL, fb);
+		message_list_select_next (fb->message_list, row,
+					  0, CAMEL_MESSAGE_DELETED);
 		return TRUE;
 	}
 

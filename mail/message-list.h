@@ -106,5 +106,8 @@ void           message_list_foreach    (MessageList *message_list,
 					MessageListForeachFunc callback,
 					gpointer user_data);
 
+void           message_list_select_next(MessageList *message_list, int row,
+					guint32 flags, guint32 mask);
+
 #endif /* _MESSAGE_LIST_H_ */
 

@@ -1,5 +1,18 @@
 2000-07-06  Dan Winship  <danw@helixcode.com>
 
+	* message-list.c (message_list_select_next): New function to
+	select the first message on or after the given row that meets
+	certain flag criteria.
+
+	* mail-ops.c (real_fetch_mail): call message_list_select_next to
+	select first unread message in current folder if it changes.
+	(real_delete_msg): Remove the code to move the etable cursor. It
+	only makes sense really if you deleted the message with the
+	keyboard, so do it from etable_key.
+
+	* folder-browser.c (etable_key): call message_list_select_next to
+	select next non-deleted message after Delete.
+
 	* mail-identify.c: Add a workaround for a small gnome-vfs 0.2 bug
 	so we don't need to require CVS gnome-vfs.
 

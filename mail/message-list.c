@@ -139,6 +139,37 @@ get_message_row (MessageList *message_list, const char *uid)
 	return -1;
 }
 
+/**
+ * message_list_select_next:
+ * @message_list: a MessageList
+ * @row: the row to start from
+ * @flags: a set of flag values
+ * @mask: a mask for comparing against @flags
+ *
+ * This moves the message list selection to the first row on or after
+ * @row whose flags match @flags when masked with @mask.
+ **/
+void
+message_list_select_next (MessageList *message_list, int row,
+			  guint32 flags, guint32 mask)
+{
+	CamelMessageInfo *info;
+
+	while ((info = get_message_info (message_list, row))) {
+		if ((info->flags & mask) == flags) {
+			e_table_set_cursor_row (E_TABLE (message_list->etable),
+						row);
+			return;
+		}
+		row++;
+	}
+
+	/* We know "row" is out of bounds now, so this will cause the
+	 * MailDisplay to be cleared.
+	 */
+	select_msg (message_list, row);
+}
+
 static gint
 mark_msg_seen (gpointer data)
 {

@@ -119,6 +119,15 @@ check_configured (void)
 	return configured;
 }
 
+static void
+select_first_unread (CamelFolder *folder, int type, gpointer data)
+{
+	FolderBrowser *fb = data;
+
+	message_list_select_next (fb->message_list, 0,
+				  0, CAMEL_MESSAGE_SEEN);
+}
+
 void
 real_fetch_mail (gpointer user_data )
 {
@@ -131,6 +140,7 @@ real_fetch_mail (gpointer user_data )
 	FilterDriver *filter = NULL;
 	char *userrules, *systemrules;
 	char *tmp_mbox = NULL, *source;
+	guint handler_id;
 
 	info = (rfm_t *) user_data;
 	fb = info->fb;
@@ -276,10 +286,20 @@ real_fetch_mail (gpointer user_data )
 	g_free (userrules);
 	g_free (systemrules);
 
+	/* Attach a handler to this folder to select the first unread
+	 * message iff it changes.
+	 */
+	handler_id = gtk_signal_connect (GTK_OBJECT (fb->folder),
+					 "folder_changed",
+					 GTK_SIGNAL_FUNC (select_first_unread),
+					 fb);
+
 	if (filter_driver_run (filter, folder, fb->folder) == -1) {
 		async_mail_exception_dialog ("Unable to get new mail", ex, fb);
 		goto cleanup;
 	}
+
+	gtk_signal_disconnect (GTK_OBJECT (fb->folder), handler_id);
 
  cleanup:
 	g_free(tmp_mbox);
@@ -699,13 +719,6 @@ delete_msg (GtkWidget *button, gpointer user_data)
 		camel_exception_clear (&ex);
 		return;
 	}
-
-	/* Move the cursor down a row... FIXME: should skip other
-	 * deleted messages. FIXME: this implementation is a bit
-	 * questionable.  FIXME: this behaviour is very annoying
-	 * too.
-	 */
-	e_table_set_cursor_row (E_TABLE (ml->etable), cursor + 1);
 }
 
 static void real_expunge_folder (gpointer user_data)
