@@ -28,6 +28,7 @@
 #include <config.h>
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
+#include <gal/util/e-util.h>
 #include "e-util/e-categories-config.h"
 #include "cal-util/timeutil.h"
 #include "e-day-view-top-item.h"
@@ -269,7 +270,7 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 		else
 			format = "%d";
 
-		strftime (buffer, sizeof (buffer), format, &day_start);
+		e_utf8_strftime (buffer, sizeof (buffer), format, &day_start);
 			
 		clip_rect.x = day_view->day_offsets[day] - x;
 		clip_rect.y = 2 - y;

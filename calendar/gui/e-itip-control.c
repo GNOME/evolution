@@ -628,10 +628,7 @@ write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
 				     calendar_config_get_24_hour_format (),
 				     FALSE, FALSE,
 				     time_buf, sizeof (time_buf));
-
-	time_utf8 = g_locale_to_utf8 (time_buf, -1, NULL, NULL, NULL);
-	strcat (buffer, time_utf8);
-	g_free (time_utf8);
+	strcat (buffer, time_buf);
 
 	if (!dt->value->is_utc && dt->tzid) {
 		zone = icalcomponent_get_timezone (priv->top_level, dt->tzid);

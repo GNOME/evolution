@@ -1,3 +1,46 @@
+2003-05-29  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #43775
+	
+	* gui/weekday-picker.c (get_day_text): calculate the characters to
+	display correctly
+	(configure_items): use it
+	(weekday_picker_style_set): ditto
+
+	* gui/print.c (format_date): use e_utf8_strftime
+	(print_week_view_background): ditto
+	(print_month_summary): ditto
+	(range_selector_new): ditto
+	(print_comp_item): ditto
+
+	* gui/itip-utils.c (comp_description): the translation is already
+	utf8
+
+	* gui/e-itip-control.c (write_label_piece): the string is already
+	in utf8
+
+	* gui/e-day-view.c (e_day_view_style_set): use e_utf8_strftime
+	(e_day_view_recalc_cell_sizes): ditto
+
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw): use
+	e_utf8_strftime
+
+	* gui/e-cell-date-edit-text.c (ecd_get_text): return the
+	duplicated buffer (its already utf8)
+	(show_date_warning): use e_utf8_strftime
+
+	* gui/calendar-model.c (date_value_to_string): return the
+	duplicated buffer (its already utf8)
+	(calendar_model_value_to_string): the translations should already
+	be in utf8
+
+	* gui/calendar-config.c
+	(calendar_config_locale_supports_12_hour_format): use
+	e_utf8_strftime
+
+	* gui/calendar-commands.c (calendar_set_folder_bar_label): use
+	e_utf8_strftime
+
 2003-05-28  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #43455

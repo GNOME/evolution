@@ -45,6 +45,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-exception.h>
+#include <gal/util/e-util.h>
 #include <cal-util/timeutil.h>
 #include "shell/Evolution.h"
 #include "calendar-commands.h"
@@ -414,19 +415,19 @@ calendar_set_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
 		if (start_tm.tm_year == end_tm.tm_year
 		    && start_tm.tm_mon == end_tm.tm_mon
 		    && start_tm.tm_mday == end_tm.tm_mday) {
-			strftime (buffer, sizeof (buffer),
+			e_utf8_strftime (buffer, sizeof (buffer),
 				  _("%A %d %B %Y"), &start_tm);
 		} else if (start_tm.tm_year == end_tm.tm_year) {
-			strftime (buffer, sizeof (buffer),
+			e_utf8_strftime (buffer, sizeof (buffer),
 				  _("%a %d %b"), &start_tm);
-			strftime (end_buffer, sizeof (end_buffer),
+			e_utf8_strftime (end_buffer, sizeof (end_buffer),
 				  _("%a %d %b %Y"), &end_tm);
 			strcat (buffer, " - ");
 			strcat (buffer, end_buffer);
 		} else {
-			strftime (buffer, sizeof (buffer),
+			e_utf8_strftime (buffer, sizeof (buffer),
 				  _("%a %d %b %Y"), &start_tm);
-			strftime (end_buffer, sizeof (end_buffer),
+			e_utf8_strftime (end_buffer, sizeof (end_buffer),
 				  _("%a %d %b %Y"), &end_tm);
 			strcat (buffer, " - ");
 			strcat (buffer, end_buffer);
@@ -435,24 +436,24 @@ calendar_set_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
 	case GNOME_CAL_MONTH_VIEW:
 		if (start_tm.tm_year == end_tm.tm_year) {
 			if (start_tm.tm_mon == end_tm.tm_mon) {
-				strftime (buffer, sizeof (buffer),
+				e_utf8_strftime (buffer, sizeof (buffer),
 					  "%d", &start_tm);
-				strftime (end_buffer, sizeof (end_buffer),
+				e_utf8_strftime (end_buffer, sizeof (end_buffer),
 					  _("%d %B %Y"), &end_tm);
 				strcat (buffer, " - ");
 				strcat (buffer, end_buffer);
 			} else {
-				strftime (buffer, sizeof (buffer),
+				e_utf8_strftime (buffer, sizeof (buffer),
 					  _("%d %B"), &start_tm);
-				strftime (end_buffer, sizeof (end_buffer),
+				e_utf8_strftime (end_buffer, sizeof (end_buffer),
 					  _("%d %B %Y"), &end_tm);
 				strcat (buffer, " - ");
 				strcat (buffer, end_buffer);
 			}
 		} else {
-			strftime (buffer, sizeof (buffer),
+			e_utf8_strftime (buffer, sizeof (buffer),
 				  _("%d %B %Y"), &start_tm);
-			strftime (end_buffer, sizeof (end_buffer),
+			e_utf8_strftime (end_buffer, sizeof (end_buffer),
 				  _("%d %B %Y"), &end_tm);
 			strcat (buffer, " - ");
 			strcat (buffer, end_buffer);

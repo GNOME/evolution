@@ -262,13 +262,30 @@ colorize_items (WeekdayPicker *wp)
 }
 
 /* Configures the items in the weekday picker by setting their attributes. */
+static char *
+get_day_text (int day_index)
+{
+	const char *str = _("SMTWTFS");
+	char *day;
+	int char_size = 0;
+
+	day = g_utf8_offset_to_pointer (str, day_index);
+
+	/* we use strlen because we actually want to count bytes */
+	if (day_index == 6)
+		char_size = strlen (day); 
+	else
+		char_size = strlen (day) - strlen (g_utf8_find_next_char (day, NULL));
+
+	return g_strndup (day, char_size);
+}
+
 static void
 configure_items (WeekdayPicker *wp)
 {
 	WeekdayPickerPrivate *priv;
 	int width, height;
 	int box_width;
-	const char *str;
 	int i;
 
 	priv = wp->priv;
@@ -277,7 +294,6 @@ configure_items (WeekdayPicker *wp)
 	height = GTK_WIDGET (wp)->allocation.height;
 
 	box_width = (width - 1) / 7;
-	str = _("SMTWTFS");
 
 	for (i = 0; i < 7; i++) {
 		char *c;
@@ -295,7 +311,7 @@ configure_items (WeekdayPicker *wp)
 				       "width_pixels", 0,
 				       NULL);
 
-		c = g_strndup (str + day, 1);
+		c = get_day_text (day);
 		gnome_canvas_item_set (priv->labels[i],
 				       "text", c,
 #if 0
@@ -363,8 +379,7 @@ weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style)
 	WeekdayPicker *wp;
 	WeekdayPickerPrivate *priv;
 	int max_width;
-	const char *str;
-	int i, len;
+	int i;
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
@@ -385,15 +400,15 @@ weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style)
 
 	max_width = 0;
 
-	str = _("SMTWTFS");
-	len = strlen (str);
-
-	for (i = 0; i < len; i++) {
+	for (i = 0; i < 7; i++) {
+		char *c;
 		int w;
 
-		pango_layout_set_text (layout, str + i, 1);
+		c = get_day_text (i);
+		pango_layout_set_text (layout, c, strlen (c));
 		pango_layout_get_pixel_size (layout, &w, NULL);
-
+		g_free (c);
+		
 		if (w > max_width)
 			max_width = w;
 	}

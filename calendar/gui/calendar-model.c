@@ -32,6 +32,7 @@
 #include <libgnomeui/gnome-stock-icons.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/util/e-util.h>
 #include <e-util/e-time-utils.h>
 #include <cal-util/timeutil.h>
 #include "calendar-commands.h"
@@ -1677,7 +1678,7 @@ date_value_to_string (ETableModel *etm, const void *value)
 	e_time_format_date_and_time (&tmp_tm, priv->use_24_hour_format,
 				     TRUE, FALSE,
 				     buffer, sizeof (buffer));
-	return g_locale_to_utf8 (buffer, -1, NULL, NULL, NULL);
+	return g_strdup (buffer);
 }
 
 
@@ -1705,17 +1706,17 @@ calendar_model_value_to_string (ETableModel *etm, int col, const void *value)
 
 	case CAL_COMPONENT_FIELD_ICON:
 		if (GPOINTER_TO_INT (value) == 0)
-			return g_locale_to_utf8 (_("Normal"), -1, NULL, NULL, NULL);
+			return _("Normal");
 		else if (GPOINTER_TO_INT (value) == 1)
-			return g_locale_to_utf8 (_("Recurring"), -1, NULL, NULL, NULL);
+			return _("Recurring");
 		else
-			return g_locale_to_utf8 (_("Assigned"), -1, NULL, NULL, NULL);
+			return _("Assigned");
 
 	case CAL_COMPONENT_FIELD_HAS_ALARMS:
 	case CAL_COMPONENT_FIELD_COMPLETE:
 	case CAL_COMPONENT_FIELD_RECURRING:
 	case CAL_COMPONENT_FIELD_OVERDUE:
-		return g_locale_to_utf8 (value ? _("Yes") : _("No"), -1, NULL, NULL, NULL);
+		return value ? _("Yes") : _("No");
 
 	case CAL_COMPONENT_FIELD_COLOR:
 		return NULL;

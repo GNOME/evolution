@@ -45,6 +45,7 @@
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/util/e-util.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-exec.h>
@@ -1193,7 +1194,7 @@ e_day_view_style_set (GtkWidget *widget,
 	for (month = 0; month < 12; month++) {
 		date_tm.tm_mon = month;
 
-		strftime (buffer, sizeof (buffer), "%B", &date_tm);
+		e_utf8_strftime (buffer, sizeof (buffer), "%B", &date_tm);
 		pango_layout_set_text (layout, buffer, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 
@@ -1202,7 +1203,7 @@ e_day_view_style_set (GtkWidget *widget,
 			day_view->longest_month_name = month;
 		}
 
-		strftime (buffer, sizeof (buffer), "%b", &date_tm);
+		e_utf8_strftime (buffer, sizeof (buffer), "%b", &date_tm);
 		pango_layout_set_text (layout, buffer, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 
@@ -1224,7 +1225,7 @@ e_day_view_style_set (GtkWidget *widget,
 		date_tm.tm_mday = 2 + day;
 		date_tm.tm_wday = day;
 
-		strftime (buffer, sizeof (buffer), "%A", &date_tm);
+		e_utf8_strftime (buffer, sizeof (buffer), "%A", &date_tm);
 		pango_layout_set_text (layout, buffer, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 
@@ -1233,7 +1234,7 @@ e_day_view_style_set (GtkWidget *widget,
 			day_view->longest_weekday_name = day;
 		}
 
-		strftime (buffer, sizeof (buffer), "%a", &date_tm);
+		e_utf8_strftime (buffer, sizeof (buffer), "%a", &date_tm);
 		pango_layout_set_text (layout, buffer, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 
@@ -1392,7 +1393,7 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	date_tm.tm_isdst = -1;
 	/* strftime format %A = full weekday name, %d = day of month,
 	   %B = full month name. Don't use any other specifiers. */
-	strftime (buffer, sizeof (buffer), _("%A %d %B"), &date_tm);
+	e_utf8_strftime (buffer, sizeof (buffer), _("%A %d %B"), &date_tm);
 	pango_layout_set_text (layout, buffer, -1);
 	pango_layout_get_pixel_size (layout, &pango_width, NULL);
 
@@ -1409,7 +1410,7 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	date_tm.tm_isdst = -1;
 	/* strftime format %a = abbreviated weekday name, %d = day of month,
 	   %b = abbreviated month name. Don't use any other specifiers. */
-	strftime (buffer, sizeof (buffer), _("%a %d %b"), &date_tm);
+	e_utf8_strftime (buffer, sizeof (buffer), _("%a %d %b"), &date_tm);
 	pango_layout_set_text (layout, buffer, -1);
 	pango_layout_get_pixel_size (layout, &pango_width, NULL);
 
@@ -1425,7 +1426,7 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	date_tm.tm_isdst = -1;
 	/* strftime format %d = day of month, %b = abbreviated month name.
 	   Don't use any other specifiers. */
-	strftime (buffer, sizeof (buffer), _("%d %b"), &date_tm);
+	e_utf8_strftime (buffer, sizeof (buffer), _("%d %b"), &date_tm);
 	pango_layout_set_text (layout, buffer, -1);
 	pango_layout_get_pixel_size (layout, &pango_width, NULL);
 

@@ -509,11 +509,9 @@ comp_description (CalComponent *comp)
 		cal_component_free_datetime (&dt);
 
                 if (start != NULL && end != NULL) {
-                        char *tmp, *tmp_utf;
+                        char *tmp;
                         tmp = g_strdup_printf (_("Free/Busy information (%s to %s)"), start, end);
-			tmp_utf = g_locale_to_utf8 (tmp, -1, NULL, NULL, NULL);
-                        description = CORBA_string_dup (tmp_utf);
-                        g_free (tmp_utf);
+                        description = CORBA_string_dup (tmp);
                         g_free (tmp);
                 } else {
                         description = CORBA_string_dup (_("Free/Busy information"));

@@ -88,7 +88,7 @@ ecd_get_text (ECellText *cell, ETableModel *model, int col, int row)
 	e_time_format_date_and_time (&tmp_tm, ecd->use_24_hour_format,
 				     !dv->tt.is_date, FALSE,
 				     buffer, sizeof (buffer));
-	return g_locale_to_utf8 (buffer, -1, NULL, NULL, NULL);
+	return g_strdup (buffer);
 }
 
 
@@ -120,7 +120,7 @@ show_date_warning (ECellDateEditText *ecd)
 		/* strftime format of a weekday, a date and a time, 12-hour. */
 		format = _("%a %m/%d/%Y %I:%M:%S %p");
 
-	strftime (buffer, sizeof (buffer), format, tmp_tm);
+	e_utf8_strftime (buffer, sizeof (buffer), format, tmp_tm);
 
 	g_snprintf (message, 256,
 		    _("The date must be entered in the format: \n\n%s"),

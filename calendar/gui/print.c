@@ -41,6 +41,7 @@
 #include <libgnomeprintui/gnome-print-paper-selector.h>
 #include <libgnomeprintui/gnome-print-preview.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
+#include <gal/util/e-util.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-time-utils.h>
 #include <gal/widgets/e-unicode.h>
@@ -493,7 +494,6 @@ format_date(time_t time, int flags, char *buffer, int bufflen)
 	icaltimezone *zone = get_timezone ();
 	char fmt[64];
 	struct tm tm;
-	char *utf_str;
 
 	tm = *convert_timet_to_struct_tm (time, zone);
 
@@ -518,11 +518,9 @@ format_date(time_t time, int flags, char *buffer, int bufflen)
 			strcat(fmt, " ");
 		strcat(fmt, "%Y");
 	}
-	strftime(buffer, bufflen, fmt, &tm);
-	utf_str = g_locale_to_utf8 (buffer, -1, NULL, NULL, NULL);
-	strncpy (buffer, utf_str, bufflen - 1);
+	e_utf8_strftime(buffer, bufflen, fmt, &tm);
 	buffer[bufflen - 1] = '\0';
-	g_free (utf_str);
+
 	return buffer;
 }
 
@@ -1483,7 +1481,7 @@ print_week_view_background (GnomePrintContext *pc, GnomeFont *font,
 	int day, day_x, day_y, day_h;
 	double x1, x2, y1, y2, font_size, fillcolor;
 	struct tm tm;
-	char *format_string, buffer[128], *utf_str;
+	char *format_string, buffer[128];
 
 	font_size = gnome_font_get_size (font);
 
@@ -1530,11 +1528,9 @@ print_week_view_background (GnomePrintContext *pc, GnomeFont *font,
 
 		}
 
-		strftime (buffer, sizeof (buffer), format_string, &tm);
-		utf_str = g_locale_to_utf8 (buffer, -1, NULL, NULL, NULL);
-		print_text_size (pc, utf_str, ALIGN_RIGHT,
+		e_utf8_strftime (buffer, sizeof (buffer), format_string, &tm);
+		print_text_size (pc, buffer, ALIGN_RIGHT,
 				 x1, x2 - 4, y1 - 2, y1 - 2 - font_size);
-		g_free (utf_str);
 	}
 }
 
@@ -1737,26 +1733,22 @@ print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	y2 = top - font_size * 1.5;
 
 	for (col = 0; col < columns; col++) {
-		char *utf_str;
-
 		if (tm.tm_wday == 6 && compress_weekend) {
-			strftime (buffer, sizeof (buffer), "%a/", &tm);
+			e_utf8_strftime (buffer, sizeof (buffer), "%a/", &tm);
 			len = strlen (buffer);
 			tm.tm_mday++;
 			tm.tm_wday = (tm.tm_wday + 1) % 7;
-			strftime (buffer + len, sizeof (buffer) - len,
+			e_utf8_strftime (buffer + len, sizeof (buffer) - len,
 				  "%a", &tm);
 		} else {
-			strftime (buffer, sizeof (buffer), "%A", &tm);
+			e_utf8_strftime (buffer, sizeof (buffer), "%A", &tm);
 		}
 
 		x1 = left + cell_width * col;
 		x2 = x1 + cell_width;
 
 		print_border (pc, x1, x2, y1, y2, 1.0, -1.0);
-		utf_str = g_locale_to_utf8 (buffer, -1, NULL, NULL, NULL);
-		print_text_size (pc, utf_str, ALIGN_CENTER, x1, x2, y1, y2);
-		g_free (utf_str);
+		print_text_size (pc, buffer, ALIGN_CENTER, x1, x2, y1, y2);
 
 		tm.tm_mday++;
 		tm.tm_wday = (tm.tm_wday + 1) % 7;
@@ -1882,7 +1874,7 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 
 	/* Day */
 
-	strftime (text, sizeof (text), _("Selected day (%a %b %d %Y)"), &tm);
+	e_utf8_strftime (text, sizeof (text), _("Selected day (%a %b %d %Y)"), &tm);
 	radio = gtk_radio_button_new_with_label (NULL, text);
 	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
 	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
@@ -1907,15 +1899,15 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 	week_end_tm = *convert_timet_to_struct_tm (week_end, zone);
 
 	if (week_begin_tm.tm_mon == week_end_tm.tm_mon) {
-		strftime (str1, sizeof (str1), _("%a %b %d"), &week_begin_tm);
-		strftime (str2, sizeof (str2), _("%a %d %Y"), &week_end_tm);
+		e_utf8_strftime (str1, sizeof (str1), _("%a %b %d"), &week_begin_tm);
+		e_utf8_strftime (str2, sizeof (str2), _("%a %d %Y"), &week_end_tm);
 	} else {
 		if (week_begin_tm.tm_year == week_end_tm.tm_year) {
-			strftime (str1, sizeof (str1), _("%a %b %d"), &week_begin_tm);
-			strftime (str2, sizeof (str2), _("%a %b %d %Y"), &week_end_tm);
+			e_utf8_strftime (str1, sizeof (str1), _("%a %b %d"), &week_begin_tm);
+			e_utf8_strftime (str2, sizeof (str2), _("%a %b %d %Y"), &week_end_tm);
 		} else {
-			strftime (str1, sizeof (str1), _("%a %b %d %Y"), &week_begin_tm);
-			strftime (str2, sizeof (str2), _("%a %b %d %Y"), &week_end_tm);
+			e_utf8_strftime (str1, sizeof (str1), _("%a %b %d %Y"), &week_begin_tm);
+			e_utf8_strftime (str2, sizeof (str2), _("%a %b %d %Y"), &week_end_tm);
 		}
 	}
 
@@ -1927,14 +1919,14 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 
 	/* Month */
 
-	strftime (text, sizeof (text), _("Selected month (%b %Y)"), &tm);
+	e_utf8_strftime (text, sizeof (text), _("Selected month (%b %Y)"), &tm);
 	radio = gtk_radio_button_new_with_label (group, text);
 	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
 	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
 
 	/* Year */
 
-	strftime (text, sizeof (text), _("Selected year (%Y)"), &tm);
+	e_utf8_strftime (text, sizeof (text), _("Selected year (%Y)"), &tm);
 	radio = gtk_radio_button_new_with_label (group, text);
 	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
 	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
@@ -2183,7 +2175,7 @@ print_date_label (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 	icaltimezone *start_zone, *end_zone, *due_zone, *completed_zone;
 	CalComponentDateTime datetime;
 	time_t start = 0, end = 0, complete = 0, due = 0;
-	static char buffer[1024], *utf_text;
+	static char buffer[1024];
 
 	cal_component_get_dtstart (comp, &datetime);
 	if (datetime.value) {
@@ -2239,10 +2231,8 @@ print_date_label (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 			write_label_piece (due, buffer, 1024, _("Due "), NULL);
 	}
 
-	utf_text = g_locale_to_utf8 (buffer, -1, NULL, NULL, NULL);
-	print_text_size_bold (pc, utf_text, ALIGN_LEFT,
+	print_text_size_bold (pc, buffer, ALIGN_LEFT,
 			      left, right, top, top - 15);
-	g_free (utf_text);
 }
 
 static void
@@ -2335,19 +2325,16 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 		/* Priority */
 		cal_component_get_priority (comp, &priority);
 		if (priority && *priority >= 0) {
-			char *priority_string, *priority_utf8, *text;
+			char *priority_string, *text;
 
 			priority_string = cal_util_priority_to_string (*priority);
 			cal_component_free_priority (priority);
 
-			priority_utf8 = g_locale_to_utf8 (priority_string, -1, NULL, NULL, NULL);
-			text = g_strdup_printf (_("Priority: %s"),
-						priority_utf8);
+			text = g_strdup_printf (_("Priority: %s"), priority_string);
 			top = bound_text (pc, font, text,
 					  left, right, top, bottom, 0);
 			top += gnome_font_get_size (font) - 6;
 			g_free (text);
-			g_free (priority_utf8);
 		}
 
 		/* Percent Complete */

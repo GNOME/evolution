@@ -33,6 +33,7 @@
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-config.h>
 #include <libgnomeui/gnome-dialog.h>
+#include <gal/util/e-util.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include <cal-util/timeutil.h>
 
@@ -78,7 +79,7 @@ calendar_config_locale_supports_12_hour_format (void)
 	char s[16];
 	time_t t = 0;
 
-	strftime (s, sizeof s, "%p", gmtime (&t));
+	e_utf8_strftime (s, sizeof s, "%p", gmtime (&t));
 	return s[0] != '\0';
 }
 
