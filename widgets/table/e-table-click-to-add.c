@@ -267,6 +267,8 @@ etcta_realize (GnomeCanvasItem *item)
 
 	if (GNOME_CANVAS_ITEM_CLASS (etcta_parent_class)->realize)
 		(*GNOME_CANVAS_ITEM_CLASS (etcta_parent_class)->realize)(item);
+
+	e_canvas_item_request_reflow (item);
 }
 
 static void
@@ -408,7 +410,7 @@ etcta_reflow (GnomeCanvasItem *item, int flags)
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
 	
 	double old_height = etcta->height;
-	
+
 	if (etcta->text) {
 		g_object_get(etcta->text,
 			     "height", &etcta->height,
@@ -426,6 +428,7 @@ etcta_reflow (GnomeCanvasItem *item, int flags)
 			     "y2", etcta->height - 1,
 			     NULL);
 	}
+
 	if (old_height != etcta->height)
 		e_canvas_item_request_parent_reflow(item);
 }
