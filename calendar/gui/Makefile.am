@@ -65,8 +65,6 @@ INCLUDES =						\
 	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/calendar			\
-	-I$(top_srcdir)/calendar/cal-client		\
-	-I$(top_builddir)/calendar/cal-client		\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/a11y/calendar			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\

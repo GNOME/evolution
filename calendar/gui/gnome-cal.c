@@ -1802,16 +1802,15 @@ client_cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
 			e_cal_set_default_timezone (client, priv->zone, NULL);
 		}
 
-		/* add the alarms for this client */
+		/* add the clients to the models */
 		uristr = get_uri_without_password (e_cal_get_uri (client));
-		msg = g_strdup_printf (_("Adding alarms for %s"), uristr);
+		msg = g_strdup_printf (_("Adding %s"), uristr);
 		g_free (uristr);
 		if (client == priv->task_pad_client) {
 			e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), msg);
 			e_cal_model_add_client (e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)),
 						priv->task_pad_client);
-		}
-		else {
+		} else {
 			e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), msg);
 			e_cal_model_add_client (e_calendar_view_get_model (E_CALENDAR_VIEW (priv->week_view)), client);
 

@@ -1,3 +1,14 @@
+2003-12-17  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (client_cal_opened_cb): set a correct status
+	message.
+
+	* gui/tasks-component.c (fill_popup_menu_cb):
+	* gui/calendar-component.c (fill_popup_menu_cb): use the folder*.png
+	icons for folder operations.
+
+	* gui/Makefile.am: removed cal-client directory from $INCLUDES.
+
 2003-12-17  Harry Lu  <harry.lu@sun.com>
  
  	Fixes #51665.

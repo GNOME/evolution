@@ -404,9 +404,10 @@ fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, TasksComponent *co
 	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component->priv->source_selector)) ?
 		TRUE : FALSE;
 
-	add_popup_menu_item (menu, _("New Task List"), GTK_STOCK_NEW, G_CALLBACK (new_task_list_cb),
-			     component, TRUE);
-	add_popup_menu_item (menu, _("Copy"), NULL, G_CALLBACK (copy_task_list_cb), component, sensitive);
+	add_popup_menu_item (menu, _("New Task List"), EVOLUTION_IMAGESDIR "/evolution-tasks-mini.png",
+			     G_CALLBACK (new_task_list_cb), component, TRUE);
+	add_popup_menu_item (menu, _("Copy"), EVOLUTION_IMAGESDIR "/folder-copy-16.png",
+			     G_CALLBACK (copy_task_list_cb), component, sensitive);
 	add_popup_menu_item (menu, _("Rename"), NULL, G_CALLBACK (rename_task_list_cb),
 			     component, sensitive);
 	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_task_list_cb),
