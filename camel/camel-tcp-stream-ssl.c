@@ -97,7 +97,6 @@ camel_tcp_stream_ssl_finalize (CamelObject *object)
 	if (stream->sockfd != NULL)
 		PR_Close (stream->sockfd);
 	
-	camel_object_unref (CAMEL_OBJECT (stream->service));
 	g_free (stream->expected_host);
 }
 
@@ -139,7 +138,6 @@ camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host)
 	
 	stream = CAMEL_TCP_STREAM_SSL (camel_object_new (camel_tcp_stream_ssl_get_type ()));
 	
-	camel_object_ref (CAMEL_OBJECT (service));
 	stream->service = service;
 	stream->expected_host = g_strdup (expected_host);
 	

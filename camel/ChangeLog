@@ -1,5 +1,14 @@
 2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream-ssl.c (camel_tcp_stream_ssl_new): Ya know what?
+	Lets not ref the service because otherwise we'll start having the
+	same problems we had back with vtrash. Besides, since the store
+	owns the stream, it's not like the store is going anywhere without
+	the stream anyway.
+	(camel_tcp_stream_ssl_finalize): No need to unref the service.
+
+2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-remote-store.c (remote_connect): Pass the service into the
 	SSL stream, not the session.
 
