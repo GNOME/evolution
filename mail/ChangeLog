@@ -1,3 +1,9 @@
+2004-11-02  Radek Doulik  <rodo@ximian.com>
+
+	* em-format-html.c: replace 3 nested html tables used to create
+	this gray border around parts content with div block with border
+	style
+
 2004-11-01  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-account-editor.c: Change the labels back to the same as they
