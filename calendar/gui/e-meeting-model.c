@@ -89,6 +89,17 @@ struct _EMeetingModelPrivate
 
 #define BUF_SIZE 1024
 
+static char *sections[] = {N_("Chair Persons"), 
+			   N_("Required Participants"), 
+			   N_("Optional Participants"), 
+			   N_("Non-Participants"),
+			   NULL};
+static icalparameter_role roles[] = {ICAL_ROLE_CHAIR,
+				     ICAL_ROLE_REQPARTICIPANT,
+				     ICAL_ROLE_OPTPARTICIPANT,
+				     ICAL_ROLE_NONPARTICIPANT,
+				     ICAL_ROLE_NONE};
+
 typedef struct _EMeetingModelAttendeeRefreshData EMeetingModelAttendeeRefreshData;
 struct _EMeetingModelAttendeeRefreshData {
 	char buffer[BUF_SIZE];
@@ -110,11 +121,11 @@ static void init	(EMeetingModel		 *model);
 static void destroy	(GtkObject *obj);
 
 static void attendee_changed_cb (EMeetingAttendee *ia, gpointer data);
-static void invite_entry_changed_cb (BonoboListener    *listener,
-				     char              *event_name,
-				     CORBA_any         *arg,
-				     CORBA_Environment *ev,
-				     gpointer           data);
+static void select_names_ok_cb (BonoboListener    *listener,
+				char              *event_name,
+				CORBA_any         *arg,
+				CORBA_Environment *ev,
+				gpointer           data);
 
 static void table_destroy_cb (ETableScrolled *etable, gpointer data);
 
@@ -1326,18 +1337,16 @@ e_meeting_model_etable_from_model (EMeetingModel *im, const gchar *spec_file, co
 }
 
 static void
-add_section (GNOME_Evolution_Addressbook_SelectNames corba_select_names, const char *name, int limit)
+add_section (GNOME_Evolution_Addressbook_SelectNames corba_select_names, const char *name)
 {
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 
-	if (limit != 0)
-		GNOME_Evolution_Addressbook_SelectNames_addSectionWithLimit (corba_select_names,
-									     name, name, limit, &ev);
-	else
-		GNOME_Evolution_Addressbook_SelectNames_addSection (corba_select_names,
-								    name, name, &ev);
+	GNOME_Evolution_Addressbook_SelectNames_addSection (corba_select_names,
+							    name, 
+							    gettext (name),
+							    &ev);
 
 	CORBA_exception_free (&ev);
 }
@@ -1346,11 +1355,8 @@ static gboolean
 get_select_name_dialog (EMeetingModel *im) 
 {
 	EMeetingModelPrivate *priv;
-	const char *sections[] = {_("Chair Persons"), 
-				  _("Required Participants"), 
-				  _("Optional Participants"), 
-				  _("Non-Participants")};
 	CORBA_Environment ev;
+	int i;
 	
 	priv = im->priv;
 
@@ -1360,8 +1366,9 @@ get_select_name_dialog (EMeetingModel *im)
 		int i;
 		
 		CORBA_exception_init (&ev);
-		for (i = 0; i < 4; i++) {			
-			corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (priv->corba_select_names, sections[i], &ev);
+		for (i = 0; sections[i] != NULL; i++) {			
+			corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection 
+				(priv->corba_select_names, sections[i], &ev);
 			if (BONOBO_EX (&ev)) {
 				CORBA_exception_free (&ev);
 				return FALSE;				
@@ -1380,14 +1387,12 @@ get_select_name_dialog (EMeetingModel *im)
 
 	priv->corba_select_names = oaf_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
 
-	add_section (priv->corba_select_names, sections[0], 0);
-	add_section (priv->corba_select_names, sections[1], 0);
-	add_section (priv->corba_select_names, sections[2], 0);
-	add_section (priv->corba_select_names, sections[3], 0);
+	for (i = 0; sections[i] != NULL; i++)
+		add_section (priv->corba_select_names, sections[i]);
 
 	bonobo_event_source_client_add_listener (priv->corba_select_names,
-						 invite_entry_changed_cb,
-						 "GNOME/Evolution:changed:model",
+						 select_names_ok_cb,
+						 "GNOME/Evolution:ok:dialog",
 						 NULL, im);
 	
 	if (BONOBO_EX (&ev)) {
@@ -1420,33 +1425,9 @@ e_meeting_model_invite_others_dialog (EMeetingModel *im)
 }
 
 static void
-invite_entry_changed_cb (BonoboListener    *listener,
-			 char              *event_name,
-			 CORBA_any         *arg,
-			 CORBA_Environment *ev,
-			 gpointer           data)
+process_section (EMeetingModel *im, EDestination **destv, icalparameter_role role)
 {
-	EMeetingModel *im = data;
-	EMeetingModelPrivate *priv;
-	Bonobo_Control corba_control;
-	GtkWidget *control_widget;
-	EDestination **destv;
-	char *string = NULL, *section;
 	int i;
-	
-	priv = im->priv;
-
-	section = BONOBO_ARG_GET_STRING (arg);
-	
-	g_message ("event: \"%s\", section \"%s\"", event_name, section);
-
-	corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (priv->corba_select_names, section, ev);
-	control_widget = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
-
-	bonobo_widget_get_property (BONOBO_WIDGET (control_widget), "destinations", &string, NULL);
-	destv = e_destination_importv (string);
-	if (destv == NULL)
-		return;
 	
 	for (i = 0; destv[i] != NULL; i++) {
 		EMeetingAttendee *ia;
@@ -1455,22 +1436,49 @@ invite_entry_changed_cb (BonoboListener    *listener,
 		name = e_destination_get_name (destv[i]);		
 		address = e_destination_get_email (destv[i]);
 		
+		if (address == NULL || *address == '\0')
+			continue;
+		
 		if (e_meeting_model_find_attendee (im, address, NULL) == NULL) {
 			ia = e_meeting_model_add_attendee_with_defaults (im);
 
 			e_meeting_attendee_set_address (ia, g_strdup_printf ("MAILTO:%s", address));
-			if (!strcmp (section, _("Chair Persons")))
-				e_meeting_attendee_set_role (ia, ICAL_ROLE_CHAIR);
-			else if (!strcmp (section, _("Required Participants")))
-				e_meeting_attendee_set_role (ia, ICAL_ROLE_REQPARTICIPANT);
-			else if (!strcmp (section, _("Optional Participants")))
-				e_meeting_attendee_set_role (ia, ICAL_ROLE_OPTPARTICIPANT);
-			else if (!strcmp (section, _("Non-Participants")))
-				e_meeting_attendee_set_role (ia, ICAL_ROLE_NONPARTICIPANT);
+			e_meeting_attendee_set_role (ia, role);
 			e_meeting_attendee_set_cn (ia, g_strdup (name));
 		}
 	}
-	e_destination_freev (destv);
+}
+
+static void
+select_names_ok_cb (BonoboListener    *listener,
+		    char              *event_name,
+		    CORBA_any         *arg,
+		    CORBA_Environment *ev,
+		    gpointer           data)
+{
+	EMeetingModel *im = data;
+	EMeetingModelPrivate *priv;
+	Bonobo_Control corba_control;
+	GtkWidget *control_widget;
+	EDestination **destv;
+	char *string = NULL;
+	int i;
+	
+	priv = im->priv;
+
+	for (i = 0; sections[i] != NULL; i++) {
+		corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection 
+			(priv->corba_select_names, sections[i], ev);
+		control_widget = bonobo_widget_new_control_from_objref
+			(corba_control, CORBA_OBJECT_NIL);
+		
+		bonobo_widget_get_property (BONOBO_WIDGET (control_widget), "destinations", &string, NULL);
+		destv = e_destination_importv (string);
+		if (destv != NULL) {
+			process_section (im, destv, roles[i]);
+			e_destination_freev (destv);
+		}		
+	}
 }
 
 static void

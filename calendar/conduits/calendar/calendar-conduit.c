@@ -367,6 +367,7 @@ process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi
 	icaltimezone *tz_start, *tz_end;
 	time_t event_start, event_end, day_end;
 	struct icaltimetype *old_start_value, *old_end_value;
+	const char *uid;
 	gboolean last = FALSE;
 	gboolean ret = TRUE;
 
@@ -375,27 +376,34 @@ process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi
 	
 	if (ccc->type == CAL_CLIENT_CHANGE_DELETED)
 		return FALSE;
-	
+
+	/* Start time */
 	cal_component_get_dtstart (ccc->comp, &dt_start);
-	tz_start = get_timezone (ctxt->client, dt_start.tzid);
+	if (dt_start.value->is_date)
+		tz_start = ctxt->timezone;
+	else
+		tz_start = get_timezone (ctxt->client, dt_start.tzid);
 	event_start = icaltime_as_timet_with_zone (*dt_start.value, tz_start);
+
 	cal_component_get_dtend (ccc->comp, &dt_end);
-	tz_end = get_timezone (ctxt->client, dt_end.tzid);
+	if (dt_end.value->is_date) {
+		icaltime_adjust (dt_end.value, 1, 0, 0, 0);
+		tz_end = ctxt->timezone;
+	} else {
+		tz_end = get_timezone (ctxt->client, dt_end.tzid);
+	}
 	event_end = icaltime_as_timet_with_zone (*dt_end.value, tz_end);
 
-	day_end = time_day_end_with_zone (event_start, ctxt->timezone);
-			
-	if (day_end < event_end) {
-		const char *uid;
-				
-		cal_component_get_uid (ccc->comp, &uid);
-		cal_client_remove_object (ctxt->client, uid);
-		ccc->type = CAL_CLIENT_CHANGE_DELETED;
-	} else {
+	day_end = time_day_end_with_zone (event_start, ctxt->timezone);			
+	if (day_end >= event_end) {
 		ret = FALSE;
+		goto cleanup;
+	} else if (cal_component_has_recurrences (ccc->comp)) {
+		ret = TRUE;
 		goto cleanup;
 	}
 
+	INFO ("Split info: %lu, %lu, %lu", event_start, event_end, day_end);
 	old_start_value = dt_start.value;
  	old_end_value = dt_end.value;
 	while (!last) {
@@ -408,14 +416,15 @@ process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi
 			day_end = event_end;
 			last = TRUE;
 		}
-		
+
 		cal_component_set_uid (clone, new_uid);
-		
+
 		start_value = icaltime_from_timet_with_zone (event_start, FALSE, tz_start);
 		dt_start.value = &start_value;
+		cal_component_set_dtstart (clone, &dt_start);
+		
 		end_value = icaltime_from_timet_with_zone (day_end, FALSE, tz_end);
 		dt_end.value = &end_value;
-		cal_component_set_dtstart (clone, &dt_start);
 		cal_component_set_dtend (clone, &dt_end);
 
 		cal_client_update_object (ctxt->client, clone);
@@ -431,6 +440,10 @@ process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi
 	}
 	dt_start.value = old_start_value;
 	dt_end.value = old_end_value;
+	
+	cal_component_get_uid (ccc->comp, &uid);
+	cal_client_remove_object (ctxt->client, uid);
+	ccc->type = CAL_CLIENT_CHANGE_DELETED;
 
  cleanup:
 	cal_component_free_datetime (&dt_start);
@@ -951,7 +964,7 @@ pre_sync (GnomePilotConduit *conduit,
 	  ECalConduitContext *ctxt)
 {
 	GnomePilotConduitSyncAbs *abs_conduit;
-	GList *l;
+	GList *removed = NULL, *added = NULL, *l;
 	int len;
 	unsigned char *buf;
 	char *filename, *change_id;
@@ -964,7 +977,9 @@ pre_sync (GnomePilotConduit *conduit,
 
 	ctxt->dbi = dbi;	
 	ctxt->client = NULL;
-	
+
+	gnome_pilot_conduit_warning (conduit, "Random warning");
+
 	if (start_calendar_server (ctxt) != 0) {
 		WARN(_("Could not start wombat server"));
 		gnome_pilot_conduit_error (conduit, _("Could not start wombat"));
@@ -995,24 +1010,33 @@ pre_sync (GnomePilotConduit *conduit,
 	ctxt->changed_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	g_free (change_id);
 	
+	/* See if we need to split up any events */
 	for (l = ctxt->changed; l != NULL; l = l->next) {
 		CalClientChange *ccc = l->data;
 		GList *multi_uid = NULL, *multi_ccc = NULL;
 		
-		/* Handle Multi-day events */
 		if (process_multi_day (ctxt, ccc, &multi_uid, &multi_ccc)) {
-			const char *uid;
 			ctxt->uids = g_list_concat (ctxt->uids, multi_uid);
-			ctxt->changed = g_list_concat (ctxt->changed, multi_ccc);
-
-			cal_component_get_uid (ccc->comp, &uid);
-			if (e_pilot_map_lookup_pid (ctxt->map, uid, FALSE) == 0) {
-				ctxt->changed = g_list_remove (ctxt->changed, ccc);
-				gtk_object_unref (GTK_OBJECT (ccc->comp));
-				g_free (ccc);
-			}
+			
+			added = g_list_concat (added, multi_ccc);
+			removed = g_list_prepend (removed, ccc);
 		}
 	}
+
+	/* Remove the events that were split up */
+	g_list_concat (ctxt->changed, added);
+	for (l = removed; l != NULL; l = l->next) {
+		CalClientChange *ccc = l->data;
+		const char *uid;
+
+		cal_component_get_uid (ccc->comp, &uid);
+		if (e_pilot_map_lookup_pid (ctxt->map, uid, FALSE) == 0) {
+			ctxt->changed = g_list_remove (ctxt->changed, ccc);
+			gtk_object_unref (GTK_OBJECT (ccc->comp));
+			g_free (ccc);
+		}
+	}
+	g_list_free (removed);
 	
 	for (l = ctxt->changed; l != NULL; l = l->next) {
 		CalClientChange *ccc = l->data;

@@ -1,3 +1,10 @@
+2001-10-30  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-model.c (process_section): process an individual
+	section here
+	(select_names_ok_cb): call above
+	(get_select_name_dialog): listen for ok:dialog signal
+
 2001-10-29  Damon Chaplin  <damon@ximian.com>
 
 	* importers/Makefile.am (evolution_calendar_importer_LDADD): 
