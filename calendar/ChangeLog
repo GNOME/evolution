@@ -1,3 +1,17 @@
+2004-08-27  JP Rosevear  <jpr@novell.com>
+
+	* gui/alarm-notify/alarm-notify.h: update proto
+
+	* gui/alarm-notify/alarm-notify.c (list_changed_cb): use per
+	source type client hash
+	(alarm_notify_init): ditto
+	(alarm_notify_finalize): ditto
+	(cal_opened_cb): ditto
+	(alarm_notify_add_calendar): ditto
+	(alarm_notify_remove_calendar): ditto, take source_type arg
+	(load_calendars_cb): don't call list_changed if the source list is
+	NULL
+	
 2004-08-26  Christian Neumair  <chris@gnome-de.org>
 
 	* gui/GNOME_Evolution_Calendar.server.in.in:
