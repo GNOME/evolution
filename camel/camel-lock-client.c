@@ -103,6 +103,8 @@ static int write_n(int fd, void *buffer, int inlen)
 
 static int camel_lock_helper_init(CamelException *ex)
 {
+	int i;
+
 	if (pipe(lock_stdin_pipe) == -1
 	    || pipe(lock_stdout_pipe) == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
@@ -131,6 +133,8 @@ static int camel_lock_helper_init(CamelException *ex)
 		close(lock_stdin_pipe[1]);
 		close(lock_stdout_pipe[0]);
 		close(lock_stdout_pipe[1]);
+		for (i=3;i<255;i++)
+			     close(i);
 		execl(CAMEL_SBINDIR "/camel-lock-helper", "camel-lock-helper", NULL);
 		d(fprintf(stderr, "shit, couldn't exec lock helper!\n"));
 		/* it'll pick this up when it tries to use us */

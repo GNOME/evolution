@@ -1,5 +1,12 @@
 2001-10-30    <NotZed@Ximian.com>
 
+	* camel-filter-driver.c (camel_filter_driver_filter_mbox): Make
+	sure we unref the mimeparse when we're done (successfully).  This
+	was leaking an fd every get-mail! :(
+
+	* camel-lock-client.c (camel_lock_helper_init): Close all fd's
+	above 2.
+
 	* providers/local/camel-mbox-folder.c (mbox_get_message): Remove
 	the X-Evolution header before anyone else gets to see this private
 	thing.  Shoudl fix 11676 since we were inheriting flags from

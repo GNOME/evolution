@@ -655,6 +655,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 	struct stat st;
 	int status;
 	off_t last = 0;
+	int ret = -1;
 	
 	fd = open (mbox, O_RDONLY);
 	if (fd == -1) {
@@ -718,10 +719,8 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 	}
 	
 	report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Complete"));
-	
-	g_free (source_url);
-	return 0;
-	
+
+	ret = 0;
 fail:
 	g_free (source_url);
 	if (fd != -1)
