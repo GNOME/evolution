@@ -362,6 +362,9 @@ shell/GNOME_Evolution_Shell.server.in.in
 shell/importer/import.glade
 shell/importer/intelligent.c
 shell/main.c
+smime/lib/e-cert.c
+smime/gui/certificate-manager.c
+smime/gui/smime-gui.glade
 tools/evolution-launch-composer.c
 tools/killev.c
 ui/evolution-addressbook.xml

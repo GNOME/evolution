@@ -1,3 +1,7 @@
+2003-10-23  Chris Toshok  <toshok@ximian.com>
+
+	* POTFILES.in: add smime files.
+
 2003-10-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* POTFILES.in: Removed some unused mail source files
