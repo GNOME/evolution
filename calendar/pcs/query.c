@@ -24,6 +24,7 @@
 
 #include <string.h>
 #include <glib.h>
+#include <gtk/gtkmain.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtksignal.h>
@@ -61,8 +62,8 @@ struct _QueryPrivate {
 	char *sexp;
 	ESExp *esexp;
 
-	/* Idle handler ID for asynchronous queries and the current state */
-	guint idle_id;
+	/* Timeout handler ID for asynchronous queries and current state of the query */
+	guint timeout_id;
 	QueryState state;
 
 	/* List of UIDs that we still have to process */
@@ -125,7 +126,7 @@ query_init (Query *query)
 	priv->ql = CORBA_OBJECT_NIL;
 	priv->sexp = NULL;
 
-	priv->idle_id = 0;
+	priv->timeout_id = 0;
 	priv->state = QUERY_WAIT_FOR_BACKEND;
 
 	priv->pending_uids = NULL;
@@ -198,9 +199,9 @@ query_destroy (GtkObject *object)
 		priv->esexp = NULL;
 	}
 
-	if (priv->idle_id) {
-		g_source_remove (priv->idle_id);
-		priv->idle_id = 0;
+	if (priv->timeout_id) {
+		g_source_remove (priv->timeout_id);
+		priv->timeout_id = 0;
 	}
 
 	if (priv->pending_uids) {
@@ -1063,8 +1064,6 @@ parse_sexp (Query *query)
 
 	priv = query->priv;
 
-	g_assert (priv->state == QUERY_START_PENDING);
-
 	/* Compile the query string */
 
 	priv->esexp = create_sexp (query);
@@ -1179,91 +1178,72 @@ match_component (Query *query, const char *uid,
 	e_sexp_result_free (priv->esexp, result);
 }
 
-/* Processes a single component that is queued in the list */
+/* Processes all components that are queued in the list */
 static gboolean
-process_component_cb (gpointer data)
+process_components_cb (gpointer data)
 {
 	Query *query;
 	QueryPrivate *priv;
 	char *uid;
 	GList *l;
+	CORBA_Environment ev;
 
 	query = QUERY (data);
 	priv = query->priv;
 
-	/* No more components? */
+	g_source_remove (priv->timeout_id);
+	priv->timeout_id = 0;
 
-	if (!priv->pending_uids) {
-		CORBA_Environment ev;
+	while (priv->pending_uids) {
+		g_assert (priv->n_pending > 0);
 
-		g_assert (priv->n_pending == 0);
+		/* Fetch the component */
 
-		priv->idle_id = 0;
-		priv->state = QUERY_DONE;
+		l = priv->pending_uids;
+		priv->pending_uids = g_list_remove_link (priv->pending_uids, l);
+		priv->n_pending--;
 
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
-			priv->ql,
-			GNOME_Evolution_Calendar_QueryListener_SUCCESS,
-			"",
-			&ev);
+		g_assert ((priv->pending_uids && priv->n_pending != 0)
+			  || (!priv->pending_uids && priv->n_pending == 0));
 
-		if (BONOBO_EX (&ev))
-			g_message ("process_component_cb(): Could not notify the listener of "
-				   "a finished query");
+		uid = l->data;
+		g_assert (uid != NULL);
 
-		CORBA_exception_free (&ev);
+		g_list_free_1 (l);
 
-		return FALSE;
+		bonobo_object_ref (BONOBO_OBJECT (query));
+
+		match_component (query, uid,
+				 TRUE,
+				 priv->pending_total - priv->n_pending,
+				 priv->pending_total);
+
+		bonobo_object_unref (BONOBO_OBJECT (query));
+
+		g_free (uid);
+
+		/* run the main loop, for not blocking */
+		if (gtk_events_pending ())
+			gtk_main_iteration ();
 	}
 
-	g_assert (priv->n_pending > 0);
+	/* notify listener that the query ended */
+	priv->state = QUERY_DONE;
 
-	/* Fetch the component */
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
+		priv->ql,
+		GNOME_Evolution_Calendar_QueryListener_SUCCESS,
+		"",
+		&ev);
 
-	l = priv->pending_uids;
-	priv->pending_uids = g_list_remove_link (priv->pending_uids, l);
-	priv->n_pending--;
+	if (BONOBO_EX (&ev))
+		g_message ("start_query(): Could not notify the listener of "
+			   "a finished query");
 
-	g_assert ((priv->pending_uids && priv->n_pending != 0)
-		  || (!priv->pending_uids && priv->n_pending == 0));
+	CORBA_exception_free (&ev);
 
-	uid = l->data;
-	g_assert (uid != NULL);
-
-	g_list_free_1 (l);
-
-	bonobo_object_ref (BONOBO_OBJECT (query));
-
-	match_component (query, uid,
-			 TRUE,
-			 priv->pending_total - priv->n_pending,
-			 priv->pending_total);
-
-	bonobo_object_unref (BONOBO_OBJECT (query));
-
-	g_free (uid);
-
-	return TRUE;
-}
-
-/* Populates the query with pending UIDs so that they can be processed
- * asynchronously.
- */
-static void
-populate_query (Query *query)
-{
-	QueryPrivate *priv;
-
-	priv = query->priv;
-	g_assert (priv->idle_id == 0);
-	g_assert (priv->state == QUERY_START_PENDING);
-
-	priv->pending_uids = cal_backend_get_uids (priv->backend, CALOBJ_TYPE_ANY);
-	priv->pending_total = g_list_length (priv->pending_uids);
-	priv->n_pending = priv->pending_total;
-
-	priv->idle_id = g_idle_add (process_component_cb, query);
+	return FALSE;
 }
 
 /* Callback used when a component changes in the backend */
@@ -1306,6 +1286,34 @@ backend_obj_removed_cb (CalBackend *backend, const char *uid, gpointer data)
 	bonobo_object_unref (BONOBO_OBJECT (query));
 }
 
+/* Actually starts the query */
+static void
+start_query (Query *query)
+{
+	QueryPrivate *priv;
+
+	priv = query->priv;
+
+	if (!parse_sexp (query))
+		return;
+
+	/* Populate the query with UIDs so that we can process them asynchronously */
+
+	priv->state = QUERY_IN_PROGRESS;
+	priv->pending_uids = cal_backend_get_uids (priv->backend, CALOBJ_TYPE_ANY);
+	priv->pending_total = g_list_length (priv->pending_uids);
+	priv->n_pending = priv->pending_total;
+
+	gtk_signal_connect (GTK_OBJECT (priv->backend), "obj_updated",
+			    GTK_SIGNAL_FUNC (backend_obj_updated_cb),
+			    query);
+	gtk_signal_connect (GTK_OBJECT (priv->backend), "obj_removed",
+			    GTK_SIGNAL_FUNC (backend_obj_removed_cb),
+			    query);
+
+	priv->timeout_id = g_timeout_add (100, (GSourceFunc) process_components_cb, query);
+}
+
 /* Idle handler for starting a query */
 static gboolean
 start_query_cb (gpointer data)
@@ -1316,25 +1324,13 @@ start_query_cb (gpointer data)
 	query = QUERY (data);
 	priv = query->priv;
 
-	g_assert (priv->state == QUERY_START_PENDING);
+	g_source_remove (priv->timeout_id);
+	priv->timeout_id = 0;
 
-	priv->idle_id = 0;
-
-	if (!parse_sexp (query))
-		return FALSE;
-
-	/* Populate the query with UIDs so that we can process them asynchronously */
-
-	populate_query (query);
-
-	gtk_signal_connect (GTK_OBJECT (priv->backend), "obj_updated",
-			    GTK_SIGNAL_FUNC (backend_obj_updated_cb),
-			    query);
-	gtk_signal_connect (GTK_OBJECT (priv->backend), "obj_removed",
-			    GTK_SIGNAL_FUNC (backend_obj_removed_cb),
-			    query);
-
-	priv->state = QUERY_IN_PROGRESS;
+	if (priv->state == QUERY_START_PENDING) {
+		priv->state = QUERY_IN_PROGRESS;
+		start_query (query);
+	}
 
 	return FALSE;
 }
@@ -1358,9 +1354,8 @@ backend_opened_cb (CalBackend *backend, CalBackendOpenStatus status, gpointer da
 
 	if (status == CAL_BACKEND_OPEN_SUCCESS) {
 		g_assert (cal_backend_is_loaded (backend));
-		g_assert (priv->idle_id == 0);
 
-		priv->idle_id = g_idle_add (start_query_cb, query);
+		priv->timeout_id = g_timeout_add (100, (GSourceFunc) start_query_cb, query);
 	}
 }
 
@@ -1418,8 +1413,7 @@ query_construct (Query *query,
 	if (cal_backend_is_loaded (priv->backend)) {
 		priv->state = QUERY_START_PENDING;
 
-		g_assert (priv->idle_id == 0);
-		priv->idle_id = g_idle_add (start_query_cb, query);
+		priv->timeout_id = g_timeout_add (100, (GSourceFunc) start_query_cb, query);
 	} else
 		gtk_signal_connect (GTK_OBJECT (priv->backend), "opened",
 				    GTK_SIGNAL_FUNC (backend_opened_cb),
