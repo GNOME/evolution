@@ -900,7 +900,6 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 				label = gtk_label_new (entries[i].text);
 				gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
 				entry = gtk_entry_new ();
-				g_hash_table_insert (gui->extra_config, entries[i].name, entry);
 				
 				gtk_table_attach (cur_table, label, 0, 1, rows, rows + 1,
 						  GTK_FILL, 0, 0, 0);
@@ -908,7 +907,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 						  GTK_EXPAND | GTK_FILL, 0, 0, 0);
 				rows++;
 			}
-			
+
 			if (url)
 				text = camel_url_get_param (url, entries[i].name);
 			else
@@ -921,7 +920,9 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 				setup_toggle (entry, entries[i].depname, gui);
 				setup_toggle (label, entries[i].depname, gui);
 			}
-			
+
+			g_hash_table_insert (gui->extra_config, entries[i].name, entry);
+						
 			break;
 		}
 		
