@@ -1,0 +1,55 @@
+2003-02-05  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (wombatincludedir): Define in terms of
+	privincludedir
+
+2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Install libwombat in $(privlibdir) and version the
+	include file path using $(BASE_VERSION).
+
+2002-11-04  Rodrigo Moya <rodrigo@ximian.com>
+
+	* Makefile.am: fixed flags for $(ORBIT_IDL).
+
+	* wombat-client.[ch]: converted to BonoboObject.
+
+2002-11-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	* wombat-client.h: compilation fixes for GNOME 2 porting.
+
+2002-07-12  Peter Williams  <peterw@ximian.com>
+
+	* wombat-client.h: Oops, change wombat.h -> Evolution-Wombat.h
+
+2002-07-09  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am: Reference the renamed Evolution-Wombat.idl
+	instead of wombat.idl.
+
+2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Use WOMBAT_CFLAGS.
+
+2001-06-25  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am (libwombat_static_la_SOURCES): Create a static
+	libwombat for the conduits.
+
+2001-06-23  Jason Leach  <jleach@ximian.com>
+
+	* Makefile.am: builddir != srcdir fixes.
+
+2001-06-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* Makefile.am: added $(ORBIT_IDL) as a dependency to the IDL
+	files, so that the skels/stubs are rebuilt if a new version of
+	ORBit has been installed
+
+2001-06-21  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: Add some includes
+
+2001-06-21  Rodrigo Moya <rodrigo@ximian.com>
+
+	* created new directory for the libwombat library

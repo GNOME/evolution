@@ -1,0 +1,336 @@
+2003-04-18  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (install-data-hook): Don't need "private" dir any
+	more
+
+2003-04-07  Dan Winship  <danw@ximian.com>
+
+	* local/Inbox/mbox: Fix the From header to be valid. Dum de dum.
+
+2003-03-14  Mike Kestner  <mkestner@ximian.com>
+
+	* Makefile.am (install-data-hook): mkdir views and subdirs
+
+2003-03-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* local/Calendar/calendar.ics: New.
+	* local/Calendar/tasks.ics: New.
+
+2003-02-06  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am: Use privdatadir
+	* local/Trash/Makefile.am: Likewise.
+	* local/Tasks/Makefile.am: Likewise.
+	* local/Sent/Makefile.am: Likewise.
+	* local/Outbox/Makefile.am: Likewise.
+	* local/Inbox/Makefile.am: Likewise.
+	* local/Drafts/Makefile.am: Likewise.
+	* local/Contacts/Makefile.am: Likewise.
+	* local/Calendar/Makefile.am: Likewise.
+
+2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Version using $(BASE_VERSION).
+	* local/Trash/Makefile.am: Likewise.
+	* local/Tasks/Makefile.am: Likewise.
+	* local/Sent/Makefile.am: Likewise.
+	* local/Outbox/Makefile.am: Likewise.
+	* local/Inbox/Makefile.am: Likewise.
+	* local/Drafts/Makefile.am: Likewise.
+	* local/Contacts/Makefile.am: Likewise.
+	* local/Calendar/Makefile.am: Likewise.
+
+	* Makefile.am (instal-data-hook): Use $(DESTDIR); patch from Max
+	Horn <max@quendi.de>.
+
+2002-09-30  Chris Toshok  <toshok@ximian.com>
+
+	[ Partial fix for #30657 ]
+	* addressbook-sources.xml: remove Bigfoot, since ldap.bigfoot.com
+	no longer resolves.
+
+2002-09-23  Dan Winship  <danw@ximian.com>
+
+	* vfolders.xml: Make the default vfolders only operate on local
+	folders. Otherwise evolution is mysteriously incredibly slow to
+	start up for new users with lots of IMAP/exchange folders.
+
+2002-07-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* searches.xml: Reordered.
+
+2002-06-25  Aaron Weber  <aaron@ximian.com>
+
+	* local/Inbox/mbox: Add example FAQ items in welcome email, as per
+	danw's request in bug 18645
+
+2001-12-10  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: Added vfolders.xml containing default initial
+	vfolders - important vfolder and unread vfolder, #1040.
+
+2001-11-02  JP Rosevear  <jpr@ximian.com>
+
+	* local/Inbox/mbox: Fix email link to be valid
+
+2001-10-11  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am (install-data-hook): make the private dir so it gets
+	created in ~/evolution.
+
+2001-10-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* local/Inbox/mbox: Oops, remove stray ">".
+
+2001-10-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* local/Inbox/mbox: New version of the default mailbox by Aaron.
+
+2001-10-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* local/Drafts/Makefile.am: Install the empty mbox file too.
+	* local/Sent/Makefile.am: Likewise.
+	* local/Outbox/Makefile.am: Likewise.
+
+2001-09-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Add mkdir config in dist-hook here instead.
+
+2001-09-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* config/: Added.
+
+2001-08-16  Peter Williams  <peterw@ximian.com>
+
+	* searches.xml: Implement "Message Contains" (searches sender,
+	recipients, subject, and body) and make it first.
+
+2001-08-14  Peter Williams  <peterw@ximian.com>
+
+	* searches.xml: Rename <title> to <_title> so that these fields can
+	be translated.
+
+2001-08-09  Chris Toshok  <toshok@ximian.com>
+
+	* addressbook-sources.xml: remove the description field.
+
+2001-08-07  Chris Toshok  <toshok@ximian.com>
+
+	* addressbook-sources.xml: giving up for now.  removed netcenter.
+
+2001-08-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* searches.xml: So it turns out that I needed to name the
+	recipient's part name to "to" instead of "recipient" because they
+	need to match whatever is in vfoldertypes.xml. I also changed the
+	"type" to "address" which is what the vfoldertypes.xml
+	specifies. Unfortunately, it's still not working? At least it's
+	probably more correct now...
+
+2001-07-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* searches.xml: Moved "Sender-contains" to the top of the list and
+	added a Recipient contains item. This fixes bugs #4888 and #5668.
+
+2001-07-30  Jason Leach  <jleach@ximian.com>
+
+	* Makefile.am (install-data-hook): Only try to make a
+	$(defaultdir)/news if building with NNTP support.
+
+2001-07-19  Chris Toshok  <toshok@ximian.com>
+
+	* addressbook-sources.xml: remove all the servers that just don't
+	work anymore, and add Verisign's directory.
+
+2001-07-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (default_DATA): Remove `shortcuts.xml'.  The shell
+	is now able to create that by itself.
+
+2001-06-07  Iain Holmes  <iain@ximian.com>
+
+	* shortcuts.xml: Removed the references to local/Executive-Summary.
+
+	* local/Executive-Summary: Removed.
+
+2001-05-08  Not Zed  <NotZed@Ximian.com>
+
+	* searches.xml: Reverted Gediminas patch.
+
+2001-05-08  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* searches.xml: replace title> with _title>. Part of fix to #2253.
+
+2001-03-22  Dan Winship  <danw@ximian.com>
+
+	* local/Inbox/mbox: Change the From address to "The Evolution
+	Team" <evolve@ximian.com> so that we get spammed instead of hello@
+
+2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* local/Trash/folder-metadata.xml: The type of this folder is now
+	"vtrash" and not "mail".
+
+2001-03-01  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: Added searches.xml to default user data.
+
+2001-01-25  Christopher James Lahey  <clahey@helixcode.com>
+
+	* local/Contacts/Makefile.am (defaultcalendar_DATA): Added
+	create-initial.
+
+	* local/Contacts/create-initial: New empty file to trigger the
+	contact manager to add the initial Hello contact.
+
+2001-01-08  Damon Chaplin  <damon@helixcode.com>
+
+	* local/Makefile.am (SUBDIRS): added Tasks subdir.
+
+	* local/Tasks/Makefile.am: 
+	* local/Tasks/folder-metadata.xml: new files for the default Tasks
+	folder.
+
+	* shortcuts.xml: added Tasks folder shortcut.
+
+2000-12-29  Chris Toshok  <toshok@helixcode.com>
+
+	* ldap-servers.xml, addressbook-sources.xml: down with
+	ldap-servers.xml, up with addressbook-sources.xml.
+
+	* Makefile.am (default_DATA): same.
+
+2000-10-25  Iain Holmes  <iain@helixcode.com>
+
+	* local/Makefile.am: Added executive-summary again.
+
+	* shortcurts.xml: In out, in out and shake it all about
+	The executive summary is back in.
+
+2000-10-12  Iain Holmes  <iain@helixcode.com>
+
+	* local/Makefile.am: And removed it again.
+
+	* shortcuts.xml: Commented out the Exec-summary.
+
+2000-10-10  Iain Holmes  <iain@helixcode.com>
+
+	* local/Makefile.am: Added the Executive-Summary dir.
+
+2000-10-05  Iain Holmes  <iain@helixcode.com>
+
+	* local/Makefile: Added Executive-Summary.
+
+	* shortcuts.xml: Added the Executive-Summary
+
+	* local/Executive-Summary/*: Added.
+
+2000-09-22  Chris Toshok  <toshok@helixcode.com>
+
+	* ldapservers.xml: added yahoo, whowhere, and infospace servers.
+
+2000-09-19  Dan Winship  <danw@helixcode.com>
+
+	* Makefile.am (defaultdir): Use $(datadir), not $(prefix)/share
+
+2000-09-13  JP Rosevear  <jpr@helixcode.com>
+
+	* local/Sent/Makefile.am (defaultcalendardir): Install the Sent
+	dir in Sent, not Sentbox
+
+2000-09-12  Dan Winship  <danw@helixcode.com>
+
+	* local/Makefile.am: Renamed Sentbox to Sent
+
+	* local/{Sent\ Mail,Sentbox}/*: removed
+
+	* local/Sent/*: created
+
+2000-09-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	Reversed my last change, folders with spaces in the name breaks
+	configure
+
+2000-09-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* local/Makefile.am: Renamed Sentbox to Sent\ Mail
+
+	* local/Sent\ Mail/*: Updated
+
+2000-09-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* local/Makefile.am: Added Sentbox
+
+	* local/Sentbox/*: New folder for storing sent messages
+
+2000-07-12  Chris Toshok  <toshok@helixcode.com>
+
+	(install-data-hook): ignore error on mkdir.
+	
+2000-07-12  Chris Toshok  <toshok@helixcode.com>
+
+	* Makefile.am (install-data-hook): create an empty news directory
+	in $(defaultdir).
+
+2000-07-06  Chris Toshok  <toshok@helixcode.com>
+
+	* ldapservers.xml: break up the uri into it's component pieces. -
+	don't store the uri in this file.
+
+2000-07-05  Chris Toshok  <toshok@helixcode.com>
+
+	* shortcuts.xml: remove the Internet Directories group.
+
+	* Makefile.am (default_DATA): add ldapservers.xml.
+
+	* local/Makefile.am (SUBDIRS): remove Directories.
+
+	* ldapservers.xml: new ldap metadata.
+	
+	* local/Directories/*: remove directories.
+
+2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* local/Inbox/mbox: Removed `<blockquote>' from the main text so
+	that the welcome mail is all visible when loaded into Evolution at
+	startup.
+
+2000-05-10  Matt Loper  <matt@helixcode.com>
+
+	* local/Inbox/mbox: Commented out currently unimplemented shortcut
+	items.
+
+2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am, local/Calendar/Makefile.am,
+	local/Contacts/Makefile.am, local/Directories/Makefile.am,
+	local/Directories/subfolders/Bigfoot/Makefile.am,
+	local/Directories/subfolders/Netcenter/Makefile.am,
+	local/Drafts/Makefile.am, local/Inbox/Makefile.am,
+	local/Outbox/Makefile.am, local/Trash/Makefile.am: Created a
+	proper EXTRA_DIST section.
+
+2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* local/Directories/subfolders/Bigfoot/.cvsignore: New .cvsignore
+	file.
+
+2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* local/Contacts/Makefile.am, local/Contacts/addressbook.db:
+	Removed addressbook.db since this is now handled by the pas.
+
+2000-05-08  Matt Loper  <matt@helixcode.com>
+
+	* shortcuts.xml: Removed unused shortcuts which point to
+	unimplemented folders.
+
+2000-05-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* local/Contacts/Makefile.am: Install `addressbook.db'.
+
+000-05-06  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* default_user/local/Inbox/Makefile.am: Install `mbox'.
+
+	
