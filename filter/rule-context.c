@@ -363,23 +363,29 @@ rule_context_add_rule(RuleContext * f, FilterRule * new)
 }
 
 static void
-new_rule_clicked(GtkWidget * w, int button, RuleContext * context)
+new_rule_clicked (GtkWidget *dialog, int button, RuleContext *context)
 {
 #ifndef NO_WARNINGS
 #warning "Need a changed signal for this to work best"
 #endif
 	if (button == 0) {
-		FilterRule *rule = gtk_object_get_data((GtkObject *) w, "rule");
-		char *user = gtk_object_get_data((GtkObject *) w, "path");
-
-		gtk_object_ref((GtkObject *) rule);
-		rule_context_add_rule(context, rule);
+		FilterRule *rule = gtk_object_get_data (GTK_OBJECT (dialog), "rule");
+		char *user = gtk_object_get_data (GTK_OBJECT (dialog), "path");
+		
+		if (!filter_rule_validate (rule)) {
+			/* no need to popup a dialog because the validate code does that. */
+			return;
+		}
+		
+		gtk_object_ref (GTK_OBJECT (rule));
+		rule_context_add_rule (context, rule);
 		if (user) {
-			rule_context_save((RuleContext *) context, user);
+			rule_context_save ((RuleContext *) context, user);
 		}
 	}
+	
 	if (button != -1) {
-		gnome_dialog_close((GnomeDialog *) w);
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 	}
 }
 

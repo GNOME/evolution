@@ -1,3 +1,8 @@
+2001-03-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* rule-context.c (new_rule_clicked): Validate the rule before
+	closing.
+
 2001-03-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-editor.c (rule_edit): Set the editor dialog modal rather

@@ -190,7 +190,7 @@ add_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 	switch (button) {
 	case 0:
 		if (!filter_rule_validate (re->edit)) {
-			/* FIXME: popup an error or somelthing? */
+			/* no need to popup a dialog because the validate code does that. */
 			return;
 		}
 		
@@ -255,7 +255,7 @@ edit_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 	switch (button) {
 	case 0:
 		if (!filter_rule_validate (re->edit)) {
-			/* FIXME: popup an error or something? */
+			/* no need to popup a dialog because the validate code does that. */
 			return;
 		}
 		
@@ -471,4 +471,3 @@ rule_editor_construct(RuleEditor *re, RuleContext *context, GladeXML *gui, const
 
 	gnome_dialog_append_buttons((GnomeDialog *)re, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, 0);
 }
-

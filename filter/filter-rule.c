@@ -176,7 +176,8 @@ filter_rule_set_source (FilterRule *fr, const char *source)
 	fr->source = g_strdup (source);
 }
 
-int		filter_rule_validate	(FilterRule *fr)
+int
+filter_rule_validate (FilterRule *fr)
 {
 	g_assert(IS_FILTER_RULE(fr));
 
@@ -184,7 +185,7 @@ int		filter_rule_validate	(FilterRule *fr)
 }
 
 static int
-validate(FilterRule *fr)
+validate (FilterRule *fr)
 {
 	int valid = TRUE;
 	GList *parts;
