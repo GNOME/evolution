@@ -1,3 +1,7 @@
+2001-03-13  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: add -lresolv to LDAP_LIBS if it's there.
+
 2001-03-13  Iain Holmes  <iain@ximian.com>
 
 	* configure.in: Added the mail/importers dir.
