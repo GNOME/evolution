@@ -489,7 +489,7 @@ filter_part_expand_code (FilterPart *ff, const char *source, GString *out)
 		fe = filter_part_find_element (ff, name);
 		d(printf("expand code: looking up variab le '%s' = %p\n", ff, name, fe));
 		if (fe) {
-			g_string_append_printf (out, "%.*s", newstart-start, start);
+			g_string_append_printf (out, "%.*s", (int)(newstart-start), start);
 			filter_element_format_sexp (fe, out);
 #if 0
 		} else if ((val = g_hash_table_lookup (ff->globals, name))) {
@@ -497,7 +497,7 @@ filter_part_expand_code (FilterPart *ff, const char *source, GString *out)
 			e_sexp_encode_string (out, val);
 #endif
 		} else {
-			g_string_append_printf (out, "%.*s", end-start+1, start);
+			g_string_append_printf (out, "%.*s", (int)(end-start+1), start);
 		}
 		start = end + 1;
 	}

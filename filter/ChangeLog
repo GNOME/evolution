@@ -1,3 +1,8 @@
+2005-01-11  Not Zed  <NotZed@Ximian.com>
+
+	* filter-part.c (filter_part_expand_code): cast lenght specifiers
+	to int.
+
 2004-12-02  Diego Sevilla Ruiz  <dsevilla@dsevilla>
 
 	* filter.glade: Added label "Show filters for mail:".
