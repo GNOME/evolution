@@ -1,5 +1,15 @@
 2001-01-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config-druid.c (druid_finish): Fixed mail_load_storages to
+	make a mini GSList of the account, not the account->source. Oops.
+
+	* mail-accounts.c (news_delete): Updated to use the remove_news()
+	function.
+
+	* mail-config.c (mail_config_remove_news): New convenience
+	function for removing news accounts.
+	(mail_config_remove_account): Pretty much the same thing.
+
 	* mail-ops.c (do_send_queue): Get the X-Evolution-Transport URL
 	and use that if it exists, else fall back on the default
 	transport.

@@ -97,6 +97,7 @@ const MailConfigAccount  *mail_config_get_default_account (void);
 const MailConfigAccount  *mail_config_get_account_by_name (const char *account_name);
 const GSList             *mail_config_get_accounts        (void);
 void                      mail_config_add_account         (MailConfigAccount *account);
+const GSList             *mail_config_remove_account      (MailConfigAccount *account);
 void                      mail_config_set_default_account (const MailConfigAccount *account);
 
 const MailConfigIdentity *mail_config_get_default_identity (void);
@@ -105,6 +106,7 @@ const MailConfigService  *mail_config_get_default_transport (void);
 const MailConfigService  *mail_config_get_default_news    (void);
 const GSList             *mail_config_get_news            (void);
 void                      mail_config_add_news            (MailConfigService *news);
+const GSList             *mail_config_remove_news         (MailConfigService *news);
 
 /* convenience functions to help ease the transition over to the new codebase */
 GSList *mail_config_get_sources (void);

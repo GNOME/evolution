@@ -576,6 +576,15 @@ mail_config_add_account (MailConfigAccount *account)
 	config->accounts = g_slist_append (config->accounts, account);
 }
 
+const GSList *
+mail_config_remove_account (MailConfigAccount *account)
+{
+	config->accounts = g_slist_remove (config->accounts, account);
+	account_destroy (account);
+	
+	return config->accounts;
+}
+
 void
 mail_config_set_default_account (const MailConfigAccount *account)
 {
@@ -635,6 +644,15 @@ void
 mail_config_add_news (MailConfigService *news) 
 {
 	config->news = g_slist_append (config->news, news);
+}
+
+const GSList *
+mail_config_remove_news (MailConfigService *news)
+{
+	config->news = g_slist_remove (config->news, news);
+	service_destroy (news);
+	
+	return config->news;
 }
 
 GSList *
