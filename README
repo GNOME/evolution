@@ -134,6 +134,8 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
 
  - gconf - 0.6 or later
 
+ - gal (GNOME Application Library) - from CVS
+
  - gtkhtml - 0.5 or later
 
  - libglade (*)
