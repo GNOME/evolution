@@ -1,3 +1,34 @@
+2002-08-06  Not Zed  <NotZed@Ximian.com>
+
+	* mail-ops.c (filter_folder_filter): Unref the driver before
+	returning to main thread, so any closing operations are handled
+	async (as in fetch_mail_fetch()), for #28072.
+
+	** fixes for #24605.
+	
+	* mail-vfolder.c (vfolder_gui_add_from_mlist): Removed.
+
+	* folder-browser.c (filter_type_uid,vfolder_type_uid): Changed to
+	accept args directly.  Fixed callers.
+	(filter_mlist_uid,vfolder_mlist_uid): Use filter_type_uid instead
+	of mlist variant.
+	(vfolder_type_current): new function to handle setup of vfolders
+	from the main menu.  It now uses the vfolder_type_uid function the
+	same as the popup.
+	(vfolder_subject, vfolder_sender, vfolder_recipient,
+	vfolder_mlist): Changed to use vfolder_type_current.
+	(filter_type_current): Similar for filters.
+	(filter_subject, filter_sender, filter_recipient,
+	filter_mlist): Changed to use filter_type_current.
+
+	* mail-autofilter.c (rule_from_message): Handle AUTO_MLIST type.
+	(rule_from_mlist): 
+	(vfolder_rule_from_mlist): 
+	(filter_rule_from_mlist): Removed.
+	(filter_gui_add_from_mlist): Removed.
+
+	* mail-autofilter.h: Added AUTO_MLIST type.
+
 2002-08-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-mt.c (mail_msg_check_error): If we are not in interactive

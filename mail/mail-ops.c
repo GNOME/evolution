@@ -134,6 +134,11 @@ filter_folder_filter (struct _mail_msg *mm)
 	
 	if (m->destination)
 		camel_folder_thaw (m->destination);
+
+	/* this may thaw/unref source folders, do it here so we dont do it in the main thread
+	   see also fetch_mail_fetch() below */
+	camel_object_unref(CAMEL_OBJECT(m->driver));
+	m->driver = NULL;
 	
 	if (m->cancel)
 		camel_operation_unregister (m->cancel);

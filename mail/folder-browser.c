@@ -1297,90 +1297,62 @@ folder_browser_charset_changed (BonoboUIComponent           *component,
 	}
 }
 
+static void vfolder_type_uid(CamelFolder *folder, const char *uid, const char *uri, int type);
+
+static void
+vfolder_type_current(FolderBrowser *fb, int type)
+{
+	GPtrArray *uids;
+	int i;
+
+	/* get uid */
+	uids = g_ptr_array_new();
+	message_list_foreach(fb->message_list, enumerate_msg, uids);
+
+	if (uids->len == 1)
+		vfolder_type_uid(fb->folder, (char *)uids->pdata[0], fb->uri, type);
+
+	for (i=0; i<uids->len; i++)
+		g_free(uids->pdata[i]);
+	g_ptr_array_free(uids, TRUE);
+}
+
 /* external api to vfolder/filter on X, based on current message */
-void
-vfolder_subject (GtkWidget *w, FolderBrowser *fb)
+void vfolder_subject(GtkWidget *w, FolderBrowser *fb) { vfolder_type_current(fb, AUTO_SUBJECT); }
+void vfolder_sender(GtkWidget *w, FolderBrowser *fb) { vfolder_type_current(fb, AUTO_FROM); }
+void vfolder_recipient(GtkWidget *w, FolderBrowser *fb) { vfolder_type_current(fb, AUTO_TO); }
+void vfolder_mlist(GtkWidget *w, FolderBrowser *fb) { vfolder_type_current(fb, AUTO_MLIST); }
+
+static void filter_type_uid(CamelFolder *folder, const char *uid, const char *source, int type);
+
+static void
+filter_type_current(FolderBrowser *fb, int type)
 {
-	vfolder_gui_add_from_message (fb->mail_display->current_message, AUTO_SUBJECT, fb->uri);
-}
+	GPtrArray *uids;
+	int i;
+	const char *source;
 
-void
-vfolder_sender (GtkWidget *w, FolderBrowser *fb)
-{
-	vfolder_gui_add_from_message (fb->mail_display->current_message, AUTO_FROM, fb->uri);
-}
-
-void
-vfolder_recipient (GtkWidget *w, FolderBrowser *fb)
-{
-	vfolder_gui_add_from_message (fb->mail_display->current_message, AUTO_TO, fb->uri);
-}
-
-void
-vfolder_mlist (GtkWidget *w, FolderBrowser *fb)
-{
-	char *name;
-
-	g_return_if_fail (fb->mail_display->current_message != NULL);
-
-	name = header_raw_check_mailing_list(&((CamelMimePart *)fb->mail_display->current_message)->headers);
-	if (name) {
-		g_strstrip (name);
-		vfolder_gui_add_from_mlist(name, fb->uri);
-		g_free(name);
-	}
-}
-
-void
-filter_subject (GtkWidget *w, FolderBrowser *fb)
-{
-	const char *source = FILTER_SOURCE_INCOMING;
-	
 	if (folder_browser_is_sent (fb) || folder_browser_is_outbox (fb))
 		source = FILTER_SOURCE_OUTGOING;
-	
-	filter_gui_add_from_message (fb->mail_display->current_message, source, AUTO_SUBJECT);
+	else
+		source = FILTER_SOURCE_INCOMING;
+
+	/* get uid */
+	uids = g_ptr_array_new();
+	message_list_foreach(fb->message_list, enumerate_msg, uids);
+
+	if (uids->len == 1)
+		filter_type_uid(fb->folder, (char *)uids->pdata[0], source, type);
+
+	for (i=0; i<uids->len; i++)
+		g_free(uids->pdata[i]);
+	g_ptr_array_free(uids, TRUE);
 }
 
-void
-filter_sender (GtkWidget *w, FolderBrowser *fb)
-{
-	const char *source = FILTER_SOURCE_INCOMING;
-	
-	if (folder_browser_is_sent (fb) || folder_browser_is_outbox (fb))
-		source = FILTER_SOURCE_OUTGOING;
-	
-	filter_gui_add_from_message (fb->mail_display->current_message, source, AUTO_FROM);
-}
-
-void
-filter_recipient (GtkWidget *w, FolderBrowser *fb)
-{
-	const char *source = FILTER_SOURCE_INCOMING;
-	
-	if (folder_browser_is_sent (fb) || folder_browser_is_outbox (fb))
-		source = FILTER_SOURCE_OUTGOING;
-	
-	filter_gui_add_from_message (fb->mail_display->current_message, source, AUTO_TO);
-}
-
-void
-filter_mlist (GtkWidget *w, FolderBrowser *fb)
-{
-	const char *source = FILTER_SOURCE_INCOMING;
-	char *name;
-	
-	g_return_if_fail (fb->mail_display->current_message != NULL);
-	
-	if (folder_browser_is_sent (fb) || folder_browser_is_outbox (fb))
-		source = FILTER_SOURCE_OUTGOING;
-	
-	name = header_raw_check_mailing_list(&((CamelMimePart *)fb->mail_display->current_message)->headers);
-	if (name) {
-		filter_gui_add_from_mlist(source, name);
-		g_free(name);
-	}
-}
+void filter_subject(GtkWidget *w, FolderBrowser *fb) { filter_type_current(fb, AUTO_SUBJECT); }
+void filter_sender(GtkWidget *w, FolderBrowser *fb) { filter_type_current(fb, AUTO_FROM); }
+void filter_recipient(GtkWidget *w, FolderBrowser *fb) { filter_type_current(fb, AUTO_TO); }
+void filter_mlist(GtkWidget *w, FolderBrowser *fb) { filter_type_current(fb, AUTO_MLIST); }
 
 /* ************************************************************ */
 
@@ -1417,22 +1389,20 @@ vfolder_type_got_message(CamelFolder *folder, const char *uid, CamelMimeMessage 
 }
 
 static void
-vfolder_type_uid(struct _filter_data *fdata, int type)
+vfolder_type_uid(CamelFolder *folder, const char *uid, const char *uri, int type)
 {
 	struct _filter_data *data;
 
-	/* sigh, we need to copy this because the menu will free the one we got passed in */
 	data = g_malloc0(sizeof(*data));
 	data->type = type;
-	data->uri = fdata->uri;
-	fdata->uri = NULL;
-	mail_get_message(fdata->folder, fdata->uid, vfolder_type_got_message, data, mail_thread_new);
+	data->uri = g_strdup(uri);
+	mail_get_message(folder, uid, vfolder_type_got_message, data, mail_thread_new);
 }
 
-static void vfolder_subject_uid (GtkWidget *w, struct _filter_data *fdata)	{ vfolder_type_uid(fdata, AUTO_SUBJECT); }
-static void vfolder_sender_uid(GtkWidget *w, struct _filter_data *fdata)	{ vfolder_type_uid(fdata, AUTO_FROM); }
-static void vfolder_recipient_uid(GtkWidget *w, struct _filter_data *fdata)	{ vfolder_type_uid(fdata, AUTO_TO); }
-static void vfolder_mlist_uid(GtkWidget *w, struct _filter_data *fdata)		{ vfolder_gui_add_from_mlist(fdata->mlist, fdata->uri); }
+static void vfolder_subject_uid (GtkWidget *w, struct _filter_data *fdata)	{ vfolder_type_uid(fdata->folder, fdata->uid, fdata->uri, AUTO_SUBJECT); }
+static void vfolder_sender_uid(GtkWidget *w, struct _filter_data *fdata)	{ vfolder_type_uid(fdata->folder, fdata->uid, fdata->uri, AUTO_FROM); }
+static void vfolder_recipient_uid(GtkWidget *w, struct _filter_data *fdata)	{ vfolder_type_uid(fdata->folder, fdata->uid, fdata->uri, AUTO_TO); }
+static void vfolder_mlist_uid(GtkWidget *w, struct _filter_data *fdata)		{ vfolder_type_uid(fdata->folder, fdata->uid, fdata->uri, AUTO_MLIST); }
 
 static void
 filter_type_got_message(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *d)
@@ -1446,21 +1416,20 @@ filter_type_got_message(CamelFolder *folder, const char *uid, CamelMimeMessage *
 }
 
 static void
-filter_type_uid(struct _filter_data *fdata, int type)
+filter_type_uid(CamelFolder *folder, const char *uid, const char *source, int type)
 {
 	struct _filter_data *data;
 
-	/* sigh, we need to copy this because the menu will free the one we got passed in */
 	data = g_malloc0(sizeof(*data));
 	data->type = type;
-	data->source = fdata->source;
-	mail_get_message(fdata->folder, fdata->uid, filter_type_got_message, data, mail_thread_new);
+	data->source = source;
+	mail_get_message(folder, uid, filter_type_got_message, data, mail_thread_new);
 }
 
-static void filter_subject_uid (GtkWidget *w, struct _filter_data *fdata)	{ filter_type_uid(fdata, AUTO_SUBJECT); }
-static void filter_sender_uid(GtkWidget *w, struct _filter_data *fdata)		{ filter_type_uid(fdata, AUTO_FROM); }
-static void filter_recipient_uid(GtkWidget *w, struct _filter_data *fdata)	{ filter_type_uid(fdata, AUTO_TO); }
-static void filter_mlist_uid(GtkWidget *w, struct _filter_data *fdata)		{ filter_gui_add_from_mlist(fdata->source, fdata->mlist); }
+static void filter_subject_uid (GtkWidget *w, struct _filter_data *fdata)	{ filter_type_uid(fdata->folder, fdata->uid, fdata->source, AUTO_SUBJECT); }
+static void filter_sender_uid(GtkWidget *w, struct _filter_data *fdata)		{ filter_type_uid(fdata->folder, fdata->uid, fdata->source, AUTO_FROM); }
+static void filter_recipient_uid(GtkWidget *w, struct _filter_data *fdata)	{ filter_type_uid(fdata->folder, fdata->uid, fdata->source, AUTO_TO); }
+static void filter_mlist_uid(GtkWidget *w, struct _filter_data *fdata)		{ filter_type_uid(fdata->folder, fdata->uid, fdata->source, AUTO_MLIST); }
 
 void
 hide_none(GtkWidget *w, FolderBrowser *fb)

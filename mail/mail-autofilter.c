@@ -208,6 +208,25 @@ rule_match_subject (RuleContext *context, FilterRule *rule, const char *subject)
 }
 
 static void
+rule_match_mlist(RuleContext *context, FilterRule *rule, const char *mlist)
+{
+	FilterPart *part;
+	FilterElement *element;
+
+	if (mlist[0] == 0)
+		return;
+
+	part = rule_context_create_part(context, "mlist");
+	filter_rule_add_part(rule, part);
+	
+	element = filter_part_find_element(part, "mlist-type");
+	filter_option_set_current((FilterOption *)element, "is");
+	
+	element = filter_part_find_element (part, "mlist");
+	filter_input_set_value((FilterInput *)element, mlist);
+}
+
+static void
 rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg, int flags)
 {
 	CamelInternetAddress *addr;
@@ -247,6 +266,18 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 		addr = (CamelInternetAddress *)camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_CC);
 		rule_match_recipients (context, rule, addr);
 	}
+	if (flags & AUTO_MLIST) {
+		char *name, *mlist;
+
+		mlist = header_raw_check_mailing_list(&((CamelMimePart *)msg)->headers);
+		if (mlist) {
+			rule_match_mlist(context, rule, mlist);
+			name = g_strdup_printf(U_("%s mailing list"), mlist);
+			filter_rule_set_name(rule, name);
+			g_free(name);
+		}
+		g_free(mlist);
+	}
 }
 
 FilterRule *
@@ -276,54 +307,6 @@ filter_rule_from_message (FilterContext *context, CamelMimeMessage *msg, int fla
 	return (FilterRule *)rule;
 }
 
-static void
-rule_from_mlist(FilterRule *rule, RuleContext *context, const char *mlist)
-{
-	FilterPart *part;
-	FilterElement *element;
-	char *rule_name;
-
-	part = rule_context_create_part(context, "mlist");
-	filter_rule_add_part(rule, part);
-	
-	element = filter_part_find_element(part, "mlist-type");
-	filter_option_set_current((FilterOption *)element, "is");
-	
-	element = filter_part_find_element (part, "mlist");
-	filter_input_set_value((FilterInput *)element, mlist);
-	
-	rule_name = g_strdup_printf(U_("%s mailing list"), mlist);
-	filter_rule_set_name((FilterRule *) rule, rule_name);
-	g_free (rule_name);
-}
-
-FilterRule *
-vfolder_rule_from_mlist(VfolderContext *context, const char *mlist, const char *source)
-{
-	VfolderRule *rule;
-	
-	rule = vfolder_rule_new ();
-	vfolder_rule_add_source (rule, source);
-	rule_from_mlist((FilterRule *)rule, (RuleContext *)context, mlist);
-
-	return (FilterRule *)rule;
-}
-
-FilterRule *
-filter_rule_from_mlist (FilterContext *context, const char *mlist)
-{
-	FilterFilter *rule;
-	FilterPart *part;
-	
-	rule = filter_filter_new ();
-	rule_from_mlist((FilterRule *)rule, (RuleContext *)context, mlist);
-	
-	part = filter_context_next_action (context, NULL);
-	filter_filter_add_action (rule, filter_part_clone (part));
-	
-	return (FilterRule *)rule;
-}
-
 void
 filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flags)
 {
@@ -338,26 +321,6 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flag
 	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
 	rule = filter_rule_from_message (fc, msg, flags);
-	
-	filter_rule_set_source (rule, source);
-	
-	rule_context_add_rule_gui ((RuleContext *)fc, rule, _("Add Filter Rule"), user);
-	g_free (user);
-	gtk_object_unref (GTK_OBJECT (fc));
-}
-
-void
-filter_gui_add_from_mlist (const char *source, const char *mlist)
-{
-	FilterContext *fc;
-	char *user, *system;
-	FilterRule *rule;
-
-	fc = filter_context_new ();
-	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
-	rule_context_load ((RuleContext *)fc, system, user);
-	rule = filter_rule_from_mlist(fc, mlist);
 	
 	filter_rule_set_source (rule, source);
 	
