@@ -135,11 +135,12 @@ char* icalfileset_read_from_file(char *s, size_t size, void *d)
     for(p=s; p<s+size-1;p++){
 	
 	if(read(fd,p,1) != 1 || *p=='\n'){
-		break;
+	    p++;
+	    break;
 	} 
     }
 
-    *(++p) = '\0';
+    *p = '\0';
     
     if(*s == 0){
 	return 0;
