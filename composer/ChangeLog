@@ -1,3 +1,9 @@
+2001-09-26  Jon Trowbridge  <trow@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_new_from_url): Fixes glitch in
+	mailto: url parsing that caused it to fail when recipient names
+	contained commas. (Bug #10796)
+
 2001-09-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (save_draft): Update to reflect changes to

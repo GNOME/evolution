@@ -2763,7 +2763,7 @@ add_recipients (GList *list, const char *recips, gboolean decode)
  * defined by the provided URL.
  **/
 EMsgComposer *
-e_msg_composer_new_from_url (const char *url)
+e_msg_composer_new_from_url (const char *url_in)
 {
 	EMsgComposer *composer;
 	EMsgComposerHdrs *hdrs;
@@ -2772,20 +2772,24 @@ e_msg_composer_new_from_url (const char *url)
 	char *subject = NULL, *body = NULL;
 	const char *p, *header;
 	int len, clen;
-	char *content;
+	char *url, *content;
+
 	
-	g_return_val_if_fail (g_strncasecmp (url, "mailto:", 7) == 0, NULL);
+	g_return_val_if_fail (g_strncasecmp (url_in, "mailto:", 7) == 0, NULL);
 	
 	composer = e_msg_composer_new ();
 	if (!composer)
 		return NULL;
 
+	url = g_strdup (url_in);
+	camel_url_decode (url);
+
 	/* Parse recipients (everything after ':' until '?' or eos. */
 	p = url + 7;
-	len = strcspn (p, "?,");
+	len = strcspn (p, "?");
 	if (len) {
 		content = g_strndup (p, len);
-		to = add_recipients (to, content, TRUE);
+		to = add_recipients (to, content, FALSE);
 		g_free (content);
 	}
 	
@@ -2806,7 +2810,7 @@ e_msg_composer_new_from_url (const char *url)
 			clen = strcspn (p, "&");
 			content = g_strndup (p, clen);
 			camel_url_decode (content);
-			
+
 			if (!g_strncasecmp (header, "to", len))
 				to = add_recipients (to, content, FALSE);
 			else if (!g_strncasecmp (header, "cc", len))
