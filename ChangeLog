@@ -1,5 +1,17 @@
 2001-03-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* configure.in: Don't autogen the Makefiles in `camel/tests'.
+
+	* art/Makefile.am (EXTRA_DIST): Add `$(conduits_DATA)',
+	`$(buttons_DATA)'.
+
+	* configure.in: Remove `calendar/gui/alarm-notify/Makefile' from
+	`AC_OUTPUT()'.
+
+	* Makefile.am (SUBDIRS): Add `doc'.
+
+2001-03-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	* configure.in: Refined the GNOME VFS check a bit: don't spit out
 	an extra `AC_MSG_RESULT()'/`AC_MSG_ERROR()', and be consistent
 	about the version number in the message.

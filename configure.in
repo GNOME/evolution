@@ -676,11 +676,6 @@ camel/providers/vee/Makefile
 camel/providers/imap/Makefile
 camel/providers/nntp/Makefile
 camel/providers/local/Makefile
-camel/tests/Makefile
-camel/tests/lib/Makefile
-camel/tests/message/Makefile
-camel/tests/folder/Makefile
-camel/tests/stream/Makefile
 composer/Makefile
 widgets/Makefile
 widgets/meeting-time-sel/Makefile
@@ -712,7 +707,6 @@ calendar/cal-util/Makefile
 calendar/cal-client/Makefile
 calendar/pcs/Makefile
 calendar/gui/Makefile
-calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
 calendar/conduits/Makefile
 calendar/conduits/calendar/Makefile

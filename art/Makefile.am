@@ -96,4 +96,6 @@ EXTRA_DIST = \
 	score-high.xpm \
 	score-higher.xpm \
 	score-highest.xpm \
+	$(conduits_DATA) \
+	$(buttons_DATA)	\
 	$(images_DATA)
