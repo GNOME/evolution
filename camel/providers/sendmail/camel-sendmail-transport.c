@@ -122,14 +122,14 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 				      g_strerror (errno));
 		return FALSE;
 	}
-
+	
 	/* Block SIGCHLD so the calling application doesn't notice
 	 * sendmail exiting before we do.
 	 */
 	sigemptyset (&mask);
 	sigaddset (&mask, SIGCHLD);
 	sigprocmask (SIG_BLOCK, &mask, &omask);
-
+	
 	pid = fork ();
 	switch (pid) {
 	case -1:
@@ -140,39 +140,47 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 		sigprocmask (SIG_SETMASK, &omask, NULL);
 		g_free (argv);
 		return FALSE;
-
 	case 0:
 		/* Child process */
 		nullfd = open ("/dev/null", O_RDWR);
 		dup2 (fd[0], STDIN_FILENO);
-		/*		dup2 (nullfd, STDOUT_FILENO);
-				dup2 (nullfd, STDERR_FILENO);*/
+		/*dup2 (nullfd, STDOUT_FILENO);
+		  dup2 (nullfd, STDERR_FILENO);*/
 		close (nullfd);
 		close (fd[1]);
-
+		
 		execv (SENDMAIL_PATH, (char **)argv);
 		_exit (255);
 	}
 	g_free (argv);
-
+	
 	/* Parent process. Write the message out. */
 	close (fd[0]);
 	out = camel_stream_fs_new_with_fd (fd[1]);
 	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), out) == -1
-	    || camel_stream_close(out) == -1) {
+	    || camel_stream_close (out) == -1) {
 		camel_object_unref (CAMEL_OBJECT (out));
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not send message: %s"),
-				      strerror(errno));
+				      g_strerror (errno));
+		
+		/* Wait for sendmail to exit. */
+		while (waitpid (pid, &wstat, 0) == -1 && errno == EINTR)
+			;
+		
+		sigprocmask (SIG_SETMASK, &omask, NULL);
+		
 		return FALSE;
 	}
+	
 	camel_object_unref (CAMEL_OBJECT (out));
-
+	
 	/* Wait for sendmail to exit. */
 	while (waitpid (pid, &wstat, 0) == -1 && errno == EINTR)
 		;
+	
 	sigprocmask (SIG_SETMASK, &omask, NULL);
-
+	
 	if (!WIFEXITED (wstat)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("sendmail exited with signal %s: "
@@ -193,7 +201,7 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 		}
 		return FALSE;
 	}
-
+	
 	return TRUE;
 }
 

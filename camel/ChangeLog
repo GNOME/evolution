@@ -1,3 +1,10 @@
+2002-08-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/sendmail/camel-sendmail-transport.c
+	(sendmail_send_to): If writing to the sendmail pipe fails, wait
+	for the sendmail process to exit before returning. Fixes bug
+	#19636.
+
 2002-08-06  Not Zed  <NotZed@Ximian.com>
 
 	* providers/pop3/camel-pop3-folder.c (cmd_list): Add messageinfo
