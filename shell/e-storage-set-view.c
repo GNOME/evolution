@@ -1114,7 +1114,6 @@ tree_drag_motion (ETree *tree,
 
 	e_tree_drag_highlight (tree, row, -1);
 
-	g_print ("%s -- row %d x %d y %d\n", __FUNCTION__, row, x, y);
 	path = e_tree_node_at_row (E_TREE (storage_set_view), row);
 
 	component_client = get_component_at_node (storage_set_view, path);
@@ -1140,8 +1139,6 @@ tree_drag_motion (ETree *tree,
 
 	folder = get_folder_at_node (storage_set_view, path);
 	
-	g_print ("drag_motion %s -- %s\n", dnd_type, e_folder_get_name (folder));
-
 	can_handle = GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleMotion (destination_folder_interface,
 										       e_folder_get_physical_uri (folder),
 										       &corba_context,
