@@ -1,3 +1,7 @@
+2001-04-12  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (mail_part_is_inline): Don't leak memory.
+
 2001-04-11  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (handle_text_plain): Only look for special
