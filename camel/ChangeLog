@@ -1,3 +1,7 @@
+2001-09-20  Dan Winship  <danw@ximian.com>
+
+	* camel-charset-map.c (camel_charset_to_iconv): Nuke debug warning.
+
 2001-09-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-context.c: Updated exception strings to be more clear.

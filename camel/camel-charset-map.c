@@ -433,8 +433,6 @@ camel_charset_to_iconv (const char *name)
 	}
 	ICONV_CHARSETS_UNLOCK ();
 	
-	g_warning ("camel_charset_to_iconv (\"%s\") => \"%s\"", name, charset);
-	
 	return charset;
 }
 
