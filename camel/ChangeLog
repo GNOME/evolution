@@ -1,3 +1,7 @@
+2003-07-09  Larry Ewing  <lewing@ximian.com>
+
+	* camel.h: remove reference to camel-pgp-mime.h
+
 2003-07-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-mime.[c,h]: Removed.
@@ -83,6 +87,7 @@
 
 	* camel-mime-utils.c (header_format_date): Put day of week into
 	outgoing email.
+
 
 2003-06-25  Jeffrey Stedfast  <fejj@ximian.com>
 
