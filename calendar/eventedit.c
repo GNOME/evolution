@@ -611,7 +611,7 @@ ee_store_recur_end_to_ical (EventEditor *ee)
 	case 1:
 		/* end date */
 		ical->recur->_enddate = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->recur_ed_end_on));
-		ical->recur->enddate = ical->recur->enddate;
+		ical->recur->enddate = ical->recur->_enddate;
 		ical->recur->duration = 0;
 		break;
 

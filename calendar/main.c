@@ -396,10 +396,12 @@ static void
 new_calendar (char *full_name, char *calendar_file, char *geometry, char *page)
 {
 	GtkWidget   *toplevel;
-	char        *title;
+	char        title[128];
 	int         xpos, ypos, width, height;
-	
-	title = g_copy_strings (full_name, "'s calendar", NULL);
+
+	/* i18n: This "%s%s" indicates possession. Languages where the order is
+       the inverse should translate it to "%2$s%1$s". */
+	g_snprintf(title, 128, _("%s%s"), full_name, _("'s calendar"), NULL);
 
 	toplevel = gnome_calendar_new (title);
 	if (gnome_parse_geometry (geometry, &xpos, &ypos, &width, &height)){
@@ -408,7 +410,6 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page)
 		if (width != -1)
 			gtk_widget_set_usize (toplevel, width, height);
 	}
-	g_free (title);
 	setup_menu (toplevel);
 
 	if (page)

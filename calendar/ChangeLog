@@ -1,3 +1,12 @@
+1998-08-11  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
+
+	* main.c (new_calendar): Made title i18n friendly. This was bug
+	#215.
+
+	* eventedit.c (ee_store_recur_end_to_ical): Set recur->enddate to
+	recur->_enddate, not to itself, when adding recurring event and
+	supplying an end date. This fixes (at least part of) bug #99.
+
 1998-08-10  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* month-view.[ch]: Start of the month view widget.  This will use
