@@ -170,7 +170,8 @@ static void
 e_list_destroy (GtkObject *object)
 {
 	EList *list = E_LIST(object);
-	g_list_foreach(list->list, (GFunc) list->free, list->closure);
+	if (list->free)
+		g_list_foreach(list->list, (GFunc) list->free, list->closure);
 	g_list_free(list->list);
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)

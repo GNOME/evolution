@@ -1,3 +1,8 @@
+2002-08-29  Dan Winship  <danw@ximian.com>
+
+	* e-list.c (e_list_destroy): Don't call g_list_foreach with the
+	free func if the free func is NULL.
+
 2002-08-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-html-utils.c (e_text_to_html_full): Convert file: urls
