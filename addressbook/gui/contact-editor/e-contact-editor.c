@@ -1995,11 +1995,9 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 						    &photo.data, &photo.length)) {
 			e_contact_set (contact, field_id, &photo);
 			g_free (photo.data);
-			g_print ("Picture set!\n");
 		}
 		else {
 			e_contact_set (contact, E_CONTACT_PHOTO, NULL);
-			g_print ("Picture unset!\n");
 		}
 	}
 	else if (GTK_IS_TOGGLE_BUTTON (widget)) {
@@ -2510,16 +2508,9 @@ contact_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 
 /* Emits the signal to request saving a contact */
 static void
-save_contact (EContactEditor *ce, gboolean should_close)
+real_save_contact (EContactEditor *ce, gboolean should_close)
 {
 	EditorCloseStruct *ecs;
-
-	extract_all (ce);
-	if (!ce->target_book)
-		return;
-
-	if (!e_contact_editor_is_valid (EAB_EDITOR (ce)))
-		return;
 
 	ecs = g_new0 (EditorCloseStruct, 1);
 	ecs->ce = ce;
@@ -2542,6 +2533,44 @@ save_contact (EContactEditor *ce, gboolean should_close)
 			eab_merging_book_commit_contact (ce->target_book, ce->contact,
 							 (EBookCallback) contact_modified_cb, ecs);
 	}
+}
+
+static void
+save_contact (EContactEditor *ce, gboolean should_close)
+{
+	extract_all (ce);
+	if (!ce->target_book)
+		return;
+
+	if (!e_contact_editor_is_valid (EAB_EDITOR (ce)))
+		return;
+
+	if (ce->target_editable && !ce->source_editable) {
+		GtkWidget *dialog;
+		gint       response;
+
+		dialog = gtk_message_dialog_new (GTK_WINDOW (ce->app),
+						 (GtkDialogFlags) 0,
+						 GTK_MESSAGE_QUESTION,
+						 GTK_BUTTONS_NONE,
+						 _("You are moving the contact from one "
+						   "address book to another, but it cannot "
+						   "be removed from the source. Do you want "
+						   "to save a copy instead?"));
+		gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					GTK_STOCK_SAVE, GTK_RESPONSE_YES,
+					NULL);
+
+		gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
+		response = gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+
+		if (response == GTK_RESPONSE_CANCEL)
+			return;
+	}
+
+	real_save_contact (ce, should_close);
 }
 
 static void
@@ -2601,7 +2630,7 @@ e_contact_editor_is_valid (EABEditor *editor)
 
 		dialog = gtk_message_dialog_new (GTK_WINDOW (ce->app),
 						 0,
-						 GTK_MESSAGE_INFO,
+						 GTK_MESSAGE_ERROR,
 						 GTK_BUTTONS_OK,
 						 errmsg->str);
 		result = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -2626,7 +2655,6 @@ e_contact_editor_get_window (EABEditor *editor)
 {
 	return GTK_WINDOW (E_CONTACT_EDITOR (editor)->app);
 }
-
 
 static void
 file_save_and_close_cb (GtkWidget *widget, gpointer data)
@@ -2657,7 +2685,61 @@ app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 	if (ce->in_async_call)
 		return TRUE;
 
-	if (!eab_editor_prompt_to_save_changes (EAB_EDITOR (ce), GTK_WINDOW (ce->app)))
+	if (!ce->target_editable) {
+		GtkWidget *dialog;
+		gint       response;
+
+		dialog = gtk_message_dialog_new (GTK_WINDOW (widget),
+						 (GtkDialogFlags) 0,
+						 GTK_MESSAGE_QUESTION,
+						 GTK_BUTTONS_NONE,
+						 _("The contact cannot be saved to the "
+						   "selected address book. Do you want to "
+						   "discard changes?"));
+		gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+					_("_Discard"), GTK_RESPONSE_YES,
+					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					NULL);
+
+		gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
+		response = gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+
+		if (response != GTK_RESPONSE_YES)
+			return TRUE;
+	}
+	else if (!ce->source_editable) {
+		GtkWidget *dialog;
+		gint       response;
+
+		dialog = gtk_message_dialog_new (GTK_WINDOW (widget),
+						 (GtkDialogFlags) 0,
+						 GTK_MESSAGE_QUESTION,
+						 GTK_BUTTONS_NONE,
+						 _("You are moving the contact from one "
+						   "address book to another, but it cannot "
+						   "be removed from the source. Do you want "
+						   "to save a copy instead?"));
+		gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+					_("_Discard"), GTK_RESPONSE_NO,
+					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					GTK_STOCK_SAVE, GTK_RESPONSE_YES,
+					NULL);
+
+		gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
+		response = gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+
+		if (response == GTK_RESPONSE_YES) {
+			if (e_contact_editor_is_valid (EAB_EDITOR (ce)))
+				real_save_contact (ce, FALSE);
+			else
+				return TRUE;
+		}
+		else if (response == GTK_RESPONSE_CANCEL)
+			return TRUE;
+	}
+	else if (!eab_editor_prompt_to_save_changes (EAB_EDITOR (ce), GTK_WINDOW (ce->app)))
 		return TRUE;
 
 	eab_editor_close (EAB_EDITOR (ce));

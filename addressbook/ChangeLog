@@ -1,5 +1,23 @@
 2004-05-19  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/contact-editor/e-contact-editor.c (extract_simple_field):
+	Remove debug output.
+	(real_save_contact): Separate out actual save logic from
+	save_contact ().
+	(save_contact): If the user wants to move the contact from one
+	address book to another, but the source is read-only, as to
+	save a copy instead.
+	(e_contact_editor_is_valid): The dialog should be an error dialog.
+	(app_delete_event_cb): If the target book is read-only, prompt
+	to discard. If the user wants to move but cannot, prompt to save
+	a copy. Also validate.
+
+	* gui/contact-editor/eab-editor.c (eab_editor_prompt_to_save_changes):
+	Remove comment about invalid data dialog, it's not handled here
+	anymore.
+
+2004-05-19  Hans Petter Jansson  <hpj@ximian.com>
+
 	Fixes a number of bugs, adds some unimplemented functionality, and
 	makes code more structured.
 

@@ -256,7 +256,6 @@ eab_editor_prompt_to_save_changes (EABEditor *editor, GtkWindow *window)
 	switch (eab_prompt_save_dialog (window)) {
 	case GTK_RESPONSE_YES:
 		if (!eab_editor_is_valid (editor)) {
-			/* XXX pop up dialog about things being invalid */
 			return FALSE;
 		}
 		eab_editor_save_contact (editor, FALSE);
