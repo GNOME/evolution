@@ -19,6 +19,7 @@
 #include <libgnomeui/gnome-canvas.h>
 #include <gtk/gtksignal.h>
 #include <gnome-xml/parser.h>
+#include <gnome-xml/xmlmemory.h>
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
 #include "e-util/e-canvas.h"
@@ -313,7 +314,12 @@ et_xml_to_header (ETable *e_table, ETableHeader *full_header, xmlNode *xmlColumn
 	nh = e_table_header_new ();
 
 	for (column = xmlColumns->childs; column; column = column->next) {
-		int col = atoi (column->childs->content);
+		gchar *content;
+		int col;
+
+		content = xmlNodeListGetString (column->doc, column->childs, 1);
+		col = atoi (content);
+		xmlFree (content);
 
 		if (col >= max_cols)
 			continue;

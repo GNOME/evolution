@@ -10,6 +10,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <glade/glade.h>
+#include <gnome-xml/xmlmemory.h>
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
 #include "e-util/e-canvas.h"
@@ -46,7 +47,12 @@ get_fields (ETable *etable, xmlNode *xmlRoot)
 
 	for (column = xmlColumns->childs; column; column = column->next){
 		ETableCol *ecol;
-		int col = atoi (column->childs->content);
+		char *content;
+		int col;
+
+		content = xmlNodeListGetString (column->doc, column->childs, 1);
+		col = atoi (content);
+		xmlFree (content);
 
 		ecol = e_table_header_get_column (etable->header, col);
 
