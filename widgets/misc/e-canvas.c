@@ -23,14 +23,15 @@
 #include <gnome.h>
 #include "e-canvas.h"
 static void e_canvas_init           (ECanvas         *card);
-static void e_canvas_class_init	    (ECanvasClass	 *klass);
+static void e_canvas_class_init	    (ECanvasClass    *klass);
+static void e_canvas_realize        (GtkWidget        *widget);
 static gint e_canvas_key            (GtkWidget        *widget,
 				     GdkEventKey      *event);
 
 static gint e_canvas_focus_in       (GtkWidget        *widget,
-					 GdkEventFocus    *event);
+				     GdkEventFocus    *event);
 static gint e_canvas_focus_out      (GtkWidget        *widget,
-					 GdkEventFocus    *event);
+				     GdkEventFocus    *event);
 
 static int emit_event (GnomeCanvas *canvas, GdkEvent *event);
 
@@ -85,7 +86,8 @@ e_canvas_class_init (ECanvasClass *klass)
 	widget_class->key_release_event = e_canvas_key;
 	widget_class->focus_in_event = e_canvas_focus_in;
 	widget_class->focus_out_event = e_canvas_focus_out;
-
+	widget_class->realize = e_canvas_realize;
+	
 	klass->reflow = NULL;
 
 	e_canvas_signals [REFLOW] =
@@ -331,6 +333,14 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 		return FALSE;
 }
 
+static void
+e_canvas_realize (GtkWidget *widget)
+{
+	if (GTK_WIDGET_CLASS (parent_class)->realize)
+		(* GTK_WIDGET_CLASS (parent_class)->realize) (widget);
+	
+	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
+}
 
 static void
 e_canvas_item_invoke_reflow (GnomeCanvasItem *item, int flags)
