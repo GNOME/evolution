@@ -5,14 +5,14 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.105 2001/08/24 12:39:52 menthos Exp $
+# $Id: sv.po,v 1.106 2001/08/24 13:51:25 menthos Exp $
 #
 #: mail/component-factory.c:97 mail/component-factory.c:98
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-08-24 14:38+0200\n"
-"PO-Revision-Date: 2001-08-24 14:39+0200\n"
+"POT-Creation-Date: 2001-08-24 15:33+0200\n"
+"PO-Revision-Date: 2001-08-24 15:51+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -636,7 +636,8 @@ msgid "Category is"
 msgstr "Kategori är"
 
 #. We attach subitems below
-#: addressbook/gui/component/addressbook.c:646 widgets/misc/e-filter-bar.h:104
+#: addressbook/gui/component/addressbook.c:646 widgets/misc/e-filter-bar.h:97
+#: widgets/misc/e-filter-bar.h:104
 msgid "Advanced..."
 msgstr "Avancerat..."
 
@@ -649,6 +650,15 @@ msgstr "Alla kategorier"
 #: addressbook/gui/component/addressbook.c:912
 msgid "The URI that the Folder Browser will display"
 msgstr "URI:n som mappbläddraren kommer att visa"
+
+#.
+#. * This is the code for the UI thingie that lets you manipulate the e-mail
+#. * addresses (and *only* the e-mail addresses) associated with an existing
+#. * card.
+#.
+#: addressbook/gui/component/e-address-popup.c:178
+msgid "(none)"
+msgstr "(ingen)"
 
 #: addressbook/gui/component/e-address-popup.c:466
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
@@ -2863,7 +2873,7 @@ msgstr "Kunde inte skapa fabriken för alarmaviseringstjänsten"
 
 #: calendar/gui/calendar-commands.c:414
 msgid "%A %d %B %Y"
-msgstr "%A %d %B %Y"
+msgstr "%A %e %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
@@ -2878,14 +2888,14 @@ msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
 #: calendar/gui/calendar-commands.c:435
-#, c-format
+#, no-c-format
 msgid "%d"
-msgstr "%d"
+msgstr "%e"
 
 #: calendar/gui/calendar-commands.c:437 calendar/gui/calendar-commands.c:444
 #: calendar/gui/calendar-commands.c:450 calendar/gui/calendar-commands.c:452
 msgid "%d %B %Y"
-msgstr "%d %B %Y"
+msgstr "%e %B %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -2894,7 +2904,7 @@ msgstr "%d %B %Y"
 #: calendar/gui/e-week-view-main-item.c:342 calendar/gui/print.c:1436
 #: my-evolution/e-summary-calendar.c:240
 msgid "%d %B"
-msgstr "%d %B"
+msgstr "%e %B"
 
 #: calendar/gui/calendar-commands.c:604
 msgid ""
@@ -2989,7 +2999,7 @@ msgstr "%a %Y-%m-%d %H.%M.%S"
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: calendar/gui/calendar-model.c:842 e-util/e-time-utils.c:326
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr "%a %Y-%m-%d %I.%M.%S %p"
+msgstr "%a %Y-%m-%d %H.%M.%S %p"
 
 #: calendar/gui/calendar-model.c:847
 #, c-format
@@ -3117,7 +3127,7 @@ msgstr "Skapa ett nytt möte"
 
 #: calendar/gui/component-factory.c:403 calendar/gui/e-day-view.c:3400
 msgid "New _Appointment"
-msgstr "Nytt _möte"
+msgstr "Nytt m_öte"
 
 #: calendar/gui/component-factory.c:408 ui/evolution-calendar.xml.h:8
 #: ui/evolution-tasks.xml.h:5
@@ -4295,7 +4305,7 @@ msgstr "%02i minutdivisioner"
 #: calendar/gui/e-day-view-top-item.c:285 calendar/gui/e-day-view.c:1354
 #: calendar/gui/e-week-view-main-item.c:325 calendar/gui/print.c:1452
 msgid "%A %d %B"
-msgstr "%A %d %B"
+msgstr "%A %e %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
@@ -4497,18 +4507,6 @@ msgstr "Ledig/Upptagen-svar"
 #: calendar/gui/e-itip-control.c:729
 msgid "Bad Free/Busy Message"
 msgstr "Felaktigt ledig/upptagenmeddelande"
-
-#: calendar/gui/e-itip-control.c:786
-msgid "The message does not appear to be properly formed"
-msgstr "Meddelandet verkar inte vara korrekt utformat"
-
-#: calendar/gui/e-itip-control.c:805
-msgid "The message contains only unsupported requests."
-msgstr "Meddelandet innehåller typer av begäran som inte stöds."
-
-#: calendar/gui/e-itip-control.c:829
-msgid "The information contained in this attachment was not valid"
-msgstr "Informationen i denna bilaga var inte giltig"
 
 #: calendar/gui/e-itip-control.c:940
 msgid "I couldn't update your calendar file!\n"
@@ -4974,8 +4972,8 @@ msgstr "contains? förväntar sig att argument 2 är en sträng"
 
 #: calendar/pcs/query.c:663
 msgid ""
-"contains? expects argument 1 to be one of \"any\", \"summary\", "
-"\"description\""
+"contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
+"\""
 msgstr ""
 "contains? förväntar sig att argument 1 är ett av \"any\", \"summary\", eller "
 "\"description\""
@@ -5063,6 +5061,7 @@ msgid "Unable to process spool folder"
 msgstr "Kan inte bearbeta spool-mappen"
 
 #: camel/camel-filter-driver.c:667
+#, c-format
 msgid "Getting message %d (%d%%)"
 msgstr "Hämtar meddelande %d (%d%%)"
 
@@ -5379,8 +5378,8 @@ msgid ""
 "This option will connect to the server using a secure CRAM-MD5 password, if "
 "the server supports it."
 msgstr ""
-"Detta alternativ kommer att ansluta till servern med ett säkert "
-"CRAM-MD5-lösenord, om servern stöder det."
+"Detta alternativ kommer att ansluta till servern med ett säkert CRAM-MD5-"
+"lösenord, om servern stöder det."
 
 #: camel/camel-sasl-digest-md5.c:43
 msgid "DIGEST-MD5"
@@ -5391,8 +5390,8 @@ msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
 msgstr ""
-"Detta alternativ kommer att ansluta till servern med ett "
-"DIGEST-MD5-lösenord, om servern stöder det."
+"Detta alternativ kommer att ansluta till servern med ett DIGEST-MD5-"
+"lösenord, om servern stöder det."
 
 #: camel/camel-sasl-digest-md5.c:810
 msgid "Server challenge too long (>2048 octets)\n"
@@ -5425,8 +5424,8 @@ msgstr "Kerberos 4"
 #: camel/camel-sasl-kerberos4.c:42
 msgid "This option will connect to the server using Kerberos 4 authentication."
 msgstr ""
-"Detta alternativ kommer att ansluta till servern med Kerberos "
-"4-autentisering."
+"Detta alternativ kommer att ansluta till servern med Kerberos 4-"
+"autentisering."
 
 #: camel/camel-sasl-kerberos4.c:161
 #, c-format
@@ -6256,8 +6255,8 @@ msgstr "USENET-diskussionsgrupper"
 #: camel/providers/nntp/camel-nntp-provider.c:44
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
 msgstr ""
-"Det här är en leverantör för läsning och postning till "
-"USENET-diskussionsgrupper."
+"Det här är en leverantör för läsning och postning till USENET-"
+"diskussionsgrupper."
 
 #: camel/providers/nntp/camel-nntp-store.c:231
 #, c-format
@@ -6347,8 +6346,8 @@ msgid ""
 "is the only option supported by many POP servers."
 msgstr ""
 "Detta alternativ kommer att ansluta till POP-servern med ett "
-"klartextlösenord. Det här är det enda alternativet som stöds hos många "
-"POP-servrar."
+"klartextlösenord. Det här är det enda alternativet som stöds hos många POP-"
+"servrar."
 
 #: camel/providers/pop3/camel-pop3-provider.c:79
 msgid ""
@@ -7045,7 +7044,7 @@ msgstr "%Y-%m-%d"
 #: e-util/e-time-utils.c:99 e-util/e-time-utils.c:274
 #: e-util/e-time-utils.c:362
 msgid "%I:%M:%S %p"
-msgstr "%I.%M.%S %p"
+msgstr "%H.%M.%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
 #: e-util/e-time-utils.c:102 e-util/e-time-utils.c:277
@@ -7058,7 +7057,7 @@ msgstr "%H.%M.%S"
 #: e-util/e-time-utils.c:359 widgets/misc/e-dateedit.c:1339
 #: widgets/misc/e-dateedit.c:1566
 msgid "%I:%M %p"
-msgstr "%I.%M %p"
+msgstr "%H.%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:108 e-util/e-time-utils.c:284
@@ -7103,7 +7102,7 @@ msgstr "%a %Y-%m-%d %H.%M"
 #. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:322
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr "%a %Y-%m-%d %I.%M %p"
+msgstr "%a %Y-%m-%d %H.%M %p"
 
 #: filter/filter-datespec.c:80
 msgid "year"
@@ -7675,7 +7674,7 @@ msgstr "Nytt e-postmeddelande"
 
 #: mail/component-factory.c:764
 msgid "New _Mail Message"
-msgstr "Nytt _e-postmeddelande"
+msgstr "Nytt e-_postmeddelande"
 
 #: mail/component-factory.c:796
 msgid "Cannot initialize Evolution's mail component."
@@ -8321,7 +8320,8 @@ msgstr "Sl_å på"
 msgid "Each account must have a different name."
 msgstr "Varje konto måste ha ett unikt namn."
 
-#: mail/mail-config.glade.h:32 widgets/misc/e-filter-bar.h:103
+#: mail/mail-config.glade.h:32 widgets/misc/e-filter-bar.h:96
+#: widgets/misc/e-filter-bar.h:103
 msgid "Edit..."
 msgstr "Redigera..."
 
@@ -9394,6 +9394,38 @@ msgstr "Utskrift av sammanfattning misslyckades"
 #: my-evolution/main.c:52
 msgid "Executive summary component could not initialize Bonobo.\n"
 msgstr "Sammanfattningskomponenten kunde inte initiera Bonobo.\n"
+
+#: my-evolution/metar.c:29
+msgid "°F"
+msgstr "°F"
+
+#: my-evolution/metar.c:29
+msgid "°C"
+msgstr "°C"
+
+#: my-evolution/metar.c:33
+msgid "knots"
+msgstr "knop"
+
+#: my-evolution/metar.c:33
+msgid "kph"
+msgstr "km/h"
+
+#: my-evolution/metar.c:38
+msgid "inHg"
+msgstr "inHg"
+
+#: my-evolution/metar.c:38
+msgid "mmHg"
+msgstr "mmHg"
+
+#: my-evolution/metar.c:41
+msgid "miles"
+msgstr "engelska mil"
+
+#: my-evolution/metar.c:41
+msgid "kilometers"
+msgstr "kilometer"
 
 #: my-evolution/metar.c:44
 msgid "Clear sky"
@@ -11278,6 +11310,7 @@ msgid "%s (...)"
 msgstr "%s (...)"
 
 #: shell/e-task-widget.c:175
+#, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% färdigt)"
 
@@ -12245,7 +12278,7 @@ msgstr "Svara till alla"
 
 #: ui/evolution-mail-message.xml.h:70
 msgid "S_earch Message..."
-msgstr "S_ök meddelande..."
+msgstr "_Sök meddelande..."
 
 #: ui/evolution-mail-message.xml.h:71
 msgid "Save the message as a text file"
@@ -12664,7 +12697,7 @@ msgstr "Evolution-FA_Q"
 
 #: ui/evolution.xml.h:14
 msgid "Evolution _Window"
-msgstr "Evolutionf_önster"
+msgstr "_Evolutionfönster"
 
 #: ui/evolution.xml.h:15
 msgid "Exit the program"
@@ -12849,7 +12882,7 @@ msgstr ""
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:469
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:2477
 msgid "%A, %B %d, %Y"
-msgstr "%A %d %B %Y"
+msgstr "%A %e %B %Y"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:394
 msgid "Out of Office"
@@ -13036,6 +13069,14 @@ msgstr "Sökredigerare"
 msgid "Save Search"
 msgstr "Spara sökning"
 
+#: widgets/misc/e-filter-bar.h:94
+msgid "Add to Saved Searches"
+msgstr "Lägg till i sparade sökningar"
+
+#: widgets/misc/e-filter-bar.h:95
+msgid "Clear"
+msgstr "Töm"
+
 #: widgets/misc/e-filter-bar.h:102
 msgid "Show All"
 msgstr "Visa alla"
@@ -13089,26 +13130,14 @@ msgstr "init_corba(): kunde inte initiera GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
-#~ msgid "(none)"
-#~ msgstr "(ingen)"
+#~ msgid "The message does not appear to be properly formed"
+#~ msgstr "Meddelandet verkar inte vara korrekt utformat"
 
-#~ msgid "knots"
-#~ msgstr "knop"
+#~ msgid "The message contains only unsupported requests."
+#~ msgstr "Meddelandet innehåller typer av begäran som inte stöds."
 
-#~ msgid "inHg"
-#~ msgstr "inHg"
-
-#~ msgid "miles"
-#~ msgstr "engelska mil"
-
-#~ msgid "kilometers"
-#~ msgstr "kilometer"
-
-#~ msgid "Add to Saved Searches"
-#~ msgstr "Lägg till i sparade sökningar"
-
-#~ msgid "Clear"
-#~ msgstr "Töm"
+#~ msgid "The information contained in this attachment was not valid"
+#~ msgstr "Informationen i denna bilaga var inte giltig"
 
 #~ msgid "RDF Summary"
 #~ msgstr "RDF-sammanfattning"
@@ -13192,7 +13221,7 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgstr "Inställningar för Mitt Evolution"
 
 #~ msgid "%A, %d %B %Y"
-#~ msgstr "%A %d %B %Y"
+#~ msgstr "%A %e %B %Y"
 
 #~ msgid "Print My Evolution"
 #~ msgstr "Skriv ut Mitt Evolution"
@@ -13435,11 +13464,11 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgstr "Skapa sökvägen om den inte finns."
 
 #~ msgid ""
-#~ "Select the kind of addressbook you have, and enter the relevant information "
-#~ "about it."
+#~ "Select the kind of addressbook you have, and enter the relevant "
+#~ "information about it."
 #~ msgstr ""
-#~ "Markera den typ av adressbok du har och ange den relevanta informationen om "
-#~ "den."
+#~ "Markera den typ av adressbok du har och ange den relevanta informationen "
+#~ "om den."
 
 #~ msgid "FIXME Name help text here"
 #~ msgstr "FIXME Namnhjälptext här"
@@ -13561,11 +13590,11 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgstr "Vidarebefordrat meddelande (inget ämne)"
 
 #~ msgid ""
-#~ "-----Forwarded Message-----<br><b>From:</b> %s<br><b>To:</b> "
-#~ "%s<br><b>Subject:</b> %s<br>"
+#~ "-----Forwarded Message-----<br><b>From:</b> %s<br><b>To:</b> %"
+#~ "s<br><b>Subject:</b> %s<br>"
 #~ msgstr ""
-#~ "-----Vidarebefordrat meddelande-----<br><b>Fr&aring;n:</b> "
-#~ "%s<br><b>Till:</b> %s<br><b>&Auml;mne:</b> %s<br>"
+#~ "-----Vidarebefordrat meddelande-----<br><b>Fr&aring;n:</b> %s<br><b>Till:"
+#~ "</b> %s<br><b>&Auml;mne:</b> %s<br>"
 
 #~ msgid "Wipe trackers"
 #~ msgstr "Rensa spårare"
@@ -14360,7 +14389,8 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "Forward this message in-line with your mail, so you can edit it"
 #~ msgstr ""
-#~ "Vidarebefordra detta meddelande inuti ditt brev, så att du kan redigera det"
+#~ "Vidarebefordra detta meddelande inuti ditt brev, så att du kan redigera "
+#~ "det"
 
 #~ msgid "Invert Selection"
 #~ msgstr "Omvänd markering"
@@ -14471,11 +14501,11 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgstr "VANLIG"
 
 #~ msgid ""
-#~ "This option will connect to the server using a the PLAIN SASL mechanism if "
-#~ "the server supports it."
+#~ "This option will connect to the server using a the PLAIN SASL mechanism "
+#~ "if the server supports it."
 #~ msgstr ""
-#~ "Detta alternativ kommer att ansluta till servern med en VANLIG SASL-mekanism "
-#~ "om servern stöder det."
+#~ "Detta alternativ kommer att ansluta till servern med en VANLIG SASL-"
+#~ "mekanism om servern stöder det."
 
 #~ msgid "No such host %s."
 #~ msgstr "Det finns ingen värd med namnet %s."
@@ -14500,20 +14530,20 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgstr "Säker POP"
 
 #~ msgid ""
-#~ "For connecting to POP servers over an SSL connection. The POP protocol can "
-#~ "also be used to retrieve mail from certain web mail providers and "
+#~ "For connecting to POP servers over an SSL connection. The POP protocol "
+#~ "can also be used to retrieve mail from certain web mail providers and "
 #~ "proprietary email systems."
 #~ msgstr ""
-#~ "För anslutning till POP-servrar över en SSL-anslutning. POP-protokollet kan "
-#~ "även användas för att hämta e-post från vissa webb-epostleverantörer och "
-#~ "slutna e-postsystem."
+#~ "För anslutning till POP-servrar över en SSL-anslutning. POP-protokollet "
+#~ "kan även användas för att hämta e-post från vissa webb-epostleverantörer "
+#~ "och slutna e-postsystem."
 
 #~ msgid ""
-#~ "For delivering mail by connecting to a remote mailhub using SMTP over an SSL "
-#~ "connection.\n"
+#~ "For delivering mail by connecting to a remote mailhub using SMTP over an "
+#~ "SSL connection.\n"
 #~ msgstr ""
-#~ "För leverans av e-post genom anslutning till ett fjärr-epostnav som använder "
-#~ "SMTP över en SSL-anslutning.\n"
+#~ "För leverans av e-post genom anslutning till ett fjärr-epostnav som "
+#~ "använder SMTP över en SSL-anslutning.\n"
 
 #~ msgid "Remove action"
 #~ msgstr "Ta bort åtgärd"
@@ -14605,7 +14635,8 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ "authentication. This should be fine for connecting to most SMTP servers."
 #~ msgstr ""
 #~ "Detta alternativ kommer att ansluta till SMTP-servern utan någon form av "
-#~ "autentisering. Detta bör fungera för anslutning till de flesta SMTP-servrar."
+#~ "autentisering. Detta bör fungera för anslutning till de flesta SMTP-"
+#~ "servrar."
 
 #~ msgid "[ %s ]"
 #~ msgstr "[ %s ]"
@@ -14766,7 +14797,8 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "Note: When converting between mailbox formats, a failure\n"
 #~ msgstr ""
-#~ "Observera: Vid konvertering mellan brevlådeformat kommer ett misslyckande\n"
+#~ "Observera: Vid konvertering mellan brevlådeformat kommer ett "
+#~ "misslyckande\n"
 
 #~ msgid "Connect to server"
 #~ msgstr "Anslut till server"
@@ -14964,8 +14996,8 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgid ""
 #~ "Could not read UID cache file \"%s\". You may receive duplicate messages."
 #~ msgstr ""
-#~ "Kunde inte läsa UID-cachefilen \"%s\". Du kommer kanske att få dubbla kopior "
-#~ "av meddelanden."
+#~ "Kunde inte läsa UID-cachefilen \"%s\". Du kommer kanske att få dubbla "
+#~ "kopior av meddelanden."
 
 #~ msgid "Retrieving message %d of %d"
 #~ msgstr "Hämtar meddelande %d av %d"
@@ -14986,8 +15018,8 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ "For reading mail delivered by the local system, and for storing mail on "
 #~ "local disk."
 #~ msgstr ""
-#~ "För läsning av e-post som levereras av det lokala systemet och som lagras på "
-#~ "lokal disk."
+#~ "För läsning av e-post som levereras av det lokala systemet och som lagras "
+#~ "på lokal disk."
 
 #~ msgid "Create a new note"
 #~ msgstr "Skapa en ny anteckning"
@@ -15029,12 +15061,13 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgstr "Svara till:"
 
 #~ msgid ""
-#~ "Enter your name and email address to be used in outgoing mail. You may also, "
-#~ "optionally, enter the name of your organization, and the name of a file to "
-#~ "read your signature from."
+#~ "Enter your name and email address to be used in outgoing mail. You may "
+#~ "also, optionally, enter the name of your organization, and the name of a "
+#~ "file to read your signature from."
 #~ msgstr ""
-#~ "Ange ditt namn och din e-postadress för utgående post. Du kan också, om du "
-#~ "vill, ange namnet på din organisation och en fil att läsa din signatur från."
+#~ "Ange ditt namn och din e-postadress för utgående post. Du kan också, om "
+#~ "du vill, ange namnet på din organisation och en fil att läsa din signatur "
+#~ "från."
 
 #~ msgid "Full name:"
 #~ msgstr "Fullständigt namn:"
@@ -15046,24 +15079,24 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgstr "Typ av e-postkälla:"
 
 #~ msgid ""
-#~ "Select the kind of mail server you have, and enter the relevant information "
-#~ "about it.\n"
+#~ "Select the kind of mail server you have, and enter the relevant "
+#~ "information about it.\n"
 #~ "\n"
-#~ "If the server requires authentication, you can click the \"Detect supported "
-#~ "types...\" button after entering the other information."
+#~ "If the server requires authentication, you can click the \"Detect "
+#~ "supported types...\" button after entering the other information."
 #~ msgstr ""
-#~ "Välj den typ av e-postserver som du har och ange den relevanta informationen "
-#~ "om den.\n"
+#~ "Välj den typ av e-postserver som du har och ange den relevanta "
+#~ "informationen om den.\n"
 #~ "\n"
-#~ "Om servern kräver autentisering kan du klicka på knappen \"Detektera vilka "
-#~ "typer som stöds...\" när du har angett den andra informationen."
+#~ "Om servern kräver autentisering kan du klicka på knappen \"Detektera "
+#~ "vilka typer som stöds...\" när du har angett den andra informationen."
 
 #~ msgid ""
-#~ "Select the kind of news server you have, and enter the relevant information "
-#~ "about it.\n"
+#~ "Select the kind of news server you have, and enter the relevant "
+#~ "information about it.\n"
 #~ "\n"
-#~ "If the server requires authentication, you can click the \"Detect supported "
-#~ "types...\" button after entering the other information."
+#~ "If the server requires authentication, you can click the \"Detect "
+#~ "supported types...\" button after entering the other information."
 #~ msgstr ""
 #~ "Välj den typ av diskussionsgruppsserver som du har och ange den relevanta "
 #~ "informationen om den.\n"
@@ -15183,7 +15216,8 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgstr "Vidarebefordra meddelande \"%s\""
 
 #~ msgid ""
-#~ "Failed to generate mime part from message while generating forwarded message."
+#~ "Failed to generate mime part from message while generating forwarded "
+#~ "message."
 #~ msgstr ""
 #~ "Misslyckades med att generera mime-del från meddelande när ett "
 #~ "vidarebefordrat meddelande skulle genereras."
