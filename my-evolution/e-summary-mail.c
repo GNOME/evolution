@@ -356,3 +356,87 @@ e_summary_mail_reconfigure (ESummary *summary)
 
 	e_summary_draw (summary);
 }
+
+static void
+free_row_data (gpointer data)
+{
+	ESummaryMailRowData *rd = data;
+
+	g_free (rd->name);
+	g_free (rd->uri);
+	g_free (rd);
+}
+
+static void
+hash_to_list (gpointer key,
+	      gpointer value,
+	      gpointer data)
+{
+	ESummaryMailRowData *rd;
+	ESummaryMailFolder *folder;
+	GList **p;
+
+	p = (GList **) data;
+	folder = (ESummaryMailFolder *) value;
+
+	rd = g_new (ESummaryMailRowData, 1);
+	rd->name = g_strdup (folder->name);
+	rd->uri = g_strdup (key);
+
+	*p = g_list_prepend (*p, rd);
+}
+
+static int
+str_compare (gconstpointer a,
+	     gconstpointer b)
+{
+	ESummaryMailRowData *rda, *rdb;
+
+	rda = a;
+	rdb = b;
+	return strcmp (rda->name, rdb->name);
+}
+
+void
+e_summary_mail_fill_list (GtkCList *clist,
+			  ESummary *summary)
+{
+	ESummaryMail *mail;
+	GList *names = NULL, *p;
+
+	mail = summary->mail;
+	if (mail == NULL) {
+		return;
+	}
+
+	g_hash_table_foreach (mail->folders, hash_to_list, &names);
+
+	names = g_list_sort (names, str_compare);
+	for (p = names; p; p = p->next) {
+		ESummaryMailRowData *rd;
+		char *text[1];
+		int row;
+
+		rd = p->data;
+		text[0] = rd->name + 1;
+		row = gtk_clist_append (clist, text);
+		gtk_clist_set_row_data_full (clist, row, rd, free_row_data);
+	}
+
+	g_list_free (names);
+}
+
+const char *
+e_summary_mail_uri_to_name (ESummary *summary,
+			    const char *uri)
+{
+	ESummaryMailFolder *folder;
+
+	folder = g_hash_table_lookup (summary->mail->folders, uri);
+	if (folder == NULL) {
+		return NULL;
+	} else {
+		return folder->name;
+	}
+}
+	

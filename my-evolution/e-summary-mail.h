@@ -17,8 +17,14 @@ enum _ESummaryMailMode {
 	E_SUMMARY_MAIL_MODE_ONLY,
 	E_SUMMARY_MAIL_MODE_EXCLUDING
 };
-	
+
+typedef struct _ESummaryMailRowData ESummaryMailRowData;	
 typedef struct _ESummaryMail ESummaryMail;
+
+struct _ESummaryMailRowData {
+	char *name;
+	char *uri;
+};
 
 const char *e_summary_mail_get_html (ESummary *summary);
 void e_summary_mail_init (ESummary *summary,

@@ -79,7 +79,7 @@ vector_from_str_list (GList *strlist)
 
 		/* No space at end */
 		if (strlist->next) {
-			g_string_append (str, " ");
+			g_string_append (str, " !<-->! ");
 		}
 	}
 
@@ -95,7 +95,7 @@ str_list_from_vector (const char *vector)
 	GList *strlist = NULL;
 	char **tokens, **t;
 
-	t = tokens = g_strsplit (vector, " ", 8196);
+	t = tokens = g_strsplit (vector, " !<-->! ", 8196);
 
 	if (tokens == NULL) {
 		return NULL;
@@ -600,6 +600,13 @@ fill_weather_shown_clist (GtkCList *clist,
 }
 
 static void
+fill_mail_all_clist (GtkCList *clist,
+		     PropertyData *pd)
+{
+	e_summary_mail_fill_list (clist, pd->summary);
+}
+
+static void
 fill_mail_shown_clist (GtkCList *clist,
 		       PropertyData *pd)
 {
@@ -607,9 +614,41 @@ fill_mail_shown_clist (GtkCList *clist,
 
 	for (p = pd->summary->preferences->display_folders; p; p = p->next) {
 		char *text[1];
+		char *name, *uri;
+		int row;
 
-		text[0] = p->data;
-		gtk_clist_append (clist, text);
+		uri = g_strconcat ("file://", p->data, NULL);
+		name = e_summary_mail_uri_to_name (pd->summary, uri);
+		g_free (uri);
+		if (name == NULL) {
+			text[0] = p->data;
+		} else {
+			text[0] = name + 1;
+		}
+		row = gtk_clist_append (clist, text);
+		gtk_clist_set_row_data (clist, row, p);
+	}
+}
+
+static void
+mail_all_select_row_cb (GtkCList *clist,
+			int row,
+			int column,
+			GdkEvent *event,
+			PropertyData *pd)
+{
+	gtk_widget_set_sensitive (pd->mail->add, TRUE);
+}
+
+static void
+mail_all_unselect_row_cb (GtkCList *clist,
+			  int row,
+			  int column,
+			  GdkEvent *event,
+			  PropertyData *pd)
+{
+	if (clist->selection == NULL) {
+		gtk_widget_set_sensitive (pd->mail->add, FALSE);
 	}
 }
 
@@ -639,7 +678,20 @@ static void
 mail_add_clicked_cb (GtkButton *button,
 		     PropertyData *pd)
 {
+	int row;
+	ESummaryMailRowData *rd;
+	char *text[1];
+	char *uri;
 	
+	row = GPOINTER_TO_INT (GTK_CLIST (pd->mail->all)->selection->data);
+	rd = gtk_clist_get_row_data (GTK_CLIST (pd->mail->all), row);
+	g_return_if_fail (rd != NULL);
+	
+	text[0] = rd->name + 1;
+	row = gtk_clist_append (GTK_CLIST (pd->mail->shown), text);
+	pd->summary->preferences->display_folders = g_list_prepend (pd->summary->preferences->display_folders,
+								    g_strdup (rd->uri + 7));
+	gtk_clist_set_row_data (GTK_CLIST (pd->mail->shown), row, pd->summary->preferences->display_folders);
 }
 
 static void
@@ -650,7 +702,7 @@ mail_remove_clicked_cb (GtkButton *button,
 	GList *p;
 
 	row = GPOINTER_TO_INT (GTK_CLIST (pd->mail->shown)->selection->data);
-	p = g_list_nth (pd->summary->preferences->display_folders, row);
+	p = gtk_clist_get_row_data (GTK_CLIST (pd->mail->shown), row);
 
 	gtk_clist_remove (GTK_CLIST (pd->mail->shown), row);
 	pd->summary->preferences->display_folders = g_list_remove_link (pd->summary->preferences->display_folders, p);
@@ -728,7 +780,7 @@ rdf_add_clicked_cb (GtkButton *button,
 	GList *p, *rows;
 	char *text[1];
 	int row;
-
+	
 	for (rows = GTK_CLIST (pd->rdf->all)->selection; rows; rows = rows->next) {
 		row = GPOINTER_TO_INT (rows->data);
 		info = gtk_clist_get_row_data (GTK_CLIST (pd->rdf->all), row);
@@ -1063,8 +1115,13 @@ make_property_dialog (PropertyData *pd)
 	mail = pd->mail = g_new (struct _MailPage, 1);
 
 	/* I think this should be a fancy bonobo thingy */
-	mail->all = glade_xml_get_widget (pd->xml, "clist2");
+	mail->all = glade_xml_get_widget (pd->xml, "clist7");
 	g_return_val_if_fail (mail->all != NULL, FALSE);
+	fill_mail_all_clist (GTK_CLIST (mail->all), pd);
+	gtk_signal_connect (GTK_OBJECT (mail->all), "select-row",
+			    GTK_SIGNAL_FUNC (mail_all_select_row_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (mail->all), "unselect-row",
+			    GTK_SIGNAL_FUNC (mail_all_unselect_row_cb), pd);
 
 	mail->shown = glade_xml_get_widget (pd->xml, "clist1");
 	g_return_val_if_fail (mail->shown != NULL, FALSE);

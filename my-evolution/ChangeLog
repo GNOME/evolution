@@ -1,5 +1,17 @@
 2001-07-06  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-preferences.c (str_list_from_vector): Change the delimiter
+	(vector_from_str_list): Change the delimiter.
+	(fill_mail_all_clist): Fill the mail folder clist.
+	(fill_mail_shown_clist): Use nicer names.
+	(mail_add_clicked_cb): Add folders to the shown list.
+	
+	* e-summary-mail.c (e_summary_mail_fill_list): Flatten the hashtable
+	into the CList.
+	(e_summary_mail_uri_to_name): Get the pretty name for a uri.
+
+2001-07-06  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-preferences.c (fill_rdf_shown_list): Attach data
 	(rdf_add_clicked_cb): Allow multiple rows to be removed.
 	(rdf_remove_clicked_cb): Use the data.
