@@ -1,5 +1,8 @@
 1998-04-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* timeutil.c (time_add_year, time_add_year, time_add_week):
+	Routines for time manipulation.
+
 	* calobj.c (ical_object_destroy): Full destruction of the object.
 
 	* eventedit.c: Finished the main event editor form;  It still

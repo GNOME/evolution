@@ -151,7 +151,7 @@ gncal_week_view_set (GncalWeekView *wview, time_t start_of_week)
 
 	/* Calendar */
 
-	gtk_calendar_select_month (wview->gtk_calendar, tm.tm_mon + 1, tm.tm_year + 1900);
+	gtk_calendar_select_month (wview->gtk_calendar, tm.tm_mon, tm.tm_year + 1900);
 
 	/* Day views */
 
@@ -159,6 +159,8 @@ gncal_week_view_set (GncalWeekView *wview, time_t start_of_week)
 		tm.tm_mday++;
 		day_end = mktime (&tm);
 
+		printf ("Boundary: ");
+		print_time_t (day_start);
 		gncal_day_view_set_bounds (wview->days[i], day_start, day_end - 1);
 
 		day_start = day_end;

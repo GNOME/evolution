@@ -37,7 +37,7 @@ print_time_t (time_t t)
 	struct tm *tm = localtime (&t);
 	
 	printf ("TIEMPO: %d/%d/%d %d:%d:%d\n",
-		tm->tm_mday, tm->tm_mon, tm->tm_year,
+		tm->tm_mon+1, tm->tm_mday, tm->tm_year,
 		tm->tm_hour, tm->tm_min, tm->tm_sec);
 }
 
@@ -89,17 +89,32 @@ format_simple_hour (int hour, int use_am_pm)
 }
 
 time_t
-time_add_week (time_t time, int weeks)
+time_add_day (time_t time, int days)
 {
-}
+	struct tm *tm = localtime (&time);
+	time_t new_time;
 
-time_t
-time_add_day (time_t time, int weeks)
-{
+	tm->tm_mday += days;
+	if ((new_time = mktime (tm)) == -1){
+		g_warning ("mktime could not handling adding a day with\n");
+		print_time_t (time);
+		return time;
+	}
+	return new_time;
 }
 
 time_t
 time_add_year (time_t time, int years)
 {
+	struct tm *tm = localtime (&time);
+	time_t new_time;
+	
+	tm->tm_year += years;
+	if ((new_time = mktime (tm)) == -1){
+		g_warning ("mktime could not handling adding a year with\n");
+		print_time_t (time);
+		return time;
+	}
+	return new_time;
 }
 

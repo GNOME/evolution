@@ -93,21 +93,51 @@ get_current_page (GnomeCalendar *gcal)
 	return GTK_NOTEBOOK (gcal->notebook)->cur_page->child;
 }
 
-GtkWidget *
-gnome_calendar_next (GnomeCalendar *gcal)
+void
+gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
+{
+	GtkWidget *current = get_current_page (gcal);
+	g_assert (new_time != -1);
+
+	if (current == gcal->week_view)
+		gncal_week_view_set (GNCAL_WEEK_VIEW (gcal->week_view), new_time);
+	else if (current == gcal->day_view)
+		printf ("updating day view\n");
+	else if (current == gcal->year_view)
+		printf ("updating year view\n");
+	else
+		printf ("My penguin is gone!\n");
+	gcal->current_display = new_time;
+}
+
+static void
+gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 {
 	GtkWidget *cp = get_current_page (gcal);
 	time_t new_time;
 	
 	if (cp == gcal->week_view)
-		new_time = time_add_week (gcal->current_display, 1);
+		new_time = time_add_day (gcal->current_display, 7 * direction);
 	else if (cp == gcal->day_view)
-		new_time = time_add_day (gcal->current_display, 1);
+		new_time = time_add_day (gcal->current_display, 1 * direction);
 	else if (cp == gcal->year_view)
-		new_time = time_add_year (gcal->current_display, 1);
+		new_time = time_add_year (gcal->current_display, 1 * direction);
 	else
 		g_warning ("Weee!  Where did the penguin go?");
+	
+	gnome_calendar_goto (gcal, new_time);
+}
 
+void
+gnome_calendar_next (GnomeCalendar *gcal)
+{
+	gnome_calendar_direction (gcal, 1);
+}
+
+void
+gnome_calendar_previous (GnomeCalendar *gcal)
+{
+	gnome_calendar_direction (gcal, -1);
 }
 
 GtkWidget *
@@ -147,6 +177,8 @@ gnome_calendar_load (GnomeCalendar *gcal, char *file)
 void
 gnome_calendar_add_object  (GnomeCalendar *gcal, iCalObject *obj)
 {
+	printf ("Adding object at: ");
+	print_time_t (obj->dtstart);
 	calendar_add_object (gcal->cal, obj);
 	gnome_calendar_update_all (gcal);
 }

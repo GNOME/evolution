@@ -39,6 +39,10 @@ guint     gnome_calendar_get_type    (void);
 GtkWidget *gnome_calendar_new        (char *title);
 void      gnome_calendar_load        (GnomeCalendar *gcal, char *file);
 void      gnome_calendar_add_object  (GnomeCalendar *gcal, iCalObject *obj);
+void      gnome_calendar_next        (GnomeCalendar *gcal);
+void      gnome_calendar_previous    (GnomeCalendar *gcal);
+void      gnome_calendar_goto        (GnomeCalendar *gcal, time_t new_time);
+
 END_GNOME_DECLS
 
 #endif

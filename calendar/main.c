@@ -151,31 +151,22 @@ close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 		gtk_main_quit ();
 }
 
-static GtkWidget *
-get_current_page (GnomeCalendar *gcal)
-{
-	return GTK_NOTEBOOK (gcal->notebook)->cur_page->child;
-}
-
 void
 previous_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 {
-	GtkWidget *current_page = get_current_page (gcal);
-
-	if (current_page == gcal->week_view){
-	}
+	gnome_calendar_previous (gcal);
 }
 
 void
 next_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 {
-	GtkWidget *current_page = get_current_page (gcal);
+	gnome_calendar_next (gcal);
 }
 
 void
 today_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 {
-	GtkWidget *current_page = get_current_page (gcal);
+	gnome_calendar_goto (gcal, time (NULL));
 }
 
 GnomeUIInfo gnome_cal_file_menu [] = {
