@@ -27,7 +27,7 @@
              POP, and SMTP, you can use Evolution with it.  You can
              share addresses with vCards and calendar items with iCal
              appointments.  We hope to have support for the
-             proprietary segments of Exchange and Notes severs
+             proprietary segments of Exchange and Notes servers
              eventually, but this will come after Evolution 1.0.
 	  </para>
         </answer>
@@ -270,7 +270,7 @@
           <para>
             Mozilla on Windows accesses the <filename>.pst</filename>
             files through the <filename>MAPI.DLL</filename>, which is
-            only avaliable on Windows.  <filename>MAPI.DLL</filename>
+            only available on Windows.  <filename>MAPI.DLL</filename>
             is the only way to access <filename>.pst</filename> files
             and Evolution cannot use this DLL in Linux.
           </para>
@@ -541,24 +541,7 @@
 	    </itemizedlist>
 	</answer>
       </qandaentry>
- 
-      <qandaentry>
-	<question>
-	  <para>
-	    I get <computeroutput>Cannot open composer window</computeroutput>.
-	  </para>
-	</question>
-	<answer>
-	  <para>
-	  This actually means that Evolution cannot activate the HTML
-	  editor component from GtkHTML.  The comments in the previous
-	  answer still apply; also make sure that
-	  <command>gnome-gtkhtml-editor</command> is in your
-	  <envar>PATH</envar>.
-	</para>
-	</answer>
-      </qandaentry>
- 
+
       <qandaentry>
         <question>
           <para>
@@ -930,7 +913,7 @@ bt
 		<para>
                    In one, type <command>gdb evolution-mail</command>
                    .  Replace "evolution-mail" with the name of the
-                   component that is crashing: evolution-addresbook,
+                   component that is crashing: evolution-addressbook,
                    evolution-calendar, etc.)
                  </para>
 	      </listitem>

@@ -17,9 +17,11 @@
         information easier, so you can work and communicate with
         others.  That is, it's a highly evolved <glossterm
         linkend="groupware">groupware</glossterm> program, an integral
-        part of the Internet-connected desktop. On the inside, it's a
-        powerful database; on the outside, it's a tool to help you get
-        your work done.
+        part of the Internet-connected desktop. 
+      </para>
+      <para>
+        Without all the hot air, that means it's a tool to help you
+        get your work done.
       </para>
       <para>
         Because it's part of the GNOME project,
@@ -36,12 +38,11 @@
       </para>
       <para>
         <note>
-           <title>This is a preview release</title>
+           <title>This is a Beta release</title>
            <para>
-             <application>Evolution</application> is not complete, and
-             still has a lot of flaws.  Please help improve it by
-             letting us know about them.  You should do this on the
-             Ximian GNOME bug report page at <ulink
+             <application>Evolution</application> is now on the home
+             stretch to version 1.0.  Please help prepare for the 1.0
+             release by reporting bugs to us at <ulink
              url="http://bugzilla.ximian.com">bugzilla.ximian.com</ulink>. There
              are detailed bug reporting instructions in <xref
              linkend="evolution-faq">.
@@ -49,8 +50,7 @@
           <para>
             Please send comments on the guide to
             <email>aaron@ximian.com</email>. The first person to send
-            me some good constructive criticism wins a free Ximian
-            t-shirt.
+            some good suggestions gets a free Ximian t-shirt.
           </para>
         </note>
       </para>
@@ -100,9 +100,10 @@
 	<listitem>
 	  <para>
 	    Data must be safe: <application>Evolution</application>
-	    must not lose mail, corrupt mailbox files or other
-	    data, execute arbitrary <glossterm linkend="script">scripts</glossterm>,
-               or delete files from your hard disk.
+	    must not lose mail, corrupt mailbox files or other data,
+	    execute arbitrary <glossterm
+	    linkend="script">scripts</glossterm>, or delete files from
+	    your hard disk.
 	  </para>
 	</listitem>
       </itemizedlist>
@@ -165,15 +166,18 @@
 	  <tip id="example-tip">
 	      <title>Example Tip</title>
 	      <para>
-		This is what an example looks like.
+		Tips and bits of extra information will look like
+		this.
 	      </para>
 	    </tip>
+
 	  <example>
 	    <title>Example Example</title>
 	    <para>
 	      This is what an example looks like.
 	    </para>
 	  </example>
+
 	    <warning id="example-warning">
 	      <title>Example Warning</title>
 	      <para>
@@ -183,151 +187,7 @@
         </para>
       </formalpara>
   </sect1>
-  <sect1 id="ui-intro">
-    <title>Evolution Interface Introduction</title>
-    <para>
-      <application>Evolution</application> follows a consistent UI.  This means
-      that in each component, you will find many UI characteristics the same as
-      others components.
-    </para>
 
-    <figure id="preface-basic-interface">
-      <title>Evolution's Interface</title>
-      <screenshot>
-	<screeninfo>Inbox</screeninfo>
-	<graphic fileref="fig/mainwindow-pic.png" srccredit="Kevin Breit">
-	</graphic>
-      </screenshot>
-    </figure>
-    
-    <para>
-      <inlinegraphic fileref="fig/full-1.png"></inlinegraphic>
-      <guilabel>Menubar</guilabel>
-    </para>
-    
-    <para>
-      The <guilabel>Menubar</guilabel> gives you access to nearly all the
-      features that can be found in <application>Evolution</application>.
-    </para>
-
-    <para>
-      <inlinegraphic fileref="fig/full-2.png"></inlinegraphic>
-      <guilabel>Toolbar</guilabel>
-    </para>
-
-    <para>
-      The <guilabel>Toolbar</guilabel> gives you fast and easy access to the
-      most used features in each component.
-    </para>
-    
-    <para>
-      <inlinegraphic fileref="fig/full-3.png"></inlinegraphic>
-      <guilabel>Shortcut Bar</guilabel>
-    </para>
-    
-    <para>
-      The <guilabel>Shortcut Bar</guilabel> lets you go to your favorite
-      components with the click of a click of a button.  
-    </para>
-    
-    <para>
-      <inlinegraphic fileref="fig/full-4.png"></inlinegraphic>
-      <guilabel>Status Bar</guilabel>
-    </para>
-    
-    <para>
-      Periodically, <application>Evolution</application> will need to quietly
-      display a message, or tell you the progress of a task.  This most
-      often happens when you're checking or sending email.  These progress
-      queues are shown here, in the <guilabel>Status Bar</guilabel>.  
-    </para>
-    
-    <para>
-      <inlinegraphic fileref="fig/full-5.png"></inlinegraphic>
-      <guilabel>Search Bar</guilabel>
-    </para>
-    
-    <para>
-      The <guilabel>Search Bar</guilabel> lets you search through your email
-      with precision so you can easily find what you're looking for.
-    </para>
-  </sect1>
-
-  <sect1 id="import-tool">
-<!-- This section sucks.  Look at it, ask for improvements -->
-    <title>Importing External Files</title>
-    <para>
-      Chances are, <application>Evolution</application> isn't your first email
-      program.  You're probably switching from another program and will want
-      access to your email from your old program.  It's for exactly these 
-      situations that <application>Evolution</application> includes an import 
-      feature.
-    </para>
-    <para>
-      <application>Evolution</application> can import the following types of
-      files:
-      <itemizedlist>
-	<listitem>
-	  <para>
-	    VCard (.vcf, gcrd) - Contacts
-	  </para>
-	</listitem>
-	<listitem>
-	  <para>
-	    Outlook Express 4 (.mbx) - Email
-	  </para>
-	</listitem>
-	<listitem>
-	  <para>
-	    MBox(mbox) - Email
-	  </para>
-	</listitem>
-      </itemizedlist>
-      VCard is a format to store addressbooks and contact information.  Outlook
-      handles your email.  If you're coming from
-      Windows, you're probably going to be importing Outlook Express files.  If
-      you're coming from a Unix program, you're probably using mbox.  Ask your
-      system administrator if you aren't sure which you use.
-    </para>
-    <note>
-      <title>Eudora</title>
-      <para>
-	Eudora email client uses mbox format to store mail.  So if you're coming
-	from Eudora, you'll want to select mbox.
-      </para>
-    </note>
-    <note>
-      <title>Outlook 2000</title>
-      <para>
-	Outlook 2000 uses a format which <application>Evolution</application>
-	cannot directly import.  However, you can import it using Mozilla on
-	Windows.  Please see the FAQ for more information.
-      </para>
-    </note>
-      
-    <para>
-      To import your files, go to
-      <menuchoice>
-	<guimenu>File</guimenu>
-	<guimenuitem>Import File</guimenuitem>
-      </menuchoice>
-    </para>
-    <para>
-    An assistant will appear, helping you to import your files.  You'll need to
-    specify where the file is that you want to import.  Click
-    <guibutton>Next</guibutton> and then <guibutton>Import</guibutton>.
-    <application>Evolution</application> will present you with the Folder
-    dialoge, so you can specify where your new messages will go.  Select the
-    desired folder, and your file will be imported into
-    <application>Evolution</application>.
-    </para>
-    <para>
-      And if you're timid about using <application>Evolution</application>,
-      don't worry.  <application>Evolution</application> won't mangle your
-      files, so if you choose to use your old application instead, you can
-      import your files right back in.
-    </para>
-  </sect1>
   <sect1 id="quickref-commontasks">
     <title>Quick Reference for Common Tasks</title>
     <para>

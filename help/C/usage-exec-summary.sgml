@@ -101,9 +101,7 @@
     <sect2 id="delete-components">
       <title>Deleting Components</title>
       <para>
-	There are possibly some components which you'd prefer not too
-	view in your My Evolution.
-	To remove a component:
+	To remove a service from My Evolution, do the following:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
@@ -177,4 +175,13 @@
     </sect2>
   </sect1>
 </chapter>
+
+
+
+
+
+
+
+
+
 

@@ -1,6 +1,29 @@
+2001-07-23  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-exec-summary.sgml: Minor revisions.
+
+	* C/usage-contact.sgml:  Added 'format="png"' to all <image> tags
+	missing the attribute.
+
+	* C/usage-calendar.sgml: Added 'format="png"' to all <image> tags
+	missing the attribute.
+
+	* C/usage-mail.sgml: Added 'format="png"' to all <image> tags
+	missing the attribute.
+
+	* C/usage-mainwindow.sgml: Style. Merged info from preface. Added
+	'format="png"' to all <image> tags missing the attribute.
+
+	* C/preface.sgml: Style changes. Removed info that was duplicated
+	in mainwindow.sgml.
+
 2001-07-20  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-mainwindow.sgml: Fixed the first time druid stuff a little more.
+	
+2001-07-16  Aaron Weber  <aaron@ximian.com>
+
+	* C/evolution-faq.sgml: Sepllcheck.
 
 2001-07-15  Kevin Breit  <battery841@mediaone.net>
 
@@ -12,7 +35,7 @@
 
 2001-07-12  Aaron Weber  <aaron@ximian.com>
 
-	* C/evolution-faq.sgml: 
+	* C/evolution-faq.sgml: TYPO fixing.
 
 2001-07-12  Aaron Weber  <aaron@ximian.com>
 

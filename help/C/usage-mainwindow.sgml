@@ -1,41 +1,350 @@
-<!--
- <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
--->
+<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
+
 <chapter id="usage-mainwindow">
 
   <title>The Evolution Workspace</title>
   <sect1 id="usage-mainwindow-starting">
-    <title>Starting Evolution</title>
-  <para>
-     Start <application>Evolution</application> by selecting
-     <guimenuitem>Evolution</guimenuitem> from your
-     <guimenu>Programs</guimenu> menu, or by typing
-     <command>evolution</command> at the command line.  The first time
-     you run the program, it will create a directory called
-     <filename>evolution</filename> in your home directory, where it
-     will keep all your <application>Evolution</application>-related
-     files.  At this point, it will also offer to import old messages
-     from other mail clients, such as Netscape mail.
-   </para>
+    <title>The First Time you Start Evolution</title>
+    <para>
+      Start <application>Evolution</application> by selecting
+      <guimenuitem>Evolution</guimenuitem> from your
+      <guimenu>Programs</guimenu> menu, or by typing
+      <command>evolution</command> at the command line.  The first
+      time you run the program, it will create a directory called
+      <filename>evolution</filename> in your home directory, where it
+      will keep all your <application>Evolution</application>-related
+      files. Then, it will offer to help you set up mail accounts and
+      import data from other applications.
+    </para>
+    <para>
+      The first screen welcomes you to the assistant.  It is estimated that
+      configuring your mail will take 2 to 5 minutes and importing mail will
+      take 1 to 2 minutes.
+    </para>
+
+    <sect2 id="first-step">
+      <title>Step 1 of 4</title>
+      <para>
+	The Identity window is the first of four steps in the
+	assistant.  The identity step will ask you to enter your basic
+	personal information.
+	<itemizedlist>
+	  <listitem>
+	    <para>
+	      Full Name &mdash; Your full name (Example: John Doe).
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Email Address &mdash; Your email address (Example: john@doe.com)
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Organization &mdash; The company where you work (optional).
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Signature file &mdash; If you'd like to use an email
+	      <glossterm linkend="signature">signature</glossterm>,
+	      select your signature file here.  Normally, the
+	      signature will be the contents of the
+	      <filename>.signature</filename> file in your home
+	      directory.
+	    </para>
+	  </listitem>
+	</itemizedlist>
+      </para>
+    </sect2>
+
+    <sect2 id="second-step">
+      <title>Step 2 of 4</title>
+      <para>
+	The <guilabel>Recieving Email</guilabel> step lets you configure
+	receving email people have sent you.
+	<itemizedlist>
+	  <listitem>
+	    <para>
+	      Server Type &mdash; There are numerous types of servers which
+	      <application>Evolution</application> can download your email from:
+	      <itemizedlist>
+		<listitem>
+		  <para>
+		    POP &mdash; Downloads your email to your hard disk for
+		    permanent storage.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    IMAPv4 &mdash; Keeps the email on your server so you can
+		    access your email from any computer that supports IMAPv4 and
+		    have everything be the same.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    Unix mbox spool-format file &mdash; Bad description, we're
+		    getting a better definition shortly.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    Standard Unix mailbox file &mdash; Bad description, we're
+		    getting a better definition shortly.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    Qmail maildir format files &mdash; If you download your
+		    mail using qmail, you'll want to use this.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    None &mdash How do you  have None?  figure out!
+		  </para>
+		</listitem>
+	      </itemizedlist>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Email Server &mdash; This is the address of the server you're
+	      downloading from.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Username &mdash; The username that you login to your email.  That
+	      is often the part before the @ in your email.
+	    </para>
+	    <para>
+	      Authentication Type &mdash; Chances are you are using
+	      <guilabel>Password</guilabel>.  Ask your administrator for more
+	      details.  You can have <application>Evolution</application> check
+	      by clicking <guibutton>Check for supported types</guibutton>.
+	    </para>
+	    <para>
+	      Remember Password &mdash; If you prefer to not enter your
+	      password everytime you check email, press this button.
+	    </para>
+	  </listitem>
+	</itemizedlist>
+      </para>
+    </sect2>
+    <sect2 id="third-step">
+      <title>Step 3 or 4</title>
+      <para>
+	The <guilabel>Sending Email</guilabel> step lets you configure sending 
+	email.
+	<itemizedlist>
+	  <listitem>
+	    <para>
+	      Server Type &mdash; There are numerous server types that
+	      <application>Evolution</application> supports for sending your
+	      mail.
+	      <itemizedlist>
+		<listitem>
+		  <para>
+		    SMTP &mdash; Downloads mail into your mailbox file.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    Sendmail &mdash; Uses another program to download your mail
+		    to your mailbox files.
+		  </para>
+		</listitem>
+	      </itemizedlist>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Host &mdash; If you chose SMTP, enter the server's name
+	      or IP address here.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Server requires authentication &mdash; If your server
+	      requires you to enter a password to send mail, check
+	      this box.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Authentication Type &mdash; Chances are you are using
+	      <guilabel>Password</guilabel>.  If you're not sure, ask
+	      your system administrator or ISP, or have
+	      <application>Evolution</application> check for you by
+	      clicking <guibutton>Check for supported
+	      types</guibutton>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Username &mdash; The account name you use when you login
+	      to check your email.  Normally, this is the part of your
+	      email address before the '@' character.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Remember Password &mdash; If you prefer to not enter
+	      your password every time you check email, press this
+	      button.
+	    </para>
+	  </listitem>
+	</itemizedlist>
+      </para>
+    </sect2>
+
+  <sect2 id="fourth-step">
+      <title>Step 4 of 4</title>
+      <para>
+	Chances are, <application>Evolution</application> isn't your first email
+	program.  You're probably switching from another program and will want
+	access to your email from your old program.  It's for exactly these 
+	situations that <application>Evolution</application> includes an import 
+	feature.
+      </para>
+      <para>
+	<application>Evolution</application> can import the following types of
+	files:
+          <variablelist>
+	    <term>VCard (.vcf, gcrd)</term>
+	    <listitem>
+	      <para>
+	         The most common addressbook format.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Outlook Express 4 (.mbx)</term>
+	    <listitem>
+	      <para>
+                 Email file format used by Outlook Express 4.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>MBox (mbox)</term>
+	    <listitem>
+	      <para>
+	       The email box format used by Netscape, Evolution,
+	       Eudora, and many other email clients.
+  	     </para>
+	    </listitem>
+	  </varlistentry>
+	  </itemizedlist>
+
+
+    <note>
+      <title>Outlook 2000</title>
+      <para>
+	Outlook 2000 uses a proprietary format that
+	<application>Evolution</application> cannot import directly.
+	To import files from Outlook 2000, you will need to boot to
+	Windows, import the files into Mozilla mail, then reboot and
+	import from Mozilla.  Please see the <xref="faq">FAQ for more
+	information.
+      </para>
+    </note>     
+
+
+      Ask your system administrator if you aren't sure which you use.
+    </para>
+
+      <tip>
+	<title>Exporting Files From Evolution</title>
+	<para>
+          Evolution uses standard file types for all its information,
+          so you should have no trouble taking your information
+          elsewhere if you want.
+        </para>
+	<para>
+          For mail, that's <filename>mbox</filename>, for calendar,
+          <filename>iCal</filename>, and for the address book, vCards
+          in a <filename>.db3</filename> database.
+        </para>
+      </tip>
+    </sect2>
   </sect1>
 
-  <sect1 id="usage-mainwindow-basics">
-    <title>Evolution Basics</title>
+  <sect1 id="ui-intro">
+    <title>What's What in Evolution</title>
     <para>
-      After <application>Evolution</application> starts up, you will
-      see the <interface>main window</interface>, with the
-      <interface>Inbox</interface> open. On the left of
-	the <interface>main window</interface> is the <interface>shortcut
-	  bar</interface>, with several buttons in it.  Just underneath the
-	title bar is a series of menus in the <interface>menu
-	  bar</interface>, and below that, the <interface>tool
-     bar</interface> with buttons for different functions. The largest
-	part of the <interface>main window</interface> is taken up by the
-	content view, where your messages are displayed.  Above that is
-	the message list view, where  a summary of your email is displayed.
-	If you're running the program for the first time,
-	you'll have one message: a welcome from Ximian.
+        Now that you've gotten the first-run configuration out of the
+        way, you're ready to get down to work.  Here's a quick
+        explanation of what's going on in your main
+        <application>Evolution</application> window.
     </para>
+
+    <figure id="preface-basic-interface">
+      <title>The Evolution Main Window</title>
+      <screenshot>
+	<screeninfo>Inbox</screeninfo>
+	<graphic fileref="fig/mainwindow-pic.png" format="png" srccredit="Kevin Breit">
+	</graphic>
+      </screenshot>
+    </figure>
+    
+    <para>
+      <inlinegraphic fileref="fig/full-1.png" format="png"></inlinegraphic>
+      <guilabel>Menubar</guilabel>
+    </para>
+    
+    <para>
+      The <guilabel>Menubar</guilabel> gives you access to nearly all the
+      features that can be found in <application>Evolution</application>.
+    </para>
+
+    <para>
+      <inlinegraphic fileref="fig/full-2.png" format="png"></inlinegraphic>
+      <guilabel>Toolbar</guilabel>
+    </para>
+
+    <para>
+      The <guilabel>Toolbar</guilabel> gives you fast and easy access to the
+      most used features in each component.
+    </para>
+    
+    <para>
+      <inlinegraphic fileref="fig/full-3.png" format="png"></inlinegraphic>
+      <guilabel>Shortcut Bar</guilabel>
+    </para>
+    
+    <para>
+      The <guilabel>Shortcut Bar</guilabel> lets you go to your favorite
+      components with the click of a click of a button.  
+    </para>
+    
+    <para>
+      <inlinegraphic fileref="fig/full-4.png" format="png"></inlinegraphic>
+      <guilabel>Status Bar</guilabel>
+    </para>
+    
+    <para>
+      Periodically, <application>Evolution</application> will need to quietly
+      display a message, or tell you the progress of a task.  This most
+      often happens when you're checking or sending email.  These progress
+      queues are shown here, in the <guilabel>Status Bar</guilabel>.  
+    </para>
+    
+    <para>
+      <inlinegraphic fileref="fig/full-5.png" format="png"></inlinegraphic>
+      <guilabel>Search Bar</guilabel>
+    </para>
+    
+    <para>
+      The <guilabel>Search Bar</guilabel> lets you search through your email
+      with precision so you can easily find what you're looking for.
+    </para>
+
+
   <sect2 id="usage-mainwindow-shortcutbar">
     <title>The Shortcut Bar</title>
     <para>
@@ -448,266 +757,11 @@
    <para>
       Once you've familiarized yourself with the <interface>main
       window</interface> you can start doing things with it.  We'll
-      start with your executive summary.
+      start with <guilabel>My Evolution</guilabel>, the summary of
+      everything that's going on.
     </para>
     </sect2>
   </sect1>
-  <sect1 id="first-time-druid">
-    <title>First Time Druid</title>
-    <para>
-      When you first start <application>Evolution</application>, you are
-      presented with a first time druid.  The druid will help you get your email
-      preferences configured and import your email from your other program.
-    </para>
-    <para>
-      The first screen welcomes you to the druid.  It is estimated that
-      configuring your mail will take 2 to 5 minutes and importing mail will
-      take 1 to 2 minutes.
-    </para>
-    <sect2 id="first-step">
-      <title>Step 1 of 4</title>
-      <para>
-	The Identity window is the first of four steps in the druid.  The
-	identity step lets you configure your basic, personal information.
-	<itemizedlist>
-	  <listitem>
-	    <para>
-	      Full Name &mdash; Your full name (Example: John Doe).
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Email Address &mdash; Your email address (Example: john@doe.com)
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Organization &mdash; The name of the organization you are a part
-	      of (example: Big Company, Inc.).
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Signature file &mdash; You can setup
-	      <application>Evolution</application> to put text at the end of all
-	      your emails.  This is the file which that text is located in.
-	    </para>
-	  </listitem>
-	</itemizedlist>
-      </para>
-    </sect2>
-    <sect2 id="second-step">
-      <title>Step 2 of 4</title>
-      <para>
-	The <guilabel>Recieving Email</guilabel> step lets you configure
-	receving email people have sent you.
-	<itemizedlist>
-	  <listitem>
-	    <para>
-	      Server Type &mdash; There are numerous types of servers which
-	      <application>Evolution</application> can download your email from:
-	      <itemizedlist>
-		<listitem>
-		  <para>
-		    POP &mdash; Downloads your email to your hard disk for
-		    permanent storage.
-		  </para>
-		</listitem>
-		<listitem>
-		  <para>
-		    IMAPv4 &mdash; Keeps the email on your server so you can
-		    access your email from any computer that supports IMAPv4 and
-		    have everything be there.
-		  </para>
-		</listitem>
-		<listitem>
-		  <para>
-		    Unix mbox spool-format file &mdash; Bad description, we're
-		    getting a better definition shortly.
-		  </para>
-		</listitem>
-		<listitem>
-		  <para>
-		    Standard Unix mailbox file &mdash; Bad description, we're
-		    getting a better definition shortly.
-		  </para>
-		</listitem>
-		<listitem>
-		  <para>
-		    Qmail maildir format files &mdash; Mail format which the
-		    qmail server writes as.
-		  </para>
-		</listitem>
-		<listitem>
-		  <para>
-		    None &mdash You intend on not reading email using this identity.
-		  </para>
-		</listitem>
-	      </itemizedlist>
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Email Server &mdash; This is the address of the server you're
-	      downloading from.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Username &mdash; The username that you login to your email.  That
-	      is often the part before the @ in your email.
-	    </para>
-	    <para>
-	      Authentication Type &mdash; Chances are you are using
-	      <guilabel>Password</guilabel>.  Ask your administrator for more
-	      details.  You can have <application>Evolution</application> check
-	      by clicking <guibutton>Check for supported types</guibutton>.
-	    </para>
-	    <para>
-	      Remember Password &mdash; If you prefer to not enter your
-	      password everytime you check email, press this button.
-	    </para>
-	  </listitem>
-	</itemizedlist>
-      </para>
-    </sect2>
-    <sect2 id="third-step">
-      <title>Step 3 or 4</title>
-      <para>
-	The <guilabel>Sending Email</guilabel> step lets you configure sending 
-	email.
-	<itemizedlist>
-	  <listitem>
-	    <para>
-	      Server Type &mdash; There are numerous server types that
-	      <application>Evolution</application> supports for sending your
-	      mail.
-	      <itemizedlist>
-		<listitem>
-		  <para>
-		    SMTP &mdash; Downloads mail from a server using <application>Evolution</application>.
-		  </para>
-		</listitem>
-		<listitem>
-		  <para>
-		    Sendmail &mdash; Uses another program to download your mail
-		    to your mailbox files.  <application>Evolution</application>
-		    then reads the mail from the files.
-		  </para>
-		</listitem>
-	      </itemizedlist>
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Host &mdash; The server that sends your email.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Server requires authentication &mdash; Check if you need a password to
-	      send mail.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Authentication Type &mdash; Chances are you are using
-	      <guilabel>Password</guilabel>.  Ask your administrator for more
-	      details.  You can have <application>Evolution</application> check
-	      by clicking <guibutton>Check for supported types</guibutton>.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Username &mdash; The username that you login to your email.  That
-	      is often the part before the @ in your email.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Remember Password &mdash; If you prefer to not enter your
-	      password everytime you check email, press this button.
-	    </para>
-	  </listitem>
-	</itemizedlist>
-      </para>
-    </sect2>
-
-  <sect2 id="fourth-step">
-<!-- This section sucks.  Look at it, ask for improvements -->
-      <title>Step 4 of 4</title>
-      <para>
-	Chances are, <application>Evolution</application> isn't your first email
-	program.  You're probably switching from another program and will want
-	access to your email from your old program.  It's for exactly these 
-	situations that <application>Evolution</application> includes an import 
-	feature.
-      </para>
-      <para>
-	<application>Evolution</application> can import the following types of
-	files:
-      <itemizedlist>
-	<listitem>
-	  <para>
-	    VCard (.vcf, gcrd) - Contacts
-	  </para>
-	</listitem>
-	<listitem>
-	  <para>
-	    Outlook Express 4 (.mbx) - Email
-	  </para>
-	</listitem>
-	<listitem>
-	  <para>
-	    MBox(mbox) - Email
-	  </para>
-	</listitem>
-      </itemizedlist>
-      VCard is a format to store addressbooks and contact information.  Outlook
-      handles your email.  If you're coming from
-      Windows, you're probably going to be importing Outlook Express files.  If
-      you're coming from a Unix program, you're probably using mbox.  Ask your
-      system administrator if you aren't sure which you use.
-    </para>
-    <note>
-      <title>Eudora</title>
-      <para>
-	Eudora email client uses mbox format to store mail.  So if you're coming
-	from Eudora, you'll want to select mbox.
-      </para>
-    </note>
-    <note>
-      <title>Outlook 2000</title>
-      <para>
-	Outlook 2000 uses a format which <application>Evolution</application>
-	cannot directly import.  However, you can import it using Mozilla on
-	Windows.  Please see the FAQ for more information.
-      </para>
-    </note>
-      
-    <para>
-      To import your files, go to
-      <menuchoice>
-	<guimenu>File</guimenu>
-	<guimenuitem>Import File</guimenuitem>
-      </menuchoice>
-    </para>
-    <para>
-	An assistant will appear, helping you to import your files.  You'll need to
-	specify where the file is that you want to import.  Click
-	<guibutton>Next</guibutton> and then <guibutton>Import</guibutton>.
-	<application>Evolution</application> will present you with the Folder
-	dialoge, so you can specify where your new messages will go.  Select the
-	desired folder, and your file will be imported into
-	<application>Evolution</application>.
-      </para>
-      <para>
-	And if you're timid about using <application>Evolution</application>,
-	don't worry.  <application>Evolution</application> won't mangle your
-	files, so if you choose to use your old application instead, you can
-	import your files right back in.
-      </para>
-    </sect2>
-  </sect1>
+ 
 </chapter>
 

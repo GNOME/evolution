@@ -28,7 +28,7 @@
   </para>
 
   <para>
-    <inlinegraphic fileref="fig/full-1.png"></inlinegraphic>
+    <inlinegraphic fileref="fig/full-1.png" format="png"></inlinegraphic>
     <guilabel>Event List</guilabel>
   </para>
   
@@ -39,7 +39,7 @@
   </para>
 
   <para>
-    <inlinegraphic fileref="fig/full-2.png"></inlinegraphic>
+    <inlinegraphic fileref="fig/full-2.png" format="png"></inlinegraphic>
     <guilabel>Todo List</guilabel>
   </para>
   
@@ -51,7 +51,7 @@
   </para>
 
   <para>
-    <inlinegraphic fileref="fig/full-3.png"></inlinegraphic>
+    <inlinegraphic fileref="fig/full-3.png" format="png"></inlinegraphic>
     <guilabel>Calendar Window</guilabel>
   </para>
   
