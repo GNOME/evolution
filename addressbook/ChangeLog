@@ -1,3 +1,8 @@
+2004-04-06  Chris Toshok  <toshok@ximian.com>
+
+	* util/e-destination.[ch]: old name, new trimmed down
+	implementation.  This will be replacing eab-destination.[ch].
+
 2004-04-06  Hao Sheng  <hao.sheng@sun.com>
 
 	* gui/widgets/e-minicard.c:
