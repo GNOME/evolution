@@ -29,11 +29,14 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-exception.h>
 #include <gal/util/e-unicode-i18n.h>
 #include <cal-client.h>
 #include <importer/evolution-importer.h>
 #include <importer/evolution-intelligent-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
+#include <shell/e-shell.h>
+#include <shell/evolution-shell-client.h>
 #include "icalvcal.h"
 #include "evolution-calendar-importer.h"
 
@@ -48,6 +51,7 @@ typedef struct {
 	icalcomponent *icalcomp;
 	gboolean folder_contains_events;
 	gboolean folder_contains_tasks;
+	EvolutionShellClient *shell_client;
 } ICalImporter;
 
 typedef struct {
@@ -68,11 +72,36 @@ importer_destroy_cb (GtkObject *object, gpointer user_data)
 
 	gtk_object_unref (GTK_OBJECT (ici->client));
 	gtk_object_unref (GTK_OBJECT (ici->tasks_client));
-	if (ici->icalcomp != NULL)
+
+	if (ici->icalcomp != NULL) {
 		icalcomponent_free (ici->icalcomp);
+		ici->icalcomp = NULL;
+	}
+
+	if (BONOBO_IS_OBJECT (ici->shell_client)) {
+		bonobo_object_unref (BONOBO_OBJECT (ici->shell_client));
+		ici->shell_client = NULL;
+	}
+
 	g_free (ici);
 }
 
+/* Connects an importer to the Evolution shell */
+static void
+connect_to_shell (ICalImporter *ici)
+{
+	CORBA_Environment ev;
+	GNOME_Evolution_Shell corba_shell;
+
+	CORBA_exception_init (&ev);
+	corba_shell = oaf_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
+	if (BONOBO_EX (&ev)) {
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	ici->shell_client = evolution_shell_client_new (corba_shell);
+}
 
 /* This reads in an entire file and returns it. It returns NULL on error.
    The returned string should be freed. */
@@ -116,48 +145,73 @@ read_file (const char *filename)
 }
 
 
-/* Returns the URI to load given a folder path. Currently this is just a full
-   pathname. The returned string should be freed. */
+/* Returns the URI to load given a folder path. The returned string should be freed. */
 static char*
-get_uri_from_folder_path (const char *folderpath)
+get_uri_from_folder_path (ICalImporter *ici, const char *folderpath)
 {
-	const char *name;
-	char *parent;
+	GNOME_Evolution_StorageRegistry corba_registry;
+	GNOME_Evolution_StorageRegistry_StorageList *storage_list;
+	GNOME_Evolution_Folder *corba_folder;
+	CORBA_Environment ev;
+	int i;
+	char *uri = NULL;
 
-	if (folderpath == NULL || *folderpath == '\0') {
+	corba_registry = evolution_shell_client_get_storage_registry_interface (ici->shell_client);
+	if (!corba_registry) {
 		return g_strdup_printf ("%s/evolution/local/Calendar/calendar.ics",
 					g_get_home_dir ());
 	}
 
-	name = strrchr (folderpath, '/');
-	if (name == NULL || name == folderpath) {
-		parent = "evolution/local/";
-		if (folderpath[0] == '/')
-			name = folderpath + 1;
-		else
-			name = folderpath;
-	} else {
-		name += 1;
-		parent = "evolution/local/Calendar/subfolders/";
+	CORBA_exception_init (&ev);
+	storage_list = GNOME_Evolution_StorageRegistry_getStorageList (corba_registry, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning (_("Can't get storage list from registry: %s"), CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
+		return NULL;
 	}
 
-	return g_strdup_printf ("%s/%s%s/calendar.ics", g_get_home_dir (),
-				parent, name);
-}
+	CORBA_exception_free (&ev);
 
+	for (i = 0; i < storage_list->_length; i++) {
+		CORBA_exception_init (&ev);
+		corba_folder = GNOME_Evolution_Storage_getFolderAtPath (storage_list->_buffer[i],
+									folderpath, &ev);
+		if (BONOBO_EX (&ev))
+			g_warning (_("Can't call getFolderAtPath on storage: %s"), CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
 
-/* Determine whether it is a calendar or tasks folder, or both. If it starts
-   with 'file:' we know it is a local folder so we see if it ends with
-   calendar.ics or tasks.ics. For remote folders (i.e. Exchange folders at
-   present), we import both calendar events and tasks into it. */
-static void
-check_folder_type (ICalImporter *ici,
-		   const char *folderpath)
-{
-	ici->folder_contains_events = TRUE;
-	ici->folder_contains_tasks = TRUE;
+		if (corba_folder) {
+			ici->folder_contains_events = FALSE;
+			ici->folder_contains_tasks = FALSE;
 
-	/* FIXME: Finish. */
+			if (!strncmp (corba_folder->physicalUri, "file:", 5)) {
+				if (!strcmp (corba_folder->type, "tasks")) {
+					ici->folder_contains_tasks = TRUE;
+					uri = g_strdup_printf ("%s/tasks.ics",
+							       corba_folder->physicalUri);
+				}
+				else if (!strcmp (corba_folder->type, "calendar")) {
+					ici->folder_contains_events = TRUE;
+					uri = g_strdup_printf ("%s/calendar.ics",
+							       corba_folder->physicalUri);
+				}
+			} else {
+				uri = g_strdup (corba_folder->physicalUri);
+
+				if (!strcmp (corba_folder->type, "tasks"))
+					ici->folder_contains_tasks = TRUE;
+				else if (!strcmp (corba_folder->type, "calendar"))
+					ici->folder_contains_events = TRUE;
+			}
+
+			CORBA_free (corba_folder);
+			break;
+		}
+	}
+
+	CORBA_free (storage_list);
+
+	return uri;
 }
 
 
@@ -324,8 +378,7 @@ load_file_fn (EvolutionImporter *importer,
 
 	g_return_val_if_fail (ici != NULL, FALSE);
 
-	uri_str = get_uri_from_folder_path (folderpath);
-	check_folder_type (ici, folderpath);
+	uri_str = get_uri_from_folder_path (ici, folderpath);
 
 	contents = read_file (filename);
 
@@ -363,6 +416,7 @@ ical_importer_new (void)
 						process_item_fn,
 						NULL,
 						ici);
+	connect_to_shell (ici);
 	gtk_signal_connect (GTK_OBJECT (ici->importer), "destroy",
 			    GTK_SIGNAL_FUNC (importer_destroy_cb), ici);
 
@@ -456,8 +510,7 @@ vcal_load_file_fn (EvolutionImporter *importer,
 
 	g_return_val_if_fail (ici != NULL, FALSE);
 
-	uri_str = get_uri_from_folder_path (folderpath);
-	check_folder_type (ici, folderpath);
+	uri_str = get_uri_from_folder_path (ici, folderpath);
 
 	icalcomp = load_vcalendar_file (filename);
 	if (icalcomp) {
@@ -487,6 +540,7 @@ vcal_importer_new (void)
 						process_item_fn,
 						NULL,
 						ici);
+	connect_to_shell (ici);
 	gtk_signal_connect (GTK_OBJECT (ici->importer), "destroy",
 			    GTK_SIGNAL_FUNC (importer_destroy_cb), ici);
 

@@ -47,7 +47,7 @@ importer_factory_fn (BonoboGenericFactory *factory, const char *id, void *closur
 	else if (!strcmp (id, GNOME_CALENDAR_IMPORTER_ID))
 		object = gnome_calendar_importer_new ();
 	else
-		g_warning ("Component not supporte by this factory");
+		g_warning ("Component not supported by this factory");
 
 	return object;
 }

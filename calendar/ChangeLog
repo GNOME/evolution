@@ -1,3 +1,18 @@
+2002-07-14  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #8001
+
+	* importers/icalendar-importer.c (connect_to_shell): new function for
+	connecting the importers (both iCal and vCal) to the shell, needed for
+	some information retrieval about the folders we're importing to.
+	(ical_importer_new, vcal_importer_new): call connect_to_shell.
+	(importer_destroy_cb): unref the shell client object.
+	(get_uri_from_folder_path): retrieve the uri from the storage
+	registry.
+	(check_folder_type): removed.
+
+	* importers/Makefile.am: included libeshell to LIBS.
+
 2002-07-12  Peter Williams  <peterw@ximian.com>
 
 	* pcs/cal.c: Sigh, fix for the wombat.idl -> Evolution-Wombat.idl

@@ -24,6 +24,7 @@ evolution_calendar_importer_SOURCES = 	\
 	main.c
 
 evolution_calendar_importer_LDADD =				\
+	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
 	$(top_builddir)/calendar/cal-util/libcal-util.la	\
 	$(top_builddir)/calendar/cal-client/libcal-client.la	\
