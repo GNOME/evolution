@@ -1,3 +1,8 @@
+2000-04-12  Miguel de Icaza  <miguel@gnu.org>
+
+	* Makefile.am (pthread_SRC): Use correct names for the pthread
+	source variables.
+
 2000-04-10  Dan Winship  <danw@helixcode.com>
 
 	* providers/pop3/camel-pop3-store.c (pop3_connect): fix various

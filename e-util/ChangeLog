@@ -1,3 +1,7 @@
+2000-04-12  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-cursors.c (e_cursor_get): Prevent next hacker to get bitten by this.
+
 2000-04-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-canvas.c: Added proper keyboard focus handling.

@@ -46,6 +46,7 @@ main (int argc, char *argv [])
 	init_bonobo (argc, argv);
 
 	session_init ();
+	e_cursors_init ();
 
 	folder_browser_factory_init ();
 

@@ -28,6 +28,7 @@ static CursorDef cursors [] = {
 	{ NULL, 0,    0,  NULL }
 };
 
+static int inited = FALSE;
 
 static void
 create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, gchar **xpm)
@@ -105,6 +106,8 @@ e_cursors_init (void)
 		}
 	}
 
+	inited = TRUE;
+	
 	g_assert (i == E_NUM_CURSORS);
 }
 
@@ -124,5 +127,8 @@ e_cursor_get (ECursorType type)
 {
 	g_return_val_if_fail (type >= 0 && type < E_NUM_CURSORS, NULL);
 
+	if (!inited)
+		g_warning ("e_cursors_init not called");
+	
 	return cursors [type].cursor;
 }

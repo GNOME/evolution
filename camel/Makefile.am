@@ -25,8 +25,8 @@ pthread_HDR =	\
 
 else
 
-libcamel_pthread_SRC =
-libcamel_pthread_HDR=
+pthread_SRC =
+pthread_HDR=
 
 endif
 
