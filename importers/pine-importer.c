@@ -97,7 +97,7 @@ create_importer_gui (PineImporter *importer)
 {
 	GtkWidget *dialog;
 
-	dialog = gnome_message_box_new (_("Evolution is importer your old Pine data"), GNOME_MESSAGE_BOX_INFO, NULL);
+	dialog = gnome_message_box_new (_("Evolution is importing your old Pine data"), GNOME_MESSAGE_BOX_INFO, NULL);
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Importing..."));
 
 	importer->label = gtk_label_new (_("Please wait"));

@@ -1,3 +1,7 @@
+2001-09-05  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* pine-importer.c: Fix a typo.
+	
 2001-09-04  Iain Holmes  <iain@ximian.com>
 
 	* netscape-importer.c (netscape_import_accounts): If there is no 
