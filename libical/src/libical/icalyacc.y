@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalyacc.y,v 1.13 2001/12/18 20:08:31 damon Exp $
+  $Id: icalyacc.y,v 1.13.6.1 2002/11/27 00:32:24 rodrigo Exp $
   $Locker:  $
 
   (C) COPYRIGHT 1999 Eric Busboom 
@@ -185,6 +185,7 @@ value:
 		  icalparser_clear_flex_input();
                   yyclearin;
                   }
+;
 
 
 date_value: DIGITS
@@ -201,15 +202,18 @@ date_value: DIGITS
 
 	    icalparser_yy_value = icalvalue_new_date(stm);
 	}
+;
 
 utc_char: 
 	/*empty*/  {utc = 0;}
 	| UTC_CHAR {utc = 1;}
+;
 
 /* This is used in the period_value, where there may be two utc characters per rule. */
 utc_char_b: 
 	/*empty*/  {utc_b = 0;}
 	| UTC_CHAR {utc_b = 1;}
+;
 
 datetime_value: 
 	DIGITS TIME_CHAR DIGITS utc_char
@@ -222,6 +226,7 @@ datetime_value:
 	    icalparser_yy_value = 
 		icalvalue_new_datetime(stm);
 	}
+;
 
 
 /* Duration */
@@ -229,11 +234,13 @@ datetime_value:
 
 dur_date: dur_day
 	| dur_day dur_time
+;
 
 dur_week: DIGITS 'W'
 	{
 	    duration.weeks = atoi($1);
 	}
+;
 
 dur_time: TIME_CHAR dur_hour 
 	{
@@ -244,6 +251,7 @@ dur_time: TIME_CHAR dur_hour
 	| TIME_CHAR dur_second
 	{
 	}
+;
 
 dur_hour: DIGITS 'H'
 	{
@@ -253,6 +261,7 @@ dur_hour: DIGITS 'H'
 	{
 	    duration.hours = atoi($1);
 	}
+;
 
 dur_minute: DIGITS 'M'
 	{
@@ -262,16 +271,19 @@ dur_minute: DIGITS 'M'
 	{
 	    duration.minutes = atoi($1);
 	}
+;
 
 dur_second: DIGITS 'S'
 	{
 	    duration.seconds = atoi($1);
 	}
+;
 
 dur_day: DIGITS 'D'
 	{
 	    duration.days = atoi($1);
 	}
+;
 
 dur_prefix: /* empty */
 	{
@@ -285,6 +297,7 @@ dur_prefix: /* empty */
 	{ 
 	    duration.is_neg = 1;
 	}
+;
 
 duration_value: dur_prefix 'P' dur_date
 	{ 
@@ -301,6 +314,7 @@ duration_value: dur_prefix 'P' dur_date
 	    icalparser_yy_value = icalvalue_new_duration(duration); 
 	    memset(&duration,0, sizeof(duration));
 	}
+;
 
 
 /* Period */
@@ -353,12 +367,14 @@ period_value:  DIGITS TIME_CHAR DIGITS utc_char '/'  DIGITS TIME_CHAR DIGITS utc
 	    icalparser_yy_value = icalvalue_new_period(p);
 
 	}
+;
 
 
 /* UTC Offset */
 
 plusminus: '+' { utcsign = 1; }
 	| '-' { utcsign = -1; }
+;
 
 utcoffset_value: 
 	plusminus INTNUMBER INTNUMBER
@@ -370,6 +386,7 @@ utcoffset_value:
 	{
 	    icalparser_yy_value = icalvalue_new_utcoffset(utcsign * (($2*3600) + ($3*60) +($4)));
   	}
+;
 
 %%
 
