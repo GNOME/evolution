@@ -1,3 +1,14 @@
+2001-08-04  Jason Leach  <jleach@ximian.com>
+
+	* message-list.c (message_list_select): Add a @wraparound
+	argument, so the 'n' and 'p' keypresses (or anything else that
+	wants to) can wrap around to find the next unread.
+
+	* folder-browser.c (on_key_press): Tell it to wrap around here.
+	
+	* mail-callbacks.c (delete_msg): Don't wrap around here (or the
+	other callbacks in this file).
+
 2001-08-03  Jason Leach  <jleach@ximian.com>
 	
 	* mail-folder-cache.c (update_idle): Updates for EvolutionStorage

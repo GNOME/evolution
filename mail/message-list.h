@@ -113,7 +113,9 @@ void           message_list_foreach    (MessageList *message_list,
 void           message_list_select     (MessageList *message_list,
 					int base_row,
 					MessageListSelectDirection direction,
-					guint32 flags, guint32 mask);
+					guint32 flags,
+					guint32 mask,
+					gboolean wraparound);
 
 void           message_list_select_uid (MessageList *message_list,
 					const char *uid);

@@ -365,9 +365,12 @@ get_message_info (MessageList *message_list, ETreePath node)
  * unchanged.
  **/
 void
-message_list_select (MessageList *message_list, int base_row,
+message_list_select (MessageList               *message_list,
+		     int                        base_row,
 		     MessageListSelectDirection direction,
-		     guint32 flags, guint32 mask)
+		     guint32                    flags,
+		     guint32                    mask,
+		     gboolean                   wraparound)
 {
 	CamelMessageInfo *info;
 	int vrow, last;
@@ -405,8 +408,10 @@ message_list_select (MessageList *message_list, int base_row,
 
 	/* We don't know whether to use < or > due to "direction" */
 	while (vrow != last) {
-		ETreePath node = e_tree_node_at_row(et, vrow);
+		ETreePath node = e_tree_node_at_row (et, vrow);
+
 		info = get_message_info (message_list, node);
+
 		if (info && (info->flags & mask) == flags) {
 			e_tree_set_cursor (et, node);
 			
@@ -415,6 +420,15 @@ message_list_select (MessageList *message_list, int base_row,
 			return;
 		}
 		vrow += direction;
+	}
+
+	if (wraparound) {
+		if (direction > 0)
+			message_list_select (message_list, 0,
+					     direction, flags, mask, FALSE);
+		else
+			message_list_select (message_list, e_tree_row_count (et) - 1,
+					     direction, flags, mask, FALSE);
 	}
 }
 

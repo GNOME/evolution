@@ -1536,14 +1536,14 @@ on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
 	case 'N':
 		message_list_select (fb->message_list, row,
 				     MESSAGE_LIST_SELECT_NEXT,
-				     0, CAMEL_MESSAGE_SEEN);
+				     0, CAMEL_MESSAGE_SEEN, TRUE);
 		return TRUE;
 
 	case 'p':
 	case 'P':
 		message_list_select (fb->message_list, row,
 				     MESSAGE_LIST_SELECT_PREVIOUS,
-				     0, CAMEL_MESSAGE_SEEN);
+				     0, CAMEL_MESSAGE_SEEN, TRUE);
 		return TRUE;
 
 	case GDK_Menu:
