@@ -615,6 +615,7 @@ message_list_init (GtkObject *object)
 	gtk_object_set(GTK_OBJECT(message_list->etable),
 		       "cursor_mode", E_TABLE_CURSOR_LINE,
 		       "drawfocus", FALSE,
+		       "drawgrid", FALSE,
 		       NULL);
 
 	gtk_signal_connect (GTK_OBJECT (message_list->etable), "realize",
