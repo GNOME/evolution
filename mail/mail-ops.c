@@ -320,10 +320,8 @@ fetch_mail_fetch (struct _mail_msg *mm)
 					fm->cache = cache;
 					filter_folder_filter (mm);
 					
-					/* if we are not to delete the messages or there was an
-					 * exception, save the UID cache */
-					if (!fm->delete || camel_exception_is_set (&mm->ex))
-						camel_uid_cache_save (cache);
+					/* save the cache of uids that we've just downloaded */
+					camel_uid_cache_save (cache);
 					
 					/* if we are deleting off the server and no exception occured
 					 * then iterate through the folder uids and mark them all

@@ -1,3 +1,10 @@
+2003-10-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config-druid.c (identity_prepare): Fixed.
+
+	* mail-ops.c (fetch_mail_fetch): Always save the uid cache no
+	matter what.
+
 2003-10-03  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* mail-config-druid.c: (identity_prepare), (config_wizard_new):

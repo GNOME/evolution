@@ -132,12 +132,11 @@ identity_prepare (MailConfigWizard *mcw)
 {
 	mcw->page = MAIL_CONFIG_WIZARD_PAGE_IDENTITY;
 	
-	name = 
 	if (!gtk_entry_get_text (mcw->gui->full_name)) {
 		char *uname;
-
+		
 		uname = g_locale_to_utf8 (g_get_real_name (), -1, NULL, NULL, NULL);
-		gtk_entry_set_text (mcw->gui->full_name, name ? name : "");
+		gtk_entry_set_text (mcw->gui->full_name, uname ? uname : "");
 		g_free (uname);
 	}
 	identity_changed (NULL, mcw);
