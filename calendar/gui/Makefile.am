@@ -200,6 +200,8 @@ endif
 
 EXTRA_DIST = \
 	gncal.desktop	\
+	calendar-conduit-control-applet.desktop \
+	todo-conduit-control-applet.desktop \
 	bell.xpm	\
 	recur.xpm	\
 	$(idl_DATA)	\
