@@ -68,8 +68,6 @@ void e_msg_composer_attachment_bar_to_multipart (EMsgComposerAttachmentBar *bar,
 guint e_msg_composer_attachment_bar_get_num_attachments (EMsgComposerAttachmentBar *bar);
 void e_msg_composer_attachment_bar_attach (EMsgComposerAttachmentBar *bar, const gchar *file_name);
 void e_msg_composer_attachment_bar_attach_mime_part (EMsgComposerAttachmentBar *bar, CamelMimePart *part);
-CamelMimePart *e_msg_composer_attachment_bar_find_message (EMsgComposerAttachmentBar *bar, 
-							   char *url);
 
 #ifdef __cplusplus
 }

@@ -70,7 +70,7 @@ struct _EMsgComposer {
 	Bonobo_PersistStream     persist_stream_interface;
 	GNOME_GtkHTML_Editor_Engine  editor_engine;
 	BonoboObject            *editor_listener;
-	GHashTable              *inline_images;
+	GHashTable              *inline_images, *inline_images_by_url;
 
 	Bonobo_ConfigDatabase    config_db;
 	
@@ -122,6 +122,10 @@ void              e_msg_composer_add_header           (EMsgComposer     *compose
 						       const char       *value);
 void              e_msg_composer_attach               (EMsgComposer     *composer,
 						       CamelMimePart    *attachment);
+CamelMimePart    *e_msg_composer_add_inline_image_from_file      (EMsgComposer  *composer,
+								  const char    *filename);
+void              e_msg_composer_add_inline_image_from_mime_part (EMsgComposer  *composer,
+								  CamelMimePart *part);
 CamelMimeMessage *e_msg_composer_get_message          (EMsgComposer     *composer);
 CamelMimeMessage *e_msg_composer_get_message_draft    (EMsgComposer     *composer);
 void              e_msg_composer_show_sig_file        (EMsgComposer     *composer);
@@ -174,7 +178,7 @@ gchar *           e_msg_composer_get_sig_file_content   (const char       *sigfi
 void              e_msg_composer_add_message_attachments (EMsgComposer *composer, 
 							  CamelMimeMessage *message,
 							  gboolean settext,
-							  gboolean attach_all);
+							  gboolean just_inlines);
 
 #ifdef __cplusplus
 }

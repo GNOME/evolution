@@ -29,7 +29,6 @@
 #include <bonobo/bonobo-stream-client.h>
 
 #include "listener.h"
-#include "e-msg-composer-attachment-bar.h"
 
 static BonoboObjectClass *listener_parent_class;
 static POA_GNOME_GtkHTML_Editor_Listener__vepv listener_vepv;
@@ -54,23 +53,22 @@ get_any_null ()
 static gchar *
 resolve_image_url (EditorListener *l, gchar *url)
 {
-	gchar *cid = NULL;
+	CamelMimePart *part;
+	const char *cid;
 
-	printf ("resolve_image_url %s\n", url);
-
-	if (!strncmp (url, "file:", 5)) {
-		gchar *id;
-
-		id = (gchar *) g_hash_table_lookup (l->composer->inline_images, url + 5);
-		if (!id) {
-			id = header_msgid_generate ();
-			g_hash_table_insert (l->composer->inline_images, g_strdup (url + 5), id);
-		}
-		cid = g_strconcat ("cid:", id, NULL);
-		printf ("resolved to %s\n", cid);
+	part = g_hash_table_lookup (l->composer->inline_images_by_url, url);
+	if (!part && !strncmp (url, "file:", 5)) {
+		part = e_msg_composer_add_inline_image_from_file (l->composer,
+								  url + 5);
 	}
+	if (!part)
+		return NULL;
 
-	return cid;
+	cid = camel_mime_part_get_content_id (part);
+	if (!cid)
+		return NULL;
+
+	return g_strconcat ("cid:", cid, NULL);
 }
 
 static void
@@ -162,37 +160,31 @@ impl_event (PortableServer_Servant _servant,
 		}
 	} else if (!strcmp (name, "url_requested")) {
 		GNOME_GtkHTML_Editor_URLRequestEvent *e;
-		CamelMimePart *part = NULL;
+		CamelMimePart *part;
+		GByteArray *ba;
+		CamelStream *cstream;
+		CamelDataWrapper *wrapper;
 
 		e = (GNOME_GtkHTML_Editor_URLRequestEvent *)arg->_value;
-	        g_warning ("url_requested = \"%s\"", e->url);
 
-		if (e->url) {
-			part = e_msg_composer_attachment_bar_find_message (
-			        E_MSG_COMPOSER_ATTACHMENT_BAR (l->composer->attachment_bar), e->url);
-		}
+		if (!e->url || e->stream == CORBA_OBJECT_NIL)
+			return get_any_null ();
 
+		part = g_hash_table_lookup (l->composer->inline_images_by_url, e->url);
 		if (!part)
-			printf ("url_requested: no part found\n");
-		else 
-			printf ("url_requested: FOUND PART\n");
+			part = g_hash_table_lookup (l->composer->inline_images, e->url);
+		if (!part)
+			return get_any_null ();
 
-		if (part && e->stream != CORBA_OBJECT_NIL) {
-			GByteArray *ba;
-			CamelStream *cstream;
-			CamelDataWrapper *wrapper;
+		/* Write the data to a CamelStreamMem... */
+		ba = g_byte_array_new ();
+		cstream = camel_stream_mem_new_with_byte_array (ba);
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+		camel_data_wrapper_write_to_stream (wrapper, cstream);
 
-			/* Write the data to a CamelStreamMem... */
-			ba = g_byte_array_new ();
-			cstream = camel_stream_mem_new_with_byte_array (ba);
-			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-			camel_data_wrapper_write_to_stream (wrapper, cstream);
+		bonobo_stream_client_write (e->stream, ba->data, ba->len, ev);
 
-			bonobo_stream_client_write (e->stream, ba->data, ba->len, ev);
-
-			camel_object_unref (CAMEL_OBJECT (cstream));
-		}
-
+		camel_object_unref (CAMEL_OBJECT (cstream));
 	}
 
 	return rv ? rv : get_any_null ();

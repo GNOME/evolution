@@ -121,7 +121,7 @@ static GnomeAppClass *parent_class = NULL;
 /* local prototypes */
 static GList *add_recipients   (GList *list, const char *recips, gboolean decode);
 static void handle_multipart   (EMsgComposer *composer, CamelMultipart *multipart,
-				gboolean attach_all, int depth);
+				gboolean just_inlines, int depth);
 static void message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream);
 
 
@@ -230,7 +230,15 @@ static gboolean
 clear_inline_images (gpointer key, gpointer value, gpointer user_data)
 {
 	g_free (key);
-	g_free (value);
+	camel_object_unref (value);
+
+	return TRUE;
+}
+
+static gboolean
+clear_url (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
 
 	return TRUE;
 }
@@ -239,45 +247,13 @@ void
 e_msg_composer_clear_inlined_table (EMsgComposer *composer)
 {
 	g_hash_table_foreach_remove (composer->inline_images, clear_inline_images, NULL);
+	g_hash_table_foreach_remove (composer->inline_images_by_url, clear_url, NULL);
 }
 
 static void
-add_inlined_image (gpointer key, gpointer value, gpointer data)
+add_inlined_image (gpointer key, gpointer part, gpointer multipart)
 {
-	gchar *file_name          = (gchar *) key;
-	gchar *cid                = (gchar *) value;
-	gchar *mime_type;
-	CamelMultipart *multipart = (CamelMultipart *) data;
-	CamelStream *stream;
-	CamelDataWrapper *wrapper;
-	CamelMimePart *part;
-	struct stat statbuf;
-	
-	/* check for regular file */
-	if (stat (file_name, &statbuf) < 0 || !S_ISREG (statbuf.st_mode))
-		return;
-	
-	if (!(stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0)))
-		return;
-	
-	wrapper = camel_data_wrapper_new ();
-	camel_data_wrapper_construct_from_stream (wrapper, stream);
-	camel_object_unref (CAMEL_OBJECT (stream));
-	
-	mime_type = e_msg_composer_guess_mime_type (file_name);
-	camel_data_wrapper_set_mime_type (wrapper, mime_type ? mime_type : "application/octet-stream");
-	g_free (mime_type);
-	
-	part = camel_mime_part_new ();
-	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
-	camel_object_unref (CAMEL_OBJECT (wrapper));
-	
-	camel_mime_part_set_content_id (part, cid);
-	camel_mime_part_set_filename (part, g_basename (file_name));
-	camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_BASE64);
-	
 	camel_multipart_add_part (multipart, part);
-	camel_object_unref (CAMEL_OBJECT (part));
 }
 
 static void
@@ -1961,6 +1937,7 @@ destroy (GtkObject *object)
 	
 	e_msg_composer_clear_inlined_table (composer);
 	g_hash_table_destroy (composer->inline_images);
+	g_hash_table_destroy (composer->inline_images_by_url);
 	
 	g_free (composer->charset);
 	
@@ -2148,6 +2125,7 @@ init (EMsgComposer *composer)
 	
 	composer->editor_engine            = CORBA_OBJECT_NIL;
 	composer->inline_images            = g_hash_table_new (g_str_hash, g_str_equal);
+	composer->inline_images_by_url     = g_hash_table_new (g_str_hash, g_str_equal);
 	
 	composer->attachment_bar_visible   = FALSE;
 	composer->send_html                = FALSE;
@@ -2492,7 +2470,7 @@ handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart)
 }
 
 static void
-handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, gboolean attach_all, int depth)
+handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, gboolean just_inlines, int depth)
 {
 	int i, nparts;
 	
@@ -2522,7 +2500,7 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, gboolean at
 			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 			mpart = CAMEL_MULTIPART (wrapper);
 			
-			handle_multipart (composer, mpart, attach_all, depth + 1);
+			handle_multipart (composer, mpart, just_inlines, depth + 1);
 		} else if (depth == 0 && i == 0) {
 			/* Since the first part is not multipart/alternative, then this must be the body */
 			CamelDataWrapper *contents;
@@ -2533,10 +2511,12 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, gboolean at
 			
 			if (text)
 				e_msg_composer_set_pending_body (composer, text);
+		} else if (just_inlines) {
+			if (camel_mime_part_get_content_id (mime_part) ||
+			    camel_mime_part_get_content_location (mime_part))
+				e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
 		} else {
-			/* this is a leaf of the tree, so attach it */
-			if (attach_all || camel_mime_part_get_content_id (mime_part))
-				e_msg_composer_attach (composer, mime_part);
+			e_msg_composer_attach (composer, mime_part);
 		}
 	}
 }
@@ -2590,14 +2570,15 @@ is_special_header (const char *hdr_name)
  * @composer: the composer to add the attachments to.
  * @message: the source message to copy the attachments from.
  * @settext: set the text of the composer
- * @attach_all: attach all attachments
+ * @just_inlines: whether to attach all attachments or just add
+ * inline images.
  *
  * Walk through all the mime parts in @message and add them to the composer
  * specified in @composer.
  */
 void
 e_msg_composer_add_message_attachments (EMsgComposer *composer, CamelMimeMessage *message,
-					gboolean settext, gboolean attach_all)
+					gboolean settext, gboolean just_inlines)
 {
 	CamelContentType *content_type;
 	
@@ -2619,7 +2600,7 @@ e_msg_composer_add_message_attachments (EMsgComposer *composer, CamelMimeMessage
 		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (message)));
 		multipart = CAMEL_MULTIPART (wrapper);
 		
-		handle_multipart (composer, multipart, attach_all, 0);
+		handle_multipart (composer, multipart, just_inlines, 0);
 	} else if (settext) {
 		/* We either have a text/plain or a text/html part */
 		CamelDataWrapper *contents;
@@ -3029,6 +3010,95 @@ e_msg_composer_attach (EMsgComposer *composer, CamelMimePart *attachment)
 	e_msg_composer_attachment_bar_attach_mime_part (bar, attachment);
 }
 
+
+/**
+ * e_msg_composer_add_inline_image_from_file:
+ * @composer: a composer object
+ * @file_name: the name of the file containing the image
+ *
+ * This reads in the image in @file_name and adds it to @composer
+ * as an inline image, to be wrapped in a multipart/related.
+ *
+ * Return value: the newly-created CamelMimePart (which must be reffed
+ * if the caller wants to keep its own reference), or %NULL on error.
+ **/
+CamelMimePart *
+e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
+					   const char *file_name)
+{
+	char *mime_type, *cid, *url;
+	CamelStream *stream;
+	CamelDataWrapper *wrapper;
+	CamelMimePart *part;
+	struct stat statbuf;
+
+	/* check for regular file */
+	if (stat (file_name, &statbuf) < 0 || !S_ISREG (statbuf.st_mode))
+		return NULL;
+
+	stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0);
+	if (!stream)
+		return NULL;
+
+	wrapper = camel_data_wrapper_new ();
+	camel_data_wrapper_construct_from_stream (wrapper, stream);
+	camel_object_unref (CAMEL_OBJECT (stream));
+
+	mime_type = e_msg_composer_guess_mime_type (file_name);
+	camel_data_wrapper_set_mime_type (wrapper, mime_type ? mime_type : "application/octet-stream");
+	g_free (mime_type);
+	
+	part = camel_mime_part_new ();
+	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
+	camel_object_unref (CAMEL_OBJECT (wrapper));
+
+	cid = header_msgid_generate ();
+	camel_mime_part_set_content_id (part, cid);
+	camel_mime_part_set_filename (part, g_basename (file_name));
+	camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_BASE64);
+
+	url = g_strdup_printf ("file:%s", file_name);
+	g_hash_table_insert (composer->inline_images_by_url, url, part);
+
+	url = g_strdup_printf ("cid:%s", cid);
+	g_hash_table_insert (composer->inline_images, url, part);
+	g_free (cid);
+
+	return part;
+}	
+
+/**
+ * e_msg_composer_add_inline_image_from_mime_part:
+ * @composer: a composer object
+ * @part: a CamelMimePart containing image data
+ *
+ * This adds the mime part @part to @composer as an inline image, to
+ * be wrapped in a multipart/related.
+ **/
+void
+e_msg_composer_add_inline_image_from_mime_part (EMsgComposer  *composer,
+						CamelMimePart *part)
+{
+	char *cid, *url;
+	const char *location;
+
+	cid = (char *)camel_mime_part_get_content_id (part);
+	if (!cid) {
+		cid = header_msgid_generate ();
+		camel_mime_part_set_content_id (part, cid);
+		g_free (cid);
+	}
+
+	url = g_strdup_printf ("cid:%s", cid);
+	g_hash_table_insert (composer->inline_images, url, part);
+	camel_object_ref (CAMEL_OBJECT (part));
+
+	location = camel_mime_part_get_content_location (part);
+	if (location) {
+		g_hash_table_insert (composer->inline_images_by_url,
+				     g_strdup (location), part);
+	}
+}
 
 /**
  * e_msg_composer_get_message:

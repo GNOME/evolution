@@ -1,3 +1,36 @@
+2001-10-21  Dan Winship  <danw@frotz.mysterion.org>
+
+	Make inline images used for replies not show up as
+	attachments. Also, I think this should make replies to HTML
+	messages containing inline images referenced via Content-Location
+	work, but that's not tested.
+
+	* e-msg-composer.c (various): Keep two hash tables of inline image
+	data: one mapping from cid: URLs to CamelMimeParts for all
+	attachments, the other mapping from file: and Content-Location
+	urls to CamelMimeParts (for those inline images that came from a
+	file or have a Content-Location).
+	(add_inlined_images): Simplify. Most of this code is in
+	e_msg_composer_add_inline_image_from_file() now.
+	(e_msg_composer_add_message_attachments, handle_multipart): Change
+	"attach_all" arg to "just_inlines". If it is set, call
+	e_msg_composer_add_inline_image_from_mime_part on any attachment
+	with a Content-Id or Content-Location.
+	(e_msg_composer_add_inline_image_from_file): Create a mime part
+	from a file and add it to the inline images hash.
+	(e_msg_composer_add_inline_image_from_mime_part): Add a mime part
+	directly to the inline images hash.
+
+	* listener.c (resolve_image_url): If asked to resolve a file: URL
+	that isn't in the inline images hash, call
+	e_msg_composer_add_inline_image_from_file to get a cid for it.
+	(impl_event): Look up the URL in the inline_images and
+	inline_images_by_url hashes.
+
+	* e-msg-composer-attachment-bar.c
+	(e_msg_composer_attachment_bar_find_message): Gone. No longer
+	used.
+
 2001-10-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (handle_multipart): Now takes a 'attach_all'
