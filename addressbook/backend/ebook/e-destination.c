@@ -319,10 +319,12 @@ e_destination_clear (EDestination *dest)
 static gboolean
 nonempty (const gchar *s)
 {
-	while (s) {
-		if (! isspace ((gint) *s))
+	gunichar c;
+	while (*s) {
+		c = g_utf8_get_char (s);
+		if (! g_unichar_isspace (c))
 			return TRUE;
-		++s;
+		s = g_utf8_next_char (s);
 	}
 	return FALSE;
 }
