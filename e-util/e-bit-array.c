@@ -26,9 +26,7 @@
 #include "e-bit-array.h"
 #include "gal/util/e-util.h"
 
-#define EBA_CLASS(e) ((EBitArrayClass *)((GtkObject *)e)->klass)
-
-#define PARENT_TYPE (gtk_object_get_type ())
+#define PARENT_TYPE G_TYPE_OBJECT
 
 #define ONES ((guint32) 0xffffffff)
 
@@ -38,7 +36,7 @@
 #define BITMASK_LEFT(n) ((((n) % 32) == 0) ? 0 : (ONES << (32 - ((n) % 32))))
 #define BITMASK_RIGHT(n) ((guint32)(((guint32) ONES) >> ((n) % 32)))
 
-static GtkObjectClass *parent_class;
+static GObjectClass *parent_class;
 
 static void
 e_bit_array_insert_real(EBitArray *eba, int row)
@@ -141,17 +139,18 @@ e_bit_array_move_row(EBitArray *eba, int old_row, int new_row)
 }
 
 static void
-eba_destroy (GtkObject *object)
+eba_dispose (GObject *object)
 {
 	EBitArray *eba;
 
 	eba = E_BIT_ARRAY (object);
 
-	g_free(eba->data);
+	if (eba->data)
+		g_free(eba->data);
 	eba->data = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 /** 
@@ -408,13 +407,13 @@ e_bit_array_init (EBitArray *eba)
 static void
 e_bit_array_class_init (EBitArrayClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class = GTK_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS(klass);
 
-	object_class->destroy = eba_destroy;
+	object_class->dispose = eba_dispose;
 }
 
 E_MAKE_TYPE(e_bit_array, "EBitArray", EBitArray,
@@ -423,10 +422,8 @@ E_MAKE_TYPE(e_bit_array, "EBitArray", EBitArray,
 EBitArray *
 e_bit_array_new (int count)
 {
-	EBitArray *eba = gtk_type_new (e_bit_array_get_type ());
+	EBitArray *eba = g_object_new (E_BIT_ARRAY_TYPE, NULL);
 	eba->bit_count = count;
 	eba->data = g_new0(guint32, (eba->bit_count + 31) / 32);
-	gtk_object_ref (GTK_OBJECT (eba));
-	gtk_object_sink (GTK_OBJECT (eba));
 	return eba;
 }

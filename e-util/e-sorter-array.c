@@ -24,18 +24,12 @@
 #include <config.h>
 #include <stdlib.h>
 #include <string.h>
-#include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 #include "e-sorter-array.h"
 
 #define d(x)
 
-/* The arguments we take */
-enum {
-	ARG_0
-};
-
-#define PARENT_TYPE e_sorter_get_type()
+#define PARENT_TYPE E_SORTER_TYPE
 
 #define INCREMENT_AMOUNT 100
 
@@ -233,44 +227,17 @@ e_sorter_array_construct  (ESorterArray *esa,
 ESorterArray *
 e_sorter_array_new (ECompareRowsFunc compare, gpointer closure)
 {
-	ESorterArray *esa = gtk_type_new (E_SORTER_ARRAY_TYPE);
+	ESorterArray *esa = g_object_new (E_SORTER_ARRAY_TYPE, NULL);
 
 	return e_sorter_array_construct (esa, compare, closure);
 }
 
 static void
-esa_destroy (GtkObject *object)
-{
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
-}
-
-static void
-esa_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
-{
-	switch (arg_id) {
-	default:
-		break;
-	}
-}
-
-static void
-esa_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
-{
-	switch (arg_id) {
-	}
-}
-
-static void
 esa_class_init (ESorterArrayClass *klass)
 {
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS(klass);
 	ESorterClass *sorter_class = E_SORTER_CLASS(klass);
 
-	parent_class                            = gtk_type_class (PARENT_TYPE);
-
-	object_class->destroy                   = esa_destroy;
-	object_class->set_arg                   = esa_set_arg;
-	object_class->get_arg                   = esa_get_arg;
+	parent_class                            = g_type_class_ref (PARENT_TYPE);
 
 	sorter_class->model_to_sorted           = esa_model_to_sorted           ;
 	sorter_class->sorted_to_model           = esa_sorted_to_model           ;

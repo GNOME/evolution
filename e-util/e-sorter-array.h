@@ -24,17 +24,17 @@
 #ifndef _E_SORTER_ARRAY_H_
 #define _E_SORTER_ARRAY_H_
 
-#include <gtk/gtkobject.h>
-#include <gal/util/e-sorter.h>
 #include <glib.h>
+#include <glib-object.h>
+#include <gal/util/e-sorter.h>
 
 G_BEGIN_DECLS
 
 #define E_SORTER_ARRAY_TYPE        (e_sorter_array_get_type ())
-#define E_SORTER_ARRAY(o)          (GTK_CHECK_CAST ((o), E_SORTER_ARRAY_TYPE, ESorterArray))
-#define E_SORTER_ARRAY_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_SORTER_ARRAY_TYPE, ESorterArrayClass))
-#define E_IS_SORTER_ARRAY(o)       (GTK_CHECK_TYPE ((o), E_SORTER_ARRAY_TYPE))
-#define E_IS_SORTER_ARRAY_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_SORTER_ARRAY_TYPE))
+#define E_SORTER_ARRAY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_SORTER_ARRAY_TYPE, ESorterArray))
+#define E_SORTER_ARRAY_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_SORTER_ARRAY_TYPE, ESorterArrayClass))
+#define E_IS_SORTER_ARRAY(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_SORTER_ARRAY_TYPE))
+#define E_IS_SORTER_ARRAY_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_SORTER_ARRAY_TYPE))
 
 #ifndef _E_COMPARE_ROWS_FUNC_H_
 #define _E_COMPARE_ROWS_FUNC_H_
@@ -60,7 +60,7 @@ typedef struct {
 	ESorterClass parent_class;
 } ESorterArrayClass;
 
-GtkType       e_sorter_array_get_type   (void);
+GType         e_sorter_array_get_type   (void);
 ESorterArray *e_sorter_array_construct  (ESorterArray     *sorter,
 					 ECompareRowsFunc  compare,
 					 gpointer          closure);

@@ -225,7 +225,7 @@ esma_clear(ESelectionModel *selection)
 {
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY(selection);
 	if (esma->eba) {
-		gtk_object_unref(GTK_OBJECT(esma->eba));
+		g_object_unref(esma->eba);
 		esma->eba = NULL;
 	}
 	esma->cursor_row = -1;

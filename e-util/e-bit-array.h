@@ -24,17 +24,17 @@
 #ifndef _E_BIT_ARRAY_H_
 #define _E_BIT_ARRAY_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
 #define E_BIT_ARRAY_TYPE        (e_bit_array_get_type ())
-#define E_BIT_ARRAY(o)          (GTK_CHECK_CAST ((o), E_BIT_ARRAY_TYPE, EBitArray))
-#define E_BIT_ARRAY_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_BIT_ARRAY_TYPE, EBitArrayClass))
-#define E_IS_BIT_ARRAY(o)       (GTK_CHECK_TYPE ((o), E_BIT_ARRAY_TYPE))
-#define E_IS_BIT_ARRAY_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_BIT_ARRAY_TYPE))
+#define E_BIT_ARRAY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_BIT_ARRAY_TYPE, EBitArray))
+#define E_BIT_ARRAY_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_BIT_ARRAY_TYPE, EBitArrayClass))
+#define E_IS_BIT_ARRAY(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_BIT_ARRAY_TYPE))
+#define E_IS_BIT_ARRAY_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_BIT_ARRAY_TYPE))
 
 #ifndef _E_FOREACH_FUNC_H_
 #define _E_FOREACH_FUNC_H_
@@ -43,18 +43,18 @@ typedef void (*EForeachFunc) (int model_row,
 #endif
 
 typedef struct {
-	GtkObject base;
+	GObject base;
 
 	gint bit_count;
         guint32 *data;
 } EBitArray;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 } EBitArrayClass;
 
 
-GtkType    e_bit_array_get_type            (void);
+GType      e_bit_array_get_type            (void);
 EBitArray *e_bit_array_new                 (int           count);
 
 gboolean   e_bit_array_value_at            (EBitArray    *selection,
