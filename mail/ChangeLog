@@ -1,3 +1,13 @@
+2001-09-26  Dan Winship  <danw@ximian.com>
+
+	* mail-folder-cache.c: Add a big comment explaining unread message
+	counts so no one can mess them up again in the future. :-)
+	(update_1folder): If info->unread_message_count is -1, don't do
+	anything.
+
+	* component-factory.c (component_factory_init): warn and exit if
+	oaf_active_server_register returns OAF_REG_ALREADY_ACTIVE.
+
 2001-09-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (config_read): Oops, translate the fake account

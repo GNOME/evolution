@@ -844,6 +844,9 @@ component_factory_init (void)
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize Evolution's mail component."));
 		exit (1);
+	} else if (result == OAF_REG_ALREADY_ACTIVE) {
+		g_warning ("evolution-mail is already running");
+		exit (1);
 	}
 
 	/* FIXME these don't check for errors.  */

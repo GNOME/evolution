@@ -69,12 +69,35 @@ struct _store_info {
 
 static GHashTable *stores;
 
+/* This is how unread counts work (and don't work):
+ *
+ * camel_folder_unread_message_count() only gives a correct answer if
+ * the store is paying attention to the folder. (Some stores always
+ * pay attention to all folders, but IMAP can only pay attention to
+ * one folder at a time.) But it doesn't have any way to know when
+ * it's lying, so it's only safe to call it when you know for sure
+ * that the store is paying attention to the folder, such as when it's
+ * just been created, or you get a folder_changed or message_changed
+ * signal on it.
+ *
+ * camel_store_get_folder_info() always gives correct answers for the
+ * folders it checks, but it can also return -1 for a folder, meaning
+ * it didn't check, and so you should stick with your previous answer.
+ *
+ * update_1folder is called from three places: with info == NULL when
+ * the folder is created, with info == NULL when a changed event is
+ * emitted, or with info != NULL when doing a get_folder_info. So if
+ * info is NULL, camel_folder_unread_message_count is correct, and
+ * if it's not NULL and its unread_message_count isn't -1, then it's
+ * correct.
+ */
+
 static void
 update_1folder(struct _folder_info *mfi, CamelFolderInfo *info)
 {
 	struct _store_info *si;
 	CamelFolder *folder;
-	int unread = 0;
+	int unread = -1;
 	CORBA_Environment ev;
 	extern CamelFolder *outbox_folder;
 
@@ -87,13 +110,15 @@ update_1folder(struct _folder_info *mfi, CamelFolderInfo *info)
 			unread = camel_folder_get_message_count(folder);
 		} else {
 			if (info)
-				unread = (info->unread_message_count == -1) ? 0 : info->unread_message_count;
+				unread = info->unread_message_count;
 			else
 				unread = camel_folder_get_unread_message_count (folder);
 		}
 	} else if (info)
-		unread = (info->unread_message_count==-1)?0:info->unread_message_count;
+		unread = info->unread_message_count;
 	UNLOCK(info_lock);
+	if (unread == -1)
+		return;
 
 	if (si->storage == NULL) {
 		d(printf("Updating existing (local) folder: %s (%d unread) folder=%p\n", mfi->path, unread, folder));
