@@ -13,6 +13,7 @@ INCLUDES = \
 	-I$(top_srcdir)/shell				\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	$(GNOME_VFS_CFLAGS)				\
+	$(GCONF_CFLAGS)					\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
