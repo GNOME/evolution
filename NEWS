@@ -12,6 +12,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #45329 - Alt+PageUp/PageDown, go to the first/last day in current month
              in weekview (Bolian Yin)
     #45910 - Application crash when assigning tasks (Jack Jia, Rodrigo)
+    #45767 - Evolution 1.4.1 building failed with forte on Solaris8 (Antonio Xu)
 
 Evolution 1.4.2, 2003-06-30
 ---------------------------
