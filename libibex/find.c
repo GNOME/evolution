@@ -56,6 +56,22 @@ ibex_find (ibex *ib, char *word)
 }
 
 /**
+ * ibex_contains_name:
+ * @ib: 
+ * @name: 
+ * 
+ * Returns #TRUE if the ibex @ib has any index entry for
+ * the key @name.
+ * 
+ * Return value: 
+ **/
+gboolean
+ibex_contains_name(ibex *ib, char *name)
+{
+	return g_tree_lookup(ib->files, name) != NULL;
+}
+
+/**
  * ibex_find_name: Check if a word occurs in a given file
  * @ib: an ibex
  * @name: a filename

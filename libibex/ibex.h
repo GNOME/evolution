@@ -87,6 +87,10 @@ GPtrArray *ibex_find (ibex *ib, char *word);
  */
 gboolean ibex_find_name (ibex *ib, char *name, char *word);
 
+/* has a file been indexed?
+ */
+gboolean ibex_contains_name(ibex *ib, char *name);
+
 /* Return all the files containing all of the words in the given
  * array. Returned data is like with ibex_find.
  */
