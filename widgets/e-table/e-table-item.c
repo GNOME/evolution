@@ -1207,10 +1207,14 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			if (selected){
 				background = &canvas->style->bg [GTK_STATE_SELECTED];
 			} else {
+#if 0
 				if (row % 2)
+#endif
 					background = &canvas->style->base [GTK_STATE_NORMAL];
+#if 0
 				else
 					background = &canvas->style->base [GTK_STATE_SELECTED];
+#endif
 			}
 
 			gdk_gc_set_foreground (eti->fill_gc, background);

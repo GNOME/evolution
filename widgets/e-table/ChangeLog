@@ -1,3 +1,10 @@
+2000-08-28  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-group-container.c: Make printing of groups work better
+	and make them print headers.
+
+	* e-table-item.c: Turn off alternating row support.
+
 2000-08-28  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-table.c (et_destroy): Don't try to destroy the `header_canvas'
