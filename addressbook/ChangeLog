@@ -1,5 +1,17 @@
 2001-08-19  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/addressbook.c (set_folder_bar_label),
+	gui/widgets/e-addressbook-model.c,
+	gui/widgets/e-addressbook-model.h (update_folder_bar_message),
+	gui/widgets/e-addressbook-view.c, gui/widgets/e-addressbook-view.h
+	(folder_bar_message): Set the folder bar message here.
+
+	* gui/component/select-names/e-select-names-model.c (SEPLEN): Use
+	strlen(SEPARATOR) here so that if the separator changes the length
+	will work properly.
+
+2001-08-19  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/contact-editor/fulladdr.glade: Added full country list.
 	Fixes Ximian bug #5123.
 

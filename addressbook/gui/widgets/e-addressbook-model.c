@@ -35,6 +35,7 @@ enum {
 enum {
 	WRITABLE_STATUS,
 	STATUS_MESSAGE,
+	FOLDER_BAR_MESSAGE,
 	CARD_ADDED,
 	CARD_REMOVED,
 	CARD_CHANGED,
@@ -108,6 +109,33 @@ addressbook_destroy(GtkObject *object)
 }
 
 static void
+update_folder_bar_message (EAddressbookModel *model)
+{
+	int count;
+	char *message;
+
+	count = model->data_count;
+
+	switch (count) {
+	case 0:
+		message = g_strdup (_("No cards"));
+		break;
+	case 1:
+		message = g_strdup (_("1 card"));
+		break;
+	default:
+		message = g_strdup_printf (_("%d cards"), count);
+		break;
+	}
+
+	gtk_signal_emit (GTK_OBJECT (model),
+			 e_addressbook_model_signals [FOLDER_BAR_MESSAGE],
+			 message);
+
+	g_free (message);
+}
+
+static void
 create_card(EBookView *book_view,
 	    const GList *cards,
 	    EAddressbookModel *model)
@@ -122,13 +150,23 @@ create_card(EBookView *book_view,
 	}
 
 	for ( ; cards; cards = cards->next) {
+		char *file_as;
+
 		model->data[model->data_count++] = cards->data;
 		gtk_object_ref (cards->data);
+		gtk_object_get (GTK_OBJECT (cards->data),
+				"file_as", &file_as,
+				NULL);
+		g_print ("Received card: %s\n", file_as);
 	}
+
+	g_print ("Finished\n");
 
 	gtk_signal_emit (GTK_OBJECT (model),
 			 e_addressbook_model_signals [CARD_ADDED],
 			 old_count, model->data_count - old_count);
+
+	update_folder_bar_message (model);
 }
 
 static void
@@ -147,6 +185,7 @@ remove_card(EBookView *book_view,
 			gtk_signal_emit (GTK_OBJECT (model),
 					 e_addressbook_model_signals [CARD_REMOVED],
 					 i);
+			update_folder_bar_message (model);
 			break;
 		}
 	}
@@ -235,6 +274,14 @@ e_addressbook_model_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (EAddressbookModelClass, status_message),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
+	e_addressbook_model_signals [FOLDER_BAR_MESSAGE] =
+		gtk_signal_new ("folder_bar_message",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookModelClass, folder_bar_message),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
 
@@ -376,7 +423,6 @@ e_addressbook_model_get_card(EAddressbookModel *model,
 	if (model->data && row < model->data_count) {
 		ECard *card;
 		card = e_card_duplicate (model->data[row]);
-		gtk_object_ref (GTK_OBJECT (card));
 		return card;
 	}
 	return NULL;

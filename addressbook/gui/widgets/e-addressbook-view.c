@@ -56,6 +56,7 @@
 #include "e-card-merging.h"
 
 #include "e-contact-editor.h"
+#include <gdk/gdkkeysyms.h>
 #include <ctype.h>
 
 static void e_addressbook_view_init		(EAddressbookView		 *card);
@@ -63,9 +64,12 @@ static void e_addressbook_view_class_init	(EAddressbookViewClass	 *klass);
 static void e_addressbook_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
 static void e_addressbook_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void e_addressbook_view_destroy (GtkObject *object);
+static gint e_addressbook_view_key_press_event (GtkWidget *widget,
+						GdkEventKey *event);
 static void change_view_type (EAddressbookView *view, EAddressbookViewType view_type);
 
-static void status_message (GtkObject *object, const gchar *status, EAddressbookView *eav);
+static void status_message     (GtkObject *object, const gchar *status, EAddressbookView *eav);
+static void folder_bar_message (GtkObject *object, const gchar *status, EAddressbookView *eav);
 static void stop_state_changed (GtkObject *object, EAddressbookView *eav);
 static void writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav);
 static void command_state_change (EAddressbookView *eav);
@@ -90,6 +94,7 @@ enum {
 
 enum {
 	STATUS_MESSAGE,
+	FOLDER_BAR_MESSAGE,
 	COMMAND_STATE_CHANGE,
 	LAST_SIGNAL
 };
@@ -135,14 +140,18 @@ static void
 e_addressbook_view_class_init (EAddressbookViewClass *klass)
 {
 	GtkObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	object_class = GTK_OBJECT_CLASS(klass);
+	widget_class = GTK_WIDGET_CLASS(klass);
 
 	parent_class = gtk_type_class (gtk_table_get_type ());
 
 	object_class->set_arg = e_addressbook_view_set_arg;
 	object_class->get_arg = e_addressbook_view_get_arg;
 	object_class->destroy = e_addressbook_view_destroy;
+
+	widget_class->key_press_event = e_addressbook_view_key_press_event;
 
 	gtk_object_add_arg_type ("EAddressbookView::book", GTK_TYPE_OBJECT,
 				 GTK_ARG_READWRITE, ARG_BOOK);
@@ -156,6 +165,14 @@ e_addressbook_view_class_init (EAddressbookViewClass *klass)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (EAddressbookViewClass, status_message),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
+	e_addressbook_view_signals [FOLDER_BAR_MESSAGE] =
+		gtk_signal_new ("folder_bar_message",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookViewClass, folder_bar_message),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
 
@@ -183,6 +200,11 @@ e_addressbook_view_init (EAddressbookView *eav)
 	gtk_signal_connect (GTK_OBJECT(eav->model),
 			    "status_message",
 			    GTK_SIGNAL_FUNC (status_message),
+			    eav);
+
+	gtk_signal_connect (GTK_OBJECT(eav->model),
+			    "folder_bar_message",
+			    GTK_SIGNAL_FUNC (folder_bar_message),
 			    eav);
 
 	gtk_signal_connect (GTK_OBJECT(eav->model),
@@ -259,6 +281,29 @@ e_addressbook_view_destroy (GtkObject *object)
 
 	if (GTK_OBJECT_CLASS(parent_class)->destroy)
 		GTK_OBJECT_CLASS(parent_class)->destroy(object);
+}
+
+static gint
+e_addressbook_view_key_press_event (GtkWidget *widget,
+				    GdkEventKey *event)
+{
+	EAddressbookView *view = E_ADDRESSBOOK_VIEW (widget);
+	guint return_val = 0;
+
+	if (GTK_WIDGET_CLASS (parent_class)->key_press_event) {
+		return_val = GTK_WIDGET_CLASS (parent_class)->key_press_event (widget, event);
+		if (return_val != 0)
+			return return_val;
+	}
+
+	if ((event->keyval == GDK_Delete ||
+	     event->keyval == GDK_KP_Delete) &&
+	    event->state == 0) {
+		e_addressbook_view_delete_selection(view);
+		return_val = TRUE;
+	}
+
+	return return_val;
 }
 
 GtkWidget*
@@ -745,9 +790,23 @@ emit_status_message (EAddressbookView *eav, const gchar *status)
 }
 
 static void
+emit_folder_bar_message (EAddressbookView *eav, const gchar *message)
+{
+	gtk_signal_emit (GTK_OBJECT (eav),
+			 e_addressbook_view_signals [FOLDER_BAR_MESSAGE],
+			 message);
+}
+
+static void
 status_message (GtkObject *object, const gchar *status, EAddressbookView *eav)
 {
 	emit_status_message (eav, status);
+}
+
+static void
+folder_bar_message (GtkObject *object, const gchar *status, EAddressbookView *eav)
+{
+	emit_folder_bar_message (eav, status);
 }
 
 static void

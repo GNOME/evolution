@@ -90,7 +90,8 @@ struct _EAddressbookViewClass
 	/*
 	 * Signals
 	 */
-	void (*status_message) (EAddressbookView *view, const gchar *message);
+	void (*status_message)       (EAddressbookView *view, const gchar *message);
+	void (*folder_bar_message)   (EAddressbookView *view, const gchar *message);
 	void (*command_state_change) (EAddressbookView *view);
 };
 

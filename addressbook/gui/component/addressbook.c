@@ -18,6 +18,7 @@
 #include <libgnomeui/gnome-uidefs.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-ui-util.h>
+#include <bonobo/bonobo-exception.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 
@@ -39,6 +40,8 @@
 #include <ebook/e-book.h>
 #include <widgets/misc/e-search-bar.h>
 #include <widgets/misc/e-filter-bar.h>
+
+#define d(x)
 
 #define PROPERTY_FOLDER_URI          "folder_uri"
 
@@ -791,6 +794,42 @@ set_status_message (EAddressbookView *eav, const char *message, AddressbookView 
 	CORBA_exception_free (&ev);
 }
 
+static void
+set_folder_bar_label (EAddressbookView *eav, const char *message, AddressbookView *view)
+{
+	CORBA_Environment ev;
+	GNOME_Evolution_ShellView shell_view_interface;
+
+	CORBA_exception_init (&ev);
+
+	shell_view_interface = retrieve_shell_view_interface_from_control (view->control);
+	if (!shell_view_interface) {
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	d(g_message("Updating via ShellView"));
+
+	if (message == NULL || message[0] == 0) {
+		GNOME_Evolution_ShellView_setFolderBarLabel (shell_view_interface,
+							     "",
+							     &ev);
+	}
+	else {
+		GNOME_Evolution_ShellView_setFolderBarLabel (shell_view_interface,
+							     message,
+							     &ev);
+	}
+
+	if (BONOBO_EX (&ev))
+		g_warning ("Exception in label update: %s",
+			   bonobo_exception_get_text (&ev));
+
+	CORBA_exception_free (&ev);
+}
+
+
+
 BonoboControl *
 addressbook_factory_new_control (void)
 {
@@ -870,6 +909,11 @@ addressbook_factory_new_control (void)
 	gtk_signal_connect (GTK_OBJECT (view->view),
 			    "status_message",
 			    GTK_SIGNAL_FUNC(set_status_message),
+			    view);
+
+	gtk_signal_connect (GTK_OBJECT (view->view),
+			    "folder_bar_message",
+			    GTK_SIGNAL_FUNC(set_folder_bar_label),
 			    view);
 
 	gtk_signal_connect (GTK_OBJECT (view->view),

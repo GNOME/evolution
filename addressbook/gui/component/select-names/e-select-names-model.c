@@ -21,7 +21,7 @@
 #include "addressbook/backend/ebook/e-card-simple.h"
 
 #define SEPARATOR ", "
-#define SEPLEN    2
+#define SEPLEN    (strlen(SEPARATOR))
 
 
 enum {
