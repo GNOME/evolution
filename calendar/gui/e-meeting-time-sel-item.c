@@ -37,6 +37,7 @@
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include "calendar-config.h"
 #include "e-meeting-time-sel-item.h"
 #include "e-meeting-time-sel.h"
 
@@ -491,13 +492,18 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 	gdk_gc_set_clip_rectangle (gc, NULL);
 
 	/* Draw the hours. */
-	hour = mts->first_hour_shown + (mts->zoomed_out ? 3 : 1);
-	hour_x = x + mts->col_width;
+	hour = mts->first_hour_shown;
+	hour_x = x;
 	hour_y = mts->row_height + 4 + font->ascent - scroll_y;
 	while (hour < mts->last_hour_shown) {
-		gdk_draw_string (drawable, font, gc,
-				 hour_x - (mts->hour_widths[hour] / 2),
-				 hour_y, EMeetingTimeSelectorHours[hour]);
+		if (calendar_config_get_24_hour_format ())
+			gdk_draw_string (drawable, font, gc,
+					 hour_x - (mts->hour_widths[hour] / 2),
+					 hour_y, EMeetingTimeSelectorHours[hour]);
+		else
+			gdk_draw_string (drawable, font, gc,
+					 hour_x - (mts->hour_widths[hour] / 2),
+					 hour_y, EMeetingTimeSelectorHours12[hour]);
 
 		hour += mts->zoomed_out ? 3 : 1;
 		hour_x += mts->col_width;

@@ -87,8 +87,10 @@ typedef enum
 	E_MEETING_TIME_SELECTOR_REQUIRED_PEOPLE_AND_ONE_RESOURCE
 } EMeetingTimeSelectorAutopickOption;
 
-/* An array of hour strings, "0:00" .. "23:00". */
+/* An array of hour strings for 24 hour time, "0:00" .. "23:00". */
 extern const gchar *EMeetingTimeSelectorHours[24];
+/* An array of hour strings for 12 hour time, "12:00am" .. "11:00pm". */
+extern const gchar *EMeetingTimeSelectorHours12[24];
 
 
 #define E_MEETING_TIME_SELECTOR(obj)          GTK_CHECK_CAST (obj, e_meeting_time_selector_get_type (), EMeetingTimeSelector)

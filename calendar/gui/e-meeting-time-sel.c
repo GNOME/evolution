@@ -65,11 +65,19 @@
 #include "calendar-config.h"
 #include "e-meeting-time-sel-item.h"
 
-/* An array of hour strings, "0:00" .. "23:00". */
+/* An array of hour strings for 24 hour time, "0:00" .. "23:00". */
 const gchar *EMeetingTimeSelectorHours[24] = {
 	"0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", 
 	"8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", 
 	"16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"
+};
+
+/* An array of hour strings for 12 hour time, "12:00am" .. "11:00pm". */
+const gchar *EMeetingTimeSelectorHours12[24] = {
+	"12:00am", "1:00am", "2:00am", "3:00am", "4:00am", "5:00am", "6:00am", 
+	"7:00am", "8:00am", "9:00am", "10:00am", "11:00am", "12:00pm", 
+	"1:00pm", "2:00pm", "3:00pm", "4:00pm", "5:00pm", "6:00pm", "7:00pm",
+	"8:00pm", "9:00pm", "10:00pm", "11:00pm"
 };
 
 /* The number of days shown in the entire canvas. */
@@ -293,8 +301,8 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	mts->meeting_positions_valid = FALSE;
 
 	mts->row_height = 19;
-	mts->col_width = 50;
-	mts->day_width = 50 * 24 + 1;
+	mts->col_width = 55;
+	mts->day_width = 55 * 24 + 1;
 
 	mts->auto_scroll_timeout_id = 0;
 
