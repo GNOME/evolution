@@ -1,5 +1,10 @@
 2001-04-26  JP Rosevear  <jpr@ximian.com>
 
+	 * gui/e-meeting-edit.c (edit_attendee): use enums not hard code
+	 values
+	
+2001-04-26  JP Rosevear  <jpr@ximian.com>
+
 	* gui/e-meeting-edit.c (add_button_clicked_cb):
 	icalparameter_new_rsvp now takes an enum
 

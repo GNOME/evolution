@@ -327,7 +327,7 @@ edit_attendee (icalproperty *prop, gpointer data)
 
 		for (cntr = 0; cntr < 5; cntr++) {
 			if (strncmp (text, role_values[cntr], 3) == 0) {
-				param = icalparameter_new_role (cntr);
+				param = icalparameter_new_role (ICAL_ROLE_CHAIR + cntr);
 				break;
 			}
 		}
