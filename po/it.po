@@ -6721,3 +6721,7 @@ msgstr "Gruppo %i"
 
 #~ msgid "_Source"
 #~ msgstr "_Sorgente"
+
+#: evolution.desktop.in:4
+msgid "The Evolution groupware suite"
+msgstr "La suite di produttivita' personale Evolution"

@@ -1,3 +1,24 @@
+2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
+
+	Really use xml-i18n-tools.
+	
+	* conduits/calendar/e-calendar-conduit-control-applet.desktop,
+	conduits/todo/e-todo-conduit-control-applet.desktop: removed.
+	
+	* conduits/calendar/e-calendar-conduit-control-applet.desktop.in,
+	conduits/todo/e-todo-conduit-control-applet.desktop.in: added empty.
+
+	* conduits/calendar/Makefile.am, conduits/todo/Makefile.am:
+	reflect above changes, merge translations.
+	
+	* gui/*.glade.h, gui/dialogs/*.glade.h: removed, xml-i18n-extract
+	takes care of strings itself.
+
+	* gui/*.glade, gui/dialogs/*.glade: do not output_translatable_strings
+
+	* gui/Makefile.am, gui/dialogs/Makefile.am: do not include removed
+	files in EXTRA_DIST.
+
 2001-02-08  JP Rosevear  <jpr@ximian.com>
 
 	* cal-util/cal-component.c (cal_component_set_url): Don't try and

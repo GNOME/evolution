@@ -1,3 +1,25 @@
+2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
+
+	Really use xml-i18n-tools.
+	
+	* conduit/e-address-conduit-control-applet.desktop: removed.
+	* conduit/e-address-conduit-control-applet.desktop.in: added empty.
+	* conduit/Makefile.am: reflect above changes, merge translations.
+	
+	* contact-editor/e-contact-editor-strings.h,
+	contact-editor/fulladdr.glade.h, contact-editor/fullname-strings.h,
+	contact-editor/e-contact-editor-confirm-delete.glade.h,
+	gui/component/select-names/select-names.glade.h:
+	removed these files, xml-i18n-extract takes care of strings itself.
+	
+	* contact-editor/*.glade, gui/component/select-names/select-names.glade,
+	gui/widgets/alphabet.glade, printing/e-contact-print.glade:
+	changed project options to not output_translatable_strings.
+	
+	* contact-editor/Makefile.am, gui/widgets/Makefile.am,
+	gui/component/select-names/Makefile.am, printing/Makefile.am:
+	do not include removed files in EXTRA_DIST.
+
 2001-02-05  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/addressbook-config.c (table_add_elem): Save the

@@ -66,7 +66,6 @@ glade_DATA = select-names.glade
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
-	select-names.glade.h	\
 	$(oaf_DATA)		\
 	$(IDLS)
 

@@ -45,12 +45,6 @@ glade_DATA = 					\
 	e-itip-control.glade			\
 	goto-dialog.glade
 
-glade_messages = 				\
-	event-editor-dialog.glade.h		\
-	e-meeting-dialog.glade.h		\
-	e-itip-control.glade.h			\
-	goto-dialog.glade.h
-
 evolution_calendar_SOURCES =			\
 	$(IDL_GENERATED)			\
 	alarm.c					\
@@ -142,7 +136,6 @@ oaf_DATA = GNOME_Evolution_Calendar_Control.oafinfo GNOME_Evolution_Calendar.oaf
 
 EXTRA_DIST =	 			\
 	$(glade_DATA)			\
-	$(glade_messages)		\
 	bell.xpm			\
 	check-filled.xpm		\
 	dayview.xpm			\

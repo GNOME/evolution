@@ -1,0 +1,6 @@
+[Desktop Entry]
+_Name=Evolution ToDo conduit 
+_Comment=Configure the todo conduit
+Exec=e-todo-conduit-control-applet --cap-id=1
+Terminal=0
+Type=Application

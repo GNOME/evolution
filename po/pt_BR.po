@@ -7572,3 +7572,7 @@ msgstr "init_corba(): não foi possível iniciar GNOME"
 #: wombat/wombat.c:207
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): não foi possível iniciar Bonobo"
+
+#: evolution.desktop.in:4
+msgid "The Evolution groupware suite"
+msgstr "Suíte do grupo Evolution"

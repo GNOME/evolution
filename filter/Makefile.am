@@ -71,7 +71,7 @@ libfilter_la_SOURCES =				\
 libfilter_la_DEPENDENCIES = libfilter-i18n.h
 
 EXTRA_DIST = filtertypes.xml vfoldertypes.xml \
-	filter.glade filter.glade.h libfilter-i18n.h
+	$(glade_DATA) libfilter-i18n.h
 
 # basic rules.
 filterdir = $(datadir)/evolution

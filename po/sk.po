@@ -7247,3 +7247,31 @@ msgstr "%I:%M %p"
 msgid "Sear_ch"
 msgstr "_Nájs»"
 
+
+#: evolution.desktop.in:4
+msgid "The Evolution groupware suite"
+msgstr "Sada groupwarových nástrojov Evolution"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in:3
+msgid "Evolution Address conduit "
+msgstr "Spojka adresára Evolution"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in:4
+msgid "Configure the address conduit"
+msgstr "Nastavenie spojky adresára"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in:3
+msgid "Evolution Calendar conduit"
+msgstr "Spojka kalendára Evolution"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in:4
+msgid "Configure the GnomeCal conduit"
+msgstr "Nastavenie spojky GnomeCal"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in:3
+msgid "Evolution ToDo conduit "
+msgstr "Spojka ToDo Evolution"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in:4
+msgid "Configure the todo conduit"
+msgstr "Nastavenie spojky todo"

@@ -1,0 +1,7 @@
+[Desktop Entry]
+_Name=Evolution Calendar conduit
+_Comment=Configure the GnomeCal conduit
+Exec=e-calendar-conduit-control-applet --cap-id=1
+Terminal=0
+Type=Application
+Icon=gnome-calendar-conduit.png

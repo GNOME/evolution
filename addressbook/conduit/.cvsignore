@@ -6,3 +6,4 @@ Makefile
 libeaddress_conduit.la
 e-address-conduit-control-applet
 e-address.conduit
+e-address-conduit-control-applet.desktop

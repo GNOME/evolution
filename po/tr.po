@@ -7690,3 +7690,31 @@ msgstr "init_corba(): GNOME baþlatýlamadý"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Bonobo baþlatýlamadý"
 
+
+#: evolution.desktop.in:4
+msgid "The Evolution groupware suite"
+msgstr "Evolution kitlesel iþlemler uygulamasý"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in:3
+msgid "Evolution Address conduit "
+msgstr "Adres parçasý"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in:4
+msgid "Configure the address conduit"
+msgstr "Adres parçasýnýn ayarlarý"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in:3
+msgid "Evolution Calendar conduit"
+msgstr "Takvim parçasý"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in:4
+msgid "Configure the GnomeCal conduit"
+msgstr "GnomeCal takvim parçasý ayarlarý"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in:3
+msgid "Evolution ToDo conduit "
+msgstr "Yapýlacaklar parçasý"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in:4
+msgid "Configure the todo conduit"
+msgstr "Yapýlacaklar parçasý ayarlarý"
