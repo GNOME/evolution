@@ -1,3 +1,10 @@
+2001-07-10  Federico Mena Quintero  <federico@ximian.com>
+
+	* mail-display.c (link_copy_location): Set the CLIPBOARD
+	selection as well as the primary selection so that Edit/Paste will
+	work in other programs (e.g. Netscape).
+	(mail_display_new): Add the target for the CLIPBOARD selection.
+
 2001-07-10  Jason Leach  <jleach@ximian.com>
 
 	[Bug #4305: Make the automatic mark-as-read timer optional]

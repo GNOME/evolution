@@ -1359,11 +1359,25 @@ link_save_as (GtkWidget *w, MailDisplay *mail_display)
 static void
 link_copy_location (GtkWidget *w, MailDisplay *mail_display)
 {
+	GdkAtom clipboard_atom;
+
 	g_free (mail_display->selection);
 	mail_display->selection = g_strdup (mail_display->html->pointer_url);
- 
-	if (! gtk_selection_owner_set (GTK_WIDGET (mail_display->invisible), GDK_SELECTION_PRIMARY, GDK_CURRENT_TIME))
-		g_warning ("Damn");
+
+	clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+	if (clipboard_atom == GDK_NONE)
+		return; /* failed */
+
+	/* We don't check the return values of the following since there is not
+	 * much we can do if we cannot assert the selection.
+	 */
+
+	gtk_selection_owner_set (GTK_WIDGET (mail_display->invisible),
+				 GDK_SELECTION_PRIMARY,
+				 GDK_CURRENT_TIME);
+	gtk_selection_owner_set (GTK_WIDGET (mail_display->invisible),
+				 clipboard_atom,
+				 GDK_CURRENT_TIME);
 }
 
 static void
@@ -1831,6 +1845,7 @@ mail_display_new (void)
 {
 	MailDisplay *mail_display = gtk_type_new (mail_display_get_type ());
 	GtkWidget *scroll, *html;
+	GdkAtom clipboard_atom;
 
 	gtk_box_set_homogeneous (GTK_BOX (mail_display), FALSE);
 	gtk_widget_show (GTK_WIDGET (mail_display));
@@ -1879,6 +1894,11 @@ mail_display_new (void)
 
 	gtk_selection_add_target (mail_display->invisible,
 				  GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 1);
+
+	clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+	if (clipboard_atom != GDK_NONE)
+		gtk_selection_add_target (mail_display->invisible,
+					  clipboard_atom, GDK_SELECTION_TYPE_STRING, 1);
 
 	mail_display->scroll = E_SCROLL_FRAME (scroll);
 	mail_display->html = GTK_HTML (html);
