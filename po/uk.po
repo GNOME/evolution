@@ -2508,14 +2508,12 @@ msgstr "Стерти"
 #: addressbook/gui/widgets/e-addressbook-table-adapter.c:128
 #: addressbook/gui/widgets/e-addressbook-util.c:68
 #: addressbook/gui/widgets/e-minicard.c:452
-#, fuzzy
 msgid "Error modifying card"
-msgstr "Помилка завантаження %s"
+msgstr "Помилка модиф╕кац╕╖ картки"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:34
-#, fuzzy
 msgid "Success"
-msgstr "Джерела"
+msgstr "Усп╕шно"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:35
 #: camel/providers/imap/camel-imap-command.c:340 shell/e-shell.c:1712
@@ -2542,9 +2540,8 @@ msgid "Card ID already exists"
 msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:40
-#, fuzzy
 msgid "Protocol not supported"
-msgstr "Операц╕я не п╕дтриму╓ться"
+msgstr "Протокол не п╕дтриму╓ться"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:41
 #: calendar/gui/calendar-model.c:726 calendar/gui/calendar-model.c:1247
@@ -2552,38 +2549,32 @@ msgstr "Операц╕я не п╕дтриму╓ться"
 #: calendar/gui/e-calendar-table.c:461 camel/camel-service.c:603
 #: camel/camel-service.c:639
 msgid "Cancelled"
-msgstr "В╕дм╕нено"
+msgstr "Скасовано"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:42
-#, fuzzy
 msgid "Other error"
-msgstr "Помилка вводу/виводу"
+msgstr "╤нша помилка"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:59
-#, fuzzy
 msgid "Error adding list"
-msgstr "Помилка завантаження %s"
+msgstr "Помилка додавання списку"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:59
-#, fuzzy
 msgid "Error adding card"
-msgstr "Помилка завантаження %s"
+msgstr "Помилка додавання картки"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:68
-#, fuzzy
 msgid "Error modifying list"
-msgstr "Помилка завантаження %s"
+msgstr "Помилка модиф╕кування списку"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:78
-#, fuzzy
 msgid "Error removing list"
-msgstr "Помилка завантаження %s"
+msgstr "Помилка видалення списку"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:78
 #: addressbook/gui/widgets/e-addressbook-view.c:1297
-#, fuzzy
 msgid "Error removing card"
-msgstr "Помилка зчитування файлу пошти: %s"
+msgstr "Помилка видалення картки"
 
 #. Translators: put here a list of labels you want to see on buttons in
 #. addressbook. You may use any character to separate labels but it must
@@ -2703,7 +2694,6 @@ msgid "Dimensions:"
 msgstr "Розм╕ри:"
 
 #: addressbook/printing/e-contact-print.glade.h:7
-#, fuzzy
 msgid "F_ont..."
 msgstr "Шрифт..."
 
@@ -2844,7 +2834,6 @@ msgid "Width:"
 msgstr "Ширина:"
 
 #: addressbook/printing/e-contact-print.glade.h:42
-#, fuzzy
 msgid "_Font..."
 msgstr "Шрифт..."
 
@@ -2855,13 +2844,11 @@ msgstr "Надрукувати календар"
 
 #: addressbook/printing/e-contact-print.c:1152
 #: addressbook/printing/e-contact-print.c:1174
-#, fuzzy
 msgid "Print card"
-msgstr "Надрукувати календар"
+msgstr "Надрукувати картку"
 
 #: addressbook/printing/e-contact-print-envelope.c:216
 #: addressbook/printing/e-contact-print-envelope.c:237
-#, fuzzy
 msgid "Print envelope"
 msgstr "Надрукувати конверт"
 
@@ -3003,27 +2990,24 @@ msgstr ""
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ui/evolution-comp-editor.xml.h:1
-#, fuzzy
 msgid "C_lose"
 msgstr "Закрити"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#, fuzzy
 msgid "Snoo_ze"
-msgstr "Сон"
+msgstr "Показати п╕зн╕ше"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "Snooze time (minutes)"
 msgstr "Час сну (в хвилинах)"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#, fuzzy
 msgid "_Edit appointment"
 msgstr "Виправити зустр╕ч"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:629
 msgid "No description available."
-msgstr ""
+msgstr "Нема╓ опису."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:689
 msgid ""
@@ -3248,9 +3232,8 @@ msgid "Summary contains"
 msgstr "Зведення м╕стить"
 
 #: calendar/gui/cal-search-bar.c:57
-#, fuzzy
 msgid "Description contains"
-msgstr "Опис:"
+msgstr "Опис м╕стить"
 
 #: calendar/gui/cal-search-bar.c:58
 msgid "Comment contains"
@@ -3285,7 +3268,6 @@ msgid "Create a new appointment"
 msgstr "Створити нову зустр╕ч"
 
 #: calendar/gui/component-factory.c:582 calendar/gui/e-day-view.c:3422
-#, fuzzy
 msgid "New _Appointment"
 msgstr "Нова зустр╕ч"
 
@@ -3295,7 +3277,6 @@ msgid "Create a new task"
 msgstr "Створити нову завдання"
 
 #: calendar/gui/component-factory.c:588
-#, fuzzy
 msgid "New _Task"
 msgstr "Нове завдання"
 
@@ -3643,12 +3624,10 @@ msgid "Show week _numbers in date navigator"
 msgstr "Показати номера тижн╕в"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#, fuzzy
 msgid "Sta_rt of day:"
 msgstr "Початок дня:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
-#, fuzzy
 msgid "Su_n"
 msgstr "Ндл"
 
@@ -3658,12 +3637,10 @@ msgid "Sunday"
 msgstr "Нед╕ля"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#, fuzzy
 msgid "T_hu"
 msgstr "Чтв"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#, fuzzy
 msgid "T_ue"
 msgstr "Втр"
 
@@ -3677,19 +3654,14 @@ msgid "Thursday"
 msgstr "Четвер"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
-#, fuzzy
 msgid "Time"
-msgstr "Титул:"
+msgstr "Час"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-#, fuzzy
 msgid "Time _zone:"
-msgstr ""
-"\n"
-"Часовий пояс: "
+msgstr "Часовий пояс:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
-#, fuzzy
 msgid "Time di_visions:"
 msgstr "Розд╕лювач╕ часу:"
 
@@ -3709,19 +3681,16 @@ msgstr "Середа"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 #: ui/evolution-calendar.xml.h:33
-#, fuzzy
 msgid "Work Week"
 msgstr "Робочий тиждень"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
-#, fuzzy
 msgid "_12 hour (AM/PM)"
-msgstr "12 годин (дп/пп)"
+msgstr "_12 годин (дп/пп)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
-#, fuzzy
 msgid "_24 hour"
-msgstr "24 години"
+msgstr "_24 години"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "_Ask for confirmation when deleting items"
@@ -3737,12 +3706,10 @@ msgid "_Display"
 msgstr "День"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
-#, fuzzy
 msgid "_End of day:"
 msgstr "К╕нець дня:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#, fuzzy
 msgid "_Fri"
 msgstr "Птн"
 
@@ -3757,7 +3724,6 @@ msgid "_Hide completed tasks after"
 msgstr "Прибрати стерт╕ пов╕домлення"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
-#, fuzzy
 msgid "_Mon"
 msgstr "Пнд"
 
@@ -3767,24 +3733,20 @@ msgid "_Other"
 msgstr "╤нша"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-#, fuzzy
 msgid "_Sat"
 msgstr "Сбт"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
-#, fuzzy
 msgid "_Task List"
-msgstr "Завдання"
+msgstr "Список завдань"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
-#, fuzzy
 msgid "_Wed"
 msgstr "Срд"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
-#, fuzzy
 msgid "before the start of the appointment"
-msgstr " перед початком зустр╕ч╕"
+msgstr "Перед початком зустр╕ч╕"
 
 #: calendar/gui/dialogs/cancel-comp.c:52
 msgid "The meeting status has changed. Send an updated version?"
@@ -3807,15 +3769,15 @@ msgstr "Ви впевнен╕, що хочете стерти запис в журнал╕ \"%s\"?"
 
 #: calendar/gui/dialogs/changed-comp.c:60
 msgid "This event has been deleted."
-msgstr ""
+msgstr "Цю под╕ю було видалено."
 
 #: calendar/gui/dialogs/changed-comp.c:64
 msgid "This task has been deleted."
-msgstr ""
+msgstr "Це завдання було видалено."
 
 #: calendar/gui/dialogs/changed-comp.c:68
 msgid "This journal entry has been deleted."
-msgstr ""
+msgstr "Цей журнальний запис було видалено."
 
 #: calendar/gui/dialogs/changed-comp.c:77
 #, c-format
@@ -3829,15 +3791,15 @@ msgstr ""
 
 #: calendar/gui/dialogs/changed-comp.c:84
 msgid "This event has been changed."
-msgstr ""
+msgstr "Цю под╕ю було зм╕нено."
 
 #: calendar/gui/dialogs/changed-comp.c:88
 msgid "This task has been changed."
-msgstr ""
+msgstr "Це завдання було зм╕нено."
 
 #: calendar/gui/dialogs/changed-comp.c:92
 msgid "This journal entry has been changed."
-msgstr ""
+msgstr "Цей журнальний запис було зм╕нено."
 
 #: calendar/gui/dialogs/changed-comp.c:101
 #, c-format
