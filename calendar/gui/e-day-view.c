@@ -4475,6 +4475,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 					num_icons++;
 			}
 			e_cal_component_free_categories_list (categories_list);
+			g_object_unref(comp);
 		}
 
 		if (num_icons > 0) {

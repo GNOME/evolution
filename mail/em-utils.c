@@ -304,7 +304,7 @@ emu_get_save_filesel (GtkWidget *parent, const char *title, const char *name)
 {
 	GtkWidget *filesel;
 	const char *dir;
-	char *realname, *filename, *gdir;
+	char *realname, *gdir;
 	GConfClient *gconf;
 
 #ifdef USE_GTKFILECHOOSER
@@ -316,6 +316,8 @@ emu_get_save_filesel (GtkWidget *parent, const char *title, const char *name)
 					       NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
 #else
+	char *filename;
+
 	filesel = gtk_file_selection_new (title);
 #endif
 	

@@ -472,6 +472,7 @@ setup_widgets (ESendOptionsDialog *sod, Item_type type)
 	priv = sod->priv;
 
 	if (!priv->gopts_needed) {
+		gtk_notebook_set_show_tabs (priv->notebook, FALSE);
 		gtk_notebook_set_current_page (priv->notebook, 1);	
 		gtk_widget_hide (priv->delay_until);
 	} else

@@ -31,6 +31,8 @@ struct _MailImporter {
 	gboolean frozen; /* Is folder frozen? */
 };
 
+struct _MailComponent;
+
 void mail_importer_init (struct _MailComponent *mc);
 void mail_importer_uninit (void);
 

@@ -168,7 +168,7 @@ emis_sync_close(CamelStream *stream)
 
 	pixbuf = gdk_pixbuf_loader_get_pixbuf(emis->loader);
 	if (pixbuf == NULL) {
-		printf("couldn't get pixbuf from loader\n");
+		d(printf("couldn't get pixbuf from loader\n"));
 		emis_cleanup(emis);
 		return -1;
 	}

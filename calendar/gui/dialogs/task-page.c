@@ -287,10 +287,6 @@ task_page_show_options (TaskPage *page)
 	g_return_if_fail (IS_TASK_PAGE (page));
 	
 	gtk_widget_show (page->priv->sendoptions_frame);
-
-	if (e_cal_get_static_capability (COMP_EDITOR_PAGE (page)->client, CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS))
-		e_sendoptions_set_need_general_options (page->priv->sod, FALSE);
-	
 	page->priv->sendoptions_shown = TRUE;
 }
 
@@ -910,6 +906,11 @@ e_sendoptions_clicked_cb (GtkWidget *button, gpointer data)
 		priv->sod->data->initialized = TRUE;
 		source = e_source_option_menu_peek_selected  (E_SOURCE_OPTION_MENU (priv->source_selector));
 		e_sendoptions_utils_set_default_data (priv->sod, source, "task");
+	}
+	
+	if (e_cal_get_static_capability (COMP_EDITOR_PAGE (tpage)->client, 
+					 CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS)) {
+		e_sendoptions_set_need_general_options (priv->sod, FALSE);
 	}
 	
 	toplevel = gtk_widget_get_toplevel (priv->main);

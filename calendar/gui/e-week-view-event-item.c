@@ -721,6 +721,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 	}
 
 	e_cal_component_free_categories_list (categories_list);
+	g_object_unref(comp);
 
 	gdk_gc_set_clip_mask (gc, NULL);
 }

@@ -52,6 +52,7 @@
 #include "em-filter-editor.h"
 #include "filter/filter-option.h"
 
+#define d(x)
 
 static void
 rule_match_recipients (RuleContext *context, FilterRule *rule, CamelInternetAddress *iaddr)
@@ -385,7 +386,7 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 	
 	changed = rule_context_rename_uri((RuleContext *)fc, eolduri, enewuri, g_str_equal);
 	if (changed) {
-		printf("Folder rename '%s' -> '%s' changed filters, resaving\n", olduri, newuri);
+		d(printf("Folder rename '%s' -> '%s' changed filters, resaving\n", olduri, newuri));
 		if (rule_context_save((RuleContext *)fc, user) == -1)
 			g_warning("Could not write out changed filter rules\n");
 		rule_context_free_uri_list((RuleContext *)fc, changed);
@@ -431,7 +432,7 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 		g_string_free(s, TRUE);
 		gtk_widget_show(dialog);
 		
-		printf("Folder deleterename '%s' changed filters, resaving\n", euri);
+		d(printf("Folder delete/rename '%s' changed filters, resaving\n", euri));
 		if (rule_context_save ((RuleContext *) fc, user) == -1)
 			g_warning ("Could not write out changed filter rules\n");
 		rule_context_free_uri_list ((RuleContext *) fc, deleted);

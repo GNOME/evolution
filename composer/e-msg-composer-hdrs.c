@@ -83,6 +83,7 @@
 typedef struct {
 	GtkWidget *label;
 	GtkWidget *entry;
+	int visible:1;
 } EMsgComposerHdrPair;
 
 struct _EMsgComposerHdrsPrivate {
@@ -676,6 +677,8 @@ set_pair_visibility (EMsgComposerHdrs *h, EMsgComposerHdrPair *pair, int visible
 		gtk_widget_hide (pair->label);
 		gtk_widget_hide (pair->entry);
 	}
+
+	pair->visible = TRUE;
 }
 
 static void
@@ -1000,7 +1003,7 @@ e_msg_composer_hdrs_to_message_internal (EMsgComposerHdrs *hdrs,
 	CamelInternetAddress *addr;
 	const char *subject;
 	char *header;
-	
+
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
 	
@@ -1023,7 +1026,7 @@ e_msg_composer_hdrs_to_message_internal (EMsgComposerHdrs *hdrs,
 		camel_object_unref (addr);
 	}
 	
-	if (hdrs->visible_mask & E_MSG_COMPOSER_VISIBLE_MASK_RECIPIENTS) {
+	if (hdrs->priv->to.visible || hdrs->priv->cc.visible || hdrs->priv->bcc.visible) {
 		to_destv  = e_msg_composer_hdrs_get_to (hdrs);
 		cc_destv  = e_msg_composer_hdrs_get_cc (hdrs);
 		bcc_destv = e_msg_composer_hdrs_get_bcc (hdrs);
@@ -1037,13 +1040,17 @@ e_msg_composer_hdrs_to_message_internal (EMsgComposerHdrs *hdrs,
 		e_destination_freev (bcc_destv);
 	}
 	
-#if 0
-	if (hdrs->visible_mask & E_MSG_COMPOSER_VISIBLE_POSTTO) {
-		header = e_msg_composer_hdrs_get_post_to (hdrs);
-		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-PostTo", header);
-		g_free (header);
+	if (hdrs->priv->post_to.visible) {
+		GList *post, *l;
+
+		camel_medium_remove_header((CamelMedium *)msg, "X-Evolution-PostTo");
+		post = e_msg_composer_hdrs_get_post_to(hdrs);
+		for (l=post;l;l=g_list_next(l)) {
+			camel_medium_add_header((CamelMedium *)msg, "X-Evolution-PostTo", l->data);
+			g_free(l->data);
+		}
+		g_list_free(post);
 	}
-#endif
 }
 
 

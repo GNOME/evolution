@@ -1,3 +1,91 @@
+2005-03-10  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #73293
+
+	* message-list.c (main_folder_changed): emit a 'list built' signal
+	if we just modified it too.
+
+2005-03-10  Vivek Jain  <jvivek@novell.com>
+	
+	**fixes bug #73139
+	* em-folder-tree.c (render_pixbuf):change the shared-folder icon names 
+	to the names in gnome-icon-theme 
+
+2005-03-03  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #66592
+
+	* mail-tools.c (mail_tool_make_message_attachment): jus call
+	camel_medium_remove_header to remove the bcc header, don't need to
+	loop.
+
+	* mail-ops.c (mail_send_message): try to find the account by uid
+	first, fall back to name.
+
+	* em-composer-utils.c (composer_get_message): set
+	x-evolution-account by uid, not name.
+
+2005-03-02  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #66592
+
+	* em-composer-utils.c (got_post_folder): no longer needed.
+	(composer_get_message): remove 'post' and 'no_recipeints' args.
+
+	* mail-ops.c (mail_send_message): change for xev changes. Also
+	handle postto if set.
+
+	* mail-tools.c (mail_tool_remove_xevolution_headers) 
+	(mail_tool_restore_xevolution_headers): fix for api change.
+	(mail_tool_destroy_xevolution): remove.
+
+	* mail-tools.h: remove XEvolution, just use a struct _header_raw
+	for it.
+
+	* em-composer-utils.c (em_utils_composer_send_cb): don't post
+	message here, just queue it like any other outgoing mail.
+
+2005-03-02  Not Zed  <NotZed@Ximian.com>
+
+	** See "bug" 73100
+
+	* mail-dialogs.glade: empty out the license_top_label text, it is
+	always overwriten by the code.
+
+2005-03-01  Not Zed  <NotZed@Ximian.com>
+
+	* message-list.c: include atkutil.h
+	(message_list_construct): cast warning.
+
+	* mail-session.c (mail_session_set_interactive): remove unused
+	variable since we can no longer terminate password requests.
+
+	* mail-autofilter.c (em_vfolder_rule_from_address): properly
+	define in header.
+
+	* em-utils.c (emu_get_save_filesel): only define filename in the
+	!gtkfilechooser case.
+
+	* em-mailer-prefs.c (restore_labels_clicked): cast for warning.
+	(em_mailer_prefs_construct): same.
+
+	* em-format-html.c (efh_format_header): remove unused variable.
+
+	* em-account-editor.c (emae_widget_druid_glade): remove unused
+	variable.
+
+	* importers/mail-importer.h: forward-delcare struct
+	_MailComponent.
+
+	* *c: remove/disable various debug.
+
+2005-03-02  Harry Lu <harry.lu@sun.com>
+
+	Fix for 71733.
+
+	* mail-signature-editor.c: (mail_signature_editor): if is_new,
+	let name_entry get the focus.
+
 2005-02-28  JP Rosevear  <jpr@novell.com>
 
 	* em-utils.c (em_utils_configure_account): pass in accountDruid

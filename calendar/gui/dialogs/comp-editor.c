@@ -2004,6 +2004,9 @@ comp_editor_notify_client_changed (CompEditor *editor, ECal *client)
 	priv = editor->priv;
 
 	priv->changed = TRUE;
+	
+	g_object_unref (priv->client);
+	priv->client = client;
 
 	comp_editor_set_e_cal (editor, client);
 	for (l = priv->pages; l != NULL; l = l->next)

@@ -228,18 +228,19 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 }
 
 static CamelMimeMessage *
-composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_object_data, gboolean *no_recipients)
+composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 {
 	CamelMimeMessage *message = NULL;
 	EDestination **recipients, **recipients_bcc;
 	gboolean send_html, confirm_html;
 	CamelInternetAddress *cia;
 	int hidden = 0, shown = 0;
-	int num = 0, num_bcc = 0;
+	int num = 0, num_bcc = 0, num_post = 0;
 	const char *subject;
 	GConfClient *gconf;
 	EAccount *account;
 	int i;
+	GList *postlist;
 	
 	gconf = mail_config_get_gconf_client ();
 	
@@ -291,16 +292,16 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	}
 	
 	camel_object_unref (cia);
+
+	postlist = e_msg_composer_hdrs_get_post_to((EMsgComposerHdrs *) composer->hdrs);
+	num_post = g_list_length(postlist);
+	g_list_foreach(postlist, (GFunc)g_free, NULL);
+	g_list_free(postlist);
 	
 	/* I'm sensing a lack of love, er, I mean recipients. */
-	if (num == 0) {
-		if (post) {
-			if (no_recipients)
-				*no_recipients = TRUE;
-		} else {
-			e_error_run((GtkWindow *)composer, "mail:send-no-recipients", NULL);
-			goto finished;
-		}
+	if (num == 0 && num_post == 0) {
+		e_error_run((GtkWindow *)composer, "mail:send-no-recipients", NULL);
+		goto finished;
 	}
 	
 	if (num > 0 && (num == num_bcc || shown == 0)) {
@@ -348,7 +349,8 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	account = e_msg_composer_get_preferred_account (composer);
 	
 	if (account) {
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Account", account->name);
+		/* FIXME: Why isn't this crap just in e_msg_composer_get_message? */
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Account", account->uid);
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", account->sent_folder_uri);
 		if (account->id->organization && *account->id->organization) {
@@ -368,101 +370,37 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	return message;
 }
 
-static void
-got_post_folder (char *uri, CamelFolder *folder, void *data)
-{
-	CamelFolder **fp = data;
-	
-	*fp = folder;
-	
-	if (folder)
-		camel_object_ref (folder);
-}
-
 void
 em_utils_composer_send_cb (EMsgComposer *composer, gpointer user_data)
 {
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
 	struct _send_data *send;
-	gboolean no_recipients = FALSE;
-	CamelFolder *mail_folder = NULL, *tmpfldr;
-	GList *post_folders = NULL, *post_ptr;
-	XEvolution *xev;
-	GList *postlist;
-	
-	postlist = e_msg_composer_hdrs_get_post_to ((EMsgComposerHdrs *) composer->hdrs);
-	while (postlist) {
-		mail_msg_wait (mail_get_folder (postlist->data, 0, got_post_folder, &tmpfldr, mail_thread_new));
-		if (tmpfldr)
-			post_folders = g_list_append (post_folders, tmpfldr);
-		postlist = g_list_next (postlist);
-	}
-	
+	CamelFolder *mail_folder;
+
+	if (!(message = composer_get_message (composer, FALSE)))
+		return;
+
 	mail_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
 	camel_object_ref (mail_folder);
 	
-	if (!post_folders && !mail_folder)
-		return;
-	
-	if (!(message = composer_get_message (composer, post_folders != NULL, FALSE, &no_recipients)))
-		return;
-	
-	if (no_recipients) {
-		/* we're doing a post with no recipients */
-		camel_object_unref (mail_folder);
-		mail_folder = NULL;
-	}
-	
-	if (mail_folder) {
-		/* mail the message */
-		info = camel_message_info_new(NULL);
-		camel_message_info_set_flags(info, CAMEL_MESSAGE_SEEN, ~0);
+	/* mail the message */
+	info = camel_message_info_new(NULL);
+	camel_message_info_set_flags(info, CAMEL_MESSAGE_SEEN, ~0);
 		
-		send = g_malloc (sizeof (*send));
-		send->emcs = user_data;
-		if (send->emcs)
-			emcs_ref (send->emcs);
-		send->send = TRUE;
-		send->composer = composer;
-		g_object_ref (composer);
-		gtk_widget_hide (GTK_WIDGET (composer));
+	send = g_malloc (sizeof (*send));
+	send->emcs = user_data;
+	if (send->emcs)
+		emcs_ref (send->emcs);
+	send->send = TRUE;
+	send->composer = composer;
+	g_object_ref (composer);
+	gtk_widget_hide (GTK_WIDGET (composer));
+
+	e_msg_composer_set_enable_autosave (composer, FALSE);
 		
-		e_msg_composer_set_enable_autosave (composer, FALSE);
-		
-		mail_append_mail (mail_folder, message, info, composer_send_queued_cb, send);
-		camel_object_unref (mail_folder);
-	}
-	
-	if (post_folders) {
-		/* Remove the X-Evolution* headers if we are in Post-To mode */
-		xev = mail_tool_remove_xevolution_headers (message);
-		mail_tool_destroy_xevolution (xev);
-		
-		/* mail the message */
-		info = camel_message_info_new(NULL);
-		camel_message_info_set_flags(info, CAMEL_MESSAGE_SEEN, ~0);
-		
-		post_ptr = post_folders;
-		while (post_ptr) {
-			send = g_malloc (sizeof (*send));
-			send->emcs = user_data;
-			if (send->emcs)
-				emcs_ref (send->emcs);
-			send->send = FALSE;
-			send->composer = composer;
-			g_object_ref (composer);
-			gtk_widget_hide (GTK_WIDGET (composer));
-			
-			e_msg_composer_set_enable_autosave (composer, FALSE);
-			
-			mail_append_mail ((CamelFolder *) post_ptr->data, message, info, composer_send_queued_cb, send);
-			camel_object_unref ((CamelFolder *) post_ptr->data);
-			
-			post_ptr = g_list_next (post_ptr);
-		}
-	}
-	
+	mail_append_mail (mail_folder, message, info, composer_send_queued_cb, send);
+	camel_object_unref (mail_folder);
 	camel_object_unref (message);
 }
 

@@ -562,7 +562,7 @@ efh_object_requested(GtkHTML *html, GtkHTMLEmbedded *eb, EMFormatHTML *efh)
 		res = pobject->func(efh, eb, pobject);
 		e_dlist_addhead(&efh->pending_object_list, (EDListNode *)pobject);
 	} else {
-		printf("HTML Includes reference to unknown object '%s'\n", eb->classid);
+		d(printf("HTML Includes reference to unknown object '%s'\n", eb->classid));
 	}
 
 	return res;
@@ -1484,7 +1484,6 @@ efh_format_address (GString *out, struct _camel_header_address *a)
 static void
 efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct _camel_header_raw *header, guint32 flags, const char *charset)
 {
-	CamelMimeMessage *msg = (CamelMimeMessage *)part;
 	EMFormatHTML *efh = (EMFormatHTML *)emf;
 	char *name, *value = NULL, *p;
 	const char *label, *txt;
