@@ -903,6 +903,15 @@ static struct {
 };
 
 static void
+free_symbol(void *key, void *value, void *data)
+{
+	struct _ESExpSymbol *s = value;
+
+	g_free(s->name);
+	g_free(s);
+}
+
+static void
 e_sexp_finalise(GtkObject *o)
 {
 	ESExp *s = (ESExp *)o;
@@ -911,6 +920,9 @@ e_sexp_finalise(GtkObject *o)
 		parse_term_free(s->tree);
 		s->tree = NULL;
 	}
+
+	g_scanner_scope_foreach_symbol(s->scanner, 0, free_symbol, 0);
+	g_scanner_destroy(s->scanner);
 
 	((GtkObjectClass *)(parent_class))->finalize((GtkObject *)o);
 }

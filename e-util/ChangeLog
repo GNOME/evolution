@@ -1,3 +1,8 @@
+2000-05-11  NotZed  <NotZed@HelixCode.com>
+
+	* e-sexp.c (e_sexp_finalise): Destroy the g_scanner when cleaning up.
+	(e_sexp_finalise): Free symbol table on finalise.
+
 2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-canvas.c: Remove reflow idle when being destroyed.
