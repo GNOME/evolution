@@ -1,5 +1,16 @@
 2001-10-27  Chris Toshok  <toshok@ximian.com>
 
+	[ bug #12979 ]
+	* backend/pas/pas-backend-ldap.c (anniversary_populate): new
+	function.
+	(anniversary_ber): new function.
+	(anniversary_compare): new function.
+	(birthday_populate): new function.
+	(birthday_ber): new function.
+	(birthday_compare): new function.
+
+2001-10-27  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/e-select-names-completion.c
 	(e_select_names_completion_destroy): free up all the book_data
 	list stuff.

@@ -128,27 +128,35 @@ static ECardSimple *build_card_from_entry (LDAP *ldap, LDAPMessage *e);
 
 static void email_populate (ECardSimple *card, char **values);
 struct berval** email_ber (ECardSimple *card);
-gboolean email_compare (ECardSimple *ecard1, ECardSimple *ecard2);
+static gboolean email_compare (ECardSimple *ecard1, ECardSimple *ecard2);
 
 static void homephone_populate (ECardSimple *card, char **values);
 struct berval** homephone_ber (ECardSimple *card);
-gboolean homephone_compare (ECardSimple *ecard1, ECardSimple *ecard2);
+static gboolean homephone_compare (ECardSimple *ecard1, ECardSimple *ecard2);
 
 static void business_populate (ECardSimple *card, char **values);
 struct berval** business_ber (ECardSimple *card);
-gboolean business_compare (ECardSimple *ecard1, ECardSimple *ecard2);
+static gboolean business_compare (ECardSimple *ecard1, ECardSimple *ecard2);
+
+static void anniversary_populate (ECardSimple *card, char **values);
+struct berval** anniversary_ber (ECardSimple *card);
+static gboolean anniversary_compare (ECardSimple *ecard1, ECardSimple *ecard2);
+
+static void birthday_populate (ECardSimple *card, char **values);
+struct berval** birthday_ber (ECardSimple *card);
+static gboolean birthday_compare (ECardSimple *ecard1, ECardSimple *ecard2);
 
 struct prop_info {
 	ECardSimpleField field_id;
 	char *query_prop;
 	char *ldap_attr;
 #define PROP_TYPE_STRING   0x01
-#define PROP_TYPE_LIST     0x02
+#define PROP_TYPE_COMPLEX     0x02
 #define PROP_DN            0x04
 #define PROP_EVOLVE        0x08
 	int prop_type;
 
-	/* the remaining items are only used for the TYPE_LIST props */
+	/* the remaining items are only used for the TYPE_COMPLEX props */
 
 	/* used when reading from the ldap server populates ECard with the values in **values. */
 	void (*populate_ecard_func)(ECardSimple *card, char **values);
@@ -159,8 +167,8 @@ struct prop_info {
 
 } prop_info[] = {
 
-#define LIST_PROP(fid,q,a,ctor,ber,cmp) {fid, q, a, PROP_TYPE_LIST, ctor, ber, cmp}
-#define E_LIST_PROP(fid,q,a,ctor,ber,cmp) {fid, q, a, PROP_TYPE_LIST | PROP_EVOLVE, ctor, ber, cmp}
+#define COMPLEX_PROP(fid,q,a,ctor,ber,cmp) {fid, q, a, PROP_TYPE_COMPLEX, ctor, ber, cmp}
+#define E_COMPLEX_PROP(fid,q,a,ctor,ber,cmp) {fid, q, a, PROP_TYPE_COMPLEX | PROP_EVOLVE, ctor, ber, cmp}
 #define STRING_PROP(fid,q,a) {fid, q, a, PROP_TYPE_STRING}
 #define E_STRING_PROP(fid,q,a) {fid, q, a, PROP_TYPE_STRING | PROP_EVOLVE}
 
@@ -170,12 +178,12 @@ struct prop_info {
 	STRING_PROP (E_CARD_SIMPLE_FIELD_FAMILY_NAME, "family_name", "sn" ),
 
 	/* email addresses */
-	LIST_PROP   (E_CARD_SIMPLE_FIELD_EMAIL, "email", "mail", email_populate, email_ber, email_compare),
+	COMPLEX_PROP   (E_CARD_SIMPLE_FIELD_EMAIL, "email", "mail", email_populate, email_ber, email_compare),
 
 	/* phone numbers */
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_PRIMARY,      "primary_phone", "primaryPhone"),
-	LIST_PROP     (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS,     "business_phone", "telephoneNumber", business_populate, business_ber, business_compare),
-	LIST_PROP     (E_CARD_SIMPLE_FIELD_PHONE_HOME,         "home_phone", "homePhone", homephone_populate, homephone_ber, homephone_compare),
+	COMPLEX_PROP     (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS,     "business_phone", "telephoneNumber", business_populate, business_ber, business_compare),
+	COMPLEX_PROP     (E_CARD_SIMPLE_FIELD_PHONE_HOME,         "home_phone", "homePhone", homephone_populate, homephone_ber, homephone_compare),
 	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_MOBILE,       "mobile_phone", "mobile"),
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_CAR,          "car_phone", "carPhone"),
 	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, "business_fax", "facsimileTelephoneNumber"), 
@@ -211,8 +219,8 @@ struct prop_info {
 	STRING_PROP   (E_CARD_SIMPLE_FIELD_NICKNAME,    "nickname",  "displayName"),
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_SPOUSE,      "spouse", "spouseName"), 
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_NOTE,        "note", "note"), 
-	E_STRING_PROP (E_CARD_SIMPLE_FIELD_ANNIVERSARY, "anniversary", "anniversary"), 
-	E_STRING_PROP (E_CARD_SIMPLE_FIELD_BIRTH_DATE,  "birth_date", "birthDate"), 
+	E_COMPLEX_PROP (E_CARD_SIMPLE_FIELD_ANNIVERSARY, "anniversary", "anniversary", anniversary_populate, anniversary_ber, anniversary_compare), 
+	E_COMPLEX_PROP (E_CARD_SIMPLE_FIELD_BIRTH_DATE,  "birth_date", "birthDate", birthday_populate, birthday_ber, birthday_compare), 
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_MAILER,      "mailer", "mailer"), 
 
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_FILE_AS,     "file_as", "fileAs"),
@@ -224,8 +232,8 @@ struct prop_info {
 
 #undef E_STRING_PROP
 #undef STRING_PROP
-#undef E_LIST_PROP
-#undef LIST_PROP
+#undef E_COMPLEX_PROP
+#undef COMPLEX_PROP
 };
 
 static int num_prop_infos = sizeof(prop_info) / sizeof(prop_info[0]);
@@ -725,7 +733,7 @@ build_mods_from_ecards (PASBackendLDAP *bl, ECardSimple *current, ECardSimple *n
 				mod->mod_values[0] = new_prop;
 				mod->mod_values[1] = NULL;
 			}
-			else { /* PROP_TYPE_LIST */
+			else { /* PROP_TYPE_COMPLEX */
 				mod->mod_op |= LDAP_MOD_BVALUES;
 				mod->mod_bvalues = new_prop_bers;
 			}
@@ -1407,7 +1415,7 @@ email_ber(ECardSimple *card)
 	return result;
 }
 
-gboolean
+static gboolean
 email_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 {
 	const char *email1, *email2;
@@ -1473,7 +1481,7 @@ homephone_ber(ECardSimple *card)
 	return result;
 }
 
-gboolean
+static gboolean
 homephone_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 {
 	int phone_ids[2] = { E_CARD_SIMPLE_FIELD_PHONE_HOME, E_CARD_SIMPLE_FIELD_PHONE_HOME_2 };
@@ -1540,7 +1548,7 @@ business_ber(ECardSimple *card)
 	return result;
 }
 
-gboolean
+static gboolean
 business_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 {
 	int phone_ids[2] = { E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2 };
@@ -1560,6 +1568,140 @@ business_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 		if (!equal)
 			return equal;
 	}
+
+	return TRUE;
+}
+
+static void
+anniversary_populate (ECardSimple *card, char **values)
+{
+	if (values[0]) {
+		ECardDate dt = e_card_date_from_string (values[0]);
+		gtk_object_set (GTK_OBJECT (card->card),
+				"anniversary", &dt,
+				NULL);
+	}
+}
+
+struct berval**
+anniversary_ber (ECardSimple *card)
+{
+	ECardDate *dt;
+	struct berval** result = NULL;
+
+	gtk_object_get (GTK_OBJECT (card->card),
+			"anniversary", &dt,
+			NULL);
+
+	if (dt) {
+		char *anniversary;
+
+		anniversary = e_card_date_to_string (dt);
+
+		result = g_new (struct berval*, 2);
+		result[0] = g_new (struct berval, 1);
+		result[0]->bv_val = anniversary;
+		result[0]->bv_len = strlen (anniversary);
+
+		result[1] = NULL;
+	}
+
+	return result;
+}
+
+static gboolean
+anniversary_compare (ECardSimple *ecard1, ECardSimple *ecard2)
+{
+	ECardDate *dt;
+	char *date1 = NULL, *date2 = NULL;
+	gboolean equal;
+
+	gtk_object_get (GTK_OBJECT (ecard1->card),
+			"anniversary", &dt,
+			NULL);
+	if (dt)
+		date1 = e_card_date_to_string (dt);
+
+	gtk_object_get (GTK_OBJECT (ecard2->card),
+			"anniversary", &dt,
+			NULL);
+	if (dt)
+		date2 = e_card_date_to_string (dt);
+
+	if (date1 && date2)
+		equal = !strcmp (date1, date2);
+	else
+		equal = (!!date1 == !!date2);
+
+	g_free (date1);
+	g_free (date2);
+
+	return TRUE;
+}
+
+static void
+birthday_populate (ECardSimple *card, char **values)
+{
+	if (values[0]) {
+		ECardDate dt = e_card_date_from_string (values[0]);
+		gtk_object_set (GTK_OBJECT (card->card),
+				"birth_date", &dt,
+				NULL);
+	}
+}
+
+struct berval**
+birthday_ber (ECardSimple *card)
+{
+	ECardDate *dt;
+	struct berval** result = NULL;
+
+	gtk_object_get (GTK_OBJECT (card->card),
+			"birth_date", &dt,
+			NULL);
+
+	if (dt) {
+		char *birthday;
+
+		birthday = e_card_date_to_string (dt);
+
+		result = g_new (struct berval*, 2);
+		result[0] = g_new (struct berval, 1);
+		result[0]->bv_val = birthday;
+		result[0]->bv_len = strlen (birthday);
+
+		result[1] = NULL;
+	}
+
+	return result;
+}
+
+static gboolean
+birthday_compare (ECardSimple *ecard1, ECardSimple *ecard2)
+{
+	ECardDate *dt;
+	char *date1 = NULL, *date2 = NULL;
+	gboolean equal;
+
+	gtk_object_get (GTK_OBJECT (ecard1->card),
+			"birth_date", &dt,
+			NULL);
+	if (dt)
+		date1 = e_card_date_to_string (dt);
+
+	gtk_object_get (GTK_OBJECT (ecard2->card),
+			"birth_date", &dt,
+			NULL);
+	if (dt)
+		date2 = e_card_date_to_string (dt);
+
+	if (date1 && date2)
+		equal = !strcmp (date1, date2);
+	else
+		equal = (!!date1 == !!date2);
+
+	g_free (date1);
+	g_free (date2);
 
 	return TRUE;
 }
@@ -1965,7 +2107,7 @@ build_card_from_entry (LDAP *ldap, LDAPMessage *e)
 					e_card_simple_set (card, info->field_id, values[0]);
 
 				}
-				else if (info->prop_type & PROP_TYPE_LIST) {
+				else if (info->prop_type & PROP_TYPE_COMPLEX) {
 				/* if it's a list call the ecard-populate function,
 				   which calls gtk_object_set to set the property */
 					info->populate_ecard_func(card,
