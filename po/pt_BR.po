@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.13\n"
-"POT-Creation-Date: 2001-08-24 16:09-0300\n"
-"PO-Revision-Date: 2001-08-24 16:52-03:00\n"
+"POT-Creation-Date: 2001-09-05 13:00-0300\n"
+"PO-Revision-Date: 2001-09-04 22:28-03:00\n"
 "Last-Translator: Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
 "MIME-Version: 1.0\n"
@@ -858,7 +858,7 @@ msgstr "Co_ntatos..."
 #: addressbook/gui/contact-editor/contact-editor.glade.h:21
 #: calendar/gui/dialogs/alarm-page.glade.h:10
 #: calendar/gui/dialogs/meeting-page.c:1476 filter/filter.glade.h:8
-#: mail/folder-browser.c:1326 mail/mail-config.glade.h:94
+#: mail/folder-browser.c:1322 mail/mail-config.glade.h:94
 #: ui/evolution-calendar.xml.h:38 ui/evolution-mail-message.xml.h:88
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:35
 msgid "_Delete"
@@ -2148,7 +2148,7 @@ msgid "Advanced Search"
 msgstr "Busca avançada"
 
 #: addressbook/gui/search/e-addressbook-search-dialog.c:152
-#: mail/mail-search.c:264
+#: mail/mail-search.c:260
 msgid "Search"
 msgstr "Buscar"
 
@@ -2724,88 +2724,82 @@ msgid "A sample Bonobo control which displays an calendar."
 msgstr "Um controle Bonobo exemplo que exibe uma agenda."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:2
-#, fuzzy
 msgid "Evolution calendar executive summary component."
-msgstr "Não é possível iniciar o componente Executive Summary do Evolution."
+msgstr "Componente resumo executivo de agenda do Evolution."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:3
-#, fuzzy
 msgid "Evolution calendar iTip/iMip viewer"
-msgstr "Canal para agenda do Evolution"
+msgstr "Visualizador iTip/iMip da agenda do Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:4
 msgid "Evolution component for handling the calendar."
-msgstr ""
+msgstr "Componente do Evolution para manipular a agenda."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:5
 msgid "Factory for the Calendar Summary component."
-msgstr ""
+msgstr "Fábrica para o componente resumo da agenda."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:6
-#, fuzzy
 msgid "Factory for the Evolution calendar component."
-msgstr "Configura o canal para agenda do Evolution"
+msgstr "Fábrica para o componente de agenda do Evolution."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:7
 msgid "Factory for the calendar iTip view control"
-msgstr ""
+msgstr "Fábrica para o controle de visualização iTip da agenda"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:8
 msgid "Factory for the sample Calendar control"
-msgstr ""
+msgstr "Fábrica para o controle de agenda exemplo."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:9
-#, fuzzy
 msgid "Factory to centralize calendar component editor dialogs"
-msgstr "Configura o canal para agenda do Evolution"
+msgstr "Fábrica para centralizar os diálogos do editor do componente de agenda"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in.h:1
 msgid "Alarm notification service"
-msgstr ""
+msgstr "Serviço de notificação de alarme"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in.h:2
 msgid "Factory for the alarm notification service"
-msgstr ""
+msgstr "Fábrica para o serviço de notificação de alarme"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:151
-#, fuzzy, c-format
+#, c-format
 msgid "Notification about your appointment starting on %s and ending on %s"
-msgstr "Notificação sobre seu compromisso em %A %d %b %Y %H:%M"
+msgstr "Notificação sobre seu compromisso com início em %s e com fim em %s"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "Notification about your appointment starting on %s"
-msgstr "Notificação sobre seu compromisso em %A %d %b %Y %H:%M"
+msgstr "Notificação sobre seu compromisso com início em %s"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "Notification about your appointment ending on %s"
-msgstr "Notificação sobre seu compromisso em %A %d %b %Y %H:%M"
+msgstr "Notificação sobre seu compromisso com fim em %s"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:164
-#, fuzzy
 msgid "Notification about your appointment"
-msgstr "Notificação sobre seu compromisso em %A %d %b %Y %H:%M"
+msgstr "Notificação sobre seu compromisso"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "Notification about your task starting on %s and ending on %s"
-msgstr "Notificação sobre seu compromisso em %A %d %b %Y %H:%M"
+msgstr "Notificação sobre sua tarefa com início em %s e com fim em %s"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:175
-#, fuzzy, c-format
+#, c-format
 msgid "Notification about your task starting on %s"
-msgstr "Notificação sobre seu compromisso em %A %d %b %Y %H:%M"
+msgstr "Notificação sobre sua tarefa com início em %s"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "Notification about your task ending on %s"
-msgstr "Notificação sobre seu compromisso em %A %d %b %Y %H:%M"
+msgstr "Notificação sobre sua tarefa com fim em %s"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:184
-#, fuzzy
 msgid "Notification about your task"
-msgstr "Exibir informação sobre o Evolution"
+msgstr "Notificação sobre sua tarefa"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:266
 msgid "Alarm on %A %b %d %Y %H:%M"
@@ -2813,46 +2807,40 @@ msgstr "Alarme em %A %d %b %Y %H:%M"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ui/evolution-comp-editor.xml.h:1
-#, fuzzy
 msgid "C_lose"
-msgstr "Fechar"
+msgstr "_Fechar"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#, fuzzy
 msgid "Snoo_ze"
-msgstr "Adiar"
+msgstr "_Adiar"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "Snooze time (minutes)"
 msgstr "Tempo de adiamento (minutos)"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#, fuzzy
 msgid "_Edit appointment"
-msgstr "Editar compromisso"
+msgstr "_Editar compromisso"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:556
-#, fuzzy
+#: calendar/gui/alarm-notify/alarm-queue.c:487
 msgid "No description available."
-msgstr "Sem resumo disponível."
+msgstr "Sem descrição disponível."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:775
-#: calendar/gui/alarm-notify/alarm-queue.c:1074
-#: calendar/gui/alarm-notify/alarm-queue.c:1130
-#, fuzzy
+#: calendar/gui/alarm-notify/alarm-queue.c:700
+#: calendar/gui/alarm-notify/alarm-queue.c:999
+#: calendar/gui/alarm-notify/alarm-queue.c:1055
 msgid "Reminder of your appointment at "
-msgstr "Lembre-me de todos os compromissos"
+msgstr "Lembrete de deu compromisso às "
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1066
+#: calendar/gui/alarm-notify/alarm-queue.c:991
 msgid "Snooze"
 msgstr "Adiar"
 
 #. Idea: we need Snooze option :-)
-#: calendar/gui/alarm-notify/alarm-queue.c:1079
-#: calendar/gui/alarm-notify/alarm-queue.c:1134
-#, fuzzy
+#: calendar/gui/alarm-notify/alarm-queue.c:1004
+#: calendar/gui/alarm-notify/alarm-queue.c:1059
 msgid "Ok"
-msgstr "k"
+msgstr "Ok"
 
 #: calendar/gui/alarm-notify/notify-main.c:58
 #, c-format
@@ -2860,25 +2848,24 @@ msgid ""
 "It is %s.  The Unix time is %ld right now.  We just thought you may like to "
 "know."
 msgstr ""
+"São %s.  O tempo Unix é %ld neste instante. Apenas pensamos que você "
+"gostaria de saber."
 
 #: calendar/gui/alarm-notify/notify-main.c:95 calendar/gui/main.c:53
 msgid "Could not initialize GNOME"
 msgstr "Não foi possível iniciar Gnome"
 
 #: calendar/gui/alarm-notify/notify-main.c:103 calendar/gui/main.c:72
-#, fuzzy
 msgid "Could not initialize gnome-vfs"
-msgstr "Não foi possível iniciar Bonobo"
+msgstr "Não foi possível iniciar gnome-vfs"
 
 #: calendar/gui/alarm-notify/notify-main.c:115
-#, fuzzy
 msgid "Could not create the alarm notify service factory"
-msgstr "Não foi possível criar diretório temporário: %s"
+msgstr "Não foi possível criar a fábrica de serviço de notificação de alarme"
 
 #: calendar/gui/calendar-commands.c:414
-#, fuzzy
 msgid "%A %d %B %Y"
-msgstr "%A, %e de %B de %Y"
+msgstr "%A, %d de %B de %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
@@ -2889,20 +2876,18 @@ msgstr "%a %d %b"
 
 #: calendar/gui/calendar-commands.c:419 calendar/gui/calendar-commands.c:424
 #: calendar/gui/calendar-commands.c:426
-#, fuzzy
 msgid "%a %d %b %Y"
-msgstr "%a %d %b"
+msgstr "%a %d %b %Y"
 
 #: calendar/gui/calendar-commands.c:435
-#, fuzzy, c-format
+#, c-format
 msgid "%d"
-msgstr "d"
+msgstr "%d"
 
 #: calendar/gui/calendar-commands.c:437 calendar/gui/calendar-commands.c:444
 #: calendar/gui/calendar-commands.c:450 calendar/gui/calendar-commands.c:452
-#, fuzzy
 msgid "%d %B %Y"
-msgstr "%A, %e de %B de %Y"
+msgstr "%d de %B de %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -2971,9 +2956,8 @@ msgstr "Baixa"
 
 #: calendar/gui/calendar-model.c:529 calendar/gui/calendar-model.c:1144
 #: calendar/gui/e-calendar-table.c:380
-#, fuzzy
 msgid "Free"
-msgstr "se"
+msgstr "Livre"
 
 #: calendar/gui/calendar-model.c:531 calendar/gui/e-calendar-table.c:381
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:393
@@ -3037,7 +3021,7 @@ msgstr "O valor percentual deve estar entre 0 e 100, inclusive"
 
 #: calendar/gui/calendar-model.c:1092
 msgid "The priority must be 'High', 'Normal', 'Low' or 'Undefined'."
-msgstr ""
+msgstr "A prioridade deve ser 'Alta', 'Normal', 'Baixa' ou 'Indefinido'."
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1105
@@ -3058,62 +3042,52 @@ msgid "None"
 msgstr "Nenhum"
 
 #: calendar/gui/calendar-model.c:1626
-#, fuzzy
 msgid "Recurring"
-msgstr "Repetição"
+msgstr "Repetindo"
 
 #: calendar/gui/calendar-model.c:1628
-#, fuzzy
 msgid "Assigned"
-msgstr "Atribuir pontuação"
+msgstr "Atribuido"
 
 #: calendar/gui/calendar-model.c:1634 calendar/gui/dialogs/meeting-page.c:645
 #: calendar/gui/dialogs/meeting-page.c:655
 #: calendar/gui/dialogs/meeting-page.c:1187
 #: calendar/gui/dialogs/meeting-page.c:1283
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: calendar/gui/calendar-model.c:1634 calendar/gui/dialogs/meeting-page.c:657
 #: calendar/gui/dialogs/meeting-page.c:1284
-#, fuzzy
 msgid "No"
-msgstr "Agora"
+msgstr "Não"
 
 #: calendar/gui/calendar-view-factory.c:149 views/calendar/galview.xml.h:1
-#, fuzzy
 msgid "Day View"
-msgstr "_Visualizar"
+msgstr "Visão de dia"
 
 #: calendar/gui/calendar-view-factory.c:152 views/calendar/galview.xml.h:4
-#, fuzzy
 msgid "Work Week View"
-msgstr "Semana útil"
+msgstr "Visão de semana útil"
 
 #: calendar/gui/calendar-view-factory.c:155 views/calendar/galview.xml.h:3
-#, fuzzy
 msgid "Week View"
-msgstr "Semana"
+msgstr "Visão de semana"
 
 #: calendar/gui/calendar-view-factory.c:158 views/calendar/galview.xml.h:2
-#, fuzzy
 msgid "Month View"
-msgstr "Mês"
+msgstr "Visão de mês"
 
 #: calendar/gui/cal-search-bar.c:56
-#, fuzzy
 msgid "Summary contains"
-msgstr "E-mail contém"
+msgstr "Resumo contém"
 
 #: calendar/gui/cal-search-bar.c:57
-#, fuzzy
 msgid "Description contains"
-msgstr "Descrição:"
+msgstr "Descrição contém"
 
 #: calendar/gui/cal-search-bar.c:58
-#, fuzzy
 msgid "Comment contains"
-msgstr "Nome contém"
+msgstr "Comentário contém"
 
 #: calendar/gui/cal-search-bar.c:416
 msgid "Unmatched"
@@ -3126,7 +3100,7 @@ msgstr "Agenda"
 
 #: calendar/gui/component-factory.c:55
 msgid "Folder containing appointments and events"
-msgstr ""
+msgstr "Pasta contendo compromissos e eventos"
 
 #: calendar/gui/component-factory.c:56 calendar/gui/print.c:1707
 #: my-evolution/e-summary-tasks.c:212 my-evolution/e-summary-tasks.c:228
@@ -3136,18 +3110,16 @@ msgid "Tasks"
 msgstr "Tarefas"
 
 #: calendar/gui/component-factory.c:56
-#, fuzzy
 msgid "Folder containing to-do items"
-msgstr "Filtro por lista de discussão"
+msgstr "Pasta contendo itens de tarefa"
 
 #: calendar/gui/component-factory.c:402 ui/evolution-calendar.xml.h:7
 msgid "Create a new appointment"
 msgstr "Criar um novo compromisso"
 
 #: calendar/gui/component-factory.c:403 calendar/gui/e-day-view.c:3400
-#, fuzzy
 msgid "New _Appointment"
-msgstr "Novo compromisso"
+msgstr "Novo _compromisso"
 
 #: calendar/gui/component-factory.c:408 ui/evolution-calendar.xml.h:8
 #: ui/evolution-tasks.xml.h:5
@@ -3155,67 +3127,60 @@ msgid "Create a new task"
 msgstr "Criar uma nova tarefa"
 
 #: calendar/gui/component-factory.c:409
-#, fuzzy
 msgid "New _Task"
-msgstr "Tarefa"
+msgstr "Nova _tarefa"
 
 #: calendar/gui/control-factory.c:128
 msgid "The URI that the calendar will display"
 msgstr "A URI que a agenda vai exibir"
 
 #: calendar/gui/dialogs/alarm-options.c:357
-#, fuzzy
 msgid "Audio Alarm Options"
-msgstr "Alarmes audíveis"
+msgstr "Opções do alarme audível"
 
 #: calendar/gui/dialogs/alarm-options.c:366
-#, fuzzy
 msgid "Message Alarm Options"
-msgstr "Destinatários da mensagem"
+msgstr "Opções do alarme de mensagem"
 
 #: calendar/gui/dialogs/alarm-options.c:375
-#, fuzzy
 msgid "Mail Alarm Options"
-msgstr "Opções de exibição"
+msgstr "Opções do alarme de correio"
 
 #: calendar/gui/dialogs/alarm-options.c:384
 msgid "Program Alarm Options"
-msgstr ""
+msgstr "Opções do alarme de programa"
 
 #: calendar/gui/dialogs/alarm-options.c:393
 msgid "Unknown Alarm Options"
-msgstr ""
+msgstr "Opções do alarme desconhecido"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:1
 msgid "Alarm Repeat"
-msgstr ""
+msgstr "Repetição do alarme"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:2
 msgid "FIXME: mail alarm options"
-msgstr ""
+msgstr "FIXME: opções do alarme de correio"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
-#, fuzzy
 msgid "Message to Display"
-msgstr "Corpo da mensagem"
+msgstr "Mensagem a exibir"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
-#, fuzzy
 msgid "Play sound:"
-msgstr "Tocar um som"
+msgstr "Tocar um som:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:5
 msgid "Repeat the alarm"
-msgstr ""
+msgstr "Repetir o alarme"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:6
-#, fuzzy
 msgid "Run program:"
-msgstr "Executar um programa"
+msgstr "Executar um programa:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:7
 msgid "With these arguments:"
-msgstr ""
+msgstr "Com estes argumentos:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:8 filter/filter-datespec.c:83
 msgid "days"
@@ -3234,54 +3199,49 @@ msgid "minutes"
 msgstr "minutos"
 
 #: calendar/gui/dialogs/alarm-page.c:332
-#, fuzzy, c-format
+#, c-format
 msgid "%d days"
-msgstr " %d dias"
+msgstr "%d dias"
 
 #: calendar/gui/dialogs/alarm-page.c:334
-#, fuzzy
 msgid "1 day"
-msgstr " 1 dia"
+msgstr "1 dia"
 
 #: calendar/gui/dialogs/alarm-page.c:337
-#, fuzzy, c-format
+#, c-format
 msgid "%d weeks"
-msgstr " %d semanas"
+msgstr "%d semanas"
 
 #: calendar/gui/dialogs/alarm-page.c:339
-#, fuzzy
 msgid "1 week"
-msgstr " 1 semana"
+msgstr "1 semana"
 
 #: calendar/gui/dialogs/alarm-page.c:342
-#, fuzzy, c-format
+#, c-format
 msgid "%d hours"
-msgstr " %d horas"
+msgstr "%d horas"
 
 #: calendar/gui/dialogs/alarm-page.c:344
-#, fuzzy
 msgid "1 hour"
-msgstr " 1 hora"
+msgstr "1 hora"
 
 #: calendar/gui/dialogs/alarm-page.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "%d minutes"
-msgstr " %d minutos"
+msgstr "%d minutos"
 
 #: calendar/gui/dialogs/alarm-page.c:349
-#, fuzzy
 msgid "1 minute"
-msgstr " 1 minuto"
+msgstr "1 minuto"
 
 #: calendar/gui/dialogs/alarm-page.c:352
-#, fuzzy, c-format
+#, c-format
 msgid "%d seconds"
-msgstr " %d segundos"
+msgstr "%d segundos"
 
 #: calendar/gui/dialogs/alarm-page.c:354
-#, fuzzy
 msgid "1 second"
-msgstr " 1 segundo"
+msgstr "1 segundo"
 
 #: calendar/gui/dialogs/alarm-page.c:379
 #: calendar/gui/dialogs/alarm-page.glade.h:4
@@ -3290,9 +3250,8 @@ msgstr "Tocar um som"
 
 #: calendar/gui/dialogs/alarm-page.c:383
 #: calendar/gui/dialogs/alarm-page.glade.h:3
-#, fuzzy
 msgid "Display a message"
-msgstr "_Mensagem de correio"
+msgstr "Exibir uma mensagem"
 
 #: calendar/gui/dialogs/alarm-page.c:387
 #: calendar/gui/dialogs/alarm-page.glade.h:7
@@ -3316,24 +3275,20 @@ msgid "Unknown"
 msgstr "Desconhecido"
 
 #: calendar/gui/dialogs/alarm-page.c:409
-#, fuzzy
 msgid "before start of appointment"
-msgstr " antes do início do compromisso"
+msgstr "antes do início do compromisso"
 
 #: calendar/gui/dialogs/alarm-page.c:412
-#, fuzzy
 msgid "after start of appointment"
-msgstr " após o início do compromisso"
+msgstr "após o início do compromisso"
 
 #: calendar/gui/dialogs/alarm-page.c:422
-#, fuzzy
 msgid "before end of appointment"
-msgstr " antes do término do compromisso"
+msgstr "antes do término do compromisso"
 
 #: calendar/gui/dialogs/alarm-page.c:425
-#, fuzzy
 msgid "after end of appointment"
-msgstr " após o término do compromisso"
+msgstr "após o término do compromisso"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:2
@@ -3343,9 +3298,8 @@ msgstr "Base"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:2
 #: calendar/gui/dialogs/recurrence-page.glade.h:3
-#, fuzzy
 msgid "Date/Time:"
-msgstr "Data:"
+msgstr "Data/hora:"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:5
 msgid "Reminders"
@@ -3358,9 +3312,8 @@ msgid "Summary:"
 msgstr "Resumo:"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:11
-#, fuzzy
 msgid "_Options..."
-msgstr "Opções"
+msgstr "_Opções..."
 
 #: calendar/gui/dialogs/alarm-page.glade.h:12 filter/libfilter-i18n.h:34
 msgid "after"
@@ -3412,32 +3365,28 @@ msgid "60 minutes"
 msgstr "60 minutos"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
-#, fuzzy
 msgid "Calendar and Tasks Settings"
-msgstr "Configurações..."
+msgstr "Configurações de agenda e tarefas"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "Color for overdue tasks"
-msgstr ""
+msgstr "Cor para tarefas atrasadas"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 msgid "Color for tasks due today"
-msgstr ""
+msgstr "Cor das tarefas com prazo para hoje"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
-#, fuzzy
 msgid "Create new appointments with a default _reminder"
-msgstr "Criar um novo compromisso"
+msgstr "_Criar novos compromissos com um lembrete padrão"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
-#, fuzzy
 msgid "Days"
-msgstr "Dia"
+msgstr "Dias"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
-#, fuzzy
 msgid "First day of wee_k:"
-msgstr "Primeiro dia da semana:"
+msgstr "P_rimeiro dia da semana:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 #: calendar/gui/dialogs/recurrence-page.c:969
@@ -3445,14 +3394,12 @@ msgid "Friday"
 msgstr "Sexta-feira"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
-#, fuzzy
 msgid "Hours"
-msgstr "horas"
+msgstr "Horas"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
-#, fuzzy
 msgid "Minutes"
-msgstr "minutos"
+msgstr "Minutos"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: calendar/gui/dialogs/recurrence-page.c:965
@@ -3460,9 +3407,8 @@ msgid "Monday"
 msgstr "Segunda-feira"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
-#, fuzzy
 msgid "O_verdue tasks:"
-msgstr "Tarefas atrasadas"
+msgstr "Tarefas _atrasadas:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/dialogs/recurrence-page.c:970
@@ -3470,24 +3416,20 @@ msgid "Saturday"
 msgstr "Sábado"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#, fuzzy
 msgid "Show appointment _end times in week and month views"
-msgstr "Exibir hora de término de compromissos"
+msgstr "Exibir _hora de término de compromissos nas visões de semana e mês"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
-#, fuzzy
 msgid "Show week _numbers in date navigator"
-msgstr "Exibir números das semanas"
+msgstr "Exibir _números de semana no navegador de datas"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#, fuzzy
 msgid "Sta_rt of day:"
-msgstr "Início do dia:"
+msgstr "I_nício do dia:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
-#, fuzzy
 msgid "Su_n"
-msgstr "dom"
+msgstr "_Dom"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 #: calendar/gui/dialogs/recurrence-page.c:971
@@ -3495,19 +3437,16 @@ msgid "Sunday"
 msgstr "Domigo"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#, fuzzy
 msgid "T_hu"
-msgstr "qui"
+msgstr "Qu_i"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#, fuzzy
 msgid "T_ue"
-msgstr "ter"
+msgstr "_Ter"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
-#, fuzzy
 msgid "Tas_ks due today:"
-msgstr "Tarefas com prazo para hoje"
+msgstr "Tarefas com prazo para _hoje:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 #: calendar/gui/dialogs/recurrence-page.c:968
@@ -3519,16 +3458,12 @@ msgid "Time"
 msgstr "Tempo"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-#, fuzzy
 msgid "Time _zone:"
-msgstr ""
-"\n"
-"Fuso horário: "
+msgstr "_Fuso horário:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
-#, fuzzy
 msgid "Time di_visions:"
-msgstr "Unidades de tempo:"
+msgstr "_Unidades de tempo:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 msgid "Time format:"
@@ -3546,170 +3481,149 @@ msgstr "Quarta-feira"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 #: ui/evolution-calendar.xml.h:33
-#, fuzzy
 msgid "Work Week"
 msgstr "Semana útil"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
-#, fuzzy
 msgid "_12 hour (AM/PM)"
-msgstr "12 horas (AM/PM)"
+msgstr "_12 horas (AM/PM)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
-#, fuzzy
 msgid "_24 hour"
-msgstr "24 horas"
+msgstr "_24 horas"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "_Ask for confirmation when deleting items"
-msgstr ""
+msgstr "_Pedir confirmação ao apagar itens"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
-#, fuzzy
 msgid "_Compress weekends in month view"
-msgstr "Comprimir fins de semana"
+msgstr "_Comprimir fins de semana na visão de mês"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
-#, fuzzy
 msgid "_Display"
-msgstr "Exibição"
+msgstr "_Exibição"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
-#, fuzzy
 msgid "_End of day:"
-msgstr "Término do dia:"
+msgstr "Tér_mino do dia:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#, fuzzy
 msgid "_Fri"
-msgstr "sex"
+msgstr "Se_x"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
-#, fuzzy
 msgid "_General"
-msgstr "Geral"
+msgstr "_Geral"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
-#, fuzzy
 msgid "_Hide completed tasks after"
-msgstr "Esconder mensagens _excluídas"
+msgstr "E_sconder tarefas concluídas após"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
-#, fuzzy
 msgid "_Mon"
-msgstr "seg"
+msgstr "_Seg"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
-#, fuzzy
 msgid "_Other"
-msgstr "Outro"
+msgstr "_Outros"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-#, fuzzy
 msgid "_Sat"
-msgstr "sáb"
+msgstr "Sá_b"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
-#, fuzzy
 msgid "_Task List"
-msgstr "Tarefas"
+msgstr "_Lista de tarefas"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
-#, fuzzy
 msgid "_Wed"
-msgstr "qua"
+msgstr "Qu_a"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
-#, fuzzy
 msgid "before the start of the appointment"
-msgstr " antes do início do compromisso"
+msgstr "antes do início do compromisso"
 
 #: calendar/gui/dialogs/cancel-comp.c:52
 msgid "The meeting status has changed. Send an updated version?"
-msgstr ""
+msgstr "O estado da reunião mudou. Enviar uma versão atualizada?"
 
 #: calendar/gui/dialogs/cancel-comp.c:58
-#, fuzzy
 msgid "Are you sure you want to cancel and delete this meeting?"
-msgstr "Você tem certeza que deseja excluir esta tarefa sem título?"
+msgstr "Você tem certeza que deseja cancelar e excluir esta reunião?"
 
 #: calendar/gui/dialogs/cancel-comp.c:63
-#, fuzzy
 msgid "Are you sure you want to cancel and delete this task?"
-msgstr "Você tem certeza que deseja excluir a tarefa `%s'?"
+msgstr "Você tem certeza que deseja cancelar e excluir esta tarefa?"
 
 #: calendar/gui/dialogs/cancel-comp.c:68
-#, fuzzy
 msgid "Are you sure you want to cancel and delete this journal entry?"
-msgstr "Você tem certeza que deseja excluir o item de diário `%s'?"
+msgstr "Você tem certeza que deseja cancelar e excluir este item de diário?"
 
 #: calendar/gui/dialogs/changed-comp.c:60
 msgid "This event has been deleted."
-msgstr ""
+msgstr "Este evento foi excluído."
 
 #: calendar/gui/dialogs/changed-comp.c:64
 msgid "This task has been deleted."
-msgstr ""
+msgstr "Esta tarefa foi excluída."
 
 #: calendar/gui/dialogs/changed-comp.c:68
 msgid "This journal entry has been deleted."
-msgstr ""
+msgstr "Este item de diário foi excluído."
 
 #: calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr ""
+msgstr "%s  Você fez alterações. Esquecer estas alterações e fechar o editor?"
 
 #: calendar/gui/dialogs/changed-comp.c:79
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
-msgstr ""
+msgstr "%s  Você não fez alterações, fechar o editor?"
 
 #: calendar/gui/dialogs/changed-comp.c:84
 msgid "This event has been changed."
-msgstr ""
+msgstr "Este evento foi mudado."
 
 #: calendar/gui/dialogs/changed-comp.c:88
 msgid "This task has been changed."
-msgstr ""
+msgstr "Esta tarefa foi mudada."
 
 #: calendar/gui/dialogs/changed-comp.c:92
 msgid "This journal entry has been changed."
-msgstr ""
+msgstr "Este item de diário foi mudado."
 
 #: calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
 msgstr ""
+"%s  Você fez alterações. Esquecer estas alterações e atualizar o editor?"
 
 #: calendar/gui/dialogs/changed-comp.c:103
 #, c-format
 msgid "%s  You have made no changes, update the editor?"
-msgstr ""
+msgstr "%s  Você não fez alterações, atualizar o editor?"
 
 #: calendar/gui/dialogs/comp-editor-util.c:159 calendar/gui/print.c:2116
-#, fuzzy
 msgid " to "
-msgstr "Ir para"
+msgstr " para "
 
 #: calendar/gui/dialogs/comp-editor-util.c:163 calendar/gui/print.c:2120
-#, fuzzy
 msgid " (Completed "
-msgstr "Concluída"
+msgstr " (Concluída "
 
 #: calendar/gui/dialogs/comp-editor-util.c:165 calendar/gui/print.c:2122
-#, fuzzy
 msgid "Completed "
-msgstr "Concluída"
+msgstr "Concluída "
 
 #: calendar/gui/dialogs/comp-editor-util.c:170 calendar/gui/print.c:2127
 msgid " (Due "
-msgstr ""
+msgstr " (Prazo "
 
 #: calendar/gui/dialogs/comp-editor-util.c:172 calendar/gui/print.c:2129
-#, fuzzy
 msgid "Due "
-msgstr "Prazo de conclusão"
+msgstr "Prazo "
 
 #: calendar/gui/dialogs/comp-editor.c:462
 msgid "Edit Appointment"
@@ -3734,12 +3648,12 @@ msgstr "Item de diário - %s"
 msgid "No summary"
 msgstr "Sem resumo"
 
-#: calendar/gui/dialogs/comp-editor.c:857 mail/mail-callbacks.c:1524
+#: calendar/gui/dialogs/comp-editor.c:857 mail/mail-callbacks.c:1490
 #: mail/mail-display.c:99
 msgid "Overwrite file?"
 msgstr "Sobrescrever arquivo?"
 
-#: calendar/gui/dialogs/comp-editor.c:861 mail/mail-callbacks.c:1530
+#: calendar/gui/dialogs/comp-editor.c:861 mail/mail-callbacks.c:1496
 #: mail/mail-display.c:103
 msgid ""
 "A file by that name already exists.\n"
@@ -3755,7 +3669,7 @@ msgstr "Salvar como..."
 
 #: calendar/gui/dialogs/comp-editor.c:1077
 msgid "Unable to obtain current version!"
-msgstr ""
+msgstr "Não foi possível obter a versão atual!"
 
 #: calendar/gui/dialogs/delete-comp.c:84
 #, c-format
@@ -3785,34 +3699,31 @@ msgid "Are you sure want to delete this untitled journal entry?"
 msgstr "Você tem certeza que deseja excluir este item de diário sem título?"
 
 #: calendar/gui/dialogs/delete-comp.c:120
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete %d appointments?"
-msgstr "Você tem certeza que deseja excluir o comprimisso `%s'?"
+msgstr "Você tem certeza que deseja excluir %d comprimissos?"
 
 #: calendar/gui/dialogs/delete-comp.c:125
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete %d tasks?"
-msgstr "Você tem certeza que deseja excluir a tarefa `%s'?"
+msgstr "Você tem certeza que deseja excluir %d tarefas?"
 
 #: calendar/gui/dialogs/delete-comp.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete %d journal entries?"
-msgstr "Você tem certeza que deseja excluir o item de diário `%s'?"
+msgstr "Você tem certeza que deseja excluir %d itens de diário?"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:1
-#, fuzzy
 msgid "Addressbook..."
-msgstr "Incluir catálogo de endereços"
+msgstr "Catálogo de endereços..."
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:2
-#, fuzzy
 msgid "Delegate To:"
-msgstr "Excluir"
+msgstr "Delegar para:"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:3
-#, fuzzy
 msgid "Enter Delegate"
-msgstr "Excluir"
+msgstr "Entrar delegado"
 
 #: calendar/gui/dialogs/event-editor.c:156
 msgid "Appointment"
@@ -3828,18 +3739,16 @@ msgstr "Repetição"
 
 #: calendar/gui/dialogs/event-editor.c:171
 #: calendar/gui/dialogs/event-editor.c:273
-#, fuzzy
 msgid "Meeting"
-msgstr "Cancelar reunião"
+msgstr "Reunião"
 
 #: calendar/gui/dialogs/event-page.glade.h:1
 msgid "A_ll day event"
-msgstr "Dia _inteiro"
+msgstr "_Dia inteiro"
 
 #: calendar/gui/dialogs/event-page.glade.h:2
-#, fuzzy
 msgid "B_usy"
-msgstr "Ocupado"
+msgstr "_Ocupado"
 
 #: calendar/gui/dialogs/event-page.glade.h:4
 #: calendar/gui/dialogs/task-page.glade.h:2
@@ -3848,41 +3757,37 @@ msgid "Classification"
 msgstr "Classificação"
 
 #: calendar/gui/dialogs/event-page.glade.h:5
-#, fuzzy
 msgid "Con_fidential"
-msgstr "Confidencial"
+msgstr "_Confidencial"
 
 #: calendar/gui/dialogs/event-page.glade.h:6
 #: calendar/gui/dialogs/task-page.glade.h:3
-#, fuzzy
 msgid "Date & Time"
-msgstr "Data de envio"
+msgstr "Data & hora"
 
 #: calendar/gui/dialogs/event-page.glade.h:7
-#, fuzzy
 msgid "F_ree"
-msgstr "Semana"
+msgstr "_Livre"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
 #: calendar/gui/dialogs/task-page.glade.h:5
 msgid "Pri_vate"
-msgstr "Pa_rticular"
+msgstr "P_articular"
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 #: calendar/gui/dialogs/task-page.glade.h:6
 msgid "Pu_blic"
-msgstr "Pú_blico"
+msgstr "_Público"
 
 #: calendar/gui/dialogs/event-page.glade.h:10
 #: calendar/gui/e-calendar-table.etspec.h:12
-#, fuzzy
 msgid "Show Time As"
-msgstr "Exibir"
+msgstr "Exibir como tempo"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:8
 msgid "Su_mmary:"
-msgstr "R_esumo:"
+msgstr "_Resumo:"
 
 #: calendar/gui/dialogs/event-page.glade.h:13
 msgid "_End time:"
@@ -3897,33 +3802,31 @@ msgstr "Hora de _início:"
 #: calendar/gui/dialogs/meeting-page.c:1183
 #: calendar/gui/dialogs/meeting-page.c:1251
 msgid "Individual"
-msgstr ""
+msgstr "Indivíduo"
 
 #: calendar/gui/dialogs/meeting-page.c:578
 #: calendar/gui/dialogs/meeting-page.c:595
 #: calendar/gui/dialogs/meeting-page.c:1252
-#, fuzzy
 msgid "Group"
-msgstr "Nome do grupo:"
+msgstr "Grupo"
 
 #: calendar/gui/dialogs/meeting-page.c:580
 #: calendar/gui/dialogs/meeting-page.c:597
 #: calendar/gui/dialogs/meeting-page.c:1253
-#, fuzzy
 msgid "Resource"
-msgstr "Fonte"
+msgstr "Recurso"
 
 #: calendar/gui/dialogs/meeting-page.c:582
 #: calendar/gui/dialogs/meeting-page.c:599
 #: calendar/gui/dialogs/meeting-page.c:1254
 msgid "Room"
-msgstr ""
+msgstr "Sala"
 
 #: calendar/gui/dialogs/meeting-page.c:611
 #: calendar/gui/dialogs/meeting-page.c:628
 #: calendar/gui/dialogs/meeting-page.c:1267
 msgid "Chair"
-msgstr "Chefe de reunião"
+msgstr "Moderador"
 
 #: calendar/gui/dialogs/meeting-page.c:613
 #: calendar/gui/dialogs/meeting-page.c:630
@@ -3948,16 +3851,15 @@ msgstr "Não participante"
 #: calendar/gui/dialogs/meeting-page.c:686
 #: calendar/gui/dialogs/meeting-page.c:1193
 #: calendar/gui/dialogs/meeting-page.c:1296
-#, fuzzy
 msgid "Needs Action"
-msgstr "Selecionar um arquivo"
+msgstr "Necessita ação"
 
 #: calendar/gui/dialogs/meeting-page.c:665
 #: calendar/gui/dialogs/meeting-page.c:688
 #: calendar/gui/dialogs/meeting-page.c:1297
 #, fuzzy
 msgid "Accepted"
-msgstr "Aceitar"
+msgstr "Aceita"
 
 #: calendar/gui/dialogs/meeting-page.c:667
 #: calendar/gui/dialogs/meeting-page.c:690
@@ -4193,33 +4095,32 @@ msgstr "Você deseja salvar as modificações?"
 
 #: calendar/gui/dialogs/send-comp.c:56
 msgid "The meeting information has changed. Send an updated version?"
-msgstr ""
+msgstr "A informação da reunião mudou. Enviar uma versão atualizada?"
 
 #: calendar/gui/dialogs/send-comp.c:61
 msgid "The task information has changed. Send an updated version?"
-msgstr ""
+msgstr "A informação da tarefa mudou. Enviar uma versão atualizada?"
 
 #: calendar/gui/dialogs/send-comp.c:66
 msgid "The journal entry has changed. Send an updated version?"
-msgstr ""
+msgstr "A informação do item de diário mudou. Enviar uma versão atualizada?"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
 #: calendar/gui/e-calendar-table.etspec.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "% Complete"
-msgstr "% Cu_mprida:"
+msgstr "% Concluída"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:5
 msgid "Date Completed:"
 msgstr "Concluída em:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
-#, fuzzy
 msgid "Progress"
-msgstr "Em progresso"
+msgstr "Progresso"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-#: my-evolution/e-summary-preferences.c:894
+#: my-evolution/e-summary-preferences.c:897
 msgid "URL:"
 msgstr "URL:"
 
@@ -4245,7 +4146,7 @@ msgstr "Descrição:"
 
 #: calendar/gui/dialogs/task-page.glade.h:7
 msgid "Sta_rt Date:"
-msgstr "Data de _início:"
+msgstr "_Data de início:"
 
 #: calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Confidential"
@@ -4253,65 +4154,65 @@ msgstr "_Confidencial"
 
 #: calendar/gui/dialogs/task-page.glade.h:11
 msgid "_Due Date:"
-msgstr "Prazo de _conclusão:"
+msgstr "Pra_zo de conclusão:"
 
 #: calendar/gui/e-calendar-table.c:350
 #, c-format
 msgid "0%"
-msgstr ""
+msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:351
 #, c-format
 msgid "10%"
-msgstr ""
+msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:352
 #, c-format
 msgid "20%"
-msgstr ""
+msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:353
 #, c-format
 msgid "30%"
-msgstr ""
+msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:354
 #, c-format
 msgid "40%"
-msgstr ""
+msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:355
 #, c-format
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:356
 #, c-format
 msgid "60%"
-msgstr ""
+msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:357
 #, c-format
 msgid "70%"
-msgstr ""
+msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:358
 #, c-format
 msgid "80%"
-msgstr ""
+msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:359
 #, c-format
 msgid "90%"
-msgstr ""
+msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:360
 #, c-format
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: calendar/gui/e-calendar-table.c:850 calendar/gui/e-day-view.c:3421
-#: calendar/gui/e-week-view.c:3264 mail/folder-browser.c:1291
+#: calendar/gui/e-week-view.c:3264 mail/folder-browser.c:1287
 #, fuzzy
 msgid "_Open"
 msgstr "Abrir"
@@ -4367,11 +4268,8 @@ msgid "Alarms"
 msgstr "Alarmes"
 
 #: calendar/gui/e-calendar-table.etspec.h:4
-#, fuzzy
 msgid "Categories"
-msgstr ""
-"\n"
-"Categorias: "
+msgstr "Categorias"
 
 #: calendar/gui/e-calendar-table.etspec.h:6 camel/camel-filter-driver.c:699
 #: camel/camel-filter-driver.c:815
@@ -4408,7 +4306,7 @@ msgstr "Data de início"
 #. people who won't care about using /Local Folders/Inbox
 #: calendar/gui/e-calendar-table.etspec.h:15
 #: my-evolution/component-factory.c:30 shell/e-shortcuts.c:1044
-#: shell/e-storage-set-view.c:1477 shell/e-summary-storage.c:78
+#: shell/e-storage-set-view.c:1466 shell/e-summary-storage.c:78
 msgid "Summary"
 msgstr "Resumo"
 
@@ -4600,9 +4498,9 @@ msgid "Task Update Request"
 msgstr "_Pedido de tarefa (FIXME)"
 
 #: calendar/gui/e-itip-control.c:685
-#, c-format
+#, fuzzy, c-format
 msgid "<b>%s</b> has replyed to a task assignment."
-msgstr ""
+msgstr "E_ste é o endereço de correspondência"
 
 #: calendar/gui/e-itip-control.c:686
 #, fuzzy
@@ -4645,9 +4543,9 @@ msgid "Free/Busy Request"
 msgstr "URL livre-ocupado"
 
 #: calendar/gui/e-itip-control.c:723
-#, c-format
+#, fuzzy, c-format
 msgid "<b>%s</b> has replyed to a free/busy request."
-msgstr ""
+msgstr "E_ste é o endereço de correspondência"
 
 #: calendar/gui/e-itip-control.c:724
 #, fuzzy
@@ -4949,31 +4847,31 @@ msgstr "31º"
 
 #: calendar/gui/print.c:490
 msgid "Su"
-msgstr "do"
+msgstr "Do"
 
 #: calendar/gui/print.c:490
 msgid "Mo"
-msgstr "se"
+msgstr "Se"
 
 #: calendar/gui/print.c:490
 msgid "Tu"
-msgstr "te"
+msgstr "Te"
 
 #: calendar/gui/print.c:490
 msgid "We"
-msgstr "qu"
+msgstr "Qu"
 
 #: calendar/gui/print.c:491
 msgid "Th"
-msgstr "qu"
+msgstr "Qu"
 
 #: calendar/gui/print.c:491
 msgid "Fr"
-msgstr "se"
+msgstr "Se"
 
 #: calendar/gui/print.c:491
 msgid "Sa"
-msgstr "sá"
+msgstr "Sá"
 
 #. Day
 #: calendar/gui/print.c:1815
@@ -5011,7 +4909,7 @@ msgid "Print Calendar"
 msgstr "Imprimir agenda"
 
 #: calendar/gui/print.c:2288 calendar/gui/print.c:2380
-#: mail/mail-callbacks.c:1933 my-evolution/e-summary.c:511
+#: mail/mail-callbacks.c:1921 my-evolution/e-summary.c:511
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:64
 msgid "Print Preview"
 msgstr "Visualizar impressão"
@@ -5921,6 +5819,7 @@ msgid "Apply filters to new messages in INBOX on this server"
 msgstr ""
 
 #: camel/providers/imap/camel-imap-provider.c:63
+#, fuzzy
 msgid "IMAPv4"
 msgstr "IMAPv4"
 
@@ -5980,6 +5879,7 @@ msgid "MH-format mail directories"
 msgstr "Diretórios de correio no formato MH"
 
 #: camel/providers/local/camel-local-provider.c:41
+#, fuzzy
 msgid "For storing local mail in MH-like mail directories"
 msgstr "Para armazenar correio local em diretórios de correio do tipo MH"
 
@@ -5988,6 +5888,7 @@ msgid "Standard Unix mailbox file"
 msgstr "Arquivo mbox padrão do Unix"
 
 #: camel/providers/local/camel-local-provider.c:51
+#, fuzzy
 msgid "For storing local mail in standard mbox format"
 msgstr "Para armazenar correio local no formato padrão mbox"
 
@@ -5996,6 +5897,7 @@ msgid "Qmail maildir-format mail files"
 msgstr "Arquivos de correio no formato qmail maildir"
 
 #: camel/providers/local/camel-local-provider.c:61
+#, fuzzy
 msgid "For storing local mail in qmail maildir directories"
 msgstr "Para armazenar correio local em diretórios no formato qmail maildir"
 
@@ -6230,13 +6132,13 @@ msgstr "Pasta `%s' não está vazia. Ela não foi excluída."
 #: camel/providers/local/camel-mbox-summary.c:249
 #: camel/providers/local/camel-spool-summary.c:379
 #, fuzzy
-msgid "Summarising folder"
+msgid "Summarizing folder"
 msgstr "Sincronizando pasta"
 
 #: camel/providers/local/camel-mbox-summary.c:254
 #: camel/providers/local/camel-spool-summary.c:384
 #, fuzzy, c-format
-msgid "Could not open folder: %s: summarising from position %ld: %s"
+msgid "Could not open folder: %s: summarizing from position %ld: %s"
 msgstr "Não foi possível abrir pasta: %s: resumindo da posição %ld: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:296
@@ -6254,7 +6156,8 @@ msgstr "Não é possível resumir a pasta: %s: %s"
 #: camel/providers/local/camel-mbox-summary.c:703
 #: camel/providers/local/camel-spool-summary.c:644
 #: camel/providers/local/camel-spool-summary.c:931
-msgid "Synchronising folder"
+#, fuzzy
+msgid "Synchronizing folder"
 msgstr "Sincronizando pasta"
 
 #: camel/providers/local/camel-mbox-summary.c:507
@@ -7654,7 +7557,7 @@ msgstr "Em resposta a"
 msgid "Score"
 msgstr "Pontuação"
 
-#: filter/libfilter-i18n.h:26 mail/mail-callbacks.c:1109
+#: filter/libfilter-i18n.h:26 mail/mail-callbacks.c:1075
 msgid "Sender"
 msgstr "Remetente"
 
@@ -7885,31 +7788,31 @@ msgstr "Filtro por lista de discussão"
 msgid "This folder cannot contain messages."
 msgstr ""
 
-#: mail/component-factory.c:344
+#: mail/component-factory.c:341
 #, fuzzy
 msgid "Properties..."
 msgstr "_Propriedades..."
 
-#: mail/component-factory.c:344
+#: mail/component-factory.c:341
 #, fuzzy
 msgid "Change this folder's properties"
 msgstr "Modificar as propriedades do arquivo"
 
-#: mail/component-factory.c:764
+#: mail/component-factory.c:757
 #, fuzzy
 msgid "New Mail Message"
 msgstr "_Mensagem de correio"
 
-#: mail/component-factory.c:764
+#: mail/component-factory.c:757
 #, fuzzy
 msgid "New _Mail Message"
 msgstr "_Mensagem de correio"
 
-#: mail/component-factory.c:796
+#: mail/component-factory.c:789
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Não é possível iniciar o componente de correio do Evolution."
 
-#: mail/component-factory.c:935
+#: mail/component-factory.c:928
 msgid "Cannot register storage with shell"
 msgstr "Não é possível registrar repositório com a shell."
 
@@ -7927,141 +7830,141 @@ msgstr "Propriedades"
 msgid "Could not create temporary directory: %s"
 msgstr "Não foi possível criar diretório temporário: %s"
 
-#: mail/folder-browser.c:913
+#: mail/folder-browser.c:909
 #, fuzzy
 msgid "Create vFolder from Search"
 msgstr "Criar regra a partir da mensagem"
 
-#: mail/folder-browser.c:1258
+#: mail/folder-browser.c:1254
 #, fuzzy
 msgid "VFolder on _Subject"
 msgstr "Pasta virtual por assunto"
 
-#: mail/folder-browser.c:1261
+#: mail/folder-browser.c:1257
 msgid "VFolder on Se_nder"
 msgstr "Pasta virtual por _remetente"
 
-#: mail/folder-browser.c:1264
+#: mail/folder-browser.c:1260
 msgid "VFolder on _Recipients"
 msgstr "Pasta virtual por _destinatários"
 
-#: mail/folder-browser.c:1267
+#: mail/folder-browser.c:1263
 #, fuzzy
 msgid "VFolder on Mailing _List"
 msgstr "Filtro por lista de discussão"
 
-#: mail/folder-browser.c:1273
+#: mail/folder-browser.c:1269
 #, fuzzy
 msgid "Filter on Sub_ject"
 msgstr "Filtro por assunto"
 
-#: mail/folder-browser.c:1276
+#: mail/folder-browser.c:1272
 #, fuzzy
 msgid "Filter on Sen_der"
 msgstr "Filtro por remetente"
 
-#: mail/folder-browser.c:1279
+#: mail/folder-browser.c:1275
 #, fuzzy
 msgid "Filter on Re_cipients"
 msgstr "Filtro por destinatários"
 
-#: mail/folder-browser.c:1282
+#: mail/folder-browser.c:1278
 #, fuzzy
 msgid "Filter on _Mailing List"
 msgstr "Filtro por lista de discussão"
 
-#: mail/folder-browser.c:1293 ui/evolution-mail-message.xml.h:89
+#: mail/folder-browser.c:1289 ui/evolution-mail-message.xml.h:89
 #, fuzzy
 msgid "_Edit as New Message..."
 msgstr "Imprimir mensagem..."
 
-#: mail/folder-browser.c:1295 ui/evolution-mail-message.xml.h:97
+#: mail/folder-browser.c:1291 ui/evolution-mail-message.xml.h:97
 msgid "_Save As..."
 msgstr "Salvar _como..."
 
-#: mail/folder-browser.c:1297
+#: mail/folder-browser.c:1293
 msgid "_Print"
 msgstr "_Imprimir"
 
-#: mail/folder-browser.c:1302 ui/evolution-mail-message.xml.h:96
+#: mail/folder-browser.c:1298 ui/evolution-mail-message.xml.h:96
 #, fuzzy
 msgid "_Reply to Sender"
 msgstr "Responder ao remetente"
 
-#: mail/folder-browser.c:1304 ui/evolution-mail-message.xml.h:69
+#: mail/folder-browser.c:1300 ui/evolution-mail-message.xml.h:69
 #, fuzzy
 msgid "Reply to _List"
 msgstr "Responder a _todos"
 
-#: mail/folder-browser.c:1306 ui/evolution-mail-message.xml.h:68
+#: mail/folder-browser.c:1302 ui/evolution-mail-message.xml.h:68
 msgid "Reply to _All"
 msgstr "Responder a _todos"
 
-#: mail/folder-browser.c:1308
+#: mail/folder-browser.c:1304
 msgid "_Forward"
 msgstr "_Encaminhar"
 
-#: mail/folder-browser.c:1311 ui/evolution-mail-message.xml.h:40
+#: mail/folder-browser.c:1307 ui/evolution-mail-message.xml.h:40
 #, fuzzy
 msgid "Mar_k as Read"
 msgstr "Marcar como lida"
 
-#: mail/folder-browser.c:1313 ui/evolution-mail-message.xml.h:42
+#: mail/folder-browser.c:1309 ui/evolution-mail-message.xml.h:42
 #, fuzzy
 msgid "Mark as U_nread"
 msgstr "Marcar como não lida"
 
-#: mail/folder-browser.c:1315
+#: mail/folder-browser.c:1311
 #, fuzzy
 msgid "Mark as _Important"
 msgstr "Importante"
 
-#: mail/folder-browser.c:1317
+#: mail/folder-browser.c:1313
 #, fuzzy
 msgid "Mark as Unim_portant"
 msgstr "Importante"
 
-#: mail/folder-browser.c:1322
+#: mail/folder-browser.c:1318
 msgid "_Move to Folder..."
 msgstr "_Mover para pasta..."
 
-#: mail/folder-browser.c:1324
+#: mail/folder-browser.c:1320
 msgid "_Copy to Folder..."
 msgstr "_Copiar para pasta..."
 
-#: mail/folder-browser.c:1328 ui/evolution-mail-message.xml.h:99
+#: mail/folder-browser.c:1324 ui/evolution-mail-message.xml.h:99
 msgid "_Undelete"
 msgstr "Des_fazer exclusão"
 
-#: mail/folder-browser.c:1333
+#: mail/folder-browser.c:1329
 #, fuzzy
 msgid "Add Sender to Address Book"
 msgstr "Incluir catálogo de endereços"
 
-#: mail/folder-browser.c:1338
+#: mail/folder-browser.c:1334
 msgid "Apply Filters"
 msgstr "Aplicar filtros"
 
-#: mail/folder-browser.c:1342
+#: mail/folder-browser.c:1338
 #, fuzzy
 msgid "Create Ru_le From Message"
 msgstr "Criar regra a partir da mensagem"
 
-#: mail/folder-browser.c:1500
+#: mail/folder-browser.c:1496
 msgid "Filter on Mailing List"
 msgstr "Filtro por lista de discussão"
 
-#: mail/folder-browser.c:1501
+#: mail/folder-browser.c:1497
 #, fuzzy
 msgid "VFolder on Mailing List"
 msgstr "Filtro por lista de discussão"
 
-#: mail/folder-browser.c:1503
+#: mail/folder-browser.c:1499
 #, c-format
 msgid "Filter on Mailing List (%s)"
 msgstr "Filtro por lista de discussão (%s)"
 
-#: mail/folder-browser.c:1504
+#: mail/folder-browser.c:1500
 #, fuzzy, c-format
 msgid "VFolder on Mailing List (%s)"
 msgstr "Filtro por lista de discussão (%s)"
@@ -8265,54 +8168,44 @@ msgstr ""
 "Esta mensagem não possui um assunto.\n"
 "Enviar mesmo assim?"
 
-#: mail/mail-callbacks.c:262
+#: mail/mail-callbacks.c:253
 msgid ""
-"Since the contact list you are sending to is configured to hide the list's "
-"addresses, this message will contain only Bcc recipients."
-msgstr ""
-
-#: mail/mail-callbacks.c:266
-#, fuzzy
-msgid "This message contains only Bcc recipients."
-msgstr "Concatenando uma mensagem sem um assunto"
-
-#: mail/mail-callbacks.c:270
-msgid ""
+"This message contains only Bcc recipients.\n"
 "It is possible that the mail server may reveal the recipients by adding an "
 "Apparently-To header.\n"
 "Send anyway?"
 msgstr ""
 
-#: mail/mail-callbacks.c:359
+#: mail/mail-callbacks.c:339
 msgid "You must specify recipients in order to send this message."
 msgstr "Você deve especificar destinatários para poder enviar esta mensagem."
 
-#: mail/mail-callbacks.c:424
+#: mail/mail-callbacks.c:390
 msgid "You must configure an account before you can send this email."
 msgstr "Você deve configurar uma conta antes de poder enviar esta mensagem."
 
-#: mail/mail-callbacks.c:666
+#: mail/mail-callbacks.c:632
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr ""
 
-#: mail/mail-callbacks.c:929
+#: mail/mail-callbacks.c:895
 msgid "Forwarded message:\n"
 msgstr "Mensagem encaminhada:\n"
 
-#: mail/mail-callbacks.c:1029
+#: mail/mail-callbacks.c:995
 msgid "Move message(s) to"
 msgstr "Mover mensagem(ns) para"
 
-#: mail/mail-callbacks.c:1031
+#: mail/mail-callbacks.c:997
 msgid "Copy message(s) to"
 msgstr "Copiar mensagem(ns) para"
 
-#: mail/mail-callbacks.c:1400
+#: mail/mail-callbacks.c:1366
 #, fuzzy, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Você tem certeza que deseja excluir a tarefa `%s'?"
 
-#: mail/mail-callbacks.c:1422
+#: mail/mail-callbacks.c:1388
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -8320,7 +8213,7 @@ msgstr ""
 "Você pode apenas editar mensagens salvas\n"
 "na pasta Drafts."
 
-#: mail/mail-callbacks.c:1456
+#: mail/mail-callbacks.c:1422
 #, fuzzy
 msgid ""
 "You may only resend messages\n"
@@ -8329,29 +8222,29 @@ msgstr ""
 "Você pode apenas editar mensagens salvas\n"
 "na pasta Drafts."
 
-#: mail/mail-callbacks.c:1468
+#: mail/mail-callbacks.c:1434
 #, fuzzy, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Você tem certeza que deseja excluir a tarefa `%s'?"
 
-#: mail/mail-callbacks.c:1489
+#: mail/mail-callbacks.c:1455
 #, fuzzy
 msgid "No Message Selected"
 msgstr "Mensagem foi recebida"
 
-#: mail/mail-callbacks.c:1574
+#: mail/mail-callbacks.c:1540
 msgid "Save Message As..."
 msgstr "Salvar mensagem como..."
 
-#: mail/mail-callbacks.c:1576
+#: mail/mail-callbacks.c:1542
 msgid "Save Messages As..."
 msgstr "Salvar mensagens como..."
 
-#: mail/mail-callbacks.c:1721 widgets/misc/e-messagebox.c:159
+#: mail/mail-callbacks.c:1709 widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Alerta"
 
-#: mail/mail-callbacks.c:1726
+#: mail/mail-callbacks.c:1714
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -8359,12 +8252,12 @@ msgid ""
 "Really erase these messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:1733
+#: mail/mail-callbacks.c:1721
 #, fuzzy
 msgid "Do not ask me again."
 msgstr "Não exibir esta mensagem novamente."
 
-#: mail/mail-callbacks.c:1838
+#: mail/mail-callbacks.c:1826
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -8373,20 +8266,20 @@ msgstr ""
 "Erro ao carregar inforação do filtro:\n"
 "%s"
 
-#: mail/mail-callbacks.c:1848
+#: mail/mail-callbacks.c:1836
 #, fuzzy
 msgid "Filters"
 msgstr "Editar filtros"
 
-#: mail/mail-callbacks.c:1894
+#: mail/mail-callbacks.c:1882
 msgid "Print Message"
 msgstr "Imprimir mensagem"
 
-#: mail/mail-callbacks.c:1940
+#: mail/mail-callbacks.c:1928
 msgid "Printing of message failed"
 msgstr "Falhou a impressão da mensagem"
 
-#: mail/mail-callbacks.c:2024
+#: mail/mail-callbacks.c:2012
 #, fuzzy, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Você tem certeza que deseja excluir esta tarefa sem título?"
@@ -9014,32 +8907,32 @@ msgstr "Salvar na _pasta... (FIXME)"
 msgid "Save Image as..."
 msgstr "Salvar mensagem como..."
 
-#: mail/mail-folder-cache.c:149
+#: mail/mail-folder-cache.c:147
 #, c-format
 msgid "%d new"
 msgstr ""
 
-#: mail/mail-folder-cache.c:155 mail/mail-folder-cache.c:162
-#: mail/mail-folder-cache.c:169
+#: mail/mail-folder-cache.c:153 mail/mail-folder-cache.c:160
+#: mail/mail-folder-cache.c:167
 msgid ", "
 msgstr ""
 
-#: mail/mail-folder-cache.c:156
+#: mail/mail-folder-cache.c:154
 #, c-format
 msgid "%d hidden"
 msgstr ""
 
-#: mail/mail-folder-cache.c:163
+#: mail/mail-folder-cache.c:161
 #, fuzzy, c-format
 msgid "%d selected"
 msgstr " %d segundos"
 
-#: mail/mail-folder-cache.c:172
+#: mail/mail-folder-cache.c:170
 #, fuzzy, c-format
 msgid "%d unsent"
 msgstr " %d segundos"
 
-#: mail/mail-folder-cache.c:174
+#: mail/mail-folder-cache.c:172
 #, c-format
 msgid "%d total"
 msgstr ""
@@ -9148,12 +9041,12 @@ msgstr "Não existe a pasta `%s'."
 msgid "Registering '%s'"
 msgstr "Abrir em %s..."
 
-#: mail/mail-local.c:747
+#: mail/mail-local.c:748
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr "Alterando pasta \"%s\" para o formato \"%s\""
 
-#: mail/mail-local.c:868
+#: mail/mail-local.c:869
 #, c-format
 msgid ""
 "Cannot save folder metainfo; you'll probably find you can't\n"
@@ -9162,7 +9055,7 @@ msgstr ""
 "Não é possível salvar metainfo da pasta; você provavelmente descobrirá que "
 "não pode mais abrir esta pasta: %s"
 
-#: mail/mail-local.c:908
+#: mail/mail-local.c:909
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
@@ -9170,14 +9063,14 @@ msgstr ""
 "Se você não pode mais abrir esta caixa postal\n"
 "então você precisar repará-la manualmente."
 
-#: mail/mail-local.c:1001
+#: mail/mail-local.c:1002
 #, fuzzy
 msgid "You cannot change the format of a non-local folder."
 msgstr ""
 "Você pode apenas editar mensagens salvas\n"
 "na pasta Drafts."
 
-#: mail/mail-local.c:1012
+#: mail/mail-local.c:1013
 #, fuzzy, c-format
 msgid "Reconfigure %s"
 msgstr "Configurar %s"
@@ -9375,36 +9268,36 @@ msgstr "_Buscar"
 msgid "(Untitled Message)"
 msgstr "(Sem nome)"
 
-#: mail/mail-search.c:241
+#: mail/mail-search.c:237
 #, fuzzy
 msgid "Untitled Message"
 msgstr "(Sem nome)"
 
-#: mail/mail-search.c:245
+#: mail/mail-search.c:241
 #, fuzzy
 msgid "Empty Message"
 msgstr "Mensagem"
 
-#: mail/mail-search.c:292
+#: mail/mail-search.c:288
 #, fuzzy
 msgid "Find in Message"
 msgstr "Enviando mensagem"
 
-#: mail/mail-search.c:322
+#: mail/mail-search.c:318
 msgid "Case Sensitive"
 msgstr ""
 
-#: mail/mail-search.c:324
+#: mail/mail-search.c:320
 #, fuzzy
 msgid "Search Forward"
 msgstr "Encaminhar"
 
-#: mail/mail-search.c:344
+#: mail/mail-search.c:340
 #, fuzzy
 msgid "Find:"
 msgstr "Localizar"
 
-#: mail/mail-search.c:347
+#: mail/mail-search.c:343
 #, fuzzy
 msgid "Matches:"
 msgstr "Caminho:"
@@ -9415,6 +9308,7 @@ msgid "Cancelling..."
 msgstr "Cancelando ..."
 
 #: mail/mail-send-recv.c:257
+#, fuzzy
 msgid "Send & Receive mail"
 msgstr "Receber e enviar mensagens"
 
@@ -9676,27 +9570,27 @@ msgstr "Sem resumo"
 msgid "KBOS:ZSAM:EGAA"
 msgstr ""
 
-#: my-evolution/e-summary-preferences.c:427
+#: my-evolution/e-summary-preferences.c:428
 msgid "Dictionary.com Word of the Day"
 msgstr ""
 
-#: my-evolution/e-summary-preferences.c:448
+#: my-evolution/e-summary-preferences.c:450
 msgid "Quotes of the Day"
 msgstr ""
 
-#: my-evolution/e-summary-preferences.c:874
+#: my-evolution/e-summary-preferences.c:877
 msgid "Add a news feed"
 msgstr ""
 
-#: my-evolution/e-summary-preferences.c:882
+#: my-evolution/e-summary-preferences.c:885
 msgid "Enter the URL of the news feed you wish to add"
 msgstr ""
 
-#: my-evolution/e-summary-preferences.c:886
+#: my-evolution/e-summary-preferences.c:889
 msgid "Name:"
 msgstr "Nome:"
 
-#: my-evolution/e-summary-preferences.c:1418
+#: my-evolution/e-summary-preferences.c:1421
 #, fuzzy
 msgid "Summary Settings"
 msgstr "E-mail contém"
@@ -11274,6 +11168,7 @@ msgstr ""
 "%s"
 
 #: shell/e-shell-folder-creation-dialog.c:168
+#, fuzzy
 msgid "The specified folder name is not valid."
 msgstr "O nome especificado para a pasta é inválido."
 
@@ -12809,7 +12704,7 @@ msgstr "Responder a todos"
 
 #: ui/evolution-mail-message.xml.h:70
 #, fuzzy
-msgid "S_earch Message..."
+msgid "S_earch Message"
 msgstr "Mensagem de agenda"
 
 #: ui/evolution-mail-message.xml.h:71
@@ -13737,3 +13632,194 @@ msgstr "init_corba(): não foi possível iniciar GNOME"
 #: wombat/wombat.c:198
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): não foi possível iniciar Bonobo"
+
+#~ msgid "Name"
+#~ msgstr "Nome"
+
+#~ msgid "Family Name"
+#~ msgstr "Sobrenome"
+
+#~ msgid "Prim"
+#~ msgstr "Princ"
+
+#~ msgid "Bus"
+#~ msgstr "Com"
+
+#~ msgid "Comp"
+#~ msgstr "Empr"
+
+#~ msgid "Org"
+#~ msgstr "Empr"
+
+#~ msgid "Bus Fax"
+#~ msgstr "Fax com"
+
+#~ msgid "Bus 2"
+#~ msgstr "Com 2"
+
+#~ msgid "Url"
+#~ msgstr "URL"
+
+#~ msgid "Dep"
+#~ msgstr "Dep"
+
+#~ msgid "Off"
+#~ msgstr "Escr"
+
+#~ msgid "Prof"
+#~ msgstr "Prof"
+
+#~ msgid "Man"
+#~ msgstr "Ger"
+
+#~ msgid "Ass"
+#~ msgstr "Ass"
+
+#~ msgid "Nick"
+#~ msgstr "Apelido"
+
+#~ msgid "FBUrl"
+#~ msgstr "URL LO"
+
+#~ msgid "Anniversary"
+#~ msgstr "Bodas"
+
+#~ msgid "Anniv"
+#~ msgstr "Bodas"
+
+#~ msgid "Birth Date"
+#~ msgstr "Data de nascimento"
+
+#~ msgid "No cards"
+#~ msgstr "Sem cartões"
+
+#~ msgid "1 card"
+#~ msgstr "1 cartão"
+
+#~ msgid "%d cards"
+#~ msgstr "%d cartões"
+
+#~ msgid ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
+#~ msgstr ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
+
+#~ msgid ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
+#~ msgstr ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
+
+#, fuzzy
+#~ msgid "IMAP"
+#~ msgstr "IMAPv4"
+
+#, fuzzy
+#~ msgid "Local delivery"
+#~ msgstr "Pastas virtuais"
+
+#, fuzzy
+#~ msgid "Standard Unix mbox spools"
+#~ msgstr "Arquivo mbox padrão do Unix"
+
+#, fuzzy
+#~ msgid "For reading and storing local mail in standard mbox spool files."
+#~ msgstr "Para armazenar correio local em diretórios no formato qmail maildir"
+
+#, fuzzy
+#~ msgid "Summarising folder"
+#~ msgstr "Sincronizando pasta"
+
+#, fuzzy
+#~ msgid "Could not open folder: %s: summarising from position %ld: %s"
+#~ msgstr "Não foi possível abrir pasta: %s: resumindo da posição %ld: %s"
+
+#~ msgid "Synchronising folder"
+#~ msgstr "Sincronizando pasta"
+
+#, fuzzy
+#~ msgid "Expunging deleted messages"
+#~ msgstr "Imprime a mensagem selecionada"
+
+#, fuzzy
+#~ msgid "For connecting to and downloading mail from POP servers."
+#~ msgstr "Para ler e armazenar correio em servidores IMAP."
+
+#, fuzzy
+#~ msgid "%I %p"
+#~ msgstr "%I:%M %p"
+
+#, fuzzy
+#~ msgid "Importing..."
+#~ msgstr "Importando"
+
+#, fuzzy
+#~ msgid "Please wait"
+#~ msgstr "termina com"
+
+#, fuzzy
+#~ msgid "Importing %s as %s"
+#~ msgstr ""
+#~ "Importando %s.\n"
+#~ "Iniciando %s"
+
+#, fuzzy
+#~ msgid "Scanning %s"
+#~ msgstr "Enviando \"%s\""
+
+#, fuzzy
+#~ msgid "Evolution is importer your old Pine data"
+#~ msgstr "Utilitário de importação do Evolution"
+
+#, fuzzy
+#~ msgid "Virtual Trash"
+#~ msgstr "Pastas virtuais"
+
+#, fuzzy
+#~ msgid "Virtual Trash folder"
+#~ msgstr "Pastas virtuais"
+
+#, fuzzy
+#~ msgid "This message contains only Bcc recipients."
+#~ msgstr "Concatenando uma mensagem sem um assunto"
+
+#, fuzzy
+#~ msgid "an unknown sender"
+#~ msgstr "Erro desconhecido"
+
+#, fuzzy
+#~ msgid "description"
+#~ msgstr "Descrição:"
+
+#, fuzzy
+#~ msgid "No folder name specified."
+#~ msgstr "Sem destinatários especificados"
+
+#, fuzzy
+#~ msgid "Folder cannot contain the directory separator."
+#~ msgstr "Não foi possível criar o diretório %s: %s"
+
+#, fuzzy
+#~ msgid "(None)"
+#~ msgstr "Nenhum"
+
+#, fuzzy
+#~ msgid "_Rename"
+#~ msgstr "Nome da regra: "
+
+#, fuzzy
+#~ msgid "Re_move"
+#~ msgstr "Remover"
+
+#, fuzzy
+#~ msgid "Importing Data"
+#~ msgstr "Importando"
+
+#, fuzzy
+#~ msgid "Setup Assistant"
+#~ msgstr "Assistente"
+
+#, fuzzy
+#~ msgid "Timezone "
+#~ msgstr ""
+#~ "\n"
+#~ "Fuso horário: "
+
+#, fuzzy
+#~ msgid "Your configuration is complete."
+#~ msgstr "Configuração de correio"
