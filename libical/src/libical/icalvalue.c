@@ -276,9 +276,20 @@ icalvalue_new_from_string_with_error(icalvalue_kind kind,const char* str,icalpro
     }
 
     switch (kind){
-	
     case ICAL_ATTACH_VALUE:
-    case ICAL_BINARY_VALUE:	
+	{
+	    icalattach *attach;
+
+	    attach = icalattach_new_from_url (str);
+	    if (!attach)
+		break;
+
+	    value = icalvalue_new_attach (attach);
+	    icalattach_unref (attach);
+	    break;
+	}
+
+    case ICAL_BINARY_VALUE:
     case ICAL_BOOLEAN_VALUE:
         {
             /* HACK */

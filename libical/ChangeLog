@@ -1,3 +1,8 @@
+2001-09-11  Federico Mena Quintero  <federico@ximian.com>
+
+	* src/libical/icalvalue.c (icalvalue_new_from_string_with_error):
+	Generate an ICAL_ATTACH_VALUE value from the string.
+
 2001-09-10  Damon Chaplin  <damon@ximian.com>
 
 	* src/libical/icalcomponent.c (icalcomponent_compare_vtimezones): 
