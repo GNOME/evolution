@@ -1,3 +1,10 @@
+2004-01-04  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-component.c (add_uri_for_source,
+	remove_uri_for_source): removed redundant functions.
+	(update_uris_for_selection): dont call above functions, use
+	gnome_calendar_* directly.
+
 2003-12-29  Kidd Wang  <kidd.wang@sun.com>
 
 	* gui/calendar-commands.c (file_open_event_cb): add a menu item

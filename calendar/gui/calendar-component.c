@@ -79,18 +79,6 @@ extern ECompEditorRegistry *comp_editor_registry;
 
 /* Utility functions.  */
 
-static void
-add_uri_for_source (ESource *source, GnomeCalendar *calendar)
-{
-	gnome_calendar_add_event_source (calendar, source);
-}
-
-static void
-remove_uri_for_source (ESource *source, GnomeCalendar *calendar)
-{
-	gnome_calendar_remove_event_source (calendar, source);
-}
-
 static gboolean
 is_in_selection (GSList *selection, ESource *source)
 {
@@ -155,14 +143,14 @@ update_uris_for_selection (CalendarComponent *calendar_component)
 		ESource *old_selected_source = l->data;
 
 		if (!is_in_selection (selection, old_selected_source))
-			remove_uri_for_source (old_selected_source, priv->calendar);
+			gnome_calendar_remove_event_source (priv->calendar, old_selected_source);
 	}	
 	
 	for (l = selection; l; l = l->next) {
 		ESource *selected_source = l->data;
 		
-		add_uri_for_source (selected_source, priv->calendar);
-		uids_selected = g_slist_append (uids_selected, (char *)e_source_peek_uid (selected_source));
+		gnome_calendar_add_event_source (priv->calendar, selected_source);
+		uids_selected = g_slist_append (uids_selected, (char *) e_source_peek_uid (selected_source));
 	}
 	
 	e_source_selector_free_selection (priv->source_selection);
