@@ -1,3 +1,22 @@
+2001-11-09  Iain Holmes  <iain@ximian.com>
+
+	* netscape-importer.c (netscape_create_structure): Don't open the 
+	dialog window if we're not importing anything.
+	(netscape_restore_settings): Always set do_mail and do_settings to 
+	FALSE.
+
+	* pine-importer.c (pine_restore_settings): Always set do_mail and 
+	do_address to FALSE.
+	(pine_create_structure): Onlu open a dialog if something is being
+	imported.
+
+	* elm-importer.c (elm_restore_settings): Always set do_mail to FALSE.
+	(elm_create_structure): Only open a dialog if the mail is being 
+	imported.
+
+	* evolution-gnomecard-importer.c (gnomecard_restore_settings): Always
+	set do_addresses to FALSE.
+	
 2001-10-30  Iain Holmes  <iain@ximian.com>
 
 	* evolution-gnomecard-importer.c (create_checkboxes_control): Remove the

@@ -122,11 +122,8 @@ pine_store_settings (PineImporter *importer)
 static void
 pine_restore_settings (PineImporter *importer)
 {
-	importer->do_mail = bonobo_config_get_boolean_with_default (
-		importer->db, "/Importer/Pine/mail", TRUE, NULL);
-
-	importer->do_address = bonobo_config_get_boolean_with_default (
-		importer->db, "/Importer/Pine/address", TRUE, NULL);
+	importer->do_mail = FALSE;
+	importer->do_address = FALSE;
 
 }
 
@@ -548,10 +545,13 @@ pine_create_structure (EvolutionIntelligentImporter *ii,
 	pine_store_settings (importer);
 
 	/* Create a dialog */
-	importer->dialog = create_importer_gui (importer);
-	gtk_widget_show_all (importer->dialog);
-	while (gtk_events_pending ()) {
-		gtk_main_iteration ();
+	if (importer->do_address == TRUE ||
+	    importer->do_mail == TRUE) {
+		importer->dialog = create_importer_gui (importer);
+		gtk_widget_show_all (importer->dialog);
+		while (gtk_events_pending ()) {
+			gtk_main_iteration ();
+		}
 	}
 
 	if (importer->do_address == TRUE) {

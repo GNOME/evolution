@@ -64,8 +64,7 @@ gnomecard_store_settings (GnomeCardImporter *importer)
 static void
 gnomecard_restore_settings (GnomeCardImporter *importer)
 {
-	importer->do_addresses = bonobo_config_get_boolean_with_default (
-		importer->db, "/Importer/Gnomecard/address", TRUE, NULL);
+	importer->do_addresses = FALSE;
 }
 
 static gboolean

@@ -129,11 +129,8 @@ netscape_store_settings (NetscapeImporter *importer)
 static void
 netscape_restore_settings (NetscapeImporter *importer)
 {
-	importer->do_mail = bonobo_config_get_boolean_with_default (
-		importer->db, "/Importer/Netscape/mail", TRUE, NULL);
-
-	importer->do_settings = bonobo_config_get_boolean_with_default (
-		importer->db, "/Importer/Netscape/settings", TRUE, NULL);
+	importer->do_mail = FALSE;
+	importer->do_settings = FALSE;
 }
 
 static const char *
@@ -866,11 +863,14 @@ netscape_create_structure (EvolutionIntelligentImporter *ii,
 
 	netscape_store_settings (importer);
 
-	/* Create a dialog */
-	importer->dialog = create_importer_gui (importer);
-	gtk_widget_show_all (importer->dialog);
-	while (gtk_events_pending ()) {
-		gtk_main_iteration ();
+	/* Create a dialog if we're going to be active */
+	if (importer->do_settings == TRUE ||
+	    importer->do_mail == TRUE) {
+		importer->dialog = create_importer_gui (importer);
+		gtk_widget_show_all (importer->dialog);
+		while (gtk_events_pending ()) {
+			gtk_main_iteration ();
+		}
 	}
 
 	if (importer->do_settings == TRUE) {

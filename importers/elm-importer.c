@@ -114,8 +114,7 @@ elm_store_settings (ElmImporter *importer)
 static void
 elm_restore_settings (ElmImporter *importer)
 {
-	importer->do_mail = bonobo_config_get_boolean_with_default (
-		importer->db, "/Importer/Elm/mail", TRUE, NULL);
+	importer->do_mail = FALSE;
 }
 
 static void
@@ -443,19 +442,18 @@ elm_create_structure (EvolutionIntelligentImporter *ii,
 
 	elm_store_settings (importer);
 
-	/* Create a dialog */
-	importer->dialog = create_importer_gui (importer);
-	gtk_widget_show_all (importer->dialog);
-	while (gtk_events_pending ()) {
-		gtk_main_iteration ();
-	}
-
 	if (importer->do_mail == TRUE) {
 		char *elmdir;
 
+		importer->dialog = create_importer_gui (importer);
+		gtk_widget_show_all (importer->dialog);
+		while (gtk_events_pending ()) {
+			gtk_main_iteration ();
+		}
+		
 		bonobo_config_set_boolean (importer->db, 
-                "/Importer/Elm/mail-imported", TRUE, NULL);
-
+					   "/Importer/Elm/mail-imported", TRUE, NULL);
+		
 		maildir = elm_get_rc_value ("maildir");
 		if (maildir == NULL) {
 			maildir = g_strdup ("Mail");
@@ -470,7 +468,7 @@ elm_create_structure (EvolutionIntelligentImporter *ii,
 		}
 		
 		g_free (maildir);
-
+		
 		scan_dir (importer, "/", maildir);
 		g_free (maildir);
 		
