@@ -260,7 +260,7 @@ AC_SUBST(GNOME_PRINT_CFLAGS)
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-AC_MSG_CHECKING(for Bonobo >= 0.36)
+AC_MSG_CHECKING(for Bonobo >= 0.37)
 if gnome-config --libs bonobox > /dev/null 2>&1; then
 	vers=`gnome-config --modversion bonobo | sed -e "s/bonobo-//" | \
 		awk 'BEGIN { FS = "."; } { printf "%d", $1 * 1000 + $2;}'`
@@ -423,20 +423,21 @@ dnl Gnome-VFS checking
 dnl ******************************
 AC_MSG_CHECKING(for GNOME-VFS)
 if gnome-config --libs vfs > /dev/null 2>&1; then
-	vers=`gnome-config --modversion vfs`
-	case $vers
-	in
-	    gnome-vfs-0.[012]) vfs_ok=false ;;
-	    *) vfs_ok=true ;;
-	esac
+    vers=`gnome-config --modversion vfs | sed -e "s/gnome-vfs-//" | \
+        awk 'BEGIN { FS = "."; } { print $1 * 10000 + $2 * 100 + $3;}'`
+    if test "$vers" -ge 402; then
+        AC_MSG_RESULT(found)
+    else
+        AC_MSG_ERROR(You need at least GNOME VFS 0.6.2 for this version of Evolution)
+    fi
 else
-	vfs_ok=false
+    vfs_ok=false
 fi
 
 if $vfs_ok; then
-	AC_MSG_RESULT($vers)
+    AC_MSG_RESULT($vers)
 else
-	AC_MSG_ERROR(GNOME-VFS 0.3 or newer is required to compile Evolution)
+    AC_MSG_ERROR(GNOME-VFS 0.3 or newer is required to compile Evolution)
 fi
 
 GNOME_VFS_LIBS="`gnome-config --libs vfs`"
