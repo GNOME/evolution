@@ -582,9 +582,9 @@ camel_filter_driver_log (CamelFilterDriver *driver, enum filter_log_t status, co
 			const CamelInternetAddress *from;
 			char date[50];
 			time_t t;
-
+			
 			/* FIXME: does this need locking?  Probably */
-
+			
 			from = camel_mime_message_get_from (p->message);
 			fromstr = camel_address_format((CamelAddress *)from);
 			subject = camel_mime_message_get_subject (p->message);
@@ -638,7 +638,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 	int status;
 	CamelMessageInfo *info;
 	off_t last = 0;
-
+	
 	fd = open (mbox, O_RDONLY);
 	if (fd == -1) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Unable to open spool folder"));

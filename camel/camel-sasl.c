@@ -104,7 +104,7 @@ GByteArray *
 camel_sasl_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 {
 	g_return_val_if_fail (CAMEL_IS_SASL (sasl), NULL);
-
+	
 	return CS_CLASS (sasl)->challenge (sasl, token, ex);
 }
 
@@ -125,9 +125,9 @@ camel_sasl_challenge_base64 (CamelSasl *sasl, const char *token, CamelException 
 	GByteArray *token_binary, *ret_binary;
 	char *ret;
 	int len;
-
+	
 	g_return_val_if_fail (CAMEL_IS_SASL (sasl), NULL);
-
+	
 	if (token) {
 		token_binary = g_byte_array_new ();
 		len = strlen (token);
@@ -135,13 +135,13 @@ camel_sasl_challenge_base64 (CamelSasl *sasl, const char *token, CamelException 
 		token_binary->len = base64_decode_simple (token_binary->data, len);
 	} else
 		token_binary = NULL;
-
+	
 	ret_binary = camel_sasl_challenge (sasl, token_binary, ex);
 	if (token_binary)
 		g_byte_array_free (token_binary, TRUE);
 	if (!ret_binary)
 		return NULL;
-
+	
 	ret = base64_encode_simple (ret_binary->data, ret_binary->len);
 	g_byte_array_free (ret_binary, TRUE);
 
@@ -178,13 +178,13 @@ CamelSasl *
 camel_sasl_new (const char *service_name, const char *mechanism, CamelService *service)
 {
 	CamelSasl *sasl;
-
+	
 	g_return_val_if_fail (service_name != NULL, NULL);
 	g_return_val_if_fail (mechanism != NULL, NULL);
 	g_return_val_if_fail (CAMEL_IS_SERVICE (service), NULL);
-
+	
 	/* We don't do ANONYMOUS here, because it's a little bit weird. */
-
+	
 	if (!strcmp (mechanism, "CRAM-MD5"))
 		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_CRAM_MD5_TYPE);
 	else if (!strcmp (mechanism, "DIGEST-MD5"))
@@ -201,11 +201,11 @@ camel_sasl_new (const char *service_name, const char *mechanism, CamelService *s
 		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_POPB4SMTP_TYPE);
 	else
 		return NULL;
-
+	
 	sasl->service_name = g_strdup (service_name);
 	sasl->service = service;
 	camel_object_ref (CAMEL_OBJECT (service));
-
+	
 	return sasl;
 }
 
@@ -220,7 +220,7 @@ GList *
 camel_sasl_authtype_list (gboolean include_plain)
 {
 	GList *types = NULL;
-
+	
 	types = g_list_prepend (types, &camel_sasl_cram_md5_authtype);
 	types = g_list_prepend (types, &camel_sasl_digest_md5_authtype);
 #ifdef HAVE_KRB4

@@ -1,3 +1,9 @@
+2001-08-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-utils.c (imap_parse_string_generic): A
+	quoted string cannot contain \n's so check for those as well.
+	(imap_atom_specials): Update this to fix bug #6553.
+
 2001-08-08  Jon Trowbridge  <trow@ximian.com>
 
 	* camel-filter-search.c (get_source): Remove trailing stuff from

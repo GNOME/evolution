@@ -64,41 +64,41 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 {
 	char *word;
 	int len;
-
+	
 	if (*buf != '*')
 		return FALSE;
-
+	
 	word = imap_next_word (buf);
 	if (g_strncasecmp (word, "LIST", 4) && g_strncasecmp (word, "LSUB", 4))
 		return FALSE;
-
+	
 	/* get the flags */
 	word = imap_next_word (word);
 	if (*word != '(')
 		return FALSE;
-
+	
 	if (flags)
 		*flags = 0;
-
+	
 	word++;
 	while (*word != ')') {
 		len = strcspn (word, " )");
 		if (flags) {
-			if (!g_strncasecmp (word, "\\Noinferiors", len))
+			if (!g_strncasecmp (word, "\\NoInferiors", len))
 				*flags |= IMAP_LIST_FLAG_NOINFERIORS;
-			else if (!g_strncasecmp (word, "\\Noselect", len))
+			else if (!g_strncasecmp (word, "\\NoSelect", len))
 				*flags |= IMAP_LIST_FLAG_NOSELECT;
 			else if (!g_strncasecmp (word, "\\Marked", len))
 				*flags |= IMAP_LIST_FLAG_MARKED;
 			else if (!g_strncasecmp (word, "\\Unmarked", len))
 				*flags |= IMAP_LIST_FLAG_UNMARKED;
 		}
-
+		
 		word += len;
 		while (*word == ' ')
 			word++;
 	}
-
+	
 	/* get the directory separator */
 	word = imap_next_word (word);
 	if (!strncmp (word, "NIL", 3)) {
@@ -114,11 +114,11 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 			return FALSE;
 	} else
 		return FALSE;
-
+	
 	if (folder) {
 		char *real_name;
 		int n_len;
-
+		
 		/* get the folder name */
 		word = imap_next_word (word);
 		real_name = imap_parse_astring (&word, &len);
@@ -134,7 +134,7 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 		g_free (real_name);
 		return *folder != NULL;
 	}
-
+	
 	return TRUE;
 }
 
@@ -198,25 +198,25 @@ imap_parse_flag_list (char **flag_list_p)
 		if (*flag_list == ' ')
 			flag_list++;
 	}
-
+	
 	if (*flag_list++ != ')') {
 		*flag_list_p = NULL;
 		return 0;
 	}
-
+	
 	*flag_list_p = flag_list;
 	return flags;
 }
 
 static char imap_atom_specials[128] = {
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 
 };
 #define imap_is_atom_char(ch) (isprint (ch) && !imap_atom_specials[ch])
 
@@ -246,18 +246,19 @@ imap_parse_string_generic (char **str_p, int *len, int type)
 {
 	char *str = *str_p;
 	char *out;
-
+	
 	if (!str)
 		return NULL;
 	else if (*str == '"') {
 		char *p;
 		int size;
-
+		
 		str++;
 		size = strcspn (str, "\"") + 1;
 		p = out = g_malloc (size);
-
-		while (*str && *str != '"') {
+		
+		/* a quoted string cannot be broken into multiple lines */
+		while (*str && *str != '"' && *str != '\n') {
 			if (*str == '\\')
 				str++;
 			*p++ = *str++;
@@ -290,11 +291,10 @@ imap_parse_string_generic (char **str_p, int *len, int type)
 		*str_p += 3;
 		*len = 0;
 		return NULL;
-	} else if (type == IMAP_ASTRING &&
-		   imap_is_atom_char ((unsigned char)*str)) {
+	} else if (type == IMAP_ASTRING && imap_is_atom_char ((unsigned char)*str)) {
 		while (imap_is_atom_char ((unsigned char)*str))
 			str++;
-
+		
 		*len = str - *str_p;
 		str = g_strndup (*str_p, *len);
 		*str_p += *len;
@@ -319,7 +319,7 @@ static void
 skip_asn (char **str_p)
 {
 	char *str = *str_p;
-
+	
 	if (!str)
 		return;
 	else if (*str == '"') {
@@ -336,7 +336,7 @@ skip_asn (char **str_p)
 			*str_p = NULL;
 	} else if (*str == '{') {
 		unsigned long len;
-
+		
 		len = strtoul (str + 1, &str, 10);
 		if (*str != '}' || *(str + 1) != '\n' ||
 		    strlen (str + 2) < len) {
@@ -374,31 +374,31 @@ parse_params (char **parms_p, CamelContentType *type)
 {
 	char *parms = *parms_p, *name, *value;
 	int len;
-
+	
 	if (!g_strncasecmp (parms, "nil", 3)) {
 		*parms_p += 3;
 		return;
 	}
-
+	
 	if (*parms++ != '(') {
 		*parms_p = NULL;
 		return;
 	}
-
+	
 	while (parms && *parms != ')') {
 		name = imap_parse_nstring (&parms, &len);
 		skip_char (&parms, ' ');
 		value = imap_parse_nstring (&parms, &len);
-
+		
 		if (name && value)
 			header_content_type_set_param (type, name, value);
 		g_free (name);
 		g_free (value);
-
+		
 		if (parms && *parms == ' ')
 			parms++;
 	}
-
+	
 	if (!parms || *parms++ != ')') {
 		*parms_p = NULL;
 		return;
@@ -424,18 +424,18 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 	CamelMessageContentInfo *child;
 	CamelContentType *type;
 	int len;
-
+	
 	if (*body++ != '(') {
 		*body_p = NULL;
 		return;
 	}
-
+	
 	if (*body == '(') {
 		/* multipart */
 		GPtrArray *children;
 		char *subtype;
 		int i;
-
+		
 		/* Parse the child body parts */
 		children = g_ptr_array_new ();
 		i = 0;
@@ -448,10 +448,10 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 			child->parent = ci;
 		}
 		skip_char (&body, ' ');
-
+		
 		/* Parse the multipart subtype */
 		subtype = imap_parse_string (&body, &len);
-
+		
 		/* If there is a parse error, abort. */
 		if (!body) {
 			for (i = 0; i < children->len; i++) {
@@ -462,11 +462,11 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 			*body_p = NULL;
 			return;
 		}
-
+		
 		g_strdown (subtype);
 		ci->type = header_content_type_new ("multipart", subtype);
 		g_free (subtype);
-
+		
 		/* Chain the children. */
 		ci->childs = children->pdata[0];
 		ci->size = 0;
@@ -481,7 +481,7 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 		char *main_type, *subtype;
 		char *id, *description, *encoding;
 		guint32 size;
-
+		
 		main_type = imap_parse_string (&body, &len);
 		skip_char (&body, ' ');
 		subtype = imap_parse_string (&body, &len);
@@ -499,7 +499,7 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 		g_free (subtype);
 		parse_params (&body, type);
 		skip_char (&body, ' ');
-
+		
 		id = imap_parse_nstring (&body, &len);
 		skip_char (&body, ' ');
 		description = imap_parse_nstring (&body, &len);
@@ -508,7 +508,7 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 		skip_char (&body, ' ');
 		if (body)
 			size = strtoul (body, &body, 10);
-
+		
 		child = NULL;
 		if (header_content_type_is (type, "message", "rfc822")) {
 			skip_char (&body, ' ');
@@ -525,7 +525,7 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 			if (body)
 				strtoul (body, &body, 10);
 		}
-
+		
 		if (body) {
 			ci->type = type;
 			ci->id = id;
@@ -540,12 +540,12 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 			g_free (encoding);
 		}
 	}
-
+	
 	if (!body || *body++ != ')') {
 		*body_p = NULL;
 		return;
 	}
-
+	
 	*body_p = body;
 }
 
@@ -562,14 +562,14 @@ imap_quote_string (const char *str)
 	const char *p;
 	char *quoted, *q;
 	int len;
-
+	
 	len = strlen (str);
 	p = str;
 	while ((p = strpbrk (p, "\"\\"))) {
 		len++;
 		p++;
 	}
-
+	
 	quoted = q = g_malloc (len + 3);
 	*q++ = '"';
 	while ((p = strpbrk (str, "\"\\"))) {
@@ -580,7 +580,7 @@ imap_quote_string (const char *str)
 		str = p;
 	}
 	sprintf (q, "%s\"", str);
-
+	
 	return quoted;
 }
 
@@ -590,7 +590,7 @@ get_summary_uid_numeric (CamelFolderSummary *summary, int index)
 {
 	CamelMessageInfo *info;
 	unsigned long uid;
-
+	
 	info = camel_folder_summary_index (summary, index);
 	uid = strtoul (camel_message_info_uid (info), NULL, 10);
 	camel_folder_summary_info_free (summary, info);
@@ -616,14 +616,14 @@ imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids)
 	gboolean range = FALSE;
 	GString *gset;
 	char *set;
-
+	
 	g_return_val_if_fail (uids->len > 0, NULL);
-
+	
 	gset = g_string_new (uids->pdata[0]);
 	last_uid = strtoul (uids->pdata[0], NULL, 10);
 	next_summary_uid = 0;
 	scount = camel_folder_summary_count (summary);
-
+	
 	for (ui = 1, si = 0; ui < uids->len; ui++) {
 		/* Find the next UID in the summary after the one we
 		 * just wrote out.
@@ -632,7 +632,7 @@ imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids)
 			next_summary_uid = get_summary_uid_numeric (summary, si);
 		if (last_uid >= next_summary_uid)
 			next_summary_uid = (unsigned long) -1;
-
+		
 		/* Now get the next UID from @uids */
 		this_uid = strtoul (uids->pdata[ui], NULL, 10);
 		if (this_uid == next_summary_uid || this_uid == last_uid + 1)
@@ -644,16 +644,16 @@ imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids)
 			}
 			g_string_sprintfa (gset, ",%lu", this_uid);
 		}
-
+		
 		last_uid = this_uid;
 	}
-
+	
 	if (range)
 		g_string_sprintfa (gset, ":%lu", last_uid);
-
+	
 	set = gset->str;
 	g_string_free (gset, FALSE);
-
+	
 	return set;
 }
 
@@ -680,10 +680,10 @@ imap_uid_set_to_array (CamelFolderSummary *summary, const char *uids)
 	char *p, *q;
 	unsigned long uid, suid;
 	int si, scount;
-
+	
 	arr = g_ptr_array_new ();
 	scount = camel_folder_summary_count (summary);
-
+	
 	p = (char *)uids;
 	si = 0;
 	do {
@@ -691,7 +691,7 @@ imap_uid_set_to_array (CamelFolderSummary *summary, const char *uids)
 		if (p == q)
 			goto lose;
 		g_ptr_array_add (arr, g_strndup (p, q - p));
-
+		
 		if (*q == ':') {
 			/* Find the summary entry for the UID after the one
 			 * we just saw.
@@ -703,11 +703,11 @@ imap_uid_set_to_array (CamelFolderSummary *summary, const char *uids)
 			}
 			if (si >= scount)
 				suid = uid + 1;
-
+			
 			uid = strtoul (q + 1, &p, 10);
 			if (p == q + 1)
 				goto lose;
-
+			
 			/* Add each summary UID until we find one
 			 * larger than the end of the range
 			 */
@@ -721,9 +721,9 @@ imap_uid_set_to_array (CamelFolderSummary *summary, const char *uids)
 		} else
 			p = q;
 	} while (*p++ == ',');
-
+	
 	return arr;
-
+	
  lose:
 	g_warning ("Invalid uid set %s", uids);
 	imap_uid_array_free (arr);
@@ -740,7 +740,7 @@ void
 imap_uid_array_free (GPtrArray *arr)
 {
 	int i;
-
+	
 	for (i = 0; i < arr->len; i++)
 		g_free (arr->pdata[i]);
 	g_ptr_array_free (arr, TRUE);
@@ -763,10 +763,9 @@ imap_namespace_concat (CamelImapStore *store, const char *name)
 {
 	if (!name || *name == '\0')
 		return g_strdup (store->namespace);
-
+	
 	if (!g_strcasecmp (name, "INBOX"))
 		return g_strdup ("INBOX");
-
+	
 	return imap_concat (store, store->namespace, name);
 }
-

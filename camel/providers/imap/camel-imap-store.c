@@ -617,7 +617,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 	}
 	if (!store->namespace)
 		store->namespace = g_strdup ("");
-
+	
 	if (!store->dir_sep) {
 		if (store->server_level >= IMAP_LEVEL_IMAP4REV1) {
 			/* This idiom means "tell me the hierarchy separator
@@ -637,7 +637,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 		}
 		if (!response)
 			goto done;
-
+		
 		result = camel_imap_response_extract (store, response, "LIST", NULL);
 		if (result) {
 			imap_parse_list_response (store, result, NULL, &store->dir_sep, NULL);
@@ -646,7 +646,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 		if (!store->dir_sep)
 			store->dir_sep = '/';	/* Guess */
 	}
-
+	
 	/* Write namespace/separator out */
 	camel_file_util_encode_string (storeinfo, store->namespace);
 	camel_file_util_encode_uint32 (storeinfo, store->dir_sep);
@@ -983,20 +983,20 @@ create_folder (CamelStore *store, const char *parent_name,
 	char *full_name, *resp, *thisone;
 	gboolean need_convert;
 	int i, flags;
-
+	
 	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex))
 		return NULL;
 	if (!parent_name)
 		parent_name = "";
-
+	
 	/* check if the parent allows inferiors */
-
+	
 	need_convert = FALSE;
 	response = camel_imap_command (imap_store, NULL, ex, "LIST \"\" %F",
 				       parent_name);
 	if (!response) /* whoa, this is bad */
 		return NULL;
-
+	
 	/* FIXME: does not handle unexpected circumstances very well */
 	for (i = 0; i < response->untagged->len; i++) {
 		resp = response->untagged->pdata[i];
@@ -1012,18 +1012,18 @@ create_folder (CamelStore *store, const char *parent_name,
 	}
 	
 	camel_imap_response_free (imap_store, response);
-
+	
 	/* if not, check if we can delete it and recreate it */
 	if (need_convert) {
 		gchar *name;
 		CamelException internal_ex;
-
+		
 		if (get_folder_status (imap_store, parent_name, "MESSAGES")) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
 					     _("The parent folder is not allowed to contain subfolders"));
 			return NULL;
 		}
-
+		
 		/* delete the old parent and recreate it */
 		camel_exception_init (&internal_ex);
 		delete_folder (store, parent_name, &internal_ex);
@@ -1031,22 +1031,21 @@ create_folder (CamelStore *store, const char *parent_name,
 			camel_exception_xfer (ex, &internal_ex);
 			return NULL;
 		}
-
+		
 		/* add the dirsep to the end of parent_name */
 		name = g_strdup_printf ("%s%c", parent_name, imap_store->dir_sep);
 		response = camel_imap_command (imap_store, NULL, ex, "CREATE %F",
 					       name);
 		g_free (name);
-
+		
 		if (!response)
 			return NULL;
 		else
 			camel_imap_response_free (imap_store, response);
 	}
-
 	
 	/* ok now we can create the folder */
-
+	
 	full_name = imap_concat (imap_store, parent_name, folder_name);
 	response = camel_imap_command (imap_store, NULL, ex, "CREATE %F",
 				       full_name);
@@ -1055,7 +1054,7 @@ create_folder (CamelStore *store, const char *parent_name,
 		fi = get_folder_info_online (store, full_name, 0, ex);
 	} else
 		fi = NULL;
-
+	
 	g_free (full_name);
 	return fi;
 }
@@ -1068,10 +1067,10 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 	int flags;
 	char sep, *dir, *name = NULL;
 	CamelURL *url;
-
+	
 	if (!imap_parse_list_response (imap_store, response, &flags, &sep, &dir))
 		return NULL;
-
+	
 	if (sep) {
 		name = strrchr (dir, sep);
 		if (name && !*++name) {
@@ -1079,14 +1078,14 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 			return NULL;
 		}
 	}
-
+	
 	fi = g_new0 (CamelFolderInfo, 1);
 	fi->full_name = dir;
 	if (sep && name)
 		fi->name = g_strdup (name);
 	else
 		fi->name = g_strdup (dir);
-
+	
 	url = camel_url_new (imap_store->base_url, NULL);
 	g_free (url->path);
 	url->path = g_strdup_printf ("/%s", dir);
@@ -1094,11 +1093,10 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 		camel_url_set_param (url, "noselect", "yes");
 	fi->url = camel_url_to_string (url, 0);
 	camel_url_free (url);
-
-
+	
 	if (!(flags & IMAP_LIST_FLAG_UNMARKED))
 		fi->unread_message_count = -1;
-
+	
 	return fi;
 }
 
@@ -1117,11 +1115,11 @@ get_subscribed_folders_by_hand (CamelImapStore *imap_store, const char *top,
 	CamelFolderInfo *fi;
 	char *result;
 	int i, toplen = strlen (top);
-
+	
 	names = g_ptr_array_new ();
 	g_hash_table_foreach (imap_store->subscribed_folders,
 			      copy_folder_name, names);
-
+	
 	for (i = 0; i < names->len; i++) {
 		response = camel_imap_command (imap_store, NULL, ex,
 					       "LIST \"\" %F",
@@ -1138,16 +1136,16 @@ get_subscribed_folders_by_hand (CamelImapStore *imap_store, const char *top,
 			g_ptr_array_remove_index_fast (names, i--);
 			continue;
 		}
-
+		
 		fi = parse_list_response_as_folder_info (imap_store, result);
 		if (!fi)
 			continue;
-
+		
 		if (strncmp (top, fi->full_name, toplen) != 0) {
 			camel_folder_info_free (fi);
 			continue;
 		}
-
+		
 		g_ptr_array_add (folders, fi);
 	}
 	g_ptr_array_free (names, TRUE);
@@ -1161,13 +1159,13 @@ get_folders_online (CamelImapStore *imap_store, const char *pattern,
 	CamelFolderInfo *fi;
 	char *list;
 	int i;
-
+	
 	response = camel_imap_command (imap_store, NULL, ex,
 				       "%s \"\" %F", lsub ? "LSUB" : "LIST",
 				       pattern);
 	if (!response)
 		return;
-
+	
 	for (i = 0; i < response->untagged->len; i++) {
 		list = response->untagged->pdata[i];
 		fi = parse_list_response_as_folder_info (imap_store, list);
