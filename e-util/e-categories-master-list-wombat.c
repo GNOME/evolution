@@ -51,7 +51,7 @@ ecmlw_load (ECategoriesMasterListWombat *ecmlw)
 							    string);
 	}
 
-	g_print ("load: %s\n", string?string:"(nil)");
+	d(g_print ("load: %s\n", string?string:"(nil)"));
 
 	g_free (string);
 }
@@ -64,7 +64,7 @@ ecmlw_save (ECategoriesMasterListWombat *ecmlw)
 
 	string = e_categories_master_list_array_to_string (E_CATEGORIES_MASTER_LIST_ARRAY (ecmlw));
 
-	g_print ("save: %s\n", string);
+	d(g_print ("save: %s\n", string));
 
 	CORBA_exception_init (&ev);
 
