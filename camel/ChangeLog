@@ -1,3 +1,11 @@
+2001-05-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Add camel-smime-context.[c,h] and camel-smime.[c,h]
+	to the build.
+	
+	* camel-smime.[c,h]: New source files for manipulating S/MIME
+	message parts.
+
 2001-05-14  Jon Trowbridge  <trow@ximian.com>
 
 	* camel-search-private.c (utf8_get): Replicate the semantics of

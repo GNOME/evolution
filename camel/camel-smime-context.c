@@ -24,6 +24,7 @@
 #include <config.h>
 #endif
 
+#ifdef HAVE_NSS
 #include "camel-smime-context.h"
 
 #include "camel-stream-fs.h"
@@ -642,3 +643,5 @@ smime_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 	
 	return -1;
 }
+
+#endif /* HAVE_NSS */
