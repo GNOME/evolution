@@ -192,7 +192,7 @@ message_tag_followup_decode (const char *value)
 	tag = g_new (struct _FollowUpTag, 1);
 	
 	for (i = 0; i < FOLLOWUP_FLAG_NONE; i++) {
-		if (!strncmp (value, available_flags[i].name, strlen (available_flags[i].name)))
+		if (!strcmp (value, available_flags[i].name))
 			break;
 	}
 	

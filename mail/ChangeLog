@@ -1,3 +1,8 @@
+2002-07-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-tag-followup.c (message_tag_followup_decode): Don't use
+	strncmp here or reply-all will match reply.
+
 2002-07-22  Peter Williams  <peterw@ximian.com>
 
 	* folder-browser.c (folder_browser_gui_init): Also perform a search
