@@ -806,7 +806,7 @@ construct (MailConfigDruid *druid)
 	GtkWidget *widget;
 	int i;
 	
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config-druid.glade", "mail-config-druid");
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "mail-config-druid");
 	druid->gui = gui;
 	
 	/* get our toplevel widget */

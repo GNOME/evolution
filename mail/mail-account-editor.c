@@ -575,7 +575,7 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	GtkWidget *notebook, *entry;
 	CamelURL *url;
 	
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config-druid.glade", "mail-account-editor");
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "mail-account-editor");
 	editor->gui = gui;
 	
 	/* get our toplevel widget */

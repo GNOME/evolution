@@ -145,10 +145,9 @@ oafdir = $(datadir)/oaf
 oaf_DATA = GNOME_Evolution_Mail.oafinfo
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = mail-config.glade mail-config-druid.glade local-config.glade
+glade_DATA = mail-config.glade local-config.glade
 
 glade_messages = \
-	mail-config-druid.glade.h	\
 	mail-config.glade.h
 
 iconsdir = $(datadir)/images/evolution

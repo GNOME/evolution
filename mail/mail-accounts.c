@@ -330,7 +330,7 @@ construct (MailAccountsDialog *dialog)
 	GladeXML *gui;
 	GtkWidget *notebook;
 	
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config-druid.glade", "mail-accounts-dialog");
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "mail-accounts-dialog");
 	dialog->gui = gui;
 	
 	/* get our toplevel widget */

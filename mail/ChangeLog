@@ -1,3 +1,17 @@
+2001-01-09  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config-druid.glade: Moved to mail-config.glade
+
+	* mail-accounts.c (construct): Updated to use mail-config.glade.
+
+	* mail-account-editor.c (construct): Updated to use
+	mail-config.glade.
+
+	* mail-config-druid.c (construct): Updated to use
+	mail-config.glade.
+
+	* mail.h: Added the new mail config headers.
+
 2001-01-09  Dan Winship  <danw@helixcode.com>
 
 	* mail-local.c (local_folder_changed_proxy): Change
