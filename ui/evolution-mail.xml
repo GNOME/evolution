@@ -56,13 +56,13 @@
 
     <submenu name="Settings">
 
-      <menuitem name="MailFilters" verb="SetMailFilter" _label="Mail _Filters"/>
+      <menuitem name="MailFilters" verb="SetMailFilter" _label="Mail _Filters..."/>
 
-      <menuitem name="VFolderEdit" verb="SetVFolder" _label="_Virtual Folder Editor"/>
+      <menuitem name="VFolderEdit" verb="SetVFolder" _label="_Virtual Folder Editor..."/>
 
-      <menuitem name="SetMailConfig" verb="" _label="_Mail Configuration" />
+      <menuitem name="SetMailConfig" verb="" _label="_Mail Configuration..." />
 
-      <menuitem name="SetSubscribe" verb="" _label="Manage Subscriptions"/>
+      <menuitem name="SetSubscribe" verb="" _label="Manage Subscriptions..."/>
 
       <menuitem name="SetForgetPwd" verb="" _label="Forget _Passwords"/>
 

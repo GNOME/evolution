@@ -1,3 +1,8 @@
+2000-12-23  Jason Leach  <jasonleach@usa.net>
+
+	* evolution-mail.xml: Added ellipsis to Settings menu entries that
+	  bring up dialogs.  Bug #1019.
+
 2000-12-23  Michael Meeks  <michael@helixcode.com>
 
 	* evolution-mail.xml: s/<menuitem\/>/<separator\/>/
