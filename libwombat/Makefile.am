@@ -16,9 +16,9 @@ $(IDL_GENERATED): $(IDLS)
 		$(top_srcdir)/wombat/Evolution-Wombat.idl
 
 # Wombat library
-lib_LTLIBRARIES = libwombat.la
+privlib_LTLIBRARIES = libwombat.la
 
-wombatincludedir = $(includedir)/evolution/wombat
+wombatincludedir = $(includedir)/evolution-$(BASE_VERSION)/wombat
 wombatinclude_HEADERS = \
 	wombat-client.h
 
