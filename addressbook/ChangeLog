@@ -1,5 +1,10 @@
 2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/addressbook.c: Make the table view be sorted by
+	name initially.
+
+2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/pas/pas-book-factory.c: Send a proper response when you
 	can't find the ldap URI.
 

@@ -599,7 +599,7 @@ set_prop (BonoboPropertyBag *bag,
     <column>13</column>                  \
   </columns-shown>                       \
   <grouping>                             \
-    <leaf column=\"2\" ascending=\"1\"/> \
+    <leaf column=\"0\" ascending=\"1\"/> \
   </grouping>                            \
 </ETableSpecification>"
 
