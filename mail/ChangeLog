@@ -3,6 +3,8 @@
 	* em-migrate.c (em_migrate_imap_caches_1_4): New function to
 	migrate the imap cache.
 	(em_migrate_1_4): Migrate the IMAP cache. Fixes bug #52985.
+	(em_migrate_1_4): Copy over the searches.xml file. Fixes bug
+	#52980.
 
 	* mail-session.c (request_password): Changed the logic of the
 	visibility of the passwd text so that we hid ethe passwd if the

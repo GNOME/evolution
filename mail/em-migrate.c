@@ -1878,6 +1878,16 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	if (em_upgrade_xml_1_4 (vfolders) == -1)
 		return -1;
 	
+	path = g_build_filename (g_get_home_dir (), "evolution", "searches.xml", NULL);
+	if (stat (path, &st) == 0 && S_ISREG (st.st_mode)) {
+		char *dest;
+		
+		dest = g_build_filename (evolution_dir, "mail", "searches.xml", NULL);
+		cp (path, dest);
+		g_free (dest);
+	}
+	g_free (path);
+	
 	if (em_migrate_pop_uid_caches_1_4 (evolution_dir, ex) == -1)
 		return -1;
 	
