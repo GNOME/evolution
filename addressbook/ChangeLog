@@ -1,5 +1,9 @@
 2003-04-18  Rodney Dawes  <dobey@ximian.com>
 
+	* gui/component/select-names/Makefile.am: Add missing -DPREFIX
+	
+2003-04-18  Rodney Dawes  <dobey@ximian.com>
+
 	[ fixes #21499 ]
 	* gui/component/Makefile.am:
 	* gui/component/addressbook.c:

@@ -42,6 +42,7 @@ INCLUDES =						\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
+	-DPREFIX=\""$(prefix)"\"	\
 	-DG_DISABLE_DEPRECATED				\
 	-DGTK_DISABLE_DEPRECATED			\
 	-DLIBGNOME_DISABLE_DEPRECATED			\
