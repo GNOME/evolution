@@ -33,8 +33,8 @@
 #include <stdio.h> /* for printf */
 #include <time.h> /* for time() */
 
-#include "ical.h"
-#include "icalss.h"
+#include <libical/ical.h>
+#include <libicalss/icalss.h>
 #include "regression.h"
 
 #define OUTPUT_FILE "filesetout.ics"

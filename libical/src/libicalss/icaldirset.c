@@ -57,7 +57,7 @@
 #endif
 
 
-#include "ical.h"
+#include <libical/ical.h>
 #include "icaldirset.h"
 #include "icaldirset.h"
 #include "icalfileset.h"

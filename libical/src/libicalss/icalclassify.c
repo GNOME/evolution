@@ -26,9 +26,9 @@
 #include "config.h"
 #endif
 
-#include "ical.h"
+#include <libical/ical.h>
 #include "icalclassify.h"
-#include "icalmemory.h"
+#include <libical/icalmemory.h>
 
 #include <ctype.h>   /* For tolower() */
 #include <string.h> /* for index() */

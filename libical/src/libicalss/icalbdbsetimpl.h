@@ -15,7 +15,7 @@
 #include "config.h"
 #endif
 
-#include "icalgauge.h"
+#include <libicalss/icalgauge.h>
 #include <db.h>
 
 /* This definition is in its own file so it can be kept out of the

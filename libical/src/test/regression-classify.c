@@ -28,8 +28,8 @@
 #include <errno.h>
 #include <string.h> /* For strerror */
 
-#include "ical.h"
-#include "icalss.h"
+#include <libical/ical.h>
+#include <libicalss/icalss.h>
 #include "regression.h"
 
 extern int VERBOSE;

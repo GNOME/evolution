@@ -27,8 +27,8 @@
 #ifndef ICALCSTPC_H
 #define ICALCSTPC_H
 
-#include "ical.h"
-#include "icalcstp.h"
+#include <libical/ical.h>
+#include <libicalss/icalcstp.h>
 
 /********************** Client (Sender) Interfaces **************************/
 

@@ -24,14 +24,8 @@ LDADD =  ../libicalss/libicalss-evolution.la ../libicalvcal/libicalvcal-evolutio
 LIBS = @PTHREAD_LIBS@
 
 INCLUDES = 				\
-       -I. 				\
-       -I../libicalvcal 		\
-       -I$(srcdir)/../libicalvcal 	\
-       -I$(srcdir) 			\
-       -I../libical 			\
-       -I$(srcdir)/../libical 		\
-       -I../libicalss 			\
-       -I$(srcdir)/../libicalss         \
+	-I$(top_srcdir)			\
+	-I$(top_srcdir)/src		\
 	$(cxx_inc) $(bdb4_inc)
 
 TESTS=regression

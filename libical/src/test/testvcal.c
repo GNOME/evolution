@@ -25,7 +25,7 @@
 
  ======================================================================*/
 
-#include "icalvcal.h"
+#include <libicalvcal/icalvcal.h>
 #include <stdio.h>
 
 /* Given a vCal data file as its first argument, this program will

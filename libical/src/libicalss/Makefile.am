@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.20 2003/09/22 07:32:31 hansp Exp $
+#  $Id: Makefile.am,v 1.21 2003/10/09 21:02:25 fejj Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -26,8 +26,6 @@
 AM_YFLAGS =-d -v -p ss
 AM_LFLAGS = -Pss 
 LEX_OUTPUT_ROOT = lex.ss
-
-all: icalss.h
 
 # just to get it built
 $(srcdir)/icalgauge.c: icalssyacc.h
@@ -58,9 +56,6 @@ privlib_LTLIBRARIES = libicalss-evolution.la $(cxx_lib)
 
 INCLUDES =			\
 	-I$(top_srcdir)/src	\
-	-I$(top_builddir)/src	\
-	-I$(top_srcdir)/src/libical	\
-	-I$(top_builddir)/libical \
 	$(BDB_INCLUDE)
 
 libicalss_evolution_la_LDFLAGS = -version-info 0:0:0
@@ -113,31 +108,11 @@ COMBINEDHEADERS = \
 	$(srcdir)/icalspanlist.h	\
 	$(srcdir)/icalmessage.h
 
-
-icalss.h: $(COMBINEDHEADERS)
-	echo '#ifdef __cplusplus'         >  icalss.h
-	echo 'extern "C" {'               >> icalss.h
-	echo '#endif'                     >> icalss.h
-	echo '/*'                         >> icalss.h
-	echo ' $$''Id''$$'                >> icalss.h
-	echo '*/'                         >> icalss.h
-	cat $(COMBINEDHEADERS)				\
-	| egrep -v "#include.*\"ical"			\
-	| egrep -v "#include.*\"pvl\.h\""		\
-	| egrep -v '\$$(Id|Locker): .+\$$'>> icalss.h
-	echo '#ifdef __cplusplus'         >> icalss.h
-	echo '};'                         >> icalss.h
-	echo '#endif'                     >> icalss.h
-
-
 if WITH_CXX_BINDINGS
 libicalss_evolution_cxx_la_SOURCES =	\
 	$(libicalss_evolution_la_SOURCES)	\
 	icalspanlist_cxx.h	\
 	icalspanlist_cxx.cpp
-
-# c++ needs ical.h auto-generated.
-icalspanlist_cxx.lo: icalss.h
 
 endif
 

@@ -1,4 +1,4 @@
-#include "ical.h"
+#include <libical/ical.h>
 
 #include <stdlib.h>	/* abort() */
 #include <string.h>	/* strcmp() */

@@ -27,7 +27,7 @@
 #endif
 
 #include "icalmessage.h"
-#include "icalenums.h"
+#include <libical/icalenums.h>
 #include <ctype.h>  /* for tolower()*/
 #include <string.h> /* for strstr */
 #include <stdlib.h> /* for free(), malloc() */

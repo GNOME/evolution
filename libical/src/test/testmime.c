@@ -33,7 +33,7 @@
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
  ======================================================================*/
 
-#include "ical.h"
+#include <libical/ical.h>
 
 #include <stdlib.h> /* For rand */
 #include <string.h> /* for strrchr, strdup*/

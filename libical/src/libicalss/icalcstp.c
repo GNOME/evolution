@@ -26,7 +26,7 @@
 #include "config.h"
 #endif
 
-#include "ical.h"
+#include <libical/ical.h>
 #include "icalcstp.h"
 #include "pvl.h" 
 

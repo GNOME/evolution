@@ -26,8 +26,8 @@
 #include <string.h> /* For strerror */
 #include <stdlib.h> /* for free */
 
-#include "ical.h"
-#include "icalss.h"
+#include <libical/ical.h>
+#include <libicalss/icalss.h>
 
 void send_message(icalcomponent *reply,const char* this_user)
 {

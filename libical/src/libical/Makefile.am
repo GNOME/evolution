@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.39 2003/10/07 14:28:18 danw Exp $
+#  $Id: Makefile.am,v 1.40 2003/10/09 21:02:23 fejj Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -39,8 +39,6 @@ privlib_LTLIBRARIES = libical-evolution.la $(cxx_lib)
 CPPFLAGS = -DPACKAGE_DATA_DIR=\""$(privdatadir)"\"
 
 # CFLAGS = -g
-
-all: ical.h
 
 INCLUDES =			\
 	-I$(top_builddir)	\
@@ -161,23 +159,6 @@ BUILT_SOURCES =			\
 	icalrestriction.c	\
 	icalderivedvalue.c
 
-ical.h: $(COMBINEDHEADERS)
-	echo '#ifdef __cplusplus'         >  ical.h
-	echo 'extern "C" {'               >> ical.h
-	echo '#endif'                     >> ical.h
-	echo '/*'                         >> ical.h
-	echo ' $$''Id''$$'                >> ical.h
-	echo '*/'                         >> ical.h
-	cat $(COMBINEDHEADERS)				\
-	| egrep -v "#include.*\"ical"			\
-	| egrep -v "#include.*\"config"			\
-	| egrep -v "#include.*\"pvl\.h\""		\
-	| egrep -v '\$$(Id|Locker): .+\$$'>> ical.h
-	echo '#ifdef __cplusplus'         >> ical.h
-	echo '};'                         >> ical.h
-	echo '#endif'                     >> ical.h
-
-
 # parameters
 
 PARAMETERDEPS =	\
@@ -253,7 +234,7 @@ CLEANFILES = $(BUILT_SOURCES) $(BUILT_COMBINEDHEADERS)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
-	cd $(distdir); rm -f ical.h icalversion.h 
+	cd $(distdir); rm -f icalversion.h 
 
 EXTRA_DIST =			\
 	icalderivedparameter.c.in \

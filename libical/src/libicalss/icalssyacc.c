@@ -63,8 +63,8 @@
 #include <stdlib.h>
 #include <string.h> /* for strdup() */
 #include <limits.h> /* for SHRT_MAX*/
-#include "ical.h"
-#include "icalgauge.h"
+#include <libical/ical.h>
+#include <libicalss/icalgauge.h>
 #include "icalgaugeimpl.h"
 
 extern struct icalgauge_impl *icalss_yy_gauge;

@@ -1,4 +1,4 @@
-#include "ical.h"
+#include <libical/ical.h>
 #include "regression.h"
 
 #include <string.h>

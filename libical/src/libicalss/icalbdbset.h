@@ -11,9 +11,9 @@
 #ifndef ICALBDBSET_H
 #define ICALBDBSET_H
 
-#include "ical.h"
-#include "icalset.h"
-#include "icalgauge.h"
+#include <libical/ical.h>
+#include <libicalss/icalset.h>
+#include <libicalss/icalgauge.h>
 #include <db.h>
 
 typedef struct icalbdbset_impl icalbdbset;

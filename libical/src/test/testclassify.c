@@ -26,10 +26,10 @@
  ======================================================================*/
 
 #include <stdio.h> /* for printf */
-#include "ical.h"
+#include <libical/ical.h>
 #include <errno.h>
 #include <string.h> /* For strerror */
-#include "icalss.h"
+#include <libicalss/icalss.h>
 
 /* Get a note about the purpose of the property*/
 const char* get_note(icalcomponent *c)

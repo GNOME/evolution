@@ -27,7 +27,7 @@
     
   ======================================================================*/
 
-#include "ical.h"
+#include <libical/ical.h>
 #include <assert.h>
 #include <string.h> /* for strdup */
 #include <stdlib.h> /* for malloc */

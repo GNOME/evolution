@@ -38,8 +38,8 @@
 #include <sys/types.h> /* For getpwent */
 #include <ctype.h> /* for tolower */
 
-#include "ical.h"
-#include "icalss.h"
+#include <libical/ical.h>
+#include <libicalss/icalss.h>
 
 char* program_name;
 #define TMPSIZE 2048
@@ -309,7 +309,7 @@ icalcomponent* make_reply(icalcomponent *comp, icalproperty *return_status,
 
     snprintf(attendee,TMPSIZE,"mailto:%s",local_attendee);
 
-    snprintf(prodid,TMPSIZE,"-//Softwarestudio.org//%s version %s//EN",ICAL_PACKAGE,ICAL_VERSION);
+    snprintf(prodid,TMPSIZE,"-//Softwarestudio.org//%s version %s//EN",PACKAGE,VERSION);
 
     /* Create the base component */
     reply = icalcomponent_vanew( 

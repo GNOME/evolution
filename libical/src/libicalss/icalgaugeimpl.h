@@ -22,7 +22,7 @@
 
 ======================================================================*/
 
-#include "ical.h"
+#include <libical/ical.h>
 
 typedef enum icalgaugecompare {
     ICALGAUGECOMPARE_EQUAL=ICAL_XLICCOMPARETYPE_EQUAL,

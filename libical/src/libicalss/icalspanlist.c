@@ -26,7 +26,7 @@
 #include "config.h"
 #endif
 
-#include "ical.h"
+#include <libical/ical.h>
 #include "icalspanlist.h"
 
 #include <stdlib.h> /* for free and malloc */

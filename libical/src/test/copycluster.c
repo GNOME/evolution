@@ -32,8 +32,8 @@
 #include <unistd.h> /* for alarm */
 #include <stdlib.h> /* for exit */
 
-#include "ical.h"
-#include "icalss.h"
+#include <libical/ical.h>
+#include <libicalss/icalss.h>
 
 static void sig_alrm(int i){
     fprintf(stderr,"Could not get lock on file\n");

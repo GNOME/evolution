@@ -26,7 +26,7 @@
 
 ======================================================================*/
 
-#include "ical.h"
+#include <libical/ical.h>
 #include "icalgauge.h"
 #include "icalgaugeimpl.h"
 #include <stdlib.h>

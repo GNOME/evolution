@@ -25,9 +25,9 @@
 #ifndef ICALCOMPONENT_H
 #define ICALCOMPONENT_H
 
-#include "icalproperty.h"
-#include "icalvalue.h"
-#include "icalenums.h" /* defines icalcomponent_kind */
+#include <libicalss/icalproperty.h>
+#include <libicalss/icalvalue.h>
+#include <libicalss/icalenums.h> /* defines icalcomponent_kind */
 
 typedef void icalcomponent;
 

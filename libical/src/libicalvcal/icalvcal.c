@@ -39,8 +39,12 @@
 
   ======================================================================*/
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "icalvcal.h"
-#include <string.h>   
+#include <string.h>
 
 #ifdef WIN32
 #define snprintf	_snprintf
@@ -326,8 +330,8 @@ icalcomponent* icalvcal_convert_with_defaults (VObject *object,
 
    /* We add a VERSION and PRODID here, to make it a valid iCalendar object,
       but the application may change them if necessary. */
-   prop = icalproperty_new_prodid ("-//Softwarestudio.org//" ICAL_PACKAGE
-				   " version " ICAL_VERSION "//EN");
+   prop = icalproperty_new_prodid ("-//Softwarestudio.org//" PACKAGE
+				   " version " VERSION "//EN");
    icalcomponent_add_property (root, prop);
 
    prop = icalproperty_new_version ("2.0");

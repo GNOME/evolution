@@ -26,7 +26,7 @@
 #ifndef ICALCSDB_H
 #define ICALCSDB_H
 
-#include "ical.h"
+#include <libical/ical.h>
 
 typedef void icalcsdb;
 

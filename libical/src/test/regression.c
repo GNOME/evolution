@@ -27,9 +27,9 @@
     
   ======================================================================*/
 
-#include "ical.h"
-#include "icalss.h"
-#include "icalvcal.h"
+#include <libical/ical.h>
+#include <libicalss/icalss.h>
+#include <libicalvcal/icalvcal.h>
 
 #include "regression.h"
 
@@ -1090,7 +1090,7 @@ void test_recur_parameter_bug(){
  
 #include <stdio.h>
 #include <stdlib.h>
-#include <ical.h>
+#include <libical/ical.h>
  
     static const char test_icalcomp_str[] =
 "BEGIN:VEVENT\n"
@@ -2425,7 +2425,7 @@ void test_x(){
  
 #include <stdio.h>
 #include <stdlib.h>
-#include <ical.h>
+#include <libical/ical.h>
  
     static const char test_icalcomp_str[] =
 "BEGIN:VEVENT\r\n"

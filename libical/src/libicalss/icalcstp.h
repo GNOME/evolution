@@ -27,7 +27,7 @@
 #ifndef ICALCSTP_H
 #define ICALCSTP_H
 
-#include "ical.h"
+#include <libical/ical.h>
 
 
 /* Connection state, from the state machine in RFC2445 */

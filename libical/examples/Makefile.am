@@ -9,7 +9,7 @@ endif
 
 LIBS = @PTHREAD_LIBS@
 
-INCLUDES = -I. -I../src/libical -I$(srcdir)/../src/libical -I../src/libicalss -I../src/libicalvcal 
+INCLUDES = -I. -I$(top_srcdir)/src
 
 doesnothing_SOURCES = \
 	access_components.c \

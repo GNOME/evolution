@@ -34,7 +34,7 @@
 
 ======================================================================*/
 
-#include "ical.h"
+#include <libical/ical.h>
 #include "icalset.h"
 #include "icalfileset.h"
 #include "icalfilesetimpl.h"
