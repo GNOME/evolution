@@ -28,7 +28,7 @@ static GHashTable *mail_msg_active; /* table of active messages, must hold mail_
 static pthread_mutex_t mail_msg_lock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t mail_msg_cond = PTHREAD_COND_INITIALIZER;
 
-static pthread_t mail_gui_thread; /* so we can tell when we're in the main thread, or not */
+pthread_t mail_gui_thread;
 
 void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 {

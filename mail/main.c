@@ -40,10 +40,27 @@ static int blowup(int status)
 }
 #endif
 
+/* The GNOME SEGV handler will lose if it's not run from the main Gtk
+ * thread. So if we crash in another thread, redirect the signal.
+ */
+static void (*gnome_segv_handler) (int);
+
+static void
+segv_redirect (int sig)
+{
+	if (pthread_self () == mail_gui_thread)
+		gnome_segv_handler (sig);
+	else {
+		pthread_kill (mail_gui_thread, sig);
+		pthread_exit (NULL);
+	}
+}
+
 int
 main (int argc, char *argv [])
 {
 	CORBA_ORB orb;
+	struct sigaction sa, osa;
 
 #if 0
 	/* used to make elfence work */
@@ -61,6 +78,15 @@ main (int argc, char *argv [])
 
 	gnome_init_with_popt_table ("evolution-mail-component", VERSION,
 				    argc, argv, oaf_popt_options, 0, NULL);
+
+	sa.sa_flags = 0;
+	sigemptyset (&sa.sa_mask);
+	sa.sa_handler = segv_redirect;
+	sigaction (SIGSEGV, &sa, &osa);
+	sigaction (SIGBUS, &sa, NULL);
+	sigaction (SIGFPE, &sa, NULL);
+	gnome_segv_handler = osa.sa_handler;
+
 	orb = oaf_init (argc, argv);
 
 	if (bonobo_init (orb, CORBA_OBJECT_NIL,
@@ -86,9 +112,6 @@ main (int argc, char *argv [])
 	component_factory_init ();
 	evolution_composer_factory_init (composer_send_cb,
 					 composer_postpone_cb);
-
-	signal (SIGSEGV, SIG_DFL);
-	signal (SIGBUS, SIG_DFL);
 
 	if (gdk_threads_mutex) {
 		g_mutex_free (gdk_threads_mutex);

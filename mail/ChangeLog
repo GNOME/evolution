@@ -1,3 +1,12 @@
+2001-01-22  Dan Winship  <danw@ximian.com>
+
+	* mail-mt.[ch]: make mail_gui_thread non-static.
+
+	* main.c (main): Set up signal handler for SEGV, BUS, FPE
+	(segv_redirect): if a gnome-segv'ing signal is received in
+	a thread other than mail_gui_thread, re-deliver it to that
+	thread to work around a problem with the gnome segv handler.
+
 2001-01-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (handle_multipart_signed): Fixed to display

@@ -23,6 +23,7 @@
 #ifndef _MAIL_MT
 #define _MAIL_MT
 
+#include <pthread.h>
 #include "camel/camel-exception.h"
 #include "e-util/e-msgport.h"
 #include "camel/camel-object.h"
@@ -77,5 +78,9 @@ extern EMsgPort *mail_gui_reply_port;
 /* some globally available threads */
 extern EThread *mail_thread_queued;	/* for operations that can (or should) be queued */
 extern EThread *mail_thread_new;	/* for operations that should run in a new thread each time */
+
+/* The main thread. */
+extern pthread_t mail_gui_thread;
+
 
 #endif /* ! _MAIL_MT */
