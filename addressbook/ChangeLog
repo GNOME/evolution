@@ -1,3 +1,9 @@
+2000-04-28  Larry Ewing  <lewing@helixcode.com>
+
+	* backend/pas/pas-book-factory.c (register_factory): fix the
+	`USING_OAF' changes so that they work for when we are not using
+	oaf.
+
 2000-04-27  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* ename/Makefile.am

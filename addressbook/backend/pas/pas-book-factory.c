@@ -340,8 +340,9 @@ static gboolean
 register_factory (CORBA_Object obj)
 {
 	CORBA_Environment  ev;
-	CORBA_exception_init (&ev);
 	int ret;
+
+	CORBA_exception_init (&ev);
 
 	ret = goad_server_register (NULL, obj, PAS_BOOK_FACTORY_GOAD_ID, "server", &ev);
 
