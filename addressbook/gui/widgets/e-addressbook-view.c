@@ -649,25 +649,17 @@ jump_to_letter(EAddressbookView *view, gunichar letter)
 		g_assert (letter_v != NULL && letter_v[0] != NULL);
 		gstr = g_string_new ("(not (or ");
 		for (p = letter_v + 1; *p != NULL; p++) {
-			char s[7];
-
 			g_string_sprintfa (gstr, "(beginswith \"file_as\" \"%s\")", *p);
-			s[g_unichar_to_utf8 (g_unichar_toupper (g_utf8_get_char (*p)), s)] = '\0';
-			g_string_sprintfa (gstr, "(beginswith \"file_as\" \"%s\")", s);
 		}
 		g_string_append (gstr, "))");
 		query = gstr->str;
 		g_strfreev (letter_v);
 		g_string_free (gstr, FALSE);
 	} else {
-		char s1[6 + 1], s2[6 + 1];
+		char s[6 + 1];
 
-		s1 [g_unichar_to_utf8 (letter, s1)] = '\0';
-		s2 [g_unichar_to_utf8 (g_unichar_toupper (letter), s2)] = '\0';
-		query = g_strdup_printf ("(or "
-		                         "(beginswith \"file_as\" \"%s\")"
-		                         "(beginswith \"file_as\" \"%s\")"
-		                         ")", s1, s2);
+		s [g_unichar_to_utf8 (letter, s)] = '\0';
+		query = g_strdup_printf ("(beginswith \"file_as\" \"%s\")", s);
 	}
 	gtk_object_set (GTK_OBJECT (view),
 			"query", query,

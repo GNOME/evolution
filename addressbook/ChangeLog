@@ -1,4 +1,26 @@
-2002-03-07  Chris Toshok  <toshok@ximian.com>
+2002-03-09  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (jump_to_letter): since I've
+	gone ahead and made the file backend (by way of
+	pas-backend-card-sexp.c) use case insensitive searches for
+	beginswith, there's no need to list upper and lower case here.
+
+	* gui/component/addressbook.c (addressbook_search_option_items):
+	reorder things to put "Any field contains" at the end, since it's
+	the least efficient search.  Also reorder the enum to the same
+	ordering.  Change "Name contains" to "Name begins with" and change
+	"Email contains" to "Email is".
+	(addressbook_search_activated): change FULL_NAME to beginswith,
+	and change EMAIL to is to match the labels.
+
+	* backend/pas/pas-backend-card-sexp.c (compare_name): new
+	function, so we can compare both full and family names (so
+	beginswith can operate on them both.)
+	(endswith_helper): use e_utf8_strstrcase here, since all the
+	backends backends use case insensitive searching.
+	(func_endswith): same.
+
+2002-03-06  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-book.c (pas_book_queue_create_card): track
 	union/struct change.
