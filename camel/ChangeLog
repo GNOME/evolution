@@ -1,5 +1,11 @@
 2003-03-21  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream-ssl.c (camel_certdb_nss_cert_get): continue
+	reading the cert file until we've read it all or get a non-EINTR
+	errno.
+
+2003-03-21  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-sasl-gssapi.c: #include <com_err.h> instead of
 	#include <et/com_err.h>
 

@@ -630,9 +630,10 @@ camel_certdb_nss_cert_get(CamelCertDB *certdb, CERTCertificate *cert)
 {
 	char *fingerprint, *path;
 	CamelCert *ccert;
-	int fd;
-	ssize_t len;
 	struct stat st;
+	size_t nread;
+	ssize_t n;
+	int fd;
 	
 	fingerprint = cert_fingerprint (cert);
 	ccert = camel_certdb_get_cert (certdb, fingerprint);
@@ -656,11 +657,22 @@ camel_certdb_nss_cert_get(CamelCertDB *certdb, CERTCertificate *cert)
 		g_free(path);
 		
 		ccert->rawcert = g_byte_array_new ();
-		g_byte_array_set_size(ccert->rawcert, st.st_size);
-		len = read(fd, ccert->rawcert->data, st.st_size);
-		close(fd);
-		if (len != st.st_size) {
-			g_warning ("cert size read truncated %s: %d != %ld", path, len, st.st_size);
+		g_byte_array_set_size (ccert->rawcert, st.st_size);
+		
+		nread = 0;
+		do {
+			do {
+				n = read (fd, ccert->rawcert->data + nread, st.st_size - nread);
+			} while (n == -1 && errno == EINTR);
+			
+			if (n > 0)
+				nread += n;
+		} while (nread < st.st_size && n != -1);
+		
+		close (fd);
+		
+		if (nread != st.st_size) {
+			g_warning ("cert size read truncated %s: %d != %ld", path, nread, st.st_size);
 			g_byte_array_free(ccert->rawcert, TRUE);
 			ccert->rawcert = NULL;
 			g_free(fingerprint);
