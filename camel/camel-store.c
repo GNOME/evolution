@@ -50,6 +50,7 @@ static char *get_folder_name (CamelStore *store, const char *folder_name,
 static char *get_root_folder_name (CamelStore *store, CamelException *ex);
 static char *get_default_folder_name (CamelStore *store, CamelException *ex);
 
+static void store_sync (CamelStore *store, CamelException *ex);
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
 					 gboolean fast, gboolean recursive,
 					 gboolean subscribed_only,
@@ -77,6 +78,7 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	camel_store_class->get_folder_name = get_folder_name;
 	camel_store_class->get_root_folder_name = get_root_folder_name;
 	camel_store_class->get_default_folder_name = get_default_folder_name;
+	camel_store_class->sync = store_sync;
 	camel_store_class->get_folder_info = get_folder_info;
 	camel_store_class->free_folder_info = free_folder_info;
 	camel_store_class->lookup_folder = lookup_folder;
@@ -434,6 +436,38 @@ camel_store_get_default_folder (CamelStore *store, CamelException *ex)
 }
 
 
+static void
+sync_folder (gpointer key, gpointer folder, gpointer ex)
+{
+	if (!camel_exception_is_set (ex))
+		camel_folder_sync (folder, FALSE, ex);
+}
+
+static void
+store_sync (CamelStore *store, CamelException *ex)
+{
+	CAMEL_STORE_LOCK(store, cache_lock);
+	g_hash_table_foreach (store->folders, sync_folder, ex);
+	CAMEL_STORE_UNLOCK(store, cache_lock);
+}
+
+/**
+ * camel_store_sync:
+ * @store: a CamelStore
+ * @ex: a CamelException
+ *
+ * Syncs any changes that have been made to the store object and its
+ * folders with the real store.
+ **/
+void
+camel_store_sync (CamelStore *store, CamelException *ex)
+{
+	g_return_if_fail (CAMEL_IS_STORE (store));
+
+	CS_CLASS (store)->sync (store, ex);
+}
+
+
 static CamelFolderInfo *
 get_folder_info (CamelStore *store, const char *top,
 		 gboolean fast, gboolean recursive,
@@ -737,4 +771,3 @@ camel_store_unsubscribe_folder (CamelStore *store,
 
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
-

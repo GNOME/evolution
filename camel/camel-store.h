@@ -85,6 +85,10 @@ typedef struct {
 						     const char *old_name,
 						     const char *new_name,
 						     CamelException *ex);
+
+	void            (*sync)                     (CamelStore *store,
+						     CamelException *ex);
+
 	char *          (*get_folder_name)          (CamelStore *store,
 						     const char *folder_name,
 						     CamelException *ex);
@@ -141,6 +145,9 @@ void             camel_store_delete_folder      (CamelStore *store,
 void             camel_store_rename_folder      (CamelStore *store,
 						 const char *old_name,
 						 const char *new_name,
+						 CamelException *ex);
+
+void             camel_store_sync               (CamelStore *store,
 						 CamelException *ex);
 
 CamelFolderInfo *camel_store_get_folder_info    (CamelStore *store,

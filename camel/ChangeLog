@@ -1,3 +1,16 @@
+2001-01-10  Dan Winship  <danw@helixcode.com>
+
+	* camel-store.c (camel_store_sync): New class function, parallel
+	to camel_folder_sync. (The default implementation just calls
+	camel_folder_sync on each cached folder.)
+
+	* providers/imap/camel-imap-store.c (get_folder_info): Call
+	camel_store_sync before doing anything else so that the IMAP
+	server and Camel are working from the same data. Don't ask the
+	server for the unread message count of the current folder, since
+	UW will return often-incorrect cached data, and we can calculate
+	it without talking to the server anyway.
+
 2001-01-09  Dan Winship  <danw@helixcode.com>
 
 	Mostly IMAP changes. Use the NAMESPACE extension (where

@@ -773,6 +773,13 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
 		return NULL;
 
+	/* Sync flag changes to the server so it has the same ideas about
+	 * read/unread as we do.
+	 */
+	camel_store_sync (store, ex);
+	if (camel_exception_is_set (ex))
+		return NULL;
+
 	name = top;
 	if (!name) {
 		need_inbox = TRUE;
@@ -837,6 +844,17 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 			fi = folders->pdata[i];
 			if (!fi->url || fi->unread_message_count != -1)
 				continue;
+
+			/* UW will give cached data for the currently
+			 * selected folder. Grr. Well, I guess this
+			 * also potentially saves us one IMAP command.
+			 */
+			if (imap_store->current_folder &&
+			    !strcmp (imap_store->current_folder->full_name,
+				     fi->full_name)) {
+				fi->unread_message_count = camel_folder_get_unread_message_count (imap_store->current_folder);
+				continue;
+			}
 
 			CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
 			response = camel_imap_command (imap_store, NULL, NULL,
