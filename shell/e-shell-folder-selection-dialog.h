@@ -63,11 +63,13 @@ GtkType     e_shell_folder_selection_dialog_get_type           (void);
 void        e_shell_folder_selection_dialog_construct          (EShellFolderSelectionDialog *folder_selection_dialog,
 								EShell                      *shell,
 								const char                  *title,
-								const char                  *default_path,
+								const char                  *caption,
+								const char                  *default_uri,
 								const char                  *allowed_types[]);
 GtkWidget  *e_shell_folder_selection_dialog_new                (EShell                      *shell,
 								const char                  *title,
-								const char                  *default_path,
+								const char                  *caption,
+								const char                  *default_uri,
 								const char                  *allowed_types[]);
 
 const char *e_shell_folder_selection_dialog_get_selected_path  (EShellFolderSelectionDialog *folder_selection_dialog);

@@ -275,7 +275,11 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 	/* CORBA doesn't allow you to pass a NULL pointer. */
 	if (!*default_folder)
 		default_folder = NULL;
-	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, title, default_folder, allowed_type_names);
+	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell,
+								       title,
+								       NULL,
+								       default_folder,
+								       allowed_type_names);
 
 	listener_duplicate = CORBA_Object_duplicate (listener, ev);
 	gtk_object_set_data_full (GTK_OBJECT (folder_selection_dialog), "corba_listener",

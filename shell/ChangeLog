@@ -1,5 +1,22 @@
 2001-05-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (impl_Shell_selectUserFolder): Pass a NULL @caption to
+	`e_shell_folder_selection_dialog_new()'.
+
+	* e-shell-importer.c (import_druid_finish): Add a caption to the
+	folder selection dialog.  Constify local variable `foldername',
+	and avoid g_strdupping/g_freeing it, as it's useless.
+
+	* e-shell-view-menu.c (command_goto_folder): Add a caption to
+	the folder selection dialog.
+
+	* e-shell-folder-selection-dialog.c
+	(e_shell_folder_selection_dialog_new): New arg @caption.
+	(e_shell_folder_selection_dialog_construct): Likewise.  Also
+	cleaned up a bit.
+
+2001-05-19  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view-menu.c: Removed "NewView" verb.  Added
 	`folder_verbs', with "OpenFolderInNewWindow" in it.
 	(e_shell_view_menu_setup): Set up the `folder_verbs' too.

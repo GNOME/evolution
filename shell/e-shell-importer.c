@@ -590,15 +590,16 @@ import_druid_finish (GnomeDruidPage *page,
 		     ImportData *data)
 {
 	GtkWidget *folder;
+	const char *foldername;
 	char *filename;
 	char *iid;
-	char *foldername;
 
 	filename = g_strdup (gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (data->filepage->filename)))));
 	iid = g_strdup (data->choosen_iid);
 
 	folder = e_shell_folder_selection_dialog_new (data->shell, 
 						      _("Select folder"),
+						      _("Select a destination folder for importing this data"),
 						      e_shell_view_get_current_uri (data->view),
 						      NULL);
 	gtk_widget_destroy (data->dialog);
@@ -607,10 +608,7 @@ import_druid_finish (GnomeDruidPage *page,
 	switch (gnome_dialog_run (GNOME_DIALOG (folder))) {
 	case 0:
 		foldername = e_shell_folder_selection_dialog_get_selected_path (E_SHELL_FOLDER_SELECTION_DIALOG (folder));
-		foldername = g_strdup (foldername);
-
 		start_import (foldername, filename, iid);
-		g_free (foldername);
 		break;
 
 	default:

@@ -289,6 +289,7 @@ set_default_folder (EShellFolderSelectionDialog *shell_folder_selection_dialog,
  * @folder_selection_dialog: A folder selection dialog widget
  * @shell: The this folder selection dialog is for
  * @title: Title of the window
+ * @caption: A brief text to be put on top of the storage view
  * @default_uri: The URI of the folder to be selected by default
  * @allowed_types: List of the names of the allowed types
  * 
@@ -298,11 +299,13 @@ void
 e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_selection_dialog,
 					   EShell *shell,
 					   const char *title,
+					   const char *caption,
 					   const char *default_uri,
 					   const char *allowed_types[])
 {
 	EShellFolderSelectionDialogPrivate *priv;
 	GtkWidget *scroll_frame;
+	GtkWidget *caption_label;
 	int i;
 
 	g_return_if_fail (folder_selection_dialog != NULL);
@@ -312,6 +315,10 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 
 	priv = folder_selection_dialog->priv;
 
+	/* Basic dialog setup.  */
+
+	gtk_window_set_policy (GTK_WINDOW (folder_selection_dialog), TRUE, TRUE, FALSE);
+	gtk_window_set_default_size (GTK_WINDOW (folder_selection_dialog), 350, 300);
 	gtk_window_set_modal (GTK_WINDOW (folder_selection_dialog), TRUE);
 	gtk_window_set_title (GTK_WINDOW (folder_selection_dialog), title);
 
@@ -322,13 +329,24 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 				     NULL);
 	gnome_dialog_set_default (GNOME_DIALOG (folder_selection_dialog), 0);
 
-	gtk_window_set_policy (GTK_WINDOW (folder_selection_dialog), TRUE, TRUE, FALSE);
-	gtk_window_set_default_size (GTK_WINDOW (folder_selection_dialog), 350, 300);
+	/* Make sure we get destroyed if the shell gets destroyed.  */
 
 	priv->shell = shell;
 	gtk_signal_connect_object_while_alive (GTK_OBJECT (shell), "destroy",
 					       GTK_SIGNAL_FUNC (gtk_widget_destroy),
 					       GTK_OBJECT (folder_selection_dialog));
+
+	/* Set up the label.  */
+
+	if (caption != NULL) {
+		caption_label = gtk_label_new (caption);
+		gtk_widget_show (caption_label);
+
+		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (folder_selection_dialog)->vbox),
+				    caption_label, FALSE, TRUE, 2);
+	}
+
+	/* Set up the storage set and its view.  */
 
 	priv->storage_set = e_shell_get_storage_set (shell);
 	gtk_object_ref (GTK_OBJECT (priv->storage_set));
@@ -367,6 +385,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
  * e_shell_folder_selection_dialog_new:
  * @shell: The this folder selection dialog is for
  * @title: Title of the window
+ * @caption: A brief text to be put on top of the storage view
  * @default_uri: The URI of the folder to be selected by default
  * @allowed_types: List of the names of the allowed types
  * 
@@ -379,6 +398,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 GtkWidget *
 e_shell_folder_selection_dialog_new (EShell *shell,
 				     const char *title,
+				     const char *caption,
 				     const char *default_uri,
 				     const char *allowed_types[])
 {
@@ -389,7 +409,7 @@ e_shell_folder_selection_dialog_new (EShell *shell,
 
 	folder_selection_dialog = gtk_type_new (e_shell_folder_selection_dialog_get_type ());
 	e_shell_folder_selection_dialog_construct (folder_selection_dialog, shell,
-						   title, default_uri, allowed_types);
+						   title, caption, default_uri, allowed_types);
 
 	return GTK_WIDGET (folder_selection_dialog);
 }
