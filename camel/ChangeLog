@@ -1,3 +1,13 @@
+2002-02-09  Not Zed  <NotZed@Ximian.com>
+
+	* providers/pop3/camel-pop3-engine.c (get_capabilities): Duh, when
+	we grab the apop stamp it needs to include the <> as well, I even
+	read the rfc, silly me.
+
+	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate): Doh,
+	when iterating the authtype list, it helps to goto the next node.
+	Found with help from miles.
+
 2002-02-08  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-spool-summary.c

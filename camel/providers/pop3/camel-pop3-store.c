@@ -307,9 +307,9 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 		l = store->engine->auth;
 		while (l) {
 			auth = l->data;
-			if (strcmp(auth->authproto, service->url->authmech) == 0) {
+			if (strcmp(auth->authproto, service->url->authmech) == 0)
 				return try_sasl(store, service->url->authmech, ex) == -1;
-			}
+			l = l->next;
 		}
 
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,

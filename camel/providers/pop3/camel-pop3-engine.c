@@ -186,8 +186,8 @@ get_capabilities(CamelPOP3Engine *pe)
 
 	if ((apop = strchr(line+3, '<'))
 	    && (apopend = strchr(apop, '>'))) {
-		*apopend = 0;
-		pe->apop = g_strdup(apop+1);
+		apopend[1] = 0;
+		pe->apop = g_strdup(apop);
 		pe->capa = CAMEL_POP3_CAP_APOP;
 		pe->auth = g_list_append(pe->auth, &camel_pop3_apop_authtype);
 	}
