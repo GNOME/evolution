@@ -38,5 +38,8 @@ gchar *e_utf8_gtk_editable_get_chars (GtkEditable *editable, gint start, gint en
 
 GtkWidget *e_utf8_gtk_menu_item_new_with_label (const gchar *label);
 
+gint g_unichar_to_utf8 (gint c, gchar *outbuf);
+guint32 gdk_keyval_to_unicode (guint keysym);
+
 #endif
 

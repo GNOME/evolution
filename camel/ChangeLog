@@ -1,3 +1,7 @@
+2000-08-31  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* camel-mime-part.c (write_to-stream): Use filter only if we have one
+	
 2000-08-31  Chris Toshok  <toshok@helixcode.com>
 
 	* providers/nntp/camel-nntp-utils.c (get_OVER_headers): use

@@ -544,8 +544,12 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 				camel_object_unref((CamelObject *)crlf);
 
 			}
-			camel_stream_filter_add(filter_stream, filter);
-			camel_object_unref((CamelObject *)filter);
+
+			if (filter) {
+				camel_stream_filter_add(filter_stream, filter);
+				camel_object_unref((CamelObject *)filter);
+			}
+
 			stream = (CamelStream *)filter_stream;
 		}
 

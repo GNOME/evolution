@@ -24,7 +24,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
+#include <unicode.h>
 
+#if 0
 static int etth_interesting[] = {
 	4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0x00 - 0x0f */
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0x10 - 0x1f */
@@ -43,6 +45,8 @@ static int etth_interesting[] = {
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0xe0 - 0xef */
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3	/* 0xf0 - 0xff */
 };
+#endif
+
 #define ETTH_SPECIAL     1
 #define ETTH_PUNCTUATION 2
 #define ETTH_ESCAPED     3
@@ -67,7 +71,7 @@ url_extract (const unsigned char **text, gboolean check)
 	const unsigned char *end = *text, *p;
 	char *out;
 
-	while (*end && !isspace (*end) && *end != '"')
+	while (*end && !isspace (*end) && (*end != '"') && (*end < 0x80))
 		end++;
 
 	/* Back up if we probably went too far. */
@@ -122,7 +126,10 @@ url_extract (const unsigned char **text, gboolean check)
 char *
 e_text_to_html (const char *input, unsigned int flags)
 {
-	const unsigned char *cur = input, *end;
+	const unsigned char *cur = input;
+#if 0
+	const unsigned char *end;
+#endif
 	char *buffer = NULL;
 	char *out = NULL;
 	int buffer_size = 0, col;
@@ -136,8 +143,15 @@ e_text_to_html (const char *input, unsigned int flags)
 		out += sprintf (out, "<PRE>\n");
 
 	col = 0;
-	while (*cur) {
-		if (isalpha (*cur) && (flags & E_TEXT_TO_HTML_CONVERT_URLS)) {
+
+	for (cur = input; cur && *cur; cur = unicode_next_utf8 (cur)) {
+		unicode_char_t u;
+
+		unicode_get_utf8 (cur, &u);
+
+		if (u < 0) u = '_';
+
+		if (unicode_isalpha (u) && (flags & E_TEXT_TO_HTML_CONVERT_URLS)) {
 			char *tmpurl = NULL, *refurl = NULL, *dispurl = NULL;
 
 			if (!strncasecmp (cur, "http://", 7) ||
@@ -152,7 +166,8 @@ e_text_to_html (const char *input, unsigned int flags)
 					dispurl = g_strdup (refurl);
 				}
 			} else if (!strncasecmp (cur, "www.", 4) &&
-				   isalnum (*(cur + 4))) {
+				   (*(cur + 4) < 0x80) &&
+				   unicode_isalnum (*(cur + 4))) {
 				tmpurl = url_extract (&cur, FALSE);
 				dispurl = e_text_to_html (tmpurl, 0);
 				refurl = g_strdup_printf ("http://%s",
@@ -171,8 +186,13 @@ e_text_to_html (const char *input, unsigned int flags)
 				g_free (refurl);
 				g_free (dispurl);
 			}
+
+			unicode_get_utf8 (cur, &u);
+
+			if (u < 0) u = '_';
 		}
 
+#if 0
 		/* Skip until we need to care. */
 		end = cur;
 		while (!etth_interesting[*end] ||
@@ -189,8 +209,11 @@ e_text_to_html (const char *input, unsigned int flags)
 		if (!*end)
 			break;
 		cur = end;
+#endif
 
-		switch (*cur) {
+		out = check_size (&buffer, &buffer_size, out, 10);
+
+		switch (u) {
 		case '<':
 			strcpy (out, "&lt;");
 			out += 4;
@@ -251,17 +274,16 @@ e_text_to_html (const char *input, unsigned int flags)
 			/* otherwise, FALL THROUGH */
 
 		default:
-			if ((*cur >= 0x20 && *cur < 0x80) ||
-			    (*cur == '\r' || *cur == '\t')) {
+			if ((u >= 0x20 && u < 0x80) ||
+			    (u == '\r' || u == '\t')) {
 				/* Default case, just copy. */
-				*out++ = *cur;
-			} else
-				out += g_snprintf(out, 9, "&#%d;", *cur);
+				*out++ = u;
+			} else {
+				out += g_snprintf(out, 9, "&#%d;", u);
+			}
 			col++;
 			break;
 		}
-
-		cur++;
 	}
 
 	out = check_size (&buffer, &buffer_size, out, 7);
