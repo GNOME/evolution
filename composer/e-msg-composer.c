@@ -2937,9 +2937,9 @@ create_composer (int visible_mask)
 	
 	gtk_window_set_default_size (GTK_WINDOW (composer),
 				     DEFAULT_WIDTH, DEFAULT_HEIGHT);
-	gnome_window_icon_set_from_file (GTK_WINDOW (composer), EVOLUTION_DATADIR
-					 "/images/evolution/compose-message.png");
-	
+	gnome_window_icon_set_from_file (GTK_WINDOW (composer), EVOLUTION_IMAGESDIR
+					 "/compose-message.png");
+
 	/* DND support */
 	gtk_drag_dest_set (GTK_WIDGET (composer), GTK_DEST_DEFAULT_ALL,
 			   drop_types, num_drop_types, GDK_ACTION_COPY);

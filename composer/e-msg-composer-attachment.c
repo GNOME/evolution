@@ -377,7 +377,15 @@ ok_cb (GtkWidget *widget, gpointer data)
 	close_cb (widget, data);
 }
 
-
+static void
+response_cb (GtkWidget *widget, gint response, gpointer data)
+{
+	if (response == GTK_RESPONSE_OK)
+		ok_cb (widget, data);
+	else
+		close_cb (widget, data);
+}
+
 void
 e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment, GtkWidget *parent)
 {
@@ -438,9 +446,7 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment, GtkWidget *p
 	gtk_toggle_button_set_active (dialog_data->disposition_checkbox,
 				      disposition && !g_ascii_strcasecmp (disposition, "inline"));
 	
-	connect_widget (editor_gui, "ok_button", "clicked", (GCallback)ok_cb, dialog_data);
-	connect_widget (editor_gui, "close_button", "clicked", (GCallback)close_cb, dialog_data);
-	
+	connect_widget (editor_gui, "dialog", "response", (GCallback)response_cb, dialog_data);
 #warning "signal connect while alive"	
 	/* make sure that when the composer gets hidden/closed that our windows also close */
 	parent = gtk_widget_get_toplevel (parent);

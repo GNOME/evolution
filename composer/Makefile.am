@@ -49,6 +49,7 @@ INCLUDES =								\
 	-I$(top_builddir)/shell						\
 	-I$(top_srcdir)/shell						\
 	-DEVOLUTION_DATADIR=\"$(datadir)\"				\
+	-DEVOLUTION_IMAGESDIR=\"$(imagesdir)\"                          \
 	-DEVOLUTION_UIDIR=\"$(evolutionuidir)\"				\
 	-DEVOLUTION_GLADEDIR=\"$(gladedir)\"				\
 	-DPREFIX=\"$(prefix)\"						\
