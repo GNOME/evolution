@@ -111,16 +111,16 @@
 
 		<placeholder name="Component"/>
 
+	        <submenu name="Actions" _label="_Actions">
+	                <placeholder name="Component"/>
+	        </submenu>
+
 	        <submenu name="Tools" _label="_Tools">
 		        <placeholder name="Component"/>
 
 			<menuitem name="BonoboCustomize" verb=""
 			 _label="Customi_ze Toolbars..." pos="bottom"/>
 		</submenu>
-
-	        <submenu name="Actions" _label="_Actions">
-	                <placeholder name="Component"/>
-	        </submenu>
 
 		<submenu name="Help" _label="_Help">
 

@@ -1,3 +1,7 @@
+2001-03-20  Miguel de Icaza  <miguel@ximian.com>
+
+	* evolution-addressbook.xml: Added artwork from Jakub.
+
 2001-03-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mail.xml: Add Resend Message under the File menu.

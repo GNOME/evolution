@@ -57,7 +57,7 @@
 	<dockitem name="Toolbar">
 		<toolitem name="New" _label="New contact"
 		_tip="Create new contact" verb="ContactNew"
-		pixtype="stock" pixname="New" priority="1"/>
+		pixtype="pixbuf" priority="1"/>
 
 		<separator/>
 

@@ -14,7 +14,10 @@
     <cmd name="MailCompose"
      pixtype="pixbuf" _label="_Compose"/>
 	    
-    <cmd name="MailGetSend" pixtype="pixbuf" _tip="Send queued mail and retrieve new mail"/>
+    <cmd name="MailGetSend" pixtype="pixbuf" _tip="Send queued mail
+    and retrieve new mail"/>
+
+    <cmd name="MessageForwardAttached" accel="*Control*f"/>
   </commands>
 
   <keybindings>
@@ -88,11 +91,13 @@
 	    
         <menuitem name="MessageDelete" verb=""
         _label="_Delete"
-         accel="*Control*d"/>
+         accel="*Control*d"
+	 pixtype="pixbuf"/>
 
         <menuitem name="MessageUndelete" verb=""
         _label="_Undelete"
-         accel="*Control*u"/>
+         accel="*Control*u"
+	 pixtype="pixbuf"/>
 
 	<separator/>
 		  
@@ -120,10 +125,13 @@
 	<menuitem name="Source" verb="ViewSource" accel=""/>
       	<separator/>
       
-      	<menuitem name="MessageHideClear" verb="" _label="Show _All"/>
-      	<menuitem name="MessageHideSelected" verb="" _label="Hide S_elected Messages"/>
-      	<menuitem name="MessageHideRead" verb="" _label="Hide _Read messages"/>
-      	<menuitem name="MessageHideDeleted" verb="" _label="Hide _Deleted Messages"/>
+      	<menuitem name="MessageHideClear" verb="" _label="Show _All" pixtype="pixbuf"/>
+      	<menuitem name="MessageHideSelected" verb=""
+	 _label="Hide S_elected Messages" pixtype="pixbuf"/>
+      	<menuitem name="MessageHideRead" verb=""
+	  _label="Hide _Read messages" pixtype="pixbuf"/>
+      	<menuitem name="MessageHideDeleted" verb=""
+	_label="Hide _Deleted Messages" pixtype="pixbuf"/>
     </submenu>
 
     <submenu name="Actions">
@@ -142,7 +150,6 @@
       	    _label="Reply to _All"
       	    pixtype="pixbuf"
       	    accel="*Control**Shift*r"/>
-      	    
       	    <menuitem name="MessageForwardAttached" verb=""
       	    _label="_Forward"
       	     accel="*Control*f"/>
@@ -151,17 +158,17 @@
                 <menuitem name="MessageForwardInlined" verb=""
       	  	 _label="_Inline"
       	  	 accel="*Control**Shift*j"/>
-                
-                <menuitem name="MessageForwardQuoted" verb=""
-      	  	 _label="_Quoted"/>
-                
-                <menuitem name="MessageForwardAttachment" verb=""
-      	  	 _label="_Attachment"/>
-                
-      	  	<separator/>
-                
-      	  	<menuitem name="Redirect" verb=""
-                 _label="Redirect (FIXME: implement me)"/>
+
+      	  	 <menuitem name="MessageForwardQuoted" verb=""
+      	  	  _label="_Quoted"/>
+
+      	  	  <menuitem verb="MessageForwardAttached"
+      	  	  _label="_Attachment"/>
+      	  
+      	  	 <separator/>
+      	  		    
+      	  	 <menuitem name="Redirect" verb=""
+      	  	  _label="Redirect (FIXME: implement me)"/>
       	    </submenu>
       	    
             <separator/>

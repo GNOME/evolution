@@ -1,3 +1,11 @@
+2001-03-20  Miguel de Icaza  <miguel@ximian.com>
+
+	* folder-browser-factory.c: Added new icons. 
+
+2001-03-18  Miguel de Icaza  <miguel@ximian.com>
+
+	* folder-browser-factory.c: Remove duplicated verb. 
+
 2001-03-20  Iain Holmes  <iain@ximian.com>
 
 	* importers/evolution-mbox-importer.c (process_item_fn): Step the parser

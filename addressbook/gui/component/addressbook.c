@@ -314,7 +314,8 @@ update_pixmaps (BonoboUIComponent *uic)
 	set_pixmap (uic, "/menu/Tools/Component/AddressbookConfig", "16_configure_addressbook.xpm");
 
 	set_pixmap (uic, "/Toolbar/View All", "24_all_contacts.xpm");
-	set_pixmap (uic, "/Toolbar/Find", "24_find_contact.xpm"); 
+	set_pixmap (uic, "/Toolbar/Find", "24_find_contact.xpm");
+	set_pixmap (uic, "/Toolbar/New", "new_contact.xpm");
 }
 
 static void
