@@ -1,3 +1,9 @@
+2001-04-20  Damon Chaplin  <damon@ximian.com>
+
+	* importer/evolution-shell-importer.types: changed path to the
+	importer header files, since we've had reports that they aren't being
+	found (though it worked OK for me).
+
 2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* calendar/cal-client/Makefile.am (install-data-local): Install
