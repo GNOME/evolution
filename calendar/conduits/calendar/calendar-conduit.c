@@ -251,6 +251,7 @@ struct _ECalConduitContext {
 	CalClient *client;
 
 	icaltimezone *timezone;
+	CalComponent *default_comp;
 	GList *uids;
 	GList *changed;
 	GHashTable *changed_hash;
@@ -273,6 +274,7 @@ e_calendar_context_new (guint32 pilot_id)
 	ctxt->dbi = NULL;
 	ctxt->client = NULL;
 	ctxt->timezone = NULL;
+	ctxt->default_comp = NULL;
 	ctxt->uids = NULL;
 	ctxt->changed = NULL;
 	ctxt->changed_hash = NULL;
@@ -306,7 +308,8 @@ e_calendar_context_destroy (ECalConduitContext *ctxt)
 
 	if (ctxt->client != NULL)
 		gtk_object_unref (GTK_OBJECT (ctxt->client));
-	
+	if (ctxt->default_comp != NULL)
+		gtk_object_unref (GTK_OBJECT (ctxt->default_comp));
 	if (ctxt->uids != NULL)
 		cal_obj_uid_list_free (ctxt->uids);
 	
@@ -1292,6 +1295,10 @@ pre_sync (GnomePilotConduit *conduit,
 	if (ctxt->timezone)
 		cal_client_set_default_timezone (ctxt->client, ctxt->timezone);
 
+	/* Get the default component */
+	if (cal_client_get_default_object (ctxt->client, CALOBJ_TYPE_EVENT, &ctxt->default_comp) != CAL_CLIENT_GET_SUCCESS)
+		return -1;
+
 	/* Load the uid <--> pilot id mapping */
 	filename = map_name (ctxt);
 	e_pilot_map_read (filename, &ctxt->map);
@@ -1594,7 +1601,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 
 	LOG ("add_record: adding %s to desktop\n", print_remote (remote));
 
-	comp = comp_from_remote_record (conduit, remote, NULL, ctxt->timezone);
+	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->timezone);
 	update_comp (conduit, comp, ctxt);
 
 	cal_component_get_uid (comp, &uid);

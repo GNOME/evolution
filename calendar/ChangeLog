@@ -1,5 +1,20 @@
 2003-01-24  JP Rosevear  <jpr@ximian.com>
 
+	* conduits/todo/todo-conduit.c (e_todo_context_new): init default
+	comp and timezone to NULL
+	(e_todo_context_destroy): unref default comp
+	(pre_sync): et the default comp via the client and set the default
+	timezone
+	(add_record): pass the default comp as the base comp
+
+	* conduits/calendar/calendar-conduit.c (e_calendar_context_new):
+	init default comp to NULL
+	(e_calendar_context_destroy): unref default comp
+	(pre_sync): get the default comp via the client
+	(add_record): pass the default comp as the base comp
+
+2003-01-24  JP Rosevear  <jpr@ximian.com>
+
 	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
 	only add the recurrence rule if its not an instance
 
