@@ -1,5 +1,15 @@
 2003-08-19  Not Zed  <NotZed@Ximian.com>
 
+	* mail-callbacks.c (mail_generate_reply): Added a comment for
+	translators.
+
+2003-08-19  David Woodhouse  <dwmw2@infradead.org>
+
+	* mail-callbacks.c (mail_generate_reply): Add a timezone offset to
+	the attribution string.
+
+2003-08-19  Not Zed  <NotZed@Ximian.com>
+
 	* mail-format.c (write_date): Added translation for day and
 	localtime strings.  Also removed the tz_zone stuff, and just use
 	'localtime' always.

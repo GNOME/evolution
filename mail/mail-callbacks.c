@@ -995,6 +995,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	GConfClient *gconf;
 	EIterator *iter;
 	time_t date;
+	int date_ofs;
 	char *url;
 	
 	gconf = mail_config_get_gconf_client ();
@@ -1189,9 +1190,14 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			name = _("an unknown sender");
 		}
 		
-		date = camel_mime_message_get_date (message, NULL);
-		e_utf8_strftime (format, sizeof (format), _("On %a, %Y-%m-%d at %H:%M, %%s wrote:"), localtime (&date));
-		text = mail_tool_quote_message (message, format, name && *name ? name : address);
+		date = camel_mime_message_get_date (message, &date_ofs);
+		/* Convert to UTC */
+		date += (date_ofs / 100) * 60 * 60;
+		date += (date_ofs % 100) * 60;
+
+		/* translators: attribution string used when quoting messages */
+		e_utf8_strftime (format, sizeof (format), _("On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"), gmtime (&date));
+		text = mail_tool_quote_message (message, format, date_ofs, name && *name ? name : address);
 		mail_ignore (composer, name, address);
 		if (text) {
 			e_msg_composer_set_body_text (composer, text);
