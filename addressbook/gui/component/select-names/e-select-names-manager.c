@@ -324,6 +324,7 @@ void                          e_select_names_manager_activate_dialog           (
 	
 	if (manager->names) {
 		g_assert (GTK_WIDGET_REALIZED (GTK_WIDGET (manager->names)));
+		e_select_names_set_default(manager->names, id);
 		gdk_window_show (GTK_WIDGET (manager->names)->window);
 		gdk_window_raise (GTK_WIDGET (manager->names)->window);
 	} else {
@@ -336,6 +337,7 @@ void                          e_select_names_manager_activate_dialog           (
 			e_select_names_add_section(manager->names, section->id, section->title, newmodel);
 			gtk_object_unref(GTK_OBJECT(newmodel));
 		}
+		e_select_names_set_default(manager->names, id);
 		gtk_signal_connect(GTK_OBJECT(manager->names), "clicked",
 				   GTK_SIGNAL_FUNC(e_select_names_clicked), manager);
 		gtk_signal_connect(GTK_OBJECT(manager->names), "destroy",

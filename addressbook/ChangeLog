@@ -1,3 +1,15 @@
+2001-02-04  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_activate_dialog): Call
+	e_select_names_set_default when appropriate.
+
+	* gui/component/select-names/e-select-names.c,
+	gui/component/select-names/e-select-names.h: Added support for
+	double clicking sending the selected contacts to the default
+	section.  Added a set_default function.  Made multiple selection
+	work.
+
 2001-01-29  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-config.c

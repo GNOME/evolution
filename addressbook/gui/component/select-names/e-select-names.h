@@ -66,6 +66,7 @@ struct _ESelectNames
 	int currently_selected;
 	EvolutionStorageListener *listener;
 	GHashTable *folders;
+	char *def;
 };
 
 struct _ESelectNamesClass
@@ -83,6 +84,8 @@ void       e_select_names_add_section  (ESelectNames *e_select_names,
 				       	ESelectNamesModel *source);
 ESelectNamesModel *e_select_names_get_source   (ESelectNames *e_select_names,
 						char *id);
+void e_select_names_set_default (ESelectNames *e_select_names,
+				 const char *id);
 /* Returns a ref counted list of addresses. */
 EList     *e_select_names_get_section  (ESelectNames *e_select_names,
 				       	char         *id);
