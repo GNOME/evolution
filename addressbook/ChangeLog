@@ -1,3 +1,15 @@
+2002-10-22  Dan Winship  <danw@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(folder_selected): Set /Addressbook/select_names_uri in the
+	configdb to the selected folder.
+	(e_select_names_init): Look for /Addressbook/select_names_uri
+	before /DefaultFolders/contacts_uri for the initial folder. So the
+	select names dialog now starts up using the same folder you used
+	last time, which is useful when you have an LDAP company directory
+	(which can't be your default contacts folder because it's
+	read-only).
+
 2002-10-21  Dan Winship  <danw@ximian.com>
 
 	* gui/component/addressbook-component.c (IS_CONTACT_TYPE): fix the
