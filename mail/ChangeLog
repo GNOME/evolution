@@ -1,5 +1,8 @@
 2003-11-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-tree.c (tree_row_expanded): Fixed to check fi->child
+	as well (since mbox does it right).
+
 	* em-folder-selection-button.c (set_contents): Fixed to not
 	include leading '/' in the folder name in the label.
 

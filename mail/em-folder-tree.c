@@ -914,6 +914,26 @@ tree_store_set_folder_info (GtkTreeStore *model, GtkTreeIter *iter,
 	}
 }
 
+#if 0
+static void
+dump_fi (CamelFolderInfo *fi, int depth)
+{
+	int i;
+	
+	while (fi != NULL) {
+		for (i = 0; i < depth; i++)
+			fputs ("  ", stdout);
+		
+		printf ("path='%s'; full_name='%s'\n", fi->path, fi->full_name);
+		
+		if (fi->child)
+			dump_fi (fi->child, depth + 1);
+		
+		fi = fi->sibling;
+	}
+}
+#endif
+
 static void
 tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *tree_path, EMFolderTree *emft)
 {
@@ -965,11 +985,12 @@ tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *tree_p
 	}
 	
 	/* FIXME: camel is totally on crack here, @top's folder info
-	 * should be @fi and fi->childs should be what we want to fill
+	 * should be @fi and fi->child should be what we want to fill
 	 * our tree with... *sigh* */
-	if (!strcmp (fi->path, path))
-		child = fi->sibling;
-	else
+	if (top && !strcmp (fi->full_name, top)) {
+		if (!(child = fi->child))
+			child = fi->sibling;
+	} else
 		child = fi;
 	
 	if (child == NULL) {
