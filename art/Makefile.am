@@ -21,6 +21,7 @@ images_DATA = \
 
 EXTRA_DIST = \
 	attachment.xpm \
+	empty.xpm \
 	mail-new.xpm \
 	mail-read.xpm \
 	mail-replied.xpm \
