@@ -1,3 +1,11 @@
+2001-05-04  JP Rosevear  <jpr@ximian.com>
+
+	* gui/calendar-model.c (calendar_model_append_row): unref the
+	calcomponent when we're done with it
+
+	* cal-util/cal-component.c (cal_component_gen_uid): free the iso
+	date string when we finish with it
+
 2001-04-27  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-edit.c (put_property_in_list): remove hardcoded

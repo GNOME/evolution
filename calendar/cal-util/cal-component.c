@@ -331,6 +331,7 @@ cal_component_destroy (GtkObject *object)
 char *
 cal_component_gen_uid (void)
 {
+        char *iso, *ret;
 	static char *hostname;
 	time_t t = time (NULL);
 	static int serial;
@@ -345,14 +346,17 @@ cal_component_gen_uid (void)
 			hostname = "localhost";
 	}
 
-	return g_strdup_printf (
-		"%s-%d-%d-%d-%d@%s",
-		isodate_from_time_t (t),
-		getpid (),
-		getgid (),
-		getppid (),
-		serial++,
-		hostname);
+	iso = isodate_from_time_t (t);
+	ret = g_strdup_printf ("%s-%d-%d-%d-%d@%s",
+			       iso, 
+			       getpid (),
+			       getgid (),
+			       getppid (),
+			       serial++,
+			       hostname);
+	g_free (iso);
+
+	return ret;
 }
 
 /**

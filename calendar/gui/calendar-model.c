@@ -1365,6 +1365,8 @@ calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 		/* FIXME: Show error dialog. */
 		g_message ("calendar_model_append_row(): Could not add new object!");
 	}
+
+	gtk_object_unref (GTK_OBJECT (comp));
 }
 
 /* Duplicates a string value */
