@@ -592,18 +592,6 @@ send_calendar_info (itip_method_enum method, EMeetingEditorPrivate *priv)
 		icalcomponent_free (comp);
 	}
 
-
-	/********
-	 * This is for debugging.
-	 ********/
-	{
-		FILE *fp = fopen ("/home/jpavel/attach_data.icl", "w");
-
-		fputs (attach_data, fp);
-
-		fclose (fp);
-	}
-
 	GNOME_Evolution_Composer_attachData (composer_server, 
 					content_type, filename, description,
 					show_inline, attach_data,

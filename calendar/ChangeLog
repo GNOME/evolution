@@ -1,3 +1,8 @@
+2000-11-28  Jesse Pavel   <jpavel@helixcode.com>
+
+	*gui/e-meeting-edit.c: removed some debugging code that I had,
+	which might have caused problems.
+
 2000-11-27  Jesse Pavel   <jpavel@helixcode.com>
 
 	*gui/calendar-model.c: added a preliminary change to have Assigned
