@@ -30,7 +30,7 @@
 #include <config.h>
 #endif
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include "e-summary.h"
 #include "Evolution.h"
 
@@ -49,13 +49,13 @@ typedef struct _ESummaryOfflineHandlerPriv ESummaryOfflineHandlerPriv;
 typedef struct _ESummaryOfflineHandlerClass ESummaryOfflineHandlerClass;
 
 struct _ESummaryOfflineHandler {
-	BonoboXObject parent;
+	BonoboObject parent;
 
 	ESummaryOfflineHandlerPriv *priv;
 };
 
 struct _ESummaryOfflineHandlerClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_Offline__epv epv;
 };

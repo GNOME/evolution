@@ -35,8 +35,8 @@
 #include <gtk/gtksignal.h>
 #include <gal/util/e-util.h>
 
-#define PARENT_TYPE bonobo_x_object_get_type ()
-static BonoboXObjectClass *parent_class = NULL;
+#define PARENT_TYPE bonobo_object_get_type ()
+static BonoboObjectClass *parent_class = NULL;
 
 struct _ESummaryOfflineHandlerPriv {
 	GSList *summaries;
@@ -283,4 +283,4 @@ e_summary_offline_handler_add_summary (ESummaryOfflineHandler *handler,
 	g_signal_connect (summary, "destroy", G_CALLBACK (summary_destroy_callback), handler);
 }
 
-BONOBO_X_TYPE_FUNC_FULL (ESummaryOfflineHandler, GNOME_Evolution_Offline, PARENT_TYPE, e_summary_offline_handler);
+BONOBO_TYPE_FUNC_FULL (ESummaryOfflineHandler, GNOME_Evolution_Offline, PARENT_TYPE, e_summary_offline_handler);

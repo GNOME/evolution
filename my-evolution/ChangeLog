@@ -1,3 +1,7 @@
+2003-02-05  Dan Winship  <danw@ximian.com>
+
+	* e-summary-offline-handler.c: s/BonoboXObject/BonoboObject/
+
 2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (componentdir): Removed definition; this is now
