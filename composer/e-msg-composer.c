@@ -2441,7 +2441,6 @@ destroy (GtkObject *object)
 	
 	/* FIXME?  I assume the Bonobo widget will get destroyed
            normally?  */
-	
 	if (composer->address_dialog != NULL) {
 		gtk_widget_destroy (composer->address_dialog);
 		composer->address_dialog = NULL;
@@ -2451,6 +2450,13 @@ destroy (GtkObject *object)
 		composer->hdrs = NULL;
 	}
 	
+	if (composer->notify_id) {
+		GConfClient *gconf = gconf_client_get_default ();
+		gconf_client_notify_remove (gconf, composer->notify_id);
+		composer->notify_id = 0;
+		g_object_unref (gconf);
+	}		
+
 	if (composer->persist_stream_interface != CORBA_OBJECT_NIL) {
 		Bonobo_Unknown_unref (composer->persist_stream_interface, &ev);
 		CORBA_Object_release (composer->persist_stream_interface, &ev);
@@ -2859,6 +2865,28 @@ setup_cut_copy_paste (EMsgComposer *composer)
 	g_signal_connect (entry, "focus-out-event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
 }
 
+static void
+composer_settings_update (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	gboolean bool;
+	EMsgComposer *composer = data;
+
+	bool = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/magic_smileys", NULL);
+	bonobo_widget_set_property (BONOBO_WIDGET (composer->editor),
+				    "MagicSmileys", TC_CORBA_boolean, bool,
+				    NULL);
+
+	bool = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/magic_links", NULL);
+	bonobo_widget_set_property (BONOBO_WIDGET (composer->editor),
+				    "MagicLinks", TC_CORBA_boolean, bool,
+				    NULL);
+
+	bool = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/inline_spelling", NULL);
+	bonobo_widget_set_property (BONOBO_WIDGET (composer->editor),
+				   "InlineSpelling", TC_CORBA_boolean, bool,
+				   NULL);
+}
+
 static EMsgComposer *
 create_composer (int visible_mask)
 {
@@ -2866,6 +2894,7 @@ create_composer (int visible_mask)
 	GtkWidget *vbox;
 	Bonobo_Unknown editor_server;
 	CORBA_Environment ev;
+	GConfClient *gconf;
 	int vis;
 	
 	composer = g_object_new (E_TYPE_MSG_COMPOSER, "win_name", _("Compose a message"), NULL);
@@ -2941,6 +2970,14 @@ create_composer (int visible_mask)
 				    "FormatHTML", TC_CORBA_boolean, composer->send_html,
 				    NULL);
 	
+
+	gconf = gconf_client_get_default ();
+	composer_settings_update (gconf, 0, NULL, composer);
+	gconf_client_add_dir (gconf, "/apps/evolution/mail/composer", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	composer->notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/composer",
+						       composer_settings_update, composer, NULL, NULL);
+	g_object_unref (gconf);
+
 	editor_server = bonobo_widget_get_objref (BONOBO_WIDGET (composer->editor));
 	
 	/* FIXME: handle exceptions */

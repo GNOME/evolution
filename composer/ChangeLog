@@ -1,3 +1,12 @@
+2003-05-20  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.c (composer_settings_update): set the various
+	bonobo properties that are composer preferences.
+	(create_composer): add notification of gconf changes.
+	(destroy): disconnect notification.
+
+	* e-msg-composer.h: keep the gcond notify handler id.
+
 2003-05-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_edit):

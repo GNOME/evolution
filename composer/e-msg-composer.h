@@ -104,6 +104,8 @@ struct _EMsgComposer {
 	GtkWidget *sig_omenu;
 	
 	CamelMimeMessage *redirect;
+	
+	guint notify_id;
 };
 
 struct _EMsgComposerClass {
