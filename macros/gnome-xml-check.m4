@@ -15,10 +15,10 @@ AC_DEFUN([GNOME_XML_HOOK],[
 		fi
 	fi
 	AC_CHECK_LIB(xml, xmlNewDoc, [$1], [
-		if text x$2 = failure; then 
+		if test x$2 = failure; then 
 			AC_MSG_ERROR(Could not link sample xml program)
 		fi
-	], gnome-config --libs xml)
+	], `gnome-config --libs xml`)
 ])
 
 AC_DEFUN([GNOME_XML_CHECK], [
