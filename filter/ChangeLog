@@ -1,5 +1,13 @@
 2002-11-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* vfolder-rule.c: Ported.
+
+	* vfolder-editor.c: Ported.
+
+	* vfolder-context.c: Ported.
+
+2002-11-05  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* filter-rule.c: Ported.
 
 	* score-rule.c: Ported.

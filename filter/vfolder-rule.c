@@ -1,8 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Author: Not Zed <notzed@lostzed.mmc.com.au>
+ *          Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -19,9 +20,11 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <config.h>
 
-#include <glib.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <gtk/gtkbox.h>
 #include <gtk/gtklist.h>
 #include <gtk/gtkoptionmenu.h>
@@ -29,8 +32,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <glade/glade.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "vfolder-context.h"
 #include "vfolder-rule.h"
@@ -38,28 +39,25 @@
 
 #define d(x) x
 
-static gint validate(FilterRule *);
+static int validate(FilterRule *);
 static int vfolder_eq(FilterRule *fr, FilterRule *cm);
 static xmlNodePtr xml_encode(FilterRule *);
-static int xml_decode(FilterRule *, xmlNodePtr, struct _RuleContext *f);
+static int xml_decode(FilterRule *, xmlNodePtr, RuleContext *f);
 static void rule_copy (FilterRule *dest, FilterRule *src);
 /*static void build_code(FilterRule *, GString *out);*/
-static GtkWidget *get_widget(FilterRule *fr, struct _RuleContext *f);
+static GtkWidget *get_widget(FilterRule *fr, RuleContext *f);
 
 extern EvolutionShellClient *global_shell_client;
 
-static void vfolder_rule_class_init	(VfolderRuleClass *class);
-static void vfolder_rule_init	(VfolderRule *gspaper);
-static void vfolder_rule_finalise	(GtkObject *obj);
+static void vfolder_rule_class_init (VfolderRuleClass *klass);
+static void vfolder_rule_init (VfolderRule *vr);
+static void vfolder_rule_finalise (GObject *obj);
 
-#define _PRIVATE(x) (((VfolderRule *)(x))->priv)
 
-struct _VfolderRulePrivate {
-};
+static FilterRuleClass *parent_class = NULL;
 
-static FilterRuleClass *parent_class;
 
-guint
+GType
 vfolder_rule_get_type (void)
 {
 	static guint type = 0;
@@ -82,41 +80,40 @@ vfolder_rule_get_type (void)
 }
 
 static void
-vfolder_rule_class_init (VfolderRuleClass *class)
+vfolder_rule_class_init (VfolderRuleClass *klass)
 {
-	GtkObjectClass *object_class;
-	FilterRuleClass *filter_rule = (FilterRuleClass *)class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	FilterRuleClass *fr_class = (FilterRuleClass *) klass;
 	
-	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class(filter_rule_get_type ());
-
+	parent_class = g_type_class_ref (FILTER_TYPE_RULE);
+	
 	object_class->finalize = vfolder_rule_finalise;
-
+	
 	/* override methods */
-	filter_rule->validate   = validate;
-	filter_rule->eq = vfolder_eq;
-	filter_rule->xml_encode = xml_encode;
-	filter_rule->xml_decode = xml_decode;
-	filter_rule->copy = rule_copy;
-	/*filter_rule->build_code = build_code;*/
-	filter_rule->get_widget = get_widget;
+	fr_class->validate   = validate;
+	fr_class->eq = vfolder_eq;
+	fr_class->xml_encode = xml_encode;
+	fr_class->xml_decode = xml_decode;
+	fr_class->copy = rule_copy;
+	/*fr_class->build_code = build_code;*/
+	fr_class->get_widget = get_widget;
 }
 
 static void
-vfolder_rule_init (VfolderRule *o)
+vfolder_rule_init (VfolderRule *vr)
 {
-	o->priv = g_malloc0(sizeof(*o->priv));
+	;
 }
 
 static void
-vfolder_rule_finalise(GtkObject *obj)
+vfolder_rule_finalise (GObject *obj)
 {
-	VfolderRule *o = (VfolderRule *)obj;
+	VfolderRule *vr = (VfolderRule *) obj;
 	
-	g_list_foreach (o->sources, (GFunc) g_free, NULL);
-	g_list_free (o->sources);
+	g_list_foreach (vr->sources, (GFunc) g_free, NULL);
+	g_list_free (vr->sources);
 	
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -129,35 +126,35 @@ vfolder_rule_finalise(GtkObject *obj)
 VfolderRule *
 vfolder_rule_new (void)
 {
-	VfolderRule *o = (VfolderRule *)gtk_type_new(vfolder_rule_get_type ());
-	return o;
+	return (VfolderRule *) g_object_new (VFOLDER_TYPE_RULE, NULL, NULL);
 }
 
 void
 vfolder_rule_add_source (VfolderRule *vr, const char *uri)
 {
-	g_assert(IS_VFOLDER_RULE(vr));
-
-	vr->sources = g_list_append(vr->sources, g_strdup(uri));
-
-	filter_rule_emit_changed((FilterRule *)vr);
+	g_assert (IS_VFOLDER_RULE (vr));
+	
+	vr->sources = g_list_append (vr->sources, g_strdup (uri));
+	
+	filter_rule_emit_changed ((FilterRule *) vr);
 }
 
 const char *
 vfolder_rule_find_source (VfolderRule *vr, const char *uri)
 {
 	GList *l;
-
-	g_assert(IS_VFOLDER_RULE(vr));
-
+	
+	g_assert (IS_VFOLDER_RULE (vr));
+	
 	/* only does a simple string or address comparison, should
 	   probably do a decoded url comparison */
 	l = vr->sources;
 	while (l) {
-		if (l->data == uri || !strcmp(l->data, uri))
+		if (l->data == uri || !strcmp (l->data, uri))
 			return l->data;
-		l = g_list_next(l);
+		l = l->next;
 	}
+	
 	return NULL;
 }
 
@@ -165,14 +162,14 @@ void
 vfolder_rule_remove_source (VfolderRule *vr, const char *uri)
 {
 	char *found;
-
-	g_assert(IS_VFOLDER_RULE(vr));
-
-	found = (char *)vfolder_rule_find_source(vr, uri);
+	
+	g_assert (IS_VFOLDER_RULE (vr));
+	
+	found = (char *) vfolder_rule_find_source (vr, uri);
 	if (found) {
-		vr->sources = g_list_remove(vr->sources, found);
-		g_free(found);
-		filter_rule_emit_changed((FilterRule *)vr);
+		vr->sources = g_list_remove (vr->sources, found);
+		g_free (found);
+		filter_rule_emit_changed ((FilterRule *) vr);
 	}
 }
 
@@ -180,22 +177,24 @@ const char *
 vfolder_rule_next_source (VfolderRule *vr, const char *last)
 {
 	GList *node;
-
+	
 	if (last == NULL) {
 		node = vr->sources;
 	} else {
-		node = g_list_find(vr->sources, (char *)last);
+		node = g_list_find (vr->sources, (char *) last);
 		if (node == NULL)
 			node = vr->sources;
 		else
-			node = g_list_next(node);
+			node = g_list_next (node);
 	}
+	
 	if (node)
-		return (const char *)node->data;
+		return (const char *) node->data;
+	
 	return NULL;
 }
 
-static gint
+static int
 validate (FilterRule *fr)
 {
 	GtkWidget *dialog;
@@ -218,33 +217,30 @@ validate (FilterRule *fr)
 		return 0;
 	}
 	
-	if (FILTER_RULE_CLASS (parent_class)->validate)
-		return FILTER_RULE_CLASS (parent_class)->validate (fr);
-	
-	return 1;
+	return FILTER_RULE_CLASS (parent_class)->validate (fr);
 }
 
 static int
-list_eq(GList *al, GList *bl)
+list_eq (GList *al, GList *bl)
 {
 	int truth = TRUE;
-
+	
 	while (truth && al && bl) {
 		char *a = al->data, *b = bl->data;
-
-		truth = strcmp(a, b) == 0;
+		
+		truth = strcmp (a, b) == 0;
 		al = al->next;
 		bl = bl->next;
 	}
-
+	
 	return truth && al == NULL && bl == NULL;
 }
 
 static int
-vfolder_eq(FilterRule *fr, FilterRule *cm)
+vfolder_eq (FilterRule *fr, FilterRule *cm)
 {
-        return ((FilterRuleClass *)(parent_class))->eq(fr, cm)
-		&& list_eq(((VfolderRule *)fr)->sources, ((VfolderRule *)cm)->sources);
+        return FILTER_RULE_CLASS (parent_class)->eq (fr, cm)
+		&& list_eq (((VfolderRule *) fr)->sources, ((VfolderRule *) cm)->sources);
 }
 
 static xmlNodePtr
@@ -253,18 +249,19 @@ xml_encode (FilterRule *fr)
 	xmlNodePtr node, set, work;
 	GList *l;
 	VfolderRule *vr = (VfolderRule *)fr;
-
-        node = ((FilterRuleClass *)(parent_class))->xml_encode(fr);
+	
+        node = FILTER_RULE_CLASS (parent_class)->xml_encode (fr);
 	g_assert(node != NULL);
-	set = xmlNewNode(NULL, "sources");
-	xmlAddChild(node, set);
+	set = xmlNewNode (NULL, "sources");
+	xmlAddChild (node, set);
 	l = vr->sources;
 	while (l) {
-		work = xmlNewNode(NULL, "folder");
-		xmlSetProp(work, "uri", l->data);
-		xmlAddChild(set, work);
-		l = g_list_next(l);
+		work = xmlNewNode (NULL, "folder");
+		xmlSetProp (work, "uri", l->data);
+		xmlAddChild (set, work);
+		l = l->next;
 	}
+	
 	return node;
 }
 
@@ -276,20 +273,20 @@ xml_decode (FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 	VfolderRule *vr = (VfolderRule *)fr;
 	char *uri;
 	
-        result = ((FilterRuleClass *)(parent_class))->xml_decode(fr, node, f);
+        result = FILTER_RULE_CLASS (parent_class)->xml_decode (fr, node, f);
 	if (result != 0)
 		return result;
-
+	
 	set = node->childs;
 	while (set) {
-		if (!strcmp(set->name, "sources")) {
+		if (!strcmp (set->name, "sources")) {
 			work = set->childs;
 			while (work) {
-				if (!strcmp(work->name, "folder")) {
-					uri = xmlGetProp(work, "uri");
+				if (!strcmp (work->name, "folder")) {
+					uri = xmlGetProp (work, "uri");
 					if (uri) {
-						vr->sources = g_list_append(vr->sources, g_strdup(uri));
-						xmlFree(uri);
+						vr->sources = g_list_append (vr->sources, g_strdup (uri));
+						xmlFree (uri);
 					}
 				}
 				work = work->next;
@@ -323,7 +320,7 @@ rule_copy (FilterRule *dest, FilterRule *src)
 		node = node->next;
 	}
 	
-	((FilterRuleClass *)(parent_class))->copy (dest, src);
+	FILTER_RULE_CLASS (parent_class)->copy (dest, src);
 }
 
 
@@ -355,23 +352,23 @@ static struct {
 static void
 set_sensitive(struct _source_data *data)
 {
-	gtk_widget_set_sensitive((GtkWidget *)data->buttons[BUTTON_ADD], TRUE);
-	gtk_widget_set_sensitive((GtkWidget *)data->buttons[BUTTON_REMOVE], data->current != NULL);
+	gtk_widget_set_sensitive ((GtkWidget *) data->buttons[BUTTON_ADD], TRUE);
+	gtk_widget_set_sensitive ((GtkWidget *) data->buttons[BUTTON_REMOVE], data->current != NULL);
 }
 
 static void
 select_source(GtkWidget *w, GtkWidget *child, struct _source_data *data)
 {
-	data->current = gtk_object_get_data((GtkObject *)child, "source");
-	set_sensitive(data);
+	data->current = g_object_get_data (child, "source");
+	set_sensitive (data);
 }
 
 static void
 select_source_with(GtkWidget *w, struct _source_data *data)
 {
-	char *source = gtk_object_get_data((GtkObject *)w, "source");
-
-	filter_rule_set_source((FilterRule *)data->vr, source);
+	char *source = g_object_get_data (w, "source");
+	
+	filter_rule_set_source ((FilterRule *) data->vr, source);
 }
 
 static void
@@ -379,67 +376,65 @@ source_add(GtkWidget *widget, struct _source_data *data)
 {
 	static const char *allowed_types[] = { "mail/*", NULL };
 	GNOME_Evolution_Folder *folder;
-	char *def, *uri;
 	GtkListItem *item;
+	char *def, *uri;
 	GList *l;
-	gchar *s;
-
-	gtk_widget_set_sensitive(widget, FALSE);
+	
+	gtk_widget_set_sensitive (widget, FALSE);
 	def = "";
 	evolution_shell_client_user_select_folder (global_shell_client,
 						   GTK_WINDOW (gtk_widget_get_toplevel (widget)),
 						   _("Select Folder"),
 						   def, allowed_types, &folder);
-
-	if (GTK_OBJECT_DESTROYED(widget)) {
+	
+	if (GTK_OBJECT_DESTROYED (widget)) {
 		if (folder)
 			CORBA_free (folder);
 		return;
 	}
-
-	gtk_widget_set_sensitive(widget, TRUE);
-
+	
+	gtk_widget_set_sensitive (widget, TRUE);
+	
 	if (folder) {
 		uri = g_strdup (folder->physicalUri);
-		data->vr->sources = g_list_append(data->vr->sources, uri);
-
+		data->vr->sources = g_list_append (data->vr->sources, uri);
+		
 		l = NULL;
-		s = e_utf8_to_gtk_string ((GtkWidget *) data->list, uri);
-		item = (GtkListItem *)gtk_list_item_new_with_label (s);
-		g_free (s);
-		gtk_object_set_data((GtkObject *)item, "source", uri);
-		gtk_widget_show((GtkWidget *)item);
-		l = g_list_append(NULL, item);
-		gtk_list_append_items(data->list, l);
-		gtk_list_select_child(data->list, (GtkWidget *)item);
+		item = (GtkListItem *)gtk_list_item_new_with_label (uri);
+		g_object_set_data (item, "source", uri);
+		gtk_widget_show ((GtkWidget *) item);
+		l = g_list_append (NULL, item);
+		gtk_list_append_items (data->list, l);
+		gtk_list_select_child (data->list, (GtkWidget *) item);
 		data->current = uri;
 	}
+	
 	CORBA_free (folder);
-	set_sensitive(data);
+	set_sensitive (data);
 }
 
 static void
-source_remove(GtkWidget *widget, struct _source_data *data)
+source_remove (GtkWidget *widget, struct _source_data *data)
 {
 	const char *source;
 	int index = 0;
 	GList *l;
 	GtkListItem *item;
-
+	
 	source = NULL;
-	while ((source = vfolder_rule_next_source(data->vr, source))) {
+	while ((source = vfolder_rule_next_source (data->vr, source))) {
 		if (data->current == source) {
-			vfolder_rule_remove_source(data->vr, source);
-			item = g_list_nth_data(data->list->children, index);
-			l = g_list_append(NULL, item);
-			gtk_list_remove_items(data->list, l);
-			g_list_free(l);
+			vfolder_rule_remove_source (data->vr, source);
+			item = g_list_nth_data (data->list->children, index);
+			l = g_list_append (NULL, item);
+			gtk_list_remove_items (data->list, l);
+			g_list_free (l);
 			data->current = NULL;
 			break;
 		}
 		index++;
 	}
-	set_sensitive(data);
+	set_sensitive (data);
 }
 
 /* DO NOT internationalise these strings */
@@ -453,15 +448,16 @@ const char *source_names[] = {
 static GtkWidget *
 get_widget(FilterRule *fr, struct _RuleContext *f)
 {
-	GtkWidget *widget, *frame, *w;
-	GladeXML *gui;
-	const char *source;
-	VfolderRule *vr = (VfolderRule *)fr;
+	VfolderRule *vr = (VfolderRule *) fr;
 	struct _source_data *data;
+	GtkWidget *widget, *frame;
+	GtkOptionMenu *omenu;
+	const char *source;
+	GladeXML *gui;
 	int i, row;
 	GList *l;
 	
-        widget = ((FilterRuleClass *)(parent_class))->get_widget (fr, f);
+        widget = FILTER_RULE_CLASS (parent_class)->get_widget (fr, f);
 	
 	data = g_malloc0 (sizeof (*data));
 	data->f = f;
@@ -469,62 +465,63 @@ get_widget(FilterRule *fr, struct _RuleContext *f)
 	
 	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "vfolder_source_frame");
         frame = glade_xml_get_widget (gui, "vfolder_source_frame");
-
-	gtk_object_set_data_full (GTK_OBJECT (frame), "data", data, g_free);
+	
+	g_object_set_data_full (frame, "data", data, g_free);
 	
 	for (i = 0; i < BUTTON_LAST; i++) {
-		data->buttons[i] = (GtkButton *)w = glade_xml_get_widget (gui, edit_buttons[i].name);
-		gtk_signal_connect (GTK_OBJECT (w), "clicked", edit_buttons[i].func, data);
+		data->buttons[i] = glade_xml_get_widget (gui, edit_buttons[i].name);
+		g_signal_connect (data->buttons[i], "clicked", edit_buttons[i].func, data);
 	}
 	
-        w = glade_xml_get_widget (gui, "source_list");
-	data->list = (GtkList *)w;
+        data->list = (GtkList *) glade_xml_get_widget (gui, "source_list");
+	
 	l = NULL;
 	source = NULL;
 	while ((source = vfolder_rule_next_source (vr, source))) {
 		GtkListItem *item;
 		
-		gchar *s = e_utf8_to_gtk_string (GTK_WIDGET (data->list), source);
-		item = (GtkListItem *)gtk_list_item_new_with_label (s);
-		g_free (s);
-		gtk_object_set_data (GTK_OBJECT (item), "source", (void *)source);
+		item = (GtkListItem *)gtk_list_item_new_with_label (source);
+		g_object_set_data (item, "source", (void *) source);
 		gtk_widget_show (GTK_WIDGET (item));
 		l = g_list_append (l, item);
 	}
-	gtk_list_append_items (data->list, l);
-	gtk_signal_connect (GTK_OBJECT (w), "select_child", select_source, data);
 	
-        w = glade_xml_get_widget (gui, "source_option");
-	l = GTK_MENU_SHELL (GTK_OPTION_MENU (w)->menu)->children;
+	gtk_list_append_items (data->list, l);
+	
+	g_signal_connect (data->list, "select_child", select_source, data);
+	
+	omenu = (GtkOptionMneu *) glade_xml_get_widget (gui, "source_option");
+	l = GTK_MENU_SHELL (omenu->menu)->children;
 	i = 0;
 	row = 0;
 	while (l) {
-		GtkWidget *b = GTK_WIDGET (l->data);
+		GtkWidget *item = GTK_WIDGET (l->data);
 		
 		/* make sure that the glade is in sync with the source list! */
 		if (i < sizeof (source_names) / sizeof (source_names[0])) {
-			gtk_object_set_data (GTK_OBJECT (b), "source", (char *)source_names[i]);
+			g_object_set_data (item, "source", (char *) source_names[i]);
 			if (fr->source && strcmp (source_names[i], fr->source) == 0) {
 				row = i;
 			}
 		} else {
 			g_warning ("Glade file " FILTER_GLADEDIR "/filter.glade out of sync with editor code");
 		}
-		gtk_signal_connect (GTK_OBJECT (b), "activate", select_source_with, data);
+		
+		g_signal_connect (item, "activate", select_source_with, data);
 		
 		i++;
 		l = l->next;
 	}
 	
-	gtk_option_menu_set_history (GTK_OPTION_MENU (w), row);
+	gtk_option_menu_set_history (omenu, row);
 	if (fr->source == NULL)
-		filter_rule_set_source (fr, (char *)source_names[row]);
+		filter_rule_set_source (fr, (char *) source_names[row]);
 	
 	set_sensitive (data);
 	
 	gtk_box_pack_start (GTK_BOX (widget), frame, TRUE, TRUE, 3);
 	
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (gui);
 	
 	return widget;
 }

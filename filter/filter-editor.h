@@ -20,6 +20,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _FILTER_EDITOR_H
 #define _FILTER_EDITOR_H
 

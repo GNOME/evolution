@@ -105,12 +105,12 @@ filter_editor_finalise (GObject *obj)
 FilterEditor *
 filter_editor_new (FilterContext *fc, const char **source_names)
 {
-	FilterEditor *editor = (FilterEditor *) gtk_type_new (filter_editor_get_type ());
+	FilterEditor *fe = (FilterEditor *) gtk_type_new (filter_editor_get_type ());
 	GladeXML *gui;
 	GtkWidget *w;
 	
 	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor");
-	filter_editor_construct (editor, fc, gui, source_names);
+	filter_editor_construct (fe, fc, gui, source_names);
 	
         w = glade_xml_get_widget (gui, "rule_frame");
 	gtk_frame_set_label (GTK_FRAME (w), _("Filter Rules"));

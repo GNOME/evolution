@@ -1,5 +1,6 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2001 Ximian Inc.
+ *  Copyright (C) 2001-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
  *           Jeffrey Stedfast <fejj@ximian.com>
@@ -19,94 +20,78 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <config.h>
 
-#include <glib.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <gtk/gtkframe.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <glade/glade.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "vfolder-editor.h"
-#include "vfolder-context.h"
 #include "vfolder-rule.h"
 
 #define d(x)
 
 static FilterRule * create_rule(RuleEditor *re);
 
-static void vfolder_editor_class_init (VfolderEditorClass *class);
-static void vfolder_editor_init	(VfolderEditor *gspaper);
-static void vfolder_editor_finalise (GtkObject *obj);
+static void vfolder_editor_class_init (VfolderEditorClass *klass);
+static void vfolder_editor_init (VfolderEditor *ve);
+static void vfolder_editor_finalise (GObject *obj);
 
-#define _PRIVATE(x) (((VfolderEditor *)(x))->priv)
 
-struct _VfolderEditorPrivate {
-};
+static RuleEditorClass *parent_class = NULL;
 
-static RuleEditorClass *parent_class;
 
-enum {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
+GtkType
 vfolder_editor_get_type (void)
 {
-	static guint type = 0;
+	static GtkType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
+		static const GtkTypeInfo info = {
 			"VfolderEditor",
-			sizeof(VfolderEditor),
-			sizeof(VfolderEditorClass),
-			(GtkClassInitFunc)vfolder_editor_class_init,
-			(GtkObjectInitFunc)vfolder_editor_init,
-			(GtkArgSetFunc)NULL,
-			(GtkArgGetFunc)NULL
+			sizeof (VfolderEditor),
+			sizeof (VfolderEditorClass),
+			(GtkClassInitFunc) vfolder_editor_class_init,
+			(GtkObjectInitFunc) vfolder_editor_init,
+			/* reserved_1 */ NULL,
+			/* reserved_2 */ NULL,
+			(GtkClassInitFunc) NULL,
 		};
 		
-		type = gtk_type_unique (rule_editor_get_type (), &type_info);
+		type = gtk_type_unique (RULE_TYPE_EDITOR, &info);
 	}
 	
 	return type;
 }
 
 static void
-vfolder_editor_class_init (VfolderEditorClass *class)
+vfolder_editor_class_init (VfolderEditorClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *)class;
-	RuleEditorClass *re_class = (RuleEditorClass *)class;
-
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GtkObjectClass *object_class = (GtkObjectClass *) klass;
+	RuleEditorClass *re_class = (RuleEditorClass *) klass;
+	
 	parent_class = gtk_type_class (rule_editor_get_type ());
 	
-	object_class->finalize = vfolder_editor_finalise;
-
+	gobject_class->finalize = vfolder_editor_finalise;
+	
 	/* override methods */
 	re_class->create_rule = create_rule;
-
-	/* signals */
-	
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
-vfolder_editor_init (VfolderEditor *o)
+vfolder_editor_init (VfolderEditor *ve)
 {
-	o->priv = g_malloc0 (sizeof (*o->priv));
+	;
 }
 
 static void
-vfolder_editor_finalise(GtkObject *obj)
+vfolder_editor_finalise (GObject *obj)
 {
-	VfolderEditor *o = (VfolderEditor *)obj;
-
-	g_free(o->priv);
-
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -117,33 +102,33 @@ vfolder_editor_finalise(GtkObject *obj)
  * Return value: A new #VfolderEditor object.
  **/
 VfolderEditor *
-vfolder_editor_new(VfolderContext *f)
+vfolder_editor_new (VfolderContext *vc)
 {
+	VfolderEditor *ve = (VfolderEditor *) gtk_type_new (vfolder_editor_get_type ());
 	GladeXML *gui;
-	VfolderEditor *o = (VfolderEditor *)gtk_type_new (vfolder_editor_get_type ());
 	GtkWidget *w;
-
-	gui = glade_xml_new(FILTER_GLADEDIR "/filter.glade", "rule_editor");
-	rule_editor_construct((RuleEditor *)o, (RuleContext *)f, gui, NULL);
-
-        w = glade_xml_get_widget(gui, "rule_frame");
-	gtk_frame_set_label((GtkFrame *)w, _("Virtual Folders"));
-
-	gtk_object_unref((GtkObject *)gui);
 	
-	return o;
+	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor");
+	rule_editor_construct ((RuleEditor *) ve, (RuleContext *) vc, gui, NULL);
+	
+        w = glade_xml_get_widget (gui, "rule_frame");
+	gtk_frame_set_label ((GtkFrame *) w, _("Virtual Folders"));
+	
+	g_object_unref (gui);
+	
+	return ve;
 }
 
 static FilterRule *
-create_rule(RuleEditor *re)
+create_rule (RuleEditor *re)
 {
-	FilterRule *rule = filter_rule_new();
+	FilterRule *rule = filter_rule_new ();
 	FilterPart *part;
-
+	
 	/* create a rule with 1 part in it */
-	rule = (FilterRule *)vfolder_rule_new ();
-	part = rule_context_next_part(re->context, NULL);
-	filter_rule_add_part(rule, filter_part_clone(part));
-
+	rule = (FilterRule *) vfolder_rule_new ();
+	part = rule_context_next_part (re->context, NULL);
+	filter_rule_add_part (rule, filter_part_clone (part));
+	
 	return rule;
 }

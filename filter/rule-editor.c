@@ -163,19 +163,19 @@ rule_editor_destroy (GtkObject *obj)
 RuleEditor *
 rule_editor_new (RuleContext *rc, const char *source)
 {
-	RuleEditor *editor = (RuleEditor *) gtk_type_new (rule_editor_get_type ());
+	RuleEditor *re = (RuleEditor *) gtk_type_new (rule_editor_get_type ());
 	GladeXML *gui;
 	GtkWidget *w;
 	
 	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor");
-	rule_editor_construct (editor, rc, gui, source);
+	rule_editor_construct (re, rc, gui, source);
 	
         w = glade_xml_get_widget (gui, "rule_frame");
 	gtk_frame_set_label ((GtkFrame *) w, _("Rules"));
 	
 	g_object_unref (gui);
 	
-	return editor;
+	return re;
 }
 
 /* used internally by implementations if required */

@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,90 +20,70 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#include <gtk/gtkobject.h>
-
 #include "vfolder-context.h"
 #include "vfolder-rule.h"
 
-static void vfolder_context_class_init	(VfolderContextClass *class);
-static void vfolder_context_init	(VfolderContext *gspaper);
-static void vfolder_context_finalise	(GtkObject *obj);
+static void vfolder_context_class_init (VfolderContextClass *klass);
+static void vfolder_context_init (VfolderContext *vc);
+static void vfolder_context_finalise (GObject *obj);
 
-#define _PRIVATE(x) (((VfolderContext *)(x))->priv)
 
-struct _VfolderContextPrivate {
-};
+static RuleContextClass *parent_class = NULL;
 
-static RuleContextClass *parent_class;
 
-enum {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
+GType
 vfolder_context_get_type (void)
 {
-	static guint type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"VfolderContext",
-			sizeof(VfolderContext),
-			sizeof(VfolderContextClass),
-			(GtkClassInitFunc)vfolder_context_class_init,
-			(GtkObjectInitFunc)vfolder_context_init,
-			(GtkArgSetFunc)NULL,
-			(GtkArgGetFunc)NULL
+		static const GTypeInfo info = {
+			sizeof (VfolderContextClass),
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) vfolder_context_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (VfolderContext),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) vfolder_context_init,
 		};
 		
-		type = gtk_type_unique(rule_context_get_type (), &type_info);
+		type = g_type_register_static (RULE_TYPE_CONTEXT, "VFolderContext", &info, 0);
 	}
 	
 	return type;
 }
 
 static void
-vfolder_context_class_init (VfolderContextClass *class)
+vfolder_context_class_init (VfolderContextClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	
-	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class(rule_context_get_type ());
-
+	parent_class = g_type_class_ref (RULE_TYPE_CONTEXT);
+	
 	object_class->finalize = vfolder_context_finalise;
-	/* override methods */
-
-	/* signals */
-
-	gtk_object_class_add_signals(object_class, signals, LAST_SIGNAL);
 }
 
 static void
-vfolder_context_init (VfolderContext *o)
+vfolder_context_init (VfolderContext *vc)
 {
-	o->priv = g_malloc0(sizeof(*o->priv));
-
-	rule_context_add_part_set((RuleContext *)o, "partset", filter_part_get_type(),
-				  rule_context_add_part, rule_context_next_part);
-
-	rule_context_add_rule_set((RuleContext *)o, "ruleset", vfolder_rule_get_type(),
-				  rule_context_add_rule, rule_context_next_rule);
+	rule_context_add_part_set ((RuleContext *) vc, "partset", filter_part_get_type (),
+				   rule_context_add_part, rule_context_next_part);
+	
+	rule_context_add_rule_set ((RuleContext *) vc, "ruleset", vfolder_rule_get_type (),
+				   rule_context_add_rule, rule_context_next_rule);
 }
 
 static void
-vfolder_context_finalise(GtkObject *obj)
+vfolder_context_finalise (GObject *obj)
 {
-	VfolderContext *o = (VfolderContext *)obj;
-
-	o = o;
-
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -112,8 +94,7 @@ vfolder_context_finalise(GtkObject *obj)
  * Return value: A new #VfolderContext object.
  **/
 VfolderContext *
-vfolder_context_new(void)
+vfolder_context_new (void)
 {
-	VfolderContext *o = (VfolderContext *)gtk_type_new(vfolder_context_get_type ());
-	return o;
+	return (VfolderContext *) g_object_new (VFOLDER_TYPE_CONTEXT, NULL, NULL);
 }
