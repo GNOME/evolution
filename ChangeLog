@@ -1,3 +1,8 @@
+2000-10-24  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* addressbook/conduit/address-conduit-control-applet.c:
+	moved #include <config.h> to the top.
+	
 2000-10-23  Christopher James Lahey  <clahey@helixcode.com>
 
 	* configure.in: Updated the gal check to check for gal 0.2.1.
