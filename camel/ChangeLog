@@ -1,5 +1,8 @@
 2000-04-20  NotZed  <NotZed@HelixCode.com>
 
+	* providers/mbox/camel-mbox-summary.c (message_struct_new): Trim
+	leading/trailing spaces off the raw headers.
+
 	* MERGE NEW_PARSER branch into HEAD, fixed conflicts.
 	
 	* gmime-content-field.c (_print_parameter): Duh, removed again
