@@ -1,3 +1,18 @@
+2001-08-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Added an "Activate" button to the search bar.]
+
+	* e-search-bar.c (submit_button_clicked_cb): Callback for the
+	"clicked" signal on the activate button.
+	(add_submit): New function to add a "Activate" button on the right
+	of the entry.
+	(e_search_bar_construct): Call it.
+	(add_spacer): Removed.
+	(e_search_bar_construct): Don't call it.
+	(find_id): Remove debugging message.
+	(put_in_spacer_widget): New utility function to create a
+	GtkEventBox with a border width of one and put a widget into it.
+
 2001-08-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-title-bar.c: Make the close icon as large as the pin icon so

@@ -26,7 +26,6 @@
 
 #include <config.h>
 
-#include <stdio.h> /* printf */
 #include <gtk/gtkdrawingarea.h>
 #include <gtk/gtkeventbox.h>
 #include <gtk/gtkmenuitem.h>
@@ -110,10 +109,36 @@ entry_activated_cb (GtkWidget *widget,
 	emit_query_changed (esb);
 }
 
+static void
+activate_button_clicked_cb (GtkWidget *widget,
+			  ESearchBar *esb)
+{
+	emit_query_changed (esb);
+}
+
 
 /* Widgetry creation.  */
 
-static void add_dropdown(ESearchBar *esb, ESearchBarItem *items)
+/* This function exists to fix the irreparable GtkOptionMenu stupidity.  In
+   fact, this lame-ass widget adds a 1-pixel-wide empty border around the
+   button for no reason.  So we have add a 1-pixel-wide border around the the
+   buttons we have in the search bar to make things look right.  This is done
+   through an event box.  */
+static GtkWidget *
+put_in_spacer_widget (GtkWidget *widget)
+{
+	GtkWidget *holder;
+
+	holder = gtk_event_box_new ();
+	gtk_container_set_border_width (GTK_CONTAINER (holder), 1);
+	gtk_container_add (GTK_CONTAINER (holder), widget);
+
+	return holder;
+}
+
+static void
+add_dropdown (ESearchBar *esb,
+	      ESearchBarItem *items)
 {
 	GtkWidget *menu = esb->dropdown_menu;
 	GtkWidget *item;
@@ -156,15 +181,11 @@ set_dropdown (ESearchBar *esb,
 	gtk_widget_show (dropdown);
 
 	if (esb->dropdown_holder == NULL) {
+		/* See the comment in `put_in_spacer_widget()' to understand
+		   why we have to do this.  */
 
-		/* So, GtkOptionMenu is stupid; it adds a 1-pixel-wide empty border
-	           around the button for no reason.  So we add a 1-pixel-wide border
-	           around the button as well, by using an event box.  */
-
-		esb->dropdown_holder = gtk_event_box_new ();
-		gtk_container_set_border_width (GTK_CONTAINER (esb->dropdown_holder), 1);
+		esb->dropdown_holder = put_in_spacer_widget (dropdown);
 		esb->dropdown = dropdown;
-		gtk_container_add (GTK_CONTAINER (esb->dropdown_holder), esb->dropdown);
 		gtk_widget_show (esb->dropdown_holder);
 
 		gtk_box_pack_start(GTK_BOX(esb), esb->dropdown_holder, FALSE, FALSE, 0);
@@ -243,15 +264,28 @@ add_entry (ESearchBar *esb)
 }
 
 static void
-add_spacer (ESearchBar *esb)
+add_activate_button (ESearchBar *esb)
 {
-	GtkWidget *spacer;
+	GtkWidget *label;
+	GtkWidget *holder;
 
-	spacer = gtk_drawing_area_new();
-	gtk_widget_show(spacer);
-	gtk_box_pack_start(GTK_BOX(esb), spacer, FALSE, FALSE, 0);
+	label = gtk_label_new (_("Activate"));
+	gtk_widget_show (label);
 
-	gtk_widget_set_usize(spacer, 19, 1);
+	/* See the comment in `put_in_spacer_widget()' to understand
+	   why we have to do this.  */
+
+	esb->activate_button = gtk_button_new ();
+	gtk_widget_show (esb->activate_button);
+	gtk_container_add (GTK_CONTAINER (esb->activate_button), label);
+
+	holder = put_in_spacer_widget (esb->activate_button);
+	gtk_widget_show (holder);
+
+	gtk_signal_connect (GTK_OBJECT (esb->activate_button), "clicked",
+			    GTK_SIGNAL_FUNC (activate_button_clicked_cb), esb);
+
+	gtk_box_pack_start (GTK_BOX (esb), holder, FALSE, FALSE, 0);
 }
 
 static int
@@ -264,7 +298,6 @@ find_id(GtkWidget *menu, int idin, const char *type, GtkWidget **widget)
 		*widget = NULL;
 	while (l) {
 		id = GPOINTER_TO_INT(gtk_object_get_data(l->data, type));
-		printf("comparing id %d to query %d\n", id, idin);
 		if (id == idin) {
 			row = i;
 			if (widget)
@@ -405,7 +438,7 @@ e_search_bar_construct (ESearchBar *search_bar,
 
 	add_entry (search_bar);
 
-	add_spacer (search_bar);
+	add_activate_button (search_bar);
 }
 
 void
