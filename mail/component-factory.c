@@ -944,6 +944,7 @@ create_component (void)
 {
 	EvolutionShellComponentDndDestinationFolder *destination_interface;
 	MailOfflineHandler *offline_handler;
+	GdkPixbuf *new_mail_icon;
 	int i;
 	
 	shell_component = evolution_shell_component_new (folder_types,
@@ -964,10 +965,13 @@ create_component (void)
 				     BONOBO_OBJECT (destination_interface));
 	
 	evolution_mail_config_wizard_init ();
-	
+
+	new_mail_icon = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/new-message.xpm");
 	evolution_shell_component_add_user_creatable_item (shell_component, "message",
 							   _("New Mail Message"), _("_Mail Message"), 'm',
-							   NULL);
+							   new_mail_icon);
+	if (new_mail_icon != NULL)
+		gdk_pixbuf_unref (new_mail_icon);
 
 	for (i=0;i<sizeof(shell_component_handlers)/sizeof(shell_component_handlers[0]);i++) {
 		shell_component_handlers[i].hand = gtk_signal_connect(GTK_OBJECT(shell_component),
