@@ -12,8 +12,10 @@ PACKAGE=evolution
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
 AC_SUBST(VERSION)
 
-AC_DEFINE_UNQUOTED(VERSION_COMMENT, "")
+AC_CANONICAL_HOST
 
+AC_DEFINE_UNQUOTED(VERSION_COMMENT, "")
+	
 AC_DEFUN(EVO_CHECK_LIB, [
 	dispname="$1"
 	pkgname="$2"
@@ -474,7 +476,16 @@ if test "$msg_ldap" = yes; then
 	if test -z "$LDAP_LIBS"; then
 		AC_MSG_ERROR(could not find OpenLDAP libraries)
 	elif test "$msg_ldap_linktype" = "(static)"; then
-		LDAP_LIBS="-Wl,-Bstatic $LDAP_LIBS -Wl,-Bdynamic"
+		case "$host" in
+		   *solaris*)
+		         if echo $LDAP_LIBS | grep -- "-lresolv" >/dev/null 2>&1; then
+		           LDAP_LIBS=`echo $LDAP_LIBS | sed "s,-lresolv ,,g"`
+			   LDAP_SHARED="-lresolv"
+		         fi
+		  ;;
+		esac
+
+		LDAP_LIBS="-Wl,-Bstatic $LDAP_LIBS -Wl,-Bdynamic $LDAP_SHARED"
 	fi
 
 	AC_SUBST(LDAP_CFLAGS)

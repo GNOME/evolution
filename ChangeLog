@@ -1,3 +1,8 @@
+2002-04-04  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: Fix static linking on solaris which doesn't have a
+	static libresolv. Fixes 21033.
+
 2002-03-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Up to version 1.0.3.99.
