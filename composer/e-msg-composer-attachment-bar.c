@@ -290,7 +290,7 @@ update (EMsgComposerAttachmentBar *bar)
 		}
 		
 		desc = camel_mime_part_get_description (attachment->body);
-		if (!desc)
+		if (!desc || *desc == '\0')
 			desc = camel_mime_part_get_filename (attachment->body);
 		if (!desc)
 			desc = "attachment";

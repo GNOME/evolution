@@ -47,6 +47,7 @@
 #include <libgnomeui/gnome-canvas-pixbuf.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 
+#include "bad-icon.xpm"
 
 /* Aliases to minimize screen use in my laptop */
 #define EIL(x)       E_ICON_LIST(x)
@@ -981,7 +982,6 @@ icon_new_from_pixbuf (EIconList *eil, GdkPixbuf *im,
 	else
 		icon->icon_filename = NULL;
 
-	g_print ("%d,%d\n", gdk_pixbuf_get_width (im), gdk_pixbuf_get_height (im));
 	icon->image = GNOME_CANVAS_PIXBUF (gnome_canvas_item_new (
 		group,
 		gnome_canvas_pixbuf_get_type (),
@@ -1036,9 +1036,14 @@ icon_new (Eil *eil, const char *icon_filename, const char *text)
 	GdkPixbuf *im;
 	Icon *retval;
 
-	if (icon_filename)
+	if (icon_filename) {
 		im = gdk_pixbuf_new_from_file (icon_filename);
-	else
+
+		/* Bad icon image 
+		   Fixme. Need a better graphic. */
+		if (im == NULL)
+			im = gdk_pixbuf_new_from_xpm_data ((const char**) bad_icon_xpm); 
+	} else
 		im = NULL;
 
 	retval = icon_new_from_pixbuf (eil, im, icon_filename, text);

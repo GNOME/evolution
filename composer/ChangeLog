@@ -1,3 +1,15 @@
+2000-10-02  Iain Holmes  <iain@helixcode.com>
+
+	* e-msg-composer-attachment-bar.c: If the description of an attachment
+	is a blank string, revert to displaying the filename.
+
+2000-10-01  Iain Holmes  <iain@helixcode.com>
+
+	* e-icon-list.c: If you try to add an icon from a file that doesn't
+	exist put a "Broken icon" image.
+
+	* bad-icon.xpm: Broken icon image.
+
 2000-10-01  Iain Holmes  <iain@helixcode.com>
 
 	* e-msg-composer-attachment-bar.[ch] (update): If the attachment is
