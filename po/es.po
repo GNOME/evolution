@@ -1327,9 +1327,8 @@ msgid "Delete Contact?"
 msgstr "¿Borrar contacto?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:756
-#, fuzzy
 msgid "Category editor not available."
-msgstr "No hay descripción disponible."
+msgstr "No hay un editor de categorias disponible."
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:763
 msgid "This contact belongs to these categories:"
@@ -5135,127 +5134,127 @@ msgstr "No pude crear la factoría del componente editor"
 
 #: calendar/gui/print.c:425
 msgid "1st"
-msgstr "1º"
+msgstr "1"
 
 #: calendar/gui/print.c:425
 msgid "2nd"
-msgstr "2º"
+msgstr "2"
 
 #: calendar/gui/print.c:425
 msgid "3rd"
-msgstr "3º"
+msgstr "3"
 
 #: calendar/gui/print.c:425
 msgid "4th"
-msgstr "4º"
+msgstr "4"
 
 #: calendar/gui/print.c:425
 msgid "5th"
-msgstr "5º"
+msgstr "5"
 
 #: calendar/gui/print.c:426
 msgid "6th"
-msgstr "6º"
+msgstr "6"
 
 #: calendar/gui/print.c:426
 msgid "7th"
-msgstr "7º"
+msgstr "7"
 
 #: calendar/gui/print.c:426
 msgid "8th"
-msgstr "8º"
+msgstr "8"
 
 #: calendar/gui/print.c:426
 msgid "9th"
-msgstr "9º"
+msgstr "9"
 
 #: calendar/gui/print.c:426
 msgid "10th"
-msgstr "10º"
+msgstr "10"
 
 #: calendar/gui/print.c:427
 msgid "11th"
-msgstr "11º"
+msgstr "11"
 
 #: calendar/gui/print.c:427
 msgid "12th"
-msgstr "12º"
+msgstr "12"
 
 #: calendar/gui/print.c:427
 msgid "13th"
-msgstr "13º"
+msgstr "13"
 
 #: calendar/gui/print.c:427
 msgid "14th"
-msgstr "14º"
+msgstr "14"
 
 #: calendar/gui/print.c:427
 msgid "15th"
-msgstr "15º"
+msgstr "15"
 
 #: calendar/gui/print.c:428
 msgid "16th"
-msgstr "16º"
+msgstr "16"
 
 #: calendar/gui/print.c:428
 msgid "17th"
-msgstr "17º"
+msgstr "17"
 
 #: calendar/gui/print.c:428
 msgid "18th"
-msgstr "18º"
+msgstr "18"
 
 #: calendar/gui/print.c:428
 msgid "19th"
-msgstr "19º"
+msgstr "19"
 
 #: calendar/gui/print.c:428
 msgid "20th"
-msgstr "20º"
+msgstr "20"
 
 #: calendar/gui/print.c:429
 msgid "21st"
-msgstr "21º"
+msgstr "21"
 
 #: calendar/gui/print.c:429
 msgid "22nd"
-msgstr "22º"
+msgstr "22"
 
 #: calendar/gui/print.c:429
 msgid "23rd"
-msgstr "23º"
+msgstr "23"
 
 #: calendar/gui/print.c:429
 msgid "24th"
-msgstr "24º"
+msgstr "24"
 
 #: calendar/gui/print.c:429
 msgid "25th"
-msgstr "25º"
+msgstr "25"
 
 #: calendar/gui/print.c:430
 msgid "26th"
-msgstr "26º"
+msgstr "26"
 
 #: calendar/gui/print.c:430
 msgid "27th"
-msgstr "27º"
+msgstr "27"
 
 #: calendar/gui/print.c:430
 msgid "28th"
-msgstr "28º"
+msgstr "28"
 
 #: calendar/gui/print.c:430
 msgid "29th"
-msgstr "29º"
+msgstr "29"
 
 #: calendar/gui/print.c:430
 msgid "30th"
-msgstr "30º"
+msgstr "30"
 
 #: calendar/gui/print.c:431
 msgid "31st"
-msgstr "31º"
+msgstr "31"
 
 #: calendar/gui/print.c:498
 msgid "Su"
@@ -7932,9 +7931,8 @@ msgid "Test"
 msgstr "Prueba"
 
 #: filter/filter-rule.c:217
-#, fuzzy
 msgid "You must name this filter."
-msgstr "Cambiar el nombre de esta carpeta"
+msgstr "Debes dar un nombre a este filtro."
 
 #: filter/filter-rule.c:720
 msgid "Rule name: "
@@ -8070,7 +8068,7 @@ msgstr "No Existe"
 
 #: filter/libfilter-i18n.h:19
 msgid "Draft"
-msgstr "Borrador"
+msgstr "Borradores"
 
 #: filter/libfilter-i18n.h:20
 msgid "ends with"
@@ -8223,9 +8221,8 @@ msgid "Score Rules"
 msgstr "Reglas de puntuación"
 
 #: filter/vfolder-rule.c:204
-#, fuzzy
 msgid "You must name this vfolder."
-msgstr "Cambiar el nombre de esta carpeta"
+msgstr "Debes dar un nombre a esta carpeta virtual."
 
 #: filter/vfolder-rule.c:213
 msgid "You need to to specify at least one folder as a source."
@@ -9023,7 +9020,7 @@ msgstr ""
 #: mail/mail-config.c:1870
 #, c-format
 msgid "%s: Inbox"
-msgstr "%s: Buzón de entrada"
+msgstr "%s: Entrada"
 
 #: mail/mail-config.c:2112
 msgid "Checking Service"
@@ -9285,7 +9282,7 @@ msgstr "Enviando Correo"
 #: mail/mail-config.glade.h:73 mail/message-list.etspec.h:6
 #: shell/e-local-storage.c:176
 msgid "Sent"
-msgstr "Enviado"
+msgstr "Enviados"
 
 #: mail/mail-config.glade.h:74
 msgid "Sent _messages folder:"
@@ -11468,7 +11465,6 @@ msgid "All news _feeds:"
 msgstr "Todas las _fuentes de noticias:"
 
 #: my-evolution/my-evolution.glade.h:6
-#, fuzzy
 msgid "C_elsius"
 msgstr "C_elsius"
 
@@ -11570,19 +11566,19 @@ msgstr "La shell de Evolution."
 
 #: shell/e-activity-handler.c:200
 msgid "Show Details"
-msgstr "Mostrar Detalles"
+msgstr "Mostrar detalles"
 
 #: shell/e-activity-handler.c:202
 msgid "Cancel Operation"
-msgstr "Cancelar Operación"
+msgstr "Cancelar operación"
 
 #: shell/e-local-storage.c:174 shell/e-shortcuts.c:1052
 msgid "Inbox"
-msgstr "Buzón de entrada"
+msgstr "Entrada"
 
 #: shell/e-local-storage.c:175
 msgid "Outbox"
-msgstr "Buzón de salida"
+msgstr "Salida"
 
 #: shell/e-local-storage.c:636
 msgid "Local Folders"
