@@ -1,3 +1,8 @@
+2001-09-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-vtrash-folder.c (vtrash_move_messages_to): Oops, a
+	CamelFolder is not a CamelFolderClass.
+
 2001-09-28  Dan Winship  <danw@ximian.com>
 
 	* camel-tcp-stream-openssl.c (ssl_error_to_errno): Make this take
@@ -24,8 +29,8 @@
 	* camel-service.c (camel_service_connect): Dont re-register the
 	connect_op if we got it by calling 'operation_registered', which
 	returns an already-registered one.
-	(camel_service_disconnect): Likewise here.
-        This removes all the re-registered warnings.
+	(camel_service_disconnect): Likewise here.  This removes all the
+	re-registered warnings.
 
 	* camel-object.c (camel_object_unref): Fill the finalised data
 	with nonsense, rather than 0's - more easily detect bad data.

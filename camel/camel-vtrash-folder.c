@@ -30,6 +30,9 @@
 
 #include <string.h>
 
+/* Returns the class for a CamelFolder */
+#define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+
 static CamelVeeFolderClass *camel_vtrash_folder_parent;
 
 static void vtrash_append_message (CamelFolder *folder, CamelMimeMessage *message,
@@ -121,7 +124,7 @@ vtrash_move_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest
 		
 		if (dest == mi->folder) {
 			/* Just undelete the original message */
-			CAMEL_FOLDER_CLASS (dest)->set_message_flags (dest, uids->pdata[i], CAMEL_MESSAGE_DELETED, 0);
+			CF_CLASS (dest)->set_message_flags (dest, uids->pdata[i], CAMEL_MESSAGE_DELETED, 0);
 		} else {
 			/* This means that the user is trying to move the message
 			   from the vTrash to a folder other than the original. */
