@@ -1,3 +1,12 @@
+2001-03-21  Dietmar Maurer  <dietmar@ximian.com>
+
+	* wombat.c (setup_config): initialise the moniker factory
+
+	* GNOME_Evolution_Wombat.oaf.in: added the necessary entries for
+	the wombat moniker.
+
+	* wombat-moniker.[ch]: wombat is now a moniker 
+
 2001-03-15  Jon Trowbridge  <trow@ximian.com>
 
 	* wombat.c (main): If we can't initialize a service on startup,

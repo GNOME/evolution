@@ -17,7 +17,8 @@ INCLUDES =						\
 bin_PROGRAMS =	\
 	wombat
 
-wombat_SOURCES = 	\
+wombat_SOURCES = 		\
+	wombat-moniker.c	\
 	wombat.c
 
 wombat_LDADD =							\

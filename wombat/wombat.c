@@ -20,6 +20,8 @@
 #include "calendar/pcs/cal-factory.h"
 #include "calendar/pcs/cal-backend-file.h"
 
+#include "wombat-moniker.h"
+
 /* The and addressbook calendar factories */
 
 static CalFactory *cal_factory;
@@ -143,6 +145,16 @@ setup_pcs (int argc, char **argv)
 static gboolean
 setup_config (int argc, char **argv)
 {
+	BonoboGenericFactory *factory;
+	char *oafiid = "OAFIID:Bonobo_Moniker_wombat_Factory";
+
+	factory = bonobo_generic_factory_new_multi (oafiid, 
+						    wombat_moniker_factory,
+						    NULL);
+       
+	// bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
+       
+
 	return TRUE;
 }
 
