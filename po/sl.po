@@ -930,7 +930,7 @@ msgstr "Uporaba upravnika Kont_aktov"
 
 #: shell/e-shell-view-menu.c:372
 msgid "_Submit bug report"
-msgstr "_Po¹lji sporoèilo o hro¹èu"
+msgstr "_Po¹lji poroèilo o hro¹èu"
 
 #: shell/e-shell-view-menu.c:373
 msgid "Submit bug-report via bug-buddy"
