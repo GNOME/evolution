@@ -262,7 +262,6 @@ void mail_msg_wait(unsigned int msgid)
 
 void mail_msg_wait_all(void)
 {
-	struct _mail_msg *m;
 	int ismain = pthread_self() == mail_gui_thread;
 
 	if (ismain) {

@@ -49,6 +49,7 @@ typedef struct _mail_msg_op {
 
 /* setup ports */
 void mail_msg_init(void);
+void mail_msg_cleanup (void);
 
 /* allocate a new message */
 void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size);

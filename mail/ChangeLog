@@ -1,3 +1,7 @@
+2001-09-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-mt.h: Added mail_msg_cleanup() prototype.
+
 2001-09-28  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (get_data_wrapper_text): Deal with
