@@ -193,7 +193,6 @@ GPtrArray *
 get_calendars_to_load (void)
 {
 	Bonobo_ConfigDatabase db;
-	CORBA_Environment ev;
 	GPtrArray *uris;
 	int len, i;
 
@@ -201,30 +200,26 @@ get_calendars_to_load (void)
 	if (db == CORBA_OBJECT_NIL)
 		return NULL;
 
-	/* Get the value */
+	/* Getting the default value below is not necessarily an error, as we
+	 * may not have saved the list of calendar yet.
+	 */
 
-	CORBA_exception_init (&ev);
-
-	len = bonobo_config_get_long_with_default (db, KEY_NUM_CALENDARS_TO_LOAD, 0, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Cannot read key %s -- %s", KEY_NUM_CALENDARS_TO_LOAD, ev._repo_id);
-		len = 0;
-	}
+	len = bonobo_config_get_long_with_default (db, KEY_NUM_CALENDARS_TO_LOAD, 0, NULL);
 
 	uris = g_ptr_array_new ();
 	g_ptr_array_set_size (uris, len);
 
 	for (i = 0; i < len; i++) {
 		char *key;
+		gboolean used_default;
 
 		key = g_strdup_printf ("%s%d", BASE_KEY_CALENDAR_TO_LOAD, i);
-		uris->pdata[i] = bonobo_config_get_string_with_default (db, key, "", &ev);
-		if (ev._major != NULL)
-			g_warning ("Cannot read key %s -- %s", key, ev._repo_id);
+		uris->pdata[i] = bonobo_config_get_string_with_default (db, key, "", &used_default);
+		if (used_default)
+			g_message ("get_calendars_to_load(): Could not read calendar name %d", i);
+
 		g_free (key);
 	}
-
-	CORBA_exception_free (&ev);
 
 	return uris;
 }
