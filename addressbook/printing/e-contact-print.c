@@ -478,7 +478,7 @@ e_contact_print_card (ECardSimple *simple, EContactPrintContext *ctxt)
 		char *string;
 		string = e_card_simple_get(simple, field);
 
-		if (!strncmp (string, "<?xml", 4)) {
+		if (string && !strncmp (string, "<?xml", 4)) {
 			EDestination *dest = e_destination_import (string);
 			if (dest != NULL) {
 				gchar *new_string = g_strdup (e_destination_get_address (dest));

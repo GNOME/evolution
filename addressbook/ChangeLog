@@ -1,5 +1,8 @@
 2001-10-20  Jon Trowbridge  <trow@ximian.com>
 
+	* printing/e-contact-print.c (e_contact_print_card): Check that the
+	string we are checking for xml-ness is non-NULL.
+
 	* backend/ebook/e-destination.c (e_destination_importv): Filter
 	out empty destinations. (also Bug #13036)
 
