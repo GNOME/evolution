@@ -1,3 +1,10 @@
+2000-08-12  Dan Winship  <danw@helixcode.com>
+
+	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate): New
+	function to do one round of attempted authentication.
+	(pop3_connect): Move a bunch of code out into
+	pop3_try_authenticate and fix some bugs in the edge cases.
+
 2000-08-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (query_auth_types): No longer
