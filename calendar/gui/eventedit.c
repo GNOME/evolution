@@ -49,7 +49,7 @@ event_editor_class_init (EventEditorClass *class)
 	GtkObjectClass *object_class;
 
 	parent_class = gtk_type_class (gtk_window_get_type ());
-
+	object_class = (GtkObjectClass*) class;
 	object_class->destroy = event_editor_destroy;
 }
 
@@ -920,8 +920,6 @@ event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 	gdk_pointer_ungrab (GDK_CURRENT_TIME);
 	gdk_flush ();
 
-	printf ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n");
-	
 	retval = gtk_type_new (event_editor_get_type ());
 	ee = EVENT_EDITOR (retval);
 	
