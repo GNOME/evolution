@@ -794,7 +794,7 @@ filter_message_search (CamelMimeMessage *message, CamelMessageInfo *info,
 	else
 		retval = FALSE;
 	
-	gtk_object_unref (GTK_OBJECT (sexp));
+	e_sexp_unref(sexp);
 	e_sexp_result_free (result);
 	
 	return retval;

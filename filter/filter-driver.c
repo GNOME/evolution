@@ -35,7 +35,6 @@
 #include <gnome-xml/parser.h>
 
 #include <camel/camel.h>
-#include "mail/mail-tools.h" /*mail_tool_camel_lock_up/down*/
 #include "filter-context.h"
 #include "filter-filter.h"
 #include "e-util/e-sexp.h"
@@ -206,7 +205,7 @@ filter_driver_finalise (GtkObject *obj)
 	g_hash_table_foreach (p->globals, free_hash_strings, driver);
 	g_hash_table_destroy (p->globals);
 	
-	gtk_object_unref (GTK_OBJECT (p->eval));
+	e_sexp_unref(p->eval);
 	
 	if (p->defaultfolder)
 		camel_object_unref (CAMEL_OBJECT (p->defaultfolder));
@@ -350,15 +349,11 @@ do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d
 			if (!outbox)
 				continue;
 			
-			mail_tool_camel_lock_up ();
-			
 			camel_folder_append_message (outbox, p->message, p->info, p->ex);
 			
 			service_url = camel_service_get_url (CAMEL_SERVICE (camel_folder_get_parent_store (outbox)));
 			filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to folder %s", service_url);
 			g_free (service_url);
-			
-			mail_tool_camel_lock_down ();
 		}
 	}
 	
@@ -384,16 +379,12 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d
 			outbox = open_folder (driver, folder);
 			if (!outbox)
 				continue;
-			
-			mail_tool_camel_lock_up ();
-			
+
 			camel_folder_append_message (outbox, p->message, p->info, p->ex);
 			
 			service_url = camel_service_get_url (CAMEL_SERVICE (camel_folder_get_parent_store (outbox)));
 			filter_driver_log (driver, FILTER_LOG_ACTION, "Move to folder %s", service_url);
 			g_free (service_url);
-			
-			mail_tool_camel_lock_down ();
 		}
 	}
 	
@@ -473,9 +464,7 @@ open_folder (FilterDriver *driver, const char *folder_url)
 	
 	if (camelfolder) {
 		g_hash_table_insert (p->folders, g_strdup (folder_url), camelfolder);
-		mail_tool_camel_lock_up ();
 		camel_folder_freeze (camelfolder);
-		mail_tool_camel_lock_down ();
 	}
 	
 	return camelfolder;
@@ -489,11 +478,9 @@ close_folder (void *key, void *value, void *data)
 	struct _FilterDriverPrivate *p = _PRIVATE (driver);
 	
 	g_free (key);
-	mail_tool_camel_lock_up ();
 	camel_folder_sync (folder, FALSE, p->ex);
 	camel_folder_thaw (folder);
 	camel_object_unref (CAMEL_OBJECT (folder));
-	mail_tool_camel_lock_down ();
 }
 
 /* flush/close all folders */
@@ -743,9 +730,7 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 		
 		d(fprintf (stderr, "applying rule %s\n action %s\n", fsearch->str, faction->str));
 		
-		mail_tool_camel_lock_up ();
 		matched = filter_message_search (p->message, p->info, source_url, fsearch->str, p->ex);
-		mail_tool_camel_lock_down ();
 		
 		if (matched) {
 			filtered = TRUE;
@@ -770,9 +755,7 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 		/* copy it to the default inbox */
 		filtered = TRUE;
 		filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to default folder");
-		mail_tool_camel_lock_up ();
 		camel_folder_append_message (p->defaultfolder, p->message, p->info, p->ex);
-		mail_tool_camel_lock_down ();
 	}
 	
 	/* *Now* we can set the DELETED flag... */

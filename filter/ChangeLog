@@ -1,3 +1,11 @@
+2000-12-20  Not Zed  <NotZed@HelixCode.com>
+
+	* filter-message-search.c (filter_message_search): Oops, missed a
+	gtk unref of the now-no-longer gtk e_sexp.
+
+	* filter-driver.c: Remove mail_tool_lock stuff.
+	(filter_driver_finalise): unref e_sexp properly.
+
 2000-12-12  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-search-bar.c (esb_pack_menubar): Fixed some warnings.
