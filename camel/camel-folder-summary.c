@@ -188,6 +188,8 @@ camel_folder_summary_finalise (GtkObject *obj)
 	g_hash_table_foreach(p->filter_charset, free_o_name, 0);
 	g_hash_table_destroy(p->filter_charset);
 
+	g_free(s->summary_path);
+
 	if (p->filter_index)
 		gtk_object_unref ((GtkObject *)p->filter_index);
 	if (p->filter_64)

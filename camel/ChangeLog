@@ -1,3 +1,24 @@
+2000-05-11  NotZed  <NotZed@HelixCode.com>
+
+	* camel-mime-part.c (write_to_stream): Unref the filter after
+	adding it to the filtering stream.
+
+	* providers/mbox/camel-mbox-summary.c
+	(camel_mbox_summary_finalise): Free the folder path.
+
+	* camel-folder-summary.c (camel_folder_summary_finalise): Free the
+	summary path.
+
+	* camel-internet-address.c (internet_decode): Free multiple entry
+	addresses properly.
+
+	* camel-mime-utils.c (header_decode_mailbox): Plugged another
+	memleak, free text after converting it.
+	(header_decode_addrspec): More leaks plugged.
+
+	* camel-mime-message.c (finalize): Free message_uid.
+	(finalize): Free the recipients hashtable.
+
 2000-05-11    <notzed@helixcode.com>
 
 	* camel-folder-summary.c (camel_folder_summary_finalise): Free
@@ -123,6 +144,12 @@
 	
 	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_update):
 	Return status.
+	(camel_mbox_summary_expunge): Force an update of the summary
+	before we do anything.
+	(camel_mbox_summary_expunge): Build new xev line in xevnew, and
+	free that, and consify xev.
+	(camel_mbox_summary_load): If we are rebuilding from scratch, make
+	sure we clear the summary content.
 
 	* camel-stream-filter.c (do_close): We NEED a stream close.
 

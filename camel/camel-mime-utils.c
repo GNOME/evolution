@@ -1276,6 +1276,7 @@ header_decode_addrspec(const char **in)
 	if (word) {
 		addr = g_string_append(addr, word);
 		header_decode_lwsp(&inptr);
+		g_free(word);
 		while (*inptr == '.' && word) {
 			inptr++;
 			addr = g_string_append_c(addr, '.');
@@ -1283,6 +1284,7 @@ header_decode_addrspec(const char **in)
 			if (word) {
 				addr = g_string_append(addr, word);
 				header_decode_lwsp(&inptr);
+				g_free(word);
 			} else {
 				w(g_warning("Invalid address spec: %s", *in));
 			}
@@ -1348,6 +1350,7 @@ header_decode_mailbox(const char **in)
 			text = header_decode_string(pre);
 			name = g_string_append(name, text);
 			g_free(pre);
+			g_free(text);
 
 			/* rfc_decode(pre) */
 			pre = header_decode_word(&inptr);

@@ -106,7 +106,7 @@ internet_decode	(CamelAddress *a, const char *raw)
 			}
 			n = n->next;
 		}
-		header_address_unref(ha);
+		header_address_list_clear(&ha);
 	}
 	return 0;
 }

@@ -123,6 +123,10 @@ camel_mbox_summary_init (CamelMboxSummary *obj)
 static void
 camel_mbox_summary_finalise (GtkObject *obj)
 {
+	CamelMboxSummary *mbs = (CamelMboxSummary *)obj;
+
+	g_free(mbs->folder_path);
+
 	((GtkObjectClass *)(camel_mbox_summary_parent))->finalize((GtkObject *)obj);
 }
 
@@ -341,6 +345,7 @@ camel_mbox_summary_load(CamelMboxSummary *mbs, int forceindex)
 	}
 
 	if (forceindex || camel_folder_summary_load(s) == -1) {
+		camel_folder_summary_clear(s);
 		ret = summary_rebuild(mbs, 0);
 	} else {
 		minstart = st.st_size;
@@ -508,15 +513,22 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 	int fd=-1, fdout=-1;
 	off_t offset = 0;
 	char *tmpname=0;
-	char *buffer, *xev = NULL;
+	char *buffer, *xevnew = NULL;
+	const char *xev;
 	int len;
 	guint32 uid, flags;
 	int quick = TRUE, work = FALSE;
 
 	/* make sure we're in sync */
-	/*camel_mbox_summary_load(mbs, FALSE); ? */
-
 	count = camel_folder_summary_count(s);
+	if (count>0) {
+		CamelMessageInfo *mi = camel_folder_summary_index(s, count-1);
+		camel_mbox_summary_update(mbs, mi->content->endpos);
+	} else {
+		camel_mbox_summary_update(mbs, 0);
+	}
+
+	/* check if we have any work to do */
 	d(printf("Performing expunge, %d messages in inbox\n", count));
 	for (i=0;quick && i<count;i++) {
 		info = (CamelMboxMessageInfo *)camel_folder_summary_index(s, i);
@@ -591,7 +603,7 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 			if (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_FROM_END)
 				goto error;
 
-			xev = (char *)camel_mime_parser_header(mp, "X-Evolution", (int *)&xevoffset);
+			xev = camel_mime_parser_header(mp, "X-Evolution", (int *)&xevoffset);
 			if (xev && header_evolution_decode(xev, &uid, &flags) != -1) {
 				char name[64];
 
@@ -602,13 +614,13 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 				}
 				xevok = TRUE;
 			}
-			xev = header_evolution_encode(strtoul(info->info.uid, NULL, 10), info->info.flags);
+			xevnew = header_evolution_encode(strtoul(info->info.uid, NULL, 10), info->info.flags);
 			if (quick) {
 				if (!xevok) {
 					g_error("The summary told me I had an X-Evolution header, but i dont!");
 					goto error;
 				}
-				buffer = g_strdup_printf("X-Evolution: %s", xev);
+				buffer = g_strdup_printf("X-Evolution: %s", xevnew);
 				do {
 					len = write(fd, buffer, strlen(buffer));
 				} while (len == -1 && errno == EINTR);
@@ -619,7 +631,7 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 			} else {
 				frompos = lseek(fdout, 0, SEEK_CUR);
 				write(fdout, "From -\n", strlen("From -\n"));
-				if (header_write(fdout, camel_mime_parser_headers_raw(mp), xev) == -1) {
+				if (header_write(fdout, camel_mime_parser_headers_raw(mp), xevnew) == -1) {
 					d(printf("Error writing to tmp mailbox\n"));
 					goto error;
 				}
@@ -634,8 +646,8 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 				}
 				info->frompos = frompos;
 				offset = bodypos - info->info.content->bodypos;
-			}			
-			g_free(xev); xev = NULL;
+			}
+			g_free(xevnew); xevnew = NULL;
 			camel_mime_parser_drop_step(mp);
 			camel_mime_parser_drop_step(mp);
 		} else {
@@ -690,7 +702,7 @@ error:
 	close(fd);
 	close(fdout);
 
-	g_free(xev);
+	g_free(xevnew);
 
 	if (tmpname)
 		unlink(tmpname);

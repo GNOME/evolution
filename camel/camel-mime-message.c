@@ -193,9 +193,12 @@ finalize (GtkObject *object)
 	g_free (message->subject);
 	g_free (message->reply_to);
 	g_free (message->from);
+
+	g_free (message->message_uid);
 	
 	g_hash_table_foreach (message->recipients, g_lib_is_uber_crappy_shit, NULL);
-	
+	g_hash_table_destroy(message->recipients);
+
 	if (message->user_flags)
 		g_hash_table_foreach (message->user_flags, free_key_only, NULL);
 	g_hash_table_destroy(message->user_flags);
