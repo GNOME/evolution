@@ -634,7 +634,8 @@ message_list_destroy (GtkObject *object)
 	if (message_list->idle_id != 0)
 		g_source_remove(message_list->idle_id);
 
-	gtk_object_unref (GTK_OBJECT (message_list->folder));
+	if (message_list->folder)
+		gtk_object_unref (GTK_OBJECT (message_list->folder));
 
 	GTK_OBJECT_CLASS (message_list_parent_class)->destroy (object);
 }

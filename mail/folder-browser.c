@@ -27,8 +27,6 @@ folder_browser_destroy (GtkObject *object)
 {
 	FolderBrowser *folder_browser = FOLDER_BROWSER (object);
 
-	camel_folder_sync (folder_browser->folder, FALSE, NULL);
-
 	if (folder_browser->shell) {
 		CORBA_Environment ev;
 
@@ -40,8 +38,10 @@ folder_browser_destroy (GtkObject *object)
 	if (folder_browser->uri)
 		g_free (folder_browser->uri);
 
-	if (folder_browser->folder)
+	if (folder_browser->folder) {
+		camel_folder_sync (folder_browser->folder, FALSE, NULL);
 		gtk_object_unref (GTK_OBJECT (folder_browser->folder));
+	}
 	
 	if (folder_browser->message_list)
 		bonobo_object_unref (BONOBO_OBJECT (folder_browser->message_list));

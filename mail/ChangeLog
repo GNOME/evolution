@@ -1,6 +1,15 @@
+2000-07-13  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c (message_list_destroy): Only unref the folder if
+	it's been set.
+
+	* folder-browser.c (folder_browser_destroy): Only sync the folder
+	if it's been set.
+
 2000-07-13  Jonathan Blandford  <jrb@redhat.com>
 
-	* mail-config.c (create_transport): s/CAMEL_SERVICE_NEED_HOST/CAMEL_SERVICE_URL_NEED_HOST.
+	* mail-config.c (create_transport):
+	s/CAMEL_SERVICE_NEED_HOST/CAMEL_SERVICE_URL_NEED_HOST.
 
 2000-07-13  Dan Winship  <danw@helixcode.com>
 
