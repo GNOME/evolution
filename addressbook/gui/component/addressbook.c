@@ -83,6 +83,13 @@ new_contact_list_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
+save_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = (AddressbookView *) user_data;
+	e_addressbook_view_save_as(view->view);
+}
+
+static void
 config_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	addressbook_config (NULL /* XXX */);
@@ -152,6 +159,20 @@ select_all_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *pat
 }
 
 static void
+send_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = (AddressbookView *) user_data;
+	e_addressbook_view_send(view->view);
+}
+
+static void
+send_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = (AddressbookView *) user_data;
+	e_addressbook_view_send_to(view->view);
+}
+
+static void
 update_command_state (EAddressbookView *eav, AddressbookView *view)
 {
 	BonoboUIComponent *uic = bonobo_control_get_ui_component (view->control);
@@ -165,6 +186,11 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 				      "/commands/ContactNewList",
 				      "sensitive",
 				      e_addressbook_view_can_create (view->view) ? "1" : "0", NULL);
+
+	bonobo_ui_component_set_prop (uic,
+				      "/commands/ContactsSaveAsVCard",
+				      "sensitive",
+				      e_addressbook_view_can_save_as (view->view) ? "1" : "0", NULL);
 
 	/* Print Contact */
 	bonobo_ui_component_set_prop (uic,
@@ -195,6 +221,16 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 				      "sensitive",
 				      e_addressbook_view_can_select_all (view->view) ? "1" : "0", NULL);
 
+	bonobo_ui_component_set_prop (uic,
+				      "/commands/ContactsSendContactToOther",
+				      "sensitive",
+				      e_addressbook_view_can_send (view->view) ? "1" : "0", NULL);
+
+	bonobo_ui_component_set_prop (uic,
+				      "/commands/ContactsSendMessageToContact",
+				      "sensitive",
+				      e_addressbook_view_can_send_to (view->view) ? "1" : "0", NULL);
+
 	
 	/* Stop */
 	bonobo_ui_component_set_prop (uic,
@@ -211,6 +247,7 @@ change_view_type (AddressbookView *view, EAddressbookViewType view_type)
 
 BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactsPrint", print_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactsSaveAsVCard", save_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ToolSearch", search_cb),
 
 	BONOBO_UI_UNSAFE_VERB ("AddressbookConfig", config_cb),
@@ -224,6 +261,9 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactsCopy", copy_contacts_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactsPaste", paste_contacts_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactsSelectAll", select_all_contacts_cb),
+
+	BONOBO_UI_UNSAFE_VERB ("ContactsSendContactToOther", send_contact_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactsSendMessageToContact", send_contact_to_cb),
 	
 	BONOBO_UI_VERB_END
 };

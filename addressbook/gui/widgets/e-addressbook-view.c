@@ -1206,6 +1206,33 @@ get_selected_cards (EAddressbookView *view)
 }
 
 void
+e_addressbook_view_save_as (EAddressbookView *view)
+{
+	GList *list = get_selected_cards (view);
+	if (list)
+		e_contact_list_save_as (_("Save as VCard"), list);
+	g_list_free (list);
+}
+
+void
+e_addressbook_view_send (EAddressbookView *view)
+{
+	GList *list = get_selected_cards (view);
+	if (list)
+		e_card_list_send (list, E_CARD_DISPOSITION_AS_ATTACHMENT);
+	g_list_free (list);
+}
+
+void
+e_addressbook_view_send_to (EAddressbookView *view)
+{
+	GList *list = get_selected_cards (view);
+	if (list)
+		e_card_list_send (list, E_CARD_DISPOSITION_AS_TO);
+	g_list_free (list);
+}
+
+void
 e_addressbook_view_cut (EAddressbookView *view)
 {
 	e_addressbook_view_copy (view);
@@ -1252,6 +1279,18 @@ e_addressbook_view_stop(EAddressbookView *view)
 	e_addressbook_model_stop (view->model);
 }
 
+static gboolean
+e_addressbook_view_selection_nonempty (EAddressbookView  *view)
+{
+	ESelectionModel *selection_model;
+
+	selection_model = get_selection_model (view);
+	if (selection_model == NULL)
+		return FALSE;
+
+	return e_selection_model_selected_count (selection_model) != 0;
+}
+
 gboolean
 e_addressbook_view_can_create (EAddressbookView  *view)
 {
@@ -1261,58 +1300,47 @@ e_addressbook_view_can_create (EAddressbookView  *view)
 gboolean
 e_addressbook_view_can_print (EAddressbookView  *view)
 {
-	ESelectionModel *selection_model;
+	return e_addressbook_view_selection_nonempty (view);
+}
 
-	if (!e_addressbook_model_editable (view->model))
-		return FALSE;
+gboolean
+e_addressbook_view_can_save_as (EAddressbookView  *view)
+{
+	return e_addressbook_view_selection_nonempty (view);
+}
 
-	selection_model = get_selection_model (view);
-	if (selection_model == NULL)
-		return FALSE;
+gboolean   e_addressbook_view_can_send (EAddressbookView  *view)
+{
+	return e_addressbook_view_selection_nonempty (view);
+}
 
-	return e_selection_model_selected_count (selection_model) != 0;
+gboolean   e_addressbook_view_can_send_to (EAddressbookView  *view)
+{
+	return e_addressbook_view_selection_nonempty (view);
 }
 
 gboolean
 e_addressbook_view_can_delete (EAddressbookView  *view)
 {
-	ESelectionModel *selection_model;
-
-	if (!e_addressbook_model_editable (view->model))
-		return FALSE;
-
-	selection_model = get_selection_model (view);
-	if (selection_model == NULL)
-		return FALSE;
-
-	return e_selection_model_selected_count (selection_model) != 0;
+	return e_addressbook_view_selection_nonempty (view) && e_addressbook_model_editable (view->model);
 }
 
 gboolean
 e_addressbook_view_can_cut (EAddressbookView *view)
 {
-	return (e_addressbook_view_can_copy (view) && e_addressbook_model_editable (view->model));
+	return e_addressbook_view_selection_nonempty (view) && e_addressbook_model_editable (view->model);
 }
 
 gboolean
 e_addressbook_view_can_copy (EAddressbookView *view)
 {
-	ESelectionModel *selection_model;
-
-	if (!e_addressbook_model_editable (view->model))
-		return FALSE;
-
-	selection_model = get_selection_model (view);
-	if (selection_model == NULL)
-		return FALSE;
-
-	return e_selection_model_selected_count (selection_model) != 0;
+	return e_addressbook_view_selection_nonempty (view);
 }
 
 gboolean
 e_addressbook_view_can_paste (EAddressbookView *view)
 {
-	return TRUE;
+	return e_addressbook_model_editable (view->model);
 }
 
 gboolean

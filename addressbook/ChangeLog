@@ -1,3 +1,14 @@
+2001-08-02  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/addressbook.c: Added ContactsSaveAsVCard,
+	ContactsSendContactToOther, and ContactsSendMessageToContact verbs
+	here.
+
+	* gui/widgets/e-addressbook-view.c (e_addressbook_view_save_as,
+	e_addressbook_view_send, e_addressbook_view_send_to): New
+	functions to allow outside users to cause the addressbook to save,
+	send, or send a message to its selection.
+
 2001-08-01  Christopher James Lahey  <clahey@ximian.com>
 
 	* contact-editor/.cvsignore: Removed this file from this unused

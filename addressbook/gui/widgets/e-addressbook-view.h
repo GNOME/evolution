@@ -101,6 +101,9 @@ void       e_addressbook_view_setup_menus       (EAddressbookView  *view,
 						 BonoboUIComponent *uic);
 void       e_addressbook_view_discard_menus     (EAddressbookView  *view);
 
+void       e_addressbook_view_save_as           (EAddressbookView  *view);
+void       e_addressbook_view_send              (EAddressbookView  *view);
+void       e_addressbook_view_send_to           (EAddressbookView  *view);
 void       e_addressbook_view_print             (EAddressbookView  *view);
 void       e_addressbook_view_delete_selection  (EAddressbookView  *view);
 void       e_addressbook_view_cut               (EAddressbookView  *view);
@@ -112,6 +115,9 @@ void       e_addressbook_view_stop              (EAddressbookView  *view);
 
 gboolean   e_addressbook_view_can_create        (EAddressbookView  *view);
 gboolean   e_addressbook_view_can_print         (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_save_as       (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_send          (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_send_to       (EAddressbookView  *view);
 gboolean   e_addressbook_view_can_delete        (EAddressbookView  *view);
 gboolean   e_addressbook_view_can_cut           (EAddressbookView  *view);
 gboolean   e_addressbook_view_can_copy          (EAddressbookView  *view);
