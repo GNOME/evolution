@@ -1,3 +1,9 @@
+Sat Feb 14 12:45:35 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* Makefile.am (macros.dep): Use single quotes, not double quotes.
+	Otherwise bash will interpret `$(...)' incorrectly.
+	(EXTRA_DIST): Include macros.dep in distribution.
+
 1998-02-14  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* Makefile.am (macros.dep): Put back doubled `$'.  We want the
