@@ -62,6 +62,7 @@ libcamel_la_SOURCES = 				\
 	camel-stream-buffered-fs.c		\
 	camel-stream-fs.c			\
 	camel-stream-mem.c			\
+	camel-transport.c			\
 	data-wrapper-repository.c		\
 	gmime-base64.c				\
 	gmime-content-field.c			\
@@ -105,6 +106,7 @@ libcamelinclude_HEADERS =			\
 	camel-stream-buffered-fs.h		\
 	camel-stream-fs.h			\
 	camel-stream-mem.h			\
+	camel-transport.h			\
 	data-wrapper-repository.h		\
 	gmime-base64.h				\
 	gmime-content-field.h			\
