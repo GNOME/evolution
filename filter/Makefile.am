@@ -9,7 +9,6 @@ INCLUDES = 					\
 	-DFILTER_GLADEDIR=\"$(gladedir)\"	\
 	-DG_LOG_DOMAIN=\"filter\"		\
 	-DG_DISABLE_DEPRECATED			\
-	-DGTK_DISABLE_DEPRECATED		\
 	$(LIBFILTER_CFLAGS)
 
 noinst_LTLIBRARIES =				\

@@ -1,3 +1,7 @@
+2003-11-26  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: turn on deprecated gtk stuff
+
 2003-11-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* vfolder-rule.c: #include "em-folder-tree.h"
