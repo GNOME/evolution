@@ -1,3 +1,8 @@
+2000-08-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/e-text/e-text.c: Made clicking choose the right
+	character even if show_borders is on.
+
 2000-08-01  Dan Winship  <danw@helixcode.com>
 
 	* configure.in, acconfig.h: Add checks for GPG, PGP 5 and PGP 2.

@@ -1580,12 +1580,15 @@ get_line_xpos_item_relative (EText *text, struct line *line)
 		break;
 
 	default:
+		if (text->draw_borders)
+			x += BORDER_INDENT;
+
 		/* For GTK_JUSTIFY_LEFT, we don't have to do anything.  We do not support
 		 * GTK_JUSTIFY_FILL, yet.
 		 */
 		break;
 	}
-
+	
 	return x;
 }
 
@@ -2186,6 +2189,9 @@ _get_position_from_xy (EText *text, gint x, gint y)
 	x = xd;  y = yd;
 
 	y += text->yofs_edit;
+
+	if (text->draw_borders)
+		ypos += BORDER_INDENT;
 
 	j = 0;
 	while (y > ypos) {
