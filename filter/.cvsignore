@@ -1,4 +1,0 @@
-*.la
-*.lo
-.libs
-filter-driver
