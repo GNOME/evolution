@@ -1152,6 +1152,9 @@ AC_SUBST(serverdir)
 evolutionuidir="$privdatadir/ui"
 AC_SUBST(evolutionuidir)
 
+evolutionhelpdir="$privdatadir/help"
+AC_SUBST(evolutionhelpdir)
+
 imagesdir="$privdatadir/images"
 AC_SUBST(imagesdir)
 
@@ -1324,6 +1327,8 @@ e-util/Makefile
 filter/Makefile
 help/Makefile
 help/C/Makefile
+help/quickref/Makefile
+help/quickref/C/Makefile
 shell/Makefile
 shell/evolution-nognome
 shell/glade/Makefile
