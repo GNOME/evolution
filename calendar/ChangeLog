@@ -1,5 +1,14 @@
 2000-08-25  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/e-calendar-table.c (e_calendar_table_init): Uncomment
+	debug code.
+
+	* gui/calendar-model.c (set_complete): Set the completed
+	date to the current date
+	(calendar_model_set_value_at): Handle complete field
+
+2000-08-25  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/calendar-model.c (get_is_complete): Don't attempt to
 	free this if its null
 	(calendar_model_duplicate_value): Implement for summary field

@@ -204,11 +204,11 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	create_column (header, model, CAL_COMPONENT_FIELD_PRIORITY, _("Priority"));
 
 	cell = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
-//	gtk_object_set (GTK_OBJECT (cell),
-//			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-//			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-//			"color_column", CAL_COMPONENT_FIELD_COLOR,
-//			NULL);
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+			"color_column", CAL_COMPONENT_FIELD_COLOR,
+			NULL);
 	column = e_table_col_new (CAL_COMPONENT_FIELD_SUMMARY, _("Summary"),
 				  1.0, 10, cell, g_str_compare, TRUE);
 	e_table_header_add_column (header, column, CAL_COMPONENT_FIELD_SUMMARY);

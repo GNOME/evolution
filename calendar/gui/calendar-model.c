@@ -1043,6 +1043,22 @@ set_url (CalComponent *comp, const char *value)
 	cal_component_set_url (comp, value);
 }
 
+/* Sets the completion time of a component was toggled */
+static void
+set_complete (CalComponent *comp, const void *value)
+{
+	time_t t = time (NULL);
+	gint state = GPOINTER_TO_INT (value);
+	struct icaltimetype itt;
+
+	if (state) {
+		itt = icaltime_from_timet (t, FALSE, FALSE);
+		cal_component_set_completed (comp, &itt);
+	} else {
+		cal_component_set_completed (comp, NULL);
+	}
+}
+
 /* set_value_at handler for the calendar table model */
 static void
 calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *value)
@@ -1107,6 +1123,10 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 		set_url (comp, value);
 		break;
 
+	case CAL_COMPONENT_FIELD_COMPLETE:
+		set_complete (comp, value);
+		break;
+
 	default:
 		g_message ("calendar_model_set_value_at(): Requested invalid column %d", col);
 		break;
@@ -1148,6 +1168,8 @@ calendar_model_is_cell_editable (ETableModel *etm, int col, int row)
 	case CAL_COMPONENT_FIELD_PRIORITY:
 	case CAL_COMPONENT_FIELD_SUMMARY:
 	case CAL_COMPONENT_FIELD_URL:
+	case CAL_COMPONENT_FIELD_ICON:
+	case CAL_COMPONENT_FIELD_COMPLETE:
 		return TRUE;
 
 	default:
