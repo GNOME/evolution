@@ -54,6 +54,7 @@ extern char *camel_provider_type_name[CAMEL_NUM_PROVIDER_TYPES];
 #define CAMEL_PROVIDER_IS_REMOTE	(1 << 0)
 #define CAMEL_PROVIDER_IS_SOURCE	(1 << 1)
 #define CAMEL_PROVIDER_IS_STORAGE	(1 << 2)
+#define CAMEL_PROVIDER_SUPPORTS_SSL	(1 << 3)
 
 
 /* Flags for url_flags. "ALLOW" means the config dialog will let
@@ -93,6 +94,24 @@ extern char *camel_provider_type_name[CAMEL_NUM_PROVIDER_TYPES];
 #define CAMEL_URL_PATH_IS_ABSOLUTE (1 << 12)
 
 
+/* Generic extra config stuff */
+typedef enum {
+	CAMEL_PROVIDER_CONF_END,
+	CAMEL_PROVIDER_CONF_SECTION_START,
+	CAMEL_PROVIDER_CONF_SECTION_END,
+	CAMEL_PROVIDER_CONF_CHECKBOX,
+	CAMEL_PROVIDER_CONF_CHECKSPIN,
+	CAMEL_PROVIDER_CONF_ENTRY,
+} CamelProviderConfType;
+
+typedef struct {
+	CamelProviderConfType type;
+	char *name, *depname;
+	char *text, *value;
+} CamelProviderConfEntry;
+
+
+
 typedef struct {
 	/* Provider name used in CamelURLs. */
 	char *protocol;
@@ -116,6 +135,9 @@ typedef struct {
 
 	/* Flags describing the provider, flags describing its URLs */
 	int flags, url_flags;
+
+	/* Extra configuration information */
+	CamelProviderConfEntry *extra_conf;
 
 	CamelType object_types [CAMEL_NUM_PROVIDER_TYPES];
 

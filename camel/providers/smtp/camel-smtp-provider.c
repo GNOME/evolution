@@ -39,30 +39,12 @@ static CamelProvider smtp_provider = {
 
 	"mail",
 
-	CAMEL_PROVIDER_IS_REMOTE,
+	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_SUPPORTS_SSL,
 
-	CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_AUTH,
-
-	/* ... */
-};
-
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
-static CamelProvider ssmtp_provider = {
-	"ssmtp",
-	N_("Secure SMTP"),
-
-	N_("For delivering mail by connecting to a remote mailhub "
-	   "using SMTP over an SSL connection.\n"),
-
-	"mail",
-
-	CAMEL_PROVIDER_IS_REMOTE,
-
-	CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_AUTH,
+	CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_AUTH | CAMEL_URL_ALLOW_USER,
 
 	/* ... */
 };
-#endif
 
 void
 camel_provider_module_init (CamelSession *session)
@@ -73,15 +55,6 @@ camel_provider_module_init (CamelSession *session)
 	smtp_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
 
 	camel_session_register_provider (session, &smtp_provider);
-
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
-	ssmtp_provider.object_types[CAMEL_PROVIDER_TRANSPORT] =
-		camel_smtp_transport_get_type ();
-	ssmtp_provider.authtypes = camel_sasl_authtype_list ();
-	ssmtp_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
-
-	camel_session_register_provider (session, &ssmtp_provider);
-#endif
 }
 
 

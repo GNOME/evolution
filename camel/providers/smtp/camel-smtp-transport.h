@@ -53,7 +53,7 @@ typedef struct {
 
 	CamelStream *istream, *ostream;
 
-	gboolean is_esmtp;
+	gboolean use_ssl, is_esmtp;
 
 	struct sockaddr_in localaddr;
 

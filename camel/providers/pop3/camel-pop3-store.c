@@ -112,6 +112,8 @@ camel_pop3_store_init (gpointer object, gpointer klass)
 	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
 
 	remote_store->default_port = 110;
+	/* FIXME: what should this port be?? */
+	remote_store->default_ssl_port = 995;
 }
 
 CamelType
@@ -418,14 +420,6 @@ pop3_connect (CamelService *service, CamelException *ex)
 		service->url->port = KPOP_PORT;
 	}
 #endif
-	
-	if (!g_strcasecmp (service->url->protocol, "spop")) {
-		CamelRemoteStore *rstore = CAMEL_REMOTE_STORE (service);
-		
-		/* FIXME: what should this port be?? */
-		rstore->default_port = 995;
-		rstore->use_ssl = TRUE;
-	}
 	
   	res = CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex);
 

@@ -1,3 +1,61 @@
+2001-03-27  Dan Winship  <danw@ximian.com>
+
+	* camel-provider.h: Add an "extra_conf" field to CamelProvider
+	with structures and defines and stuff, for providers to specify
+	additional configuration options that they want. Also add a
+	"supports ssl" flag to the provider flags.
+
+	* camel-url.c (camel_url_new_with_base): Fix parsing of params.
+	(output_param): And unparsing...
+
+	* camel-remote-store.c: add a "default_ssl_port" field.
+	(remote_construct): If the URL has the "use_ssl" parameter, set
+	the store's use_ssl flag.
+	(remote_connect): If using SSL and no port specified, use the
+	default_ssl_port rather than the default_port.
+
+	* providers/smtp/camel-smtp-provider.c (smtp_provider): add
+	CAMEL_PROVIDER_SUPPORTS_SSL and CAMEL_URL_ALLOW_USER. (The config
+	gui code knows that the ALLOW_USER and ALLOW_AUTH go together.)
+	(ssmtp_provider): gone
+
+	* providers/smtp/camel-smtp-transport.c (smtp_construct): Set a
+	flag if "use_ssl" param is set.
+	(smtp_connect): Check the CamelSmtpTransport use_ssl flag rather
+	than checking if this is smtp or ssmtp.
+
+	* providers/imap/camel-imap-provider.c (imap_conf_entries): Add a
+	bunch of IMAP-specific configuration options, like "check for new
+	mail in all folders" (default TRUE), "show only subscribed
+	folders" (default TRUE), "ignore server-supplied namespace", and
+	"apply filters to INBOX" (not yet implemented).
+	(imap_provider): We support SSL and we no longer allow a path in
+	the URL. (namespace is handled via extra_conf)
+	(simap_provider): Gone
+
+	* providers/imap/camel-imap-store.c (camel_imap_store_init): Set
+	default_ssl_port, don't set CAMEL_STORE_SUBSCRIPTIONS here
+	(construct): remove simap stuff, deal with "use_lsub",
+	"namespace", "check_all", and "filter" parameters. Set base_url
+	to not include params.
+	(imap_store_setup_online): Don't ask for the namespace if it was
+	set explicitly. Don't get subscribed folders if !use_lsub.
+	(imap_concat): Fix a bug.
+	(get_folder_info): Support for not checking all folders.
+
+	* providers/imap/camel-imap-folder.c (imap_get_full_name): Rewrite
+	to use imap_store->namespace, not service->url->path
+
+	* providers/pop3/camel-pop3-provider.c (pop3_conf_entries): "keep
+	on server" (currently still implemented by the mailer code, not
+	here), "delete after N days" (not yet implemented).
+	(pop3_provider): we support SSL
+	(spop_provider): gone
+
+	* providers/pop3/camel-pop3-store.c (camel_pop3_store_init): Set
+	default_ssl_port
+	(pop3_connect): Remove spop code
+
 2001-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-vee-folder.c (vee_folder_construct): Move all of the

@@ -43,7 +43,7 @@ typedef struct {
 	struct _CamelRemoteStorePrivate *priv;
 
 	CamelStream *istream, *ostream;
-	guint timeout_id, default_port;
+	guint timeout_id, default_port, default_ssl_port;
 	gboolean use_ssl;
 } CamelRemoteStore;
 

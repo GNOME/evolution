@@ -35,6 +35,26 @@ static guint imap_url_hash (gconstpointer key);
 static gint check_equal (char *s1, char *s2);
 static gint imap_url_equal (gconstpointer a, gconstpointer b);
 
+CamelProviderConfEntry imap_conf_entries[] = {
+	{ CAMEL_PROVIDER_CONF_SECTION_START, "mailcheck", NULL,
+	  N_("Checking for new mail") },
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "check_all", NULL,
+	  N_("Check for new messages in all folders"), "1" },
+	{ CAMEL_PROVIDER_CONF_SECTION_END },
+	{ CAMEL_PROVIDER_CONF_SECTION_START, "folders", NULL,
+	  N_("Folders") },
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "use_lsub", NULL,
+	  N_("Show only subscribed folders"), "1" },
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "override_namespace", NULL,
+	  N_("Override server-supplied folder namespace"), "0" },
+	{ CAMEL_PROVIDER_CONF_ENTRY, "namespace", "override_namespace",
+	  N_("Namespace") },
+	{ CAMEL_PROVIDER_CONF_SECTION_END },
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "filter", "UNIMPLEMENTED",
+	  N_("Apply filters to new messages in INBOX on this server"), "0" },
+	{ CAMEL_PROVIDER_CONF_END }
+};
+
 static CamelProvider imap_provider = {
 	"imap",
 	N_("IMAPv4"),
@@ -44,32 +64,14 @@ static CamelProvider imap_provider = {
 	"mail",
 
 	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_IS_SOURCE |
-	CAMEL_PROVIDER_IS_STORAGE,
+	CAMEL_PROVIDER_IS_STORAGE | CAMEL_PROVIDER_SUPPORTS_SSL,
 
-	CAMEL_URL_NEED_USER | CAMEL_URL_NEED_HOST |
-	CAMEL_URL_ALLOW_PATH | CAMEL_URL_ALLOW_AUTH,
+	CAMEL_URL_NEED_USER | CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_AUTH,
 
-	/* ... */
-};
-
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
-static CamelProvider simap_provider = {
-	"simap",
-	N_("Secure IMAPv4"),
-
-	N_("For reading and storing mail on IMAP servers over an SSL connection."),
-
-	"mail",
-
-	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_IS_SOURCE |
-	CAMEL_PROVIDER_IS_STORAGE,
-
-	CAMEL_URL_NEED_USER | CAMEL_URL_NEED_HOST |
-	CAMEL_URL_ALLOW_PATH | CAMEL_URL_ALLOW_AUTH,
+	imap_conf_entries,
 
 	/* ... */
 };
-#endif /* HAVE_NSS or HAVE_OPENSSL */
 
 CamelServiceAuthType camel_imap_password_authtype = {
 	N_("Password"),
@@ -93,14 +95,6 @@ camel_provider_module_init (CamelSession *session)
 						  &camel_imap_password_authtype);
 
 	camel_session_register_provider (session, &imap_provider);
-
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
-	simap_provider.object_types[CAMEL_PROVIDER_STORE] = 
-		camel_imap_store_get_type ();
-	simap_provider.service_cache = g_hash_table_new (imap_url_hash, imap_url_equal);
-	simap_provider.authtypes = g_list_copy (imap_provider.authtypes);
-	camel_session_register_provider (session, &simap_provider);
-#endif
 }
 
 static void

@@ -29,6 +29,17 @@
 #include "camel-session.h"
 #include "camel-url.h"
 
+CamelProviderConfEntry pop3_conf_entries[] = {
+	{ CAMEL_PROVIDER_CONF_SECTION_START, NULL, NULL,
+	  N_("Message storage") },
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "keep_on_server", NULL,
+	  N_("Leave messages on server"), "0" },
+	{ CAMEL_PROVIDER_CONF_CHECKSPIN, "delete_after", "UNIMPLEMENTED",
+	  N_("Delete after %s day(s)"), "0:1:7:365" },
+	{ CAMEL_PROVIDER_CONF_SECTION_END },
+	{ CAMEL_PROVIDER_CONF_END }
+};
+
 static CamelProvider pop3_provider = {
 	"pop",
 	N_("POP"),
@@ -39,31 +50,15 @@ static CamelProvider pop3_provider = {
 
 	"mail",
 
-	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_IS_SOURCE,
+	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_IS_SOURCE |
+	CAMEL_PROVIDER_SUPPORTS_SSL,
 
 	CAMEL_URL_NEED_USER | CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_AUTH,
 
-	/* ... */
-};
-
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
-static CamelProvider spop_provider = {
-	"spop",
-	N_("Secure POP"),
-
-	N_("For connecting to POP servers over an SSL connection. The POP "
-	   "protocol can also be used to retrieve mail from certain web "
-	   "mail providers and proprietary email systems."),
-
-	"mail",
-
-	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_IS_SOURCE,
-
-	CAMEL_URL_NEED_USER | CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_AUTH,
+	pop3_conf_entries,
 
 	/* ... */
 };
-#endif
 
 CamelServiceAuthType camel_pop3_password_authtype = {
 	N_("Password"),
@@ -112,13 +107,4 @@ camel_provider_module_init (CamelSession *session)
 	pop3_provider.authtypes = g_list_prepend (pop3_provider.authtypes, &camel_pop3_password_authtype);
 
 	camel_session_register_provider (session, &pop3_provider);
-
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
-	spop_provider.object_types[CAMEL_PROVIDER_STORE] =
-		camel_pop3_store_get_type ();
-	spop_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
-	spop_provider.authtypes = g_list_copy (pop3_provider.authtypes);
-
-	camel_session_register_provider (session, &spop_provider);
-#endif
 }

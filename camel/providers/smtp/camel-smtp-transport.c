@@ -67,6 +67,9 @@ static gboolean smtp_send (CamelTransport *transport, CamelMedium *message, Came
 static gboolean smtp_send_to (CamelTransport *transport, CamelMedium *message, GList *recipients, CamelException *ex);
 
 /* support prototypes */
+static void smtp_construct (CamelService *service, CamelSession *session,
+			    CamelProvider *provider, CamelURL *url,
+			    CamelException *ex);
 static gboolean smtp_connect (CamelService *service, CamelException *ex);
 static gboolean smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex);
 static GHashTable *esmtp_get_authtypes (gchar *buffer);
@@ -84,7 +87,7 @@ static gboolean smtp_rset (CamelSmtpTransport *transport, CamelException *ex);
 static gboolean smtp_quit (CamelSmtpTransport *transport, CamelException *ex);
 
 /* private data members */
-static CamelServiceClass *service_class = NULL;
+static CamelTransportClass *parent_class = NULL;
 
 static void
 camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_class)
@@ -94,9 +97,10 @@ camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_c
 	CamelServiceClass *camel_service_class =
 		CAMEL_SERVICE_CLASS (camel_smtp_transport_class);
 	
-	service_class = CAMEL_SERVICE_CLASS (camel_type_get_global_classfuncs (camel_service_get_type ()));
+	parent_class = CAMEL_TRANSPORT_CLASS (camel_type_get_global_classfuncs (camel_transport_get_type ()));
 	
 	/* virtual method overload */
+	camel_service_class->construct = smtp_construct;
 	camel_service_class->connect = smtp_connect;
 	camel_service_class->disconnect = smtp_disconnect;
 	camel_service_class->query_auth_types = query_auth_types;
@@ -132,6 +136,19 @@ camel_smtp_transport_get_type (void)
 	}
 	
 	return camel_smtp_transport_type;
+}
+
+static void
+smtp_construct (CamelService *service, CamelSession *session,
+		CamelProvider *provider, CamelURL *url,
+		CamelException *ex)
+{
+	CamelSmtpTransport *smtp_transport = CAMEL_SMTP_TRANSPORT (service);
+
+	CAMEL_SERVICE_CLASS (parent_class)->construct (service, session, provider, url, ex);
+
+	if (camel_url_get_param (url, "use_ssl"))
+		smtp_transport->use_ssl = TRUE;
 }
 
 static const char *
@@ -206,12 +223,11 @@ smtp_connect (CamelService *service, CamelException *ex)
 	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
 	CamelStream *tcp_stream;
 	gchar *respbuf = NULL;
-	gboolean use_ssl = FALSE;
 	struct hostent *h;
 	guint32 addrlen;
 	int port, ret;
 	
-	if (!service_class->connect (service, ex))
+	if (!CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex))
 		return FALSE;
 	
 	h = camel_service_gethost (service, ex);
@@ -226,8 +242,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 	port = service->url->port ? service->url->port : SMTP_PORT;
 	
 #ifdef HAVE_NSS
-	if (!g_strcasecmp (service->url->protocol, "ssmtp")) {
-		use_ssl = TRUE;
+	if (transport->use_ssl) {
 		port = service->url->port ? service->url->port : 465;
 		tcp_stream = camel_tcp_stream_ssl_new (service, service->url->host);
 	} else {
@@ -250,7 +265,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 	/* get the localaddr - needed later by smtp_helo */
 	addrlen = sizeof (transport->localaddr);
 #ifdef HAVE_NSS
-	if (use_ssl) {
+	if (transport->use_ssl) {
 		PRFileDesc *sockfd = camel_tcp_stream_get_socket (CAMEL_TCP_STREAM (tcp_stream));
 		PRNetAddr addr;
 		char hname[1024];
@@ -416,7 +431,7 @@ smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 		smtp_quit (transport, ex);
 	}
 	
-	if (!service_class->disconnect (service, clean, ex))
+	if (!CAMEL_SERVICE_CLASS (parent_class)->disconnect (service, clean, ex))
 		return FALSE;
 	
 	if (transport->authtypes) {

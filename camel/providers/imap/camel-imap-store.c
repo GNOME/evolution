@@ -156,16 +156,13 @@ camel_imap_store_init (gpointer object, gpointer klass)
 {
 	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (object);
-	CamelStore *store = CAMEL_STORE (object);
 	
 	remote_store->default_port = 143;
-	remote_store->use_ssl = FALSE;
+	remote_store->default_ssl_port = 993;
 	
 	imap_store->dir_sep = '\0';
 	imap_store->current_folder = NULL;
 
-	store->flags = CAMEL_STORE_SUBSCRIPTIONS;
-	
 	imap_store->connected = FALSE;
 	imap_store->subscribed_folders = NULL;
 
@@ -199,33 +196,38 @@ construct (CamelService *service, CamelSession *session,
 	   CamelProvider *provider, CamelURL *url,
 	   CamelException *ex)
 {
-	CamelImapStore *store = CAMEL_IMAP_STORE (service);
-	int len;
+	CamelImapStore *imap_store = CAMEL_IMAP_STORE (service);
+	CamelStore *store = CAMEL_STORE (service);
+	CamelURL *base_url;
 
 	CAMEL_SERVICE_CLASS (remote_store_class)->construct (service, session, provider, url, ex);
 	if (camel_exception_is_set (ex))
 		return;
 
-	if (!g_strcasecmp (service->url->protocol, "simap")) {
-		CamelRemoteStore *rstore = CAMEL_REMOTE_STORE (service);
-		
-		rstore->default_port = 993;
-		rstore->use_ssl = TRUE;
-	}
-
-	store->storage_path = camel_session_get_storage_path (session, service, ex);
+	imap_store->storage_path = camel_session_get_storage_path (session, service, ex);
 	if (camel_exception_is_set (ex)) 
 		return;
 
-	store->base_url = camel_url_to_string (service->url, FALSE);
-	len = strlen (store->base_url);
-	if (service->url->path)
-		store->base_url[len - strlen (service->url->path) + 1] = '\0';
-	else {
-		store->base_url = g_realloc (store->base_url, len + 2);
-		store->base_url[len] = '/';
-		store->base_url[len + 1] = '\0';
+	base_url = g_new0 (CamelURL, 1);
+	camel_url_set_protocol (base_url, service->url->protocol);
+	camel_url_set_user (base_url, service->url->user);
+	camel_url_set_host (base_url, service->url->host);
+	camel_url_set_port (base_url, service->url->port);
+	camel_url_set_path (base_url, "/");
+	imap_store->base_url = camel_url_to_string (base_url, FALSE);
+	camel_url_free (base_url);
+
+	imap_store->parameters = 0;
+	if (camel_url_get_param (url, "use_lsub"))
+		store->flags |= CAMEL_STORE_SUBSCRIPTIONS;
+	if (camel_url_get_param (url, "namespace")) {
+		imap_store->parameters |= IMAP_PARAM_OVERRIDE_NAMESPACE;
+		imap_store->namespace = g_strdup (camel_url_get_param (url, "namespace"));
 	}
+	if (camel_url_get_param (url, "check_all"))
+		imap_store->parameters |= IMAP_PARAM_CHECK_ALL;
+	if (camel_url_get_param (url, "filter"))
+		imap_store->parameters |= IMAP_PARAM_FILTER_INBOX;
 }
 
 static struct {
@@ -556,7 +558,6 @@ imap_connect (CamelService *service, CamelException *ex)
 static gboolean
 imap_store_setup_online (CamelImapStore *store, CamelException *ex)
 {
-	CamelService *service;
 	CamelImapResponse *response;
 	int i, flags, len;
 	char *result, *name, *path;
@@ -573,10 +574,8 @@ imap_store_setup_online (CamelImapStore *store, CamelException *ex)
 	camel_folder_summary_encode_uint32 (storeinfo, store->capabilities);
 
 	/* Get namespace and hierarchy separator */
-	service = CAMEL_SERVICE (store);
-	if (service->url->path && strlen (service->url->path) > 1)
-		store->namespace = g_strdup (service->url->path + 1);
-	else if (store->capabilities & IMAP_CAPABILITY_NAMESPACE) {
+	if ((store->capabilities & IMAP_CAPABILITY_NAMESPACE) &&
+	    !(store->parameters & IMAP_PARAM_OVERRIDE_NAMESPACE)) {
 		CAMEL_IMAP_STORE_LOCK (store, command_lock);
 		response = camel_imap_command (store, NULL, ex, "NAMESPACE");
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
@@ -642,30 +641,32 @@ imap_store_setup_online (CamelImapStore *store, CamelException *ex)
 	camel_folder_summary_encode_string (storeinfo, store->namespace);
 	camel_folder_summary_encode_uint32 (storeinfo, store->dir_sep);
 
-	/* Get subscribed folders */
-	CAMEL_IMAP_STORE_LOCK (store, command_lock);
-	response = camel_imap_command (store, NULL, ex, "LSUB \"\" \"*\"");
-	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
-	if (!response)
-		return FALSE;
-	store->subscribed_folders = g_hash_table_new (g_str_hash, g_str_equal);
-	for (i = 0; i < response->untagged->len; i++) {
-		result = response->untagged->pdata[i];
-		if (!imap_parse_list_response (result, &flags, NULL, &name))
-			continue;
-		if (flags & (IMAP_LIST_FLAG_MARKED | IMAP_LIST_FLAG_UNMARKED))
-			store->useful_lsub = TRUE;
-		if (flags & IMAP_LIST_FLAG_NOSELECT) {
-			g_free (name);
-			continue;
+	if (CAMEL_STORE (store)->flags & CAMEL_STORE_SUBSCRIPTIONS) {
+		/* Get subscribed folders */
+		CAMEL_IMAP_STORE_LOCK (store, command_lock);
+		response = camel_imap_command (store, NULL, ex, "LSUB \"\" \"*\"");
+		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		if (!response)
+			return FALSE;
+		store->subscribed_folders = g_hash_table_new (g_str_hash, g_str_equal);
+		for (i = 0; i < response->untagged->len; i++) {
+			result = response->untagged->pdata[i];
+			if (!imap_parse_list_response (result, &flags, NULL, &name))
+				continue;
+			if (flags & (IMAP_LIST_FLAG_MARKED | IMAP_LIST_FLAG_UNMARKED))
+				store->useful_lsub = TRUE;
+			if (flags & IMAP_LIST_FLAG_NOSELECT) {
+				g_free (name);
+				continue;
+			}
+			g_hash_table_insert (store->subscribed_folders, name,
+					     GINT_TO_POINTER (1));
+			camel_folder_summary_encode_string (storeinfo, result);
 		}
-		g_hash_table_insert (store->subscribed_folders, name,
-				     GINT_TO_POINTER (1));
-		camel_folder_summary_encode_string (storeinfo, result);
+		camel_imap_response_free (response);
 	}
-	camel_imap_response_free (response);
-	fclose (storeinfo);
 
+	fclose (storeinfo);
 	return TRUE;
 }
 
@@ -738,7 +739,7 @@ imap_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 		store->subscribed_folders = NULL;
 	}
 
-	if (store->namespace) {
+	if (store->namespace && !(store->parameters & IMAP_PARAM_OVERRIDE_NAMESPACE)) {
 		g_free (store->namespace);
 		store->namespace = NULL;
 	}
@@ -891,7 +892,7 @@ imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix)
 	int len;
 
 	len = strlen (prefix);
-	if (len > 0 && prefix[len - 1] == imap_store->dir_sep)
+	if (len == 0 || prefix[len - 1] == imap_store->dir_sep)
 		return g_strdup_printf ("%s%s", prefix, suffix);
 	else
 		return g_strdup_printf ("%s%c%s", prefix, imap_store->dir_sep, suffix);
@@ -1140,10 +1141,17 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 				g_ptr_array_remove_index (folders, 0);
 		}
 
-		if (subscribed_only && !imap_store->useful_lsub)
+		/* If we want to look at only subscribed folders AND
+		 * check if any of them have new mail, AND the server
+		 * doesn't return Marked/UnMarked with LSUB, then
+		 * use get_subscribed_folders_by_hand. In all other
+		 * cases, use a single LIST or LSUB command.
+		 */
+		if (subscribed_only && !imap_store->useful_lsub &&
+		     (imap_store->parameters & IMAP_PARAM_CHECK_ALL)) {
 			get_subscribed_folders_by_hand (imap_store, name,
 							folders, ex);
-		else {
+		} else {
 			pattern = imap_concat (imap_store, name,
 					       recursive ? "*" : "%");
 			get_folders_online (imap_store, pattern, folders,
@@ -1188,7 +1196,17 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 		camel_store_sync (store, NULL);
 		for (i = 0; i < folders->len; i++) {
 			fi = folders->pdata[i];
+
+			/* Don't check if it doesn't contain messages
+			 * or if it was \UnMarked.
+			 */
 			if (!fi->url || fi->unread_message_count != -1)
+				continue;
+			/* Don't check if it's not INBOX and we're only
+			 * checking INBOX.
+			 */
+			if ((!(imap_store->parameters & IMAP_PARAM_CHECK_ALL))
+			    && (g_strcasecmp (fi->name, "INBOX") != 0))
 				continue;
 
 			/* UW will give cached data for the currently

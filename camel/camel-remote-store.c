@@ -65,6 +65,9 @@ extern gboolean camel_verbose_debug;
 
 static CamelStoreClass *store_class = NULL;
 
+static void     remote_construct       (CamelService *service, CamelSession *session,
+					CamelProvider *provider, CamelURL *url,
+					CamelException *ex);
 static gboolean remote_connect         (CamelService *service, CamelException *ex);
 static gboolean remote_disconnect      (CamelService *service, gboolean clean, CamelException *ex);
 static GList   *remote_query_auth_types(CamelService *service, CamelException *ex);
@@ -86,6 +89,7 @@ camel_remote_store_class_init (CamelRemoteStoreClass *camel_remote_store_class)
 	store_class = CAMEL_STORE_CLASS (camel_type_get_global_classfuncs (camel_store_get_type ()));
 	
 	/* virtual method overload */
+	camel_service_class->construct = remote_construct;
 	camel_service_class->connect = remote_connect;
 	camel_service_class->disconnect = remote_disconnect;
 	camel_service_class->query_auth_types = remote_query_auth_types;
@@ -146,8 +150,21 @@ camel_remote_store_get_type (void)
 	return camel_remote_store_type;
 }
 
-/* Auth stuff... for now, nothing, but eventually SSL at least should
- * be handled through here, and SSH tunnelling if we ever implement it.
+static void
+remote_construct (CamelService *service, CamelSession *session,
+		  CamelProvider *provider, CamelURL *url,
+		  CamelException *ex)
+{
+	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (service);
+
+	CAMEL_SERVICE_CLASS (store_class)->construct (service, session, provider, url, ex);
+
+	if (camel_url_get_param (url, "use_ssl"))
+		remote_store->use_ssl = TRUE;
+}
+
+
+/* Auth stuff... for now, nothing, but might eventually add SSH tunneling
  */
 
 static GList *
@@ -202,6 +219,8 @@ remote_connect (CamelService *service, CamelException *ex)
 	
 	if (service->url->port)
 		port = service->url->port;
+	else if (store->use_ssl)
+		port = store->default_ssl_port;
 	else
 		port = store->default_port;	
 	
