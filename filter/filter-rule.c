@@ -437,8 +437,9 @@ rule_copy (FilterRule *dest, FilterRule *src)
 	
 	node = src->parts;
 	while (node) {
-		FilterPart *part = node->data;
-		
+		FilterPart *part;
+
+		part = filter_part_clone (node->data);
 		g_object_ref (part);
 		dest->parts = g_list_append (dest->parts, part);
 		node = node->next;

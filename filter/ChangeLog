@@ -1,3 +1,8 @@
+2004-03-14  Bill Zhu  <bill.zhu@sun.com>
+
+	* filter-rule.c (rule_copy): When copying a FilterPart of a rule, we
+	need copy the data of parts together but not only copy the pointer.
+
 2004-04-15  Rodney Dawes  <dobey@ximian.com>
 
 	* filter-datespec.c (validate):
