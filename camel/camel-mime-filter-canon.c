@@ -195,6 +195,8 @@ complete(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, 
 			while (o>starto && (o[-1] == ' ' || o[-1] == '\t' || o[-1]=='\r'))
 				o--;
 		}
+		
+#if 0
 		/* check end of line canonicalisation */
 		if (o>starto) {
 			if (flags & CAMEL_MIME_FILTER_CANON_CRLF) {
@@ -208,7 +210,8 @@ complete(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, 
 
 		/* and always finish with an eol */
 		*o++ = '\n';
-
+#endif
+		
 		*outlen = o - *out;
 		
 		f->backlen = 0;
