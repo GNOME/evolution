@@ -1,3 +1,8 @@
+2003-04-08  Not Zed  <NotZed@Ximian.com>
+
+	* mail-vfolder.c (vfolder_gui_add_rule): swap button order.  For
+	#40900.
+
 2003-04-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (ml_tree_value_at): For string columns, never

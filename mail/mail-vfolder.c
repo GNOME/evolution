@@ -964,10 +964,10 @@ vfolder_gui_add_rule(VfolderRule *rule)
 	gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("New VFolder"),
 						      NULL,
 						      GTK_DIALOG_DESTROY_WITH_PARENT,
-						      GTK_STOCK_OK,
-						      GTK_RESPONSE_OK,
 						      GTK_STOCK_CANCEL,
 						      GTK_RESPONSE_CANCEL,
+						      GTK_STOCK_OK,
+						      GTK_RESPONSE_OK,
 						      NULL);
 	gtk_dialog_set_default_response(gd, GTK_RESPONSE_OK);
 	g_object_set(gd, "allow_shrink", FALSE, "allow_grow", TRUE, NULL);
