@@ -151,6 +151,12 @@ row_count (ETableModel *etc, void *data)
 	return lines;
 }
 
+static void
+append_row (ETableModel *etm, ETableModel *model, int row, void *data)
+{
+  abort ();
+}
+
 static void *
 value_at (ETableModel *etc, int col, int row, void *data)
 {
@@ -176,6 +182,18 @@ static gboolean
 is_cell_editable (ETableModel *etc, int col, int row, void *data)
 {
 	return TRUE;
+}
+
+static gboolean
+has_save_id (ETableModel *etm, void *data)
+{
+  return FALSE;
+}
+
+static char *
+get_save_id (ETableModel *etm, int row, void *data)
+{
+  abort ();
 }
 
 static void *
@@ -230,8 +248,12 @@ table_browser_test (void)
 	 * Data model
 	 */
 	e_table_model = e_table_simple_new (
-		col_count, row_count, value_at,
-		set_value_at, is_cell_editable,
+		col_count, row_count, append_row,
+
+		value_at, set_value_at, is_cell_editable,
+
+		has_save_id, get_save_id,
+
 		duplicate_value, free_value,
 		initialize_value, value_is_empty,
 		value_to_string,
@@ -241,13 +263,14 @@ table_browser_test (void)
 	 * Header
 	 */
 	e_table_header = e_table_header_new ();
-	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);
+	cell_left_just = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	
 	for (i = 0; i < cols; i++){
 		ETableCol *ecol = e_table_col_new (
 			i, column_labels [i],
 			1.0, 20, cell_left_just,
-			g_str_compare, TRUE);
+			g_str_compare, TRUE,
+			1);
 
 		e_table_header_add_column (e_table_header, ecol, i);
 	}
@@ -292,7 +315,9 @@ table_browser_test (void)
 static void
 save_spec (GtkWidget *button, ETable *e_table)
 {
+#if 0
 	e_table_save_specification (e_table, "e-table-test.xml");
+#endif
 }
 
 static void
@@ -320,7 +345,9 @@ do_e_table_demo (const char *spec)
 	ECell *cell_left_just;
 	ETableHeader *full_header;
 	int i;
-	
+	ETableExtras *extras = NULL;
+	char *state = NULL;
+
 	/*
 	 * Data model
 	 */
@@ -328,29 +355,44 @@ do_e_table_demo (const char *spec)
 
 	if (e_table_model == NULL)
 		e_table_model = 
-			e_table_simple_new (col_count, row_count, value_at,
-					    set_value_at, is_cell_editable,
+			e_table_simple_new (col_count, row_count, append_row,
+					    value_at, set_value_at, is_cell_editable,
+					    has_save_id, get_save_id,
 					    duplicate_value, free_value,
 					    initialize_value, value_is_empty,
 					    value_to_string,
 					    NULL);
 
 	full_header = e_table_header_new ();
-	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);
+	cell_left_just = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 
 	for (i = 0; i < cols; i++){
 		ETableCol *ecol = e_table_col_new (
 			i, column_labels [i],
 			1.0, 20, cell_left_just,
-			g_str_compare, TRUE);
+			g_str_compare, TRUE,
+			1);
 
 		e_table_header_add_column (full_header, ecol, i);
 	}
 	
+	state = "<ETableState>
+    <column source=\"0\"/>
+    <column source=\"3\"/>
+    <column source=\"1\"/>
+    <column source=\"2\"/>
+    <grouping>
+      <group column=\"2\" ascending=\"true\">
+	<leaf column=\"1\" ascending=\"true\"/>
+      </group>
+    </grouping>
+    <!-- Column that's been added by hand.  Not implemented yet.
+  <ETableColumn model_col=\"custom-string\" _title=\"Custom\" expansion=\"1.0\" minimum_widgth=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> -->
+</ETableState>";
 	
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	frame = gtk_frame_new (NULL);
-	e_table = e_table_new (full_header, e_table_model, spec);
+	e_table = e_table_new (e_table_model, extras, spec, state);
 	gtk_signal_connect (GTK_OBJECT(e_table), "row_selection",
 			   GTK_SIGNAL_FUNC(row_selection_test), NULL);
 
@@ -375,9 +417,11 @@ do_e_table_demo (const char *spec)
 	gtk_widget_set_usize (window, 200, 200);
 	gtk_widget_show_all (window);
 
+#if 0
 	if (getenv ("TEST")){
 		e_table_do_gui_config (NULL, E_TABLE(e_table));
 	}
+#endif
 }
 
 void

@@ -99,6 +99,7 @@ E_MAKE_TYPE(e_table_col, "ETableCol", ETableCol, e_table_col_class_init, e_table
  * @ecell: the renderer to be used for this column
  * @compare: comparision function for the elements stored in this column
  * @resizable: whether the column can be resized interactively by the user
+ * @priority: FIXME
  *
  * The ETableCol represents a column to be used inside an ETable.  The
  * ETableCol objects are inserted inside an ETableHeader (which is just a collection
