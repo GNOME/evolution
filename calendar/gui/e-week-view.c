@@ -1033,6 +1033,9 @@ e_week_view_focus (GtkWidget *widget, GtkDirectionType direction)
 							    new_event_num,
 							    new_span_num,
 							    NULL);
+		last_focus_event_num = new_event_num;
+		last_focus_span_num = new_span_num;
+
 		if (editable)
 			break;
 		else {
@@ -1059,8 +1062,6 @@ e_week_view_focus (GtkWidget *widget, GtkDirectionType direction)
 				return TRUE;
 			}
 		}
-		last_focus_event_num = new_event_num;
-		last_focus_span_num = new_span_num;
 	}
 	return editable;
 }

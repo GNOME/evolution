@@ -1,3 +1,7 @@
+2003-12-10  Bolian Yin <bolian.yin@sun.com>
+
+	*gui/e-week-view.c: Fix a event/jump button tabbing bug
+
 2003-12-10  Harry Lu  <harry.lu@sun.com>
 
         Fix for bugzilla bug #51628.
