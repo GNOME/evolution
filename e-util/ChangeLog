@@ -1,3 +1,7 @@
+2001-02-28  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am (EXTRA_DIST): make sure all the files get disted
+
 2001-01-30  Not Zed  <NotZed@Ximian.com>
 
 	* e-msgport.c (e_thread_destroy): Turn on joining of cancelled threads.
