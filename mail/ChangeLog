@@ -1,5 +1,10 @@
 2002-01-29  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (mail_send_message): Make X-Evolution-Account take
+	priority over X-Evolution-Transport. Should we just get rid of
+	X-Evolution-Transport? Anyways, this ought to fix a number of
+	complaints.
+
 	* mail-accounts.c (construct): Don't pass NULL text to
 	gtk_entry_set_text. Maybe this will fix bug #18971.
 

@@ -461,9 +461,7 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 	
 	xev = mail_tool_remove_xevolution_headers (message);
 	
-	if (xev->transport) {
-		transport_url = g_strstrip (g_strdup (xev->transport));
-	} else if (xev->account) {
+	if (xev->account) {
 		const MailConfigAccount *account;
 		char *name;
 		
@@ -473,6 +471,8 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 		
 		if (account && account->transport && account->transport->url)
 			transport_url = g_strdup (account->transport->url);
+	} else if (xev->transport) {
+		transport_url = g_strstrip (g_strdup (xev->transport));
 	}
 	
 	if (xev->fcc)
