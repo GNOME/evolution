@@ -801,10 +801,11 @@ et_set_caret_offset (AtkText *text,
 	if (offset < -1)
 		return FALSE;
 	else {
+		ETextEventProcessorCommand command;
+
 		if (offset == -1)
 			offset = et_get_character_count (text);
 
-		ETextEventProcessorCommand command;
 		command.action = E_TEP_MOVE;
 		command.position = E_TEP_VALUE;
 		command.value = offset;
