@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "POT-Creation-Date: 2003-11-19 17:15+0100\n"
-"PO-Revision-Date: 2003-11-19 19:39+0100\n"
+"PO-Revision-Date: 2003-11-19 19:43+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team:  <tp@lists.linux.it>,<it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -14938,14 +14938,12 @@ msgid "Trust this CA to identify web sites."
 msgstr ""
 
 #: smime/gui/smime-ui.glade.h:39
-#, fuzzy
 msgid "View"
-msgstr "_Visualizza"
+msgstr "Visualizza"
 
 #: smime/gui/smime-ui.glade.h:40
-#, fuzzy
 msgid "View Certificate"
-msgstr "ID del _Certificato:"
+msgstr "Visualizza certificato"
 
 #: smime/gui/smime-ui.glade.h:41
 #, fuzzy
@@ -14954,7 +14952,7 @@ msgstr "Autorità di Certificazione (CA) non valida"
 
 #: smime/gui/smime-ui.glade.h:42
 msgid "You have certificates from these organizations that identify you:"
-msgstr ""
+msgstr "Avete certificati dalle seguenti organizzazioni che Vi identificano:"
 
 #: smime/gui/smime-ui.glade.h:43
 msgid ""
@@ -14963,17 +14961,15 @@ msgstr ""
 
 #: smime/gui/smime-ui.glade.h:44
 msgid "You have certificates on file that identify these people:"
-msgstr ""
+msgstr "Avete certificati su file che identificano queste persone:"
 
 #: smime/gui/smime-ui.glade.h:45
-#, fuzzy
 msgid "Your Certificates"
-msgstr "ID del _Certificato:"
+msgstr "I Vostri certificati"
 
 #: smime/lib/e-cert-db.c:443
-#, fuzzy
 msgid "Certificate already exists"
-msgstr "ID della card esiste già"
+msgstr "Il certificato esiste già"
 
 #: tools/evolution-launch-composer.c:324
 msgid "An attachment to add."
@@ -14993,8 +14989,7 @@ msgstr "Descrizione dell'allegato."
 
 #: tools/evolution-launch-composer.c:328
 msgid "Mark attachment to be shown inline by default."
-msgstr ""
-"Segna allegato come da mostrare in linea come impostazione predefinita."
+msgstr "Segna allegato come da mostrare in linea come impostazione predefinita."
 
 #: tools/evolution-launch-composer.c:329
 msgid "Default subject for the message."
