@@ -9,6 +9,7 @@
 #include <config.h>
 #include <string.h>
 #include "gal-a11y-e-text.h"
+#include "gal-a11y-e-text-factory.h"
 #include "gal-a11y-util.h"
 #include <atk/atkobject.h>
 #include <atk/atktable.h>
@@ -1119,3 +1120,14 @@ gal_a11y_e_text_get_type (void)
 
 	return type;
 }
+
+void
+gal_a11y_e_text_init (void)
+{
+	if (atk_get_root ())
+		atk_registry_set_factory_type (atk_get_default_registry (),
+					E_TYPE_TEXT,
+					gal_a11y_e_text_factory_get_type ());
+
+}
+

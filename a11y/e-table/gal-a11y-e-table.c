@@ -8,6 +8,7 @@
 
 #include <config.h>
 #include "gal-a11y-e-table.h"
+#include "gal-a11y-e-table-factory.h"
 #include "gal-a11y-e-table-item.h"
 #include "gal-a11y-util.h"
 #include <gal/e-table/e-table.h>
@@ -62,19 +63,6 @@ eti_get_accessible (ETableItem *eti, AtkObject *parent)
 	g_return_val_if_fail (a11y, NULL);
 
 	return a11y;
-}
-
-static ETableItem *
-find_table_item (ETable *table)
-{
-	if (e_table_model_row_count(table->model) < 1)
-		return NULL;
-	else {
-		if (table->group)
-			return find_first_table_item (table->group);
-	}
-
-	return NULL;
 }
 
 static gboolean 
@@ -292,3 +280,14 @@ gal_a11y_e_table_new (GObject *widget)
 
 	return ATK_OBJECT (a11y);
 }
+
+void 
+gal_a11y_e_table_init (void)
+{
+	if (atk_get_root ())
+		atk_registry_set_factory_type (atk_get_default_registry (),
+						E_TABLE_TYPE,
+						gal_a11y_e_table_factory_get_type ());
+
+}
+

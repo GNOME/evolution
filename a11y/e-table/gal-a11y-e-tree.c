@@ -6,6 +6,7 @@
 
 #include <config.h>
 #include "gal-a11y-e-tree.h"
+#include "gal-a11y-e-tree-factory.h"
 #include "gal-a11y-util.h"
 #include "gal-a11y-e-table-item.h"
 #include <gal/e-table/e-tree.h>
@@ -162,3 +163,14 @@ gal_a11y_e_tree_new (GObject *widget)
 
 	return ATK_OBJECT (a11y);
 }
+
+void
+gal_a11y_e_tree_init (void)
+{
+	if (atk_get_root ())
+		atk_registry_set_factory_type (atk_get_default_registry (),
+					E_TREE_TYPE,
+					gal_a11y_e_tree_factory_get_type ());
+
+}
+

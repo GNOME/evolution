@@ -38,4 +38,6 @@ struct _GalA11yETreeClass {
 GType      gal_a11y_e_tree_get_type  (void);
 AtkObject *gal_a11y_e_tree_new       (GObject *tree);
 
+void       gal_a11y_e_tree_init      (void);
+
 #endif /* ! __GAL_A11Y_E_TREE_H__ */

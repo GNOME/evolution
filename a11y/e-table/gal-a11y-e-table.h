@@ -40,4 +40,6 @@ struct _GalA11yETableClass {
 GType      gal_a11y_e_table_get_type  (void);
 AtkObject *gal_a11y_e_table_new       (GObject *table);
 
+void       gal_a11y_e_table_init (void);
+
 #endif /* ! __GAL_A11Y_E_TABLE_H__ */

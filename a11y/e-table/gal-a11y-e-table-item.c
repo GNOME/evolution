@@ -1302,7 +1302,9 @@ selection_is_child_selected (AtkSelection *selection, gint i)
 void
 gal_a11y_e_table_item_init (void)
 {
-        atk_registry_set_factory_type (atk_get_default_registry (),
-                                       E_TABLE_ITEM_TYPE,
-                                       gal_a11y_e_table_item_factory_get_type ());
+	if (atk_get_root ())
+		atk_registry_set_factory_type (atk_get_default_registry (),
+					E_TABLE_ITEM_TYPE,
+					gal_a11y_e_table_item_factory_get_type ());
 }
+

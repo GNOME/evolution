@@ -68,7 +68,7 @@
 #include <libart_lgpl/art_rgb_bitmap_affine.h>
 
 #include <atk/atk.h>
-#include "gal/a11y/e-text/gal-a11y-e-text-factory.h"
+#include "gal/a11y/e-text/gal-a11y-e-text.h"
 
 #define PARENT_TYPE (gnome_canvas_item_get_type())
 
@@ -3700,10 +3700,7 @@ e_text_class_init (ETextClass *klass)
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 
-	atk_registry_set_factory_type (atk_get_default_registry (),
-                                       E_TYPE_TEXT,
-                                       gal_a11y_e_text_factory_get_type ());
-
+	gal_a11y_e_text_init ();
 }
 
 /* Object initialization function for the text item */

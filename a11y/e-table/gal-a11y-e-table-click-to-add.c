@@ -8,6 +8,7 @@
 #include <config.h>
 #include "gal-a11y-util.h"
 #include "gal-a11y-e-table-click-to-add.h"
+#include "gal-a11y-e-table-click-to-add-factory.h"
 #include <gal/e-table/e-table-group.h>
 #include <gal/e-table/e-table-group-leaf.h>
 #include <gal/e-table/e-table-click-to-add.h>
@@ -313,3 +314,14 @@ gal_a11y_e_table_click_to_add_new (GObject *widget)
 
 	return ATK_OBJECT (a11y);
 }
+
+void
+gal_a11y_e_table_click_to_add_init (void)
+{
+	if (atk_get_root ())
+		atk_registry_set_factory_type (atk_get_default_registry (),
+					E_TABLE_CLICK_TO_ADD_TYPE,
+					gal_a11y_e_table_click_to_add_factory_get_type ());
+
+}
+
