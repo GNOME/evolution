@@ -1,11 +1,11 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gal-view-menus.c: Savable state of a table.
+ * gal-view-menus.c: Deploy a GalViewCollection in the menus.
  *
  * Author:
  *   Chris Lahey <clahey@helixcode.com>
  *
- * (C) 2000 Helix Code, Inc.
+ * (C) 2000, 2001 Ximian, Inc.
  */
 #include <config.h>
 #include <stdlib.h>
@@ -19,11 +19,36 @@
 
 struct _GalViewMenusPrivate {
 	GalViewCollection *collection;
+	BonoboUIVerb *verbs;
 };
 
 #define PARENT_TYPE (gtk_object_get_type())
 
 static GtkObjectClass *gvm_parent_class;
+
+typedef struct {
+	GalViewCollection *collection;
+	GalView *view;
+} CollectionAndView;
+
+static void
+free_verbs (GalViewMenus *gvm)
+{
+	BonoboUIVerb *verbs;
+	if (gvm->priv->verbs) {
+		for (verbs = gvm->priv->verbs + 1; verbs->cname; verbs++) {
+			CollectionAndView *cnv = verbs->user_data;
+
+			g_free(verbs->cname);
+
+			gtk_object_unref(GTK_OBJECT(cnv->collection));
+			gtk_object_unref(GTK_OBJECT(cnv->view));
+			g_free(cnv);
+		}
+		g_free(gvm->priv->verbs);
+	}
+	gvm->priv->verbs = NULL;
+}
 
 static void
 gvm_destroy (GtkObject *object)
@@ -32,6 +57,7 @@ gvm_destroy (GtkObject *object)
 
 	if (gvm->priv->collection)
 		gtk_object_unref(GTK_OBJECT(gvm->priv->collection));
+	free_verbs(gvm);
 	g_free(gvm->priv);
 	gvm->priv = NULL;
 
@@ -51,6 +77,7 @@ gvm_init (GalViewMenus *gvm)
 {
 	gvm->priv = g_new(GalViewMenusPrivate, 1);
 	gvm->priv->collection = NULL;
+	gvm->priv->verbs = NULL;
 }
 
 E_MAKE_TYPE(gal_view_menus, "GalViewMenus", GalViewMenus, gvm_class_init, gvm_init, PARENT_TYPE);
@@ -70,7 +97,7 @@ gal_view_menus_construct (GalViewMenus      *gvm,
 			  GalViewCollection *collection)
 {
 	if (collection)
-		gtk_object_ref(GTK_OBJECT(gvm));
+		gtk_object_ref(GTK_OBJECT(collection));
 	gvm->priv->collection = collection;
 	return gvm;
 }
@@ -78,6 +105,9 @@ gal_view_menus_construct (GalViewMenus      *gvm,
 static void
 dialog_clicked(GtkWidget *dialog, int button, GalViewMenus *menus)
 {
+	if (button == 0) {
+		gal_view_collection_save(menus->priv->collection);
+	}
 	gnome_dialog_close(GNOME_DIALOG(dialog));
 }
 
@@ -92,133 +122,119 @@ define_views(BonoboUIComponent *component,
 	gtk_widget_show(dialog);
 }
 
-static BonoboUIVerb verbs[] = {
-	{"DefineViews", (BonoboUIVerbFn) define_views, NULL, NULL},
-	{NULL, NULL, NULL, NULL}
-};
+static char *
+build_menus(GalViewMenus *menus)
+{
+	BonoboUINode *root;
+	BonoboUINode *menu;
+	BonoboUINode *submenu;
+	BonoboUINode *menuitem;
+	char *xml;
+	xmlChar *string;
+	int length;
+	int i;
+	GalViewCollection *collection = menus->priv->collection;
+
+
+
+	root = bonobo_ui_node_new("Root");
+	menu = bonobo_ui_node_new_child(root, "menu");
+
+	submenu = bonobo_ui_node_new_child(menu, "submenu");
+	bonobo_ui_node_set_attr(submenu, "name", "View");
+
+	submenu = bonobo_ui_node_new_child(submenu, "submenu");
+	bonobo_ui_node_set_attr(submenu, "name", "CurrentView");
+	bonobo_ui_node_set_attr(submenu, "_label", "Current View");
+
+	length = gal_view_collection_get_count(collection);
+	for (i = 0; i < length; i++) {
+		GalViewCollectionItem *item = gal_view_collection_get_view_item(collection, i);
+		menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
+		bonobo_ui_node_set_attr(menuitem, "name", item->id);
+		bonobo_ui_node_set_attr(menuitem, "_label", item->title);
+		bonobo_ui_node_set_attr(menuitem, "verb", item->id);
+	}
+
+	menuitem = bonobo_ui_node_new_child(submenu, "separator");
+
+	menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
+	bonobo_ui_node_set_attr(menuitem, "name", "DefineViews");
+	bonobo_ui_node_set_attr(menuitem, "_label", "Define Views");
+	bonobo_ui_node_set_attr(menuitem, "verb", "DefineViews");
+
+	string = bonobo_ui_node_to_string(root, TRUE);
+	xml = g_strdup(string);
+	bonobo_ui_node_free_string(string);
+
+	bonobo_ui_node_free(root);
+
+	g_print (xml);
+
+	return xml;
+}
+
+static void
+show_view(BonoboUIComponent *component,
+	  gpointer           user_data,
+	  const char        *cname)
+{
+	CollectionAndView *cnv = user_data;
+	gal_view_collection_display_view(cnv->collection, cnv->view);
+}
+
+static BonoboUIVerb *
+build_verbs (GalViewMenus *menus)
+{
+	GalViewCollection *collection = menus->priv->collection;
+	int count = gal_view_collection_get_count(collection);
+	BonoboUIVerb *verbs = g_new(BonoboUIVerb, count + 2);
+	BonoboUIVerb *verb;
+	int i;
+	
+	verb            = verbs;
+	verb->cname     = "DefineViews";
+	verb->cb        = (BonoboUIVerbFn) define_views;
+	verb->user_data = menus;
+	verb->dummy     = NULL;
+	verb ++;
+	for (i = 0; i < count; i++) {
+		CollectionAndView *cnv;
+		GalViewCollectionItem *item = gal_view_collection_get_view_item(collection, i);
+
+		cnv             = g_new(CollectionAndView, 1);
+		cnv->view       = item->view;
+		cnv->collection = collection;
+
+		gtk_object_ref(GTK_OBJECT(cnv->view));
+		gtk_object_ref(GTK_OBJECT(cnv->collection));
+
+		verb->cname     = item->id;
+		verb->cb        = show_view;
+		verb->user_data = cnv;
+		verb->dummy     = NULL;
+		verb++;
+	}
+
+	verb->cname     = NULL;
+	verb->cb        = NULL;
+	verb->user_data = NULL;
+	verb->dummy     = NULL;
+	verb++;
+
+	return verbs;
+}
+
 
 void          gal_view_menus_apply     (GalViewMenus      *menus,
 					BonoboUIComponent *component,
 					CORBA_Environment *ev)
 {
-	bonobo_ui_component_set_translate(component, "/", "<Root> <menu> <submenu name=\"View\"> <menuitem name=\"DefineViews\" _label=\"Define Views\" verb=\"DefineViews\"/> </submenu></menu></Root>", ev);
-	bonobo_ui_component_add_verb_list_with_data(component, verbs, menus);
+	char *xml = build_menus(menus);
+	bonobo_ui_component_set_translate(component, "/", xml, ev);
+	g_free(xml);
+
+	free_verbs(menus);
+	menus->priv->verbs = build_verbs(menus);
+	bonobo_ui_component_add_verb_list(component, menus->priv->verbs);
 }
-
-#if 0
-gboolean
-gal_view_menus_load_from_file    (GalViewMenus *state,
-				 const char          *filename)
-{
-	xmlDoc *doc;
-	doc = xmlParseFile (filename);
-	if (doc) {
-		xmlNode *node = xmlDocGetRootElement(doc);
-		gal_view_menus_load_from_node(state, node);
-		xmlFreeDoc(doc);
-		return TRUE;
-	}
-	return FALSE;
-}
-
-void 
-gal_view_menus_load_from_string  (GalViewMenus *state,
-				 const char          *xml)
-{
-	xmlDoc *doc;
-	doc = xmlParseMemory ((char *) xml, strlen(xml));
-	if (doc) {
-		xmlNode *node = xmlDocGetRootElement(doc);
-		gal_view_menus_load_from_node(state, node);
-		xmlFreeDoc(doc);
-	}
-}
-
-void
-gal_view_menus_load_from_node    (GalViewMenus *state,
-				 const xmlNode       *node)
-{
-	xmlNode *children;
-	GList *list = NULL, *iterator;
-	int i;
-
-	if (state->sort_info)
-		gtk_object_unref(GTK_OBJECT(state->sort_info));
-	state->sort_info = NULL;
-	for (children = node->xmlChildrenNode; children; children = children->next) {
-		if (!strcmp(children->name, "column")) {
-			int *column = g_new(int, 1);
-
-			*column = e_xml_get_integer_prop_by_name(children, "source");
-
-			list = g_list_append(list, column);
-		} else if (state->sort_info == NULL && !strcmp(children->name, "grouping")) {
-			state->sort_info = e_table_sort_info_new();
-			e_table_sort_info_load_from_node(state->sort_info, children);
-		}
-	}
-	g_free(state->columns);
-	state->col_count = g_list_length(list);
-	state->columns = g_new(int, state->col_count);
-	for (iterator = list, i = 0; iterator; iterator = g_list_next(iterator), i++) {
-		state->columns[i] = *(int *)iterator->data;
-		g_free(iterator->data);
-	}
-	g_list_free(list);
-}
-
-void
-gal_view_menus_save_to_file      (GalViewMenus *state,
-				 const char          *filename)
-{
-	xmlDoc *doc;
-	doc = xmlNewDoc("1.0");
-	xmlDocSetRootElement(doc, gal_view_menus_save_to_node(state, NULL));
-	xmlSaveFile(filename, doc);
-}
-
-char *
-gal_view_menus_save_to_string    (GalViewMenus *state)
-{
-	char *ret_val;
-	xmlChar *string;
-	int length;
-	xmlDoc *doc;
-
-	doc = xmlNewDoc(NULL);
-	xmlDocSetRootElement(doc, gal_view_menus_save_to_node(state, NULL));
-	xmlDocDumpMemory(doc, &string, &length);
-
-	ret_val = g_strdup(string);
-	xmlFree(string);
-	return ret_val;
-}
-
-xmlNode *
-gal_view_menus_save_to_node      (GalViewMenus *state,
-				 xmlNode     *parent)
-{
-	int i;
-	xmlNode *node;
-
-	if (parent)
-		node = xmlNewChild (parent, NULL, "GalViewMenus", NULL);
-	else
-		node = xmlNewNode (NULL, "GalViewMenus");
-
-	e_xml_set_double_prop_by_name(node, "state-version", 0.0);
-
-	for (i = 0; i < state->col_count; i++) {
-		int column = state->columns[i];
-		xmlNode *new_node;
-
-		new_node = xmlNewChild(node, NULL, "column", NULL);
-		e_xml_set_integer_prop_by_name (new_node, "source", column);
-	}
-
-
-	e_table_sort_info_save_to_node(state->sort_info, node);
-
-	return node;
-}
-#endif

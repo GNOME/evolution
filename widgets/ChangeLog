@@ -1,3 +1,9 @@
+2001-01-25  Christopher James Lahey  <clahey@helixcode.com>
+
+	* menus/gal-view-menus.c: Make this actually deploy the titles
+	from the GalViewCollection and emit the display_view signals and
+	such.
+
 2001-01-22  Jon Trowbridge  <trow@gnu.org>
 
 	* menus/gal-view-menus.c (define_views): Fixed
