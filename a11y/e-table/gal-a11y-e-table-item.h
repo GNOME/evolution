@@ -11,6 +11,7 @@
 
 #include <glib-object.h>
 #include <gal/e-table/e-table-item.h>
+#include <atk/atkgobjectaccessible.h>
 
 #define GAL_A11Y_TYPE_E_TABLE_ITEM            (gal_a11y_e_table_item_get_type ())
 #define GAL_A11Y_E_TABLE_ITEM(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GAL_A11Y_TYPE_E_TABLE_ITEM, GalA11yETableItem))
@@ -26,11 +27,11 @@ typedef struct _GalA11yETableItemPrivate GalA11yETableItemPrivate;
  * The GalA11yETableItemPrivate comes right after the parent class structure.
  **/
 struct _GalA11yETableItem {
-	AtkObject object;
+	AtkGObjectAccessible parent;
 };
 
 struct _GalA11yETableItemClass {
-	AtkObject parent_class;
+	AtkGObjectAccessibleClass parent_class;
 };
 
 
