@@ -4,14 +4,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2002-01-11 12:41+0100\n"
-"PO-Revision-Date: 2002-01-11 13:54CET\n"
+"POT-Creation-Date: 2002-01-22 12:47+0100\n"
+"PO-Revision-Date: 2002-01-22 12:49CET\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.5\n"
+"X-Generator: KBabel 0.9.6\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.h:1
 msgid "Factory to import LDIF files into Evolution."
@@ -30,7 +30,7 @@ msgid "Imports VCard files into Evolution."
 msgstr "Importuje súbory VCard do Evolution."
 
 #: addressbook/backend/ebook/e-card-simple.c:60
-#: addressbook/gui/widgets/e-addressbook-view.c:959
+#: addressbook/gui/widgets/e-addressbook-view.c:960
 msgid "File As"
 msgstr "Uložiť ako"
 
@@ -39,7 +39,7 @@ msgid "Name"
 msgstr "Meno"
 
 #: addressbook/backend/ebook/e-card-simple.c:62
-#: addressbook/gui/widgets/e-addressbook-view.c:961
+#: addressbook/gui/widgets/e-addressbook-view.c:962
 msgid "Email"
 msgstr "E-mail"
 
@@ -55,7 +55,7 @@ msgstr "Prim"
 #: addressbook/backend/ebook/e-card-simple.c:64
 #: addressbook/backend/ebook/e-card-simple.c:94
 #: addressbook/gui/contact-editor/e-contact-editor.c:1644
-#: addressbook/gui/widgets/e-addressbook-view.c:993
+#: addressbook/gui/widgets/e-addressbook-view.c:994
 msgid "Assistant"
 msgstr "Asistent"
 
@@ -95,7 +95,7 @@ msgid "Home"
 msgstr "Domov"
 
 #: addressbook/backend/ebook/e-card-simple.c:69
-#: addressbook/gui/widgets/e-addressbook-view.c:968
+#: addressbook/gui/widgets/e-addressbook-view.c:969
 msgid "Organization"
 msgstr "Organizácia"
 
@@ -117,7 +117,7 @@ msgstr "Auto"
 #: addressbook/backend/ebook/e-card-simple.c:74
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
 #: addressbook/gui/contact-editor/e-contact-editor.c:1647
-#: addressbook/gui/widgets/e-addressbook-view.c:973
+#: addressbook/gui/widgets/e-addressbook-view.c:974
 msgid "Business Fax"
 msgstr "Pracovný fax"
 
@@ -127,7 +127,7 @@ msgstr "Prac. fax"
 
 #: addressbook/backend/ebook/e-card-simple.c:75
 #: addressbook/gui/contact-editor/e-contact-editor.c:1653
-#: addressbook/gui/widgets/e-addressbook-view.c:974
+#: addressbook/gui/widgets/e-addressbook-view.c:975
 msgid "Home Fax"
 msgstr "Domáci fax"
 
@@ -147,7 +147,7 @@ msgstr "Domov 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:78
 #: addressbook/gui/contact-editor/e-contact-editor.c:1654
-#: addressbook/gui/widgets/e-addressbook-view.c:977
+#: addressbook/gui/widgets/e-addressbook-view.c:978
 msgid "ISDN"
 msgstr "ISDN"
 
@@ -161,49 +161,49 @@ msgstr "Iné"
 
 #: addressbook/backend/ebook/e-card-simple.c:80
 #: addressbook/gui/contact-editor/e-contact-editor.c:1657
-#: addressbook/gui/widgets/e-addressbook-view.c:979
+#: addressbook/gui/widgets/e-addressbook-view.c:980
 msgid "Other Fax"
 msgstr "Ďalší fax"
 
 #: addressbook/backend/ebook/e-card-simple.c:81
 #: addressbook/gui/contact-editor/e-contact-editor.c:1658
-#: addressbook/gui/widgets/e-addressbook-view.c:980
+#: addressbook/gui/widgets/e-addressbook-view.c:981
 msgid "Pager"
 msgstr "Pager"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
 #: addressbook/gui/contact-editor/e-contact-editor.c:1660
-#: addressbook/gui/widgets/e-addressbook-view.c:981
+#: addressbook/gui/widgets/e-addressbook-view.c:982
 msgid "Radio"
 msgstr "Rádio"
 
 #: addressbook/backend/ebook/e-card-simple.c:83
 #: addressbook/gui/contact-editor/e-contact-editor.c:1661
-#: addressbook/gui/widgets/e-addressbook-view.c:982
+#: addressbook/gui/widgets/e-addressbook-view.c:983
 msgid "Telex"
 msgstr "Telex"
 
 #: addressbook/backend/ebook/e-card-simple.c:84
-#: addressbook/gui/widgets/e-addressbook-view.c:983
+#: addressbook/gui/widgets/e-addressbook-view.c:984
 msgid "TTY"
 msgstr "TTY"
 
 #: addressbook/backend/ebook/e-card-simple.c:86
 #: addressbook/gui/component/e-address-popup.c:484
 #: addressbook/gui/contact-editor/e-contact-editor.c:1687
-#: addressbook/gui/widgets/e-addressbook-view.c:985
+#: addressbook/gui/widgets/e-addressbook-view.c:986
 msgid "Email 2"
 msgstr "E-mail 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:87
 #: addressbook/gui/component/e-address-popup.c:494
 #: addressbook/gui/contact-editor/e-contact-editor.c:1688
-#: addressbook/gui/widgets/e-addressbook-view.c:986
+#: addressbook/gui/widgets/e-addressbook-view.c:987
 msgid "Email 3"
 msgstr "E-mail 3"
 
 #: addressbook/backend/ebook/e-card-simple.c:88
-#: addressbook/gui/widgets/e-addressbook-view.c:987
+#: addressbook/gui/widgets/e-addressbook-view.c:988
 msgid "Web Site"
 msgstr "WWW stránka"
 
@@ -212,7 +212,7 @@ msgid "Url"
 msgstr "Url"
 
 #: addressbook/backend/ebook/e-card-simple.c:89
-#: addressbook/gui/widgets/e-addressbook-view.c:988
+#: addressbook/gui/widgets/e-addressbook-view.c:989
 msgid "Department"
 msgstr "Oddelenie"
 
@@ -221,7 +221,7 @@ msgid "Dep"
 msgstr "Odd"
 
 #: addressbook/backend/ebook/e-card-simple.c:90
-#: addressbook/gui/widgets/e-addressbook-view.c:989
+#: addressbook/gui/widgets/e-addressbook-view.c:990
 msgid "Office"
 msgstr "Pracovisko"
 
@@ -230,12 +230,12 @@ msgid "Off"
 msgstr "Prac."
 
 #: addressbook/backend/ebook/e-card-simple.c:91
-#: addressbook/gui/widgets/e-addressbook-view.c:990
+#: addressbook/gui/widgets/e-addressbook-view.c:991
 msgid "Title"
 msgstr "Titul"
 
 #: addressbook/backend/ebook/e-card-simple.c:92
-#: addressbook/gui/widgets/e-addressbook-view.c:991
+#: addressbook/gui/widgets/e-addressbook-view.c:992
 msgid "Profession"
 msgstr "Povolanie"
 
@@ -244,7 +244,7 @@ msgid "Prof"
 msgstr "Pov."
 
 #: addressbook/backend/ebook/e-card-simple.c:93
-#: addressbook/gui/widgets/e-addressbook-view.c:992
+#: addressbook/gui/widgets/e-addressbook-view.c:993
 msgid "Manager"
 msgstr "Vedúci"
 
@@ -257,7 +257,7 @@ msgid "Ass"
 msgstr "Asist."
 
 #: addressbook/backend/ebook/e-card-simple.c:95
-#: addressbook/gui/widgets/e-addressbook-view.c:994
+#: addressbook/gui/widgets/e-addressbook-view.c:995
 msgid "Nickname"
 msgstr "Prezývka"
 
@@ -266,12 +266,12 @@ msgid "Nick"
 msgstr "Prez."
 
 #: addressbook/backend/ebook/e-card-simple.c:96
-#: addressbook/gui/widgets/e-addressbook-view.c:995
+#: addressbook/gui/widgets/e-addressbook-view.c:996
 msgid "Spouse"
 msgstr "Manžel(ka)"
 
 #: addressbook/backend/ebook/e-card-simple.c:97
-#: addressbook/gui/widgets/e-addressbook-view.c:996
+#: addressbook/gui/widgets/e-addressbook-view.c:997
 msgid "Note"
 msgstr "Poznámka"
 
@@ -284,7 +284,7 @@ msgid "CALUri"
 msgstr "CALUri"
 
 #: addressbook/backend/ebook/e-card-simple.c:99
-#: addressbook/gui/widgets/e-addressbook-view.c:997
+#: addressbook/gui/widgets/e-addressbook-view.c:998
 msgid "Free-busy URL"
 msgstr "Voľno/zaneprázdnený URL"
 
@@ -617,10 +617,10 @@ msgstr "VKartapre %s"
 #: addressbook/backend/ebook/load-pine-addressbook.c:22
 #: addressbook/backend/ebook/test-client-list.c:23
 #: addressbook/backend/ebook/test-client.c:33
-#: addressbook/conduit/address-conduit.c:1548
+#: addressbook/conduit/address-conduit.c:1721
 #: addressbook/gui/component/addressbook-factory.c:50
-#: calendar/conduits/calendar/calendar-conduit.c:1554
-#: calendar/conduits/todo/todo-conduit.c:1138
+#: calendar/conduits/calendar/calendar-conduit.c:1727
+#: calendar/conduits/todo/todo-conduit.c:1316
 #: calendar/gui/alarm-notify/notify-main.c:171 calendar/gui/main.c:62
 #: tools/evolution-addressbook-abuse.c:132
 #: tools/evolution-addressbook-export.c:60
@@ -629,7 +629,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Nie je možné inicializovať Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:259
-#: addressbook/backend/pas/pas-backend-ldap.c:2269
+#: addressbook/backend/pas/pas-backend-ldap.c:2272
 msgid "Searching..."
 msgstr "Hľadám...."
 
@@ -642,60 +642,60 @@ msgstr "Načítavam..."
 msgid "Error in search expression."
 msgstr "Chyba v hľadanom výraze."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:483
+#: addressbook/backend/pas/pas-backend-ldap.c:486
 msgid "Connecting to LDAP server..."
 msgstr "Pripájam sa na server LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:493
+#: addressbook/backend/pas/pas-backend-ldap.c:496
 msgid "Unable to connect to LDAP server."
 msgstr "Nepodarilo sa pripojiť k serveru LDAP."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:509
+#: addressbook/backend/pas/pas-backend-ldap.c:512
 msgid "Waiting for connection to LDAP server..."
 msgstr "Čakám na spojenie so serverom LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:912
+#: addressbook/backend/pas/pas-backend-ldap.c:915
 msgid "Adding card to LDAP server..."
 msgstr "Pridávam kartu do serveru LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1013
+#: addressbook/backend/pas/pas-backend-ldap.c:1016
 msgid "Removing card from LDAP server..."
 msgstr "Odstraňujem kartu zo serveru LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1123
+#: addressbook/backend/pas/pas-backend-ldap.c:1126
 msgid "Modifying card from LDAP server..."
 msgstr "Upravujem kartu na serveri LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2214
+#: addressbook/backend/pas/pas-backend-ldap.c:2217
 msgid "Receiving LDAP search results..."
 msgstr "Prijímam výsledky hľadania LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2219
+#: addressbook/backend/pas/pas-backend-ldap.c:2222
 msgid "Restarting search."
 msgstr "Spúšťam hľadanie znovu."
 
-#: addressbook/conduit/address-conduit.c:296
+#: addressbook/conduit/address-conduit.c:426
 msgid "Cursor could not be loaded\n"
 msgstr "Kurzor nie je možné načítať\n"
 
-#: addressbook/conduit/address-conduit.c:309
+#: addressbook/conduit/address-conduit.c:439
 msgid "EBook not loaded\n"
 msgstr "EBook nenačítaný\n"
 
-#: addressbook/conduit/address-conduit.c:1099
-#: calendar/conduits/calendar/calendar-conduit.c:1082
-#: calendar/conduits/todo/todo-conduit.c:698
+#: addressbook/conduit/address-conduit.c:1220
+#: calendar/conduits/calendar/calendar-conduit.c:1203
+#: calendar/conduits/todo/todo-conduit.c:824
 msgid "Could not start wombat server"
 msgstr "Nie je možné spustiť server wombat"
 
-#: addressbook/conduit/address-conduit.c:1100
-#: calendar/conduits/calendar/calendar-conduit.c:1083
-#: calendar/conduits/todo/todo-conduit.c:699
+#: addressbook/conduit/address-conduit.c:1221
+#: calendar/conduits/calendar/calendar-conduit.c:1204
+#: calendar/conduits/todo/todo-conduit.c:825
 msgid "Could not start wombat"
 msgstr "Nie je možné spustiť wombat"
 
-#: addressbook/conduit/address-conduit.c:1130
-#: addressbook/conduit/address-conduit.c:1133
+#: addressbook/conduit/address-conduit.c:1251
+#: addressbook/conduit/address-conduit.c:1254
 msgid "Could not read pilot's Address application block"
 msgstr "Nie je možné prečítať blok aplikácie Adresa z pilota"
 
@@ -776,80 +776,84 @@ msgstr "Nový zoznam kontaktov"
 msgid "New Contact _List"
 msgstr "Nový _zoznam kontaktov"
 
-#: addressbook/gui/component/addressbook-config.c:186
+#: addressbook/gui/component/addressbook-config.c:193
 msgid "Edit Addressbook"
 msgstr "Upraviť adresár"
 
 #: addressbook/gui/component/addressbook-config.glade.h:1
+msgid "100"
+msgstr "100"
+
+#: addressbook/gui/component/addressbook-config.glade.h:2
 msgid "389"
 msgstr "389"
 
-#: addressbook/gui/component/addressbook-config.glade.h:2
+#: addressbook/gui/component/addressbook-config.glade.h:3
 msgid "Account Name"
 msgstr "Meno účtu"
 
-#: addressbook/gui/component/addressbook-config.glade.h:3
+#: addressbook/gui/component/addressbook-config.glade.h:4
 msgid "Add Addressbook"
 msgstr "Pridať adresár"
 
-#: addressbook/gui/component/addressbook-config.glade.h:4
+#: addressbook/gui/component/addressbook-config.glade.h:5
 msgid "Addressbook Sources"
 msgstr "Zdroje adresára"
 
-#: addressbook/gui/component/addressbook-config.glade.h:5
+#: addressbook/gui/component/addressbook-config.glade.h:6
 msgid "Advanced"
 msgstr "Pokročilé"
 
-#: addressbook/gui/component/addressbook-config.glade.h:6
+#: addressbook/gui/component/addressbook-config.glade.h:7
 msgid "Base"
 msgstr "Sústava"
 
-#: addressbook/gui/component/addressbook-config.glade.h:7
+#: addressbook/gui/component/addressbook-config.glade.h:8
 #: calendar/gui/dialogs/task-editor.c:178
 msgid "Basic"
 msgstr "Základné"
 
-#: addressbook/gui/component/addressbook-config.glade.h:8
+#: addressbook/gui/component/addressbook-config.glade.h:9
 msgid "De_lete"
 msgstr "O_dstrániť"
 
-#: addressbook/gui/component/addressbook-config.glade.h:9
+#: addressbook/gui/component/addressbook-config.glade.h:10
 msgid "Email Address:"
 msgstr "E-mailová adresa:"
 
-#: addressbook/gui/component/addressbook-config.glade.h:10
+#: addressbook/gui/component/addressbook-config.glade.h:11
 msgid "Evolution will use this email address to authenticate you with the server"
 msgstr "Evolution použije túto e-mailovú adresu pre prihlásenie na váš server"
 
-#: addressbook/gui/component/addressbook-config.glade.h:11
+#: addressbook/gui/component/addressbook-config.glade.h:12
 msgid "One"
 msgstr "Jeden"
 
-#: addressbook/gui/component/addressbook-config.glade.h:12
+#: addressbook/gui/component/addressbook-config.glade.h:13
 msgid "Search _base:"
 msgstr "_Oblasť hľadania:"
 
-#: addressbook/gui/component/addressbook-config.glade.h:13
+#: addressbook/gui/component/addressbook-config.glade.h:14
 msgid "Search s_cope: "
 msgstr "_Rozsah hľadania:"
 
-#: addressbook/gui/component/addressbook-config.glade.h:14
+#: addressbook/gui/component/addressbook-config.glade.h:15
 msgid "Server Name"
 msgstr "Meno serveru"
 
-#: addressbook/gui/component/addressbook-config.glade.h:15
+#: addressbook/gui/component/addressbook-config.glade.h:16
 msgid "Sub"
 msgstr "Sub"
 
-#: addressbook/gui/component/addressbook-config.glade.h:16
+#: addressbook/gui/component/addressbook-config.glade.h:17
 msgid "The information below is required in order to add an addressbook.  "
 msgstr "Údaje uvedené dole sú nutné pre pridanie adresára."
 
-#: addressbook/gui/component/addressbook-config.glade.h:17
+#: addressbook/gui/component/addressbook-config.glade.h:18
 msgid "This information is not required for most ldap servers. "
 msgstr "Táto informácia nie je pre väčšinu serverov LDAP nutná."
 
-#: addressbook/gui/component/addressbook-config.glade.h:18
+#: addressbook/gui/component/addressbook-config.glade.h:19
 msgid ""
 "This information is used by your ldap server to specify which nodes are used "
 "in a search. Contact your server administrator for more information."
@@ -857,7 +861,7 @@ msgstr ""
 "Túto informáciu používa váš server LDAP pre určenie, ktoré uzly použiť pre "
 "hľadanie. Detaily by vám mal poskytnúť váš systémový administrátor."
 
-#: addressbook/gui/component/addressbook-config.glade.h:19
+#: addressbook/gui/component/addressbook-config.glade.h:20
 msgid ""
 "This is the base node for all your searches on the ldap server. Contact your "
 "server administrator for more information."
@@ -865,15 +869,23 @@ msgstr ""
 "Toto je základný uzol pre všetky hľadania na serveri LDAP. Detaily by ste "
 "mali získať od vášho systémového administrátora."
 
-#: addressbook/gui/component/addressbook-config.glade.h:20
+#: addressbook/gui/component/addressbook-config.glade.h:21
+msgid ""
+"This is the maximum number of cards to download.  Setting this number too "
+"large will slow down this addressbook."
+msgstr ""
+"Toto je maximálny počet sťahovaných kariet. Ak nastavíte príliš veľké číslo, "
+"tento adresár bude pomalý."
+
+#: addressbook/gui/component/addressbook-config.glade.h:22
 msgid "This is the name of the server where your addressbook is located."
 msgstr "Toto je meno serveru, kde je umiestnený adresár."
 
-#: addressbook/gui/component/addressbook-config.glade.h:21
+#: addressbook/gui/component/addressbook-config.glade.h:23
 msgid "This is the port that your ldap server uses."
 msgstr "Toto je port, ktorý používa váš server LDAP."
 
-#: addressbook/gui/component/addressbook-config.glade.h:22
+#: addressbook/gui/component/addressbook-config.glade.h:24
 msgid ""
 "This name will be used to identify your account. It is for display purposes "
 "only."
@@ -881,11 +893,11 @@ msgstr ""
 "Toto meno sa bude identifikovať váš účet, ale používať sa bude iba pre "
 "zobrazenie."
 
-#: addressbook/gui/component/addressbook-config.glade.h:23
+#: addressbook/gui/component/addressbook-config.glade.h:25
 msgid "_Account name:"
 msgstr "Meno úč_tu:"
 
-#: addressbook/gui/component/addressbook-config.glade.h:24
+#: addressbook/gui/component/addressbook-config.glade.h:26
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 #: calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:7
@@ -893,9 +905,13 @@ msgstr "Meno úč_tu:"
 msgid "_Add"
 msgstr "_Pridať"
 
-#: addressbook/gui/component/addressbook-config.glade.h:25
+#: addressbook/gui/component/addressbook-config.glade.h:27
+msgid "_Download Limit"
+msgstr "Obmedzenie _sťahovania"
+
+#: addressbook/gui/component/addressbook-config.glade.h:28
 #: filter/filter.glade.h:9 mail/mail-config.glade.h:107
-#: ui/evolution-addressbook.xml.h:34 ui/evolution-calendar.xml.h:39
+#: ui/evolution-addressbook.xml.h:35 ui/evolution-calendar.xml.h:39
 #: ui/evolution-mail-list.xml.h:25 ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:47
 #: ui/evolution-signature-editor.xml.h:7 ui/evolution-subscribe.xml.h:10
@@ -903,15 +919,15 @@ msgstr "_Pridať"
 msgid "_Edit"
 msgstr "_Upraviť"
 
-#: addressbook/gui/component/addressbook-config.glade.h:26
+#: addressbook/gui/component/addressbook-config.glade.h:29
 msgid "_My server requires authentication"
 msgstr "Server _vyžaduje overenie"
 
-#: addressbook/gui/component/addressbook-config.glade.h:27
+#: addressbook/gui/component/addressbook-config.glade.h:30
 msgid "_Port:"
 msgstr "_Port:"
 
-#: addressbook/gui/component/addressbook-config.glade.h:28
+#: addressbook/gui/component/addressbook-config.glade.h:31
 msgid "_Server name:"
 msgstr "_Meno serveru:"
 
@@ -920,15 +936,15 @@ msgstr "_Meno serveru:"
 msgid "Could not initialize gnome-vfs"
 msgstr "Nie je možné inicializovať gnome-vfs"
 
-#: addressbook/gui/component/addressbook-storage.c:167
+#: addressbook/gui/component/addressbook-storage.c:168
 msgid "Other Contacts"
 msgstr "Iné kontakty"
 
-#: addressbook/gui/component/addressbook.c:486
+#: addressbook/gui/component/addressbook.c:499
 msgid "Unable to open addressbook"
 msgstr "Nie je možné otvoriť adresár"
 
-#: addressbook/gui/component/addressbook.c:495
+#: addressbook/gui/component/addressbook.c:508
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or the LDAP server\n"
@@ -937,7 +953,7 @@ msgstr ""
 "Nebolo možné otvoriť tento adresár. To buď znamená, že ste\n"
 "zadali neplatné URI, alebo LDAP server nefunguje."
 
-#: addressbook/gui/component/addressbook.c:500
+#: addressbook/gui/component/addressbook.c:513
 msgid ""
 "This version of Evolution does not have LDAP support\n"
 "compiled in to it.  If you want to use LDAP in Evolution\n"
@@ -948,7 +964,7 @@ msgstr ""
 "Ak chcete LDAP v Evolution používať, musíte ho prekompilovať\n"
 "z CVS po získaní OpenLDAP z tohto odkazu.\n"
 
-#: addressbook/gui/component/addressbook.c:508
+#: addressbook/gui/component/addressbook.c:521
 msgid ""
 "We were unable to open this addressbook.  Please check that the\n"
 "path exists and that you have permission to access it."
@@ -956,42 +972,42 @@ msgstr ""
 "Nebolo možné otvoriť tento adresár. Prosím, overte, že cesta\n"
 "existuje a že máte dostatočné práva."
 
-#: addressbook/gui/component/addressbook.c:641
+#: addressbook/gui/component/addressbook.c:654
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "Zadajte heslo pre %s (používateľ %s)"
 
-#: addressbook/gui/component/addressbook.c:809
+#: addressbook/gui/component/addressbook.c:822
 #: calendar/gui/cal-search-bar.c:55
 msgid "Any field contains"
 msgstr "Ľubovoľné pole obsahuje"
 
-#: addressbook/gui/component/addressbook.c:810
+#: addressbook/gui/component/addressbook.c:823
 msgid "Name contains"
 msgstr "Meno obsahuje"
 
-#: addressbook/gui/component/addressbook.c:811
+#: addressbook/gui/component/addressbook.c:824
 msgid "Email contains"
 msgstr "E-mail obsahuje"
 
-#: addressbook/gui/component/addressbook.c:812
+#: addressbook/gui/component/addressbook.c:825
 #: calendar/gui/cal-search-bar.c:59
 msgid "Category is"
 msgstr "Kategória je"
 
 #. We attach subitems below
-#: addressbook/gui/component/addressbook.c:813 widgets/misc/e-filter-bar.h:97
+#: addressbook/gui/component/addressbook.c:826 widgets/misc/e-filter-bar.h:97
 #: widgets/misc/e-filter-bar.h:104
 msgid "Advanced..."
 msgstr "Pokročilé..."
 
 #. All, unmatched, separator
-#: addressbook/gui/component/addressbook.c:1040
+#: addressbook/gui/component/addressbook.c:1053
 #: calendar/gui/cal-search-bar.c:412
 msgid "Any Category"
 msgstr "Ľubovoľná kategória"
 
-#: addressbook/gui/component/addressbook.c:1123
+#: addressbook/gui/component/addressbook.c:1136
 msgid "The URI that the Folder Browser will display"
 msgstr "URI, ktoré zobrazí prehliadač priečinku"
 
@@ -1126,32 +1142,24 @@ msgid "C_ontaining:"
 msgstr "O_bsahuje:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
-msgid "Co_ntacts:"
-msgstr "_Kontakty:"
-
-#: addressbook/gui/component/select-names/select-names.glade.h:3
 msgid "F_ind"
 msgstr "_Nájsť"
 
-#: addressbook/gui/component/select-names/select-names.glade.h:4
+#: addressbook/gui/component/select-names/select-names.glade.h:3
 msgid "Select Names"
 msgstr "Výber mien"
 
-#: addressbook/gui/component/select-names/select-names.glade.h:5
+#: addressbook/gui/component/select-names/select-names.glade.h:4
 msgid "Show contacts matching the following criteria:"
 msgstr "Zobraziť kontakty odpovedajúce týmto kritériám:"
 
-#: addressbook/gui/component/select-names/select-names.glade.h:6
+#: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid "_Category:"
 msgstr "_Kategória:"
 
-#: addressbook/gui/component/select-names/select-names.glade.h:7
+#: addressbook/gui/component/select-names/select-names.glade.h:6
 msgid "_Folder:"
 msgstr "_Priečinok:"
-
-#: addressbook/gui/component/select-names/select-names.glade.h:8
-msgid "_Message Recipients:"
-msgstr "_Adresáti správy:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "A_ssistant's name:"
@@ -1328,7 +1336,7 @@ msgid "Edit Full"
 msgstr "Upraviť celé"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:326
-#: addressbook/gui/widgets/e-addressbook-view.c:960
+#: addressbook/gui/widgets/e-addressbook-view.c:961
 msgid "Full Name"
 msgstr "Celé meno"
 
@@ -1359,1050 +1367,30 @@ msgid "Address _2:"
 msgstr "Adresa _2:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:2
-msgid "Afghanistan"
-msgstr "Afganistan"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:3
-#: my-evolution/Locations.h:42
-msgid "Albania"
-msgstr "Albánsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:4
-#: my-evolution/Locations.h:54
-msgid "Algeria"
-msgstr "Alžírsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:5
-msgid "American Samoa"
-msgstr "Americká Samoa"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:6
-msgid "Andorra"
-msgstr "Andorra"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:7
-msgid "Angola"
-msgstr "Angola"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:8
-msgid "Anguilla"
-msgstr "Anguilla"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:9
-msgid "Antarctica"
-msgstr "Antarktída"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:10
-msgid "Antigua And Barbuda"
-msgstr "Antigua a Barbuda"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:11
-#: my-evolution/Locations.h:120
-msgid "Argentina"
-msgstr "Argentína"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:12
-msgid "Armenia"
-msgstr "Arménsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:13
-msgid "Aruba"
-msgstr "Aruba"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:14
-#: my-evolution/Locations.h:154
-msgid "Australia"
-msgstr "Austrália"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:15
-#: my-evolution/Locations.h:155
-msgid "Austria"
-msgstr "Rakúsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:16
-msgid "Azerbaijan"
-msgstr "Azerbajdžán"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:17
-#: my-evolution/Locations.h:161
-msgid "Bahamas"
-msgstr "Bahamy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:18
-#: my-evolution/Locations.h:164
-msgid "Bahrain"
-msgstr "Bahrajn"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:19
-msgid "Bangladesh"
-msgstr "Bangladéš"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:20
-msgid "Barbados"
-msgstr "Barbados"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:21
-msgid "Belarus"
-msgstr "Bielorusko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:22
-#: my-evolution/Locations.h:216
-msgid "Belgium"
-msgstr "Belgicko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:23
-#: my-evolution/Locations.h:218
-msgid "Belize"
-msgstr "Belize"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:24
-msgid "Benin"
-msgstr "Benin"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:25
-msgid "Bermuda"
-msgstr "Bermudy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:26
-msgid "Bhutan"
-msgstr "Bhután"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:27
-#: my-evolution/Locations.h:270
-msgid "Bolivia"
-msgstr "Bolívia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:28
-msgid "Bosnia And Herzegowina"
-msgstr "Bosna a Herzegovina"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:29
-msgid "Botswana"
-msgstr "Botswana"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:30
-msgid "Bouvet Island"
-msgstr "Bouvet Island"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:31
-#: my-evolution/Locations.h:294
-msgid "Brazil"
-msgstr "Brazília"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:32
-msgid "British Indian Ocean Territory"
-msgstr "Britské teritórium Indický oceán"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:33
-msgid "British Virgin Islands"
-msgstr "Britské panenské ostrovy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:34
-msgid "Brunei Darussalam"
-msgstr "Brunei Darussalam"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:35
-#: my-evolution/Locations.h:320
-msgid "Bulgaria"
-msgstr "Bulharsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:36
-msgid "Burkina Faso"
-msgstr "Burkina Faso"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:37
-msgid "Burundi"
-msgstr "Burundi"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:38
-msgid "Cambodia"
-msgstr "Kambodža"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:39
-msgid "Cameroon"
-msgstr "Kamerun"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:40
-#: my-evolution/Locations.h:354
-msgid "Canada"
-msgstr "Kanada"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:41
-msgid "Cape Verde"
-msgstr "Kapverdy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:42
-#: my-evolution/Locations.h:389
-msgid "Cayman Islands"
-msgstr "Kajmanské ostrovy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:43
-msgid "Central African Republic"
-msgstr "Stredoafrická Republika"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:44
-msgid "Chad"
-msgstr "Čad"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:45
 msgid "Check Address"
 msgstr "Skontrolovať adresu"
 
-#: addressbook/gui/contact-editor/fulladdr.glade.h:46
-#: my-evolution/Locations.h:438
-msgid "Chile"
-msgstr "Chile"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:47
-msgid "China"
-msgstr "Čína"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:48
-#: my-evolution/Locations.h:451
-msgid "Christmas Island"
-msgstr "Vianočné ostrovy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:49
-msgid "Cocos (Keeling) Islands"
-msgstr "Kokosové ostrovy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:50
-#: my-evolution/Locations.h:483
-msgid "Colombia"
-msgstr "Kolumbia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:51
-msgid "Comoros"
-msgstr "Komory"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:52
-msgid "Congo"
-msgstr "Kongo"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:53
-msgid "Cook Islands"
-msgstr "Cookove ostrovy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:54
-#: my-evolution/Locations.h:517
-msgid "Costa Rica"
-msgstr "Kostarika"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:55
-msgid "Cote d'Ivoire"
-msgstr "Pobrežie slonoviny"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:56
+#: addressbook/gui/contact-editor/fulladdr.glade.h:3
 msgid "Countr_y:"
 msgstr "Kra_jina:"
 
-#: addressbook/gui/contact-editor/fulladdr.glade.h:57
-#: my-evolution/Locations.h:528
-msgid "Croatia"
-msgstr "Chorvátsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:58
-#: my-evolution/Locations.h:532
-msgid "Cuba"
-msgstr "Kuba"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:59
-#: my-evolution/Locations.h:545
-msgid "Cyprus"
-msgstr "Cyprus"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:60
-#: my-evolution/Locations.h:546
-msgid "Czech Republic"
-msgstr "Česká Republika"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:61
-#: my-evolution/Locations.h:580
-msgid "Denmark"
-msgstr "Dánsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:62
-msgid "Djibouti"
-msgstr "Džibuti"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:63
-msgid "Dominica"
-msgstr "Dominika"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:64
-#: my-evolution/Locations.h:607
-msgid "Dominican Republic"
-msgstr "Dominikánska Republika"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:65
-msgid "East Timor"
-msgstr "Východný Timor"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:66
-#: my-evolution/Locations.h:639
-msgid "Ecuador"
-msgstr "Ekvádor"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:67
-#: my-evolution/Locations.h:648
-msgid "Egypt"
-msgstr "Egypt"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:68
-#: my-evolution/Locations.h:664
-msgid "El Salvador"
-msgstr "Salvádor"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:69
-msgid "Equatorial Guinea"
-msgstr "Rovníková Guinea"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:70
-msgid "Eritrea"
-msgstr "Eritrea"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:71
-#: my-evolution/Locations.h:682
-msgid "Estonia"
-msgstr "Estónsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:72
-msgid "Ethiopia"
-msgstr "Etiópia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:73
-msgid "Falkland Islands"
-msgstr "Falklandské ostrovy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:74
-msgid "Faroe Islands"
-msgstr "Faerské ostrovy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:75
-msgid "Fiji"
-msgstr "Fidži"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:76
-#: my-evolution/Locations.h:714
-msgid "Finland"
-msgstr "Fínsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:77
-#: my-evolution/Locations.h:764
-msgid "France"
-msgstr "Francúzsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:78
-msgid "French Guiana"
-msgstr "Francúzska guajana"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:79
-msgid "French Polynesia"
-msgstr "Francúzska Polynézia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:80
-msgid "French Southern Territories"
-msgstr "Francúzske južné teritóriá"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:81
-msgid "Gabon"
-msgstr "Gabon"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:82
-msgid "Gambia"
-msgstr "Gambia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:83
-#: my-evolution/Locations.h:809
-msgid "Georgia"
-msgstr "Gruzínsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:84
-#: my-evolution/Locations.h:810
-msgid "Germany"
-msgstr "Nemecko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:85
-msgid "Ghana"
-msgstr "Ghana"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:86
-#: my-evolution/Locations.h:813
-msgid "Gibraltar"
-msgstr "Gibraltar"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:87
-#: my-evolution/Locations.h:844
-msgid "Greece"
-msgstr "Grécko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:88
-msgid "Greenland"
-msgstr "Grónsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:89
-msgid "Grenada"
-msgstr "Grenada"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:90
-msgid "Guadeloupe"
-msgstr "Guadeloupe"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:91
-msgid "Guam"
-msgstr "Guam"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:92
-#: my-evolution/Locations.h:865
-msgid "Guatemala"
-msgstr "Guatemala"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:93
-msgid "Guinea"
-msgstr "Guinea"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:94
-msgid "Guinea-bissau"
-msgstr "Guinea-bissau"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:95
-msgid "Guyana"
-msgstr "Guayana"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:96
-#: my-evolution/Locations.h:886
-msgid "Haiti"
-msgstr "Haiti"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:97
-msgid "Heard And McDonald Islands"
-msgstr "Heardove a McDonaldove ostrovy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:98
-msgid "Holy See"
-msgstr "Holy See"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:99
-#: my-evolution/Locations.h:943
-msgid "Honduras"
-msgstr "Honduras"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:100
-#: my-evolution/Locations.h:944
-msgid "Hong Kong"
-msgstr "Hongkong"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:101
-#: my-evolution/Locations.h:964
-msgid "Hungary"
-msgstr "Maďarsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:102
-#: my-evolution/Locations.h:976
-msgid "Iceland"
-msgstr "Island"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:103
-#: my-evolution/Locations.h:989
-msgid "India"
-msgstr "India"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:104
-msgid "Indonesia"
-msgstr "Indonézia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:105
-#: my-evolution/Locations.h:1005
-msgid "Ireland"
-msgstr "Írsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:106
-msgid "Israel"
-msgstr "Izrael"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:107
-#: my-evolution/Locations.h:1014
-msgid "Italy"
-msgstr "Taliansko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:108
-#: my-evolution/Locations.h:1028
-msgid "Jamaica"
-msgstr "Jamajka"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:109
-#: my-evolution/Locations.h:1032
-msgid "Japan"
-msgstr "Japonsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:110
-#: my-evolution/Locations.h:1043
-msgid "Jordan"
-msgstr "Jordánsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:111
-msgid "Kazakhstan"
-msgstr "Kazachstán"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:112
-msgid "Kenya"
-msgstr "Keňa"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:113
-msgid "Kiribati"
-msgstr "Kiribati"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:114
-#: my-evolution/Locations.h:1141
-msgid "Kuwait"
-msgstr "Kuvajt"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:115
-msgid "Kyrgyzstan"
-msgstr "Kirgistán"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:116
-msgid "Laos"
-msgstr "Laos"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:117
-#: my-evolution/Locations.h:1183
-msgid "Latvia"
-msgstr "Lotyšsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:118
-#: my-evolution/Locations.h:1191
-msgid "Lebanon"
-msgstr "Libanon"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:119
-msgid "Lesotho"
-msgstr "Lesotho"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:120
-#: my-evolution/Locations.h:1211
-msgid "Liberia"
-msgstr "Libéria"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:121
-msgid "Liechtenstein"
-msgstr "Lichtenštajnsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:122
-#: my-evolution/Locations.h:1227
-msgid "Lithuania"
-msgstr "Litva"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:123
-#: my-evolution/Locations.h:1261
-msgid "Luxembourg"
-msgstr "Luxembursko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:124
-msgid "Macau"
-msgstr "Makao"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:125
-msgid "Macedonia"
-msgstr "Macedonia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:126
-msgid "Madagascar"
-msgstr "Madagaskar"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:127
-msgid "Malawi"
-msgstr "Malawi"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:128
-msgid "Malaysia"
-msgstr "Malajzia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:129
-msgid "Maldives"
-msgstr "Maledivy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:130
-msgid "Mali"
-msgstr "Mali"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:131
-#: my-evolution/Locations.h:1289
-msgid "Malta"
-msgstr "Malta"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:132
-msgid "Marshall Islands"
-msgstr "Marshallove ostrovy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:133
-msgid "Martinique"
-msgstr "Martinik"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:134
-msgid "Mauritania"
-msgstr "Mauretánia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:135
-msgid "Mauritius"
-msgstr "Maurítius"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:136
-msgid "Mayotte"
-msgstr "Mayotte"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:137
-#: my-evolution/Locations.h:1379
-msgid "Mexico"
-msgstr "Mexiko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:138
-msgid "Micronesia"
-msgstr "Mikronézia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:139
-msgid "Monaco"
-msgstr "Monako"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:140
-msgid "Mongolia"
-msgstr "Mongolsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:141
-msgid "Montserrat"
-msgstr "Montserrat"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:142
-#: my-evolution/Locations.h:1462
-msgid "Morocco"
-msgstr "Maroko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:143
-msgid "Mozambique"
-msgstr "Mozambik"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:144
-msgid "Myanmar"
-msgstr "Myanmar (Barma)"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:145
-msgid "Namibia"
-msgstr "Namíbia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:146
-msgid "Nauru"
-msgstr "Nauru"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:147
-msgid "Nepal"
-msgstr "Nepál"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:148
-#: my-evolution/Locations.h:1523
-msgid "Netherlands"
-msgstr "Holandsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:149
-msgid "Netherlands Antilles"
-msgstr "Holandské Antily"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:150
-msgid "New Caledonia"
-msgstr "Nová Kaledónia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:151
-#: my-evolution/Locations.h:1552
-msgid "New Zealand"
-msgstr "Nový Zéland"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:152
-#: my-evolution/Locations.h:1554
-msgid "Nicaragua"
-msgstr "Nikaragua"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:153
-msgid "Niger"
-msgstr "Niger"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:154
-msgid "Nigeria"
-msgstr "Nigéria"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:155
-msgid "Niue"
-msgstr "Niue"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:156
-#: my-evolution/Locations.h:1566
-msgid "Norfolk Island"
-msgstr "Ostrov Norfolk"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:157
-msgid "Northern Mariana Islands"
-msgstr "Severné Mariánske Ostrovy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:158
-#: my-evolution/Locations.h:1579
-msgid "Norway"
-msgstr "Nórsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:159
-#: my-evolution/Locations.h:1623
-msgid "Oman"
-msgstr "Omán"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:160
-#: my-evolution/Locations.h:1664
-msgid "Pakistan"
-msgstr "Pakistan"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:161
-msgid "Palau"
-msgstr "Palau"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:162
-msgid "Palestinian Territory"
-msgstr "Palestínske územia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:163
-#: my-evolution/Locations.h:1674
-msgid "Panama"
-msgstr "Panama"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:164
-msgid "Papua New Guinea"
-msgstr "Papua Nová Guinea"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:165
-#: my-evolution/Locations.h:1679
-msgid "Paraguay"
-msgstr "Paraguaj"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:166
-#: my-evolution/Locations.h:1714
-msgid "Peru"
-msgstr "Peru"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:167
-msgid "Philippines"
-msgstr "Filipíny"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:168
-msgid "Pitcairn"
-msgstr "Pitcairn"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:169
-#: my-evolution/Locations.h:1755
-msgid "Poland"
-msgstr "Poľsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:170
-#: my-evolution/Locations.h:1782
-msgid "Portugal"
-msgstr "Portugalsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:171
-#: my-evolution/Locations.h:1815
-msgid "Puerto Rico"
-msgstr "Portoriko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:172
-#: my-evolution/Locations.h:1827
-msgid "Qatar"
-msgstr "Katar"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:173
-msgid "Republic Of Korea"
-msgstr "Korejská republika"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:174
-msgid "Republic Of Moldova"
-msgstr "Moldavská republika"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:175
-msgid "Reunion"
-msgstr "Reunion"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:176
-#: my-evolution/Locations.h:1902
-msgid "Romania"
-msgstr "Rumunsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:177
-msgid "Russian Federation"
-msgstr "Ruská federácia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:178
-msgid "Rwanda"
-msgstr "Rwanda"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:179
-msgid "Saint Kitts And Nevis"
-msgstr "Svätý Kitts a Nevis"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:180
-msgid "Saint Lucia"
-msgstr "Svätá Lucia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:181
-msgid "Saint Vincent And The Grena-dines"
-msgstr "Svätý Vincent a Grenadiny"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:182
-msgid "Samoa"
-msgstr "Samoa"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:183
-msgid "San Marino"
-msgstr "San Marino"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:184
-msgid "Sao Tome And Principe"
-msgstr "Sao Tome a Principe"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:185
-#: my-evolution/Locations.h:2025
-msgid "Saudi Arabia"
-msgstr "Saudská Arábia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:186
-msgid "Senegal"
-msgstr "Senegal"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:187
-msgid "Seychelles"
-msgstr "Seychely"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:188
-msgid "Sierra Leone"
-msgstr "Sierra Leone"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:189
-#: my-evolution/Locations.h:2080
-msgid "Singapore"
-msgstr "Singapur"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:190
-#: my-evolution/Locations.h:2093
-msgid "Slovakia"
-msgstr "Slovensko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:191
-#: my-evolution/Locations.h:2094
-msgid "Slovenia"
-msgstr "Slovinsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:192
-msgid "Solomon Islands"
-msgstr "Šalamúnove Ostrovy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:193
-msgid "Somalia"
-msgstr "Somálsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:194
-#: my-evolution/Locations.h:2109
-msgid "South Africa"
-msgstr "Južná Afrika"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:195
-msgid "South Georgia And The South Sandwich Islands"
-msgstr "South Georgia a The South Sandwich Islands"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:196
-#: my-evolution/Locations.h:2117
-msgid "Spain"
-msgstr "Španielsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:197
-msgid "Sri Lanka"
-msgstr "Srí Lanka"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:198
-msgid "St. Helena"
-msgstr "Svätá Helena"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:199
-msgid "St. Pierre And Miquelon"
-msgstr "Svätý Pierre a Miquelon"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:200
-msgid "Sudan"
-msgstr "Sudán"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:201
-#: my-evolution/Locations.h:2166
-msgid "Suriname"
-msgstr "Surinam"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:202
-msgid "Svalbard And Jan Mayen Islands"
-msgstr "Svalbardove a Jan Mayenové ostrovy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:203
-msgid "Swaziland"
-msgstr "Svazijsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:204
-#: my-evolution/Locations.h:2171
-msgid "Sweden"
-msgstr "Švédsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:205
-#: my-evolution/Locations.h:2173
-msgid "Switzerland"
-msgstr "Švajčiarsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:206
-#: my-evolution/Locations.h:2194
-msgid "Taiwan"
-msgstr "Taiwan"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:207
-msgid "Tajikistan"
-msgstr "Tadžikistan"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:208
-msgid "Thailand"
-msgstr "Thajsko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:209
-msgid "Togo"
-msgstr "Togo"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:210
-msgid "Tokelau"
-msgstr "Tokelau"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:211
-msgid "Tonga"
-msgstr "Tonga"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:212
-msgid "Trinidad And Tobago"
-msgstr "Trinidad a Tobago"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:213
-msgid "Tunisia"
-msgstr "Tunisko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:214
-#: my-evolution/Locations.h:2310
-msgid "Turkey"
-msgstr "Turecko"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:215
-msgid "Turkmenistan"
-msgstr "Turkmenistán"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:216
-msgid "Turks And Caicos Islands"
-msgstr "Turecké a kaikoské ostrovy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:217
-msgid "Tuvalu"
-msgstr "Tuvalu"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:218
-msgid "U.S. Virgin Islands"
-msgstr "U.S. panenské ostrovy"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:219
-msgid "Uganda"
-msgstr "Uganda"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:220
-msgid "Ukraine"
-msgstr "Ukrajina"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:221
-msgid "United Arab Emirates"
-msgstr "Spojené Arabské Emiráty"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:222
-#: my-evolution/Locations.h:2330
-msgid "United Kingdom"
-msgstr "Spojené kráľovstvo"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:223
-msgid "United Republic Of Tanzania"
-msgstr "Spojená republiká Tanzánia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:224
-#: my-evolution/Locations.h:2331
-msgid "United States"
-msgstr "Spojené štáty"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:225
-msgid "United States Minor Outlying Islands"
-msgstr "Menšie ostrovy mimo spojené štáty"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:226
-#: my-evolution/Locations.h:2336
-msgid "Uruguay"
-msgstr "Uruguaj"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:227
-msgid "Uzbekistan"
-msgstr "Uzbekistán"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:228
-msgid "Vanuatu"
-msgstr "Vanuatu (Nové Hebridy)"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:229
-#: my-evolution/Locations.h:2367
-msgid "Venezuela"
-msgstr "Venezuela"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:230
-#: my-evolution/Locations.h:2379
-msgid "Viet Nam"
-msgstr "Vietnam"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:231
-msgid "Wallis And Futuna Islands"
-msgstr "Ostrovy Wallis a Futuna"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:232
-msgid "Western Sahara"
-msgstr "Západná sahara"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:233
-#: my-evolution/Locations.h:2499
-msgid "Yemen"
-msgstr "Jemen"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:234
-#: my-evolution/Locations.h:2511
-msgid "Yugoslavia"
-msgstr "Juhoslávia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:235
-msgid "Zambia"
-msgstr "Zambia"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:236
-msgid "Zimbabwe"
-msgstr "Zimbabwe"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:237
+#: addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "_Address:"
 msgstr "_Adresa:"
 
-#: addressbook/gui/contact-editor/fulladdr.glade.h:238
+#: addressbook/gui/contact-editor/fulladdr.glade.h:5
 msgid "_City:"
 msgstr "_Mesto:"
 
-#: addressbook/gui/contact-editor/fulladdr.glade.h:239
+#: addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "_PO Box:"
 msgstr "_PO Box:"
 
-#: addressbook/gui/contact-editor/fulladdr.glade.h:240
+#: addressbook/gui/contact-editor/fulladdr.glade.h:7
 msgid "_State/Province:"
 msgstr "_Štát/Provincia:"
 
-#: addressbook/gui/contact-editor/fulladdr.glade.h:241
+#: addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "_ZIP Code:"
 msgstr "_PSČ:"
 
@@ -2576,65 +1564,65 @@ msgstr "1 karta"
 msgid "%d cards"
 msgstr "%d kariet"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:140
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:291
-#: addressbook/gui/widgets/e-addressbook-view.c:733
-#: addressbook/gui/widgets/e-addressbook-view.c:833
-#: addressbook/gui/widgets/e-addressbook-view.c:1515
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:141
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:278
+#: addressbook/gui/widgets/e-addressbook-view.c:734
+#: addressbook/gui/widgets/e-addressbook-view.c:834
+#: addressbook/gui/widgets/e-addressbook-view.c:1516
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
 msgstr "Uložiť ako VCard"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:290
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:277
 #: ui/evolution-message-composer.xml.h:13
 msgid "Open"
 msgstr "Otvoriť"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:292
-#: addressbook/gui/widgets/e-addressbook-view.c:834
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:279
+#: addressbook/gui/widgets/e-addressbook-view.c:835
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "Predať ďalej kontakt"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:293
-#: addressbook/gui/widgets/e-addressbook-view.c:835
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:280
+#: addressbook/gui/widgets/e-addressbook-view.c:836
 msgid "Send Message to Contact"
 msgstr "Poslať správu kontaktu"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:294
-#: addressbook/gui/widgets/e-addressbook-view.c:836
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:281
+#: addressbook/gui/widgets/e-addressbook-view.c:837
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
 #: ui/evolution-contact-editor.xml.h:4 ui/evolution-mail-message.xml.h:67
 #: ui/my-evolution.xml.h:2
 msgid "Print"
 msgstr "Tlačiť"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:296
-#: addressbook/gui/widgets/e-addressbook-view.c:838
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:283
+#: addressbook/gui/widgets/e-addressbook-view.c:839
 msgid "Print Envelope"
 msgstr "Tlačiť obálku"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:298
-#: addressbook/gui/widgets/e-addressbook-view.c:840
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:285
+#: addressbook/gui/widgets/e-addressbook-view.c:841
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:7
 msgid "Cut"
 msgstr "Vystrihnúť"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:299
-#: addressbook/gui/widgets/e-addressbook-view.c:841
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:286
+#: addressbook/gui/widgets/e-addressbook-view.c:842
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:6
 #: ui/evolution-tasks.xml.h:3
 msgid "Copy"
 msgstr "Kopírovať"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:300
-#: addressbook/gui/widgets/e-addressbook-view.c:842
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:287
+#: addressbook/gui/widgets/e-addressbook-view.c:843
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:13
 msgid "Paste"
 msgstr "Vložiť"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:301
-#: addressbook/gui/widgets/e-addressbook-view.c:843 filter/libfilter-i18n.h:9
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:288
+#: addressbook/gui/widgets/e-addressbook-view.c:844 filter/libfilter-i18n.h:9
 #: mail/mail-accounts.c:296 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:18
@@ -2714,14 +1702,32 @@ msgid "Error removing list"
 msgstr "Chyba pri odstraňovaní zoznamu"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:95
-#: addressbook/gui/widgets/e-addressbook-view.c:1388
+#: addressbook/gui/widgets/e-addressbook-view.c:1389
 msgid "Error removing card"
 msgstr "Chyba pri odstraňovaní karty"
+
+#: addressbook/gui/widgets/e-addressbook-util.c:202
+msgid "Display Cards?"
+msgstr "Zobraziť karty?"
+
+#: addressbook/gui/widgets/e-addressbook-util.c:203
+msgid "Display Cards"
+msgstr "Zobraziť karty"
+
+#: addressbook/gui/widgets/e-addressbook-util.c:207
+#, c-format
+msgid ""
+"You have requested that %d cards be cards. This will cause %d new windows to "
+"be\n"
+"displayed on your screen. Do you really want to display all of these cards?"
+msgstr ""
+"Požadujete, aby %d kariet bolo kartami. Otvorí sa %d nový okien.\n"
+"Naozaj chcete zobraziť všetky tieto karty?"
 
 #. Translators: put here a list of labels you want to see on buttons in
 #. addressbook. You may use any character to separate labels but it must
 #. also be placed at the begining ot the string
-#: addressbook/gui/widgets/e-addressbook-view.c:403
+#: addressbook/gui/widgets/e-addressbook-view.c:404
 msgid ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 msgstr ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 
@@ -2729,67 +1735,67 @@ msgstr ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 #. in addressbook. You may use any character to separate labels but it
 #. must also be placed at the begining ot the string.
 #. Use lower case letters if possible.
-#: addressbook/gui/widgets/e-addressbook-view.c:408
+#: addressbook/gui/widgets/e-addressbook-view.c:409
 msgid ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 msgstr ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:958
+#: addressbook/gui/widgets/e-addressbook-view.c:959
 msgid "* Click here to add a contact *"
 msgstr "* Kliknutím pridáte kontakt *"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:962
+#: addressbook/gui/widgets/e-addressbook-view.c:963
 msgid "Primary Phone"
 msgstr "Primárny telefón"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:963
+#: addressbook/gui/widgets/e-addressbook-view.c:964
 msgid "Assistant Phone"
 msgstr "Asistentov telefón"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:964
+#: addressbook/gui/widgets/e-addressbook-view.c:965
 msgid "Business Phone"
 msgstr "Telefón do zamestania"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:965
+#: addressbook/gui/widgets/e-addressbook-view.c:966
 msgid "Callback Phone"
 msgstr "Spätné volanie"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:966
+#: addressbook/gui/widgets/e-addressbook-view.c:967
 msgid "Company Phone"
 msgstr "Firemný felefón"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:967
+#: addressbook/gui/widgets/e-addressbook-view.c:968
 msgid "Home Phone"
 msgstr "Telefón domov"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:969
+#: addressbook/gui/widgets/e-addressbook-view.c:970
 msgid "Business Address"
 msgstr "Adresa zamestania"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:970
+#: addressbook/gui/widgets/e-addressbook-view.c:971
 msgid "Home Address"
 msgstr "Adresa domov"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:971
+#: addressbook/gui/widgets/e-addressbook-view.c:972
 msgid "Mobile Phone"
 msgstr "Mobil"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:972
+#: addressbook/gui/widgets/e-addressbook-view.c:973
 msgid "Car Phone"
 msgstr "Telefón v aute"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:975
+#: addressbook/gui/widgets/e-addressbook-view.c:976
 msgid "Business Phone 2"
 msgstr "Telefón do zamestnania 2"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:976
+#: addressbook/gui/widgets/e-addressbook-view.c:977
 msgid "Home Phone 2"
 msgstr "Telefón domov 2"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:978
+#: addressbook/gui/widgets/e-addressbook-view.c:979
 msgid "Other Phone"
 msgstr "Iný telefón"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:984
+#: addressbook/gui/widgets/e-addressbook-view.c:985
 msgid "Other Address"
 msgstr "Iná adresa"
 
@@ -2829,12 +1835,12 @@ msgstr "Karta"
 msgid "Print envelope"
 msgstr "Tlačiť obálku"
 
-#: addressbook/printing/e-contact-print.c:1111
+#: addressbook/printing/e-contact-print.c:1115
 msgid "Print cards"
 msgstr "Tlačiť karty"
 
-#: addressbook/printing/e-contact-print.c:1171
-#: addressbook/printing/e-contact-print.c:1193
+#: addressbook/printing/e-contact-print.c:1175
+#: addressbook/printing/e-contact-print.c:1197
 msgid "Print card"
 msgstr "Tlačiť kartu"
 
@@ -3037,18 +2043,18 @@ msgstr "Nízka"
 msgid "Undefined"
 msgstr "Nedefinovaná"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1029
-#: calendar/conduits/todo/todo-conduit.c:644
+#: calendar/conduits/calendar/calendar-conduit.c:1150
+#: calendar/conduits/todo/todo-conduit.c:770
 msgid "Error while communicating with calendar server"
 msgstr "Chyba pri komunikácii s kalendárovým serverom"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1176
-#: calendar/conduits/calendar/calendar-conduit.c:1179
+#: calendar/conduits/calendar/calendar-conduit.c:1297
+#: calendar/conduits/calendar/calendar-conduit.c:1300
 msgid "Could not read pilot's Calendar application block"
 msgstr "Nie je možné prečítať blok aplikácie Calendar pilota"
 
-#: calendar/conduits/todo/todo-conduit.c:760
-#: calendar/conduits/todo/todo-conduit.c:763
+#: calendar/conduits/todo/todo-conduit.c:886
+#: calendar/conduits/todo/todo-conduit.c:889
 msgid "Could not read pilot's ToDo application block"
 msgstr "Nie je možné prečítať blok aplikácie ToDo pilota"
 
@@ -3142,11 +2148,11 @@ msgstr "Čas opakovania (minúty)"
 msgid "_Edit appointment"
 msgstr "_Upraviť schôdzku"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:670
+#: calendar/gui/alarm-notify/alarm-queue.c:675
 msgid "No description available."
 msgstr "Popis nie je k dispozícii."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:730
+#: calendar/gui/alarm-notify/alarm-queue.c:735
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3157,22 +2163,32 @@ msgstr ""
 "pomocou e-mailu, ale toto upozornenie tak bolo nastavené.\n"
 "Evolution preto zobrazí normálny dialóg."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:781
+#: calendar/gui/alarm-notify/alarm-queue.c:753
+#: calendar/gui/tasks-control.c:426 mail/mail-callbacks.c:2231
+#: widgets/misc/e-messagebox.c:159
+msgid "Warning"
+msgstr "Varovanie"
+
+#: calendar/gui/alarm-notify/alarm-queue.c:758
 #, c-format
 msgid ""
-"An Evolution Calendar reminder is about to trigger.\n"
-"This reminder is configured to run the following program:\n"
+"An Evolution Calendar reminder is about to trigger. This reminder is "
+"configured to run the following program:\n"
 "\n"
 "        %s\n"
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
-"Práve sa má vyvolať pripomenutie kalendára Evolution.\n"
-"Je nastavený tak, že sa má spustiť tento program:\n"
+"Práve sa má vyvolať pripomenutie kalendára Evolution. Je nastavený tak, že "
+"sa má spustiť tento program:\n"
 "\n"
 "        %s\n"
 "\n"
 "Chcete tento program spustiť?"
+
+#: calendar/gui/alarm-notify/alarm-queue.c:772
+msgid "Do not ask me about this program again."
+msgstr "Pre tento program túto správu už nezobrazovať."
 
 #: calendar/gui/alarm-notify/notify-main.c:166 calendar/gui/main.c:57
 msgid "Could not initialize GNOME"
@@ -3312,7 +2328,7 @@ msgstr ""
 #: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1497
 #: mail/mail-accounts.c:148 mail/mail-accounts.c:405
 #: mail/mail-config.glade.h:55
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:203
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:202
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1488 widgets/misc/e-dateedit.c:1603
 msgid "None"
@@ -3339,7 +2355,7 @@ msgstr "Nie"
 
 #. No time range is set, so don't start a query
 #: calendar/gui/calendar-model.c:1984 calendar/gui/e-day-view.c:1677
-#: calendar/gui/e-week-view.c:1184
+#: calendar/gui/e-week-view.c:1188
 msgid "Searching"
 msgstr "Hľadám"
 
@@ -3369,7 +2385,7 @@ msgid "Folder containing appointments and events"
 msgstr "Priečinok obsahujúci schôdzky a udalosti"
 
 #: calendar/gui/component-factory.c:68 calendar/gui/print.c:1733
-#: my-evolution/e-summary-tasks.c:247 my-evolution/e-summary-tasks.c:263
+#: my-evolution/e-summary-tasks.c:240 my-evolution/e-summary-tasks.c:257
 #: shell/e-local-storage.c:177 shell/e-shortcuts.c:1058
 #: views/tasks/galview.xml.h:1
 msgid "Tasks"
@@ -3568,12 +2584,12 @@ msgstr "%s %s po konci schôdzky"
 msgid "%s at the end of the appointment"
 msgstr "%s na konci schôdzky"
 
-#: calendar/gui/dialogs/alarm-page.c:453
+#: calendar/gui/dialogs/alarm-page.c:452
 #, c-format
 msgid "%s at %s"
 msgstr "%s o %s"
 
-#: calendar/gui/dialogs/alarm-page.c:459
+#: calendar/gui/dialogs/alarm-page.c:458
 #, c-format
 msgid "%s for an unknown trigger type"
 msgstr "%s pre neznámy typ spustenia"
@@ -3594,7 +2610,7 @@ msgstr "Pripomenutia"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:737 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:748 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Súhrn:"
 
@@ -4156,7 +3172,7 @@ msgid "Member"
 msgstr "Člen"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:798
+#: calendar/gui/e-itip-control.c:809
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
@@ -4331,7 +3347,7 @@ msgstr "_Stav:"
 msgid "Assignment"
 msgstr "Priradenie"
 
-#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:746
+#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:757
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:31
 msgid "Description:"
@@ -4401,32 +3417,32 @@ msgid "100%"
 msgstr "100%"
 
 #: calendar/gui/e-calendar-table.c:741 calendar/gui/e-day-view.c:2726
-#: calendar/gui/e-week-view.c:1824
+#: calendar/gui/e-week-view.c:1828
 msgid "Deleting selected objects"
 msgstr "Odstráňujem vybrané objekty"
 
 #: calendar/gui/e-calendar-table.c:960 calendar/gui/e-day-view.c:3546
-#: calendar/gui/e-week-view.c:3428 mail/folder-browser.c:1454
-#: shell/e-shortcuts-view.c:384
+#: calendar/gui/e-week-view.c:3432 mail/folder-browser.c:1454
+#: shell/e-shortcuts-view.c:384 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Otvoriť"
 
 #: calendar/gui/e-calendar-table.c:964 calendar/gui/e-day-view.c:3555
-#: calendar/gui/e-week-view.c:3437 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-week-view.c:3441 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "Vystri_hnúť"
 
 #: calendar/gui/e-calendar-table.c:966 calendar/gui/e-day-view.c:3557
-#: calendar/gui/e-week-view.c:3439 ui/evolution-addressbook.xml.h:33
+#: calendar/gui/e-week-view.c:3443 ui/evolution-addressbook.xml.h:34
 #: ui/evolution-calendar.xml.h:37 ui/evolution-mail-list.xml.h:24
 #: ui/evolution-tasks.xml.h:17
 msgid "_Copy"
 msgstr "_Kopírovať"
 
 #: calendar/gui/e-calendar-table.c:968 calendar/gui/e-day-view.c:3532
-#: calendar/gui/e-day-view.c:3559 calendar/gui/e-week-view.c:3415
-#: calendar/gui/e-week-view.c:3441 ui/evolution-addressbook.xml.h:36
+#: calendar/gui/e-day-view.c:3559 calendar/gui/e-week-view.c:3419
+#: calendar/gui/e-week-view.c:3445 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:40 ui/evolution-mail-list.xml.h:29
 #: ui/evolution-tasks.xml.h:21
 msgid "_Paste"
@@ -4449,7 +3465,7 @@ msgid "_Delete Selected Tasks"
 msgstr "O_dstrániť vybrané úlohy"
 
 #: calendar/gui/e-calendar-table.c:1164 calendar/gui/e-day-view.c:7137
-#: calendar/gui/e-week-view.c:3924
+#: calendar/gui/e-week-view.c:3928
 msgid "Updating objects"
 msgstr "Aktualizujem objekty"
 
@@ -4561,177 +3577,177 @@ msgstr "dopoludnia"
 msgid "pm"
 msgstr "popoludní"
 
-#: calendar/gui/e-day-view.c:3527 calendar/gui/e-week-view.c:3410
+#: calendar/gui/e-day-view.c:3527 calendar/gui/e-week-view.c:3414
 msgid "New All Day _Event"
 msgstr "Nová celodenná _udalosť"
 
-#: calendar/gui/e-day-view.c:3537 calendar/gui/e-week-view.c:3420
+#: calendar/gui/e-day-view.c:3537 calendar/gui/e-week-view.c:3424
 #: ui/evolution-calendar.xml.h:17
 msgid "Go to _Today"
 msgstr "Prejsť na d_nešný dátum"
 
-#: calendar/gui/e-day-view.c:3539 calendar/gui/e-week-view.c:3422
+#: calendar/gui/e-day-view.c:3539 calendar/gui/e-week-view.c:3426
 msgid "_Go to Date..."
 msgstr "_Prejsť na dátum..."
 
-#: calendar/gui/e-day-view.c:3548 calendar/gui/e-week-view.c:3430
+#: calendar/gui/e-day-view.c:3548 calendar/gui/e-week-view.c:3434
 msgid "_Delete this Appointment"
 msgstr "O_dstrániť túto schôdzku"
 
-#: calendar/gui/e-day-view.c:3567 calendar/gui/e-week-view.c:3455
+#: calendar/gui/e-day-view.c:3567 calendar/gui/e-week-view.c:3459
 msgid "Make this Occurrence _Movable"
 msgstr "Nastaviť tento výskyt ako _presunuteľný"
 
-#: calendar/gui/e-day-view.c:3569 calendar/gui/e-week-view.c:3457
+#: calendar/gui/e-day-view.c:3569 calendar/gui/e-week-view.c:3461
 msgid "Delete this _Occurrence"
 msgstr "Odstrániť tento vý_skyt"
 
-#: calendar/gui/e-day-view.c:3571 calendar/gui/e-week-view.c:3459
+#: calendar/gui/e-day-view.c:3571 calendar/gui/e-week-view.c:3463
 msgid "Delete _All Occurrences"
 msgstr "Odstrániť _všetky výskyty"
 
-#: calendar/gui/e-itip-control.c:524
+#: calendar/gui/e-itip-control.c:535
 msgid "Meeting begins: <b>"
 msgstr "Stretnutie začína: <b>"
 
-#: calendar/gui/e-itip-control.c:529
+#: calendar/gui/e-itip-control.c:540
 msgid "Task begins: <b>"
 msgstr "Úloha začína: <b>"
 
-#: calendar/gui/e-itip-control.c:534
+#: calendar/gui/e-itip-control.c:545
 msgid "Free/Busy info begins: <b>"
 msgstr "Informácia o voľnom čase začína: <b>"
 
-#: calendar/gui/e-itip-control.c:538
+#: calendar/gui/e-itip-control.c:549
 msgid "Begins: <b>"
 msgstr "Začína: <b>"
 
-#: calendar/gui/e-itip-control.c:550
+#: calendar/gui/e-itip-control.c:561
 msgid "Meeting ends: <b>"
 msgstr "Stretnutie končí: <b>"
 
-#: calendar/gui/e-itip-control.c:553
+#: calendar/gui/e-itip-control.c:564
 msgid "Free/Busy info ends: <b>"
 msgstr "Informácia o voľnom čase končí: <b>"
 
-#: calendar/gui/e-itip-control.c:557
+#: calendar/gui/e-itip-control.c:568
 msgid "Ends: <b>"
 msgstr "Končí: <b>"
 
-#: calendar/gui/e-itip-control.c:571
+#: calendar/gui/e-itip-control.c:582
 msgid "Task Completed: <b>"
 msgstr "Úloha dokončená: <b>"
 
-#: calendar/gui/e-itip-control.c:581
+#: calendar/gui/e-itip-control.c:592
 msgid "Task Due: <b>"
 msgstr "Termín úlohy: <b>"
 
-#: calendar/gui/e-itip-control.c:618 calendar/gui/e-itip-control.c:667
+#: calendar/gui/e-itip-control.c:629 calendar/gui/e-itip-control.c:678
 msgid "iCalendar Information"
 msgstr "Informácie o iCalendar"
 
 #. Title
-#: calendar/gui/e-itip-control.c:633
+#: calendar/gui/e-itip-control.c:644
 msgid "iCalendar Error"
 msgstr "Chyba iCalendar"
 
-#: calendar/gui/e-itip-control.c:698 calendar/gui/e-itip-control.c:714
+#: calendar/gui/e-itip-control.c:709 calendar/gui/e-itip-control.c:725
 msgid "An unknown person"
 msgstr "Neznáma osoba"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:721
+#: calendar/gui/e-itip-control.c:732
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr "<br> Prosím, skontrolujte tieto informácie a potom vyberte z menu akciu."
 
-#: calendar/gui/e-itip-control.c:737
+#: calendar/gui/e-itip-control.c:748
 msgid "<i>None</i>"
 msgstr "<i>Žiadna</i>"
 
-#: calendar/gui/e-itip-control.c:778 calendar/gui/e-itip-control.c:794
-#: calendar/gui/e-itip-control.c:810 calendar/gui/e-itip-control.c:823
-#: calendar/gui/e-itip-control.c:836 calendar/gui/e-itip-control.c:849
+#: calendar/gui/e-itip-control.c:789 calendar/gui/e-itip-control.c:805
+#: calendar/gui/e-itip-control.c:821 calendar/gui/e-itip-control.c:834
+#: calendar/gui/e-itip-control.c:847 calendar/gui/e-itip-control.c:860
 msgid "Choose an action:"
 msgstr "Vyberte akciu:"
 
-#: calendar/gui/e-itip-control.c:779
+#: calendar/gui/e-itip-control.c:790
 msgid "Update"
 msgstr "Aktualizovať"
 
-#: calendar/gui/e-itip-control.c:780 calendar/gui/e-itip-control.c:799
-#: calendar/gui/e-itip-control.c:812 calendar/gui/e-itip-control.c:825
-#: calendar/gui/e-itip-control.c:838 calendar/gui/e-itip-control.c:851
+#: calendar/gui/e-itip-control.c:791 calendar/gui/e-itip-control.c:810
+#: calendar/gui/e-itip-control.c:823 calendar/gui/e-itip-control.c:836
+#: calendar/gui/e-itip-control.c:849 calendar/gui/e-itip-control.c:862
 #: shell/e-shell.c:1884 widgets/misc/e-cell-date-edit.c:258
 msgid "OK"
 msgstr "OK"
 
-#: calendar/gui/e-itip-control.c:795
+#: calendar/gui/e-itip-control.c:806
 msgid "Accept"
 msgstr "Akceptovať"
 
-#: calendar/gui/e-itip-control.c:796
+#: calendar/gui/e-itip-control.c:807
 msgid "Tentatively accept"
 msgstr "Predbežne akceptovať"
 
-#: calendar/gui/e-itip-control.c:797
+#: calendar/gui/e-itip-control.c:808
 msgid "Decline"
 msgstr "Odmietnuť"
 
-#: calendar/gui/e-itip-control.c:811
+#: calendar/gui/e-itip-control.c:822
 msgid "Send Free/Busy Information"
 msgstr "Poslať informácie o voľnom čase"
 
-#: calendar/gui/e-itip-control.c:824
+#: calendar/gui/e-itip-control.c:835
 msgid "Update respondent status"
 msgstr "Aktualizovať stav respondenta"
 
-#: calendar/gui/e-itip-control.c:837
+#: calendar/gui/e-itip-control.c:848
 msgid "Send Latest Information"
 msgstr "Poslať najnovšie informácie"
 
-#: calendar/gui/e-itip-control.c:850 ui/evolution-mail-global.xml.h:1
+#: calendar/gui/e-itip-control.c:861 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Zrušiť"
 
-#: calendar/gui/e-itip-control.c:898
+#: calendar/gui/e-itip-control.c:909
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> poslal informácie o stretnutí."
 
-#: calendar/gui/e-itip-control.c:899
+#: calendar/gui/e-itip-control.c:910
 msgid "Meeting Information"
 msgstr "Informácie o stretnutí"
 
-#: calendar/gui/e-itip-control.c:903
+#: calendar/gui/e-itip-control.c:914
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> požaduje vašu účasť na stretnutí."
 
-#: calendar/gui/e-itip-control.c:904
+#: calendar/gui/e-itip-control.c:915
 msgid "Meeting Proposal"
 msgstr "Návrh na stretnutie"
 
-#: calendar/gui/e-itip-control.c:908
+#: calendar/gui/e-itip-control.c:919
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> si praje byť pridaný na existujúce stretnutie."
 
-#: calendar/gui/e-itip-control.c:909
+#: calendar/gui/e-itip-control.c:920
 msgid "Meeting Update"
 msgstr "Aktualizácia stretnutia"
 
-#: calendar/gui/e-itip-control.c:913
+#: calendar/gui/e-itip-control.c:924
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> si praje dostať najnovšie informácie o stretnutí."
 
-#: calendar/gui/e-itip-control.c:914
+#: calendar/gui/e-itip-control.c:925
 msgid "Meeting Update Request"
 msgstr "Požiadavka na aktualizáciu stretnutia"
 
-#: calendar/gui/e-itip-control.c:931 calendar/gui/e-itip-control.c:1002
+#: calendar/gui/e-itip-control.c:942 calendar/gui/e-itip-control.c:1013
 #: calendar/gui/e-meeting-model.c:257 calendar/gui/e-meeting-model.c:292
 #: calendar/gui/e-meeting-model.c:357 calendar/gui/e-meeting-model.c:782
 #: calendar/gui/e-meeting-model.c:798
@@ -4741,176 +3757,176 @@ msgstr "Požiadavka na aktualizáciu stretnutia"
 msgid "Unknown"
 msgstr "Neznámy"
 
-#: calendar/gui/e-itip-control.c:937
+#: calendar/gui/e-itip-control.c:948
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> odpovedal na požiadavku o stretnutí."
 
-#: calendar/gui/e-itip-control.c:938
+#: calendar/gui/e-itip-control.c:949
 msgid "Meeting Reply"
 msgstr "Odpoveď pre stretnutie"
 
-#: calendar/gui/e-itip-control.c:942
+#: calendar/gui/e-itip-control.c:953
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> zrušil stretnutie."
 
-#: calendar/gui/e-itip-control.c:943
+#: calendar/gui/e-itip-control.c:954
 msgid "Meeting Cancellation"
 msgstr "Zrušenie stretnutia"
 
-#: calendar/gui/e-itip-control.c:947 calendar/gui/e-itip-control.c:1018
-#: calendar/gui/e-itip-control.c:1053
+#: calendar/gui/e-itip-control.c:958 calendar/gui/e-itip-control.c:1029
+#: calendar/gui/e-itip-control.c:1064
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> poslal nerozpoznateľnú správu."
 
-#: calendar/gui/e-itip-control.c:948
+#: calendar/gui/e-itip-control.c:959
 msgid "Bad Meeting Message"
 msgstr "Neplatná správa o stretnutí"
 
-#: calendar/gui/e-itip-control.c:968
+#: calendar/gui/e-itip-control.c:979
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> poslal informácie o úlohe."
 
-#: calendar/gui/e-itip-control.c:969
+#: calendar/gui/e-itip-control.c:980
 msgid "Task Information"
 msgstr "Informácia o úlohe"
 
-#: calendar/gui/e-itip-control.c:973
+#: calendar/gui/e-itip-control.c:984
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> požaduje, aby ste vykonali úlohu."
 
-#: calendar/gui/e-itip-control.c:974
+#: calendar/gui/e-itip-control.c:985
 msgid "Task Proposal"
 msgstr "Návrh úlohy"
 
-#: calendar/gui/e-itip-control.c:978
+#: calendar/gui/e-itip-control.c:989
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> si praje byť pridaný do existujúcej úlohy."
 
-#: calendar/gui/e-itip-control.c:979
+#: calendar/gui/e-itip-control.c:990
 msgid "Task Update"
 msgstr "Aktualizácia úlohy"
 
-#: calendar/gui/e-itip-control.c:983
+#: calendar/gui/e-itip-control.c:994
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> si praje získať najnovšie informácie o úlohe."
 
-#: calendar/gui/e-itip-control.c:984
+#: calendar/gui/e-itip-control.c:995
 msgid "Task Update Request"
 msgstr "Požiadavka na aktualizáciu úlohy"
 
-#: calendar/gui/e-itip-control.c:1008
+#: calendar/gui/e-itip-control.c:1019
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> odpovedal na priradenie úlohy."
 
-#: calendar/gui/e-itip-control.c:1009
+#: calendar/gui/e-itip-control.c:1020
 msgid "Task Reply"
 msgstr "Odpoveď pre úlohu"
 
-#: calendar/gui/e-itip-control.c:1013
+#: calendar/gui/e-itip-control.c:1024
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> zrušil úlohu."
 
-#: calendar/gui/e-itip-control.c:1014
+#: calendar/gui/e-itip-control.c:1025
 msgid "Task Cancellation"
 msgstr "Zrušenie úlohy"
 
-#: calendar/gui/e-itip-control.c:1019
+#: calendar/gui/e-itip-control.c:1030
 msgid "Bad Task Message"
 msgstr "Neplatná správa úlohy"
 
-#: calendar/gui/e-itip-control.c:1038
+#: calendar/gui/e-itip-control.c:1049
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> publikoval informácie o voľnom čase."
 
-#: calendar/gui/e-itip-control.c:1039
+#: calendar/gui/e-itip-control.c:1050
 msgid "Free/Busy Information"
 msgstr "Informácie o voľnom čase"
 
-#: calendar/gui/e-itip-control.c:1043
+#: calendar/gui/e-itip-control.c:1054
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> požaduje informáciu o vašom voľnom čase."
 
-#: calendar/gui/e-itip-control.c:1044
+#: calendar/gui/e-itip-control.c:1055
 msgid "Free/Busy Request"
 msgstr "Požiadavka na informácie o voľnom čase"
 
-#: calendar/gui/e-itip-control.c:1048
+#: calendar/gui/e-itip-control.c:1059
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> odpovedal na požiadavku na informácie o voľnom čase"
 
-#: calendar/gui/e-itip-control.c:1049
+#: calendar/gui/e-itip-control.c:1060
 msgid "Free/Busy Reply"
 msgstr "Odpoveď s informácio o voľnom čase"
 
-#: calendar/gui/e-itip-control.c:1054
+#: calendar/gui/e-itip-control.c:1065
 msgid "Bad Free/Busy Message"
 msgstr "Neplatná správa o voľnom čase"
 
-#: calendar/gui/e-itip-control.c:1127
+#: calendar/gui/e-itip-control.c:1138
 msgid "The message does not appear to be properly formed"
 msgstr "Správa nevyzerá ako platná."
 
-#: calendar/gui/e-itip-control.c:1146
+#: calendar/gui/e-itip-control.c:1157
 msgid "The message contains only unsupported requests."
 msgstr "Táto správa obsahuje iba nepodporované požiadavky."
 
-#: calendar/gui/e-itip-control.c:1174 calendar/gui/e-itip-control.c:1180
+#: calendar/gui/e-itip-control.c:1185 calendar/gui/e-itip-control.c:1191
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Príloha neobsahuje platnú správu kalendára"
 
-#: calendar/gui/e-itip-control.c:1205
+#: calendar/gui/e-itip-control.c:1216
 msgid "The attachment has no viewable calendar items"
 msgstr "Príloha nemá žiadne zobraziteľné položky kalendára"
 
-#: calendar/gui/e-itip-control.c:1304
+#: calendar/gui/e-itip-control.c:1315
 msgid "Calendar file could not be updated!\n"
 msgstr "Súbor kalendára nie je aktualizovať!\n"
 
-#: calendar/gui/e-itip-control.c:1306
+#: calendar/gui/e-itip-control.c:1317
 msgid "Update complete\n"
 msgstr "Aktualizácia dokončená\n"
 
-#: calendar/gui/e-itip-control.c:1351
+#: calendar/gui/e-itip-control.c:1362
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "Stav účastníka nie je možné aktualizovať, pretože jeho stav nie je platný!\n"
 
-#: calendar/gui/e-itip-control.c:1359
+#: calendar/gui/e-itip-control.c:1370
 msgid "Attendee status could not be updated!\n"
 msgstr "Stav účastníka nie je možné aktualizovať!\n"
 
-#: calendar/gui/e-itip-control.c:1361
+#: calendar/gui/e-itip-control.c:1372
 msgid "Attendee status updated\n"
 msgstr "Stav účastníka bol aktualizovaný\n"
 
-#: calendar/gui/e-itip-control.c:1363
+#: calendar/gui/e-itip-control.c:1374
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Stav účastníka nie je možné aktualizovať, pretože položka už neexistuje"
 
-#: calendar/gui/e-itip-control.c:1391
+#: calendar/gui/e-itip-control.c:1402
 msgid "Removal Complete"
 msgstr "Odstránenie dokončené"
 
-#: calendar/gui/e-itip-control.c:1410 calendar/gui/e-itip-control.c:1460
+#: calendar/gui/e-itip-control.c:1421 calendar/gui/e-itip-control.c:1471
 msgid "Item sent!\n"
 msgstr "Položka poslaná!\n"
 
-#: calendar/gui/e-itip-control.c:1412 calendar/gui/e-itip-control.c:1464
+#: calendar/gui/e-itip-control.c:1423 calendar/gui/e-itip-control.c:1475
 msgid "The item could not be sent!\n"
 msgstr "Položku nie je možné poslať!\n"
 
-#: calendar/gui/e-itip-control.c:1637
+#: calendar/gui/e-itip-control.c:1648
 msgid "Unable to find any of your identities in the attendees list!\n"
 msgstr "Nepodarilo sa nájsť žiadnu z vašich identít v zozname účastníkov!\n"
 
@@ -5137,21 +4153,21 @@ msgstr "Metódy potrebná pre načítanie `%s' nie je podporovaná"
 msgid "Expunging"
 msgstr "Čistím"
 
-#: calendar/gui/e-week-view.c:3408 calendar/gui/e-week-view.c:3446
+#: calendar/gui/e-week-view.c:3412 calendar/gui/e-week-view.c:3450
 msgid "New _Appointment..."
 msgstr "Nová _schôdzka..."
 
-#: calendar/gui/gnome-cal.c:1499
+#: calendar/gui/gnome-cal.c:1493
 #, c-format
 msgid "Could not open the folder in `%s'"
 msgstr "Nie je možné otvoriť priečinok v `%s'"
 
-#: calendar/gui/gnome-cal.c:1510
+#: calendar/gui/gnome-cal.c:1504
 #, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr "Metóda nutná k otvoreniu `%s' nie je podporovaná"
 
-#: calendar/gui/gnome-cal.c:1865
+#: calendar/gui/gnome-cal.c:1859
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "Otváram kalendára na%s"
@@ -5480,7 +4496,7 @@ msgid "Print Calendar"
 msgstr "Tlačiť kalendár"
 
 #: calendar/gui/print.c:2477 calendar/gui/print.c:2569
-#: mail/mail-callbacks.c:2508 my-evolution/e-summary.c:623
+#: mail/mail-callbacks.c:2508 my-evolution/e-summary.c:605
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:68
 msgid "Print Preview"
 msgstr "Ukážka pred tlačou"
@@ -5500,11 +4516,6 @@ msgstr "Nie je možné vytvoriť pohľad úloh. Prosím, overte nastavenie ORBit
 #: calendar/gui/tasks-control.c:137
 msgid "The URI of the tasks folder to display"
 msgstr "URI, ktoré bude zobrazovať priečinok úloh"
-
-#: calendar/gui/tasks-control.c:426 mail/mail-callbacks.c:2231
-#: widgets/misc/e-messagebox.c:159
-msgid "Warning"
-msgstr "Varovanie"
 
 #: calendar/gui/tasks-control.c:434
 msgid ""
@@ -7993,50 +7004,50 @@ msgstr "IMAP príkaz zlyhal: %s"
 msgid "Server response ended too soon."
 msgstr "Odpoveď serveru skončila príliš skoro."
 
-#: camel/providers/imap/camel-imap-command.c:608
+#: camel/providers/imap/camel-imap-command.c:610
 #, c-format
 msgid "IMAP server response did not contain %s information"
 msgstr "Odpoveď IMAP serveru neobsahovala informáciu %s"
 
-#: camel/providers/imap/camel-imap-command.c:644
+#: camel/providers/imap/camel-imap-command.c:646
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Neočakávaná odpoveď OK od IMAP serveru: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:194
+#: camel/providers/imap/camel-imap-folder.c:197
 #, c-format
 msgid "Could not create directory %s: %s"
 msgstr "Nie je možné vytvoriť priečinok %s: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:213
+#: camel/providers/imap/camel-imap-folder.c:216
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "Nie je možné načítať súhrn pre %s"
 
-#: camel/providers/imap/camel-imap-folder.c:277
+#: camel/providers/imap/camel-imap-folder.c:282
 msgid "Folder was destroyed and recreated on server."
 msgstr "Priečinok bol zničený a znovu vytvorený na serveri."
 
 #. Check UIDs and flags of all messages we already know of.
-#: camel/providers/imap/camel-imap-folder.c:461
+#: camel/providers/imap/camel-imap-folder.c:466
 msgid "Scanning for changed messages"
 msgstr "Hľadám zmenené správy"
 
-#: camel/providers/imap/camel-imap-folder.c:1586
-#: camel/providers/imap/camel-imap-folder.c:2024
+#: camel/providers/imap/camel-imap-folder.c:1632
+#: camel/providers/imap/camel-imap-folder.c:2104
 msgid "This message is not currently available"
 msgstr "Táto správa momentálne nie je k dipozícii"
 
-#: camel/providers/imap/camel-imap-folder.c:1741
-#: camel/providers/imap/camel-imap-folder.c:1822
+#: camel/providers/imap/camel-imap-folder.c:1787
+#: camel/providers/imap/camel-imap-folder.c:1861
 msgid "Fetching summary information for new messages"
 msgstr "Sťahujem súhrnné informácie pre nové správy"
 
-#: camel/providers/imap/camel-imap-folder.c:1747
+#: camel/providers/imap/camel-imap-folder.c:1793
 msgid "Scanning for new messages"
 msgstr "Hľadám nové správy"
 
-#: camel/providers/imap/camel-imap-folder.c:2061
+#: camel/providers/imap/camel-imap-folder.c:2141
 msgid "Could not find message body in FETCH response."
 msgstr "Nie je možné nájsť telo správy v odpovedi FETCH."
 
@@ -8125,12 +7136,12 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:899
+#: camel/providers/imap/camel-imap-store.c:900
 #, c-format
 msgid "No such folder %s"
 msgstr "Priečinok %s neexistuje"
 
-#: camel/providers/imap/camel-imap-store.c:1274
+#: camel/providers/imap/camel-imap-store.c:1275
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "Rodičovský priečinok nesmie obsahovať podpriečinky"
 
@@ -8819,49 +7830,49 @@ msgid ""
 "system."
 msgstr "Pre doručenie pošty programom \"sendmail\" na tomto počítači."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:106
+#: camel/providers/sendmail/camel-sendmail-transport.c:107
 #, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
 msgstr "Nie je možné vytvoriť rúru do sendmailu: %s: pošta neodoslaná"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:123
+#: camel/providers/sendmail/camel-sendmail-transport.c:124
 #, c-format
 msgid "Could not fork sendmail: %s: mail not sent"
 msgstr "Nie je možné spustiť sendmail: %s: pošta neodoslaná"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:149
+#: camel/providers/sendmail/camel-sendmail-transport.c:150
 #, c-format
 msgid "Could not send message: %s"
 msgstr "Nie je možné poslať správu: %s"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:162
+#: camel/providers/sendmail/camel-sendmail-transport.c:163
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
 msgstr "sendmail skončil so signálom %s: pošta neodoslaná."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:169
+#: camel/providers/sendmail/camel-sendmail-transport.c:170
 #, c-format
 msgid "Could not execute %s: mail not sent."
 msgstr "Nie je možné vykonať %s: pošta neodoslaná."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:174
+#: camel/providers/sendmail/camel-sendmail-transport.c:175
 #, c-format
 msgid "sendmail exited with status %d: mail not sent."
 msgstr "sendmail skončil so stavom %d: pošta neodoslaná."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:193
+#: camel/providers/sendmail/camel-sendmail-transport.c:194
 msgid "Could not find 'From' address in message"
 msgstr "Nie je možné nájsť v správe adresu 'Od'"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:222
+#: camel/providers/sendmail/camel-sendmail-transport.c:226
 msgid "Could not parse recipient list"
 msgstr "Nie je možné spracovať zoznam príjmcov"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:255
+#: camel/providers/sendmail/camel-sendmail-transport.c:259
 msgid "sendmail"
 msgstr "sendmail"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:257
+#: camel/providers/sendmail/camel-sendmail-transport.c:261
 msgid "Mail delivery via the sendmail program"
 msgstr "Prenos pošty pomocou programu sendmail"
 
@@ -9029,99 +8040,99 @@ msgstr "Nie je možné poslať správu: adresáti nie sú definovaní."
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Nie je možné poslať správu: adresáti nie sú platní"
 
-#: camel/providers/smtp/camel-smtp-transport.c:672
+#: camel/providers/smtp/camel-smtp-transport.c:674
 msgid "SMTP Greeting"
 msgstr "Pozdrav SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:694
+#: camel/providers/smtp/camel-smtp-transport.c:696
 #, c-format
 msgid "HELO request timed out: %s: non-fatal"
 msgstr "Vypršal čas odpovede HELO: %s: nie je kritická"
 
-#: camel/providers/smtp/camel-smtp-transport.c:714
+#: camel/providers/smtp/camel-smtp-transport.c:716
 #, c-format
 msgid "HELO response error: %s: non-fatal"
 msgstr "Chyba odpovede HELO: %s: nie je kritická"
 
-#: camel/providers/smtp/camel-smtp-transport.c:746
+#: camel/providers/smtp/camel-smtp-transport.c:748
 msgid "SMTP Authentication"
 msgstr "Prihlásenie SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:752
+#: camel/providers/smtp/camel-smtp-transport.c:754
 msgid "Error creating SASL authentication object."
 msgstr "Chyba pri vytváraní overovacieho objektu SASL."
 
-#: camel/providers/smtp/camel-smtp-transport.c:767
-#: camel/providers/smtp/camel-smtp-transport.c:779
+#: camel/providers/smtp/camel-smtp-transport.c:769
+#: camel/providers/smtp/camel-smtp-transport.c:781
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "Vypršal čas požiadavky AUTH: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:788
+#: camel/providers/smtp/camel-smtp-transport.c:790
 msgid "AUTH request failed."
 msgstr "Požiadavka AUTH zlyhala."
 
-#: camel/providers/smtp/camel-smtp-transport.c:836
+#: camel/providers/smtp/camel-smtp-transport.c:838
 msgid "Bad authentication response from server.\n"
 msgstr "Neplatná odpoveď na overenie od serveru.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:862
+#: camel/providers/smtp/camel-smtp-transport.c:864
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Vypršal čas odpovede MAIL FROM: %s: pošta neodoslaná"
 
-#: camel/providers/smtp/camel-smtp-transport.c:881
+#: camel/providers/smtp/camel-smtp-transport.c:883
 #, c-format
 msgid "MAIL FROM response error: %s: mail not sent"
 msgstr "Chyba odpovede MAIL FROM: %s: pošta neodoslaná"
 
-#: camel/providers/smtp/camel-smtp-transport.c:906
+#: camel/providers/smtp/camel-smtp-transport.c:908
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "Vypršal čas odpovede RCPT TO: %s: pošta neodoslaná"
 
-#: camel/providers/smtp/camel-smtp-transport.c:925
+#: camel/providers/smtp/camel-smtp-transport.c:927
 #, c-format
 msgid "RCPT TO response error: %s: mail not sent"
 msgstr "Chyba odpovede RCPT TO: %s: pošta neodoslaná"
 
-#: camel/providers/smtp/camel-smtp-transport.c:959
+#: camel/providers/smtp/camel-smtp-transport.c:961
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Vypršal čas posielania DATA: %s: pošta neodoslaná"
 
-#: camel/providers/smtp/camel-smtp-transport.c:978
+#: camel/providers/smtp/camel-smtp-transport.c:980
 #, c-format
 msgid "DATA response error: %s: mail not sent"
 msgstr "Chyba odpovede DATA: %s: pošta neodoslaná"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1018
-#: camel/providers/smtp/camel-smtp-transport.c:1036
+#: camel/providers/smtp/camel-smtp-transport.c:1020
+#: camel/providers/smtp/camel-smtp-transport.c:1038
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr "Vypršal čas posielania DATA: koniec správy: %s: pošta neodoslaná"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1055
+#: camel/providers/smtp/camel-smtp-transport.c:1057
 #, c-format
 msgid "DATA response error: message termination: %s: mail not sent"
 msgstr "Chyba odpovede DATA: koniec správy: %s: pošta neodoslaná"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1079
+#: camel/providers/smtp/camel-smtp-transport.c:1081
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "Vypršal čas odpovede RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1098
+#: camel/providers/smtp/camel-smtp-transport.c:1100
 #, c-format
 msgid "RSET response error: %s"
 msgstr "Chyba odpovede RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1121
+#: camel/providers/smtp/camel-smtp-transport.c:1123
 #, c-format
 msgid "QUIT request timed out: %s: non-fatal"
 msgstr "Vypršal čas odpovede QUIT: %s: nie je kritická"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1140
+#: camel/providers/smtp/camel-smtp-transport.c:1142
 #, c-format
 msgid "QUIT response error: %s: non-fatal"
 msgstr "Chyba odpovede QUIT: %s: nie je kritická"
@@ -10348,7 +9359,7 @@ msgstr "Vlastnosti \"%s\""
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: mail/folder-browser.c:297 mail/mail-display.c:297
+#: mail/folder-browser.c:297 mail/mail-display.c:307
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Nie je možné vytvoriť dočasný priečinok: %s"
@@ -11464,53 +10475,53 @@ msgstr "Nepodarilo sa vytvoriť kontext obálky S/MIME."
 msgid "Could not create a S/MIME decode context."
 msgstr "Nepodarilo sa vytvoriť kontext dekódovania S/MIME."
 
-#: mail/mail-display.c:242
+#: mail/mail-display.c:252
 msgid "Save Attachment"
 msgstr "Uložiť prílohu"
 
-#: mail/mail-display.c:349
+#: mail/mail-display.c:359
 msgid "Save to Disk..."
 msgstr "Uložiť na disk..."
 
-#: mail/mail-display.c:351
+#: mail/mail-display.c:361
 msgid "View Inline"
 msgstr "Zobraziť v texte"
 
-#: mail/mail-display.c:353
+#: mail/mail-display.c:363
 #, c-format
 msgid "Open in %s..."
 msgstr "Otvoriť v %s..."
 
-#: mail/mail-display.c:414
+#: mail/mail-display.c:424
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Zobraziť v text (pomocou %s)"
 
-#: mail/mail-display.c:418
+#: mail/mail-display.c:428
 msgid "Hide"
 msgstr "Skryť"
 
-#: mail/mail-display.c:439
+#: mail/mail-display.c:449
 msgid "External Viewer"
 msgstr "Externý zobrazovač"
 
-#: mail/mail-display.c:1136
+#: mail/mail-display.c:1171
 msgid "Loading message content"
 msgstr "Načítavam obsah správy"
 
-#: mail/mail-display.c:1628
+#: mail/mail-display.c:1666
 msgid "Open Link in Browser"
 msgstr "Otvoriť odkaz v prehliadači"
 
-#: mail/mail-display.c:1630
+#: mail/mail-display.c:1668
 msgid "Copy Link Location"
 msgstr "Kopírovať umiestnenie odkazu"
 
-#: mail/mail-display.c:1633
+#: mail/mail-display.c:1671
 msgid "Save Link as (FIXME)"
 msgstr "Uložiť odkaz ako"
 
-#: mail/mail-display.c:1636
+#: mail/mail-display.c:1674
 msgid "Save Image as..."
 msgstr "Uložiť obrázok ako..."
 
@@ -11551,50 +10562,50 @@ msgstr "Cc"
 msgid "Bcc"
 msgstr "Bcc"
 
-#: mail/mail-format.c:1759
+#: mail/mail-format.c:1768
 msgid "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Táto správa je digitálne podpísaná. Kliknutím na ikonu zámku získate "
 "podrobnosti."
 
-#: mail/mail-format.c:1782
+#: mail/mail-format.c:1791
 msgid "Evolution does not recognize this type of signed message."
 msgstr "Evolution nerozpoznala tento typ podpísanej správy."
 
-#: mail/mail-format.c:1790
+#: mail/mail-format.c:1799
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Táto správa je digitálne podpísaná a podpis je platný."
 
-#: mail/mail-format.c:1798
+#: mail/mail-format.c:1807
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Táto správa je digitálne podpísaná ale podpis nie je platný."
 
-#: mail/mail-format.c:2013
+#: mail/mail-format.c:2022
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Odkaz na FTP server (%s)"
 
-#: mail/mail-format.c:2027
+#: mail/mail-format.c:2036
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Odkaz na lokálny súbor (%s) platný na serveri \"%s\""
 
-#: mail/mail-format.c:2032
+#: mail/mail-format.c:2041
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Odkaz na lokálny súbor (%s)"
 
-#: mail/mail-format.c:2061
+#: mail/mail-format.c:2070
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Odkaz na vzdialené dáta (%s)"
 
-#: mail/mail-format.c:2069
+#: mail/mail-format.c:2078
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Odkaz na neznáme externé dáta (typ \"%s\")"
 
-#: mail/mail-format.c:2074
+#: mail/mail-format.c:2083
 msgid "Malformed external-body part."
 msgstr "Nesprávna časť externého tela."
 
@@ -12294,6 +11305,10 @@ msgstr "Aljaška"
 msgid "Al Baha"
 msgstr "Al Baha"
 
+#: my-evolution/Locations.h:42
+msgid "Albania"
+msgstr "Albánsko"
+
 #: my-evolution/Locations.h:43
 msgid "Albany"
 msgstr "Albany"
@@ -12337,6 +11352,10 @@ msgstr "Alexandria/Nouzha"
 #: my-evolution/Locations.h:53
 msgid "Alexandroupolis"
 msgstr "Alexandropolis"
+
+#: my-evolution/Locations.h:54
+msgid "Algeria"
+msgstr "Alžírsko"
 
 #: my-evolution/Locations.h:55
 msgid "Alghero"
@@ -12598,6 +11617,10 @@ msgstr "Ardmore"
 msgid "Arequipa"
 msgstr "Arequipa"
 
+#: my-evolution/Locations.h:120
+msgid "Argentina"
+msgstr "Argentína"
+
 #: my-evolution/Locations.h:121
 msgid "Arica"
 msgstr "Arica"
@@ -12730,6 +11753,14 @@ msgstr "Austin"
 msgid "Australasia"
 msgstr "Australasia"
 
+#: my-evolution/Locations.h:154
+msgid "Australia"
+msgstr "Austrália"
+
+#: my-evolution/Locations.h:155
+msgid "Austria"
+msgstr "Rakúsko"
+
 #: my-evolution/Locations.h:156
 msgid "Avalon"
 msgstr "Avalon"
@@ -12750,6 +11781,10 @@ msgstr "Bage"
 msgid "Bagotville"
 msgstr "Bagotville"
 
+#: my-evolution/Locations.h:161
+msgid "Bahamas"
+msgstr "Bahamy"
+
 #: my-evolution/Locations.h:162
 msgid "Bahia Blanca"
 msgstr "Bahia Blanca"
@@ -12757,6 +11792,10 @@ msgstr "Bahia Blanca"
 #: my-evolution/Locations.h:163
 msgid "Bahias de Huatulco"
 msgstr "Bahias de Huatulco"
+
+#: my-evolution/Locations.h:164
+msgid "Bahrain"
+msgstr "Bahrajn"
 
 #: my-evolution/Locations.h:165
 msgid "Baker City"
@@ -12962,9 +12001,17 @@ msgstr "Belfast/Aldergrove"
 msgid "Belfast/Harbour"
 msgstr "Belfast/Harbour"
 
+#: my-evolution/Locations.h:216
+msgid "Belgium"
+msgstr "Belgicko"
+
 #: my-evolution/Locations.h:217
 msgid "Belgorod"
 msgstr "Belgorod"
+
+#: my-evolution/Locations.h:218
+msgid "Belize"
+msgstr "Belize"
 
 #: my-evolution/Locations.h:219
 msgid "Belleville"
@@ -13170,6 +12217,10 @@ msgstr "Bogota/Eldorado"
 msgid "Boise"
 msgstr "Boise"
 
+#: my-evolution/Locations.h:270
+msgid "Bolivia"
+msgstr "Bolívia"
+
 #: my-evolution/Locations.h:271
 msgid "Bologna"
 msgstr "Boloňa"
@@ -13261,6 +12312,10 @@ msgstr "Bratsk"
 #: my-evolution/Locations.h:293
 msgid "Braunschweig"
 msgstr "Braunschweig"
+
+#: my-evolution/Locations.h:294
+msgid "Brazil"
+msgstr "Brazília"
 
 #: my-evolution/Locations.h:295
 msgid "Bremen"
@@ -13361,6 +12416,10 @@ msgstr "Budapešť"
 #: my-evolution/Locations.h:319
 msgid "Buffalo"
 msgstr "Buffalo"
+
+#: my-evolution/Locations.h:320
+msgid "Bulgaria"
+msgstr "Bulharsko"
 
 #: my-evolution/Locations.h:321
 msgid "Bullfrog"
@@ -13493,6 +12552,10 @@ msgstr "Camp Stanley/H-207"
 #: my-evolution/Locations.h:353
 msgid "Canaan"
 msgstr "Kanán"
+
+#: my-evolution/Locations.h:354
+msgid "Canada"
+msgstr "Kanada"
 
 #: my-evolution/Locations.h:355
 msgid "Canarias/Fuerteventura"
@@ -13629,6 +12692,10 @@ msgstr "Catacamas"
 #: my-evolution/Locations.h:388
 msgid "Catania"
 msgstr "Catania"
+
+#: my-evolution/Locations.h:389
+msgid "Cayman Islands"
+msgstr "Kajmanské ostrovy"
 
 #: my-evolution/Locations.h:390
 msgid "Cayo Largo del Sur"
@@ -13822,6 +12889,10 @@ msgstr "Chihuahua"
 msgid "Childress"
 msgstr "Childress"
 
+#: my-evolution/Locations.h:438
+msgid "Chile"
+msgstr "Chile"
+
 #: my-evolution/Locations.h:439
 msgid "China Lake"
 msgstr "China Lake"
@@ -13869,6 +12940,10 @@ msgstr "Chongju Ab"
 #: my-evolution/Locations.h:450
 msgid "Christchurch"
 msgstr "Christchurch"
+
+#: my-evolution/Locations.h:451
+msgid "Christmas Island"
+msgstr "Vianočné ostrovy"
 
 #: my-evolution/Locations.h:452
 msgid "Chulitna"
@@ -13993,6 +13068,10 @@ msgstr "College Station"
 #: my-evolution/Locations.h:482
 msgid "Colmar-Meyenheim"
 msgstr "Colmar-Meyenheim"
+
+#: my-evolution/Locations.h:483
+msgid "Colombia"
+msgstr "Kolumbia"
 
 #: my-evolution/Locations.h:484
 msgid "Colonia"
@@ -14126,6 +13205,10 @@ msgstr "Cortez"
 msgid "Corumba"
 msgstr "Corumba"
 
+#: my-evolution/Locations.h:517
+msgid "Costa Rica"
+msgstr "Kostarika"
+
 #: my-evolution/Locations.h:518
 msgid "Cotulla"
 msgstr "Cotulla"
@@ -14166,6 +13249,10 @@ msgstr "Creston"
 msgid "Crestview"
 msgstr "Crestview"
 
+#: my-evolution/Locations.h:528
+msgid "Croatia"
+msgstr "Chorvátsko"
+
 #: my-evolution/Locations.h:529
 msgid "Cross City"
 msgstr "Cross City"
@@ -14177,6 +13264,10 @@ msgstr "Crossville"
 #: my-evolution/Locations.h:531
 msgid "Crotone"
 msgstr "Crotone"
+
+#: my-evolution/Locations.h:532
+msgid "Cuba"
+msgstr "Kuba"
 
 #: my-evolution/Locations.h:533
 msgid "Cuba Awrs"
@@ -14225,6 +13316,14 @@ msgstr "Cut Bank"
 #: my-evolution/Locations.h:544
 msgid "Cuzco"
 msgstr "Cuzco"
+
+#: my-evolution/Locations.h:545
+msgid "Cyprus"
+msgstr "Cyprus"
+
+#: my-evolution/Locations.h:546
+msgid "Czech Republic"
+msgstr "Česká Republika"
 
 #: my-evolution/Locations.h:547
 msgid "Dagali"
@@ -14358,6 +13457,10 @@ msgstr "Den Helder/De Kooy"
 msgid "Denison"
 msgstr "Denison"
 
+#: my-evolution/Locations.h:580
+msgid "Denmark"
+msgstr "Dánsko"
+
 #: my-evolution/Locations.h:581
 msgid "Denton"
 msgstr "Denton"
@@ -14461,6 +13564,10 @@ msgstr "Doha"
 #: my-evolution/Locations.h:606
 msgid "Dole"
 msgstr "Dole"
+
+#: my-evolution/Locations.h:607
+msgid "Dominican Republic"
+msgstr "Dominikánska Republika"
 
 #: my-evolution/Locations.h:608
 msgid "Dongsha"
@@ -14586,6 +13693,10 @@ msgstr "East St Louis"
 msgid "Eau Claire"
 msgstr "Eau Claire"
 
+#: my-evolution/Locations.h:639
+msgid "Ecuador"
+msgstr "Ekvádor"
+
 #: my-evolution/Locations.h:640
 msgid "Edinburgh"
 msgstr "Edinburgh"
@@ -14617,6 +13728,10 @@ msgstr "Eglin"
 #: my-evolution/Locations.h:647
 msgid "Eglington/Londonderry"
 msgstr "Eglington/Londonderry"
+
+#: my-evolution/Locations.h:648
+msgid "Egypt"
+msgstr "Egypt"
 
 #: my-evolution/Locations.h:649
 msgid "Eindhoven"
@@ -14677,6 +13792,10 @@ msgstr "El Monte"
 #: my-evolution/Locations.h:663
 msgid "El Paso"
 msgstr "El Paso"
+
+#: my-evolution/Locations.h:664
+msgid "El Salvador"
+msgstr "Salvádor"
 
 #: my-evolution/Locations.h:665
 msgid "El Salvador Int."
@@ -14745,6 +13864,10 @@ msgstr "Eskisehir"
 #: my-evolution/Locations.h:681
 msgid "Estherville"
 msgstr "Estherville"
+
+#: my-evolution/Locations.h:682
+msgid "Estonia"
+msgstr "Estónsko"
 
 #: my-evolution/Locations.h:683
 msgid "Eugene"
@@ -14869,6 +13992,10 @@ msgstr "Figari"
 #: my-evolution/Locations.h:713
 msgid "Findlay"
 msgstr "Findlay"
+
+#: my-evolution/Locations.h:714
+msgid "Finland"
+msgstr "Fínsko"
 
 #: my-evolution/Locations.h:715
 msgid "Firenze"
@@ -15066,6 +14193,10 @@ msgstr "Fourchon"
 msgid "Foz Do Iguacu"
 msgstr "Foz Do Iguacu"
 
+#: my-evolution/Locations.h:764
+msgid "France"
+msgstr "Francúzsko"
+
 #: my-evolution/Locations.h:765
 msgid "Frankfort"
 msgstr "Frankfort"
@@ -15242,6 +14373,14 @@ msgstr "George letisko"
 msgid "Georgetown"
 msgstr "Georgetown"
 
+#: my-evolution/Locations.h:809
+msgid "Georgia"
+msgstr "Gruzínsko"
+
+#: my-evolution/Locations.h:810
+msgid "Germany"
+msgstr "Nemecko"
+
 #: my-evolution/Locations.h:811
 msgid "Ghardaia"
 msgstr "Ghardaia"
@@ -15249,6 +14388,10 @@ msgstr "Ghardaia"
 #: my-evolution/Locations.h:812
 msgid "Ghedi"
 msgstr "Ghedi"
+
+#: my-evolution/Locations.h:813
+msgid "Gibraltar"
+msgstr "Gibraltar"
 
 #: my-evolution/Locations.h:814
 msgid "Gifu Ab"
@@ -15370,6 +14513,10 @@ msgstr "Grác"
 msgid "Great Falls"
 msgstr "Great Falls"
 
+#: my-evolution/Locations.h:844
+msgid "Greece"
+msgstr "Grécko"
+
 #: my-evolution/Locations.h:845
 msgid "Greeley"
 msgstr "Greeley"
@@ -15449,6 +14596,10 @@ msgstr "Guaratingueta"
 #: my-evolution/Locations.h:864
 msgid "Guarulhos"
 msgstr "Guarulhos"
+
+#: my-evolution/Locations.h:865
+msgid "Guatemala"
+msgstr "Guatemala"
 
 #: my-evolution/Locations.h:866
 msgid "Guayaquil/Simon Bolivar"
@@ -15530,6 +14681,10 @@ msgstr "Hailey-Sun Valley"
 #: my-evolution/Locations.h:885
 msgid "Haines"
 msgstr "Haines"
+
+#: my-evolution/Locations.h:886
+msgid "Haiti"
+msgstr "Haiti"
 
 #: my-evolution/Locations.h:887
 msgid "Hakodate Airport"
@@ -15755,6 +14910,14 @@ msgstr "Homestead AFB"
 msgid "Hondo"
 msgstr "Hondo"
 
+#: my-evolution/Locations.h:943
+msgid "Honduras"
+msgstr "Honduras"
+
+#: my-evolution/Locations.h:944
+msgid "Hong Kong"
+msgstr "Hongkong"
+
 #: my-evolution/Locations.h:945
 msgid "Honningsvag"
 msgstr "Honningsvag"
@@ -15831,6 +14994,10 @@ msgstr "Hulien"
 msgid "Humberside"
 msgstr "Humberside"
 
+#: my-evolution/Locations.h:964
+msgid "Hungary"
+msgstr "Maďarsko"
+
 #: my-evolution/Locations.h:965
 msgid "Huntington"
 msgstr "Huntington"
@@ -15874,6 +15041,10 @@ msgstr "Iasi"
 #: my-evolution/Locations.h:975
 msgid "Ibiza"
 msgstr "Ibiza"
+
+#: my-evolution/Locations.h:976
+msgid "Iceland"
+msgstr "Island"
 
 #: my-evolution/Locations.h:977
 msgid "Ichikawa"
@@ -15922,6 +15093,10 @@ msgstr "Imperial Beach"
 #: my-evolution/Locations.h:988
 msgid "In Amenas"
 msgstr "In Amenas"
+
+#: my-evolution/Locations.h:989
+msgid "India"
+msgstr "India"
 
 #: my-evolution/Locations.h:990
 msgid "Indiana"
@@ -15983,6 +15158,10 @@ msgstr "Iraklion"
 msgid "Iran, Islamic Republic of"
 msgstr "Islámska republika Irán"
 
+#: my-evolution/Locations.h:1005
+msgid "Ireland"
+msgstr "Írsko"
+
 #: my-evolution/Locations.h:1006
 msgid "Iron Mountain"
 msgstr "Iron Mountain"
@@ -16014,6 +15193,10 @@ msgstr "Istanbul"
 #: my-evolution/Locations.h:1013
 msgid "Itaituba"
 msgstr "Itaituba"
+
+#: my-evolution/Locations.h:1014
+msgid "Italy"
+msgstr "Taliansko"
 
 #: my-evolution/Locations.h:1015
 msgid "Ithaca"
@@ -16067,6 +15250,10 @@ msgstr "Jacksonville NAS"
 msgid "Jaffrey"
 msgstr "Jaffrey"
 
+#: my-evolution/Locations.h:1028
+msgid "Jamaica"
+msgstr "Jamajka"
+
 #: my-evolution/Locations.h:1029
 msgid "Jamestown"
 msgstr "Jamestown"
@@ -16078,6 +15265,10 @@ msgstr "Janesville"
 #: my-evolution/Locations.h:1031
 msgid "Jan Smuts"
 msgstr "Jan Smuts"
+
+#: my-evolution/Locations.h:1032
+msgid "Japan"
+msgstr "Japonsko"
 
 #: my-evolution/Locations.h:1033
 msgid "Jeddah King Abdul Aziz International Airport"
@@ -16118,6 +15309,10 @@ msgstr "Jonkoping"
 #: my-evolution/Locations.h:1042
 msgid "Joplin"
 msgstr "Joplin"
+
+#: my-evolution/Locations.h:1043
+msgid "Jordan"
+msgstr "Jordánsko"
 
 #: my-evolution/Locations.h:1044
 msgid "Juanjui"
@@ -16507,6 +15702,10 @@ msgstr "Kunming"
 msgid "Kushiro Airport"
 msgstr "Kuširo letisko"
 
+#: my-evolution/Locations.h:1141
+msgid "Kuwait"
+msgstr "Kuvajt"
+
 #: my-evolution/Locations.h:1142
 msgid "La Ceiba"
 msgstr "La Ceiba"
@@ -16671,6 +15870,10 @@ msgstr "Latina"
 msgid "Latrobe"
 msgstr "Latrobe"
 
+#: my-evolution/Locations.h:1183
+msgid "Latvia"
+msgstr "Lotyšsko"
+
 #: my-evolution/Locations.h:1184
 msgid "Laughlin"
 msgstr "Laughlin"
@@ -16698,6 +15901,10 @@ msgstr "Leadville"
 #: my-evolution/Locations.h:1190
 msgid "Learmouth"
 msgstr "Learmouth"
+
+#: my-evolution/Locations.h:1191
+msgid "Lebanon"
+msgstr "Libanon"
 
 #: my-evolution/Locations.h:1192
 msgid "Lecce"
@@ -16775,6 +15982,10 @@ msgstr "Lexington"
 msgid "Liberal"
 msgstr "Liberal"
 
+#: my-evolution/Locations.h:1211
+msgid "Liberia"
+msgstr "Libéria"
+
 #: my-evolution/Locations.h:1212
 msgid "Libya"
 msgstr "Líbya"
@@ -16834,6 +16045,10 @@ msgstr "Lista"
 #: my-evolution/Locations.h:1226
 msgid "Litchfield"
 msgstr "Litchfield"
+
+#: my-evolution/Locations.h:1227
+msgid "Lithuania"
+msgstr "Litva"
 
 #: my-evolution/Locations.h:1228
 msgid "Little Rock"
@@ -16967,6 +16182,10 @@ msgstr "Luqa"
 msgid "Luton"
 msgstr "Luton"
 
+#: my-evolution/Locations.h:1261
+msgid "Luxembourg"
+msgstr "Luxembursko"
+
 #: my-evolution/Locations.h:1262
 msgid "Luxeuil"
 msgstr "Luxeuil"
@@ -17074,6 +16293,10 @@ msgstr "Maldonado/Punta Est"
 #: my-evolution/Locations.h:1288
 msgid "Malmo/Sturup"
 msgstr "Malmo/Sturup"
+
+#: my-evolution/Locations.h:1289
+msgid "Malta"
+msgstr "Malta"
 
 #: my-evolution/Locations.h:1290
 msgid "Mammoth Lakes"
@@ -17431,6 +16654,10 @@ msgstr "Metz-Frescaty"
 msgid "Mexicali"
 msgstr "Mexicali"
 
+#: my-evolution/Locations.h:1379
+msgid "Mexico"
+msgstr "Mexiko"
+
 #: my-evolution/Locations.h:1380
 msgid "Miami"
 msgstr "Miami"
@@ -17759,6 +16986,10 @@ msgstr "Morgantown"
 msgid "Moriarty"
 msgstr "Moriarty"
 
+#: my-evolution/Locations.h:1462
+msgid "Morocco"
+msgstr "Maroko"
+
 #: my-evolution/Locations.h:1463
 msgid "Morristown"
 msgstr "Morristown"
@@ -17999,6 +17230,10 @@ msgstr "Needles"
 msgid "Nenana"
 msgstr "Nenana"
 
+#: my-evolution/Locations.h:1523
+msgid "Netherlands"
+msgstr "Holandsko"
+
 #: my-evolution/Locations.h:1524
 msgid "Neuquen"
 msgstr "Neuquen"
@@ -18111,9 +17346,17 @@ msgstr "New York-JFK Arpt"
 msgid "New York-La Guardia"
 msgstr "New York-La Guardia"
 
+#: my-evolution/Locations.h:1552
+msgid "New Zealand"
+msgstr "Nový Zéland"
+
 #: my-evolution/Locations.h:1553
 msgid "Niagara Falls"
 msgstr "Niagara Falls"
+
+#: my-evolution/Locations.h:1554
+msgid "Nicaragua"
+msgstr "Nikaragua"
 
 #: my-evolution/Locations.h:1555
 msgid "Nice-Cote d'Azur"
@@ -18158,6 +17401,10 @@ msgstr "Nome"
 #: my-evolution/Locations.h:1565
 msgid "Norfolk"
 msgstr "Norfolk"
+
+#: my-evolution/Locations.h:1566
+msgid "Norfolk Island"
+msgstr "Ostrov Norfolk"
 
 #: my-evolution/Locations.h:1567
 msgid "Norfolk NAS"
@@ -18206,6 +17453,10 @@ msgstr "Northway"
 #: my-evolution/Locations.h:1578
 msgid "Northwest Territories"
 msgstr "Severozápadné teritóriá"
+
+#: my-evolution/Locations.h:1579
+msgid "Norway"
+msgstr "Nórsko"
 
 #: my-evolution/Locations.h:1580
 msgid "Norwich"
@@ -18379,6 +17630,10 @@ msgstr "Omaha-Bellevue"
 msgid "Omak"
 msgstr "Omak"
 
+#: my-evolution/Locations.h:1623
+msgid "Oman"
+msgstr "Omán"
+
 #: my-evolution/Locations.h:1624
 msgid "Ominato Ab"
 msgstr "Ominato Ab"
@@ -18535,6 +17790,10 @@ msgstr "Paengnyongdo Ab"
 msgid "Paganella"
 msgstr "Paganella"
 
+#: my-evolution/Locations.h:1664
+msgid "Pakistan"
+msgstr "Pakistan"
+
 #: my-evolution/Locations.h:1665
 msgid "Pa Kuei/Bakuai"
 msgstr "Pa Kuei/Bakuai"
@@ -18571,6 +17830,10 @@ msgstr "Palo Alto"
 msgid "Pamplona"
 msgstr "Pamplona"
 
+#: my-evolution/Locations.h:1674
+msgid "Panama"
+msgstr "Panama"
+
 #: my-evolution/Locations.h:1675
 msgid "Panama City"
 msgstr "Panama City"
@@ -18586,6 +17849,10 @@ msgstr "Papa"
 #: my-evolution/Locations.h:1678
 msgid "Paphos"
 msgstr "Paphos"
+
+#: my-evolution/Locations.h:1679
+msgid "Paraguay"
+msgstr "Paraguaj"
 
 #: my-evolution/Locations.h:1680
 msgid "Paris"
@@ -18722,6 +17989,10 @@ msgstr "Perry-Foley"
 #: my-evolution/Locations.h:1713
 msgid "Perth"
 msgstr "Perth"
+
+#: my-evolution/Locations.h:1714
+msgid "Peru"
+msgstr "Peru"
 
 #: my-evolution/Locations.h:1715
 msgid "Perugia"
@@ -18883,6 +18154,10 @@ msgstr "Point Piedras Blanca"
 msgid "Poitiers"
 msgstr "Poitiers"
 
+#: my-evolution/Locations.h:1755
+msgid "Poland"
+msgstr "Poľsko"
+
 #: my-evolution/Locations.h:1756
 msgid "Pompano Beach"
 msgstr "Pompano Beach"
@@ -18986,6 +18261,10 @@ msgstr "Port Said"
 #: my-evolution/Locations.h:1781
 msgid "Portsmouth"
 msgstr "Portsmouth"
+
+#: my-evolution/Locations.h:1782
+msgid "Portugal"
+msgstr "Portugalsko"
 
 #: my-evolution/Locations.h:1783
 msgid "Posadas"
@@ -19115,6 +18394,10 @@ msgstr "Puerto Montt"
 msgid "Puerto Plata"
 msgstr "Puerto Plata"
 
+#: my-evolution/Locations.h:1815
+msgid "Puerto Rico"
+msgstr "Portoriko"
+
 #: my-evolution/Locations.h:1816
 msgid "Puerto Suarez"
 msgstr "Puerto Suarez"
@@ -19158,6 +18441,10 @@ msgstr "Pyongtaek Ab"
 #: my-evolution/Locations.h:1826
 msgid "Pyongyang"
 msgstr "Pchjongjang"
+
+#: my-evolution/Locations.h:1827
+msgid "Qatar"
+msgstr "Katar"
 
 #: my-evolution/Locations.h:1828
 msgid "Quantico"
@@ -19454,6 +18741,10 @@ msgstr "Rím/Ciampino"
 #: my-evolution/Locations.h:1901
 msgid "Roma/Fiumicino"
 msgstr "Rím/Fiumicino"
+
+#: my-evolution/Locations.h:1902
+msgid "Romania"
+msgstr "Rumunsko"
 
 #: my-evolution/Locations.h:1903
 msgid "Roma/Urbe"
@@ -19943,6 +19234,10 @@ msgstr "Saskatoon"
 msgid "Sauce Viejo"
 msgstr "Sauce Viejo"
 
+#: my-evolution/Locations.h:2025
+msgid "Saudi Arabia"
+msgstr "Saudská Arábia"
+
 #: my-evolution/Locations.h:2026
 msgid "Sault Ste Marie"
 msgstr "Sault Ste Marie"
@@ -20159,6 +19454,10 @@ msgstr "Silver City"
 msgid "Sindal"
 msgstr "Sindal"
 
+#: my-evolution/Locations.h:2080
+msgid "Singapore"
+msgstr "Singapur"
+
 #: my-evolution/Locations.h:2081
 msgid "Sioux City"
 msgstr "Sioux City"
@@ -20206,6 +19505,14 @@ msgstr "Skwentna"
 #: my-evolution/Locations.h:2092
 msgid "Slana"
 msgstr "Slana"
+
+#: my-evolution/Locations.h:2093
+msgid "Slovakia"
+msgstr "Slovensko"
+
+#: my-evolution/Locations.h:2094
+msgid "Slovenia"
+msgstr "Slovinsko"
 
 #: my-evolution/Locations.h:2095
 msgid "Smithers"
@@ -20263,6 +19570,10 @@ msgstr "Songmu Ab"
 msgid "Sorkjosen"
 msgstr "Sorkjosen"
 
+#: my-evolution/Locations.h:2109
+msgid "South Africa"
+msgstr "Južná Afrika"
+
 #: my-evolution/Locations.h:2110
 msgid "Southampton"
 msgstr "Southampton"
@@ -20290,6 +19601,10 @@ msgstr "Južné Marshallove ostrovy"
 #: my-evolution/Locations.h:2116
 msgid "South Timbalier"
 msgstr "South Timbalier"
+
+#: my-evolution/Locations.h:2117
+msgid "Spain"
+msgstr "Španielsko"
 
 #: my-evolution/Locations.h:2118
 msgid "Sparrevohn"
@@ -20483,6 +19798,10 @@ msgstr "Sungshan/Taipei"
 msgid "Superior"
 msgstr "Superior"
 
+#: my-evolution/Locations.h:2166
+msgid "Suriname"
+msgstr "Surinam"
+
 #: my-evolution/Locations.h:2167
 msgid "Sutton"
 msgstr "Sutton"
@@ -20499,9 +19818,17 @@ msgstr "Svalbard"
 msgid "Svolvaer/Helle"
 msgstr "Svolvaer/Helle"
 
+#: my-evolution/Locations.h:2171
+msgid "Sweden"
+msgstr "Švédsko"
+
 #: my-evolution/Locations.h:2172
 msgid "Swift Current"
 msgstr "Swift Current"
+
+#: my-evolution/Locations.h:2173
+msgid "Switzerland"
+msgstr "Švajčiarsko"
 
 #: my-evolution/Locations.h:2174
 msgid "Sydney"
@@ -20582,6 +19909,10 @@ msgstr "Taif"
 #: my-evolution/Locations.h:2193
 msgid "Tainan"
 msgstr "Tainan"
+
+#: my-evolution/Locations.h:2194
+msgid "Taiwan"
+msgstr "Taiwan"
 
 #: my-evolution/Locations.h:2195
 msgid "Taiyuan"
@@ -21043,6 +20374,10 @@ msgstr "Turaif"
 msgid "Turin"
 msgstr "Turín"
 
+#: my-evolution/Locations.h:2310
+msgid "Turkey"
+msgstr "Turecko"
+
 #: my-evolution/Locations.h:2311
 msgid "Turku"
 msgstr "Turku"
@@ -21119,6 +20454,14 @@ msgstr "Unalakleet"
 msgid "United Arab Emirates "
 msgstr "Spojené Arabské Emiráty"
 
+#: my-evolution/Locations.h:2330
+msgid "United Kingdom"
+msgstr "Spojené kráľovstvo"
+
+#: my-evolution/Locations.h:2331
+msgid "United States"
+msgstr "Spojené štáty"
+
 #: my-evolution/Locations.h:2332
 msgid "Unst"
 msgstr "Unst"
@@ -21134,6 +20477,10 @@ msgstr "Uruapan"
 #: my-evolution/Locations.h:2335
 msgid "Uruguaiana"
 msgstr "Uruguaiana"
+
+#: my-evolution/Locations.h:2336
+msgid "Uruguay"
+msgstr "Uruguaj"
 
 #: my-evolution/Locations.h:2337
 msgid "Urumqi"
@@ -21255,6 +20602,10 @@ msgstr "Vaxjo"
 msgid "Venezia"
 msgstr "Benátky"
 
+#: my-evolution/Locations.h:2367
+msgid "Venezuela"
+msgstr "Venezuela"
+
 #: my-evolution/Locations.h:2368
 msgid "Venice"
 msgstr "Venice"
@@ -21298,6 +20649,10 @@ msgstr "Vicksburg"
 #: my-evolution/Locations.h:2378
 msgid "Victoria"
 msgstr "Victoria"
+
+#: my-evolution/Locations.h:2379
+msgid "Viet Nam"
+msgstr "Vietnam"
 
 #: my-evolution/Locations.h:2380
 msgid "Vigo"
@@ -21775,6 +21130,10 @@ msgstr "Yellowknife"
 msgid "Yellowstone"
 msgstr "Yellowstone"
 
+#: my-evolution/Locations.h:2499
+msgid "Yemen"
+msgstr "Jemen"
+
 #: my-evolution/Locations.h:2500
 msgid "Yenbo"
 msgstr "Yenbo"
@@ -21818,6 +21177,10 @@ msgstr "Youngstown"
 #: my-evolution/Locations.h:2510
 msgid "Ypsilanti"
 msgstr "Ypsilanti"
+
+#: my-evolution/Locations.h:2511
+msgid "Yugoslavia"
+msgstr "Juhoslávia"
 
 #: my-evolution/Locations.h:2512
 msgid "Yukon"
@@ -21913,7 +21276,7 @@ msgstr "Súhrn pošty"
 #. (evolution/my-evolution/Locations)
 #. Codes are seperated with : eg. "KBOS:EGAA"
 #: my-evolution/e-summary-preferences.c:81
-#: my-evolution/e-summary-weather.c:661
+#: my-evolution/e-summary-weather.c:606
 msgid "KBOS"
 msgstr "KBOS"
 
@@ -21941,56 +21304,51 @@ msgstr "Meno:"
 msgid "Summary Settings"
 msgstr "Nastavenie súhrnu"
 
-#: my-evolution/e-summary-rdf.c:296 my-evolution/e-summary-rdf.c:381
-#: my-evolution/e-summary-rdf.c:415
+#: my-evolution/e-summary-rdf.c:300
 msgid "Error downloading RDF"
 msgstr "Chyba načítavania RDF"
 
-#: my-evolution/e-summary-rdf.c:528
+#: my-evolution/e-summary-rdf.c:443
 msgid "News Feed"
 msgstr "Kanály správ"
 
-#: my-evolution/e-summary-tasks.c:248
+#: my-evolution/e-summary-tasks.c:241
 msgid "No tasks"
 msgstr "Žiadne úlohy"
 
-#: my-evolution/e-summary-tasks.c:287
+#: my-evolution/e-summary-tasks.c:281
 msgid "(No Description)"
 msgstr "(žiadny popis)"
 
-#: my-evolution/e-summary-weather.c:71
+#: my-evolution/e-summary-weather.c:70
 msgid "My Weather"
 msgstr "Moje počasie"
 
-#: my-evolution/e-summary-weather.c:348
-msgid "<dd><b>The weather server could not be contacted</b></dd>"
-msgstr "<dd><b>Server počasia nemohol byť kontaktovaný</b></dd>"
-
-#: my-evolution/e-summary-weather.c:559
+#: my-evolution/e-summary-weather.c:504
 msgid "Weather"
 msgstr "Počasie"
 
-#: my-evolution/e-summary-weather.c:722
+#: my-evolution/e-summary-weather.c:667
 msgid "Regions"
 msgstr "Oblasti"
 
-#: my-evolution/e-summary.c:193
+#: my-evolution/e-summary.c:190
 msgid "%A, %B %e %Y"
 msgstr "%A, %B %e %Y"
 
-#: my-evolution/e-summary.c:493
+#: my-evolution/e-summary.c:475
 msgid "Please wait..."
 msgstr "Prosím čakajte..."
 
-#: my-evolution/e-summary.c:584 ui/my-evolution.xml.h:3
+#: my-evolution/e-summary.c:566 ui/my-evolution.xml.h:3
 msgid "Print Summary"
 msgstr "Tlač súhrnu"
 
-#: my-evolution/e-summary.c:630
+#: my-evolution/e-summary.c:612
 msgid "Printing of Summary failed"
 msgstr "Tlač súhrnu zlyhala"
 
-#: my-evolution/main.c:66
+#: my-evolution/main.c:65
 msgid "Executive summary component could not initialize Bonobo.\n"
 msgstr "Komponent súhrnu nemohol inicializovať Bonobo.\n"
 
@@ -23556,7 +22914,7 @@ msgstr ""
 "Použijte \"Automaticky\" ak typ nepoznáte a Evolution sa\n"
 "ho pokúsi určiť."
 
-#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:799
+#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:803
 msgid "Please select the information that you would like to import:"
 msgstr "Prosím, vyberte informácie, ktoré chcete importovať:"
 
@@ -23582,16 +22940,21 @@ msgstr ""
 "Importujem %s\n"
 "Importujem položku %d."
 
-#: shell/e-shell-importer.c:397
+#: shell/e-shell-importer.c:409
 #, c-format
 msgid "File %s does not exist"
 msgstr "Súbor %s neexistuje"
 
-#: shell/e-shell-importer.c:409
+#: shell/e-shell-importer.c:410 shell/e-shell-importer.c:420
+#: shell/e-shell-importer.c:436 shell/e-shell-importer.c:486
+msgid "Evolution Error"
+msgstr "Chyba Evolution"
+
+#: shell/e-shell-importer.c:420
 msgid "You may only import to local folders"
 msgstr "Do lokálnych priečinkov môžete iba importovať"
 
-#: shell/e-shell-importer.c:424
+#: shell/e-shell-importer.c:435
 #, c-format
 msgid ""
 "There is no importer that is able to handle\n"
@@ -23601,11 +22964,11 @@ msgstr ""
 "%s\n"
 "nie je k dispozícii importér."
 
-#: shell/e-shell-importer.c:434
+#: shell/e-shell-importer.c:445
 msgid "Importing"
 msgstr "Importujem"
 
-#: shell/e-shell-importer.c:442
+#: shell/e-shell-importer.c:453
 #, c-format
 msgid ""
 "Importing %s.\n"
@@ -23614,17 +22977,17 @@ msgstr ""
 "Importujem %s\n"
 "Začínam %s"
 
-#: shell/e-shell-importer.c:455
+#: shell/e-shell-importer.c:466
 #, c-format
 msgid "Error starting %s"
 msgstr "Chyba pri štarte %s"
 
-#: shell/e-shell-importer.c:474
+#: shell/e-shell-importer.c:485
 #, c-format
 msgid "Error loading %s"
 msgstr "Chyba pri načítavaní %s"
 
-#: shell/e-shell-importer.c:491
+#: shell/e-shell-importer.c:502
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -23633,31 +22996,31 @@ msgstr ""
 "Importujem %s\n"
 "Importujem položku 1."
 
-#: shell/e-shell-importer.c:561
+#: shell/e-shell-importer.c:572
 msgid "Automatic"
 msgstr "Automaticky"
 
-#: shell/e-shell-importer.c:612
+#: shell/e-shell-importer.c:623
 msgid "Filename:"
 msgstr "Meno súboru:"
 
-#: shell/e-shell-importer.c:617
+#: shell/e-shell-importer.c:628
 msgid "Select a file"
 msgstr "Vyberte súbor"
 
-#: shell/e-shell-importer.c:627
+#: shell/e-shell-importer.c:638
 msgid "File type:"
 msgstr "Typ súboru:"
 
-#: shell/e-shell-importer.c:652
+#: shell/e-shell-importer.c:663
 msgid "Import data and settings from older programs"
 msgstr "Importovať dáta a nastavenia zo starších programov"
 
-#: shell/e-shell-importer.c:656
+#: shell/e-shell-importer.c:667
 msgid "Import a single file"
 msgstr "Importovať jeden súbor"
 
-#: shell/e-shell-importer.c:721 shell/e-shell-startup-wizard.c:628
+#: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:632
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -23665,24 +23028,24 @@ msgstr ""
 "Prosím, čakajte...\n"
 "Hľadám existujúce nastavenie"
 
-#: shell/e-shell-importer.c:724 shell/e-shell-startup-wizard.c:631
+#: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:635
 msgid "Starting Intelligent Importers"
 msgstr "Spúšťam inteligentné importy"
 
-#: shell/e-shell-importer.c:848 shell/e-shell-startup-wizard.c:754
+#: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:758
 #, c-format
 msgid "From %s:"
 msgstr "Od %s:"
 
-#: shell/e-shell-importer.c:1014
+#: shell/e-shell-importer.c:1027
 msgid "Select folder"
 msgstr "Vybrať priečinok"
 
-#: shell/e-shell-importer.c:1015
+#: shell/e-shell-importer.c:1028
 msgid "Select a destination folder for importing this data"
 msgstr "Vyberte cieľový priečinok pre import týchro dát"
 
-#: shell/e-shell-importer.c:1127 shell/importer/intelligent.c:193
+#: shell/e-shell-importer.c:1140 shell/importer/intelligent.c:193
 msgid "Import"
 msgstr "Import"
 
@@ -24198,7 +23561,7 @@ msgstr ""
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "Kliknite na \"Importova\" pre spustenie importu súboru do Evolution."
+msgstr "Kliknite na \"Import\" pre spustenie importu súboru do Evolution."
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -24370,7 +23733,11 @@ msgstr "Zastaviť"
 msgid "Stop Loading"
 msgstr "Zastaviť načítavanie"
 
-#: ui/evolution-addressbook.xml.h:29 ui/evolution-calendar.xml.h:34
+#: ui/evolution-addressbook.xml.h:29
+msgid "View the current contact"
+msgstr "Zobraziť aktuálny kontakt"
+
+#: ui/evolution-addressbook.xml.h:30 ui/evolution-calendar.xml.h:34
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:11
 #: ui/evolution-contact-list-editor.xml.h:10 ui/evolution-event-editor.xml.h:9
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-list.xml.h:23
@@ -24379,37 +23746,37 @@ msgstr "Zastaviť načítavanie"
 msgid "_Actions"
 msgstr "A_kcie"
 
-#: ui/evolution-addressbook.xml.h:30
+#: ui/evolution-addressbook.xml.h:31
 msgid "_Addressbook Sources..."
 msgstr "Zdroje _adresára..."
 
-#: ui/evolution-addressbook.xml.h:31
+#: ui/evolution-addressbook.xml.h:32
 msgid "_Contact"
 msgstr "_Kontakt"
 
-#: ui/evolution-addressbook.xml.h:32
+#: ui/evolution-addressbook.xml.h:33
 msgid "_Contact List"
 msgstr "Zoznam _kontaktov"
 
-#: ui/evolution-addressbook.xml.h:35 ui/evolution-contact-editor.xml.h:13
+#: ui/evolution-addressbook.xml.h:36 ui/evolution-contact-editor.xml.h:13
 msgid "_Forward Contact..."
 msgstr "_Poslať kontakt ďalej..."
 
-#: ui/evolution-addressbook.xml.h:37 ui/evolution-calendar.xml.h:41
+#: ui/evolution-addressbook.xml.h:39 ui/evolution-calendar.xml.h:41
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:103
 #: ui/my-evolution.xml.h:7
 msgid "_Print..."
 msgstr "_Tlačiť..."
 
-#: ui/evolution-addressbook.xml.h:38
+#: ui/evolution-addressbook.xml.h:40
 msgid "_Save as VCard"
 msgstr "_Uložiť ako vKartu"
 
-#: ui/evolution-addressbook.xml.h:39
+#: ui/evolution-addressbook.xml.h:41
 msgid "_Search for Contacts"
 msgstr "_Hľadať kontakty"
 
-#: ui/evolution-addressbook.xml.h:40
+#: ui/evolution-addressbook.xml.h:42
 msgid "_Select All"
 msgstr "Vybrať _všetko"
 
@@ -25717,6 +25084,12 @@ msgstr "Správy"
 #: views/tasks/galview.xml.h:2
 msgid "With Category"
 msgstr "S kategóriou"
+
+#. Check for UTC.
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:207
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:700
+msgid "UTC"
+msgstr "UTC"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "Select a Time Zone"
