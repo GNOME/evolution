@@ -1,3 +1,26 @@
+2002-08-19  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_get_static_capabilities): add
+	"cache-completions" here, since file completion results are
+	blanket cached (as they're generated from a summary).
+
+	* backend/pas/pas-backend-ldap.c
+	(pas_backend_ldap_process_get_cursor): there should be no search
+	limit on the get_cursor_request, as it's meant to match every card
+	it can.
+	(ldap_search_handler): parse the ldap result in the
+	RES_SEARCH_RESULT case.  we'll want more here soon, so we can
+	notify the front end if the result was truncated due to either the
+	size or time limit being exceeded.
+	(pas_backend_ldap_process_get_book_view): in the case of a
+	completion view, we hardcode (yeah yeah, i know, but really) the
+	search limit to MIN (100, user-specified-limit).
+	(pas_backend_ldap_search): each view has its own limit now,
+	defaulting from the user specified one for normal searches but
+	possibly different for completion views.  use the view's limit
+	here.
+
 2002-08-19  Dan Winship  <danw@ximian.com>
 
 	* gui/component/select-names/e-select-names-bonobo.c

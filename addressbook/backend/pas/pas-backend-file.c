@@ -1584,7 +1584,7 @@ pas_backend_file_remove_client (PASBackend             *backend,
 static char *
 pas_backend_file_get_static_capabilities (PASBackend             *backend)
 {
-	return g_strdup("local,do-initial-query");
+	return g_strdup("local,do-initial-query,cache-completions");
 }
 
 static gboolean

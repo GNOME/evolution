@@ -140,6 +140,7 @@ struct _PASBackendLDAPBookView {
 	PASBackendLDAPPrivate *blpriv;
 	gchar                 *search;
 	PASBackendCardSExp    *card_sexp;
+	int                    limit;
 
 	LDAPOp                *search_op;
 };
@@ -1793,7 +1794,7 @@ pas_backend_ldap_process_get_cursor (PASBackend *backend,
 					      "(objectclass=*)",
 					      NULL, 0,
 					      NULL, NULL, NULL, /* timeout */
-					      bl->priv->ldap_limit, &get_cursor_msgid);
+					      0, &get_cursor_msgid);
 	} while (pas_backend_ldap_reconnect (bl, book_view, ldap_error));
 
 	if (ldap_error == LDAP_SUCCESS) {
@@ -2760,6 +2761,13 @@ ldap_search_handler (LDAPOp *op, LDAPMessage *res)
 		}
 	}
 	else if (msg_type == LDAP_RES_SEARCH_RESULT) {
+		int ldap_error;
+
+		ldap_parse_result (ldap, res, &ldap_error,
+				   NULL, NULL, NULL, NULL, 0);
+
+		g_warning ("search returned %d\n", ldap_error);
+
 		/* the entry that marks the end of our search */
 		if (search_op->num_pending_adds)
 			send_pending_adds (search_op);
@@ -2812,7 +2820,7 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 						    NULL, /* XXX */
 						    NULL, /* XXX */
 						    NULL, /* XXX timeout */
-						    bl->priv->ldap_limit, &search_msgid);
+						    view->limit, &search_msgid);
 		} while (pas_backend_ldap_reconnect (bl, view->book_view, ldap_err));
 
 		g_free (ldap_query);
@@ -2875,6 +2883,13 @@ pas_backend_ldap_process_get_book_view (PASBackend *backend,
 	view->search = g_strdup(req->get_book_view.search);
 	view->card_sexp = pas_backend_card_sexp_new (view->search);
 	view->blpriv = bl->priv;
+
+	if (req->op == GetCompletionView) {
+		view->limit = MIN (bl->priv->ldap_limit, 100);
+	}
+	else {
+		view->limit = bl->priv->ldap_limit;
+	}
 
 	bl->priv->book_views = g_list_prepend(bl->priv->book_views, view);
 
