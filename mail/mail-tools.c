@@ -369,7 +369,7 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 					    "<!--+GtkHTML:<DATA class=\"ClueFlow\" clear=\"orig\">-->",
 					    credits ? credits : "",
 					    mail_config_get_citation_color (),
-					    want_plain ? "" : "<blockquote><i>",
+					    want_plain ? "" : "<blockquote type=cite><i>",
 					    text,
 					    want_plain ? "" : "</i></blockquote>");
 		g_free (text);

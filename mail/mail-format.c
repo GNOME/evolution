@@ -1284,7 +1284,7 @@ handle_text_plain_flowed (char *buf, MailDisplay *md, GtkHTML *html, GtkHTMLStre
 					br_pending--;
 			}
 			while (quoting > prevquoting) {
-				mail_html_write (html, stream, "<blockquote>");
+				mail_html_write (html, stream, "<blockquote type=\"cite\">");
 				prevquoting++;
 			}
 			while (quoting < prevquoting) {

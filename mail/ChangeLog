@@ -1,3 +1,11 @@
+2002-06-02  Larry Ewing  <lewing@ximian.com>
+
+	* mail-tools.c (mail_tool_quote_message): make these citations as
+	well.
+
+	* mail-format.c (handle_text_plain_flowed): make these blockquotes
+	into citations.
+
 2002-05-31  Not Zed  <NotZed@Ximian.com>
 
 	* mail-format.c (handle_multipart_signed): Changed to handle new
