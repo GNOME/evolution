@@ -1,3 +1,22 @@
+2002-04-02  Christopher James Lahey  <clahey@ximian.com>
+
+	* Makefile.am (etspec_DATA): Added
+	e-storage-set-view-checkboxes.etstate and
+	e-storage-set-view-no-checkboxes.etstate here.
+
+	* e-storage-set-view-checkboxes.etstate,
+	e-storage-set-view-no-checkboxes.etstate: The two possible states
+	of the EStorageSetView.
+
+	* e-storage-set-view.c, e-storage-set-view.h
+	(e_storage_set_view_set_show_checkboxes,
+	e_storage_set_view_get_show_checkboxes): Added this functionality.
+	Added a model column to the underlying table for the checkbox
+	data.
+
+	* e-storage-set-view.etspec: Added a view column for the
+	checkboxes.
+
 2002-03-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-settings-dialog.c: Add type "Page".

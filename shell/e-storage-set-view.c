@@ -84,6 +84,7 @@ struct _EStorageSetViewPrivate {
 	char *right_click_row_path;
 
 	unsigned int show_folders : 1;
+	unsigned int show_checkboxes : 1;
 	unsigned int allow_dnd : 1;
 
 	/* The `Evolution::ShellComponentDnd::SourceFolder' interface for the
@@ -1392,7 +1393,7 @@ static int
 etree_column_count (ETreeModel *etc,
 		    void *data)
 {
-	return 2;
+	return 3;
 }
 
 static gboolean
@@ -1454,24 +1455,31 @@ etree_value_at (ETreeModel *etree,
 	if (folder == NULL)
 		return (void *) "?";
 
-	if (col == 1)
+	switch (col) {
+	case 0: /* Title */
+		folder_name = e_folder_get_name (folder);
+		unread_count = e_folder_get_unread_count (folder);
+
+		if (unread_count > 0) {
+			char *name_with_unread;
+
+			name_with_unread = g_strdup_printf ("%s (%d)", folder_name,
+							    unread_count);
+			gtk_object_set_data_full (GTK_OBJECT (folder),
+						  "name_with_unread",
+						  name_with_unread, g_free);
+
+			return (void *) name_with_unread;
+		} else
+			return (void *) folder_name;
+	case 1: /* bold */
 		return (void *) e_folder_get_highlighted (folder);
+	case 2: /* checkbox */
+		return (void *) FALSE;   /* FIXME: Yo danw, here's the whatnot, ya know. */
+	default:
+		return NULL;
+	}
 
-	folder_name = e_folder_get_name (folder);
-	unread_count = e_folder_get_unread_count (folder);
-
-	if (unread_count > 0) {
-		char *name_with_unread;
-
-		name_with_unread = g_strdup_printf ("%s (%d)", folder_name,
-						    unread_count);
-		gtk_object_set_data_full (GTK_OBJECT (folder),
-					  "name_with_unread",
-					  name_with_unread, g_free);
-
-		return (void *) name_with_unread;
-	} else
-		return (void *) folder_name;
 }
 
 static void
@@ -1829,6 +1837,7 @@ init (EStorageSetView *storage_set_view)
 	priv->right_click_row_path        = NULL;
 
 	priv->show_folders                = TRUE;
+	priv->show_checkboxes             = FALSE;
 	priv->allow_dnd                   = TRUE;
 
 	priv->drag_corba_source_interface = CORBA_OBJECT_NIL;
@@ -2170,6 +2179,39 @@ gboolean
 e_storage_set_view_get_show_folders (EStorageSetView *storage_set_view)
 {
 	return storage_set_view->priv->show_folders;
+}
+
+
+
+void
+e_storage_set_view_set_show_checkboxes (EStorageSetView *storage_set_view,
+					gboolean show)
+{
+	EStorageSetViewPrivate *priv;
+
+	g_return_if_fail (storage_set_view != NULL);
+	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
+
+	priv = storage_set_view->priv;
+
+	if (show == priv->show_folders)
+		return;
+
+	priv->show_folders = show;
+
+	if (show)
+		e_tree_load_state (E_TREE (storage_set_view), EVOLUTION_ETSPECDIR "/e-storage-set-view-checkboxes.etstate");
+	else
+		e_tree_load_state (E_TREE (storage_set_view), EVOLUTION_ETSPECDIR "/e-storage-set-view-no-checkboxes.etstate");
+}
+
+gboolean
+e_storage_set_view_get_show_checkboxes (EStorageSetView *storage_set_view)
+{
+	g_return_val_if_fail (storage_set_view != NULL, FALSE);
+	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view), FALSE);
+
+	return storage_set_view->priv->show_checkboxes;
 }
 
 
