@@ -1,3 +1,7 @@
+2001-07-24  Jody Goldberg <jgoldberg@home.com>
+
+	* psiconv.m4 : Add psion macros from Frodo Looijaard <frodol@dds.nl>
+
 2001-07-24  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* gnome-print-check.m4 (AM_PATH_GNOME_PRINT): 
