@@ -1,5 +1,9 @@
 2000-10-09  Michael Meeks  <michael@helixcode.com>
 
+	* fix the mess with separators.
+
+2000-10-09  Michael Meeks  <michael@helixcode.com>
+
 	* evolution-subscribe.xml: s/descr/tip/
 
 2000-10-05  Michael Meeks  <michael@helixcode.com>

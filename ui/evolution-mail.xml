@@ -159,7 +159,7 @@
     _label="Compose" _tip="Compose a new message"
     pixtype="pixbuf"/>
 
-    <toolitem type="separator"/>
+    <separator/>
 
     <toolitem name="Reply" verb="MessageReplySndr"
     _label="Reply" _tip="Reply to the sender of this message"
@@ -173,7 +173,7 @@
     _label="Forward" _tip="Forward this message"
     pixtype="pixbuf"/>
 
-    <toolitem type="separator"/>
+    <separator/>
 
     <toolitem name="Move" verb="MessageMove"
     _label="Move" _tip="Move message to a new folder"
@@ -183,7 +183,7 @@
     _label="Copy" _tip="Copy message to a new folder"
     pixtype="pixbuf"/>
 
-    <toolitem type="separator"/>
+    <separator/>
 
     <toolitem name="Print" verb="MessagePrint"
     _label="Print" _tip="Print the selected message"

@@ -41,13 +41,13 @@
     _label="Unsubscribe" _tip="Remove folder from your list of subscribed folders"
     pixtype="pixbuf"/>
 
-    <toolitem type="separator"/>
+    <separator/>
 
     <toolitem name="RefreshList" verb=""
     _label="Refresh List" _tip="Refresh List of Folders"
     pixtype="pixbuf"/>
 
-    <toolitem type="separator"/>
+    <separator/>
 
     <control name="FolderSearch"/>
 

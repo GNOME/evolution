@@ -186,13 +186,13 @@ static GnomeUIInfo main_menu[] = {
 			_label="Save _As"
 			pixtype="stock" pixname="Menu_SaveAs"/>
 
-			<menuitem type="separator"/>
+			<separator/>
 
 		        <menuitem name="Delete" verb="ContactEditorDelete"
 			_label="Delete"
 			pixtype="stock" pixname="Menu_Trash"/>
 
-			<menuitem type="separator"/>
+			<separator/>
 
 			<placeholder name="Print">
 
@@ -202,7 +202,7 @@ static GnomeUIInfo main_menu[] = {
 				
 			</placeholder>
 
-			<menuitem type="separator"/>
+			<separator/>
 
 		        <menuitem name="Close" verb="ContactEditorClose"
 			_label="Close"
@@ -216,7 +216,7 @@ static GnomeUIInfo main_menu[] = {
 		_tip="Save the contact and close the dialog box" verb="ContactEditorSaveClose"
 		pixtype="stock" pixname="Save"/>
 
-		<toolitem type="separator"/>
+		<separator/>
 
 		<toolitem name="Print" _label="Print..."
 		_tip="Print this item" verb="ContactEditorPrint"

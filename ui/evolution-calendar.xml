@@ -51,13 +51,13 @@
 		_tip="Create a new appointment" verb="EditNewAppointment"
 		pixtype="stock" pixname="New"/>
 
-		<toolitem type="separator"/>
+		<separator/>
 
 		<toolitem name="Print" _label="Print"
 		_tip="Print this calendar" verb="CalendarPrint"
 		pixtype="stock" pixname="Print"/>
 
-		<toolitem type="separator"/>
+		<separator/>
 
 		<toolitem name="Prev" label="Prev"
 		_tip="Go back in time" verb="CalendarPrev"
@@ -71,13 +71,13 @@
 		_tip="Go forward in time" verb="CalendarNext"
 		pixtype="stock" pixname="Forward"/>
 
-		<toolitem type="separator"/>
+		<separator/>
 
 		<toolitem name="Goto" label="Go to"
 		_tip="Go to a specific date" verb="CalendarGoto"
 		pixtype="stock" pixname="Jump To"/>
 		
-		<toolitem type="separator"/>
+		<separator/>
 
 	</dockitem>
 

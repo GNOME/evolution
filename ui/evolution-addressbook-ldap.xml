@@ -52,7 +52,7 @@
 		_tip="Create a new contact" verb="ContactNew"
 		pixtype="stock" pixname="New"/>
 
-		<toolitem type="separator"/>
+		<separator/>
 
 		<toolitem name="Find" _label="Find"
 		_tip="Find a contact" verb="ContactFind"
@@ -66,7 +66,7 @@
 		_tip="Delete a contact" verb="ContactDelete"
 		pixtype="stock" pixname="Trash"/>
 
-		<toolitem type="separator"/>
+		<separator/>
 
 		<control name="QuickSearch"/>
 
