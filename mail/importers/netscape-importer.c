@@ -70,6 +70,9 @@ typedef struct {
 	BonoboListener *listener;
 } NetscapeImporter;
 
+void mail_importer_module_init (void);
+void g_module_unload (void);
+
 static gboolean
 netscape_import_mbox (CamelFolder *folder,
 		      const char *filename)
@@ -139,6 +142,9 @@ netscape_import_mbox (CamelFolder *folder,
 static void
 netscape_clean_up (void)
 {
+	if (nsmail_dir == NULL)
+		return;
+
 	g_free (nsmail_dir);
 	nsmail_dir = NULL;
 }
@@ -147,7 +153,6 @@ static gboolean
 netscape_can_import (EvolutionIntelligentImporter *ii,
 		     void *closure)
 {
-	NetscapeImporter *importer = closure;
 	char *nsprefs;
 	FILE *prefs_handle;
 	char *key;
@@ -218,34 +223,14 @@ netscape_can_import (EvolutionIntelligentImporter *ii,
 
 static void
 netscape_import_file (NetscapeImporter *importer,
-		      const char *parent,
-		      const char *dirname,
-		      const char *filename,
+		      const char *path,
 		      const char *fullpath)
 {
-	char *summary, *summarypath, *foldername, *path;
 	char *protocol;
 	CamelException *ex;
 	CamelFolder *folder;
 	
-	/* Check that the file is a netscape mbox. 
-	   It should have an associated .summary file */
-	summary = g_strdup_printf (".%s.summary", filename);
-	summarypath = g_concat_dir_and_file (dirname, summary);
-	if (!g_file_exists (summarypath)) {
-		d(g_warning ("%s does not exist.\nIgnoring %s", summary,
-			     filename));
-		g_free (summary);
-		g_free (summarypath);
-		return;
-	}
-
-	g_free (summary);
-	g_free (summarypath);
-
 	/* Do import */
-	foldername = g_concat_dir_and_file (parent, filename);
-
 	d(g_warning ("Importing %s as %s\n", filename, fullpath));
 
 	ex = camel_exception_new ();
@@ -265,16 +250,14 @@ netscape_import_file (NetscapeImporter *importer,
 
 	camel_exception_free (ex);
 
-	path = g_concat_dir_and_file (dirname, filename);
 	netscape_import_mbox (folder, path);
-	g_free (path);
 }
 
 typedef struct {
 	NetscapeImporter *importer;
 	char *parent;
-	char *dirname;
-	char *filename;
+	char *path;
+	char *foldername;
 } NetscapeCreateDirectoryData;
 
 static void
@@ -303,20 +286,31 @@ netscape_dir_created (BonoboListener *listener,
 
 	/* Import the file */
 	/* We got the folder, so try to import the file into it. */
-	netscape_import_file (data->importer, data->parent, 
-			      data->dirname, data->filename, fullpath);
+	netscape_import_file (data->importer, data->path, fullpath);
 
 	g_free (data->parent);
-	g_free (data->dirname);
-	g_free (data->filename);
+	g_free (data->path);
+	g_free (data->foldername);
 	g_free (data);
 
 	if (importer->dir_list) {
 		/* Do the next in the list */
 		data = importer->dir_list->data;
-		mail_importer_create_folder (data->parent, data->filename, NULL, 
-					     importer->listener);
+		mail_importer_create_folder (data->parent, data->foldername, 
+					     NULL, importer->listener);
 	}
+}
+
+static char *
+maybe_replace_name (const char *original_name)
+{
+	if (strcmp (original_name, "Trash") == 0) {
+		return g_strdup ("Netscape-Trash"); /* Trash is an invalid name */
+	} else if (strcmp (original_name, "Unsent Messages") == 0) {
+		return g_strdup ("Outbox");
+	} 
+
+	return g_strdup (original_name);
 }
 
 /* This function basically flattens the tree structure.
@@ -339,13 +333,19 @@ scan_dir (NetscapeImporter *importer,
 
 	current = readdir (nsmail);
 	while (current) {
-		char *fullname;
+		char *fullname, *foldername;
 
 		/* Ignore things which start with . 
 		   which should be ., .., and the summaries. */
 		if (current->d_name[0] =='.') {
 			current = readdir (nsmail);
 			continue;
+		}
+
+		if (*orig_parent == '/') {
+			foldername = maybe_replace_name (current->d_name);
+		} else {
+			foldername = g_strdup (current->d_name);
 		}
 
 		fullname = g_concat_dir_and_file (dirname, current->d_name);
@@ -358,7 +358,7 @@ scan_dir (NetscapeImporter *importer,
 		}
 
 		if (S_ISREG (buf.st_mode)) {
-			char *sbd, *dir, *parent;
+			char *sbd, *parent;
 			NetscapeCreateDirectoryData *data;
 
 			d(g_print ("File: %s\n", fullname));
@@ -366,20 +366,18 @@ scan_dir (NetscapeImporter *importer,
 			data = g_new0 (NetscapeCreateDirectoryData, 1);
 			data->importer = importer;
 			data->parent = g_strdup (orig_parent);
-			data->dirname = g_strdup (dirname);
-			data->filename = g_strdup (current->d_name);
+			data->path = g_strdup (fullname);
+			data->foldername = g_strdup (foldername);
 
 			importer->dir_list = g_list_append (importer->dir_list,
 							    data);
 
 	
 			parent = g_concat_dir_and_file (orig_parent, 
-							data->filename);
+							data->foldername);
 			
 			/* Check if a .sbd folder exists */
-			dir = g_concat_dir_and_file (data->dirname, data->filename);
-			sbd = g_strconcat (dir, ".sbd", NULL);
-			g_free (dir);
+			sbd = g_strconcat (fullname, ".sbd", NULL);
 			if (g_file_exists (sbd)) {
 				scan_dir (importer, parent, sbd);
 			}
@@ -389,6 +387,7 @@ scan_dir (NetscapeImporter *importer,
 		} 
 		
 		g_free (fullname);
+		g_free (foldername);
 		current = readdir (nsmail);
 	}
 }
@@ -409,7 +408,7 @@ netscape_create_structure (EvolutionIntelligentImporter *ii,
 	gtk_signal_connect (GTK_OBJECT (importer->listener), "event_notify",
 			    GTK_SIGNAL_FUNC (netscape_dir_created), importer);
 	data = importer->dir_list->data;
-	mail_importer_create_folder (data->parent, data->filename, NULL, 
+	mail_importer_create_folder (data->parent, data->foldername, NULL, 
 				     importer->listener);
 
 	key = g_strdup_printf ("=%s/config/Mail=/importers/", evolution_dir);
