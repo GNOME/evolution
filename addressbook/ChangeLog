@@ -1,5 +1,14 @@
 2001-06-29  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_option_activated): Change the uri here to have
+	addressbook.db at the end.
+
+	* gui/component/select-names/select-names.glade: Changed the name
+	of the folder option menu here to match the name used in the code.
+
+2001-06-29  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/component/select-names/e-select-names.c (update_query):
 	Change the query when the "Update List" button is pushed.
 

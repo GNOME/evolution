@@ -127,6 +127,7 @@ set_book(EBook *book, EBookStatus status, EAddressbookModel *model)
 		       "book", book,
 		       NULL);
 	gtk_object_unref(GTK_OBJECT(book));
+	gtk_object_unref(GTK_OBJECT(model));
 }
 
 static void
@@ -135,7 +136,6 @@ addressbook_model_set_uri(EAddressbookModel *model, char *uri)
 	EBook *book;
 	book = e_book_new();
 	gtk_object_ref(GTK_OBJECT(model));
-	gtk_object_ref(GTK_OBJECT(book));
 	e_book_load_uri(book, uri, (EBookCallback) set_book, model);
 }
 
@@ -230,8 +230,11 @@ static void
 e_select_names_option_activated(GtkWidget *widget, ESelectNames *e_select_names)
 {
 	ESelectNamesFolder *e_folder = gtk_object_get_data (GTK_OBJECT (widget), "EsnChoiceFolder");
+	gchar *uri;
 
-	addressbook_model_set_uri(e_select_names->model, e_folder->physical_uri);
+	uri = g_strdup_printf ("%s/addressbook.db", e_folder->physical_uri);
+	addressbook_model_set_uri(e_select_names->model, uri);
+	g_free (uri);
 }
 
 typedef struct {

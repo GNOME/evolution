@@ -242,7 +242,7 @@
 
       <widget>
 	<class>GtkOptionMenu</class>
-	<name>optionmenu1</name>
+	<name>optionmenu-folder</name>
 	<can_focus>True</can_focus>
 	<items></items>
 	<initial_choice>0</initial_choice>
