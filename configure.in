@@ -49,7 +49,7 @@ AC_MSG_RESULT($system_mail_dir)
 AC_DEFINE_UNQUOTED(SYSTEM_MAIL_DIR, "$system_mail_dir")
 
 
-ALL_LINGUAS="el fr gl ja no ru sv tr uk"
+ALL_LINGUAS="el fr gl ja nl no ru sv tr uk"
 
 AM_GNOME_GETTEXT
 
