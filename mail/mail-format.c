@@ -734,7 +734,6 @@ write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *fie
 		} else {
 
 			mail_html_write (md->html, md->stream, "<i>Bad Address</i>");
-
 		}
 
 		g_free (name_arg);
@@ -1141,6 +1140,35 @@ try_inline_pgp (char *start, MailDisplay *md)
 	return end;
 }
 
+static void
+mail_write_authenticity (MailDisplay *md, CamelCipherValidity *valid)
+{
+	/* Now display the "seal-of-authenticity" or something... */
+	if (valid && camel_cipher_validity_get_valid (valid)) {
+		mail_html_write (md->html, md->stream,
+				 "<hr>\n<table><tr valign=top>"
+				 "<td><img src=\"%s\"></td>"
+				 "<td><font size=-1>%s<br><br>",
+				 get_url_for_icon ("wax-seal2.png", md),
+				 _("This message is digitally signed and "
+				   "has been found to be authentic."));
+	} else {
+		mail_html_write (md->html, md->stream,
+				 "<hr>\n<table><tr valign=top>"
+				 "<td><img src=\"%s\"></td>"
+				 "<td><font size=-1>%s<br><br>",
+				 get_url_for_icon ("wax-seal-broken.png", md),
+				 _("This message is digitally signed but can "
+				   "not be proven to be authentic."));
+	}
+	
+	if (valid && camel_cipher_validity_get_description (valid)) {
+		mail_error_write (md->html, md->stream,
+				  camel_cipher_validity_get_description (valid));
+		mail_html_write (md->html, md->stream, "<br><br>");
+	}
+}
+
 static char *
 try_inline_pgp_sig (char *start, MailDisplay *md)
 {
@@ -1178,30 +1206,7 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 	
 	mail_text_write (md->html, md->stream, "%.*s", end - start, start);
 	
-	/* Now display the "seal-of-authenticity" or something... */
-	if (valid && camel_cipher_validity_get_valid (valid)) {
-		mail_html_write (md->html, md->stream,
-				 "<hr>\n<table><tr valign=top>"
-				 "<td><img src=\"%s\"></td>"
-				 "<td><font size=-1>%s<br><br>",
-				 get_url_for_icon ("wax-seal2.png", md),
-				 _("This message is digitally signed and "
-				   "has been found to be authentic."));
-	} else {
-		mail_html_write (md->html, md->stream,
-				 "<hr>\n<table><tr valign=top>"
-				 "<td><img src=\"%s\"></td>"
-				 "<td><font size=-1>%s<br><br>",
-				 get_url_for_icon ("wax-seal-broken.png", md),
-				 _("This message is digitally signed but can "
-				   "not be proven to be authentic."));
-	}
-	
-	if (valid && camel_cipher_validity_get_description (valid)) {
-		mail_error_write (md->html, md->stream,
-				  camel_cipher_validity_get_description (valid));
-		mail_html_write (md->html, md->stream, "<br><br>");
-	}
+	mail_write_authenticity (md, valid);
 	
 	mail_html_write (md->html, md->stream, "</font></td></table>");
 	
@@ -1248,7 +1253,7 @@ try_uudecoding (char *start, MailDisplay *md)
 	g_free (filename);
 	camel_object_hook_event (CAMEL_OBJECT (md->current_message),
 				 "finalize", destroy_part, part);
-
+	
 	mail_html_write (md->html, md->stream, "<hr>");
 	format_mime_part (part, md);
 
@@ -1449,9 +1454,9 @@ handle_text_html (CamelMimePart *part, const char *mime_type,
 		  MailDisplay *md)
 {
 	const char *location;
-
+	
 	mail_html_write (md->html, md->stream, "\n<!-- text/html -->\n");
-
+	
 	/* FIXME: deal with relative URLs */
 	location = get_location (part, md);
 	if (!location)
@@ -1479,7 +1484,7 @@ handle_multipart_mixed (CamelMimePart *part, const char *mime_type,
 	CamelMultipart *mp;
 	int i, nparts;
 	gboolean output = FALSE;
-
+	
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	mp = CAMEL_MULTIPART (wrapper);
 
@@ -1489,10 +1494,10 @@ handle_multipart_mixed (CamelMimePart *part, const char *mime_type,
 			mail_html_write (md->html, md->stream, "<hr>\n");
 
 		part = camel_multipart_get_part (mp, i);
-
+		
 		output = format_mime_part (part, md);
 	}
-
+	
 	return TRUE;
 }
 
@@ -1544,14 +1549,25 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	
-	/* Currently we only handle RFC2015-style PGP signatures. */
-	if (!camel_pgp_mime_is_rfc2015_signed (part))
-		return handle_multipart_mixed (part, mime_type, md);
-	
 	ex = camel_exception_new ();
-	valid = mail_crypto_pgp_mime_part_verify (part, ex);
 	
-	/* now display all the subparts *except* the signature */
+	if (camel_pgp_mime_is_rfc2015_signed (part)) {
+		valid = mail_crypto_pgp_mime_part_verify (part, ex);
+	} else if (camel_smime_is_smime_v3_signed (part)) {
+		valid = mail_crypto_smime_part_verify (part, ex);
+	} else {
+		camel_exception_free (ex);
+		return handle_multipart_mixed (part, mime_type, md);
+	}
+	
+	if (camel_exception_is_set (ex)) {
+		camel_exception_free (ex);
+		return handle_multipart_mixed (part, mime_type, md);
+	}
+	
+	camel_exception_free (ex);
+	
+	/* now display all the subparts *except* the signature (last part) */
 	mp = CAMEL_MULTIPART (wrapper);
 	
 	nparts = camel_multipart_get_number (mp);	
@@ -1564,35 +1580,10 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 		output = format_mime_part (part, md);
 	}
 	
-	/* Now display the "seal-of-authenticity" or something... */
-	if (valid && camel_cipher_validity_get_valid (valid)) {
-		mail_html_write (md->html, md->stream,
-				 "<hr>\n<table><tr valign=top>"
-				 "<td><img src=\"%s\"></td>"
-				 "<td><font size=-1>%s<br><br>",
-				 get_url_for_icon ("wax-seal2.png", md),
-				 _("This message is digitally signed and "
-				   "has been found to be authentic."));
-	} else {
-		mail_html_write (md->html, md->stream,
-				 "<hr>\n<table><tr valign=top>"
-				 "<td><img src=\"%s\"></td>"
-				 "<td><font size=-1>%s<br><br>",
-				 get_url_for_icon ("wax-seal-broken.png", md),
-				 _("This message is digitally signed but can "
-				   "not be proven to be authentic."));
-	}
-	
-	if (valid && camel_cipher_validity_get_description (valid)) {
-		mail_error_write (md->html, md->stream,
-				  camel_cipher_validity_get_description (valid));
-		mail_html_write (md->html, md->stream, "<br><br>");
-	}
+	mail_write_authenticity (md, valid);
+	camel_cipher_validity_free (valid);
 	
 	mail_html_write (md->html, md->stream, "</font></td></table>");
-	
-	camel_exception_free (ex);
-	camel_cipher_validity_free (valid);
 	
 	return TRUE;
 }

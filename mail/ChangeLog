@@ -1,3 +1,12 @@
+2001-05-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (mail_write_authenticity): New convenience
+	function for all signature verification functions to use to
+	display whether or not the signed part was authentic.
+	(try_inline_pgp_sig): Use mail_write_authentic().
+	(handle_multipart_signed): Add code to handle S/MIME
+	multipart/signed parts and also use mail_write_authenticity().
+
 2001-05-17  Dan Winship  <danw@ximian.com>
 
 	* mail-config.glade: add new icons from jimmac.
