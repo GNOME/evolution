@@ -1,3 +1,9 @@
+2005-01-18  Hao Sheng <hao.sheng@sun.com>
+
+	* gui/component/addressbook-view.c:
+	(addressbook_view_init): add a11y name for the contact's
+	treeview.
+
 2005-01-18 Hao Sheng <hao.sheng@sun.com>
 
 	* gui/contact-editor/contact-editor.glade:

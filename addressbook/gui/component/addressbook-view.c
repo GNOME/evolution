@@ -1075,6 +1075,7 @@ addressbook_view_init (AddressbookView *view)
 {
 	AddressbookViewPrivate *priv;
 	GtkWidget *selector_scrolled_window;
+	AtkObject *a11y;
 
 	view->priv = 
 		priv = g_new0 (AddressbookViewPrivate, 1);
@@ -1125,6 +1126,8 @@ addressbook_view_init (AddressbookView *view)
 	g_signal_connect  (priv->selector, "drag-drop", G_CALLBACK (selector_tree_drag_drop), view);
 	g_signal_connect  (priv->selector, "drag-data-received", G_CALLBACK (selector_tree_drag_data_received), view);
 	gtk_drag_dest_set (priv->selector, GTK_DEST_DEFAULT_ALL, drag_types, num_drag_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
+	a11y = gtk_widget_get_accessible (GTK_WIDGET (priv->selector));
+	atk_object_set_name (a11y, _("Contact Source Selector"));
 
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (priv->selector), FALSE);
 	gtk_widget_show (priv->selector);
