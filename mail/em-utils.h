@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifndef __EM_UTILS_H__
 #define __EM_UTILS_H__
 
@@ -40,7 +39,6 @@ struct _CamelMimeMessage;
 struct _CamelMimePart;
 struct _GtkSelectionData;
 struct _GtkAdjustment;
-struct _EMsgComposer;
 
 gboolean em_utils_prompt_user(struct _GtkWindow *parent, const char *promptkey, const char *tag, const char *arg0, ...);
 
@@ -52,40 +50,6 @@ gboolean em_utils_check_user_can_send_mail (struct _GtkWidget *parent);
 
 void em_utils_edit_filters (struct _GtkWidget *parent);
 void em_utils_edit_vfolders (struct _GtkWidget *parent);
-
-void em_utils_composer_send_cb(struct _EMsgComposer *composer, gpointer user_data);
-void em_utils_composer_save_draft_cb(struct _EMsgComposer *composer, int quit, gpointer user_data);
-
-void em_utils_compose_new_message (void);
-
-/* FIXME: mailto?  url?  should make up its mind what its called.  imho use 'uri' */
-void em_utils_compose_new_message_with_mailto (const char *url);
-void em_utils_post_to_folder (struct _CamelFolder *folder);
-void em_utils_post_to_url (const char *url);
-
-void em_utils_edit_message (struct _CamelMimeMessage *message);
-void em_utils_edit_messages (struct _CamelFolder *folder, GPtrArray *uids);
-
-void em_utils_forward_attached (struct _CamelFolder *folder, GPtrArray *uids);
-void em_utils_forward_inline (struct _CamelFolder *folder, GPtrArray *uids);
-void em_utils_forward_quoted (struct _CamelFolder *folder, GPtrArray *uids);
-
-void em_utils_forward_message (struct _CamelMimeMessage *msg);
-void em_utils_forward_messages (struct _CamelFolder *folder, GPtrArray *uids);
-
-void em_utils_redirect_message (struct _CamelMimeMessage *message);
-void em_utils_redirect_message_by_uid (struct _CamelFolder *folder, const char *uid);
-
-enum {
-	REPLY_MODE_SENDER,
-	REPLY_MODE_ALL,
-	REPLY_MODE_LIST
-};
-
-void em_utils_reply_to_message (struct _CamelMimeMessage *message, int mode);
-void em_utils_reply_to_message_by_uid (struct _CamelFolder *folder, const char *uid, int mode);
-
-void em_utils_post_reply_to_message_by_uid (struct _CamelFolder *folder, const char *uid);
 
 void em_utils_save_part(struct _GtkWidget *parent, const char *prompt, struct _CamelMimePart *part);
 gboolean em_utils_save_part_to_file(struct _GtkWidget *parent, const char *filename, struct _CamelMimePart *part);
