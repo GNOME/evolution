@@ -72,7 +72,7 @@ static void vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *source);
 
 static void message_changed(CamelFolder *f, const char *uid, CamelVeeFolder *vf);
 static void folder_changed(CamelFolder *sub, CamelFolderChangeInfo *changes, CamelVeeFolder *vf);
-
+static void subfolder_deleted(CamelFolder *f, void *event_data, CamelVeeFolder *vf);
 
 static void folder_changed_remove_uid(CamelFolder *sub, const char *uid, const char hash[8], int keep, CamelVeeFolder *vf);
 
@@ -176,6 +176,7 @@ camel_vee_folder_finalise (CamelObject *obj)
 		if (vf != folder_unmatched) {
 			camel_object_unhook_event((CamelObject *)f, "folder_changed", (CamelObjectEventHookFunc) folder_changed, vf);
 			camel_object_unhook_event((CamelObject *)f, "message_changed", (CamelObjectEventHookFunc) message_changed, vf);
+			camel_object_unhook_event((CamelObject *)f, "deleted", (CamelObjectEventHookFunc) subfolder_deleted, vf);
 			/* this updates the vfolder */
 			if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0)
 				vee_folder_remove_folder(vf, f);
@@ -354,6 +355,7 @@ camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub)
 
 	camel_object_hook_event((CamelObject *)sub, "folder_changed", (CamelObjectEventHookFunc)folder_changed, vf);
 	camel_object_hook_event((CamelObject *)sub, "message_changed", (CamelObjectEventHookFunc)message_changed, vf);
+	camel_object_hook_event((CamelObject *)sub, "deleted", (CamelObjectEventHookFunc)subfolder_deleted, vf);
 
 	vee_folder_build_folder(vf, sub, NULL);
 }
@@ -390,6 +392,10 @@ camel_vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *sub)
 	CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
 
 	vee_folder_remove_folder(vf, sub);
+
+	camel_object_unhook_event((CamelObject *)sub, "folder_changed", (CamelObjectEventHookFunc) folder_changed, vf);
+	camel_object_unhook_event((CamelObject *)sub, "message_changed", (CamelObjectEventHookFunc) message_changed, vf);
+	camel_object_unhook_event((CamelObject *)sub, "deleted", (CamelObjectEventHookFunc) subfolder_deleted, vf);
 
 	camel_object_unref((CamelObject *)sub);
 }
@@ -1332,4 +1338,11 @@ message_changed(CamelFolder *f, const char *uid, CamelVeeFolder *vf)
 	camel_folder_change_info_change_uid(changes, uid);
 	folder_changed(f, changes, vf);
 	camel_folder_change_info_free(changes);
+}
+
+/* track vanishing folders */
+static void
+subfolder_deleted(CamelFolder *f, void *event_data, CamelVeeFolder *vf)
+{
+	camel_vee_folder_remove_folder(vf, f);
 }
