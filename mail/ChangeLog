@@ -1,3 +1,7 @@
+2000-04-26  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c: update for CamelStream changes.
+
 2000-04-25  Dan Winship  <danw@helixcode.com>
 
 	* mail-display.c, mail-format.c: Redo large chunks of this. The

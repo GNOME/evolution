@@ -203,7 +203,7 @@ icon_stream (char *path)
 		g_byte_array_append (ba, buf, nread);
 	}
 	close (fd);
-	return camel_stream_mem_new_with_byte_array (ba, CAMEL_STREAM_MEM_READ);
+	return camel_stream_mem_new_with_byte_array (ba);
 }
 
 static void
@@ -734,7 +734,7 @@ handle_text_enriched (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 	mail_html_write (html, stream, "\n<!-- text/enriched -->\n");
 
 	ba = g_byte_array_new ();
-	memstream = camel_stream_mem_new_with_byte_array (ba, CAMEL_STREAM_MEM_WRITE);
+	memstream = camel_stream_mem_new_with_byte_array (ba);
 	camel_data_wrapper_write_to_stream (wrapper, memstream);
 	g_byte_array_append (ba, "", 1);
 
@@ -1150,8 +1150,7 @@ handle_via_bonobo (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 
 	/* Write the data to a CamelStreamMem... */
 	ba = g_byte_array_new ();
-	cstream = camel_stream_mem_new_with_byte_array (
-		ba, CAMEL_STREAM_MEM_WRITE);
+	cstream = camel_stream_mem_new_with_byte_array (ba);
 	camel_data_wrapper_write_to_stream (wrapper, cstream);
 
 	/* ...convert the CamelStreamMem to a BonoboStreamMem... */
@@ -1191,7 +1190,7 @@ get_data_wrapper_text (CamelDataWrapper *data)
 	char *text;
 
 	ba = g_byte_array_new ();
-	memstream = camel_stream_mem_new_with_byte_array (ba, CAMEL_STREAM_MEM_WRITE);
+	memstream = camel_stream_mem_new_with_byte_array (ba);
 
 	camel_data_wrapper_write_to_stream (data, memstream);
 	text = g_malloc (ba->len + 1);
