@@ -498,10 +498,14 @@ static gboolean
 prompt_to_save_changes (CompEditor *editor, gboolean send)
 {
 	CompEditorPrivate *priv;
+	gboolean read_only;
 
 	priv = editor->priv;
 
 	if (!priv->changed)
+		return TRUE;
+
+	if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only)
 		return TRUE;
 
 	switch (save_component_dialog (GTK_WINDOW (editor))) {

@@ -1,5 +1,12 @@
 2004-06-18  Rodrigo Moya <rodrigo@novell.com>
 
+	Fixes #58747
+
+	* gui/dialogs/comp-editor.c (prompt_to_save_changes): if the source
+	is read only, don't prompt the user.
+
+2004-06-18  Rodrigo Moya <rodrigo@novell.com>
+
 	Fixes #56323
 
 	* gui/calendar-component.c (create_new_event): removed read-only
