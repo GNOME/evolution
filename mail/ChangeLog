@@ -1,3 +1,27 @@
+2001-06-06  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-account-gui.c (source_type_changed): Check that the chain
+	of deferences in gui->account->source->url is safe.  This was
+	causing a segfault when adding a new account if any of the
+	existing accounts had their sources set to "None".
+	(i.e. gui->account->source == NULL)
+
+	* mail-accounts.c (load_accounts): Check that account->source !=
+	NULL before dereferencing it.
+	(load_accounts): The selection is cleared when the account clist
+	is rebuilt (say after a call to add), but no unselect event is
+	emitted.  Yes, the clist is evil.  We work around this by
+	explictly calling mail_unselect, our unselect signal handler.
+	(Otherwise, the edit and delete buttons remain sensitive and
+	accounts_row != 0, but the user can't see which row the dialog
+	thinks is selected.)
+	(load_news): Check the account->source != NULL before
+	dereferencing it.
+	(mail_unselect): If an insensitive button in a button box has the
+	focus, and if you hit tab, there is a segfault deep inside of gtk.
+	This is probably a gtk bug.  We work around it by having the add
+	button (which is always sensitive) grab the focus on an unselect.
+
 2001-06-05  Jason Leach  <jleach@ximian.com>
 
 	(Fix bug #3211: Should undelete when flagging a delete message as

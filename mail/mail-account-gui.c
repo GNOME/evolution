@@ -184,7 +184,7 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 	MailAccountGui *gui = user_data;
 	GtkWidget *label, *frame, *dwidget = NULL;
 	CamelProvider *provider;
-
+	
 	provider = gtk_object_get_data (GTK_OBJECT (widget), "provider");
 
 	gui->source.provider = provider;
@@ -195,6 +195,7 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 
 		/* hostname */
 		label = glade_xml_get_widget (gui->xml, "source_host_label");
+
 		if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_HOST)) {
 			dwidget = GTK_WIDGET (gui->source.hostname);
 			gtk_widget_show (GTK_WIDGET (gui->source.hostname));
@@ -206,6 +207,7 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 
 		/* username */
 		label = glade_xml_get_widget (gui->xml, "source_user_label");
+
 		if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_USER)) {
 			if (!dwidget)
 				dwidget = GTK_WIDGET (gui->source.username);
@@ -218,6 +220,7 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 
 		/* path */
 		label = glade_xml_get_widget (gui->xml, "source_path_label");
+
 		if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_PATH)) {
 			if (!dwidget)
 				dwidget = GTK_WIDGET (gui->source.path);
@@ -271,8 +274,8 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 
 	if (dwidget)
 		gtk_widget_grab_focus (dwidget);
-	
-	mail_account_gui_build_extra_conf (gui, gui->account->source->url);
+
+	mail_account_gui_build_extra_conf (gui, gui && gui->account && gui->account->source ? gui->account->source->url : NULL);
 }
 
 

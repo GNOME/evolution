@@ -40,6 +40,8 @@
 static void mail_accounts_dialog_class_init (MailAccountsDialogClass *class);
 static void mail_accounts_dialog_init       (MailAccountsDialog *dialog);
 static void mail_accounts_dialog_finalise   (GtkObject *obj);
+static void mail_unselect                   (GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data);
+
 
 static GnomeDialogClass *parent_class;
 
@@ -111,7 +113,7 @@ load_accounts (MailAccountsDialog *dialog)
 		
 		account = node->data;
 		
-		if (account->source->url)
+		if (account->source && account->source->url)
 			url = camel_url_new (account->source->url, NULL);
 		else
 			url = NULL;
@@ -135,6 +137,13 @@ load_accounts (MailAccountsDialog *dialog)
 	}
 	
 	gtk_clist_thaw (dialog->mail_accounts);
+
+	/* 
+	 * The selection gets cleared when we rebuild the clist, but no
+	 * unselect event is emitted.  So we simulate it here.
+	 * I hate the clist.
+	 */
+	mail_unselect (dialog->mail_accounts, 0, 0, NULL, dialog);
 }
 
 #ifdef ENABLE_NNTP
@@ -155,7 +164,7 @@ load_news (MailAccountsDialog *dialog)
 		
 		account = node->data;
 		
-		if (account->source->url)
+		if (account->source && account->source->url)
 			url = camel_url_new (account->source->url, NULL);
 		else
 			url = NULL;
@@ -210,6 +219,13 @@ mail_unselect (GtkCList *clist, gint row, gint column, GdkEventButton *event, gp
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_delete), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_default), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_able), FALSE);
+
+	/*
+	 * If an insensitive button in a button box has the focus, and if you hit tab,
+	 * there is a segfault.  I think that this might be a gtk bug.  Anyway, this
+	 * is a workaround.
+	 */
+	gtk_widget_grab_focus (GTK_WIDGET (dialog->mail_add));
 }
 
 static void
