@@ -185,41 +185,41 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 		uih, "/<Component Placeholder>/Message/Print Message",
 		_("_Print Message"), NULL, -1,
 		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		print_msg, folder_browser);
+		(void *) print_msg, folder_browser);
 	bonobo_ui_handler_menu_new_separator (
 		uih, "/<Component Placeholder>/Message/separator1", -1);
 	bonobo_ui_handler_menu_new_item (
 		uih, "/<Component Placeholder>/Message/Reply to Sender",
 		_("Reply to _Sender"), NULL, -1,
 		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		reply_to_sender, folder_browser);
+		(void *) reply_to_sender, folder_browser);
 	bonobo_ui_handler_menu_new_item (
 		uih, "/<Component Placeholder>/Message/Reply to All",
 		_("Reply to _All"), NULL, -1,
 		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		reply_to_all, folder_browser);
+		(void *) reply_to_all, folder_browser);
 	bonobo_ui_handler_menu_new_item (
 		uih, "/<Component Placeholder>/Message/Forward",
 		_("_Forward"), NULL, -1,
 		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		forward_msg, folder_browser);
+		(void *) forward_msg, folder_browser);
 	bonobo_ui_handler_menu_new_separator (
 		uih, "/<Component Placeholder>/Message/separator2", -1);
 	bonobo_ui_handler_menu_new_item (
 		uih, "/<Component Placeholder>/Message/Delete Message",
 		_("_Delete Message"), NULL, -1,
 		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		delete_msg, folder_browser);
+		(void *) delete_msg, folder_browser);
 	bonobo_ui_handler_menu_new_item (
 		uih, "/<Component Placeholder>/Message/Move Message",
 		_("_Move Message"), NULL, -1,
 		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		move_msg, folder_browser);
+		(void *) move_msg, folder_browser);
 	bonobo_ui_handler_menu_new_item (
 		uih, "/<Component Placeholder>/Message/Copy Message",
 		_("_Copy Message"), NULL, -1,
 		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		copy_msg, folder_browser);
+		(void *) copy_msg, folder_browser);
 
 	/* Folder Menu */
 	bonobo_ui_handler_menu_new_subtree (

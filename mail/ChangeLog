@@ -1,3 +1,8 @@
+2000-08-24  Christopher James Lahey  <clahey@helixcode.com>
+
+	* folder-browser-factory.c: Fixed some warnings in the uihandler
+	code.
+
 2000-08-24  Peter Williams  <peterw@helixcode.com>
 
 	* component-factory.c (mail_load_storages): New function.
