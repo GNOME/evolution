@@ -274,6 +274,8 @@ backend_last_client_gone_cb (CalBackend *backend, gpointer data)
 	gboolean result;
 	GnomeVFSURI *orig_uri;
 
+	fprintf (stderr, "backend_last_client_gone_cb() called!\n");
+
 	factory = CAL_FACTORY (data);
 	priv = factory->priv;
 

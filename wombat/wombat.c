@@ -40,8 +40,10 @@ static gboolean
 termination_handler (gpointer data)
 {
 	if (cal_factory_get_n_backends (cal_factory) == 0
-	    && pas_book_factory_get_n_backends (pas_book_factory) == 0)
+	    && pas_book_factory_get_n_backends (pas_book_factory) == 0) {
+		fprintf (stderr, "termination_handler(): Terminating the Wombat.  Have a nice day.\n");
 		gtk_main_quit ();
+	}
 
 	termination_handler_id = 0;
 	return FALSE;
@@ -94,6 +96,7 @@ setup_pas (int argc, char **argv)
 static void
 last_calendar_gone_cb (CalFactory *factory, gpointer data)
 {
+	fprintf (stderr, "last_calendar_gone_cb() called!  Queueing termination...\n");
 	queue_termination ();
 }
 

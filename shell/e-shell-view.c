@@ -353,6 +353,22 @@ destroy (GtkObject *object)
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
+/* Unrealize handler */
+static void
+unrealize (GtkWidget *widget)
+{
+	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
+		(* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
+
+	/* We flush so that all the destroy window requests for foreign windows
+	 * get sent over the X wire.  Hopefully this will diminish the chance of
+	 * hitting the CORBA (sync) vs. Xlib (async) race conditions.  This is
+	 * not the complete fix, which should actually be put in Bonobo and
+	 * completed.  FIXME.
+	 */
+	gdk_flush ();
+}
+
 
 /* Initialization.  */
 
@@ -360,9 +376,14 @@ static void
 class_init (EShellViewClass *klass)
 {
 	GtkObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
+	object_class = (GtkObjectClass *) klass;
+	widget_class = (GtkWidgetClass *) klass;
+
 	object_class->destroy = destroy;
+
+	widget_class->unrealize = unrealize;
 
 	parent_class = gtk_type_class (gnome_app_get_type ());
 

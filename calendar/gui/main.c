@@ -89,6 +89,7 @@ main (int argc, char **argv)
 	component_factory_init ();
 
 	bonobo_main ();
+	fprintf (stderr, "main(): Out of bonobo_main(), we are dying cleanly.  Have a nice day.\n");
 
 	return 0;
 }

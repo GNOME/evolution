@@ -560,6 +560,8 @@ cal_destroy_cb (GtkObject *object, gpointer data)
 	IMCPrivate *priv;
 	GList *l;
 
+	fprintf (stderr, "cal_destroy_cb(): A Cal was destroyed!\n");
+
 	cal = CAL (object);
 
 	cbimc = CAL_BACKEND_IMC (data);

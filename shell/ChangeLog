@@ -1,3 +1,13 @@
+2000-07-10  Federico Mena Quintero  <federico@helixcode.com>
+
+	* e-shell-view.c (unrealize): As a quasi-hack, do a gdk_flush()
+	when the shell view is unrealized so that the DeleteEvent gets
+	sent to the remote plugs as soon as possible before we start
+	making other CORBA calls.  The problem is that our CORBA pipe is
+	synchronous while our X pipe is asynch.  We have to ensure
+	ordering for certain operations.  This is NOT the correct and
+	complete fix, which should go in Bonobo.
+
 2000-07-08  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view.c (e_shell_view_display_uri): Don't update the
