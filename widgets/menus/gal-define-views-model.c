@@ -91,6 +91,7 @@ gdvm_set_value_at (ETableModel *etc, int col, int row, const void *val)
 {
 	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL(etc);
 	if (views->editable) {
+		e_table_model_pre_change(etc);
 		gal_view_set_title(gal_view_collection_get_view(views->collection, row), val);
 		e_table_model_cell_changed(etc, col, row);
 	}
@@ -208,6 +209,7 @@ gal_define_views_model_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_COLLECTION:
+		e_table_model_pre_change(E_TABLE_MODEL(o));
 		if (GTK_VALUE_OBJECT (*arg))
 			model->collection = GAL_VIEW_COLLECTION(GTK_VALUE_OBJECT (*arg));
 		else
@@ -327,6 +329,7 @@ gal_define_views_model_copy_view (GalDefineViewsModel *model,
 				  int n)
 {
 	ETableModel *etm = E_TABLE_MODEL(model);
+	e_table_model_pre_change(etm);
 	gal_view_collection_copy_view(model->collection, n);
 	e_table_model_row_inserted(etm, gal_view_collection_get_count(model->collection) - 1);
 }
