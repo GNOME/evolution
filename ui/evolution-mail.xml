@@ -208,25 +208,25 @@
   <dockitem name="Toolbar">
 
     <toolitem name="MailGet" verb=""
-    _label="Get Mail" _tip="Send queued mail and retrieve new mail"
+    _label="Get Mail" priority="1" _tip="Send queued mail and retrieve new mail"
     pixtype="pixbuf"/>
 
     <toolitem name="MailCompose" verb=""
-    _label="Compose" _tip="Compose a new message"
+    _label="Compose" priority="1" _tip="Compose a new message"
     pixtype="pixbuf"/>
 
     <separator/>
 
     <toolitem name="Reply" verb="MessageReplySndr"
-    _label="Reply" _tip="Reply to the sender of this message"
+    _label="Reply" priority="1" _tip="Reply to the sender of this message"
     pixtype="pixbuf"/>
 
     <toolitem name="ReplyAll" verb="MessageReplyAll"
-    _label="Reply to All" _tip="Reply to all recipients of this message"
+    _label="Reply to All" priority="1" _tip="Reply to all recipients of this message"
     pixtype="pixbuf"/>
 
     <toolitem name="Forward" verb="MessageForwardAttached"
-    _label="Forward" _tip="Forward this message"
+    _label="Forward" priority="1" _tip="Forward this message"
     pixtype="pixbuf"/>
 
     <separator/>
@@ -253,25 +253,8 @@
     _label="Stop"
     pixtype="stock" pixname="Stop"/>
 
-    <toolitem name="Previous" verb="MailPrevious"
-    _label="Previous"
-    pixtype="stock" pixname="Back"/>
-
-    <toolitem name="Next" verb="MailNext"
-    _label="Next"
-    pixtype="stock" pixname="Forward"/>
-
   </dockitem>
 </Root>
-
-
-
-
-
-
-
-
-
 
 
 

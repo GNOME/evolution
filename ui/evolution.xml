@@ -143,7 +143,7 @@
 	</menu>
 
 	<dockitem name="Toolbar" relief="none" behavior="exclusive"
-	 _tip="Main toolbar"/>
+	 _tip="Main toolbar" look="text"/>
 
 	<status>
 		<item name="main"/>
