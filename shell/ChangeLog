@@ -1,3 +1,8 @@
+2000-11-03  Dan Winship  <danw@helixcode.com>
+
+	* evolution-storage-listener.c (class_init): Fix the name of the
+	signal passed to gtk_signal_new so that this actually works.
+
 2000-11-01  Dan Winship  <danw@helixcode.com>
 
 	* evolution-storage.c (evolution_storage_new_folder): Make this

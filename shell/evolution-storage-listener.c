@@ -259,7 +259,7 @@ class_init (EvolutionStorageListenerClass *klass)
 						  GTK_TYPE_STRING,
 						  GTK_TYPE_POINTER);
 
-	signals[UPDATE_FOLDER]  = gtk_signal_new ("new_folder",
+	signals[UPDATE_FOLDER]  = gtk_signal_new ("update_folder",
 						  GTK_RUN_FIRST,
 						  object_class->type,
 						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, update_folder),
