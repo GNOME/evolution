@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
 "POT-Creation-Date: 2000-05-27 20:01+0100\n"
-"PO-Revision-Date: 2000-05-29 23:38+0200\n"
+"PO-Revision-Date: 2000-05-31 00:38+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -737,7 +737,11 @@ msgstr "_Filter Druid ..."
 msgid "_Vfolder Druid ..."
 msgstr "_Filter Druid ..."
 
-#: mail/folder-browser-factory.c:193
+#: mail/folder-browser-factory.c:85
+msgid "_Configure Camel Providers ..."
+msgstr "_Konfigurér Camel leverandører..."
+
+#: mail/folder-browser-factory.c:200
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Beklager, Evolutions mappebladrer kan ikke initialiseres."
 
@@ -753,31 +757,31 @@ msgstr "Om en forkig-besked skal vises"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Postdelen: kunne ikke initialisere Bonobo"
 
-#: mail/message-list.c:476
+#: mail/message-list.c:489
 msgid "Priority"
 msgstr "Prioritet"
 
-#: mail/message-list.c:490
+#: mail/message-list.c:503
 msgid "From"
 msgstr "Fra"
 
-#: mail/message-list.c:497
+#: mail/message-list.c:510
 msgid "Subject"
 msgstr "Emne"
 
-#: mail/message-list.c:504
+#: mail/message-list.c:517
 msgid "Sent"
 msgstr "Sendt"
 
-#: mail/message-list.c:511
+#: mail/message-list.c:524
 msgid "Receive"
 msgstr "Modtag"
 
-#: mail/message-list.c:518
+#: mail/message-list.c:531
 msgid "To"
 msgstr "Til"
 
-#: mail/message-list.c:525
+#: mail/message-list.c:538
 msgid "Size"
 msgstr "Størrelse"
 
