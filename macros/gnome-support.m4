@@ -38,28 +38,46 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
   # for `scandir'
   AC_HEADER_DIRENT
 
-  AC_CACHE_CHECK([for program_invocation_short_name], gnome_cv_short_name, [
-    AC_TRY_LINK([#include <errno.h>],[
-      char *foo = program_invocation_short_name],
-      gnome_cv_short_name=yes, gnome_cv_short_name=no)])
-  if test "$gnome_cv_short_name" = yes; then
-     AC_DEFINE(HAVE_PROGRAM_INVOCATION_SHORT_NAME)
-  fi
+#  AC_CACHE_CHECK([for program_invocation_short_name], gnome_cv_short_name, [
+#    AC_TRY_LINK([#include <errno.h>],[
+#      char *foo = program_invocation_short_name],
+#      gnome_cv_short_name=yes, gnome_cv_short_name=no)])
+#  if test "$gnome_cv_short_name" = yes; then
+#     AC_DEFINE(HAVE_PROGRAM_INVOCATION_SHORT_NAME)
+#  fi
 
-  AC_CACHE_CHECK([for program_invocation_name], gnome_cv_invocation_name, [
-    AC_TRY_LINK([#include <errno.h>],[
-      char *foo = program_invocation_name],
-      gnome_cv_invocation_name=yes, gnome_cv_invocation_name=no)])
-  if test "$gnome_cv_invocation_name" = yes; then
-     AC_DEFINE(HAVE_PROGRAM_INVOCATION_NAME)
-  fi
+#  AC_CACHE_CHECK([for program_invocation_name], gnome_cv_invocation_name, [
+#    AC_TRY_LINK([#include <errno.h>],[
+#      char *foo = program_invocation_name],
+#      gnome_cv_invocation_name=yes, gnome_cv_invocation_name=no)])
+#  if test "$gnome_cv_invocation_name" = yes; then
+#     AC_DEFINE(HAVE_PROGRAM_INVOCATION_NAME)
+#  fi
+
+  # copied from `configure.in' of `libiberty'
+  vars="program_invocation_short_name program_invocation_name sys_errlist"
+  for v in $vars; do
+    AC_MSG_CHECKING([for $v])
+    AC_CACHE_VAL(gnome_cv_var_$v,
+      [AC_TRY_LINK([int *p;], [extern int $v; p = &$v;],
+		   [eval "gnome_cv_var_$v=yes"],
+		   [eval "gnome_cv_var_$v=no"])])
+    if eval "test \"`echo '$libiberty_cv_var_'$v`\" = yes"; then
+      AC_MSG_RESULT(yes)
+      n=HAVE_`echo $v | tr 'abcdefghijklmnopqrstuvwxyz' 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'`
+      AC_DEFINE_UNQUOTED($n)
+    else
+      AC_MSG_RESULT(no)
+    fi
+  done
 
   AC_CHECK_FUNCS(vsnprintf,,[
     AC_CHECK_FUNCS(__vsnprintf,
       LIBOBJS="$LIBOBJS easy-vsnprintf.o",
       LIBOBJS="$LIBOBJS vsnprintf.o")])
 
-  AC_REPLACE_FUNCS(scandir strtok_r strcasecmp strndup strnlen vasprintf)
+  AC_REPLACE_FUNCS(scandir strcasecmp strerror strndup strnlen)
+  AC_REPLACE_FUNCS(strtok_r vasprintf)
 
   if test "$LIBOBJS" != ""; then
      need_gnome_support=yes

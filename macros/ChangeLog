@@ -1,3 +1,10 @@
+1998-05-19  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-support.m4 (strerror): New check.
+	(sys_errlist): Check for this variable, needed for `strerror'.
+	(program_invocation_name, program_invocation_short_name): Change
+	method used to check for these.
+
 1998-05-09  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* autogen.sh: Remove simple-minded check for `gtk+'.
