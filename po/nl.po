@@ -444,7 +444,7 @@ msgstr "Bewerk Adresboek"
 
 #: addressbook/gui/component/addressbook-config.glade.h:1
 msgid "389"
-msgstr ""
+msgstr "389"
 
 #: addressbook/gui/component/addressbook-config.glade.h:2
 #, fuzzy
@@ -505,37 +505,37 @@ msgstr "Zo"
 
 #: addressbook/gui/component/addressbook-config.glade.h:14
 msgid "The information below is required in order to add an addressbook.  "
-msgstr ""
+msgstr "De informatie hieronder is nodig om een adresboek toe te kunnen voegen. "
 
 #: addressbook/gui/component/addressbook-config.glade.h:15
 msgid "This information is not required for most ldap servers. "
-msgstr ""
+msgstr "Deze informatie is niet noodzakelijk voor de meeste LDAP-servers. "
 
 #: addressbook/gui/component/addressbook-config.glade.h:16
 msgid ""
 "This information is used by your ldap server to specify which nodes are used "
 "in a search. Contact your server administrator for more information."
-msgstr ""
+msgstr "Deze informatie wordt door uw LDAP-server gebruikt om aan te geven wat er doorzocht moet worden. Neem contact op met uw systeembeheerder voor meer informatie."
 
 #: addressbook/gui/component/addressbook-config.glade.h:17
 msgid ""
 "This is the base node for all your searches on the ldap server. Contact your "
 "server administrator for more information."
-msgstr ""
+msgstr "Dit is de basisnode voor al uw zoekopdrachten op de LDAP-server. Neem contact op met uw systeembeheerder voor meer informatie."
 
 #: addressbook/gui/component/addressbook-config.glade.h:18
 msgid "This is the name of the server where your addressbook is located."
-msgstr ""
+msgstr "Dit is de naam van de server waarop uw adresboek zich bevindt."
 
 #: addressbook/gui/component/addressbook-config.glade.h:19
 msgid "This is the port that your ldap server uses."
-msgstr ""
+msgstr "Dit is de poort die uw LDAP-server gebruikt."
 
 #: addressbook/gui/component/addressbook-config.glade.h:20
 msgid ""
 "This name will be used to identify your account. It is for display purposes "
 "only."
-msgstr ""
+msgstr "Deze naam wordt gebruikt om uw account weer te geven. De naam is alleen voor weergave-doeleinden."
 
 #: addressbook/gui/component/addressbook-config.glade.h:21
 #, fuzzy
@@ -708,7 +708,7 @@ msgstr "Nieuw contact maken"
 #: addressbook/gui/component/e-address-popup.c:597
 #, c-format
 msgid "Add address to existing contact \"%s\""
-msgstr ""
+msgstr "Voeg adres toe aan bestand contact \"%s\""
 
 #: addressbook/gui/component/e-address-popup.c:859
 #, fuzzy
@@ -771,11 +771,11 @@ msgstr "Andere Contacten"
 
 #: addressbook/gui/component/select-names/e-select-names.c:487
 msgid "Unable to get local storage.  This should never happen."
-msgstr ""
+msgstr "Niet staat lokale opslag te verkrijgen. Dit zou nooit mogen gebeuren."
 
 #: addressbook/gui/component/select-names/e-select-names.c:560
 msgid "Select Contacts from Addressbook"
-msgstr ""
+msgstr "Selecteer Contacten uit het Adresboek"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:1
 #, fuzzy
@@ -798,7 +798,7 @@ msgstr "Selecteer namen"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid "Show contacts matching the following criteria:"
-msgstr ""
+msgstr "Toon contacten die aan de volgende criteria voldoen:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:6
 #, fuzzy
@@ -871,6 +871,10 @@ msgstr "Telefoontypes"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Wants to receive _HTML mail"
 msgstr "Bij voorkeur _HTML-berichten"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:15
+msgid "Web page address:"
+msgstr "Homepage:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "_Address..."
@@ -1076,6 +1080,8 @@ msgid ""
 "%s already exists\n"
 "Do you want to overwrite it?"
 msgstr ""
+"%s bestaat reeds\n"
+"Wilt u het overschrijven?"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Address _2:"
@@ -1088,158 +1094,151 @@ msgstr "Assistent"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:3
 msgid "Albania"
-msgstr ""
+msgstr "Albanië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "Algeria"
-msgstr ""
+msgstr "Algerije"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:5
 msgid "American Samoa"
-msgstr ""
+msgstr "Amerikaans Samoa"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "Andorra"
-msgstr ""
+msgstr "Andorra"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:7
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "Anguilla"
-msgstr ""
+msgstr "Anguilla"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:9
-#, fuzzy
 msgid "Antarctica"
-msgstr "Automatisch"
+msgstr "Antarctica"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:10
 msgid "Antigua And Barbuda"
-msgstr ""
+msgstr "Antigua en Barbuda"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:11
-#, fuzzy
 msgid "Argentina"
-msgstr "Oriëntatie"
+msgstr "Argentinië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:12
 msgid "Armenia"
-msgstr ""
+msgstr "Armenië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:13
 msgid "Aruba"
-msgstr ""
+msgstr "Aruba"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:14
 msgid "Australia"
-msgstr ""
+msgstr "Australië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:15
-#, fuzzy
 msgid "Austria"
-msgstr "Augustus"
+msgstr "Oostenrijk"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:16
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Azerbaidjan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:17
 msgid "Bahamas"
-msgstr ""
+msgstr "Bahama's"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:18
 msgid "Bahrain"
-msgstr ""
+msgstr "Bahrein"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:19
 msgid "Bangladesh"
-msgstr ""
+msgstr "Bangladesh"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:20
 msgid "Barbados"
-msgstr ""
+msgstr "Barbados"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:21
-#, fuzzy
 msgid "Belarus"
-msgstr "jaren"
+msgstr "Wit-Rusland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:22
 msgid "Belgium"
-msgstr ""
+msgstr "België"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:23
-#, fuzzy
 msgid "Belize"
-msgstr "Grootte"
+msgstr "Belize"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:24
-#, fuzzy
 msgid "Benin"
-msgstr "Aan het Verzenden"
+msgstr "Benin"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:25
 msgid "Bermuda"
-msgstr ""
+msgstr "Bermuda"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:26
 msgid "Bhutan"
-msgstr ""
+msgstr "Bhutan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:27
 msgid "Bolivia"
-msgstr ""
+msgstr "Bolivië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:28
 msgid "Bosnia And Herzegowina"
-msgstr ""
+msgstr "Bosnië-Herzegovina"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:29
 msgid "Botswana"
-msgstr ""
+msgstr "Botswana"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:30
 msgid "Bouvet Island"
-msgstr ""
+msgstr "Bouvet-Eiland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:31
-#, fuzzy
 msgid "Brazil"
-msgstr "Post"
+msgstr "Brazilië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:32
 msgid "British Indian Ocean Territory"
-msgstr ""
+msgstr "Brits Indische Oceaan Territorium"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:33
 msgid "British Virgin Islands"
-msgstr ""
+msgstr "Britse Maagdeneilanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:34
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "Brunei Darussalam"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:35
 msgid "Bulgaria"
-msgstr ""
+msgstr "Bulgarije"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:36
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Burkina Faso"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:37
 msgid "Burundi"
-msgstr ""
+msgstr "Burundi"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:38
 msgid "Cambodia"
-msgstr ""
+msgstr "Cambodja"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:39
 msgid "Cameroon"
-msgstr ""
+msgstr "Kameroen"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:40
 msgid "Canada"
@@ -1247,68 +1246,63 @@ msgstr "Canada"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:41
 msgid "Cape Verde"
-msgstr ""
+msgstr "Kaapverdische Eilanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:42
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Kaaimaneilanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:43
 msgid "Central African Republic"
-msgstr ""
+msgstr "Centraal-Afrikaanse Republiek"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:44
-#, fuzzy
 msgid "Chad"
-msgstr "Voorzitter"
+msgstr "Tsjaad"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:45
 msgid "Check Address"
 msgstr "Controleer Adres"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:46
-#, fuzzy
 msgid "Chile"
-msgstr "Bestand"
+msgstr "Chili"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:47
-#, fuzzy
 msgid "China"
-msgstr "Voorzitter"
+msgstr "China"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:48
 msgid "Christmas Island"
-msgstr ""
+msgstr "Kerstmis-Eiland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:49
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "Kokos (Keeling) Eiland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:50
 msgid "Colombia"
-msgstr ""
+msgstr "Colombia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:51
-#, fuzzy
 msgid "Comoros"
-msgstr "Kleuren"
+msgstr "Komoren"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:52
-#, fuzzy
 msgid "Congo"
-msgstr "Bezig met kopiëren"
+msgstr "Congo"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:53
 msgid "Cook Islands"
-msgstr ""
+msgstr "Cookeilanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:54
 msgid "Costa Rica"
-msgstr ""
+msgstr "Costa Rica"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:55
 msgid "Cote d'Ivoire"
-msgstr ""
+msgstr "Ivoorkust"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:56
 msgid "Countr_y:"
@@ -1316,778 +1310,720 @@ msgstr "_Land:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:57
 msgid "Croatia"
-msgstr ""
+msgstr "Kroatië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:58
 msgid "Cuba"
-msgstr ""
+msgstr "Cuba"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:59
 msgid "Cyprus"
-msgstr ""
+msgstr "Cyprus"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:60
 msgid "Czech Republic"
-msgstr ""
+msgstr "Tsjechië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:61
 msgid "Denmark"
-msgstr ""
+msgstr "Denemarken"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:62
 msgid "Djibouti"
-msgstr ""
+msgstr "Djibouti"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:63
 msgid "Dominica"
-msgstr ""
+msgstr "Dominica"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:64
 msgid "Dominican Republic"
-msgstr ""
+msgstr "Dominicaanse Republiek"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:65
 msgid "East Timor"
-msgstr ""
+msgstr "Oost-Timor"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:66
 msgid "Ecuador"
-msgstr ""
+msgstr "Ecuador"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:67
 msgid "Egypt"
-msgstr ""
+msgstr "Egypte"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:68
 msgid "El Salvador"
-msgstr ""
+msgstr "El Salvador"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:69
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "Equatoriaal Guinee"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:70
 msgid "Eritrea"
-msgstr ""
+msgstr "Eritrea"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:71
 msgid "Estonia"
-msgstr ""
+msgstr "Estland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:72
 msgid "Ethiopia"
-msgstr ""
+msgstr "Ethiopië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:73
 msgid "Falkland Islands"
-msgstr ""
+msgstr "Falkland Eilanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:74
 msgid "Faroe Islands"
-msgstr ""
+msgstr "Faroër Eilanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:75
 msgid "Fiji"
-msgstr ""
+msgstr "Fiji"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:76
 msgid "Finland"
 msgstr "Finland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:77
-#, fuzzy
 msgid "France"
-msgstr "Annuleren"
+msgstr "Frankrijk"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:78
 msgid "French Guiana"
-msgstr ""
+msgstr "Frans Guiana"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:79
 msgid "French Polynesia"
-msgstr ""
+msgstr "Frans Polynesië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:80
 msgid "French Southern Territories"
-msgstr ""
+msgstr "Franse Zuidelijke Territoriën"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:81
 msgid "Gabon"
-msgstr ""
+msgstr "Gabon"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:82
 msgid "Gambia"
-msgstr ""
+msgstr "Gambia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:83
 msgid "Georgia"
-msgstr ""
+msgstr "Georgië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:84
 msgid "Germany"
-msgstr ""
+msgstr "Duitsland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:85
 msgid "Ghana"
-msgstr ""
+msgstr "Ghana"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:86
 msgid "Gibraltar"
-msgstr ""
+msgstr "Gibraltar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:87
-#, fuzzy
 msgid "Greece"
-msgstr "week"
+msgstr "Griekenland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:88
-#, fuzzy
 msgid "Greenland"
-msgstr "Finland"
+msgstr "Groenland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:89
-#, fuzzy
 msgid "Grenada"
-msgstr "Canada"
+msgstr "Grenada"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:90
 msgid "Guadeloupe"
-msgstr ""
+msgstr "Guadeloupe"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:91
-#, fuzzy
 msgid "Guam"
-msgstr "am"
+msgstr "Guam"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:92
 msgid "Guatemala"
-msgstr ""
+msgstr "Guatemala"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:93
-#, fuzzy
 msgid "Guinea"
-msgstr "Algemeen"
+msgstr "Guinee"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:94
 msgid "Guinea-bissau"
-msgstr ""
+msgstr "Guinee-Bissau"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:95
 msgid "Guyana"
-msgstr ""
+msgstr "Guyana"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:96
-#, fuzzy
 msgid "Haiti"
-msgstr "Post"
+msgstr "Haïti"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:97
 msgid "Heard And McDonald Islands"
-msgstr ""
+msgstr "Heard & McDonald Eilanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:98
 msgid "Holy See"
-msgstr ""
+msgstr "Vaticaanstad"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:99
-#, fuzzy
 msgid "Honduras"
-msgstr "uren"
+msgstr "Honduras"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:100
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:101
-#, fuzzy
 msgid "Hungary"
-msgstr "Zondag"
+msgstr "Hongarije"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:102
 msgid "Iceland"
-msgstr ""
+msgstr "IJsland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:103
 msgid "India"
-msgstr ""
+msgstr "India"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:104
 msgid "Indonesia"
-msgstr ""
+msgstr "Indonesië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:105
 msgid "Ireland"
-msgstr ""
+msgstr "Ierland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:106
 msgid "Israel"
-msgstr ""
+msgstr "Israël"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:107
 msgid "Italy"
-msgstr ""
+msgstr "Italië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:108
 msgid "Jamaica"
-msgstr ""
+msgstr "Jamaica"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:109
 msgid "Japan"
-msgstr ""
+msgstr "Japan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:110
 msgid "Jordan"
-msgstr ""
+msgstr "Jordanië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:111
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Kazachstan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:112
 msgid "Kenya"
-msgstr ""
+msgstr "Kenia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:113
 msgid "Kiribati"
-msgstr ""
+msgstr "Kiribati"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:114
 msgid "Kuwait"
-msgstr ""
+msgstr "Koeweit"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:115
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "Kirgizië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:116
-#, fuzzy
 msgid "Laos"
-msgstr "Laagste"
+msgstr "Laos"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:117
 msgid "Latvia"
-msgstr ""
+msgstr "Letland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:118
 msgid "Lebanon"
-msgstr ""
+msgstr "Libanon"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:119
-#, fuzzy
 msgid "Lesotho"
-msgstr "Laagste"
+msgstr "Lesotho"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:120
-#, fuzzy
 msgid "Liberia"
-msgstr "April"
+msgstr "Liberia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:121
 msgid "Liechtenstein"
-msgstr ""
+msgstr "Liechtenstein"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:122
 msgid "Lithuania"
-msgstr ""
+msgstr "Litouwen"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:123
 msgid "Luxembourg"
-msgstr ""
+msgstr "Luxemburg"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:124
-#, fuzzy
 msgid "Macau"
-msgstr "Maart"
+msgstr "Macaõ"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:125
 msgid "Macedonia"
-msgstr ""
+msgstr "Macedonië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:126
 msgid "Madagascar"
-msgstr ""
+msgstr "Madagaskar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:127
-#, fuzzy
 msgid "Malawi"
-msgstr "Post"
+msgstr "Malawi"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:128
 msgid "Malaysia"
-msgstr ""
+msgstr "Maleisië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:129
 msgid "Maldives"
-msgstr ""
+msgstr "Malediven"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:130
-#, fuzzy
 msgid "Mali"
-msgstr "Post"
+msgstr "Mali"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:131
-#, fuzzy
 msgid "Malta"
-msgstr "Post"
+msgstr "Malta"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:132
 msgid "Marshall Islands"
-msgstr ""
+msgstr "Marshall Eilanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:133
 msgid "Martinique"
-msgstr ""
+msgstr "Martinique"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:134
 msgid "Mauritania"
-msgstr ""
+msgstr "Mauritanië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:135
-#, fuzzy
 msgid "Mauritius"
-msgstr "Marges"
+msgstr "Mauritius"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:136
-#, fuzzy
 msgid "Mayotte"
-msgstr "Mei"
+msgstr "Mayotte"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:137
 msgid "Mexico"
-msgstr ""
+msgstr "Mexico"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:138
 msgid "Micronesia"
-msgstr ""
+msgstr "Micronesië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:139
-#, fuzzy
 msgid "Monaco"
-msgstr "Maandag"
+msgstr "Monaco"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:140
 msgid "Mongolia"
-msgstr ""
+msgstr "Mongolië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:141
 msgid "Montserrat"
-msgstr ""
+msgstr "Montserrat"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:142
 msgid "Morocco"
-msgstr ""
+msgstr "Marokko"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:143
-#, fuzzy
 msgid "Mozambique"
-msgstr "Mobiele Telefoon"
+msgstr "Mozambique"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:144
-#, fuzzy
 msgid "Myanmar"
-msgstr "Manager"
+msgstr "Myanmar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:145
 msgid "Namibia"
-msgstr ""
+msgstr "Namibië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:146
 msgid "Nauru"
-msgstr ""
+msgstr "Nauru"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:147
-#, fuzzy
 msgid "Nepal"
-msgstr "Nieuwe Berichten"
+msgstr "Nepal"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:148
-#, fuzzy
 msgid "Netherlands"
-msgstr "Selecteer _Gerelateerde Berichten"
+msgstr "Nederland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:149
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "Nederlandse Antillen"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:150
-#, fuzzy
 msgid "New Caledonia"
-msgstr "Nieuw contact"
+msgstr "Nieuw Caledonië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:151
-#, fuzzy
 msgid "New Zealand"
-msgstr "Nieuwe Berichten"
+msgstr "Nieuw Zeeland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:152
 msgid "Nicaragua"
-msgstr ""
+msgstr "Nicaragua"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:153
-#, fuzzy
 msgid "Niger"
-msgstr "Hoog"
+msgstr "Niger"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:154
-#, fuzzy
 msgid "Nigeria"
-msgstr "April"
+msgstr "Nigeria"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:155
-#, fuzzy
 msgid "Niue"
-msgstr "minuut"
+msgstr "Niue"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:156
 msgid "Norfolk Island"
-msgstr ""
+msgstr "Norfolk Eiland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:157
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "Noordelijke Mariana Eilanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:158
-#, fuzzy
 msgid "Norway"
-msgstr "Nu"
+msgstr "Noorwegen"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:159
 msgid "Oman"
-msgstr ""
+msgstr "Oman"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:160
-#, fuzzy
 msgid "Pakistan"
-msgstr "Plakken"
+msgstr "Pakistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:161
 msgid "Palau"
-msgstr ""
+msgstr "Palau"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:162
-#, fuzzy
 msgid "Panama"
-msgstr "Canada"
+msgstr "Panama"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:163
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "Papoea Nieuw Guinea"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:164
 msgid "Paraguay"
-msgstr ""
+msgstr "Paraguay"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:165
-#, fuzzy
 msgid "Peru"
-msgstr "Papier"
+msgstr "Peru"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:166
 msgid "Philippines"
-msgstr ""
+msgstr "Filippijnen"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:167
 msgid "Pitcairn"
-msgstr ""
+msgstr "Pitcairn"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:168
-#, fuzzy
 msgid "Poland"
-msgstr "Finland"
+msgstr "Polen"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:169
-#, fuzzy
 msgid "Portugal"
-msgstr "Staand"
+msgstr "Portugal"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:170
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Puerto Rico"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:171
-#, fuzzy
 msgid "Qatar"
-msgstr "na"
+msgstr "Qatar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:172
 msgid "Republic Of Korea"
-msgstr ""
+msgstr "Noord Korea"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:173
 msgid "Republic Of Moldova"
-msgstr ""
+msgstr "Moldavië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:174
-#, fuzzy
 msgid "Reunion"
-msgstr "Secties:"
+msgstr "Reunion"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:175
 msgid "Romania"
-msgstr ""
+msgstr "Roemenië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:176
 msgid "Russian Federation"
-msgstr ""
+msgstr "Rusland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:177
-#, fuzzy
 msgid "Rwanda"
-msgstr "Canada"
+msgstr "Rwanda"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:178
 msgid "Saint Kitts And Nevis"
-msgstr ""
+msgstr "Saint Kitts en Nevis"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:179
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Santa Lucia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:180
 msgid "Saint Vincent And The Grena-dines"
-msgstr ""
+msgstr "Saint Vincent en de Grena-dines"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:181
-#, fuzzy
 msgid "Samoa"
-msgstr "Score"
+msgstr "Samoa"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:182
 msgid "San Marino"
-msgstr ""
+msgstr "San Marino"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:183
 msgid "Sao Tome And Principe"
-msgstr ""
+msgstr "Sao Tome en Principe"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:184
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "Saoedi-Arabië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:185
-#, fuzzy
 msgid "Senegal"
-msgstr "Algemeen"
+msgstr "Senegal"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:186
-#, fuzzy
 msgid "Seychelles"
-msgstr ""
-"Plan\n"
-"Tijd"
+msgstr "Seychellen"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:187
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Sierra Leone"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:188
 msgid "Singapore"
-msgstr ""
+msgstr "Singapore"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:189
 msgid "Slovakia"
-msgstr ""
+msgstr "Slowakije"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:190
 msgid "Slovenia"
-msgstr ""
+msgstr "Slovenië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:191
 msgid "Solomon Islands"
-msgstr ""
+msgstr "Solomon IJslanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:192
 #, fuzzy
 msgid "Somalia"
-msgstr "Normaal"
+msgstr "Somalië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:193
 msgid "South Africa"
-msgstr ""
+msgstr "Zuid-Afrika"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:194
 msgid "South Georgia And The South Sandwich Islands"
-msgstr ""
+msgstr "Zuid-Georgia en de Zuidelijke Sandwich Eilanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:195
-#, fuzzy
 msgid "Spain"
-msgstr "Versturen"
+msgstr "Spanje"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:196
 msgid "Sri Lanka"
-msgstr ""
+msgstr "Sri Lanka"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:197
 msgid "St. Helena"
-msgstr ""
+msgstr "St. Helena"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:198
 msgid "St. Pierre And Miquelon"
-msgstr ""
+msgstr "St. Pierre en Miquelon"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:199
-#, fuzzy
 msgid "Sudan"
-msgstr "Zon"
+msgstr "Soedan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:200
-#, fuzzy
 msgid "Suriname"
-msgstr "Bijnaam"
+msgstr "Suriname"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:201
 msgid "Svalbard And Jan Mayen Islands"
-msgstr ""
+msgstr "Svalbard en Jan Mayen Eilanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:202
-#, fuzzy
 msgid "Swaziland"
-msgstr "Finland"
+msgstr "Swaziland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:203
-#, fuzzy
 msgid "Sweden"
-msgstr "Gelezen"
+msgstr "Zweden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:204
 msgid "Switzerland"
-msgstr ""
+msgstr "Zwitserland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:205
-#, fuzzy
 msgid "Taiwan"
-msgstr "Radio"
+msgstr "Taiwan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:206
-#, fuzzy
 msgid "Tajikistan"
-msgstr "Taken"
+msgstr "Tadjzikistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:207
-#, fuzzy
 msgid "Thailand"
-msgstr "Finland"
+msgstr "Thailand"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:208
-#, fuzzy
 msgid "Togo"
-msgstr "Aan"
+msgstr "Togo"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:209
 msgid "Tokelau"
-msgstr ""
+msgstr "Tokelau"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:210
-#, fuzzy
 msgid "Tonga"
-msgstr "Vandaag"
+msgstr "Tonga"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:211
 msgid "Trinidad And Tobago"
-msgstr ""
+msgstr "Trinidad en Tobago"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:212
 msgid "Tunisia"
-msgstr ""
+msgstr "Tunesië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:213
-#, fuzzy
 msgid "Turkey"
-msgstr "Din"
+msgstr "Turkije"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:214
-#, fuzzy
 msgid "Turkmenistan"
-msgstr "Prullenbak"
+msgstr "Turkmenistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:215
 msgid "Turks And Caicos Islands"
-msgstr ""
+msgstr "Turks en Caicos Eilanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:216
 msgid "Tuvalu"
-msgstr ""
+msgstr "Tuvalu"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:217
 msgid "U.S. Virgin Islands"
-msgstr ""
+msgstr "Amerikaanse Maagdeneilanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:218
-#, fuzzy
 msgid "Uganda"
-msgstr "Canada"
+msgstr "Oeganda"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:219
 msgid "Ukraine"
-msgstr ""
+msgstr "Oekraïene"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:220
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "Verenigde Arabische Emiraten"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:221
 msgid "United Kingdom"
-msgstr ""
+msgstr "Verenigd Koninkrijk"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:222
 msgid "United Republic Of Tanzania"
-msgstr ""
+msgstr "Tanzania"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:223
-#, fuzzy
 msgid "United States"
-msgstr "(Naamloos)"
+msgstr "Verenigde Staten"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:224
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "Amerikaanse Kleine Eilanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:225
 msgid "Uruguay"
-msgstr ""
+msgstr "Uruguay"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:226
 msgid "Uzbekistan"
-msgstr ""
+msgstr "Oezbekistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:227
 msgid "Vanuatu"
-msgstr ""
+msgstr "Vanuatu"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:228
 msgid "Venezuela"
-msgstr ""
+msgstr "Venezuela"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:229
-#, fuzzy
 msgid "Viet Nam"
-msgstr "Selecteer namen"
+msgstr "Viëtnam"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:230
 msgid "Wallis And Futuna Islands"
-msgstr ""
+msgstr "Wallis en Futuna Eilanden"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:231
 msgid "Western Sahara"
-msgstr ""
+msgstr "Westelijke Sahara"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:232
-#, fuzzy
 msgid "Yemen"
-msgstr "Gelezen"
+msgstr "Jemen"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:233
 msgid "Yugoslavia"
-msgstr ""
+msgstr "Joegoslavië"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:234
 msgid "Zambia"
-msgstr ""
+msgstr "Zambia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:235
 msgid "Zimbabwe"
-msgstr ""
+msgstr "Zimbabwe"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:236
 msgid "_Address:"
@@ -2189,11 +2125,11 @@ msgstr "December"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 msgid "Type an email address or drag a contact into the list below:"
-msgstr ""
+msgstr "Typ een e-mailadres of sleep een contact in de onderstaande lijst:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "_Hide addresses when sending mail to this list"
-msgstr ""
+msgstr "_Verberg de adressen bij het sturen van post naar deze lijst"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 #: calendar/gui/dialogs/recurrence-page.glade.h:12 filter/filter.glade.h:10
@@ -2214,12 +2150,12 @@ msgstr "Contacten Bewerken"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 msgid "Add Anyway"
-msgstr ""
+msgstr "Voeg toch toe"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:2
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:4
 msgid "Duplicate Contact Detected"
-msgstr ""
+msgstr "Duplicaatcontact Gevonden"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:3
 #, fuzzy
@@ -2236,6 +2172,8 @@ msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
+"De naam of het e-mailadres van dit contact bestaat reeds\n"
+"in deze map. Wilt u het toch toevoegen?"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:1
 #, fuzzy
@@ -2249,13 +2187,15 @@ msgstr "Andere Contacten"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:3
 msgid "Conflicting Contact:"
-msgstr ""
+msgstr "Conflicterend Contact:"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:5
 msgid ""
 "The changed email or name of this contact already\n"
 "exists in this folder.  Would you like to add it anyway?"
 msgstr ""
+"De veranderde naam of e-mailadres van dit contact bestaat reeds\n"
+"in deze map. Wilt u het toch toevoegen?"
 
 #: addressbook/gui/search/e-addressbook-search-dialog.c:146
 #: widgets/misc/e-filter-bar.c:243
@@ -2458,7 +2398,7 @@ msgstr "Bestand niet gevonden"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:39
 msgid "Card ID already exists"
-msgstr ""
+msgstr "Kaart-ID bestaat reeds"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:40
 #, fuzzy
@@ -3033,6 +2973,16 @@ msgstr "%a %d %b"
 msgid "%d"
 msgstr "d"
 
+#: calendar/gui/calendar-commands.c:425
+msgid "%B"
+msgstr "%B"
+
+#. This is a strftime() format. %B = Month name, %Y = Year.
+#: calendar/gui/calendar-commands.c:427 calendar/gui/calendar-commands.c:432
+#: calendar/gui/calendar-commands.c:434 widgets/misc/e-calendar-item.c:1068
+msgid "%B %Y"
+msgstr "%B %Y"
+
 #: calendar/gui/calendar-commands.c:437 calendar/gui/calendar-commands.c:444
 #: calendar/gui/calendar-commands.c:450 calendar/gui/calendar-commands.c:452
 #, fuzzy
@@ -3047,6 +2997,7 @@ msgstr "%A, %e %B, %Y"
 #: my-evolution/e-summary-calendar.c:240
 msgid "%d %B"
 msgstr "%d %B"
+
 
 #: calendar/gui/calendar-commands.c:604
 msgid ""
@@ -3102,12 +3053,27 @@ msgstr "Normaal"
 msgid "Low"
 msgstr "Laag"
 
+
 #: calendar/gui/calendar-model.c:529 calendar/gui/calendar-model.c:1144
 #: calendar/gui/e-calendar-table.c:380
 #, fuzzy
 msgid "Free"
 msgstr "week"
 
+
+#: calendar/gui/calendar-model.c:577 calendar/gui/calendar-model.c:1239
+#: calendar/gui/e-calendar-table.c:383
+msgid "Transparent"
+msgstr "Doorzichtig"
+
+#: calendar/gui/calendar-model.c:580 calendar/gui/calendar-model.c:1241
+#: calendar/gui/e-calendar-table.c:382
+msgid "Opaque"
+msgstr "Ondoorzichtig"
+
+#: calendar/gui/calendar-model.c:734 calendar/gui/calendar-model.c:1293
+#: calendar/gui/dialogs/task-page.glade.h:12
+#: calendar/gui/e-calendar-table.c:403
 #: calendar/gui/calendar-model.c:531 calendar/gui/e-calendar-table.c:381
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:393
 msgid "Busy"
@@ -3245,7 +3211,7 @@ msgstr "Commentaar bevat"
 
 #: calendar/gui/cal-search-bar.c:416
 msgid "Unmatched"
-msgstr ""
+msgstr "Niet passend"
 
 #: calendar/gui/component-factory.c:55 my-evolution/my-evolution.glade.h:6
 #: shell/e-local-storage.c:174 shell/e-shortcuts.c:1046
@@ -3254,7 +3220,7 @@ msgstr "Kalender"
 
 #: calendar/gui/component-factory.c:55
 msgid "Folder containing appointments and events"
-msgstr ""
+msgstr "Folder met afspraken en gebeurtenissen"
 
 #: calendar/gui/component-factory.c:56 calendar/gui/print.c:1707
 #: my-evolution/e-summary-tasks.c:212 my-evolution/e-summary-tasks.c:228
@@ -3308,19 +3274,19 @@ msgstr "Weergave-instellingen"
 
 #: calendar/gui/dialogs/alarm-options.c:384
 msgid "Program Alarm Options"
-msgstr ""
+msgstr "Programma Alarmopties"
 
 #: calendar/gui/dialogs/alarm-options.c:393
 msgid "Unknown Alarm Options"
-msgstr ""
+msgstr "Onbekende Alarmopties"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:1
 msgid "Alarm Repeat"
-msgstr ""
+msgstr "Alarmherhaling"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:2
 msgid "FIXME: mail alarm options"
-msgstr ""
+msgstr "FIXME"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
 #, fuzzy
@@ -3334,7 +3300,7 @@ msgstr "Speel een geluid af"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:5
 msgid "Repeat the alarm"
-msgstr ""
+msgstr "Herhaal het Alarm"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:6
 #, fuzzy
@@ -3343,7 +3309,7 @@ msgstr "Start een programma"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:7
 msgid "With these arguments:"
-msgstr ""
+msgstr "Met deze parameters:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:8 filter/filter-datespec.c:83
 msgid "days"
@@ -3547,11 +3513,11 @@ msgstr "Postinstellingen..."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "Color for overdue tasks"
-msgstr ""
+msgstr "Kleur voor taken die te laat zijn"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 msgid "Color for tasks due today"
-msgstr ""
+msgstr "Kleur voor taken voor vandaag"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 #, fuzzy
@@ -3692,7 +3658,7 @@ msgstr "24-uurs"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "_Ask for confirmation when deleting items"
-msgstr ""
+msgstr "Vraag om bevestiging bij het wissen van items"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 #, fuzzy
@@ -3756,7 +3722,7 @@ msgstr " voor het begin van een afspraak"
 
 #: calendar/gui/dialogs/cancel-comp.c:52
 msgid "The meeting status has changed. Send an updated version?"
-msgstr ""
+msgstr "De status van de bijeenkomst is veranderd. Een geactualiseerde versie versturen?"
 
 #: calendar/gui/dialogs/cancel-comp.c:58
 #, fuzzy
@@ -3775,29 +3741,29 @@ msgstr "Weet u zeker dat u dagboek entry `%s' wilt verwijderen?"
 
 #: calendar/gui/dialogs/changed-comp.c:60
 msgid "This event has been deleted."
-msgstr ""
+msgstr "Deze gebeurtenis is verwijderd."
 
 #: calendar/gui/dialogs/changed-comp.c:64
 msgid "This task has been deleted."
-msgstr ""
+msgstr "Deze taak is verwijderd."
 
 #: calendar/gui/dialogs/changed-comp.c:68
 msgid "This journal entry has been deleted."
-msgstr ""
+msgstr "Dit dagboekitem is verwijderd."
 
 #: calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr ""
+msgstr "%s U heeft veranderingen gemaakt. Deze veranderingen negeren en de editor sluiten?"
 
 #: calendar/gui/dialogs/changed-comp.c:79
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
-msgstr ""
+msgstr "%s U heeft niets veranderd. Editor sluiten?"
 
 #: calendar/gui/dialogs/changed-comp.c:84
 msgid "This event has been changed."
-msgstr ""
+msgstr "Deze gebeurtenis is veranderd."
 
 #: calendar/gui/dialogs/changed-comp.c:88
 msgid "This task has been changed."
