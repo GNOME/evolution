@@ -2280,6 +2280,11 @@ popup_window_destroy_cb (PopupInfo *pop, GObject *deadbeef)
 {
 	the_popup = NULL;
 	
+	if (pop->destroy_timeout != 0) {
+		gtk_timeout_remove (pop->destroy_timeout);
+		pop->destroy_timeout = 0;
+	}
+	
 	popup_info_free (pop);
 }
 

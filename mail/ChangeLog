@@ -1,5 +1,8 @@
 2003-03-25  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-display.c (popup_window_destroy_cb): Remove the
+	timeout. Should fix bug #40275.
+
 	* subscribe-dialog.c: Remove search entry which never worked right
 	(and can't work as users expect anyway, since we don't do
 	namespace stripping). Fixes bug #40083.
