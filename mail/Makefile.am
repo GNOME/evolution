@@ -1,4 +1,6 @@
-bin_PROGRAMS =	evolution-mail test-mail test-thread
+bin_PROGRAMS =	evolution-mail
+
+noinst_PROGRAMS = test-mail test-thread
 
 providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 

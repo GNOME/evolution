@@ -1,5 +1,8 @@
 2000-07-02  Dan Winship  <danw@helixcode.com>
 
+	* Makefile.am (bin_PROGRAMS): test-mail and test-thread should be
+	noinst.
+
 	* mail-ops.c (real_fetch_mail): 
 	(vfolder_editor_clicked): 
 	* component-factory.c (create_vfolder_storage):
