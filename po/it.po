@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "POT-Creation-Date: 2003-12-15 10:23+0100\n"
-"PO-Revision-Date: 2003-12-15 11:58+0100\n"
+"PO-Revision-Date: 2003-12-18 13:39+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team:  <tp@lists.linux.it>,<it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12704,7 +12704,7 @@ msgstr "Elenco degli account"
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
-msgstr ""
+msgstr "Elenco di account conosciuti al componente di posta di Evolution. L'elenco contiene delle stringhe che identificano le cartelle relative a /apps/evolution/mail/accounts."
 
 #: mail/evolution-mail.schemas.in.in.h:23
 msgid "List of custom headers and whether they are enabled."
@@ -12714,11 +12714,11 @@ msgstr "Elenco delle intestazioni personalizzate e se sono abilitate."
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:colour where colour uses the HTML hex encoding."
-msgstr ""
+msgstr "Elenco delle etichette conosciute al componente di posta di Evolution. L'elenco contiene delle stringhe che contengono a loro volta delle coppie nome:colore dove il colore usa la notazione esadecimale dell'HTML."
 
 #: mail/evolution-mail.schemas.in.in.h:25
 msgid "List of mime types to check for bonobo component viewers"
-msgstr ""
+msgstr "Elenco dei tipi mime da controllare per i componenti di visualizzazione di bonobo"
 
 #: mail/evolution-mail.schemas.in.in.h:26
 msgid "Load images for HTML messages over http"
@@ -12850,7 +12850,7 @@ msgstr "Mostra le immagini animate come animazioni."
 
 #: mail/evolution-mail.schemas.in.in.h:56
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr ""
+msgstr "Mostra messaggi cancellati (con una riga sopra) nell'elenco dei messaggi."
 
 #: mail/evolution-mail.schemas.in.in.h:57
 msgid "Show deleted messages in the message-list"
@@ -12870,7 +12870,7 @@ msgstr "Avvisa con un segnale acustico quando arriva nuova posta."
 
 #: mail/evolution-mail.schemas.in.in.h:61
 msgid "Specifies the type of New Mail Notification the user wishes to use."
-msgstr ""
+msgstr "Specifica il tipo di notifica posta in arrivo che l'utente intende usare."
 
 #: mail/evolution-mail.schemas.in.in.h:62
 msgid "Spell check inline"
@@ -12882,7 +12882,7 @@ msgstr "Carattere del terminale"
 
 #: mail/evolution-mail.schemas.in.in.h:64
 msgid "The terminal font for mail display"
-msgstr ""
+msgstr "Il carattere da terminale per la visualizzazione della posta"
 
 #: mail/evolution-mail.schemas.in.in.h:65
 msgid "The variable width font for mail display"
