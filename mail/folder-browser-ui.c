@@ -63,6 +63,9 @@ static BonoboUIVerb message_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageSearch", search_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageUndelete", undelete_msg),
 	BONOBO_UI_UNSAFE_VERB ("PrintMessage", print_msg),
+	BONOBO_UI_UNSAFE_VERB ("TextZoomIn", zoom_in),
+	BONOBO_UI_UNSAFE_VERB ("TextZoomOut", zoom_out),
+	BONOBO_UI_UNSAFE_VERB ("TextZoomReset", zoom_reset),
 	BONOBO_UI_UNSAFE_VERB ("PrintPreviewMessage", print_preview_msg),
 	BONOBO_UI_UNSAFE_VERB ("ToolsFilterMailingList", filter_mlist),
 	BONOBO_UI_UNSAFE_VERB ("ToolsFilterRecipient", filter_recipient),
@@ -509,7 +512,6 @@ static const char *message_pane_enables[] = {
 	 * selected. */
 	"PrintMessage", "PrintPreviewMessage",
 	"ViewFullHeaders", "ViewLoadImages", "ViewNormal", "ViewSource",
-	
 	NULL
 };
 

@@ -91,6 +91,10 @@ void mark_as_important     (BonoboUIComponent *uih, void *user_data, const char 
 void mark_as_unimportant   (BonoboUIComponent *uih, void *user_data, const char *path);
 void toggle_as_important   (BonoboUIComponent *uih, void *user_data, const char *path);
 
+void zoom_in               (BonoboUIComponent *uih, void *user_data, const char *path);
+void zoom_out              (BonoboUIComponent *uih, void *user_data, const char *path);
+void zoom_reset            (BonoboUIComponent *uih, void *user_data, const char *path);
+
 void edit_message          (BonoboUIComponent *uih, void *user_data, const char *path);
 void open_message          (BonoboUIComponent *uih, void *user_data, const char *path);
 void expunge_folder        (BonoboUIComponent *uih, void *user_data, const char *path);

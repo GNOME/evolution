@@ -1578,6 +1578,24 @@ toggle_as_important (BonoboUIComponent *uih, void *user_data, const char *path)
 	toggle_flags (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_FLAGGED);
 }
 
+void
+zoom_in (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	gtk_html_zoom_in (FOLDER_BROWSER (user_data)->mail_display->html);
+}
+
+void
+zoom_out (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	gtk_html_zoom_out (FOLDER_BROWSER (user_data)->mail_display->html);
+}
+
+void
+zoom_reset (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	gtk_html_zoom_reset (FOLDER_BROWSER (user_data)->mail_display->html);
+}
+
 static void
 do_edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void *data)
 {

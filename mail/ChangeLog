@@ -1,3 +1,13 @@
+2001-10-20  Larry Ewing  <lewing@ximian.com>
+
+	* folder-browser-ui.c: hook up zoom functions.
+
+	* mail-callbacks.h: add prototypes.
+
+	* mail-callbacks.c (zoom_in): added.
+	(zoom_out): added.
+	(zoom_reset): added.
+
 2001-10-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (transfer_msg): Allow copy/move to/from vTrash
