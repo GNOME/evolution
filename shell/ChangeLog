@@ -1,5 +1,12 @@
 2000-05-14  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-folder-type-repository.c
+	(e_folder_type_repository_get_control_id_for_type): Protect
+	against non-existing types.
+	(e_folder_type_repository_get_icon_for_type): Likewise.
+
+2000-05-14  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-storage-set-view.c
 	(folder_compare_cb): Callback comparison function for comparing
 	folders based on their names.

@@ -231,6 +231,11 @@ e_folder_type_repository_get_icon_name_for_type (EFolderTypeRepository *folder_t
 	g_return_val_if_fail (type_name != NULL, NULL);
 
 	folder_type = get_folder_type (folder_type_repository, type_name);
+	if (folder_type == NULL) {
+		g_warning ("%s: Unknown type -- %s", __FUNCTION__, type_name);
+		return NULL;
+	}
+
 	return folder_type->icon_name;
 }
 
@@ -245,6 +250,11 @@ e_folder_type_repository_get_icon_for_type (EFolderTypeRepository *folder_type_r
 	g_return_val_if_fail (type_name != NULL, NULL);
 
 	folder_type = get_folder_type (folder_type_repository, type_name);
+	if (folder_type == NULL) {
+		g_warning ("%s: Unknown type -- %s", __FUNCTION__, type_name);
+		return NULL;
+	}
+
 	return folder_type->icon_pixbuf;
 }
 
@@ -259,6 +269,11 @@ e_folder_type_repository_get_control_id_for_type (EFolderTypeRepository *folder_
 	g_return_val_if_fail (type_name != NULL, NULL);
 
 	folder_type = get_folder_type (folder_type_repository, type_name);
+	if (folder_type == NULL) {
+		g_warning ("%s: Unknown type -- %s", __FUNCTION__, type_name);
+		return NULL;
+	}
+
 	return folder_type->control_id;
 }
 
