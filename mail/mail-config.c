@@ -593,68 +593,20 @@ mail_config_find_account (EAccount *account)
 EAccount *
 mail_config_get_default_account (void)
 {
-	EAccount *account = NULL;
-	EIterator *iter;
-	char *uid;
-	
 	if (config == NULL)
 		mail_config_init ();
 	
 	if (!config->accounts)
 		return NULL;
-	
-	uid = gconf_client_get_string (config->gconf, "/apps/evolution/mail/default_account", NULL);
-	
-	iter = e_list_get_iterator ((EList *) config->accounts);
-	if (uid != NULL) {
-		while (e_iterator_is_valid (iter)) {
-			account = (EAccount *) e_iterator_get (iter);
-			
-			if (!strcmp (account->uid, uid)) {
-				g_object_unref (iter);
-				g_free (uid);
-				
-				return account;
-			}
-			
-			e_iterator_next (iter);
-		}
-		
-		g_free (uid);
-	}
-	
-	/* Looks like we have no default, so make the first account
-	   the default */
-	e_iterator_reset (iter);
-	account = (EAccount *) e_iterator_get (iter);
-	if (account)
-		gconf_client_set_string (config->gconf, "/apps/evolution/mail/default_account",
-					 account->uid, NULL);
-	g_object_unref (iter);
-	
-	return account;
+
+	/* should probably return const */
+	return (EAccount *)e_account_list_get_default(config->accounts);
 }
 
 EAccount *
 mail_config_get_account_by_name (const char *account_name)
 {
-	EAccount *account;
-	EIterator *iter;
-	
-	iter = e_list_get_iterator ((EList *) config->accounts);
-	while (e_iterator_is_valid (iter)) {
-		account = (EAccount *) e_iterator_get (iter);
-		if (!strcmp (account->name, account_name)) {
-			g_object_unref (iter);
-			return account;
-		}
-		
-		e_iterator_next (iter);
-	}
-	
-	g_object_unref (iter);
-	
-	return NULL;
+	return (EAccount *)e_account_list_find(config->accounts, E_ACCOUNT_FIND_NAME, account_name);
 }
 
 EAccount *
@@ -764,38 +716,21 @@ mail_config_get_accounts (void)
 void
 mail_config_add_account (EAccount *account)
 {
-	e_list_append ((EList *) config->accounts, account);
-	g_signal_emit_by_name (config->accounts, "account-added", account);
-	
+	e_account_list_add(config->accounts, account);
 	mail_config_save_accounts ();
 }
 
 void
 mail_config_remove_account (EAccount *account)
 {
-	char *uid;
-	
-	uid = gconf_client_get_string (config->gconf, "/apps/evolution/mail/default_account", NULL);
-	
-	if (account == mail_config_get_default_account ()) {
-		/* the default account has been deleted, the new
-                   default becomes the first account in the list */
-		gconf_client_set_string (config->gconf, "/apps/evolution/mail/default_account", account->uid, NULL);
-	}
-	
-	g_free (uid);
-	g_object_ref (account);
-	e_list_remove ((EList *) config->accounts, account);
-	g_signal_emit_by_name (config->accounts, "account-removed", account);
-	g_object_unref (account);
-	
+	e_account_list_remove(config->accounts, account);
 	mail_config_save_accounts ();
 }
 
 void
 mail_config_set_default_account (EAccount *account)
 {
-	gconf_client_set_string (config->gconf, "/apps/evolution/mail/default_account", account->uid, NULL);
+	e_account_list_set_default(config->accounts, account);
 }
 
 EAccountIdentity *

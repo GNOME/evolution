@@ -1,3 +1,20 @@
+2003-02-20  Not Zed  <NotZed@Ximian.com>
+
+	* mail-preferences.c (mail_preferences_apply): fix the g_snprintf
+	stuff.
+
+	* mail-config.c (mail_config_add_account): Use new
+	e_account_list_add.
+	(mail_config_remove_account): Use new e_account_list_remove.
+	(mail_config_set_default_account): Similarly for
+	e_account_list_set_default.
+	(mail_config_get_default_account): Same for
+	e_account_list_get_default.
+	(mail_config_get_account_by_name): Use e_account_list_find.
+
+	* mail-account-gui.c (mail_account_gui_save): use new
+	e_account_list_changed call instead of manual signalling.
+
 2003-02-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-local.c: Set the local provider description field to a

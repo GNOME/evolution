@@ -381,7 +381,7 @@ mail_preferences_apply (MailPreferences *prefs)
 			       gtk_toggle_button_get_active (prefs->citation_highlight), NULL);
 	
 	rgb = colorpicker_get_color (prefs->citation_color);
-	g_snprintf (buf, sizeof (buf), "#%0.6x", rgb);
+	sprintf (buf,"#%06x", rgb & 0xffffff);
 	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/display/citation_colour", buf, NULL);
 	
 	/* Deleting Mail */
@@ -428,7 +428,7 @@ mail_preferences_apply (MailPreferences *prefs)
 	for (i = 4; i >= 0; i--) {
 		cstring = gtk_entry_get_text (prefs->labels[i].name);
 		rgb = colorpicker_get_color (prefs->labels[i].color);
-		string = g_strdup_printf ("%s:#%0.6x", cstring, rgb);
+		string = g_strdup_printf ("%s:#%06x", cstring, rgb & 0xffffff);
 		list = g_slist_prepend (list, string);
 	}
 	
