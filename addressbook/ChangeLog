@@ -1,3 +1,9 @@
+2003-07-22  Akira TAGOH  <tagoh@redhat.com>
+
+	* printing/e-contact-print-envelope.c (ecpe_print): Use 'Sans'
+	instead of 'Helvetica' for the font name.
+	* printing/e-contact-print.c (e_contact_build_style): Likewise.
+
 2003-07-23  Dan Winship  <danw@ximian.com>
 
 	* backend/ebook/Makefile.am: use EVO_MARSHAL_RULE

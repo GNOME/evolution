@@ -889,8 +889,8 @@ e_contact_build_style(EContactPrintStyle *style)
 	style->letter_tabs = TRUE;
 	style->letter_headings = FALSE;
 
-	style->headings_font = gnome_font_find_closest_from_weight_slant ("Helvetica", GNOME_FONT_BOLD, FALSE, 8);
-	style->body_font = gnome_font_find_closest_from_weight_slant ("Helvetica", GNOME_FONT_BOOK, FALSE, 6);
+	style->headings_font = gnome_font_find_closest_from_weight_slant ("Sans", GNOME_FONT_BOLD, FALSE, 8);
+	style->body_font = gnome_font_find_closest_from_weight_slant ("Sans", GNOME_FONT_BOOK, FALSE, 6);
 
 	style->print_using_grey = TRUE;
 	style->paper_type = 0;
@@ -914,13 +914,13 @@ e_contact_build_style(EContactPrintStyle *style)
 #endif
 	style->orientation_portrait = FALSE;
 
-	style->header_font = gnome_font_find_closest_from_weight_slant ("Helvetica", GNOME_FONT_BOOK, FALSE, 6);
+	style->header_font = gnome_font_find_closest_from_weight_slant ("Sans", GNOME_FONT_BOOK, FALSE, 6);
 
 	style->left_header = g_strdup("");
 	style->center_header = g_strdup("");
 	style->right_header = g_strdup("");
 
-	style->footer_font = gnome_font_find_closest_from_weight_slant ("Helvetica", GNOME_FONT_BOOK, FALSE, 6);
+	style->footer_font = gnome_font_find_closest_from_weight_slant ("Sans", GNOME_FONT_BOOK, FALSE, 6);
 
 	style->left_footer = g_strdup("");
 	style->center_footer = g_strdup("");

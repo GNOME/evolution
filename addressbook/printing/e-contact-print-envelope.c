@@ -147,9 +147,9 @@ ecpe_print(GnomePrintContext *pc, ECard *ecard, gboolean as_return)
 	address = e_card_simple_get(card, E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS);
 	linelist = ecpe_break(address);
 	if (as_return)
-		font = gnome_font_find ("Helvetica", 9);
+		font = gnome_font_find ("Sans", 9);
 	else
-		font = gnome_font_find ("Helvetica", 12);
+		font = gnome_font_find ("Sans", 12);
 	ecpe_linelist_dimensions(font, address, linelist, NULL, &y);
 	if (as_return) {
 		x = 36;
