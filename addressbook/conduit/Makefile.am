@@ -12,8 +12,17 @@ bin_PROGRAMS = e-address-conduit-control-applet
 
 e_address_conduit_control_applet_SOURCES = address-conduit-control-applet.c
 
-e_address_conduit_control_applet_LDFLAGS = \
-		-rdynamic -L/usr/lib -L/usr/X11R6/lib -lcapplet -lgnorba -lgpilotd -lgpilotdcm -lgpilotdconduit -lgnomevfs -lgthread -lpthread -lbonobo -lgnomeui -lart_lgpl -lgdk_imlib -lSM -lICE -lgnome -lgnomesupport -lesd -laudiofile -ldb1 -lgdk_pixbuf -ltiff -ljpeg -lpng -lgtk -lgdk -lgmodule -ldl -lXi -lXext -lX11 -loaf -lORBitCosNaming -lORBit -lIIOP -lORBitutil -lglib -lnsl -lm -lxml -lz -lpisock
+e_address_conduit_control_applet_LDADD = \
+		$(CAPPLET_LIBS)  \
+		$(GNOME_LIBDIR) \
+		$(GNOME_PILOT_LIBS) \
+		$(PISOCK_LIBDIR) $(PISOCK_LIBS) \
+		$(GNOME_CAPPLET_LIBS) \
+		$(BONOBO_VFS_GNOME_LIBS) \
+		$(GNOME_XML_LIB) \
+	        $(GNOMEUI_LIBS) \
+                $(INTLLIBS)
+
 
 # Address Conduit
 e_address_conduitsdir=$(libdir)/gnome-pilot/conduits

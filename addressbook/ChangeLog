@@ -1,5 +1,16 @@
 2001-01-04  JP Rosevear  <jpr@helixcode.com>
 
+	* conduit/Makefile.am: Fix hard coded library names that were 
+	accidentally committed (i'm looking at you miggie)
+
+	* contact-editor/e-contact-editor.c (categories_clicked): Reflect
+	renaming.
+
+	* contact-editor/e-contact-editor-categories.[hc]: These are
+	living in gal now
+	
+2001-01-04  JP Rosevear  <jpr@helixcode.com>
+
 	* backend/pas/pas-backend-file.c (pas_backend_file_book_view_free): 
 	Need to e_sexp_unref the the sexp, not gtk_object_unref it.
 

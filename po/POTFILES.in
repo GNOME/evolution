@@ -6,7 +6,6 @@ addressbook/backend/ebook/test-client-list.c
 addressbook/backend/ebook/test-client.c
 addressbook/conduit/address-conduit-control-applet.c
 addressbook/conduit/address-conduit.c
-addressbook/contact-editor/categories-strings.h
 addressbook/contact-editor/e-contact-editor-confirm-delete.glade
 addressbook/contact-editor/e-contact-editor-strings.h
 addressbook/contact-editor/e-contact-editor.c

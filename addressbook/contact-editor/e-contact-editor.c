@@ -25,7 +25,6 @@
 #include "e-contact-editor.h"
 #include <e-contact-editor-fullname.h>
 #include <e-contact-editor-address.h>
-#include <e-contact-editor-categories.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include "e-util/e-gui-utils.h"
@@ -570,7 +569,7 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 		gtk_object_get(GTK_OBJECT(editor->card),
 			       "categories", &categories,
 			       NULL);
-	dialog = GNOME_DIALOG(e_contact_editor_categories_new(categories));
+	dialog = GNOME_DIALOG(e_categories_new(categories));
 	gtk_widget_show(GTK_WIDGET(dialog));
 	result = gnome_dialog_run (dialog);
 	g_free (categories);
