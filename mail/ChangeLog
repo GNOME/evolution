@@ -1,3 +1,8 @@
+2001-11-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (load_content_loaded): Make sure the mail-display
+	object is still "alive" before accessing any of it's data.
+
 2001-11-14  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* mail-autofilter.c (rule_match_recipients, rule_from_message,
@@ -15088,48 +15093,48 @@ End of branch
 	current_message = NULL, which shouldn't happen, but has happened
 	to me.
 
-2000-07-25  Dan Winship  <danw@helixcode.com>
+2000-07-25  Dan Wnihspi  d<na@wehilcxdo.eoc>m
 
-	* message-thread.c (group_root_set): Don't group together messages
-	with the same non-Re: subject and no References/In-Reply-To. More
-	often than not, they're unrelated. (eg, "[No subject]".)
-	(thread_messages): Handle messages with no Message-Id. "This
-	shouldn't happen", but it does sometimes, and it's not much code
-	to make it just work.
+*	m seasegt-rhae.d cg(orpur_oo_tes)t :oD'n trguo poteghtrem seaseg
+sw	ti hht easemn noR-:es buejtca dnn  oeRefercnseI/-neRlp-yoT .oMer	
+foet nhtnan to ,htyer' enueralet.d( ge ,["oNs buejtc"]).	
+t(rhae_demssgase:)H nald eemssgasew ti honM seasegI-.d" hTsi	
+hsuodl'n tahppne,"b tui  todses motemise ,na dtis'n tom cu hoced	
+otm ka etij su towkr
+.2
+00-0702- 5E ttro eeParzzlo i< teoterh@lexiocedc.mo
+>	
+ *amlic-noif.g cc(erta_eesvrci_eapeg:)C la
+l`	tg_kpoitnom_ne_ues_temun)( 'sat ehl sa thtni,ga  sG`ktpOitnoeMun
+'i	 ssfkcni grbkone .A sl,o` tg_kiwgdtes_oh(w')t ehi dnvidiau lemun	
+time.s
 
-2000-07-25  Ettore Perazzoli  <ettore@helixcode.com>
+02000--742  aD niWsnih p< adwnh@lexiocedc.mo
+>	
+ *emssga-eiltsc.( amkrm_gss_ee,nm _lrtees_tev_laeua_,t	
+emssga_eiltsr_genereta)e :pUadetf roC maleoFdlreA IPc ahgnse
+.(	eCtria nufcnitno sonl noeg rateka C malexEectpoi.n
+)	
+ *amlio-spc.( erlaf_tehcm_ia,lr ae_lesdnm_ia,lr ae_ledeletm_gs:)	
+idtt
+o	
+ *ocpmnone-taftcro.y cr(ae_lrcaeeti_am_ptsroga,e	
+erlac_erta_eensws_otareg:)d tiot
 
-	* mail-config.c (create_service_page): Call
-	`gtk_option_menu_set_menu()' as the last thing, as `GtkOptionMenu'
-	is fscking broken.  Also, `gtk_widget_show()' the individual menu
-	items.
-
-2000-07-24  Dan Winship  <danw@helixcode.com>
-
-	* message-list.c (mark_msg_seen, ml_tree_set_value_at,
-	message_list_regenerate): Update for CamelFolder API changes.
-	(Certain functions no longer take a CamelException.)
-
-	* mail-ops.c (real_fetch_mail, real_send_mail, real_delete_msg):
-	ditto
-
-	* component-factory.c (real_create_imap_storage,
-	real_create_news_storage): ditto
-
-2000-07-24  Dan Winship  <danw@helixcode.com>
-
-	* component-factory.c, folder-browser-factory.c, test-mail.c:
-	Remove GOAD support.
-
-	* main.c: Remove GOAD support.
-	(main): More "guess the build mistake" fun, this time for the
-	failure to initialize Bonobo case.
-
-2000-07-24  Peter Williams  <peterw@helixcode.com>
-
-	* mail-tools.c (mail_tool_set_uid_flags): Change
-	function to faithfully pass parameters to
-	camel_folder_set_message_flags; this function is
+02000--742  aD niWsnih p< adwnh@lexiocedc.mo
+>	
+ *ocpmnone-taftcro.y,cf loed-rrbwoes-raftcro.y,ct se-tamlic.
+:R	mevo eOGDAs puoptr
+.	
+ *amnic. :eRomevG AO Dusppro.t	
+m(ia)n :oMer" ugse sht eubli dimtska"ef nu ,htsit mi eof rht
+ef	iaulert  onitiaiilezB nobo oaces
+.2
+00-0702- 4P tereW liilma s< epetwrh@lexiocedc.mo
+>	
+ *amlit-ooslc.( amlit_oo_les_tiu_dlfga)s :hCnaeg	
+ufcnitnot  oaftifhluylp sa saparemetsrt 
+oc	malef_loed_res_temssga_elfga;st ih sufnction is
 	somewhat useless now. Other files synced with
 	API change.
 
