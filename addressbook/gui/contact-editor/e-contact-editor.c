@@ -21,6 +21,8 @@
 
 #include <config.h>
 
+#include "e-contact-editor.h"
+
 #include <time.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkcheckmenuitem.h>
@@ -51,7 +53,6 @@
 
 #include "e-card-merging.h"
 
-#include "e-contact-editor.h"
 #include "e-contact-editor-address.h"
 #include "e-contact-editor-fullname.h"
 #include "e-contact-save-as.h"
@@ -974,7 +975,7 @@ file_save_as_cb (GtkWidget *widget, gpointer data)
 	e_card_simple_sync_card (ce->simple);
 
 	card = ce->card;
-	e_contact_save_as("Save as VCard", card);
+	e_contact_save_as(_("Save Contact as VCard"), card);
 }
 
 static void
@@ -1128,6 +1129,7 @@ BonoboUIVerb verbs [] = {
 
 EPixmap pixmaps[] = {
 	E_PIXMAP ("/commands/ContactEditorSave", "save-16.png"),
+	E_PIXMAP ("/commands/ContactEditorSaveClose", "save-16.png"),
 	E_PIXMAP ("/commands/ContactEditorSaveAs", "save-as-16.png"),
 	E_PIXMAP ("/commands/ContactEditorDelete", "evolution-trash-mini.png"),
 	E_PIXMAP ("/commands/ContactEditorPrint", "print.xpm"),
@@ -1196,13 +1198,11 @@ setup_tab_order(GladeXML *gui)
 		list = add_to_tab_order(list, gui, "entry-phone2");
 		list = add_to_tab_order(list, gui, "entry-phone3");
 		list = add_to_tab_order(list, gui, "entry-phone4");
-		list = g_list_reverse(list);
-		e_container_change_tab_order(GTK_CONTAINER(container), list);
-		g_list_free(list);
 
-		list = NULL;
 		list = add_to_tab_order(list, gui, "entry-email1");
+		list = add_to_tab_order(list, gui, "alignment-htmlmail");
 		list = add_to_tab_order(list, gui, "entry-web");
+		list = add_to_tab_order(list, gui, "button-fulladdr");
 		list = add_to_tab_order(list, gui, "text-address");
 		list = add_to_tab_order(list, gui, "alignment-contacts");
 		list = g_list_reverse(list);
