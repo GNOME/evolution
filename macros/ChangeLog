@@ -1,3 +1,8 @@
+1998-06-11  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-support.m4 (AC_PROG_AWK): Look for awk.
+	(CROSS_COMPILING): Remove conditional.
+	
 Wed Jun 10 14:19:39 EDT 1998 Gregory McLean <gregm@comstar.net>
 
 	* gnome-x-checks.m4: more tweeks to make building against gtk 1.0 and

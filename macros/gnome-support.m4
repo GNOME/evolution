@@ -6,6 +6,8 @@ dnl    or "no".  Also sets up the Automake BUILD_GNOME_SUPPORT
 dnl    conditional.  This should only be used when building the Gnome
 dnl    libs; Gnome clients should not need this macro.
 AC_DEFUN([GNOME_SUPPORT_CHECKS],[
+  # we need an `awk' to build `gnomesupport.h'
+  AC_REQUIRE([AC_PROG_AWK])
   need_gnome_support=no
   save_LIBOBJS="$LIBOBJS"
   LIBOBJS=
@@ -90,5 +92,4 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
 
   LIBOBJS="$save_LIBOBJS"
   AM_CONDITIONAL(BUILD_GNOME_SUPPORT, test "$need_gnome_support" = yes)
-  AM_CONDITIONAL(CROSS_COMPILING, test "$cross_compiling" = yes)
 ])
