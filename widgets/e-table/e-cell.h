@@ -14,6 +14,13 @@
 typedef struct _ECell ECell;
 typedef struct _ECellView ECellView;
 
+/* Object flags for ECells */
+enum {
+	E_CELL_EDITABLE    = 1 << 4
+};
+
+#define E_CELL_IS_EDITABLE(e) (GTK_OBJECT (e)->flags & E_CELL_EDITABLE)
+
 struct _ECell {
 	GtkObject       object;
 };
@@ -73,5 +80,7 @@ int        e_cell_height    (ECellView *ecell_view, int model_col, int view_col,
 
 void      *e_cell_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row);
 void       e_cell_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context);
+
+void       e_cell_set_editable (ECell *ecell, gboolean editable);
 
 #endif /* _E_CELL_H_ */

@@ -48,7 +48,6 @@ typedef struct {
 	char *ellipsis;                 /* The ellipsis characters.  NULL = "...". */
 
 	guint use_ellipsis : 1;         /* Whether to use the ellipsis. */
-	guint editable : 1;             /* Item is editable */
 } ECellText;
 
 typedef struct {
@@ -56,7 +55,7 @@ typedef struct {
 } ECellTextClass;
 
 GtkType    e_cell_text_get_type (void);
-ECell     *e_cell_text_new      (ETableModel *model, const char *fontname, GtkJustification justify, gboolean editable);
+ECell     *e_cell_text_new      (ETableModel *model, const char *fontname, GtkJustification justify);
 
 #endif /* _E_CELL_TEXT_H_ */
 

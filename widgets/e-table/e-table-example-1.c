@@ -17,40 +17,40 @@
 #include "table-test.h"
 
 /*
-One way in which we make it simpler to build an ETableModel is through
-the ETableSimple class.  Instead of creating your own ETableModel
-class, you simply create a new object of the ETableSimple class.  You
-give it a bunch of functions that act as callbacks.
-
-You also get to pass a void * to ETableSimple and it gets passed to
-your callbacks.  This would be for having multiple models of the same
-type.  This is just an example though, so we statically define all the
-data and ignore the void *data parameter.
-
-In our example we will be creating a table model with 6 columns and 10
-rows.  This corresponds to having 6 different types of information and
-10 different sets of data in our database.
-
-The headers will be hard coded, as will be the example data.
-
-*/
+ * One way in which we make it simpler to build an ETableModel is through
+ * the ETableSimple class.  Instead of creating your own ETableModel
+ * class, you simply create a new object of the ETableSimple class.  You
+ * give it a bunch of functions that act as callbacks.
+ * 
+ * You also get to pass a void * to ETableSimple and it gets passed to
+ * your callbacks.  This would be for having multiple models of the same
+ * type.  This is just an example though, so we statically define all the
+ * data and ignore the void *data parameter.
+ * 
+ * In our example we will be creating a table model with 6 columns and 10
+ * rows.  This corresponds to having 6 different types of information and
+ * 10 different sets of data in our database.
+ * 
+ * The headers will be hard coded, as will be the example data.
+ *
+ */
 
 /*
-  There are two different meanings to the word "column".  The first is
-  the model column.  A model column corresponds to a specific type of
-  data.  This is very much like the usage in a database table where a
-  column is a field in the database.
-
-  The second type of column is a view column.  A view column
-  corresponds to a visually displayed column.  Each view column
-  corresponds to a specific model column, though a model column may
-  have any number of view columns associated with it, from zero to
-  greater than one.
-
-  Also, a view column doesn't necessarily depend on only one model
-  column.  In some cases, the view column renderer can be given a
-  reference to another column to get extra information about its
-  display.
+ * There are two different meanings to the word "column".  The first is
+ * the model column.  A model column corresponds to a specific type of
+ * data.  This is very much like the usage in a database table where a
+ * column is a field in the database.
+ *
+ * The second type of column is a view column.  A view column
+ * corresponds to a visually displayed column.  Each view column
+ * corresponds to a specific model column, though a model column may
+ * have any number of view columns associated with it, from zero to
+ * greater than one.
+ *
+ * Also, a view column doesn't necessarily depend on only one model
+ * column.  In some cases, the view column renderer can be given a
+ * reference to another column to get extra information about its
+ * display.
 */
 
 #define ROWS 10
@@ -59,13 +59,16 @@ The headers will be hard coded, as will be the example data.
 #define IMPORTANCE_COLUMN 4
 #define COLOR_COLUMN 5
 
-/* Here we define the initial layout of the table.  This is an xml
-   format that allows you to change the initial ordering of the
-   columns or to do sorting or grouping initially.  This specification
-   shows all 5 columns, but moves the importance column nearer to the
-   front.  It also sorts by the "Full Name" column (ascending.)
-   Sorting and grouping take the model column as their arguments
-   (sorting is specified by the "column" argument to the leaf elemnt. */
+/*
+ * Here we define the initial layout of the table.  This is an xml
+ * format that allows you to change the initial ordering of the
+ * columns or to do sorting or grouping initially.  This specification
+ * shows all 5 columns, but moves the importance column nearer to the
+ * front.  It also sorts by the "Full Name" column (ascending.)
+ * Sorting and grouping take the model column as their arguments
+ * (sorting is specified by the "column" argument to the leaf elemnt.
+ */
+
 #define INITIAL_SPEC "<ETableSpecification>                    	       \
 	<columns-shown>                  			       \
 		<column> 0 </column>     			       \
@@ -84,12 +87,13 @@ char *headers [COLS] = {
   "Phone"
 };
 
-/* Virtual Column list:
-   0   Email
-   1   Full Name
-   2   Address
-   3   Phone
-*/
+/*
+ * Virtual Column list:
+ * 0   Email
+ * 1   Full Name
+ * 2   Address
+ * 3   Phone
+ */
 
 char *table_data [ROWS] [COLS];
 
@@ -98,8 +102,10 @@ char *table_data [ROWS] [COLS];
  * These are the callbacks that define the behavior of our custom model.
  */
 
-/* Since our model is a constant size, we can just return its size in
-   the column and row count fields. */
+/*
+ * Since our model is a constant size, we can just return its size in
+ * the column and row count fields.
+ */
 
 /* This function returns the number of columns in our ETableModel. */
 static int
@@ -180,26 +186,31 @@ create_table (void)
 					    my_set_value_at, my_is_cell_editable,
 					    my_duplicate_value, my_free_value, my_thaw, NULL);
 	/*
-	  Next we create a header.  The ETableHeader is used in two
-	  different way.  The first is the full_header.  This is the
-	  list of possible columns in the view.  The second use is
-	  completely internal.  Many of the ETableHeader functions are
-	  for that purpose.  The only functions we really need are
-	  e_table_header_new and e_table_header_add_col.
-
-	  First we create the header.  */
+	 * Next we create a header.  The ETableHeader is used in two
+	 * different way.  The first is the full_header.  This is the
+	 * list of possible columns in the view.  The second use is
+	 * completely internal.  Many of the ETableHeader functions are
+	 * for that purpose.  The only functions we really need are
+	 * e_table_header_new and e_table_header_add_col.
+	 *
+	 * First we create the header.
+	 */
 	e_table_header = e_table_header_new ();
 	
-	/* Next we have to build renderers for all of the columns.
-	   Since all our columns are text columns, we can simply use
-	   the same renderer over and over again.  If we had different
-	   types of columns, we could use a different renderer for
-	   each column. */
-	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT, TRUE);
+	/*
+	 * Next we have to build renderers for all of the columns.
+	 * Since all our columns are text columns, we can simply use
+	 * the same renderer over and over again.  If we had different
+	 * types of columns, we could use a different renderer for
+	 * each column.
+	 */
+	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);
 		
-	/* Next we create a column object for each view column and add
-	   them to the header.  We don't create a column object for
-	   the importance column since it will not be shown. */
+	/*
+	 * Next we create a column object for each view column and add
+	 * them to the header.  We don't create a column object for
+	 * the importance column since it will not be shown.
+	 */
 	for (i = 0; i < COLS; i++) {
 		/* Create the column. */
 		ETableCol *ecol = e_table_col_new (
@@ -210,15 +221,21 @@ create_table (void)
 		e_table_header_add_column (e_table_header, ecol, i);
 	}
 
-	/* Here we create a window for our new table.  This window
-	   will get shown and the person will be able to test their
-	   item. */
+	/*
+	 * Here we create a window for our new table.  This window
+	 * will get shown and the person will be able to test their
+	 * item.
+	 */
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+
 	/* This frame is simply to get a bevel around our table. */
 	frame = gtk_frame_new (NULL);
-	/* Here we create the table.  We give it the three pieces of
-	   the table we've created, the header, the model, and the
-	   initial layout.  It does the rest.  */
+
+	/*
+	 * Here we create the table.  We give it the three pieces of
+	 * the table we've created, the header, the model, and the
+	 * initial layout.  It does the rest.
+	 */
 	e_table = e_table_new (e_table_header, e_table_model, INITIAL_SPEC);
 
 	/* Build the gtk widget hierarchy. */
@@ -227,6 +244,7 @@ create_table (void)
 
 	/* Size the initial window. */
 	gtk_widget_set_usize (window, 200, 200);
+
 	/* Show it all. */
 	gtk_widget_show_all (window);
 }
@@ -249,3 +267,4 @@ main (int argc, char *argv [])
 	e_cursors_shutdown ();
 	return 0;
 }
+

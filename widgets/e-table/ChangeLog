@@ -1,3 +1,53 @@
+2000-04-06  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-cell-text.c: Killed ARG_EDITABLE.
+	(ect_event): Updated to new editable setup.
+	(e_cell_text_new): Kill editable argument.
+
+	* e-cell-toggle.c (etog_event): Handle editability here
+
+	* e-cell-text.h: Removed editable bit field from here, it is now
+	taken care at the e-cell level.
+
+	* e-cell.c (e_cell_set_editable): New function.  
+	(e_cell_init): Set editable to TRUE by default.
+
+	* test-check.c (check_test): update to new api
+
+	* test-table.c (table_browser_test): ditto.
+	(do_e_table_demo): ditto.
+
+	* test-cols.c (multi_cols_test): ditto
+
+2000-04-02  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-sort-info.c (e_table_sort_info_class_init): Kill
+	argument.  Do not use XML internally
+	(e_table_sort_info_set_sorting): New function, use this to set the
+	sorting.
+	(e_table_sort_info_set_grouping): This one to do the grouping/.
+
+2000-04-01  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table.c (e_table_build_column_spec): Drop frozen support.
+	(e_table_make_header): Drop frozen support.
+
+	* e-table-header.c (e_table_header_new): Drop frozen support.
+
+	* e-table-header-item.c (ethi_drag_motion): Drop frozen support.
+	(ethi_drag_drop): Drop frozen support.
+	(ethi_start_drag): Drop frozen support.
+
+	* e-table.c (e_table_construct_from_spec_file): Robustify: support
+	the case in which the XML could not be parsed;  Propagate errors.
+	(e_table_new): Handle failure.
+	(e_table_new_from_spec_file): ditto.
+	Renamed multiple internal functions whose prefix was et_ to be e_table_
+
+2000-03-31  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-simple.h: Constify this.
+
 2000-04-04  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-text-model.c: Make this assert a bit more readable.

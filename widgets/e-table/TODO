@@ -70,8 +70,14 @@ mouse grabbing for scrolling
 	* Implement ETableDataEntry (a subclass of ETableModel).
 	* Build GUI for the data entry model.  This should be fairly simple.
 
+* Usability
+
+	* When the widget grows, the columns should resize to occupy all the
+	  available space
+
 * Draw little arrows for new column position instead of little triangles.
 * Make new column position be closest to position instead of rounding to the left.
 * Copy gtk_dnd as e_dnd.
 
 * Fix known bug about navigating out of the bottom of the table.
+

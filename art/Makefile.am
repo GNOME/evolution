@@ -1,6 +1,6 @@
-pixmapdir = $(datadir)/pixmaps/evolution
+imagesdir = $(datadir)/images/evolution
 
-pixmap_DATA = \
+images_DATA = \
 	evolution-calendar.png \
 	evolution-contacts.png \
 	evolution-inbox.png \

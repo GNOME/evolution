@@ -141,7 +141,6 @@ embeddable_destroy_cb (GtkObject *obj, gpointer user_data)
 {
 	BonoboWidget *be;      /* bonobo embeddable */
 	BonoboViewFrame *vf;   /* the embeddable view frame */
-	GtkWidget *w;          /* the viewframe widget */
 	BonoboObjectClient* server;
 	CORBA_Environment ev;
 
@@ -155,9 +154,9 @@ embeddable_destroy_cb (GtkObject *obj, gpointer user_data)
 	vf = bonobo_widget_get_view_frame (be);
 	bonobo_control_frame_control_deactivate (
 		BONOBO_CONTROL_FRAME (vf));
-	//w = bonobo_control_frame_get_widget (BONOBO_CONTROL_FRAME (vf));
+	/* w = bonobo_control_frame_get_widget (BONOBO_CONTROL_FRAME (vf)); */
 	
-	//gtk_widget_destroy (w);
+	/* gtk_widget_destroy (w); */
 	
 	CORBA_exception_init (&ev);
 	Bonobo_Unknown_unref (
@@ -167,7 +166,7 @@ embeddable_destroy_cb (GtkObject *obj, gpointer user_data)
 
 	CORBA_exception_free (&ev);
 	bonobo_object_destroy (BONOBO_OBJECT (vf));
-	//gtk_object_unref (obj);
+	/* gtk_object_unref (obj); */
 }
 
 

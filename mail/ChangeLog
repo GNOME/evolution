@@ -1,3 +1,25 @@
+2000-04-06  Miguel de Icaza  <miguel@gnu.org>
+
+	* message-list.c: Stick pixmaps here.
+
+	* mail-display.c (embeddable_destroy_cb): Replaced C++ comments
+	with C comments.
+
+	* message-list.c (load_internal_images): New function, loads images.
+	(message_list_init_renderers): Load images, fix previous attempt
+	at loading images. 
+
+	* Makefile.am (dist-hook): Added distribution of pixmaps.
+
+	* pixmaps: New directory, used to hold the XPMs we ship with. 
+
+	* pixmaps/envelope-closed.xpm, pixmaps/envelope-open.xpm: Tigert's
+	envelopes incorporated.
+
+2000-03-31  Miguel de Icaza  <miguel@gnu.org>
+
+	* message-list.c (ml_value_at): Fix miss-used variable. 
+
 2000-04-01  Michael Meeks  <michael@helixcode.com>
 
 	* folder-browser.c (folder_browser_properties_init): update to

@@ -134,7 +134,7 @@ multi_cols_test (void)
 	 */
 	e_table_header = e_table_header_new ();
 
-	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT, TRUE);
+	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);
 
 	{
 		GdkPixbuf **images = g_new (GdkPixbuf *, 3);

@@ -70,7 +70,6 @@ enum {
 	ARG_FILL_STIPPLE,
 	ARG_TEXT_WIDTH,
 	ARG_TEXT_HEIGHT,
-	ARG_EDITABLE,
 	ARG_USE_ELLIPSIS,
 	ARG_ELLIPSIS
 };
@@ -786,7 +785,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			return TRUE;
 		}
 		
-		if ((!edit_display) && ect->editable) {
+		if ((!edit_display) && E_CELL_IS_EDITABLE (ect)) {
 			  e_table_item_enter_edit (text_view->cell_view.e_table_item_view, view_col, row);
 			  ect_edit_select_all (text_view);
 			  edit = text_view->edit;
@@ -817,7 +816,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		event->button.x -= 4;
 		event->button.y -= 1;
 		if ((!edit_display) 
-		    && ect->editable
+		    && E_CELL_IS_EDITABLE (ect)
 		    && event->type == GDK_BUTTON_RELEASE
 		    && event->button.button == 1) {
 			GdkEventButton button = event->button;
@@ -1092,14 +1091,12 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, NULL, PARENT_TYPE);
 
 ECell *
-e_cell_text_new (ETableModel *etm, const char *fontname, GtkJustification justify, gboolean editable)
+e_cell_text_new (ETableModel *etm, const char *fontname, GtkJustification justify)
 {
 	ECellText *ect = gtk_type_new (e_cell_text_get_type ());
 
 	ect->ellipsis = NULL;
 	ect->use_ellipsis = TRUE;
-
-	ect->editable = editable;
 
 	ect->font_name = g_strdup (fontname);
 	ect->justify = justify;

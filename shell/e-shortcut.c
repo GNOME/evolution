@@ -370,13 +370,14 @@ shell_icon_cb (EShortcutBar *shortcut_bar, gchar *url)
 			if (!shell_icons[i].image) {
 				char *pixmap_path;
 
-				pixmap_path = gnome_pixmap_file (shell_icons[i].path);
+				pixmap_path = g_strconcat (EVOLUTION_IMAGES, shell_icons[i].path, NULL);
 				if (pixmap_path)
 					shell_icons[i].image = gdk_pixbuf_new_from_file (pixmap_path);
 				else {
-					g_warning ("Couldn't find pixmap: %s",
+					g_warning ("Couldn't find image: %s",
 						   pixmap_path);
 				}
+				g_free (pixmap_path);
 			}
 			return shell_icons[i].image;
 		}

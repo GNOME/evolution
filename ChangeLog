@@ -1,3 +1,14 @@
+2000-04-06  Miguel de Icaza  <miguel@gnu.org>
+
+	* shell/e-shortcut.c (shell_icon_cb): Load the icons from the
+	installation path, not form the GNOME-libs installation prefix. 
+	(shell_icon_cb): Memory leak fix.
+
+	* shell/Makefile.am (imagesdir): Pass the EVOLUTION_IMAGES
+	installation directory here.
+
+	* art/Makefile.am (images_DATA): Renamed from pixmaps to images. 
+
 2000-04-05  Matt Loper  <matt@helixcode.com>
 
 	* README: Added wombat.

@@ -73,3 +73,7 @@ $(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl
 	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Mail.idl
 
 EXTRA_DIST = Mail.idl evolution-mail.gnorba
+
+dist-hook:
+	-mkdir $(distdir)/pixmaps
+	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps

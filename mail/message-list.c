@@ -20,6 +20,8 @@
 #include "widgets/e-table/e-table-header-item.h"
 #include "widgets/e-table/e-table-item.h"
 
+#include "pixmaps.h"
+
 /*
  * Default sizes for the ETable display
  *
@@ -32,8 +34,8 @@
 #define COL_FROM_WIDTH_MIN    32
 #define COL_SUBJECT_WIDTH     N_CHARS(30)
 #define COL_SUBJECT_WIDTH_MIN 32
-#define COL_SENT_WIDTH        N_CHARS(20)
-#define COL_SENT_WIDTH_MIN    32
+#define COL_SENT_WIDTH        N_CHARS(4) 
+#define COL_SENT_WIDTH_MIN    1
 #define COL_RECEIVE_WIDTH     N_CHARS(20)
 #define COL_RECEIVE_WIDTH_MIN 32
 #define COL_TO_WIDTH          N_CHARS(24)
@@ -133,7 +135,7 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 	static char buffer [10];
 	MessageList *message_list = data;
 	CamelFolderSummary *summary;
-	GPtrArray *msg_info_array;
+	GPtrArray *msg_info_array = NULL;
 	CamelMessageInfo *msg_info;
 	CamelException ex;
 	void *retval = NULL;
@@ -215,16 +217,17 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 	return retval;
 	
 	
-	nothing_to_see :
-		/* 
-		 * in the case there is nothing to look at, 
-		 * notify the user.
-		 */	
+ nothing_to_see:
+	/* 
+	 * in the case there is nothing to look at, 
+	 * notify the user.
+	 */
+	if (msg_info_array)
 		g_ptr_array_free (msg_info_array, TRUE);
-		if (col == COL_SUBJECT)
-			return "No item in this view";
-		else 
-			return NULL;	  
+	if (col == COL_SUBJECT)
+		return "No item in this view";
+	else 
+		return NULL;	  
 }
 
 static void
@@ -246,7 +249,7 @@ ml_duplicate_value (ETableModel *etm, int col, const void *value, void *data)
 	case COL_MESSAGE_STATUS:
 	case COL_PRIORITY:
 	case COL_ATTACHMENT:
-	  return value;
+		return (void *) value;
 
 	case COL_FROM:
 	case COL_SUBJECT:
@@ -254,7 +257,7 @@ ml_duplicate_value (ETableModel *etm, int col, const void *value, void *data)
 	case COL_RECEIVE:
 	case COL_TO:
 	case COL_SIZE:
-	  return g_strdup(value);
+		return g_strdup (value);
 	default:
 		g_assert_not_reached ();
 	}
@@ -269,7 +272,7 @@ ml_free_value (ETableModel *etm, int col, void *value, void *data)
 	case COL_MESSAGE_STATUS:
 	case COL_PRIORITY:
 	case COL_ATTACHMENT:
-	  break;
+		break;
 
 	case COL_FROM:
 	case COL_SUBJECT:
@@ -277,8 +280,8 @@ ml_free_value (ETableModel *etm, int col, void *value, void *data)
 	case COL_RECEIVE:
 	case COL_TO:
 	case COL_SIZE:
-	  g_free(value);
-	  break;
+		g_free (value);
+		break;
 	default:
 		g_assert_not_reached ();
 	}
@@ -287,36 +290,78 @@ ml_free_value (ETableModel *etm, int col, void *value, void *data)
 static void
 ml_thaw (ETableModel *etm, void *data)
 {
-	e_table_model_changed(etm);
+	e_table_model_changed (etm);
+}
+
+static struct {
+	char **image_base;
+	GdkPixbuf  *pixbuf;
+} states_pixmaps [] = {
+	{ envelope_opened_xpm, NULL },
+	{ envelope_closed_xpm, NULL },
+	{ empty_xpm,           NULL },
+	{ attachment_xpm,      NULL },
+	{ NULL,                NULL },
+};
+
+static void
+load_internal_images (void)
+{
+	int i;
+
+	/*
+	 * Only load once, and share
+	 */
+	if (states_pixmaps [0].pixbuf)
+		return;
+	
+	for (i = 0; states_pixmaps [i].image_base; i++){
+		states_pixmaps [i].pixbuf = gdk_pixbuf_new_from_xpm_data (
+			states_pixmaps [i].image_base);
+	}
 }
 
 static void
 message_list_init_renderers (MessageList *message_list)
 {
-	gchar *attachment_path;
-	GdkPixbuf *image; 
-
 	g_assert (message_list);
 	g_assert (message_list->table_model);
+
+	load_internal_images ();
 	
 	message_list->render_text = e_cell_text_new (
 		message_list->table_model,
-		NULL, GTK_JUSTIFY_LEFT, FALSE);
+		NULL, GTK_JUSTIFY_LEFT);
+	e_cell_set_editable (E_CELL (message_list->render_text), FALSE);
 
 	message_list->render_online_status = e_cell_checkbox_new ();
-	message_list->render_message_status = e_cell_checkbox_new ();
-#if 1
-	message_list->render_attachment = e_cell_checkbox_new (); 
-#else
-	/*
-	 * if we want to use a pixmap, use this code
-	 */
-	attachment_path = gnome_unconditional_datadir_file ("evolution/e-attchmt.png");
-	image = gdk_pixbuf_new_from_file (attachment_path);
-	message_list->render_attachment = e_cell_toggle_new (0, 1, &image);
-	g_free (attachment_path);
-#endif
 
+	/*
+	 * Message status
+	 */
+	{
+		GdkPixbuf *images [2];
+
+		images [0] = states_pixmaps [0].pixbuf;
+		images [1] = states_pixmaps [1].pixbuf;
+		
+		message_list->render_message_status = e_cell_toggle_new (0, 2, images);
+	}
+	e_cell_set_editable (E_CELL (message_list->render_message_status), FALSE);
+
+	/*
+	 * Attachment
+	 */
+	{
+		GdkPixbuf *images [2];
+
+		images [0] = states_pixmaps [2].pixbuf;
+		images [1] = states_pixmaps [3].pixbuf;
+		
+		message_list->render_attachment = e_cell_toggle_new (0, 2, images);
+	}
+	e_cell_set_editable (E_CELL (message_list->render_attachment), FALSE);
+	
 	/*
 	 * FIXME: We need a real renderer here
 	 */
@@ -336,8 +381,8 @@ message_list_init_header (MessageList *message_list)
 	 */
 	
 	message_list->header_model = e_table_header_new ();
-	gtk_object_ref(GTK_OBJECT(message_list->header_model));
-	gtk_object_sink(GTK_OBJECT(message_list->header_model));
+	gtk_object_ref (GTK_OBJECT (message_list->header_model));
+	gtk_object_sink (GTK_OBJECT (message_list->header_model));
 
 	message_list->table_cols [COL_ONLINE_STATUS] =
 		e_table_col_new (COL_ONLINE_STATUS, _("Online status"),
@@ -404,15 +449,22 @@ message_list_init_header (MessageList *message_list)
 	 * of this.
 	 */
 	for (i = 0; i < COL_LAST; i++) {
-		gtk_object_ref(GTK_OBJECT(message_list->table_cols [i]));
+		gtk_object_ref (GTK_OBJECT (message_list->table_cols [i]));
 		e_table_header_add_column (message_list->header_model,
 					   message_list->table_cols [i], i);
 	}
 }
 
-
-
-
+static char *
+message_list_get_layout (MessageList *message_list)
+{
+	if (0)
+		return g_strdup ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> <column> 5 </column> <column> 6 </column> <column> 7 </column> <column> 8 </column> <column> 9 </column> </columns-shown> <grouping> <group column=\"4\" ascending=\"1\"> <leaf column=\"5\" ascending=\"1\"/> </group> </grouping> </ETableSpecification>");
+	else {
+		/* Message status, From, Sent, Subject */
+		return g_strdup ("<ETableSpecification> <columns-shown> <column> 1 </column> <column> 4 </column> <column> 6 </column> <column> 5 </column> </columns-shown> <grouping> </grouping> </ETableSpecification>");
+	}
+}
 
 /*
  * GtkObject::init
@@ -421,7 +473,8 @@ static void
 message_list_init (GtkObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
-	
+	char *spec;
+		
 	message_list->table_model = e_table_simple_new (
 		ml_col_count, ml_row_count, ml_value_at,
 		ml_set_value_at, ml_is_cell_editable, ml_duplicate_value, ml_free_value,
@@ -433,16 +486,19 @@ message_list_init (GtkObject *object)
 	/*
 	 * The etable
 	 */
-	
-	message_list->etable = e_table_new (message_list->header_model, message_list->table_model, "<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> <column> 5 </column> <column> 6 </column> <column> 7 </column> <column> 8 </column> <column> 9 </column> </columns-shown> <grouping> <group column=\"4\" ascending=\"1\"> <leaf column=\"5\" ascending=\"1\"/> </group> </grouping> </ETableSpecification>"); 
-	
-	gtk_signal_connect(GTK_OBJECT(message_list->etable), "row_selection",
-			   GTK_SIGNAL_FUNC(on_row_selection_cmd), message_list);
 
-	gtk_widget_show(message_list->etable);
+	spec = message_list_get_layout (message_list);
+	message_list->etable = e_table_new (
+		message_list->header_model, message_list->table_model, spec);
+	g_free (spec);
 	
-	gtk_object_ref(message_list->table_model);
-	gtk_object_sink(message_list->table_model);
+	gtk_signal_connect (GTK_OBJECT (message_list->etable), "row_selection",
+			   GTK_SIGNAL_FUNC (on_row_selection_cmd), message_list);
+
+	gtk_widget_show (message_list->etable);
+	
+	gtk_object_ref (GTK_OBJECT (message_list->table_model));
+	gtk_object_sink (GTK_OBJECT (message_list->table_model));
 	
 	/*
 	 * We do own the Etable, not some widget container
@@ -662,8 +718,6 @@ message_list_get_widget (MessageList *message_list)
 E_MAKE_TYPE (message_list, "MessageList", MessageList, message_list_class_init, message_list_init, PARENT_TYPE);
 
 
-
-
 static void
 on_row_selection_cmd (ETable *table, 
 		      int row, 
@@ -674,7 +728,8 @@ on_row_selection_cmd (ETable *table,
 
 	message_list = MESSAGE_LIST (user_data);
 
-	if ( selected )
+
+	if (selected)
 		select_msg (message_list, row);
 }
 

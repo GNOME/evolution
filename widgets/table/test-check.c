@@ -135,7 +135,7 @@ check_test (void)
 	 */
 	e_table_header = e_table_header_new ();
 
-	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT, TRUE);
+	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);
 
 	cell_image_check = e_cell_checkbox_new ();
 	pixbuf = gdk_pixbuf_new_from_file ("clip.png");

@@ -1,3 +1,4 @@
+imagesdir = $(datadir)/images/evolution
 
 bin_PROGRAMS = evolution
 
@@ -5,6 +6,7 @@ INCLUDES = 						\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)					\
 	$(BONOBO_GNOME_CFLAGS)				\
+	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"		\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"
 

@@ -230,7 +230,7 @@ create_table ()
 	   the same renderer over and over again.  If we had different
 	   types of columns, we could use a different renderer for
 	   each column. */
-	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT, TRUE);
+	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);
 		
 	/* Next we create a column object for each view column and add
 	   them to the header.  We don't create a column object for
