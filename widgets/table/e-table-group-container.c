@@ -333,26 +333,20 @@ etgc_unrealize (GnomeCanvasItem *item)
 static void
 compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_node)
 {
-	gchar *text, *s1, *s2;
+	gchar *text;
 
 	if (etgc->ecol->text) {
-		s1 = e_utf8_to_locale_string (etgc->ecol->text);
-		s2 = e_utf8_to_locale_string (child_node->string);
 		text = g_strdup_printf ((child_node->count == 1)
 					? _("%s : %s (%d item)")
 					: _("%s : %s (%d items)"),
-					s1, s2,
+					etgc->ecol->text, child_node->string,
 					(gint) child_node->count);
-		g_free (s1);
-		g_free (s2);
 	} else {
-		s1 = e_utf8_to_locale_string (child_node->string);
 		text = g_strdup_printf ((child_node->count == 1)
 					? _("%s (%d item)")
 					: _("%s (%d items)"),
-					s1,
+					child_node->string,
 					(gint) child_node->count);
-		g_free (s1);
 	}
 	gnome_canvas_item_set (child_node->text, 
 			       "text", text,
