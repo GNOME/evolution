@@ -39,7 +39,7 @@
 #include "e-msg-composer-attachment.h"
 #include "e-msg-composer-attachment-bar.h"
 
-#include <gal/util/e-iconv.h>
+#include <libedataserver/e-iconv.h>
 
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-stream-fs.h>

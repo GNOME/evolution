@@ -86,7 +86,7 @@
 
 #include <glade/glade.h>
 
-#include <gal/util/e-iconv.h>
+#include <libedataserver/e-iconv.h>
 #include <gal/e-text/e-entry.h>
 
 #include "e-util/e-dialog-utils.h"
@@ -3744,24 +3744,25 @@ handle_multipart_signed (EMsgComposer *composer, CamelMultipart *multipart, int 
 static void
 handle_multipart_encrypted (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 {
-	CamelMultipartEncrypted *mpe = (CamelMultipartEncrypted *) multipart;
 	CamelContentType *content_type;
 	CamelCipherContext *cipher;
 	CamelDataWrapper *content;
 	CamelMimePart *mime_part;
 	CamelException ex;
-	
+	CamelCipherValidity *valid;
+
 	/* FIXME: make sure this is a PGP/MIME encrypted part?? */
 	e_msg_composer_set_pgp_encrypt (composer, TRUE);
 	
 	camel_exception_init (&ex);
 	cipher = mail_crypto_get_pgp_cipher_context (NULL);
-	mime_part = camel_multipart_encrypted_decrypt (mpe, cipher, &ex);
-	camel_object_unref (cipher);
+	mime_part = camel_mime_part_new();
+	valid = camel_cipher_decrypt(cipher, (CamelMimePart *)multipart, mime_part, &ex);
+	camel_object_unref(cipher);
 	camel_exception_clear (&ex);
-	
-	if (!mime_part)
-		return;
+	if (valid == NULL)
+		return;	
+	camel_cipher_validity_free(valid);
 	
 	content_type = camel_mime_part_get_content_type (mime_part);
 	
