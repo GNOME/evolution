@@ -1329,7 +1329,7 @@ pas_backend_file_maybe_upgrade_db (PASBackendFile *bf)
 
 #define INITIAL_VCARD "BEGIN:VCARD\n\
 X-EVOLUTION-FILE-AS:Ximian, Inc.\n\
-LABEL;WORK;QUOTED-PRINTABLE:101 Rogers St. Ste. 214=0ACambridge, MA 02142=0AUSA\n\
+LABEL;WORK;QUOTED-PRINTABLE:401 Park Drive  3 West=0ABoston, MA 02215=0AUSA\n\
 TEL;WORK;VOICE:(617) 679-1984\n\
 TEL;WORK;FAX:(617) 679-1949\n\
 EMAIL;INTERNET:hello@ximian.com\n\

@@ -1,3 +1,8 @@
+2001-04-11  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/pas/pas-backend-file.c (INITIAL_VCARD): Update the built
+	in VCard.
+
 2001-04-11  Chris Toshok <toshok@ximian.com>
 
         * backend/pas/pas-backend-ldap.c (pas_backend_ldap_add_client):
