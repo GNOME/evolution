@@ -35,6 +35,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
+#include <evolution-shell-component-utils.h>
 #include "../print.h"
 #include "save-comp.h"
 #include "delete-comp.h"
@@ -100,6 +101,17 @@ static void save_clicked_cb (GtkWidget *widget, gpointer data);
 static void close_clicked_cb (GtkWidget *widget, gpointer data);
 static void help_clicked_cb (GtkWidget *widget, gpointer data);
 static gint delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data);
+
+static EPixmap pixmaps [] =
+{
+	E_PIXMAP ("/menu/File/FilePrint",			"print.xpm"),
+	E_PIXMAP ("/menu/File/FilePrintPreview",		"print-preview.xpm"),
+
+	E_PIXMAP ("/Toolbar/Print",			        "print.xpm"),
+	E_PIXMAP ("/Toolbar/Print Preview",		        "print-preview.xpm"),
+
+	E_PIXMAP_END
+};
 
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("FileSaveAndClose", save_close_cmd), 
@@ -180,6 +192,9 @@ setup_widgets (CompEditor *editor)
 	container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (container, BONOBO_WINDOW (priv->window));
 	bonobo_ui_component_set_container (priv->uic, BONOBO_OBJREF (container));
+	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (BONOBO_WINDOW (priv->window)),
+					  "/evolution/UIConf/kvps");
+	e_pixmaps_update (priv->uic, pixmaps);
 
 	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, editor);
 	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR "/gnome/gui",
@@ -193,27 +208,6 @@ setup_widgets (CompEditor *editor)
 	priv->notebook = GTK_NOTEBOOK (gtk_notebook_new ());
 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (priv->notebook),
 			    TRUE, TRUE, 0);
-
-	/* Buttons */
-	bbox = gtk_hbutton_box_new ();
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (bbox), GTK_BUTTONBOX_END);
-	gtk_box_pack_start (GTK_BOX (vbox), bbox, FALSE, FALSE, 0);
-
-	pixmap = gnome_stock_pixmap_widget (NULL, GNOME_STOCK_PIXMAP_SAVE);
-	button = gnome_pixmap_button (pixmap, _("Save"));
-	gtk_box_pack_start (GTK_BOX (bbox), button, FALSE, FALSE, 0);
-	gtk_signal_connect (GTK_OBJECT (button), "clicked",
-			    GTK_SIGNAL_FUNC (save_clicked_cb), editor);
-	
-	button = gnome_stock_button (GNOME_STOCK_BUTTON_CLOSE);
-	gtk_box_pack_start (GTK_BOX (bbox), button, FALSE, FALSE, 0);
-	gtk_signal_connect (GTK_OBJECT (button), "clicked",
-			    GTK_SIGNAL_FUNC (close_clicked_cb), editor);
-
-	button = gnome_stock_button (GNOME_STOCK_BUTTON_HELP);
-	gtk_box_pack_start (GTK_BOX (bbox), button, FALSE, FALSE, 0);
-	gtk_signal_connect (GTK_OBJECT (button), "clicked",
-			    GTK_SIGNAL_FUNC (help_clicked_cb), editor);
 }
 
 /* Object initialization function for the calendar component editor */
