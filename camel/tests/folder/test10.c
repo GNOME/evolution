@@ -1,6 +1,7 @@
 /* threaded folder testing */
 
 #include <string.h>
+#include <pthread.h>
 
 #include "camel-test.h"
 #include "folders.h"
@@ -15,17 +16,6 @@
 #define MAX_THREADS (5)
 
 #define d(x) 
-
-#ifndef ENABLE_THREADS
-int main(int argc, char **argv)
-{
-	printf("Test %s is only compiled with threads enabled\n", argv[0]);
-	return 77;
-}
-#else
-
-#include <pthread.h>
-
 
 #define ARRAY_LEN(x) (sizeof(x)/sizeof(x[0]))
 
@@ -111,5 +101,3 @@ int main(int argc, char **argv)
 
 	return 0;
 }
-
-#endif /* ENABLE_THREADS */
