@@ -600,12 +600,11 @@ BonoboUIVerb folder_verbs [] = {
 };
 
 BonoboUIVerb help_verbs [] = {
-	BONOBO_UI_VERB_DATA ("HelpIndex", command_help, "evolution-guide/index.html"),
-	BONOBO_UI_VERB_DATA ("HelpGetStarted", command_help, "evolution-guide/usage-mainwindow.html"),
-	BONOBO_UI_VERB_DATA ("HelpUsingMail", command_help, "evolution-guide/usage-mail.html"),
-	BONOBO_UI_VERB_DATA ("HelpUsingCalendar", command_help, "evolution-guide/usage-calendar.html"),
-	BONOBO_UI_VERB_DATA ("HelpUsingContact", command_help, "evolution-guide/usage-contact.html"),
-	BONOBO_UI_VERB_DATA ("HelpFAQ", command_help, "evolution-faq/index.html"),
+	BONOBO_UI_VERB_DATA ("HelpIndex", command_help, "index.html"),
+	BONOBO_UI_VERB_DATA ("HelpGetStarted", command_help, "usage-mainwindow.html"),
+	BONOBO_UI_VERB_DATA ("HelpUsingMail", command_help, "usage-mail.html"),
+	BONOBO_UI_VERB_DATA ("HelpUsingCalendar", command_help, "usage-calendar.html"),
+	BONOBO_UI_VERB_DATA ("HelpUsingContact", command_help, "usage-contact.html"),
 
 	BONOBO_UI_VERB_END
 };
