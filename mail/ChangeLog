@@ -1,3 +1,13 @@
+2002-01-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Implements bug #15692
+
+	* folder-browser.c (html_button_press_event): New callback that
+	checks to make sure that the mouse isn't over a link or image in
+	the html view and then calls the on_right_click handler after
+	getting the appropriate args.
+	(my_folder_browser_init): Connect to the button_press_event here.
+
 2002-01-23  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (INCLUDES): Define CAMEL_PROVIDERDIR to be the

@@ -40,6 +40,8 @@
 #include <libgnomeui/gnome-dialog-util.h>
 
 #include <gtkhtml/htmlengine.h>
+#include <gtkhtml/htmlobject.h>
+#include <gtkhtml/htmlinterval.h>
 #include <gtkhtml/htmlengine-edit-cut-and-paste.h>
 
 #include "filter/vfolder-rule.h"
@@ -55,7 +57,6 @@
 #include "mail.h"
 #include "mail-callbacks.h"
 #include "mail-tools.h"
-#include "message-list.h"
 #include "mail-ops.h"
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
@@ -1510,7 +1511,7 @@ context_menu_position_func (GtkMenu *menu, gint *x, gint *y,
 }
 
 /* handle context menu over message-list */
-static gint
+static int
 on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, FolderBrowser *fb)
 {
 	extern CamelFolder *sent_folder;
@@ -1581,7 +1582,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 				have_important = TRUE;
 			else
 				have_unimportant = TRUE;
-
+			
 			if (info->flags & CAMEL_MESSAGE_NEEDS_REPLY)
 				have_needs_reply = TRUE;
 			else
@@ -1607,7 +1608,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 			enable_mask |= CAN_MARK_IMPORTANT;
 		if (!have_important)
 			enable_mask |= CAN_MARK_UNIMPORTANT;
-
+		
 		if (!have_needs_reply)
 			enable_mask |= CAN_MARK_DOESNT_NEED_REPLY;
 		if (!have_doesnt_need_reply)
@@ -1636,7 +1637,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 			else
 				hide_mask |= CAN_MARK_UNIMPORTANT;
 		}
-
+		
 		if (!(have_needs_reply && have_doesnt_need_reply)) {
 			if (have_needs_reply)
 				hide_mask |= CAN_MARK_NEEDS_REPLY;
@@ -1682,25 +1683,68 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	return TRUE;
 }
 
-static gint
+static int
+html_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	FolderBrowser *fb = data;
+	HTMLEngine *engine;
+	HTMLPoint *point;
+	ETreePath *path;
+	int row;
+	
+	if (event->type != GDK_BUTTON_PRESS || event->button != 3)
+		return FALSE;
+	
+	engine = GTK_HTML (widget)->engine;
+	point = html_engine_get_point_at (engine, event->x + engine->x_offset,
+					  event->y + engine->y_offset, FALSE);
+	
+	if (point) {
+		/* don't popup a menu if the mouse is hovering over a
+                   url or a source image because those situations are
+                   handled in mail-display.c's button_press_event
+                   callback */
+		const char *src, *url;
+		
+		url = html_object_get_url (point->object);
+		src = html_object_get_src (point->object);
+		
+		if (url || src) {
+			html_point_destroy (point);
+			return FALSE;
+		}
+		
+		html_point_destroy (point);
+	}	
+	
+	path = e_tree_get_cursor (fb->message_list->tree);
+	row = e_tree_row_of_node (fb->message_list->tree, path);
+	
+	on_right_click (fb->message_list->tree, row, path, 2,
+			(GdkEvent *) event, fb);
+	
+	return TRUE;
+}
+
+static int
 on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
 {
 	FolderBrowser *fb = data;
 	ETreePath *path;
 	int row;
-
+	
 	if (key->state & GDK_CONTROL_MASK)
 		return FALSE;
-
+	
 	path = e_tree_get_cursor (fb->message_list->tree);
 	row = e_tree_row_of_node (fb->message_list->tree, path);
-
+	
 	switch (key->keyval) {
 	case GDK_Delete:
 	case GDK_KP_Delete:
 		delete_msg (NULL, fb);
 		return TRUE;
-
+		
 	case GDK_Menu:
 		on_right_click (fb->message_list->tree, row, path, 2,
 				(GdkEvent *)key, fb);
@@ -1709,7 +1753,7 @@ on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
 		toggle_as_important (NULL, fb, NULL);
 		return TRUE;
 	}
-
+	
 	return FALSE;
 }
 
@@ -1993,6 +2037,8 @@ my_folder_browser_init (GtkObject *object)
 	
 	gtk_signal_connect (GTK_OBJECT (fb->mail_display->html),
 			    "key_press_event", GTK_SIGNAL_FUNC (on_key_press), fb);
+	gtk_signal_connect (GTK_OBJECT (fb->mail_display->html),
+			    "button_press_event", GTK_SIGNAL_FUNC (html_button_press_event), fb);
 	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree),
 			    "key_press", GTK_SIGNAL_FUNC (etree_key), fb);
