@@ -608,9 +608,6 @@ cal_backend_file_load (CalBackend *backend, GnomeVFSURI *uri)
 	if (!gnome_vfs_uri_is_local (uri))
 		return CAL_BACKEND_LOAD_ERROR;
 
-	if (!gnome_vfs_uri_exists (uri))
-		return CAL_BACKEND_LOAD_ERROR;;
-
 	str_uri = gnome_vfs_uri_to_string (uri,
 					   (GNOME_VFS_URI_HIDE_USER_NAME
 					    | GNOME_VFS_URI_HIDE_PASSWORD

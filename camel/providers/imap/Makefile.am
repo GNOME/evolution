@@ -31,6 +31,7 @@ libcamelimapinclude_HEADERS =			\
 	camel-imap-command.h			\
 	camel-imap-folder.h			\
 	camel-imap-store.h			\
+	camel-imap-stream.h			\
 	camel-imap-summary.h			\
 	camel-imap-utils.h
 

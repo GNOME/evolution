@@ -60,11 +60,12 @@ oafdir = $(datadir)/oaf
 oaf_DATA = addressbook.oafinfo
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = ldap-server-dialog.glade ldap-server-dialog.glade.h
+glade_DATA = ldap-server-dialog.glade
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
-	$(oaf_DATA)
+	$(oaf_DATA)		\
+	ldap-server-dialog.glade.h
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

@@ -78,6 +78,7 @@ evolution_calendar_SOURCES =			\
 	e-itip-control.c			\
 	event-editor.c				\
 	event-editor.h				\
+	event-editor-dialog.glade.h		\
 	getdate.y				\
 	gncal-todo.c				\
 	gncal-todo.h				\
@@ -109,6 +110,7 @@ oaf_DATA = calendar-control.oafinfo evolution-calendar.oafinfo
 
 EXTRA_DIST =	 			\
 	$(glade_DATA)			\
+	$(glade_messages)		\
 	bell.xpm			\
 	check-filled.xpm		\
 	dayview.xpm			\

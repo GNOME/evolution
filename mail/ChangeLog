@@ -1,3 +1,9 @@
+2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (glade_messages): New var, with
+	`mail-config-druid.glade.h' and `mail-config.glade.h'.
+	(EXTRA_DIST): Add `glade_messages'.
+
 2000-10-19  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-format.c (mail_generate_reply): Get the MailConfigIdentity

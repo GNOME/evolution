@@ -1,3 +1,9 @@
+2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Add
+	`event-editor-dialog.glade.h'.
+	(EXTRA_DIST): Add `$(glade_messages)'.
+
 2000-10-18  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/calendar/calendar-conduit.c (delete_archive_record): 

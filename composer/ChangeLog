@@ -1,3 +1,11 @@
+2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (glade_DATA): Add `e-msg-composer-attachment.glade'.
+	(glade_messages): New.  Move
+	`e-msg-composer-address-dialog.glade.h' and
+	`e-msg-composer-attachment.glade.h' here.
+	(EXTRA_DIST): Add `bad-icon.xpm' and `$(glade_messages)'.
+
 2000-10-16  Iain Holmes  <iain@helixcode.com>
 
 	* e-msg-composer-hdrs.c (init): Don't need the ID anymore.

@@ -8,10 +8,20 @@ XML_FILES =				\
 	evolution-subscribe.xml		\
 	evolution-executive-summary.xml
 
+H_FILES = \
+	evolution.h			\
+	evolution-addressbook.h	\
+	evolution-addressbook-ldap.h	\
+	evolution-contact-editor.h	\
+	evolution-mail.h		\
+	evolution-calendar.h		\
+	evolution-subscribe.h		\
+	evolution-executive-summary.h
+
 uidir = $(datadir)/gnome/ui
 ui_DATA = $(XML_FILES)
 
-EXTRA_DIST = $(XML_FILES)
+EXTRA_DIST = $(XML_FILES) $(H_FILES)
 
 BUILT_SOURCES=$(XML_FILES:.xml=.h)
 
