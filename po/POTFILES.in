@@ -268,6 +268,8 @@ filter/score-editor.c
 filter/score-rule.c
 filter/vfolder-editor.c
 filter/vfolder-rule.c
+mail/em-account-prefs.c
+mail/em-composer-prefs.c
 mail/em-composer-utils.c
 mail/em-folder-browser.c
 mail/em-folder-selection-button.c
@@ -277,6 +279,7 @@ mail/em-format-html-display.c
 mail/em-format-html-print.c
 mail/em-format-html.c
 mail/em-format.c
+mail/em-mailer-prefs.c
 mail/em-popup.c
 mail/em-subscribe-editor.c
 mail/em-utils.c
@@ -293,11 +296,9 @@ mail/importers/pine-importer.c
 mail/local-config.glade
 mail/mail-account-editor.c
 mail/mail-account-gui.c
-mail/mail-accounts.c
 mail/mail-autofilter.c
 mail/mail-callbacks.c
 mail/mail-component.c
-mail/mail-composer-prefs.c
 mail/mail-config-druid.c
 mail/mail-config.c
 mail/mail-config.glade
@@ -307,7 +308,6 @@ mail/mail-folder-cache.c
 mail/mail-format.c
 mail/mail-mt.c
 mail/mail-ops.c
-mail/mail-preferences.c
 mail/mail-search.glade
 mail/mail-send-recv.c
 mail/mail-session.c
