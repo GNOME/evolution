@@ -1,3 +1,8 @@
+2000-10-22  Dan Winship  <danw@helixcode.com>
+
+	* .cvsignore: No, don't ignore Evolution-Addressbook-SelectNames*.
+	They're not supposed to be there any more. 
+
 2000-10-22  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-msg-composer-attachment-bar.c (attach_cb): Removed.
