@@ -26,6 +26,7 @@
 
 #include <string.h>
 #include <glib.h>
+#include "camel/camel-object.h"
 #include "mail.h"
 #include "mail-threads.h"
 
@@ -68,6 +69,7 @@ typedef struct com_msg_s
 		MESSAGE, 
 		PASSWORD,
 		ERROR, 
+		FORWARD_EVENT,
 		FINISHED
 	} type;
 	gfloat percentage;
@@ -79,6 +81,12 @@ typedef struct com_msg_s
 	gchar **reply;
 	gboolean secret;
 	gboolean *success;
+
+	/* Event stuff */
+	CamelObjectEventHookFunc event_hook;
+	CamelObject *event_obj;
+	gpointer event_event_data;
+	gpointer event_user_data;
 }
 com_msg_t;
 
@@ -484,6 +492,25 @@ mail_op_error (gchar * fmt, ...)
 }
 
 /**
+ * mail_op_forward_event:
+ *
+ * Communicate a camel event over to the main thread.
+ **/
+
+void
+mail_op_forward_event (CamelObjectEventHookFunc func, CamelObject *o, 
+		       gpointer event_data, gpointer user_data)
+{
+	com_msg_t msg;
+
+	msg.type = FORWARD_EVENT;
+	msg.event_hook = func;
+	msg.event_obj = o;
+	msg.event_event_data = event_data;
+	msg.event_user_data = user_data;
+	write (MAIN_WRITER, &msg, sizeof (msg));
+}
+/**
  * mail_operation_wait_for_finish:
  *
  * Waits for the currently executing async operations
@@ -886,6 +913,13 @@ read_msg (GIOChannel * source, GIOCondition condition, gpointer userdata)
 		/* Don't fall through; dispatch_func does the FINISHED
 		 * call for us 
 		 */
+
+	case FORWARD_EVENT:
+		DEBUG (("*** Message -- FORWARD_EVENT %p", msg->event_hook));
+
+		g_assert (msg->event_hook);
+		(msg->event_hook) (msg->event_obj, msg->event_event_data, msg->event_user_data);
+		break;
 
 	case FINISHED:
 		DEBUG (

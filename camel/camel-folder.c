@@ -1144,7 +1144,7 @@ static void thaw(CamelFolder * folder)
 		folder->folder_changed = FALSE;
 
 		camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", GINT_TO_POINTER(0));
-	} else if (folder->messages_changed) {
+	} else if (messages) {
 		/* FIXME: would be nice to not emit more than once for
 		 * a given message
 		 */

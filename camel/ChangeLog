@@ -1,3 +1,8 @@
+2000-08-11  Peter Williams  <peterw@helixcode.com>
+
+	* camel-folder.c (thaw): Fix a bug where the message_changed
+	signal wasn't being emitted.
+
 2000-08-11  Not Zed  <NotZed@HelixCode.com>
 
 	* providers/mh/camel-mh-folder.c (mh_set_message_user_tag):

@@ -69,7 +69,7 @@ check_configured (void)
 }
 
 static void
-select_first_unread (CamelFolder *folder, gpointer event_data, gpointer data)
+main_select_first_unread (CamelFolder *folder, gpointer event_data, gpointer data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (data);
 	ETable *table = E_TABLE_SCROLLED (fb->message_list->etable)->table;
@@ -78,11 +78,16 @@ select_first_unread (CamelFolder *folder, gpointer event_data, gpointer data)
   			     0, CAMEL_MESSAGE_SEEN);
 }
 
+static void
+select_first_unread (CamelFolder *folder, gpointer event_data, gpointer data)
+{
+	mail_op_forward_event (main_select_first_unread, folder, event_data, data);
+}
+
 void
 fetch_mail (GtkWidget *button, gpointer user_data)
 {
-	MailConfigService *source;
-	char *url = NULL;
+	GSList *sources;
 
 	if (!check_configured ()) {
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
@@ -93,10 +98,9 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		return;
 	}
 
-	source = mail_config_get_default_source ();
-	url = source->url;
+	sources = mail_config_get_sources ();
 
-	if (!url) {
+	if (!sources || !sources->data) {
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
 							  GTK_TYPE_WINDOW);
 
@@ -105,7 +109,20 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		return;
 	}
 
-	mail_do_fetch_mail (url, source->keep_on_server, NULL, select_first_unread, user_data);
+	while (sources) {
+		MailConfigService *source;
+
+		source = (MailConfigService *) sources->data;
+		sources = sources->next;
+
+		if (!source || !source->url) {
+			g_warning ("Bad source in fetch_mail??");
+			continue;
+		}
+
+		mail_do_fetch_mail (source->url, source->keep_on_server, 
+				    NULL, select_first_unread, user_data);
+	}
 }
 
 static gboolean

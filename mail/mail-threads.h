@@ -26,6 +26,7 @@
 #define _MAIL_THREADS_H_
 
 #include <camel/camel-exception.h>
+#include <camel/camel-object.h>
 #include <stdlib.h>		/*size_t */
 
 /* Returns a g_strdup'ed string that describes what's going to happen,
@@ -54,12 +55,12 @@ gboolean mail_operation_queue (const mail_operation_spec * spec,
 void mail_op_set_percentage (gfloat percentage);
 void mail_op_hide_progressbar (void);
 void mail_op_show_progressbar (void);
-void
-mail_op_set_message (gchar * fmt, ...) G_GNUC_PRINTF (1, 2);
+void mail_op_set_message (gchar * fmt, ...) G_GNUC_PRINTF (1, 2);
 void mail_op_error (gchar * fmt, ...) G_GNUC_PRINTF (1, 2);
 gboolean mail_op_get_password (gchar * prompt, gboolean secret,
 			       gchar ** dest);
-
+void mail_op_forward_event (CamelObjectEventHookFunc func, CamelObject *o, 
+			    gpointer event_data, gpointer user_data);
 /* Wait for the async operations to finish */
 void mail_operation_wait_for_finish (void);
 gboolean mail_operations_are_executing (void);

@@ -1,3 +1,24 @@
+2000-08-11  Peter Williams  <peterw@helixcode.com>
+
+	* mail-threads.c (mail_op_forward_event): New function that
+	writes a FORWARD_EVENT signal to the compipe, to allow Camel
+	events to be handled in the main thread.
+	(read_msg): Handle a FORWARD_EVENT.
+
+	* mail-callbacks.c (select_first_unread): Forward the
+	event into the main thread to prevent the GTK calls in the
+	dispatcher thread. 
+	(main_select_first_unread): New name of old select_first_unread.
+
+	* message-list.c (folder_changed): Same as above.
+	(main_folder_changed): Same as above.
+	(message_changed): Same as above.
+	(main_message_changed): Same as above.
+
+
+	* mail-format.c (free_byte_array): Note about using
+	mail_op_forward_event. (cmm_destroyed): Same.
+
 2000-08-11  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c (message_list_select): If the caller passes "-1"

@@ -836,28 +836,35 @@ build_flat (MessageList *ml, ETreePath *parent, GPtrArray *uids)
 }
 
 static void
-folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
+main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	MessageList *message_list = MESSAGE_LIST (user_data);
-	GDK_THREADS_ENTER(); /* Very important!!!! */
+
 	mail_do_regenerate_messagelist (message_list, message_list->search);
-	GDK_THREADS_LEAVE(); /* Very important!!!! */
 }
 
 static void
-message_changed (CamelObject *o, gpointer uid, gpointer user_data)
+folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
+{
+	mail_op_forward_event (main_folder_changed, o, event_data, user_data);
+}
+
+static void
+main_message_changed (CamelObject *o, gpointer uid, gpointer user_data)
 {
 	MessageList *message_list = MESSAGE_LIST (user_data);
 	int row;
-
-	GDK_THREADS_ENTER(); /* Very important!!!! */
 
 	row = GPOINTER_TO_INT (g_hash_table_lookup (message_list->uid_rowmap,
 						    uid));
 	if (row != -1)
 		e_table_model_row_changed (message_list->table_model, row);
+}
 
-	GDK_THREADS_LEAVE(); /* Very important!!!! */
+static void
+message_changed (CamelObject *o, gpointer event_data, gpointer user_data)
+{
+	mail_op_forward_event (main_message_changed, o, event_data, user_data);
 }
 
 void

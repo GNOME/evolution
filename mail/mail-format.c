@@ -118,6 +118,8 @@ static void cmm_destroyed (CamelObject *cmm, gpointer event_data, gpointer user_
 {
 	GHashTable *ht;
 
+	/* We don't have to do a forward_event here right now. */
+
 	g_return_if_fail (cmm);
 
 	ht = g_hash_table_lookup (cmm_to_urls, cmm);
@@ -807,6 +809,7 @@ try_inline_binhex (char *start, struct mail_format_data *mfd)
 static void
 free_byte_array (CamelObject *obj, gpointer event_data, gpointer user_data)
 {
+	/* We don't have to do a forward event here right now */
 	g_byte_array_free (user_data, TRUE);
 }
 
