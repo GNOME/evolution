@@ -1,5 +1,16 @@
 2001-07-12  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-calendar-table.c (e_calendar_table_copy_clipboard): fix
+	typo breaking compilation
+
+	* gui/dialogs/meeting-page.c: fix include
+
+	* gui/dialogs/Makefile.am: build select names idl here
+
+	* gui/Makefile.am: remove select names compilation from here
+	
+2001-07-12  JP Rosevear  <jpr@ximian.com>
+
 	* gui/dialogs/task-details-page.c (task_details_page_set_dates):
 	guard against infinite loops with the updating boolean, fixes 4270
 

@@ -779,7 +779,7 @@ void
 e_calendar_table_copy_clipboard (ECalendarTable *cal_table)
 {
 	ETable *etable;
-
+	
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
 	if (cal_table->clipboard_selection) {
@@ -795,7 +795,7 @@ e_calendar_table_copy_clipboard (ECalendarTable *cal_table)
 
 	cal_table->clipboard_selection = icalcomponent_as_ical_string (cal_table->tmp_vcal);
 	icalcomponent_free (cal_table->tmp_vcal);
-	cal_table->tmp_val = NULL;
+	cal_table->tmp_vcal = NULL;
 
 	gtk_selection_owner_set (cal_table->invisible, clipboard_atom, GDK_CURRENT_TIME);
 }

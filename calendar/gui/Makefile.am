@@ -2,7 +2,6 @@
 
 IDLS =												   \
 	$(top_srcdir)/composer/Evolution-Composer.idl						   \
-	$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl \
 	$(top_srcdir)/calendar/idl/evolution-calendar.idl
 
 IDL_GENERATED =                 			\
@@ -10,10 +9,6 @@ IDL_GENERATED =                 			\
         Evolution-Composer-common.c       		\
         Evolution-Composer-skels.c        		\
         Evolution-Composer-stubs.c			\
-	Evolution-Addressbook-SelectNames.h		\
-	Evolution-Addressbook-SelectNames-common.c	\
-	Evolution-Addressbook-SelectNames-skels.c	\
-	Evolution-Addressbook-SelectNames-stubs.c	\
 	evolution-calendar.h				\
 	evolution-calendar-common.c			\
 	evolution-calendar-skels.c			\
@@ -22,8 +17,6 @@ IDL_GENERATED =                 			\
 $(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
                 $(srcdir)/../../composer/Evolution-Composer.idl
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
-                $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
                 $(top_srcdir)/calendar/idl/evolution-calendar.idl
 

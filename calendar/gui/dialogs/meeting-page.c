@@ -46,7 +46,7 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-dialog-widgets.h>
-#include "../Evolution-Addressbook-SelectNames.h"
+#include "Evolution-Addressbook-SelectNames.h"
 #include "../component-factory.h"
 #include "../itip-utils.h"
 #include "comp-editor-util.h"

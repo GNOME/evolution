@@ -1,4 +1,19 @@
-gladedir = $(datadir)/evolution/glade
+## CORBA stuff
+
+IDLS =												   \
+	$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
+
+IDL_GENERATED =                 			\
+	Evolution-Addressbook-SelectNames.h		\
+	Evolution-Addressbook-SelectNames-common.c	\
+	Evolution-Addressbook-SelectNames-skels.c	\
+	Evolution-Addressbook-SelectNames-stubs.c
+
+$(IDL_GENERATED): $(IDLS)
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
+                $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
+
+BUILT_SOURCES = $(IDL_GENERATED)
 
 INCLUDES = 						\
 	-DG_LOG_DOMAIN=\"calendar-gui\"			\
@@ -21,6 +36,7 @@ INCLUDES = 						\
 noinst_LIBRARIES = libcal-dialogs.a
 
 libcal_dialogs_a_SOURCES =	\
+	$(IDL_GENERATED)	\
 	alarm-options.c		\
 	alarm-options.h		\
 	alarm-page.c		\
@@ -60,6 +76,7 @@ libcal_dialogs_a_SOURCES =	\
 	task-page.c		\
 	task-page.h
 
+gladedir = $(datadir)/evolution/glade
 glade_DATA =				\
 	alarm-options.glade		\
 	alarm-page.glade		\
@@ -73,6 +90,11 @@ glade_DATA =				\
 
 etspecdir = $(datadir)/evolution/etspec/
 etspec_DATA = meeting-page.etspec
+
+CLEANFILES += $(BUILT_SOURCES)
+
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)
 
 EXTRA_DIST =			\
 	$(glade_DATA)		\
