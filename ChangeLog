@@ -1,3 +1,12 @@
+2000-05-01  NotZed  <NotZed@HelixCode.com>
+
+	* tests/test11.c (main): *sigh* moved back to sync api.
+
+2000-05-01  NotZed  <NotZed@HelixCode.com>
+
+	* tests/test11.c (search_cb): Try deleting messages ...
+	(main): Fix for provider api changes.
+
 2000-05-01  Anders Carlsson  <andersca@gnu.org>
 
 	* configure.in: Check if bonobo uses oaf, so you don't
