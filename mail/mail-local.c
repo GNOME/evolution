@@ -903,18 +903,14 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 		goto cleanup;
 	}
 
-	update_progress(_("Copying messages"), 0.0);
-	uids = camel_folder_get_uids(fromfolder);
-	for (i=0;i<uids->len;i++) {
-		mail_statusf("Copying message %d of %d", i, uids->len);
-		camel_folder_move_message_to(fromfolder, uids->pdata[i], tofolder, &mm->ex);
-		if (camel_exception_is_set(&mm->ex)) {
-			camel_folder_free_uids(fromfolder, uids);
-			goto cleanup;
-		}
-	}
-	camel_folder_free_uids(fromfolder, uids);
-	camel_folder_expunge(fromfolder, &mm->ex);
+	update_progress (_("Copying messages"), 0.0);
+	uids = camel_folder_get_uids (fromfolder);
+	camel_folder_move_messages_to (fromfolder, uids, tofolder, &mm->ex);
+	camel_folder_free_uids (fromfolder, uids);
+	if (camel_exception_is_set(&mm->ex))
+		goto cleanup;
+	
+	camel_folder_expunge (fromfolder, &mm->ex);
 
 	d(printf("delete old mbox ...\n"));
 	camel_store_delete_folder(fromstore, tmpname, &mm->ex);

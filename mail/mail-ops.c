@@ -838,15 +838,15 @@ static void transfer_messages_transfer(struct _mail_msg *mm)
 	CamelFolder *dest;
 	int i;
 	char *desc;
-	void (*func) (CamelFolder *, const char *, 
+	void (*func) (CamelFolder *, GPtrArray *, 
 		      CamelFolder *, 
 		      CamelException *);
 
 	if (m->delete) {
-		func = camel_folder_move_message_to;
+		func = camel_folder_move_messages_to;
 		desc = _("Moving");
 	} else {
-		func = camel_folder_copy_message_to;
+		func = camel_folder_copy_messages_to;
 		desc = _("Copying");
 	}
 
@@ -856,16 +856,9 @@ static void transfer_messages_transfer(struct _mail_msg *mm)
 
 	camel_folder_freeze (m->source);
 	camel_folder_freeze (dest);
-
-	for (i = 0; i < m->uids->len; i++) {
-		mail_statusf(_("%s message %d of %d (uid \"%s\")"), desc,
-			     i + 1, m->uids->len, (char *)m->uids->pdata[i]);
-
-		(func) (m->source, m->uids->pdata[i], dest, &mm->ex);
-		if (camel_exception_is_set (&mm->ex))
-			break;
-	}
-
+	
+	(func) (m->source, m->uids->pdata[i], dest, &mm->ex);
+	
 	camel_folder_thaw(m->source);
 	camel_folder_thaw(dest);
 	camel_object_unref((CamelObject *)dest);

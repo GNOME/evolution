@@ -1,3 +1,10 @@
+2001-03-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (transfer_messages_transfer): Updated to reflect
+	changes made to the move/copy API in camel-folder.c
+
+	* mail-local.c (reconfigure_folder_reconfigure): Updated this too.
+
 2001-03-20  Not Zed  <NotZed@Ximian.com>
 
 	* mail-local.c (init_trash): Fixed vfolder_new api.
