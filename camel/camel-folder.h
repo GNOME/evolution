@@ -70,6 +70,7 @@ struct _CamelFolder
 	CamelStore *parent_store;
 	CamelFolder *parent_folder;
 	GList *permanent_flags;
+	gboolean has_summary_capability;
 
 	GList *message_list;
 
@@ -106,7 +107,7 @@ typedef struct {
 	gint   (*append_message) (CamelFolder *folder, CamelMimeMessage *message);
 	const GList * (*list_permanent_flags) (CamelFolder *folder);
 	void   (*copy_message_to) (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder);
-
+	
 } CamelFolderClass;
 
 
