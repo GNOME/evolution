@@ -602,12 +602,24 @@ folder_browser_ui_rm_list (FolderBrowser *fb)
 		folder_browser_ui_discard_view_menus (fb);
 }
 
+static void
+show_preview_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
+{
+	FolderBrowser *fb = user_data;
+	gboolean show_preview;
+	
+	show_preview = gconf_client_get_bool (client, "/apps/evolution/mail/display/show_preview", NULL);
+	bonobo_ui_component_set_prop (fb->uicomp, "/commands/ViewPreview", "state", show_preview ? "1" : "0", NULL);
+	folder_browser_set_message_preview (fb, show_preview);
+}
+
 void 
 folder_browser_ui_add_global (FolderBrowser *fb)
 {
-	int state;
 	BonoboUIComponent *uic = fb->uicomp;
-
+	gboolean show_preview;
+	GConfClient *gconf;
+	
 	if (fb->sensitise_state) {
 		g_hash_table_destroy (fb->sensitise_state);
 		fb->sensitise_state = NULL;
@@ -615,13 +627,25 @@ folder_browser_ui_add_global (FolderBrowser *fb)
 	
 	ui_add (fb, "global", global_verbs, global_pixcache);
 	
+	gconf = gconf_client_get_default ();
+	
 	/* (Pre)view toggle */
 	
-	state = mail_config_get_show_preview (FOLDER_BROWSER (fb)->uri);
-	bonobo_ui_component_set_prop (uic, "/commands/ViewPreview", "state", state ? "1" : "0", NULL);
+	/* watch the show_preview setting */
+	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/show_preview",
+			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	
+	/* listen for changed events to the show_preview setting */
+	gconf_client_notify_add (gconf, "/apps/evolution/mail/display/show_preview",
+				 show_preview_changed, fb, NULL, NULL);
+	
+	show_preview = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_preview", NULL);
+	bonobo_ui_component_set_prop (uic, "/commands/ViewPreview", "state", show_preview ? "1" : "0", NULL);
+	
+	/* listen for user-changes */
 	bonobo_ui_component_add_listener (uic, "ViewPreview", folder_browser_toggle_preview, fb);
 	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
-	folder_browser_toggle_preview (uic, "", Bonobo_UIComponent_STATE_CHANGED, state ? "1" : "0", fb);
+	folder_browser_toggle_preview (uic, "", Bonobo_UIComponent_STATE_CHANGED, show_preview ? "1" : "0", fb);
 	
 	/* Stop button */
 	/* TODO: Go through cache, but we can't becaus eof mail-mt.c:set_stop at the moment */

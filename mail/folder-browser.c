@@ -1106,21 +1106,21 @@ set_cursor_pos (FolderBrowser *fb, int y)
 static gboolean do_message_selected(FolderBrowser *fb);
 
 void
-folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show_message_preview)
+folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show_preview)
 {
 	GConfClient *gconf;
 	int paned_size, y;
 	
-	if (folder_browser->preview_shown == show_message_preview
+	if (folder_browser->preview_shown == show_preview
 	    || folder_browser->message_list == NULL)
 		return;
 	
-	folder_browser->preview_shown = show_message_preview;
+	folder_browser->preview_shown = show_preview;
 	
 	gconf = gconf_client_get_default ();
 	paned_size = gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL);
 	
-	if (show_message_preview) {
+	if (show_preview) {
 		y = save_cursor_pos (folder_browser);
 		e_paned_set_position (E_PANED (folder_browser->vpaned), paned_size);
 		gtk_widget_show (GTK_WIDGET (folder_browser->mail_display));
@@ -1261,13 +1261,13 @@ folder_browser_toggle_preview (BonoboUIComponent           *component,
 			       gpointer                     user_data)
 {
 	FolderBrowser *fb = user_data;
+	GConfClient *gconf;
 	
-	if (type != Bonobo_UIComponent_STATE_CHANGED
-	    || fb->message_list == NULL)
+	if (type != Bonobo_UIComponent_STATE_CHANGED || fb->message_list == NULL)
 		return;
 	
-	mail_config_set_show_preview (fb->uri, atoi (state));
-	folder_browser_set_message_preview (fb, atoi (state));
+	gconf = gconf_client_get_default ();
+	gconf_client_set_bool (gconf, "/apps/evolution/mail/display/show_preview", atoi (state), NULL);
 }
 
 void

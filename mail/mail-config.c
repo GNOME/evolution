@@ -80,7 +80,6 @@ typedef struct {
 	GSList *accounts;
 	
 	GHashTable *threaded_hash;
-	GHashTable *preview_hash;
 	
 	GList *signature_list;
 	int signatures;
@@ -845,10 +844,6 @@ mail_config_write_on_exit (void)
 	if (config->threaded_hash)
 		g_hash_table_foreach_remove (config->threaded_hash, hash_save_state, "Threads");
 	
-	/* Message Preview */
-	if (config->preview_hash)
-		g_hash_table_foreach_remove (config->preview_hash, hash_save_state, "Preview");
-	
 	/* Passwords */
 	
 	/* then we make sure the ones we want to remember are in the
@@ -918,65 +913,6 @@ uri_to_key (const char *uri)
 			*ptr = '_';
 	
 	return rval;
-}
-
-gboolean
-mail_config_get_show_preview (const char *uri)
-{
-#warning "FIXME: need to rework how we save state, probably shouldn't use gconf"
-#if 0
-	if (uri && *uri) {
-		gpointer key, val;
-		char *dbkey;
-		
-		dbkey = uri_to_key (uri);
-		
-		if (!config->preview_hash)
-			config->preview_hash = g_hash_table_new (g_str_hash, g_str_equal);
-		
-		if (!g_hash_table_lookup_extended (config->preview_hash, dbkey, &key, &val)) {
-			gboolean value;
-			char *str;
-			
-			str = g_strdup_printf ("/apps/Evolution/Mail/Preview/%s", dbkey);
-			value = e_config_listener_get_boolean_with_default (config->db, str, TRUE, NULL);
-			g_free (str);
-			
-			g_hash_table_insert (config->preview_hash, dbkey,
-					     GINT_TO_POINTER (value));
-			
-			return value;
-		} else {
-			g_free (dbkey);
-			return GPOINTER_TO_INT (val);
-		}
-	}
-#endif
-	
-	/* return the default value */
-	
-	return gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/show_preview", NULL);
-}
-
-void
-mail_config_set_show_preview (const char *uri, gboolean value)
-{
-	if (uri && *uri) {
-		char *dbkey = uri_to_key (uri);
-		gpointer key, val;
-		
-		if (!config->preview_hash)
-			config->preview_hash = g_hash_table_new (g_str_hash, g_str_equal);
-		
-		if (g_hash_table_lookup_extended (config->preview_hash, dbkey, &key, &val)) {
-			g_hash_table_insert (config->preview_hash, dbkey,
-					     GINT_TO_POINTER (value));
-			g_free (dbkey);
-		} else {
-			g_hash_table_insert (config->preview_hash, dbkey, 
-					     GINT_TO_POINTER (value));
-		}
-	}
 }
 
 gboolean
@@ -1389,16 +1325,7 @@ mail_config_uri_renamed(GCompareFunc uri_cmp, const char *old, const char *new)
 		g_hash_table_insert (config->threaded_hash, g_strdup(newkey), val);
 		work = 2;
 	}
-
-	/* ditto */
-	mail_config_get_show_preview (old);
-	if (g_hash_table_lookup_extended (config->preview_hash, oldkey, &hashkey, &val)) {
-		/*printf ("changing key in preview_hash\n");*/
-		g_hash_table_remove (config->preview_hash, hashkey);
-		g_hash_table_insert (config->preview_hash, g_strdup(newkey), val);
-		work = 2;
-	}
-
+	
 	g_free (oldkey);
 	g_free (newkey);
 

@@ -161,12 +161,6 @@ gboolean mail_config_is_corrupt               (void);
 gboolean mail_config_get_thread_list          (const char *uri);
 void     mail_config_set_thread_list          (const char *uri, gboolean value);
 
-gboolean mail_config_get_thread_subject       (void);
-void     mail_config_set_thread_subject       (gboolean thread_subject);
-
-gboolean mail_config_get_show_preview         (const char *uri);
-void     mail_config_set_show_preview         (const char *uri, gboolean value);
-
 const char *mail_config_get_label_name  (int label);
 void        mail_config_set_label_name  (int label, const char *name);
 guint32     mail_config_get_label_color (int label);

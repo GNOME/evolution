@@ -1,5 +1,15 @@
 2003-01-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.c (mail_config_get_show_preview): Removed.
+	(mail_config_set_show_preview): Removed.
+
+	* folder-browser.c (folder_browser_toggle_preview): Simply set the
+	gconf show_preview setting and let the code in folder-browser-ui.c
+	detect it and update the UI.
+
+	* folder-browser-ui.c (folder_browser_ui_add_global): Listen for
+	changed events on the show_preview setting.
+
 	* mail-config.c (mail_config_set_default_account): Save the
 	setting via gconf.
 	(mail_config_add_account): Immediately save the list of accounts.
