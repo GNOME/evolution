@@ -1,3 +1,8 @@
+2004-01-15  Not Zed  <NotZed@Ximian.com>
+
+	* e-config-upgrade.c (e_upgrade_detect_version): fix the check for
+	~/evolution being a directory.
+
 2004-01-13  JP Rosevear <jpr@ximian.com>
 
 	* main.c (attempt_upgrade): detect the version more completely

@@ -1865,7 +1865,7 @@ e_upgrade_detect_version (int *major, int *minor, int *revision)
 		/* Since 1.4.0 We've been keeping the version key in gconf */
 		sscanf(val, "%u.%u.%u", major, minor, revision);
 		g_free(val);
-	} else if (lstat(filename, &st) != 0 && S_ISDIR(st.st_mode)) {
+	} else if (lstat(filename, &st) != 0 || !S_ISDIR(st.st_mode)) {
 		/* If ~/evolution does not exit or is not a directory it must be a new installation */
 		*major = 0;
 		*minor = 0;
