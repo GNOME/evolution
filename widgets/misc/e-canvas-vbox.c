@@ -172,12 +172,25 @@ e_canvas_vbox_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 }
 
+/* Used from g_list_foreach(); disconnects from an item's signals */
+static void
+disconnect_item_cb (gpointer data, gpointer user_data)
+{
+	ECanvasVbox *vbox;
+	GnomeCanvasItem *item;
+
+	vbox = E_CANVAS_VBOX (user_data);
+
+	item = GNOME_CANVAS_ITEM (data);
+	gtk_signal_disconnect_by_data (GTK_OBJECT (item), vbox);
+}
+
 static void
 e_canvas_vbox_destroy (GtkObject *object)
 {
 	ECanvasVbox *vbox = E_CANVAS_VBOX(object);
 
-	g_list_foreach(vbox->items, (GFunc) gtk_object_unref, NULL);
+	g_list_foreach(vbox->items, disconnect_item_cb, vbox);
 	g_list_free(vbox->items);
 	vbox->items = NULL;
 	
@@ -234,18 +247,14 @@ e_canvas_vbox_realize (GnomeCanvasItem *item)
 static void
 e_canvas_vbox_remove_item (GnomeCanvasItem *item, ECanvasVbox *vbox)
 {
-	if (!GTK_OBJECT_DESTROYED (vbox)) {
+	if (!GTK_OBJECT_DESTROYED (vbox))
 		vbox->items = g_list_remove(vbox->items, item);
-		gtk_object_unref(GTK_OBJECT(vbox));
-	}
 }
 
 static void
 e_canvas_vbox_real_add_item(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
 {
 	e_canvas_vbox->items = g_list_append(e_canvas_vbox->items, item);
-	gtk_object_ref(GTK_OBJECT(item));
-	gtk_object_ref(GTK_OBJECT(e_canvas_vbox));
 	gtk_signal_connect(GTK_OBJECT(item), "destroy",
 			   GTK_SIGNAL_FUNC(e_canvas_vbox_remove_item), e_canvas_vbox);
 	if ( GTK_OBJECT_FLAGS( e_canvas_vbox ) & GNOME_CANVAS_ITEM_REALIZED ) {
@@ -254,7 +263,6 @@ e_canvas_vbox_real_add_item(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
 				      NULL);
 		e_canvas_item_request_reflow(item);
 	}
-
 }
 
 static void
