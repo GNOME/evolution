@@ -65,7 +65,7 @@ void		calendar_model_mark_task_complete (CalendarModel   *model,
 void		calendar_model_delete_task	  (CalendarModel   *model,
 						   gint		    row);
 
-iCalObject*	calendar_model_get_cal_object	  (CalendarModel   *model,
+CalComponent*	calendar_model_get_cal_object	  (CalendarModel   *model,
 						   gint		    row);
 
 

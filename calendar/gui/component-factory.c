@@ -21,16 +21,14 @@
  * Author: Ettore Perazzoli
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
 #include <bonobo.h>
 #include "evolution-shell-component.h"
 #include "component-factory.h"
 #include "control-factory.h"
 
 
+
 #ifdef USING_OAF
 #define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:evolution-calendar:cba77062-1466-4aac-8ce7-b019eaf2e921"
 #else

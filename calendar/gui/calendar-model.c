@@ -149,7 +149,7 @@ calendar_model_init (CalendarModel *model)
 	priv = g_new0 (CalendarModelPrivate, 1);
 	model->priv = priv;
 
-	priv->objects = g_array_new (FALSE, TRUE, sizeof (iCalObject *));
+	priv->objects = g_array_new (FALSE, TRUE, sizeof (CalComponent *));
 	priv->uid_index_hash = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
@@ -179,11 +179,11 @@ free_objects (CalendarModel *model)
 	g_hash_table_foreach_remove (priv->uid_index_hash, free_uid_index, NULL);
 
 	for (i = 0; i < priv->objects->len; i++) {
-		iCalObject *ico;
+		CalComponent *comp;
 
-		ico = g_array_index (priv->objects, iCalObject *, i);
-		g_assert (ico != NULL);
-		ical_object_unref (ico);
+		comp = g_array_index (priv->objects, CalComponent *, i);
+		g_assert (comp != NULL);
+		gtk_object_unref (GTK_OBJECT (comp));
 	}
 
 	g_array_set_size (priv->objects, 0);
@@ -295,7 +295,7 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 {
 	CalendarModel *model;
 	CalendarModelPrivate *priv;
-	iCalObject *ico;
+	CalComponent *comp;
 	static char buffer[16];
 
 	model = CALENDAR_MODEL (etm);
@@ -304,8 +304,8 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 	g_return_val_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS, NULL);
 	g_return_val_if_fail (row >= 0 && row < priv->objects->len, NULL);
 
-	ico = g_array_index (priv->objects, iCalObject *, row);
-	g_assert (ico != NULL);
+	comp = g_array_index (priv->objects, CalComponent *, row);
+	g_assert (comp != NULL);
 
 	switch (col) {
 	case ICAL_OBJECT_FIELD_COMMENT:
@@ -1527,7 +1527,7 @@ calendar_model_mark_task_complete (CalendarModel *model,
 
 
 /* Frees the objects stored in the calendar model */
-iCalObject*
+CalComponent *
 calendar_model_get_cal_object (CalendarModel *model,
 			       gint	      row)
 {
@@ -1535,6 +1535,5 @@ calendar_model_get_cal_object (CalendarModel *model,
 
 	priv = model->priv;
 
-	return g_array_index (priv->objects, iCalObject *, row);
+	return g_array_index (priv->objects, CalComponent *, row);
 }
-

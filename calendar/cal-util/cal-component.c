@@ -72,6 +72,8 @@ struct _CalComponentPrivate {
 	GSList *exrule_list; /* list of icalproperty objects */
 
 	icalproperty *last_modified;
+	icalproperty *percent;
+	icalproperty *priority;
 
 	struct period {
 		icalproperty *prop;
@@ -243,6 +245,8 @@ free_icalcomponent (CalComponent *comp)
 	priv->exrule_list = NULL;
 
 	priv->last_modified = NULL;
+	priv->percent = NULL;
+	priv->priority = NULL;
 
 	priv->rdate_list = free_slist (priv->rdate_list);
 
@@ -515,6 +519,14 @@ scan_property (CalComponent *comp, icalproperty *prop)
 
 	case ICAL_LASTMODIFIED_PROPERTY:
 		priv->last_modified = prop;
+		break;
+
+	case ICAL_PERCENTCOMPLETE_PROPERTY:
+		priv->percent = prop;
+		break;
+
+	case ICAL_PRIORITY_PROPERTY:
+		priv->priority = prop;
 		break;
 
 	case ICAL_RDATE_PROPERTY:
@@ -2143,6 +2155,136 @@ cal_component_set_last_modified (CalComponent *comp, struct icaltimetype *t)
 }
 
 /**
+ * cal_component_get_percent:
+ * @comp: A calendar component object.
+ * @percent: Return value for the percent-complete property.  This should be
+ * freed using the cal_component_free_percent() function.
+ * 
+ * Queries the percent-complete property of a calendar component object.
+ **/
+void
+cal_component_get_percent (CalComponent *comp, int **percent)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (percent != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (priv->percent) {
+		*percent = g_new (int, 1);
+		**percent = icalproperty_get_percentcomplete (priv->percent);
+	} else
+		*percent = NULL;
+}
+
+/**
+ * cal_component_set_percent:
+ * @comp: A calendar component object.
+ * @percent: Value for the percent-complete property.
+ * 
+ * Sets the percent-complete property of a calendar component object.
+ **/
+void
+cal_component_set_percent (CalComponent *comp, int *percent)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (!percent) {
+		if (priv->percent) {
+			icalcomponent_remove_property (priv->icalcomp, priv->percent);
+			icalproperty_free (priv->percent);
+			priv->percent = NULL;
+		}
+
+		return;
+	}
+
+	g_return_if_fail (*percent >= 0 && *percent <= 100);
+
+	if (priv->percent)
+		icalproperty_set_percentcomplete (priv->percent, *percent);
+	else {
+		priv->percent = icalproperty_new_percentcomplete (*percent);
+		icalcomponent_add_property (priv->icalcomp, priv->percent);
+	}
+}
+
+/**
+ * cal_component_get_priority:
+ * @comp: A calendar component object.
+ * @priority: Return value for the priority property.  This should be freed using
+ * the cal_component_free_priority() function.
+ * 
+ * Queries the priority property of a calendar component object.
+ **/
+void
+cal_component_get_priority (CalComponent *comp, int **priority)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (priority != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (priv->priority) {
+		*priority = g_new (int, 1);
+		**priority = icalproperty_get_priority (priv->priority);
+	} else
+		*priority = NULL;
+}
+
+/**
+ * cal_component_set_priority:
+ * @comp: A calendar component object.
+ * @priority: Value for the priority property.
+ * 
+ * Sets the priority property of a calendar component object.
+ **/
+void
+cal_component_set_priority (CalComponent *comp, int *priority)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (!priority) {
+		if (priv->priority) {
+			icalcomponent_remove_property (priv->icalcomp, priv->priority);
+			icalproperty_free (priv->priority);
+			priv->priority = NULL;
+		}
+
+		return;
+	}
+
+	g_return_if_fail (*priority >= 0 && *priority <= 9);
+
+	if (priv->priority)
+		icalproperty_set_priority (priv->priority, *priority);
+	else {
+		priv->priority = icalproperty_new_priority (*priority);
+		icalcomponent_add_property (priv->icalcomp, priv->priority);
+	}
+}
+
+/**
  * cal_component_get_rdate_list:
  * @comp: A calendar component object.
  * @period_list: Return value for the list of recurrence dates, as a list of
@@ -2619,6 +2761,36 @@ cal_component_free_icaltimetype (struct icaltimetype *t)
 	g_return_if_fail (t != NULL);
 
 	g_free (t);
+}
+
+/**
+ * cal_component_free_percent:
+ * @percent: Percent value.
+ * 
+ * Frees a percent value as returned by the cal_component_get_percent()
+ * function.
+ **/
+void
+cal_component_free_percent (int *percent)
+{
+	g_return_if_fail (percent != NULL);
+
+	g_free (percent);
+}
+
+/**
+ * cal_component_free_priority:
+ * @priority: Priority value.
+ * 
+ * Frees a priority value as returned by the cal_component_get_priority()
+ * function.
+ **/
+void
+cal_component_free_priority (int *priority)
+{
+	g_return_if_fail (priority != NULL);
+
+	g_free (priority);
 }
 
 /**

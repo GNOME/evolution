@@ -51,6 +51,29 @@ typedef enum {
 	CAL_COMPONENT_TIMEZONE
 } CalComponentVType;
 
+/* Field identifiers for a calendar component */
+typedef enum {
+	CAL_COMPONENT_FIELD_CATEGORIES,
+	CAL_COMPONENT_FIELD_CLASSIFICATION,
+	CAL_COMPONENT_FIELD_COMPLETED,
+	CAL_COMPONENT_FIELD_CREATED,
+	CAL_COMPONENT_FIELD_DTEND,
+	CAL_COMPONENT_FIELD_DTSTART,
+	CAL_COMPONENT_FIELD_DUE,
+	CAL_COMPONENT_FIELD_PERCENT,
+	CAL_COMPONENT_FIELD_PRIORITY,
+	CAL_COMPONENT_FIELD_SUMMARY,
+	CAL_COMPONENT_FIELD_TRANSPARENCY,
+	CAL_COMPONENT_FIELD_URL,
+	CAL_COMPONENT_FIELD_HAS_ALARMS,		/* not a real field */
+	CAL_COMPONENT_FIELD_ICON,		/* not a real field */
+	CAL_COMPONENT_FIELD_COMPLETE,		/* not a real field */
+	CAL_COMPONENT_FIELD_RECURRING,		/* not a real field */
+	CAL_COMPONENT_FIELD_OVERDUE,		/* not a real field */
+	CAL_COMPONENT_FIELD_COLOR,		/* not a real field */
+	CAL_COMPONETN_FIELD_NUM_FIELDS
+} CalComponentField;
+
 /* Structures to return properties and their parameters */
 
 typedef enum {
@@ -181,6 +204,12 @@ void cal_component_set_exrule_list (CalComponent *comp, GSList *recur_list);
 void cal_component_get_last_modified (CalComponent *comp, struct icaltimetype **t);
 void cal_component_set_last_modified (CalComponent *comp, struct icaltimetype *t);
 
+void cal_component_get_percent (CalComponent *comp, int **percent);
+void cal_component_set_percent (CalComponent *comp, int *percent);
+
+void cal_component_get_priority (CalComponent *comp, int **priority);
+void cal_component_set_priority (CalComponent *comp, int *priority);
+
 void cal_component_get_rdate_list (CalComponent *comp, GSList **period_list);
 void cal_component_set_rdate_list (CalComponent *comp, GSList *period_list);
 
@@ -205,6 +234,8 @@ void cal_component_free_categories_list (GSList *categ_list);
 void cal_component_free_datetime (CalComponentDateTime *dt);
 void cal_component_free_exdate_list (GSList *exdate_list);
 void cal_component_free_icaltimetype (struct icaltimetype *t);
+void cal_component_free_percent (int *percent);
+void cal_component_free_priority (int *priority);
 void cal_component_free_period_list (GSList *period_list);
 void cal_component_free_recur_list (GSList *recur_list);
 void cal_component_free_sequence (int *sequence);

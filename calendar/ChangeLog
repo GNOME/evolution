@@ -1,3 +1,20 @@
+2000-08-11  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c (scan_property): Handle the
+	PERCENT-COMPLETE property.
+	(free_icalcomponent): Likewise.
+	(cal_component_get_percent): Likewise.
+	(cal_component_set_percent): Likewise.
+	(cal_component_free_percent): Likewise.
+	(scan_property): Handle the PRIORITY property.
+	(free_icalcomponent): Likewise.
+	(cal_component_get_priority): Likewise.
+	(cal_component_set_priority): Likewise.
+	(cal_component_free_priority): Likewise.
+
+	* cal-util/cal-component.h (CalComponentField): New enumeration
+	with the list of fields we support for ETable.
+
 2000-08-10  Dan Winship  <danw@helixcode.com>
 
 	* gui/component-factory.c (owner_set_cb): Update prototype.
