@@ -55,7 +55,6 @@ evolution_auth_callback (char *prompt, gboolean secret,
 void
 session_init (void)
 {
-	e_setup_base_dir ();
 	camel_init ();
 
 	session = camel_session_new (evolution_auth_callback);

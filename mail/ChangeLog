@@ -1,3 +1,7 @@
+2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
+
+	* session.c: Don't call e_setup_base_dir.
+
 2000-06-01  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.c (mail_generate_forward): Fix forwarding to work
