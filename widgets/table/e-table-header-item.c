@@ -476,7 +476,6 @@ make_shaped_window_from_xpm (const char **xpm)
 	gdk_pixbuf_render_pixmap_and_mask (pixbuf, &pixmap, &bitmap, 128);
 	gdk_pixbuf_unref (pixbuf);
 
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 	win = gtk_window_new (GTK_WINDOW_POPUP);
 
@@ -484,7 +483,6 @@ make_shaped_window_from_xpm (const char **xpm)
 	gtk_widget_realize (win);
 	gtk_container_add (GTK_CONTAINER (win), pix);
 	gtk_widget_shape_combine_mask (win, bitmap, 0, 0);
-	gtk_widget_pop_visual ();
 	gtk_widget_pop_colormap ();
 	
 	gdk_pixmap_unref (pixmap);

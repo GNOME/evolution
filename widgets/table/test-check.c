@@ -160,7 +160,6 @@ check_test (void)
 	GdkPixbuf *pixbuf;
 	GnomeCanvasItem *item;
 
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 	
 	e_table_model = e_table_simple_new (

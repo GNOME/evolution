@@ -1181,7 +1181,6 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	e_table->model = etm;
 	gtk_object_ref (GTK_OBJECT (etm));
 
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
 	e_table->header = e_table_state_to_header (GTK_WIDGET(e_table), e_table->full_header, state);
@@ -1242,7 +1241,6 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 			  0, 0);
 
 	gtk_widget_pop_colormap ();
-	gtk_widget_pop_visual ();
 
 	gtk_object_unref(GTK_OBJECT(ete));
 
