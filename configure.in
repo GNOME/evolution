@@ -687,6 +687,7 @@ default_user/local/Executive-Summary/Makefile
 default_user/local/Inbox/Makefile
 default_user/local/Outbox/Makefile
 default_user/local/Sent/Makefile
+default_user/local/Tasks/Makefile
 default_user/local/Trash/Makefile
 tools/Makefile
 doc/Makefile

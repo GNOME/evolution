@@ -1,3 +1,13 @@
+2001-01-14  Damon Chaplin  <damon@helixcode.com>
+
+	* tools/evolution-move-tasks: new script to move tasks from the
+	Calendar folder to the new Tasks folder, so people won't lose tasks.
+	This can be deleted after a few releases.
+
+	* tools/Makefile.am (bin_SCRIPTS): added above.
+
+	* configure.in: added default_user/local/Tasks/Makefile to AC_OUTPUT.
+
 2001-01-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* config.h.in: Removed GPG stuff.
