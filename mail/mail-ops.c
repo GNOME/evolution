@@ -936,28 +936,39 @@ add_vtrash_info (CamelFolderInfo *info)
 	CamelURL *url;
 	char *uri;
 	
+	g_return_if_fail (info != NULL);
+	
 	for (fi = info; fi->sibling; fi = fi->sibling) {
-		if (!strcmp (fi->name, "vTrash"))
-			return;
+		if (!strcmp (fi->name, _("Trash")))
+			break;
 	}
 	
 	/* create our vTrash URL */
 	url = camel_url_new (info->url, NULL);
 	g_free (url->path);
-	url->path = g_strdup ("vTrash");
+	url->path = g_strdup (_("Trash"));
 	uri = camel_url_to_string (url, FALSE);
 	camel_url_free (url);
 	
-	vtrash = g_new0 (CamelFolderInfo, 1);
-	vtrash->full_name = g_strdup ("vTrash");
-	vtrash->name = g_strdup ("vTrash");
+	if (fi->sibling) {
+		/* We're going to replace the physical Trash folder with our vTrash folder */
+		vtrash = fi;
+		g_free (vtrash->full_name);
+		g_free (vtrash->name);
+		g_free (vtrash->url);
+	} else {
+		/* There wasn't a Trash folder so create a new folder entry */
+		vtrash = g_new0 (CamelFolderInfo, 1);
+		vtrash->parent = fi;
+		fi->sibling = vtrash;
+	}
+	
+	/* Fill in the new fields */
+	vtrash->full_name = g_strdup (_("Trash"));
+	vtrash->name = g_strdup (_("Trash"));
 	vtrash->url = g_strdup_printf ("vtrash:%s", uri);
 	vtrash->unread_message_count = -1;
 	g_free (uri);
-	
-	vtrash->parent = fi;
-	
-	fi->sibling = vtrash;
 }
 
 static void get_folderinfo_get(struct _mail_msg *mm)

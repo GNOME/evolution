@@ -1,3 +1,10 @@
+2001-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (add_vtrash_info): Instead of always creating a new
+	vTrash folder, if the store already has a Trash folder, replace it
+	with the vTrash. Also, name the folder "Trash" instead of "vTrash"
+	and i18nify the name.
+
 2001-03-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.h: Added protection.
