@@ -94,6 +94,7 @@
 
 enum {
 	PK11_PASSWD,
+	PK11_CHANGE_PASSWD,
 	LAST_SIGNAL
 };
 
@@ -271,6 +272,16 @@ e_cert_db_class_init (ECertDBClass *klass)
 			      smime_marshal_BOOLEAN__POINTER_BOOLEAN_POINTER,
 			      G_TYPE_BOOLEAN, 3,
 			      G_TYPE_POINTER, G_TYPE_BOOLEAN, G_TYPE_POINTER);
+
+	e_cert_db_signals[PK11_CHANGE_PASSWD] =
+		g_signal_new ("pk11_change_passwd",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECertDBClass, pk11_change_passwd),
+			      NULL, NULL,
+			      smime_marshal_BOOLEAN__POINTER_POINTER,
+			      G_TYPE_BOOLEAN, 2,
+			      G_TYPE_POINTER, G_TYPE_POINTER);
 }
 
 static void
@@ -1117,12 +1128,22 @@ e_cert_db_login_to_slot (ECertDB *cert_db,
 		PK11_Logout (slot);
 
 		if (PK11_NeedUserInit (slot)) {
+			char *pwd;
+			gboolean rv = FALSE;
+
 			printf ("initializing slot password\n");
+
+			g_signal_emit (e_cert_db_peek (),
+				       e_cert_db_signals[PK11_CHANGE_PASSWD], 0,
+				       NULL,
+				       &pwd,
+				       &rv);
+
+			if (!rv)
+				return FALSE;
+
 			/* the user needs to specify the initial password */
-			/* XXX toshok - this should use a signal to
-			   pop up a password dialog ala the
-			   pk11_passwd prompt.  for now we do it
-			   here. */
+			PK11_InitPin (slot, "", pwd);
 		}
 
 		if (PK11_Authenticate (slot, PR_TRUE, NULL) != SECSuccess) {

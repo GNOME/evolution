@@ -52,6 +52,31 @@ smime_pk11_passwd (ECertDB *db, PK11SlotInfo* slot, gboolean retry, char **passw
 	return TRUE;
 }
 
+static gboolean
+smime_pk11_change_passwd (ECertDB *db, char **old_passwd, char **passwd, gpointer arg)
+{
+	char *prompt;
+
+	/* XXX need better strings here, just copy mozilla's? */
+
+	if (!old_passwd) {
+		/* we're setting the password initially */
+		prompt = _("Enter new password for certificate database");
+
+		*passwd = e_passwords_ask_password (_("Enter new password"), NULL, NULL,
+						    prompt, TRUE,
+						    E_PASSWORDS_DO_NOT_REMEMBER, NULL,
+						    NULL);
+	}
+	else {
+		/* we're changing the password */
+		/* XXX implement this... */
+	}
+
+	/* this should return FALSE if they canceled. */
+	return TRUE;
+}
+
 void
 smime_component_init (void)
 {
@@ -63,4 +88,8 @@ smime_component_init (void)
 	g_signal_connect (e_cert_db_peek (),
 			  "pk11_passwd",
 			  G_CALLBACK (smime_pk11_passwd), NULL);
+
+	g_signal_connect (e_cert_db_peek (),
+			  "pk11_change_passwd",
+			  G_CALLBACK (smime_pk11_change_passwd), NULL);
 }

@@ -1,3 +1,24 @@
+2004-03-19  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #52829 ]
+	
+	* lib/smime-marshal.list: add BOOL:POINTER,POINTER for
+	pk11_change_passwd.
+
+	* lib/e-cert-db.c (e_cert_db_class_init): initialize the
+	pk11_change_passwd signal.
+	(e_cert_db_login_to_slot): emit "pk11_change_passwd" with
+	old_passwd == NULL to initialize the database.
+
+	* lib/e-cert-db.h: add pk11_change_passwd signal slot.
+
+	* gui/component.c (smime_pk11_change_passwd): implement the
+	portion of this that gets called with old_passwd == NULL (the only
+	part that needs implementing yet, since we don't have a UI for
+	changing the password.)
+	(smime_component_init): hook up to the pk11_change_passwd signal
+	on ECertDB.
+
 2004-03-10  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/certificate-viewer.c (certificate_viewer_show): Fix the border
