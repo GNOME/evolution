@@ -746,23 +746,26 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 		
 	case E_TABLE_COL_ARROW_UP:
 	case E_TABLE_COL_ARROW_DOWN:
-		gtk_paint_arrow (
-			gtk_widget_get_style (GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas)),
-			drawable,
-			GTK_STATE_NORMAL,
-			GTK_SHADOW_IN,
-			&clip,
-			GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas),
-			"header",
-			(arrow == E_TABLE_COL_ARROW_UP) ? GTK_ARROW_UP : GTK_ARROW_DOWN,
-			TRUE,
-			x + HEADER_PADDING / 2 + clip.width - MIN_ARROW_SIZE - 2,
-			y + (ethi->height - MIN_ARROW_SIZE) / 2,
-			MIN_ARROW_SIZE,
-			MIN_ARROW_SIZE);
-		
-		clip.width -= (MIN_ARROW_SIZE + 2 + HEADER_PADDING);
-		break;
+		if (!col->is_pixbuf || 
+		    (col->is_pixbuf && gdk_pixbuf_get_width (col->pixbuf) <= clip.width)) {
+			gtk_paint_arrow (
+					 gtk_widget_get_style (GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas)),
+					 drawable,
+					 GTK_STATE_NORMAL,
+					 GTK_SHADOW_IN,
+					 &clip,
+					 GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas),
+					 "header",
+					 (arrow == E_TABLE_COL_ARROW_UP) ? GTK_ARROW_UP : GTK_ARROW_DOWN,
+					 TRUE,
+					 x + HEADER_PADDING / 2 + clip.width - MIN_ARROW_SIZE - 2,
+					 y + (ethi->height - MIN_ARROW_SIZE) / 2,
+					 MIN_ARROW_SIZE,
+					 MIN_ARROW_SIZE);
+			
+			clip.width -= (MIN_ARROW_SIZE + 2 + HEADER_PADDING);
+			break;
+		}
 	}
 
 	if (col->is_pixbuf){

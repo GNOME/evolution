@@ -61,6 +61,7 @@ enum {
 	ARG_FONT,
         ARG_FONTSET,
 	ARG_FONT_GDK,
+	ARG_FONT_E,
 	ARG_ANCHOR,
 	ARG_JUSTIFICATION,
 	ARG_CLIP_WIDTH,
@@ -230,7 +231,9 @@ e_text_class_init (ETextClass *klass)
 	gtk_object_add_arg_type ("EText::fontset",
 				 GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_FONTSET);
 	gtk_object_add_arg_type ("EText::font_gdk",
-				 GTK_TYPE_GDK_FONT, GTK_ARG_READWRITE, ARG_FONT_GDK);
+				 GTK_TYPE_GDK_FONT, GTK_ARG_WRITABLE, ARG_FONT_GDK);
+	gtk_object_add_arg_type ("EText::font_e",
+				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_FONT_E);
 	gtk_object_add_arg_type ("EText::anchor",
 				 GTK_TYPE_ANCHOR_TYPE, GTK_ARG_READWRITE, ARG_ANCHOR);
 	gtk_object_add_arg_type ("EText::justification",
@@ -1021,7 +1024,7 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_FONT:
 		if (text->font)
-			e_font_unref (text->font);
+  			e_font_unref (text->font);
 
 		text->font = e_font_from_gdk_name (GTK_VALUE_STRING (*arg));
 
@@ -1044,7 +1047,7 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_FONTSET:
 		if (text->font)
-			e_font_unref (text->font);
+  			e_font_unref (text->font); 
 
 		text->font = e_font_from_gdk_name (GTK_VALUE_STRING (*arg));
 
@@ -1066,11 +1069,13 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_FONT_GDK:
+		/* Ref the font in case it was the font that is stored
+		   in the e-font */
+		gdk_font_ref (GTK_VALUE_POINTER (*arg));
 		if (text->font)
-			e_font_unref (text->font);
+  			e_font_unref (text->font); 
 
-		text->font = e_font_from_gdk_font (GTK_VALUE_BOXED (*arg));
-
+		text->font = e_font_from_gdk_font (GTK_VALUE_POINTER (*arg));
 #if 0
 		if (item->canvas->aa) {
 			if (text->suckfont)
@@ -1087,7 +1092,19 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			text->needs_calc_line_widths = 1;
 		needs_reflow = 1;
 		break;
+	case ARG_FONT_E:
+		if (text->font)
+			e_font_unref (text->font);
 
+		text->font = GTK_VALUE_POINTER (*arg);
+
+		calc_ellipsis (text);
+		if (text->line_wrap)
+			text->needs_split_into_lines = 1;
+		else 
+			text->needs_calc_line_widths = 1;
+		needs_reflow = 1;
+		break;
 	case ARG_ANCHOR:
 		text->anchor = GTK_VALUE_ENUM (*arg);
 		text->needs_recalc_bounds = 1;
@@ -1295,8 +1312,7 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_STRING (*arg) = g_strdup (text->text);
 		break;
 
-		/* fixme: */
-	case ARG_FONT_GDK:
+	case ARG_FONT_E:
 		GTK_VALUE_BOXED (*arg) = text->font;
 		break;
 
@@ -1529,7 +1545,8 @@ e_text_realize (GnomeCanvasItem *item)
 	text->i_cursor = gdk_cursor_new (GDK_XTERM);
 	text->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	if (text->font == NULL) {
-		text->font = e_font_from_gdk_font (GTK_WIDGET(item->canvas)->style->font);
+		gdk_font_ref (GTK_WIDGET (item->canvas)->style->font);
+		text->font = e_font_from_gdk_font (GTK_WIDGET (item->canvas)->style->font);
 	}
 }
 
@@ -2410,12 +2427,6 @@ _do_tooltip (gpointer data)
 
 	canvas = e_canvas_new ();
 
-
-
-
-
-
-
 	gtk_container_add (GTK_CONTAINER (text->tooltip_window), canvas);
 	
 	/* Get the longest line length */
@@ -2436,11 +2447,13 @@ _do_tooltip (gpointer data)
 				      "fill_color", "yellow",
 				      NULL);
 
-	/* fixme: */
+	/* Ref the font so that it is not destroyed
+	   when the tooltip text is destroyed */
+	e_font_ref (text->font);
 	tooltip_text = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas)),
 					      e_text_get_type (),
 					      "anchor", GTK_ANCHOR_NW,
-					      "font_gdk", text->font,
+					      "font_e", text->font,
 					      "text", text->text,
 					      "editable", FALSE,
 					      "clip_width", text->max_lines != 1 ? text->clip_width : max_width,

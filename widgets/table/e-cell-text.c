@@ -328,6 +328,7 @@ ect_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 		text_view->font = e_font_from_gdk_name (ect->font_name);
 	}
 	if (!text_view->font){
+		gdk_font_ref (GTK_WIDGET (canvas)->style->font);
 		text_view->font = e_font_from_gdk_font (GTK_WIDGET (canvas)->style->font);
 	}
 
