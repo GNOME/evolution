@@ -97,7 +97,7 @@ itip_organizer_is_user (CalComponent *comp, CalClient *client)
 
   		strip = itip_strip_mailto (organizer.value);
   
- 		if (cal_client_get_static_capability (client, "organizer-not-email-address")) { 
+ 		if (cal_client_get_static_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) { 
  			const char *email;
  			
  			email = cal_client_get_cal_address (client);

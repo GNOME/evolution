@@ -105,10 +105,10 @@ static const int action_map[] = {
 };
 
 static const char *action_map_cap[] = {
-	"no-display-alarms",
-	"no-audio-alarms",
-	"no-procedure-alarms",
-	"no-email-alarms"
+	CAL_STATIC_CAPABILITY_NO_DISPLAY_ALARMS,
+	CAL_STATIC_CAPABILITY_NO_AUDIO_ALARMS,
+        CAL_STATIC_CAPABILITY_NO_PROCEDURE_ALARMS,
+	CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS
 };
 
 static const int value_map[] = {
@@ -707,7 +707,8 @@ button_options_clicked_cb (GtkWidget *widget, gpointer data)
 	cal_component_alarm_set_action (priv->alarm,
 					e_dialog_option_menu_get (priv->action, action_map));
 
-	repeat = !cal_client_get_static_capability (COMP_EDITOR_PAGE (apage)->client, "no-alarm-repeat");
+	repeat = !cal_client_get_static_capability (COMP_EDITOR_PAGE (apage)->client,
+						    CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT);
 	email = cal_client_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client);
 	if (!alarm_options_dialog_run (priv->alarm, email, repeat))
 		g_message ("button_options_clicked_cb(): Could not create the alarm options dialog");

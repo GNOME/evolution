@@ -1,3 +1,18 @@
+2003-04-11  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-util/cal-util.h: added missing capabilities.
+
+	* cal-client/cal-client.c (cal_client_get_one_alarm_only,
+	  cal_client_get_organizer_must_attend,
+	  cal_client_get_save_schedules):
+	* gui/itip-utils.c (itip_organizer_is_user):
+	* gui/e-calendar-table.c (e_calendar_table_on_right_click):
+	* gui/dialogs/task-editor.c (set_menu_sens):
+	* gui/dialogs/event-page.c (event_page_fill_widgets):
+	* gui/dialogs/meeting-page.c (meeting_page_fill_widgets):
+	* gui/dialogs/alarm-page.c (button_options_clicked_cb): use the macros
+	defined in cal-util.h for static capabilities.
+
 2003-04-11  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-model.c (start_addressbook_server): load the

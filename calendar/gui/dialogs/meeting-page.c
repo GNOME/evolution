@@ -368,11 +368,15 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 			gtk_widget_show (priv->existing_organizer_table);
 			if (itip_organizer_is_user (comp, page->client)) {
 				gtk_widget_show (priv->invite);
-				if (cal_client_get_static_capability (page->client, "organizer-not-email-address"))
+				if (cal_client_get_static_capability (
+					    page->client,
+					    CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 					gtk_widget_hide (priv->existing_organizer_btn);
 				e_meeting_model_etable_click_to_add (priv->model, TRUE);
 			} else {
-				if (cal_client_get_static_capability (page->client, "organizer-not-email-address"))
+				if (cal_client_get_static_capability (
+					    page->client,
+					    CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 					gtk_widget_hide (priv->existing_organizer_btn);
 				gtk_widget_hide (priv->invite);
 				e_meeting_model_etable_click_to_add (priv->model, FALSE);

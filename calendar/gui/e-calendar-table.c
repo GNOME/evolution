@@ -995,7 +995,8 @@ e_calendar_table_on_right_click (ETable *table,
 	if (cal_client_is_read_only (calendar_model_get_cal_client (e_calendar_table_get_model (cal_table))))
 		disable_mask |= MASK_EDITABLE;
 
-	if (cal_client_get_static_capability (calendar_model_get_cal_client (e_calendar_table_get_model (cal_table)), "no-task-assignment"))
+	if (cal_client_get_static_capability (calendar_model_get_cal_client (e_calendar_table_get_model (cal_table)),
+					      CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT))
 		disable_mask |= MASK_ASSIGNABLE;
 
 	e_popup_menu_run (tasks_popup_menu, (GdkEvent *) event,

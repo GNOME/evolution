@@ -1295,7 +1295,7 @@ cal_client_get_one_alarm_only (CalClient *client)
 	g_return_val_if_fail (client != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
-	return check_capability (client, "one-alarm-only");
+	return check_capability (client, CAL_STATIC_CAPABILITY_ONE_ALARM_ONLY);
 }
 
 gboolean 
@@ -1304,7 +1304,7 @@ cal_client_get_organizer_must_attend (CalClient *client)
 	g_return_val_if_fail (client != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
-	return check_capability (client, "organizer-must-attend");
+	return check_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_MUST_ATTEND);
 }
 
 gboolean
@@ -1319,7 +1319,7 @@ cal_client_get_save_schedules (CalClient *client)
 	g_return_val_if_fail (client != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
-	return check_capability (client, "save-schedules");
+	return check_capability (client, CAL_STATIC_CAPABILITY_SAVE_SCHEDULES);
 }
 
 /* Converts our representation of a calendar component type into its CORBA representation */

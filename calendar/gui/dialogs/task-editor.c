@@ -117,7 +117,8 @@ set_menu_sens (TaskEditor *te)
  	user = comp_editor_get_user_org (COMP_EDITOR (te));
 	read_only = cal_client_is_read_only (comp_editor_get_cal_client (COMP_EDITOR (te)));
  
-  	sens = cal_client_get_static_capability (comp_editor_get_cal_client (COMP_EDITOR (te)), "no-task-assignment")
+  	sens = cal_client_get_static_capability (comp_editor_get_cal_client (COMP_EDITOR (te)),
+						 CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)
 						 || priv->assignment_shown || read_only;
   	comp_editor_set_ui_prop (COMP_EDITOR (te), 
   				 "/commands/ActionAssignTask", 

@@ -507,7 +507,7 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 				    transparency_map);
 		break;
 	}
-	if (cal_client_get_static_capability (page->client, "no-transparency"))
+	if (cal_client_get_static_capability (page->client, CAL_STATIC_CAPABILITY_NO_TRANSPARENCY))
 		gtk_widget_hide (priv->show_time_frame);
 	else
 		gtk_widget_show (priv->show_time_frame);
