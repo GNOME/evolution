@@ -796,7 +796,7 @@ property_control (BonoboPropertyControl *property_control,
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
 	summary->adjustment = GTK_ADJUSTMENT(gtk_adjustment_new (summary->time / 1000 / 60,
-								 0.0, 1000.0, 1.0, 10.0, 1.0));
+								 1.0, 1000.0, 1.0, 10.0, 1.0));
 	spinner = gtk_spin_button_new (summary->adjustment, 1.0, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), spinner, FALSE, FALSE, 0);
 	

@@ -1,5 +1,10 @@
 2001-05-10  Iain Holmes  <iain@ximian.com>
 
+	* test-service/rdf-summary.c (property_control): Don't let the spinner 
+	be set to 0
+
+2001-05-10  Iain Holmes  <iain@ximian.com>
+
 	* test-service/rdf-summary.c (download_cb): Proxy clicked events to
 	download.
 	(property_control): Connect the Update Now button to the download_cb
