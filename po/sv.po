@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-04-04 19:54+0200\n"
+"POT-Creation-Date: 2000-04-18 15:00+0200\n"
 "PO-Revision-Date: 2000-04-04 19:23+0200\n"
 "Last-Translator: Andreas Hyden <a.hyden@cyberpoint.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -120,9 +120,8 @@ msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
 msgstr ""
-""
-"Ange adressen till den som ska ta emot extrakopian av meddelandet utan "
-"att den visas i mottagandelistan av meddelandet."
+"Ange adressen till den som ska ta emot extrakopian av meddelandet utan att "
+"den visas i mottagandelistan av meddelandet."
 
 #: composer/e-msg-composer-hdrs.c:141
 msgid "Subject:"
@@ -141,6 +140,7 @@ msgid "Save the message in a specified folder"
 msgstr "Spara meddelandet i en viss mapp"
 
 #: composer/e-msg-composer.c:310 composer/e-msg-composer.c:347
+#: mail/folder-browser-factory.c:145
 msgid "Send"
 msgstr "Skicka"
 
@@ -188,42 +188,92 @@ msgstr "Bifoga"
 msgid "Attach a file"
 msgstr "Bifoga en fil"
 
-#: e-util/e-setup.c:38
-#, c-format
-msgid ""
-"Evolution detected that the file `%s' is a not a directory.\n"
-"\n"
-"Evolution can rename the file, delete the file or shutdown and\n"
-"let you fix the problem."
-msgstr ""
-"Evolution har upptäckt att filen \"%s\" inte är en katalog.\n"
-"\n"
-"Evolution kan byta namn på filen, ta bort den eller stänga av och\n"
-"låt dig fixa problemet."
-
-#: mail/folder-browser-factory.c:82
+#: mail/folder-browser-factory.c:83
 msgid ""
 "This is a development version of Evolution.\n"
-" Using the mail component on your mail files\n"
-" is extremely hazardous.\n"
-"Please backup all your mails before trying\n"
-" this program. \n"
-"     You have been warned\n"
+"Using the mail component on your mail files\n"
+"is extremely hazardous.\n"
+"\n"
+"Do not run this program on your real mail\n"
+" and do not give it access to your real mail server.\n"
+"\n"
+"You have been warned\n"
 msgstr ""
 
+#: mail/folder-browser-factory.c:144
+msgid "New mail"
+msgstr "Ny post"
+
+#: mail/folder-browser-factory.c:144
+msgid "Check for new mail"
+msgstr "Kolla efter ny post"
+
+#: mail/folder-browser-factory.c:145
+msgid "Send a new message"
+msgstr "Skicka ett nytt meddelande"
+
+#: mail/folder-browser-factory.c:146
+msgid "Find"
+msgstr "Hitta"
+
+#: mail/folder-browser-factory.c:146
+msgid "Find messages"
+msgstr "Hitta meddelanden"
+
+#: mail/folder-browser-factory.c:150
+msgid "Reply"
+msgstr "Svara"
+
+#: mail/folder-browser-factory.c:150
+msgid "Reply to the sender of this message"
+msgstr "Svara till sändaren av det här meddelandet"
+
 #: mail/folder-browser-factory.c:151
+msgid "Reply to All"
+msgstr "Svara till alla"
+
+#: mail/folder-browser-factory.c:151
+msgid "Reply to all recipients of this message"
+msgstr "Svara till alla mottagare av det här meddelandet"
+
+#: mail/folder-browser-factory.c:153
+msgid "Forward"
+msgstr ""
+
+#: mail/folder-browser-factory.c:153
+#, fuzzy
+msgid "Forward this message"
+msgstr "Skicka detta meddelandet"
+
+#: mail/folder-browser-factory.c:157
+msgid "Print"
+msgstr "Skriv ut"
+
+#: mail/folder-browser-factory.c:157
+msgid "Print the selected message"
+msgstr "Skriv ut markerat meddelande"
+
+#: mail/folder-browser-factory.c:159
+msgid "Delete"
+msgstr "Ta bort"
+
+#: mail/folder-browser-factory.c:159
+msgid "Delete this message"
+msgstr "Ta bort detta meddelandet"
+
+#: mail/folder-browser-factory.c:174
 msgid "_Mail"
 msgstr "_Epost"
 
-#: mail/folder-browser-factory.c:295
+#: mail/folder-browser-factory.c:301
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Tyvärr, Evolutions mappbläddrare kan inte initialiseras."
 
-#: mail/folder-browser.c:145
+#: mail/folder-browser.c:189
 msgid "The URI that the Folder Browser will display"
 msgstr "URL:en som mappbläddraden kommer att visa"
 
-#: mail/folder-browser.c:148
+#: mail/folder-browser.c:192
 msgid "Whether a message preview should be shown"
 msgstr "Huruvida meddelanden ska förhandsgranskas"
 
@@ -231,56 +281,43 @@ msgstr "Huruvida meddelanden ska förhandsgranskas"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Postkomponent: Jag kunde inte initialisera Bonobo"
 
-#: mail/mail-display.c:98
+#: mail/mail-display.c:97
 msgid ""
 "An exception occured while trying to load data into the component with "
 "PersistStream"
 msgstr ""
-"Ett undantag uppstod vid laddning av data till komponenten med "
-"PersistStream"
+"Ett undantag uppstod vid laddning av data till komponenten med PersistStream"
 
-#: mail/mail-display.c:235
+#: mail/mail-display.c:233
 #, c-format
 msgid "The %s component doesn't support PersistStream!\n"
 msgstr "Komponenten %s stöder inte PersistStream!\n"
 
-#: mail/message-list.c:343
-msgid "Online status"
-msgstr "Anslutningsstatus"
-
-#: mail/message-list.c:349
-msgid "Message status"
-msgstr "Meddelandestatus"
-
-#: mail/message-list.c:355
+#: mail/message-list.c:401
 msgid "Priority"
 msgstr "Prioritet"
 
-#: mail/message-list.c:361
-msgid "Attachment"
-msgstr "Bilaga"
-
-#: mail/message-list.c:367
+#: mail/message-list.c:415
 msgid "From"
 msgstr "Från"
 
-#: mail/message-list.c:373
+#: mail/message-list.c:422
 msgid "Subject"
 msgstr "Ämne"
 
-#: mail/message-list.c:379
+#: mail/message-list.c:429
 msgid "Sent"
 msgstr "Skickat"
 
-#: mail/message-list.c:385
+#: mail/message-list.c:436
 msgid "Receive"
 msgstr "Mottag"
 
-#: mail/message-list.c:390
+#: mail/message-list.c:443
 msgid "To"
 msgstr "Till"
 
-#: mail/message-list.c:396
+#: mail/message-list.c:450
 msgid "Size"
 msgstr "Storlek"
 
@@ -378,7 +415,7 @@ msgstr ""
 
 #: shell/e-shell-view-menu.c:115
 msgid "_Mail message"
-msgstr ""
+msgstr "_Posta meddelande"
 
 #: shell/e-shell-view-menu.c:116 shell/e-shell-view-menu.c:119
 msgid "Composes a new mail message"
@@ -451,7 +488,7 @@ msgstr "Idag"
 
 #: shell/e-shell.c:257
 msgid "Executive Summary"
-msgstr ""
+msgstr "Slutgiltiga summan"
 
 #: shell/e-shell.c:260
 msgid "Inbox"
@@ -509,18 +546,46 @@ msgstr "Huvudgenvägar"
 msgid "Other Shortcuts"
 msgstr "Andra genvägar"
 
-#: shell/e-shortcut.c:466
+#: shell/e-shortcut.c:467
 msgid "New group"
 msgstr "Ny grupp"
 
-#: shell/main.c:27
+#: shell/main.c:28
 msgid "Enables some debugging functions"
 msgstr "Aktiverar felsökningsfunktioner"
 
-#: shell/main.c:27
+#: shell/main.c:28
 msgid "LEVEL"
 msgstr "NIVÅ"
 
-#: shell/main.c:44
+#: shell/main.c:45
 msgid "Failed to initialize the Bonobo component system"
 msgstr "Misslyckades att initiera Bonobo-komponentsystemet"
+
+#: shell/main.c:75
+msgid ""
+"It was not possible to setup the Evolution startup files.  Please\n"
+"fix the problem, and restart Evolution"
+msgstr ""
+"Det gick ej att ställa in Evolutions uppstartsfiler. Var vänlig\n"
+"och fixa problemet, och starta om Evolution"
+
+#~ msgid ""
+#~ "Evolution detected that the file `%s' is a not a directory.\n"
+#~ "\n"
+#~ "Evolution can rename the file, delete the file or shutdown and\n"
+#~ "let you fix the problem."
+#~ msgstr ""
+#~ "Evolution har upptäckt att filen \"%s\" inte är en katalog.\n"
+#~ "\n"
+#~ "Evolution kan byta namn på filen, ta bort den eller stänga av och\n"
+#~ "låt dig fixa problemet."
+
+#~ msgid "Online status"
+#~ msgstr "Anslutningsstatus"
+
+#~ msgid "Message status"
+#~ msgstr "Meddelandestatus"
+
+#~ msgid "Attachment"
+#~ msgstr "Bilaga"
