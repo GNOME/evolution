@@ -318,7 +318,110 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				command.action = E_TEP_NOP;
 				command.position = E_TEP_SELECTION;
 				break;
-	  
+
+			case GDK_KP_Space:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = " ";
+				break;
+			case GDK_KP_Equal:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = "=";
+				break;
+			case GDK_KP_Multiply:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = "*";
+				break;
+			case GDK_KP_Add:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = "+";
+				break;
+			case GDK_KP_Subtract:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = "-";
+				break;
+			case GDK_KP_Decimal:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = ".";
+				break;
+			case GDK_KP_Divide:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = "/";
+				break;
+			case GDK_KP_0:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = "0";
+				break;
+			case GDK_KP_1:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = "1";
+				break;
+			case GDK_KP_2:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = "2";
+				break;
+			case GDK_KP_3:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = "3";
+				break;
+			case GDK_KP_4:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = "4";
+				break;
+			case GDK_KP_5:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = "5";
+				break;
+			case GDK_KP_6:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = "6";
+				break;
+			case GDK_KP_7:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = "7";
+				break;
+			case GDK_KP_8:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = "8";
+				break;
+			case GDK_KP_9:
+				command.action = E_TEP_INSERT;
+				command.position = E_TEP_SELECTION;
+				command.value = 1;
+				command.string = "9";
+				break;
+
 			default:
 				if (key.state & GDK_CONTROL_MASK) {
 					if ((key.keyval >= 'A') && (key.keyval <= 'Z'))
@@ -354,6 +457,10 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 						command.string = alt_keys[(int) (key.keyval - 'a')].string;
 					}
 				} else if (key.length > 0) {
+					if (key.keyval >= GDK_KP_0 && key.keyval <= GDK_KP_9) {
+						key.keyval = '0';
+						key.string = "0";
+					}
 					command.action = E_TEP_INSERT;
 					command.position = E_TEP_SELECTION;
 					command.value = strlen(key.string);
