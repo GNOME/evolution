@@ -28,16 +28,18 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtktypeutils.h>
 
-#include <liboaf/liboaf.h>
-
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-widget.h>
+
+#include <liboaf/liboaf.h>
 
 #include <gal/util/e-util.h>
 
 #include "evolution-shell-component-client.h"
 
 
+extern char *debug_log;
+
 #define PARENT_TYPE BONOBO_OBJECT_CLIENT_TYPE
 static BonoboObjectClass *parent_class = NULL;
 
@@ -470,6 +472,9 @@ evolution_shell_component_client_set_owner (EvolutionShellComponentClient *shell
 					    shell, evolution_homedir, &ev);
 
 	result = corba_exception_to_result (&ev);
+
+	if (result == EVOLUTION_SHELL_COMPONENT_OK && debug_log)
+		GNOME_Evolution_ShellComponent_debug (bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client)), debug_log, &ev);
 
 	CORBA_exception_free (&ev);
 

@@ -129,6 +129,7 @@ struct _EvolutionShellComponentClass {
 			      EvolutionShellClient *shell_client,
 			      const char *evolution_homedir);
 	void (* owner_unset) (EvolutionShellComponent *shell_component);
+	void (* debug)       (EvolutionShellComponent *shell_component);
 };
 
 

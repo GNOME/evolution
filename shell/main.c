@@ -22,17 +22,10 @@
  */
 
 #include <config.h>
-#include <glib.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtksignal.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-init.h>
-#include <libgnomeui/gnome-stock.h>
+#include <fcntl.h>
+#include <gnome.h>
+#include <bonobo.h>
 #include <libgnomeui/gnome-window-icon.h>
-#include <bonobo/bonobo-main.h>
 #include <glade/glade.h>
 #include <liboaf/liboaf.h>
 #include <unicode.h>
@@ -50,6 +43,7 @@
 static EShell *shell = NULL;
 static char *evolution_directory = NULL;
 static gboolean no_splash = FALSE;
+char *debug_log = NULL;
 
 
 static void
@@ -180,7 +174,8 @@ int
 main (int argc, char **argv)
 {
 	struct poptOption options[] = {
-		{ "no-splash", '\0', POPT_ARG_NONE, &no_splash, 0, N_("Disable."), NULL },
+		{ "no-splash", '\0', POPT_ARG_NONE, &no_splash, 0, N_("Disable splash screen"), NULL },
+		{ "debug", '\0', POPT_ARG_STRING, &debug_log, 0, N_("Send the debugging output of all components to a file."), NULL },
 		{ NULL, '\0', POPT_ARG_INCLUDE_TABLE, &oaf_popt_options, 0, NULL, NULL },
 		POPT_AUTOHELP
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
@@ -190,6 +185,19 @@ main (int argc, char **argv)
 	textdomain (PACKAGE);
 
 	gnome_init_with_popt_table ("Evolution", VERSION, argc, argv, options, 0, NULL);
+
+	if (debug_log) {
+		int fd;
+
+		fd = open (debug_log, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+		if (fd) {
+			dup2 (fd, STDOUT_FILENO);
+			dup2 (fd, STDERR_FILENO);
+			close (fd);
+		} else
+			g_warning ("Could not set up debugging output file.");
+	}
+
 	oaf_init (argc, argv);
 
 	glade_gnome_init ();
