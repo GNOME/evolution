@@ -1,3 +1,10 @@
+2000-08-12  Dan Winship  <danw@helixcode.com>
+
+	* filter-driver.c (describe_filter_mail): Use
+	mail_tool_get_folder_name here too. (Hm... this directory really
+	shouldn't depend on stuff in mail/, but it already did. We'll have
+	to sort this out later.)
+
 2000-08-11  Dan Winship  <danw@helixcode.com>
 
 	* filter-driver.c (do_filter_mail): Remove an '#if 0' that must

@@ -435,10 +435,10 @@ static gchar *describe_filter_mail (gpointer in_data, gboolean gerund)
 
 	if (gerund)
 		return g_strdup_printf ("Filtering messages into \"%s\"",
-					input->inbox->full_name);
+					mail_tool_get_folder_name (input->inbox));
 	else
 		return g_strdup_printf ("Filter messages into \"%s\"",
-					input->inbox->full_name);
+					mail_tool_get_folder_name (input->inbox));
 }
 
 static void
