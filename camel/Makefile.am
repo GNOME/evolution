@@ -221,6 +221,8 @@ install-exec-hook:
 		    echo "    3. chmod u+s $(DESTDIR)$(sbindir)/camel-lock-helper" ; \
 		    echo '*** WARNING ***' ; \
 	    fi \
+	else \
+	    echo "No user to chown to"; \
 	fi
 	@if test -n "$(CAMEL_LOCK_HELPER_GROUP)"; then \
 	    if test `whoami` = root ; then \
@@ -234,6 +236,8 @@ install-exec-hook:
 		    echo "    3. chmod g+s $(DESTDIR)$(sbindir)/camel-lock-helper" ; \
 		    echo '*** WARNING ***' ; \
 	    fi \
+	else \
+	    echo "No user to chown to"; \
 	fi
 
 noinst_HEADERS =				\

@@ -1,3 +1,7 @@
+2001-09-17  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: Helpful install-exec-hook debugging output
+
 2001-09-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder.c (camel_folder_get_uri): New function to get the
