@@ -32,6 +32,8 @@ static void comp_editor_page_class_init (CompEditorPageClass *class);
 static void comp_editor_page_init (CompEditorPage *page);
 static void comp_editor_page_destroy (GtkObject *object);
 
+static GtkObjectClass *parent_class = NULL;
+
 /* Signal IDs */
 
 enum {
@@ -88,6 +90,8 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 	GtkObjectClass *object_class;
 
 	object_class = (GtkObjectClass *) class;
+
+	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
 
 	comp_editor_page_signals[CHANGED] =
 		gtk_signal_new ("changed",
@@ -166,6 +170,9 @@ comp_editor_page_destroy (GtkObject *object)
 		gtk_object_ref (GTK_OBJECT (page->client));
 		page->client = NULL;
 	}
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 

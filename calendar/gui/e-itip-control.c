@@ -385,6 +385,9 @@ destroy (GtkObject *obj)
 	gtk_object_unref (GTK_OBJECT (priv->task_client));
 	
 	g_free (priv);
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (obj);
 }
 
 GtkWidget *

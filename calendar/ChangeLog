@@ -1,3 +1,14 @@
+2001-08-09  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/e-itip-control.c (destroy): Chain to the destroy handler in
+	the parent class!
+
+	* gui/dialogs/comp-editor-page.c (comp_editor_page_destroy):
+	Likewise.  Sigh.
+
+	* gui/cal-search-bar.c (cal_search_bar_destroy): Whoops, added a
+	destroy handler.
+
 2001-08-08  Damon Chaplin  <damon@ximian.com>
 
 	* gui/goto-dialog.glade: removed underlined accelerator key from

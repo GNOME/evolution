@@ -68,9 +68,12 @@ struct CalSearchBarPrivate {
 
 static void cal_search_bar_class_init (CalSearchBarClass *class);
 static void cal_search_bar_init (CalSearchBar *cal_search);
+static void cal_search_bar_destroy (GtkObject *object);
 
 static void cal_search_bar_query_changed (ESearchBar *search);
 static void cal_search_bar_menu_activated (ESearchBar *search, int item);
+
+static ESearchBarClass *parent_class = NULL;
 
 /* Signal IDs */
 enum {
@@ -124,6 +127,8 @@ cal_search_bar_class_init (CalSearchBarClass *class)
 	e_search_bar_class = (ESearchBarClass *) class;
 	object_class = (GtkObjectClass *) class;
 
+	parent_class = gtk_type_class (E_SEARCH_BAR_TYPE);
+
 	cal_search_bar_signals[SEXP_CHANGED] =
 		gtk_signal_new ("sexp_changed",
 				GTK_RUN_FIRST,
@@ -149,6 +154,8 @@ cal_search_bar_class_init (CalSearchBarClass *class)
 
 	e_search_bar_class->query_changed = cal_search_bar_query_changed;
 	e_search_bar_class->menu_activated = cal_search_bar_menu_activated;
+
+	object_class->destroy = cal_search_bar_destroy;
 }
 
 /* Object initialization function for the calendar search bar */
@@ -161,6 +168,28 @@ cal_search_bar_init (CalSearchBar *cal_search)
 	cal_search->priv = priv;
 
 	priv->categories_omenu = NULL;
+}
+
+/* Destroy handler for the calendar search bar */
+static void
+cal_search_bar_destroy (GtkObject *object)
+{
+	CalSearchBar *cal_search;
+	CalSearchBarPrivate *priv;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_CAL_SEARCH_BAR (object));
+
+	cal_search = CAL_SEARCH_BAR (object);
+	priv = cal_search->priv;
+
+	priv->categories_omenu = NULL;
+
+	g_free (priv);
+	cal_search->priv = NULL;
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
