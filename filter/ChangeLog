@@ -1,3 +1,7 @@
+2004-06-17  Rodney Dawes  <dobey@novell.com>
+
+	* filter-errors.xml.h: Remove this generated file from CVS
+
 2004-06-17  Not Zed  <NotZed@Ximian.com>
 
 	** See #59885.
