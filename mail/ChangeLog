@@ -19,7 +19,7 @@
 	* message-list.c (message_list_set_folder): Likewise.
 	(message_list_set_hidedeleted): Remove redundant trash check.
 
-2001-10-08  Jon Trowbridge  <trow@gnu.org>
+2001-10-08  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-format.c (write_default_header): Write out the Bcc: header
 	when applicable.  Fixes bug #5823.
