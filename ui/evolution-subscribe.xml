@@ -3,7 +3,7 @@
     <submenu name="File" _label="_File">
 
         <menuitem name="FileCloseWin" verb=""
-        _label="Close"/>
+        pixtype="stock" pixname="Close" _label="_Close" accel="*Control*w"/>
 
     </submenu>
 
@@ -31,6 +31,11 @@
     </placeholder>
   </menu>
 
+  <dockitem name="Searchbar" relief="none" behavior="exclusive">
+    <control name="FolderSearch"/>
+
+  </dockitem>
+
   <dockitem name="Toolbar" relief="none" behavior="exclusive">
 
     <toolitem name="SubscribeFolder" verb=""
@@ -47,9 +52,6 @@
     _label="Refresh List" _tip="Refresh List of Folders"
     pixtype="pixbuf"/>
 
-    <separator/>
-
-    <control name="FolderSearch"/>
-
   </dockitem>
+
 </Root>

@@ -1,3 +1,8 @@
+2001-07-01  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-subscribe.xml: add a separate dockitem for the search
+	entry.
+
 2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-message-composer.xml: Enable the label next to the
