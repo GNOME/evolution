@@ -1443,7 +1443,7 @@ update_attendee_status (EItipControl *itip)
 					      itip_strip_mailto (a->value));
 			
 			if (prop == NULL) {
-				dialog = gnome_question_dialog_modal (_("This response is not from a current"
+				dialog = gnome_question_dialog_modal (_("This response is not from a current "
 									"attendee.  Add as an attendee?"),
 								      NULL, NULL);
 				if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == GNOME_YES) {
