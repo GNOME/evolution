@@ -24,6 +24,7 @@
  */
 
 #include <config.h>
+#include <ctype.h>
 #include <errno.h>
 #include <gnome.h>
 #include <libgnomeprint/gnome-print-master.h>
@@ -55,7 +56,7 @@ struct post_send_data {
 
 typedef struct rfm_s { 
 	FolderBrowser *fb; 
-	char *source_url; 
+	MailConfigService *source;
 } rfm_t;
 
 typedef struct rsm_s {
@@ -129,6 +130,83 @@ filter_get_folder(FilterDriver *fd, const char *uri, void *data)
 	return mail_uri_to_folder(uri);
 }
 
+static void
+fetch_remote_mail (CamelFolder *source, CamelFolder *dest,
+		   gboolean keep_on_server, FolderBrowser *fb,
+		   CamelException *ex)
+{
+	CamelUIDCache *cache;
+	GPtrArray *uids;
+	int i;
+
+	uids = camel_folder_get_uids (source);
+	if (keep_on_server) {
+		GPtrArray *new_uids;
+		char *url, *p, *filename;
+
+		url = camel_url_to_string (
+			CAMEL_SERVICE (source->parent_store)->url, FALSE);
+		for (p = url; *p; p++) {
+			if (!isascii ((unsigned char)*p) ||
+			    strchr (" /'\"`&();|<>${}!", *p))
+				*p = '_';
+		}
+		filename = g_strdup_printf ("%s/config/cache-%s",
+					    evolution_dir, url);
+		g_free (url);
+
+		cache = camel_uid_cache_new (filename);
+		g_free (filename);
+		if (cache) {
+			new_uids = camel_uid_cache_get_new_uids (cache, uids);
+			camel_folder_free_uids (source, uids);
+			uids = new_uids;
+		} else {
+			async_mail_exception_dialog ("Could not read UID "
+						     "cache file. You may "
+						     "receive duplicate "
+						     "messages.", NULL, fb);
+		}
+	} else
+		cache = NULL;
+
+	printf ("got %d new messages in source\n", uids->len);
+	for (i = 0; i < uids->len; i++) {
+		CamelMimeMessage *msg;
+
+		msg = camel_folder_get_message (source, uids->pdata[i], ex);
+		if (camel_exception_is_set (ex)) {
+			async_mail_exception_dialog ("Unable to get message",
+						     ex, fb);
+			goto done;
+		}
+
+		/* Append with flags = 0 since this is a new message */
+		camel_folder_append_message (dest, msg, 0, ex);
+		if (camel_exception_is_set (ex)) {
+			async_mail_exception_dialog ("Unable to write message",
+						     ex, fb);
+			gtk_object_unref (GTK_OBJECT (msg));
+			goto done;
+		}
+
+		if (!cache)
+			camel_folder_delete_message (source, uids->pdata[i]);
+		gtk_object_unref (GTK_OBJECT (msg));
+	}
+
+	camel_folder_sync (source, TRUE, ex);
+
+ done:
+	if (cache) {
+		camel_uid_cache_free_uids (uids);
+		if (!camel_exception_is_set (ex))
+			camel_uid_cache_save (cache);
+		camel_uid_cache_destroy (cache);
+	} else
+		camel_folder_free_uids (source, uids);
+}
+
 void
 real_fetch_mail (gpointer user_data)
 {
@@ -144,10 +222,12 @@ real_fetch_mail (gpointer user_data)
 	char *tmp_mbox = NULL, *source;
 	guint handler_id = 0;
 	struct stat st;
+	gboolean keep;
 
 	info = (rfm_t *) user_data;
 	fb = info->fb;
-	url = info->source_url;
+	url = info->source->url;
+	keep = info->source->keep_on_server;
 	
 	/* If using IMAP, don't do anything... */
 	if (!strncmp (url, "imap:", 5))
@@ -236,49 +316,17 @@ real_fetch_mail (gpointer user_data)
 		/* can we perform filtering on this source? */
 		if (!(sourcefolder->has_summary_capability
 		      && sourcefolder->has_search_capability)) {
-			GPtrArray *uids;
-			int i;
-
 			folder = camel_store_get_folder (dest_store,
 							 "movemail", TRUE, ex);
-			if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+			if (camel_exception_is_set (ex)) {
 				async_mail_exception_dialog ("Unable to move mail", ex, fb);
 				goto cleanup;
 			}
-			
-			uids = camel_folder_get_uids (sourcefolder);
-			printf("got %d messages in source\n", uids->len);
-			for (i = 0; i < uids->len; i++) {
-				CamelMimeMessage *msg;
-				
- 				msg = camel_folder_get_message (sourcefolder, uids->pdata[i], ex);
 
-				if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-					async_mail_exception_dialog ("Unable to get read message", ex, fb);
-					gtk_object_unref (GTK_OBJECT (sourcefolder));
-					gtk_object_unref (GTK_OBJECT (msg));
-
-					goto cleanup;
-				}
-
-				/* append with flags = 0 since this is a new message */
-				camel_folder_append_message (folder, msg, 0, ex);
- 				if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
- 					async_mail_exception_dialog ("Unable to write message", ex, fb);
- 					gtk_object_unref (GTK_OBJECT (msg));
- 					gtk_object_unref (GTK_OBJECT (sourcefolder));
-					
-					goto cleanup;
- 				}
-
-				camel_folder_delete_message (sourcefolder, uids->pdata[i]);
- 				gtk_object_unref (GTK_OBJECT (msg));
-			}
-			camel_folder_free_uids (sourcefolder, uids);
-			camel_folder_sync (sourcefolder, TRUE, ex);
-			if (camel_exception_is_set (ex))
-				async_mail_exception_dialog ("", ex, fb);
+			fetch_remote_mail (sourcefolder, folder, keep, fb, ex);
 			gtk_object_unref (GTK_OBJECT (sourcefolder));
+			if (camel_exception_is_set (ex))
+				goto cleanup;
 		} else {
 			folder = sourcefolder;
 		}
@@ -328,8 +376,6 @@ real_fetch_mail (gpointer user_data)
 		gtk_object_unref((GtkObject *)driver);
 	if (fc)
 		gtk_object_unref((GtkObject *)fc);
-	if (url)
-		g_free (url);
 
 	if (folder) {
 		camel_folder_sync (folder, TRUE, ex);
@@ -357,16 +403,13 @@ void
 fetch_mail (GtkWidget *button, gpointer user_data)
 {
 	MailConfigService *source;
-	char *url = NULL;
 	rfm_t *info;
 
 	if (!check_configured ())
 		return;
 
 	source = mail_config_get_default_source ();
-	url = source->url;
-	
-	if (!url) {
+	if (!source || !source->url) {
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
 							  GTK_TYPE_WINDOW);
 
@@ -382,7 +425,8 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 
 	info = g_new (rfm_t, 1);
 	info->fb = FOLDER_BROWSER (user_data);
-	info->source_url = url;
+	info->source = source;
+
 #ifdef USE_BROKEN_THREADS
 	mail_operation_try (_("Fetching mail"), real_fetch_mail, NULL, info);
 #else

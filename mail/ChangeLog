@@ -1,5 +1,16 @@
 2000-08-08  Dan Winship  <danw@helixcode.com>
 
+	* mail-config-gui.c: Add "Don't delete messages from server"
+	button to remote SOURCEs that aren't STORAGEs (ie, POP).
+	(provider_list): Only list SOURCEs. (ie, not mh)
+	
+	* mail-config.c: Save/load "keep_on_server" flag.
+
+	* mail-ops.c (fetch_remote_mail): New function, split out of
+	real_fetch_mail. Deals with copying mail from a remote server into
+	a temporary mbox, possibly using a CamelUIDCache to leave the
+	messages on the server.
+
 	* mail-crypto.c, mail-format.c, message-thread.c: Fix some
 	compiler warnings.
 

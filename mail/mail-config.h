@@ -34,6 +34,7 @@ typedef struct
 typedef struct
 {
 	gchar *url;
+	gboolean keep_on_server;
 } MailConfigService;
 
 typedef struct 

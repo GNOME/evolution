@@ -86,6 +86,7 @@ service_copy (MailConfigService *source)
 	
 	newsource = g_new0 (MailConfigService, 1);
 	newsource->url = g_strdup (source->url);
+	newsource->keep_on_server = source->keep_on_server;
 	
 	return newsource;
 }
@@ -202,6 +203,9 @@ mail_config_read ()
 		path = g_strdup_printf ("url_%d", i);
 		s->url = gnome_config_get_string (path);
 		g_free (path);
+		path = g_strdup_printf ("keep_on_server_%d", i);
+		s->keep_on_server = gnome_config_get_bool (path);
+		g_free (path);
 		
 		config->sources = g_slist_append (config->sources, s);
 	}
@@ -298,6 +302,9 @@ mail_config_write ()
 		
 		path = g_strdup_printf ("url_%d", i);
 		gnome_config_set_string (path, s->url);
+		g_free (path);
+		path = g_strdup_printf ("keep_on_server_%d", i);
+		gnome_config_set_bool (path, s->keep_on_server);
 		g_free (path);
 	}
 	gnome_config_pop_prefix ();

@@ -81,6 +81,7 @@ typedef struct
 	GList *auth_items;
 	GtkWidget *auth_html;
 	GtkWidget *auth_detect;
+	GtkWidget *keep_on_server;
 	gint pnum;
 } MailDialogServicePageItem;
 
@@ -334,7 +335,8 @@ provider_list (GSList **sources, GSList **news, GSList **transports)
 		if (strcmp (prov->domain, "mail"))
 			continue;
 		
-		if (prov->object_types[CAMEL_PROVIDER_STORE]) {
+		if (prov->object_types[CAMEL_PROVIDER_STORE] &&
+		    prov->flags & CAMEL_PROVIDER_IS_SOURCE) {
 			*sources = provider_list_add (*sources,
 						      CAMEL_PROVIDER_STORE,
 						      prov);
@@ -670,6 +672,9 @@ service_page_set_url (MailDialogServicePage *page, MailConfigService *service)
 		}
 	}
 
+	if (spitem->keep_on_server)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spitem->keep_on_server), service->keep_on_server);
+
 	camel_exception_free (ex);
 	camel_url_free (url);
 }
@@ -762,8 +767,13 @@ static MailConfigService *
 service_page_extract (MailDialogServicePage *page)
 {
 	MailConfigService *source = g_new0 (MailConfigService, 1);
+	MailDialogServicePageItem *spitem = page->spitem;
 
 	source->url = service_page_get_url (page);
+	if (spitem->keep_on_server) {
+		source->keep_on_server = gtk_toggle_button_get_active (
+			GTK_TOGGLE_BUTTON (spitem->keep_on_server));
+	}
 
 	return source;
 }
@@ -894,7 +904,7 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 			    description->parent->parent,
 			    TRUE, TRUE, 0);
 	
-	table = gtk_table_new (5, 3, FALSE);
+	table = gtk_table_new (6, 3, FALSE);
 	gtk_table_set_row_spacings (GTK_TABLE (table), 2);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 10);
 	gtk_container_set_border_width (GTK_CONTAINER (table), 8);
@@ -957,6 +967,15 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 		service_page_item_auth_fill (page, item, mcs->authtypes);
 
 		row += 2;
+	}
+
+	if ((mcs->provider->flags & CAMEL_PROVIDER_IS_REMOTE) &&
+	    !(mcs->provider->flags & CAMEL_PROVIDER_IS_STORAGE)) {
+		item->keep_on_server = gtk_check_button_new_with_label (
+			_("Don't delete messages from server"));
+		gtk_table_attach (GTK_TABLE (table), item->keep_on_server,
+				  0, 3, row, row + 1, GTK_FILL, 0, 0, 0);
+		row++;
 	}
 
 	if (row != 0) {
