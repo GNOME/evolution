@@ -1,4 +1,4 @@
-mail/2001-03-31  Christopher James Lahey  <clahey@ximian.com>
+2001-03-31  Christopher James Lahey  <clahey@ximian.com>
 
 	* evolution-storage-set-view.c: Include <gal/util/e-util.h> here.
 
