@@ -1,3 +1,20 @@
+2004-09-28  Not Zed  <NotZed@Ximian.com>
+
+	* em-composer-utils.c (forward_non_attached): put back in the
+	attachment attaching code.  Doesn't work for s/mime and pgp, but
+	why bother arguing about it.
+
+2004-10-06  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-tree.c (emft_get_folder_info__desc): fix busted cast.
+
+	* *.c: e-popup api changes.
+
+2004-10-06  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-tree.c (emft_tree_button_press): remove some debug
+	that made it in accidentally.
+
 2004-10-05  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-tree.c (emft_popup_copy_folder_selected): remove old

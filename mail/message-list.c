@@ -1757,7 +1757,7 @@ ml_tree_drag_data_received (ETree *tree, int row, ETreePath path, int col,
 			menus = g_slist_append(menus, &ml_drop_popup_menu[i]);
 
 		e_popup_add_items((EPopup *)emp, menus, ml_drop_popup_free, m);
-		menu = e_popup_create_menu_once((EPopup *)emp, NULL, 0, 0);
+		menu = e_popup_create_menu_once((EPopup *)emp, NULL, 0);
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	} else {
 		ml_drop_action(m);

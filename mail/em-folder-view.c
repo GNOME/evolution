@@ -1048,7 +1048,7 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event)
 
 	e_popup_add_items((EPopup *)emp, label_list, emfv_popup_labels_free, emfv);
 
-	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)target, target->target.mask, target->target.mask);
+	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)target, 0);
 
 	if (event == NULL || event->type == GDK_KEY_PRESS) {
 		/* FIXME: menu pos function */
@@ -2202,7 +2202,7 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 		e_popup_add_items((EPopup *)emp, menus, emfv_uri_popup_free, emfv);
 	}
 
-	menu = e_popup_create_menu_once((EPopup *)emp, target, target->mask, target->mask);
+	menu = e_popup_create_menu_once((EPopup *)emp, target, 0);
 	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
 
 	return TRUE;

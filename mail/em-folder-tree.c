@@ -1101,7 +1101,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 				menus = g_slist_append(menus, item);
 		}
 		e_popup_add_items((EPopup *)emp, menus, emft_drop_popup_free, m);
-		menu = e_popup_create_menu_once((EPopup *)emp, NULL, mask, mask);
+		menu = e_popup_create_menu_once((EPopup *)emp, NULL, mask);
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	} else {
 		tree_drag_data_action(m);
@@ -1711,7 +1711,7 @@ struct _EMFolderTreeGetFolderInfo {
 static char *
 emft_get_folder_info__desc(struct _mail_msg *mm, int done)
 {
-	struct _EMFolderTreeGetFolderInfo *m = (struct _get_folderinfo_msg *)mm;
+	struct _EMFolderTreeGetFolderInfo *m = (struct _EMFolderTreeGetFolderInfo *)mm;
 	char *ret, *name;
 
 	name = camel_service_get_name((CamelService *)m->store, TRUE);
@@ -2728,18 +2728,18 @@ static EPopupItem emft_popup_menu[] = {
 
 	{ E_POPUP_BAR, "10.emc" },
 #endif
-	{ E_POPUP_ITEM, "10.emc.00", N_("_Copy..."), emft_popup_copy, NULL, "stock_folder-copy", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
-	{ E_POPUP_ITEM, "10.emc.01", N_("_Move..."), emft_popup_move, NULL, "stock_folder-move", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ E_POPUP_ITEM, "10.emc.00", N_("_Copy..."), emft_popup_copy, NULL, "stock_folder-copy", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
+	{ E_POPUP_ITEM, "10.emc.01", N_("_Move..."), emft_popup_move, NULL, "stock_folder-move", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 	
 	{ E_POPUP_BAR, "20.emc" },
 	/* FIXME: need to disable for nochildren folders */
-	{ E_POPUP_ITEM, "20.emc.00", N_("_New Folder..."), emft_popup_new_folder, NULL, "stock_folder", EM_POPUP_FOLDER_INFERIORS },
+	{ E_POPUP_ITEM, "20.emc.00", N_("_New Folder..."), emft_popup_new_folder, NULL, "stock_folder", 0, EM_POPUP_FOLDER_INFERIORS },
 	/* FIXME: need to disable for undeletable folders */
-	{ E_POPUP_ITEM, "20.emc.01", N_("_Delete"), emft_popup_delete_folder, NULL, "stock_delete", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
-	{ E_POPUP_ITEM, "20.emc.01", N_("_Rename..."), emft_popup_rename_folder, NULL, NULL, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ E_POPUP_ITEM, "20.emc.01", N_("_Delete"), emft_popup_delete_folder, NULL, "stock_delete", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ E_POPUP_ITEM, "20.emc.01", N_("_Rename..."), emft_popup_rename_folder, NULL, NULL, 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 	
 	{ E_POPUP_BAR, "80.emc" },
-	{ E_POPUP_ITEM, "80.emc.00", N_("_Properties"), emft_popup_properties, NULL, "stock_folder-properties", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
+	{ E_POPUP_ITEM, "80.emc.00", N_("_Properties"), emft_popup_properties, NULL, "stock_folder-properties", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
 };
 
 static void
@@ -2789,10 +2789,8 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 	gtk_tree_path_free (tree_path);
 	
 	/* FIXME: we really need the folderinfo to build a proper menu */
-	if (!emft_selection_get_selected (selection, &model, &iter)) {
-		printf("nothing selected!\n");
+	if (!emft_selection_get_selected (selection, &model, &iter))
 		return FALSE;
-	}
 	
 	gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
 			    COL_STRING_URI, &uri, COL_STRING_FULL_NAME, &full_name,
@@ -2833,7 +2831,7 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 	
 	e_popup_add_items ((EPopup *)emp, menus, emft_popup_free, emft);
 
-	menu = e_popup_create_menu_once ((EPopup *)emp, (EPopupTarget *)target, 0, target->target.mask);
+	menu = e_popup_create_menu_once ((EPopup *)emp, (EPopupTarget *)target, 0);
 	
 	if (event == NULL || event->type == GDK_KEY_PRESS) {
 		/* FIXME: menu pos function */

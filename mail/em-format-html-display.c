@@ -1106,7 +1106,7 @@ efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *
 
 	e_popup_add_items((EPopup *)emp, menus, efhd_menu_items_free, info);
 
-	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)target, target->target.mask, target->target.mask);
+	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)target, 0);
 	if (event)
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
 	else
