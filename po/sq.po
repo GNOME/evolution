@@ -1409,9 +1409,10 @@ msgstr "Gjeorgjia"
 msgid "Germany"
 msgstr "Gjermania"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:217
 msgid "Ghana"
-msgstr "Gana"
+msgstr "Ghana"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:218
 msgid "Gibraltar"
@@ -1653,9 +1654,10 @@ msgstr "Mayotte"
 msgid "Mexico"
 msgstr "Meksika"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Micronesia"
-msgstr "Micronesia"
+msgstr "Mikronezia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:279
 msgid "Moldova, Republic Of"
@@ -1701,9 +1703,10 @@ msgstr "Nepali"
 msgid "Netherlands"
 msgstr "Hollanda"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:290
 msgid "Netherlands Antilles"
-msgstr "Antillet Holandeze"
+msgstr "Antillet Hollandeze"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "New Caledonia"
@@ -1717,9 +1720,10 @@ msgstr "Zelanda e Re"
 msgid "Nicaragua"
 msgstr "Nikaragua"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:294
 msgid "Niger"
-msgstr "Nigeri"
+msgstr "Nigjeri"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:295
 msgid "Nigeria"
@@ -1989,9 +1993,10 @@ msgstr "Tuvalu"
 msgid "Uganda"
 msgstr "Uganda"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:362
 msgid "Ukraine"
-msgstr "Ukraina"
+msgstr "Ukrahina"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:363
 msgid "United Arab Emirates"
@@ -10033,9 +10038,10 @@ msgstr ""
 msgid "Check for new messages in all folders"
 msgstr ""
 
+#. GRUT modified this item
 #: camel/providers/groupwise/camel-groupwise-provider.c:59
 msgid "Apply filters to new messages in Inbox on this server"
-msgstr ""
+msgstr "Aplikoi filtrat mesazheve të rinj në \"Inbox\" tek ky server"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:62
 #: camel/providers/imap/camel-imap-provider.c:70
@@ -10176,10 +10182,11 @@ msgstr "Mesazhi nuk u gjet"
 msgid "This message is not currently available"
 msgstr ""
 
+#. GRUT modified this item
 #: camel/providers/imap/camel-imap-folder.c:2285
 #: camel/providers/imap/camel-imap-folder.c:2355
 msgid "Fetching summary information for new messages"
-msgstr ""
+msgstr "Duke marrë përmbledhjen e informacionit për mesazhet e rinj"
 
 #: camel/providers/imap/camel-imap-folder.c:2463
 #, c-format
@@ -10259,9 +10266,10 @@ msgstr "Emri hapësirës"
 msgid "Apply filters to new messages in INBOX on this server"
 msgstr ""
 
+#. GRUT modified this item
 #: camel/providers/imap/camel-imap-provider.c:66
 msgid "Check new messages for Junk contents"
-msgstr ""
+msgstr "Kontrollo nëse mesazhet e rinj përmbajnë material që duhet refuzuar"
 
 #: camel/providers/imap/camel-imap-provider.c:68
 msgid "Only check for Junk messages in the INBOX folder"
@@ -16076,9 +16084,10 @@ msgstr "Grupi"
 msgid "_Work Online"
 msgstr "_Puno online"
 
+#. GRUT modified this item
 #: shell/e-shell-window-commands.c:575 ui/evolution.xml.h:39
 msgid "_Work Offline"
-msgstr "_Puno offline"
+msgstr "_Puno Jashtë Linje"
 
 #: shell/e-shell-window-commands.c:588 ui/evolution.xml.h:25
 msgid "Work Offline"
