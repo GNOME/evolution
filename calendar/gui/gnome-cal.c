@@ -2173,9 +2173,11 @@ gnome_calendar_add_event_uri (GnomeCalendar *gcal, const char *str_uri)
 	/* FIXME Do this async? */
 	if (!e_cal_open (client, FALSE, NULL)) {
 		g_hash_table_remove (priv->clients, str_uri);
-		priv->clients_list = g_list_prepend (priv->clients_list, client);
+		priv->clients_list = g_list_remove (priv->clients_list, client);
 		g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, gcal);	
+						      0, 0, NULL, NULL, gcal);
+
+		g_object_unref (client);
 
 		return FALSE;
 	}

@@ -1,3 +1,9 @@
+2003-12-10  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_add_event_uri): remove the client
+	from the list if there are errors, instead of re-adding it again.
+	Also, unref the ECal object on errors, for not leaking.
+
 2003-12-10  Bolian Yin <bolian.yin@sun.com>
 
 	*gui/e-week-view.c: Fix a event/jump button tabbing bug
