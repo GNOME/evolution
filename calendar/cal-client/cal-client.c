@@ -441,7 +441,7 @@ cal_client_finalize (GObject *object)
 	}
 
 	priv->w_client = NULL;
-	/* destroy_factories (client); */
+	destroy_factories (client);
 	destroy_cal (client);
 
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;

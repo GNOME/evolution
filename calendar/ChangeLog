@@ -1,5 +1,11 @@
 2003-07-14  Rodrigo Moya <rodrigo@ximian.com>
 
+	* cal-client/cal-client.c (cal_client_finalize): uncomment the call
+	to destroy_factories, needed to unref all factories activated by
+	the CalClient.
+
+2003-07-14  Rodrigo Moya <rodrigo@ximian.com>
+
 	Fixes #41676
 
 	* gui/dialogs/alarm-options.c (palarm_options_changed_cb,
