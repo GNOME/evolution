@@ -1,3 +1,7 @@
+2002-03-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* my-evolution.xml: Remove "Settings" item.
+
 2002-03-14  JP Rosevear  <jpr@ximian.com>
 
 	* evolution-tasks.xml: remove duplicate new items in the file

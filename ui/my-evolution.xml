@@ -4,10 +4,6 @@
 	<cmd name="PrintMyEvolution" _label="Print" _tip="Print Summary"
 	 pixtype="stock" pixname="Print"/>
 
-	<cmd name="ToolsSettings"
-	 _tip="Change the settings for the summary"
-	 pixtype="pixbuf"/>
-
 	<cmd name="Reload" _label="Reload" _tip="Reload the view" 
 	 pixtype="stock" pixname="Refresh"/>
   </commands>
@@ -18,14 +14,6 @@
 			<menuitem name="Print" verb="PrintMyEvolution"
 			_label="_Print..." _tip="Print summary"
 			accel="*Control*p" pixtype="pixbuf"/>
-		</placeholder>
-	</submenu>
-	
-	<submenu name="Tools" _label="_Tools">
-		<placeholder name="ComponentPlaceholder">
-			<menuitem name="ToolsSettings" verb=""
-			 _label="_Summary Settings..."/>
-			 <separator f="" name="myevo"/>
 		</placeholder>
 	</submenu>
   </menu>
