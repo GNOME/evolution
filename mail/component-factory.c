@@ -68,7 +68,7 @@ static GHashTable *storages_hash;
 
 static char *accepted_dnd_types[] = {
 	"message/rfc822",         /* if we drag from nautilus or something... */
-	"x-evolution-dnd",        /* if we drag from an evolution folder... */
+	"x-evolution-message",    /* if we drag from an evolution message list... */
 	NULL
 };
 
@@ -344,7 +344,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		retval = message_rfc822_dnd (folder, stream);
 		camel_object_unref (CAMEL_OBJECT (stream));
 	} else {
-		/* x-evolution-dnd */
+		/* x-evolution-message */
 		char *url, *name, *in, *inptr, *inend;
 		CamelFolder *source;
 		GPtrArray *uids;

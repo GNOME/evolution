@@ -46,6 +46,8 @@
 #include "mail-config.h"
 
 #include <camel/camel-vtrash-folder.h>
+#include <camel/camel-mime-message.h>
+#include <camel/camel-stream-mem.h>
 
 #define d(x) x
 
@@ -53,19 +55,16 @@
 
 
 enum DndTargetType {
-	DND_TARGET_TYPE_X_EVOLUTION_DND,
+	DND_TARGET_TYPE_X_EVOLUTION_MESSAGE,
 	DND_TARGET_TYPE_MESSAGE_RFC822,
-	DND_TARGET_TYPE_URI_LIST,
 };
 
-#define X_EVOLUTION_DND_TYPE "x-evolution-dnd"
-#define MESSAGE_RFC822_TYPE  "message/rfc822"
-#define URI_LIST_TYPE        "text/uri-list"
+#define X_EVOLUTION_MESSAGE_TYPE "x-evolution-message"
+#define MESSAGE_RFC822_TYPE      "message/rfc822"
 
 static GtkTargetEntry drag_types[] = {
-	{ X_EVOLUTION_DND_TYPE, 0, DND_TARGET_TYPE_X_EVOLUTION_DND },
+	{ X_EVOLUTION_MESSAGE_TYPE, 0, DND_TARGET_TYPE_X_EVOLUTION_MESSAGE },
 	{ MESSAGE_RFC822_TYPE, 0, DND_TARGET_TYPE_MESSAGE_RFC822 },
-	{ URI_LIST_TYPE, 0, DND_TARGET_TYPE_URI_LIST },
 };
 
 static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
@@ -219,66 +218,58 @@ message_list_drag_data_get (ETree             *tree,
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GPtrArray *uids = NULL;
+	int i;
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (fb->message_list, add_uid, uids);
 	
 	switch (info) {
-	case DND_TARGET_TYPE_URI_LIST:
+	case DND_TARGET_TYPE_MESSAGE_RFC822:
 	{
-		char *tmpl, *tmpdir, *filename, *subject;
-		CamelMessageInfo *minfo;
+		/* FIXME: this'll be fucking slow for the user... pthread this? */
+		CamelStream *stream;
+		GByteArray *bytes;
 		
-		/* drag & drop into nautilus */
-		tmpl = g_strdup ("/tmp/evolution.XXXXXX");
-#ifdef HAVE_MKDTEMP
-		tmpdir = mkdtemp (tmpl);
-#else
-		tmpdir = mktemp (tmpl);
-		if (tmpdir) {
-			if (mkdir (tmpdir, S_IRWXU) == -1)
-				tmpdir = NULL;
+		bytes = g_byte_array_new ();
+		stream = camel_stream_mem_new ();
+		camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), bytes);
+		
+		for (i = 0; i < uids->len; i++) {
+			CamelMimeMessage *message;
+			
+			message = camel_folder_get_message (fb->folder, uids->pdata[i], NULL);
+			g_free (uids->pdata[i]);
+			
+			if (message) {			
+				camel_stream_write (stream, "From - \n", 8);
+				camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
+				camel_object_unref (CAMEL_OBJECT (message));
+			}
 		}
-#endif
-		if (!tmpdir) {
-			g_free (tmpl);
-			return;
-		}
-		g_free (tmpl);
 		
-		uids = g_ptr_array_new ();
-		message_list_foreach (fb->message_list, add_uid, uids);
-		
-		minfo = camel_folder_get_message_info (fb->folder, uids->pdata[0]);
-		
-		subject = g_strdup (camel_message_info_subject (minfo));
-		e_filename_make_safe (subject);
-		filename = g_strdup_printf ("%s/%s.eml", tmpdir, subject);
-		g_free (subject);
-		
-		mail_msg_wait (mail_save_messages (fb->folder, uids, filename, NULL, NULL));
+		g_ptr_array_free (uids, TRUE);
+		camel_object_unref (CAMEL_OBJECT (stream));
 		
 		gtk_selection_data_set (selection_data, selection_data->target, 8,
-					(guchar *) filename, strlen (filename));
+					bytes->data, bytes->len);
+		
+		g_byte_array_free (bytes, FALSE);
 	}
 	break;
-	case DND_TARGET_TYPE_MESSAGE_RFC822:
-		break;
-	case DND_TARGET_TYPE_X_EVOLUTION_DND:
+	case DND_TARGET_TYPE_X_EVOLUTION_MESSAGE:
 	{
 		GByteArray *array;
-		char *uri;
-		int i;
+		char *url;
 		
 		/* format: "url folder_name uid1\0uid2\0uid3\0...\0uidn" */
 		
-		uids = g_ptr_array_new ();
-		message_list_foreach (fb->message_list, add_uid, uids);
-		
-		uri = camel_url_to_string (CAMEL_SERVICE (camel_folder_get_parent_store (fb->folder))->url, 0);
+		url = camel_url_to_string (CAMEL_SERVICE (camel_folder_get_parent_store (fb->folder))->url, 0);
 		
 		/* write the url portion */
 		array = g_byte_array_new ();
-		g_byte_array_append (array, uri, strlen (uri));
+		g_byte_array_append (array, url, strlen (url));
 		g_byte_array_append (array, " ", 1);
-		g_free (uri);
+		g_free (url);
 		
 		/* write the folder_name portion */
 		g_byte_array_append (array, fb->folder->name, strlen (fb->folder->name));
@@ -302,6 +293,10 @@ message_list_drag_data_get (ETree             *tree,
 	}
 	break;
 	default:
+		for (i = 0; i < uids->len; i++)
+			g_free (uids->pdata[i]);
+		
+		g_ptr_array_free (uids, TRUE);
 		break;
 	}
 }

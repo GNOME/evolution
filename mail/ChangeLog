@@ -1,3 +1,16 @@
+2001-06-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c: Change the drop-type "x-evolution-dnd" to
+	"x-evolution-message" since we want to be able to DnD more than
+	one data type ;-)
+
+	* folder-browser.c: Change supported DnD drop types to disclude
+	URI_LIST as that seems to crash Nautilus and seems overly
+	complicated. Since I am going to be supporting message/rfc822,
+	hopefully Nautilus can handle that or else maybe something like
+	text/plain.
+	(message_list_drag_data_get): Remove the code for URI_LIST.
+
 2001-06-14  Not Zed  <NotZed@Ximian.com>
 
 	* mail-tools.c (mail_tool_uri_to_folder): If we have a fragment in
