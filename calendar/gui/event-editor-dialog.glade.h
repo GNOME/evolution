@@ -35,21 +35,14 @@ gchar *s = N_("_End time:");
 gchar *s = N_("_Mail");
 gchar *s = N_("_Program");
 gchar *s = N_("_Run program:");
-<<<<<<< event-editor-dialog.glade.h
-gchar *s = N_("_Start time:");
-=======
 gchar *s = N_("_Audio");
 gchar *s = N_("Reminder");
 gchar *s = N_("Appointment Basics");
 gchar *s = N_("Su_mmary:");
->>>>>>> 1.9
 gchar *s = N_("_Starting date:");
 gchar *s = N_("event-editor-dialog");
 gchar *s = N_("label21");
 gchar *s = N_("month(s)");
-<<<<<<< event-editor-dialog.glade.h
-gchar *s = N_("th day of the month");
-=======
 gchar *s = N_("year(s)");
 gchar *s = N_("for");
 gchar *s = N_("until");
@@ -61,4 +54,3 @@ gchar *s = N_("Delete");
 gchar *s = N_("label21");
 gchar *s = N_("Preview");
 gchar *s = N_("Recurrence");
->>>>>>> 1.11
