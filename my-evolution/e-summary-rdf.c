@@ -244,8 +244,11 @@ tree_walk (xmlNodePtr root,
 	u = layer_find(channel->childs, "link", "");
 
 	if (*u != '\0')
-		g_string_sprintfa (html, "<a href=\"%s\">", u); 
-	t = e_utf8_from_locale_string (t);
+		g_string_sprintfa (html, "<a href=\"%s\">", u);
+	if (r->cache->encoding)
+		t = e_utf8_from_charset_string (r->cache->encoding, t);
+	else
+		t = e_utf8_from_locale_string (t);
 	g_string_append (html, t);
 	g_free (t);
 	if (*u != '\0') {
@@ -268,7 +271,10 @@ tree_walk (xmlNodePtr root,
 		g_string_append (html, tmp);
 		g_free (tmp);
 		
-		p = e_utf8_from_locale_string (p);
+		if (r->cache->encoding)
+			p = e_utf8_from_charset_string (r->cache->encoding, p);
+		else
+			p = e_utf8_from_locale_string (p);
 		tmp = g_strdup_printf ("%s\n</A></font></li>", p);
 		g_free (p);
 		g_string_append (html, tmp);

@@ -1,3 +1,8 @@
+2001-10-01  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-rdf.c: Applied patch from Takuo Kitame for using charset
+	from the rdf.
+
 2001-09-27  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-tasks.c (generate_html): Pass the summary to
