@@ -706,10 +706,6 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 		camel_mime_message_set_recipients (msg, CAMEL_RECIPIENT_TYPE_BCC, bcc_addr);
 	}
 
-	g_message (" To: (%d) [%s]", camel_address_length (CAMEL_ADDRESS (to_addr)), camel_address_format (CAMEL_ADDRESS (to_addr)));
-	g_message (" Cc: (%d) [%s]", camel_address_length (CAMEL_ADDRESS (cc_addr)), camel_address_format (CAMEL_ADDRESS (cc_addr)));
-	g_message ("Bcc: (%d) [%s]", camel_address_length (CAMEL_ADDRESS (bcc_addr)), camel_address_format (CAMEL_ADDRESS (bcc_addr)));
-	
 	camel_object_unref (CAMEL_OBJECT (to_addr));
 	camel_object_unref (CAMEL_OBJECT (cc_addr));
 	camel_object_unref (CAMEL_OBJECT (bcc_addr));

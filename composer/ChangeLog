@@ -1,3 +1,9 @@
+2001-09-07  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer-hdrs.c (set_recipients_from_destv): Remove some
+	debugging messages that don't check for NULL strings and crash
+	Solaris.
+
 2001-09-06  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer.c (save): Have to specify a mode when using
