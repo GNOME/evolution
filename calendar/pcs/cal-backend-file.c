@@ -65,9 +65,6 @@ struct _CalBackendFilePrivate {
 	/* Config database handle for free/busy organizer information */
 	EConfigListener *config_listener;
 	
-	/* Idle handler for saving the calendar when it is dirty */
-	guint idle_id;
-
 	/* The calendar's default timezone, used for resolving DATE and
 	   floating DATE-TIME values. */
 	icaltimezone *default_zone;
@@ -194,12 +191,6 @@ cal_backend_file_dispose (GObject *object)
 	priv = cbfile->priv;
 
 	/* Save if necessary */
-
-	if (priv->idle_id != 0) {
-		save (cbfile);
-		g_source_remove (priv->idle_id);
-		priv->idle_id = 0;
-	}
 
 	if (priv->comp_uid_hash) {
 		g_hash_table_foreach (priv->comp_uid_hash, (GHFunc) free_object, NULL);
@@ -334,38 +325,6 @@ resolve_tzid (const char *tzid, gpointer user_data)
 	return icalcomponent_get_timezone (vcalendar_comp, tzid);
 }
 
-/* Idle handler; we save the calendar since it is dirty */
-static gboolean
-save_idle (gpointer data)
-{
-	CalBackendFile *cbfile;
-	CalBackendFilePrivate *priv;
-
-	cbfile = CAL_BACKEND_FILE (data);
-	priv = cbfile->priv;
-
-	g_assert (priv->icalcomp != NULL);
-
-	save (cbfile);
-
-	priv->idle_id = 0;
-	return FALSE;
-}
-
-/* Marks the file backend as dirty and queues a save operation */
-static void
-mark_dirty (CalBackendFile *cbfile)
-{
-	CalBackendFilePrivate *priv;
-
-	priv = cbfile->priv;
-
-	if (priv->idle_id != 0)
-		return;
-
-	priv->idle_id = g_idle_add (save_idle, cbfile);
-}
-
 /* Checks if the specified component has a duplicated UID and if so changes it */
 static void
 check_dup_uid (CalBackendFile *cbfile, CalComponent *comp)
@@ -393,7 +352,7 @@ check_dup_uid (CalBackendFile *cbfile, CalComponent *comp)
 	 * CREATED/DTSTAMP/LAST-MODIFIED.
 	 */
 
-	mark_dirty (cbfile);
+	save (cbfile);
 }
 
 static const char *
@@ -652,7 +611,7 @@ create_cal (CalBackendFile *cbfile, const char *uristr)
 
 	priv->uri = g_strdup (uristr);
 
-	mark_dirty (cbfile);
+	save (cbfile);
 
 	return GNOME_Evolution_Calendar_Success;
 }
@@ -949,7 +908,7 @@ cal_backend_file_add_timezone (CalBackendSync *backend, Cal *cal, const char *tz
 		if (!icalcomponent_get_timezone (priv->icalcomp,
 						 icaltimezone_get_tzid (zone))) {
 			icalcomponent_add_component (priv->icalcomp, tz_comp);
-			mark_dirty (cbfile);
+			save (cbfile);
 		}
 
 		icaltimezone_free (zone, 1);
@@ -1409,8 +1368,8 @@ cal_backend_file_create_object (CalBackendSync *backend, Cal *cal, const char *c
 	/* Add the object */
 	add_component (cbfile, comp, TRUE);
 
-	/* Mark for saving */
-	mark_dirty (cbfile);
+	/* Save the file */
+	save (cbfile);
 
 	/* Return the UID */
 	if (uid)
@@ -1522,7 +1481,7 @@ cal_backend_file_modify_object (CalBackendSync *backend, Cal *cal, const char *c
 		break;
 	}
 
-	mark_dirty (cbfile);
+	save (cbfile);
 
 	if (old_object)
 		*old_object = cal_component_get_as_string (comp);
@@ -1679,7 +1638,7 @@ cal_backend_file_remove_object (CalBackendSync *backend, Cal *cal,
 		break;
 	}
 
-	mark_dirty (cbfile);
+	save (cbfile);
 
 	return GNOME_Evolution_Calendar_Success;
 }
@@ -1842,7 +1801,7 @@ cal_backend_file_receive_objects (CalBackendSync *backend, Cal *cal, const char 
 	   resolving any conflicting TZIDs. */
 	icalcomponent_merge_component (priv->icalcomp, toplevel_comp);
 
-	mark_dirty (cbfile);
+	save (cbfile);
 
  error:
 	g_hash_table_destroy (tzdata.zones);

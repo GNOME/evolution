@@ -1,5 +1,15 @@
 2003-10-30  Rodrigo Moya <rodrigo@ximian.com>
 
+	* pcs/cal-backend-file.c (mark_dirty, save_idle): removed, since
+	we dont save the file anymore in idle callbacks.
+	(cal_backend_file_dispose): removed all traces of the idle saving.
+	(check_dup_uid, create_cal, cal_backend_file_add_timezone,
+	cal_backend_file_create_object, cal_backend_file_modify_object,
+	cal_backend_file_remove_object, cal_backend_file_receive_objects):
+	call save() directly instead of mark_dirty().
+
+2003-10-30  Rodrigo Moya <rodrigo@ximian.com>
+
 	* pcs/cal-backend-file.c (cal_backend_file_modify_object):
 	implemented THIS and ALL recurrences cases, blowing away or detaching
 	recurrences from the main component as required.
