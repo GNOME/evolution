@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-msg-composer.c
  *
- * Copyright (C) 1999  Ximian, Inc.
+ * Copyright (C) 1999-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -80,9 +80,10 @@
 #include "e-util/e-dialog-utils.h"
 #include "widgets/misc/e-charset-picker.h"
 
-#include "camel/camel.h"
-#include "camel/camel-charset-map.h"
-#include "camel/camel-session.h"
+#include <camel/camel-session.h>
+#include <camel/camel-charset-map.h>
+#include <camel/camel-stream-filter.h>
+#include <camel/camel-mime-filter-charset.h>
 
 #include "mail/mail-callbacks.h"
 #include "mail/mail-crypto.h"
@@ -345,16 +346,16 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	EMsgComposerAttachmentBar *attachment_bar =
 		E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
-	CamelMimeMessage *new;
-	GByteArray *data;
 	CamelDataWrapper *plain, *html, *current;
 	CamelMimePartEncodingType plain_encoding;
-	const char *charset;
-	CamelContentType *type;
-	CamelStream *stream;
 	CamelMultipart *body = NULL;
+	CamelContentType *type;
+	CamelMimeMessage *new;
+	const char *charset;
+	CamelStream *stream;
 	CamelMimePart *part;
 	CamelException ex;
+	GByteArray *data;
 	int i;
 	
 	if (composer->persist_stream_interface == CORBA_OBJECT_NIL)
@@ -402,11 +403,26 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	}
 	
 	plain = camel_data_wrapper_new ();
-	plain->rawtext = FALSE;
 	
-	stream = camel_stream_mem_new_with_byte_array (data);
+	/* convert the stream to the appropriate charset */
+	if (charset && strcasecmp (charset, "UTF-8") != 0) {
+		CamelStreamFilter *filter_stream;
+		CamelMimeFilterCharset *filter;
+		
+		stream = camel_stream_mem_new_with_byte_array (data);
+		filter_stream = camel_stream_filter_new_with_stream (stream);
+		camel_object_unref (stream);
+		
+		stream = (CamelStream *) filter_stream;
+		filter = camel_mime_filter_charset_new_convert ("UTF-8", charset);
+		camel_stream_filter_add (filter_stream, (CamelMimeFilter *) filter);
+		camel_object_unref (filter);
+	}
+	
+	/* construct the content object */
 	camel_data_wrapper_construct_from_stream (plain, stream);
 	camel_object_unref (stream);
+	
 	camel_data_wrapper_set_mime_type_field (plain, type);
 	header_content_type_unref (type);
 	
@@ -432,7 +448,6 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		}
 		
 		html = camel_data_wrapper_new ();
-		html->rawtext = FALSE;
 		
 		stream = camel_stream_mem_new_with_byte_array (data);
 		camel_data_wrapper_construct_from_stream (html, stream);

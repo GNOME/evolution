@@ -1,3 +1,16 @@
+2003-07-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c (attach_to_multipart): don't set
+	the rawtext bit anymore.
+
+	* e-msg-composer.c (build_message): Convert the plain part's
+	content stream from UTF-8 to whatever charset we want.
+
+2003-07-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c (popup_menu_event): Fix warnings
+	and other breakage introduced by Maxx.
+
 2002-07-14  Maxx Cao  <maxx.cao@sun.com>
 
 	** For bug #45826
