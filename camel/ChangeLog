@@ -1,3 +1,8 @@
+2004-03-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder.c (folder_changed): Don't bloody junktest filter
+	mail unless the user has configured Evolution to do so.
+
 2004-03-17  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-store.c: Reverted jeff's fix for
