@@ -454,7 +454,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	g_return_if_fail (message != NULL);
 
 	/* write the message to a CamelStreamMem so we can get it's size */
-	mem = (CamelStreamMem *)camel_stream_mem_new();
+	mem = CAMEL_STREAM_MEM (camel_stream_mem_new());
 	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (mem)) == -1) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -500,7 +500,7 @@ imap_get_uids (CamelFolder *folder, CamelException *ex)
 	array = g_ptr_array_new ();
 	g_ptr_array_set_size (array, count);
 	for (i = 0; i < count; i++) {
-		info = CAMEL_IMAP_MESSAGE_INFO (camel_folder_summary_index(CAMEL_FOLDER_SUMMARY (imap_folder->summary), i));
+		info = (CamelImapMessageInfo *) camel_folder_summary_index(CAMEL_FOLDER_SUMMARY (imap_folder->summary), i);
 		array->pdata[i] = g_strdup(info->info.uid);
 	}
 	
@@ -673,7 +673,7 @@ imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 	}
 	
 	/* where we read from */
-	message_stream = (CamelStreamMem *)camel_stream_mem_new_with_buffer (result, strlen(result));
+	message_stream = CAMEL_STREAM_MEM (camel_stream_mem_new_with_buffer (result, strlen(result)));
 	if (message_stream == NULL)
 		goto fail;
 

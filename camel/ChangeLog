@@ -1,5 +1,10 @@
 2000-06-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-summary.c: Now builds (not that it's worth much yet).
+	
+	* providers/imap/camel-imap-folder.c (imap_get_uids): Now uses the correct 
+	cast to a CamelImapMessageInfo structure (should get rid of compile warnings).
+
 	* providers/imap/Makefile.am: Added rules to build 
 	camel-imap-stream
 	

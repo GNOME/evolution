@@ -41,19 +41,20 @@ extern "C" {
 #define CAMEL_STREAM_MEM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STREAM_MEM_TYPE, CamelStreamMemClass))
 #define CAMEL_IS_STREAM_MEM(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_MEM_TYPE))
 
-struct _CamelStreamMem
-{
+typedef struct _CamelStreamMemClass CamelStreamMemClass;
+
+struct _CamelStreamMem {
 	CamelSeekableStream parent_object;
 
 	gboolean owner;		/* do we own the buffer? */
 	GByteArray *buffer;
 };
 
-typedef struct {
+struct _CamelStreamMemClass {
 	CamelSeekableStreamClass parent_class;
 
 	/* Virtual methods */
-} CamelStreamMemClass;
+};
 
 /* Standard Gtk function */
 GtkType camel_stream_mem_get_type (void);

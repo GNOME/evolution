@@ -110,7 +110,7 @@ static void
 camel_imap_summary_init (CamelImapSummary *obj)
 {
 	struct _CamelImapSummaryPrivate *p;
-	struct _CamelFolderSummary *s = (CamelFolderSummary *)obj;
+	struct _CamelFolderSummary *s = (CamelFolderSummary *) obj;
 
 	p = _PRIVATE(obj) = g_malloc0(sizeof(*p));
 
@@ -142,7 +142,7 @@ camel_imap_summary_finalise (GtkObject *obj)
 CamelImapSummary *
 camel_imap_summary_new (const char *filename, const char *imap_name, ibex *index)
 {
-	CamelImapSummary *new = CAMEL_IMAP_SUMMARY ( gtk_type_new (camel_imap_summary_get_type ()));
+	CamelImapSummary *new = CAMEL_IMAP_SUMMARY (gtk_type_new(camel_imap_summary_get_type ()));
 	if (new) {
 		/* ?? */
 		camel_folder_summary_set_build_content(CAMEL_FOLDER_SUMMARY (new), TRUE);
@@ -209,7 +209,7 @@ message_info_new (CamelFolderSummary *s, struct _header_raw *h)
 	if (mi) {
 		const char *xev;
 		guint32 uid, flags;
-		CamelImapMessageInfo *mbi = CAMEL_IMAP_MESSAGE_INFO (mi);
+		CamelImapMessageInfo *mbi = (CamelImapMessageInfo *) mi;
 
 		xev = header_raw_find(&h, "X-Evolution", NULL);
 		if (xev && header_evolution_decode(xev, &uid, &flags) != -1) {
@@ -235,7 +235,7 @@ message_info_new_from_parser (CamelFolderSummary *s, CamelMimeParser *mp)
 
 	mi = ((CamelFolderSummaryClass *)camel_imap_summary_parent)->message_info_new_from_parser(s, mp);
 	if (mi) {
-		CamelImapMessageInfo *mbi = (CamelImapMessageInfo *)mi;
+		CamelImapMessageInfo *mbi = (CamelImapMessageInfo *) mi;
 
 		mbi->frompos = camel_mime_parser_tell_start_from(mp);
 
@@ -258,11 +258,11 @@ message_info_load (CamelFolderSummary *s, FILE *in)
 
 	io(printf("loading imap message info\n"));
 
-	mi = ((CamelFolderSummaryClass *)camel_imap_summary_parent)->message_info_load(s, in);
+	mi = ((CamelFolderSummaryClass *) camel_imap_summary_parent)->message_info_load(s, in);
 	if (mi) {
-		CamelImapMessageInfo *mbi = CAMEL_IMAP_MESSAGE_INFO (mi);
+		CamelImapMessageInfo *mbi = (CamelImapMessageInfo *) mi;
 
-		camel_folder_summary_decode_uint32(in, &mbi->frompos);
+		camel_folder_summary_decode_uint32(in, (guint32) &mbi->frompos);
 	}
 	return mi;
 }
@@ -270,11 +270,11 @@ message_info_load (CamelFolderSummary *s, FILE *in)
 static int
 message_info_save (CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 {
-	CamelImapMessageInfo *mbi = (CamelImapMessageInfo *)mi;
+	CamelImapMessageInfo *mbi = (CamelImapMessageInfo *) mi;
 
 	io(printf("saving imap message info\n"));
 
-	((CamelFolderSummaryClass *)camel_imap_summary_parent)->message_info_save(s, out, mi);
+	((CamelFolderSummaryClass *) camel_imap_summary_parent)->message_info_save(s, out, mi);
 
 	return camel_folder_summary_encode_uint32(out, mbi->frompos);
 }
@@ -387,7 +387,7 @@ camel_imap_summary_load (CamelImapSummary *mbs, int forceindex)
 		for (i=0;i<camel_folder_summary_count(s);i++) {
 			CamelMessageInfo *mi = camel_folder_summary_index(s, i);
 			if (!ibex_contains_name(mbs->index, mi->uid)) {
-				minstart = ((CamelImapMessageInfo *)mi)->frompos;
+				minstart = ((CamelImapMessageInfo *) mi)->frompos;
 				printf("Found unindexed message: %s\n", mi->uid);
 				break;
 			}
@@ -538,7 +538,7 @@ camel_imap_summary_expunge (CamelImapSummary *mbs)
 	CamelMimeParser *mp = NULL;
 	int i, count;
 	CamelImapMessageInfo *info;
-	CamelFolderSummary *s = CAMEL_FOLDER_SUMMARY mbs);
+	CamelFolderSummary *s = (CamelFolderSummary *) mbs;
 	int fd = -1, fdout= -1;
 	off_t offset = 0;
 	char *tmpname = 0;
@@ -561,7 +561,7 @@ camel_imap_summary_expunge (CamelImapSummary *mbs)
 	d(printf("Performing expunge, %d messages in inbox\n", count));
 	for (i=0;quick && i<count;i++) {
 		info = (CamelImapMessageInfo *)camel_folder_summary_index(s, i);
-		if (info->info.flags & (CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_FOLDER_NOXEV))
+		if (info->info.flags & (CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_FOLDER_NOXEV))
 			quick = FALSE;
 		else
 			work |= (info->info.flags & CAMEL_MESSAGE_FOLDER_FLAGGED) != 0;
@@ -599,7 +599,7 @@ camel_imap_summary_expunge (CamelImapSummary *mbs)
 		off_t frompos, bodypos;
 		off_t xevoffset;
 
-		info = (CamelImapMessageInfo *)camel_folder_summary_index(s, i);
+		info = (CamelImapMessageInfo *) camel_folder_summary_index(s, i);
 
 		g_assert(info);
 
@@ -616,7 +616,7 @@ camel_imap_summary_expunge (CamelImapSummary *mbs)
 			count--;
 			i--;
 			info = NULL;
-		} else if (info->info.flags & (CAMEL_MESSAGE_FOLDER_NOXEV|CAMEL_MESSAGE_FOLDER_FLAGGED)) {
+		} else if (info->info.flags & (CAMEL_MESSAGE_FOLDER_NOXEV | CAMEL_MESSAGE_FOLDER_FLAGGED)) {
 			int xevok = FALSE;
 
 			d(printf("Updating header for %s flags = %08x\n", info->info.uid, info->info.flags));
