@@ -427,6 +427,8 @@ comp_editor_init (CompEditor *editor)
  	priv->existing_org = FALSE;
  	priv->user_org = FALSE;
  	priv->warned = FALSE;
+
+	gtk_window_set_type_hint (GTK_WINDOW (editor), GDK_WINDOW_TYPE_HINT_NORMAL);
 }
 
 

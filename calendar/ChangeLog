@@ -1,3 +1,8 @@
+2004-06-23  JP Rosevear  <jpr@novell.com>
+
+	* gui/dialogs/comp-editor.c (comp_editor_init): set the window
+	type hint to normal so it can go below the shell window
+
 2004-06-23  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/dialogs/comp-editor.c (comp_editor_notify_client_changed):
