@@ -1784,7 +1784,9 @@ e_shell_view_construct (EShellView *shell_view,
 
 	bonobo_ui_component_freeze (priv->ui_component, NULL);
 
-	bonobo_ui_util_set_ui (priv->ui_component, EVOLUTION_DATADIR, "evolution.xml", "evolution", NULL);
+	bonobo_ui_util_set_ui (priv->ui_component, EVOLUTION_DATADIR,
+			       EVOLUTION_UIDIR "/evolution.xml",
+			       "evolution", NULL);
 
 	setup_widgets (shell_view);
 

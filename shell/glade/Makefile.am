@@ -1,4 +1,4 @@
-gladedir = $(datadir)/evolution/glade
+gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
 
 glade_DATA =						\
 	e-active-connection-dialog.glade		\

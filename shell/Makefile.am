@@ -1,23 +1,26 @@
 SUBDIRS = glade importer
 
-INCLUDES =							\
-	-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED		\
-	-I$(top_srcdir)/widgets					\
-	-I$(top_srcdir)/widgets/misc				\
-	-I$(top_srcdir)/libical/src/libical			\
-	-I$(top_builddir)/libical/src/libical			\
-	-I$(top_srcdir)						\
-	-DEVOLUTION_IMAGES=\""$(datadir)/evolution/images"\"	\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"   		\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"            	\
-	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"	\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
-	-DPREFIX=\"$(prefix)\"					\
-	-DSYSCONFDIR=\""$(sysconfdir)"\" 			\
-	-DDATADIR=\""$(datadir)"\"	 			\
-	-DLIBDIR=\""$(datadir)"\"	 			\
-	-DG_LOG_DOMAIN=\"evolution-shell\"			\
+INCLUDES =									\
+	-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED				\
+	-I$(top_srcdir)/widgets							\
+	-I$(top_srcdir)/widgets/misc						\
+	-I$(top_srcdir)/libical/src/libical					\
+	-I$(top_builddir)/libical/src/libical					\
+	-I$(top_srcdir)								\
+	-DEVOLUTION_IMAGES=\""$(datadir)/evolution-$(BASE_VERSION)/images"\"	\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"				\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"					\
+	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution-$(BASE_VERSION)/glade\"	\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"				\
+	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"				\
+	-DPREFIX=\"$(prefix)\"							\
+	-DSYSCONFDIR=\""$(sysconfdir)"\"					\
+	-DDATADIR=\""$(datadir)"\"						\
+	-DLIBDIR=\""$(datadir)"\"						\
+	-DG_LOG_DOMAIN=\"evolution-shell\"					\
 	$(SHELL_CFLAGS)
+
+noinst_PROGRAMS = evolution evolution-test-component
 
 # Shell CORBA stuff
 
@@ -68,10 +71,10 @@ idl_DATA = $(IDLS)
 
 # Shell library
 
-lib_LTLIBRARIES =	\
+privlib_LTLIBRARIES =	\
 	libeshell.la
 
-eshellincludedir = $(includedir)/evolution/shell
+eshellincludedir = $(includedir)/evolution-$(BASE_VERSION)/shell
 
 eshellinclude_HEADERS = 			\
 	Evolution.h				\
@@ -118,8 +121,6 @@ libeshell_la_SOURCES = 				\
 	$(eshellinclude_HEADERS)
 
 # Evolution executable
-
-bin_PROGRAMS = evolution
 
 evolution_SOURCES =				\
 	$(SELECT_NAMES_IDL_GENERATED)		\
@@ -235,9 +236,6 @@ evolution_LDFLAGS = -export-dynamic
 
 # Test component
 
-noinst_PROGRAMS =			\
-	evolution-test-component
-
 evolution_test_component_SOURCES =	\
 	evolution-test-component.c
 
@@ -246,7 +244,6 @@ evolution_test_component_LDADD = 	\
 	$(SHELL_LIBS)
 
 install-test-component: evolution-test-component
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution-test-component $(DESTDIR)$(bindir)/evolution-test-component
 	$(mkinstalldirs) $(DESTDIR)$(serverdir)
 	$(INSTALL_DATA) $(srcdir)/GNOME_Evolution_TestComponent.server $(DESTDIR)$(serverdir)/GNOME_Evolution_TestComponent.server
@@ -259,9 +256,8 @@ server_DATA = $(server_in_files:.server.in.in=.server)
 $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 	sed -e "s|\@BINDIR\@|$(bindir)|" $< > $@
 
-etspecdir = $(datadir)/evolution/etspec/
-etspec_DATA = \
-	e-storage-set-view.etspec
+etspecdir = $(datadir)/evolution-$(BASE_VERSION)/etspec/
+etspec_DATA = e-storage-set-view.etspec
 
 @INTLTOOL_SERVER_RULE@
 
@@ -276,11 +272,14 @@ schemadir   = $(GCONF_SCHEMA_FILE_DIR)
 schema_DATA = apps_evolution_shell.schemas
 
 install-data-local:
-	if test -z "$(DESTDIR)" ; then \
-		for p in $(schema_DATA) ; do \
-			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$$p; \
-		done \
+	if test -z "$(DESTDIR)" ; then												\
+		for p in $(schema_DATA) ; do											\
+			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$$p;	\
+		done														\
 	fi
+
+install-exec-local:
+	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION)
 
 
 # GLib marshalling cruft

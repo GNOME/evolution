@@ -1,3 +1,29 @@
+2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Install the shell executable as
+	evolution-$(BASE_VERSION) using an install-exec-local hack.  Also
+	put libeshell in $(privlibdir) instead of $(libdir).
+	(eshellincludedir): Version using $(BASE_VERSION).
+	(INCLUDES): Update for the new locations of things.
+	(etspecdir): Likewise.
+
+	* e-shell-view.c (e_shell_view_construct): Get evolution.xml from
+	EVOLUTION_UIDIR.
+
+	* importer/Makefile.am: Install libevolution-importer in
+	$(privlibdir) instead of $(libdir).
+	(INCLUDES): Updated for the new versioned paths.  Define
+	EVOLUTION_UIDIR.
+	(libevolution_importerincludedir): Version using $(BASE_VERSION).
+	(gladedir): Likewise.
+
+	* glade/Makefile.am (gladedir): Version using $(BASE_VERSION).
+
+	* e-setup.c (DEFAULT_USER_PATH): New #define.
+	(check_evolution_directory): Use it.
+	(copy_default_stuff): Likewise.  Also, remove old shortcuts.xml
+	removal cruft.
+
 2003-01-17  Chris Toshok  <toshok@ximian.com>
 
 	* e-shell-settings-dialog.c (set_dialog_size): pass

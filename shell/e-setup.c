@@ -51,6 +51,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#define DEFAULT_USER_PATH  EVOLUTION_DATADIR "/evolution-" BASE_VERSION "/default_user"
+
 
 static GList *
 check_dir_recur (const char *evolution_directory,
@@ -116,12 +118,9 @@ check_evolution_directory (const char *evolution_directory)
 	GtkWidget *label1, *label2;
 	gboolean retval;
 	GList *newfiles, *l;
-	char *defaultdir;
 	int result;
 
-	defaultdir = g_strdup (EVOLUTION_DATADIR "/evolution/default_user");
-	newfiles = g_list_concat (NULL, check_dir_recur (evolution_directory,
-							 defaultdir));
+	newfiles = g_list_concat (NULL, check_dir_recur (evolution_directory, DEFAULT_USER_PATH));
 
 	if (newfiles == NULL) {
 		retval = TRUE;
@@ -155,7 +154,7 @@ check_evolution_directory (const char *evolution_directory)
 		char *command;
 		char *shortpath;
 
-		shortpath = l->data + strlen (EVOLUTION_DATADIR "/evolution/default_user/");
+		shortpath = l->data + strlen (DEFAULT_USER_PATH);
 		command = g_strconcat ("cp -r ",
 				       l->data, " ",
 				       evolution_directory, "/",
@@ -181,7 +180,6 @@ check_evolution_directory (const char *evolution_directory)
 		g_free (l->data);
 
 	g_list_free (newfiles);
-	g_free (defaultdir);
 
 	return retval;
 }
@@ -192,7 +190,6 @@ copy_default_stuff (const char *evolution_directory)
 {
 	gboolean retval;
 	char *command;
-	char *old_default_shortcuts_file;
 
 	if (mkdir (evolution_directory, 0700)) {
 		e_notice (NULL, GTK_MESSAGE_ERROR,
@@ -202,11 +199,7 @@ copy_default_stuff (const char *evolution_directory)
 		return FALSE;
 	}
 
-	command = g_strconcat ("cp -r ",
-			       EVOLUTION_DATADIR,
-			       "/evolution/default_user/* ",
-			       evolution_directory,
-			       NULL);
+	command = g_strconcat ("cp -r " DEFAULT_USER_PATH " ", evolution_directory, NULL);
 
 	if (system (command) != 0) {
 		/* FIXME: Give more help.  */
@@ -217,14 +210,6 @@ copy_default_stuff (const char *evolution_directory)
 		retval = TRUE;
 	}
 
-	/* Temporary block of code to keep it from using the older
-           shortcuts.xml that exists for current users in
-           $GNOME/share/evolution/default_user.  Remove this by 1.0 */
-	old_default_shortcuts_file = g_concat_dir_and_file (evolution_directory,
-							    "shortcuts.xml");
-	unlink (old_default_shortcuts_file);
-	g_free (old_default_shortcuts_file);
-	
 	g_free (command);
 
 	return retval;

@@ -68,8 +68,8 @@ set_dialog_size (EShellSettingsDialog *dialog)
 					     gtk_widget_get_style (GTK_WIDGET (dialog))->font_desc,
 					     pango_context_get_language (context));
 
-	pango_layout_get_pixel_size (layout,
-				     &width, NULL);
+	pango_layout_get_pixel_size (layout, &width, NULL);
+
 	width *= 72;
 	height = PANGO_PIXELS (pango_font_metrics_get_ascent (metrics)
 			       + pango_font_metrics_get_descent (metrics)) * 35;

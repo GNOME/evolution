@@ -1,13 +1,13 @@
-INCLUDES =							\
-	-I$(top_srcdir)						\
-	-I$(top_srcdir)/shell					\
-	-I$(top_builddir)/shell					\
-	-I$(includedir)						\
-	-DG_LOG_DOMAIN=\"Evolution-Importer\" 			\
-	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\" 	\
+INCLUDES =									\
+	-I$(top_srcdir)								\
+	-I$(top_srcdir)/shell							\
+	-I$(top_builddir)/shell							\
+	-I$(includedir)								\
+	-DG_LOG_DOMAIN=\"Evolution-Importer\"					\
+	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution-$(BASE_VERSION)/glade\"	\
 	$(SHELL_CFLAGS)
 
-lib_LTLIBRARIES = libevolution-importer.la
+privlib_LTLIBRARIES = libevolution-importer.la
 
 IDLS = GNOME_Evolution_Importer.idl
 
@@ -25,7 +25,7 @@ $(IDL_GENERATED): $(IDLS)
 
 idl_DATA = $(IDLS)
 
-libevolution_importerincludedir = $(includedir)/evolution/importer
+libevolution_importerincludedir = $(includedir)/evolution-$(BASE_VERSION)/importer
 libevolution_importer_la_SOURCES = 		\
 	$(IDL_GENERATED)			\
 	evolution-intelligent-importer.c	\
@@ -46,7 +46,7 @@ libevolution_importer_la_LIBADD =		\
 	$(top_builddir)/e-util/libeutil.la 	\
 	$(SHELL_LIBS)
 
-gladedir = $(datadir)/evolution/glade
+gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA = import.glade
 
 EXTRA_DIST = $(glade_DATA) $(IDLS)
