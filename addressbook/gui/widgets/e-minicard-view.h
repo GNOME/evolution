@@ -74,10 +74,9 @@ struct _EMinicardView
 
 	GList *drag_list;
 
-	int canvas_destroy_id;
-	int canvas_drag_data_get_id;
+	guint canvas_drag_data_get_id;
 
-	int status_message_id;
+	guint writable_status_id;
 };
 
 struct _EMinicardViewClass

@@ -1,3 +1,15 @@
+2002-02-12  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-addressbook-reflow-adapter.c
+	(addressbook_get_arg): Added an argument to get the model.
+
+	* gui/widgets/e-addressbook-view.c (writable_status): Don't bother
+	connecting to the writable_status callback on the book, simply
+	rely on the writable_status callback on the addressbook model.
+
+	* gui/widgets/e-minicard-view.c, gui/widgets/e-minicard-view.h
+	(set_empty_message): Handle the case of a read only view here.
+
 2002-02-07  JP Rosevear  <jpr@ximian.com>
 
 	* gui/component/addressbook-component.c (create_component): remove

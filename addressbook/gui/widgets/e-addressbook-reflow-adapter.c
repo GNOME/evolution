@@ -36,6 +36,7 @@ enum {
 	ARG_BOOK,
 	ARG_QUERY,
 	ARG_EDITABLE,
+	ARG_MODEL,
 };
 
 enum {
@@ -263,8 +264,8 @@ open_card (GtkWidget *widget, ModelAndSelection *mns)
 	list = get_card_list (mns);
 
 	e_addressbook_show_multiple_cards (book, list, e_addressbook_model_editable (priv->model));
-
 	e_free_object_list (list);
+
 	model_and_selection_free (mns);
 }
 
@@ -286,7 +287,7 @@ e_addressbook_reflow_adapter_right_click (EAddressbookReflowAdapter *adapter, Gd
 			      {N_("Copy"), NULL, GTK_SIGNAL_FUNC (copy), NULL, 0},
 			      {N_("Paste"), NULL, GTK_SIGNAL_FUNC (paste), NULL, POPUP_READONLY_MASK},
 			      {N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, POPUP_READONLY_MASK},
-			      {NULL, NULL, NULL, 0}};
+			      E_POPUP_TERMINATOR};
 
 	mns->adapter = adapter;
 	mns->selection = selection;
@@ -514,7 +515,10 @@ addressbook_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		gtk_object_get (GTK_OBJECT (priv->model),
 				"book", &book,
 				NULL);
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(book);
+		if (book)
+			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(book);
+		else
+			GTK_VALUE_OBJECT (*arg) = NULL;
 		break;
 	}
 	case ARG_QUERY: {
@@ -533,6 +537,12 @@ addressbook_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		GTK_VALUE_BOOL (*arg) = editable;
 		break;
 	}
+	case ARG_MODEL:
+		if (priv->model)
+			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT (priv->model);
+		else
+			GTK_VALUE_OBJECT (*arg) = NULL;
+		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -556,6 +566,8 @@ e_addressbook_reflow_adapter_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_READWRITE, ARG_QUERY);
 	gtk_object_add_arg_type ("EAddressbookReflowAdapter::editable", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_EDITABLE);
+	gtk_object_add_arg_type ("EAddressbookReflowAdapter::model", E_ADDRESSBOOK_MODEL_TYPE,
+				 GTK_ARG_READABLE, ARG_MODEL);
 
 	e_addressbook_reflow_adapter_signals [DRAG_BEGIN] =
 		gtk_signal_new ("drag_begin",

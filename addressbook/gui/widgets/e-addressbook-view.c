@@ -320,13 +320,10 @@ e_addressbook_view_new (void)
 }
 
 static void
-book_writable_cb (EBook *book, gboolean writable, EAddressbookView *eav)
+writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav)
 {
 	eav->editable = writable;
-	gtk_object_set (GTK_OBJECT (eav->model),
-			"editable", eav->editable,
-			NULL);
-	writable_status (GTK_OBJECT(book), writable, eav);
+	command_state_change (eav);
 }
 
 #ifdef JUST_FOR_TRANSLATORS
@@ -507,9 +504,6 @@ e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if (GTK_VALUE_OBJECT(*arg)) {
 			eav->book = E_BOOK(GTK_VALUE_OBJECT(*arg));
 			gtk_object_ref(GTK_OBJECT(eav->book));
-			gtk_signal_connect (GTK_OBJECT (eav->book),
-					    "writable_status",
-					    book_writable_cb, eav);
 		}
 		else
 			eav->book = NULL;
@@ -1112,12 +1106,6 @@ folder_bar_message (GtkObject *object, const gchar *status, EAddressbookView *ea
 
 static void
 stop_state_changed (GtkObject *object, EAddressbookView *eav)
-{
-	command_state_change (eav);
-}
-
-static void
-writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav)
 {
 	command_state_change (eav);
 }
