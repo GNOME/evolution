@@ -7,6 +7,7 @@
  * (C) 1999 Helix Code, Inc
  */
 #include <config.h>
+#include <string.h>
 #include <gtk/gtkobject.h>
 #include <gtk/gtksignal.h>
 #include "e-table-header.h"
