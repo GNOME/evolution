@@ -270,11 +270,9 @@ real_fetch_mail (gpointer user_data )
 	folder_browser_clear_search (fb);
 
 	/* apply filtering rules to this inbox */
-	filter = filter_driver_new ();
 	userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
-	filter_driver_set_rules (filter, systemrules, userrules);
-	filter_driver_set_session (filter, session);
+	filter = filter_driver_new (systemrules, userrules, mail_uri_to_folder);
 	g_free (userrules);
 	g_free (systemrules);
 
@@ -812,10 +810,9 @@ vfolder_editor_clicked(FilterEditor *fe, int button, FolderBrowser *fb)
 
 			storage = gtk_object_get_data (GTK_OBJECT (fb), "e-storage");
 	
-			fe = filter_driver_new ();
 			user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
 			system = g_strdup_printf ("%s/evolution/vfoldertypes.xml", EVOLUTION_DATADIR);
-			filter_driver_set_rules (fe, system, user);
+			fe = filter_driver_new (system, user, mail_uri_to_folder);
 			g_free (user);
 			g_free (system);
 			count = filter_driver_rule_count (fe);

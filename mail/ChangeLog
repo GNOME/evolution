@@ -1,3 +1,10 @@
+2000-07-02  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c (real_fetch_mail): 
+	(vfolder_editor_clicked): 
+	* component-factory.c (create_vfolder_storage):
+	Pass mail_uri_to_folder and rules to filter_driver_new.
+
 2000-07-02  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* folder-browser.c (mail_uri_to_folder): Fix double freeing of the

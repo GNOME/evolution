@@ -240,10 +240,9 @@ create_vfolder_storage (EvolutionShellComponent *shell_component)
 		int i, count;
 		char *user, *system;
 
-		fe = filter_driver_new();
 		user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
 		system = g_strdup_printf("%s/evolution/vfoldertypes.xml", EVOLUTION_DATADIR);
-		filter_driver_set_rules(fe, system, user);
+		fe = filter_driver_new(user, system, mail_uri_to_folder);
 		g_free(user);
 		g_free(system);
 		count = filter_driver_rule_count(fe);
