@@ -269,7 +269,6 @@ build_menus(GalViewMenus *menus)
 {
 	BonoboUINode *root, *menu, *submenu, *place, *menuitem, *commands, *command;
 	char *xml;
-	xmlChar *string;
 	int length;
 	int i;
 	GalViewInstance *instance = menus->priv->instance;
@@ -377,9 +376,7 @@ build_menus(GalViewMenus *menus)
 		bonobo_ui_node_set_attr(command, "name", "DefineViews");
 	}
 
-	string = bonobo_ui_node_to_string(root, TRUE);
-	xml = g_strdup(string);
-	bonobo_ui_node_free_string(string);
+	xml = bonobo_ui_node_to_string(root, TRUE);
 
 	bonobo_ui_node_free(root);
 
