@@ -2159,7 +2159,7 @@ subject_changed_cb (EMsgComposerHdrs *hdrs,
 	
 	composer = E_MSG_COMPOSER (data);
 	
-	gtk_window_set_title (GTK_WINDOW (composer), subject[0]?subject:_("Compose a message"));
+	gtk_window_set_title (GTK_WINDOW (composer), subject[0] ? subject : _("Compose a message"));
 }
 
 static void
@@ -2759,6 +2759,7 @@ create_composer (int visible_mask)
 	
 #warning " does win_name need qualifying? "
 	composer = g_object_new (E_TYPE_MSG_COMPOSER, "win_name",  _("Compose a message"), NULL);
+	gtk_window_set_title ((GtkWindow *) composer, _("Compose a message"));
 	
 	all_composers = g_slist_prepend (all_composers, composer);
 	
