@@ -3203,7 +3203,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		break;
 
 	case E_TEP_END_OF_BUFFER:
-		new_pos = g_utf8_strlen (text->text, -1);
+		new_pos = strlen (text->text);
 		break;
 
 	case E_TEP_START_OF_LINE:
