@@ -55,6 +55,8 @@
 #include "mail-session.h"
 #include "mail-offline-handler.h"
 
+#include "composer/e-msg-composer.h"
+
 #include "e-task-bar.h"
 
 #include <gtk/gtklabel.h>
@@ -80,6 +82,10 @@ static BonoboObjectClass *parent_class = NULL;
 
 struct _MailComponentPrivate {
 	GMutex *lock;
+
+	/* states/data used during shutdown */
+	enum { MC_QUIT_START, MC_QUIT_SYNC } quit_state;
+	int quit_count;
 
 	char *base_directory;
 	
@@ -325,6 +331,8 @@ impl_dispose (GObject *object)
 {
 	MailComponentPrivate *priv = MAIL_COMPONENT (object)->priv;
 
+	printf("mail dispose?\n");
+
 	if (priv->activity_handler != NULL) {
 		g_object_unref (priv->activity_handler);
 		priv->activity_handler = NULL;
@@ -357,7 +365,7 @@ static void
 impl_finalize (GObject *object)
 {
 	MailComponentPrivate *priv = MAIL_COMPONENT (object)->priv;
-	
+
 	g_free (priv->base_directory);
 	
 	mail_async_event_destroy (priv->async_event);
@@ -434,6 +442,71 @@ impl_createControls (PortableServer_Servant servant,
 	g_signal_connect (tree_widget, "folder-selected", G_CALLBACK (folder_selected_cb), view_widget);
 }
 
+static CORBA_boolean
+impl_requestQuit(PortableServer_Servant servant, CORBA_Environment *ev)
+{
+	/*MailComponent *mc = MAIL_COMPONENT(bonobo_object_from_servant(servant));*/
+	CamelFolder *folder;
+
+	if (!e_msg_composer_request_close_all())
+		return FALSE;
+	
+	folder = mc_default_folders[MAIL_COMPONENT_FOLDER_OUTBOX].folder;
+	if (folder != NULL
+	    && camel_folder_get_message_count(folder) != 0
+	    && camel_session_is_online(session)) {
+		GtkWidget *dialog;
+		guint resp;
+
+		/* FIXME: HIG? */
+		dialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_INFO, GTK_BUTTONS_YES_NO,
+						_("You have unsent messages, do you wish to quit anyway?"));
+		gtk_dialog_set_default_response((GtkDialog *)dialog, GTK_RESPONSE_NO);
+		resp = gtk_dialog_run((GtkDialog *)dialog);
+		gtk_widget_destroy(dialog);
+
+		if (resp != GTK_RESPONSE_YES)
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
+static void
+mc_quit_sync_done(CamelStore *store, void *data)
+{
+	MailComponent *mc = data;
+
+	mc->priv->quit_count--;
+}
+
+static void
+mc_quit_sync(CamelStore *store, char *name, MailComponent *mc)
+{
+	int expunge = gconf_client_get_bool(mail_config_get_gconf_client(), "/apps/evolution/mail/trash/empty_on_exit", NULL);
+
+	mc->priv->quit_count++;
+	mail_sync_store(store, expunge, mc_quit_sync_done, mc);
+}
+
+static CORBA_boolean
+impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
+{
+	MailComponent *mc = MAIL_COMPONENT(bonobo_object_from_servant(servant));
+
+	switch (mc->priv->quit_state) {
+	case MC_QUIT_START:
+		g_hash_table_foreach(mc->priv->store_hash, (GHFunc)mc_quit_sync, mc);
+		mc->priv->quit_state = MC_QUIT_SYNC;
+		/* Falls through */
+	case MC_QUIT_SYNC:
+		return mc->priv->quit_count == 0;
+		/* What else do we need to do at quit time? */
+	}
+
+	return TRUE;
+}
+
 static GNOME_Evolution_CreatableItemTypeList *
 impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment *ev)
 {
@@ -489,8 +562,8 @@ impl_sendAndReceive (PortableServer_Servant servant, CORBA_Environment *ev)
 	mail_send_receive ();
 }
 
-static gboolean
-impl_upgradeFromVersion (PortableServer_Servant servant, short major, short minor, short revision, CORBA_Environment *ev)
+static CORBA_boolean
+impl_upgradeFromVersion (PortableServer_Servant servant, const short major, const short minor, const short revision, CORBA_Environment *ev)
 {
 	MailComponent *component;
 	CamelException ex;
@@ -521,6 +594,8 @@ mail_component_class_init (MailComponentClass *class)
 	object_class->finalize = impl_finalize;
 	
 	epv->createControls          = impl_createControls;
+	epv->requestQuit = impl_requestQuit;
+	epv->quit = impl_quit;
 	epv->_get_userCreatableItems = impl__get_userCreatableItems;
 	epv->requestCreateItem       = impl_requestCreateItem;
 	epv->handleURI               = impl_handleURI;

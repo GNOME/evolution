@@ -80,8 +80,10 @@ void mail_build_attachment (CamelFolder *folder, GPtrArray *uids,
 			    void *data);
 
 void mail_sync_folder (CamelFolder *folder,
-		       void (*done) (CamelFolder *folder, void *data),
-		       void *data);
+		       void (*done) (CamelFolder *folder, void *data), void *data);
+
+void mail_sync_store(CamelStore *store, int expunge,
+		     void (*done) (CamelStore *store, void *data), void *data);
 
 void mail_refresh_folder (CamelFolder *folder,
 			  void (*done) (CamelFolder *folder, void *data),

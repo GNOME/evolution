@@ -1,3 +1,30 @@
+2004-02-04  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #53683.
+
+	* mail-ops.c (mail_sync_store): new async op to call
+	CamelStore::sync.
+
+	* mail-component.c (impl_requestQuit): implement, check to see if
+	we can quit, or have open or unsent messages (and are in online
+	mode).
+	(impl_quit): implement.  Trigger off a sync of all open stores,
+	and return FALSE until its done.
+	(impl_upgradeFromVersion): fixed the signature to match the idl,
+	killed that warning at last.
+
+	** See bug #53832.
+
+	* em-folder-browser.c (emfb_folder_properties): only show this if
+	we have a uri set.  Strictly, the menu item shouldn't be
+	activated.
+
+	** See bug #53131.
+	
+	* em-folder-browser.c (em_folder_browser_show_preview): copy the
+	message list's cursor_uid before calling set_message, since it can
+	get freed during setting the message.
+
 2004-02-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree.c (tree_drag_data_received): Modified

@@ -1571,6 +1571,76 @@ mail_sync_folder(CamelFolder *folder, void (*done) (CamelFolder *folder, void *d
 	e_thread_put(mail_thread_queued_slow, (EMsg *)m);
 }
 
+/* ** SYNC STORE ********************************************************* */
+
+struct _sync_store_msg {
+	struct _mail_msg msg;
+
+	CamelStore *store;
+	int expunge;
+	void (*done) (CamelStore *store, void *data);
+	void *data;
+};
+
+static char *sync_store_desc(struct _mail_msg *mm, int done)
+{
+	struct _sync_store_msg *m = (struct _sync_store_msg *)mm;
+	char *uri, *res;
+
+	uri = camel_url_to_string(((CamelService *)m->store)->url, CAMEL_URL_HIDE_ALL);
+	res = g_strdup_printf(m->expunge
+			      ?_("Expunging and storing account '%s'")
+			      :_("Storing account '%s'"),
+			      uri);
+	g_free(uri);
+
+	return res;
+}
+
+static void sync_store_sync(struct _mail_msg *mm)
+{
+	struct _sync_store_msg *m = (struct _sync_store_msg *)mm;
+
+	camel_store_sync(m->store, m->expunge, &mm->ex);
+}
+
+static void sync_store_synced(struct _mail_msg *mm)
+{
+	struct _sync_store_msg *m = (struct _sync_store_msg *)mm;
+
+	if (m->done)
+		m->done(m->store, m->data);
+}
+
+static void sync_store_free(struct _mail_msg *mm)
+{
+	struct _sync_store_msg *m = (struct _sync_store_msg *)mm;
+
+	camel_object_unref(m->store);
+}
+
+static struct _mail_msg_op sync_store_op = {
+	sync_store_desc,
+	sync_store_sync,
+	sync_store_synced,
+	sync_store_free,
+};
+
+void
+mail_sync_store(CamelStore *store, int expunge, void (*done) (CamelStore *store, void *data), void *data)
+{
+	struct _sync_store_msg *m;
+
+	m = mail_msg_new(&sync_store_op, NULL, sizeof(*m));
+	m->store = store;
+	m->expunge = expunge;
+	camel_object_ref(store);
+	m->data = data;
+	m->done = done;
+
+	e_thread_put(mail_thread_queued_slow, (EMsg *)m);
+}
+
 /* ******************************************************************************** */
 
 static char *refresh_folder_desc(struct _mail_msg *mm, int done)
