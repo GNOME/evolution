@@ -25,8 +25,9 @@ SUBDIRS =			\
 	tests			\
 	addressbook		\
 	libical			\
-	libversit		\
-	calendar
+	libversit		
+# Add this when the calendar builds. 
+#	calendar
 
 dist-hook:
 	for subdir in intl ; do \

@@ -19,6 +19,7 @@
 #include "main.h"
 #include "shell/Evolution.h"
 #include "shell/evolution-service-repository.h"
+#include "composer/e-msg-composer.h"
 
 
 static const gchar *warning_dialog_buttons[] = {
@@ -99,6 +100,41 @@ development_warning ()
 	
 } 
 
+static void
+msg_composer_send_cb (EMsgComposer *composer,
+		      gpointer data)
+{
+	CamelMimeMessage *message;
+	CamelStream *stream;
+	gint stdout_dup;
+
+	message = e_msg_composer_get_message (composer);
+
+	stdout_dup = dup (1);
+	stream = camel_stream_fs_new_with_fd (stdout_dup);
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message),
+					    stream);
+	camel_stream_close (stream);
+
+	gtk_object_unref (GTK_OBJECT (message));
+
+#if 0
+	gtk_widget_destroy (GTK_WIDGET (composer));
+	gtk_main_quit ();
+#endif
+}
+
+
+static void 
+msg_composer_cb (GtkObject *obj, gpointer user_data)
+{
+	CamelMimeMessage *msg;
+	GtkWidget *composer;
+
+	composer = e_msg_composer_new ();
+	gtk_signal_connect (GTK_OBJECT (composer), "send", GTK_SIGNAL_FUNC (msg_composer_send_cb), NULL);
+	gtk_widget_show (composer);
+}
 
 
 static void 
@@ -114,9 +150,9 @@ control_add_menu (BonoboControl *control)
 	bonobo_ui_handler_set_container (uih, remote_uih);		
 	
 	bonobo_ui_handler_menu_new_item (uih,
-					 "/File/Stuff", N_("_Stuff"), NULL, -1,
+					 "/File/New", N_("_Mail"), NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-					 NULL, NULL);
+					 msg_composer_cb, NULL);
 	
 }
 

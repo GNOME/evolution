@@ -45,6 +45,7 @@ evolution_mail_LDADD = 					\
 	../shell/Evolution-stubs.o			\
 	../shell/Evolution-skels.o			\
 	../shell/evolution-service-repository.o 	\
+	../composer/libcomposer.la		 	\
 	../widgets/e-table/libetable.a			\
 	../widgets/e-text/libetext.a			\
 	../camel/libcamel.la				\

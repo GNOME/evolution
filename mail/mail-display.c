@@ -139,6 +139,38 @@ camel_stream_to_gstring (CamelStream* stream)
 	return tmp_gstring;
 }
 
+static void 
+embeddable_destroy_cb (GtkObject *obj, gpointer user_data)
+{
+	BonoboWidget *be;      /* bonobo embeddable */
+	BonoboViewFrame *vf;   /* the embeddable view frame */
+	GtkWidget *w;          /* the viewframe widget */
+	BonoboObjectClient* server;
+	CORBA_Environment ev;
+
+
+	printf ("in the bonobo embeddable destroy callback\n");
+	be = BONOBO_WIDGET (obj);
+	server = bonobo_widget_get_server (be);
+	
+
+
+	vf = bonobo_widget_get_view_frame (be);
+	bonobo_control_frame_control_deactivate (vf);
+	//w = bonobo_control_frame_get_widget (BONOBO_CONTROL_FRAME (vf));
+	
+	//gtk_widget_destroy (w);
+	
+	CORBA_exception_init (&ev);
+	Bonobo_Unknown_unref (bonobo_object_corba_objref (server), &ev);
+	CORBA_Object_release (bonobo_object_corba_objref (server), &ev);
+	CORBA_exception_free (&ev);
+	bonobo_object_destroy (BONOBO_OBJECT (vf));
+	//gtk_object_unref (obj);
+}
+
+
+
 /*
  * As a page is loaded, when gtkhtml comes across <object> tags, this
  * callback is invoked. The GtkHTMLEmbedded param is a GtkContainer;
@@ -156,7 +188,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *unused)
 	CORBA_Environment ev;
 	gchar *uid = gtk_html_embedded_get_parameter (eb, "uid");
 
-	printf ("Here\n");
+
 	/* Both the classid (which specifies which bonobo object to
          * fire up) and the uid (which tells us where to find data to
          * persist from) must be available; if one of them isn't,
@@ -173,6 +205,9 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *unused)
 
 	/* Try to get a server with goadid specified by eb->classid */
 	bonobo_embeddable = bonobo_widget_new_subdoc  (eb->classid, NULL);
+	gtk_signal_connect (GTK_OBJECT (bonobo_embeddable), 
+			    "destroy", embeddable_destroy_cb, NULL);
+	
 	server = bonobo_widget_get_server (BONOBO_WIDGET (bonobo_embeddable));
 	if (!server) {
 		printf ("Couldn't get the server for the bonobo embeddable\n");
@@ -224,6 +259,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *unused)
 
 	g_string_free (camel_stream_gstr, FALSE);
 }
+
 
 
 
