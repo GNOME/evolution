@@ -1,3 +1,7 @@
+2003-12-06  JP Rosevear <jpr@ximian.com>
+
+	* tools/Makefile.am: Remove hard coded disable deprecated flags
+
 2003-12-05  Radek Doulik  <rodo@ximian.com>
 
 	* configure.in: require gtkhtml 3.1.3 (new gtk_html_flush method
