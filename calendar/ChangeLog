@@ -1,5 +1,13 @@
 2001-06-01  JP Rosevear  <jpr@ximian.com>
 
+	* gui/.cvsignore: Update
+
+	* gui/evolution-calendar-control.c: Remove dead file
+
+	* gui/*.vcf: Remove dead files
+	
+2001-06-01  JP Rosevear  <jpr@ximian.com>
+
 	* gui/dialogs/comp-editor-page.[hc]: renamed from editor-page for
 	consistency, more complete implementation
 
