@@ -1,3 +1,8 @@
+2001-02-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (mail_load_storages): Create vTrash folders
+	for all remote stores as well.
+
 2001-02-20  Not Zed  <NotZed@Ximian.com>
 
 	* mail-vtrash.c (create_trash_vfolder): Add the auto-update flag

@@ -443,6 +443,9 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 				g_warning ("Cannot load storage: %s",
 					   camel_exception_get_description (&ex));
 				camel_exception_clear (&ex);
+			} else {
+				/* create the vTrash folder */
+				vtrash_create (service->url, NULL, NULL);
 			}
 		}
 		
