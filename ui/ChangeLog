@@ -1,3 +1,7 @@
+2003-12-04  Radek Doulik  <rodo@ximian.com>
+
+	* evolution-mail-message.xml: added junk toolbar buttons
+
 2003-12-03  JP Rosevear <jpr@ximian.com>
 
 	* evolution-mail-global.xml: we want to insert at the place holder

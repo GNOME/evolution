@@ -101,7 +101,7 @@
      _tip="Mark the selected message(s) as junk"
      pixtype="pixbuf"/>
 
-    <cmd name="MessageMarkAsNoJunk"
+    <cmd name="MessageMarkAsNotJunk"
      _tip="Mark the selected message(s) as not being junk"/>
 
     <cmd name="MessageMove"
@@ -276,7 +276,7 @@
           <menuitem name="MessageMarkAsImportant" verb="" _label="Mark as I_mportant"/>
           <menuitem name="MessageMarkAsUnimportant" verb="" _label="Mark as Unimp_ortant"/>
           <menuitem name="MessageMarkAsJunk" verb="" _label="Mark as _Junk"/>
-          <menuitem name="MessageMarkAsNojunk" verb="" _label="Mark as _Not Junk"/>
+          <menuitem name="MessageMarkAsNotJunk" verb="" _label="Mark as _Not Junk"/>
         </placeholder>
       </submenu>
     </placeholder>
@@ -413,6 +413,13 @@
 
       <toolitem name="MessageDelete" verb=""
        _label="Delete"
+       pixtype="pixbuf"/>
+
+      <toolitem name="MessageMarkAsJunk" verb=""
+       _label="Junk"
+       pixtype="pixbuf"/>
+      <toolitem name="MessageMarkAsNotJunk" verb=""
+       _label="Not Junk"
        pixtype="pixbuf"/>
     </placeholder>
 
