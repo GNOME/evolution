@@ -8,8 +8,9 @@
  */
 #include <gnome.h>
 #include <bonobo.h>
+#include <libgnorba/gnorba.h>
 
-static void
+static guint
 create_container (void)
 {
 	GtkWidget *window, *control;
@@ -20,8 +21,9 @@ create_container (void)
 
 	uih = bonobo_ui_handler_new ();
 	control = bonobo_widget_new_control ("GOADID:Evolution:FolderBrowser:1.0",
-					     bonobo_object_corba_objref (BONOBO_OBJECT (uih)));
+				     bonobo_object_corba_objref (BONOBO_OBJECT (uih)));
 
+	
 	if (control == NULL){
 		printf ("Could not launch mail control\n");
 		exit (1);
@@ -30,6 +32,9 @@ create_container (void)
 
 	gtk_widget_show (window);
 	gtk_widget_show (control);
+
+
+	return FALSE;
 }
 
 int
@@ -49,14 +54,14 @@ main (int argc, char *argv [])
 	if (bonobo_init (orb, NULL, NULL) == FALSE)
 		g_error ("Could not initialize Bonobo\n");
 
-	bonobo_activate ();
 	
-	create_container ();
+	
+	gtk_idle_add ((GtkFunction) create_container, NULL);
 
 	/*
 	 * Main loop
 	 */
-	gtk_main ();
+	bonobo_main ();
 	
 	return 0;
 }

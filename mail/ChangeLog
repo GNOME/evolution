@@ -1,3 +1,11 @@
+2000-03-04  bertrand  <bertrand@helixcode.com>
+
+	* test-mail.c (main): replace the bonobo-active/gtk-main
+	by bonobo-main.
+	Include Gnorba headers.
+	(main): don't call the container creation routine 
+	before we entered the main loop. Use idle for that.
+
 2000-03-04  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Change this to use the ETable widget itself

@@ -66,6 +66,7 @@ ml_row_count (ETableModel *etm, void *data)
 
 	ex = camel_exception_new ();
 	v = camel_folder_get_message_count (message_list->folder, ex);
+	printf ("number of messages in the folder = %d\n", v);
 	camel_exception_free (ex);
 	
 	return v;
@@ -332,6 +333,7 @@ message_list_init (GtkObject *object)
 
 	message_list_init_renderers (message_list);
 	message_list_init_header (message_list);
+	printf ("headers intialized\n");
 
 	/*
 	 * The etable
