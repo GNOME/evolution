@@ -31,6 +31,8 @@ char *format_simple_hour (int hour, int use_am_pm);
 time_t time_start_of_day (time_t t);
 time_t time_end_of_day (time_t t);
 time_t time_day_hour (time_t t, int hour);
+time_t time_year_begin (int year);
+time_t time_year_end (int year);
 
 
 #endif

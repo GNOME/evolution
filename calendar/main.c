@@ -107,11 +107,11 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 void
 about_calendar_cmd (GtkWidget *widget, void *data)
 {
-
         GtkWidget *about;
         gchar *authors[] = {
 		"Miguel de Icaza (miguel@kernel.org)",
-		"Federico Mena (federico@gimp.org)",
+		"Federico Mena (quartic@gimp.org)",
+		"Arturo Espinosa (arturo@nuclecu.unam.mx)",
 		NULL
 	};
 

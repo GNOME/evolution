@@ -1,3 +1,34 @@
+1998-04-15  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* eventedit.c (ee_init_general_page): The general_owner may be
+	null.  Do the proper thing when creating the label.
+	(ee_ok): Update the gnome calendar appropriately.
+
+	* timeutil.h:
+	* gncal-year-view.h: Add some missing prototypes.
+
+	* gncal-full-day.c (child_popup_menu): Set the sensitivity of menu
+	items according to whether the ical object is being edited or not.
+
+	* eventedit.c (event_editor_new): Set the "being edited" flag on
+	the ical object (stored as the ical object's user data).
+	(event_editor_destroy): Release the flag.
+
+	* calobj.h: The iCalObject structure now has a generic user_data pointer.
+	* calobj.c (ical_object_set_user_data ical_object_get_user_data):
+	Functions to set this data.
+
+	* gncal-full-day.c (child_button_press): Do child popup menu correctly.
+
+	* main.c (about_calendar_cmd): Fixed my address and added Arturo
+	to the authors in the about box.
+
+	* gncal-full-day.c (find_child_by_window): Compare child's widget
+	windows by user_data (which will be the parent widget, that is,
+	the text widget).  We cannot assume that child->widget->window
+	will be *the* window we are interested on because there may be
+	child widgets with multiple windows.
+
 1998-04-15  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* calobj.c (ical_foreach): Define iterator routine.

@@ -49,6 +49,7 @@ struct _GncalYearViewClass {
 guint      gncal_year_view_get_type       (void);
 GtkWidget *gncal_year_view_new            (GnomeCalendar *calendar, time_t date);
 void       gncal_year_view_set            (GncalYearView *yview,    time_t date);
+void       gncal_year_view_update         (GncalYearView *yview, iCalObject *ico, int flags);
 
 
 END_GNOME_DECLS

@@ -199,4 +199,3 @@ gncal_year_view_update (GncalYearView *yview, iCalObject *ico, int flags)
 		g_list_free (l);
 	}
 }
-

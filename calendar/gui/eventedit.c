@@ -12,10 +12,16 @@
 #include "main.h"
 #include "timeutil.h"
 
-static void event_editor_init          (EventEditor *ee);
+
+static void event_editor_class_init (EventEditorClass *class);
+static void event_editor_init       (EventEditor      *ee);
+static void event_editor_destroy    (GtkObject        *object);
 
 /* Note: do not i18n these strings, they are part of the vCalendar protocol */
-char *class_names [] = { "PUBLIC", "PRIVATE", "CONFIDENTIAL" };
+static char *class_names [] = { "PUBLIC", "PRIVATE", "CONFIDENTIAL" };
+
+static GtkWindowClass *parent_class;
+
 
 guint
 event_editor_get_type (void)
@@ -27,7 +33,7 @@ event_editor_get_type (void)
 			"EventEditor",
 			sizeof(EventEditor),
 			sizeof(EventEditorClass),
-			(GtkClassInitFunc) NULL,
+			(GtkClassInitFunc) event_editor_class_init,
 			(GtkObjectInitFunc) event_editor_init,
 			(GtkArgSetFunc) NULL,
 			(GtkArgGetFunc) NULL,
@@ -35,6 +41,16 @@ event_editor_get_type (void)
 		event_editor_type = gtk_type_unique (gtk_window_get_type (), &event_editor_info);
 	}
 	return event_editor_type;
+}
+
+static void
+event_editor_class_init (EventEditorClass *class)
+{
+	GtkObjectClass *object_class;
+
+	parent_class = gtk_type_class (gtk_window_get_type ());
+
+	object_class->destroy = event_editor_destroy;
 }
 
 /*
@@ -263,7 +279,7 @@ ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType t
 		break;
 
 	default:
-		/* Nothing */
+		break;
 	}
 
 	ee_alarm_setting (alarm, alarm->enabled);
@@ -379,6 +395,11 @@ ee_store_dlg_values_to_ical (EventEditor *ee)
 	ical->dtstart = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->start_time));
 	ical->dtend   = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->end_time));
 
+	if (ical->summary)
+		g_free (ical->summary);
+
+	ical->summary = gtk_editable_get_chars (GTK_EDITABLE (ee->general_summary), 0, -1);
+
 	ee_store_alarm (&ical->dalarm, ALARM_DISPLAY);
 	ee_store_alarm (&ical->aalarm, ALARM_AUDIO);
 	ee_store_alarm (&ical->palarm, ALARM_PROGRAM);
@@ -397,9 +418,6 @@ ee_store_dlg_values_to_ical (EventEditor *ee)
 
 	if (ee->ical->new)
 		ical->created = now;
-
-	g_free (ical->summary);
-	ical->summary = gtk_editable_get_chars (GTK_EDITABLE (ee->general_summary), 0, -1);
 }
 
 static void
@@ -408,7 +426,9 @@ ee_ok (GtkWidget *widget, EventEditor *ee)
 	ee_store_dlg_values_to_ical (ee);
 
 	if (ee->ical->new)
-		gnome_calendar_add_object (GNOME_CALENDAR (ee->gnome_cal), ee->ical);
+		gnome_calendar_add_object (ee->gnome_cal, ee->ical);
+	else
+		gnome_calendar_object_changed (ee->gnome_cal, ee->ical, CHANGE_ALL);
 
 	gtk_widget_destroy (GTK_WIDGET (ee));
 }
@@ -416,8 +436,11 @@ ee_ok (GtkWidget *widget, EventEditor *ee)
 static void
 ee_cancel (GtkWidget *widget, EventEditor *ee)
 {
-	if (ee->ical->new)
+	if (ee->ical->new) {
 		ical_object_destroy (ee->ical);
+		ee->ical = NULL;
+	}
+
 	gtk_widget_destroy (GTK_WIDGET (ee));
 }
 
@@ -483,7 +506,7 @@ ee_init_general_page (EventEditor *ee)
 	l = gtk_label_new (_("Owner:"));
 	gtk_box_pack_start (GTK_BOX (hbox), l, FALSE, FALSE, 0);
 
-	ee->general_owner = gtk_label_new (ee->ical->organizer);
+	ee->general_owner = gtk_label_new (ee->ical->organizer ? ee->ical->organizer : _("?"));
 	gtk_misc_set_alignment (GTK_MISC (ee->general_owner), 0.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (hbox), ee->general_owner, TRUE, TRUE, 4);
 
@@ -874,11 +897,30 @@ event_editor_init (EventEditor *ee)
 	ee->ical = 0;
 }
 
+static void
+event_editor_destroy (GtkObject *object)
+{
+	EventEditor *ee;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_EVENT_EDITOR (object));
+
+	ee = EVENT_EDITOR (object);
+
+	if (ee->ical)
+		ical_object_set_user_data (ee->ical, NULL); /* we are no longer editing it */
+}
+
 GtkWidget *
 event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 {
 	GtkWidget *retval;
 	EventEditor *ee;
+
+	gdk_pointer_ungrab (GDK_CURRENT_TIME);
+	gdk_flush ();
+
+	printf ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n");
 	
 	retval = gtk_type_new (event_editor_get_type ());
 	ee = EVENT_EDITOR (retval);
@@ -886,7 +928,10 @@ event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 	if (ical == 0){
 		ical = ical_new ("Test Comment", user_name, "Test Summary");
 		ical->new = 1;
-	} 
+	}
+
+	ical_object_set_user_data (ical, ee); /* so that the world can know we are editing it */
+
 	ee->ical = ical;
 	ee->gnome_cal = gcal;
 	event_editor_init_widgets (ee);

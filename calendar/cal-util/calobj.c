@@ -686,3 +686,15 @@ ical_foreach (GList *events, iCalObjectFn fn, void *closure)
 		(*fn) (ical, ical->dtstart, ical->dtend, closure);
 	}
 }
+
+void
+ical_object_set_user_data (iCalObject *ical, void *user_data)
+{
+	ical->user_data = user_data;
+}
+
+void *
+ical_object_get_user_data (iCalObject *ical)
+{
+	return ical->user_data;
+}

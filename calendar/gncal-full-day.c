@@ -60,6 +60,7 @@ struct menu_item {
 	char *text;
 	GtkSignalFunc callback;
 	gpointer data;
+	int sensitive;
 };
 
 
@@ -288,6 +289,94 @@ child_range_changed (GncalFullDay *fullday, Child *child)
 }
 
 static void
+popup_menu (struct menu_item *items, int nitems, guint32 time)
+{
+	GtkWidget *menu;
+	GtkWidget *item;
+	int i;
+
+	menu = gtk_menu_new (); /* FIXME: this baby is never freed */
+
+	for (i = 0; i < nitems; i++) {
+		if (items[i].text) {
+			item = gtk_menu_item_new_with_label (_(items[i].text));
+			gtk_signal_connect (GTK_OBJECT (item), "activate",
+					    items[i].callback,
+					    items[i].data);
+			gtk_widget_set_sensitive (item, items[i].sensitive);
+		} else
+			item = gtk_menu_item_new ();
+
+		gtk_widget_show (item);
+		gtk_menu_append (GTK_MENU (menu), item);
+	}
+
+	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, time);
+}
+
+static void
+new_appointment (GtkWidget *widget, gpointer data)
+{
+	GncalFullDay *fullday;
+
+	fullday = GNCAL_FULL_DAY (data);
+
+	/* FIXME: this should set up the start/end times in the event
+	 * editor to whatever the selection range is.  If there is no
+	 * selection, then default to something sensible, like the row
+	 * at which the button was clicked on when popping up the menu.
+	 */
+
+	event_editor_new (fullday->calendar, NULL);
+}
+
+static void
+edit_appointment (GtkWidget *widget, gpointer data)
+{
+	Child *child;
+
+	child = data;
+
+	event_editor_new (GNCAL_FULL_DAY (child->widget->parent)->calendar, child->ico);
+}
+
+static void
+delete_appointment (GtkWidget *widget, gpointer data)
+{
+	Child *child;
+
+	child = data;
+
+	/* FIXME */
+
+	printf ("Yay!  delete_appointment() not yet implemented\n");
+}
+
+static void
+child_popup_menu (GncalFullDay *fullday, Child *child, guint32 event_time)
+{
+	int sensitive;
+
+	static struct menu_item child_items[] = {
+		{ N_("Edit this appointment..."), (GtkSignalFunc) edit_appointment, NULL, TRUE },
+		{ N_("Delete this appointment"), (GtkSignalFunc) delete_appointment, NULL, TRUE },
+		{ NULL, NULL, NULL, TRUE },
+		{ N_("New appointment..."), (GtkSignalFunc) new_appointment, NULL, TRUE }
+	};
+
+	child_items[0].data = child;
+	child_items[1].data = child;
+	child_items[3].data = fullday;
+
+	sensitive = (ical_object_get_user_data (child->ico) == NULL);
+
+	child_items[0].sensitive = sensitive;
+	child_items[1].sensitive = sensitive;
+
+	popup_menu (child_items, sizeof (child_items) / sizeof (child_items[0]), event_time);
+}
+
+static void
 child_realized_setup (GtkWidget *widget, gpointer data)
 {
 	Child *child;
@@ -359,6 +448,24 @@ child_key_press (GtkWidget *widget, GdkEventKey *event, gpointer data)
 	return FALSE;
 }
 
+static gint
+child_button_press (GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	Child *child;
+	GncalFullDay *fullday;
+
+	if (event->button != 3)
+		return FALSE;
+
+	child = data;
+	fullday = GNCAL_FULL_DAY (widget->parent);
+
+	gtk_signal_emit_stop_by_name (GTK_OBJECT (widget), "button_press_event");
+	child_popup_menu (fullday, child, event->time);
+
+	return TRUE;
+}
+
 static Child *
 child_new (GncalFullDay *fullday, iCalObject *ico)
 {
@@ -392,6 +499,10 @@ child_new (GncalFullDay *fullday, iCalObject *ico)
 
 	gtk_signal_connect (GTK_OBJECT (child->widget), "key_press_event",
 			    (GtkSignalFunc) child_key_press,
+			    child);
+
+	gtk_signal_connect (GTK_OBJECT (child->widget), "button_press_event",
+			    (GtkSignalFunc) child_button_press,
 			    child);
 
 	/* Finish setup */
@@ -1152,8 +1263,11 @@ find_child_by_window (GncalFullDay *fullday, GdkWindow *window, int *on_text)
 {
 	GList *children;
 	Child *child;
+	GtkWidget *owner;
 
 	*on_text = FALSE;
+
+	gdk_window_get_user_data (window, (gpointer *) &owner);
 
 	for (children = fullday->children; children; children = children->next) {
 		child = children->data;
@@ -1161,7 +1275,7 @@ find_child_by_window (GncalFullDay *fullday, GdkWindow *window, int *on_text)
 		if (child->window == window)
 			return child;
 
-		if (child->widget->window == window) {
+		if (child->widget == owner) {
 			*on_text = TRUE;
 			return child;
 		}
@@ -1331,81 +1445,11 @@ button_1 (GncalFullDay *fullday, GdkEventButton *event)
 	return FALSE;
 }
 
-static void
-popup_menu (struct menu_item *items, int nitems, guint32 time)
-{
-	GtkWidget *menu;
-	GtkWidget *item;
-	int i;
-
-	menu = gtk_menu_new (); /* FIXME: this baby is never freed */
-
-	for (i = 0; i < nitems; i++) {
-		if (items[i].text) {
-			item = gtk_menu_item_new_with_label (_(items[i].text));
-			gtk_signal_connect (GTK_OBJECT (item), "activate",
-					    items[i].callback,
-					    items[i].data);
-		} else
-			item = gtk_menu_item_new ();
-
-		gtk_widget_show (item);
-		gtk_menu_append (GTK_MENU (menu), item);
-	}
-
-	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, time);
-}
-
-static void
-new_appointment (GtkWidget *widget, gpointer data)
-{
-	GncalFullDay *fullday;
-
-	fullday = GNCAL_FULL_DAY (data);
-
-	/* FIXME: this should set up the start/end times in the event
-	 * editor to whatever the selection range is.  If there is no
-	 * selection, then default to something sensible, like the row
-	 * at which the button was clicked on when popping up the menu.
-	 */
-
-	event_editor_new (fullday->calendar, NULL);
-}
-
-static void
-edit_appointment (GtkWidget *widget, gpointer data)
-{
-	Child *child;
-
-	child = data;
-
-	event_editor_new (GNCAL_FULL_DAY (child->widget->parent)->calendar, child->ico);
-}
-
-static void
-delete_appointment (GtkWidget *widget, gpointer data)
-{
-	Child *child;
-
-	child = data;
-
-	/* FIXME */
-
-	printf ("Yay!  delete_appointment() not yet implemented\n");
-}
-
 static int
 button_3 (GncalFullDay *fullday, GdkEventButton *event)
 {
 	static struct menu_item main_items[] = {
-		{ N_("New appointment..."), (GtkSignalFunc) new_appointment, NULL }
-	};
-
-	static struct menu_item child_items[] = {
-		{ N_("Properties..."), (GtkSignalFunc) edit_appointment, NULL },
-		{ N_("Delete this appointment"), (GtkSignalFunc) delete_appointment, NULL },
-		{ NULL, NULL, NULL },
-		{ N_("New appointment..."), (GtkSignalFunc) new_appointment, NULL }
+		{ N_("New appointment..."), (GtkSignalFunc) new_appointment, NULL, TRUE }
 	};
 
 	GtkWidget *widget;
@@ -1426,14 +1470,10 @@ button_3 (GncalFullDay *fullday, GdkEventButton *event)
 	} else {
 		child = find_child_by_window (fullday, event->window, &on_text);
 
-		if (!child)
+		if (!child || on_text)
 			return FALSE;
 
-		child_items[0].data = child;
-		child_items[1].data = child;
-		child_items[3].data = fullday;
-
-		popup_menu (child_items, sizeof (child_items) / sizeof (child_items[0]), event->time);
+		child_popup_menu (fullday, child, event->time);
 		return TRUE;
 	}
 

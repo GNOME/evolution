@@ -100,7 +100,8 @@ typedef struct {
 typedef enum {
 	CHANGE_NEW     = 1 << 0,	/* new object */
 	CHANGE_SUMMARY = 1 << 1,	/* summary */
-	CHANGE_DATES   = 1 << 2		/* dtstart / dtend */
+	CHANGE_DATES   = 1 << 2,	/* dtstart / dtend */
+	CHANGE_ALL     = CHANGE_SUMMARY | CHANGE_DATES
 } CalObjectChange;
 
 /*
@@ -151,6 +152,7 @@ typedef struct {
 	Recurrence    *recur;
 	
 	int new;
+	void *user_data;		/* Generic data pointer */
 } iCalObject;
 
 /* The callback for the recurrence generator */
@@ -162,6 +164,8 @@ void        ical_object_destroy             (iCalObject *ico);
 iCalObject *ical_object_create_from_vobject (VObject *obj, const char *object_name);
 VObject    *ical_object_to_vobject          (iCalObject *ical);
 void        ical_foreach                    (GList *events, iCalObjectFn fn, void *closure);
+void        ical_object_set_user_data       (iCalObject *ical, void *user_data);
+void       *ical_object_get_user_data       (iCalObject *ical);
 
 END_GNOME_DECLS
 

@@ -1,3 +1,9 @@
+Calendar object:
+
+- The warnings spitted when you open the event editor to edit an
+  existing calendar object happen because the alarm loading code is
+  not yet finished.
+
 Gnome date selection widget:
 
 - Make the displayed date be localized properly -- use strftime().
@@ -7,6 +13,10 @@ Event editor dialog:
 - Resize the window and fix whatever is resized in an ugly fashion.
 
 Full day view widget:
+
+- Display vertical handle bar at the left of a child to move it.
+
+- Display alarm/whatever flags somewhere.
 
 - Layout the children nicely like M$ Schedule or Netscape Calendar do
   (i.e. make them not overlap each other).
