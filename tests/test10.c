@@ -83,7 +83,6 @@ main (int argc, char**argv)
 	gtk_init (&argc, &argv);
 	camel_init ();		
 	ex = camel_exception_new ();
-	camel_provider_register_as_module ("../camel/providers/mbox/.libs/libcamelmbox.so");
 	
 	session = camel_session_new (auth_callback);
 	store = camel_session_get_store (session, store_url, ex);

@@ -78,7 +78,6 @@ main (int argc, char**argv)
 	gtk_init (&argc, &argv);
 	camel_init ();		
 	ex = camel_exception_new ();
-	camel_provider_register_as_module ("../camel/providers/mbox/.libs/libcamelmbox.so.0");
 
 	sd = g_malloc0(sizeof(*sd));
 	sd->ex = ex;

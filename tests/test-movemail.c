@@ -49,7 +49,6 @@ int main (int argc, char **argv)
 		exit (1);
 	}
 	e_setup_base_dir ();
-	camel_provider_scan ();
 	session = camel_session_new (auth_callback);
 
 	ex = camel_exception_new ();

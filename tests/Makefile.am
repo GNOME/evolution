@@ -56,7 +56,6 @@ endif
 noinst_PROGRAMS =  	\
 	test1		\
 	test2		\
-	test7		\
 	test10		\
 	test11		\
 	test13		\
