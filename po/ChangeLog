@@ -1,3 +1,7 @@
+2004-02-24 Alastair McKinstry <mckinstry@debian.org>
+
+	* ga.po: Updated.
+
 2004-02-24  Rodney Dawes  <dobey@ximian.com>
 
 	* POTFILES.in: Add mail/em-format-quote.c

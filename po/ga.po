@@ -7,6 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-02-09 15:17-0500\n"
 "PO-Revision-Date: 2004-02-02 21:56+0000\n"
 "Last-Translator: Alastair McKinstry <mckinstry@computer.org>\n"
@@ -14,7 +15,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: addressbook/conduit/address-conduit.c:272
 msgid "Default Sync Address:"
@@ -2930,7 +2930,7 @@ msgstr "Obair"
 #: addressbook/gui/widgets/eab-contact-display.c:240
 #, fuzzy
 msgid "Position"
-msgstr "Tuarascail"
+msgstr "sonraí"
 
 #: addressbook/gui/widgets/eab-contact-display.c:246
 msgid "Video Conferencing"
@@ -2942,8 +2942,9 @@ msgid "Phone"
 msgstr "Fón Char"
 
 #: addressbook/gui/widgets/eab-contact-display.c:248
+#, fuzzy
 msgid "Fax"
-msgstr ""
+msgstr "Facs Ghnó"
 
 #: addressbook/gui/widgets/eab-contact-display.c:253
 #, fuzzy
@@ -3138,7 +3139,7 @@ msgstr "(gan ainm)"
 
 #: addressbook/gui/widgets/eab-popup-control.c:450
 msgid "Primary Email"
-msgstr ""
+msgstr "R-phost Tosaíocht"
 
 #: addressbook/gui/widgets/eab-popup-control.c:586
 msgid "Select an Action"
@@ -3147,7 +3148,7 @@ msgstr ""
 #: addressbook/gui/widgets/eab-popup-control.c:594
 #, c-format
 msgid "Create a new contact \"%s\""
-msgstr ""
+msgstr "Cruthaigh an tadhall nua \"%s\""
 
 #: addressbook/gui/widgets/eab-popup-control.c:610
 #, c-format
@@ -3160,7 +3161,7 @@ msgstr ""
 
 #: addressbook/gui/widgets/eab-popup-control.c:972
 msgid "Edit Contact Info"
-msgstr ""
+msgstr "Eagar na hEolais Thadall"
 
 #: addressbook/gui/widgets/eab-popup-control.c:1027
 msgid "Merge E-Mail Address"
@@ -3186,7 +3187,7 @@ msgstr ""
 
 #: addressbook/gui/widgets/eab-vcard-control.c:280
 msgid "Save in addressbook"
-msgstr ""
+msgstr "Sábháil san leabhar seoladh"
 
 #: addressbook/gui/widgets/gal-view-factory-minicard.c:24
 msgid "Card View"
@@ -3624,7 +3625,7 @@ msgstr "Eagar coinne"
 #: calendar/gui/e-calendar-table.c:1078 mail/em-folder-view.c:747
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
-msgstr "_Oscáil"
+msgstr "_Oscail"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:901
 msgid "_Dismiss"
@@ -4533,9 +4534,8 @@ msgstr ""
 
 # Avoid; either use KR or KP
 #: calendar/gui/dialogs/calendar-setup.glade.h:39
-#, fuzzy
 msgid "_Source URL:"
-msgstr "Foinse"
+msgstr "URL _Fhoinse:"
 
 #: calendar/gui/dialogs/cancel-comp.c:57
 msgid ""
@@ -4671,7 +4671,7 @@ msgstr "Gan coimriú"
 #: calendar/gui/dialogs/comp-editor.c:1360 calendar/gui/e-cal-view.c:1038
 #: calendar/gui/e-calendar-table.c:1190 composer/e-msg-composer.c:1148
 msgid "Save as..."
-msgstr "Sánbháil mar..."
+msgstr "Sábháil mar..."
 
 #: calendar/gui/dialogs/comp-editor.c:1463
 #: calendar/gui/dialogs/comp-editor.c:1487
@@ -4686,7 +4686,7 @@ msgstr ""
 #: calendar/gui/dialogs/copy-source-dialog.c:83
 #, fuzzy
 msgid "Could not open source"
-msgstr "Teip ag athainmigh '%s': %s"
+msgstr "Teip ag oscailt '%s': %s"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:91
 #, fuzzy
@@ -5338,11 +5338,11 @@ msgstr ""
 #: calendar/gui/e-itip-control.glade.h:6 calendar/gui/e-tasks.c:243
 #: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:46
 msgid "Description:"
-msgstr "Tuarascáil:"
+msgstr "Tuarascail:"
 
 #: calendar/gui/dialogs/task-page.glade.h:7
 msgid "Folder:"
-msgstr "Filltean:"
+msgstr "Fillteán:"
 
 #: calendar/gui/dialogs/task-page.glade.h:10
 msgid "Sta_rt Date:"
@@ -6557,9 +6557,9 @@ msgid "Expunging"
 msgstr ""
 
 #: calendar/gui/gnome-cal.c:1787
-#, fuzzy, c-format
+#, c-format
 msgid "Opening %s"
-msgstr "Oscáil san %s..."
+msgstr "Ag Oscailt %s"
 
 #: calendar/gui/gnome-cal.c:1936
 #, c-format
@@ -11390,7 +11390,7 @@ msgstr ""
 
 #: composer/e-msg-composer.c:1602
 msgid "Open file"
-msgstr "Oscáil Comhad"
+msgstr "Oscail Comhad"
 
 # SG
 #: composer/e-msg-composer.c:2047
@@ -11591,7 +11591,7 @@ msgstr "%a %d/%m/%Y %I:%M %p"
 #. in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
-msgstr ""
+msgstr "$a %d/%m/%Y %H:%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
@@ -12072,9 +12072,8 @@ msgstr ""
 
 # GN
 #: filter/libfilter-i18n.h:36
-#, fuzzy
 msgid "Junk Test"
-msgstr "Meitheamh"
+msgstr ""
 
 # PE
 #: filter/libfilter-i18n.h:37 mail/em-folder-view.c:780
@@ -12096,14 +12095,12 @@ msgstr ""
 
 # as 
 #: filter/libfilter-i18n.h:41
-#, fuzzy
 msgid "Message is Junk"
-msgstr "_Scéalaí"
+msgstr ""
 
 #: filter/libfilter-i18n.h:42
-#, fuzzy
 msgid "Message is not Junk"
-msgstr "Clófhoireanna Scéal"
+msgstr ""
 
 #: filter/libfilter-i18n.h:43
 msgid "Move to Folder"
@@ -12996,7 +12993,7 @@ msgstr "_Suim do Leabhar Seoladh"
 #: mail/em-popup.c:933
 #, c-format
 msgid "Open in %s..."
-msgstr "Oscáil san %s..."
+msgstr "Oscail san %s..."
 
 #: mail/em-subscribe-editor.c:606
 msgid "This store does not support subscriptions, or they are not enabled."
@@ -15568,7 +15565,7 @@ msgstr ""
 
 #: shell/e-shortcuts-view.c:424
 msgid "Open in New _Window"
-msgstr "Oscáil san _Fuinneog Nua"
+msgstr "Oscail san _Fuinneog Nua"
 
 #: shell/e-shortcuts-view.c:424
 msgid "Open the folder linked to this shortcut in a new window"
@@ -16563,7 +16560,7 @@ msgstr "Seachtain"
 
 #: ui/evolution-calendar.xml.h:37
 msgid "_Open Appointment"
-msgstr "_Oscáil Coinne"
+msgstr "_Oscail Coinne"
 
 #: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2
@@ -17291,7 +17288,7 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:127 ui/evolution.xml.h:34
 msgid "_Tools"
-msgstr "_Uirlisí"
+msgstr "Uir_lisí"
 
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Undelete"
@@ -17341,7 +17338,7 @@ msgstr "H_TML"
 
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
-msgstr "Oscáil"
+msgstr "Oscail"
 
 #: ui/evolution-message-composer.xml.h:11
 msgid "Open a file"
@@ -17477,7 +17474,7 @@ msgstr ""
 
 #: ui/evolution-message-composer.xml.h:47
 msgid "_Open..."
-msgstr "_Oscáil..."
+msgstr "_Oscail..."
 
 #: ui/evolution-message-composer.xml.h:48
 msgid "_Post-To Field"
@@ -17493,9 +17490,8 @@ msgstr "_Slándáil"
 
 # FI
 #: ui/evolution-message-composer.xml.h:52
-#, fuzzy
 msgid "_To Field"
-msgstr "Réimse"
+msgstr ""
 
 #: ui/evolution-signature-editor.xml.h:5
 msgid "H_TML"
@@ -17594,14 +17590,12 @@ msgid "Print the list of tasks"
 msgstr ""
 
 #: ui/evolution-tasks.xml.h:16
-#, fuzzy
 msgid "View the selected task"
-msgstr "Dealaigh na tadhallaí roghnaithe"
+msgstr "Taispeán tadhallaí roghnaithe"
 
 #: ui/evolution-tasks.xml.h:21
-#, fuzzy
 msgid "_Open Task"
-msgstr "_Tasc"
+msgstr "_Oscail Tasc"
 
 #: ui/evolution.xml.h:1
 msgid "About Ximian Evolution..."
@@ -17613,7 +17607,7 @@ msgstr ""
 
 #: ui/evolution.xml.h:5
 msgid "Create a new window"
-msgstr ""
+msgstr "Cruthaigh fhuinneog nua"
 
 #: ui/evolution.xml.h:6
 msgid "E_xit"
@@ -18063,1024 +18057,1024 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% Rinneadh)"
 
-#~ msgid "Copy to folder..."
-#~ msgstr "Cóip do Fillteán..."
+msgid "Copy to folder..."
+msgstr "Cóip do Fillteán..."
 
-#~ msgid "Move to folder..."
-#~ msgstr "Bog go fillteán..."
+msgid "Move to folder..."
+msgstr "Bog go fillteán..."
 
-#~ msgid "Home Address"
-#~ msgstr "Seoladh Bhaile"
+msgid "Home Address"
+msgstr "Seoladh Bhaile"
 
-#~ msgid "Work Address"
-#~ msgstr "Seoladh Obrithe"
+msgid "Work Address"
+msgstr "Seoladh Obrithe"
 
-#~ msgid "Other Address"
-#~ msgstr "Seoladh Eile"
+msgid "Other Address"
+msgstr "Seoladh Eile"
 
-#~ msgid "Evolution Error"
-#~ msgstr "Earráid Evolution"
+msgid "Evolution Error"
+msgstr "Earráid Evolution"
 
-#~ msgid "Error starting %s"
-#~ msgstr "Earriadh ag tosnú %s"
+msgid "Error starting %s"
+msgstr "Earriadh ag tosnú %s"
 
-#~ msgid "Create New Shortcut"
-#~ msgstr "Cruthaigh Aicearra Nua"
+msgid "Create New Shortcut"
+msgstr "Cruthaigh Aicearra Nua"
 
 # vi
-#~ msgid "Rename"
-#~ msgstr "Athainmnigh"
+msgid "Rename"
+msgstr "Athainmnigh"
 
-#~ msgid "Edit LDAP Server"
-#~ msgstr "Eagar Freastalaí LDAP"
+msgid "Edit LDAP Server"
+msgstr "Eagar Freastalaí LDAP"
 
-#~ msgid "_Folder:"
-#~ msgstr "_Fillteaín:"
+msgid "_Folder:"
+msgstr "_Fillteaín:"
 
 # YU
-#~ msgid "Yugoslavia"
-#~ msgstr "An Iúglaiv"
+msgid "Yugoslavia"
+msgstr "An Iúglaiv"
 
-#~ msgid "<b>Task List</b>"
-#~ msgstr "<b>Líosta Tasc</b>"
+msgid "<b>Task List</b>"
+msgstr "<b>Líosta Tasc</b>"
 
-#~ msgid "<b>Time</b>"
-#~ msgstr "<b>Am</b> "
+msgid "<b>Time</b>"
+msgstr "<b>Am</b> "
 
-#~ msgid "<b>Work Week</b>"
-#~ msgstr "<b>Seachtain Oibre</b>"
+msgid "<b>Work Week</b>"
+msgstr "<b>Seachtain Oibre</b>"
 
-#~ msgid "<b>Date &amp; Time</b>"
-#~ msgstr "<b>Data &amp; Am</b>"
+msgid "<b>Date &amp; Time</b>"
+msgstr "<b>Data &amp; Am</b>"
 
-#~ msgid "<b>Description</b>"
-#~ msgstr "<b>Tuarascail</b>"
+msgid "<b>Description</b>"
+msgstr "<b>Tuarascail</b>"
 
-#~ msgid "<b>L_ocation</b>"
-#~ msgstr "<b>_Áit</b>"
+msgid "<b>L_ocation</b>"
+msgstr "<b>_Áit</b>"
 
-#~ msgid "<b>Su_mmary</b>"
-#~ msgstr "<b>Coimriú</b>"
+msgid "<b>Su_mmary</b>"
+msgstr "<b>Coimriú</b>"
 
-#~ msgid "<b>Preview</b>"
-#~ msgstr "<b>Reamhthaispeáintas</b>"
+msgid "<b>Preview</b>"
+msgstr "<b>Reamhthaispeáintas</b>"
 
-#~ msgid "<b>Web Page</b>"
-#~ msgstr "<b>Leathanach Lín</b>"
+msgid "<b>Web Page</b>"
+msgstr "<b>Leathanach Lín</b>"
 
-#~ msgid "Adding %s"
-#~ msgstr "Ag Suimigh %s"
+msgid "Adding %s"
+msgstr "Ag Suimigh %s"
 
-#~ msgid ""
-#~ "Cannot create the directory\n"
-#~ "%s\n"
-#~ "Error: %s"
-#~ msgstr ""
-#~ "Teip ag cruthaigh eolaire\n"
-#~ "%s\n"
-#~ "Earraidh: %s"
+msgid ""
+"Cannot create the directory\n"
+"%s\n"
+"Error: %s"
+msgstr ""
+"Teip ag cruthaigh eolaire\n"
+"%s\n"
+"Earraidh: %s"
 
-#~ msgid "Select Calendar Folder"
-#~ msgstr "Roghnaigh Fillteán Fhéilire"
+msgid "Select Calendar Folder"
+msgstr "Roghnaigh Fillteán Fhéilire"
 
-#~ msgid "Select Tasks Folder"
-#~ msgstr "Roghnaigh Fillteán Tascanna"
+msgid "Select Tasks Folder"
+msgstr "Roghnaigh Fillteán Tascanna"
 
-#~ msgid "Folder Settings"
-#~ msgstr "Albachtaí Fillteáin"
+msgid "Folder Settings"
+msgstr "Albachtaí Fillteáin"
 
-#~ msgid "New _Calendar"
-#~ msgstr "_Féilire Nua"
+msgid "New _Calendar"
+msgstr "_Féilire Nua"
 
-#~ msgid "Primary"
-#~ msgstr "Tosaíocht"
+msgid "Primary"
+msgstr "Tosaíocht"
 
-#~ msgid "Prim"
-#~ msgstr "Tos."
+msgid "Prim"
+msgstr "Tos."
 
-#~ msgid "Bus"
-#~ msgstr "Gnó"
+msgid "Bus"
+msgstr "Gnó"
 
-#~ msgid "Company"
-#~ msgstr "Teoranta"
+msgid "Company"
+msgstr "Teoranta"
 
-#~ msgid "Comp"
-#~ msgstr "Teor."
+msgid "Comp"
+msgstr "Teor."
 
-#~ msgid "Org"
-#~ msgstr "Eag."
+msgid "Org"
+msgstr "Eag."
 
-#~ msgid "Mobile"
-#~ msgstr "Guthán Póca"
+msgid "Mobile"
+msgstr "Guthán Póca"
 
-#~ msgid "Car"
-#~ msgstr "Car"
+msgid "Car"
+msgstr "Car"
 
-#~ msgid "Bus Fax"
-#~ msgstr "Facs Ghnó"
+msgid "Bus Fax"
+msgstr "Facs Ghnó"
 
-#~ msgid "Business 2"
-#~ msgstr "Gnó 2"
+msgid "Business 2"
+msgstr "Gnó 2"
 
-#~ msgid "Bus 2"
-#~ msgstr "Gnó 2"
+msgid "Bus 2"
+msgstr "Gnó 2"
 
-#~ msgid "Home 2"
-#~ msgstr "Baile 2"
+msgid "Home 2"
+msgstr "Baile 2"
 
-#~ msgid "ISDN"
-#~ msgstr "ISDN"
+msgid "ISDN"
+msgstr "ISDN"
 
-#~ msgid "TTY"
-#~ msgstr "TTY"
+msgid "TTY"
+msgstr "TTY"
 
-#~ msgid "Url"
-#~ msgstr "Url"
+msgid "Url"
+msgstr "Url"
 
-#~ msgid "Department"
-#~ msgstr "Roinn"
+msgid "Department"
+msgstr "Roinn"
 
-#~ msgid "Dep"
-#~ msgstr "Ran."
+msgid "Dep"
+msgstr "Ran."
 
-#~ msgid "Off"
-#~ msgstr "Oif."
+msgid "Off"
+msgstr "Oif."
 
-#~ msgid "Prof"
-#~ msgstr "Dea."
+msgid "Prof"
+msgstr "Dea."
 
-#~ msgid "Man"
-#~ msgstr "Bain."
+msgid "Man"
+msgstr "Bain."
 
-#~ msgid "Ass"
-#~ msgstr "Cnt."
+msgid "Ass"
+msgstr "Cnt."
 
-#~ msgid "Nick"
-#~ msgstr "L.ainm."
+msgid "Nick"
+msgstr "L.ainm."
 
-#~ msgid "Calendar URI"
-#~ msgstr "Féilire URI"
+msgid "Calendar URI"
+msgstr "Féilire URI"
 
-#~ msgid "CALUri"
-#~ msgstr "CALUri"
+msgid "CALUri"
+msgstr "CALUri"
 
-#~ msgid "FBUrl"
-#~ msgstr "FBUrl"
+msgid "FBUrl"
+msgstr "FBUrl"
 
-#~ msgid "Default server calendar"
-#~ msgstr "Féilire freastalaí loicthe"
+msgid "Default server calendar"
+msgstr "Féilire freastalaí loicthe"
 
-#~ msgid "icsCalendar"
-#~ msgstr "icsFéilire"
+msgid "icsCalendar"
+msgstr "icsFéilire"
 
-#~ msgid "Birth Date"
-#~ msgstr "Dáta Breithe"
+msgid "Birth Date"
+msgstr "Dáta Breithe"
 
-#~ msgid "ECard"
-#~ msgstr "RCarta"
+msgid "ECard"
+msgstr "RCarta"
 
-#~ msgid "%x"
-#~ msgstr "%x"
+msgid "%x"
+msgstr "%x"
 
-#~ msgid "Address Label"
-#~ msgstr "Lipéad Sheoladh"
+msgid "Address Label"
+msgstr "Lipéad Sheoladh"
 
-#~ msgid "Birth date"
-#~ msgstr "Dáta Breithe"
+msgid "Birth date"
+msgstr "Dáta Breithe"
 
-#~ msgid "ICS Calendar"
-#~ msgstr "Féilire ICS"
+msgid "ICS Calendar"
+msgstr "Féilire ICS"
 
-#~ msgid "Category List"
-#~ msgstr "Liosta Catagóire"
+msgid "Category List"
+msgstr "Liosta Catagóire"
 
-#~ msgid "Arbitrary"
-#~ msgstr "Ar Togradh"
+msgid "Arbitrary"
+msgstr "Ar Togradh"
 
-#~ msgid "Searching..."
-#~ msgstr "Ag Cuardaigh..."
+msgid "Searching..."
+msgstr "Ag Cuardaigh..."
 
-#~ msgid "Using Email Address"
-#~ msgstr "Le Seoladh Rpost:"
+msgid "Using Email Address"
+msgstr "Le Seoladh Rpost:"
 
-#~ msgid "Public Contacts"
-#~ msgstr "Tadhallaí Phoiblí"
+msgid "Public Contacts"
+msgstr "Tadhallaí Phoiblí"
 
-#~ msgid "Other Contacts"
-#~ msgstr "Tadhallaí Eile"
+msgid "Other Contacts"
+msgstr "Tadhallaí Eile"
 
-#~ msgid "Card"
-#~ msgstr "Carta"
+msgid "Card"
+msgstr "Carta"
 
-#~ msgid "Is New Card"
-#~ msgstr "Is Carta Nua"
+msgid "Is New Card"
+msgstr "Is Carta Nua"
 
-#~ msgid "No cards"
-#~ msgstr "Gan cartaí"
+msgid "No cards"
+msgstr "Gan cartaí"
 
-#~ msgid "1 card"
-#~ msgstr "1 carta"
+msgid "1 card"
+msgstr "1 carta"
 
 # FIXME : Grammar ? 
-#~ msgid "%d cards"
-#~ msgstr "%d cartaí"
+msgid "%d cards"
+msgstr "%d cartaí"
 
-#~ msgid ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
-#~ msgstr ",123,a,b,c,d,e,f,g,h,ij,k,l,m,Mc,o,p,qr,s,t,u,v,w,xyz"
+msgid ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
+msgstr ",123,a,b,c,d,e,f,g,h,ij,k,l,m,Mc,o,p,qr,s,t,u,v,w,xyz"
 
-#~ msgid ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
-#~ msgstr ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,Mc,n,o,p,q,r,s,t,u,v,w,x,y,z"
+msgid ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
+msgstr ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,Mc,n,o,p,q,r,s,t,u,v,w,x,y,z"
 
-#~ msgid "Business Address"
-#~ msgstr "Seoladh Ghnó"
+msgid "Business Address"
+msgstr "Seoladh Ghnó"
 
-#~ msgid "Print cards"
-#~ msgstr "Priontáil Cartaí"
+msgid "Print cards"
+msgstr "Priontáil Cartaí"
 
-#~ msgid "Print card"
-#~ msgstr "Priontáil carta"
+msgid "Print card"
+msgstr "Priontáil carta"
 
-#~ msgid "Public Calendar"
-#~ msgstr "Féilire Poiblí"
+msgid "Public Calendar"
+msgstr "Féilire Poiblí"
 
-#~ msgid "Public Tasks"
-#~ msgstr "Tascanna Poiblí"
+msgid "Public Tasks"
+msgstr "Tascanna Poiblí"
 
-#~ msgid "_Save as..."
-#~ msgstr "_Sábháil mar..."
+msgid "_Save as..."
+msgstr "_Sábháil mar..."
 
-#~ msgid "New _Appointment"
-#~ msgstr "_Coinne Nua"
+msgid "New _Appointment"
+msgstr "_Coinne Nua"
 
-#~ msgid "Print..."
-#~ msgstr "Clódáil..."
+msgid "Print..."
+msgstr "Clódáil..."
 
-#~ msgid "Opening calendar at %s"
-#~ msgstr "Ag oscailt féilire as %s"
+msgid "Opening calendar at %s"
+msgstr "Ag oscailt féilire as %s"
 
-#~ msgid "Properties for \"%s\""
-#~ msgstr "Albachtaí do \"%s\""
+msgid "Properties for \"%s\""
+msgstr "Albachtaí do \"%s\""
 
-#~ msgid "%d new"
-#~ msgstr "%d nua"
+msgid "%d new"
+msgstr "%d nua"
 
-#~ msgid ", "
-#~ msgstr ", "
+msgid ", "
+msgstr ", "
 
-#~ msgid "%d total"
-#~ msgstr "%d íomlán"
+msgid "%d total"
+msgstr "%d íomlán"
 
-#~ msgid "Send anyway?"
-#~ msgstr "Post ar aon nós?"
+msgid "Send anyway?"
+msgstr "Post ar aon nós?"
 
-#~ msgid "Save Messages As..."
-#~ msgstr "Sábháil Scéala Mar..."
+msgid "Save Messages As..."
+msgstr "Sábháil Scéala Mar..."
 
-#~ msgid "Save Image as..."
-#~ msgstr "Sábháil Iomha le..."
+msgid "Save Image as..."
+msgstr "Sábháil Iomha le..."
 
-#~ msgid "Bad Address"
-#~ msgstr "Droch Seoladh"
+msgid "Bad Address"
+msgstr "Droch Seoladh"
 
-#~ msgid "Local folders/%s"
-#~ msgstr "Fillteán áitiiúl/%s"
+msgid "Local folders/%s"
+msgstr "Fillteán áitiiúl/%s"
 
-#~ msgid "Empty Message"
-#~ msgstr "Scéal Fólamh"
+msgid "Empty Message"
+msgstr "Scéal Fólamh"
 
-#~ msgid "(No subject)"
-#~ msgstr "(Gan ábhar)"
+msgid "(No subject)"
+msgstr "(Gan ábhar)"
 
-#~ msgid "%s - Message"
-#~ msgstr "%s - Scéal"
+msgid "%s - Message"
+msgstr "%s - Scéal"
 
-#~ msgid "Evolution Summary"
-#~ msgstr "Coimriú Evolution"
+msgid "Evolution Summary"
+msgstr "Coimriú Evolution"
 
-#~ msgid "Evolution Summary component"
-#~ msgstr "Comhphairt Coimriú Evolution"
+msgid "Evolution Summary component"
+msgstr "Comhphairt Coimriú Evolution"
 
-#~ msgid "Summary Preferences"
-#~ msgstr "Roghnachais Choimriú"
+msgid "Summary Preferences"
+msgstr "Roghnachais Choimriú"
 
-#~ msgid "Africa"
-#~ msgstr "An Afraic"
+msgid "Africa"
+msgstr "An Afraic"
 
 # AQ
-#~ msgid "Antartica"
-#~ msgstr "an tAntartach"
+msgid "Antartica"
+msgstr "an tAntartach"
 
 # AT
-#~ msgid "Asia"
-#~ msgstr "An Áise"
+msgid "Asia"
+msgstr "An Áise"
 
 # AQ
-#~ msgid "Atlantic"
-#~ msgstr "Atlantach"
+msgid "Atlantic"
+msgstr "Atlantach"
 
 # CM
-#~ msgid "Cameron"
-#~ msgstr "Camarún"
+msgid "Cameron"
+msgstr "Camarún"
 
-#~ msgid "Dublin"
-#~ msgstr "Baile Átha Cliath"
+msgid "Dublin"
+msgstr "Baile Átha Cliath"
 
 # SV
-#~ msgid "El Salvador Int."
-#~ msgstr "An tSalvadóir Idirn."
+msgid "El Salvador Int."
+msgstr "An tSalvadóir Idirn."
 
-#~ msgid "Leuchars"
-#~ msgstr "bliana"
+msgid "Leuchars"
+msgstr "bliana"
 
-#~ msgid "Middle East"
-#~ msgstr "An Meánoirthear"
+msgid "Middle East"
+msgstr "An Meánoirthear"
 
-#~ msgid "Russia"
-#~ msgstr "Rúisis"
+msgid "Russia"
+msgstr "Rúisis"
 
-#~ msgid "United Arab Emirates "
-#~ msgstr "Aontas na nÉimíríochtaí Arabacha"
+msgid "United Arab Emirates "
+msgstr "Aontas na nÉimíríochtaí Arabacha"
 
-#~ msgid "Wien"
-#~ msgstr "Vín"
+msgid "Wien"
+msgstr "Vín"
 
-#~ msgid "Appointments"
-#~ msgstr "Coinní"
+msgid "Appointments"
+msgstr "Coinní"
 
-#~ msgid "No appointments."
-#~ msgstr "Gan coinní."
+msgid "No appointments."
+msgstr "Gan coinní."
 
-#~ msgid "%k:%M %d %B"
-#~ msgstr "%k:%M %d %B"
+msgid "%k:%M %d %B"
+msgstr "%k:%M %d %B"
 
-#~ msgid "%l:%M%p %d %B"
-#~ msgstr "%l:%M%p %d %B"
+msgid "%l:%M%p %d %B"
+msgstr "%l:%M%p %d %B"
 
-#~ msgid "Mail summary"
-#~ msgstr "Coimriú phoist"
+msgid "Mail summary"
+msgstr "Coimriú phoist"
 
-#~ msgid "Dictionary.com Word of the Day"
-#~ msgstr "Dictionary.com Focal do Lae"
+msgid "Dictionary.com Word of the Day"
+msgstr "Dictionary.com Focal do Lae"
 
-#~ msgid "New News Feed"
-#~ msgstr "Bealach Nuachtáin Nua"
+msgid "New News Feed"
+msgstr "Bealach Nuachtáin Nua"
 
-#~ msgid "_URL:"
-#~ msgstr "_URL:"
+msgid "_URL:"
+msgstr "_URL:"
 
-#~ msgid "News Feed"
-#~ msgstr "Foth Nuachtáin"
+msgid "News Feed"
+msgstr "Foth Nuachtáin"
 
-#~ msgid "All"
-#~ msgstr "Gach Uile"
+msgid "All"
+msgstr "Gach Uile"
 
-#~ msgid "No tasks"
-#~ msgstr "Gan Tascanna"
+msgid "No tasks"
+msgstr "Gan Tascanna"
 
-#~ msgid "blue"
-#~ msgstr "gorm"
+msgid "blue"
+msgstr "gorm"
 
-#~ msgid "(No Description)"
-#~ msgstr "(Gan Tuarascail)"
+msgid "(No Description)"
+msgstr "(Gan Tuarascail)"
 
-#~ msgid "My Weather"
-#~ msgstr "Aimsir"
+msgid "My Weather"
+msgstr "Aimsir"
 
-#~ msgid "Weather"
-#~ msgstr "Aimsir"
+msgid "Weather"
+msgstr "Aimsir"
 
-#~ msgid "KBOS"
-#~ msgstr "KBOS"
+msgid "KBOS"
+msgstr "KBOS"
 
-#~ msgid "%A, %B %e %Y"
-#~ msgstr "%A, %B %e %Y"
+msgid "%A, %B %e %Y"
+msgstr "%A, %B %e %Y"
 
-#~ msgid "Please wait..."
-#~ msgstr "Fán le do thoil..."
+msgid "Please wait..."
+msgstr "Fán le do thoil..."
 
-#~ msgid " F"
-#~ msgstr " F"
+msgid " F"
+msgstr " F"
 
-#~ msgid "kph"
-#~ msgstr "kph"
+msgid "kph"
+msgstr "kph"
 
-#~ msgid "inHg"
-#~ msgstr "inHg"
+msgid "inHg"
+msgstr "inHg"
 
-#~ msgid "mmHg"
-#~ msgstr "mmHg"
+msgid "mmHg"
+msgstr "mmHg"
 
-#~ msgid "miles"
-#~ msgstr "míle"
+msgid "miles"
+msgstr "míle"
 
-#~ msgid "kilometers"
-#~ msgstr "km"
+msgid "kilometers"
+msgstr "km"
 
-#~ msgid "Scattered clouds"
-#~ msgstr "Scamaill Scaipthe"
+msgid "Scattered clouds"
+msgstr "Scamaill Scaipthe"
 
-#~ msgid "Few clouds"
-#~ msgstr "Beagán Scamallach"
+msgid "Few clouds"
+msgstr "Beagán Scamallach"
 
-#~ msgid "Overcast"
-#~ msgstr "Dorcha"
+msgid "Overcast"
+msgstr "Dorcha"
 
-#~ msgid "Variable"
-#~ msgstr "Luaineach"
+msgid "Variable"
+msgstr "Luaineach"
 
-#~ msgid "North"
-#~ msgstr "Tuaisceart"
+msgid "North"
+msgstr "Tuaisceart"
 
-#~ msgid "South"
-#~ msgstr "Deisceart"
+msgid "South"
+msgstr "Deisceart"
 
-#~ msgid "Rain"
-#~ msgstr "Báisteach"
+msgid "Rain"
+msgstr "Báisteach"
 
-#~ msgid "Snow"
-#~ msgstr "Sneachta"
+msgid "Snow"
+msgstr "Sneachta"
 
-#~ msgid "C_elsius"
-#~ msgstr "C_elsius"
+msgid "C_elsius"
+msgstr "C_elsius"
 
-#~ msgid "News Feeds"
-#~ msgstr "Fotha Nuachtain"
+msgid "News Feeds"
+msgstr "Fotha Nuachtain"
 
-#~ msgid "One mont_h"
-#~ msgstr "Aon _mhí"
+msgid "One mont_h"
+msgstr "Aon _mhí"
 
-#~ msgid "One w_eek"
-#~ msgstr "Aon _seachtain"
+msgid "One w_eek"
+msgstr "Aon _seachtain"
 
-#~ msgid "Show _all tasks"
-#~ msgstr "Taispeán gach tascanna"
+msgid "Show _all tasks"
+msgstr "Taispeán gach tascanna"
 
-#~ msgid "Show temperatures in:"
-#~ msgstr "Taispeán teocht as:"
+msgid "Show temperatures in:"
+msgstr "Taispeán teocht as:"
 
-#~ msgid "Weather Settings"
-#~ msgstr "Albachtaí Aimsir"
+msgid "Weather Settings"
+msgstr "Albachtaí Aimsir"
 
-#~ msgid "_Delete Feed"
-#~ msgstr "_Scrios Fotha"
+msgid "_Delete Feed"
+msgstr "_Scrios Fotha"
 
-#~ msgid "_Five days"
-#~ msgstr "_Cúig lá"
+msgid "_Five days"
+msgstr "_Cúig lá"
 
-#~ msgid "_New Feed"
-#~ msgstr "Foth _Nua"
+msgid "_New Feed"
+msgstr "Foth _Nua"
 
-#~ msgid "Add a Folder"
-#~ msgstr "Cuir Fillteán Leis"
+msgid "Add a Folder"
+msgstr "Cuir Fillteán Leis"
 
-#~ msgid "Outbox"
-#~ msgstr "Asbosca"
+msgid "Outbox"
+msgstr "Asbosca"
 
-#~ msgid "Syncing Folder"
-#~ msgstr "ag Ssioncronaich Fillteán"
+msgid "Syncing Folder"
+msgstr "ag Ssioncronaich Fillteán"
 
-#~ msgid "%s (%d)"
-#~ msgstr "%s (%d)"
+msgid "%s (%d)"
+msgstr "%s (%d)"
 
-#~ msgid "(None)"
-#~ msgstr "(Ar Bith)"
+msgid "(None)"
+msgstr "(Ar Bith)"
 
-#~ msgid "No error"
-#~ msgstr "Gan Earraidh"
+msgid "No error"
+msgstr "Gan Earraidh"
 
-#~ msgid "I/O error"
-#~ msgstr "Earraidh I/A"
+msgid "I/O error"
+msgstr "Earraidh I/A"
 
-#~ msgid "CORBA error"
-#~ msgstr "Earraidh CORBA"
+msgid "CORBA error"
+msgstr "Earraidh CORBA"
 
-#~ msgid "No owner"
-#~ msgstr "Gan Úinéar"
+msgid "No owner"
+msgstr "Gan Úinéar"
 
-#~ msgid "Has subfolders"
-#~ msgstr "Post an sceál seo"
+msgid "Has subfolders"
+msgstr "Post an sceál seo"
 
-#~ msgid "Copy this folder"
-#~ msgstr "_Fillteán"
+msgid "Copy this folder"
+msgstr "_Fillteán"
 
-#~ msgid "Create a new shortcut"
-#~ msgstr "Cruthaigh aicearra nua"
+msgid "Create a new shortcut"
+msgstr "Cruthaigh aicearra nua"
 
-#~ msgid "Evolution _Window"
-#~ msgstr "_Fuinneog Evolution"
+msgid "Evolution _Window"
+msgstr "_Fuinneog Evolution"
 
-#~ msgid "Open this folder in an other window"
-#~ msgstr "Post an sceál seo"
+msgid "Open this folder in an other window"
+msgstr "Post an sceál seo"
 
-#~ msgid "_Copy..."
-#~ msgstr "_Cóip..."
+msgid "_Copy..."
+msgstr "_Cóip..."
 
-#~ msgid "_Folder..."
-#~ msgstr "_Fillteán..."
+msgid "_Folder..."
+msgstr "_Fillteán..."
 
-#~ msgid "_Move..."
-#~ msgstr "_Bog..."
+msgid "_Move..."
+msgstr "_Bog..."
 
-#~ msgid "_New Folder"
-#~ msgstr "Fillteán _Nua"
+msgid "_New Folder"
+msgstr "Fillteán _Nua"
 
-#~ msgid "Information"
-#~ msgstr "Eolas"
+msgid "Information"
+msgstr "Eolas"
 
-#~ msgid "Error"
-#~ msgstr "Earraidh"
+msgid "Error"
+msgstr "Earraidh"
 
-#~ msgid "Clear"
-#~ msgstr "Bánaigh"
+msgid "Clear"
+msgstr "Bánaigh"
 
-#~ msgid "De_lete"
-#~ msgstr "_Dealaigh"
+msgid "De_lete"
+msgstr "_Dealaigh"
 
-#~ msgid "Font Preferences"
-#~ msgstr "Roghnachais Chlôfireann"
+msgid "Font Preferences"
+msgstr "Roghnachais Chlôfireann"
 
-#~ msgid "Emacs"
-#~ msgstr "Emacs"
+msgid "Emacs"
+msgstr "Emacs"
 
-#~ msgid "Delete news feed"
-#~ msgstr "Dealaigh fotha nuachtan"
+msgid "Delete news feed"
+msgstr "Dealaigh fotha nuachtan"
 
-#~ msgid "_Mail"
-#~ msgstr "_Post"
+msgid "_Mail"
+msgstr "_Post"
 
-#~ msgid "_every"
-#~ msgstr "_gach"
+msgid "_every"
+msgstr "_gach"
 
-#~ msgid "_Clear Flag"
-#~ msgstr "_Bánaigh Bratach"
+msgid "_Clear Flag"
+msgstr "_Bánaigh Bratach"
 
-#~ msgid "S_elect server: "
-#~ msgstr "_Roghnaigh freastalaí: "
+msgid "S_elect server: "
+msgstr "_Roghnaigh freastalaí: "
 
-#~ msgid "Add"
-#~ msgstr "Suimigh"
+msgid "Add"
+msgstr "Suimigh"
 
 # SG
-#~ msgid "_Signature editor"
-#~ msgstr "Eagarthóir Siniú"
+msgid "_Signature editor"
+msgstr "Eagarthóir Siniú"
 
-#~ msgid "Create _New Folder..."
-#~ msgstr "Cruthaigh Fillteán _Nua..."
+msgid "Create _New Folder..."
+msgstr "Cruthaigh Fillteán _Nua..."
 
-#~ msgid "_Contacts..."
-#~ msgstr "_Tadhallaí..."
+msgid "_Contacts..."
+msgstr "_Tadhallaí..."
 
-#~ msgid "1234"
-#~ msgstr "1234"
+msgid "1234"
+msgstr "1234"
 
-#~ msgid "<- _Remove"
-#~ msgstr "<- _Scríos"
+msgid "<- _Remove"
+msgstr "<- _Scríos"
 
-#~ msgid "C_ontacts..."
-#~ msgstr "_Tadhallaí..."
+msgid "C_ontacts..."
+msgstr "_Tadhallaí..."
 
-#~ msgid "Phone Types"
-#~ msgstr "Saghais Guthán"
+msgid "Phone Types"
+msgstr "Saghais Guthán"
 
-#~ msgid "Delete Contact?"
-#~ msgstr "Dealaigh Tadhall?"
+msgid "Delete Contact?"
+msgstr "Dealaigh Tadhall?"
 
-#~ msgid "Display Cards?"
-#~ msgstr "Taispeán Cartaí?"
+msgid "Display Cards?"
+msgstr "Taispeán Cartaí?"
 
-#~ msgid "Display Cards"
-#~ msgstr "Taispeán Cartaí"
+msgid "Display Cards"
+msgstr "Taispeán Cartaí"
 
-#~ msgid "rd"
-#~ msgstr "r"
+msgid "rd"
+msgstr "r"
 
-#~ msgid "Print Calendar"
-#~ msgstr "Priontáil Féilre"
+msgid "Print Calendar"
+msgstr "Priontáil Féilre"
 
-#~ msgid "Warning!"
-#~ msgstr "Rabhadh!"
+msgid "Warning!"
+msgstr "Rabhadh!"
 
-#~ msgid "hour"
-#~ msgstr "uair"
+msgid "hour"
+msgstr "uair"
 
-#~ msgid "week"
-#~ msgstr "seachtain"
+msgid "week"
+msgstr "seachtain"
 
-#~ msgid "year"
-#~ msgstr "bliain"
+msgid "year"
+msgstr "bliain"
 
-#~ msgid "Add Signature"
-#~ msgstr "Suimigh Siniú"
+msgid "Add Signature"
+msgstr "Suimigh Siniú"
 
-#~ msgid "Account %d"
-#~ msgstr "Cuntas %d"
+msgid "Account %d"
+msgstr "Cuntas %d"
 
-#~ msgid "All folders"
-#~ msgstr "Gach fillteáin"
+msgid "All folders"
+msgstr "Gach fillteáin"
 
-#~ msgid "Apri file"
-#~ msgstr "Comhad 'Apri'"
+msgid "Apri file"
+msgstr "Comhad 'Apri'"
 
-#~ msgid "Salve file"
-#~ msgstr "Comhad 'Salve'"
+msgid "Salve file"
+msgstr "Comhad 'Salve'"
 
-#~ msgid "New..."
-#~ msgstr "Nua..."
+msgid "New..."
+msgstr "Nua..."
 
-#~ msgid "Host"
-#~ msgstr "Óst"
+msgid "Host"
+msgstr "Óst"
 
-#~ msgid "Output File"
-#~ msgstr "Comhad Aschur"
+msgid "Output File"
+msgstr "Comhad Aschur"
 
-#~ msgid "_Configure..."
-#~ msgstr "_Socraigh..."
+msgid "_Configure..."
+msgstr "_Socraigh..."
 
-#~ msgid "_Configure Pilot..."
-#~ msgstr "_Socraigh Pilot..."
+msgid "_Configure Pilot..."
+msgstr "_Socraigh Pilot..."
 
-#~ msgid " "
-#~ msgstr " "
+msgid " "
+msgstr " "
 
 # FIXME SP?
-#~ msgid "Select PGP program"
-#~ msgstr "Roghnaigh Ríomhchlár PGP"
+msgid "Select PGP program"
+msgstr "Roghnaigh Ríomhchlár PGP"
 
 # SG
-#~ msgid "Signature #1"
-#~ msgstr "Síniú #1"
+msgid "Signature #1"
+msgstr "Síniú #1"
 
 # SG
-#~ msgid "Signature #2"
-#~ msgstr "Síniú #2"
+msgid "Signature #2"
+msgstr "Síniú #2"
 
-#~ msgid "&lt;- _Remove"
-#~ msgstr "&lt;- _Scríos"
+msgid "&lt;- _Remove"
+msgstr "&lt;- _Scríos"
 
-#~ msgid "_Add -&gt;"
-#~ msgstr "_Suimigh -&gt;"
+msgid "_Add -&gt;"
+msgstr "_Suimigh -&gt;"
 
-#~ msgid "1 byte"
-#~ msgstr "1 byte"
+msgid "1 byte"
+msgstr "1 byte"
 
-#~ msgid "%u bytes"
-#~ msgstr "%u bytanna"
+msgid "%u bytes"
+msgstr "%u bytanna"
 
-#~ msgid "_Preferences..."
-#~ msgstr "_Roghnachais..."
+msgid "_Preferences..."
+msgstr "_Roghnachais..."
 
-#~ msgid "_Browse..."
-#~ msgstr "_Brábhsáil..."
+msgid "_Browse..."
+msgstr "_Brábhsáil..."
 
-#~ msgid "I/O Error: %s"
-#~ msgstr "Earraidh I/A: %s"
+msgid "I/O Error: %s"
+msgstr "Earraidh I/A: %s"
 
-#~ msgid "NNTP Server:"
-#~ msgstr "Freastalaî NNTP:"
+msgid "NNTP Server:"
+msgstr "Freastalaî NNTP:"
 
-#~ msgid "View messages..."
-#~ msgstr "Feach scéalaí..."
+msgid "View messages..."
+msgstr "Feach scéalaí..."
 
-#~ msgid "_Pilot Settings..."
-#~ msgstr "_Álbachtaí Pilot..."
+msgid "_Pilot Settings..."
+msgstr "_Álbachtaí Pilot..."
 
-#~ msgid "_End of day:"
-#~ msgstr "_Deireadh an Lá"
+msgid "_End of day:"
+msgstr "_Deireadh an Lá"
 
-#~ msgid "%s server %s"
-#~ msgstr "%s freastalaí %s"
+msgid "%s server %s"
+msgstr "%s freastalaí %s"
 
-#~ msgid "(unknown host)"
-#~ msgstr "(óst gan fhois)"
+msgid "(unknown host)"
+msgstr "(óst gan fhois)"
 
-#~ msgid "No such message: %s"
-#~ msgstr "Ni raibh scéal sinn: %s"
+msgid "No such message: %s"
+msgstr "Ni raibh scéal sinn: %s"
 
-#~ msgid " Edit "
-#~ msgstr "Eagar "
+msgid " Edit "
+msgstr "Eagar "
 
-#~ msgid "_Language:"
-#~ msgstr "_Teanga:"
+msgid "_Language:"
+msgstr "_Teanga:"
 
-#~ msgid "Signature name:"
-#~ msgstr "Ainm Siniú:"
+msgid "Signature name:"
+msgstr "Ainm Siniú:"
 
-#~ msgid "_Other"
-#~ msgstr "_Eile"
+msgid "_Other"
+msgstr "_Eile"
 
-#~ msgid "Run %s"
-#~ msgstr "Rith %s"
+msgid "Run %s"
+msgstr "Rith %s"
 
-#~ msgid "Close %s"
-#~ msgstr "Dún %s"
+msgid "Close %s"
+msgstr "Dún %s"
 
-#~ msgid "page"
-#~ msgstr "leathanach"
+msgid "page"
+msgstr "leathanach"
 
-#~ msgid "RDF Summary"
-#~ msgstr "Coimriú RDF"
+msgid "RDF Summary"
+msgstr "Coimriú RDF"
 
-#~ msgid "Mailbox Format"
-#~ msgstr "Formóid Boscaphoist"
+msgid "Mailbox Format"
+msgstr "Formóid Boscaphoist"
 
-#~ msgid "%s: Inbox"
-#~ msgstr "%s: Inbosca"
+msgid "%s: Inbox"
+msgstr "%s: Inbosca"
 
-#~ msgid "Display"
-#~ msgstr "Taispeán"
+msgid "Display"
+msgstr "Taispeán"
 
-#~ msgid "Edit..."
-#~ msgstr "Eagar..."
+msgid "Edit..."
+msgstr "Eagar..."
 
-#~ msgid "News"
-#~ msgstr "Nuacht"
+msgid "News"
+msgstr "Nuacht"
 
-#~ msgid "_Organization:"
-#~ msgstr "_Buidheann"
+msgid "_Organization:"
+msgstr "_Buidheann"
 
-#~ msgid "_Server type: "
-#~ msgstr "Saghas _Freastalaí: "
+msgid "_Server type: "
+msgstr "Saghas _Freastalaí: "
 
-#~ msgid "seconds."
-#~ msgstr "soicind."
+msgid "seconds."
+msgstr "soicind."
 
-#~ msgid "Mail Summary"
-#~ msgstr "Coimriú Nua"
+msgid "Mail Summary"
+msgstr "Coimriú Nua"
 
-#~ msgid "(No name)"
-#~ msgstr "(gan ainm)"
+msgid "(No name)"
+msgstr "(gan ainm)"
 
-#~ msgid "Create a _New Meeting"
-#~ msgstr "Cruthaigh Cruinniú _Nua"
-
-#~ msgid "New Appointment"
-#~ msgstr "Coinne Nua"
-
-#~ msgid "_Appointment..."
-#~ msgstr "_Coinne..."
-
-#~ msgid "_Calendar Settings..."
-#~ msgstr "Álbachtaí _Féilire..."
-
-#~ msgid "_Task..."
-#~ msgstr "_Tasc..."
-
-#~ msgid "Sear_ch"
-#~ msgstr "_Cuardaigh"
-
-#~ msgid "Card: "
-#~ msgstr "Carta: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Name: "
-#~ msgstr ""
-#~ "\n"
-#~ "Ainm: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Family:     "
-#~ msgstr ""
-#~ "\n"
-#~ " Clann:       "
-
-#~ msgid ""
-#~ "\n"
-#~ "Address:"
-#~ msgstr ""
-#~ "\n"
-#~ "Seoladh:"
-
-#~ msgid ""
-#~ "\n"
-#~ "  Postal Box:  "
-#~ msgstr ""
-#~ "\n"
-#~ " Bosca Phoist: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Street:      "
-#~ msgstr ""
-#~ "\n"
-#~ "  Stráid:      "
-
-#~ msgid ""
-#~ "\n"
-#~ "  City:        "
-#~ msgstr ""
-#~ "\n"
-#~ "  Cathair:     "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Region:      "
-#~ msgstr ""
-#~ "\n"
-#~ "  Cuige:      "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Postal Code: "
-#~ msgstr ""
-#~ "\n"
-#~ "  Cód Phoist:  "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Country:     "
-#~ msgstr ""
-#~ "\n"
-#~ " Tír:          "
-
-#~ msgid ""
-#~ "\n"
-#~ "Telephones:\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Gutháin:   \n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Telephone:"
-#~ msgstr ""
-#~ "\n"
-#~ "Guthán:"
-
-#~ msgid ""
-#~ "\n"
-#~ "E-mail:\n"
-#~ msgstr ""
-#~ "\n"
-#~ "R-phost:\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Time Zone: "
-#~ msgstr ""
-#~ "\n"
-#~ "Am Críos: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Name:  "
-#~ msgstr ""
-#~ "\n"
-#~ "  Ainm:  "
-
-#~ msgid "New _Contact"
-#~ msgstr "_Tadhall Nua"
+msgid "Create a _New Meeting"
+msgstr "Cruthaigh Cruinniú _Nua"
+
+msgid "New Appointment"
+msgstr "Coinne Nua"
+
+msgid "_Appointment..."
+msgstr "_Coinne..."
+
+msgid "_Calendar Settings..."
+msgstr "Álbachtaí _Féilire..."
+
+msgid "_Task..."
+msgstr "_Tasc..."
+
+msgid "Sear_ch"
+msgstr "_Cuardaigh"
+
+msgid "Card: "
+msgstr "Carta: "
+
+msgid ""
+"\n"
+"Name: "
+msgstr ""
+"\n"
+"Ainm: "
+
+msgid ""
+"\n"
+"  Family:     "
+msgstr ""
+"\n"
+" Clann:       "
+
+msgid ""
+"\n"
+"Address:"
+msgstr ""
+"\n"
+"Seoladh:"
+
+msgid ""
+"\n"
+"  Postal Box:  "
+msgstr ""
+"\n"
+" Bosca Phoist: "
+
+msgid ""
+"\n"
+"  Street:      "
+msgstr ""
+"\n"
+"  Stráid:      "
+
+msgid ""
+"\n"
+"  City:        "
+msgstr ""
+"\n"
+"  Cathair:     "
+
+msgid ""
+"\n"
+"  Region:      "
+msgstr ""
+"\n"
+"  Cuige:      "
+
+msgid ""
+"\n"
+"  Postal Code: "
+msgstr ""
+"\n"
+"  Cód Phoist:  "
+
+msgid ""
+"\n"
+"  Country:     "
+msgstr ""
+"\n"
+" Tír:          "
+
+msgid ""
+"\n"
+"Telephones:\n"
+msgstr ""
+"\n"
+"Gutháin:   \n"
+
+msgid ""
+"\n"
+"Telephone:"
+msgstr ""
+"\n"
+"Guthán:"
+
+msgid ""
+"\n"
+"E-mail:\n"
+msgstr ""
+"\n"
+"R-phost:\n"
+
+msgid ""
+"\n"
+"Time Zone: "
+msgstr ""
+"\n"
+"Am Críos: "
+
+msgid ""
+"\n"
+"  Name:  "
+msgstr ""
+"\n"
+"  Ainm:  "
+
+msgid "New _Contact"
+msgstr "_Tadhall Nua"
 
-#~ msgid "New _Task"
-#~ msgstr "_Tasc Nua"
+msgid "New _Task"
+msgstr "_Tasc Nua"
 
-#~ msgid "(Unknown)"
-#~ msgstr "(Gan fhois)"
+msgid "(Unknown)"
+msgstr "(Gan fhois)"
 
-#~ msgid "New _Mail Message"
-#~ msgstr "Scéal_Post Nua"
+msgid "New _Mail Message"
+msgstr "Scéal_Post Nua"
 
-#~ msgid "GnomeCard:"
-#~ msgstr "GnomeCard: "
+msgid "GnomeCard:"
+msgstr "GnomeCard: "
 
-#~ msgid "%s - Ximian Evolution %s"
-#~ msgstr "%s - Ximian Evolution %s"
+msgid "%s - Ximian Evolution %s"
+msgstr "%s - Ximian Evolution %s"
 
-#~ msgid "%s - Ximian Evolution %s [%s]"
-#~ msgstr "%s - Ximian Evolution %s [%s]"
+msgid "%s - Ximian Evolution %s [%s]"
+msgstr "%s - Ximian Evolution %s [%s]"
 
-#~ msgid "%d"
-#~ msgstr "%d"
+msgid "%d"
+msgstr "%d"
 
-#~ msgid "%Y/%m/%d"
-#~ msgstr "%a %d/%m/%Y"
+msgid "%Y/%m/%d"
+msgstr "%a %d/%m/%Y"
 
-#~ msgid "SASL"
-#~ msgstr "SASL"
+msgid "SASL"
+msgstr "SASL"
 
-#~ msgid "URI"
-#~ msgstr "URI"
+msgid "URI"
+msgstr "URI"
 
-#~ msgid "a"
-#~ msgstr "a"
+msgid "a"
+msgstr "a"
 
-#~ msgid "b"
-#~ msgstr "b"
+msgid "b"
+msgstr "b"
 
-#~ msgid "c"
-#~ msgstr "c"
+msgid "c"
+msgstr "c"
 
-#~ msgid "e"
-#~ msgstr "e"
+msgid "e"
+msgstr "e"
 
-#~ msgid "f"
-#~ msgstr "f"
+msgid "f"
+msgstr "f"
 
-#~ msgid "g"
-#~ msgstr "g"
+msgid "g"
+msgstr "g"
 
-#~ msgid "h"
-#~ msgstr "h"
+msgid "h"
+msgstr "h"
 
-#~ msgid "i"
-#~ msgstr "i"
+msgid "i"
+msgstr "i"
 
-#~ msgid "j"
-#~ msgstr "j"
+msgid "j"
+msgstr "j"
 
-#~ msgid "k"
-#~ msgstr "k"
+msgid "k"
+msgstr "k"
 
-#~ msgid "l"
-#~ msgstr "l"
+msgid "l"
+msgstr "l"
 
-#~ msgid "m"
-#~ msgstr "m"
+msgid "m"
+msgstr "m"
 
-#~ msgid "o"
-#~ msgstr "o"
+msgid "o"
+msgstr "o"
 
-#~ msgid "p"
-#~ msgstr "p"
+msgid "p"
+msgstr "p"
 
-#~ msgid "q"
-#~ msgstr "q"
+msgid "q"
+msgstr "q"
 
-#~ msgid "t"
-#~ msgstr "t"
+msgid "t"
+msgstr "t"
 
-#~ msgid "u"
-#~ msgstr "u"
+msgid "u"
+msgstr "u"
 
-#~ msgid "v"
-#~ msgstr "v"
+msgid "v"
+msgstr "v"
 
-#~ msgid "w"
-#~ msgstr "w"
+msgid "w"
+msgstr "w"
 
-#~ msgid "y"
-#~ msgstr "y"
+msgid "y"
+msgstr "y"
 
-#~ msgid "z"
-#~ msgstr "z"
+msgid "z"
+msgstr "z"
 
-#~ msgid "%I:%M%p"
-#~ msgstr "%I:%M%p"
+msgid "%I:%M%p"
+msgstr "%I:%M%p"
 
-#~ msgid "%I:%M:%S %p%n"
-#~ msgstr "%I:%M:%S %p%n"
+msgid "%I:%M:%S %p%n"
+msgstr "%I:%M:%S %p%n"
 
-#~ msgid "%H:%M:%S%n"
-#~ msgstr "%H:%M:%S%n"
+msgid "%H:%M:%S%n"
+msgstr "%H:%M:%S%n"
 
-#~ msgid "%I:%M %p%n"
-#~ msgstr "%I:%M %p%n"
+msgid "%I:%M %p%n"
+msgstr "%I:%M %p%n"
 
-#~ msgid "%H:%M%n"
-#~ msgstr "%H:%M%n"
+msgid "%H:%M%n"
+msgstr "%H:%M%n"
 
-#~ msgid "View All"
-#~ msgstr "Feach Gach Rud"
+msgid "View All"
+msgstr "Feach Gach Rud"
 
-#~ msgid "_Day"
-#~ msgstr "Lá"
+msgid "_Day"
+msgstr "Lá"
 
-#~ msgid "About..."
-#~ msgstr "Faoi..."
+msgid "About..."
+msgstr "Faoi..."
 
-#~ msgid "Address _Book... (FIXME)"
-#~ msgstr "Leabhair Sheolaidh"
+msgid "Address _Book... (FIXME)"
+msgstr "Leabhair Sheolaidh"
 
-#~ msgid "C_lear"
-#~ msgstr "_Bunaigh"
+msgid "C_lear"
+msgstr "_Bunaigh"
 
-#~ msgid "Close this appointment"
-#~ msgstr "Dún an coinne seo"
+msgid "Close this appointment"
+msgstr "Dún an coinne seo"
 
-#~ msgid "Pre_vious"
-#~ msgstr "_Riomh"
+msgid "Pre_vious"
+msgstr "_Riomh"
 
-#~ msgid "_Note (FIXME)"
-#~ msgstr "_Nota (FIXME)"
+msgid "_Note (FIXME)"
+msgstr "_Nota (FIXME)"
 
-#~ msgid "_Task (FIXME)"
-#~ msgstr "_Tasc (FIXME)"
+msgid "_Task (FIXME)"
+msgstr "_Tasc (FIXME)"
 
-#~ msgid "Reply to all"
-#~ msgstr "Freagrair do Gach rud"
+msgid "Reply to all"
+msgstr "Freagrair do Gach rud"
 
-#~ msgid "_Reply"
-#~ msgstr "_Freagrair"
+msgid "_Reply"
+msgstr "_Freagrair"
 
-#~ msgid "Save in _folder... (FIXME)"
-#~ msgstr "Sábháil mar _fillteán (FIXME)"
+msgid "Save in _folder... (FIXME)"
+msgstr "Sábháil mar _fillteán (FIXME)"
 
-#~ msgid "_Appointment (FIXME)"
-#~ msgstr "_Coinne"
+msgid "_Appointment (FIXME)"
+msgstr "_Coinne"
 
-#~ msgid "New Contact _List"
-#~ msgstr "_Líosta Tadhall Nua"
+msgid "New Contact _List"
+msgstr "_Líosta Tadhall Nua"
 
-#~ msgid "Co_ntacts:"
-#~ msgstr "_Tadhallaí"
+msgid "Co_ntacts:"
+msgstr "_Tadhallaí"
