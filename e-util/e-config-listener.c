@@ -221,7 +221,7 @@ add_key (EConfigListener *cl, const char *key, GConfValueType type,
 		memcpy (&kd->value.v_long, value, sizeof (long));
 		break;
 	case GCONF_VALUE_STRING :
-		kd->value.v_str = (char *) value;
+		kd->value.v_str = g_strdup ((const char *) value);
 		break;
 	default :
 		break;
