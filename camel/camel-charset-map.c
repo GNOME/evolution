@@ -61,15 +61,16 @@ static struct {
 	{ "iso-8859-2", 0 },	/* Central/Eastern European */
 	{ "iso-8859-4", 0 },	/* Baltic */
 	{ "koi8-r", 0 },	/* Russian */
-	{ "windows-1251", 0 },	/* Russian */
 	{ "koi8-u", 0 },	/* Ukranian */
 	{ "iso-8859-5", 0 },	/* Least-popular Russian encoding */
 	{ "iso-8859-7", 0 },	/* Greek */
+	{ "iso-8859-8", 0 },    /* Hebrew; Visual */
 	{ "iso-8859-9", 0 },	/* Turkish */
 	{ "iso-8859-13", 0 },	/* Baltic again */
 	{ "iso-8859-15", 0 },	/* New-and-improved iso-8859-1, but most
 				 * programs that support this support UTF8
 				 */
+	{ "windows-1251", 0 },	/* Russian */
 	{ 0, 0 }
 };
 
@@ -81,7 +82,7 @@ unsigned int encoding_map[256 * 256];
 #define UCS "UCS-4LE"
 #endif
 
-void main(void)
+int main (void)
 {
 	int i, j;
 	int max, min;
@@ -190,7 +191,8 @@ void main(void)
 			printf("\t\\\n");
 	}
 	printf("\n\n");
-
+	
+	return 0;
 }
 
 #else

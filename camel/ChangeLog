@@ -1,3 +1,11 @@
+2002-01-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-charset-map.c: Moved windows-1251 to the end of the list
+	since it contains the euro and we'd prefer to use iso-8859-15 when
+	the euro is requested than a windows charset if possible.
+
+	* camel-charset-map-private.h: Regenerated.
+
 2001-12-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-summary.c (content_info_load): Don't try setting a
