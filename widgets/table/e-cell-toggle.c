@@ -190,14 +190,14 @@ etog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col,
 	
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:
-		if (!E_CELL_IS_EDITABLE (ecell_view->ecell))
+		if (!e_table_model_is_cell_editable(ecell_view->e_table_model, model_col, row))
 			return FALSE;
 		
 		etog_set_value (toggle_view, model_col, view_col, row, value + 1);
 		return TRUE;
 
 	case GDK_KEY_PRESS:
-		if (!E_CELL_IS_EDITABLE (ecell_view->ecell))
+		if (!e_table_model_is_cell_editable(ecell_view->e_table_model, model_col, row))
 			return FALSE;
 		
 		if (event->key.keyval == GDK_space){

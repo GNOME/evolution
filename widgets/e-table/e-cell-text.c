@@ -781,7 +781,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			return TRUE;
 		}
 		
-		if ((!edit_display) && E_CELL_IS_EDITABLE (ect)) {
+		if ((!edit_display) && e_table_model_is_cell_editable (ecell_view->e_table_model, view_col, row)) {
 			  e_table_item_enter_edit (text_view->cell_view.e_table_item_view, view_col, row);
 			  ect_edit_select_all (text_view);
 			  edit = text_view->edit;
@@ -812,7 +812,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		event->button.x -= 4;
 		event->button.y -= 1;
 		if ((!edit_display) 
-		    && E_CELL_IS_EDITABLE (ect)
+		    && e_table_model_is_cell_editable (ecell_view->e_table_model, view_col, row)
 		    && event->type == GDK_BUTTON_RELEASE
 		    && event->button.button == 1) {
 			GdkEventButton button = event->button;

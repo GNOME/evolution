@@ -1,3 +1,25 @@
+2000-04-17  Chris Toshok  <toshok@helixcode.com>
+
+	* Makefile.am (noinst_PROGRAMS): add table-size-test
+	
+	* .cvsignore: add table-size-test.
+
+	* e-cell-text.c (ect_ecent): use e_table_model_is_cell_editable
+	instead of E_CELL_EDITABLE.
+
+	* e-cell-toggle.c (etog_event): same.
+
+	* e-cell.c (e_cell_init): don't call e_cell_set_editable.  that
+	info comes from the model.
+	(e_cell_set_editable): removed function.
+
+	* e-cell.h: remove the E_CELL_EDITABLE flag.  that should be
+	retrieved from the model.  also, remove the prototype for
+	e_cell_set_editable.
+
+	* e-table-size-test.c: new file, for a stress test of sorts, of a
+	large, uneditable e-table.
+
 2000-04-16  Anders Carlsson  <andersca@gnu.org>
 
 	* e-table-item.c (eti_event): Propagate mouse wheel events upwards.

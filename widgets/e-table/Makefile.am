@@ -64,7 +64,7 @@ libetable_a_SOURCES = 				\
 	e-table-text-model.h
 
 noinst_PROGRAMS =	\
-	table-test table-example-1 table-example-2
+	table-test table-example-1 table-example-2 table-size-test
 
 table_test_SOURCES = 	\
 	test-table.c	\
@@ -79,6 +79,17 @@ table_test_LDADD =				\
 	$(top_builddir)/e-util/libeutil.la	
 
 table_test_LDFLAGS = `gnome-config --libs gdk_pixbuf`
+
+table_size_test_SOURCES = 	\
+	e-table-size-test.c
+
+table_size_test_LDADD =				\
+	libetable.a				\
+	$(EXTRA_GNOME_LIBS)			\
+	$(top_builddir)/widgets/e-text/libetext.a \
+	$(top_builddir)/e-util/libeutil.la	
+
+table_size_test_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
 table_example_1_SOURCES = 	\
 	e-table-example-1.c

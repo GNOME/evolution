@@ -109,10 +109,6 @@ e_cell_class_init (GtkObjectClass *object_class)
 static void
 e_cell_init (GtkObject *object)
 {
-	/*
-	 * By default we are editable, that is what the old behaviour was
-	 */
-	e_cell_set_editable (E_CELL (object), TRUE);
 }
 
 E_MAKE_TYPE(e_cell, "ECell", ECell, e_cell_class_init, e_cell_init, PARENT_TYPE);
@@ -178,13 +174,3 @@ e_cell_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, 
 	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->leave_edit (
 		ecell_view, model_col, view_col, row, edit_context);
 }
-
-void
-e_cell_set_editable (ECell *ecell, gboolean editable)
-{
-	if (editable)
-		GTK_OBJECT (ecell)->flags |= E_CELL_EDITABLE;
-	else
-		GTK_OBJECT (ecell)->flags &= ~E_CELL_EDITABLE;
-}
-
