@@ -262,10 +262,11 @@ if test "x$ac_cv_gethostbyaddr_r_seven_args" = "xyes" ; then
 fi
 
 dnl **************************************************
-dnl statfs location/type
+dnl stat(v)fs location/type
 dnl **************************************************
 
-AC_CHECK_HEADERS(sys/vfs.h)
+AC_CHECK_HEADERS(sys/statvfs.h)
+AC_CHECK_FUNCS(statvfs)
 AC_CHECK_HEADERS(sys/param.h)
 AC_CHECK_HEADERS(sys/mount.h)
 AC_CHECK_FUNCS(statfs)
