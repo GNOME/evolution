@@ -98,7 +98,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 #define DEFAULT_SHORTCUT_BAR_WIDTH 100
 #define DEFAULT_TREE_WIDTH         130
 
-#define DEFAULT_WIDTH 700
+#define DEFAULT_WIDTH 705
 #define DEFAULT_HEIGHT 550
 
 
