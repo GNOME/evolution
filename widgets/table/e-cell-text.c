@@ -2,8 +2,8 @@
 /* e-cell-text.c - Text cell renderer
  * Copyright (C) 2000 Helix Code, Inc.
  *
- * Authors: Miguel de Icaza (miguel@kernel.org)
- *          Chris Lahey <clahey@umich.edu>
+ * Authors: Miguel de Icaza <miguel@helixcode.com>
+ *          Chris Lahey <clahey@helixcode.com>
  *         
  *
  * A majority of code taken from:

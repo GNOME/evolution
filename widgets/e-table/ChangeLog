@@ -1,5 +1,16 @@
 2000-05-04  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-cell-text.c, e-cell-text.h: Fix author information.
+
+	* e-table-group-leaf.c: Set a length threshold of 200.
+
+	* e-table-item.c: Height cache is now actually a map.  Made
+	"length_threshold" argument work.  If over the length threshold,
+	use the height cache to get a better estimate so that once the
+	height cache is full, height estimate is perfect.
+
+2000-05-04  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-sorted-variable.c (qsort_callback): Add back in main
 	loop calls during sorting.
 

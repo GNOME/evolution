@@ -97,14 +97,15 @@ etgl_realize (GnomeCanvasItem *item)
 		GNOME_CANVAS_ITEM_CLASS (etgl_parent_class)->realize (item);
 
 	etgl->item = E_TABLE_ITEM(gnome_canvas_item_new (GNOME_CANVAS_GROUP(etgl),
-							e_table_item_get_type (),
-							"ETableHeader", E_TABLE_GROUP(etgl)->header,
-							"ETableModel", etgl->subset,
-							"drawgrid", TRUE,
-							"drawfocus", TRUE,
-							"spreadsheet", TRUE,
-							"width", etgl->width,
-							NULL));
+							 e_table_item_get_type (),
+							 "ETableHeader", E_TABLE_GROUP(etgl)->header,
+							 "ETableModel", etgl->subset,
+							 "drawgrid", TRUE,
+							 "drawfocus", TRUE,
+							 "spreadsheet", TRUE,
+							 "width", etgl->width,
+							 "length_threshold", 200,
+							 NULL));
 
 	gtk_signal_connect (GTK_OBJECT(etgl->item), "row_selection",
 			   GTK_SIGNAL_FUNC(etgl_row_selection), etgl);

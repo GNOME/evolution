@@ -40,7 +40,7 @@ enum {
 	ARG_TABLE_DRAW_GRID,
 	ARG_TABLE_DRAW_FOCUS,
 	ARG_MODE_SPREADSHEET,
-	ARG_LENGHT_THRESHOLD,
+	ARG_LENGTH_THRESHOLD,
 	
 	ARG_WIDTH,
 	ARG_HEIGHT,
@@ -313,7 +313,7 @@ calculate_height_cache (ETableItem *eti)
 	free_height_cache(eti);
 	eti->height_cache = g_new(int, eti->rows);
 	for (i = 0; i < eti->rows; i++) {
-		eti->height_cache[i] = eti_row_height_real(eti, i);
+		eti->height_cache[i] = -1;
 	}
 }
 
@@ -327,10 +327,24 @@ calculate_height_cache (ETableItem *eti)
 static int
 eti_row_height (ETableItem *eti, int row)
 {
+#if 1
 	if (!eti->height_cache) {
 		calculate_height_cache (eti);
 	}
+	if (eti->height_cache[row] == -1) {
+		eti->height_cache[row] = eti_row_height_real(eti, row);
+		if (row > 0 && 
+		    eti->length_threshold != -1 && 
+		    eti->rows > eti->length_threshold &&
+		    eti->height_cache[row] != eti_row_height(eti, 0)) {
+			eti->needs_compute_height = 1;
+			e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(eti));
+		}
+	}
 	return eti->height_cache[row];
+#else
+	return eti_row_height_real(eti, row);
+#endif
 }
 
 /*
@@ -357,7 +371,17 @@ eti_get_height (ETableItem *eti)
 
 	if (eti->length_threshold != -1){
 		if (rows > eti->length_threshold){
-			height = (eti_row_height (eti, 0) + 1) * rows;
+			int row_height = eti_row_height(eti, 0);
+			if (eti->height_cache) {
+				height = 0;
+				for (row = 0; row < rows; row++) {
+					if (eti->height_cache[row] == -1)
+						height += row_height + 1;
+					else
+						height += eti->height_cache[row] + 1;
+				}
+			} else
+				height = (eti_row_height (eti, 0) + 1) * rows;
 
 			/*
 			 * 1 pixel at the top
@@ -628,7 +652,7 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		eti_add_table_model (eti, E_TABLE_MODEL(GTK_VALUE_OBJECT (*arg)));
 		break;
 		
-	case ARG_LENGHT_THRESHOLD:
+	case ARG_LENGTH_THRESHOLD:
 		eti->length_threshold = GTK_VALUE_INT (*arg);
 		break;
 
@@ -1234,6 +1258,8 @@ eti_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_FOCUS);
 	gtk_object_add_arg_type ("ETableItem::spreadsheet", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_MODE_SPREADSHEET);
+	gtk_object_add_arg_type ("ETableItem::length_threshold", GTK_TYPE_INT,
+				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
 
 	gtk_object_add_arg_type ("ETableItem::width", GTK_TYPE_DOUBLE, 
 				 GTK_ARG_READWRITE, ARG_WIDTH); 
