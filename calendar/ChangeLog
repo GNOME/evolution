@@ -1,3 +1,17 @@
+2001-08-29  Federico Mena Quintero  <federico@ximian.com>
+
+	* pcs/cal-backend-file.c (cal_backend_file_remove_object): See if
+	the set of categories changed by using the removed_categories hash
+	table.
+	(cal_backend_file_init): Create a table of removed categories.
+	This allows us to notify if and only if the set of category
+	changes when an object is updated/removed, instead of
+	unconditionally notifying if an object is updated.
+	(cal_backend_file_update_objects): Only notify if the set of
+	categories really changed.
+	(update_categories_from_comp): Shuffle the categories between the
+	priv->categories and priv->removed_categories lists.
+
 2001-08-28  Federico Mena Quintero  <federico@ximian.com>
 
 	Fixes bug #7879, a query may receive an update notification from

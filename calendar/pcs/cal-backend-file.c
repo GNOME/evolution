@@ -66,8 +66,9 @@ struct _CalBackendFilePrivate {
 	GList *todos;
 	GList *journals;
 
-	/* Hash table of live categories */
+	/* Hash table of live categories, and a temporary hash of removed categories */
 	GHashTable *categories;
+	GHashTable *removed_categories;
 
 	/* Idle handler for saving the calendar when it is dirty */
 	guint idle_id;
@@ -201,6 +202,7 @@ cal_backend_file_init (CalBackendFile *cbfile)
 	priv->journals = NULL;
 
 	priv->categories = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->removed_categories = g_hash_table_new (g_str_hash, g_str_equal);
 
 	gtk_signal_connect (GTK_OBJECT (cbfile), "cal_added",
 			    GTK_SIGNAL_FUNC (cal_added_cb), NULL);
@@ -330,6 +332,10 @@ cal_backend_file_destroy (GtkObject *object)
 	g_hash_table_foreach (priv->categories, free_category_cb, NULL);
 	g_hash_table_destroy (priv->categories);
 	priv->categories = NULL;
+
+	g_hash_table_foreach (priv->removed_categories, free_category_cb, NULL);
+	g_hash_table_destroy (priv->removed_categories);
+	priv->removed_categories = NULL;
 
 	if (priv->icalcomp) {
 		icalcomponent_free (priv->icalcomp);
@@ -513,11 +519,24 @@ update_categories_from_comp (CalBackendFile *cbfile, CalComponent *comp, gboolea
 			if (c)
 				c->refcount++;
 			else {
-				c = g_new (Category, 1);
-				c->name = g_strdup (name);
-				c->refcount = 1;
+				/* See if it was in the removed categories */
 
-				g_hash_table_insert (priv->categories, c->name, c);
+				c = g_hash_table_lookup (priv->removed_categories, name);
+				if (c) {
+					/* Move it to the set of live categories */
+					g_assert (c->refcount == 0);
+					g_hash_table_remove (priv->removed_categories, c->name);
+
+					c->refcount = 1;
+					g_hash_table_insert (priv->categories, c->name, c);
+				} else {
+					/* Create a new category */
+					c = g_new (Category, 1);
+					c->name = g_strdup (name);
+					c->refcount = 1;
+
+					g_hash_table_insert (priv->categories, c->name, c);
+				}
 			}
 		} else {
 			/* Remove the category from the set --- it *must* have existed */
@@ -529,8 +548,7 @@ update_categories_from_comp (CalBackendFile *cbfile, CalComponent *comp, gboolea
 
 			if (c->refcount == 0) {
 				g_hash_table_remove (priv->categories, c->name);
-				g_free (c->name);
-				g_free (c);
+				g_hash_table_insert (priv->removed_categories, c->name, c);
 			}
 		}
 	}
@@ -548,7 +566,7 @@ add_component (CalBackendFile *cbfile, CalComponent *comp, gboolean add_to_tople
 	CalBackendFilePrivate *priv;
 	GList **list;
 	const char *uid;
-	
+
 	priv = cbfile->priv;
 
 	switch (cal_component_get_vtype (comp)) {
@@ -1449,6 +1467,32 @@ notify_remove (CalBackendFile *cbfile, const char *uid)
 	}
 }
 
+/* Used from g_hash_table_foreach_remove(); removes and frees a category */
+static gboolean
+remove_category_cb (gpointer key, gpointer value, gpointer data)
+{
+	Category *c;
+
+	c = value;
+	g_free (c->name);
+	g_free (c);
+
+	return TRUE;
+}
+
+/* Clears the table of removed categories */
+static void
+clean_removed_categories (CalBackendFile *cbfile)
+{
+	CalBackendFilePrivate *priv;
+
+	priv = cbfile->priv;
+
+	g_hash_table_foreach_remove (priv->removed_categories,
+				     remove_category_cb,
+				     NULL);
+}
+
 /* Update_objects handler for the file backend. */
 static gboolean
 cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
@@ -1460,6 +1504,7 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 	CalComponent *old_comp;
 	CalComponent *comp;
 	const char *comp_uid;
+	int old_n_categories, new_n_categories;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -1536,6 +1581,13 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 		return FALSE;
 	}
 
+	/* The list of removed categories must be empty because we are about to
+	 * start a new scanning process.
+	 */
+	g_assert (g_hash_table_size (priv->removed_categories) == 0);
+
+	old_n_categories = g_hash_table_size (priv->categories);
+
 	/* Update the component */
 
 	old_comp = lookup_component (cbfile, comp_uid);
@@ -1557,11 +1609,17 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 		add_component (cbfile, comp, TRUE);
 	}
 
+	new_n_categories = g_hash_table_size (priv->categories);
+
 	mark_dirty (cbfile);
 
-	/* FIXME: do the notification asynchronously */
 	notify_update (cbfile, comp_uid);
-	notify_categories_changed (cbfile);
+
+	if (old_n_categories != new_n_categories ||
+	    g_hash_table_size (priv->removed_categories) != 0) {
+		clean_removed_categories (cbfile);
+		notify_categories_changed (cbfile);
+	}
 
 	return TRUE;
 }
@@ -1573,7 +1631,6 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
 	CalComponent *comp;
-	int old_n_categories, new_n_categories;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -1586,17 +1643,21 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 	if (!comp)
 		return FALSE;
 
-	old_n_categories = g_hash_table_size (priv->categories);
+	/* The list of removed categories must be empty because we are about to
+	 * start a new scanning process.
+	 */
+	g_assert (g_hash_table_size (priv->removed_categories) == 0);
+
 	remove_component (cbfile, comp);
-	new_n_categories = g_hash_table_size (priv->categories);
 
 	mark_dirty (cbfile);
 
-	/* FIXME: do the notification asynchronously */
 	notify_remove (cbfile, uid);
 
-	if (old_n_categories != new_n_categories)
+	if (g_hash_table_size (priv->removed_categories) != 0) {
+		clean_removed_categories (cbfile);
 		notify_categories_changed (cbfile);
+	}
 
 	return TRUE;
 }
