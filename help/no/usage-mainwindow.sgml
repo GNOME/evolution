@@ -289,8 +289,7 @@
       <title>The Evolution Main Window</title>
       <screenshot>
 	<screeninfo>Inbox</screeninfo>
-	<graphic fileref="figures/mainwindow-pic" format="png" srccredit="Kevin Breit">
-	</graphic>
+	<graphic srccredit="Kevin Breit" fileref="figures/mainwindow-pic"/>
       </screenshot>
     </figure>
     
