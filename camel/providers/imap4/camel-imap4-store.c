@@ -773,11 +773,14 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 	char *utf7_name;
 	const char *c;
 	char *name;
+	char sep;
 	int id;
+	
+	sep = imap4_get_path_delim (engine, parent_name);
 	
 	c = folder_name;
 	while (*c != '\0') {
-		if (*c == store->dir_sep || strchr ("#%*", *c)) {
+		if (*c == sep || strchr ("/#%*", *c)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_PATH,
 					      _("The folder name \"%s\" is invalid because "
 						"it contains the character \"%c\""),
@@ -959,12 +962,11 @@ imap4_build_folder_info (CamelIMAP4Engine *engine, guint32 flags, GPtrArray *arr
 			p++;
 		}
 		
+		p = strrchr (name, '/');
 		camel_url_set_fragment (url, name);
 		
 		fi->full_name = name;
-		p = strrchr (name, '/');
 		fi->name = g_strdup (p ? p + 1: name);
-		fi->path = g_strdup_printf ("/%s", name);
 		fi->uri = camel_url_to_string (url, 0);
 		fi->flags = list->flags;
 		

@@ -494,7 +494,7 @@ camel_imap4_command_step (CamelIMAP4Command *ic)
 	if (ic->part == ic->parts) {
 		ic->tag = g_strdup_printf ("%c%.5u", engine->tagprefix, engine->tag++);
 		camel_stream_printf (engine->ostream, "%s ", ic->tag);
-		d(fprintf (stderr, "sending : %s ", ic->tag));
+		d(fprintf (stderr, "sending: %s ", ic->tag));
 	}
 	
 #if d(!)0
@@ -514,7 +514,7 @@ camel_imap4_command_step (CamelIMAP4Command *ic)
 				eoln++;
 			
 			if (sending)
-				fwrite ("sending : ", 1, 10, stderr);
+				fwrite ("sending: ", 1, 10, stderr);
 			fwrite (linebuf, 1, eoln - linebuf, stderr);
 			
 			linebuf = eoln + 1;
@@ -526,11 +526,19 @@ camel_imap4_command_step (CamelIMAP4Command *ic)
 	linebuf = ic->part->buffer;
 	len = ic->part->buflen;
 	
-	if ((nwritten = camel_stream_write (engine->ostream, linebuf, len)) == -1)
+	if ((nwritten = camel_stream_write (engine->ostream, linebuf, len)) == -1) {
+		camel_exception_setv (&ic->ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed sending command to IMAP server %s: %s"),
+				      engine->url->host, g_strerror (errno));
 		goto exception;
+	}
 	
-	if (camel_stream_flush (engine->ostream) == -1)
+	if (camel_stream_flush (engine->ostream) == -1) {
+		camel_exception_setv (&ic->ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed sending command to IMAP server %s: %s"),
+				      engine->url->host, g_strerror (errno));
 		goto exception;
+	}
 	
 	/* now we need to read the response(s) from the IMAP4 server */
 	

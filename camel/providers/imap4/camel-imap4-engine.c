@@ -229,7 +229,8 @@ camel_imap4_engine_take_stream (CamelIMAP4Engine *engine, CamelStream *stream, C
 	if ((code = camel_imap4_engine_handle_untagged_1 (engine, &token, ex)) == -1) {
 		goto exception;
 	} else if (code != CAMEL_IMAP4_UNTAGGED_OK && code != CAMEL_IMAP4_UNTAGGED_PREAUTH) {
-		/* FIXME: set an error? */
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM, _("Unexpected greeting from IMAP server %s."),
+				      engine->url->host);
 		goto exception;
 	}
 	
@@ -268,7 +269,10 @@ camel_imap4_engine_capability (CamelIMAP4Engine *engine, CamelException *ex)
 	while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
 		;
 	
+	fprintf (stderr, "id = %d; status = %d\n", id, ic->status);
+	
 	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
+		fprintf (stderr, "exception: %s\n", ic->ex.desc);
 		camel_exception_xfer (ex, &ic->ex);
 		retval = -1;
 	}

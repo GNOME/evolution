@@ -1,3 +1,21 @@
+2004-06-04  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-tcp-stream-ssl.c (stream_flush): Always just return 0,
+	don't try to PR_Sync() - fsync on a socket causes an error.
+
+	* providers/imap4/camel-imap4-command.c
+	(camel_imap4_command_step): Set exceptions when write/flush fail.
+
+	* providers/imap4/camel-imap4-engine.c
+	(camel_imap4_engine_take_stream): Set an exception in the case
+	where we get an unexpected greeting from the server.
+
+	* providers/imap4/camel-imap4-store.c (imap4_create_folder):
+	store->dir_sep no longer exists, so query the engine for the
+	directory separator for the parent_folder.
+	(imap4_build_folder_info): CamelFolderInfo no longer has a path
+	component.
+
 2004-06-03  Not Zed  <NotZed@Ximian.com>
 
 	* providers/nntp/camel-nntp-store.c (camel_nntp_command):

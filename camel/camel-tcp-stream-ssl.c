@@ -477,7 +477,8 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 static int
 stream_flush (CamelStream *stream)
 {
-	return PR_Sync (((CamelTcpStreamSSL *)stream)->priv->sockfd);
+	/*return PR_Sync (((CamelTcpStreamSSL *)stream)->priv->sockfd);*/
+	return 0;
 }
 
 static int
