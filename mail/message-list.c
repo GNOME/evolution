@@ -438,6 +438,9 @@ filter_date (const void *data)
 	time_t date = GPOINTER_TO_INT (data);
 	char buf[26], *p;
 
+	if (date == 0)
+		return g_strdup ("?");
+
 	ctime_r (&date, buf);
 	p = strchr (buf, '\n');
 	if (p)

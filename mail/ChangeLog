@@ -1,5 +1,8 @@
 2000-06-02  Dan Winship  <danw@helixcode.com>
 
+	* message-list.c (filter_date): If the date in the summary is 0,
+	output "?".
+
 	* component-factory.c (create_view): keep a GList of folder
 	browsers created
 	(owner_unset_cb): Go through the list and close each folder before
