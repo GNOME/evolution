@@ -1,3 +1,15 @@
+2004-04-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fix for bug #56878.
+
+	* camel-gpg-context.c (gpg_verify): Don't rely on the exit code of
+	gpg, we already save enough state to decide if the sig is valid
+	without it. Modified to only set BAD if gpg->validsig and
+	gpg->nopubkey are both FALSE. If we get a NO_PUBKEY status
+	message, then it simply means that the the sender could not be
+	verified.
+	(gpg_ctx_parse_status): Listen for NO_PUBKEY status messages.
+
 2004-04-11  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* providers/groupwise/camel-gw-listener.c 

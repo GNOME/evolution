@@ -209,13 +209,14 @@ struct _GpgCtx {
 	unsigned int bad_passwds:2;
 	
 	unsigned int validsig:1;
+	unsigned int nopubkey:1;
 	unsigned int trust:3;
 	
 	unsigned int diagflushed:1;
 	
 	unsigned int utf8:1;
 	
-	unsigned int padding:16;
+	unsigned int padding:15;
 };
 
 static struct _GpgCtx *
@@ -261,6 +262,7 @@ gpg_ctx_new (CamelSession *session)
 	gpg->passwd = NULL;
 	
 	gpg->validsig = FALSE;
+	gpg->nopubkey = FALSE;
 	gpg->trust = GPG_TRUST_NONE;
 	
 	gpg->istream = NULL;
@@ -833,8 +835,10 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 			} else if (!strncmp (status, "BADSIG", 6)) {
 				gpg->validsig = FALSE;
 			} else if (!strncmp (status, "ERRSIG", 6)) {
-				/* Note: NO_PUBKEY often comes after an ERRSIG, but do we really care? */
+				/* Note: NO_PUBKEY often comes after an ERRSIG */
 				gpg->validsig = FALSE;
+			} else if (!strncmp (status, "NO_PUBKEY", 9)) {
+				gpg->nopubkey = TRUE;
 			}
 			break;
 		case GPG_CTX_MODE_ENCRYPT:
@@ -1364,7 +1368,6 @@ gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *e
 	const char *diagnostics = NULL, *tmp;
 	struct _GpgCtx *gpg = NULL;
 	char *sigfile = NULL;
-	gboolean valid;
 	CamelContentType *ct;
 	CamelMimePart *sigpart, *datapart;
 	CamelStream *istream = NULL;
@@ -1430,17 +1433,23 @@ gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *e
 		}
 	}
 	
-	valid = gpg_ctx_op_wait (gpg) == 0;
+	gpg_ctx_op_wait (gpg);
 	validity = camel_cipher_validity_new ();
 	diagnostics = gpg_ctx_get_diagnostics (gpg);
 	camel_cipher_validity_set_description (validity, diagnostics);
-	if (valid && gpg->trust > GPG_TRUST_NEVER) {
-		if (gpg->trust == GPG_TRUST_UNDEFINED)
+	if (gpg->validsig) {
+		if (gpg->trust == GPG_TRUST_UNDEFINED || gpg->trust == GPG_TRUST_NONE)
 			validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN;
-		else
+		else if (gpg->trust != GPG_TRUST_NEVER)
 			validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_GOOD;
-	} else
+		else
+			validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_BAD;
+	} else if (gpg->nopubkey) {
+		validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN;
+	} else {
 		validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_BAD;
+	}
+	
 	gpg_ctx_free (gpg);
 	
 	if (sigfile) {
