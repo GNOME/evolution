@@ -1,3 +1,9 @@
+2001-02-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-mt.c (set_view_data): Check current_message for NULL - this
+	fixes a bug running under SunOS (not a major deal tho as it's in a
+	debug printf).
+
 2001-02-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_write_on_exit): Oops, save the

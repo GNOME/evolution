@@ -636,7 +636,7 @@ set_view_data(const char *current_message, int busy)
 				printf("clearing msg\n");
 				GNOME_Evolution_ShellView_unsetMessage (shell_view_interface, &ev);
 			} else {
-				printf("setting msg %s\n", current_message);
+				printf("setting msg %s\n", current_message ? current_message : "(null)");
 				GNOME_Evolution_ShellView_setMessage (shell_view_interface,
 								      current_message?current_message:"",
 								      busy,
