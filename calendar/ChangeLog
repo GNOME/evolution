@@ -1,3 +1,10 @@
+2001-11-09  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* gui/dialogs/meeting-page.c
+	(meeting_page_fill_widgets): Convert strings to GTK+ encoding.
+	(meeting_page_destroy): Free allocated strings before freeing the list
+	itself.
+
 2001-11-08  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-time-sel.c

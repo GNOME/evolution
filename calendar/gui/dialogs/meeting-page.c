@@ -254,6 +254,7 @@ meeting_page_destroy (GtkObject *object)
 	g_ptr_array_free (priv->deleted_attendees, FALSE);
 	
 	itip_addresses_free (priv->addresses);
+	g_list_foreach (priv->address_strings, (GFunc) g_free, NULL);
 	g_list_free (priv->address_strings);
 
 	gtk_object_unref (GTK_OBJECT (priv->model));
@@ -352,10 +353,12 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	priv->addresses = itip_addresses_get ();
 	for (l = priv->addresses; l != NULL; l = l->next) {
 		ItipAddress *a = l->data;
+		char *s;
 		
-		priv->address_strings = g_list_append (priv->address_strings, a->full);
+		s = e_utf8_to_gtk_string (GTK_COMBO (priv->organizer)->entry, a->full);
+		priv->address_strings = g_list_append (priv->address_strings, s);
 		if (a->default_address)
-			priv->default_address = a->full;
+			priv->default_address = s;
 	}
 	gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), priv->address_strings);
 
