@@ -1,3 +1,8 @@
+2002-01-09  Dan Winship  <danw@ximian.com>
+
+	* POTFILES.in: Revert previous change as it broke the snapshot
+	builds by depending on non-disted (ie, unused) files
+
 2002-01-09  Christian Rose  <menthos@menthos.com>
 
 	* POTFILES.in: Sorted and added LOTS of missing files.
