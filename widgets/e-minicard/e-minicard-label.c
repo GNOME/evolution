@@ -25,6 +25,7 @@
 #include "e-text.h"
 #include "e-canvas.h"
 #include "e-util.h"
+#include "e-canvas-utils.h"
 static void e_minicard_label_init		(EMinicardLabel		 *card);
 static void e_minicard_label_class_init	(EMinicardLabelClass	 *klass);
 static void e_minicard_label_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
@@ -238,8 +239,6 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 	e_minicard_label->fieldname =
 	  gnome_canvas_item_new( group,
 				 e_text_get_type(),
-				 "x", (double) 2,
-				 "y", (double) 1,
 				 "anchor", GTK_ANCHOR_NW,
 				 "clip_width", (double) ( e_minicard_label->width / 2 - 4 ),
 				 "clip_height", (double) 1,
@@ -248,6 +247,7 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 				 "font_gdk", font,
 				 "fill_color", "black",
 				 NULL );
+	e_canvas_item_move_absolute(e_minicard_label->fieldname, 2, 1);
 	if ( e_minicard_label->fieldname_text )
 	  {
 	    gnome_canvas_item_set( e_minicard_label->fieldname,
@@ -263,8 +263,6 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 	e_minicard_label->field =
 	  gnome_canvas_item_new( group,
 				 e_text_get_type(),
-				 "x", (double) ( e_minicard_label->width / 2 + 2 ),
-				 "y", (double) 1,
 				 "anchor", GTK_ANCHOR_NW,
 				 "clip_width", (double) ( ( e_minicard_label->width + 1 ) / 2 - 4 ),
 				 "clip_height", (double) 1,
@@ -274,6 +272,7 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 				 "fill_color", "black",
 				 "editable", TRUE,
 				 NULL );
+	e_canvas_item_move_absolute(e_minicard_label->field, ( e_minicard_label->width / 2 + 2), 1);
 	if ( e_minicard_label->field_text )
 	  {
 	    gnome_canvas_item_set( e_minicard_label->field,
@@ -443,9 +442,9 @@ update_label( EMinicardLabel *e_minicard_label )
 				   "clip_width", (double) ( e_minicard_label->width / 2 - 4 ),
 				   NULL );
 	    gnome_canvas_item_set( e_minicard_label->field,
-				   "x", (double) ( e_minicard_label->width / 2 + 2 ),
 				   "clip_width", (double) ( ( e_minicard_label->width + 1 ) / 2 - 4 ),
 				   NULL );
+	    e_canvas_item_move_absolute(e_minicard_label->field, ( e_minicard_label->width / 2 + 2), 1);
 
 	    if (old_height != e_minicard_label->height)
 		    gtk_signal_emit_by_name (GTK_OBJECT (e_minicard_label), "resize");
@@ -454,9 +453,9 @@ update_label( EMinicardLabel *e_minicard_label )
 }
 
 
-
 static void 
 resize( GtkObject *object, gpointer data )
 {
 	update_label(E_MINICARD_LABEL(data));
 }
+

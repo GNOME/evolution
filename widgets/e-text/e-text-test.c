@@ -8,14 +8,14 @@
 #include "e-text.h"
 #include <gnome.h>
 
-void
+static void
 quit_cb (GtkWidget *widget,
 	 gpointer data)
 {
   gtk_main_quit ();
 }
 
-void
+static void
 change_text_cb (GtkEntry *entry,
 		EText *text)
 {
@@ -27,7 +27,7 @@ change_text_cb (GtkEntry *entry,
 			 NULL);
 }
 
-void
+static void
 change_font_cb (GtkEntry *entry,
 		EText *text)
 {

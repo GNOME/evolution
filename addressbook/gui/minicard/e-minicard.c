@@ -26,6 +26,7 @@
 #include "e-text.h"
 #include "e-canvas.h"
 #include "e-util.h"
+#include "e-canvas-utils.h"
 static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *klass);
 static void e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
@@ -235,8 +236,6 @@ e_minicard_realize (GnomeCanvasItem *item)
 	e_minicard->header_text =
 	  gnome_canvas_item_new( group,
 				 e_text_get_type(),
-				 "x", (double) 6,
-				 "y", (double) 6,
 				 "anchor", GTK_ANCHOR_NW,
 				 "clip_width", (double) ( e_minicard->width - 12 ),
 				 "clip", TRUE,
@@ -245,6 +244,7 @@ e_minicard_realize (GnomeCanvasItem *item)
 				 "fill_color", "black",
 				 "text", "Chris Lahey",
 				 NULL );
+	e_canvas_item_move_absolute(e_minicard->header_text, 6, 6);
 	
 	gtk_signal_connect(GTK_OBJECT(e_minicard->header_text),
 			   "resize",
@@ -253,13 +253,12 @@ e_minicard_realize (GnomeCanvasItem *item)
 	if ( rand() % 2 ) {
 		new_item = gnome_canvas_item_new( group,
 						  e_minicard_label_get_type(),
-						  "x", (double) 2,
-						  "y", e_minicard->height,
 						  "width", e_minicard->width - 4,
 						  "fieldname", "Full Name:",
 						  "field", "Christopher James Lahey",
 						  NULL );
 		e_minicard->fields = g_list_append( e_minicard->fields, new_item);
+		e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
 		
 		gtk_signal_connect(GTK_OBJECT(new_item),
 				   "resize",
@@ -270,13 +269,12 @@ e_minicard_realize (GnomeCanvasItem *item)
 	if (rand() % 2) {
 		new_item = gnome_canvas_item_new( group,
 						  e_minicard_label_get_type(),
-						  "x", (double) 2,
-						  "y", e_minicard->height,
 						  "width", e_minicard->width - 4,
 						  "fieldname", "Address:",
 						  "field", "100 Main St\nHome town, USA",
 						  NULL );
 		e_minicard->fields = g_list_append( e_minicard->fields, new_item);
+		e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
 		
 		gtk_signal_connect(GTK_OBJECT(new_item),
 				   "resize",
@@ -287,13 +285,12 @@ e_minicard_realize (GnomeCanvasItem *item)
 	if (rand() % 2) {
 		new_item = gnome_canvas_item_new( group,
 						  e_minicard_label_get_type(),
-						  "x", (double) 2,
-						  "y", e_minicard->height,
 						  "width", e_minicard->width - 4.0,
 						  "fieldname", "Email:",
 						  "field", "clahey@address.com",
 						  NULL );
 		e_minicard->fields = g_list_append( e_minicard->fields, new_item);
+		e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
 		
 		gtk_signal_connect(GTK_OBJECT(new_item),
 				   "resize",
@@ -432,9 +429,7 @@ _update_card( EMinicard *e_minicard )
 			gtk_object_get (GTK_OBJECT(list->data),
 					"height", &text_height,
 					NULL);
-			gnome_canvas_item_set(GNOME_CANVAS_ITEM(list->data),
-					      "y", (double) e_minicard->height,
-					      NULL);
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(list->data), 2, e_minicard->height);
 			e_minicard->height += text_height;
 		}
 		e_minicard->height += 2;

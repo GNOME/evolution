@@ -52,16 +52,16 @@ typedef struct _EMinicardLabelClass  EMinicardLabelClass;
 
 struct _EMinicardLabel
 {
-  GnomeCanvasGroup parent;
-
-  /* item specific fields */
-  double width;
-  double height;
-  GnomeCanvasItem *fieldname;
-  GnomeCanvasItem *field;
-  GnomeCanvasItem *rect;
-  char *fieldname_text;
-  char *field_text;
+	GnomeCanvasGroup parent;
+	
+	/* item specific fields */
+	double width;
+	double height;
+	GnomeCanvasItem *fieldname;
+	GnomeCanvasItem *field;
+	GnomeCanvasItem *rect;
+	char *fieldname_text;
+	char *field_text;
 
 	gboolean has_focus;
 };

@@ -1,3 +1,23 @@
+2000-03-07  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/e-text/e-text.c, widgets/e-text/e-text.h: Added a
+	"break_characters" argument.  It lets you define a set of
+	characters which should cause optional linebreaks to occur.  Made
+	setting the "clip_height" argument to -1 mean no height clipping.
+	Moved calling the "resize" signal into an idle handler to avoid
+	reentering the canvas update loop.  Made EText recalc bounds if
+	the affine has changed.  Fixed up tooltip_count (this counts the
+	number of ENTER and LEAVE events.)
+
+	* widgets/e-text/e-text-test.c: Got rid of a few warnings.
+
+	* widgets/e-minicard/e-minicard-label.h: Reindent a few lines.
+
+	* widgets/e-minicard/e-minicard.c,
+	widgets/e-minicard/e-minicard-label.c: Switch from using "x" and
+	"y" to set the children's position to using
+	e_canvas_item_move_absolute.
+
 2000-03-05  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-util/e-xml-utils.c: Fixed e_xml_set_integer_prop_by_name.

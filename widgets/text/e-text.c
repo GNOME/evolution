@@ -74,6 +74,7 @@ enum {
 	ARG_USE_ELLIPSIS,
 	ARG_ELLIPSIS,
 	ARG_LINE_WRAP,
+	ARG_BREAK_CHARACTERS,
 	ARG_MAX_LINES
 };
 
@@ -245,6 +246,8 @@ e_text_class_init (ETextClass *klass)
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ELLIPSIS);
 	gtk_object_add_arg_type ("EText::line_wrap",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_LINE_WRAP);
+	gtk_object_add_arg_type ("EText::break_characters",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_BREAK_CHARACTERS);
 	gtk_object_add_arg_type ("EText::max_lines",
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_MAX_LINES);
 
@@ -278,8 +281,8 @@ e_text_init (EText *text)
 	text->y = 0.0;
 	text->anchor = GTK_ANCHOR_CENTER;
 	text->justification = GTK_JUSTIFY_LEFT;
-	text->clip_width = 0.0;
-	text->clip_height = 0.0;
+	text->clip_width = 1.0;
+	text->clip_height = -1.0;
 	text->xofs = 0.0;
 	text->yofs = 0.0;
 
@@ -320,6 +323,7 @@ e_text_init (EText *text)
 	text->default_cursor_shown = TRUE;
 
 	text->line_wrap = FALSE;
+	text->break_characters = NULL;
 	text->max_lines = -1;
 }
 
@@ -420,14 +424,20 @@ get_bounds_item_relative (EText *text, double *px1, double *py1, double *px2, do
 	case GTK_ANCHOR_CENTER:
 	case GTK_ANCHOR_E:
 		y -= text->height / 2;
-		clip_y -= text->clip_height / 2;
+		if ( text->clip_height >= 0 )
+			clip_y -= text->clip_height / 2;
+		else
+			clip_y -= text->height / 2;
 		break;
 
 	case GTK_ANCHOR_SW:
 	case GTK_ANCHOR_S:
 	case GTK_ANCHOR_SE:
 		y -= text->height;
-		clip_y -= text->clip_height;
+		if ( text->clip_height >= 0 )
+			clip_y -= text->clip_height;
+		else
+			clip_y -= text->height;
 		break;
 	}
 
@@ -438,13 +448,32 @@ get_bounds_item_relative (EText *text, double *px1, double *py1, double *px2, do
 		*px1 = clip_x;
 		*py1 = clip_y;
 		*px2 = clip_x + text->clip_width;
-		*py2 = clip_y + text->clip_height;
+		if ( text->clip_height >= 0 )
+			*py2 = clip_y + text->clip_height;
+		else
+			*py2 = clip_y + text->height;
 	} else {
 		*px1 = x;
 		*py1 = y;
 		*px2 = x + text->max_width;
 		*py2 = y + text->height;
 	}
+}
+
+
+static gboolean
+idle_resize(gpointer data)
+{
+	EText *text = E_TEXT(data);
+	gtk_signal_emit_by_name (GTK_OBJECT (text), "resize");
+	return FALSE;
+}
+
+static void
+queue_resize_signal(EText *text)
+{
+	if (text->idle == 0)
+		text->idle = g_idle_add(idle_resize, text);
 }
 
 static void
@@ -455,6 +484,18 @@ get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 	int old_height;
 
 	item = GNOME_CANVAS_ITEM (text);
+
+	/* Calculate text dimensions */
+
+	old_height = text->height;
+
+	if (text->text && text->font)
+		text->height = (text->font->ascent + text->font->descent) * text->num_lines;
+	else
+		text->height = 0;
+
+	if (old_height != text->height)
+		queue_resize_signal(text);
 
 	/* Get canvas pixel coordinates for text position */
 
@@ -467,19 +508,10 @@ get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 
 	gnome_canvas_w2c (item->canvas, wx, wy, &text->clip_cx, &text->clip_cy);
 	text->clip_cwidth = text->clip_width * item->canvas->pixels_per_unit;
-	text->clip_cheight = text->clip_height * item->canvas->pixels_per_unit;
-
-	/* Calculate text dimensions */
-
-	old_height = text->height;
-
-	if (text->text && text->font)
-		text->height = (text->font->ascent + text->font->descent) * text->num_lines;
+	if ( text->clip_height >= 0 )
+		text->clip_cheight = text->clip_height * item->canvas->pixels_per_unit;
 	else
-		text->height = 0;
-
-	if (old_height != text->height)
-		gtk_signal_emit_by_name (GTK_OBJECT (text), "resize");
+		text->clip_cheight = text->height * item->canvas->pixels_per_unit;
 
 	/* Anchor text */
 
@@ -603,6 +635,7 @@ calc_line_widths (EText *text)
 	}
 }
 
+#define IS_BREAKCHAR(text,c) ((text)->break_characters && strchr ((text)->break_characters, (c)))
 /* Splits the text of the text item into lines */
 static void
 split_into_lines (EText *text)
@@ -646,6 +679,21 @@ split_into_lines (EText *text)
 			} else if (*p == ' ') {
 				laststart = p + 1;
 				lastend = p;
+			}
+		} else if (text->line_wrap && (IS_BREAKCHAR(text, *p))) {
+			if ( laststart != lastend
+			     && p != linestart + 1
+			     && gdk_text_width(text->font,
+					       linestart,
+					       p + 1 - linestart)
+			     > text->clip_width ) {
+				text->num_lines ++;
+				linestart = laststart;
+				laststart = p + 1;
+				lastend = p + 1;
+			} else {
+				laststart = p + 1;
+				lastend = p + 1;
 			}
 		} 
 		if (*p == '\n') {
@@ -703,6 +751,25 @@ split_into_lines (EText *text)
 				len ++;
 			}
 			handled = TRUE;
+		} else if (text->line_wrap && (IS_BREAKCHAR(text, *p))) {
+			if ( laststart != lastend
+			     && p != lines->text + 1
+			     && gdk_text_width(text->font,
+					       lines->text,
+					       p + 1 - lines->text)
+			     > text->clip_width ) {
+				lines->length = lastend - lines->text;
+				lines++;
+				line_num++;
+				len = p + 1 - laststart;
+				lines->text = laststart;
+				laststart = p + 1;
+				lastend = p + 1;
+			} else {
+				laststart = p + 1;
+				lastend = p + 1;
+				len ++;
+			}
 		} 
 		if ( line_num >= text->num_lines )
 			break;
@@ -974,6 +1041,16 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		text->line_wrap = GTK_VALUE_BOOL (*arg);
 		text->needs_split_into_lines = 1;
 		break;
+		
+	case ARG_BREAK_CHARACTERS:
+		if ( text->break_characters ) {
+			g_free(text->break_characters);
+			text->break_characters = NULL;
+		}
+		if ( GTK_VALUE_STRING (*arg) )
+			text->break_characters = g_strdup( GTK_VALUE_STRING (*arg) );
+		text->needs_split_into_lines = 1;
+		break;
 
 	case ARG_MAX_LINES:
 		text->max_lines = GTK_VALUE_INT (*arg);
@@ -1090,6 +1167,10 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_LINE_WRAP:
 		GTK_VALUE_BOOL (*arg) = text->line_wrap;
 		break;
+		
+	case ARG_BREAK_CHARACTERS:
+		GTK_VALUE_STRING (*arg) = g_strdup (text->break_characters);
+		break;
 
 	case ARG_MAX_LINES:
 		GTK_VALUE_INT (*arg) = text->max_lines;
@@ -1124,13 +1205,25 @@ e_text_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int fla
 		calc_line_widths(text);
 		text->needs_calc_line_widths = 0;
 		text->needs_recalc_bounds = 1;
+		text->needs_redraw = 1;
 	}
-	if ( text->needs_recalc_bounds ) {
-		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
+	if ( text->needs_recalc_bounds
+	     || (flags & GNOME_CANVAS_UPDATE_AFFINE)) {
 		if (!item->canvas->aa) {
 			set_text_gc_foreground (text);
 			set_stipple (text, text->stipple, TRUE);
 			get_bounds (text, &x1, &y1, &x2, &y2);
+			if ( item->x1 != x1 ||
+			     item->x2 != x2 ||
+			     item->y1 != y1 ||
+			     item->y2 != y2 ) {
+				gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
+				item->x1 = x1;
+				item->y1 = y1;
+				item->x2 = x2;
+				item->y2 = y2;
+				text->needs_redraw = 1;
+			}
 		} else {
 			/* aa rendering */
 			for (i = 0; i < 6; i++)
@@ -1138,12 +1231,7 @@ e_text_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int fla
 			get_bounds_item_relative (text, &i_bbox.x0, &i_bbox.y0, &i_bbox.x1, &i_bbox.y1);
 			art_drect_affine_transform (&c_bbox, &i_bbox, affine);
 		}
-		item->x1 = x1;
-		item->y1 = y1;
-		item->x2 = x2;
-		item->y2 = y2;
 		text->needs_recalc_bounds = 0;
-		text->needs_redraw = 1;
 	}
 	if ( text->needs_redraw ) {
 		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
@@ -1589,12 +1677,16 @@ e_text_point (GnomeCanvasItem *item, double x, double y,
 
 			if (y1 < text->clip_cy)
 				y1 = text->clip_cy;
+			
+			if ( text->clip_width >= 0 ) {
+				if (x2 > (text->clip_cx + text->clip_width))
+					x2 = text->clip_cx + text->clip_width;
+			}
 
-			if (x2 > (text->clip_cx + text->clip_width))
-				x2 = text->clip_cx + text->clip_width;
-
-			if (y2 > (text->clip_cy + text->clip_height))
-				y2 = text->clip_cy + text->clip_height;
+			if ( text->clip_height >= 0 ) {
+				if (y2 > (text->clip_cy + text->clip_height))
+					y2 = text->clip_cy + text->clip_height;
+			}
 
 			if ((x1 >= x2) || (y1 >= y2))
 				continue;
@@ -1645,7 +1737,9 @@ e_text_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double
 
 	if (text->clip) {
 		width = text->clip_width;
-		height = text->clip_height;
+		if ( text->clip_height >= 0 )
+			height = text->clip_height;
+		else height = text->height;
 	} else {
 		width = text->max_width / item->canvas->pixels_per_unit;
 		height = text->height / item->canvas->pixels_per_unit;
@@ -1829,13 +1923,21 @@ _do_tooltip (gpointer data)
 	GtkWidget *label, *vbox;
 	gint x, y, pointer_x, pointer_y, scr_w, scr_h, tip_w, tip_h;
 	int i;
+	gboolean cut_off;
 
 	if (text->editing)
 		return FALSE;
 
 	lines = text->lines;
-
-	if (lines->length <= lines->ellipsis_length)
+	
+	cut_off = FALSE;
+	for ( lines = text->lines, i = 0; i < text->num_lines; lines++, i++ ) {
+		if (lines->length > lines->ellipsis_length) {
+			cut_off = TRUE;
+			break;
+		}
+	}
+	if ( ! cut_off )
 		return FALSE;
 
 	scr_w = gdk_screen_width ();
@@ -1844,6 +1946,7 @@ _do_tooltip (gpointer data)
 
 	text->tooltip_window = gtk_window_new (GTK_WINDOW_POPUP);
 	vbox = gtk_vbox_new (TRUE, 0);
+	lines = text->lines;
 	for (i = 0; i < text->num_lines; i++) {
 		gchar *linetext;
 
@@ -1944,13 +2047,13 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	case GDK_BUTTON_PRESS: /* Fall Through */
 	case GDK_BUTTON_RELEASE:
-		text->tooltip_count --;
-		if ( text->tooltip_count == 0 && text->clip) {
+		if (text->tooltip_timeout) {
 			gtk_timeout_remove (text->tooltip_timeout);
-			if (text->tooltip_window) {
-				gtk_widget_destroy (text->tooltip_window);
-				text->tooltip_window = NULL;
-			}
+			text->tooltip_timeout = 0;
+		}
+		if (text->tooltip_window) {
+			gtk_widget_destroy (text->tooltip_window);
+			text->tooltip_window = NULL;
 		}
 		if ((!text->editing) 
 		    && text->editable 
@@ -2005,10 +2108,9 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		break;
 	case GDK_ENTER_NOTIFY:
-		if ( text->tooltip_count == 0 && text->clip) {
+		if ( text->tooltip_count == 0 && text->clip)
 			text->tooltip_timeout = gtk_timeout_add (1000, _do_tooltip, text);
-			text->tooltip_count ++;
-		}
+		text->tooltip_count ++;
 		text->pointer_in = TRUE;
 		if (text->editing) {
 			if ( text->default_cursor_shown ) {
@@ -2020,7 +2122,10 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_LEAVE_NOTIFY:
 		text->tooltip_count --;
 		if ( text->tooltip_count == 0 && text->clip) {
-			gtk_timeout_remove (text->tooltip_timeout);
+			if ( text->tooltip_timeout ) {
+				gtk_timeout_remove (text->tooltip_timeout);
+				text->tooltip_timeout = 0;
+			}
 			if (text->tooltip_window) {
 				gtk_widget_destroy (text->tooltip_window);
 				text->tooltip_window = NULL;

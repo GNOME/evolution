@@ -64,7 +64,8 @@ BEGIN_GNOME_DECLS
  * use_ellipsis         boolean                 RW              Whether to use ellipsises if text gets cut off.  Meaningless if clip == false.
  * ellipsis             string                  RW              The characters to use as ellipsis.  NULL = "...".
  * line_wrap            boolean                 RW              Line wrap when not editing.
- * max_line_wrap        int                     RW              Number of lines possible when doing line wrap.
+ * break_characters     string                  RW              List of characters to optionally break on.
+ * max_lines            int                     RW              Number of lines possible when doing line wrap.
  */
 
 #define E_TYPE_TEXT            (e_text_get_type ())
@@ -168,6 +169,7 @@ struct _EText {
 	guint default_cursor_shown : 1; /* Is the default cursor currently shown? */
 
 	guint line_wrap : 1;            /* Do line wrap */
+	gchar *break_characters;        /* Characters to optionally break after */
 
 	gint max_lines;                 /* Max number of lines (-1 = infinite) */
 
@@ -182,6 +184,8 @@ struct _EText {
 	guint needs_recalc_bounds : 1;  /* Need recalc_bounds */
 	guint needs_calc_line_widths : 1; /* Needs calc_line_widths */
 	guint needs_split_into_lines : 1; /* Needs split_into_lines */
+
+	gint idle;
 };
 
 struct _ETextClass {
