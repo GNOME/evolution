@@ -3,6 +3,9 @@
 	* executive-summary/*: Removed; this code has not been used since
 	pre-1.0.
 
+	* importers/*: Removed; the actual importers were moved to
+	{mail,calendar}/importers long ago.
+
 	* my-evolution/*: Removed; gone in evolution 2.0.
 
 	* notes/*: Removed; never finished and no one is working on it.
