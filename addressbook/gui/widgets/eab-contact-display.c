@@ -47,6 +47,7 @@ struct _EABContactDisplayPrivate {
 #define IMAGE_COL_WIDTH   "20"
 #define CONTACT_LIST_ICON "contact-list-16.png"
 #define AIM_ICON          "im-aim.png"
+#define GROUPWISE_ICON    "im-nov.png"
 #define ICQ_ICON          "im-icq.png"
 #define JABBER_ICON       "im-jabber.png"
 #define MSN_ICON          "im-msn.png"
@@ -238,11 +239,12 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 
 	render_attribute (html_stream, contact, _("Organization"), E_CONTACT_ORG, NULL, 0);
 	render_attribute (html_stream, contact, _("Position"), E_CONTACT_TITLE, NULL, 0);
-	render_attribute (html_stream, contact, _("ICQ"), E_CONTACT_IM_ICQ_WORK_1, ICQ_ICON, 0);
 	render_attribute (html_stream, contact, _("AIM"), E_CONTACT_IM_AIM_WORK_1, AIM_ICON, 0);
+	render_attribute (html_stream, contact, _("Groupwise"), E_CONTACT_IM_GROUPWISE_WORK_1, GROUPWISE_ICON, 0);
+	render_attribute (html_stream, contact, _("ICQ"), E_CONTACT_IM_ICQ_WORK_1, ICQ_ICON, 0);
+	render_attribute (html_stream, contact, _("Jabber"), E_CONTACT_IM_JABBER_WORK_1, JABBER_ICON, 0);
 	render_attribute (html_stream, contact, _("MSN"), E_CONTACT_IM_MSN_WORK_1, MSN_ICON, 0);
 	render_attribute (html_stream, contact, _("Yahoo"), E_CONTACT_IM_YAHOO_WORK_1, YAHOO_ICON, 0);
-	render_attribute (html_stream, contact, _("Jabber"), E_CONTACT_IM_JABBER_WORK_1, JABBER_ICON, 0);
 	render_attribute (html_stream, contact, _("Video Conferencing"), E_CONTACT_VIDEO_URL, VIDEOCONF_ICON, E_TEXT_TO_HTML_CONVERT_URLS);
 	render_attribute (html_stream, contact, _("Phone"), E_CONTACT_PHONE_BUSINESS, NULL, 0);
 	render_attribute (html_stream, contact, _("Fax"), E_CONTACT_PHONE_BUSINESS_FAX, NULL, 0);
@@ -252,11 +254,12 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 
 	start_block (html_stream, _("personal"));
 
-	render_attribute (html_stream, contact, _("ICQ"), E_CONTACT_IM_ICQ_HOME_1, ICQ_ICON, 0);
 	render_attribute (html_stream, contact, _("AIM"), E_CONTACT_IM_AIM_HOME_1, AIM_ICON, 0);
+	render_attribute (html_stream, contact, _("Groupwise"), E_CONTACT_IM_GROUPWISE_HOME_1, GROUPWISE_ICON, 0);
+	render_attribute (html_stream, contact, _("ICQ"), E_CONTACT_IM_ICQ_HOME_1, ICQ_ICON, 0);
+	render_attribute (html_stream, contact, _("Jabber"), E_CONTACT_IM_JABBER_HOME_1, JABBER_ICON, 0);
 	render_attribute (html_stream, contact, _("MSN"), E_CONTACT_IM_MSN_HOME_1, MSN_ICON, 0);
 	render_attribute (html_stream, contact, _("Yahoo"), E_CONTACT_IM_YAHOO_HOME_1, YAHOO_ICON, 0);
-	render_attribute (html_stream, contact, _("Jabber"), E_CONTACT_IM_JABBER_HOME_1, JABBER_ICON, 0);
 
 	render_attribute (html_stream, contact, _("WWW"), E_CONTACT_HOMEPAGE_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
 	render_attribute (html_stream, contact, _("Blog"), E_CONTACT_BLOG_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
