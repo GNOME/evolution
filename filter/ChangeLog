@@ -1,3 +1,8 @@
+2001-10-29    <NotZed@Ximian.com>
+
+	* rule-editor.c: Some debug printf fixes for printf's that dont
+	like null %s's.
+
 2001-10-28    <NotZed@Ximian.com>
 
 	* filter-context.c (filter_rename_uri): Implement, change any

@@ -493,12 +493,12 @@ set_source (RuleEditor *re, const char *source)
 	
 	gtk_list_clear_items(GTK_LIST(re->list), 0, -1);
 	
-	d(printf("Checking for rules that are of type %s\n", source));
+	d(printf("Checking for rules that are of type %s\n", source?source:"<nil>"));
 	while ((rule = rule_context_next_rule(re->context, rule, source)) != NULL) {
 		GtkWidget *item;
 		char *s;
 		
-		d(printf("   hit %s(%s)\n", rule->name, source));
+		d(printf("   hit %s(%s)\n", rule->name, source?source:"<nil">));
 		s = e_utf8_to_gtk_string (GTK_WIDGET (re->list), U_(rule->name));
 		item = gtk_list_item_new_with_label (s);
 		g_free (s);
