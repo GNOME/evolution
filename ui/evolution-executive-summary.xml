@@ -4,7 +4,7 @@
     <submenu name="Settings">
 
 	<menuitem name="CustomiseMyEvolution" verb="CustomiseMyEvolution"
-	_label="Customise My Evolution"/>
+	_label="Customize My Evolution"/>
 
     </submenu>
 

@@ -1514,7 +1514,7 @@ update_item (EItipControl *itip)
 		dialog = gnome_warning_dialog (_("Object could not be found\n"));
 		break;
 	case CAL_CLIENT_RESULT_PERMISSION_DENIED :
-		dialog = gnome_warning_dialog (_("You don't have permissions to update the calendar\n"));
+		dialog = gnome_warning_dialog (_("You do not have the right permissions to update the calendar\n"));
 		break;
 	case CAL_CLIENT_RESULT_SUCCESS :
 		dialog = gnome_ok_dialog (_("Update complete\n"));
@@ -1606,7 +1606,7 @@ update_attendee_status (EItipControl *itip)
 			dialog = gnome_warning_dialog (_("Object could not be found\n"));
 			break;
 		case CAL_CLIENT_RESULT_PERMISSION_DENIED :
-			dialog = gnome_warning_dialog (_("You don't have permissions to update the calendar\n"));
+			dialog = gnome_warning_dialog (_("You don't have the right permissions to update the calendar\n"));
 			break;
 		case CAL_CLIENT_RESULT_SUCCESS :
 			dialog = gnome_ok_dialog (_("Attendee status updated\n"));

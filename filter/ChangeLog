@@ -1,3 +1,11 @@
+2002-09-30  Aaron Weber  <aaron@ximian.com>
+
+	* filter-folder.c (validate): adjust string on 149 to "You must
+	specify a folder.
+
+	* filter-datespec.c (get_best_span): adjust string on 174 from
+	"You have forgotten to choose a date" to "You must choose a date."
+
 2002-09-25  Dan Winship  <danw@ximian.com>
 
 	* filter-folder.c (get_widget): Use "mail/*" as the allowed folder

@@ -171,7 +171,7 @@ validate (FilterElement *fe)
 	
 	valid = fds->type != FDST_UNKNOWN;
 	if (!valid) {
-		GtkWidget *gd = gnome_ok_dialog (_("You have forgotten to choose a date."));
+		GtkWidget *gd = gnome_ok_dialog (_("You must choose a date."));
 		gnome_dialog_run_and_close (GNOME_DIALOG (gd));
 	}
 	

@@ -1,3 +1,9 @@
+2002-09-30  Aaron Weber  <aaron@ximian.com>
+
+	* evolution-composer.c (evolution_composer_factory_init): adjust string on line 391
+
+	* e-msg-composer.c (create_composer): adjust string on 2872
+
 2002-09-27  Dan Winship  <danw@ximian.com>
 
 	* Evolution-Composer.idl (setHeaders): let the caller set the

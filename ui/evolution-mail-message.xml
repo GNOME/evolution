@@ -142,7 +142,7 @@
      pixtype="pixbuf"/>
 
     <cmd name="PrintSetup"
-     _tip="Setup the page settings for your current printer"
+     _tip="Set up the page settings for your current printer"
      pixtype="pixbuf"/>
 
     <cmd name="ToolsFilterMailingList"

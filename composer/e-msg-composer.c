@@ -2818,7 +2818,9 @@ create_composer (int visible_mask)
 	if (!composer->editor) {
 		e_activation_failure_dialog (GTK_WINDOW (composer),
 					     _("Could not create composer window:\n"
-					       "Unable to activate HTML editor component."),
+					       "Unable to activate HTML editor component.\n"
+					       "Please make sure you have the correct version\n"
+					       "of gtkhtml and libgtkhtml installed.\n"),
 					     GNOME_GTKHTML_EDITOR_CONTROL_ID,
 					     "IDL:Bonobo/Control:1.0");
 		gtk_object_destroy (GTK_OBJECT (composer));

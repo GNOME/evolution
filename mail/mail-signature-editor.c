@@ -369,7 +369,7 @@ mail_signature_editor (MailConfigSignature *sig)
 	hbox = gtk_hbox_new (FALSE, 4);
 	vbox1 = gtk_vbox_new (FALSE, 3);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox1), 3);
-	label = gtk_label_new (_("Type the name by which you would like to refer to this signature."));
+	label = gtk_label_new (_("Enter a name for this signature."));
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
 	gtk_box_pack_start (GTK_BOX (vbox1), label, FALSE, TRUE, 0);
 	label = gtk_label_new (_("Name:"));

@@ -1,3 +1,10 @@
+2002-09-27  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add m4.
+	(ACLOCAL_AMFLAGS): New variable.
+	(EXTRA_DIST): Add config.rpath.
+	* configure.in (AC_OUTPUT): Add po/Makefile.in, m4/Makefile.
+
 2002-09-23  Radek Doulik  <rodo@ximian.com>
 
 	* configure.in: use pkg-config for gtkhtml

@@ -210,8 +210,8 @@ e_addressbook_show_multiple_cards (EBook *book,
 						   GNOME_STOCK_BUTTON_CANCEL,
 						   NULL);
 
-			string = g_strdup_printf (_("You have requested that %d cards be cards. This will cause %d new windows to be\n"
-						    "displayed on your screen. Do you really want to display all of these cards?"), length, length);
+			string = g_strdup_printf (_("Opening %d cards will open %d new windows as well.\n"
+						    "Do you really want to display all of these cards?"), length, length);
 			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), gtk_label_new (string), FALSE, FALSE, 0);
 			g_free (string);
 

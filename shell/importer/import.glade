@@ -19,7 +19,7 @@
   <class>GtkWindow</class>
   <name>importwizard</name>
   <visible>False</visible>
-  <title>Evolution Importer Assistant</title>
+  <title>Evolution Import Assistant</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>

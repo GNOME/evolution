@@ -1,3 +1,10 @@
+2002-09-30  Aaron Weber  <aaron@ximian.com>
+
+	* gui/e-itip-control.c (update_item): adjust string on line 1609
+	and 1517.
+
+	* gui/dialogs/alarm-options.glade: rephrase string on line 270
+
 2002-09-27  Dan Winship  <danw@ximian.com>
 
 	* gui/calendar-commands.c (pixmaps): Remove "/Toolbar/New" and

@@ -252,8 +252,8 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 	}
 	
 	/* FIXME: this wording sucks */
-	str = g_string_new (_("You are sending an HTML-formatted message, but the following recipients "
-			      "do not want HTML-formatted mail:\n"));
+	str = g_string_new (_("You are sending an HTML-formatted message. Please make sure that\n"
+			      "the following recipients are willing and able to receive HTML mail:\n"));
 	for (i = 0; recipients[i] != NULL; ++i) {
 		if (!e_destination_get_html_mail_pref (recipients[i])) {
 			const char *name;

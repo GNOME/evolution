@@ -267,7 +267,7 @@ days
       <class>GtkLabel</class>
       <name>malarm-group</name>
       <visible>False</visible>
-      <label>This is an email reminder, but Evolution does not yet support this kind of reminders.  You will not be able to edit the options for this reminder.</label>
+      <label>Evolution does not yet support email notification for reminders.  You will not be able to edit the options for this reminder.</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>True</wrap>
       <xalign>0.5</xalign>

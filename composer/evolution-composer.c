@@ -405,7 +405,7 @@ evolution_composer_factory_init (void (*send) (EMsgComposer *, gpointer),
 	if (bonobo_generic_factory_new (GNOME_EVOLUTION_MAIL_COMPOSER_FACTORY_ID,
 					factory_fn, NULL) == NULL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot initialize Evolution's composer."));
+			  _("Cannot initialize the Evolution composer."));
 		exit (1);
 	}
 	

@@ -1075,7 +1075,7 @@ component_factory_init (void)
 	result = oaf_active_server_register (COMPONENT_ID, bonobo_object_corba_objref (shell_component));
 	if (result == OAF_REG_ERROR) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot initialize Evolution's mail component."));
+			  _("Cannot initialize the Evolution mail component."));
 		exit (1);
 	} else if (result == OAF_REG_ALREADY_ACTIVE) {
 		g_warning ("evolution-mail is already running");
