@@ -1,5 +1,12 @@
 2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (init): Ref/sink the GtkTooltips.
+
+	* e-uri-schema-registry.c (schema_handler_free): g_object_unref()
+	on the component instead of bonobo_object_unref().
+
+2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (no_views_left_cb): Use bonobo_main_quit() instead of
 	gtk_main_quit().
 	(shell_weak_notify): Likewise.

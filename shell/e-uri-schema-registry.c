@@ -64,7 +64,7 @@ static void
 schema_handler_free (SchemaHandler *handler)
 {
 	g_free (handler->schema);
-	bonobo_object_unref (BONOBO_OBJECT (handler->component));
+	g_object_unref (handler->component);
 
 	g_free (handler);
 }

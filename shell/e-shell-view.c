@@ -1487,6 +1487,8 @@ init (EShellView *shell_view)
 	priv->delayed_selection       = NULL;
 
 	priv->tooltips                = gtk_tooltips_new ();
+	g_object_ref (priv->tooltips);
+	gtk_object_sink (GTK_OBJECT (priv->tooltips));
 
 	priv->appbar                  = NULL;
 	priv->hpaned                  = NULL;
