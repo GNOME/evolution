@@ -54,6 +54,7 @@ libcamel_la_SOURCES = 				\
 	camel-mime-filter-charset.c		\
 	camel-mime-filter-index.c		\
 	camel-mime-filter-from.c		\
+	camel-mime-filter-smtp.c		\
 	camel-stream-filter.c			\
 	camel-address.c				\
 	camel-internet-address.c

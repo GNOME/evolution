@@ -121,14 +121,14 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 				midline = TRUE;
 				if (left < 5) {
 					/* MUST check for upper and lower case F, since our "From " has no case guarentee */
-					if (inptr[0] == 'F' || inptr == 'f' || inptr == '.') {
+					if (*inptr == 'F' || *inptr == '.') {
 						camel_mime_filter_backup(mf, inptr, left);
 						midline = FALSE;
 						inend = inptr;
 						break;
 					}
 				} else {
-					if (!g_strncasecmp(inptr, "From ", 5)) {
+					if (!strncmp(inptr, "From ", 5)) {
 						fromcount++;
 						/* yes, we do alloc them on the stack ... at most we're going to get
 						   len / 7 of them anyway */
@@ -179,7 +179,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 				if (node->type == FROM_NODE) {
 					*outptr++ = '>';
 				} else {
-					*outptr++ = '.'
+					*outptr++ = '.';
 				}
 			}
 			inptr = node->pointer;
