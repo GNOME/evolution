@@ -1,3 +1,15 @@
+2001-04-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-context.h: Update the function prototypes to match
+	those found in camel-pgp-context.c.
+
+	* camel-pgp-context.c: Updated.
+
+	* camel-pgp-mime.c (camel_pgp_mime_part_sign): Implemented.
+	(camel_pgp_mime_part_verify): Implemented.
+	(camel_pgp_mime_part_encrypt): Implemented.
+	(camel_pgp_mime_part_decrypt): Implemented.
+
 2001-04-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-login.[c,h]: New files to handle the LOGIN SASL

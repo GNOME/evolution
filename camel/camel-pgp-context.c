@@ -473,6 +473,7 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
 /**
  * camel_pgp_sign:
  * @context: PGP Context
+ * @userid: private key to use to sign the stream
  * @hash: preferred Message-Integrity-Check hash algorithm
  * @istream: input stream
  * @ostream: output stream

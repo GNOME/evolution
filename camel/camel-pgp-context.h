@@ -74,19 +74,20 @@ CamelType         camel_pgp_context_get_type (void);
 CamelPgpContext  *camel_pgp_context_new (CamelSession *session, CamelPgpType type, const char *path);
 
 /* PGP routines */
-int               camel_pgp_sign (CamelPgpContext *ctx, CamelPgpHashType hash, CamelStream *istream,
-				  CamelStream *ostream, CamelException *ex);
+int               camel_pgp_sign (CamelPgpContext *context, const char *userid, CamelPgpHashType hash,
+				  CamelStream *istream, CamelStream *ostream, CamelException *ex);
 
-int               camel_pgp_clearsign (CamelPgpContext *ctx, CamelPgpHashType hash, CamelStream *istream,
-				       CamelStream *ostream, CamelException *ex);
+int               camel_pgp_clearsign (CamelPgpContext *context, const char *userid, CamelPgpHashType hash,
+				       CamelStream *istream, CamelStream *ostream, CamelException *ex);
 
-CamelPgpValidity *camel_pgp_verify (CamelPgpContext *ctx, CamelStream *istream, CamelStream *sigstream,
+CamelPgpValidity *camel_pgp_verify (CamelPgpContext *context, CamelStream *istream, CamelStream *sigstream,
 				    CamelException *ex);
 
-int               camel_pgp_encrypt (CamelPgpContext *ctx, gboolean sign, CamelPgpHashType hash,
-				     CamelStream *cleartext, CamelStream *ciphertext, CamelException *ex);
+int               camel_pgp_encrypt (CamelPgpContext *context, gboolean sign, const char *userid,
+				     GPtrArray *recipients, CamelStream *istream, CamelStream *ostream,
+				     CamelException *ex);
 
-int               camel_pgp_decrypt (CamelPgpContext *ctx, CamelStream *ciphertext, CamelStream *cleartext,
+int               camel_pgp_decrypt (CamelPgpContext *context, CamelStream *istream, CamelStream *ostream,
 				     CamelException *ex);
 
 /* CamelPgpValidity utility functions */
