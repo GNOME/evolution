@@ -83,10 +83,10 @@ all: $(sgml_generated)
 
 if ENABLE_GTK_DOC
 scan $(scan_generated): $(SOURCE_FILES)
-	-(cd $(srcdir)						\
-	  && env CFLAGS=$(CFLAGS) LDFLAGS=$(LDFLAGS)		\
-		 gtkdoc-scanobj --module=$(DOC_MODULE)		\
-	  && gtkdoc-scan --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR)		\
+	-(ln -sf $(srcdir)/$(DOC_MODULE).types .				\
+	  && env CFLAGS=$(CFLAGS) LDFLAGS=$(LDFLAGS)				\
+		 gtkdoc-scanobj --module=$(DOC_MODULE)				\
+	  && gtkdoc-scan --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR)	\
 			 --ignore-headers="$(IGNORED_HEADER_FILES)" )
 
 templates $(tmpl_sources) $(tmpl_generated): $(tmpl_dependencies)
