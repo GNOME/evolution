@@ -22,6 +22,8 @@
 #include <config.h>
 #endif
 
+#include <glib.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -33,90 +35,180 @@
 #include <errno.h>
 #include <time.h>
 
+#include <camel/camel-utf8.h>
 #include <camel/camel-file-utils.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-mime-filter-crlf.h>
 
-#include "camel-imap-utils.h"
-#include "camel-imap-store.h"
-#include "camel-imap-engine.h"
-#include "camel-imap-folder.h"
-#include "camel-imap-stream.h"
-#include "camel-imap-command.h"
-#include "camel-imap-summary.h"
+#include "camel-imap4-utils.h"
+#include "camel-imap4-store.h"
+#include "camel-imap4-engine.h"
+#include "camel-imap4-folder.h"
+#include "camel-imap4-stream.h"
+#include "camel-imap4-command.h"
+#include "camel-imap4-summary.h"
 
 #define d(x) x
 
-static void camel_imap_folder_class_init (CamelIMAPFolderClass *klass);
-static void camel_imap_folder_init (CamelIMAPFolder *folder, CamelIMAPFolderClass *klass);
-static void camel_imap_folder_finalize (CamelObject *object);
+static void camel_imap4_folder_class_init (CamelIMAP4FolderClass *klass);
+static void camel_imap4_folder_init (CamelIMAP4Folder *folder, CamelIMAP4FolderClass *klass);
+static void camel_imap4_folder_finalize (CamelObject *object);
 
-static void imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
-static void imap_expunge (CamelFolder *folder, CamelException *ex);
-static CamelMimeMessage *imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex);
-static void imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
-				 const CamelMessageInfo *info, char **appended_uid, CamelException *ex);
-static void imap_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest,
-				       GPtrArray **transferred_uids, gboolean delete_originals, CamelException *ex);
+static void imap4_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
+static void imap4_expunge (CamelFolder *folder, CamelException *ex);
+static CamelMimeMessage *imap4_get_message (CamelFolder *folder, const char *uid, CamelException *ex);
+static void imap4_append_message (CamelFolder *folder, CamelMimeMessage *message,
+				  const CamelMessageInfo *info, char **appended_uid, CamelException *ex);
+static void imap4_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest,
+					GPtrArray **transferred_uids, gboolean delete_originals, CamelException *ex);
 
 
 static CamelFolderClass *parent_class = NULL;
 
 
 CamelType
-camel_imap_folder_get_type (void)
+camel_imap4_folder_get_type (void)
 {
 	static CamelType type = 0;
 	
 	if (!type) {
-		type = camel_type_register (CAMEL_TYPE_IMAP_FOLDER,
-					    "CamelIMAPFolder",
-					    sizeof (CamelIMAPFolder),
-					    sizeof (CamelIMAPFolderClass),
-					    (CamelObjectClassInitFunc) camel_imap_folder_class_init,
+		type = camel_type_register (CAMEL_TYPE_IMAP4_FOLDER,
+					    "CamelIMAP4Folder",
+					    sizeof (CamelIMAP4Folder),
+					    sizeof (CamelIMAP4FolderClass),
+					    (CamelObjectClassInitFunc) camel_imap4_folder_class_init,
 					    NULL,
-					    (CamelObjectInitFunc) camel_imap_folder_init,
-					    (CamelObjectFinalizeFunc) camel_imap_folder_finalize);
+					    (CamelObjectInitFunc) camel_imap4_folder_init,
+					    (CamelObjectFinalizeFunc) camel_imap4_folder_finalize);
 	}
 	
 	return type;
 }
 
 static void
-camel_imap_folder_class_init (CamelIMAPFolderClass *klass)
+camel_imap4_folder_class_init (CamelIMAP4FolderClass *klass)
 {
 	CamelFolderClass *folder_class = (CamelFolderClass *) klass;
 	
 	parent_class = (CamelFolderClass *) camel_type_get_global_classfuncs (CAMEL_FOLDER_TYPE);
 	
-	folder_class->sync = imap_sync;
-	folder_class->expunge = imap_expunge;
-	folder_class->get_message = imap_get_message;
-	folder_class->append_message = imap_append_message;
-	folder_class->transfer_messages_to = imap_transfer_messages_to;
+	folder_class->sync = imap4_sync;
+	folder_class->expunge = imap4_expunge;
+	folder_class->get_message = imap4_get_message;
+	folder_class->append_message = imap4_append_message;
+	folder_class->transfer_messages_to = imap4_transfer_messages_to;
 }
 
 static void
-camel_imap_folder_init (CamelIMAPFolder *folder, CamelIMAPFolderClass *klass)
+camel_imap4_folder_init (CamelIMAP4Folder *folder, CamelIMAP4FolderClass *klass)
 {
 	folder->utf7_name = NULL;
 }
 
 static void
-camel_imap_folder_finalize (CamelObject *object)
+camel_imap4_folder_finalize (CamelObject *object)
 {
-	CamelIMAPFolder *folder = (CamelIMAPFolder *) object;
+	CamelIMAP4Folder *folder = (CamelIMAP4Folder *) object;
 	
 	g_free (folder->utf7_name);
 }
+
+static char
+imap4_get_path_delim (CamelIMAP4Engine *engine, const char *full_name)
+{
+	CamelIMAP4Namespace *namespace;
+	const char *slash;
+	size_t len;
+	char *top;
+	
+	if ((slash = strchr (full_name, '/')))
+		len = (slash - full_name);
+	else
+		len = strlen (full_name);
+	
+	top = g_alloca (len + 1);
+	memcpy (top, full_name, len);
+	top[len] = '\0';
+	
+	if (!g_ascii_strcasecmp (top, "INBOX"))
+		top = "INBOX";
+	
+ retry:
+	namespace = engine->namespaces.personal;
+	while (namespace != NULL) {
+		if (!strcmp (namespace->path, top))
+			return namespace->sep;
+		namespace = namespace->next;
+	}
+	
+	namespace = engine->namespaces.other;
+	while (namespace != NULL) {
+		if (!strcmp (namespace->path, top))
+			return namespace->sep;
+		namespace = namespace->next;
+	}
+	
+	namespace = engine->namespaces.shared;
+	while (namespace != NULL) {
+		if (!strcmp (namespace->path, top))
+			return namespace->sep;
+		namespace = namespace->next;
+	}
+	
+	if (top[0] != '\0') {
+		/* look for a default namespace? */
+		top[0] = '\0';
+		goto retry;
+	}
+	
+	return '/';
+}
+
+CamelFolder *
+camel_imap4_folder_new (CamelStore *store, const char *full_name, CamelException *ex)
+{
+	CamelIMAP4Folder *imap_folder;
+	char *utf7_name, *name, *p;
+	char sep;
+	
+	if (!(p = strrchr (full_name, '/')))
+		p = (char *) full_name;
+	else
+		p++;
+	
+	name = g_alloca (strlen (p) + 1);
+	strcpy (name, p);
+	
+	utf7_name = g_alloca (strlen (full_name) + 1);
+	strcpy (utf7_name, full_name);
+	
+	sep = imap4_get_path_delim (((CamelIMAP4Store *) store)->engine, full_name);
+	if (sep != '/') {
+		p = utf7_name;
+		while (*p != '\0') {
+			if (*p == '/')
+				*p = sep;
+			p++;
+		}
+	}
+	
+	utf7_name = camel_utf8_utf7 (utf7_name);
+	
+	imap_folder = (CamelIMAP4Folder *) camel_object_new (CAMEL_TYPE_IMAP4_FOLDER);
+	camel_folder_construct ((CamelFolder *) imap_folder, store, full_name, name);
+	imap_folder->utf7_name = utf7_name;
+	
+	return (CamelFolder *) imap_folder;
+}
+
 
 
 static struct {
 	const char *name;
 	guint32 flag;
-} imap_flags[] = {
+} imap4_flags[] = {
 	{ "\\Answered", CAMEL_MESSAGE_ANSWERED  },
 	{ "\\Deleted",  CAMEL_MESSAGE_DELETED   },
 	{ "\\Draft",    CAMEL_MESSAGE_DRAFT     },
@@ -126,7 +218,7 @@ static struct {
 };
 
 static int
-imap_get_uid_set (CamelIMAPEngine *engine, CamelFolderSummary *summary, GPtrArray *infos, int cur, size_t linelen, char **set)
+imap4_get_uid_set (CamelIMAP4Engine *engine, CamelFolderSummary *summary, GPtrArray *infos, int cur, size_t linelen, char **set)
 {
 	CamelMessageInfo *info;
 	guint32 this, prev, next;
@@ -135,7 +227,7 @@ imap_get_uid_set (CamelIMAPEngine *engine, CamelFolderSummary *summary, GPtrArra
 	int scount, i;
 	size_t len;
 	
-	if (engine->maxlentype == CAMEL_IMAP_ENGINE_MAXLEN_LINE)
+	if (engine->maxlentype == CAMEL_IMAP4_ENGINE_MAXLEN_LINE)
 		len = engine->maxlen - linelen;
 	else
 		len = engine->maxlen;
@@ -206,38 +298,38 @@ imap_get_uid_set (CamelIMAPEngine *engine, CamelFolderSummary *summary, GPtrArra
 }
 
 static int
-imap_sync_flag (CamelFolder *folder, GPtrArray *infos, char onoff, const char *flag, CamelException *ex)
+imap4_sync_flag (CamelFolder *folder, GPtrArray *infos, char onoff, const char *flag, CamelException *ex)
 {
-	CamelIMAPEngine *engine = ((CamelIMAPStore *) folder->parent_store)->engine;
-	CamelIMAPCommand *ic;
+	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) folder->parent_store)->engine;
+	CamelIMAP4Command *ic;
 	int i, id, retval = 0;
 	char *set = NULL;
 	
 	for (i = 0; i < infos->len; ) {
-		i += imap_get_uid_set (engine, folder->summary, infos, i, 30 + strlen (flag), &set);
+		i += imap4_get_uid_set (engine, folder->summary, infos, i, 30 + strlen (flag), &set);
 		
-		ic = camel_imap_engine_queue (engine, folder, "UID STORE %s %cFLAGS.SILENT (%s)\r\n", set, onoff, flag);
-		while ((id = camel_imap_engine_iterate (engine)) < ic->id && id != -1)
+		ic = camel_imap4_engine_queue (engine, folder, "UID STORE %s %cFLAGS.SILENT (%s)\r\n", set, onoff, flag);
+		while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
 			;
 		
 		g_free (set);
 		
-		if (id == -1 || ic->status != CAMEL_IMAP_COMMAND_COMPLETE) {
+		if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
 			camel_exception_xfer (ex, &ic->ex);
-			camel_imap_command_unref (ic);
+			camel_imap4_command_unref (ic);
 			
 			return -1;
 		}
 		
 		switch (ic->result) {
-		case CAMEL_IMAP_RESULT_NO:
+		case CAMEL_IMAP4_RESULT_NO:
 			/* FIXME: would be good to save the NO reason into the err message */
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Cannot sync flags to folder `%s': Unknown"),
 					      folder->full_name);
 			retval = -1;
 			break;
-		case CAMEL_IMAP_RESULT_BAD:
+		case CAMEL_IMAP4_RESULT_BAD:
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Cannot sync flags to folder `%s': Bad command"),
 					      folder->full_name);
@@ -245,7 +337,7 @@ imap_sync_flag (CamelFolder *folder, GPtrArray *infos, char onoff, const char *f
 			break;
 		}
 		
-		camel_imap_command_unref (ic);
+		camel_imap4_command_unref (ic);
 		
 		if (retval == -1)
 			return -1;
@@ -255,9 +347,9 @@ imap_sync_flag (CamelFolder *folder, GPtrArray *infos, char onoff, const char *f
 }
 
 static int
-imap_sync_changes (CamelFolder *folder, GPtrArray *sync, CamelException *ex)
+imap4_sync_changes (CamelFolder *folder, GPtrArray *sync, CamelException *ex)
 {
-	CamelIMAPMessageInfo *iinfo;
+	CamelIMAP4MessageInfo *iinfo;
 	GPtrArray *on_set, *off_set;
 	CamelMessageInfo *info;
 	flags_diff_t diff;
@@ -268,15 +360,15 @@ imap_sync_changes (CamelFolder *folder, GPtrArray *sync, CamelException *ex)
 	off_set = g_ptr_array_new ();
 	
 	/* construct commands to sync system and user flags */
-	for (i = 0; i < G_N_ELEMENTS (imap_flags); i++) {
-		if (!(imap_flags[i].flag & folder->permanent_flags))
+	for (i = 0; i < G_N_ELEMENTS (imap4_flags); i++) {
+		if (!(imap4_flags[i].flag & folder->permanent_flags))
 			continue;
 		
 		for (j = 0; j < sync->len; j++) {
-			iinfo = (CamelIMAPMessageInfo *) info = sync->pdata[j];
-			camel_imap_flags_diff (&diff, iinfo->server_flags, info->flags);
-			if (diff.changed & imap_flags[i].flag) {
-				if (diff.bits & imap_flags[i].flag) {
+			iinfo = (CamelIMAP4MessageInfo *) info = sync->pdata[j];
+			camel_imap4_flags_diff (&diff, iinfo->server_flags, info->flags);
+			if (diff.changed & imap4_flags[i].flag) {
+				if (diff.bits & imap4_flags[i].flag) {
 					g_ptr_array_add (on_set, info);
 				} else {
 					g_ptr_array_add (off_set, info);
@@ -285,14 +377,14 @@ imap_sync_changes (CamelFolder *folder, GPtrArray *sync, CamelException *ex)
 		}
 		
 		if (on_set->len > 0) {
-			if ((retval = imap_sync_flag (folder, on_set, '+', imap_flags[i].name, ex)) == -1)
+			if ((retval = imap4_sync_flag (folder, on_set, '+', imap4_flags[i].name, ex)) == -1)
 				break;
 			
 			g_ptr_array_set_size (on_set, 0);
 		}
 		
 		if (off_set->len > 0) {
-			if ((retval = imap_sync_flag (folder, off_set, '-', imap_flags[i].name, ex)) == -1)
+			if ((retval = imap4_sync_flag (folder, off_set, '-', imap4_flags[i].name, ex)) == -1)
 				break;
 			
 			g_ptr_array_set_size (off_set, 0);
@@ -306,7 +398,7 @@ imap_sync_changes (CamelFolder *folder, GPtrArray *sync, CamelException *ex)
 		return-1;
 	
 	for (i = 0; i < sync->len; i++) {
-		iinfo = (CamelIMAPMessageInfo *) info = sync->pdata[i];
+		iinfo = (CamelIMAP4MessageInfo *) info = sync->pdata[i];
 		info->flags &= ~CAMEL_MESSAGE_FOLDER_FLAGGED;
 		iinfo->server_flags = info->flags & folder->permanent_flags;
 	}
@@ -315,12 +407,12 @@ imap_sync_changes (CamelFolder *folder, GPtrArray *sync, CamelException *ex)
 }
 
 static void
-imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
+imap4_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
-	CamelIMAPEngine *engine = ((CamelIMAPStore *) folder->parent_store)->engine;
-	CamelIMAPMessageInfo *iinfo;
+	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) folder->parent_store)->engine;
+	CamelIMAP4MessageInfo *iinfo;
 	CamelMessageInfo *info;
-	CamelIMAPCommand *ic;
+	CamelIMAP4Command *ic;
 	flags_diff_t diff;
 	GPtrArray *sync;
 	int id, max, i;
@@ -330,10 +422,10 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	sync = g_ptr_array_new ();
 	max = camel_folder_summary_count (folder->summary);
 	for (i = 0; i < max; i++) {
-		iinfo = (CamelIMAPMessageInfo *) info = camel_folder_summary_index (folder->summary, i);
+		iinfo = (CamelIMAP4MessageInfo *) info = camel_folder_summary_index (folder->summary, i);
 		expunge = expunge && (info->flags & CAMEL_MESSAGE_DELETED);
 		if (info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED) {
-			camel_imap_flags_diff (&diff, iinfo->server_flags, info->flags);
+			camel_imap4_flags_diff (&diff, iinfo->server_flags, info->flags);
 			diff.changed &= folder->permanent_flags;
 			
 			/* weed out flag changes that we can't sync to the server */
@@ -347,7 +439,7 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	}
 	
 	if (sync->len > 0) {
-		retval = imap_sync_changes (folder, sync, ex);
+		retval = imap4_sync_changes (folder, sync, ex);
 		
 		for (i = 0; i < sync->len; i++)
 			camel_folder_summary_info_free (folder->summary, sync->pdata[i]);
@@ -361,65 +453,65 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	}
 	
 	if (expunge) {
-		ic = camel_imap_engine_queue (engine, folder, "EXPUNGE\r\n");
-		while ((id = camel_imap_engine_iterate (engine)) < ic->id && id != -1)
+		ic = camel_imap4_engine_queue (engine, folder, "EXPUNGE\r\n");
+		while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
 			;
 		
 		switch (ic->result) {
-		case CAMEL_IMAP_RESULT_NO:
+		case CAMEL_IMAP4_RESULT_NO:
 			/* FIXME: would be good to save the NO reason into the err message */
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Cannot expunge folder `%s': Unknown"),
 					      folder->full_name);
 			break;
-		case CAMEL_IMAP_RESULT_BAD:
+		case CAMEL_IMAP4_RESULT_BAD:
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Cannot expunge folder `%s': Bad command"),
 					      folder->full_name);
 			break;
 		}
 		
-		camel_imap_command_unref (ic);
+		camel_imap4_command_unref (ic);
 	}
 	
 	camel_folder_summary_save (folder->summary);
 }
 
 static void
-imap_expunge (CamelFolder *folder, CamelException *ex)
+imap4_expunge (CamelFolder *folder, CamelException *ex)
 {
-	imap_sync (folder, TRUE, ex);
+	imap4_sync (folder, TRUE, ex);
 }
 
 
 static int
-untagged_fetch (CamelIMAPEngine *engine, CamelIMAPCommand *ic, guint32 index, camel_imap_token_t *token, CamelException *ex)
+untagged_fetch (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guint32 index, camel_imap4_token_t *token, CamelException *ex)
 {
 	CamelStream *fstream, *stream = ic->user_data;
 	CamelMimeFilter *crlf;
 	int left = 2;
 	
-	if (camel_imap_engine_next_token (engine, token, ex) == -1)
+	if (camel_imap4_engine_next_token (engine, token, ex) == -1)
 		return -1;
 	
 	/* parse the FETCH response list */
 	if (token->token != '(') {
-		camel_imap_utils_set_unexpected_token_error (ex, engine, token);
+		camel_imap4_utils_set_unexpected_token_error (ex, engine, token);
 		return -1;
 	}
 	
 	do {
-		if (camel_imap_engine_next_token (engine, token, ex) == -1)
+		if (camel_imap4_engine_next_token (engine, token, ex) == -1)
 			goto exception;
 		
-		if (token->token != CAMEL_IMAP_TOKEN_ATOM)
+		if (token->token != CAMEL_IMAP4_TOKEN_ATOM)
 			goto unexpected;
 		
 		if (!strcmp (token->v.atom, "BODY[]")) {
-			if (camel_imap_engine_next_token (engine, token, ex) == -1)
+			if (camel_imap4_engine_next_token (engine, token, ex) == -1)
 				goto exception;
 			
-			if (token->token != CAMEL_IMAP_TOKEN_LITERAL)
+			if (token->token != CAMEL_IMAP4_TOKEN_LITERAL)
 				goto unexpected;
 			
 			fstream = (CamelStream *) camel_stream_filter_new_with_stream (stream);
@@ -433,10 +525,10 @@ untagged_fetch (CamelIMAPEngine *engine, CamelIMAPCommand *ic, guint32 index, ca
 			
 			left--;
 		} else if (!strcmp (token->v.atom, "UID")) {
-			if (camel_imap_engine_next_token (engine, token, ex) == -1)
+			if (camel_imap4_engine_next_token (engine, token, ex) == -1)
 				goto exception;
 			
-			if (token->token != CAMEL_IMAP_TOKEN_NUMBER || token->v.number == 0)
+			if (token->token != CAMEL_IMAP4_TOKEN_NUMBER || token->v.number == 0)
 				goto unexpected;
 			
 			left--;
@@ -446,7 +538,7 @@ untagged_fetch (CamelIMAPEngine *engine, CamelIMAPCommand *ic, guint32 index, ca
 		}
 	} while (left);
 	
-	if (camel_imap_engine_next_token (engine, token, ex) == -1)
+	if (camel_imap4_engine_next_token (engine, token, ex) == -1)
 		goto exception;
 	
 	if (token->token != ')') {
@@ -458,7 +550,7 @@ untagged_fetch (CamelIMAPEngine *engine, CamelIMAPCommand *ic, guint32 index, ca
 	
  unexpected:
 	
-	camel_imap_utils_set_unexpected_token_error (ex, engine, token);
+	camel_imap4_utils_set_unexpected_token_error (ex, engine, token);
 	
  exception:
 	
@@ -466,48 +558,48 @@ untagged_fetch (CamelIMAPEngine *engine, CamelIMAPCommand *ic, guint32 index, ca
 }
 
 static CamelMimeMessage *
-imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
+imap4_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 {
-	CamelIMAPEngine *engine = ((CamelIMAPStore *) folder->parent_store)->engine;
+	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) folder->parent_store)->engine;
 	CamelMimeMessage *message = NULL;
-	CamelIMAPCommand *ic;
+	CamelIMAP4Command *ic;
 	CamelStream *stream;
 	int id;
 	
-	ic = camel_imap_engine_queue (engine, folder, "UID FETCH %s BODY.PEEK[]\r\n", uid);
-	camel_imap_command_register_untagged (ic, "FETCH", untagged_fetch);
+	ic = camel_imap4_engine_queue (engine, folder, "UID FETCH %s BODY.PEEK[]\r\n", uid);
+	camel_imap4_command_register_untagged (ic, "FETCH", untagged_fetch);
 	ic->user_data = stream = camel_stream_mem_new ();
 	
-	while ((id = camel_imap_engine_iterate (engine)) < ic->id && id != -1)
+	while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
 		;
 	
-	if (id == -1 || ic->status != CAMEL_IMAP_COMMAND_COMPLETE) {
+	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
 		camel_exception_xfer (ex, &ic->ex);
-		camel_imap_command_unref (ic);
+		camel_imap4_command_unref (ic);
 		camel_object_unref (stream);
 		return NULL;
 	}
 	
 	switch (ic->result) {
-	case CAMEL_IMAP_RESULT_OK:
+	case CAMEL_IMAP4_RESULT_OK:
 		camel_stream_reset (stream);
 		message = camel_mime_message_new ();
 		camel_data_wrapper_construct_from_stream ((CamelDataWrapper *) message, stream);
 		break;
-	case CAMEL_IMAP_RESULT_NO:
+	case CAMEL_IMAP4_RESULT_NO:
 		/* FIXME: would be good to save the NO reason into the err message */
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot get message %s from folder `%s': No such message"),
 				      uid, folder->full_name);
 		break;
-	case CAMEL_IMAP_RESULT_BAD:
+	case CAMEL_IMAP4_RESULT_BAD:
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot get message %s from folder `%s': Bad command"),
 				      uid, folder->full_name);
 		break;
 	}
 	
-	camel_imap_command_unref (ic);
+	camel_imap4_command_unref (ic);
 	
 	camel_object_unref (stream);
 	
@@ -520,13 +612,13 @@ static char *tm_months[] = {
 };
 
 static void
-imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
+imap4_append_message (CamelFolder *folder, CamelMimeMessage *message,
 		     const CamelMessageInfo *info, char **appended_uid, CamelException *ex)
 {
-	CamelIMAPEngine *engine = ((CamelIMAPStore *) folder->parent_store)->engine;
-	CamelIMAPSummary *summary = (CamelIMAPSummary *) folder->summary;
-	CamelIMAPRespCode *resp;
-	CamelIMAPCommand *ic;
+	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) folder->parent_store)->engine;
+	CamelIMAP4Summary *summary = (CamelIMAP4Summary *) folder->summary;
+	CamelIMAP4RespCode *resp;
+	CamelIMAP4Command *ic;
 	CamelFolderInfo *fi;
 	CamelException lex;
 	char flags[100], *p;
@@ -538,9 +630,9 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
 	if (info->flags & folder->permanent_flags) {
 		p = g_stpcpy (flags, " (");
 		
-		for (i = 0; i < G_N_ELEMENTS (imap_flags); i++) {
-			if ((info->flags & imap_flags[i].flag) & folder->permanent_flags) {
-				p = g_stpcpy (p, imap_flags[i].name);
+		for (i = 0; i < G_N_ELEMENTS (imap4_flags); i++) {
+			if ((info->flags & imap4_flags[i].flag) & folder->permanent_flags) {
+				p = g_stpcpy (p, imap4_flags[i].name);
 				*p++ = ' ';
 			}
 		}
@@ -586,23 +678,23 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
 	
  retry:
 	
-	if (engine->capa & CAMEL_IMAP_CAPABILITY_UIDPLUS)
-		ic = camel_imap_engine_queue (engine, NULL, "UID APPEND %F%s%s %L\r\n", flags, date, message);
+	if (engine->capa & CAMEL_IMAP4_CAPABILITY_UIDPLUS)
+		ic = camel_imap4_engine_queue (engine, NULL, "UID APPEND %F%s%s %L\r\n", flags, date, message);
 	else
-		ic = camel_imap_engine_queue (engine, NULL, "APPEND %F%s%s %L\r\n", flags, date, message);
+		ic = camel_imap4_engine_queue (engine, NULL, "APPEND %F%s%s %L\r\n", flags, date, message);
 	
-	while ((id = camel_imap_engine_iterate (engine)) < ic->id && id != -1)
+	while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
 		;
 	
-	if (id == -1 || ic->status != CAMEL_IMAP_COMMAND_COMPLETE) {
+	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
 		camel_exception_xfer (ex, &ic->ex);
-		camel_imap_command_unref (ic);
+		camel_imap4_command_unref (ic);
 		return;
 	}
 	
 	switch (ic->result) {
-	case CAMEL_IMAP_RESULT_OK:
-		if (!(engine->capa & CAMEL_IMAP_CAPABILITY_UIDPLUS))
+	case CAMEL_IMAP4_RESULT_OK:
+		if (!(engine->capa & CAMEL_IMAP4_CAPABILITY_UIDPLUS))
 			break;
 		
 		if (!appended_uid)
@@ -610,14 +702,14 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
 		
 		for (i = 0; i < ic->resp_codes->len; i++) {
 			resp = ic->resp_codes->pdata[i];
-			if (resp->code == CAMEL_IMAP_RESP_CODE_APPENDUID) {
+			if (resp->code == CAMEL_IMAP4_RESP_CODE_APPENDUID) {
 				if (resp->v.appenduid.uidvalidity == summary->uidvalidity)
 					*appended_uid = g_strdup_printf ("%u", resp->v.appenduid.uid);
 				break;
 			}
 		}
 		break;
-	case CAMEL_IMAP_RESULT_NO:
+	case CAMEL_IMAP4_RESULT_NO:
 		/* FIXME: can we give the user any more information? */
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot append message to folder `%s': Unknown error"),
@@ -625,7 +717,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
 		
 		for (i = 0; i < ic->resp_codes->len; i++) {
 			resp = ic->resp_codes->pdata[i];
-			if (resp->code == CAMEL_IMAP_RESP_CODE_TRYCREATE) {
+			if (resp->code == CAMEL_IMAP4_RESP_CODE_TRYCREATE) {
 				char *parent_name, *p;
 				
 				parent_name = g_alloca (strlen (folder->full_name) + 1);
@@ -640,14 +732,14 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
 				}
 				
 				camel_store_free_folder_info (folder->parent_store, fi);
-				camel_imap_command_unref (ic);
+				camel_imap4_command_unref (ic);
 				camel_exception_clear (ex);
 				goto retry;
 			}
 		}
 		
 		break;
-	case CAMEL_IMAP_RESULT_BAD:
+	case CAMEL_IMAP4_RESULT_BAD:
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot append message to folder `%s': Bad command"),
 				      folder->full_name);
@@ -657,7 +749,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
 		g_assert_not_reached ();
 	}
 	
-	camel_imap_command_unref (ic);
+	camel_imap4_command_unref (ic);
 }
 
 
@@ -676,13 +768,13 @@ info_uid_sort (const CamelMessageInfo **info0, const CamelMessageInfo **info1)
 }
 
 static void
-imap_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest,
+imap4_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest,
 			   GPtrArray **transferred_uids, gboolean delete_originals, CamelException *ex)
 {
-	CamelIMAPEngine *engine = ((CamelIMAPStore *) src->parent_store)->engine;
+	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) src->parent_store)->engine;
 	int i, j, n, id, dest_namelen;
 	CamelMessageInfo *info;
-	CamelIMAPCommand *ic;
+	CamelIMAP4Command *ic;
 	GPtrArray *infos;
 	char *set;
 	
@@ -701,26 +793,26 @@ imap_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest,
 	
 	g_ptr_array_sort (infos, (GCompareFunc) info_uid_sort);
 	
-	dest_namelen = strlen (camel_imap_folder_utf7_name ((CamelIMAPFolder *) dest));
+	dest_namelen = strlen (camel_imap4_folder_utf7_name ((CamelIMAP4Folder *) dest));
 	
 	for (i = 0; i < infos->len; i += n) {
-		n = imap_get_uid_set (engine, src->summary, infos, i, 10 + dest_namelen, &set);
+		n = imap4_get_uid_set (engine, src->summary, infos, i, 10 + dest_namelen, &set);
 		
-		ic = camel_imap_engine_queue (engine, src, "UID COPY %s %F\r\n", set, dest);
-		while ((id = camel_imap_engine_iterate (engine)) < ic->id && id != -1)
+		ic = camel_imap4_engine_queue (engine, src, "UID COPY %s %F\r\n", set, dest);
+		while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
 			;
 		
 		g_free (set);
 		
-		if (id == -1 || ic->status != CAMEL_IMAP_COMMAND_COMPLETE) {
+		if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
 			camel_exception_xfer (ex, &ic->ex);
-			camel_imap_command_unref (ic);
+			camel_imap4_command_unref (ic);
 			g_free (set);
 			goto done;
 		}
 		
 		switch (ic->result) {
-		case CAMEL_IMAP_RESULT_NO:
+		case CAMEL_IMAP4_RESULT_NO:
 			/* FIXME: would be good to save the NO reason into the err message */
 			if (delete_originals) {
 				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -733,7 +825,7 @@ imap_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest,
 			}
 			
 			goto done;
-		case CAMEL_IMAP_RESULT_BAD:
+		case CAMEL_IMAP4_RESULT_BAD:
 			if (delete_originals) {
 				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 						      _("Cannot move messages from folder `%s' to folder `%s': Bad command"),
@@ -747,7 +839,7 @@ imap_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest,
 			goto done;
 		}
 		
-		camel_imap_command_unref (ic);
+		camel_imap4_command_unref (ic);
 		
 		if (delete_originals) {
 			for (j = i; j < n; j++) {

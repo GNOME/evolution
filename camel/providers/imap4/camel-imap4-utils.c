@@ -26,17 +26,19 @@
 #include <string.h>
 #include <errno.h>
 
-#include "camel-imap-engine.h"
-#include "camel-imap-stream.h"
-#include "camel-imap-command.h"
+#include <camel/camel-store.h>
 
-#include "camel-imap-utils.h"
+#include "camel-imap4-engine.h"
+#include "camel-imap4-stream.h"
+#include "camel-imap4-command.h"
+
+#include "camel-imap4-utils.h"
 
 #define d(x) x
 
 
 void
-camel_imap_flags_diff (flags_diff_t *diff, guint32 old, guint32 new)
+camel_imap4_flags_diff (flags_diff_t *diff, guint32 old, guint32 new)
 {
 	diff->changed = old ^ new;
 	diff->bits = new & diff->changed;
@@ -44,14 +46,14 @@ camel_imap_flags_diff (flags_diff_t *diff, guint32 old, guint32 new)
 
 
 guint32
-camel_imap_flags_merge (flags_diff_t *diff, guint32 flags)
+camel_imap4_flags_merge (flags_diff_t *diff, guint32 flags)
 {
 	return (flags & ~diff->changed) | diff->bits;
 }
 
 
 /**
- * camel_imap_merge_flags:
+ * camel_imap4_merge_flags:
  * @original: original server flags
  * @local: local flags (after changes)
  * @server: new server flags (another client updated the server flags)
@@ -61,18 +63,18 @@ camel_imap_flags_merge (flags_diff_t *diff, guint32 flags)
  * Returns the merged flags.
  **/
 guint32
-camel_imap_merge_flags (guint32 original, guint32 local, guint32 server)
+camel_imap4_merge_flags (guint32 original, guint32 local, guint32 server)
 {
 	flags_diff_t diff;
 	
-	camel_imap_flags_diff (&diff, original, local);
+	camel_imap4_flags_diff (&diff, original, local);
 	
-	return camel_imap_flags_merge (&diff, server);
+	return camel_imap4_flags_merge (&diff, server);
 }
 
 
 void
-camel_imap_utils_set_unexpected_token_error (CamelException *ex, CamelIMAPEngine *engine, camel_imap_token_t *token)
+camel_imap4_utils_set_unexpected_token_error (CamelException *ex, CamelIMAP4Engine *engine, camel_imap4_token_t *token)
 {
 	GString *errmsg;
 	
@@ -84,25 +86,25 @@ camel_imap_utils_set_unexpected_token_error (CamelException *ex, CamelIMAPEngine
 				engine->url->host);
 	
 	switch (token->token) {
-	case CAMEL_IMAP_TOKEN_NIL:
+	case CAMEL_IMAP4_TOKEN_NIL:
 		g_string_append (errmsg, "NIL");
 		break;
-	case CAMEL_IMAP_TOKEN_ATOM:
+	case CAMEL_IMAP4_TOKEN_ATOM:
 		g_string_append (errmsg, token->v.atom);
 		break;
-	case CAMEL_IMAP_TOKEN_FLAG:
+	case CAMEL_IMAP4_TOKEN_FLAG:
 		g_string_append (errmsg, token->v.flag);
 		break;
-	case CAMEL_IMAP_TOKEN_QSTRING:
+	case CAMEL_IMAP4_TOKEN_QSTRING:
 		g_string_append (errmsg, token->v.qstring);
 		break;
-	case CAMEL_IMAP_TOKEN_LITERAL:
+	case CAMEL_IMAP4_TOKEN_LITERAL:
 		g_string_append_printf (errmsg, "{%u}", token->v.literal);
 		break;
-	case CAMEL_IMAP_TOKEN_NUMBER:
+	case CAMEL_IMAP4_TOKEN_NUMBER:
 		g_string_append_printf (errmsg, "%u", token->v.number);
 		break;
-	case CAMEL_IMAP_TOKEN_NO_DATA:
+	case CAMEL_IMAP4_TOKEN_NO_DATA:
 		g_string_append (errmsg, _("No data"));
 		break;
 	default:
@@ -119,7 +121,7 @@ camel_imap_utils_set_unexpected_token_error (CamelException *ex, CamelIMAPEngine
 static struct {
 	const char *name;
 	guint32 flag;
-} imap_flags[] = {
+} imap4_flags[] = {
 	{ "\\Answered", CAMEL_MESSAGE_ANSWERED    },
 	{ "\\Deleted",  CAMEL_MESSAGE_DELETED     },
 	{ "\\Draft",    CAMEL_MESSAGE_DRAFT       },
@@ -133,64 +135,64 @@ static struct {
 static struct {
 	const char *name;
 	guint32 flag;
-} imap_user_flags[] = {
+} imap4_user_flags[] = {
 	{ "Forwarded",  CAMEL_MESSAGE_FORWARDED   },
 };
 #endif
 
 
 int
-camel_imap_parse_flags_list (CamelIMAPEngine *engine, guint32 *flags, CamelException *ex)
+camel_imap4_parse_flags_list (CamelIMAP4Engine *engine, guint32 *flags, CamelException *ex)
 {
-	camel_imap_token_t token;
+	camel_imap4_token_t token;
 	guint32 new = 0;
 	int i;
 	
-	if (camel_imap_engine_next_token (engine, &token, ex) == -1)
+	if (camel_imap4_engine_next_token (engine, &token, ex) == -1)
 		return -1;
 	
 	if (token.token != '(') {
 		d(fprintf (stderr, "Expected to find a '(' token starting the flags list\n"));
-		camel_imap_utils_set_unexpected_token_error (ex, engine, &token);
+		camel_imap4_utils_set_unexpected_token_error (ex, engine, &token);
 		return -1;
 	}
 	
-	if (camel_imap_engine_next_token (engine, &token, ex) == -1)
+	if (camel_imap4_engine_next_token (engine, &token, ex) == -1)
 		return -1;
 	
-	while (token.token == CAMEL_IMAP_TOKEN_ATOM || token.token == CAMEL_IMAP_TOKEN_FLAG) {
+	while (token.token == CAMEL_IMAP4_TOKEN_ATOM || token.token == CAMEL_IMAP4_TOKEN_FLAG) {
 		/* parse the flags list */
-		for (i = 0; i < G_N_ELEMENTS (imap_flags); i++) {
-			if (!strcasecmp (imap_flags[i].name, token.v.atom)) {
-				new |= imap_flags[i].flag;
+		for (i = 0; i < G_N_ELEMENTS (imap4_flags); i++) {
+			if (!strcasecmp (imap4_flags[i].name, token.v.atom)) {
+				new |= imap4_flags[i].flag;
 				break;
 			}
 		}
 		
 #if 0
-		if (i == G_N_ELEMENTS (imap_flags)) {
-			for (i = 0; i < G_N_ELEMENTS (imap_user_flags); i++) {
-				if (!strcasecmp (imap_user_flags[i].name, token.v.atom)) {
-					new |= imap_user_flags[i].flag;
+		if (i == G_N_ELEMENTS (imap4_flags)) {
+			for (i = 0; i < G_N_ELEMENTS (imap4_user_flags); i++) {
+				if (!strcasecmp (imap4_user_flags[i].name, token.v.atom)) {
+					new |= imap4_user_flags[i].flag;
 					break;
 				}
 			}
 			
-			if (i == G_N_ELEMENTS (imap_user_flags))
+			if (i == G_N_ELEMENTS (imap4_user_flags))
 				fprintf (stderr, "Encountered unknown flag: %s\n", token.v.atom);
 		}
 #else
-		if (i == G_N_ELEMENTS (imap_flags))
+		if (i == G_N_ELEMENTS (imap4_flags))
 			fprintf (stderr, "Encountered unknown flag: %s\n", token.v.atom);
 #endif
 		
-		if (camel_imap_engine_next_token (engine, &token, ex) == -1)
+		if (camel_imap4_engine_next_token (engine, &token, ex) == -1)
 			return -1;
 	}
 	
 	if (token.token != ')') {
 		d(fprintf (stderr, "Expected to find a ')' token terminating the flags list\n"));
-		camel_imap_utils_set_unexpected_token_error (ex, engine, &token);
+		camel_imap4_utils_set_unexpected_token_error (ex, engine, &token);
 		return -1;
 	}
 	
@@ -204,19 +206,19 @@ struct {
 	const char *name;
 	guint32 flag;
 } list_flags[] = {
-	{ "\\Marked",        CAMEL_IMAP_FOLDER_MARKED          },
-	{ "\\Unmarked",      CAMEL_IMAP_FOLDER_UNMARKED        },
-	{ "\\Noselect",      CAMEL_IMAP_FOLDER_NOSELECT        },
-	{ "\\Noinferiors",   CAMEL_IMAP_FOLDER_NOINFERIORS     },
-	{ "\\HasChildren",   CAMEL_IMAP_FOLDER_HAS_CHILDREN    },
-	{ "\\HasNoChildren", CAMEL_IMAP_FOLDER_HAS_NO_CHILDREN },
+	{ "\\Marked",        CAMEL_IMAP4_FOLDER_MARKED    },
+	{ "\\Unmarked",      CAMEL_IMAP4_FOLDER_UNMARKED  },
+	{ "\\Noselect",      CAMEL_FOLDER_NOSELECT        },
+	{ "\\Noinferiors",   CAMEL_FOLDER_NOINFERIORS     },
+	{ "\\HasChildren",   CAMEL_FOLDER_CHILDREN        },
+	{ "\\HasNoChildren", CAMEL_FOLDER_NOCHILDREN      },
 };
 
 int
-camel_imap_untagged_list (CamelIMAPEngine *engine, CamelIMAPCommand *ic, guint32 index, camel_imap_token_t *token, CamelException *ex)
+camel_imap4_untagged_list (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guint32 index, camel_imap4_token_t *token, CamelException *ex)
 {
 	GPtrArray *array = ic->user_data;
-	camel_imap_list_t *list;
+	camel_imap4_list_t *list;
 	unsigned char *buf;
 	guint32 flags = 0;
 	GString *literal;
@@ -224,17 +226,17 @@ camel_imap_untagged_list (CamelIMAPEngine *engine, CamelIMAPCommand *ic, guint32
 	size_t n;
 	int i;
 	
-	if (camel_imap_engine_next_token (engine, token, ex) == -1)
+	if (camel_imap4_engine_next_token (engine, token, ex) == -1)
 		return -1;
 	
 	/* parse the flag list */
 	if (token->token != '(')
 		goto unexpected;
 	
-	if (camel_imap_engine_next_token (engine, token, ex) == -1)
+	if (camel_imap4_engine_next_token (engine, token, ex) == -1)
 		return -1;
 	
-	while (token->token == CAMEL_IMAP_TOKEN_FLAG || token->token == CAMEL_IMAP_TOKEN_ATOM) {
+	while (token->token == CAMEL_IMAP4_TOKEN_FLAG || token->token == CAMEL_IMAP4_TOKEN_ATOM) {
 		for (i = 0; i < G_N_ELEMENTS (list_flags); i++) {
 			if (!g_ascii_strcasecmp (list_flags[i].name, token->v.atom)) {
 				flags |= list_flags[i].flag;
@@ -242,7 +244,7 @@ camel_imap_untagged_list (CamelIMAPEngine *engine, CamelIMAPCommand *ic, guint32
 			}
 		}
 		
-		if (camel_imap_engine_next_token (engine, token, ex) == -1)
+		if (camel_imap4_engine_next_token (engine, token, ex) == -1)
 			return -1;
 	}
 	
@@ -250,14 +252,14 @@ camel_imap_untagged_list (CamelIMAPEngine *engine, CamelIMAPCommand *ic, guint32
 		goto unexpected;
 	
 	/* parse the path delimiter */
-	if (camel_imap_engine_next_token (engine, token, ex) == -1)
+	if (camel_imap4_engine_next_token (engine, token, ex) == -1)
 		return -1;
 	
 	switch (token->token) {
-	case CAMEL_IMAP_TOKEN_NIL:
+	case CAMEL_IMAP4_TOKEN_NIL:
 		delim = '\0';
 		break;
-	case CAMEL_IMAP_TOKEN_QSTRING:
+	case CAMEL_IMAP4_TOKEN_QSTRING:
 		delim = *token->v.qstring;
 		break;
 	default:
@@ -265,23 +267,23 @@ camel_imap_untagged_list (CamelIMAPEngine *engine, CamelIMAPCommand *ic, guint32
 	}
 	
 	/* parse the folder name */
-	if (camel_imap_engine_next_token (engine, token, ex) == -1)
+	if (camel_imap4_engine_next_token (engine, token, ex) == -1)
 		return -1;
 	
-	list = g_new (camel_imap_list_t, 1);
+	list = g_new (camel_imap4_list_t, 1);
 	list->flags = flags;
 	list->delim = delim;
 	
 	switch (token->token) {
-	case CAMEL_IMAP_TOKEN_ATOM:
+	case CAMEL_IMAP4_TOKEN_ATOM:
 		list->name = g_strdup (token->v.atom);
 		break;
-	case CAMEL_IMAP_TOKEN_QSTRING:
+	case CAMEL_IMAP4_TOKEN_QSTRING:
 		list->name = g_strdup (token->v.qstring);
 		break;
-	case CAMEL_IMAP_TOKEN_LITERAL:
+	case CAMEL_IMAP4_TOKEN_LITERAL:
 		literal = g_string_new ("");
-		while ((i = camel_imap_stream_literal (engine->istream, &buf, &n)) == 1)
+		while ((i = camel_imap4_stream_literal (engine->istream, &buf, &n)) == 1)
 			g_string_append_len (literal, buf, n);
 		
 		if (i == -1) {
@@ -303,11 +305,11 @@ camel_imap_untagged_list (CamelIMAPEngine *engine, CamelIMAPCommand *ic, guint32
 	
 	g_ptr_array_add (array, list);
 	
-	return camel_imap_engine_eat_line (engine, ex);
+	return camel_imap4_engine_eat_line (engine, ex);
 	
  unexpected:
 	
-	camel_imap_utils_set_unexpected_token_error (ex, engine, token);
+	camel_imap4_utils_set_unexpected_token_error (ex, engine, token);
 	
 	return -1;
 }

@@ -18,8 +18,8 @@
  */
 
 
-#ifndef __CAMEL_IMAP_STORE_H__
-#define __CAMEL_IMAP_STORE_H__
+#ifndef __CAMEL_IMAP4_STORE_H__
+#define __CAMEL_IMAP4_STORE_H__
 
 #include <camel/camel-store.h>
 
@@ -28,34 +28,34 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#define CAMEL_TYPE_IMAP_STORE            (camel_imap_store_get_type ())
-#define CAMEL_IMAP_STORE(obj)            (CAMEL_CHECK_CAST ((obj), CAMEL_TYPE_IMAP_STORE, CamelIMAPStore))
-#define CAMEL_IMAP_STORE_CLASS(klass)    (CAMEL_CHECK_CLASS_CAST ((klass), CAMEL_TYPE_IMAP_STORE, CamelIMAPStoreClass))
-#define CAMEL_IS_IMAP_STORE(obj)         (CAMEL_CHECK_TYPE ((obj), CAMEL_TYPE_IMAP_STORE))
-#define CAMEL_IS_IMAP_STORE_CLASS(klass) (CAMEL_CHECK_CLASS_TYPE ((klass), CAMEL_TYPE_IMAP_STORE))
-#define CAMEL_IMAP_STORE_GET_CLASS(obj)  (CAMEL_CHECK_GET_CLASS ((obj), CAMEL_TYPE_IMAP_STORE, CamelIMAPStoreClass))
+#define CAMEL_TYPE_IMAP4_STORE            (camel_imap4_store_get_type ())
+#define CAMEL_IMAP4_STORE(obj)            (CAMEL_CHECK_CAST ((obj), CAMEL_TYPE_IMAP4_STORE, CamelIMAP4Store))
+#define CAMEL_IMAP4_STORE_CLASS(klass)    (CAMEL_CHECK_CLASS_CAST ((klass), CAMEL_TYPE_IMAP4_STORE, CamelIMAP4StoreClass))
+#define CAMEL_IS_IMAP4_STORE(obj)         (CAMEL_CHECK_TYPE ((obj), CAMEL_TYPE_IMAP4_STORE))
+#define CAMEL_IS_IMAP4_STORE_CLASS(klass) (CAMEL_CHECK_CLASS_TYPE ((klass), CAMEL_TYPE_IMAP4_STORE))
+#define CAMEL_IMAP4_STORE_GET_CLASS(obj)  (CAMEL_CHECK_GET_CLASS ((obj), CAMEL_TYPE_IMAP4_STORE, CamelIMAP4StoreClass))
 
-typedef struct _CamelIMAPStore CamelIMAPStore;
-typedef struct _CamelIMAPStoreClass CamelIMAPStoreClass;
+typedef struct _CamelIMAP4Store CamelIMAP4Store;
+typedef struct _CamelIMAP4StoreClass CamelIMAP4StoreClass;
 
-struct _CamelIMAPEngine;
+struct _CamelIMAP4Engine;
 
-struct _CamelIMAPStore {
+struct _CamelIMAP4Store {
 	CamelStore parent_object;
 	
-	struct _CamelIMAPEngine *engine;
+	struct _CamelIMAP4Engine *engine;
 };
 
-struct _CamelIMAPStoreClass {
+struct _CamelIMAP4StoreClass {
 	CamelStoreClass parent_class;
 	
 };
 
 
-CamelType camel_imap_store_get_type (void);
+CamelType camel_imap4_store_get_type (void);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* __CAMEL_IMAP_STORE_H__ */
+#endif /* __CAMEL_IMAP4_STORE_H__ */

@@ -1,5 +1,16 @@
 2004-03-29  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap4/camel-imap4-folder.c (camel_imap4_folder_new):
+	Implemented.
+
+	* providers/imap4/camel-imap4-engine.c (engine_parse_namespace):
+	If the namespace begins with "INBOX", canonicalise the INBOX
+	portion (ie, make it all caps).
+
+	* providers/imap4/camel-imap4-store.c (imap4_noop): Implemented.
+
+2004-03-29  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/imap/camel-imap-store.c (get_folder_status): Updated
 	to actually parse the STATUS response into a list of item/value
 	pairs.

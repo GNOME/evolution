@@ -27,7 +27,7 @@
 #include <camel/camel-sasl.h>
 #include <camel/camel-provider.h>
 
-#include "camel-imap-store.h"
+#include "camel-imap4-store.h"
 
 
 CamelProviderConfEntry imap4_conf_entries[] = {
@@ -52,7 +52,7 @@ static CamelProvider imap4_provider = {
 	"imap4",
 	N_("IMAPv4rev1"),
 	
-	N_("For reading and storing mail on IMAPv4rev1 servers."),
+	N_("For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"),
 	
 	"mail",
 	
@@ -69,7 +69,7 @@ static CamelProvider imap4_provider = {
 CamelServiceAuthType camel_imap4_password_authtype = {
 	N_("Password"),
 	
-	N_("This option will connect to the IMAP server using a "
+	N_("This option will connect to the IMAPv4rev1 server using a "
 	   "plaintext password."),
 	
 	"",
@@ -85,7 +85,7 @@ add_hash (guint *hash, char *s)
 }
 
 static guint
-imap_url_hash (gconstpointer key)
+imap4_url_hash (gconstpointer key)
 {
 	const CamelURL *u = (CamelURL *)key;
 	guint hash = 0;
@@ -115,7 +115,7 @@ check_equal (char *s1, char *s2)
 }
 
 static gint
-imap_url_equal (gconstpointer a, gconstpointer b)
+imap4_url_equal (gconstpointer a, gconstpointer b)
 {
 	const CamelURL *u1 = a, *u2 = b;
 	
@@ -129,9 +129,9 @@ imap_url_equal (gconstpointer a, gconstpointer b)
 void
 camel_provider_module_init (void)
 {
-	imap4_provider.object_types[CAMEL_PROVIDER_STORE] = camel_imap_store_get_type ();
-	imap4_provider.url_hash = imap_url_hash;
-	imap4_provider.url_equal = imap_url_equal;
+	imap4_provider.object_types[CAMEL_PROVIDER_STORE] = camel_imap4_store_get_type ();
+	imap4_provider.url_hash = imap4_url_hash;
+	imap4_provider.url_equal = imap4_url_equal;
 	imap4_provider.authtypes = camel_sasl_authtype_list (FALSE);
 	imap4_provider.authtypes = g_list_prepend (imap4_provider.authtypes, &camel_imap4_password_authtype);
 	

@@ -24,14 +24,14 @@
 
 #include <string.h>
 
-#include "camel-imap-specials.h"
+#include "camel-imap4-specials.h"
 
 #define CHARS_ATOM_SPECIALS   "(){]"
 #define CHARS_LWSP            " \t\r\n"
 #define CHARS_QUOTED_SPECIALS "\\\""
 #define CHARS_LIST_WILDCARDS  "*%"
 
-unsigned char camel_imap_specials[256] = {
+unsigned char camel_imap4_specials[256] = {
 	  2,  2,  2,  2,  2,  2,  2,  2,  2,  6,  6,  2,  2,  6,  2,  2,
           2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,
          20,  0,  8,  0,  0, 32,  0,  0,  1,  1, 32,  0,  0,  0,  0,  0,
@@ -52,28 +52,28 @@ unsigned char camel_imap_specials[256] = {
 
 
 static void
-imap_init_bits (unsigned short bit, unsigned short bitcopy, int remove, unsigned char *vals)
+imap4_init_bits (unsigned short bit, unsigned short bitcopy, int remove, unsigned char *vals)
 {
 	int i, len = strlen (vals);
 	
 	if (!remove) {
 		for (i = 0; i < len; i++)
-			camel_imap_specials[vals[i]] |= bit;
+			camel_imap4_specials[vals[i]] |= bit;
 		if (bitcopy) {
 			for (i = 0; i < 256; i++) {
-				if (camel_imap_specials[i] & bitcopy)
-					camel_imap_specials[i] |= bit;
+				if (camel_imap4_specials[i] & bitcopy)
+					camel_imap4_specials[i] |= bit;
 			}
 		}
 	} else {
 		for (i = 0; i < 256; i++)
-			camel_imap_specials[i] |= bit;
+			camel_imap4_specials[i] |= bit;
 		for (i = 0; i < len; i++)
-			camel_imap_specials[vals[i]] &= ~bit;
+			camel_imap4_specials[vals[i]] &= ~bit;
 		if (bitcopy) {
 			for (i = 0; i < 256; i++) {
-				if (camel_imap_specials[i] & bitcopy)
-					camel_imap_specials[i] &= ~bit;
+				if (camel_imap4_specials[i] & bitcopy)
+					camel_imap4_specials[i] &= ~bit;
 			}
 		}
 	}
@@ -81,20 +81,20 @@ imap_init_bits (unsigned short bit, unsigned short bitcopy, int remove, unsigned
 
 
 void
-camel_imap_specials_init (void)
+camel_imap4_specials_init (void)
 {
 	int i;
 	
 	for (i = 0; i < 256; i++) {
-		camel_imap_specials[i] = 0;
+		camel_imap4_specials[i] = 0;
 		if (i <= 0x1f || i >= 0x7f)
-			camel_imap_specials[i] |= IS_CTRL;
+			camel_imap4_specials[i] |= IS_CTRL;
 	}
 	
-	camel_imap_specials[' '] |= IS_SPACE;
+	camel_imap4_specials[' '] |= IS_SPACE;
 	
-	imap_init_bits (IS_LWSP, 0, 0, CHARS_LWSP);
-	imap_init_bits (IS_ASPECIAL, 0, 0, CHARS_ATOM_SPECIALS);
-	imap_init_bits (IS_QSPECIAL, 0, 0, CHARS_QUOTED_SPECIALS);
-	imap_init_bits (IS_WILDCARD, 0, 0, CHARS_LIST_WILDCARDS);
+	imap4_init_bits (IS_LWSP, 0, 0, CHARS_LWSP);
+	imap4_init_bits (IS_ASPECIAL, 0, 0, CHARS_ATOM_SPECIALS);
+	imap4_init_bits (IS_QSPECIAL, 0, 0, CHARS_QUOTED_SPECIALS);
+	imap4_init_bits (IS_WILDCARD, 0, 0, CHARS_LIST_WILDCARDS);
 }

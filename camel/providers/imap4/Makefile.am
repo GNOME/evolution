@@ -17,23 +17,23 @@ INCLUDES = 					\
 	-DG_LOG_DOMAIN=\"camel-imap4-provider\"
 
 libcamelimap4_la_SOURCES = 			\
-	camel-imap-command.c			\
-	camel-imap-command.h			\
-	camel-imap-engine.c			\
-	camel-imap-engine.h			\
-	camel-imap-folder.c			\
-	camel-imap-folder.h			\
-	camel-imap-provider.c			\
-	camel-imap-specials.c			\
-	camel-imap-specials.h			\
-	camel-imap-store.c			\
-	camel-imap-store.h			\
-	camel-imap-stream.c			\
-	camel-imap-stream.h			\
-	camel-imap-summary.c			\
-	camel-imap-summary.h			\
-	camel-imap-utils.c			\
-	camel-imap-utils.h
+	camel-imap4-command.c			\
+	camel-imap4-command.h			\
+	camel-imap4-engine.c			\
+	camel-imap4-engine.h			\
+	camel-imap4-folder.c			\
+	camel-imap4-folder.h			\
+	camel-imap4-provider.c			\
+	camel-imap4-specials.c			\
+	camel-imap4-specials.h			\
+	camel-imap4-store.c			\
+	camel-imap4-store.h			\
+	camel-imap4-stream.c			\
+	camel-imap4-stream.h			\
+	camel-imap4-summary.c			\
+	camel-imap4-summary.h			\
+	camel-imap4-utils.c			\
+	camel-imap4-utils.h
 
 libcamelimap4_la_LDFLAGS = -avoid-version -module
 
