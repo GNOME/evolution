@@ -35,6 +35,7 @@ AC_DEFUN([GNOME_X_CHECKS],
         LDFLAGS="$saved_ldflags $GTK_LIBS"
 
 dnl We are requiring GTK >= 1.1.1, which means this will be fine anyhow.
+	USE_DEVGTK=true
 
 dnl	AC_MSG_CHECKING([whether to use features from (unstable) GTK+ 1.1.x])
 dnl	AC_EGREP_CPP(answer_affirmatively,

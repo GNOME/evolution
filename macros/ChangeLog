@@ -1,3 +1,7 @@
+1998-08-04  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-x-checks.m4: Define USE_DEVGTK unconditionally to `true'.
+
 1998-08-04  Stuart Parmenter  <pavlov@innerx.net>
 
 	* gnome-x-checks.m4: (AM_PATH_GTK) make it require GTK >= 1.1.1
