@@ -17,7 +17,8 @@ INCLUDES =						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	$(WOMBAT_CFLAGS)
 
-libexec_PROGRAMS =	\
+evolibexecdir = $(libexecdir)/evolution/$(BASE_VERSION)
+evolibexec_PROGRAMS =	\
 	evolution-wombat
 
 evolution_wombat_SOURCES = \

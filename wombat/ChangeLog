@@ -1,3 +1,8 @@
+2003-01-29  Rodney Dawes  <dobey@ximian.com>
+
+	* Makefile.am: Install wombat to
+	$(libexecdir)/evolution/$(BASE_VERSION)
+	
 2003-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Rename wombat to evolution-wombat.
