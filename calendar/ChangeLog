@@ -1,3 +1,12 @@
+2001-07-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_*_clipboard): fixed clibpoard
+	command activation from the menu entries. CTRL-C and CTRL-X don't
+	work though, since it seems the key presses are being captured by
+	the text item
+
+	gui/e-week-view.c (e_week_view_*_clipboard): ditto
+
 2001-06-30  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/e-week-view-event-item.c

@@ -1646,22 +1646,53 @@ e_week_view_set_24_hour_format	(EWeekView	*week_view,
 void
 e_week_view_cut_clipboard (EWeekView *week_view)
 {
+	EWeekViewEvent *event;
+	char *uid;
+
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-	e_week_view_on_cut (NULL, week_view);
+
+	if (week_view->editing_event_num == -1)
+		return;
+
+	event = &g_array_index (week_view->events, EWeekViewEvent,
+				week_view->editing_event_num);
+	if (event == NULL)
+		return;
+
+	e_week_view_copy_clipboard (week_view);
+	cal_component_get_uid (event->comp, &uid);
+	cal_client_remove_object (week_view->client, uid);
 }
 
 void
 e_week_view_copy_clipboard (EWeekView *week_view)
 {
+	EWeekViewEvent *event;
+	char *comp_str;
+
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-	e_week_view_on_copy (NULL, week_view);
+
+	event = &g_array_index (week_view->events, EWeekViewEvent,
+				week_view->editing_event_num);
+	if (event == NULL)
+		return;
+
+	comp_str = cal_component_get_as_string (event->comp);
+	if (week_view->clipboard_selection != NULL)
+		g_free (week_view->clipboard_selection);
+	week_view->clipboard_selection = comp_str;
+	gtk_selection_owner_set (week_view->invisible, clipboard_atom, GDK_CURRENT_TIME);
 }
 
 void
 e_week_view_paste_clipboard (EWeekView *week_view)
 {
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-	e_week_view_on_paste (NULL, week_view);
+
+	gtk_selection_convert (week_view->invisible,
+			       clipboard_atom,
+			       GDK_SELECTION_TYPE_STRING,
+			       GDK_CURRENT_TIME);
 }
 
 

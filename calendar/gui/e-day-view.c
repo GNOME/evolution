@@ -2538,25 +2538,69 @@ e_day_view_set_week_start_day	(EDayView	*day_view,
 		e_day_view_recalc_work_week (day_view);
 }
 
+static EDayViewEvent *
+get_current_event (EDayView *day_view)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), NULL);
+
+	if (day_view->editing_event_num == -1)
+		return NULL;
+
+	if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT)
+		return &g_array_index (day_view->long_events,
+				       EDayViewEvent,
+				       day_view->editing_event_num);
+	else
+		return &g_array_index (day_view->events[day_view->editing_event_day],
+				       EDayViewEvent,
+				       day_view->editing_event_num);
+}
+
 void
 e_day_view_cut_clipboard (EDayView *day_view)
 {
+	EDayViewEvent *event;
+	char *uid;
+
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-	e_day_view_on_cut (NULL, day_view);
+
+	event = get_current_event (day_view);
+	if (event == NULL)
+		return;
+
+	e_day_view_copy_clipboard (day_view);
+	cal_component_get_uid (event->comp, &uid);
+	cal_client_remove_object (day_view->client, uid);
 }
 
 void
 e_day_view_copy_clipboard (EDayView *day_view)
 {
+	EDayViewEvent *event;
+	char *comp_str;
+
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-	e_day_view_on_copy (NULL, day_view);
+
+	event = get_current_event (day_view);
+	if (event == NULL)
+		return;
+
+	comp_str = cal_component_get_as_string (event->comp);
+	if (day_view->clipboard_selection != NULL)
+		g_free (day_view->clipboard_selection);
+	day_view->clipboard_selection = comp_str;
+	gtk_selection_owner_set (day_view->invisible, clipboard_atom, GDK_CURRENT_TIME);
 }
 
 void
 e_day_view_paste_clipboard (EDayView *day_view)
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-	e_day_view_on_paste (NULL, day_view);
+
+	gtk_selection_convert (day_view->invisible,
+			       clipboard_atom,
+			       GDK_SELECTION_TYPE_STRING,
+			       GDK_CURRENT_TIME);
 }
 
 static void
@@ -3413,15 +3457,15 @@ e_day_view_on_cut (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
-	const char *uid;
+	char *uid;
 
 	day_view = E_DAY_VIEW (data);
-
-	e_day_view_on_copy (widget, data);
 
 	event = e_day_view_get_popup_menu_event (day_view);
 	if (event == NULL)
 		return;
+
+	e_day_view_on_copy (widget, data);
 
 	cal_component_get_uid (event->comp, &uid);
 	cal_client_remove_object (day_view->client, uid);
