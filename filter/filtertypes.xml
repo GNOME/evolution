@@ -56,7 +56,7 @@
  </part>
 
  <part name="header">
-   <title>Header</title>
+   <title>Message header</title>
    <input type="string" name="header-field"/>
    <input type="optionlist" name="header-type">
     <option value="contains">

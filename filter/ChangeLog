@@ -1,5 +1,10 @@
 2000-09-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filtertypes.xml: Changed "Header" to be "Message header" so it's
+	not quite as confusing (??)
+
+2000-09-11  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* filtertypes.xml: Updated to allow the user to specify arbitrary
 	headers.
 
