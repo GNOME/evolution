@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution for latvian\n"
 "POT-Creation-Date: 2001-12-18 17:59-0500\n"
-"PO-Revision-Date: 2001-11-30 20:06GMT\n"
+"PO-Revision-Date: 2002-01-09 22:43GMT\n"
 "Last-Translator: \n"
 "Language-Team:  <lv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -269,7 +269,7 @@ msgstr "Iesauka"
 #: addressbook/backend/ebook/e-card-simple.c:96
 #: addressbook/gui/widgets/e-addressbook-view.c:885
 msgid "Spouse"
-msgstr ""
+msgstr "Spouse"
 
 #: addressbook/backend/ebook/e-card-simple.c:97
 #: addressbook/gui/widgets/e-addressbook-view.c:886
@@ -448,6 +448,8 @@ msgid ""
 "\n"
 "Delivery Label: "
 msgstr ""
+"\n"
+"Nosûtijuma Nosaukums: "
 
 #: addressbook/backend/ebook/e-card.c:3777
 msgid ""
@@ -815,8 +817,7 @@ msgid "Email Address:"
 msgstr "Epasta adrese:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:10
-msgid ""
-"Evolution will use this email address to authenticate you with the server"
+msgid "Evolution will use this email address to authenticate you with the server"
 msgstr "Evolution lietos ðo epasta adresi lai autentificçtu jûs ar serveri"
 
 #: addressbook/gui/component/addressbook-config.glade.h:11
@@ -841,8 +842,7 @@ msgstr "Apakð"
 
 #: addressbook/gui/component/addressbook-config.glade.h:16
 msgid "The information below is required in order to add an addressbook.  "
-msgstr ""
-"Zemâk pieprasîtâ informâcija ir nepiecieðama, lai pievienotu adreðu grâmatu."
+msgstr "Zemâk pieprasîtâ informâcija ir nepiecieðama, lai pievienotu adreðu grâmatu."
 
 #: addressbook/gui/component/addressbook-config.glade.h:17
 msgid "This information is not required for most ldap servers. "
@@ -938,25 +938,24 @@ msgstr ""
 "ir izslçgts"
 
 #: addressbook/gui/component/addressbook.c:499
-#, fuzzy
 msgid ""
 "This version of Evolution does not have LDAP support\n"
 "compiled in to it.  If you want to use LDAP in Evolution\n"
 "you must compile the program from the CVS sources after\n"
 "retrieving OpenLDAP from the link below.\n"
 msgstr ""
-"\n"
-" Ja\n"
-" pçc\n"
+"Ðai Evolution versijai nav iekompilçts LDAP atbalsts.\n"
+"Ja jûs gribat lietot LDAP Evolution programmâ,\n"
+"jums ir jâkompilç programma no CVS avota pçc OpenLDAP\n"
+"dabûðanas no saites lejup.\n"
 
 #: addressbook/gui/component/addressbook.c:507
-#, fuzzy
 msgid ""
 "We were unable to open this addressbook.  Please check that the\n"
 "path exists and that you have permission to access it."
 msgstr ""
-"Tr\n"
-" eksistç."
+"Mçs nespçjâm atvçrt ðo adreðu grâmatu. Lûdzu pârbaudiet\n"
+"vai ðis ceïð eksistç un vai jums ir atïauja atvçrt to."
 
 #: addressbook/gui/component/addressbook.c:640
 #, c-format
@@ -1056,12 +1055,11 @@ msgstr "Aktivizçt Vaicâjumus (Bîstami)"
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:1
 msgid "Evolution's addressbook name selection interface."
-msgstr ""
+msgstr "Evolution adreðu grâmatas vârda izvçles interfeiss."
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:2
-#, fuzzy
 msgid "Factory for the Addressbook's name selection interface"
-msgstr "Adreðu grâmata"
+msgstr "Raþotne Adreðu grâmatas vârda izvçles interfeisam"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:163
 #: addressbook/gui/component/select-names/e-select-names.c:838
@@ -1146,9 +1144,8 @@ msgid "Select Names"
 msgstr "Izvçleties Vârdu"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
-#, fuzzy
 msgid "Show contacts matching the following criteria:"
-msgstr "Parâdît:"
+msgstr "Parâdît kontaktus sekojot ðâdiem kritçrijiem:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:6
 msgid "_Category:"
@@ -1163,28 +1160,24 @@ msgid "_Message Recipients:"
 msgstr "_Vçstules Saturs:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
-#, fuzzy
 msgid "A_ssistant's name:"
-msgstr "_Asistenta vârds:"
+msgstr "A_sistenta vârds:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
-#, fuzzy
 msgid "Add_ress..."
-msgstr "_Adrese..."
+msgstr "Ad_rese..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "Anni_versary:"
 msgstr "Ikga_dçjs:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
-#, fuzzy
 msgid "Birthda_y:"
 msgstr "_Dzimðanas diena:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
-#, fuzzy
 msgid "C_ontacts..."
-msgstr "_Kontakti..."
+msgstr "K_ontakti..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
 #: calendar/gui/dialogs/event-page.glade.h:3
@@ -1203,9 +1196,8 @@ msgid "Contact Editor"
 msgstr "Kontaktu Redaktors"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
-#, fuzzy
 msgid "D_epartment:"
-msgstr "_Departament:"
+msgstr "D_epartaments:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: calendar/gui/dialogs/task-editor.c:183
@@ -1221,9 +1213,8 @@ msgid "File A_s:"
 msgstr "Fail_s Kâ:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
-#, fuzzy
 msgid "Full _Name..."
-msgstr "_Pilns Vârds..."
+msgstr "Pil_ns Vârds..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "General"
@@ -1252,9 +1243,8 @@ msgid "Organi_zation:"
 msgstr "Orani_zâcija:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:24
-#, fuzzy
 msgid "P_rofession:"
-msgstr "_Profesija"
+msgstr "P_rofesija:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "Phone Types"
@@ -1265,7 +1255,6 @@ msgid "S_pouse:"
 msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
-#, fuzzy
 msgid "This is the _mailing address"
 msgstr "Ðî ir pas_ta adrese"
 
@@ -1319,18 +1308,16 @@ msgid "Delete Contact?"
 msgstr "Dzçst Kontaktu?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:757
-#, fuzzy
 msgid "Category editor not available."
-msgstr "Apraksts nav pieejams."
+msgstr "Kategoriju redaktors nav pieejams."
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:764
 msgid "This contact belongs to these categories:"
 msgstr "Ðis kontakts pieder ðâdâm kategorijâm:"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:978
-#, fuzzy
 msgid "Save Contact as VCard"
-msgstr "Saglabât kâ VKarti"
+msgstr "Saglabât Konaktu kâ VKarti"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1662
 msgid "TTY/TDD"
@@ -2527,9 +2514,8 @@ msgid "Contact List Editor"
 msgstr "Kontaktu Saraksta Redaktors"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:428
-#, fuzzy
 msgid "Save List as VCard"
-msgstr "Saglabât kâ VKarti"
+msgstr "Saglabât Sarakstu kâ VKarti"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 msgid "Add Anyway"
@@ -2898,7 +2884,7 @@ msgstr "Iekïaut:"
 
 #: addressbook/printing/e-contact-print.glade.h:18
 msgid "Landscape"
-msgstr ""
+msgstr "Ainavveida"
 
 #: addressbook/printing/e-contact-print.glade.h:19
 msgid "Left:"
@@ -3018,7 +3004,7 @@ msgstr "Drukât aploksni"
 #.
 #: calendar/zones.h:7
 msgid "Africa/Abidjan"
-msgstr ""
+msgstr "Âfrika/Abidjaòu"
 
 #: calendar/zones.h:8
 msgid "Africa/Accra"
@@ -3066,11 +3052,11 @@ msgstr ""
 
 #: calendar/zones.h:19
 msgid "Africa/Cairo"
-msgstr ""
+msgstr "Âfrika/Kaira"
 
 #: calendar/zones.h:20
 msgid "Africa/Casablanca"
-msgstr ""
+msgstr "Âfrika/Kasablanka"
 
 #: calendar/zones.h:21
 msgid "Africa/Ceuta"
@@ -3082,20 +3068,19 @@ msgstr ""
 
 #: calendar/zones.h:23
 msgid "Africa/Dakar"
-msgstr ""
+msgstr "Âfrika/Dakâra"
 
 #: calendar/zones.h:24
 msgid "Africa/Dar_es_Salaam"
 msgstr ""
 
 #: calendar/zones.h:25
-#, fuzzy
 msgid "Africa/Djibouti"
-msgstr "Dþibutî"
+msgstr "Âfrika/Dþibutî"
 
 #: calendar/zones.h:26
 msgid "Africa/Douala"
-msgstr ""
+msgstr "Âfrika/Douala"
 
 #: calendar/zones.h:27
 msgid "Africa/El_Aaiun"
@@ -3103,23 +3088,23 @@ msgstr ""
 
 #: calendar/zones.h:28
 msgid "Africa/Freetown"
-msgstr ""
+msgstr "Âfrika/Frîtauna"
 
 #: calendar/zones.h:29
 msgid "Africa/Gaborone"
-msgstr ""
+msgstr "Âfrika/Gaborone"
 
 #: calendar/zones.h:30
 msgid "Africa/Harare"
-msgstr ""
+msgstr "Africa/Harare"
 
 #: calendar/zones.h:31
 msgid "Africa/Johannesburg"
-msgstr ""
+msgstr "Âfrika/Johanesburga"
 
 #: calendar/zones.h:32
 msgid "Africa/Kampala"
-msgstr ""
+msgstr "Âfrika/Kampala"
 
 #: calendar/zones.h:33
 msgid "Africa/Khartoum"
@@ -3127,7 +3112,7 @@ msgstr ""
 
 #: calendar/zones.h:34
 msgid "Africa/Kigali"
-msgstr ""
+msgstr "Âfrika/Kigalî"
 
 #: calendar/zones.h:35
 msgid "Africa/Kinshasa"
@@ -3135,39 +3120,39 @@ msgstr ""
 
 #: calendar/zones.h:36
 msgid "Africa/Lagos"
-msgstr ""
+msgstr "Âfrika/Lagosa"
 
 #: calendar/zones.h:37
 msgid "Africa/Libreville"
-msgstr ""
+msgstr "Âfrika/Libervilla"
 
 #: calendar/zones.h:38
 msgid "Africa/Lome"
-msgstr ""
+msgstr "Âfrika/Lome"
 
 #: calendar/zones.h:39
 msgid "Africa/Luanda"
-msgstr ""
+msgstr "Âfrika/Luanda"
 
 #: calendar/zones.h:40
 msgid "Africa/Lubumbashi"
-msgstr ""
+msgstr "Âfrika/Lubumbaðî"
 
 #: calendar/zones.h:41
 msgid "Africa/Lusaka"
-msgstr ""
+msgstr "Âfrika/Lusaka"
 
 #: calendar/zones.h:42
 msgid "Africa/Malabo"
-msgstr ""
+msgstr "Âfrika/Malabo"
 
 #: calendar/zones.h:43
 msgid "Africa/Maputo"
-msgstr ""
+msgstr "Âfrika/Maputo"
 
 #: calendar/zones.h:44
 msgid "Africa/Maseru"
-msgstr ""
+msgstr "Âfrika/Maseru"
 
 #: calendar/zones.h:45
 msgid "Africa/Mbabane"
@@ -3269,9 +3254,8 @@ msgid "America/Belem"
 msgstr ""
 
 #: calendar/zones.h:68
-#, fuzzy
 msgid "America/Belize"
-msgstr "Belize"
+msgstr "Amerika/Belize"
 
 #: calendar/zones.h:69
 msgid "America/Boa_Vista"
@@ -3318,9 +3302,8 @@ msgid "America/Cayman"
 msgstr "Amerikâòu Samoa"
 
 #: calendar/zones.h:79
-#, fuzzy
 msgid "America/Chicago"
-msgstr "Amerikâòu Samoa"
+msgstr "Amerika/Èikâga"
 
 #: calendar/zones.h:80
 msgid "America/Chihuahua"
@@ -3332,9 +3315,8 @@ msgid "America/Cordoba"
 msgstr "Amerikâòu Samoa"
 
 #: calendar/zones.h:82
-#, fuzzy
 msgid "America/Costa_Rica"
-msgstr "Kostarika"
+msgstr "Amerika/Kostarika"
 
 #: calendar/zones.h:83
 #, fuzzy
@@ -3361,7 +3343,7 @@ msgstr ""
 
 #: calendar/zones.h:88
 msgid "America/Denver"
-msgstr ""
+msgstr "Amerika/Denvera"
 
 #: calendar/zones.h:89
 msgid "America/Detroit"
@@ -3552,8 +3534,9 @@ msgid "America/Merida"
 msgstr ""
 
 #: calendar/zones.h:131
+#, fuzzy
 msgid "America/Mexico_City"
-msgstr ""
+msgstr "Meksika"
 
 #: calendar/zones.h:132
 msgid "America/Miquelon"
@@ -3584,7 +3567,7 @@ msgstr "Amerikâòu Samoa"
 
 #: calendar/zones.h:138
 msgid "America/New_York"
-msgstr ""
+msgstr "Amerika/Òujorka"
 
 #: calendar/zones.h:139
 msgid "America/Nipigon"
@@ -3605,9 +3588,8 @@ msgid "America/North_Dakota/Center"
 msgstr ""
 
 #: calendar/zones.h:143
-#, fuzzy
 msgid "America/Panama"
-msgstr "Amerikâòu Samoa"
+msgstr "Amerika/Panama"
 
 #: calendar/zones.h:144
 msgid "America/Pangnirtung"
@@ -3620,24 +3602,25 @@ msgstr "Amerikâòu Samoa"
 
 #: calendar/zones.h:146
 msgid "America/Phoenix"
-msgstr ""
+msgstr "Amerika/Fçniksa"
 
 #: calendar/zones.h:147
+#, fuzzy
 msgid "America/Port-au-Prince"
-msgstr ""
+msgstr "Ports"
 
 #: calendar/zones.h:148
+#, fuzzy
 msgid "America/Port_of_Spain"
-msgstr ""
+msgstr "Ports"
 
 #: calendar/zones.h:149
 msgid "America/Porto_Velho"
 msgstr ""
 
 #: calendar/zones.h:150
-#, fuzzy
 msgid "America/Puerto_Rico"
-msgstr "Puerto Riko"
+msgstr "Amerika/Puerto Riko"
 
 #: calendar/zones.h:151
 msgid "America/Rainy_River"
@@ -3740,7 +3723,7 @@ msgstr "Amerikâòu Samoa"
 
 #: calendar/zones.h:173
 msgid "America/Vancouver"
-msgstr ""
+msgstr "Amerika/Vankûvera"
 
 #: calendar/zones.h:174
 msgid "America/Whitehorse"
@@ -3748,7 +3731,7 @@ msgstr ""
 
 #: calendar/zones.h:175
 msgid "America/Winnipeg"
-msgstr ""
+msgstr "Amerika/Vinipega"
 
 #: calendar/zones.h:176
 #, fuzzy
@@ -3770,8 +3753,9 @@ msgid "Antarctica/Davis"
 msgstr "Antarktika"
 
 #: calendar/zones.h:180
+#, fuzzy
 msgid "Antarctica/DumontDUrville"
-msgstr ""
+msgstr "Antarktika"
 
 #: calendar/zones.h:181
 #, fuzzy
@@ -3799,9 +3783,8 @@ msgid "Antarctica/Syowa"
 msgstr "Antarktika"
 
 #: calendar/zones.h:186
-#, fuzzy
 msgid "Antarctica/Vostok"
-msgstr "Antarktika"
+msgstr "Antarktika/Vostoka"
 
 #: calendar/zones.h:187
 msgid "Arctic/Longyearbyen"
@@ -3809,7 +3792,7 @@ msgstr ""
 
 #: calendar/zones.h:188
 msgid "Asia/Aden"
-msgstr ""
+msgstr "Âzija/Adena"
 
 #: calendar/zones.h:189
 msgid "Asia/Almaty"
@@ -3837,20 +3820,19 @@ msgstr ""
 
 #: calendar/zones.h:195
 msgid "Asia/Baghdad"
-msgstr ""
+msgstr "Âzija/Bagdâde"
 
 #: calendar/zones.h:196
-#, fuzzy
 msgid "Asia/Bahrain"
-msgstr "Bahrçna"
+msgstr "Âzija/Bahrçna"
 
 #: calendar/zones.h:197
 msgid "Asia/Baku"
-msgstr ""
+msgstr "Âzija/Baku"
 
 #: calendar/zones.h:198
 msgid "Asia/Bangkok"
-msgstr ""
+msgstr "Âzija/Bagkoka"
 
 #: calendar/zones.h:199
 msgid "Asia/Beirut"
@@ -3862,7 +3844,7 @@ msgstr ""
 
 #: calendar/zones.h:201
 msgid "Asia/Brunei"
-msgstr ""
+msgstr "Âzija/Bruneja"
 
 #: calendar/zones.h:202
 msgid "Asia/Calcutta"
@@ -3877,9 +3859,8 @@ msgid "Asia/Chongqing"
 msgstr ""
 
 #: calendar/zones.h:205
-#, fuzzy
 msgid "Asia/Colombo"
-msgstr "Kolumbija"
+msgstr "Âzija/Kolombo"
 
 #: calendar/zones.h:206
 msgid "Asia/Damascus"
@@ -3891,28 +3872,27 @@ msgstr ""
 
 #: calendar/zones.h:208
 msgid "Asia/Dili"
-msgstr ""
+msgstr "Âzija/Dilî"
 
 #: calendar/zones.h:209
 msgid "Asia/Dubai"
-msgstr ""
+msgstr "Âzija/Dubaja"
 
 #: calendar/zones.h:210
 msgid "Asia/Dushanbe"
-msgstr ""
+msgstr "Âzija/Duðambç"
 
 #: calendar/zones.h:211
 msgid "Asia/Gaza"
-msgstr ""
+msgstr "Âzija/Gaza"
 
 #: calendar/zones.h:212
 msgid "Asia/Harbin"
-msgstr ""
+msgstr "Âzija/Harbîna"
 
 #: calendar/zones.h:213
-#, fuzzy
 msgid "Asia/Hong_Kong"
-msgstr "Honkonga"
+msgstr "Âzija/Honkonga"
 
 #: calendar/zones.h:214
 msgid "Asia/Hovd"
@@ -3920,16 +3900,15 @@ msgstr ""
 
 #: calendar/zones.h:215
 msgid "Asia/Irkutsk"
-msgstr ""
+msgstr "Âzija/Irkutska"
 
 #: calendar/zones.h:216
-#, fuzzy
 msgid "Asia/Istanbul"
-msgstr "Asistents"
+msgstr "Âzija/Istanbula"
 
 #: calendar/zones.h:217
 msgid "Asia/Jakarta"
-msgstr ""
+msgstr "Âzija/Jakarta"
 
 #: calendar/zones.h:218
 msgid "Asia/Jayapura"
@@ -3937,19 +3916,19 @@ msgstr ""
 
 #: calendar/zones.h:219
 msgid "Asia/Jerusalem"
-msgstr ""
+msgstr "Âzija/Jeruzâleme"
 
 #: calendar/zones.h:220
 msgid "Asia/Kabul"
-msgstr ""
+msgstr "Âzija/Kabula"
 
 #: calendar/zones.h:221
 msgid "Asia/Kamchatka"
-msgstr ""
+msgstr "Âzija/Kamèatka"
 
 #: calendar/zones.h:222
 msgid "Asia/Karachi"
-msgstr ""
+msgstr "Âzija/Karaèî"
 
 #: calendar/zones.h:223
 msgid "Asia/Kashgar"
@@ -3961,7 +3940,7 @@ msgstr ""
 
 #: calendar/zones.h:225
 msgid "Asia/Krasnoyarsk"
-msgstr ""
+msgstr "Âzija/Krasnojarska"
 
 #: calendar/zones.h:226
 msgid "Asia/Kuala_Lumpur"
@@ -3972,26 +3951,24 @@ msgid "Asia/Kuching"
 msgstr ""
 
 #: calendar/zones.h:228
-#, fuzzy
 msgid "Asia/Kuwait"
-msgstr "Kuvçta"
+msgstr "Âzija/Kuvçta"
 
 #: calendar/zones.h:229
 msgid "Asia/Macao"
-msgstr ""
+msgstr "Âzija/Makao"
 
 #: calendar/zones.h:230
 msgid "Asia/Magadan"
-msgstr ""
+msgstr "Âzija/Magadana"
 
 #: calendar/zones.h:231
 msgid "Asia/Manila"
-msgstr ""
+msgstr "Âzija/Manila"
 
 #: calendar/zones.h:232
-#, fuzzy
 msgid "Asia/Muscat"
-msgstr "Asistents"
+msgstr "Âzija/Muskats"
 
 #: calendar/zones.h:233
 msgid "Asia/Nicosia"
@@ -3999,12 +3976,11 @@ msgstr ""
 
 #: calendar/zones.h:234
 msgid "Asia/Novosibirsk"
-msgstr ""
+msgstr "Âzija/Novosibirska"
 
 #: calendar/zones.h:235
-#, fuzzy
 msgid "Asia/Omsk"
-msgstr "Nozîmçt Uzdevumu"
+msgstr "Âzija/Omska"
 
 #: calendar/zones.h:236
 msgid "Asia/Phnom_Penh"
@@ -4019,9 +3995,8 @@ msgid "Asia/Pyongyang"
 msgstr ""
 
 #: calendar/zones.h:239
-#, fuzzy
 msgid "Asia/Qatar"
-msgstr "Katara"
+msgstr "Âzija/Katara"
 
 #: calendar/zones.h:240
 msgid "Asia/Rangoon"
@@ -4033,44 +4008,43 @@ msgstr ""
 
 #: calendar/zones.h:242
 msgid "Asia/Saigon"
-msgstr ""
+msgstr "Âzija/Saigona"
 
 #: calendar/zones.h:243
 msgid "Asia/Sakhalin"
-msgstr ""
+msgstr "Âzija/Sahalîna"
 
 #: calendar/zones.h:244
 msgid "Asia/Samarkand"
-msgstr ""
+msgstr "Âzija/Samarkanda"
 
 #: calendar/zones.h:245
 msgid "Asia/Seoul"
-msgstr ""
+msgstr "Âzija/Seula"
 
 #: calendar/zones.h:246
 msgid "Asia/Shanghai"
-msgstr ""
+msgstr "Âzija/Ðanhai"
 
 #: calendar/zones.h:247
-#, fuzzy
 msgid "Asia/Singapore"
-msgstr "Singapûra"
+msgstr "Âzija/Singapûra"
 
 #: calendar/zones.h:248
 msgid "Asia/Taipei"
-msgstr ""
+msgstr "Âzija/Taipei"
 
 #: calendar/zones.h:249
 msgid "Asia/Tashkent"
-msgstr ""
+msgstr "Âzija/Taðkenta"
 
 #: calendar/zones.h:250
 msgid "Asia/Tbilisi"
-msgstr ""
+msgstr "Âzija/Tbilisi"
 
 #: calendar/zones.h:251
 msgid "Asia/Tehran"
-msgstr ""
+msgstr "Âzija/Teherâna"
 
 #: calendar/zones.h:252
 msgid "Asia/Thimphu"
@@ -4078,7 +4052,7 @@ msgstr ""
 
 #: calendar/zones.h:253
 msgid "Asia/Tokyo"
-msgstr ""
+msgstr "Âzija/Tokijo"
 
 #: calendar/zones.h:254
 msgid "Asia/Ujung_Pandang"
@@ -4098,7 +4072,7 @@ msgstr ""
 
 #: calendar/zones.h:258
 msgid "Asia/Vladivostok"
-msgstr ""
+msgstr "Âzija/Vladivostoka"
 
 #: calendar/zones.h:259
 msgid "Asia/Yakutsk"
@@ -4194,61 +4168,56 @@ msgid "Australia/Lord_Howe"
 msgstr "Austrâlija"
 
 #: calendar/zones.h:280
-#, fuzzy
 msgid "Australia/Melbourne"
-msgstr "Austrâlija"
+msgstr "Austrâlija/Melnburna"
 
 #: calendar/zones.h:281
-#, fuzzy
 msgid "Australia/Perth"
-msgstr "Austrâlija"
+msgstr "Austrâlija/Perta"
 
 #: calendar/zones.h:282
-#, fuzzy
 msgid "Australia/Sydney"
-msgstr "Austrâlija"
+msgstr "Austrâlija/Sidneja"
 
 #: calendar/zones.h:283
 msgid "Europe/Amsterdam"
-msgstr ""
+msgstr "Europa/Amsterdama"
 
 #: calendar/zones.h:284
-#, fuzzy
 msgid "Europe/Andorra"
-msgstr "Andora"
+msgstr "Europa/Andora"
 
 #: calendar/zones.h:285
-#, fuzzy
 msgid "Europe/Athens"
-msgstr "Rekvizîti"
+msgstr "Europa/Atçnas"
 
 #: calendar/zones.h:286
 msgid "Europe/Belfast"
-msgstr ""
+msgstr "Europa/Belfâsta"
 
 #: calendar/zones.h:287
 msgid "Europe/Belgrade"
-msgstr ""
+msgstr "Europa/Belgrada"
 
 #: calendar/zones.h:288
 msgid "Europe/Berlin"
-msgstr ""
+msgstr "Europa/Berlîne"
 
 #: calendar/zones.h:289
 msgid "Europe/Bratislava"
-msgstr ""
+msgstr "Europa/Bratislava"
 
 #: calendar/zones.h:290
 msgid "Europe/Brussels"
-msgstr ""
+msgstr "Europa/Brisele"
 
 #: calendar/zones.h:291
 msgid "Europe/Bucharest"
-msgstr ""
+msgstr "Europa/Bukareste"
 
 #: calendar/zones.h:292
 msgid "Europe/Budapest"
-msgstr ""
+msgstr "Europa/Budapeðta"
 
 #: calendar/zones.h:293
 msgid "Europe/Chisinau"
@@ -4256,70 +4225,67 @@ msgstr ""
 
 #: calendar/zones.h:294
 msgid "Europe/Copenhagen"
-msgstr ""
+msgstr "Europa/Kopenhâgena"
 
 #: calendar/zones.h:295
 msgid "Europe/Dublin"
-msgstr ""
+msgstr "Europa/Dublina"
 
 #: calendar/zones.h:296
-#, fuzzy
 msgid "Europe/Gibraltar"
-msgstr "Gibraltârs"
+msgstr "Europa/Gibraltârs"
 
 #: calendar/zones.h:297
 msgid "Europe/Helsinki"
-msgstr ""
+msgstr "Europa/Helsinki"
 
 #: calendar/zones.h:298
 msgid "Europe/Istanbul"
-msgstr ""
+msgstr "Europa/Istanbula"
 
 #: calendar/zones.h:299
 msgid "Europe/Kaliningrad"
-msgstr ""
+msgstr "Europa/Kaïingrada"
 
 #: calendar/zones.h:300
 msgid "Europe/Kiev"
-msgstr ""
+msgstr "Europa/Kijeva"
 
 #: calendar/zones.h:301
 msgid "Europe/Lisbon"
-msgstr ""
+msgstr "Europa/Lisabona"
 
 #: calendar/zones.h:302
 msgid "Europe/Ljubljana"
-msgstr ""
+msgstr "Europa/Ïubïana"
 
 #: calendar/zones.h:303
 msgid "Europe/London"
-msgstr ""
+msgstr "Europa/Londona"
 
 #: calendar/zones.h:304
-#, fuzzy
 msgid "Europe/Luxembourg"
-msgstr "Luksemburga"
+msgstr "Europa/Luksemburga"
 
 #: calendar/zones.h:305
 msgid "Europe/Madrid"
-msgstr ""
+msgstr "Europa/Madride"
 
 #: calendar/zones.h:306
 msgid "Europe/Malta"
-msgstr ""
+msgstr "Euopa/Malta"
 
 #: calendar/zones.h:307
 msgid "Europe/Minsk"
-msgstr ""
+msgstr "Europa/Minska"
 
 #: calendar/zones.h:308
-#, fuzzy
 msgid "Europe/Monaco"
-msgstr "Monâko"
+msgstr "Europa/Monâko"
 
 #: calendar/zones.h:309
 msgid "Europe/Moscow"
-msgstr ""
+msgstr "Europa/Maskava"
 
 #: calendar/zones.h:310
 msgid "Europe/Nicosia"
@@ -4327,37 +4293,35 @@ msgstr ""
 
 #: calendar/zones.h:311
 msgid "Europe/Oslo"
-msgstr ""
+msgstr "Europa/Oslo"
 
 #: calendar/zones.h:312
-#, fuzzy
 msgid "Europe/Paris"
-msgstr "Rekvizîti"
+msgstr "Europa/Parîze"
 
 #: calendar/zones.h:313
 msgid "Europe/Prague"
-msgstr ""
+msgstr "Europa/Prâga"
 
 #: calendar/zones.h:314
 msgid "Europe/Riga"
-msgstr ""
+msgstr "Europa/Rîga"
 
 #: calendar/zones.h:315
 msgid "Europe/Rome"
-msgstr ""
+msgstr "Europa/Roma"
 
 #: calendar/zones.h:316
 msgid "Europe/Samara"
-msgstr ""
+msgstr "Europa/Samara"
 
 #: calendar/zones.h:317
-#, fuzzy
 msgid "Europe/San_Marino"
-msgstr "San Marîno"
+msgstr "Europa/San_Marîno"
 
 #: calendar/zones.h:318
 msgid "Europe/Sarajevo"
-msgstr ""
+msgstr "Europa/Sarâjeva"
 
 #: calendar/zones.h:319
 msgid "Europe/Simferopol"
@@ -4365,19 +4329,19 @@ msgstr ""
 
 #: calendar/zones.h:320
 msgid "Europe/Skopje"
-msgstr ""
+msgstr "Europa/Skopje"
 
 #: calendar/zones.h:321
 msgid "Europe/Sofia"
-msgstr ""
+msgstr "Europa/Sofija"
 
 #: calendar/zones.h:322
 msgid "Europe/Stockholm"
-msgstr ""
+msgstr "Europa/Stoholma"
 
 #: calendar/zones.h:323
 msgid "Europe/Tallinn"
-msgstr ""
+msgstr "Europa/Tallina"
 
 #: calendar/zones.h:324
 msgid "Europe/Tirane"
@@ -4393,23 +4357,23 @@ msgstr ""
 
 #: calendar/zones.h:327
 msgid "Europe/Vatican"
-msgstr ""
+msgstr "Europa/Vatikâns"
 
 #: calendar/zones.h:328
 msgid "Europe/Vienna"
-msgstr ""
+msgstr "Europa/Vînw"
 
 #: calendar/zones.h:329
 msgid "Europe/Vilnius"
-msgstr ""
+msgstr "Europa/Viïòa"
 
 #: calendar/zones.h:330
 msgid "Europe/Warsaw"
-msgstr ""
+msgstr "Europa/Varðava"
 
 #: calendar/zones.h:331
 msgid "Europe/Zagreb"
-msgstr ""
+msgstr "Europa/Zagreba"
 
 #: calendar/zones.h:332
 msgid "Europe/Zaporozhye"
@@ -4417,7 +4381,7 @@ msgstr ""
 
 #: calendar/zones.h:333
 msgid "Europe/Zurich"
-msgstr ""
+msgstr "Europa/Cîrihe"
 
 #: calendar/zones.h:334
 msgid "Indian/Antananarivo"
@@ -4587,8 +4551,9 @@ msgid "Pacific/Ponape"
 msgstr ""
 
 #: calendar/zones.h:374
+#, fuzzy
 msgid "Pacific/Port_Moresby"
-msgstr ""
+msgstr "Ports"
 
 #: calendar/zones.h:375
 msgid "Pacific/Rarotonga"
@@ -4663,14 +4628,13 @@ msgstr "Kïûda savienojoties ar kalendâra serveri"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1176
 #: calendar/conduits/calendar/calendar-conduit.c:1179
-#, fuzzy
 msgid "Could not read pilot's Calendar application block"
-msgstr "Kalendârs"
+msgstr "Nevar nolasît pilota Kalendâra aplikâcijas bloku"
 
 #: calendar/conduits/todo/todo-conduit.c:760
 #: calendar/conduits/todo/todo-conduit.c:763
 msgid "Could not read pilot's ToDo application block"
-msgstr ""
+msgstr "Nevar nolasît pilota ToDo aplikâcijas bloku"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "A Bonobo control which displays a task list."
@@ -4839,8 +4803,7 @@ msgid "%d %B"
 msgstr "%d %B"
 
 #: calendar/gui/calendar-commands.c:820
-msgid ""
-"Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 
 #: calendar/gui/calendar-model.c:418 calendar/gui/calendar-model.c:988
@@ -4926,7 +4889,7 @@ msgstr "Nekas"
 
 #: calendar/gui/calendar-model.c:1713
 msgid "Recurring"
-msgstr ""
+msgstr "Periodisks"
 
 #: calendar/gui/calendar-model.c:1715
 msgid "Assigned"
@@ -5164,9 +5127,9 @@ msgid "%s %s before the start of the appointment"
 msgstr "%s %s pirms tikðanâs sâkuma"
 
 #: calendar/gui/dialogs/alarm-page.c:406
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s after the start of the appointment"
-msgstr "pçc"
+msgstr "%s %s pçc tikðanâs sâkuma"
 
 #: calendar/gui/dialogs/alarm-page.c:411
 #, c-format
@@ -5174,24 +5137,24 @@ msgid "%s at the start of the appointment"
 msgstr ""
 
 #: calendar/gui/dialogs/alarm-page.c:420
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s before the end of the appointment"
-msgstr "pirms"
+msgstr "%s %s pirms tikðanâs beigâm"
 
 #: calendar/gui/dialogs/alarm-page.c:423
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s after the end of the appointment"
-msgstr "pçc"
+msgstr "%s %s pçc tikðanâs beigâm"
 
 #: calendar/gui/dialogs/alarm-page.c:428
 #, c-format
 msgid "%s at the end of the appointment"
-msgstr ""
+msgstr "%s tikðanâs beigâs"
 
 #: calendar/gui/dialogs/alarm-page.c:453
 #, c-format
 msgid "%s at %s"
-msgstr ""
+msgstr "%s iekð %s"
 
 #: calendar/gui/dialogs/alarm-page.c:459
 #, fuzzy, c-format
@@ -5317,7 +5280,7 @@ msgstr "Pirmdiena"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "O_verdue tasks:"
-msgstr ""
+msgstr "N_okavçtie uzdevumi:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/dialogs/recurrence-page.c:964
@@ -5325,14 +5288,12 @@ msgid "Saturday"
 msgstr "Sesdiena"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#, fuzzy
 msgid "Show appointment _end times in week and month views"
-msgstr "Parâdît nedçïa mçnesis"
+msgstr "Parâdît tikðanos b_eigu laikus nedçïas un mçneða skatos"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
-#, fuzzy
 msgid "Show week _numbers in date navigator"
-msgstr "Parâdît nedçïa"
+msgstr "Parâdît nedçïas _numurus datuma navigâtorâ"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 msgid "Sta_rt of day:"
@@ -5408,9 +5369,8 @@ msgid "_Ask for confirmation when deleting items"
 msgstr "Pr_asît apstiprinâjumu kad dzçð priekðmetus"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
-#, fuzzy
 msgid "_Compress weekends in month view"
-msgstr "mçnesis"
+msgstr "_Saspiest nedçïas mçneða skatâ"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "_Display"
@@ -5453,9 +5413,8 @@ msgid "_Wed"
 msgstr "_Tre"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
-#, fuzzy
 msgid "before the start of the appointment"
-msgstr "pirms"
+msgstr "pirms tikðanâs sâkuma"
 
 #: calendar/gui/dialogs/cancel-comp.c:51
 msgid "The meeting status has changed. Send an updated version?"
@@ -5463,8 +5422,7 @@ msgstr "Satikðanâs statuss ir izmainîts. Nosûtît atjauninâto versiju?"
 
 #: calendar/gui/dialogs/cancel-comp.c:57
 msgid "Are you sure you want to cancel and delete this meeting?"
-msgstr ""
-"Vai jûs esat pârliecinâts, ka vçlaties atsaukt un izdzçst ðo satikðanos?"
+msgstr "Vai jûs esat pârliecinâts, ka vçlaties atsaukt un izdzçst ðo satikðanos?"
 
 #: calendar/gui/dialogs/cancel-comp.c:62
 msgid "Are you sure you want to cancel and delete this task?"
@@ -5491,8 +5449,7 @@ msgstr "Ðis þurnâla ieraksts ir izdzçsts."
 #: calendar/gui/dialogs/changed-comp.c:76
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr ""
-"%s  Jûs esat veicis izmaiòas. Aizmirst ðîs izmaiòas un aizvçrt redaktoru?"
+msgstr "%s  Jûs esat veicis izmaiòas. Aizmirst ðîs izmaiòas un aizvçrt redaktoru?"
 
 #: calendar/gui/dialogs/changed-comp.c:78
 #, c-format
@@ -5514,8 +5471,7 @@ msgstr "Þurnâla ieraksts tika izmainîts."
 #: calendar/gui/dialogs/changed-comp.c:100
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr ""
-"%s  Jûs esat veicat izmaiòas. Aizmirst ðîs izmaiòas un atjauninât redaktoru?"
+msgstr "%s  Jûs esat veicat izmaiòas. Aizmirst ðîs izmaiòas un atjauninât redaktoru?"
 
 #: calendar/gui/dialogs/changed-comp.c:102
 #, c-format
@@ -5595,47 +5551,44 @@ msgstr "Nevar dabût paðreizçjo versiju!"
 #: calendar/gui/dialogs/delete-comp.c:96
 #, c-format
 msgid "Are you sure you want to delete the appointment `%s'?"
-msgstr ""
+msgstr "Vai jûs esat pârliecinâts, ka vçlaties dzçst ðo satikðanos '%s'?"
 
 #: calendar/gui/dialogs/delete-comp.c:99
-#, fuzzy
 msgid "Are you sure you want to delete this untitled appointment?"
-msgstr "noklusçts?"
+msgstr "Vai jûs esat pârliecinâts, ka vçlaties dzçst ðo noklusçto dokumentu?"
 
 #: calendar/gui/dialogs/delete-comp.c:105
 #, c-format
 msgid "Are you sure you want to delete the task `%s'?"
-msgstr ""
+msgstr "Vai jûs esat pârliecinâts, ka vçlaties dzçst ðo uzdevumu '%s'?"
 
 #: calendar/gui/dialogs/delete-comp.c:108
-#, fuzzy
 msgid "Are you sure you want to delete this untitled task?"
-msgstr "noklusçts?"
+msgstr "Vai jûs esat pârliecinâts, ka vçlaties dzçst ðo nenosaukto uzdevumu?"
 
 #: calendar/gui/dialogs/delete-comp.c:114
 #, c-format
 msgid "Are you sure you want to delete the journal entry `%s'?"
-msgstr ""
+msgstr "Vai jûs esat pârliecinâts, ka vçlaties dzçst ðo þurnâla ierakstu '%s'?"
 
 #: calendar/gui/dialogs/delete-comp.c:117
-#, fuzzy
 msgid "Are you sure want to delete this untitled journal entry?"
-msgstr "noklusçts?"
+msgstr "Vai jûs esat pârliecinâts, ka vçlaties dzçst ðo nenosaukto þurnâla ierakstu?"
 
 #: calendar/gui/dialogs/delete-comp.c:132
 #, c-format
 msgid "Are you sure you want to delete %d appointments?"
-msgstr ""
+msgstr "Vai jûs esat pârliecinâts, ka vçlaties dzçst %d satikðanâs?"
 
 #: calendar/gui/dialogs/delete-comp.c:137
 #, c-format
 msgid "Are you sure you want to delete %d tasks?"
-msgstr ""
+msgstr "Vai jûs esat pârliecinâts, ka vçlaties dzçst %d uzdevumus?"
 
 #: calendar/gui/dialogs/delete-comp.c:142
 #, c-format
 msgid "Are you sure you want to delete %d journal entries?"
-msgstr ""
+msgstr "Vai jûs esat pârliecinâts, ka vçlaties izdzçst %d þurnâla ierakstus?"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:1
 msgid "Addressbook..."
@@ -5651,7 +5604,7 @@ msgstr "Ievadît Delegâtu"
 
 #: calendar/gui/dialogs/event-editor.c:185 calendar/gui/print.c:2203
 msgid "Appointment"
-msgstr ""
+msgstr "Satikðanâs"
 
 #: calendar/gui/dialogs/event-editor.c:190
 msgid "Reminder"
@@ -5659,13 +5612,13 @@ msgstr "Atgâdinâjums"
 
 #: calendar/gui/dialogs/event-editor.c:195
 msgid "Recurrence"
-msgstr ""
+msgstr "Atkârtoðanâs"
 
 #: calendar/gui/dialogs/event-editor.c:202
 #: calendar/gui/dialogs/event-editor.c:260
 #: calendar/gui/dialogs/event-editor.c:363
 msgid "Scheduling"
-msgstr ""
+msgstr "Plânoðana"
 
 #: calendar/gui/dialogs/event-editor.c:207
 #: calendar/gui/dialogs/event-editor.c:263
@@ -5674,9 +5627,8 @@ msgid "Meeting"
 msgstr "Satikðanâs"
 
 #: calendar/gui/dialogs/event-page.glade.h:1
-#, fuzzy
 msgid "A_ll day event"
-msgstr "dienâ"
+msgstr "Visas _dienas notikums"
 
 #: calendar/gui/dialogs/event-page.glade.h:2
 msgid "B_usy"
@@ -5703,11 +5655,8 @@ msgid "F_ree"
 msgstr "Brîvs"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
-#, fuzzy
 msgid "L_ocation:"
-msgstr ""
-"\n"
-"Ìeolokâcija: "
+msgstr "L_okâcija: "
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 #: calendar/gui/dialogs/task-page.glade.h:6
@@ -5747,9 +5696,8 @@ msgid "An organizer is required."
 msgstr "Nepiecieðams organizçtajs"
 
 #: calendar/gui/dialogs/meeting-page.c:446
-#, fuzzy
 msgid "At least one attendee is required."
-msgstr "ir."
+msgstr "Jâbût vismaz vienam dalîbniekam."
 
 #: calendar/gui/dialogs/meeting-page.c:626
 msgid "That person is already attending the meeting!"
@@ -5838,13 +5786,12 @@ msgid "_Other Organizer"
 msgstr "_Cits Organizçtajs"
 
 #: calendar/gui/dialogs/recurrence-page.c:571
-#, fuzzy
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr "satur."
+msgstr "Ðî tikðanâs satur atkârtoðanâs ko Evolution nevar rediìçt."
 
 #: calendar/gui/dialogs/recurrence-page.c:932
 msgid "on"
-msgstr ""
+msgstr "uz"
 
 #: calendar/gui/dialogs/recurrence-page.c:958 filter/filter-datespec.c:83
 msgid "day"
@@ -5852,15 +5799,15 @@ msgstr "dienâ"
 
 #: calendar/gui/dialogs/recurrence-page.c:1088
 msgid "on the"
-msgstr ""
+msgstr "uz"
 
 #: calendar/gui/dialogs/recurrence-page.c:1096
 msgid "th"
-msgstr ""
+msgstr "."
 
 #: calendar/gui/dialogs/recurrence-page.c:1269
 msgid "occurrences"
-msgstr ""
+msgstr "gadîjumi"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "A_dd"
@@ -5880,29 +5827,27 @@ msgstr "Pirmsapskats"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:7
 msgid "Recurrence Rule"
-msgstr ""
+msgstr "Atkârtoðanâs Noteikums"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:9
-#, fuzzy
 msgid "_Custom recurrence"
-msgstr "Pçc Izvçles"
+msgstr "Atkârtoðanâs Pç_c Izvçles"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:10
 msgid "_Modify"
 msgstr "_Modificçt"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:11
-#, fuzzy
 msgid "_No recurrence"
-msgstr "Nç"
+msgstr "Bez A_tkârtoðanâs"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "_Simple recurrence"
-msgstr ""
+msgstr "_Vienkârða atkârtoðanâs"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:15
 msgid "for"
-msgstr ""
+msgstr "priekð"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:16
 msgid "forever"
@@ -5980,9 +5925,8 @@ msgid "Sta_rt Date:"
 msgstr "Sâkum_a Datums:"
 
 #: calendar/gui/dialogs/task-page.glade.h:11
-#, fuzzy
 msgid "_Due Date:"
-msgstr "Datums:"
+msgstr "_Datuma laikâ:"
 
 #: calendar/gui/e-calendar-table.c:427
 #, c-format
@@ -6090,7 +6034,7 @@ msgstr "_Dzçst Izvçlçtos Uzdevumus"
 #: calendar/gui/e-calendar-table.c:1145 calendar/gui/e-day-view.c:7137
 #: calendar/gui/e-week-view.c:3924
 msgid "Updating objects"
-msgstr ""
+msgstr "Atjauninât objektus"
 
 #: calendar/gui/e-calendar-table.c:1228
 #: calendar/gui/e-calendar-table.etspec.h:6
@@ -6116,6 +6060,9 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Datumam ir jâbût ievadîtam ðâdâ formâtâ: \n"
+"\n"
+"%s"
 
 #: calendar/gui/e-calendar-table.etspec.h:3
 msgid "Alarms"
@@ -6159,18 +6106,17 @@ msgid "Summary"
 msgstr "Kopsavilkums"
 
 #: calendar/gui/e-calendar-table.etspec.h:17
-#, fuzzy
 msgid "Task sort"
-msgstr "Uzdevums"
+msgstr "Uzdevumu kârtoðana"
 
 #: calendar/gui/e-calendar-table.etspec.h:19
 msgid "URL"
 msgstr "URL"
 
 #: calendar/gui/e-day-view-time-item.c:518
-#, fuzzy, c-format
+#, c-format
 msgid "%02i minute divisions"
-msgstr "stundas"
+msgstr "%02i minûðu sadaïas"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
@@ -6220,14 +6166,12 @@ msgid "Make this Occurrence _Movable"
 msgstr ""
 
 #: calendar/gui/e-day-view.c:3569 calendar/gui/e-week-view.c:3457
-#, fuzzy
 msgid "Delete this _Occurrence"
-msgstr "Dzçst"
+msgstr "Dzçst ðo _Gadîjumu"
 
 #: calendar/gui/e-day-view.c:3571 calendar/gui/e-week-view.c:3459
-#, fuzzy
 msgid "Delete _All Occurrences"
-msgstr "Dzçst Visi"
+msgstr "Dzçst Visus G_adîjumus"
 
 #: calendar/gui/e-itip-control.c:525
 msgid "Meeting begins: <b>"
@@ -6243,7 +6187,7 @@ msgstr "Brîvs/Aizòemts informâcija sâkas: <b>"
 
 #: calendar/gui/e-itip-control.c:539
 msgid "Begins: <b>"
-msgstr ""
+msgstr "Sâkas: <b>"
 
 #: calendar/gui/e-itip-control.c:551
 msgid "Meeting ends: <b>"
@@ -6255,7 +6199,7 @@ msgstr "Brîvs/Aizòemts informâcija beidzas: <b>"
 
 #: calendar/gui/e-itip-control.c:558
 msgid "Ends: <b>"
-msgstr ""
+msgstr "Beidzas: <b>"
 
 #: calendar/gui/e-itip-control.c:572
 msgid "Task Completed: <b>"
@@ -6284,6 +6228,8 @@ msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
+"<br> Lûdzu apskatiet sekojoðo informâciju un pçc tam izvçlieties darbîbu no "
+"izvçlnes zemâk."
 
 #: calendar/gui/e-itip-control.c:738
 msgid "<i>None</i>"
@@ -6312,7 +6258,7 @@ msgstr "Apstiprinât"
 
 #: calendar/gui/e-itip-control.c:797
 msgid "Tentatively accept"
-msgstr ""
+msgstr "Paigaidâm akceptçt"
 
 #: calendar/gui/e-itip-control.c:798
 msgid "Decline"
@@ -6337,7 +6283,7 @@ msgstr "Atsaukt"
 #: calendar/gui/e-itip-control.c:899
 #, c-format
 msgid "<b>%s</b> has published meeting information."
-msgstr ""
+msgstr "<b>%s</b> ir publicçjis informâciju par tikðanos."
 
 #: calendar/gui/e-itip-control.c:900
 msgid "Meeting Information"
@@ -6346,7 +6292,7 @@ msgstr "Informâcija par Satikðanos"
 #: calendar/gui/e-itip-control.c:904
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
-msgstr ""
+msgstr "<b>%s</b> pieprasa tavu klâtbûtni tikðanâs."
 
 #: calendar/gui/e-itip-control.c:905
 msgid "Meeting Proposal"
@@ -6355,7 +6301,7 @@ msgstr "Satikðanâs Iemesls"
 #: calendar/gui/e-itip-control.c:909
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
-msgstr ""
+msgstr "<b>%s</b> vçlas pievienot jau eksistçjoðai tikðanâs."
 
 #: calendar/gui/e-itip-control.c:910
 msgid "Meeting Update"
@@ -6364,7 +6310,7 @@ msgstr "Atjauninâta Informâcija Par Satikðanos"
 #: calendar/gui/e-itip-control.c:914
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
-msgstr ""
+msgstr "<b>%s</b> vçlas saòemt pçdîgo informâciju par tikðanos."
 
 #: calendar/gui/e-itip-control.c:915
 msgid "Meeting Update Request"
@@ -6383,7 +6329,7 @@ msgstr "Nezinâms"
 #: calendar/gui/e-itip-control.c:938
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
-msgstr ""
+msgstr "<b>%s</b> ir atbildçjis uz tikðanâs pieprasîjumu."
 
 #: calendar/gui/e-itip-control.c:939
 msgid "Meeting Reply"
@@ -6392,7 +6338,7 @@ msgstr "Atbilde Par Satikðanos"
 #: calendar/gui/e-itip-control.c:943
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
-msgstr ""
+msgstr "<b>%s</b> ir atsaucis tikðanos."
 
 #: calendar/gui/e-itip-control.c:944
 msgid "Meeting Cancellation"
@@ -6411,7 +6357,7 @@ msgstr "Slikta Satikðanâs Ziòa"
 #: calendar/gui/e-itip-control.c:969
 #, c-format
 msgid "<b>%s</b> has published task information."
-msgstr ""
+msgstr "<b>%s</b> ir publicçjis informâciju par uzdevumu."
 
 #: calendar/gui/e-itip-control.c:970
 msgid "Task Information"
@@ -6420,7 +6366,7 @@ msgstr "Uzdevuma Informâcija"
 #: calendar/gui/e-itip-control.c:974
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
-msgstr ""
+msgstr "<b>%s</b> pieprasa jums izpildît uzdevumu."
 
 #: calendar/gui/e-itip-control.c:975
 msgid "Task Proposal"
@@ -6429,7 +6375,7 @@ msgstr "Uzdevuma Prieðlikums"
 #: calendar/gui/e-itip-control.c:979
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
-msgstr ""
+msgstr "<b>%s</b> vçlas pievienot jau eksistçjoðam uzdevumam."
 
 #: calendar/gui/e-itip-control.c:980
 msgid "Task Update"
@@ -6438,7 +6384,7 @@ msgstr "Uzdevuma Atjauninâðana"
 #: calendar/gui/e-itip-control.c:984
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
-msgstr ""
+msgstr "<b>%s</b> vçlas saòemt pçdîgo informâciju par uzdevumu."
 
 #: calendar/gui/e-itip-control.c:985
 msgid "Task Update Request"
@@ -6447,7 +6393,7 @@ msgstr "Uzdevuma Atjauninâðanas Pieprasîjums"
 #: calendar/gui/e-itip-control.c:1009
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
-msgstr ""
+msgstr "<b>%s</b> ir atbildçjis uz uzdevuma nozîmçðanu."
 
 #: calendar/gui/e-itip-control.c:1010
 msgid "Task Reply"
@@ -6456,7 +6402,7 @@ msgstr "Uzdevuma Atbilde"
 #: calendar/gui/e-itip-control.c:1014
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
-msgstr ""
+msgstr "<b>%s</b> ir atcçlis uzdevumu."
 
 #: calendar/gui/e-itip-control.c:1015
 msgid "Task Cancellation"
@@ -6469,7 +6415,7 @@ msgstr "Slikts Uzdevuma Ziòojums"
 #: calendar/gui/e-itip-control.c:1039
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
-msgstr ""
+msgstr "<b>%s</b> ir publicçjis brîvs/aizòemts informâciju."
 
 #: calendar/gui/e-itip-control.c:1040
 msgid "Free/Busy Information"
@@ -6478,7 +6424,7 @@ msgstr "Brîvs/Aizòemts Informâcija"
 #: calendar/gui/e-itip-control.c:1044
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
-msgstr ""
+msgstr "<b>%s</b> pieprasa tavu brîvs/aizòemts informâciju."
 
 #: calendar/gui/e-itip-control.c:1045
 msgid "Free/Busy Request"
@@ -6487,7 +6433,7 @@ msgstr "Brîvs/Aizòemts Pieprasîjums"
 #: calendar/gui/e-itip-control.c:1049
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
-msgstr ""
+msgstr "<b>%s</b> ir atbildçjis uz brîvs/aizòemts informâciju."
 
 #: calendar/gui/e-itip-control.c:1050
 msgid "Free/Busy Reply"
@@ -6499,7 +6445,7 @@ msgstr "Slikta Brîvs/Aizòemts Ziòa"
 
 #: calendar/gui/e-itip-control.c:1128
 msgid "The message does not appear to be properly formed"
-msgstr ""
+msgstr "Ziòa varçtu bût pareizi noformçta"
 
 #: calendar/gui/e-itip-control.c:1147
 msgid "The message contains only unsupported requests."
@@ -6507,12 +6453,11 @@ msgstr "Ziòa satur tikai neatbalstîtus pieprasîjumus."
 
 #: calendar/gui/e-itip-control.c:1175 calendar/gui/e-itip-control.c:1181
 msgid "The attachment does not contain a valid calendar message"
-msgstr ""
+msgstr "Pievienojums nesatur atïautu kalendâra ziòu"
 
 #: calendar/gui/e-itip-control.c:1206
-#, fuzzy
 msgid "The attachment has no viewable calendar items"
-msgstr "nç"
+msgstr "Pievienojumam nav skatâmu kalendâra priekðmetu"
 
 #: calendar/gui/e-itip-control.c:1305
 msgid "Calendar file could not be updated!\n"
@@ -6523,44 +6468,39 @@ msgid "Update complete\n"
 msgstr "Atjauninâðana izpildîta\n"
 
 #: calendar/gui/e-itip-control.c:1352
-#, fuzzy
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "Apmeklçtâjs"
+msgstr "Apmeklçtâja statuss nevar tikt atjauninâts sakarâ ar nepareizo statusu!\n"
 
 #: calendar/gui/e-itip-control.c:1360
-#, fuzzy
 msgid "Attendee status could not be updated!\n"
-msgstr "Apmeklçtâjs"
+msgstr "Apmeklçtâja status nevar tikt atjauninâts!\n"
 
 #: calendar/gui/e-itip-control.c:1362
-#, fuzzy
 msgid "Attendee status updated\n"
-msgstr "Apmeklçtâjs"
+msgstr "Apmeklçtâja status atjauninâts\n"
 
 #: calendar/gui/e-itip-control.c:1364
-#, fuzzy
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "Apmeklçtâjs nç"
+msgstr "Apmeklçtâja status nevar tikt atjauninâts tâpçc ka priekðmets vairâk neeksistç"
 
 #: calendar/gui/e-itip-control.c:1392
 msgid "Removal Complete"
-msgstr ""
+msgstr "Izòemðana Pabeigta"
 
 #: calendar/gui/e-itip-control.c:1411 calendar/gui/e-itip-control.c:1461
 msgid "Item sent!\n"
-msgstr ""
+msgstr "Priekðmets nosûtîts!\n"
 
 #: calendar/gui/e-itip-control.c:1413 calendar/gui/e-itip-control.c:1465
 msgid "The item could not be sent!\n"
-msgstr ""
+msgstr "Priekðmets nevar tikt nosûtîts!\n"
 
 #: calendar/gui/e-itip-control.c:1638
-#, fuzzy
 msgid "Unable to find any of your identities in the attendees list!\n"
-msgstr "saraksts"
+msgstr "Nevar atrast nevienu no identitâtçm apmeklçtâju sarakstâ!\n"
 
 #: calendar/gui/e-itip-control.glade.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "%P %%"
 msgstr "%P %%"
 
@@ -6597,21 +6537,20 @@ msgid "date-start"
 msgstr "datums-beigas"
 
 #: calendar/gui/e-meeting-model.c:95
-#, fuzzy
 msgid "Chair Persons"
-msgstr "Krçsls"
+msgstr "Vadoðâs Personas"
 
 #: calendar/gui/e-meeting-model.c:96 calendar/gui/e-meeting-model.c:1570
 msgid "Required Participants"
-msgstr ""
+msgstr "Pieprasîtie Dalîbnieki"
 
 #: calendar/gui/e-meeting-model.c:97
 msgid "Optional Participants"
-msgstr ""
+msgstr "Iespçjamie Dalîbnieki"
 
 #: calendar/gui/e-meeting-model.c:98
 msgid "Non-Participants"
-msgstr ""
+msgstr "Nepiedalâs"
 
 #: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:249
 #: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:778
@@ -6641,22 +6580,22 @@ msgstr "Krçsls"
 #: calendar/gui/e-meeting-model.c:269 calendar/gui/e-meeting-model.c:286
 #: calendar/gui/e-meeting-model.c:534 calendar/gui/e-meeting-model.c:795
 msgid "Required Participant"
-msgstr ""
+msgstr "Pieprasîtais Dalîbnieks"
 
 #: calendar/gui/e-meeting-model.c:271 calendar/gui/e-meeting-model.c:288
 #: calendar/gui/e-meeting-model.c:796
 msgid "Optional Participant"
-msgstr ""
+msgstr "Iespçjamais Dalîbnieks"
 
 #: calendar/gui/e-meeting-model.c:273 calendar/gui/e-meeting-model.c:290
 #: calendar/gui/e-meeting-model.c:797
 msgid "Non-Participant"
-msgstr ""
+msgstr "Nepiedalâs"
 
 #: calendar/gui/e-meeting-model.c:319 calendar/gui/e-meeting-model.c:342
 #: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:823
 msgid "Needs Action"
-msgstr ""
+msgstr "Pieprasa Darbîbu"
 
 #: calendar/gui/e-meeting-model.c:321 calendar/gui/e-meeting-model.c:344
 #: calendar/gui/e-meeting-model.c:824
@@ -6671,12 +6610,12 @@ msgstr "Noliegts"
 #: calendar/gui/e-meeting-model.c:325 calendar/gui/e-meeting-model.c:348
 #: calendar/gui/e-meeting-model.c:826 calendar/gui/e-meeting-time-sel.c:431
 msgid "Tentative"
-msgstr ""
+msgstr "Pagaidu"
 
 #: calendar/gui/e-meeting-model.c:327 calendar/gui/e-meeting-model.c:350
 #: calendar/gui/e-meeting-model.c:827
 msgid "Delegated"
-msgstr ""
+msgstr "Deleìçts"
 
 #: calendar/gui/e-meeting-model.c:331 calendar/gui/e-meeting-model.c:354
 msgid "In Process"
@@ -6721,9 +6660,8 @@ msgid "Show _Only Working Hours"
 msgstr "Parâdît Tikai _Darba Stundas"
 
 #: calendar/gui/e-meeting-time-sel.c:500
-#, fuzzy
 msgid "Show _Zoomed Out"
-msgstr "Parâdît"
+msgstr "Parâdît Sama_zinâtu"
 
 #: calendar/gui/e-meeting-time-sel.c:518
 msgid "_Update Free/Busy"
@@ -6768,37 +6706,36 @@ msgstr "Satikðanâs _beigu laiks:"
 #: calendar/gui/e-tasks.c:328
 #, c-format
 msgid "Opening tasks at %s"
-msgstr ""
+msgstr "Atvçrt uzdevumus uz %s"
 
 #: calendar/gui/e-tasks.c:355
 #, c-format
 msgid "Could not load the tasks in `%s'"
-msgstr ""
+msgstr "Nevar ielâdçt uzdevumus uz `%s'"
 
 #: calendar/gui/e-tasks.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "The method required to load `%s' is not supported"
-msgstr "ir"
+msgstr "Metode lai ielâdçtu `%s' nav atbalstîta"
 
 #: calendar/gui/e-week-view.c:3408 calendar/gui/e-week-view.c:3446
-#, fuzzy
 msgid "New _Appointment..."
-msgstr "Jauns."
+msgstr "Jauna _Tikðanâs...."
 
 #: calendar/gui/gnome-cal.c:1499
 #, c-format
 msgid "Could not open the folder in `%s'"
-msgstr ""
+msgstr "Nevar atvçrt mapi uz `%s'"
 
 #: calendar/gui/gnome-cal.c:1510
-#, fuzzy, c-format
+#, c-format
 msgid "The method required to open `%s' is not supported"
-msgstr "ir"
+msgstr "Pieprasîtâ metode, lai atvçrtu `%s' nav atbalstîta"
 
 #: calendar/gui/gnome-cal.c:1865
 #, c-format
 msgid "Opening calendar at %s"
-msgstr ""
+msgstr "Atvçrt kalendâru uz %s"
 
 #: calendar/gui/goto-dialog.glade.h:1
 msgid "April"
@@ -6857,53 +6794,45 @@ msgid "September"
 msgstr "Septembris"
 
 #: calendar/gui/itip-utils.c:243
-#, fuzzy
 msgid "At least one attendee is necessary"
-msgstr "ir"
+msgstr "Vismaz viens apmeklçtajs ir vajadzîgs"
 
 #: calendar/gui/itip-utils.c:274
-#, fuzzy
 msgid "An organizer must be set."
-msgstr "uzstâdît."
+msgstr "Jâbût norâdîtam organizçtâjam."
 
 #: calendar/gui/itip-utils.c:313 calendar/gui/itip-utils.c:355
-#, fuzzy
 msgid "Event information"
-msgstr "Kontu Informâcija"
+msgstr "Notikuma informâcija"
 
 #: calendar/gui/itip-utils.c:315 calendar/gui/itip-utils.c:357
-#, fuzzy
 msgid "Task information"
 msgstr "Uzdevuma Informâcija"
 
 #: calendar/gui/itip-utils.c:317 calendar/gui/itip-utils.c:359
-#, fuzzy
 msgid "Journal information"
-msgstr "Optionâla Informâcija"
+msgstr "Þurnâla informâcija"
 
 #: calendar/gui/itip-utils.c:319 calendar/gui/itip-utils.c:376
-#, fuzzy
 msgid "Free/Busy information"
-msgstr "Brîvs/Aizòemts Informâcija"
+msgstr "Brîvs/Aizòemts informâcija"
 
 #: calendar/gui/itip-utils.c:321
-#, fuzzy
 msgid "Calendar information"
-msgstr "iCalendar informâcija"
+msgstr "Kalendâra informâcija"
 
 #: calendar/gui/itip-utils.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "Free/Busy information (%s to %s)"
-msgstr "Brîvs/Aizòemts Informâcija"
+msgstr "Brîvs/Aizòemts informâcija (%s uz %s)"
 
 #: calendar/gui/itip-utils.c:382
-#, fuzzy
 msgid "iCalendar information"
 msgstr "iCalendar informâcija"
 
 #: calendar/gui/itip-utils.c:581
 msgid "You must be an attendee of the event."
-msgstr ""
+msgstr "Jums jâbût notikuma apmeklçtâjam."
 
 #: calendar/gui/main.c:91
 #, fuzzy
@@ -7151,8 +7080,7 @@ msgid "The URI of the tasks folder to display"
 msgstr ""
 
 #: calendar/gui/tasks-control-factory.c:75
-msgid ""
-"Could not create the tasks view.  Please check your ORBit and OAF setup."
+msgid "Could not create the tasks view.  Please check your ORBit and OAF setup."
 msgstr ""
 
 #: calendar/gui/tasks-migrate.c:105
@@ -7170,11 +7098,11 @@ msgid ""
 msgstr ""
 
 #: calendar/gui/tasks-migrate.c:120
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not open `%s'; no items from the calendar folder will be migrated to "
 "the tasks folder."
-msgstr "nç."
+msgstr "Nevar atvçrt `%s'; priekðmeti no kalendâra mapes uz uzdevumu mapi netiks pârnesti."
 
 #: calendar/gui/tasks-migrate.c:133
 #, fuzzy, c-format
@@ -7188,21 +7116,20 @@ msgid "SMTWTFS"
 msgstr "SMTWTFS"
 
 #: calendar/pcs/query.c:246
-#, fuzzy
 msgid "time-now expects 0 arguments"
-msgstr "tagad"
+msgstr "time-now pieprasa 0 argumentus"
 
 #: calendar/pcs/query.c:270
 msgid "make-time expects 1 argument"
-msgstr ""
+msgstr "make-time pieprasa 1 argumentu"
 
 #: calendar/pcs/query.c:275
 msgid "make-time expects argument 1 to be a string"
-msgstr ""
+msgstr "make-time pieprasa argumentu nr.1 kâ virkni"
 
 #: calendar/pcs/query.c:283
 msgid "make-time argument 1 must be an ISO 8601 date/time string"
-msgstr ""
+msgstr "make-time argumentam nr. 1 jâbût ISO 8601 datuma/laika virknei"
 
 #: calendar/pcs/query.c:312
 #, fuzzy
@@ -7351,15 +7278,17 @@ msgid ""
 "%s\n"
 "Changes made to this folder will not be resynchronized."
 msgstr ""
+"Nevarçja atvçrt `%s':\n"
+"%s\n"
+"Izmaiòas, izdarîtas ðajâ folderî, netiks pârsinhronizçtas."
 
 #: camel/camel-disco-diary.c:277
-#, fuzzy
 msgid "Resynchronizing with server"
-msgstr "ar"
+msgstr "Pârsinhronizçjamies ar serveri"
 
 #: camel/camel-disco-store.c:343
 msgid "You must be working online to complete this operation"
-msgstr ""
+msgstr "Jums ir jâstrâdâ tieðsaistç lai izpildîtu ðo operâciju"
 
 #: camel/camel-filter-driver.c:553 camel/camel-filter-driver.c:562
 msgid "Syncing folders"
@@ -7367,16 +7296,16 @@ msgstr "Sinhronizçjam mapes"
 
 #: camel/camel-filter-driver.c:664
 msgid "Unable to open spool folder"
-msgstr ""
+msgstr "Nespçj atvçrt spool mapi"
 
 #: camel/camel-filter-driver.c:673
 msgid "Unable to process spool folder"
-msgstr ""
+msgstr "Nespçj procesçt spool mapi"
 
 #: camel/camel-filter-driver.c:688
 #, c-format
 msgid "Getting message %d (%d%%)"
-msgstr ""
+msgstr "Dabûjam vçstuli %d (%d%%)"
 
 #: camel/camel-filter-driver.c:692
 msgid "Cannot open message"
@@ -7394,12 +7323,12 @@ msgstr "SInhronizçjam mapi"
 #: camel/camel-filter-driver.c:789
 #, c-format
 msgid "Getting message %d of %d"
-msgstr ""
+msgstr "Dabûjam vçstuli %d no %d"
 
 #: camel/camel-filter-driver.c:794 camel/camel-filter-driver.c:812
-#, fuzzy, c-format
+#, c-format
 msgid "Failed at message %d of %d"
-msgstr "Neizdevâs"
+msgstr "Kïûda pie vçstules %d no %d"
 
 #: camel/camel-filter-driver.c:921
 #, fuzzy, c-format
@@ -7482,7 +7411,7 @@ msgstr "kïûda ar"
 #: camel/camel-lock-client.c:215
 #, c-format
 msgid "Could not lock '%s'"
-msgstr ""
+msgstr "Nevarçja noslçgt '%s'"
 
 #. well, this is really only a programatic error
 #: camel/camel-lock.c:91 camel/camel-lock.c:110
@@ -7496,98 +7425,95 @@ msgid "Timed out trying to get lock file on %s. Try again later."
 msgstr "dabût failu Mçìinât."
 
 #: camel/camel-lock.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to get lock using fcntl(2): %s"
-msgstr "Neizdevâs dabût"
+msgstr "Neizdevâs dabût slçgu lietojot fctl(2): %s"
 
 #: camel/camel-lock.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to get lock using flock(2): %s"
-msgstr "Neizdevâs dabût"
+msgstr "Neizdevâs dabût slçgu lietojot flock(2): %s"
 
 #: camel/camel-movemail.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Could not check mail file %s: %s"
-msgstr "failu"
+msgstr "Nevarçja pârbaudiît pasta failu %s: %s"
 
 #: camel/camel-movemail.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open mail file %s: %s"
-msgstr "failu"
+msgstr "Nevar atvçrt pasta failu %s: %s"
 
 #: camel/camel-movemail.c:129
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open temporary mail file %s: %s"
-msgstr "failu"
+msgstr "Nevar atvçrt pagaidu pasta failu %s: %s"
 
 #: camel/camel-movemail.c:158
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to store mail in temp file %s: %s"
-msgstr "Neizdevâs failu"
+msgstr "Neizdevâs saglabât pastu pagaidu failâ %s: %s"
 
 #: camel/camel-movemail.c:188
 #, c-format
 msgid "Could not create pipe: %s"
-msgstr ""
+msgstr "Nevar izveidot kanâlu: %s"
 
 #: camel/camel-movemail.c:200
 #, c-format
 msgid "Could not fork: %s"
-msgstr ""
+msgstr "Nevar sazarot: %s"
 
 #: camel/camel-movemail.c:238
 #, c-format
 msgid "Movemail program failed: %s"
-msgstr ""
+msgstr "Movemail programma izgâzusies: %s"
 
 #: camel/camel-movemail.c:239
 msgid "(Unknown error)"
 msgstr "(Nezinâma kïûda)"
 
 #: camel/camel-movemail.c:262
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading mail file: %s"
-msgstr "Kïûda failu"
+msgstr "Kïûda lasot pasta failu: %s"
 
 #: camel/camel-movemail.c:273
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing mail temp file: %s"
-msgstr "Kïûda failu"
+msgstr "Kïûda rakstot pasta pagaidu failu: %s"
 
 #: camel/camel-movemail.c:466 camel/camel-movemail.c:533
-#, fuzzy, c-format
+#, c-format
 msgid "Error copying mail temp file: %s"
-msgstr "Kïûda failu"
+msgstr "Kïûda kopçjot pasta pagaidu failu: %s"
 
 #: camel/camel-pgp-context.c:193
 #, c-format
 msgid "Please enter your %s passphrase for %s"
-msgstr ""
+msgstr "Lûdzu ievadiet jûsu %s paroles frâzi %s"
 
 #: camel/camel-pgp-context.c:196
 #, c-format
 msgid "Please enter your %s passphrase"
-msgstr ""
+msgstr "Lûdzu ievadiet jûsu %s paroles frâzi"
 
 #: camel/camel-pgp-context.c:575
-#, fuzzy
 msgid "Cannot sign this message: no plaintext to sign"
-msgstr "nç"
+msgstr "Nevar parakstît ðo vçstuli: nav parastâ teksta ko parakstît"
 
 #: camel/camel-pgp-context.c:582 camel/camel-pgp-context.c:762
-#, fuzzy
 msgid "Cannot sign this message: no password provided"
-msgstr "nç"
+msgstr "Nevar parakstît ðo vçstuli: nav piedâvata parole"
 
 #: camel/camel-pgp-context.c:588 camel/camel-pgp-context.c:768
 #, c-format
 msgid "Cannot sign this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
+msgstr "Nevar parakstît ðo vçstuli: nevarçja izveidot kanâlu ar GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:755
-#, fuzzy
 msgid "Cannot sign this message: no plaintext to clearsign"
-msgstr "nç"
+msgstr ""
 
 #: camel/camel-pgp-context.c:953
 #, fuzzy
@@ -7597,7 +7523,7 @@ msgstr "nç"
 #: camel/camel-pgp-context.c:959
 #, c-format
 msgid "Cannot verify this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
+msgstr "Nevar pârbaudît ðo vçstuli: nevarçja izveidot kanâlu uz GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:970
 #, fuzzy, c-format
@@ -7605,62 +7531,57 @@ msgid "Cannot verify this message: couldn't create temp file: %s"
 msgstr "failu"
 
 #: camel/camel-pgp-context.c:1143
-#, fuzzy
 msgid "Cannot encrypt this message: no plaintext to encrypt"
-msgstr "nç"
+msgstr "Nevar kodçt ðo vçstuli: nav parastâ teksta ko kodçt"
 
 #: camel/camel-pgp-context.c:1153
-#, fuzzy
 msgid "Cannot encrypt this message: no password provided"
-msgstr "nç"
+msgstr "Nevar kodçt ðo vçstuli: nav piedâvada parole"
 
 #: camel/camel-pgp-context.c:1160
 #, c-format
 msgid "Cannot encrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
+msgstr "Nevar kodçt ðo vçstuli: nevarçja izveidot kanâlu ar GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:1169
-#, fuzzy
 msgid "Cannot encrypt this message: no recipients specified"
-msgstr "nç"
+msgstr "Nevar kodçt ðo vçstuli: nav norâdîti saòçmçji"
 
 #: camel/camel-pgp-context.c:1337
-#, fuzzy
 msgid "Cannot decrypt this message: no ciphertext to decrypt"
-msgstr "nç"
+msgstr "Nevar atkodçt ðo vçstuli: nav kodçta teksta ko atkodçt"
 
 #: camel/camel-pgp-context.c:1345
-#, fuzzy
 msgid "Cannot decrypt this message: no password provided"
-msgstr "nç"
+msgstr "Nevar atkodçt ðo vçstuli: nav piedâvâta parole"
 
 #: camel/camel-pgp-context.c:1352
 #, c-format
 msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
+msgstr "Nevar atkodçt ðo vçstuli: nevarçja izveidot kanâlu ar GPG/PGP: %s"
 
 #: camel/camel-pgp-mime.c:310
 msgid "This is a digitally signed message part"
-msgstr ""
+msgstr "Ðî ir digitâli parakstîtâ vçstules daïa"
 
 #: camel/camel-pgp-mime.c:485
 msgid "This is an encrypted message part"
-msgstr ""
+msgstr "Ðî ir kodçtâ daïa"
 
 #: camel/camel-provider.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load %s: Module loading not supported on this system."
-msgstr "sistçma."
+msgstr "Nevarçja ielâdet %s: Moduïu ielâde nav atbalstîta ðajâ sistçmâ."
 
 #: camel/camel-provider.c:139
 #, c-format
 msgid "Could not load %s: %s"
-msgstr ""
+msgstr "Nevar ielâdçt %s: %s"
 
 #: camel/camel-provider.c:147
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load %s: No initialization code in module."
-msgstr "Nç."
+msgstr "Nevar ielâdçt %s: Nav initicializâcijas koda modulî."
 
 #: camel/camel-remote-store.c:203
 #, c-format
@@ -7694,9 +7615,9 @@ msgid "Operation cancelled"
 msgstr "Operâcija atsaukta"
 
 #: camel/camel-remote-store.c:484
-#, fuzzy, c-format
+#, c-format
 msgid "Server unexpectedly disconnected: %s"
-msgstr "Serveris"
+msgstr "Serveris negaidîti atvienojâs: %s"
 
 #: camel/camel-sasl-anonymous.c:33
 msgid "Anonymous"
@@ -7716,6 +7637,8 @@ msgid ""
 "Invalid email address trace information:\n"
 "%s"
 msgstr ""
+"Nepareiza epasta adreses meklçðanas informâcija:\n"
+"%s"
 
 #: camel/camel-sasl-anonymous.c:131
 #, c-format
@@ -7723,6 +7646,8 @@ msgid ""
 "Invalid opaque trace information:\n"
 "%s"
 msgstr ""
+"Nepareiza ierobeþotâs meklçðanas informâcija:\n"
+"%s"
 
 #: camel/camel-sasl-anonymous.c:143
 #, c-format
@@ -7730,6 +7655,8 @@ msgid ""
 "Invalid trace information:\n"
 "%s"
 msgstr ""
+"Nepareiza meklçðana informâcija:\n"
+"%s"
 
 #: camel/camel-sasl-cram-md5.c:35
 msgid "CRAM-MD5"
@@ -7739,7 +7666,7 @@ msgstr "CRAM-MD5"
 msgid ""
 "This option will connect to the server using a secure CRAM-MD5 password, if "
 "the server supports it."
-msgstr ""
+msgstr "Ðî opcija ïaus savienoties ar serveri lietojot droðo CRAM-MD5 paroli, ja serveris atbalsta to."
 
 #: camel/camel-sasl-digest-md5.c:43
 msgid "DIGEST-MD5"
@@ -7749,7 +7676,7 @@ msgstr "DIGEST-MD5"
 msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
-msgstr ""
+msgstr "Ðî opcija ïaus jums savienoties ar serveri lietojot droðo DIGEST-MD5 paroli, ja serveris atbalsta to."
 
 #: camel/camel-sasl-digest-md5.c:810
 #, fuzzy
@@ -7800,7 +7727,7 @@ msgstr ""
 #: camel/camel-sasl-kerberos4.c:218
 #: camel/providers/imap/camel-imap-store.c:495
 msgid "Bad authentication response from server."
-msgstr ""
+msgstr "Slikta autentifikâcijas atbilde no servera."
 
 #: camel/camel-sasl-login.c:32
 msgid "NT Login"
@@ -7839,7 +7766,7 @@ msgstr "nezinâms"
 
 #: camel/camel-sasl-popb4smtp.c:116
 msgid "POP Before SMTP auth using a non-pop source"
-msgstr ""
+msgstr "POP pirms SMTP autentifikâcijas lietojot ne-pop avotu"
 
 #: camel/camel-search-private.c:113
 #, fuzzy, c-format
@@ -7864,12 +7791,12 @@ msgstr "URL"
 #: camel/camel-service.c:614
 #, c-format
 msgid "Resolving: %s"
-msgstr ""
+msgstr "Sameklçjam: %s"
 
 #: camel/camel-service.c:641
 #, c-format
 msgid "Failure in name lookup: %s"
-msgstr ""
+msgstr "Nevar atrast nosaukumu: %s"
 
 #: camel/camel-service.c:666
 #, fuzzy, c-format
@@ -7915,33 +7842,30 @@ msgstr "ar."
 #: camel/camel-smime-context.c:209
 #, c-format
 msgid "The signature certificate for \"%s\" does not exist."
-msgstr ""
+msgstr "Paraksta sertifikâts \"%s\" neeksistç."
 
 #: camel/camel-smime-context.c:249
 #, c-format
 msgid "The encryption certificate for \"%s\" does not exist."
-msgstr ""
+msgstr "Kodçðanas sertifikâts \"%s\" neeksistç."
 
 #: camel/camel-smime-context.c:419 camel/camel-smime-context.c:430
 #: camel/camel-smime-context.c:536 camel/camel-smime-context.c:546
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to find certificate for \"%s\"."
-msgstr "Neizdevâs."
+msgstr "Neizdevâs atrast sertifikâtu \"%s\"."
 
 #: camel/camel-smime-context.c:556
-#, fuzzy
 msgid "Failed to find a common bulk algorithm."
-msgstr "Neizdevâs."
+msgstr "Neizdevâs atrast parasto bulk algoritmu."
 
 #: camel/camel-smime-context.c:810
-#, fuzzy
 msgid "Failed to decode message."
-msgstr "Neizdevâs."
+msgstr "Neizdevâs atkodçt vçstuli"
 
 #: camel/camel-smime-context.c:855
-#, fuzzy
 msgid "Failed to verify certificates."
-msgstr "Neizdevâs."
+msgstr "Neizdevâs pârbaudît sertifikâtu"
 
 #: camel/camel-store.c:220
 #, fuzzy
@@ -7999,31 +7923,31 @@ msgstr "Nav tâdas vçstules: %s"
 #: camel/camel-vee-store.c:258
 #, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
-msgstr ""
+msgstr "Nevar izdzçst mapi: %s: Nepareiza operâcija"
 
 #: camel/camel-vee-store.c:293
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder: %s: No such folder"
-msgstr "Nç"
+msgstr "Nevar izdzçst mapi: %s: Nav tâdas mapes"
 
 #: camel/camel-vee-store.c:306
 #, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
-msgstr ""
+msgstr "Nevar pârsaukt mapi: %s: Nepareiza operâcija"
 
 #: camel/camel-vee-store.c:314
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder: %s: No such folder"
-msgstr "Nç"
+msgstr "Nevar pârsaukt mapi: %s: Nav tâdas mapes"
 
 #: camel/camel-vtrash-folder.c:117
 msgid "You cannot copy messages from this trash folder."
-msgstr ""
+msgstr "Jûs nevarat kopçt vçstules no ðîs atkritumkastes mapes."
 
 #: camel/providers/imap/camel-imap-command.c:344
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected response from IMAP server: %s"
-msgstr "IMAP"
+msgstr "Negaidîta atbilde no IMAP servera: %s"
 
 #: camel/providers/imap/camel-imap-command.c:354
 #, c-format
@@ -8035,40 +7959,38 @@ msgid "Server response ended too soon."
 msgstr "Servera atbilde beidzâs pârâk âtri."
 
 #: camel/providers/imap/camel-imap-command.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "IMAP server response did not contain %s information"
-msgstr "IMAP"
+msgstr "IMAP servera atbilde nesaturçja %s informâciju"
 
 #: camel/providers/imap/camel-imap-command.c:637
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected OK response from IMAP server: %s"
-msgstr "OK IMAP"
+msgstr "Negaidîta OK atbilde no IMAP servera: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:194
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create directory %s: %s"
-msgstr "direktoriju"
+msgstr "Nevar izveidot direktoriju %s: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:213
 #, c-format
 msgid "Could not load summary for %s"
-msgstr ""
+msgstr "Nevar ielâdçt %s kopsavilkumu"
 
 #: camel/providers/imap/camel-imap-folder.c:277
-#, fuzzy
 msgid "Folder was destroyed and recreated on server."
-msgstr "Mape."
+msgstr "Mape tika iznîcinâta un pârizveidota uz servera."
 
 #. Check UIDs and flags of all messages we already know of.
 #: camel/providers/imap/camel-imap-folder.c:461
 msgid "Scanning for changed messages"
-msgstr ""
+msgstr "Meklçjam izmainîtâs vçstules"
 
 #: camel/providers/imap/camel-imap-folder.c:1585
 #: camel/providers/imap/camel-imap-folder.c:2001
-#, fuzzy
 msgid "This message is not currently available"
-msgstr "ir"
+msgstr "Ðî vçstule ðobrîd nav pieejama"
 
 #: camel/providers/imap/camel-imap-folder.c:1740
 #: camel/providers/imap/camel-imap-folder.c:1821
@@ -8077,24 +7999,24 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-folder.c:1746
 msgid "Scanning for new messages"
-msgstr ""
+msgstr "Meklçjam jaunâs vçstules"
 
 #: camel/providers/imap/camel-imap-folder.c:2038
 msgid "Could not find message body in FETCH response."
 msgstr ""
 
 #: camel/providers/imap/camel-imap-message-cache.c:154
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open cache directory: %s"
-msgstr "direktoriju"
+msgstr "Nevarçja atvçrt keiðdirektoriju: %s"
 
 #: camel/providers/imap/camel-imap-message-cache.c:256
 #: camel/providers/imap/camel-imap-message-cache.c:313
 #: camel/providers/imap/camel-imap-message-cache.c:344
 #: camel/providers/imap/camel-imap-message-cache.c:376
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to cache message %s: %s"
-msgstr "Neizdevâs"
+msgstr "Neizdevâs keiðot vçstuli %s: %s"
 
 #: camel/providers/imap/camel-imap-provider.c:43
 msgid "Checking for new mail"
@@ -8118,7 +8040,7 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-provider.c:54
 msgid "Namespace"
-msgstr ""
+msgstr "Vârdalauks"
 
 #: camel/providers/imap/camel-imap-provider.c:57
 #, fuzzy
@@ -8158,7 +8080,7 @@ msgstr "IMAP"
 #: camel/providers/imap/camel-imap-store.c:567
 #: camel/providers/smtp/camel-smtp-transport.c:430
 msgid "You didn't enter a password."
-msgstr ""
+msgstr "Jûs neievadîjât paroli."
 
 #: camel/providers/imap/camel-imap-store.c:596
 #, fuzzy, c-format
@@ -8236,9 +8158,9 @@ msgstr "ir pareizs"
 #: camel/providers/local/camel-local-store.c:153
 #: camel/providers/local/camel-local-store.c:169
 #: camel/providers/local/camel-local-store.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder: %s: %s"
-msgstr "dabût"
+msgstr "Nevar dabût mapi: %s: %s"
 
 #: camel/providers/local/camel-local-store.c:184
 msgid "Local stores do not have an inbox"
@@ -8292,11 +8214,13 @@ msgstr ""
 #: camel/providers/local/camel-mh-folder.c:207
 #: camel/providers/local/camel-mh-folder.c:215
 #: camel/providers/local/camel-spool-folder.c:579
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot get message: %s\n"
 "  %s"
-msgstr "dabût\n"
+msgstr ""
+"Nevar dabût vçstuli\n"
+"  %s"
 
 #: camel/providers/local/camel-maildir-folder.c:209
 #: camel/providers/local/camel-mbox-folder.c:331
@@ -8317,13 +8241,15 @@ msgid ""
 "Could not open folder `%s':\n"
 "%s"
 msgstr ""
+"Nevarçja atvçrt mapi `%s':\n"
+"%s"
 
 #: camel/providers/local/camel-maildir-store.c:109
 #: camel/providers/local/camel-mbox-store.c:100
 #: camel/providers/local/camel-mh-store.c:96
-#, fuzzy, c-format
+#, c-format
 msgid "Folder `%s' does not exist."
-msgstr "Mape."
+msgstr "Mape '%s' neeksistç."
 
 #: camel/providers/local/camel-maildir-store.c:116
 #: camel/providers/local/camel-mh-store.c:102
@@ -8332,6 +8258,8 @@ msgid ""
 "Could not create folder `%s':\n"
 "%s"
 msgstr ""
+"Nevarçja izveidot mapi `%s':\n"
+"%s"
 
 #: camel/providers/local/camel-maildir-store.c:131
 #, fuzzy, c-format
@@ -8343,16 +8271,16 @@ msgstr "ir direktoriju."
 #: camel/providers/local/camel-mh-store.c:126
 #, c-format
 msgid "Could not delete folder `%s': %s"
-msgstr ""
+msgstr "Nevarçja izdzçst mapi `%s': %s"
 
 #: camel/providers/local/camel-maildir-store.c:167
 msgid "not a maildir directory"
-msgstr ""
+msgstr "nav maildir direktorija"
 
 #: camel/providers/local/camel-maildir-store.c:331
 #, c-format
 msgid "Could not scan folder `%s': %s"
-msgstr ""
+msgstr "Nevarçja skançt mapi `%s': %s"
 
 #: camel/providers/local/camel-maildir-summary.c:405
 #: camel/providers/local/camel-maildir-summary.c:526
@@ -8388,36 +8316,41 @@ msgstr "failu"
 #: camel/providers/local/camel-spool-folder.c:595
 #: camel/providers/local/camel-spool-folder.c:627
 #: camel/providers/local/camel-spool-folder.c:639
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot get message: %s from folder %s\n"
 "  %s"
-msgstr "dabût\n"
+msgstr ""
+"Nevar dabût vçstuli: %s no mapes %s\n"
+"  %s"
 
 #: camel/providers/local/camel-mbox-folder.c:380
 #: camel/providers/local/camel-spool-folder.c:628
 msgid "The folder appears to be irrecoverably corrupted."
-msgstr ""
+msgstr "Ðî mape izskatâs ir neatgriezeniski sabojâta."
 
 #: camel/providers/local/camel-mbox-folder.c:392
 #: camel/providers/local/camel-spool-folder.c:640
-#, fuzzy
 msgid "Message construction failed: Corrupt mailbox?"
-msgstr "Vçstule?"
+msgstr "Vçstules konstrukcija neveiksmîga: Sabojâta pastkaste?"
 
 #: camel/providers/local/camel-mbox-store.c:93
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not open file `%s':\n"
 "%s"
-msgstr "failu\n"
+msgstr ""
+"Nevar atvçrt failu '%s':\n"
+"%s"
 
 #: camel/providers/local/camel-mbox-store.c:109
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not create file `%s':\n"
 "%s"
-msgstr "failu\n"
+msgstr ""
+"Nevar izveidot failu '%s':\n"
+"%s"
 
 #: camel/providers/local/camel-mbox-store.c:118
 #: camel/providers/local/camel-mbox-store.c:145
@@ -8432,11 +8365,13 @@ msgid ""
 "Could not delete folder `%s':\n"
 "%s"
 msgstr ""
+"Nevarçja izdzçst mapi `%s':\n"
+"%s"
 
 #: camel/providers/local/camel-mbox-store.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Folder `%s' is not empty. Not deleted."
-msgstr "Mape ir tukðs."
+msgstr "Mape `%s' nav tukða. Netika izdzçsta."
 
 #. FIXME: If there is a failure, it shouldn't clear the summary and restart,
 #. it should try and merge the summary info's.  This is a bit tricky.
@@ -8453,7 +8388,7 @@ msgstr "Glabâjam mapi"
 #: camel/providers/local/camel-spool-summary.c:383
 #, c-format
 msgid "Could not open folder: %s: %s"
-msgstr ""
+msgstr "Nevarçja atvçrt mapi: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:295
 #: camel/providers/local/camel-spool-summary.c:425
@@ -8465,14 +8400,14 @@ msgstr "kïûda"
 #: camel/providers/local/camel-spool-summary.c:497
 #, c-format
 msgid "Cannot check folder: %s: %s"
-msgstr ""
+msgstr "Nevarçja pârbaudît mapi: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:502
 #: camel/providers/local/camel-mbox-summary.c:703
 #: camel/providers/local/camel-spool-summary.c:648
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open file: %s: %s"
-msgstr "failu"
+msgstr "Nevar atvçrt failu: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:519
 #: camel/providers/local/camel-spool-summary.c:672
@@ -8488,9 +8423,8 @@ msgstr ""
 #: camel/providers/local/camel-spool-summary.c:705
 #: camel/providers/local/camel-spool-summary.c:978
 #: camel/providers/local/camel-spool-summary.c:986
-#, fuzzy
 msgid "Summary and folder mismatch, even after a sync"
-msgstr "Kopsavilkums pçc"
+msgstr "Kopsavilkuma un mapes nesakriðana, pat pçc sinhronizâcijas"
 
 #: camel/providers/local/camel-mbox-summary.c:595
 #: camel/providers/local/camel-spool-summary.c:749
@@ -8524,9 +8458,9 @@ msgstr ""
 #: camel/providers/local/camel-mbox-summary.c:873
 #: camel/providers/local/camel-spool-summary.c:544
 #: camel/providers/local/camel-spool-summary.c:1110
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown error: %s"
-msgstr "Nezinâms kïûda"
+msgstr "Nezinâma kïûda: %s"
 
 #: camel/providers/local/camel-mh-folder.c:172
 msgid "MH append message cancelled"
@@ -8538,9 +8472,9 @@ msgid "Cannot append message to mh folder: %s: %s"
 msgstr ""
 
 #: camel/providers/local/camel-mh-store.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' is not a directory."
-msgstr "ir direktoriju."
+msgstr "`%s' nav direktorija."
 
 #: camel/providers/local/camel-mh-summary.c:218
 #, fuzzy, c-format
@@ -8558,9 +8492,9 @@ msgid "Spool `%s' does not exist or is not a regular file"
 msgstr "ir pareizs"
 
 #: camel/providers/local/camel-spool-store.c:141
-#, fuzzy, c-format
+#, c-format
 msgid "Folder `%s/%s' does not exist."
-msgstr "Mape."
+msgstr "Mape `%s/%s' neekistç."
 
 #: camel/providers/local/camel-spool-store.c:163
 #, fuzzy, c-format
@@ -8599,39 +8533,35 @@ msgstr ""
 " Mape"
 
 #: camel/providers/local/camel-spool-summary.c:940
-#, fuzzy, c-format
+#, c-format
 msgid "Could not file: %s: %s"
-msgstr "failu"
+msgstr "Nevar atvçrt failu: %s: %s"
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
-msgstr ""
+msgstr "Lûdzu ievadiet %s@%s NNTP paroli"
 
 #: camel/providers/nntp/camel-nntp-auth.c:64
-#, fuzzy
 msgid "Server rejected username"
-msgstr "Serveris"
+msgstr "Serveris noraidîja lietotâjvârdu"
 
 #: camel/providers/nntp/camel-nntp-auth.c:70
-#, fuzzy
 msgid "Failed to send username to server"
-msgstr "Neizdevâs"
+msgstr "Neizdevâs nosûtît lietotâjvârdu serverim"
 
 #: camel/providers/nntp/camel-nntp-auth.c:79
-#, fuzzy
 msgid "Server rejected username/password"
-msgstr "Serveris"
+msgstr "Serveris noraidîja lietotâjvârdu/paroli"
 
 #: camel/providers/nntp/camel-nntp-folder.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "Message %s not found."
-msgstr "Vçstule."
+msgstr "Vçstule %s nav atrasta."
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:45
-#, fuzzy
 msgid "Could not get group list from server."
-msgstr "dabût grupa saraksts."
+msgstr "Nevarçja dabût grupas sarakstu no servera."
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:98
 #: camel/providers/nntp/camel-nntp-grouplist.c:107
@@ -8646,7 +8576,7 @@ msgstr "failu"
 
 #: camel/providers/nntp/camel-nntp-provider.c:41
 msgid "USENET news"
-msgstr ""
+msgstr "USENET ziòas"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
 #, fuzzy
@@ -8654,21 +8584,20 @@ msgid "This is a provider for reading from and posting toUSENET newsgroups."
 msgstr "ir."
 
 #: camel/providers/nntp/camel-nntp-store.c:230
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open directory for news server: %s"
-msgstr "direktoriju"
+msgstr "Nevarçja atvçrt direktoriju ziòu serverim: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:296
-#, fuzzy, c-format
+#, c-format
 msgid "USENET News via %s"
-msgstr "Ziòas"
+msgstr "USENET Ziòas caur %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:303
-#, fuzzy
 msgid ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
-msgstr "ar."
+msgstr "Ðî opcija autentificçsies ar NNTP serveri lietojot vienkârða teksta paroli."
 
 #: camel/providers/nntp/camel-nntp-store.c:333
 #: camel/providers/nntp/camel-nntp-store.c:495
@@ -8678,16 +8607,16 @@ msgstr "failu"
 
 #: camel/providers/pop3/camel-pop3-folder.c:175
 msgid "Retrieving POP summary"
-msgstr ""
+msgstr "Saòemam POP kopsavilkumu"
 
 #: camel/providers/pop3/camel-pop3-folder.c:181
 #, c-format
 msgid "Could not check POP server for new messages: %s"
-msgstr ""
+msgstr "Nevarçja pârbaudît POP serveri jaunâm ziòâm: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:228
 msgid "Could not open folder: message listing was incomplete."
-msgstr ""
+msgstr "Nevarçja atvçrt mapi: vçstuïu saraksts bija nepilnîgs"
 
 #: camel/providers/pop3/camel-pop3-folder.c:252
 msgid "Expunging deleted messages"
@@ -8701,17 +8630,17 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-folder.c:344
 #, c-format
 msgid "Could not retrieve message from POP server %s: %s"
-msgstr ""
+msgstr "Nevarçja saòemt vçstuli no POP servera %s: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "No message with uid %s"
-msgstr "Nç ar"
+msgstr "Nav vçstules ar uid %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:371
 #, c-format
 msgid "Retrieving POP message %d"
-msgstr ""
+msgstr "Saòemam POP vçstuli %d"
 
 #: camel/providers/pop3/camel-pop3-provider.c:36
 #, fuzzy
@@ -8720,16 +8649,16 @@ msgstr "Vçstule"
 
 #: camel/providers/pop3/camel-pop3-provider.c:38
 msgid "Leave messages on server"
-msgstr ""
+msgstr "Atstât vçstules uz servera"
 
 #: camel/providers/pop3/camel-pop3-provider.c:41
-#, fuzzy, c-format
+#, c-format
 msgid "Delete after %s day(s)"
-msgstr "Dzçst pçc dienâ"
+msgstr "Dzçst pçc %s dienas (âm)"
 
 #: camel/providers/pop3/camel-pop3-provider.c:50 mail/mail-config.glade.h:51
 msgid "POP"
-msgstr ""
+msgstr "POP"
 
 #: camel/providers/pop3/camel-pop3-provider.c:52
 msgid "For connecting to and downloading mail from POP servers."
@@ -8751,8 +8680,7 @@ msgid ""
 msgstr "visi."
 
 #: camel/providers/pop3/camel-pop3-provider.c:91
-msgid ""
-"This will connect to the POP server and use Kerberos 4 to authenticate to it."
+msgid "This will connect to the POP server and use Kerberos 4 to authenticate to it."
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-store.c:198
@@ -8763,17 +8691,17 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:214
 #, c-format
 msgid "Could not connect to server: %s"
-msgstr ""
+msgstr "Nevarçja savienoties ar serveri: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:321
 #, c-format
 msgid "Could not connect to POP server on %s."
-msgstr ""
+msgstr "Nevarçja savienoties ar POP serveri uz %s."
 
 #: camel/providers/pop3/camel-pop3-store.c:360
 #, c-format
 msgid "%sPlease enter the POP3 password for %s@%s"
-msgstr ""
+msgstr "%sLûdzu ievadiet %s@%s POP3 paroli"
 
 #: camel/providers/pop3/camel-pop3-store.c:377
 #, fuzzy, c-format
@@ -8786,9 +8714,8 @@ msgstr ""
 
 #: camel/providers/pop3/camel-pop3-store.c:380
 #: camel/providers/pop3/camel-pop3-store.c:417
-#, fuzzy
 msgid "(Unknown)"
-msgstr "Nezinâms"
+msgstr "(Nezinâms)"
 
 #: camel/providers/pop3/camel-pop3-store.c:407
 #, fuzzy
@@ -8809,18 +8736,17 @@ msgstr ""
 " Kïûda"
 
 #: camel/providers/pop3/camel-pop3-store.c:480
-#, fuzzy, c-format
+#, c-format
 msgid "No such folder `%s'."
-msgstr "Nç."
+msgstr "Nav tâdas mapes `%s'."
 
 #: camel/providers/pop3/camel-pop3-store.c:563
 #, c-format
 msgid "Unexpected response from POP server: %s"
-msgstr ""
+msgstr "Negaidîta atbilde no POP servera: %s"
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
 #: mail/mail-config.glade.h:72
-#, fuzzy
 msgid "Sendmail"
 msgstr "Sendmail"
 
@@ -8839,12 +8765,12 @@ msgstr ""
 #: camel/providers/sendmail/camel-sendmail-transport.c:123
 #, c-format
 msgid "Could not fork sendmail: %s: mail not sent"
-msgstr ""
+msgstr "Nevarçja sazarot sendmail: %s: pasts nav nosûtîts"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:149
 #, c-format
 msgid "Could not send message: %s"
-msgstr ""
+msgstr "Nevarçja nosûtit vçstuli: %s"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:162
 #, fuzzy, c-format
@@ -8854,7 +8780,7 @@ msgstr "ar."
 #: camel/providers/sendmail/camel-sendmail-transport.c:169
 #, c-format
 msgid "Could not execute %s: mail not sent."
-msgstr ""
+msgstr "Nevarçja palaist %s: pasts nav nosûtîts."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:174
 #, fuzzy, c-format
@@ -8862,13 +8788,12 @@ msgid "sendmail exited with status %d: mail not sent."
 msgstr "ar."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:193
-#, fuzzy
 msgid "Could not find 'From' address in message"
-msgstr "No"
+msgstr "Nevarçja atrast 'No' ('From') adresi vçstulç"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:246
 msgid "sendmail"
-msgstr ""
+msgstr "sendmail"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:248
 #, fuzzy
@@ -8877,7 +8802,7 @@ msgstr "Pasts"
 
 #: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:65
 msgid "SMTP"
-msgstr ""
+msgstr "SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:39
 msgid "For delivering mail by connecting to a remote mailhub using SMTP.\n"
@@ -8909,30 +8834,28 @@ msgid "System status, or system help reply"
 msgstr "Sistçma sistçma"
 
 #: camel/providers/smtp/camel-smtp-transport.c:182
-#, fuzzy
 msgid "Help message"
-msgstr "Palîdzîba"
+msgstr "Palîdzîbas ziòojums"
 
 #: camel/providers/smtp/camel-smtp-transport.c:184
 msgid "Service ready"
-msgstr ""
+msgstr "Serviss kârtîbâ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:186
 msgid "Service closing transmission channel"
-msgstr ""
+msgstr "Serviss aizver pârraides kanâlu"
 
 #: camel/providers/smtp/camel-smtp-transport.c:188
 msgid "Service not available, closing transmission channel"
-msgstr ""
+msgstr "Serviss nav pieejams, aizveram pârraides kanâlu"
 
 #: camel/providers/smtp/camel-smtp-transport.c:190
 msgid "Requested mail action okay, completed"
-msgstr ""
+msgstr "Pieprasîtâ pasta darbîba atïauta, izpildîta."
 
 #: camel/providers/smtp/camel-smtp-transport.c:192
-#, fuzzy
 msgid "User not local; will forward to <forward-path>"
-msgstr "Lietotâjs"
+msgstr "Lietotâjs nav lokâls; tiks pârsûtîts uz <pârsûtîtâjceïð>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:194
 msgid "Requested mail action not taken: mailbox unavailable"
@@ -8948,9 +8871,8 @@ msgid "Requested action aborted: error in processing"
 msgstr "kïûda"
 
 #: camel/providers/smtp/camel-smtp-transport.c:200
-#, fuzzy
 msgid "User not local; please try <forward-path>"
-msgstr "Lietotâjs"
+msgstr "Lietotâjs nav lokâls; lûdzu izmçìiniet <pârsûtîtâjceïð>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:202
 #, fuzzy
@@ -8980,9 +8902,8 @@ msgid "A password transition is needed"
 msgstr "ir"
 
 #: camel/providers/smtp/camel-smtp-transport.c:216
-#, fuzzy
 msgid "Authentication mechanism is too weak"
-msgstr "Autentifikâcija ir"
+msgstr "Autentifikâcijas mehanisms ir par vâju"
 
 #: camel/providers/smtp/camel-smtp-transport.c:218
 msgid "Encryption required for requested authentication mechanism"
@@ -8990,12 +8911,11 @@ msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:220
 msgid "Temporary authentication failure"
-msgstr ""
+msgstr "Pagaidu autentifikâcijas problçma"
 
 #: camel/providers/smtp/camel-smtp-transport.c:222
-#, fuzzy
 msgid "Authentication required"
-msgstr "Autentifikâcija"
+msgstr "Pieprasîta autentifikâcija"
 
 #: camel/providers/smtp/camel-smtp-transport.c:317
 #, fuzzy, c-format
@@ -9005,12 +8925,12 @@ msgstr "kïûda"
 #: camel/providers/smtp/camel-smtp-transport.c:379
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s"
-msgstr ""
+msgstr "SMTP serveris %s neatbalsta pieprasîto autentifikâcijas tipu %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:417
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
-msgstr ""
+msgstr "%sLûdzu ievadiet %s@%s SMTP paroli"
 
 #: camel/providers/smtp/camel-smtp-transport.c:438
 #, c-format
@@ -9023,24 +8943,24 @@ msgstr ""
 #: camel/providers/smtp/camel-smtp-transport.c:554
 #, c-format
 msgid "SMTP server %s"
-msgstr ""
+msgstr "SMTP serveris %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:556
 #, c-format
 msgid "SMTP mail delivery via %s"
-msgstr ""
+msgstr "SMTP pasta nosûtîðana caur  %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:581
 msgid "Cannot send message: sender address not defined."
-msgstr ""
+msgstr "Nevar nosûtît vçstuli: nav norâdîta sûtîtâja adrese."
 
 #: camel/providers/smtp/camel-smtp-transport.c:588
 msgid "Cannot send message: sender address not valid."
-msgstr ""
+msgstr "Nevar nosûtît adresi: sûtîtâja adrese nav pareiza."
 
 #: camel/providers/smtp/camel-smtp-transport.c:593 mail/mail-ops.c:558
 msgid "Sending message"
-msgstr ""
+msgstr "Sûtam vçstuli"
 
 #: camel/providers/smtp/camel-smtp-transport.c:604
 #, fuzzy
@@ -9049,21 +8969,21 @@ msgstr "nç."
 
 #: camel/providers/smtp/camel-smtp-transport.c:684
 msgid "SMTP Greeting"
-msgstr ""
+msgstr "SMTP Apsveikums"
 
 #: camel/providers/smtp/camel-smtp-transport.c:706
 #, c-format
 msgid "HELO request timed out: %s: non-fatal"
-msgstr ""
+msgstr "HELO pieprasîjums iztecçjis: %s: ne fatâli"
 
 #: camel/providers/smtp/camel-smtp-transport.c:726
-#, fuzzy, c-format
+#, c-format
 msgid "HELO response error: %s: non-fatal"
-msgstr "kïûda"
+msgstr "HELO atbildes kïûda: %s: ne fatâli"
 
 #: camel/providers/smtp/camel-smtp-transport.c:758
 msgid "SMTP Authentication"
-msgstr ""
+msgstr "SMTP Autentifikâcija"
 
 #: camel/providers/smtp/camel-smtp-transport.c:764
 #, fuzzy
@@ -9074,45 +8994,45 @@ msgstr "Kïûda."
 #: camel/providers/smtp/camel-smtp-transport.c:791
 #, c-format
 msgid "AUTH request timed out: %s"
-msgstr ""
+msgstr "AUTH pieprasîjums iztecçjis: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:800
 msgid "AUTH request failed."
-msgstr ""
+msgstr "AUTH neveiksmîgs pieprasîjums."
 
 #: camel/providers/smtp/camel-smtp-transport.c:848
 msgid "Bad authentication response from server.\n"
-msgstr ""
+msgstr "Slikta autentifikâcijas atbilde no servera.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:874
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
-msgstr ""
+msgstr "MAIL FROM pieprasîjums iztecçjis: %s: pasts nav nosûtîts"
 
 #: camel/providers/smtp/camel-smtp-transport.c:893
-#, fuzzy, c-format
+#, c-format
 msgid "MAIL FROM response error: %s: mail not sent"
-msgstr "kïûda"
+msgstr "MAIL FROM atbildes kïûda: %s: pasts nav nosûtîts"
 
 #: camel/providers/smtp/camel-smtp-transport.c:918
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
-msgstr ""
+msgstr "RCPT TO pieprasîjums iztecçjis: %s: pasts nav nosûtîts"
 
 #: camel/providers/smtp/camel-smtp-transport.c:937
-#, fuzzy, c-format
+#, c-format
 msgid "RCPT TO response error: %s: mail not sent"
-msgstr "kïûda"
+msgstr "RCPT TO atbildes kïûda: %s: pasts nav nosûtît"
 
 #: camel/providers/smtp/camel-smtp-transport.c:971
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
-msgstr ""
+msgstr "DATA pieprasîjums iztecçjis: %s: pasts nav nosûtîts"
 
 #: camel/providers/smtp/camel-smtp-transport.c:990
-#, fuzzy, c-format
+#, c-format
 msgid "DATA response error: %s: mail not sent"
-msgstr "kïûda"
+msgstr "DATA atbildes kïûda: %s: pasts nav nosûtîts"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1030
 #: camel/providers/smtp/camel-smtp-transport.c:1048
@@ -9128,106 +9048,100 @@ msgstr "kïûda"
 #: camel/providers/smtp/camel-smtp-transport.c:1091
 #, c-format
 msgid "RSET request timed out: %s"
-msgstr ""
+msgstr "RSET pieprasîjums iztecçjis: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1110
-#, fuzzy, c-format
+#, c-format
 msgid "RSET response error: %s"
-msgstr "kïûda"
+msgstr "RSET atbildes kïûda: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1133
 #, c-format
 msgid "QUIT request timed out: %s: non-fatal"
-msgstr ""
+msgstr "QUIT pieprasîjums iztecçjis: %s: ne fatâli"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1152
-#, fuzzy, c-format
+#, c-format
 msgid "QUIT response error: %s: non-fatal"
-msgstr "kïûda"
+msgstr "QUIT atbildes kïûda: %s: ne fatâli"
 
 #: composer/e-msg-composer-attachment-bar.c:101
 msgid "1 byte"
-msgstr ""
+msgstr "1 baits"
 
 #: composer/e-msg-composer-attachment-bar.c:103
 #, c-format
 msgid "%u bytes"
-msgstr ""
+msgstr "%u baiti"
 
 #: composer/e-msg-composer-attachment-bar.c:110
 #, c-format
 msgid "%.1fK"
-msgstr ""
+msgstr "%.1fK"
 
 #: composer/e-msg-composer-attachment-bar.c:114
 #, c-format
 msgid "%.1fM"
-msgstr ""
+msgstr "%.1fM"
 
 #: composer/e-msg-composer-attachment-bar.c:118
 #, c-format
 msgid "%.1fG"
-msgstr ""
+msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
 #: composer/e-msg-composer-attachment-bar.c:361 mail/mail-display.c:136
 msgid "attachment"
-msgstr ""
+msgstr "pievienojums"
 
 #: composer/e-msg-composer-attachment-bar.c:502
-#, fuzzy
 msgid "Remove selected items from the attachment list"
-msgstr "Izòemt"
+msgstr "Izòemt izvçlçtos priekðmetus no pievienojumu saraksta"
 
 #: composer/e-msg-composer-attachment-bar.c:533
-#, fuzzy
 msgid "Add attachment..."
-msgstr "Pievienot."
+msgstr "Pievienot pievienojumu..."
 
 #: composer/e-msg-composer-attachment-bar.c:534
-#, fuzzy
 msgid "Attach a file to the message"
-msgstr "Pievienot failu"
+msgstr "Pievienot failu vçstulei"
 
 #: composer/e-msg-composer-attachment.c:168
 #: composer/e-msg-composer-attachment.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "failu"
+msgstr "Nevar pievienot failu %s: %s"
 
 #: composer/e-msg-composer-attachment.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr "failu pareizs"
+msgstr "Nevar pievienot failu %s: neregulârs fails"
 
 #: composer/e-msg-composer-attachment.glade.h:1
-#, fuzzy
 msgid "Attachment properties"
-msgstr "Pievienojums"
+msgstr "PPievienojuma rekvizîti"
 
 #: composer/e-msg-composer-attachment.glade.h:3
-#, fuzzy
 msgid "File name:"
-msgstr "Datne:"
+msgstr "Faila nosaukums:"
 
 #: composer/e-msg-composer-attachment.glade.h:4
 msgid "MIME type:"
-msgstr ""
+msgstr "MIME tips:"
 
 #: composer/e-msg-composer-attachment.glade.h:5
 #: composer/e-msg-composer-select-file.c:135
 msgid "Suggest automatic display of attachment"
-msgstr ""
+msgstr "Ieteikt automâtisku pievienojuma attçloðanu"
 
 #: composer/e-msg-composer-hdrs.c:327
 msgid "Click here for the address book"
-msgstr ""
+msgstr "Uz adreðu grâmatu"
 
 #.
 #. * From:
 #.
 #: composer/e-msg-composer-hdrs.c:358
-#, fuzzy
 msgid "From:"
 msgstr "No:"
 
@@ -9235,7 +9149,6 @@ msgstr "No:"
 #. * Reply-To:
 #.
 #: composer/e-msg-composer-hdrs.c:364
-#, fuzzy
 msgid "Reply-To:"
 msgstr "Atbildçt Kam:"
 
@@ -9243,30 +9156,26 @@ msgstr "Atbildçt Kam:"
 #. * Subject:
 #.
 #: composer/e-msg-composer-hdrs.c:375
-#, fuzzy
 msgid "Subject:"
 msgstr "Subjekts:"
 
 #: composer/e-msg-composer-hdrs.c:389
-#, fuzzy
 msgid "To:"
 msgstr "Kam:"
 
 #: composer/e-msg-composer-hdrs.c:390
 msgid "Enter the recipients of the message"
-msgstr ""
+msgstr "Ievadiet vçstules saòçmçjus"
 
 #: composer/e-msg-composer-hdrs.c:393
-#, fuzzy
 msgid "Cc:"
 msgstr "Cc:"
 
 #: composer/e-msg-composer-hdrs.c:394
 msgid "Enter the addresses that will receive a carbon copy of the message"
-msgstr ""
+msgstr "Ievadiet adreses kuras saòems vçstules kopiju"
 
 #: composer/e-msg-composer-hdrs.c:397
-#, fuzzy
 msgid "Bcc:"
 msgstr "Bcc:"
 
@@ -9279,9 +9188,8 @@ msgstr "saraksts."
 
 #: composer/e-msg-composer-select-file.c:228
 #: ui/evolution-message-composer.xml.h:2
-#, fuzzy
 msgid "Attach a file"
-msgstr "Pievienot"
+msgstr "Pievienot failu"
 
 #: composer/e-msg-composer.c:698
 #, fuzzy, c-format
@@ -9291,29 +9199,26 @@ msgid ""
 msgstr "Kïûda failu\n"
 
 #: composer/e-msg-composer.c:896
-#, fuzzy
 msgid "Save as..."
 msgstr "Saglabât kâ..."
 
 #: composer/e-msg-composer.c:905
-#, fuzzy
 msgid "Warning!"
 msgstr "Brîdinâjums!"
 
 #: composer/e-msg-composer.c:909
-#, fuzzy
 msgid "File exists, overwrite?"
-msgstr "Datne eksistç, pârrakstît?"
+msgstr "Fails eksistç, pârrakstît?"
 
 #: composer/e-msg-composer.c:931
-#, fuzzy, c-format
+#, c-format
 msgid "Error saving file: %s"
-msgstr "Kïûda failu"
+msgstr "Kïûda saglabâjot failu: %s"
 
 #: composer/e-msg-composer.c:950
-#, fuzzy, c-format
+#, c-format
 msgid "Error loading file: %s"
-msgstr "Kïûda failu"
+msgstr "Kïûda ielâdçjot failu: %s"
 
 #: composer/e-msg-composer.c:1021
 msgid ""
@@ -9322,13 +9227,13 @@ msgid ""
 msgstr ""
 
 #: composer/e-msg-composer.c:1071
-#, fuzzy, c-format
+#, c-format
 msgid "Error accessing file: %s"
-msgstr "Kïûda failu"
+msgstr "Kïûda atverot failu: %s"
 
 #: composer/e-msg-composer.c:1079
 msgid "Unable to retrieve message from editor"
-msgstr ""
+msgstr "Nespçju saòemt vçstuli no redaktora"
 
 #: composer/e-msg-composer.c:1086
 #, fuzzy, c-format
@@ -9345,20 +9250,21 @@ msgid ""
 msgstr "failu\n"
 
 #: composer/e-msg-composer.c:1102
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error autosaving message: %s\n"
 " %s"
-msgstr "Kïûda\n"
+msgstr ""
+"Kïûda automâtiski glabâjot vçstuli: %s\n"
+" %s"
 
 #: composer/e-msg-composer.c:1204
-#, fuzzy
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
-"failus\n"
-"?"
+"Ximian Evolution ir atradis nesaglabâtus failus no iepriekðçjâs sesijas.\n"
+"Vai jûs gribçtu tos atjaunot?"
 
 #: composer/e-msg-composer.c:1358
 msgid ""
@@ -9366,25 +9272,25 @@ msgid ""
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
+"Ðî vçstule netika nosûtîta.\n"
+"\n"
+"Vai tu vçlies saglabât izmaiòas?"
 
 #: composer/e-msg-composer.c:1365
-#, fuzzy
 msgid "Warning: Modified Message"
-msgstr "Brîdinâjums"
+msgstr "Brîdinâjums: Mainîta Vçstule"
 
 #: composer/e-msg-composer.c:1388
-#, fuzzy
 msgid "Open file"
-msgstr "Atvçrt"
+msgstr "Atvçrt failu"
 
 #: composer/e-msg-composer.c:1537
-#, fuzzy
 msgid "Insert File"
-msgstr "Ievietot"
+msgstr "Ievietot failu"
 
 #: composer/e-msg-composer.c:1923 composer/e-msg-composer.c:2366
 msgid "Compose a message"
-msgstr ""
+msgstr "Uzrakstît vçstuli"
 
 #: composer/e-msg-composer.c:2383
 msgid ""
@@ -9425,11 +9331,11 @@ msgstr "Ximian Evolution VUJ"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
-msgstr ""
+msgstr "adreses kartiòa"
 
 #: data/evolution.keys.in.h:2
 msgid "calendar information"
-msgstr ""
+msgstr "kalendâra informâcija"
 
 #: default_user/searches.xml.h:1
 #, fuzzy
@@ -9447,116 +9353,99 @@ msgid "Body or subject contains"
 msgstr "Íermenis"
 
 #: default_user/searches.xml.h:4
-#, fuzzy
 msgid "Message contains"
-msgstr "Vçstule"
+msgstr "Vçstule satur"
 
 #: default_user/searches.xml.h:5
-#, fuzzy
 msgid "Recipients contain"
-msgstr "Saòçmçji"
+msgstr "Saòçmçji satur"
 
 #: default_user/searches.xml.h:6
-#, fuzzy
 msgid "Sender contains"
-msgstr "Sûtîtajs"
+msgstr "Sûtîtâjs satur"
 
 #: default_user/searches.xml.h:7
-#, fuzzy
 msgid "Subject contains"
-msgstr "Subjekts"
+msgstr "Subjekts satur"
 
 #: default_user/searches.xml.h:8
-#, fuzzy
 msgid "Subject does not contain"
-msgstr "Subjekts"
+msgstr "Subjekts nesatur"
 
 #. Remember the password?
 #: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
-msgstr ""
+msgstr "Atceries ðo paroli"
 
 #: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
-msgstr ""
+msgstr "Atceries ðo paroli uz atlikuðo sesiju"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:168 e-util/e-time-utils.c:362
-#, fuzzy
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr "Y I"
+msgstr "%a %m/%d/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:173 e-util/e-time-utils.c:353
-#, fuzzy
 msgid "%a %m/%d/%Y %H:%M"
-msgstr "Y"
+msgstr "%a %m/%d/%Y %H:%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:178
-#, fuzzy
 msgid "%a %m/%d/%Y %I %p"
-msgstr "Y I"
+msgstr "%a %m/%d/%Y %I %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:183
-#, fuzzy
 msgid "%a %m/%d/%Y %H"
-msgstr "Y"
+msgstr "%a %m/%d/%Y %H"
 
 #. strptime format of a date and a time, in 12-hour format.
 #: e-util/e-time-utils.c:194
-#, fuzzy
 msgid "%m/%d/%Y %I:%M:%S %p"
-msgstr "Y I D"
+msgstr "%m/%d/%Y %I:%M:%S %p"
 
 #. strptime format of a date and a time, in 24-hour format.
 #: e-util/e-time-utils.c:198
-#, fuzzy
 msgid "%m/%d/%Y %H:%M:%S"
-msgstr "Y"
+msgstr "%m/%d/%Y %H:%M:%S"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:203
-#, fuzzy
 msgid "%m/%d/%Y %I:%M %p"
-msgstr "Y I"
+msgstr "%m/%d/%Y %I:%M %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:208
-#, fuzzy
 msgid "%m/%d/%Y %H:%M"
-msgstr "Y"
+msgstr "%m/%d/%Y %H:%M"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:213
-#, fuzzy
 msgid "%m/%d/%Y %I %p"
-msgstr "Y I"
+msgstr "%m/%d/%Y %I %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:218
-#, fuzzy
 msgid "%m/%d/%Y %H"
-msgstr "Y"
+msgstr "%m/%d/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
 #: e-util/e-time-utils.c:303 e-util/e-time-utils.c:402
-#, fuzzy
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
 #: e-util/e-time-utils.c:307 e-util/e-time-utils.c:394
-#, fuzzy
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
@@ -9564,22 +9453,19 @@ msgstr "%H:%M:%S"
 #. in 12-hour format.
 #: e-util/e-time-utils.c:312 e-util/e-time-utils.c:399
 #: widgets/misc/e-dateedit.c:1420 widgets/misc/e-dateedit.c:1647
-#, fuzzy
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:316 e-util/e-time-utils.c:391
 #: widgets/misc/e-dateedit.c:1417 widgets/misc/e-dateedit.c:1644
-#, fuzzy
 msgid "%H:%M"
 msgstr "%H:%M"
 
 #. strptime format for hour and AM/PM, 12-hour format.
 #: e-util/e-time-utils.c:320
-#, fuzzy
 msgid "%I %p"
-msgstr "I"
+msgstr "%I %p"
 
 #: filter/filter-datespec.c:80
 msgid "year"
@@ -9672,9 +9558,8 @@ msgstr "laiks, relatîvs attiecîbâ uz paðreizçjo laiku"
 
 #. The dialog
 #: filter/filter-datespec.c:394
-#, fuzzy
 msgid "Select a time to compare against"
-msgstr "Atlasît"
+msgstr "Izvçlieties laiku ar ko salîdzinât"
 
 #. The label
 #: filter/filter-datespec.c:428
@@ -9914,11 +9799,10 @@ msgstr ""
 
 #: filter/libfilter-i18n.h:24
 msgid "Replied to"
-msgstr ""
+msgstr "Atbildçts uz"
 
 #: filter/libfilter-i18n.h:25 filter/score-rule.c:204 filter/score-rule.c:206
 #: mail/message-list.etspec.h:5
-#, fuzzy
 msgid "Score"
 msgstr "Rezultâts"
 
@@ -10350,67 +10234,56 @@ msgid "_Reply to Sender"
 msgstr "_Atbildçt Sûtîtâjam"
 
 #: mail/folder-browser.c:1455 ui/evolution-mail-message.xml.h:73
-#, fuzzy
 msgid "Reply to _List"
-msgstr "Atbildçt"
+msgstr "Atbildçt uz _Sarakstu"
 
 #: mail/folder-browser.c:1456 ui/evolution-mail-message.xml.h:72
-#, fuzzy
 msgid "Reply to _All"
-msgstr "Atbildçt"
+msgstr "Atbildçt _Visiem"
 
 #: mail/folder-browser.c:1457
-#, fuzzy
 msgid "_Forward"
-msgstr "_Uz Priekðu"
+msgstr "_Pârsûtît"
 
 #: mail/folder-browser.c:1459 ui/evolution-mail-message.xml.h:43
 msgid "Mar_k as Read"
-msgstr ""
+msgstr "A_tzîmçt kâ Lasîtu"
 
 #: mail/folder-browser.c:1460 ui/evolution-mail-message.xml.h:45
-#, fuzzy
 msgid "Mark as U_nread"
-msgstr "Atzîmçt"
+msgstr "Atzîmçt kâ _Neizlasîtu"
 
 #: mail/folder-browser.c:1461
-#, fuzzy
 msgid "Mark as _Important"
-msgstr "Atzîmçt"
+msgstr "Atzîmçt kâ _Svarîgu"
 
 #: mail/folder-browser.c:1462
-#, fuzzy
 msgid "Mark as Unim_portant"
-msgstr "Atzîmçt"
+msgstr "Atzîmçt _kâ Nesvarîgu"
 
 #: mail/folder-browser.c:1466
-#, fuzzy
 msgid "_Move to Folder..."
-msgstr "Pârvietot Mape."
+msgstr "Pârvietot uz _Mapi..."
 
 #: mail/folder-browser.c:1467
-#, fuzzy
 msgid "_Copy to Folder..."
-msgstr "Kopçt Mape."
+msgstr "_Kopçt uz Mapi..."
 
 #: mail/folder-browser.c:1469 ui/evolution-mail-message.xml.h:107
 msgid "_Undelete"
-msgstr ""
+msgstr "_Atdzçst"
 
 #: mail/folder-browser.c:1473 ui/evolution-mail-message.xml.h:1
-#, fuzzy
 msgid "Add Sender to Address Book"
-msgstr "Pievienot Sûtîtajs Adrese"
+msgstr "Pievienot Sûtîtâju Adreðu Grâmatai"
 
 #: mail/folder-browser.c:1476
-#, fuzzy
 msgid "Apply Filters"
-msgstr "Attiecinât"
+msgstr "Attiecinât Filtrus"
 
 #: mail/folder-browser.c:1478
-#, fuzzy
 msgid "Create Ru_le From Message"
-msgstr "Izveidot No"
+msgstr "Izveidot Noteikumu No Vçstules"
 
 #: mail/folder-browser.c:1628
 #, fuzzy
@@ -10436,27 +10309,24 @@ msgid "Default"
 msgstr "Noklusçtais"
 
 #: mail/folder-info.c:64
-#, fuzzy
 msgid "Getting Folder Information"
-msgstr "Mape"
+msgstr "Dabûjam Informâciju par Mapi"
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in.h:1
 msgid "Factory to import mbox into Evolution"
 msgstr ""
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in.h:2
-#, fuzzy
 msgid "Imports mbox files into Evolution"
-msgstr "failus"
+msgstr "Importç mbox failus Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.oaf.in.h:1
 msgid "Factory to import Outlook Express 4 mails into Evolution"
 msgstr ""
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.oaf.in.h:2
-#, fuzzy
 msgid "Imports Outlook Express 4 files into Evolution"
-msgstr "failus"
+msgstr "Importç Outlook Express 4 failus Evolution"
 
 #: mail/local-config.glade.h:1
 #, fuzzy
@@ -10464,18 +10334,16 @@ msgid "Body contents"
 msgstr "Íermenis"
 
 #: mail/local-config.glade.h:2
-#, fuzzy
 msgid "Current store format:"
-msgstr "Paðreizçjais:"
+msgstr "Paðreizçjais glabâtuves formâts:"
 
 #: mail/local-config.glade.h:3
 msgid "Indexing:"
-msgstr ""
+msgstr "Indeksçðana:"
 
 #: mail/local-config.glade.h:4
-#, fuzzy
 msgid "Mailbox Format"
-msgstr "Pastkastîte"
+msgstr "Pastkastîtes formâts"
 
 #: mail/local-config.glade.h:5
 #, fuzzy
@@ -10495,11 +10363,11 @@ msgstr ""
 
 #: mail/local-config.glade.h:9
 msgid "maildir"
-msgstr ""
+msgstr "maildir"
 
 #: mail/local-config.glade.h:10
 msgid "mbox"
-msgstr ""
+msgstr "mbox"
 
 #: mail/local-config.glade.h:11
 msgid "mh"
@@ -10512,25 +10380,21 @@ msgstr "visi."
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor-news.c:160
-#, fuzzy
 msgid "Evolution News Editor"
-msgstr "Ziòas"
+msgstr "Evolution Ziòu Redaktors"
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor.c:160
-#, fuzzy
 msgid "Evolution Account Editor"
-msgstr "Konts"
+msgstr "Evolution Kontu Redaktors"
 
 #: mail/mail-account-gui.c:962
-#, fuzzy
 msgid "Could not save signature file."
-msgstr "failu."
+msgstr "Nevarçju noglabât paraksta failu."
 
 #: mail/mail-account-gui.c:1039
-#, fuzzy
 msgid "Save signature"
-msgstr "Saglabât"
+msgstr "Saglabât parakstu"
 
 #: mail/mail-account-gui.c:1045
 msgid ""
@@ -10538,6 +10402,9 @@ msgid ""
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
+"Ðis paraksts ir izmainîts, bet nav saglabâts.\n"
+"\n"
+"Vai saglabât jûsu izmaiòas?"
 
 #: mail/mail-account-gui.c:1654
 #, fuzzy
@@ -10546,63 +10413,60 @@ msgstr "ar."
 
 #: mail/mail-accounts.c:149
 msgid " (default)"
-msgstr ""
+msgstr "(noklusçtais)"
 
 #: mail/mail-accounts.c:194
 msgid "Disable"
-msgstr ""
+msgstr "Izslçgt"
 
 #: mail/mail-accounts.c:196
-#, fuzzy
 msgid "Enable"
 msgstr "Aktivizçt"
 
 #: mail/mail-accounts.c:293
 msgid "Are you sure you want to delete this account?"
-msgstr ""
+msgstr "Vai jûs esat pârliecinâts, ka vçlaties izdzçst ðo kontu?"
 
 #: mail/mail-accounts.c:297
 msgid "Don't delete"
-msgstr ""
+msgstr "Nedzçst"
 
 #: mail/mail-accounts.c:300
 msgid "Really delete account?"
-msgstr ""
+msgstr "Tieðâm dzçst kontu?"
 
 #: mail/mail-accounts.c:532 mail/mail-accounts.c:536
 msgid "Are you sure you want to delete this news account?"
-msgstr ""
+msgstr "Vai jûs esat pârliecinâts, ka vçlaties dzçst ziòu kontu?"
 
 #. give our dialog an Close button and title
 #: mail/mail-accounts.c:798 mail/mail-config.glade.h:42
-#, fuzzy
 msgid "Mail Settings"
-msgstr "Pasts"
+msgstr "Pasta Uzstâdîjumi"
 
 #: mail/mail-autofilter.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "Mail to %s"
-msgstr "Pasts"
+msgstr "Pasts uz %s"
 
 #: mail/mail-autofilter.c:217
-#, fuzzy, c-format
+#, c-format
 msgid "Subject is %s"
-msgstr "Subjekts ir"
+msgstr "Subjekts ir %s"
 
 #: mail/mail-autofilter.c:233
-#, fuzzy, c-format
+#, c-format
 msgid "Mail from %s"
-msgstr "Pasts"
+msgstr "Pasts no %s"
 
 #: mail/mail-autofilter.c:289
 #, c-format
 msgid "%s mailing list"
-msgstr ""
+msgstr "%s epasta sarakste"
 
 #: mail/mail-autofilter.c:338 mail/mail-autofilter.c:358
-#, fuzzy
 msgid "Add Filter Rule"
-msgstr "Pievienot Filtrs"
+msgstr "Pievienot Filtra Noteikumus"
 
 #: mail/mail-callbacks.c:137
 #, fuzzy
@@ -10653,13 +10517,12 @@ msgid "Send anyway?"
 msgstr "Sûtît jebkurâ gadîjumâ?"
 
 #: mail/mail-callbacks.c:322
-#, fuzzy
 msgid ""
 "This message has no subject.\n"
 "Really send?"
 msgstr ""
-"nç\n"
-"?"
+"Ðai vçstulei nav virsraksta\n"
+"Patieðâm nosûtît?"
 
 #: mail/mail-callbacks.c:366
 #, fuzzy
@@ -10683,9 +10546,8 @@ msgstr ""
 " Sûtît?"
 
 #: mail/mail-callbacks.c:469
-#, fuzzy
 msgid "This message contains invalid recipients:"
-msgstr "satur:"
+msgstr "Ðî vçstule satur nepareizus saòçmçjus:"
 
 #: mail/mail-callbacks.c:504
 msgid "You must specify recipients in order to send this message."
@@ -10701,9 +10563,8 @@ msgid "an unknown sender"
 msgstr "nezinâms nosûtîtâjs"
 
 #: mail/mail-callbacks.c:843
-#, fuzzy
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
-msgstr "Ieslçgts Y:"
+msgstr "%a, %Y-%m-%d at %H:%M, %%s rakstîja:"
 
 #: mail/mail-callbacks.c:1281 mail/message-browser.c:130
 msgid "Move message(s) to"
@@ -10714,9 +10575,9 @@ msgid "Copy message(s) to"
 msgstr "Kopçt vçstule(s) uz"
 
 #: mail/mail-callbacks.c:1759
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to edit all %d messages?"
-msgstr "visi?"
+msgstr "Vai jûs esat pârliecinâts, ka vçlaties rediìçt visas %d vçstules?"
 
 #: mail/mail-callbacks.c:1784
 #, fuzzy
@@ -10728,18 +10589,17 @@ msgstr ""
 " Melnraksti."
 
 #: mail/mail-callbacks.c:1823
-#, fuzzy
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
 msgstr ""
-"\n"
-" Nosûtîts."
+"Jûs varat pârsûtît vçlreiz tikai\n"
+"tâs vçstules, kas Nosûtîts mapç."
 
 #: mail/mail-callbacks.c:1837
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to resend all %d messages?"
-msgstr "visi?"
+msgstr "Vai jûs vçlaties pârsûtît vçlreiz visas %d vçstules?"
 
 #: mail/mail-callbacks.c:1863
 msgid "No Message Selected"
@@ -11091,7 +10951,7 @@ msgstr "ar Bcc"
 
 #: mail/mail-config.glade.h:58
 msgid "Qmail maildir "
-msgstr ""
+msgstr "Qmail maildir "
 
 #: mail/mail-config.glade.h:59
 msgid "Quoted"
@@ -11249,9 +11109,8 @@ msgid "_Highlight citations with"
 msgstr ""
 
 #: mail/mail-config.glade.h:104
-#, fuzzy
 msgid "_Host:"
-msgstr "Resursdators:"
+msgstr "_Resursdators:"
 
 #: mail/mail-config.glade.h:105
 #, fuzzy
@@ -11310,7 +11169,7 @@ msgstr "_Lietotâjvârds:"
 
 #: mail/mail-config.glade.h:118
 msgid "_every"
-msgstr ""
+msgstr "_katru"
 
 #: mail/mail-config.glade.h:119
 msgid "description"
@@ -11378,19 +11237,18 @@ msgid "Save to Disk..."
 msgstr "Saglabât uz Diska..."
 
 #: mail/mail-display.c:352
-#, fuzzy
 msgid "View Inline"
-msgstr "Skatît"
+msgstr "Skatît Iekðçji"
 
 #: mail/mail-display.c:354
-#, fuzzy, c-format
+#, c-format
 msgid "Open in %s..."
-msgstr "Atvçrt."
+msgstr "Atvçrt ar %s..."
 
 #: mail/mail-display.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "View Inline (via %s)"
-msgstr "Skatît"
+msgstr "Skatît Iekðçji (via %s)"
 
 #: mail/mail-display.c:419
 msgid "Hide"
@@ -11398,7 +11256,7 @@ msgstr "Slçpt"
 
 #: mail/mail-display.c:440
 msgid "External Viewer"
-msgstr ""
+msgstr "Ârçjais Skatîtâjs"
 
 #: mail/mail-display.c:1136
 msgid "Loading message content"
@@ -11423,7 +11281,7 @@ msgstr "Saglabât attçlu kâ..."
 #: mail/mail-format.c:635
 #, c-format
 msgid "%s attachment"
-msgstr ""
+msgstr "%s pievienojums"
 
 #: mail/mail-format.c:680
 msgid "Could not parse MIME message. Displaying as source."
@@ -11459,8 +11317,7 @@ msgstr "Bcc"
 
 #: mail/mail-format.c:1814
 #, fuzzy
-msgid ""
-"This message is digitally signed. Click the lock icon for more information."
+msgid "This message is digitally signed. Click the lock icon for more information."
 msgstr "ir."
 
 #: mail/mail-format.c:1837
@@ -11480,7 +11337,7 @@ msgstr "ir."
 #: mail/mail-format.c:2069
 #, c-format
 msgid "Pointer to FTP site (%s)"
-msgstr ""
+msgstr "Norâde uz FTP saiti (%s)"
 
 #: mail/mail-format.c:2083
 #, fuzzy, c-format
@@ -11508,7 +11365,7 @@ msgstr ""
 
 #: mail/mail-local.c:626
 msgid "Reconfiguring folder"
-msgstr ""
+msgstr "Pârkonfigurçt mapi"
 
 #: mail/mail-local.c:707
 #, c-format
@@ -11553,14 +11410,16 @@ msgstr ""
 #: mail/mail-local.c:1416
 #, c-format
 msgid "Reconfigure /%s"
-msgstr ""
+msgstr "Pârkonfigurçt /%s"
 
 #: mail/mail-mt.c:254
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error while '%s':\n"
 "%s"
-msgstr "Kïûda\n"
+msgstr ""
+"Kïûda kamçr '%s':\n"
+"%s"
 
 #: mail/mail-mt.c:257
 #, fuzzy, c-format
@@ -11571,11 +11430,11 @@ msgstr "Kïûda\n"
 
 #: mail/mail-mt.c:901
 msgid "Working"
-msgstr ""
+msgstr "Strâdâ"
 
 #: mail/mail-ops.c:86
 msgid "Filtering Folder"
-msgstr ""
+msgstr "Filtrçjam Mapi"
 
 #: mail/mail-ops.c:249
 msgid "Fetching Mail"
@@ -11583,17 +11442,17 @@ msgstr ""
 
 #: mail/mail-ops.c:489 mail/mail-ops.c:518
 msgid "However, the message was successfully sent."
-msgstr ""
+msgstr "Kaut arî, vçstule tika veiksmîgi nosûtîta."
 
 #: mail/mail-ops.c:554
 #, c-format
 msgid "Sending \"%s\""
-msgstr ""
+msgstr "Sûtam \"%s\""
 
 #: mail/mail-ops.c:674
 #, c-format
 msgid "Sending message %d of %d"
-msgstr ""
+msgstr "Sûtam vçstuli %d no %d"
 
 #: mail/mail-ops.c:693
 #, fuzzy, c-format
@@ -11601,32 +11460,30 @@ msgid "Failed on message %d of %d"
 msgstr "Neizdevâs"
 
 #: mail/mail-ops.c:695 mail/mail-send-recv.c:545
-#, fuzzy
 msgid "Complete."
 msgstr "Izpildîts."
 
 #: mail/mail-ops.c:788
-#, fuzzy
 msgid "Saving message to folder"
-msgstr "Saglabâju"
+msgstr "Saglabâjam vçstuli mapç"
 
 #: mail/mail-ops.c:868
 #, c-format
 msgid "Moving messages to %s"
-msgstr ""
+msgstr "Pârvietojam vçstules uz %s"
 
 #: mail/mail-ops.c:868
 #, c-format
 msgid "Copying messages to %s"
-msgstr ""
+msgstr "Kopçjam vçstules uz %s"
 
 #: mail/mail-ops.c:895
 msgid "Moving"
-msgstr ""
+msgstr "Pârvietojam"
 
 #: mail/mail-ops.c:898
 msgid "Copying"
-msgstr ""
+msgstr "Kopçjam"
 
 #: mail/mail-ops.c:1008
 #, c-format
@@ -11645,26 +11502,26 @@ msgstr ""
 #: mail/mail-ops.c:1234
 #, c-format
 msgid "Opening folder %s"
-msgstr ""
+msgstr "Atveram mapi %s"
 
 #: mail/mail-ops.c:1306
 #, c-format
 msgid "Opening store %s"
-msgstr ""
+msgstr "Atveram glabâtuvi %s"
 
 #: mail/mail-ops.c:1375
 #, c-format
 msgid "Removing folder %s"
-msgstr ""
+msgstr "Izòemam mapi %s"
 
 #: mail/mail-ops.c:1469
 #, c-format
 msgid "Storing folder '%s'"
-msgstr ""
+msgstr "Glabâjam mapi '%s'"
 
 #: mail/mail-ops.c:1520
 msgid "Refreshing folder"
-msgstr ""
+msgstr "Atjauninâm mapi"
 
 #: mail/mail-ops.c:1556
 msgid "Expunging folder"
@@ -11673,24 +11530,26 @@ msgstr ""
 #: mail/mail-ops.c:1605
 #, c-format
 msgid "Retrieving message %s"
-msgstr ""
+msgstr "Saòemam vçstuli %s"
 
 #: mail/mail-ops.c:1672
 #, c-format
 msgid "Retrieving %d message(s)"
-msgstr ""
+msgstr "Saòemam %d vçstule(s)"
 
 #: mail/mail-ops.c:1758
-#, fuzzy, c-format
+#, c-format
 msgid "Saving %d messsage(s)"
-msgstr "Saglabâju"
+msgstr "Saglabâjam %d vçstuli(es)"
 
 #: mail/mail-ops.c:1870
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to create output file: %s\n"
 " %s"
-msgstr "failu\n"
+msgstr ""
+"Nevar izveidot izejas failu: %s\n"
+" %s"
 
 #: mail/mail-ops.c:1898
 #, fuzzy, c-format
@@ -11700,16 +11559,17 @@ msgid ""
 msgstr "Kïûda\n"
 
 #: mail/mail-ops.c:1972
-#, fuzzy
 msgid "Saving attachment"
-msgstr "Saglabâju"
+msgstr "Saglabâjam pievienojumu"
 
 #: mail/mail-ops.c:1988
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot create output file: %s:\n"
 " %s"
-msgstr "failu\n"
+msgstr ""
+"Nevaru izveidot izejas failu: %s:\n"
+" %s"
 
 #: mail/mail-ops.c:2019
 #, c-format
@@ -11719,35 +11579,32 @@ msgstr ""
 #: mail/mail-ops.c:2088
 #, c-format
 msgid "Disconnecting from %s"
-msgstr ""
+msgstr "Atvienojamies no %s"
 
 #: mail/mail-ops.c:2089
 #, c-format
 msgid "Reconnecting to %s"
-msgstr ""
+msgstr "Pârvienojamies ar %s"
 
 #: mail/mail-search-dialogue.c:113
 msgid "_Search"
-msgstr ""
+msgstr "_Meklçt"
 
 #: mail/mail-search.c:137
-#, fuzzy
 msgid "(Untitled Message)"
-msgstr "Nenosaukts Vçstule"
+msgstr "(Nenosaukta Vçstule)"
 
 #: mail/mail-search.c:240
-#, fuzzy
 msgid "Untitled Message"
-msgstr "Nenosaukts"
+msgstr "Nenosaukta Vçstule"
 
 #: mail/mail-search.c:244
 msgid "Empty Message"
-msgstr ""
+msgstr "Tukða Ziòa"
 
 #: mail/mail-search.c:291
-#, fuzzy
 msgid "Find in Message"
-msgstr "Meklçt"
+msgstr "Meklçt Vçstulç"
 
 #: mail/mail-search.c:321
 msgid "Case Sensitive"
@@ -11768,50 +11625,46 @@ msgstr ""
 
 #: mail/mail-send-recv.c:143
 msgid "Cancelling..."
-msgstr ""
+msgstr "Atsaucam..."
 
 #: mail/mail-send-recv.c:251
-#, fuzzy, c-format
+#, c-format
 msgid "Server: %s, Type: %s"
-msgstr "Serveris Tips"
+msgstr "Serveris: %s, Tips: %s"
 
 #: mail/mail-send-recv.c:253
-#, fuzzy, c-format
+#, c-format
 msgid "Path: %s, Type: %s"
-msgstr "Ceïð Tips"
+msgstr "Ceïð: %s, Tips: %s"
 
 #: mail/mail-send-recv.c:255
-#, fuzzy, c-format
+#, c-format
 msgid "Type: %s"
-msgstr "Tips"
+msgstr "Tips: %s"
 
 #: mail/mail-send-recv.c:292
-#, fuzzy
 msgid "Send & Receive Mail"
-msgstr "Sûtît"
+msgstr "Sûtît & Saòemt Pastu"
 
 #: mail/mail-send-recv.c:294
-#, fuzzy
 msgid "Cancel All"
-msgstr "Atcelt"
+msgstr "Atcelt Visu"
 
 #: mail/mail-send-recv.c:354
 msgid "Updating..."
-msgstr ""
+msgstr "Atjauninâm..."
 
 #: mail/mail-send-recv.c:355 mail/mail-send-recv.c:408
-#, fuzzy
 msgid "Waiting..."
-msgstr "Gaidu."
+msgstr "Gaidâm..."
 
 #: mail/mail-send-recv.c:541
 msgid "Cancelled."
 msgstr "Atsaukts."
 
 #: mail/mail-session.c:220
-#, fuzzy
 msgid "User canceled operation."
-msgstr "Lietotâjs."
+msgstr "Lietotâjs atsauca operâciju."
 
 #: mail/mail-session.c:319
 #, c-format
@@ -11825,20 +11678,20 @@ msgstr "Ievadiet Paroli"
 #: mail/mail-tools.c:255
 #, c-format
 msgid "Forwarded message - %s"
-msgstr ""
+msgstr "Pârsûtîtâ vçstule - %s"
 
 #: mail/mail-tools.c:259
 msgid "Forwarded message"
-msgstr ""
+msgstr "Pârsûtîta vçstule"
 
 #: mail/mail-tools.c:393
 msgid "Forwarded Message"
-msgstr ""
+msgstr "Pârsûtîta Vçstule"
 
 #: mail/mail-vfolder.c:85
 #, c-format
 msgid "Setting up vfolder: %s"
-msgstr ""
+msgstr "Uzstâdâm vmapi: %s"
 
 #: mail/mail-vfolder.c:203
 #, c-format
@@ -11864,9 +11717,8 @@ msgid "vFolders"
 msgstr "Mapes"
 
 #: mail/mail-vfolder.c:825
-#, fuzzy
 msgid "Edit VFolder"
-msgstr "Rediìçt"
+msgstr "Rediìçt VMapi"
 
 #: mail/mail-vfolder.c:841
 #, c-format
@@ -11874,9 +11726,8 @@ msgid "Trying to edit a vfolder '%s' which doesn't exist."
 msgstr ""
 
 #: mail/mail-vfolder.c:895
-#, fuzzy
 msgid "New VFolder"
-msgstr "Jauns"
+msgstr "Jauna VMape"
 
 #: mail/message-browser.c:212
 msgid "(No subject)"
@@ -11885,80 +11736,77 @@ msgstr "(Nav subjekta)"
 #: mail/message-browser.c:214
 #, c-format
 msgid "%s - Message"
-msgstr ""
+msgstr "%s - Vçstule"
 
 #: mail/message-list.c:639
 msgid "Unseen"
-msgstr ""
+msgstr "Neredzçta"
 
 #: mail/message-list.c:640
 msgid "Seen"
-msgstr ""
+msgstr "Redzçta"
 
 #: mail/message-list.c:641
 msgid "Answered"
-msgstr ""
+msgstr "Atbildçta"
 
 #: mail/message-list.c:642
 msgid "Multiple Unseen Messages"
-msgstr ""
+msgstr "Vairâkas Neredzçtas Ziòas"
 
 #: mail/message-list.c:643
 msgid "Multiple Messages"
-msgstr ""
+msgstr "Vairâkas Ziòas"
 
 #: mail/message-list.c:647
 msgid "Lowest"
-msgstr ""
+msgstr "Zemâkais"
 
 #: mail/message-list.c:648
-#, fuzzy
 msgid "Lower"
-msgstr "Nolaist"
+msgstr "Zemâk"
 
 #: mail/message-list.c:652
 msgid "Higher"
-msgstr ""
+msgstr "Augstâk"
 
 #: mail/message-list.c:653
 msgid "Highest"
-msgstr ""
+msgstr "Augstâkais"
 
 #: mail/message-list.c:903
 msgid "?"
 msgstr "?"
 
 #: mail/message-list.c:910
-#, fuzzy
 msgid "Today %l:%M %p"
-msgstr "Ðodien"
+msgstr "Ðodien %l:%M %p"
 
 #: mail/message-list.c:919
 msgid "Yesterday %l:%M %p"
-msgstr ""
+msgstr "Vakardiena %I:%M %p"
 
 #: mail/message-list.c:931
 msgid "%a %l:%M %p"
-msgstr ""
+msgstr "%a %l:%M %p"
 
 #: mail/message-list.c:941
 msgid "%b %d %Y"
-msgstr ""
+msgstr "%b %d %Y"
 
 #: mail/message-list.c:2334
 msgid "Generating message list"
-msgstr ""
+msgstr "Izveidojam vçstuïu sarakstu"
 
 #: mail/message-list.etspec.h:2
 msgid "Flagged"
-msgstr ""
+msgstr "Karogots"
 
 #: mail/message-list.etspec.h:4
 msgid "Received"
-msgstr ""
+msgstr "Saòemts"
 
 #: mail/message-list.etspec.h:7
-#, fuzzy
 msgid "Size"
 msgstr "Izmçrs"
 
@@ -11988,49 +11836,44 @@ msgid "Folder"
 msgstr "Mape"
 
 #: mail/subscribe-dialog.c:1520
-#, fuzzy
 msgid "No server has been selected"
-msgstr "Nç"
+msgstr "Nav izvçlçts serveris"
 
 #: mail/subscribe-dialog.c:1581
 msgid "Please select a server."
-msgstr ""
+msgstr "Lûdzu izvçlieties serveri."
 
 #: mail/subscribe-dialog.glade.h:1
-#, fuzzy
 msgid " _Refresh List "
-msgstr "Atjauninât "
+msgstr "_Atjauninât Sarakstu"
 
 #: mail/subscribe-dialog.glade.h:2
 msgid "All folders"
 msgstr "Visas mapes"
 
 #: mail/subscribe-dialog.glade.h:3
-#, fuzzy
 msgid "Display options"
-msgstr "Displejs"
+msgstr "Parâdît opcijas"
 
 #: mail/subscribe-dialog.glade.h:4
-#, fuzzy
 msgid "Folders whose names begin with:"
-msgstr "Mapes ar:"
+msgstr "Mapes ar nosaukumiem, kuri sâkas ar:"
 
 #: mail/subscribe-dialog.glade.h:5
 msgid "Manage Subscriptions"
-msgstr ""
+msgstr "Pârvaldît Subskripcijas"
 
 #: mail/subscribe-dialog.glade.h:6
-#, fuzzy
 msgid "Show _folders from server: "
-msgstr "Parâdît "
+msgstr "Parâdît _mapes uz servera:"
 
 #: mail/subscribe-dialog.glade.h:7
 msgid "_Subscribe"
-msgstr ""
+msgstr "_Parakstîties"
 
 #: mail/subscribe-dialog.glade.h:8
 msgid "_Unsubscribe"
-msgstr ""
+msgstr "_Atrakstîties"
 
 #: my-evolution/GNOME_Evolution_Summary.oaf.in.h:1
 #, fuzzy
@@ -12049,20 +11892,19 @@ msgstr "Kopsavilkums komponents."
 
 #: my-evolution/e-summary-calendar.c:340 my-evolution/e-summary-calendar.c:358
 msgid "Appointments"
-msgstr ""
+msgstr "Satikðanâs"
 
 #: my-evolution/e-summary-calendar.c:341
-#, fuzzy
 msgid "No appointments"
-msgstr "Nç"
+msgstr "Nav satikðanos"
 
 #: my-evolution/e-summary-calendar.c:375
 msgid "%k:%M %d %B"
-msgstr ""
+msgstr "%k:%M %d %B"
 
 #: my-evolution/e-summary-calendar.c:377
 msgid "%l:%M %d %B"
-msgstr ""
+msgstr "%l:%M %d %B"
 
 #: my-evolution/e-summary-calendar.c:395
 #, fuzzy
@@ -12070,9 +11912,8 @@ msgid "No description"
 msgstr "apraksts"
 
 #: my-evolution/e-summary-mail.c:129
-#, fuzzy
 msgid "Mail summary"
-msgstr "Pasts"
+msgstr "Pasta kopsavilkums"
 
 #. translators: Put a list of codes for locations you want to see in
 #. My Evolution by default here. You can find the list of all
@@ -12086,11 +11927,11 @@ msgstr "KBOS"
 
 #: my-evolution/e-summary-preferences.c:445
 msgid "Dictionary.com Word of the Day"
-msgstr ""
+msgstr "Dictionary.com Dienas Vârds"
 
 #: my-evolution/e-summary-preferences.c:466
 msgid "Quotes of the Day"
-msgstr ""
+msgstr "Dienas Citâti"
 
 #: my-evolution/e-summary-preferences.c:945
 #, fuzzy
@@ -12103,20 +11944,17 @@ msgid "Enter the URL of the news feed you wish to add"
 msgstr "URL"
 
 #: my-evolution/e-summary-preferences.c:957
-#, fuzzy
 msgid "Name:"
 msgstr "Nosaukums:"
 
 #: my-evolution/e-summary-preferences.c:1503
-#, fuzzy
 msgid "Summary Settings"
-msgstr "Kopsavilkums"
+msgstr "Kopsavilkuma Uzstâdîjumi"
 
 #: my-evolution/e-summary-rdf.c:296 my-evolution/e-summary-rdf.c:381
 #: my-evolution/e-summary-rdf.c:415
-#, fuzzy
 msgid "Error downloading RDF"
-msgstr "Kïûda"
+msgstr "Kïûda lejuplâdçjot RDF"
 
 #: my-evolution/e-summary-rdf.c:528
 #, fuzzy
@@ -12124,18 +11962,16 @@ msgid "News Feed"
 msgstr "Ziòas"
 
 #: my-evolution/e-summary-tasks.c:248
-#, fuzzy
 msgid "No tasks"
-msgstr "Nç"
+msgstr "Nav uzdevumu"
 
 #: my-evolution/e-summary-tasks.c:287
-#, fuzzy
 msgid "(No Description)"
-msgstr "Nç Apraksts"
+msgstr "(Nav Apraksta)"
 
 #: my-evolution/e-summary-weather.c:71
 msgid "My Weather"
-msgstr ""
+msgstr "Mani Laikapstâkïi"
 
 #: my-evolution/e-summary-weather.c:348
 msgid "<dd><b>The weather server could not be contacted</b></dd>"
@@ -12143,16 +11979,15 @@ msgstr ""
 
 #: my-evolution/e-summary-weather.c:559
 msgid "Weather"
-msgstr ""
+msgstr "Laikapstâkïi"
 
 #: my-evolution/e-summary-weather.c:722
 msgid "Regions"
-msgstr ""
+msgstr "Reìioni"
 
 #: my-evolution/e-summary.c:193
-#, fuzzy
 msgid "%A, %B %e %Y"
-msgstr "e"
+msgstr "%A, %B %e %Y"
 
 #: my-evolution/e-summary.c:493
 #, fuzzy
@@ -12160,14 +11995,12 @@ msgid "Please wait..."
 msgstr "Lûdzu uzgaidiet"
 
 #: my-evolution/e-summary.c:584 ui/my-evolution.xml.h:3
-#, fuzzy
 msgid "Print Summary"
-msgstr "Drukât"
+msgstr "Drukât Kopsavilkumu"
 
 #: my-evolution/e-summary.c:630
-#, fuzzy
 msgid "Printing of Summary failed"
-msgstr "Kopsavilkums"
+msgstr "Kopsavilkuma Drukâðana neveiksmîga"
 
 #: my-evolution/main.c:66
 #, fuzzy
@@ -12184,141 +12017,140 @@ msgstr ""
 
 #: my-evolution/metar.c:33
 msgid "knots"
-msgstr ""
+msgstr "pçdas"
 
 #: my-evolution/metar.c:33
 msgid "kph"
-msgstr ""
+msgstr "kph"
 
 #: my-evolution/metar.c:38
 msgid "inHg"
-msgstr ""
+msgstr "inHg"
 
 #: my-evolution/metar.c:38
 msgid "mmHg"
-msgstr ""
+msgstr "mmHg"
 
 #: my-evolution/metar.c:41
 msgid "miles"
-msgstr ""
+msgstr "jûdzes"
 
 #: my-evolution/metar.c:41
 msgid "kilometers"
 msgstr "kilometri"
 
 #: my-evolution/metar.c:44
-#, fuzzy
 msgid "Clear sky"
-msgstr "Attîrît"
+msgstr "Tîras debesis"
 
 #: my-evolution/metar.c:45
 msgid "Broken clouds"
-msgstr ""
+msgstr "Lauzti mâkoòi"
 
 #: my-evolution/metar.c:46
 msgid "Scattered clouds"
-msgstr ""
+msgstr "Izkliedçti mâkoòi"
 
 #: my-evolution/metar.c:47
 msgid "Few clouds"
-msgstr ""
+msgstr "Daþi mâkoòi"
 
 #: my-evolution/metar.c:48
 msgid "Overcast"
-msgstr ""
+msgstr "Apmâcies"
 
 #: my-evolution/metar.c:56 my-evolution/metar.c:74 my-evolution/metar.c:485
 msgid "Invalid"
-msgstr ""
+msgstr "Nepareizs"
 
 #: my-evolution/metar.c:63
 msgid "Variable"
-msgstr ""
+msgstr "Mainîgs"
 
 #: my-evolution/metar.c:64
 msgid "North"
-msgstr ""
+msgstr "Ziemeïu"
 
 #: my-evolution/metar.c:64
 msgid "North - NorthEast"
-msgstr ""
+msgstr "Ziemeïu - Ziemeïaustrumu"
 
 #: my-evolution/metar.c:64
 msgid "Northeast"
-msgstr ""
+msgstr "Ziemeïaustrumu"
 
 #: my-evolution/metar.c:64
 msgid "East - NorthEast"
-msgstr ""
+msgstr "Austrumu - Ziemeïaustrumu"
 
 #: my-evolution/metar.c:65
 msgid "East"
-msgstr ""
+msgstr "Austrumu"
 
 #: my-evolution/metar.c:65
 msgid "East - Southeast"
-msgstr ""
+msgstr "Austrumu - Dienvidaustrumu"
 
 #: my-evolution/metar.c:65
 msgid "Southeast"
-msgstr ""
+msgstr "Dienvidaustrumu"
 
 #: my-evolution/metar.c:65
 msgid "South - Southeast"
-msgstr ""
+msgstr "Dienvidu - Dienvidaustrumu"
 
 #: my-evolution/metar.c:66
 msgid "South"
-msgstr ""
+msgstr "Dienvidu"
 
 #: my-evolution/metar.c:66
 msgid "South - Southwest"
-msgstr ""
+msgstr "Dienvidu - Dienvidrietumu"
 
 #: my-evolution/metar.c:66
 msgid "Southwest"
-msgstr ""
+msgstr "Dienvidrietumu"
 
 #: my-evolution/metar.c:66
 msgid "West - Southwest"
-msgstr ""
+msgstr "Rietumu - Dienvidrietumu"
 
 #: my-evolution/metar.c:67
 msgid "West"
-msgstr ""
+msgstr "Rietumu"
 
 #: my-evolution/metar.c:67
 msgid "West - Northwest"
-msgstr ""
+msgstr "Rietumu - Ziemeïrietumu"
 
 #: my-evolution/metar.c:67
 msgid "Northwest"
-msgstr ""
+msgstr "Ziemeïrietumu"
 
 #: my-evolution/metar.c:67
 msgid "North - Northwest"
-msgstr ""
+msgstr "Ziemeïu - Ziemeïrietumu"
 
 #. DRIZZLE
 #: my-evolution/metar.c:127
 msgid "Drizzle"
-msgstr ""
+msgstr "Smalks lietus"
 
 #: my-evolution/metar.c:128
 msgid "Drizzle in the vicinity"
-msgstr ""
+msgstr "Gaidâms smalks lietus"
 
 #: my-evolution/metar.c:129
 msgid "Light drizzle"
-msgstr ""
+msgstr "Viegls smalks lietus"
 
 #: my-evolution/metar.c:130
 msgid "Moderate drizzle"
-msgstr ""
+msgstr "Regulârs smalks lietus"
 
 #: my-evolution/metar.c:131
 msgid "Heavy drizzle"
-msgstr ""
+msgstr "Spçcîgs smalks lietus"
 
 #: my-evolution/metar.c:132
 msgid "Shallow drizzle"
@@ -12330,15 +12162,15 @@ msgstr ""
 
 #: my-evolution/metar.c:134
 msgid "Partial drizzle"
-msgstr ""
+msgstr "Daïçji smalks lietus"
 
 #: my-evolution/metar.c:135 my-evolution/metar.c:150
 msgid "Thunderstorm"
-msgstr ""
+msgstr "Pçrkona negaiss"
 
 #: my-evolution/metar.c:136
 msgid "Windy drizzle"
-msgstr ""
+msgstr "Smalks lietus ar vçju"
 
 #: my-evolution/metar.c:137
 msgid "Showers"
@@ -12355,23 +12187,23 @@ msgstr ""
 #. RAIN
 #: my-evolution/metar.c:142
 msgid "Rain"
-msgstr ""
+msgstr "Lietus"
 
 #: my-evolution/metar.c:143
 msgid "Rain in the vicinity"
-msgstr ""
+msgstr "Gaidâms lietus"
 
 #: my-evolution/metar.c:144
 msgid "Light rain"
-msgstr ""
+msgstr "Viegls lietus"
 
 #: my-evolution/metar.c:145
 msgid "Moderate rain"
-msgstr ""
+msgstr "Regulârs lietus"
 
 #: my-evolution/metar.c:146
 msgid "Heavy rain"
-msgstr ""
+msgstr "Spçcîgs lietus"
 
 #: my-evolution/metar.c:147
 msgid "Shallow rain"
@@ -12404,23 +12236,23 @@ msgstr ""
 #. SNOW
 #: my-evolution/metar.c:157
 msgid "Snow"
-msgstr ""
+msgstr "Sniegs"
 
 #: my-evolution/metar.c:158
 msgid "Snow in the vicinity"
-msgstr ""
+msgstr "Gaidâms sniegs"
 
 #: my-evolution/metar.c:159
 msgid "Light snow"
-msgstr ""
+msgstr "Viegls sniegs"
 
 #: my-evolution/metar.c:160
 msgid "Moderate snow"
-msgstr ""
+msgstr "Regulârs sniegs"
 
 #: my-evolution/metar.c:161
 msgid "Heavy snow"
-msgstr ""
+msgstr "Spçcîgs sniegs"
 
 #: my-evolution/metar.c:162
 msgid "Shallow snow"
@@ -12436,7 +12268,7 @@ msgstr ""
 
 #: my-evolution/metar.c:165 my-evolution/metar.c:180
 msgid "Snowstorm"
-msgstr ""
+msgstr "Sniega vçtra"
 
 #: my-evolution/metar.c:166
 msgid "Blowing snowfall"
@@ -12745,9 +12577,8 @@ msgid "Partial precipitation"
 msgstr ""
 
 #: my-evolution/metar.c:255
-#, fuzzy
 msgid "Unknown thunderstorm"
-msgstr "Nezinâms"
+msgstr "Nezinâms pçrkona negaiss"
 
 #: my-evolution/metar.c:256
 msgid "Blowing precipitation"
@@ -12814,23 +12645,23 @@ msgstr ""
 #. FOG
 #: my-evolution/metar.c:277
 msgid "Fog"
-msgstr ""
+msgstr "Migla"
 
 #: my-evolution/metar.c:278
 msgid "Fog in the vicinity"
-msgstr ""
+msgstr "Gaidâma migla"
 
 #: my-evolution/metar.c:279
 msgid "Light fog"
-msgstr ""
+msgstr "Viegla migla"
 
 #: my-evolution/metar.c:280
 msgid "Moderate fog"
-msgstr ""
+msgstr "Regulâra migla"
 
 #: my-evolution/metar.c:281
 msgid "Thick fog"
-msgstr ""
+msgstr "Bieza migla"
 
 #: my-evolution/metar.c:282
 msgid "Shallow fog"
@@ -12842,7 +12673,7 @@ msgstr ""
 
 #: my-evolution/metar.c:284
 msgid "Partial fog"
-msgstr ""
+msgstr "Daïçji migla"
 
 #: my-evolution/metar.c:286
 #, fuzzy
@@ -13365,7 +13196,7 @@ msgstr ""
 
 #: my-evolution/my-evolution.glade.h:1
 msgid " _Remove"
-msgstr ""
+msgstr "_Izòemt"
 
 #: my-evolution/my-evolution.glade.h:2
 #, fuzzy
@@ -13374,12 +13205,11 @@ msgstr "Pievienot n"
 
 #: my-evolution/my-evolution.glade.h:3
 msgid "Al_l stations:"
-msgstr ""
+msgstr "Visas _laika stacijas:"
 
 #: my-evolution/my-evolution.glade.h:4
-#, fuzzy
 msgid "All _folders:"
-msgstr "Visi:"
+msgstr "Visas _mapes:"
 
 #: my-evolution/my-evolution.glade.h:5
 #, fuzzy
@@ -13389,12 +13219,11 @@ msgstr "Visi:"
 #: my-evolution/my-evolution.glade.h:6
 #, fuzzy
 msgid "C_elsius"
-msgstr "C"
+msgstr "C_elsijs"
 
 #: my-evolution/my-evolution.glade.h:8
-#, fuzzy
 msgid "How many days should the calendar display at once?"
-msgstr "dienas?"
+msgstr "Cik dienas kalendâram vajadzçtu parâdît vienlaicîgi?"
 
 #: my-evolution/my-evolution.glade.h:9
 msgid "Ma_x number of items shown:"
@@ -13406,14 +13235,12 @@ msgid "News Feed Settings"
 msgstr "Ziòas"
 
 #: my-evolution/my-evolution.glade.h:11
-#, fuzzy
 msgid "One mont_h"
-msgstr "Viens"
+msgstr "Viens _mçnesis"
 
 #: my-evolution/my-evolution.glade.h:12
-#, fuzzy
 msgid "One w_eek"
-msgstr "Viens"
+msgstr "Viena n_edçïa"
 
 #: my-evolution/my-evolution.glade.h:13
 #, fuzzy
@@ -13431,9 +13258,8 @@ msgid "S_how full path for folders"
 msgstr "D"
 
 #: my-evolution/my-evolution.glade.h:16
-#, fuzzy
 msgid "Show _all tasks"
-msgstr "Parâdît visi"
+msgstr "Parâdît _visus uzdevumus"
 
 #: my-evolution/my-evolution.glade.h:17
 #, fuzzy
@@ -13447,21 +13273,19 @@ msgstr "Parâdît:"
 
 #: my-evolution/my-evolution.glade.h:19
 msgid "Tasks "
-msgstr ""
+msgstr "Uzdevumi"
 
 #: my-evolution/my-evolution.glade.h:20
 msgid "Weather settings"
-msgstr ""
+msgstr "Laikapstâkïu uztâdîjumi"
 
 #: my-evolution/my-evolution.glade.h:22
-#, fuzzy
 msgid "_Display folders:"
-msgstr "Displejs:"
+msgstr "_Parâdît mapes:"
 
 #: my-evolution/my-evolution.glade.h:23
-#, fuzzy
 msgid "_Display stations:"
-msgstr "Displejs:"
+msgstr "_Parâdît stacijas:"
 
 #: my-evolution/my-evolution.glade.h:24
 msgid "_Displayed feeds:"
@@ -13469,15 +13293,15 @@ msgstr ""
 
 #: my-evolution/my-evolution.glade.h:25
 msgid "_Fahrenheit"
-msgstr ""
+msgstr "_Fârenheits"
 
 #: my-evolution/my-evolution.glade.h:26
 msgid "_Five days"
-msgstr ""
+msgstr "_Piecas dienas"
 
 #: my-evolution/my-evolution.glade.h:27
 msgid "_Mail"
-msgstr ""
+msgstr "_Pasts"
 
 #: my-evolution/my-evolution.glade.h:28
 #, fuzzy
@@ -13485,17 +13309,16 @@ msgid "_News Feeds"
 msgstr "Ziòas"
 
 #: my-evolution/my-evolution.glade.h:29
-#, fuzzy
 msgid "_One day"
-msgstr "Viens"
+msgstr "_Viena diena"
 
 #: my-evolution/my-evolution.glade.h:30
 msgid "_Schedule"
-msgstr ""
+msgstr "_Saraksts"
 
 #: my-evolution/my-evolution.glade.h:31
 msgid "_Weather"
-msgstr ""
+msgstr "_Laikapstâkïi"
 
 #: my-evolution/Locations.h:1
 #, fuzzy
@@ -13583,8 +13406,9 @@ msgid "Aeroparque"
 msgstr ""
 
 #: my-evolution/Locations.h:20
+#, fuzzy
 msgid "Aeropuerto del Norte"
-msgstr ""
+msgstr "del"
 
 #: my-evolution/Locations.h:21
 #, fuzzy
@@ -13703,7 +13527,7 @@ msgstr ""
 #: my-evolution/Locations.h:48
 #, fuzzy
 msgid "Alderney"
-msgstr "Mape:"
+msgstr "Mapes nosaukums:"
 
 #: my-evolution/Locations.h:49
 msgid "Alesund"
@@ -13791,8 +13615,9 @@ msgid "Altamira"
 msgstr "Albânija"
 
 #: my-evolution/Locations.h:69
+#, fuzzy
 msgid "Alton"
-msgstr ""
+msgstr "_Darbîbas"
 
 #: my-evolution/Locations.h:70
 msgid "Altoona"
@@ -13842,7 +13667,7 @@ msgstr "Angola"
 #: my-evolution/Locations.h:80
 #, fuzzy
 msgid "Ames"
-msgstr "Brîdinâjumi"
+msgstr "jûdzes"
 
 #: my-evolution/Locations.h:81
 msgid "Amritsar"
@@ -13886,8 +13711,9 @@ msgid "Andahuayla"
 msgstr ""
 
 #: my-evolution/Locations.h:90
+#, fuzzy
 msgid "Anderson"
-msgstr ""
+msgstr "Pçrkona negaiss"
 
 #: my-evolution/Locations.h:91
 #, fuzzy
@@ -14133,7 +13959,7 @@ msgstr "Albânija"
 #: my-evolution/Locations.h:144
 #, fuzzy
 msgid "Atlantic"
-msgstr "Automâtiski"
+msgstr "Automâtisks"
 
 #: my-evolution/Locations.h:145
 msgid "Atlantic City"
@@ -14386,8 +14212,9 @@ msgid "Beaumont"
 msgstr "mçnesis"
 
 #: my-evolution/Locations.h:205
+#, fuzzy
 msgid "Beaumont-Port Arthur"
-msgstr ""
+msgstr "Ports"
 
 #: my-evolution/Locations.h:206
 msgid "Beauvais-Tille"
@@ -14493,8 +14320,9 @@ msgid "Bergamo"
 msgstr ""
 
 #: my-evolution/Locations.h:231
+#, fuzzy
 msgid "Bergen"
-msgstr ""
+msgstr "Redzçta"
 
 #: my-evolution/Locations.h:232
 msgid "Bergstrom AFB"
@@ -14523,8 +14351,9 @@ msgid "Bern"
 msgstr "Benina"
 
 #: my-evolution/Locations.h:238
+#, fuzzy
 msgid "Bethel"
-msgstr ""
+msgstr "Laikapstâkïi"
 
 #: my-evolution/Locations.h:239
 msgid "Bethlehem Airport"
@@ -14538,7 +14367,7 @@ msgstr "Belize"
 #: my-evolution/Locations.h:241
 #, fuzzy
 msgid "Beverly"
-msgstr "Katru"
+msgstr "_katru"
 
 #: my-evolution/Locations.h:242
 msgid "Biarritz-Bayonne"
@@ -14641,8 +14470,9 @@ msgid "Boa Vista"
 msgstr ""
 
 #: my-evolution/Locations.h:266
+#, fuzzy
 msgid "Bocas del Toro"
-msgstr ""
+msgstr "del"
 
 #: my-evolution/Locations.h:267
 #, fuzzy
@@ -14775,7 +14605,7 @@ msgstr ""
 #: my-evolution/Locations.h:297
 #, fuzzy
 msgid "Brest"
-msgstr "Tests"
+msgstr "Rietumu"
 
 #: my-evolution/Locations.h:298
 msgid "Bridgeport"
@@ -14809,16 +14639,18 @@ msgid "Broadus"
 msgstr "Barbadosa"
 
 #: my-evolution/Locations.h:305
+#, fuzzy
 msgid "Broken Bow"
-msgstr ""
+msgstr "Lauzti mâkoòi"
 
 #: my-evolution/Locations.h:306
 msgid "Bronnoysund"
 msgstr ""
 
 #: my-evolution/Locations.h:307
+#, fuzzy
 msgid "Brookings"
-msgstr ""
+msgstr "Strâdâ"
 
 #: my-evolution/Locations.h:308
 msgid "Brooksville"
@@ -15094,8 +14926,9 @@ msgid "Cape Romanzoff"
 msgstr ""
 
 #: my-evolution/Locations.h:371
+#, fuzzy
 msgid "Cape Town D. F. Malan "
-msgstr ""
+msgstr "D "
 
 #: my-evolution/Locations.h:372
 msgid "Capitan Corbeta"
@@ -15137,7 +14970,7 @@ msgstr "Auto"
 #: my-evolution/Locations.h:380
 #, fuzzy
 msgid "Carlisle"
-msgstr "Èîle"
+msgstr "Mainîgs"
 
 #: my-evolution/Locations.h:381
 #, fuzzy
@@ -15178,8 +15011,9 @@ msgid "Catania"
 msgstr "Horvâtija"
 
 #: my-evolution/Locations.h:390
+#, fuzzy
 msgid "Cayo Largo del Sur"
-msgstr ""
+msgstr "del"
 
 #: my-evolution/Locations.h:391
 msgid "Cazaux"
@@ -15192,7 +15026,7 @@ msgstr ""
 #: my-evolution/Locations.h:393
 #, fuzzy
 msgid "Cedar City"
-msgstr "Attîrît"
+msgstr "Tîras debesis"
 
 #: my-evolution/Locations.h:394
 msgid "Cedar Rapids"
@@ -15272,7 +15106,7 @@ msgstr ""
 #: my-evolution/Locations.h:410
 #, fuzzy
 msgid "Charleston"
-msgstr "Krçsls"
+msgstr "Vadoðâs Personas"
 
 #: my-evolution/Locations.h:411
 #, fuzzy
@@ -15470,8 +15304,9 @@ msgid "Ciudad Bolivar"
 msgstr ""
 
 #: my-evolution/Locations.h:458
+#, fuzzy
 msgid "Ciudad del Carmen"
-msgstr ""
+msgstr "del"
 
 #: my-evolution/Locations.h:459
 msgid "Ciudad Juarez"
@@ -15620,8 +15455,9 @@ msgid "Columbus-OSU"
 msgstr ""
 
 #: my-evolution/Locations.h:493
+#, fuzzy
 msgid "Columbus-W Point-Starkville"
-msgstr ""
+msgstr "R Punkts"
 
 #: my-evolution/Locations.h:494
 #, fuzzy
@@ -15635,7 +15471,7 @@ msgstr ""
 #: my-evolution/Locations.h:496
 #, fuzzy
 msgid "Comox"
-msgstr "Komoros salas"
+msgstr "mbox"
 
 #: my-evolution/Locations.h:497
 msgid "Conceicao Do Araguaia"
@@ -15644,7 +15480,7 @@ msgstr ""
 #: my-evolution/Locations.h:498
 #, fuzzy
 msgid "Concepcion"
-msgstr "Atcelt"
+msgstr "Atsaukt Operâciju"
 
 #: my-evolution/Locations.h:499
 #, fuzzy
@@ -15662,7 +15498,7 @@ msgstr ""
 #: my-evolution/Locations.h:502
 #, fuzzy
 msgid "Connecticut"
-msgstr "Kontakti"
+msgstr "_Kontaktçties"
 
 #: my-evolution/Locations.h:503
 #, fuzzy
@@ -15836,8 +15672,9 @@ msgid "Custer"
 msgstr "Izgriezt"
 
 #: my-evolution/Locations.h:543
+#, fuzzy
 msgid "Cut Bank"
-msgstr ""
+msgstr "Izgriezt"
 
 #: my-evolution/Locations.h:544
 msgid "Cuzco"
@@ -15909,7 +15746,7 @@ msgstr ""
 #: my-evolution/Locations.h:562
 #, fuzzy
 msgid "Dayton"
-msgstr "Datums"
+msgstr "Diena"
 
 #: my-evolution/Locations.h:563
 msgid "Daytona Beach"
@@ -15920,8 +15757,9 @@ msgid "Dayton-Fairborn"
 msgstr ""
 
 #: my-evolution/Locations.h:565
+#, fuzzy
 msgid "Dayton-South Airport"
-msgstr ""
+msgstr "Neimportçt"
 
 #: my-evolution/Locations.h:566
 msgid "Dead Horse"
@@ -15991,7 +15829,7 @@ msgstr "Lebanona"
 #: my-evolution/Locations.h:582
 #, fuzzy
 msgid "Denver"
-msgstr "Sûtîtajs"
+msgstr "_katru"
 
 #: my-evolution/Locations.h:583
 msgid "Denver-Aurora"
@@ -16166,7 +16004,7 @@ msgstr ""
 #: my-evolution/Locations.h:623
 #, fuzzy
 msgid "Dugway"
-msgstr "Ungârija"
+msgstr "Diena"
 
 #: my-evolution/Locations.h:624
 #, fuzzy
@@ -16225,8 +16063,9 @@ msgid "East Midlands"
 msgstr ""
 
 #: my-evolution/Locations.h:637
+#, fuzzy
 msgid "East St Louis"
-msgstr ""
+msgstr "Austrumu - Dienvidaustrumu"
 
 #: my-evolution/Locations.h:638
 msgid "Eau Claire"
@@ -16360,7 +16199,7 @@ msgstr ""
 #: my-evolution/Locations.h:671
 #, fuzzy
 msgid "Enid/Woodring"
-msgstr "Beigas:"
+msgstr "Strâdâ"
 
 #: my-evolution/Locations.h:672
 msgid "Enosburg Falls"
@@ -16420,7 +16259,7 @@ msgstr ""
 #: my-evolution/Locations.h:686
 #, fuzzy
 msgid "Evanston"
-msgstr "Igaunija"
+msgstr "Austrumu"
 
 #: my-evolution/Locations.h:687
 msgid "Evansville"
@@ -16440,8 +16279,9 @@ msgid "Evreux-Fauville"
 msgstr ""
 
 #: my-evolution/Locations.h:691
+#, fuzzy
 msgid "Exeter"
-msgstr ""
+msgstr "Laikapstâkïi"
 
 #: my-evolution/Locations.h:692
 msgid "Ezeiza"
@@ -16492,8 +16332,9 @@ msgid "Fargo"
 msgstr "atpakaï"
 
 #: my-evolution/Locations.h:703
+#, fuzzy
 msgid "Farmingdale"
-msgstr ""
+msgstr "Mainîgs"
 
 #: my-evolution/Locations.h:704
 msgid "Farmington"
@@ -16673,8 +16514,9 @@ msgid "Fort Lauderdale"
 msgstr ""
 
 #: my-evolution/Locations.h:745
+#, fuzzy
 msgid "Fort Lauderdale (International)"
-msgstr ""
+msgstr "Starptautisks"
 
 #: my-evolution/Locations.h:746
 #, fuzzy
@@ -16695,12 +16537,14 @@ msgid "Fort Meade"
 msgstr "Pârsûtît"
 
 #: my-evolution/Locations.h:750
+#, fuzzy
 msgid "Fort Myers (Page Field)"
-msgstr ""
+msgstr "Lapa"
 
 #: my-evolution/Locations.h:751
+#, fuzzy
 msgid "Fort Myers (Southwest Florida International)"
-msgstr ""
+msgstr "Starptautisks"
 
 #: my-evolution/Locations.h:752
 msgid "Fort Polk-Leesville"
@@ -16978,8 +16822,9 @@ msgid "Gilze-Rijen"
 msgstr ""
 
 #: my-evolution/Locations.h:818
+#, fuzzy
 msgid "Gioia del Colle"
-msgstr ""
+msgstr "del"
 
 #: my-evolution/Locations.h:819
 #, fuzzy
@@ -17029,8 +16874,9 @@ msgid "Goteborg (Landvetter)"
 msgstr ""
 
 #: my-evolution/Locations.h:829
+#, fuzzy
 msgid "Goteborg (Save)"
-msgstr ""
+msgstr "Saglabât"
 
 #: my-evolution/Locations.h:830
 #, fuzzy
@@ -17491,8 +17337,9 @@ msgid "Hohenems"
 msgstr ""
 
 #: my-evolution/Locations.h:939
+#, fuzzy
 msgid "Holguin"
-msgstr ""
+msgstr "Evolution"
 
 #: my-evolution/Locations.h:940
 #, fuzzy
@@ -17707,8 +17554,9 @@ msgid "Innsbruck"
 msgstr ""
 
 #: my-evolution/Locations.h:994
+#, fuzzy
 msgid "International Falls"
-msgstr ""
+msgstr "Starptautisks"
 
 #: my-evolution/Locations.h:995
 msgid "Intracoastal"
@@ -17750,8 +17598,9 @@ msgid "Iraklion"
 msgstr "Informâcija"
 
 #: my-evolution/Locations.h:1004
+#, fuzzy
 msgid "Iran, Islamic Republic of"
-msgstr ""
+msgstr "Irâna"
 
 #: my-evolution/Locations.h:1006
 #, fuzzy
@@ -17816,8 +17665,9 @@ msgid "Izmit"
 msgstr ""
 
 #: my-evolution/Locations.h:1022
+#, fuzzy
 msgid "Izumo Airport"
-msgstr ""
+msgstr "Importçt"
 
 #: my-evolution/Locations.h:1023
 msgid "Jackson"
@@ -17853,8 +17703,9 @@ msgid "Jan Smuts"
 msgstr ""
 
 #: my-evolution/Locations.h:1033
+#, fuzzy
 msgid "Jeddah King Abdul Aziz International Airport"
-msgstr ""
+msgstr "Starptautisks"
 
 #: my-evolution/Locations.h:1034
 msgid "Jefferson City"
@@ -17885,12 +17736,14 @@ msgid "Jonesboro"
 msgstr ""
 
 #: my-evolution/Locations.h:1041
+#, fuzzy
 msgid "Jonkoping"
-msgstr ""
+msgstr "Strâdâ"
 
 #: my-evolution/Locations.h:1042
+#, fuzzy
 msgid "Joplin"
-msgstr ""
+msgstr "Kopçjam"
 
 #: my-evolution/Locations.h:1044
 msgid "Juanjui"
@@ -17975,8 +17828,9 @@ msgid "Kanoya Ab"
 msgstr ""
 
 #: my-evolution/Locations.h:1063
+#, fuzzy
 msgid "Kansai International Airport"
-msgstr ""
+msgstr "Starptautisks"
 
 #: my-evolution/Locations.h:1064
 msgid "Kansas"
@@ -18041,7 +17895,7 @@ msgstr "Keinja"
 #: my-evolution/Locations.h:1078
 #, fuzzy
 msgid "Keene"
-msgstr "Jemena"
+msgstr "Redzçta"
 
 #: my-evolution/Locations.h:1079
 msgid "Kefallinia"
@@ -18084,12 +17938,14 @@ msgid "Ketchikan"
 msgstr ""
 
 #: my-evolution/Locations.h:1088
+#, fuzzy
 msgid "Key West"
-msgstr ""
+msgstr "Rietumu"
 
 #: my-evolution/Locations.h:1089
+#, fuzzy
 msgid "Key West NAS"
-msgstr ""
+msgstr "Taustiòð"
 
 #: my-evolution/Locations.h:1090
 msgid "Khabarovsk"
@@ -18117,8 +17973,9 @@ msgid "Killeen-Gray AAF"
 msgstr ""
 
 #: my-evolution/Locations.h:1096
+#, fuzzy
 msgid "King Khaled International Airport"
-msgstr ""
+msgstr "Starptautisks"
 
 #: my-evolution/Locations.h:1097
 msgid "Kingman"
@@ -18339,7 +18196,7 @@ msgstr "Bahrçna"
 #: my-evolution/Locations.h:1150
 #, fuzzy
 msgid "Lahore"
-msgstr "stunda"
+msgstr "_Lielâks"
 
 #: my-evolution/Locations.h:1151
 #, fuzzy
@@ -18453,7 +18310,7 @@ msgstr ""
 #: my-evolution/Locations.h:1175
 #, fuzzy
 msgid "Laredo"
-msgstr "Laosa"
+msgstr "_Lielâks"
 
 #: my-evolution/Locations.h:1176
 #, fuzzy
@@ -18491,8 +18348,9 @@ msgid "Laughlin"
 msgstr ""
 
 #: my-evolution/Locations.h:1185
+#, fuzzy
 msgid "Laurel"
-msgstr ""
+msgstr "_Lielâks"
 
 #: my-evolution/Locations.h:1186
 #, fuzzy
@@ -18641,8 +18499,9 @@ msgid "Limnos"
 msgstr "Laosa"
 
 #: my-evolution/Locations.h:1220
+#, fuzzy
 msgid "Limoges"
-msgstr ""
+msgstr "Zemâkais"
 
 #: my-evolution/Locations.h:1221
 #, fuzzy
@@ -18741,8 +18600,9 @@ msgid "Lone Rock"
 msgstr ""
 
 #: my-evolution/Locations.h:1244
+#, fuzzy
 msgid "Long Beach"
-msgstr ""
+msgstr "Garð"
 
 #: my-evolution/Locations.h:1245
 msgid "Longview"
@@ -18978,7 +18838,7 @@ msgstr "Ievietot"
 #: my-evolution/Locations.h:1299
 #, fuzzy
 msgid "Manitoba"
-msgstr "Malta"
+msgstr "Galvenâ rîkjosla"
 
 #: my-evolution/Locations.h:1300
 msgid "Manitowoc"
@@ -19097,7 +18957,7 @@ msgstr "Datums"
 #: my-evolution/Locations.h:1325
 #, fuzzy
 msgid "Marthas Vineyard"
-msgstr "Atzîmçt"
+msgstr "Atzîmçt kâ _Neizlasîtu"
 
 #: my-evolution/Locations.h:1326
 #, fuzzy
@@ -19389,8 +19249,9 @@ msgid "Miles City"
 msgstr "Faila tips:"
 
 #: my-evolution/Locations.h:1392
+#, fuzzy
 msgid "Milford"
-msgstr ""
+msgstr "priekð"
 
 #: my-evolution/Locations.h:1393
 msgid "Millinocket"
@@ -19403,7 +19264,7 @@ msgstr ""
 #: my-evolution/Locations.h:1395
 #, fuzzy
 msgid "Milton"
-msgstr "Pasts"
+msgstr "Pasts uz %s"
 
 #: my-evolution/Locations.h:1396
 msgid "Milwaukee"
@@ -19511,8 +19372,9 @@ msgid "Mobile Downtown"
 msgstr "Mobilais Telefons"
 
 #: my-evolution/Locations.h:1420
+#, fuzzy
 msgid "Mobile Regional Airport"
-msgstr ""
+msgstr "Mobîlais tel."
 
 #: my-evolution/Locations.h:1421
 #, fuzzy
@@ -19520,12 +19382,14 @@ msgid "Mobridge"
 msgstr "Mobîlais tel."
 
 #: my-evolution/Locations.h:1422
+#, fuzzy
 msgid "Modesto"
-msgstr ""
+msgstr "Regulâra migla"
 
 #: my-evolution/Locations.h:1423
+#, fuzzy
 msgid "Mo I Rana"
-msgstr ""
+msgstr "Pr I"
 
 #: my-evolution/Locations.h:1424
 #, fuzzy
@@ -19602,8 +19466,9 @@ msgid "Monte Argentario"
 msgstr ""
 
 #: my-evolution/Locations.h:1440
+#, fuzzy
 msgid "Monte Bisbino"
-msgstr ""
+msgstr "Regulârs sniegs"
 
 #: my-evolution/Locations.h:1441
 msgid "Monte Calamita"
@@ -19747,8 +19612,9 @@ msgid "Mount Holly"
 msgstr ""
 
 #: my-evolution/Locations.h:1474
+#, fuzzy
 msgid "Mount Shasta"
-msgstr ""
+msgstr "Dienvidaustrumu"
 
 #: my-evolution/Locations.h:1475
 #, fuzzy
@@ -19823,7 +19689,7 @@ msgstr ""
 #: my-evolution/Locations.h:1491
 #, fuzzy
 msgid "Mykonos"
-msgstr "Monâko"
+msgstr "pçdas"
 
 #: my-evolution/Locations.h:1492
 msgid "Myrtle Beach"
@@ -19985,12 +19851,14 @@ msgid "New Bern"
 msgstr "_Jauna Mape"
 
 #: my-evolution/Locations.h:1529
+#, fuzzy
 msgid "New Braunfels"
-msgstr ""
+msgstr "Jauns"
 
 #: my-evolution/Locations.h:1530
+#, fuzzy
 msgid "New Brunswick"
-msgstr ""
+msgstr "Jauns"
 
 #: my-evolution/Locations.h:1531
 msgid "Newburgh"
@@ -20012,8 +19880,9 @@ msgid "Newfoundland"
 msgstr "Jaunzçlande"
 
 #: my-evolution/Locations.h:1535
+#, fuzzy
 msgid "New Hampshire"
-msgstr ""
+msgstr "Jauns"
 
 #: my-evolution/Locations.h:1536
 #, fuzzy
@@ -20041,25 +19910,28 @@ msgid "New Orleans"
 msgstr "Jaunzçlande"
 
 #: my-evolution/Locations.h:1541
+#, fuzzy
 msgid "New Orleans-Lakefront"
-msgstr ""
+msgstr "Jauns"
 
 #: my-evolution/Locations.h:1542
+#, fuzzy
 msgid "New Orleans NAS"
-msgstr ""
+msgstr "Jauns"
 
 #: my-evolution/Locations.h:1543
 #, fuzzy
 msgid "Newport"
-msgstr "Jauna"
+msgstr "Ziemeïu"
 
 #: my-evolution/Locations.h:1544
 msgid "Newport News"
 msgstr ""
 
 #: my-evolution/Locations.h:1545
+#, fuzzy
 msgid "New Port Richey"
-msgstr ""
+msgstr "Jauns Ports"
 
 #: my-evolution/Locations.h:1546
 #, fuzzy
@@ -20067,8 +19939,9 @@ msgid "New River"
 msgstr "_Jauna Mape"
 
 #: my-evolution/Locations.h:1547
+#, fuzzy
 msgid "New Tokyo International Airport"
-msgstr ""
+msgstr "Jauns Starptautisks"
 
 #: my-evolution/Locations.h:1548
 #, fuzzy
@@ -20081,20 +19954,23 @@ msgid "New York"
 msgstr "_Jauna Mape"
 
 #: my-evolution/Locations.h:1550
+#, fuzzy
 msgid "New York-JFK Arpt"
-msgstr ""
+msgstr "Jauns"
 
 #: my-evolution/Locations.h:1551
+#, fuzzy
 msgid "New York-La Guardia"
-msgstr ""
+msgstr "Jauns"
 
 #: my-evolution/Locations.h:1553
 msgid "Niagara Falls"
 msgstr ""
 
 #: my-evolution/Locations.h:1555
+#, fuzzy
 msgid "Nice-Cote d'Azur"
-msgstr ""
+msgstr "Jauks"
 
 #: my-evolution/Locations.h:1556
 msgid "Niigata Airport"
@@ -20120,12 +19996,14 @@ msgid "Nizhny Novgorod"
 msgstr ""
 
 #: my-evolution/Locations.h:1561
+#, fuzzy
 msgid "N Las Vegas"
-msgstr ""
+msgstr "Z"
 
 #: my-evolution/Locations.h:1562
+#, fuzzy
 msgid "N Myrtle Beach"
-msgstr ""
+msgstr "Z"
 
 #: my-evolution/Locations.h:1563
 #, fuzzy
@@ -20148,17 +20026,19 @@ msgid "Norfolk NAS"
 msgstr "Norfolkas salas"
 
 #: my-evolution/Locations.h:1568
+#, fuzzy
 msgid "Norrkoping"
-msgstr ""
+msgstr "Strâdâ"
 
 #: my-evolution/Locations.h:1569
+#, fuzzy
 msgid "North Adams"
-msgstr ""
+msgstr "Ziemeïaustrumu"
 
 #: my-evolution/Locations.h:1570
 #, fuzzy
 msgid "North Bend"
-msgstr "Nav atrasts"
+msgstr "Ziemeïu"
 
 #: my-evolution/Locations.h:1571
 msgid "North Carolina"
@@ -20172,7 +20052,7 @@ msgstr "Norvçìija"
 #: my-evolution/Locations.h:1573
 #, fuzzy
 msgid "North Dakota"
-msgstr "Dzimðanas Datus"
+msgstr "Ziemeïaustrumu"
 
 #: my-evolution/Locations.h:1574
 msgid "Northeast Philadelphia"
@@ -20185,7 +20065,7 @@ msgstr ""
 #: my-evolution/Locations.h:1576
 #, fuzzy
 msgid "North Platte"
-msgstr "Dzimðanas Datus"
+msgstr "Ziemeïaustrumu"
 
 #: my-evolution/Locations.h:1577
 #, fuzzy
@@ -20200,7 +20080,7 @@ msgstr "Franèu Dienvidu Teritorijas"
 #: my-evolution/Locations.h:1580
 #, fuzzy
 msgid "Norwich"
-msgstr "Norvçìija"
+msgstr "Ziemeïu"
 
 #: my-evolution/Locations.h:1581
 #, fuzzy
@@ -20289,7 +20169,7 @@ msgstr "Viens"
 #: my-evolution/Locations.h:1600
 #, fuzzy
 msgid "Oelwen"
-msgstr "Atvçrt"
+msgstr "Redzçta"
 
 #: my-evolution/Locations.h:1601
 #, fuzzy
@@ -20451,8 +20331,9 @@ msgid "Orlando"
 msgstr "Îrija"
 
 #: my-evolution/Locations.h:1638
+#, fuzzy
 msgid "Orlando (Orlando International)"
-msgstr ""
+msgstr "Starptautisks"
 
 #: my-evolution/Locations.h:1639
 msgid "Orsta-Volda"
@@ -20464,8 +20345,9 @@ msgid "Oruro"
 msgstr "Kïûda"
 
 #: my-evolution/Locations.h:1641
+#, fuzzy
 msgid "Osaka International Airport"
-msgstr ""
+msgstr "Starptautisks"
 
 #: my-evolution/Locations.h:1642
 msgid "Osan Ab"
@@ -20515,8 +20397,9 @@ msgid "Owyhee"
 msgstr "nedçïa"
 
 #: my-evolution/Locations.h:1653
+#, fuzzy
 msgid "Oxford"
-msgstr ""
+msgstr "priekð"
 
 #: my-evolution/Locations.h:1654
 msgid "Oxnard"
@@ -20586,7 +20469,7 @@ msgstr "Peidþers"
 #: my-evolution/Locations.h:1671
 #, fuzzy
 msgid "Palm Springs"
-msgstr "Pasts"
+msgstr "Pasta Uzstâdîjumi"
 
 #: my-evolution/Locations.h:1672
 msgid "Palo Alto"
@@ -20847,8 +20730,9 @@ msgid "Pikeville"
 msgstr "Pirmsapskats"
 
 #: my-evolution/Locations.h:1734
+#, fuzzy
 msgid "Pine Bluff"
-msgstr ""
+msgstr "Pine"
 
 #: my-evolution/Locations.h:1735
 msgid "Pingtung North"
@@ -20928,8 +20812,9 @@ msgid "Point Mugu"
 msgstr "Drukât Vçstuli"
 
 #: my-evolution/Locations.h:1753
+#, fuzzy
 msgid "Point Piedras Blanca"
-msgstr ""
+msgstr "Punkts"
 
 #: my-evolution/Locations.h:1754
 #, fuzzy
@@ -20957,7 +20842,7 @@ msgstr ""
 #: my-evolution/Locations.h:1760
 #, fuzzy
 msgid "Pontiac"
-msgstr "Kontakti"
+msgstr "_Kontaktçties"
 
 #: my-evolution/Locations.h:1761
 msgid "Pope AFB"
@@ -20978,8 +20863,9 @@ msgid "Port Alexander"
 msgstr "Drukât Kalendâru"
 
 #: my-evolution/Locations.h:1765
+#, fuzzy
 msgid "Port Alsworth"
-msgstr ""
+msgstr "Ports"
 
 #: my-evolution/Locations.h:1766
 #, fuzzy
@@ -20987,12 +20873,14 @@ msgid "Port Angeles"
 msgstr "Drukât Aploksni"
 
 #: my-evolution/Locations.h:1767
+#, fuzzy
 msgid "Port-Au-Prince"
-msgstr ""
+msgstr "Ports"
 
 #: my-evolution/Locations.h:1768
+#, fuzzy
 msgid "Port Elizabeth"
-msgstr ""
+msgstr "Ports"
 
 #: my-evolution/Locations.h:1769
 #, fuzzy
@@ -21010,8 +20898,9 @@ msgid "Port Hedland"
 msgstr "Polija"
 
 #: my-evolution/Locations.h:1772
+#, fuzzy
 msgid "Port Heiden"
-msgstr ""
+msgstr "Ports"
 
 #: my-evolution/Locations.h:1773
 #, fuzzy
@@ -21088,8 +20977,9 @@ msgid "Praha"
 msgstr "Paragvaja"
 
 #: my-evolution/Locations.h:1790
+#, fuzzy
 msgid "Pratica di Mare"
-msgstr ""
+msgstr "Daïçji smalks lietus"
 
 #: my-evolution/Locations.h:1791
 msgid "Prescott"
@@ -21207,7 +21097,7 @@ msgstr "Puerto Riko"
 #: my-evolution/Locations.h:1816
 #, fuzzy
 msgid "Puerto Suarez"
-msgstr "Drukât"
+msgstr "Drukât Kopsavilkumu"
 
 #: my-evolution/Locations.h:1817
 msgid "Puerto Vallarta"
@@ -21307,8 +21197,9 @@ msgid "Randolph AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:1841
+#, fuzzy
 msgid "Rapid City"
-msgstr ""
+msgstr "Atbildçts uz"
 
 #: my-evolution/Locations.h:1842
 msgid "Rapid City-Ellsworth AFB"
@@ -21319,8 +21210,9 @@ msgid "Ras Al Khaimah"
 msgstr ""
 
 #: my-evolution/Locations.h:1844
+#, fuzzy
 msgid "Rawlins"
-msgstr ""
+msgstr "Lietus"
 
 #: my-evolution/Locations.h:1845
 #, fuzzy
@@ -21335,7 +21227,7 @@ msgstr "Bouveta Sala"
 #: my-evolution/Locations.h:1847
 #, fuzzy
 msgid "Recife"
-msgstr "Saòçmçji"
+msgstr "Saòemts"
 
 #: my-evolution/Locations.h:1848
 msgid "Red Bluff"
@@ -21371,7 +21263,7 @@ msgstr ""
 #: my-evolution/Locations.h:1855
 #, fuzzy
 msgid "Regina"
-msgstr "Armçnija"
+msgstr "Reìioni"
 
 #: my-evolution/Locations.h:1856
 msgid "Reims-Champagne"
@@ -21509,16 +21401,18 @@ msgid "Riverside"
 msgstr ""
 
 #: my-evolution/Locations.h:1885
+#, fuzzy
 msgid "Riverside/March AFB"
-msgstr ""
+msgstr "Marts"
 
 #: my-evolution/Locations.h:1886
 msgid "Riverton"
 msgstr ""
 
 #: my-evolution/Locations.h:1887
+#, fuzzy
 msgid "Rivolto"
-msgstr ""
+msgstr "Evolution"
 
 #: my-evolution/Locations.h:1888
 #, fuzzy
@@ -21918,8 +21812,9 @@ msgid "San Fernando De Apure"
 msgstr ""
 
 #: my-evolution/Locations.h:1979
+#, fuzzy
 msgid "Sanford"
-msgstr ""
+msgstr "priekð"
 
 #: my-evolution/Locations.h:1980
 #, fuzzy
@@ -21950,8 +21845,9 @@ msgid "San Jose De Chiquitos"
 msgstr ""
 
 #: my-evolution/Locations.h:1986
+#, fuzzy
 msgid "San Jose del Cabo"
-msgstr ""
+msgstr "del"
 
 #: my-evolution/Locations.h:1987
 msgid "San Jose-Santa Clara"
@@ -22190,7 +22086,7 @@ msgstr "Somâlija"
 #: my-evolution/Locations.h:2041
 #, fuzzy
 msgid "Seeb"
-msgstr "Septembris"
+msgstr "Redzçta"
 
 #: my-evolution/Locations.h:2042
 msgid "Selanik"
@@ -22202,12 +22098,14 @@ msgid "Sendai Airport"
 msgstr "Sâkam importu"
 
 #: my-evolution/Locations.h:2044
+#, fuzzy
 msgid "Seoul E Ab"
-msgstr ""
+msgstr "A"
 
 #: my-evolution/Locations.h:2045
+#, fuzzy
 msgid "Seoul/Kimp'O International Airport"
-msgstr ""
+msgstr "Starptautisks"
 
 #: my-evolution/Locations.h:2046
 msgid "Seoul/Yongdungp'O Rokaf Wc"
@@ -22426,8 +22324,9 @@ msgid "Snowshoe Lake"
 msgstr ""
 
 #: my-evolution/Locations.h:2098
+#, fuzzy
 msgid "Sochi"
-msgstr ""
+msgstr "Dienvidu"
 
 #: my-evolution/Locations.h:2099
 #, fuzzy
@@ -22477,12 +22376,14 @@ msgid "Sorkjosen"
 msgstr ""
 
 #: my-evolution/Locations.h:2110
+#, fuzzy
 msgid "Southampton"
-msgstr ""
+msgstr "Dienvidaustrumu"
 
 #: my-evolution/Locations.h:2111
+#, fuzzy
 msgid "South Bend"
-msgstr ""
+msgstr "Dienvidu"
 
 #: my-evolution/Locations.h:2112
 #, fuzzy
@@ -22490,13 +22391,14 @@ msgid "South Carolina"
 msgstr "Dienvidâfrika"
 
 #: my-evolution/Locations.h:2113
+#, fuzzy
 msgid "South Dakota"
-msgstr ""
+msgstr "Dienvidaustrumu"
 
 #: my-evolution/Locations.h:2114
 #, fuzzy
 msgid "Southend"
-msgstr "Sûtît"
+msgstr "Dienvidu"
 
 #: my-evolution/Locations.h:2115
 #, fuzzy
@@ -23113,12 +23015,14 @@ msgid "Tokyo Heliport"
 msgstr ""
 
 #: my-evolution/Locations.h:2260
+#, fuzzy
 msgid "Tokyo International Airport"
-msgstr ""
+msgstr "Starptautisks"
 
 #: my-evolution/Locations.h:2261
+#, fuzzy
 msgid "Tokyo New International Airport"
-msgstr ""
+msgstr "Jauns Starptautisks"
 
 #: my-evolution/Locations.h:2262
 #, fuzzy
@@ -23235,8 +23139,9 @@ msgid "Treviso/Istrana"
 msgstr ""
 
 #: my-evolution/Locations.h:2287
+#, fuzzy
 msgid "Treviso/S.Angelo"
-msgstr ""
+msgstr "D"
 
 #: my-evolution/Locations.h:2288
 #, fuzzy
@@ -23414,8 +23319,9 @@ msgid "United Arab Emirates "
 msgstr "Apvienotie Arâbu Erimâti"
 
 #: my-evolution/Locations.h:2332
+#, fuzzy
 msgid "Unst"
-msgstr ""
+msgstr "Neredzçta"
 
 #: my-evolution/Locations.h:2333
 msgid "Upington"
@@ -23438,7 +23344,7 @@ msgstr ""
 #: my-evolution/Locations.h:2338
 #, fuzzy
 msgid "Utah"
-msgstr "Pievienot"
+msgstr "."
 
 #: my-evolution/Locations.h:2339
 msgid "Utica"
@@ -23460,7 +23366,7 @@ msgstr "Radio"
 #: my-evolution/Locations.h:2343
 #, fuzzy
 msgid "Vaerlose"
-msgstr "Aizvçrt"
+msgstr "Mainîgs"
 
 #: my-evolution/Locations.h:2344
 #, fuzzy
@@ -23488,7 +23394,7 @@ msgstr "Slovçnija"
 #: my-evolution/Locations.h:2349
 #, fuzzy
 msgid "Valentine"
-msgstr "Skatît"
+msgstr "Skatît Iekðçji"
 
 #: my-evolution/Locations.h:2350
 msgid "Valera*"
@@ -23774,17 +23680,19 @@ msgid "Washington/Dulles"
 msgstr ""
 
 #: my-evolution/Locations.h:2418
+#, fuzzy
 msgid "Waterbury"
-msgstr ""
+msgstr "Laikapstâkïi"
 
 #: my-evolution/Locations.h:2419
 #, fuzzy
 msgid "Waterloo"
-msgstr "Kamerûna"
+msgstr "Laikapstâkïi"
 
 #: my-evolution/Locations.h:2420
+#, fuzzy
 msgid "Watertown"
-msgstr ""
+msgstr "Laikapstâkïi"
 
 #: my-evolution/Locations.h:2421
 #, fuzzy
@@ -23825,7 +23733,7 @@ msgstr ""
 #: my-evolution/Locations.h:2429
 #, fuzzy
 msgid "Wenatchee"
-msgstr "Nesakrîtoði"
+msgstr "Laikapstâkïi"
 
 #: my-evolution/Locations.h:2430
 #, fuzzy
@@ -23847,8 +23755,9 @@ msgid "Westerland"
 msgstr "Nîderlande"
 
 #: my-evolution/Locations.h:2434
+#, fuzzy
 msgid "Westfield"
-msgstr ""
+msgstr "Rietumu"
 
 #: my-evolution/Locations.h:2435
 msgid "Westhampton"
@@ -24045,8 +23954,9 @@ msgid "Worland"
 msgstr "Polija"
 
 #: my-evolution/Locations.h:2480
+#, fuzzy
 msgid "Worthington"
-msgstr ""
+msgstr "Strâdâ"
 
 #: my-evolution/Locations.h:2481
 msgid "Wrangell"
@@ -24063,7 +23973,7 @@ msgstr ""
 #: my-evolution/Locations.h:2484
 #, fuzzy
 msgid "Wyoming"
-msgstr "Ienâkoðais"
+msgstr "Strâdâ"
 
 #: my-evolution/Locations.h:2485
 #, fuzzy
@@ -24103,8 +24013,9 @@ msgid "Yankton"
 msgstr ""
 
 #: my-evolution/Locations.h:2494
+#, fuzzy
 msgid "Yao Airport"
-msgstr ""
+msgstr "Neimportçt"
 
 #: my-evolution/Locations.h:2495
 msgid "Yechon Ab"
@@ -24125,7 +24036,7 @@ msgstr ""
 #: my-evolution/Locations.h:2500
 #, fuzzy
 msgid "Yenbo"
-msgstr "Jemena"
+msgstr "Inbox"
 
 #: my-evolution/Locations.h:2501
 msgid "Yeoju Range"
@@ -24230,33 +24141,31 @@ msgstr "Turku"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:1
 msgid "The Evolution shell."
-msgstr ""
+msgstr "Evolution kommandrinda."
 
 #: shell/e-activity-handler.c:200
-#, fuzzy
 msgid "Show Details"
-msgstr "Parâdît"
+msgstr "Parâdît Detaïas"
 
 #: shell/e-activity-handler.c:202
-#, fuzzy
 msgid "Cancel Operation"
-msgstr "Atcelt"
+msgstr "Atsaukt Operâciju"
 
 #: shell/e-local-storage.c:174 shell/e-shortcuts.c:1052
 msgid "Inbox"
-msgstr ""
+msgstr "Inbox"
 
 #: shell/e-local-storage.c:175
 msgid "Outbox"
-msgstr ""
+msgstr "Outbox"
 
 #: shell/e-local-storage.c:636
 msgid "Local Folders"
-msgstr ""
+msgstr "Lokâlâs Mapes"
 
 #: shell/e-setup.c:124
 msgid "Evolution installation"
-msgstr ""
+msgstr "Evolution installâcija"
 
 #: shell/e-setup.c:128
 #, fuzzy
@@ -24271,9 +24180,8 @@ msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
 msgstr "OK failus Atcelt."
 
 #: shell/e-setup.c:169
-#, fuzzy
 msgid "Could not update files correctly"
-msgstr "failus"
+msgstr "Nevar korekti atjauninât failus"
 
 #: shell/e-setup.c:192
 #, fuzzy, c-format
@@ -24305,19 +24213,27 @@ msgstr "direktoriju\n"
 
 #: shell/e-setup.c:298
 #, c-format
+#, fuzzy
 msgid ""
 "Directory %s\n"
 "does not have the right permissions. Please make it\n"
 "readable and executable and restart Evolution."
 msgstr ""
+"\n"
+" pa labi\n"
+"."
 
 #: shell/e-setup.c:304
 #, c-format
+#, fuzzy
 msgid ""
 "File %s\n"
 "should be removed to allow Evolution to work correctly.\n"
 "Please remove this file and restart Evolution."
 msgstr ""
+"Datne\n"
+"\n"
+" failu."
 
 #: shell/e-setup.c:327
 #, fuzzy, c-format
@@ -24358,23 +24274,23 @@ msgstr ""
 
 #: shell/e-shell-about-box.c:40
 msgid "Evolution "
-msgstr ""
+msgstr "Evolution "
 
 #: shell/e-shell-about-box.c:41
 msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
-msgstr ""
+msgstr "Autortiesîbas 1999, 2000, 2001 Ximian, Inc."
 
 #: shell/e-shell-about-box.c:43
 msgid "Brought to you by"
-msgstr ""
+msgstr "Piedâvâ jums"
 
 #: shell/e-shell-folder-commands.c:176
 msgid "Cannot move a folder over itself."
-msgstr ""
+msgstr "Nevar pârvietot mapi uz sevi paðu."
 
 #: shell/e-shell-folder-commands.c:178
 msgid "Cannot copy a folder over itself."
-msgstr ""
+msgstr "Nevar nokopçt mapi uz sevi paðu."
 
 #: shell/e-shell-folder-commands.c:192
 msgid "Cannot move a folder into one of its descendants."
@@ -24386,9 +24302,8 @@ msgid "Specify a folder to copy folder \"%s\" into:"
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:312
-#, fuzzy
 msgid "Copy folder"
-msgstr "Kopçt"
+msgstr "Kopçt mapi"
 
 #: shell/e-shell-folder-commands.c:354
 #, c-format
@@ -24396,9 +24311,8 @@ msgid "Specify a folder to move folder \"%s\" into:"
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:359
-#, fuzzy
 msgid "Move folder"
-msgstr "Pârvietot"
+msgstr "Pârvietot mapi"
 
 #: shell/e-shell-folder-commands.c:385
 #, c-format
@@ -24408,9 +24322,9 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:401
-#, fuzzy, c-format
+#, c-format
 msgid "Delete \"%s\""
-msgstr "Dzçst"
+msgstr "Dzçst \"%s\""
 
 #. "Are you sure..." label
 #: shell/e-shell-folder-commands.c:411
@@ -24426,20 +24340,19 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:537
-#, fuzzy, c-format
+#, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr "Pârdçvçt:"
+msgstr "Pârdçvçt \"%s\" mapi par:"
 
 #: shell/e-shell-folder-commands.c:544
-#, fuzzy
 msgid "Rename folder"
-msgstr "Pârdçvçt"
+msgstr "Pârdçvçt mapi"
 
 #: shell/e-shell-folder-commands.c:554
 #: shell/e-shell-folder-creation-dialog.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "The specified folder name is not valid: %s"
-msgstr "ir"
+msgstr "Norâdîtais mapes nosaukums nav pareizs: %s"
 
 #: shell/e-shell-folder-creation-dialog.c:125
 #, c-format
@@ -24449,9 +24362,8 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-folder-creation-dialog.c:304
-#, fuzzy
 msgid "Evolution - Create new folder"
-msgstr "Izveidot"
+msgstr "Evolution - Izveidot jaunu mapi"
 
 #: shell/e-shell-folder-selection-dialog.c:98
 #, fuzzy
@@ -24463,14 +24375,12 @@ msgstr ""
 "."
 
 #: shell/e-shell-folder-selection-dialog.c:376
-#, fuzzy
 msgid "New..."
 msgstr "Jauns..."
 
 #: shell/e-shell-folder-title-bar.c:584 shell/e-shell-folder-title-bar.c:585
-#, fuzzy
 msgid "(Untitled)"
-msgstr "Nenosaukts"
+msgstr "(Nenosaukts)"
 
 #: shell/e-shell-importer.c:142
 msgid "Choose the type of importer to run:"
@@ -24514,15 +24424,15 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-importer.c:409
-#, fuzzy, c-format
+#, c-format
 msgid "File %s does not exist"
-msgstr "Datne"
+msgstr "Fails %s neeksistç"
 
 #: shell/e-shell-importer.c:410 shell/e-shell-importer.c:420
 #: shell/e-shell-importer.c:436 shell/e-shell-importer.c:486
 #, fuzzy
 msgid "Evolution Error"
-msgstr "Evolution Brîdinâjums"
+msgstr "Evolution "
 
 #: shell/e-shell-importer.c:420
 msgid "You may only import to local folders"
@@ -24537,7 +24447,7 @@ msgstr "ir nç ir\n"
 
 #: shell/e-shell-importer.c:445
 msgid "Importing"
-msgstr ""
+msgstr "Importçjam"
 
 #: shell/e-shell-importer.c:453
 #, fuzzy, c-format
@@ -24549,14 +24459,14 @@ msgstr ""
 " Startçju"
 
 #: shell/e-shell-importer.c:466
-#, fuzzy, c-format
+#, c-format
 msgid "Error starting %s"
-msgstr "Kïûda"
+msgstr "Kïûda sâknçjot %s"
 
 #: shell/e-shell-importer.c:485
-#, fuzzy, c-format
+#, c-format
 msgid "Error loading %s"
-msgstr "Kïûda"
+msgstr "Kïûda ielâdçjot %s"
 
 #: shell/e-shell-importer.c:502
 #, c-format
@@ -24566,18 +24476,16 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-importer.c:572
-#, fuzzy
 msgid "Automatic"
-msgstr "Automâtiski"
+msgstr "Automâtisks"
 
 #: shell/e-shell-importer.c:623
 msgid "Filename:"
 msgstr "Faila nosaukums:"
 
 #: shell/e-shell-importer.c:628
-#, fuzzy
 msgid "Select a file"
-msgstr "Izvçlçties datni"
+msgstr "Izvçlieties failu"
 
 #: shell/e-shell-importer.c:638
 msgid "File type:"
@@ -24589,7 +24497,7 @@ msgstr ""
 
 #: shell/e-shell-importer.c:667
 msgid "Import a single file"
-msgstr ""
+msgstr "Importçt vienu failu"
 
 #: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:628
 msgid ""
@@ -24603,14 +24511,13 @@ msgid "Starting Intelligent Importers"
 msgstr "Startçju"
 
 #: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:754
-#, fuzzy, c-format
+#, c-format
 msgid "From %s:"
-msgstr "No:"
+msgstr "No %s:"
 
 #: shell/e-shell-importer.c:1027
-#, fuzzy
 msgid "Select folder"
-msgstr "Atlasît"
+msgstr "Izvçlieties mapi"
 
 #: shell/e-shell-importer.c:1028
 #, fuzzy
@@ -24619,11 +24526,11 @@ msgstr "Atlasît"
 
 #: shell/e-shell-importer.c:1140 shell/importer/intelligent.c:193
 msgid "Import"
-msgstr ""
+msgstr "Importçt"
 
 #: shell/e-shell-offline-handler.c:572
 msgid "Closing connections..."
-msgstr ""
+msgstr "Aizvçrt savienojumus..."
 
 #: shell/e-shell-startup-wizard.c:159
 #, fuzzy, c-format
@@ -24638,46 +24545,40 @@ msgid "Could not start the Evolution Mailer Assistant interface\n"
 msgstr "Asistents"
 
 #: shell/e-shell-utils.c:114
-#, fuzzy
 msgid "No folder name specified."
-msgstr "Nç."
+msgstr "Nav norâdîts mapes nosaukums."
 
 #: shell/e-shell-utils.c:121
-#, fuzzy
 msgid "Folder name cannot contain the Return character."
-msgstr "Mape."
+msgstr "Mapes nosaukums nedrîkst saturçt Return simbolu."
 
 #: shell/e-shell-utils.c:127
-#, fuzzy
 msgid "Folder name cannot contain slashes."
-msgstr "Mape."
+msgstr "Mapes nosaukums nevar saturçt slîpzîmes."
 
 #: shell/e-shell-utils.c:133
 msgid "'.' and '..' are reserved folder names."
 msgstr ""
 
 #: shell/e-shell-view-menu.c:165
-#, fuzzy
 msgid "Bug buddy was not found in your $PATH."
-msgstr "CEÏÐ."
+msgstr "Bug buddy netika atrasts jûsu $PATH"
 
 #: shell/e-shell-view-menu.c:173
 msgid "Bug buddy could not be run."
 msgstr ""
 
 #: shell/e-shell-view-menu.c:215
-#, fuzzy
 msgid "About Ximian Evolution"
-msgstr "Par"
+msgstr "Par Ximian Evolution"
 
 #: shell/e-shell-view-menu.c:424
 msgid "Go to folder..."
 msgstr "Ej uz mapi..."
 
 #: shell/e-shell-view-menu.c:425
-#, fuzzy
 msgid "Select the folder that you want to open"
-msgstr "Atlasît"
+msgstr "Izvçlies mapi kuru tu vçlies atvçrt"
 
 #: shell/e-shell-view-menu.c:545
 #, fuzzy
@@ -24695,13 +24596,13 @@ msgid "The GNOME Pilot tools do not appear to be installed on this system."
 msgstr "GNOME sistçma."
 
 #: shell/e-shell-view-menu.c:585
-#, fuzzy, c-format
+#, c-format
 msgid "Error executing %s."
-msgstr "Kïûda."
+msgstr "Kïûda sâknçjot %s."
 
 #: shell/e-shell-view-menu.c:688
 msgid "_Work Online"
-msgstr ""
+msgstr "_Strâdât Tieðsaistç"
 
 #: shell/e-shell-view-menu.c:701 ui/evolution.xml.h:51
 msgid "_Work Offline"
@@ -24712,24 +24613,23 @@ msgid "Work Offline"
 msgstr ""
 
 #: shell/e-shell-view.c:214
-#, fuzzy
 msgid "(No folder displayed)"
-msgstr "Nç"
+msgstr "(Nav atçlota mape)"
 
 #: shell/e-shell-view.c:1585
 #, c-format
 msgid "%s (%d)"
-msgstr ""
+msgstr "%s (%d)"
 
 #: shell/e-shell-view.c:1587
 msgid "(None)"
 msgstr "(Nekas)"
 
 #: shell/e-shell-view.c:1634
-#, fuzzy
-msgid ""
-"Ximian Evolution is currently online.  Click on this button to work offline."
-msgstr "ir."
+msgid "Ximian Evolution is currently online.  Click on this button to work offline."
+msgstr ""
+"Ximian Evolution paðreiz ir tieðaistç. Klikðíiniet pogu lai strâdâtu "
+"netieðsaistç."
 
 #: shell/e-shell-view.c:1641
 #, fuzzy
@@ -24738,8 +24638,7 @@ msgstr "ir."
 
 #: shell/e-shell-view.c:1647
 #, fuzzy
-msgid ""
-"Ximian Evolution is currently offline.  Click on this button to work online."
+msgid "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr "ir."
 
 #: shell/e-shell.c:651
@@ -24760,21 +24659,19 @@ msgstr ""
 
 #: shell/e-shell.c:1886
 msgid "Invalid arguments"
-msgstr ""
+msgstr "Nepareizi argrumenti"
 
 #: shell/e-shell.c:1888
 msgid "Cannot register on OAF"
-msgstr ""
+msgstr "Nevar reìistrçties uz OAF"
 
 #: shell/e-shell.c:1890
-#, fuzzy
 msgid "Configuration Database not found"
-msgstr "Konfigurâcija"
+msgstr "Konfigurâciju Datubâze nav atrasta"
 
 #: shell/e-shell.c:1892 shell/e-storage.c:500
-#, fuzzy
 msgid "Generic error"
-msgstr "Vispârçji"
+msgstr "Vispârçja kïûda"
 
 #: shell/e-shortcuts-view.c:74
 #, fuzzy
@@ -24796,7 +24693,7 @@ msgstr ""
 
 #: shell/e-shortcuts-view.c:180
 msgid "Don't remove"
-msgstr ""
+msgstr "Nepârvietot"
 
 #: shell/e-shortcuts-view.c:209
 #, fuzzy
@@ -24809,9 +24706,8 @@ msgid "Rename selected shortcut group to:"
 msgstr "Pârdçvçt grupa:"
 
 #: shell/e-shortcuts-view.c:224
-#, fuzzy
 msgid "_Small Icons"
-msgstr "Mazs"
+msgstr "_Mazas Ikonas"
 
 #: shell/e-shortcuts-view.c:225
 #, fuzzy
@@ -24819,9 +24715,8 @@ msgid "Show the shortcuts as small icons"
 msgstr "Parâdît"
 
 #: shell/e-shortcuts-view.c:227
-#, fuzzy
 msgid "_Large Icons"
-msgstr "Liels"
+msgstr "_Lielas Ikonas"
 
 #: shell/e-shortcuts-view.c:228
 #, fuzzy
@@ -24829,9 +24724,8 @@ msgid "Show the shortcuts as large icons"
 msgstr "Parâdît"
 
 #: shell/e-shortcuts-view.c:239
-#, fuzzy
 msgid "_New Group..."
-msgstr "Jauns Grupa."
+msgstr "_Jauna Grupa..."
 
 #: shell/e-shortcuts-view.c:240
 #, fuzzy
@@ -24895,7 +24789,7 @@ msgstr "Atvçrt"
 
 #: shell/e-shortcuts-view.c:389
 msgid "_Rename"
-msgstr ""
+msgstr "_Pârsaukt"
 
 #: shell/e-shortcuts-view.c:389
 #, fuzzy
@@ -24904,7 +24798,7 @@ msgstr "Pârdçvçt"
 
 #: shell/e-shortcuts-view.c:391
 msgid "Re_move"
-msgstr ""
+msgstr "_Izòemt"
 
 #: shell/e-shortcuts-view.c:391
 #, fuzzy
@@ -24926,44 +24820,40 @@ msgid ""
 "Cannot transfer folder:\n"
 "%s"
 msgstr ""
+"Nevar pârsûtît mapi:\n"
+"%s"
 
 #: shell/e-storage.c:181 shell/e-storage.c:187
-#, fuzzy
 msgid "(No name)"
-msgstr "Nç"
+msgstr "(Nav nosaukuma)"
 
 #: shell/e-storage.c:498
-#, fuzzy
 msgid "No error"
-msgstr "Nç"
+msgstr "Nav kïûdas"
 
 #: shell/e-storage.c:502
-#, fuzzy
 msgid "A folder with the same name already exists"
-msgstr "ar"
+msgstr "Mape ar ðadu nosaukumu jau eksistç"
 
 #: shell/e-storage.c:504
-#, fuzzy
 msgid "The specified folder type is not valid"
-msgstr "ir"
+msgstr "Norâdîtais mapes tips nav pareizs"
 
 #: shell/e-storage.c:506
-#, fuzzy
 msgid "I/O error"
-msgstr "I"
+msgstr "I/O kïûda"
 
 #: shell/e-storage.c:508
 msgid "Not enough space to create the folder"
-msgstr ""
+msgstr "Nav pietiekami vietas, lai izveidotu mapi"
 
 #: shell/e-storage.c:510
-#, fuzzy
 msgid "The folder is not empty"
-msgstr "ir"
+msgstr "Mape nav tukða"
 
 #: shell/e-storage.c:512
 msgid "The specified folder was not found"
-msgstr ""
+msgstr "Norâdîtâ mape netika atrasta"
 
 #: shell/e-storage.c:514
 msgid "Function not implemented in this storage"
@@ -24971,7 +24861,7 @@ msgstr ""
 
 #: shell/e-storage.c:518
 msgid "Operation not supported"
-msgstr ""
+msgstr "Operâcija nav atbalstîta"
 
 #: shell/e-storage.c:520
 #, fuzzy
@@ -24987,40 +24877,38 @@ msgid "Cannot make a folder a child of one of its descendants"
 msgstr ""
 
 #: shell/e-storage.c:526
-#, fuzzy
 msgid "Cannot create a folder with that name"
-msgstr "ar"
+msgstr "Nevar izveidot mapi ar ðâdu nosaukumu"
 
 #: shell/e-task-widget.c:191
 #, c-format
 msgid "%s (...)"
-msgstr ""
+msgstr "%s (...)"
 
 #: shell/e-task-widget.c:196
 #, c-format
 msgid "%s (%d%% complete)"
-msgstr ""
+msgstr "%s (%d%% izpildîts)"
 
 #: shell/evolution-shell-component.c:1009
 msgid "CORBA error"
-msgstr ""
+msgstr "COBRA kïûda"
 
 #: shell/evolution-shell-component.c:1011
 msgid "Interrupted"
-msgstr ""
+msgstr "Pârtraukts"
 
 #: shell/evolution-shell-component.c:1013
 msgid "Invalid argument"
-msgstr ""
+msgstr "Nepareizs arguments"
 
 #: shell/evolution-shell-component.c:1015
 msgid "Already has an owner"
-msgstr ""
+msgstr "Jau ir îpaðnieks"
 
 #: shell/evolution-shell-component.c:1017
-#, fuzzy
 msgid "No owner"
-msgstr "Nç"
+msgstr "Nav îpaðnieka"
 
 #: shell/evolution-shell-component.c:1019
 msgid "Not found"
@@ -25028,52 +24916,50 @@ msgstr "Nav atrasts"
 
 #: shell/evolution-shell-component.c:1021
 msgid "Unsupported type"
-msgstr ""
+msgstr "Neatbalstîts tips"
 
 #: shell/evolution-shell-component.c:1023
 msgid "Unsupported schema"
-msgstr ""
+msgstr "Neatbalstîta shçma"
 
 #: shell/evolution-shell-component.c:1025
 msgid "Unsupported operation"
-msgstr ""
+msgstr "Neatbalstîta operâcija"
 
 #: shell/evolution-shell-component.c:1027
 msgid "Internal error"
-msgstr ""
+msgstr "Iekðçja kïûda"
 
 #: shell/evolution-shell-component.c:1031
 msgid "Exists"
-msgstr ""
+msgstr "Izejam"
 
 #: shell/evolution-shell-component.c:1033
 msgid "Invalid URI"
-msgstr ""
+msgstr "Nepareizs URI"
 
 #: shell/evolution-shell-component.c:1037
 msgid "Has subfolders"
-msgstr ""
+msgstr "Ir apakðmapes"
 
 #: shell/evolution-shell-component.c:1039
-#, fuzzy
 msgid "No space left"
-msgstr "Nç"
+msgstr "Nav brîvas vietas"
 
 #: shell/evolution-shell-component.c:1041
-#, fuzzy
 msgid "Old owner has died"
-msgstr "îpaðnieks"
+msgstr "Vecais îpaðnieks ir 'miris'"
 
 #: shell/evolution-shell-component-utils.c:124
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "\n"
 "Unknown error."
 msgstr ""
+"%s\n"
 "\n"
-"\n"
-" Nezinâms kïûda."
+" Nezinâma kïûda."
 
 #: shell/evolution-shell-component-utils.c:127
 #, fuzzy, c-format
@@ -25100,9 +24986,8 @@ msgstr ""
 " kïûda sistçma ir\n"
 
 #: shell/glade/e-active-connection-dialog.glade.h:1
-#, fuzzy
 msgid "Active connections"
-msgstr "Aktîvs"
+msgstr "Aktîvie savienojumi"
 
 #: shell/glade/e-active-connection-dialog.glade.h:2
 #, fuzzy
@@ -25110,43 +24995,40 @@ msgid "Click OK to close these connections and go offline"
 msgstr "OK"
 
 #: shell/glade/e-active-connection-dialog.glade.h:3
-#, fuzzy
 msgid "Host"
 msgstr "Resursdators"
 
 #: shell/glade/e-active-connection-dialog.glade.h:4
 msgid "The following connections are currently active:"
-msgstr ""
+msgstr "Paðreizçjie aktîvie savienojumi ir:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
-#, fuzzy
 msgid "Folder name:"
-msgstr "Mape:"
+msgstr "Mapes nosaukums:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:2
-#, fuzzy
 msgid "Folder type:"
-msgstr "Mape:"
+msgstr "Mapes tips:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:3
 msgid "Specify where to create the folder:"
-msgstr ""
+msgstr "Norâdît ðeit, lai izveidotu mapi:"
 
 #: shell/glade/evolution-startup-wizard.glade.h:3
 msgid "Evolution Setup Assistant"
-msgstr ""
+msgstr "Evolution Uzstâdîðanas Asistents"
 
 #: shell/glade/evolution-startup-wizard.glade.h:5
 msgid "Importing Files"
-msgstr ""
+msgstr "Importçjam Failus"
 
 #: shell/glade/evolution-startup-wizard.glade.h:8
 msgid "Timezone "
-msgstr ""
+msgstr "Laika zona"
 
 #: shell/glade/evolution-startup-wizard.glade.h:9
 msgid "Welcome"
-msgstr ""
+msgstr "Esiet aicinâti"
 
 #: shell/glade/evolution-startup-wizard.glade.h:10
 #, fuzzy
@@ -25183,11 +25065,11 @@ msgstr "failu "
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
-msgstr ""
+msgstr "Evoluion Importçðanas Asistents"
 
 #: shell/importer/import.glade.h:3
 msgid "Evolution Importer Assistant"
-msgstr ""
+msgstr "Evolution Importçtâjasistents"
 
 #: shell/importer/import.glade.h:4
 #, fuzzy
@@ -25222,15 +25104,15 @@ msgstr ""
 
 #: shell/importer/intelligent.c:190
 msgid "Importers"
-msgstr ""
+msgstr "Importeri"
 
 #: shell/importer/intelligent.c:196
 msgid "Don't import"
-msgstr ""
+msgstr "Neimportçt"
 
 #: shell/importer/intelligent.c:198
 msgid "Don't ask me again"
-msgstr ""
+msgstr "Neprasiet man vçlreiz"
 
 #: shell/importer/intelligent.c:208
 #, fuzzy
@@ -25239,7 +25121,7 @@ msgstr "failus:"
 
 #: shell/main.c:83
 msgid "Evolution"
-msgstr ""
+msgstr "Evolution"
 
 #: shell/main.c:89
 #, fuzzy
@@ -25277,7 +25159,7 @@ msgstr "Kïûda."
 
 #: tools/evolution-addressbook-export.c:46
 msgid "Output File"
-msgstr ""
+msgstr "Izejas Fails"
 
 #: tools/evolution-addressbook-import.c:67
 #, fuzzy
@@ -25401,7 +25283,7 @@ msgstr "Stop"
 #: ui/evolution-mail-message.xml.h:91 ui/evolution-mail-messagedisplay.xml.h:4
 #: ui/evolution-task-editor.xml.h:9
 msgid "_Actions"
-msgstr ""
+msgstr "_Darbîbas"
 
 #: ui/evolution-addressbook.xml.h:30
 #, fuzzy
@@ -25410,11 +25292,11 @@ msgstr "Adreðu grâmata Avoti."
 
 #: ui/evolution-addressbook.xml.h:31
 msgid "_Contact"
-msgstr ""
+msgstr "_Kontaktçties"
 
 #: ui/evolution-addressbook.xml.h:32
 msgid "_Contact List"
-msgstr ""
+msgstr "_Kontaktu Saraksts"
 
 #: ui/evolution-addressbook.xml.h:35 ui/evolution-contact-editor.xml.h:13
 #, fuzzy
@@ -25470,7 +25352,7 @@ msgstr "Izveidot"
 
 #: ui/evolution-calendar.xml.h:11
 msgid "Day"
-msgstr ""
+msgstr "Diena"
 
 #: ui/evolution-calendar.xml.h:12
 #, fuzzy
@@ -25568,7 +25450,7 @@ msgstr "Nedçïa"
 
 #: ui/evolution-calendar.xml.h:35
 msgid "_Appointment..."
-msgstr ""
+msgstr "_Satikðanâs..."
 
 #: ui/evolution-calendar.xml.h:36
 #, fuzzy
@@ -25607,7 +25489,7 @@ msgstr "Dzçst"
 #: ui/evolution-comp-editor.xml.h:6 ui/evolution-mail-messagedisplay.xml.h:3
 #: ui/evolution.xml.h:16
 msgid "Main toolbar"
-msgstr ""
+msgstr "Galvenâ rîkjosla"
 
 #: ui/evolution-comp-editor.xml.h:7
 #, fuzzy
@@ -25670,32 +25552,27 @@ msgid "Save _As..."
 msgstr "No_glabât Kâ..."
 
 #: ui/evolution-contact-editor.xml.h:9
-#, fuzzy
 msgid "Save the contact and close the dialog box"
-msgstr "Saglabât"
+msgstr "Saglabât kontaktu un aizvçrt dialoga logu"
 
 #: ui/evolution-contact-editor.xml.h:15
 #: ui/evolution-contact-list-editor.xml.h:12
 #: ui/evolution-message-composer.xml.h:53
 #: ui/evolution-signature-editor.xml.h:11
-#, fuzzy
 msgid "_Save"
 msgstr "N_oglabât"
 
 #: ui/evolution-contact-list-editor.xml.h:3
-#, fuzzy
 msgid "Delete this list"
-msgstr "Dzçst"
+msgstr "Dzçst ðo sarakstu"
 
 #: ui/evolution-contact-list-editor.xml.h:4
-#, fuzzy
 msgid "Delete..."
-msgstr "Dzçst."
+msgstr "Dzçst..."
 
 #: ui/evolution-contact-list-editor.xml.h:7
-#, fuzzy
 msgid "Save the list and close the dialog box"
-msgstr "Saglabât saraksts"
+msgstr "Saglabât sarakstu un aizvçrt dialoga logu"
 
 #: ui/evolution-contact-list-editor.xml.h:8
 #, fuzzy
@@ -25708,9 +25585,8 @@ msgid "Send _message to list..."
 msgstr "Sûtît saraksts."
 
 #: ui/evolution-event-editor.xml.h:1
-#, fuzzy
 msgid "Cancel Mee_ting"
-msgstr "Atcelt"
+msgstr "Atcelt _Tikðanos"
 
 #: ui/evolution-event-editor.xml.h:2
 #, fuzzy
@@ -25718,26 +25594,24 @@ msgid "Cancel the meeting for this item"
 msgstr "Atcelt"
 
 #: ui/evolution-event-editor.xml.h:3 ui/evolution-task-editor.xml.h:5
-#, fuzzy
 msgid "Forward as i_Calendar"
-msgstr "Pârsûtît"
+msgstr "Pârsûtît kâ iKalendâru"
 
 #: ui/evolution-event-editor.xml.h:4 ui/evolution-task-editor.xml.h:6
-#, fuzzy
 msgid "Forward this item via email"
-msgstr "Pârsûtît"
+msgstr "Pârsûtît ðo priekðmetu caur epastu"
 
 #: ui/evolution-event-editor.xml.h:5
 msgid "Obtain the latest meeting information"
-msgstr ""
+msgstr "Dabût pçdîgo informâciju par tikðanos"
 
 #: ui/evolution-event-editor.xml.h:6
 msgid "Re_fresh Meeting"
-msgstr ""
+msgstr "Atjauninât _Datus Par Tikðanos"
 
 #: ui/evolution-event-editor.xml.h:7
 msgid "Schedule _Meeting"
-msgstr ""
+msgstr "Plânot _Tikðanos"
 
 #: ui/evolution-event-editor.xml.h:8
 msgid "Schedule a meeting for this item"
@@ -25745,12 +25619,11 @@ msgstr ""
 
 #: ui/evolution-executive-summary.xml.h:1
 msgid "Customise My Evolution"
-msgstr ""
+msgstr "Pârveidot Manu Evolution"
 
 #: ui/evolution-mail-global.xml.h:2
-#, fuzzy
 msgid "Cancel the current mail operation"
-msgstr "Atcelt"
+msgstr "Atcelt paðreizçjo pasta operâciju"
 
 #: ui/evolution-mail-global.xml.h:3
 msgid "Compose _New Message"
@@ -25816,9 +25689,8 @@ msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Pierakstîties"
 
 #: ui/evolution-mail-global.xml.h:17
-#, fuzzy
 msgid "Virtual Folder _Editor..."
-msgstr "Mape."
+msgstr "Virtuâlâs Mapes R_edaktors..."
 
 #: ui/evolution-mail-global.xml.h:19
 msgid "_Filters..."
@@ -25873,8 +25745,7 @@ msgid "Hide _Read Messages"
 msgstr "Slçpt Lasîtâs Vçstules"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "Slçpt dzçstâs vçstules, nevis attçlot kâ pârsvîtrotus "
 
 #: ui/evolution-mail-list.xml.h:9
@@ -25903,13 +25774,11 @@ msgstr "Izvçlçties _Pavedienu"
 
 #: ui/evolution-mail-list.xml.h:15
 msgid "Select all and only the messages that are not currently selected"
-msgstr ""
-"Izvçlçties visas un vienîgi tikai tâs vçstules, kuras nav paðlaik izvçlçtas"
+msgstr "Izvçlçties visas un vienîgi tikai tâs vçstules, kuras nav paðlaik izvçlçtas"
 
 #: ui/evolution-mail-list.xml.h:16
 msgid "Select all messages in the same thread as the selected message"
-msgstr ""
-"Izvçlçties visas vçstules no tâ paða pavediena, kur atrodas izvçlçtâ vçstule"
+msgstr "Izvçlçties visas vçstules no tâ paða pavediena, kur atrodas izvçlçtâ vçstule"
 
 #: ui/evolution-mail-list.xml.h:17
 msgid "Select all visible messages"
@@ -25937,7 +25806,7 @@ msgstr "Sasaistîts Vçstuïu saraksts"
 
 #: ui/evolution-mail-list.xml.h:26
 msgid "_Expunge"
-msgstr ""
+msgstr "_Izdzçst"
 
 #: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:37
 msgid "_Folder"
@@ -25971,17 +25840,15 @@ msgstr "saraksts"
 
 #: ui/evolution-mail-message.xml.h:5
 msgid "Compose a reply to the sender of the selected message"
-msgstr ""
+msgstr "Sacerçt atbildi izvçlçtâs vçstules sûtîtâjam"
 
 #: ui/evolution-mail-message.xml.h:7
-#, fuzzy
 msgid "Copy selected messages to another folder"
-msgstr "Kopçt"
+msgstr "Kopçt izvçlçtâs vçstules uz citu mapi"
 
 #: ui/evolution-mail-message.xml.h:8
-#, fuzzy
 msgid "Create _Virtual Folder From Message"
-msgstr "Izveidot Mape No"
+msgstr "Izveidot _Virtuâlu Mapi No Vçstules"
 
 #: ui/evolution-mail-message.xml.h:9
 #, fuzzy
@@ -25994,34 +25861,28 @@ msgid "Create a rule to filter messages to these recipients"
 msgstr "Izveidot"
 
 #: ui/evolution-mail-message.xml.h:11
-#, fuzzy
 msgid "Create a rule to filter messages to this mailing list"
-msgstr "Izveidot"
+msgstr ""
 
 #: ui/evolution-mail-message.xml.h:12
-#, fuzzy
 msgid "Create a rule to filter messages with this subject"
-msgstr "Izveidot ar"
+msgstr "Izveidot filtra noteikumu vçstulçm ar ðâdu subjektu"
 
 #: ui/evolution-mail-message.xml.h:13
-#, fuzzy
 msgid "Create a virtual folder for these recipients"
-msgstr "Izveidot"
+msgstr "Izveidot virtuâlu mapi ðiem saòçmçjiem"
 
 #: ui/evolution-mail-message.xml.h:14
-#, fuzzy
 msgid "Create a virtual folder for this mailing list"
-msgstr "Izveidot"
+msgstr "Izveidot virtuâlu mapi ðai pasta sarakstei"
 
 #: ui/evolution-mail-message.xml.h:15
-#, fuzzy
 msgid "Create a virtual folder for this sender"
-msgstr "Izveidot"
+msgstr "Izveidot virtuâlu mapi ðim sûtîtâjam"
 
 #: ui/evolution-mail-message.xml.h:16
-#, fuzzy
 msgid "Create a virtual folder for this subject"
-msgstr "Izveidot"
+msgstr "Izveidot virtuâlu mapi ðim subjektam"
 
 #: ui/evolution-mail-message.xml.h:17
 msgid "Decrease the text size"
@@ -26056,9 +25917,8 @@ msgid "Display the previous unread message"
 msgstr "Parâdît iepriekðçjo neizlasîto vçstuli"
 
 #: ui/evolution-mail-message.xml.h:26
-#, fuzzy
 msgid "Filter on Mailing _List..."
-msgstr "Filtrs Saraksts."
+msgstr "Filtrs uz Pasta Sarakstes..."
 
 #: ui/evolution-mail-message.xml.h:27
 msgid "Filter on Se_nder..."
@@ -26097,24 +25957,20 @@ msgid "Forward _Quoted"
 msgstr "Pârsûtît _Citçtu"
 
 #: ui/evolution-mail-message.xml.h:36
-#, fuzzy
 msgid "Forward the selected message in the body of a new message"
-msgstr "Pârsûtît"
+msgstr "Pârsûtît izvçlçto vçstuli jaunas vçstules rumpî"
 
 #: ui/evolution-mail-message.xml.h:37
-#, fuzzy
 msgid "Forward the selected message quoted like a reply"
-msgstr "Pârsûtît"
+msgstr "Pârsûtît izvçlçto vçstuli citçtu kâ atbildi"
 
 #: ui/evolution-mail-message.xml.h:38
-#, fuzzy
 msgid "Forward the selected message to someone"
-msgstr "Pârsûtît"
+msgstr "Pârsûtît izvçlçto vçstuli kâdam"
 
 #: ui/evolution-mail-message.xml.h:39
-#, fuzzy
 msgid "Forward the selected message to someone as an attachment"
-msgstr "Pârsûtît"
+msgstr "Pârsûtît izvçlçto vçstuli kâdam kâ pievienojumu"
 
 #: ui/evolution-mail-message.xml.h:41
 msgid "Increase the text size"
@@ -26133,29 +25989,24 @@ msgid "Mark as Unimp_ortant"
 msgstr "Iezîmçt _kâ Nesvarîgas"
 
 #: ui/evolution-mail-message.xml.h:47
-#, fuzzy
 msgid "Mark the selected messages as having been read"
-msgstr "Atzîmçt"
+msgstr "Atzîmçt izvçlçtâs vçstules kâ tikuðas izlasîtas"
 
 #: ui/evolution-mail-message.xml.h:48
-#, fuzzy
 msgid "Mark the selected messages as important"
-msgstr "Atzîmçt"
+msgstr "Atzîmçt izvçlçtâs vçstules kâ svarîgas"
 
 #: ui/evolution-mail-message.xml.h:49
-#, fuzzy
 msgid "Mark the selected messages as not having been read"
-msgstr "Atzîmçt"
+msgstr "Atzîmçt izvçlçtâs vçstules kâ neizlasîtas"
 
 #: ui/evolution-mail-message.xml.h:50
-#, fuzzy
 msgid "Mark the selected messages as unimportant"
-msgstr "Atzîmçt"
+msgstr "Atzîmçt izvçlçtâs vçstules kâ nesvarîgas"
 
 #: ui/evolution-mail-message.xml.h:51
-#, fuzzy
 msgid "Mark the selected messages for deletion"
-msgstr "Atzîmçt"
+msgstr "Atzîmçt izvçlçtâs vçstules dzçðanai"
 
 #: ui/evolution-mail-message.xml.h:52
 msgid "Move"
@@ -26190,9 +26041,8 @@ msgid "Open the selected message in a new window"
 msgstr "Atvçrt izvçlçto vçstuli jaunâ logâ"
 
 #: ui/evolution-mail-message.xml.h:60
-#, fuzzy
 msgid "Open the selected message in the composer to re-send it"
-msgstr "Atvçrt"
+msgstr "Atvçrt norâdîto vçstuli komponçtâjâ lai to pârsûtîtu"
 
 #: ui/evolution-mail-message.xml.h:61
 msgid "Original Si_ze"
@@ -26280,70 +26130,59 @@ msgstr "Teksta _Izmçrs"
 
 #: ui/evolution-mail-message.xml.h:86
 msgid "Un-delete the selected messages"
-msgstr ""
+msgstr "Atdzçst izvçlçtâs vçstules"
 
 #: ui/evolution-mail-message.xml.h:87
-#, fuzzy
 msgid "VFolder on Mailing _List..."
-msgstr "Saraksts."
+msgstr "VMape uz Pasta _Saraksti..."
 
 #: ui/evolution-mail-message.xml.h:88
 msgid "VFolder on Se_nder..."
-msgstr ""
+msgstr "VMape uz Sûtîtâju..."
 
 #: ui/evolution-mail-message.xml.h:89
-#, fuzzy
 msgid "VFolder on _Recipients..."
-msgstr "Saòçmçji."
+msgstr "VMape uz _Saòçmçjiem..."
 
 #: ui/evolution-mail-message.xml.h:90
-#, fuzzy
 msgid "VFolder on _Subject..."
-msgstr "Subjekts."
+msgstr "VMape pçc Subjekta..."
 
 #: ui/evolution-mail-message.xml.h:92
-#, fuzzy
 msgid "_Apply Filters"
-msgstr "Attiecinât"
+msgstr "_Attiecinât Filtrus"
 
 #: ui/evolution-mail-message.xml.h:93
-#, fuzzy
 msgid "_Copy to Folder"
-msgstr "Kopçt"
+msgstr "_Kopçt uz Mapi"
 
 #: ui/evolution-mail-message.xml.h:94
-#, fuzzy
 msgid "_Create Filter From Message"
-msgstr "Izveidot Filtrs No"
+msgstr "_Izveidot Filtru No Vçstules"
 
 #: ui/evolution-mail-message.xml.h:97
-#, fuzzy
 msgid "_Forward Message"
-msgstr "Pârsûtît"
+msgstr "_Pârsûtît Vçstuli"
 
 #: ui/evolution-mail-message.xml.h:98
 msgid "_Larger"
-msgstr ""
+msgstr "_Lielâks"
 
 #: ui/evolution-mail-message.xml.h:99
-#, fuzzy
 msgid "_Message Display"
-msgstr "Vçstule"
+msgstr "_Vçstules Attçloðana"
 
 #: ui/evolution-mail-message.xml.h:100
-#, fuzzy
 msgid "_Move to Folder"
-msgstr "Pârvietot"
+msgstr "_Pârvietot uz Mapi"
 
 #: ui/evolution-mail-message.xml.h:101
-#, fuzzy
 msgid "_Normal Display"
-msgstr "Normâls"
+msgstr "_Normâla Attçloðana"
 
 #: ui/evolution-mail-message.xml.h:102
-#, fuzzy
 msgid "_Open Message"
-msgstr "Atvçrt"
+msgstr "_Atvçrt Vçstuli"
 
 #: ui/evolution-mail-message.xml.h:106 ui/evolution.xml.h:49
 #: ui/my-evolution.xml.h:9
@@ -26395,9 +26234,8 @@ msgid "H_TML"
 msgstr "H_TML"
 
 #: ui/evolution-message-composer.xml.h:10
-#, fuzzy
 msgid "Inline Text _File..."
-msgstr "Teksts Datne."
+msgstr "Iekïautais Teksta Fails..."
 
 #: ui/evolution-message-composer.xml.h:11
 msgid "Insert a file as text into the message"
@@ -26570,9 +26408,8 @@ msgid "Refresh List of Folders"
 msgstr "Atjauninât Mapju Sarakstu"
 
 #: ui/evolution-subscribe.xml.h:5
-#, fuzzy
 msgid "Remove folder from your list of subscribed folders"
-msgstr "Izòemt saraksts"
+msgstr "Izòemt mapi no jûsu pierakstîto mapju saraksta"
 
 #: ui/evolution-subscribe.xml.h:7
 msgid "Subscribe"
@@ -26591,70 +26428,60 @@ msgid "Assign this task to others"
 msgstr "Nozîmçt ðo uzdevumu citiem"
 
 #: ui/evolution-task-editor.xml.h:3
-#, fuzzy
 msgid "Cancel Task"
-msgstr "Atcelt"
+msgstr "Atcelt Uzdevumu"
 
 #: ui/evolution-task-editor.xml.h:4
-#, fuzzy
 msgid "Cancel this task"
-msgstr "Atcelt"
+msgstr "Atcelt ðo uzdevumu"
 
 #: ui/evolution-task-editor.xml.h:7
 msgid "Obtain the latest task information"
-msgstr ""
+msgstr "Dabût pçdîgo informâciju par uzdevumu"
 
 #: ui/evolution-task-editor.xml.h:8
 msgid "Re_fresh Task"
-msgstr ""
+msgstr "Atjau_ninât Uzdevumu"
 
 #: ui/evolution-tasks.xml.h:2
-#, fuzzy
 msgid "Configure the task view's settings"
-msgstr "Konfigurçt"
+msgstr "Konfigurçt uzdevumu skata uzstâdîjumus"
 
 #: ui/evolution-tasks.xml.h:4
-#, fuzzy
 msgid "Copy selected task"
-msgstr "Kopçt"
+msgstr "Kopçt izvçlçto uzdevumu"
 
 #: ui/evolution-tasks.xml.h:7
-#, fuzzy
 msgid "Cut selected task"
-msgstr "Izgriezt"
+msgstr "Izgriezt izvçlçto uzdevumu"
 
 #: ui/evolution-tasks.xml.h:9
-#, fuzzy
 msgid "Delete selected tasks"
-msgstr "Dzçst"
+msgstr "Dzçst izvçlçtos uzdevumus"
 
 #: ui/evolution-tasks.xml.h:12
-#, fuzzy
 msgid "Paste task from the clipboard"
-msgstr "Ievietot"
+msgstr "Ievietot uzdevumu no starpliktuves"
 
 #: ui/evolution-tasks.xml.h:13
-#, fuzzy
 msgid "Tasks Settings..."
-msgstr "Uzdevumi Uzstâdîjumi."
+msgstr "Uzdevumu Uzstâdîjumi..."
 
 #: ui/evolution-tasks.xml.h:18
 msgid "_Task"
-msgstr ""
+msgstr "_Uzdevums"
 
 #: ui/evolution.xml.h:1
 msgid "About Ximian Evolution..."
 msgstr "Par Ximian Evolution..."
 
 #: ui/evolution.xml.h:2
-#, fuzzy
 msgid "Add to _Shortcut Bar"
-msgstr "Pievienot"
+msgstr "Pievienot _Saîsinâjumikonu Joslai"
 
 #: ui/evolution.xml.h:3
-#, fuzzy
 msgid "Change the name of this folder"
-msgstr "Izmainît"
+msgstr "Izmainît ðîs mapes nosaukumu"
 
 #: ui/evolution.xml.h:6
 msgid "Copy this folder"
@@ -26665,9 +26492,8 @@ msgid "Create _New Folder..."
 msgstr "Izveidot _Jaunu Mapi..."
 
 #: ui/evolution.xml.h:8
-#, fuzzy
 msgid "Create a link to this folder in the shortcut bar"
-msgstr "Izveidot"
+msgstr "saîsinâjumikonu joslâ izveidot saiti ar ðo mapi"
 
 #: ui/evolution.xml.h:9
 msgid "Create a new folder"
@@ -26905,7 +26731,7 @@ msgstr "Laikam jâbût ðâdâ formâtâ: %s"
 
 #: widgets/misc/e-cell-percent.c:77
 msgid "The percent value must be between 0 and 100, inclusive"
-msgstr ""
+msgstr "Procentu vçrtîbai jâbût starp 0 un 100, ieskaitot"
 
 #: widgets/misc/e-charset-picker.c:58
 msgid "Baltic"
@@ -27055,31 +26881,31 @@ msgstr "init_corba(): nevar initializçt GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): nevar initializçt Bonobo"
 
-#~ msgid "B_usiness"
-#~ msgstr "B_izness"
+msgid "B_usiness"
+msgstr "B_izness"
 
-#~ msgid "Business _Fax"
-#~ msgstr "Biznesa _Fakss"
+msgid "Business _Fax"
+msgstr "Biznesa _Fakss"
 
-#~ msgid "_Business"
-#~ msgstr "_Bizness"
+msgid "_Business"
+msgstr "_Bizness"
 
-#~ msgid "_Home"
-#~ msgstr "_Mâjas"
+msgid "_Home"
+msgstr "_Mâjas"
 
-#~ msgid "_Mobile"
-#~ msgstr "_Mobilais telefons"
+msgid "_Mobile"
+msgstr "_Mobilais telefons"
 
-#, fuzzy
-#~ msgid ""
-#~ "Issuer: %s\n"
-#~ "Subject: %s"
-#~ msgstr ""
-#~ "\n"
-#~ " Subjekts"
+msgid ""
+"Issuer: %s\n"
+"Subject: %s"
+msgstr ""
+"Izlaidçjs: %s\n"
+"Subjekts: %s"
 
-#~ msgid "°F"
-#~ msgstr "°F"
+msgid "°F"
+msgstr "°F"
 
-#~ msgid "°C"
-#~ msgstr "°C"
+msgid "°C"
+msgstr "°C"
+
