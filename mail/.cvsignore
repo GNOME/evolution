@@ -3,10 +3,6 @@
 .pure
 Makefile
 Makefile.in
-Mailer-stubs.c
-Mailer-skels.c
-Mailer-common.c
-Mailer.h
 evolution-mail
 evolution-mail.pure
 mail-config.gladep
@@ -17,8 +13,8 @@ test-thread
 *.bbg
 *.da
 *.gcov
-GNOME_Evolution_Mail.server
-GNOME_Evolution_Mail.server.in
+GNOME_Evolution_Mail*.server
+GNOME_Evolution_Mail*.server.in
 Spell-common.c
 Spell-skels.c
 Spell-stubs.c
