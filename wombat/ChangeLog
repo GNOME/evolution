@@ -1,5 +1,7 @@
 2000-08-26  JP Rosevear  <jpr@helixcode.com>
 
+	* Makefile.am: Remove gnorba related code 
+
 	* wombat.c: Remove gnorba related code
 
 	* wombat.gnorba: Kill

@@ -6,7 +6,9 @@
  */
 
 #include <config.h>
+#include <gnome.h>
 #include <bonobo.h>
+#include <liboaf/liboaf.h>
 #include <pas/pas-book-factory.h>
 #include <pas/pas-backend-file.h>
 #include <libgnomevfs/gnome-vfs-init.h>
@@ -100,13 +102,6 @@ last_calendar_gone_cb (CalFactory *factory, gpointer data)
 	queue_termination ();
 }
 
-#ifdef USING_OAF
-
-/* (For the OAF popt stuff, which otherwise does not get in.)  */
-#include <gnome.h>
-
-#include <liboaf/liboaf.h>
-
 static gboolean
 register_pcs (CORBA_Object obj)
 {
@@ -132,45 +127,7 @@ register_pcs (CORBA_Object obj)
 	}
 }
 
-#else  /* USING_OAF */
-
-#include <libgnorba/gnorba.h>
-
-static gboolean
-register_pcs (CORBA_Object object)
-{
-	CORBA_Environment ev;
-	int result;
-
-	CORBA_exception_init (&ev);
-
-	result = goad_server_register (CORBA_OBJECT_NIL,
-				       object,
-				       "evolution:calendar-factory",
-				       "object",
-				       &ev);
-
-	/* FIXME: should Wombat die if it gets errors here? */
-
-	if (ev._major != CORBA_NO_EXCEPTION || result == -1) {
-		g_message ("setup_pcs(): could not register the calendar factory");
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
-
-	if (result == -2) {
-		g_message ("setup_pcs(): a calendar factory is already registered");
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
-
-	CORBA_exception_free (&ev);
-	return TRUE;
-}
-
-#endif /* USING_OAF */
-
-/* Creates the calendar factory object and registers it with GOAD */
+/* Creates the calendar factory object and registers it */
 static void
 setup_pcs (int argc, char **argv)
 {
@@ -217,8 +174,6 @@ setup_vfs (int argc, char **argv)
 
 
 
-#ifdef USING_OAF
-
 static void
 init_corba (int *argc, char **argv)
 {
@@ -226,30 +181,6 @@ init_corba (int *argc, char **argv)
 				    *argc, argv, oaf_popt_options, 0, NULL);
 	oaf_init (*argc, argv);
 }
-
-#else
-
-static void
-init_corba (int *argc, char **argv)
-{
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	gnome_CORBA_init_with_popt_table (
-		"Personal Addressbook Server", "0.0",
-		argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("init_bonobo(): could not initialize GOAD");
-		CORBA_exception_free (&ev);
-		exit (EXIT_FAILURE);
-	}
-
-	CORBA_exception_free (&ev);
-}
-
-#endif
 
 static void
 init_bonobo (int *argc, char **argv)
