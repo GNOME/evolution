@@ -111,9 +111,12 @@ int main(int argc, char **argv)
 	FILE *out;
 
 	for (i=1;i<argc;i++) {
-		char *name;
+		char *orig_name, *name;
 
-		name = g_strdup_printf("%s.h", argv[i]);
+		orig_name = g_path_get_basename (argv[i]);
+		name = g_strdup_printf("%s.h", orig_name);
+		g_free (orig_name);
+		
 		out = fopen(name, "w");
 		if (out == NULL) {
 			fprintf(stderr, "Error creating %s: %s\n", name, strerror(errno));
