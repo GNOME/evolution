@@ -1,3 +1,35 @@
+2003-05-14  JP Rosevear  <jpr@ximian.com>
+
+	* e-summary.h: fix up protos
+
+	* e-summary.c (e_summary_get_control): accessor
+	(e_summary_set_control): ditto
+	(retrieve_shell_view_interface): util to get the shell view
+	(e_summary_change_current_view): use it
+	(e_summary_set_message): ditto
+	(e_summary_unset_message): ditto
+
+	* e-summary-mail.h: add proto
+
+	* e-summary-mail.c (e_summary_mail_get_info): use the objref of
+	the listener
+	(e_summary_folder_unregister_storage): clean up a registered
+	storage
+	(e_summary_folder_register_storages): store the listener directly
+	(folder_info_pb_changed): unref the listener once we are notified
+	(lazy_register_storages): release and unref the property bag,
+	event and listener
+	(e_summary_folder_init_folder_store): track the listener
+	(e_summary_folder_clear_folder_store): cleanup the folder store
+
+	* e-summary-factory.c (control_activate_cb): we don't get the
+	shell view here any more
+	(e_summary_factory_new_control): don't pass in the shell, set the
+	control on the summary
+
+	* component-factory.c (owner_unset_cb): clear the folder store on
+	destruction
+
 2003-05-02  Not Zed  <NotZed@Ximian.com>
 
 	[#41849]

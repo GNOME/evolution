@@ -51,4 +51,5 @@ void e_summary_mail_fill_list (ESummaryTable *est);
 
 /* Folder stuff */
 gboolean e_summary_folder_init_folder_store (GNOME_Evolution_Shell shell);
+gboolean e_summary_folder_clear_folder_store (void);
 #endif

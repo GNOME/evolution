@@ -54,7 +54,8 @@ typedef struct _FolderStore {
 	GNOME_Evolution_Shell shell;
 	GNOME_Evolution_FolderInfo folder_info;
 	GNOME_Evolution_StorageRegistry registry;
-	Bonobo_Listener corba_listener;
+	BonoboListener *registry_listener;
+	BonoboListener *listener;
 	EvolutionStorageListener *storage_listener;
 	
 	GSList *storage_list;
@@ -226,7 +227,7 @@ e_summary_mail_get_info (const char *uri)
 
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_FolderInfo_getInfo (folder_store->folder_info, uri ? uri : "",
-					    folder_store->corba_listener, &ev);
+					    BONOBO_OBJREF (folder_store->listener), &ev);
 	if (BONOBO_EX (&ev)) {
 		g_warning ("Error getting info for %s:\n%s", uri,
 			   CORBA_exception_id (&ev));
@@ -425,6 +426,41 @@ e_summary_folder_register_storage (const char *name,
 	return TRUE;
 }
 
+static gboolean
+e_summary_folder_unregister_storage (StorageInfo *si, gboolean remove)
+{
+	GNOME_Evolution_StorageListener corba_listener;
+	CORBA_Environment ev;
+	
+	g_free (si->name);
+	bonobo_object_release_unref (si->storage, NULL);
+
+	corba_listener = evolution_storage_listener_corba_objref (si->listener);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Storage_removeListener (si->storage, corba_listener, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Exception removing listener: %s", 
+			   CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
+		
+		return FALSE;
+	}
+	CORBA_exception_free (&ev);
+
+	g_signal_handlers_disconnect_matched (si->listener, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, si);
+	g_object_unref (si->listener);
+	
+	/* FIXME Folders */
+
+	if (remove)
+		folder_store->storage_list = g_slist_remove (folder_store->storage_list, si);
+	
+	g_free (si);
+
+	return TRUE;
+}
+
 static void
 e_summary_folder_register_local_storage (void)
 {
@@ -496,7 +532,6 @@ static gboolean
 e_summary_folder_register_storages (GNOME_Evolution_Shell corba_shell)
 {
 	Bonobo_Listener corba_listener;
-	BonoboListener *listener;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
@@ -510,9 +545,9 @@ e_summary_folder_register_storages (GNOME_Evolution_Shell corba_shell)
 		return FALSE;
 	}
 
-	listener = bonobo_listener_new (NULL, NULL);
-	g_signal_connect (listener, "event-notify", G_CALLBACK (storage_notify), NULL);
-	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
+	folder_store->registry_listener = bonobo_listener_new (NULL, NULL);
+	g_signal_connect (folder_store->registry_listener, "event-notify", G_CALLBACK (storage_notify), NULL);
+	corba_listener = BONOBO_OBJREF (folder_store->registry_listener);
 
 	/* Storages will be added whenever the listener gets an event. */
 	GNOME_Evolution_StorageRegistry_addListener (folder_store->registry, corba_listener, &ev);
@@ -621,7 +656,8 @@ folder_info_pb_changed (BonoboListener *listener,
 			CORBA_Environment *ev,
 			gpointer data)
 {
-	e_summary_folder_register_storages (folder_store->shell); 
+	e_summary_folder_register_storages (folder_store->shell);
+	bonobo_object_unref (listener);
 }
 
 static void
@@ -630,7 +666,6 @@ lazy_register_storages (void)
 	Bonobo_PropertyBag pb;
 	Bonobo_EventSource event;
 	BonoboListener *listener;
-	Bonobo_Listener corba_listener;
 	CORBA_Environment ev;
 	gboolean ready;
 	
@@ -652,6 +687,7 @@ lazy_register_storages (void)
 	if (ready == TRUE) {
 		/* Register storages */
 		e_summary_folder_register_storages (folder_store->shell); 
+		bonobo_object_release_unref (pb, NULL);		
 		return;
 	}
 	
@@ -662,6 +698,7 @@ lazy_register_storages (void)
 		g_warning ("Error getting event source interface: %s",
 			   CORBA_exception_id (&ev));
 		CORBA_exception_free (&ev);
+		bonobo_object_release_unref (pb, NULL);
 		return;
 	}
 
@@ -669,22 +706,22 @@ lazy_register_storages (void)
 	listener = bonobo_listener_new (NULL, NULL);
 	g_signal_connect (listener, "event-notify", G_CALLBACK (folder_info_pb_changed), NULL);
 	
-	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
-	Bonobo_EventSource_addListener (event, corba_listener, &ev);
+	Bonobo_EventSource_addListener (event, BONOBO_OBJREF (listener), &ev);
 	if (BONOBO_EX (&ev)) {
 		g_warning ("Error adding listener: %s\n",
 			   CORBA_exception_id (&ev));
 		CORBA_exception_free (&ev);
 		bonobo_object_unref (BONOBO_OBJECT (listener));
-		return;
 	}
+
+	bonobo_object_release_unref (pb, NULL);
+	bonobo_object_release_unref (event, NULL);
 }
 
 gboolean
 e_summary_folder_init_folder_store (GNOME_Evolution_Shell shell)
 {
 	CORBA_Environment ev;
-	BonoboListener *listener;
 
 	if (folder_store != NULL) {
 		return TRUE;
@@ -704,9 +741,8 @@ e_summary_folder_init_folder_store (GNOME_Evolution_Shell shell)
 
 	CORBA_exception_free (&ev);
 
-	listener = bonobo_listener_new (NULL, NULL);
-	g_signal_connect (listener, "event-notify", G_CALLBACK (mail_change_notify), NULL);
-	folder_store->corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
+	folder_store->listener = bonobo_listener_new (NULL, NULL);
+	g_signal_connect (folder_store->listener, "event-notify", G_CALLBACK (mail_change_notify), NULL);
 	
 	/* Create a hash table for the folders */
 	folder_store->path_to_folder = g_hash_table_new (g_str_hash, g_str_equal);
@@ -714,5 +750,30 @@ e_summary_folder_init_folder_store (GNOME_Evolution_Shell shell)
 
 	/* Wait for the mailer to tell us we're ready to register */
 	lazy_register_storages ();
+	return TRUE;
+}
+
+
+gboolean
+e_summary_folder_clear_folder_store (void)
+{
+	GSList *l;
+	
+	if (folder_store == NULL) {
+		return TRUE;
+	}
+
+	bonobo_object_release_unref (folder_store->folder_info, NULL);
+	bonobo_object_release_unref (folder_store->registry, NULL);
+	bonobo_object_unref (folder_store->registry_listener);
+	bonobo_object_unref (folder_store->listener);
+
+	for (l = folder_store->storage_list; l != NULL; l = l->next)
+		e_summary_folder_unregister_storage (l->data, FALSE);
+	g_slist_free (folder_store->storage_list);
+	
+	g_free (folder_store);
+	folder_store = NULL;
+	
 	return TRUE;
 }

@@ -25,6 +25,7 @@
 
 #include <gtk/gtkvbox.h>
 #include <bonobo/bonobo-ui-component.h>
+#include <bonobo/bonobo-control.h>
 #include "e-summary-type.h"
 #include "e-summary-mail.h"
 #include "e-summary-calendar.h"
@@ -117,9 +118,6 @@ struct _ESummary {
 
 	ESummaryPrivate *priv;
 
-	GNOME_Evolution_Shell shell;
-	GNOME_Evolution_ShellView shell_view_interface;
-
 	gboolean online;
 
 	char *timezone;
@@ -132,8 +130,11 @@ struct _ESummaryClass {
 
 
 GtkType e_summary_get_type (void);
-GtkWidget *e_summary_new (const GNOME_Evolution_Shell shell,
-			  ESummaryPrefs *prefs);
+GtkWidget *e_summary_new (ESummaryPrefs *prefs);
+
+BonoboControl *e_summary_get_control (ESummary *summary);
+void e_summary_set_control (ESummary *summary, 
+			    BonoboControl *control);
 
 void e_summary_print (BonoboUIComponent *component,
 		      gpointer user_data,

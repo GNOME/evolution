@@ -94,7 +94,7 @@ struct _ESummaryMailFolderInfo {
 };
 
 struct _ESummaryPrivate {
-	GNOME_Evolution_ShellView shell_view_interface;
+	BonoboControl *control;
 
 	GtkWidget *html_scroller;
 	GtkWidget *html;
@@ -508,6 +508,8 @@ e_summary_init (ESummary *summary)
 
 	priv = summary->priv;
 
+	priv->control = NULL;
+	
 	priv->frozen = TRUE;
 	priv->pending_reload_tag = 0;
 
@@ -554,13 +556,12 @@ E_MAKE_TYPE (e_summary, "ESummary", ESummary, e_summary_class_init,
 	     e_summary_init, PARENT_TYPE);
 
 GtkWidget *
-e_summary_new (const GNOME_Evolution_Shell shell,
-	       ESummaryPrefs *prefs)
+e_summary_new (ESummaryPrefs *prefs)
 {
 	ESummary *summary;
 
 	summary = gtk_type_new (e_summary_get_type ());
-	summary->shell = shell;
+
 	/* Just get a pointer to the global preferences */
 	summary->preferences = prefs;
 	
@@ -574,6 +575,30 @@ e_summary_new (const GNOME_Evolution_Shell shell,
 
 	all_summaries = g_list_prepend (all_summaries, summary);
 	return GTK_WIDGET (summary);
+}
+
+BonoboControl *
+e_summary_get_control (ESummary *summary)
+{
+	g_return_val_if_fail (summary != NULL, CORBA_OBJECT_NIL);
+	g_return_val_if_fail (IS_E_SUMMARY (summary), CORBA_OBJECT_NIL);
+
+	return summary->priv->control;
+}
+
+void 
+e_summary_set_control (ESummary *summary, BonoboControl *control)
+{
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (summary));
+
+	if (summary->priv->control)
+		g_object_remove_weak_pointer (G_OBJECT (summary->priv->control), &summary->priv->control);
+	
+	summary->priv->control = control;
+
+	if (summary->priv->control)
+		g_object_add_weak_pointer (G_OBJECT (summary->priv->control), &summary->priv->control);
 }
 
 static void
@@ -669,6 +694,31 @@ e_summary_add_protocol_listener (ESummary *summary,
 	g_hash_table_insert (summary->priv->protocol_hash, g_strdup (protocol), old);
 }
 
+static GNOME_Evolution_ShellView
+retrieve_shell_view_interface (BonoboControl *control)
+{
+	Bonobo_ControlFrame control_frame;
+	GNOME_Evolution_ShellView shell_view_interface;
+	CORBA_Environment ev;
+	
+	control_frame = bonobo_control_get_control_frame (control, NULL);
+	
+	if (control_frame == NULL)
+		return CORBA_OBJECT_NIL;
+	
+	CORBA_exception_init (&ev);
+	shell_view_interface = Bonobo_Unknown_queryInterface (control_frame,
+							      "IDL:GNOME/Evolution/ShellView:1.0",
+							      &ev);
+
+	if (BONOBO_EX (&ev))
+		shell_view_interface = CORBA_OBJECT_NIL;
+	
+	CORBA_exception_free (&ev);
+	
+	return shell_view_interface;
+}
+
 void
 e_summary_change_current_view (ESummary *summary,
 			       const char *uri)
@@ -679,14 +729,15 @@ e_summary_change_current_view (ESummary *summary,
 	g_return_if_fail (summary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (summary));
 
-	svi = summary->shell_view_interface;
-	if (svi == NULL) {
+	svi = retrieve_shell_view_interface (summary->priv->control);
+	if (svi == CORBA_OBJECT_NIL)
 		return;
-	}
 
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_ShellView_changeCurrentView (svi, uri, &ev);
 	CORBA_exception_free (&ev);
+
+	bonobo_object_release_unref (svi, NULL);
 }
 
 void
@@ -700,14 +751,15 @@ e_summary_set_message (ESummary *summary,
 	g_return_if_fail (summary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (summary));
 
-	svi = summary->shell_view_interface;
-	if (svi == NULL) {
+	svi = retrieve_shell_view_interface (summary->priv->control);
+	if (svi == CORBA_OBJECT_NIL)
 		return;
-	}
 
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_ShellView_setMessage (svi, message ? message : "", busy, &ev);
 	CORBA_exception_free (&ev);
+
+	bonobo_object_release_unref (svi, NULL);
 }
 
 void
@@ -719,14 +771,15 @@ e_summary_unset_message (ESummary *summary)
 	g_return_if_fail (summary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (summary));
 
-	svi = summary->shell_view_interface;
-	if (svi == NULL) {
+	svi = retrieve_shell_view_interface (summary->priv->control);
+	if (svi == CORBA_OBJECT_NIL)
 		return;
-	}
 
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_ShellView_unsetMessage (svi, &ev);
 	CORBA_exception_free (&ev);
+
+	bonobo_object_release_unref (svi, NULL);
 }
 
 void

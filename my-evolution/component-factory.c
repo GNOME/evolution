@@ -113,7 +113,10 @@ static void
 owner_unset_cb (EvolutionShellComponent *shell_component,
 		gpointer user_data)
 {
-	/* noop */
+	g_free (evolution_dir);
+	evolution_dir = NULL;
+
+	e_summary_folder_clear_folder_store ();
 }
 
 static BonoboObject *

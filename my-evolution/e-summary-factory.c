@@ -87,25 +87,6 @@ control_activate_cb (BonoboControl *control,
 	BonoboUIComponent *ui_component;
 	
 	ui_component = bonobo_control_get_ui_component (control);
-	
-	if (summary->shell_view_interface == NULL) {
-		Bonobo_ControlFrame control_frame;
-		CORBA_Environment ev;
-
-		control_frame = bonobo_control_get_control_frame (control, NULL);
-		if (control_frame == NULL)
-			goto out;
-
-		CORBA_exception_init (&ev);
-		summary->shell_view_interface = Bonobo_Unknown_queryInterface (control_frame, "IDL:GNOME/Evolution/ShellView:1.0", &ev);
-
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Error getting ShellView. %s", CORBA_exception_id (&ev));
-			summary->shell_view_interface = CORBA_OBJECT_NIL;
-		}
-		CORBA_exception_free (&ev);
-	}
- out:
 
 	if (activate)
 		control_activate (control, ui_component, summary);
@@ -129,7 +110,7 @@ e_summary_factory_new_control (const char *uri,
 	BonoboControl *control;
 	GtkWidget *summary;
 
-	summary = e_summary_new (shell, global_preferences);
+	summary = e_summary_new (global_preferences);
 	if (summary == NULL) {
 		return NULL;
 	}
@@ -144,6 +125,8 @@ e_summary_factory_new_control (const char *uri,
 		return NULL;
 	}
 
+	e_summary_set_control (summary, control);
+	
 	g_signal_connect (control, "activate", G_CALLBACK (control_activate_cb), summary);
 	g_signal_connect (control, "destroy", G_CALLBACK (control_destroy_cb), summary);
 
