@@ -54,11 +54,7 @@
 #include "e-msg-composer-hdrs.h"
 #include "e-msg-composer-select-file.h"
 
-#ifdef USING_OAF
 #define HTML_EDITOR_CONTROL_ID "OAFIID:control:html-editor:63c5499b-8b0c-475a-9948-81ec96a9662c"
-#else
-#define HTML_EDITOR_CONTROL_ID "control:html-editor"
-#endif
 
 
 #define DEFAULT_WIDTH 600
@@ -83,7 +79,7 @@ create_editor (EMsgComposer *composer)
 	control = bonobo_widget_new_control (HTML_EDITOR_CONTROL_ID,
 					     bonobo_object_corba_objref (BONOBO_OBJECT (composer->uih)));
 	if (control == NULL) {
-		g_error ("Cannot get `%s'.", HTML_EDITOR_CONTROL_ID);
+		g_error ("Cannot activate `%s'. Did you build gtkhtml with Bonobo and OAF support?", HTML_EDITOR_CONTROL_ID);
 		return NULL;
 	}
 

@@ -1,3 +1,9 @@
+2000-07-24  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer.c: Remove GOAD support.
+	(create_editor): Try to give a more helpful error message when
+	failing to load the editor control.
+
 2000-07-23  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-msg-composer.c (menu_format_html_cb): New callback for the
