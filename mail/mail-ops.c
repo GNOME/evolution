@@ -1549,7 +1549,7 @@ describe_display_message (gpointer in_data, gboolean gerund)
 			return g_strdup_printf (_("Display message UID \"%s\""),
 						input->uid);
 		else
-			return g_strdup (_("Clear message dispaly"));
+			return g_strdup (_("Clear message display"));
 	}
 }
 
