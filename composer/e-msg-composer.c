@@ -18,7 +18,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Ettore Perazzoli
+ * Authors: Ettore Perazzoli, Jeffrey Stedfast
  */
 
 /*
@@ -76,6 +76,7 @@ static GnomeAppClass *parent_class = NULL;
 /* local prototypes */
 static GList *add_recipients (GList *list, const char *recips, gboolean decode);
 static void free_recipients (GList *list);
+static void handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth);
 
 
 static char *
@@ -85,9 +86,9 @@ get_text (Bonobo_PersistStream persist, char *format)
 	BonoboStreamMem *stream_mem;
 	CORBA_Environment ev;
 	char *text;
-
+	
 	CORBA_exception_init (&ev);
-
+	
 	stream = bonobo_stream_mem_create (NULL, 0, FALSE, TRUE);
 	Bonobo_PersistStream_save (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)),
 				   format, &ev);
@@ -98,13 +99,13 @@ get_text (Bonobo_PersistStream persist, char *format)
 	}
 	
 	CORBA_exception_free (&ev);
-
+	
 	stream_mem = BONOBO_STREAM_MEM (stream);
 	text = g_malloc (stream_mem->pos + 1);
 	memcpy (text, stream_mem->buffer, stream_mem->pos);
 	text[stream_mem->pos] = 0;
 	bonobo_object_unref (BONOBO_OBJECT(stream));
-
+	
 	return text;
 }
 
@@ -323,7 +324,7 @@ set_editor_text (BonoboWidget *editor, const char *sig_file, const char *text)
 	BonoboStream *stream;
 	CORBA_Environment ev;
 	char *sig, *fulltext;
-
+	
 	sig = get_signature (sig_file);
 	if (sig) {
 		if (!strncmp ("-- \n", sig, 3))
@@ -337,27 +338,25 @@ set_editor_text (BonoboWidget *editor, const char *sig_file, const char *text)
 			return;
 		fulltext = (char*)text;
 	}
-
+	
 	CORBA_exception_init (&ev);
-	persist = (Bonobo_PersistStream)
-		bonobo_object_client_query_interface (
-			bonobo_widget_get_server (editor),
-			"IDL:Bonobo/PersistStream:1.0",
-			&ev);
+	persist = (Bonobo_PersistStream) bonobo_object_client_query_interface (
+		bonobo_widget_get_server (editor), "IDL:Bonobo/PersistStream:1.0", &ev);
 	g_assert (persist != CORBA_OBJECT_NIL);
-
+	
 	stream = bonobo_stream_mem_create (fulltext, strlen (fulltext),
 					   TRUE, FALSE);
 	if (sig)
 		g_free (fulltext);
-	Bonobo_PersistStream_load (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)), "text/html", &ev);
+	Bonobo_PersistStream_load (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)),
+				   "text/html", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		/* FIXME. Some error message. */
 		return;
 	}
 	if (ev._major != CORBA_SYSTEM_EXCEPTION)
 		CORBA_Object_release (persist, &ev);
-
+	
 	Bonobo_Unknown_unref (persist, &ev);
 	CORBA_exception_free (&ev);
 	bonobo_object_unref (BONOBO_OBJECT(stream));
@@ -569,15 +568,15 @@ menu_file_open_cb (BonoboUIComponent *uic,
 {
 	EMsgComposer *composer;
 	char *file_name;
-
+	
 	composer = E_MSG_COMPOSER (data);
-
+	
 	file_name = e_msg_composer_select_file (composer, _("Open file"));
 	if (file_name == NULL)
 		return;
-
+	
 	load (composer, file_name);
-
+	
 	g_free (file_name);
 }
 
@@ -589,20 +588,20 @@ menu_file_save_cb (BonoboUIComponent *uic,
 	EMsgComposer *composer;
 	CORBA_char *file_name;
 	CORBA_Environment ev;
-
+	
 	composer = E_MSG_COMPOSER (data);
-
+	
 	CORBA_exception_init (&ev);
-
+	
 	file_name = Bonobo_PersistFile_get_current_file (composer->persist_file_interface, &ev);
-
+	
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		save (composer, NULL);
 	} else {
 		save (composer, file_name);
 		CORBA_free (file_name);
 	}
-
+	
 	CORBA_exception_free (&ev);
 }
 
@@ -612,9 +611,9 @@ menu_file_save_as_cb (BonoboUIComponent *uic,
 		      const char *path)
 {
 	EMsgComposer *composer;
-
+	
 	composer = E_MSG_COMPOSER (data);
-
+	
 	save (composer, NULL);
 }
 
@@ -640,7 +639,7 @@ menu_file_close_cb (BonoboUIComponent *uic,
 		    const char *path)
 {
 	EMsgComposer *composer;
-
+	
 	composer = E_MSG_COMPOSER (data);
 	do_exit (composer);
 }
@@ -651,9 +650,9 @@ menu_file_add_attachment_cb (BonoboUIComponent *uic,
 			     const char *path)
 {
 	EMsgComposer *composer;
-
+	
 	composer = E_MSG_COMPOSER (data);
-
+	
 	e_msg_composer_attachment_bar_attach
 		(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
 		 NULL);
@@ -668,12 +667,12 @@ menu_view_attachments_activate_cb (BonoboUIComponent           *component,
 
 {
 	gboolean new_state;
-
+	
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
-
+	
 	new_state = atoi (state);
-
+	
 	e_msg_composer_show_attachments (E_MSG_COMPOSER (user_data), new_state);
 }
 
@@ -689,68 +688,68 @@ insert_file_ok_cb (GtkWidget *widget, void *user_data)
 	int fd;
 	guint8 *buffer;
 	size_t bufsz, actual;
-
+	
 	fs = GTK_FILE_SELECTION (gtk_widget_get_ancestor (widget,
 							  GTK_TYPE_FILE_SELECTION));
 	composer = E_MSG_COMPOSER (user_data);
 	name = gtk_file_selection_get_filename (fs);
-									   
+	
 	if (stat (name, &sb) < 0) {
 		GtkWidget *dlg;
-
+		
 		dlg = gnome_error_dialog_parented( _("That file does not exist."),
 						   GTK_WINDOW (fs));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
 		gtk_widget_destroy (GTK_WIDGET (dlg));
 		return;
 	}
-
-	if( !(S_ISREG (sb.st_mode)) ) {
+	
+	if (!(S_ISREG (sb.st_mode))) {
 		GtkWidget *dlg;
-
-		dlg = gnome_error_dialog_parented( _("That is not a regular file."),
+		
+		dlg = gnome_error_dialog_parented (_("That is not a regular file."),
 						   GTK_WINDOW (fs));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
 		gtk_widget_destroy (GTK_WIDGET (dlg));
 		return;
 	}
-
+	
 	if (access (name, R_OK) != 0) {
 		GtkWidget *dlg;
-
-		dlg = gnome_error_dialog_parented( _("That file exists but is not readable."),
+		
+		dlg = gnome_error_dialog_parented (_("That file exists but is not readable."),
 						   GTK_WINDOW (fs));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
 		gtk_widget_destroy (GTK_WIDGET (dlg));
 		return;
 	}
-
+	
 	if ((fd = open (name, O_RDONLY)) < 0) {
 		GtkWidget *dlg;
-
-		dlg = gnome_error_dialog_parented( _("That file appeared accesible but open(2) failed."),
+		
+		dlg = gnome_error_dialog_parented (_("That file appeared accesible but open(2) failed."),
 						   GTK_WINDOW (fs));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
 		gtk_widget_destroy (GTK_WIDGET (dlg));
 		return;
 	}
-
+	
 	buffer = NULL;
 	bufsz = 0;
 	actual = 0;
-	#define CHUNK 5120
-
-	while( 1 ) {
+#define CHUNK 5120
+	
+	while (TRUE) {
 		ssize_t chunk;
-
-		if( bufsz - actual < CHUNK ) {
+		
+		if (bufsz - actual < CHUNK) {
 			bufsz += CHUNK;
-
-			if( bufsz >= 102400 ) {
+			
+			if (bufsz >= 102400) {
 				GtkWidget *dlg;
 				gint result;
-
-				dlg = gnome_dialog_new( _("The file is very large (more than 100K).\n"
+				
+				dlg = gnome_dialog_new (_("The file is very large (more than 100K).\n"
 							  "Are you sure you wish to insert it?"),
 							GNOME_STOCK_BUTTON_YES,
 							GNOME_STOCK_BUTTON_NO,
@@ -762,51 +761,52 @@ insert_file_ok_cb (GtkWidget *widget, void *user_data)
 				if (result == 1)
 					goto cleanup;
 			}
-
+			
 			buffer = g_realloc (buffer, bufsz * sizeof (guint8));
 		}
-
+		
 		chunk = read (fd, &(buffer[actual]), CHUNK);
 
 		if (chunk < 0) {
 			GtkWidget *dlg;
-
-			dlg = gnome_error_dialog_parented( _("An error occurred while reading the file."),
+			
+			dlg = gnome_error_dialog_parented (_("An error occurred while reading the file."),
 							   GTK_WINDOW (fs));
 			gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
 			gtk_widget_destroy (GTK_WIDGET (dlg));
 			goto cleanup;
 		}
-
-		if( chunk == 0 )
+		
+		if (chunk == 0)
 			break;
-
+		
 		actual += chunk;
 	}
-
+	
 	buffer[actual] = '\0';
-
+	
 	if (selection_atom == GDK_NONE)
 		selection_atom = gdk_atom_intern ("TEMP_PASTE", FALSE);
 	gtk_object_set_data (GTK_OBJECT (fs), "ev_file_buffer", buffer);
 	gtk_selection_owner_set (GTK_WIDGET (fs), selection_atom, GDK_CURRENT_TIME);
 	/*gtk_html_paste (composer->send_html);*/
-
+	
  cleanup:
-	close( fd );
-	g_free( buffer );
-	gtk_widget_destroy (GTK_WIDGET(fs));
+	close (fd);
+	g_free (buffer);
+	gtk_widget_destroy (GTK_WIDGET (fs));
 }
 
-static void fs_selection_get (GtkWidget *widget, GtkSelectionData *sdata,
-			      guint info, guint time)
+static void
+fs_selection_get (GtkWidget *widget, GtkSelectionData *sdata,
+		  guint info, guint time)
 {
 	gchar *buffer;
 	GdkAtom encoding;
 	gint format;
 	guchar *ctext;
 	gint length;
-
+	
 	buffer = gtk_object_get_data (GTK_OBJECT (widget), "ev_file_buffer");
 	if (gdk_string_to_compound_text (buffer, &encoding, &format, &ctext,
 					 &length) == Success)
@@ -824,9 +824,9 @@ menu_file_insert_file_cb (BonoboUIComponent *uic,
 #if 0
 	EMsgComposer *composer;
 	GtkFileSelection *fs;
-
+	
 	composer = E_MSG_COMPOSER (data);
-
+	
 	fs = GTK_FILE_SELECTION (gtk_file_selection_new ("Choose File"));
 	/* FIXME: remember the location or something */
 	/*gtk_file_selection_set_filename( fs, g_get_home_dir() );*/
@@ -852,18 +852,18 @@ menu_format_html_cb (BonoboUIComponent           *component,
 {
 	EMsgComposer *composer;
 	gboolean new_state;
-
+	
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
-
+	
 	composer = E_MSG_COMPOSER (user_data);
-
+	
 	new_state = atoi (state);
-
+	
 	if ((new_state && composer->send_html) ||
 	    (! new_state && ! composer->send_html))
 		return;
-
+	
 	e_msg_composer_set_send_html (composer, new_state);
 }
 
@@ -874,13 +874,13 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("FileSave",   menu_file_save_cb),
 	BONOBO_UI_UNSAFE_VERB ("FileSaveAs", menu_file_save_as_cb),
 	BONOBO_UI_UNSAFE_VERB ("FileClose",  menu_file_close_cb),
-
+	
 	BONOBO_UI_UNSAFE_VERB ("FileInsertFile", menu_file_insert_file_cb),
 	BONOBO_UI_UNSAFE_VERB ("FileAttach",     menu_file_add_attachment_cb),
-
+	
 	BONOBO_UI_UNSAFE_VERB ("FileSend",       menu_file_send_cb),
 	BONOBO_UI_UNSAFE_VERB ("FileSendLater",  menu_file_send_later_cb),
-
+	
 	BONOBO_UI_VERB_END
 };	
 
@@ -888,28 +888,28 @@ static void
 setup_ui (EMsgComposer *composer)
 {
 	BonoboUIContainer *container;
-
+	
 	container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (container, BONOBO_WIN (composer));
-
+	
 	composer->uic = bonobo_ui_component_new ("evolution-message-composer");
 	bonobo_ui_component_set_container (
 		composer->uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
-
+	
 	bonobo_ui_component_add_verb_list_with_data (
 		composer->uic, verbs, composer);	
-
+	
 	bonobo_ui_util_set_ui (composer->uic, EVOLUTION_DATADIR,
 			       "evolution-message-composer.xml",
 			       "evolution-message-composer");
-
+	
 	bonobo_ui_component_set_prop (composer->uic, "/commands/FormatHtml",
 				      "state", composer->send_html ? "1" : "0", NULL);
-
+	
 	bonobo_ui_component_add_listener (
 		composer->uic, "FormatHtml",
 		menu_format_html_cb, composer);
-
+	
 	bonobo_ui_component_add_listener (
 		composer->uic, "ViewAttach",
 		menu_view_attachments_activate_cb, composer);
@@ -1006,7 +1006,7 @@ drag_data_received (EMsgComposer *composer,
 		    guint time)
 {
 	gchar *temp, *filename;
-
+	
 	filename = g_strdup (selection->data);
 	temp = strchr (filename, '\n');
 	if (temp) {
@@ -1014,18 +1014,18 @@ drag_data_received (EMsgComposer *composer,
 			*(temp - 1) = '\0';
 		*temp = '\0';
 	}
-
+	
 	/* Chop the file: part off */
 	if (strncasecmp (filename, "file:", 5) == 0) {
 		temp = g_strdup (filename + 5);
 		g_free (filename);
 		filename = temp;
 	}
-
+	
 	e_msg_composer_attachment_bar_attach
 		(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
 		 filename);
-
+	
 	g_free (filename);
 }
 
@@ -1126,7 +1126,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 	static GtkTargetEntry drop_types[] = {
 		{"text/uri-list", 0, 1}
 	};
-
+	
 	g_return_if_fail (gtk_main_level () > 0);
 	
 	gtk_window_set_default_size (GTK_WINDOW (composer),
@@ -1153,10 +1153,10 @@ e_msg_composer_construct (EMsgComposer *composer)
 	composer->editor = bonobo_widget_new_control (
 		HTML_EDITOR_CONTROL_ID,
 		bonobo_ui_component_get_container (composer->uic));
-
+	
 	if (!composer->editor)
 		return;
-
+	
 	editor_server = BONOBO_OBJECT (bonobo_widget_get_server (BONOBO_WIDGET (composer->editor)));
 	
 	composer->persist_file_interface
@@ -1170,13 +1170,13 @@ e_msg_composer_construct (EMsgComposer *composer)
 
 	/* Attachment editor, wrapped into an EScrollFrame.  We don't
            show it for now.  */
-
+	
 	composer->attachment_scroll_frame = e_scroll_frame_new (NULL, NULL);
 	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (composer->attachment_scroll_frame),
 					GTK_SHADOW_IN);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (composer->attachment_scroll_frame),
 				   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
+	
 	composer->attachment_bar = e_msg_composer_attachment_bar_new (NULL);
 	GTK_WIDGET_SET_FLAGS (composer->attachment_bar, GTK_CAN_FOCUS);
 	gtk_container_add (GTK_CONTAINER (composer->attachment_scroll_frame),
@@ -1184,17 +1184,17 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_box_pack_start (GTK_BOX (vbox),
 			    composer->attachment_scroll_frame,
 			    FALSE, FALSE, GNOME_PAD_SMALL);
-
+	
 	gtk_signal_connect (GTK_OBJECT (composer->attachment_bar), "changed",
 			    GTK_SIGNAL_FUNC (attachment_bar_changed_cb), composer);
-
+	
 	bonobo_win_set_contents (BONOBO_WIN (composer), vbox);
 	gtk_widget_show (vbox);
-
+	
 	e_msg_composer_show_attachments (composer, FALSE);
-
+	
 	/* Set focus on the `To:' field.  */
-
+	
 	gtk_widget_grab_focus (e_msg_composer_hdrs_get_to_entry (E_MSG_COMPOSER_HDRS (composer->hdrs)));
 }
 
@@ -1202,7 +1202,7 @@ static EMsgComposer *
 create_composer (void)
 {
 	EMsgComposer *new;
-
+	
 	new = gtk_type_new (E_TYPE_MSG_COMPOSER);
 	e_msg_composer_construct (new);
 	if (!new->editor) {
@@ -1225,13 +1225,13 @@ EMsgComposer *
 e_msg_composer_new (void)
 {
 	EMsgComposer *new;
-
+	
 	new = create_composer ();
 	if (new) {
 		/* Load the signature, if any. */
 		set_editor_text (BONOBO_WIDGET (new->editor), NULL, "");
 	}
-
+	
 	return new;
 }
 
@@ -1251,11 +1251,60 @@ e_msg_composer_new_with_sig_file (const char *sig_file)
 	if (new) {
 		/* Load the signature, if any. */
 		set_editor_text (BONOBO_WIDGET (new->editor), sig_file, "");
-
+		
 		e_msg_composer_set_sig_file (new, sig_file);
 	}
-
+	
 	return new;
+}
+
+static void
+handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
+{
+	int i, nparts;
+	
+	nparts = camel_multipart_get_number (multipart);
+	
+	for (i = 0; i < nparts; i++) {
+		GMimeContentField *content;
+		CamelMimePart *mime_part;
+		
+		mime_part = camel_multipart_get_part (multipart, i);
+		content = camel_mime_part_get_content_type (mime_part);
+		
+		if (gmime_content_field_is_type (content, "multipart", "*")) {
+			CamelDataWrapper *wrapper;
+			CamelMultipart *mpart;
+			
+			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+			mpart = CAMEL_MULTIPART (wrapper);
+			
+			handle_multipart (composer, mpart, depth + 1);
+		} else {
+			if (depth == 0) {
+				/* toplevel contains the body contents */
+				CamelDataWrapper *contents;
+				char *text, *final_text;
+				gboolean is_html;
+				
+				contents = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+				text = mail_get_message_body (contents, FALSE, &is_html);
+				if (text) {
+					if (is_html)
+						final_text = g_strdup (text);
+					else
+						final_text = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL |
+									     E_TEXT_TO_HTML_CONVERT_SPACES);
+					g_free (text);
+					
+					e_msg_composer_set_body_text (composer, final_text);
+				}
+			} else {
+				/* non top-level */
+				e_msg_composer_attach (composer, mime_part);
+			}
+		}
+	}
 }
 
 /**
@@ -1270,11 +1319,9 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 {
 	const CamelInternetAddress *to, *cc, *bcc;
 	GList *To = NULL, *Cc = NULL, *Bcc = NULL;
-	gboolean is_html;
-	CamelDataWrapper *contents;
+	GMimeContentField *content_type;
 	const gchar *subject;
 	EMsgComposer *new;
-	char *text, *final_text;
 	guint len, i;
 	
 	g_return_val_if_fail (gtk_main_level () > 0, NULL);
@@ -1319,20 +1366,33 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	free_recipients (Cc);
 	free_recipients (Bcc);
 	
-	contents = camel_medium_get_content_object (CAMEL_MEDIUM (msg));
-	text = mail_get_message_body (contents, FALSE, &is_html);
-	if (text) {
-		if (is_html)
-			final_text = g_strdup (text);
-		else
-			final_text = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL |
-						     E_TEXT_TO_HTML_CONVERT_SPACES);
-		g_free (text);
+	content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (msg));
+	if (gmime_content_field_is_type (content_type, "multipart", "*")) {
+		CamelDataWrapper *wrapper;
+		CamelMultipart *multipart;
 		
-		e_msg_composer_set_body_text (new, final_text);
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (msg)));
+		multipart = CAMEL_MULTIPART (wrapper);
+		
+		handle_multipart (new, multipart, 0);
+	} else {
+		CamelDataWrapper *contents;
+		char *text, *final_text;
+		gboolean is_html;
+		
+		contents = camel_medium_get_content_object (CAMEL_MEDIUM (msg));
+		text = mail_get_message_body (contents, FALSE, &is_html);
+		if (text) {
+			if (is_html)
+				final_text = g_strdup (text);
+			else
+				final_text = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL |
+							     E_TEXT_TO_HTML_CONVERT_SPACES);
+			g_free (text);
+			
+			e_msg_composer_set_body_text (new, final_text);
+		}
 	}
-	
-	/* FIXME: attach the message attachments */
 	
 	return new;
 }
