@@ -78,10 +78,6 @@ evolution_mail_SOURCES =		\
 	message-thread.c		\
 	message-thread.h		\
 	session.c			\
-	subscribe-control.c		\
-	subscribe-control.h		\
-	subscribe-control-factory.c	\
-	subscribe-control-factory.h	\
 	mail.h
 
 evolution_mail_LDADD = 					\
