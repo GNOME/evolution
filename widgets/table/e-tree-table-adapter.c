@@ -664,7 +664,7 @@ etta_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ET
 }
 
 static void
-etta_proxy_node_removed (ETableModel *etm, ETreePath parent, ETreePath child, ETreeTableAdapter *etta)
+etta_proxy_node_removed (ETableModel *etm, ETreePath parent, ETreePath child, int old_position, ETreeTableAdapter *etta)
 {
 	int parent_row = find_row_num(etta, parent);
 	int row = find_child_row_num(etta, parent_row, child);

@@ -524,12 +524,20 @@ e_tree_memory_node_remove (ETreeMemory *etree, ETreePath node)
 {
 	ETreeMemoryPath *path = node;
 	ETreeMemoryPath *parent = path->parent;
+	ETreeMemoryPath *sibling;
 	gpointer ret = path->node_data;
+	int old_position = 0;
 
 	g_return_val_if_fail(etree != NULL, NULL);
 
-	if (!etree->priv->frozen)
+	if (!etree->priv->frozen) {
 		e_tree_model_pre_change(E_TREE_MODEL(etree));
+		for (old_position = 0, sibling = path;
+		     sibling; 
+		     old_position++, sibling = sibling->prev_sibling)
+			/* Empty intentionally*/;
+		old_position --;
+	}
 
 	/* unlink this node - we only have to unlink the root node being removed,
 	   since the others are only references from this node */
@@ -537,7 +545,7 @@ e_tree_memory_node_remove (ETreeMemory *etree, ETreePath node)
 
 	/*printf("removing %d nodes from position %d\n", visible, base);*/
 	if (!etree->priv->frozen)
-		e_tree_model_node_removed(E_TREE_MODEL(etree), parent, path);
+		e_tree_model_node_removed(E_TREE_MODEL(etree), parent, path, old_position);
 
 	child_free(etree, path);
 

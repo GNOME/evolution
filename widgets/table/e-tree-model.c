@@ -97,8 +97,8 @@ e_tree_model_class_init (GtkObjectClass *klass)
 				GTK_RUN_LAST,
 				klass->type,
 				GTK_SIGNAL_OFFSET (ETreeModelClass, node_removed),
-				gtk_marshal_NONE__POINTER_POINTER,
-				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_POINTER);
+				e_marshal_NONE__POINTER_POINTER_INT,
+				GTK_TYPE_NONE, 3, GTK_TYPE_POINTER, GTK_TYPE_POINTER, GTK_TYPE_INT);
 
 	gtk_object_class_add_signals (klass, e_tree_model_signals, LAST_SIGNAL);
 
@@ -257,14 +257,14 @@ e_tree_model_node_inserted (ETreeModel *tree_model,
  * 
  **/
 void
-e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath parent_node, ETreePath removed_node)
+e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath parent_node, ETreePath removed_node, int old_position)
 {
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 	
 	gtk_signal_emit (GTK_OBJECT (tree_model),
 			 e_tree_model_signals [NODE_REMOVED],
-			 parent_node, removed_node);
+			 parent_node, removed_node, old_position);
 }
 
 

@@ -53,6 +53,7 @@ struct ETreeSortedPath {
 	gint              num_children;
 	ETreeSortedPath **children;
 	int               position;
+	int               orig_position;
 
 	guint             needs_resort : 1;
 	guint             child_needs_resort : 1;
@@ -87,11 +88,12 @@ enum {
 };
 
 static void ets_sort_info_changed (ETableSortInfo *sort_info, ETreeSorted *ets);
-static void resort_node (ETreeSorted *ets, ETreeSortedPath *path, gboolean resort_all_children, gboolean send_signals);
+static void resort_node (ETreeSorted *ets, ETreeSortedPath *path, gboolean resort_all_children, gboolean needs_regen, gboolean send_signals);
 static void mark_path_needs_resort (ETreeSorted *ets, ETreeSortedPath *path, gboolean needs_rebuild, gboolean resort_all_children);
 static void schedule_resort (ETreeSorted *ets, ETreeSortedPath *path, gboolean needs_regen, gboolean resort_all_children);
 static void free_path (ETreeSortedPath *path);
-static void generate_children(ETreeSorted *ets, ETreeSortedPath *path, gboolean needs_resort);
+static void generate_children(ETreeSorted *ets, ETreeSortedPath *path);
+static void regenerate_children(ETreeSorted *ets, ETreeSortedPath *path);
 
 
 
@@ -103,7 +105,7 @@ ets_sort_idle(gpointer user_data)
 	ETreeSorted *ets = user_data;
 	ets->priv->sort_idle_id = 0;
 	if (ets->priv->root) {
-		resort_node (ets, ets->priv->root, FALSE, TRUE);
+		resort_node (ets, ets->priv->root, FALSE, FALSE, TRUE);
 	}
 	return FALSE;
 }
@@ -226,7 +228,7 @@ find_or_create_path(ETreeSorted *ets, ETreePath corresponding)
 		int j;
 
 		if (path->num_children == -1) {
-			generate_children(ets, path, TRUE);
+			generate_children(ets, path);
 		}
 
 		for (j = 0; j < path->num_children; j++) {
@@ -286,6 +288,7 @@ new_path (ETreeSortedPath *parent, ETreePath corresponding)
 	path->num_children = -1;
 	path->children = NULL;
 	path->position = -1;
+	path->orig_position = -1;
 	path->child_needs_resort = 0;
 	path->resort_all_children = 0;
 	path->needs_resort = 0;
@@ -345,7 +348,20 @@ reposition_path (ETreeSorted *ets, ETreeSortedPath *path)
 }
 
 static void
-generate_children(ETreeSorted *ets, ETreeSortedPath *path, gboolean needs_resort)
+regenerate_children(ETreeSorted *ets, ETreeSortedPath *path)
+{
+	ETreeSortedPath **children;
+	int i;
+
+	children = g_new(ETreeSortedPath *, path->num_children);
+	for (i = 0; i < path->num_children; i++)
+		children[path->children[i]->orig_position] = path->children[i];
+	g_free(path->children);
+	path->children = children;
+}
+
+static void
+generate_children(ETreeSorted *ets, ETreeSortedPath *path)
 {
 	ETreePath child;
 	int i;
@@ -367,26 +383,28 @@ generate_children(ETreeSorted *ets, ETreeSortedPath *path, gboolean needs_resort
 	     child = e_tree_model_node_get_next(ets->priv->source, child), i++) {
 		path->children[i] = new_path(path, child);
 		path->children[i]->position = i;
+		path->children[i]->orig_position = i;
 	}
-	if (needs_resort)
+	if (path->num_children > 0)
 		schedule_resort (ets, path, FALSE, TRUE);
 }
 
 static void
-resort_node (ETreeSorted *ets, ETreeSortedPath *path, gboolean resort_all_children, gboolean send_signals)
+resort_node (ETreeSorted *ets, ETreeSortedPath *path, gboolean resort_all_children, gboolean needs_regen, gboolean send_signals)
 {
 	gboolean needs_resort;
 	if (path) {
 		needs_resort = path->needs_resort || resort_all_children;
-		if (needs_resort && send_signals)
-			e_tree_model_pre_change(E_TREE_MODEL(ets));
-		if (needs_resort) {
-			int i;
-			d(g_print("Start sort of node %p\n", path));
-			if (path->needs_regen_to_sort)
-				generate_children(ets, path, FALSE);
-			d(g_print("Regened sort of node %p\n", path));
-			if (path->num_children > 0) {
+		needs_regen = path->needs_regen_to_sort || needs_regen;
+		if (path->num_children > 0) {
+			if (needs_resort && send_signals)
+				e_tree_model_pre_change(E_TREE_MODEL(ets));
+			if (needs_resort) {
+				int i;
+				d(g_print("Start sort of node %p\n", path));
+				if (needs_regen)
+					regenerate_children(ets, path);
+				d(g_print("Regened sort of node %p\n", path));
 				e_table_sorting_utils_tree_sort (E_TREE_MODEL(ets),
 								 ets->priv->sort_info,
 								 ets->priv->full_header,
@@ -396,23 +414,23 @@ resort_node (ETreeSorted *ets, ETreeSortedPath *path, gboolean resort_all_childr
 				for (i = 0; i < path->num_children; i++) {
 					path->children[i]->position = i;
 				}
+				d(g_print("End sort of node %p\n", path));
 			}
-			d(g_print("End sort of node %p\n", path));
-		}
-		if (path->resort_all_children)
-			resort_all_children = TRUE;
-		if ((resort_all_children || path->child_needs_resort) && path->num_children >= 0) {
-			int i;
-			for (i = 0; i < path->num_children; i++) {
-				resort_node(ets, path->children[i], resort_all_children, send_signals && !needs_resort);
+			if (path->resort_all_children)
+				resort_all_children = TRUE;
+			if ((resort_all_children || path->child_needs_resort) && path->num_children >= 0) {
+				int i;
+				for (i = 0; i < path->num_children; i++) {
+					resort_node(ets, path->children[i], resort_all_children, needs_regen, send_signals && !needs_resort);
+				}
+				path->child_needs_resort = 0;
 			}
-			path->child_needs_resort = 0;
 		}
 		path->needs_resort = 0;	
 		path->child_needs_resort = 0;
 		path->needs_regen_to_sort = 0;
 		path->resort_all_children = 0;
-		if (needs_resort && send_signals)
+		if (needs_resort && send_signals && path->num_children > 0)
 			e_tree_model_node_changed(E_TREE_MODEL(ets), path);
 	}
 }
@@ -432,6 +450,8 @@ static void
 mark_path_needs_resort (ETreeSorted *ets, ETreeSortedPath *path, gboolean needs_regen, gboolean resort_all_children)
 {
 	if (path == NULL)
+		return;
+	if (path->num_children == 0)
 		return;
 	path->needs_resort = 1;
 	path->needs_regen_to_sort = needs_regen;
@@ -590,7 +610,7 @@ ets_get_root (ETreeModel *etm)
 		}
 	}
 	if (priv->root && priv->root->num_children == -1) {
-		generate_children(E_TREE_SORTED(etm), priv->root, TRUE);
+		generate_children(E_TREE_SORTED(etm), priv->root);
 	}
 
 	return priv->root;
@@ -610,7 +630,7 @@ ets_get_first_child (ETreeModel *etm, ETreePath node)
 	ETreeSorted *ets = E_TREE_SORTED(etm);
 
 	if (path->num_children == -1)
-		generate_children(ets, path, TRUE);
+		generate_children(ets, path);
 
 	if (path->num_children > 0)
 		return path->children[0];
@@ -625,7 +645,7 @@ ets_get_last_child (ETreeModel *etm, ETreePath node)
 	ETreeSorted *ets = E_TREE_SORTED(etm);
 
 	if (path->num_children == -1)
-		generate_children(ets, path, TRUE);
+		generate_children(ets, path);
 
 	if (path->num_children > 0)
 		return path->children[path->num_children - 1];
@@ -678,7 +698,7 @@ ets_is_expandable (ETreeModel *etm, ETreePath node)
 	gboolean expandable = e_tree_model_node_is_expandable (ets->priv->source, path->corresponding);
 
 	if (path->num_children == -1) {
-		generate_children(ets, node, TRUE);
+		generate_children(ets, node);
 	}
 
 	return expandable;
@@ -691,7 +711,7 @@ ets_get_children (ETreeModel *etm, ETreePath node, ETreePath **nodes)
 	guint n_children;
 
 	if (path->num_children == -1) {
-		generate_children(E_TREE_SORTED(etm), node, TRUE);
+		generate_children(E_TREE_SORTED(etm), node);
 	}
 
 	n_children = path->num_children;
@@ -893,8 +913,22 @@ ets_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETr
 		int i;
 		int j;
 		ETreeSortedPath *path;
-		i = parent_path->num_children;
+		int position = parent_path->num_children;
+		ETreePath counter;
 
+		for (counter = e_tree_model_node_get_next(etm, child);
+		     counter;
+		     counter = e_tree_model_node_get_next(etm, counter))
+			position --;
+
+		if (position != parent_path->num_children) {
+			for (i = 0; i < parent_path->num_children; i++) {
+				if (parent_path->children[i]->position >= position)
+					parent_path->children[i]->position++;
+			}
+		}
+
+		i = parent_path->num_children;
 		path = new_path(parent_path, child);
 		if (ets->priv->sort_idle_id == 0) {
 			ets->priv->insert_count++;
@@ -934,7 +968,7 @@ ets_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETr
 }
 
 static void
-ets_proxy_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, ETreeSorted *ets)
+ets_proxy_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, int old_position, ETreeSorted *ets)
 {
 	ETreeSortedPath *parent_path = find_path(ets, parent);
 	ETreeSortedPath *path;
@@ -945,17 +979,24 @@ ets_proxy_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, ETre
 		path = find_path(ets, child);
 
 	if (path && parent_path && parent_path->num_children != -1) {
-		int i = path->position;
+		int i;
+		for (i = 0; i < parent_path->num_children; i++) {
+			if (parent_path->children[i]->orig_position > old_position)
+				parent_path->children[i]->orig_position --;
+		}
+
+		i = path->position;
+
 		parent_path->num_children --;
 		memmove(parent_path->children + i, parent_path->children + i + 1, sizeof(ETreeSortedPath *) * (parent_path->num_children - i));
 		for (; i < parent_path->num_children; i++) {
 			parent_path->children[i]->position = i;
 		}
-		e_tree_model_node_removed(E_TREE_MODEL(ets), parent_path, path);
+		e_tree_model_node_removed(E_TREE_MODEL(ets), parent_path, path, path->position);
 		free_path(path);
 	} else if (path && path == ets->priv->root) {
 		ets->priv->root = NULL;
-		e_tree_model_node_removed(E_TREE_MODEL(ets), NULL, path);
+		e_tree_model_node_removed(E_TREE_MODEL(ets), NULL, path, -1);
 		free_path(path);
 	}
 }

@@ -74,7 +74,7 @@ struct ETreeModelClass {
 	void       (*node_data_changed)    (ETreeModel *etm, ETreePath node);
 	void       (*node_col_changed)     (ETreeModel *etm, ETreePath node,   int col);
 	void       (*node_inserted)        (ETreeModel *etm, ETreePath parent, ETreePath inserted_node);
-	void       (*node_removed)         (ETreeModel *etm, ETreePath parent, ETreePath removed_node);
+	void       (*node_removed)         (ETreeModel *etm, ETreePath parent, ETreePath removed_node, int old_position);
 };
 GtkType     e_tree_model_get_type              (void);
 ETreeModel *e_tree_model_new                   (void);
@@ -159,7 +159,8 @@ void        e_tree_model_node_inserted         (ETreeModel     *tree_model,
 						ETreePath       inserted_node);
 void        e_tree_model_node_removed          (ETreeModel     *tree_model,
 						ETreePath       parent_node,
-						ETreePath       removed_node);
+						ETreePath       removed_node,
+						int             old_position);
 
 #ifdef __cplusplus
 }
