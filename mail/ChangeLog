@@ -1,5 +1,8 @@
 2002-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (next_unread_msg): Do away with the
+	goto-next-folder stuff, it's very annoying.
+
 	* mail-config-druid.c (extra_prepare): After building the extra
 	config options into a Gtk form, auto-detect any values that we can
 	and populate them by calling

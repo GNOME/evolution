@@ -2516,8 +2516,10 @@ next_unread_msg (GtkWidget *button, gpointer user_data)
 		return;
 	
 	if (!message_list_select (fb->message_list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN, TRUE)) {
+#if 0
 		if (confirm_goto_next_folder (fb))
 			do_evil_kludgy_goto_next_folder_hack (fb);
+#endif
 	}
 }
 
