@@ -28,6 +28,7 @@
 
 #include "evolution-shell-component.h"
 #include "evolution-activity-client.h"
+#include "evolution-config-control.h"
 
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-main.h>
@@ -63,7 +64,7 @@ create_configuration_page (void)
 	label = gtk_label_new ("This is the configuration page for the test component.");
 	gtk_widget_show (label);
 
-	return BONOBO_OBJECT (bonobo_control_new (label));
+	return BONOBO_OBJECT (evolution_config_control_new (label));
 }
 
 static BonoboObject *

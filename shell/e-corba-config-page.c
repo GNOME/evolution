@@ -32,6 +32,7 @@
 
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-listener.h>
 
 
@@ -66,11 +67,10 @@ listener_event_callback (BonoboListener *listener,
 }
 
 static void
-setup_config_control_interface (ECorbaConfigPage *corba_config_page,
-				CORBA_Object corba_object)
+setup_listener (ECorbaConfigPage *corba_config_page,
+		GNOME_Evolution_ConfigControl config_control_interface)
 {
 	ECorbaConfigPagePrivate *priv;
-	GNOME_Evolution_ConfigControl config_control_interface;
 	Bonobo_EventSource event_source;
 	CORBA_Environment ev;
 
@@ -78,14 +78,10 @@ setup_config_control_interface (ECorbaConfigPage *corba_config_page,
 
 	CORBA_exception_init (&ev);
 
-	config_control_interface = Bonobo_Unknown_queryInterface (corba_object, "IDL:GNOME/Evolution/ConfigControl:1.0", &ev);
-	if (BONOBO_EX (&ev) || config_control_interface == CORBA_OBJECT_NIL) {
-		CORBA_exception_free (&ev);
-		return;
-	}
-
 	event_source = GNOME_Evolution_ConfigControl__get_eventSource (config_control_interface, &ev);
-	if (!BONOBO_EX (&ev)) {
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Cannot get eventSource interface for ConfigPage -- %s", BONOBO_EX_ID (&ev));
+	} else {
 		priv->listener = bonobo_listener_new (listener_event_callback, corba_config_page);
 		priv->listener_id = Bonobo_EventSource_addListener (event_source,
 								    bonobo_object_corba_objref (BONOBO_OBJECT (priv->listener)),
@@ -197,24 +193,43 @@ init (ECorbaConfigPage *corba_config_page)
 }
 
 
-void
+gboolean
 e_corba_config_page_construct (ECorbaConfigPage *corba_config_page,
-			       CORBA_Object corba_object)
+			       GNOME_Evolution_ConfigControl corba_object)
 {
+	Bonobo_Control control;
 	GtkWidget *control_widget;
+	CORBA_Environment ev;
 
-	g_return_if_fail (E_IS_CORBA_CONFIG_PAGE (corba_config_page));
-	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
+	g_return_val_if_fail (E_IS_CORBA_CONFIG_PAGE (corba_config_page), FALSE);
+	g_return_val_if_fail (corba_object != CORBA_OBJECT_NIL, FALSE);
 
-	control_widget = bonobo_widget_new_control_from_objref (corba_object, CORBA_OBJECT_NIL);
+	CORBA_exception_init (&ev);
+
+	control = GNOME_Evolution_ConfigControl__get_control (corba_object, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Can't get control from ::ConfigControl -- %s", BONOBO_EX_ID (&ev));
+		CORBA_exception_init (&ev);
+		return FALSE;
+	}
+
+	control_widget = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
 	gtk_widget_show (control_widget);
 	gtk_container_add (GTK_CONTAINER (corba_config_page), control_widget);
 
-	setup_config_control_interface (corba_config_page, corba_object);
+	setup_listener (corba_config_page, corba_object);
+
+	/* Notice we *don't* unref the corba_object here as
+	   bonobo_widget_new_control_from_objref() effectively takes ownership
+	   for the object that we get from ::__get_control.  */
+
+	CORBA_exception_free (&ev);
+
+	return TRUE;
 }
 
 GtkWidget *
-e_corba_config_page_new_from_objref (CORBA_Object corba_object)
+e_corba_config_page_new_from_objref (GNOME_Evolution_ConfigControl corba_object)
 {
 	ECorbaConfigPage *corba_config_page;
 
@@ -222,7 +237,10 @@ e_corba_config_page_new_from_objref (CORBA_Object corba_object)
 	g_return_val_if_fail (corba_object != CORBA_OBJECT_NIL, NULL);
 
 	corba_config_page = gtk_type_new (e_corba_config_page_get_type ());
-	e_corba_config_page_construct (corba_config_page, corba_object);
+	if (! e_corba_config_page_construct (corba_config_page, corba_object)) {
+		gtk_widget_destroy (GTK_WIDGET (corba_config_page));
+		return NULL;
+	}
 
 	return GTK_WIDGET (corba_config_page);
 }

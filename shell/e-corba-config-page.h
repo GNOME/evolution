@@ -29,6 +29,8 @@
 
 #include "e-config-page.h"
 
+#include "Evolution.h"
+
 #include <bonobo/bonobo-object.h>
 
 #ifdef __cplusplus
@@ -59,9 +61,9 @@ struct _ECorbaConfigPageClass {
 
 
 GtkType    e_corba_config_page_get_type         (void);
-GtkWidget *e_corba_config_page_new_from_objref  (CORBA_Object      objref);
-void       e_corba_config_page_construct        (ECorbaConfigPage *corba_config_page,
-						 CORBA_Object      corba_object);
+GtkWidget *e_corba_config_page_new_from_objref  (GNOME_Evolution_ConfigControl  objref);
+gboolean   e_corba_config_page_construct        (ECorbaConfigPage              *corba_config_page,
+						 GNOME_Evolution_ConfigControl  objref);
 
 #ifdef __cplusplus
 }

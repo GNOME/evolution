@@ -78,6 +78,8 @@ libeshell_la_SOURCES = 				\
 	e-shell-corba-icon-utils.c		\
 	e-shell-corba-icon-utils.h		\
 	evolution-activity-client.c		\
+	evolution-config-control.c		\
+	evolution-config-control.h		\
 	evolution-session.c			\
 	evolution-shell-client.c		\
 	evolution-shell-component-client.c	\

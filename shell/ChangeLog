@@ -1,3 +1,25 @@
+2002-03-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-test-component.c (create_configuration_page): Update
+	to create an EvolutionConfigControl instead of just a
+	BonoboControl.
+
+	* e-corba-config-page.c (e_corba_config_page_construct): Get a
+	GNOME_Evolution_ConfigControl instead of a CORBA_Object.  Retrieve
+	the control from it using ::_get_control instead of just assuming
+	it's a control.  Also return a boolen indicating success or
+	failure.
+	(e_corba_config_page_new): Likewise, get a
+	GNOME_Evolution_ConfigControl.
+	(setup_listener): Renamed from `setup_config_control_interface'.
+	Get a ::ConfigControl instead of a CORBA::Object.  Thus, no need
+	to queryInterface here anymore.
+
+	* evolution-config-control.c, evolution-config-control.h: New,
+	implementation for the Evolution::ConfigControl interface.
+
+	* Evolution-ConfigControl.idl: New attribute `control'.
+
 2002-03-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-commands.c (e_shell_command_rename_folder): Make
