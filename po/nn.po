@@ -13,19 +13,6 @@
 # translation of nn.po to Norwegian (nynorsk)
 # translation of nn.po to Norwegian (nynorsk)
 # translation of nn.po to Norwegian (nynorsk)
-# translation of nn.po to Norwegian (nynorsk)
-# translation of nn.po to Norwegian (nynorsk)
-# translation of nn.po to Norwegian (nynorsk)
-# translation of nn.po to Norwegian (nynorsk)
-# translation of nn.po to Norwegian (nynorsk)
-# translation of nn.po to Norwegian (nynorsk)
-# translation of nn.po to Norwegian (nynorsk)
-# translation of nn.po to Norwegian (nynorsk)
-# translation of nn.po to Norwegian (nynorsk)
-# translation of nn.po to Norwegian (nynorsk)
-# translation of nn.po to Norwegian (nynorsk)
-# translation of nn.po to Norwegian (nynorsk)
-# translation of nn.po to Norwegian (nynorsk)
 # Norwegian (Nynorsk) translation of Evolution
 # Copyright (C) 2001-2002 Roy-Magne Mo, 2003 Åsmund Skjæveland
 # Roy-Magne Mo <rmo@sunnmore.net>, 2001-2002.
@@ -35,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-23 13:37+0200\n"
-"PO-Revision-Date: 2003-09-18 12:11+0200\n"
+"POT-Creation-Date: 2003-09-23 13:44+0200\n"
+"PO-Revision-Date: 2003-09-23 21:12+0200\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian (nynorsk) <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -522,7 +509,7 @@ msgstr "Standard synkroniseringsaddresse:"
 
 #: addressbook/conduit/address-conduit.c:537
 msgid "Cursor could not be loaded\n"
-msgstr "Markør kunne ikkje lastast\n"
+msgstr "Markør kan ikkje lastast\n"
 
 #: addressbook/conduit/address-conduit.c:550
 msgid "EBook not loaded\n"
@@ -551,7 +538,7 @@ msgid ""
 "We were unable to open this addressbook.  Please check that the\n"
 "path exists and that you have permission to access it."
 msgstr ""
-"Kunne ikkje opna denne adresseboka. Sjå etter at stien\n"
+"Kan ikkje opna denne adresseboka. Sjå etter at stien\n"
 "finst og at du har løyve til å aksessera han."
 
 #: addressbook/gui/component/addressbook.c:512
@@ -560,7 +547,7 @@ msgid ""
 "means you have entered an incorrect URI, or the LDAP server\n"
 "is unreachable."
 msgstr ""
-"Kunne ikkje opna denne adresseboka. Det betyr anten at\n"
+"Kan ikkje opna denne adresseboka. Det betyr anten at\n"
 "du har skrive inn ein ugyldig URI, eller at LDAP-tenaren\n"
 "ikkje kan nåast."
 
@@ -582,7 +569,7 @@ msgid ""
 "means you have entered an incorrect URI, or the server\n"
 "is unreachable."
 msgstr ""
-"Kunne ikkje opna denne adresseboka. Det betyr anten at\n"
+"Kan ikkje opna denne adresseboka. Det betyr anten at\n"
 "du har skrive inn ein ugyldig URI, eller at tenaren\n"
 "ikkje kan nåast."
 
@@ -597,7 +584,7 @@ msgstr "Hentar data frå LDAP-tenar anonymt"
 
 #: addressbook/gui/component/addressbook.c:652
 msgid "Failed to authenticate.\n"
-msgstr "Kunne ikkje autentisera.\n"
+msgstr "Kan ikkje autentisera.\n"
 
 #: addressbook/gui/component/addressbook.c:660
 #: addressbook/gui/component/addressbook.c:663
@@ -959,8 +946,7 @@ msgid "Evolution will use this DN to authenticate you with the server"
 msgstr "Evolution vil bruka DN til å autentisera deg mot tenaren"
 
 #: addressbook/gui/component/ldap-config.glade.h:24
-msgid ""
-"Evolution will use this email address to authenticate you with the server"
+msgid "Evolution will use this email address to authenticate you with the server"
 msgstr ""
 "Evolution kjem til å bruke denne e-postaddressa for å autentisere deg "
 "ovanfor tenaren"
@@ -1065,8 +1051,7 @@ msgstr ""
 msgid ""
 "Specifying a display name is the last required step in configuring an LDAP "
 "server."
-msgstr ""
-"Det siste steget i å setja opp ein LDAP-tenar er å setja eit visingsnamn."
+msgstr "Det siste steget i å setja opp ein LDAP-tenar er å setja eit visingsnamn."
 
 #: addressbook/gui/component/ldap-config.glade.h:48
 msgid "Step 1: Server Information"
@@ -1634,7 +1619,7 @@ msgstr "Bermuda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:160
 msgid "Bhutan"
-msgstr "Bhutan"
+msgstr "Bhutan                lokal fil-bakdel"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:161
 #: my-evolution/Locations.h:270
@@ -2607,7 +2592,7 @@ msgstr "TTY/TDD"
 #: addressbook/gui/contact-editor/e-contact-editor.c:2376
 #, c-format
 msgid "Could not find widget for a field: `%s'"
-msgstr "Kunne ikkje finna skjermelement for felt: «%s»"
+msgstr "Kan ikkje finna skjermelement for felt: «%s»"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:298
 msgid "Contact Quick-Add"
@@ -2784,7 +2769,7 @@ msgstr "Lagre liste som VCard"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:3
@@ -2855,9 +2840,8 @@ msgid "Error getting book view"
 msgstr "Feil ved henting av bokvising"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:415
-#, fuzzy
 msgid "Model"
-msgstr "Molde"
+msgstr "Modell"
 
 #: addressbook/gui/widgets/e-addressbook-table-adapter.c:148
 #: addressbook/gui/widgets/e-addressbook-util.c:106
@@ -2880,9 +2864,8 @@ msgid "Unknown error"
 msgstr "Ukjend feil"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:39
-#, fuzzy
 msgid "Repository offline"
-msgstr "depot i vcs"
+msgstr "Fråkopla lager"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:40 shell/e-storage.c:584
 #: shell/evolution-shell-component.c:1213
@@ -2918,11 +2901,11 @@ msgstr "Autentisering feila"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:46
 msgid "Authentication Required"
-msgstr ""
+msgstr "Treng autentisering"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:47
 msgid "TLS not Available"
-msgstr ""
+msgstr "TLS er ikkje tilgjengeleg"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:48
 msgid "Addressbook does not exist"
@@ -2937,9 +2920,8 @@ msgid "Do you want to save changes?"
 msgstr "Vil du lagre endringar?"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:78
-#, fuzzy
 msgid "_Discard"
-msgstr "Dinard"
+msgstr "_Forkast"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:97
 msgid "Error adding list"
@@ -2969,6 +2951,8 @@ msgid ""
 "Opening %d cards will open %d new windows as well.\n"
 "Do you really want to display all of these cards?"
 msgstr ""
+"Å opna %d kort vil også opna %d nye vindauge på skjermen.\n"
+"Vil du verkeleg visa alle desse korta?"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:329
 msgid "Move card to"
@@ -3490,8 +3474,7 @@ msgid "Export in asynchronous mode "
 msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:63
-msgid ""
-"The number of cards in one output file in asychronous mode,default size 100."
+msgid "The number of cards in one output file in asychronous mode,default size 100."
 msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:63
@@ -3499,8 +3482,7 @@ msgid "NUMBER"
 msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:91
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:105
@@ -3688,7 +3670,7 @@ msgstr "Feil ved kommunikasjon mot kalendartenaren"
 #: calendar/conduits/calendar/calendar-conduit.c:1456
 #: calendar/conduits/calendar/calendar-conduit.c:1459
 msgid "Could not read pilot's Calendar application block"
-msgstr "Kunne ikkje lesa kalender-applikasjonsblokka på kalenderen"
+msgstr "Kan ikkje lesa kalender-applikasjonsblokka på kalenderen"
 
 #: calendar/conduits/todo/todo-conduit.c:206
 #, fuzzy
@@ -3788,19 +3770,15 @@ msgstr "Tilgjengelege lenkjer:"
 
 #: calendar/gui/alarm-notify/notify-main.c:173
 msgid "Could not initialize Bonobo"
-msgstr "Kunne ikkje initialisera Bonobo"
+msgstr "Kan ikkje initialisera Bonobo"
 
 #: calendar/gui/alarm-notify/notify-main.c:176
 msgid "Could not initialize gnome-vfs"
 msgstr "Klarte ikkje å initialisere gnome-vfs"
 
 #: calendar/gui/alarm-notify/notify-main.c:185
-#, fuzzy
 msgid "Could not create the alarm notify service factory"
-msgstr ""
-"Kunne ikkje laga mellombels fil\n"
-"%1:\n"
-"%2"
+msgstr "Kan ikkje laga factory for alarmtenesta"
 
 #: calendar/gui/calendar-commands.c:366
 msgid ""
@@ -3820,9 +3798,8 @@ msgid "days"
 msgstr "dagar"
 
 #: calendar/gui/calendar-commands.c:475
-#, fuzzy
 msgid "%A %d %B %Y"
-msgstr "%1 bit %2 %3"
+msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
@@ -3851,8 +3828,7 @@ msgid "%d %B"
 msgstr "%d. %b"
 
 #: calendar/gui/calendar-commands.c:901
-msgid ""
-"Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 
 #: calendar/gui/calendar-component.c:70 calendar/gui/gnome-cal.c:1527
@@ -4005,10 +3981,7 @@ msgstr "Nekta tilgang"
 #: calendar/gui/control-factory.c:122
 #, fuzzy, c-format
 msgid "Could not open the folder in '%s'"
-msgstr ""
-"Kan ikkje fjerna post frå\n"
-"postboksen '%1':\n"
-"%2"
+msgstr "Kan ikkje opna mappa i «%s»"
 
 #: calendar/gui/control-factory.c:168
 #, fuzzy
@@ -4359,9 +4332,8 @@ msgid "_Mon"
 msgstr "_Mån"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
-#, fuzzy
 msgid "_Overdue tasks:"
-msgstr "&Syntaksmerkingsmodusar"
+msgstr "Oppgåver som har gått over tida:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 msgid "_Sat"
@@ -4387,9 +4359,8 @@ msgid "_Wed"
 msgstr "_Ons"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
-#, fuzzy
 msgid "before every appointment"
-msgstr "&Slett avtale"
+msgstr "før kvar avtale"
 
 #: calendar/gui/dialogs/cancel-comp.c:58
 msgid ""
@@ -4476,7 +4447,7 @@ msgstr ""
 #: calendar/gui/dialogs/comp-editor.c:334
 #, fuzzy
 msgid "Could not update invalid object"
-msgstr "Kunne ikkje laga kio-jobb.\n"
+msgstr "Kan ikkje laga kio-jobb.\n"
 
 #: calendar/gui/dialogs/comp-editor.c:337
 msgid "Object not found, not updated"
@@ -4489,7 +4460,7 @@ msgstr ""
 #: calendar/gui/dialogs/comp-editor.c:343
 #, fuzzy
 msgid "Could not update object"
-msgstr "Kunne ikkje laga kio-jobb.\n"
+msgstr "Kan ikkje laga kio-jobb.\n"
 
 #: calendar/gui/dialogs/comp-editor.c:793
 #: calendar/gui/dialogs/comp-editor.c:830
@@ -4537,9 +4508,9 @@ msgid "Unable to obtain current version!"
 msgstr "Ikkje stand til å få tak i noverande versjon!"
 
 #: calendar/gui/dialogs/comp-editor-page.c:409
-#, fuzzy, c-format
+#, c-format
 msgid "Validation error: %s"
-msgstr "Ukjend feil"
+msgstr "Valideringsfeil: %s"
 
 #: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2223
 msgid " to "
@@ -4562,9 +4533,9 @@ msgid "Due "
 msgstr "Ferdig"
 
 #: calendar/gui/dialogs/delete-comp.c:96
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete the appointment `%s'?"
-msgstr "Er du sikker på at du vil sletta denne klassen?"
+msgstr "Er du sikker på at du vil sletta avtalen «%s»?"
 
 #: calendar/gui/dialogs/delete-comp.c:99
 #, fuzzy
@@ -4572,9 +4543,9 @@ msgid "Are you sure you want to delete this untitled appointment?"
 msgstr "Er du sikker på at du vil sletta denne klassen?"
 
 #: calendar/gui/dialogs/delete-comp.c:105
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete the task `%s'?"
-msgstr "Er du sikker på at du vil sletta denne klassen?"
+msgstr "Er du sikker på at du vil sletta oppgåva «%s»?"
 
 #: calendar/gui/dialogs/delete-comp.c:108
 #, fuzzy
@@ -4582,9 +4553,9 @@ msgid "Are you sure you want to delete this untitled task?"
 msgstr "Er du sikker på at du vil sletta denne klassen?"
 
 #: calendar/gui/dialogs/delete-comp.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete the journal entry `%s'?"
-msgstr "Er du sikker på at du vil sletta denne klassen?"
+msgstr "Er du sikker på at du vil sletta journaloppføringa «%s»?"
 
 #: calendar/gui/dialogs/delete-comp.c:117
 #, fuzzy
@@ -4592,19 +4563,19 @@ msgid "Are you sure want to delete this untitled journal entry?"
 msgstr "Er du sikker på at du vil sletta denne klassen?"
 
 #: calendar/gui/dialogs/delete-comp.c:132
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete %d appointments?"
-msgstr "Er du sikker på at du vil sletta denne klassen?"
+msgstr "Er du sikker på at du vil sletta %d avtalar?"
 
 #: calendar/gui/dialogs/delete-comp.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete %d tasks?"
-msgstr "Er du sikker på at du vil sletta denne klassen?"
+msgstr "Er du sikker på at du vil sletta %d oppgåver?"
 
 #: calendar/gui/dialogs/delete-comp.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete %d journal entries?"
-msgstr "Er du sikker på at du vil sletta denne klassen?"
+msgstr "Er du sikker på at du vil sletta %d journaloppføringar?"
 
 #: calendar/gui/dialogs/delete-error.c:50
 msgid "The event could not be deleted due to a corba error"
@@ -4876,8 +4847,7 @@ msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr ""
 
 #: calendar/gui/dialogs/recur-comp.c:58
-msgid ""
-"You are modifying a recurring journal entry, what would you like to modify?"
+msgid "You are modifying a recurring journal entry, what would you like to modify?"
 msgstr ""
 
 #: calendar/gui/dialogs/recur-comp.c:72
@@ -5207,24 +5177,24 @@ msgid "%s %s after the start of the appointment"
 msgstr "%s %s etter byrjinga på avtalen"
 
 #: calendar/gui/e-alarm-list.c:499
-#, fuzzy, c-format
+#, c-format
 msgid "%s at the start of the appointment"
-msgstr "&Slett avtale"
+msgstr "%s ved byrjinga av avtalen"
 
 #: calendar/gui/e-alarm-list.c:508
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s before the end of the appointment"
-msgstr "&Slett avtale"
+msgstr "%s %s før avtalen er slutt"
 
 #: calendar/gui/e-alarm-list.c:511
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s after the end of the appointment"
-msgstr "&Slett avtale"
+msgstr "%s %s etter at avtalen er slutt"
 
 #: calendar/gui/e-alarm-list.c:516
-#, fuzzy, c-format
+#, c-format
 msgid "%s at the end of the appointment"
-msgstr "&Slett avtale"
+msgstr "%s ved slutten av avtalen"
 
 #: calendar/gui/e-alarm-list.c:540
 #, c-format
@@ -5488,9 +5458,9 @@ msgid ""
 "\n"
 "45.436845,125.862501"
 msgstr ""
-"Datoen må tastast inn på dette formatet:\n"
+"Den geografiske posisjonen må skrivast inn på formatet: \n"
 "\n"
-"%s"
+"45.436845,125.862501"
 
 #: calendar/gui/e-cal-view.c:1094 calendar/gui/e-cal-view.c:1184
 msgid "New _Appointment..."
@@ -5540,9 +5510,8 @@ msgid "_Forward as iCalendar..."
 msgstr "Fort framover"
 
 #: calendar/gui/e-cal-view.c:1145
-#, fuzzy
 msgid "Make this Occurrence _Movable"
-msgstr "Se&nd avtale"
+msgstr "Gjer denne hendinga _flyttbar"
 
 #: calendar/gui/e-cal-view.c:1146 calendar/gui/e-cal-view.c:1177
 #, fuzzy
@@ -5825,9 +5794,9 @@ msgid "Cancel"
 msgstr "Avbryt"
 
 #: calendar/gui/e-itip-control.c:1300
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published meeting information."
-msgstr "generer avlusingsinformasjon"
+msgstr "<b>%s</b> bar publisert møteinformasjon."
 
 #: calendar/gui/e-itip-control.c:1301
 #, fuzzy
@@ -5835,9 +5804,9 @@ msgid "Meeting Information"
 msgstr "Personleg informasjon"
 
 #: calendar/gui/e-itip-control.c:1306
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
-msgstr "<b>%s</b> spør etter deg for å stille opp på eit møte."
+msgstr "<b>%s</b> ber om at %s er til stades på eit møte."
 
 #: calendar/gui/e-itip-control.c:1308
 #, c-format
@@ -5858,19 +5827,18 @@ msgid "Meeting Update"
 msgstr "Møteoppdatering"
 
 #: calendar/gui/e-itip-control.c:1318
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
-msgstr "generer avlusingsinformasjon"
+msgstr "<b>%s</b> ber om å få den nyaste møteinformasjonen."
 
 #: calendar/gui/e-itip-control.c:1319
-#, fuzzy
 msgid "Meeting Update Request"
-msgstr "Møteoppdatering"
+msgstr "Førespurnad om møteoppdatering"
 
 #: calendar/gui/e-itip-control.c:1326
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has replied to a meeting request."
-msgstr "Dette er ei repeterande hending."
+msgstr "<b>%s</b> har svart på ein førespurnad om eit møte."
 
 #: calendar/gui/e-itip-control.c:1327
 msgid "Meeting Reply"
@@ -5892,23 +5860,22 @@ msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> har kansellert ei oppgåve."
 
 #: calendar/gui/e-itip-control.c:1343
-#, fuzzy
 msgid "Bad Meeting Message"
-msgstr "&Finn i melding ..."
+msgstr "Feil i møtemelding"
 
 #: calendar/gui/e-itip-control.c:1367
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published task information."
-msgstr "generer avlusingsinformasjon"
+msgstr "<b>%s</b> har publisert informasjon om ei oppgåve."
 
 #: calendar/gui/e-itip-control.c:1368
 msgid "Task Information"
 msgstr "Oppgåveinformasjon"
 
 #: calendar/gui/e-itip-control.c:1373
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests %s to perform a task."
-msgstr "Prøv «%s --help» for meir informasjon\n"
+msgstr "<b>%s</b> ber om at %s utfører ei oppgåve."
 
 #: calendar/gui/e-itip-control.c:1375
 #, fuzzy, c-format
@@ -5929,18 +5896,18 @@ msgid "Task Update"
 msgstr "Oppgåveoppdatering"
 
 #: calendar/gui/e-itip-control.c:1385
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
-msgstr "Dette er ei førehandsvising av det valte bakgrunnsbiletet."
+msgstr "<b>%s</b> ber om å få den nyaste oppgåveinformasjonen."
 
 #: calendar/gui/e-itip-control.c:1386
 msgid "Task Update Request"
 msgstr "Oppgåveoppdateringsforepørjing"
 
 #: calendar/gui/e-itip-control.c:1393
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has replied to a task assignment."
-msgstr "Dette er ei repeterande hending."
+msgstr "<b>%s</b> har svart på ei  oppgåvetildeling."
 
 #: calendar/gui/e-itip-control.c:1394
 msgid "Task Reply"
@@ -5961,9 +5928,9 @@ msgid "Bad Task Message"
 msgstr "Skriv ut alle"
 
 #: calendar/gui/e-itip-control.c:1429
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published free/busy information."
-msgstr "Skriv avlusingsinformasjon"
+msgstr "<b>%s</b> har publisert ledig/oppteken-informasjon."
 
 #: calendar/gui/e-itip-control.c:1430
 msgid "Free/Busy Information"
@@ -5979,9 +5946,9 @@ msgid "Free/Busy Request"
 msgstr "Fri/ledig forespørsel"
 
 #: calendar/gui/e-itip-control.c:1439
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
-msgstr "Dette er ei repeterande hending."
+msgstr "<b>%s</b> har svart på ein førespurnad etter ledig/oppteken-informasjon."
 
 #: calendar/gui/e-itip-control.c:1440
 msgid "Free/Busy Reply"
@@ -6026,12 +5993,8 @@ msgid "Object could not be found\n"
 msgstr "Kunne ikkje lagra adresseboka."
 
 #: calendar/gui/e-itip-control.c:1896
-#, fuzzy
 msgid "You do not have the right permissions to update the calendar\n"
-msgstr ""
-"Kan ikkje fjerna post frå\n"
-"postboksen '%1':\n"
-"%2"
+msgstr "Du har ikkje dei løyva som trengst for å oppdatera kalenderen\n"
 
 #: calendar/gui/e-itip-control.c:1899
 #, fuzzy
@@ -6055,12 +6018,8 @@ msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1995
-#, fuzzy
 msgid "You don't have the right permissions to update the calendar\n"
-msgstr ""
-"Kan ikkje fjerna post frå\n"
-"postboksen '%1':\n"
-"%2"
+msgstr "Du har ikkje dei løyva som trengst for å oppdatera kalenderen\n"
 
 #: calendar/gui/e-itip-control.c:1998
 msgid "Attendee status updated\n"
@@ -6270,9 +6229,8 @@ msgid "Required People and _One Resource"
 msgstr ""
 
 #: calendar/gui/e-meeting-time-sel.c:600
-#, fuzzy
 msgid "Meeting _start time:"
-msgstr "&Helsingstekst:"
+msgstr "Tida møtet _startar:"
 
 #: calendar/gui/e-meeting-time-sel.c:620
 msgid "Meeting _end time:"
@@ -6327,36 +6285,33 @@ msgid "Web Page:"
 msgstr "Side"
 
 #: calendar/gui/e-tasks.c:702
-#, fuzzy, c-format
+#, c-format
 msgid "Opening tasks at %s"
-msgstr "Leitar etter tilleggsmodular"
+msgstr "Opnar oppgåver på %s"
 
 #: calendar/gui/e-tasks.c:731 calendar/gui/tasks-control.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load the tasks in `%s'"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje lasta oppgåvene i «%s»"
 
 #: calendar/gui/e-tasks.c:746
-#, fuzzy, c-format
+#, c-format
 msgid "The method required to load `%s' is not supported"
-msgstr "Metoden %1 er ikkje støtta."
+msgstr "Metoden som krevst for å lasta «%s» er ikkje støtta"
 
 #: calendar/gui/e-tasks.c:760 calendar/gui/gnome-cal.c:1684
-#, fuzzy, c-format
+#, c-format
 msgid "You don't have permission to open the folder in `%s'"
-msgstr ""
-"Kan ikkje fjerna post frå\n"
-"postboksen '%1':\n"
-"%2"
+msgstr "Du har ikkje løyve til å opna mappa i «%s»"
 
 #: calendar/gui/e-tasks.c:828 calendar/gui/gnome-cal.c:1898
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error on %s:\n"
 " %s"
 msgstr ""
-"Feil ved nedlasting av fil:\n"
-"%1"
+"Feil på %s:\n"
+" %s"
 
 #: calendar/gui/e-tasks.c:899
 #, fuzzy
@@ -6369,22 +6324,18 @@ msgid "Deleting selected objects..."
 msgstr "Slettar valde objekt"
 
 #: calendar/gui/e-tasks.c:1017
-#, fuzzy
 msgid "Expunging"
-msgstr "Forventar %1"
+msgstr "Tømer"
 
 #: calendar/gui/gnome-cal.c:1656
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open the folder in `%s'"
-msgstr ""
-"Kan ikkje fjerna post frå\n"
-"postboksen '%1':\n"
-"%2"
+msgstr "Kan ikkje opna mappa i «%s»"
 
 #: calendar/gui/gnome-cal.c:1670
-#, fuzzy, c-format
+#, c-format
 msgid "The method required to open `%s' is not supported"
-msgstr "Metoden %1 er ikkje støtta."
+msgstr "Metoden som krevst for å opna «%s» er ikkje støtta"
 
 #: calendar/gui/gnome-cal.c:1726
 #, fuzzy, c-format
@@ -6408,9 +6359,9 @@ msgid ""
 msgstr ""
 
 #: calendar/gui/gnome-cal.c:2130
-#, fuzzy, c-format
+#, c-format
 msgid "Opening calendar at %s"
-msgstr "Feil ved opning"
+msgstr "Opnar kaldender på %s"
 
 #: calendar/gui/gnome-cal.c:2151
 #, fuzzy
@@ -6418,9 +6369,9 @@ msgid "Opening default tasks folder"
 msgstr "Leitar etter tilleggsmodular"
 
 #: calendar/gui/gnome-cal.c:3035
-#, fuzzy, c-format
+#, c-format
 msgid "Purging event %s"
-msgstr "Sender %1"
+msgstr "Fjernar hending %s"
 
 #: calendar/gui/gnome-cal.c:3119
 #, fuzzy
@@ -6575,9 +6526,9 @@ msgid "Counter-proposal"
 msgstr ""
 
 #: calendar/gui/itip-utils.c:513
-#, fuzzy, c-format
+#, c-format
 msgid "Free/Busy information (%s to %s)"
-msgstr "Informasjon"
+msgstr "Ledig/opptatt-informasjon (%s til %s)"
 
 #: calendar/gui/itip-utils.c:523
 #, fuzzy
@@ -6659,9 +6610,9 @@ msgid "Status: %s"
 msgstr "Status: %s"
 
 #: calendar/gui/print.c:2338
-#, fuzzy, c-format
+#, c-format
 msgid "Priority: %s"
-msgstr "_Prioritet:"
+msgstr "Prioritet: %s"
 
 #: calendar/gui/print.c:2350
 #, c-format
@@ -8457,16 +8408,13 @@ msgid "You may not export keys with this cipher"
 msgstr "Den oppgitte fila finst ikkje"
 
 #: camel/camel-data-cache.c:133
-#, fuzzy
 msgid "Unable to create cache path"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje oppretta sti til mellomlager"
 
 #: camel/camel-data-cache.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "Could not remove cache entry: %s: %s"
-msgstr ""
-"Kan ikkje laga heimekatalog\n"
-"Feil: %1"
+msgstr "Kan ikkje fjerna oppføring i mellomlageret: %s %s"
 
 #: camel/camel-disco-diary.c:185
 #, c-format
@@ -8508,45 +8456,39 @@ msgstr "Kan ikkje gjera LIST-operasjon ferdig"
 
 #: camel/camel-filter-driver.c:667 camel/camel-filter-search.c:511
 #: camel/camel-process.c:48
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create pipe to '%s': %s"
-msgstr "Kunne ikkje leggja til melding:\n"
+msgstr "Kan ikkje oppretta røyr til «%s»: %s"
 
 #: camel/camel-filter-driver.c:715 camel/camel-filter-search.c:551
 #: camel/camel-process.c:92
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create create child process '%s': %s"
-msgstr "Kunne ikkje leggja til melding:\n"
+msgstr "Kan ikkje oppretta underprosess «%s»: %s"
 
 #: camel/camel-filter-driver.c:759
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid message stream received from %s: %s"
-msgstr ""
-"Kan ikkje laga heimekatalog\n"
-"Feil: %1"
+msgstr "Ugyldig meldingsstraum motteken frå %s: %s"
 
 #: camel/camel-filter-driver.c:940 camel/camel-filter-driver.c:949
 msgid "Syncing folders"
 msgstr "Synkroniserar mapper"
 
 #: camel/camel-filter-driver.c:1038 camel/camel-filter-driver.c:1411
-#, fuzzy, c-format
+#, c-format
 msgid "Error parsing filter: %s: %s"
-msgstr ""
-"Feil ved lesing a fil:\n"
-"%1"
+msgstr "Feil under lesing av filter: %s: %s"
 
 #: camel/camel-filter-driver.c:1047 camel/camel-filter-driver.c:1417
-#, fuzzy, c-format
+#, c-format
 msgid "Error executing filter: %s: %s"
-msgstr ""
-"Feil ved lesing a fil:\n"
-"%1"
+msgstr "Feil under køyring av filter: %s: %s"
 
 #: camel/camel-filter-driver.c:1114
 #, fuzzy
 msgid "Unable to open spool folder"
-msgstr "Kan ikkje 'chown' 'spool'-katalogen"
+msgstr ""
 
 #: camel/camel-filter-driver.c:1123
 #, fuzzy
@@ -8563,23 +8505,23 @@ msgid "Cannot open message"
 msgstr "Kan ikkje opne melding"
 
 #: camel/camel-filter-driver.c:1143 camel/camel-filter-driver.c:1155
-#, fuzzy, c-format
+#, c-format
 msgid "Failed on message %d"
-msgstr "Kunne ikkje leggja til melding:\n"
+msgstr "Feila på melding %d"
 
 #: camel/camel-filter-driver.c:1169 camel/camel-filter-driver.c:1263
 msgid "Syncing folder"
 msgstr "Synkroniser mapper"
 
 #: camel/camel-filter-driver.c:1230
-#, fuzzy, c-format
+#, c-format
 msgid "Getting message %d of %d"
-msgstr "Mottek meldingar frå %1"
+msgstr "Hentar melding %d av %d"
 
 #: camel/camel-filter-driver.c:1245
-#, fuzzy, c-format
+#, c-format
 msgid "Failed at message %d of %d"
-msgstr "Mottek meldingar frå %1"
+msgstr "Feila på melding %d av %d"
 
 #: camel/camel-filter-search.c:134
 #, fuzzy
@@ -8598,10 +8540,9 @@ msgstr "Ugyldig(e) argument"
 
 #: camel/camel-filter-search.c:657 camel/camel-filter-search.c:665
 #, fuzzy, c-format
+# TRN: Kva er eit filtersøk? Skjønar eg dette rett?
 msgid "Error executing filter search: %s: %s"
-msgstr ""
-"Feil ved lesing a fil:\n"
-"%1"
+msgstr "Feil under køyring av filtersøk: %s: %s"
 
 #: camel/camel-folder.c:585
 #, c-format
@@ -8632,26 +8573,25 @@ msgid "Copying messages"
 msgstr "Melding"
 
 #: camel/camel-folder.c:1571
-#, fuzzy
 msgid "Filtering new message(s)"
-msgstr "Mottek %d melding(ar)"
+msgstr "Filtrerer nye meldingar"
 
 #: camel/camel-folder-search.c:348
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot parse search expression: %s:\n"
 "%s"
 msgstr ""
-"Feil ved lesing av fil:\n"
+"Kan ikkje tolka søkeuttrykket: %s:\n"
 "%s"
 
 #: camel/camel-folder-search.c:358
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error executing search expression: %s:\n"
 "%s"
 msgstr ""
-"Feil ved lesing av fil:\n"
+"Feil under køyring av søkeuttrykket: %s:\n"
 "%s"
 
 #: camel/camel-folder-search.c:569 camel/camel-folder-search.c:598
@@ -8711,23 +8651,29 @@ msgid "Failed to encrypt: No valid recipients specified."
 msgstr ""
 
 #: camel/camel-gpg-context.c:1172
-#, fuzzy, c-format
+#, c-format
+# TRN: Denne bør skrivast om.
+#, fuzzy
 msgid ""
 "Failed to GPG %s: %s\n"
 "\n"
 "%s"
-msgstr "Kunne ikkje leggja til melding:\n"
+msgstr ""
+"Kan ikkje bruka GPG på %s: %s\n"
+"\n"
+"%s"
 
 #: camel/camel-gpg-context.c:1177
 #, fuzzy, c-format
+# TRN: Sjå førre.
 msgid "Failed to GPG %s: %s\n"
-msgstr "Kunne ikkje leggja til melding:\n"
+msgstr "Kan ikkje bruka GPG på %s: %s\ns"
 
 #: camel/camel-gpg-context.c:1288 camel/camel-gpg-context.c:1573
 #: camel/camel-gpg-context.c:1624
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute gpg: %s"
-msgstr "Klarte ikkje å dekode melding."
+msgstr "Kan ikkje køyra gpg: %s"
 
 #: camel/camel-gpg-context.c:1318 camel/camel-gpg-context.c:1395
 #: camel/camel-gpg-context.c:1464 camel/camel-gpg-context.c:1494
@@ -8738,14 +8684,14 @@ msgid "Failed to execute gpg."
 msgstr "Klarte ikkje å dekode melding."
 
 #: camel/camel-gpg-context.c:1380
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr "Kunne ikkje laga katalog\n"
+msgstr "Kan ikkje stadfesta signaturen på meldinga: Kan ikkje laga mellombels fil: %s"
 
 #: camel/camel-lock.c:92 camel/camel-lock.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create lock file for %s: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje laga låsfil for %s: %s"
 
 #: camel/camel-lock.c:154
 #, c-format
@@ -8763,17 +8709,15 @@ msgid "Failed to get lock using flock(2): %s"
 msgstr ""
 
 #: camel/camel-lock-client.c:100
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot build locking helper pipe: %s"
-msgstr "Kunne ikkje laga katalog\n"
+msgstr "Kan ikkje laga røyr for låshjelpar: %s"
 
 #: camel/camel-lock-client.c:113
-#, fuzzy, c-format
+#, c-format
+# TRN: "fork" -> «splitta»
 msgid "Cannot fork locking helper: %s"
-msgstr ""
-"Kan ikkje fjerna post frå\n"
-"postboksen '%1':\n"
-"%2"
+msgstr "Kan ikkje starta ny låshjelpar: %s"
 
 #: camel/camel-lock-client.c:191 camel/camel-lock-client.c:214
 #, c-format
@@ -8781,27 +8725,24 @@ msgid "Could not lock '%s': protocol error with lock-helper"
 msgstr ""
 
 #: camel/camel-lock-client.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "Could not lock '%s'"
-msgstr "Kunne ikkje starta %1."
+msgstr "Kan ikkje låsa «%s»"
 
 #: camel/camel-movemail.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Could not check mail file %s: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje sjekka e-post-fila %s: %s"
 
 #: camel/camel-movemail.c:120
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open mail file %s: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje opna e-post-fila %s: %s"
 
 #: camel/camel-movemail.c:128
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open temporary mail file %s: %s"
-msgstr ""
-"Kunne ikkje laga mellombels fil\n"
-"%1:\n"
-"%2"
+msgstr "Kan ikkje opna mellombels e-post-fil «%s»: %s"
 
 #: camel/camel-movemail.c:157
 #, c-format
@@ -8809,14 +8750,14 @@ msgid "Failed to store mail in temp file %s: %s"
 msgstr ""
 
 #: camel/camel-movemail.c:187
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create pipe: %s"
-msgstr "Kunne ikkje laga katalog\n"
+msgstr "Kan ikkje laga røyr: %s"
 
 #: camel/camel-movemail.c:199
-#, fuzzy, c-format
+#, c-format
 msgid "Could not fork: %s"
-msgstr "Kunne ikkje starta %1."
+msgstr ""
 
 #: camel/camel-movemail.c:237
 #, c-format
@@ -8828,25 +8769,19 @@ msgid "(Unknown error)"
 msgstr "(Ukjend feil)"
 
 #: camel/camel-movemail.c:261
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading mail file: %s"
-msgstr ""
-"Feil ved nedlasting av fil:\n"
-"%1"
+msgstr "Kan ikkje lesa meldingsfil: %s"
 
 #: camel/camel-movemail.c:272
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing mail temp file: %s"
-msgstr ""
-"Feil ved lesing a fil:\n"
-"%1"
+msgstr "Feil under skriving av mellombels meldingsfil: %s"
 
 #: camel/camel-movemail.c:465 camel/camel-movemail.c:532
-#, fuzzy, c-format
+#, c-format
 msgid "Error copying mail temp file: %s"
-msgstr ""
-"Feil ved lesing a fil:\n"
-"%1"
+msgstr "Feil under kopiering av mellombels meldingsfil: %s"
 
 #: camel/camel-multipart-encrypted.c:259 camel/camel-multipart-encrypted.c:274
 msgid "Failed to decrypt MIME part: protocol error"
@@ -8904,18 +8839,22 @@ msgid ""
 msgstr ""
 
 #: camel/camel-sasl-anonymous.c:131
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Invalid opaque trace information:\n"
 "%s"
-msgstr "Les filinformasjon"
+msgstr ""
+"Ugyldig ugjennomsiktig sporingsinformasjon:\n"
+"%s"
 
 #: camel/camel-sasl-anonymous.c:143
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Invalid trace information:\n"
 "%s"
-msgstr "Les filinformasjon"
+msgstr ""
+"Ugyldig sporingsinformasjon:\n"
+"%s"
 
 #: camel/camel-sasl-cram-md5.c:35
 msgid "CRAM-MD5"
@@ -9027,9 +8966,9 @@ msgid "Bad authentication response from server."
 msgstr ""
 
 #: camel/camel-sasl-gssapi.c:213
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to resolve host `%s': %s"
-msgstr "Kunne ikkje leggja til melding:\n"
+msgstr "Klarte ikkje å slå opp verten «%s»: %s"
 
 #: camel/camel-sasl-gssapi.c:299
 #, fuzzy
@@ -9131,9 +9070,9 @@ msgid "Failure in name lookup: %s"
 msgstr "Feil i namneoppslag: %s"
 
 #: camel/camel-service.c:790 camel/camel-service.c:914
-#, fuzzy, c-format
+#, c-format
 msgid "Host lookup failed: cannot create thread: %s"
-msgstr "Namneoppslag feila: ukjend grunn"
+msgstr "Namneoppslag feila: Kan ikkje laga tråd: %s"
 
 #: camel/camel-service.c:803
 #, c-format
@@ -9171,38 +9110,38 @@ msgid "No provider available for protocol `%s'"
 msgstr ""
 
 #: camel/camel-session.c:523
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not create directory %s:\n"
 "%s"
 msgstr ""
-"Klarte ikkje å lage katalog %d:\n"
+"Klarte ikkje å laga katalog %s:\n"
 "%s"
 
 #: camel/camel-smime-context.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "Please enter your password for %s"
-msgstr "Oppgi ditt OpenPGP-passord"
+msgstr "Skriv inn passordet for %s"
 
 #: camel/camel-smime-context.c:201
 msgid "Please indicate the nickname of a certificate to sign with."
 msgstr ""
 
 #: camel/camel-smime-context.c:207
-#, fuzzy, c-format
+#, c-format
 msgid "The signature certificate for \"%s\" does not exist."
-msgstr "Den oppgjevne fila finst ikkje."
+msgstr "Signatursertifikatet for «%s» finst ikkje."
 
 #: camel/camel-smime-context.c:247
-#, fuzzy, c-format
+#, c-format
 msgid "The encryption certificate for \"%s\" does not exist."
-msgstr "Den faste katalogen som er spesifisert for %1 finst ikkje."
+msgstr "Krypteringssertifikatet for «%s» finst ikkje."
 
 #: camel/camel-smime-context.c:417 camel/camel-smime-context.c:428
 #: camel/camel-smime-context.c:534 camel/camel-smime-context.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to find certificate for \"%s\"."
-msgstr "Kunne ikkje lasta biletet '%1'\n"
+msgstr "Fann ikkje sertifikat for «%s»."
 
 #: camel/camel-smime-context.c:554
 msgid "Failed to find a common bulk algorithm."
@@ -9213,9 +9152,8 @@ msgid "Failed to decode message."
 msgstr "Klarte ikkje å dekode melding."
 
 #: camel/camel-smime-context.c:853
-#, fuzzy
 msgid "Failed to verify certificates."
-msgstr "Åtvaring ved &tilbaketrekte sertifikat"
+msgstr "Kan ikkje verifisera sertifikat."
 
 #: camel/camel-store.c:212
 #, fuzzy
@@ -9227,18 +9165,16 @@ msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Klarar ikkje å opprette mappe: Ugyldig operasjon på dette lageret"
 
 #: camel/camel-tcp-stream-openssl.c:568
-#, fuzzy
 msgid "Unable to get issuer's certificate"
-msgstr "Åtvaring ved &tilbaketrekte sertifikat"
+msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:570
 msgid "Unable to get Certificate Revocation List"
 msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:572
-#, fuzzy
 msgid "Unable to decrypt certificate signature"
-msgstr "Åtvaring ved &tilbaketrekte sertifikat"
+msgstr "Kan ikkje dekryptera sertifikatsignaturen."
 
 #: camel/camel-tcp-stream-openssl.c:574
 msgid "Unable to decrypt Certificate Revocation List signature"
@@ -9275,9 +9211,8 @@ msgid "CRL has expired"
 msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:593
-#, fuzzy
 msgid "Error in CRL"
-msgstr "Feil ved asting av %s"
+msgstr "Feil i CRL"
 
 #: camel/camel-tcp-stream-openssl.c:595
 #, fuzzy
@@ -9297,9 +9232,8 @@ msgid "Unable to get issuer's certificate locally"
 msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:603
-#, fuzzy
 msgid "Unable to verify leaf signature"
-msgstr "Åtvaring ved &tilbaketrekte sertifikat"
+msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:605
 msgid "Certificate chain too long"
@@ -9371,7 +9305,7 @@ msgid "BAD"
 msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:704
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Bad certificate from %s:\n"
 "\n"
@@ -9381,11 +9315,13 @@ msgid ""
 "\n"
 "Do you wish to accept anyway?"
 msgstr ""
-"Ugyldig sertifikat frå %s\n"
+"Ugyldig sertifikat frå %s:\n"
 "\n"
 "%s\n"
 "\n"
-"Vil du akseptere likevel?"
+"%s\n"
+"\n"
+"Vil du akseptera likevel?"
 
 #. construct our user prompt
 #: camel/camel-tcp-stream-ssl.c:841
@@ -9418,18 +9354,18 @@ msgid ""
 msgstr ""
 
 #: camel/camel-tcp-stream-ssl.c:955
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Certificate expired: %s\n"
 "Issuer: %s"
-msgstr "_Sertifikat-ID:"
+msgstr ""
 
 #: camel/camel-tcp-stream-ssl.c:972
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Certificate revocation list expired: %s\n"
 "Issuer: %s"
-msgstr "_Sertifikat-ID:"
+msgstr ""
 
 #: camel/camel-url.c:290 mail/mail-tools.c:143
 #, c-format
@@ -9437,11 +9373,9 @@ msgid "Could not parse URL `%s'"
 msgstr "Klarter ikkje å tolke URL frå «%s»"
 
 #: camel/camel-vee-folder.c:611
-#, fuzzy, c-format
+#, c-format
 msgid "Error storing `%s': %s"
-msgstr ""
-"Feil ved nedlasting av fil:\n"
-"%1"
+msgstr "Feil ved lagring av «%s»: %s"
 
 #: camel/camel-vee-folder.c:649
 #, c-format
@@ -9454,24 +9388,24 @@ msgid "Cannot copy or move messages into a Virtual Folder"
 msgstr "Berre sjekk for ny e-post."
 
 #: camel/camel-vee-store.c:261
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
-msgstr "Leitar etter tilleggsmodular"
+msgstr "Kan ikkje sletta mappe: %s: Ugyldig operasjon"
 
 #: camel/camel-vee-store.c:280
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder: %s: No such folder"
-msgstr "Leitar etter tilleggsmodular"
+msgstr "Kan ikkje sletta mappa: %s: Mappa finst ikkje"
 
 #: camel/camel-vee-store.c:293
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
-msgstr "Leitar etter tilleggsmodular"
+msgstr "Kan ikkje byta namn på mappa: %s: Ugyldig operasjon"
 
 #: camel/camel-vee-store.c:301
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder: %s: No such folder"
-msgstr "Leitar etter tilleggsmodular"
+msgstr "Kan ikkje endra namn på mappa: %s: Mappa finst ikkje"
 
 #: camel/providers/imap/camel-imap-command.c:221
 #: camel/providers/imap/camel-imap-command.c:260
@@ -9488,16 +9422,18 @@ msgstr ""
 
 #. for imap ALERT codes, account user@host
 #: camel/providers/imap/camel-imap-command.c:323
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Alert from IMAP server %s@%s:\n"
 "%s"
-msgstr "Slett e-post frå tenaren"
+msgstr ""
+"Åtvaring frå IMAP-tenaren %s@%s:\n"
+"%s"
 
 #: camel/providers/imap/camel-imap-command.c:392
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected response from IMAP server: %s"
-msgstr "Slett e-post frå tenaren"
+msgstr "Uventa svar frå IMAP-tenaren: %s"
 
 #: camel/providers/imap/camel-imap-command.c:402
 #, c-format
@@ -9519,16 +9455,14 @@ msgid "Unexpected OK response from IMAP server: %s"
 msgstr ""
 
 #: camel/providers/imap/camel-imap-folder.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create directory %s: %s"
-msgstr ""
-"Kan ikkje laga heimekatalog\n"
-"Feil: %1"
+msgstr "Kan ikkje laga mappa %s: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load summary for %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje lasta samandrag for %s"
 
 #: camel/providers/imap/camel-imap-folder.c:308
 msgid "Folder was destroyed and recreated on server."
@@ -9540,9 +9474,9 @@ msgid "Scanning for changed messages"
 msgstr "Leitar etter endra meldingar"
 
 #: camel/providers/imap/camel-imap-folder.c:1886
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to retrieve message: %s"
-msgstr "Klarte ikkje å dekode melding."
+msgstr "Kan ikkje henta melding: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:1923
 #: camel/providers/local/camel-maildir-folder.c:211
@@ -9584,22 +9518,20 @@ msgstr ""
 #: camel/providers/imap/camel-imap-message-cache.c:155
 #, fuzzy, c-format
 msgid "Could not open cache directory: %s"
-msgstr ""
-"Kan ikkje laga heimekatalog\n"
-"Feil: %1"
+msgstr "Kan ikkje opna mellomlagerkatalogen: %s"
 
 #: camel/providers/imap/camel-imap-message-cache.c:252
 #: camel/providers/imap/camel-imap-message-cache.c:309
 #: camel/providers/imap/camel-imap-message-cache.c:340
 #: camel/providers/imap/camel-imap-message-cache.c:372
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to cache message %s: %s"
-msgstr "Kunne ikkje leggja til melding:\n"
+msgstr "Kan ikkje leggja melding %s i mellomlageret: %s"
 
 #: camel/providers/imap/camel-imap-message-cache.c:417
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to cache %s: %s"
-msgstr "Kunne ikkje leggja til melding:\n"
+msgstr "Kan ikkje leggja %s i mellomlageret: %s"
 
 #: camel/providers/imap/camel-imap-provider.c:43
 msgid "Checking for new mail"
@@ -9684,9 +9616,9 @@ msgstr "Klarte ikkje å kople til %s (port %d): %s"
 
 #: camel/providers/imap/camel-imap-store.c:655
 #: camel/providers/imap/camel-imap-store.c:686
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje kopla til IMAP-tenaren %s på ein sikker måte: %s"
 
 #: camel/providers/imap/camel-imap-store.c:656
 #: camel/providers/pop3/camel-pop3-store.c:220
@@ -9700,9 +9632,9 @@ msgid "SSL negotiations failed"
 msgstr "SSL forhandlinga feila"
 
 #: camel/providers/imap/camel-imap-store.c:824
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect with command \"%s\": %s"
-msgstr "Klarte ikkje å kople til %s (port %d): %s"
+msgstr "Kan ikkje kopla til med kommandoen «%s»: %s"
 
 #: camel/providers/imap/camel-imap-store.c:1237
 #, c-format
@@ -9711,9 +9643,9 @@ msgstr "IMAP-tenaren %s søttar ikkje den ønska autentiseringstypa %s"
 
 #: camel/providers/imap/camel-imap-store.c:1247
 #: camel/providers/smtp/camel-smtp-transport.c:485
-#, fuzzy, c-format
+#, c-format
 msgid "No support for authentication type %s"
-msgstr "Autentisering:"
+msgstr "Autentiseringstype %s er ikkje støtta"
 
 #: camel/providers/imap/camel-imap-store.c:1270
 #: camel/providers/imapp/camel-imapp-store.c:349
@@ -9737,22 +9669,19 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-store.c:1660
 #: camel/providers/imap/camel-imap-store.c:1802
-#, fuzzy, c-format
+#, c-format
 msgid "No such folder %s"
-msgstr "Vidaresendt melding"
+msgstr "Mappa «%s» finst ikkje"
 
 #: camel/providers/imap/camel-imap-store.c:2003
-#, fuzzy, c-format
-msgid ""
-"The folder name \"%s\" is invalid because it containes the character \"%c\""
-msgstr ""
-"Kan ikkje laga heimekatalog\n"
-"Feil: %1"
+#, c-format
+msgid "The folder name \"%s\" is invalid because it containes the character \"%c\""
+msgstr "Mappenamnet «%s» er ugyldig, avdi det inneheld teiknet «%c»"
 
 #: camel/providers/imap/camel-imap-store.c:2015
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown parent folder: %s"
-msgstr "Ukjend feil"
+msgstr "Ukjend opphavsmappe: %s"
 
 #: camel/providers/imap/camel-imap-store.c:2051
 msgid "The parent folder is not allowed to contain subfolders"
@@ -9778,9 +9707,9 @@ msgid ""
 msgstr ""
 
 #: camel/providers/imapp/camel-imapp-store.c:333
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server on %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje kopla til POP-tenaren på %s"
 
 #: camel/providers/local/camel-local-folder.c:179
 #, fuzzy
@@ -9789,19 +9718,16 @@ msgstr "Sender ei melding til ein nettverksspelar"
 
 #. $HOME relative path + protocol string
 #: camel/providers/local/camel-local-folder.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "~%s (%s)"
-msgstr "%s (%d)"
+msgstr "%s (%s)"
 
 #. /var/spool/mail relative path + protocol
 #: camel/providers/local/camel-local-folder.c:383
 #: camel/providers/local/camel-local-folder.c:386
-#, fuzzy, c-format
+#, c-format
 msgid "mailbox:%s (%s)"
-msgstr ""
-"Kan ikkje fjerna post frå\n"
-"postboksen '%1':\n"
-"%2"
+msgstr "postboks: %s (%s)"
 
 #. a full path + protocol
 #: camel/providers/local/camel-local-folder.c:390
@@ -9872,61 +9798,53 @@ msgid "Store root %s is not an absolute path"
 msgstr ""
 
 #: camel/providers/local/camel-local-store.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "Store root %s is not a regular directory"
-msgstr "er ei vanleg fil"
+msgstr "Lagerrota %s er ikkje ein vanleg katalog"
 
 #: camel/providers/local/camel-local-store.c:154
 #: camel/providers/local/camel-local-store.c:170
 #: camel/providers/local/camel-local-store.c:238
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder: %s: %s"
-msgstr "Leitar etter tilleggsmodular"
+msgstr "Kan ikkje henta mappa: %s: %s"
 
 #: camel/providers/local/camel-local-store.c:186
 msgid "Local stores do not have an inbox"
 msgstr ""
 
 #: camel/providers/local/camel-local-store.c:198
-#, fuzzy, c-format
+#, c-format
 msgid "Local mail file %s"
-msgstr ""
-"Feil ved lesing a fil:\n"
-"%1"
+msgstr "Lokal maldingsfil %s "
 
 #: camel/providers/local/camel-local-store.c:307 mail/mail-local.c:949
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename folder %s to %s: %s"
-msgstr ""
-"Kunne ikkje laga mellombels fil\n"
-"%1:\n"
-"%2"
+msgstr "Kan ikkje endra namnet på mappa «%s» til «%s»: %s"
 
 #: camel/providers/local/camel-local-store.c:364
 #: camel/providers/local/camel-mbox-store.c:461
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename '%s': %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje endra namnet på «%s»: %s"
 
 #: camel/providers/local/camel-local-store.c:387
 #: camel/providers/local/camel-mbox-store.c:245
-#, fuzzy, c-format
+#, c-format
 msgid "Could not delete folder summary file `%s': %s"
-msgstr ""
-"Kunne ikkje laga mellombels fil\n"
-"%1:\n"
-"%2"
+msgstr "Kan ikkje sletta samandragsfila for mappa «%s»: %s"
 
 #: camel/providers/local/camel-local-store.c:397
 #: camel/providers/local/camel-mbox-store.c:257
-#, fuzzy, c-format
+#, c-format
 msgid "Could not delete folder index file `%s': %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje sletta mappeindeksfila «%s»: %s"
 
 #: camel/providers/local/camel-local-summary.c:398
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save summary: %s: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje lagra samandrag: %s: %s"
 
 #: camel/providers/local/camel-local-summary.c:457
 msgid "Unable to add message to summary: unknown reason"
@@ -9935,12 +9853,12 @@ msgstr ""
 #: camel/providers/local/camel-maildir-folder.c:183
 #, fuzzy
 msgid "Maildir append message cancelled"
-msgstr "Kunne ikkje leggja til melding:\n"
+msgstr "Kan ikkje leggja til melding:\n"
 
 #: camel/providers/local/camel-maildir-folder.c:186
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot append message to maildir folder: %s: %s"
-msgstr "Mottek meldingar frå %1"
+msgstr "Kan ikkje leggja til melding i maildir-mappe: %s: %s"
 
 #: camel/providers/local/camel-maildir-folder.c:234
 #: camel/providers/local/camel-mh-folder.c:220
@@ -9950,14 +9868,13 @@ msgstr ""
 #: camel/providers/local/camel-maildir-store.c:106
 #: camel/providers/local/camel-mh-store.c:202
 #: camel/providers/local/camel-spool-store.c:163
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not open folder `%s':\n"
 "%s"
 msgstr ""
-"Kan ikkje fjerna post frå\n"
-"postboksen '%1':\n"
-"%2"
+"Kan ikkje opna mappa «%s»: \n"
+"%s"
 
 #: camel/providers/local/camel-maildir-store.c:110
 #: camel/providers/local/camel-mbox-store.c:156
@@ -9970,11 +9887,13 @@ msgstr "Mappa «%s» eksisterar ikkje."
 #: camel/providers/local/camel-maildir-store.c:117
 #: camel/providers/local/camel-mh-store.c:216
 #: camel/providers/local/camel-spool-store.c:172
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not create folder `%s':\n"
 "%s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr ""
+"Kan ikkje laga mappa «%s»:\n"
+"%s"
 
 #: camel/providers/local/camel-maildir-store.c:132
 #, c-format
@@ -9984,9 +9903,9 @@ msgstr ""
 #: camel/providers/local/camel-maildir-store.c:167
 #: camel/providers/local/camel-maildir-store.c:205
 #: camel/providers/local/camel-mh-store.c:252
-#, fuzzy, c-format
+#, c-format
 msgid "Could not delete folder `%s': %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje sletta mappa «%s»: %s"
 
 #: camel/providers/local/camel-maildir-store.c:169
 msgid "not a maildir directory"
@@ -9995,18 +9914,15 @@ msgstr ""
 #: camel/providers/local/camel-maildir-store.c:335
 #: camel/providers/local/camel-spool-store.c:286
 #: camel/providers/local/camel-spool-store.c:316
-#, fuzzy, c-format
+#, c-format
 msgid "Could not scan folder `%s': %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kunne ikkje søka gjennom mappa «%s»: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:417
 #: camel/providers/local/camel-maildir-summary.c:548
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open maildir directory path: %s: %s"
-msgstr ""
-"Kan ikkje fjerna post frå\n"
-"postboksen '%1':\n"
-"%2"
+msgstr "Kan ikkje opna maildir-katalogstien: %s: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:541
 #, fuzzy
@@ -10028,17 +9944,14 @@ msgstr "Lagrar mappe"
 
 #: camel/providers/local/camel-mbox-folder.c:230
 #: camel/providers/local/camel-spool-folder.c:148
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder lock on %s: %s"
-msgstr "Leitar etter tilleggsmodular"
+msgstr "Kan ikkje låsa mappa «%s»: %s"
 
 #: camel/providers/local/camel-mbox-folder.c:289
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open mailbox: %s: %s\n"
-msgstr ""
-"Kan ikkje fjerna post frå\n"
-"postboksen '%1':\n"
-"%2"
+msgstr "Kan ikkje opna postboksen: %s %s\n"
 
 #: camel/providers/local/camel-mbox-folder.c:349
 #, fuzzy
@@ -10053,11 +9966,13 @@ msgstr ""
 #: camel/providers/local/camel-mbox-folder.c:440
 #: camel/providers/local/camel-mbox-folder.c:471
 #: camel/providers/local/camel-mbox-folder.c:479
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot get message: %s from folder %s\n"
 "  %s"
-msgstr "Mottek meldingar frå %1"
+msgstr ""
+"Kan ikkje henta melding: %s frå mappa «%s»\n"
+"  %s"
 
 #: camel/providers/local/camel-mbox-folder.c:472
 msgid "The folder appears to be irrecoverably corrupted."
@@ -10068,21 +9983,22 @@ msgid "Message construction failed: Corrupt mailbox?"
 msgstr ""
 
 #: camel/providers/local/camel-mbox-store.c:148
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not open file `%s':\n"
 "%s"
 msgstr ""
-"Kan ikkje fjerna post frå\n"
-"postboksen '%1':\n"
-"%2"
+"Kan ikkje opna fila «%s»:\n"
+"%s"
 
 #: camel/providers/local/camel-mbox-store.c:165
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not create file `%s':\n"
 "%s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr ""
+"Kan ikkje laga fila «%s»:\n"
+"%s"
 
 #: camel/providers/local/camel-mbox-store.c:175
 #: camel/providers/local/camel-mbox-store.c:216
@@ -10093,11 +10009,13 @@ msgstr "«%s» er ikkje ei vanleg fil."
 #: camel/providers/local/camel-mbox-store.c:197
 #: camel/providers/local/camel-mbox-store.c:208
 #: camel/providers/local/camel-mbox-store.c:231
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not delete folder `%s':\n"
 "%s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr ""
+"Kan ikkje sletta mappa «%s»:\n"
+"%s"
 
 #: camel/providers/local/camel-mbox-store.c:223
 #, c-format
@@ -10110,24 +10028,19 @@ msgid "Cannot create a folder by this name."
 msgstr "Leitar etter tilleggsmodular"
 
 #: camel/providers/local/camel-mbox-store.c:311
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create directory `%s': %s."
-msgstr ""
-"Kan ikkje laga heimekatalog\n"
-"Feil: %1"
+msgstr "Kan ikkje laga katalogen «%s»: %s"
 
 #: camel/providers/local/camel-mbox-store.c:325
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder: %s: %s"
-msgstr "Leitar etter tilleggsmodular"
+msgstr "Kan ikkje laga mappa: %s: %s"
 
 #: camel/providers/local/camel-mbox-store.c:395
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename %s to %s: %s"
-msgstr ""
-"Kunne ikkje laga mellombels fil\n"
-"%1:\n"
-"%2"
+msgstr "Kan ikkje endra namnet på «%s» til «%s»: %s"
 
 #: camel/providers/local/camel-mbox-store.c:414
 #, fuzzy
@@ -10135,12 +10048,9 @@ msgid "The new folder name is illegal."
 msgstr "Arkivfilnamnet er ikkje gyldig.\n"
 
 #: camel/providers/local/camel-mbox-summary.c:343
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open folder: %s: %s"
-msgstr ""
-"Kan ikkje fjerna post frå\n"
-"postboksen '%1':\n"
-"%2"
+msgstr "Kan ikkje opna mappa: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:391
 #, c-format
@@ -10148,44 +10058,38 @@ msgid "Fatal mail parser error near position %ld in folder %s"
 msgstr ""
 
 #: camel/providers/local/camel-mbox-summary.c:447
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot check folder: %s: %s"
-msgstr "Leitar etter tilleggsmodular"
+msgstr "Kan ikkje sjekka mappa: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:515
 #: camel/providers/local/camel-mbox-summary.c:606
 #: camel/providers/local/camel-spool-summary.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open file: %s: %s"
-msgstr ""
-"Kan ikkje fjerna post frå\n"
-"postboksen '%1':\n"
-"%2"
+msgstr "Kan ikkje opna fila: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:527
 #: camel/providers/local/camel-spool-summary.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open temporary mailbox: %s"
-msgstr ""
-"Kunne ikkje laga mellombels fil\n"
-"%1:\n"
-"%2"
+msgstr "Kan ikkje opna mellombels postboks: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:540
 #: camel/providers/local/camel-mbox-summary.c:704
-#, fuzzy, c-format
+#, c-format
 msgid "Could not close source folder %s: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje lukka kjeldamappa %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:549
-#, fuzzy, c-format
+#, c-format
 msgid "Could not close temp folder: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje lukka mellombels mappe: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:560
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename folder: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje endra namnet på mappa: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:644
 #: camel/providers/local/camel-mbox-summary.c:652
@@ -10196,14 +10100,14 @@ msgstr ""
 
 #: camel/providers/local/camel-mbox-summary.c:779
 #: camel/providers/local/camel-spool-summary.c:334
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown error: %s"
-msgstr "Ukjend feil"
+msgstr "Ukjend feil: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:814
-#, fuzzy, c-format
+#, c-format
 msgid "Could not store folder: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje lagra mappa: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:908
 #: camel/providers/local/camel-mbox-summary.c:934
@@ -10222,9 +10126,9 @@ msgid "MH append message cancelled"
 msgstr "Sender ei melding til ein nettverksspelar"
 
 #: camel/providers/local/camel-mh-folder.c:177
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot append message to mh folder: %s: %s"
-msgstr "Mottek meldingar frå %1"
+msgstr "Kan ikkje leggja til melding i mh-mappe: %s: %s"
 
 #: camel/providers/local/camel-mh-store.c:229
 #, c-format
@@ -10232,24 +10136,24 @@ msgid "`%s' is not a directory."
 msgstr "«%s» er ikkje ein katalog"
 
 #: camel/providers/local/camel-mh-summary.c:244
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open MH directory path: %s: %s"
-msgstr "Kan ikkje opna katalogen %1"
+msgstr "Kan ikkje opna MH-katalogsti: %s: %s"
 
 #: camel/providers/local/camel-spool-store.c:122
 #, fuzzy, c-format
 msgid "Spool `%s' cannot be opened: %s"
-msgstr "Denne mappa kan ikkje fjernast."
+msgstr "Spool «%s» kan ikkje opnast: %s"
 
 #: camel/providers/local/camel-spool-store.c:134
-#, fuzzy, c-format
+#, c-format
 msgid "Spool `%s' is not a regular file or directory"
-msgstr "er ei vanleg fil"
+msgstr "Spool «%s» er ikkje ei vanleg fil eller katalog"
 
 #: camel/providers/local/camel-spool-store.c:153
-#, fuzzy, c-format
+#, c-format
 msgid "Folder `%s/%s' does not exist."
-msgstr "Fila finst ikkje\n"
+msgstr "Mappa «%s/%s» finst ikkje."
 
 #: camel/providers/local/camel-spool-store.c:180
 #, fuzzy, c-format
@@ -10261,16 +10165,15 @@ msgid "Store does not support an INBOX"
 msgstr ""
 
 #: camel/providers/local/camel-spool-store.c:209
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 msgid "Spool mail file %s"
-msgstr ""
-"Feil ved lesing a fil:\n"
-"%1"
+msgstr "Spool e-post-fil %s"
 
 #: camel/providers/local/camel-spool-store.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "Spool folder tree %s"
-msgstr "Denne mappa kan ikkje fjernast."
+msgstr "Tre av spool-mapper %s"
 
 #: camel/providers/local/camel-spool-store.c:217
 #, fuzzy
@@ -10285,17 +10188,15 @@ msgstr "Denne mappa kan ikkje slettast."
 #: camel/providers/local/camel-spool-summary.c:175
 #: camel/providers/local/camel-spool-summary.c:185
 #: camel/providers/local/camel-spool-summary.c:195
-#, fuzzy, c-format
+#, c-format
 msgid "Could not sync temporary folder %s: %s"
-msgstr ""
-"Kunne ikkje laga mellombels fil\n"
-"%1:\n"
-"%2"
+msgstr "Kunne ikkje synkronisera mellombels mappe %s: %s"
 
 #: camel/providers/local/camel-spool-summary.c:211
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 msgid "Could not sync spool folder %s: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kunne ikkje synkronisera spool-mappe %s: %s"
 
 #: camel/providers/local/camel-spool-summary.c:242
 #: camel/providers/local/camel-spool-summary.c:261
@@ -10307,9 +10208,9 @@ msgid ""
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
-#, fuzzy, c-format
+#, c-format
 msgid "Please enter the NNTP password for %s@%s"
-msgstr "Oppgi ditt OpenPGP-passord"
+msgstr "Skriv inn NNTP-passordet for %s@%s"
 
 #: camel/providers/nntp/camel-nntp-auth.c:64
 msgid "Server rejected username"
@@ -10336,9 +10237,9 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-folder.c:494
 #: camel/providers/pop3/camel-pop3-folder.c:501
 #: camel/providers/pop3/camel-pop3-folder.c:512
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get message %s: %s"
-msgstr "Kan ikkje setja blokkstorleik for band."
+msgstr "Kan ikkje henta melding %s: %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:159
 #: camel/providers/pop3/camel-pop3-folder.c:262
@@ -10356,14 +10257,14 @@ msgstr "Kunne ikkje laga katalog\n"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:98
 #: camel/providers/nntp/camel-nntp-grouplist.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to load grouplist file for %s: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje lasta gruppeliste-fila for %s: %s"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:158
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to save grouplist file for %s: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje lagra gruppeliste-fila for %s: %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:41
 msgid "USENET news"
@@ -10374,16 +10275,14 @@ msgid "This is a provider for reading from and posting toUSENET newsgroups."
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-store.c:149
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read greeting from %s: %s"
-msgstr ""
-"Kan ikkje laga heimekatalog\n"
-"Feil: %1"
+msgstr "Kan ikkje lesa helsing frå %s: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:161
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
-msgstr ""
+msgstr "NNTP-tenaren %s svarte med feilkode %d: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:260
 #, c-format
@@ -10397,14 +10296,14 @@ msgid ""
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-summary.c:237
-#, fuzzy, c-format
+#, c-format
 msgid "No such folder: %s"
-msgstr "Vidaresendt melding"
+msgstr "Mappa finst ikkje: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:241
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get group: %s"
-msgstr "Kunne ikkje laga katalog\n"
+msgstr "Kan ikkje henta gruppa: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:347
 #, fuzzy, c-format
@@ -10413,14 +10312,15 @@ msgstr "IMAP-kommando feila: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:407
 #: camel/providers/nntp/camel-nntp-summary.c:508
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 msgid "%s: Scanning new messages"
-msgstr "Melding"
+msgstr "%s Ser gjennom nye meldingar"
 
 #: camel/providers/nntp/camel-nntp-summary.c:523
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown server response: %s"
-msgstr "Ukjend feil"
+msgstr "Ukjent svar frå tenaren: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:569
 #, fuzzy
@@ -10428,19 +10328,18 @@ msgid "Use cancel"
 msgstr "Avbryt"
 
 #: camel/providers/nntp/camel-nntp-summary.c:571
-#, fuzzy, c-format
+#, c-format
 msgid "Operation failed: %s"
-msgstr "Operasjonen vart avbroten"
+msgstr "Handlinga feila: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:246
-#, fuzzy
 msgid "Retrieving POP summary"
-msgstr "Mottek meldingar frå %1"
+msgstr "Hentar POP-samandrag"
 
 #: camel/providers/pop3/camel-pop3-folder.c:265
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get POP summary: %s"
-msgstr "Leitar etter tilleggsmodular"
+msgstr "Kan ikkje henta POP-samandrag: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:308
 #, fuzzy
@@ -10448,16 +10347,16 @@ msgid "Expunging deleted messages"
 msgstr "Sentrer dei valte elementa"
 
 #: camel/providers/pop3/camel-pop3-folder.c:404
-#, fuzzy, c-format
+#, c-format
 msgid "No message with uid %s"
-msgstr "Lag meldingar og slå saman"
+msgstr "Inga melding med uid %s"
 
 #. Sigh, most of the crap in this function is so that the cancel button
 #. returns the proper exception code.  Sigh.
 #: camel/providers/pop3/camel-pop3-folder.c:411
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving POP message %d"
-msgstr "Mottek meldingar frå %1"
+msgstr "Hentar POP-melding %d"
 
 #: camel/providers/pop3/camel-pop3-folder.c:501
 #, fuzzy
@@ -10465,14 +10364,14 @@ msgid "Unknown reason"
 msgstr "Kjende program"
 
 #: camel/providers/pop3/camel-pop3-provider.c:40
-#, fuzzy
 msgid "Leave messages on server"
-msgstr "&La e-posten liggja på tenaren."
+msgstr "Lat e-posten liggja på tenaren"
 
 #: camel/providers/pop3/camel-pop3-provider.c:43
-#, fuzzy, c-format
+#, c-format
+# TRN: Støgg plural
 msgid "Delete after %s day(s)"
-msgstr "Slett denne adressa"
+msgstr "Slett etter %s dag(ar)"
 
 #: camel/providers/pop3/camel-pop3-provider.c:46
 msgid "Disable support for all POP3 extensions"
@@ -10500,34 +10399,36 @@ msgid ""
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-store.c:187
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server %s (port %d): %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje kopla til POP-tenaren %s (port %d): %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:219
 #: camel/providers/pop3/camel-pop3-store.c:248
 #: camel/providers/pop3/camel-pop3-store.c:260
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje kopla til POP-tenaren %s på ein sikker måte: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:358
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje kopla til POP-tenaren %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:399
 #: camel/providers/pop3/camel-pop3-store.c:509
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
 "mechanism."
-msgstr "Autentisering:"
+msgstr ""
+"Kan ikkje kopla til POP-tenaren %s: Den etterpsurde autentiseringsmetoden er "
+"ikkje støtta."
 
 #: camel/providers/pop3/camel-pop3-store.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
-msgstr "IMAP-kommando feila: %s"
+msgstr "SASL «%s»-innlogging feila for POP-tenaren «%s»: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:427
 #, c-format
@@ -10535,22 +10436,24 @@ msgid "Cannot login to POP server %s: SASL Protocol error"
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-store.c:446
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to authenticate on POP server %s: %s"
-msgstr "Kunne ikkje starta underprosess."
+msgstr "Autentisering mot POP-tenaren «%s» feila: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:468
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the POP password for %s@%s"
-msgstr "Oppgi ditt OpenPGP-passord"
+msgstr "%sSkriv inn POP-passordet for %s@%s"
 
 #: camel/providers/pop3/camel-pop3-store.c:523
 #: camel/providers/pop3/camel-pop3-store.c:530
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
 "Error sending password: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr ""
+"Kan ikkje kopla til POP-tenaren «%s».\n"
+"Feil ved sending av passord: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:629
 #, c-format
@@ -10569,14 +10472,13 @@ msgid ""
 msgstr ""
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
-#, fuzzy
 msgid "Could not parse recipient list"
-msgstr "Klarter ikkje å tolke URL frå «%s»"
+msgstr "Kan ikkje tolka mottakarlista"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje laga røyr til sendmail: %s: Meldinga vart ikkje sendt"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:165
 #, c-format
@@ -10584,9 +10486,9 @@ msgid "Could not fork sendmail: %s: mail not sent"
 msgstr ""
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "Could not send message: %s"
-msgstr "Vidaresendt melding frå %1"
+msgstr "Kunne ikkje senda meldinga: %s"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:233
 #, c-format
@@ -10724,15 +10626,14 @@ msgid "Authentication required"
 msgstr "Autentisering:"
 
 #: camel/providers/smtp/camel-smtp-transport.c:298
-#, fuzzy
 msgid "Welcome response error"
-msgstr "Feil svar på RSET: %s"
+msgstr "Feil i velkommen-svar"
 
 #: camel/providers/smtp/camel-smtp-transport.c:342
 #: camel/providers/smtp/camel-smtp-transport.c:381
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje kopla til SMTP-tenaren «%s» på sikker måte: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:343
 #, fuzzy
@@ -10740,32 +10641,34 @@ msgid "server does not appear to support SSL"
 msgstr "Meldinga ser ikkje ut til å vere skikkeleg forma"
 
 #: camel/providers/smtp/camel-smtp-transport.c:357
-#, fuzzy, c-format
+#, c-format
 msgid "STARTTLS request timed out: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Tidsavbrot for STARTTLS-førespurnad: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:372
-#, fuzzy
 msgid "STARTTLS response error"
-msgstr "Feil svar på RSET: %s"
+msgstr "Feil i svar på STARTTLS"
 
 #: camel/providers/smtp/camel-smtp-transport.c:475
-#, fuzzy, c-format
+#, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
-msgstr "Autentisering:"
+msgstr "SMTP-tenaren «%s» støttar ikkje den etterspurde autentiseringstypen %s."
 
 #: camel/providers/smtp/camel-smtp-transport.c:513
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
-msgstr "Oppgi ditt OpenPGP-passord"
+msgstr "%sSkriv inn SMTP-passordet for %s@%s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:532
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
 "%s\n"
 "\n"
-msgstr "Kunne ikkje starta underprosess."
+msgstr ""
+"Kan ikkje autentisera mot SMTP-tenar.\n"
+"%s\n"
+"\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:665
 #, c-format
@@ -10801,14 +10704,13 @@ msgid "SMTP Greeting"
 msgstr "Møte"
 
 #: camel/providers/smtp/camel-smtp-transport.c:926
-#, fuzzy, c-format
+#, c-format
 msgid "HELO request timed out: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Tidasavbrot for HELO-førespurnad: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:948
-#, fuzzy
 msgid "HELO response error"
-msgstr "Feil svar på RSET: %s"
+msgstr "Feil svar på HELO"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1014
 #, fuzzy
@@ -10821,14 +10723,13 @@ msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:1037
 #: camel/providers/smtp/camel-smtp-transport.c:1049
-#, fuzzy, c-format
+#, c-format
 msgid "AUTH request timed out: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Tidsavbrot på AUTH-førespurnad: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1058
-#, fuzzy
 msgid "AUTH request failed."
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "AUTH-førespurnad feila."
 
 #: camel/providers/smtp/camel-smtp-transport.c:1119
 msgid "Bad authentication response from server.\n"
@@ -10840,14 +10741,13 @@ msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:1164
-#, fuzzy
 msgid "MAIL FROM response error"
-msgstr "Feil svar på RSET: %s"
+msgstr "Feil i «MAIL FROM»-svar"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1188
-#, fuzzy, c-format
+#, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Tidsavbrot for «RCPT TO»-førespurnad: %s: meldinga vart ikkje sendt"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1210
 #, c-format
@@ -10855,17 +10755,16 @@ msgid "RCPT TO <%s> failed"
 msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:1249
-#, fuzzy, c-format
+#, c-format
 msgid "DATA request timed out: %s: mail not sent"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Tidsavbrot for DATA-førespurnad: %s: meldinga vart ikkje sendt."
 
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
 #: camel/providers/smtp/camel-smtp-transport.c:1269
-#, fuzzy
 msgid "DATA response error"
-msgstr "Feil svar på RSET: %s"
+msgstr "Feil i DATA-svar"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1310
 #: camel/providers/smtp/camel-smtp-transport.c:1333
@@ -10883,19 +10782,17 @@ msgid "RSET request timed out: %s"
 msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:1396
-#, fuzzy
 msgid "RSET response error"
-msgstr "Feil svar på RSET: %s"
+msgstr "Feil i RSET-svar"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1419
-#, fuzzy, c-format
+#, c-format
 msgid "QUIT request timed out: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Tidsavbrot for QUIT-føespusnad: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1439
-#, fuzzy
 msgid "QUIT response error"
-msgstr "Feil svar på RSET: %s"
+msgstr "Feil i QUIT-svar"
 
 #: composer/e-msg-composer-attachment-bar.c:103
 #, fuzzy, c-format
@@ -10933,14 +10830,14 @@ msgstr "Kunne ikkje lagra melding(ar)."
 
 #: composer/e-msg-composer-attachment.c:168
 #: composer/e-msg-composer-attachment.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "Leitar etter tilleggsmodular"
+msgstr "Kan ikkje leggja ved fila «%s»: %s"
 
 #: composer/e-msg-composer-attachment.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr "er ei vanleg fil"
+msgstr "Kan ikkje leggja ved fila «%s»: Ikkje ei vanleg fil"
 
 #: composer/e-msg-composer-attachment.glade.h:2
 #, fuzzy
@@ -10979,11 +10876,9 @@ msgid "File exists, overwrite?"
 msgstr "Fila eksisterar, skriv over?"
 
 #: composer/e-msg-composer.c:1216
-#, fuzzy, c-format
+#, c-format
 msgid "Error saving file: %s"
-msgstr ""
-"Feil ved lesing a fil:\n"
-"%1"
+msgstr "Feil under lagring av fil: %s"
 
 #: composer/e-msg-composer.c:1239
 #, c-format
@@ -10991,11 +10886,9 @@ msgid "Error loading file: %s"
 msgstr "Feil ved lasting av fil %s"
 
 #: composer/e-msg-composer.c:1277
-#, fuzzy, c-format
+#, c-format
 msgid "Error accessing file: %s"
-msgstr ""
-"Feil ved lesing a fil:\n"
-"%1"
+msgstr "Feil under tilgang til fil: %s"
 
 #: composer/e-msg-composer.c:1285
 #, fuzzy
@@ -11003,34 +10896,40 @@ msgid "Unable to retrieve message from editor"
 msgstr "Kunne ikkje motta fil"
 
 #: composer/e-msg-composer.c:1292
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to seek on file: %s\n"
 "%s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr ""
+"Kan ikkje søka i fil: %s\n"
+"%s"
 
 #: composer/e-msg-composer.c:1299
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to truncate file: %s\n"
 "%s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr ""
+"Kan ikkje kutta av fil: %s\n"
+"%s"
 
 #: composer/e-msg-composer.c:1308
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
 "%s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr ""
+"Kan ikkje kopiera fildeskriptor: %s\n"
+"%s"
 
 #: composer/e-msg-composer.c:1317
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error autosaving message: %s\n"
 " %s"
 msgstr ""
-"Feil ved lesing a fil:\n"
-"%1"
+"Feil under automatisk lagring av meldinga: %s\n"
+" %s"
 
 #: composer/e-msg-composer.c:1414
 msgid ""
@@ -11039,14 +10938,15 @@ msgid ""
 msgstr ""
 
 #: composer/e-msg-composer.c:1577
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
-"Dette er siste trekk.\n"
-"Vil du leggja til fleire trekk?"
+"Meldinga «%s» har ikkje blitt sendt.\n"
+"\n"
+"Vil du lagra endringane?"
 
 #: composer/e-msg-composer.c:1586
 msgid "Warning: Modified Message"
@@ -11457,11 +11357,13 @@ msgid "Cannot initialize Evolution's Executive Summary component."
 msgstr "Kan ikkje initialisera lokale variablar"
 
 #: executive-summary/component/e-summary.c:925
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot open the HTML file:\n"
 "%s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr ""
+"Kan ikkje opna HTML-fila:\n"
+"%s"
 
 #: executive-summary/component/e-summary.c:939
 #, fuzzy, c-format
@@ -11500,14 +11402,14 @@ msgid "Open %s with the default GNOME web browser"
 msgstr ""
 
 #: executive-summary/component/e-summary-url.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "Send an email to %s"
-msgstr "Send ein e-post"
+msgstr "Send ein e-post til %s"
 
 #: executive-summary/component/e-summary-url.c:72
 #, fuzzy, c-format
 msgid "Change the view to %s"
-msgstr "Endra namnet på denne mappa"
+msgstr "Endra visinga til %s"
 
 #: executive-summary/component/e-summary-url.c:73
 #, fuzzy, c-format
@@ -11515,14 +11417,14 @@ msgid "Run %s"
 msgstr "URL: %s"
 
 #: executive-summary/component/e-summary-url.c:75
-#, fuzzy, c-format
+#, c-format
 msgid "Close %s"
-msgstr "Lukk"
+msgstr "Lukk %s"
 
 #: executive-summary/component/e-summary-url.c:76
-#, fuzzy, c-format
+#, c-format
 msgid "Move %s to the left"
-msgstr "Flytt denne mappa til ein annan plass"
+msgstr "Flytt %s til venstre"
 
 #: executive-summary/component/e-summary-url.c:77
 #, c-format
@@ -11540,9 +11442,9 @@ msgid "Move %s into the next row"
 msgstr ""
 
 #: executive-summary/component/e-summary-url.c:80
-#, fuzzy, c-format
+#, c-format
 msgid "Configure %s"
-msgstr "Set opp %1"
+msgstr "Set opp %s"
 
 #: executive-summary/component/e-summary-url.c:553
 #, fuzzy
@@ -11605,9 +11507,9 @@ msgid "1 day ago"
 msgstr "1 dag"
 
 #: filter/filter-datespec.c:68
-#, fuzzy, c-format
+#, c-format
 msgid "%d days ago"
-msgstr " sidan"
+msgstr "%d dagar sidan"
 
 #: filter/filter-datespec.c:69
 #, fuzzy
@@ -11620,23 +11522,22 @@ msgid "%d weeks ago"
 msgstr "%d veker"
 
 #: filter/filter-datespec.c:70
-#, fuzzy
 msgid "1 month ago"
-msgstr "månad"
+msgstr "1 månad sidan"
 
 #: filter/filter-datespec.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "%d months ago"
-msgstr " sidan"
+msgstr "%d månader sidan"
 
 #: filter/filter-datespec.c:71
 msgid "1 year ago"
 msgstr ""
 
 #: filter/filter-datespec.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "%d years ago"
-msgstr " sidan"
+msgstr "%d år sidan"
 
 #: filter/filter-datespec.c:176
 #, fuzzy
@@ -11673,9 +11574,9 @@ msgid "You must specify a file name."
 msgstr "Stilnamn:"
 
 #: filter/filter-file.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "File '%s' does not exist or is not a regular file."
-msgstr "%1 finst, men er inga vanleg fil"
+msgstr "Fila «%s» finst ikkje, eller er ikkje ei vanleg fil."
 
 #: filter/filter-file.c:299
 #, fuzzy
@@ -11797,12 +11698,12 @@ msgid "years"
 msgstr "år"
 
 #: filter/filter-input.c:191
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error in regular expression '%s':\n"
 "%s"
 msgstr ""
-"Feil ved lesing av fil:\n"
+"Feil i det regulære uttrykket «%s»:\n"
 "%s"
 
 #: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
@@ -12428,8 +12329,7 @@ msgid "Composer Preferences"
 msgstr "Redigerarinstillingar"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr "Set opp e-postinnstillingar, inkludert tryggleik og meldingsvising"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
@@ -12757,9 +12657,8 @@ msgid "A_lways encrypt to myself when sending encrypted mail"
 msgstr ""
 
 #: mail/mail-config.glade.h:8
-#, fuzzy
 msgid "Account Editor"
-msgstr "Konto %d"
+msgstr "Kontoredigerar"
 
 #: mail/mail-config.glade.h:9
 #, fuzzy
@@ -12818,9 +12717,8 @@ msgid "Baltic (ISO-8859-4)"
 msgstr ""
 
 #: mail/mail-config.glade.h:25
-#, fuzzy
 msgid "C_haracter set:"
-msgstr "Ukjent teiknsett: %s"
+msgstr "Teiknsett:"
 
 #: mail/mail-config.glade.h:26
 #, fuzzy
@@ -12900,9 +12798,8 @@ msgid "Done"
 msgstr "Ferdig"
 
 #: mail/mail-config.glade.h:48
-#, fuzzy
 msgid "Drafts _folder:"
-msgstr "Lagra i &kladdemappe"
+msgstr "Mappe for _utkast:"
 
 #: mail/mail-config.glade.h:49
 msgid "E_nable"
@@ -13033,9 +12930,8 @@ msgid "Pick a color"
 msgstr "Vel ein farge"
 
 #: mail/mail-config.glade.h:86
-#, fuzzy
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr "Sender meldingar til %1"
+msgstr "Spø_r ved sending av melding som berre har mottakarar i Bcc-feltet"
 
 #: mail/mail-config.glade.h:87
 #, fuzzy
@@ -13043,9 +12939,8 @@ msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "Pretty Good Privacy"
 
 #: mail/mail-config.glade.h:88
-#, fuzzy
 msgid "Printed Fonts"
-msgstr "&Innhald ..."
+msgstr "Skrifttypar til utskrift"
 
 #: mail/mail-config.glade.h:89
 msgid "Qmail maildir "
@@ -13125,9 +13020,8 @@ msgid "Sending Email"
 msgstr "Send"
 
 #: mail/mail-config.glade.h:108
-#, fuzzy
 msgid "Sent _messages folder:"
-msgstr "Mottek meldingar frå %1"
+msgstr "Mappe for sendte _meldingar:"
 
 #: mail/mail-config.glade.h:109
 #, fuzzy
@@ -13233,9 +13127,8 @@ msgid "_Certificate ID:"
 msgstr "_Sertifikat-ID:"
 
 #: mail/mail-config.glade.h:139
-#, fuzzy
 msgid "_Confirm when expunging a folder"
-msgstr "Forventar %1"
+msgstr "Stadfest ved tøming av mappe"
 
 #: mail/mail-config.glade.h:140
 #, fuzzy
@@ -13272,22 +13165,18 @@ msgid "_HTML Mail"
 msgstr "I HTML-e-post"
 
 #: mail/mail-config.glade.h:150
-#, fuzzy
 msgid "_Identity"
-msgstr "Identitet"
+msgstr "_Identitet"
 
 #: mail/mail-config.glade.h:151
-#, fuzzy
 msgid "_Load images if sender is in addressbook"
-msgstr "Last alle bileta i ein katalog"
+msgstr "_Last bileta dersom sendaren står i adresseboka"
 
 #: mail/mail-config.glade.h:152
-#, fuzzy
 msgid "_Make this my default account"
-msgstr "Gjer _dette til min standardkonto"
+msgstr "Gjer _denne til standardkonto"
 
 #: mail/mail-config.glade.h:153
-#, fuzzy
 msgid "_Mark messages as read after"
 msgstr "_Merk meldingar som lest etter"
 
@@ -13297,21 +13186,19 @@ msgstr "_Namn:"
 
 #: mail/mail-config.glade.h:155
 msgid "_Never load images off the net"
-msgstr "Last aldri bileter frå _nettet"
+msgstr "Last aldri bilete frå _nettet"
 
 #: mail/mail-config.glade.h:157
 msgid "_Play sound file when new mail arrives"
 msgstr ""
 
 #: mail/mail-config.glade.h:158
-#, fuzzy
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr "Sender meldingar til %1"
+msgstr "S_pør ved sending av HTML-meldingar til kontaktar som ikkje vil ha slike"
 
 #: mail/mail-config.glade.h:159
-#, fuzzy
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "Sender meldingar til %1"
+msgstr "_Spør ved sending av meldingar med eit tomt emnefelt"
 
 #: mail/mail-config.glade.h:160
 #, fuzzy
@@ -13371,14 +13258,14 @@ msgid "description"
 msgstr "skildring"
 
 #: mail/mail-folder-cache.c:832
-#, fuzzy, c-format
+#, c-format
 msgid "Pinging %s"
-msgstr "Sender %1"
+msgstr "Pingar %s"
 
 #: mail/mail-local.c:541 mail/mail-local.c:543
-#, fuzzy, c-format
+#, c-format
 msgid "Local folders/%s"
-msgstr "Lokale mapper"
+msgstr "Lokale mapper/%s"
 
 #: mail/mail-local.c:711
 #, fuzzy
@@ -13398,9 +13285,9 @@ msgid "Cannot save folder metainfo to %s: %s"
 msgstr "Klarar ikkje å lagre mappemetainfo til %s: %s"
 
 #: mail/mail-local.c:900
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder metadata %s: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje sletta metainformasjon for mappa «%s»: %s"
 
 #: mail/mail-local.c:1363
 #, c-format
@@ -13414,9 +13301,9 @@ msgid ""
 msgstr ""
 
 #: mail/mail-local.c:1488
-#, fuzzy, c-format
+#, c-format
 msgid "Reconfigure /%s"
-msgstr "Set opp %1"
+msgstr "Set opp /%s på nytt"
 
 #: mail/mail-local.c:1552
 #, fuzzy
@@ -13455,9 +13342,9 @@ msgid "Fetching Mail"
 msgstr "Hentar e-post"
 
 #: mail/mail-ops.c:559
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to apply outgoing filters: %s"
-msgstr "Kunne ikkje leggja til melding:\n"
+msgstr ""
 
 #: mail/mail-ops.c:580
 #, c-format
@@ -13467,9 +13354,9 @@ msgid ""
 msgstr ""
 
 #: mail/mail-ops.c:589
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to append to local `Sent' folder: %s"
-msgstr "Kunne ikkje lasta biletet '%1'\n"
+msgstr "Kan ikkje leggja til i lokal «Sendt»-mappe: %s"
 
 #: mail/mail-ops.c:631
 #, c-format
@@ -13482,18 +13369,17 @@ msgid "Sending message %d of %d"
 msgstr "Sender melding %d av %d"
 
 #: mail/mail-ops.c:768
-#, fuzzy, c-format
+#, c-format
 msgid "Failed on message %d of %d"
-msgstr "Markerer meldingar"
+msgstr "Feila på melding %d av %d"
 
 #: mail/mail-ops.c:770
 msgid "Complete."
 msgstr "Ferdig."
 
 #: mail/mail-ops.c:864
-#, fuzzy
 msgid "Saving message to folder"
-msgstr "Mottek meldingar frå %1"
+msgstr "Lagrar meldingar i mappe"
 
 #: mail/mail-ops.c:945
 #, c-format
@@ -13501,9 +13387,9 @@ msgid "Moving messages to %s"
 msgstr "Flyttar meldingar til %s"
 
 #: mail/mail-ops.c:945
-#, fuzzy, c-format
+#, c-format
 msgid "Copying messages to %s"
-msgstr "Melding"
+msgstr "Kopierer meldingar til %s"
 
 #: mail/mail-ops.c:1058
 #, c-format
@@ -13520,9 +13406,9 @@ msgid "Opening folder %s"
 msgstr "Opnar mappe %s"
 
 #: mail/mail-ops.c:1361
-#, fuzzy, c-format
+#, c-format
 msgid "Opening store %s"
-msgstr "Leitar etter tilleggsmodular"
+msgstr "Opnar lager %s"
 
 #: mail/mail-ops.c:1439
 #, c-format
@@ -13539,14 +13425,13 @@ msgid "Refreshing folder"
 msgstr "Friskar opp mappe"
 
 #: mail/mail-ops.c:1620 mail/mail-ops.c:1671
-#, fuzzy
 msgid "Expunging folder"
-msgstr "Forventar %1"
+msgstr "Tømer mappe"
 
 #: mail/mail-ops.c:1668
-#, fuzzy, c-format
+#, c-format
 msgid "Emptying trash in '%s'"
-msgstr "Importerar %s som %s"
+msgstr "Tømer papirkorga i «%s»"
 
 #: mail/mail-ops.c:1669 my-evolution/e-summary-mail.c:483
 #: shell/e-local-storage.c:1151
@@ -13569,31 +13454,35 @@ msgid "Saving %d messsage(s)"
 msgstr "Lagrar %d melding(ar)"
 
 #: mail/mail-ops.c:1948
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to create output file: %s\n"
 " %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr ""
+"Kan ikkje laga utdatafil: %s\n"
+" %s"
 
 #: mail/mail-ops.c:1976
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error saving messages to: %s:\n"
 " %s"
 msgstr ""
-"Feil ved lesing a fil:\n"
-"%1"
+"Feil ved lagring av meldingar til: %s\n"
+" %s"
 
 #: mail/mail-ops.c:2047
 msgid "Saving attachment"
 msgstr "Lagrar vedlegg"
 
 #: mail/mail-ops.c:2064
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot create output file: %s:\n"
 " %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr ""
+"Kan ikkje laga utdatafil: %s\n"
+" %s"
 
 #: mail/mail-ops.c:2094
 #, c-format
@@ -13669,9 +13558,9 @@ msgid "_Remember this password for the remainder of this session"
 msgstr ""
 
 #: mail/mail-signature-editor.c:80
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save signature file: %s"
-msgstr "Klarte ikkje å lagre signaturfil."
+msgstr "Kan ikkje lagra signaturfil: %s"
 
 #: mail/mail-signature-editor.c:226
 #, fuzzy
@@ -13795,20 +13684,19 @@ msgstr "?"
 
 #: mail/message-list.c:1238
 msgid "Today %l:%M %p"
-msgstr "I dag, %H:%M"
+msgstr "I dag, %l:%M:%p"
 
 #: mail/message-list.c:1247
 msgid "Yesterday %l:%M %p"
-msgstr "I går %H:%M"
+msgstr "I går, %l:%M:%p"
 
 #: mail/message-list.c:1259
 msgid "%a %l:%M %p"
-msgstr "%a %H:%M"
+msgstr "%a %l:%M %p"
 
 #: mail/message-list.c:1267
-#, fuzzy
 msgid "%b %d %l:%M %p"
-msgstr "%d. %b %k:%M"
+msgstr "%b %d %l:%M %p"
 
 #: mail/message-list.c:1269
 msgid "%b %d %Y"
@@ -13987,9 +13875,8 @@ msgid "%k:%M %d %B"
 msgstr "%k:%M %d. %B"
 
 #: my-evolution/e-summary-calendar.c:411
-#, fuzzy
 msgid "%l:%M%p %d %B"
-msgstr "%l:%M %d %B"
+msgstr "%l:%M%p %d %B"
 
 #: my-evolution/e-summary-calendar.c:429
 msgid "No description"
@@ -24189,8 +24076,9 @@ msgstr "Tunge snøkorn"
 
 #: my-evolution/metar.c:178
 #, fuzzy
+# TRN: He?
 msgid "Shallow snow grains"
-msgstr "Vis &informasjon"
+msgstr "Grunne snøkorn"
 
 #: my-evolution/metar.c:179
 #, fuzzy
@@ -24346,7 +24234,7 @@ msgstr "Tungt hagl"
 #: my-evolution/metar.c:223
 #, fuzzy
 msgid "Shallow hail"
-msgstr "Vis &alle"
+msgstr "Lett hagl"
 
 #: my-evolution/metar.c:224
 #, fuzzy
@@ -24403,7 +24291,7 @@ msgstr ""
 #: my-evolution/metar.c:238
 #, fuzzy
 msgid "Shallow small hail"
-msgstr "Vis &heile meldingshovudet"
+msgstr "Lett småhagl"
 
 #: my-evolution/metar.c:239
 msgid "Patches of small hail"
@@ -24463,7 +24351,7 @@ msgstr "Anna program"
 #: my-evolution/metar.c:253
 #, fuzzy
 msgid "Shallow precipitation"
-msgstr "Vis &skildring"
+msgstr "Duskregn"
 
 #: my-evolution/metar.c:254
 #, fuzzy
@@ -24576,7 +24464,7 @@ msgstr "Tjukk tåke"
 #: my-evolution/metar.c:283
 #, fuzzy
 msgid "Shallow fog"
-msgstr "Vis &logg"
+msgstr "Lett tåke"
 
 #: my-evolution/metar.c:284
 #, fuzzy
@@ -24622,7 +24510,7 @@ msgstr "Format"
 #: my-evolution/metar.c:297
 #, fuzzy
 msgid "Thick smoke"
-msgstr "&Ur-modus"
+msgstr "Tjukk røyk"
 
 #: my-evolution/metar.c:298
 #, fuzzy
@@ -24651,7 +24539,7 @@ msgstr "Røyk med vind"
 #: my-evolution/metar.c:304
 #, fuzzy
 msgid "Drifting smoke"
-msgstr "&Teiknemodus"
+msgstr "Drivande røyk"
 
 #. VOLCANIC_ASH
 #: my-evolution/metar.c:308
@@ -24743,9 +24631,8 @@ msgid "Blowing sand"
 msgstr "lastar fil"
 
 #: my-evolution/metar.c:334
-#, fuzzy
 msgid "Drifting sand"
-msgstr "Redigeringsko&mmando"
+msgstr "Drivsand"
 
 #. HAZE
 #: my-evolution/metar.c:338
@@ -24768,9 +24655,8 @@ msgid "Moderate haze"
 msgstr "moderert"
 
 #: my-evolution/metar.c:342
-#, fuzzy
 msgid "Thick haze"
-msgstr "&Breidd"
+msgstr "Tjukk tåke"
 
 #: my-evolution/metar.c:343
 #, fuzzy
@@ -24811,7 +24697,7 @@ msgstr "Sprut"
 #: my-evolution/metar.c:354
 #, fuzzy
 msgid "Spray in the vicinity"
-msgstr "Vis &linjetal"
+msgstr "Yr i området"
 
 #: my-evolution/metar.c:355
 #, fuzzy
@@ -24854,9 +24740,8 @@ msgid "Drifting spray"
 msgstr "Skriv med grånyansar"
 
 #: my-evolution/metar.c:365
-#, fuzzy
 msgid "Freezing spray"
-msgstr "&Helsingstekst:"
+msgstr ""
 
 #. DUST
 #: my-evolution/metar.c:368
@@ -24983,9 +24868,8 @@ msgid "Thunderous sandstorm"
 msgstr "Skiljeteikn for tusental:"
 
 #: my-evolution/metar.c:407
-#, fuzzy
 msgid "Blowing sandstorm"
-msgstr "&Under redigeringsvindauget"
+msgstr ""
 
 #: my-evolution/metar.c:409
 msgid "Drifting sandstorm"
@@ -25065,9 +24949,8 @@ msgid "Thick funnel cloud"
 msgstr ""
 
 #: my-evolution/metar.c:433
-#, fuzzy
 msgid "Shallow funnel cloud"
-msgstr "Vis &linjetal"
+msgstr ""
 
 #: my-evolution/metar.c:434
 msgid "Patches of funnel clouds"
@@ -25190,19 +25073,17 @@ msgid "One w_eek"
 msgstr "Ei v_eke"
 
 #: my-evolution/my-evolution.glade.h:9
-#, fuzzy
 msgid "R_efresh time (seconds):"
-msgstr "&Oppfriskingsrate:"
+msgstr "Oppdat_eringstid (sekund):"
 
 #: my-evolution/my-evolution.glade.h:10
-#, fuzzy
 msgid "Refresh _time (seconds):"
-msgstr "&Oppfriskingsrate:"
+msgstr "Oppda_teringstid (sekund):"
 
 #: my-evolution/my-evolution.glade.h:11
 #, fuzzy
 msgid "Schedule"
-msgstr "&Plan"
+msgstr "Plan"
 
 #: my-evolution/my-evolution.glade.h:12
 msgid "Show _all tasks"
@@ -25240,9 +25121,8 @@ msgid "_Five days"
 msgstr "_Fem dagar"
 
 #: my-evolution/my-evolution.glade.h:21
-#, fuzzy
 msgid "_Max number of items shown:"
-msgstr "&Høgste tal på hopp:"
+msgstr "_Høgste tal på oppføringar som skal visast:"
 
 #: my-evolution/my-evolution.glade.h:22
 #, fuzzy
@@ -25289,16 +25169,18 @@ msgid "Cancel Operation"
 msgstr "Avbryt operasjon"
 
 #: shell/e-folder-dnd-bridge.c:55
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot transfer folder:\n"
 "%s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr ""
+"Kan ikkje overføra mappe:\n"
+"%s"
 
 #: shell/e-folder-list.c:122 shell/evolution-folder-selector-button.c:128
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" in \"%s\""
-msgstr "Opne i %s ..."
+msgstr "«%s» i «%s»"
 
 #: shell/e-folder-list.c:338
 #, fuzzy
@@ -25328,21 +25210,24 @@ msgid "Could not update files correctly"
 msgstr "Kunne ikkje laga kio-jobb.\n"
 
 #: shell/e-setup.c:167
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot create the directory\n"
 "%s\n"
 "Error: %s"
 msgstr ""
-"Kan ikkje laga heimekatalog\n"
-"Feil: %1"
+"Kan ikkje laga katalogen\n"
+"%s\n"
+"Feil: %s"
 
 #: shell/e-setup.c:178
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An error occurred in copying files into\n"
 "`%s'."
-msgstr "Ein feil oppstod ved lagring."
+msgstr ""
+"Ein feil oppsto under kopiering av filer til\n"
+"«%s»."
 
 #: shell/e-setup.c:244
 #, c-format
@@ -25373,9 +25258,9 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell.c:741
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot set up local storage -- %s"
-msgstr "Kan ikkje setja blokkstorleik for band."
+msgstr "Kan ikkje setja opp lokal lagring -- %s"
 
 #: shell/e-shell.c:1804
 #, c-format
@@ -25428,14 +25313,14 @@ msgid "Autocompletion Folders"
 msgstr "Fullføringsdato"
 
 #: shell/e-shell-folder-commands.c:140
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy folder: %s"
-msgstr "Leitar etter tilleggsmodular"
+msgstr "Kan ikkje kopiera mappe: %s"
 
 #: shell/e-shell-folder-commands.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot move folder: %s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje flytta mappe: %s"
 
 #: shell/e-shell-folder-commands.c:188
 #, fuzzy
@@ -25443,9 +25328,8 @@ msgid "Cannot move a folder over itself."
 msgstr "Kan ikkje flytta mappe "
 
 #: shell/e-shell-folder-commands.c:190
-#, fuzzy
 msgid "Cannot copy a folder over itself."
-msgstr "kan ikkje opna fila %1"
+msgstr "Kan ikkje kopiera ei mappe oppå seg sjølv."
 
 #: shell/e-shell-folder-commands.c:204
 #, fuzzy
@@ -25473,16 +25357,18 @@ msgid "Move Folder"
 msgstr "Flytt til mappe"
 
 #: shell/e-shell-folder-commands.c:391
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot delete folder:\n"
 "%s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr ""
+"Kan ikkje sletta mappe:\n"
+"%s"
 
 #: shell/e-shell-folder-commands.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "Really delete folder \"%s\"?"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Verkeleg sletta mappa «%s»?"
 
 #: shell/e-shell-folder-commands.c:416
 #, c-format
@@ -25490,16 +25376,18 @@ msgid "Delete \"%s\""
 msgstr "Slett «%s»"
 
 #: shell/e-shell-folder-commands.c:489
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot rename folder:\n"
 "%s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr ""
+"Kan ikkje endra namn på mappa:\n"
+"%s"
 
 #: shell/e-shell-folder-commands.c:534
-#, fuzzy, c-format
+#, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr "Endra namn på profil '%1'"
+msgstr "Endra namn på mappa «%s» til:"
 
 #: shell/e-shell-folder-commands.c:541
 #, fuzzy
@@ -25813,8 +25701,7 @@ msgid "(None)"
 msgstr "(Ingen)"
 
 #: shell/e-shell-view.c:2083
-msgid ""
-"Ximian Evolution is currently online.  Click on this button to work offline."
+msgid "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 
 #: shell/e-shell-view.c:2090
@@ -25822,8 +25709,7 @@ msgid "Ximian Evolution is in the process of going offline."
 msgstr ""
 
 #: shell/e-shell-view.c:2096
-msgid ""
-"Ximian Evolution is currently offline.  Click on this button to work online."
+msgid "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 
 #: shell/e-shell-view-menu.c:89
@@ -25968,9 +25854,8 @@ msgid "_Hide the Shortcut Bar"
 msgstr ""
 
 #: shell/e-shortcuts-view.c:283
-#, fuzzy
 msgid "Hide the shortcut bar"
-msgstr "&Programsnøggtastar"
+msgstr "Gøym snarveglinja"
 
 #: shell/e-shortcuts-view.c:288
 #, fuzzy
@@ -26519,9 +26404,8 @@ msgid "Shutting down %s (%s)\n"
 msgstr ""
 
 #: ui/evolution-addressbook.xml.h:3
-#, fuzzy
 msgid "Copy Contact(s) to Another Folder..."
-msgstr "&Kopier bileteplassering"
+msgstr "Kopier kontaktar til ei anna mappe ..."
 
 #: ui/evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
@@ -26567,9 +26451,8 @@ msgid "Print Pre_view"
 msgstr "Førehands_vising av utskrift"
 
 #: ui/evolution-addressbook.xml.h:18
-#, fuzzy
 msgid "Print selected contacts"
-msgstr "&Innhald ..."
+msgstr "Skriv ut merka kontaktar"
 
 #: ui/evolution-addressbook.xml.h:20
 #, fuzzy
@@ -26663,9 +26546,8 @@ msgid "Delete All Occurrences"
 msgstr "Slettar klassen"
 
 #: ui/evolution-calendar.xml.h:6
-#, fuzzy
 msgid "Delete the appointment"
-msgstr "&Slett avtale"
+msgstr "Slett avtalen"
 
 #: ui/evolution-calendar.xml.h:7
 #, fuzzy
@@ -26825,9 +26707,8 @@ msgid "_Save"
 msgstr "_Lagre"
 
 #: ui/evolution-composer-entries.xml.h:1
-#, fuzzy
 msgid "Copy selected text to the clipboard"
-msgstr "&Kopier bileteplassering"
+msgstr "Kopier den merka teksten til utklippstavla"
 
 #: ui/evolution-composer-entries.xml.h:2 ui/evolution-mail-message.xml.h:21
 msgid "Cu_t"
@@ -27014,9 +26895,8 @@ msgid "Change the properties of this folder"
 msgstr "Endra namnet på spelarane"
 
 #: ui/evolution-mail-list.xml.h:2 ui/evolution-mail-message.xml.h:10
-#, fuzzy
 msgid "Copy selected message(s) to the clipboard"
-msgstr "&Kopier bileteplassering"
+msgstr "Kopier dei merka meldingane til utklippstavla"
 
 #: ui/evolution-mail-list.xml.h:3 ui/evolution-mail-message.xml.h:22
 #, fuzzy
@@ -27041,8 +26921,7 @@ msgid "Hide _Read Messages"
 msgstr "Skjul _lesne meldingar"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 
 #: ui/evolution-mail-list.xml.h:9
@@ -27168,9 +27047,8 @@ msgid "Compose a reply to the sender of the selected message"
 msgstr "Fann ikkje sendaren av denne meldinga"
 
 #: ui/evolution-mail-message.xml.h:11
-#, fuzzy
 msgid "Copy selected messages to another folder"
-msgstr "&Kopier bileteplassering"
+msgstr "Kopier dei merka meldingane til ei anna mappe"
 
 #: ui/evolution-mail-message.xml.h:12
 #, fuzzy
@@ -27232,9 +27110,8 @@ msgid "Display the next unread message"
 msgstr "Vis informasjonsmelding"
 
 #: ui/evolution-mail-message.xml.h:28
-#, fuzzy
 msgid "Display the next unread thread"
-msgstr "Neste ulesne &tråd"
+msgstr "Vis den neste ulesne tråden"
 
 #: ui/evolution-mail-message.xml.h:29
 #, fuzzy
@@ -29973,3 +29850,4 @@ msgstr "Evolutions addressebok minikortlesar"
 
 #~ msgid "<dd><b>The weather server could not be contacted</b></dd>"
 #~ msgstr "<dd><b>Klarte ikkje å kontakte vêrtenaren</b></dd>"
+
