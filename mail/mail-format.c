@@ -64,7 +64,7 @@ static char *try_inline_binhex (char *start, CamelMimePart *part,
 static gboolean handle_text_plain            (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
-static gboolean handle_text_plain_flowed     (char *text, CamelMimePart *part,
+static gboolean handle_text_plain_flowed     (char *text,
 					      MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
 static gboolean handle_text_enriched         (CamelMimePart *part,
 					      const char *mime_type,
@@ -200,17 +200,21 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md,
 				  TRUE, NULL, html, NULL))
 		return;
 	
+	mail_html_write (html, stream,
+			 "<table cellspacing=0 cellpadding=10 width=\"100%\"><tr><td><tt>\n");
+	
 	bytes = mail_format_get_data_wrapper_text (CAMEL_DATA_WRAPPER (mime_message), md);
 	if (bytes) {
 		g_byte_array_append (bytes, "", 1);
 		html_str = e_text_to_html (bytes->data, E_TEXT_TO_HTML_CONVERT_NL |
 					   E_TEXT_TO_HTML_CONVERT_SPACES | E_TEXT_TO_HTML_ESCAPE_8BIT);
 		g_byte_array_free (bytes, TRUE);
-		mail_html_write (html, stream, "<tt>");
+		
 		mail_html_write (html, stream, html_str);
 		g_free (html_str);
-		mail_html_write (html, stream, "</tt>");
 	}
+	
+	mail_html_write (html, stream, "</tt></td></tr></table>");
 }
 
 static const char *
@@ -665,8 +669,8 @@ attachment_header (CamelMimePart *part, const char *mime_type, MailDisplay *md,
 	}
 	
 	mail_html_write (html, stream, "</font></td></tr><tr>"
-			 "<td height=10><table cellspacing=0 cellpadding=0>"
-			 "<tr><td height=10><a name=\"glue\"></td></tr></table></td></tr></table>\n");
+			 "<td height=10><table height=10 cellspacing=0 cellpadding=0>"
+			 "<tr><td></td></tr></table></td></tr></table>\n");
 }
 
 static gboolean
@@ -1009,7 +1013,7 @@ write_headers (CamelMimeMessage *message, MailDisplay *md,
 		stream,
 		"<table width=\"100%%\" cellpadding=0 cellspacing=0>"
 		/* Top margin */
-		"<tr><td colspan=3 height=10><table cellpadding=0 cellspacing=0><tr><td height=10><a name=\"glue\"></td></tr></table></td></tr>"
+		"<tr><td colspan=3 height=10><table height=10 cellpadding=0 cellspacing=0><tr><td></td></tr></table></td></tr>"
 		/* Left margin */
 		"<tr><td><table width=10 cellpadding=0 cellspacing=0><tr><td></td></tr></table></td>"
 		/* Black border */
@@ -1197,13 +1201,18 @@ struct {
 static int num_specials = (sizeof (text_specials) / sizeof (text_specials[0]));
 
 static void
-write_one_text_plain_chunk (MailDisplay *md, CamelMimePart *part, gint idx, const char *text, int len, GtkHTML *html, GtkHTMLStream *stream, gboolean printing)
+write_one_text_plain_chunk (const char *text, int len, GtkHTML *html, GtkHTMLStream *stream, gboolean printing)
 {
 	char *buf;
 	
+	mail_html_write (html, stream,
+			 "<table cellspacing=0 cellpadding=10 width=\"100%\"><tr><td>\n");
+	
 	buf = g_strndup (text, len);
-	mail_text_write  (html, stream, md, part, idx, printing, buf);
+	mail_text_write  (html, stream, printing, buf);
 	g_free (buf);
+	
+	mail_html_write (html, stream, "</td></tr></table>\n");
 }
 
 static gboolean
@@ -1217,7 +1226,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	char *p, *start, *text;
 	const char *format;
 	GByteArray *bytes;
-	int i, idx = 0;
+	int i;
 	
 	bytes = mail_format_get_data_wrapper_text (wrapper, md);
 	if (!bytes)
@@ -1240,7 +1249,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	type = camel_mime_part_get_content_type (part);
 	format = header_content_type_param (type, "format");
 	if (format && !g_strcasecmp (format, "flowed"))
-		return handle_text_plain_flowed (text, part, md, html, stream);
+		return handle_text_plain_flowed (text, md, html, stream);
 	
 	/* Only look for binhex and stuff if this is real text/plain.
 	 * (and not, say, application/mac-binhex40 that mail-identify
@@ -1262,7 +1271,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 		
 		/* Deal with special case */
 		if (start != p)
-			write_one_text_plain_chunk (md, part, idx ++, p, start - p, html, stream, md->printing);
+			write_one_text_plain_chunk (p, start - p, html, stream, md->printing);
 		
 		p = text_specials[i].handler (start, part, start - text, md, html, stream);
 		if (p == start) {
@@ -1276,13 +1285,13 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 				break;
 			}
 			p++;
-			write_one_text_plain_chunk (md, part, idx ++, start, p - start, html, stream, md->printing);
+			write_one_text_plain_chunk (start, p - start, html, stream, md->printing);
 		} else if (p)
 			write_hr (html, stream);
 	}
 	/* Finish up (or do the whole thing if there were no specials). */
 	if (p)
-		write_one_text_plain_chunk (md, part, idx ++, p, strlen (p), html, stream, md->printing);
+		write_one_text_plain_chunk (p, strlen (p), html, stream, md->printing);
 	
 	g_free (text);
 	
@@ -1290,16 +1299,15 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 }
 
 static gboolean
-handle_text_plain_flowed (char *buf, CamelMimePart *part, MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream)
+handle_text_plain_flowed (char *buf, MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream)
 {
 	char *text, *line, *eol, *p;
 	int prevquoting = 0, quoting, len, br_pending = 0;
 	guint32 citation_color = mail_config_get_citation_color ();
-	GByteArray *ba;
-	gchar *iframe, *xed;
-
-	ba = g_byte_array_new ();
-	g_byte_array_append (ba, "\n<!-- text/plain, flowed -->\n<tt>\n", 34);
+	
+	mail_html_write (html, stream,
+			 "\n<!-- text/plain, flowed -->\n"
+			 "<table cellspacing=0 cellpadding=10 width=\"100%\"><tr><td>\n<tt>\n");
 	
 	for (line = buf; *line; line = eol + 1) {
 		/* Process next line */
@@ -1313,30 +1321,22 @@ handle_text_plain_flowed (char *buf, CamelMimePart *part, MailDisplay *md, GtkHT
 		if (quoting != prevquoting) {
 			if (prevquoting == 0) {
 				if (md->printing)
-					g_byte_array_append (ba, "<i>", 3);
-				else {
-					gchar num [7];
-					g_byte_array_append (ba, "<font color=\"#", 14);
-					g_snprintf (num, 6, "%06x", citation_color);
-					g_byte_array_append (ba, num, 6);
-					g_byte_array_append (ba, "\">", 2);
-				}
+					mail_html_write (html, stream, "<i>");
+				else
+					gtk_html_stream_printf (stream, "<font color=\"#%06x\">", citation_color);
 				if (br_pending)
 					br_pending--;
 			}
 			while (quoting > prevquoting) {
-				g_byte_array_append (ba, "<blockquote type=\"cite\">", 24);
+				mail_html_write (html, stream, "<blockquote type=\"cite\">");
 				prevquoting++;
 			}
 			while (quoting < prevquoting) {
-				g_byte_array_append (ba, "</blockquote>", 13);
+				mail_html_write (html, stream, "</blockquote>");
 				prevquoting--;
 			}
 			if (quoting == 0) {
-				if (md->printing)
-					g_byte_array_append (ba, "</i>", 4);
-				else
-					g_byte_array_append (ba, "</font>\n", 8);
+				mail_html_write (html, stream, md->printing ? "</i>" : "</font>\n");
 				if (br_pending)
 					br_pending--;
 			}
@@ -1353,7 +1353,7 @@ handle_text_plain_flowed (char *buf, CamelMimePart *part, MailDisplay *md, GtkHT
 		}
 		
 		while (br_pending) {
-			g_byte_array_append (ba, "<br>\n", 5);
+			mail_html_write (html, stream, "<br>\n");
 			br_pending--;
 		}
 		
@@ -1363,7 +1363,7 @@ handle_text_plain_flowed (char *buf, CamelMimePart *part, MailDisplay *md, GtkHT
 				       E_TEXT_TO_HTML_CONVERT_SPACES :
 				       E_TEXT_TO_HTML_CONVERT_SPACES | E_TEXT_TO_HTML_CONVERT_URLS);
 		if (text && *text)
-			g_byte_array_append (ba, text, strlen (text));
+			mail_html_write (html, stream, text);
 		g_free (text);
 		
 		if ((len > 0 && p[len - 1]) != ' ' || !strcmp (p, "-- "))
@@ -1375,13 +1375,7 @@ handle_text_plain_flowed (char *buf, CamelMimePart *part, MailDisplay *md, GtkHT
 	
 	g_free (buf);
 	
-	g_byte_array_append (ba, "</tt>\n", 6);
-
-	xed = g_strdup_printf ("x-evolution-data:%p", part);
-	iframe = g_strdup_printf ("<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>", xed, xed);
-	mail_display_add_url (md, "data_urls", xed, ba);
-	mail_html_write (html, stream, iframe);
-	g_free (iframe);
+	mail_html_write (html, stream, "</tt>\n</td></tr></table>\n");
 	
 	return TRUE;
 }
@@ -1673,7 +1667,7 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	g_string_free (string, TRUE);
 	
 	xed = g_strdup_printf ("x-evolution-data:%p", part);
-	gtk_html_stream_printf (stream, "<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>", xed, xed);
+	gtk_html_stream_printf (stream, "<iframe src=\"%s\" frameborder=0 scrolling=no></iframe>", xed);
 	mail_display_add_url (md, "data_urls", xed, ba);
 	
 	return TRUE;
@@ -1707,7 +1701,7 @@ handle_text_html (CamelMimePart *part, const char *mime_type,
 	location = get_location (part, md);
 	if (!location)
 		location = get_cid (part, md);
-	gtk_html_stream_printf (stream, "<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>", location, location);
+	gtk_html_stream_printf (stream, "<iframe src=\"%s\" frameborder=0 scrolling=no></iframe>", location);
 	return TRUE;
 }
 
@@ -1841,8 +1835,8 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 				    "Click the lock icon for more information."));
 		
 		mail_html_write (html, stream,
-				 "</font></td></tr><tr><td height=10><table cellspacing=0 cellpadding=0>"
-				 "<tr><td height=10 ><a name=\"glue\"></td></tr></table></td></tr></table>\n");
+				 "</font></td></tr><tr><td height=10><table height=10 cellspacing=0 cellpadding=0>"
+				 "<tr><td></td></tr></table></td></tr></table>\n");
 	} else {
 		CamelCipherValidity *valid = NULL;
 		CamelException ex;
@@ -1887,7 +1881,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 		
 		if (message) {
 			gtk_html_stream_printf (stream, "<font size=-1 %s>", good || md->printing ? "" : "color=red");
-			mail_text_write (html, stream, md, part, 0, md->printing, message);
+			mail_text_write (html, stream, md->printing, message);
 			mail_html_write (html, stream, "</font>");
 		}
 		

@@ -212,19 +212,6 @@
 	* component-factory.c (storage_xfer_folder): Dont translate / to
 	dir_sep anymore, we always use /.
 
-2002-08-30  Radek Doulik  <rodo@ximian.com>
-
-	* mail-display.c (mail_display_render): don't set margins for raw
-	message view
-
-	* mail-format.c (mail_format_raw_message): as below
-	(handle_text_plain_flowed): as below
-	(mail_format_raw_message): don't use data_urls
-
-	* mail-display.c (mail_text_write): put text in iframe, so it has
-	margins and should not be placed in table which changes wrapping
-	behavior
-
 2002-08-29  Peter Williams  <peterw@ximian.com>
 
 	* folder-browser-ui.c: Add HAS_FLAGS to a few miscellaneous commands
