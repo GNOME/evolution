@@ -948,7 +948,6 @@ static gboolean
 create_new_event (CalendarComponent *calendar_component, CalendarComponentView *component_view, gboolean is_allday, gboolean is_meeting)
 {
 	ECal *ecal;
-	gboolean read_only;
 	ECalendarView *view;
 
 	ecal = setup_create_ecal (calendar_component, component_view);

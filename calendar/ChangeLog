@@ -1,3 +1,7 @@
+2004-06-22  JP Rosevear  <jpr@novell.com>
+
+	* gui/calendar-component.c (create_new_event): kill warning
+
 2004-06-22  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/dialogs/Makefile.am: removed alarm-page.*.
