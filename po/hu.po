@@ -25,7 +25,7 @@ msgstr "Nem tudom az Evolúció levelezõ komponensét elindítani."
 #: calendar/conduits/calendar/calendar-conduit.c:1150
 #: calendar/conduits/todo/todo-conduit.c:965 calendar/gui/main.c:55
 msgid "Could not initialize Bonobo"
-msgstr "Nem tudom a bonobo-t elindítani"
+msgstr "A Bonobo inicializálása nem sikerült"
 
 #: addressbook/gui/widgets/test-minicard-view.c:100
 msgid "Reflow Test"
@@ -180,9 +180,8 @@ msgid "Cannot initialize Evolution's notes component."
 msgstr "Nem tudom az Evolúció levelezõ komponensét elindítani."
 
 #: notes/main.c:30
-#, fuzzy
 msgid "Notes Component: Could not initialize bonobo"
-msgstr "Nem tudom a bonobo-t elindítani"
+msgstr "Notes komponens: A Bonobo inicializálása nem sikerült"
 
 #: addressbook/backend/ebook/e-card.c:3049
 msgid "Card: "
@@ -1987,7 +1986,7 @@ msgstr "VHKSCPS"
 #: camel/camel-movemail.c:183
 #, fuzzy, c-format
 msgid "Could not create lock file for %s: %s"
-msgstr "Nem tudok GPG/PGP programot pipe-olni: %s"
+msgstr ""
 
 #: camel/camel-lock.c:149 camel/camel-movemail.c:217
 #, c-format
@@ -2042,7 +2041,7 @@ msgstr ""
 #: camel/camel-movemail.c:304
 #, fuzzy, c-format
 msgid "Could not create pipe: %s"
-msgstr "Nem tudok GPG/PGP programot pipe-olni: %s"
+msgstr ""
 
 #: camel/camel-movemail.c:316
 #, c-format
@@ -2160,7 +2159,7 @@ msgstr ""
 msgid ""
 "Could not get Kerberos ticket:\n"
 "%s"
-msgstr "Nem tudok GPG/PGP programot pipe-olni: %s"
+msgstr ""
 
 #: camel/providers/imap/camel-imap-auth.c:205
 msgid "Bad authentication response from server."
@@ -2645,7 +2644,7 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:215
 #, fuzzy, c-format
 msgid "Could not authenticate to KPOP server: %s"
-msgstr "Nem tudok GPG/PGP programot pipe-olni: %s"
+msgstr ""
 
 #: camel/providers/pop3/camel-pop3-store.c:335
 #, c-format
@@ -2700,7 +2699,7 @@ msgstr ""
 #: camel/providers/sendmail/camel-sendmail-transport.c:105
 #, fuzzy, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
-msgstr "Nem tudok GPG/PGP programot pipe-olni: %s"
+msgstr ""
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:122
 #, c-format
@@ -2810,17 +2809,17 @@ msgstr ""
 #: camel/providers/smtp/camel-smtp-transport.c:558
 #, fuzzy, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
-msgstr "Nem tudok GPG/PGP programot pipe-olni: %s"
+msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:574
 #, fuzzy
 msgid "RCPT TO response error: mail not sent"
-msgstr "Nem tudok GPG/PGP programot pipe-olni: %s"
+msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:604
 #, fuzzy, c-format
 msgid "DATA request timed out: %s: mail not sent"
-msgstr "Nem tudok GPG/PGP programot pipe-olni: %s"
+msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:620
 #, c-format
@@ -4175,7 +4174,7 @@ msgstr "A lekérdezést megszakítottad."
 #: mail/mail-tools.c:189
 #, fuzzy, c-format
 msgid "Couldn't create temporary mbox `%s': %s"
-msgstr "Nem tudok GPG/PGP programot pipe-olni: %s"
+msgstr ""
 
 #. Get all uids of source
 #: mail/mail-tools.c:241
@@ -4378,7 +4377,7 @@ msgstr ""
 #: mail/openpgp-utils.c:905 mail/openpgp-utils.c:1054
 #, c-format
 msgid "Couldn't create pipe to GPG/PGP: %s"
-msgstr "Nem tudok GPG/PGP programot pipe-olni: %s"
+msgstr "Nem sikerült csõvezetéket létrehozni a GPG/PGP-hez: %s"
 
 #: mail/openpgp-utils.c:566 mail/openpgp-utils.c:611 mail/openpgp-utils.c:650
 msgid "No recipients specified"
@@ -4387,7 +4386,7 @@ msgstr ""
 #: mail/openpgp-utils.c:1065
 #, fuzzy, c-format
 msgid "Couldn't create temp file: %s"
-msgstr "Nem tudok GPG/PGP programot pipe-olni: %s"
+msgstr ""
 
 #: mail/subscribe-dialog.c:62 shell/e-storage-set-view.c:44
 #, fuzzy
@@ -7026,4 +7025,4 @@ msgstr "Csoportosítás %i"
 
 #, fuzzy
 #~ msgid "Couldn't create pipe to %s: %s"
-#~ msgstr "Nem tudok GPG/PGP programot pipe-olni: %s"
+#~ msgstr ""
