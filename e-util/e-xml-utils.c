@@ -699,8 +699,8 @@ e_xml_save_file (const char *filename, xmlDocPtr doc)
 	size_t n, written = 0;
 	xmlBufferPtr buf;
 	int errnosave;
+	int ret, fd;
 	ssize_t w;
-	int fd;
 	
 	filesave = alloca (strlen (filename) + 5);
 	slash = strrchr (filename, '/');
@@ -742,9 +742,10 @@ e_xml_save_file (const char *filename, xmlDocPtr doc)
 		return -1;
 	}
 	
-	close (fd);
+	while ((ret = close (fd)) == -1 && errno == EINTR)
+		;
 	
-	if (errno != 0)
+	if (ret == -1)
 		return -1;
 	
 	if (rename (filesave, filename) == -1) {
