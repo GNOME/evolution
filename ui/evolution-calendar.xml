@@ -20,7 +20,7 @@
 	
 
 				<menuitem name="CalendarSaveAs" verb=""
-				_label="_Save Calendar As"
+				_label="_Save As..."
 				_tip="Save calendar as something else"
                                 accel="*Control*a"/>
 

@@ -1,3 +1,7 @@
+2000-12-19  JP Rosevear  <jpr@helixcode.com>
+
+	* evolution-calendar.xml: Fix bug #635
+
 2000-12-18  Chris Toshok  <toshok@helixcode.com>
 
 	* evolution-addressbook.xml: give View->As Table its verb back so
