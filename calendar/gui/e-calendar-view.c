@@ -341,10 +341,12 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 	ECalComponent *comp;
 	struct icaltimetype itime, old_dtstart, old_dtend;
 	time_t tt_start, tt_end, new_dtstart;
-	struct icaldurationtype ic_dur;
+	struct icaldurationtype ic_dur, ic_oneday;
 	char *uid;
 	gint start_offset, end_offset;
-	gboolean all_day_event;
+	gboolean all_day_event = FALSE;
+	GnomeCalendarViewType view_type;
+	ECalComponentDateTime dt;
 
 	start_offset = 0;
 	end_offset = 0;
@@ -361,11 +363,37 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 		end_offset = old_dtstart.hour * 60 + old_dtend.minute;
 	}
 
-	if (start_offset == 0 && end_offset == 0 && in_top_canvas)
-		all_day_event = TRUE;
-	else
-		all_day_event = FALSE;
+	ic_oneday = icaldurationtype_null_duration ();
+	ic_oneday.days = 1;
 
+	view_type = gnome_calendar_get_view (cal_view->priv->calendar);
+
+	switch (view_type) {
+	case GNOME_CAL_DAY_VIEW:
+	case GNOME_CAL_WORK_WEEK_VIEW:
+		if (start_offset == 0 && end_offset == 0 && in_top_canvas)
+			all_day_event = TRUE;
+		
+		if (all_day_event) {
+			ic_dur = ic_oneday;
+		} else if (icaldurationtype_as_int (ic_dur) >= 60*60*24
+				&& !in_top_canvas) {
+			/* copy & paste from top canvas to main canvas */
+			int time_divisions;
+
+			time_divisions = calendar_config_get_time_divisions ();
+			ic_dur = icaldurationtype_from_int (time_divisions * 60);
+		}
+		break;
+	case GNOME_CAL_WEEK_VIEW:
+	case GNOME_CAL_MONTH_VIEW:
+	case GNOME_CAL_LIST_VIEW:
+		if (old_dtstart.is_date && old_dtend.is_date
+			&& memcmp (&ic_dur, &ic_oneday, sizeof(ic_dur)) == 0)
+			all_day_event = TRUE;
+		break;
+	}
+	
 	if (in_top_canvas)
 		new_dtstart = dtstart + start_offset * 60;
 	else
@@ -376,6 +404,7 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 		itime.is_date = TRUE;
 	icalcomponent_set_dtstart (icalcomp, itime);
 
+	itime.is_date = FALSE;
 	itime = icaltime_add (itime, ic_dur);
 	if (all_day_event)
 		itime.is_date = TRUE;
@@ -387,6 +416,16 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 	e_cal_component_set_icalcomponent (
 		comp, icalcomponent_new_clone (icalcomp));
 	e_cal_component_set_uid (comp, uid);
+
+	/* set the timezone properly */
+	dt.value = &itime;
+	e_cal_component_get_dtstart (comp, &dt);
+	dt.tzid = icaltimezone_get_tzid (default_zone);
+	e_cal_component_set_dtstart (comp, &dt);
+	e_cal_component_get_dtend (comp, &dt);
+	dt.tzid = icaltimezone_get_tzid (default_zone);
+	e_cal_component_set_dtend (comp, &dt);
+	e_cal_component_commit_sequence (comp);
 
 	/* FIXME Error handling */
 	if (e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), NULL, NULL)) {
@@ -761,6 +800,7 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView
 	time_t selected_time_start, selected_time_end;
 	icaltimezone *default_zone;
 	ECal *client;
+	gboolean in_top_canvas;
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
@@ -780,6 +820,11 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView
 	e_calendar_view_set_status_message (cal_view, _("Updating objects"));
 	e_calendar_view_get_selected_time_range (cal_view, &selected_time_start, &selected_time_end);
 
+	if ((selected_time_end - selected_time_start) == 60 * 60 * 24)
+		in_top_canvas = TRUE;
+	else
+		in_top_canvas = FALSE;
+
 	/* FIXME Timezone handling */
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
 		icalcomponent_kind child_kind;
@@ -790,7 +835,7 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView
 			child_kind = icalcomponent_isa (subcomp);
 			if (child_kind == ICAL_VEVENT_COMPONENT)
 				e_calendar_view_add_event (cal_view, client, selected_time_start, 
-						      default_zone, subcomp, FALSE);
+						      default_zone, subcomp, in_top_canvas);
 			else if (child_kind == ICAL_VTIMEZONE_COMPONENT) {
 				icaltimezone *zone;
 
@@ -808,7 +853,7 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView
 		icalcomponent_free (icalcomp);
 
 	} else {
-		e_calendar_view_add_event (cal_view, client, selected_time_start, default_zone, icalcomp, FALSE);
+		e_calendar_view_add_event (cal_view, client, selected_time_start, default_zone, icalcomp, in_top_canvas);
 	}
 
 	e_calendar_view_set_status_message (cal_view, NULL);

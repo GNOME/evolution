@@ -1,5 +1,31 @@
 2004-02-18  Kidd Wang  <kidd.wang@sun.com>
 
+	* gui/e-cal-view.c: (e_calendar_view_add_event),
+	(clipboard_get_text_cb): make copy & paste and drag & drop behave
+	the same way described as follows:
+	In day view and work week view
+		from main canvas to top canvas
+			before copy or drag: short event
+			after paste or drop: all-day event
+		from main canvas to main canvas
+			before copy or drag: short event
+			after paste or drop: short event
+		from top canvas to top canvas
+			before copy or drag: all-day event
+			after paste or drop: all-day event			
+			before copy or drag: long event
+			after paste or drop: long event
+		from top canvas to main canvas
+			before copy or drag: all-day event
+			after paste or drop: short event
+			before copy or drag: long event
+			after paste or drop: short event
+	In week view, month view and list view life is pretty simple since
+	there's no top canvas in these three views. We just get what we copy
+	or drag after we perform paste or drop.
+
+2004-02-18  Kidd Wang  <kidd.wang@sun.com>
+
 	* gui/itip-utils.c: (itip_send_comp): set the string length properly.
 
 2004-02-16  Rodrigo Moya <rodrigo@ximian.com>
