@@ -472,6 +472,8 @@ gal_view_collection_load              (GalViewCollection *collection)
 	g_return_if_fail (collection->system_dir != NULL);
 	g_return_if_fail (!collection->loaded);
 
+	e_create_directory(collection->local_dir);
+
 	load_single_dir(collection, collection->local_dir, TRUE);
 	load_single_dir(collection, collection->system_dir, FALSE);
 	gal_view_collection_changed(collection);
@@ -498,8 +500,6 @@ gal_view_collection_save              (GalViewCollection *collection)
 	g_return_if_fail (collection != NULL);
 	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
 	g_return_if_fail (collection->local_dir != NULL);
-
-	e_create_directory(collection->local_dir);
 
 	doc = xmlNewDoc("1.0");
 	root = xmlNewNode(NULL, "GalViewCollection");
