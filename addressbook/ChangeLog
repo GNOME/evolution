@@ -1,3 +1,8 @@
+2001-08-20  Damon Chaplin  <damon@ximian.com>
+
+	* gui/component/addressbook.c: use 'Save As' icon rather than 'Save'
+	as it seems more appropriate. Also added delete icon for menu.
+
 2001-08-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-component.c: Update the folder list to
