@@ -20,7 +20,7 @@ msgstr ""
 #.
 #: addressbook/contact-editor/e-contact-editor-strings.h:7
 msgid "Contact Editor"
-msgstr "Urejevalec stikov"
+msgstr "Urejevalnik stikov"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:8
 msgid "_Full Name..."
@@ -52,7 +52,7 @@ msgstr "_Doma"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:15
 msgid "Business _Fax"
-msgstr "Poslovni _Faks"
+msgstr "Poslovni _faks"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:16
 msgid "_Mobile"
@@ -80,7 +80,7 @@ msgstr "Ka_tegorije..."
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:22
 msgid "_Job title:"
-msgstr "Slu¾beni _Naziv:"
+msgstr "Slu¾beni _naziv:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:23
 msgid "_Company:"
@@ -120,7 +120,7 @@ msgstr "_Ime pomoènika:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:32
 msgid "_Manager's Name:"
-msgstr "Ime _Upravnika:"
+msgstr "Ime _upravnika:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:33
 msgid "Anni_versary:"
@@ -162,7 +162,7 @@ msgstr "Dodaj"
 #.
 #: addressbook/contact-editor/fullname-strings.h:7
 msgid "Check Full Name"
-msgstr "Preveri Polno Ime"
+msgstr "Preveri polno ime"
 
 #: addressbook/contact-editor/fullname-strings.h:8
 msgid "_Title:"
