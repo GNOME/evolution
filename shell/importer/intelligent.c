@@ -206,7 +206,7 @@ create_gui (GList *importers)
 	d->clist = clist = gtk_clist_new (1);
 	gtk_clist_set_selection_mode (GTK_CLIST (d->clist), GTK_SELECTION_MULTIPLE);
 	
-	label = gtk_label_new (_("Evolution has found the following data sources:"));
+	label = gtk_label_new (_("Evolution can import data from the following files:"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, .5);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label,
 			    TRUE, TRUE, 0);

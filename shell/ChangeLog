@@ -1,3 +1,11 @@
+2001-08-13  Anna Marie Dirks  <anna@ximian.com> 
+
+	* importer/intelligent.c : Changed the "Evolution has found the 
+	following data sources" text in the import dialog to "Evolution
+	can import data from the following files" in an attempt to 
+	increase user-friendliness.
+	
+
 2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view.c (setup_widgets): Add some little padding to the
@@ -10,7 +18,7 @@
 
 	* e-shell.c (e_shell_construct): Connect
 	`gtk_widget_hide_on_delete()' correctly.
-
+	
 2001-08-13  Anna Marie Dirks  <anna@ximian.com>
 
 	* importer/import.glade : Changed all instances of "druid"
