@@ -1,9 +1,10 @@
 2002-01-09  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* providers/local/camel-mbox-folder.c (camel_mbox_folder_new): If
-	the mbox file is a symlink, follow the symlink and get the One
-	True Path so that we can rewrite the mbox later without worrying
-	about clobbering the symlink.
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): If the mbox file is a symlink,
+	follow the symlink and get the One True Path so that we can
+	rewrite the mbox later without worrying about clobbering the
+	symlink.
 
 2002-01-08  Jeffrey Stedfast  <fejj@ximian.com>
 
