@@ -73,7 +73,6 @@ static char *list_e_table_spec =
 	"  <ETableState>"
 	"    <column source=\"0\"/>"
 	"    <grouping>"
-	"      <leaf column=\"0\" ascending=\"true\"/>"
 	"    </grouping>"
 	"  </ETableState>"
 	"</ETableSpecification>";
