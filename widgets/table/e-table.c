@@ -430,13 +430,17 @@ click_to_add_cursor_change (ETableClickToAdd *etcta, int row, int col, ETable *e
 static void
 group_cursor_change (ETableGroup *etg, int row, ETable *et)
 {
-	if (et->cursor_loc == E_TABLE_CURSOR_LOC_ETCTA && et->click_to_add) {
-		e_table_click_to_add_commit(E_TABLE_CLICK_TO_ADD(et->click_to_add));
-	}
+	ETableCursorLoc old_cursor_loc;
+
+	old_cursor_loc = et->cursor_loc;
+
 	et->cursor_loc = E_TABLE_CURSOR_LOC_TABLE;
 	gtk_signal_emit (GTK_OBJECT (et),
 			 et_signals [CURSOR_CHANGE],
 			 row);
+
+	if (old_cursor_loc == E_TABLE_CURSOR_LOC_ETCTA && et->click_to_add)
+		e_table_click_to_add_commit(E_TABLE_CLICK_TO_ADD(et->click_to_add));
 }
 
 static void
