@@ -185,18 +185,18 @@ gnome_calendar_new (char *title)
 	return retval;
 }
 
-void
-gnome_calendar_update_all (GnomeCalendar *cal)
+static void
+gnome_calendar_update_all (GnomeCalendar *cal, iCalObject *object, int flags)
 {
-	gncal_full_day_update (GNCAL_FULL_DAY (cal->day_view));
-	gncal_week_view_update (GNCAL_WEEK_VIEW (cal->week_view));
+	gncal_full_day_update (GNCAL_FULL_DAY (cal->day_view), object, flags);
+	gncal_week_view_update (GNCAL_WEEK_VIEW (cal->week_view), object, flags);
 }
 
 void
 gnome_calendar_load (GnomeCalendar *gcal, char *file)
 {
 	calendar_load (gcal->cal, file);
-	gnome_calendar_update_all (gcal);
+	gnome_calendar_update_all (gcal, NULL, 0);
 }
 
 void
@@ -205,11 +205,11 @@ gnome_calendar_add_object (GnomeCalendar *gcal, iCalObject *obj)
 	printf ("Adding object at: ");
 	print_time_t (obj->dtstart);
 	calendar_add_object (gcal->cal, obj);
-	gnome_calendar_update_all (gcal);
+	gnome_calendar_update_all (gcal, obj, CHANGE_NEW);
 }
 
 void
-gnome_calendar_object_changed (GnomeCalendar *gcal, iCalObject *obj)
+gnome_calendar_object_changed (GnomeCalendar *gcal, iCalObject *obj, int flags)
 {
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
@@ -222,5 +222,5 @@ gnome_calendar_object_changed (GnomeCalendar *gcal, iCalObject *obj)
 
 	gcal->cal->modified = TRUE;
 
-	gnome_calendar_update_all (gcal);
+	gnome_calendar_update_all (gcal, obj, flags);
 }

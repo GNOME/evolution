@@ -14,7 +14,7 @@
 
 
 #define TEXT_BORDER 2
-#define HANDLE_SIZE 3
+#define HANDLE_SIZE 8
 #define MIN_WIDTH 200
 #define XOR_RECT_WIDTH 2
 #define UNSELECT_TIMEOUT 150 /* ms */
@@ -173,9 +173,9 @@ child_set_text_pos (Child *child)
 	GtkAllocation allocation;
 
 	allocation.x = 0;
-	allocation.y = HANDLE_SIZE;
+	allocation.y = (GTK_WIDGET_HAS_FOCUS (child->widget) ? HANDLE_SIZE : 0);
 	allocation.width = child->width;
-	allocation.height = child->height - 2 * HANDLE_SIZE;
+	allocation.height = child->height - (GTK_WIDGET_HAS_FOCUS (child->widget) ? (2 * HANDLE_SIZE) : 0);
 
 	gtk_widget_size_request (child->widget, &child->widget->requisition); /* FIXME: is this needed? */
 	gtk_widget_size_allocate (child->widget, &allocation);
@@ -297,18 +297,43 @@ child_realized_setup (GtkWidget *widget, gpointer data)
 }
 
 static gint
-child_focus_out (GtkWidget *widget, GdkEventFocus *event, gpointer data)
+child_focus_in (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
 	Child *child;
 
 	child = data;
+
+	/* Paint handles on child */
+
+	child_set_text_pos (child);
+
+	return FALSE;
+}
+
+static gint
+child_focus_out (GtkWidget *widget, GdkEventFocus *event, gpointer data)
+{
+	Child *child;
+	GncalFullDay *fullday;
+
+	child = data;
+
+	/* Update summary in calendar object */
 
 	if (child->ico->summary)
 		g_free (child->ico->summary);
 
 	child->ico->summary = gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
 
-	/* FIXME: need notify calendar of change? */
+	/* Erase handles from child */
+
+	child_set_text_pos (child);
+
+	/* Notify calendar of change */
+
+	fullday = gtk_object_get_user_data (GTK_OBJECT (widget));
+
+	gnome_calendar_object_changed (fullday->calendar, child->ico, CHANGE_SUMMARY);
 
 	return FALSE;
 }
@@ -328,6 +353,8 @@ child_new (GncalFullDay *fullday, iCalObject *ico)
 	child->width = 0;
 	child->height = 0;
 
+	gtk_object_set_user_data (GTK_OBJECT (child->widget), fullday);
+
 	child_range_changed (fullday, child);
 
 	/* We set the i-beam cursor and the initial summary text upon realization */
@@ -336,11 +363,13 @@ child_new (GncalFullDay *fullday, iCalObject *ico)
 			    (GtkSignalFunc) child_realized_setup,
 			    child);
 
-	/* Update the iCalObject summary when the text widget loses focus */
+	gtk_signal_connect_after (GTK_OBJECT (child->widget), "focus_in_event",
+				  (GtkSignalFunc) child_focus_in,
+				  child);
 
-	gtk_signal_connect (GTK_OBJECT (child->widget), "focus_out_event",
-			    (GtkSignalFunc) child_focus_out,
-			    child);
+	gtk_signal_connect_after (GTK_OBJECT (child->widget), "focus_out_event",
+				  (GtkSignalFunc) child_focus_out,
+				  child);
 
 	/* Finish setup */
 
@@ -1354,7 +1383,7 @@ update_from_drag_info (GncalFullDay *fullday)
 
 	/* Notify calendar of change */
 
-	gnome_calendar_object_changed (fullday->calendar, di->child->ico);
+	gnome_calendar_object_changed (fullday->calendar, di->child->ico, CHANGE_DATES);
 }
 
 static gint
@@ -1569,7 +1598,7 @@ gncal_full_day_foreach (GtkContainer *container, GtkCallback callback, gpointer 
 }
 
 void
-gncal_full_day_update (GncalFullDay *fullday)
+gncal_full_day_update (GncalFullDay *fullday, iCalObject *ico, int flags)
 {
 	GList *children;
 	GList *l_events, *events;
@@ -1580,6 +1609,24 @@ gncal_full_day_update (GncalFullDay *fullday)
 
 	if (!fullday->calendar->cal)
 		return;
+
+	/* Try to find child that changed */
+
+	for (children = fullday->children; children; children = children->next) {
+		child = children->data;
+
+		if (child->ico == ico)
+			break;
+	}
+
+	/* If child was found and nothing but the summary changed, we can just paint the child and return */
+
+	if (children && !(flags & ~CHANGE_SUMMARY)) {
+		child_draw (fullday, child, NULL, TRUE);
+		return;
+	}
+
+	/* We have to regenerate and layout our list of children */
 
 	for (children = fullday->children; children; children = children->next)
 		child_destroy (fullday, children->data);
@@ -1633,7 +1680,7 @@ gncal_full_day_set_bounds (GncalFullDay *fullday, time_t lower, time_t upper)
 
 		di->sel_rows_used = 0; /* clear selection */
 
-		gncal_full_day_update (fullday);
+		gncal_full_day_update (fullday, NULL, 0);
 	}
 }
 
@@ -1663,19 +1710,19 @@ gncal_full_day_selection_range (GncalFullDay *fullday, time_t *lower, time_t *up
 }
 
 void
-gncal_full_day_focus_child (GncalFullDay *fullday, iCalObject *object)
+gncal_full_day_focus_child (GncalFullDay *fullday, iCalObject *ico)
 {
 	GList *children;
 	Child *child;
 	GdkEvent event;
 
 	g_return_if_fail (fullday != NULL);
-	g_return_if_fail (object != NULL);
+	g_return_if_fail (ico != NULL);
 
 	for (children = fullday->children; children; children = children->next) {
 		child = children->data;
 
-		if (child->ico == object) {
+		if (child->ico == ico) {
 			gtk_widget_grab_focus (child->widget);
 
 			/* We synthesize a click because GtkText will not set the cursor and

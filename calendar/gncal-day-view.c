@@ -114,7 +114,7 @@ gncal_day_view_new (GnomeCalendar *calendar, time_t lower, time_t upper)
 	dview->upper    = upper;
 	dview->events   = 0;
 
-	gncal_day_view_update (dview);
+	gncal_day_view_update (dview, NULL, 0);
 
 	return GTK_WIDGET (dview);
 }
@@ -284,7 +284,7 @@ gncal_day_view_expose (GtkWidget *widget, GdkEventExpose *event)
 }
 
 void
-gncal_day_view_update (GncalDayView *dview)
+gncal_day_view_update (GncalDayView *dview, iCalObject *ico, int flags)
 {
 	struct tm tm;
 	char buf[256];
@@ -323,7 +323,7 @@ gncal_day_view_set_bounds (GncalDayView *dview, time_t lower, time_t upper)
 		dview->lower = lower;
 		dview->upper = upper;
 
-		gncal_day_view_update (dview);
+		gncal_day_view_update (dview, NULL, 0);
 	}
 }
 

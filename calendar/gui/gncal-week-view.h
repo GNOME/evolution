@@ -42,11 +42,11 @@ struct _GncalWeekViewClass {
 };
 
 
-guint      gncal_week_view_get_type (void);
-GtkWidget *gncal_week_view_new      (GnomeCalendar *calendar, time_t start_of_week);
+guint      gncal_week_view_get_type       (void);
+GtkWidget *gncal_week_view_new            (GnomeCalendar *calendar, time_t start_of_week);
 
-void       gncal_week_view_update   (GncalWeekView *wview);
-void       gncal_week_view_set      (GncalWeekView *wview, time_t start_of_week);
+void       gncal_week_view_update         (GncalWeekView *wview, iCalObject *ico, int flags);
+void       gncal_week_view_set            (GncalWeekView *wview, time_t start_of_week);
 
 
 END_GNOME_DECLS

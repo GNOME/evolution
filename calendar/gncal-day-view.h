@@ -46,7 +46,7 @@ struct _GncalDayViewClass {
 guint      gncal_day_view_get_type     (void);
 GtkWidget *gncal_day_view_new          (GnomeCalendar *calendar, time_t lower, time_t upper);
 
-void       gncal_day_view_update       (GncalDayView *dview);
+void       gncal_day_view_update       (GncalDayView *dview, iCalObject *ico, int flags);
 void       gncal_day_view_set_bounds   (GncalDayView *dview, time_t lower, time_t upper);
 
 void       gncal_day_view_set_shadow   (GncalDayView *dview, GtkShadowType shadow_type);

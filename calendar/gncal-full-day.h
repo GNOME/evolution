@@ -52,7 +52,7 @@ struct _GncalFullDayClass {
 guint      gncal_full_day_get_type        (void);
 GtkWidget *gncal_full_day_new             (GnomeCalendar *calendar, time_t lower, time_t upper);
 
-void       gncal_full_day_update          (GncalFullDay *fullday);
+void       gncal_full_day_update          (GncalFullDay *fullday, iCalObject *ico, int flags);
 void       gncal_full_day_set_bounds      (GncalFullDay *fullday, time_t lower, time_t upper);
 
 /* Returns the selected range in lower and upper.  If nothing is
@@ -60,7 +60,7 @@ void       gncal_full_day_set_bounds      (GncalFullDay *fullday, time_t lower, 
  */
 int        gncal_full_day_selection_range (GncalFullDay *fullday, time_t *lower, time_t *upper);
 
-void       gncal_full_day_focus_child     (GncalFullDay *fullday, iCalObject *object);
+void       gncal_full_day_focus_child     (GncalFullDay *fullday, iCalObject *ico);
 
 END_GNOME_DECLS
 

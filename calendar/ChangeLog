@@ -1,5 +1,25 @@
 1998-04-13  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* gncal-week-view.c (gncal_week_view_update): Now takes object and
+	flags parameters.
+	* gncal-day-view.c (gncal_day_view_update): Likewise.
+	* gncal-full-day.c (gncal_full_day_update): Likewise.
+	(child_focus_in): New function.  In conjunction with
+	child_focus_out(), these only display the handles in the child
+	when it is focused.  The result is that the user can see more of
+	the child's text when nothing is focused, and we can also display
+	fatter and nicer drag handles.
+
+	* gnome-cal.c (gnome_calendar_object_changed): Now takes an
+	additional flags parameter 
+	(gnome_calendar_update_all): Made function static.  Now takes
+	changed object and flags parameters as well.
+	(gnome_calendar_object_changed): Now takes additional flags
+	parameter to indicate what changed in the specified object.
+
+	* calobj.h (CalObjectChange): New enum with flags to describe what
+	has been changed in an object.
+
 	* gncal-full-day.h: 
 	* gncal-full-day.c (gncal_full_day_focus_child): New function to
 	let the outside world decide which child to focus.

@@ -105,24 +105,24 @@ gncal_week_view_new (GnomeCalendar *calendar, time_t start_of_week)
 }
 
 static void
-update (GncalWeekView *wview, int update_days)
+update (GncalWeekView *wview, int update_days, iCalObject *object, int flags)
 {
 	int i;
 
 	if (update_days)
 		for (i = 0; i < 7; i++)
-			gncal_day_view_update (wview->days[i]);
+			gncal_day_view_update (wview->days[i], object, flags);
 
 	/* FIXME: update extra widgets */
 }
 
 void
-gncal_week_view_update (GncalWeekView *wview)
+gncal_week_view_update (GncalWeekView *wview, iCalObject *ico, int flags)
 {
 	g_return_if_fail (wview != NULL);
 	g_return_if_fail (GNCAL_IS_WEEK_VIEW (wview));
 
-	update (wview, TRUE);
+	update (wview, TRUE, ico, flags);
 }
 
 void
@@ -166,5 +166,5 @@ gncal_week_view_set (GncalWeekView *wview, time_t start_of_week)
 		day_start = day_end;
 	}
 
-	update (wview, FALSE);
+	update (wview, FALSE, NULL, 0);
 }

@@ -85,6 +85,13 @@ typedef struct {
 	int frequency;
 } Recurrence;
 
+/* Flags to indicate what has changed in an object */
+typedef enum {
+	CHANGE_NEW     = 1 << 0,	/* new object */
+	CHANGE_SUMMARY = 1 << 1,	/* summary */
+	CHANGE_DATES   = 1 << 2		/* dtstart / dtend */
+} CalObjectChange;
+
 /*
  * This describes an iCalendar object, note that we never store durations, instead we
  * always compute the end time computed from the start + duration.
