@@ -1506,6 +1506,8 @@ get_message_simple (CamelImapFolder *imap_folder, const char *uid,
 		    CamelStream *stream, CamelException *ex)
 {
 	CamelMimeMessage *msg;
+	CamelImapStore *imap_store =
+		CAMEL_IMAP_STORE (CAMEL_FOLDER (imap_folder)->parent_store);
 
 	if (!stream) {
 		stream = camel_imap_folder_fetch_data (imap_folder, uid, "",
@@ -1518,6 +1520,10 @@ get_message_simple (CamelImapFolder *imap_folder, const char *uid,
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg),
 						  stream);
 	camel_object_unref (CAMEL_OBJECT (stream));
+
+	/* FIXME, this shouldn't be done this way. */
+	camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Source",
+				 imap_store->base_url);
 	return msg;
 }
 
@@ -1604,6 +1610,9 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	}
 	
 	msg = get_message (imap_folder, uid, "", mi->content, ex);
+	/* FIXME, this shouldn't be done this way. */
+	camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Source",
+				 store->base_url);
 	camel_folder_summary_info_free (folder->summary, mi);
 	
 	return msg;

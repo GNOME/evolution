@@ -1,3 +1,9 @@
+2001-10-29  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (get_message_simple, 
+	imap_get_message): Set an X-Evolution-Source header on the
+	returned message so replies come from the right identity.
+
 2001-10-29    <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (folder_changed_change): If we're not going
