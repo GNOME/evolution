@@ -754,6 +754,10 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 	g_string_free (fsearch, TRUE);
 	g_string_free (faction, TRUE);
 	
+	/* *Now* we can set the DELETED flag... */
+	if (p->deleted)
+		info->flags = info->flags | CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_FOLDER_FLAGGED;
+	
 	/* Logic: if !Moved and there exists a default folder... */
 	if (!(p->copied && p->deleted) && p->defaultfolder) {
 		/* copy it to the default inbox */
@@ -761,10 +765,6 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 		filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to default folder");
 		camel_folder_append_message (p->defaultfolder, p->message, p->info, p->ex);
 	}
-	
-	/* *Now* we can set the DELETED flag... */
-	if (p->deleted)
-		info->flags = info->flags | CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_FOLDER_FLAGGED;
 	
 	if (freeinfo)
 		camel_message_info_free (info);
