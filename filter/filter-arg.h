@@ -44,11 +44,16 @@ struct _FilterArg {
 struct _FilterArgClass {
 	GtkObjectClass parent_class;
 
+	/* make a copy of yourself */
+	struct _FilterArg * (*clone)(FilterArg *arg);
+
 	/* virtual methods */
 	void (*write_html)(FilterArg *arg, GtkHTML *html, GtkHTMLStreamHandle *stream);
 	void (*write_text)(FilterArg *arg, GString *string);
 	void (*free_value)(FilterArg *arg, void *v);
+
 	void (*edit_values)(FilterArg *arg);
+	int (*edit_value)(FilterArg *arg, int index);
 
 	void (*values_add_xml)(FilterArg *arg, xmlNodePtr node);
 	xmlNodePtr (*values_get_xml)(FilterArg *arg);
@@ -61,9 +66,11 @@ struct _FilterArgClass {
 
 guint		filter_arg_get_type	(void);
 FilterArg      *filter_arg_new	(char *name);
+FilterArg      *filter_arg_clone(FilterArg *arg);
 void		filter_arg_value_add(FilterArg *a, void *v);
 
 void		filter_arg_edit_values(FilterArg *arg);
+int	        filter_arg_edit_value(FilterArg *arg, int index);
 
 xmlNodePtr	filter_arg_values_get_xml(FilterArg *arg);
 void		filter_arg_values_add_xml(FilterArg *arg, xmlNodePtr node);
@@ -72,3 +79,4 @@ void 	       *filter_arg_get_value(FilterArg *arg, int index);
 char 	       *filter_arg_get_value_as_string(FilterArg *arg, int index);
 
 #endif /* ! _FILTER_ARG_H */
+

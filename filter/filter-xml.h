@@ -59,4 +59,9 @@ xmlNodePtr filter_write_optionset(xmlDocPtr doc, GList *optionl);
 int filter_find_rule(struct filter_rule *a, char *name);
 int filter_find_arg(FilterArg *a, char *name);
 
+/* utility functions */
+struct filter_optionrule *filter_clone_optionrule(struct filter_optionrule *or);
+void filter_clone_optionrule_free(struct filter_optionrule *or);
+struct filter_optionrule *filter_optionrule_new_from_rule(struct filter_rule *rule);
+
 #endif /* ! _FILTER_XML_H */

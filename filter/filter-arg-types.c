@@ -89,7 +89,51 @@ arg_string_write_text(FilterArg *argin, GString *string)
 static void
 arg_string_edit_values(FilterArg *arg)
 {
-	printf("edit string value!\n");
+	printf("edit string values!\n");
+}
+
+/* pop up a dialogue, asking for a new string value */
+static int
+arg_string_edit_value(FilterArg *arg, int index)
+{
+	GnomeDialog *dialogue;
+	GtkHBox *hbox;
+	GtkLabel *label;
+	GtkEntry *entry;
+	char *text = NULL;
+	char *newtext;
+
+	dialogue = (GnomeDialog *)gnome_dialog_new("Edit value", "Ok", "Cancel", 0);
+
+	hbox = (GtkHBox *)gtk_hbox_new(FALSE, 0);
+	label = (GtkLabel *)gtk_label_new("Folder name");
+	gtk_box_pack_start((GtkBox *)hbox, (GtkWidget *)label, FALSE, FALSE, 0);
+	entry = (GtkEntry *)gtk_entry_new();
+	gtk_box_pack_start((GtkBox *)hbox, (GtkWidget *)entry, TRUE, TRUE, 0);
+	if (index>=0) {
+		text = filter_arg_get_value(arg, index);
+	}
+	if (text) {
+		gtk_entry_set_text(entry, text);
+	}
+	gtk_box_pack_start((GtkBox *)dialogue->vbox, (GtkWidget *)hbox, TRUE, TRUE, 0);
+	gtk_widget_show_all((GtkWidget *)hbox);
+	gtk_object_ref((GtkObject *)entry);	/* so we can get the text back afterwards */
+	if (gnome_dialog_run_and_close(dialogue) == 0) {
+		GList *node;
+
+		newtext = g_strdup(gtk_entry_get_text(entry));
+		gtk_object_unref((GtkObject *)entry);
+		if (index>=0
+		    && (node = g_list_find(arg->values, text))) {
+			node->data = newtext;
+		} else {
+			arg->values = g_list_append(arg->values, newtext);
+		}
+		g_free(text);
+		return g_list_index(arg->values, newtext);
+	}
+	return -1;
 }
 
 static xmlNodePtr
@@ -161,7 +205,9 @@ filter_arg_string_class_init (FilterArgStringClass *class)
 	class->parent_class.write_html = arg_string_write_html;
 	class->parent_class.write_text = arg_string_write_text;
 	class->parent_class.edit_values = arg_string_edit_values;
+	class->parent_class.edit_value = arg_string_edit_value;
 	class->parent_class.free_value = arg_string_free_value;
+	class->parent_class.get_value_as_string = arg_string_get_value_as_string;
 
 	class->parent_class.values_get_xml = arg_string_values_get_xml;
 	class->parent_class.values_add_xml = arg_string_values_add_xml;
@@ -267,6 +313,54 @@ arg_address_edit_values(FilterArg *arg)
 	printf("edit it!\n");
 }
 
+static int
+arg_address_edit_value(FilterArg *arg, int index)
+{
+	GnomeDialog *dialogue;
+	GtkHBox *hbox;
+	GtkLabel *label;
+	GtkEntry *entry;
+	char *text = NULL;
+	char *newtext;
+	struct filter_arg_address *ad;
+
+	dialogue = (GnomeDialog *)gnome_dialog_new("Edit value", "Ok", "Cancel", 0);
+
+	hbox = (GtkHBox *)gtk_hbox_new(FALSE, 0);
+	label = (GtkLabel *)gtk_label_new("Folder name");
+	gtk_box_pack_start((GtkBox *)hbox, (GtkWidget *)label, FALSE, FALSE, 0);
+	entry = (GtkEntry *)gtk_entry_new();
+	gtk_box_pack_start((GtkBox *)hbox, (GtkWidget *)entry, TRUE, TRUE, 0);
+	if (index>=0
+	    && (ad = filter_arg_get_value(arg, index))) {
+		text = ad->email;
+	}
+	if (text) {
+		gtk_entry_set_text(entry, text);
+	}
+	gtk_box_pack_start((GtkBox *)dialogue->vbox, (GtkWidget *)hbox, TRUE, TRUE, 0);
+	gtk_widget_show_all((GtkWidget *)hbox);
+	gtk_object_ref((GtkObject *)entry);	/* so we can get the text back afterwards */
+	if (gnome_dialog_run_and_close(dialogue) == 0) {
+		GList *node;
+
+		newtext = g_strdup(gtk_entry_get_text(entry));
+		gtk_object_unref((GtkObject *)entry);
+		if (index>=0
+		    && (node = g_list_find(arg->values, text))) {
+			ad = node->data;
+			ad->email = newtext;
+		} else {
+			ad = g_malloc0(sizeof(*ad));
+			ad->email = newtext;
+			arg->values = g_list_append(arg->values, ad);
+		}
+		g_free(text);
+		return g_list_index(arg->values, ad);
+	}
+	return -1;
+}
+
 static xmlNodePtr
 arg_address_values_get_xml(FilterArg *argin)
 {
@@ -319,6 +413,8 @@ arg_address_get_value_as_string(FilterArg *argin, void *data)
 	FilterArgAddress *arg = (FilterArgAddress *)argin;
 	struct filter_arg_address *a = (struct filter_arg_address *)data;
 
+	printf("geting address as string : %s %s\n", a->email, a->name);
+
 	if (a->email == NULL
 	    || a->email[0] == '\0') {
 		if (a->name == NULL
@@ -348,7 +444,8 @@ filter_arg_address_class_init (FilterArgAddressClass *class)
 
 	class->parent_class.write_html = arg_address_write_html;
 	class->parent_class.write_text = arg_address_write_text;
-	class->parent_class.edit_values = arg_address_edit_values;
+	class->parent_class.edit_values= arg_address_edit_values;
+	class->parent_class.edit_value= arg_address_edit_value;
 	class->parent_class.free_value = arg_address_free_value;
 
 	class->parent_class.values_get_xml = arg_address_values_get_xml;
@@ -470,7 +567,7 @@ arg_folder_edit_values(FilterArg *argin)
 	dialogue = gnome_dialog_new("Edit addresses",
 				    "Ok", "Cancel", NULL);
 	text = gtk_text_new(NULL, NULL);
-	gtk_object_ref(text);
+	gtk_object_ref((GtkObject *)text);
 
 	l = argin->values;
 	while (l) {

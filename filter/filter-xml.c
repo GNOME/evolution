@@ -388,6 +388,72 @@ filter_write_optionset(xmlDocPtr doc, GList *optionl)
 	return root;
 }
 
+/* utility functions */
+struct filter_optionrule *
+filter_clone_optionrule(struct filter_optionrule *or)
+{
+	GList *arg;
+	struct filter_optionrule *rule;
+
+	rule = g_malloc0(sizeof(*rule));
+
+	rule->rule = or->rule;
+	arg = or->args;
+	while (arg) {
+		rule->args = g_list_append(rule->args, filter_arg_clone(FILTER_ARG(arg->data)));
+		arg = g_list_next(arg);
+	}
+	return rule;
+}
+
+void
+filter_clone_optionrule_free(struct filter_optionrule *or)
+{
+	GList *argl;
+	struct filter_optionrule *rule;
+
+	argl = or->args;
+	while (argl) {
+		gtk_object_unref(GTK_OBJECT(argl->data));
+		argl = g_list_next(argl);
+	}
+	g_list_free(or->args);
+	g_free(or);
+}
+
+struct filter_optionrule *
+filter_optionrule_new_from_rule(struct filter_rule *rule)
+{
+	struct filter_optionrule *or;
+	GList *descl;
+
+	or = g_malloc0(sizeof(*or));
+
+	or->rule = rule;
+
+	descl = rule->description;
+	while (descl) {
+		struct filter_desc *desc = descl->data;
+		if (desc->varname && desc->vartype != -1) {
+			FilterArg *arg = NULL;
+			switch (desc->vartype) {
+			case FILTER_XML_ADDRESS:
+				arg = filter_arg_address_new(desc->varname);
+				break;
+			case FILTER_XML_FOLDER:
+				arg = filter_arg_folder_new(desc->varname);
+				break;
+			}
+			if (arg) {
+				or->args = g_list_append(or->args, arg);
+			}
+		}
+		descl = g_list_next(descl);
+	}
+	return or;
+}
+
+
 #ifdef TESTER
 int main(int argc, char **argv)
 {

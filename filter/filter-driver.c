@@ -138,6 +138,8 @@ find_optionrule(struct filter_option *option, char *name)
 	return NULL;
 }
 
+static char nooption[] = "<h1>Select option</h1><p>Select an option type from the list above.</p>";
+
 void
 html_write_options(GtkHTML *html, struct filter_option *option)
 {
@@ -146,13 +148,17 @@ html_write_options(GtkHTML *html, struct filter_option *option)
 	
 	stream = gtk_html_begin(html, "");
 	gtk_html_write(html, stream, "<body bgcolor=white alink=blue>", strlen("<body bgcolor=white alink=blue>"));
-	optionrulel = option->options;
-	while (optionrulel) {
-		struct filter_optionrule *or = optionrulel->data;
-		
-		filter_description_html_write(or->rule->description, or->args, html, stream);
-		gtk_html_write(html, stream, "<br>", strlen("<br>"));
-		optionrulel = g_list_next(optionrulel);
+	if (option) {
+		optionrulel = option->options;
+		while (optionrulel) {
+			struct filter_optionrule *or = optionrulel->data;
+			
+			filter_description_html_write(or->rule->description, or->args, html, stream);
+			gtk_html_write(html, stream, "<br>", strlen("<br>"));
+			optionrulel = g_list_next(optionrulel);
+		}
+	} else {
+		gtk_html_write(html, stream, nooption, strlen(nooption));
 	}
 	gtk_html_end(html, stream, GTK_HTML_STREAM_OK);
 }
