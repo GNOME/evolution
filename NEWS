@@ -43,6 +43,52 @@ Mail:
 
   - Properly address mail from "hidden" contact lists. (Trow)
 
+  - Redid folder unread counts/folder tree backend code
+    completely. (Michael)
+
+  - Implemented/fixed getfolderinfo in maildir/spool/local
+    folder/vfolder, required to make unread counts work. (Michael)
+
+  - Redid 'local folder' handling code completely. (Michael, Peter)
+    Also fixed the properties dialogue to get the list of supported
+    types dynamically, and set the right one at startup. (Michael)
+
+  - Redid vfolder code in evolution-mail completely.  Main visible
+    change is they open at startup, and the vfolder editor works
+    much better.  (Michael)
+
+  - Made it so fcntl(2) locking failures on filesystems (e.g. NFS)
+    that dont support locking are treated as success. (Michael)
+
+  - Fix imap inbox filtering, then moved it to CamelFolder, and
+    partly implemented it for spool and maildir mailboxes.  (Michael)
+
+  - Made the vfolder UNMATCHED folder's name translatable.  (Michael)
+
+  - Change the way the 'not body contains' filter rule works, so that
+    it runs much more efficiently, particularly on IMAP.  (Michael)
+
+  - Camel will not try and convert charsets of data that contain
+    invalid charset data, thus data will not be tainted by
+    a failed conversion process. (Michael)
+
+  - A few threading scheduling changes to try to optimise the user
+    experience.  Also changed the way threads are terminated,
+    avoiding some possible libpthread bugs.  (Michael)
+
+  - Changed vfolder uri's to not include the query, set it separately.
+
+  - Removed a lot of special case code for vfolder/file uri's, other
+    dead or newly redundant code, cleanups, etc.  (Michael)
+
+  - Fixed a bug in libibex that would overallocate block data and
+    corrupt it and crash, also fail-back and reset the index in
+    more cases.  (Michael)
+
+  - Fix filtering on score so the expression compiles. (Michael)
+
+  - Came to visit USA at a very wrong time.  (Michael)
+
 Addressbook:
 
   - Miscellaneous bug fixes. (Jon Trowbridge, Chris Toshok, Chris Lahey,
