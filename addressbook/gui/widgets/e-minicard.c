@@ -288,6 +288,7 @@ e_minicard_set_property  (GObject *object, guint prop_id, const GValue *value, G
 {
 	GnomeCanvasItem *item;
 	EMinicard *e_minicard;
+	EContact *contact;
 	GList *l;
 
 	item = GNOME_CANVAS_ITEM (object);
@@ -338,11 +339,15 @@ e_minicard_set_property  (GObject *object, guint prop_id, const GValue *value, G
 			set_has_cursor (e_minicard, g_value_get_boolean (value));
 		break;
 	case PROP_CONTACT:
+		contact = E_CONTACT (g_value_get_object (value));
+		if (contact)
+			g_object_ref (contact);
+
 		if (e_minicard->contact)
 			g_object_unref (e_minicard->contact);
-		e_minicard->contact = E_CONTACT(g_value_get_object (value));
-		if (e_minicard->contact)
-			g_object_ref (e_minicard->contact);
+
+		e_minicard->contact = contact;
+
 		remodel(e_minicard);
 		e_canvas_item_request_reflow(item);
 		e_minicard->changed = FALSE;
@@ -425,11 +430,15 @@ e_minicard_finalize (GObject *object)
 
 	e_minicard = E_MINICARD (object);
 	
-	if (e_minicard->contact)
+	if (e_minicard->contact) {
 		g_object_unref (e_minicard->contact);
+		e_minicard->contact = NULL;
+	}
 	
-	if (e_minicard->list_icon_pixbuf)
+	if (e_minicard->list_icon_pixbuf) {
 		g_object_unref (e_minicard->list_icon_pixbuf);
+		e_minicard->list_icon_pixbuf = NULL;
+	}
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);

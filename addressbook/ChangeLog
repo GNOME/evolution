@@ -1,5 +1,12 @@
 2004-05-03  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/widgets/e-minicard.c (e_minicard_set_property): Do ref, unref
+	in right order, so the same contact can be set twice without ill
+	effects.
+	(e_minicard_finalize): NULL pointers after unreffing their objects.
+
+2004-05-03  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c (phones_default): Establish
 	defaults for the phone number option menus.
 	(fill_in_phone_record): Fall back to defaults.
