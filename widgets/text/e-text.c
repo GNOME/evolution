@@ -41,6 +41,7 @@
 #include <math.h>
 #include <ctype.h>
 #include <string.h>
+#include <glib-object.h>
 #include <gdk/gdkx.h> /* for BlackPixel */
 #include <gtk/gtkinvisible.h>
 #include <gtk/gtkmain.h>
@@ -48,9 +49,8 @@
 #include <gtk/gtkwindow.h>
 #include <gtk/gtktypebuiltins.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
-
+#include <libgnome/gnome-i18n.h>
 #include "gal/util/e-util.h"
-#include "gal/util/e-i18n.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/widgets/e-unicode.h"
@@ -59,6 +59,8 @@
 #include <libart_lgpl/art_affine.h>
 #include <libart_lgpl/art_rgb.h>
 #include <libart_lgpl/art_rgb_bitmap_affine.h>
+
+#define PARENT_TYPE (gnome_canvas_item_get_type())
 
 #define BORDER_INDENT 4
 #define d(x)
@@ -170,7 +172,7 @@ static void e_suck_font_free (ETextSuckFont *suckfont);
 
 static void e_text_free_lines(EText *text);
 
-static gint text_width_with_objects (ETextModel *model,
+static gint text_width_with_objects (EText *etext,
 				     EFont *font, EFontStyle style,
 				     const gchar *text, gint bytelen);
 
@@ -178,7 +180,6 @@ static void calc_height (EText *text);
 static void calc_line_widths (EText *text);
 static void split_into_lines (EText *text);
 
-#define PARENT_TYPE GNOME_TYPE_CANVAS_ITEM
 static GnomeCanvasItemClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
 
@@ -200,7 +201,7 @@ e_text_style_set (EText *text, GtkStyle *previous_style)
 }
 
 static void
-e_text_dispose (GObject *object)
+e_text_destroy (GtkObject *object)
 {
 	EText *text;
 
@@ -214,7 +215,7 @@ e_text_dispose (GObject *object)
 	text->tooltip_owner = 0;
 
 	if (text->model_changed_signal_id)
-		g_signal_handler_disconnect (text->model,
+		g_signal_handler_disconnect (text->model, 
 					     text->model_changed_signal_id);
 	text->model_changed_signal_id = 0;
 
@@ -291,11 +292,11 @@ e_text_dispose (GObject *object)
 		text->tpl_timeout = 0;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
- static void
+static void
 reset_layout_attrs (EText *text)
 {
 	PangoAttrList *attrs = NULL;
@@ -557,7 +558,7 @@ calc_line_widths (EText *text)
 	for (i = 0; i < text->num_lines; i++) {
 		if (lines->length != 0) {
 			if (text->font) {
-				lines->width = text_width_with_objects (text->model,
+				lines->width = text_width_with_objects (text,
 									text->font, text->style,
 									lines->text, lines->length);
 				lines->ellipsis_length = 0;
@@ -575,7 +576,7 @@ calc_line_widths (EText *text)
 					for (p = lines->text;
 					     p && *p && g_unichar_validate (g_utf8_get_char (p)) && (p - lines->text) < lines->length;
 					     p = g_utf8_next_char (p)) {
-						gint text_width = text_width_with_objects (text->model,
+						gint text_width = text_width_with_objects (text,
 											   text->font, text->style,
 											   lines->text, p - lines->text);
 						if (clip_width >= text_width + text->ellipsis_width)
@@ -586,7 +587,7 @@ calc_line_widths (EText *text)
 				}
 				else
 					lines->ellipsis_length = 0;
-				lines->width = text_width_with_objects (text->model,
+				lines->width = text_width_with_objects (text,
 									text->font, text->style,
 									lines->text, lines->ellipsis_length) + 
 					text->ellipsis_width;
@@ -612,11 +613,20 @@ e_text_free_lines(EText *text)
 }
 
 static gint
-text_width_with_objects (ETextModel *model,
+text_width_with_objects (EText *etext,
 			 EFont *font, EFontStyle style,
 			 const gchar *text, gint numbytes)
 {
-	return text && *text ? e_font_utf8_text_width (font, style, text, numbytes) : 0;
+#warning "AIEEEE FIX ME.  a pango layout per refresh sucks"
+	PangoLayout *tmp_layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (etext)->canvas),
+								  text);
+	int width;
+
+	pango_layout_get_pixel_size (tmp_layout, &width, NULL);
+
+	g_object_unref (tmp_layout);
+
+	return width;
 }
 
 typedef void (*LineSplitterFn) (int line_num, const char *start, int length, gpointer user_data);
@@ -624,11 +634,12 @@ typedef void (*LineSplitterFn) (int line_num, const char *start, int length, gpo
 #define IS_BREAK_CHAR(break_chars, c) (g_unichar_isspace (c) || ((break_chars) && g_utf8_strchr ((break_chars), -1, (c))))
 
 static gint
-line_splitter (ETextModel *model, EFont *font, EFontStyle style,
+line_splitter (EText *etext, EFont *font, EFontStyle style,
 	       const char *break_characters,
 	       gboolean wrap_lines, double clip_width, double clip_height,
 	       gint max_lines, LineSplitterFn split_cb, gpointer user_data)
 {
+	ETextModel *model = etext->model;
 	const char *curr;
 	const char *text;
 	const char *linestart;
@@ -662,7 +673,7 @@ line_splitter (ETextModel *model, EFont *font, EFontStyle style,
 
 		} else if (wrap_lines) {
 			
-			if (clip_width < text_width_with_objects (model, font, style, linestart, curr - linestart)
+			if (clip_width < text_width_with_objects (etext, font, style, linestart, curr - linestart)
 			    && last_breakpoint > linestart) {
 
 				/* Don't use break point if we are on the last usable line */
@@ -716,7 +727,7 @@ split_into_lines (EText *text)
 	e_text_free_lines (text);
 
 	/* First, count the number of lines */
-	text->num_lines = line_splitter (text->model, text->font, text->style,
+	text->num_lines = line_splitter (text, text->font, text->style,
 					 text->break_characters,
 					 text->line_wrap, text->clip_width, text->clip_height,
 					 -1, NULL, NULL);
@@ -724,7 +735,7 @@ split_into_lines (EText *text)
 	/* Allocate our array of lines */
 	text->lines = g_new0 (struct line, text->num_lines);
 
-	text->num_lines = line_splitter (text->model, text->font, text->style,
+	text->num_lines = line_splitter (text, text->font, text->style,
 					 text->break_characters,
 					 text->line_wrap, text->clip_width, text->clip_height,
 					 text->num_lines, line_split_cb, text);
@@ -763,9 +774,9 @@ set_stipple (EText *text, GdkBitmap *stipple, int reconfigure)
 /* Set_arg handler for the text item */
 static void
 e_text_set_property (GObject *object,
-		     guint prop_id,
-		     const GValue *value,
-		     GParamSpec *pspec)
+                    guint prop_id,
+                    const GValue *value,
+                    GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	EText *text;
@@ -788,8 +799,8 @@ e_text_set_property (GObject *object,
 
 		if ( text->model_changed_signal_id )
 			g_signal_handler_disconnect (text->model,
-						     text->model_changed_signal_id);
-
+					     text->model_changed_signal_id);
+		
 		if ( text->model_repos_signal_id )
 			g_signal_handler_disconnect (text->model,
 						     text->model_repos_signal_id);
@@ -829,10 +840,10 @@ e_text_set_property (GObject *object,
 		text->tep = E_TEXT_EVENT_PROCESSOR(g_value_get_object (value));
 		g_object_ref(text->tep);
 		text->tep_command_id = 
-			g_signal_connect (text->tep,
-					  "command",
-					  G_CALLBACK(e_text_command),
-					  text);
+			g_signal_connect(text->tep,
+					 "command",
+					 G_CALLBACK(e_text_command),
+					 text);
 		if (!text->allow_newlines)
 			g_object_set (text->tep,
 				      "allow_newlines", FALSE,
@@ -1108,7 +1119,7 @@ e_text_set_property (GObject *object,
 		break;
 
 	case PROP_DRAW_BUTTON:
-		if (text->draw_button != g_value_get_boolean (value)) {
+		if (text->draw_button !=  g_value_get_boolean (value)) {
 			text->draw_button = g_value_get_boolean (value);
 			text->needs_redraw = 1;
 		}
@@ -1138,16 +1149,16 @@ e_text_set_property (GObject *object,
 	}
 
 	if (color_changed) {
-		GdkColormap *colormap = gtk_widget_get_colormap (GTK_WIDGET (item->canvas));
+               GdkColormap *colormap = gtk_widget_get_colormap (GTK_WIDGET (item->canvas));
 
-		text->color = color;
-		gdk_rgb_find_color (colormap, &text->color);
+	       text->color = color;
+               gdk_rgb_find_color (colormap, &text->color);
 
-		if (!item->canvas->aa)
-			set_text_gc_foreground (text);
+	       if (!item->canvas->aa)
+		       set_text_gc_foreground (text);
 
-		text->needs_redraw = 1;
-		needs_update = 1;
+	       text->needs_redraw = 1;
+	       needs_update = 1;
 	}
 
 	if ( needs_reflow )
@@ -1159,9 +1170,9 @@ e_text_set_property (GObject *object,
 /* Get_arg handler for the text item */
 static void
 e_text_get_property (GObject *object,
-		     guint prop_id,
-		     GValue *value,
-		     GParamSpec *pspec)
+                    guint prop_id,
+                    GValue *value,
+                    GParamSpec *pspec)
 {
 	EText *text;
 
@@ -1244,7 +1255,7 @@ e_text_get_property (GObject *object,
 	case PROP_TEXT_HEIGHT:
 		g_value_set_double (value, text->height / text->item.canvas->pixels_per_unit);
 		break;
-
+		
 	case PROP_EDITABLE:
 		g_value_set_boolean (value, text->editable);
 		break;
@@ -1345,7 +1356,7 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 		}
 		lines --;
 		i--;
-		x = text_width_with_objects (text->model,
+		x = text_width_with_objects (text,
 					     text->font, text->style,
 					     lines->text,
 					     text->selection_end - (lines->text - text->text));
@@ -1420,7 +1431,6 @@ e_text_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int fla
 				text->needs_redraw = 1;
 				item->canvas->need_repick = TRUE;
 			}
-
 			if (!text->fill_clip_rectangle)
 				item->canvas->need_repick = TRUE;
 		}
@@ -1491,12 +1501,11 @@ _get_tep(EText *text)
 {
 	if (!text->tep) {
 		text->tep = e_text_event_processor_emacs_like_new();
-		g_object_ref (text->tep);
 		text->tep_command_id = 
 			g_signal_connect(text->tep,
 					 "command",
-					 G_CALLBACK (e_text_command),
-					 (gpointer) text);
+					 G_CALLBACK(e_text_command),
+					 text);
 	}
 }
 
@@ -1548,7 +1557,6 @@ show_pango_rectangle (EText *text, PangoRectangle rect)
 	if (y1 < new_yofs_edit)
 		new_yofs_edit = y1;
 
-#if 0
 	if (clip_width >= 0) {
 		if (2 + x2 - clip_width > new_xofs_edit)
 			new_xofs_edit = 2 + x2 - clip_width;
@@ -1562,8 +1570,7 @@ show_pango_rectangle (EText *text, PangoRectangle rect)
 	} else {
 		new_yofs_edit = 0;
 	}
-#endif
- 
+
 	if (new_xofs_edit < 0)
 		new_xofs_edit = 0;
 	if (new_yofs_edit < 0)
@@ -1575,7 +1582,6 @@ show_pango_rectangle (EText *text, PangoRectangle rect)
 		text->yofs_edit = new_yofs_edit;
 		return TRUE;
 	}
-
 
 	return FALSE;
 }
@@ -1777,9 +1783,6 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		ypos -= text->yofs_edit;
 	}
 
-	printf ("pos = (%d,%d), ofs = (%d,%d)\n",
-		xpos, ypos, text->xofs_edit, text->yofs_edit);
-
 	gdk_draw_layout (drawable, main_gc,
 			 xpos, ypos,
 			 text->layout);
@@ -1854,10 +1857,10 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				    strong_pos.width != weak_pos.width ||
 				    strong_pos.height != weak_pos.height)
 					draw_pango_rectangle (drawable, main_gc, xpos, ypos, weak_pos);
-
 			}
 		}
 	}
+
 
 	if (text->clip) {
 		gdk_gc_set_clip_rectangle (main_gc, NULL);
@@ -2201,7 +2204,7 @@ _do_tooltip (gpointer data)
 	for (lines = text->lines, i = 0; i < text->num_lines; lines++, i++) {
 		gdouble line_width;
 
-		line_width = text_width_with_objects (text->model, text->font, text->style, lines->text, lines->length);
+		line_width = text_width_with_objects (text, text->font, text->style, lines->text, lines->length);
 		max_width = MAX (max_width, line_width);
 	}
 
@@ -2651,7 +2654,6 @@ static int
 _get_position(EText *text, ETextEventProcessorCommand *command)
 {
 	int length, obj_num;
-	int x, y;
 	gunichar unival;
 	char *p = NULL;
 	gint new_pos = 0;
@@ -3114,7 +3116,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 static void 
 _invisible_destroy (gpointer data, GObject *where_object_was)
 {
-	EText *text = data;
+	EText *text = E_TEXT (data);
 	text->invisible = NULL;
 }
 
@@ -3143,7 +3145,7 @@ e_text_get_invisible(EText *text)
 		gtk_selection_add_targets (invisible,
 					   clipboard_atom,
 					   targets, n_targets);
-		
+
 		g_signal_connect (invisible, "selection_get",
 				  G_CALLBACK (_selection_get), 
 				  text);
@@ -3153,7 +3155,7 @@ e_text_get_invisible(EText *text)
 		g_signal_connect (invisible, "selection_received",
 				  G_CALLBACK (_selection_received),
 				  text);
-		
+
 		g_object_weak_ref (G_OBJECT (invisible),
 				   _invisible_destroy, text);
 	}
@@ -3446,20 +3448,19 @@ e_text_real_paste_clipboard (EText *text)
 static void
 e_text_class_init (ETextClass *klass)
 {
-	GObjectClass *object_class;
+	GObjectClass *gobject_class;
+	GtkObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	object_class = (GObjectClass *) klass;
+	gobject_class = (GObjectClass *) klass;
+	object_class = (GtkObjectClass *) klass;
 	item_class = (GnomeCanvasItemClass *) klass;
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	klass->changed = NULL;
-	klass->activate = NULL;
-
-	object_class->dispose = e_text_dispose;
-	object_class->set_property = e_text_set_property;
-	object_class->get_property = e_text_get_property;
+	object_class->destroy = e_text_destroy;
+	gobject_class->set_property = e_text_set_property;
+	gobject_class->get_property = e_text_get_property;
 
 	item_class->update = e_text_update;
 	item_class->realize = e_text_realize;
@@ -3469,6 +3470,9 @@ e_text_class_init (ETextClass *klass)
 	item_class->bounds = e_text_bounds;
 	item_class->render = e_text_render;
 	item_class->event = e_text_event;
+
+	klass->changed = NULL;
+	klass->activate = NULL;
 
 	e_text_signals[E_TEXT_CHANGED] =
 		g_signal_new ("changed",
@@ -3506,69 +3510,68 @@ e_text_class_init (ETextClass *klass)
 			      e_marshal_NONE__POINTER_INT,
 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_INT);
 
-	g_object_class_install_property (object_class, PROP_MODEL,
+	g_object_class_install_property (gobject_class, PROP_MODEL,
 					 g_param_spec_object ("model",
 							      _( "Model" ),
 							      _( "Model" ),
 							      E_TYPE_TEXT_MODEL,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_EVENT_PROCESSOR,
+	g_object_class_install_property (gobject_class, PROP_EVENT_PROCESSOR,
 					 g_param_spec_object ("event_processor",
 							      _( "Event Processor" ),
 							      _( "Event Processor" ),
 							      E_TEXT_EVENT_PROCESSOR_TYPE,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_TEXT,
+	g_object_class_install_property (gobject_class, PROP_TEXT,
 					 g_param_spec_string ("text",
 							      _( "Text" ),
 							      _( "Text" ),
 							      NULL,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_FONT,
+	g_object_class_install_property (gobject_class, PROP_FONT,
 					 g_param_spec_string ("font",
 							      _( "Font" ),
 							      _( "Font" ),
 							      NULL,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_FONTSET,
+	g_object_class_install_property (gobject_class, PROP_FONTSET,
 					 g_param_spec_string ("fontset",
 							      _( "Fontset" ),
 							      _( "Fontset" ),
 							      NULL,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_FONT_GDK,
+	g_object_class_install_property (gobject_class, PROP_FONT_GDK,
 					 g_param_spec_boxed ("font_gdk",
 							     _( "GDKFont" ),
 							     _( "GDKFont" ),
 							     GDK_TYPE_FONT,
 							     G_PARAM_WRITABLE));
-					 
-	g_object_class_install_property (object_class, PROP_FONT_E,
+                                        
+	g_object_class_install_property (gobject_class, PROP_FONT_E,
 					 g_param_spec_pointer ("font_e",
 							       _( "EFont" ),
 							       _( "EFont" ),
 							       G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_BOLD,
+	g_object_class_install_property (gobject_class, PROP_BOLD,
 					 g_param_spec_boolean ("bold",
 							       _( "Bold" ),
 							       _( "Bold" ),
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_STRIKEOUT,
+	g_object_class_install_property (gobject_class, PROP_STRIKEOUT,
 					 g_param_spec_boolean ("strikeout",
 							       _( "Strikeout" ),
 							       _( "Strikeout" ),
 							       FALSE,
 							       G_PARAM_READWRITE));
-		
-	g_object_class_install_property (object_class, PROP_ANCHOR,
+               
+	g_object_class_install_property (gobject_class, PROP_ANCHOR,
 					 g_param_spec_enum ("anchor",
 							    _( "Anchor" ),
 							    _( "Anchor" ),
@@ -3576,63 +3579,63 @@ e_text_class_init (ETextClass *klass)
 							    G_PARAM_READWRITE));
 
 
-	g_object_class_install_property (object_class, PROP_JUSTIFICATION,
+	g_object_class_install_property (gobject_class, PROP_JUSTIFICATION,
 					 g_param_spec_enum ("justification",
 							    _( "Justification" ),
 							    _( "Justification" ),
 							    GTK_TYPE_JUSTIFICATION, GTK_JUSTIFY_LEFT,
 							    G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_CLIP_WIDTH,
+	g_object_class_install_property (gobject_class, PROP_CLIP_WIDTH,
 					 g_param_spec_double ("clip_width",
 							      _( "Clip Width" ),
 							      _( "Clip Width" ),
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_CLIP_HEIGHT,
+	g_object_class_install_property (gobject_class, PROP_CLIP_HEIGHT,
 					 g_param_spec_double ("clip_height",
 							      _( "Clip Height" ),
 							      _( "Clip Height" ),
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_CLIP,
+	g_object_class_install_property (gobject_class, PROP_CLIP,
 					 g_param_spec_boolean ("clip",
 							       _( "Clip" ),
 							       _( "Clip" ),
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_FILL_CLIP_RECTANGLE,
+	g_object_class_install_property (gobject_class, PROP_FILL_CLIP_RECTANGLE,
 					 g_param_spec_boolean ("fill_clip_rectangle",
 							       _( "Fill clip rectangle" ),
 							       _( "Fill clip rectangle" ),
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_X_OFFSET,
+	g_object_class_install_property (gobject_class, PROP_X_OFFSET,
 					 g_param_spec_double ("x_offset",
 							      _( "X Offset" ),
 							      _( "X Offset" ),
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_Y_OFFSET,
+	g_object_class_install_property (gobject_class, PROP_Y_OFFSET,
 					 g_param_spec_double ("y_offset",
 							      _( "Y Offset" ),
 							      _( "Y Offset" ),
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_FILL_COLOR,
+	g_object_class_install_property (gobject_class, PROP_FILL_COLOR,
 					 g_param_spec_string ("fill_color",
 							      _( "Fill color" ),
 							      _( "Fill color" ),
 							      NULL,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_FILL_COLOR_GDK,
+	g_object_class_install_property (gobject_class, PROP_FILL_COLOR_GDK,
 					 g_param_spec_boxed ("fill_color_gdk",
 							     _( "GDK fill color" ),
 							     _( "GDK fill color" ),
@@ -3640,28 +3643,28 @@ e_text_class_init (ETextClass *klass)
 							     G_PARAM_READWRITE));
 
 
-	g_object_class_install_property (object_class, PROP_FILL_COLOR_RGBA,
+	g_object_class_install_property (gobject_class, PROP_FILL_COLOR_RGBA,
 					 g_param_spec_uint ("fill_color_rgba",
 							    _( "GDK fill color" ),
 							    _( "GDK fill color" ),
 							    0, G_MAXUINT, 0,
 							    G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_FILL_STIPPLE,
+	g_object_class_install_property (gobject_class, PROP_FILL_STIPPLE,
 					 g_param_spec_object ("fill_stipple",
 							      _( "Fill stipple" ),
 							      _( "FIll stipple" ),
 							      GDK_TYPE_DRAWABLE,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_TEXT_WIDTH,
+	g_object_class_install_property (gobject_class, PROP_TEXT_WIDTH,
 					 g_param_spec_double ("text_width",
 							      _( "Text width" ),
 							      _( "Text width" ),
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READABLE));
 
-	g_object_class_install_property (object_class, PROP_TEXT_HEIGHT,
+	g_object_class_install_property (gobject_class, PROP_TEXT_HEIGHT,
 					 g_param_spec_double ("text_height",
 							      _( "Text height" ),
 							      _( "Text height" ),
@@ -3669,50 +3672,49 @@ e_text_class_init (ETextClass *klass)
 							      G_PARAM_READABLE));
 
 
-	g_object_class_install_property (object_class, PROP_EDITABLE,
+	g_object_class_install_property (gobject_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
 							       _( "Editable" ),
 							       _( "Editable" ),
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_USE_ELLIPSIS,
+	g_object_class_install_property (gobject_class, PROP_USE_ELLIPSIS,
 					 g_param_spec_boolean ("use_ellipsis",
 							       _( "Use ellipsis" ),
 							       _( "Use ellipsis" ),
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_ELLIPSIS,
+	g_object_class_install_property (gobject_class, PROP_ELLIPSIS,
 					 g_param_spec_string ("ellipsis",
 							      _( "Ellipsis" ),
 							      _( "Ellipsis" ),
 							      NULL,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_LINE_WRAP,
+	g_object_class_install_property (gobject_class, PROP_LINE_WRAP,
 					 g_param_spec_boolean ("line_wrap",
 							       _( "Line wrap" ),
 							       _( "Line wrap" ),
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_BREAK_CHARACTERS,
+	g_object_class_install_property (gobject_class, PROP_BREAK_CHARACTERS,
 					 g_param_spec_string ("break_characters",
 							      _( "Break characters" ),
 							      _( "Break characters" ),
 							      NULL,
 							      G_PARAM_READWRITE));
 
-
-	g_object_class_install_property (object_class, PROP_MAX_LINES,
+	g_object_class_install_property (gobject_class, PROP_MAX_LINES,
 					 g_param_spec_int ("max_lines",
 							   _( "Max lines" ),
 							   _( "Max lines" ),
 							   0, G_MAXINT, 0,
 							   G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_WIDTH,
+	g_object_class_install_property (gobject_class, PROP_WIDTH,
 					 g_param_spec_double ("width",
 							      _( "Width" ),
 							      _( "Width" ),
@@ -3720,42 +3722,42 @@ e_text_class_init (ETextClass *klass)
 							      G_PARAM_READWRITE));
 
 
-	g_object_class_install_property (object_class, PROP_HEIGHT,
+	g_object_class_install_property (gobject_class, PROP_HEIGHT,
 					 g_param_spec_double ("height",
 							      _( "Height" ),
 							      _( "Height" ),
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_DRAW_BORDERS,
+	g_object_class_install_property (gobject_class, PROP_DRAW_BORDERS,
 					 g_param_spec_boolean ("draw_borders",
 							       _( "Draw borders" ),
 							       _( "Draw borders" ),
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_ALLOW_NEWLINES,
+	g_object_class_install_property (gobject_class, PROP_ALLOW_NEWLINES,
 					 g_param_spec_boolean ("allow_newlines",
 							       _( "Allow newlines" ),
 							       _( "Allow newlines" ),
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_DRAW_BACKGROUND,
+	g_object_class_install_property (gobject_class, PROP_DRAW_BACKGROUND,
 					 g_param_spec_boolean ("draw_background",
 							       _( "Draw background" ),
 							       _( "Draw background" ),
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_DRAW_BUTTON,
+	g_object_class_install_property (gobject_class, PROP_DRAW_BUTTON,
 					 g_param_spec_boolean ("draw_button",
 							       _( "Draw button" ),
 							       _( "Draw button" ),
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_CURSOR_POS,
+	g_object_class_install_property (gobject_class, PROP_CURSOR_POS,
 					 g_param_spec_int ("cursor_pos",
 							   _( "Cursor position" ),
 							   _( "Cursor position" ),
@@ -3775,8 +3777,6 @@ e_text_init (EText *text)
 	text->layout                  = NULL;
 
 	text->revert                  = NULL;
-
-	g_object_ref (text->model);
 
 	text->model_changed_signal_id = 
 		g_signal_connect (text->model,
