@@ -171,7 +171,6 @@ mail/mail-summary.c
 mail/mail-tools.c
 mail/mail-vfolder.c
 mail/mail-view.c
-mail/mail-vtrash.c
 mail/message-list.c
 mail/openpgp-utils.c
 mail/subscribe-dialog.c
