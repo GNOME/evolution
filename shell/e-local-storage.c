@@ -200,8 +200,38 @@ load_folder (const char *physical_path,
 		return TRUE;
 	}
 
-	new_folder (local_storage, path, folder);
+	e_storage_new_folder (local_storage, path, folder);
 	return TRUE;
+}
+
+static void
+setup_corba_storage (ELocalStorage *local_storage,
+		     const char *path)
+{
+	GList *subfolder_paths;
+	EFolder *folder;
+	GList *p;
+
+	folder = e_storage_get_folder (E_STORAGE (local_storage), path);
+
+	if (folder != NULL)
+		evolution_storage_new_folder (EVOLUTION_STORAGE (local_storage->priv->bonobo_interface),
+					      path,
+					      e_folder_get_name (folder),
+					      e_folder_get_type_string (folder),
+					      e_folder_get_physical_uri (folder),
+					      e_folder_get_description (folder),
+					      e_folder_get_custom_icon_name (folder),
+					      e_folder_get_unread_count (folder),
+					      FALSE,
+					      0);
+
+	subfolder_paths = e_storage_get_subfolder_paths (E_STORAGE (local_storage), path);
+
+	for (p = subfolder_paths; p != NULL; p = p->next)
+		setup_corba_storage (local_storage, (const char *) p->data);
+
+	e_free_string_list (subfolder_paths);
 }
 
 static gboolean
@@ -216,6 +246,8 @@ load_all_folders (ELocalStorage *local_storage)
 	e_path_find_folders (base_path, load_folder, local_storage);
 
 	setup_stock_folders (local_storage);
+
+	setup_corba_storage (local_storage, "/");
 
 	return TRUE;
 }

@@ -1,3 +1,17 @@
+2003-03-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Shell part of #7153.]
+
+	* e-local-storage.c (load_folder): Call e_storage_new_folder()
+	instead of new_folder() here so the folder doesn't get added to
+	the EvolutionStorage.  Since the EvolutionStorage has its own
+	CORBAfied copy of the folder info [sigh] and it can't be updated,
+	we have to set up the EvolutionStorage after setup_stock_folders()
+	has been called.
+	(setup_corba_storage): New function to set up the CORBA storage.
+	(load_all_folders): Call setup_corba_storage() after
+	setup_stock_folders().
+
 2003-03-25  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-settings-dialog.c (set_dialog_size): Use
