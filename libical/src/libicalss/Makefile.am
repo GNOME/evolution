@@ -1,9 +1,9 @@
 
 
 #noinst_LTLIBRARIES = libicalss.la
-lib_LIBRARIES = libicalss.a
+lib_LTLIBRARIES = libicalss.la
 
-libicalss_a_SOURCES =\
+libicalss_la_SOURCES =\
 	icalcalendar.c	\
 	icalcalendar.h	\
 	icalcluster.c \

@@ -75,7 +75,7 @@ YACC = @YACC@
 
 noinst_PROGRAMS = usecases copycluster regression parser findobj storage
 
-LDADD = ../libical/libical.a ../libicalss/libicalss.a
+LDADD = ../libical/libical.la ../libicalss/libicalss.la
 INCLUDES = -I . -I../libical -I../libicalss
 
 findobj_SOURCES = findobj.c
@@ -96,28 +96,29 @@ LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 usecases_OBJECTS =  usecases.o
 usecases_LDADD = $(LDADD)
-usecases_DEPENDENCIES =  ../libical/libical.a ../libicalss/libicalss.a
+usecases_DEPENDENCIES =  ../libical/libical.la ../libicalss/libicalss.la
 usecases_LDFLAGS = 
 copycluster_OBJECTS =  copycluster.o
 copycluster_LDADD = $(LDADD)
-copycluster_DEPENDENCIES =  ../libical/libical.a \
-../libicalss/libicalss.a
+copycluster_DEPENDENCIES =  ../libical/libical.la \
+../libicalss/libicalss.la
 copycluster_LDFLAGS = 
 regression_OBJECTS =  regression.o
 regression_LDADD = $(LDADD)
-regression_DEPENDENCIES =  ../libical/libical.a ../libicalss/libicalss.a
+regression_DEPENDENCIES =  ../libical/libical.la \
+../libicalss/libicalss.la
 regression_LDFLAGS = 
 parser_OBJECTS =  icaltestparser.o
 parser_LDADD = $(LDADD)
-parser_DEPENDENCIES =  ../libical/libical.a ../libicalss/libicalss.a
+parser_DEPENDENCIES =  ../libical/libical.la ../libicalss/libicalss.la
 parser_LDFLAGS = 
 findobj_OBJECTS =  findobj.o
 findobj_LDADD = $(LDADD)
-findobj_DEPENDENCIES =  ../libical/libical.a ../libicalss/libicalss.a
+findobj_DEPENDENCIES =  ../libical/libical.la ../libicalss/libicalss.la
 findobj_LDFLAGS = 
 storage_OBJECTS =  storage.o
 storage_LDADD = $(LDADD)
-storage_DEPENDENCIES =  ../libical/libical.a ../libicalss/libicalss.a
+storage_DEPENDENCIES =  ../libical/libical.la ../libicalss/libicalss.la
 storage_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)

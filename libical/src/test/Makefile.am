@@ -1,7 +1,7 @@
 
 noinst_PROGRAMS = usecases copycluster regression parser findobj storage
 
-LDADD = ../libical/libical.a ../libicalss/libicalss.a
+LDADD = ../libical/libical.la ../libicalss/libicalss.la
 INCLUDES = -I . -I../libical -I../libicalss
 
 findobj_SOURCES = findobj.c
