@@ -1,3 +1,7 @@
+2000-12-25  Miguel de Icaza  <miguel@helixcode.com>
+
+	* e-icon-bar.c (e_icon_bar_add_item): Pass draw_background = FALSE
+
 2000-09-30  Damon Chaplin  <damon@helixcode.com>
 
 	* test-shortcut-bar.c: updated to use new EShortcutBar signals for DnD.

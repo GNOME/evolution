@@ -666,6 +666,7 @@ e_icon_bar_add_item (EIconBar	    *icon_bar,
 					   "clip_width", (gdouble) (icon_bar->text_w),
 					   "clip_height", clip_height,
 					   "text", text,
+					   "draw_background", FALSE,
 					   NULL);
 	e_canvas_item_move_absolute(item.text,
 				    text_x, 0);
