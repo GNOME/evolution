@@ -285,7 +285,7 @@ e_text_class_init (ETextClass *klass)
 	gtk_object_add_arg_type ("EText::allow_newlines",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_ALLOW_NEWLINES);
 	gtk_object_add_arg_type ("EText::draw_background",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BORDERS);
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BACKGROUND);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
@@ -1288,7 +1288,7 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_DRAW_BACKGROUND:
-		if (text->draw_borders != GTK_VALUE_BOOL (*arg)){
+		if (text->draw_background != GTK_VALUE_BOOL (*arg)){
 			text->draw_background = GTK_VALUE_BOOL (*arg);
 			text->needs_redraw = 1;
 		}
@@ -1766,7 +1766,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	fg_gc = GTK_WIDGET(canvas)->style->fg_gc[text->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
 	
 	if (text->draw_borders || text->draw_background) {
-		gdouble thisx = 0, thisy = 0;
+		gdouble thisx = item->x1 - x;
+		gdouble thisy = item->y1 - y;
 		gdouble thiswidth, thisheight;
 		GtkWidget *widget = GTK_WIDGET(item->canvas);
 
@@ -1775,11 +1776,13 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			       "height", &thisheight,
 			       NULL);
 
-		if (text->draw_background)
+		if (text->draw_background){
 			gtk_paint_flat_box (widget->style, drawable,
 					    GTK_WIDGET_STATE(widget), GTK_SHADOW_NONE,
 					    NULL, widget, "entry_bg", 
-					    0, 0, thiswidth, thisheight);
+					    thisx, thisy, thiswidth, thisheight);
+		}
+		
 		if (text->editing) {
 			thisx += 1;
 			thisy += 1;
@@ -1794,9 +1797,16 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 					  thisx - x, thisy - y, thiswidth, thisheight);
 		
 			if (text->editing) {
+				/*
+				 * Chris: I am here "filling in" for the additions
+				 * and substractions done in the previous if (text->editing).
+				 * but you might have other plans for this.  Please enlighten
+				 * me as to whether it should be:
+				 * thiswidth + 2 or thiswidth + 1.
+				 */
 				gtk_paint_focus (widget->style, drawable, 
 						 NULL, widget, "entry",
-						 - x, - y, thiswidth + 1, thisheight + 1);
+						 thisx - 1, thisy - 1, thiswidth + 2, thisheight + 2);
 			}
 		}
 	}
