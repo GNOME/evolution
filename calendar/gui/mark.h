@@ -1,8 +1,22 @@
-/* Functions to mark calendars
+/* Evolution calendar - Functions to mark calendars
  *
  * Copyright (C) 1998 Red Hat Software, Inc.
  *
- * Author: Federico Mena <federico@nuclecu.unam.mx>
+ * Author: Federico Mena-Quintero <federico@helixcode.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
 #ifndef MARK_H
@@ -11,6 +25,7 @@
 /*#include "calendar.h"*/
 #include "gnome-month-item.h"
 
+
 
 /* These are the fonts used for the montly calendars */
 
@@ -55,5 +70,6 @@ void month_item_prepare_prelight (GnomeMonthItem *mitem, GetColorFunc func, gpoi
  */
 char *default_color_func (ColorProp prop_num, gpointer data);
 
+
 
 #endif

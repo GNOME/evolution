@@ -1,8 +1,22 @@
-/* Functions to mark calendars
+/* Evolution calendar - Functions to mark calendars
  *
  * Copyright (C) 1998 Red Hat Software, Inc.
  *
- * Author: Federico Mena <federico@nuclecu.unam.mx>
+ * Author: Federico Mena-Quintero <federico@helixcode.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
 #include <config.h>
@@ -11,6 +25,7 @@
 #include "calendar-commands.h"
 #include "mark.h"
 
+
 
 /* Frees the specified data when an object is destroyed */
 static void
@@ -101,30 +116,35 @@ mark_event_in_month (GnomeMonthItem *mitem, time_t start, time_t end)
 }
 
 void
-mark_month_item (GnomeMonthItem *mitem, GnomeCalendar *cal)
+mark_month_item (GnomeMonthItem *mitem, GnomeCalendar *gcal)
 {
 	time_t month_begin, month_end;
-	GList *list, *l;
-	CalendarObject *co;
+	GList *events;
+	GList *l;
 
 	g_return_if_fail (mitem != NULL);
 	g_return_if_fail (GNOME_IS_MONTH_ITEM (mitem));
-	g_return_if_fail (cal != NULL);
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	month_begin = time_month_begin (time_from_day (mitem->year, mitem->month, 1));
 	month_end = time_month_end (month_begin);
 
-	list = calendar_get_events_in_range (cal->client, month_begin, month_end);
+	events = cal_client_get_events_in_range (gcal->client, month_begin, month_end);
 
-	for (l = list; l; l = l->next) {
-		co = l->data;
+	for (l = events; l; l = l->next) {
+		CalObjInstance *coi;
+
+		coi = l->data;
 
 		/* We clip the event's start and end times to the month's limits */
 
-		mark_event_in_month (mitem, MAX (co->ev_start, month_begin), MIN (co->ev_end, month_end));
+		mark_event_in_month (mitem,
+				     MAX (coi->start, month_begin),
+				     MIN (coi->end, month_end));
 	}
 
-	/* calendar_destroy_event_list (list); DELETE / FIX ME */
+	cal_obj_instance_list_free (events);
 }
 
 void

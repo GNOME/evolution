@@ -325,9 +325,11 @@ show_month_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path
 static void
 show_year_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
+#if 0
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	gnome_calendar_set_view (gcal, "yearview");
 	gtk_widget_grab_focus (gcal->year_view);
+#endif
 }
 
 static void
@@ -877,72 +879,4 @@ calendar_iterate_free_cache_entry	(gpointer	key,
 					 gpointer	user_data)
 {
 	ical_object_unref ((iCalObject*) value);
-}
-
-
-static gint
-calendar_object_compare_by_start (gconstpointer a, gconstpointer b)
-{
-	const CalendarObject *ca = a;
-	const CalendarObject *cb = b;
-	time_t diff;
-
-	diff = ca->ev_start - cb->ev_start;
-	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
-}
-
-/* FIXME -- where should this (and calendar_object_compare_by_start) go? */
-/* FIXME -- for recurring events we should only load the iCalObject once. */
-/* returns a list of events in the form of CalendarObject* */
-GList*
-calendar_get_events_in_range (CalClient *calc,
-			      time_t start, time_t end)
-{
-	GList *l, *cois, *res = NULL;
-	CalObjFindStatus status;
-	CalObjInstance *coi;
-	char *uid, *obj_string;
-	iCalObject *ico;
-	CalendarObject *co;
-
-	cois = cal_client_get_events_in_range (calc, start, end);
-
-	for (l = cois; l; l = l->next) {
-		coi = l->data;
-		uid = coi->uid;
-		obj_string = cal_client_get_object (calc, uid);
-
-		status = ical_object_find_in_string (uid, obj_string, &ico);
-		g_free (obj_string);
-
-		switch (status){
-		case CAL_OBJ_FIND_SUCCESS:
-			co = g_new (CalendarObject, 1);
-			co->ev_start = coi->start;
-			co->ev_end   = coi->end;
-			co->ico      = ico;
-
-			res = g_list_prepend (res, co);
-			break;
-		case CAL_OBJ_FIND_SYNTAX_ERROR:
-			printf ("calendar_get_events_in_range: "
-				"syntax error uid=%s\n", uid);
-			break;
-		case CAL_OBJ_FIND_NOT_FOUND:
-			printf ("calendar_get_events_in_range: "
-				"obj not found uid=%s\n", uid);
-			break;
-		}
-
-		g_free (uid);
-		g_free (coi);
-	}
-
-	g_list_free (cois);
-
-	/* Sort the list here, since it is more efficient to sort it once
-	   rather doing lots of sorted insertions. */
-	res = g_list_sort (res, calendar_object_compare_by_start);
-
-	return res;
 }

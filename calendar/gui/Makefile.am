@@ -2,13 +2,6 @@ SUBDIRS = dialogs
 
 help_base = $(datadir)/gnome/help/cal
 
-#if HAVE_GNOME_PILOT
-#extra_pilot_bins = 				\
-#		 calendar-conduit-control-applet	\
-#		 calendar-pilot-sync
-#endif
-
-
 CPPFLAGS =					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
 
@@ -43,6 +36,8 @@ bin_PROGRAMS = evolution-calendar
 evolution_calendar_SOURCES =			\
 	alarm.c					\
 	alarm.h					\
+	calendar-commands.c			\
+	calendar-commands.h			\
 	e-day-view-main-item.c			\
 	e-day-view-main-item.h			\
 	e-day-view-time-item.c			\
@@ -59,8 +54,11 @@ evolution_calendar_SOURCES =			\
 	e-week-view-titles-item.h		\
 	e-week-view.c				\
 	e-week-view.h				\
+	event-editor.c				\
+	event-editor.h				\
 	event-editor-utils.c			\
 	event-editor-utils.h			\
+	evolution-calendar-control.c		\
 	getdate.y				\
 	gncal-todo.c				\
 	gncal-todo.h				\
@@ -69,27 +67,15 @@ evolution_calendar_SOURCES =			\
 	gnome-cal.c				\
 	gnome-cal.h				\
 	goto.c					\
+	layout.c				\
+	layout.h				\
 	mark.c					\
 	mark.h					\
 	popup-menu.c				\
 	popup-menu.h				\
-	prop.c					\
-	quick-view.c				\
-	quick-view.h				\
-	todo-conduit.h				\
-	year-view.c				\
-	year-view.h				\
-	calendar-commands.c			\
-	calendar-commands.h			\
-	event-editor.c				\
-	event-editor.h				\
-	evolution-calendar-control.c
-
-
-#	eventedit.c				\
-#	eventedit.h				\
-
-
+	print.c					\
+	print.h					\
+	prop.c
 
 evolution_calendar_LDADD =					\
 	$(EXTRA_GNOME_LIBS)					\
@@ -108,98 +94,6 @@ gnorbadir = $(sysconfdir)/CORBA/servers
 gnorba_DATA = calendar-control.gnorba
 endif
 
-#calendar_pilot_sync_SOURCES =	\
-#	 GnomeCal-common.c	\
-#	 GnomeCal-stubs.c	\
-#	 alarm.c			\
-#	 calendar-pilot-sync.c	\
-#	 calendar.c		\
-#	 calendar.h
-
-
-#calendar_pilot_sync_LDADD =	\
-#	 $(PISOCK_LIBDIR) $(PISOCK_LIBS)		\
-#	 $(LINK_FLAGS)
-
-#if HAVE_GNOME_PILOT
-##calendar_conduit
-#calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
-#
-#calendar_conduits_LTLIBRARIES = libcalendar_conduit.la
-#endif 
-
-#libcalendar_conduit_la_SOURCES =		\
-#	 GnomeCal-common.c			\
-#	 GnomeCal-stubs.c			\
-#	 calendar-conduit.h			\
-#	 calendar-conduit.c			\
-#	 alarm.c					\
-#	 calendar.c
-
-#libcalendar_conduit_la_LDFLAGS = \
-#	 -rpath $(libdir)
-
-#libcalendar_conduit_la_LIBADD = \
-#	 ../libversit/libversit.la \
-#	 $(PISOCK_LIBDIR) $(PISOCK_LIBS) \
-#	 $(GNOME_LIBDIR) \
-#	 $(GNOME_LIBS)
-
-#calendar_conduit_control_applet_SOURCES = \
-#	 calendar-conduit-control-applet.c
-
-#calendar_conduit_control_applet_LDADD = \
-#	 $(CAPPLET_LIBS) \
-#	 $(GNOME_LIBDIR) \
-#	 $(GNOME_CAPPLET_LIBS) \
-#	 $(PISOCK_LIBDIR) $(PISOCK_LIBS) \
-#	 $(GNOMEUI_LIBS) \
-#	 $(GNOME_PILOT_LIBS) \
-#	 $(INTLLIBS) 
-
-#todo_conduit
-#todo_conduitsdir=$(libdir)/gnome-pilot/conduits
-
-#todo_conduits_LTLIBRARIES = libtodo_conduit.la
-
-#libtodo_conduit_la_LDFLAGS = \
-#	-rpath $(libdir)
-
-#libtodo_conduit_la_LIBADD = \
-#	$(GNOME_LIBDIR) \
-#	$(GNOME_LIBS)
-
-#libtodo_conduit_la_SOURCES = \
-#	todo-conduit.c
-
-#todo-conduit.c:	GnomeCal.h
-
-#todo_conduit_control_applet_SOURCES = \
-#	todo-conduit-control-applet.c
-
-#todo_conduit_control_applet_LDADD = \
-#	$(CAPPLET_LIBS) \
-#	$(GNOME_LIBDIR) \
-#	$(GNOME_CAPPLET_LIBS) \
-#	$(PISOCK_LIBDIR) $(PISOCK_LIBS) \
-#	$(GNOMEUI_LIBS) \
-#	$(GNOME_PILOT_LIBS) \
-#	$(INTLLIBS) 
-
-#if HAVE_GNOME_PILOT
-#ccenterdir = $(datadir)/control-center
-#Rootdir = $(ccenterdir)
-#PalmPilotdir = $(ccenterdir)/Peripherals/PalmPilot
-#Conduitsdir = $(PalmPilotdir)/Conduits
-#
-#Conduits_DATA = \
-#	 calendar-conduit-control-applet.desktop 
-##	todo-conduit-control-applet.desktop 
-#
-#Conduits_seconddir = $(datadir)/gnome/apps/Settings/Peripherals/PalmPilot/Conduits/
-#Conduits_second_DATA = $(Conduits_DATA)
-#endif
-
 EXTRA_DIST =			\
 	bell.xpm		\
 	recur.xpm		\
@@ -211,18 +105,8 @@ EXTRA_DIST =			\
 	calendar-control.gnorba	\
 	calendar-control.oafinfo
 
-#	gnome-calendar-conduit.png
-#	todo-conduit-control-applet.desktop
-#	$(idl_DATA)
-#	$(gnorba_DATA)
-#	calendar-conduit-control-applet.desktop
-
-#appicondir = $(datadir)/pixmaps
-#appicon_DATA = gnome-calendar-conduit.png
-
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(help_base)/C
-#	$(mkinstalldirs) $(Conduitsdir)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

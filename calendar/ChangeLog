@@ -1,3 +1,31 @@
+2000-05-22  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/calendar-commands.c (calendar_get_events_in_range): Removed
+	function.
+
+	* gui/mark.c (mark_month_item): Use
+	cal_client_get_events_in_range().
+
+	* gui/calendar-commands.c (show_year_view_clicked): Comment out,
+	since we don't have a year view.
+
+	* gui/gnome-cal.c (setup_widgets): Removed the year view stuff.
+	(gnome_calendar_get_current_view_name): Likewise.
+	(gnome_calendar_update_view_times): Likewise.
+	(gnome_calendar_direction): Likewise.
+	(gnome_calendar_set_view): Likewise.
+	(gnome_calendar_update_all): Likewise.
+	(gnome_calendar_object_updated_cb): Likewise.
+	(gnome_calendar_object_removed_cb): Likewise.
+	(gnome_calendar_time_format_changed): Likewise.
+	(gnome_calendar_get_current_time_range): Likewise.
+
+	* gui/gnome-cal.h (GnomeCalendar): Removed the year view stuff.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Added layout.[ch],
+	print.[ch].  Removed quick-view.[ch], year-view.[ch] since they
+	are no longer used.  Removed all the old Pilot crap.
+
 2000-05-20  Damon Chaplin  <damon@helixcode.com>
 
 	* cal-util/cal-recur.[hc]: new files to implement iCalendar recurrence

@@ -45,8 +45,6 @@ typedef struct {
 	GtkWidget   *work_week_view;
 	GtkWidget   *week_view;
 	GtkWidget   *month_view;
-	GtkWidget   *year_view;
-	GtkWidget   *year_view_sw;
 
 	void        *event_editor;
 
@@ -112,8 +110,6 @@ void	   gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 void       gnome_calendar_object_changed        (GnomeCalendar *gcal,
 						 iCalObject *obj,
 						 int flags);
-
-void      calendar_notify (time_t time, CalendarAlarm *which, void *data);
 
 GnomeCalendar *gnome_calendar_locate            (const char *pathname);
 

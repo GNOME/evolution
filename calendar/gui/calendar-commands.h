@@ -106,17 +106,6 @@ void calendar_set_uri (GnomeCalendar *gcal, char *calendar_file);
 /* FIXME -- where should this stuff go?                                 */
 /*----------------------------------------------------------------------*/
 
-/* This is only used by the calendar_get_events_in_range routine to get
- * a list of objects that recur on a specific date
- */
-typedef struct {
-	time_t     ev_start;
-	time_t     ev_end;
-	iCalObject *ico;
-} CalendarObject;
-
-GList *calendar_get_events_in_range (CalClient *calc,
-				     time_t start, time_t end);
 void
 calendar_iterate (GnomeCalendar *cal,
 		  time_t start, time_t end,

@@ -1,3 +1,19 @@
+2000-05-23  Federico Mena Quintero  <federico@helixcode.com>
+
+	* e-dialog-widgets.c (get_radio_value): Implemented.  Amazing that
+	one has to go through so much pain to get a stupid value from
+	GTK+.
+	(hook_option_menu): Implemented.  Same complaint.
+	(get_toggle_value): Implemented.
+	(get_spin_button_value): Implemented.
+	(get_entry_value): Implemented.
+	(e_dialog_widget_hook_value): Function to hook a widget to the
+	variable it will modify.
+	(e_dialog_get_values): Function to feed the variables from a
+	dialog's widgets.
+	(e_dialog_xml_widget_hook_value): Function to hook a widget from
+	a Glade file.
+
 2000-05-23  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-util.c, e-util.h: Added e_write_file.

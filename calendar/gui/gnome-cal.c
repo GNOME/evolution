@@ -27,7 +27,6 @@
 #include "eventedit.h"
 #include "gncal-todo.h"
 #include "gnome-cal.h"
-#include "year-view.h"
 #include "calendar-commands.h"
 
 
@@ -227,23 +226,6 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_widget_show (gcal->month_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->main_notebook),
 				  gcal->month_view, gtk_label_new (""));
-
-	/* The Year View. */
-	gcal->year_view  = year_view_new (gcal, gcal->selection_start_time);
-#if 0
-	gtk_widget_show (gcal->year_view);
-#endif
-	gcal->year_view_sw = gtk_scrolled_window_new (NULL, NULL);
-	gtk_widget_show (gcal->year_view_sw);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (gcal->year_view_sw),
-					GTK_POLICY_NEVER,
-					GTK_POLICY_AUTOMATIC);
-	gtk_container_add (GTK_CONTAINER (gcal->year_view_sw),
-			   gcal->year_view);
-	GTK_LAYOUT (gcal->year_view)->vadjustment->step_increment = 10.0;
-	gtk_adjustment_changed (GTK_LAYOUT (gcal->year_view)->vadjustment);
-	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->main_notebook),
-				  gcal->year_view_sw, gtk_label_new (""));
 }
 
 static GtkWidget *
@@ -276,8 +258,6 @@ gnome_calendar_get_current_view_name (GnomeCalendar *gcal)
 		return "weekview";
 	else if (page == gcal->month_view)
 		return "monthview";
-	else if (page == gcal->year_view_sw)
-		return "yearview";
 	else
 		return "dayview";
 }
@@ -314,9 +294,6 @@ gnome_calendar_update_view_times (GnomeCalendar *gcal,
 		e_week_view_set_selected_time_range (E_WEEK_VIEW (page),
 						     gcal->selection_start_time,
 						     gcal->selection_end_time);
-	else if (page == gcal->year_view_sw)
-		year_view_set (YEAR_VIEW (gcal->year_view),
-			       gcal->selection_start_time);
 	else {
 		g_warning ("My penguin is gone!");
 		g_assert_not_reached ();
@@ -339,8 +316,6 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 		new_time = time_add_week (current_time, direction);
 	else if (cp == gcal->month_view)
 		new_time = time_add_month (current_time, direction);
-	else if (cp == gcal->year_view_sw)
-		new_time = time_add_year (current_time, direction);
 	else {
 		g_warning ("Weee!  Where did the penguin go?");
 		g_assert_not_reached ();
@@ -412,9 +387,6 @@ gnome_calendar_set_view (GnomeCalendar *gcal, char *page_name)
 	} else if (strcmp (page_name, "monthview") == 0) {
 		page = gcal->month_view;
 		main_page = 1;
-	} else if (strcmp (page_name, "yearview") == 0) {
-		page = gcal->year_view_sw;
-		main_page = 2;
 	} else {
 		g_warning ("Unknown calendar view: %s", page_name);
 		return;
@@ -819,10 +791,6 @@ gnome_calendar_update_all (GnomeCalendar *cal)
 	e_week_view_update_all_events (E_WEEK_VIEW (cal->week_view));
 	e_week_view_update_all_events (E_WEEK_VIEW (cal->month_view));
 
-#if 0
-	year_view_update (YEAR_VIEW (cal->year_view), NULL, TRUE);
-#endif
-
 	gncal_todo_update (GNCAL_TODO (cal->todo), NULL, TRUE);
 	gnome_calendar_tag_calendar (cal, cal->gtk_calendar);
 }
@@ -897,11 +865,6 @@ gnome_calendar_object_updated_cb (GtkWidget *cal_client,
 	e_week_view_update_event (E_WEEK_VIEW (gcal->week_view), uid);
 	e_week_view_update_event (E_WEEK_VIEW (gcal->month_view), uid);
 
-	/* FIXME: optimize these? */
-#if 0
-	year_view_update (YEAR_VIEW (gcal->year_view), NULL, TRUE);
-#endif
-
 	gncal_todo_update (GNCAL_TODO (gcal->todo), NULL, TRUE);
 	gnome_calendar_tag_calendar (gcal, gcal->gtk_calendar);
 }
@@ -922,10 +885,6 @@ gnome_calendar_object_removed_cb (GtkWidget *cal_client,
 	e_week_view_remove_event (E_WEEK_VIEW (gcal->week_view), uid);
 	e_week_view_remove_event (E_WEEK_VIEW (gcal->month_view), uid);
 
-	/* FIXME: optimize these? */
-#if 0
-	year_view_update (YEAR_VIEW (gcal->year_view), NULL, CHANGE_ALL);
-#endif
 	gncal_todo_update (GNCAL_TODO (gcal->todo), NULL, CHANGE_ALL);
 	gnome_calendar_tag_calendar (gcal, gcal->gtk_calendar);
 }
@@ -1300,8 +1259,6 @@ gnome_calendar_time_format_changed (GnomeCalendar *gcal)
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
-	year_view_time_format_changed (YEAR_VIEW (gcal->year_view));
-
 	gtk_calendar_display_options (gcal->gtk_calendar,
 				      (week_starts_on_monday
 				       ? (gcal->gtk_calendar->display_flags
@@ -1365,11 +1322,6 @@ gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 		 || page == gcal->month_view)
 		e_week_view_get_selected_time_range (E_WEEK_VIEW (page),
 						     start_time, end_time);
-#if 0
-	else if (page == gcal->year_view_sw)
-		year_view_set (YEAR_VIEW (gcal->year_view),
-			       gcal->selection_start_time);
-#endif
 	else {
 		g_warning ("My penguin is gone!");
 		g_assert_not_reached ();
