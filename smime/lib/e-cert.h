@@ -41,7 +41,8 @@ typedef enum {
 	E_CERT_CA,
 	E_CERT_CONTACT,
 	E_CERT_SITE,
-	E_CERT_USER
+	E_CERT_USER,
+	E_CERT_UNKNOWN
 } ECertType;
 
 struct _ECert {

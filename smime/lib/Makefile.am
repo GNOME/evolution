@@ -22,5 +22,7 @@ noinst_LTLIBRARIES = libessmime.la
 libessmime_la_SOURCES = 	\
 	e-cert.c		\
 	e-cert.h		\
+	e-cert-trust.c		\
+	e-cert-trust.h		\
 	e-cert-db.c		\
 	e-cert-db.h

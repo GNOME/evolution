@@ -55,7 +55,15 @@
  *
  */
 
+/* XXX toshok why oh *why* god WHY did they do this?  no fucking
+   sense */
+/* private NSS defines used by PSM */
+/* (must be declated before cert.h) */
+#define CERT_NewTempCertificate __CERT_NewTempCertificate
+#define CERT_AddTempCertToPerm __CERT_AddTempCertToPerm
+
 #include "e-cert-db.h"
+#include "e-cert-trust.h"
 
 #include "nss.h"
 #include "pk11func.h"
@@ -187,12 +195,12 @@ e_cert_db_find_cert_by_nickname (ECertDB *certdb,
 				 const char *nickname,
 				 GError **error)
 {
-	//  nsNSSShutDownPreventionLock locker;
+	/*  nsNSSShutDownPreventionLock locker;*/
 	CERTCertificate *cert = NULL;
 
-	//PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("Getting \"%s\"\n", asciiname));
+	/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("Getting \"%s\"\n", asciiname));*/
 #if 0
-	// what it should be, but for now...
+	/* what it should be, but for now...*/
 	if (aToken) {
 		cert = PK11_FindCertFromNickname(asciiname, NULL);
 	} else {
@@ -206,7 +214,7 @@ e_cert_db_find_cert_by_nickname (ECertDB *certdb,
 
 
 	if (cert) {
-		//    PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("got it\n"));
+		/*    PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("got it\n"));*/
 		ECert *ecert = e_cert_new (cert);
 		return ecert;
 	}
@@ -222,7 +230,7 @@ e_cert_db_find_cert_by_key (ECertDB *certdb,
 			    GError **error)
 {
 #if 0
-	//  nsNSSShutDownPreventionLock locker;
+	/*  nsNSSShutDownPreventionLock locker;*/
 	SECItem keyItem = {siBuffer, NULL, 0};
 	SECItem *dummy;
 	CERTIssuerAndSN issuerSN;
@@ -237,11 +245,11 @@ e_cert_db_find_cert_by_key (ECertDB *certdb,
 	dummy = NSSBase64_DecodeBuffer(NULL, &keyItem, db_key,
 				       (PRUint32)PL_strlen(db_key)); 
 
-	// someday maybe we can speed up the search using the moduleID and slotID
+	/* someday maybe we can speed up the search using the moduleID and slotID*/
 	moduleID = NS_NSS_GET_LONG(keyItem.data);
 	slotID = NS_NSS_GET_LONG(&keyItem.data[NS_NSS_LONG]);
 
-	// build the issuer/SN structure
+	/8 build the issuer/SN structure*/
 	issuerSN.serialNumber.len = NS_NSS_GET_LONG(&keyItem.data[NS_NSS_LONG*2]);
 	issuerSN.derIssuer.len = NS_NSS_GET_LONG(&keyItem.data[NS_NSS_LONG*3]);
 	issuerSN.serialNumber.data= &keyItem.data[NS_NSS_LONG*4];
@@ -441,6 +449,7 @@ handle_ca_cert_download(GList *certs, GError **error)
 		gboolean allow;
 		char *nickname;
 		SECStatus srv;
+		CERTCertTrust trust;
 
 		if (!_confirm_download_ca_cert (certToShow, &trustBits, &allow)) {
 			/* XXX gerror */
@@ -452,23 +461,28 @@ handle_ca_cert_download(GList *certs, GError **error)
 			return FALSE;
 		}
 
-		//PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("trust is %d\n", trustBits));
+		/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("trust is %d\n", trustBits));*/
 		
 		nickname = CERT_MakeCANickname(tmpCert);
 
-		//PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("Created nick \"%s\"\n", nickname.get()));
+		/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("Created nick \"%s\"\n", nickname.get()));*/
 
-#if 0
-		nsNSSCertTrust trust;
-		trust.SetValidCA();
-		trust.AddCATrust(trustBits & nsIX509CertDB::TRUSTED_SSL,
-				 trustBits & nsIX509CertDB::TRUSTED_EMAIL,
-				 trustBits & nsIX509CertDB::TRUSTED_OBJSIGN);
+		e_cert_trust_init (&trust);
+		e_cert_trust_set_valid_ca (&trust);
+		e_cert_trust_add_ca_trust (&trust,
+#if 1
+					    /* XXX we need that ui working i guess. */
+					    0, 0, 0
+#else
+					    trustBits & nsIX509CertDB::TRUSTED_SSL,
+					    trustBits & nsIX509CertDB::TRUSTED_EMAIL,
+					    trustBits & nsIX509CertDB::TRUSTED_OBJSIGN
 #endif
+);
 
 		srv = CERT_AddTempCertToPerm(tmpCert,
 					     nickname,
-					     /*XXX trust.GetTrust()*/ 0); 
+					     &trust); 
 
 		if (srv != SECSuccess) {
 			/* XXX gerror */
@@ -479,9 +493,9 @@ handle_ca_cert_download(GList *certs, GError **error)
 		/* Now it's time to add the rest of the certs we just downloaded.
 		   Since we didn't prompt the user about any of these certs, we
 		   won't set any trust bits for them. */
-		nsNSSCertTrust defaultTrust;
-		defaultTrust.SetValidCA();
-		defaultTrust.AddCATrust(0,0,0);
+		e_cert_trust_init (&trust);
+		e_cert_trust_set_valid_ca (&trust);
+		e_cert_trusts_add_ca_trust (&trust, 0, 0, 0);
 		for (PRUint32 i=0; i<numCerts; i++) {
 			if (i == selCertIndex)
 				continue;
@@ -494,7 +508,7 @@ handle_ca_cert_download(GList *certs, GError **error)
 
 			if (!tmpCert2) {
 				NS_ASSERTION(0, "Couldn't create temp cert from DER blob\n");
-				continue;  // Let's try to import the rest of 'em
+				continue;  /* Let's try to import the rest of 'em */
 			}
 			nickname.Adopt(CERT_MakeCANickname(tmpCert2));
 			CERT_AddTempCertToPerm(tmpCert2, NS_CONST_CAST(char*,nickname.get()), 
@@ -511,8 +525,8 @@ gboolean
 e_cert_db_delete_cert (ECertDB *certdb,
 		       ECert   *ecert)
 {
-	//  nsNSSShutDownPreventionLock locker;
-	//  nsNSSCertificate *nssCert = NS_STATIC_CAST(nsNSSCertificate*, aCert);
+	/*  nsNSSShutDownPreventionLock locker;
+	    nsNSSCertificate *nssCert = NS_STATIC_CAST(nsNSSCertificate*, aCert); */
 
 	CERTCertificate *cert;
 	SECStatus srv = SECSuccess;
@@ -529,16 +543,14 @@ e_cert_db_delete_cert (ECertDB *certdb,
 		   want to do that with user certs, because a user may  re-store
 		   the cert onto the card again at which point we *will* want to 
 		   trust that cert if it chains up properly. */
-#if 0
-		nsNSSCertTrust trust(0, 0, 0);
+		CERTCertTrust trust;
+
+		e_cert_trust_init_with_values (&trust, 0, 0, 0);
 		srv = CERT_ChangeCertTrust(CERT_GetDefaultCertDB(), 
-					   cert, trust.GetTrust());
-#endif
+					   cert, &trust);
 	}
 
-#if 0
-	PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("cert deleted: %d", srv));
-#endif
+	/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("cert deleted: %d", srv));*/
 	return (srv) ? FALSE : TRUE;
 }
 
@@ -582,7 +594,7 @@ e_cert_db_import_certs (ECertDB *certdb,
 		rv = handle_ca_cert_download(certs, error);
 		break;
 	default:
-		// We only deal with import CA certs in this method currently.
+		/* We only deal with import CA certs in this method currently.*/
 		/* XXX gerror */
 		PORT_FreeArena(arena, PR_FALSE);
 		rv = FALSE;
@@ -599,6 +611,58 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 			     char *data, guint32 length,
 			     GError **error)
 {
+	/*nsNSSShutDownPreventionLock locker;*/
+	SECStatus srv = SECFailure;
+	gboolean rv = TRUE;
+	CERTCertificate * cert;
+	SECItem **rawCerts;
+	int numcerts;
+	int i;
+	PRArenaPool *arena = PORT_NewArena(DER_DEFAULT_CHUNKSIZE);
+	CERTDERCerts *certCollection = e_cert_db_get_certs_from_package (arena, data, length);
+
+	if (!certCollection) {
+		/* XXX g_error */
+
+		PORT_FreeArena(arena, PR_FALSE);
+		return FALSE;
+	}
+
+	cert = CERT_NewTempCertificate(CERT_GetDefaultCertDB(), certCollection->rawCerts,
+				       (char *)NULL, PR_FALSE, PR_TRUE);
+	if (!cert) {
+		/* XXX g_error */
+		rv = FALSE;
+		goto loser;
+	}
+	numcerts = certCollection->numcerts;
+	rawCerts = (SECItem **) PORT_Alloc(sizeof(SECItem *) * numcerts);
+	if ( !rawCerts ) {
+		/* XXX g_error */
+		rv = FALSE;
+		goto loser;
+	}
+
+	for ( i = 0; i < numcerts; i++ ) {
+		rawCerts[i] = &certCollection->rawCerts[i];
+	}
+ 
+	srv = CERT_ImportCerts(CERT_GetDefaultCertDB(), certUsageEmailSigner,
+			       numcerts, rawCerts, NULL, PR_TRUE, PR_FALSE,
+			       NULL);
+	if ( srv != SECSuccess ) {
+		/* XXX g_error */
+		rv = FALSE;
+		goto loser;
+	}
+	srv = CERT_SaveSMimeProfile(cert, NULL, NULL);
+	PORT_Free(rawCerts);
+ loser:
+	if (cert)
+		CERT_DestroyCertificate(cert);
+	if (arena) 
+		PORT_FreeArena(arena, PR_TRUE);
+	return rv;
 }
 
 gboolean
@@ -606,66 +670,6 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 			    char *data, guint32 length,
 			    GError **error)
 {
-#if 0
-	/*  nsNSSShutDownPreventionLock locker;*/
-	PK11SlotInfo *slot;
-	char * nickname = NULL;
-	gboolean rv = FALSE;
-	int numCACerts;
-	SECItem *CACerts;
-	CERTDERCerts * collectArgs;
-	CERTCertificate * cert=NULL;
-
-	collectArgs = e_cert_db_get_certs_from_package(data, length);
-	if (!collectArgs) {
-		goto loser;
-	}
-
-	cert = CERT_NewTempCertificate(CERT_GetDefaultCertDB(), collectArgs->rawCerts,
-				       (char *)NULL, PR_FALSE, PR_TRUE);
-	if (!cert) {
-		goto loser;
-	}
-
-	slot = PK11_KeyForCertExists(cert, NULL, NULL);
-	if ( slot == NULL ) {
-		goto loser;
-	}
-	PK11_FreeSlot(slot);
-
-	/* pick a nickname for the cert */
-	if (cert->nickname) {
-		/* sigh, we need a call to look up other certs with this subject and
-		 * identify nicknames from them. We can no longer walk down internal
-		 * database structures  rjr */
-		nickname = cert->nickname;
-	}
-	else {
-		g_assert_not_reached ();
-		/* nickname = default_nickname(cert, NULL); */
-	}
-
-	/* user wants to import the cert */
-	slot = PK11_ImportCertForKey(cert, nickname, NULL);
-	if (!slot) {
-		goto loser;
-	}
-	PK11_FreeSlot(slot);
-	numCACerts = collectArgs->numcerts - 1;
-
-	if (numCACerts) {
-		CACerts = collectArgs->rawCerts+1;
-		if ( ! CERT_ImportCAChain(CACerts, numCACerts, certUsageUserCertImport) ) {
-			rv = TRUE;
-		}
-	}
-  
- loser:
-	if ( cert ) {
-		CERT_DestroyCertificate(cert);
-	}
-	return rv;
-#endif
 }
 
 gboolean

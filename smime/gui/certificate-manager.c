@@ -55,6 +55,10 @@ typedef struct {
 	GtkWidget *contactcerts_treeview;
 	GtkTreeStore *contactcerts_treemodel;
 	GHashTable *contactcerts_root_hash;
+	GtkWidget *view_contact_button;
+	GtkWidget *edit_contact_button;
+	GtkWidget *import_contact_button;
+	GtkWidget *delete_contact_button;
 
 	GtkWidget *authoritycerts_treeview;
 	GtkTreeStore *authoritycerts_treemodel;
@@ -187,15 +191,78 @@ initialize_yourcerts_ui (CertificateManagerData *cfm)
 }
 
 static void
+import_contact (GtkWidget *widget, CertificateManagerData *cfm)
+{
+	GtkWidget *filesel = gtk_file_selection_new (_("Select a cert to import..."));
+
+	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
+		const char *filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
+
+		if (e_cert_db_import_certs_from_file (e_cert_db_peek (),
+						      filename,
+						      E_CERT_CONTACT,
+						      NULL)) {
+
+			/* there's no telling how many certificates were added during the import,
+			   so we blow away the contact cert display and regenerate it. */
+			unload_certs (cfm, E_CERT_CONTACT);
+			load_certs (cfm, E_CERT_CONTACT, add_contact_cert);
+		}
+	}
+
+	gtk_widget_destroy (filesel);
+}
+
+static void
+delete_contact (GtkWidget *widget, CertificateManagerData *cfm)
+{
+	GtkTreeIter iter;
+
+	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW(cfm->contactcerts_treeview)),
+					     NULL,
+					     &iter)) {
+		ECert *cert;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (cfm->contactcerts_treemodel),
+				    &iter,
+				    3, &cert,
+				    -1);
+
+		if (cert) {
+			printf ("DELETE\n");
+			e_cert_db_delete_cert (e_cert_db_peek (), cert);
+			gtk_tree_store_remove (cfm->contactcerts_treemodel,
+					       &iter);
+
+			/* we need two unrefs here, one to unref the
+			   gtk_tree_model_get above, and one to unref
+			   the initial ref when we created the cert
+			   and added it to the tree */
+			g_object_unref (cert);
+			g_object_unref (cert);
+		}
+	}
+					     
+}
+
+static void
 contactcerts_selection_changed (GtkTreeSelection *selection, CertificateManagerData *cfm)
 {
-#if 0
 	handle_selection_changed (gtk_tree_view_get_selection (GTK_TREE_VIEW(cfm->contactcerts_treeview)),
-				  1 /* XXX */,
-				  NULL,
-				  NULL,
-				  NULL);
-#endif
+				  3,
+				  cfm->view_contact_button,
+				  cfm->edit_contact_button,
+				  cfm->delete_contact_button);
+}
+
+static GtkTreeStore*
+create_contactcerts_treemodel (void)
+{
+	return gtk_tree_store_new (4,
+				   G_TYPE_STRING,
+				   G_TYPE_STRING,
+				   G_TYPE_STRING,
+				   G_TYPE_OBJECT);
 }
 
 static void
@@ -222,12 +289,6 @@ initialize_contactcerts_ui (CertificateManagerData *cfm)
 									       "text", 2,
 									       NULL));
 
-	cfm->contactcerts_treemodel = gtk_tree_store_new (3,
-							  G_TYPE_STRING,
-							  G_TYPE_STRING,
-							  G_TYPE_STRING,
-							  G_TYPE_OBJECT);
-	
 	gtk_tree_view_set_model (GTK_TREE_VIEW (cfm->contactcerts_treeview),
 				 GTK_TREE_MODEL (cfm->contactcerts_treemodel));
 
@@ -235,6 +296,13 @@ initialize_contactcerts_ui (CertificateManagerData *cfm)
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cfm->contactcerts_treeview));
 	g_signal_connect (selection, "changed", G_CALLBACK (contactcerts_selection_changed), cfm);
+
+	if (cfm->import_contact_button)
+		g_signal_connect (cfm->import_contact_button, "clicked", G_CALLBACK (import_contact), cfm);
+
+	if (cfm->delete_contact_button)
+		g_signal_connect (cfm->delete_contact_button, "clicked", G_CALLBACK (delete_contact), cfm);
+
 }
 
 static gint
@@ -400,7 +468,40 @@ add_user_cert (CertificateManagerData *cfm, ECert *cert)
 static void
 add_contact_cert (CertificateManagerData *cfm, ECert *cert)
 {
-	/* nothing yet */
+	GtkTreeIter iter;
+	GtkTreeIter *parent_iter = NULL;
+	const char *organization = e_cert_get_org (cert);
+
+	if (organization) {
+		parent_iter = g_hash_table_lookup (cfm->contactcerts_root_hash, organization);
+		if (!parent_iter) {
+			/* create a new toplevel node */
+			gtk_tree_store_append (GTK_TREE_STORE (cfm->contactcerts_treemodel), &iter, NULL);
+		
+			gtk_tree_store_set (GTK_TREE_STORE (cfm->contactcerts_treemodel), &iter,
+					    0, organization, -1);
+
+			/* now copy it off into parent_iter and insert it into
+			   the hashtable */
+			parent_iter = gtk_tree_iter_copy (&iter);
+			g_hash_table_insert (cfm->contactcerts_root_hash, g_strdup (organization), parent_iter);
+		}
+	}
+
+	gtk_tree_store_append (GTK_TREE_STORE (cfm->contactcerts_treemodel), &iter, parent_iter);
+
+	if (e_cert_get_cn (cert))
+		gtk_tree_store_set (GTK_TREE_STORE (cfm->contactcerts_treemodel), &iter,
+				    0, e_cert_get_cn (cert),
+				    1, e_cert_get_email (cert),
+				    3, cert,
+				    -1);
+	else
+		gtk_tree_store_set (GTK_TREE_STORE (cfm->contactcerts_treemodel), &iter,
+				    0, e_cert_get_nickname (cert),
+				    1, e_cert_get_email (cert),
+				    3, cert,
+				    -1);
 }
 
 static void
@@ -461,6 +562,15 @@ unload_certs (CertificateManagerData *cfm,
 	case E_CERT_USER:
 		break;
 	case E_CERT_CONTACT:
+		cfm->contactcerts_treemodel = create_contactcerts_treemodel ();
+		gtk_tree_view_set_model (GTK_TREE_VIEW (cfm->contactcerts_treeview),
+					 GTK_TREE_MODEL (cfm->contactcerts_treemodel));
+
+		if (cfm->contactcerts_root_hash)
+			g_hash_table_destroy (cfm->contactcerts_root_hash);
+
+		cfm->contactcerts_root_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
+								     destroy_key, destroy_value);
 		break;
 	case E_CERT_SITE:
 		break;
@@ -476,6 +586,9 @@ unload_certs (CertificateManagerData *cfm,
 								       destroy_key, destroy_value);
 
 
+		break;
+	case E_CERT_UNKNOWN:
+		/* nothing to do here */
 		break;
 	}
 }
@@ -538,6 +651,11 @@ certificate_manager_config_control_new (void)
 	cfm_data->backup_all_your_button = glade_xml_get_widget (cfm_data->gui, "your-backup-all-button");
 	cfm_data->import_your_button = glade_xml_get_widget (cfm_data->gui, "your-import-button");
 	cfm_data->delete_your_button = glade_xml_get_widget (cfm_data->gui, "your-delete-button");
+
+	cfm_data->view_contact_button = glade_xml_get_widget (cfm_data->gui, "contact-view-button");
+	cfm_data->edit_contact_button = glade_xml_get_widget (cfm_data->gui, "contact-edit-button");
+	cfm_data->import_contact_button = glade_xml_get_widget (cfm_data->gui, "contact-import-button");
+	cfm_data->delete_contact_button = glade_xml_get_widget (cfm_data->gui, "contact-delete-button");
 
 	cfm_data->view_ca_button = glade_xml_get_widget (cfm_data->gui, "authority-view-button");
 	cfm_data->edit_ca_button = glade_xml_get_widget (cfm_data->gui, "authority-edit-button");

@@ -1,3 +1,33 @@
+2003-11-12  Chris Toshok  <toshok@ximian.com>
+
+	* lib/e-cert.c (e_cert_get_cert_type): implement using the
+	e-cert-trust foo.
+	(e_cert_get_email): implement.
+
+	* lib/e-cert.h: add UNKNOWN cert type.
+
+	* gui/smime-ui.glade: fix capitalization of "Import" on the
+	contact certificate page.
+
+	* gui/certificate-manager.c (import_contact): new function.
+	implement email cert importing.
+	(delete_contact): new function.
+	(unload_certs): implement for E_CERT_CONTACT.
+	(certificate_manager_config_control_new): get the contact cert
+	action buttons from libglade.
+
+	* lib/e-cert-db.c (handle_ca_cert_download): mostly implement the
+	trust settings correctly.  this still needs work pending the CA
+	trust dialog's completion.
+	(e_cert_db_delete_cert): fix the ifdef'ed code.
+	(e_cert_db_import_user_cert): remove the ifdef'ed body of this,
+	since it was copied from the CA code.
+
+	* lib/Makefile.am (libessmime_la_SOURCES): add e-cert-trust.[ch]
+
+	* lib/e-cert-trust.[ch]: new files, basically c&p nsNSSCertTrust
+	from mozilla's PSM.
+
 2003-11-11  Chris Toshok  <toshok@ximian.com>
 
 	* tests/import-cert.c (main): don't init NSS here.  it's done in

@@ -56,6 +56,7 @@
  */
 
 #include "e-cert.h"
+#include "e-cert-trust.h"
 #include "pk11func.h"
 #include "certdb.h"
 
@@ -219,6 +220,7 @@ e_cert_get_nickname (ECert *cert)
 const char*
 e_cert_get_email    (ECert *cert)
 {
+	return cert->priv->cert->emailAddr;
 }
 
 const char*
@@ -269,10 +271,23 @@ e_cert_mark_for_deletion (ECert *cert)
 }
 
 ECertType
-e_cert_get_cert_type (ECert *cert)
+e_cert_get_cert_type (ECert *ecert)
 {
-	if (CERT_IsCACert (cert->priv->cert, NULL))
-		return E_CERT_CA;
-	else /* XXX more here */
-		return E_CERT_USER;
+	const char *nick = e_cert_get_nickname (ecert);
+	const char *email = e_cert_get_email (ecert);
+	CERTCertificate *cert = ecert->priv->cert;
+
+	if (nick) {
+		if (e_cert_trust_has_any_user (cert->trust))
+			return E_CERT_USER;
+		if (e_cert_trust_has_any_ca (cert->trust)
+		    || CERT_IsCACert(cert,NULL))
+			return E_CERT_CA;
+		if (e_cert_trust_has_peer (cert->trust, PR_TRUE, PR_FALSE, PR_FALSE))
+			return E_CERT_SITE;
+	}
+	if (email && e_cert_trust_has_peer (cert->trust, PR_FALSE, PR_TRUE, PR_FALSE))
+		return E_CERT_CONTACT;
+
+	return E_CERT_UNKNOWN;
 }
