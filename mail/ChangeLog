@@ -1,3 +1,10 @@
+2001-09-28  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (get_data_wrapper_text): Deal with
+	camel_mime_filter_charset_new_convert returning NULL. (Every other
+	call to it does, and something's wrong with iconv on the Sun right
+	now so it keeps failing.)
+
 2001-09-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-mt.c (do_user_message): Always make the Cancel button the

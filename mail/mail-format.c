@@ -1061,8 +1061,10 @@ get_data_wrapper_text (CamelDataWrapper *wrapper)
 		
 		charset = mail_config_get_default_charset ();
 		filter = camel_mime_filter_charset_new_convert (charset, "utf-8");
-		camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (filter));
-		camel_object_unref (CAMEL_OBJECT (filter));
+		if (filter) {
+			camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (filter));
+			camel_object_unref (CAMEL_OBJECT (filter));
+		}
 	}
 	
 	camel_data_wrapper_write_to_stream (wrapper, CAMEL_STREAM (filtered_stream));
