@@ -1,3 +1,24 @@
+2001-05-13  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook.h: add prototype for
+	addressbook_expand_uri.
+
+	* gui/component/addressbook-component.c
+	(destination_folder_handle_drop): create an EBook for
+	@physical_uri.
+	(dnd_drop_book_open_cb): actually add the dropped cards.
+
+	* gui/component/addressbook.c (addressbook_expand_uri): abstract
+	this code out from the set_prop method so we can use it in the
+	component.
+	(set_prop): call addressbook_expand_uri.
+
+	* backend/ebook/e-card.c (e_card_load_cards_from_string): new
+	function.
+
+	* backend/ebook/e-card.h: add prototype for
+	e_card_load_cards_from_string.
+
 2001-05-12  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-component.c

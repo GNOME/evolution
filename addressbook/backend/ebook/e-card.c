@@ -2013,6 +2013,24 @@ e_card_load_cards_from_file(const char *filename)
 	return list;
 }
 
+GList *
+e_card_load_cards_from_string(const char *str)
+{
+	VObject *vobj = Parse_MIME(str, strlen (str));
+	GList *list = NULL;
+	while(vobj) {
+		VObject *next;
+		ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
+		parse(card, vobj);
+		next = nextVObjectInList(vobj);
+		cleanVObject(vobj);
+		vobj = next;
+		list = g_list_prepend(list, card);
+	}
+	list = g_list_reverse(list);
+	return list;
+}
+
 void
 e_card_free_empty_lists (ECard *card)
 {

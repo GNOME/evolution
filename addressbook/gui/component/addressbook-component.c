@@ -35,6 +35,9 @@
 #include "evolution-shell-component-dnd.h"
 #include "evolution-storage.h"
 
+#include "ebook/e-book.h"
+#include "ebook/e-card.h"
+
 #include "addressbook-storage.h"
 #include "addressbook-component.h"
 #include "addressbook.h"
@@ -273,6 +276,9 @@ owner_unset_cb (EvolutionShellComponent *shell_component,
 		gtk_main_quit();
 }
 
+
+/* Destination side DnD */
+
 static CORBA_boolean
 destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *folder,
 				  const char *physical_uri,
@@ -285,6 +291,18 @@ destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *f
 	return TRUE;
 }
 
+static void
+dnd_drop_book_open_cb (EBook *book, EBookStatus status, GList *card_list)
+{
+	GList *l;
+
+	for (l = card_list; l; l = l->next) {
+		ECard *card = l->data;
+
+		e_book_add_card (book, card, NULL /* XXX */, NULL);
+	}
+}
+
 static CORBA_boolean
 destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *folder,
 				const char *physical_uri,
@@ -293,12 +311,24 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 				const GNOME_Evolution_ShellComponentDnd_Data * data,
 				gpointer user_data)
 {
+	EBook *book;
+	GList *card_list;
+	char *expanded_uri;
+
 	if (action == GNOME_Evolution_ShellComponentDnd_ACTION_LINK)
 		return FALSE; /* we can't create links in our addressbook format */
 
 	g_print ("in destination_folder_handle_drop (%s)\n", physical_uri);
 
-	g_print ("data = %s\n", data->bytes._buffer);
+	card_list = e_card_load_cards_from_string (data->bytes._buffer);
+
+	expanded_uri = addressbook_expand_uri (physical_uri);
+
+	book = e_book_new ();
+	e_book_load_uri (book, expanded_uri,
+			 (EBookCallback)dnd_drop_book_open_cb, card_list);
+
+	g_free (expanded_uri);
 
 	return TRUE;
 }

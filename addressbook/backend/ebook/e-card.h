@@ -154,6 +154,7 @@ gboolean              e_card_email_match_string           (const ECard          
 
 /* Specialized functionality */
 GList                *e_card_load_cards_from_file         (const char                 *filename);
+GList                *e_card_load_cards_from_string       (const char                 *str);
 void                  e_card_free_empty_lists             (ECard                      *card);
 
 enum _ECardDisposition {

@@ -510,6 +510,33 @@ get_prop (BonoboPropertyBag *bag,
 	}
 }
 
+char *
+addressbook_expand_uri (const char *uri)
+{
+	char *new_uri;
+
+	if (!strncmp (uri, "file:", 5)) {
+		if (strlen (uri + 7) > 3
+		    && !strcmp (uri + strlen(uri) - 3, ".db")) {
+			/* it's a .db file */
+			new_uri = g_strdup (uri);
+		}
+		else {
+			char *file_name;
+			/* we assume it's a dir and glom addressbook.db onto the end. */
+			file_name = g_concat_dir_and_file(uri + 7, "addressbook.db");
+			new_uri = g_strdup_printf("file://%s", file_name);
+			g_free(file_name);
+		}
+	}
+	else {
+		new_uri = g_strdup (uri);
+	}
+
+	return new_uri;
+}
+
+
 static void
 set_prop (BonoboPropertyBag *bag,
 	  const BonoboArg   *arg,
@@ -538,25 +565,7 @@ set_prop (BonoboPropertyBag *bag,
 
 		view->uri = g_strdup(BONOBO_ARG_GET_STRING (arg));
 		
-		if (!strncmp (view->uri, "file:", 5)) {
-
-			if (strlen (view->uri + 7) > 3
-			    && !strcmp (view->uri + strlen(view->uri) - 3, ".db")) {
-				/* it's a .db file */
-				uri_data = g_strdup (view->uri);
-			}
-			else {
-				char *file_name;
-				/* we assume it's a dir and glom addressbook.db onto the end. */
-				file_name = g_concat_dir_and_file(view->uri + 7, "addressbook.db");
-				uri_data = g_strdup_printf("file://%s", file_name);
-				g_free(file_name);
-			}
-
-		}
-		else {
-			uri_data = g_strdup (view->uri);
-		}
+		uri_data = addressbook_expand_uri (view->uri);
 
 		if (! e_book_load_uri (book, uri_data, book_open_cb, view))
 			printf ("error calling load_uri!\n");
