@@ -1,3 +1,8 @@
+2005-01-19  Rodrigo Moya <rodrigo@novell.com>
+
+	* importers/icalendar-imporer.c (update_objects): use receive_objects
+	method instead of individually updating objects.
+
 2005-01-18  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #71407

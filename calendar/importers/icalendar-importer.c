@@ -187,39 +187,25 @@ update_objects (ECal *client, icalcomponent *icalcomp)
 {
 	icalcomponent *subcomp;
 	icalcomponent_kind kind;
+	icalcomponent *vcal;
+	GError *error = NULL;
+	gboolean success = TRUE;
 
 	kind = icalcomponent_isa (icalcomp);
-	if (kind == ICAL_VTODO_COMPONENT || kind == ICAL_VEVENT_COMPONENT)
-		return update_single_object (client, icalcomp);
-	else if (kind != ICAL_VCALENDAR_COMPONENT)
+	if (kind == ICAL_VTODO_COMPONENT || kind == ICAL_VEVENT_COMPONENT) {
+		vcal = e_cal_util_new_top_level ();
+		icalcomponent_add_component (vcal, icalcomponent_new_clone (icalcomp));
+	} else if (kind == ICAL_VCALENDAR_COMPONENT) {
+		vcal = icalcomponent_new_clone (icalcomp);
+	} else
 		return FALSE;
 
-	subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
-	while (subcomp) {
-		gboolean success;
-		
-		kind = icalcomponent_isa (subcomp);
-		if (kind == ICAL_VTIMEZONE_COMPONENT) {
-			icaltimezone *zone;
+	if (!e_cal_receive_objects (client, vcal, NULL))
+		success = FALSE;
 
-			zone = icaltimezone_new ();
-			icaltimezone_set_component (zone, subcomp);
+	icalcomponent_free (vcal);
 
-			success = e_cal_add_timezone (client, zone, NULL);
-			icaltimezone_free (zone, 1);
-			if (!success)
-				return success;
-		} else if (kind == ICAL_VTODO_COMPONENT ||
-			   kind == ICAL_VEVENT_COMPONENT) {
-			success = update_single_object (client, subcomp);
-			if (!success)
-				return success;
-		}
-
-		subcomp = icalcomponent_get_next_component (icalcomp, ICAL_ANY_COMPONENT);
-	}
-
-	return TRUE;
+	return success;
 }
 
 static void
