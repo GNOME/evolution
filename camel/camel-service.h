@@ -35,6 +35,8 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
+#include "url-util.h"
+#include "camel-exception.h"
 
 #define CAMEL_SERVICE_TYPE     (camel_service_get_type ())
 #define CAMEL_SERVICE(obj)     (GTK_CHECK_CAST((obj), CAMEL_SERVICE_TYPE, CamelService))
@@ -47,7 +49,7 @@ typedef struct {
 	GtkObject parent_object;
 
 	gboolean connected;
-	gchar *url; /* This may be a full object ? */
+	Gurl *url;
 
 } CamelService;
 
@@ -56,24 +58,25 @@ typedef struct {
 typedef struct {
 	GtkObjectClass parent_class;
 
-	void  (*connect) (CamelService *service);
-	void  (*connect_to_with_login_passwd) (CamelService *service, gchar *host, gchar *login, gchar *passwd);
-	void  (*connect_to_with_login_passwd_port) (CamelService *service, gchar *host, gchar *login, gchar *passwd, guint port);
+	gboolean  (*connect) (CamelService *service, CamelException *ex);
+	gboolean  (*connect_with_url) (CamelService *service, Gurl *url,
+				       CamelException *ex);
+	gboolean  (*disconnect) (CamelService *service, CamelException *ex);
+
 	gboolean  (*is_connected) (CamelService *service);
-	void  (*set_connected) (CamelService *service, gboolean state);
-	const gchar *  (*get_url) (CamelService *service);
-	
+
 } CamelServiceClass;
 
 
 
 
 /* public methods */
-void camel_service_connect (CamelService *service);
+gboolean camel_service_connect (CamelService *service, CamelException *ex);
+gboolean camel_service_connect_with_url (CamelService *service, gchar *url,
+					 CamelException *ex);
 gboolean camel_service_is_connected (CamelService *service);
-void camel_service_connect_to_with_login_passwd (CamelService *service, gchar *host, gchar *login, gchar *passwd);
-void camel_service_connect_to_with_login_passwd_port (CamelService *service, gchar *host, gchar *login, gchar *passwd, guint port);
-const gchar *camel_service_get_url (CamelService *service);
+gchar *camel_service_get_url (CamelService *service);
+
 /* Standard Gtk function */
 GtkType camel_service_get_type (void);
 
