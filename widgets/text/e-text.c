@@ -306,7 +306,8 @@ insert_preedit_text (EText *text)
 
 	g_string_prepend_len (tmp_string, text->text,length); 
 
-	gtk_im_context_get_preedit_string (text->im_context,
+	if (text->preedit_len)
+		gtk_im_context_get_preedit_string (text->im_context,
 					   &preedit_string, &preedit_attrs,
 					   NULL);
 
@@ -2167,6 +2168,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 	EText *text = E_TEXT(item);
 	ETextEventProcessorEvent e_tep_event;
 
+	static EText *save_text = NULL;
+
 	gint return_val = 0;
 
 	if (!text->model)
@@ -2179,6 +2182,26 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			GdkEventFocus *focus_event;
 			focus_event = (GdkEventFocus *) event;
 			if (focus_event->in) {
+
+				/* Evil hack to disconnect the signal handlers for the previous Etext
+				 * which was not disconnected because of being in preedit mode.
+				 * In preedit mode the widget can go out of focus due to popups associated
+				 * with preedit.,but still the callbacks need to be connected. 
+				 * Here when a new text widget comes into focus we can disconnect the 
+				 * old one.Shouldn't hurt much, as in worst case, save_text which should
+				 * be disconnected will be overwritten and we will have signal 
+			   	 * handlers connect to  multiple e-texts but with subsequent commit these 
+				 * should go away.
+				 */
+
+				if (save_text && save_text->im_context) {
+					g_signal_handlers_disconnect_matched (save_text->im_context,
+									      G_SIGNAL_MATCH_DATA,
+                                                                             0, 0, NULL,
+                                                                             NULL, save_text);
+                                       save_text->im_context_signals_registered = FALSE;
+                                }
+
 				if (text->im_context) {
 					if (!text->im_context_signals_registered) {
 						g_signal_connect (text->im_context, "commit",
@@ -2195,13 +2218,20 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 				start_editing (text);
 				text->show_cursor = FALSE; /* so we'll redraw and the cursor will be shown */
 			} else {
-				if (text->im_context) {
+				/* Incase we are not disconnecting the signals 
+				 * for text, we are saving text for 
+				 * disconnecting in the next focus_in.
+				 */
+				if (!text->preedit_len && text->im_context) {
 					g_signal_handlers_disconnect_matched (text->im_context,
 									      G_SIGNAL_MATCH_DATA,
 									      0, 0, NULL,
 									      NULL, text);
 					text->im_context_signals_registered = FALSE;
+				} else {
+					save_text = text;
 				}
+
 				e_text_stop_editing (text);
 				if (text->timeout_id) {
 					g_source_remove(text->timeout_id);
