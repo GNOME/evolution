@@ -1247,6 +1247,68 @@ ethi_button_pressed (ETableHeaderItem *ethi, GdkEventButton *event)
 			 ethi_signals [BUTTON_PRESSED], event);
 }
 
+static void
+ethi_change_sort_state (ETableHeaderItem *ethi, gdouble x)
+{
+	ETableCol *col;
+	int model_col;
+	int length;
+	int i;
+	int found = FALSE;
+	
+	col = e_table_header_get_column (ethi->eth, ethi_find_col_by_x (ethi, x));
+	model_col = col->col_idx;
+	
+	length = e_table_sort_info_grouping_get_count(ethi->sort_info);
+	for (i = 0; i < length; i++) {
+		ETableSortColumn column = e_table_sort_info_grouping_get_nth(ethi->sort_info, i);
+		if (model_col == column.column){
+			int ascending = column.ascending;
+			ascending = ! ascending;
+			column.ascending = ascending;
+			e_table_sort_info_grouping_set_nth(ethi->sort_info, i, column);
+			found = 1;
+			break;
+		}
+	}
+	
+	if (!col->sortable)
+		return;
+	
+	if (!found) {
+		length = e_table_sort_info_sorting_get_count(ethi->sort_info);
+		for (i = 0; i < length; i++) {
+			ETableSortColumn column = e_table_sort_info_sorting_get_nth(ethi->sort_info, i);
+
+			if (model_col == column.column){
+				int ascending = column.ascending;
+				
+				if (ascending == 0){
+					/*
+					 * This means the user has clicked twice
+					 * already, lets kill sorting now.
+					 */
+					e_table_sort_info_sorting_truncate (ethi->sort_info, i);
+				} else {
+					ascending = !ascending;
+					column.ascending = ascending;
+					e_table_sort_info_sorting_set_nth(ethi->sort_info, i, column);
+				}
+				found = 1;
+				break;
+			}
+		}
+	}
+
+	if (!found) {
+		ETableSortColumn column = { model_col, 1 };
+		length = e_table_sort_info_sorting_get_count(ethi->sort_info);
+		if (length == 0)
+			length++;
+		e_table_sort_info_sorting_set_nth(ethi->sort_info, length - 1, column);
+	}
+}
+
 /*
  * Handles the events on the ETableHeaderItem, particularly it handles resizing
  */
@@ -1362,52 +1424,8 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (ethi->resize_col != -1){
 			needs_ungrab = (ethi->resize_guide != NULL);
 			ethi_end_resize (ethi);
-		} else if (was_maybe_drag && ethi->sort_info) {
-			ETableCol *col;
-			int model_col;
-			int length;
-			int i;
-			int found = FALSE;
-
-			col = e_table_header_get_column (ethi->eth, ethi_find_col_by_x (ethi, e->button.x));
-			model_col = col->col_idx;
-
-			length = e_table_sort_info_grouping_get_count(ethi->sort_info);
-			for (i = 0; i < length; i++) {
-				ETableSortColumn column = e_table_sort_info_grouping_get_nth(ethi->sort_info, i);
-				if (model_col == column.column){
-					int ascending = column.ascending;
-					ascending = ! ascending;
-					column.ascending = ascending;
-					e_table_sort_info_grouping_set_nth(ethi->sort_info, i, column);
-					found = 1;
-					break;
-				}
-			}
-			if(col->sortable) {
-				if (!found) {
-					length = e_table_sort_info_sorting_get_count(ethi->sort_info);
-					for (i = 0; i < length; i++) {
-						ETableSortColumn column = e_table_sort_info_sorting_get_nth(ethi->sort_info, i);
-						if (model_col == column.column){
-							int ascending = column.ascending;
-							ascending = ! ascending;
-							column.ascending = ascending;
-							e_table_sort_info_sorting_set_nth(ethi->sort_info, i, column);
-							found = 1;
-							break;
-						}
-					}
-				}
-				if (!found) {
-					ETableSortColumn column = { model_col, 1 };
-					length = e_table_sort_info_sorting_get_count(ethi->sort_info);
-					if (length == 0)
-						length++;
-					e_table_sort_info_sorting_set_nth(ethi->sort_info, length - 1, column);
-				}
-			}
-		}
+		} else if (was_maybe_drag && ethi->sort_info) 
+			ethi_change_sort_state (ethi, e->button.x);
 		
 		if (needs_ungrab)
 			gnome_canvas_item_ungrab (item, e->button.time);
