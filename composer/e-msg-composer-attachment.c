@@ -32,6 +32,7 @@
 #include <gnome.h>
 #include <camel/camel.h>
 #include <gal/widgets/e-unicode.h>
+#include <libgnomevfs/gnome-vfs.h>
 
 #include "e-msg-composer-attachment.h"
 
@@ -47,16 +48,23 @@ static GtkObjectClass *parent_class = NULL;
 
 /* Utility functions.  */
 
-static const gchar *
+static gchar *
 get_mime_type (const gchar *file_name)
 {
-	const gchar *mime_type;
+	GnomeVFSFileInfo info;
+	GnomeVFSResult result;
 
-	mime_type = gnome_mime_type_of_file (file_name);
-	if (mime_type == NULL)
-		mime_type = "application/octet-stream";
+	result = gnome_vfs_get_file_info (file_name, &info,
+					  GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
+					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+	if (result == GNOME_VFS_OK) {
+		gchar *type;
 
-	return mime_type;
+		type = g_strdup (gnome_vfs_file_info_get_mime_type (&info));
+		gnome_vfs_file_info_unref (&info);
+		return type;
+	} else
+		return NULL;
 }
 
 static void
@@ -161,6 +169,7 @@ e_msg_composer_attachment_new (const gchar *file_name)
 	CamelDataWrapper *wrapper;
 	CamelStream *data;
 	struct stat statbuf;
+	gchar *mime_type;
 
 	g_return_val_if_fail (file_name != NULL, NULL);
 
@@ -170,7 +179,12 @@ e_msg_composer_attachment_new (const gchar *file_name)
 	wrapper = camel_data_wrapper_new ();
 	camel_data_wrapper_construct_from_stream (wrapper, data);
 	camel_object_unref (CAMEL_OBJECT (data));
-	camel_data_wrapper_set_mime_type (wrapper, get_mime_type (file_name));
+	mime_type = get_mime_type (file_name);
+	if (mime_type) {
+		camel_data_wrapper_set_mime_type (wrapper, mime_type);
+		g_free (mime_type);
+	} else
+		camel_data_wrapper_set_mime_type (wrapper, "application/octet-stream");
 
 	part = camel_mime_part_new ();
 	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);

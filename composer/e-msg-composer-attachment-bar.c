@@ -23,6 +23,7 @@
 
 #include <gnome.h>
 #include <glade/glade.h>
+#include <libgnomevfs/gnome-vfs-mime-info.h>
 
 #include "e-msg-composer-attachment.h"
 #include "e-msg-composer-attachment-bar.h"
@@ -194,13 +195,14 @@ update (EMsgComposerAttachmentBar *bar)
 		content_type = camel_mime_part_get_content_type (attachment->body);
 		mime_type = g_strdup_printf ("%s/%s", content_type->type,
 					     content_type->subtype);
-		icon_name = gnome_mime_get_value (mime_type, "icon-filename");
+		icon_name = gnome_vfs_mime_get_value (mime_type,
+						      "icon-filename");
 		g_free (mime_type);
 
 		/* FIXME we need some better default icon.  */
 		if (icon_name == NULL)
-			icon_name = gnome_mime_get_value ("text/plain",
-							  "icon-filename");
+			icon_name = gnome_vfs_mime_get_value ("text/plain",
+							      "icon-filename");
 
 		desc = camel_mime_part_get_description (attachment->body);
 		if (!desc)

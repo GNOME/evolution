@@ -1,3 +1,11 @@
+2000-09-18  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer-attachment.c (get_mime_type): Use
+	gnome_vfs_get_file_info.
+
+	* e-msg-composer-attachment-bar.c (update): Use gnome_vfs_mime
+	functions, not old gnome_mime.
+
 2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Added $(EXTRA_GNOME_CFLAGS) and
