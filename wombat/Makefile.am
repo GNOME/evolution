@@ -22,8 +22,6 @@ wombat_SOURCES = 		\
 	wombat.c
 
 wombat_LDADD =							\
-	$(EXTRA_GNOME_LIBS)					\
-	$(BONOBO_VFS_GNOME_LIBS)				\
 	$(top_builddir)/addressbook/backend/pas/libpas.a	\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(top_builddir)/e-util/ename/libename.la		\
@@ -32,7 +30,10 @@ wombat_LDADD =							\
 	$(top_builddir)/libical/src/libical/libical.la		\
 	$(top_builddir)/libversit/libversit.la			\
 	$(top_builddir)/e-util/libeutil.la			\
-	$(LDAP_LIBS)
+	$(LDAP_LIBS)						\
+	$(DB3_LDADD)						\
+	$(EXTRA_GNOME_LIBS)					\
+	$(BONOBO_VFS_GNOME_LIBS)
 
 oafdir = $(datadir)/oaf
 
@@ -54,4 +55,3 @@ wombat.pure: wombat
 	$(PLINK) $(wombat_LDFLAGS) $(wombat_OBJECTS) $(wombat_LDADD) $(LIBS)
 
 endif
-

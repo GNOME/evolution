@@ -1,3 +1,7 @@
+2001-05-31  Christopher James Lahey  <clahey@ximian.com>
+
+	* Makefile.am (wombat_LDADD): Added db3 libs.
+
 2001-04-03  Dietmar Maurer  <dietmar@ximian.com>
 
 	* wombat-moniker.c (wombat_lookup_db): fix ref. counting problem

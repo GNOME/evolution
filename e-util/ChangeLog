@@ -1,3 +1,12 @@
+2001-05-31  Christopher James Lahey  <clahey@ximian.com>
+
+	* Makefile.am (INCLUDES): Added db3 cflags.
+
+	* e-dbhash.c: Made this use db3.
+
+	* e-db3-utils.c, e-db3-utils.h: New files with some helper
+	functions.
+
 2001-05-27  Dan Winship  <danw@ximian.com>
 
 	* e-gui-utils.c: Remove e_pixmaps_update (moved to libeshell) so

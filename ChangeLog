@@ -1,5 +1,16 @@
 2001-05-31  Christopher James Lahey  <clahey@ximian.com>
 
+	* README: Included information about db3.
+
+	* acconfig.h: Added HAVE_DB_H and HAVE_DB3_DB_H.
+
+	* configure.in: Added various checks for db3 libraries and
+	includes.  Of note are the new configure options
+	--with-db3-includes=PREFIX and --with-db3-libs=PREFIX to specify
+	the location for your db3 library.
+
+2001-05-31  Christopher James Lahey  <clahey@ximian.com>
+
 	* configure.in (GTKHTML_DATADIR): Use --moddatadir to derive this.
 
 2001-05-30  Dan Winship  <danw@ximian.com>

@@ -13,14 +13,14 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <time.h>
-#ifdef HAVE_DB_185_H
-#include <db_185.h>
-#else
-#ifdef HAVE_DB1_DB_H
-#include <db1/db.h>
-#else
 #include <db.h>
-#endif
+
+#include <e-util/e-db3-utils.h>
+
+#if DB_VERSION_MAJOR != 3 || \
+    DB_VERSION_MINOR != 1 || \
+    DB_VERSION_PATCH != 17
+#error Including wrong DB3.  Need libdb 3.1.17.
 #endif
 
 #include <gtk/gtksignal.h>
@@ -32,6 +32,7 @@
 #include <ebook/e-card-simple.h>
 #include <e-util/e-sexp.h>
 #include <e-util/e-dbhash.h>
+#include <e-util/e-db3-utils.h>
 #include "pas-book.h"
 #include "pas-card-cursor.h"
 
@@ -476,22 +477,32 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 {
 	int     db_error = 0;
 	GList   *cards = NULL;
-	gint    card_count = 0, card_threshold = 20, card_threshold_max = 200;
+	gint    card_count = 0, card_threshold = 20, card_threshold_max = 1000;
 	DB      *db = bf->priv->file_db;
+	DBC     *dbc;
 	DBT     id_dbt, vcard_dbt;
 	int     i, file_version_name_len;
 	int esexp_error;
 	PASBackendFileBookView *view = (PASBackendFileBookView *)cnstview;
+	gboolean search_needed;
 
 	if (!bf->priv->loaded)
 		return;
 
-	pas_book_view_notify_status_message (view->book_view, "Searching...");
+	search_needed = TRUE;
+
+	if ( ! strcmp (view->search, "(contains \"x-evolution-any-field\" \"\")"))
+		search_needed = FALSE;
+
+	if (search_needed)
+		pas_book_view_notify_status_message (view->book_view, "Searching...");
+	else
+		pas_book_view_notify_status_message (view->book_view, "Loading...");
 
 	if (view->search_sexp)
 		e_sexp_unref(view->search_sexp);
 	view->search_sexp = e_sexp_new();
-
+	
 	for(i=0;i<sizeof(symbols)/sizeof(symbols[0]);i++) {
 		if (symbols[i].type == 1) {
 			e_sexp_add_ifunction(view->search_sexp, 0, symbols[i].name,
@@ -505,8 +516,6 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 	e_sexp_input_text(view->search_sexp, view->search, strlen(view->search));
 	esexp_error = e_sexp_parse(view->search_sexp);
 
-	file_version_name_len = strlen (PAS_BACKEND_FILE_VERSION_NAME);
-
 	if (esexp_error == -1) {
 		/* need a different error message here. */
 		pas_book_view_notify_complete (view->book_view);
@@ -514,43 +523,56 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 		return;
 	}
 
-	db_error = db->seq(db, &id_dbt, &vcard_dbt, R_FIRST);
+	file_version_name_len = strlen (PAS_BACKEND_FILE_VERSION_NAME);
 
-	while (db_error == 0) {
+	db_error = db->cursor (db, NULL, &dbc, 0);
 
-		/* don't include the version in the list of cards */
-		if (id_dbt.size != file_version_name_len+1
-		    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
-			char *vcard_string = vcard_dbt.data;
+	memset (&id_dbt, 0, sizeof (id_dbt));
+	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
 
-			/* check if the vcard matches the search sexp */
-			if (vcard_matches_search (view, vcard_string)) {
-				cards = g_list_prepend (cards, g_strdup (vcard_string));
-				++card_count;
+	if (db_error != 0) {
+		g_warning ("pas_backend_file_search: error building list\n");
+	} else {
+		db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_FIRST);
 
-				/* If we've accumulated a number of matches, pass them off to the client. */
-				if (card_count > card_threshold) {
+		while (db_error == 0) {
+
+			/* don't include the version in the list of cards */
+			if (id_dbt.size != file_version_name_len+1
+			    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
+				char *vcard_string = vcard_dbt.data;
+
+				/* check if the vcard matches the search sexp */
+				if ((!search_needed) || vcard_matches_search (view, vcard_string)) {
+					cards = g_list_prepend (cards, g_strdup (vcard_string));
+				}
+
+				card_count ++;
+
+				/* If we've accumulated a number of checks, pass them off to the client. */
+				if (card_count >= card_threshold) {
+					cards = g_list_reverse (cards);
 					pas_book_view_notify_add (view->book_view, cards);
-					/* Clean up the handed-off data. */
+				/* Clean up the handed-off data. */
 					g_list_foreach (cards, (GFunc)g_free, NULL);
 					g_list_free (cards);
 					cards = NULL;
 					card_count = 0;
 
-					/* Yeah, this scheme is over-complicated.  But I like it. */
-					if (card_threshold <= card_threshold_max) {
+				/* Yeah, this scheme is over-complicated.  But I like it. */
+					if (card_threshold < card_threshold_max) {
 						card_threshold = MIN (2*card_threshold, card_threshold_max);
 					}
 				}
-
 			}
-		}
-		
-		db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
-	}
 
-	if (db_error == -1) {
-		g_warning ("pas_backend_file_search: error building list\n");
+			db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_NEXT);
+		}
+		dbc->c_close (dbc);
+
+		if (db_error != DB_NOTFOUND) {
+			g_warning ("pas_backend_file_search: error building list\n");
+		}
 	}
 
 	if (card_count)
@@ -575,7 +597,7 @@ pas_backend_file_changes_foreach_key (const char *key, gpointer user_data)
 	int     db_error = 0;
 	
 	string_to_dbt (key, &id_dbt);
-	db_error = db->get (db, &id_dbt, &vcard_dbt, 0);
+	db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
 	
 	if (db_error == 1) {
 		char *id = id_dbt.data;
@@ -595,6 +617,7 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 	EDbHash *ehash;
 	GList *i, *v;
 	DB      *db = bf->priv->file_db;
+	DBC *dbc;
 	PASBackendFileBookView *view = (PASBackendFileBookView *)cnstview;
 	PASBackendFileChangeContext *ctx = cnstview->change_context;
 
@@ -606,32 +629,39 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 	ehash = e_dbhash_new (filename);
 	g_free (filename);
 	
-	db_error = db->seq(db, &id_dbt, &vcard_dbt, R_FIRST);
+	db_error = db->cursor (db, NULL, &dbc, 0);
 
-	while (db_error == 0) {
+	if (db_error != 0) {
+		g_warning ("pas_backend_file_changes: error building list\n");
+	} else {
+		db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_FIRST);
 
-		/* don't include the version in the list of cards */
-		if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME) + 1
-		    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
-			char *id = id_dbt.data;
-			char *vcard_string = vcard_dbt.data;
+		while (db_error == 0) {
 
-			/* check what type of change has occurred, if any */
-			switch (e_dbhash_compare (ehash, id, vcard_string)) {
-			case E_DBHASH_STATUS_SAME:
-				break;
-			case E_DBHASH_STATUS_NOT_FOUND:
-				ctx->add_cards = g_list_append (ctx->add_cards, strdup(vcard_string));
-				ctx->add_ids = g_list_append (ctx->add_ids, strdup(id));
-				break;
-			case E_DBHASH_STATUS_DIFFERENT:
-				ctx->mod_cards = g_list_append (ctx->mod_cards, strdup(vcard_string));
-				ctx->mod_ids = g_list_append (ctx->mod_ids, strdup(id));
-				break;
+			/* don't include the version in the list of cards */
+			if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME) + 1
+			    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
+				char *id = id_dbt.data;
+				char *vcard_string = vcard_dbt.data;
+
+				/* check what type of change has occurred, if any */
+				switch (e_dbhash_compare (ehash, id, vcard_string)) {
+				case E_DBHASH_STATUS_SAME:
+					break;
+				case E_DBHASH_STATUS_NOT_FOUND:
+					ctx->add_cards = g_list_append (ctx->add_cards, strdup(vcard_string));
+					ctx->add_ids = g_list_append (ctx->add_ids, strdup(id));
+					break;
+				case E_DBHASH_STATUS_DIFFERENT:
+					ctx->mod_cards = g_list_append (ctx->mod_cards, strdup(vcard_string));
+					ctx->mod_ids = g_list_append (ctx->mod_ids, strdup(id));
+					break;
+				}
 			}
+
+			db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_NEXT);
 		}
-		
-		db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
+		dbc->c_close (dbc);
 	}
 
    	e_dbhash_foreach_key (ehash, (EDbHashFunc)pas_backend_file_changes_foreach_key, view->change_context);
@@ -650,13 +680,13 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 	for (i = ctx->del_ids; i != NULL; i = i->next){
 		char *id = i->data;
 		e_dbhash_remove (ehash, id);
-	}	
+	}
 
   	e_dbhash_write (ehash);
   	e_dbhash_destroy (ehash);
 
 	/* Send the changes */
-	if (db_error == -1) {
+	if (db_error != DB_NOTFOUND) {
 		g_warning ("pas_backend_file_changes: error building list\n");
 	} else {
   		if (ctx->add_cards != NULL)
@@ -698,7 +728,7 @@ do_create(PASBackend *backend,
 
 	string_to_dbt (vcard, &vcard_dbt);
 
-	db_error = db->put (db, &id_dbt, &vcard_dbt, 0);
+	db_error = db->put (db, NULL, &id_dbt, &vcard_dbt, 0);
 
 	if (0 == db_error) {
 		db_error = db->sync (db, 0);
@@ -776,7 +806,7 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 
 	string_to_dbt (req->id, &id_dbt);
 
-	db_error = db->get (db, &id_dbt, &vcard_dbt, 0);
+	db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
 	if (0 != db_error) {
 		pas_book_respond_remove (
 				 book,
@@ -785,7 +815,7 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 		return;
 	}
 	
-	db_error = db->del (db, &id_dbt, 0);
+	db_error = db->del (db, NULL, &id_dbt, 0);
 	if (0 != db_error) {
 		pas_book_respond_remove (
 				 book,
@@ -837,7 +867,7 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	string_to_dbt (id, &id_dbt);	
 
 	/* get the old ecard - the one that's presently in the db */
-	db_error = db->get (db, &id_dbt, &vcard_dbt, 0);
+	db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
 	if (0 != db_error) {
 		pas_book_respond_modify (
 				 book,
@@ -849,7 +879,7 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 
 	string_to_dbt (req->vcard, &vcard_dbt);	
 
-	db_error = db->put (db, &id_dbt, &vcard_dbt, 0);
+	db_error = db->put (db, NULL, &id_dbt, &vcard_dbt, 0);
 
 	if (0 == db_error) {
 		db_error = db->sync (db, 0);
@@ -901,12 +931,19 @@ pas_backend_file_build_all_cards_list(PASBackend *backend,
 {
 	  PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	  DB             *db = bf->priv->file_db;
+	  DBC            *dbc;
 	  int            db_error;
 	  DBT  id_dbt, vcard_dbt;
   
 	  cursor_data->elements = NULL;
-	  
-	  db_error = db->seq(db, &id_dbt, &vcard_dbt, R_FIRST);
+
+	  db_error = db->cursor (db, NULL, &dbc, 0);
+
+	  if (db_error != 0) {
+		  g_warning ("pas_backend_file_build_all_cards_list: error building list\n");
+	  }
+
+	  db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_FIRST);
 
 	  while (db_error == 0) {
 
@@ -919,11 +956,11 @@ pas_backend_file_build_all_cards_list(PASBackend *backend,
 
 		  }
 
-		  db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
+		  db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_NEXT);
 
 	  }
 
-	  if (db_error == -1) {
+	  if (db_error != DB_NOTFOUND) {
 		  g_warning ("pas_backend_file_build_all_cards_list: error building list\n");
 	  }
 	  else {
@@ -1254,7 +1291,7 @@ pas_backend_file_get_vcard (PASBook *book, const char *id)
 
 	string_to_dbt (id, &id_dbt);
 
-	db_error = db->get (db, &id_dbt, &vcard_dbt, 0);
+	db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
 	if (db_error == 0) {
 		/* success */
 		return g_strdup (vcard_dbt.data);
@@ -1281,7 +1318,7 @@ pas_backend_file_upgrade_db (PASBackendFile *bf, char *old_version)
 		string_to_dbt (PAS_BACKEND_FILE_VERSION_NAME, &version_name_dbt);
 		string_to_dbt (PAS_BACKEND_FILE_VERSION, &version_dbt);
 
-		db_error = db->put (db, &version_name_dbt, &version_dbt, 0);
+		db_error = db->put (db, NULL, &version_name_dbt, &version_dbt, 0);
 		if (db_error == 0)
 			return TRUE;
 		else
@@ -1305,7 +1342,7 @@ pas_backend_file_maybe_upgrade_db (PASBackendFile *bf)
 
 	string_to_dbt (PAS_BACKEND_FILE_VERSION_NAME, &version_name_dbt);
 
-	db_error = db->get (db, &version_name_dbt, &version_dbt, 0);
+	db_error = db->get (db, NULL, &version_name_dbt, &version_dbt, 0);
 	if (db_error == 0) {
 		/* success */
 		version = g_strdup (version_dbt.data);
@@ -1322,6 +1359,7 @@ pas_backend_file_maybe_upgrade_db (PASBackendFile *bf)
 
 	return ret_val;
 }
+
 
 #define INITIAL_VCARD "BEGIN:VCARD\n\
 X-EVOLUTION-FILE-AS:Ximian, Inc.\n\
@@ -1340,26 +1378,53 @@ pas_backend_file_load_uri (PASBackend             *backend,
 {
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	char           *filename;
-	gboolean       writable = FALSE;
+	gboolean        writable = FALSE;
 	GList          *l;
+	int             db_error;
+	DB *db;
+	int major, minor, patch;
 
 	g_assert (bf->priv->loaded == FALSE);
 
+	db_version (&major, &minor, &patch);
+
+	if (major != 3 ||
+	    minor != 1 ||
+	    patch != 17) {
+		g_warning ("Wrong version of libdb.");
+		return FALSE;
+	}
+
 	filename = pas_backend_file_extract_path_from_uri (uri);
 
-	bf->priv->file_db = dbopen (filename, O_RDWR, 0666, DB_HASH, NULL);
-	if (bf->priv->file_db) {
-		writable = TRUE;
+	db_error = e_db3_utils_maybe_recover (filename);
+	if (db_error != 0)
+		return FALSE;
+
+	db_error = db_create (&db, NULL, 0);
+	if (db_error != 0)
+		return FALSE;
+
+	db_error = db->open (db, filename, NULL, DB_HASH, 0, 0666);
+
+	if (db_error == DB_OLD_VERSION) {
+		db_error = e_db3_utils_upgrade_format (filename);
+
+		if (db_error != 0)
+			return FALSE;
+
+		db_error = db->open (db, filename, NULL, DB_HASH, 0, 0666);
 	}
-	else {
-		/* try to open the file read-only */
-		bf->priv->file_db = dbopen (filename, O_RDONLY, 0666, DB_HASH, NULL);
 
-		if (!bf->priv->file_db) {
-			/* lastly, try and create the file */
-			bf->priv->file_db = dbopen (filename, O_RDWR | O_CREAT, 0666, DB_HASH, NULL);
+	if (db_error == 0) {
+		writable = TRUE;
+	} else {
+		db_error = db->open (db, filename, NULL, DB_HASH, DB_RDONLY, 0666);
 
-			if (bf->priv->file_db) {
+		if (db_error != 0) {
+			db_error = db->open (db, filename, NULL, DB_HASH, DB_CREATE, 0666);
+
+			if (db_error == 0) {
 				char *create_initial_file;
 				char *dir;
 
@@ -1382,15 +1447,24 @@ pas_backend_file_load_uri (PASBackend             *backend,
 
 	g_free (filename);
 
-	if (bf->priv->file_db != NULL) {
-		if (pas_backend_file_maybe_upgrade_db (bf))
-			bf->priv->loaded = TRUE;
-		/* XXX what if we fail to upgrade it? */
-		
-		g_free(bf->priv->uri);
-		bf->priv->uri = g_strdup (uri);
-	} else
+	if (db_error != 0) {
 		return FALSE;
+	}
+
+	bf->priv->writable = writable;
+	bf->priv->file_db = db;
+
+	if (pas_backend_file_maybe_upgrade_db (bf))
+		bf->priv->loaded = TRUE;
+	else {
+		db->close (db, 0);
+		bf->priv->file_db = NULL;
+		bf->priv->writable = FALSE;
+		return FALSE;
+	}
+
+	g_free(bf->priv->uri);
+	bf->priv->uri = g_strdup (uri);
 
 	/* report the writable status of the book to all its clients */
 	for (l = bf->priv->clients; l; l = g_list_next (l)) {
@@ -1398,8 +1472,6 @@ pas_backend_file_load_uri (PASBackend             *backend,
 
 		pas_book_report_writable (book, writable);
 	}
-
-	bf->priv->writable = writable;
 
 	return TRUE;
 }

@@ -24,6 +24,9 @@
 #undef USE_FLOCK
 #undef ENABLE_NNTP
 
+#undef HAVE_DB_H
+#undef HAVE_DB3_DB_H
+
 /* Sub-version identification string.  */
 #undef SUB_VERSION
 

@@ -140,6 +140,15 @@ and -devel packages for each library.
 
  - gtkhtml - later than 0.9.3
 
+ - Berkeley's libdb - 3.1.17
+
+   db3 is available from www.sleepycat.com.  Make sure to get 3.1.17,
+   it isn't the newest version.
+
+   *** Note that db3 installs by default in /usr/local/BerkeleyDB.3.1
+   *** so you may need to specify evolution to look in this directory
+   *** for it.  We will add a check for this directory later.
+
 If you want support for PalmPilot syncing (currently experimental so
 please back up your pilot) you will also need to do the following:
 

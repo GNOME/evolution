@@ -3,6 +3,7 @@ SUBDIRS = . ename
 imagesdir = $(datadir)/images/evolution
 
 INCLUDES =					\
+	$(DB3_CFLAGS)				\
 	-I$(top_srcdir)				\
 	$(GNOME_INCLUDEDIR)			\
 	$(EXTRA_GNOME_CFLAGS)			\
@@ -44,6 +45,8 @@ libeutil_la_SOURCES =			\
 	e-time-utils.h			\
 	e-url.c				\
 	e-url.h				\
+	e-db3-utils.c			\
+	e-db3-utils.h			\
 	e-dbhash.c			\
 	e-dbhash.h			\
 	md5-utils.c			\
@@ -52,6 +55,7 @@ libeutil_la_SOURCES =			\
 libeutil_la_LIBADD = $(GAL_LIBS)
 
 libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
+libeutil_static_la_LIBADD  = $(libeutil_la_LIBADD)
 libeutil_static_la_LDFLAGS = --all-static
 
 pilot_sources = \

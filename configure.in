@@ -206,12 +206,158 @@ fi
 
 dnl **************************************************
 dnl * pas-backend-file stuff.
-dnl * check for db_185.h.  if it's there, we use it.
-dnl * otherwise, we use db.h (since it'll be 185).
-dnl * Except on RH7.0, which puts db in yet another place
+dnl * check for version 3.1.17 of db.h.  First check
+dnl * in db.h, then in db3/db.h (For Red Hat Linux
+dnl * 7.0).
 dnl **************************************************
-AC_CHECK_HEADERS(db_185.h)
-AC_CHECK_HEADERS(db1/db.h)
+
+AC_ARG_WITH(db3-includes, [  --with-db3-includes=PREFIX     Location of db3 includes.],
+	with_db3_includes="$withval")
+
+DB3_CFLAGS=
+
+AC_CACHE_CHECK([for libdb3 version 3.1.17], ac_cv_db3_version_check,
+[
+	CPPFLAGS_save="$CPPFLAGS"
+	if test "x${with_db3_includes}" != "x"; then
+		CPPFLAGS="-I$with_db3_includes $CPPFLAGS"
+	fi
+
+	AC_TRY_COMPILE([
+		#include <db.h>
+	],[
+		#if DB_VERSION_MAJOR != 3 || \
+		    DB_VERSION_MINOR != 1 || \
+		    DB_VERSION_PATCH != 17
+		#error
+		#endif
+	], ac_cv_db3_version_check=yes, ac_cv_db3_version_check=no)
+
+	CPPFLAGS="$CPPFLAGS_save"
+])
+
+if test $ac_cv_db3_version_check = yes; then
+	AC_DEFINE(HAVE_DB_H)
+	if test "x${with_db3_includes}" != "x"; then
+		DB3_CFLAGS="-I$with_db3_includes"
+	fi
+else
+	AC_CACHE_CHECK([for libdb3 version 3.1.17 in db3/db.h], ac_cv_db3_db3_db_h_version_check,
+	[
+		CPPFLAGS_save="$CPPFLAGS"
+		if test "x${with_db3_includes}" != "x"; then
+			CPPFLAGS="-I$with_db3_includes $CPPFLAGS"
+		fi
+
+		AC_TRY_COMPILE([
+			#include <db3/db.h>
+		],[
+			#if DB_VERSION_MAJOR != 3 || \
+			    DB_VERSION_MINOR != 1 || \
+			    DB_VERSION_PATCH != 17
+			#error
+			#endif
+		], ac_cv_db3_db3_db_h_version_check=yes, ac_cv_db3_db3_db_h_version_check=no)
+
+		CPPFLAGS="$CPPFLAGS_save"
+	])
+	if test $ac_cv_db3_db3_db_h_version_check = yes; then
+		AC_DEFINE(HAVE_DB3_DB_H)
+		if test "x${with_db3_includes}" != "x"; then
+			DB3_CFLAGS="-I$with_db3_includes"
+		fi
+	else
+		AC_ERROR(You must have libdb3 version 3.1.17 installed to compile evolution)
+	fi
+fi
+
+AC_SUBST(DB3_CFLAGS)
+
+
+AC_ARG_WITH(db3-libs, [  --with-db3-libs=PREFIX     Location of db3 libs.],
+	with_db3_libs="$withval", with_db3_libs="/usr/lib/")
+
+DB3_LDADD=
+
+if test $ac_cv_db3_version_check = yes; then
+	HAVE_DB3_DB_H_INTERNAL=0
+else
+	HAVE_DB3_DB_H_INTERNAL=1
+fi
+
+AC_CACHE_CHECK([for -ldb 3.1.17], ac_cv_db3_lib_check,
+[
+	LIBS_save="$LIBS"
+	LIBS="$with_db3_libs/libdb.a $LIBS"
+	CPPFLAGS_save="$CPPFLAGS"
+	CPPFLAGS="$CPPFLAGS $DB3_CFLAGS"
+
+	AC_TRY_RUN([
+#if $HAVE_DB3_DB_H_INTERNAL
+#include <db3/db.h>
+#else
+#include <db.h>
+#endif
+int
+main (void)
+{
+	int major, minor, patch;
+	db_version (&major, &minor, &patch);
+	if (major == 3 &&
+	    minor == 1 &&
+	    patch == 17)
+		return 0;
+	else
+		return 1;
+}
+], ac_cv_db3_lib_check=yes, ac_cv_db3_lib_check=no)
+
+	LIBS="$LIBS_save"
+	CPPFLAGS="$CPPFLAGS_save"
+])
+
+if test $ac_cv_db3_lib_check = yes; then
+	DB3_LDADD="$with_db3_libs/libdb.a"
+else
+	AC_CACHE_CHECK([for -ldb3 3.1.17], ac_cv_db3_lib_db3_check,
+	[
+		LIBS_save="$LIBS"
+		LIBS="$with_db3_libs/libdb3.a $LIBS"
+		CPPFLAGS_save="$CPPFLAGS"
+		CPPFLAGS="$CPPFLAGS $DB3_CFLAGS"
+	
+		AC_TRY_RUN([
+#if $HAVE_DB3_DB_H_INTERNAL
+#include <db3/db.h>
+#else
+#include <db.h>
+#endif
+int
+main (void)
+{
+	int major, minor, patch;
+	db_version (&major, &minor, &patch);
+	if (major == 3 &&
+	    minor == 1 &&
+	    patch == 17)
+		return 0;
+	else
+		return 1;
+}
+], ac_cv_db3_lib_db3_check=yes, ac_cv_db3_lib_db3_check=no)
+	
+		LIBS="$LIBS_save"
+		CPPFLAGS="$CPPFLAGS_save"
+	])
+	
+	if test $ac_cv_db3_lib_db3_check = yes; then
+		DB3_LDADD="$with_db3_libs/libdb3.a"
+	else
+		AC_ERROR(Didn't find libdb 3.1.17 libraries.  You must have libdb version 3.1.17 installed to compile evolution)
+	fi
+fi
+
+AC_SUBST(DB3_LDADD)
 
 dnl **************************************************
 dnl * ldap related stuff.

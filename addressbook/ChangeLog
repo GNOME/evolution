@@ -1,3 +1,9 @@
+2001-05-31  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/pas/Makefile.am (INCLUDES): Added db3 cflags.
+
+	* backend/pas/pas-backend-file.c: Updated this to use db3.
+
 2001-05-31  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/widgets/e-addressbook-view.h (EAddressbookView): Added

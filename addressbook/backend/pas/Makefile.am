@@ -13,6 +13,7 @@ $(CORBA_SOURCE): $(idls)
 	$(ORBIT_IDL) -I $(srcdir) $(srcdir)/../idl/addressbook.idl $(idl_flags)
 
 INCLUDES =						\
+	$(DB3_CFLAGS)					\
         -DGNOMELOCALEDIR=\""$(localedir)"\"		\
 	-DG_LOG_DOMAIN=\"wombat-pas\"			\
 	-I$(top_srcdir) 				\
