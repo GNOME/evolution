@@ -120,10 +120,12 @@ static guint e_day_view_signals[LAST_SIGNAL] = { 0 };
 
 /* Drag and Drop stuff. */
 enum {
-	TARGET_CALENDAR_EVENT
+	TARGET_CALENDAR_EVENT,
+	TARGET_VCALENDAR
 };
 static GtkTargetEntry target_table[] = {
-	{ "application/x-e-calendar-event",     0, TARGET_CALENDAR_EVENT }
+	{ "application/x-e-calendar-event",     0, TARGET_CALENDAR_EVENT },
+	{ "text/x-calendar",                    0, TARGET_VCALENDAR }
 };
 static guint n_targets = sizeof(target_table) / sizeof(target_table[0]);
 
@@ -7174,7 +7176,6 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 {
 	EDayViewEvent *event;
 	gint day, event_num;
-	const char *event_uid;
 
 	day = day_view->drag_event_day;
 	event_num = day_view->drag_event_num;
@@ -7190,14 +7191,31 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 		event = &g_array_index (day_view->events[day],
 					EDayViewEvent, event_num);
 
-
-	cal_component_get_uid (event->comp, &event_uid);
-
-	g_return_if_fail (event_uid != NULL);
-
 	if (info == TARGET_CALENDAR_EVENT) {
+		const char *event_uid;
+
+		cal_component_get_uid (event->comp, &event_uid);
+		g_return_if_fail (event_uid != NULL);
+
 		gtk_selection_data_set (selection_data,	selection_data->target,
-					8, event_uid, strlen (event_uid));
+ 					8, event_uid, strlen (event_uid));
+	} else if (info == TARGET_VCALENDAR) {
+		char *comp_str;
+		icalcomponent *vcal;
+
+		vcal = cal_util_new_top_level ();
+		cal_util_add_timezones_from_component (vcal, event->comp);
+		icalcomponent_add_component (
+			vcal,
+			icalcomponent_new_clone (cal_component_get_icalcomponent (event->comp)));
+
+		comp_str = icalcomponent_as_ical_string (vcal);
+		if (comp_str) {
+			gtk_selection_data_set (selection_data, selection_data->target,
+						8, comp_str, strlen (comp_str));
+		}
+
+		icalcomponent_free (vcal);
 	}
 }
 
