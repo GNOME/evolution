@@ -1,3 +1,10 @@
+2002-03-05  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-minicard-view-widget.c
+	(e_minicard_view_widget_realize): don't set "editable" here, as
+	the way things work the backend isn't able to override a setting
+	from the UI, so writable books never show up as writable.
+
 2002-03-04  Chris Toshok  <toshok@ximian.com>
 
 	[fixes bug #20871]

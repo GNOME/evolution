@@ -262,7 +262,6 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 		"minimum_width", (double) 100,
 		"adapter", view->adapter,
 		"column_width", (int) view->column_width,
-		"editable", view->editable,
 		NULL );
 
 	gtk_signal_connect (GTK_OBJECT (E_REFLOW(view->emv)->selection),
