@@ -291,7 +291,7 @@ populate_popup_contact (GtkWidget *pop, gboolean list, PopupInfo *info)
 	gtk_widget_show (menuitem);
 	gtk_menu_shell_prepend (GTK_MENU_SHELL (pop), menuitem);
 
-	pixbuf = e_icon_factory_get_icon (list ? LIST_ICON_NAME : CONTACT_ICON_NAME, 16);
+	pixbuf = e_icon_factory_get_icon (list ? LIST_ICON_NAME : CONTACT_ICON_NAME, E_ICON_SIZE_MENU);
 	image = gtk_image_new_from_pixbuf (pixbuf);
 	g_object_unref (pixbuf);
 	gtk_widget_show (image);

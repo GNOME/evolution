@@ -32,6 +32,7 @@
 #include "util/e-destination.h"
 #include "widgets/misc/e-image-chooser.h"
 #include "widgets/misc/e-source-selector.h"
+#include <e-util/e-icon-factory.h>
 
 #include <gnome.h>
 
@@ -994,7 +995,7 @@ eab_create_image_chooser_widget(gchar *name,
 	gtk_widget_show_all (w);
 
 	if (string1) {
-		filename = e_icon_factory_get_icon_filename (string1, 48);
+		filename = e_icon_factory_get_icon_filename (string1, E_ICON_SIZE_DIALOG);
 
 		e_image_chooser_set_from_file (E_IMAGE_CHOOSER (w), filename);
 

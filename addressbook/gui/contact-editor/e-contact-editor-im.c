@@ -196,7 +196,7 @@ setup_service_optmenu(EContactEditorIm *editor)
 		gtk_container_add(GTK_CONTAINER(item), hbox);
 		gtk_widget_show(hbox);
 
-		pixbuf = e_icon_factory_get_icon(im_images[i], 16);
+		pixbuf = e_icon_factory_get_icon (im_images[i], E_ICON_SIZE_MENU);
 
 		if (pixbuf != NULL) {
 			image = gtk_image_new_from_pixbuf(pixbuf);

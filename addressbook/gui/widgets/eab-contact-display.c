@@ -23,6 +23,7 @@
 #include "eab-contact-display.h"
 
 #include "e-util/e-html-utils.h"
+#include "e-util/e-icon-factory.h"
 
 #include <string.h>
 #include <libgnome/gnome-i18n.h>
@@ -75,7 +76,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		gsize data_length;
 		gchar *filename;
 
-		filename = e_icon_factory_get_icon_filename (url + strlen ("evo-icon:"), 16);
+		filename = e_icon_factory_get_icon_filename (url + strlen ("evo-icon:"), E_ICON_SIZE_MENU);
 		if (g_file_get_contents (filename, &data, &data_length, NULL)) {
 			gtk_html_stream_write (handle, data, data_length);
 			g_free (data);

@@ -1,3 +1,24 @@
+2004-05-17  Jeffrey Stedfast  <fejj@novell.com>
+
+	* gui/widgets/e-minicard.c (e_minicard_init): Use an E_ICON_SIZE
+	enum value for the icon_size argument to get_icon.
+
+	* gui/widgets/eab-gui-util.c (eab_create_image_chooser_widget):
+	Use E_ICON_SIZE_DIALOG as the icon_size argument to
+	get_icon_filename.
+
+	* gui/widgets/eab-contact-display.c (on_url_requested): Use an
+	E_ICON_SIZE enum as the icon_size argument to get_icon_filename.
+
+	* gui/contact-editor/e-contact-editor-im.c
+	(setup_service_optmenu): Use E_ICON_SIZE_MENU here.
+
+	* gui/component/select-names/e-select-names-popup.c
+	(populate_popup_contact): Use E_ICON_SIZE_MENU here instead of 16.
+
+	* gui/component/addressbook-view.c (set_status_message): Use the
+	E_ICON_SIZE corresponding to 16x16 pixels.
+
 2004-05-12  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Add PO box entries.

@@ -275,7 +275,7 @@ set_status_message (EABView *eav, const char *message, AddressbookView *view)
 		char *clientid = g_strdup_printf ("%p", view);
 
 		if (progress_icon == NULL)
-			progress_icon = e_icon_factory_get_icon (EVOLUTION_CONTACTS_PROGRESS_IMAGE, 16);
+			progress_icon = e_icon_factory_get_icon (EVOLUTION_CONTACTS_PROGRESS_IMAGE, E_ICON_SIZE_MENU);
 
 		priv->activity_id = e_activity_handler_operation_started (activity_handler, clientid,
 									  progress_icon, message, TRUE);

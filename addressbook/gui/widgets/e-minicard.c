@@ -236,7 +236,7 @@ e_minicard_init (EMinicard *minicard)
 
 	minicard->contact          = NULL;
 
-	minicard->list_icon_pixbuf = e_icon_factory_get_icon (LIST_ICON_NAME, 16);
+	minicard->list_icon_pixbuf = e_icon_factory_get_icon (LIST_ICON_NAME, E_ICON_SIZE_MENU);
 	minicard->list_icon_size   = gdk_pixbuf_get_height (minicard->list_icon_pixbuf);
 
 	minicard->editor           = NULL;
