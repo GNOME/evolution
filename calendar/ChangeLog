@@ -1,3 +1,8 @@
+2000-12-06    <purify@the-dot-in.helixcode.com>
+
+	* gui/e-week-view.c (e_week_view_init): unref the pixbuf when
+	finished with it
+
 2000-12-06  Federico Mena Quintero  <federico@helixcode.com>
 
 	Fixes bug #920.

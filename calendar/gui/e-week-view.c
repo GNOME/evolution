@@ -352,7 +352,7 @@ e_week_view_init (EWeekView *week_view)
 				    GTK_SIGNAL_FUNC (e_week_view_on_jump_button_event),
 				    week_view);
 	}
-
+	gdk_pixbuf_unref (pixbuf);
 
 	/*
 	 * Scrollbar.
