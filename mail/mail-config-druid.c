@@ -375,6 +375,7 @@ transport_changed (GtkWidget *widget, gpointer data)
 	
 	if (gui->page != MAIL_CONFIG_WIZARD_PAGE_TRANSPORT)
 		return;
+	
 	next_sensitive = mail_account_gui_transport_complete (gui->gui, &incomplete);
 	
 	evolution_wizard_set_buttons_sensitive (gui->wizard, TRUE, next_sensitive, TRUE, NULL);
@@ -779,29 +780,50 @@ get_fn (EvolutionWizard *wizard,
 		gui->gui = mail_account_gui_new (gui->account, NULL);
 		
 		/* set up signals, etc */
-		g_signal_connect(gui->gui->account_name, "changed", G_CALLBACK(management_changed), gui);
-		g_signal_connect(gui->gui->full_name, "changed", G_CALLBACK(identity_changed), gui);
-                g_signal_connect(gui->gui->email_address, "changed", G_CALLBACK(identity_changed), gui);
-		g_signal_connect(gui->gui->reply_to,"changed", G_CALLBACK(identity_changed), gui);
-		g_signal_connect(gui->gui->source.hostname, "changed", G_CALLBACK(source_changed), gui);
-		g_signal_connect(gui->gui->source.username, "changed", G_CALLBACK(source_changed), gui);
-		g_signal_connect(gui->gui->source.path, "changed", G_CALLBACK(source_changed), gui);
-		g_signal_connect(gui->gui->transport.hostname, "changed", G_CALLBACK(transport_changed), gui);
-		g_signal_connect(gui->gui->transport.username, "changed", G_CALLBACK(transport_changed), gui);
-
-		g_signal_connect(gui->gui->account_name, "activate", G_CALLBACK(management_activate_cb), gui);
-
-		g_signal_connect(gui->gui->full_name, "activate", G_CALLBACK(identity_activate_cb), gui);
-                g_signal_connect(gui->gui->email_address, "activate", G_CALLBACK(identity_activate_cb), gui);
-                g_signal_connect(gui->gui->reply_to,"activate", G_CALLBACK(identity_activate_cb), gui);
-                g_signal_connect(gui->gui->organization, "activate", G_CALLBACK(identity_activate_cb), gui);
-
-		g_signal_connect(gui->gui->source.hostname, "activate", G_CALLBACK(source_activate_cb), gui);
-		g_signal_connect(gui->gui->source.username, "activate", G_CALLBACK(source_activate_cb), gui);
-		g_signal_connect(gui->gui->source.path, "activate", G_CALLBACK(source_activate_cb), gui);
-
-		g_signal_connect(gui->gui->transport.hostname, "activate", G_CALLBACK(transport_activate_cb), gui);
-		g_signal_connect(gui->gui->transport.username, "activate", G_CALLBACK(transport_activate_cb), gui);
+		g_signal_connect (gui->gui->account_name, "changed",
+				  G_CALLBACK (management_changed), gui);
+		g_signal_connect (gui->gui->full_name, "changed",
+				  G_CALLBACK (identity_changed), gui);
+                g_signal_connect (gui->gui->email_address, "changed",
+				  G_CALLBACK (identity_changed), gui);
+		g_signal_connect (gui->gui->reply_to,"changed",
+				  G_CALLBACK (identity_changed), gui);
+		g_signal_connect (gui->gui->source.hostname, "changed",
+				  G_CALLBACK (source_changed), gui);
+		g_signal_connect (gui->gui->source.username, "changed",
+				  G_CALLBACK (source_changed), gui);
+		g_signal_connect (gui->gui->source.path, "changed",
+				  G_CALLBACK (source_changed), gui);
+		g_signal_connect (gui->gui->transport.hostname, "changed",
+				  G_CALLBACK (transport_changed), gui);
+		g_signal_connect (gui->gui->transport.username, "changed",
+				  G_CALLBACK (transport_changed), gui);
+		g_signal_connect (gui->gui->transport_needs_auth, "toggled",
+				  G_CALLBACK (transport_changed), gui);
+		
+		g_signal_connect (gui->gui->account_name, "activate",
+				  G_CALLBACK (management_activate_cb), gui);
+		
+		g_signal_connect (gui->gui->full_name, "activate",
+				  G_CALLBACK (identity_activate_cb), gui);
+                g_signal_connect (gui->gui->email_address, "activate",
+				  G_CALLBACK (identity_activate_cb), gui);
+                g_signal_connect (gui->gui->reply_to,"activate",
+				  G_CALLBACK (identity_activate_cb), gui);
+                g_signal_connect (gui->gui->organization, "activate",
+				  G_CALLBACK (identity_activate_cb), gui);
+		
+		g_signal_connect (gui->gui->source.hostname, "activate",
+				  G_CALLBACK (source_activate_cb), gui);
+		g_signal_connect (gui->gui->source.username, "activate",
+				  G_CALLBACK (source_activate_cb), gui);
+		g_signal_connect (gui->gui->source.path, "activate",
+				  G_CALLBACK (source_activate_cb), gui);
+		
+		g_signal_connect (gui->gui->transport.hostname, "activate",
+				  G_CALLBACK (transport_activate_cb), gui);
+		g_signal_connect (gui->gui->transport.username, "activate",
+				  G_CALLBACK (transport_activate_cb), gui);
 		first_time = TRUE;
         }
 	
@@ -818,7 +840,6 @@ get_fn (EvolutionWizard *wizard,
 		gtk_widget_reparent (widget, vbox);
 		gtk_box_set_child_packing (GTK_BOX (vbox), widget, FALSE, FALSE, 0, GTK_PACK_START);
                 break;
-		
         case 1:
 		widget = create_label ("source_html");
 		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
@@ -826,14 +847,12 @@ get_fn (EvolutionWizard *wizard,
                 gtk_widget_reparent (widget, vbox);
 		gtk_widget_show (widget);
                 break;
-		
         case 2:
 		widget = create_label ("extra_html");
 		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
                 widget = glade_xml_get_widget (gui->gui->xml, "extra_vbox");
                 gtk_widget_reparent (widget, vbox);
                 break;
-		
         case 3:
 		widget = create_label ("transport_html");
 		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
@@ -841,12 +860,10 @@ get_fn (EvolutionWizard *wizard,
                 gtk_widget_reparent (widget, vbox);
 		gtk_widget_show (widget);
                 break;
-		
         case 4:
 		widget = glade_xml_get_widget (gui->gui->xml, "management_frame");
 		gtk_widget_reparent (widget, vbox);
 		break;
-
         default:
                 return NULL;
         }
@@ -1002,15 +1019,16 @@ evolution_mail_config_wizard_new(void)
         wizard = evolution_wizard_new (get_fn, 5, gui);
 	account_wizard = wizard;
 	
-	g_object_set_data_full(G_OBJECT(account_wizard), "account-data", gui, (GDestroyNotify) wizard_free);
+	g_object_set_data_full ((GObject *) account_wizard, "account-data", gui,
+				(GDestroyNotify) wizard_free);
 	gui->wizard = wizard;
 	
-        g_signal_connect(wizard, "next", G_CALLBACK (wizard_next_cb), gui);
-        g_signal_connect(wizard, "prepare", G_CALLBACK (wizard_prepare_cb), gui);
-        g_signal_connect(wizard, "back", G_CALLBACK (wizard_back_cb), gui);
-        g_signal_connect(wizard, "finish", G_CALLBACK (wizard_finish_cb), gui);
-        g_signal_connect(wizard, "cancel", G_CALLBACK (wizard_cancel_cb), gui);
-        g_signal_connect(wizard, "help", G_CALLBACK (wizard_help_cb), gui);
+        g_signal_connect (wizard, "next", G_CALLBACK (wizard_next_cb), gui);
+        g_signal_connect (wizard, "prepare", G_CALLBACK (wizard_prepare_cb), gui);
+        g_signal_connect (wizard, "back", G_CALLBACK (wizard_back_cb), gui);
+        g_signal_connect (wizard, "finish", G_CALLBACK (wizard_finish_cb), gui);
+        g_signal_connect (wizard, "cancel", G_CALLBACK (wizard_cancel_cb), gui);
+        g_signal_connect (wizard, "help", G_CALLBACK (wizard_help_cb), gui);
 	
         return BONOBO_OBJECT (wizard);
 }
