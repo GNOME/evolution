@@ -1,3 +1,16 @@
+2000-10-19  Michael Meeks  <michael@helixcode.com>
+
+	* e-msg-composer.c (create_menubar_file, create_menubar_edit),
+	(create_menubar_format, create_menubar_view, create_menubar): kill.
+	(create_toolbar): die.
+	(setup_ui): impl.
+	(e_msg_composer_construct): hook in.
+	(menu_format_html_cb): update.
+	(menu_view_attachments_activate_cb): ditto.
+	(destroy): upd.
+	(e_msg_composer_construct): upd.
+	(e_msg_composer_set_send_html): upd.
+
 2000-10-16  Iain Holmes  <iain@helixcode.com>
 
 	* e-msg-composer-hdrs.c (init): Don't need the ID anymore.

@@ -44,6 +44,7 @@ INCLUDES =								\
 	$(BONOBO_GNOME_CFLAGS)						\
 	$(GTKHTML_CFLAGS)						\
 	$(UNICODE_CFLAGS)						\
+	-DEVOLUTION_DATADIR=\"$(datadir)\"				\
 	-DE_GLADEDIR=\"$(gladedir)\"					\
 	-DG_LOG_DOMAIN=\"composer\"
 

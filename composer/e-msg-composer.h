@@ -49,7 +49,7 @@ typedef struct _EMsgComposerClass  EMsgComposerClass;
 struct _EMsgComposer {
 	BonoboWin parent;
 	
-	BonoboUIHandler *uih;
+	BonoboUIComponent *uic;
 	
 	GtkWidget *hdrs;
 	GPtrArray *extra_hdr_names, *extra_hdr_values;
