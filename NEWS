@@ -1,4 +1,4 @@
-Evolution 1.0.6, 2002-06-03
+Evolution 1.0.7, 2002-06-07
 ---------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
@@ -6,19 +6,21 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
   * Addressbook
 
     #25054 -- "New Contact List" button is no longer active in
-              folders that don't support contact lists (Toshok)
+              folders that don't support contact lists.  (Toshok)
 
   * Calendar
 
-    #23350 -- Crash when refreshing meeting or task.  (JP)
     #16962 -- Make the schedule page use the work hours set in the
               preferences.  (JP)
+    #23350 -- Crash when refreshing meeting or task.  (JP)
     #24783 -- Fix crash in wombat.  (Rodrigo)
 
   * Mail
 
     #11391 -- Bogus gnome_vfs_file_info_unref() that caused an
               occasional crash.  (Frederic Crozat)
+    #15185 -- Non-RFC-compliant From/To/Cc being displayed as empty
+              in mail display.  (Dan)
     #19920 -- Messages hiding in threaded view.  (Michael)
     #21604 -- Various crashes.  (Michael)
     #23782 -- Stop button causes a hang.  (Michael)
