@@ -570,10 +570,10 @@ emfv_popup_mark_junk (GtkWidget *w, EMFolderView *emfv)
 
 	for (i=0; i<uids->len; i++) {
 		char *uid = uids->pdata[i];
-
+		
 		if (camel_folder_set_message_flags(emfv->folder, uid,
-						   CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_JUNK,
-						   CAMEL_MESSAGE_JUNK)) {
+						   CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_JUNK,
+						   CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_JUNK)) {
 			g_ptr_array_add(uidsjunk, g_strdup(uid));
 		}
 	}
@@ -1496,6 +1496,11 @@ emfv_enable_menus(EMFolderView *emfv)
 		t = em_folder_view_get_popup_target(emfv);
 		disable_mask = t->mask;
 		em_popup_target_free(t);
+		
+		/* always allow deleting of already-deleted messages
+		 * from the main menus/toolbar */
+		if (!emfv->hide_deleted)
+			disable_mask &= ~EM_POPUP_SELECT_DELETE;
 	} else {
 		disable_mask = ~0;
 	}
@@ -1693,7 +1698,7 @@ em_folder_view_get_popup_target(EMFolderView *emfv)
 
 	if (message_list_hidden(emfv->list) != 0)
 		t->mask &= ~EM_FOLDER_VIEW_SELECT_HIDDEN;
-
+	
 	return t;
 }
 
@@ -1830,16 +1835,7 @@ emfv_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 		break;
 	case GDK_Delete:
 	case GDK_KP_Delete:
-		uids = message_list_get_selected(emfv->list);
-		for (i = 0; i < uids->len; i++) {
-			if ((camel_folder_get_message_flags(emfv->folder, uids->pdata[i]) & CAMEL_MESSAGE_DELETED) == 0)
-				break;
-		}
-		message_list_free_uids(emfv->list, uids);
 		emfv_popup_delete (NULL, emfv);
-		
-		if (!message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0, FALSE) && emfv->hide_deleted)
-			message_list_select (emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0, FALSE);
 		break;
 	case GDK_Menu:
 		/* FIXME: location of popup */

@@ -709,7 +709,6 @@ static void
 send_queue_send(struct _mail_msg *mm)
 {
 	struct _send_queue_msg *m = (struct _send_queue_msg *)mm;
-	/* FIXME (what is this fixme for?) */
 	CamelFolder *sent_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);
 	GPtrArray *uids;
 	int i;
@@ -752,10 +751,10 @@ send_queue_send(struct _mail_msg *mm)
 		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Complete."));
 
 	if (m->driver) {
-		camel_object_unref((CamelObject *)m->driver);
+		camel_object_unref (m->driver);
 		m->driver = NULL;
 	}
-		
+	
 	camel_folder_free_uids (m->queue, uids);
 	
 	if (!camel_exception_is_set (&mm->ex))

@@ -1,5 +1,13 @@
 2004-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-view.c (emfv_popup_mark_junk): Set the SEEN flag as
+	well.
+	(emfv_list_key_press): Removed the skip-to-next-message logic as
+	this was already being handled in emfv_popup_delete(). Fixes bug
+	#54471.
+	(emfv_enable_menus): Re-enable MessageDelete here. Fixes bug
+	#54770.
+
 	* em-utils.c (em_utils_folder_is_drafts): Use the new
 	camel_store_folder_uri_equal() function.
 	(em_utils_folder_is_sent): Same.
