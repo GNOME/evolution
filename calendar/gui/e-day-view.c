@@ -6542,10 +6542,10 @@ selection_received (GtkWidget *invisible,
 	if (icalcomp) {
 		e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
 
-		itime = icaltime_from_timet (dtstart, TRUE);
+		itime = icaltime_from_timet (dtstart, FALSE);
 		icalcomponent_set_dtstart (icalcomp, itime);
 
-		itime = icaltime_from_timet (dtend, TRUE);
+		itime = icaltime_from_timet (dtend, FALSE);
 		icalcomponent_set_dtend (icalcomp, itime);
 
 		comp = cal_component_new ();
