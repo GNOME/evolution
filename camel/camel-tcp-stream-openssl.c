@@ -30,6 +30,7 @@
 
 #include <openssl/ssl.h>
 #include <openssl/x509.h>
+#include <openssl/err.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -209,6 +210,18 @@ ssl_error_to_errno (CamelTcpStreamOpenSSL *stream, int ret)
 	}
 }
 
+static int
+my_SSL_read (SSL *ssl, void *buf, int num)
+{
+	int ret;
+
+	do
+		ret = SSL_read (ssl, buf, num);
+	while (ret < 0 && (SSL_get_error (ssl, ret) == SSL_ERROR_WANT_READ ||
+			   SSL_get_error (ssl, ret) == SSL_ERROR_WANT_WRITE));
+	return ret;
+}
+
 static ssize_t
 stream_read (CamelStream *stream, char *buffer, size_t n)
 {
@@ -224,7 +237,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	cancel_fd = camel_operation_cancel_fd (NULL);
 	if (cancel_fd == -1) {
 		do {
-			nread = SSL_read (tcp_stream_openssl->priv->ssl, buffer, n);
+			nread = my_SSL_read (tcp_stream_openssl->priv->ssl, buffer, n);
 		} while (nread == -1 && errno == EINTR);
 	} else {
 		int flags, fdmax;
@@ -234,7 +247,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags | O_NONBLOCK);
 		
 		do {
-			nread = SSL_read (tcp_stream_openssl->priv->ssl, buffer, n);
+			nread = my_SSL_read (tcp_stream_openssl->priv->ssl, buffer, n);
 			
 			if (nread == 0)
 				return nread;
@@ -263,6 +276,18 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	return nread;
 }
 
+static int
+my_SSL_write (SSL *ssl, const void *buf, int num)
+{
+	int ret;
+
+	do
+		ret = SSL_write (ssl, buf, num);
+	while (ret < 0 && (SSL_get_error (ssl, ret) == SSL_ERROR_WANT_READ ||
+			   SSL_get_error (ssl, ret) == SSL_ERROR_WANT_WRITE));
+	return ret;
+}
+
 static ssize_t
 stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
@@ -278,7 +303,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	cancel_fd = camel_operation_cancel_fd (NULL);
 	if (cancel_fd == -1) {
 		do {
-			written = SSL_write (tcp_stream_openssl->priv->ssl, buffer, n);
+			written = my_SSL_write (tcp_stream_openssl->priv->ssl, buffer, n);
 		} while (written == -1 && errno == EINTR);
 	} else {
 		fd_set rdset, wrset;
@@ -301,12 +326,14 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 				return -1;
 			}
 			
-			w = SSL_write (tcp_stream_openssl->priv->ssl, buffer + written, n - written);
+			w = my_SSL_write (tcp_stream_openssl->priv->ssl, buffer + written, n - written);
 			if (w > 0)
 				written += w;
 		} while (w != -1 && written < n);
 		
 		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
+		if (w == -1)
+			written = -1;
 	}
 	
 	if (written == -1)

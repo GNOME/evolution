@@ -1,3 +1,13 @@
+2001-09-25  Dan Winship  <danw@ximian.com>
+
+	* camel-tcp-stream-openssl.c (my_SSL_read, my_SSL_write): call
+	SSL_read/write, looping on SSL_ERROR_WANT_READ/WRITE. I'm sure
+	there's a perfectly good reason that the API works this way. No,
+	really.
+	(stream_read, stream_write): use my_SSL_read and my_SSL_write.
+	Fixes at least ximian 8593, and probably 6024 and maybe 10366,
+	at least for OpenSSL. There may be a parallel NSS bug?
+
 2001-09-25    <NotZed@Ximian.com>
 
 	* camel-stream-buffer.c (stream_write_all): A "safe write"
