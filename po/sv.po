@@ -77,7 +77,7 @@ msgstr "Ta bort"
 
 #: composer/e-msg-composer-attachment-bar.c:362
 msgid "Remove selected items from the attachment list"
-msgstr ""
+msgstr "Ta bort markerade objekt från bifogningslistan"
 
 #: composer/e-msg-composer-attachment-bar.c:393
 msgid "Add attachment..."
@@ -194,6 +194,10 @@ msgid ""
 "Evolution can rename the file, delete the file or shutdown and\n"
 "let you fix the problem."
 msgstr ""
+"Evolution har upptäckt att filen \"%s\" inte är en katalog.\n"
+"\n"
+"Evolution kan byta namn på filen, ta bort den eller stänga av och\n"
+"låt dig fixa problemet."
 
 #: mail/folder-browser-factory.c:82
 msgid ""
@@ -211,11 +215,11 @@ msgstr "_Epost"
 
 #: mail/folder-browser-factory.c:295
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
-msgstr ""
+msgstr "Tyvärr, Evolutions mappbläddrare kan inte initialiseras."
 
 #: mail/folder-browser.c:145
 msgid "The URI that the Folder Browser will display"
-msgstr ""
+msgstr "URL:en som mappbläddraden kommer att visa"
 
 #: mail/folder-browser.c:148
 msgid "Whether a message preview should be shown"
@@ -223,22 +227,24 @@ msgstr "Huruvida meddelanden ska förhandsgranskas"
 
 #: mail/mail-component.c:30 mail/main.c:33
 msgid "Mail Component: I could not initialize Bonobo"
-msgstr ""
+msgstr "Postkomponent: Jag kunde inte initialisera Bonobo"
 
 #: mail/mail-display.c:98
 msgid ""
 "An exception occured while trying to load data into the component with "
 "PersistStream"
 msgstr ""
+"Ett undantag uppstod vid laddning av data till komponenten med "
+"PersistStream"
 
 #: mail/mail-display.c:235
 #, c-format
 msgid "The %s component doesn't support PersistStream!\n"
-msgstr ""
+msgstr "Komponenten %s stöder inte PersistStream!\n"
 
 #: mail/message-list.c:343
 msgid "Online status"
-msgstr ""
+msgstr "Anslutningsstatus"
 
 #: mail/message-list.c:349
 msgid "Message status"
@@ -278,11 +284,11 @@ msgstr "Storlek"
 
 #: shell/e-folder.c:150
 msgid "A folder containing mail items"
-msgstr ""
+msgstr "En mapp som innehåller mailobjekt"
 
 #: shell/e-folder.c:153
 msgid "A folder containing contacts"
-msgstr ""
+msgstr "En mapp som innehåller kontakter"
 
 #: shell/e-folder.c:156
 msgid "A folder containing calendar entries"
@@ -290,11 +296,11 @@ msgstr ""
 
 #: shell/e-folder.c:159
 msgid "A folder containing tasks"
-msgstr ""
+msgstr "En mapp som innehåller uppgifter"
 
 #: shell/e-init.c:25
 msgid "Evolution can not create its local folders"
-msgstr ""
+msgstr "Evolution kan inte skapa sina lokala mappar"
 
 #: shell/e-service.c:166
 msgid "A service containing mail items"
@@ -346,15 +352,15 @@ msgstr "Öppna i ett nytt fönster"
 
 #: shell/e-shell-shortcut.c:210
 msgid "Advanced Find"
-msgstr ""
+msgstr "Avancerat sök"
 
 #: shell/e-shell-shortcut.c:212
 msgid "Remove From Shortcut Bar"
-msgstr ""
+msgstr "Ta bort från genvägsraden"
 
 #: shell/e-shell-shortcut.c:213
 msgid "Rename Shortcut"
-msgstr "Döp om genväg"
+msgstr "Byt namn på genväg"
 
 #: shell/e-shell-shortcut.c:215
 msgid "Properties"
@@ -390,7 +396,7 @@ msgstr "_Kontakt"
 
 #: shell/e-shell-view-menu.c:127
 msgid "_Task"
-msgstr ""
+msgstr "Uppgif_t"
 
 #: shell/e-shell-view-menu.c:130
 msgid "Task _Request"
@@ -495,11 +501,11 @@ msgstr "Lista med uppgifter"
 
 #: shell/e-shell.c:284
 msgid "Main Shortcuts"
-msgstr ""
+msgstr "Huvudgenvägar"
 
 #: shell/e-shell.c:299
 msgid "Other Shortcuts"
-msgstr ""
+msgstr "Andra genvägar"
 
 #: shell/e-shortcut.c:466
 msgid "New group"
