@@ -1195,8 +1195,23 @@ AC_SUBST(evolutionhelpdir)
 imagesdir="$privdatadir/images"
 AC_SUBST(imagesdir)
 
-buttonsdir="$privdatadir/images/buttons"
-AC_SUBST(buttonsdir)
+images16dir="$privdatadir/images/16x16"
+AC_SUBST(images16dir)
+
+dnl images18dir="$privdatadir/images/18x18"
+dnl AC_SUBST(images18dir)
+
+dnl images20dir="$privdatadir/images/20x20"
+dnl AC_SUBST(images20dir)
+
+dnl images24dir="$privdatadir/images/24x24"
+dnl AC_SUBST(images24dir)
+
+dnl images32dir="$privdatadir/images/32x32"
+dnl AC_SUBST(images32dir)
+
+images48dir="$privdatadir/images/48x48"
+AC_SUBST(images48dir)
 
 soundsdir="$privdatadir/sounds"
 AC_SUBST(soundsdir)
