@@ -72,21 +72,22 @@ rule_editor_get_type (void)
 	static GtkType type = 0;
 	
 	if (!type) {
-		static const GtkTypeInfo info = {
-			"RuleEditor",
-			sizeof (RuleEditor),
+		static const GTypeInfo info = {
 			sizeof (RuleEditorClass),
-			(GtkClassInitFunc) rule_editor_class_init,
-			(GtkObjectInitFunc) rule_editor_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) rule_editor_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (RuleEditor),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) rule_editor_init,
 		};
 		
 		/* TODO: Remove when it works (or never will) */
 		enable_undo = getenv ("EVOLUTION_RULE_UNDO") != NULL;
 		
-		type = gtk_type_unique (gtk_dialog_get_type (), &info);
+		type = g_type_register_static (gtk_dialog_get_type (), "RuleEditor", &info, 0);
 	}
 	
 	return type;

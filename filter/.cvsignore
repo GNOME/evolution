@@ -5,6 +5,6 @@
 .pure
 Makefile
 Makefile.in
-filter-driver
-filter-editor
 libfilter-i18n.h
+filter-marshal.c
+filter-marshal.h

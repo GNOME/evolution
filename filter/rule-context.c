@@ -38,6 +38,7 @@
 
 #include "rule-context.h"
 #include "filter-rule.h"
+#include "filter-marshal.h"
 
 #define d(x) 
 
@@ -117,7 +118,7 @@ rule_context_class_init (RuleContextClass *klass)
 			      G_STRUCT_OFFSET (RuleContextClass, rule_added),
 			      NULL,
 			      NULL,
-			      gtk_marshal_NONE__POINTER,
+			      filter_marshal_NONE__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 	
 	signals[RULE_REMOVED] =
@@ -127,7 +128,7 @@ rule_context_class_init (RuleContextClass *klass)
 			      G_STRUCT_OFFSET (RuleContextClass, rule_removed),
 			      NULL,
 			      NULL,
-			      gtk_marshal_NONE__POINTER,
+			      filter_marshal_NONE__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 	
 	signals[CHANGED] =
@@ -137,7 +138,7 @@ rule_context_class_init (RuleContextClass *klass)
 			      G_STRUCT_OFFSET (RuleContextClass, changed),
 			      NULL,
 			      NULL,
-			      gtk_marshal_NONE__NONE,
+			      filter_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 }
 

@@ -9,6 +9,8 @@ INCLUDES = 					\
 	-I $(top_srcdir)/shell			\
 	-DFILTER_GLADEDIR=\"$(gladedir)\"	\
 	-DG_LOG_DOMAIN=\"filter\"		\
+	-DG_DISABLE_DEPRECATED			\
+	-DGTK_DISABLE_DEPRECATED		\
 	$(LIBFILTER_CFLAGS)
 
 noinst_LTLIBRARIES =				\
@@ -39,6 +41,8 @@ libfilter_la_SOURCES =				\
 	filter-int.h				\
 	filter-label.c				\
 	filter-label.h				\
+	filter-marshal.c			\
+	filter-marshal.h			\
 	filter-option.c				\
 	filter-option.h				\
 	filter-part.c				\
@@ -67,7 +71,7 @@ libfilter_la_SOURCES =				\
 libfilter_la_DEPENDENCIES = libfilter-i18n.h
 
 EXTRA_DIST = filtertypes.xml vfoldertypes.xml \
-	$(glade_DATA) libfilter-i18n.h
+	$(glade_DATA) libfilter-i18n.h filter-marshal.list
 
 # basic rules.
 filterdir = $(datadir)/evolution
@@ -78,3 +82,16 @@ libfilter-i18n.h: filtertypes.xml vfoldertypes.xml
 	cat $(srcdir)/filtertypes.xml $(srcdir)/vfoldertypes.xml |	      \
 		sed -n -e 's:.*<title>\(.*\)</title>:char *s = N_("\1");:p' | \
 		sort -u >> $@
+
+filter-marshal.h: filter-marshal.list
+	( @GLIB_GENMARSHAL@ --prefix=filter_marshal filter-marshal.list --header > filter-marshal.tmp \
+	&& mv filter-marshal.tmp filter-marshal.h ) \
+	|| ( rm -f filter-marshal.tmp && exit 1 )
+
+filter-marshal.c: filter-marshal.h
+	( @GLIB_GENMARSHAL@ --prefix=filter_marshal filter-marshal.list --body > filter-marshal.tmp \
+	&& mv filter-marshal.tmp filter-marshal.c ) \
+	|| ( rm -f filter-marshal.tmp && exit 1 )
+
+MARSHAL_GENERATED = filter-marshal.c filter-marshal.h
+

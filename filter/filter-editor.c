@@ -33,7 +33,7 @@
 
 #define d(x)
 
-static FilterRule * create_rule(RuleEditor *re);
+static FilterRule *create_rule (RuleEditor *re);
 
 static void filter_editor_class_init (FilterEditorClass *klass);
 static void filter_editor_init (FilterEditor *fe);
@@ -49,18 +49,19 @@ filter_editor_get_type (void)
 	static GtkType type = 0;
 	
 	if (!type) {
-		static const GtkTypeInfo info = {
-			"FilterEditor",
-			sizeof (FilterEditor),
+		static const GTypeInfo info = {
 			sizeof (FilterEditorClass),
-			(GtkClassInitFunc) filter_editor_class_init,
-			(GtkObjectInitFunc) filter_editor_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) filter_editor_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (FilterEditor),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) filter_editor_init,
 		};
 		
-		type = gtk_type_unique (RULE_TYPE_EDITOR, &info);
+		type = g_type_register_static (RULE_TYPE_EDITOR, "FilterEditor", &info, 0);
 	}
 	
 	return type;

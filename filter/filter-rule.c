@@ -32,6 +32,7 @@
 
 #include "filter-rule.h"
 #include "filter-context.h"
+#include "filter-marshal.h"
 
 #define d(x)
 
@@ -112,7 +113,7 @@ filter_rule_class_init (FilterRuleClass *klass)
 			      G_STRUCT_OFFSET (FilterRuleClass, changed),
 			      NULL,
 			      NULL,
-			      gtk_marshal_NONE__NONE,
+			      filter_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 }
 

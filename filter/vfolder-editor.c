@@ -33,7 +33,7 @@
 
 #define d(x)
 
-static FilterRule * create_rule(RuleEditor *re);
+static FilterRule *create_rule (RuleEditor *re);
 
 static void vfolder_editor_class_init (VfolderEditorClass *klass);
 static void vfolder_editor_init (VfolderEditor *ve);
@@ -49,18 +49,19 @@ vfolder_editor_get_type (void)
 	static GtkType type = 0;
 	
 	if (!type) {
-		static const GtkTypeInfo info = {
-			"VfolderEditor",
-			sizeof (VfolderEditor),
+		static const GTypeInfo info = {
 			sizeof (VfolderEditorClass),
-			(GtkClassInitFunc) vfolder_editor_class_init,
-			(GtkObjectInitFunc) vfolder_editor_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) vfolder_editor_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (VfolderEditor),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) vfolder_editor_init,
 		};
 		
-		type = gtk_type_unique (RULE_TYPE_EDITOR, &info);
+		type = g_type_register_static (RULE_TYPE_EDITOR, "VfolderEditor", &info, 0);
 	}
 	
 	return type;
@@ -73,7 +74,7 @@ vfolder_editor_class_init (VfolderEditorClass *klass)
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	RuleEditorClass *re_class = (RuleEditorClass *) klass;
 	
-	parent_class = g_type_class_ref(rule_editor_get_type ());
+	parent_class = g_type_class_ref (rule_editor_get_type ());
 	
 	gobject_class->finalize = vfolder_editor_finalise;
 	

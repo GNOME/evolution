@@ -49,18 +49,19 @@ score_editor_get_type (void)
 	static GtkType type = 0;
 	
 	if (!type) {
-		static const GtkTypeInfo info = {
-			"ScoreEditor",
-			sizeof (ScoreEditor),
+		static const GTypeInfo info = {
 			sizeof (ScoreEditorClass),
-			(GtkClassInitFunc) score_editor_class_init,
-			(GtkObjectInitFunc) score_editor_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) score_editor_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (ScoreEditor),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) score_editor_init,
 		};
 		
-		type = gtk_type_unique (RULE_TYPE_EDITOR, &info);
+		type = g_type_register_static (RULE_TYPE_EDITOR, "ScoreEditor", &info, 0);
 	}
 	
 	return type;

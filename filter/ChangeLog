@@ -1,3 +1,8 @@
+2003-01-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixed to build with -DG_DISABLE_DEPRECATED and
+	-DGTK_DISABLE_DEPRECATED
+
 2002-12-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-editor.c (cursor_changed): Use an easier method for getting
