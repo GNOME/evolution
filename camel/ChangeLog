@@ -1,5 +1,9 @@
 2004-03-11  Not Zed  <NotZed@Ximian.com>
 
+	* camel-vee-store.c (vee_get_folder_info): we need to add the
+	folderinfo always if we're recursive from top.  Should fix #52965
+	and maybe the other vfolders not showing on startup bug.
+
 	* providers/imap/camel-imap-store.c (get_one_folder_offline):
 	(parse_list_response_as_folder_info): turn off NOINFERIORS always,
 	translate to nochildren.

@@ -248,8 +248,8 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 				   && ((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE)
 				       || strchr(name+toplen+1, '/') == NULL)));
 		} else {
-			if ((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) == 0)
-				add = strchr(name, '/') == NULL;
+			add = (flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE)
+				|| strchr(name, '/') == NULL;
 		}
 
 		d(printf("%sadding '%s'\n", add?"":"not ", name));
