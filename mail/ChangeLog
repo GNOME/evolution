@@ -1,5 +1,8 @@
 2001-01-11  Miguel de Icaza  <miguel@gnu.org>
 
+	* mail-config-druid.c (incoming_type_changed): Guess the default
+	MAIL value for MBOX and Maildir files.
+
 	* mail-callbacks.c (configure_mail): Force finalization of the
 	function before returning fixing the FIXME that was there.
 
