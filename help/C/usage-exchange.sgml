@@ -69,13 +69,28 @@
   <sect1 id="install">
     <title>Installing the Connector</title>
     <para>
-       To install the Ximian Connector, first visit the Ximian online
-       store at <ulink
+       To install the Ximian Connector, run Ximian Red Carpet by
+       selecting
+       <menuchoice><guimenu>System</guimenu><guimenuitem>Get
+       Software</guimenuitem></menuchoice>.  Subscribe to the Ximian GNOME channel,
+       select the Ximian Connector for Microsoft Exchange 2000, and
+       click the <guibutton>Install</guibutton> button.  You can also
+       install the Connector by downloading the individual packages
+       from ftp.ximian.com if you wish. 
+   </para>
+   <para>
+       Once you have installed the software, you will also need to
+       install a license file.  The license file is the verification
+       that you have paid for a license to use the Ximian
+       Connector. You can get the license file from the the Ximian
+       online store at <ulink
        url="http://store.ximian.com">store.ximian.com</ulink>.  You
        will need a browser with strong (128-bit or greater) encryption
-       to access the store. After purchase you will be given an
-       activation key which you can enter into Ximian Red Carpet,
-       which will download and install the software for you.
+       to access the store. When you purchase a Ximian Connector
+       license, the store will mail you the license file with
+       instructions for installation. Once installed, the license file
+       unlocks the Ximian Connector functionality and you may connect
+       to an Exchange server.
     </para>
  </sect1>
 
@@ -83,7 +98,42 @@
     <title>Configuration</title>
     <para>
       Once you have installed the Connector, you need to set up access
-      for your Exchange account.  Start Ximian Evolution and select
+      for your Exchange account on both the Exchange server and within
+      Evolution.
+    </para>
+
+       <sect2 id="config-server">
+       <title>Exchange Server Configuration</title>
+        <para>
+	  Check with your system administrator to ensure that:
+         <itemizedlist>
+	 <listitem>
+	 <para> 
+	 You have a valid account on the Exchange server.
+         </para>
+	 </listitem>
+	 <listitem>
+	 <para> 
+           You are permitted to access the account with
+           WebDAV. This is the default setting for the Exchange server,
+           so unless your system administrator has specifically turned
+           it off, no changes should be necessary.
+         </para>
+	 </listitem>
+</itemizedlist>
+</para>
+<para>
+The Ximian website knowledge base, at <ulink type="http"
+url="http://support.ximian.com">support.ximian.com</ulink>, has additional information about checking to make sure that your Exchange server will accept connections from Ximian Evolution.
+</para>
+</sect2>
+
+<sect2 id="config-client">
+<title>Evolution Settings for Connecting to an Exchange Server</title>
+<para>
+
+  Once you know that your server is ready for you to connect, start
+ Ximian Evolution and select
        <menuchoice>
 	<guimenu>Tools</guimenu>
 	<guimenuitem>Mail Settings</guimenuitem>
@@ -144,6 +194,7 @@
        accounts list. The account creation assistant will guide you
        through the process, which is described in <xref
        linkend="usage-mainwindow-starting">. </para>
+       </sect2>
   </sect1>
 
   <sect1 id="access">
