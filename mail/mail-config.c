@@ -54,7 +54,6 @@
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <e-util/e-account.h>
 #include <e-util/e-url.h>
 #include <e-util/e-passwords.h>
 #include "mail.h"
@@ -78,7 +77,7 @@ typedef struct {
 	
 	gboolean corrupt;
 	
-	GSList *accounts;
+	EAccountList *accounts;
 	guint accounts_notify_id;
 	
 	GHashTable *threaded_hash;
@@ -98,9 +97,6 @@ static MailConfig *config = NULL;
 static guint config_write_timeout = 0;
 
 #define MAIL_CONFIG_IID "OAFIID:GNOME_Evolution_MailConfig_Factory"
-
-/* Prototypes */
-static void config_read (void);
 
 /* signatures */
 MailConfigSignature *
@@ -129,145 +125,6 @@ signature_destroy (MailConfigSignature *sig)
 	g_free (sig->script);
 	g_free (sig);
 }
-
-/* Identity */
-MailConfigIdentity *
-identity_copy (const MailConfigIdentity *id)
-{
-	MailConfigIdentity *new;
-	
-	g_return_val_if_fail (id != NULL, NULL);
-	
-	new = g_new0 (MailConfigIdentity, 1);
-	new->name = g_strdup (id->name);
-	new->address = g_strdup (id->address);
-	new->reply_to = g_strdup (id->reply_to);
-	new->organization = g_strdup (id->organization);
-	new->def_signature = id->def_signature;
-	new->auto_signature = id->auto_signature;
-	
-	return new;
-}
-
-void
-identity_destroy (MailConfigIdentity *id)
-{
-	if (!id)
-		return;
-	
-	g_free (id->name);
-	g_free (id->address);
-	g_free (id->reply_to);
-	g_free (id->organization);
-	
-	g_free (id);
-}
-
-/* Service */
-MailConfigService *
-service_copy (const MailConfigService *source) 
-{
-	MailConfigService *new;
-	
-	g_return_val_if_fail (source != NULL, NULL);
-	
-	new = g_new0 (MailConfigService, 1);
-	new->url = g_strdup (source->url);
-	new->keep_on_server = source->keep_on_server;
-	new->auto_check = source->auto_check;
-	new->auto_check_time = source->auto_check_time;
-	new->save_passwd = source->save_passwd;
-	
-	return new;
-}
-
-void
-service_destroy (MailConfigService *source)
-{
-	if (!source)
-		return;
-	
-	g_free (source->url);
-	
-	g_free (source);
-}
-
-void
-service_destroy_each (gpointer item, gpointer data)
-{
-	service_destroy ((MailConfigService *) item);
-}
-
-/* Account */
-MailConfigAccount *
-account_copy (const MailConfigAccount *account) 
-{
-	MailConfigAccount *new;
-	
-	g_return_val_if_fail (account != NULL, NULL);
-	
-	new = g_new0 (MailConfigAccount, 1);
-	new->name = g_strdup (account->name);
-	new->uid = e_account_gen_uid ();
-	
-	new->enabled = account->enabled;
-	
-	new->id = identity_copy (account->id);
-	new->source = service_copy (account->source);
-	new->transport = service_copy (account->transport);
-	
-	new->drafts_folder_uri = g_strdup (account->drafts_folder_uri);
-	new->sent_folder_uri = g_strdup (account->sent_folder_uri);
-	
-	new->always_cc = account->always_cc;
-	new->cc_addrs = g_strdup (account->cc_addrs);
-	new->always_bcc = account->always_bcc;
-	new->bcc_addrs = g_strdup (account->bcc_addrs);
-	
-	new->pgp_key = g_strdup (account->pgp_key);
-	new->pgp_encrypt_to_self = account->pgp_encrypt_to_self;
-	new->pgp_always_sign = account->pgp_always_sign;
-	new->pgp_no_imip_sign = account->pgp_no_imip_sign;
-	new->pgp_always_trust = account->pgp_always_trust;
-	
-	new->smime_key = g_strdup (account->smime_key);
-	new->smime_encrypt_to_self = account->smime_encrypt_to_self;
-	new->smime_always_sign = account->smime_always_sign;
-	
-	return new;
-}
-
-void
-account_destroy (MailConfigAccount *account)
-{
-	if (!account)
-		return;
-	
-	g_free (account->name);
-	g_free (account->uid);
-	
-	identity_destroy (account->id);
-	service_destroy (account->source);
-	service_destroy (account->transport);
-	
-	g_free (account->drafts_folder_uri);
-	g_free (account->sent_folder_uri);
-	
-	g_free (account->cc_addrs);
-	g_free (account->bcc_addrs);
-	
-	g_free (account->pgp_key);
-	g_free (account->smime_key);
-	
-	g_free (account);
-}
-
-void
-account_destroy_each (gpointer item, gpointer data)
-{
-	account_destroy ((MailConfigAccount *) item);
-}
-
 
 static gboolean
 xml_get_bool (xmlNodePtr node, const char *name)
@@ -342,363 +199,10 @@ lookup_signature (int id)
 	return NULL;
 }
 
-static MailConfigAccount *
-account_new_from_xml (char *in)
-{
-	MailConfigAccount *account;
-	xmlNodePtr node, cur;
-	xmlDocPtr doc;
-	char *buf;
-	
-	if (!(doc = xmlParseDoc (in)))
-		return NULL;
-	
-	node = doc->children;
-	if (strcmp (node->name, "account") != 0) {
-		xmlFreeDoc (doc);
-		return NULL;
-	}
-	
-	account = g_new0 (MailConfigAccount, 1);
-	account->name = xml_get_prop (node, "name");
-	account->uid = xml_get_prop (node, "uid");
-	account->enabled = xml_get_bool (node, "enabled");
-	
-	/* temporary pre-1.4 back compat */
-	if (!account->uid)
-		account->uid = e_account_gen_uid ();
-
-	node = node->children;
-	while (node != NULL) {
-		if (!strcmp (node->name, "identity")) {
-			account->id = g_new0 (MailConfigIdentity, 1);
-			
-			cur = node->children;
-			while (cur != NULL) {
-				if (!strcmp (cur->name, "name")) {
-					account->id->name = xml_get_content (cur);
-				} else if (!strcmp (cur->name, "addr-spec")) {
-					account->id->address = xml_get_content (cur);
-				} else if (!strcmp (cur->name, "reply-to")) {
-					account->id->reply_to = xml_get_content (cur);
-				} else if (!strcmp (cur->name, "organization")) {
-					account->id->organization = xml_get_content (cur);
-				} else if (!strcmp (cur->name, "signature")) {
-					account->id->auto_signature = xml_get_bool (cur, "auto");
-					account->id->def_signature = lookup_signature (xml_get_int (cur, "default"));
-				}
-				
-				cur = cur->next;
-			}
-		} else if (!strcmp (node->name, "source")) {
-			int timeout;
-			
-			account->source = g_new0 (MailConfigService, 1);
-			account->source->save_passwd = xml_get_bool (node, "save-passwd");
-			account->source->keep_on_server = xml_get_bool (node, "keep-on-server");
-			account->source->auto_check = xml_get_bool (node, "auto-check");
-			timeout = xml_get_int (node, "auto-check-timeout");
-			if (account->source->auto_check && timeout <= 0) {
-				account->source->auto_check = FALSE;
-				account->source->auto_check_time = 0;
-			} else {
-				account->source->auto_check_time = timeout;
-			}
-			
-			cur = node->children;
-			while (cur != NULL) {
-				if (!strcmp (cur->name, "url")) {
-					account->source->url = xml_get_content (cur);
-					break;
-				}
-				cur = cur->next;
-			}
-		} else if (!strcmp (node->name, "transport")) {
-			account->transport = g_new0 (MailConfigService, 1);
-			account->transport->save_passwd = xml_get_bool (node, "save-passwd");
-			
-			cur = node->children;
-			while (cur != NULL) {
-				if (!strcmp (cur->name, "url")) {
-					account->transport->url = xml_get_content (cur);
-					break;
-				}
-				cur = cur->next;
-			}
-		} else if (!strcmp (node->name, "drafts-folder")) {
-			account->drafts_folder_uri = xml_get_content (node);
-		} else if (!strcmp (node->name, "sent-folder")) {
-			account->sent_folder_uri = xml_get_content (node);
-		} else if (!strcmp (node->name, "auto-cc")) {
-			account->always_cc = xml_get_bool (node, "always");
-			account->cc_addrs = xml_get_content (node);
-		} else if (!strcmp (node->name, "auto-bcc")) {
-			account->always_cc = xml_get_bool (node, "always");
-			account->bcc_addrs = xml_get_content (node);
-		} else if (!strcmp (node->name, "pgp")) {
-			account->pgp_encrypt_to_self = xml_get_bool (node, "encrypt-to-self");
-			account->pgp_always_trust = xml_get_bool (node, "always-trust");
-			account->pgp_always_sign = xml_get_bool (node, "always-sign");
-			account->pgp_no_imip_sign = xml_get_bool (node, "no-imip-sign");
-			
-			if (node->children) {
-				cur = node->children;
-				while (cur != NULL) {
-					if (!strcmp (cur->name, "key-id")) {
-						account->pgp_key = xml_get_content (cur);
-						break;
-					}
-					
-					cur = cur->next;
-				}
-			}
-		} else if (!strcmp (node->name, "smime")) {
-			account->smime_encrypt_to_self = xml_get_bool (node, "encrypt-to-self");
-			account->smime_always_sign = xml_get_bool (node, "always-sign");
-			
-			if (node->children) {
-				cur = node->children;
-				while (cur != NULL) {
-					if (!strcmp (cur->name, "key-id")) {
-						account->smime_key = xml_get_content (cur);
-						break;
-					}
-					
-					cur = cur->next;
-				}
-			}
-		}
-		
-		node = node->next;
-	}
-	
-	xmlFreeDoc (doc);
-	
-	return account;
-}
-
-static char *
-account_to_xml (MailConfigAccount *account)
-{
-	xmlNodePtr root, node, id, src, xport;
-	char *xmlbuf, *tmp, buf[20];
-	xmlDocPtr doc;
-	int n;
-	
-	doc = xmlNewDoc ("1.0");
-	
-	root = xmlNewDocNode (doc, NULL, "account", NULL);
-	xmlDocSetRootElement (doc, root);
-	
-	xmlSetProp (root, "name", account->name);
-	xmlSetProp (root, "uid", account->uid);
-	xmlSetProp (root, "enabled", account->enabled ? "true" : "false");
-	
-	id = xmlNewChild (root, NULL, "identity", NULL);
-	if (account->id->name)
-		xmlNewTextChild (id, NULL, "name", account->id->name);
-	if (account->id->address)
-		xmlNewTextChild (id, NULL, "addr-spec", account->id->address);
-	if (account->id->reply_to)
-		xmlNewTextChild (id, NULL, "reply-to", account->id->reply_to);
-	if (account->id->organization)
-		xmlNewTextChild (id, NULL, "organization", account->id->organization);
-	
-	node = xmlNewChild (id, NULL, "signature", NULL);
-	xmlSetProp (node, "auto", account->id->auto_signature ? "true" : "false");
-	sprintf (buf, "%d", account->id->def_signature);
-	xmlSetProp (node, "default", buf);
-	
-	src = xmlNewChild (root, NULL, "source", NULL);
-	xmlSetProp (src, "save-passwd", account->source->save_passwd ? "true" : "false");
-	xmlSetProp (src, "keep-on-server", account->source->keep_on_server ? "true" : "false");
-	xmlSetProp (src, "auto-check", account->source->auto_check ? "true" : "false");
-	sprintf (buf, "%d", account->source->auto_check_time);
-	xmlSetProp (src, "auto-check-timeout", buf);
-	if (account->source->url)
-		xmlNewTextChild (src, NULL, "url", account->source->url);
-	
-	xport = xmlNewChild (root, NULL, "transport", NULL);
-	xmlSetProp (xport, "save-passwd", account->transport->save_passwd ? "true" : "false");
-	if (account->transport->url)
-		xmlNewTextChild (xport, NULL, "url", account->transport->url);
-	
-	xmlNewTextChild (root, NULL, "drafts-folder", account->drafts_folder_uri);
-	xmlNewTextChild (root, NULL, "sent-folder", account->sent_folder_uri);
-	
-	node = xmlNewChild (root, NULL, "auto-cc", NULL);
-	xmlSetProp (node, "always", account->always_cc ? "true" : "false");
-	if (account->cc_addrs)
-		xmlNewTextChild (node, NULL, "recipients", account->cc_addrs);
-	
-	node = xmlNewChild (root, NULL, "auto-bcc", NULL);
-	xmlSetProp (node, "always", account->always_bcc ? "true" : "false");
-	if (account->bcc_addrs)
-		xmlNewTextChild (node, NULL, "recipients", account->bcc_addrs);
-	
-	node = xmlNewChild (root, NULL, "pgp", NULL);
-	xmlSetProp (node, "encrypt-to-self", account->pgp_encrypt_to_self ? "true" : "false");
-	xmlSetProp (node, "always-trust", account->pgp_always_trust ? "true" : "false");
-	xmlSetProp (node, "always-sign", account->pgp_always_sign ? "true" : "false");
-	xmlSetProp (node, "no-imip-sign", account->pgp_no_imip_sign ? "true" : "false");
-	if (account->pgp_key)
-		xmlNewTextChild (node, NULL, "key-id", account->pgp_key);
-	
-	node = xmlNewChild (root, NULL, "smime", NULL);
-	xmlSetProp (node, "encrypt-to-self", account->smime_encrypt_to_self ? "true" : "false");
-	xmlSetProp (node, "always-sign", account->smime_always_sign ? "true" : "false");
-	if (account->smime_key)
-		xmlNewTextChild (node, NULL, "key-id", account->smime_key);
-	
-	xmlDocDumpMemory (doc, (xmlChar **) &xmlbuf, &n);
-	xmlFreeDoc (doc);
-	
-	/* remap to glib memory */
-	tmp = g_malloc (n + 1);
-	memcpy (tmp, xmlbuf, n);
-	tmp[n] = '\0';
-	xmlFree (xmlbuf);
-	
-	return tmp;
-}
-
-static void
-accounts_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
-{
-	GSList *list, *l, *tail, *n;
-	
-	if (config->accounts != NULL) {
-		l = config->accounts;
-		while (l != NULL) {
-			n = l->next;
-			account_destroy ((MailConfigAccount *) l->data);
-			g_slist_free_1 (l);
-			l = n;
-		}
-		
-		config->accounts = NULL;
-	}
-	
-	tail = NULL;	
-	list = gconf_client_get_list (config->gconf, "/apps/evolution/mail/accounts",
-				      GCONF_VALUE_STRING, NULL);
-	
-	l = list;
-	while (l != NULL) {
-		MailConfigAccount *account;
-		
-		if ((account = account_new_from_xml ((char *) l->data))) {
-			n = g_slist_alloc ();
-			n->data = account;
-			n->next = NULL;
-			
-			if (tail == NULL)
-				config->accounts = n;
-			else
-				tail->next = n;
-			tail = n;
-		}
-		
-		n = l->next;
-		g_slist_free_1 (l);
-		l = n;
-	}
-}
-
-static void
-accounts_save (void)
-{
-	GSList *list, *tail, *n, *l;
-	char *xmlbuf;
-	
-	list = NULL;
-	tail = NULL;
-	
-	l = config->accounts;
-	while (l != NULL) {
-		if ((xmlbuf = account_to_xml ((MailConfigAccount *) l->data))) {
-			n = g_slist_alloc ();
-			n->data = xmlbuf;
-			n->next = NULL;
-
-			if (tail == NULL)
-				list = n;
-			else
-				tail->next = n;
-			tail = n;
-		}
-		
-		l = l->next;
-	}
-	
-	gconf_client_set_list (config->gconf, "/apps/evolution/mail/accounts", GCONF_VALUE_STRING, list, NULL);
-	
-	l = list;
-	while (l != NULL) {
-		n = l->next;
-		g_free (l->data);
-		g_slist_free_1 (l);
-		l = n;
-	}
-	
-	gconf_client_suggest_sync (config->gconf, NULL);
-}
-
 void
 mail_config_save_accounts (void)
 {
-	 gconf_client_notify_remove (config->gconf, config->accounts_notify_id);
-	 
-	 accounts_save ();
-	 
-	 config->accounts_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/accounts",
-							       accounts_changed, NULL, NULL, NULL);
-}
-
-/* Config struct routines */
-void
-mail_config_init (void)
-{
-	if (config)
-		return;
-	
-	config = g_new0 (MailConfig, 1);
-	config->gconf = gconf_client_get_default ();
-	
-	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/accounts",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	
-	config->accounts_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/accounts",
-							      accounts_changed, NULL, NULL, NULL);
-	
-	config_read ();
-}
-
-void
-mail_config_clear (void)
-{
-	GSList *list, *l, *n;
-	int i;
-	
-	if (!config)
-		return;
-	
-	l = config->accounts;
-	while (l != NULL) {
-		n = l->next;
-		account_destroy ((MailConfigAccount *) l->data);
-		g_slist_free_1 (l);
-		l = n;
-	}
-	
-	config->accounts = NULL;
-	
-	for (i = 0; i < 5; i++) {
-		g_free (config->labels[i].name);
-		config->labels[i].name = NULL;
-		g_free (config->labels[i].string);
-		config->labels[i].string = NULL;
-	}
+	e_account_list_save (config->accounts);
 }
 
 static MailConfigSignature *
@@ -857,24 +361,49 @@ config_write_signatures (void)
 	gconf_client_suggest_sync (config->gconf, NULL);
 }
 
+/* Config struct routines */
 void
-mail_config_write_account_sig (MailConfigAccount *account, int id)
+mail_config_init (void)
 {
-	/* FIXME: what is this supposed to do? */
-	;
-}
-
-static void
-config_read (void)
-{
-	int len, i, default_num;
-	char *path, *val, *p;
+	if (config)
+		return;
+	
+	config = g_new0 (MailConfig, 1);
+	config->gconf = gconf_client_get_default ();
 	
 	mail_config_clear ();
 	
 	config_read_signatures ();
 	
-	accounts_changed (config->gconf, 0, NULL, NULL);
+	config->accounts = e_account_list_new (config->gconf);
+}
+
+void
+mail_config_clear (void)
+{
+	int i;
+	
+	if (!config)
+		return;
+	
+	if (config->accounts) {
+		g_object_unref (config->accounts);
+		config->accounts = NULL;
+	}
+	
+	for (i = 0; i < 5; i++) {
+		g_free (config->labels[i].name);
+		config->labels[i].name = NULL;
+		g_free (config->labels[i].string);
+		config->labels[i].string = NULL;
+	}
+}
+
+void
+mail_config_write_account_sig (EAccount *account, int id)
+{
+	/* FIXME: what is this supposed to do? */
+	;
 }
 
 void
@@ -884,6 +413,7 @@ mail_config_write (void)
 		return;
 	
 	config_write_signatures ();
+	e_account_list_save (config->accounts);
 	
 	gconf_client_suggest_sync (config->gconf, NULL);
 }
@@ -909,8 +439,8 @@ hash_save_state (gpointer key, gpointer value, gpointer user_data)
 void
 mail_config_write_on_exit (void)
 {
-	MailConfigAccount *account;
-	const GSList *accounts;
+	EAccount *account;
+	EIterator *iter;
 	char *path, *p;
 	int i;
 	
@@ -928,10 +458,12 @@ mail_config_write_on_exit (void)
 	
 	/* then we make sure the ones we want to remember are in the
            session cache */
-	accounts = config->accounts;
-	for ( ; accounts; accounts = accounts->next) {
+	iter = e_list_get_iterator ((EList *) config->accounts);
+	while (e_iterator_is_valid (iter)) {
 		char *passwd;
-		account = accounts->data;
+		
+		account = (EAccount *) e_iterator_get (iter);
+		
 		if (account->source->save_passwd && account->source->url) {
 			passwd = mail_session_get_password (account->source->url);
 			mail_session_forget_password (account->source->url);
@@ -945,20 +477,27 @@ mail_config_write_on_exit (void)
 			mail_session_add_password (account->transport->url, passwd);
 			g_free (passwd);
 		}
+		
+		e_iterator_next (iter);
 	}
+	
+	g_object_unref (iter);
 	
 	/* then we clear out our component passwords */
 	e_passwords_clear_component_passwords ("Mail");
 	
 	/* then we remember them */
-	accounts = config->accounts;
-	for ( ; accounts; accounts = accounts->next) {
-		account = accounts->data;
+	iter = e_list_get_iterator ((EList *) config->accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
+		
 		if (account->source->save_passwd && account->source->url)
 			mail_session_remember_password (account->source->url);
 		
 		if (account->transport->save_passwd && account->transport->url)
 			mail_session_remember_password (account->transport->url);
+		
+		e_iterator_next (iter);
 	}
 	
 	/* now do cleanup */
@@ -969,7 +508,7 @@ mail_config_write_on_exit (void)
 gboolean
 mail_config_is_configured (void)
 {
-	return config->accounts != NULL;
+	return e_list_length ((EList *) config->accounts) > 0;
 }
 
 gboolean
@@ -1117,16 +656,33 @@ mail_config_get_label_color_string (int label)
 }
 
 gboolean
-mail_config_find_account (const MailConfigAccount *account)
+mail_config_find_account (EAccount *account)
 {
-	return g_slist_find (config->accounts, (gpointer) account) != NULL;
+	EAccount *acnt;
+	EIterator *iter;
+	
+	iter = e_list_get_iterator ((EList *) config->accounts);
+	while (e_iterator_is_valid (iter)) {
+		acnt = (EAccount *) e_iterator_get (iter);
+		if (acnt == account) {
+			g_object_unref (iter);
+			return TRUE;
+		}
+		
+		e_iterator_next (iter);
+	}
+	
+	g_object_unref (iter);
+	
+	return FALSE;
 }
 
-const MailConfigAccount *
+EAccount *
 mail_config_get_default_account (void)
 {
-	MailConfigAccount *account;
-	int index;
+	EAccount *account = NULL;
+	EIterator *iter;
+	int index, n;
 	
 	if (config == NULL)
 		mail_config_init ();
@@ -1135,44 +691,63 @@ mail_config_get_default_account (void)
 		return NULL;
 	
 	index = gconf_client_get_int (config->gconf, "/apps/evolution/mail/default_account", NULL);
-	account = g_slist_nth_data (config->accounts, index);
 	
-	/* Looks like we have no default, so make the first account
-           the default */
-	if (account == NULL) {
-		gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", 0, NULL);
-		account = config->accounts->data;
+	iter = e_list_get_iterator ((EList *) config->accounts);
+	n = 0;
+	
+	while (e_iterator_is_valid (iter)) {
+		if (n == index) {
+			account = (EAccount *) e_iterator_get (iter);
+			break;
+		}
+		
+		n++;
+		e_iterator_next (iter);
 	}
+	
+	if (account == NULL) {
+		/* Looks like we have no default, so make the first account
+		   the default */
+		e_iterator_reset (iter);
+		account = (EAccount *) e_iterator_get (iter);
+		
+		gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", 0, NULL);
+	}
+	
+	g_object_unref (iter);
 	
 	return account;
 }
 
-const MailConfigAccount *
+EAccount *
 mail_config_get_account_by_name (const char *account_name)
 {
-	/* FIXME: this should really use a hash */
-	const MailConfigAccount *account;
-	GSList *l;
+	EAccount *account;
+	EIterator *iter;
 	
-	l = config->accounts;
-	while (l) {
-		account = l->data;
-		if (account && !strcmp (account->name, account_name))
+	iter = e_list_get_iterator ((EList *) config->accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
+		if (!strcmp (account->name, account_name)) {
+			g_object_unref (iter);
 			return account;
+		}
 		
-		l = l->next;
+		e_iterator_next (iter);
 	}
+	
+	g_object_unref (iter);
 	
 	return NULL;
 }
 
-const MailConfigAccount *
+EAccount *
 mail_config_get_account_by_source_url (const char *source_url)
 {
-	const MailConfigAccount *account;
 	CamelProvider *provider;
+	EAccount *account;
 	CamelURL *source;
-	GSList *l;
+	EIterator *iter;
 	
 	g_return_val_if_fail (source_url != NULL, NULL);
 	
@@ -1184,17 +759,19 @@ mail_config_get_account_by_source_url (const char *source_url)
 	if (!source)
 		return NULL;
 	
-	l = config->accounts;
-	while (l) {
-		account = l->data;
+	iter = e_list_get_iterator ((EList *) config->accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
 		
-		if (account && account->source && account->source->url) {
+		if (account->source && account->source->url) {
 			CamelURL *url;
 			
 			url = camel_url_new (account->source->url, NULL);
 			if (url && provider->url_equal (url, source)) {
 				camel_url_free (url);
 				camel_url_free (source);
+				g_object_unref (iter);
+				
 				return account;
 			}
 			
@@ -1202,21 +779,23 @@ mail_config_get_account_by_source_url (const char *source_url)
 				camel_url_free (url);
 		}
 		
-		l = l->next;
+		e_iterator_next (iter);
 	}
+	
+	g_object_unref (iter);
 	
 	camel_url_free (source);
 	
 	return NULL;
 }
 
-const MailConfigAccount *
+EAccount *
 mail_config_get_account_by_transport_url (const char *transport_url)
 {
-	const MailConfigAccount *account;
 	CamelProvider *provider;
 	CamelURL *transport;
-	GSList *l;
+	EAccount *account;
+	EIterator *iter;
 	
 	g_return_val_if_fail (transport_url != NULL, NULL);
 	
@@ -1228,17 +807,19 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 	if (!transport)
 		return NULL;
 	
-	l = config->accounts;
-	while (l) {
-		account = l->data;
+	iter = e_list_get_iterator ((EList *) config->accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
 		
-		if (account && account->transport && account->transport->url) {
+		if (account->transport && account->transport->url) {
 			CamelURL *url;
 			
 			url = camel_url_new (account->transport->url, NULL);
 			if (url && provider->url_equal (url, transport)) {
 				camel_url_free (url);
 				camel_url_free (transport);
+				g_object_unref (iter);
+				
 				return account;
 			}
 			
@@ -1246,15 +827,17 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 				camel_url_free (url);
 		}
 		
-		l = l->next;
+		e_iterator_next (iter);
 	}
+	
+	g_object_unref (iter);
 	
 	camel_url_free (transport);
 	
 	return NULL;
 }
 
-const GSList *
+EAccountList *
 mail_config_get_accounts (void)
 {
 	g_assert (config != NULL);
@@ -1263,16 +846,18 @@ mail_config_get_accounts (void)
 }
 
 void
-mail_config_add_account (MailConfigAccount *account)
+mail_config_add_account (EAccount *account)
 {
-	config->accounts = g_slist_append (config->accounts, account);
+	e_list_append ((EList *) config->accounts, account);
 	
 	mail_config_save_accounts ();
 }
 
-const GSList *
-mail_config_remove_account (MailConfigAccount *account)
+void
+mail_config_remove_account (EAccount *account)
 {
+	EAccount *acnt = NULL;
+	EIterator *iter;
 	int index, cur;
 	
 	cur = gconf_client_get_int (config->gconf, "/apps/evolution/mail/default_account", NULL);
@@ -1283,35 +868,61 @@ mail_config_remove_account (MailConfigAccount *account)
 		gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", 0, NULL);
 	} else {
 		/* adjust the default to make sure it points to the same one */
-		index = g_slist_index (config->accounts, account);
+		index = 0;
+		iter = e_list_get_iterator ((EList *) config->accounts);
+		while (e_iterator_is_valid (iter)) {
+			acnt = (EAccount *) e_iterator_get (iter);
+			if (acnt == account)
+				break;
+			
+			index++;
+			e_iterator_next (iter);
+		}
+		
+		g_object_unref (iter);
+		
 		if (cur > index)
 			gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", cur - 1, NULL);
 	}
 	
-	config->accounts = g_slist_remove (config->accounts, account);
-	account_destroy (account);
+	e_list_remove ((EList *) config->accounts, account);
+	g_object_unref (account);
 	
 	mail_config_save_accounts ();
-	
-	return config->accounts;
 }
 
 void
-mail_config_set_default_account (const MailConfigAccount *account)
+mail_config_set_default_account (EAccount *account)
 {
-	int index;
+	EIterator *iter;
+	EAccount *acnt;
+	int index = -1;
+	int i = 0;
 	
-	index = g_slist_index (config->accounts, (void *) account);
+	iter = e_list_get_iterator ((EList *) config->accounts);
+	while (e_iterator_is_valid (iter)) {
+		acnt = (EAccount *) e_iterator_get (iter);
+		if (acnt == account) {
+			index = i;
+			break;
+		}
+		
+		i++;
+		e_iterator_next (iter);
+	}
+	
+	g_object_unref (iter);
+	
 	if (index == -1)
 		return;
 	
 	gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", index, NULL);
 }
 
-const MailConfigIdentity *
+EAccountIdentity *
 mail_config_get_default_identity (void)
 {
-	const MailConfigAccount *account;
+	EAccount *account;
 	
 	account = mail_config_get_default_account ();
 	if (account)
@@ -1320,26 +931,31 @@ mail_config_get_default_identity (void)
 		return NULL;
 }
 
-const MailConfigService *
+EAccountService *
 mail_config_get_default_transport (void)
 {
-	const MailConfigAccount *account;
-	const GSList *accounts;
+	EAccount *account;
+	EIterator *iter;
 	
 	account = mail_config_get_default_account ();
 	if (account && account->transport && account->transport->url)
 		return account->transport;
 	
 	/* return the first account with a transport? */
-	accounts = config->accounts;
-	while (accounts) {
-		account = accounts->data;
+	iter = e_list_get_iterator ((EList *) config->accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
 		
-		if (account->transport && account->transport->url)
+		if (account->transport && account->transport->url) {
+			g_object_unref (iter);
+			
 			return account->transport;
+		}
 		
-		accounts = accounts->next;
+		e_iterator_next (iter);
 	}
+	
+	g_object_unref (iter);
 	
 	return NULL;
 }
@@ -1362,11 +978,11 @@ uri_to_evname (const char *uri, const char *prefix)
 }
 
 void
-mail_config_uri_renamed(GCompareFunc uri_cmp, const char *old, const char *new)
+mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 {
-	MailConfigAccount *ac;
-	const GSList *l;
-	int work = 0;
+	EAccount *account;
+	EIterator *iter;
+	int i, work = 0;
 	gpointer oldkey, newkey, hashkey;
 	gpointer val;
 	char *oldname, *newname;
@@ -1376,42 +992,46 @@ mail_config_uri_renamed(GCompareFunc uri_cmp, const char *old, const char *new)
 			       "*views/mail/current_view-",
 			       "*views/mail/custom_view-",
 			       NULL };
-	int i;
-
-	l = mail_config_get_accounts();
-	while (l) {
-		ac = l->data;
-		if (ac->sent_folder_uri && uri_cmp(ac->sent_folder_uri, old)) {
-			g_free(ac->sent_folder_uri);
-			ac->sent_folder_uri = g_strdup(new);
+	
+	iter = e_list_get_iterator ((EList *) config->accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
+		
+		if (account->sent_folder_uri && uri_cmp (account->sent_folder_uri, old)) {
+			g_free (account->sent_folder_uri);
+			account->sent_folder_uri = g_strdup (new);
 			work = 1;
 		}
-		if (ac->drafts_folder_uri && uri_cmp(ac->drafts_folder_uri, old)) {
-			g_free(ac->drafts_folder_uri);
-			ac->drafts_folder_uri = g_strdup(new);
+		
+		if (account->drafts_folder_uri && uri_cmp (account->drafts_folder_uri, old)) {
+			g_free (account->drafts_folder_uri);
+			account->drafts_folder_uri = g_strdup (new);
 			work = 1;
 		}
-		l = l->next;
+		
+		e_iterator_next (iter);
 	}
-
+	
+	g_object_unref (iter);
+	
 	oldkey = uri_to_key (old);
 	newkey = uri_to_key (new);
-
+	
 	/* call this to load the hash table and the key */
 	mail_config_get_thread_list (old);
 	if (g_hash_table_lookup_extended (config->threaded_hash, oldkey, &hashkey, &val)) {
 		/*printf ("changing key in threaded_hash\n");*/
 		g_hash_table_remove (config->threaded_hash, hashkey);
-		g_hash_table_insert (config->threaded_hash, g_strdup(newkey), val);
+		g_hash_table_insert (config->threaded_hash, g_strdup (newkey), val);
 		work = 2;
 	}
 	
 	g_free (oldkey);
 	g_free (newkey);
-
+	
 	/* ignore return values or if the files exist or
 	 * not, doesn't matter */
-
+	
 	for (i = 0; cachenames[i]; i++) {
 		oldname = uri_to_evname (old, cachenames[i]);
 		newname = uri_to_evname (new, cachenames[i]);
@@ -1420,44 +1040,47 @@ mail_config_uri_renamed(GCompareFunc uri_cmp, const char *old, const char *new)
 		g_free (oldname);
 		g_free (newname);
 	}
-
+	
 	/* nasty ... */
 	if (work)
-		mail_config_write();
+		mail_config_write ();
 }
 
 void
-mail_config_uri_deleted(GCompareFunc uri_cmp, const char *uri)
+mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri)
 {
-	MailConfigAccount *ac;
-	const GSList *l;
+	EAccount *account;
+	EIterator *iter;
 	int work = 0;
 	/* assumes these can't be removed ... */
 	extern char *default_sent_folder_uri, *default_drafts_folder_uri;
-
-	l = mail_config_get_accounts();
-	while (l) {
-		ac = l->data;
-		if (ac->sent_folder_uri && uri_cmp(ac->sent_folder_uri, uri)) {
-			g_free(ac->sent_folder_uri);
-			ac->sent_folder_uri = g_strdup(default_sent_folder_uri);
+	
+	iter = e_list_get_iterator ((EList *) config->accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
+		
+		if (account->sent_folder_uri && uri_cmp (account->sent_folder_uri, uri)) {
+			g_free (account->sent_folder_uri);
+			account->sent_folder_uri = g_strdup (default_sent_folder_uri);
 			work = 1;
 		}
-		if (ac->drafts_folder_uri && uri_cmp(ac->drafts_folder_uri, uri)) {
-			g_free(ac->drafts_folder_uri);
-			ac->drafts_folder_uri = g_strdup(default_drafts_folder_uri);
+		
+		if (account->drafts_folder_uri && uri_cmp (account->drafts_folder_uri, uri)) {
+			g_free (account->drafts_folder_uri);
+			account->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
 			work = 1;
 		}
-		l = l->next;
+		
+		e_iterator_next (iter);
 	}
-
+	
 	/* nasty again */
 	if (work)
-		mail_config_write();
+		mail_config_write ();
 }
 
 void 
-mail_config_service_set_save_passwd (MailConfigService *service, gboolean save_passwd)
+mail_config_service_set_save_passwd (EAccountService *service, gboolean save_passwd)
 {
 	service->save_passwd = save_passwd;
 }
@@ -1628,62 +1251,44 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 {
 	GNOME_Evolution_MailConfig_Service source, transport;
 	GNOME_Evolution_MailConfig_Identity id;
-	MailConfigAccount *mail_account;
-	MailConfigService *mail_service;
-	MailConfigIdentity *mail_id;
+	EAccount *new;
 	
 	if (mail_config_get_account_by_name (account->name)) {
 		/* FIXME: we need an exception. */
 		return;
 	}
 	
-	mail_account = g_new0 (MailConfigAccount, 1);
-	mail_account->name = g_strdup (account->name);
-	mail_account->enabled = source.enabled;
+	new = e_account_new ();
+	new->name = g_strdup (account->name);
+	new->enabled = source.enabled;
 	
 	/* Copy ID */
 	id = account->id;
-	mail_id = g_new0 (MailConfigIdentity, 1);
-	mail_id->name = g_strdup (id.name);
-	mail_id->address = g_strdup (id.address);
-	mail_id->reply_to = g_strdup (id.reply_to);
-	mail_id->organization = g_strdup (id.organization);
-	
-	mail_account->id = mail_id;
+	new->id->name = g_strdup (id.name);
+	new->id->address = g_strdup (id.address);
+	new->id->reply_to = g_strdup (id.reply_to);
+	new->id->organization = g_strdup (id.organization);
 	
 	/* Copy source */
 	source = account->source;
-	mail_service = g_new0 (MailConfigService, 1);
-	if (source.url == NULL || strcmp (source.url, "none://") == 0) {
-		mail_service->url = NULL;
-	} else {
-		mail_service->url = g_strdup (source.url);
-	}
-	mail_service->keep_on_server = source.keep_on_server;
-	mail_service->auto_check = source.auto_check;
-	mail_service->auto_check_time = source.auto_check_time;
-	mail_service->save_passwd = source.save_passwd;
+	if (!(source.url == NULL || strcmp (source.url, "none://") == 0))
+		new->source->url = g_strdup (source.url);
 	
-	mail_account->source = mail_service;
+	new->source->keep_on_server = source.keep_on_server;
+	new->source->auto_check = source.auto_check;
+	new->source->auto_check_time = source.auto_check_time;
+	new->source->save_passwd = source.save_passwd;
 	
 	/* Copy transport */
 	transport = account->transport;
-	mail_service = g_new0 (MailConfigService, 1);
-	if (transport.url == NULL) {
-		mail_service->url = NULL;
-	} else {
-		mail_service->url = g_strdup (transport.url);
-	}
-	mail_service->url = g_strdup (transport.url);
-	mail_service->keep_on_server = transport.keep_on_server;
-	mail_service->auto_check = transport.auto_check;
-	mail_service->auto_check_time = transport.auto_check_time;
-	mail_service->save_passwd = transport.save_passwd;
+	if (transport.url != NULL)
+		new->transport->url = g_strdup (transport.url);
 	
-	mail_account->transport = mail_service;
+	new->transport->url = g_strdup (transport.url);
+	new->transport->save_passwd = transport.save_passwd;
 	
 	/* Add new account */
-	mail_config_add_account (mail_account);
+	mail_config_add_account (new);
 	
 	/* Don't write out the config right away in case the remote
 	 * component is creating or removing multiple accounts.
@@ -1697,12 +1302,11 @@ impl_GNOME_Evolution_MailConfig_removeAccount (PortableServer_Servant servant,
 					       const CORBA_char *name,
 					       CORBA_Environment *ev)
 {
-	MailConfigAccount *account;
-
-	account = (MailConfigAccount *)mail_config_get_account_by_name (name);
-	if (account)
+	EAccount *account;
+	
+	if ((account = mail_config_get_account_by_name (name)))
 		mail_config_remove_account (account);
-
+	
 	/* Don't write out the config right away in case the remote
 	 * component is creating or removing multiple accounts.
 	 */
@@ -1714,7 +1318,7 @@ static void
 evolution_mail_config_class_init (EvolutionMailConfigClass *klass)
 {
 	POA_GNOME_Evolution_MailConfig__epv *epv = &klass->epv;
-
+	
 	parent_class = g_type_class_ref(PARENT_TYPE);
 	epv->addAccount = impl_GNOME_Evolution_MailConfig_addAccount;
 	epv->removeAccount = impl_GNOME_Evolution_MailConfig_removeAccount;
@@ -1723,6 +1327,7 @@ evolution_mail_config_class_init (EvolutionMailConfigClass *klass)
 static void
 evolution_mail_config_init (EvolutionMailConfig *config)
 {
+	;
 }
 
 BONOBO_TYPE_FUNC_FULL (EvolutionMailConfig,
@@ -1736,9 +1341,9 @@ evolution_mail_config_factory_fn (BonoboGenericFactory *factory,
 				  void *closure)
 {
 	EvolutionMailConfig *config;
-
+	
 	config = g_object_new (evolution_mail_config_get_type (), NULL);
-
+	
 	return BONOBO_OBJECT (config);
 }
 
@@ -1866,18 +1471,27 @@ delete_unused_signature_file (const char *filename)
 void
 mail_config_signature_delete (MailConfigSignature *sig)
 {
+	EAccount *account;
+	EIterator *iter;
 	GSList *node, *next;
 	gboolean after = FALSE;
+	int index;
 	
-	node = config->accounts;
-	while (node != NULL) {
-		MailConfigAccount *account = node->data;
+	index = g_slist_index (config->signatures, sig);
+	
+	iter = e_list_get_iterator ((EList *) config->accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
 		
-		if (account->id->def_signature == sig)
-			account->id->def_signature = NULL;
+		if (account->id->def_signature == index)
+			account->id->def_signature = -1;
+		else if (account->id->def_signature > index)
+			account->id->def_signature--;
 		
-		node = node->next;
+		e_iterator_next (iter);
 	}
+	
+	g_object_unref (iter);
 	
 	node = config->signatures;
 	while (node != NULL) {

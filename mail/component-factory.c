@@ -762,7 +762,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      gpointer user_data)
 {
 	GNOME_Evolution_Shell corba_shell;
-	const GSList *accounts;
+	EAccountList *accounts;
 	int i;
 	
 	/* FIXME: should we ref this? */
@@ -773,7 +773,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	mail_session_init ();
 	
 	async_event = mail_async_event_new();
-
+	
 	storages_hash = g_hash_table_new (NULL, NULL);
 	
 	corba_shell = evolution_shell_client_corba_objref (shell_client);
@@ -972,7 +972,7 @@ send_receive_cb (EvolutionShellComponent *shell_component,
 		 gboolean show_dialog,
 		 void *data)
 {
-	const MailConfigAccount *account;
+	EAccount *account;
 	
 	/* FIXME: configure_mail() should be changed to work without a
 	   FolderBrowser, and then we will be able to call configure_mail from
@@ -981,7 +981,7 @@ send_receive_cb (EvolutionShellComponent *shell_component,
 		return;
 	
 	account = mail_config_get_default_account ();
-	if (!account || !account->transport) {
+	if (!account || !account->transport->url) {
 		GtkWidget *dialog;
 		
 		dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
@@ -1473,10 +1473,10 @@ mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const ch
 }
 
 void
-mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources)
+mail_load_storages (GNOME_Evolution_Shell shell, EAccountList *accounts)
 {
 	CamelException ex;
-	const GSList *iter;
+	EIterator *iter;
 	
 	camel_exception_init (&ex);
 	
@@ -1485,22 +1485,23 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources)
 	 * it.
 	 */
 	
-	for (iter = sources; iter; iter = iter->next) {
-		const MailConfigAccount *account = NULL;
-		const MailConfigService *service = NULL;
-		char *name;
+	iter = e_list_get_iterator ((EList *) accounts);
+	while (e_iterator_is_valid (iter)) {
+		EAccountService *service;
+		EAccount *account;
+		const char *name;
 		
-		account = iter->data;
+		account = (EAccount *) e_iterator_get (iter);
 		service = account->source;
 		name = account->name;
 		
-		if (service == NULL || service->url == NULL || service->url[0] == '\0')
-			continue;
-		
-		/* don't auto-connect here; the shell will tell us to goOnline */
-		if (account->enabled)
+		if (account->enabled && service->url != NULL)
 			mail_load_storage_by_uri (shell, service->url, name);
+		
+		e_iterator_next (iter);
 	}
+	
+	g_object_unref (iter);
 }
 
 void

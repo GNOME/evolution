@@ -1,12 +1,24 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
-  Copyright 2000, 2001 Ximian Inc.
-
-  Author: Michael Zucchi <notzed@ximian.com>
-
-  code for managing vfolders
-
-  NOTE: dont run this through fucking indent.
-*/
+ *  Authors: Michael Zucchi <notzed@ximian.com>
+ *
+ *  Copyright 2000-2003 Ximian, Inc. (www.ximian.com)
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
+ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -287,26 +299,37 @@ my_list_find(GList *l, const char *uri, GCompareFunc cmp)
 static int
 uri_is_ignore(const char *uri, GCompareFunc uri_cmp)
 {
-	int found = FALSE;
-	const GSList *l;
-	MailConfigAccount *ac;
 	extern char *default_outbox_folder_uri, *default_sent_folder_uri, *default_drafts_folder_uri;
-
+	EAccountList *accounts;
+	EAccount *account;
+	EIterator *iter;
+	int found = FALSE;
+	
 	d(printf("checking '%s' against:\n  %s\n  %s\n  %s\n", uri, default_outbox_folder_uri, default_sent_folder_uri, default_drafts_folder_uri));
-
+	
 	found = (default_outbox_folder_uri && uri_cmp(default_outbox_folder_uri, uri))
 		|| (default_sent_folder_uri && uri_cmp(default_sent_folder_uri, uri))
 		|| (default_drafts_folder_uri && uri_cmp(default_drafts_folder_uri, uri));
-
-	l = mail_config_get_accounts();
-	while (!found && l) {
-		ac = l->data;
-		d(printf("checkint sent_folder_uri '%s' == '%s'\n", ac->sent_folder_uri?ac->sent_folder_uri:"empty", uri));
-		found = (ac->sent_folder_uri && uri_cmp(ac->sent_folder_uri, uri))
-			|| (ac->drafts_folder_uri && uri_cmp(ac->drafts_folder_uri, uri));
-		l = l->next;
+	
+	accounts = mail_config_get_accounts ();
+	iter = e_list_get_iterator ((EList *) accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
+		
+		d(printf("checking sent_folder_uri '%s' == '%s'\n",
+			 account->sent_folder_uri ? account->sent_folder_uri : "empty", uri));
+		
+		found = (account->sent_folder_uri && uri_cmp (account->sent_folder_uri, uri))
+			|| (account->drafts_folder_uri && uri_cmp (account->drafts_folder_uri, uri));
+		
+		if (found)
+			break;
+		
+		e_iterator_next (iter);
 	}
-
+	
+	g_object_unref (iter);
+	
 	return found;
 }
 

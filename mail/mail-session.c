@@ -166,7 +166,7 @@ struct _pass_msg {
 	char *service_url;
 	char *key;
 	
-	MailConfigService *config_service;
+	EAccountService *config_service;
 	GtkWidget *check;
 	GtkWidget *entry;
 	char *result;
@@ -227,7 +227,7 @@ pass_response (GtkDialog *dialog, int button, void *data)
 static void
 request_password (struct _pass_msg *m)
 {
-	const MailConfigAccount *mca = NULL;
+	EAccount *mca = NULL;
 	char *title;
 	
 	/* If we already have a password_dialog up, save this request till later */
@@ -281,8 +281,8 @@ do_get_pass(struct _mail_msg *mm)
 	MailSession *mail_session = MAIL_SESSION (m->session);
 	
 	if (!strcmp (m->item, "popb4smtp_uri")) {
-		char *url = camel_url_to_string(m->service->url, 0);
-		const MailConfigAccount *account = mail_config_get_account_by_transport_url(url);
+		char *url = camel_url_to_string (m->service->url, 0);
+		EAccount *account = mail_config_get_account_by_transport_url (url);
 		
 		g_free(url);
 		if (account)

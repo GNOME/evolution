@@ -36,7 +36,7 @@ extern "C" {
 
 
 /* PGP/MIME convenience wrappers */
-CamelCipherContext *mail_crypto_get_pgp_cipher_context (const MailConfigAccount *account);
+CamelCipherContext *mail_crypto_get_pgp_cipher_context (EAccount *account);
 
 
 /* S/MIME v3 convenience wrappers */

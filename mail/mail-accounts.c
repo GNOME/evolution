@@ -168,8 +168,8 @@ account_edit_clicked (GtkButton *button, gpointer user_data)
 	MailAccountsTab *prefs = (MailAccountsTab *) user_data;
 	
 	if (prefs->editor == NULL) {
-		MailConfigAccount *account = NULL;
 		GtkTreeSelection *selection;
+		EAccount *account = NULL;
 		GtkTreeModel *model;
 		GtkTreeIter iter;
 		
@@ -195,11 +195,11 @@ static void
 account_delete_clicked (GtkButton *button, gpointer user_data)
 {
 	MailAccountsTab *prefs = user_data;
-	const MailConfigAccount *account = NULL;
 	GtkTreeSelection *selection;
+	EAccount *account = NULL;
+	EAccountList *accounts;
 	GtkTreeModel *model;
 	GtkWidget *confirm;
-	const GSList *list;
 	GtkTreeIter iter;
 	int ans;
 	
@@ -238,7 +238,8 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 			mail_remove_storage_by_uri (account->source->url);
 		
 		/* remove it from the config file */
-		list = mail_config_remove_account ((MailConfigAccount *) account);
+		mail_config_remove_account (account);
+		accounts = mail_config_get_accounts ();
 		
 		mail_config_write ();
 		
@@ -246,7 +247,7 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 		
 		gtk_list_store_remove ((GtkListStore *) model, &iter);
 		
-		len = list ? g_slist_length ((GSList *) list) : 0;
+		len = e_list_length ((EList *) accounts);
 		if (len > 0) {
 			gtk_tree_selection_select_iter (selection, &iter);
 		} else {
@@ -262,8 +263,8 @@ static void
 account_default_clicked (GtkButton *button, gpointer user_data)
 {
 	MailAccountsTab *prefs = user_data;
-	const MailConfigAccount *account = NULL;
 	GtkTreeSelection *selection;
+	EAccount *account = NULL;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	int row;
@@ -285,8 +286,8 @@ static void
 account_able_clicked (GtkButton *button, gpointer user_data)
 {
 	MailAccountsTab *prefs = user_data;
-	MailConfigAccount *account = NULL;
 	GtkTreeSelection *selection;
+	EAccount *account = NULL;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	
@@ -295,8 +296,8 @@ account_able_clicked (GtkButton *button, gpointer user_data)
 		gtk_tree_model_get (model, &iter, 3, &account, -1);
 		account->enabled = !account->enabled;
 		gtk_list_store_set ((GtkListStore *) model, &iter, 0, account->enabled, -1);
-
-		gtk_button_set_label (prefs->mail_able, account->enabled?_("Disable"):_("Enable"));
+		
+		gtk_button_set_label (prefs->mail_able, account->enabled ? _("Disable") : _("Enable"));
 	}
 	
 	if (account) {
@@ -325,7 +326,7 @@ account_double_click (GtkTreeView *treeview, GtkTreePath *path,
 static void
 account_cursor_change (GtkTreeSelection *selection, MailAccountsTab *prefs)
 {
-	const MailConfigAccount *account;
+	EAccount *account = NULL;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	int state;
@@ -350,11 +351,12 @@ account_cursor_change (GtkTreeSelection *selection, MailAccountsTab *prefs)
 static void
 mail_accounts_load (MailAccountsTab *prefs)
 {
-	const MailConfigAccount *default_account;
+	EAccount *default_account;
+	EAccountList *accounts;
 	GtkListStore *model;
-	const GSList *node;
 	GtkTreeIter iter;
 	char *name, *val;
+	EIterator *node;
 	int row = 0;
 	
 	model = (GtkListStore *) gtk_tree_view_get_model (prefs->table);
@@ -362,12 +364,13 @@ mail_accounts_load (MailAccountsTab *prefs)
 	
 	default_account = mail_config_get_default_account ();
 	
-	node = mail_config_get_accounts ();
-	while (node) {
-		const MailConfigAccount *account;
+	accounts = mail_config_get_accounts ();
+	node = e_list_get_iterator ((EList *) accounts);
+	while (e_iterator_is_valid (node)) {
+		EAccount *account;
 		CamelURL *url;
 		
-		account = node->data;
+		account = (EAccount *) e_iterator_get (node);
 		
 		url = account->source && account->source->url ? camel_url_new (account->source->url, NULL) : NULL;
 		
@@ -391,9 +394,12 @@ mail_accounts_load (MailAccountsTab *prefs)
 		if (url)
 			camel_url_free (url);
 		
-		node = node->next;
 		row++;
+		
+		e_iterator_next (node);
 	}
+	
+	g_object_unref (node);
 }
 
 

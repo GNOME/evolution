@@ -50,7 +50,7 @@
 extern char *default_drafts_folder_uri, *default_sent_folder_uri;
 extern EvolutionShellClient *global_shell_client;
 
-static void save_service (MailAccountGuiService *gsvc, GHashTable *extra_conf, MailConfigService *service);
+static void save_service (MailAccountGuiService *gsvc, GHashTable *extra_conf, EAccountService *service);
 static void service_changed (GtkEntry *entry, gpointer user_data);
 
 struct {
@@ -668,12 +668,12 @@ static void
 service_check_supported (GtkButton *button, gpointer user_data)
 {
 	MailAccountGuiService *gsvc = user_data;
-	MailConfigService *service;
+	EAccountService *service;
 	GList *authtypes = NULL;
 	GtkWidget *authitem;
 	GtkWidget *window;
 	
-	service = g_new0 (MailConfigService, 1);
+	service = g_new0 (EAccountService, 1);
 	
 	/* This is sort of a hack, when checking for supported AUTH
            types we don't want to use whatever authtype is selected
@@ -696,7 +696,8 @@ service_check_supported (GtkButton *button, gpointer user_data)
 		g_list_free (authtypes);
 	}
 	
-	service_destroy (service);
+	g_free (service->url);
+	g_free (service);
 }
 
 
@@ -1069,7 +1070,7 @@ mail_account_gui_folder_selector_button_new (char *widget_name,
 }
 
 static gboolean
-setup_service (MailAccountGuiService *gsvc, MailConfigService *service)
+setup_service (MailAccountGuiService *gsvc, EAccountService *service)
 {
 	CamelURL *url = camel_url_new (service->url, NULL);
 	gboolean has_auth = FALSE;
@@ -1282,7 +1283,13 @@ sig_add_new_signature (GtkWidget *w, MailAccountGui *gui)
 static void
 setup_signatures (MailAccountGui *gui)
 {
-	gui->def_signature = gui->account->id->def_signature;
+	MailConfigSignature *sig;
+	GSList *signatures;
+	
+	signatures = mail_config_get_signature_list ();
+	sig = g_slist_nth_data (signatures, gui->account->id->def_signature);
+	
+	gui->def_signature = sig;
 	gui->auto_signature = gui->account->id->auto_signature;
 	gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_menu), sig_gui_get_index (gui));
 }
@@ -1366,11 +1373,13 @@ prepare_signatures (MailAccountGui *gui)
 }
 
 MailAccountGui *
-mail_account_gui_new (MailConfigAccount *account, MailAccountsTab *dialog)
+mail_account_gui_new (EAccount *account, MailAccountsTab *dialog)
 {
 	const char *allowed_types[] = { "mail/*", NULL };
 	MailAccountGui *gui;
 	GtkWidget *button;
+	
+	g_object_ref (account);
 	
 	gui = g_new0 (MailAccountGui, 1);
 	gui->account = account;
@@ -1394,18 +1403,16 @@ mail_account_gui_new (MailConfigAccount *account, MailAccountsTab *dialog)
 	
 	prepare_signatures (gui);
 	
-	if (account->id) {
-		if (account->id->name)
-			gtk_entry_set_text (gui->full_name, account->id->name);
-		if (account->id->address)
-			gtk_entry_set_text (gui->email_address, account->id->address);
-		if (account->id->reply_to)
-			gtk_entry_set_text (gui->reply_to, account->id->reply_to);
-		if (account->id->organization)
-			gtk_entry_set_text (gui->organization, account->id->organization);
-		
-		setup_signatures (gui);
-	}
+	if (account->id->name)
+		gtk_entry_set_text (gui->full_name, account->id->name);
+	if (account->id->address)
+		gtk_entry_set_text (gui->email_address, account->id->address);
+	if (account->id->reply_to)
+		gtk_entry_set_text (gui->reply_to, account->id->reply_to);
+	if (account->id->organization)
+		gtk_entry_set_text (gui->organization, account->id->organization);
+	
+	setup_signatures (gui);
 	
 	/* Source */
 	gui->source.provider_type = CAMEL_PROVIDER_STORE;
@@ -1719,8 +1726,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 }
 
 static void
-save_service (MailAccountGuiService *gsvc, GHashTable *extra_config,
-	      MailConfigService *service)
+save_service (MailAccountGuiService *gsvc, GHashTable *extra_config, EAccountService *service)
 {
 	CamelURL *url;
 	const char *str;
@@ -1798,7 +1804,7 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config,
 static void
 add_new_store (char *uri, CamelStore *store, void *user_data)
 {
-	const MailConfigAccount *account = user_data;
+	EAccount *account = user_data;
 	EvolutionStorage *storage;
 	
 	if (store == NULL)
@@ -1817,12 +1823,13 @@ add_new_store (char *uri, CamelStore *store, void *user_data)
 gboolean
 mail_account_gui_save (MailAccountGui *gui)
 {
-	MailConfigAccount *account = gui->account;
-	MailConfigAccount *old_account;
+	EAccount *account, *new;
 	CamelProvider *provider = NULL;
 	CamelURL *source_url = NULL, *url;
+	gboolean is_new = FALSE;
 	const char *new_name;
 	gboolean is_storage;
+	GSList *signatures;
 	
 	if (!mail_account_gui_identity_complete (gui, NULL) ||
 	    !mail_account_gui_source_complete (gui, NULL) ||
@@ -1830,67 +1837,63 @@ mail_account_gui_save (MailAccountGui *gui)
 	    !mail_account_gui_management_complete (gui, NULL))
 		return FALSE;
 	
+	new = gui->account;
+	
 	/* this would happen at an inconvenient time in the druid,
 	 * but the druid performs its own check so this can't happen
 	 * here. */
 	
 	new_name = gtk_entry_get_text (gui->account_name);
-	old_account = (MailConfigAccount *) mail_config_get_account_by_name (new_name);
+	account = mail_config_get_account_by_name (new_name);
 	
-	if (old_account && old_account != account) {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("You may not create two accounts with the same name."));
+	if (account && account != new) {
+		e_notice (NULL, GTK_MESSAGE_ERROR, _("You may not create two accounts with the same name."));
 		return FALSE;
 	}
 	
-	/* make a copy of the old account for later use... */
-	old_account = account_copy (account);
+	account = new;
 	
-	g_free (account->name);
-	account->name = g_strdup (new_name);
+	new = e_account_new ();
+	new->name = g_strdup (new_name);
+	new->enabled = account->enabled;
 	
 	/* construct the identity */
-	identity_destroy (account->id);
-	account->id = g_new0 (MailConfigIdentity, 1);
-	account->id->name = g_strdup (gtk_entry_get_text (gui->full_name));
-	account->id->address = g_strdup (gtk_entry_get_text (gui->email_address));
-	account->id->reply_to = g_strdup (gtk_entry_get_text (gui->reply_to));
-	account->id->organization = g_strdup (gtk_entry_get_text (gui->organization));
+	new->id->name = g_strdup (gtk_entry_get_text (gui->full_name));
+	new->id->address = g_strdup (gtk_entry_get_text (gui->email_address));
+	new->id->reply_to = g_strdup (gtk_entry_get_text (gui->reply_to));
+	new->id->organization = g_strdup (gtk_entry_get_text (gui->organization));
 	
 	/* signatures */
-	account->id->def_signature = gui->def_signature;
-	account->id->auto_signature = gui->auto_signature;
+	signatures = mail_config_get_signature_list ();
+	new->id->def_signature = g_slist_index (signatures, gui->def_signature);
+	new->id->auto_signature = gui->auto_signature;
 	
-	service_destroy (account->source);
-	account->source = g_new0 (MailConfigService, 1);
-	save_service (&gui->source, gui->extra_config, account->source);
-	if (account->source->url) {
-		provider = camel_session_get_provider (session, account->source->url, NULL);
-		source_url = provider ? camel_url_new (account->source->url, NULL) : NULL;
+	/* source */
+	save_service (&gui->source, gui->extra_config, new->source);
+	if (new->source->url) {
+		provider = camel_session_get_provider (session, new->source->url, NULL);
+		source_url = provider ? camel_url_new (new->source->url, NULL) : NULL;
 	}
 	
-	account->source->auto_check = gtk_toggle_button_get_active (gui->source_auto_check);
-	if (account->source->auto_check)
-		account->source->auto_check_time = gtk_spin_button_get_value_as_int (gui->source_auto_check_min);
+	new->source->auto_check = gtk_toggle_button_get_active (gui->source_auto_check);
+	if (new->source->auto_check)
+		new->source->auto_check_time = gtk_spin_button_get_value_as_int (gui->source_auto_check_min);
 	
-	service_destroy (account->transport);
-	account->transport = g_new0 (MailConfigService, 1);
+	/* transport */
 	if (CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (gui->transport.provider)) {
 		/* The transport URI is the same as the source URI. */
-		save_service (&gui->source, gui->extra_config, account->transport);
+		save_service (&gui->source, gui->extra_config, new->transport);
 	} else
-		save_service (&gui->transport, NULL, account->transport);
+		save_service (&gui->transport, NULL, new->transport);
 	
 	/* Check to make sure that the Drafts folder uri is "valid" before assigning it */
 	url = source_url && gui->drafts_folder_uri ? camel_url_new (gui->drafts_folder_uri, NULL) : NULL;
 	if (mail_config_get_account_by_source_url (gui->drafts_folder_uri) ||
 	    (url && provider->url_equal (source_url, url))) {
-		g_free (account->drafts_folder_uri);
-		account->drafts_folder_uri = g_strdup (gui->drafts_folder_uri);
+		new->drafts_folder_uri = g_strdup (gui->drafts_folder_uri);
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
-		g_free (account->drafts_folder_uri);
-		account->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
+		new->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
 	}
 	
 	if (url)
@@ -1900,12 +1903,10 @@ mail_account_gui_save (MailAccountGui *gui)
 	url = source_url && gui->sent_folder_uri ? camel_url_new (gui->sent_folder_uri, NULL) : NULL;
 	if (mail_config_get_account_by_source_url (gui->sent_folder_uri) ||
 	    (url && provider->url_equal (source_url, url))) {
-		g_free (account->sent_folder_uri);
-		account->sent_folder_uri = g_strdup (gui->sent_folder_uri);
+		new->sent_folder_uri = g_strdup (gui->sent_folder_uri);
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
-		g_free (account->sent_folder_uri);
-		account->sent_folder_uri = g_strdup (default_sent_folder_uri);
+		new->sent_folder_uri = g_strdup (default_sent_folder_uri);
 	}
 	
 	if (url)
@@ -1914,44 +1915,46 @@ mail_account_gui_save (MailAccountGui *gui)
 	if (source_url)
 		camel_url_free (source_url);
 	
-	account->always_cc = gtk_toggle_button_get_active (gui->always_cc);
-	account->cc_addrs = g_strdup (gtk_entry_get_text (gui->cc_addrs));
-	account->always_bcc = gtk_toggle_button_get_active (gui->always_bcc);
-	account->bcc_addrs = g_strdup (gtk_entry_get_text (gui->bcc_addrs));
+	new->always_cc = gtk_toggle_button_get_active (gui->always_cc);
+	new->cc_addrs = g_strdup (gtk_entry_get_text (gui->cc_addrs));
+	new->always_bcc = gtk_toggle_button_get_active (gui->always_bcc);
+	new->bcc_addrs = g_strdup (gtk_entry_get_text (gui->bcc_addrs));
 	
-	g_free (account->pgp_key);
-	account->pgp_key = g_strdup (gtk_entry_get_text (gui->pgp_key));
-	account->pgp_encrypt_to_self = gtk_toggle_button_get_active (gui->pgp_encrypt_to_self);
-	account->pgp_always_sign = gtk_toggle_button_get_active (gui->pgp_always_sign);
-	account->pgp_no_imip_sign = gtk_toggle_button_get_active (gui->pgp_no_imip_sign);
-	account->pgp_always_trust = gtk_toggle_button_get_active (gui->pgp_always_trust);
+	new->pgp_key = g_strdup (gtk_entry_get_text (gui->pgp_key));
+	new->pgp_encrypt_to_self = gtk_toggle_button_get_active (gui->pgp_encrypt_to_self);
+	new->pgp_always_sign = gtk_toggle_button_get_active (gui->pgp_always_sign);
+	new->pgp_no_imip_sign = gtk_toggle_button_get_active (gui->pgp_no_imip_sign);
+	new->pgp_always_trust = gtk_toggle_button_get_active (gui->pgp_always_trust);
 	
 #if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
-	g_free (account->smime_key);
-	account->smime_key = g_strdup (gtk_entry_get_text (gui->smime_key));
-	account->smime_encrypt_to_self = gtk_toggle_button_get_active (gui->smime_encrypt_to_self);
-	account->smime_always_sign = gtk_toggle_button_get_active (gui->smime_always_sign);
+	new->smime_key = g_strdup (gtk_entry_get_text (gui->smime_key));
+	new->smime_encrypt_to_self = gtk_toggle_button_get_active (gui->smime_encrypt_to_self);
+	new->smime_always_sign = gtk_toggle_button_get_active (gui->smime_always_sign);
 #endif /* HAVE_NSS && SMIME_SUPPORTED */
 	
 	is_storage = provider && (provider->flags & CAMEL_PROVIDER_IS_STORAGE) &&
 		!(provider->flags & CAMEL_PROVIDER_IS_EXTERNAL);
 	
 	if (!mail_config_find_account (account)) {
-		/* this is a new account so it it to our account-list */
-		mail_config_add_account (account);
-	} else if (old_account->source && old_account->source->url) {
+		/* this is a new account so add it to our account-list */
+		is_new = TRUE;
+	} else if (account->source->url) {
 		/* this means the account was edited - if the old and
                    new source urls are not identical, replace the old
                    storage with the new storage */
 #define sources_equal(old,new) (new->url && !strcmp (old->url, new->url))
-		if (!sources_equal (old_account->source, account->source)) {
+		if (!sources_equal (account->source, new->source)) {
 			/* Remove the old storage from the folder-tree */
-			mail_remove_storage_by_uri (old_account->source->url);
+			mail_remove_storage_by_uri (account->source->url);
 		}
 	}
 	
-	/* destroy the copy of the old account */
-	account_destroy (old_account);
+	/* update the old account with the new settings */
+	e_account_import (account, new);
+	g_object_unref (new);
+	
+	if (is_new)
+		mail_config_add_account (account);
 	
 	/* if the account provider is something we can stick
 	   in the folder-tree and not added by some other
@@ -1976,10 +1979,13 @@ mail_account_gui_destroy (MailAccountGui *gui)
 {
 	if (gui->dialog)
 		mail_config_signature_unregister_client ((MailConfigSignatureClient) sig_event_client, gui);
-
+	
 	g_object_unref (gui->xml);
+	g_object_unref (gui->account);
+	
 	if (gui->extra_config)
 		g_hash_table_destroy (gui->extra_config);
+	
 	g_free (gui->drafts_folder_uri);
 	g_free (gui->sent_folder_uri);
 	g_free (gui);

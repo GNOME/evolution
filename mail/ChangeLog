@@ -1,3 +1,72 @@
+2003-01-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c (do_get_pass): Updated.
+	(request_password): Same.
+
+	* mail-send-recv.c (mail_send): Fixed to use EAccountService.
+
+	* mail-config-druid.c (make_account): Updated to use EAccount and
+	friends.
+
+	* mail-account-gui.c (service_check_supported): Updated to use
+	EAccountService.
+	(mail_account_gui_new): Ref the account passed in and also update
+	to use EAccount objects.
+	(save_service): Updated to use an EAccountService.
+	(add_new_store): Updated to use an EAccount.
+	(mail_account_gui_save): Updated to use EAccounts.
+	(setup_signatures): Updated because the new account->id->def_sig
+	is now an int and not a structure pointer.
+
+	* mail-account-editor.c (construct): Updated.
+	(mail_account_editor_new): Now takes an EAccount object as an
+	argument instead of a MailConfigAccount.
+
+	* mail-crypto.c (mail_crypto_get_pgp_cipher_context): Updated to
+	use EAccounts.
+
+	* subscribe-dialog.c (populate_store_foreach): Removed.
+	(populate_store_list): Can't use populate_store_foreach here
+	because of the change to EAccountList so do it manually.
+
+	* mail-vfolder.c (uri_is_ignore): Rewrote to use EAccountList and
+	EIterator and all that fun.
+
+	* mail-send-recv.c (build_dialogue): Updated to use EAccountList
+	and EAccount object stuff. *ugh*
+	(mail_send_receive): Here too.
+	(mail_autoreceive_setup): Same.
+
+	* mail-callbacks.c (check_send_configuration): Updated.
+	(composer_get_message): Updated.
+	(compose_msg): "
+	(list_add_addresses): "
+	(guess_me): "
+	(guess_me_from_accounts): Same.
+	(forward_get_composer): Here too.
+	(mail_generate_reply): Same.
+	(redirect_get_composer): "
+	(empty_trash): And finally here.
+
+	* mail-accounts.c (account_edit_clicked): Updated.
+	(account_delete_clicked): Same.
+	(account_default_clicked): Here too.
+	(account_able_clicked): "
+	(account_cursor_change): "
+	(mail_accounts_load): Again here.
+
+	* folder-browser.c (folder_browser_is_drafts): Updated to use
+	EAccountList and EAccount stuff.
+	(folder_browser_is_sent): Same.
+
+	* component-factory.c (mail_load_storages): Updated to use
+	EAccount and EAccountList stuff.
+	(owner_set_cb): Same.
+	(send_receive_cb): Here too.
+
+	* mail-config.c: Rewritten to use EAccount and EAccountList
+	objects.
+
 2003-01-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config-druid.c (get_fn): Connect to the toggled event on

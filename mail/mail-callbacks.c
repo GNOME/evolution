@@ -205,7 +205,7 @@ configure_mail (FolderBrowser *fb)
 static gboolean
 check_send_configuration (FolderBrowser *fb)
 {
-	const MailConfigAccount *account;
+	EAccount *account;
 	GtkWidget *dialog;
 	
 	if (!mail_config_is_configured ()) {
@@ -230,7 +230,7 @@ check_send_configuration (FolderBrowser *fb)
 	}
 	
 	/* Check for a transport */
-	if (!account->transport || !account->transport->url) {
+	if (!account->transport->url) {
 		e_notice (FB_WINDOW (fb), GTK_MESSAGE_WARNING,
 			  _("You need to configure a mail transport\n"
 			    "before you can compose mail."));
@@ -406,13 +406,13 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 static CamelMimeMessage *
 composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_object_data)
 {
-	const MailConfigAccount *account;
 	CamelMimeMessage *message = NULL;
 	EDestination **recipients, **recipients_bcc;
 	gboolean send_html, confirm_html;
 	int hidden = 0, shown = 0;
 	int num = 0, num_bcc = 0;
 	GConfClient *gconf;
+	EAccount *account;
 	char *subject;
 	int i;
 	
@@ -696,11 +696,11 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user_data)
 {
 	extern char *default_drafts_folder_uri;
 	extern CamelFolder *drafts_folder;
-	CamelMimeMessage *msg;
-	CamelMessageInfo *info;
-	const MailConfigAccount *account;
 	struct _save_draft_info *sdi;
 	CamelFolder *folder = NULL;
+	CamelMimeMessage *msg;
+	CamelMessageInfo *info;
+	EAccount *account;
 	
 	account = e_msg_composer_get_preferred_account (composer);
 	if (account && account->drafts_folder_uri &&
@@ -744,7 +744,7 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user_data)
 }
 
 static GtkWidget *
-create_msg_composer (const MailConfigAccount *account, gboolean post, const char *url)
+create_msg_composer (EAccount *account, gboolean post, const char *url)
 {
 	EMsgComposer *composer;
 	GConfClient *gconf;
@@ -779,10 +779,10 @@ create_msg_composer (const MailConfigAccount *account, gboolean post, const char
 void
 compose_msg (GtkWidget *widget, gpointer user_data)
 {
-	const MailConfigAccount *account;
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	struct _composer_callback_data *ccd;
 	GtkWidget *composer;
+	EAccount *account;
 	
 	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !check_send_configuration (fb))
 		return;
@@ -833,10 +833,10 @@ send_to_url (const char *url)
 
 static GList *
 list_add_addresses (GList *list, const CamelInternetAddress *cia, GHashTable *account_hash,
-		    GHashTable *rcpt_hash, const MailConfigAccount **me)
+		    GHashTable *rcpt_hash, EAccount **me)
 {
-	const MailConfigAccount *account;
 	const char *name, *addr;
+	EAccount *account;
 	int i;
 	
 	for (i = 0; camel_internet_address_get (cia, i, &name, &addr); i++) {
@@ -862,10 +862,10 @@ list_add_addresses (GList *list, const CamelInternetAddress *cia, GHashTable *ac
 	return list;
 }
 
-static const MailConfigAccount *
+static EAccount *
 guess_me (const CamelInternetAddress *to, const CamelInternetAddress *cc, GHashTable *account_hash)
 {
-	const MailConfigAccount *account = NULL;
+	EAccount *account = NULL;
 	const char *addr;
 	int i;
 	
@@ -894,12 +894,12 @@ guess_me (const CamelInternetAddress *to, const CamelInternetAddress *cc, GHashT
 	return account;
 }
 
-static const MailConfigAccount *
-guess_me_from_accounts (const CamelInternetAddress *to, const CamelInternetAddress *cc, const GSList *accounts)
+static EAccount *
+guess_me_from_accounts (const CamelInternetAddress *to, const CamelInternetAddress *cc, EAccountList *accounts)
 {
-	const MailConfigAccount *account, *def;
+	EAccount *account, *def;
 	GHashTable *account_hash;
-	const GSList *l;
+	EIterator *iter;
 	
 	account_hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 	
@@ -909,12 +909,12 @@ guess_me_from_accounts (const CamelInternetAddress *to, const CamelInternetAddre
 			g_hash_table_insert (account_hash, (char *) def->id->address, (void *) def);
 	}
 	
-	l = accounts;
-	while (l) {
-		account = l->data;
+	iter = e_list_get_iterator ((EList *) accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
 		
 		if (account->id->address) {
-			const MailConfigAccount *acnt;
+			EAccount *acnt;
 			
 			/* Accounts with identical email addresses that are enabled
 			 * take precedence over the accounts that aren't. If all
@@ -932,8 +932,10 @@ guess_me_from_accounts (const CamelInternetAddress *to, const CamelInternetAddre
 				g_hash_table_insert (account_hash, (char *) account->id->address, (void *) account);
 		}
 		
-		l = l->next;
+		e_iterator_next (iter);
 	}
+	
+	g_object_unref (iter);
 	
 	account = guess_me (to, cc, account_hash);
 	
@@ -970,8 +972,8 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	const char *name = NULL, *address = NULL, *source = NULL;
 	const char *message_id, *references, *mlist = NULL;
 	char *text = NULL, *subject, format[256];
-	const MailConfigAccount *def, *account, *me = NULL;
-	const GSList *l, *accounts = NULL;
+	EAccount *def, *account, *me = NULL;
+	EAccountList *accounts = NULL;
 	GHashTable *account_hash = NULL;
 	CamelMessageInfo *info = NULL;
 	GList *to = NULL, *cc = NULL;
@@ -979,6 +981,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	EMsgComposer *composer;
 	CamelMimePart *part;
 	GConfClient *gconf;
+	EIterator *iter;
 	time_t date;
 	char *url;
 	
@@ -1009,12 +1012,12 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			g_hash_table_insert (account_hash, (char *) def->id->address, (void *) def);
 	}
 	
-	l = accounts;
-	while (l) {
-		account = l->data;
+	iter = e_list_get_iterator ((EList *) accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
 		
 		if (account->id->address) {
-			const MailConfigAccount *acnt;
+			EAccount *acnt;
 			
 			/* Accounts with identical email addresses that are enabled
 			 * take precedence over the accounts that aren't. If all
@@ -1032,8 +1035,10 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 				g_hash_table_insert (account_hash, (char *) account->id->address, (void *) account);
 		}
 		
-		l = l->next;
+		e_iterator_next (iter);
 	}
+	
+	g_object_unref (iter);
 	
 	to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
@@ -1337,13 +1342,13 @@ enumerate_msg (MessageList *ml, const char *uid, gpointer data)
 static EMsgComposer *
 forward_get_composer (CamelMimeMessage *message, const char *subject)
 {
-	const MailConfigAccount *account = NULL;
 	struct _composer_callback_data *ccd;
+	EAccount *account = NULL;
 	EMsgComposer *composer;
 	
 	if (message) {
 		const CamelInternetAddress *to_addrs, *cc_addrs;
-		const GSList *accounts = NULL;
+		EAccountList *accounts;
 		
 		accounts = mail_config_get_accounts ();
 		to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
@@ -1544,10 +1549,10 @@ post_reply (GtkWidget *widget, gpointer user_data)
 static EMsgComposer *
 redirect_get_composer (CamelMimeMessage *message)
 {
-	const MailConfigAccount *account = NULL;
 	const CamelInternetAddress *to_addrs, *cc_addrs;
-	const GSList *accounts = NULL;
 	struct _composer_callback_data *ccd;
+	EAccountList *accounts = NULL;
+	EAccount *account = NULL;
 	EMsgComposer *composer;
 	
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
@@ -3151,12 +3156,13 @@ empty_trash_expunged_cb (CamelFolder *folder, void *data)
 void
 empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	MailConfigAccount *account;
 	CamelProvider *provider;
-	const GSList *accounts;
+	EAccountList *accounts;
 	CamelFolder *vtrash;
 	FolderBrowser *fb;
 	CamelException ex;
+	EAccount *account;
+	EIterator *iter;
 	
 	fb = user_data ? FOLDER_BROWSER (user_data) : NULL;
 	
@@ -3167,11 +3173,12 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 	
 	/* expunge all remote stores */
 	accounts = mail_config_get_accounts ();
-	while (accounts) {
-		account = accounts->data;
+	iter = e_list_get_iterator ((EList *) accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
 		
 		/* make sure this is a valid source */
-		if (account->source && account->enabled && account->source->url) {
+		if (account->enabled && account->source->url) {
 			provider = camel_session_get_provider (session, account->source->url, &ex);
 			if (provider) {
 				/* make sure this store is a remote store */
@@ -3188,14 +3195,16 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 			/* clear the exception for the next round */
 			camel_exception_clear (&ex);
 		}
-		accounts = accounts->next;
+		
+		e_iterator_next (iter);
 	}
+	
+	g_object_unref (iter);
 	
 	/* Now empty the local trash folder */
 	vtrash = mail_tool_get_trash ("file:/", TRUE, &ex);
-	if (vtrash) {
+	if (vtrash)
 		mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
-	}
 	
 	camel_exception_clear (&ex);
 }

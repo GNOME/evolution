@@ -74,7 +74,7 @@ typedef enum {
 typedef struct {
 	MailAccountGui *gui;
 
-	MailConfigAccount *account;
+	EAccount *account;
 	EvolutionWizard *wizard;
 
 	gboolean identity_copied;
@@ -135,7 +135,7 @@ mail_config_druid_destroy (GtkObject *obj)
 		bonobo_object_unref (BONOBO_OBJECT (druid->listener));
 	}
 
-        ((GtkObjectClass *)(parent_class))->destroy(obj);
+	((GtkObjectClass *)(parent_class))->destroy(obj);
 }
 
 
@@ -460,26 +460,27 @@ management_changed (GtkWidget *widget, gpointer data)
 	gtk_widget_grab_focus (GTK_WIDGET (gui->gui->account_name));
 }
 
-static MailConfigAccount *
+static EAccount *
 make_account (void)
 {
-	MailConfigAccount *account;
 	const char *name, *user;
+	EAccountService *xport;
 	struct utsname uts;
+	EAccount *account;
 	
-	account = g_new0 (MailConfigAccount, 1);
+	account = e_account_new ();
 	account->enabled = TRUE;
-	account->uid = e_account_gen_uid ();
 	
-	account->id = g_new0 (MailConfigIdentity, 1);
 	name = g_get_real_name ();
 	account->id->name = g_strdup (name);
 	user = g_get_user_name ();
 	if (user && !uname (&uts) && strchr (uts.nodename, '.'))
 		account->id->address = g_strdup_printf ("%s@%s", user, uts.nodename);
 	
-	if (mail_config_get_default_transport ())
-		account->transport = service_copy (mail_config_get_default_transport ());
+	if ((xport = mail_config_get_default_transport ())) {
+		account->transport->url = g_strdup (xport->url);
+		account->transport->save_passwd = xport->save_passwd;
+	}
 	
 	return account;
 }
@@ -763,15 +764,15 @@ management_activate_cb (GtkEntry *ent, gpointer user_data)
 
 static BonoboControl *
 get_fn (EvolutionWizard *wizard,
-        int page_num,
-        void *closure)
+	int page_num,
+	void *closure)
 {
-        MailConfigWizard *gui = closure;
-        BonoboControl *control;
-        GtkWidget *vbox, *widget;
+	MailConfigWizard *gui = closure;
+	BonoboControl *control;
+	GtkWidget *vbox, *widget;
 	static gboolean first_time = TRUE;
 	
-        if (gui->gui == NULL) {
+	if (gui->gui == NULL) {
 		if (gui->account == NULL) {
 			gui->account = make_account ();
 			g_object_set_data ((GObject *) wizard, "account-data", gui->account);
@@ -784,7 +785,7 @@ get_fn (EvolutionWizard *wizard,
 				  G_CALLBACK (management_changed), gui);
 		g_signal_connect (gui->gui->full_name, "changed",
 				  G_CALLBACK (identity_changed), gui);
-                g_signal_connect (gui->gui->email_address, "changed",
+		g_signal_connect (gui->gui->email_address, "changed",
 				  G_CALLBACK (identity_changed), gui);
 		g_signal_connect (gui->gui->reply_to,"changed",
 				  G_CALLBACK (identity_changed), gui);
@@ -806,11 +807,11 @@ get_fn (EvolutionWizard *wizard,
 		
 		g_signal_connect (gui->gui->full_name, "activate",
 				  G_CALLBACK (identity_activate_cb), gui);
-                g_signal_connect (gui->gui->email_address, "activate",
+		g_signal_connect (gui->gui->email_address, "activate",
 				  G_CALLBACK (identity_activate_cb), gui);
-                g_signal_connect (gui->gui->reply_to,"activate",
+		g_signal_connect (gui->gui->reply_to,"activate",
 				  G_CALLBACK (identity_activate_cb), gui);
-                g_signal_connect (gui->gui->organization, "activate",
+		g_signal_connect (gui->gui->organization, "activate",
 				  G_CALLBACK (identity_activate_cb), gui);
 		
 		g_signal_connect (gui->gui->source.hostname, "activate",
@@ -825,12 +826,12 @@ get_fn (EvolutionWizard *wizard,
 		g_signal_connect (gui->gui->transport.username, "activate",
 				  G_CALLBACK (transport_activate_cb), gui);
 		first_time = TRUE;
-        }
+	}
 	
-        /* Fill in the druid pages */
+	/* Fill in the druid pages */
 	vbox = gtk_vbox_new (FALSE, 0);
-        switch (page_num) {
-        case 0:
+	switch (page_num) {
+	case 0:
 		widget = create_label ("identity_html");
 		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
 		widget = glade_xml_get_widget (gui->gui->xml, "identity_required_frame");
@@ -839,89 +840,89 @@ get_fn (EvolutionWizard *wizard,
 		widget = glade_xml_get_widget (gui->gui->xml, "identity_optional_frame");
 		gtk_widget_reparent (widget, vbox);
 		gtk_box_set_child_packing (GTK_BOX (vbox), widget, FALSE, FALSE, 0, GTK_PACK_START);
-                break;
-        case 1:
+		break;
+	case 1:
 		widget = create_label ("source_html");
 		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
 		widget = glade_xml_get_widget (gui->gui->xml, "source_vbox");
-                gtk_widget_reparent (widget, vbox);
+		gtk_widget_reparent (widget, vbox);
 		gtk_widget_show (widget);
-                break;
-        case 2:
+		break;
+	case 2:
 		widget = create_label ("extra_html");
 		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
-                widget = glade_xml_get_widget (gui->gui->xml, "extra_vbox");
-                gtk_widget_reparent (widget, vbox);
-                break;
-        case 3:
+		widget = glade_xml_get_widget (gui->gui->xml, "extra_vbox");
+		gtk_widget_reparent (widget, vbox);
+		break;
+	case 3:
 		widget = create_label ("transport_html");
 		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
-                widget = glade_xml_get_widget (gui->gui->xml, "transport_vbox");
-                gtk_widget_reparent (widget, vbox);
+		widget = glade_xml_get_widget (gui->gui->xml, "transport_vbox");
+		gtk_widget_reparent (widget, vbox);
 		gtk_widget_show (widget);
-                break;
-        case 4:
+		break;
+	case 4:
 		widget = glade_xml_get_widget (gui->gui->xml, "management_frame");
 		gtk_widget_reparent (widget, vbox);
 		break;
-        default:
-                return NULL;
-        }
+	default:
+		return NULL;
+	}
 	
-        gtk_widget_show (vbox);
-        control = bonobo_control_new (vbox);
+	gtk_widget_show (vbox);
+	control = bonobo_control_new (vbox);
 	
 	if (first_time) {
 		mail_account_gui_setup (gui->gui, NULL);
 		first_time = FALSE;
 	}
 	
-        return control;
+	return control;
 }
 
 typedef gboolean (*NextFunc)(EvolutionWizard *wizard, gpointer data);
 typedef void (*PrepFunc)(EvolutionWizard *wizard, gpointer data);
 
 static struct {
-        NextFunc next_func;
-        PrepFunc prepare_func;
-        NextFunc back_func;
-        GtkSignalFunc finish_func;
-        GtkSignalFunc help_func;
+	NextFunc next_func;
+	PrepFunc prepare_func;
+	NextFunc back_func;
+	GtkSignalFunc finish_func;
+	GtkSignalFunc help_func;
 } wizard_pages[] = {
-        { identity_next,
-          identity_prepare,
-          NULL,
-          G_CALLBACK (NULL),
-          G_CALLBACK (NULL) },
-        { source_next,
-          source_prepare,
-          NULL,
-          G_CALLBACK (NULL),
-          G_CALLBACK (NULL) },
-        { NULL,
-          extra_prepare,
-          NULL,
-          G_CALLBACK (NULL),
-          G_CALLBACK (NULL) },
-        { transport_next,
-          transport_prepare,
-          transport_back,
-          G_CALLBACK (NULL),
-          G_CALLBACK (NULL) },
-        { NULL,
-          management_prepare,
-          NULL,
-          G_CALLBACK (NULL),
-          G_CALLBACK (NULL) }
+	{ identity_next,
+	  identity_prepare,
+	  NULL,
+	  G_CALLBACK (NULL),
+	  G_CALLBACK (NULL) },
+	{ source_next,
+	  source_prepare,
+	  NULL,
+	  G_CALLBACK (NULL),
+	  G_CALLBACK (NULL) },
+	{ NULL,
+	  extra_prepare,
+	  NULL,
+	  G_CALLBACK (NULL),
+	  G_CALLBACK (NULL) },
+	{ transport_next,
+	  transport_prepare,
+	  transport_back,
+	  G_CALLBACK (NULL),
+	  G_CALLBACK (NULL) },
+	{ NULL,
+	  management_prepare,
+	  NULL,
+	  G_CALLBACK (NULL),
+	  G_CALLBACK (NULL) }
 };
 
 static void
 wizard_next_cb (EvolutionWizard *wizard,
-                int page_num,
-                MailConfigWizard *gui)
+		int page_num,
+		MailConfigWizard *gui)
 {
-        if (wizard_pages[page_num].next_func == NULL
+	if (wizard_pages[page_num].next_func == NULL
 	    || !(wizard_pages[page_num].next_func (wizard, gui))) {
 		if (page_num < 5-1) {
 			evolution_wizard_set_page(wizard, page_num+1, NULL);
@@ -931,26 +932,26 @@ wizard_next_cb (EvolutionWizard *wizard,
 
 static void
 wizard_prepare_cb (EvolutionWizard *wizard,
-                   int page_num,
-                   MailConfigWizard *gui)
+		   int page_num,
+		   MailConfigWizard *gui)
 {
-        if (wizard_pages[page_num].prepare_func != NULL) {
-                wizard_pages[page_num].prepare_func (wizard, gui);
-        }
+	if (wizard_pages[page_num].prepare_func != NULL) {
+		wizard_pages[page_num].prepare_func (wizard, gui);
+	}
 }
 
 static void
 wizard_back_cb (EvolutionWizard *wizard,
-                int page_num,
-                MailConfigWizard *gui) 
+		int page_num,
+		MailConfigWizard *gui) 
 {
 	if (page_num >= 5)
 		evolution_wizard_set_page(wizard, 4, NULL);
-        else if (wizard_pages[page_num].back_func == NULL
+	else if (wizard_pages[page_num].back_func == NULL
 	    || !(wizard_pages[page_num].back_func (wizard, gui))) {
 		if (page_num > 0)
 			evolution_wizard_set_page(wizard, page_num-1, NULL);
-        }
+	}
 }
 
 static void
@@ -974,8 +975,8 @@ wizard_finish_cb (EvolutionWizard *wizard,
 
 static void
 wizard_cancel_cb (EvolutionWizard *wizard,
-                  int page_num,
-                  MailConfigWizard *gui)
+		  int page_num,
+		  MailConfigWizard *gui)
 {
 	mail_account_gui_destroy (gui->gui);
 	gui->gui = NULL;
@@ -983,8 +984,8 @@ wizard_cancel_cb (EvolutionWizard *wizard,
 
 static void
 wizard_help_cb (EvolutionWizard *wizard,
-                int page_num,
-                MailConfigWizard *gui)
+		int page_num,
+		MailConfigWizard *gui)
 {
 }
 
@@ -1001,34 +1002,34 @@ wizard_free (MailConfigWizard *wizard)
 }
 
 BonoboObject *
-evolution_mail_config_wizard_new(void)
+evolution_mail_config_wizard_new (void)
 {
 	EvolutionWizard *wizard;
-        MailConfigAccount *account;
-        MailConfigWizard *gui;
+	MailConfigWizard *gui;
+	EAccount *account;
 	
-        account = make_account ();
+	account = make_account ();
 	
-        gui = g_new (MailConfigWizard, 1);
+	gui = g_new (MailConfigWizard, 1);
 	gui->gui = NULL;
-        gui->account = account;
+	gui->account = account;
 	gui->identity_copied = FALSE;
 	gui->last_source = NULL;
 	gui->page = MAIL_CONFIG_WIZARD_PAGE_NONE;
 	
-        wizard = evolution_wizard_new (get_fn, 5, gui);
+	wizard = evolution_wizard_new (get_fn, 5, gui);
 	account_wizard = wizard;
 	
 	g_object_set_data_full ((GObject *) account_wizard, "account-data", gui,
 				(GDestroyNotify) wizard_free);
 	gui->wizard = wizard;
 	
-        g_signal_connect (wizard, "next", G_CALLBACK (wizard_next_cb), gui);
-        g_signal_connect (wizard, "prepare", G_CALLBACK (wizard_prepare_cb), gui);
-        g_signal_connect (wizard, "back", G_CALLBACK (wizard_back_cb), gui);
-        g_signal_connect (wizard, "finish", G_CALLBACK (wizard_finish_cb), gui);
-        g_signal_connect (wizard, "cancel", G_CALLBACK (wizard_cancel_cb), gui);
-        g_signal_connect (wizard, "help", G_CALLBACK (wizard_help_cb), gui);
+	g_signal_connect (wizard, "next", G_CALLBACK (wizard_next_cb), gui);
+	g_signal_connect (wizard, "prepare", G_CALLBACK (wizard_prepare_cb), gui);
+	g_signal_connect (wizard, "back", G_CALLBACK (wizard_back_cb), gui);
+	g_signal_connect (wizard, "finish", G_CALLBACK (wizard_finish_cb), gui);
+	g_signal_connect (wizard, "cancel", G_CALLBACK (wizard_cancel_cb), gui);
+	g_signal_connect (wizard, "help", G_CALLBACK (wizard_help_cb), gui);
 	
-        return BONOBO_OBJECT (wizard);
+	return BONOBO_OBJECT (wizard);
 }

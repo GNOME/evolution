@@ -42,7 +42,7 @@ char *mail_identify_mime_part (CamelMimePart *part, MailDisplay *md);
 void mail_add_storage (CamelStore *store, const char *name, const char *uri);
 void mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const char *name);
 /*takes a GSList of MailConfigServices */
-void mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources);
+void mail_load_storages (GNOME_Evolution_Shell shell, EAccountList *sources);
 
 void mail_hash_storage (CamelService *store, EvolutionStorage *storage);
 EvolutionStorage *mail_lookup_storage (CamelStore *store);

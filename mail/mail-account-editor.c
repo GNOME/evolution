@@ -132,9 +132,9 @@ editor_response_cb (GtkWidget *widget, int button, gpointer user_data)
 }
 
 static void
-construct (MailAccountEditor *editor, MailConfigAccount *account, MailAccountsTab *dialog)
+construct (MailAccountEditor *editor, EAccount *account, MailAccountsTab *dialog)
 {
-	MailConfigService *source = account->source;
+	EAccountService *source = account->source;
 	
 	editor->gui = mail_account_gui_new (account, dialog);
 	
@@ -162,11 +162,11 @@ construct (MailAccountEditor *editor, MailConfigAccount *account, MailAccountsTa
 }
 
 MailAccountEditor *
-mail_account_editor_new (MailConfigAccount *account, GtkWindow *parent, MailAccountsTab *dialog)
+mail_account_editor_new (EAccount *account, GtkWindow *parent, MailAccountsTab *dialog)
 {
 	MailAccountEditor *new;
 	
-	new = (MailAccountEditor *) g_object_new(mail_account_editor_get_type (), NULL);
+	new = (MailAccountEditor *) g_object_new (mail_account_editor_get_type (), NULL);
 	gtk_window_set_transient_for ((GtkWindow *) new, parent);
 	construct (new, account, dialog);
 	

@@ -1365,7 +1365,7 @@ static void
 sc_filter_toggled (GtkWidget *widget, gpointer user_data)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
-	StoreData       *store = sc->priv->current_store;
+	StoreData *store = sc->priv->current_store;
 
 	if (!store)
 		return;
@@ -1374,18 +1374,6 @@ sc_filter_toggled (GtkWidget *widget, gpointer user_data)
 		gtk_widget_set_sensitive (sc->priv->search_entry, TRUE);
 		sc_search_activated (sc->priv->search_entry, sc);
 	}
-}
-
-static void
-populate_store_foreach (MailConfigAccount *account, SubscribeDialog *sc)
-{
-	StoreData *sd;
-	
-	if (!account->enabled || !account->source || !account->source->url)
-		return;
-	
-	sd = store_data_new (account->source->url);
-	sc->priv->store_list = g_list_prepend (sc->priv->store_list, sd);
 }
 
 static void
@@ -1515,40 +1503,56 @@ got_sd_store (StoreData *sd, CamelStore *store, gpointer data)
 static void
 populate_store_list (SubscribeDialog *sc)
 {
-	const GSList *accounts;
-	GList *iter;
+	EAccountList *accounts;
+	EAccount *account;
+	EIterator *iter;
 	GtkWidget *menu;
 	GtkWidget *omenu;
+	GList *l;
 	
 	accounts = mail_config_get_accounts ();
-	g_slist_foreach ((GSList *) accounts, (GFunc) populate_store_foreach, sc);
+	iter = e_list_get_iterator ((EList *) accounts);
+	while (e_iterator_is_valid (iter)) {
+		StoreData *sd;
+		
+		account = (EAccount *) e_iterator_get (iter);
+		
+		if (account->enabled && account->source->url) {
+			sd = store_data_new (account->source->url);
+			sc->priv->store_list = g_list_prepend (sc->priv->store_list, sd);
+		}
+		
+		e_iterator_next (iter);
+	}
+	
+	g_object_unref (iter);
 	
 	menu = gtk_menu_new ();
-
-	for (iter = sc->priv->store_list; iter; iter = iter->next) {
+	
+	for (l = sc->priv->store_list; l; l = l->next) {
 		GtkWidget *item;
 		CamelURL *url;
 		char *string;
-
-		url = camel_url_new (((StoreData *) iter->data)->uri, NULL);
+		
+		url = camel_url_new (((StoreData *) l->data)->uri, NULL);
 		string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 		camel_url_free (url);
 		item = gtk_menu_item_new_with_label (string);
-		store_data_async_get_store (iter->data, got_sd_store, item);
-		g_object_set_data (G_OBJECT (item), STORE_DATA_KEY, iter->data);
-		g_signal_connect(item, "activate", G_CALLBACK(menu_item_selected), sc);
+		store_data_async_get_store (l->data, got_sd_store, item);
+		g_object_set_data (G_OBJECT (item), STORE_DATA_KEY, l->data);
+		g_signal_connect (item, "activate", G_CALLBACK (menu_item_selected), sc);
 		g_free (string);
-
+		
 		gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), item);
 	}
-
+	
 	sc->priv->none_item = gtk_menu_item_new_with_label (_("No server has been selected"));
-	g_signal_connect(sc->priv->none_item, "activate", G_CALLBACK(dummy_item_selected), sc);
+	g_signal_connect (sc->priv->none_item, "activate", G_CALLBACK (dummy_item_selected), sc);
 	gtk_widget_show (sc->priv->none_item);
-	gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), sc->priv->none_item);
-
+	gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), sc->priv->none_item);
+	
 	gtk_widget_show (menu);
-
+	
 	omenu = glade_xml_get_widget (sc->priv->xml, "store_menu");
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
 }

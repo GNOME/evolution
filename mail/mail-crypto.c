@@ -40,7 +40,7 @@
  * options set based on the account provided.
  **/
 CamelCipherContext *
-mail_crypto_get_pgp_cipher_context (const MailConfigAccount *account)
+mail_crypto_get_pgp_cipher_context (EAccount *account)
 {
 	CamelCipherContext *cipher;
 	

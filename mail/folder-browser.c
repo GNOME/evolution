@@ -1016,8 +1016,10 @@ extern CamelFolder *drafts_folder, *sent_folder, *outbox_folder;
 gboolean
 folder_browser_is_drafts (FolderBrowser *fb)
 {
-	const GSList *accounts;
-	MailConfigAccount *account;
+	gboolean is_drafts = FALSE;
+	EAccountList *accounts;
+	EAccount *account;
+	EIterator *iter;
 	
 	g_return_val_if_fail (IS_FOLDER_BROWSER (fb), FALSE);
 	
@@ -1028,14 +1030,21 @@ folder_browser_is_drafts (FolderBrowser *fb)
 		return TRUE;
 	
 	accounts = mail_config_get_accounts ();
-	while (accounts) {
-		account = accounts->data;
-		if (account->drafts_folder_uri && camel_store_uri_cmp(fb->folder->parent_store, account->drafts_folder_uri, fb->uri))
-			return TRUE;
-		accounts = accounts->next;
+	iter = e_list_get_iterator ((EList *) accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
+		if (account->drafts_folder_uri &&
+		    camel_store_uri_cmp (fb->folder->parent_store, account->drafts_folder_uri, fb->uri)) {
+			is_drafts = TRUE;
+			break;
+		}
+		
+		e_iterator_next (iter);
 	}
 	
-	return FALSE;
+	g_object_unref (iter);
+	
+	return is_drafts;
 }
 
 /**
@@ -1048,8 +1057,10 @@ folder_browser_is_drafts (FolderBrowser *fb)
 gboolean
 folder_browser_is_sent (FolderBrowser *fb)
 {
-	const GSList *accounts;
-	MailConfigAccount *account;
+	gboolean is_sent = FALSE;
+	EAccountList *accounts;
+	EAccount *account;
+	EIterator *iter;
 	
 	g_return_val_if_fail (IS_FOLDER_BROWSER (fb), FALSE);
 	
@@ -1060,14 +1071,21 @@ folder_browser_is_sent (FolderBrowser *fb)
 		return TRUE;
 	
 	accounts = mail_config_get_accounts ();
-	while (accounts) {
-		account = accounts->data;
-		if (account->sent_folder_uri && camel_store_uri_cmp(fb->folder->parent_store, account->sent_folder_uri, fb->uri))
-			return TRUE;
-		accounts = accounts->next;
+	iter = e_list_get_iterator ((EList *) accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
+		if (account->sent_folder_uri &&
+		    camel_store_uri_cmp (fb->folder->parent_store, account->sent_folder_uri, fb->uri)) {
+			is_sent = TRUE;
+			break;
+		}
+		
+		e_iterator_next (iter);
 	}
 	
-	return FALSE;
+	g_object_unref (iter);
+	
+	return is_sent;
 }
 
 /**

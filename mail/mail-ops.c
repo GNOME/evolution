@@ -451,7 +451,7 @@ static void
 mail_send_message (CamelMimeMessage *message, const char *destination,
 		   CamelFilterDriver *driver, CamelException *ex)
 {
-	const MailConfigAccount *account = NULL;
+	EAccount *account = NULL;
 	const CamelInternetAddress *iaddr;
 	CamelAddress *from, *recipients;
 	CamelMessageInfo *info;
