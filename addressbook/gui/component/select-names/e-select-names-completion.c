@@ -1006,12 +1006,23 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 					book_query_process_card_list (comp, book_data->cached_cards);
 				}
 				else {
+					ESource *source;
+					int limit;
+					const char *str;
+
 					e_select_names_completion_clear_cache (book_data);
 					book_data->cached_query_text = g_strdup (query_text);
 
+					source = e_book_get_source (book_data->book);
+					str = e_source_get_property (source, "limit");
+					if (str)
+						limit = atoi (str);
+					else
+						limit = -1;
+
 					book_data->book_view_tag = e_book_async_get_book_view (book_data->book,
 											       query, 
-											       NULL, -1,
+											       NULL, limit,
 											       e_select_names_completion_got_book_view_cb, book_data);
 					comp->priv->pending_completion_seq++;
 				}
