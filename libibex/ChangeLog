@@ -1,5 +1,10 @@
 2000-10-12  Not Zed  <NotZed@HelixCode.com>
 
+	* ibex_internal.h (struct ibex): Bumped ibex rev.
+
+	* block.c (ibex_block_cache_open): Bumped the ibex file revision
+	because of the hash table size change.
+
 	* index.h: Added some stat stuff.
 
 	* wordindex.c (struct _wordcache): Changed files[] to be a pointer

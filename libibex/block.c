@@ -408,11 +408,11 @@ ibex_block_cache_open(const char *name, int flags, int mode)
 
 	root = (struct _root *)ibex_block_read(block_cache, 0);
 	if (root->roof == 0
-	    || memcmp(root->version, "ibx3", 4)
+	    || memcmp(root->version, "ibx4", 4)
 	    || ((root->flags & IBEX_ROOT_SYNCF) == 0)) {
 		(printf("Initialising superblock\n"));
 		/* reset root data */
-		memcpy(root->version, "ibx3", 4);
+		memcpy(root->version, "ibx4", 4);
 		root->roof = 1024;
 		root->free = 0;
 		root->words = 0;
