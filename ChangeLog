@@ -1,3 +1,8 @@
+2004-10-27  Not Zed  <NotZed@Ximian.com>
+
+	* configure.in: removed bbwhatever it is until the makefiles are
+	fixed.
+
 2004-10-25  Radek Doulik  <rodo@ximian.com>
 
 	* configure.in: added audio-inline plugin, added gstreamer check
