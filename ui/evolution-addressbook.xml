@@ -57,8 +57,6 @@
 
 		<separator/>
 
-		<control name="QuickSearch"/>
-
 		<toolitem name="View All" _label="View All"
 		_tip="View all contacts" verb="ContactViewAll"
 		pixtype="stock" pixname="Multiple"/>

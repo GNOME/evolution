@@ -1,3 +1,7 @@
+2000-11-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* evolution-addressbook.xml: Removed QuickSearch widget.
+
 2000-11-01  Radek Doulik  <rodo@helixcode.com>
 
 	* evolution-message-composer.xml: added accel="*Control*Return" to
