@@ -39,8 +39,11 @@ if (! $LANG){
 	exit;
 } else { $LANG .=".po"; }
 
+if ( !(-d "./$LANG") ){ mkdir ("./$LANG", 0755) ; }
+
 chdir ("./C");
 if ( !(-d "./tmp") ) { mkdir ("./tmp", 0755) ; }
+
 my $comand="";
 
 open FILES, "<POTFILES.in" ;
@@ -65,8 +68,14 @@ while (<FILES>) {
 	system ( $comand );
 	print ("Updating $Original_file.po\n");
 	system ("mv $Original_file.po ../$LANG/$Original_file.pot");
-	system ("cp ../$LANG/$Original_file.po ../$LANG/$Original_file.po.old");
-	system ("msgmerge ../$LANG/$Original_file.po.old ../$LANG/$Original_file.pot -o ../$LANG/$Original_file.po");
+
+	if ( -f "../$LANG/$Original_file.po") {
+		system ("cp ../$LANG/$Original_file.po ../$LANG/$Original_file.po.old");
+		system ("msgmerge ../$LANG/$Original_file.po.old ../$LANG/$Original_file.pot -o ../$LANG/$Original_file.po");
+	} else {
+		system ("mv ../$LANG/$Original_file.pot ../$LANG/$Original_file.po");
+	}
+	
 	system ("msgfmt --statistics ../$LANG/$Original_file.po");
 	system ("rm -f ../$LANG/$Original_file.pot");
 #	print POTFILE $Converted_file."\n";
