@@ -1,3 +1,9 @@
+2000-11-09  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-auth.c (imap_try_kerberos_v4_auth):
+	Fix error handling. (Only send a "*" to bail out of authentication
+	if the server hasn't already bailed on us.)
+
 2000-11-08  Radek Doulik  <rodo@helixcode.com>
 
 	* camel-mime-utils.c (mime_guess_type_from_file_name): new

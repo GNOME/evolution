@@ -97,7 +97,7 @@ imap_try_kerberos_v4_auth (CamelImapStore *store, CamelException *ex)
 	 */
 	if (strlen (data) != 8 || base64_decode_simple (data, 8) != 4) {
 		g_free (resp);
-		goto lose;
+		goto break_and_lose;
 	}
 	memcpy (&nonce_n, data, 4);
 	g_free (resp);
@@ -106,7 +106,7 @@ imap_try_kerberos_v4_auth (CamelImapStore *store, CamelException *ex)
 	/* Our response is an authenticator including that number. */
 	h = camel_service_gethost (CAMEL_SERVICE (store), ex);
 	if (!h)
-		goto lose;
+		goto break_and_lose;
 	inst = g_strndup (h->h_name, strcspn (h->h_name, "."));
 	g_strdown (inst);
 	realm = g_strdup (krb_realmofhost (h->h_name));
@@ -123,7 +123,7 @@ imap_try_kerberos_v4_auth (CamelImapStore *store, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 				      _("Could not get Kerberos ticket:\n%s"),
 				      krb_err_txt[status]);
-		goto lose;
+		goto break_and_lose;
 	}
 	des_key_sched (&session, schedule);
 
@@ -156,7 +156,7 @@ imap_try_kerberos_v4_auth (CamelImapStore *store, CamelException *ex)
 	if (!(data[4] & IMAP_KERBEROS_V4_PROTECTION_NONE)) {
 		g_warning ("Server does not support `no protection' :-(");
 		g_free (resp);
-		goto lose;
+		goto break_and_lose;
 	}
 	g_free (resp);
 
@@ -181,15 +181,19 @@ imap_try_kerberos_v4_auth (CamelImapStore *store, CamelException *ex)
 	camel_imap_response_free (response);
 	return TRUE;
 
- lose:
-	memset (&session, 0, sizeof (session));
-
-	/* Get the server out of "waiting for continuation data" mode.
-	 */
+ break_and_lose:
+	/* Get the server out of "waiting for continuation data" mode. */
 	response = camel_imap_command_continuation (store, NULL, "*");
 	if (response)
 		camel_imap_response_free (response);
 
+ lose:
+	memset (&session, 0, sizeof (session));
+
+	if (!camel_exception_is_set (ex)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+				     _("Bad authentication response from server."));
+	}
 	return FALSE;
 }
 #endif /* HAVE_KRB4 */
