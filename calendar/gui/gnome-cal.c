@@ -57,6 +57,7 @@
 #include "calendar-view-factory.h"
 #include "tag-calendar.h"
 #include "misc.h"
+#include "ea-calendar.h"
 
 extern ECompEditorRegistry *comp_editor_registry;
 
@@ -353,6 +354,9 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 				      "goto_date",1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_SAME_DAY_OF_NEXT_WEEK);
+	/* init the accessibility support for gnome_calendar */
+	gnome_calendar_a11y_init ();
+
 }
 
 /* Callback used when the calendar query reports of an updated object */
@@ -3120,3 +3124,26 @@ gnome_calendar_get_task_pad	(GnomeCalendar *gcal)
 	return E_CALENDAR_TABLE (gcal->priv->todo);
 }
 
+GtkWidget *
+gnome_calendar_get_e_calendar_widget (GnomeCalendar *gcal)
+{
+ 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+ 
+ 	return GTK_WIDGET(gcal->priv->date_navigator);
+}
+ 
+GtkWidget *
+gnome_calendar_get_search_bar_widget (GnomeCalendar *gcal)
+{
+ 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+ 
+ 	return GTK_WIDGET(gcal->priv->search_bar);
+}
+
+GtkWidget *
+gnome_calendar_get_view_notebook_widget (GnomeCalendar *gcal)
+{
+ 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+ 
+ 	return GTK_WIDGET(gcal->priv->notebook);
+}

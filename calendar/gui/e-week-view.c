@@ -30,6 +30,7 @@
 #include <config.h>
 
 #include "e-week-view.h"
+#include "ea-calendar.h"
 
 #include <math.h>
 #include <gdk/gdkkeysyms.h>
@@ -154,10 +155,6 @@ static void e_week_view_on_editing_started (EWeekView *week_view,
 					    GnomeCanvasItem *item);
 static void e_week_view_on_editing_stopped (EWeekView *week_view,
 					    GnomeCanvasItem *item);
-static gboolean e_week_view_find_event_from_item (EWeekView	  *week_view,
-						  GnomeCanvasItem *item,
-						  gint		  *event_num,
-						  gint		  *span_num);
 static gboolean e_week_view_find_event_from_uid (EWeekView	  *week_view,
 						 const gchar	  *uid,
 						 gint		  *event_num_return);
@@ -232,6 +229,9 @@ e_week_view_class_init (EWeekViewClass *class)
 	view_class->set_selected_time_range = e_week_view_set_selected_time_range;
 	view_class->get_visible_time_range = e_week_view_get_visible_time_range;
 	view_class->update_query        = e_week_view_update_query;
+
+	/* init the accessibility support for e_week_view */
+	e_week_view_a11y_init ();
 }
 
 static void
@@ -1900,6 +1900,9 @@ e_week_view_update_event_cb (EWeekView *week_view,
 							span_num);
 		}
 	}
+	g_signal_emit_by_name (G_OBJECT(week_view),
+			       "event_changed", event);
+
 
 	return TRUE;
 }
@@ -2378,7 +2381,6 @@ e_week_view_add_event (CalComponent *comp,
 		 week_view->day_starts[0], week_view->day_starts[num_days],
 		 start, end);
 #endif
-
 	g_return_val_if_fail (start <= end, TRUE);
 	g_return_val_if_fail (start < week_view->day_starts[num_days], TRUE);
 	g_return_val_if_fail (end > week_view->day_starts[0], TRUE);
@@ -2644,6 +2646,9 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		g_signal_connect (span->text_item, "event",
 				  G_CALLBACK (e_week_view_on_text_item_event),
 				  week_view);
+		g_signal_emit_by_name (G_OBJECT(week_view),
+				       "event_added", event);
+
 	}
 
 	/* Calculate the position of the text item.
@@ -3215,7 +3220,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 }
 
 
-static gboolean
+gboolean
 e_week_view_find_event_from_item (EWeekView	  *week_view,
 				  GnomeCanvasItem *item,
 				  gint		  *event_num_return,

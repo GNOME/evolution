@@ -419,16 +419,15 @@ get_shell_view_interface (BonoboControl *control)
 	return shell_view;
 }
 
-/* Displays the currently displayed time range in the folder bar label on the
-   shell view, according to which view we are showing. */
-void
-calendar_set_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
+const gchar *
+calendar_get_text_for_folder_bar_label (GnomeCalendar *gcal)
 {
 	icaltimezone *zone;
 	struct icaltimetype start_tt, end_tt;
 	time_t start_time, end_time;
 	struct tm start_tm, end_tm;
-	char buffer[512], end_buffer[256];
+	static char buffer[512];
+	char end_buffer[256];
 	GnomeCalendarViewType view;
 
 	gnome_calendar_get_visible_time_range (gcal, &start_time, &end_time);
@@ -512,8 +511,17 @@ calendar_set_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
 		break;
 	default:
 		g_assert_not_reached ();
+		return NULL;
 	}
+	return buffer;
+}
 
+/* Displays the currently displayed time range in the folder bar label on the
+   shell view, according to which view we are showing. */
+void
+calendar_set_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
+{
+	char *buffer = (char *)calendar_get_text_for_folder_bar_label (gcal);
 	control_util_set_folder_bar_label (control, buffer);
 }
 

@@ -42,6 +42,7 @@
 #include "dialogs/recur-comp.h"
 #include "print.h"
 #include "goto.h"
+#include "ea-calendar.h"
 
 /* Used for the status bar messages */
 #define EVOLUTION_CALENDAR_PROGRESS_IMAGE "evolution-calendar-mini.png"
@@ -82,6 +83,8 @@ static GdkAtom clipboard_atom = GDK_NONE;
 enum {
 	SELECTION_CHANGED,
 	TIMEZONE_CHANGED,
+	EVENT_CHANGED,
+	EVENT_ADDED,
 	LAST_SIGNAL
 };
 
@@ -113,10 +116,33 @@ e_cal_view_class_init (ECalViewClass *klass)
 			      cal_util_marshal_VOID__POINTER_POINTER,
 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
 
+	e_cal_view_signals[EVENT_CHANGED] =
+		g_signal_new ("event_changed",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (ECalViewClass, event_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_POINTER);
+
+	e_cal_view_signals[EVENT_ADDED] =
+		g_signal_new ("event_added",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (ECalViewClass, event_added),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_POINTER);
+
 	/* Method override */
 	object_class->destroy = e_cal_view_destroy;
 
 	klass->selection_changed = NULL;
+	klass->event_changed = NULL;
+	klass->event_added = NULL;
+
 	klass->get_selected_events = NULL;
 	klass->get_selected_time_range = NULL;
 	klass->set_selected_time_range = NULL;
@@ -126,6 +152,9 @@ e_cal_view_class_init (ECalViewClass *klass)
 	/* clipboard atom */
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+
+	/* init the accessibility support for e_day_view */
+ 	e_cal_view_a11y_init ();
 }
 
 static void

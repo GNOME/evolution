@@ -1,3 +1,22 @@
+2003-08-20  Bolian Yin <bolian.yin@sun.com>
+
+	* gui/Makefile.am : Add a11y dependency.
+	* gui/calendar-commands.c (calendar_get_text_for_folder_bar_label)
+	* gui/e-cal-view.c: Add two new events: "event_changed" and "event_added" 
+	* gui/e-day-view.c (e_day_view_class_init): init a11y.
+	  (e_day_view_find_event_from_item): make it public from private
+	  (e_day_view_update_event_cb): emit "event_changed" signal
+	  (e_day_view_reshape_day_event): emit "event_added" signal
+	  (e_day_view_reshape_long_event): emit "event_added" signal
+	* gui/e-week-view.c (e_week_view_class_init): init a11y.
+	  (e_week_view_find_event_from_item): make it public from private
+	  (e_week_view_update_event_cb): emit "event_changed" signal
+	  (e_week_view_reshape_event_span): emit "event_added" signal
+	* gui/gnome-cal.c (gnome_calendar_class_init): init a11y.
+	  (gnome_calendar_get_e_calendar_widget),
+	  (gnome_calendar_get_search_bar_widget),
+          (gnome_calendar_get_view_notebook_widget): new functions
+
 2003-08-12  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/calendar-offline-handler.c (impl_dispose): Chain. Prevent

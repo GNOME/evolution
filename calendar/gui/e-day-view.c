@@ -29,6 +29,7 @@
 #include <config.h>
 
 #include "e-day-view.h"
+#include "ea-calendar.h"
 
 #include <math.h>
 #include <time.h>
@@ -285,10 +286,6 @@ static ECalViewPosition e_day_view_convert_position_in_main_canvas (EDayView *da
 								    gint *day_return,
 								    gint *row_return,
 								    gint *event_num_return);
-static gboolean e_day_view_find_event_from_item (EDayView *day_view,
-						 GnomeCanvasItem *item,
-						 gint *day_return,
-						 gint *event_num_return);
 static gboolean e_day_view_find_event_from_uid (EDayView *day_view,
 						const gchar *uid,
 						gint *day_return,
@@ -439,7 +436,6 @@ static void e_day_view_queue_layout (EDayView *day_view);
 static void e_day_view_cancel_layout (EDayView *day_view);
 static gboolean e_day_view_layout_timeout_cb (gpointer data);
 
-
 static GtkTableClass *parent_class;
 
 E_MAKE_TYPE (e_day_view, "EDayView", EDayView, e_day_view_class_init,
@@ -475,6 +471,9 @@ e_day_view_class_init (EDayViewClass *class)
 	view_class->set_selected_time_range = e_day_view_set_selected_time_range;
 	view_class->get_visible_time_range = e_day_view_get_visible_time_range;
 	view_class->update_query        = e_day_view_update_query;
+
+	/* init the accessibility support for e_day_view */
+ 	e_day_view_a11y_init ();
 }
 
 static void
@@ -1650,6 +1649,10 @@ e_day_view_update_event_cb (EDayView *day_view,
 		e_day_view_update_event_label (day_view, day, event_num);
 		e_day_view_reshape_day_event (day_view, day, event_num);
 	}
+
+	g_signal_emit_by_name (G_OBJECT(day_view),
+			       "event_changed", event);
+
 	return TRUE;
 }
 
@@ -1902,7 +1905,7 @@ e_day_view_update_long_event_label (EDayView *day_view,
 /* Finds the day and index of the event with the given canvas item.
    If is is a long event, -1 is returned as the day.
    Returns TRUE if the event was found. */
-static gboolean
+gboolean
 e_day_view_find_event_from_item (EDayView *day_view,
 				 GnomeCanvasItem *item,
 				 gint *day_return,
@@ -4490,6 +4493,9 @@ e_day_view_reshape_long_event (EDayView *day_view,
 					       NULL);
 		g_signal_connect (event->canvas_item, "event",
 				  G_CALLBACK (e_day_view_on_text_item_event), day_view);
+		g_signal_emit_by_name (G_OBJECT(day_view),
+				       "event_added", event);
+
 		e_day_view_update_long_event_label (day_view, event_num);
 	}
 
@@ -4648,6 +4654,9 @@ e_day_view_reshape_day_event (EDayView *day_view,
 						       NULL);
 			g_signal_connect (event->canvas_item, "event",
 					  G_CALLBACK (e_day_view_on_text_item_event), day_view);
+			g_signal_emit_by_name (G_OBJECT(day_view),
+					       "event_added", event);
+
 			e_day_view_update_event_label (day_view, day, event_num);
 		}
 
@@ -5146,9 +5155,10 @@ e_day_view_focus (GtkWidget *widget, GtkDirectionType direction)
 	}
 
 	if (new_day != E_DAY_VIEW_LONG_EVENT && new_day != -1) {
-		if (e_day_view_get_event_rows (day_view, new_day, new_event_num,
+		if (e_day_view_get_event_rows (day_view, new_day,
+					       new_event_num,
 					       &start_row, &end_row))
-			/* ajust the scrollbar to ensure the event to be seen */
+			/* ensure the event to be seen */
 			e_day_view_ensure_rows_visible (day_view,
 							start_row, end_row);
 	}

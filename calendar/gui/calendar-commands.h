@@ -42,6 +42,7 @@ void calendar_goto_today (GnomeCalendar *gcal);
 
 void calendar_set_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control);
 
+const gchar * calendar_get_text_for_folder_bar_label (GnomeCalendar *gcal);
 /* Used by calendar and tasks control to set the folder title bar label. */
 void control_util_set_folder_bar_label (BonoboControl *control, char *label);
 
