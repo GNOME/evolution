@@ -1,3 +1,7 @@
+2003-11-20  JP Rosevear <jpr@ximian.com>
+
+	* Remove dead doc files.
+
 2003-09-11  Dan Winship  <danw@ximian.com>
 
 	* calendar/cal-client/Makefile.am (GTKDOC_LIBS): Use non-static
