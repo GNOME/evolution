@@ -1,5 +1,10 @@
 2004-05-26  Not Zed  <NotZed@Ximian.com>
 
+	* mail-vfolder.c (vfolder_adduri_desc): initialise desc to NULL
+	before using it later on.  gcc doesn't warn on this if you're not
+	optimising.  Sigh.  Probably fix #59070, #59060, #58972 and
+	friends.
+
 	* importers/evolution-mbox-importer.c (create_control_fn): set the
 	default selection to inbox.
 

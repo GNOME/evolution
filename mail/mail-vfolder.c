@@ -202,7 +202,7 @@ static char *
 vfolder_adduri_desc(struct _mail_msg *mm, int done)
 {
 	struct _adduri_msg *m = (struct _adduri_msg *)mm;
-	char *euri, *desc;
+	char *euri, *desc = NULL;
 
 	/* Yuck yuck.  Lookup the account name and use that to describe the path */
 	/* We really need to normalise this across all of camel and evolution :-/ */
