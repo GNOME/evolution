@@ -1,3 +1,8 @@
+2002-07-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-categories-config.c (e_categories_config_get_icon_for):Ñchanged to
+	return a gboolean (TRUE if the icon is found, FALSE if not).
+
 2002-06-07  Not Zed  <NotZed@Ximian.com>
 
 	* e-dialog-utils.c (e_gnome_warning_dialog_parented):
