@@ -1,5 +1,11 @@
 2000-08-12  Dan Winship  <danw@helixcode.com>
 
+	* mail-tools.c (mail_tool_get_folder_from_urlname): Don't ref the
+	store returned from camel_session_get_store. It's already reffed.
+	(mail_tool_get_root_of_store): Ditto.
+	(mail_tool_send_via_transport): Remove some commented-out code and
+	fix it to not leave the transport connected if sending fails.
+
 	* mail-callbacks.c (delete_msg): Toggling a flag is an
 	"instantaneous" operation, so if we're only doing one, just do it
 	and return, rather than queueing it for the other thread. This

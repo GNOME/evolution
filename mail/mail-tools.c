@@ -101,8 +101,6 @@ mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
 		return NULL;
 	}
 
-	camel_object_ref (CAMEL_OBJECT (store));
-
 	camel_service_connect (CAMEL_SERVICE (store), ex);
 	if (camel_exception_is_set (ex)) {
 		camel_object_unref (CAMEL_OBJECT (store));
@@ -393,24 +391,16 @@ void
 mail_tool_send_via_transport (CamelTransport *transport, CamelMedium *medium, CamelException *ex)
 {
 	mail_tool_camel_lock_up();
-	/*camel_object_ref (CAMEL_OBJECT (transport));*/
-	/*camel_object_ref (CAMEL_OBJECT (medium));*/
 
 	camel_service_connect (CAMEL_SERVICE (transport), ex);
-
 	if (camel_exception_is_set (ex))
 		goto cleanup;
 
 	camel_transport_send (transport, medium, ex);
 
-	if (camel_exception_is_set (ex))
-		goto cleanup;
-
-	camel_service_disconnect (CAMEL_SERVICE (transport), ex);
-
+	camel_service_disconnect (CAMEL_SERVICE (transport),
+				  camel_exception_is_set (ex) ? NULL : ex);
  cleanup:
-	/*camel_object_unref (CAMEL_OBJECT (medium));*/
-	/*camel_object_unref (CAMEL_OBJECT (transport));*/
 	mail_tool_camel_lock_down();
 }
 
@@ -563,8 +553,6 @@ mail_tool_get_root_of_store (const char *source_uri, CamelException *ex)
 		mail_tool_camel_lock_down();
 		return NULL;
 	}
-
-	camel_object_ref (CAMEL_OBJECT (store));
 
 	camel_service_connect (CAMEL_SERVICE (store), ex);
 	if (camel_exception_is_set (ex)) {
