@@ -513,7 +513,7 @@ field_changed (EText *text, EMinicard *e_minicard)
 }
 
 static void
-add_field (EMinicard *e_minicard, ECardSimpleField field)
+add_field (EMinicard *e_minicard, ECardSimpleField field, gdouble left_width)
 {
 	GnomeCanvasItem *new_item;
 	GnomeCanvasGroup *group;
@@ -521,7 +521,7 @@ add_field (EMinicard *e_minicard, ECardSimpleField field)
 	EMinicardField *minicard_field;
 	char *name;
 	char *string;
-
+	
 	group = GNOME_CANVAS_GROUP( e_minicard );
 	
 	type = e_card_simple_type(e_minicard->simple, field);
@@ -533,6 +533,7 @@ add_field (EMinicard *e_minicard, ECardSimpleField field)
 			       "width", e_minicard->width - 4.0,
 			       "fieldname", name,
 			       "field", string,
+			       "max_field_name_length", left_width,
 			       NULL );
 	gtk_signal_connect(GTK_OBJECT(E_MINICARD_LABEL(new_item)->field),
 			   "changed", GTK_SIGNAL_FUNC(field_changed), e_minicard);
@@ -550,6 +551,29 @@ add_field (EMinicard *e_minicard, ECardSimpleField field)
 	g_free(string);
 }
 
+static gdouble
+get_left_width(EMinicard *e_minicard)
+{
+	gchar *name;
+	ECardSimpleField field;
+	gdouble width = -1;
+	static GdkFont *font = NULL;
+
+	if (font == NULL) {
+		font = gdk_font_load("lucidasans-10");
+	}
+
+	for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST; field++) {
+		gdouble this_width;
+		name = g_strdup_printf("%s:", e_card_simple_get_name(e_minicard->simple, field));
+		this_width = gdk_text_width(font, name, strlen(name));
+		if (width < this_width)
+			width = this_width;
+		g_free(name);
+	}
+	return width;
+}
+
 static void
 remodel( EMinicard *e_minicard )
 {
@@ -558,6 +582,7 @@ remodel( EMinicard *e_minicard )
 		ECardSimpleField field;
 		GList *list;
 		char *file_as;
+		gdouble left_width = -1;
 
 		if (e_minicard->header_text) {
 			file_as = e_card_simple_get(e_minicard->simple, E_CARD_SIMPLE_FIELD_FILE_AS);
@@ -572,6 +597,7 @@ remodel( EMinicard *e_minicard )
 
 		for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST && count < 5; field++) {
 			EMinicardField *minicard_field = NULL;
+
 			if (list)
 				minicard_field = list->data;
 			if (minicard_field && minicard_field->field == field) {
@@ -593,9 +619,13 @@ remodel( EMinicard *e_minicard )
 				g_free(string);
 			} else {
 				char *string;
+				if (left_width == -1) {
+					left_width = get_left_width(e_minicard);
+				}
+
 				string = e_card_simple_get(e_minicard->simple, field);
 				if (string && *string) {
-					add_field(e_minicard, field);
+					add_field(e_minicard, field, left_width);
 					count++;
 				}
 				g_free(string);

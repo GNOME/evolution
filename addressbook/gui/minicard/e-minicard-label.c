@@ -49,7 +49,8 @@ enum {
 	ARG_HAS_FOCUS,
 	ARG_FIELD,
 	ARG_FIELDNAME,
-	ARG_TEXT_MODEL
+	ARG_TEXT_MODEL,
+	ARG_MAX_FIELD_NAME_WIDTH,
 };
 
 GtkType
@@ -100,6 +101,8 @@ e_minicard_label_class_init (EMinicardLabelClass *klass)
 			   GTK_ARG_READWRITE, ARG_FIELDNAME);
   gtk_object_add_arg_type ("EMinicardLabel::text_model", GTK_TYPE_OBJECT,
 			   GTK_ARG_READWRITE, ARG_TEXT_MODEL);
+  gtk_object_add_arg_type ("EMinicardLabel::max_field_name_length", GTK_TYPE_DOUBLE,
+			   GTK_ARG_READWRITE, ARG_MAX_FIELD_NAME_WIDTH);
  
   object_class->set_arg = e_minicard_label_set_arg;
   object_class->get_arg = e_minicard_label_get_arg;
@@ -119,6 +122,8 @@ e_minicard_label_init (EMinicardLabel *minicard_label)
   minicard_label->rect = NULL;
   minicard_label->fieldname = NULL;
   minicard_label->field = NULL;
+
+  minicard_label->max_field_name_length = -1;
 
   e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(minicard_label), e_minicard_label_reflow);
 }
@@ -150,6 +155,9 @@ e_minicard_label_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_TEXT_MODEL:
 		gnome_canvas_item_set( e_minicard_label->field, "model", GTK_VALUE_OBJECT (*arg), NULL);
+		break;
+	case ARG_MAX_FIELD_NAME_WIDTH:
+		e_minicard_label->max_field_name_length = GTK_VALUE_DOUBLE (*arg);
 		break;
 	}
 }
@@ -185,6 +193,9 @@ e_minicard_label_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		gtk_object_get( GTK_OBJECT( e_minicard_label->field ), "model", &tempmodel, NULL );
 		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(tempmodel);
 		break;
+	case ARG_MAX_FIELD_NAME_WIDTH:
+		GTK_VALUE_DOUBLE (*arg) = e_minicard_label->max_field_name_length;
+		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -210,8 +221,8 @@ e_minicard_label_construct (GnomeCanvasItem *item)
 	EMinicardLabel *e_minicard_label;
 	GnomeCanvasGroup *group;
 	static GdkFont *font = NULL;
-	
-	if ( font == NULL ) {
+
+	if (font == NULL) {
 		font = gdk_font_load("lucidasans-10");
 	}
 
@@ -369,11 +380,17 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 static void
 e_minicard_label_resize_children(EMinicardLabel *e_minicard_label)
 {
+	double left_width;
+	if (e_minicard_label->max_field_name_length != -1 && ((e_minicard_label->width / 2) - 4 > e_minicard_label->max_field_name_length))
+		left_width = e_minicard_label->max_field_name_length;
+	else
+		left_width = e_minicard_label->width / 2 - 4;
+
 	gnome_canvas_item_set( e_minicard_label->fieldname,
-			       "clip_width", (double) ( e_minicard_label->width / 2 - 4 ),
+			       "clip_width", (double) ( left_width ),
 			       NULL );
 	gnome_canvas_item_set( e_minicard_label->field,
-			       "clip_width", (double) ( ( e_minicard_label->width + 1 ) / 2 - 4 ),
+			       "clip_width", (double) ( e_minicard_label->width - 8 - left_width ),
 			       NULL );
 }
 
@@ -384,6 +401,8 @@ e_minicard_label_reflow(GnomeCanvasItem *item, int flags)
 	
 	gint old_height;
 	gdouble text_height;
+	gdouble left_width;
+
 	old_height = e_minicard_label->height;
 
 	gtk_object_get(GTK_OBJECT(e_minicard_label->fieldname), 
@@ -405,7 +424,13 @@ e_minicard_label_reflow(GnomeCanvasItem *item, int flags)
 			       "x2", (double) e_minicard_label->width - 1,
 			       "y2", (double) e_minicard_label->height - 1,
 			       NULL );
-	e_canvas_item_move_absolute(e_minicard_label->field, ( e_minicard_label->width / 2 + 2), 1);
+
+	if (e_minicard_label->max_field_name_length != -1 && ((e_minicard_label->width / 2) - 4 > e_minicard_label->max_field_name_length))
+		left_width = e_minicard_label->max_field_name_length;
+	else
+		left_width = e_minicard_label->width / 2 - 4;
+
+	e_canvas_item_move_absolute(e_minicard_label->field, left_width + 6, 1);
 
 	if (old_height != e_minicard_label->height)
 		e_canvas_item_request_parent_reflow(item);

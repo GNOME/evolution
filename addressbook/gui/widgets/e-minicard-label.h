@@ -57,6 +57,7 @@ struct _EMinicardLabel
 	/* item specific fields */
 	double width;
 	double height;
+	double max_field_name_length;
 	GnomeCanvasItem *fieldname;
 	GnomeCanvasItem *field;
 	GnomeCanvasItem *rect;

@@ -1,3 +1,10 @@
+2000-06-17  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/minicard/e-minicard-label.c,
+	gui/minicard/e-minicard-label.h, gui/minicard/e-minicard.c: Made
+	the left column of minicards not get any wider than the widest
+	possible name.
+
 2000-06-13  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component/Makefile.am (SHELL_OBJS): Removed.
