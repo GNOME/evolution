@@ -1,3 +1,10 @@
+2000-10-11  Damon Chaplin  <damon@helixcode.com>
+
+	* src/libical/icalparameter.c (icalparameter_as_ical_string): 
+	(icalparameter_new_from_string): 
+	* src/libical/icalparser.c (icalparser_add_line): add support for
+	'X-' parameters.
+
 2000-10-07  Dan Winship  <danw@helixcode.com>
 
 	* src/libical/icalyacc.y (weekday_list): Fix the semicolons in

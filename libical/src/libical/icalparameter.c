@@ -578,8 +578,7 @@ icalparameter* icalparameter_new_from_string(icalparameter_kind kind, char* val)
 
 	case ICAL_X_PARAMETER:
 	{
-		param = icalparameter_new(ICAL_FBTYPE_PARAMETER);
-		icalparameter_set_xvalue(param,val);
+		param = icalparameter_new_x(val);
 	    break;
 	}
 
@@ -657,7 +656,10 @@ icalparameter_as_ical_string (icalparameter* parameter)
     buf_ptr = buf;
     impl = (struct icalparameter_impl*)parameter;
 
-    kind_string = icalenum_parameter_kind_to_string(impl->kind);
+    if (impl->kind == ICAL_X_PARAMETER)
+        kind_string = impl->x_name;
+    else
+        kind_string = icalenum_parameter_kind_to_string(impl->kind);
 
     if (impl->kind == ICAL_NO_PARAMETER || 
 	impl->kind == ICAL_ANY_PARAMETER || 
