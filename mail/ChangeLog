@@ -1,5 +1,8 @@
 2001-10-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-display.c (mail_error_write): Convert URLS so we can get
+	clickable links.
+
 	* message-list.c: Removed score stuff.
 
 2001-10-12  Jon Trowbridge  <trow@ximian.com>
