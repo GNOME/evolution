@@ -40,6 +40,7 @@ static GtkObjectClass *parent_class = NULL;
 
 
 #define VERB_PREFIX "ShellUserCreatableItemVerb"
+#define SHELL_VIEW_DATA_KEY "EShellUserCreatableItemsHandler:shell_view"
 
 struct _Component {
 	EvolutionShellComponentClient *component_client;
@@ -259,12 +260,16 @@ verb_fn (BonoboUIComponent *ui_component,
 {
 	EShellUserCreatableItemsHandler *handler;
 	EShellUserCreatableItemsHandlerPrivate *priv;
+	EShellView *shell_view;
 	const Component *component;
 	int component_number;
 	const char *p;
 	const char *id;
 	GSList *component_list_item;
 	int i;
+
+	shell_view = gtk_object_get_data (GTK_OBJECT (ui_component), SHELL_VIEW_DATA_KEY);
+	g_assert (E_IS_SHELL_VIEW (shell_view));
 
 	handler = E_SHELL_USER_CREATABLE_ITEMS_HANDLER (data);
 	priv = handler->priv;
@@ -289,7 +294,11 @@ verb_fn (BonoboUIComponent *ui_component,
 			CORBA_exception_init (&ev);
 
 			GNOME_Evolution_ShellComponent_userCreateNewItem
-				(bonobo_object_corba_objref (BONOBO_OBJECT (component->component_client)), id, &ev);
+				(bonobo_object_corba_objref (BONOBO_OBJECT (component->component_client)),
+				 id,
+				 e_shell_view_get_current_physical_uri (shell_view),
+				 e_shell_view_get_current_folder_type (shell_view),
+				 &ev);
 
 			if (ev._major != CORBA_NO_EXCEPTION)
 				g_warning ("Error in userCreateNewItem -- %s", ev._repo_id);
@@ -407,21 +416,27 @@ e_shell_user_creatable_items_handler_add_component  (EShellUserCreatableItemsHan
 
 void
 e_shell_user_creatable_items_handler_setup_menus (EShellUserCreatableItemsHandler *handler,
-						  BonoboUIComponent *ui_component)
+						  EShellView *shell_view)
 {
 	EShellUserCreatableItemsHandlerPrivate *priv;
+	BonoboUIComponent *ui_component;
 
 	g_return_if_fail (handler != NULL);
 	g_return_if_fail (E_IS_SHELL_USER_CREATABLE_ITEMS_HANDLER (handler));
-	g_return_if_fail (ui_component != NULL);
-	g_return_if_fail (BONOBO_IS_UI_COMPONENT (ui_component));
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
 	priv = handler->priv;
 
 	if (priv->menu_xml == NULL)
 		setup_menu_xml (handler);
 
+	ui_component = e_shell_view_get_bonobo_ui_component (shell_view);
+	g_assert (ui_component);
+
 	add_verbs_to_ui_component (handler, ui_component);
+
+	gtk_object_set_data (GTK_OBJECT (ui_component), SHELL_VIEW_DATA_KEY, shell_view);	/* Yuck.  */
 
 	bonobo_ui_component_set (ui_component, "/", priv->menu_xml, NULL);
 }

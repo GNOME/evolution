@@ -270,9 +270,12 @@ owner_unset_callback (EvolutionShellComponent *shell_component,
 
 static void
 user_create_new_item_callback (EvolutionShellComponent *shell_component,
-			       const char *id)
+			       const char *id,
+			       const char *parent_folder_physical_uri,
+			       const char *parent_folder_type)
 {
 	g_print ("\n*** Should create -- %s\n", id);
+	g_print ("\n\tType %s, URI %s\n", parent_folder_type, parent_folder_physical_uri);
 }
 
 

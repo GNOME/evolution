@@ -529,6 +529,8 @@ impl_populateFolderContextMenu (PortableServer_Servant servant,
 static void
 impl_userCreateNewItem (PortableServer_Servant servant,
 			const CORBA_char *id,
+			const CORBA_char *parent_physical_uri,
+			const CORBA_char *parent_type,
 			CORBA_Environment *ev)
 {
 	EvolutionShellComponent *shell_component;
@@ -539,7 +541,7 @@ impl_userCreateNewItem (PortableServer_Servant servant,
 
 	/* FIXME: Check that the type is good.  */
 
-	gtk_signal_emit (GTK_OBJECT (shell_component), signals[USER_CREATE_NEW_ITEM], id);
+	gtk_signal_emit (GTK_OBJECT (shell_component), signals[USER_CREATE_NEW_ITEM], id, parent_physical_uri, parent_type);
 }
 
 
@@ -640,8 +642,10 @@ class_init (EvolutionShellComponentClass *klass)
 				  GTK_RUN_FIRST,
 				  object_class->type,
 				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, user_create_new_item),
-				  gtk_marshal_NONE__STRING,
-				  GTK_TYPE_NONE, 1,
+				  gtk_marshal_NONE__POINTER_POINTER_POINTER,
+				  GTK_TYPE_NONE, 3,
+				  GTK_TYPE_STRING,
+				  GTK_TYPE_STRING,
 				  GTK_TYPE_STRING);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);

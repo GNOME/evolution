@@ -92,7 +92,9 @@ module Evolution {
 						in string physical_uri,
 						in string type);
 
-		void userCreateNewItem (in string id)
+		void userCreateNewItem (in string id,
+					in string parent_folder_physical_uri,
+					in string parent_folder_type)
 			raises (UnsupportedType);
 	};
 

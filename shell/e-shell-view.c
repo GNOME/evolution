@@ -1213,7 +1213,7 @@ e_shell_view_construct (EShellView *shell_view,
 					GTK_OBJECT (view));
 
 	e_shell_user_creatable_items_handler_setup_menus (e_shell_get_user_creatable_items_handler (priv->shell),
-							  priv->ui_component);
+							  shell_view);
 
 	return view;
 }
@@ -1648,7 +1648,8 @@ get_type_for_folder (EShellView *shell_view,
 	if (!folder)
 		return NULL;
 
-	*physical_uri_return = e_folder_get_physical_uri (folder);
+	if (physical_uri_return != NULL)
+		*physical_uri_return = e_folder_get_physical_uri (folder);
 
 	return e_folder_get_type_string (folder);
 }
@@ -2105,6 +2106,40 @@ e_shell_view_get_current_path (EShellView *shell_view)
 		current_path = NULL;
 
 	return current_path;
+}
+
+const char *
+e_shell_view_get_current_physical_uri (EShellView *shell_view)
+{
+	const char *current_path;
+	const char *physical_uri;
+
+	g_return_val_if_fail (shell_view != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	current_path = e_shell_view_get_current_path (shell_view);
+	if (current_path == NULL)
+		return NULL;
+
+	if (get_type_for_folder (shell_view, current_path, &physical_uri) == NULL)
+		return NULL;
+	else
+		return physical_uri;
+}
+
+const char *
+e_shell_view_get_current_folder_type (EShellView *shell_view)
+{
+	const char *current_path;
+
+	g_return_val_if_fail (shell_view != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	current_path = e_shell_view_get_current_path (shell_view);
+	if (current_path == NULL)
+		return NULL;
+
+	return get_type_for_folder (shell_view, current_path, NULL);
 }
 
 

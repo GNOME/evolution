@@ -45,6 +45,8 @@ typedef struct _EShellUserCreatableItemsHandler        EShellUserCreatableItemsH
 typedef struct _EShellUserCreatableItemsHandlerPrivate EShellUserCreatableItemsHandlerPrivate;
 typedef struct _EShellUserCreatableItemsHandlerClass   EShellUserCreatableItemsHandlerClass;
 
+#include "e-shell-view.h"
+
 struct _EShellUserCreatableItemsHandler {
 	GtkObject parent;
 
@@ -63,7 +65,7 @@ void  e_shell_user_creatable_items_handler_add_component  (EShellUserCreatableIt
 							   EvolutionShellComponentClient   *shell_component_client);
 
 void  e_shell_user_creatable_items_handler_setup_menus  (EShellUserCreatableItemsHandler *handler,
-							 BonoboUIComponent               *ui_component);
+							 EShellView                      *shell_view);
 
 #ifdef __cplusplus
 }

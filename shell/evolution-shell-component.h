@@ -141,7 +141,9 @@ struct _EvolutionShellComponentClass {
 				      const char *uri);
 
 	void (* user_create_new_item) (EvolutionShellComponent *shell_component,
-				       const char *id);
+				       const char *id,
+				       const char *parent_folder_physical_uri,
+				       const char *parent_folder_type);
 };
 
 

@@ -1,5 +1,31 @@
 2001-08-09  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-test-component.c (user_create_new_item_callback):
+	Updated to display the parent folder's URI and its type as well.
+
+	* evolution-shell-component.c (impl_userCreateNewItem): Updated to
+	get the @parent_folder_physical_uri and the @parent_folder_type.
+	(class_init): Update the "user_create_new_item" signal to have
+	@parent_folder_physical_uri and @parent_folder_type args.
+
+	* e-shell-view.c (get_type_for_folder): Don't bork on a NULL
+	@physical_uri_return.
+	(e_shell_view_get_current_physical_uri): New.
+	(e_shell_view_get_current_folder_type): New.
+
+	* e-shell-user-creatable-items-handler.c
+	(e_shell_user_creatable_items_handler_setup_menus): Replace
+	@ui_component arg with a @shell_view arg.  Set it on the
+	UIComponent using gtk_object_set_data().
+	(verb_fn): Pass the type and physical URI of the current folder;
+	retrieve that from the shell_view got with gtk_object_get_data().
+
+	* Evolution-ShellComponent.idl
+	(userCreateNewItem): New args @parent_folder_uri,
+	@parent_folder_type.
+
+2001-08-09  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shortcuts-view.c (show_new_group_dialog): Cast the toplevel to
 	be passed to `e_request_string()' to GtkWindow, not GtkWidget.
 	Also, remove unused variables.
