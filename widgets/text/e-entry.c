@@ -503,9 +503,14 @@ e_entry_show_popup (EEntry *entry, gboolean visible)
 	if (pop == NULL)
 		return;
 
-	/* The async query can give us a result after the focus was lost by the
-	   widget.  In that case, we don't want to show the pop-up.   */
-	if (! GTK_WIDGET_HAS_FOCUS (entry->canvas))
+	/* The async query can give us a result after the focus was
+	   lost by the widget.  In that case, we don't want to show
+	   the pop-up.
+
+	   but only return early if we're popping *up* the completion
+	   view.  If we're trying to pop down the view, continue on
+	   regardless of whether or not the canvas has focus. */
+	if (/*visible && */! GTK_WIDGET_HAS_FOCUS (entry->canvas))
 		return;
 
 	if (visible) {
