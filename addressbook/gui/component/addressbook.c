@@ -706,19 +706,21 @@ BonoboControl *
 addressbook_factory_new_control (void)
 {
 	AddressbookView *view;
+	GtkFrame *frame;
+
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
 
 	view = g_new0 (AddressbookView, 1);
 
-	view->vbox = gtk_vbox_new(FALSE, GNOME_PAD);
+	view->vbox = gtk_vbox_new (FALSE, 0);
 
-	gtk_container_set_border_width(GTK_CONTAINER(view->vbox), GNOME_PAD_SMALL);
-
-	gtk_signal_connect( GTK_OBJECT( view->vbox ), "destroy",
-			    GTK_SIGNAL_FUNC( destroy_callback ),
-			    ( gpointer ) view );
+	gtk_signal_connect (GTK_OBJECT (view->vbox), "destroy",
+			    GTK_SIGNAL_FUNC (destroy_callback),
+			    (gpointer) view);
 
 	/* Create the control. */
-	view->control = bonobo_control_new(view->vbox);
+	view->control = bonobo_control_new (view->vbox);
 
 	view->search = E_SEARCH_BAR(e_search_bar_new(addressbook_search_menu_items,
 						     addressbook_search_option_items));
@@ -730,24 +732,26 @@ addressbook_factory_new_control (void)
 			    GTK_SIGNAL_FUNC (addressbook_menu_activated), view);
 
 	view->view = E_ADDRESSBOOK_VIEW(e_addressbook_view_new());
-	gtk_box_pack_start(GTK_BOX(view->vbox), GTK_WIDGET(view->view),
-			   TRUE, TRUE, 0);
+	gtk_container_add (GTK_CONTAINER (frame), view->view);
+	gtk_box_pack_start (GTK_BOX (view->vbox), GTK_WIDGET(frame),
+			    TRUE, TRUE, 0);
 
 	/* create the initial view */
 	change_view_type (view, E_ADDRESSBOOK_VIEW_MINICARD);
 
-	gtk_widget_show( view->vbox );
-	gtk_widget_show( GTK_WIDGET(view->view) );
-	gtk_widget_show( GTK_WIDGET(view->search) );
+	gtk_widget_show (frame);
+	gtk_widget_show (view->vbox);
+	gtk_widget_show (GTK_WIDGET(view->view));
+	gtk_widget_show (GTK_WIDGET(view->search));
 
 	view->properties = bonobo_property_bag_new (get_prop, set_prop, view);
 
-	bonobo_property_bag_add (
-		view->properties, PROPERTY_FOLDER_URI, PROPERTY_FOLDER_URI_IDX,
-		BONOBO_ARG_STRING, NULL, _("The URI that the Folder Browser will display"), 0);
+	bonobo_property_bag_add (view->properties,
+				 PROPERTY_FOLDER_URI, PROPERTY_FOLDER_URI_IDX,
+				 BONOBO_ARG_STRING, NULL, _("The URI that the Folder Browser will display"), 0);
 
 	bonobo_control_set_properties (view->control,
-					 view->properties);
+				       view->properties);
 
 	gtk_signal_connect (GTK_OBJECT (view->view),
 			    "status_message",

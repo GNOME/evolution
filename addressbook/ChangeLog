@@ -1,5 +1,9 @@
 2001-08-02  Jason Leach  <jleach@ximian.com>
 
+	* gui/component/addressbook.c (addressbook_factory_new_control):
+	Removed some extra padding and pack the addressbook view into a
+	frame with inward shadowing, just because it looks prettier.
+
 	* gui/contact-editor/e-contact-editor.c: Use the updated Save,
 	Save As, and Print icons for the menus and toolbar.
 
