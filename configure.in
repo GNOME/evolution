@@ -1135,34 +1135,58 @@ dnl *******************
 dnl Special directories
 dnl *******************
 
-dnl --- If you add something here, you almost certainly need to add it
-dnl --- to evolution-shell.pc.in (or camel.pc.in) as well, for use by
-dnl --- connector and other external plugins.
+dnl --- If you add something here, consider whether or not you also
+dnl --- need to add it to one or more .pc.in files (for Connector,
+dnl --- etc)
 
 BASE_VERSION=`echo $VERSION | awk -F. '{print $1 "." $2;}'`
 AC_SUBST(BASE_VERSION)
 AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
 
-privlibdir='${libdir}'/evolution/${BASE_VERSION}
+privlibdir='${libdir}'/evolution/$BASE_VERSION
 AC_SUBST(privlibdir)
 
-privlibexecdir='${libexecdir}'/evolution/${BASE_VERSION}
+privlibexecdir='${libexecdir}'/evolution/$BASE_VERSION
 AC_SUBST(privlibexecdir)
+
+privdatadir='${datadir}'/evolution/$BASE_VERSION
+AC_SUBST(privdatadir)
+
+privincludedir='${includedir}'/evolution-$BASE_VERSION
+AC_SUBST(privincludedir)
 
 camel_providerdir="$privlibdir/camel-providers"
 AC_SUBST(camel_providerdir)
 
-idldir="$datadir/idl/evolution-$BASE_VERSION"
-AC_SUBST(idldir)
-
 componentdir="$privlibdir/components"
 AC_SUBST(componentdir)
 
-evolutionuidir="$datadir/evolution-$BASE_VERSION/ui"
+idldir="$datadir/idl/evolution-$BASE_VERSION"
+AC_SUBST(idldir)
+
+serverdir="$libdir/bonobo/servers"
+AC_SUBST(serverdir)
+
+evolutionuidir="$privdatadir/ui"
 AC_SUBST(evolutionuidir)
 
-iconsdir="$datadir/evolution-$BASE_VERSION/images"
-AC_SUBST(iconsdir)
+imagesdir="$privdatadir/images"
+AC_SUBST(imagesdir)
+
+buttonsdir="$privdatadir/images/buttons"
+AC_SUBST(buttonsdir)
+
+soundsdir="$privdatadir/sounds"
+AC_SUBST(soundsdir)
+
+gladedir="$privdatadir/glade"
+AC_SUBST(gladedir)
+
+etspecdir="$privdatadir/etspec"
+AC_SUBST(etspecdir)
+
+viewsdir="$privdatadir/views"
+AC_SUBST(viewsdir)
 
 ##################################################
 # Check for gtk-doc.
@@ -1244,20 +1268,6 @@ else
 fi
 AM_CONDITIONAL(HAVE_KDE_APPLNK, test x"$KDE_APPLNK_DIR" != x)
 AC_SUBST(KDE_APPLNK_DIR)
-
-dnl ***********************
-dnl foo for pkgconfig files
-dnl ***********************
-
-EVOLUTION_LIBDIR="-L${libdir}"
-EVOLUTION_DATADIR="${datadir}"
-EVOLUTION_INCLUDEDIR="-I${includedir}/evolution"
-CAMEL_INCLUDEDIR="-I${includedir}/camel"
-
-AC_SUBST(EVOLUTION_LIBDIR)
-AC_SUBST(EVOLUTION_DATADIR)
-AC_SUBST(EVOLUTION_INCLUDEDIR)
-AC_SUBST(CAMEL_INCLUDEDIR)
 
 dnl ******************************
 dnl Makefiles

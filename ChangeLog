@@ -1,9 +1,8 @@
 2003-02-05  Dan Winship  <danw@ximian.com>
 
-	* configure.in: define and AC_SUBST privlibexecdir.
-
-	* evolution-shell.pc.in: Add privlibexecdir, componentdir,
-	evolutionuidir, and iconsdir.
+	* configure.in: Define and AC_SUBST privlibexecdir, privdatadir,
+	privincludedir, serverdir, evolutionuidir, imagesdir, buttonsdir,
+	soundsdir, gladedir, etspecdir, and viewsdir.
 
 2003-02-04  Dan Winship  <danw@ximian.com>
 
