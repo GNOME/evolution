@@ -80,7 +80,8 @@ main (int argc, char *argv [])
 	e_cursors_init ();
 
 	component_factory_init ();
-	evolution_composer_factory_init ();
+	evolution_composer_factory_init (composer_send_cb,
+					 composer_postpone_cb);
 
 	signal (SIGSEGV, SIG_DFL);
 	signal (SIGBUS, SIG_DFL);
