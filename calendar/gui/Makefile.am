@@ -38,7 +38,8 @@ LINK_FLAGS =							\
 gladedir   = $(datadir)/evolution/glade
 
 glade_DATA = 					\
-	event-editor-dialog.glade
+	event-editor-dialog.glade		\
+	e-meeting-dialog.glade
 
 glade_messages = event-editor-dialog.glade.h
 
@@ -71,6 +72,8 @@ evolution_calendar_SOURCES =			\
 	e-week-view-titles-item.h		\
 	e-week-view.c				\
 	e-week-view.h				\
+	e-meeting-edit.h			\
+	e-meeting-edit.c			\
 	event-editor.c				\
 	event-editor.h				\
 	getdate.y				\

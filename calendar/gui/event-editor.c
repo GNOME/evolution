@@ -29,6 +29,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <cal-util/timeutil.h>
 #include "event-editor.h"
+#include "e-meeting-edit.h"
 
 
 
@@ -1147,14 +1148,28 @@ file_close_cb (GtkWidget *widget, gpointer data)
 	close_dialog (ee);
 }
 
-
+static void
+schedule_meeting_cb (GtkWidget *widget, gpointer data)
+{
+	EventEditor *ee;
+	EventEditorPrivate *priv;
+
+	ee = EVENT_EDITOR (data);
+
+	g_return_if_fail (IS_EVENT_EDITOR (ee));
+
+	priv = (EventEditorPrivate *)ee->priv;
+
+	e_meeting_edit (priv->comp, priv->client);
+}
+
+
+
+
 
 /* Menu bar */
 
 static GnomeUIInfo file_new_menu[] = {
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Appointment"), NULL, NULL),
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Meeting Re_quest"), NULL, NULL),
-	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Mail Message"), NULL, NULL),
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Contact"), NULL, NULL),
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Task"), NULL, NULL),
@@ -1297,8 +1312,7 @@ static GnomeUIInfo actions_menu[] = {
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Rec_urrence..."), NULL, NULL),
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Invite _Attendees..."), NULL, NULL),
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: C_ancel Invitation..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("Schedule _Meeting..."), NULL, schedule_meeting_cb),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Forward as v_Calendar"), NULL, NULL),
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: For_ward"), NULL, NULL),
