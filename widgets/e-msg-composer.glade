@@ -460,7 +460,7 @@
 
 	    <widget>
 	      <class>GtkPixmapMenuItem</class>
-	      <name>address_book</name>
+	      <name>menubar_address_dialog</name>
 	      <signal>
 		<name>activate</name>
 		<handler>on_address_book_activate</handler>
@@ -528,7 +528,8 @@
 	  <child_name>Toolbar:button</child_name>
 	  <name>toolbar_send</name>
 	  <tooltip>Send this message</tooltip>
-	  <label>Send</label>
+	  <label>Send
+</label>
 	  <stock_pixmap>GNOME_STOCK_PIXMAP_MAIL_SND</stock_pixmap>
 	</widget>
 
@@ -549,6 +550,16 @@ attachments</label>
 	  <tooltip>Attach a file</tooltip>
 	  <label>Attach
 file</label>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <child_name>Toolbar:button</child_name>
+	  <name>toolbar_address_dialog</name>
+	  <tooltip>Go to addressbook</tooltip>
+	  <label>Edit
+addresses</label>
+	  <stock_pixmap>GNOME_STOCK_PIXMAP_BOOK_RED</stock_pixmap>
 	</widget>
       </widget>
     </widget>

@@ -29,7 +29,7 @@ enum {
 	CHANGED,
 	LAST_SIGNAL
 };
-guint signals[LAST_SIGNAL] = { 0 };
+static guint signals[LAST_SIGNAL] = { 0 };
 
 static GtkObjectClass *parent_class = NULL;
 
@@ -90,7 +90,6 @@ real_changed (EMsgComposerAttachment *msg_composer_attachment)
 {
 	g_return_if_fail (msg_composer_attachment != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT (msg_composer_attachment));
-  
 }
 
 

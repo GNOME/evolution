@@ -1,6 +1,7 @@
 guidir = $(datadir)/evolution/gui
 
 gui_DATA =					\
+	e-msg-composer-address-dialog.glade	\
 	e-msg-composer-attachment.glade		\
 	e-msg-composer.glade
 
@@ -16,6 +17,8 @@ noinst_LTLIBRARIES =				\
 	libevolutionwidgets.la
 
 libevolutionwidgets_la_SOURCES =		\
+	e-msg-composer-address-dialog.c		\
+	e-msg-composer-address-dialog.h		\
 	e-msg-composer-address-entry.c		\
 	e-msg-composer-address-entry.h		\
 	e-msg-composer-attachment-bar.c		\

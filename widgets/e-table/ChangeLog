@@ -1,3 +1,27 @@
+1999-11-06  Ettore Perazzoli  <ettore@gnu.org>
+
+	* e-msg-composer-attachment-bar.c (destroy): Call the destroy
+	method of the parent class.
+
+	* e-msg-composer.c: #include "e-msg-composer-address-dialog.h".
+	(address_dialog_cb): New callback to start the address dialog.
+	(setup_signals): Connect it to the appropriate button/menu item.
+	(init): Initialize the new `address_dialog' member to NULL.
+	(destroy): Destroy the `address_dialog' if not NULL.
+
+	* e-msg-composer.h: New member `address_dialog' in `struct
+	_EMsgComposer'.
+
+	* e-msg-composer.glade: Added button to activate the address
+	composition dialog.
+
+	* e-msg-composer-address-dialog.h, e-msg-composer-address-dialog.c:
+	New files implementing the address composition dialog for Evolution.
+
+	* e-msg-composer-address-dialog.glade: New file.
+
+	* e-msg-composer-attachment.c: `signals' made static.
+
 1999-11-05  Ettore Perazzoli  <ettore@gnu.org>
 
 	* Makefile.am: Compile the new files in a `libevolutionwidgets'
@@ -20,6 +44,9 @@
 
 	* e-msg-composer-hdrs.c, e-msg-composer-hdrs.h: New files
 	implementing a widget for editing of email message headers.
+
+	* e-msg-composer-attachment.glade: New file.
+	* e-msg-composer.glade: New file.
 
 1999-10-31  Miguel de Icaza  <miguel@gnu.org>
 

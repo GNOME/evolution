@@ -369,6 +369,9 @@ destroy (GtkObject *object)
 	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (object);
 
 	free_attachment_list (bar);
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 

@@ -61,6 +61,8 @@ struct _EMsgComposer {
 	GtkWidget *attachment_bar;
 	GtkWidget *attachment_scrolled_window;
 
+	GtkWidget *address_dialog;
+
 	gboolean attachment_bar_visible : 1;
 };
 

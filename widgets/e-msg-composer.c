@@ -39,6 +39,7 @@
 #include <camel/camel.h>
 
 #include "e-msg-composer.h"
+#include "e-msg-composer-address-dialog.h"
 #include "e-msg-composer-attachment-bar.h"
 #include "e-msg-composer-hdrs.h"
 
@@ -121,7 +122,20 @@ show_attachments (EMsgComposer *composer,
 }
 
 
-/* Callbacks.  */
+/* Address dialog callbacks.  */
+
+static void
+address_dialog_destroy_cb (GtkWidget *widget,
+			   gpointer data)
+{
+	EMsgComposer *composer;
+
+	composer = E_MSG_COMPOSER (data);
+	composer->address_dialog = NULL;
+}
+
+
+/* Message composer window callbacks.  */
 
 static void
 send_cb (GtkWidget *widget,
@@ -161,6 +175,24 @@ add_attachment_cb (GtkWidget *widget,
 	e_msg_composer_attachment_bar_attach
 		(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
 		 NULL);
+}
+
+static void
+address_dialog_cb (GtkWidget *widget,
+		   gpointer data)
+{
+	EMsgComposer *composer;
+
+	composer = E_MSG_COMPOSER (data);
+	if (composer->address_dialog == NULL) {
+		composer->address_dialog = e_msg_composer_address_dialog_new ();
+		gtk_signal_connect (GTK_OBJECT (composer->address_dialog),
+				    "destroy", address_dialog_destroy_cb,
+				    composer);
+	}
+
+	gtk_widget_show (composer->address_dialog);
+	gdk_window_show (composer->address_dialog->window);
 }
 
 static void
@@ -218,6 +250,13 @@ setup_signals (EMsgComposer *composer)
 		       "clicked",
 		       GTK_SIGNAL_FUNC (add_attachment_cb), composer);
 
+	glade_connect (composer->menubar_gui, "menubar_address_dialog",
+		       "activate",
+		       GTK_SIGNAL_FUNC (address_dialog_cb), composer);
+	glade_connect (composer->toolbar_gui, "toolbar_address_dialog",
+		       "clicked",
+		       GTK_SIGNAL_FUNC (address_dialog_cb), composer);
+
 	gtk_signal_connect (GTK_OBJECT (composer->attachment_bar),
 			    "changed",
 			    GTK_SIGNAL_FUNC (attachment_bar_changed),
@@ -237,6 +276,9 @@ destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (composer->menubar_gui));
 	gtk_object_unref (GTK_OBJECT (composer->toolbar_gui));
 	gtk_object_unref (GTK_OBJECT (composer->appbar_gui));
+
+	if (composer->address_dialog != NULL)
+		gtk_widget_destroy (composer->address_dialog);
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -285,6 +327,8 @@ init (EMsgComposer *composer)
 	composer->text = NULL;
 	composer->text_scrolled_window = NULL;
 
+	composer->address_dialog = NULL;
+
 	composer->attachment_bar = NULL;
 	composer->attachment_scrolled_window = NULL;
 }
@@ -314,6 +358,12 @@ e_msg_composer_get_type (void)
 }
 
 
+/**
+ * e_msg_composer_construct:
+ * @composer: A message composer widget
+ * 
+ * Construct @composer.
+ **/
 void
 e_msg_composer_construct (EMsgComposer *composer)
 {
@@ -390,6 +440,13 @@ e_msg_composer_construct (EMsgComposer *composer)
 	setup_signals (composer);
 }
 
+/**
+ * e_msg_composer_new:
+ *
+ * Create a new message composer widget.
+ * 
+ * Return value: A pointer to the newly created widget
+ **/
 GtkWidget *
 e_msg_composer_new (void)
 {
