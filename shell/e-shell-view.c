@@ -822,8 +822,6 @@ new_folder_cb (EStorageSet *storage_set,
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
-	g_print ("%s %s -- delayed_selection %s\n", __FUNCTION__, path, priv->delayed_selection);
-
 	delayed_path = strchr (priv->delayed_selection, ':');
 	if (delayed_path) {
 		delayed_path ++;
@@ -2186,8 +2184,6 @@ create_new_view_for_uri (EShellView *shell_view,
 
 	priv = shell_view->priv;
 
-	g_print ("%s %s\n", __FUNCTION__, uri);
-
 	view = get_view_for_uri (shell_view, uri, view_info);
 	if (view == NULL)
 		return FALSE;
@@ -2202,8 +2198,6 @@ create_new_view_for_uri (EShellView *shell_view,
 	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), view->control);
 	g_assert (page_num != -1);
 	set_current_notebook_page (shell_view, page_num);
-
-	g_print ("%s set notebook page %d\n", __FUNCTION__, page_num);
 
 	g_hash_table_insert (priv->uri_to_view, view->uri, view);
 
