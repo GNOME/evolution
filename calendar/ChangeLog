@@ -1,3 +1,12 @@
+2000-10-30  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor.c (sync_entries): Do not take in an extra data
+	pointer.
+	(summary_changed_cb): Use a single call back to sync both entries.
+	(sync_date_edits): New function to sync two EDateEdit widgets.
+	(init_widgets): Connect the general and recurrence starting date
+	widgets.
+
 2000-10-27  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/event-editor.c (sync_entries): New function.

@@ -726,51 +726,55 @@ get_widgets (EventEditor *ee)
 		&& priv->recurrence_exception_delete);
 }
 
-/* Syncs the contents of two entry widgets, while blocking signals on the
- * specified data.
+/* Syncs the contents of two entry widgets, while blocking signals from each
+ * other.
  */
 static void
-sync_entries (GtkWidget *source, GtkWidget *dest, gpointer data)
+sync_entries (GtkEditable *source, GtkEditable *dest)
 {
 	char *str;
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (dest), data);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (dest), source);
 
-	str = gtk_editable_get_chars (GTK_EDITABLE (source), 0, -1);
+	str = gtk_editable_get_chars (source, 0, -1);
 	gtk_entry_set_text (GTK_ENTRY (dest), str);
 	g_free (str);
 
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (dest), data);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (dest), source);
 }
 
-/* Callback used when the general summary changes; we sync the recurrence
- * summary to it.
+/* Syncs the contents of two date editor widgets, while blocking signals from
+ * each other.
  */
 static void
-general_summary_changed_cb (GtkEditable *editable, gpointer data)
+sync_date_edits (EDateEdit *source, EDateEdit *dest)
 {
-	EventEditor *ee;
-	EventEditorPrivate *priv;
+	time_t t;
 
-	ee = EVENT_EDITOR (data);
-	priv = ee->priv;
+	gtk_signal_handler_block_by_data (GTK_OBJECT (dest), source);
 
-	sync_entries (priv->general_summary, priv->recurrence_summary, ee);
+	t = e_date_edit_get_time (source);
+	e_date_edit_set_time (dest, t);
+
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (dest), source);
 }
 
-/* Callback used when the recurrence summary changes; we sync the general
- * summary to it.
+/* Callback used when one of the general or recurrence summary entries change;
+ * we sync the other entry to it.
  */
 static void
-recurrence_summary_changed_cb (GtkEditable *editable, gpointer data)
+summary_changed_cb (GtkEditable *editable, gpointer data)
 {
-	EventEditor *ee;
-	EventEditorPrivate *priv;
+	sync_entries (editable, GTK_EDITABLE (data));
+}
 
-	ee = EVENT_EDITOR (data);
-	priv = ee->priv;
-
-	sync_entries (priv->recurrence_summary, priv->general_summary, ee);
+/* Callback used when one of the general or recurrence starting date widgets
+ * change; we sync the other date editor to it.
+ */
+static void
+start_date_changed_cb (EDateEdit *de, gpointer data)
+{
+	sync_date_edits (de, E_DATE_EDIT (data));
 }
 
 /* Hooks the widget signals */
@@ -785,9 +789,16 @@ init_widgets (EventEditor *ee)
 	/* Summary in the main and recurrence pages */
 
 	gtk_signal_connect (GTK_OBJECT (priv->general_summary), "changed",
-			    GTK_SIGNAL_FUNC (general_summary_changed_cb), ee);
+			    GTK_SIGNAL_FUNC (summary_changed_cb), priv->recurrence_summary);
 	gtk_signal_connect (GTK_OBJECT (priv->recurrence_summary), "changed",
-			    GTK_SIGNAL_FUNC (recurrence_summary_changed_cb), ee);
+			    GTK_SIGNAL_FUNC (summary_changed_cb), priv->general_summary);
+
+	/* Start dates in the main and recurrence pages */
+
+	gtk_signal_connect (GTK_OBJECT (priv->start_time), "date_changed",
+			    GTK_SIGNAL_FUNC (start_date_changed_cb), priv->recurrence_starting_date);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_starting_date), "date_changed",
+			    GTK_SIGNAL_FUNC (start_date_changed_cb), priv->start_time);
 
 	/* Start and end times */
 
