@@ -64,6 +64,7 @@
 #include <shell/evolution-shell-client.h>
 
 #include "Mailer.h"
+#include "mail/mail-importer.h"
 
 static char *nsmail_dir = NULL;
 static GHashTable *user_prefs = NULL;
@@ -94,8 +95,8 @@ typedef struct {
 	GList *dir_list;
 
 	int progress_count;
-	int num;
-	guint import_id;
+	int more;
+	EvolutionImporterResult result;
 
 	GNOME_Evolution_Importer importer;
 	EvolutionImporterListener *listener;
@@ -1728,26 +1729,6 @@ netscape_can_import (EvolutionIntelligentImporter *ii,
 	}
 }
 
-static gboolean
-importer_timeout_fn (gpointer data)
-{
-	NsImporter *importer = (NsImporter *) data;
-	CORBA_Object objref;
-	CORBA_Environment ev;
-
-	importer->import_id = 0;
-
-	CORBA_exception_init (&ev);
-	objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
-	GNOME_Evolution_Importer_processItem (importer->importer, objref, &ev);
-	CORBA_exception_free (&ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_warning ("Exception: %s", CORBA_exception_id (&ev));
-
-	return FALSE;
-}
-
 static void
 importer_cb (EvolutionImporterListener *listener,
 	     EvolutionImporterResult result,
@@ -1755,25 +1736,9 @@ importer_cb (EvolutionImporterListener *listener,
 	     void *data)
 {
 	NsImporter *importer = (NsImporter *) data;
-	
-	if (result == EVOLUTION_IMPORTER_NOT_READY ||
-	    result == EVOLUTION_IMPORTER_BUSY) {
-		g_timeout_add (1000, importer_timeout_fn, data);
-		return;
-	}
 
-	if (more_items) {
-		importer->progress_count++;
-		if ((importer->progress_count & 0xf) == 0)
-			gtk_progress_bar_pulse(GTK_PROGRESS_BAR(importer->progressbar));
-		importer->import_id = g_idle_add(importer_timeout_fn, importer);
-		return;
-	}
-
-	if (importer->dir_list)
-		import_next (importer);
-	else
-		bonobo_object_unref((BonoboObject *)importer->ii);
+	importer->result = result;
+	importer->more = more_items;
 }
 
 static gboolean
@@ -1784,9 +1749,9 @@ netscape_import_file (NsImporter *importer,
 	CORBA_boolean result;
 	CORBA_Environment ev;
 	CORBA_Object objref;
-	char *str;
+	char *str, *uri;
 
-	/* Do import */
+	/* Do import of mail folder */
 	d(g_warning ("Importing %s as %s", path, folderpath));
 
 	CORBA_exception_init (&ev);
@@ -1794,33 +1759,43 @@ netscape_import_file (NsImporter *importer,
 	str = g_strdup_printf (_("Importing %s as %s"), path, folderpath);
 	gtk_label_set_text (GTK_LABEL (importer->label), str);
 	g_free (str);
-	while (gtk_events_pending ()) {
-		gtk_main_iteration ();
-	}
+	while (g_main_context_iteration(NULL, FALSE))
+		;
 
-	result = GNOME_Evolution_Importer_loadFile (importer->importer, path, 
-						    folderpath, &ev);
+	uri = mail_importer_make_local_folder(folderpath);
+	if (!uri)
+		return FALSE;
+
+	result = GNOME_Evolution_Importer_loadFile (importer->importer, path, uri, &ev);
+	g_free(uri);
 	if (ev._major != CORBA_NO_EXCEPTION || result == FALSE) {
 		g_warning ("Exception here: %s", CORBA_exception_id (&ev));
 		CORBA_exception_free (&ev);
 		return FALSE;
 	}
 
-	importer->listener = evolution_importer_listener_new (importer_cb, 
-							      importer);
+	/* process all items in a direct loop */
+	importer->listener = evolution_importer_listener_new (importer_cb, importer);
 	objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
-	d(g_print ("%s:Processing...\n", G_GNUC_FUNCTION));
-	CORBA_exception_init (&ev);
-	GNOME_Evolution_Importer_processItem (importer->importer, 
-					      objref, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Exception: %s", CORBA_exception_id (&ev));
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
+	do {
+		importer->progress_count++;
+		if ((importer->progress_count & 0xf) == 0)
+			gtk_progress_bar_pulse(GTK_PROGRESS_BAR(importer->progressbar));
+
+		importer->result = -1;
+		GNOME_Evolution_Importer_processItem (importer->importer, objref, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Exception: %s", CORBA_exception_id (&ev));
+			break;
+		}
+
+		while (importer->result == -1 || g_main_context_pending(NULL))
+			g_main_context_iteration(NULL, TRUE);
+	} while (importer->more);
+	bonobo_object_unref((BonoboObject *)importer->listener);
 	CORBA_exception_free (&ev);
 
-	return TRUE;
+	return FALSE;
 }
 
 typedef struct {
@@ -1835,9 +1810,11 @@ import_next (NsImporter *importer)
 {
 	NetscapeCreateDirectoryData *data;
 
+trynext:
 	if (importer->dir_list) {
 		char *folder;
 		GList *l;
+		int ok;
 
 		l = importer->dir_list;
 		data = l->data;
@@ -1847,12 +1824,16 @@ import_next (NsImporter *importer)
 		importer->dir_list = l->next;
 		g_list_free_1(l);
 
-		netscape_import_file (importer, data->path, folder);
+		ok = netscape_import_file (importer, data->path, folder);
 		g_free (folder);
 		g_free (data->parent);
 		g_free (data->path);
 		g_free (data->foldername);
 		g_free (data);
+		if (!ok)
+			goto trynext;
+	} else {
+		bonobo_object_unref((BonoboObject *)importer->ii);
 	}
 }
 

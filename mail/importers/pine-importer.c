@@ -54,6 +54,8 @@
 #include <importer/evolution-importer-client.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
+#include "mail/mail-importer.h"
+
 #include <ebook/e-book.h>
 #include <ebook/e-card-simple.h>
 
@@ -74,6 +76,8 @@ typedef struct {
 	GList *dir_list;
 
 	int progress_count;
+	int more;
+	EvolutionImporterResult result;
 
 	GNOME_Evolution_Importer importer;
 	EvolutionImporterListener *listener;
@@ -84,9 +88,6 @@ typedef struct {
 	gboolean do_address;
 
 	EBook *book;
-
-	int timeout_id;
-	int more;
 
 	/* GUI */
 	GtkWidget *dialog;
@@ -258,33 +259,6 @@ import_addressbook (PineImporter *importer)
 	g_free (uri);
 }
 
-static gboolean
-importer_timeout_fn (gpointer data)
-{
-	PineImporter *importer = (PineImporter *) data;
-	CORBA_Environment ev;
-
-	importer->timeout_id = 0;
-
-	if (importer->more) {
-		importer->progress_count++;
-		if ((importer->progress_count & 0xf) == 0)
-			gtk_progress_bar_pulse(GTK_PROGRESS_BAR(importer->progressbar));
-
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Importer_processItem (importer->importer, bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener)), &ev);
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning ("Exception: %s", CORBA_exception_id (&ev));
-		CORBA_exception_free (&ev);
-	} else if (importer->dir_list) {
-		import_next (importer);
-	} else {
-		bonobo_object_unref (BONOBO_OBJECT (importer->ii));
-	}
-	
-	return FALSE;
-}
-
 static void
 importer_cb (EvolutionImporterListener *listener,
 	     EvolutionImporterResult result,
@@ -292,26 +266,9 @@ importer_cb (EvolutionImporterListener *listener,
 	     void *data)
 {
 	PineImporter *importer = (PineImporter *) data;
-	
-	if (result == EVOLUTION_IMPORTER_NOT_READY ||
-	    result == EVOLUTION_IMPORTER_BUSY) {
-		importer->more = more_items;
-		importer->timeout_id = gtk_timeout_add (1000, importer_timeout_fn, data);
-		return;
-	}
 
-	if (importer->timeout_id) {
-		/* we ignore multiple calls, we can get them if for
-		example we're waiting for a folder to open, yet we
-		tried to open the next.  Uh, this shouldn't happen
-		anyway, but ... */
-		return;
-	}
-
+	importer->result = result;
 	importer->more = more_items;
-
-	importer->timeout_id = g_idle_add(importer_timeout_fn, importer);
-	return;
 }
 
 static gboolean
@@ -323,36 +280,59 @@ pine_import_file (PineImporter *importer,
 	CORBA_boolean result;
 	CORBA_Environment ev;
 	CORBA_Object objref;
-	char *str;
+	char *str, *uri;
+	struct stat st;
 
 	CORBA_exception_init (&ev);
 
 	str = g_strdup_printf (_("Importing %s as %s"), path, folderpath);
 	gtk_label_set_text (GTK_LABEL (importer->label), str);
 	g_free (str);
-	while (gtk_events_pending ()) {
-		gtk_main_iteration ();
+	while (g_main_context_iteration(NULL, FALSE))
+		;
+
+	uri = mail_importer_make_local_folder(folderpath);
+	if (!uri)
+		return FALSE;
+
+	/* only create dirs, dont try to import them */
+	if (lstat(path, &st) == 0 && S_ISDIR(st.st_mode)) {
+		g_free(uri);
+		/* this is ok, we return false to say we haven't launched an async task */
+		return FALSE;
 	}
 
-	result = GNOME_Evolution_Importer_loadFile (importer->importer, path,
-						    folderpath, &ev);
+	result = GNOME_Evolution_Importer_loadFile (importer->importer, path, uri, &ev);
+	g_free(uri);
 	if (ev._major != CORBA_NO_EXCEPTION || result == FALSE) {
 		g_warning ("Exception here: %s\n%s, %s", CORBA_exception_id (&ev), path, folderpath);
 		CORBA_exception_free (&ev);
 		return FALSE;
 	}
 
-	importer->listener = evolution_importer_listener_new (importer_cb,
-							      importer);
+	/* process all items in a direct loop */
+	importer->listener = evolution_importer_listener_new (importer_cb, importer);
 	objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
-	GNOME_Evolution_Importer_processItem (importer->importer, objref, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Exception: %s", CORBA_exception_id (&ev));
-		CORBA_exception_free (&ev);
-	}
+	do {
+		importer->progress_count++;
+		if ((importer->progress_count & 0xf) == 0)
+			gtk_progress_bar_pulse(GTK_PROGRESS_BAR(importer->progressbar));
+
+		importer->result = -1;
+		GNOME_Evolution_Importer_processItem (importer->importer, objref, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Exception: %s", CORBA_exception_id (&ev));
+			break;
+		}
+
+		while (importer->result == -1 || g_main_context_pending(NULL))
+			g_main_context_iteration(NULL, TRUE);
+	} while (importer->more);
+	bonobo_object_unref((BonoboObject *)importer->listener);
+
 	CORBA_exception_free (&ev);
 
-	return TRUE;
+	return FALSE;
 }
 
 static gboolean
@@ -385,10 +365,12 @@ static void
 import_next (PineImporter *importer)
 {
 	PineFolder *data;
-
+	
+trynext:
 	if (importer->dir_list) {
 		char *folder;
 		GList *l;
+		int ok;
 
 		l = importer->dir_list;
 		data = l->data;
@@ -396,14 +378,18 @@ import_next (PineImporter *importer)
 		importer->dir_list = l->next;
 		g_list_free_1(l);
 
-		pine_import_file (importer, data->path, folder, data->folder);
+		ok = pine_import_file (importer, data->path, folder, data->folder);
+
 		g_free (folder);
 		g_free (data->parent);
 		g_free (data->path);
 		g_free (data->foldername);
 		g_free (data);
+		if (!ok)
+			goto trynext;
+	} else {
+		bonobo_object_unref((BonoboObject *)importer->ii);
 	}
-	
 }
 
 /* Pine uses sent-mail and saved-mail whereas Evolution uses Sent and Drafts */

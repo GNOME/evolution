@@ -120,19 +120,9 @@ process_item_fn (EvolutionImporter *eimporter,
 	const char *mozilla_status;
 
 	if (importer->folder == NULL) {
-		/* if it failed, need to say it failed ... */
-		/* the create_folder callback needs to store the create result */
-		/* here we need to pass FALSE for more items */
-		printf("not ready\n");
-		if (mbi->create_result == GNOME_Evolution_Storage_OK)
-			GNOME_Evolution_ImporterListener_notifyResult (listener,
-								       GNOME_Evolution_ImporterListener_NOT_READY,
-								       TRUE, ev);
-		else
-			GNOME_Evolution_ImporterListener_notifyResult (listener,
-								       GNOME_Evolution_ImporterListener_BAD_FILE,
-								       FALSE, ev);
-		return;
+		GNOME_Evolution_ImporterListener_notifyResult (listener,
+							       GNOME_Evolution_ImporterListener_BAD_FILE,
+							       FALSE, ev);
 	}
 
 	if (mbi->is_folder == TRUE) {
@@ -247,59 +237,14 @@ importer_destroy_cb (void *data, GObject *object)
 	g_free (mbi);
 }
 
-static void
-folder_created_cb (BonoboListener *listener,
-		   const char *event_name,
-		   const BonoboArg *event_data,
-		   CORBA_Environment *ev,
-		   MailImporter *importer)
-{
-	char *fullpath;
-	GNOME_Evolution_Storage_FolderResult *result;
-	CamelException *ex;
-
-	if (strcmp (event_name, "evolution-shell:folder_created") != 0) {
-		return; /* Unknown event */
-	}
-
-	result = event_data->_value;
-
-	printf("folder created cb, result = %d\n", result->result);
-	((MboxImporter *)importer)->create_result = result->result;
-
-	if (result->result != GNOME_Evolution_Storage_OK)
-		return;
-
-	fullpath = g_strconcat ("file://", result->path, NULL);
-
-	ex = camel_exception_new ();
-	importer->folder = mail_tool_uri_to_folder (fullpath, CAMEL_STORE_FOLDER_CREATE, ex);
-	if (camel_exception_is_set (ex)) {
-		g_warning ("Error opening %s", fullpath);
-		camel_exception_free (ex);
-
-		g_free (fullpath);
-		((MboxImporter *)importer)->create_result = GNOME_Evolution_Storage_GENERIC_ERROR;
-
-		return;
-	}
-
-	camel_folder_freeze (importer->folder);
-	importer->frozen = TRUE;
-
-	g_free (fullpath);
-	bonobo_object_unref (BONOBO_OBJECT (listener));
-}
-
 static gboolean
 load_file_fn (EvolutionImporter *eimporter,
 	      const char *filename,
-	      const char *folderpath,
+	      const char *uri,
 	      void *closure)
 {
 	MboxImporter *mbi;
 	MailImporter *importer;
-	gboolean delayed = FALSE;
 	struct stat buf;
 	int fd;
 
@@ -328,46 +273,12 @@ load_file_fn (EvolutionImporter *eimporter,
 	}
 
 	importer->mstream = NULL;
-	if (folderpath == NULL || *folderpath == '\0') {
+	if (uri == NULL || *uri == '\0')
 		importer->folder = mail_tool_get_local_inbox (NULL);
-	} else {
-		char *parent, *fullpath, *homedir;
-		const char *name;
-		BonoboListener *listener;
-		CamelException *ex;
-	
-		homedir = g_strdup_printf("file://%s/evolution/local", g_get_home_dir());
+	else
+		importer->folder = mail_tool_uri_to_folder(uri, 0, NULL);
 
-		fullpath = e_path_to_physical (homedir, folderpath);
-		ex = camel_exception_new ();
-		importer->folder = mail_tool_uri_to_folder (fullpath, 0, ex);
-		g_free (homedir);
-	
-		if (camel_exception_is_set (ex) || importer->folder == NULL) {
-			/* Make a new directory */
-			name = strrchr (folderpath, '/');
-			if (name == NULL) {
-				parent = g_strdup ("/");
-				name = folderpath;
-			} else {
-				name += 1;
-				parent = g_path_get_dirname (folderpath);
-			}
-			
-			listener = bonobo_listener_new (NULL, NULL);
-			g_signal_connect((listener), "event-notify",
-					 G_CALLBACK (folder_created_cb),
-					 importer);
-			mbi->create_result = GNOME_Evolution_Storage_OK;
-			mail_importer_create_folder (parent, name, NULL, listener);
-			delayed = importer->folder == NULL;
-			g_free (parent);
-		}
-		camel_exception_free (ex);
-		g_free (fullpath);
-	}
-
-	if (importer->folder == NULL && delayed == FALSE){
+	if (importer->folder == NULL) {
 		g_warning ("Bad folder\n");
 		goto fail;
 	}

@@ -224,7 +224,7 @@ importer_destroy_cb (void *data, GObject *object)
 static gboolean
 load_file_fn (EvolutionImporter *eimporter,
 	      const char *filename,
-	      const char *folderpath,
+	      const char *uri,
 	      void *closure)
 {
 	OutlookImporter *oli;
@@ -263,10 +263,10 @@ load_file_fn (EvolutionImporter *eimporter,
 
 	importer->mstream = NULL;
 
-	if (folderpath == NULL || *folderpath == '\0')
+	if (uri == NULL || *uri == 0)
 		importer->folder = mail_tool_get_local_inbox (NULL);
 	else
-		importer->folder = mail_tool_uri_to_folder (folderpath, CAMEL_STORE_FOLDER_CREATE, NULL);
+		importer->folder = mail_tool_uri_to_folder (uri, 0, NULL);
 
 	if (importer->folder == NULL){
 		g_warning ("Bad folder");

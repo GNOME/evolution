@@ -46,4 +46,8 @@ void mail_importer_create_folder (const char *parent_path,
 				  const char *name,
 				  const char *description,
 				  const BonoboListener *listener);
+
+/* creates a folder at folderpath on the local storage */
+char *mail_importer_make_local_folder(const char *folderpath);
+
 #endif

@@ -1,3 +1,49 @@
+2003-03-21  Not Zed  <NotZed@Ximian.com>
+
+	** for mail part of bug #38461.
+	
+	* importers/evolution-outlook-importer.c (load_file_fn): dont pass
+	in create flag to uri_to_folder, the folder must already exist.
+
+	* importers/evolution-mbox-importer.c (folder_created_cb):
+	Removed, we now force the caller to create the destination folder
+	first.
+	(load_file_fn): Dont try and create a folder if it doesn't exist.
+	Also, use the uri directly as the destination uri, so we can
+	import into any folder.
+	(process_item_fn): If we dont have a folder, thats just an error,
+	return BAD_FILE.
+
+	* importers/netscape-importer.c (netscape_import_file): As below
+	for elm_import_file.
+	(import_next): similarly as for pine import_next.
+	(importer_cb): just record result.
+	(importer_timeout_fn): removed.
+
+	* importers/pine-importer.c (import_next): Similar to below for
+	the elm import_next.
+	(pine_import_file): As below for elm_import_file.
+	(importer_timeout_fn): removed.
+	(importer_cb): just record the result, and exit.
+	(import_next): change around to behave more like the elm importer,
+	cleaning up when we're done.
+
+	* importers/elm-importer.c (elm_import_file): Create the
+	destination folder ourselves, dont pass it onto the mbox importer.
+	Simplify logic, just do the import within a while loop, polling
+	the g main loop as necessary, remove need for idle callbacks and
+	other crap.
+	(import_next): If elm_import_file fails, then just go straight to
+	the next folder, stops it falling in a heap.
+	(import_item_idle): removed.
+	(importer_cb): just record result/exit.
+
+	* mail-importer.c (mail_importer_create_folder): removed.
+	(mail_importer_make_local_folder): new function to create a
+	local-only folder from a path.  It runs synchronously by using a
+	recursive main loop.
+	(folder_created_cb): callback for make_local_folder.
+
 2003-03-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config-druid.c (mail_config_druid_new): Revert ettore's

@@ -52,6 +52,8 @@
 #include <importer/evolution-importer-client.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
+#include "mail/mail-importer.h"
+
 #define ELM_INTELLIGENT_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Elm_Intelligent_Importer_Factory"
 #define MBOX_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Mbox_Importer"
 #define KEY "elm-mail-imported"
@@ -68,13 +70,13 @@ typedef struct {
 
 	GList *dir_list;
 
-	int num;
 	int progress_count;
-	int import_id;
+	int more;
+	EvolutionImporterResult result;
 
 	GNOME_Evolution_Importer importer;
 	EvolutionImporterListener *listener;
-
+	
 	GtkWidget *mail;
 	gboolean do_mail;
 
@@ -129,26 +131,6 @@ elm_restore_settings (ElmImporter *importer)
 	importer->do_mail = gconf_client_get_bool (gconf, "/apps/evolution/importer/elm/mail", NULL);
 }
 
-static gboolean
-import_item_idle(void *data)
-{
-	ElmImporter *importer = data;
-	CORBA_Environment ev;
-
-	importer->import_id = 0;
-
-	CORBA_exception_init (&ev);
-	GNOME_Evolution_Importer_processItem (importer->importer,
-					      bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener)),
-					      &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_warning ("Exception: %s", CORBA_exception_id (&ev));
-
-	CORBA_exception_free (&ev);
-
-	return FALSE;
-}
-
 static void
 importer_cb (EvolutionImporterListener *listener,
 	     EvolutionImporterResult result,
@@ -156,16 +138,9 @@ importer_cb (EvolutionImporterListener *listener,
 	     void *data)
 {
 	ElmImporter *importer = (ElmImporter *) data;
-	
-	if (more_items) {
-		g_assert(importer->import_id == 0);
-		importer->progress_count++;
-		if ((importer->progress_count & 0xf) == 0)
-			gtk_progress_bar_pulse(GTK_PROGRESS_BAR(importer->progressbar));
-		importer->import_id = g_idle_add(import_item_idle, importer);
-	} else {
-		import_next (importer);
-	}
+
+	importer->result = result;
+	importer->more = more_items;
 }
 
 static gboolean
@@ -176,37 +151,60 @@ elm_import_file (ElmImporter *importer,
 	CORBA_boolean result;
 	CORBA_Environment ev;
 	CORBA_Object objref;
-	char *str;
-
-	CORBA_exception_init (&ev);
+	char *str, *uri;
+	struct stat st;
 
 	str = g_strdup_printf (_("Importing %s as %s"), path, folderpath);
 	gtk_label_set_text (GTK_LABEL (importer->label), str);
 	g_free (str);
-	while (gtk_events_pending ()) {
-		gtk_main_iteration ();
+	while (g_main_context_iteration(NULL, FALSE))
+		;
+
+	uri = mail_importer_make_local_folder(folderpath);
+	if (!uri)
+		return FALSE;
+
+	/* if its a dir, we just create it, but dont add anything */
+	if (lstat(path, &st) == 0 && S_ISDIR(st.st_mode)) {
+		g_free(uri);
+		/* this is ok, we return false to say we haven't launched an async task */
+		return FALSE;
 	}
 
-	result = GNOME_Evolution_Importer_loadFile (importer->importer, path,
-						    folderpath, &ev);
+	CORBA_exception_init(&ev);
+
+	result = GNOME_Evolution_Importer_loadFile (importer->importer, path, uri, &ev);
+	g_free(uri);
 	if (ev._major != CORBA_NO_EXCEPTION || result == FALSE) {
 		g_warning ("Exception here: %s", CORBA_exception_id (&ev));
 		CORBA_exception_free (&ev);
 		return FALSE;
 	}
 
-	importer->listener = evolution_importer_listener_new (importer_cb,
-							      importer);
+	/* process all items in a direct loop */
+	importer->listener = evolution_importer_listener_new (importer_cb, importer);
 	objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
-	GNOME_Evolution_Importer_processItem (importer->importer, objref, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Exception: %s", CORBA_exception_id (&ev));
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
+	do {
+		importer->progress_count++;
+		if ((importer->progress_count & 0xf) == 0)
+			gtk_progress_bar_pulse(GTK_PROGRESS_BAR(importer->progressbar));
+
+		importer->result = -1;
+		GNOME_Evolution_Importer_processItem (importer->importer, objref, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Exception: %s", CORBA_exception_id (&ev));
+			break;
+		}
+
+		while (importer->result == -1 || g_main_context_pending(NULL))
+			g_main_context_iteration(NULL, TRUE);
+	} while (importer->more);
+
+	bonobo_object_unref((BonoboObject *)importer->listener);
+
 	CORBA_exception_free (&ev);
 
-	return TRUE;
+	return FALSE;
 }
 
 static void
@@ -346,9 +344,11 @@ import_next (ElmImporter *importer)
 {
 	ElmFolder *data;
 
+trynext:
 	if (importer->dir_list) {
 		char *folder;
 		GList *l;
+		int ok;
 
 		l = importer->dir_list;
 		data = l->data;
@@ -357,13 +357,16 @@ import_next (ElmImporter *importer)
 
 		importer->dir_list = l->next;
 		g_list_free_1(l);
-
-		elm_import_file (importer, data->path, folder);
+		
+		ok = elm_import_file (importer, data->path, folder);
 		g_free (folder);
 		g_free (data->parent);
 		g_free (data->path);
 		g_free (data->foldername);
 		g_free (data);
+		/* its ugly, but so is everything else in this file */
+		if (!ok)
+			goto trynext;
 	} else {
 		bonobo_object_unref((BonoboObject *)importer->ii);
 	}
