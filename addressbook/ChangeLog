@@ -1,3 +1,9 @@
+2004-01-07  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/component/addressbook-component.c: Move the smime_component_init
+	call to the instance init callback, rather than the class init, and
+	wrap it in #if HAVE_NSS, so the addressbook works without smime support
+
 2004-01-07  JP Rosevear <jpr@ximian.com>
 
 	* gui/component/Makefile.am: link in printer stuff

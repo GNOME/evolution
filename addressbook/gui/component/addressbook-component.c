@@ -431,8 +431,6 @@ addressbook_component_class_init (AddressbookComponentClass *class)
 	object_class->finalize = impl_finalize;
 
 	parent_class = g_type_class_peek_parent (class);
-
-	smime_component_init ();
 }
 
 static void
@@ -453,6 +451,10 @@ addressbook_component_init (AddressbookComponent *component)
 	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
 
 	component->priv = priv;
+
+#if HAVE_NSS
+	smime_component_init ();
+#endif
 }
 
 
