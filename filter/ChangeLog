@@ -1,3 +1,8 @@
+2000-10-19  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-driver.c (filter_driver_filter_folder): Start fetching at
+	1, not 0.
+
 2000-10-11  Not Zed  <NotZed@HelixCode.com>
 
 	* filter-driver.c (filter_driver_filter_mbox): Report the
