@@ -221,11 +221,12 @@ _check_get_or_maybe_generate_summary_file (CamelMboxFolder *mbox_folder,
 	folder->summary = NULL;
 
 	/* Test for the existence and up-to-dateness of the summary file. */
-	if (stat (mbox_folder->summary_file_path, &st) == 0) {
+	if (access (mbox_folder->summary_file_path, F_OK) == 0) {
 		summ = camel_mbox_summary_load (mbox_folder->summary_file_path,
 						ex);
 		if (summ) {
-			if (summ->mbox_file_size == st.st_size &&
+			if (stat (mbox_folder->folder_file_path, &st) == 0 &&
+			    summ->mbox_file_size == st.st_size &&
 			    summ->mbox_modtime == st.st_mtime)
 				folder->summary = CAMEL_FOLDER_SUMMARY (summ);
 			else
@@ -318,6 +319,8 @@ static void
 _close (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
+	CamelMboxSummary *mbox_summary = CAMEL_MBOX_SUMMARY (folder->summary);
+	struct stat st;
 
 	/* call parent implementation */
 	parent_class->close (folder, expunge, ex);
@@ -327,8 +330,12 @@ _close (CamelFolder *folder, gboolean expunge, CamelException *ex)
 		ibex_close(mbox_folder->index);
 	}
 
-	/* save the folder summary on disk */
-	camel_mbox_summary_save (CAMEL_MBOX_SUMMARY (folder->summary),
+	/* Update the summary and save it to disk */
+	if (stat (mbox_folder->folder_file_path, &st) == 0) {
+		mbox_summary->mbox_file_size = st.st_size;
+		mbox_summary->mbox_modtime = st.st_mtime;
+	}
+	camel_mbox_summary_save (mbox_summary,
 				 mbox_folder->summary_file_path, ex);
 }
 

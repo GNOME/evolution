@@ -174,6 +174,7 @@ camel_mbox_summary_save (CamelMboxSummary *summary, const gchar *filename,
 	gint fd;
 	gint write_result; /* XXX use this */
 	guint32 data;
+	struct stat st;
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::save_summary entering \n");
 
@@ -192,16 +193,16 @@ camel_mbox_summary_save (CamelMboxSummary *summary, const gchar *filename,
 	 * that makes sense, but because it's easy.
 	 */
 
-	data = htons (CAMEL_MBOX_SUMMARY_VERSION);
+	data = htonl (CAMEL_MBOX_SUMMARY_VERSION);
 	write (fd, &data, sizeof (data));
 
-	data = htons (summary->nb_message);
+	data = htonl (summary->nb_message);
 	write (fd, &data, sizeof (data));
-	data = htons (summary->next_uid);
+	data = htonl (summary->next_uid);
 	write (fd, &data, sizeof (data));
-	data = htons (summary->mbox_file_size);
+	data = htonl (summary->mbox_file_size);
 	write (fd, &data, sizeof (data));
-	data = htons (summary->mbox_modtime);
+	data = htonl (summary->mbox_modtime);
 	write (fd, &data, sizeof (data));
 
 	for (cur_msg = 0; cur_msg < summary->nb_message; cur_msg++) {
@@ -209,62 +210,67 @@ camel_mbox_summary_save (CamelMboxSummary *summary, const gchar *filename,
 			(summary->message_info->data) + cur_msg;
 
 		/* Write meta-info. */
-		data = htons (msg_info->position);
+		data = htonl (msg_info->position);
 		write (fd, &data, sizeof (data));
-		data = htons (msg_info->size);
+		data = htonl (msg_info->size);
 		write (fd, &data, sizeof (data));
-		data = htons (msg_info->x_evolution_offset);
+		data = htonl (msg_info->x_evolution_offset);
 		write (fd, &data, sizeof (data));
-		data = htons (msg_info->uid);
+		data = htonl (msg_info->uid);
 		write (fd, &data, sizeof (data));
 		write (fd, &msg_info->status, 1);
 
 		/* Write subject. */
 		if (msg_info->headers.subject)
-			field_length = htons (strlen (msg_info->headers.subject));
+			field_length = strlen (msg_info->headers.subject);
 		else
 			field_length = 0;
-		write (fd, &field_length, sizeof (field_length));
+		data = htonl (field_length);
+		write (fd, &data, sizeof (data));
 		if (msg_info->headers.subject)
 			write (fd, msg_info->headers.subject, field_length);
 
 		/* Write sender. */
 		if (msg_info->headers.sender)
-			field_length = htons (strlen (msg_info->headers.sender));
+			field_length = strlen (msg_info->headers.sender);
 		else
 			field_length = 0;
-		write (fd, &field_length, sizeof (field_length));
+		data = htonl (field_length);
+		write (fd, &data, sizeof (data));
 		if (msg_info->headers.sender)
 			write (fd, msg_info->headers.sender, field_length);
 
 		/* Write to. */
 		if (msg_info->headers.to)
-			field_length = htons (strlen (msg_info->headers.to));
+			field_length = strlen (msg_info->headers.to);
 		else
 			field_length = 0;
-		write (fd, &field_length, sizeof (field_length));
+		data = htonl (field_length);
+		write (fd, &data, sizeof (data));
 		if (msg_info->headers.to)
 			write (fd, msg_info->headers.to, field_length);
 
 		/* Write sent date. */
 		if (msg_info->headers.sent_date)
-			field_length = htons (strlen (msg_info->headers.sent_date));
+			field_length = strlen (msg_info->headers.sent_date);
 		else
 			field_length = 0;
-		write (fd, &field_length, sizeof (field_length));
+		data = htonl (field_length);
+		write (fd, &data, sizeof (data));
 		if (msg_info->headers.sent_date)
 			write (fd, msg_info->headers.sent_date, field_length);
 
 		/* Write received date. */
 		if (msg_info->headers.received_date)
-			field_length = htons (strlen (msg_info->headers.received_date));
+			field_length = strlen (msg_info->headers.received_date);
 		else
 			field_length = 0;
-		write (fd, &field_length, sizeof (field_length));
+		data = htonl (field_length);
+		write (fd, &data, sizeof (data));
 		if (msg_info->headers.received_date)
 			write (fd, msg_info->headers.received_date, field_length);
 	}
-		
+
 	close (fd);
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::save_summary leaving \n");
@@ -305,7 +311,7 @@ camel_mbox_summary_load (const gchar *filename, CamelException *ex)
 
 	/* Verify version number. */
 	read (fd, &data, sizeof(data));
-	data = ntohs (data);
+	data = ntohl (data);
 
 	if (data != CAMEL_MBOX_SUMMARY_VERSION) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_SUMMARY_INVALID,
@@ -319,13 +325,13 @@ camel_mbox_summary_load (const gchar *filename, CamelException *ex)
 	summary = CAMEL_MBOX_SUMMARY (gtk_object_new (camel_mbox_summary_get_type (), NULL));
 
 	read (fd, &data, sizeof(data));
-	summary->nb_message = ntohs (data);
+	summary->nb_message = ntohl (data);
 	read (fd, &data, sizeof(data));
-	summary->next_uid = ntohs (data);
+	summary->next_uid = ntohl (data);
 	read (fd, &data, sizeof(data));
-	summary->mbox_file_size = ntohs (data);
+	summary->mbox_file_size = ntohl (data);
 	read (fd, &data, sizeof(data));
-	summary->mbox_modtime = ntohs (data);
+	summary->mbox_modtime = ntohl (data);
 
 	summary->message_info =
 		g_array_new (FALSE, FALSE,
@@ -338,20 +344,19 @@ camel_mbox_summary_load (const gchar *filename, CamelException *ex)
 
 		/* Read the meta-info. */
 		read (fd, &data, sizeof(data));
-		msg_info->position = ntohs (data);
+		msg_info->position = ntohl (data);
 		read (fd, &data, sizeof(data));
-		msg_info->size = ntohs (data);
+		msg_info->size = ntohl (data);
 		read (fd, &data, sizeof(data));
-		msg_info->x_evolution_offset = ntohs (data);
-		read (fd, &(msg_info->status), 1);
+		msg_info->x_evolution_offset = ntohl (data);
 		read (fd, &data, sizeof(data));
-		msg_info->uid = ntohs (data);
+		msg_info->uid = ntohl (data);
 		msg_info->headers.uid = g_strdup_printf ("%d", msg_info->uid);
 		read (fd, &msg_info->status, 1);
 
 		/* Read the subject. */
 		read (fd, &field_length, sizeof (field_length));
-		field_length = ntohs (field_length);
+		field_length = ntohl (field_length);
 		if (field_length > 0) {			
 			msg_info->headers.subject =
 				g_new0 (gchar, field_length + 1);
@@ -361,7 +366,7 @@ camel_mbox_summary_load (const gchar *filename, CamelException *ex)
 		
 		/* Read the sender. */
 		read (fd, &field_length, sizeof (field_length));
-		field_length = ntohs (field_length);
+		field_length = ntohl (field_length);
 		if (field_length > 0) {			
 			msg_info->headers.sender =
 				g_new0 (gchar, field_length + 1);
@@ -371,7 +376,7 @@ camel_mbox_summary_load (const gchar *filename, CamelException *ex)
 		
 		/* Read the "to" field. */
 		read (fd, &field_length, sizeof (field_length));
-		field_length = ntohs (field_length);
+		field_length = ntohl (field_length);
 		if (field_length > 0) {			
 			msg_info->headers.to =
 				g_new0 (gchar, field_length + 1);
@@ -381,7 +386,7 @@ camel_mbox_summary_load (const gchar *filename, CamelException *ex)
 
 		/* Read the sent date field. */
 		read (fd, &field_length, sizeof (field_length));
-		field_length = ntohs (field_length);
+		field_length = ntohl (field_length);
 		if (field_length > 0) {			
 			msg_info->headers.sent_date =
 				g_new0 (gchar, field_length + 1);
@@ -391,7 +396,7 @@ camel_mbox_summary_load (const gchar *filename, CamelException *ex)
 
 		/* Read the received date field. */
 		read (fd, &field_length, sizeof (field_length));
-		field_length = ntohs (field_length);
+		field_length = ntohl (field_length);
 		if (field_length > 0) {			
 			msg_info->headers.received_date =
 				g_new0 (gchar, field_length + 1);

@@ -1,3 +1,28 @@
+2000-04-01  Dan Winship  <danw@helixcode.com>
+
+	* providers/mbox/camel-mbox-folder.c
+	(_check_get_or_maybe_generate_summary_file): Compare
+	mbox_file_size and mbox_modtime to the results of stat()ing the
+	mbox file, not the summary file. Duh.
+	(_close): Update the summary's mbox_file_size and mbox_modtime
+	before writing it to disk.
+
+	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_save,
+	camel_mbox_summary_load): Wow. I must have been tired when I wrote
+	this code. First, the comparison bug above. Second, it was using
+	ntohs and htons instead of ntohl and htonl. Third, I was reading
+	the status flag byte in two different places and thus getting out
+	of sync. Fourth, it was writing out field_length bytes of each
+	header field after having converted field_length to network byte
+	order, resulting in lots of random crap being appended, and the
+	summary files being huge. (Fortunately, since the size/modtime
+	comparison was biffed, the garbage summary read from disk was
+	always immediately discarded.)
+
+	* providers/mbox/camel-mbox-parser.c (camel_mbox_parse_file): fix
+	an off-by-one error that caused the last-used UID to be reused if
+	the summary file was regenerated. (That one wasn't my fault. :-)
+
 2000-03-31  Dan Winship  <danw@helixcode.com>
 
 	* camel-stream-mem.c: implement unimplemented methods

@@ -584,20 +584,29 @@ read_message_begining (CamelMboxPreParser *parser, gchar **message_summary)
 /**
  * camel_mbox_parse_file: read an mbox file and parse it. 
  * @fd: file descriptor opened on the mbox file.
- * @message_delimiter: character string delimiting the beginig of a new message 
- * @start_position: poition in the file where to start the parsing. 
- * @get_message_summary: should the parser retrieve the begining of the messages
- * @status_callback: function to call peridically to indicate the progress of the parser
- * @status_interval: floating value between 0 and 1 indicate how often to call @status_callback. 
+ * @message_delimiter: character string delimiting the beginig of a
+ * new message
+ * @start_position: position in the file where to start the parsing. 
+ * @file_size: on output, the size in bytes of the file
+ * @next_uid: on output, the next uid available for use
+ * @get_message_summary: should the parser retrieve the begining of
+ * the messages
+ * @status_callback: function to call peridically to indicate the
+ * progress of the parser
+ * @status_interval: floating value between 0 and 1 indicate how often
+ * to call @status_callback.
  * @user_data: user data that will be passed to the callback function
  * 
- * This routine parses an mbox file and retreives both the message starting positions and 
- * some of the informations contained in the message. Those informations are mainly 
- * some RFC822 headers values but also (optionally) the first characters of the mail 
- * body. The @get_message_summary parameter allows to enable or disable this option.
+ * This routine parses an mbox file and retreives both the message
+ * starting positions and some of the informations contained in the
+ * message. Those informations are mainly some RFC822 headers values
+ * but also (optionally) the first characters of the mail body. The
+ * @get_message_summary parameter allows to enable or disable this
+ * option.
  * 
  * 
- * Return value: An array of CamelMboxParserMessageInfo containing the informations on each message parsed in the file
+ * Return value: An array of CamelMboxParserMessageInfo containing the
+ * informations on each message parsed in the file
  **/
 GArray *
 camel_mbox_parse_file (int fd, 
@@ -766,7 +775,7 @@ camel_mbox_parse_file (int fd,
 											 G_STRUCT_OFFSET (CamelMboxPreParser, current_message_info) + 
 											 G_STRUCT_OFFSET (CamelMboxParserMessageInfo, status)));
 					g_free (x_ev_header_content);
-					next_available_uid = MAX (next_available_uid, parser->current_message_info.uid);
+					next_available_uid = MAX (next_available_uid, parser->current_message_info.uid + 1);
 					
 					newline = TRUE;
 					continue;
