@@ -14192,14 +14192,12 @@ msgid "Asuncion"
 msgstr "Ρεουνιόν"
 
 #: my-evolution/Locations.h:141
-#, fuzzy
 msgid "Athens"
-msgstr "Επισυνάψεις"
+msgstr "Αθήνα"
 
 #: my-evolution/Locations.h:142
-#, fuzzy
 msgid "Athinai"
-msgstr "Κίνα"
+msgstr "Αθήνα"
 
 #: my-evolution/Locations.h:143
 #, fuzzy
@@ -18608,9 +18606,8 @@ msgid "Laredo"
 msgstr "_Μεγαλύτερο"
 
 #: my-evolution/Locations.h:1183
-#, fuzzy
 msgid "Larnaka"
-msgstr "Σρι Λάνκα"
+msgstr "Λάρνακα"
 
 #: my-evolution/Locations.h:1184
 #, fuzzy
@@ -20797,9 +20794,8 @@ msgid "Papa"
 msgstr "Ιαπωνία"
 
 #: my-evolution/Locations.h:1686
-#, fuzzy
 msgid "Paphos"
-msgstr "Λάος"
+msgstr "Πάφος"
 
 #: my-evolution/Locations.h:1688
 #, fuzzy
@@ -23225,7 +23221,7 @@ msgstr "Σεϋχέλλες"
 
 #: my-evolution/Locations.h:2245
 msgid "Thessaloniki"
-msgstr ""
+msgstr "Θεσσαλονίκη"
 
 #: my-evolution/Locations.h:2246
 msgid "Thief River Falls"
