@@ -329,6 +329,10 @@ AlarmNotify_removeCalendar (PortableServer_Servant servant,
 	g_hash_table_remove (priv->uri_client_hash, str_uri);
 
 	g_free (orig_str);
+	gtk_signal_disconnect_by_data (GTK_OBJECT (lc->client), lc);
+	if (lc->timeout_id != -1)
+		g_source_remove (lc->timeout_id);
+	alarm_queue_remove_client (lc->client);
 	gtk_object_unref (GTK_OBJECT (lc->client));
 	e_uri_free (lc->uri);
 	g_free (lc);
@@ -426,6 +430,9 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 	}
 
 	if (g_hash_table_lookup_extended (priv->uri_client_hash, str_uri, &s, &lc)) {
+		g_hash_table_remove (priv->uri_client_hash, str_uri);
+
+		gtk_signal_disconnect_by_data (GTK_OBJECT (lc->client), lc);
 		if (lc->timeout_id != -1)
 			g_source_remove (lc->timeout_id);
 		alarm_queue_remove_client (lc->client);
@@ -451,6 +458,7 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 			lc->client = client;
 			lc->uri = uri;
 			lc->refcount = 1;
+			lc->timeout_id = -1;
 			g_hash_table_insert (priv->uri_client_hash,
 					     g_strdup (str_uri), lc);
 
