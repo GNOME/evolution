@@ -27,7 +27,7 @@
 #ifndef ICALCSTPS_H
 #define ICALCSTPS_H
 
-#include <libical/ical.h>
+#include "ical.h"
 
 
 /********************** Server (Reciever) Interfaces *************************/

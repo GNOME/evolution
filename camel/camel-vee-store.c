@@ -37,6 +37,8 @@ static void vee_delete_folder(CamelStore *store, const char *folder_name, CamelE
 static void vee_rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex);
 static void vee_init_trash (CamelStore *store);
 static CamelFolder *vee_get_trash  (CamelStore *store, CamelException *ex);
+static void vee_init_junk (CamelStore *store);
+static CamelFolder *vee_get_junk  (CamelStore *store, CamelException *ex);
 
 static CamelFolderInfo *vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelException *ex);
 
@@ -80,6 +82,8 @@ camel_vee_store_class_init (CamelVeeStoreClass *klass)
 
 	store_class->init_trash = vee_init_trash;
 	store_class->get_trash = vee_get_trash;
+	store_class->init_junk = vee_init_junk;
+	store_class->get_junk = vee_get_junk;
 }
 
 static void
@@ -87,8 +91,8 @@ camel_vee_store_init (CamelVeeStore *obj)
 {
 	CamelStore *store = (CamelStore *)obj;
 
-	/* we dont want a vtrash on this one */
-	store->flags &= ~(CAMEL_STORE_VTRASH);	
+	/* we dont want a vtrash/vjunk on this one */
+	store->flags &= ~(CAMEL_STORE_VTRASH | CAMEL_STORE_VJUNK);	
 }
 
 static void
@@ -183,6 +187,19 @@ vee_get_trash (CamelStore *store, CamelException *ex)
 	return NULL;
 }
 
+static void
+vee_init_junk (CamelStore *store)
+{
+	/* no-op */
+	;
+}
+
+static CamelFolder *
+vee_get_junk (CamelStore *store, CamelException *ex)
+{
+	return NULL;
+}
+
 static CamelFolderInfo *
 vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
@@ -268,6 +285,8 @@ vee_delete_folder(CamelStore *store, const char *folder_name, CamelException *ex
 
 		if (store->vtrash)
 			camel_vee_folder_remove_folder((CamelVeeFolder *)store->vtrash, folder);
+		if (store->vjunk)
+			camel_vee_folder_remove_folder((CamelVeeFolder *)store->vjunk, folder);
 
 		if ((((CamelVeeFolder *)folder)->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0) {
 			/* what about now-empty parents?  ignore? */

@@ -27,6 +27,7 @@
            <group title="Evolution shortcuts">
 	           <item name="Inbox" type="mail">evolution:/local/Inbox</item>
 	           <item name="Trash" type="vtrash">evolution:/local/Trash</item>
+	           <item name="Spam" type="vspam">evolution:/local/Spam</item>
 	           <item name="Calendar" type="calendar">evolution:/local/Calendar</item>
 	   </group>
 

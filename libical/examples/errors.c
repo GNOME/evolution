@@ -1,6 +1,6 @@
 /* errors.c */
 
-#include <libical/ical.h>
+#include "ical.h"
 #include <stdio.h>
 
 void program_errors()

@@ -83,6 +83,7 @@ typedef struct _CamelRenameInfo {
 #define CAMEL_STORE_SUBSCRIPTIONS	(1 << 0)
 #define CAMEL_STORE_VTRASH		(1 << 1)
 #define CAMEL_STORE_FILTER_INBOX	(1 << 2)
+#define CAMEL_STORE_VJUNK		(1 << 3)
 
 struct _CamelStore
 {
@@ -90,6 +91,7 @@ struct _CamelStore
 	struct _CamelStorePrivate *priv;
 	
 	CamelFolder *vtrash;
+	CamelFolder *vjunk;
 	
 	CamelObjectBag *folders;
 
@@ -126,6 +128,9 @@ typedef struct {
 	
 	void            (*init_trash)               (CamelStore *store);
 	CamelFolder *   (*get_trash)                (CamelStore *store,
+						     CamelException *ex);
+	void            (*init_junk)                (CamelStore *store);
+	CamelFolder *   (*get_junk)                 (CamelStore *store,
 						     CamelException *ex);
 	
 	CamelFolderInfo *(*create_folder)           (CamelStore *store,
@@ -174,6 +179,8 @@ CamelFolder *    camel_store_get_folder         (CamelStore *store,
 CamelFolder *    camel_store_get_inbox          (CamelStore *store,
 						 CamelException *ex);
 CamelFolder *    camel_store_get_trash          (CamelStore *store,
+						 CamelException *ex);
+CamelFolder *    camel_store_get_junk           (CamelStore *store,
 						 CamelException *ex);
 
 CamelFolderInfo *camel_store_create_folder      (CamelStore *store,

@@ -97,6 +97,13 @@
     <cmd name="MessageMarkAsUnimportant"
      _tip="Mark the selected message(s) as unimportant"/>
 
+    <cmd name="MessageMarkAsJunk"
+     _tip="Mark the selected message(s) as junk"
+     pixtype="pixbuf"/>
+
+    <cmd name="MessageMarkAsNoJunk"
+     _tip="Mark the selected message(s) as not being junk"/>
+
     <cmd name="MessageMove"
      _tip="Move selected message(s) to another folder"
      accel="*Control**Shift*v"
@@ -268,6 +275,8 @@
           <menuitem name="MessageMarkAsUnRead" verb="" _label="Mark as U_nread"/>
           <menuitem name="MessageMarkAsImportant" verb="" _label="Mark as I_mportant"/>
           <menuitem name="MessageMarkAsUnimportant" verb="" _label="Mark as Unimp_ortant"/>
+          <menuitem name="MessageMarkAsJunk" verb="" _label="Mark as _Junk"/>
+          <menuitem name="MessageMarkAsNojunk" verb="" _label="Mark as _Not Junk"/>
         </placeholder>
       </submenu>
     </placeholder>

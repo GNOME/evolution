@@ -245,7 +245,8 @@ em_popup_create_menu(EMPopup *emp, guint32 hide_mask, guint32 disable_mask)
 		if (tmp) {
 			g_string_append_len(ppath, item->path, tmp-item->path);
 			thismenu = g_hash_table_lookup(menu_hash, ppath->str);
-			g_assert(thismenu != NULL);
+			if (thismenu == NULL)
+				continue;
 		} else {
 			thismenu = topmenu;
 		}
@@ -353,8 +354,7 @@ em_popup_create_menu_once(EMPopup *emp, EMPopupTarget *target, guint32 hide_mask
 
 	menu = em_popup_create_menu(emp, hide_mask, disable_mask);
 
-	if (target)
-		g_signal_connect_swapped(menu, "selection_done", G_CALLBACK(em_popup_target_free), target);
+	g_signal_connect_swapped(menu, "selection_done", G_CALLBACK(em_popup_target_free), target);
 	g_signal_connect(menu, "selection_done", G_CALLBACK(emp_popup_done), emp);
 
 	return menu;
@@ -459,6 +459,11 @@ em_popup_target_new_select(struct _CamelFolder *folder, const char *folder_uri, 
 			mask &= ~EM_POPUP_SELECT_MARK_UNIMPORTANT;
 		else
 			mask &= ~EM_POPUP_SELECT_MARK_IMPORTANT;
+
+		if (info->flags & CAMEL_MESSAGE_JUNK)
+			mask &= ~EM_POPUP_SELECT_MARK_NOJUNK;
+		else
+			mask &= ~EM_POPUP_SELECT_MARK_JUNK;
 			
 		tmp = camel_tag_get (&info->user_tags, "follow-up");
 		if (tmp && *tmp) {
@@ -601,39 +606,34 @@ emp_part_popup_set_background(GtkWidget *w, EMPopupTarget *t)
 }
 
 static void
-emp_part_popup_reply_sender (GtkWidget *w, EMPopupTarget *t)
+emp_part_popup_reply_sender(GtkWidget *w, EMPopupTarget *t)
 {
-	CamelMimeMessage *message;
-	
-	message = (CamelMimeMessage *) camel_medium_get_content_object ((CamelMedium *) t->data.part.part);
-	em_utils_reply_to_message (message, REPLY_MODE_SENDER);
+	em_utils_reply_to_message(t->widget,
+				  (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)t->data.part.part),
+				  REPLY_MODE_SENDER);
 }
 
 static void
-emp_part_popup_reply_list (GtkWidget *w, EMPopupTarget *t)
+emp_part_popup_reply_list(GtkWidget *w, EMPopupTarget *t)
 {
-	CamelMimeMessage *message;
-	
-	message = (CamelMimeMessage *) camel_medium_get_content_object ((CamelMedium *) t->data.part.part);
-	em_utils_reply_to_message (message, REPLY_MODE_LIST);
+	em_utils_reply_to_message(t->widget,
+				  (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)t->data.part.part),
+				  REPLY_MODE_LIST);
 }
 
 static void
-emp_part_popup_reply_all (GtkWidget *w, EMPopupTarget *t)
+emp_part_popup_reply_all(GtkWidget *w, EMPopupTarget *t)
 {
-	CamelMimeMessage *message;
-	
-	message = (CamelMimeMessage *) camel_medium_get_content_object ((CamelMedium *) t->data.part.part);
-	em_utils_reply_to_message (message, REPLY_MODE_ALL);
+	em_utils_reply_to_message(t->widget,
+				  (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)t->data.part.part),
+				  REPLY_MODE_ALL);
 }
 
 static void
-emp_part_popup_forward (GtkWidget *w, EMPopupTarget *t)
+emp_part_popup_forward(GtkWidget *w, EMPopupTarget *t)
 {
-	CamelMimeMessage *message;
-	
-	message = (CamelMimeMessage *) camel_medium_get_content_object ((CamelMedium *) t->data.part.part);
-	em_utils_forward_message (message);
+	em_utils_forward_message(t->widget,
+				 (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)t->data.part.part));
 }
 
 static EMPopupItem emp_standard_object_popups[] = {
@@ -665,9 +665,9 @@ emp_uri_popup_link_open(GtkWidget *w, EMPopupTarget *t)
 }
 
 static void
-emp_uri_popup_address_send (GtkWidget *w, EMPopupTarget *t)
+emp_uri_popup_address_send(GtkWidget *w, EMPopupTarget *t)
 {
-	em_utils_compose_new_message_with_mailto (t->data.uri);
+	em_utils_compose_new_message_with_mailto(t->widget, t->data.uri);
 }
 
 static void

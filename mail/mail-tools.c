@@ -46,10 +46,10 @@
 #include "e-util/e-meta.h"
 
 #include "mail.h" /*session*/
-#include "mail-component.h"
 #include "mail-config.h"
 #include "mail-vfolder.h"
 #include "mail-tools.h"
+#include "mail-local.h"
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
 
@@ -62,8 +62,7 @@ mail_tool_get_local_inbox (CamelException *ex)
 	CamelFolder *folder;
 	char *url;
 	
-	url = g_strdup_printf("file://%s/local/Inbox",
-			      mail_component_peek_base_directory (mail_component_peek ()));
+	url = g_strdup_printf("file://%s/local/Inbox", evolution_dir);
 	folder = mail_tool_uri_to_folder (url, 0, ex);
 	g_free (url);
 	
@@ -121,9 +120,7 @@ mail_tool_get_local_movemail_path (const unsigned char *uri)
 		if (strchr ("/:;=|%&#!*^()\\, ", *c) || !isprint ((int) *c))
 			*c = '_';
 	
-	path = g_strdup_printf ("%s/local/Inbox/movemail.%s",
-				mail_component_peek_base_directory (mail_component_peek ()),
-				safe_uri);
+	path = g_strdup_printf ("%s/local/Inbox/movemail.%s", evolution_dir, safe_uri);
 	g_free (safe_uri);
 	
 	return path;
@@ -312,6 +309,8 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 	/* This hack is still needed for file:/ since it's its own EvolutionStorage type */
 	if (!strncmp (uri, "vtrash:", 7))
 		offset = 7;
+	else if (!strncmp (uri, "vjunk:", 6))
+		offset = 6;
 	
 	url = camel_url_new (uri + offset, ex);
 	if (!url) {
@@ -321,7 +320,7 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 	store = camel_session_get_store (session, uri + offset, ex);
 	if (store) {
 		const char *name;
-
+		
 		/* if we have a fragment, then the path is actually used by the store,
 		   so the fragment is the path to the folder instead */
 		if (url->fragment) {
@@ -333,9 +332,14 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 				name = "";
 		}
 		
-		if (offset)
-			folder = camel_store_get_trash (store, ex);
-		else
+		if (offset) {
+			if (offset == 7)
+				folder = camel_store_get_trash (store, ex);
+			else if (offset == 6)
+				folder = camel_store_get_junk (store, ex);
+			else
+				g_assert (FALSE);
+		} else
 			folder = camel_store_get_folder (store, name, flags, ex);
 		camel_object_unref (store);
 	}
@@ -415,7 +419,6 @@ mail_tools_folder_to_url (CamelFolder *folder)
 
 static char *meta_data_key(const char *uri, char **pathp)
 {
-	const char *base_directory = mail_component_peek_base_directory (mail_component_peek ());
 	CamelURL *url;
 	GString *path;
 	const char *key;
@@ -425,12 +428,12 @@ static char *meta_data_key(const char *uri, char **pathp)
 
 	if (url == NULL) {
 		g_warning("Trying to retrieve meta-data for unparsable uri: %s", uri);
-		*pathp = g_build_path(base_directory, "meta/unknown", NULL);
+		*pathp = g_build_path(evolution_dir, "meta/unknown", NULL);
 
 		return g_strdup("folder");
 	}
 
-	path = g_string_new(base_directory);
+	path = g_string_new(evolution_dir);
 	g_string_append_printf(path, "/meta/%s/", url->protocol);
 
 	if (url->host && url->host[0]) {

@@ -45,6 +45,8 @@ images_DATA = \
 	evolution-today.png 		\
 	evolution-trash-mini.png 	\
 	evolution-trash.png 		\
+	evolution-junk.png		\
+	evolution-junk-mini.png		\
 	executive-summary-bg.png	\
 	executive-summary-curve.png	\
 	info-bulb.png			\
@@ -183,7 +185,6 @@ buttons_DATA = 				\
 	fetch-mail.png			\
 	forward.png			\
 	goto-24.png  			\
-	listview.xpm			\
 	monthview.xpm  			\
 	move-message.png		\
 	next-message.png		\

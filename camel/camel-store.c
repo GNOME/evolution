@@ -53,6 +53,9 @@ static CamelFolder *get_inbox (CamelStore *store, CamelException *ex);
 static void        init_trash (CamelStore *store);
 static CamelFolder *get_trash (CamelStore *store, CamelException *ex);
 
+static void        init_junk (CamelStore *store);
+static CamelFolder *get_junk (CamelStore *store, CamelException *ex);
+
 static CamelFolderInfo *create_folder (CamelStore *store,
 				       const char *parent_name,
 				       const char *folder_name,
@@ -95,6 +98,8 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	camel_store_class->get_inbox = get_inbox;
 	camel_store_class->init_trash = init_trash;
 	camel_store_class->get_trash = get_trash;
+	camel_store_class->init_junk = init_junk;
+	camel_store_class->get_junk = get_junk;
 	camel_store_class->create_folder = create_folder;
 	camel_store_class->delete_folder = delete_folder;
 	camel_store_class->rename_folder = rename_folder;
@@ -132,8 +137,8 @@ camel_store_init (void *o)
 	} else
 		store->folders = NULL;
 	
-	/* set vtrash on by default */
-	store->flags = CAMEL_STORE_VTRASH;
+	/* set vtrash and vjunk on by default */
+	store->flags = CAMEL_STORE_VTRASH | CAMEL_STORE_VJUNK;
 
 	store->dir_sep = '/';
 	
@@ -239,9 +244,11 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 	if (!folder) {
 		folder = CS_CLASS (store)->get_folder (store, folder_name, flags, ex);
 		if (folder) {
-			/* Add the folder to the vTrash folder if this store implements it */
+			/* Add the folder to the vTrash/vJunk folder if this store implements it */
 			if (store->vtrash)
 				camel_vee_folder_add_folder (CAMEL_VEE_FOLDER (store->vtrash), folder);
+			if (store->vjunk)
+				camel_vee_folder_add_folder (CAMEL_VEE_FOLDER (store->vjunk), folder);
 			
 			if (store->folders)
 				camel_object_bag_add(store->folders, folder_name, folder);
@@ -319,12 +326,14 @@ camel_store_delete_folder (CamelStore *store, const char *folder_name, CamelExce
 
 	/* NB: Note similarity of this code to unsubscribe_folder */
 	
-	/* if we deleted a folder, force it out of the cache, and also out of the vtrash if setup */
+	/* if we deleted a folder, force it out of the cache, and also out of the vtrash/vjunk if setup */
 	if (store->folders) {
 		folder = camel_object_bag_get(store->folders, folder_name);
 		if (folder) {
 			if (store->vtrash)
 				camel_vee_folder_remove_folder((CamelVeeFolder *)store->vtrash, folder);
+			if (store->vjunk)
+				camel_vee_folder_remove_folder((CamelVeeFolder *)store->vjunk, folder);
 			camel_folder_delete (folder);
 		}
 	}
@@ -424,7 +433,7 @@ camel_store_rename_folder (CamelStore *store, const char *old_name, const char *
 		reninfo.old_base = (char *)old_name;
 		reninfo.new = ((CamelStoreClass *)((CamelObject *)store)->klass)->get_folder_info(store, new_name, flags, ex);
 		if (reninfo.new != NULL) {
-			camel_object_trigger_event (store, "folder_renamed", &reninfo);
+			camel_object_trigger_event(CAMEL_OBJECT(store), "folder_renamed", &reninfo);
 			((CamelStoreClass *)((CamelObject *)store)->klass)->free_folder_info(store, reninfo.new);
 		}
 	} else {
@@ -480,26 +489,46 @@ trash_finalize (CamelObject *trash, gpointer event_data, gpointer user_data)
 }
 
 static void
-init_trash (CamelStore *store)
+junk_finalize (CamelObject *junk, gpointer event_data, gpointer user_data)
 {
-	if ((store->flags & CAMEL_STORE_VTRASH) == 0)
-		return;
-
-	store->vtrash = camel_vtrash_folder_new (store, CAMEL_VTRASH_NAME);
+	CamelStore *store = CAMEL_STORE (user_data);
 	
-	if (store->vtrash) {
+	store->vjunk = NULL;
+}
+
+/* FIXME: derive vjunk folder object from vee_folder */
+#include "camel-vee-store.h"
+static CamelFolder *
+camel_vjunk_folder_new (CamelStore *parent_store, const char *name)
+{
+	CamelFolder *vjunk;
+	
+	vjunk = (CamelFolder *)camel_object_new (camel_vee_folder_get_type ());
+	vjunk->folder_flags |= CAMEL_FOLDER_IS_JUNK;
+	camel_vee_folder_construct (CAMEL_VEE_FOLDER (vjunk), parent_store, name,
+				    CAMEL_STORE_FOLDER_PRIVATE | CAMEL_STORE_FOLDER_CREATE | CAMEL_STORE_VEE_FOLDER_AUTO);
+	camel_vee_folder_set_expression((CamelVeeFolder *)vjunk, "(match-all (system-flag \"Junk\"))");
+
+	return vjunk;
+}
+
+static void
+init_trash_or_junk (CamelStore *store, CamelFolder *folder, void (*finalize) (CamelObject *o, gpointer event_data, gpointer user_data))
+{
+	CamelFolder *folder = NULL;
+	
+	if (folder) {
 		/* FIXME: this should probably use the object bag or another one ? ... */
-		/* attach to the finalise event of the vtrash */
-		camel_object_hook_event (store->vtrash, "finalize",
-					 trash_finalize, store);
+		/* attach to the finalise event of the vtrash/vjunk */
+		camel_object_hook_event (CAMEL_OBJECT (folder), "finalize", finalize, store);
 		
-		/* add all the pre-opened folders to the vtrash */
+		/* add all the pre-opened folders to the vtrash/vjunk */
 		if (store->folders) {
 			GPtrArray *folders = camel_object_bag_list(store->folders);
 			int i;
 
 			for (i=0;i<folders->len;i++) {
-				camel_vee_folder_add_folder (CAMEL_VEE_FOLDER (store->vtrash), (CamelFolder *)folders->pdata[i]);
+				camel_vee_folder_add_folder (CAMEL_VEE_FOLDER (folder), (CamelFolder *)folders->pdata[i]);
 				camel_object_unref(folders->pdata[i]);
 			}
 			g_ptr_array_free(folders, TRUE);
@@ -507,22 +536,61 @@ init_trash (CamelStore *store)
 	}
 }
 
+static void
+init_trash (CamelStore *store)
+{
+	if ((store->flags & CAMEL_STORE_VTRASH) == 0)
+		return;
+
+	store->vtrash = camel_vtrash_folder_new (store, CAMEL_VTRASH_NAME);
+	init_trash_or_junk (store, store->vtrash, trash_finalize);
+}
+
+static void
+init_junk (CamelStore *store)
+{
+	if ((store->flags & CAMEL_STORE_VJUNK) == 0)
+		return;
+
+	store->vjunk = camel_vjunk_folder_new (store, CAMEL_VJUNK_NAME);
+	init_trash_or_junk (store, store->vjunk, junk_finalize);
+}
 
 static CamelFolder *
 get_trash (CamelStore *store, CamelException *ex)
 {
 	if (store->vtrash) {
-		camel_object_ref (store->vtrash);
+		camel_object_ref (CAMEL_OBJECT (store->vtrash));
 		return store->vtrash;
 	} else {
 		CS_CLASS (store)->init_trash (store);
 		if (store->vtrash) {
 			/* We don't ref here because we don't want the
                            store to own a ref on the trash folder */
-			/*camel_object_ref (store->vtrash);*/
+			/*camel_object_ref (CAMEL_OBJECT (store->vtrash));*/
 			return store->vtrash;
 		} else {
 			w(g_warning ("This store does not support vTrash."));
+			return NULL;
+		}
+	}
+}
+
+static CamelFolder *
+get_junk (CamelStore *store, CamelException *ex)
+{
+	if (store->vjunk) {
+		camel_object_ref (CAMEL_OBJECT (store->vjunk));
+		return store->vjunk;
+	} else {
+		CS_CLASS (store)->init_junk (store);
+		if (store->vjunk) {
+			/* We don't ref here because we don't want the
+                           store to own a ref on the junk folder */
+			/*camel_object_ref (CAMEL_OBJECT (store->vjunk));*/
+			return store->vjunk;
+		} else {
+			w(g_warning ("This store does not support vJunk."));
 			return NULL;
 		}
 	}
@@ -546,6 +614,29 @@ camel_store_get_trash (CamelStore *store, CamelException *ex)
 	
 	CAMEL_STORE_LOCK(store, folder_lock);
 	folder = CS_CLASS (store)->get_trash (store, ex);
+	CAMEL_STORE_UNLOCK(store, folder_lock);
+	
+	return folder;
+}
+
+/** 
+ * camel_store_get_junk:
+ * @store: a CamelStore
+ * @ex: a CamelException
+ *
+ * Return value: the folder in the store into which junk is
+ * delivered, or %NULL if no such folder exists.
+ **/
+CamelFolder *
+camel_store_get_junk (CamelStore *store, CamelException *ex)
+{
+	CamelFolder *folder;
+
+	if ((store->flags & CAMEL_STORE_VJUNK) == 0)
+		return NULL;
+	
+	CAMEL_STORE_LOCK(store, folder_lock);
+	folder = CS_CLASS (store)->get_junk (store, ex);
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 	
 	return folder;
@@ -776,7 +867,7 @@ CamelFolderInfo *
 camel_folder_info_build (GPtrArray *folders, const char *namespace,
 			 char separator, gboolean short_names)
 {
-	CamelFolderInfo *fi, *pfi, *top = NULL, *tail = NULL;
+	CamelFolderInfo *fi, *pfi, *top = NULL;
 	GHashTable *hash;
 	char *name, *p, *pname;
 	int i, nlen;
@@ -854,15 +945,9 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 				g_hash_table_insert (hash, pname, pfi);
 				g_ptr_array_add (folders, pfi);
 			}
-			tail = pfi->child;
-			if (tail == NULL) {
-				pfi->child = fi;
-			} else {
-				while (tail->sibling)
-					tail = tail->sibling;
-				tail->sibling = fi;
-			}
+			fi->sibling = pfi->child;
 			fi->parent = pfi;
+			pfi->child = fi;
 		} else if (!top)
 			top = fi;
 	}
@@ -870,18 +955,13 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 	g_hash_table_destroy (hash);
 
 	/* Link together the top-level folders */
-	tail = top;
 	for (i = 0; i < folders->len; i++) {
 		fi = folders->pdata[i];
 		if (fi->parent || fi == top)
 			continue;
-		if (tail == NULL) {
-			tail = fi;
-			top = fi;
-		} else {
-			tail->sibling = fi;
-			tail = fi;
-		}
+		if (top)
+			fi->sibling = top;
+		top = fi;
 	}
 	
 	return top;
@@ -1015,12 +1095,14 @@ camel_store_unsubscribe_folder (CamelStore *store,
 
 	/* NB: Note similarity of this code to delete_folder */
 
-	/* if we deleted a folder, force it out of the cache, and also out of the vtrash if setup */
+	/* if we deleted a folder, force it out of the cache, and also out of the vtrash/vjunk if setup */
 	if (store->folders) {
 		folder = camel_object_bag_get(store->folders, folder_name);
 		if (folder) {
 			if (store->vtrash)
 				camel_vee_folder_remove_folder((CamelVeeFolder *)store->vtrash, folder);
+			if (store->vjunk)
+				camel_vee_folder_remove_folder((CamelVeeFolder *)store->vjunk, folder);
 			camel_folder_delete (folder);
 		}
 	}

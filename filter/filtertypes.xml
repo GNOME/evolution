@@ -671,6 +671,9 @@
    <option value="Seen">
     <title>Read</title>
    </option>
+   <option value="Spam">
+    <title>Spam</title>
+   </option>
   </input>
  </part>
  <part name="unset-status">
@@ -693,6 +696,9 @@
    </option>
    <option value="Seen">
     <title>Read</title>
+   </option>
+   <option value="Spam">
+    <title>Spam</title>
    </option>
   </input>
  </part>

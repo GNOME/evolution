@@ -69,7 +69,6 @@ enum _em_popup_target_t {
 	EM_POPUP_TARGET_SELECT,
 	EM_POPUP_TARGET_URI,
 	EM_POPUP_TARGET_PART,
-	EM_POPUP_TARGET_FOLDER,
 };
 
 /* Flags that describe a TARGET_SELECT */
@@ -88,7 +87,9 @@ enum {
 	EM_POPUP_SELECT_FLAG_COMPLETED         = 1<<12,
 	EM_POPUP_SELECT_FLAG_CLEAR             = 1<<13,
 	EM_POPUP_SELECT_ADD_SENDER             = 1<<14,
-	EM_POPUP_SELECT_LAST = 1<<16 /* reserve 2 slots */
+	EM_POPUP_SELECT_MARK_JUNK              = 1<<15,
+	EM_POPUP_SELECT_MARK_NOJUNK            = 1<<16,
+	EM_POPUP_SELECT_LAST = 1<<18 /* reserve 2 slots */
 };
 
 /* Flags that describe a TARGET_URI */
@@ -102,13 +103,6 @@ enum {
 enum {
 	EM_POPUP_PART_MESSAGE = 1<<0,
 	EM_POPUP_PART_IMAGE = 1<<1,
-};
-
-/* Flags that describe TARGET_FOLDER */
-enum {
-	EM_POPUP_FOLDER_LOCAL = 1<<0,
-	EM_POPUP_FOLDER_REMOTE = 1<<1,
-	EM_POPUP_FOLDER_VFOLDER = 1<<2,
 };
 
 struct _EMPopupTarget {
@@ -126,9 +120,6 @@ struct _EMPopupTarget {
 			char *mime_type;
 			struct _CamelMimePart *part;
 		} part;
-		struct {
-			char *folder_uri;
-		} folder;
 	} data;
 };
 

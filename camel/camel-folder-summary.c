@@ -2503,6 +2503,7 @@ struct flag_names_t {
 	{ "flagged", CAMEL_MESSAGE_FLAGGED },
 	{ "seen", CAMEL_MESSAGE_SEEN },
 	{ "attachments", CAMEL_MESSAGE_ATTACHMENTS },
+	{ "junk", CAMEL_MESSAGE_JUNK },
 	{ NULL, 0 }
 };
 

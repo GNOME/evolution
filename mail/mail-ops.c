@@ -38,7 +38,6 @@
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-vee-store.h>
 #include "mail.h"
-#include "mail-component.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-vfolder.h"
@@ -230,8 +229,7 @@ uid_cachename_hack (CamelStore *store)
 				       url->host);
 	e_filename_make_safe (encoded_url);
 	
-	filename = g_strdup_printf ("%s/mail/pop3/cache-%s",
-				    mail_component_peek_base_directory (mail_component_peek ()), encoded_url);
+	filename = g_strdup_printf ("%s/mail/pop3/cache-%s", evolution_dir, encoded_url);
 	
 	/* lame hack, but we can't expect user's to actually migrate
            their cache files - brain power requirements are too
@@ -240,9 +238,7 @@ uid_cachename_hack (CamelStore *store)
 		/* This is either the first time the user has checked
                    mail with this POP provider or else their cache
                    file is in the old location... */
-		old_location = g_strdup_printf ("%s/config/cache-%s",
-						mail_component_peek_base_directory (mail_component_peek ()),
-						encoded_url);
+		old_location = g_strdup_printf ("%s/config/cache-%s", evolution_dir, encoded_url);
 		if (stat (old_location, &st) == -1) {
 			/* old location doesn't exist either so use the new location */
 			g_free (old_location);
@@ -1063,9 +1059,9 @@ get_folderinfo_desc (struct _mail_msg *mm, int done)
 }
 
 static void
-add_vtrash_info (CamelStore *store, CamelFolderInfo *info)
+add_vtrash_or_vjunk_info (CamelStore *store, CamelFolderInfo *info, gchar *name, gchar *full_name, gchar *url_base, gboolean unread_count)
 {
-	CamelFolderInfo *fi, *vtrash, *parent;
+	CamelFolderInfo *fi, *vinfo, *parent;
 	char *uri, *path;
 	CamelURL *url;
 	
@@ -1073,14 +1069,14 @@ add_vtrash_info (CamelStore *store, CamelFolderInfo *info)
 
 	parent = NULL;
 	for (fi = info; fi; fi = fi->sibling) {
-		if (!strcmp (fi->name, CAMEL_VTRASH_NAME))
+		if (!strcmp (fi->name, name))
 			break;
 		parent = fi;
 	}
 	
-	/* create our vTrash URL */
+	/* create our vTrash/vJunk URL */
 	url = camel_url_new (info->url, NULL);
-	path = g_strdup_printf ("/%s", CAMEL_VTRASH_NAME);
+	path = g_strdup_printf ("/%s", name);
 	if (url->fragment)
 		camel_url_set_fragment (url, path);
 	else
@@ -1090,29 +1086,42 @@ add_vtrash_info (CamelStore *store, CamelFolderInfo *info)
 	camel_url_free (url);
 	
 	if (fi) {
-		/* We're going to replace the physical Trash folder with our vTrash folder */
-		vtrash = fi;
-		g_free (vtrash->full_name);
-		g_free (vtrash->name);
-		g_free (vtrash->url);
+		/* We're going to replace the physical Trash/Junk folder with our vTrash/vJunk folder */
+		vinfo = fi;
+		g_free (vinfo->full_name);
+		g_free (vinfo->name);
+		g_free (vinfo->url);
 	} else {
-		/* There wasn't a Trash folder so create a new folder entry */
-		vtrash = g_new0 (CamelFolderInfo, 1);
+		/* There wasn't a Trash/Junk folder so create a new folder entry */
+		vinfo = g_new0 (CamelFolderInfo, 1);
 
 		g_assert(parent != NULL);
 
 		/* link it into the right spot */
-		vtrash->sibling = parent->sibling;
-		parent->sibling = vtrash;
+		vinfo->sibling = parent->sibling;
+		parent->sibling = vinfo;
 	}
 	
 	/* Fill in the new fields */
-	vtrash->full_name = g_strdup (_("Trash"));
-	vtrash->name = g_strdup(vtrash->full_name);
-	vtrash->url = g_strdup_printf ("vtrash:%s", uri);
-	vtrash->unread_message_count = -1;
-	vtrash->path = g_strdup_printf("/%s", vtrash->name);
+	vinfo->full_name = g_strdup (full_name);
+	vinfo->name = g_strdup(vinfo->full_name);
+	vinfo->url = g_strdup_printf ("%s:%s", url_base, uri);
+	if (!unread_count)
+		vinfo->unread_message_count = -1;
+	vinfo->path = g_strdup_printf("/%s", vinfo->name);
 	g_free (uri);
+}
+
+static void
+add_vtrash_info (CamelStore *store, CamelFolderInfo *info)
+{
+	add_vtrash_or_vjunk_info (store, info, CAMEL_VTRASH_NAME, _("Trash"), "vtrash", FALSE);
+}
+
+static void
+add_vjunk_info (CamelStore *store, CamelFolderInfo *info)
+{
+	add_vtrash_or_vjunk_info (store, info, CAMEL_VJUNK_NAME, _("Junk"), "vjunk", TRUE);
 }
 
 static void
@@ -1142,6 +1151,8 @@ get_folderinfo_get (struct _mail_msg *mm)
 	if (m->info) {
 		if (m->info->url && (m->store->flags & CAMEL_STORE_VTRASH))
 			add_vtrash_info(m->store, m->info);
+		if (m->info->url && (m->store->flags & CAMEL_STORE_VJUNK))
+			add_vjunk_info(m->store, m->info);
 		if (CAMEL_IS_VEE_STORE(m->store))
 			add_unmatched_info(m->info);
 	}
@@ -2328,4 +2339,102 @@ mail_execute_shell_command (CamelFilterDriver *driver, int argc, char **argv, vo
 		return;
 	
 	gnome_execute_async_fds (NULL, argc, argv, TRUE);
+}
+
+/* [Un]mark junk flag */
+
+struct _mark_junk_mail_msg {
+	struct _mail_msg msg;
+	
+	CamelFolder *folder;
+	MessageList *list;
+	gboolean junk;
+};
+
+static char *
+mark_junk_describe (struct _mail_msg *mm, int complete)
+{
+	return g_strdup (_("Changing junk status"));
+}
+
+/* filter a folder, or a subset thereof, uses source_folder/source_uids */
+/* this is shared with fetch_mail */
+static void
+mark_junk_mark (struct _mail_msg *mm)
+{
+	struct _mark_junk_mail_msg *m = (struct _mark_junk_mail_msg *) mm;
+	CamelJunkPlugin *csp = NULL;
+	GPtrArray *uids;
+	gboolean commit_reports = FALSE;
+	int i;
+
+	if (m->folder == NULL)
+		return;
+	
+	uids = message_list_get_selected (m->list);
+	camel_folder_freeze (m->folder);
+
+	for (i=0; i<uids->len; i++) {
+		guint32 flags;
+
+		flags = camel_folder_get_message_flags (m->folder, uids->pdata[i]);
+		if (((flags & CAMEL_MESSAGE_JUNK) == CAMEL_MESSAGE_JUNK) != m->junk) {
+			CamelMimeMessage *msg = camel_folder_get_message (m->folder, uids->pdata[i], NULL);
+
+			if (msg) {
+				csp = CAMEL_SERVICE (m->folder->parent_store)->session->junk_plugin;
+				if (m->junk)
+					camel_junk_plugin_report_junk (csp, msg);
+				else
+					camel_junk_plugin_report_notjunk (csp, msg);
+
+				commit_reports = TRUE;
+				camel_object_unref (msg);
+			}
+		}
+		camel_folder_set_message_flags(m->folder, uids->pdata[i],
+					       CAMEL_MESSAGE_JUNK | (m->junk ? CAMEL_MESSAGE_DELETED : 0),
+					       m->junk ? CAMEL_MESSAGE_JUNK : 0);
+	}
+
+	if (commit_reports)
+		camel_junk_plugin_commit_reports (csp);
+
+	message_list_free_uids(m->list, uids);
+	camel_folder_thaw(m->folder);
+}
+
+static void
+mark_junk_marked (struct _mail_msg *mm)
+{
+}
+
+static void
+mark_junk_free (struct _mail_msg *mm)
+{
+	struct _mark_junk_mail_msg *m = (struct _mark_junk_mail_msg *)mm;
+	
+	if (m->folder)
+		camel_object_unref (m->folder);
+}
+
+static struct _mail_msg_op mark_junk_op = {
+	mark_junk_describe,
+	mark_junk_mark,
+	mark_junk_marked,
+	mark_junk_free,
+};
+
+void
+mail_mark_junk (CamelFolder *folder, MessageList *list, gboolean junk)
+{
+	struct _mark_junk_mail_msg *m;
+	
+	m = mail_msg_new (&mark_junk_op, NULL, sizeof (*m));
+	m->folder = folder;
+	camel_object_ref (folder);
+	m->list = list;
+	m->junk = junk;
+	
+	e_thread_put (mail_thread_new, (EMsg *) m);
 }

@@ -10,9 +10,6 @@ AM_CONFIG_HEADER(config.h)
 AC_CANONICAL_HOST
 AC_DEFINE_UNQUOTED(VERSION_COMMENT, "", [Define if you want a comment appended to the version number])
 
-dnl Put the ACLOCAL flags in the Makefile
-ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
-
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
 
@@ -57,7 +54,6 @@ localedir='$(prefix)/$(DATADIRNAME)/locale'
 AC_SUBST(localedir)
 
 dnl Initialize libtool
-AM_DISABLE_STATIC
 AM_PROG_LIBTOOL
 
 dnl alloca()
@@ -295,20 +291,6 @@ fi
 
 if test "x$enable_ipv6" = "xyes"; then
 	AC_DEFINE(ENABLE_IPv6,1,[Enable IPv6 support])
-	AC_TRY_COMPILE([
-		#include "confdefs.h"
-		#include <sys/types.h>
-		#include <sys/socket.h>
-		#include <netinet/in.h>
-		#include <netdb.h>
-
-	],[
-		struct addrinfo hints;
-		
-		hints.ai_flags = AI_ADDRCONFIG;
-	],[
-		AC_DEFINE(HAVE_AI_ADDRCONFIG,1,[Define if the system defines the AI_ADDRCONFIG flag for getaddrinfo])
-	])
 fi
 AM_CONDITIONAL(ENABLE_IPv6, test "x$enable_ipv6" = "xyes")
 
@@ -409,7 +391,7 @@ AC_SUBST(DB3_LDADD)
 
 AC_CACHE_CHECK([that db3 library version matches header version], ac_cv_db3_lib_version_match,
 [
-	LIBS="$DB3_LDADD $LIBS -pthread"
+	LIBS="$DB3_LDADD $LIBS"
 	AC_TRY_RUN([
 		#ifdef HAVE_DB3_DB_H
 		#include <db3/db.h>
@@ -713,6 +695,16 @@ AC_SUBST(KRB4_CFLAGS)
 AC_SUBST(KRB4_LDFLAGS)
 
 
+dnl ==========================
+dnl Pedantic PGP/MIME
+dnl ==========================
+AC_ARG_ENABLE(pedantic-pgp-mime, 
+[  --enable-pedantic-pgp-mime=[no/yes] Enable pedantic PGP/MIME handling (not recommended)],,enable_pedantic_pgp_mime=no)
+if test "x$enable_pedantic_pgp_mime" = "xyes"; then
+	AC_DEFINE(ENABLE_PEDANTIC_PGPMIME,1,[Probably don't want this])
+fi
+
+
 dnl ********************************************************************************
 dnl security extension support (SSL and S/MIME)
 dnl
@@ -722,7 +714,6 @@ dnl
 dnl The Evolution security extensions are only built if these libraries are found
 dnl ********************************************************************************
 msg_ssl="no"
-msg_smime="no"
 
 dnl these 2 enable's are inverses of each other
 AC_ARG_ENABLE(nss, [  --enable-nss=[yes,no,static]        Attempt to use Mozilla libnss for SSL support.],
@@ -761,8 +752,6 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 		PKG_CHECK_MODULES(NSS, mozilla-nss, have_nss="yes")
 		if test "x${have_nss}" = "xyes"; then
 			msg_ssl="yes (Mozilla NSS)"
-			msg_smime="yes (Mozilla NSS)"
-			enable_smime="yes"
 			mozilla_nspr="mozilla-nspr"
 			mozilla_nss="mozilla-nss"
 			AC_DEFINE(HAVE_NSS,1,[Define if you have NSS])
@@ -916,8 +905,6 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 		 		else
 					msg_ssl="yes (Mozilla NSS)"
 				fi # static_nss
-				msg_smime="yes (Mozilla NSS)"
-				enable_smime="yes"
 				MANUAL_NSS_LIBS="-L$with_nss_libs $nsslibs"
 			else
 				MANUAL_NSS_CFLAGS=""
@@ -933,8 +920,6 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 		MANUAL_NSS_LIBS="$MANUAL_NSPR_LIBS $MANUAL_NSS_LIBS"
 	fi
 fi
-
-AM_CONDITIONAL(ENABLE_SMIME, test x$enable_smime = xyes)
 
 AC_SUBST(MANUAL_NSPR_CFLAGS)
 AC_SUBST(MANUAL_NSPR_LIBS)
@@ -1066,18 +1051,11 @@ dnl *************************
 
 GNOME_COMPILE_WARNINGS(yes)
 CFLAGS="$CFLAGS $WARN_CFLAGS"
-case $CFLAGS in
-*-Wall*)
-	# Turn off the annoying "comparison between signed and unsigned"
-	# warning in gcc 3.3
-	CFLAGS="$CFLAGS -Wno-sign-compare"
-	;;
-esac
 
-AM_PATH_ORBIT2(2.8.0)
+AM_PATH_ORBIT2
 
 AC_MSG_CHECKING(for CORBA include paths)
-IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`" -I "`pkg-config --variable=idldir evolution-data-server-1.0`
+IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`
 AC_MSG_RESULT($IDL_INCLUDES)
 AC_SUBST(IDL_INCLUDES)
 
@@ -1110,14 +1088,9 @@ AC_SUBST(GNOME_FULL_LIBS)
 CPPFLAGS_save="$CPPFLAGS"
 CPPFLAGS="$CPPFLAGS `$PKG_CONFIG --cflags-only-I libgnomeui-2.0`"
 AC_CHECK_HEADERS(libgnomeui/gnome-icon-lookup.h)
-AC_CHECK_HEADERS(libgnomeui/gnome-thumbnail.h)
 CPPFLAGS="$CPPFLAGS_save"
 
 dnl --- Flags for the various libraries we build
-
-EVO_SET_COMPILE_FLAGS(TZDIALOG, libecal-1.0, $GNOME_FULL_CFLAGS, $GNOME_FULL_LIBS)
-AC_SUBST(TZDIALOG_CFLAGS)
-AC_SUBST(TZDIALOG_LIBS)
 
 EVO_SET_COMPILE_FLAGS(CAMEL, glib-2.0 gthread-2.0 gal-2.2 >= $GAL_REQUIRED $mozilla_nss,
 		      $THREADS_CFLAGS $KRB4_CFLAGS $KRB5_CFLAGS $MANUAL_NSS_CFLAGS $OPENSSL_CFLAGS,
@@ -1125,26 +1098,11 @@ EVO_SET_COMPILE_FLAGS(CAMEL, glib-2.0 gthread-2.0 gal-2.2 >= $GAL_REQUIRED $mozi
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
 
-if test "x$mozilla_nss" != "x"; then
-   EVO_SET_COMPILE_FLAGS(MOZILLA_NSS, $mozilla_nss)
-   MOZILLA_L_DIR=`pkg-config --libs-only-L $mozilla_nss`
-else
-	if test "x$MOZILLA_MANUAL_LIBS" != "x"; then
-	   MOZILLA_L_DIR="-L$with_nss_lib"
-	fi
-fi
-
-EVO_SET_COMPILE_FLAGS(CERT_UI, glib-2.0 gobject-2.0 gthread-2.0,
-                      $MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS,
-	              $MOZILLA_L_DIR -lcertdb -lcryptohi -lsecutil -lnsspki -lpk11wrap -lnssdev -lnssb $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS)
-AC_SUBST(CERT_UI_CFLAGS)
-AC_SUBST(CERT_UI_LIBS)
-
 EVO_SET_COMPILE_FLAGS(E_NAME, libgnomeui-2.0 libbonoboui-2.0 gal-2.2 >= $GAL_REQUIRED)
 AC_SUBST(E_NAME_CFLAGS)
 AC_SUBST(E_NAME_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_UTIL, gthread-2.0 gconf-2.0 libxml-2.0 libbonoboui-2.0 libglade-2.0 gal-2.2 >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 $mozilla_nspr, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, gthread-2.0 gconf-2.0 libxml-2.0 libbonoboui-2.0 libglade-2.0 gal-2.2 >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 soup-2.0 $mozilla_nspr, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
@@ -1169,7 +1127,7 @@ AC_SUBST(SHELL_LIBS)
 
 dnl --- evolution-addressbook flags
 
-EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 libglade-2.0 gal-2.2 >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED libebook-1.0"
+EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 libglade-2.0 gal-2.2 >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2"
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -1181,35 +1139,35 @@ AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 fi
 
+dnl -- evolution-executive-summary flags
+
+EVO_SET_COMPILE_FLAGS(EVOLUTION_EXECUTIVE_SUMMARY, libbonoboui-2.0 libbonoboui-2.0 gal-2.2 >= $GAL_REQUIRED libgnomeui-2.0 libglade-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 soup-2.0 libgtkhtml-3.1 >= $GTKHTML_REQUIRED)
+AC_SUBST(EVOLUTION_EXECUTIVE_SUMMARY_CFLAGS)
+AC_SUBST(EVOLUTION_EXECUTIVE_SUMMARY_LIBS)
+
 dnl --- evolution-calendar flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.2 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED libebook-1.0 libecal-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.2 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
 if test x$enable_pilot_conduits = xyes; then
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR_CONDUIT, gnome-pilot-2.0, $EVOLUTION_CALENDAR_CFLAGS, $EVOLUTION_CALENDAR_LIBS)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR_CONDUIT, gnome-pilot-2.0 $EVOLUTION_CALENDAR_DEPS)
 AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 fi
 
 dnl --- evolution-mail flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.2 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-module-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss libebook-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.2 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-module-2.0 soup-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
-dnl -- evolution-data-server IDL
+dnl -- wombat flags
 
-AC_MSG_CHECKING(for evolution-data-server IDL)
-DATASERVER_IDL=`pkg-config --variable=idldir evolution-data-server-1.0`/Evolution-DataServer.idl
-echo $DATASERVER_IDL
-if test -f "$DATASERVER_IDL"; then
-	   AC_MSG_RESULT($DATASERVER_IDL)
-	   AC_SUBST(DATASERVER_IDL)
-else
-	AC_MSG_ERROR(no)
-fi
+EVO_SET_COMPILE_FLAGS(WOMBAT, gal-2.2 libgnome-2.0, $LDAP_CFLAGS, $LDAP_LIBS)
+AC_SUBST(WOMBAT_CFLAGS)
+AC_SUBST(WOMBAT_LIBS)
 
 dnl *******************
 dnl Special directories
@@ -1267,19 +1225,6 @@ AC_SUBST(etspecdir)
 
 viewsdir="$privdatadir/views"
 AC_SUBST(viewsdir)
-
-dnl ************************
-dnl IDL/Component Versioning
-dnl ************************
-
-INTERFACE_VERSION="$BASE_VERSION"
-AC_SUBST(INTERFACE_VERSION)
-AC_DEFINE_UNQUOTED(INTERFACE_VERSION, "INTERFACE_VERSION", [IDL interface version (Major.Minor)])
-
-EVO_SUBST_SERVER_RULE='%.server.in: %.server.in.in ; sed -e "s|\@BINDIR\@|$(bindir)|" -e "s|\@LIBEXECDIR\@|$(privlibexecdir)|" -e "s|\@COMPONENTDIR\@|$(componentdir)|" -e "s|\@IMPORTERSDIR\@|$(importersdir)|" -e "s|\@VERSION\@|$(BASE_VERSION)|" -e "s|\@INTERFACE_VERSION\@|$(INTERFACE_VERSION)|" $< > $@'
-EVO_NAME_SERVER_RULE='%_$(BASE_VERSION).server: %.server ; mv $< $@'
-AC_SUBST(EVO_SUBST_SERVER_RULE)
-AC_SUBST(EVO_NAME_SERVER_RULE)
 
 ##################################################
 # Check for gtk-doc.
@@ -1365,6 +1310,7 @@ dnl ******************************
 export privlibdir
 export privincludedir
 export privdatadir
+AC_CONFIG_SUBDIRS(libical)
 
 EVOLUTION_DIR=`(cd $srcdir; pwd)`
 AC_SUBST(EVOLUTION_DIR)
@@ -1383,9 +1329,13 @@ addressbook/gui/contact-list-editor/Makefile
 addressbook/gui/merging/Makefile
 addressbook/gui/search/Makefile
 addressbook/gui/widgets/Makefile
+addressbook/backend/Makefile
+addressbook/backend/ebook/Makefile
+addressbook/backend/pas/Makefile
+addressbook/backend/idl/Makefile
 addressbook/conduit/Makefile
 addressbook/printing/Makefile
-addressbook/util/Makefile
+addressbook/tools/Makefile
 art/Makefile
 camel/Makefile
 camel/providers/Makefile
@@ -1422,11 +1372,13 @@ default_user/local/Calendar/Makefile
 default_user/local/Contacts/Makefile
 default_user/local/Drafts/Makefile
 default_user/local/Inbox/Makefile
+default_user/local/Junk/Makefile
 default_user/local/Outbox/Makefile
 default_user/local/Sent/Makefile
 default_user/local/Tasks/Makefile
 default_user/local/Trash/Makefile
 e-util/Makefile
+e-util/ename/Makefile
 filter/Makefile
 help/Makefile
 help/C/Makefile
@@ -1435,6 +1387,7 @@ shell/Makefile
 shell/evolution-nognome
 shell/glade/Makefile
 shell/importer/Makefile
+my-evolution/Makefile
 ui/Makefile
 views/Makefile
 views/addressbook/Makefile
@@ -1445,22 +1398,26 @@ widgets/Makefile
 widgets/e-timezone-dialog/Makefile
 widgets/menus/Makefile
 widgets/misc/Makefile
+wombat/Makefile
 calendar/Makefile
 calendar/importers/Makefile
 calendar/idl/Makefile
+calendar/cal-util/Makefile
+calendar/cal-client/Makefile
 calendar/conduits/Makefile
 calendar/conduits/todo/Makefile
 calendar/conduits/calendar/Makefile
+calendar/pcs/Makefile
 calendar/gui/Makefile
 calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
 composer/Makefile
 mail/Makefile
-smime/Makefile
-smime/lib/Makefile
-smime/gui/Makefile
+mail/importers/Makefile
 tools/Makefile
 evolution-shell.pc
+evolution-addressbook.pc
+evolution-calendar.pc
 camel.pc
 ])
 
@@ -1483,7 +1440,6 @@ echo "\
 	Pilot conduits:   $msg_pilot
 	Kerberos 4/5:     $msg_krb4/$msg_krb5
 	SSL support:      $msg_ssl
-	SMIME support:    $msg_smime
 	IPv6 support:     $msg_ipv6
 	Dot Locking:	  $msg_dot
 	File Locking:	  $msg_file
