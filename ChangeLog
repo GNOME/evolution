@@ -1,3 +1,12 @@
+2000-01-24  Matt Loper  <matt@helixcode.com>
+
+	* camel/camel-formatter.c (write_header_info_to_stream): new
+	function, broken out from 'camel_formatter_make_html'.
+	(write_mimepart_to_stream): same.
+	(find_text_body_part_in_multipart_related): new function.
+	(camel_formatter_make_html): Now tries to deal with
+	multipart/related, multipart/alternate, and text/(plain|html).
+
 2000-01-22  bertrand  <bertrand@helixcode.com>
 
 	* camel/providers/mbox/camel-mbox-folder.c (_check_get_or_maybe_generate_summary_file): 

@@ -25,8 +25,13 @@
 #ifndef CAMEL_FORMATTER_H
 #define CAMEL_FORMATTER_H
 
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus }*/
+
 #include <gtk/gtk.h>
-#include "camel-mime-message.h"
+#include "camel.h"
 
 #define CAMEL_FORMATTER_TYPE     (camel_formatter_get_type ())
 #define CAMEL_FORMATTER(obj)     (GTK_CHECK_CAST((obj), CAMEL_FORMATTER_TYPE, CamelDataWrapper))
@@ -35,11 +40,13 @@
 
 typedef struct _CamelFormatterPrivate CamelFormatterPrivate;
 
-typedef struct 
+typedef struct _CamelFormatter CamelFormatter;
+
+struct _CamelFormatter
 {
 	GtkObject parent_object;
 	CamelFormatterPrivate *priv;
-} CamelFormatter;
+};
 
 typedef struct {
 	GtkObjectClass parent_class;
@@ -50,13 +57,18 @@ typedef struct {
 GtkType  camel_formatter_get_type (void);
 
 /* Public functions */
-CamelFormatter* camel_formatter_new ();
+CamelFormatter* camel_formatter_new (void);
 
 /* The main job of CamelFormatter is to take a mime message, and
    produce html from it. */
 void     camel_formatter_make_html (CamelFormatter* cmf,
 				    CamelMimeMessage *msg,
 				    CamelStream* stream_out);
+
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif // CAMEL_FORMATTER_H
 
