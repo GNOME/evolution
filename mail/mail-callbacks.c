@@ -211,7 +211,7 @@ send_queued_mail (GtkWidget *widget, gpointer user_data)
 	}
 	
 	account = mail_config_get_default_account ();
-	if (!account->transport) {
+	if (!account || !account->transport) {
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
 							  GTK_TYPE_WINDOW);
 		
