@@ -31,8 +31,6 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 #include <ctype.h>
-#include <libhnj/hsjust.h>
-#include <libhnj/just.h>
 
 #define SCALE 5
 #define HYPHEN_PIXELS 20
