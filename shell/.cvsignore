@@ -1,9 +1,0 @@
-.deps
-.libs
-Shell-stubs.c
-Shell-skels.c
-Shell-common.c
-Shell.h
-evolution
-Makefile.in
-Makefile
