@@ -1,3 +1,8 @@
+2005-03-15  JP Rosevear  <jpr@novell.com>
+
+	* main.c: switch #ifdef DEVELOPMENT to #if DEVELOPMENT so the
+	configure.in foo actually controls this
+
 2005-02-28  JP Rosevear  <jpr@novell.com>
 
 	* e-shell-window-commands.c (command_submit_bug): update authors
