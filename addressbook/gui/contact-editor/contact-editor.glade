@@ -493,7 +493,7 @@
 	  <class>GtkButton</class>
 	  <name>button-fullname</name>
 	  <can_focus>True</can_focus>
-	  <label>_Full Name...</label>
+	  <label>Full _Name...</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <left_attach>1</left_attach>
@@ -894,7 +894,7 @@
 
 	<widget>
 	  <class>GtkAlignment</class>
-	  <name>alignment10</name>
+	  <name>alignment-htmlmail</name>
 	  <xalign>0.5</xalign>
 	  <yalign>0</yalign>
 	  <xscale>1</xscale>
@@ -917,6 +917,7 @@
 	  <widget>
 	    <class>GtkCheckButton</class>
 	    <name>checkbutton-htmlmail</name>
+	    <can_focus>True</can_focus>
 	    <label>Wants to receive _HTML mail</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
@@ -977,7 +978,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label-phone1</name>
-	    <label>_Business</label>
+	    <label>Business</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -1009,7 +1010,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label-phone2</name>
-	    <label>_Home</label>
+	    <label>Home</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -1041,7 +1042,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label-phone3</name>
-	    <label>Business _Fax</label>
+	    <label>Business Fax</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -1073,7 +1074,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label-phone4</name>
-	    <label>_Mobile</label>
+	    <label>Mobile</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -1137,7 +1138,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label-address</name>
-	    <label>B_usiness</label>
+	    <label>Business</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -1174,7 +1175,7 @@
 	    <class>GtkCheckButton</class>
 	    <name>checkbutton-mailingaddress</name>
 	    <visible>False</visible>
-	    <label>_This is the mailing address</label>
+	    <label>This is the _mailing address</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	  </widget>
@@ -1244,7 +1245,7 @@
 	    <class>GtkButton</class>
 	    <name>button-contacts</name>
 	    <can_focus>True</can_focus>
-	    <label>_Contacts...</label>
+	    <label>C_ontacts...</label>
 	    <relief>GTK_RELIEF_NORMAL</relief>
 	  </widget>
 	</widget>
@@ -1551,7 +1552,7 @@
 	  <class>GtkButton</class>
 	  <name>button-fulladdr</name>
 	  <can_focus>True</can_focus>
-	  <label>_Address...</label>
+	  <label>Add_ress...</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <left_attach>5</left_attach>
@@ -1683,7 +1684,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label-department</name>
-	  <label>_Department:</label>
+	  <label>D_epartment:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -1737,7 +1738,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label-profession</name>
-	  <label>_Profession:</label>
+	  <label>P_rofession:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -1791,7 +1792,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label-spouse</name>
-	  <label>_Spouse:</label>
+	  <label>S_pouse:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -1818,7 +1819,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label-birthday</name>
-	  <label>_Birthday:</label>
+	  <label>Birthda_y:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -1845,7 +1846,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label-assistant</name>
-	  <label>_Assistant's name:</label>
+	  <label>A_ssistant's name:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
