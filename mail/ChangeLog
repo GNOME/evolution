@@ -1,3 +1,14 @@
+2000-07-15  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* mail-ops.c (set_x_mailer_header): New helper function to set the
+	`X-Mailer:' header to to `Evolution <version> [Developer
+	Preview]".
+	(real_send_mail): Call it.
+
+2000-07-14  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (evolution_mail_LDADD): Add `GCONF_LIBS'.
+
 2000-07-14  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.c (write_headers): put a <p> at the end of the

@@ -397,6 +397,18 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 }
 
 static void
+set_x_mailer_header (CamelMedium *medium)
+{
+	char *mailer_string;
+
+	mailer_string = g_strdup_printf ("Evolution %s (Developer Preview)", VERSION);
+
+	camel_medium_add_header (medium, "X-Mailer", mailer_string);
+
+	g_free (mailer_string);
+}
+
+static void
 real_send_mail (gpointer user_data)
 {
 	rsm_t *info = (rsm_t *) user_data;
@@ -421,9 +433,9 @@ real_send_mail (gpointer user_data)
 	from = info->from;
 	psd = info->psd;
 
+	set_x_mailer_header (CAMEL_MEDIUM (message));
+
 	camel_mime_message_set_from (message, from);
-	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer",
-				 "Evolution (Developer Preview)");
 	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 
 	camel_service_connect (CAMEL_SERVICE (transport), ex);
