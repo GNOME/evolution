@@ -1,3 +1,7 @@
+2000-12-05  Not Zed  <NotZed@HelixCode.com>
+
+	* configure.in: Added camel/tests/stream/Makefile.am.
+
 2000-12-01  Dan Winship  <danw@helixcode.com>
 
 	* README: gnome-vfs depends on gconf, so add that.

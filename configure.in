@@ -672,6 +672,7 @@ camel/tests/Makefile
 camel/tests/lib/Makefile
 camel/tests/message/Makefile
 camel/tests/folder/Makefile
+camel/tests/stream/Makefile
 composer/Makefile
 widgets/Makefile
 widgets/meeting-time-sel/Makefile
