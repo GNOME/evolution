@@ -22,7 +22,7 @@ wombat_LDADD =							\
 	$(BONOBO_VFS_GNOME_LIBS)				\
 	$(top_builddir)/addressbook/backend/pas/libpas.a	\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
-	$(top_builddir)/addressbook/ename/libename.la		\
+	$(top_builddir)/e-util/ename/libename.la		\
 	$(top_builddir)/calendar/pcs/libpcs.a			\
 	$(top_builddir)/calendar/cal-util/libcal-util.la	\
 	$(top_builddir)/libical/src/libical/libical.a		\
