@@ -40,7 +40,6 @@
 #include "mail-folder-cache.h"
 
 #include "evolution-shell-component-utils.h"
-#include "camel/camel-vtrash-folder.h"
 
 /* The FolderBrowser BonoboControls we have.  */
 static EList *control_list = NULL;

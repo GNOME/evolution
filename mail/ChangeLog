@@ -1,3 +1,17 @@
+2001-10-08  Dan Winship  <danw@ximian.com>
+
+	* mail-local.c (mlf_set_folder, mlf_unset_folder): Update for
+	folder_flags.
+
+	* folder-browser-ui.c (folder_browser_ui_add_list): Check
+	CAMEL_FOLDER_IS_TRASH flag rather than checking
+	CAMEL_IS_VTRASH_FOLDER.
+
+	* folder-browser.c (folder_browser_toggle_hide_deleted): Likewise
+
+	* message-list.c (message_list_set_folder): Likewise.
+	(message_list_set_hidedeleted): Remove redundant trash check.
+
 2001-10-08  Jon Trowbridge  <trow@gnu.org>
 
 	* mail-format.c (write_default_header): Write out the Bcc: header
@@ -8,7 +22,7 @@
 	* mail-format.c (attachment_header): Convert the htmlinfo into
 	utf8. Fixes bug #11966.
 
-2001-10-08  Dan Winship  <danw@frotz.mysterion.org>
+2001-10-08  Dan Winship  <danw@ximian.com>
 
 	* component-factory.c (create_view): For mailstorage folders,
 	connect to the control's "activate" signal, and don't try to

@@ -53,7 +53,6 @@
 #include "mail-local.h"
 #include "mail-config.h"
 
-#include <camel/camel-vtrash-folder.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream-mem.h>
 
@@ -1141,7 +1140,7 @@ folder_browser_toggle_hide_deleted (BonoboUIComponent           *component,
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
 
-	if (!(fb->folder && CAMEL_IS_VTRASH_FOLDER(fb->folder)))
+	if (!(fb->folder && (fb->folder->folder_flags & CAMEL_FOLDER_IS_TRASH)))
 		mail_config_set_hide_deleted (atoi (state));
 	message_list_set_hidedeleted (fb->message_list, atoi (state));
 }

@@ -34,7 +34,6 @@
 #include <camel/camel-file-utils.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-folder-thread.h>
-#include <camel/camel-vtrash-folder.h>
 #include <e-util/ename/e-name-western.h>
 #include <e-util/e-memory.h>
 
@@ -1937,8 +1936,8 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, g
 	}
 
 	if (camel_folder) {
-		/* Setup the strikeout effect for non-vtrash folders */
-		if (!CAMEL_IS_VTRASH_FOLDER (camel_folder)) {
+		/* Setup the strikeout effect for non-trash folders */
+		if (!(camel_folder->folder_flags & CAMEL_FOLDER_IS_TRASH)) {
 			ECell *cell;
 
 			cell = e_table_extras_get_cell (message_list->extras, "render_date");
@@ -1968,7 +1967,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, g
 		camel_object_ref (CAMEL_OBJECT (camel_folder));
 		
 		message_list->hidedeleted = mail_config_get_hide_deleted () &&
-			!(CAMEL_IS_VTRASH_FOLDER (camel_folder));
+			!(camel_folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
 		
 		hide_load_state (message_list);
 		mail_regen_list (message_list, message_list->search, NULL, NULL);
@@ -2106,9 +2105,6 @@ message_list_set_threaded (MessageList *ml, gboolean threaded)
 void
 message_list_set_hidedeleted (MessageList *ml, gboolean hidedeleted)
 {
-	if (ml->folder && CAMEL_IS_VTRASH_FOLDER (ml->folder))
-		hidedeleted = FALSE;
-	
 	if (ml->hidedeleted != hidedeleted) {
 		ml->hidedeleted = hidedeleted;
 		

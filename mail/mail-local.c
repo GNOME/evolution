@@ -422,8 +422,7 @@ mlf_unset_folder (MailLocalFolder *mlf)
 	mlf->real_store = NULL;
 
 	folder->permanent_flags = 0;
-	folder->has_summary_capability = 0;
-	folder->has_search_capability = 0;
+	folder->folder_flags = 0;
 }
 
 static gboolean
@@ -448,14 +447,13 @@ mlf_set_folder(MailLocalFolder *mlf, guint32 flags, CamelException *ex)
 	if (mlf->real_folder == NULL)
 		return FALSE;
 
-	if (mlf->real_folder->has_summary_capability) {
+	if (mlf->real_folder->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY) {
 		folder->summary = mlf->real_folder->summary;
 		camel_object_ref((CamelObject *)mlf->real_folder->summary);
 	}
 
 	folder->permanent_flags = mlf->real_folder->permanent_flags;
-	folder->has_summary_capability = mlf->real_folder->has_summary_capability;
-	folder->has_search_capability = mlf->real_folder->has_search_capability;
+	folder->folder_flags = mlf->real_folder->folder_flags;
 
 	camel_object_hook_event((CamelObject *)mlf->real_folder, "message_changed", mlf_proxy_message_changed, mlf);
 	camel_object_hook_event((CamelObject *)mlf->real_folder, "folder_changed", mlf_proxy_folder_changed, mlf);

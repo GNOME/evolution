@@ -28,7 +28,6 @@
 #include "folder-browser-ui.h"
 
 #include "evolution-shell-component-utils.h" /* Pixmap stuff */
-#include "camel/camel-vtrash-folder.h"       /* vtrash checking */
 
 /*
  * Add with 'folder_browser'
@@ -344,7 +343,7 @@ folder_browser_ui_add_list (FolderBrowser *fb)
 	ui_add (fb, "list", list_verbs, list_pixcache);
 	
 	/* Hide Deleted */
-	if (fb->folder && CAMEL_IS_VTRASH_FOLDER (fb->folder)) {
+	if (fb->folder && (fb->folder->folder_flags & CAMEL_FOLDER_IS_TRASH)) {
 		bonobo_ui_component_set_prop (uic, "/commands/HideDeleted", "sensitive", "0", NULL);
 		state = FALSE;
 	} else {
