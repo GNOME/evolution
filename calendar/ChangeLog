@@ -1,3 +1,15 @@
+2004-09-09  JP Rosevear  <jpr@novell.com>
+
+	Fixes #65454
+	
+	* gui/e-itip-control.c (class_init): only use a destroy function,
+	no finalize
+	(cleanup_ecal): util function
+	(init): use above for hash table and killed destroyed flag
+	(weren't using it anywhere)
+	(destroy): collapse finalize work into here and guard against
+	multiple destroy calls
+
 2004-08-31  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #62392
