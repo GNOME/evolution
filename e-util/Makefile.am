@@ -33,8 +33,6 @@ libeutil_la_SOURCES =			\
 	e-popup-menu.h			\
 	e-printable.c			\
 	e-printable.h			\
-	e-setup.c			\
-	e-setup.h			\
 	e-sexp.c			\
 	e-sexp.h			\
 	e-util.c			\
