@@ -132,10 +132,11 @@ static struct {
 	char *uri;
 	CamelFolder *folder;
 } mc_default_folders[] = {
-	{ "Inbox", },
-	{ "Drafts", },
-	{ "Outbox", },
-	{ "Sent", },
+	/* translators: standard local mailbox names */
+	{ N_("Inbox"), },
+	{ N_("Drafts"), },
+	{ N_("Outbox"), },
+	{ N_("Sent"), },
 	{ "Inbox", },		/* 'always local' inbox */
 };
 

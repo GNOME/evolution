@@ -1,3 +1,14 @@
+2004-09-20  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #65329.
+
+	* em-folder-tree-model.c (emft_is_special_local_folder): added
+	helper for finding local folders for translation.
+	(em_folder_tree_model_set_folder_info): translate the special
+	local folder names.
+
+	* mail-component.c: mark standard folder names for translation.
+
 2004-09-23  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #65058 (again again).

@@ -414,6 +414,15 @@ account_removed (EAccountList *accounts, EAccount *account, gpointer user_data)
 	em_folder_tree_model_remove_store (model, si->store);
 }
 
+/* NB: more-or-less copied from em-folder-tree.c */
+static gboolean
+emft_is_special_local_folder(CamelStore *store, const char *name)
+{
+	/* Bit of a hack to translate local mailbox names */
+	return store == mail_component_peek_local_store(NULL)
+		&& (!strcmp (name, "Drafts") || !strcmp (name, "Inbox")
+		    || !strcmp (name, "Outbox") || !strcmp (name, "Sent"));
+}
 
 void
 em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *iter,
@@ -427,6 +436,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	gboolean load = FALSE;
 	struct _CamelFolder *folder;
 	gboolean emitted = FALSE;
+	const char *name;
 
 	if (!fully_loaded)
 		load = fi->child == NULL && !(fi->flags & (CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
@@ -457,9 +467,14 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 		}
 		camel_object_unref(folder);
 	}
-		
+
+	if (emft_is_special_local_folder(si->store, fi->full_name))
+		name = _(fi->name);
+	else
+		name = fi->name;
+
 	gtk_tree_store_set ((GtkTreeStore *) model, iter,
-			    COL_STRING_DISPLAY_NAME, fi->name,
+			    COL_STRING_DISPLAY_NAME, name,
 			    COL_POINTER_CAMEL_STORE, si->store,
 			    COL_STRING_FULL_NAME, fi->full_name,
 			    COL_STRING_URI, fi->uri,
