@@ -7,6 +7,7 @@
 #include <config.h>
 #include "gal-a11y-e-tree.h"
 #include "gal-a11y-util.h"
+#include "gal-a11y-e-table-item.h"
 #include <gal/e-table/e-tree.h>
 #include <gal/e-table/e-table-item.h>
 
@@ -150,7 +151,6 @@ gal_a11y_e_tree_new (GObject *widget)
 {
 	GalA11yETree *a11y;
 	ETree *tree;
-	AtkObject * item;
 
 	tree = E_TREE (widget);
 

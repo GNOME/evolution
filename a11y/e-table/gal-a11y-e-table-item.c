@@ -8,6 +8,7 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include "gal-a11y-e-table-item.h"
 #include "gal-a11y-e-cell-registry.h"
 #include "gal-a11y-e-cell.h"
@@ -91,7 +92,6 @@ eti_a11y_get_gobject (AtkObject *accessible)
 static void
 eti_dispose (GObject *object)
 {
-	gint i,j;
 	GalA11yETableItem *a11y = GAL_A11Y_E_TABLE_ITEM (object);
 	GalA11yETableItemPrivate *priv = GET_PRIVATE (a11y);
 
@@ -117,7 +117,6 @@ eti_dispose (GObject *object)
 static AtkObject *
 eti_get_parent (AtkObject *accessible)
 {
-	AtkGObjectAccessible *atk_gobj;
 	GalA11yETableItem *a11y;
 
 	g_return_val_if_fail (GAL_A11Y_IS_E_TABLE_ITEM (accessible), NULL);
@@ -132,8 +131,6 @@ eti_get_parent (AtkObject *accessible)
 static gint
 eti_get_n_children (AtkObject *accessible)
 {
-	AtkGObjectAccessible *atk_gobj;
-
 	g_return_val_if_fail (GAL_A11Y_IS_E_TABLE_ITEM (accessible), 0);
 	if (!eti_a11y_get_gobject (accessible))
 		return 0;
@@ -145,7 +142,6 @@ eti_get_n_children (AtkObject *accessible)
 static AtkObject*
 eti_ref_child (AtkObject *accessible, gint index)
 {
-	AtkGObjectAccessible *atk_gobj;
 	ETableItem *item;
 	gint col, row;
 
@@ -174,7 +170,6 @@ eti_ref_child (AtkObject *accessible, gint index)
 static gint
 eti_get_index_in_parent (AtkObject *accessible)
 {
-	AtkGObjectAccessible *atk_gobj;
 	GalA11yETableItem *a11y;
 
 	g_return_val_if_fail (GAL_A11Y_IS_E_TABLE_ITEM (accessible), -1);
@@ -236,7 +231,7 @@ eti_ref_accessible_at_point (AtkComponent *component,
 
 	item = E_TABLE_ITEM (eti_a11y_get_gobject (ATK_OBJECT (component)));
 	if (!item)
-		return;
+		return NULL;
 
 	atk_component_get_position (component,
 				    &x_origin,
@@ -259,8 +254,7 @@ eti_ref_accessible_at_point (AtkComponent *component,
 static void
 cell_destroyed (gpointer data)
 {
-	AtkObject *parent;
-	gint index, n_cols;
+	gint index;
 	GalA11yETableItem * item;
 	GalA11yECell * cell;
 
@@ -552,9 +546,6 @@ static gboolean
 table_add_row_selection (AtkTable *table, gint row)
 {
 	ETableItem *item;
-	gint cursor_row, cursor_col, row_count;
-	GdkModifierType state = GDK_CONTROL_MASK;
-	ESelectionModel *selection;
 
 	item = E_TABLE_ITEM (eti_a11y_get_gobject (ATK_OBJECT (table)));
 	if (!item)
@@ -622,9 +613,7 @@ eti_rows_inserted (ETableModel * model, int row, int count,
 		   AtkObject * table_item)
 {
 	gint n_cols,n_rows,i,j;
-	gint size;
 	gpointer *cell_data;
-	ETableItem *item = E_TABLE_ITEM (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (table_item)));
 	GalA11yETableItem * item_a11y;
 	gint old_nrows;
 
@@ -760,7 +749,6 @@ eti_rows_deleted (ETableModel * model, int row, int count,
 {
 	gint i,j, n_rows, n_cols, old_nrows;
 	gpointer *cell_data;
-	ETableItem *item = E_TABLE_ITEM (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (table_item)));
 	
 	n_rows = atk_table_get_n_rows (ATK_TABLE(table_item));
         n_cols = atk_table_get_n_columns (ATK_TABLE(table_item));
@@ -901,8 +889,6 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
                                                                                 
                 /* cols[i] is new added column. */
                 if ( j == prev_n_cols ) {
-			gint row;
-
 			added_found = TRUE;
                         state[i] = ETI_HEADER_NEW_ADDED;
                 }

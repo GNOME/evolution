@@ -30,7 +30,7 @@ gal_a11y_e_table_click_to_add_factory_create_accessible (GObject *obj)
 {
 	AtkObject * atk_object;
 
-	g_return_if_fail (E_IS_TABLE_CLICK_TO_ADD(obj));
+	g_return_val_if_fail (E_IS_TABLE_CLICK_TO_ADD(obj), NULL);
 
 	atk_object = gal_a11y_e_table_click_to_add_new (obj);
 

@@ -29,12 +29,9 @@ static AtkObject*
 gal_a11y_e_table_item_factory_create_accessible (GObject *obj)
 {
 	AtkObject *accessible;
-	ETableItem * eti;
-	GnomeCanvas * gc;
-	GtkWidget * table;
 
-	g_return_if_fail (E_IS_TABLE_ITEM(obj));
-	accessible = gal_a11y_e_table_item_new(NULL, obj, 0);
+	g_return_val_if_fail (E_IS_TABLE_ITEM(obj), NULL);
+	accessible = gal_a11y_e_table_item_new(NULL, E_TABLE_ITEM (obj), 0);
                                                                                 
 	return accessible;
 }

@@ -26,6 +26,7 @@
 #include <config.h>
 #include <gal/e-table/e-cell-popup.h>
 #include "gal-a11y-e-cell-popup.h"
+#include "gal-a11y-e-cell-registry.h"
 #include "gal-a11y-util.h"
 #include <atk/atkobject.h>
 #include <gdk/gdkkeysyms.h>
@@ -75,8 +76,6 @@ gal_a11y_e_cell_popup_get_type (void)
 static void
 gal_a11y_e_cell_popup_class_init (GalA11yECellPopupClass *klass)
 {
-	AtkObjectClass *class = ATK_OBJECT_CLASS (klass);
-
 	parent_class = g_type_class_ref (PARENT_TYPE);
 }
 
@@ -131,7 +130,6 @@ gal_a11y_e_cell_popup_new (ETableItem *item,
 static void
 popup_cell_action (GalA11yECell *cell)
 {
-	ECellPopup *ecp;
 	gint finished;
 	GdkEvent event;
 

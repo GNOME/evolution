@@ -13,6 +13,8 @@
 #include <atk/atkobject.h>
 #include <atk/atkcomponent.h>
 #include <atk/atkaction.h>
+#include <atk/atkstateset.h>
+#include <gtk/gtkwindow.h>
 
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yECellClass))
 static GObjectClass *parent_class;
@@ -128,7 +130,7 @@ eti_grab_focus (AtkComponent *component)
 	GtkWidget *e_table, *toplevel;
 
 	a11y = GAL_A11Y_E_CELL (component);
-	e_table = gtk_widget_get_parent (GNOME_CANVAS_ITEM (a11y->item)->canvas);
+	e_table = gtk_widget_get_parent (GTK_WIDGET (GNOME_CANVAS_ITEM (a11y->item)->canvas));
 	view_row = e_table_view_to_model_row (E_TABLE (e_table), a11y->row);
 
 	e_selection_model_select_single_row (a11y->item->selection, view_row);
@@ -137,7 +139,9 @@ eti_grab_focus (AtkComponent *component)
 	gtk_widget_grab_focus (e_table);
 	toplevel = gtk_widget_get_toplevel (e_table);
 	if (GTK_WIDGET_TOPLEVEL (toplevel))
-		gtk_window_present (toplevel);
+		gtk_window_present (GTK_WINDOW (toplevel));
+
+	return TRUE;
 }
 
 /* Table IFace */

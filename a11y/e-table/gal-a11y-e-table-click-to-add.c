@@ -57,11 +57,11 @@ idle_do_action (gpointer data)
 {
         GdkEventButton event;
 	ETableClickToAdd * etcta;
-        gint x, y, width, height, finished;
+        gint finished;
 
 	g_return_val_if_fail ( data!= NULL, FALSE);
 
-	etcta = atk_gobject_accessible_get_object (ATK_OBJECT(data));
+	etcta = E_TABLE_CLICK_TO_ADD (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (data)));
 	g_return_val_if_fail (etcta, FALSE);
 
 	event.x = 0;
@@ -127,7 +127,7 @@ etcta_ref_child (AtkObject *accessible,
 
 	etcta  = E_TABLE_CLICK_TO_ADD(atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible)));
 
-	g_return_if_fail (etcta);
+	g_return_val_if_fail (etcta, NULL);
 
 	if (etcta->rect) {
 		atk_obj = atk_gobject_accessible_for_object (G_OBJECT(etcta->rect));
@@ -247,9 +247,8 @@ gal_a11y_e_table_click_to_add_new (GObject *widget)
 	GalA11yETableClickToAdd *a11y;
 	ETableClickToAdd * etcta;
 	GalA11yETableClickToAddPrivate *priv;
-	gint id;
 
-	g_return_if_fail (widget != NULL);
+	g_return_val_if_fail (widget != NULL, NULL);
 
 	a11y = g_object_new (gal_a11y_e_table_click_to_add_get_type (), NULL);
 	priv = GET_PRIVATE (a11y);

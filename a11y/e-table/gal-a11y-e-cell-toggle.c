@@ -65,7 +65,6 @@ gal_a11y_e_cell_toggle_class_init (GalA11yECellToggleClass *klass)
 static void
 toggle_cell_action (GalA11yECell *cell)
 {
-	ECellToggle * ect;
 	gint finished;
 	GdkEventButton event;
 	gint x, y, width, height;

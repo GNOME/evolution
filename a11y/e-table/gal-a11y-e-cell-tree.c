@@ -9,6 +9,7 @@
 #include <config.h>
 #include <atk/atk.h>
 #include "gal-a11y-e-cell-tree.h"
+#include "gal-a11y-e-cell-registry.h"
 #include "gal-a11y-util.h"
 #include "gal/e-table/e-cell-tree.h"
 #include "gal/e-table/e-table.h"
@@ -146,7 +147,6 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 {
 	AtkObject *subcell_a11y;
 	GalA11yECellTree *a11y;
-        GtkWidget *e_table;
 
         ETreePath node;
         ETreeModel *tree_model;
@@ -163,13 +163,13 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 								    model_col,
 								    view_col,
 								    row);
-		gal_a11y_e_cell_add_action (subcell_a11y,
+		gal_a11y_e_cell_add_action (GAL_A11Y_E_CELL (subcell_a11y),
 					    "expand",
 					    "expands the row in the ETree containing this cell",
 					    NULL,
 					    (ACTION_FUNC)ectr_do_action_expand);
 
-		gal_a11y_e_cell_add_action (subcell_a11y,
+		gal_a11y_e_cell_add_action (GAL_A11Y_E_CELL (subcell_a11y),
 					    "collapse",
 					    "collapses the row in the ETree containing this cell",
 					    NULL,
@@ -180,9 +180,9 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 		tree_model = e_table_model_value_at (item->table_model, -2, row);
 		tree_table_adapter = e_table_model_value_at (item->table_model, -3, row);
 		if (e_tree_model_node_is_expandable (tree_model, node)) {
-			gal_a11y_e_cell_add_state (subcell_a11y, ATK_STATE_EXPANDABLE, FALSE);
+			gal_a11y_e_cell_add_state (GAL_A11Y_E_CELL (subcell_a11y), ATK_STATE_EXPANDABLE, FALSE);
 			if (e_tree_table_adapter_node_is_expanded (tree_table_adapter, node))
-				gal_a11y_e_cell_add_state (subcell_a11y, ATK_STATE_EXPANDED, FALSE);
+				gal_a11y_e_cell_add_state (GAL_A11Y_E_CELL (subcell_a11y), ATK_STATE_EXPANDED, FALSE);
 		}
 	}
 	else
@@ -192,7 +192,7 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 	   and it connects to some signals to determine whether a tree cell is
 	   expanded or collapsed */
 	a11y = g_object_new (gal_a11y_e_cell_tree_get_type (), NULL);
-	gal_a11y_e_cell_construct (a11y,
+	gal_a11y_e_cell_construct (ATK_OBJECT (a11y),
 				   item,
 				   cell_view,
 				   parent,
@@ -203,7 +203,7 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 		g_signal_connect (item->table_model, "model_row_changed",
 				  G_CALLBACK (ectr_model_row_changed_cb),
 				  subcell_a11y);
-	g_object_weak_ref (subcell_a11y, ectr_subcell_weak_ref, a11y);
+	g_object_weak_ref (G_OBJECT (subcell_a11y), (GWeakNotify) ectr_subcell_weak_ref, a11y);
 
 	return subcell_a11y;
 }

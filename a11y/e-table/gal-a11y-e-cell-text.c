@@ -7,6 +7,7 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include "gal-a11y-e-cell-text.h"
 #include "gal-a11y-util.h"
 #include <gal/e-table/e-cell-text.h>
@@ -290,7 +291,6 @@ ect_remove_selection (AtkText *text,
 		      gint selection_num)
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
-	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
 	gint selection_start, selection_end;
 
 	if (selection_num == 0
@@ -400,7 +400,7 @@ ect_copy_text (AtkEditableText *text,
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
 	if (start_pos != end_pos
-	    && atk_text_set_selection (text, 0, start_pos, end_pos))
+	    && atk_text_set_selection (ATK_TEXT (text), 0, start_pos, end_pos))
 		e_cell_text_copy_clipboard (gaec->cell_view,
 					    gaec->view_col, gaec->row);
 }
@@ -412,7 +412,7 @@ ect_delete_text (AtkEditableText *text,
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
 	if (start_pos != end_pos
-	    && atk_text_set_selection (text, 0, start_pos, end_pos))
+	    && atk_text_set_selection (ATK_TEXT (text), 0, start_pos, end_pos))
 		e_cell_text_delete_selection (gaec->cell_view,
 					      gaec->view_col, gaec->row);
 }
@@ -434,7 +434,7 @@ ect_paste_text (AtkEditableText *text,
 
 	e_table_item_enter_edit (gaec->item, gaec->view_col, gaec->row);
 
-	if (atk_text_set_caret_offset (text, position))
+	if (atk_text_set_caret_offset (ATK_TEXT (text), position))
 		e_cell_text_paste_clipboard (gaec->cell_view,
 					     gaec->view_col, gaec->row);
 }
@@ -491,7 +491,7 @@ ect_class_init (GalA11yECellTextClass *klass)
 static void
 ect_init (GalA11yECellText *a11y)
 {
-	gal_a11y_e_cell_add_action (a11y,
+	gal_a11y_e_cell_add_action (GAL_A11Y_E_CELL (a11y),
 				    "edit",
 				    "begin editing this cell",
 				    NULL,
