@@ -1,3 +1,9 @@
+2000-07-25  Michael Meeks  <michael@helixcode.com>
+
+	* e-msg-composer.c (get_text): add textual exception printout.
+	(set_editor_text): close pre tags & check for pre-existing
+	sig separator.
+
 2000-07-25  Peter Williams  <peterw@helixcode.com>
 
 	* e-msg-composer.c (menu_file_insert_file_cb): Mark this function

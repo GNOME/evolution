@@ -101,7 +101,8 @@ get_text (Bonobo_PersistStream persist, char *format)
 	Bonobo_PersistStream_save (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)),
 				   format, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		/* FIXME. Some error message. */
+		g_warning ("Exception getting mail '%s'",
+			   bonobo_exception_get_txt (&ev));
 		return NULL;
 	}
 	
@@ -365,8 +366,12 @@ set_editor_text (BonoboWidget *editor, const char *text)
 
 	sig = get_signature ();
 	if (sig) {
-		fulltext = g_strdup_printf ("%s<BR>\n<PRE>\n--\n%s<PRE>",
-					    text, sig);
+		if (!strncmp ("--\n", sig, sizeof ("--\n")))
+			fulltext = g_strdup_printf ("%s<BR>\n<PRE>\n%s</PRE>",
+						    text, sig);
+		else
+			fulltext = g_strdup_printf ("%s<BR>\n<PRE>\n--\n%s</PRE>",
+						    text, sig);
 	} else {
 		if (!*text)
 			return;

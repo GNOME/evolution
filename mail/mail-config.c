@@ -254,7 +254,7 @@ create_identity_page (GtkWidget *vbox, struct identity_record *idrec)
 	GtkWidget *name, *addr, *org, *sig;
 	GtkWidget *name_entry, *addr_entry, *org_entry, *sig_entry;
 	GtkWidget *hsep;
-	char *user;
+	char *user, *default_sig;
 	struct passwd *pw = NULL;
 
 	html = html_new (FALSE);
@@ -349,6 +349,14 @@ create_identity_page (GtkWidget *vbox, struct identity_record *idrec)
 			  GTK_FILL, 0, 0, 0);
 	gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (sig_entry),
 					   g_get_home_dir ());
+
+	default_sig = g_strconcat (g_get_home_dir (), G_DIR_SEPARATOR_S,
+				   ".signature", NULL);
+	gtk_entry_set_text (GTK_ENTRY (
+		gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (sig_entry))),
+			    default_sig);
+	g_free (default_sig);
+
 	gtk_object_set_data (GTK_OBJECT (vbox), "sig",
 			     gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (sig_entry)));
 

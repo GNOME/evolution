@@ -56,6 +56,12 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	FILE *fp = fopen (".addressbook", "r");
 	char line[1024];
+
+	if (!fp) {
+		g_warning ("Can't find .addressbook");
+		return;
+	}
+
 	while(fgets(line, 1024, fp)) {
 		int length = strlen(line);
 		char **strings;

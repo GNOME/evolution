@@ -1,3 +1,8 @@
+2000-07-25  Michael Meeks  <michael@helixcode.com>
+
+	* backend/ebook/load-pine-addressbook.c (book_open_cb): check we
+	opened ok.
+
 2000-07-25  Seth Alves  <alves@hungry.com>
 
 	* ename/Makefile.am (libename_static_la_LDFLAGS): build static

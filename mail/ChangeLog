@@ -1,3 +1,8 @@
+2000-07-25  Michael Meeks  <michael@helixcode.com>
+
+	* mail-config.c (create_identity_page): set default signature to
+	~/.signature
+
 2000-07-25  Peter Williams  <peterw@helixcode.com>
 
 	* mail-ops.c (reply): Check for the case of fb->mail_display->
