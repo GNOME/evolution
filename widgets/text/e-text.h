@@ -153,10 +153,6 @@ struct _EText {
 
 	char *ellipsis;                 /* The ellipsis characters.  NULL = "...". */
 	double ellipsis_width;          /* The width of the ellipsis. */
-	gboolean use_ellipsis;          /* Whether to use the ellipsis. */
-
-	gboolean editable;              /* Item is editable */
-	gboolean editing;               /* Item is currently being edited */
 
 	int xofs_edit;                  /* Offset because of editing */
 	int yofs_edit;                  /* Offset because of editing */
@@ -208,6 +204,11 @@ struct _EText {
 
 	guint tooltip_owner : 1;
 	guint allow_newlines : 1;
+
+	guint use_ellipsis : 1;         /* Whether to use the ellipsis. */
+
+	guint editable : 1;             /* Item is editable */
+	guint editing : 1;              /* Item is currently being edited */
 
 	EFontStyle     style;
 

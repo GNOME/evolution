@@ -606,7 +606,7 @@ e_canvas_item_grab_focus (GnomeCanvasItem *item, gboolean widget_too)
 		gtk_widget_grab_focus (GTK_WIDGET (item->canvas));
 	}
 
-	if (focused_item) {
+	if (item) {
 		ev.focus_change.type = GDK_FOCUS_CHANGE;
 		ev.focus_change.window = GTK_LAYOUT (item->canvas)->bin_window;
 		ev.focus_change.send_event = FALSE;
