@@ -2,21 +2,16 @@
 #ifndef _E_TREE_H_
 #define _E_TREE_H_
 
-#include <libgnomeui/gnome-canvas.h>
 #include <gtk/gtktable.h>
 #include <gnome-xml/tree.h>
-#include <gal/e-table/e-table-header.h>
-#include <gal/e-table/e-table-group.h>
-#include <gal/e-table/e-table-sort-info.h>
-#include <gal/e-table/e-table-item.h>
+
+#include <gal/widgets/e-printable.h>
+
 #include <gal/e-table/e-table-extras.h>
 #include <gal/e-table/e-table-specification.h>
-#include <gal/widgets/e-printable.h>
 #include <gal/e-table/e-table-state.h>
-
 #include <gal/e-table/e-tree-model.h>
-#include <gal/e-table/e-tree-table-adapter.h>
-#include <gal/e-table/e-tree-sorted.h>
+#include <gal/e-table/e-tree-selection-model.h>
 
 BEGIN_GNOME_DECLS
 
@@ -27,56 +22,12 @@ BEGIN_GNOME_DECLS
 #define E_IS_TREE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TREE_TYPE))
 
 typedef struct _ETreeDragSourceSite ETreeDragSourceSite;
+typedef struct ETreePriv ETreePriv;
 
 typedef struct {
 	GtkTable parent;
 
-	ETreeModel *model;
-	ETreeSorted *sorted;
-	ETreeTableAdapter *etta;
-
-	ETableHeader *full_header, *header;
-
-	ETableSortInfo *sort_info;
-	ESorter   *sorter;
-
-	ESelectionModel *selection;
-	ETableSpecification *spec;
-
-	int reflow_idle_id;
-
-	GnomeCanvas *header_canvas, *table_canvas;
-
-	GnomeCanvasItem *header_item, *root;
-
-	GnomeCanvasItem *white_item;
-	GnomeCanvasItem *item;
-
-	gint length_threshold;
-
-	/*
-	 * Configuration settings
-	 */
-	guint horizontal_draw_grid : 1;
-	guint vertical_draw_grid : 1;
-	guint draw_focus : 1;
-	guint row_selection_active : 1;
-
-	guint horizontal_scrolling : 1;
-
-	ECursorMode cursor_mode;
-
-	int drop_row;
-	ETreePath drop_path;
-	int drop_col;
-
-	int drag_row;
-	ETreePath drag_path;
-	int drag_col;
-	ETreeDragSourceSite *site;
-	
-	int drag_source_button_press_event_id;
-	int drag_source_motion_notify_event_id;
+	ETreePriv *priv;
 } ETree;
 
 typedef struct {
@@ -197,8 +148,11 @@ void            e_tree_set_cursor                (ETree               *e_tree,
 /* NULL means we don't have the cursor. */
 ETreePath       e_tree_get_cursor                (ETree               *e_tree);
 void            e_tree_selected_row_foreach      (ETree               *e_tree,
-						  EForeachFunc          callback,
-						  gpointer              closure);
+						  EForeachFunc         callback,
+						  gpointer             closure);
+void            e_tree_selected_path_foreach     (ETree               *e_tree,
+						  ETreeForeachFunc     callback,
+						  gpointer             closure);
 gint            e_tree_selected_count            (ETree               *e_tree);
 EPrintable     *e_tree_get_printable             (ETree               *e_tree);
 

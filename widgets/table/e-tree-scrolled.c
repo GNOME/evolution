@@ -17,6 +17,7 @@
 #include <gtk/gtksignal.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
+#include <gal/util/e-util.h>
 
 #include "e-tree-scrolled.h"
 

@@ -3,12 +3,8 @@
 #define _E_TREE_SELECTION_MODEL_H_
 
 #include <gtk/gtkobject.h>
-#include <gal/util/e-sorter.h>
-#include <gdk/gdktypes.h>
 #include <gal/widgets/e-selection-model.h>
 #include <gal/e-table/e-tree-model.h>
-#include <gal/e-table/e-tree-sorted.h>
-#include <gal/e-table/e-tree-table-adapter.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -17,7 +13,7 @@ extern "C" {
 typedef void (*ETreeForeachFunc) (ETreePath path,
 				  gpointer closure);
 
-typedef struct ETreeSelectionModelNode ETreeSelectionModelNode;
+typedef struct ETreeSelectionModelPriv ETreeSelectionModelPriv;
 
 #define E_TREE_SELECTION_MODEL_TYPE        (e_tree_selection_model_get_type ())
 #define E_TREE_SELECTION_MODEL(o)          (GTK_CHECK_CAST ((o), E_TREE_SELECTION_MODEL_TYPE, ETreeSelectionModel))
@@ -28,22 +24,7 @@ typedef struct ETreeSelectionModelNode ETreeSelectionModelNode;
 typedef struct {
 	ESelectionModel base;
 
-	ETreeTableAdapter *etta;
-	ETreeSorted *ets;
-	ETreeModel *model;
-
-	ETreeSelectionModelNode *root;
-
-	ETreePath cursor_path;
-	gint cursor_col;
-	gint selection_start_row;
-
-	guint model_changed_id;
-	guint model_row_inserted_id, model_row_deleted_id;
-
-	guint frozen : 1;
-	guint selection_model_changed : 1;
-	guint group_info_changed : 1;
+	ETreeSelectionModelPriv *priv;
 } ETreeSelectionModel;
 
 typedef struct {
