@@ -1,5 +1,12 @@
 2001-10-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-utils.c (header_decode_text): Fix a slight error in
+	logic. Just because the last word was an encoded word doesn't mean
+	we ignore the lwsp padding, we only ignore it if the last word and
+	*this* word are encoded.
+
+2001-10-06  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-mime-filter-basic.c (filter): Implemented uuencoding and
 	decoding.
 	(complete): Implemented uuencoding and decoding.

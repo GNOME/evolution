@@ -509,7 +509,7 @@ base64_decode_simple (char *data, int len)
 int
 uuencode_close (unsigned char *in, int len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save, char *uulen)
 {
-	register unsigned char *inptr, *outptr, *bufptr;
+	register unsigned char *outptr, *bufptr;
 	register guint32 saved;
 	int i;
 	
@@ -583,7 +583,7 @@ int
 uuencode_step (unsigned char *in, int len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save, char *uulen)
 {
 	register unsigned char *inptr, *outptr, *bufptr;
-	unsigned char *inend, ch;
+	unsigned char *inend;
 	register guint32 saved;
 	int i;
 	
@@ -1220,7 +1220,7 @@ static char *
 header_decode_text (const char *in, int inlen, const char *default_charset)
 {
 	GString *out;
-	const char *inptr, *inend, *start, *locale_charset;
+	const char *inptr, *inend, *start, *chunk, *locale_charset;
 	char *dword = NULL;
 
 	locale_charset = camel_charset_locale_name();
@@ -1228,6 +1228,7 @@ header_decode_text (const char *in, int inlen, const char *default_charset)
 	out = g_string_new("");
 	inptr = in;
 	inend = inptr + inlen;
+	chunk = NULL;
 
 	while (inptr < inend) {
 		start = inptr;
@@ -1237,8 +1238,11 @@ header_decode_text (const char *in, int inlen, const char *default_charset)
 		if (inptr == inend) {
 			g_string_append_len(out, start, inptr-start);
 			break;
-		} else if (dword == NULL)
+		} else if (dword == NULL) {
 			g_string_append_len(out, start, inptr-start);
+		} else {
+			chunk = start;
+		}
 
 		start = inptr;
 		while (inptr < inend && !is_lwsp(*inptr))
@@ -1248,12 +1252,16 @@ header_decode_text (const char *in, int inlen, const char *default_charset)
 		if (dword) {
 			g_string_append(out, dword);
 			g_free(dword);
-		} else if ((default_charset == NULL
-			    || !append_8bit(out, start, inptr-start, default_charset))
-			   && (locale_charset == NULL
-			       || !append_8bit(out, start, inptr-start, locale_charset))) {
-			append_latin1(out, start, inptr-start);
+		} else {
+			if (!chunk)
+				chunk = start;
+			
+			if ((default_charset == NULL || !append_8bit (out, chunk, inptr-chunk, default_charset))
+			    && (locale_charset == NULL || !append_8bit(out, chunk, inptr-chunk, locale_charset)))
+				append_latin1(out, chunk, inptr-chunk);
 		}
+		
+		chunk = NULL;
 	}
 
 	dword = out->str;
