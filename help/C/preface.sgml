@@ -217,8 +217,7 @@
     
     <para>
       The <guilabel>Shortcut Bar</guilabel> lets you go to your favorite
-      components with a click of a button.  You can even add your favorite
-      folders to the <guilabel>Shortcut Bar</guilabel>.
+      components with the click of a click of a button.  
     </para>
     
     <para>
@@ -228,7 +227,7 @@
     
     <para>
       Periodically, <application>Evolution</application> will need to quietly
-      display a message, or tell you the progress of something.  This most
+      display a message, or tell you the progress of a task.  This most
       often happens when you're checking or sending email.  These progress
       queues are shown here, in the <guilabel>Status Bar</guilabel>.  
     </para>
@@ -279,6 +278,13 @@
       you're coming from a Unix program, you're probably using mbox.  Ask your
       system administrator if you aren't sure which you use.
     </para>
+    <note>
+      <title>Eudora</title>
+      <para>
+	Eudora email client uses mbox format to store mail.  So if you're coming
+	from Eudora, you'll want to select mbox.
+      </para>
+    </note>
     <para>
       To import your files, go to
       <menuchoice>
@@ -552,7 +558,8 @@
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Double-click on the contact's card.
+		      Double-click on the contact's card and enter details about
+		      the person.
 		    </para>
 		  </listitem>
 		</itemizedlist>

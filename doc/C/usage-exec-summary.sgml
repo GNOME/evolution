@@ -101,7 +101,7 @@
     <sect2 id="delete-components">
       <title>Deleting Components</title>
       <para>
-	Of course, there are possibly some components which you'd prefer not too
+	There are possibly some components which you'd prefer not too
 	view in your My Evolution.
 	To remove a component:
 	<orderedlist numeration="arabic">

@@ -297,10 +297,7 @@
 	  any email address or message, and choose
 	  <guimenuitem>Create Card for this Address</guimenuitem> or
 	  <guimenuitem>Create Card for this Sender</guimenuitem>
-            from the menu.  While looking at a calendar appointment,
-	  right-click any email address, and choose
-	  <guimenuitem>Create Card for this Address</guimenuitem>.
-	  (NOTE that feature may change!  unimplemented!)
+	  from the menu.
 	</para>
       </tip>
     </para>

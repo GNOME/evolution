@@ -1,5 +1,15 @@
 2001-07-09  Kevin Breit  <battery841@mediaone.net>
 
+	* C/usage-exec-summary.sgml: Editing
+
+	* C/usage-mail.sgml: Editing
+
+	* C/usage-mail-org.sgml: Editing
+
+	* C/usage-calendar.sgml: Editing
+
+	* C/usage-contact.sgml: Editing
+
 	* C/usage-mail-org.sgml: Mention UNMATCHED
 
 	* C/usage-mail.sgml: Commented on trash being a vFolder

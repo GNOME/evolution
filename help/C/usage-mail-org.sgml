@@ -320,7 +320,7 @@
 		    Size (kb) - Sorts based on the size of the message in kilobytes.
 		  </para>
 		</listitem>
-		
+		          <itemizedlist>
 		<listitem>
 		  <para>
 		    Status - Filters according to the status of a message, such as
@@ -362,18 +362,14 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Select the criterion for the condition.
-	</para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      If you want multiple criterion for this filter, press <guibutton>Add
-	    criterion</guibutton> and repeat the previous step.
+	      Select the criterion for the condition.   If you want multiple
+	      criterion for this filter, press <guibutton>Add
+		criterion</guibutton> and repeat the previous step.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	  Select the actions for the filter in the <guilabel>Then</guilabel>
+	      Select the actions for the filter in the <guilabel>Then</guilabel>
 	      section.  You can select any of the following options.
 	      <itemizedlist>
 		<listitem><para>
@@ -555,21 +551,19 @@
 	systems can't.
       </para>
 
-      <example id="usage-mail-organize-vFolders-ex">
-	<title>Using Folders, Searches, and Virtual Folders</title>
-	<para>
-	   To organize my mail box, I set up a virtual folder for
-	   emails from my friend and co-worker Anna.  I have another
-	   one for messages that have "ximian.com" in the address and
-	   "Evolution" in the subject line, so I can keep a record of
-	   what people from work send me about
-	   <application>Evolution</application>.  If Anna sends me a
-	   message about anything other than Evolution, it only shows
-	   up in the "Anna" folder. When Anna sends me mail about the
-	   user interface for <application>Evolution</application>, I
-	   can see that message both in the "Anna" virtual folder and
-	   in the "Internal Evolution Discussion" virtual folder.
-	</para>
+    <example id="usage-mail-organize-vFolders-ex">
+      <title>Using Folders, Searches, and Virtual Folders</title>
+      <para>
+	To organize their mailbox, Jim sets up a virtual volder for emails from
+	his friend and co-worker Anna.  He has another one for messages that
+	have ximian.com in the address and Evolution in the subject line, so he
+	can keep a record of what people from work send him about
+	<application>evolution</application>.  If Anna sends him a message about
+	anything other than Evolution, it only shows up in the "Anna" folder.
+	When Anna sends him mail about the user interface for
+	<application>evolution</application>, he can see that message both in
+	the "Anna" virtual folder and in the "Internal Evolution Discussion"
+	virtual folder.
       </example>
 
 	<!--  (INSERT SCREENSHOT HERE: virtual folders in action) -->
@@ -760,7 +754,7 @@
       </para>
     </sect2>
     <sect2 id="usage-mail-vfolder-unmatched">
-      <title>Unmatched vFolder</title>
+      <title>The Unmatched vFolder</title>
       <para>
 	Obveously, not all messages will fit into all your vFolders.  That is
 	what the UNMATCHED vFolder is for.  The UNMATCHED vFolder is a vFolder

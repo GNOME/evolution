@@ -41,7 +41,7 @@
       mail. There's also the <application>Evolution</application>
       <link linkend="usage-mail-organize-vFolders">Virtual
       Folder</link>, an advanced organizational feature not found in
-      many other mail clients.  If you get a lot of mail, or if you keep
+      mainstream mail clients.  If you get a lot of mail, or if you keep
       every message you get in case you need to refer to it later,
       you'll find this feature especially useful.
     </para>
@@ -98,7 +98,7 @@
     </para>
     
     <para>
-      The <guilabel>Email List</guilabel> lists off all the emails that you
+      The <guilabel>Email List</guilabel> displays all the emails that you
       have.  This includes all your read, unread, and email that is flagged 
       to be deleted.
     </para>
@@ -665,7 +665,7 @@ with quoted materials and the relevant replies interspersed-->
           use the <guibutton>Reply to List</guibutton> instead of the standard
           <guibutton>Reply</guibutton> or <guibutton>Reply to All</guibutton>.
           <note>
-            <title>Whats a Mailing List?</title>
+            <title>What is a Mailing List?</title>
             <para>
               Mailing Lists are one of the most popular ways in which group
               collaboration on the Internet works.  They allow people to send one
@@ -1015,8 +1015,7 @@ with quoted materials and the relevant replies interspersed-->
       <sect2 id="usage-mail-getnsend-ettiquette">
         <title>Seven Tips for Email Courtesy</title>
         <para>
-          I started with ten, but four were "Don't send
-          <glossterm linkend="spam">spam</glossterm>."
+
           <itemizedlist>
 
             <listitem>
@@ -1062,6 +1061,12 @@ with quoted materials and the relevant replies interspersed-->
 	      When you reply or forward, include just enough of
 	      the previous message to provide context: not too
 	      much, not too little.
+	    </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>
+	      Don't send <glossterm linkend="spam">spam</glossterm>.
 	    </para>
 	  </listitem>
 	</itemizedlist>
