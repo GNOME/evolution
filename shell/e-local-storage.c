@@ -628,7 +628,6 @@ remove_folder (ELocalStorage *local_storage,
 	EvolutionShellComponentClient *component_client;
 	EFolder *folder;
 	GList *next_paths_to_delete;
-	GList *p;
 
 	priv = local_storage->priv;
 

@@ -1,3 +1,7 @@
+2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-local-storage.c (remove_folder): Remove unused variable.
+
 2002-07-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shortcuts-view.c (toggle_large_icons_cb): Change the group
