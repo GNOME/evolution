@@ -34,6 +34,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-exec.h>
+#include <libgnome/gnome-help.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-url.h>
 #include <libgnome/gnome-util.h>
@@ -233,11 +234,9 @@ command_help (BonoboUIComponent *uih,
 	      void *data,
 	      const char *path)
 {
-	char *url;
+	GnomeHelpMenuEntry help_entry = { "evolution", data };
 
-	url = g_strdup_printf ("ghelp:%s/gnome/help/evolution/C/%s",
-			       EVOLUTION_DATADIR, (char *)data);
-	gnome_url_show (url);
+	gnome_help_display (NULL, &help_entry);
 }
 
 static void
@@ -637,11 +636,11 @@ BonoboUIVerb folder_verbs [] = {
 };
 
 BonoboUIVerb help_verbs [] = {
-	BONOBO_UI_VERB_DATA ("HelpIndex", command_help, "evolution/index.html"),
-	BONOBO_UI_VERB_DATA ("HelpGetStarted", command_help, "evolution/usage-mainwindow.html"),
-	BONOBO_UI_VERB_DATA ("HelpUsingMail", command_help, "evolution/usage-mail.html"),
-	BONOBO_UI_VERB_DATA ("HelpUsingCalendar", command_help, "evolution/usage-calendar.html"),
-	BONOBO_UI_VERB_DATA ("HelpUsingContact", command_help, "evolution/usage-contact.html"),
+	BONOBO_UI_VERB_DATA ("HelpIndex", command_help, "index.html"),
+	BONOBO_UI_VERB_DATA ("HelpGetStarted", command_help, "usage-mainwindow.html"),
+	BONOBO_UI_VERB_DATA ("HelpUsingMail", command_help, "usage-mail.html"),
+	BONOBO_UI_VERB_DATA ("HelpUsingCalendar", command_help, "usage-calendar.html"),
+	BONOBO_UI_VERB_DATA ("HelpUsingContact", command_help, "usage-contact.html"),
 
 	BONOBO_UI_VERB_END
 };

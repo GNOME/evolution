@@ -1,5 +1,12 @@
 2001-08-15  Jason Leach  <jleach@ximian.com>
 
+	* e-shell-view-menu.c (command_help): Don't hardcode/build a help
+	URI here, use gnome_help_display() instead, which will figure out
+	what language the user needs, etc.
+	(help_verbs): Adapt these menu items to above changes, they don't
+	need to pass "evolution/foo.html" to command_help, just
+	"foo.html".
+
 	* e-folder.c (e_folder_set_child_highlight): Emit a "changed"
 	signal at the end of this function.  Bug #7232.
 
