@@ -72,6 +72,73 @@
 #include <sys/stat.h>
 #endif
 
+#define FB_WINDOW(fb) GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW))
+
+/* These e_gnome_dialog* functions are to handle the brokenness that is gnome-dialog */
+static void
+e_gnome_dialog_parent_destroyed (GtkWidget *parent, GtkWidget *dialog)
+{
+	gtk_widget_destroy (dialog);
+}
+
+static void
+e_gnome_dialog_set_parent (GnomeDialog *dialog, GtkWindow *parent)
+{
+	gnome_dialog_set_parent (dialog, parent);
+	gtk_signal_connect (GTK_OBJECT (parent), "destroy",
+			    e_gnome_dialog_parent_destroyed, dialog);
+}
+
+static GtkWidget *
+e_gnome_warning_dialog_parented (const char *warning, GtkWindow *parent)
+{
+	GtkWidget *dialog;
+	
+	dialog = gnome_warning_dialog_parented (warning, parent);
+	gtk_signal_connect (GTK_OBJECT (parent), "destroy",
+			    e_gnome_dialog_parent_destroyed, dialog);
+	
+	return dialog;
+}
+
+static GtkWidget *
+e_gnome_error_dialog_parented (const char *error, GtkWindow *parent)
+{
+	GtkWidget *dialog;
+	
+	dialog = gnome_error_dialog_parented (error, parent);
+	gtk_signal_connect (GTK_OBJECT (parent), "destroy",
+			    e_gnome_dialog_parent_destroyed, dialog);
+	
+	return dialog;
+}
+
+static GtkWidget *
+e_gnome_ok_dialog_parented (const char *message, GtkWindow *parent)
+{
+	GtkWidget *dialog;
+	
+	dialog = gnome_ok_dialog_parented (message, parent);
+	gtk_signal_connect (GTK_OBJECT (parent), "destroy",
+			    e_gnome_dialog_parent_destroyed, dialog);
+	
+	return dialog;
+}
+
+static GtkWidget *
+e_gnome_ok_cancel_dialog_parented (const char *message, GnomeReplyCallback callback,
+				   gpointer data, GtkWindow *parent)
+{
+	GtkWidget *dialog;
+	
+	dialog = gnome_ok_cancel_dialog_parented (message, callback, data, parent);
+	gtk_signal_connect (GTK_OBJECT (parent), "destroy",
+			    e_gnome_dialog_parent_destroyed, dialog);
+	
+	return dialog;
+}
+
+
 struct post_send_data {
 	CamelFolder *folder;
 	gchar *uid;
@@ -107,8 +174,7 @@ configure_mail (FolderBrowser *fb)
 		gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
 		gtk_widget_grab_focus (GTK_WIDGET (GNOME_DIALOG (dialog)->buttons->data));
 		
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-					 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW)));
+		e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), FB_WINDOW (fb));
 		
 		switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
 		case 0:
@@ -146,10 +212,10 @@ check_send_configuration (FolderBrowser *fb)
 	if (!account) {
 		GtkWidget *message;
 		
-		message = gnome_warning_dialog_parented (_("You need to configure an identity\n"
-							   "before you can compose mail."),
-							 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
-											      GTK_TYPE_WINDOW)));
+		message = e_gnome_warning_dialog_parented (_("You need to configure an identity\n"
+							     "before you can compose mail."),
+							   GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
+												GTK_TYPE_WINDOW)));
 		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		return FALSE;
 	}
@@ -158,10 +224,10 @@ check_send_configuration (FolderBrowser *fb)
 	if (!account->transport || !account->transport->url) {
 		GtkWidget *message;
 		
-		message = gnome_warning_dialog_parented (_("You need to configure a mail transport\n"
-							   "before you can compose mail."),
-							 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
-											      GTK_TYPE_WINDOW)));
+		message = e_gnome_warning_dialog_parented (_("You need to configure a mail transport\n"
+							     "before you can compose mail."),
+							   GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
+												GTK_TYPE_WINDOW)));
 		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		return FALSE;
 	}
@@ -182,7 +248,7 @@ send_receive_mail (GtkWidget *widget, gpointer user_data)
 	account = mail_config_get_default_account ();
 	if (!account || !account->transport) {
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data), GTK_TYPE_WINDOW);
-		gnome_error_dialog_parented (_("You have not set a mail transport method"), GTK_WINDOW (win));
+		e_gnome_error_dialog_parented (_("You have not set a mail transport method"), GTK_WINDOW (win));
 		return;
 	}
 	
@@ -547,9 +613,9 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	if (!mail_config_is_configured ()) {
 		GtkWidget *dialog;
 		
-		dialog = gnome_ok_dialog_parented (_("You must configure an account before you "
-						     "can send this email."),
-						   GTK_WINDOW (composer));
+		dialog = e_gnome_ok_dialog_parented (_("You must configure an account before you "
+						       "can send this email."),
+						     GTK_WINDOW (composer));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 		return;
 	}
@@ -1522,7 +1588,7 @@ are_you_sure (const char *msg, GPtrArray *uids, FolderBrowser *fb)
 	int button, i;
 
 	buf = g_strdup_printf (msg, uids->len);
-	dialog = gnome_ok_cancel_dialog_parented (buf, NULL, NULL, (GtkWindow *)window);
+	dialog = e_gnome_ok_cancel_dialog_parented (buf, NULL, NULL, (GtkWindow *)window);
 	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	if (button != 0) {
 		for (i = 0; i < uids->len; i++)
@@ -1566,9 +1632,9 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 	if (!folder_browser_is_drafts (fb)) {
 		GtkWidget *message;
 		
-		message = gnome_warning_dialog_parented (_("You may only edit messages saved\n"
-							   "in the Drafts folder."),
-							 GTK_WINDOW (fb));
+		message = e_gnome_warning_dialog_parented (_("You may only edit messages saved\n"
+							     "in the Drafts folder."),
+							   FB_WINDOW (fb));
 		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		return;
 	}
@@ -1601,9 +1667,9 @@ resend_msg (GtkWidget *widget, gpointer user_data)
 	if (!folder_browser_is_sent (fb)) {
 		GtkWidget *message;
 		
-		message = gnome_warning_dialog_parented (_("You may only resend messages\n"
-							   "in the Sent folder."),
-							 GTK_WINDOW (fb));
+		message = e_gnome_warning_dialog_parented (_("You may only resend messages\n"
+							     "in the Sent folder."),
+							   FB_WINDOW (fb));
 		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		return;
 	}
@@ -1635,7 +1701,7 @@ search_msg (GtkWidget *widget, gpointer user_data)
 	GtkWidget *w;
 
 	if (fb->mail_display->current_message == NULL) {
-		gtk_widget_show_all (gnome_warning_dialog_parented (_("No Message Selected"), GTK_WINDOW (fb)));
+		gtk_widget_show_all (e_gnome_warning_dialog_parented (_("No Message Selected"), FB_WINDOW (fb)));
 		return;
 	}
 
@@ -1675,7 +1741,7 @@ save_msg_ok (GtkWidget *widget, gpointer user_data)
 					   GNOME_STOCK_BUTTON_NO,
 					   NULL);
 		
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (user_data));
+		e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (user_data));
 		
 		gtk_widget_set_parent (dialog, GTK_WIDGET (user_data));
 		text = gtk_label_new (_("A file by that name already exists.\nOverwrite it?"));
@@ -1874,7 +1940,7 @@ confirm_expunge (FolderBrowser *fb)
 				   GNOME_STOCK_BUTTON_NO,
 				   NULL);
 	
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (fb));
+	e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), FB_WINDOW (fb));
 	
 	label = gtk_label_new (_("This operation will permanently erase all messages marked as deleted. If you continue, you will not be able to recover these messages.\n\nReally erase these messages?"));
 	
@@ -1990,7 +2056,7 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 		
 		err = g_strdup_printf (_("Error loading filter information:\n%s"),
 				       ((RuleContext *)fc)->error);
-		dialog = gnome_warning_dialog_parented (err, GTK_WINDOW (fb));
+		dialog = e_gnome_warning_dialog_parented (err, FB_WINDOW (fb));
 		g_free (err);
 		
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
@@ -1998,7 +2064,7 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	}
 	
 	filter_editor = (GtkWidget *)filter_editor_new (fc, filter_source_names);
-	gnome_dialog_set_parent (GNOME_DIALOG (filter_editor), GTK_WINDOW (fb));
+	e_gnome_dialog_set_parent (GNOME_DIALOG (filter_editor), FB_WINDOW (fb));
 	gtk_window_set_title (GTK_WINDOW (filter_editor), _("Filters"));
 	
 	gtk_object_set_data_full (GTK_OBJECT (filter_editor), "context", fc, (GtkDestroyNotify)gtk_object_unref);
@@ -2023,7 +2089,7 @@ providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
 	
 	if (!dialog) {
 		dialog = mail_accounts_dialog_new (fb->shell);
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (fb));
+		e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), FB_WINDOW (fb));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 		dialog = NULL;
 	} else {
@@ -2050,7 +2116,7 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 		dialog = GNOME_PRINT_DIALOG (gnome_print_dialog_new (_("Print Message"),
 								     GNOME_PRINT_DIALOG_COPIES));
 		gnome_dialog_set_default (GNOME_DIALOG (dialog), GNOME_PRINT_PRINT);
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (fb));
+		e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), FB_WINDOW (fb));
 		
 		switch (gnome_dialog_run (GNOME_DIALOG (dialog))) {
 		case GNOME_PRINT_PRINT:

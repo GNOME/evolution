@@ -1,3 +1,16 @@
+2001-10-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (e_gnome_dialog_set_parent): New convenience
+	function that not only sets the gnome-dialog's parent window but
+	also makes sure that the gnome-dialog closes when it's parent
+	closes.
+	(e_gnome_warning_dialog_parented): New conmvenience wrapper around
+	the libgnomeui version that also does the same thing as
+	e_gnome_dialog_set_parent.
+	(e_gnome_error_dialog_parented): Same.
+	(e_gnome_ok_dialog_parented): And again...
+	(e_gnome_ok_cancel_dialog_parented): And once again.
+
 2001-10-05  Larry Ewing  <lewing@ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): use
