@@ -1,4 +1,8 @@
-2003-11-07    <jpr@ximian.com>
+2003-11-07  JP Rosevear <jpr@ximian.com>
+
+	* util/Makefile.am: dist the marshal list
+
+2003-11-07  JP Rosevear <jpr@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (change_view_type): don't
 	destroy the widget here - its dead when removed from the paned

@@ -19,7 +19,7 @@ INCLUDES =						\
 noinst_LTLIBRARIES = libeabutil.la
 
 libeabutil_la_SOURCES =					\
-	eab-marshal.c					\
+	eab-marshal.c					\
 	eab-destination.c				\
 	eab-destination.h				\
 	eab-book-util.c					\
@@ -34,6 +34,9 @@ MARSHAL_GENERATED = eab-marshal.c eab-marshal.h
 
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES    = $(BUILT_SOURCES)
+
+EXTRA_DIST = 		\
+	eab-marshal.list
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
