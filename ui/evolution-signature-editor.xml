@@ -1,13 +1,16 @@
 <Root>
 	<commands>
-
+<!--
 	        <cmd name="FileSave" _label="Save"
 		_tip="Save the current file" pixtype="stock" pixname="Save"
 		accel="*Ctrl*s"/>
-
+-->
 	        <cmd name="FileClose" _label="Close"
 		_tip="Close the current file" pixtype="stock" pixname="Close"
 		accel="*Ctrl*w"/>
+
+		<cmd name="FileSaveClose" _label="Save and Close"
+		pixtype="stock" pixname="Save"/>
 
 	</commands>
 
@@ -21,15 +24,16 @@
 
 			<placeholder name="FileOps"/>
 
+<!--
 			<menuitem name="FileSave" verb="" _label="_Save"/>
+-->
+			<menuitem name="FileSaveClose" verb="" _label="Save and Close"/>
 
 			<placeholder name="Print" delimit="top"/>
 
 			<separator/>
 
-
 			<menuitem name="FileClose" verb="" _label="_Close"/>
-
 		</submenu>
 
 

@@ -71,6 +71,7 @@
                 <cmd name="SecuritySMimeEncrypt" _label="S/MIME Encrypt" 
                 _tip="Encrypt this message with your S/MIME Encryption Cetificate"
 		type="toggle" state="0" hidden="1"/>
+
 	</commands>
 	
         <keybindings>
@@ -78,20 +79,21 @@
         </keybindings>
 	
 	<menu>
-	
 		<submenu name="File" _label="_File">
 			<menuitem name="FileOpen" verb="" _label="_Open..."/>
 			<placeholder name="FileOps"/>
-			<menuitem name="FileSend" verb=""
-			_label="Send"/>
-			<menuitem name="FileSendLater" verb=""
-			_label="Send _Later"/>
+			<menuitem name="FileSend" verb="" _label="Send"/>
+			<menuitem name="FileSendLater" verb="" _label="Send _Later"/>
+
 			<separator/>
+
 			<menuitem name="FileSave" verb="" _label="_Save"/>
 			<menuitem name="FileSaveAs" verb="" _label="Save _As..."/>
                         <menuitem name="FileSaveDraft" verb="" _label="Save _Draft"/>
 			<placeholder name="Print" delimit="top"/>
+
 			<separator/>
+
 			<menuitem name="FileClose" verb="" _label="_Close"/>
 		</submenu>
 		
@@ -124,11 +126,12 @@
                 	<placeholder name="Component"/>
                 </submenu>
 		
-		<submenu name="Format" _label="F_ormat">
+		<submenu name="Format" _label="For_mat">
 			<menuitem name="FormatHtml" verb=""/>
-		</submenu>
 		
-		<placeholder name="Component"/>
+		        <separator/>
+			<placeholder name="FormatParagraph"/>
+		</submenu>
 		
                 <submenu name="Security" _label="_Security">
                         <menuitem name="SecurityPGPSign" verb="" _label="PGP Sign"/>
@@ -140,13 +143,21 @@
 	</menu>
 	
 	<dockitem name="Toolbar" behavior="exclusive" hlook="text" vlook="icon">
-	
 		<toolitem name="FileSend" verb="" pixtype="pixbuf" priority="1"/>
-		
-		<toolitem name="FileAttach" verb="" pixtype="pixbuf" priority="1"/>
-		
+		<toolitem name="FileAttach" verb="" pixtype="pixbuf" priority="1"/>	
+
 		<separator/>
 		
-	</dockitem>
-	
+	</dockitem>	
 </Root>
+
+
+
+
+
+
+
+
+
+
+

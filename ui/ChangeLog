@@ -1,3 +1,8 @@
+2001-10-30  Larry Ewing  <lewing@ximian.com>
+
+	* evolution-signature-editor.xml: change Save into Save and close,
+	don't break the string freeze in the process.
+
 2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-message-composer.xml: Added an EncodingPlaceholder,
