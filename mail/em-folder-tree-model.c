@@ -270,7 +270,7 @@ model_drag_data_received (GtkTreeDragDest *drag_dest, GtkTreePath *dest_path, Gt
 	EMFolderTreeModel *model = (EMFolderTreeModel *) drag_dest;
 	gboolean retval = FALSE;
 	
-	g_signal_emit (model, signals[DRAG_DATA_RECEIVED], 0, &retval, dest_path, selection_data);
+	g_signal_emit (model, signals[DRAG_DATA_RECEIVED], 0, dest_path, selection_data, &retval);
 	
 	return retval;
 }
@@ -281,7 +281,7 @@ model_row_drop_possible (GtkTreeDragDest *drag_dest, GtkTreePath *dest_path, Gtk
 	EMFolderTreeModel *model = (EMFolderTreeModel *) drag_dest;
 	gboolean retval = FALSE;
 	
-	g_signal_emit (model, signals[ROW_DROP_POSSIBLE], 0, &retval, dest_path, selection_data);
+	g_signal_emit (model, signals[ROW_DROP_POSSIBLE], 0, dest_path, selection_data, &retval);
 	
 	return retval;
 }
@@ -292,7 +292,7 @@ model_row_draggable (GtkTreeDragSource *drag_source, GtkTreePath *src_path)
 	EMFolderTreeModel *model = (EMFolderTreeModel *) drag_source;
 	gboolean retval = FALSE;
 	
-	g_signal_emit (model, signals[ROW_DRAGGABLE], 0, &retval, src_path);
+	g_signal_emit (model, signals[ROW_DRAGGABLE], 0, src_path, &retval);
 	
 	return retval;
 }
@@ -303,7 +303,7 @@ model_drag_data_get (GtkTreeDragSource *drag_source, GtkTreePath *src_path, GtkS
 	EMFolderTreeModel *model = (EMFolderTreeModel *) drag_source;
 	gboolean retval = FALSE;
 	
-	g_signal_emit (model, signals[DRAG_DATA_GET], 0, &retval, src_path, selection_data);
+	g_signal_emit (model, signals[DRAG_DATA_GET], 0, src_path, selection_data, &retval);
 	
 	return retval;
 }
@@ -314,7 +314,7 @@ model_drag_data_delete (GtkTreeDragSource *drag_source, GtkTreePath *src_path)
 	EMFolderTreeModel *model = (EMFolderTreeModel *) drag_source;
 	gboolean retval = FALSE;
 	
-	g_signal_emit (model, signals[DRAG_DATA_DELETE], 0, &retval, src_path);
+	g_signal_emit (model, signals[DRAG_DATA_DELETE], 0, src_path, &retval);
 	
 	return retval;
 }

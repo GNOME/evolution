@@ -1,3 +1,10 @@
+2003-11-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree-model.c (model_drag_data_received)
+	(model_row_drop_possible, model_row_draggable)
+	(model_drag_data_get, model_drag_data_delete): Swap the retval
+	varargs value to the last argument instead of the first.
+
 2003-11-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_uri_deleted): Removed call to
