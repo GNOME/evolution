@@ -1,3 +1,7 @@
+2001-01-16  Chris Toshok  <toshok@helixcode.com>
+
+	* configure.in: add --enable-nntp switch.  default is no.
+
 2001-01-16  Dan Winship  <danw@ximian.com>
 
 	* configure.in, acconfig.h: Add --with-x-mailer to set the version

@@ -162,6 +162,19 @@ fi
 AM_CONDITIONAL(ENABLE_LDAP, test x$ac_cv_lib_ldap_ldap_open = xyes)
 
 dnl **************************************************
+dnl NNTP support.
+dnl **************************************************
+AC_ARG_ENABLE(nntp, 
+[  --enable-nntp=[no/yes]      Enable NNTP support in evolution],,enable_nntp=no)
+if test "x$enable_nntp" = "xyes"; then
+	AC_DEFINE (ENABLE_NNTP)
+	msg_nntp=Yes
+else
+	msg_nntp=No
+fi
+AM_CONDITIONAL(ENABLE_NNTP, test x$enable_nntp = xyes)
+
+dnl **************************************************
 dnl * Posix thread support
 dnl **************************************************
 
@@ -712,6 +725,7 @@ echo "
 
 	Mail Directory:   $system_mail_dir
 	LDAP support:     $msg_ldap
+	NNTP support:     $msg_nntp
 	Pilot conduits:   $msg_pilot
 	Kerberos 4/5:     $msg_krb4/$msg_krb5
 	Use movemail:	  $with_movemail
