@@ -634,7 +634,7 @@ show_current_event (EItipControl *itip)
 		options = PUBLISH_OPTIONS;
 		break;
 	case ICAL_METHOD_REPLY:
-		itip_desc = _("<b>%s</b> has replyed to a meeting request.");
+		itip_desc = _("<b>%s</b> has replied to a meeting request.");
 		itip_title = _("Meeting Reply");
 		options = REPLY_OPTIONS;
 		break;
@@ -682,7 +682,7 @@ show_current_todo (EItipControl *itip)
 		options = PUBLISH_OPTIONS;
 		break;
 	case ICAL_METHOD_REPLY:
-		itip_desc = _("<b>%s</b> has replyed to a task assignment.");
+		itip_desc = _("<b>%s</b> has replied to a task assignment.");
 		itip_title = _("Task Reply");
 		options = REPLY_OPTIONS;
 		break;
@@ -720,7 +720,7 @@ show_current_freebusy (EItipControl *itip)
 		options = REQUEST_FB_OPTIONS;
 		break;
 	case ICAL_METHOD_REPLY:
-		itip_desc = _("<b>%s</b> has replyed to a free/busy request.");
+		itip_desc = _("<b>%s</b> has replied to a free/busy request.");
 		itip_title = _("Free/Busy Reply");
 		options = NULL;
 		break;
