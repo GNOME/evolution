@@ -30,6 +30,8 @@
 #include <gtk/gtklabel.h>
 #include "e-clipped-label.h"
 
+#include <e-util/e-icon-factory.h>
+
 static GtkHBoxClass *el_parent;
 
 static void
