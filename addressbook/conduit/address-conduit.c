@@ -21,6 +21,8 @@
 #include <libversit/vcc.h>
 #include "ebook/e-book-types.h"
 
+#include <bonobo.h>
+
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 void local_record_from_ecard (AddressbookLocalRecord *local, ECard *ecard);
@@ -32,6 +34,7 @@ void local_record_from_ecard (AddressbookLocalRecord *local, ECard *ecard);
 #define G_LOG_DOMAIN "addressconduit" 
 
 /* #define SUPPORT_ARCHIVING 1 */
+#define NEED_OAF_INIT_HACK 1
 #define DEBUG_ADDRESSBOOKCONDUIT 1
 
 #ifdef DEBUG_ADDRESSBOOKCONDUIT
@@ -995,7 +998,8 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 				get_phone_label_by_flag (&ctxt->ai, phone->flags);
 			local->address->entry [ phone_entry ] = strdup (phone->number);
 
-			/* only store 5 numbers */
+			/* only store a maximum of 5 numbers (4 if
+                           there was an email address) */
 			if (phone_entry == entryPhone5)
 				break;
 
@@ -1161,6 +1165,16 @@ delete_all (GnomePilotConduitStandardAbs *conduit,
         return 0;
 }
 
+#ifdef NEED_OAF_INIT_HACK
+static ORBit_MessageValidationResult
+accept_all_cookies (CORBA_unsigned_long request_id,
+		    CORBA_Principal *principal,
+		    CORBA_char *operation)
+{
+	/* allow ALL cookies */
+	return ORBIT_MESSAGE_ALLOW_ALL;
+}
+#endif
 
 GnomePilotConduit *
 conduit_get_gpilot_conduit (guint32 pilotId)
@@ -1171,9 +1185,27 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 
 	printf ("in address's conduit_get_gpilot_conduit\n");
 
+#ifdef NEED_OAF_INIT_HACK
+#warning "need a better way to do this"
+	/* we need to find wombat with oaf, so make sure oaf
+	   is initialized here.  once the desktop is converted
+	   to oaf and gpilotd is built with oaf, this can go away */
+	if (! oaf_is_initialized ())
+	{
+		char *argv[ 1 ] = {"hi"};
+		oaf_init (1, argv);
+
+		if (bonobo_init (CORBA_OBJECT_NIL,
+				 CORBA_OBJECT_NIL,
+				 CORBA_OBJECT_NIL) == FALSE)
+			g_error (_("Could not initialize Bonobo"));
+
+		ORBit_set_request_validation_handler (accept_all_cookies);
+	}
+#endif
+
 	retval = gnome_pilot_conduit_standard_abs_new ("AddressDB",
 						       0x61646472);
-
 	g_assert (retval != NULL);
 	gnome_pilot_conduit_construct(GNOME_PILOT_CONDUIT(retval),"AddressConduit");
 

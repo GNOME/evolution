@@ -1,3 +1,9 @@
+2000-08-13  Chris Toshok  <toshok@helixcode.com>
+
+	* conduit/address-conduit.c (conduit_get_gpilot_conduit): add
+	special oaf initialization hack so conduit can find wombat, and
+	accept all cookies so that we can actually talk to oaf.
+
 2000-08-13  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/pas/pas-backend-file.c: Fixed a typo that cause the
