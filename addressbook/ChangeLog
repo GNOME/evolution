@@ -1,5 +1,24 @@
 2003-02-09  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-completion.c
+	(sexp_initials): gone.
+	(match_initials): gone.
+	(book_query_sexp): remove the primary handling.
+	(book_query_score): same.
+
+	* backend/ebook/e-card.c (e_card_set_property):
+	g_value_get_pointer => g_value_get_object for "category_list".
+
+	* backend/ebook/e-book.c (struct _EBookPrivate): add a comment.
+
+	* backend/pas/pas-backend-ldap.c (func_beginswith): performance at
+	the cost of a tiny bit of correctness.  If the ldap server doesn't
+	support evolutionPerson don't query on fileAs, use sn (since
+	that's effectively what gets used in the display when fileAs isn't
+	supported.)
+
+2003-02-09  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/e-select-names-completion.c: lots of
 	changes here.  should be a big performance gain.  god i hope this
 	is finally right.

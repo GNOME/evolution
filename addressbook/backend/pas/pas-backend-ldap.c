@@ -2614,10 +2614,12 @@ func_beginswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *da
 								       str, str));
 			}
 			else if (!strcmp (ldap_attr, "fileAs")) {
-				ldap_data->list = g_list_prepend(ldap_data->list,
-								 g_strdup_printf(
-								 "(|(fileAs=%s*)(&(!(fileAs=*))(sn=%s*)))",
-								 str, str));
+				if (ldap_data->bl->priv->evolutionPersonSupported)
+					ldap_data->list = g_list_prepend(ldap_data->list,
+									 g_strdup_printf("(fileAs=%s*)", str));
+				else 
+					ldap_data->list = g_list_prepend(ldap_data->list,
+									 g_strdup_printf("(sn=%s*)", str));
 			}
 			else {
 				ldap_data->list = g_list_prepend(ldap_data->list,

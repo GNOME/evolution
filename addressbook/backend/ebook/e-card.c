@@ -2106,7 +2106,7 @@ e_card_set_property (GObject *object,
 	case PROP_CATEGORY_LIST:
 		if (card->categories)
 			g_object_unref(card->categories);
-		card->categories = E_LIST(g_value_get_pointer(value));
+		card->categories = E_LIST(g_value_get_object(value));
 		if (card->categories)
 			g_object_ref(card->categories);
 		break;

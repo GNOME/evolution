@@ -35,6 +35,7 @@ struct _EBookPrivate {
 	GList *book_factories;
 	GList *iter;
 
+	/* cached capabilites */
 	char *cap;
 	gboolean cap_queried;
 

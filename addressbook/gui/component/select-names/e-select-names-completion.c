@@ -67,7 +67,6 @@ struct _ESelectNamesCompletionPrivate {
 	gchar *query_text;
 
 	gboolean match_contact_lists;
-	gboolean primary_only;
 
 	gint minimum_query_length;
 };
@@ -434,36 +433,17 @@ match_file_as (ESelectNamesCompletion *comp, EDestination *dest)
 	return match;
 }
 
-/*
- * Initials Query
- */
-
-static gchar *
-sexp_initials (ESelectNamesCompletion *comp)
-{
-	return NULL;
-}
-
-static ECompletionMatch *
-match_initials (ESelectNamesCompletion *comp, EDestination *dest)
-{
-	return NULL;
-}
-
-
 typedef struct _BookQuery BookQuery;
 struct _BookQuery {
-	gboolean primary;
 	BookQuerySExp builder;
 	BookQueryMatchTester tester;
 };
 
 static BookQuery book_queries[] = {
-	{ TRUE,  sexp_nickname, match_nickname},
-	{ TRUE,  sexp_email,    match_email },
-	{ TRUE,  sexp_name,     match_name },
-	{ TRUE,  sexp_file_as,  match_file_as },
-	{ FALSE, sexp_initials, match_initials }
+	{ sexp_nickname, match_nickname},
+	{ sexp_email,    match_email },
+	{ sexp_name,     match_name },
+	{ sexp_file_as,  match_file_as },
 };
 static gint book_query_count = sizeof (book_queries) / sizeof (BookQuery);
 
@@ -473,7 +453,7 @@ static gint book_query_count = sizeof (book_queries) / sizeof (BookQuery);
 static gchar *
 book_query_sexp (ESelectNamesCompletion *comp)
 {
-	gint i, j, count = 0;
+	gint i, j;
 	gchar **queryv, *query;
 
 	g_return_val_if_fail (comp && E_IS_SELECT_NAMES_COMPLETION (comp), NULL);
@@ -481,16 +461,8 @@ book_query_sexp (ESelectNamesCompletion *comp)
 	if (! (comp->priv->query_text && *comp->priv->query_text))
 		return NULL;
 
-	if (comp->priv->primary_only) {
-		for (i=0; i<book_query_count; ++i)
-			if (book_queries[i].primary)
-				++count;
-	} else {
-		count = book_query_count;
-	}
-
-	queryv = g_new0 (gchar *, count+1);
-	for (i=0, j=0; i<count; ++i) {
+	queryv = g_new0 (gchar *, book_query_count+1);
+	for (i=0, j=0; i<book_query_count; ++i) {
 		queryv[j] = book_queries[i].builder (comp);
 		if (queryv[j])
 			++j;
@@ -507,7 +479,7 @@ book_query_sexp (ESelectNamesCompletion *comp)
 		g_free (tmp);
 	}
 
-	for (i=0; i<count; ++i)
+	for (i=0; i<book_query_count; ++i)
 		g_free (queryv[i]);
 	g_free (queryv);
 
@@ -534,18 +506,16 @@ book_query_score (ESelectNamesCompletion *comp, EDestination *dest)
 
 		ECompletionMatch *this_match = NULL;
 
-		if (book_queries[i].primary || !comp->priv->primary_only) {
-			if (book_queries[i].tester && e_destination_get_card (dest)) {
-				this_match = book_queries[i].tester (comp, dest);
-			}
+		if (book_queries[i].tester && e_destination_get_card (dest)) {
+			this_match = book_queries[i].tester (comp, dest);
+		}
 
-			if (this_match) {
-				if (best_match == NULL || this_match->score > best_match->score) {
-					e_completion_match_unref (best_match);
-					best_match = this_match;
-				} else {
-					e_completion_match_unref (this_match);
-				}
+		if (this_match) {
+			if (best_match == NULL || this_match->score > best_match->score) {
+				e_completion_match_unref (best_match);
+				best_match = this_match;
+			} else {
+				e_completion_match_unref (this_match);
 			}
 		}
 	}
