@@ -293,5 +293,5 @@ mail_session_forget_passwords (BonoboUIComponent *uih, void *user_data,
 void
 mail_session_set_password (const char *url, const char *password)
 {
-	g_hash_table_insert (passwords, url, g_strdup (password));
+	g_hash_table_insert (passwords, g_strdup (url), g_strdup (password));
 }

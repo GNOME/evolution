@@ -1,5 +1,7 @@
 2001-01-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* session.c (mail_session_set_password): strdup() the key.
+
 	* mail-config-druid.c (construct): We don't want to be able to set
 	the reply-to in the config druid.
 	(druid_finish): Don't set a reply-to anymore.
