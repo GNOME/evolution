@@ -62,7 +62,7 @@
        whether to write to a PDF file, and whether to print to a file
        or to an actual printer in Generic Postscript.  If you choose a
        printer, you'll be asked for the printer command (probably
-       <guilabel>lpr</guilabel>) which your system uses.  If you
+       <command>lpr</command>) which your system uses.  If you
        choose to print to a file, you'll need to decide upon a
        filename.  And of course, you'll want to choose a number of
        copies, and whether to collate them.

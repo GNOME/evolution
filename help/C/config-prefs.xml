@@ -37,7 +37,7 @@
     are:
     <variablelist>
       <varlistentry>
-	<term>Mail Accounts</term>
+	<term><guiicon>Mail Accounts</guiicon></term>
 	<listitem>
 	  <para>
              Here, add or change information about your email
@@ -50,7 +50,7 @@
       </varlistentry>
 
       <varlistentry>
-	<term>Folder Settings</term>
+	<term><guiicon>Folder Settings</guiicon></term>
 	<listitem>
 	  <para>
              Here, you can choose the default folders for various
@@ -63,7 +63,7 @@
       </varlistentry>
 
       <varlistentry>
-	<term>Mail Preferences</term>
+	<term><guiicon>Mail Preferences</guiicon></term>
 	<listitem>
 	  <para>
              These are overall mail reading preferences: display
@@ -77,7 +77,7 @@
       </varlistentry>
 
       <varlistentry>
-	<term>Composer Preferences</term>
+	<term><guiicon>Composer Preferences</guiicon></term>
 	<listitem>
 	  <para>
              Settings for the way that you use the mail composer:
@@ -91,7 +91,7 @@
       </varlistentry>
 
       <varlistentry>
-	<term>Calendar and Tasks</term>
+	<term><guiicon>Calendar and Tasks</guiicon></term>
 	<listitem>
 	  <para>
              Here, you can set the way the calendar behaves, including
@@ -101,7 +101,7 @@
       </varlistentry>
 
       <varlistentry>
-	<term>Exchange Delegation</term>
+	<term><guiicon>Exchange Delegation</guiicon></term>
 	<listitem>
 	  <para>
             This item will only appear if you have Ximian Connector
@@ -113,7 +113,7 @@
       </varlistentry>
 
       <varlistentry>
-	<term>Directory Servers</term>
+	<term></guiicon>Directory Servers</guiicon></term>
 	<listitem>
 	  <para>
              This item allows you to enter account information for
@@ -123,7 +123,7 @@
       </varlistentry>
 
       <varlistentry>
-	<term>Summary Preferences</term>
+	<term><guiicon>Summary Preferences</guiicon></term>
 	<listitem>
 	  <para>
              Set the mail folders, news feeds, schedule summary
@@ -137,7 +137,7 @@
       </varlistentry>
 
       <varlistentry>
-	<term>Out of Office</term>
+	<term><guiicon>Out of Office</guiicon></term>
 	<listitem>
 	  <para>
             This item will only appear if you have Ximian Connector
@@ -164,14 +164,14 @@
        </para>
 
        <para>
-         Clicking <guibutton>Get Mail</guibutton> will refresh any
+         Clicking <guibutton>Send/Receive</guibutton> will refresh any
          IMAP, <filename>mh</filename>, or
          <filename>mbox</filename> listings
          and check and download mail from all POP servers.  In other
-         words, <guibutton>Get Mail</guibutton> gets your mail, no
+         words, <guibutton>Send/Receive</guibutton> gets your mail, no
          matter how many sources you have, or what types they are.  If
          you don't want to check mail for a given account, select it
-         in the <guilabel>Accounts</guilabel> tab and click the
+         in the <guilabel>Mail Accounts</guilabel> tab and click the
          <guibutton>Disable</guibutton> button.
        </para>
        
@@ -189,7 +189,7 @@
           <variablelist>
 
 	  <varlistentry> 
-	    <term>Identity:</term>
+	    <term><guilabel>Identity</guilabel></term>
            <listitem>
 	    <para>
               Here, enter the name,
@@ -200,7 +200,7 @@
 	  </listitem>
 	  </varlistentry>
 	  <varlistentry> 
-	    <term>Receiving Mail</term>
+	    <term><guilabel>Receiving Mail</guilabel></term>
            <listitem>
 	    <para>
              Here, select the way you will be getting mail: you may
@@ -232,7 +232,7 @@ smtp.omniport.com:143
 	  </listitem>
 	  </varlistentry>
 	  <varlistentry> 
-	    <term>Receiving Options</term>
+	    <term><guilabel>Receiving Options</guilabel></term>
            <listitem>
 	    <para>
               Here, decide whether you'd like to check for mail
@@ -284,7 +284,7 @@ smtp.omniport.com:143
                      <para>
 
 	    <itemizedlist> <listitem>
-		<para>Checking for new mail: If you would like
+		<para><guilabel>Checking for new mail</guilabel>: If you would like
                 Evolution to check for new mail automatically, check
                 the box and select a frequency in minutes.
 		</para>
@@ -292,14 +292,14 @@ smtp.omniport.com:143
 
 	      <listitem>
 		<para>
-                  Global Catalog server name: enter the name of your
+                  <guilabel>Global Catalog server name</guilabel>: enter the name of your
                   Global Catalog server to create a folder for your
                   organization's Global Address List.
 		</para>
 	      </listitem>
 
 	      <listitem>
-		<para>Limit number of Responses: Select a maximum number
+		<para><guilabel>Limit number of Responses</guilabel>: Select a maximum number
 		of results for an address search. Lowering the maximum
 		number the load on your system and on your
                 network. Most servers will not send more than 1000
@@ -308,26 +308,26 @@ smtp.omniport.com:143
 	      </listitem>
 
 	      <listitem>
-		<para>Mailbox Name: Enter your mailbox name.
+		<para><guilabel>Mailbox Name</guilabel>: Enter your mailbox name.
 		</para>
 	      </listitem>
 
 	      <listitem>
 		<para>
-                OWA Path: Enter the path used with Outlook Web Access on your server.
+                <guilabel>OWA Path</guilabel>: Enter the path used with Outlook Web Access on your server.
 		</para>
 	      </listitem>
 
 	      <listitem>
 		<para>
-                  Public Folder Server: Enter the name of your public
+                  <guilabel>Public Folder Server</guilabel>: Enter the name of your public
                   folder server, if it differs from your Exchange server.
 		</para>
 	      </listitem>
 	      <listitem>
 		<para>
-                  Apply Filters to new messages in Inbox on this
-                  server: check this box if you wish to apply filters
+                  <guilabel>Apply Filters to new messages in Inbox on this
+                  server</guilabel>: check this box if you wish to apply filters
                   to this account.
 		</para>
 	      </listitem>
@@ -343,7 +343,7 @@ smtp.omniport.com:143
                       
          <itemizedlist>
 	  <listitem>
-	    <para>Checking for new mail: If you would like
+	    <para><guilabel>Checking for new mail</guilabel>: If you would like
 	    <application>Evolution</application> to check for new mail
 	    automatically, check the box and select a frequency in
 	    minutes.  
@@ -358,14 +358,14 @@ smtp.omniport.com:143
 	  </listitem>
 
 	  <listitem>
-	    <para>Show only subscribed folders: Check this box if you
+	    <para><guilabel>Show only subscribed folders</guilabel>: Check this box if you
 	    have more folders in your IMAP view than you want to
 	    read.</para>
 	  </listitem>
 
 	  <listitem>
 	    <para>
-              Override server-supplied namespace: If you like, enter a
+              <guilabel>Override server-supplied namespace</guilabel>: If you like, enter a
               specific directory where your server stores mail for
               you.  Typical values are "mail" and "Mail."  For more
               information about how to use IMAP mail, see <xref
@@ -373,14 +373,14 @@ smtp.omniport.com:143
 	  </listitem>
 
 	  <listitem>
-	    <para>Apply filters to new messages in INBOX on this
-	    server: If you'd like your filters to work on this
+	    <para><guilabel>Apply filters to new messages in INBOX on this
+	    server</guilabel>: If you'd like your filters to work on this
             account, check this box.
           </para>
 	  </listitem>
 
 	   <listitem>
-	    <para>Store Store status headers in Elm/Pine/Mutt format:
+	    <para><guilabel>Store status headers in Elm/Pine/Mutt format</guilabel>:
 	    If you would like to use the X-Status header format used
 	    by the mail clients Elm, Pine, and Mutt, select this
 	    option. This option is useful if you plan to check your
@@ -399,7 +399,7 @@ smtp.omniport.com:143
 	  </listitem>
 	  </varlistentry>
 	  <varlistentry> 
-	    <term>Sending Mail</term>
+	    <term><guilabel>Sending Mail</guilabel></term>
            <listitem>
 	    <para>
               In this section, you will choose and configure a method
@@ -420,7 +420,7 @@ smtp.omniport.com:143
 	  </listitem>
 	  </varlistentry>
 	  <varlistentry> 
-	    <term>Defaults</term>
+	    <term><guilabel>Defaults</guilabel></term>
            <listitem>
 	    <para>
               Here, you can decide where this account will store the
@@ -439,7 +439,7 @@ smtp.omniport.com:143
 	  </listitem>
 	  </varlistentry>
 	  <varlistentry> 
-	    <term>Security</term>
+	    <term><guilabel>Security</guilabel></term>
            <listitem>
 	    <para>
               In this section, you will set the security options for
@@ -495,7 +495,7 @@ smtp.omniport.com:143
         In the <guilabel>General</guilabel> tab, your options are:
      <variablelist>
        <varlistentry>
-         <term>Message Fonts</term>
+         <term><guilabel>Message Fonts</guilabel></term>
          <listitem>
            <para>
              Normally, Evolution will use the same fonts as other
@@ -508,7 +508,7 @@ smtp.omniport.com:143
        </varlistentry>
 
        <varlistentry>
-         <term>Message Display</term>
+         <term><guilabel>Message Display</guilabel></term>
          <listitem>
            <para>
              These three settings handle the way messages appear to
@@ -601,7 +601,7 @@ smtp.omniport.com:143
        </varlistentry>
 
        <varlistentry>
-         <term>Show animated images</term>
+         <term><guilabel>Show animated images</guilabel></term>
          <listitem>
            <para>
              Turn animation on or off here.
@@ -610,7 +610,7 @@ smtp.omniport.com:143
        </varlistentry>
 
        <varlistentry>
-         <term>Automatically detect links</term>
+         <term><guilabel>Automatically detect links</guilabel></term>
          <listitem>
            <para>
              Check this box to have Evolution look for web addresses in your mail
@@ -620,7 +620,7 @@ smtp.omniport.com:143
        </varlistentry>
 
        <varlistentry>
-         <term>Prompt when sending HTML messages to contacts that don't want them</term>
+         <term><guilabel>Prompt when sending HTML messages to contacts that don't want them</guilabel></term>
          <listitem>
            <para>
              Some people do not like HTML mail, and you can set
@@ -652,7 +652,7 @@ smtp.omniport.com:143
          <variablelist>
 
 	  <varlistentry>
-	    <term>Shortcuts Type</term>
+	    <term><guilabel>Shortcuts Type</guilabel></term>
 	    <listitem>
 	      <para>
                  Choose a keyboard shortcut scheme: do you prefer
@@ -663,7 +663,7 @@ smtp.omniport.com:143
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>Default Behavior</term>
+	    <term><guilabel>Default Behavior</guilabel></term>
 	    <listitem>
 	      <para>
                  Choose how you will normally forward and reply
@@ -676,13 +676,13 @@ smtp.omniport.com:143
 
 
 	  <varlistentry>
-	    <term>Alerts</term>
+	    <term><guilabel>Alerts</guilabel></term>
 	    <listitem>
 	      <para>
                  There are two optional alerts here:
                  <variablelist>
 	         <varlistentry>
-		    <term>Prompt when sending messages with an empty subject</term>
+		    <term><guilabel>Prompt when sending messages with an empty subject</guilabel></term>
 		    <listitem>
 		      <para>
 			 The composer will warn you if you try to send a
@@ -692,7 +692,7 @@ smtp.omniport.com:143
 		  </varlistentry>
 
 		  <varlistentry>
-		    <term>Prompt when sending messages with only Bcc recipients defined</term>
+		    <term><guilabel>Prompt when sending messages with only Bcc recipients defined</guilabel></term>
 		    <listitem>
 		      <para>
 			 The composer will warn you if you try to send a
@@ -786,7 +786,7 @@ smtp.omniport.com:143
         following:
         <variablelist>
 	  <varlistentry>
-	    <term>Time zone</term>
+	    <term><guilabel>Time zone</guilabel></term>
 	    <listitem>
 	      <para>
 		The city you're located in, to judge your time zone.
@@ -794,7 +794,7 @@ smtp.omniport.com:143
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Time format</term>
+	    <term><guilabel>Time format</guilabel></term>
 	    <listitem>
 	      <para>You may choose between twelve-hour (AM/PM) and
 	      twenty-four hour time formats here by clicking the
@@ -803,7 +803,7 @@ smtp.omniport.com:143
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Work Week</term>
+	    <term><guilabel>Work Week</guilabel></term>
 	    <listitem>
 	      <para>
                 When does your work day start, and when does it end?
@@ -818,13 +818,13 @@ smtp.omniport.com:143
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Week Starts</term>
+	    <term><guilabel>Week Starts</guilabel></term>
 	    <listitem>
 	      <para>You can set weeks to start on Sunday or on Monday.</para>
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Day Begins</term>
+	    <term><guilabel>Day Begins</guilabel></term>
 	    <listitem>
 	      <para>
 		Set the beginning of a normal workday. If you work odd
@@ -834,7 +834,7 @@ smtp.omniport.com:143
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Day Ends</term>
+	    <term><guilabel>Day Ends</guilabel></term>
 	    <listitem>
 	      <para>
 		Set the end of a normal workday. If you work odd
@@ -847,7 +847,7 @@ smtp.omniport.com:143
 
 
 	  <varlistentry>
-	    <term>Alerts</term>
+	    <term><guilabel>Alerts</guilabel></term>
 	    <listitem>
 	      <para>
 		If you'd like to be warned before you delete any
@@ -867,7 +867,7 @@ smtp.omniport.com:143
 
 	<variablelist>
 	  <varlistentry>
-	    <term>Time divisions</term>
+	    <term><guilabel>Time divisions</guilabel></term>
 	    <listitem>
               <para>
 		Sets the increments shown on the daily view in the
@@ -877,7 +877,7 @@ smtp.omniport.com:143
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>Show appointment end times in week and month views</term>
+	    <term><guilabel>Show appointment end times in week and month views</guilabel></term>
 	    <listitem>
 	      <para>
 		If there is space,
@@ -888,7 +888,7 @@ smtp.omniport.com:143
             </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Compress weekends in month view</term>
+	    <term><guilabel>Compress weekends in month view</guilabel></term>
 	    <listitem>
 	      <para>
 		If checked, your weekends will be shown in one box,
@@ -898,7 +898,7 @@ smtp.omniport.com:143
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>Show week numbers in date navigator</term>
+	    <term><guilabel>Show week numbers in date navigator</guilabel></term>
 	    <listitem>
               <para>
 		This will show the week numbers next to the respective
@@ -908,7 +908,7 @@ smtp.omniport.com:143
 	  </varlistentry>
 
 	 <varlistentry>
-	   <term>Tasks due today</term>
+	   <term><guilabel>Tasks due today</guilabel></term>
 	    <listitem>
 	      <para>
 		Configures what color to set your tasks that are due
@@ -917,7 +917,7 @@ smtp.omniport.com:143
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Overdue tasks</term>
+	    <term><guilabel>Overdue tasks</guilabel></term>
 	    <listitem>
 	      <para>
 		Choose the color for overdue tasks.
@@ -965,7 +965,7 @@ smtp.omniport.com:143
 	      Enter the server information as requested by the assistant:
 	    <variablelist>
 		<varlistentry>
-		  <term>Server name</term>
+		  <term><guilabel>Server name</guilabel></term>
 		  <listitem>
 		    <para>
 		      Address of the server where the addressbook is located.
@@ -973,7 +973,7 @@ smtp.omniport.com:143
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
-		  <term>Login Method</term>
+		  <term><guilabel>Login Method</guilabel></term>
 		  <listitem>
 		    <para>
 		      Specify whether your login is anonymous, using
@@ -984,7 +984,7 @@ smtp.omniport.com:143
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
-		  <term>Port</term>
+		  <term><guilabel>Port</guilabel></term>
 		  <listitem>
 		    <para>
 		      The internet port
@@ -995,7 +995,7 @@ smtp.omniport.com:143
 		  </listitem>
 		</varlistentry>
                 <varlistentry>
-                  <term>Use SSL/TLS</term>
+                  <term><guilabel>Use SSL/TLS</guilabel></term>
 		  <listitem>
 		    <para>
                       SSL and TLS are security mechanisms. If you
@@ -1011,7 +1011,7 @@ smtp.omniport.com:143
 
 
 		<varlistentry>
-		  <term><glossterm linkend="search-base">Search base</glossterm></term>
+		  <term><guilabel><glossterm linkend="search-base">Search base</glossterm></guilabel></term>
 		  <listitem>
 		    <para>
 		      The base entry to use for all your searches.
@@ -1021,14 +1021,14 @@ smtp.omniport.com:143
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
-		  <term><glossterm linkend="search-scope">Search scope</glossterm></term>
+		  <term><guilabel><glossterm linkend="search-scope">Search scope</glossterm></guilabel></term>
 		  <listitem>
 		    <para>
 		      How broad the search is in the directory.  The
 		      following options are available:
 		      <variablelist>
 			<varlistentry>
-			  <term>One</term>
+			  <term><guilabel>One</</term>
 			  <listitem>
 			    <para>
 			      Searches the Search Base and one entry
@@ -1037,7 +1037,7 @@ smtp.omniport.com:143
 			  </listitem>
 			</varlistentry>
 			<varlistentry>
-			  <term>Sub</term>
+			  <term><guilabel>Sub</guilabel></term>
 			  <listitem>
 			    <para>
 			      Searches the Search Base and all entries
@@ -1051,7 +1051,7 @@ smtp.omniport.com:143
                 </varlistentry>
 
                 <varlistentry>
-                  <term>Timeout Limit</term>
+                  <term><guilabel>Timeout Limit</guilabel></term>
 		  <listitem>
 		    <para>
                       This is the maximum time Evolution will attempt to
@@ -1062,7 +1062,7 @@ smtp.omniport.com:143
 
 
                 <varlistentry>
-                  <term>Download Limit</term>
+                  <term><guilabel>Download Limit</guilabel></term>
 		  <listitem>
 		    <para>
 		      Set the maximum number of results for a given
@@ -1076,7 +1076,7 @@ smtp.omniport.com:143
 
 
                 <varlistentry>
-                  <term>Display name</term>
+                  <term><guilabel>Display name</guilabel></term>
 		  <listitem>
 		    <para>
 		      The name that you see on the screen.  This could

@@ -250,10 +250,11 @@
 	</para>
       </tip>
 
-      <para>
-	 The purpose of categories is to let you view all appointments which have
-	 similar activities.  To do this, change <guilabel>Any field contains</guilabel>
-	 to <guilabel>Has category</guilabel> and enter your category at right.
+      <para> 
+     The purpose of categories is to let you view all appointments
+	 which have similar activities.  To do this, in the calendar view,
+	 change <guilabel>Any field contains</guilabel> to <guilabel>Has
+	 category</guilabel> and enter your category at right.
       </para>
 
       <para>
@@ -367,17 +368,17 @@
 	<itemizedlist>
 	  <listitem>
 	    <para>
-	      Accept
+	      <guilabel>Accept</guilabel>
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Tentatively Accept
+	      <guilabel>Tentatively Accept</guilabel>
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Decline
+	      <guilabel>Decline</guilabel>
 	    </para>
 	  </listitem>
 	</itemizedlist>
@@ -394,8 +395,8 @@
       </para>
       <para>
         Once you have added the meeting to your calendar, you can make
-        changes to your copy-- change the description, mark yourself
-        the organizer, invite more people, and so forth-- but be aware
+        changes to your copy &mdash;change the description, mark yourself
+        the organizer, invite more people, and so forth&mdash; but be aware
         that if the original organizer sends out another update, your
         changes may be overwritten.
       </para>
@@ -533,10 +534,10 @@
 	    <imagedata fileref="figures/full-1" format="PNG"/>
 	  </imageobject>
 	</inlinemediaobject>
-	<guilabel>Invitee List</guilabel>
+	<guilabel>Attendee List</guilabel>
       </para>
       <para>
-	The <guilabel>Invitee List</guilabel> lists off the people who
+	The <guilabel>Attendee List</guilabel> lists off the people who
 	have been invited to the respective appointment.  It also
 	shows their RSVP status.
       </para>
@@ -634,7 +635,7 @@
 	    <para>
 	      Decide when this item is
 	      due.  You can either type in a date and time, or select one from
-	      the <guibutton>Calendar</guibutton> and time drop-down menus.
+	      the <guibutton>Calendar</guibutton> and <guibutton>time</guibutton> drop-down menus.
           </para>
 	  </listitem>
 	</varlistentry>
