@@ -255,7 +255,7 @@ vfolder_create_storage(EvolutionShellComponent *shell_component)
 	vfolder_storage = storage;
 
 	user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
-	system = g_strdup_printf("%s/evolution/vfoldertypes.xml", EVOLUTION_DATADIR);
+	system = EVOLUTION_DATADIR "/evolution/vfoldertypes.xml";
 	
 	context = vfolder_context_new();
 	printf("loading rules %s %s\n", system, user);
@@ -263,7 +263,6 @@ vfolder_create_storage(EvolutionShellComponent *shell_component)
 		g_warning("cannot load vfolders: %s\n", ((RuleContext *)context)->error);
 	}
 	g_free(user);
-	g_free(system);
 	vfolder_refresh();
 }
 

@@ -52,16 +52,15 @@
 FilterContext *
 mail_load_filter_context(void)
 {
-	char *userrules;
-	char *systemrules;
+	char *user;
+	char *system;
 	FilterContext *fc;
 	
-	userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
+	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
+	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
 	fc = filter_context_new ();
-	rule_context_load ((RuleContext *)fc, systemrules, userrules);
-	g_free (userrules);
-	g_free (systemrules);
+	rule_context_load ((RuleContext *)fc, system, user);
+	g_free (user);
 	
 	return fc;
 }

@@ -318,23 +318,22 @@ void
 filter_gui_add_from_message (CamelMimeMessage *msg, int flags)
 {
 	FilterContext *fc;
-	char *userrules, *systemrules;
+	char *user, *system;
 	FilterRule *rule;
 	extern char *evolution_dir;
 
 	g_return_if_fail (msg != NULL);
 	
 	fc = filter_context_new ();
-	userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
-	rule_context_load ((RuleContext *)fc, systemrules, userrules);
+	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
+	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
+	rule_context_load ((RuleContext *)fc, system, user);
 	rule = filter_rule_from_message (fc, msg, flags);
 	
 	filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
 	
-	rule_context_add_rule_gui ((RuleContext *)fc, rule, _("Add Filter Rule"), userrules);
-	g_free (userrules);
-	g_free (systemrules);
+	rule_context_add_rule_gui ((RuleContext *)fc, rule, _("Add Filter Rule"), user);
+	g_free (user);
 	gtk_object_unref (GTK_OBJECT (fc));
 }
 
@@ -342,20 +341,19 @@ void
 filter_gui_add_from_mlist (const char *mlist)
 {
 	FilterContext *fc;
-	char *userrules, *systemrules;
+	char *user, *system;
 	FilterRule *rule;
 	extern char *evolution_dir;
 
 	fc = filter_context_new ();
-	userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
-	rule_context_load ((RuleContext *)fc, systemrules, userrules);
+	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
+	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
+	rule_context_load ((RuleContext *)fc, system, user);
 	rule = filter_rule_from_mlist(fc, mlist);
 	
 	filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
 	
-	rule_context_add_rule_gui ((RuleContext *)fc, rule, _("Add Filter Rule"), userrules);
-	g_free (userrules);
-	g_free (systemrules);
+	rule_context_add_rule_gui ((RuleContext *)fc, rule, _("Add Filter Rule"), user);
+	g_free (user);
 	gtk_object_unref (GTK_OBJECT (fc));
 }

@@ -1365,10 +1365,9 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	
 	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	system = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
+	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
 	g_free (user);
-	g_free (system);
 	
 	if (((RuleContext *)fc)->error) {
 		gchar *err;

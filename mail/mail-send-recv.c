@@ -231,7 +231,7 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 	data = setup_send_data();
 
 	gd = (GnomeDialog *)gnome_dialog_new(_("Send & Receive mail"), GNOME_STOCK_BUTTON_CANCEL, NULL);
-	gnome_window_icon_set_from_file((GtkWindow *)gd, EVOLUTION_DATADIR "images/evolution/evolution-inbox.png");
+	gnome_window_icon_set_from_file((GtkWindow *)gd, EVOLUTION_ICONSDIR "/send-receive.xpm");
 
 	frame= (GtkFrame *)gtk_frame_new(_("Receiving"));
 	gtk_box_pack_start((GtkBox *)gd->vbox, (GtkWidget *)frame, TRUE, TRUE, 0);

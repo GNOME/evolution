@@ -1,3 +1,16 @@
+2001-04-22  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* folder-browser.c, mail-autofilter.c, mail-callbacks.c, mail-ops.c,
+	mail-summary.c, mail-vfolder.c: use system = EVOLUTION_DATADIR "/file"
+	instead of g_strdup_printf. Rename userrules to user (and system) to be
+	consistent.
+
+	* mail-send-recv.c: set window icon to send-receive.xpm
+
+2001-04-21  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* mail-summary.c: translate "Mail summary".
+
 2001-04-20  Dan Winship  <danw@ximian.com>
 
 	* mail-config-druid.c (make_default_account): Convert the result
