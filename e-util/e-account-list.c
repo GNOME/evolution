@@ -168,6 +168,7 @@ gconf_accounts_changed (GConfClient *client, guint cnxn_id,
 		g_object_unref (account);
 
 	next:
+		g_free (uid);
 		g_object_unref (iter);
 	}
 
