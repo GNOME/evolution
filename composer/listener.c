@@ -82,6 +82,8 @@ reply_indent (EditorListener *l, CORBA_Environment * ev)
 		if (GNOME_GtkHTML_Editor_Engine_isPreviousParagraphEmpty (l->composer->editor_engine, ev))
 			GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "cursor-backward", ev);
 		else {
+			GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "text-default-color", ev);
+			GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "italic-off", ev);
 			GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "insert-paragraph", ev);
 			return;
 		}
@@ -103,6 +105,60 @@ clear_signature (GNOME_GtkHTML_Editor_Engine e, CORBA_Environment * ev)
 		GNOME_GtkHTML_Editor_Engine_setParagraphData (e, "signature", "0", ev);
 		GNOME_GtkHTML_Editor_Engine_runCommand (e, "cursor-forward", ev);
 	}
+	GNOME_GtkHTML_Editor_Engine_runCommand (e, "text-default-color", ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (e, "italic-off", ev);
+}
+
+static void
+insert_paragraph_before (EditorListener *l, CORBA_Environment * ev)
+{
+	if (!l->composer->in_signature_insert) {
+		CORBA_char *orig, *signature;
+		gboolean changed = FALSE;
+		/* FIXME check for insert-paragraph command */
+
+		orig = GNOME_GtkHTML_Editor_Engine_getParagraphData (l->composer->editor_engine, "orig", ev);
+		if (ev->_major == CORBA_NO_EXCEPTION) {
+			if (orig && *orig == '1') {
+				GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "text-default-color", ev);
+				GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "italic-off", ev);
+				changed = TRUE;
+			}
+		}
+		if (!changed) {
+			signature = GNOME_GtkHTML_Editor_Engine_getParagraphData (l->composer->editor_engine, "signature", ev);
+			if (ev->_major == CORBA_NO_EXCEPTION) {
+				if (signature && *signature == '1') {
+					GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "text-default-color",
+										ev);
+					GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "italic-off", ev);
+				}
+			}
+		}
+	}
+}
+
+static void
+insert_paragraph_after (EditorListener *l, CORBA_Environment * ev)
+{
+	if (!l->composer->in_signature_insert) {
+		CORBA_char *orig, *signature;
+		/* FIXME check for insert-paragraph command */
+		GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "text-default-color", ev);
+		GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "italic-off", ev);
+
+		orig = GNOME_GtkHTML_Editor_Engine_getParagraphData (l->composer->editor_engine, "orig", ev);
+		if (ev->_major == CORBA_NO_EXCEPTION) {
+			if (orig && *orig == '1')
+				reply_indent (l, ev);
+			GNOME_GtkHTML_Editor_Engine_setParagraphData (l->composer->editor_engine, "orig", "0", ev);
+		}
+		signature = GNOME_GtkHTML_Editor_Engine_getParagraphData (l->composer->editor_engine, "signature", ev);
+		if (ev->_major == CORBA_NO_EXCEPTION) {
+			if (signature && *signature == '1')
+				clear_signature (l->composer->editor_engine, ev);
+		}
+	}
 }
 
 static CORBA_any *
@@ -112,24 +168,19 @@ impl_event (PortableServer_Servant _servant,
 {
 	EditorListener *l = listener_from_servant (_servant);
 	CORBA_any  *rv = NULL;
+	gchar *command;
 
 	printf ("impl_event = %s\n", name); 
 
-	if (!strcmp (name, "command")) {
-		if (!l->composer->in_signature_insert) {
-			CORBA_char *orig, *signature;
-			/* FIXME check for insert-paragraph command */
-			orig = GNOME_GtkHTML_Editor_Engine_getParagraphData (l->composer->editor_engine, "orig", ev);
-			if (ev->_major == CORBA_NO_EXCEPTION) {
-				if (orig && *orig == '1')
-					reply_indent (l, ev);
-				GNOME_GtkHTML_Editor_Engine_setParagraphData (l->composer->editor_engine, "orig", "0", ev);
-			}
-			signature = GNOME_GtkHTML_Editor_Engine_getParagraphData (l->composer->editor_engine, "signature", ev);
-			if (ev->_major == CORBA_NO_EXCEPTION) {
-				if (signature && *signature == '1')
-					clear_signature (l->composer->editor_engine, ev);
-			}
+	if (!strcmp (name, "command_before")) {
+		command = BONOBO_ARG_GET_STRING (arg);
+		if (!strcmp (command, "insert-paragraph")) {
+			insert_paragraph_before (l, ev);
+		}
+	} else if (!strcmp (name, "command_after")) {
+		command = BONOBO_ARG_GET_STRING (arg);
+		if (!strcmp (command, "insert-paragraph")) {
+			insert_paragraph_after (l, ev);
 		}
 	} else if (!strcmp (name, "image_url")) {
 		gchar *url;

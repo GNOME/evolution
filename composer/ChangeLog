@@ -1,3 +1,13 @@
+2001-10-30  Radek Doulik  <rodo@ximian.com>
+
+	* listener.c (insert_paragraph_before): new helper function,
+	extracted
+	(insert_paragraph_after): ditto
+	(impl_event): process command_before and command_after, use new
+	functions
+	(clear_signature): reset style to be sure
+	(reply_indent): ditto
+
 2001-10-30  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer.c (build_message): Remove Content-Disposition in
