@@ -1,3 +1,11 @@
+2003-01-09  Chris Toshok  <toshok@ximian.com>
+
+	* mail-config-druid.c (wizard_finish_cb): enable the account
+	before attempting to saving it.
+
+	* mail-accounts.c (account_delete_clicked): need to show the
+	buttons added to the dialog.
+
 2003-01-10  Not Zed  <NotZed@Ximian.com>
 
 	* mail-send-recv.c (dialogue_response): dont unref the dialogue.

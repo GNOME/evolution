@@ -944,12 +944,12 @@ wizard_finish_cb (EvolutionWizard *wizard,
 {
 	MailAccountGui *gui = w->gui;
 
+	gui->account->enabled = TRUE;
+	
 	/* Save the settings for that account */
 	if (mail_account_gui_save (gui) == FALSE)
 		/* problem. Um, how to keep the druid alive? */
 		return;
-	
-	gui->account->enabled = TRUE;
 	
 	/* Write out the config info */
 	mail_config_write ();
