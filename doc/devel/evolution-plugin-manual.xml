@@ -1194,6 +1194,7 @@
  <group
   id="window id"
   target="targettype"
+  check="function spec"?
   commit="function spec"?
   abort="function spec"?>
   <item
@@ -1224,6 +1225,30 @@
 		    The type of target this configuration window applies too.
 		    This will normally be tied directly to the specific
 		    configuration window itself.
+		  </simpara>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><parameter>check</parameter></term>
+		<listitem>
+		  <simpara>
+		    A callback which will be invoked to validate the
+		    configuration or a specific page of the configuration.  It
+		    will be invoked with a
+		    <link
+		      linkend="API-struct--EConfigHookPageCheckData">EConfigHookPageCheckData</link>
+		    structure, and is expected to return a non-NULL value if
+		    the page validates.
+		  </simpara>
+		  <simpara>
+		    The callback will be expected to handle all
+		    <parameter>pageid</parameter>'s present in the
+		    configuration window, and should return
+		    <constant>TRUE</constant> for pages it does not recognise.
+		    If <parameter>pageid=&quot;&quot;</parameter> (an empty
+		    string), then the <parameter>check</parameter> function
+		    should validate all settings.  See also <xref
+		      linkend="API-e-config-add-page-check" />.
 		  </simpara>
 		</listitem>
 	      </varlistentry>
