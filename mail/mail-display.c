@@ -27,42 +27,42 @@ static GtkObjectClass *mail_display_parent_class;
 
 
 
-static gchar default_header_html_string[] = "
-<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">
-<html>
-<head>
-   <meta name=\"GENERATOR\" content=\"Evolution Mail Component (Rhon Rhon release)\">
-</head>
-<body text=\"#000000\" bgcolor=\"#999999\">
-<table CELLSPACING=0 WIDTH=\"100\%\">
-<tr>
-<td><b>From:&nbsp;</b></td>
-<td><b>To:&nbsp;</b></td>
-</tr>
-
-<tr>
-<td><b>Subject:&nbsp;</b></td>
-<td><b>Cc:&nbsp;</b></td>
-</tr>
-</table>
-</body>
-</html>
+static gchar default_header_html_string[] = "\n\
+<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n\
+<html>\n\
+<head>\n\
+   <meta name=\"GENERATOR\" content=\"Evolution Mail Component (Rhon Rhon release)\">\n\
+</head>\n\
+<body text=\"#000000\" bgcolor=\"#999999\">\n\
+<table CELLSPACING=0 WIDTH=\"100\%\">\n\
+<tr>\n\
+<td><b>From:&nbsp;</b></td>\n\
+<td><b>To:&nbsp;</b></td>\n\
+</tr>\n\
+\n\
+<tr>\n\
+<td><b>Subject:&nbsp;</b></td>\n\
+<td><b>Cc:&nbsp;</b></td>\n\
+</tr>\n\
+</table>\n\
+</body>\n\
+</html>\n\
 ";
 
 
 
-static gchar default_body_html_string[] = "
-<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">
-<html>
-<head>
-   <meta name=\"GENERATOR\" content=\"Evolution Mail Component (Rhon Rhon release)\">
-</head>
-<body text=\"#000000\" bgcolor=\"#FFFFFF\">
-<center>
-Nothing to display in this view
-</center>
-</body>
-</html>
+static gchar default_body_html_string[] = "\n\
+<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n\
+<html>\n\
+<head>\n\
+   <meta name=\"GENERATOR\" content=\"Evolution Mail Component (Rhon Rhon release)\">\n\
+</head>\n\
+<body text=\"#000000\" bgcolor=\"#FFFFFF\">\n\
+<center>\n\
+Nothing to display in this view\n\
+</center>\n\
+</body>\n\
+</html>\n\
 ";
 
 
@@ -313,23 +313,23 @@ mail_display_set_message (MailDisplay *mail_display,
 		 * and stream the result to the gtkhtml
 		 * widgets 
 		 */
-		camel_stream_write_string (mail_display->headers_stream, "
-<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">
-<html>
-<head>
-   <meta name=\"GENERATOR\" content=\"Evolution Mail Component (Rhon Rhon release)\">
-</head>
-<body text=\"#000000\" bgcolor=\"#999999\">
-<font>
+		camel_stream_write_string (mail_display->headers_stream, "\n\
+<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n\
+<html>\n\
+<head>\n\
+   <meta name=\"GENERATOR\" content=\"Evolution Mail Component (Rhon Rhon release)\">\n\
+</head>\n\
+<body text=\"#000000\" bgcolor=\"#999999\">\n\
+<font>\n\
 ");;
 
-		camel_stream_write_string (mail_display->body_stream, "
-<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">
-<html>
-<head>
-   <meta name=\"GENERATOR\" content=\"Evolution Mail Component (Rhon Rhon release)\">
-</head>
-<body text=\"#000000\" bgcolor=\"#FFFFFF\">
+		camel_stream_write_string (mail_display->body_stream, "\n\
+<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n\
+<html>\n\
+<head>\n\
+   <meta name=\"GENERATOR\" content=\"Evolution Mail Component (Rhon Rhon release)\">\n\
+</head>\n\
+<body text=\"#000000\" bgcolor=\"#FFFFFF\">\n\
 ");;
 
 
@@ -342,15 +342,15 @@ mail_display_set_message (MailDisplay *mail_display,
 		
 		 gtk_object_unref (GTK_OBJECT (camel_formatter));
 
-		 camel_stream_write_string (mail_display->headers_stream, "
-</font>
-</body>
-</html>
+		 camel_stream_write_string (mail_display->headers_stream, "\n\
+</font>\n\
+</body>\n\
+</html>\n\
 ");;
 
-		camel_stream_write_string (mail_display->body_stream, "
-</body>
-</html>
+		camel_stream_write_string (mail_display->body_stream, "\n\
+</body>\n\
+</html>\n\
 ");;
 
 		camel_stream_close (mail_display->body_stream);
