@@ -117,7 +117,7 @@ static void
 load_all_shortcuts_into_model (EShortcutsViewModel *shortcuts_view_model)
 {
 	EShortcutsViewModelPrivate *priv;
-	GList *group_titles;
+	GSList *group_titles;
 	GSList *p;
 	int group_num;
 
