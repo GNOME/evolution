@@ -687,8 +687,8 @@ typedef void (*LineSplitterFn) (int line_num, const char *start, int length, gpo
 static gint
 line_splitter (ETextModel *model, EFont *font, EFontStyle style,
 	       const char *break_characters,
-	       gboolean wrap_lines, double clip_width, gint max_lines,
-	       LineSplitterFn split_cb, gpointer user_data)
+	       gboolean wrap_lines, double clip_width, double clip_height,
+	       gint max_lines, LineSplitterFn split_cb, gpointer user_data)
 {
 	const char *curr;
 	const char *text;
@@ -700,7 +700,9 @@ line_splitter (ETextModel *model, EFont *font, EFontStyle style,
 
 	if (max_lines < 1)
 		max_lines = G_MAXINT;
-
+	if (clip_height != -1)
+		max_lines = CLAMP (max_lines, 1, clip_height / e_font_height (font));
+	
 	text = e_text_model_get_text (model);
 	linestart = NULL;
 	last_breakpoint = text;
@@ -723,9 +725,13 @@ line_splitter (ETextModel *model, EFont *font, EFontStyle style,
 			
 			if (clip_width < text_width_with_objects (model, font, style, linestart, curr - linestart)
 			    && last_breakpoint > linestart) {
-				
-				if (split_cb)
+
+				/* Don't use break point if we are on the last usable line */
+				if (split_cb && line_count < max_lines - 1)
 					split_cb (line_count, linestart, last_breakpoint - linestart, user_data);
+				else if (split_cb)
+					split_cb (line_count, linestart, strlen (linestart), user_data);
+
 				++line_count;
 				linestart = NULL;
 				curr = last_breakpoint;
@@ -739,17 +745,6 @@ line_splitter (ETextModel *model, EFont *font, EFontStyle style,
 
 	/* Handle any leftover text. */
 	if (linestart) {
-		
-		if (clip_width < text_width_with_objects (model, font, style, linestart, strlen (linestart))
-		    && last_breakpoint > linestart) {
-
-			if (split_cb)
-				split_cb (line_count, linestart, last_breakpoint - linestart, user_data);
-
-			++line_count;
-			linestart = g_utf8_next_char (last_breakpoint);
-		}
-
 		if (split_cb)
 			split_cb (line_count, linestart, strlen (linestart), user_data);
 		++line_count;
@@ -796,16 +791,16 @@ split_into_lines (EText *text)
 	/* First, count the number of lines */
 	text->num_lines = line_splitter (text->model, text->font, text->style,
 					 text->break_characters,
-					 text->line_wrap, text->clip_width, -1,
-					 NULL, NULL);
+					 text->line_wrap, text->clip_width, text->clip_height,
+					 -1, NULL, NULL);
 
 	/* Allocate our array of lines */
 	text->lines = g_new0 (struct line, text->num_lines);
 
 	text->num_lines = line_splitter (text->model, text->font, text->style,
 					 text->break_characters,
-					 text->line_wrap, text->clip_width, text->num_lines,
-					 line_split_cb, text);
+					 text->line_wrap, text->clip_width, text->clip_height,
+					 text->num_lines, line_split_cb, text);
 }
 
 /* Convenience function to set the text's GC's foreground color */
