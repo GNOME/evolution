@@ -1,5 +1,26 @@
 2003-11-13  Not Zed  <NotZed@Ximian.com>
 
+	* camel-mime-parser.c: Remove mempool code, we use the stuff in
+	e-util.
+	(PRESERVE_HEADERS): new compile option, if on, we preserve headers
+	and folding exactly rather than unfolding all input.  THIS BREAKS
+	EVERYTHING right now, so don't turn it on.
+
+	* camel-gpg-context.c (gpg_decrypt): reset the input memstream
+	before passing it to the gpg engine.
+
+	* tests/smime/pgp-mime.c (main): redirect /dev/null to stdin so it
+	doesn't hang waiting for input.
+	(main): removed from build - this tests multipart/signed
+	explictly, but now the details of this is handled directly by the
+	cipher context.
+
+	* tests/smime/pgp.c (main): fixes for api changes.
+	(main): redirect /dev/null to stdin so it doesn't hang waiting for
+	input.
+
+	* tests/message/test1.c (main): update for api changes.
+
 	* camel-smime-context.c (sm_verify): look at the content object's
 	mime type, not the container's type.
 

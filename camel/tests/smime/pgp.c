@@ -120,8 +120,9 @@ int main (int argc, char **argv)
 	CamelCipherContext *ctx;
 	CamelException *ex;
 	CamelCipherValidity *valid;
-	CamelStream *stream1, *stream2, *stream3;
-	struct _CamelMimePart *sigpart;
+	CamelStream *stream1, *stream2;
+	struct _CamelMimePart *sigpart, *conpart, *encpart, *outpart;
+	CamelDataWrapper *dw;
 	GPtrArray *recipients;
 	GByteArray *buf;
 	char *before, *after;
@@ -135,7 +136,7 @@ int main (int argc, char **argv)
 	setenv ("GNUPGHOME", "/tmp/camel-test/.gnupg", 1);
 	
 	/* import the gpg keys */
-	if ((ret = system ("gpg > /dev/null 2>&1")) == -1)
+	if ((ret = system ("gpg < /dev/null > /dev/null 2>&1")) == -1)
 		return 77;
 	else if (WEXITSTATUS (ret) == 127)
 		return 77;
@@ -155,58 +156,85 @@ int main (int argc, char **argv)
 	stream1 = camel_stream_mem_new ();
 	camel_stream_write (stream1, "Hello, I am a test stream.\n", 27);
 	camel_stream_reset (stream1);
-	
+
+	conpart = camel_mime_part_new();
+	dw = camel_data_wrapper_new();
+	camel_data_wrapper_construct_from_stream(dw, stream1);
+	camel_medium_set_content_object((CamelMedium *)conpart, dw);
+	camel_object_unref(stream1);
+	camel_object_unref(dw);
+
 	sigpart = camel_mime_part_new();
 
 	camel_test_push ("PGP signing");
-	camel_cipher_sign (ctx, "no.user@no.domain", CAMEL_CIPHER_HASH_SHA1, stream1, sigpart, ex);
+	camel_cipher_sign (ctx, "no.user@no.domain", CAMEL_CIPHER_HASH_SHA1, conpart, sigpart, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
 	camel_test_pull ();
 	
 	camel_exception_clear (ex);
 	
 	camel_test_push ("PGP verify");
-	camel_stream_reset (stream1);
-	valid = camel_cipher_verify (ctx, CAMEL_CIPHER_HASH_SHA1, stream1, sigpart, ex);
+	valid = camel_cipher_verify (ctx, sigpart, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
 	check_msg (camel_cipher_validity_get_valid (valid), "%s", camel_cipher_validity_get_description (valid));
 	camel_cipher_validity_free (valid);
 	camel_test_pull ();
 	
-	camel_object_unref(stream1);
+	camel_object_unref(conpart);
 	camel_object_unref(sigpart);
 	
 	stream1 = camel_stream_mem_new ();
-	stream2 = camel_stream_mem_new ();
-	stream3 = camel_stream_mem_new ();
-	
 	camel_stream_write (stream1, "Hello, I am a test of encryption/decryption.", 44);
 	camel_stream_reset (stream1);
+
+	conpart = camel_mime_part_new();
+	dw = camel_data_wrapper_new();
+	camel_stream_reset(stream1);
+	camel_data_wrapper_construct_from_stream(dw, stream1);
+	camel_medium_set_content_object((CamelMedium *)conpart, dw);
+	camel_object_unref(stream1);
+	camel_object_unref(dw);
+
+	encpart = camel_mime_part_new();
 	
 	camel_exception_clear (ex);
 	
 	camel_test_push ("PGP encrypt");
 	recipients = g_ptr_array_new ();
 	g_ptr_array_add (recipients, "no.user@no.domain");
-	camel_cipher_encrypt (ctx, FALSE, "no.user@no.domain", recipients,
-			      stream1, stream2, ex);
+	camel_cipher_encrypt (ctx, "no.user@no.domain", recipients, conpart, encpart, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
 	g_ptr_array_free (recipients, TRUE);
 	camel_test_pull ();
-	
-	camel_stream_reset (stream2);
+
 	camel_exception_clear (ex);
 	
 	camel_test_push ("PGP decrypt");
-	camel_cipher_decrypt (ctx, stream2, stream3, ex);
+	outpart = camel_mime_part_new();
+	valid = camel_cipher_decrypt (ctx, encpart, outpart, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
+	check_msg (valid->encrypt.status == CAMEL_CIPHER_VALIDITY_ENCRYPT_ENCRYPTED, "%s", valid->encrypt.description);
+
+	stream1 = camel_stream_mem_new();
+	stream2 = camel_stream_mem_new();
+
+	camel_data_wrapper_write_to_stream((CamelDataWrapper *)conpart, stream1);
+	camel_data_wrapper_write_to_stream((CamelDataWrapper *)outpart, stream2);
+
 	buf = CAMEL_STREAM_MEM (stream1)->buffer;
 	before = g_strndup (buf->data, buf->len);
-	buf = CAMEL_STREAM_MEM (stream3)->buffer;
+	buf = CAMEL_STREAM_MEM (stream2)->buffer;
 	after = g_strndup (buf->data, buf->len);
 	check_msg (string_equal (before, after), "before = '%s', after = '%s'", before, after);
 	g_free (before);
 	g_free (after);
+
+	camel_object_unref(stream1);
+	camel_object_unref(stream2);
+	camel_object_unref(conpart);
+	camel_object_unref(encpart);
+	camel_object_unref(outpart);
+
 	camel_test_pull ();
 	
 	camel_object_unref (CAMEL_OBJECT (ctx));

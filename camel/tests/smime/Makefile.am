@@ -17,8 +17,8 @@ LDADD = \
 	$(EVOLUTION_MAIL_LIBS)
 
 check_PROGRAMS =  	\
-	pgp		\
-	pgp-mime	
+	pgp
+#	pgp-mime	
 #	pkcs7
 
-TESTS = pgp pgp-mime #pkcs7
+TESTS = pgp #pgp-mime pkcs7

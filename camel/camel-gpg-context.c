@@ -1569,6 +1569,8 @@ gpg_decrypt(CamelCipherContext *context, CamelMimePart *ipart, CamelMimePart *op
 
 	istream = camel_stream_mem_new();
 	camel_data_wrapper_write_to_stream(camel_medium_get_content_object((CamelMedium *)ipart), istream);
+	camel_stream_reset(istream);
+
 	/* TODO: de-canonicalise end of lines? */
 	/*stream = camel_stream_mem_new ();
 	filtered_stream = (CamelStream *) camel_stream_filter_new_with_stream (stream);

@@ -51,6 +51,8 @@
 #define c(x) 
 #define d(x) 
 
+/*#define PRESERVE_HEADERS*/
+
 /*#define PURIFY*/
 
 #define MEMPOOL
@@ -61,136 +63,6 @@
 int inend_id = -1,
   inbuffer_id = -1;
 #endif
-
-#if 0
-extern int strdup_count;
-extern int malloc_count;
-extern int free_count;
-
-#define g_strdup(x) (strdup_count++, g_strdup(x))
-#define g_malloc(x) (malloc_count++, g_malloc(x))
-#define g_free(x) (free_count++, g_free(x))
-#endif
-
-#ifdef MEMPOOL
-typedef struct _MemPoolNode {
-	struct _MemPoolNode *next;
-
-	int free;
-	char data[1];
-} MemPoolNode;
-
-typedef struct _MemPoolThresholdNode {
-	struct _MemPoolThresholdNode *next;
-	char data[1];
-} MemPoolThresholdNode;
-
-typedef struct _MemPool {
-	int blocksize;
-	int threshold;
-	struct _MemPoolNode *blocks;
-	struct _MemPoolThresholdNode *threshold_blocks;
-} MemPool;
-
-MemPool *mempool_new(int blocksize, int threshold);
-void *mempool_alloc(MemPool *pool, int size);
-void mempool_flush(MemPool *pool, int freeall);
-void mempool_free(MemPool *pool);
-
-MemPool *mempool_new(int blocksize, int threshold)
-{
-	MemPool *pool;
-
-	pool = g_malloc(sizeof(*pool));
-	if (threshold >= blocksize)
-		threshold = blocksize * 2 / 3;
-	pool->blocksize = blocksize;
-	pool->threshold = threshold;
-	pool->blocks = NULL;
-	pool->threshold_blocks = NULL;
-	return pool;
-}
-
-void *mempool_alloc(MemPool *pool, int size)
-{
-	size = (size + STRUCT_ALIGN) & (~(STRUCT_ALIGN-1));
-	if (size>=pool->threshold) {
-		MemPoolThresholdNode *n;
-
-		n = g_malloc(sizeof(*n) - sizeof(char) + size);
-		n->next = pool->threshold_blocks;
-		pool->threshold_blocks = n;
-		return &n->data[0];
-	} else {
-		MemPoolNode *n;
-
-		n = pool->blocks;
-		while (n) {
-			if (n->free >= size) {
-				n->free -= size;
-				return &n->data[n->free];
-			}
-			n = n->next;
-		}
-
-		n = g_malloc(sizeof(*n) - sizeof(char) + pool->blocksize);
-		n->next = pool->blocks;
-		pool->blocks = n;
-		n->free = pool->blocksize - size;
-		return &n->data[n->free];
-	}
-}
-
-void mempool_flush(MemPool *pool, int freeall)
-{
-	MemPoolThresholdNode *tn, *tw;
-	MemPoolNode *pw, *pn;
-
-	tw = pool->threshold_blocks;
-	while (tw) {
-		tn = tw->next;
-		g_free(tw);
-		tw = tn;
-	}
-	pool->threshold_blocks = NULL;
-
-	if (freeall) {
-		pw = pool->blocks;
-		while (pw) {
-			pn = pw->next;
-			g_free(pw);
-			pw = pn;
-		}
-		pool->blocks = NULL;
-	} else {
-		pw = pool->blocks;
-		while (pw) {
-			pw->free = pool->blocksize;
-			pw = pw->next;
-		}
-	}
-}
-
-void mempool_free(MemPool *pool)
-{
-	if (pool) {
-		mempool_flush(pool, 1);
-		g_free(pool);
-	}
-}
-
-#endif
-
-
-
-
-
-
-
-
-
-
-
 
 #define SCAN_BUF 4096		/* size of read buffer */
 #define SCAN_HEAD 128		/* headroom guaranteed to be before each read buffer */
@@ -1310,8 +1182,11 @@ folder_scan_header(struct _header_scan_state *s, int *lastone)
 					h(printf("got line part: '%.*s'\n", inptr-1-start, start));
 					/* got a line, strip and add it, process it */
 					s->midline = FALSE;
+#ifdef PRESERVE_HEADERS
+					header_append(s, start, inptr);
+#else
 					header_append(s, start, inptr-1);
-
+#endif
 					/* check for end of headers */
 					if (s->outbuf == s->outptr)
 						goto header_done;
@@ -1319,6 +1194,7 @@ folder_scan_header(struct _header_scan_state *s, int *lastone)
 					/* check for continuation/compress headers, we have atleast 1 char here to work with */
 					if (inptr[0] ==  ' ' || inptr[0] == '\t') {
 						h(printf("continuation\n"));
+#ifndef PRESERVE_HEADERS
 						/* TODO: this wont catch multiple space continuation across a read boundary, but
 						   that is assumed rare, and not fatal anyway */
 						do
@@ -1326,11 +1202,17 @@ folder_scan_header(struct _header_scan_state *s, int *lastone)
 						while (*inptr == ' ' || *inptr == '\t');
 						inptr--;
 						*inptr = ' ';
+#endif
 					} else {
 						/* otherwise, complete header, add it */
+#ifdef PRESERVE_HEADERS
+						s->outptr--;
+						if (s->outptr[-1] == '\r')
+							s->outptr--;
+#endif
 						s->outptr[0] = 0;
 				
-						h(printf("header '%.20s' at %d\n", s->outbuf, (int)s->header_start));
+						h(printf("header '%s' at %d\n", s->outbuf, (int)s->header_start));
 						
 						header_raw_append_parse(&h->headers, s->outbuf, s->header_start);
 						s->outptr = s->outbuf;
