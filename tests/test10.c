@@ -86,14 +86,14 @@ main (int argc, char**argv)
 
 	folder = camel_store_get_folder (store, "Inbox", ex);
 	if (camel_exception_get_id (ex)) {
-		printf ("Exception caught in camel_store_get_folder"
+		printf ("Exception caught in camel_store_get_folder\n"
 			"Full description : %s\n", camel_exception_get_description (ex));
 		return -1;
 	}
 
 	camel_folder_open (folder, FOLDER_OPEN_RW, ex);
 	if (camel_exception_get_id (ex)) {
-		printf ("Exception caught when trying to open the folder"
+		printf ("Exception caught when trying to open the folder\n"
 			"Full description : %s\n", camel_exception_get_description (ex));
 		return -1;
 	}
@@ -101,7 +101,7 @@ main (int argc, char**argv)
 	message = create_sample_mime_message ();
 	camel_folder_append_message (folder, message, ex);
 	if (camel_exception_get_id (ex)) {
-		printf ("Exception caught when trying to append a message to the folder"
+		printf ("Exception caught when trying to append a message to the folder\n"
 			"Full description : %s\n", camel_exception_get_description (ex));
 		return -1;
 	}

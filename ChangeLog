@@ -1,5 +1,15 @@
 2000-01-24  bertrand  <bertrand@helixcode.com>
 
+	* camel/camel-stream-fs.[ch]: converted all 
+	gint64 variables into guint32. 
+	
+	
+	* camel/camel-stream-fs.c (_read): fix stupid bug.
+	(_write): ditto. 
+
+	* camel/camel-exception.c (camel_exception_new): don't
+	forget to clean the exception when creating it. 
+
 	* camel/camel-recipient.c (camel_recipient_table_add_list): 
 	add recipient_list to the recipients, not recipients_list. 
 	I don't know what that variable was doing here. 

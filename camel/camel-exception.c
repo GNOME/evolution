@@ -43,6 +43,11 @@ camel_exception_new ()
 	CamelException *ex;
 
 	ex = g_new (CamelException, 1);
+	ex->desc = NULL;
+
+	/* set the Exception Id to NULL */
+	ex->id = CAMEL_EXCEPTION_NONE;
+
 	return ex;
 }
 

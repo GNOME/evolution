@@ -58,7 +58,7 @@ typedef struct
 	gint fd;           /* file descriptor on the underlying file */
 	guint32 cur_pos;     /* current postion in the stream */
 	guint32 inf_bound;   /* first valid position */
-	gint64 sup_bound;    /* last valid position, -1 means, no sup bound */
+	gint32 sup_bound;    /* last valid position, -1 means, no sup bound */
 	
 } CamelStreamFs;
 
@@ -69,10 +69,10 @@ typedef struct {
 	
 	/* Virtual methods */	
 	void (*init_with_fd) (CamelStreamFs *stream_fs, int fd);
-	void (*init_with_fd_and_bounds) (CamelStreamFs *stream_fs, int fd, guint32 inf_bound, gint64 sup_bound);
+	void (*init_with_fd_and_bounds) (CamelStreamFs *stream_fs, int fd, guint32 inf_bound, gint32 sup_bound);
 	void (*init_with_name) (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode mode);
 	void (*init_with_name_and_bounds) (CamelStreamFs *stream_fs, const gchar *name, 
-					   CamelStreamFsMode mode, guint32 inf_bound, gint64 sup_bound);
+					   CamelStreamFsMode mode, guint32 inf_bound, gint32 sup_bound);
 
 } CamelStreamFsClass;
 
@@ -85,10 +85,10 @@ GtkType camel_stream_fs_get_type (void);
 /* public methods */
 CamelStream *camel_stream_fs_new_with_name (const gchar *name, CamelStreamFsMode mode);
 CamelStream *camel_stream_fs_new_with_name_and_bounds (const gchar *name, CamelStreamFsMode mode,
-						       guint32 inf_bound, gint64 sup_bound);
+						       guint32 inf_bound, gint32 sup_bound);
 CamelStream *camel_stream_fs_new_with_fd (int fd);
 CamelStream *camel_stream_fs_new_with_fd_and_bounds (int fd,
-						     guint32 inf_bound, gint64 sup_bound);
+						     guint32 inf_bound, gint32 sup_bound);
 
 #ifdef __cplusplus
 }

@@ -172,7 +172,7 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMhFolder::init_with_store\n");
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::init_with_store\n");
 
 	/* call parent method */
 	parent_class->init_with_store (folder, parent_store, ex);

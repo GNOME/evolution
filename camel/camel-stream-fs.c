@@ -52,10 +52,10 @@ static void _finalize (GtkObject *object);
 static void _destroy (GtkObject *object);
 
 static void _init_with_fd (CamelStreamFs *stream_fs, int fd);
-static void _init_with_fd_and_bounds (CamelStreamFs *stream_fs, int fd, guint32 inf_bound, gint64 sup_bound);
+static void _init_with_fd_and_bounds (CamelStreamFs *stream_fs, int fd, guint32 inf_bound, gint32 sup_bound);
 static void _init_with_name (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode mode);
 static void _init_with_name_and_bounds (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode mode,
-					guint32 inf_bound, gint64 sup_bound);
+					guint32 inf_bound, gint32 sup_bound);
 
 static void
 camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
@@ -155,16 +155,25 @@ _finalize (GtkObject *object)
 
 
 static void 
-_set_bounds (CamelStreamFs *stream_fs, guint32 inf_bound, gint64 sup_bound)
+_set_bounds (CamelStreamFs *stream_fs, guint32 inf_bound, guint32 sup_bound)
 {
+	
+	printf ("sup_bounds = %u\n", sup_bound);
 	/* store the bounds */
 	stream_fs->inf_bound = inf_bound;
 	stream_fs->sup_bound = sup_bound;
 
 	/* go to the first position */
-	lseek ((CAMEL_STREAM_FS (stream_fs))->fd, inf_bound, SEEK_SET);
+	lseek (stream_fs->fd, inf_bound, SEEK_SET);
 
 	stream_fs->cur_pos = inf_bound;
+	
+	CAMEL_LOG_FULL_DEBUG ("In CamelStreamFs::_set_bounds, "
+			      "setting inf bound to %u, "
+			      "sup bound to %ld, current postion to %u from %u\n", 
+			      stream_fs->inf_bound, stream_fs->sup_bound,
+			      stream_fs->cur_pos, inf_bound);
+	
 }
 
 
@@ -173,17 +182,17 @@ _set_bounds (CamelStreamFs *stream_fs, guint32 inf_bound, gint64 sup_bound)
 static void
 _init_with_fd (CamelStreamFs *stream_fs, int fd)
 {
-	/* no bounds by default */
-	_set_bounds (stream_fs, 0, -1);
-
 	stream_fs->fd = fd;
+	stream_fs->inf_bound = 0;
+	stream_fs->sup_bound = -1;
+	stream_fs->cur_pos = 0;
 }
 
 
 
 
 static void
-_init_with_fd_and_bounds (CamelStreamFs *stream_fs, int fd, guint32 inf_bound, gint64 sup_bound)
+_init_with_fd_and_bounds (CamelStreamFs *stream_fs, int fd, guint32 inf_bound, gint32 sup_bound)
 {
 	
 	CSFS_CLASS (stream_fs)->init_with_fd (stream_fs, fd);
@@ -231,20 +240,21 @@ _init_with_name (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode 
 	stream_fs->name = g_strdup (name);
 	CSFS_CLASS (stream_fs)->init_with_fd (stream_fs, fd);
 		
-	/* no bounds by default */
-	_set_bounds (stream_fs, 0, -1);
-
-
 }
 
 
 
 static void
 _init_with_name_and_bounds (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode mode,
-			    guint32 inf_bound, gint64 sup_bound)
+			    guint32 inf_bound, gint32 sup_bound)
 {
 	CSFS_CLASS (stream_fs)->init_with_name (stream_fs, name, mode);
-	_set_bounds (stream_fs, inf_bound, sup_bound);
+	_set_bounds (stream_fs, inf_bound, (gint32)sup_bound);
+	CAMEL_LOG_FULL_DEBUG ("In CamelStreamFs::init_with_name_and_bounds, "
+			      "setting inf bound to %u, "
+			      "sup bound to %ld, current postion to %u\n", 
+			      stream_fs->inf_bound, stream_fs->sup_bound,
+			      stream_fs->cur_pos);
 }
 
 
@@ -264,7 +274,7 @@ camel_stream_fs_new_with_name (const gchar *name, CamelStreamFsMode mode)
 
 CamelStream *
 camel_stream_fs_new_with_name_and_bounds (const gchar *name, CamelStreamFsMode mode,
-					  guint32 inf_bound, gint64 sup_bound)
+					  guint32 inf_bound, gint32 sup_bound)
 {
 	CamelStreamFs *stream_fs;
 	stream_fs = gtk_type_new (camel_stream_fs_get_type ());
@@ -295,7 +305,7 @@ camel_stream_fs_new_with_fd (int fd)
 
 
 CamelStream *
-camel_stream_fs_new_with_fd_and_bounds (int fd, guint32 inf_bound, gint64 sup_bound)
+camel_stream_fs_new_with_fd_and_bounds (int fd, guint32 inf_bound, gint32 sup_bound)
 {
 	CamelStreamFs *stream_fs;
 	
@@ -326,7 +336,7 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 	gint nb_to_read;
 	
 	if (stream_fs->sup_bound != -1)
-		nb_to_read = stream_fs->sup_bound - stream_fs->cur_pos;
+		nb_to_read = MIN (stream_fs->sup_bound - stream_fs->cur_pos, n);
 	else 
 		nb_to_read = n;
 	
@@ -365,7 +375,7 @@ _write (CamelStream *stream, const gchar *buffer, gint n)
 	CAMEL_LOG_FULL_DEBUG ( "CamelStreamFs:: entering write. n=%d\n", n);
 
 	if (stream_fs->sup_bound != -1)
-		nb_to_write = stream_fs->sup_bound - stream_fs->cur_pos;
+		nb_to_write =  MIN (stream_fs->sup_bound - stream_fs->cur_pos, n);;
 	else 
 		nb_to_write = n;
 
