@@ -1,5 +1,11 @@
 2001-06-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (e_shell_view_set_current_shortcuts_group_num):
+	Moved at the bottom, as it's public API.  Also add preconditions.
+	(e_shell_view_get_current_shortcuts_group_num): Likewise.
+
+2001-06-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c: Get rid of some `#if 0'ed code.
 
 2001-06-23  Ettore Perazzoli  <ettore@ximian.com>

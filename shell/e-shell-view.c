@@ -738,36 +738,6 @@ setup_statusbar_hints (EShellView *shell_view)
 }
 
 
-void
-e_shell_view_set_current_shortcuts_group_num (EShellView *shell_view, int group_num)
-{
-	/* This function could become static */
-	EShellViewPrivate *priv;
-	EShortcutsView *shortcuts_view;
-
-	priv = shell_view->priv;
-
-	shortcuts_view = E_SHORTCUTS_VIEW (priv->shortcut_bar);
-
-	e_group_bar_set_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)), group_num, FALSE);
-}
-
-int
-e_shell_view_get_current_shortcuts_group_num (EShellView *shell_view)
-{
-	EShellViewPrivate *priv;
-	EShortcutsView *shortcuts_view;
-	int group;
-
-	priv = shell_view->priv;
-
-	shortcuts_view = E_SHORTCUTS_VIEW (priv->shortcut_bar);
-
-	group = e_group_bar_get_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)));
-
-	return group;
-}
-
 static void
 setup_widgets (EShellView *shell_view)
 {
@@ -2233,6 +2203,42 @@ e_shell_view_load_settings (EShellView *shell_view,
 	return TRUE;
 }
 
+
+/* FIXME: This function could become static */
+void
+e_shell_view_set_current_shortcuts_group_num (EShellView *shell_view, int group_num)
+{
+	EShellViewPrivate *priv;
+	EShortcutsView *shortcuts_view;
+
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	priv = shell_view->priv;
+
+	shortcuts_view = E_SHORTCUTS_VIEW (priv->shortcut_bar);
+
+	e_group_bar_set_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)), group_num, FALSE);
+}
+
+int
+e_shell_view_get_current_shortcuts_group_num (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+	EShortcutsView *shortcuts_view;
+	int group;
+
+	g_return_val_if_fail (shell_view != NULL, -1);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), -1);
+
+	priv = shell_view->priv;
+
+	shortcuts_view = E_SHORTCUTS_VIEW (priv->shortcut_bar);
+
+	group = e_group_bar_get_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)));
+
+	return group;
+}
 
 
 E_MAKE_TYPE (e_shell_view, "EShellView", EShellView, class_init, init, BONOBO_TYPE_WINDOW)
