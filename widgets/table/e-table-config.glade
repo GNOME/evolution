@@ -1880,7 +1880,7 @@
 	  <name>label-group</name>
 	  <label></label>
 	  <justify>GTK_JUSTIFY_LEFT</justify>
-	  <wrap>False</wrap>
+	  <wrap>True</wrap>
 	  <xalign>0</xalign>
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
@@ -1906,7 +1906,7 @@
 	  <name>label-sort</name>
 	  <label></label>
 	  <justify>GTK_JUSTIFY_LEFT</justify>
-	  <wrap>False</wrap>
+	  <wrap>True</wrap>
 	  <xalign>0</xalign>
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
@@ -1931,8 +1931,8 @@
 	  <class>GtkLabel</class>
 	  <name>label-fields</name>
 	  <label></label>
-	  <justify>GTK_JUSTIFY_CENTER</justify>
-	  <wrap>False</wrap>
+	  <justify>GTK_JUSTIFY_LEFT</justify>
+	  <wrap>True</wrap>
 	  <xalign>0</xalign>
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>

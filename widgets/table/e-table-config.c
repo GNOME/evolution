@@ -133,18 +133,18 @@ config_sort_info_update (ETableConfig *config)
 		ETableColumnSpecification **column;
 
 		for (column = config->spec->columns; *column; column++) {
-			if (col.column == (*column)->model_col) {
-				g_string_append (res, (*column)->title_);
-				g_string_append_c (res, ' ');
-				g_string_append (
-					res,
-					col.ascending ?
-					_("(Ascending)") : _("(Descending)"));
-				items++;
-				if (items > 4)
-					g_string_append_c (res, '\n');
-				break;
-			}
+			if (col.column != (*column)->model_col) 
+				continue;
+				
+			g_string_append (res, (*column)->title_);
+			g_string_append_c (res, ' ');
+			g_string_append (
+				res,
+				col.ascending ?
+				_("(Ascending)") : _("(Descending)"));
+			items++;
+			if (items > 4)
+				g_string_append_c (res, '\n');
 		}
 	}
 	if (res->str [0] == 0)
@@ -170,19 +170,19 @@ config_group_info_update (ETableConfig *config)
 		ETableColumnSpecification **column;
 
 		for (column = config->spec->columns; *column; column++) {
-			if (col.column == (*column)->model_col) {
-				g_string_append (res, (*column)->title_);
-				g_string_append_c (res, ' ');
-				g_string_append (
-					res,
-					col.ascending ?
-					_("(Ascending)") : _("(Descending)"));
-
-				items++;
-				if (items > 4)
-					g_string_append_c (res, '\n');
-				break;
-			}
+			if (col.column != (*column)->model_col)
+				continue;
+			
+			g_string_append (res, (*column)->title_);
+			g_string_append_c (res, ' ');
+			g_string_append (
+				res,
+				col.ascending ?
+				_("(Ascending)") : _("(Descending)"));
+			
+			items++;
+			if (items > 4)
+				g_string_append_c (res, '\n');
 		}
 	}
 	if (res->str [0] == 0)
@@ -197,18 +197,24 @@ config_fields_info_update (ETableConfig *config)
 {
 	ETableColumnSpecification **column;
 	GString *res = g_string_new ("");
-	int items = 0;
-	
-	for (column = config->spec->columns; *column; *column++){
-		g_string_append (res, (*column)->title_);
-		if (column [1])
-			g_string_append (res, ", ");
-		items++;
+	int i, items = 0;
 
-		if (items > 5)
-			g_string_append_c (res, '\n');
+	for (i = 0; i < config->state->col_count; i++){
+		for (column = config->spec->columns; *column; *column++){
+
+			if (config->state->columns [i] != (*column)->model_col)
+				continue;
+			
+			g_string_append (res, (*column)->title_);
+			if (column [1])
+				g_string_append (res, ", ");
+			items++;
+			
+			if (items > 5)
+				g_string_append_c (res, '\n');
+		}
 	}
-
+	
 	gtk_label_set_text (GTK_LABEL (config->fields_label), res->str);
 	g_string_free (res, TRUE);
 }
