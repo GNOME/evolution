@@ -1,3 +1,8 @@
+2001-01-17  JP Rosevear  <jpr@ximian.com>
+
+	* e-messagebox.c (e_message_box_get_id): Dont remove the function, give
+	it the proper name
+
 2001-01-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-messagebox.c (e_message_box_get_checkbox): Remove the version

@@ -346,3 +346,23 @@ e_message_box_get_checkbox (EMessageBox *messagebox)
 	
 	return messagebox->_priv->checkbox;
 }
+
+
+/**
+ * e_message_box_get_id:
+ * @messagebox: The message box to work on
+ *
+ * Gets the id of the message box.  You should use this
+ * function instead of using the structure directly.
+ *
+ * Returns: the id */
+const char *
+e_message_box_get_id (EMessageBox *messagebox)
+{
+	g_return_val_if_fail (messagebox != NULL, NULL);
+	g_return_val_if_fail (E_IS_MESSAGE_BOX (messagebox), NULL);
+	
+	return messagebox->_priv->id;
+}
+
+
