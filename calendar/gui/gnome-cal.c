@@ -42,18 +42,13 @@ static void
 day_view_range_activated (GncalFullDay *fullday, GnomeCalendar *gcal)
 {
 	iCalObject *ical;
-	time_t start, end;
 
 	ical = ical_new ("", user_name, "");
 	ical->new = 1;
 
-	gncal_full_day_selection_range (fullday, &start, &end);
+	gncal_full_day_selection_range (fullday, &ical->dtstart, &ical->dtend);
 
-	/* FIXME: this should insert the ical object into the calendar and somehow ask
-	 * the fullday to update itself and focus the new child.
-	 */
-
-/* 	event_editor_new (gcal, ical); */
+	gnome_calendar_add_object (gcal, ical);
 }
 
 static void

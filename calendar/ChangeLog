@@ -1,3 +1,19 @@
+1998-04-13  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gnome-cal.c (day_view_range_activated): Create new object and
+	add it to the calendar.  You can now select a range in the
+	full-day view, hit Return, and a new event will be added at the
+	selected range.  I still have to figure out how to focus this new child.
+
+	* gncal-full-day.c (paint_back): Rewrote function to avoid
+	painting an area more than once -- eliminate flicker.
+	(paint_back_rows): New function that calls paint_back() only for
+	the area of the specified rows.
+	(gncal_full_day_button_press): 
+	(gncal_full_day_button_release): 
+	(gncal_full_day_motion): Made these functions use
+	paint_back_rows() instead of paint_back(), to eliminate flicker.  Wheee!
+
 1998-04-12  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gnome-cal.c (setup_day_view): We now connect to the
