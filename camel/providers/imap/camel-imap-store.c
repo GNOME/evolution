@@ -1851,11 +1851,10 @@ imap_keepalive (CamelRemoteStore *store)
 	
 	/* Note: the idea here is to sync the flags of our currently
 	   selected folder if there have been changes... */
-	ex = NULL;
-	/*ex = camel_exception_new();*/
+	ex = camel_exception_new();
 	if (imap_store->current_folder && folder_flags_have_changed (imap_store->current_folder)) {
 		camel_folder_sync (imap_store->current_folder, FALSE, ex);
-		/*camel_exception_clear(ex);*/
+		camel_exception_clear(ex);
 	}
 	
 	/* ...but we also want to NOOP so that we get an untagged response. */
@@ -1867,5 +1866,5 @@ imap_keepalive (CamelRemoteStore *store)
 	
 	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 
-	/*camel_exception_free(ex);*/
+	camel_exception_free(ex);
 }

@@ -1,5 +1,8 @@
 2002-04-02  Not Zed  <NotZed@Ximian.com>
 
+	* providers/imap/camel-imap-store.c (imap_keepalive): Put back in
+	the exception setup stuff i disabled for debugging.
+
 	* providers/local/camel-local-folder.c
 	(camel_local_folder_construct): Temporarily disable indexing.
 
