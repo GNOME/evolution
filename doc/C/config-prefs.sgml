@@ -229,7 +229,7 @@
 	<title>Mail Transports</title>
 	<para>
            The <interface>Mail Transports</interface> tab lets you set
-           how you will send mail.  Evolution currently supports two
+           how you will send mail.  <application>Evolution</application> currently supports two
            mail transport options: <glossterm linkend="smtp">SMTP</glossterm>, which
            uses a remote mail server, and
            <glossterm linkend="sendmail">sendmail</glossterm>, which uses the

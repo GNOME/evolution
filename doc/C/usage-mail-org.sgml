@@ -286,7 +286,7 @@
 		  <para>
 		    Expression - For programmers only: match a message according to an
 		    expression you write in the Scheme language, used to
-		    define filters in Evolution.
+		    define filters in <application>Evolution</application>.
 		  </para>
 		</listitem>
 		
@@ -556,10 +556,10 @@
       <para>
 	To organize their mailbox, Jim sets up a virtual volder for emails from
 	his friend and co-worker Anna.  He has another one for messages that
-	have ximian.com in the address and Evolution in the subject line, so he
+	have ximian.com in the address and <application>Evolution</application> in the subject line, so he
 	can keep a record of what people from work send him about
 	<application>evolution</application>.  If Anna sends him a message about
-	anything other than Evolution, it only shows up in the "Anna" folder.
+	anything other than <application>Evolution</application>, it only shows up in the "Anna" folder.
 	When Anna sends him mail about the user interface for
 	<application>evolution</application>, he can see that message both in
 	the "Anna" virtual folder and in the "Internal Evolution Discussion"
@@ -621,7 +621,7 @@
 		  <para>
 		    Expression - For programmers only: match a message according to an
 		    expression you write in the Scheme language, used to
-		    define filters in Evolution.
+		    define filters in <application>Evolution</application>.
 		  </para>
 		</listitem>
 		

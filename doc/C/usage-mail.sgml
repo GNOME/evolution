@@ -427,7 +427,7 @@
       <sect2 id="usage-mail-getnsend-send-delay">
         <title>Saving Messages for Later</title>
         <para>
-           Evolution will send mail immediately unless you tell it to
+           <application>Evolution</application> will send mail immediately unless you tell it to
            do otherwise by selecting <menuchoice>
            <guimenu>File</guimenu> <guimenuitem>Send
            Later</guimenuitem></menuchoice>.  This will add your
