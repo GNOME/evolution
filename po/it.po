@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "POT-Creation-Date: 2002-10-28 16:49-0500\n"
-"PO-Revision-Date: 2003-01-05 16:05GMT\n"
+"PO-Revision-Date: 2003-01-07 08:44+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
-"Language-Team: italiano <tp@lists.linux.it>\n"
+"Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1173,13 +1173,12 @@ msgstr ""
 "ldap."
 
 #: addressbook/gui/component/ldap-config.glade.h:95
-#, fuzzy
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list.\n"
 "It is for display purposes only. "
 msgstr ""
-"Questo nome viene usato per identificare il vostro account.  Serve solo allo "
+"Questo nome viene usato per identificare il vostro account.\n Serve solo allo "
 "scopo di visualizzarlo."
 
 #: addressbook/gui/component/ldap-config.glade.h:97
@@ -1189,10 +1188,13 @@ msgid ""
 "list of standard ports has been provided. Ask your system administrator\n"
 "what port you should specify."
 msgstr ""
+"Questo è il port sul server LDAP al quale Evolution tenterà di connettersi.\n"
+"Viene fornito un eleno di port. Richiedere al Vostro amministratore di\n"
+"sistema che port si dovrà specificare."
 
 #: addressbook/gui/component/ldap-config.glade.h:100
 msgid "This option controls how long a search will be run."
-msgstr ""
+msgstr "Quest'opzione controlla quanto una ricerca potrà estendersi."
 
 #: addressbook/gui/component/ldap-config.glade.h:101
 msgid ""
@@ -1202,25 +1204,28 @@ msgid ""
 "contacts\n"
 "that you add to the directory on the LDAP server. "
 msgstr ""
+"Per aggiungere un attributo al DN, selezionarlo dall'elenco e premere il tasto "
+"\"Aggiungi Attributo\".\n"
+"Qualsiasi valore aggiunto al DN diventerà un campo obbligatorio per ogni nuovo "
+"contatto\n"
+"che si aggiungerà alla directory del server LDAP."
 
 #: addressbook/gui/component/ldap-config.glade.h:104
 msgid "U_se SSL/TLS:"
-msgstr ""
+msgstr "U_sa SSL/TLS:"
 
 #: addressbook/gui/component/ldap-config.glade.h:105
-#, fuzzy
 msgid "Using distinguished name (DN)"
-msgstr "Nome Distintivo (DN)"
+msgstr "Uso di Nome Distintivo (DN)"
 
 #: addressbook/gui/component/ldap-config.glade.h:106
-#, fuzzy
 msgid "Using email address"
-msgstr "Indirizzo Email"
+msgstr "Uso di indirizzo Email"
 
 #: addressbook/gui/component/ldap-config.glade.h:107
 #: mail/mail-account-gui.c:59 mail/mail-config.glade.h:132
 msgid "Whenever Possible"
-msgstr ""
+msgstr "Perquanto Possibile"
 
 #: addressbook/gui/component/ldap-config.glade.h:108
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
@@ -1231,47 +1236,40 @@ msgid "_Add"
 msgstr "_Aggiungi"
 
 #: addressbook/gui/component/ldap-config.glade.h:109
-#, fuzzy
 msgid "_Add ->"
-msgstr "_Aggiungi"
+msgstr "_Aggiungi ->"
 
 #: addressbook/gui/component/ldap-config.glade.h:110
-#, fuzzy
 msgid "_Add Mapping"
-msgstr "Aggiungi Azione"
+msgstr "_Aggiungi Mappatura"
 
 #: addressbook/gui/component/ldap-config.glade.h:111
-#, fuzzy
 msgid "_Add to DN"
-msgstr "Aggiungi Azione"
+msgstr "_Aggiungi a DN"
 
 #: addressbook/gui/component/ldap-config.glade.h:112
-#, fuzzy
 msgid "_Always"
-msgstr "Avvisi Sonoro"
+msgstr "Sempre"
 
 #: addressbook/gui/component/ldap-config.glade.h:113
-#, fuzzy
 msgid "_Delete Mapping"
-msgstr "_Elimina tutti"
+msgstr "Elimina Mappatura"
 
 #: addressbook/gui/component/ldap-config.glade.h:114
-#, fuzzy
 msgid "_Display name:"
-msgstr "_Visualizzazione"
+msgstr "Mostra il nome:"
 
 #: addressbook/gui/component/ldap-config.glade.h:115
-#, fuzzy
 msgid "_Distinguished Name (DN):"
-msgstr "Nome Distintivo (DN)"
+msgstr "Nome _Distintivo (DN):"
 
 #: addressbook/gui/component/ldap-config.glade.h:116
 msgid "_Don't use SSL/TLS"
-msgstr ""
+msgstr "Non usare SSL/TLS"
 
 #: addressbook/gui/component/ldap-config.glade.h:117
 msgid "_Download limit:"
-msgstr ""
+msgstr "limite scaricamento:"
 
 #: addressbook/gui/component/ldap-config.glade.h:118 filter/filter.glade.h:16
 #: mail/mail-config.glade.h:150 ui/evolution-addressbook.xml.h:33
@@ -1284,48 +1282,42 @@ msgid "_Edit"
 msgstr "_Modifica"
 
 #: addressbook/gui/component/ldap-config.glade.h:119
-#, fuzzy
 msgid "_Edit Mapping"
-msgstr "_Modifica appuntamenti"
+msgstr "Modifica Mappatura"
 
 #: addressbook/gui/component/ldap-config.glade.h:120
-#, fuzzy
 msgid "_Evolution attribute:"
-msgstr "Avviso Evolution"
+msgstr "Attributo _Evolution:"
 
 #: addressbook/gui/component/ldap-config.glade.h:121
 msgid "_If necessary "
-msgstr ""
+msgstr "se necessario "
 
 #: addressbook/gui/component/ldap-config.glade.h:122
 msgid "_LDAP attribute:"
-msgstr ""
+msgstr "attributo _LDAP:"
 
 #: addressbook/gui/component/ldap-config.glade.h:123
 msgid "_LDAP attributes:"
-msgstr ""
+msgstr "attributi _LDAP:"
 
 #: addressbook/gui/component/ldap-config.glade.h:124
 msgid "_Log in method:"
-msgstr ""
+msgstr "metodo di identificazione:"
 
 #: addressbook/gui/component/ldap-config.glade.h:125
-#, fuzzy
 msgid "_More Options >>"
-msgstr "_Opzioni"
+msgstr "Opzioni Aggiuntive >>"
 
 #: addressbook/gui/component/ldap-config.glade.h:126
-#, fuzzy
 msgid "_Port number:"
-msgstr "_Porta:"
+msgstr "_Porta numero:"
 
 #: addressbook/gui/component/ldap-config.glade.h:127
-#, fuzzy
 msgid "_Restore Defaults"
-msgstr "Predefiniti"
+msgstr "_Ripristina Predefiniti"
 
 #: addressbook/gui/component/ldap-config.glade.h:128
-#, fuzzy
 msgid "_Search base:"
 msgstr "_Base della Ricerca:"
 
@@ -1334,55 +1326,48 @@ msgid "_Server name:"
 msgstr "Nome del _Server:"
 
 #: addressbook/gui/component/ldap-config.glade.h:130
-#, fuzzy
 msgid "_Timeout (minutes):"
-msgstr "Suoneria (minuti)"
+msgstr "_Timeout (minuti):"
 
 #: addressbook/gui/component/ldap-config.glade.h:131
-#, fuzzy
 msgid "account-druid"
-msgstr "Account %d"
+msgstr "auto-account"
 
 #: addressbook/gui/component/ldap-config.glade.h:132
-#, fuzzy
 msgid "account-editor"
-msgstr "Editor della lista dei Contatti"
+msgstr "editor-account"
 
 #: addressbook/gui/component/ldap-config.glade.h:133
-#, fuzzy
 msgid "cards"
-msgstr "Nessuna card"
+msgstr "card"
 
 #: addressbook/gui/component/ldap-config.glade.h:134
-#, fuzzy
 msgid "connecting-tab"
-msgstr "Riconnessione a %s in corso"
+msgstr "linguetta-connessione"
 
 #: addressbook/gui/component/ldap-config.glade.h:135
 msgid "dn-customization-tab"
-msgstr ""
+msgstr "linguetta-personalizzazione-dn"
 
 #: addressbook/gui/component/ldap-config.glade.h:136
 msgid "edit_server_window_simple"
-msgstr ""
+msgstr "finestra_semplice_modifica_server"
 
 #: addressbook/gui/component/ldap-config.glade.h:137
-#, fuzzy
 msgid "general-tab"
-msgstr "Generale"
+msgstr "linguetta-generale"
 
 #: addressbook/gui/component/ldap-config.glade.h:138
 msgid "mappings-tab"
-msgstr ""
+msgstr "linguetta-mappature"
 
 #: addressbook/gui/component/ldap-config.glade.h:139
 msgid "objectclasses-tab"
-msgstr ""
+msgstr "linguetta-classioggetto"
 
 #: addressbook/gui/component/ldap-config.glade.h:140
-#, fuzzy
 msgid "searching-tab"
-msgstr "Ricerca in corso"
+msgstr "linguetta-ricerca"
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:1
 msgid "Evolution's addressbook name selection interface."
@@ -1431,29 +1416,28 @@ msgid "Select Contacts from Addressbook"
 msgstr "Seleziona Contatti dalla Rubrica"
 
 #: addressbook/gui/component/select-names/e-select-names.c:564
-#, fuzzy
 msgid "Find contact in"
-msgstr "Il mittente contiene"
+msgstr "Trova contatto in"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:1
 msgid "Select Names"
 msgstr "Seleziona Nomi"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
-#, fuzzy
 msgid "Selected Contacts:"
-msgstr "Cancellare il Contatto?"
+msgstr "Selezionare Contatti:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:3
-#, fuzzy
 msgid "Show Contacts"
-msgstr "Contatti"
+msgstr "Mostra Contatti"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:4
 msgid ""
 "Type a name into the entry, or\n"
 "select one from the list below:"
 msgstr ""
+"Inserisci un nome o selezionane\n"
+"uno dall'elenco sottostante:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:6
 msgid "_Category:"
@@ -2688,16 +2672,15 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/file-exists.glade.h:1
 msgid "Confirm Overwrite"
-msgstr ""
+msgstr "Conferma sovrascrittura"
 
 #: addressbook/gui/contact-editor/file-exists.glade.h:2
 msgid "Don't bother translating this string.  It's not used."
 msgstr ""
 
 #: addressbook/gui/contact-editor/file-exists.glade.h:3
-#, fuzzy
 msgid "Overwrite"
-msgstr "Sovrascrivere il file?"
+msgstr "Sovrascrivi"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Address _2:"
@@ -2834,9 +2817,8 @@ msgid "Save List as VCard"
 msgstr "Salva Lista come VCard"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
-#, fuzzy
 msgid "Contact"
-msgstr "Contatti"
+msgstr "Contatto"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 msgid "Add Anyway"
@@ -2907,9 +2889,8 @@ msgid "%d cards"
 msgstr "%d card"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:408
-#, fuzzy
 msgid "Error getting book view"
-msgstr "Errore nell'avvio di %s"
+msgstr "Errore nell'ottenere la vista libro"
 
 #: addressbook/gui/widgets/e-addressbook-table-adapter.c:142
 #: addressbook/gui/widgets/e-addressbook-util.c:91
@@ -2963,23 +2944,20 @@ msgid "Cancelled"
 msgstr "Annullato"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:43
-#, fuzzy
 msgid "Authentication Failed"
 msgstr "Autenticazione fallita"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:44
-#, fuzzy
 msgid "Authentication Required"
 msgstr "Autenticazione richiesta"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:45
 msgid "TLS not Available"
-msgstr ""
+msgstr "TLS non disponibile"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:46
-#, fuzzy
 msgid "Addressbook does not exist"
-msgstr "Il file %s non esiste"
+msgstr "La rubrica non esiste"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:47
 msgid "Other error"
@@ -3022,34 +3000,29 @@ msgid "Display Cards"
 msgstr "Mostra Card"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:213
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Opening %d cards will open %d new windows as well.\n"
 "Do you really want to display all of these cards?"
 msgstr ""
-"Si è richiesto che %d cars siano card.  Questo causa la visualizzazione di %"
-"d nuove finestre\n"
-"sullo schermo. Si desidera veramente visualizzare tutte queste card?"
+"Aprendo %d card causerà la visualizzazione di %d nuove finestre.\n "
+"Si desidera veramente visualizzare tutte queste card?"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:348
-#, fuzzy
 msgid "Move card to"
-msgstr "Monte Scuro"
+msgstr "Sposta card su"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:350
-#, fuzzy
 msgid "Copy card to"
-msgstr "Nessuna card"
+msgstr "Copia card su"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:353
-#, fuzzy
 msgid "Move cards to"
-msgstr "Nessuna card"
+msgstr "Sposta card su"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:355
-#, fuzzy
 msgid "Copy cards to"
-msgstr "Nessuna card"
+msgstr "Copia card su"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:363
 #: importers/evolution-gnomecard-importer.c:228 importers/pine-importer.c:642
@@ -3064,39 +3037,32 @@ msgid "Save as VCard"
 msgstr "Salva come VCard"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:800
-#, fuzzy
 msgid "New Contact..."
-msgstr "Nuovo Contatto"
+msgstr "Nuovo Contatto..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:801
-#, fuzzy
 msgid "New Contact List..."
-msgstr "Nuova Lista di Contatti"
+msgstr "Nuova Lista di Contatti..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:804
-#, fuzzy
 msgid "Go to Folder..."
-msgstr "_Visualizza Cartella..."
+msgstr "Vai alla Cartella..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:805
-#, fuzzy
 msgid "Import..."
-msgstr "_Importa..."
+msgstr "Importa..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:807
-#, fuzzy
 msgid "Search for Contacts..."
-msgstr "_Cerca Contatti"
+msgstr "Cerca Contatti..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:808
-#, fuzzy
 msgid "Addressbook Sources..."
-msgstr "Sorgenti della _Rubrica..."
+msgstr "Sorgenti della Rubrica..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:810
-#, fuzzy
 msgid "Pilot Settings..."
-msgstr "Impostazioni _Pilot..."
+msgstr "Impostazioni Pilot..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:814
 #: ui/evolution-addressbook.xml.h:10
@@ -3119,14 +3085,12 @@ msgid "Print Envelope"
 msgstr "Stampa Busta"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:822
-#, fuzzy
 msgid "Copy to folder..."
-msgstr "_Copia nella Cartella..."
+msgstr "Copia nella Cartella..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:823
-#, fuzzy
 msgid "Move to folder..."
-msgstr "_Sposta nella Cartella..."
+msgstr "Sposta nella Cartella..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:826
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
