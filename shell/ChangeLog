@@ -1,3 +1,9 @@
+2001-09-20  Iain Holmes  <iain@ximian.com>
+
+	* e-shell-startup-wizard.c (e_shell_startup_wizard_create): Check
+	the number of mail accounts that exist and display the dialog it this
+	is 0.
+
 2001-09-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-task-widget.c: New member `tooltips' in `ETaskWidgetPrivate'.

@@ -767,7 +767,7 @@ e_shell_startup_wizard_create (void)
 {
 	SWData *data;
 	CORBA_Environment ev;
-	gboolean runbefore;
+	int num_accounts;
 
 	data = g_new0 (SWData, 1);
 
@@ -781,10 +781,10 @@ e_shell_startup_wizard_create (void)
 		return FALSE;
 	}
 
-	runbefore = bonobo_config_get_boolean (data->db, "/Shell/RunBefore", &ev);
+	num_accounts = bonobo_config_get_long_with_default (data->db, "/Mail/Accounts/num", 0, NULL);
 	CORBA_exception_free (&ev);
 
-	if (runbefore == TRUE) {
+	if (num_accounts != 0) {
 		bonobo_object_release_unref (data->db, NULL);
 		g_free (data);
 		return TRUE;
@@ -839,7 +839,6 @@ e_shell_startup_wizard_create (void)
 	gtk_main ();
 
 	/* Sync database */
-	bonobo_config_set_boolean (data->db, "/Shell/RunBefore", TRUE, &ev);
 	Bonobo_ConfigDatabase_sync (data->db, &ev);
 	bonobo_object_release_unref (data->db, NULL);
 	CORBA_exception_free (&ev);
