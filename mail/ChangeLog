@@ -1,5 +1,8 @@
 2000-06-09  Dan Winship  <danw@helixcode.com>
 
+	* mail-ops.c (expunge_folder): display error from
+	camel_folder_expunge if there is one.
+
 	* message-list.c (select_row): install an idle function to
 	select the row rather than doing it directly. Ugh. What a
 	kludge, but at least it works now.

@@ -483,12 +483,9 @@ expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path)
 		/* FIXME: Folder should raise a signal to say its contents has changed ... */
 		e_table_model_changed (fb->message_list->table_model);
 
-/* this always throws an error, when it shouldn't? */
-#if 0
 		if (camel_exception_get_id (&ex) != CAMEL_EXCEPTION_NONE) {
 			mail_exception_dialog ("Unable to expunge deleted messages", &ex, fb);
 		}
-#endif
 	}
 }
 
