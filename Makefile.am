@@ -26,7 +26,7 @@ SUBDIRS =			\
         libical                 \
         libversit               \
 	libwombat		\
-        addressbook             \
+	addressbook             \
         composer                \
         mail                    \
         calendar                \
@@ -39,4 +39,6 @@ SUBDIRS =			\
 	views			\
         tools                   \
 	doc			\
-        po
+        po			\
+	omf-install
+
