@@ -32,8 +32,10 @@ extern "C" {
  *
  * The following arguments are available:
  *
- * name		type		read/write	description
- * --------------------------------------------------------------------------------
+ * name		 type		read/write	description
+ * ---------------------------------------------------------------------------------
+ * option_choice int            RW              Which option choice is currently selected.
+ * text          string         RW              Text in the entry box.
  */
 
 #define E_SEARCH_BAR_TYPE			(e_search_bar_get_type ())
@@ -41,13 +43,6 @@ extern "C" {
 #define E_SEARCH_BAR_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_SEARCH_BAR_TYPE, ESearchBarClass))
 #define E_IS_SEARCH_BAR(obj)		(GTK_CHECK_TYPE ((obj), E_SEARCH_BAR_TYPE))
 #define E_IS_SEARCH_BAR_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_SEARCH_BAR_TYPE))
-
-typedef enum {
-	E_SEARCH_BAR_NONE, /* initialized to this */
-	E_SEARCH_BAR_TABLE,
-	E_SEARCH_BAR_MINICARD
-} ESearchBarType;
-
 
 typedef struct {
 	char *text;

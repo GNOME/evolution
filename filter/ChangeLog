@@ -1,5 +1,10 @@
 2000-11-06  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-search-bar.h: Fixed the argument comment.  Removed an old enum
+	that's not used here.
+
+2000-11-06  Christopher James Lahey  <clahey@helixcode.com>
+
 	* Makefile.am: Added e-search-bar.c and e-search-bar.h.
 
 	* e-search-bar.c, e-search-bar.h: Moved this from
