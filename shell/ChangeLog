@@ -1,5 +1,9 @@
 2000-05-31  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* evolution-storage.h: #include 'Evolution.h".
+
+2000-05-31  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell-view.c (show_error): Use `set_current_notebook_page()'
 	instead of `gtk_notebook_set_page()'; this will also deactivate
 	the current control properly.

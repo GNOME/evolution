@@ -30,6 +30,8 @@
 
 #include <bonobo/bonobo-object.h>
 
+#include "Evolution.h"
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
