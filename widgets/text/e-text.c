@@ -2626,7 +2626,8 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 {
 	EText *text = E_TEXT(data);
 	int sel_start, sel_end;
-	gboolean changed = TRUE;
+	gboolean scroll = TRUE;
+	gboolean use_start = TRUE;
 
 	switch (command->action) {
 	case E_TEP_MOVE:
@@ -2636,6 +2637,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 			g_timer_reset(text->timer);
 		}
 
+		use_start = TRUE;
 		break;
 	case E_TEP_SELECT:
 		text->selection_start = e_text_model_validate_position (text->model, text->selection_start); /* paranoia */
@@ -2653,6 +2655,8 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 			g_timer_reset(text->timer);
 		}
 
+		use_start = FALSE;
+
 		break;
 	case E_TEP_DELETE:
 		if (text->selection_end == text->selection_start) {
@@ -2662,6 +2666,9 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}
+
+		use_start = FALSE;
+
 		break;
 
 	case E_TEP_INSERT:
@@ -2683,7 +2690,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}
-		changed = FALSE;
+		scroll = FALSE;
 		break;
 	case E_TEP_PASTE:
 		e_text_get_selection (text, clipboard_atom, command->time);
@@ -2711,13 +2718,13 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 				    command->time,
 				    NULL,
 				    NULL);
-		changed = FALSE;
+		scroll = FALSE;
 		break;
 	case E_TEP_UNGRAB:
 		e_canvas_item_ungrab (E_CANVAS (GNOME_CANVAS_ITEM(text)->canvas),
 				      GNOME_CANVAS_ITEM(text),
 				      command->time);
-		changed = FALSE;
+		scroll = FALSE;
 		break;
 	case E_TEP_CAPS:
 		if (text->selection_start == text->selection_end) {
@@ -2729,8 +2736,55 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		}
 		break;
 	case E_TEP_NOP:
-		changed = FALSE;
+		scroll = FALSE;
 		break;
+	}
+
+	if (scroll && !text->button_down) {
+		int i;
+		int count = pango_layout_get_line_count (text->layout);
+		PangoLayoutLine *cur_line = NULL;
+		int selection_index = use_start ? text->selection_start : text->selection_end;
+
+		for (i = 0; i < count; i ++) {
+			PangoLayoutLine *line = pango_layout_get_line (text->layout, i);
+			if (selection_index >= line->start_index && selection_index <= line->start_index + line->length) {
+				/* found the line with the start of the selection */
+				cur_line = line;
+				break;
+			}
+		}
+
+		if (cur_line) {
+			int xpos;
+			double clip_width;
+			gboolean trailing = FALSE;
+
+			if (selection_index == cur_line->start_index + cur_line->length) {
+				selection_index--;
+				trailing = TRUE;
+			}
+
+			pango_layout_line_index_to_x (cur_line, selection_index - cur_line->start_index,
+						      trailing, &xpos);
+
+			xpos = PANGO_PIXELS (xpos);
+
+			if (xpos < text->xofs_edit) {
+				text->xofs_edit = xpos;
+			}
+                                                                                                
+			clip_width = text->clip_width;
+			if (clip_width >= 0 && text->draw_borders) {
+				clip_width -= 6;
+				if (clip_width < 0)
+					clip_width = 0;
+			}
+                                                                                                
+			if (2 + xpos - clip_width > text->xofs_edit) {
+				text->xofs_edit = 2 + xpos - clip_width;
+			}
+		}
 	}
 
 	text->needs_redraw = 1;
