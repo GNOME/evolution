@@ -2095,7 +2095,7 @@ setup_ui (EMsgComposer *composer)
 	/* Populate the Charset Encoding menu and default it to whatever the user
 	   chose as his default charset in the mailer */
 	gconf = gconf_client_get_default ();
-	default_charset = composer_get_default_charset ();
+	default_charset = composer_get_default_charset_setting ();
 	e_charset_picker_bonobo_ui_populate (composer->uic, "/menu/Edit/EncodingPlaceholder",
 					     default_charset,
 					     menu_changed_charset_cb,
