@@ -36,23 +36,6 @@ static gint etg_signals [LAST_SIGNAL] = { 0, };
 
 static gboolean etg_get_focus (ETableGroup      *etg);
 static void etg_destroy (GtkObject *object);
-#if 0
-GnomeCanvasItem *
-e_table_group_new (GnomeCanvasGroup *parent, ETableCol *ecol, 
-		   gboolean open, gboolean transparent)
-{
-	ETableGroup *etg;
-
-	g_return_val_if_fail (parent != NULL, NULL);
-	g_return_val_if_fail (ecol != NULL, NULL);
-	
-	etg = gtk_type_new (e_table_group_get_type ());
-
-	e_table_group_construct (parent, etg, ecol, open, transparent);
-
-	return GNOME_CANVAS_ITEM (etg);
-}
-#endif
 
 static void
 etg_destroy (GtkObject *object)

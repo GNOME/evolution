@@ -105,9 +105,9 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 	ETableSortColumn column = e_table_sort_info_grouping_get_nth(sort_info, n);
 
 	if (column.column > e_table_header_count (full_header))
-		col = e_table_header_get_columns (full_header)[e_table_header_count (full_header) - 1];
+		col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
 	else
-		col = e_table_header_get_columns (full_header)[column.column];
+		col = e_table_header_get_column (full_header, column.column);
 
 	e_table_group_construct (parent, E_TABLE_GROUP (etgc), full_header, header, model);
 	etgc->ecol = col;

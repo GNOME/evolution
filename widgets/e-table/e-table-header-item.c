@@ -930,14 +930,6 @@ ethi_button_pressed (ETableHeaderItem *ethi, GdkEventButton *event)
 			 ethi_signals [BUTTON_PRESSED], event);
 }
 
-/* FIXME: Implement this. */
-#if 0
-static GtkMenu *
-ethi_create_context_menu (ETableHeaderItem *ethi)
-{
-}
-#endif
-
 static EPopupMenu ethi_context_menu [] = {
 	{ NULL, NULL, NULL, 0 }
 };

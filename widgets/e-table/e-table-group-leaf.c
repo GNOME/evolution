@@ -56,6 +56,8 @@ e_table_group_leaf_construct (GnomeCanvasGroup *parent,
 			      ETableSortInfo   *sort_info)
 {
 	etgl->subset = E_TABLE_SUBSET_VARIABLE(e_table_sorted_variable_new (model, full_header, sort_info));
+	gtk_object_ref(GTK_OBJECT(etgl->subset));
+	gtk_object_sink(GTK_OBJECT(etgl->subset));
 	e_table_group_construct (parent, E_TABLE_GROUP (etgl), full_header, header, model);
 }
 
