@@ -1,3 +1,8 @@
+2001-03-28  Christopher James Lahey  <clahey@ximian.com>
+
+	* menus/gal-view-menus.c (build_menus): Don't print the xml tree
+	here.
+
 2001-03-16  Miguel de Icaza  <miguel@ximian.com>
 
 	* menus/gal-view-menus.c (build_menus): Hook this up under the

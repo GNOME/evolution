@@ -30,6 +30,8 @@ static GtkObjectClass *gvm_parent_class;
 static void collection_changed (GalViewCollection *collection,
 				GalViewMenus *gvm);
 
+#define d(x)
+
 typedef struct {
 	GalViewCollection *collection;
 	GalView *view;
@@ -196,7 +198,7 @@ build_menus(GalViewMenus *menus)
 
 	bonobo_ui_node_free(root);
 
-	g_print (xml);
+	d(g_print (xml));
 
 	return xml;
 }
