@@ -1610,6 +1610,7 @@ emft_get_folder_info__free (struct _mail_msg *mm)
 	camel_store_free_folder_info (m->store, m->fi);
 	
 	gtk_tree_row_reference_free (m->root);
+	g_object_unref(m->emft);
 	camel_object_unref (m->store);
 	g_free (m->select_uri);
 	g_free (m->top);
@@ -1686,6 +1687,7 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 	camel_object_ref (store);
 	m->store = store;
 	m->emft = emft;
+	g_object_ref(emft);
 	m->top = g_strdup (top);
 	m->flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
 	m->select_uri = NULL;
@@ -2718,6 +2720,7 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 	m->root = gtk_tree_row_reference_copy (row);
 	m->store = store;
 	m->emft = emft;
+	g_object_ref(emft);
 	m->top = top ? g_strdup (top) : NULL;
 	m->flags = CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_RECURSIVE;
 	m->select_uri = g_strdup (uri);

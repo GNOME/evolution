@@ -843,7 +843,7 @@ ping_store (gpointer key, gpointer val, gpointer user_data)
 	m->store = store;
 	camel_object_ref (store);
 	
-	e_thread_put (mail_thread_queued, (EMsg *) m);
+	e_thread_put (mail_thread_queued_slow, (EMsg *) m);
 }
 
 static gboolean

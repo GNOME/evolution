@@ -1,3 +1,16 @@
+2004-04-06  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-tree.c (emft_tree_row_expanded): ref the emfoldertree
+	in our thread message.
+	(em_folder_tree_set_selected): same.
+	(emft_get_folder_info__free): unref it.
+
+	* mail-folder-cache.c (ping_store): use thread_queued_slow not
+	thread_queued - we dont care when it runs.
+
+	* em-folder-view.c (emfv_set_folder_uri): use thread_new for
+	getting the folder, we do elsewhere, and it aids interactivity.
+
 2004-04-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.c (em_migrate_dir): Migrate the thread_list
