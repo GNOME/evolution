@@ -193,7 +193,7 @@ real_flush_updates(void *o, void *event_data, void *data)
 				evolution_storage_new_folder(storage,
 							     up->path, up->name, type, up->uri, up->name, NULL,
 							     up->unread,
-							     TRUE);
+							     TRUE, 0);
 			}
 
 			if (!up->olduri && up->add)

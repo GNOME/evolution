@@ -1,3 +1,40 @@
+2002-07-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-test-component.c (setup_custom_storage): Pass
+	@sorting_priority to evolution_storage_new_folder() so we test it.
+	Also make /FirstFolder have an "inbox" custom icon.
+
+	* e-local-storage.c (new_folder): Pass zero as @sorting_priority
+	to evolution_storage_new_folder().
+
+	* evolution-storage.c (evolution_storage_new_folder): New arg
+	@sorting_priority; put it in the CORBA folder struct.
+
+	* evolution-shell-client.c
+	(impl_FolderSelectionListener_selected): Copy the sortingPriority
+	as well.
+
+	* e-folder.c (e_folder_to_corba): Set sortingPriority.
+
+	* e-corba-storage-registry.c
+	(impl_StorageRegistry_getFolderByUri): Set sortingPriority in the
+	new CORBA Folder struct.
+
+	* e-corba-storage.c (impl_StorageListener_notifyFolderCreated):
+	Set the custom_icon if folder->customIconName is not an empty
+	string.  Likewise, set the sorting_priority
+
+	* Evolution-common.idl: New member sortingPriority in struct
+	Folder.
+
+	* e-storage-set-view.c (folder_sort_callback): Sort according to
+	the sorting_priorities.
+
+	* e-folder.c: New member sorting_priority in EFolderPrivate.
+	(init): Init to zero.
+	(e_folder_set_custom_icon): Emit "changed" if required.
+	(e_folder_set_sorting_priority): New.
+
 2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-icon-factory.c (load_icon): Ooops.  Swapped the large/small

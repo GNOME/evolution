@@ -140,7 +140,8 @@ EvolutionStorageResult  evolution_storage_new_folder           (EvolutionStorage
 								const char                      *description,
 								const char                      *custom_icon_name,
 								int                              unread_count,
-								gboolean                         can_sync_offline);
+								gboolean                         can_sync_offline,
+								int                              sorting_priority);
 EvolutionStorageResult  evolution_storage_update_folder        (EvolutionStorage                *evolution_storage,
 								const char                      *path,
 								int                              unread_count);

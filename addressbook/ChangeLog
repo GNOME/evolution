@@ -1,3 +1,9 @@
+2002-07-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-storage.c (load_source_data): Pass
+	zero as the @sorting_priority to evolution_storage_new_folder().
+	(addressbook_storage_add_source): Likewise.
+
 2002-07-10  Chris Toshok  <toshok@ximian.com>
 
 	* backend/idl/addressbook.idl: add Book.getCompletionView.

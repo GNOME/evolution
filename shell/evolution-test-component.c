@@ -326,10 +326,15 @@ setup_custom_storage (EvolutionShellClient *shell_client)
 		return;
 	}
 
+	/* Test the sorting_priority arg here: if it was just sorting in
+	   alphabetical order, FirstFolder would come before SecondFolder, but
+	   we are specifying -1 sorting priority for SecondFolder and zero for
+	   FirstFolder so the order is reversed.  */
+
 	evolution_storage_new_folder (the_storage, "/FirstFolder", "FirstFolder",
-				      "mail", "file:///tmp/blah", "", NULL, 0, TRUE);
+				      "mail", "file:///tmp/blah", "", "inbox", 0, TRUE, 0);
 	evolution_storage_new_folder (the_storage, "/SecondFolder", "SecondFolder",
-				      "calendar", "file:///tmp/bleh", "", NULL, 0, FALSE);
+				      "calendar", "file:///tmp/bleh", "", NULL, 0, FALSE, -1);
 }
 
 

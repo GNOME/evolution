@@ -46,6 +46,13 @@ struct _EFolderPrivate {
 	int child_highlight;
 	int unread_count;
 
+	/* Folders have a default sorting priority of zero; when deciding the
+	   sort order in the Evolution folder tree, folders with the same
+	   priority value are compared by name, while folders with a higher
+	   priority number always come after the folders with a lower priority
+	   number.  */
+	 int sorting_priority;
+
 	unsigned int self_highlight : 1;
 	unsigned int is_stock : 1;
 	unsigned int can_sync_offline : 1;
@@ -161,6 +168,7 @@ init (EFolder *folder)
 	priv->physical_uri     = NULL;
 	priv->child_highlight  = 0;
 	priv->unread_count     = 0;
+	priv->sorting_priority = 0;
 	priv->self_highlight   = FALSE;
 	priv->is_stock         = FALSE;
 	priv->can_sync_offline = FALSE;
@@ -287,7 +295,7 @@ e_folder_get_can_sync_offline (EFolder *folder)
  * @folder: An EFolder
  * 
  * Get the name of the custom icon for @folder, or NULL if no custom icon is
- * associated with it
+ * associated with it.
  **/
 const char *
 e_folder_get_custom_icon_name (EFolder *folder)
@@ -295,6 +303,22 @@ e_folder_get_custom_icon_name (EFolder *folder)
 	g_return_val_if_fail (E_IS_FOLDER (folder), NULL);
 
 	return folder->priv->custom_icon_name;
+}
+
+/**
+ * e_folder_get_sorting_priority:
+ * @folder: An EFolder
+ * 
+ * Get the sorting priority for @folder.
+ * 
+ * Return value: Sorting priority value for @folder.
+ **/
+int
+e_folder_get_sorting_priority (EFolder *folder)
+{
+	g_return_val_if_fail (E_IS_FOLDER (folder), 0);
+
+	return folder->priv->sorting_priority;
 }
 
 
@@ -425,14 +449,41 @@ e_folder_set_custom_icon (EFolder *folder,
 {
 	g_return_if_fail (E_IS_FOLDER (folder));
 
-	if (icon_name != folder->priv->custom_icon_name) {
-		g_free (folder->priv->custom_icon_name);
+	if (icon_name == folder->priv->custom_icon_name)
+		return;
 
-		if (icon_name == NULL)
-			folder->priv->custom_icon_name = NULL;
-		else
-			folder->priv->custom_icon_name = g_strdup (icon_name);
+	if (folder->priv->custom_icon_name == NULL
+	    || (icon_name != NULL && strcmp (icon_name, folder->priv->custom_icon_name) != 0)) {
+		g_free (folder->priv->custom_icon_name);
+		folder->priv->custom_icon_name = g_strdup (icon_name);
+
+		gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
 	}
+}
+
+/**
+ * e_folder_set_sorting_priority:
+ * @folder: An EFolder
+ * @sorting_priority: A sorting priority number
+ * 
+ * Set the sorting priority for @folder.  Folders have a default sorting
+ * priority of zero; when deciding the sort order in the Evolution folder tree,
+ * folders with the same priority value are compared by name, while folders
+ * with a higher priority number always come after the folders with a lower
+ * priority number.
+ **/
+void
+e_folder_set_sorting_priority (EFolder *folder,
+			       int sorting_priority)
+{
+	g_return_if_fail (E_IS_FOLDER (folder));
+
+	if (folder->priv->sorting_priority == sorting_priority)
+		return;
+
+	folder->priv->sorting_priority = sorting_priority;
+
+	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
 }
 
 
@@ -455,14 +506,15 @@ e_folder_to_corba (EFolder *folder,
 	g_return_if_fail (E_IS_FOLDER (folder));
 	g_return_if_fail (folder_return != NULL);
 
-	folder_return->type           = safe_corba_string_dup (e_folder_get_type_string (folder));
-	folder_return->description    = safe_corba_string_dup (e_folder_get_description (folder));
-	folder_return->displayName    = safe_corba_string_dup (e_folder_get_name (folder));
-	folder_return->physicalUri    = safe_corba_string_dup (e_folder_get_physical_uri (folder));
-	folder_return->evolutionUri   = safe_corba_string_dup (evolution_uri);
-	folder_return->customIconName = safe_corba_string_dup (e_folder_get_custom_icon_name (folder));
-	folder_return->unreadCount    = e_folder_get_unread_count (folder);
-	folder_return->canSyncOffline = e_folder_get_can_sync_offline (folder);
+	folder_return->type            = safe_corba_string_dup (e_folder_get_type_string (folder));
+	folder_return->description     = safe_corba_string_dup (e_folder_get_description (folder));
+	folder_return->displayName     = safe_corba_string_dup (e_folder_get_name (folder));
+	folder_return->physicalUri     = safe_corba_string_dup (e_folder_get_physical_uri (folder));
+	folder_return->evolutionUri    = safe_corba_string_dup (evolution_uri);
+	folder_return->customIconName  = safe_corba_string_dup (e_folder_get_custom_icon_name (folder));
+	folder_return->unreadCount     = e_folder_get_unread_count (folder);
+	folder_return->canSyncOffline  = e_folder_get_can_sync_offline (folder);
+	folder_return->sortingPriority = e_folder_get_sorting_priority (folder);
 }
 
 

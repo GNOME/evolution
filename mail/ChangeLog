@@ -1,3 +1,11 @@
+2002-07-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* subscribe-dialog.c (recursive_add_folder): Pass zero as
+	@sorting_priority to evolution_storage_new_folder().
+
+	* mail-folder-cache.c (real_flush_updates): Pass zero as
+	@sorting_priority to evolution_storage_new_folder().
+
 2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* subscribe-dialog.c (recursive_add_folder): Pass NULL for

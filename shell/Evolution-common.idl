@@ -19,6 +19,7 @@ module Evolution {
 		string customIconName;
 		long unreadCount;
 		boolean canSyncOffline;
+		short sortingPriority;
 	};
 	typedef sequence <Folder> FolderList;
 

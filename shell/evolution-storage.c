@@ -967,7 +967,8 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 			      const char *description,
 			      const char *custom_icon_name,
 			      int         unread_count,
-			      gboolean    can_sync_offline)
+			      gboolean    can_sync_offline,
+			      int         sorting_priority)
 {
 	EvolutionStorageResult   result;
 	EvolutionStoragePrivate *priv;
@@ -994,11 +995,12 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 	CORBA_exception_init (&ev);
 
 	corba_folder = GNOME_Evolution_Folder__alloc ();
-	corba_folder->displayName    = CORBA_string_dup (display_name);
-	corba_folder->description    = CORBA_string_dup (description);
-	corba_folder->type           = CORBA_string_dup (type);
-	corba_folder->physicalUri    = CORBA_string_dup (physical_uri);
-	corba_folder->canSyncOffline = (CORBA_boolean) can_sync_offline;
+	corba_folder->displayName     = CORBA_string_dup (display_name);
+	corba_folder->description     = CORBA_string_dup (description);
+	corba_folder->type            = CORBA_string_dup (type);
+	corba_folder->physicalUri     = CORBA_string_dup (physical_uri);
+	corba_folder->canSyncOffline  = (CORBA_boolean) can_sync_offline;
+	corba_folder->sortingPriority = sorting_priority;
 
 	if (custom_icon_name != NULL)
 		corba_folder->customIconName = CORBA_string_dup (custom_icon_name);

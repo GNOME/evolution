@@ -149,30 +149,30 @@ storage_sort_callback (ETreeMemory *etmm,
 		       ETreePath node2,
 		       void *closure)
 {
-	char *folder_path1;
-	char *folder_path2;
-	gboolean path1_local;
-	gboolean path2_local;
+	char *folder_path_1;
+	char *folder_path_2;
+	gboolean path_1_local;
+	gboolean path_2_local;
 
-	folder_path1 = e_tree_memory_node_get_data(etmm, node1);
-	folder_path2 = e_tree_memory_node_get_data(etmm, node2);
+	folder_path_1 = e_tree_memory_node_get_data(etmm, node1);
+	folder_path_2 = e_tree_memory_node_get_data(etmm, node2);
 
 	/* FIXME bad hack to put the "my evolution" and "local" storages on
 	   top.  */
 
-	if (strcmp (folder_path1, G_DIR_SEPARATOR_S E_SUMMARY_STORAGE_NAME) == 0)
+	if (strcmp (folder_path_1, G_DIR_SEPARATOR_S E_SUMMARY_STORAGE_NAME) == 0)
 		return -1;
-	if (strcmp (folder_path2, G_DIR_SEPARATOR_S E_SUMMARY_STORAGE_NAME) == 0)
+	if (strcmp (folder_path_2, G_DIR_SEPARATOR_S E_SUMMARY_STORAGE_NAME) == 0)
 		return +1;
 	
-	path1_local = ! strcmp (folder_path1, G_DIR_SEPARATOR_S E_LOCAL_STORAGE_NAME);
-	path2_local = ! strcmp (folder_path2, G_DIR_SEPARATOR_S E_LOCAL_STORAGE_NAME);
+	path_1_local = ! strcmp (folder_path_1, G_DIR_SEPARATOR_S E_LOCAL_STORAGE_NAME);
+	path_2_local = ! strcmp (folder_path_2, G_DIR_SEPARATOR_S E_LOCAL_STORAGE_NAME);
 
-	if (path1_local && path2_local)
+	if (path_1_local && path_2_local)
 		return 0;
-	if (path1_local)
+	if (path_1_local)
 		return -1;
-	if (path2_local)
+	if (path_2_local)
 		return 1;
 	
 	return g_utf8_collate (e_tree_model_value_at (E_TREE_MODEL (etmm), node1, 0),
@@ -180,10 +180,34 @@ storage_sort_callback (ETreeMemory *etmm,
 }
 
 static int
-folder_sort_callback (ETreeMemory *etmm, ETreePath path1, ETreePath path2, gpointer closure)
+folder_sort_callback (ETreeMemory *etmm,
+		      ETreePath node1,
+		      ETreePath node2,
+		      void *closure)
 {
-	return g_utf8_collate (e_tree_model_value_at (E_TREE_MODEL (etmm), path1, 0),
-	                       e_tree_model_value_at (E_TREE_MODEL (etmm), path2, 0));
+	EStorageSetViewPrivate *priv;
+	EFolder *folder_1, *folder_2;
+	const char *folder_path_1, *folder_path_2;
+	int priority_1, priority_2;
+
+	priv = E_STORAGE_SET_VIEW (closure)->priv;
+
+	folder_path_1 = e_tree_memory_node_get_data(etmm, node1);
+	folder_path_2 = e_tree_memory_node_get_data(etmm, node2);
+
+	folder_1 = e_storage_set_get_folder (priv->storage_set, folder_path_1);
+	folder_2 = e_storage_set_get_folder (priv->storage_set, folder_path_2);
+
+	priority_1 = e_folder_get_sorting_priority (folder_1);
+	priority_2 = e_folder_get_sorting_priority (folder_2);
+
+	if (priority_1 == priority_2)
+		return g_utf8_collate (e_tree_model_value_at (E_TREE_MODEL (etmm), node1, 0),
+				       e_tree_model_value_at (E_TREE_MODEL (etmm), node2, 0));
+	else if (priority_1 < priority_2)
+		return -1;
+	else			/* priority_1 > priority_2 */
+		return +1;
 }
 
 
@@ -1425,7 +1449,8 @@ new_storage_cb (EStorageSet *storage_set,
 	path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage), NULL);
 
 	node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), priv->root_node, -1, path);
-	e_tree_memory_sort_node (E_TREE_MEMORY(priv->etree_model), priv->root_node, storage_sort_callback, storage_set_view);
+	e_tree_memory_sort_node (E_TREE_MEMORY(priv->etree_model), priv->root_node,
+				 storage_sort_callback, storage_set_view);
 
 	if (! add_node_to_hash (storage_set_view, path, node)) {
 		e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), node);

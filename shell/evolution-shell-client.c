@@ -113,6 +113,7 @@ impl_FolderSelectionListener_selected (PortableServer_Servant servant,
 		ret_folder->customIconName = CORBA_string_dup (folder->customIconName);
 		ret_folder->evolutionUri   = CORBA_string_dup (folder->evolutionUri);
 		ret_folder->unreadCount    = folder->unreadCount;
+		ret_folder->sortingPriority = folder->sortingPriority;
 
 		* (listener_servant->folder_return) = ret_folder;
 	}
