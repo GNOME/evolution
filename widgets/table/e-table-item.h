@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef _E_TABLE_ITEM_H_
 #define _E_TABLE_ITEM_H_
 
@@ -63,14 +64,14 @@ typedef struct {
 	int              editing_col, editing_row;
 	void            *edit_ctx;
 
-  guint needs_redraw : 1;
+	guint needs_redraw : 1;
+	guint needs_compute_height : 1;
 } ETableItem;
 
 typedef struct {
 	GnomeCanvasItemClass parent_class;
 
 	void        (*row_selection)      (ETableItem *eti, int row, gboolean selected);
-	void        (*resize)     (ETableItem *eti);
 } ETableItemClass;
 
 GtkType    e_table_item_get_type (void);

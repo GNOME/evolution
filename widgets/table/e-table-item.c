@@ -18,6 +18,7 @@
 #include <math.h>
 #include "e-table-item.h"
 #include "e-cell.h"
+#include "e-util/e-canvas.h"
 
 #define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
 
@@ -27,7 +28,6 @@ static GnomeCanvasItemClass *eti_parent_class;
 
 enum {
 	ROW_SELECTION,
-	RESIZE,
 	LAST_SIGNAL
 };
 
@@ -46,6 +46,8 @@ enum {
 	ARG_HEIGHT,
 	ARG_HAS_FOCUS
 };
+
+static int eti_get_height (ETableItem *eti);
 
 static gboolean
 eti_editing (ETableItem *eti)
@@ -74,8 +76,6 @@ eti_realize_cell_views (ETableItem *eti)
 	eti->cell_views_realized = 1;
 }
 
-static void eti_compute_height (ETableItem *eti);
-
 static void
 eti_attach_cell_views (ETableItem *eti)
 {
@@ -96,7 +96,10 @@ eti_attach_cell_views (ETableItem *eti)
 		eti->cell_views [i] = e_cell_new_view (col->ecell, eti->table_model, eti);
 	}
 
-	eti_compute_height (eti);
+	eti->needs_compute_height = 1;
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(eti));
+	eti->needs_redraw = 1;
+	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
 }
 
 /*
@@ -136,6 +139,19 @@ eti_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y
 {
 }
 
+static void
+eti_reflow (GnomeCanvasItem *item, gint flags)
+{
+	ETableItem *eti = E_TABLE_ITEM (item);
+	if ( eti->needs_compute_height ) {
+		int new_height = eti_get_height (eti);
+		if ( new_height != eti->height ) {
+			eti->height = new_height;
+			e_canvas_item_request_parent_reflow(GNOME_CANVAS_ITEM(eti));
+		}
+		eti->needs_compute_height = 0;
+	}
+}
 
 /*
  * GnomeCanvasItem::update method
@@ -162,14 +178,14 @@ eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 	eti_bounds (item, &item->x1, &item->y1, &item->x2, &item->y2);
 	if ( item->x1 != c1.x ||
 	     item->y1 != c1.y ||
-	     item->x2 != c2.x ||
-	     item->y2 != c2.y )
+	     item->x2 != c2.x + 1 ||
+	     item->y2 != c2.y + 1 )
 		{
 			gnome_canvas_request_redraw(item->canvas, item->x1, item->y1, item->x2, item->y2);
 			item->x1 = c1.x;
 			item->y1 = c1.y;
-			item->x2 = c2.x;
-			item->y2 = c2.y;
+			item->x2 = c2.x + 1;
+			item->y2 = c2.y + 1;
 			eti->needs_redraw = 1;
 		}
 	if ( eti->needs_redraw ) {
@@ -297,22 +313,6 @@ eti_get_height (ETableItem *eti)
 }
 
 static void
-eti_compute_height (ETableItem *eti)
-{
-	int new_height = eti_get_height (eti);
-
-	if (new_height != eti->height){
-		/*		double x1, y1, x2, y2;*/
-		printf ("Emitting!\n");
-		
-		eti->height = new_height;
-		eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
-
-		gtk_signal_emit (GTK_OBJECT (eti), eti_signals [RESIZE]);
-	}
-}
-
-static void
 eti_item_region_redraw (ETableItem *eti, int x0, int y0, int x1, int y1)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
@@ -342,12 +342,10 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 		eti->focused_row = eti->rows - 1;
 	}
 
-	if (eti->cell_views)
-		eti_compute_height (eti);
-	
-	eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
-
-	eti_item_region_redraw (eti, 0, 0, eti->width, eti->height);
+	eti->needs_compute_height = 1;
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(eti));
+	eti->needs_redraw = 1;
+	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
 }
 
 /* Unused. */
@@ -569,7 +567,8 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		eti->mode_spreadsheet = GTK_VALUE_BOOL (*arg);
 		break;
 	}
-	eti_update (item, NULL, NULL, 0);
+	eti->needs_redraw = 1;
+	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
 }
 
 static void
@@ -610,6 +609,9 @@ eti_init (GnomeCanvasItem *item)
 	eti->selection_mode = GTK_SELECTION_SINGLE;
 
 	eti->needs_redraw = 0;
+	eti->needs_compute_height = 0;
+
+	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(eti), eti_reflow);
 }
 
 #define gray50_width 2
@@ -655,9 +657,10 @@ eti_realize (GnomeCanvasItem *item)
 	
 	eti_realize_cell_views (eti);
 
-	eti_compute_height (eti);
-
-	eti_update (item, NULL, NULL, 0);
+	eti->needs_compute_height = 1;
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(eti));
+	eti->needs_redraw = 1;
+	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
 }
 
 static void
@@ -1162,14 +1165,6 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableItemClass, row_selection),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
-
-	eti_signals [RESIZE] =
-		gtk_signal_new ("resize",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (ETableItemClass, resize),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
 	
 	gtk_object_class_add_signals (object_class, eti_signals, LAST_SIGNAL);
 

@@ -41,11 +41,6 @@ typedef struct {
 	gint idle;
 
 	/*
-	 * Update booleans:
-	 */
-	guint need_resize : 1;
-
-	/*
 	 * State: the ETableGroup is open or closed
 	 */
 	guint open:1;

@@ -14,6 +14,7 @@
 #include "e-table-item.h"
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include "e-util/e-util.h"
+#include "e-util/e-canvas.h"
 
 #define TITLE_HEIGHT         16
 #define GROUP_INDENT         10
@@ -76,12 +77,6 @@ e_table_group_leaf_new       (GnomeCanvasGroup *parent, ETableHeader *full_heade
 }
 
 static void
-etgl_resize (GtkObject *object, gpointer data)
-{
-	e_table_group_resize (E_TABLE_GROUP(data));
-}
-
-static void
 etgl_row_selection (GtkObject *object, gint row, gboolean selected, ETableGroupLeaf *etgl)
 {
 	if ( row < E_TABLE_SUBSET(etgl->subset)->n_map )
@@ -89,10 +84,15 @@ etgl_row_selection (GtkObject *object, gint row, gboolean selected, ETableGroupL
 }
 
 static void
+etgl_reflow (GnomeCanvasItem *item, gint flags)
+{
+	e_canvas_item_request_parent_reflow(item);
+}
+
+static void
 etgl_realize (GnomeCanvasItem *item)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF(item);
-	gdouble height;
 
 	if ( GNOME_CANVAS_ITEM_CLASS (etgl_parent_class)->realize )
 		GNOME_CANVAS_ITEM_CLASS (etgl_parent_class)->realize (item);
@@ -109,13 +109,7 @@ etgl_realize (GnomeCanvasItem *item)
 
 	gtk_signal_connect(GTK_OBJECT(etgl->item), "row_selection",
 			   GTK_SIGNAL_FUNC(etgl_row_selection), etgl);
-	gtk_signal_connect(GTK_OBJECT(etgl->item),
-			   "resize", etgl_resize, etgl);
-	gtk_object_get(GTK_OBJECT(etgl->item),
-		       "height", &height,
-		       NULL);
-	if ( height != 1 )
-		e_table_group_resize(E_TABLE_GROUP(etgl));
+	e_canvas_item_request_parent_reflow(item);
 }
 
 static int
@@ -303,6 +297,8 @@ etgl_init (GtkObject *object)
 	etgl->width = 1;
 	etgl->subset = NULL;
 	etgl->item = NULL;
+	
+	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(object), etgl_reflow);
 }
 
 E_MAKE_TYPE (e_table_group_leaf, "ETableGroupLeaf", ETableGroupLeaf, etgl_class_init, etgl_init, PARENT_TYPE);

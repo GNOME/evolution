@@ -20,6 +20,7 @@
 #include <gnome-xml/parser.h>
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
+#include "e-util/e-canvas.h"
 #include "e-table.h"
 #include "e-table-header-item.h"
 #include "e-table-subset.h"
@@ -30,7 +31,7 @@
 #define TITLE_HEIGHT         16
 #define GROUP_INDENT         10
 
-#define PARENT_TYPE gtk_table_get_type ()
+#define PARENT_TYPE gtk_hbox_get_type ()
 
 static GtkObjectClass *e_table_parent_class;
 
@@ -173,11 +174,6 @@ e_table_setup_header (ETable *e_table)
 		GTK_SIGNAL_FUNC (header_canvas_size_alocate), e_table);
 				 
 	gtk_widget_set_usize (GTK_WIDGET (e_table->header_canvas), -1, COLUMN_HEADER_HEIGHT);
-	
-	gtk_table_attach (
-		GTK_TABLE (e_table), GTK_WIDGET (e_table->header_canvas),
-		0, 1, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-		
 }
 
 #if 0
@@ -630,7 +626,7 @@ changed_idle (gpointer data)
 		e_table_fill_table(et, et->model);
 	} else if (et->need_row_changes) {
 		g_hash_table_foreach(et->row_changes_list, change_row, et);
-	}	
+	}
 	et->need_rebuild = 0;
 	et->need_row_changes = 0;
 	if (et->row_changes_list)
@@ -681,9 +677,6 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 		GTK_SIGNAL_FUNC (table_canvas_size_allocate), e_table);
 	
 	gtk_widget_show (GTK_WIDGET (e_table->table_canvas));
-	gtk_table_attach (
-		GTK_TABLE (e_table), GTK_WIDGET (e_table->table_canvas),
-		0, 1, 1, 2, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
 	
 	e_table->group = e_table_group_new(GNOME_CANVAS_GROUP(e_table->table_canvas->root),
 					   full_header,
@@ -732,10 +725,7 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	xmlNode *xmlGrouping;
 	
 	GtkWidget *vscrollbar;
-
-	GTK_TABLE (e_table)->homogeneous = FALSE;
-
-	gtk_table_resize (GTK_TABLE (e_table), 2, 2);
+	GtkWidget *vbox;
 
 	e_table->full_header = full_header;
 	gtk_object_ref (GTK_OBJECT (full_header));
@@ -756,12 +746,19 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	e_table_setup_header (e_table);
 	e_table_setup_table (e_table, full_header, e_table->header, etm, xmlGrouping);
 	e_table_fill_table (e_table, etm);
+	
+	vbox = gtk_vbox_new(FALSE, 0);
+
+	gtk_box_pack_start( GTK_BOX(vbox), GTK_WIDGET (e_table->header_canvas), FALSE, FALSE, 0 );
+	gtk_box_pack_start( GTK_BOX(vbox), GTK_WIDGET (e_table->table_canvas), TRUE, TRUE, 0 );
+
+	gtk_widget_show(vbox);
+
+	gtk_box_pack_start( GTK_BOX(e_table), vbox, TRUE, TRUE, 0);
 
 	vscrollbar = gtk_vscrollbar_new(gtk_layout_get_vadjustment(GTK_LAYOUT(e_table->table_canvas)));
 	gtk_widget_show (vscrollbar);
-	gtk_table_attach (
-		GTK_TABLE (e_table), vscrollbar,
-		1, 2, 0, 2, 0, GTK_FILL | GTK_EXPAND, 0, 0);
+	gtk_box_pack_start( GTK_BOX(e_table), vscrollbar, FALSE, FALSE, 0 );
 
 	gtk_widget_pop_colormap ();
 	gtk_widget_pop_visual ();

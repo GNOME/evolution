@@ -14,6 +14,7 @@
 #include "e-table-item.h"
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include "e-util/e-util.h"
+#include "e-util/e-canvas.h"
 #include "e-util/e-canvas-utils.h"
 #include "widgets/e-text/e-text.h"
 
@@ -47,9 +48,7 @@ static gboolean etgc_remove (ETableGroup *etg, gint row);
 static void etgc_increment (ETableGroup *etg, gint position, gint amount);
 static void etgc_set_focus (ETableGroup *etg, EFocus direction, gint view_col);
 
-static void etgc_child_resize (GtkObject *object, gpointer data);
-
-static void etgc_queue_reposition (ETableGroupContainer *etgc);
+static void etgc_reflow (GnomeCanvasItem *item, gint flags);
 
 typedef struct {
 	ETableGroup *child;
@@ -506,6 +505,8 @@ etgc_realize (GnomeCanvasItem *item)
 		(* GNOME_CANVAS_ITEM_CLASS(etgc_parent_class)->realize) (item);
 
 	etgc = E_TABLE_GROUP_CONTAINER (item);
+
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etgc));
 }
 
 /* Unrealize handler for the etgc item */
@@ -580,9 +581,6 @@ static void etgc_add (ETableGroup *etg, gint row)
 			   GTK_SIGNAL_FUNC(child_row_selection), etgc);
 	child_node->child = child;
 	child_node->key = e_table_model_duplicate_value(etg->model, etgc->ecol->col_idx, val);
-
-	gtk_signal_connect(GTK_OBJECT(child), "resize",
-			   etgc_child_resize, etgc);
 	child_node->count = 1;
 	e_table_group_add(child, row);
 	if ( list ) {
@@ -591,7 +589,7 @@ static void etgc_add (ETableGroup *etg, gint row)
 	else
 		etgc->children = g_list_append(etgc->children, child_node);
 	compute_text(etgc, child_node);
-	etgc_queue_reposition(E_TABLE_GROUP_CONTAINER(etg));
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etgc));
 }
 
 static gboolean etgc_remove (ETableGroup *etg, gint row)
@@ -610,11 +608,11 @@ static gboolean etgc_remove (ETableGroup *etg, gint row)
 			} else {
 				compute_text(etgc, child_node);
 			}
+			e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etgc));
 			return TRUE;
 		}
 	}
 	return FALSE;
-	etgc_queue_reposition(E_TABLE_GROUP_CONTAINER(etg));
 }
 
 static void etgc_increment (ETableGroup *etg, gint position, gint amount)
@@ -624,7 +622,6 @@ static void etgc_increment (ETableGroup *etg, gint position, gint amount)
 	for ( ; list; list = g_list_next(list) ) {
 		e_table_group_increment(((ETableGroupContainerChildNode *)list->data)->child, position, amount);
 	}
-	etgc_queue_reposition(E_TABLE_GROUP_CONTAINER(etg));
 }
 
 static void etgc_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
@@ -637,7 +634,6 @@ static void etgc_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 			e_table_group_set_focus(((ETableGroupContainerChildNode *)etgc->children->data)->child, direction, view_col);
 		}
 	}
-	etgc_queue_reposition(E_TABLE_GROUP_CONTAINER(etg));
 }
 
 static gint
@@ -659,7 +655,7 @@ etgc_get_focus_column (ETableGroup *etg)
 
 static void etgc_thaw (ETableGroup *etg)
 {
-	etgc_queue_reposition(E_TABLE_GROUP_CONTAINER(etg));
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etg));
 }
 
 static void
@@ -720,12 +716,16 @@ static void etgc_set_width (ETableGroup *etg, gdouble width)
 
 	for ( ; list; list = g_list_next(list) ) {
 		gdouble child_width = width - GROUP_INDENT;
-		gtk_object_set(GTK_OBJECT(((ETableGroupContainerChildNode *)list->data)->child),
+		ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+		gtk_object_set(GTK_OBJECT(child_node->child),
 			       "width", child_width,
 			       NULL);
-	}
 
-	etgc_queue_reposition(E_TABLE_GROUP_CONTAINER(etg));
+		gnome_canvas_item_set(GNOME_CANVAS_ITEM(child_node->rect),
+				      "x1", (double) 0,
+				      "x2", (double) etgc->width,
+				      NULL);
+	}
 }
 
 static gdouble etgc_get_width (ETableGroup *etg)
@@ -780,18 +780,21 @@ etgc_init (GtkObject *object)
 {
 	ETableGroupContainer *container = E_TABLE_GROUP_CONTAINER(object);
 	container->children = FALSE;
+	
+	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(object), etgc_reflow);
 }
 
-static gboolean
-etgc_update_positioning (ETableGroupContainer *etgc, gpointer data)
+static void
+etgc_reflow (GnomeCanvasItem *item, gint flags)
 {
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(item);
 	gboolean frozen;
 	gtk_object_get(GTK_OBJECT(etgc),
 		       "frozen", &frozen,
 		       NULL);
 	if ( frozen ) {
 		etgc->idle = 0;
-		return FALSE;
+		return;
 	}
 	if ( GTK_OBJECT_FLAGS( etgc ) & GNOME_CANVAS_ITEM_REALIZED ) {
 		gdouble old_height;
@@ -840,27 +843,11 @@ etgc_update_positioning (ETableGroupContainer *etgc, gpointer data)
 			running_height -= extra_height;
 			if ( running_height != old_height) {
 				etgc->height = running_height;
-				gtk_signal_emit_by_name (GTK_OBJECT (etgc), "resize");
+				e_canvas_item_request_parent_reflow(item);
 			}
 		}
 	}
 	etgc->idle = 0;
-	return FALSE;
-}
-
-static void
-etgc_queue_reposition (ETableGroupContainer *etgc)
-{
-	if (etgc->idle == 0)
-		etgc->idle = g_idle_add((GSourceFunc)etgc_update_positioning, etgc);
-}
-
-static void
-etgc_child_resize (GtkObject *object, gpointer data)
-{
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(data);
-	etgc_queue_reposition (etgc);
 }
 
 E_MAKE_TYPE (e_table_group_container, "ETableGroupContainer", ETableGroupContainer, etgc_class_init, etgc_init, PARENT_TYPE);
-

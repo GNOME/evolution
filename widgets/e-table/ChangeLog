@@ -1,3 +1,14 @@
+2000-03-20  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-group-container.c, e-table-group-container.h,
+	e-table-group-leaf.c, e-table-group.c, e-table-group.h: Updated
+	these to use the new ECanvas reflow infrastructure.
+
+	* e-table-item.c, e-table-item.h: Updated these to use the new
+	ECanvas reflow infrastructure.  Fixed the bounding box.
+	
+	* e-table.c, e-table.h: Made the header have no extra space around it.
+
 2000-03-19  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-header.c: Fixed a crashing bug when you close an

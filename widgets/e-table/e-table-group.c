@@ -30,7 +30,6 @@ static GnomeCanvasGroupClass *etg_parent_class;
 
 enum {
 	ROW_SELECTION,
-	RESIZE,
 	LAST_SIGNAL
 };
 
@@ -220,16 +219,6 @@ e_table_group_get_ecol (ETableGroup *etg)
 }
 
 void
-e_table_group_resize (ETableGroup *e_table_group)
-{
-	g_return_if_fail (e_table_group != NULL);
-	g_return_if_fail (E_IS_TABLE_GROUP (e_table_group));
-
-	gtk_signal_emit (GTK_OBJECT (e_table_group),
-			 etg_signals [RESIZE]);
-}
-
-void
 e_table_group_row_selection (ETableGroup *e_table_group, gint row, gboolean selected)
 {
 	g_return_if_fail (e_table_group != NULL);
@@ -350,7 +339,6 @@ etg_class_init (GtkObjectClass *object_class)
 
 	item_class->event = etg_event;
 
-	klass->resize = NULL;
 	klass->row_selection = NULL;
 	
 	klass->add = NULL;
@@ -376,14 +364,6 @@ etg_class_init (GtkObjectClass *object_class)
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
-	etg_signals [RESIZE] =
-		gtk_signal_new ("resize",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (ETableGroupClass, resize),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-	
 	gtk_object_class_add_signals (object_class, etg_signals, LAST_SIGNAL);
 }
 
