@@ -675,13 +675,8 @@ _write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 		camel_data_wrapper_write_to_stream (content, stream);
 		break;
 	case CAMEL_MIME_PART_ENCODING_BASE64:
-		wrapper_stream = camel_data_wrapper_get_stream (content);
-		if (wrapper_stream == NULL) {
-			/* FIXME in this case, we should probably copy stuff
-                           in-memory and make sure things work anyway.  */
-			g_warning ("Class `%s' does not implement `get_stream'",
-				   gtk_type_name (GTK_OBJECT (content)->klass->type));
-		}
+		wrapper_stream = camel_data_wrapper_get_output_stream (content);
+		
 		gmime_encode_base64_to_stream (wrapper_stream, stream);
 		break;
 	default:

@@ -1,5 +1,11 @@
 2000-02-29  bertrand  <bertrand@helixcode.com>
 
+	* camel-stream-b64.c (camel_stream_b64_write_to_stream): new
+	utility function. 
+
+	* camel-data-wrapper.c (_write_to_stream): default
+	implementation. 
+
 	* gmime-utils.c (_store_header_pair_from_string): 
 	revert strange changes. 
 

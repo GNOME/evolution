@@ -551,4 +551,24 @@ my_reset (CamelStream *stream)
 
 
 
+void
+camel_stream_b64_write_to_stream (CamelStream *stream, 
+				  CamelStream *output_stream)
+{
+	gchar tmp_buf[4096];
+	gint nb_read;
 
+	/* 
+	 * default implementation that uses the input 
+	 * stream and stream it in a blocking way.
+	 */
+	g_assert (output_stream);
+	g_assert (stream);
+	
+	while (!camel_stream_eos (output_stream)) {
+		nb_read = camel_stream_read (stream, tmp_buf, 4096);
+		if (nb_read) 
+			camel_stream_write (output_stream, tmp_buf, nb_read);
+	}
+	
+}
