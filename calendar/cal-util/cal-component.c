@@ -3179,7 +3179,7 @@ cal_component_set_priority (CalComponent *comp, int *priority)
  * Queries the recurrence id property of a calendar component object
  **/
 void 
-cal_component_get_recurid (CalComponent *comp, CalComponentRange **recur_id)
+cal_component_get_recurid (CalComponent *comp, CalComponentRange *recur_id)
 {
 	CalComponentPrivate *priv;
 
@@ -3192,7 +3192,7 @@ cal_component_get_recurid (CalComponent *comp, CalComponentRange **recur_id)
 
 	get_datetime (&priv->recur_id.recur_time, 
 		      icalproperty_get_recurrenceid, 
-		      (*recur_id)->datetime);
+		      &recur_id->datetime);
 }
 
 /**
@@ -3216,7 +3216,7 @@ cal_component_set_recurid (CalComponent *comp, CalComponentRange *recur_id)
 	set_datetime (comp, &priv->recur_id.recur_time,
 		      icalproperty_new_recurrenceid,
 		      icalproperty_set_recurrenceid,
-		      recur_id->datetime);
+		      &recur_id->datetime);
 }
 
 /**

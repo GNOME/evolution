@@ -132,7 +132,7 @@ typedef enum {
 typedef struct {
 	CalComponentRangeType type;
 	
-	CalComponentDateTime *datetime;
+	CalComponentDateTime datetime;
 } CalComponentRange;
 
 /* Text properties */
@@ -281,7 +281,7 @@ void cal_component_set_percent (CalComponent *comp, int *percent);
 void cal_component_get_priority (CalComponent *comp, int **priority);
 void cal_component_set_priority (CalComponent *comp, int *priority);
 
-void cal_component_get_recurid (CalComponent *comp, CalComponentRange **recur_id);
+void cal_component_get_recurid (CalComponent *comp, CalComponentRange *recur_id);
 void cal_component_set_recurid (CalComponent *comp, CalComponentRange *recur_id);
 
 void cal_component_get_rdate_list (CalComponent *comp, GSList **period_list);
