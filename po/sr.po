@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ximian Evolution 1.4\n"
-"POT-Creation-Date: 2003-08-13 15:08+0200\n"
-"PO-Revision-Date: 2003-08-13 15:07+0200\n"
+"POT-Creation-Date: 2003-08-16 11:55+0200\n"
+"PO-Revision-Date: 2003-08-16 11:56+0200\n"
 "Last-Translator: Igor Nestorović <jung@one.ekof.bg.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -353,7 +353,7 @@ msgid "%x"
 msgstr "%x"
 
 #: addressbook/backend/ebook/e-card-simple.c:912
-#: addressbook/backend/ebook/e-destination.c:706
+#: addressbook/backend/ebook/e-destination.c:709
 msgid "Unnamed List"
 msgstr "Листа без имена"
 
@@ -813,12 +813,12 @@ msgid "Querying Addressbook..."
 msgstr "Претражујем адресар..."
 
 #: addressbook/gui/component/e-address-popup.c:1001
-#: addressbook/gui/component/e-address-widget.c:392
+#: addressbook/gui/component/e-address-widget.c:401
 msgid "Edit Contact Info"
 msgstr "Промени податке о контакту"
 
 #: addressbook/gui/component/e-address-popup.c:1031
-#: addressbook/gui/component/e-address-widget.c:428
+#: addressbook/gui/component/e-address-widget.c:437
 #: addressbook/gui/component/select-names/e-select-names-popup.c:324
 msgid "Add to Contacts"
 msgstr "Додај у контакте"
@@ -827,11 +827,11 @@ msgstr "Додај у контакте"
 msgid "Merge E-Mail Address"
 msgstr "Споји електронске адресе"
 
-#: addressbook/gui/component/e-address-widget.c:369
+#: addressbook/gui/component/e-address-widget.c:378
 msgid "Disable Queries"
 msgstr "Онемогући упите"
 
-#: addressbook/gui/component/e-address-widget.c:369
+#: addressbook/gui/component/e-address-widget.c:378
 msgid "Enable Queries (Dangerous!)"
 msgstr "Омогући упите (Опасно!)"
 
@@ -1491,7 +1491,7 @@ msgstr "Адреса _стране на Интернету:"
 #: addressbook/gui/contact-editor/e-contact-editor.c:184
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:163
 #: addressbook/gui/widgets/e-addressbook-model.c:318
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:393
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:396
 #: addressbook/gui/widgets/e-minicard-label.c:164
 #: addressbook/gui/widgets/e-minicard-view-widget.c:120
 #: addressbook/gui/widgets/e-minicard-view.c:478
@@ -2524,7 +2524,7 @@ msgstr "Зимбабве"
 #: addressbook/gui/contact-editor/e-contact-editor.c:156
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:142
 #: addressbook/gui/widgets/e-addressbook-model.c:304
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:379
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:382
 #: addressbook/gui/widgets/e-addressbook-view.c:180
 #: addressbook/gui/widgets/e-minicard-view-widget.c:106
 #: addressbook/gui/widgets/e-minicard-view.c:464
@@ -2755,7 +2755,7 @@ msgstr "Да ли је нова листа"
 msgid "Contact List Editor"
 msgstr "Уредник контакт листе"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:456
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:457
 msgid "Save List as VCard"
 msgstr "Сачувај листу као VCard"
 
@@ -2820,7 +2820,7 @@ msgid "%d cards"
 msgstr "%d карата"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:311
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:386
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:389
 #: addressbook/gui/widgets/e-addressbook-view.c:187
 #: addressbook/gui/widgets/e-minicard-view-widget.c:113
 #: addressbook/gui/widgets/e-minicard-view.c:471
@@ -2831,11 +2831,11 @@ msgstr "Упит"
 msgid "Error getting book view"
 msgstr "Грешка код учитавања прегледа адресара"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:400
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:403
 msgid "Model"
 msgstr "Модел"
 
-#: addressbook/gui/widgets/e-addressbook-table-adapter.c:145
+#: addressbook/gui/widgets/e-addressbook-table-adapter.c:148
 #: addressbook/gui/widgets/e-addressbook-util.c:105
 #: addressbook/gui/widgets/e-minicard.c:531
 msgid "Error modifying card"
@@ -3975,12 +3975,12 @@ msgstr "Додељено"
 
 #: calendar/gui/calendar-model.c:1719 calendar/gui/e-meeting-model.c:266
 #: calendar/gui/e-meeting-model.c:276 calendar/gui/e-meeting-model.c:534
-#: calendar/gui/e-meeting-model.c:784
+#: calendar/gui/e-meeting-model.c:787
 msgid "Yes"
 msgstr "Да"
 
 #: calendar/gui/calendar-model.c:1719 calendar/gui/e-meeting-model.c:278
-#: calendar/gui/e-meeting-model.c:785
+#: calendar/gui/e-meeting-model.c:788
 msgid "No"
 msgstr "Не"
 
@@ -4108,11 +4108,11 @@ msgstr "Основе"
 msgid "Date/Time:"
 msgstr "Датум/Време:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:462
+#: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:465
 msgid "Display a message"
 msgstr "Покажи поруку"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:458
+#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:461
 msgid "Play a sound"
 msgstr "Пусти звук"
 
@@ -4120,7 +4120,7 @@ msgstr "Пусти звук"
 msgid "Reminders"
 msgstr "Подсетници"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:470
+#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:473
 msgid "Run a program"
 msgstr "Покрени програм"
 
@@ -5074,95 +5074,95 @@ msgstr "Датум п_четка:"
 msgid "_Due Date:"
 msgstr "Датум з_авршетка:"
 
-#: calendar/gui/e-alarm-list.c:394
+#: calendar/gui/e-alarm-list.c:397
 #, c-format
 msgid "%d days"
 msgstr "%d дана"
 
-#: calendar/gui/e-alarm-list.c:397
+#: calendar/gui/e-alarm-list.c:400
 msgid "1 day"
 msgstr "1 дан"
 
-#: calendar/gui/e-alarm-list.c:402
+#: calendar/gui/e-alarm-list.c:405
 #, c-format
 msgid "%d weeks"
 msgstr "%d недеља"
 
-#: calendar/gui/e-alarm-list.c:405
+#: calendar/gui/e-alarm-list.c:408
 msgid "1 week"
 msgstr "1 недеља"
 
-#: calendar/gui/e-alarm-list.c:410
+#: calendar/gui/e-alarm-list.c:413
 #, c-format
 msgid "%d hours"
 msgstr "%d сати"
 
-#: calendar/gui/e-alarm-list.c:413
+#: calendar/gui/e-alarm-list.c:416
 msgid "1 hour"
 msgstr "1 сат"
 
-#: calendar/gui/e-alarm-list.c:418
+#: calendar/gui/e-alarm-list.c:421
 #, c-format
 msgid "%d minutes"
 msgstr "%d минута"
 
-#: calendar/gui/e-alarm-list.c:421
+#: calendar/gui/e-alarm-list.c:424
 msgid "1 minute"
 msgstr "1 минут"
 
-#: calendar/gui/e-alarm-list.c:426
+#: calendar/gui/e-alarm-list.c:429
 #, c-format
 msgid "%d seconds"
 msgstr "%d секунди"
 
-#: calendar/gui/e-alarm-list.c:429
+#: calendar/gui/e-alarm-list.c:432
 msgid "1 second"
 msgstr "1 секунда"
 
-#: calendar/gui/e-alarm-list.c:466
+#: calendar/gui/e-alarm-list.c:469
 msgid "Send an email"
 msgstr "Пошаљи електронску поруку"
 
-#: calendar/gui/e-alarm-list.c:476
+#: calendar/gui/e-alarm-list.c:479
 msgid "Unknown action to be performed"
 msgstr "Извршиће се непозната акција"
 
-#: calendar/gui/e-alarm-list.c:488
+#: calendar/gui/e-alarm-list.c:491
 #, c-format
 msgid "%s %s before the start of the appointment"
 msgstr "%s %s пре почетка заказаног састанка"
 
-#: calendar/gui/e-alarm-list.c:491
+#: calendar/gui/e-alarm-list.c:494
 #, c-format
 msgid "%s %s after the start of the appointment"
 msgstr "%s %s након почетка заказаног састанка"
 
-#: calendar/gui/e-alarm-list.c:496
+#: calendar/gui/e-alarm-list.c:499
 #, c-format
 msgid "%s at the start of the appointment"
 msgstr "%s на почетку заказаног састанка"
 
-#: calendar/gui/e-alarm-list.c:505
+#: calendar/gui/e-alarm-list.c:508
 #, c-format
 msgid "%s %s before the end of the appointment"
 msgstr "%s %s пре краја заказаног састанка"
 
-#: calendar/gui/e-alarm-list.c:508
+#: calendar/gui/e-alarm-list.c:511
 #, c-format
 msgid "%s %s after the end of the appointment"
 msgstr "%s %s након завршетка заказаног састанка"
 
-#: calendar/gui/e-alarm-list.c:513
+#: calendar/gui/e-alarm-list.c:516
 #, c-format
 msgid "%s at the end of the appointment"
 msgstr "%s на крају заказаог састанка"
 
-#: calendar/gui/e-alarm-list.c:537
+#: calendar/gui/e-alarm-list.c:540
 #, c-format
 msgid "%s at %s"
 msgstr "%s на %s"
 
-#: calendar/gui/e-alarm-list.c:543
+#: calendar/gui/e-alarm-list.c:546
 #, c-format
 msgid "%s for an unknown trigger type"
 msgstr "%s за непознат тип покретача"
@@ -5571,7 +5571,7 @@ msgid "Status:"
 msgstr "Стање:"
 
 #: calendar/gui/e-itip-control.c:1080 calendar/gui/e-meeting-model.c:286
-#: calendar/gui/e-meeting-model.c:309 calendar/gui/e-meeting-model.c:798
+#: calendar/gui/e-meeting-model.c:309 calendar/gui/e-meeting-model.c:801
 #: calendar/gui/itip-utils.c:419
 msgid "Accepted"
 msgstr "Прихваћено"
@@ -5581,15 +5581,15 @@ msgid "Tentatively Accepted"
 msgstr "Прихваћено с резервом"
 
 #: calendar/gui/e-itip-control.c:1088 calendar/gui/e-meeting-model.c:288
-#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:799
+#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:802
 #: calendar/gui/itip-utils.c:425 calendar/gui/itip-utils.c:451
 msgid "Declined"
 msgstr "Одбијено"
 
 #: calendar/gui/e-itip-control.c:1092 calendar/gui/e-itip-control.c:1300
 #: calendar/gui/e-meeting-model.c:222 calendar/gui/e-meeting-model.c:257
-#: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:756
-#: calendar/gui/e-meeting-model.c:772 camel/camel-gpg-context.c:1574
+#: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:759
+#: calendar/gui/e-meeting-model.c:775 camel/camel-gpg-context.c:1574
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
@@ -5932,7 +5932,7 @@ msgstr "почетни-датум"
 msgid "Chair Persons"
 msgstr "Председништво"
 
-#: calendar/gui/e-meeting-model.c:80 calendar/gui/e-meeting-model.c:1636
+#: calendar/gui/e-meeting-model.c:80 calendar/gui/e-meeting-model.c:1639
 msgid "Required Participants"
 msgstr "Обавезно присуство"
 
@@ -5945,57 +5945,57 @@ msgid "Resources"
 msgstr "Извори"
 
 #: calendar/gui/e-meeting-model.c:197 calendar/gui/e-meeting-model.c:214
-#: calendar/gui/e-meeting-model.c:530 calendar/gui/e-meeting-model.c:752
+#: calendar/gui/e-meeting-model.c:530 calendar/gui/e-meeting-model.c:755
 msgid "Individual"
 msgstr "Појединац"
 
 #: calendar/gui/e-meeting-model.c:199 calendar/gui/e-meeting-model.c:216
-#: calendar/gui/e-meeting-model.c:753
+#: calendar/gui/e-meeting-model.c:756
 msgid "Group"
 msgstr "Група"
 
 #: calendar/gui/e-meeting-model.c:201 calendar/gui/e-meeting-model.c:218
-#: calendar/gui/e-meeting-model.c:754
+#: calendar/gui/e-meeting-model.c:757
 msgid "Resource"
 msgstr "Извор"
 
 #: calendar/gui/e-meeting-model.c:203 calendar/gui/e-meeting-model.c:220
-#: calendar/gui/e-meeting-model.c:755
+#: calendar/gui/e-meeting-model.c:758
 msgid "Room"
 msgstr "Соба"
 
 #: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:249
-#: calendar/gui/e-meeting-model.c:768
+#: calendar/gui/e-meeting-model.c:771
 msgid "Chair"
 msgstr "Место"
 
 #: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
-#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:769
+#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:772
 msgid "Required Participant"
 msgstr "Обавезан учесник"
 
 #: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
-#: calendar/gui/e-meeting-model.c:770
+#: calendar/gui/e-meeting-model.c:773
 msgid "Optional Participant"
 msgstr "Слободан учесник"
 
 #: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
-#: calendar/gui/e-meeting-model.c:771
+#: calendar/gui/e-meeting-model.c:774
 msgid "Non-Participant"
 msgstr "Не-учесник"
 
 #: calendar/gui/e-meeting-model.c:284 calendar/gui/e-meeting-model.c:307
-#: calendar/gui/e-meeting-model.c:540 calendar/gui/e-meeting-model.c:797
+#: calendar/gui/e-meeting-model.c:540 calendar/gui/e-meeting-model.c:800
 msgid "Needs Action"
 msgstr "Потребна акција"
 
 #: calendar/gui/e-meeting-model.c:290 calendar/gui/e-meeting-model.c:313
-#: calendar/gui/e-meeting-model.c:800 calendar/gui/e-meeting-time-sel.c:405
+#: calendar/gui/e-meeting-model.c:803 calendar/gui/e-meeting-time-sel.c:405
 msgid "Tentative"
 msgstr "С резервом"
 
 #: calendar/gui/e-meeting-model.c:292 calendar/gui/e-meeting-model.c:315
-#: calendar/gui/e-meeting-model.c:801
+#: calendar/gui/e-meeting-model.c:804
 msgid "Delegated"
 msgstr "Делегирано"
 
@@ -10452,8 +10452,8 @@ msgid "Suggest automatic display of attachment"
 msgstr "Предложи аутоматско отварање прилога"
 
 #: composer/e-msg-composer-hdrs.c:290
-msgid "Hey you, dunce. You need an account to send mail doncha know."
-msgstr "Ало, мајсторе. Потребан ти је налог да би слао пошту, неће без тога."
+msgid "You need to configure an account before you can compose mail."
+msgstr "Морате да подесите налог да би могли да саставите поруку."
 
 #: composer/e-msg-composer-hdrs.c:483
 msgid "Click here for the address book"
@@ -27957,6 +27957,9 @@ msgstr "Основни процес локалних датотека Еволу
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Основни процес локалних датотека Еволуције адресара"
+
+#~ msgid "Hey you, dunce. You need an account to send mail doncha know."
+#~ msgstr "'Ало, мајсторе. Потребан ти је налог да би слао пошту, неће без тога."
 
 #~ msgid "Save As..."
 #~ msgstr "Сачувај као..."
