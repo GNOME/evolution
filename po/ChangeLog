@@ -1,22 +1,7 @@
-2001-12-18  gettextize  <bug-gnu-utils@gnu.org>
+2001-12-19  Roy-Magne Mo <rmo@sunnmore.net>
 
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
-
-2001-12-18  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
-
-2001-12-18  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
-
-2001-12-18  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
-
-2001-12-18  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
+	* nn.po: Updated Norwegian (nynorsk) translation
+	* ChangLog: removed gettext-entries
 
 2001-12-18  Ettore Perazzoli  <ettore@ximian.com>
 
@@ -34,18 +19,6 @@
 2001-12-17  Iain Holmes  <iain@ximian.com>
 
 	* POFILES.in: Added my-evolution/Locations.h
-
-2001-12-06  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-12-06  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-12-06  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
 
 2001-12-16  Kjartan Maraas  <kmaraas@gnome.org>
 
