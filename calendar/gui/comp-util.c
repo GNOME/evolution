@@ -24,6 +24,7 @@
 #endif
 
 #include "comp-util.h"
+#include "dialogs/delete-comp.h"
 
 
 
@@ -158,4 +159,75 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
 	cal_component_free_datetime (&end_datetime);
 
 	return retval;
+}
+
+/**
+ * cal_comp_confirm_delete_empty_comp:
+ * @comp: A calendar component.
+ * @client: Calendar client where the component purportedly lives.
+ * @widget: Widget to be used as the basis for UTF8 conversion.
+ * 
+ * Assumming a calendar component with an empty SUMMARY property (as per
+ * string_is_empty()), asks whether the user wants to delete it based on
+ * whether the appointment is on the calendar server or not.  If the
+ * component is on the server, this function will present a confirmation
+ * dialog and delete the component if the user tells it to.  If the component
+ * is not on the server it will just return TRUE.
+ * 
+ * Return value: A result code indicating whether the component
+ * was not on the server and is to be deleted locally, whether it
+ * was on the server and the user deleted it, or whether the
+ * user cancelled the deletion.
+ **/
+ConfirmDeleteEmptyCompResult
+cal_comp_confirm_delete_empty_comp (CalComponent *comp, CalClient *client, GtkWidget *widget)
+{
+	const char *uid;
+	CalClientGetStatus status;
+	CalComponent *server_comp;
+
+	g_return_val_if_fail (comp != NULL, EMPTY_COMP_DO_NOT_REMOVE);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), EMPTY_COMP_DO_NOT_REMOVE);
+	g_return_val_if_fail (client != NULL, EMPTY_COMP_DO_NOT_REMOVE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), EMPTY_COMP_DO_NOT_REMOVE);
+	g_return_val_if_fail (widget != NULL, EMPTY_COMP_DO_NOT_REMOVE);
+	g_return_val_if_fail (GTK_IS_WIDGET (widget), EMPTY_COMP_DO_NOT_REMOVE);
+
+	/* See if the component is on the server.  If it is not, then it likely
+	 * means that the appointment is new, only in the day view, and we
+	 * haven't added it yet to the server.  In that case, we don't need to
+	 * confirm and we can just delete the event.  Otherwise, we ask
+	 * the user.
+	 */
+	cal_component_get_uid (comp, &uid);
+
+	status = cal_client_get_object (client, uid, &server_comp);
+
+	switch (status) {
+	case CAL_CLIENT_GET_SUCCESS:
+		gtk_object_unref (GTK_OBJECT (server_comp));
+		/* Will handle confirmation below */
+		break;
+
+	case CAL_CLIENT_GET_SYNTAX_ERROR:
+		g_message ("confirm_delete_empty_appointment(): Syntax error when getting "
+			   "object `%s'",
+			   uid);
+		/* However, the object *is* in the server, so confirm */
+		break;
+
+	case CAL_CLIENT_GET_NOT_FOUND:
+		return EMPTY_COMP_REMOVE_LOCALLY;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	/* The event exists in the server, so confirm whether to delete it */
+
+	if (delete_component_dialog (comp, TRUE, 1, CAL_COMPONENT_EVENT, widget)) {
+		cal_client_remove_object (client, uid);
+		return EMPTY_COMP_REMOVED_FROM_SERVER;
+	} else
+		return EMPTY_COMP_DO_NOT_REMOVE;
 }

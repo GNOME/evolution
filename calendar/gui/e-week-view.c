@@ -57,6 +57,7 @@
 #include "e-week-view-layout.h"
 #include "e-week-view-main-item.h"
 #include "e-week-view-titles-item.h"
+#include "misc.h"
 
 /* Images */
 #include "art/bell.xpm"
@@ -1254,7 +1255,7 @@ e_week_view_set_cal_client	(EWeekView	*week_view,
  * e_week_view_set_query:
  * @week_view: A week view.
  * @sexp: S-expression that defines the query.
- * 
+ *
  * Sets the query sexp that the week view will use for filtering the displayed
  * events.
  **/
@@ -1278,7 +1279,7 @@ e_week_view_set_query (EWeekView *week_view, const char *sexp)
  * e_week_view_set_default_category:
  * @week_view: A week view.
  * @category: Default category name or NULL for no category.
- * 
+ *
  * Sets the default category that will be used when creating new calendar
  * components from the week view.
  **/
@@ -3073,6 +3074,45 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 			NULL);
 	g_assert (text != NULL);
 
+	if (string_is_empty (text)) {
+		ConfirmDeleteEmptyCompResult result;
+
+		result = cal_comp_confirm_delete_empty_comp (event->comp, week_view->client,
+							     GTK_WIDGET (week_view));
+
+		switch (result) {
+		case EMPTY_COMP_REMOVE_LOCALLY: {
+			const char *uid;
+
+			cal_component_get_uid (event->comp, &uid);
+
+			e_week_view_foreach_event_with_uid (week_view, uid,
+							    e_week_view_remove_event_cb, NULL);
+			gtk_widget_queue_draw (week_view->main_canvas);
+			e_week_view_check_layout (week_view);
+			goto out; }
+
+		case EMPTY_COMP_REMOVED_FROM_SERVER:
+			goto out;
+
+		case EMPTY_COMP_DO_NOT_REMOVE:
+			/* But we cannot keep an empty summary, so make the
+			 * canvas item refresh itself from the text that the
+			 * component already had.
+			 */
+
+			gtk_object_ref (GTK_OBJECT (event->comp));
+			e_week_view_update_event_cb (week_view, event_num, event->comp);
+			gtk_object_unref (GTK_OBJECT (event->comp));
+			goto out;
+
+		default:
+			g_assert_not_reached ();
+		}
+
+		g_assert_not_reached ();
+	}
+
 	/* Only update the summary if necessary. */
 	cal_component_get_summary (event->comp, &summary);
 	if (summary.value && !strcmp (text, summary.value)) {
@@ -3087,6 +3127,8 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 		if (!cal_client_update_object (week_view->client, event->comp))
 			g_message ("e_week_view_on_editing_stopped(): Could not update the object!");
 	}
+
+ out:
 
 	g_free (text);
 
@@ -3351,7 +3393,7 @@ static EPopupMenu child_items [] = {
 	  e_week_view_on_delete_occurrence, NULL, MASK_RECURRING | MASK_EDITING },
 	{ N_("Delete _All Occurrences"), NULL,
 	  e_week_view_on_delete_appointment, NULL, MASK_RECURRING | MASK_EDITING },
-	
+
 	{ NULL, NULL, NULL, NULL, 0 }
 };
 
@@ -3375,14 +3417,14 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 	 * We could possibly set up another method of checking it.
 	 */
 	being_edited = FALSE;
-	
+
 	if (event_num == -1) {
 		context_menu = main_items;
 	} else {
 		context_menu = child_items;
 		event = &g_array_index (week_view->events,
 					EWeekViewEvent, event_num);
-		if (cal_component_has_recurrences (event->comp)) 
+		if (cal_component_has_recurrences (event->comp))
 			hide_mask |= MASK_SINGLE;
 		else
 			hide_mask |= MASK_RECURRING;
@@ -3401,7 +3443,7 @@ e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	EWeekView *week_view = E_WEEK_VIEW (data);
 	time_t dtstart, dtend;
 	struct icaltimetype itt;
-	
+
 	/* Edit a new event. If only one day is selected we set the time to
 	   the first 1/2-hour of the working day. */
 	if (week_view->selection_start_day == week_view->selection_end_day) {
@@ -3428,7 +3470,7 @@ e_week_view_on_new_event (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (data);
 	time_t dtstart, dtend;
-	
+
 	dtstart = week_view->day_starts[week_view->selection_start_day];
 	dtend = week_view->day_starts[week_view->selection_end_day + 1];
 	gnome_calendar_new_appointment_for (
@@ -3511,7 +3553,7 @@ e_week_view_delete_event_internal (EWeekView *week_view, gint event_num)
 
 	vtype = cal_component_get_vtype (event->comp);
 
-	if (delete_component_dialog (event->comp, 1, vtype,
+	if (delete_component_dialog (event->comp, FALSE, 1, vtype,
 				     GTK_WIDGET (week_view))) {
 		const char *uid;
 

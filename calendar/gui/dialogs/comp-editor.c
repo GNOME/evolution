@@ -1121,7 +1121,7 @@ delete_cmd (GtkWidget *widget, gpointer data)
 	
 	vtype = cal_component_get_vtype (priv->comp);
 
-	if (delete_component_dialog (priv->comp, 1, vtype, priv->window))
+	if (delete_component_dialog (priv->comp, FALSE, 1, vtype, priv->window))
 		delete_comp (editor);
 }
 

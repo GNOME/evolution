@@ -1,3 +1,26 @@
+2001-10-27  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_on_editing_stopped): Delete
+	appointments with empty summaries.  Fixes Ximian bug #780.
+
+	* gui/e-week-view.c (e_week_view_on_editing_stopped): Likewise.
+
+	* gui/dialogs/delete-comp.c (delete_component_dialog): Added an
+	argument to specify whether we unconditionally want single
+	components to be considered as not having a summary.
+
+	* gui/comp-util.c (cal_comp_confirm_delete_empty_comp): New
+	function.
+
+	* gui/misc.[ch]: New files with miscellaneous utility functions;
+	moved string_is_empty() over from calendar-model.c.
+
+	* gui/calendar-model.c: Use the string_is_empty()
+	function from misc.c.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Added misc.[ch] to
+	the list of sources.
+
 2001-10-27  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/todo/todo-conduit.c (local_record_from_comp): touch on

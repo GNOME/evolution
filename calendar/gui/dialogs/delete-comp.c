@@ -38,6 +38,9 @@
  * delete_component_dialog:
  * @comp: A calendar component if a single component is to be deleted, or NULL
  * if more that one component is to be deleted.
+ * @consider_as_untitled: If deleting more than one component, this is ignored.
+ * Otherwise, whether to consider the component as not having a summary; if
+ * FALSE then the component's summary string will be used.
  * @n_comps: Number of components that are to be deleted.
  * @vtype: Type of the components that are to be deleted.  This is ignored
  * if only one component is to be deleted, and the vtype is extracted from
@@ -55,6 +58,7 @@
  **/
 gboolean
 delete_component_dialog (CalComponent *comp,
+			 gboolean consider_as_untitled,
 			 int n_comps, CalComponentVType vtype,
 			 GtkWidget *widget)
 {
@@ -80,9 +84,12 @@ delete_component_dialog (CalComponent *comp,
 		char *tmp;
 
 		vtype = cal_component_get_vtype (comp);
-		cal_component_get_summary (comp, &summary);
 
-		tmp = e_utf8_to_gtk_string (widget, summary.value);
+		if (!consider_as_untitled) {
+			cal_component_get_summary (comp, &summary);
+			tmp = e_utf8_to_gtk_string (widget, summary.value);
+		} else
+			tmp = NULL;
 
 		switch (vtype) {
 		case CAL_COMPONENT_EVENT:

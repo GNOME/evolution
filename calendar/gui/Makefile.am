@@ -142,6 +142,8 @@ evolution_calendar_SOURCES =			\
 	itip-utils.c				\
 	itip-utils.h				\
 	main.c					\
+	misc.c					\
+	misc.h					\
 	print.c					\
 	print.h					\
 	tag-calendar.c				\

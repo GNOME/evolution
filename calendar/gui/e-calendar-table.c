@@ -764,7 +764,8 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 
 	/* FIXME: this may be something other than a TODO component */
 
-	if (delete_component_dialog (comp, n_selected, CAL_COMPONENT_TODO, GTK_WIDGET (cal_table)))
+	if (delete_component_dialog (comp, FALSE, n_selected, CAL_COMPONENT_TODO,
+				     GTK_WIDGET (cal_table)))
 		delete_selected_components (cal_table);
 }
 
