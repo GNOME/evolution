@@ -18,7 +18,7 @@ XML_FILES =				\
 	evolution-tasks.xml		\
 	my-evolution.xml
 
-uidir = $(datadir)/gnome/ui
+uidir = $(datadir)/gnome-2.0/ui
 ui_DATA = $(XML_FILES)
 
 EXTRA_DIST = $(XML_FILES)
