@@ -528,8 +528,10 @@ e_calendar_table_destroy (GtkObject *object)
 
 	if (cal_table->invisible)
 		gtk_widget_destroy (cal_table->invisible);
-	if (cal_table->clipboard_selection)
+	if (cal_table->clipboard_selection) {
 		g_free (cal_table->clipboard_selection);
+		cal_table->clipboard_selection = NULL;
+	}
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
@@ -712,10 +714,10 @@ copy_row_cb (int model_row, gpointer data)
 
 	/* add the new component to the VCALENDAR component */
 	comp_str = cal_component_get_as_string (comp);
-	child = icalcomponent_new_from_string (comp_str);
-	icalcomponent_add_component (cal_table->tmp_vcal, child);
+	child = icalparser_parse_string (comp_str);
+	if (child)
+		icalcomponent_add_component (cal_table->tmp_vcal, child);
 
-	//icalcomponent_free (child);
 	g_free (comp_str);
 }
 
@@ -729,6 +731,7 @@ void
 e_calendar_table_copy_clipboard (ECalendarTable *cal_table)
 {
 	ETable *etable;
+	char *comp_str;
 	
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
@@ -743,7 +746,8 @@ e_calendar_table_copy_clipboard (ECalendarTable *cal_table)
 	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
 	e_table_selected_row_foreach (etable, copy_row_cb, cal_table);
 
-	cal_table->clipboard_selection = icalcomponent_as_ical_string (cal_table->tmp_vcal);
+	comp_str = icalcomponent_as_ical_string (cal_table->tmp_vcal);
+	cal_table->clipboard_selection = g_strdup (comp_str);
 	icalcomponent_free (cal_table->tmp_vcal);
 	cal_table->tmp_vcal = NULL;
 
@@ -1027,16 +1031,58 @@ selection_received (GtkWidget *invisible,
 		return;
 	}
 
-	comp = cal_component_new ();
-	cal_component_set_icalcomponent (comp, icalcomp);
-	uid = cal_component_gen_uid ();
-	cal_component_set_uid (comp, (const char *) uid);
-	free (uid);
+	if (kind == ICAL_VCALENDAR_COMPONENT) {
+		int num_found = 0;
+		icalcomponent_kind child_kind;
+		icalcomponent *subcomp;
 
-	cal_client_update_object (
-		calendar_model_get_cal_client (cal_table->model),
-		comp);
-	gtk_object_unref (GTK_OBJECT (comp));
+		subcomp = icalcomponent_get_first_component (
+			icalcomp, ICAL_ANY_COMPONENT);
+		while (subcomp) {
+			child_kind = icalcomponent_isa (subcomp);
+			if (child_kind == ICAL_VEVENT_COMPONENT ||
+			    child_kind == ICAL_VTODO_COMPONENT ||
+			    child_kind == ICAL_VJOURNAL_COMPONENT) {
+				CalComponent *tmp_comp;
+
+				uid = cal_component_gen_uid ();
+				tmp_comp = cal_component_new ();
+				cal_component_set_icalcomponent (
+					tmp_comp, icalcomponent_new_clone (subcomp));
+				cal_component_set_uid (tmp_comp, uid);
+
+				free (uid);
+				gtk_object_unref (GTK_OBJECT (tmp_comp));
+
+				num_found++;
+			}
+			subcomp = icalcomponent_get_next_component (
+				icalcomp, ICAL_ANY_COMPONENT);
+		}
+
+		if (num_found) {
+			comp = cal_component_new ();
+			cal_component_set_icalcomponent (comp, icalcomp);
+
+			cal_client_update_object (
+				calendar_model_get_cal_client (cal_table->model),
+				comp);
+
+			gtk_object_unref (GTK_OBJECT (comp));
+		}
+	}
+	else {
+		comp = cal_component_new ();
+		cal_component_set_icalcomponent (comp, icalcomp);
+		uid = cal_component_gen_uid ();
+		cal_component_set_uid (comp, (const char *) uid);
+		free (uid);
+
+		cal_client_update_object (
+			calendar_model_get_cal_client (cal_table->model),
+			comp);
+		gtk_object_unref (GTK_OBJECT (comp));
+	}
 }
 
 

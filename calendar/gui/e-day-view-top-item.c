@@ -584,8 +584,8 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	cal_component_get_categories_list (comp, &categories_list);
 	for (elem = categories_list; elem; elem = elem->next) {
 		char *category;
-		GdkPixmap *pixmap;
-		GdkBitmap *mask;
+		GdkPixmap *pixmap = NULL;
+		GdkBitmap *mask = NULL;
 
 		category = (char *) elem->data;
 		e_categories_config_get_icon_for (category, &pixmap, &mask);

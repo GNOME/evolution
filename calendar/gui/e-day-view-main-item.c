@@ -663,8 +663,8 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 		/* draw categories icons */
 		for (elem = categories_list; elem; elem = elem->next) {
 			char *category;
-			GdkPixmap *pixmap;
-			GdkBitmap *mask;
+			GdkPixmap *pixmap = NULL;
+			GdkBitmap *mask = NULL;
 
 			category = (char *) elem->data;
 			e_categories_config_get_icon_for (category, &pixmap, &mask);

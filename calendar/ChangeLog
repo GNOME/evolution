@@ -1,3 +1,15 @@
+2001-07-27  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event): 
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons): 
+	initialize to NULL some pointers
+
+	* e-calendar-table.c (selection_received): deal correctly with
+	VCALENDAR objects
+	(e_calendar_table_copy_clipboard): g_strdup the value returned by
+	icalcomponent_get_as_ical_string
+
 2001-07-27  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_set_query): Constify and set the
