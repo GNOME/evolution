@@ -1909,7 +1909,9 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 	int flags, i;
 	char sep, *dir, *name = NULL, *path;
 	CamelURL *url;
-	
+	CamelImapStoreInfo *si;
+	guint32 newflags;
+
 	if (!imap_parse_list_response (imap_store, response, &flags, &sep, &dir))
 		return NULL;
 
@@ -1917,8 +1919,13 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 	path = camel_utf7_utf8(dir);
 
 	/* hack: pokes in value from any list response */
-	camel_imap_store_summary_add_from_full(imap_store->summary, dir, sep?sep:'/');
-	
+	si = camel_imap_store_summary_add_from_full(imap_store->summary, dir, sep?sep:'/');
+	newflags = (si->info.flags & CAMEL_STORE_INFO_FOLDER_SUBSCRIBED) | (flags & ~CAMEL_STORE_INFO_FOLDER_SUBSCRIBED);
+	if (si->info.flags != newflags) {
+		si->info.flags = newflags;
+		camel_store_summary_touch((CamelStoreSummary *)imap_store->summary);
+	}
+
 	if (sep && (name = strrchr(path, sep))) {
 		if (!*++name) {
 			g_free(dir);
@@ -2381,6 +2388,15 @@ get_one_folder_offline (const char *physical_path, const char *path, gpointer da
 		if ((((CamelStore *)imap_store)->flags & CAMEL_STORE_SUBSCRIPTIONS) == 0
 		    || si->flags & CAMEL_STORE_INFO_FOLDER_SUBSCRIBED) {
 			fi = imap_build_folder_info(imap_store, path+1);
+			fi->flags = si->flags;
+			if (si->flags & CAMEL_FOLDER_NOSELECT) {
+				CamelURL *url = camel_url_new(fi->url, NULL);
+
+				camel_url_set_param (url, "noselect", "yes");
+				g_free(fi->url);
+				fi->url = camel_url_to_string (url, 0);
+				camel_url_free (url);
+			}
 			g_ptr_array_add (folders, fi);
 		}
 		camel_store_summary_info_free((CamelStoreSummary *)imap_store->summary, si);

@@ -1,3 +1,11 @@
+2002-09-26  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c
+	(parse_list_response_as_folder_info): Store the folder flags in
+	the store summary.
+	(get_one_folder_offline): Set the noselect url parameter if this
+	is a noselect folder, from the stored summary flags.  #30877.
+
 2002-09-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-filter-charset.c (complete): Handle EILSEQ by eating
