@@ -415,6 +415,9 @@ pas_backend_file_search (PASBackendFile  	*bf,
 	DBT     id_dbt, vcard_dbt;
 	int i;
 
+	if (!bf->priv->loaded)
+		return;
+
 	view->search_sexp = e_sexp_new();
 	view->search_context = g_new0(PASBackendFileSearchContext, 1);
 
@@ -436,7 +439,7 @@ pas_backend_file_search (PASBackendFile  	*bf,
 	while (db_error == 0) {
 
 		/* don't include the version in the list of cards */
-		if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME + 1)
+		if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME) + 1
 		    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
 			char *vcard_string = vcard_dbt.data;
 
