@@ -283,6 +283,36 @@ migrate_contacts (EBook *old_book, EBook *new_book)
 										"VOICE");
 				attr = attr->next;
 			}
+			/* this is kinda gross.  The new vcard parser
+			   needs ';'s to be escaped by \'s.  but the
+			   1.4 vcard generator would put unescaped xml
+			   (including entities like &gt;) in the value
+			   of attributes, so we need to go through and
+			   escape those ';'s. */
+			else if (!strcmp ("EMAIL", e_vcard_attribute_get_name (a))) {
+				GList *v = e_vcard_attribute_get_values (a);
+
+				if (v && v->data) {
+					if (!strncmp ((char*)v->data, "<?xml", 5)) {
+						/* k, this is the nasty part.  we glomb all the
+						   value strings back together again (if there is
+						   more than one), then work our magic */
+						GString *str = g_string_new ("");
+						while (v) {
+							g_string_append (str, v->data);
+							if (v->next)
+								g_string_append_c (str, ';');
+							v = v->next;
+						}
+
+						e_vcard_attribute_remove_values (a);
+						e_vcard_attribute_add_value (a, str->str);
+						g_string_free (str, TRUE);
+					}
+				}
+
+				attr = attr->next;
+			}
 			else {
 				attr = attr->next;
 			}

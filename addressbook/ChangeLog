@@ -1,5 +1,12 @@
 2004-01-22  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #53184 ]
+	* gui/component/addressbook-migrate.c (migrate_contacts): handle
+	the fact that the xml 1.4 spits out contains unescaped ';'s in the
+	EMAIL attributes for mailing lists.
+
+2004-01-22  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #52944 ]
 	* gui/component/addressbook-migrate.c (migrate_contacts): do some
 	massaging of contacts as we import them, to fix up the differences
