@@ -1,3 +1,9 @@
+2005-03-24  Chenthill Palanisamy  <pchenthill@novell.com>
+	
+	Fixes #73508
+	* gui/dialogs/meeting-page.c: (meeting_page_fill_widgets): Set the 
+	organizers status as NEEDS ACTION, checking for the static capability.
+
 2005-03-16  Li Yuan  <li.yuan@sun.com>
 
 	* gui/calendar-view.c: (calendar_view_class_init):

@@ -397,7 +397,10 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 			e_meeting_attendee_set_address (priv->ia, g_strdup_printf ("MAILTO:%s", a->id->address));
 			e_meeting_attendee_set_cn (priv->ia, g_strdup (a->id->name));
-			e_meeting_attendee_set_status (priv->ia, ICAL_PARTSTAT_ACCEPTED);
+			if (page->client && e_cal_get_organizer_must_accept (page->client))
+				e_meeting_attendee_set_status (priv->ia, ICAL_PARTSTAT_NEEDSACTION);
+			else
+				e_meeting_attendee_set_status (priv->ia, ICAL_PARTSTAT_ACCEPTED);
 		}
 	}
 	
