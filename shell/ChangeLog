@@ -1,3 +1,10 @@
+2001-09-28  Iain Holmes  <iain@ximian.com>
+
+	* importer/import.glade: Add new pages.
+
+	* e-shell-importer.c (show_import_wizard): Set up new pages.
+	(import_druid_finish): Check which type of importer to run.
+
 2001-09-26  Iain Holmes  <iain@ximian.com>
 
 	* Evolution-Shell.idl: Added a default_type parameter for setting the
