@@ -13,6 +13,8 @@ noinst_LIBRARIES =	\
 libemiscwidgets_a_SOURCES = 	\
 	e-clipped-label.c	\
 	e-clipped-label.h	\
+	e-scroll-frame.c	\
+	e-scroll-frame.h	\
 	e-title-bar.c		\
 	e-title-bar.h
 

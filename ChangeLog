@@ -1,3 +1,11 @@
+2000-05-31  Federico Mena Quintero  <federico@helixcode.com>
+
+	* widgets/misc/e-scroll-frame.[ch]: Imported GtkScrollFrame from
+	EOG and renamed it to EScrollFrame.
+
+	* widgets/misc/Makefile.am (libemiscwidgets_a_SOURCES): Added
+	e-scroll-frame.[ch].
+
 2000-05-30  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* widgets/e-paned/e-vpaned.c (e_vpaned_handle_shown): Show the
