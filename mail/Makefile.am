@@ -66,6 +66,7 @@ evolution_mail_LDADD = 					\
 	$(SHELL_OBJS)					\
 	../composer/libcomposer.la		 	\
 	$(top_builddir)/widgets/e-paned/libepaned.a	\
+	$(top_builddir)/widgets/misc/libemiscwidgets.a	\
 	../widgets/e-table/libetable.a			\
 	../widgets/e-text/libetext.a			\
 	$(CAMEL_OBJS_EXTRA)				\

@@ -1,3 +1,15 @@
+2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (evolution_mail_LDADD): Link with
+	`libemiscwidgets.a'.
+
+	* mail-display.c (mail_display_new): Use an EScrollFrame instead
+	of a GtkScrolledWindow.
+	(mail_display_set_message): Likewise.
+
+	* mail-display.h: Replace the GtkScrolledWindow with an
+	EScrollFrame.
+
 2000-06-01  Dan Winship  <danw@helixcode.com>
 
 	* component-factory.c (owner_unset_cb): Quit when the shell exits.

@@ -360,13 +360,13 @@ mail_display_set_message (MailDisplay *mail_display,
 	mail_html_write (mail_display->html, stream, "</BODY></HTML>\n");
 	gtk_html_end (mail_display->html, stream, GTK_HTML_STREAM_OK);
 
-	adj = gtk_scrolled_window_get_vadjustment (mail_display->scroll);
+	adj = e_scroll_frame_get_vadjustment (mail_display->scroll);
 	gtk_adjustment_set_value (adj, 0);
-	gtk_scrolled_window_set_vadjustment (mail_display->scroll, adj);
+	e_scroll_frame_set_vadjustment (mail_display->scroll, adj);
 
-	adj = gtk_scrolled_window_get_hadjustment (mail_display->scroll);
+	adj = e_scroll_frame_get_hadjustment (mail_display->scroll);
 	gtk_adjustment_set_value (adj, 0);
-	gtk_scrolled_window_set_hadjustment (mail_display->scroll, adj);
+	e_scroll_frame_set_hadjustment (mail_display->scroll, adj);
 }
 
 
@@ -411,12 +411,11 @@ mail_display_new (FolderBrowser *parent_folder_browser)
 	gtk_box_set_homogeneous (GTK_BOX (mail_display), FALSE);
 	gtk_widget_show (GTK_WIDGET (mail_display));
 
-	scroll = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_ALWAYS);
-	gtk_box_pack_start_defaults (GTK_BOX (mail_display),
-				     GTK_WIDGET (scroll));
+	scroll = e_scroll_frame_new (NULL, NULL);
+	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll),
+				   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll), GTK_SHADOW_IN);
+	gtk_box_pack_start_defaults (GTK_BOX (mail_display), GTK_WIDGET (scroll));
 	gtk_widget_show (GTK_WIDGET (scroll));
 
 	html = gtk_html_new ();
@@ -430,7 +429,7 @@ mail_display_new (FolderBrowser *parent_folder_browser)
 	gtk_container_add (GTK_CONTAINER (scroll), html);
 	gtk_widget_show (GTK_WIDGET (html));
 
-	mail_display->scroll = GTK_SCROLLED_WINDOW (scroll);
+	mail_display->scroll = E_SCROLL_FRAME (scroll);
 	mail_display->html = GTK_HTML (html);
 
 	return GTK_WIDGET (mail_display);

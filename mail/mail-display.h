@@ -5,6 +5,9 @@
 
 #include <gtk/gtkvbox.h>
 #include <gtkhtml/gtkhtml.h>
+
+#include "widgets/misc/e-scroll-frame.h"
+
 #include "camel/camel-stream.h"
 #include "camel/camel-mime-message.h"
 #include "folder-browser.h"
@@ -19,7 +22,7 @@
 struct _MailDisplay {
 	GtkVBox parent;
 
-	GtkScrolledWindow *scroll;
+	EScrollFrame *scroll;
 	GtkHTML *html;
 
 	FolderBrowser *parent_folder_browser;
