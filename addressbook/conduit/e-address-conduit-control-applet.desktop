@@ -5,6 +5,7 @@ Name[da]=Udstående
 Name[es]=Enlace del libro de direcciones de Evolution
 Name[fr]=Conduit Adresses
 Name[no]=Oppgaver
+Name[sk]=Spojka adresára Evolution
 Name[sv]=Adresser
 Name[tr]=Adres parçasý
 Comment=Configure the address conduit
@@ -13,6 +14,7 @@ Comment[da]=Konfigurér Udstående
 Comment[es]=Configura el enlace del libro de direcciones
 Comment[fr]=Configuration du conduit Adresses
 Comment[no]=Konfigurér oppgavelisten
+Comment[sk]=Nastavenie spojky adresára
 Comment[sv]=Konfigurera adresskanalen
 Comment[tr]=Adres parçasýnýn ayarlarý
 Exec=e-address-conduit-control-applet --cap-id=1

@@ -5,6 +5,7 @@ Name[da]=Gnome kalender
 Name[es]=Enlace de calendario
 Name[fr]=Conduit Calendrier
 Name[no]=GNOME kalender
+Name[sk]=Spojka Kalendár
 Name[sv]=Kalenderkanal
 Name[tr]=Takvim parçasý
 Comment=Configure the GnomeCal conduit
@@ -13,6 +14,7 @@ Comment[da]=Konfigurér GnomeCal-komponent
 Comment[es]=Configurar el enlace de calendario
 Comment[fr]=Configuration du conduit calendrier
 Comment[no]=Konfigurér GnomeCal-komponent
+Comment[sk]=Nastavenie spojky GnomeCal
 Comment[sv]=Konfigurera GnomeCal-kanalen
 Comment[tr]=GnomeCal takvim parçasý ayarlarý
 Exec=calendar-conduit-control-applet --cap-id=1
