@@ -267,6 +267,7 @@ open_cursor (CalBackendDB *cbdb, DB *db)
 	/* create the cursor */
 	cursor = g_new0(CalBackendDBCursor, 1);
 	cursor->parent_db = db;
+	cursor->ref = 1;
 
 	ret = db->cursor(db, NULL, &cursor->dbc, 0);
 	if (ret == 0) {
@@ -334,6 +335,7 @@ find_record_by_id (CalBackendDBCursor *cursor, const gchar *id)
 	return NULL; /* not found */
 }
 
+/* start a new transaction */
 static DB_TXN *
 begin_transaction (CalBackendDB *cbdb)
 {
@@ -351,6 +353,7 @@ begin_transaction (CalBackendDB *cbdb)
 	return tid;
 }
 
+/* finish successfully a transaction */
 static void
 commit_transaction (DB_TXN *tid)
 {
@@ -363,6 +366,7 @@ commit_transaction (DB_TXN *tid)
 	}
 }
 
+/* abort a transaction */
 static void
 rollback_transaction (DB_TXN *tid)
 {
@@ -455,6 +459,7 @@ open_database_file (CalBackendDB *cbdb, const gchar *str_uri, gboolean only_if_e
 {
 	gint ret;
 	struct stat sb;
+	gchar *dir;
 
 	g_return_val_if_fail(IS_CAL_BACKEND_DB(cbdb), FALSE);
 	g_return_val_if_fail(cbdb->priv != NULL, FALSE);
@@ -463,21 +468,19 @@ open_database_file (CalBackendDB *cbdb, const gchar *str_uri, gboolean only_if_e
 	g_return_val_if_fail(str_uri != NULL, FALSE);
 
 	/* initialize DB environment (for transactions) */
-	if (stat(ENVIRONMENT_DIRECTORY, &sb) != 0) {
-		gchar *dir;
-		
+	dir = g_strdup_printf(ENVIRONMENT_DIRECTORY, g_get_home_dir());
+	if (stat(dir, &sb) != 0) {
+
 		/* if the directory exists, we're done, since DB will fail if it's the
 		 * wrong one. If it does not exist, create the environment */
-		dir = g_strdup_printf(ENVIRONMENT_DIRECTORY, g_get_home_dir());
 		if (mkdir(dir, I_RWXU) != 0) {
 			g_free((gpointer) dir);
 			return FALSE;
 		}
-
-		g_free((gpointer) dir);
 		
 		/* create the environment handle */
 		if ((ret = db_env_create(&cbdb->priv->environment, 0)) != 0) {
+			g_free((gpointer) dir);
 			return FALSE;
 		}
 		
@@ -490,9 +493,12 @@ open_database_file (CalBackendDB *cbdb, const gchar *str_uri, gboolean only_if_e
 		                                         DB_INIT_MPOOL | DB_INIT_TXN |
 		                                         DB_RECOVER | DB_THREAD,
 		                                         S_IRUSR | S_IWUSR)) != 0) {
+			g_free((gpointer) dir);
 			return FALSE;
 		}
 	}
+	
+	g_free((gpointer) dir);
 	
 	/* open/create objects database into given file */
 	if ((ret = db_create(&cbdb->priv->objects_db, cbdb->priv->environment, 0)) != 0
@@ -595,18 +601,18 @@ cal_backend_db_get_n_objects (CalBackend *backend, CalObjType type)
 			icalcomp = icalparser_parse_string((char *) data->data);
 			if (icalcomp) {
 				switch (icalcomponent_isa(icalcomp)) {
-				case ICAL_VEVENT_COMPONENT :
-					if (type & CALOBJ_TYPE_EVENT)
-						total_count++;
-					break;
-				case ICAL_VTODO_COMPONENTS :
-					if (type & CALOBJ_TYPE_TODO)
-						total_count++;
-					break;
-				case ICAL_VJOURNAL_COMPONENT :
-					if (type & CALOBJ_TYPE_JOURNAL)
-						total_count++;
-					break;
+					case ICAL_VEVENT_COMPONENT :
+						if (type & CALOBJ_TYPE_EVENT)
+							total_count++;
+						break;
+					case ICAL_VTODO_COMPONENTS :
+						if (type & CALOBJ_TYPE_TODO)
+							total_count++;
+						break;
+					case ICAL_VJOURNAL_COMPONENT :
+						if (type & CALOBJ_TYPE_JOURNAL)
+							total_count++;
+						break;
 				}
 				icalcomponent_free(icalcomp);
 			}
@@ -622,7 +628,9 @@ static char *
 cal_backend_db_get_object (CalBackend *backend, const char *uid)
 {
 	CalBackendDB *cbdb;
-	CalBackendDBCursor *cursor;
+	gint ret;
+	DBT key;
+	DBT data;
 
 	cbdb = CAL_BACKEND_DB(backend);
 	g_return_val_if_fail(IS_CAL_BACKEND_DB(cbdb), NULL);
@@ -630,22 +638,21 @@ cal_backend_db_get_object (CalBackend *backend, const char *uid)
 	g_return_val_if_fail(cbdb->priv->objects_db != NULL, NULL);
 	g_return_val_if_fail(uid != NULL, NULL);
 
-	/* open cursor */
-	cursor = open_cursor(cbdb, cbdb->priv->objects_db);
-	if (cursor) {
-		gint ret;
-		DBT *data;
-
-		data = find_record_by_id(cursor, uid);
-		if (data) {
-			gchar *str = g_strdup((char *) data->data);
-			close_cursor(cbdb, cursor);
-			return str;
-		}
-		
-		close_cursor(cbdb, cursor);
+	memset(&key, 0, sizeof(key));
+	memset(&data, 0, sizeof(data));
+	key.data = (void *) uid;
+	key.size = strlen(uid); // + 1
+	
+	/* read record from database */
+	if ((ret = cbdb->priv->objects_db->get(cbdb->priv->objects_db,
+	                                       NULL,
+	                                       &key,
+	                                       &data,
+	                                       0)) == 0) {
+		gchar *str = g_strdup((gchar *) data.data);
+		return str;
 	}
-
+	
 	return NULL;
 }
 
@@ -654,7 +661,9 @@ static CalObjType
 cal_backend_db_get_type_by_uid (CalBackend *backend, const char *uid)
 {
 	CalBackendDB *cbdb;
-	CalBackendDBCursor *cursor;
+	DBT key;
+	DBT data;
+	gint ret;
 
 	cbdb = CAL_BACKEND_DB(backend);
 	g_return_val_if_fail(IS_CAL_BACKEND_DB(cbdb), CAL_COMPONENT_NO_TYPE);
@@ -662,17 +671,22 @@ cal_backend_db_get_type_by_uid (CalBackend *backend, const char *uid)
 	g_return_val_if_fail(cbdb->priv->objects_db != NULL, CAL_COMPONENT_NO_TYPE);
 	g_return_val_if_fail(uid != NULL, CAL_COMPONENT_NO_TYPE);
 
-	/* open the cursor */
-	cursor = open_cursor(cbdb, cbdb->priv->objects_db);
-	if (cursor) {
-		DBT *data = find_record_by_id(cursor, uid);
-
-		if (data) {
-			icalcomponent icalcomp = icalparser_parse_string((char *) data->data);
-			if (icalcomp) {
-				CalObjType type;
-
-				switch (icalcomponent_isa(icalcomp)) {
+	memset(&key, 0, sizeof(key));
+	memset(&data, 0, sizeof(data));
+	key.data = (void *) uid;
+	key.size = strlen(uid); // + 1
+	
+	/* read record from database */
+	if ((ret = cbdb->priv->objects_db->get(cbdb->priv->objects_db,
+	                                       NULL,
+	                                       &key,
+	                                       &data,
+	                                       0)) == 0) {
+		icalcomponent icalcomp = icalparser_parse_string((char *) data.data);
+		if (icalcomp) {
+			CalObjType type;
+			
+			switch (icalcomponent_isa(icalcomp)) {
 				case ICAL_VEVENT_COMPONENT :
 					type = CALOBJ_TYPE_EVENT;
 					break;
@@ -683,15 +697,12 @@ cal_backend_db_get_type_by_uid (CalBackend *backend, const char *uid)
 					type = CALOBJ_TYPE_JOURNAL;
 					break;
 				default :
-					type CAL_COMPONENT_NO_TYPE;
-				}
-
-				icalcomponent_free(icalcomp);
-				close_cursor(cbdb, cursor);
-				return type;
+					type = CAL_COMPONENT_NO_TYPE;
 			}
+			
+			icalcomponent_free(icalcomp);
+			return type;
 		}
-		close_cursor(cbdb, cursor);
 	}
 
 	return CAL_COMPONENT_NO_TYPE;
@@ -712,21 +723,22 @@ add_uid_if_match (GList *list, CalBackendDBCursor *cursor, GList *data_node, Cal
 
 		icalcomp = icalparser_parse_string(data->data);
 		if (!icalcomp) return list;
+
 		switch (icalcomponent_isa(icalcomp)) {
-		case ICAL_VEVENT_COMPONENT :
-			if (type & CALOBJ_TYPE_EVENT)
-				uid = icalcomponent_get_uid(icalcomp);
-			break;
-		case ICAL_VTODO_COMPONENT :
-			if (type & CALOBJ_TYPE_TODO)
-				uid = icalcomponent_get_uid(icalcomp);
-			break;
-		case ICAL_VJOURNAL_COMPONENT :
-			if (type & CALOBJ_TYPE_JOURNAL)
-				uid = icalcomponent_get_uid(icalcomp);
-			break;
-		default :
-			uid = NULL;
+			case ICAL_VEVENT_COMPONENT :
+				if (type & CALOBJ_TYPE_EVENT)
+					uid = icalcomponent_get_uid(icalcomp);
+				break;
+			case ICAL_VTODO_COMPONENT :
+				if (type & CALOBJ_TYPE_TODO)
+					uid = icalcomponent_get_uid(icalcomp);
+				break;
+			case ICAL_VJOURNAL_COMPONENT :
+				if (type & CALOBJ_TYPE_JOURNAL)
+					uid = icalcomponent_get_uid(icalcomp);
+				break;
+			default :
+				uid = NULL;
 		}
 
 		if (uid)
@@ -812,30 +824,30 @@ get_instances_in_range (GHashTable *uid_hash,
 				cal_component_set_icalcomponent(comp, icalcomp);
 
 				switch (icalcomponent_isa(icalcomp)) {
-				case ICAL_VEVENT_COMPONENT :
-					if (type & CALOBJ_TYPE_EVENT)
-						cal_recur_generate_instances(comp,
-						                             start,
-						                             end,
-						                             add_instance,
-						                             uid_hash);
-					break;
-				case ICAL_VTODO_COMPONENT :
-					if (type & CALOBJ_TYPE_TODO)
-						cal_recur_generate_instances(comp,
-						                             start,
-						                             end,
-						                             add_instance,
-						                             uid_hash);
-					break;
-				case ICAL_VJOURNAL_COMPONENT :
-					if (type & CALOBJ_TYPE_JOURNAL)
-						cal_recur_generate_instances(comp,
-						                             start,
-						                             end,
-						                             add_instance,
-						                             uid_hash);
-					break;
+					case ICAL_VEVENT_COMPONENT :
+						if (type & CALOBJ_TYPE_EVENT)
+							cal_recur_generate_instances(comp,
+							                             start,
+							                             end,
+							                             add_instance,
+							                             uid_hash);
+						break;
+					case ICAL_VTODO_COMPONENT :
+						if (type & CALOBJ_TYPE_TODO)
+							cal_recur_generate_instances(comp,
+							                             start,
+							                             end,
+							                             add_instance,
+						 	                            uid_hash);
+						break;
+					case ICAL_VJOURNAL_COMPONENT :
+						if (type & CALOBJ_TYPE_JOURNAL)
+							cal_recur_generate_instances(comp,
+							                             start,
+							                             end,
+							                             add_instance,
+						 	                            uid_hash);
+						break;
 				}
 
 				gtk_object_unref(comp);
@@ -905,6 +917,297 @@ cal_backend_db_get_changes (CalBackend *backend, CalObjType type, const char *ch
 	return NULL;
 }
 
+/* computes the range of time in which recurrences should be generated for a
+ * component in order to compute alarm trigger times.
+ */
+static void
+compute_alarm_range (CalComponent *comp,
+                     GList *alarm_uids,
+                     time_t start,
+                     time_t end,
+                     time_t *alarm_start,
+                     time_t *alarm_end)
+{
+	GList *l;
+
+	*alarm_start = start;
+	*alarm_end = end;
+
+	for (l = alarm_uids; l; l = l->next) {
+		const char *auid;
+		CalComponentAlarm *alarm;
+		CalAlarmTrigger trigger;
+		struct icaldurationtype *dur;
+		time_t dur_time;
+
+		auid = l->data;
+		alarm = cal_component_get_alarm (comp, auid);
+		g_assert (alarm != NULL);
+
+		cal_component_alarm_get_trigger (alarm, &trigger);
+		cal_component_alarm_free (alarm);
+
+		switch (trigger.type) {
+			case CAL_ALARM_TRIGGER_NONE:
+			case CAL_ALARM_TRIGGER_ABSOLUTE:
+				continue;
+			case CAL_ALARM_TRIGGER_RELATIVE_START:
+			case CAL_ALARM_TRIGGER_RELATIVE_END:
+				dur = &trigger.u.rel_duration;
+				dur_time = icaldurationtype_as_int (*dur);
+				
+				if (dur->is_neg)
+					*alarm_end = MAX (*alarm_end, end + dur_time);
+				else
+					*alarm_start = MIN (*alarm_start, start - dur_time);
+					
+				break;
+			default:
+				g_assert_not_reached ();
+		}
+	}
+
+	g_assert (*alarm_start <= *alarm_end);
+}
+
+/* closure data to generate alarm occurrences */
+struct alarm_occurrence_data {
+	/* these are the info we have */
+	GList *alarm_uids;
+	time_t start;
+	time_t end;
+
+	/* this is what we compute */
+	GSList *triggers;
+	int n_triggers;
+};
+
+/* callback used from cal_recur_generate_instances(); generates triggers for all
+ * of a component's RELATIVE alarms.
+ */
+static gboolean
+add_alarm_occurrences_cb (CalComponent *comp, time_t start, time_t end, gpointer data)
+{
+	struct alarm_occurrence_data *aod;
+	GList *l;
+
+	aod = data;
+
+	for (l = aod->alarm_uids; l; l = l->next) {
+		const char *auid;
+		CalComponentAlarm *alarm;
+		CalAlarmTrigger trigger;
+		struct icaldurationtype *dur;
+		time_t dur_time;
+		time_t occur_time, trigger_time;
+		CalAlarmInstance *instance;
+
+		auid = l->data;
+		alarm = cal_component_get_alarm (comp, auid);
+		g_assert (alarm != NULL);
+
+		cal_component_alarm_get_trigger (alarm, &trigger);
+		cal_component_alarm_free (alarm);
+
+		if (trigger.type != CAL_ALARM_TRIGGER_RELATIVE_START
+		    && trigger.type != CAL_ALARM_TRIGGER_RELATIVE_END)
+			continue;
+
+		dur = &trigger.u.rel_duration;
+		dur_time = icaldurationtype_as_int (*dur);
+
+		if (trigger.type == CAL_ALARM_TRIGGER_RELATIVE_START)
+			occur_time = start;
+		else
+			occur_time = end;
+
+		if (dur->is_neg)
+			trigger_time = occur_time - dur_time;
+		else
+			trigger_time = occur_time + dur_time;
+
+		if (trigger_time < aod->start || trigger_time >= aod->end)
+			continue;
+
+		instance = g_new (CalAlarmInstance, 1);
+		instance->auid = auid;
+		instance->trigger = trigger_time;
+		instance->occur = occur_time;
+
+		aod->triggers = g_slist_prepend (aod->triggers, instance);
+		aod->n_triggers++;
+	}
+
+	return TRUE;
+}
+
+/* generates the absolute triggers for a component */
+static void
+generate_absolute_triggers (CalComponent *comp, struct alarm_occurrence_data *aod)
+{
+	GList *l;
+
+	for (l = aod->alarm_uids; l; l = l->next) {
+		const char *auid;
+		CalComponentAlarm *alarm;
+		CalAlarmTrigger trigger;
+		time_t abs_time;
+		CalAlarmInstance *instance;
+
+		auid = l->data;
+		alarm = cal_component_get_alarm (comp, auid);
+		g_assert (alarm != NULL);
+
+		cal_component_alarm_get_trigger (alarm, &trigger);
+		cal_component_alarm_free (alarm);
+
+		if (trigger.type != CAL_ALARM_TRIGGER_ABSOLUTE)
+			continue;
+
+		abs_time = icaltime_as_timet (trigger.u.abs_time);
+
+		if (abs_time < aod->start || abs_time >= aod->end)
+			continue;
+
+		instance = g_new (CalAlarmInstance, 1);
+		instance->auid = auid;
+		instance->trigger = abs_time;
+		instance->occur = abs_time; /* No particular occurrence, so just use the same time */
+
+		aod->triggers = g_slist_prepend (aod->triggers, instance);
+		aod->n_triggers++;
+	}
+}
+
+/* compares two alarm instances; called from g_slist_sort() */
+static gint
+compare_alarm_instance (gconstpointer a, gconstpointer b)
+{
+	const CalAlarmInstance *aia, *aib;
+
+	aia = a;
+	aib = b;
+
+	if (aia->trigger < aib->trigger)
+		return -1;
+	else if (aia->trigger > aib->trigger)
+		return 1;
+	else
+		return 0;
+}
+
+/* generates alarm instances for a calendar component.  Returns the instances
+ * structure, or NULL if no alarm instances occurred in the specified time
+ * range.
+ */
+static CalComponentAlarms *
+generate_alarms_for_comp (CalComponent *comp, time_t start, time_t end)
+{
+	CalComponentAlarms *alarms = NULL;
+	GList *alarm_uids;
+	time_t alarm_start, alarm_end;
+	struct alarm_occurrence_data aod;
+
+	g_return_val_if_fail(IS_CAL_COMPONENT(comp), NULL);
+
+	if (!cal_component_has_alarms(comp))
+		return NULL;
+	
+	alarm_uids = cal_component_get_alarm_uids(comp);
+	compute_alarm_range(comp, alarm_uids, start, end, &alarm_start, &alarm_end);
+
+	aod.alarm_uids = alarm_uids;
+	aod.start = start;
+	aod.end = end;
+	aod.triggers = NULL;
+	aod.n_triggers = 0;
+	cal_recur_generate_instances(comp, alarm_start, alarm_end, add_alarm_occurrences_cb, &aod);
+
+	/* we add the ABSOLUTE triggers separately */
+	generate_absolute_triggers(comp, &aod);
+
+	if (aod.n_triggers == 0)
+		return NULL;
+
+	/* create the component alarm instances structure */
+	alarms = g_new (CalComponentAlarms, 1);
+	alarms->comp = comp;
+	gtk_object_ref (GTK_OBJECT (alarms->comp));
+	alarms->alarms = g_slist_sort (aod.triggers, compare_alarm_instance);
+
+	return alarms;
+}
+
+/* retrieve list of alarms */
+static GList *
+get_list_of_alarms (CalBackendDBCursor *cursor, time_t start time_t end)
+{
+	GList *list = NULL;
+	GList *node;
+
+	g_return_val_if_fail(cursor != NULL, NULL);
+	
+	for (node = g_list_first(cursor->data); node != NULL; node = g_list_next(node)) {
+		icalcomponent *icalcomp;
+		icalcomponent_kind kind;
+		DBT *data;
+		
+		data = (DBT *) node->data;
+		if (data) {
+			icalcomp = icalparser_parse_string((char *) data->data);
+			if (icalcomp) {
+				/* per RFC 2445, only VEVENTs and VTODOs can have alarms */
+				kind = icalcomponent_isa(icalcomp);
+				if (kind == ICAL_VEVENT_COMPONENT || kind == ICAL_VTODO_COMPONENT) {
+					CalComponent *comp;
+					CalComponentAlarms *alarms;
+					
+					/* create the CalComponent to compute the alarms */
+					comp = cal_component_new();
+					cal_component_set_icalcomponent(comp, icalcomp);
+					
+					alarms = generate_alarms_for_comp(comp, start, end);
+					if (alarms)
+						list = g_list_prepend(list, (gpointer) alarms);
+
+					gtk_object_unref(GTK_OBJECT(comp));
+				}
+				
+				icalcomponent_free(icalcomp);
+			}
+		}
+	}
+
+	return list;
+}
+
+/* fills a CORBA sequence of alarm instances */
+static void
+fill_alarm_instances_seq (GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq, GList *alarms)
+{
+	int n_alarms;
+	GList *l;
+	int i;
+
+	n_alarms = g_list_length (alarms);
+
+	CORBA_sequence_set_release(seq, TRUE);
+	seq->_length = n_alarms;
+	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalAlarmInstance_allocbuf(n_alarms);
+
+	for (l = g_list_first(alarms), i = 0; l != NULL; l = g_list_next(l), i++) {
+		CalAlarmInstance *instance;
+		GNOME_Evolution_Calendar_CalAlarmInstance *corba_instance;
+
+		instance = (CalAlarmInstance *) l->data;
+		corba_instance = seq->_buffer + i;
+
+		corba_instance->auid = CORBA_string_dup(instance->auid);
+		corba_instance->trigger = (long) instance->trigger;
+		corba_instance->occur = (long) instance->occur;
+	}
+}
+
 /* get_alarms_in_range handler for the DB backend */
 static GNOME_Evolution_Calendar_CalComponentAlarmsSeq *
 cal_backend_db_get_alarms_in_range (CalBackend *backend, time_t start, time_t end)
@@ -926,20 +1229,37 @@ cal_backend_db_get_alarms_in_range (CalBackend *backend, time_t start, time_t en
 	/* open cursor */
 	cursor = open_cursor(cbdb, cbdb->priv->objects_db);
 	if (cursor) {
-		/* TODO: get list of alarms */
+		alarm_list = get_list_of_alarms(cursor, start, end);
+		number_of_alarms = g_list_length(alarm_list);
 		
 		/* create the CORBA sequence */
 		seq = GNOME_Evolution_Calendar_CalComponentAlarmsSeq__alloc();
 		CORBA_sequence_set_release(seq, TRUE);
 		seq->_length = number_of_alarms;
-		seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalComponentAlarms_allocbuf(number_of_alarms);
+		seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalComponentAlarms_allocbuf(
+			number_of_alarms);
 		
-		/* TODO: populate CORBA sequence */
+		/* populate CORBA sequence */
+		for (node = g_list_first(alarm_list), i = 0;
+		     node != NULL;
+		     node = g_list_next(node), i++) {
+			CalComponentAlarms *alarms;
+			gchar *comp_str;
+			
+			alarms = (CalComponentAlarms *) node->data;
+			
+			comp_str = cal_component_get_as_string (alarms->comp);
+			seq->_buffer[i].calobj = CORBA_string_dup(comp_str);
+			g_free((gpointer) comp_str);
+
+			fill_alarm_instances_seq (&seq->_buffer[i].alarms, alarms->alarms);
+			
+			cal_component_alarms_free (alarms);
+		}
 		
+		g_list_free(alarm_list);
 		close_cursor(cbdb, cursor);
 	}
-	
-	g_list_free(alarm_list);
 
 	return seq;
 }
@@ -980,69 +1300,69 @@ cal_backend_db_get_alarms_for_object (CalBackend *backend,
 	return corba_alarms;
 }
 
+/* do notifications to Cal clients */
+static void
+do_notify (CalBackendDB *cbdb, void (*notify_fn)(Cal *, gchar *), gchar *uid)
+{
+	GList *node;
+
+	g_return_if_fail(IS_CAL_BACKEND_DB(cbdb));
+	g_return_if_fail(cbdb->priv != NULL);
+	g_return_if_fail(notify_fn != NULL);
+	g_return_if_fail(uid != NULL);
+	
+	/* FIXME: do notification asynchronously */
+	for (node = g_list_first(cbdb->priv->clients); node != NULL; node = g_list_next(node)) {
+		Cal *cal;
+		
+		cal = CAL(node->data);
+		(*notify_fn)(cal, uid);
+	}
+}
+
 /* update_object handler for the DB backend */
 static gboolean
 cal_backend_db_update_object (CalBackend *backend, const char *uid, const char *calobj)
 {
 	CalBackendDB *cbdb;
-	CalBackendDBCursor *cursor;
+	DB_TXN *tid;
+	DBT key;
+	DBT new_data;
 
 	cbdb = CAL_BACKEND_DB(backend);
 	g_return_val_if_fail(IS_CAL_BACKEND_DB(cbdb), FALSE);
 	g_return_val_if_fail(cbdb->priv != NULL, FALSE);
+	g_return_val_if_fail(cbdb->priv->objects_db != NULL, FALSE);
 	g_return_val_if_fail(uid != NULL, FALSE);
 	g_return_val_if_fail(calobj != NULL, FALSE);
 
-	/* open the cursor */
-	cursor = open_cursor(cbdb, cbdb->priv->objects_db);
-	if (cursor) {
-		DBT *data;
-		
-		data = find_record_by_id(cursor, uid);
-		if (data) {
-			DBT key;
-			DBT new_data;
-			int ret;
-			DB_TXN *tid;
-			
-			/* try to change the value in the cursor */
-			memset(&key, 0, sizeof(key));
-			key.data = (void *) uid;
-			key.size = strlen(uid); // + 1
-			
-			memset(&new_data, 0, sizeof(new_data));
-			new_data.data = (void *) calobj;
-			new_data.size = strlen(calobj); // + 1
-			
-			/* start transaction */
-			tid = begin_transaction(cbdb);
-			if (!tid) {
-				close_cursor(cbdb, cursor);
-				return FALSE;
-			}
-			
-			if ((ret = cursor->parent_db->put(cursor->parent_db,
-			                                  tid,
-			                                  &key,
-			                                  &new_data,
-			                                  0)) != 0) {
-				rollback_transaction(tid);
-				close_cursor(cbdb, cursor);
-				return FALSE;
-			}
-			
-			/* TODO: update history database */
-			commit_transaction(tid);
-			close_cursor(cbdb, cursor);
-			
-			memcpy(data, &new_data, sizeof(new_data));
-			
-			return TRUE;
-		}
-		close_cursor(cbdb, cursor);
-	}
+	/* start transaction */
+	tid = begin_transaction(cbdb);
+	if (!tid)
+		return FALSE;
 	
-	return FALSE;
+	memset(&key, 0, sizeof(key));
+	key.data = (void *) uid;
+	key.size = strlen(uid); // + 1
+		
+	memset(&new_data, 0, sizeof(new_data));
+	new_data.data = (void *) calobj;
+	new_data.size = strlen(calobj); // + 1
+		
+	if ((ret = cbdb->priv->objects_db->put(cbdb->priv->objects_db,
+	                                       tid,
+	                                       &key,
+	                                       &new_data,
+	                                       0)) != 0) {
+		rollback_transaction(tid);
+		return FALSE;
+	}
+			
+	/* TODO: update history database */
+	commit_transaction(tid);
+	
+	do_notify(cbdb, cal_notify_update, uid);
+	return TRUE;
 }
 
 /* remove_object handler for the DB backend */
@@ -1050,62 +1370,34 @@ static gboolean
 cal_backend_db_remove_object (CalBackend *backend, const char *uid)
 {
 	CalBackendDB *cbdb;
-	CalBackendDBCursor *cursor;
+	DB_TXN *tid;
+	DBT key;
+	gint ret;
 
 	cbdb = CAL_BACKEND_DB(backend);
 	g_return_val_if_fail(IS_CAL_BACKEND_DB(cbdb), FALSE);
 	g_return_val_if_fail(cbdb->priv != NULL, FALSE);
 	g_return_val_if_fail(uid != NULL, FALSE);
 	
-	/* open cursor */
-	cursor = open_cursor(cbdb, cbdb->priv->objects_db);
-	if (cursor) {
-		DBT *data = find_record_by_id(cursor, uid);
-		if (data) {
-			GList *l;
-			int ret;
-			DBT key;
-			DB_TXN *tid;
-			
-			memset(&key, 0, sizeof(key);
-			key.data = (void *) uid;
-			key.size = strlen(uid); // + 1
-			
-			/* start transaction */
-			tid = begin_transaction(cbdb);
-			if (!tid) {
-				close_cursor(cbdb, cursor);
-				return FALSE;
-			}
-			
-			/* remove record from cursor */
-			if ((ret = cursor->parent_db->del(cursor->parent_db, tid, key, 0)) != 0) {
-				rollback_transaction(tid);
-				close_cursor(cbdb, cursor);
-				return FALSE;
-			}
-			
-			/* TODO: update history database */
-			commit_transaction(tid);
-			
-			/* remove record from in-memory lists */
-			l = g_list_nth(cursor->keys,
-			               g_list_index(cursor->data, (gpointer) data));
-			if (l) {
-				DBT *key_to_free = (DBT *) l->data;
-				
-				cursor->keys = g_list_remove(cursor->keys, (gpointer) key_to_free);
-				g_free((gpointer) key_to_free);
-				
-				cursor->data = g_list_remove(cursor->data, (gpointer) data);
-				g_free((gpointer) data);
-			}
-			close_cursor(cbdb, cursor);
-			
-			return TRUE;
-		}
-		close_cursor(cbdb, cursor);
+	memset(&key, 0, sizeof(key);
+	key.data = (void *) uid;
+	key.size = strlen(uid); // + 1
+
+	/* start transaction */
+	tid = begin_transaction(cbdb);
+	if (!tid)
+		return FALSE;
+
+	/* remove record from database */
+	if ((ret = cbdb->priv->objects_db->del(cbdb->priv->objects_db, tid, &key, 0)) != 0) {
+		rollback_transaction(tid);
+		return FALSE;
 	}
+			
+	/* TODO: update history database */
+	commit_transaction(tid);
 	
-	return FALSE;
+	do_notify(cbdb, cal_notify_remove, uid);
+			
+	return TRUE;
 }

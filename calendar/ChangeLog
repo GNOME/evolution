@@ -1,3 +1,12 @@
+2001-02-12  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.c:
+	cal_backend_db_update_object(): manage both updates and additions/add notification
+	cal_backend_db_get_object(): don't use DB cursors
+	cal_backend_db_get_type_by_uid(): don't use DB cursors
+	cal_backend_db_remove_object(): don't use DB cursors/add notification
+	cal_backend_db_get_alarms_in_range(): implemented
+
 2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/Makefile.am: Hook up the xml-i18n-tools + .oaf.in stuff.
@@ -5,6 +14,7 @@
 	
 2001-02-11  Rodrigo Moya <rodrigo@ximian.com>
 
+	* pcs/cal-backend-db.c: added DB3 transactions support
 	* pcs/cal-backend-db.[ch]: added the new DB3-based backend. This is just
 	the beginning, there are some missing things still.
 
