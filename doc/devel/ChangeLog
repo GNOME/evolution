@@ -1,3 +1,9 @@
+2001-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (dist-hook): Remove the copying of the 
+	index.sgml file which doesn't seem to be generated 
+	anywhere anyway.
+
 2001-06-25  Peter Williams  <peterw@ximian.com>
 
 	* Makefile.am: ... and comment out more exec summary stuff.

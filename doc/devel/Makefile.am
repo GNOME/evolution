@@ -159,7 +159,6 @@ endif
 
 dist-hook: dist-check-gtkdoc dist-hook-local
 	mkdir $(distdir)/html
-	test -f $(srcdir)/html/index.sgml && cp $(srcdir)/html/index.sgml $(distdir)/html
 	files=`echo $(srcdir)/html/*.html` ; \
 	test '$(srcdir)/html/*.html' = "$$files" \
 	    || cp $$files $(distdir)/html
