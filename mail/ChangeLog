@@ -1,3 +1,17 @@
+2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* message-tag-editor.c (message_tag_editor_init): Make dialog
+	Cancel/OK to match HIG.
+
+	* mail-signature-editor.c (do_exit): Make confirmation dialog
+	Discard/Cancel/Save to match the HIG.
+
+	* mail-composer-prefs.c (mail_composer_prefs_construct): Make
+	dialog Cancel/OK to match HIG.
+
+	* mail-account-editor.c (construct): Make the dialog
+	Apply/Close/OK to match HIG.
+
 2003-01-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_save): Call

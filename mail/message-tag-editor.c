@@ -80,10 +80,8 @@ message_tag_editor_init (MessageTagEditor *editor)
 {
 	g_object_set (editor, "allow_shrink", FALSE, "allow_grow", TRUE, NULL);
 	gtk_dialog_add_buttons (GTK_DIALOG (editor),
-				GTK_STOCK_OK,
-				GTK_RESPONSE_OK,
-				GTK_STOCK_CANCEL,
-				GTK_RESPONSE_CANCEL,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 	
 	gtk_dialog_set_default_response (GTK_DIALOG (editor), GTK_RESPONSE_OK);

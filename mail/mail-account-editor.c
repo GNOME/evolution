@@ -147,9 +147,9 @@ construct (MailAccountEditor *editor, MailConfigAccount *account, MailAccountsTa
 	gtk_window_set_policy (GTK_WINDOW (editor), FALSE, TRUE, TRUE);
 	gtk_window_set_modal (GTK_WINDOW (editor), FALSE);
 	gtk_dialog_add_buttons (GTK_DIALOG (editor),
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 	
 	g_signal_connect (editor, "response", G_CALLBACK (editor_response_cb), editor);

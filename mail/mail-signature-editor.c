@@ -174,7 +174,11 @@ do_exit (ESignatureEditor *editor)
 						GTK_BUTTONS_YES_NO,
 						_("This signature has been changed, but hasn't been saved.\n"
 						  "\nDo you wish to save your changes?"));
-		gtk_dialog_add_button((GtkDialog *)dialog, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		gtk_dialog_add_buttons ((GtkDialog *)dialog,
+					_("_Discard changes"), GTK_RESPONSE_NO,
+					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					GTK_STOCK_SAVE, GTK_RESPONSE_YES,
+					NULL);
 		gtk_window_set_title((GtkWindow *)dialog, _("Save signature"));
 		gtk_dialog_set_default_response((GtkDialog *)dialog, GTK_RESPONSE_YES);
 

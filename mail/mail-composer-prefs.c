@@ -852,8 +852,10 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	/* Signatures */
 	dialog = (GtkDialog *) gtk_dialog_new ();
 	prefs->sig_script_dialog = (GtkWidget *) dialog;
-	gtk_dialog_add_buttons (dialog, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+	gtk_dialog_add_buttons (dialog,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+				GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+				NULL);
 	gtk_window_set_title ((GtkWindow *) dialog, _("Add script signature"));
 	g_signal_connect (dialog, "response", G_CALLBACK (sig_add_script_response), prefs);
 	widget = glade_xml_get_widget (prefs->sig_script_gui, "vbox_add_script_signature");
