@@ -1,3 +1,10 @@
+2004-04-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-icon-factory.c (e_icon_factory_get_icon): Make
+	thread-safe. Fixes a crash I encountered this morning.
+	(e_icon_factory_get_icon_filename): Same.
+	(e_icon_factory_get_icon_list): Here too.
+
 2004-04-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-icon-factory.h: Add an enum for icon sizes (temporarily has
