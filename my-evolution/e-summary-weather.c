@@ -729,12 +729,12 @@ e_summary_weather_fill_etable (ESummaryShown *ess)
 					entry->name = g_strdup (locdata[0]);
 					entry->showable = TRUE;
 
-					location = e_summary_shown_add_node (ess, TRUE, entry, state, TRUE, NULL);
+					location = e_summary_shown_add_node (ess, TRUE, entry, state, FALSE, NULL);
 					if (is_weather_shown (locdata[1]) == TRUE) {
 						entry = g_new (ESummaryShownModelEntry, 1);
 						entry->location = g_strdup (locdata[1]);
 						entry->name = g_strdup (locdata[0]);
-						location = e_summary_shown_add_node (ess, FALSE, entry, NULL, TRUE, NULL);
+						location = e_summary_shown_add_node (ess, FALSE, entry, NULL, FALSE, NULL);
 					}
 					g_strfreev (locdata);
 				}

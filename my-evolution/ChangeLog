@@ -1,3 +1,12 @@
+2003-03-13  Mike Kestner  <mkestner@ximian.com>
+
+	* e-summary-preferences.c (fill_rdf_etable): pass FALSE for 
+	expand to e_summary_shown_add_node.
+	* e-summary-shown.c (make_table): ditto, set_expanded_default to FALSE.
+	(add_node): only call e_tree_node_set_expanded is expanded != default.
+	* e-summary-weather.c (*_fill_etable): pass FALSE for expand to 
+	e_summary_shown_add_node.
+
 2003-03-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-calendar.c (generate_html): Changed so its printf()s

@@ -374,7 +374,7 @@ add_clicked (GtkWidget *button,
 
 	for (iterator = list; iterator; iterator = iterator->next) {
 		ESummaryShownModelEntry *new_entry = iterator->data;
-		e_summary_shown_add_node (shown, FALSE, new_entry, NULL, TRUE, NULL);
+		e_summary_shown_add_node (shown, FALSE, new_entry, NULL, FALSE, NULL);
 	}
 
 	g_list_free (list);
@@ -462,7 +462,7 @@ make_table (GHashTable *data_model,
 					       
 					       data_model);
 	etmm = E_TREE_MEMORY (td->etm);
-	e_tree_memory_set_expanded_default (etmm, TRUE);
+	e_tree_memory_set_expanded_default (etmm, FALSE);
 
 	td->root = e_tree_memory_node_insert (etmm, NULL, 0, NULL);
 
@@ -590,7 +590,8 @@ e_summary_shown_add_node (ESummaryShown *shown,
 	path = e_tree_memory_node_insert (etmm, parent, -1, data);
 
 	tree = e_tree_scrolled_get_tree (E_TREE_SCROLLED (td->etable));
-	e_tree_node_set_expanded (tree, path, expanded);
+	if (e_tree_model_get_expanded_default (E_TREE_MODEL(etmm)) != expanded)
+		e_tree_node_set_expanded (tree, path, expanded);
 
 	entry->path = path;
 	

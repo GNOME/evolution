@@ -453,7 +453,7 @@ fill_rdf_etable (GtkWidget *widget,
 		entry->showable = TRUE;
 		entry->data = &rdfs[i];
 		
-		e_summary_shown_add_node (ess, TRUE, entry, NULL, TRUE, NULL);
+		e_summary_shown_add_node (ess, TRUE, entry, NULL, FALSE, NULL);
 
 		if (rdf_is_shown (pd, rdfs[i].url) == TRUE) {
 			entry = g_new (ESummaryShownModelEntry, 1);
@@ -462,7 +462,7 @@ fill_rdf_etable (GtkWidget *widget,
 			entry->showable = TRUE;
 			entry->data = &rdfs[i];
 			
-			e_summary_shown_add_node (ess, FALSE, entry, NULL, TRUE, NULL);
+			e_summary_shown_add_node (ess, FALSE, entry, NULL, FALSE, NULL);
 		}
 
 		pd->rdf->known = g_slist_append (pd->rdf->known, &rdfs[i]);
@@ -520,7 +520,7 @@ fill_rdf_etable (GtkWidget *widget,
 		entry->showable = TRUE;
 		entry->data = info;
 		
-		e_summary_shown_add_node (ess, TRUE, entry, NULL, TRUE, NULL);
+		e_summary_shown_add_node (ess, TRUE, entry, NULL, FALSE, NULL);
 
 		if (rdf_is_shown (pd, tokens[0]) == TRUE) {
 			entry = g_new (ESummaryShownModelEntry, 1);
@@ -529,7 +529,7 @@ fill_rdf_etable (GtkWidget *widget,
 			entry->showable = TRUE;
 			entry->data = info;
 			
-			e_summary_shown_add_node (ess, FALSE, entry, NULL, TRUE, NULL);
+			e_summary_shown_add_node (ess, FALSE, entry, NULL, FALSE, NULL);
 		}
 
 		g_strfreev (tokens);
@@ -586,7 +586,7 @@ add_dialog_clicked_cb (GtkWidget *widget,
 			entry->data = info;
 			
 			e_summary_shown_add_node (E_SUMMARY_SHOWN (pd->rdf->etable), TRUE,
-						  entry, NULL, TRUE, NULL);
+						  entry, NULL, FALSE, NULL);
 
 			/* Should we add to shown? */
 
