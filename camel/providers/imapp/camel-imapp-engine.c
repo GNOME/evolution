@@ -43,6 +43,7 @@ object_init(CamelIMAPPEngine *ie, CamelIMAPPEngineClass *ieclass)
 	ie->handlers = g_hash_table_new(g_str_hash, g_str_equal);
 	e_dlist_init(&ie->active);
 	e_dlist_init(&ie->queue);
+	e_dlist_init(&ie->done);
 
 	ie->tagprefix = ieclass->tagprefix;
 	ieclass->tagprefix++;
@@ -339,7 +340,7 @@ camel_imapp_engine_skip(CamelIMAPPEngine *imap)
 }
 
 /* handle any untagged responses */
-int
+static int
 iterate_untagged(CamelIMAPPEngine *imap)
 {
 	unsigned int id, len;
@@ -535,6 +536,7 @@ iterate_completion(CamelIMAPPEngine *imap, unsigned char *token)
 		printf("%p: removing command from qwueue, we were at '%s'\n", ic, ic->current->data);
 		printf("%p: removing command\n", ic);
 		e_dlist_remove((EDListNode *)ic);
+		e_dlist_addtail(&imap->done, (EDListNode *)ic);
 		if (imap->literal == ic)
 			imap->literal = NULL;
 		ic->status = imap_parse_status(imap->stream);
@@ -559,6 +561,7 @@ iterate_completion(CamelIMAPPEngine *imap, unsigned char *token)
 		ic = imap->literal;
 				/* set the command complete with a failure code? */
 		e_dlist_remove((EDListNode *)ic);
+		e_dlist_addtail(&imap->done, (EDListNode *)ic);
 		imap->literal = NULL;
 	}
 	
@@ -660,20 +663,41 @@ camel_imapp_engine_command_free (CamelIMAPPEngine *imap, CamelIMAPPCommand *ic)
 	/* maybe we should just have another queue to keep them? */
 	{
 		CamelIMAPPCommand *iw;
+		int found = 0;
 
 		iw = (CamelIMAPPCommand *)imap->active.head;
 		while (iw->next) {
-			if (iw == ic)
-				abort();
+			if (iw == ic) {
+				found = 1;
+				g_warning("command '%s' still in active queue", iw->name);
+				break;
+			}
 			iw = iw->next;
 		}
 		iw = (CamelIMAPPCommand *)imap->queue.head;
 		while (iw->next) {
-			if (iw == ic)
-				abort();
+			if (iw == ic) {
+				found = 1;
+				g_warning("command '%s' still in waiting queue", iw->name);
+				break;
+			}
 			iw = iw->next;
 		}
+		iw = (CamelIMAPPCommand *)imap->done.head;
+		while (iw->next) {
+			if (iw == ic) {
+				found = 1;
+				break;
+			}
+			iw = iw->next;
+		}
+		if (!found) {
+			g_warning("command '%s' not found anywhere", ic->name);
+			abort();
+		}
 	}
+
+	e_dlist_remove((EDListNode *)ic);
 
 	if (ic->mem)
 		camel_object_unref((CamelObject *)ic->mem);

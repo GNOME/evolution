@@ -74,12 +74,18 @@ CamelServiceAuthType camel_imapp_password_authtype = {
 void
 camel_imapp_module_init(CamelSession *session)
 {
+	extern void camel_exception_setup(void);
+
 	imapp_provider.object_types[CAMEL_PROVIDER_STORE] = camel_imapp_store_get_type();
 	imapp_provider.url_hash = camel_url_hash;
 	imapp_provider.url_equal = camel_url_equal;
 
 	imapp_provider.authtypes = g_list_prepend(imapp_provider.authtypes, camel_sasl_authtype_list(FALSE));
 	imapp_provider.authtypes = g_list_prepend(imapp_provider.authtypes, &camel_imapp_password_authtype);
+
+	/* blah ... could just use it in object setup? */
+	/* TEMPORARY */
+	camel_exception_setup();
 
 	camel_session_register_provider(session, &imapp_provider);
 }

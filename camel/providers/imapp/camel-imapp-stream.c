@@ -70,9 +70,9 @@ stream_fill(CamelIMAPPStream *is)
 		}
 	}
 
-	printf("camel_imapp_read: 0\n");
+	printf("camel_imapp_read: -1\n");
 
-	return 0;
+	return -1;
 }
 
 static ssize_t

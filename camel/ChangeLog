@@ -1,3 +1,28 @@
+2003-09-15  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imapp/camel-imapp-store.c (store_resp_list)
+	(imap_login, try_sasl, imap_try_authenticate): removed dead code.
+
+	* providers/imapp/camel-imapp-stream.c: return -1 if stream not
+	set.
+
+	* providers/imapp/camel-imapp-engine.c (iterate_completion): put
+	done request on the done queue, so all requests are always
+	somewhere.
+	(camel_imapp_engine_command_free): just spit warnings of active
+	messages being freed, but abort if the item isn't in any list.
+	Also remove the node from its list before going on.
+	(iterate_untagged, iterate_continuation, iterate_completion):
+	staticifiy.
+
+	* providers/imapp/camel-imapp-provider.c
+	(camel_imapp_module_init): move camel_exception_setup call here.
+
+	* providers/imapp/camel-imapp-driver.c
+	(camel_imapp_driver_get_type): remove execption setup here, it
+	isn't early enough.
+	(camel_imapp_driver_list): handle exceptions.
+
 2003-09-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-mbox-folder.c

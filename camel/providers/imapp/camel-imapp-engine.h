@@ -115,6 +115,7 @@ struct _CamelIMAPPEngine {
 	CamelIMAPPCommand *literal;/* current literal op */
 	EDList active;		/* active queue */
 	EDList queue;		/* outstanding queue */
+	EDList done;		/* done queue, awaiting reclamation */
 
 	/* keep track of running a select */
 	struct _CamelIMAPPSelectResponse *select_response;

@@ -69,10 +69,6 @@ camel_imapp_driver_get_type (void)
 			NULL,
 			(CamelObjectInitFunc) object_init,
 			(CamelObjectFinalizeFunc) object_finalise);
-
-		/* blah ... could just use it in object setup? */
-		/* TEMPORARY */
-		camel_exception_setup();
 	}
 	
 	return type;
@@ -475,7 +471,7 @@ camel_imapp_driver_fetch(CamelIMAPPDriver *id, CamelIMAPPFolder *folder, const c
 GPtrArray *
 camel_imapp_driver_list(CamelIMAPPDriver *id, const char *name, guint32 flags)
 {
-	CamelIMAPPCommand *ic;
+	CamelIMAPPCommand * volatile ic;
 	GPtrArray *res;
 
 	g_assert(id->list_commands == NULL);
@@ -490,23 +486,47 @@ camel_imapp_driver_list(CamelIMAPPDriver *id, const char *name, guint32 flags)
 
 	id->list_result = g_ptr_array_new();
 	id->list_flags = flags;
-	ic = camel_imapp_engine_command_new(id->engine, "LIST", NULL, "LIST \"\" %f", name[0]?name:"%");
-	camel_imapp_engine_command_queue(id->engine, ic);
-	while (ic) {
-		while (camel_imapp_engine_iterate(id->engine, ic)>0)
-			;
+	CAMEL_TRY {
+		ic = camel_imapp_engine_command_new(id->engine, "LIST", NULL, "LIST \"\" %f", name[0]?name:"%");
+		camel_imapp_engine_command_queue(id->engine, ic);
+		while (ic) {
+			while (camel_imapp_engine_iterate(id->engine, ic)>0)
+				;
+			camel_imapp_engine_command_free(id->engine, ic);
+
+			if (id->list_commands) {
+				GSList *top = id->list_commands;
+				
+				id->list_commands = top->next;
+				ic = top->data;
+				g_slist_free_1(top);
+			} else {
+				ic = NULL;
+			}
+		}
+	} CAMEL_CATCH(e) {
+		GSList *top = id->list_commands;
+		int i;
+
 		camel_imapp_engine_command_free(id->engine, ic);
 
-		if (id->list_commands) {
-			GSList *top = id->list_commands;
+		while (top) {
+			GSList *topn = top->next;
 
-			id->list_commands = top->next;
-			ic = top->data;
+			camel_imapp_engine_command_free(id->engine, ic);
 			g_slist_free_1(top);
-		} else {
-			ic = NULL;
+			top = topn;
 		}
-	}
+		id->list_commands = NULL;
+
+		res = id->list_result;
+		for (i=0;i<res->len;i++)
+			imap_free_list(res->pdata[i]);
+		g_ptr_array_free(res, TRUE);
+		id->list_result = NULL;
+
+		camel_exception_throw_ex(e);
+	} CAMEL_DONE;
 
 	res = id->list_result;
 	id->list_result = NULL;
