@@ -81,6 +81,7 @@ struct _CamelFolder
 
 	gboolean has_uid_capability;
 
+	gboolean has_search_capability;
 };
 
 
@@ -200,6 +201,9 @@ typedef struct {
 	GList * (*get_uid_list)  (CamelFolder *folder, 
 				  CamelException *ex);
 
+	gboolean (*has_search_capability) (CamelFolder *folder, CamelException *ex);
+	GList *(*search_by_expression) (CamelFolder *folder, const char *expression, CamelException *ex);
+
 } CamelFolderClass;
 
 
@@ -280,10 +284,12 @@ const gchar * camel_folder_get_message_uid (CamelFolder *folder, CamelMimeMessag
 CamelMimeMessage *camel_folder_get_message_by_uid  (CamelFolder *folder, const gchar *uid, CamelException *ex);
 GList *camel_folder_get_uid_list  (CamelFolder *folder, CamelException *ex);
 
-
-
-
-
+/* search api */
+gboolean camel_folder_has_search_capability            (CamelFolder *folder,
+							CamelException *ex);
+GList *camel_folder_search_by_expression  (CamelFolder *folder,
+					   const char *expression,
+					   CamelException *ex);
 
 #ifdef __cplusplus
 }

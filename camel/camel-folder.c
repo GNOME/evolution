@@ -1807,5 +1807,39 @@ camel_folder_get_uid_list  (CamelFolder *folder, CamelException *ex)
 	return CF_CLASS (folder)->get_uid_list (folder, ex);
 }
 
+/**
+ * camel_folder_has_search_capability:
+ * @folder: Folder object
+ * 
+ * Checks if a folder supports searching.
+ * 
+ * Return value: TRUE if the folder supports UIDs 
+ **/
+gboolean
+camel_folder_has_search_capability (CamelFolder *folder, CamelException *ex)
+{
+	if (!CAMEL_IS_FOLDER(folder)) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID,
+				     "Invalid folder");
+		return FALSE;
+	}
+
+	return folder->has_search_capability;
+}
+
+GList *camel_folder_search_by_expression  (CamelFolder *folder,
+					   const char *expression,
+					   CamelException *ex)
+{
+	if (!CAMEL_IS_FOLDER(folder)) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID,
+				     "Invalid folder");
+		return NULL;
+	}
+
+	return CF_CLASS (folder)->search_by_expression (folder, expression, ex);
+}
 
 /* **** */

@@ -45,6 +45,7 @@
 #include "camel-mbox-utils.h"
 #include "md5-utils.h"
 #include "gmime-utils.h"
+#include "camel-mbox-search.h"
 
 #include "camel-exception.h"
 
@@ -78,6 +79,7 @@ static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, Ca
 static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 #endif
 
+static CamelFolderSummary *search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 
 static void _finalize (GtkObject *object);
 
@@ -111,6 +113,8 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	camel_folder_class->get_message_uid = _get_message_uid;
 #endif
 	camel_folder_class->get_message_by_uid = _get_message_by_uid;
+
+	camel_folder_class->search_by_expression = search_by_expression;
 
 	gtk_object_class->finalize = _finalize;
 	
@@ -190,6 +194,7 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 	mbox_folder->folder_file_path = NULL;
 	mbox_folder->summary_file_path = NULL;
 	mbox_folder->folder_dir_path = NULL;
+	mbox_folder->index_file_path = NULL;
 	mbox_folder->internal_summary = NULL;
 	mbox_folder->uid_array = NULL;
 	
@@ -352,6 +357,7 @@ _set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 
 	g_free (mbox_folder->folder_file_path);
 	g_free (mbox_folder->folder_dir_path);
+	g_free (mbox_folder->index_file_path);
 
 	separator = camel_store_get_separator (folder->parent_store, ex);
 	root_dir_path = camel_mbox_store_get_toplevel_dir (CAMEL_MBOX_STORE(folder->parent_store), ex);
@@ -363,8 +369,8 @@ _set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 	mbox_folder->folder_file_path = g_strdup_printf ("%s%c%s", root_dir_path, separator, folder->full_name);
 	mbox_folder->summary_file_path = g_strdup_printf ("%s%c%s-ev-summary", root_dir_path, separator, folder->full_name);
 	mbox_folder->folder_dir_path = g_strdup_printf ("%s%c%s.sdb", root_dir_path, separator, folder->full_name);
-	
-	
+	mbox_folder->index_file_path = g_strdup_printf ("%s%c%s.ibex", root_dir_path, separator, folder->full_name);
+
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name mbox_folder->folder_file_path is %s\n", 
 			      mbox_folder->folder_file_path);
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name mbox_folder->folder_dir_path is %s\n", 
@@ -1118,26 +1124,8 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	return message;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+static CamelFolderSummary *
+search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex)
+{
+	return camel_mbox_folder_search_by_expression(folder, expression);
+}

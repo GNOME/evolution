@@ -54,7 +54,8 @@ typedef struct {
 	gchar *folder_file_path;   /* contains the messages */
 	gchar *summary_file_path;  /* contains the messages summary */
 	gchar *folder_dir_path;    /* contains the subfolders */
-	
+	gchar *index_file_path;	   /* index of body contents */
+
 	CamelMboxSummary *internal_summary; /* internal summary object */
 	GList  *uid_array;
 

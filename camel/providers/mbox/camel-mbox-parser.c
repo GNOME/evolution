@@ -846,17 +846,25 @@ main (int argc, char **argv)
 {
 	int test_file_fd;
 	int i;
+	int file_size;
+	int next_uid;
 	GArray *message_positions; 
 	CamelMboxParserMessageInfo *message_info;
 	gchar tmp_buffer[50];
 
 	tmp_buffer[49] = '\0';
 
+	if (argc<2) {
+		printf("usage: %s mbox\n", argv[0]);
+		return 1;
+	}
+	
 	test_file_fd = open (argv[1], O_RDONLY);
 	message_positions = camel_mbox_parse_file (test_file_fd, 
 						   "From ", 
-
-						   0,
+							0,
+							&file_size,
+						   	&next_uid,
 						   TRUE,
 						   status,
 						   0.05,
