@@ -33,7 +33,8 @@ typedef struct {
 	GtkWidget  *general_radios;
 
 	GtkWidget  *recur_page_label;
-	GtkWidget  *recur_table;
+	GtkWidget  *recur_vbox;
+	GtkWidget  *recur_hbox;
 
 	GSList     *recur_rr_group;
 	GtkWidget  *recur_rr_notebook;

@@ -11,7 +11,7 @@
 
 int am_pm_flag = 0;
 
-char *
+static char *
 nicetime (struct tm *tm)
 {
 	static char buf [20];

@@ -51,7 +51,7 @@ static char *load_file;
 /* If set, show events for the specified date and quit */
 static int show_events;
 
-void
+static void
 init_username (void)
 {
 	char *p;
@@ -74,7 +74,7 @@ init_username (void)
 	endpwent ();
 }
 
-int
+static int
 range_check_hour (int hour)
 {
 	if (hour < 0)
@@ -88,7 +88,7 @@ range_check_hour (int hour)
 /*
  * Initializes the calendar internal variables, loads defaults
  */
-void
+static void
 init_calendar (void)
 {
 	init_username ();
@@ -107,9 +107,9 @@ init_calendar (void)
 	gnome_config_pop_prefix ();
 }
 
-void save_calendar_cmd (GtkWidget *widget, void *data);
+static void save_calendar_cmd (GtkWidget *widget, void *data);
 
-void
+static void
 about_calendar_cmd (GtkWidget *widget, void *data)
 {
         GtkWidget *about;
@@ -128,7 +128,7 @@ about_calendar_cmd (GtkWidget *widget, void *data)
         gtk_widget_show (about);
 }
 
-void
+static void
 display_objedit (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	GtkWidget *ee;
@@ -137,7 +137,7 @@ display_objedit (GtkWidget *widget, GnomeCalendar *gcal)
 	gtk_widget_show (ee);
 }
 
-void
+static void
 close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	all_calendars = g_list_remove (all_calendars, gcal);
@@ -155,7 +155,7 @@ close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 		gtk_main_quit ();
 }
 
-void
+static void
 quit_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	while (all_calendars){
@@ -165,25 +165,25 @@ quit_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 	}
 }
 
-void
+static void
 previous_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	gnome_calendar_previous (gcal);
 }
 
-void
+static void
 next_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	gnome_calendar_next (gcal);
 }
 
-void
+static void
 today_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	gnome_calendar_goto (gcal, time (NULL));
 }
 
-void
+static void
 new_calendar_cmd (GtkWidget *widget, void *data)
 {
 	new_calendar (full_name, NULL);
@@ -198,7 +198,7 @@ open_ok (GtkWidget *widget, GtkFileSelection *fs)
 	gtk_widget_destroy (GTK_WIDGET (fs));
 }
 
-void
+static void
 open_calendar_cmd (GtkWidget *widget, void *data)
 {
 	GtkFileSelection *fs;
@@ -238,7 +238,7 @@ close_save (GtkWidget *w)
 	return TRUE;
 }
 
-void
+static void
 save_as_calendar_cmd (GtkWidget *widget, void *data)
 {
 	GtkFileSelection *fs;
@@ -261,7 +261,7 @@ save_as_calendar_cmd (GtkWidget *widget, void *data)
 	gtk_widget_destroy (GTK_WIDGET (fs));
 }
 
-void
+static void
 save_calendar_cmd (GtkWidget *widget, void *data)
 {
 	GnomeCalendar *gcal = data;
@@ -272,7 +272,7 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 		save_as_calendar_cmd (widget, data);
 }
 
-GnomeUIInfo gnome_cal_file_menu [] = {
+static GnomeUIInfo gnome_cal_file_menu [] = {
 	{ GNOME_APP_UI_ITEM, N_("New calendar"),  NULL, new_calendar_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW },
 
@@ -295,36 +295,38 @@ GnomeUIInfo gnome_cal_file_menu [] = {
 	GNOMEUIINFO_END
 };
 
-GnomeUIInfo gnome_cal_about_menu [] = {
+static GnomeUIInfo gnome_cal_about_menu [] = {
 	{ GNOME_APP_UI_ITEM, N_("About"), NULL, about_calendar_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_ABOUT },
 	GNOMEUIINFO_HELP ("cal"),
 	GNOMEUIINFO_END
 };
 
-GnomeUIInfo gnome_cal_edit_menu [] = {
+static GnomeUIInfo gnome_cal_edit_menu [] = {
 	{ GNOME_APP_UI_ITEM, N_("New appointment"), NULL, display_objedit },
 	GNOMEUIINFO_END
 };
 
-GnomeUIInfo gnome_cal_menu [] = {
+static GnomeUIInfo gnome_cal_menu [] = {
 	{ GNOME_APP_UI_SUBTREE, N_("File"), NULL, &gnome_cal_file_menu },
 	{ GNOME_APP_UI_SUBTREE, N_("Calendar"), NULL, &gnome_cal_edit_menu },
 	{ GNOME_APP_UI_SUBTREE, N_("Help"), NULL, &gnome_cal_about_menu },
 	GNOMEUIINFO_END
 };
 
-GnomeUIInfo gnome_toolbar [] = {
-	{ GNOME_APP_UI_ITEM, N_("New"),  NULL, display_objedit, 0, 0,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_NEW },\
+static GnomeUIInfo gnome_toolbar [] = {
+	{ GNOME_APP_UI_ITEM, N_("New"), N_("Create a new appointment"), display_objedit, 0, 0,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_NEW },
 
-	{ GNOME_APP_UI_ITEM, N_("Prev"), NULL, previous_clicked, 0, 0,
+	GNOMEUIINFO_SEPARATOR,
+
+	{ GNOME_APP_UI_ITEM, N_("Prev"), N_("Go back in time"), previous_clicked, 0, 0,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BACK },
 
-	{ GNOME_APP_UI_ITEM, N_("Today"), NULL, today_clicked, 0, 0,
+	{ GNOME_APP_UI_ITEM, N_("Today"), N_("Go to present time"), today_clicked, 0, 0,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_HOME },
 
-	{ GNOME_APP_UI_ITEM, N_("Next"), NULL, next_clicked, 0, 0,
+	{ GNOME_APP_UI_ITEM, N_("Next"), N_("Go forward in time"), next_clicked, 0, 0,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_FORWARD },
 
 	GNOMEUIINFO_END
@@ -387,7 +389,7 @@ static struct argp_option argp_options [] = {
 	{ NULL, 0, NULL, 0, NULL, 0 },
 };
 
-int
+static int
 same_day (struct tm *a, struct tm *b)
 {
 	return (a->tm_mday == b->tm_mday &&
@@ -395,7 +397,7 @@ same_day (struct tm *a, struct tm *b)
 		a->tm_year == b->tm_year);
 }
 
-void
+static void
 dump_events (void)
 {
 	Calendar *cal;

@@ -1,5 +1,12 @@
 1998-04-20  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* gncal-full-day.c (paint_back): Made it use the new paint_row
+	function instead of painting everything directly.  We calculate
+	areas in a smarter way so there is even less flicker than before,
+	especially when selecting regions.
+
+	* eventedit.c: Sensitize recurrence widgets properly.
+
 	* calobj.c (duration_callback): Pass the correct pointer type to
 	is_date_in_list().
 

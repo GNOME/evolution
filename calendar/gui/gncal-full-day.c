@@ -15,6 +15,7 @@
 #include "view-utils.h"
 #include "main.h"
 
+
 #define TEXT_BORDER 2
 #define HANDLE_SIZE 8
 #define MIN_WIDTH 300
@@ -998,180 +999,176 @@ gncal_full_day_unrealize (GtkWidget *widget)
 		(* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
 }
 
+struct paint_info {
+	GtkWidget *widget;
+	struct drag_info *di;
+	GdkRectangle *area;
+	int x1, y1, width, height;
+	int labels_width;
+	int row_height;
+	struct tm start_tm;
+};
+
+static void
+paint_row (GncalFullDay *fullday, int row, struct paint_info *p)
+{
+	GdkRectangle rect, dest;
+	GdkGC *left_gc, *right_gc, *text_gc;
+	int begin_row, end_row;
+	struct tm tm;
+	char buf[40];
+
+	begin_row = (day_begin * 60) / fullday->interval;
+	end_row = (day_end * 60) / fullday->interval;
+
+	/* See which GCs we will use */
+
+	if ((p->di->sel_rows_used != 0)
+	    && (row >= p->di->sel_start_row)
+	    && (row < (p->di->sel_start_row + p->di->sel_rows_used))) {
+		left_gc  = p->widget->style->bg_gc[GTK_STATE_SELECTED];
+		right_gc = left_gc;
+		text_gc  = p->widget->style->fg_gc[GTK_STATE_SELECTED];
+	} else if ((row < begin_row) || (row >= end_row)) {
+		left_gc  = p->widget->style->bg_gc[GTK_STATE_NORMAL];
+		right_gc = left_gc;
+		text_gc  = p->widget->style->fg_gc[GTK_STATE_NORMAL];
+	} else {
+		left_gc  = p->widget->style->bg_gc[GTK_STATE_NORMAL];
+		right_gc = p->widget->style->bg_gc[GTK_STATE_PRELIGHT];
+		text_gc  = p->widget->style->fg_gc[GTK_STATE_NORMAL];
+	}
+
+	/* Left background and text */
+
+	rect.x = p->x1;
+	rect.y = p->y1 + row * p->row_height;
+	rect.width = 2 * TEXT_BORDER + p->labels_width;
+	rect.height = p->row_height - 1;
+
+	if (gdk_rectangle_intersect (&rect, p->area, &dest)) {
+		gdk_draw_rectangle (p->widget->window,
+				    left_gc,
+				    TRUE,
+				    dest.x, dest.y,
+				    dest.width, dest.height);
+
+		tm = p->start_tm;
+		tm.tm_min += row * fullday->interval;
+		mktime (&tm);
+
+		if (am_pm_flag)
+			strftime (buf, sizeof (buf), "%I:%M%p", &tm);
+		else
+			strftime (buf, sizeof (buf), "%H:%M", &tm);
+
+		gdk_draw_string (p->widget->window,
+				 p->widget->style->font,
+				 text_gc,
+				 rect.x + TEXT_BORDER,
+				 rect.y + TEXT_BORDER + p->widget->style->font->ascent,
+				 buf);
+	}
+
+	/* Right background */
+
+	rect.x += rect.width + p->widget->style->klass->xthickness;
+	rect.width = p->width - (rect.x - p->x1);
+
+	if (gdk_rectangle_intersect (&rect, p->area, &dest))
+		gdk_draw_rectangle (p->widget->window,
+				    right_gc,
+				    TRUE,
+				    dest.x, dest.y,
+				    dest.width, dest.height);
+
+	/* Horizontal division at bottom of row */
+
+	rect.x = p->x1;
+	rect.y += rect.height;
+	rect.width = p->width;
+	rect.height = 1;
+
+	if (gdk_rectangle_intersect (&rect, p->area, &dest))
+		gdk_draw_line (p->widget->window,
+			       p->widget->style->black_gc,
+			       rect.x, rect.y,
+			       rect.x + rect.width - 1, rect.y);
+}
+
 static void
 paint_back (GncalFullDay *fullday, GdkRectangle *area)
 {
-	GtkWidget *widget;
+	struct paint_info p;
+	int start_row, end_row;
+	int i;
 	GdkRectangle rect, dest, aarea;
-	struct drag_info *di;
-	int x1, y1, width, height;
-	int labels_width;
-	int f_rows, row_height;
-	int i, y;
-	GdkGC *gc;
-	struct tm tm;
-	char buf [40];
+	int f_rows;
 
-	widget = GTK_WIDGET (fullday);
+	p.widget = GTK_WIDGET (fullday);
+	p.di = fullday->drag_info;
 
 	if (!area) {
 		area = &aarea;
 
 		area->x = 0;
 		area->y = 0;
-		area->width = widget->allocation.width;
-		area->height = widget->allocation.height;
+		area->width = p.widget->allocation.width;
+		area->height = p.widget->allocation.height;
 	}
+	p.area = area;
 
-	x1 = widget->style->klass->xthickness;
-	y1 = widget->style->klass->ythickness;
-	width = widget->allocation.width - 2 * x1;
-	height = widget->allocation.height - 2 * y1;
+	p.x1 = p.widget->style->klass->xthickness;
+	p.y1 = p.widget->style->klass->ythickness;
+	p.width = p.widget->allocation.width - 2 * p.x1;
+	p.height = p.widget->allocation.height - 2 * p.y1;
 
-	di = fullday->drag_info;
-	labels_width = calc_labels_width (fullday);
-	row_height = calc_row_height (fullday);
-	get_tm_range (fullday, fullday->lower, fullday->upper, &tm, NULL, NULL, &f_rows);
+	p.labels_width = calc_labels_width (fullday);
+	p.row_height = calc_row_height (fullday);
+	get_tm_range (fullday, fullday->lower, fullday->upper, &p.start_tm, NULL, NULL, &f_rows);
 
 	/* Frame shadow */
 
-	gtk_widget_draw_focus (widget);
+	gtk_widget_draw_focus (p.widget);
 
-	/* Area for labels before selection */
+	/* Rows */
 
-	rect.x = x1;
-	rect.y = y1;
-	rect.width = 2 * TEXT_BORDER + labels_width;
+	start_row = (area->y - p.y1) / p.row_height;
+	end_row = (area->y + area->height - 1 - p.y1) / p.row_height;
 
-	if (di->sel_rows_used == 0)
-		rect.height = height;
-	else
-		rect.height = row_height * di->sel_start_row;
+	if (end_row >= f_rows)
+		end_row = f_rows - 1;
+
+	for (i = start_row; i <= end_row; i++)
+		paint_row (fullday, i, &p);
+
+	/* Slack area at bottom of widget */
+
+	rect.x = p.x1;
+	rect.y = p.y1 + f_rows * p.row_height;
+	rect.width = p.width;
+	rect.height = p.height - (rect.y - p.y1);
 
 	if (gdk_rectangle_intersect (&rect, area, &dest))
-		gdk_draw_rectangle (widget->window,
-				    widget->style->bg_gc[GTK_STATE_NORMAL],
+		gdk_draw_rectangle (p.widget->window,
+				    p.widget->style->bg_gc[GTK_STATE_NORMAL],
 				    TRUE,
 				    dest.x, dest.y,
 				    dest.width, dest.height);
-
-	/* Blank area before selection */
-
-	rect.x += rect.width + widget->style->klass->xthickness;
-	rect.width = width - (rect.x - x1);
-
-	if (gdk_rectangle_intersect (&rect, area, &dest))
-		gdk_draw_rectangle (widget->window,
-				    widget->style->bg_gc[GTK_STATE_PRELIGHT],
-				    TRUE,
-				    dest.x, dest.y,
-				    dest.width, dest.height);
-
-	/* Selection area */
-
-	if (di->sel_rows_used != 0) {
-		rect.x = x1;
-		rect.y = y1 + row_height * di->sel_start_row;
-		rect.width = width;
-		rect.height = row_height * di->sel_rows_used;
-
-		if (gdk_rectangle_intersect (&rect, area, &dest))
-			gdk_draw_rectangle (widget->window,
-					    widget->style->bg_gc[GTK_STATE_SELECTED],
-					    TRUE,
-					    dest.x, dest.y,
-					    dest.width, dest.height);
-	}
-
-	/* Areas under selection */
-
-	if (di->sel_rows_used != 0) {
-		/* Area for labels */
-
-		rect.x = x1;
-		rect.y = y1 + row_height * (di->sel_start_row + di->sel_rows_used);
-		rect.width = 2 * TEXT_BORDER + labels_width;
-		rect.height = height - rect.y;
-
-		if (gdk_rectangle_intersect (&rect, area, &dest))
-			gdk_draw_rectangle (widget->window,
-					    widget->style->bg_gc[GTK_STATE_NORMAL],
-					    TRUE,
-					    dest.x, dest.y,
-					    dest.width, dest.height);
-
-		/* Blank area */
-
-		rect.x += rect.width + widget->style->klass->xthickness;
-		rect.width = width - (rect.x - x1);
-		
-		if (gdk_rectangle_intersect (&rect, area, &dest))
-			gdk_draw_rectangle (widget->window,
-					    widget->style->bg_gc[GTK_STATE_PRELIGHT],
-					    TRUE,
-					    dest.x, dest.y,
-					    dest.width, dest.height);
-	}
 
 	/* Vertical division */
 
-	gtk_draw_vline (widget->style, widget->window,
-			GTK_STATE_NORMAL,
-			y1,
-			y1 + height - 1,
-			x1 + 2 * TEXT_BORDER + labels_width);
+	rect.x = p.x1 + 2 * TEXT_BORDER + p.labels_width;
+	rect.y = p.y1;
+	rect.width = p.widget->style->klass->xthickness;
+	rect.height = p.height;
 
-	/* Horizontal divisions */
-
-	y = y1 + row_height - 1;
-
-	for (i = 1; i < f_rows; i++) {
-		gdk_draw_line (widget->window,
-			       widget->style->black_gc,
-			       x1, y,
-			       x1 + width - 1, y);
-
-		y += row_height;
-	}
-
-	/* Labels */
-
-	y = y1 + ((row_height - 1) - (widget->style->font->ascent + widget->style->font->descent)) / 2;
-
-	rect.x = x1;
-	rect.y = y1;
-	rect.width = 2 * TEXT_BORDER + labels_width;
-	rect.height = row_height - 1;
-
-	for (i = 0; i < f_rows; i++) {
-		mktime (&tm);
-
-		if (gdk_rectangle_intersect (&rect, area, &dest)) {
-			if (am_pm_flag)
-				strftime (buf, sizeof (buf), "%I:%M%p", &tm);
-			else
-				strftime (buf, sizeof (buf), "%H:%M", &tm);
-
-			if ((di->sel_rows_used != 0)
-			    && (i >= di->sel_start_row)
-			    && (i < (di->sel_start_row + di->sel_rows_used)))
-				gc = widget->style->fg_gc[GTK_STATE_SELECTED];
-			else
-				gc = widget->style->fg_gc[GTK_STATE_NORMAL];
-
-			gdk_draw_string (widget->window,
-					 widget->style->font,
-					 gc,
-					 x1 + TEXT_BORDER,
-					 y + widget->style->font->ascent,
-					 buf);
-		}
-
-		rect.y += row_height;
-		y += row_height;
-
-		tm.tm_min += fullday->interval;
-	}
+	if (gdk_rectangle_intersect (&rect, area, &dest))
+		gtk_draw_vline (p.widget->style, p.widget->window,
+				GTK_STATE_NORMAL,
+				rect.y,
+				rect.y + rect.height - 1,
+				rect.x);
 }
 
 static void

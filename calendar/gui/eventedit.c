@@ -520,7 +520,7 @@ ee_store_recur_rule_to_ical (EventEditor *ee)
 
 	i = g_slist_length (ee->recur_rr_group) - i - 1; /* buttons are stored in reverse order of insertion */
 
-	/* NOne selected, no rule to be stored */
+	/* None selected, no rule to be stored */
 	if (i == 0)
 		return 0;
 
@@ -933,6 +933,12 @@ recur_month_enable_date (GtkToggleButton *button, EventEditor *ee)
 }
 
 static void
+desensitize_on_toggle (GtkToggleButton *toggle, gpointer data)
+{
+	gtk_widget_set_sensitive (GTK_WIDGET (data), !toggle->active);
+}
+
+static void
 ee_rp_init_rule (EventEditor *ee)
 {
 	static char *day_names [] = { N_("Mon"), N_("Tue"), N_("Wed"), N_("Thu"), N_("Fri"), N_("Sat"), N_("Sun") };
@@ -1029,6 +1035,11 @@ ee_rp_init_rule (EventEditor *ee)
 		gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (r), i == page);
 		gtk_signal_connect (GTK_OBJECT (r), "toggled", GTK_SIGNAL_FUNC (recurrence_toggled), ee);
 		gtk_box_pack_start (GTK_BOX (vbox), r, FALSE, FALSE, 0);
+
+		if (i == 0)
+			gtk_signal_connect (GTK_OBJECT (r), "toggled",
+					    (GtkSignalFunc) desensitize_on_toggle,
+					    ee->recur_hbox);
 	}
 
 	ee->recur_rr_group = group;
@@ -1141,13 +1152,15 @@ ee_rp_init_rule (EventEditor *ee)
 
 	gtk_notebook_set_page (notebook, page);
 
-	/* Attach to the main table */
+	/* Attach to the main box */
 
-	gtk_table_attach (GTK_TABLE (ee->recur_table), f,
-			  0, 2, 0, 1,
-			  GTK_FILL | GTK_SHRINK,
-			  GTK_FILL | GTK_SHRINK,
-			  0, 0);
+	gtk_box_pack_start (GTK_BOX (ee->recur_vbox), f, FALSE, FALSE, 0);
+}
+
+static void
+sensitize_on_toggle (GtkToggleButton *toggle, gpointer data)
+{
+	gtk_widget_set_sensitive (GTK_WIDGET (data), toggle->active);
 }
 
 static void
@@ -1190,6 +1203,7 @@ ee_rp_init_ending_date (EventEditor *ee)
 	gtk_box_pack_start (GTK_BOX (hbox), radio1, FALSE, FALSE, 0);
 
 	ihbox = gtk_hbox_new (FALSE, 4);
+	gtk_widget_set_sensitive (ihbox, FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), ihbox, FALSE, FALSE, 0);
 
 	if (ee->ical->recur)
@@ -1199,6 +1213,10 @@ ee_rp_init_ending_date (EventEditor *ee)
 
 	ee->recur_ed_end_on = widget = gnome_date_edit_new (enddate, FALSE);
 	gtk_box_pack_start (GTK_BOX (ihbox), widget, FALSE, FALSE, 0);
+
+	gtk_signal_connect (GTK_OBJECT (radio1), "toggled",
+			    (GtkSignalFunc) sensitize_on_toggle,
+			    ihbox);
 
 	/* end after n occurrences */
 
@@ -1210,6 +1228,7 @@ ee_rp_init_ending_date (EventEditor *ee)
 	gtk_box_pack_start (GTK_BOX (hbox), radio2, FALSE, FALSE, 0);
 
 	ihbox = gtk_hbox_new (FALSE, 4);
+	gtk_widget_set_sensitive (ihbox, FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), ihbox, FALSE, FALSE, 0);
 
 	if (ee->ical->recur && ee->ical->recur->duration)
@@ -1222,6 +1241,10 @@ ee_rp_init_ending_date (EventEditor *ee)
 
 	widget = gtk_label_new (_("occurrence(s)"));
 	gtk_box_pack_start (GTK_BOX (ihbox), widget, FALSE, FALSE, 0);
+
+	gtk_signal_connect (GTK_OBJECT (radio2), "toggled",
+			    (GtkSignalFunc) sensitize_on_toggle,
+			    ihbox);
 
 	/* Activate appropriate item */
 
@@ -1244,11 +1267,7 @@ ee_rp_init_ending_date (EventEditor *ee)
 
 	ee->recur_ed_group = group;
 
-	gtk_table_attach (GTK_TABLE (ee->recur_table), frame,
-			  0, 1, 1, 2,
-			  GTK_FILL | GTK_SHRINK,
-			  GTK_FILL | GTK_SHRINK,
-			  0, 0);
+	gtk_box_pack_start (GTK_BOX (ee->recur_hbox), frame, FALSE, FALSE, 0);
 }
 
 static char *
@@ -1380,27 +1399,28 @@ ee_rp_init_exceptions (EventEditor *ee)
 
 	/* Done, add to main table */
 
-	gtk_table_attach (GTK_TABLE (ee->recur_table), frame,
-			  1, 2, 1, 2,
-			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			  GTK_FILL | GTK_SHRINK,
-			  0, 0);
+	gtk_box_pack_start (GTK_BOX (ee->recur_hbox), frame, TRUE, TRUE, 0);
 }
 
 static void
 ee_init_recurrence_page (EventEditor *ee)
 {
-	ee->recur_table = gtk_table_new (2, 2, FALSE);
-	gtk_container_border_width (GTK_CONTAINER (ee->recur_table), 4);
-	gtk_table_set_row_spacings (GTK_TABLE (ee->recur_table), 4);
-	gtk_table_set_col_spacings (GTK_TABLE (ee->recur_table), 4);
+	ee->recur_vbox = gtk_vbox_new (FALSE, 4);
+	gtk_container_border_width (GTK_CONTAINER (ee->recur_vbox), 4);
+
+	ee->recur_hbox = gtk_hbox_new (FALSE, 4);
+	gtk_widget_set_sensitive (ee->recur_hbox, FALSE);
 
 	ee->recur_page_label = gtk_label_new (_("Recurrence"));
 
-	gtk_notebook_append_page (GTK_NOTEBOOK (ee->notebook), ee->recur_table,
+	gtk_notebook_append_page (GTK_NOTEBOOK (ee->notebook), ee->recur_vbox,
 				  ee->recur_page_label);
 
 	ee_rp_init_rule (ee);
+
+	/* pack here so that the box gets inserted after the recurrence rule frame */
+	gtk_box_pack_start (GTK_BOX (ee->recur_vbox), ee->recur_hbox, FALSE, FALSE, 0);
+
 	ee_rp_init_ending_date (ee);
 	ee_rp_init_exceptions (ee);
 }
