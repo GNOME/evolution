@@ -528,12 +528,8 @@ set_color_picker (GtkWidget *picker, const char *spec)
 {
 	GdkColor color;
 
-	g_assert (spec != NULL);
-
-	if (!gdk_color_parse (spec, &color)) {
+	if (!spec || !gdk_color_parse (spec, &color))
 		color.red = color.green = color.blue = 0;
-		return;
-	}
 
 	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (picker),
 				    color.red,
