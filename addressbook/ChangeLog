@@ -1,3 +1,9 @@
+2003-01-10  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_connect): fix
+	for bug 34883 broke ssl transactions (at least those where we were
+	connecting to port 636).  Move it to after the SSL stanza.
+
 2003-01-01  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #31014 ]

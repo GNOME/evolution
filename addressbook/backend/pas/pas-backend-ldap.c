@@ -636,17 +636,6 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 	if (NULL != blpriv->ldap) {
 		int ldap_error;
 
-		/* bind anonymously initially, we'll actually
-		   authenticate the user properly later (in
-		   authenticate_user) if they've selected
-		   authentication */
-		ldap_error = ldap_simple_bind_s (blpriv->ldap, NULL, NULL);
-
-		if (ldap_error != LDAP_SUCCESS) {
-			g_warning ("failed to bind anonymously while connecting (ldap_error 0x%02x)", ldap_error);
-			return GNOME_Evolution_Addressbook_BookListener_RepositoryOffline;
-		}
-			
 		if (bl->priv->use_tls != PAS_BACKEND_LDAP_TLS_NO) {
 			int protocol_version = LDAP_VERSION3;
 			ldap_error = ldap_set_option (blpriv->ldap, LDAP_OPT_PROTOCOL_VERSION, &protocol_version);
@@ -684,6 +673,17 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 				else
 					g_message ("TLS active");
 			}
+		}
+
+		/* bind anonymously initially, we'll actually
+		   authenticate the user properly later (in
+		   authenticate_user) if they've selected
+		   authentication */
+		ldap_error = ldap_simple_bind_s (blpriv->ldap, NULL, NULL);
+		if (ldap_error == LDAP_SERVER_DOWN) {
+			/* we only want this to be fatal if the server is down. */
+			g_warning ("failed to bind anonymously while connecting (ldap_error 0x%02x)", ldap_error);
+			return GNOME_Evolution_Addressbook_BookListener_RepositoryOffline;
 		}
 
 		ldap_error = query_ldap_root_dse (bl);
