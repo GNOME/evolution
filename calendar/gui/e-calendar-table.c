@@ -946,27 +946,27 @@ enum {
 
 
 static EPopupMenu tasks_popup_menu [] = {
-	E_POPUP_ITEM (N_("_Open"), e_calendar_table_on_open_task, MASK_SINGLE),
-	E_POPUP_ITEM (N_("_Save as..."), e_calendar_table_on_save_as, MASK_SINGLE),
-	E_POPUP_ITEM (N_("_Print..."), e_calendar_table_on_print_task, MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Open"), GTK_SIGNAL_FUNC (e_calendar_table_on_open_task), MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Save as..."), GTK_SIGNAL_FUNC (e_calendar_table_on_save_as), MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Print..."), GTK_SIGNAL_FUNC (e_calendar_table_on_print_task), MASK_SINGLE),
 
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM (N_("C_ut"), e_calendar_table_on_cut, MASK_EDITABLE),
-	E_POPUP_ITEM (N_("_Copy"), e_calendar_table_on_copy, 0),
-	E_POPUP_ITEM (N_("_Paste"), e_calendar_table_on_paste, MASK_EDITABLE),
+	E_POPUP_ITEM (N_("C_ut"), GTK_SIGNAL_FUNC (e_calendar_table_on_cut), MASK_EDITABLE),
+	E_POPUP_ITEM (N_("_Copy"), GTK_SIGNAL_FUNC (e_calendar_table_on_copy), 0),
+	E_POPUP_ITEM (N_("_Paste"), GTK_SIGNAL_FUNC (e_calendar_table_on_paste), MASK_EDITABLE),
 
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Assign Task"), e_calendar_table_on_assign, MASK_SINGLE | MASK_EDITABLE),
-	E_POPUP_ITEM (N_("_Forward as iCalendar"), e_calendar_table_on_forward, MASK_SINGLE),
-	E_POPUP_ITEM (N_("_Mark as Complete"), mark_as_complete_cb, MASK_SINGLE | MASK_EDITABLE),
-	E_POPUP_ITEM (N_("_Mark Selected Tasks as Complete"), mark_as_complete_cb, MASK_MULTIPLE | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("_Assign Task"), GTK_SIGNAL_FUNC (e_calendar_table_on_assign), MASK_SINGLE | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("_Forward as iCalendar"), GTK_SIGNAL_FUNC (e_calendar_table_on_forward), MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Mark as Complete"), GTK_SIGNAL_FUNC (mark_as_complete_cb), MASK_SINGLE | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("_Mark Selected Tasks as Complete"), GTK_SIGNAL_FUNC (mark_as_complete_cb), MASK_MULTIPLE | MASK_EDITABLE),
 	
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Delete"), delete_cb, MASK_SINGLE | MASK_EDITABLE),
-	E_POPUP_ITEM (N_("_Delete Selected Tasks"), delete_cb, MASK_MULTIPLE | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("_Delete"), GTK_SIGNAL_FUNC (delete_cb), MASK_SINGLE | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("_Delete Selected Tasks"), GTK_SIGNAL_FUNC (delete_cb), MASK_MULTIPLE | MASK_EDITABLE),
 
 	E_POPUP_TERMINATOR
 };
