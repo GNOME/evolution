@@ -3,6 +3,9 @@
 	* evolution-storage.c (evolution_storage_update_folder): Fix a
 	"how can this ever have worked" bug to make unread message counts
 	start working again. (#22293 etc)
+	(evolution_storage_removed_folder): Oops. Fix here too.
+	(evolution_storage_has_subfolders): And here. When cut and paste
+	goes bad...
 
 	* e-shell-folder-commands.c (e_shell_command_rename_folder): Use
 	e_folder_get_name. Don't assume it's the same as the last path
