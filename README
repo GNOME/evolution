@@ -99,7 +99,8 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
  - gnome-vfs (released versions are OK currently, but CVS versions are
    better)
 
- - libunicode
+ - libunicode = 0.4 or later, available 
+   from http://www.pango.org/download.shtml
 
  - gtkhtml - 0.2 or later
 
