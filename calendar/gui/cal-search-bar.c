@@ -167,14 +167,16 @@ cal_search_bar_destroy (GtkObject *object)
 	cal_search = CAL_SEARCH_BAR (object);
 	priv = cal_search->priv;
 
-	if (priv->categories) {
-		free_categories (priv->categories);
-		priv->categories = NULL;
+	if (priv) {
+		if (priv->categories) {
+			free_categories (priv->categories);
+			priv->categories = NULL;
+		}
+		
+		g_free (priv);
+		cal_search->priv = NULL;
 	}
-
-	g_free (priv);
-	cal_search->priv = NULL;
-
+	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }

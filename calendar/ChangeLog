@@ -4,6 +4,11 @@
 
 2003-04-04  JP Rosevear  <jpr@ximian.com>
 
+	* gui/cal-search-bar.c (cal_search_bar_destroy): guard against
+	multiple destroy calls
+
+2003-04-04  JP Rosevear  <jpr@ximian.com>
+	
 	* cal-client/cal-client.c (get_default_uri): guard against empty
 	uri as well
 
