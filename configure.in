@@ -501,7 +501,7 @@ if test x$with_movemail = xyes -o x$with_movemail = x; then
     with_movemail=no
 fi
 if test x$with_movemail != xno; then
-    AC_DEFINE(MOVEMAIL_PATH, $with_movemail)
+    AC_DEFINE_UNQUOTED(MOVEMAIL_PATH, "$with_movemail")
     AC_MSG_RESULT($with_movemail)
 else
     emacs_exec_dir=`emacs --batch --eval '(message exec-directory)' 2>&1`
@@ -509,7 +509,7 @@ else
     /*) if test -x $emacs_exec_dir/movemail; then
 	    if test -u $emacs_exec_dir/movemail -o -g $emacs_exec_dir/movemail; then
 		AC_MSG_RESULT($emacs_exec_dir/movemail)
-		AC_DEFINE(MOVEMAIL_PATH, $emacs_exec_dir/movemail)
+		AC_DEFINE_UNQUOTED(MOVEMAIL_PATH, "$emacs_exec_dir/movemail")
 	    else
 		AC_MSG_RESULT($emacs_exec_dir/movemail... not set-id: ignored)
 	    fi
