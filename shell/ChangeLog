@@ -1,5 +1,11 @@
 2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (tree_drag_begin): If the node doesn't have
+	a component, just don't start the whole CORBA drag thing instead
+	of crashing with an assertion.
+
+2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view-menu.c (command_new_shortcut): New, implementation
 	for the "New Shortcut" command create a new shortcut.
 	(goto_folder_dialog_cancelled_cb): Renamed from

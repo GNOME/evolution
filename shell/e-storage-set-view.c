@@ -902,7 +902,8 @@ tree_drag_begin (ETree *etree,
 	folder = get_folder_at_node (storage_set_view, path);
 	component_client = get_component_at_node (storage_set_view, path);
 
-	g_assert (component_client != NULL);
+	if (component_client == NULL)
+		return;
 
 	/* Query the `ShellComponentDnd::SourceFolder' interface on the
 	   component.  */
