@@ -46,9 +46,17 @@ Mailer:
 
 Addressbook:
 
+  - General fixes.  (Chris Toshok, Trow, Iain, Chris Lahey, JP)
+
+  - LDAP configuration dialog fixes.  (Chris Toshok)
+
+  - New authentication work.  (Chris Toshok)
+
   - Fixed crashes related to editing the Master Category List. (Trow)
 
   - Address completion is no longer confused by whitespace. (Trow)
+
+  - More work on having multiple wombats.  (Chris Toshok)
 
   - Contact names no longer mysteriously disappear when using the
     SelectNames dialog. (Trow)
