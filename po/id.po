@@ -8,13 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-10 17:35+0700\n"
+"POT-Creation-Date: 2004-10-25 13:58+0700\n"
 "PO-Revision-Date: 2004-09-13 09:43+0700\n"
 "Last-Translator: Mohammad DAMT <mdamt@bisnisweb.com>\n"
 "Language-Team: Indonesian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: UTF-8"
+"Content-Transfer-Encoding: UTF-8\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: a11y/addressbook/ea-addressbook-view.c:94
 #: a11y/addressbook/ea-addressbook-view.c:103
@@ -226,13 +227,13 @@ msgstr ""
 msgid "Default Sync Address:"
 msgstr "Alamat Sync Default:"
 
-#: addressbook/conduit/address-conduit.c:1181
-#: addressbook/conduit/address-conduit.c:1182
+#: addressbook/conduit/address-conduit.c:1183
+#: addressbook/conduit/address-conduit.c:1184
 msgid "Could not load addressbook"
 msgstr "Buku alamat tidak dapat dibuka"
 
-#: addressbook/conduit/address-conduit.c:1250
-#: addressbook/conduit/address-conduit.c:1253
+#: addressbook/conduit/address-conduit.c:1252
+#: addressbook/conduit/address-conduit.c:1255
 msgid "Could not read pilot's Address application block"
 msgstr "Blok aplikasi buku alamat pada Pilot tidak dapat dibaca"
 
@@ -254,8 +255,8 @@ msgstr "Konfigurasikan auto komplet di sini"
 
 #. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#: addressbook/gui/component/addressbook-view.c:1144
-#: calendar/gui/migration.c:377
+#: addressbook/gui/component/addressbook-view.c:1143
+#: calendar/gui/migration.c:378
 msgid "Contacts"
 msgstr "Alamat"
 
@@ -316,7 +317,7 @@ msgid "Create a new contact list"
 msgstr "Buat daftar kontak baru"
 
 #: addressbook/gui/component/addressbook-component.c:109
-#: addressbook/gui/component/addressbook-view.c:813
+#: addressbook/gui/component/addressbook-view.c:812
 msgid "New Address Book"
 msgstr "Buku Alamat Baru"
 
@@ -333,12 +334,12 @@ msgid "Failed upgrading Addressbook settings or folders."
 msgstr "Gagal saat meng-upgrade pengaturan/folder Buku alamat."
 
 #: addressbook/gui/component/addressbook-migrate.c:72
-#: calendar/gui/migration.c:141 mail/em-migrate.c:1160
+#: calendar/gui/migration.c:142 mail/em-migrate.c:1160
 msgid "Migrating..."
 msgstr "Dalam proses migrasi..."
 
 #: addressbook/gui/component/addressbook-migrate.c:124
-#: calendar/gui/migration.c:188 mail/em-migrate.c:1201
+#: calendar/gui/migration.c:189 mail/em-migrate.c:1201
 #, c-format
 msgid "Migrating `%s':"
 msgstr "Dalam proses migrasi `%s':"
@@ -346,9 +347,9 @@ msgstr "Dalam proses migrasi `%s':"
 #. create the local source group
 #. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:493
-#: calendar/gui/migration.c:450 calendar/gui/migration.c:532
+#: calendar/gui/migration.c:452 calendar/gui/migration.c:545
 #: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
-#: mail/mail-component.c:249 mail/mail-vfolder.c:218
+#: mail/mail-component.c:250 mail/mail-vfolder.c:218
 msgid "On This Computer"
 msgstr "Di Komputer Ini"
 
@@ -358,7 +359,7 @@ msgstr "Di Komputer Ini"
 #. orange
 #: addressbook/gui/component/addressbook-migrate.c:501
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
-#: calendar/gui/migration.c:458 calendar/gui/migration.c:540
+#: calendar/gui/migration.c:460 calendar/gui/migration.c:553
 #: filter/filter-label.c:123 mail/em-migrate.c:1013 mail/mail-config.c:78
 #: mail/mail-config.glade.h:109
 msgid "Personal"
@@ -419,14 +420,14 @@ msgstr ""
 "\n"
 "Silakan tunggu selama Evolution melakukan migrasi data Sync Pilot Anda..."
 
-#: addressbook/gui/component/addressbook-view.c:711
+#: addressbook/gui/component/addressbook-view.c:710
 #, c-format
 msgid "Address book '%s' will be removed. Are you sure you want to continue?"
 msgstr "Buku alamat '%s' akan dihapus. Benar ingin melanjutkan?"
 
-#: addressbook/gui/component/addressbook-view.c:814
-#: addressbook/gui/widgets/e-addressbook-view.c:1124
-#: calendar/gui/calendar-component.c:430 calendar/gui/tasks-component.c:376
+#: addressbook/gui/component/addressbook-view.c:813
+#: addressbook/gui/widgets/e-addressbook-view.c:1123
+#: calendar/gui/calendar-component.c:436 calendar/gui/tasks-component.c:382
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-calendar.xml.h:5 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -435,8 +436,8 @@ msgstr "Buku alamat '%s' akan dihapus. Benar ingin melanjutkan?"
 msgid "Delete"
 msgstr "Hapus"
 
-#: addressbook/gui/component/addressbook-view.c:815
-#: calendar/gui/calendar-component.c:431 calendar/gui/tasks-component.c:378
+#: addressbook/gui/component/addressbook-view.c:814
+#: calendar/gui/calendar-component.c:437 calendar/gui/tasks-component.c:384
 msgid "Properties..."
 msgstr "Pengaturan..."
 
@@ -445,12 +446,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Mengakses Server LDAP secara anonim"
 
 #: addressbook/gui/component/addressbook.c:184
-#: camel/providers/groupwise/camel-gw-listener.c:420
+#: camel/providers/groupwise/camel-gw-listener.c:460
 msgid "Failed to authenticate.\n"
 msgstr "Gagal melakukan otentikasi.\n"
 
 #: addressbook/gui/component/addressbook.c:191
-#: camel/providers/groupwise/camel-gw-listener.c:409
+#: camel/providers/groupwise/camel-gw-listener.c:449
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sSilakan masukkan kata sandi untuk %s (user %s)"
@@ -464,13 +465,18 @@ msgid "Position of the vertical pane in main view"
 msgstr "Posisi panel vertikal pada bidang layar utama"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
+#: mail/evolution-mail.schemas.in.in.h:71
+msgid "Show the \"Preview\" pane"
+msgstr "Tampilkan panel \"Pratinjau\""
+
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid ""
 "The number of characters that must be typed before evolution will attempt to "
 "autocomplete"
 msgstr ""
 "Jumlah karakter yang diketikkan sebelum Evolution memulai proses auto komplet"
 
-#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
 msgid "URI for the folder last used in the select names dialog"
 msgstr "URI folder yang terakhir digunakan dalam dialog pemilih nama"
 
@@ -548,7 +554,7 @@ msgstr "Tambah Buku Alamat"
 msgid "Address Book Properties"
 msgstr "Pengaturan Buku Alamat"
 
-#: addressbook/gui/component/ldap-config.glade.h:15 mail/mail-account-gui.c:79
+#: addressbook/gui/component/ldap-config.glade.h:15 mail/mail-account-gui.c:86
 #: mail/mail-config.glade.h:42
 msgid "Always"
 msgstr "Selalu"
@@ -559,12 +565,12 @@ msgstr "Anonim"
 
 #: addressbook/gui/component/ldap-config.glade.h:17
 msgid "Basic"
-msgstr "Basic"
+msgstr "Dasar"
 
 #: addressbook/gui/component/ldap-config.glade.h:18
 #: mail/mail-dialogs.glade.h:13 smime/gui/smime-ui.glade.h:19
 msgid "Details"
-msgstr "Denmark"
+msgstr "Rincian"
 
 #: addressbook/gui/component/ldap-config.glade.h:19
 msgid "Distinguished name"
@@ -594,7 +600,7 @@ msgstr "Umum"
 msgid "Lo_gin:"
 msgstr "Lo_gin:"
 
-#: addressbook/gui/component/ldap-config.glade.h:25 mail/mail-account-gui.c:81
+#: addressbook/gui/component/ldap-config.glade.h:25 mail/mail-account-gui.c:88
 #: mail/mail-config.glade.h:102
 msgid "Never"
 msgstr "Jangan pernah"
@@ -717,7 +723,7 @@ msgstr "Gunakan distinguished name (DN)"
 msgid "Using email address"
 msgstr "Gunakan alamat email"
 
-#: addressbook/gui/component/ldap-config.glade.h:42 mail/mail-account-gui.c:80
+#: addressbook/gui/component/ldap-config.glade.h:42 mail/mail-account-gui.c:87
 #: mail/mail-config.glade.h:156
 msgid "Whenever Possible"
 msgstr "Apabila Mungkin"
@@ -736,7 +742,7 @@ msgstr "_Cari Basis Pencarian Yang Mungkin"
 
 #: addressbook/gui/component/ldap-config.glade.h:46
 msgid "_Log in method:"
-msgstr "Metode _Login:"
+msgstr "Metoda _Login:"
 
 #: addressbook/gui/component/ldap-config.glade.h:47
 #: calendar/gui/dialogs/calendar-setup.glade.h:8 mail/mail-config.glade.h:171
@@ -1042,7 +1048,7 @@ msgid "_File under:"
 msgstr "_Simpan dalam:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:47
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
 msgid "_Where:"
 msgstr "_Di mana:"
 
@@ -2143,7 +2149,7 @@ msgstr "Tambah Kontak versi Cepat"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:283
 msgid "_Edit Full"
-msgstr "_Edit Semua"
+msgstr "_Ubah Semua"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:301
 #: mail/mail-config.glade.h:166
@@ -2296,39 +2302,39 @@ msgid "Add an email to the List"
 msgstr "Tambahkan email ke dalam Daftar"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:813
+msgid "Contact List Editor"
+msgstr "Penyunting Daftar Kontak"
+
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 msgid "Insert email adresses from Adress Book"
 msgstr "Masukkan alamat email dari Buku Alamat"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:714
 msgid "Members"
 msgstr "Anggota"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "Remove an email address from the List"
 msgstr "Hapus alamat email dari Daftar"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
 msgid "Select"
 msgstr "Pilih"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:10
 msgid "_Hide addresses when sending mail to this list"
 msgstr "_Sembunyikan alamat seaat mengirim ke daftar ini"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:10
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
 msgid "_List name:"
 msgstr "Nama _daftar:"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
 msgid "_Type an email address or drag a contact into the list below:"
 msgstr ""
 "Ke_tikkan alamat email atau tarik dari sebuah kontak ke daftar di bawah:"
-
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
-#: smime/gui/smime-ui.glade.h:48
-msgid "dialog1"
-msgstr "dialog1"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:165
 #: addressbook/gui/widgets/e-addressbook-model.c:295
@@ -2348,10 +2354,6 @@ msgstr "Daftar Baru?"
 #: calendar/gui/e-meeting-list-view.c:457
 msgid "Required Participants"
 msgstr "Partisipan Wajib"
-
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:813
-msgid "Contact List Editor"
-msgstr "Penyunting Daftar Kontak"
 
 #: addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
@@ -2403,7 +2405,8 @@ msgstr "Tidak ada kontak"
 #: addressbook/gui/widgets/e-addressbook-model.c:151
 #, c-format
 msgid "%d contact"
-msgstr "%d buah kontak"
+msgid_plural "%d contacts"
+msgstr[0] "%d buah kontak"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:302
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:385
@@ -2457,97 +2460,97 @@ msgstr "Detil..."
 msgid "Type"
 msgstr "Tipe"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:544
+#: addressbook/gui/widgets/e-addressbook-view.c:543
 msgid "Address Book"
 msgstr "Buku Alamat"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:888
-#: addressbook/gui/widgets/e-addressbook-view.c:1108
-#: addressbook/gui/widgets/e-addressbook-view.c:2098
+#: addressbook/gui/widgets/e-addressbook-view.c:887
+#: addressbook/gui/widgets/e-addressbook-view.c:1107
+#: addressbook/gui/widgets/e-addressbook-view.c:2097
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard..."
 msgstr "Simpan sebagai VCard..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1095
+#: addressbook/gui/widgets/e-addressbook-view.c:1094
 msgid "New Contact..."
 msgstr "Kontak Baru..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1096
+#: addressbook/gui/widgets/e-addressbook-view.c:1095
 msgid "New Contact List..."
 msgstr "Daftar Kontak Baru..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1099
+#: addressbook/gui/widgets/e-addressbook-view.c:1098
 msgid "Go to Folder..."
 msgstr "Buka Folder..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1100
+#: addressbook/gui/widgets/e-addressbook-view.c:1099
 msgid "Import..."
 msgstr "Impor..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1102
+#: addressbook/gui/widgets/e-addressbook-view.c:1101
 msgid "Search for Contacts..."
 msgstr "Mencari Kontak..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1103
+#: addressbook/gui/widgets/e-addressbook-view.c:1102
 msgid "Address Book Sources..."
 msgstr "Asal Buku Alamat..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1105
+#: addressbook/gui/widgets/e-addressbook-view.c:1104
 msgid "Pilot Settings..."
 msgstr "Pengaturan Pilot..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1109
+#: addressbook/gui/widgets/e-addressbook-view.c:1108
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "Mengirimkan Kontak"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1110
+#: addressbook/gui/widgets/e-addressbook-view.c:1109
 msgid "Send Message to Contact"
 msgstr "Kirim Pesan pada Kontak Ini"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1111 calendar/gui/print.c:2480
+#: addressbook/gui/widgets/e-addressbook-view.c:1110 calendar/gui/print.c:2480
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:19
 #: ui/evolution-comp-editor.xml.h:8 ui/evolution-contact-editor.xml.h:5
 #: ui/evolution-mail-message.xml.h:80 ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Cetak"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1113
+#: addressbook/gui/widgets/e-addressbook-view.c:1112
 msgid "Print Envelope"
 msgstr "Cetak Amplop"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1117
+#: addressbook/gui/widgets/e-addressbook-view.c:1116
 msgid "Copy to Address Book..."
 msgstr "Salin ke Buku Alamat..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1118
+#: addressbook/gui/widgets/e-addressbook-view.c:1117
 msgid "Move to Address Book..."
 msgstr "Pindahkan ke Buku Alamat"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1121
+#: addressbook/gui/widgets/e-addressbook-view.c:1120
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "Potong"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1122
-#: calendar/gui/calendar-component.c:428 calendar/gui/tasks-component.c:374
+#: addressbook/gui/widgets/e-addressbook-view.c:1121
+#: calendar/gui/calendar-component.c:434 calendar/gui/tasks-component.c:380
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Salin"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1123
+#: addressbook/gui/widgets/e-addressbook-view.c:1122
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "Tempel"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1128
+#: addressbook/gui/widgets/e-addressbook-view.c:1127
 #: calendar/gui/e-calendar-view.c:1418
 msgid "Current View"
 msgstr "Tampilan Saat Ini"
 
 #. All, unmatched, separator
-#: addressbook/gui/widgets/e-addressbook-view.c:1683
+#: addressbook/gui/widgets/e-addressbook-view.c:1682
 #: calendar/gui/cal-search-bar.c:358
 msgid "Any Category"
 msgstr "Kategori Apa Saja"
@@ -2902,10 +2905,9 @@ msgstr "Protokol tidak didukung"
 #: calendar/gui/e-cal-component-preview.c:233
 #: calendar/gui/e-cal-model-tasks.c:353 calendar/gui/e-cal-model-tasks.c:656
 #: calendar/gui/e-calendar-table.c:473 calendar/gui/print.c:2349
-#: camel/camel-service.c:724 camel/camel-service.c:762
-#: camel/camel-service.c:846 camel/camel-service.c:886
-#: camel/providers/pop3/camel-pop3-store.c:456
-#: camel/providers/pop3/camel-pop3-store.c:537
+#: camel/camel-service.c:724 camel/camel-service.c:886
+#: camel/camel-service.c:1017 camel/providers/pop3/camel-pop3-store.c:474
+#: camel/providers/pop3/camel-pop3-store.c:555
 msgid "Cancelled"
 msgstr "Dibatalkan"
 
@@ -2916,6 +2918,7 @@ msgstr "Tidak dapat membatalkan"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: addressbook/gui/widgets/eab-gui-util.c:63
+#: calendar/gui/comp-editor-factory.c:428
 msgid "Authentication Failed"
 msgstr "Otentikasi Salah"
 
@@ -3042,12 +3045,11 @@ msgstr "Error saat menghapus kontak"
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
+msgstr[0] ""
 "Pembukaan %d kontak akan membuka sebanyak %d jendela baru.\n"
-"Apakah Anda ingin menampilkan kontak ini? Pembukaan %d kontak akan membuka "
-"sebanyak %d jendela baru.\n"
 "Apakah Anda ingin menampilkan kontak ini?"
 
 #: addressbook/gui/widgets/eab-gui-util.c:304
@@ -3143,7 +3145,8 @@ msgstr "Gabungkan Alamat Email"
 #: addressbook/gui/widgets/eab-vcard-control.c:139
 #, c-format
 msgid "and one other contact."
-msgstr "dan satu kontak lainnya"
+msgid_plural "and %d other contacts."
+msgstr[0] "dan satu kontak lainnya"
 
 #: addressbook/gui/widgets/eab-vcard-control.c:223
 #: addressbook/gui/widgets/eab-vcard-control.c:272
@@ -3434,13 +3437,13 @@ msgstr "[vcard|csv]"
 
 #: addressbook/tools/evolution-addressbook-export.c:61
 msgid "Export in asynchronous mode "
-msgstr "Ekspor dalam modus asinkronus "
+msgstr "Ekspor dalam moda asinkronus "
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid ""
 "The number of cards in one output file in asychronous mode,default size 100."
 msgstr ""
-"Jumlah kartu dalam satu file output dalam modus asinkronus, ukuran "
+"Jumlah kartu dalam satu file output dalam moda asinkronus, ukuran "
 "standarnya 100."
 
 #: addressbook/tools/evolution-addressbook-export.c:63
@@ -3460,11 +3463,11 @@ msgstr "Hanya format csv atau vcard yang didukung."
 
 #: addressbook/tools/evolution-addressbook-export.c:114
 msgid "In async mode, output must be file."
-msgstr "Pada modus asinkronus, output haruslah berupa file."
+msgstr "Pada moda asinkronus, output haruslah berupa file."
 
 #: addressbook/tools/evolution-addressbook-export.c:122
-msgid "In normal mode, there should not need size option."
-msgstr "Pada modus normal, pilihan ukuran tidak diperlukan."
+msgid "In normal mode, there is no need for the size option."
+msgstr "Pada moda normal, pilihan ukuran tidak diperlukan."
 
 #: addressbook/tools/evolution-addressbook-export.c:153
 msgid "Impossible internal error."
@@ -3562,7 +3565,6 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
 msgstr ""
-""
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
@@ -3671,7 +3673,6 @@ msgid "You have made changes to this appointment, but not yet saved them."
 msgstr "Anda telah mengisi informasi tentang janji ini tapi belum disimpan."
 
 #: calendar/calendar-errors.xml.h:73 calendar/calendar-errors.xml.h:81
-#: composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
 msgstr "Batalkan Perubahan"
 
@@ -3778,7 +3779,7 @@ msgstr "Kalender Evolution telah berhenti mendadak."
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "Kalender tidak akan aktif hingga Evolution dijalankan ulang."
 
-#: calendar/common/authentication.c:48 calendar/gui/e-pub-utils.c:301
+#: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
 msgid "Enter password"
 msgstr "Masukkan kata sandi"
@@ -3787,15 +3788,15 @@ msgstr "Masukkan kata sandi"
 msgid "Split Multi-Day Events:"
 msgstr ""
 
-#: calendar/conduits/calendar/calendar-conduit.c:1356
-#: calendar/conduits/calendar/calendar-conduit.c:1357
+#: calendar/conduits/calendar/calendar-conduit.c:1359
+#: calendar/conduits/calendar/calendar-conduit.c:1360
 #: calendar/conduits/todo/todo-conduit.c:879
 #: calendar/conduits/todo/todo-conduit.c:880
 msgid "Could not start evolution-data-server"
 msgstr "Evolution-data-server tidak dapat dijalankan"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1465
 #: calendar/conduits/calendar/calendar-conduit.c:1468
+#: calendar/conduits/calendar/calendar-conduit.c:1471
 msgid "Could not read pilot's Calendar application block"
 msgstr "Blok aplikasi kalender pada Pilot tidak dapat dibaca"
 
@@ -3813,7 +3814,7 @@ msgid "Calendar and Tasks"
 msgstr "Kalender dan Tugas"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: calendar/gui/calendar-component.c:1079
+#: calendar/gui/calendar-component.c:1085
 msgid "Calendars"
 msgstr "Kalender"
 
@@ -3847,10 +3848,10 @@ msgstr "Komponen Tugas Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: calendar/gui/e-tasks.c:1199 calendar/gui/print.c:1819
-#: calendar/gui/tasks-component.c:419 calendar/gui/tasks-component.c:889
+#: calendar/gui/tasks-component.c:425 calendar/gui/tasks-component.c:895
 #: calendar/gui/tasks-control.c:408 calendar/importers/icalendar-importer.c:83
 #: calendar/importers/icalendar-importer.c:709
-#: camel/providers/groupwise/camel-gw-listener.c:332
+#: camel/providers/groupwise/camel-gw-listener.c:372
 msgid "Tasks"
 msgstr "Tugas"
 
@@ -3890,30 +3891,30 @@ msgstr "Waktu _toleransi (dalam menit):"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "_Edit appointment"
-msgstr "_Edit janji"
+msgstr "_Ubah janji"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "_Snooze"
 msgstr ""
 
-#: calendar/gui/alarm-notify/alarm-queue.c:904
+#: calendar/gui/alarm-notify/alarm-queue.c:893
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
 msgstr "Buka"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:906
+#: calendar/gui/alarm-notify/alarm-queue.c:895
 msgid "Dismiss"
 msgstr "Tutup"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:908
+#: calendar/gui/alarm-notify/alarm-queue.c:897
 msgid "Dismiss All"
 msgstr "Tutup Semua"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:973
+#: calendar/gui/alarm-notify/alarm-queue.c:962
 msgid "No description available."
 msgstr "Tidak ada keterangan"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:992
+#: calendar/gui/alarm-notify/alarm-queue.c:981
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -3926,12 +3927,12 @@ msgstr ""
 "Awal %s\n"
 "Akhir %s"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1092
-#: calendar/gui/alarm-notify/alarm-queue.c:1116
+#: calendar/gui/alarm-notify/alarm-queue.c:1081
+#: calendar/gui/alarm-notify/alarm-queue.c:1105
 msgid "Warning"
 msgstr "Peringatan"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1096
+#: calendar/gui/alarm-notify/alarm-queue.c:1085
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3943,7 +3944,7 @@ msgstr ""
 "menampilkan kotak dialog saja saat mengingatkan\n"
 "kalender."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1122
+#: calendar/gui/alarm-notify/alarm-queue.c:1111
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3960,7 +3961,7 @@ msgstr ""
 "\n"
 "Benar ingin menjalankan program ini?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1136
+#: calendar/gui/alarm-notify/alarm-queue.c:1125
 msgid "Do not ask me about this program again."
 msgstr "Jangan tanya lagi tentang program ini."
 
@@ -4079,38 +4080,45 @@ msgstr "Awal pekan dimulai pada hari"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Whether or not to use the notification tray for display alarms"
-msgstr "Atur untuk menentukan apakah ingin menggunakan tray notifikasi untuk menampilkan "
-"alarm atau tidak"
+msgstr ""
+"Atur untuk menentukan apakah ingin menggunakan tray notifikasi untuk "
+"menampilkan alarm atau tidak"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "Whether to ask for confirmation on appointment deletion"
-msgstr "Atur untuk menentukan apakah ingin melakukan konfirmasi "
-"pada saat menghapus janji atau tidak"
+msgstr ""
+"Atur untuk menentukan apakah ingin melakukan konfirmasi pada saat menghapus "
+"janji atau tidak"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
 msgid "Whether to ask for confirmation when folder is expunged"
-msgstr "Atur untuk menentukan apakah ingin melakukan konfirmasi "
-"pada saat folder dihapus atau tidak"
+msgstr ""
+"Atur untuk menentukan apakah ingin melakukan konfirmasi pada saat folder "
+"dihapus atau tidak"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid "Whether to hide completed tasks"
-msgstr "Atur untuk menentukan apakah ingin menyembunyikan tugas-tugas yang "
-"telah selesai atau tidak"
+msgstr ""
+"Atur untuk menentukan apakah ingin menyembunyikan tugas-tugas yang telah "
+"selesai atau tidak"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Whether to set a default reminder for events"
-msgstr "Atur untuk menentukan apakah ingin membuat "
-"pengingat default untuk acara atau tidak"
+msgstr ""
+"Atur untuk menentukan apakah ingin membuat pengingat default untuk acara "
+"atau tidak"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Whether to show times in 24h format instead of using am/pm"
-msgstr "Atur untuk menentukan apakah ingin menampilkan waktu dalam "
-"bentuk 24 jam atau menggunakan am/pm"
+msgstr ""
+"Atur untuk menentukan apakah ingin menampilkan waktu dalam bentuk 24 jam "
+"atau menggunakan am/pm"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Whether to show week numbers in date navigator"
-msgstr "Atur untuk menentukan apakah ingin menampilkan nomor minggu "
-"pada kotak penelusur tanggal atau tidak"
+msgstr ""
+"Atur untuk menentukan apakah ingin menampilkan nomor minggu pada kotak "
+"penelusur tanggal atau tidak"
 
 #: calendar/gui/cal-search-bar.c:50
 msgid "Summary contains"
@@ -4128,15 +4136,15 @@ msgstr "Komentar berisi"
 msgid "Location contains"
 msgstr "Lokasi berisi"
 
-#: calendar/gui/cal-search-bar.c:362 camel/camel-vee-store.c:327
+#: calendar/gui/cal-search-bar.c:362 camel/camel-vee-store.c:342
 msgid "Unmatched"
 msgstr "Tidak cocok"
 
-#: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:564
+#: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:570
 #: calendar/gui/dialogs/select-source-dialog.c:112
-#: calendar/gui/gnome-cal.c:1859
-#: camel/providers/groupwise/camel-gw-listener.c:331
-#: camel/providers/groupwise/camel-gw-listener.c:361
+#: calendar/gui/gnome-cal.c:1910
+#: camel/providers/groupwise/camel-gw-listener.c:371
+#: camel/providers/groupwise/camel-gw-listener.c:401
 msgid "Calendar"
 msgstr "Kalender"
 
@@ -4170,15 +4178,15 @@ msgstr "%A %d %B %Y"
 #. %d = day of month, %b = abbreviated month name.
 #. You can change the order but don't change the
 #. specifiers or add anything.
-#: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:519
+#: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:525
 #: calendar/gui/e-day-view-top-item.c:714 calendar/gui/e-day-view.c:1588
 #: calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
 #: calendar/gui/calendar-commands.c:437 calendar/gui/calendar-commands.c:442
-#: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-component.c:521
-#: calendar/gui/calendar-component.c:526 calendar/gui/calendar-component.c:528
+#: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-component.c:527
+#: calendar/gui/calendar-component.c:532 calendar/gui/calendar-component.c:534
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -4200,16 +4208,16 @@ msgstr "%d %B"
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr "Kalender '%s' akan dihapus. Apakah benar ingin melakukan hal ini?"
 
-#: calendar/gui/calendar-component.c:426
+#: calendar/gui/calendar-component.c:432
 msgid "New Calendar"
 msgstr "Kalender Baru"
 
-#: calendar/gui/calendar-component.c:516
+#: calendar/gui/calendar-component.c:522
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
-#: calendar/gui/calendar-component.c:540 calendar/gui/calendar-component.c:547
-#: calendar/gui/calendar-component.c:553 calendar/gui/calendar-component.c:555
+#: calendar/gui/calendar-component.c:546 calendar/gui/calendar-component.c:553
+#: calendar/gui/calendar-component.c:559 calendar/gui/calendar-component.c:561
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -4218,70 +4226,70 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/calendar-component.c:545
+#: calendar/gui/calendar-component.c:551
 #: calendar/gui/e-day-view-top-item.c:718 calendar/gui/e-day-view.c:1604
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
 msgstr "%d %b"
 
-#: calendar/gui/calendar-component.c:635
+#: calendar/gui/calendar-component.c:641
 msgid "Failed upgrading calendars."
 msgstr "Gagal saat mengupgrade kalender."
 
-#: calendar/gui/calendar-component.c:931
+#: calendar/gui/calendar-component.c:937
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Tidak dapat membuka kalender '%s' untuk mengatur acara dan pertemuan"
 
-#: calendar/gui/calendar-component.c:947
+#: calendar/gui/calendar-component.c:953
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Tidak ada kalender tersedia untuk mengatur acara dan pertemuan"
 
-#: calendar/gui/calendar-component.c:1245
+#: calendar/gui/calendar-component.c:1251
 msgid "New appointment"
 msgstr "Janji baru"
 
-#: calendar/gui/calendar-component.c:1246
+#: calendar/gui/calendar-component.c:1252
 msgid "_Appointment"
 msgstr "J_anji"
 
-#: calendar/gui/calendar-component.c:1247
+#: calendar/gui/calendar-component.c:1253
 msgid "Create a new appointment"
 msgstr "Buat janji baru"
 
-#: calendar/gui/calendar-component.c:1253
+#: calendar/gui/calendar-component.c:1259
 msgid "New meeting"
 msgstr "Pertemuan baru"
 
-#: calendar/gui/calendar-component.c:1254
+#: calendar/gui/calendar-component.c:1260
 msgid "M_eeting"
 msgstr "P_ertemuan"
 
-#: calendar/gui/calendar-component.c:1255
+#: calendar/gui/calendar-component.c:1261
 msgid "Create a new meeting request"
 msgstr "Buat usulan pertemuan"
 
-#: calendar/gui/calendar-component.c:1261
+#: calendar/gui/calendar-component.c:1267
 msgid "New all day appointment"
 msgstr "Buat janji seharian penuh"
 
-#: calendar/gui/calendar-component.c:1262
+#: calendar/gui/calendar-component.c:1268
 msgid "All Day A_ppointment"
 msgstr "Janji Sehari _Penuh"
 
-#: calendar/gui/calendar-component.c:1263
+#: calendar/gui/calendar-component.c:1269
 msgid "Create a new all-day appointment"
 msgstr "Buat janji seharian penuh"
 
-#: calendar/gui/calendar-component.c:1269
+#: calendar/gui/calendar-component.c:1275
 msgid "New calendar"
 msgstr "Kalender baru"
 
-#: calendar/gui/calendar-component.c:1270
+#: calendar/gui/calendar-component.c:1276
 msgid "Cale_ndar"
 msgstr "Kale_nder"
 
-#: calendar/gui/calendar-component.c:1271
+#: calendar/gui/calendar-component.c:1277
 msgid "Create a new calendar"
 msgstr "Buat kalender baru"
 
@@ -4311,19 +4319,29 @@ msgstr "Tampilan Minggu"
 msgid "Month View"
 msgstr "Tampilan Bulan"
 
-#: calendar/gui/comp-editor-factory.c:409
+#: calendar/gui/comp-editor-factory.c:410
 msgid "Error while opening the calendar"
 msgstr "Error saat membuka kalender"
 
-#: calendar/gui/comp-editor-factory.c:420
+#: calendar/gui/comp-editor-factory.c:416
 msgid "Method not supported when opening the calendar"
 msgstr "Metode tidak dapat dijalankan saat membuka kalender"
 
-#: calendar/gui/comp-editor-factory.c:426
+#: calendar/gui/comp-editor-factory.c:422
 msgid "Permission denied to open the calendar"
 msgstr "Pembukaan kalender tidak diperbolehkan"
 
-#: calendar/gui/comp-editor-factory.c:474
+#: calendar/gui/comp-editor-factory.c:434
+#: camel/providers/imap/camel-imap-command.c:303
+#: camel/providers/imap/camel-imap-command.c:400
+#: camel/providers/imap4/camel-imap4-store.c:260
+#: camel/providers/pop3/camel-pop3-store.c:561
+#: camel/providers/pop3/camel-pop3-store.c:568
+#: camel/providers/pop3/camel-pop3-store.c:574 shell/e-shell.c:1228
+msgid "Unknown error"
+msgstr "Keybord tak dikenal"
+
+#: calendar/gui/comp-editor-factory.c:478
 #, c-format
 msgid "open_client(): %s"
 msgstr "open_client(): %s"
@@ -4554,8 +4572,8 @@ msgid "Free/Busy Publishing"
 msgstr "Publikasi Luang/Sibuk"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
-#: calendar/gui/dialogs/recurrence-page.c:1038
-#: calendar/gui/e-itip-control.c:751
+#: calendar/gui/dialogs/recurrence-page.c:1049
+#: calendar/gui/e-itip-control.c:739
 msgid "Friday"
 msgstr "Jumat"
 
@@ -4568,8 +4586,8 @@ msgid "Minutes"
 msgstr "Menit"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#: calendar/gui/dialogs/recurrence-page.c:1034
-#: calendar/gui/e-itip-control.c:747
+#: calendar/gui/dialogs/recurrence-page.c:1045
+#: calendar/gui/e-itip-control.c:735
 msgid "Monday"
 msgstr "Senin"
 
@@ -4578,8 +4596,8 @@ msgid "S_un"
 msgstr "S_en"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
-#: calendar/gui/dialogs/recurrence-page.c:1039
-#: calendar/gui/e-itip-control.c:752
+#: calendar/gui/dialogs/recurrence-page.c:1050
+#: calendar/gui/e-itip-control.c:740
 msgid "Saturday"
 msgstr "Sabtu"
 
@@ -4592,8 +4610,8 @@ msgid "Show week _numbers in date navigator"
 msgstr "Tampilka_n jumlah pekan dalam penelusur tanggal"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-#: calendar/gui/dialogs/recurrence-page.c:1040
-#: calendar/gui/e-itip-control.c:746
+#: calendar/gui/dialogs/recurrence-page.c:1051
+#: calendar/gui/e-itip-control.c:734
 msgid "Sunday"
 msgstr "Minggu"
 
@@ -4606,8 +4624,8 @@ msgid "T_hu"
 msgstr "_Kam"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
-#: calendar/gui/dialogs/recurrence-page.c:1037
-#: calendar/gui/e-itip-control.c:750
+#: calendar/gui/dialogs/recurrence-page.c:1048
+#: calendar/gui/e-itip-control.c:738
 msgid "Thursday"
 msgstr "Kamis"
 
@@ -4620,8 +4638,8 @@ msgid "Time format:"
 msgstr "Format waktu:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
-#: calendar/gui/dialogs/recurrence-page.c:1035
-#: calendar/gui/e-itip-control.c:748
+#: calendar/gui/dialogs/recurrence-page.c:1046
+#: calendar/gui/e-itip-control.c:736
 msgid "Tuesday"
 msgstr "Selasa"
 
@@ -4630,8 +4648,8 @@ msgid "W_eek starts:"
 msgstr "Awal _minggu:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
-#: calendar/gui/dialogs/recurrence-page.c:1036
-#: calendar/gui/e-itip-control.c:749
+#: calendar/gui/dialogs/recurrence-page.c:1047
+#: calendar/gui/e-itip-control.c:737
 msgid "Wednesday"
 msgstr "Rabu"
 
@@ -4672,7 +4690,7 @@ msgstr "Awa_l hari:"
 #: ui/evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:22
 msgid "_Edit"
-msgstr "_Edit"
+msgstr "_Ubah"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_Fri"
@@ -4859,43 +4877,43 @@ msgstr ""
 msgid "Could not update object"
 msgstr "Tidak dapat memperbarui obyek"
 
-#: calendar/gui/dialogs/comp-editor.c:878
-#: calendar/gui/dialogs/comp-editor.c:915
+#: calendar/gui/dialogs/comp-editor.c:870
+#: calendar/gui/dialogs/comp-editor.c:907
 msgid "Edit Appointment"
 msgstr "Ubah Janji"
 
-#: calendar/gui/dialogs/comp-editor.c:883
-#: calendar/gui/dialogs/comp-editor.c:920
+#: calendar/gui/dialogs/comp-editor.c:875
+#: calendar/gui/dialogs/comp-editor.c:912
 #, c-format
 msgid "Appointment - %s"
 msgstr "Janji - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:886
-#: calendar/gui/dialogs/comp-editor.c:923
+#: calendar/gui/dialogs/comp-editor.c:878
+#: calendar/gui/dialogs/comp-editor.c:915
 #, c-format
 msgid "Task - %s"
 msgstr "Tugas - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:889
-#: calendar/gui/dialogs/comp-editor.c:926
+#: calendar/gui/dialogs/comp-editor.c:881
+#: calendar/gui/dialogs/comp-editor.c:918
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Isi jurmal - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:900
-#: calendar/gui/dialogs/comp-editor.c:936
+#: calendar/gui/dialogs/comp-editor.c:892
+#: calendar/gui/dialogs/comp-editor.c:928
 msgid "No summary"
 msgstr "Tidak ada judul"
 
-#: calendar/gui/dialogs/comp-editor.c:1302
-#: calendar/gui/dialogs/comp-editor.c:1335
-#: calendar/gui/dialogs/comp-editor.c:1359
+#: calendar/gui/dialogs/comp-editor.c:1294
+#: calendar/gui/dialogs/comp-editor.c:1327
+#: calendar/gui/dialogs/comp-editor.c:1351
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Perubahan yang terjadi pada isian ini akan dibatalkan bila ada data baru "
 "yang datang"
 
-#: calendar/gui/dialogs/comp-editor.c:1383
+#: calendar/gui/dialogs/comp-editor.c:1375
 msgid "Unable to use current version!"
 msgstr "Tidak dapat menggunakan versi ini!"
 
@@ -5023,17 +5041,20 @@ msgstr "Tidak dapat membuka kalender '%s'."
 #: calendar/gui/dialogs/event-page.c:1804
 #, c-format
 msgid "%d day before appointment"
-msgstr "%d hari sebelum janji"
+msgid_plural "%d days before appointment"
+msgstr[0] "%d hari sebelum janji"
 
 #: calendar/gui/dialogs/event-page.c:1812
 #, c-format
 msgid "%d hour before appointment"
-msgstr "%d sebelum janji "
+msgid_plural "%d hours before appointment"
+msgstr[0] "%d jam sebelum janji "
 
 #: calendar/gui/dialogs/event-page.c:1820
 #, c-format
 msgid "%d minute before appointement"
-msgstr "%d menit sebelum janji"
+msgid_plural "%d minutes before appointment"
+msgstr[0] "%d menit sebelum janji"
 
 #: calendar/gui/dialogs/event-page.glade.h:2
 msgid "1 day before appointment"
@@ -5122,12 +5143,12 @@ msgid "_Description:"
 msgstr "Keterangan:"
 
 #: calendar/gui/dialogs/event-page.glade.h:21
-#: calendar/gui/e-meeting-time-sel.c:613
+#: calendar/gui/e-meeting-time-sel.c:623
 msgid "_End time:"
 msgstr "Waktu b_erakhir:"
 
 #: calendar/gui/dialogs/event-page.glade.h:22
-#: calendar/gui/e-meeting-time-sel.c:594
+#: calendar/gui/e-meeting-time-sel.c:604
 msgid "_Start time:"
 msgstr "Waktu _mulai:"
 
@@ -5139,12 +5160,12 @@ msgstr "Waktu _mulai:"
 #. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:316
 #: calendar/gui/dialogs/meeting-page.glade.h:5
-#: calendar/gui/e-cal-model-tasks.c:648 calendar/gui/e-itip-control.c:1123
+#: calendar/gui/e-cal-model-tasks.c:648 calendar/gui/e-itip-control.c:1111
 #: composer/e-msg-composer.c:2097 filter/filter-rule.c:877
-#: mail/em-account-prefs.c:427 mail/em-folder-view.c:933
-#: mail/mail-account-gui.c:1571 mail/mail-account-gui.c:1968
+#: mail/em-account-prefs.c:427 mail/em-folder-view.c:934
+#: mail/mail-account-gui.c:1635 mail/mail-account-gui.c:2080
 #: mail/mail-config.glade.h:103
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:192
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:193
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:443
 #: widgets/misc/e-dateedit.c:1480 widgets/misc/e-dateedit.c:1595
 msgid "None"
@@ -5162,11 +5183,11 @@ msgstr "Penyelenggara harus dipilih."
 msgid "At least one attendee is required."
 msgstr "Paling tidak harus ada seorang peserta."
 
-#: calendar/gui/dialogs/meeting-page.c:793
+#: calendar/gui/dialogs/meeting-page.c:795
 msgid "_Delegate To..."
 msgstr "_Delegasikan Ke..."
 
-#: calendar/gui/dialogs/meeting-page.c:797
+#: calendar/gui/dialogs/meeting-page.c:799
 #: composer/e-msg-composer-attachment-bar.c:453
 msgid "_Remove"
 msgstr "_Buang"
@@ -5231,7 +5252,7 @@ msgid "C_hange Organizer"
 msgstr "Ganti _Penyelenggara"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
-#: calendar/gui/e-meeting-time-sel.c:415
+#: calendar/gui/e-meeting-time-sel.c:425
 msgid "Con_tacts..."
 msgstr "Kon_tak..."
 
@@ -5317,51 +5338,51 @@ msgstr ""
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Janji ini berisi perulangan yang tidak dapat diubah oleh Evolution"
 
-#: calendar/gui/dialogs/recurrence-page.c:806
+#: calendar/gui/dialogs/recurrence-page.c:817
 msgid "Recurrence date is invalid"
 msgstr "Tanggal perulangan tidak benar"
 
-#: calendar/gui/dialogs/recurrence-page.c:917
+#: calendar/gui/dialogs/recurrence-page.c:928
 msgid "on"
 msgstr "nyala"
 
-#: calendar/gui/dialogs/recurrence-page.c:978
+#: calendar/gui/dialogs/recurrence-page.c:989
 msgid "first"
 msgstr "pertama"
 
-#: calendar/gui/dialogs/recurrence-page.c:979
+#: calendar/gui/dialogs/recurrence-page.c:990
 msgid "second"
 msgstr "detik"
 
-#: calendar/gui/dialogs/recurrence-page.c:980
+#: calendar/gui/dialogs/recurrence-page.c:991
 msgid "third"
 msgstr "ketiga"
 
-#: calendar/gui/dialogs/recurrence-page.c:981
+#: calendar/gui/dialogs/recurrence-page.c:992
 msgid "fourth"
 msgstr "keempat"
 
-#: calendar/gui/dialogs/recurrence-page.c:982
+#: calendar/gui/dialogs/recurrence-page.c:993
 msgid "last"
 msgstr "terakhir"
 
-#: calendar/gui/dialogs/recurrence-page.c:1005
+#: calendar/gui/dialogs/recurrence-page.c:1016
 msgid "Other Date"
 msgstr "Tanggal Lainnya"
 
-#: calendar/gui/dialogs/recurrence-page.c:1033
+#: calendar/gui/dialogs/recurrence-page.c:1044
 msgid "day"
 msgstr "hari"
 
-#: calendar/gui/dialogs/recurrence-page.c:1170
+#: calendar/gui/dialogs/recurrence-page.c:1181
 msgid "on the"
 msgstr "pada"
 
-#: calendar/gui/dialogs/recurrence-page.c:1356
+#: calendar/gui/dialogs/recurrence-page.c:1367
 msgid "occurrences"
 msgstr "kali"
 
-#: calendar/gui/dialogs/recurrence-page.c:2309
+#: calendar/gui/dialogs/recurrence-page.c:2320
 msgid "Date/Time"
 msgstr "Tanggal/Waktu"
 
@@ -5438,7 +5459,7 @@ msgstr "<span weight=\"bold\">Status</span>"
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-cal-component-preview.c:230
 #: calendar/gui/e-cal-model-tasks.c:351 calendar/gui/e-cal-model-tasks.c:654
-#: calendar/gui/e-calendar-table.c:472 calendar/gui/e-itip-control.c:915
+#: calendar/gui/e-calendar-table.c:472 calendar/gui/e-itip-control.c:903
 #: calendar/gui/e-meeting-store.c:187 calendar/gui/e-meeting-store.c:210
 #: calendar/gui/print.c:2346
 msgid "Completed"
@@ -5465,7 +5486,7 @@ msgid "Low"
 msgstr "Rendah"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-cal-component-preview.c:251 calendar/gui/e-cal-model.c:943
+#: calendar/gui/e-cal-component-preview.c:251 calendar/gui/e-cal-model.c:949
 #: calendar/gui/e-calendar-table.c:398 mail/message-list.c:1011
 msgid "Normal"
 msgstr "Normal"
@@ -5588,27 +5609,32 @@ msgstr "_Mingguan"
 #: calendar/gui/e-alarm-list.c:395
 #, c-format
 msgid "%d day"
-msgstr "%d hari"
+msgid_plural "%d days"
+msgstr[0] "%d hari"
 
 #: calendar/gui/e-alarm-list.c:400
 #, c-format
 msgid "%d week"
-msgstr "%d minggu"
+msgid_plural "%d weeks"
+msgstr[0] "%d minggu"
 
 #: calendar/gui/e-alarm-list.c:405
 #, c-format
 msgid "%d hour"
-msgstr "%d jam"
+msgid_plural "%d hours"
+msgstr[0] "%d jam"
 
 #: calendar/gui/e-alarm-list.c:410
 #, c-format
 msgid "%d minute"
-msgstr "%d menit"
+msgid_plural "%d minutes"
+msgstr[0] "%d menit"
 
 #: calendar/gui/e-alarm-list.c:415
 #, c-format
 msgid "%d second"
-msgstr "%d detik"
+msgid_plural "%d seconds"
+msgstr[0] "%d detik"
 
 #: calendar/gui/e-alarm-list.c:462
 msgid "Unknown action to be performed"
@@ -5654,7 +5680,7 @@ msgstr "%s pada %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s dengan pemicu yang tidak diketahui"
 
-#: calendar/gui/e-cal-component-preview.c:71 mail/em-folder-view.c:2385
+#: calendar/gui/e-cal-component-preview.c:71 mail/em-folder-view.c:2387
 #, c-format
 msgid "Click to open %s"
 msgstr "Klik untuk membuka %s"
@@ -5664,7 +5690,7 @@ msgid "Untitled"
 msgstr "Tak ada judul"
 
 #: calendar/gui/e-cal-component-preview.c:187
-#: calendar/gui/e-itip-control.c:1127 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:1115 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Ringkasan:"
 
@@ -5679,7 +5705,7 @@ msgstr "Tanggal Harus Selesai:"
 
 #. write status
 #: calendar/gui/e-cal-component-preview.c:223
-#: calendar/gui/e-itip-control.c:1151
+#: calendar/gui/e-itip-control.c:1139
 msgid "Status:"
 msgstr "Status:"
 
@@ -5688,7 +5714,7 @@ msgid "Priority:"
 msgstr "Prioritas: "
 
 #: calendar/gui/e-cal-component-preview.c:268
-#: calendar/gui/e-itip-control.c:1183 calendar/gui/e-itip-control.glade.h:6
+#: calendar/gui/e-itip-control.c:1171 calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:71
 msgid "Description:"
 msgstr "Keterangan:"
@@ -5710,12 +5736,12 @@ msgstr "Tanggal Awal"
 msgid "Summary"
 msgstr "Judul"
 
-#: calendar/gui/e-cal-model-calendar.c:175 calendar/gui/e-calendar-table.c:449
+#: calendar/gui/e-cal-model-calendar.c:181 calendar/gui/e-calendar-table.c:449
 msgid "Free"
 msgstr "Luang"
 
-#: calendar/gui/e-cal-model-calendar.c:178 calendar/gui/e-calendar-table.c:450
-#: calendar/gui/e-meeting-time-sel.c:399
+#: calendar/gui/e-cal-model-calendar.c:184 calendar/gui/e-calendar-table.c:450
+#: calendar/gui/e-meeting-time-sel.c:409
 msgid "Busy"
 msgstr "Sibuk"
 
@@ -5745,20 +5771,20 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:949
+#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:955
 #: calendar/gui/e-meeting-list-view.c:146 calendar/gui/e-meeting-store.c:159
 #: calendar/gui/e-meeting-store.c:169 calendar/gui/e-meeting-store.c:765
 msgid "Yes"
 msgstr "Ya"
 
-#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:949
+#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:955
 #: calendar/gui/e-meeting-list-view.c:147 calendar/gui/e-meeting-store.c:171
 msgid "No"
 msgstr "Tidak ada"
 
 #. This is the default filename used for temporary file creation
 #: calendar/gui/e-cal-model.c:357 calendar/gui/e-cal-model.c:360
-#: calendar/gui/e-itip-control.c:1168 calendar/gui/e-itip-control.c:1309
+#: calendar/gui/e-itip-control.c:1156 calendar/gui/e-itip-control.c:1297
 #: calendar/gui/e-meeting-list-view.c:122
 #: calendar/gui/e-meeting-list-view.c:136 calendar/gui/e-meeting-store.c:115
 #: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
@@ -5768,7 +5794,7 @@ msgstr "Tidak ada"
 #: camel/providers/imap4/camel-imap4-engine.c:1432
 #: camel/providers/imap4/camel-imap4-engine.c:1464
 #: camel/providers/imap4/camel-imap4-engine.c:1506
-#: camel/providers/imap4/camel-imap4-store.c:1223
+#: camel/providers/imap4/camel-imap4-store.c:1204
 #: camel/providers/imap4/camel-imap4-utils.c:457
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1155
@@ -5777,11 +5803,11 @@ msgstr "Tidak ada"
 msgid "Unknown"
 msgstr "Tidak dikenal"
 
-#: calendar/gui/e-cal-model.c:945
+#: calendar/gui/e-cal-model.c:951
 msgid "Recurring"
 msgstr "Berulang"
 
-#: calendar/gui/e-cal-model.c:947
+#: calendar/gui/e-cal-model.c:953
 msgid "Assigned"
 msgstr "Telah ditugaskan"
 
@@ -5839,7 +5865,7 @@ msgstr "Memperbarui obyek"
 
 #: calendar/gui/e-calendar-table.c:1043 calendar/gui/e-calendar-table.c:1084
 #: calendar/gui/e-calendar-view.c:1431 calendar/gui/e-calendar-view.c:1512
-#: mail/em-folder-view.c:899 ui/evolution-addressbook.xml.h:37
+#: mail/em-folder-view.c:900 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "B_uka"
 
@@ -5849,7 +5875,7 @@ msgstr "Buka Halaman _Web"
 
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1090
 #: calendar/gui/e-calendar-view.c:1432 calendar/gui/e-calendar-view.c:1518
-#: mail/em-folder-view.c:901 mail/em-popup.c:691 mail/em-popup.c:807
+#: mail/em-folder-view.c:902 mail/em-popup.c:691 mail/em-popup.c:807
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "Simpan _Jadi..."
@@ -5906,7 +5932,7 @@ msgstr "_Tandai Tugas Sudah Selesai"
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1451 calendar/gui/e-calendar-view.c:1484
-#: mail/em-folder-tree.c:2710 mail/em-folder-view.c:924
+#: mail/em-folder-tree.c:2720 mail/em-folder-view.c:925
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -5917,12 +5943,12 @@ msgstr "_Hapus"
 msgid "_Delete Selected Tasks"
 msgstr "_Hapus Tugas yang Terpilih"
 
-#: calendar/gui/e-calendar-table.c:1196 calendar/gui/e-calendar-view.c:1060
+#: calendar/gui/e-calendar-table.c:1199 calendar/gui/e-calendar-view.c:1060
 #: composer/e-msg-composer.c:1178
 msgid "Save as..."
 msgstr "Simpan sebagai..."
 
-#: calendar/gui/e-calendar-table.c:1374
+#: calendar/gui/e-calendar-table.c:1377
 #: calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "Klik untuk menambah tugas baru"
@@ -5935,7 +5961,7 @@ msgstr "%s Selesai"
 #: calendar/gui/e-calendar-table.etspec.h:5 camel/camel-filter-driver.c:1178
 #: camel/camel-filter-driver.c:1270 mail/mail-send-recv.c:615
 msgid "Complete"
-msgstr "Komplit"
+msgstr "Selesai"
 
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Completion date"
@@ -6092,86 +6118,92 @@ msgstr "am"
 msgid "pm"
 msgstr "pm"
 
-#: calendar/gui/e-itip-control.c:780
+#: calendar/gui/e-itip-control.c:768
 msgid "Yes. (Complex Recurrence)"
 msgstr "Ya (Perulangan Yang Rumit)"
 
-#: calendar/gui/e-itip-control.c:791
+#: calendar/gui/e-itip-control.c:779
 #, c-format
 msgid "Every day"
-msgstr "Setiap hari"
+msgid_plural "Every %d days"
+msgstr[0] "Setiap %d hari"
 
-#: calendar/gui/e-itip-control.c:796
+#: calendar/gui/e-itip-control.c:784
 #, c-format
 msgid "Every week"
-msgstr "Setiap minggu"
+msgid_plural "Every %d weeks"
+msgstr[0] "Setiap %d minggu"
 
-#: calendar/gui/e-itip-control.c:798
+#: calendar/gui/e-itip-control.c:786
 #, c-format
 msgid "Every week on "
-msgstr "Setiap minggu pada hari"
+msgid_plural "Every %d weeks on "
+msgstr[0] "Setiap %d minggu pada hari"
 
-#: calendar/gui/e-itip-control.c:806
+#: calendar/gui/e-itip-control.c:794
 msgid " and "
 msgstr " dan "
 
-#: calendar/gui/e-itip-control.c:813
+#: calendar/gui/e-itip-control.c:801
 #, c-format
 msgid "The %s day of "
 msgstr "%s hari dalam "
 
-#: calendar/gui/e-itip-control.c:826
+#: calendar/gui/e-itip-control.c:814
 #, c-format
 msgid "The %s %s of "
 msgstr "%s %s dalam "
 
-#: calendar/gui/e-itip-control.c:833
+#: calendar/gui/e-itip-control.c:821
 #, c-format
 msgid "every month"
-msgstr "setiap bulan"
+msgid_plural "every %d months"
+msgstr[0] "setiap %d bulan"
 
-#: calendar/gui/e-itip-control.c:837
+#: calendar/gui/e-itip-control.c:825
 #, c-format
 msgid "Every year"
-msgstr "Setiap tahun "
+msgid_plural "Every %d years"
+msgstr[0] "Setiap %d tahun "
 
-#: calendar/gui/e-itip-control.c:848
+#: calendar/gui/e-itip-control.c:836
 #, c-format
 msgid "a total of %d time"
-msgstr "total waktu %d"
+msgid_plural " a total of %d times"
+msgstr[0] "total waktu %d kali"
 
-#: calendar/gui/e-itip-control.c:857
+#: calendar/gui/e-itip-control.c:845
 msgid ", ending on "
 msgstr ", berakhir pada "
 
-#: calendar/gui/e-itip-control.c:881
+#: calendar/gui/e-itip-control.c:869
 msgid "Starts"
 msgstr "Awal"
 
-#: calendar/gui/e-itip-control.c:894
+#: calendar/gui/e-itip-control.c:882
 msgid "Ends"
 msgstr "Akhir"
 
-#: calendar/gui/e-itip-control.c:928
+#: calendar/gui/e-itip-control.c:916
 msgid "Due"
 msgstr "Jatuh Tempo"
 
-#: calendar/gui/e-itip-control.c:968 calendar/gui/e-itip-control.c:1025
+#: calendar/gui/e-itip-control.c:956 calendar/gui/e-itip-control.c:1013
 msgid "iCalendar Information"
 msgstr "Informasi iCalendar"
 
 #. Title
-#: calendar/gui/e-itip-control.c:985
+#: calendar/gui/e-itip-control.c:973
 msgid "iCalendar Error"
 msgstr "Error iCalendar"
 
-#: calendar/gui/e-itip-control.c:1057 calendar/gui/e-itip-control.c:1073
-#: calendar/gui/e-itip-control.c:1084 calendar/gui/e-itip-control.c:1101
+#: calendar/gui/e-itip-control.c:1045 calendar/gui/e-itip-control.c:1061
+#: calendar/gui/e-itip-control.c:1072 calendar/gui/e-itip-control.c:1089
 msgid "An unknown person"
 msgstr "Orang tidak dikenal"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:1108
+#: calendar/gui/e-itip-control.c:1096
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
@@ -6179,27 +6211,27 @@ msgstr ""
 "<br> Silakan periksa informasi di bawah ini, dan pilih aksi yang hendak "
 "dijalankan pada menu di bawah."
 
-#: calendar/gui/e-itip-control.c:1137
+#: calendar/gui/e-itip-control.c:1125
 msgid "Location:"
 msgstr "Lokasi:"
 
-#: calendar/gui/e-itip-control.c:1156 calendar/gui/e-meeting-list-view.c:158
+#: calendar/gui/e-itip-control.c:1144 calendar/gui/e-meeting-list-view.c:158
 #: calendar/gui/e-meeting-store.c:179 calendar/gui/e-meeting-store.c:202
 #: calendar/gui/itip-utils.c:422
 msgid "Accepted"
 msgstr "Terima"
 
-#: calendar/gui/e-itip-control.c:1160 calendar/gui/itip-utils.c:425
+#: calendar/gui/e-itip-control.c:1148 calendar/gui/itip-utils.c:425
 msgid "Tentatively Accepted"
 msgstr "Sementara Terima"
 
-#: calendar/gui/e-itip-control.c:1164 calendar/gui/e-meeting-list-view.c:159
+#: calendar/gui/e-itip-control.c:1152 calendar/gui/e-meeting-list-view.c:159
 #: calendar/gui/e-meeting-store.c:181 calendar/gui/e-meeting-store.c:204
 #: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
 msgid "Declined"
 msgstr "Ditolak"
 
-#: calendar/gui/e-itip-control.c:1248
+#: calendar/gui/e-itip-control.c:1236
 msgid ""
 "The meeting has been cancelled, however it could not be found in your "
 "calendars"
@@ -6207,266 +6239,267 @@ msgstr ""
 "Pertemuan telah dibatalkan,namun pertemuan ini tidak ditemukan dalam "
 "kalender Anda"
 
-#: calendar/gui/e-itip-control.c:1250
+#: calendar/gui/e-itip-control.c:1238
 msgid ""
 "The task has been cancelled, however it could not be found in your task lists"
 msgstr ""
 "Tugas telah dibatalkan,namun pertemuan ini tidak ditemukan dalam daftar "
 "tugas Anda"
 
-#: calendar/gui/e-itip-control.c:1329
+#: calendar/gui/e-itip-control.c:1317
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> telah memublikasikan informasi pertemuan."
 
-#: calendar/gui/e-itip-control.c:1330
+#: calendar/gui/e-itip-control.c:1318
 msgid "Meeting Information"
 msgstr "Informasi Pertemuan"
 
-#: calendar/gui/e-itip-control.c:1336
+#: calendar/gui/e-itip-control.c:1324
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgstr "<b>%s</b> mengharapkan kehadiran %s pada pertemuan."
 
-#: calendar/gui/e-itip-control.c:1338
+#: calendar/gui/e-itip-control.c:1326
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> mengharapkan kehadiran Anda pada pertemuan."
 
-#: calendar/gui/e-itip-control.c:1339
+#: calendar/gui/e-itip-control.c:1327
 msgid "Meeting Proposal"
 msgstr "Usulan Pertemuan"
 
 #. FIXME Whats going on here?
-#: calendar/gui/e-itip-control.c:1345
+#: calendar/gui/e-itip-control.c:1333
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> berniat untuk menambah pertemuan yang sudah ada"
 
-#: calendar/gui/e-itip-control.c:1346
+#: calendar/gui/e-itip-control.c:1334
 msgid "Meeting Update"
 msgstr "Info Terbaru Tentang Pertemuan"
 
-#: calendar/gui/e-itip-control.c:1350
+#: calendar/gui/e-itip-control.c:1338
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> meminta informasi terakhir tentang pertemuan."
 
-#: calendar/gui/e-itip-control.c:1351
+#: calendar/gui/e-itip-control.c:1339
 msgid "Meeting Update Request"
 msgstr "Permintaan Informasi Terbaru Tentang Pertemuan"
 
-#: calendar/gui/e-itip-control.c:1358
+#: calendar/gui/e-itip-control.c:1346
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> telah membalas pada usulan pertemuan."
 
-#: calendar/gui/e-itip-control.c:1359
+#: calendar/gui/e-itip-control.c:1347
 msgid "Meeting Reply"
 msgstr "Balasan Tentang Pertemuan"
 
-#: calendar/gui/e-itip-control.c:1366
+#: calendar/gui/e-itip-control.c:1354
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> telah membatalkan pertemuan."
 
-#: calendar/gui/e-itip-control.c:1367
+#: calendar/gui/e-itip-control.c:1355
 msgid "Meeting Cancellation"
 msgstr "Pembatalan Pertemuan"
 
-#: calendar/gui/e-itip-control.c:1377 calendar/gui/e-itip-control.c:1454
-#: calendar/gui/e-itip-control.c:1494
+#: calendar/gui/e-itip-control.c:1365 calendar/gui/e-itip-control.c:1442
+#: calendar/gui/e-itip-control.c:1482
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> telah mengirimkan pesan email yang tidak dapat dimengerti."
 
-#: calendar/gui/e-itip-control.c:1378
+#: calendar/gui/e-itip-control.c:1366
 msgid "Bad Meeting Message"
 msgstr "Pesan Pertemuan Tidak Terbaca"
 
-#: calendar/gui/e-itip-control.c:1405
+#: calendar/gui/e-itip-control.c:1393
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> telah memublikasikan informasi tugas."
 
-#: calendar/gui/e-itip-control.c:1406
+#: calendar/gui/e-itip-control.c:1394
 msgid "Task Information"
 msgstr "Informasi Tugas"
 
-#: calendar/gui/e-itip-control.c:1413
+#: calendar/gui/e-itip-control.c:1401
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
 msgstr "<b>%s</b> meminta %s untuk menjalankan tugas."
 
-#: calendar/gui/e-itip-control.c:1415
+#: calendar/gui/e-itip-control.c:1403
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> meminta Anda untuk menjalankan tugas."
 
-#: calendar/gui/e-itip-control.c:1416
+#: calendar/gui/e-itip-control.c:1404
 msgid "Task Proposal"
 msgstr "Usulan Tugas"
 
 #. FIXME Whats going on here?
-#: calendar/gui/e-itip-control.c:1422
+#: calendar/gui/e-itip-control.c:1410
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> berniat untuk menambah pada tugas yang ada"
 
-#: calendar/gui/e-itip-control.c:1423
+#: calendar/gui/e-itip-control.c:1411
 msgid "Task Update"
 msgstr "Informasi Terbaru Tentang Tugas"
 
-#: calendar/gui/e-itip-control.c:1427
+#: calendar/gui/e-itip-control.c:1415
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> meminta informasi terakhir berkenaan dengan tugasnya."
 
-#: calendar/gui/e-itip-control.c:1428
+#: calendar/gui/e-itip-control.c:1416
 msgid "Task Update Request"
 msgstr "Permintaan Informasi Terbaru Tentang Tugas"
 
-#: calendar/gui/e-itip-control.c:1435
+#: calendar/gui/e-itip-control.c:1423
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> telah membalas surat penugasan."
 
-#: calendar/gui/e-itip-control.c:1436
+#: calendar/gui/e-itip-control.c:1424
 msgid "Task Reply"
 msgstr "Surat Balasan Tentang Penugasan"
 
-#: calendar/gui/e-itip-control.c:1443
+#: calendar/gui/e-itip-control.c:1431
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> telah membatalkan tugas."
 
-#: calendar/gui/e-itip-control.c:1444
+#: calendar/gui/e-itip-control.c:1432
 msgid "Task Cancellation"
 msgstr "Pembatalan Tugas"
 
-#: calendar/gui/e-itip-control.c:1455
+#: calendar/gui/e-itip-control.c:1443
 msgid "Bad Task Message"
 msgstr "Pesan Tugas Tidak Terbaca"
 
-#: calendar/gui/e-itip-control.c:1479
+#: calendar/gui/e-itip-control.c:1467
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> telah memublikasikan informasi waktu luang/sibuknya."
 
-#: calendar/gui/e-itip-control.c:1480
+#: calendar/gui/e-itip-control.c:1468
 msgid "Free/Busy Information"
 msgstr "Informasi Waktu Luang/Sibuk"
 
-#: calendar/gui/e-itip-control.c:1484
+#: calendar/gui/e-itip-control.c:1472
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> meminta informasi tentang waktu luang/sibuk Anda."
 
-#: calendar/gui/e-itip-control.c:1485
+#: calendar/gui/e-itip-control.c:1473
 msgid "Free/Busy Request"
 msgstr "Permintaan Waktu Luang/Sibuk"
 
-#: calendar/gui/e-itip-control.c:1489
+#: calendar/gui/e-itip-control.c:1477
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> telah membalas permintaan waktu luang/sibuknya."
 
-#: calendar/gui/e-itip-control.c:1490
+#: calendar/gui/e-itip-control.c:1478
 msgid "Free/Busy Reply"
 msgstr "Surat Balasan Mengenai Waktu Luang/Sibuk"
 
-#: calendar/gui/e-itip-control.c:1495
+#: calendar/gui/e-itip-control.c:1483
 msgid "Bad Free/Busy Message"
 msgstr "Pesan Waktu Luang/Sibuk Tidak Terbaca"
 
-#: calendar/gui/e-itip-control.c:1570
+#: calendar/gui/e-itip-control.c:1558
 msgid "The message does not appear to be properly formed"
 msgstr "Pesan ini tidak disusun dengan benar"
 
-#: calendar/gui/e-itip-control.c:1629
+#: calendar/gui/e-itip-control.c:1617
 msgid "The message contains only unsupported requests."
-msgstr "Pesan email ini berisi permintaan-permintaan yang tidak dapat dikenali."
+msgstr ""
+"Pesan email ini berisi permintaan-permintaan yang tidak dapat dikenali."
 
-#: calendar/gui/e-itip-control.c:1660
+#: calendar/gui/e-itip-control.c:1650
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Lampiran dalam pesan email ini tidak berisi pesan kalender yang benar"
 
-#: calendar/gui/e-itip-control.c:1692
+#: calendar/gui/e-itip-control.c:1682
 msgid "The attachment has no viewable calendar items"
 msgstr "Lampiran tidak berisi data kalender yang dapat ditampilkan"
 
-#: calendar/gui/e-itip-control.c:1926
+#: calendar/gui/e-itip-control.c:1916
 msgid "Update complete\n"
 msgstr "Update selesai\n"
 
-#: calendar/gui/e-itip-control.c:1954
+#: calendar/gui/e-itip-control.c:1944
 msgid "Object is invalid and cannot be updated\n"
 msgstr "Obyek rusak dan tidak dapat diperbarui\n"
 
-#: calendar/gui/e-itip-control.c:1964
+#: calendar/gui/e-itip-control.c:1954
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr ""
 "Balasan diperoleh bukan dari peserta. Tambahkan beliau sebagai peserta?"
 
-#: calendar/gui/e-itip-control.c:1976
+#: calendar/gui/e-itip-control.c:1966
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 "Status peserta tidak dapat diperbarui karena berisi status yang tidak "
 "dikenal!\n"
 
-#: calendar/gui/e-itip-control.c:1993
+#: calendar/gui/e-itip-control.c:1983
 msgid "Attendee status updated\n"
 msgstr "Status peserta diperbarui\n"
 
-#: calendar/gui/e-itip-control.c:1996
+#: calendar/gui/e-itip-control.c:1986
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Status peserta tidak dapat diubah karena sudah tidak ada lagi"
 
-#: calendar/gui/e-itip-control.c:2023
+#: calendar/gui/e-itip-control.c:2013
 msgid "Removal Complete"
 msgstr "Penghapusan Selesai"
 
-#: calendar/gui/e-itip-control.c:2046 calendar/gui/e-itip-control.c:2094
+#: calendar/gui/e-itip-control.c:2036 calendar/gui/e-itip-control.c:2084
 msgid "Item sent!\n"
 msgstr "Pesan terkirim!\n"
 
-#: calendar/gui/e-itip-control.c:2048 calendar/gui/e-itip-control.c:2098
+#: calendar/gui/e-itip-control.c:2038 calendar/gui/e-itip-control.c:2088
 msgid "The item could not be sent!\n"
 msgstr "Item ini tidak dapat dikirim!\n"
 
-#: calendar/gui/e-itip-control.c:2178
+#: calendar/gui/e-itip-control.c:2168
 msgid "Choose an action:"
 msgstr "Pilih aksi yang akan dilakukan:"
 
-#: calendar/gui/e-itip-control.c:2249
+#: calendar/gui/e-itip-control.c:2239
 msgid "Update"
 msgstr "Pembaruan"
 
-#: calendar/gui/e-itip-control.c:2277
+#: calendar/gui/e-itip-control.c:2267
 msgid "Accept"
 msgstr "Terima"
 
-#: calendar/gui/e-itip-control.c:2278
+#: calendar/gui/e-itip-control.c:2268
 msgid "Tentatively accept"
 msgstr "Terima sementara"
 
-#: calendar/gui/e-itip-control.c:2279
+#: calendar/gui/e-itip-control.c:2269
 msgid "Decline"
 msgstr "Tolak"
 
-#: calendar/gui/e-itip-control.c:2308
+#: calendar/gui/e-itip-control.c:2298
 msgid "Send Free/Busy Information"
 msgstr "Kirim Informasi Mengenai Waktu Luang/Sibuk"
 
-#: calendar/gui/e-itip-control.c:2336
+#: calendar/gui/e-itip-control.c:2326
 msgid "Update respondent status"
 msgstr "Perbarui status responden"
 
-#: calendar/gui/e-itip-control.c:2364
+#: calendar/gui/e-itip-control.c:2354
 msgid "Send Latest Information"
 msgstr "Kirim Informasi Terakhir"
 
-#: calendar/gui/e-itip-control.c:2392 calendar/gui/itip-utils.c:442
+#: calendar/gui/e-itip-control.c:2382 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
@@ -6567,7 +6600,7 @@ msgid "Needs Action"
 msgstr "Butuh Penanganan"
 
 #: calendar/gui/e-meeting-list-view.c:160 calendar/gui/e-meeting-store.c:183
-#: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:398
+#: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:408
 msgid "Tentative"
 msgstr "Sementara"
 
@@ -6583,7 +6616,7 @@ msgstr "Dalam Proses"
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:452
-#: calendar/gui/e-meeting-time-sel.c:2069
+#: calendar/gui/e-meeting-time-sel.c:2079
 msgid "%A, %B %d, %Y"
 msgstr "%A, %d %B %Y"
 
@@ -6594,7 +6627,7 @@ msgstr "%A, %d %B %Y"
 #. strptime format of a weekday and a date.
 #. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
-#: calendar/gui/e-meeting-time-sel.c:2102 e-util/e-time-utils.c:203
+#: calendar/gui/e-meeting-time-sel.c:2112 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
 msgid "%a %m/%d/%Y"
 msgstr "%a %d/%m/%Y"
@@ -6610,55 +6643,55 @@ msgstr "%a %d/%m/%Y"
 msgid "%m/%d/%Y"
 msgstr "%d/%m/%Y"
 
-#: calendar/gui/e-meeting-time-sel.c:400 designs/OOA/ooa.glade.h:11
+#: calendar/gui/e-meeting-time-sel.c:410 designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
 msgstr "Keluar Kantor"
 
-#: calendar/gui/e-meeting-time-sel.c:401
+#: calendar/gui/e-meeting-time-sel.c:411
 msgid "No Information"
 msgstr "Tidak Ada Informasi"
 
-#: calendar/gui/e-meeting-time-sel.c:432
+#: calendar/gui/e-meeting-time-sel.c:442
 msgid "O_ptions"
 msgstr "_Pilihan"
 
-#: calendar/gui/e-meeting-time-sel.c:449
+#: calendar/gui/e-meeting-time-sel.c:459
 msgid "Show _only working hours"
 msgstr "Tampilkan _jam kerja saja"
 
-#: calendar/gui/e-meeting-time-sel.c:459
+#: calendar/gui/e-meeting-time-sel.c:469
 msgid "Show _zoomed out"
 msgstr "Tampilkan _zoom keluar"
 
-#: calendar/gui/e-meeting-time-sel.c:474
+#: calendar/gui/e-meeting-time-sel.c:484
 msgid "_Update free/busy"
 msgstr "Perbar_ui data waktu luang/sibuk"
 
-#: calendar/gui/e-meeting-time-sel.c:489
+#: calendar/gui/e-meeting-time-sel.c:499
 msgid "_<<"
 msgstr "_<<"
 
-#: calendar/gui/e-meeting-time-sel.c:507
+#: calendar/gui/e-meeting-time-sel.c:517
 msgid "_Autopick"
 msgstr "Pili_h otomatis"
 
-#: calendar/gui/e-meeting-time-sel.c:522
+#: calendar/gui/e-meeting-time-sel.c:532
 msgid ">_>"
 msgstr ">_>"
 
-#: calendar/gui/e-meeting-time-sel.c:539
+#: calendar/gui/e-meeting-time-sel.c:549
 msgid "_All people and resources"
 msgstr "Semu_a orang dan sumber daya"
 
-#: calendar/gui/e-meeting-time-sel.c:548
+#: calendar/gui/e-meeting-time-sel.c:558
 msgid "All _people and one resource"
 msgstr "Semua oran_g dan satu sumber daya"
 
-#: calendar/gui/e-meeting-time-sel.c:557
+#: calendar/gui/e-meeting-time-sel.c:567
 msgid "_Required people"
 msgstr "O_rang -orang yang dibutuhkan"
 
-#: calendar/gui/e-meeting-time-sel.c:566
+#: calendar/gui/e-meeting-time-sel.c:576
 msgid "Required people and _one resource"
 msgstr "_Orang-orang yang dibutuhkan dan satu sumber daya"
 
@@ -6667,7 +6700,7 @@ msgstr "_Orang-orang yang dibutuhkan dan satu sumber daya"
 msgid "Enter the password for %s"
 msgstr "Masukkan kata sandi %s"
 
-#: calendar/gui/e-tasks.c:744 calendar/gui/gnome-cal.c:2262
+#: calendar/gui/e-tasks.c:744 calendar/gui/gnome-cal.c:2313
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6697,26 +6730,26 @@ msgstr "Hapus obyek terpilih..."
 msgid "Expunging"
 msgstr "Menghapus"
 
-#: calendar/gui/gnome-cal.c:705
+#: calendar/gui/gnome-cal.c:722
 msgid "Updating query"
 msgstr "Perbarui query"
 
-#: calendar/gui/gnome-cal.c:2039
+#: calendar/gui/gnome-cal.c:2090
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Membuka janji pada %s"
 
-#: calendar/gui/gnome-cal.c:2058
+#: calendar/gui/gnome-cal.c:2109
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Membuka tugas pada %s"
 
-#: calendar/gui/gnome-cal.c:2151
+#: calendar/gui/gnome-cal.c:2202
 #, c-format
 msgid "Opening %s"
 msgstr "Membuka %s"
 
-#: calendar/gui/gnome-cal.c:3120
+#: calendar/gui/gnome-cal.c:3171
 msgid "Purging"
 msgstr "Menghapus"
 
@@ -6830,7 +6863,7 @@ msgstr "Informasi iCalendar"
 msgid "You must be an attendee of the event."
 msgstr "Anda harus menjadi peserta acara ini."
 
-#: calendar/gui/migration.c:150
+#: calendar/gui/migration.c:151
 msgid ""
 "The location and hierarchy of the Evolution task folders has changed since "
 "Evolution 1.x.\n"
@@ -6842,7 +6875,7 @@ msgstr ""
 "\n"
 "Silakan tunggu sebentar sementara Evolution melakukan migrasi folder..."
 
-#: calendar/gui/migration.c:154
+#: calendar/gui/migration.c:155
 msgid ""
 "The location and hierarchy of the Evolution calendar folders has changed "
 "since Evolution 1.x.\n"
@@ -6854,30 +6887,30 @@ msgstr ""
 "\n"
 "Silakan tunggu sebentar sementara Evolution melakukan migrasi folder..."
 
-#: calendar/gui/migration.c:380
+#: calendar/gui/migration.c:381
 msgid "Birthdays & Anniversaries"
 msgstr "Ulang Tahun dan Peringatan Pernikahan"
 
 #. Create the Webcal source group
-#: calendar/gui/migration.c:466 calendar/gui/migration.c:548
+#: calendar/gui/migration.c:479 calendar/gui/migration.c:572
 msgid "On The Web"
 msgstr "Web"
 
 #. FIXME: set proper domain/code
-#: calendar/gui/migration.c:712 calendar/gui/migration.c:864
+#: calendar/gui/migration.c:736 calendar/gui/migration.c:888
 msgid "Unable to migrate old settings from evolution/config.xmldb"
 msgstr ""
 "Tidak dapat melakukan migrasi pengaturan yang lama dari file evolution/"
 "config.xmldb"
 
 #. FIXME: domain/code
-#: calendar/gui/migration.c:741
+#: calendar/gui/migration.c:765
 #, c-format
 msgid "Unable to migrate calendar `%s'"
 msgstr "Tidak dapat melakukan migrasi terhadap kalender '%s'"
 
 #. FIXME: domain/code
-#: calendar/gui/migration.c:893
+#: calendar/gui/migration.c:917
 #, c-format
 msgid "Unable to migrate tasks `%s'"
 msgstr "Tidak dapat melakukan migrasi terhadap tugas '%s'"
@@ -7114,68 +7147,70 @@ msgstr "Pengaturan Cetak"
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
 msgstr "Daftar Tugas '%s' akan dihapus. Apakah benar ingin melakukan ini?"
 
-#: calendar/gui/tasks-component.c:372
+#: calendar/gui/tasks-component.c:378
 msgid "New Task List"
 msgstr "Buat Daftar Tugas Baru"
 
-#: calendar/gui/tasks-component.c:415
+#: calendar/gui/tasks-component.c:421
 #, c-format
 msgid "%d task"
-msgstr "%d tugas"
+msgid_plural "%d tasks"
+msgstr[0] "%d tugas"
 
-#: calendar/gui/tasks-component.c:417 mail/mail-component.c:502
+#: calendar/gui/tasks-component.c:423 mail/mail-component.c:503
 #, c-format
 msgid ", %d selected"
-msgstr ", %d yang terpilih"
+msgid_plural ", %d selected"
+msgstr[0] ", %d yang terpilih"
 
-#: calendar/gui/tasks-component.c:464
+#: calendar/gui/tasks-component.c:470
 msgid "Failed upgrading tasks."
 msgstr "Gagal saat melakukan upgrade tugas-tugas."
 
-#: calendar/gui/tasks-component.c:758
+#: calendar/gui/tasks-component.c:764
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
 "TIdak dapat membuka daftar tugas '%s' dalam rangka membuat informasi acara "
 "dan pertemuan"
 
-#: calendar/gui/tasks-component.c:773
+#: calendar/gui/tasks-component.c:779
 msgid "There is no calendar available for creating tasks"
 msgstr "Tidak ada kalender yang tersedia untuk membuat informasi tugas"
 
-#: calendar/gui/tasks-component.c:1047
+#: calendar/gui/tasks-component.c:1053
 msgid "New task"
 msgstr "Buat tugas baru"
 
-#: calendar/gui/tasks-component.c:1048
+#: calendar/gui/tasks-component.c:1054
 msgid "_Task"
 msgstr "_Tugas"
 
-#: calendar/gui/tasks-component.c:1049
+#: calendar/gui/tasks-component.c:1055
 msgid "Create a new task"
 msgstr "Buat tugas baru"
 
-#: calendar/gui/tasks-component.c:1055
+#: calendar/gui/tasks-component.c:1061
 msgid "New assigned task"
 msgstr "Buat penugasan baru"
 
-#: calendar/gui/tasks-component.c:1056
+#: calendar/gui/tasks-component.c:1062
 msgid "Assigne_d Task"
 msgstr "Lakukan _Penugasan"
 
-#: calendar/gui/tasks-component.c:1057
+#: calendar/gui/tasks-component.c:1063
 msgid "Create a new assigned task"
 msgstr "Buat sebuah penugasan"
 
-#: calendar/gui/tasks-component.c:1063
+#: calendar/gui/tasks-component.c:1069
 msgid "New task list"
 msgstr "Buat daftar tugas"
 
-#: calendar/gui/tasks-component.c:1064
+#: calendar/gui/tasks-component.c:1070
 msgid "Task l_ist"
 msgstr "Daftar _tugas"
 
-#: calendar/gui/tasks-component.c:1065
+#: calendar/gui/tasks-component.c:1071
 msgid "Create a new task list"
 msgstr "Buat daftar tugas baru"
 
@@ -7774,7 +7809,7 @@ msgstr "Amerika/Montserrat"
 msgid "America/Nassau"
 msgstr "Amerika/Nassau"
 
-#: calendar/zones.h:138
+#: calendar/zones.h:138 widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid "America/New_York"
 msgstr "Amerika/New_York"
 
@@ -8851,11 +8886,12 @@ msgstr "Melakukan sinkronisasi dengan server"
 
 #: camel/camel-disco-folder.c:41
 msgid "Copy folder content locally for offline operation"
-msgstr "Salin isi folder ke sistem lokal agar dapat dikerjakan tanpa jaringan/offline"
+msgstr ""
+"Salin isi folder ke sistem lokal agar dapat dikerjakan tanpa jaringan/offline"
 
 #: camel/camel-disco-folder.c:103
 msgid "Downloading new messages for offline mode"
-msgstr "Mendownload pesan-pesan email baru untuk keperluan modus offline"
+msgstr "Mendownload pesan-pesan email baru untuk keperluan moda offline"
 
 #: camel/camel-disco-folder.c:466
 #, c-format
@@ -8864,8 +8900,9 @@ msgstr "Menyiapkan folder '%s' untuk terputus dari jaringan/offline"
 
 #: camel/camel-disco-store.c:404
 msgid "You must be working online to complete this operation"
-msgstr "Anda harus terhubung ke jaringan/Internet terlebih dahulu untuk "
-"dapat menuntaskan operasi ini."
+msgstr ""
+"Anda harus terhubung ke jaringan/Internet terlebih dahulu untuk dapat "
+"menuntaskan operasi ini."
 
 #: camel/camel-filter-driver.c:669 camel/camel-filter-search.c:513
 #: camel/camel-process.c:48
@@ -8892,7 +8929,7 @@ msgstr "Sinkronisasi folder"
 msgid "Error parsing filter: %s: %s"
 msgstr "Error saat menelusuri filter: %s: %s"
 
-#: camel/camel-filter-driver.c:1052 camel/camel-filter-driver.c:1426
+#: camel/camel-filter-driver.c:1052 camel/camel-filter-driver.c:1429
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "Error saat menjalankan filter: %s: %s"
@@ -8926,12 +8963,12 @@ msgstr "Sinkronisasi folder"
 #: camel/camel-filter-driver.c:1235
 #, c-format
 msgid "Getting message %d of %d"
-msgstr "Mengambil pesan ke-%d dari total %d pesan email"
+msgstr "Email ke-%d dari %d"
 
 #: camel/camel-filter-driver.c:1250
 #, c-format
 msgid "Failed at message %d of %d"
-msgstr "Gagal pada pesan email ke-%d dari total %d pesan"
+msgstr "Gagal ambil email ke-%d dari %d"
 
 #: camel/camel-filter-search.c:136
 msgid "Failed to retrieve message"
@@ -9064,15 +9101,15 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
 #: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
-#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1231
-#: camel/providers/nntp/camel-nntp-store.c:1329 mail/mail-ops.c:705
-#: mail/mail-send-recv.c:611
+#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1261
+#: mail/mail-ops.c:716 mail/mail-send-recv.c:611
 msgid "Cancelled."
 msgstr "Dibatalkan."
 
 #: camel/camel-gpg-context.c:822
 msgid "Failed to unlock secret key: 3 bad passphrases given."
-msgstr "Gagal saat membuka kunci rahasia: password diketikkan salah sebanyak 3 kali."
+msgstr ""
+"Gagal saat membuka kunci rahasia: password diketikkan salah sebanyak 3 kali."
 
 #: camel/camel-gpg-context.c:828
 #, c-format
@@ -9125,13 +9162,16 @@ msgstr "Bagian pesan email ini ditandatangani secara digital"
 #: camel/camel-gpg-context.c:1443 camel/camel-smime-context.c:721
 #: camel/camel-smime-context.c:732 camel/camel-smime-context.c:739
 msgid "Cannot verify message signature: Incorrect message format"
-msgstr "Tidak dapat memeriksa tanda tangan digital pada pesan email ini: Bentuknya tidak benar"
+msgstr ""
+"Tidak dapat memeriksa tanda tangan digital pada pesan email ini: Bentuknya "
+"tidak benar"
 
 #: camel/camel-gpg-context.c:1477
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr "Tidak dapat memeriksa tanda tangan digital pada pesan email ini: Tidak dapat membuat file "
-"sementara: %s"
+msgstr ""
+"Tidak dapat memeriksa tanda tangan digital pada pesan email ini: Tidak dapat "
+"membuat file sementara: %s"
 
 #: camel/camel-gpg-context.c:1565
 #, c-format
@@ -9178,7 +9218,9 @@ msgstr "Tidak dapat membuat file lock untuk %s: %s"
 #: camel/camel-lock.c:154
 #, c-format
 msgid "Timed out trying to get lock file on %s. Try again later."
-msgstr "Waktu habis saat mencoba mengambil kunci file pada %s. Silakan coba lagi nanti."
+msgstr ""
+"Waktu habis saat mencoba mengambil kunci file pada %s. Silakan coba lagi "
+"nanti."
 
 #: camel/camel-lock.c:209
 #, c-format
@@ -9190,56 +9232,56 @@ msgstr "Gagal mengambil alih kunci menggunakan fcnt(2): %s"
 msgid "Failed to get lock using flock(2): %s"
 msgstr "Gagal mengambil alih kunci menggunakan flock(2): %s"
 
-#: camel/camel-movemail.c:107
+#: camel/camel-movemail.c:105
 #, c-format
 msgid "Could not check mail file %s: %s"
 msgstr "Tidak dapat mengecek email %s: %s"
 
-#: camel/camel-movemail.c:120
+#: camel/camel-movemail.c:118
 #, c-format
 msgid "Could not open mail file %s: %s"
 msgstr "Tidak dapat membuka file pesan email %s: %s"
 
-#: camel/camel-movemail.c:128
+#: camel/camel-movemail.c:126
 #, c-format
 msgid "Could not open temporary mail file %s: %s"
 msgstr "Tidak dapat membuka file email sementara %s: %s"
 
-#: camel/camel-movemail.c:157
+#: camel/camel-movemail.c:155
 #, c-format
 msgid "Failed to store mail in temp file %s: %s"
 msgstr "Tidak dapat menyimpan file email pada file sementara %s: %s"
 
-#: camel/camel-movemail.c:187
+#: camel/camel-movemail.c:185
 #, c-format
 msgid "Could not create pipe: %s"
 msgstr "Tidak dapat membuat pipa: %s"
 
-#: camel/camel-movemail.c:199
+#: camel/camel-movemail.c:197
 #, c-format
 msgid "Could not fork: %s"
 msgstr "Tidak dapat meluncurkan program: %s"
 
-#: camel/camel-movemail.c:237
+#: camel/camel-movemail.c:235
 #, c-format
 msgid "Movemail program failed: %s"
 msgstr "Program movemail gagal: %s"
 
-#: camel/camel-movemail.c:238
+#: camel/camel-movemail.c:236
 msgid "(Unknown error)"
 msgstr "(Error tidak dikenal)"
 
-#: camel/camel-movemail.c:261
+#: camel/camel-movemail.c:259
 #, c-format
 msgid "Error reading mail file: %s"
 msgstr "Error saat membaca file email: %s"
 
-#: camel/camel-movemail.c:272
+#: camel/camel-movemail.c:270
 #, c-format
 msgid "Error writing mail temp file: %s"
 msgstr "Error saat menulis file sementara: %s"
 
-#: camel/camel-movemail.c:465 camel/camel-movemail.c:532
+#: camel/camel-movemail.c:463 camel/camel-movemail.c:530
 #, c-format
 msgid "Error copying mail temp file: %s"
 msgstr "Error menyalin pesan email ke file sementara: %s"
@@ -9267,7 +9309,8 @@ msgstr "Untuk membaca email sebagai query dari kumpulan folder lain"
 #: camel/camel-provider.c:172
 #, c-format
 msgid "Could not load %s: Module loading not supported on this system."
-msgstr "Tidak dapat membuka %s: Pembukaan modul tidak dapat dilakukan pada sistem ini"
+msgstr ""
+"Tidak dapat membuka %s: Pembukaan modul tidak dapat dilakukan pada sistem ini"
 
 #: camel/camel-provider.c:181
 #, c-format
@@ -9290,7 +9333,8 @@ msgstr "Anonim"
 
 #: camel/camel-sasl-anonymous.c:37
 msgid "This option will connect to the server using an anonymous login."
-msgstr "Pilihan ini akan membuat Anda tersambung ke server dengan login anonim."
+msgstr ""
+"Pilihan ini akan membuat Anda tersambung ke server dengan login anonim."
 
 #: camel/camel-sasl-anonymous.c:112 camel/camel-sasl-plain.c:87
 msgid "Authentication failed."
@@ -9357,17 +9401,18 @@ msgstr "Challenge server tidak benar\n"
 
 #: camel/camel-sasl-digest-md5.c:828
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-msgstr "Challenge server berisi token \"Kualitas Perlindungan\" yang tidak benar\n"
+msgstr ""
+"Challenge server berisi token \"Kualitas Perlindungan\" yang tidak benar\n"
 
-#: camel/camel-sasl-digest-md5.c:850
+#: camel/camel-sasl-digest-md5.c:858
 msgid "Server response did not contain authorization data\n"
 msgstr "Server tidak merespon dengan data otorisasi\n"
 
-#: camel/camel-sasl-digest-md5.c:868
+#: camel/camel-sasl-digest-md5.c:876
 msgid "Server response contained incomplete authorization data\n"
 msgstr "Server tidak merespon dengan data otorisasi yang lengkap\n"
 
-#: camel/camel-sasl-digest-md5.c:878
+#: camel/camel-sasl-digest-md5.c:886
 msgid "Server response does not match\n"
 msgstr "Respon server tidak cocok\n"
 
@@ -9377,7 +9422,8 @@ msgstr "GSSAPI"
 
 #: camel/camel-sasl-gssapi.c:54
 msgid "This option will connect to the server using Kerberos 5 authentication."
-msgstr "Pilihan ini akan membuat Anda tersambung ke server menggunakan otentikasi "
+msgstr ""
+"Pilihan ini akan membuat Anda tersambung ke server menggunakan otentikasi "
 "Kerberos 5"
 
 #: camel/camel-sasl-gssapi.c:152
@@ -9432,14 +9478,9 @@ msgstr ""
 
 #: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
 #: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
-#: camel/camel-sasl-kerberos4.c:219
-#: camel/providers/imap/camel-imap-store.c:1236
+#: camel/camel-sasl-kerberos4.c:225
+#: camel/providers/imap/camel-imap-store.c:1256
 msgid "Bad authentication response from server."
-msgstr ""
-
-#: camel/camel-sasl-gssapi.c:217
-#, c-format
-msgid "Failed to resolve host `%s': %s"
 msgstr ""
 
 #: camel/camel-sasl-gssapi.c:303
@@ -9454,7 +9495,7 @@ msgstr "Kerberos 4"
 msgid "This option will connect to the server using Kerberos 4 authentication."
 msgstr ""
 
-#: camel/camel-sasl-kerberos4.c:162
+#: camel/camel-sasl-kerberos4.c:168
 #, c-format
 msgid ""
 "Could not get Kerberos ticket:\n"
@@ -9467,7 +9508,9 @@ msgstr "Login"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
-msgstr "Pilihan ini akan membuat Anda tersambung ke server menggunakan kata sandi biasa."
+msgstr ""
+"Pilihan ini akan membuat Anda tersambung ke server menggunakan kata sandi "
+"biasa."
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
@@ -9482,8 +9525,8 @@ msgid ""
 "This option will connect to a Windows-based server using NTLM / Secure "
 "Password Authentication."
 msgstr ""
-"Pilihan ini akan membuat Anda tersambung ke server menggunakan NTLM / "
-"Secure Password Authentication."
+"Pilihan ini akan membuat Anda tersambung ke server menggunakan NTLM / Secure "
+"Password Authentication."
 
 #: camel/camel-sasl-plain.c:32
 msgid "PLAIN"
@@ -9495,7 +9538,8 @@ msgstr "POP sesaat sebelum SMTP"
 
 #: camel/camel-sasl-popb4smtp.c:38
 msgid "This option will authorise a POP connection before attempting SMTP"
-msgstr "Pilihan ini akan melakukan otorisasi koneksi POP sebelum menjalankan SMTP"
+msgstr ""
+"Pilihan ini akan melakukan otorisasi koneksi POP sebelum menjalankan SMTP"
 
 #: camel/camel-sasl-popb4smtp.c:103
 msgid "POP Source URI"
@@ -9514,57 +9558,51 @@ msgstr "Otentikasi POP Sebelum SMTP menggunakan layanan bukan pop"
 msgid "Regular expression compilation failed: %s: %s"
 msgstr "Kompilasi regular expression gagal: %s: %s"
 
-#: camel/camel-service.c:271
+#: camel/camel-service.c:274
 #, c-format
 msgid "URL '%s' needs a username component"
 msgstr "Komponen username harus disisipkan pada URL '%s'"
 
-#: camel/camel-service.c:275
+#: camel/camel-service.c:278
 #, c-format
 msgid "URL '%s' needs a host component"
 msgstr "Komponen host harus disisipkan pada URL '%s'"
 
-#: camel/camel-service.c:279
+#: camel/camel-service.c:282
 #, c-format
 msgid "URL '%s' needs a path component"
 msgstr "Komponen path harus disisipkan pada URL '%s'"
 
-#: camel/camel-service.c:729
+#: camel/camel-service.c:743
+msgid "cannot create thread"
+msgstr "Tidak dapat membuat thread"
+
+#: camel/camel-service.c:890
 #, c-format
 msgid "Resolving: %s"
 msgstr "Mencari: %s"
 
-#: camel/camel-service.c:760 camel/camel-service.c:884
-#, c-format
-msgid "Failure in name lookup: %s"
-msgstr "Gagal saat mencari alamat domain: %s"
+#: camel/camel-service.c:912
+msgid "Host lookup failed"
+msgstr "Gagal saat mencari alamat untuk ranah/domain"
 
-#: camel/camel-service.c:781 camel/camel-service.c:905
+#: camel/camel-service.c:914
 #, c-format
-msgid "Host lookup failed: cannot create thread: %s"
-msgstr "Gagal saat mencari alamat domain: tidak dapat membuat thread: %s"
+msgid "Host lookup failed: %s: %s"
+msgstr "Gagal saat mencari alamat untuk ranah/domain: %s: %s"
 
-#: camel/camel-service.c:794
-#, c-format
-msgid "Host lookup failed: %s: host not found"
-msgstr "Gagal saat mencari alamat untuk domain: %s: alamat tidak dikenal"
-
-#: camel/camel-service.c:797
-#, c-format
-msgid "Host lookup failed: %s: unknown reason"
-msgstr "Gagal saat mencari alamat untuk domain: %s: error tidak diketahui"
-
-#: camel/camel-service.c:851
+#: camel/camel-service.c:1021
 msgid "Resolving address"
 msgstr "Pencarian alamat"
 
-#: camel/camel-service.c:920
-msgid "Host lookup failed: host not found"
-msgstr "Gagal saat mencari alamat untuk domain: alamat tidak ditemukan"
+#: camel/camel-service.c:1041
+msgid "Name lookup failed"
+msgstr ""
 
-#: camel/camel-service.c:923
-msgid "Host lookup failed: unknown reason"
-msgstr "Gagal saat mencari alamat untuk domain: error tidak diketahui"
+#: camel/camel-service.c:1044
+#, c-format
+msgid "Name lookup failed: %s"
+msgstr "Pencarian nama gagal: %s"
 
 #: camel/camel-session.c:282
 #, c-format
@@ -9708,11 +9746,15 @@ msgstr "Impor sertifikat gagal"
 
 #: camel/camel-smime-context.c:628
 msgid "Certificate only message, cannot verify certificates"
-msgstr "Pesan email hanya berisi sertifikat, sementara sertifikatnya tidak dapat diverifikasi"
+msgstr ""
+"Pesan email hanya berisi sertifikat, sementara sertifikatnya tidak dapat "
+"diverifikasi"
 
 #: camel/camel-smime-context.c:631
 msgid "Certificate only message, certificates imported and verified"
-msgstr "Pesan email hanya berisi sertifikat, sertifikatnya telah diimpor dan diverifikasi"
+msgstr ""
+"Pesan email hanya berisi sertifikat, sertifikatnya telah diimpor dan "
+"diverifikasi"
 
 #: camel/camel-smime-context.c:635
 msgid "Cannot find signature digests"
@@ -9804,12 +9846,12 @@ msgstr ""
 msgid "Cannot create folder: %s: folder exists"
 msgstr ""
 
-#: camel/camel-store.c:389 camel/camel-vee-store.c:351
+#: camel/camel-store.c:389 camel/camel-vee-store.c:366
 #, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
 msgstr ""
 
-#: camel/camel-store.c:439 camel/camel-vee-store.c:388
+#: camel/camel-store.c:439 camel/camel-vee-store.c:403
 #: camel/providers/local/camel-maildir-store.c:232
 #, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
@@ -9817,7 +9859,7 @@ msgstr ""
 
 #: camel/camel-store.c:777
 msgid "Trash"
-msgstr "Keranjang Sampah"
+msgstr "Email Buangan"
 
 #: camel/camel-store.c:779 mail/em-filter-i18n.h:35
 #: mail/mail-config.glade.h:95 ui/evolution-mail-message.xml.h:48
@@ -10031,26 +10073,26 @@ msgstr ""
 msgid "Could not parse URL `%s'"
 msgstr ""
 
-#: camel/camel-vee-folder.c:633
+#: camel/camel-vee-folder.c:603
 #, c-format
 msgid "Error storing `%s': %s"
 msgstr ""
 
-#: camel/camel-vee-folder.c:675
+#: camel/camel-vee-folder.c:645
 #, c-format
 msgid "No such message %s in %s"
 msgstr ""
 
-#: camel/camel-vee-folder.c:841 camel/camel-vee-folder.c:847
+#: camel/camel-vee-folder.c:812 camel/camel-vee-folder.c:818
 msgid "Cannot copy or move messages into a Virtual Folder"
 msgstr ""
 
-#: camel/camel-vee-store.c:374
+#: camel/camel-vee-store.c:389
 #, c-format
 msgid "Cannot delete folder: %s: No such folder"
 msgstr ""
 
-#: camel/camel-vee-store.c:396
+#: camel/camel-vee-store.c:411
 #, c-format
 msgid "Cannot rename folder: %s: No such folder"
 msgstr ""
@@ -10132,31 +10174,22 @@ msgstr "Password"
 msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 
-#: camel/providers/groupwise/camel-gw-listener.c:362
+#: camel/providers/groupwise/camel-gw-listener.c:402
 msgid "Checklist"
 msgstr ""
 
 #: camel/providers/imap/camel-imap-command.c:218
 #: camel/providers/imap/camel-imap-command.c:257
 #: camel/providers/imap/camel-imap-command.c:447
-#: camel/providers/imap/camel-imap-store.c:3220
+#: camel/providers/imap/camel-imap-store.c:3240
 msgid "Operation cancelled"
 msgstr "Operasi dibatalkan"
 
 #: camel/providers/imap/camel-imap-command.c:302
-#: camel/providers/imap/camel-imap-store.c:3223
+#: camel/providers/imap/camel-imap-store.c:3243
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr ""
-
-#: camel/providers/imap/camel-imap-command.c:303
-#: camel/providers/imap/camel-imap-command.c:400
-#: camel/providers/imap4/camel-imap4-store.c:283
-#: camel/providers/pop3/camel-pop3-store.c:543
-#: camel/providers/pop3/camel-pop3-store.c:550
-#: camel/providers/pop3/camel-pop3-store.c:556 shell/e-shell.c:1220
-msgid "Unknown error"
-msgstr "Keybord tak dikenal"
 
 #. for imap ALERT codes, account user@host
 #: camel/providers/imap/camel-imap-command.c:320
@@ -10223,7 +10256,7 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-folder.c:1975
 #: camel/providers/local/camel-maildir-folder.c:244
-#: camel/providers/local/camel-mbox-folder.c:418
+#: camel/providers/local/camel-mbox-folder.c:415
 #: camel/providers/local/camel-mh-folder.c:202
 msgid "No such message"
 msgstr ""
@@ -10338,80 +10371,80 @@ msgstr "Server IMAP %s"
 msgid "IMAP service for %s on %s"
 msgstr "Layanan IMAP untuk %s pada %s"
 
-#: camel/providers/imap/camel-imap-store.c:547
-#: camel/providers/imap/camel-imap-store.c:567
-#: camel/providers/imap4/camel-imap4-store.c:214
-#: camel/providers/imap4/camel-imap4-store.c:230
-#: camel/providers/imapp/camel-imapp-store.c:231
-#: camel/providers/nntp/camel-nntp-store.c:209
-#: camel/providers/pop3/camel-pop3-store.c:175
-#: camel/providers/smtp/camel-smtp-transport.c:269
-#: camel/providers/smtp/camel-smtp-transport.c:285
+#: camel/providers/imap/camel-imap-store.c:559
+#: camel/providers/imap/camel-imap-store.c:587
+#: camel/providers/imapp/camel-imapp-store.c:249
+#: camel/providers/nntp/camel-nntp-store.c:230
+#: camel/providers/pop3/camel-pop3-store.c:184
+#: camel/providers/smtp/camel-smtp-transport.c:278
+#: camel/providers/smtp/camel-smtp-transport.c:304
 #, c-format
-msgid "Could not connect to %s (port %d): %s"
-msgstr "Tidak dapat terhubung ke %s (port %d): %s"
+msgid "Could not connect to %s (port %s): %s"
+msgstr "Tidak dapat terhubung ke %s (port %s): %s"
 
-#: camel/providers/imap/camel-imap-store.c:549
-#: camel/providers/imap4/camel-imap4-store.c:216
-#: camel/providers/pop3/camel-pop3-store.c:177
-#: camel/providers/smtp/camel-smtp-transport.c:271
+#: camel/providers/imap/camel-imap-store.c:561
+#: camel/providers/imap4/camel-imap4-store.c:210
+#: camel/providers/pop3/camel-pop3-store.c:186
+#: camel/providers/smtp/camel-smtp-transport.c:280
 msgid "SSL unavailable"
 msgstr "SSL tidak tersedia"
 
-#: camel/providers/imap/camel-imap-store.c:564
-#: camel/providers/imap/camel-imap-store.c:841
-#: camel/providers/imap4/camel-imap4-store.c:227
-#: camel/providers/imapp/camel-imapp-store.c:228
-#: camel/providers/nntp/camel-nntp-store.c:206
-#: camel/providers/nntp/camel-nntp-store.c:224
-#: camel/providers/pop3/camel-pop3-store.c:192
+#: camel/providers/imap/camel-imap-store.c:584
+#: camel/providers/imap/camel-imap-store.c:861
+#: camel/providers/imap4/camel-imap4-store.c:221
+#: camel/providers/imapp/camel-imapp-store.c:246
+#: camel/providers/nntp/camel-nntp-store.c:227
+#: camel/providers/nntp/camel-nntp-store.c:245
+#: camel/providers/pop3/camel-pop3-store.c:210
 msgid "Connection cancelled"
 msgstr "Koneksi terputus"
 
-#: camel/providers/imap/camel-imap-store.c:675
-#: camel/providers/imap/camel-imap-store.c:706
-#: camel/providers/imap4/camel-imap4-store.c:282
+#: camel/providers/imap/camel-imap-store.c:695
+#: camel/providers/imap/camel-imap-store.c:726
+#: camel/providers/imap4/camel-imap4-store.c:246
+#: camel/providers/imap4/camel-imap4-store.c:259
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-store.c:676
-#: camel/providers/pop3/camel-pop3-store.c:233
+#: camel/providers/imap/camel-imap-store.c:696
+#: camel/providers/pop3/camel-pop3-store.c:251
 msgid "SSL/TLS extension not supported."
 msgstr "Tambahan SSL/TSL tidak dapat digunakan."
 
-#: camel/providers/imap/camel-imap-store.c:707
-#: camel/providers/pop3/camel-pop3-store.c:274
+#: camel/providers/imap/camel-imap-store.c:727
+#: camel/providers/imap4/camel-imap4-store.c:247
+#: camel/providers/pop3/camel-pop3-store.c:292
 msgid "SSL negotiations failed"
 msgstr "Negosiasi SSL gagal"
 
-#: camel/providers/imap/camel-imap-store.c:844
+#: camel/providers/imap/camel-imap-store.c:864
 #, c-format
 msgid "Could not connect with command \"%s\": %s"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-store.c:1268
+#: camel/providers/imap/camel-imap-store.c:1288
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-store.c:1278
-#: camel/providers/smtp/camel-smtp-transport.c:486
+#: camel/providers/imap/camel-imap-store.c:1298
+#: camel/providers/smtp/camel-smtp-transport.c:505
 #, c-format
 msgid "No support for authentication type %s"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-store.c:1301
-#: camel/providers/imapp/camel-imapp-store.c:344
+#: camel/providers/imap/camel-imap-store.c:1321
+#: camel/providers/imapp/camel-imapp-store.c:362
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-store.c:1315
+#: camel/providers/imap/camel-imap-store.c:1335
 msgid "You didn't enter a password."
 msgstr ""
 
-#: camel/providers/imap/camel-imap-store.c:1344
+#: camel/providers/imap/camel-imap-store.c:1364
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -10419,35 +10452,35 @@ msgid ""
 "\n"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-store.c:1863
-#: camel/providers/imap/camel-imap-store.c:2053
+#: camel/providers/imap/camel-imap-store.c:1883
+#: camel/providers/imap/camel-imap-store.c:2073
 #, c-format
 msgid "No such folder %s"
 msgstr "Folder %s tidak ada"
 
-#: camel/providers/imap/camel-imap-store.c:1881
-#: camel/providers/imap/camel-imap-store.c:2259
-#: camel/providers/imap4/camel-imap4-store.c:764
+#: camel/providers/imap/camel-imap-store.c:1901
+#: camel/providers/imap/camel-imap-store.c:2279
+#: camel/providers/imap4/camel-imap4-store.c:745
 #, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr ""
 "Nama folder \"%s\" tidak dapat digunakan karena mengandung karakter \"%c\""
 
-#: camel/providers/imap/camel-imap-store.c:1939
-#: camel/providers/imap/camel-imap-store.c:2320
+#: camel/providers/imap/camel-imap-store.c:1959
+#: camel/providers/imap/camel-imap-store.c:2340
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "Folder induk tidak diperbolehkan memiliki folder anak"
 
-#: camel/providers/imap/camel-imap-store.c:1994
+#: camel/providers/imap/camel-imap-store.c:2014
 #: camel/providers/local/camel-maildir-store.c:139
-#: camel/providers/local/camel-mbox-store.c:212
+#: camel/providers/local/camel-mbox-store.c:209
 #: camel/providers/local/camel-mh-store.c:236
 #, c-format
 msgid "Cannot create folder `%s': folder exists."
 msgstr "TIdak dapat membuat folder '%s' karena folder tersebut sudah ada."
 
-#: camel/providers/imap/camel-imap-store.c:2270
+#: camel/providers/imap/camel-imap-store.c:2290
 #, c-format
 msgid "Unknown parent folder: %s"
 msgstr "Folder induk tidak diketahui: %s"
@@ -10489,12 +10522,14 @@ msgstr "Koneksi ke server IMAP4 %s secara tiba-tiba terputus: %s"
 #: camel/providers/imap4/camel-imap4-folder.c:359
 #, c-format
 msgid "Cannot sync flags to folder `%s': Unknown"
-msgstr "Tidak dapat melakukan sinkron flag ke folder '%s': Tidak diketahui alasannya"
+msgstr ""
+"Tidak dapat melakukan sinkron flag ke folder '%s': Tidak diketahui alasannya"
 
 #: camel/providers/imap4/camel-imap4-folder.c:365
 #, c-format
 msgid "Cannot sync flags to folder `%s': Bad command"
-msgstr "Tidak dapat melakukan sinkron flag ke folder '%s': Perintah tidak benar"
+msgstr ""
+"Tidak dapat melakukan sinkron flag ke folder '%s': Perintah tidak benar"
 
 #: camel/providers/imap4/camel-imap4-folder.c:502
 #, c-format
@@ -10509,7 +10544,9 @@ msgstr "Tidak dapat menghapus folder '%s': Perintah tidak benar"
 #: camel/providers/imap4/camel-imap4-folder.c:697
 #, c-format
 msgid "Cannot get message %s from folder `%s': No such message"
-msgstr "Tidak dapat mengambil pesan %s dari folder '%s': Pesan tersebut sudah tidak ada"
+msgstr ""
+"Tidak dapat mengambil pesan %s dari folder '%s': Pesan tersebut sudah tidak "
+"ada"
 
 #: camel/providers/imap4/camel-imap4-folder.c:702
 #, c-format
@@ -10519,7 +10556,8 @@ msgstr "Tidak dapat mengambil pesan %s dari folder '%s': Perintah tidak benar"
 #: camel/providers/imap4/camel-imap4-folder.c:827
 #, c-format
 msgid "Cannot append message to folder `%s': Unknown error"
-msgstr "Tidak dapat menyambung pesan ke folder '%s': Error persisnya tidak diketahui"
+msgstr ""
+"Tidak dapat menyambung pesan ke folder '%s': Error persisnya tidak diketahui"
 
 #: camel/providers/imap4/camel-imap4-folder.c:856
 #, c-format
@@ -10529,22 +10567,28 @@ msgstr "Tidak dapat menyambung pesan ke folder '%s': Perintah tidak benar"
 #: camel/providers/imap4/camel-imap4-folder.c:935
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
-msgstr "Tidak dapat memindahkan pesan dari folder '%s' ke folder '%s': Error tidak jelas"
+msgstr ""
+"Tidak dapat memindahkan pesan dari folder '%s' ke folder '%s': Error tidak "
+"jelas"
 
 #: camel/providers/imap4/camel-imap4-folder.c:939
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
-msgstr "Tidak dapat menyalin pesan dari folder '%s' ke folder '%s': Error tidak jelas"
+msgstr ""
+"Tidak dapat menyalin pesan dari folder '%s' ke folder '%s': Error tidak jelas"
 
 #: camel/providers/imap4/camel-imap4-folder.c:947
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
-msgstr "Tidak dapat memindahkan pesan dari folder '%s' ke folder '%s': Perintah salah"
+msgstr ""
+"Tidak dapat memindahkan pesan dari folder '%s' ke folder '%s': Perintah salah"
 
 #: camel/providers/imap4/camel-imap4-folder.c:951
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
-msgstr "Tidak dapat menyalin pesan dari folder '%s' ke folder '%s': Perintah tidak benar"
+msgstr ""
+"Tidak dapat menyalin pesan dari folder '%s' ke folder '%s': Perintah tidak "
+"benar"
 
 #: camel/providers/imap4/camel-imap4-provider.c:53
 msgid "IMAPv4rev1"
@@ -10552,110 +10596,116 @@ msgstr "IMAPv4rev1"
 
 #: camel/providers/imap4/camel-imap4-provider.c:55
 msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-msgstr "Untuk membaca dan menyimpan email pada server IMAPv4rev1. EKSPERIMENTAL!"
+msgstr ""
+"Untuk membaca dan menyimpan email pada server IMAPv4rev1. EKSPERIMENTAL!"
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
 msgid ""
 "This option will connect to the IMAPv4rev1 server using a plaintext password."
 msgstr ""
-"Pilihan ini akan membuat Anda tersambung ke server IMAPv4rev1 dengan menggunakan sandi tak teracak."
+"Pilihan ini akan membuat Anda tersambung ke server IMAPv4rev1 dengan "
+"menggunakan sandi tak teracak."
 
-#: camel/providers/imap4/camel-imap4-store.c:257
+#: camel/providers/imap4/camel-imap4-store.c:209
+#: camel/providers/imap4/camel-imap4-store.c:224
 #, c-format
-msgid ""
-"Failed to connect to IMAP server %s in secure mode: Server does not support "
-"STARTTLS"
-msgstr ""
-"Gagal tersambung ke server IMAP %s dalam modus aman: Server tidak mendukung "
-"penggunaan STARTTLS"
+msgid "Could not connect to %s: %s"
+msgstr "Tidak dapat terhubung ke %s: %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:363
+#: camel/providers/imap4/camel-imap4-store.c:344
 #, c-format
 msgid ""
 "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr ""
 "Tidak dapat otentikasi server IMAP %s menggunakan mekanisme otentikasi %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:408
+#: camel/providers/imap4/camel-imap4-store.c:389
 #, c-format
 msgid "%sPlease enter the IMAP password for %s on host %s"
 msgstr "%sSilakan masukkan kata sandi IMAP %s pada host %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:478
+#: camel/providers/imap4/camel-imap4-store.c:459
 #, c-format
 msgid "Cannot authenticate to IMAP server %s using %s"
 msgstr "Tidak dapat otentikasi ke server IMAP %s dengan %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:701
+#: camel/providers/imap4/camel-imap4-store.c:682
 #, c-format
 msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
 msgstr "Folder '%s' tidak dapat dibuka pada server IMAP %s: Error tidak jelas"
 
-#: camel/providers/imap4/camel-imap4-store.c:815
+#: camel/providers/imap4/camel-imap4-store.c:796
 #, c-format
 msgid "Cannot create folder `%s': Invalid mailbox name"
 msgstr "Tidak dapat membuat folder '%s': Nama kotak surat tidak benar"
 
-#: camel/providers/imap4/camel-imap4-store.c:821
+#: camel/providers/imap4/camel-imap4-store.c:802
 #, c-format
 msgid "Cannot create folder `%s': Bad command"
 msgstr "Tidak dapat membuat folder '%s': Perintah tidak benar"
 
-#: camel/providers/imap4/camel-imap4-store.c:852
+#: camel/providers/imap4/camel-imap4-store.c:833
 #, c-format
 msgid "Cannot delete folder `%s': Special folder"
 msgstr "Tidak dapat menghapus folder '%s': Folder adalah folder khusus"
 
-#: camel/providers/imap4/camel-imap4-store.c:911
+#: camel/providers/imap4/camel-imap4-store.c:892
 #, c-format
 msgid "Cannot delete folder `%s': Invalid mailbox name"
 msgstr "Tidak dapat menghapus folder '%s': Nama kotak surat tidak benar"
 
-#: camel/providers/imap4/camel-imap4-store.c:916
+#: camel/providers/imap4/camel-imap4-store.c:897
 #, c-format
 msgid "Cannot delete folder `%s': Bad command"
 msgstr "Tidak dapat menghapus folder '%s': Perintah tidak benar"
 
-#: camel/providers/imap4/camel-imap4-store.c:936
+#: camel/providers/imap4/camel-imap4-store.c:917
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Special folder"
-msgstr "Tidak dapat mengubah nama folder dari '%s' menjadi '%s': Folder adalah folder khusus"
+msgstr ""
+"Tidak dapat mengubah nama folder dari '%s' menjadi '%s': Folder adalah "
+"folder khusus"
 
-#: camel/providers/imap4/camel-imap4-store.c:968
+#: camel/providers/imap4/camel-imap4-store.c:949
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
-msgstr "Tidak dapat mengubah nama folder dari '%s' menjadi '%s': Nama kotak surat tidak benar"
+msgstr ""
+"Tidak dapat mengubah nama folder dari '%s' menjadi '%s': Nama kotak surat "
+"tidak benar"
 
-#: camel/providers/imap4/camel-imap4-store.c:973
+#: camel/providers/imap4/camel-imap4-store.c:954
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Bad command"
-msgstr "Tidak dapat mengubah nama folder dari '%s' menjadi '%s': Perintah tidak benar"
+msgstr ""
+"Tidak dapat mengubah nama folder dari '%s' menjadi '%s': Perintah tidak benar"
 
-#: camel/providers/imap4/camel-imap4-store.c:1221
+#: camel/providers/imap4/camel-imap4-store.c:1202
 #, c-format
 msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
-msgstr "Tidak dapat mengambil informasi %s untuk pola '%s' pada server IMAP %s: %s"
+msgstr ""
+"Tidak dapat mengambil informasi %s untuk pola '%s' pada server IMAP %s: %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:1223
+#: camel/providers/imap4/camel-imap4-store.c:1204
 msgid "Bad command"
 msgstr "Perintah tidak benar"
 
-#: camel/providers/imap4/camel-imap4-store.c:1299
+#: camel/providers/imap4/camel-imap4-store.c:1280
 #, c-format
 msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
 msgstr "Tidak dapat berlangganan ke folder '%s': kotak surat tidak benar"
 
-#: camel/providers/imap4/camel-imap4-store.c:1304
+#: camel/providers/imap4/camel-imap4-store.c:1285
 #, c-format
 msgid "Cannot subscribe to folder `%s': Bad command"
 msgstr "Tidak dapat berlangganan ke folder '%s': Perintah tidak benar"
 
-#: camel/providers/imap4/camel-imap4-store.c:1364
+#: camel/providers/imap4/camel-imap4-store.c:1345
 #, c-format
 msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
-msgstr "Tidak dapat berhenti langganan dari folder '%s': Nama kotak surat salah"
+msgstr ""
+"Tidak dapat berhenti langganan dari folder '%s': Nama kotak surat salah"
 
-#: camel/providers/imap4/camel-imap4-store.c:1369
+#: camel/providers/imap4/camel-imap4-store.c:1350
 #, c-format
 msgid "Cannot unsubscribe from folder `%s': Bad command"
 msgstr "Tidak dapat berhenti langganan dari folder '%s': Perintah tidak benar"
@@ -10691,11 +10741,12 @@ msgid ""
 " !!! DO NOT USE THIS FOR PRODUCTION EMAIL  !!!\n"
 msgstr ""
 "Klien eksperimental IMAP 4(.1)\n"
-"Program ini belum dites penuh dan tidak didukung, silakan gunakan imap biasa saja.\n"
+"Program ini belum dites penuh dan tidak didukung, silakan gunakan imap biasa "
+"saja.\n"
 "\n"
 "!!! JANGAN GUNAKAN DALAM KEGIATAS PRODUKSI !!!\n"
 
-#: camel/providers/imapp/camel-imapp-store.c:328
+#: camel/providers/imapp/camel-imapp-store.c:346
 #, c-format
 msgid "Could not connect to POP server on %s"
 msgstr "Tidak dapat tersambung ke server POP pada %s"
@@ -10705,20 +10756,20 @@ msgid "Index message body data"
 msgstr "Indeks data badan pesan"
 
 #. $HOME relative path + protocol string
-#: camel/providers/local/camel-local-folder.c:388
+#: camel/providers/local/camel-local-folder.c:391
 #, c-format
 msgid "~%s (%s)"
 msgstr "~%s (%s)"
 
 #. /var/spool/mail relative path + protocol
-#: camel/providers/local/camel-local-folder.c:392
 #: camel/providers/local/camel-local-folder.c:395
+#: camel/providers/local/camel-local-folder.c:398
 #, c-format
 msgid "mailbox:%s (%s)"
 msgstr "mailbox:%s (%s)"
 
 #. a full path + protocol
-#: camel/providers/local/camel-local-folder.c:399
+#: camel/providers/local/camel-local-folder.c:402
 #, c-format
 msgid "%s (%s)"
 msgstr "%s (%s)"
@@ -10773,12 +10824,13 @@ msgid ""
 "For reading and storing local mail in external standard mbox spool files.\n"
 "May also be used to read a tree of Elm, Pine, or Mutt style folders."
 msgstr ""
-"Untuk membaca dan menyimpan email lokal padafile spool mbox standar eksternal.\n"
+"Untuk membaca dan menyimpan email lokal padafile spool mbox standar "
+"eksternal.\n"
 "Juga dapat digunakan untuk membaca folder dari Elm, Pine, atau Mutt."
 
 #: camel/providers/local/camel-local-store.c:142
 #: camel/providers/local/camel-local-store.c:253
-#: camel/providers/local/camel-mbox-store.c:355
+#: camel/providers/local/camel-mbox-store.c:352
 #: camel/providers/local/camel-spool-store.c:116
 #, c-format
 msgid "Store root %s is not an absolute path"
@@ -10816,19 +10868,19 @@ msgid "Could not rename '%s': %s"
 msgstr "Tidak dapat mengubah nama '%s': %s"
 
 #: camel/providers/local/camel-local-store.c:423
-#: camel/providers/local/camel-mbox-store.c:284
+#: camel/providers/local/camel-mbox-store.c:281
 #, c-format
 msgid "Could not delete folder summary file `%s': %s"
 msgstr "Tidak dapat menghapus file ringkasan folder '%s': %s"
 
 #: camel/providers/local/camel-local-store.c:433
-#: camel/providers/local/camel-mbox-store.c:296
+#: camel/providers/local/camel-mbox-store.c:293
 #, c-format
 msgid "Could not delete folder index file `%s': %s"
 msgstr "Tidak dapat menghapus file indeks folder '%s': %s"
 
 #: camel/providers/local/camel-local-store.c:456
-#: camel/providers/local/camel-mbox-store.c:320
+#: camel/providers/local/camel-mbox-store.c:317
 #, c-format
 msgid "Could not delete folder meta file `%s': %s"
 msgstr "Tidak dapat menghapus file folder meta '%s': %s"
@@ -10843,10 +10895,13 @@ msgid "Unable to add message to summary: unknown reason"
 msgstr "Tidak dapat menambahkan pesan ke dalam ringkasan: error tidak jelas"
 
 #. Inbox is always first
+#. translators: standard local mailbox names
 #: camel/providers/local/camel-maildir-folder.c:74
 #: camel/providers/local/camel-maildir-store.c:232
 #: camel/providers/local/camel-maildir-store.c:248
+#: camel/providers/local/camel-spool-store.c:451
 #: mail/em-folder-tree-model.c:212 mail/em-folder-tree-model.c:214
+#: mail/mail-component.c:134
 msgid "Inbox"
 msgstr "Kotak Masuk"
 
@@ -10862,10 +10917,10 @@ msgstr "Tidak dapat menambahkan email ke folder maildir: %s: %s"
 #: camel/providers/local/camel-maildir-folder.c:243
 #: camel/providers/local/camel-maildir-folder.c:257
 #: camel/providers/local/camel-maildir-folder.c:266
-#: camel/providers/local/camel-mbox-folder.c:417
-#: camel/providers/local/camel-mbox-folder.c:436
-#: camel/providers/local/camel-mbox-folder.c:467
-#: camel/providers/local/camel-mbox-folder.c:475
+#: camel/providers/local/camel-mbox-folder.c:414
+#: camel/providers/local/camel-mbox-folder.c:433
+#: camel/providers/local/camel-mbox-folder.c:464
+#: camel/providers/local/camel-mbox-folder.c:472
 #: camel/providers/local/camel-mh-folder.c:201
 #: camel/providers/local/camel-mh-folder.c:212
 #: camel/providers/local/camel-mh-folder.c:221
@@ -10882,22 +10937,22 @@ msgid "Invalid message contents"
 msgstr "Isi pesan email tidak dapat dibaca"
 
 #: camel/providers/local/camel-maildir-store.c:109
-#: camel/providers/local/camel-mbox-store.c:154
+#: camel/providers/local/camel-mbox-store.c:151
 #: camel/providers/local/camel-mh-store.c:204
 #, c-format
 msgid "Cannot get folder `%s': %s"
 msgstr "Tidak dapat membuka folder '%s': %s"
 
 #: camel/providers/local/camel-maildir-store.c:113
-#: camel/providers/local/camel-mbox-store.c:162
+#: camel/providers/local/camel-mbox-store.c:159
 #: camel/providers/local/camel-mh-store.c:211
 #, c-format
 msgid "Cannot get folder `%s': folder does not exist."
 msgstr "Tidak dapat membuka folder '%s':folder tidak ada"
 
 #: camel/providers/local/camel-maildir-store.c:121
-#: camel/providers/local/camel-mbox-store.c:184
-#: camel/providers/local/camel-mbox-store.c:196
+#: camel/providers/local/camel-mbox-store.c:181
+#: camel/providers/local/camel-mbox-store.c:193
 #, c-format
 msgid "Cannot create folder `%s': %s"
 msgstr "Tidak dapat membuka folder '%s': %s"
@@ -10919,8 +10974,8 @@ msgid "not a maildir directory"
 msgstr "bukan direktori maildir"
 
 #: camel/providers/local/camel-maildir-store.c:355
-#: camel/providers/local/camel-spool-store.c:284
-#: camel/providers/local/camel-spool-store.c:314
+#: camel/providers/local/camel-spool-store.c:318
+#: camel/providers/local/camel-spool-store.c:332
 #, c-format
 msgid "Could not scan folder `%s': %s"
 msgstr "Tidak dapat menelusuri folder '%s': %s"
@@ -10947,48 +11002,48 @@ msgstr "Mengambil email-email baru"
 msgid "Storing folder"
 msgstr "Menyimpan folder"
 
-#: camel/providers/local/camel-mbox-folder.c:225
-#: camel/providers/local/camel-spool-folder.c:148
+#: camel/providers/local/camel-mbox-folder.c:222
+#: camel/providers/local/camel-spool-folder.c:176
 #, c-format
 msgid "Cannot create folder lock on %s: %s"
 msgstr "Tidak dapat membuat kunci folder pada %s: %s"
 
-#: camel/providers/local/camel-mbox-folder.c:284
+#: camel/providers/local/camel-mbox-folder.c:281
 #, c-format
 msgid "Cannot open mailbox: %s: %s\n"
 msgstr "Tidak dapat membuka kotak surat: %s: %s\n"
 
-#: camel/providers/local/camel-mbox-folder.c:344
+#: camel/providers/local/camel-mbox-folder.c:341
 msgid "Mail append cancelled"
 msgstr "Penambahan email dibatalkan"
 
-#: camel/providers/local/camel-mbox-folder.c:347
+#: camel/providers/local/camel-mbox-folder.c:344
 #, c-format
 msgid "Cannot append message to mbox file: %s: %s"
 msgstr "Tidak dapat menambahkan pesan email pada file mbox: %s: %s"
 
-#: camel/providers/local/camel-mbox-folder.c:468
+#: camel/providers/local/camel-mbox-folder.c:465
 msgid "The folder appears to be irrecoverably corrupted."
 msgstr "Folder ini sepertinya rusak berat."
 
-#: camel/providers/local/camel-mbox-folder.c:476
+#: camel/providers/local/camel-mbox-folder.c:473
 #: camel/providers/local/camel-mh-folder.c:222
 msgid "Message construction failed."
 msgstr "Pembentukan email gagal."
 
-#: camel/providers/local/camel-mbox-store.c:176
-#: camel/providers/local/camel-mbox-store.c:361
+#: camel/providers/local/camel-mbox-store.c:173
+#: camel/providers/local/camel-mbox-store.c:358
 msgid "Cannot create a folder by this name."
 msgstr "Tidak dapat membuat folder dengan nama ini."
 
-#: camel/providers/local/camel-mbox-store.c:206
+#: camel/providers/local/camel-mbox-store.c:203
 #, c-format
 msgid "Cannot get folder `%s': not a regular file."
 msgstr "Tidak dapat membuka folder '%s': bukan file biasa"
 
-#: camel/providers/local/camel-mbox-store.c:236
-#: camel/providers/local/camel-mbox-store.c:247
-#: camel/providers/local/camel-mbox-store.c:270
+#: camel/providers/local/camel-mbox-store.c:233
+#: camel/providers/local/camel-mbox-store.c:244
+#: camel/providers/local/camel-mbox-store.c:267
 #, c-format
 msgid ""
 "Could not delete folder `%s':\n"
@@ -10997,40 +11052,40 @@ msgstr ""
 "Tidak dapat menghapus folder: '%s':\n"
 "%s"
 
-#: camel/providers/local/camel-mbox-store.c:255
+#: camel/providers/local/camel-mbox-store.c:252
 #, c-format
 msgid "`%s' is not a regular file."
 msgstr "'%s' bukan file biasa."
 
-#: camel/providers/local/camel-mbox-store.c:262
+#: camel/providers/local/camel-mbox-store.c:259
 #, c-format
 msgid "Folder `%s' is not empty. Not deleted."
 msgstr "Folder '%s' masih ada isinya. Tidak dihapus."
 
-#: camel/providers/local/camel-mbox-store.c:374
+#: camel/providers/local/camel-mbox-store.c:371
 #, c-format
 msgid "Cannot create directory `%s': %s."
 msgstr "Tidak dapat membuat direktori '%s': %s"
 
-#: camel/providers/local/camel-mbox-store.c:388
+#: camel/providers/local/camel-mbox-store.c:385
 #, c-format
 msgid "Cannot create folder: %s: %s"
 msgstr "Tidak dapat membuat folder: %s: %s"
 
-#: camel/providers/local/camel-mbox-store.c:390
+#: camel/providers/local/camel-mbox-store.c:387
 msgid "Folder already exists"
 msgstr "Folder sudah ada sebelumnya"
 
-#: camel/providers/local/camel-mbox-store.c:472
+#: camel/providers/local/camel-mbox-store.c:469
 msgid "The new folder name is illegal."
 msgstr "Nama folder baru tidak benar."
 
-#: camel/providers/local/camel-mbox-store.c:485
+#: camel/providers/local/camel-mbox-store.c:482
 #, c-format
 msgid "Could not rename `%s': `%s': %s"
 msgstr "Tidak dapat merubah nama '%s': '%s': %s"
 
-#: camel/providers/local/camel-mbox-store.c:560
+#: camel/providers/local/camel-mbox-store.c:557
 #, c-format
 msgid "Could not rename '%s' to %s: %s"
 msgstr "Tidak dapat merubah nama '%s' menjadi '%s': %s"
@@ -11084,7 +11139,8 @@ msgstr "Tidak dapat merubah nama folder: %s"
 #: camel/providers/local/camel-mbox-summary.c:877
 #: camel/providers/local/camel-mbox-summary.c:885
 msgid "Summary and folder mismatch, even after a sync"
-msgstr "Ringkasan dan folder tidak sinkron baik sebelum dan sesudah sinkronisasi"
+msgstr ""
+"Ringkasan dan folder tidak sinkron baik sebelum dan sesudah sinkronisasi"
 
 #: camel/providers/local/camel-mbox-summary.c:811
 #: camel/providers/local/camel-spool-summary.c:334
@@ -11217,12 +11273,11 @@ msgid ""
 "Could not sync spool folder %s: %s\n"
 "Folder may be corrupt, copy saved in `%s'"
 msgstr ""
-""
 "Tidak dapat melakukan sinkronisasi folder spool %s: %s\n"
 "Mungkin foldernya rusak, salinannya disimpan dalam '%s'"
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
-#: camel/providers/nntp/camel-nntp-store.c:1126
+#: camel/providers/nntp/camel-nntp-store.c:1153
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
 msgstr "Silakan masukkan kata sandi NNTP untuk %s%s"
@@ -11277,7 +11332,8 @@ msgstr "Posting mengalami kegagalan: %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:393
 msgid "You cannot post NNTP messages while working offline!"
-msgstr "Anda tidak dapat mengirim posting pesan email NNTP dalam keadaan offline!"
+msgstr ""
+"Anda tidak dapat mengirim posting pesan email NNTP dalam keadaan offline!"
 
 #: camel/providers/nntp/camel-nntp-folder.c:404
 msgid "You cannot copy messages from a NNTP folder!"
@@ -11302,7 +11358,8 @@ msgstr "Tidak dapat menyimpan file daftar grup untuk %s: %s"
 msgid ""
 "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
 msgstr ""
-"Menampilkan folder dalam notasi singkatnya (misal c.o.linux untuk comp.os.linux)"
+"Menampilkan folder dalam notasi singkatnya (misal c.o.linux untuk comp.os."
+"linux)"
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
 msgid "In the subscription dialog, show relative folder names"
@@ -11314,39 +11371,39 @@ msgstr "USENET news"
 
 #: camel/providers/nntp/camel-nntp-provider.c:54
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
-msgstr "Ini adalah penyedia jasa untuk membaca/mengirim pesan newsgroup USENET."
+msgstr ""
+"Ini adalah penyedia jasa untuk membaca/mengirim pesan newsgroup USENET."
 
 #: camel/providers/nntp/camel-nntp-provider.c:73
 msgid ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
 msgstr ""
-"Pilihan ini akan membuat Anda terhubung ke server NNTP menggunakan "
-"kata sandi tak teracak."
+"Pilihan ini akan membuat Anda terhubung ke server NNTP menggunakan kata "
+"sandi tak teracak."
 
-#: camel/providers/nntp/camel-nntp-store.c:118
-#: camel/providers/nntp/camel-nntp-store.c:1233
-#: camel/providers/nntp/camel-nntp-store.c:1331
+#: camel/providers/nntp/camel-nntp-store.c:120
+#: camel/providers/nntp/camel-nntp-store.c:1263
 #, c-format
 msgid "NNTP Command failed: %s"
 msgstr "Perintah NNTP gagal: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:227
+#: camel/providers/nntp/camel-nntp-store.c:248
 #, c-format
 msgid "Could not read greeting from %s: %s"
 msgstr "Tidak dapat membaca pesan balasan dari %s: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:239
+#: camel/providers/nntp/camel-nntp-store.c:260
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
 msgstr "Server NNTP %s memberi kode error %d: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:403
+#: camel/providers/nntp/camel-nntp-store.c:429
 #, c-format
 msgid "USENET News via %s"
 msgstr "USENET News via %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:777
+#: camel/providers/nntp/camel-nntp-store.c:808
 #, c-format
 msgid ""
 "Error retrieving newsgroups:\n"
@@ -11357,7 +11414,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/providers/nntp/camel-nntp-store.c:872
+#: camel/providers/nntp/camel-nntp-store.c:902
 msgid ""
 "You cannot subscribe to this newsgroup:\n"
 "\n"
@@ -11365,10 +11422,10 @@ msgid ""
 msgstr ""
 "Anda tidak dapat berlangganan ke newsgroup ini:\n"
 "\n"
-"Tidak ada newsgroup dengan nama ini. Data yang Anda pilih kemungkinan "
-"adalah folder induk."
+"Tidak ada newsgroup dengan nama ini. Data yang Anda pilih kemungkinan adalah "
+"folder induk."
 
-#: camel/providers/nntp/camel-nntp-store.c:904
+#: camel/providers/nntp/camel-nntp-store.c:934
 msgid ""
 "You cannot unsubscribe to this newsgroup:\n"
 "\n"
@@ -11378,32 +11435,34 @@ msgstr ""
 "\n"
 "Tidak ada newsgroup dengan nama ini!"
 
-#: camel/providers/nntp/camel-nntp-store.c:929
+#: camel/providers/nntp/camel-nntp-store.c:959
 msgid "You cannot create a folder in a News store: subscribe instead."
 msgstr "Anda tidak dapat membuat folder pada bagian News: langganan dulu."
 
-#: camel/providers/nntp/camel-nntp-store.c:937
+#: camel/providers/nntp/camel-nntp-store.c:967
 msgid "You cannot rename a folder in a News store."
 msgstr "Anda tidak dapat merubah nama folder pada bagian News."
 
-#: camel/providers/nntp/camel-nntp-store.c:945
+#: camel/providers/nntp/camel-nntp-store.c:975
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
-msgstr "Anda tidak dapat menghapus folder pada bagian News: berhenti langganan saja dulu."
+msgstr ""
+"Anda tidak dapat menghapus folder pada bagian News: berhenti langganan saja "
+"dulu."
 
-#: camel/providers/nntp/camel-nntp-store.c:1118
-msgid "Authentication requested but not username provided"
+#: camel/providers/nntp/camel-nntp-store.c:1145
+msgid "Authentication requested but no username provided"
 msgstr "Otentikasi diminta sementara username belum diisi"
 
-#: camel/providers/nntp/camel-nntp-store.c:1146
+#: camel/providers/nntp/camel-nntp-store.c:1175
 #, c-format
 msgid "Cannot authenticate to server: %s"
 msgstr "Tidak dapat melakukan otentikasi ke server: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:1262
+#: camel/providers/nntp/camel-nntp-store.c:1319
 msgid "Not connected."
 msgstr "Tidak tersambung"
 
-#: camel/providers/nntp/camel-nntp-store.c:1311
+#: camel/providers/nntp/camel-nntp-store.c:1370
 #, c-format
 msgid "No such folder: %s"
 msgstr "Tidak ada folder dengan nama ini: %s"
@@ -11503,60 +11562,60 @@ msgstr ""
 "yang diacak dengan protokol APOP. Ini hanya dapat digunakan pada beberapa "
 "jenis server yang memiliki fasilitas APOP."
 
-#: camel/providers/pop3/camel-pop3-store.c:195
+#: camel/providers/pop3/camel-pop3-store.c:213
 #, c-format
-msgid "Could not connect to POP server %s (port %d): %s"
-msgstr "Tidak dapat tersambung ke server POP %s (port %d): %s"
-
-#: camel/providers/pop3/camel-pop3-store.c:214
-#, c-format
-msgid "Failed to read a valid greeting from POP server %s (port %d)"
-msgstr "Tidak dapat membaca balasan dari server POP %s (port %d)"
+msgid "Could not connect to POP server %s (port %s): %s"
+msgstr "Tidak dapat tersambung ke server POP %s (port %s): %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:232
-#: camel/providers/pop3/camel-pop3-store.c:261
-#: camel/providers/pop3/camel-pop3-store.c:273
+#, c-format
+msgid "Failed to read a valid greeting from POP server %s (port %s)"
+msgstr "Tidak dapat membaca balasan dari server POP %s (port %s)"
+
+#: camel/providers/pop3/camel-pop3-store.c:250
+#: camel/providers/pop3/camel-pop3-store.c:279
+#: camel/providers/pop3/camel-pop3-store.c:291
 #, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
-msgstr "Tidak dapat tersambung ke server POP %s dalam modus aman: %s"
+msgstr "Tidak dapat tersambung ke server POP %s dalam moda aman: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:371
+#: camel/providers/pop3/camel-pop3-store.c:389
 #, c-format
 msgid "Could not connect to POP server %s"
 msgstr "Tidak dapat tersambung ke server POP %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:412
-#: camel/providers/pop3/camel-pop3-store.c:526
+#: camel/providers/pop3/camel-pop3-store.c:430
+#: camel/providers/pop3/camel-pop3-store.c:544
 #, c-format
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
 "mechanism."
 msgstr ""
-"Tidak dapat tersambung ke server POP %s: Server tidak memiliki fasilitas otentikasi "
-"yang diminta."
+"Tidak dapat tersambung ke server POP %s: Server tidak memiliki fasilitas "
+"otentikasi yang diminta."
 
-#: camel/providers/pop3/camel-pop3-store.c:428
+#: camel/providers/pop3/camel-pop3-store.c:446
 #, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
 msgstr "Login '%s' SASL tidak dapat dilakukan pada server POP %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:440
+#: camel/providers/pop3/camel-pop3-store.c:458
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
 msgstr "Tidak dapat masuk ke server POP %s: Error protokol SASL"
 
-#: camel/providers/pop3/camel-pop3-store.c:459
+#: camel/providers/pop3/camel-pop3-store.c:477
 #, c-format
 msgid "Failed to authenticate on POP server %s: %s"
 msgstr "Otentikasi gagal pada server POP %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:485
+#: camel/providers/pop3/camel-pop3-store.c:503
 #, c-format
 msgid "%sPlease enter the POP password for %s on host %s"
 msgstr "%sSilakan masukkan kata sandi %s pada host %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:540
-#: camel/providers/pop3/camel-pop3-store.c:553
+#: camel/providers/pop3/camel-pop3-store.c:558
+#: camel/providers/pop3/camel-pop3-store.c:571
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -11565,7 +11624,7 @@ msgstr ""
 "Tidak dapat tersambung ke server POP %s\n"
 "Error saat mengirim kata sandi: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:547
+#: camel/providers/pop3/camel-pop3-store.c:565
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -11574,7 +11633,7 @@ msgstr ""
 "Tidak dapat tersambung ke server POP %s\n"
 "Error saat mengirim nama user: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:652
+#: camel/providers/pop3/camel-pop3-store.c:670
 #, c-format
 msgid "No such folder `%s'."
 msgstr "Folder dengan nama ini tidak ada: '%s'"
@@ -11589,9 +11648,8 @@ msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
 msgstr ""
-""
-"Mengirimkan email dengan menggunakan jasa program \"sendmail\" "
-"yang tersedia pada sistem komputer lokal Anda."
+"Mengirimkan email dengan menggunakan jasa program \"sendmail\" yang tersedia "
+"pada sistem komputer lokal Anda."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
@@ -11681,7 +11739,7 @@ msgstr "Layanan tidak tersedia, kanal transmisi ditutup"
 
 #: camel/providers/smtp/camel-smtp-transport.c:192
 msgid "Requested mail action okay, completed"
-msgstr "Aksi email yang diminta sudah selesai"
+msgstr "Tindakan email yang diminta sudah selesai"
 
 #: camel/providers/smtp/camel-smtp-transport.c:194
 msgid "User not local; will forward to <forward-path>"
@@ -11689,15 +11747,16 @@ msgstr "User tidak berada pada sistem lokal, akan diteruskan ke <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:196
 msgid "Requested mail action not taken: mailbox unavailable"
-msgstr "Aksi email yang diminta tidak dilakukan: kotak surat tidak tersedia"
+msgstr ""
+"Tindakan email yang diminta tidak dilakukan: kotak surat tidak tersedia"
 
 #: camel/providers/smtp/camel-smtp-transport.c:198
 msgid "Requested action not taken: mailbox unavailable"
-msgstr "Aksi yang diminta tidak dilakukan: kotak surat tidak tersedia"
+msgstr "Tindakan yang diminta tidak dilakukan: kotak surat tidak tersedia"
 
 #: camel/providers/smtp/camel-smtp-transport.c:200
 msgid "Requested action aborted: error in processing"
-msgstr "Aksi email yang diminta dibatalkan: error saat melakukan proses"
+msgstr "Tindakan email yang diminta dibatalkan: error saat melakukan proses"
 
 #: camel/providers/smtp/camel-smtp-transport.c:202
 msgid "User not local; please try <forward-path>"
@@ -11705,15 +11764,18 @@ msgstr "User bukan berada di sistem lokal: silakan gunakan <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:204
 msgid "Requested action not taken: insufficient system storage"
-msgstr "Aksi yang diminta tidak dilakukan: kapasitas sistem tidak mencukupi"
+msgstr ""
+"Tindakan yang diminta tidak dilakukan: kapasitas sistem tidak mencukupi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:206
 msgid "Requested mail action aborted: exceeded storage allocation"
-msgstr "Aksi email yang diminta dibatalkan: melebihi kapasitas yang telah diberikan"
+msgstr ""
+"Tindakan email yang diminta dibatalkan: melebihi kapasitas yang telah "
+"diberikan"
 
 #: camel/providers/smtp/camel-smtp-transport.c:208
 msgid "Requested action not taken: mailbox name not allowed"
-msgstr "Aksi email yang diminta tidak dilakukan: nama kotak surat salah"
+msgstr "Tindakan email yang diminta tidak dilakukan: nama kotak surat salah"
 
 #: camel/providers/smtp/camel-smtp-transport.c:210
 msgid "Start mail input; end with <CRLF>.<CRLF>"
@@ -11743,40 +11805,40 @@ msgstr "Gagal otentikasi sementara"
 msgid "Authentication required"
 msgstr "Otentikasi diperlukan"
 
-#: camel/providers/smtp/camel-smtp-transport.c:308
+#: camel/providers/smtp/camel-smtp-transport.c:327
 msgid "Welcome response error"
 msgstr "Error respon awal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:343
-#: camel/providers/smtp/camel-smtp-transport.c:382
+#: camel/providers/smtp/camel-smtp-transport.c:362
+#: camel/providers/smtp/camel-smtp-transport.c:401
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
-msgstr "Gagal tersambung ke server SMTP %s dalam modus aman: %s"
+msgstr "Gagal tersambung ke server SMTP %s dalam moda aman: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:344
+#: camel/providers/smtp/camel-smtp-transport.c:363
 msgid "server does not appear to support SSL"
 msgstr "server tidak dapat menggunakan fasilitas SSL"
 
-#: camel/providers/smtp/camel-smtp-transport.c:358
+#: camel/providers/smtp/camel-smtp-transport.c:377
 #, c-format
 msgid "STARTTLS command failed: %s"
 msgstr "perintah START TLS gagal: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:373
+#: camel/providers/smtp/camel-smtp-transport.c:392
 msgid "STARTTLS command failed"
 msgstr "perintah START TLS gagal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:476
+#: camel/providers/smtp/camel-smtp-transport.c:495
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "Server SMTP %s tidak memiliki fasilitas tipe otentikasi %s."
 
-#: camel/providers/smtp/camel-smtp-transport.c:514
+#: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
 msgstr "%sSilakan masukkan kata sandi SMTP untuk %s pada host %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:533
+#: camel/providers/smtp/camel-smtp-transport.c:552
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -11787,93 +11849,93 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:657
+#: camel/providers/smtp/camel-smtp-transport.c:676
 #, c-format
 msgid "SMTP server %s"
 msgstr "Server SMTP %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:659
+#: camel/providers/smtp/camel-smtp-transport.c:678
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "Pengiriman email SMTP melalui %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:677
+#: camel/providers/smtp/camel-smtp-transport.c:696
 msgid "Cannot send message: service not connected."
 msgstr "Tidak dapat mengirim pesan email: layanan belum tersambung"
 
-#: camel/providers/smtp/camel-smtp-transport.c:683
+#: camel/providers/smtp/camel-smtp-transport.c:702
 msgid "Cannot send message: sender address not valid."
 msgstr "Tidak dapat mengirim pesan email: alamat pengirim salah"
 
-#: camel/providers/smtp/camel-smtp-transport.c:687
+#: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Sending message"
 msgstr "Mengirimkan pesan email"
 
-#: camel/providers/smtp/camel-smtp-transport.c:702
+#: camel/providers/smtp/camel-smtp-transport.c:721
 msgid "Cannot send message: no recipients defined."
 msgstr "Tidak dapat mengirimkan pesan email: alamat penerima belum ditulis"
 
-#: camel/providers/smtp/camel-smtp-transport.c:713
+#: camel/providers/smtp/camel-smtp-transport.c:732
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Tidak dapat mengirimkan pesan email: alamat penerima ada yang salah"
 
-#: camel/providers/smtp/camel-smtp-transport.c:885
+#: camel/providers/smtp/camel-smtp-transport.c:901
 msgid "SMTP Greeting"
 msgstr "Balasan Awal SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:934
+#: camel/providers/smtp/camel-smtp-transport.c:918
 #, c-format
 msgid "HELO command failed: %s"
 msgstr "Perintah HELO gagal: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:951
+#: camel/providers/smtp/camel-smtp-transport.c:935
 msgid "HELO command failed"
 msgstr "Perintah HELO gagal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1017
+#: camel/providers/smtp/camel-smtp-transport.c:1001
 msgid "SMTP Authentication"
 msgstr "Otentikasi SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1023
+#: camel/providers/smtp/camel-smtp-transport.c:1007
 msgid "Error creating SASL authentication object."
 msgstr "Error saat membuat obyek otentikasi SASL."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1040
-#: camel/providers/smtp/camel-smtp-transport.c:1051
+#: camel/providers/smtp/camel-smtp-transport.c:1024
+#: camel/providers/smtp/camel-smtp-transport.c:1035
 #, c-format
 msgid "AUTH command failed: %s"
 msgstr "Perintah AUTH gagal: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1057
+#: camel/providers/smtp/camel-smtp-transport.c:1041
 msgid "AUTH command failed"
 msgstr "Perintah AUTH gagal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1119
+#: camel/providers/smtp/camel-smtp-transport.c:1103
 msgid "Bad authentication response from server.\n"
 msgstr "Respon otentikasi dari server tidak benar.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1144
+#: camel/providers/smtp/camel-smtp-transport.c:1128
 #, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
 msgstr "Perintah MAIL FROM gagal: %s: email tidak terkirim"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1161
+#: camel/providers/smtp/camel-smtp-transport.c:1145
 msgid "MAIL FROM command failed"
 msgstr "Perintah MAIL FROM gagal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1185
+#: camel/providers/smtp/camel-smtp-transport.c:1169
 #, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
 msgstr "Perintah RCPT TO gagal: %s: email tidak terkirim"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1204
+#: camel/providers/smtp/camel-smtp-transport.c:1188
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "Perintah RCPT TO <%s> gagal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1243
-#: camel/providers/smtp/camel-smtp-transport.c:1301
-#: camel/providers/smtp/camel-smtp-transport.c:1320
+#: camel/providers/smtp/camel-smtp-transport.c:1227
+#: camel/providers/smtp/camel-smtp-transport.c:1285
+#: camel/providers/smtp/camel-smtp-transport.c:1304
 #, c-format
 msgid "DATA command failed: %s: mail not sent"
 msgstr "Perintah DATA gagal: %s: email tidak terkirim"
@@ -11881,26 +11943,26 @@ msgstr "Perintah DATA gagal: %s: email tidak terkirim"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1260
-#: camel/providers/smtp/camel-smtp-transport.c:1336
+#: camel/providers/smtp/camel-smtp-transport.c:1244
+#: camel/providers/smtp/camel-smtp-transport.c:1320
 msgid "DATA command failed"
 msgstr "Perintah DATA gagal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1359
+#: camel/providers/smtp/camel-smtp-transport.c:1343
 #, c-format
 msgid "RSET command failed: %s"
 msgstr "Perintah RSET gagal: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1375
+#: camel/providers/smtp/camel-smtp-transport.c:1359
 msgid "RSET command failed"
 msgstr "Perintah RSET gagal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1398
+#: camel/providers/smtp/camel-smtp-transport.c:1382
 #, c-format
 msgid "QUIT command failed: %s"
 msgstr "Perintah QUIT gagal: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1412
+#: camel/providers/smtp/camel-smtp-transport.c:1396
 msgid "QUIT command failed"
 msgstr "Perintah QUIT gagal"
 
@@ -12015,7 +12077,8 @@ msgstr "Cc:"
 
 #: composer/e-msg-composer-hdrs.c:603
 msgid "Enter the addresses that will receive a carbon copy of the message"
-msgstr "Isi alamat-alamat yang akan menerima salinan karbon (Cc) pesan email ini"
+msgstr ""
+"Isi alamat-alamat yang akan menerima salinan karbon (Cc) pesan email ini"
 
 #: composer/e-msg-composer-hdrs.c:606
 msgid "Bcc:"
@@ -12056,8 +12119,8 @@ msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
-"Tidak dapat mengacak pesan email keluar: Sertifikat enkripsi "
-"belum diset untuk account ini"
+"Tidak dapat mengacak pesan email keluar: Sertifikat enkripsi belum diset "
+"untuk account ini"
 
 #: composer/e-msg-composer.c:1268
 msgid "Could not open file"
@@ -12075,7 +12138,7 @@ msgstr "Belum Diberi Judul"
 msgid "Open file"
 msgstr "Buka file"
 
-#: composer/e-msg-composer.c:1983 mail/mail-account-gui.c:1491
+#: composer/e-msg-composer.c:1983 mail/mail-account-gui.c:1555
 msgid "Autogenerated"
 msgstr "Otomatis"
 
@@ -12086,7 +12149,8 @@ msgstr "Tanda tangan:"
 #: composer/e-msg-composer.c:2283
 #, c-format
 msgid "<b>%d</b> File Attached"
-msgstr "<b>%d</b> Buah Lampiran"
+msgid_plural "<b>%d</b> Files Attached"
+msgstr[0] "<b>%d</b> Berkas Terlampir"
 
 #: composer/e-msg-composer.c:2312
 msgid "Hide _Attachment Bar (drop attachments here)"
@@ -12110,9 +12174,10 @@ msgstr "Lampiran pesan email - %s"
 #: composer/e-msg-composer.c:2639 composer/e-msg-composer.c:2783
 #, c-format
 msgid "Attached message"
-msgstr "Lampiran pesan"
+msgid_plural "%d attached messages"
+msgstr[0] "%d pesan terlampir"
 
-#: composer/e-msg-composer.c:4341
+#: composer/e-msg-composer.c:4342
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -12128,7 +12193,8 @@ msgstr "Anda tidak dapat melampirkan file '{0}' ke dalam pesan ini."
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr "File '{0}' bukan file biasa dan tidak dapat disisipkan dalam pesan email."
+msgstr ""
+"File '{0}' bukan file biasa dan tidak dapat disisipkan dalam pesan email."
 
 #. mail-composer:attach-directory primary
 #: composer/mail-composer-errors.xml.h:8
@@ -12142,8 +12208,8 @@ msgid ""
 "directory individually, or create an archive of the directory and attach it."
 msgstr ""
 "Untuk menyisipkan isi direktori ini dalam email, silakan masukkan masing-"
-"masing file dalam direktori ini dalam lampiran, atau buat file kompresi "
-"yang berisi direktori ini, baru kemudian dimasukkan ke dalam lampiran."
+"masing file dalam direktori ini dalam lampiran, atau buat file kompresi yang "
+"berisi direktori ini, baru kemudian dimasukkan ke dalam lampiran."
 
 #. mail-composer:attach-nomessages primary
 #: composer/mail-composer-errors.xml.h:12
@@ -12179,8 +12245,8 @@ msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
 msgstr ""
-"Evolution berhenti mendadak saat Anda sedang menulis surat baru. "
-"Proses perbaikan akan mengembalikan isi tulisan Anda sebelumnya."
+"Evolution berhenti mendadak saat Anda sedang menulis surat baru. Proses "
+"perbaikan akan mengembalikan isi tulisan Anda sebelumnya."
 
 #: composer/mail-composer-errors.xml.h:21
 msgid "Don't Recover"
@@ -12211,8 +12277,8 @@ msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
 msgstr ""
-"Apakah Anda yakin ingin membatalkan pesan email berjudul '{0}' "
-"yang sedang Anda tulis?"
+"Apakah Anda yakin ingin membatalkan pesan email berjudul '{0}' yang sedang "
+"Anda tulis?"
 
 #. mail-composer:exit-unsaved secondary
 #: composer/mail-composer-errors.xml.h:32
@@ -12221,9 +12287,14 @@ msgid ""
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
 msgstr ""
-"Apabila Anda menutup jendela ini, maka pesan yang sedang ditulis akan hilang, "
-"kecuali bila Anda menyimpannya dalam folder Draf. Dengan cara ini, Anda dapat "
-"melanjutkan lagi melengkapi pesan email tersebut pada kesempatan lain."
+"Apabila Anda menutup jendela ini, maka pesan yang sedang ditulis akan "
+"hilang, kecuali bila Anda menyimpannya dalam folder Draf. Dengan cara ini, "
+"Anda dapat melanjutkan lagi melengkapi pesan email tersebut pada kesempatan "
+"lain."
+
+#: composer/mail-composer-errors.xml.h:33
+msgid "_Discard Changes"
+msgstr "_Batalkan Perubahan"
 
 #: composer/mail-composer-errors.xml.h:34
 msgid "Save Message"
@@ -12252,7 +12323,8 @@ msgstr "Semua account telah dihapus."
 #. mail-composer:all-accounts-deleted secondary
 #: composer/mail-composer-errors.xml.h:46
 msgid "You need to configure an account before you can compose mail."
-msgstr "Anda harus melakukan konfigurasi account sebelum dapat menulis email baru."
+msgstr ""
+"Anda harus melakukan konfigurasi account sebelum dapat menulis email baru."
 
 #. mail-composer:no-address-control primary
 #. mail-composer:no-editor-control primary
@@ -12318,7 +12390,8 @@ msgid ""
 "who sends\n"
 "mail to you while you are out of the office.</small>"
 msgstr ""
-"<small>Email ini akan dikirimkan kepada semua orang yang mengirimi email kepada Anda\n"
+"<small>Email ini akan dikirimkan kepada semua orang yang mengirimi email "
+"kepada Anda\n"
 "pada saat Anda berada di luar kantor.</small>"
 
 #: designs/OOA/ooa.glade.h:8
@@ -12360,10 +12433,10 @@ msgid ""
 "sent is read, and to specify what Evolution should do when someone requests "
 "a receipt from you.</small>"
 msgstr ""
-"<small>Bagian ini akan membantu Anda apakah Anda ingin diberitahu "
-"melalui sebuah pesan kecil saat semua email yang Anda kirimkan\n"
-"telah dibaca oleh penerimanya, juga untuk menentukan apa yang "
-"harus dilakukan Evolution saat ada orang yang menginginkan hal yang sama.</small>"
+"<small>Bagian ini akan membantu Anda apakah Anda ingin diberitahu melalui "
+"sebuah pesan kecil saat semua email yang Anda kirimkan\n"
+"telah dibaca oleh penerimanya, juga untuk menentukan apa yang harus "
+"dilakukan Evolution saat ada orang yang menginginkan hal yang sama.</small>"
 
 #: designs/read_receipts/read.glade.h:6
 msgid "Always send back a read reciept"
@@ -12394,8 +12467,8 @@ msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
 msgstr ""
-"Saat menerima email dengan nota pembacaan, apa yang harus dilakukan "
-"oleh Evolution?"
+"Saat menerima email dengan nota pembacaan, apa yang harus dilakukan oleh "
+"Evolution?"
 
 #: e-util/e-dialog-utils.c:267
 msgid ""
@@ -12410,11 +12483,11 @@ msgstr ""
 msgid "Overwrite file?"
 msgstr "Timpa file?"
 
-#: e-util/e-passwords.c:463
+#: e-util/e-passwords.c:464
 msgid "_Remember this password"
 msgstr "Ingat passwo_rd"
 
-#: e-util/e-passwords.c:464
+#: e-util/e-passwords.c:465
 msgid "_Remember this password for the remainder of this session"
 msgstr "Ingat passwo_rd pada sesi ini saja"
 
@@ -12519,37 +12592,44 @@ msgstr "%I %p"
 #: filter/filter-datespec.c:73
 #, c-format
 msgid "1 second ago"
-msgstr "sedetik yang lalu"
+msgid_plural "%d seconds ago"
+msgstr[0] "%d detik yang lalu"
 
 #: filter/filter-datespec.c:74
 #, c-format
 msgid "1 minute ago"
-msgstr "semenit yang lalu"
+msgid_plural "%d minutes ago"
+msgstr[0] "%d menit yang lalu"
 
 #: filter/filter-datespec.c:75
 #, c-format
 msgid "1 hour ago"
-msgstr "sejam yang lalu "
+msgid_plural "%d hours ago"
+msgstr[0] "%d jam yang lalu "
 
 #: filter/filter-datespec.c:76
 #, c-format
 msgid "1 day ago"
-msgstr "sehari yang lalu"
+msgid_plural "%d days ago"
+msgstr[0] "%d hari yang lalu"
 
 #: filter/filter-datespec.c:77
 #, c-format
 msgid "1 week ago"
-msgstr "seminggu yang lalu"
+msgid_plural "%d weeks ago"
+msgstr[0] "%d minggu yang lalu"
 
 #: filter/filter-datespec.c:78
 #, c-format
 msgid "1 month ago"
-msgstr "sebulan yang lalu"
+msgid_plural "%d months ago"
+msgstr[0] "%d bulan yang lalu"
 
 #: filter/filter-datespec.c:79
 #, c-format
 msgid "1 year ago"
-msgstr "setahun yang lalu"
+msgid_plural "%d years ago"
+msgstr[0] "%d tahun yang lalu"
 
 #: filter/filter-datespec.c:280
 msgid "<click here to select a date>"
@@ -12778,7 +12858,8 @@ msgstr "Pengaturan Penyusun"
 msgid ""
 "Configure mail preferences, including security and message display, here"
 msgstr ""
-"Konfigurasikan pengaturan email, termasuk sisi keamanan dan tampilan email di sini"
+"Konfigurasikan pengaturan email, termasuk sisi keamanan dan tampilan email "
+"di sini"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
@@ -12813,10 +12894,10 @@ msgstr "Program konfigurasi penyusun Email Evolution"
 msgid "Evolution Mail preferences control"
 msgstr "Program pengaturan Email Evolution"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:419
+#: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:420
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
-#: mail/importers/pine-importer.c:474 mail/mail-component.c:510
-#: mail/mail-component.c:561
+#: mail/importers/pine-importer.c:474 mail/mail-component.c:511
+#: mail/mail-component.c:562
 msgid "Mail"
 msgstr "Surat"
 
@@ -12846,7 +12927,7 @@ msgid "Protocol"
 msgstr "Protokol"
 
 #: mail/em-composer-prefs.c:305 mail/em-composer-prefs.c:424
-#: mail/mail-config.c:1045
+#: mail/mail-config.c:935
 msgid "Unnamed"
 msgstr "Belum diberi nama"
 
@@ -12866,27 +12947,27 @@ msgstr "Tanda tangan"
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Forwarded Message --------"
 
-#: mail/em-composer-utils.c:1502
+#: mail/em-composer-utils.c:1505
 msgid "an unknown sender"
 msgstr "pengirim tidak diketahui"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: mail/em-composer-utils.c:1549
+#: mail/em-composer-utils.c:1552
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
-"Pada hari ${WeekdayName}, tanggal ${Day}/${Month}/${Year} pada "
-"${24Hour}:${Minute} ${TimeZone}, ${Sender} menulis:"
+"Pada hari ${WeekdayName}, tanggal ${Day}/${Month}/${Year} pada ${24Hour}:"
+"${Minute} ${TimeZone}, ${Sender} menulis:"
 
 #: mail/em-filter-editor.c:147
 msgid "_Filter Rules"
 msgstr "Aturan _Filter"
 
 #: mail/em-filter-folder-element.c:237 mail/em-vfolder-rule.c:494
-#: mail/mail-account-gui.c:1347
+#: mail/mail-account-gui.c:1411
 msgid "Select Folder"
 msgstr "Pilih Folder"
 
@@ -12981,7 +13062,7 @@ msgstr "Ekspresi"
 
 #: mail/em-filter-i18n.h:25
 msgid "Follow Up"
-msgstr ""
+msgstr "Tindak Lanjut"
 
 #: mail/em-filter-i18n.h:27
 msgid "is"
@@ -13019,7 +13100,7 @@ msgstr ""
 msgid "Junk Test"
 msgstr "Tes Sampah"
 
-#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:932
+#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:933
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Label"
@@ -13124,8 +13205,8 @@ msgstr "diawali dengan"
 msgid "Stop Processing"
 msgstr "Stop Pemrosesan"
 
-#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1550
-#: mail/em-format-quote.c:305 mail/em-format.c:808 mail/em-mailer-prefs.c:87
+#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1571
+#: mail/em-format-quote.c:305 mail/em-format.c:807 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
 msgid "Subject"
@@ -13151,11 +13232,13 @@ msgstr "Pengaturan Folder"
 #. TODO: can this be done in a loop?
 #: mail/em-folder-properties.c:161
 msgid "Total message:"
-msgstr "Total pesan:"
+msgid_plural "Total messages:"
+msgstr[0] "Total pesan:"
 
 #: mail/em-folder-properties.c:173
 msgid "Unread message:"
-msgstr "Pesan belum terbaca:"
+msgid_plural "Unread messages:"
+msgstr[0] "Pesan belum terbaca:"
 
 #: mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
@@ -13165,8 +13248,8 @@ msgstr "<klik di sini untuk memilih folder>"
 msgid "Create New Folder"
 msgstr "Buat Folder Baru"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2430
-#: mail/mail-component.c:711
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2440
+#: mail/mail-component.c:712
 msgid "Specify where to create the folder:"
 msgstr "Tentukan lokasi folder baru:"
 
@@ -13188,7 +13271,7 @@ msgstr "VFolders"
 msgid "UNMATCHED"
 msgstr "UNMATCHED"
 
-#: mail/em-folder-tree-model.c:476 mail/em-folder-tree-model.c:780
+#: mail/em-folder-tree-model.c:491 mail/em-folder-tree-model.c:795
 msgid "Loading..."
 msgstr "Meload...."
 
@@ -13224,8 +13307,8 @@ msgstr "_Salin ke Folder"
 msgid "_Move to Folder"
 msgstr "_Pindahkan ke folder"
 
-#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2216
-#: mail/em-folder-view.c:803 mail/message-list.c:1703
+#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2226
+#: mail/em-folder-view.c:804 mail/message-list.c:1703
 msgid "_Move"
 msgstr "_Pindahkan"
 
@@ -13233,206 +13316,211 @@ msgstr "_Pindahkan"
 msgid "Cancel _Drag"
 msgstr "Batalkan _Drag"
 
-#: mail/em-folder-tree.c:2203 mail/em-folder-tree.c:2216
-#: mail/em-folder-view.c:803 mail/em-folder-view.c:817
+#: mail/em-folder-tree.c:1707 mail/mail-ops.c:1013
+#, c-format
+msgid "Scanning folders in \"%s\""
+msgstr "Memeriksa folder dalam \"%s\""
+
+#: mail/em-folder-tree.c:2213 mail/em-folder-tree.c:2226
+#: mail/em-folder-view.c:804 mail/em-folder-view.c:818
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
 msgid "Select folder"
 msgstr "Pilih folder"
 
-#: mail/em-folder-tree.c:2203 mail/em-folder-view.c:817
+#: mail/em-folder-tree.c:2213 mail/em-folder-view.c:818
 msgid "C_opy"
 msgstr "S_alin"
 
-#: mail/em-folder-tree.c:2243
+#: mail/em-folder-tree.c:2253
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Buat folder '%s'"
 
-#: mail/em-folder-tree.c:2430 mail/mail-component.c:711
+#: mail/em-folder-tree.c:2440 mail/mail-component.c:712
 msgid "Create folder"
 msgstr "Buat folder"
 
-#: mail/em-folder-tree.c:2621
+#: mail/em-folder-tree.c:2631
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Ganti nama folder \"%s\" menjadi:"
 
-#: mail/em-folder-tree.c:2623
+#: mail/em-folder-tree.c:2633
 msgid "Rename Folder"
 msgstr "Ganti Nama Folder"
 
-#: mail/em-folder-tree.c:2698 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2708 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "_Lihat"
 
-#: mail/em-folder-tree.c:2699
+#: mail/em-folder-tree.c:2709
 msgid "Open in _New Window"
 msgstr "Buka dalam Je_ndela Baru"
 
-#: mail/em-folder-tree.c:2703
+#: mail/em-folder-tree.c:2713
 msgid "_Copy..."
 msgstr "Sa_lin..."
 
-#: mail/em-folder-tree.c:2704
+#: mail/em-folder-tree.c:2714
 msgid "_Move..."
 msgstr "_Pindahkan..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2708
+#: mail/em-folder-tree.c:2718
 msgid "_New Folder..."
 msgstr "Folder Bar_u"
 
-#: mail/em-folder-tree.c:2711
+#: mail/em-folder-tree.c:2721
 msgid "_Rename..."
 msgstr "_Ganti nama..."
 
-#: mail/em-folder-tree.c:2714 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2724 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Informasi"
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:900 mail/em-popup.c:690
+#: mail/em-folder-view.c:901 mail/em-popup.c:690
 #: ui/evolution-mail-message.xml.h:113
 msgid "_Edit as New Message..."
 msgstr "Jadikan s_ebagai Pesan Baru..."
 
-#: mail/em-folder-view.c:902
+#: mail/em-folder-view.c:903
 msgid "_Print"
 msgstr "_Cetak"
 
-#: mail/em-folder-view.c:905 ui/evolution-mail-message.xml.h:127
+#: mail/em-folder-view.c:906 ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "Balas ke Pengi_rim"
 
-#: mail/em-folder-view.c:906 mail/em-popup.c:811
+#: mail/em-folder-view.c:907 mail/em-popup.c:811
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "Balas ke Mi_lis"
 
-#: mail/em-folder-view.c:907 mail/em-popup.c:812
+#: mail/em-folder-view.c:908 mail/em-popup.c:812
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Balas ke Semu_a"
 
-#: mail/em-folder-view.c:908 mail/em-popup.c:814
+#: mail/em-folder-view.c:909 mail/em-popup.c:814
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Forward"
-msgstr "_Kirim ke orang lain"
-
-#: mail/em-folder-view.c:911
-msgid "Follo_w Up..."
-msgstr "Follo_w Up..."
+msgstr "_Kirim ke Orang Lain"
 
 #: mail/em-folder-view.c:912
+msgid "Follo_w Up..."
+msgstr "Tindak Lan_juti..."
+
+#: mail/em-folder-view.c:913
 msgid "Fla_g Completed"
 msgstr "Fla_g Selesai"
 
-#: mail/em-folder-view.c:913
+#: mail/em-folder-view.c:914
 msgid "Cl_ear Flag"
 msgstr "Ha_pus Flag"
 
-#: mail/em-folder-view.c:916 ui/evolution-mail-message.xml.h:50
+#: mail/em-folder-view.c:917 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "Anggap Sudah _Dibaca"
 
-#: mail/em-folder-view.c:917
+#: mail/em-folder-view.c:918
 msgid "Mark as _Unread"
 msgstr "Anggap Bel_um Dibaca"
 
-#: mail/em-folder-view.c:918
+#: mail/em-folder-view.c:919
 msgid "Mark as _Important"
 msgstr "Tandai Sebagai Email Pent_ing"
 
-#: mail/em-folder-view.c:919
+#: mail/em-folder-view.c:920
 msgid "_Mark as Unimportant"
 msgstr "Tandai Sebagai E_mail Tidak Penting"
 
-#: mail/em-folder-view.c:920 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:921 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
-msgstr "Tandai Sebagai Email _Sampah"
+msgstr "Tandai Sebagai Email Sampa_h"
 
-#: mail/em-folder-view.c:921 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:922 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Tandai Buka_n Sebagai Sampah"
 
-#: mail/em-folder-view.c:925
+#: mail/em-folder-view.c:926
 msgid "U_ndelete"
 msgstr "T_idak jadi hapus"
 
-#: mail/em-folder-view.c:928
+#: mail/em-folder-view.c:929
 msgid "Mo_ve to Folder..."
 msgstr "_Pindahkan ke Folder..."
 
-#: mail/em-folder-view.c:929 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:930 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "_Salin ke Folder..."
 
-#: mail/em-folder-view.c:937
+#: mail/em-folder-view.c:938
 msgid "Add Sender to Address_book"
 msgstr "Masukkan Pengirim ke _Buku Alamat"
 
-#: mail/em-folder-view.c:940
+#: mail/em-folder-view.c:941
 msgid "Appl_y Filters"
 msgstr "_Terapkan Filter"
 
-#: mail/em-folder-view.c:941
+#: mail/em-folder-view.c:942
 msgid "F_ilter Junk"
 msgstr "Sar_ing Email Sampah"
 
-#: mail/em-folder-view.c:944
+#: mail/em-folder-view.c:945
 msgid "Crea_te Rule From Message"
 msgstr "Bua_t Aturan Baru dari Pesan Ini"
 
-#: mail/em-folder-view.c:945
+#: mail/em-folder-view.c:946
 msgid "VFolder on _Subject"
 msgstr "VFolder Berdasarkan _Judul"
 
-#: mail/em-folder-view.c:946
+#: mail/em-folder-view.c:947
 msgid "VFolder on Se_nder"
 msgstr "VFolder Berdasarkan Pe_ngirim"
 
-#: mail/em-folder-view.c:947
+#: mail/em-folder-view.c:948
 msgid "VFolder on _Recipients"
 msgstr "VFolder Berdasarkan Pene_rima"
 
-#: mail/em-folder-view.c:948
+#: mail/em-folder-view.c:949
 msgid "VFolder on Mailing _List"
 msgstr "VFolder Berdasarkan Mi_lis"
 
-#: mail/em-folder-view.c:952
+#: mail/em-folder-view.c:953
 msgid "Filter on Sub_ject"
 msgstr "Filter Berdasarkan Sub_yek"
 
-#: mail/em-folder-view.c:953
+#: mail/em-folder-view.c:954
 msgid "Filter on Sen_der"
 msgstr "Filter Berdasarkan Pen_girim"
 
-#: mail/em-folder-view.c:954
+#: mail/em-folder-view.c:955
 msgid "Filter on Re_cipients"
 msgstr "Filter Berdasarkan _Penerima"
 
-#: mail/em-folder-view.c:955
+#: mail/em-folder-view.c:956
 msgid "Filter on _Mailing List"
 msgstr "Filter Berdasarkan _Milis"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1711 mail/em-folder-view.c:1751
+#: mail/em-folder-view.c:1712 mail/em-folder-view.c:1752
 #: mail/mail-config.glade.h:68
 msgid "Default"
 msgstr "Default"
 
-#: mail/em-folder-view.c:1848
+#: mail/em-folder-view.c:1849
 msgid "Print Message"
 msgstr "Cetak Pesan"
 
-#: mail/em-folder-view.c:2115
+#: mail/em-folder-view.c:2116
 msgid "_Copy Link Location"
 msgstr "_Salin Lokasi Link"
 
-#: mail/em-folder-view.c:2380
+#: mail/em-folder-view.c:2382
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klik untuk mengirim email kepada %s"
@@ -13582,116 +13670,116 @@ msgstr "Mengambil '%s'"
 msgid "Valid signature but cannot verify sender"
 msgstr "Tanda tangan sah namun pengirim tidak dapat diverifikasi"
 
-#: mail/em-format-html.c:848
+#: mail/em-format-html.c:871
 msgid "Malformed external-body part."
 msgstr "Badan email tidak tersusun dengan benar."
 
-#: mail/em-format-html.c:878
+#: mail/em-format-html.c:901
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Mengarah ke situs FTP (%s)"
 
-#: mail/em-format-html.c:889
+#: mail/em-format-html.c:912
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Mengarah ke file lokal (%s) cocok pada situs \"%s\""
 
-#: mail/em-format-html.c:891
+#: mail/em-format-html.c:914
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Mengarah ke file lokal (%s)"
 
-#: mail/em-format-html.c:912
+#: mail/em-format-html.c:935
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Mengarah ke data di lokasi lain (%s)"
 
-#: mail/em-format-html.c:923
+#: mail/em-format-html.c:946
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Mengarah ke data eksternal yang tidak diketahui (tipe \"%s\")"
 
-#: mail/em-format-html.c:1165
+#: mail/em-format-html.c:1186
 msgid "Formatting message"
 msgstr "Pembentukan email"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:803
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:802
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:325
 msgid "From"
-msgstr "From"
+msgstr "Dari"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:804
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:803
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
-msgstr "Reply-To"
+msgstr "Balas-Ke"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:805
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:804
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
-msgstr "To"
+msgstr "Untuk"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:806
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:805
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:807
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: mail/em-format-html.c:1554 mail/em-format-quote.c:314
+#: mail/em-format-html.c:1575 mail/em-format-quote.c:314
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "Mailer"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1581
+#: mail/em-format-html.c:1602
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1584
+#: mail/em-format-html.c:1605
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1594 mail/em-format-quote.c:321 mail/em-format.c:809
+#: mail/em-format-html.c:1615 mail/em-format-quote.c:321 mail/em-format.c:808
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Tanggal"
 
-#: mail/em-format-html.c:1617 mail/em-format.c:810 mail/em-mailer-prefs.c:89
+#: mail/em-format-html.c:1638 mail/em-format.c:809 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
 msgstr "Newsgroups"
 
-#: mail/em-format.c:1059
+#: mail/em-format.c:1058
 #, c-format
 msgid "%s attachment"
 msgstr "Attachment %s"
 
-#: mail/em-format.c:1098 mail/em-format.c:1231
+#: mail/em-format.c:1097 mail/em-format.c:1230
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Tidak dapat membuka pesan S/MIME: Error tidak diketahui"
 
-#: mail/em-format.c:1221
+#: mail/em-format.c:1220
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Tipe enkripsi ini tidak dapat dipakai pada multipart/encrypted"
 
-#: mail/em-format.c:1382
+#: mail/em-format.c:1381
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Tidak dapat membuka pesan MIME. Pesan ditampilkan apa adanya."
 
-#: mail/em-format.c:1401
+#: mail/em-format.c:1400
 msgid "Unsupported signature format"
 msgstr "Jenis tanda tangan tidak dapat dibaca"
 
-#: mail/em-format.c:1409
+#: mail/em-format.c:1408
 msgid "Error verifying signature"
 msgstr "Error saat melakukan verifikasi tanda tangan"
 
-#: mail/em-format.c:1409
+#: mail/em-format.c:1408
 msgid "Unknown error verifying signature"
 msgstr "Ada error tidak dikenal saat melakukan verifikasi tanda tangan"
 
@@ -13722,8 +13810,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Lokasi dan hirarki folder kotak surat Evolution sudah berubah "
-"sejak Evolution 1.x.\n"
+"Lokasi dan hirarki folder kotak surat Evolution sudah berubah sejak "
+"Evolution 1.x.\n"
 "\n"
 "Silakan tunggu sebentar sementara Evolution melakukan migrasi folder..."
 
@@ -13809,24 +13897,25 @@ msgstr "M_asukkan ke dalam Buku Alamat"
 msgid "Open in %s..."
 msgstr "Buka menggunakan %s..."
 
-#: mail/em-subscribe-editor.c:606
+#: mail/em-subscribe-editor.c:612
 msgid "This store does not support subscriptions, or they are not enabled."
-msgstr "Penyimpanan ini tidak mendukung fasilitas langganan atau belum diaktifkan."
+msgstr ""
+"Penyimpanan ini tidak mendukung fasilitas langganan atau belum diaktifkan."
 
-#: mail/em-subscribe-editor.c:635
+#: mail/em-subscribe-editor.c:641
 msgid "Subscribed"
 msgstr "Langganan"
 
-#: mail/em-subscribe-editor.c:639
+#: mail/em-subscribe-editor.c:645
 msgid "Folder"
 msgstr "Folder"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: mail/em-subscribe-editor.c:852
+#: mail/em-subscribe-editor.c:860
 msgid "Please select a server."
 msgstr "Silakan pilih servernya."
 
-#: mail/em-subscribe-editor.c:873
+#: mail/em-subscribe-editor.c:881
 msgid "No server has been selected"
 msgstr "Server belum dipilih"
 
@@ -14101,8 +14190,7 @@ msgstr "Konfirmasi pada saat user hendak menghapus folder"
 #: mail/evolution-mail.schemas.in.in.h:56
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
-msgstr ""
-"Konfirmasi user saat mengirim email dengan judul kosong"
+msgstr "Konfirmasi user saat mengirim email dengan judul kosong"
 
 #: mail/evolution-mail.schemas.in.in.h:57
 msgid "Prompt when user expunges"
@@ -14163,10 +14251,6 @@ msgstr "Tampilkan email yang terhapus dengan tercoret dalam daftar email."
 #: mail/evolution-mail.schemas.in.in.h:70
 msgid "Show deleted messages in the message-list"
 msgstr "Tampilkan email terhapus dalam daftar pesan"
-
-#: mail/evolution-mail.schemas.in.in.h:71
-msgid "Show the \"Preview\" pane"
-msgstr "Tampilkan panel \"Pratinjau\""
 
 #: mail/evolution-mail.schemas.in.in.h:72
 msgid "Show the \"Preview\" pane."
@@ -14313,8 +14397,8 @@ msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
-"Tentukan apakah akan kembali menampilkan dalam bentuk thread berdasarkan judul "
-"saat kepala surat tidak berisi kolom In-Reply-To atau References."
+"Tentukan apakah akan kembali menampilkan dalam bentuk thread berdasarkan "
+"judul saat kepala surat tidak berisi kolom In-Reply-To atau References."
 
 #: mail/evolution-mail.schemas.in.in.h:107
 msgid "port for starting user runned spamd"
@@ -14471,8 +14555,8 @@ msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
 msgstr ""
-"Evolution menemukan file-file email Netscape.]n"
-"Anda ingin mengimpornya ke dalam Evolution?"
+"Evolution menemukan file-file email Netscape.]nAnda ingin mengimpornya ke "
+"dalam Evolution?"
 
 #: mail/importers/pine-importer.c:116
 msgid "Evolution is importing your old Pine data"
@@ -14503,7 +14587,7 @@ msgstr "Pine"
 msgid "Evolution Account Editor"
 msgstr "Pengatur Account Evolution"
 
-#: mail/mail-account-gui.c:246
+#: mail/mail-account-gui.c:253
 #, c-format
 msgid ""
 "\n"
@@ -14515,22 +14599,30 @@ msgstr ""
 "Silakan baca perjanjian lisensi %s berikut ini dengan seksama\n"
 "kemudian beri tanda centang sebagai tanda penerimaan\n"
 
-#: mail/mail-account-gui.c:252
+#: mail/mail-account-gui.c:259
 #, c-format
 msgid "%s License Agreement"
 msgstr "Perjanjian Lisensi %s"
 
-#: mail/mail-account-gui.c:957 mail/mail-config.glade.h:167
+#: mail/mail-account-gui.c:959 mail/mail-account-gui.c:965
+msgid "Connecting to server..."
+msgstr "Menghubungkan diri ke server..."
+
+#: mail/mail-account-gui.c:1021 mail/mail-config.glade.h:167
 msgid "_Host:"
 msgstr "_Host:"
 
-#: mail/mail-account-gui.c:961 mail/mail-config.glade.h:151
+#: mail/mail-account-gui.c:1025 mail/mail-config.glade.h:151
 msgid "User_name:"
 msgstr "User_name:"
 
-#: mail/mail-account-gui.c:965 mail/mail-config.glade.h:173
+#: mail/mail-account-gui.c:1029 mail/mail-config.glade.h:173
 msgid "_Path:"
 msgstr "_Path:"
+
+#: mail/mail-account-gui.c:1840 shell/e-shell-importer.c:643
+msgid "Select a file"
+msgstr "Pilih sebuah file"
 
 #: mail/mail-autofilter.c:74
 #, c-format
@@ -14556,66 +14648,85 @@ msgstr "milis %s"
 msgid "Add Filter Rule"
 msgstr "TAmbahkan Aturan Filter"
 
-#: mail/mail-component.c:463
+#: mail/mail-component.c:135
+msgid "Drafts"
+msgstr "Draf"
+
+#: mail/mail-component.c:136
+msgid "Outbox"
+msgstr "Keluar"
+
+#: mail/mail-component.c:137
+msgid "Sent"
+msgstr "Email Keluar"
+
+#: mail/mail-component.c:464
 #, c-format
 msgid "%d deleted"
-msgstr "%d dihapus"
+msgid_plural "%d deleted"
+msgstr[0] "%d dihapus"
 
-#: mail/mail-component.c:465
+#: mail/mail-component.c:466
 #, c-format
 msgid "%d junk"
-msgstr "%d sampah"
+msgid_plural "%d junk"
+msgstr[0] "%d sampah"
 
-#: mail/mail-component.c:488
+#: mail/mail-component.c:489
 #, c-format
 msgid "%d draft"
-msgstr "%d draft"
+msgid_plural "%d drafts"
+msgstr[0] "%d draft"
 
-#: mail/mail-component.c:490
+#: mail/mail-component.c:491
 #, c-format
 msgid "%d sent"
-msgstr "%d terkirim"
+msgid_plural "%d sent"
+msgstr[0] "%d terkirim"
 
-#: mail/mail-component.c:492
+#: mail/mail-component.c:493
 #, c-format
 msgid "%d unsent"
-msgstr "%d belum terkirim"
+msgid_plural "%d unsent"
+msgstr[0] "%d belum terkirim"
 
-#: mail/mail-component.c:496
+#: mail/mail-component.c:497
 #, c-format
 msgid "%d total"
-msgstr "%d total"
+msgid_plural "%d total"
+msgstr[0] "%d total"
 
-#: mail/mail-component.c:498
+#: mail/mail-component.c:499
 #, c-format
 msgid ", %d unread"
-msgstr ", %d belum dibaca"
+msgid_plural ", %d unread"
+msgstr[0] ", %d belum dibaca"
 
-#: mail/mail-component.c:663
+#: mail/mail-component.c:664
 msgid "New Mail Message"
 msgstr "Buat Email Baru"
 
-#: mail/mail-component.c:664
+#: mail/mail-component.c:665
 msgid "_Mail Message"
 msgstr "E_mail Baru"
 
-#: mail/mail-component.c:665
+#: mail/mail-component.c:666
 msgid "Compose a new mail message"
 msgstr "Buat email baru"
 
-#: mail/mail-component.c:671
+#: mail/mail-component.c:672
 msgid "New Mail Folder"
 msgstr "Buat Folder Email"
 
-#: mail/mail-component.c:672
+#: mail/mail-component.c:673
 msgid "Mail _Folder"
 msgstr "_Folder Email"
 
-#: mail/mail-component.c:673
+#: mail/mail-component.c:674
 msgid "Create a new mail folder"
 msgstr "Buat folder email baru"
 
-#: mail/mail-component.c:805
+#: mail/mail-component.c:806
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Gagal melakukan upgrade konfigurasi Email dan folder."
 
@@ -14643,9 +14754,9 @@ msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Silakan masukkan informasi tentang server email masuk berikut ini. "
-"Bila Anda tidak tahu, silakan hubungi bagian IT/administrator atau "
-"tempat Anda berlangganan Internet."
+"Silakan masukkan informasi tentang server email masuk berikut ini. Bila Anda "
+"tidak tahu, silakan hubungi bagian IT/administrator atau tempat Anda "
+"berlangganan Internet."
 
 #: mail/mail-config-druid.c:379
 msgid "Please select among the following options"
@@ -14660,9 +14771,9 @@ msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Silakan masukkan metode cara Anda mengirim email. Bila Anda tidak "
-"tahu jawabannya, silakan hubungi bagian IT/administrator atau "
-"tempat Anda berlangganan Internet."
+"Silakan masukkan metode cara Anda mengirim email. Bila Anda tidak tahu "
+"jawabannya, silakan hubungi bagian IT/administrator atau tempat Anda "
+"berlangganan Internet."
 
 #: mail/mail-config-druid.c:389 mail/mail-config.glade.h:37
 msgid "Account Management"
@@ -14680,14 +14791,6 @@ msgstr ""
 "dan keluar dan metode transport yang telah diisi akan dikelompokkan dan "
 "dibentuk sebagai account Evolution. Silakan beri nama pada account ini. Nama "
 "account ini akan digunakan untuk keperluan tampilan saja."
-
-#: mail/mail-config.c:895
-msgid "Checking Service"
-msgstr "Pemeriksaan Layanan"
-
-#: mail/mail-config.c:973 mail/mail-config.c:977
-msgid "Connecting to server..."
-msgstr "Menghubungkan diri ke server..."
 
 #: mail/mail-config.glade.h:1 mail/mail-dialogs.glade.h:5
 msgid "    "
@@ -14820,7 +14923,8 @@ msgstr "<span weight=\"bold\">Konfigurasi Server</span>"
 
 #: mail/mail-config.glade.h:35
 msgid "A_lso encrypt to self when sending encrypted mail"
-msgstr "Juga acak email yang dikirim ke diri sendiri saat mengirim email teracak"
+msgstr ""
+"Juga acak email yang dikirim ke diri sendiri saat mengirim email teracak"
 
 #: mail/mail-config.glade.h:36
 msgid "Account Editor"
@@ -14836,7 +14940,9 @@ msgstr "Tambahkan _Skrip"
 
 #: mail/mail-config.glade.h:40
 msgid "Al_ways encrypt to myself when sending encrypted mail"
-msgstr "Selalu ki_rim email ke sendiri dalam bentuk teracak saat mengirim email teracak"
+msgstr ""
+"Selalu ki_rim email ke sendiri dalam bentuk teracak saat mengirim email "
+"teracak"
 
 #: mail/mail-config.glade.h:41
 msgid "Alway_s carbon-copy (cc) to:"
@@ -14848,7 +14954,8 @@ msgstr "Selalu kirimkan _blind carbon copy (bcc) ke:"
 
 #: mail/mail-config.glade.h:44
 msgid "Always _sign outgoing messages when using this account"
-msgstr "_Selalu bubuhkan tanda tangan pada email keluar saat menggunakan account ini"
+msgstr ""
+"_Selalu bubuhkan tanda tangan pada email keluar saat menggunakan account ini"
 
 #: mail/mail-config.glade.h:45
 msgid "Always _trust keys in my keyring when encrypting"
@@ -15183,7 +15290,8 @@ msgid ""
 "dictionary installed."
 msgstr ""
 "Halaman ini untuk mengkonfigurasi perilaku pemeriksa ejaan dan bahasa. "
-"Daftar bahasa yang ada di sini adalah bahasa-bahasa yang Anda miliki data kamusnya."
+"Daftar bahasa yang ada di sini adalah bahasa-bahasa yang Anda miliki data "
+"kamusnya."
 
 #: mail/mail-config.glade.h:149
 msgid ""
@@ -15424,8 +15532,8 @@ msgid ""
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
 "Silakan periksa apakah sandi telah ditulis dengan benar. Harap diingat "
-"biasanya kata sandi membedakan antara huruf besar dan kecil, periksa "
-"apakah tombol CapsLock menyala atau tidak."
+"biasanya kata sandi membedakan antara huruf besar dan kecil, periksa apakah "
+"tombol CapsLock menyala atau tidak."
 
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
@@ -15442,8 +15550,7 @@ msgid ""
 msgstr ""
 "Pastikan bahwa orang-orang ini memperbolehkan atau dapat menerima email "
 "dalam bentuk HTML:\n"
-"{0}"
-"Kirim saja?"
+"{0}Kirim saja?"
 
 #: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
 #: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
@@ -15461,14 +15568,15 @@ msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
 msgstr ""
-"Berilah judul pada kolom Subject untuk menggambarkan isi pesan Anda "
-"dalam email ini."
+"Berilah judul pada kolom Subject untuk menggambarkan isi pesan Anda dalam "
+"email ini."
 
 #. mail:ask-send-only-bcc-contact primary
 #. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Apakah benar ingin mengirim email dengan penerima hanya pada kolom Bcc?"
+msgstr ""
+"Apakah benar ingin mengirim email dengan penerima hanya pada kolom Bcc?"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -15480,12 +15588,14 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
-"Daftar kontak yang dikirim ini diatur untuk menyembunyikan daftar penerimanya.\n"
+"Daftar kontak yang dikirim ini diatur untuk menyembunyikan daftar "
+"penerimanya.\n"
 "\n"
 "Beberapa jenis sistem email akan menambahkan kolom Apparently-To pada kepala "
-"surat yang penerimanya hanya dicantumkan pada kolom Bcc. Apabila kolom Apparently-To "
-"ini ditambahkan pada kepala surat, maka daftar penerima email justru akan ditampilkan di sana. "
-"Untuk menghindarinya, silakan isi paling tidak satu penerima pada kolom To atau Cc."
+"surat yang penerimanya hanya dicantumkan pada kolom Bcc. Apabila kolom "
+"Apparently-To ini ditambahkan pada kepala surat, maka daftar penerima email "
+"justru akan ditampilkan di sana. Untuk menghindarinya, silakan isi paling "
+"tidak satu penerima pada kolom To atau Cc."
 
 #. mail:ask-send-only-bcc secondary
 #: mail/mail-errors.xml.h:31
@@ -15496,9 +15606,10 @@ msgid ""
 "recipient."
 msgstr ""
 "Beberapa jenis sistem email akan menambahkan kolom Apparently-To pada kepala "
-"surat yang penerimanya hanya dicantumkan pada kolom Bcc. Apabila kolom Apparently-To "
-"ini ditambahkan pada kepala surat, maka daftar penerima email justru akan ditampilkan di sana. "
-"Untuk menghindarinya, silakan isi paling tidak satu penerima pada kolom To atau Cc."
+"surat yang penerimanya hanya dicantumkan pada kolom Bcc. Apabila kolom "
+"Apparently-To ini ditambahkan pada kepala surat, maka daftar penerima email "
+"justru akan ditampilkan di sana. Untuk menghindarinya, silakan isi paling "
+"tidak satu penerima pada kolom To atau Cc."
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
@@ -15513,8 +15624,8 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
-"Silakan masukkan alamat email yang benar pada kolom To. Anda dapat "
-"mencari alamat seseorang dengan menekan tombol di samping isian kolom To."
+"Silakan masukkan alamat email yang benar pada kolom To. Anda dapat mencari "
+"alamat seseorang dengan menekan tombol di samping isian kolom To."
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
@@ -15540,8 +15651,8 @@ msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
 msgstr ""
-"Apakah benar ingin menghapus secara permanen semua email yang sudah "
-"ditandai untuk dihapus pada folder \"{0}\"?"
+"Apakah benar ingin menghapus secara permanen semua email yang sudah ditandai "
+"untuk dihapus pada folder \"{0}\"?"
 
 #. mail:ask-expunge secondary
 #. mail:ask-empty-trash secondary
@@ -15559,9 +15670,8 @@ msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
 msgstr ""
-""
-"Apakah benar ingin menghapus secara permanen semua email yang sudah "
-"ditandai untuk dihapus pada semua folder?"
+"Apakah benar ingin menghapus secara permanen semua email yang sudah ditandai "
+"untuk dihapus pada semua folder?"
 
 #: mail/mail-errors.xml.h:51
 msgid "_Empty Trash"
@@ -15596,8 +15706,8 @@ msgid ""
 msgstr ""
 "Email dikirim melalui aplikasi eksternal \"sendmail\". Program sendmail "
 "melaporkan error berikut: status 67: mail tidak terkirim.\n"
-"Email ini disimpan dalam folder Outbox. Silakan periksa errornya "
-"dan ulangi pengiriman."
+"Email ini disimpan dalam folder Outbox. Silakan periksa errornya dan ulangi "
+"pengiriman."
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:62
@@ -15679,8 +15789,8 @@ msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
 msgstr ""
-"Keberadaan folder sistem digunakan oleh Ximian Evolution untuk dapat "
-"bekerja dengan benar, dan tidak dapat diganti namanya, dipinahkan, ataupun dihapus."
+"Keberadaan folder sistem digunakan oleh Ximian Evolution untuk dapat bekerja "
+"dengan benar, dan tidak dapat diganti namanya, dipinahkan, ataupun dihapus."
 
 #. mail:no-rename-special-folder primary
 #: mail/mail-errors.xml.h:118
@@ -15703,8 +15813,8 @@ msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
 msgstr ""
-"Bila Anda benar ingin menghapusnya, maka semua isi dan semua sub folder "
-"yang ada di dalamnya juga akan dihapus secara permanen."
+"Bila Anda benar ingin menghapusnya, maka semua isi dan semua sub folder yang "
+"ada di dalamnya juga akan dihapus secara permanen."
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
@@ -15842,9 +15952,8 @@ msgid ""
 "This folder may have been added implictly, go to the virtual folder editor "
 "to add it explictly, if required."
 msgstr ""
-"Folder ini sepertinya telah ditambahkan secara implisit, tapi "
-"silakan buka pengatur folder virtual untuk menambahkannya "
-"secara eksplisit bila perlu."
+"Folder ini sepertinya telah ditambahkan secara implisit, tapi silakan buka "
+"pengatur folder virtual untuk menambahkannya secara eksplisit bila perlu."
 
 #. mail:vfolder-notunique primary
 #: mail/mail-errors.xml.h:190
@@ -15937,8 +16046,8 @@ msgid ""
 msgstr ""
 "Folder yang ada isinya bernama \"{1}\" sudah ada.\n"
 "\n"
-"Anda boleh mengabaikan folder ini, menimpa atau menambahkan isinya, "
-"atau berhenti.\n"
+"Anda boleh mengabaikan folder ini, menimpa atau menambahkan isinya, atau "
+"berhenti.\n"
 
 #: mail/mail-errors.xml.h:230
 msgid "Ignore"
@@ -15957,8 +16066,7 @@ msgstr "T_ambahkan"
 msgid ""
 "Unable to connect to the GroupWise\n"
 "server."
-msgstr ""
-"Tidak dapat tersambung ke server GroupWise."
+msgstr "Tidak dapat tersambung ke server GroupWise."
 
 #. mail:gw-accountsetup-error secondary
 #: mail/mail-errors.xml.h:237
@@ -15982,12 +16090,12 @@ msgstr "Melakukan Filter Dalam Folder"
 msgid "Fetching Mail"
 msgstr "Mengambil Email"
 
-#: mail/mail-ops.c:542
+#: mail/mail-ops.c:553
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Gagal untuk melakukan filter keluar: %s"
 
-#: mail/mail-ops.c:567
+#: mail/mail-ops.c:578
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -15996,111 +16104,108 @@ msgstr ""
 "Gagal saat menambahkan file ke %s: %s\n"
 "File disimpan ke folder 'Sent' saja."
 
-#: mail/mail-ops.c:576
+#: mail/mail-ops.c:587
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Gagal saat meletakkan ke folder 'Sent': %s"
 
-#: mail/mail-ops.c:672
+#: mail/mail-ops.c:683
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Mengirim pesan email ke %d dari total %d pesan."
 
-#: mail/mail-ops.c:703
+#: mail/mail-ops.c:714
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "Gagal saat mengirim pesan email ke-%d dari total %d pesan."
 
-#: mail/mail-ops.c:707
+#: mail/mail-ops.c:718
 msgid "Complete."
 msgstr "Selesai."
 
-#: mail/mail-ops.c:804
+#: mail/mail-ops.c:815
 msgid "Saving message to folder"
 msgstr "Simpan pesan email ke dalam folder"
 
-#: mail/mail-ops.c:889
+#: mail/mail-ops.c:900
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Pindahkan pesan email ke %s"
 
-#: mail/mail-ops.c:889
+#: mail/mail-ops.c:900
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Menyalin pesan email ke %s."
 
-#: mail/mail-ops.c:1002
-#, c-format
-msgid "Scanning folders in \"%s\""
-msgstr "Memeriksa folder dalam \"%s\""
-
-#: mail/mail-ops.c:1115
+#: mail/mail-ops.c:1126
 msgid "Forwarded messages"
 msgstr "Pesan email yang diteruskan"
 
-#: mail/mail-ops.c:1158
+#: mail/mail-ops.c:1169
 #, c-format
 msgid "Opening folder %s"
 msgstr "Membuka folder %s"
 
-#: mail/mail-ops.c:1230
+#: mail/mail-ops.c:1241
 #, c-format
 msgid "Opening store %s"
 msgstr "Membuka store %s"
 
-#: mail/mail-ops.c:1308
+#: mail/mail-ops.c:1319
 #, c-format
 msgid "Removing folder %s"
 msgstr "Menghapus folder %s"
 
-#: mail/mail-ops.c:1402
+#: mail/mail-ops.c:1413
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Menyimpan folder '%s'"
 
-#: mail/mail-ops.c:1467
+#: mail/mail-ops.c:1478
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Menghapus dan menyimpan account '%s'"
 
-#: mail/mail-ops.c:1468
+#: mail/mail-ops.c:1479
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Menyimpan account '%s'"
 
-#: mail/mail-ops.c:1523
+#: mail/mail-ops.c:1534
 msgid "Refreshing folder"
 msgstr "Memperbarui tampilan folder"
 
-#: mail/mail-ops.c:1559 mail/mail-ops.c:1610
+#: mail/mail-ops.c:1570 mail/mail-ops.c:1621
 msgid "Expunging folder"
 msgstr "Hapus folder"
 
-#: mail/mail-ops.c:1607
+#: mail/mail-ops.c:1618
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Mengosongkan tong sampah pada '%s'"
 
-#: mail/mail-ops.c:1608
+#: mail/mail-ops.c:1619
 msgid "Local Folders"
 msgstr "Folder Lokal"
 
-#: mail/mail-ops.c:1691
+#: mail/mail-ops.c:1702
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Mengambil pesan email %s"
 
-#: mail/mail-ops.c:1763
+#: mail/mail-ops.c:1774
 #, c-format
 msgid "Retrieving %d message"
-msgstr "Mengambil %d pesan email"
+msgid_plural "Retrieving %d messages"
+msgstr[0] "Mengambil %d email"
 
-#: mail/mail-ops.c:1849
+#: mail/mail-ops.c:1860
 #, c-format
 msgid "Saving %d message"
-msgstr "Menyimpan %d pesan email"
+msgid_plural "Saving %d messsages"
+msgstr[0] "Menyimpan %d email"
 
-#: mail/mail-ops.c:1899
+#: mail/mail-ops.c:1910
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -16109,7 +16214,7 @@ msgstr ""
 "Tidak dapat membuat file keluaran: %s\n"
 "%s"
 
-#: mail/mail-ops.c:1927
+#: mail/mail-ops.c:1938
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -16118,11 +16223,11 @@ msgstr ""
 "Error saat menyimpan pesan email ke: %s\n"
 "%s"
 
-#: mail/mail-ops.c:1998
+#: mail/mail-ops.c:2009
 msgid "Saving attachment"
 msgstr "Simpan lampiran"
 
-#: mail/mail-ops.c:2010
+#: mail/mail-ops.c:2021
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -16131,20 +16236,24 @@ msgstr ""
 "Tidak dapat membuat file output: %s:\n"
 "%s"
 
-#: mail/mail-ops.c:2020
+#: mail/mail-ops.c:2031
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Tidak dapat menulis data: %s"
 
-#: mail/mail-ops.c:2168
+#: mail/mail-ops.c:2179
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Koneksi putus dari %s"
 
-#: mail/mail-ops.c:2168
+#: mail/mail-ops.c:2179
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Menyambung ulang ke %s"
+
+#: mail/mail-ops.c:2283
+msgid "Checking Service"
+msgstr "Pemeriksaan Layanan"
 
 #: mail/mail-send-recv.c:157
 msgid "Cancelling..."
@@ -16317,7 +16426,7 @@ msgstr "%d %b %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: mail/message-list.c:3380
+#: mail/message-list.c:3384
 msgid "Generating message list"
 msgstr "Buat daftar email"
 
@@ -16335,7 +16444,7 @@ msgstr "Ada flag"
 
 #: mail/message-list.etspec.h:6
 msgid "Follow Up Flag"
-msgstr "Follow Up Flag"
+msgstr "Tanda Untuk Ditindaklanjuti"
 
 #: mail/message-list.etspec.h:8
 msgid "Original Location"
@@ -16453,8 +16562,7 @@ msgstr "ID atau alias komponen yang ditampilkan pada saat mulai dijalankan."
 msgid ""
 "If set to true, Evolution will start up in offline mode instead of online "
 "mode."
-msgstr ""
-"Bila diset, Evolution akan dijalankan dalam modus offline."
+msgstr "Bila diset, Evolution akan dijalankan dalam moda offline."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:7
 msgid ""
@@ -16479,7 +16587,7 @@ msgstr "Batang tombol kelihatan"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Whether Evolution should start up in offline mode"
-msgstr "Tentukan apakah Evolution dijalankan dalam modus offline"
+msgstr "Tentukan apakah Evolution dijalankan dalam moda offline"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Whether the toolbar should be visible."
@@ -16499,7 +16607,7 @@ msgstr "Koneksi Aktif"
 
 #: shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
-msgstr "Klik OK untuk menutup koneksi ini dan masuk ke modus offline"
+msgstr "Klik OK untuk menutup koneksi ini dan masuk ke moda offline"
 
 #: shell/e-shell-folder-title-bar.c:592 shell/e-shell-folder-title-bar.c:593
 msgid "(Untitled)"
@@ -16592,10 +16700,6 @@ msgstr "Otomatis"
 msgid "F_ilename:"
 msgstr "Nama f_ile:"
 
-#: shell/e-shell-importer.c:643
-msgid "Select a file"
-msgstr "Pilih sebuah file"
-
 #: shell/e-shell-importer.c:655
 msgid "File _type:"
 msgstr "_Tipe file:"
@@ -16659,9 +16763,8 @@ msgid ""
 "Do you want to quit using the Assistant now?"
 msgstr ""
 "Bila Anda keluar dari Program Bantu Pengaturan Evolution sekarang, maka "
-"semua informasi yang sudah Anda isikan tadi akan hilang dan Anda "
-"harus menjalankan program ini lagi sebelum dapat mulai menggunakan "
-"Evolution.\n"
+"semua informasi yang sudah Anda isikan tadi akan hilang dan Anda harus "
+"menjalankan program ini lagi sebelum dapat mulai menggunakan Evolution.\n"
 "\n"
 "Benar ingin keluar?"
 
@@ -16702,25 +16805,33 @@ msgstr "Bug buddy belum diinstal."
 msgid "Bug buddy could not be run."
 msgstr "Bug buddy tidak dapat dijalankan."
 
-#: shell/e-shell-window-commands.c:323
+#. The translator-credits string is for translators to list
+#. * per language credits for translation, displayed in the
+#. * about box
+#: shell/e-shell-window-commands.c:425
+msgid "translator-credits"
+msgstr ""
+
+#: shell/e-shell-window-commands.c:439
 msgid "Groupware Suite"
 msgstr "Groupware Suite"
 
-#: shell/e-shell-window-commands.c:563
+#: shell/e-shell-window-commands.c:679
 msgid "_Work Online"
 msgstr "_Kerja Online"
 
-#: shell/e-shell-window-commands.c:576 ui/evolution.xml.h:39
+#: shell/e-shell-window-commands.c:692 ui/evolution.xml.h:39
 msgid "_Work Offline"
 msgstr "_Kerja Offline"
 
-#: shell/e-shell-window-commands.c:589 ui/evolution.xml.h:25
+#: shell/e-shell-window-commands.c:705 ui/evolution.xml.h:25
 msgid "Work Offline"
 msgstr "Kerja Offline"
 
 #: shell/e-shell-window.c:337
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr "Evolution sekarang dalam keadaan online. Klik tombol ini untuk offline."
+msgstr ""
+"Evolution sekarang dalam keadaan online. Klik tombol ini untuk offline."
 
 #: shell/e-shell-window.c:344
 msgid "Evolution is in the process of going offline."
@@ -16728,39 +16839,40 @@ msgstr "Evolution dalam proses offline."
 
 #: shell/e-shell-window.c:350
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr "Evolution saat ini dalam keadaan offline. Klik tombol ini untuk online."
+msgstr ""
+"Evolution saat ini dalam keadaan offline. Klik tombol ini untuk online."
 
 #: shell/e-shell-window.c:637
 #, c-format
 msgid "Switch to %s"
 msgstr "Ubah ke %s"
 
-#: shell/e-shell.c:585
+#: shell/e-shell.c:589
 msgid "Uknown system error."
 msgstr "Error sistem tidak diketahui."
 
-#: shell/e-shell.c:789 shell/e-shell.c:790
+#: shell/e-shell.c:795 shell/e-shell.c:796
 #, c-format
 msgid "%ld KB"
 msgstr "%ld KB"
 
-#: shell/e-shell.c:1210 widgets/misc/e-cell-date-edit.c:265
+#: shell/e-shell.c:1218 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
 msgstr "OK"
 
-#: shell/e-shell.c:1212
+#: shell/e-shell.c:1220
 msgid "Invalid arguments"
 msgstr "Argumen invalid"
 
-#: shell/e-shell.c:1214
+#: shell/e-shell.c:1222
 msgid "Cannot register on OAF"
 msgstr "Tidak dapat registrasi OAF"
 
-#: shell/e-shell.c:1216
+#: shell/e-shell.c:1224
 msgid "Configuration Database not found"
 msgstr "Konfigurasi Database tidak ada"
 
-#: shell/e-shell.c:1218
+#: shell/e-shell.c:1226
 msgid "Generic error"
 msgstr "Error generik"
 
@@ -16824,7 +16936,8 @@ msgstr "Pilih data tes baru"
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "Klik tombol \"Impor\" untuk segera melakukan impor file lama ke Evolution."
+msgstr ""
+"Klik tombol \"Impor\" untuk segera melakukan impor file lama ke Evolution."
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -16919,11 +17032,11 @@ msgstr "Jalankan Evolution sambil mengaktifkan komponen tersebut"
 
 #: shell/main.c:464
 msgid "Start in offline mode"
-msgstr "Jalankan dalam modus offline"
+msgstr "Jalankan dalam moda offline"
 
 #: shell/main.c:466
 msgid "Start in online mode"
-msgstr "Jalankan dalam modus online"
+msgstr "Jalankan dalam moda online"
 
 #: shell/main.c:469
 msgid "Forcibly shut down all evolution components"
@@ -16960,11 +17073,11 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
-"Upgrade data dan pengaturan sistem membutuhkan ruangan disk sebesar {0} "
-"tapi hanya tersedia {1}.\n"
+"Upgrade data dan pengaturan sistem membutuhkan ruangan disk sebesar {0} tapi "
+"hanya tersedia {1}.\n"
 "\n"
-"Anda perlu mengosongkan ruangan pada direktori home Anda sebelum "
-"dapat melanjutkan proses ini."
+"Anda perlu mengosongkan ruangan pada direktori home Anda sebelum dapat "
+"melanjutkan proses ini."
 
 #. shell:upgrade-failed primary
 #: shell/shell-errors.xml.h:8
@@ -17043,13 +17156,13 @@ msgid ""
 msgstr ""
 "Semua isi direktori \"evolution\" akan segera dihapus.\n"
 "\n"
-"Sebaiknya Anda memeriksa sendiri apakah semua email, kontak, "
-"dan data kalender Anda masih ada atau tidak. Juga periksa "
-"apakah dalam versi baru ini dapat bekerja dengan baik atau tidak "
-"sebelum Anda memutuskan untuk menghapus data lama Anda.\n"
+"Sebaiknya Anda memeriksa sendiri apakah semua email, kontak, dan data "
+"kalender Anda masih ada atau tidak. Juga periksa apakah dalam versi baru ini "
+"dapat bekerja dengan baik atau tidak sebelum Anda memutuskan untuk menghapus "
+"data lama Anda.\n"
 "\n"
-"Apabila data lama sudah dihapus, Anda tidak dapat menurunkan "
-"versi Evolution Anda kembali ke versi lama secara otomatis.\n"
+"Apabila data lama sudah dihapus, Anda tidak dapat menurunkan versi Evolution "
+"Anda kembali ke versi lama secara otomatis.\n"
 
 #. shell:noshell title
 #. shell:noshell-reason title
@@ -17095,7 +17208,8 @@ msgid ""
 "Certificate '%s' is a CA certificate.\n"
 "\n"
 "Edit trust settings:"
-msgstr "Sertifikat '%s' adalah sertifikat CA.\n"
+msgstr ""
+"Sertifikat '%s' adalah sertifikat CA.\n"
 "\n"
 "Ubah pengaturan trust:"
 
@@ -17116,8 +17230,8 @@ msgid ""
 "unless otherwise indicated here"
 msgstr ""
 "Karena Anda tidak mempercayai otoritas sertifikat yang mengeluarkan "
-"sertifikat ini, maka secara otomatis sertifikat ini berarti tidak otentik, kecuali "
-"bila disebut lain."
+"sertifikat ini, maka secara otomatis sertifikat ini berarti tidak otentik, "
+"kecuali bila disebut lain."
 
 #: smime/gui/certificate-manager.c:134 smime/gui/certificate-manager.c:142
 #: smime/gui/certificate-manager.c:375 smime/gui/certificate-manager.c:383
@@ -17349,11 +17463,13 @@ msgstr "Anda memiliki sertifikat dari pengelola berikut ini:"
 msgid ""
 "You have certificates on file that identify these certificate authorities:"
 msgstr ""
-"Anda memiliki sertifikat pada file yang mengidentifikasi otoritas sertifikat ini:"
+"Anda memiliki sertifikat pada file yang mengidentifikasi otoritas sertifikat "
+"ini:"
 
 #: smime/gui/smime-ui.glade.h:44
 msgid "You have certificates on file that identify these people:"
-msgstr "Anda memiliki sertifikat pada file yang mengidentifikasi orang-orang ini:"
+msgstr ""
+"Anda memiliki sertifikat pada file yang mengidentifikasi orang-orang ini:"
 
 #: smime/gui/smime-ui.glade.h:45
 msgid "Your Certificates"
@@ -17362,6 +17478,10 @@ msgstr "Sertifikat Anda"
 #: smime/gui/smime-ui.glade.h:46
 msgid "_Edit CA Trust"
 msgstr "_Ubah Trust CA"
+
+#: smime/gui/smime-ui.glade.h:48
+msgid "dialog1"
+msgstr "dialog1"
 
 #. XXX we shouldn't be popping up dialogs in this code.
 #: smime/lib/e-cert-db.c:612
@@ -17710,7 +17830,7 @@ msgstr "Lihat kontak saat ini"
 #: ui/evolution-mail-messagedisplay.xml.h:4 ui/evolution-task-editor.xml.h:9
 #: ui/evolution-tasks.xml.h:19 ui/evolution.xml.h:27
 msgid "_Actions"
-msgstr "_Aksi"
+msgstr "Tind_akan"
 
 #: ui/evolution-addressbook.xml.h:35 ui/evolution-contact-editor.xml.h:16
 msgid "_Forward Contact..."
@@ -17925,7 +18045,7 @@ msgstr "Simpan ke dalam disk"
 #: ui/evolution-signature-editor.xml.h:13 ui/evolution-subscribe.xml.h:11
 #: ui/evolution.xml.h:29
 msgid "_File"
-msgstr "_File"
+msgstr "_Berkas"
 
 #: ui/evolution-composer-entries.xml.h:1
 msgid "Copy selected text to the clipboard"
@@ -18136,7 +18256,8 @@ msgstr "Tempel pesan email dari klipbod"
 
 #: ui/evolution-mail-list.xml.h:12
 msgid "Permanently remove all deleted messages from this folder"
-msgstr "Hapus semua pesan yang telah ditandai untuk dihapus dari dalam folder ini"
+msgstr ""
+"Hapus semua pesan yang telah ditandai untuk dihapus dari dalam folder ini"
 
 #: ui/evolution-mail-list.xml.h:14
 msgid "Select _Thread"
@@ -18148,7 +18269,8 @@ msgstr "Pilih semua dan pesan-pesan yang belum dipilih"
 
 #: ui/evolution-mail-list.xml.h:16
 msgid "Select all messages in the same thread as the selected message"
-msgstr "Pilih semua pesan dalam thread yang sama dengan pesan yang sedang dipilih"
+msgstr ""
+"Pilih semua pesan dalam thread yang sama dengan pesan yang sedang dipilih"
 
 #: ui/evolution-mail-list.xml.h:17
 msgid "Select all visible messages"
@@ -18292,7 +18414,7 @@ msgstr "Buka pesan email sebelumnya yang belum dibaca"
 
 #: ui/evolution-mail-message.xml.h:32
 msgid "F_orward As..."
-msgstr "Te_ruskan Sebagai..."
+msgstr "Te_ruskan Dalam Bentuk..."
 
 #: ui/evolution-mail-message.xml.h:33
 msgid "Filter _Junk"
@@ -18332,11 +18454,15 @@ msgstr "Buka saja gambar pada pesan HTML"
 
 #: ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
-msgstr "Kirimkan pesan email yang sedang dibaca ini dalam bentuk sisipan pada badan email baru"
+msgstr ""
+"Kirimkan pesan email yang sedang dibaca ini dalam bentuk sisipan pada badan "
+"email baru"
 
 #: ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
-msgstr "Kirimkan pesan email yang sedang dibaca ini dalam bentuk kutipan seperti balasan surat"
+msgstr ""
+"Kirimkan pesan email yang sedang dibaca ini dalam bentuk kutipan seperti "
+"balasan surat"
 
 #: ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
@@ -18958,7 +19084,7 @@ msgstr "Kirim laporan bug dengan menggunakan program Bug Buddy"
 
 #: ui/evolution.xml.h:23
 msgid "T_oolbar"
-msgstr "Batang T_ombol"
+msgstr "Batang A_lat"
 
 #: ui/evolution.xml.h:24
 msgid "Toggle whether we are working offline."
@@ -18970,7 +19096,7 @@ msgstr "Tent_ang Evolution..."
 
 #: ui/evolution.xml.h:30
 msgid "_Help"
-msgstr "_Bantuan"
+msgstr "Ba_ntuan"
 
 #: ui/evolution.xml.h:31
 msgid "_Import..."
@@ -19056,8 +19182,8 @@ msgstr "_Dengan Jatuh Tempo"
 msgid "With _Status"
 msgstr "Dengan _Status"
 
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:197
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:635
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:198
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:640
 msgid "UTC"
 msgstr "UTC"
 
@@ -19069,11 +19195,11 @@ msgstr "<b>Zona Waktu</b>"
 msgid "<b>_Selection</b>"
 msgstr "<b>_Pilihan</b>"
 
-#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
+#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid "Select a Time Zone"
 msgstr "Pilih Zona Waktu"
 
-#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
+#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
 msgid ""
 "Use the left mouse button to zoom in on an area of the map and select a time "
 "zone.\n"
@@ -19115,7 +19241,7 @@ msgstr "%B %Y"
 msgid "Now"
 msgstr "Saat Ini"
 
-#: widgets/misc/e-cell-date-edit.c:805
+#: widgets/misc/e-cell-date-edit.c:810
 #, c-format
 msgid "The time must be in the format: %s"
 msgstr "Waktu harus dalam bentuk: %s"
@@ -19197,7 +19323,7 @@ msgstr "Gugus karakter tidak dikenal: %s"
 
 #: widgets/misc/e-charset-picker.c:216 widgets/misc/e-charset-picker.c:479
 msgid "Character Encoding"
-msgstr "Enkoding Karakter"
+msgstr "Pengkodean Karakter"
 
 #: widgets/misc/e-charset-picker.c:231
 msgid "Enter the character set to use"
@@ -19393,17 +19519,4 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% selesai)"
 
-#~ msgid "_Discard Changes"
-#~ msgstr "_Batalkan Perubahan"
 
-#~ msgid "*Control*F2"
-#~ msgstr "*Control*F2"
-
-#~ msgid "*Control*F3"
-#~ msgstr "*Control*F3"
-
-#~ msgid "*Control*F4"
-#~ msgstr "*Control*F4"
-
-#~ msgid "480"
-#~ msgstr "480"
