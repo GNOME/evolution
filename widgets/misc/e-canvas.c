@@ -124,9 +124,6 @@ e_canvas_destroy (GtkObject *object)
 	if (canvas->idle_id)
 		g_source_remove(canvas->idle_id);
 
-	if (canvas->ic)
-		gdk_ic_destroy (canvas->ic);
-
 	if ((GTK_OBJECT_CLASS (parent_class))->destroy)
 		(*(GTK_OBJECT_CLASS (parent_class))->destroy) (object);
 }

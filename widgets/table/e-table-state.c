@@ -23,9 +23,10 @@ static GtkObjectClass *etst_parent_class;
 static void
 etst_destroy (GtkObject *object)
 {
-#if 0
 	ETableState *etst = E_TABLE_STATE (object);
-#endif
+
+	if (etst->columns)
+		g_free (etst->columns);
 
 	GTK_OBJECT_CLASS (etst_parent_class)->destroy (object);
 }
