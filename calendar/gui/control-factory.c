@@ -158,6 +158,33 @@ control_factory_init (void)
 		g_error ("I could not register a Calendar control factory.");
 }
 
+static int
+load_calendar (BonoboPersistFile *pf, const CORBA_char *filename, CORBA_Environment *ev, void *closure)
+{
+	GnomeCalendar *gcal = closure;
+	
+	calendar_set_uri (gcal, filename);
+
+	return 0;
+}
+
+static int
+save_calendar (BonoboPersistFile *pf, const CORBA_char *filename, CORBA_Environment *ev, void *closure)
+{
+	/* Do not know how to save stuff yet */
+	return -1;
+}
+
+void
+calendar_persist_init (GnomeCalendar *gcal, BonoboControl *control)
+{
+	BonoboPersistFile *f;
+	
+	f = bonobo_persist_file_new (load_calendar, save_calendar, gcal);
+	bonobo_object_add_interface (
+		BONOBO_OBJECT (control),
+		BONOBO_OBJECT (f));
+}
 
 BonoboControl *
 control_factory_new_control (void)
@@ -178,7 +205,8 @@ control_factory_new_control (void)
 	}
 
 	calendar_properties_init (gcal, control);
-
+	calendar_persist_init (gcal, control);
+					      
 	gtk_signal_connect (GTK_OBJECT (control), "activate",
 			    GTK_SIGNAL_FUNC (control_activate_cb), gcal);
 

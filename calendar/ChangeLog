@@ -1,3 +1,14 @@
+2001-03-07  Miguel de Icaza  <miguel@ximian.com>
+
+	* gui/control-factory.c (calendar_persist_init): New function:
+	inits the BonoboPersistFile server.   
+
+	* gui/GNOME_Evolution_Calendar.oaf.in: Added BonoboPropertyBag to
+	the list of supported interfaces that were supported but not
+	reported.  Add the new PersistFile.
+
+	Add text/calendar mime type attribute.
+
 2001-03-15  Dan Winship  <danw@ximian.com>
 
 	* gui/e-week-view.c (e_week_view_start_editing_event): 
