@@ -196,6 +196,7 @@ emif_scan(CamelMimeFilter *f, char *in, size_t len, int final)
 			if (strncmp(start, "begin ", 6) == 0
 			    && start[6] >= '0' && start[6] <= '7') {
 				int i = 7;
+				char *name;
 
 				while (start[i] >='0' && start[i] <='7')
 					i++;
@@ -206,7 +207,10 @@ emif_scan(CamelMimeFilter *f, char *in, size_t len, int final)
 					break;
 
 				emif_add_part(emif, data_start, start-data_start);
-				emif->filename = g_strndup(start+i, inptr-start-i-1);
+
+				name = g_strndup(start+i, inptr-start-i-1);
+				emif->filename = camel_header_decode_string(name, emif->base_type?camel_content_type_param(emif->base_type, "charset"):NULL);
+				g_free(name);
 				data_start = start;
 				emif->state = EMIF_UUENC;
 			} else if (strncmp(start, "(This file must be converted with BinHex 4.0)", 45) == 0) {
