@@ -907,7 +907,7 @@ idle_quit (gpointer user_data)
 	if (e_list_length (folder_browser_factory_get_control_list ()))
 		return TRUE;
 
-	gtk_main_quit ();
+	bonobo_main_quit ();
 
 	return FALSE;
 }	

@@ -1,3 +1,7 @@
+2002-11-15  Rodney Dawes  <dobey@ximian.com>
+
+	* component-factory.c: Use bonobo_main_quit instead of gtk
+	
 2002-11-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-composer-prefs.c (sig_edit): Correctly spell Advanced.
