@@ -1,3 +1,10 @@
+2001-04-19  Dan Winship  <danw@ximian.com>
+
+	* e-html-utils.c (is_citation): ">From" is not a citation unless
+	the previous or following line is a citation.
+	(e_text_to_html_full): Update for is_citation change. Also, when
+	marking citations, unmangle mbox From-mangling.
+	
 2001-04-15  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-sexp.c (e_sexp_parse): Start parsing the sexp with

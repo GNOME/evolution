@@ -114,12 +114,37 @@ email_address_extract (const unsigned char **text)
 }
 
 static gboolean
-is_citation (const unsigned char *c)
+is_citation (const unsigned char *c, gboolean saw_citation)
 {
 	unicode_char_t u;
 	gint i;
 
-	for (i = 0; c && *c && i < 10; i ++, c = unicode_next_utf8 (c)) {
+	/* A line that starts with a ">" is a citation, unless it's
+	 * just mbox From-mangling...
+	 */
+	if (*c == '>') {
+		const unsigned char *p;
+
+		if (strncmp (c, ">From ", 6) != 0)
+			return TRUE;
+
+		/* If the previous line was a citation, then say this
+		 * one is too.
+		 */
+		if (saw_citation)
+			return TRUE;
+
+		/* Same if the next line is */
+		p = (const unsigned char *)strchr ((const char *)c, '\n');
+		if (p && *++p == '>')
+			return TRUE;
+
+		/* Otherwise, it was just an isolated ">From" line. */
+		return FALSE;
+	}
+
+	/* Check for "Rupert> " and the like... */
+	for (i = 0; c && *c && *c != '\n' && i < 10; i ++, c = unicode_next_utf8 (c)) {
 		unicode_get_utf8 (c, &u);
 		if (u == '>')
 			return TRUE;
@@ -166,8 +191,8 @@ is_citation (const unsigned char *c)
  *   - E_TEXT_TO_HTML_CONVERT_ADDRESSES: wrap <a href="mailto:..."> </a> around
  *     strings that look like mail addresses.
  *
- *   - E_TEXT_TO_HTML_MARK_CITATION: wrap <font color="blue"> </font> around
- *     citations (lines beginning with "> ").
+ *   - E_TEXT_TO_HTML_MARK_CITATION: wrap <font color="..."> </font> around
+ *     citations (lines beginning with "> ", etc).
  **/
 char *
 e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
@@ -176,7 +201,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 	char *buffer = NULL;
 	char *out = NULL;
 	int buffer_size = 0, col;
-	gboolean colored = FALSE;
+	gboolean colored = FALSE, saw_citation = FALSE;
 
 	/* Allocate a translation buffer.  */
 	buffer_size = strlen (input) * 2 + 5;
@@ -191,9 +216,9 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 	for (cur = input; cur && *cur; cur = unicode_next_utf8 (cur)) {
 		unicode_char_t u;
 
-		unicode_get_utf8 (cur, &u);
 		if (flags & E_TEXT_TO_HTML_MARK_CITATION && col == 0) {
-			if (is_citation (cur)) {
+			saw_citation = is_citation (cur, saw_citation);
+			if (saw_citation) {
 				if (!colored) {
 					gchar font [25];
 
@@ -210,8 +235,13 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 				out += sprintf (out, "%s", no_font);
 				colored = FALSE;
 			}
+
+			/* Display mbox-mangled ">From" as "From" */
+			if (*cur == '>' && !saw_citation)
+				cur++;
 		}
 
+		unicode_get_utf8 (cur, &u);
 		if (unicode_isalpha (u) &&
 		    (flags & E_TEXT_TO_HTML_CONVERT_URLS)) {
 			char *tmpurl = NULL, *refurl = NULL, *dispurl = NULL;
