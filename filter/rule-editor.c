@@ -255,9 +255,8 @@ add_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 	case -1:
                 if (re->edit) {
                         gtk_object_unref (GTK_OBJECT (re->edit));
-                }
-                
-		re->edit = NULL;
+			re->edit = NULL;
+		}
 		
 		re->dialog = NULL;
 		
@@ -330,8 +329,10 @@ edit_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 	default:
 		gnome_dialog_close (GNOME_DIALOG (dialog));
 	case -1:
-		gtk_object_unref (GTK_OBJECT (re->edit));
-		re->edit = NULL;
+		if (re->edit) {
+			gtk_object_unref (GTK_OBJECT (re->edit));
+			re->edit = NULL;
+		}
 		
 		re->dialog = NULL;
 		
@@ -364,7 +365,7 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 	
 	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 600, 400);
 	gtk_window_set_policy (GTK_WINDOW (re->dialog), FALSE, TRUE, FALSE);
-	gtk_widget_set_parent (re->dialog, GTK_WIDGET (re));
+	gtk_widget_set_parent_window (re->dialog, GTK_WIDGET (re)->window);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
 	gtk_signal_connect (GTK_OBJECT (re->dialog), "clicked", edit_editor_clicked, re);
 	gtk_signal_connect (GTK_OBJECT (re->dialog), "destroy", edit_editor_destroyed, re);

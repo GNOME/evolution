@@ -1,3 +1,9 @@
+2002-04-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* rule-editor.c (rule_edit): Set 're' as the parent window rather
+	than as the parent widget.
+	(add_editor_clicked): Only unref the editor if it is non-NULL.
+
 2002-03-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-source.c (filter_source_get_sources): Free account_name
