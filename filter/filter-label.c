@@ -36,6 +36,7 @@
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-file-entry.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/util/e-unicode-i18n.h>
 
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
@@ -183,14 +184,15 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 	CORBA_exception_free (&ev);
 
 	for (i=0;i<sizeof(labels)/sizeof(labels[0]);i++) {
-		char *title, *btitle;
+		const char *title;
+		char *btitle;
 		
 		if (db == CORBA_OBJECT_NIL
 		    || (title = btitle = bonobo_config_get_string(db, labels[i].path, NULL)) == NULL) {
 			btitle = NULL;
-			title = labels[i].title;
+			title = U_(labels[i].title);
 		}
-
+		
 		filter_option_add(fo, labels[i].value, title, NULL);
 		g_free(btitle);
 	}

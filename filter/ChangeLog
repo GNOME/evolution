@@ -1,3 +1,8 @@
+2002-07-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-label.c (xml_create): Use the U_() macro to get the UTF-8
+	translation.
+
 2002-07-15  Not Zed  <NotZed@Ximian.com>
 
 	* filter-score.[ch]: cvs remove.
