@@ -1,5 +1,20 @@
 2004-02-05  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-tree-model.c
+	(em_folder_tree_model_drag_data_received): hmm, another well
+	tested bit of code ... if you launch another thread you gotta copy
+	the selection since it wont hang around until we're done with it.
+	So copy/parse the selection data into appropriate structures.
+	(drop_folder): just take the async message as an argument, rather
+	than copying half of it to the stack.
+	(drop_text_uri_list, drop_uid_list): replace most args with the
+	thread message.
+	(drop_message_rfc822): removed, now trivial.
+	(emftm_drag_data_received_async__drop): change for changed args,
+	and fix a memleak.
+	(emftm_drag_data_received_async__free): fixed for changed
+	structure.
+
 	* em-folder-tree.c (em_folder_tree_create_folder): call abort
 	before we unref, aid debugging if we hit it.
 

@@ -1001,72 +1001,88 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *sto
 	gtk_tree_store_set ((GtkTreeStore *) model, &iter, COL_UINT_UNREAD, unread, -1);
 }
 
+struct _DragDataReceivedAsync {
+	struct _mail_msg msg;
+	
+	/* input data */
+	GdkDragContext *context;
+
+	union {
+		CamelStreamMem *rfc822;
+		char *folder;
+		char **urilist;
+		struct {
+			char *uri;
+			GPtrArray *uids;
+		} uidlist;
+	} selection;
+
+	CamelStore *store;
+	char *full_name;
+	gboolean move;
+	guint info;
+	
+	/* output data */
+	gboolean moved;
+};
 
 /* Drag & Drop methods */
 static void
-drop_uid_list (CamelFolder *dest, GtkSelectionData *selection, gboolean move, gboolean *moved, CamelException *ex)
+drop_uid_list(struct _DragDataReceivedAsync *m, CamelFolder *dest)
+/* (CamelFolder *dest, GtkSelectionData *selection, gboolean move, gboolean *moved, CamelException *ex) */
 {
 	CamelFolder *src;
-	GPtrArray *uids;
-	char *src_uri;
-	
-	*moved = FALSE;
-	
-	em_utils_selection_get_uidlist (selection, &src_uri, &uids);
-	
-	if (!(src = mail_tool_uri_to_folder (src_uri, 0, ex))) {
-		em_utils_uids_free (uids);
-		g_free (src_uri);
+
+	d(printf(" * drop uid list from '%s'\n", m->selection.uidlist.uri));
+
+	if (!(src = mail_tool_uri_to_folder(m->selection.uidlist.uri, 0, &m->msg.ex)))
 		return;
-	}
 	
-	g_free (src_uri);
+	camel_folder_transfer_messages_to(src, m->selection.uidlist.uids, dest, NULL, m->move, &m->msg.ex);
+	camel_object_unref(src);
 	
-	camel_folder_transfer_messages_to (src, uids, dest, NULL, move, ex);
-	em_utils_uids_free (uids);
-	camel_object_unref (src);
-	
-	*moved = move && !camel_exception_is_set (ex);
+	m->moved = m->move && !camel_exception_is_set(&m->msg.ex);
 }
 
 static void
-drop_folder (CamelStore *dest_store, const char *name, GtkSelectionData *selection, gboolean move, gboolean *moved, CamelException *ex)
+drop_folder(struct _DragDataReceivedAsync *m)
+/*CamelStore *dest_store, const char *name, GtkSelectionData *selection, gboolean move, gboolean *moved, CamelException *ex)*/
 {
 	CamelFolder *src;
 	char *new_name;
-	
-	*moved = FALSE;
-	
-	if (!(src = mail_tool_uri_to_folder (selection->data, 0, ex)))
+
+	d(printf(" * Drop folder '%s' onto '%s'\n", m->selection.folder, m->full_name));
+
+	if (!(src = mail_tool_uri_to_folder(m->selection.folder, 0, &m->msg.ex)))
 		return;
 	
 	/* handles dropping to the root properly */
-	if (name[0])
-		new_name = g_strdup_printf ("%s/%s", name, src->name);
+	if (m->full_name[0])
+		new_name = g_strdup_printf("%s/%s", m->full_name, src->name);
 	else
-		new_name = g_strdup (src->name);
+		new_name = g_strdup(src->name);
 	
-	if (src->parent_store == dest_store && move) {
+	if (src->parent_store == m->store && m->move) {
 		/* simple case, rename */
-		camel_store_rename_folder (dest_store, src->full_name, new_name, ex);
-		*moved = !camel_exception_is_set (ex);
+		camel_store_rename_folder(m->store, src->full_name, new_name, &m->msg.ex);
+		m->moved = !camel_exception_is_set (&m->msg.ex);
 	} else {
 		CamelFolder *dest;
 		
 		/* copy the folder to the new location */
-		if ((dest = camel_store_get_folder (dest_store, new_name, CAMEL_STORE_FOLDER_CREATE, ex))) {
+		if ((dest = camel_store_get_folder(m->store, new_name, CAMEL_STORE_FOLDER_CREATE, &m->msg.ex))) {
 			GPtrArray *uids;
 			
 			uids = camel_folder_get_uids (src);
-			camel_folder_transfer_messages_to (src, uids, dest, NULL, FALSE, ex);
+			camel_folder_transfer_messages_to (src, uids, dest, NULL, FALSE, &m->msg.ex);
 			camel_folder_free_uids (src, uids);
 			
 			camel_object_unref (dest);
 		}
 	}
 	
-	g_free (new_name);
-	camel_object_unref (src);
+	g_free(new_name);
+	camel_object_unref(src);
 }
 
 static gboolean
@@ -1109,79 +1125,42 @@ import_message_rfc822 (CamelFolder *dest, CamelStream *stream, gboolean scan_fro
 }
 
 static void
-drop_message_rfc822 (CamelFolder *dest, GtkSelectionData *selection, CamelException *ex)
+drop_message_rfc822(struct _DragDataReceivedAsync *m, CamelFolder *dest)
 {
-	CamelStream *stream;
 	gboolean scan_from;
-	
-	scan_from = selection->length > 5 && !strncmp (selection->data, "From ", 5);
-	stream = camel_stream_mem_new_with_buffer (selection->data, selection->length);
-	
-	import_message_rfc822 (dest, stream, scan_from, ex);
-	
-	camel_object_unref (stream);
+
+	d(printf(" * drop message/rfc822\n"));
+
+	scan_from = m->selection.rfc822->buffer->len > 5
+		&& !strncmp(m->selection.rfc822->buffer->data, "From ", 5);
+	import_message_rfc822(dest, (CamelStream *)m->selection.rfc822, scan_from, &m->msg.ex);
 }
 
 static void
-drop_text_uri_list (CamelFolder *dest, GtkSelectionData *selection, CamelException *ex)
+drop_text_uri_list(struct _DragDataReceivedAsync *m, CamelFolder *dest)
 {
-	char **urls, *url, *tmp;
 	CamelStream *stream;
-	CamelURL *uri;
-	int fd, i;
-	
-	tmp = g_strndup (selection->data, selection->length);
-	urls = g_strsplit (tmp, "\n", 0);
-	g_free (tmp);
-	
-	for (i = 0; urls[i] != NULL; i++) {
-		/* get the path component */
-		url = g_strstrip (urls[i]);
-		uri = camel_url_new (url, NULL);
-		g_free (url);
-		
-		if (!uri || strcmp (uri->protocol, "file") != 0) {
-			camel_url_free (uri);
-			continue;
-		}
-		
-		url = uri->path;
-		uri->path = NULL;
-		camel_url_free (uri);
-		
-		if ((fd = open (url, O_RDONLY)) == -1) {
-			g_free (url);
-			continue;
-		}
-		
-		stream = camel_stream_fs_new_with_fd (fd);
-		if (!import_message_rfc822 (dest, stream, TRUE, ex)) {
-			/* FIXME: should we abort now? or continue? */
-			/* for now lets just continue... */
-			camel_exception_clear (ex);
-		}
-		
-		camel_object_unref (stream);
-		g_free (url);
-	}
-	
-	g_free (urls);
-}
+	CamelURL *url;
+	int fd, i, go=1;
 
-struct _DragDataReceivedAsync {
-	struct _mail_msg msg;
-	
-	/* input data */
-	GdkDragContext *context;
-	GtkSelectionData *selection;
-	CamelStore *store;
-	char *full_name;
-	gboolean move;
-	guint info;
-	
-	/* output data */
-	gboolean moved;
-};
+	d(printf(" * drop uri list\n"));
+
+	for (i = 0; go && m->selection.urilist[i] != NULL; i++) {
+		d(printf("   - '%s'\n", (char *)m->selection.urilist[i]));
+
+		url = camel_url_new(m->selection.urilist[i], NULL);
+		if (url == NULL)
+			continue;
+
+		if (strcmp(url->protocol, "file") == 0
+		    && (fd = open(url->path, O_RDONLY)) != -1) {
+			stream = camel_stream_fs_new_with_fd(fd);
+			go = import_message_rfc822(dest, stream, TRUE, &m->msg.ex);
+			camel_object_unref(stream);
+		}
+		camel_url_free(url);
+	}
+}
 
 static void
 emftm_drag_data_received_async__drop (struct _mail_msg *mm)
@@ -1192,8 +1171,7 @@ emftm_drag_data_received_async__drop (struct _mail_msg *mm)
 	/* for types other than folder, we can't drop to the root path */
 	if (m->info == DND_DROP_TYPE_FOLDER) {
 		/* copy or move (aka rename) a folder */
-		drop_folder (m->store, m->full_name, m->selection, m->move, &m->moved, &mm->ex);
-		d(printf ("\t* dropped a x-folder ('%s' into '%s')\n", m->selection->data, m->full_name));
+		drop_folder(m);
 	} else if (m->full_name[0] == 0) {
 		camel_exception_set (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Cannot drop message(s) into toplevel store"));
@@ -1201,22 +1179,20 @@ emftm_drag_data_received_async__drop (struct _mail_msg *mm)
 		switch (m->info) {
 		case DND_DROP_TYPE_UID_LIST:
 			/* import a list of uids from another evo folder */
-			drop_uid_list (folder, m->selection, m->move, &m->moved, &mm->ex);
-			d(printf ("\t* dropped a x-uid-list\n"));
+			drop_uid_list(m, folder);
 			break;
 		case DND_DROP_TYPE_MESSAGE_RFC822:
 			/* import a message/rfc822 stream */
-			drop_message_rfc822 (folder, m->selection, &mm->ex);
-			d(printf ("\t* dropped a message/rfc822\n"));
+			drop_message_rfc822(m, folder);
 			break;
 		case DND_DROP_TYPE_TEXT_URI_LIST:
 			/* import an mbox, maildir, or mh folder? */
-			drop_text_uri_list (folder, m->selection, &mm->ex);
-			d(printf ("\t* dropped a text/uri-list\n"));
+			drop_text_uri_list(m, folder);
 			break;
 		default:
 			g_assert_not_reached ();
 		}
+		camel_object_unref(folder);
 	}
 }
 
@@ -1237,9 +1213,27 @@ emftm_drag_data_received_async__free (struct _mail_msg *mm)
 {
 	struct _DragDataReceivedAsync *m = (struct _DragDataReceivedAsync *) mm;
 	
-	g_object_unref (m->context);
-	camel_object_unref (m->store);
-	g_free (m->full_name);
+	g_object_unref(m->context);
+	camel_object_unref(m->store);
+	g_free(m->full_name);
+
+	switch (m->info) {
+	case DND_DROP_TYPE_FOLDER:
+		g_free(m->selection.folder);
+		break;
+	case DND_DROP_TYPE_UID_LIST:
+		g_free(m->selection.uidlist.uri);
+		em_utils_uids_free(m->selection.uidlist.uids);
+		break;
+	case DND_DROP_TYPE_MESSAGE_RFC822:
+		camel_object_unref(m->selection.rfc822);
+		break;
+	case DND_DROP_TYPE_TEXT_URI_LIST:
+		g_strfreev(m->selection.urilist);
+		break;
+	default:
+		abort();
+	}
 }
 
 static struct _mail_msg_op drag_data_received_async_op = {
@@ -1257,8 +1251,9 @@ em_folder_tree_model_drag_data_received (EMFolderTreeModel *model, GdkDragContex
 	const char *full_name;
 	CamelStore *store;
 	GtkTreeIter iter;
-	char *path;
-	
+	char *path, *tmp;
+	int i;
+
 	/* this means we are receiving no data */
 	if (!selection->data || selection->length == -1) {
 		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
@@ -1287,11 +1282,31 @@ em_folder_tree_model_drag_data_received (EMFolderTreeModel *model, GdkDragContex
 	
 	m = mail_msg_new (&drag_data_received_async_op, NULL, sizeof (struct _DragDataReceivedAsync));
 	m->context = context;
-	m->selection = selection;
 	m->store = store;
 	m->full_name = g_strdup (full_name);
 	m->move = context->action == GDK_ACTION_MOVE;
 	m->info = info;
+
+	switch (info) {
+	case DND_DROP_TYPE_FOLDER:
+		m->selection.folder = g_strdup(selection->data);
+		break;
+	case DND_DROP_TYPE_UID_LIST:
+		em_utils_selection_get_uidlist(selection, &m->selection.uidlist.uri, &m->selection.uidlist.uids);
+		break;
+	case DND_DROP_TYPE_MESSAGE_RFC822:
+		m->selection.rfc822 = (CamelStreamMem *)camel_stream_mem_new_with_buffer(selection->data, selection->length);
+		break;
+	case DND_DROP_TYPE_TEXT_URI_LIST:
+		tmp = g_strndup(selection->data, selection->length);
+		m->selection.urilist = g_strsplit(tmp, "\n", 0);
+		g_free(tmp);
+		for (i=0;m->selection.urilist[i];i++)
+			g_strstrip(m->selection.urilist[i]);
+		break;
+	default:
+		abort();
+	}
 	
 	e_thread_put (mail_thread_new, (EMsg *) m);
 }
