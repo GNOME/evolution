@@ -437,7 +437,6 @@ setup_progress_bar (EShellViewPrivate *priv)
 		progress_bar, GTK_PROGRESS_CONTINUOUS);
 	
 	priv->progress_bar = GTK_WIDGET (progress_bar);
-	gtk_widget_set_usize (priv->progress_bar, 200, 10);
 	gtk_widget_show (priv->progress_bar);
 
 	control = bonobo_control_new (priv->progress_bar);

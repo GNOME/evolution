@@ -1,3 +1,7 @@
+2000-10-04  Michael Meeks  <michael@helixcode.com>
+
+	* e-shell-view.c (setup_progress_bar): remove evil usize set.
+
 2000-10-02  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shortcuts-view.c (show_new_group_dialog): Destroy the dialog
