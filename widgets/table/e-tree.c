@@ -706,16 +706,16 @@ e_tree_setup_table (ETree *e_tree)
 		GTK_SIGNAL_FUNC (gtk_widget_queue_draw), e_tree);
 
 	gtk_signal_connect (
-		GTK_OBJECT (e_tree), "drag_begin",
+		GTK_OBJECT (e_tree->priv->table_canvas), "drag_begin",
 		GTK_SIGNAL_FUNC (et_drag_begin), e_tree);
 	gtk_signal_connect (
-		GTK_OBJECT (e_tree), "drag_end",
+		GTK_OBJECT (e_tree->priv->table_canvas), "drag_end",
 		GTK_SIGNAL_FUNC (et_drag_end), e_tree);
 	gtk_signal_connect (
-		GTK_OBJECT (e_tree), "drag_data_get",
+		GTK_OBJECT (e_tree->priv->table_canvas), "drag_data_get",
 		GTK_SIGNAL_FUNC (et_drag_data_get), e_tree);
 	gtk_signal_connect (
-		GTK_OBJECT (e_tree), "drag_data_delete",
+		GTK_OBJECT (e_tree->priv->table_canvas), "drag_data_delete",
 		GTK_SIGNAL_FUNC (et_drag_data_delete), e_tree);
 	gtk_signal_connect (
 		GTK_OBJECT (e_tree), "drag_motion",
