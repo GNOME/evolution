@@ -16,6 +16,7 @@
 #include <iconv.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkx.h>
+#include <gdk/gdkkeysyms.h>
 #include "e-unicode.h"
 #include "e-font.h"
 
@@ -186,15 +187,19 @@ e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string)
 	gchar *utf;
 	gint unilen;
 
-	unival = gdk_keyval_to_unicode (keyval);
+	if (keyval == GDK_VoidSymbol) {
+		utf = e_utf8_from_gtk_string (widget, string);
+	} else {
+		unival = gdk_keyval_to_unicode (keyval);
 
-	if (unival < ' ') return NULL;
+		if (unival < ' ') return NULL;
 
-	utf = g_new (gchar, 7);
+		utf = g_new (gchar, 7);
 
-	unilen = g_unichar_to_utf8 (unival, utf);
+		unilen = g_unichar_to_utf8 (unival, utf);
 
-	utf[unilen] = '\0';
+		utf[unilen] = '\0';
+	}
 
 	return utf;
 }
