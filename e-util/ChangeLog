@@ -1,3 +1,11 @@
+2003-01-10  JP Rosevear  <jpr@ximian.com>
+
+	* e-xml-utils.[hc]: various xml utility routines
+
+	* e-xmlhash.[hc]: new files to manage an xml hash on disk
+
+	* Makefile.am: Build new files
+
 2002-12-10  JP Rosevear  <jpr@ximian.com>
 
 	* e-config-listener.c (e_config_listener_remove_dir): Fix warning

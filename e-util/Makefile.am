@@ -19,9 +19,13 @@ privlib_LTLIBRARIES = libeutil.la libedb3util.la libeconduit.la
 noinst_LTLIBRARIES = libeutil-static.la libeconduit-static.la
 
 eutilinclude_HEADERS = 				\
+	e-bonobo-factory-util.h			\
+	e-categories-master-list-wombat.h	\
+	e-categories-config.h			\
 	e-component-listener.h			\
 	e-config-listener.h			\
 	e-corba-utils.h				\
+	e-dialog-utils.h			\
 	e-dialog-widgets.h			\
 	e-gtk-utils.h				\
 	e-gui-utils.h				\
@@ -34,18 +38,26 @@ eutilinclude_HEADERS = 				\
 	e-memory.h				\
 	e-mktemp.h				\
 	e-msgport.h				\
+	e-passwords.h				\
 	e-path.h				\
+	e-proxy.h				\
 	e-request.h				\
 	e-sexp.h				\
 	e-time-utils.h				\
 	e-url.h					\
+	e-xmlhash.h				\
+	e-xml-utils.h				\
 	md5-utils.h
 
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
+	e-bonobo-factory-util.c			\
+	e-categories-master-list-wombat.c	\
+	e-categories-config.c			\
 	e-component-listener.c			\
 	e-config-listener.c			\
 	e-corba-utils.c				\
+	e-dialog-utils.c			\
 	e-dialog-widgets.c			\
 	e-gtk-utils.c				\
 	e-gui-utils.c				\
@@ -58,36 +70,16 @@ libeutil_la_SOURCES =				\
 	e-memory.c				\
 	e-mktemp.c				\
 	e-msgport.c				\
+	e-passwords.c				\
 	e-path.c				\
+	e-proxy.c				\
 	e-request.c				\
 	e-sexp.c				\
 	e-time-utils.c				\
 	e-url.c					\
-	e-util-marshal.c			\
+	e-xmlhash.c				\
+	e-xml-utils.c				\
 	md5-utils.c
-
-# GLib marshalling cruft
-
-e-util-marshal.h: e-util-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --header > e-util-marshal.tmp \
-	&& mv e-util-marshal.tmp e-util-marshal.h ) \
-	|| ( rm -f e-util-marshal.tmp && exit 1 )
-
-e-util-marshal.c: e-util-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --body > e-util-marshal.tmp \
-	&& mv e-util-marshal.tmp e-util-marshal.c ) \
-	|| ( rm -f e-util-marshal.tmp && exit 1 )
-
-MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
-
-
-# FIXME TODO
-#	e-categories-config.c
-#	e-categories-master-list-wombat.[ch]
-#	e-dialog-utils.c
-#	e-passwords.c
-#	e-proxy.c
-#       bonobo-factory-util.[ch]
 
 libeutil_la_LIBADD = $(E_UTIL_LIBS)
 
@@ -117,7 +109,7 @@ libeconduit_la_SOURCES = $(pilot_compile)
 libeconduit_static_la_SOURCES = $(libeconduit_la_SOURCES)
 libeconduit_static_la_LDFLAGS = -all-static
 
-EXTRA_DIST = $(pilot_sources) e-util-marshal.list
+EXTRA_DIST = $(pilot_sources)
 
 edb3include_HEADERS =			\
 	e-db3-utils.h			\
@@ -127,6 +119,3 @@ libedb3util_la_SOURCES =		\
 	$(edb3include_HEADERS)		\
 	e-db3-utils.c			\
 	e-dbhash.c
-
-BUILT_SOURCES = $(MARSHAL_GENERATED)
-CLEANFILES    = $(BUILT_SOURCES)
