@@ -47,8 +47,10 @@ main (int argc,
 {
   CORBA_ORB orb;
 
+#ifdef ENABLE_NLS
   bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
   textdomain (PACKAGE);
+#endif
 
   gnome_init_with_popt_table ("evolution-executive-summary", VERSION,
 			      argc, argv, oaf_popt_options, 0, NULL);

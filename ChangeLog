@@ -1,5 +1,20 @@
 2000-11-01  Gediminas Paulauskas  <menesis@delfi.lt>
 
+	* addressbook/ename/.cvsignore, addressbook/gui/minicard/.cvsignore,
+	calendar/doc/.cvsignore, widgets/e-paned/.cvsignore,
+	widgets/e-table/.cvsignore, widgets/e-text/.cvsignore: added these
+	files.
+	* calendar/gui/.cvsignore, composer/.cvsignore,
+	executive-summary/.cvsignore, executive-summary/component/.cvsignore,
+	po/.cvsignore: added some files to ignore.
+
+	* addressbook/gui/component/addressbook-factory.c, mail/main.c,
+	shell/main.c, calendar/gui/main.c, notes/main.c,
+	executive-summary/component/main.c: call *textdomain() only if
+	ENABLE_NLS is defined.
+
+2000-11-01  Gediminas Paulauskas  <menesis@delfi.lt>
+
 	* configure.in: added lt to ALL_LINGUAS.
 	
 2000-10-30  Dan Winship  <danw@helixcode.com>

@@ -143,8 +143,10 @@ main (int argc, char **argv)
 {
 	char *evolution_directory;
 
+	#ifdef ENABLE_NLS
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
+	#endif
 
 	gnome_init_with_popt_table ("Evolution", VERSION, argc, argv, oaf_popt_options, 0, NULL);
 	oaf_init (argc, argv);

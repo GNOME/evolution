@@ -4,3 +4,7 @@ Makefile
 .deps
 .libs
 evolution-executive-summary
+Composer-common.c
+Composer.h
+Composer-stubs.c
+Composer-skels.c

@@ -35,8 +35,10 @@ init_bonobo (void)
 gint
 main (gint argc, gchar **argv)
 {
+	#ifdef ENABLE_NLS
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
+	#endif
 
 	init_corba (argc, argv);
 	init_bonobo ();

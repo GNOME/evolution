@@ -43,8 +43,10 @@ init_bonobo (int argc, char **argv)
 int
 main (int argc, char **argv)
 {
+	#ifdef ENABLE_NLS
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
+	#endif
 	
 	init_corba (&argc, argv);
 
