@@ -450,7 +450,6 @@ remove_folder_directory (ELocalStorage *local_storage,
 {
 	EStorage *storage;
 	ELocalStoragePrivate *priv;
-	EFolder *folder;
 	const char *folder_name;
 	char *file_name;
 	char *physical_path;
@@ -458,7 +457,6 @@ remove_folder_directory (ELocalStorage *local_storage,
 	priv = local_storage->priv;
 
 	storage = E_STORAGE (local_storage);
-	folder = e_storage_get_folder (storage, path);
 	folder_name = g_basename (path);
 
 	/* Delete the metadata file associated with this folder.  */
