@@ -1,5 +1,18 @@
 2004-05-07  JP Rosevear  <jpr@ximian.com>
 
+	Fixes #52294
+	
+	* gui/e-cal-model.c (set_dtstart): set the tzid properly
+	(ecm_is_cell_editable): set check properly
+
+	* gui/e-cal-model-tasks.c (set_due): set the tzid properly
+	(ecmt_is_cell_editable): set check properly
+
+	* gui/e-cal-model-calendar.c (set_dtend): set the tzid properly
+	(ecmc_is_cell_editable): kill fixme and set check properly
+
+2004-05-07  JP Rosevear  <jpr@ximian.com>
+
 	* gui/e-cal-model.c (ecm_is_cell_editable): fix comment and check
 
 	* gui/e-cal-model-tasks.c (ecmt_set_value_at): set a parent field

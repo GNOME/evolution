@@ -205,17 +205,53 @@ ecmc_value_at (ETableModel *etm, int col, int row)
 static void
 set_dtend (ECalModelComponent *comp_data, const void *value)
 {
-	icalproperty *prop;
 	ECellDateEditValue *dv = (ECellDateEditValue *) value;
-
+	icalproperty *prop;
+	icalparameter *param;
+	const char *tzid;
+	
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTEND_PROPERTY);
+	if (prop)
+		param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
+	else
+		param = NULL;
+
+	/* If we are setting the property to NULL (i.e. removing it), then
+	   we remove it if it exists. */
 	if (!dv) {
 		if (prop) {
 			icalcomponent_remove_property (comp_data->icalcomp, prop);
 			icalproperty_free (prop);
 		}
-	} else
-		icalcomponent_set_dtend (comp_data->icalcomp, dv->tt);
+
+		return;
+	}
+	
+	/* If the TZID is set to "UTC", we set the is_utc flag. */
+	tzid = dv->zone ? icaltimezone_get_tzid (dv->zone) : "UTC";
+	if (tzid && !strcmp (tzid, "UTC"))
+		dv->tt.is_utc = 1;
+	else
+		dv->tt.is_utc = 0;
+
+	if (prop) {
+		icalproperty_set_dtend (prop, dv->tt);
+	} else {
+		prop = icalproperty_new_dtend (dv->tt);
+		icalcomponent_add_property (comp_data->icalcomp, prop);
+	}
+
+	/* If the TZID is set to "UTC", we don't want to save the TZID. */
+	if (tzid && strcmp (tzid, "UTC")) {
+		if (param) {
+			icalparameter_set_tzid (param, (char *) tzid);
+		} else {
+			param = icalparameter_new_tzid ((char *) tzid);
+			icalproperty_add_parameter (prop, param);
+		}
+	} else if (param) {
+		icalproperty_remove_parameter (prop, ICAL_TZID_PARAMETER);
+	}
 }
 
 static void
@@ -323,9 +359,7 @@ ecmc_is_cell_editable (ETableModel *etm, int col, int row)
 
 	g_return_val_if_fail (E_IS_CAL_MODEL_CALENDAR (model), FALSE);
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, FALSE);
-
-	/* FIXME: We can't check this as 'click-to-add' passes row 0. */
-	/* g_return_val_if_fail (row >= 0 && row < e_table_model_get_row_count (etm), FALSE); */
+	g_return_val_if_fail (row >= -1 || (row >= 0 && row < e_table_model_row_count (etm)), FALSE);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
 		return E_TABLE_MODEL_CLASS (parent_class)->is_cell_editable (etm, col, row);
