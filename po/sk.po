@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.9\n"
-"POT-Creation-Date: 2001-02-27 13:13-0500\n"
-"PO-Revision-Date: 2001-02-19 13:28CET\n"
+"POT-Creation-Date: 2001-03-02 16:20+0100\n"
+"PO-Revision-Date: 2001-03-02 16:22CET\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@rak.isternet.sk>\n"
 "MIME-Version: 1.0\n"
@@ -454,14 +454,6 @@ msgstr "Nie je mo¾né spusti» wombat"
 #: addressbook/conduit/address-conduit.c:687
 msgid "Could not read pilot's Address application block"
 msgstr "Nie je mo¾né preèíta» blok aplikácie Adresa z pilota"
-
-#: addressbook/conduit/e-address-conduit-control-applet.desktop.in.h:1
-msgid "Configure the address conduit"
-msgstr "Nastavenie spojky pre adresár"
-
-#: addressbook/conduit/e-address-conduit-control-applet.desktop.in.h:2
-msgid "Evolution Address conduit "
-msgstr "Spojka pre adresár Evolution"
 
 #: addressbook/contact-editor/contact-editor.glade.h:1
 #: addressbook/gui/component/addressbook-config.glade.h:1
@@ -1433,7 +1425,6 @@ msgid "label26"
 msgstr "label26"
 
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:127
-#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in.h:2
 msgid "Evolution Calendar Conduit"
 msgstr "Spojka kalendára Evolution"
 
@@ -1451,15 +1442,6 @@ msgstr "Chyba pri komunikácii s kalendárovým serverom"
 msgid "Could not read pilot's Calendar application block"
 msgstr "Nie je mo¾né preèíta» blok aplikácie Calendar pilota"
 
-#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in.h:1
-msgid "Configure the Evolution Calendar conduit"
-msgstr "Nastavenie spojky kalendára Evolution"
-
-#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in.h:1
-msgid "Configure the Evolution ToDo conduit"
-msgstr "Nastavenie spojky ToDo pre Evolution"
-
-#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in.h:2
 #: calendar/conduits/todo/todo-conduit-control-applet.c:127
 msgid "Evolution ToDo Conduit"
 msgstr "Spojka ToDo pre Evolution"
@@ -1486,8 +1468,7 @@ msgid "Save calendar"
 msgstr "Ulo¾i» kalendár"
 
 #: calendar/gui/calendar-commands.c:451
-msgid ""
-"Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 "Nie je mo¾né vytvori» kalendárový pohµad. Prosím, overte nastavenie ORBit a "
 "OAF."
@@ -3283,16 +3264,14 @@ msgstr "Pre èítanie a ukladanie po¹ty na IMAP serveroch."
 
 #: camel/providers/imap/camel-imap-store.c:251
 msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr ""
-"Táto voµba pripojí na IMAP server pomocou hesiel prená¹aných ako èistý text."
+msgstr "Táto voµba pripojí na IMAP server pomocou hesiel prená¹aných ako èistý text."
 
 #: camel/providers/imap/camel-imap-store.c:260
 msgid "Kerberos 4"
 msgstr "Kerberos 4"
 
 #: camel/providers/imap/camel-imap-store.c:262
-msgid ""
-"This option will connect to the IMAP server using Kerberos 4 authentication."
+msgid "This option will connect to the IMAP server using Kerberos 4 authentication."
 msgstr "Táto voµba pripojí na IMAP server pomocou overenia Kerberos 4."
 
 #: camel/providers/imap/camel-imap-store.c:368
@@ -3722,8 +3701,7 @@ msgstr ""
 "tento protokol podporuje."
 
 #: camel/providers/pop3/camel-pop3-store.c:170
-msgid ""
-"This will connect to the POP server and use Kerberos 4 to authenticate to it."
+msgid "This will connect to the POP server and use Kerberos 4 to authenticate to it."
 msgstr "Táto voµba vás spojí s POP serverom pomocou overenia Kerberos 4."
 
 #: camel/providers/pop3/camel-pop3-store.c:215
@@ -3880,8 +3858,7 @@ msgstr "Pou¾ívateµ nie je lokálny, bude predaná podµa <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:163
 msgid "Requested mail action not taken: mailbox unavailable"
-msgstr ""
-"Po¾adovaná po¹tová akcia nevykonaná, po¹tová schránka nie je k dispozícii"
+msgstr "Po¾adovaná po¹tová akcia nevykonaná, po¹tová schránka nie je k dispozícii"
 
 #: camel/providers/smtp/camel-smtp-transport.c:165
 msgid "Requested action not taken: mailbox unavailable"
@@ -3938,8 +3915,7 @@ msgid "CRAM-MD5"
 msgstr "CRAM-MD5"
 
 #: camel/providers/smtp/camel-smtp-transport.c:350
-msgid ""
-"This option will connect to the SMTP server using CRAM-MD5 authentication."
+msgid "This option will connect to the SMTP server using CRAM-MD5 authentication."
 msgstr "Táto voµba vás pripojí k SMTP serveru pomocou overenia CRAM-MD5."
 
 #: camel/providers/smtp/camel-smtp-transport.c:378
@@ -4208,8 +4184,7 @@ msgstr "Ulo¾i» zmeny do správy..."
 msgid "Error saving composition to 'Drafts': %s"
 msgstr "Chyba pri ukladaní do prieèinku 'Koncepty': %s"
 
-#: composer/e-msg-composer.c:834 evolution.desktop.in.h:1
-#: shell/e-shell-view-menu.c:192
+#: composer/e-msg-composer.c:834 shell/e-shell-view-menu.c:192
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -4266,14 +4241,6 @@ msgstr "Nie je mo¾né vytvori» okno editora správ."
 #: composer/evolution-composer.c:360
 msgid "Cannot initialize Evolution's composer."
 msgstr "Nie je mo¾né inicializova» editor správ Evolution."
-
-#: data/evolution.keys.in.h:1
-msgid "address card"
-msgstr "karta s adresou"
-
-#: data/evolution.keys.in.h:2
-msgid "calendar information"
-msgstr "informácie o kalendári"
 
 #: executive-summary/component/component-factory.c:159
 msgid "Cannot initialize Evolution's Executive Summary component."
@@ -5165,7 +5132,7 @@ msgstr "Typ overenia:"
 
 #: mail/mail-config.glade.h:10
 msgid "Automatically check mail every"
-msgstr ""
+msgstr "Automaticky kontrolova» po¹tu ka¾dých"
 
 #: mail/mail-config.glade.h:12
 msgid "Check settings"
@@ -5225,7 +5192,7 @@ msgstr "Identita"
 
 #: mail/mail-config.glade.h:32
 msgid "Include in \"Get Mail\" operations."
-msgstr ""
+msgstr "Vlo¾i» do operácií \"Stiahnu» po¹tu\""
 
 #: mail/mail-config.glade.h:33
 msgid "Incoming Mail Server"
@@ -5284,9 +5251,8 @@ msgid "Outgoing Mail Server"
 msgstr "Server odosielanej po¹ty"
 
 #: mail/mail-config.glade.h:50
-#, fuzzy
 msgid "PGP binary path:"
-msgstr "©ifrovanie PGP"
+msgstr "Cesta k PGP:"
 
 #: mail/mail-config.glade.h:51
 msgid "Password:"
@@ -5317,9 +5283,8 @@ msgid "Save password"
 msgstr "Ulo¾i» heslo"
 
 #: mail/mail-config.glade.h:60
-#, fuzzy
 msgid "Select PGP binary"
-msgstr "Vyberte súbor"
+msgstr "Vyberte spustiteµný súbor PGP"
 
 #: mail/mail-config.glade.h:61
 msgid "Select signature file"
@@ -5366,9 +5331,8 @@ msgid "This server requires a secure connection (SSL)"
 msgstr "Tento server vy¾aduje bezpeèné pripojenie (SSL)"
 
 #: mail/mail-config.glade.h:74
-#, fuzzy
 msgid "Transport"
-msgstr "Priesvitný"
+msgstr "Prenos"
 
 #: mail/mail-config.glade.h:75
 msgid "Type"
@@ -5401,9 +5365,8 @@ msgstr ""
 "Kliknutím \"Ïal¹í\" zaèneme."
 
 #: mail/mail-config.glade.h:83
-#, fuzzy
 msgid "minutes."
-msgstr "minút"
+msgstr "minút."
 
 #: mail/mail-config-druid.c:389
 #, c-format
@@ -6203,8 +6166,7 @@ msgstr ""
 
 #: shell/e-setup.c:117
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
-msgstr ""
-"Prosím, stlaète \"OK\" pre in¹taláciu súborov, alebo \"Zru¹i»\" pre koniec."
+msgstr "Prosím, stlaète \"OK\" pre in¹taláciu súborov, alebo \"Zru¹i»\" pre koniec."
 
 #: shell/e-setup.c:157
 msgid "Could not update files correctly"
@@ -6491,25 +6453,24 @@ msgid "The specified type is not supported in this storage"
 msgstr "Uvedený typ nie je podporovaný týmto skladom"
 
 #: shell/main.c:74
+#, c-format
 msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
+"Hi.  Thanks for taking the time to download this PREVIEW RELEASE\n"
 "of the Evolution groupware suite.\n"
 "\n"
-"Over the time since the past release, our focus has been on making\n"
-"Evolution usable.  Many of the Evolution developers are now using\n"
-"Evolution to read their mail full time. You could too. (Just\n"
-"be sure to keep a backup.)\n"
+"Evolution is not yet complete. It's getting close, but there are\n"
+"places where features are either missing or only half working. If\n"
+"you can't figure out how to do something, it's probably because\n"
+"there's no way to do it yet! :-)\n"
 "\n"
-"But while we have fixed many bugs affecting its stability and\n"
-"security, you still get the disclaimer:  Evolution will: crash,\n"
-"lose your mail when you don't want it to, refuse to delete your\n"
-"mail when you do want it to, leave stray processes running,\n"
-"consume 100% CPU, race, lock, send HTML mail to random mailing\n"
-"lists, and embarass you in front of your friends and co-workers.\n"
-"Use only as directed.\n"
+"We hope Evolution will be usable for you, but we still feel the\n"
+"need to warn you that it may: crash, lose your mail, leave stray\n"
+"processes running, consume 100% of your CPU, send non-\n"
+"compliant commands to your servers, and generally embarass you\n"
+"in front of your friends and co-workers. Use only as directed.\n"
 "\n"
-"We hope that you enjoy the results of our hard work, and we eagerly\n"
-"await your contributions!\n"
+"We hope that you enjoy the results of our hard work, and we\n"
+"eagerly await your contributions!\n"
 msgstr ""
 "Vitajte.  Vïaka za èas strávený s»ahovaním tejto uká¾ky\n"
 "groupwarového nástroja Evolution.\n"
@@ -6530,7 +6491,7 @@ msgstr ""
 "Dúfame, ¾e vás pote¹ia výsledky na¹ej »a¾kej práce a netrpezlivo\n"
 "èakáme na vá¹ príspevok!\n"
 
-#: shell/main.c:101
+#: shell/main.c:99
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -6538,15 +6499,15 @@ msgstr ""
 "Vïaka\n"
 "Tím Evolution\n"
 
-#: shell/main.c:132
+#: shell/main.c:130
 msgid "Cannot initialize the Evolution shell."
 msgstr "Nie je mo¾né inicializova» shell Evolution."
 
-#: shell/main.c:178
+#: shell/main.c:176
 msgid "Disable."
 msgstr "Zakáza»."
 
-#: shell/main.c:198
+#: shell/main.c:196
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Nie je mo¾né inicializova» komponentový systém Bonobo."
 
@@ -7778,6 +7739,3 @@ msgstr "init_corba(): Nie je mo¾né inicializova» GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Nie je mo¾né inicializova» Bonobo"
 
-#: evolution.desktop.in.h:2
-msgid "The Evolution groupware suite"
-msgstr "Sada nástrojov pre pracovné skupiny Evolution"
