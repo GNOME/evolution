@@ -143,6 +143,8 @@ struct _EAddrConduitCfg {
 	guint32 pilot_id;
 	GnomePilotConduitSyncType  sync_type;
 
+	ESourceList *source_list;
+	ESource *source;
 	gboolean secret;
 	EContactField default_address;
 
@@ -177,6 +179,20 @@ addrconduit_load_configuration (guint32 pilot_id)
 	/* Custom settings */
 	gnome_config_push_prefix (prefix);
 
+	if (!e_book_get_addressbooks (&c->source_list, NULL))
+		c->source_list = NULL;
+	if (c->source_list) {
+		c->source = e_pilot_get_sync_source (c->source_list);
+		if (!c->source)
+			c->source = e_source_list_peek_source_any (c->source_list);
+		if (c->source) {
+			g_object_ref (c->source);
+		} else {
+			g_object_unref (c->source_list);
+			c->source_list = NULL;
+		}
+	}
+	
 	c->secret = gnome_config_get_bool ("secret=FALSE");
 	address = gnome_config_get_string ("default_address=business");
 	if (!strcmp (address, "business"))
@@ -202,6 +218,7 @@ addrconduit_save_configuration (EAddrConduitCfg *c)
 		    c->pilot_id);
 
 	gnome_config_push_prefix (prefix);
+	e_pilot_set_sync_source (c->source_list, c->source);
 	gnome_config_set_bool ("secret", c->secret);
 	switch (c->default_address) {
 	case E_CONTACT_ADDRESS_WORK:
@@ -234,6 +251,10 @@ addrconduit_dupe_configuration (EAddrConduitCfg *c)
 	retval->sync_type = c->sync_type;
 	retval->pilot_id = c->pilot_id;
 
+	if (c->source_list)	
+		retval->source_list = g_object_ref (c->source_list);
+	if (c->source)
+		retval->source = g_object_ref (c->source);
 	retval->secret = c->secret;
 	retval->default_address = c->default_address;
 	retval->last_uri = g_strdup (c->last_uri);
@@ -246,6 +267,8 @@ addrconduit_destroy_configuration (EAddrConduitCfg *c)
 {
 	g_return_if_fail (c != NULL);
 
+	g_object_unref (c->source_list);
+	g_object_unref (c->source);
 	g_free (c->last_uri);
 	g_free (c);
 }
@@ -1149,13 +1172,15 @@ pre_sync (GnomePilotConduit *conduit,
 
 	ctxt->dbi = dbi;
 	
-	/* FIXME Need to allow our own concept of "local" */
-	ctxt->ebook = e_book_new_system_addressbook  (NULL);
-	if (!ctxt->ebook
-	    || !e_book_open (ctxt->ebook, FALSE, NULL)) {
+	if (ctxt->cfg->source) {
+		ctxt->ebook = e_book_new (ctxt->cfg->source, NULL);
+	} else {
+		ctxt->ebook = e_book_new_default_addressbook (NULL);
+	}
+	if (!ctxt->ebook || !e_book_open (ctxt->ebook, TRUE, NULL)) {
 		WARN(_("Could not load addressbook"));
 		gnome_pilot_conduit_error (conduit, _("Could not load addressbook"));
-
+		
 		return -1;
 	}
 
@@ -1617,6 +1642,9 @@ prepare (GnomePilotConduitSyncAbs *conduit,
 static void
 fill_widgets (EAddrConduitContext *ctxt)
 {
+	if (ctxt->cfg->source)
+		e_pilot_settings_set_source (E_PILOT_SETTINGS (ctxt->ps),
+					     ctxt->cfg->source);
 	e_pilot_settings_set_secret (E_PILOT_SETTINGS (ctxt->ps),
 				     ctxt->cfg->secret);
 
@@ -1629,8 +1657,11 @@ create_settings_window (GnomePilotConduit *conduit,
 			EAddrConduitContext *ctxt)
 {
 	LOG (g_message ( "create_settings_window" ));
+	
+	if (!ctxt->cfg->source_list)
+		return -1;
 
-	ctxt->ps = e_pilot_settings_new ();
+	ctxt->ps = e_pilot_settings_new (ctxt->cfg->source_list);
 	ctxt->gui = e_addr_gui_new (E_PILOT_SETTINGS (ctxt->ps));
 
 	gtk_container_add (GTK_CONTAINER (parent), ctxt->ps);
@@ -1651,8 +1682,12 @@ display_settings (GnomePilotConduit *conduit, EAddrConduitContext *ctxt)
 static void
 save_settings    (GnomePilotConduit *conduit, EAddrConduitContext *ctxt)
 {
-	LOG (g_message ( "save_settings" ));
+        LOG (g_message ( "save_settings" ));
 
+       if (ctxt->new_cfg->source)
+               g_object_unref (ctxt->new_cfg->source);
+	ctxt->new_cfg->source = e_pilot_settings_get_source (E_PILOT_SETTINGS (ctxt->ps));
+	g_object_ref (ctxt->new_cfg->source);
 	ctxt->new_cfg->secret =
 		e_pilot_settings_get_secret (E_PILOT_SETTINGS (ctxt->ps));
 	e_addr_gui_fill_config (ctxt->gui, ctxt->new_cfg);

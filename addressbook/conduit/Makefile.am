@@ -5,6 +5,8 @@ INCLUDES = 					\
 	-I$(top_builddir)/addressbook/backend	\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
+	-I$(top_srcdir)/widgets/misc		\
+	-I$(top_builddir)/widgets/misc		\
 	$(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)
 
 # Address Conduit
@@ -17,6 +19,7 @@ libeaddress_conduit_la_LDFLAGS = -module -avoid-version
 libeaddress_conduit_la_LIBADD = 					\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/e-util/libeconduit.la		 		\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la		 	\
 	$(top_builddir)/camel/libcamel.la	 			\
 	$(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 

@@ -1,3 +1,18 @@
+2004-08-02  JP Rosevear  <jpr@novell.com>
+
+	* conduit/address-conduit.c (addrconduit_load_configuration): get
+	source uid
+	(addrconduit_dupe_configuration): copy source_uid
+	(addrconduit_destroy_configuration): free source_uid
+	(e_addr_context_new): get the source list
+	(e_addr_context_destroy): unref the source list
+	(pre_sync): open the source that was set earlier
+	(fill_widgets): set the source option menu value
+	(create_settings_window): pass source list to pilot settings
+	(save_settings): save source uid
+
+	* conduit/Makefile.am: link to and include misc. widgets
+
 2004-08-02  Rodney Dawes  <dobey@novell.com>
 
 	* gui/component/ldap-config.glade: Make the main dialog here be
