@@ -170,6 +170,8 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	gdk_bitmap_unref (mask);
 
 	priv->tooltips = gtk_tooltips_new ();
+	g_object_ref (priv->tooltips);
+	gtk_object_sink (GTK_OBJECT (priv->tooltips));
 
 	e_task_widget_update (task_widget, information, -1.0);
 }

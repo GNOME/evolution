@@ -170,14 +170,14 @@ no_views_left_cb (EShell *shell, gpointer data)
 	if (quit_box != NULL)
 		gtk_widget_destroy (quit_box);
 
-	gtk_main_quit ();
+	bonobo_main_quit ();
 }
 
 static void
 shell_weak_notify (void *data,
 		   GObject *where_the_object_was)
 {
-	gtk_main_quit ();
+	bonobo_main_quit ();
 }
 
 
@@ -376,7 +376,7 @@ idle_cb (void *data)
 			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				  _("Cannot access the Ximian Evolution shell."));
 			CORBA_exception_free (&ev);
-			gtk_main_quit ();
+			bonobo_main_quit ();
 			return FALSE;
 		}
 		break;
@@ -386,7 +386,7 @@ idle_cb (void *data)
 			  _("Cannot initialize the Ximian Evolution shell: %s"),
 			  e_shell_construct_result_to_string (result));
 		CORBA_exception_free (&ev);
-		gtk_main_quit ();
+		bonobo_main_quit ();
 		return FALSE;
 
 	}
@@ -456,7 +456,7 @@ idle_cb (void *data)
 	CORBA_exception_free (&ev);
 	
 	if (shell == NULL)
-		gtk_main_quit ();
+		bonobo_main_quit ();
 
 	return FALSE;
 }

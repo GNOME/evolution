@@ -956,6 +956,24 @@ view_delete_event_cb (GtkWidget *widget,
 	return ! e_shell_request_close_view (shell, E_SHELL_VIEW (widget));
 }
 
+static gboolean
+notify_no_views_left_idle_cb (void *data)
+{
+	EShell *shell;
+
+	puts (__FUNCTION__);
+
+	shell = E_SHELL (data);
+
+	set_interactive (shell, FALSE);
+
+	bonobo_object_ref (BONOBO_OBJECT (shell));
+	g_signal_emit (shell, signals [NO_VIEWS_LEFT], 0);
+	bonobo_object_unref (BONOBO_OBJECT (shell));
+
+	return FALSE;
+}
+
 static void
 view_weak_notify (void *data,
 		  GObject *where_the_object_was)
@@ -975,13 +993,8 @@ view_weak_notify (void *data,
 
 	shell->priv->views = g_list_remove (shell->priv->views, where_the_object_was);
 
-	if (shell->priv->views == NULL) {
-		set_interactive (shell, FALSE);
-
-		bonobo_object_ref (BONOBO_OBJECT (shell));
-		g_signal_emit (shell, signals [NO_VIEWS_LEFT], 0);
-		bonobo_object_unref (BONOBO_OBJECT (shell));
-	}
+	if (shell->priv->views == NULL)
+		g_idle_add (notify_no_views_left_idle_cb, shell);
 }
 
 static EShellView *

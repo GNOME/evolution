@@ -1,5 +1,20 @@
 2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (no_views_left_cb): Use bonobo_main_quit() instead of
+	gtk_main_quit().
+	(shell_weak_notify): Likewise.
+	(idle_cb): Likewise.
+
+	* e-shell.c (notify_no_views_left_idle_cb): New idle function to
+	emit the "no_views_left" signal.
+	(view_weak_notify): Put it on the idle loop instead of firing the
+	signal here.
+
+	* e-task-widget.c (e_task_widget_construct): Ref/sink the
+	GtkTooltips object.
+
+2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (save_settings_for_views): Removed.
 	(e_shell_save_settings): Do not call it here.
 
