@@ -370,10 +370,6 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 	char *fwd_subj, *fromstr;
 	const CamelInternetAddress *from;
 
-	/* we need to lock around the whole function, as we are
-	   only getting references to the message's data */
-	mail_tool_camel_lock_up();
-
 	from = camel_mime_message_get_from(msg);
 	subject = camel_mime_message_get_subject(msg);
 
@@ -394,8 +390,6 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 		} else
 			fwd_subj = g_strdup (_("Fwd: (no subject)"));
 	}
-
-	mail_tool_camel_lock_down();
 
 	return fwd_subj;
 }
@@ -440,6 +434,7 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 	camel_medium_set_content_object (CAMEL_MEDIUM (part),
 					 CAMEL_DATA_WRAPPER (message));
 	camel_mime_part_set_content_type (part, "message/rfc822");
+	g_free(desc);
 	/*camel_object_unref (CAMEL_OBJECT (message));*/
 	return part;
 }

@@ -100,21 +100,11 @@ static void
 view_forward_msg (GtkWidget *widget, gpointer user_data)
 {
 	mail_view_data *data = (mail_view_data *) user_data;
-
 	GPtrArray *uids;
-	EMsgComposer *composer;
-
-	composer = e_msg_composer_new ();
-	if (!composer)
-		return;
 
 	uids = g_ptr_array_new();
-	g_ptr_array_add (uids, g_strdup (data->uid));
-
-	gtk_signal_connect (GTK_OBJECT (composer), "send",
-			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
-
-	mail_do_forward_message (data->msg, data->source, uids, composer, FALSE);
+	g_ptr_array_add(uids, g_strdup (data->uid));
+	forward_messages(data->source, uids, FALSE);
 }
 
 static void

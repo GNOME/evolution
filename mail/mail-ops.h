@@ -55,11 +55,6 @@ void mail_do_flag_messages (CamelFolder *source, GPtrArray *uids,
 void mail_do_flag_all_messages (CamelFolder *source, gboolean invert,
 				guint32 mask, guint32 set);
 void mail_do_scan_subfolders (CamelStore *store, EvolutionStorage *storage);
-void mail_do_attach_message (CamelFolder *folder, const char *uid,
-			     EMsgComposer *composer);
-void mail_do_forward_message (CamelMimeMessage *basis, CamelFolder *source,
-			      GPtrArray *uids,	/*array of allocated gchar *, will all be freed */
-			      EMsgComposer *composer, gboolean attach);
 void mail_do_create_folder (const GNOME_Evolution_ShellComponentListener listener,
 			    const char *uri, const char *type);
 void mail_do_setup_trash (const char *name, const char *store_uri, CamelFolder **folder);
@@ -77,6 +72,10 @@ void mail_get_messages(CamelFolder *folder, GPtrArray *uids,
 /* same for a folder */
 void mail_get_folder(const char *uri,
 		     void (*done) (char *uri, CamelFolder *folder, void *data), void *data);
+
+/* build an attachment */
+void mail_build_attachment(CamelFolder *folder, GPtrArray *uids,
+			   void (*done)(CamelFolder *folder, GPtrArray *messages, CamelMimePart *part, char *subject, void *data), void *data);
 
 void mail_sync_folder(CamelFolder *folder,
 		      void (*done) (CamelFolder *folder, void *data), void *data);

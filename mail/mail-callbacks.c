@@ -477,58 +477,98 @@ enumerate_msg (MessageList *ml, const char *uid, gpointer data)
 	g_ptr_array_add ((GPtrArray *) data, g_strdup (uid));
 }
 
-static void
-forward_message (FolderBrowser *fb, gboolean attach)
+
+static EMsgComposer *forward_get_composer(const char *subject)
 {
 	EMsgComposer *composer;
-	CamelMimeMessage *cursor_msg;
 	MailConfigIdentity *id;
-	GPtrArray *uids;
-	gchar *sig_file = NULL;
-	gboolean send_html;
-	
-	cursor_msg = fb->mail_display->current_message;
-	g_return_if_fail (cursor_msg != NULL);
-	
-	if (!check_send_configuration (fb))
-		return;
-	
+
 	id = mail_config_get_default_identity ();
-	send_html = mail_config_send_html ();
-	
-	if (id)
-		sig_file = id->sig;
-	
-	composer = e_msg_composer_new_with_sig_file (sig_file, send_html);
-	if (!composer)
-		return;
-	
-	uids = g_ptr_array_new ();
-	if (attach)
-		message_list_foreach (fb->message_list, enumerate_msg, uids);
-	else
-		g_ptr_array_add (uids, g_strdup (fb->message_list->cursor_uid));
-	
-	gtk_signal_connect (GTK_OBJECT (composer), "send",
-			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (composer), "postpone",
-			    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
-	
-	mail_do_forward_message (cursor_msg,
-				 fb->message_list->folder,
-				 uids, composer, attach);
+	composer = e_msg_composer_new_with_sig_file(id?id->sig:NULL, mail_config_send_html());
+	if (composer) {
+		gtk_signal_connect (GTK_OBJECT (composer), "send",
+				    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+		gtk_signal_connect (GTK_OBJECT (composer), "postpone",
+				    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
+		e_msg_composer_set_headers(composer, NULL, NULL, NULL, subject);
+	} else {
+		g_warning("Could not create composer");
+	}
+
+	return composer;
+}
+
+static void
+do_forward_inline(CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
+{
+	char *subject;
+	char *text;
+
+	if (message) {
+		subject = mail_tool_generate_forward_subject(message);
+		text = mail_tool_quote_message (message, _("Forwarded message:\n"));
+
+		if (text) {
+			EMsgComposer *composer = forward_get_composer(subject);
+			if (composer) {
+				e_msg_composer_set_body_text(composer, text);
+				gtk_widget_show((GtkWidget *)composer);
+			}
+			g_free(text);
+		}
+
+		g_free(subject);
+	}
+}
+
+static void
+do_forward_attach(CamelFolder *folder, GPtrArray *messages, CamelMimePart *part, char *subject, void *data)
+{
+	if (part) {
+		EMsgComposer *composer = forward_get_composer(subject);
+		if (composer) {
+			e_msg_composer_attach(composer, part);
+			gtk_widget_show((GtkWidget *)composer);
+		}
+	}
+}
+
+void
+forward_messages(CamelFolder *folder, GPtrArray *uids, int doinline)
+{
+	if (doinline && uids->len == 1) {
+		mail_get_message(folder, uids->pdata[0], do_forward_inline, NULL, mail_thread_new);
+	} else {
+		mail_build_attachment(folder, uids, do_forward_attach, NULL);
+	}
 }
 
 void
 forward_inlined (GtkWidget *widget, gpointer user_data)
 {
-	forward_message (FOLDER_BROWSER (user_data), FALSE);
+	GPtrArray *uids;
+	FolderBrowser *fb = (FolderBrowser *)user_data;
+
+	if (!check_send_configuration (fb))
+		return;
+
+	uids = g_ptr_array_new();
+	g_ptr_array_add(uids, g_strdup (fb->message_list->cursor_uid));
+	forward_messages(fb->message_list->folder, uids, TRUE);
 }
 
 void
 forward_attached (GtkWidget *widget, gpointer user_data)
 {
-	forward_message (FOLDER_BROWSER (user_data), TRUE);
+	GPtrArray *uids;
+	FolderBrowser *fb = (FolderBrowser *)user_data;
+
+	if (!check_send_configuration (fb))
+		return;
+
+	uids = g_ptr_array_new();
+	message_list_foreach(fb->message_list, enumerate_msg, uids);
+	forward_messages(fb->message_list->folder, uids, FALSE);
 }
 
 static void

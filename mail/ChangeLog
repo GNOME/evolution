@@ -1,3 +1,31 @@
+2001-01-03  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-view.c (view_forward_msg): Call
+	mail-callbacks.c:forward_messages(), so the behaviour is the same
+	as from the folder browser.
+
+	* mail-callbacks.c (forward_messages): New function to forward
+	messages, attached or not.
+	(forward_inlined): Changed to use new forward-messages
+	implementation.
+	(forward_attached): Likewise.
+	(do_forward_attach): Callback for forwarding as attachment, once
+	we have built it.
+	(do_forward_inline): Likewise, for inline, once we have retrieved
+	the message.
+	(forward_message): Removed.
+
+	* mail-ops.c (mail_build_attachment): New function to build an
+	attachment of messages.
+	(mail_do_attach_message): Removed, functionality superceeded by
+	above.
+	(mail_do_forward_message): Removed.  Likewise.
+	(mail_create_folder): Started work on an alternative
+	implementation of create_folder, but not sure about it yet.
+
+	* mail-tools.c (mail_tool_generate_forward_subject): Remove locking.
+	(mail_tool_make_message_attachment): Free the description when done.
+
 2001-01-03  Radek Doulik  <rodo@helixcode.com>
 
 	* mail-format.c (write_headers): add font color setting for table,
