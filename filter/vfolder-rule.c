@@ -380,67 +380,71 @@ get_widget(FilterRule *fr, struct _RuleContext *f)
 	struct _source_data *data;
 	int i, row;
 	GList *l;
-
-        widget = ((FilterRuleClass *)(parent_class))->get_widget(fr, f);
-
-	data = g_malloc0(sizeof(*data));
+	
+        widget = ((FilterRuleClass *)(parent_class))->get_widget (fr, f);
+	
+	data = g_malloc0 (sizeof (*data));
 	data->f = f;
 	data->vr = vr;
-
-	gui = glade_xml_new(FILTER_GLADEDIR "/filter.glade", "vfolder_source_frame");
+	
+	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "vfolder_source_frame");
         frame = glade_xml_get_widget (gui, "vfolder_source_frame");
 
-	gtk_object_set_data_full((GtkObject *)frame, "data", data, g_free);
-
-	for (i=0;i<BUTTON_LAST;i++) {
+	gtk_object_set_data_full (GTK_OBJECT (frame), "data", data, g_free);
+	
+	for (i = 0; i < BUTTON_LAST; i++) {
 		data->buttons[i] = (GtkButton *)w = glade_xml_get_widget (gui, edit_buttons[i].name);
-		gtk_signal_connect((GtkObject *)w, "clicked", edit_buttons[i].func, data);
+		gtk_signal_connect (GTK_OBJECT (w), "clicked", edit_buttons[i].func, data);
 	}
-
+	
         w = glade_xml_get_widget (gui, "source_list");
 	data->list = (GtkList *)w;
 	l = NULL;
 	source = NULL;
-	while ((source = vfolder_rule_next_source(vr, source))) {
+	while ((source = vfolder_rule_next_source (vr, source))) {
 		GtkListItem *item;
-		gchar *s = e_utf8_to_gtk_string ((GtkWidget *) data->list, source);
+		
+		gchar *s = e_utf8_to_gtk_string (GTK_WIDGET (data->list), source);
 		item = (GtkListItem *)gtk_list_item_new_with_label (s);
 		g_free (s);
-		gtk_object_set_data((GtkObject *)item, "source", (void *)source);
-		gtk_widget_show((GtkWidget *)item);
-		l = g_list_append(l, item);
+		gtk_object_set_data (GTK_OBJECT (item), "source", (void *)source);
+		gtk_widget_show (GTK_WIDGET (item));
+		l = g_list_append (l, item);
 	}
-	gtk_list_append_items(data->list, l);
-	gtk_signal_connect((GtkObject *)w, "select_child", select_source, data);
-
+	gtk_list_append_items (data->list, l);
+	gtk_signal_connect (GTK_OBJECT (w), "select_child", select_source, data);
+	
         w = glade_xml_get_widget (gui, "source_option");
 	l = GTK_MENU_SHELL (GTK_OPTION_MENU (w)->menu)->children;
 	i = 0;
 	row = 0;
 	while (l) {
 		GtkWidget *b = GTK_WIDGET (l->data);
-
+		
 		/* make sure that the glade is in sync with the source list! */
 		if (i < sizeof (source_names) / sizeof (source_names[0])) {
 			gtk_object_set_data (GTK_OBJECT (b), "source", (char *)source_names[i]);
-			if (fr->source && strcmp(source_names[i], fr->source) == 0) {
+			if (fr->source && strcmp (source_names[i], fr->source) == 0) {
 				row = i;
 			}
 		} else {
-			g_warning("Glade file " FILTER_GLADEDIR "/filter.glade out of sync with editor code");
+			g_warning ("Glade file " FILTER_GLADEDIR "/filter.glade out of sync with editor code");
 		}
 		gtk_signal_connect (GTK_OBJECT (b), "activate", select_source_with, data);
 		
 		i++;
 		l = l->next;
 	}
-
-	gtk_option_menu_set_history(GTK_OPTION_MENU(w), row);
+	
+	gtk_option_menu_set_history (GTK_OPTION_MENU (w), row);
 	if (fr->source == NULL)
 		filter_rule_set_source (fr, (char *)source_names[row]);
-
-	set_sensitive(data);
-
-	gtk_box_pack_start(GTK_BOX(widget), frame, TRUE, TRUE, 3);
+	
+	set_sensitive (data);
+	
+	gtk_box_pack_start (GTK_BOX (widget), frame, TRUE, TRUE, 3);
+	
+	gtk_object_unref (GTK_OBJECT (gui));
+	
 	return widget;
 }

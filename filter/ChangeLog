@@ -1,3 +1,11 @@
+2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* rule-context.c (rule_context_add_rule_gui): No need to
+	gtk_widget_show() the gnome dialog widget twice...
+
+	* vfolder-rule.c (get_widget): Unref the glade_xml gui object
+	before returning.
+
 2001-08-08  Radek Doulik  <rodo@ximian.com>
 
 	* filter-folder.c (button_clicked): don't mix g_free and xmlAlloc
