@@ -1,3 +1,11 @@
+2003-04-08  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #40894
+	
+	* gui/gnome-cal.c
+	(gnome_calendar_on_date_navigator_selection_changed): update the
+	selection for all view types
+
 2003-04-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/dialogs/alarm-options.c: Remove button_ok, button_cancel,
