@@ -1,8 +1,18 @@
+2001-07-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* backend/ebook/e-destination.c (e_destination_importv): Optimized
+	the same way I optimized g_strsplit. If you use a GPtrArray
+	instead of a linked list, you save yourself from having to iterate
+	through the list an extra 3 times.
+	(e_destination_xml_decode): Do NOT, I repeat: do NOT!
+	e_utf8_xml1_decode something which is already in UTF-8 or you'll
+	corrupt it!! I smack thee who hath done this evil deed!
+
 2001-07-12  Iain Holmes  <iain@ximian.com>
 
-	* backend/e-book/evolution-vcard-importer.c (support_format_fn): Check
-	for no extension. Actually same as Jason's fix below :) but also check
-	the file contents.
+	* backend/e-book/evolution-vcard-importer.c (support_format_fn):
+	Check for no extension. Actually same as Jason's fix below :) but
+	also check the file contents.
 
 2001-07-12  JP Rosevear  <jpr@ximian.com>
 

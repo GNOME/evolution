@@ -489,47 +489,43 @@ const gchar *
 e_destination_get_address (const EDestination *dest)
 {
 	struct _EDestinationPrivate *priv;
-		
+	
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
-
+	
 	priv = (struct _EDestinationPrivate *)dest->priv; /* cast out const */
 	
 	if (priv->addr == NULL) {
-
 		if (e_destination_is_evolution_list (dest)) {
-
 			gchar **strv = g_new0 (gchar *, g_list_length (priv->list_dests) + 1);
 			gint i = 0;
 			GList *iter = dest->priv->list_dests;
-
+			
 			while (iter) {
 				EDestination *list_dest = E_DESTINATION (iter->data);
-				if (! e_destination_is_empty (list_dest)) {
-					strv[i] = (gchar *) e_destination_get_address (list_dest);
-					++i;
+				if (!e_destination_is_empty (list_dest)) {
+					strv[i++] = (gchar *) e_destination_get_address (list_dest);
 				}
 				iter = g_list_next (iter);
 			}
-
+			
 			priv->addr = g_strjoinv (", ", strv);
-
+			
 			g_message ("List address is [%s]", priv->addr);
-
+			
 			g_free (strv);
-
 		} else {
-
 			const gchar *name     = e_destination_get_name (dest);
 			const gchar *email    = e_destination_get_email (dest);
-		
-			if (email) { /* If this isn't set, we return NULL */
-						
+			
+			/* If this isn't set, we return NULL */
+			if (email) {
 				if (name) {
-
-					gchar *lt = strchr (name, '<');
+					/* uhm, yea... this'll work. NOT!!! */
+					/* what about ','? or any of the other chars that require quoting?? */
+					const gchar *lt = strchr (name, '<');
 					gchar *namecpy = lt ? g_strndup (name, lt-name) : g_strdup (name);
 					gboolean needs_quotes = (strchr (namecpy, '.') != NULL);
-
+					
 					g_strstrip (namecpy);
 					
 					priv->addr = g_strdup_printf ("%s%s%s <%s>",
@@ -538,18 +534,12 @@ e_destination_get_address (const EDestination *dest)
 								      needs_quotes ? "\"" : "",
 								      email);
 					g_free (namecpy);
-				
 				} else {
-					
 					priv->addr = g_strdup (email);
-					
 				}
-
 			} else {
-				
 				/* Just use the name, which is the best we can do. */
 				priv->addr = g_strdup (name);
-
 			}
 		}
 	}
@@ -616,26 +606,29 @@ e_destination_get_address_textv (EDestination **destv)
 	gint i, j, len = 0;
 	gchar **strv;
 	gchar *str;
+	
 	g_return_val_if_fail (destv, NULL);
 
+	/* FIXME: please tell me this is only for assertion
+           reasons. If this is considered to be ok behavior then you
+           shouldn't use g_return's. Just a reminder ;-) */
 	while (destv[len]) {
 		g_return_val_if_fail (E_IS_DESTINATION (destv[len]), NULL);
 		++len;
 	}
-
+	
 	strv = g_new0 (gchar *, len+1);
-	for (i = 0, j = 0; destv[i]; ++i) {
-
-		if (! e_destination_is_empty (destv[i])) {
+	for (i = 0, j = 0; destv[i]; i++) {
+		if (!e_destination_is_empty (destv[i])) {
 			const gchar *addr = e_destination_get_address (destv[i]);
 			strv[j++] = addr ? (gchar *) addr : "";
 		}
 	}
-
+	
 	str = g_strjoinv (", ", strv);
-
+	
 	g_free (strv);
-
+	
 	return str;
 }
 
@@ -654,14 +647,12 @@ e_destination_xml_encode (const EDestination *dest)
 		xmlNewTextChild (dest_node, NULL, "name", str);
 
 	if (! e_destination_is_evolution_list (dest)) {
-
 		str = e_destination_get_email (dest);
 		if (str)
 			xmlNewTextChild (dest_node, NULL, "email", str);
-
 	} else {
-
 		GList *iter = dest->priv->list_dests;
+		
 		while (iter) {
 			EDestination *list_dest = E_DESTINATION (iter->data);
 			xmlNodePtr list_node = xmlNewNode (NULL, "list_entry");
@@ -704,97 +695,82 @@ e_destination_xml_decode (EDestination *dest, xmlNodePtr node)
 	gboolean is_list = FALSE;
 	gchar *tmp;
 	GList *list_dests = NULL;
-
+	
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), FALSE);
 	g_return_val_if_fail (node != NULL, FALSE);
-
+	
 	if (strcmp (node->name, "destination"))
 		return FALSE;
-
+	
 	tmp = xmlGetProp (node, "html_mail");
 	if (tmp) {
 		html_mail = !strcmp (tmp, "yes");
 		xmlFree (tmp);
 	}
-
+	
 	tmp = xmlGetProp (node, "is_list");
 	if (tmp) {
 		is_list = !strcmp (tmp, "yes");
 		xmlFree (tmp);
 	}
-
+	
 	node = node->xmlChildrenNode;
 	while (node) {
-
 		if (!strcmp (node->name, "name")) {
-			
 			tmp = xmlNodeGetContent (node);
 			g_free (name);
-			name = e_utf8_xml1_decode (tmp);
+			name = g_strdup (tmp);
 			xmlFree (tmp);
-
 		} else if (!is_list && !strcmp (node->name, "email")) {
-
 			tmp = xmlNodeGetContent (node);
 			g_free (email);
-			email = e_utf8_xml1_decode (tmp);
+			email = g_strdup (email);
 			xmlFree (tmp);
-
 		} else if (is_list && !strcmp (node->name, "list_entry")) {
-
 			xmlNodePtr subnode = node->xmlChildrenNode;
 			gchar *list_name = NULL, *list_email = NULL;
 			
 			while (subnode) {
-
 				if (!strcmp (subnode->name, "name")) {
-
 					tmp = xmlNodeGetContent (subnode);
 					g_free (list_name);
-					list_name = e_utf8_xml1_decode (tmp);
+					list_name = g_strdup (tmp);
 					xmlFree (tmp);
-
 				} else if (!strcmp (subnode->name, "email")) {
-					
 					tmp = xmlNodeGetContent (subnode);
 					g_free (list_email);
-					list_email = e_utf8_xml1_decode (tmp);
+					list_email = g_strdup (tmp);
 					xmlFree (tmp);
-
 				}
-
+				
 				subnode = subnode->next;
 			}
-
+			
 			if (list_name || list_email) {
 				EDestination *list_dest = e_destination_new ();
 				if (list_name)
 					e_destination_set_name (list_dest, list_name);
 				if (list_email)
 					e_destination_set_email (list_dest, list_email);
-
-				list_dests = g_list_append (list_dests, list_dest);
 				
+				list_dests = g_list_append (list_dests, list_dest);
 			}
-
 		} else if (!strcmp (node->name, "card_uri")) {
-
 			tmp = xmlNodeGetContent (node);
 			g_free (card_uri);
-			card_uri = e_utf8_xml1_decode (tmp);
+			card_uri = g_strdup (tmp);
 			xmlFree (tmp);
-
+			
 			tmp = xmlGetProp (node, "email_num");
 			email_num = atoi (tmp);
 			xmlFree (tmp);
-
 		}
-
+		
 		node = node->next;
 	}
-
+	
 	e_destination_clear (dest);
-
+	
 	if (name)
 		e_destination_set_name (dest, name);
 	if (email)
@@ -803,7 +779,7 @@ e_destination_xml_decode (EDestination *dest, xmlNodePtr node)
 		e_destination_set_card_uri (dest, card_uri, email_num);
 	if (list_dests)
 		dest->priv->list_dests = list_dests;
-
+	
 	return TRUE;
 }
 
@@ -928,53 +904,46 @@ e_destination_exportv (EDestination **destv)
 EDestination **
 e_destination_importv (const gchar *str)
 {
-	GList *dest_list = NULL, *iter;
+	GPtrArray *dest_array = NULL;
 	xmlDocPtr destv_doc;
 	xmlNodePtr node;
 	EDestination **destv = NULL;
-	gint N;
-
-	if (! (str && *str))
+	
+	if (!(str && *str))
 		return NULL;
-
+	
 	destv_doc = xmlParseMemory ((gchar *)str, strlen (str));
 	node = destv_doc->xmlRootNode;
-
+	
 	if (strcmp (node->name, "destinations"))
 		goto finished;
-
+	
 	node = node->xmlChildrenNode;
+	
+	dest_array = g_ptr_array_new ();
 	
 	while (node) {
 		EDestination *dest;
-
+		
 		dest = e_destination_new ();
 		if (e_destination_xml_decode (dest, node)) {
-			dest_list = g_list_prepend (dest_list, dest);
+			g_ptr_array_add (dest_array, dest);
 		} else {
 			gtk_object_unref (GTK_OBJECT (dest));
 		}
-
+		
 		node = node->next;
 	}
-
-	N = g_list_length (dest_list);
-	destv = g_new0 (EDestination *, N+1);
 	
-	/* We write the EDestinations into the list from back to front, to
-	   undo the reversal caused by using g_list_prepend instead of
-	   g_list_append. */
-	iter = dest_list;
-	while (iter != NULL) {
-		destv[N-1] = E_DESTINATION (iter->data);
-		iter = g_list_next (iter);
-		--N;
-	}
-
+	/* we need destv to be NULL terminated */
+	g_ptr_array_add (dest_array, NULL);
+	
+	destv = (EDestination **) dest_array->pdata;
+	g_ptr_array_free (dest_array, FALSE);
+	
  finished:
 	xmlFreeDoc (destv_doc);
-	g_list_free (dest_list);
-
+	
 	return destv;
 }
 
