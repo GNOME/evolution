@@ -115,6 +115,7 @@ struct _send_info {
 };
 
 static struct _send_data *send_data = NULL;
+static GtkWidget *send_recv_dialogue = NULL;
 
 static struct _send_data *setup_send_data(void)
 {
@@ -277,10 +278,9 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 	GtkHSeparator *line;
 	struct _send_info *info;
 	char *pretty_url; 
-	
-	data = setup_send_data ();
-	
-	gd = (GnomeDialog *)gnome_dialog_new (_("Send & Receive Mail"), NULL);
+		
+	gd = (GnomeDialog *)send_recv_dialogue = gnome_dialog_new (_("Send & Receive Mail"), NULL);
+	gtk_signal_connect((GtkObject *)gd, "destroy", gtk_widget_destroyed, &send_recv_dialogue);
 	gnome_dialog_append_button_with_pixmap (gd, _("Cancel All"), GNOME_STOCK_BUTTON_CANCEL);
 	
 	gtk_window_set_policy (GTK_WINDOW (gd), FALSE, FALSE, FALSE);  
@@ -288,6 +288,9 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 	
 	table = (GtkTable *)gtk_table_new (g_slist_length (sources), 4, FALSE);
        	gtk_box_pack_start (GTK_BOX (gd->vbox), GTK_WIDGET (table), TRUE, TRUE, 0);
+
+	/* must bet setup after send_recv_dialogue as it may re-trigger send-recv button */
+	data = setup_send_data ();
 	
 	row = 0;
 	while (sources) {
@@ -615,15 +618,15 @@ void mail_send_receive (void)
 {
 	GSList *sources;
 	GList *scan;
-	static GtkWidget *gd = NULL;
 	struct _send_data *data;
 	extern CamelFolder *outbox_folder;
 	const MailConfigAccount *account;
 
-	if (gd != NULL) {
-		g_assert(GTK_WIDGET_REALIZED(gd));
-		gdk_window_show(gd->window);
-		gdk_window_raise(gd->window);
+	if (send_recv_dialogue != NULL) {
+		if (GTK_WIDGET_REALIZED(send_recv_dialogue)) {
+			gdk_window_show(send_recv_dialogue->window);
+			gdk_window_raise(send_recv_dialogue->window);
+		}
 		return;
 	}
 
@@ -640,8 +643,6 @@ void mail_send_receive (void)
 	   smtp one. */
 	data = build_dialogue(sources, outbox_folder, account->transport->url);
 	scan = data->infos;
-	gd = GTK_WIDGET(data->gd);
-	gtk_signal_connect((GtkObject *)gd, "destroy", gtk_widget_destroyed, &gd);
 	while (scan) {
 		struct _send_info *info = scan->data;
 

@@ -1,3 +1,13 @@
+2001-10-18    <NotZed@Ximian.com>
+
+	* mail-send-recv.c (build_dialogue): call setup_send_data *after*
+	we've setup the global dialogue thingy.
+	(mail_send_receive): Instead of using static local to check for
+	re-running of dialogue, use a global, setup by build_dialogue.
+	These fix #12335.
+	(mail_send_receive): Dont assert dialogue is realized, it might
+	still be being built, so only show if it is realized.
+
 2001-10-18  Dan Winship  <danw@ximian.com>
 
 	* mail-mt.c (mail_call_main): Use G_VA_COPY to make this compile
