@@ -1,3 +1,18 @@
+2001-01-26  Not Zed  <NotZed@Ximian.com>
+
+	* message-list.c (build_tree): Define BROKEN_ETREE again, till we
+	get this stuff fixed better.
+
+2001-01-25  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c: Moved teh "sender contains" item to the end of
+	the list, so the gui doesn't suddenly change on everyone.  Fixed
+	the sender-contains search string to be a valid s-exp (ha, didn't
+	test it even once eh ettore?!)
+	(search_save): Dont have the sender contains as the default case
+	(which well, never gets called anyway), oops i guess i should've
+	reviewed the patch a little more.
+
 2001-01-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* folder-browser.c: Add a missing parenthesis to the "from

@@ -330,14 +330,6 @@ search_save (GtkWidget *w, FolderBrowser *fb)
 	default:
 		/* header or body contains */
 		index = ESB_BODY_SUBJECT_CONTAINS;
-	case ESB_SENDER_CONTAINS:
-		part = vfolder_create_part ("from");
-		filter_rule_add_part ((FilterRule *)rule, part);
-		element = filter_part_find_element (part, "from-type");
-		filter_option_set_current ((FilterOption *)element, "contains");
-		element = filter_part_find_element (part, "from");
-		filter_input_set_value ((FilterInput *)element, text);
-		break;
 	case ESB_BODY_CONTAINS:
 	case ESB_SUBJECT_CONTAINS:
 		if (index == ESB_BODY_SUBJECT_CONTAINS || index == ESB_BODY_CONTAINS) {
@@ -372,6 +364,14 @@ search_save (GtkWidget *w, FolderBrowser *fb)
 		element = filter_part_find_element (part, "subject-type");
 		filter_option_set_current ((FilterOption *)element, "not contains");
 		element = filter_part_find_element (part, "subject");
+		filter_input_set_value ((FilterInput *)element, text);
+		break;
+	case ESB_SENDER_CONTAINS:
+		part = vfolder_create_part ("from");
+		filter_rule_add_part ((FilterRule *)rule, part);
+		element = filter_part_find_element (part, "from-type");
+		filter_option_set_current ((FilterOption *)element, "contains");
+		element = filter_part_find_element (part, "from");
 		filter_input_set_value ((FilterInput *)element, text);
 		break;
 	}

@@ -1483,7 +1483,7 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 		e_tree_model_node_set_expanded(etm, ml->tree_root, TRUE);
 	}
 
-/*#define BROKEN_ETREE*/	/* avoid some broken code in etree(?) by not using the incremental update */
+#define BROKEN_ETREE	/* avoid some broken code in etree(?) by not using the incremental update */
 
 	top = e_tree_model_node_get_first_child(etm, ml->tree_root);
 #ifndef BROKEN_ETREE
