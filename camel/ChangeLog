@@ -1,3 +1,9 @@
+2000-11-28  Radek Doulik  <rodo@helixcode.com>
+
+	* providers/local/camel-local-summary.c
+	(local_summary_decode_x_evolution): add scan = scan->next; to
+	avoid infinite loop
+
 2000-11-27  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-command.c (imap_read_untagged): Make

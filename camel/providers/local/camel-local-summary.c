@@ -558,6 +558,7 @@ local_summary_decode_x_evolution(CamelLocalSummary *cls, const char *xev, CamelM
 				}
 				g_strfreev(tagv);
 			}
+			scan = scan->next;
 		}
 		header_param_list_free(params);
 	}
