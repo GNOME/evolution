@@ -1,3 +1,8 @@
+2000-07-12  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-scroll-frame.c: Tried rearranging the casts to try for a more
+	correct computation.
+
 2000-07-08  Dan Winship  <danw@helixcode.com>
 
 	* e-scroll-frame.c (e_scroll_frame_add): comment out true but

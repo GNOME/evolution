@@ -613,8 +613,8 @@ compute_relative_allocation (GtkWidget *widget, GtkAllocation *allocation)
 
 	allocation->x = GTK_CONTAINER (widget)->border_width;
 	allocation->y = GTK_CONTAINER (widget)->border_width;
-	allocation->width = MAX (1, (gint) widget->allocation.width - allocation->x * 2);
-	allocation->height = MAX (1, (gint) widget->allocation.height - allocation->y * 2);
+	allocation->width = MAX (1, ((gint)widget->allocation.width) - (gint) allocation->x * 2);
+	allocation->height = MAX (1, ((gint)widget->allocation.height) - (gint) allocation->y * 2);
 
 	if (priv->vsb_visible) {
 		GtkRequisition vsb_requisition;
@@ -625,8 +625,8 @@ compute_relative_allocation (GtkWidget *widget, GtkAllocation *allocation)
 		    || priv->frame_placement == GTK_CORNER_BOTTOM_RIGHT)
 			allocation->x += vsb_requisition.width + priv->sb_spacing;
 
-		allocation->width = MAX (1, ((gint) allocation->width
-					     - ((gint) vsb_requisition.width + priv->sb_spacing)));
+		allocation->width = MAX (1, ((gint) allocation->width)
+					     - (gint) (vsb_requisition.width + priv->sb_spacing));
 	}
 
 	if (priv->hsb_visible) {
@@ -638,8 +638,8 @@ compute_relative_allocation (GtkWidget *widget, GtkAllocation *allocation)
 		    || priv->frame_placement == GTK_CORNER_BOTTOM_RIGHT)
 			allocation->y += hsb_requisition.height + priv->sb_spacing;
 
-		allocation->height = MAX (1, ((gint) allocation->height
-					      - ((gint) hsb_requisition.height + priv->sb_spacing)));
+		allocation->height = MAX (1, ((gint) allocation->height)
+					      - (gint) (hsb_requisition.height + priv->sb_spacing));
 	}
 }
 
