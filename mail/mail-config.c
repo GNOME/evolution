@@ -78,7 +78,6 @@ typedef struct {
 	gboolean corrupt;
 	
 	GSList *accounts;
-	int default_account;
 	
 	GHashTable *threaded_hash;
 	GHashTable *preview_hash;
@@ -101,7 +100,6 @@ static guint config_write_timeout = 0;
 
 /* Prototypes */
 static void config_read (void);
-static void mail_config_set_default_account_num (int new_default);
 
 /* signatures */
 MailConfigSignature *
@@ -587,6 +585,42 @@ accounts_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointe
 	}
 }
 
+static void
+accounts_save (void)
+{
+	GSList *list, *tail, *n, *l;
+	char *xmlbuf;
+	
+	list = NULL;
+	tail = (GSList *) &list;
+	
+	l = config->accounts;
+	while (l != NULL) {
+		if ((xmlbuf = account_to_xml ((MailConfigAccount *) l->data))) {
+			n = g_slist_alloc ();
+			n->data = xmlbuf;
+			n->next = NULL;
+			
+			tail->next = n;
+			tail = n;
+		}
+		
+		l = l->next;
+	}
+	
+	gconf_client_set_list (config->gconf, "/apps/evolution/mail/accounts", GCONF_VALUE_STRING, list, NULL);
+	
+	l = list;
+	while (l != NULL) {
+		n = l->next;
+		g_free (l->data);
+		g_slist_free_1 (l);
+		l = n;
+	}
+	
+	gconf_client_suggest_sync (config->gconf, NULL);
+}
+
 /* Config struct routines */
 void
 mail_config_init (void)
@@ -762,53 +796,15 @@ config_read (void)
 	config_read_signatures ();
 	
 	accounts_changed (config->gconf, 0, NULL, NULL);
-	
-	default_num = gconf_client_get_int (config->gconf, "/apps/evolution/mail/default_account", NULL);
-	mail_config_set_default_account_num (default_num);
 }
 
 void
 mail_config_write (void)
 {
-	GSList *list, *l, *tail, *n;
-	int default_num, i;
-	char *xmlbuf;
-	
 	if (!config)
 		return;
 	
 	config_write_signatures ();
-	
-	/* Accounts */
-	default_num = mail_config_get_default_account_num ();
-	gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", default_num, NULL);
-	
-	list = NULL;
-	tail = (GSList *) &list;
-	
-	l = config->accounts;
-	while (l != NULL) {
-		if ((xmlbuf = account_to_xml ((MailConfigAccount *) l->data))) {
-			n = g_slist_alloc ();
-			n->data = xmlbuf;
-			n->next = NULL;
-			
-			tail->next = n;
-			tail = n;
-		}
-		
-		l = l->next;
-	}
-	
-	gconf_client_set_list (config->gconf, "/apps/evolution/mail/accounts", GCONF_VALUE_STRING, list, NULL);
-	
-	l = list;
-	while (l != NULL) {
-		n = l->next;
-		g_free (l->data);
-		g_slist_free_1 (l);
-		l = n;
-	}
 	
 	gconf_client_suggest_sync (config->gconf, NULL);
 }
@@ -1114,21 +1110,21 @@ const MailConfigAccount *
 mail_config_get_default_account (void)
 {
 	MailConfigAccount *account;
+	int index;
 	
-	if (config == NULL) {
+	if (config == NULL)
 		mail_config_init ();
-	}
 	
 	if (!config->accounts)
 		return NULL;
 	
-	account = g_slist_nth_data (config->accounts,
-				    config->default_account);
+	index = gconf_client_get_int (config->gconf, "/apps/evolution/mail/default_account", NULL);
+	account = g_slist_nth_data (config->accounts, index);
 	
 	/* Looks like we have no default, so make the first account
            the default */
 	if (account == NULL) {
-		mail_config_set_default_account_num (0);
+		gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", 0, NULL);
 		account = config->accounts->data;
 	}
 	
@@ -1254,26 +1250,32 @@ void
 mail_config_add_account (MailConfigAccount *account)
 {
 	config->accounts = g_slist_append (config->accounts, account);
+	
+	accounts_save ();
 }
 
 const GSList *
 mail_config_remove_account (MailConfigAccount *account)
 {
-	int index;
+	int index, cur;
 	
-	/* Removing the current default, so make the first account the
-           default */
+	cur = gconf_client_get_int (config->gconf, "/apps/evolution/mail/default_account", NULL);
+	
 	if (account == mail_config_get_default_account ()) {
-		config->default_account = 0;
+		/* the default account has been deleted, the new
+                   default becomes the first account in the list */
+		gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", 0, NULL);
 	} else {
 		/* adjust the default to make sure it points to the same one */
 		index = g_slist_index (config->accounts, account);
-		if (config->default_account > index)
-			config->default_account--;
+		if (cur > index)
+			gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", cur - 1, NULL);
 	}
 	
 	config->accounts = g_slist_remove (config->accounts, account);
 	account_destroy (account);
+	
+	accounts_save ();
 	
 	return config->accounts;
 }
@@ -1281,13 +1283,7 @@ mail_config_remove_account (MailConfigAccount *account)
 int
 mail_config_get_default_account_num (void)
 {
-	return config->default_account;
-}
-
-static void
-mail_config_set_default_account_num (int new_default)
-{
-	config->default_account = new_default;
+	return gconf_client_get_int (config->gconf, "/apps/evolution/mail/default_account", NULL);
 }
 
 void
@@ -1299,9 +1295,7 @@ mail_config_set_default_account (const MailConfigAccount *account)
 	if (index == -1)
 		return;
 	
-	config->default_account = index;
-	
-	return;
+	gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", index, NULL);
 }
 
 const MailConfigIdentity *
@@ -2028,11 +2022,11 @@ mail_config_signature_run_script (gchar *script)
 			filtered_stream = camel_stream_filter_new_with_stream (stream);
 			camel_object_unref (stream);
 			
-			/* FIXME: if the composer ever gets it's own charset setting, use that instead? */
-			charset = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
+			charset = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
 			charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8");
 			camel_stream_filter_add (filtered_stream, charenc);
 			camel_object_unref (charenc);
+			g_free (charset);
 			
 			camel_stream_write_to_stream ((CamelStream *) filtered_stream, (CamelStream *) memstream);
 			camel_object_unref (filtered_stream);

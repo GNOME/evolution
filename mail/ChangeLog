@@ -1,3 +1,12 @@
+2003-01-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_set_default_account): Save the
+	setting via gconf.
+	(mail_config_add_account): Immediately save the list of accounts.
+	(mail_config_remove_account): Same.
+	(mail_config_signature_run_script): g_free the charset value and
+	use the composer's charset rather than the display charset.
+
 2003-01-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (save_cursor_pos): Use gconf to get the paned

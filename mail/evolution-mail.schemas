@@ -477,6 +477,19 @@
     <!-- Account settings -->
 
     <schema>
+      <key>/schemas/apps/evolution/mail/default_account</key>
+      <applyto>/apps/evolution/mail/default_account</applyto>
+      <owner>evolution-mail</owner>
+      <type>long</type>
+      <locale name="C">
+         <short>Index of the default account</short>
+         <long>
+           Index of the default account.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/accounts</key>
       <applyto>/apps/evolution/mail/accounts</applyto>
       <owner>evolution-mail</owner>
