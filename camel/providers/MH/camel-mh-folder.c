@@ -22,6 +22,9 @@
  */
 
 #include "camel-mh-folder.h"
+#include "camel-mh-store.h"
+#include "gstring-util.h"
+
 
 static CamelFolderClass *parent_class=NULL;
 

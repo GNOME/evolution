@@ -92,6 +92,9 @@ typedef struct {
 	void  (*set_flag) (CamelMimeMessage *mime_message, GString *flag, gboolean value);
 	gboolean  (*get_flag) (CamelMimeMessage *mime_message, GString *flag);
 
+	void  (*set_message_number) (CamelMimeMessage *mime_message, guint number);
+	guint  (*get_message_number) (CamelMimeMessage *mime_message);
+
 } CamelMimeMessageClass;
 
 

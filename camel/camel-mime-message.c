@@ -461,5 +461,5 @@ _get_message_number (CamelMimeMessage *mime_message)
 guint
 get_message_number (CamelMimeMessage *mime_message)
 {
-	return CMM_CLASS (mime_message)->get_message_number;
+	return CMM_CLASS (mime_message)->get_message_number (mime_message);
 }
