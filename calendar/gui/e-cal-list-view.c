@@ -395,13 +395,9 @@ setup_e_table_cb (gpointer data)
 static void
 e_cal_list_view_update_query (ECalendarView *cal_list_view)
 {
-	e_calendar_view_set_status_message (E_CALENDAR_VIEW (cal_list_view), _("Searching"));
-
 	if (!E_CAL_LIST_VIEW (cal_list_view)->set_table_id)
 		E_CAL_LIST_VIEW (cal_list_view)->set_table_id =
 			g_idle_add (setup_e_table_cb, cal_list_view);
-
-	e_calendar_view_set_status_message (E_CALENDAR_VIEW (cal_list_view), NULL);
 }
 
 static void

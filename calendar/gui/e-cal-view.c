@@ -660,13 +660,9 @@ e_calendar_view_update_query (ECalendarView *cal_view)
 {
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	e_calendar_view_set_status_message (cal_view, _("Searching"));
-
 	if (E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->update_query) {
 		E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->update_query (cal_view);
 	}
-
-	e_calendar_view_set_status_message (cal_view, NULL);
 }
 
 void

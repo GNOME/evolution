@@ -1,3 +1,10 @@
+2004-01-28  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (update_query):
+	* gui/e-cal-list-view.c (e_cal_list_view_update_query):
+	* gui/e-cal-view.c (e_calendar_view_update_query): stop status bar
+	messages madness.
+
 2004-01-27  JP Rosevear <jpr@ximian.com>
 
 	* gui/calendar-component.c (delete_calendar_cb): use e_cal_remove
@@ -19,20 +26,20 @@
 	* gui/migration.c (migrate_ical_folder): add the source to the
 	group so it actually shows up
 
-2004-01-27  JP Rosevear <jpr@ximian.com>
+2004-01-26  JP Rosevear <jpr@ximian.com>
 
 	* gui/migration.c (migrate_calendars): get the source name with
 	out using freed memory
 	(migrate_tasks): ditto
 
-2004-01-27  Rodrigo Moya <rodrigo@ximian.com>
+2004-01-26  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #53338
 
 	* gui/dialogs/calendar-setup.c (dialog_to_source): set the relative
 	URI on the source for remote sources.
 
-2004-01-27  Rodrigo Moya <rodrigo@ximian.com>
+2004-01-26  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #52312
 

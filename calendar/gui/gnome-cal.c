@@ -583,8 +583,6 @@ update_query (GnomeCalendar *gcal)
 
 	e_calendar_item_clear_marks (priv->date_navigator->calitem);
 
-	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), _("Searching"));
-
 	/* free the previous queries */
 	for (l = priv->dn_queries; l != NULL; l = l->next) {
 		old_query = l->data;
@@ -603,7 +601,6 @@ update_query (GnomeCalendar *gcal)
 
 	real_sexp = adjust_e_cal_view_sexp (gcal, priv->sexp);
 	if (!real_sexp) {
-		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);
 		return; /* No time range is set, so don't start a query */
 	}
 
@@ -630,8 +627,6 @@ update_query (GnomeCalendar *gcal)
 	}
 
 	g_free (real_sexp);
-
-	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);
 }
 
 static void
