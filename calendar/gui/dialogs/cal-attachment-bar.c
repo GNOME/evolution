@@ -180,7 +180,7 @@ add_from_file (CalAttachmentBar *bar,
 	if (attachment) {
 		add_common (bar, attachment);
 	} else {
-		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)bar), "event-editor:no-attach",
+		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)bar), "mail-composer:no-attach",
 			    file_name, camel_exception_get_description(&ex), NULL);
 		camel_exception_clear (&ex);
 	}
