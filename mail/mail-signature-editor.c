@@ -45,6 +45,7 @@
 
 #define d(x) 
 
+#define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor:" GTKHTML_API_VERSION
 
 typedef struct _ESignatureEditor {
 	GtkWidget *win;
@@ -383,12 +384,12 @@ mail_signature_editor (ESignature *sig, GtkWindow *parent, gboolean is_new)
 	bonobo_ui_util_set_ui (component, PREFIX,
 			       EVOLUTION_UIDIR "/evolution-signature-editor.xml",
 			       "evolution-signature-editor", NULL);
-	
-	editor->control = bonobo_widget_new_control ("OAFIID:GNOME_GtkHTML_Editor:3.1",
+
+	editor->control = bonobo_widget_new_control (GNOME_GTKHTML_EDITOR_CONTROL_ID,
 						     bonobo_ui_component_get_container (component));
 	
 	if (editor->control == NULL) {
-		g_warning ("Cannot get 'OAFIID:GNOME_GtkHTML_Editor:3.1'.");
+		g_warning ("Cannot get '" GNOME_GTKHTML_EDITOR_CONTROL_ID "'.");
 		
 		destroy_editor (editor);
 		return;
