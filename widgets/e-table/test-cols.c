@@ -87,7 +87,7 @@ multi_cols_test (void)
 {
 	GtkWidget *canvas, *window;
 	ETableModel *e_table_model;
-	ETableHeader *e_table_header;
+	ETableHeader *e_table_header, *e_table_header_multiple;
 	ETableCol *col_0, *col_1;
 	ECell *cell_left_just, *cell_image_toggle;
 	int i;
@@ -122,13 +122,20 @@ multi_cols_test (void)
 		g_free (images);
 	} 
 					       
-	col_0 = e_table_col_new (0, "A", 48, 48, cell_image_toggle, g_int_equal, TRUE);
-	e_table_header_add_column (e_table_header, col_0, 0);
-
 	col_1 = e_table_col_new (1, "Item Name", 180, 20, cell_left_just, g_str_equal, TRUE);
-	e_table_header_add_column (e_table_header, col_1, 1);
+	e_table_header_add_column (e_table_header, col_1, 0);
 
+	col_0 = e_table_col_new (0, "A", 48, 48, cell_image_toggle, g_int_equal, TRUE);
+	e_table_header_add_column (e_table_header, col_0, 1);
 
+	/*
+	 * Second test
+	 */
+	e_table_header_multiple = e_table_header_new ();
+	e_table_header_add_column (e_table_header_multiple, col_0, 0);
+	e_table_header_add_column (e_table_header_multiple, col_1, 1);
+	e_table_header_add_column (e_table_header_multiple, col_1, 2);
+	
 	/*
 	 * GUI
 	 */
@@ -140,6 +147,7 @@ multi_cols_test (void)
 	
 	gtk_container_add (GTK_CONTAINER (window), canvas);
 	gtk_widget_show_all (window);
+
 	gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (canvas)),
 		e_table_header_item_get_type (),
@@ -160,6 +168,25 @@ multi_cols_test (void)
 		"spreadsheet", TRUE,
 		NULL);
 	
+	gnome_canvas_item_new (
+		gnome_canvas_root (GNOME_CANVAS (canvas)),
+		e_table_header_item_get_type (),
+		"ETableHeader", e_table_header_multiple,
+		"x",  300,
+		"y",  0,
+		NULL);
+	gnome_canvas_item_new (
+		gnome_canvas_root (GNOME_CANVAS (canvas)),
+		e_table_item_get_type (),
+		"ETableHeader", e_table_header_multiple,
+		"ETableModel", e_table_model,
+		"x",  300,
+		"y",  30,
+		"drawgrid", TRUE,
+		"drawfocus", TRUE,
+		"spreadsheet", TRUE,
+		NULL);
+
 }
 
 

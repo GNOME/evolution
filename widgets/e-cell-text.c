@@ -29,7 +29,7 @@ typedef struct {
 	/*
 	 * Where the editing is taking place
 	 */
-	int           col, row;
+	int           model_col, view_col, row;
 } CellEdit;
 
 typedef struct {
@@ -48,9 +48,9 @@ typedef struct {
 static ECellClass *parent_class;
 
 static void
-ect_queue_redraw (ECellTextView *text_view, int col, int row)
+ect_queue_redraw (ECellTextView *text_view, int view_col, int view_row)
 {
-	e_table_item_redraw_range (text_view->eti, col, row, col, row);
+	e_table_item_redraw_range (text_view->eti, view_col, view_row, view_col, view_row);
 }
 
 /*
@@ -62,7 +62,7 @@ ect_accept_edits (ECellTextView *text_view)
 	const char *text = gtk_entry_get_text (text_view->edit->entry);
 	CellEdit *edit = text_view->edit;
 	
-	e_table_model_set_value_at (text_view->eti->table_model, edit->col, edit->row, text);
+	e_table_model_set_value_at (text_view->eti->table_model, edit->model_col, edit->row, text);
 }
 
 /*
@@ -92,7 +92,7 @@ ect_stop_editing (ECellTextView *text_view)
 static void
 ect_cancel_edit (ECellTextView *text_view)
 {
-	ect_queue_redraw (text_view, text_view->edit->col, text_view->edit->row);
+	ect_queue_redraw (text_view, text_view->edit->view_col, text_view->edit->row);
 	ect_stop_editing (text_view);
 }
 
@@ -149,14 +149,14 @@ ect_unrealize (ECellView *ecv)
  */
 static void
 ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	  int col, int row, gboolean selected,
+	  int model_col, int view_col, int row, gboolean selected,
 	  int x1, int y1, int x2, int y2)
 {
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	GtkWidget *w = GTK_WIDGET (text_view->canvas);
 	GdkRectangle rect;
-	const char *str = e_table_model_value_at (ecell_view->ecell->table_model, col, row);
+	const char *str = e_table_model_value_at (ecell_view->ecell->table_model, model_col, row);
 	GdkFont *font = text_view->font;
 	const int height = font->ascent + font->descent;
 	int xoff;
@@ -168,7 +168,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	if (text_view->edit){
 		CellEdit *edit = text_view->edit;
 		
-		if ((edit->col == col) && (edit->row == row))
+		if ((edit->view_col == view_col) && (edit->row == row))
 			edit_display = TRUE;
 	}
 
@@ -312,7 +312,7 @@ ect_edit_select_all (ECellTextView *text_view)
  * ECell::event method
  */
 static gint
-ect_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
+ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	
@@ -327,7 +327,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
 		if (text_view->edit){
 			printf ("FIXME: Should handle click here\n");
 		} else 
-			e_table_item_enter_edit (text_view->eti, col, row);
+			e_table_item_enter_edit (text_view->eti, view_col, row);
 		break;
 
 	case GDK_BUTTON_RELEASE:
@@ -345,12 +345,12 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
 		}
 		
 		if (!text_view->edit){
-			e_table_item_enter_edit (text_view->eti, col, row);
+			e_table_item_enter_edit (text_view->eti, view_col, row);
 			ect_edit_select_all (text_view);
 		}
 
 		gtk_widget_event (GTK_WIDGET (text_view->edit->entry), event);
-		ect_queue_redraw (text_view, col, row);
+		ect_queue_redraw (text_view, view_col, row);
 		break;
 		
 	case GDK_KEY_RELEASE:
@@ -366,7 +366,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
  * ECell::height method
  */
 static int
-ect_height (ECellView *ecell_view, int col, int row)
+ect_height (ECellView *ecell_view, int model_col, int view_col, int row) 
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	
@@ -386,16 +386,17 @@ ect_entry_activate (GtkEntry *entry, ECellTextView *text_view)
  * ECellView::enter_edit method
  */
 static void *
-ect_enter_edit (ECellView *ecell_view, int col, int row)
+ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
-	const char *str = e_table_model_value_at (ecell_view->ecell->table_model, col, row);
+	const char *str = e_table_model_value_at (ecell_view->ecell->table_model, model_col, row);
 	CellEdit *edit;
 
 	edit = g_new (CellEdit, 1);
 	text_view->edit = edit;
 
-	edit->col = col;
+	edit->model_col = model_col;
+	edit->view_col = view_col;
 	edit->row = row;
 	
 	edit->entry = (GtkEntry *) gtk_entry_new ();
@@ -412,7 +413,7 @@ ect_enter_edit (ECellView *ecell_view, int col, int row)
 	gtk_widget_set_uposition (edit->entry_top, 20000, 20000);
 	gtk_widget_show_all (edit->entry_top);
 
-	ect_queue_redraw (text_view, col, row);
+	ect_queue_redraw (text_view, view_col, row);
 	
 	return NULL;
 }
@@ -421,7 +422,7 @@ ect_enter_edit (ECellView *ecell_view, int col, int row)
  * ECellView::leave_edit method
  */
 static void
-ect_leave_edit (ECellView *ecell_view, int col, int row, void *edit_context)
+ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 

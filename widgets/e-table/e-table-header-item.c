@@ -8,9 +8,18 @@
  */
 #include <config.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtkdnd.h>
+#include <libgnomeui/gnome-canvas.h>
+#include <libgnomeui/gnome-canvas-util.h>
+#include <libgnomeui/gnome-canvas-polygon.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include "e-table-header.h"
 #include "e-table-header-item.h"
+#include "e-table-col-dnd.h"
 #include "e-cursors.h"
+
+#include "add-col.xpm"
+#include "remove-col.xpm"
 
 /* Padding above and below of the string in the header display */
 #define PADDING 4
@@ -22,7 +31,16 @@
 
 #define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
 
+#define ELEMENTS(x) (sizeof (x) / sizeof (x[0]))
+
 static GnomeCanvasItemClass *ethi_parent_class;
+
+/*
+ * DnD icons
+ */
+static GdkColormap *dnd_colormap;
+static GdkPixmap *remove_col_pixmap, *remove_col_mask;
+static GdkPixmap *add_col_pixmap, *add_col_mask;
 
 enum {
 	ARG_0,
@@ -30,6 +48,14 @@ enum {
 	ARG_TABLE_X,
 	ARG_TABLE_Y,
 	ARG_TABLE_FONTSET
+};
+
+static GtkTargetEntry  ethi_drag_types [] = {
+	{ TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
+};
+
+static GtkTargetEntry  ethi_drop_types [] = {
+	{ TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
 };
 
 static void
@@ -151,6 +177,177 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	ethi_update (item, NULL, NULL, 0);
 }
 
+static int
+ethi_find_col_by_x (ETableHeaderItem *ethi, int x)
+{
+	const int cols = e_table_header_count (ethi->eth);
+	int x1 = ethi->x1;
+	int col;
+
+	if (x < x1)
+		return -1;
+	
+	for (col = 0; col < cols; col++){
+		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
+
+		if ((x >= x1) && (x <= x1 + ecol->width))
+			return col;
+
+		x1 += ecol->width;
+	}
+	return -1;
+}
+
+static void
+ethi_remove_drop_marker (ETableHeaderItem *ethi)
+{
+	if (ethi->drag_mark == -1)
+		return;
+	
+	ethi->drag_mark = -1;
+	gtk_object_destroy (GTK_OBJECT (ethi->drag_mark_item));
+	ethi->drag_mark_item = NULL;
+}
+
+static void
+ethi_add_drop_marker (ETableHeaderItem *ethi, int col)
+{
+	GnomeCanvasPoints *points;
+	int x;
+	
+	if (ethi->drag_mark == col)
+		return;
+
+	if (ethi->drag_mark_item)
+		gtk_object_destroy (GTK_OBJECT (ethi->drag_mark_item));		
+
+	ethi->drag_mark = col;
+	
+	ethi->drag_mark_item = gnome_canvas_item_new (
+		GNOME_CANVAS_GROUP (GNOME_CANVAS_ITEM (ethi)->canvas->root),
+		gnome_canvas_group_get_type (),
+		"x", 0,
+		"y", 0,
+		NULL);
+	
+	points = gnome_canvas_points_new (3);
+
+	x = e_table_header_col_diff (ethi->eth, 0, col);
+	
+	points->coords [0] = ethi->x1 + x - 5;
+	points->coords [1] = ethi->y1;
+	points->coords [2] = points->coords [0] + 10;
+	points->coords [3] = points->coords [1];
+	points->coords [4] = ethi->x1 + x;
+	points->coords [5] = ethi->y1 + 5;
+		
+	gnome_canvas_item_new (
+		GNOME_CANVAS_GROUP (ethi->drag_mark_item),
+		gnome_canvas_polygon_get_type (),
+		"points",     points,
+		"fill_color", "red",
+		NULL);
+
+	points->coords [0] --;
+	points->coords [1] += ethi->height - 1;
+	points->coords [3] = points->coords [1];
+	points->coords [5] = points->coords [1] - 6;
+	
+	gnome_canvas_item_new (
+		GNOME_CANVAS_GROUP (ethi->drag_mark_item),
+		gnome_canvas_polygon_get_type (),
+		"points",     points,
+		"fill_color", "red",
+		NULL);
+	
+	gnome_canvas_points_unref (points);
+}
+
+#define gray50_width    2
+#define gray50_height   2
+static char gray50_bits [] = {
+  0x02, 0x01, };
+
+static void
+ethi_add_destroy_marker (ETableHeaderItem *ethi)
+{
+	double x1;
+	
+	if (ethi->remove_item)
+		gtk_object_destroy (GTK_OBJECT (ethi->remove_item));
+
+	if (!ethi->stipple)
+		ethi->stipple = gdk_bitmap_create_from_data  (NULL, gray50_bits, gray50_width, gray50_height);
+	
+	x1 = ethi->x1 + (double) e_table_header_col_diff (ethi->eth, 0, ethi->drag_col);
+	ethi->remove_item = gnome_canvas_item_new (
+		GNOME_CANVAS_GROUP (GNOME_CANVAS_ITEM (ethi)->canvas->root),
+		gnome_canvas_rect_get_type (),
+		"x1", x1 + 1,
+		"y1", (double) ethi->y1 + 1,
+		"x2", (double) x1 + e_table_header_col_diff (ethi->eth, ethi->drag_col, ethi->drag_col+1) - 2,
+		"y2", (double) ethi->y1 + ethi->height - 2,
+		"fill_color", "red",
+		"fill_stipple", ethi->stipple,
+		NULL);
+}
+
+static void
+ethi_remove_destroy_marker (ETableHeaderItem *ethi)
+{
+	if (!ethi->remove_item)
+		return;
+	
+	gtk_object_destroy (GTK_OBJECT (ethi->remove_item));
+	ethi->remove_item = NULL;
+}
+
+static gboolean
+ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
+		  gint x, gint y, guint time,
+		  ETableHeaderItem *ethi)
+{
+	
+	if ((x >= ethi->x1) && (x <= (ethi->x1 + ethi->width)) &&
+	    (y >= ethi->y1) && (y <= (ethi->y1 + ethi->height))){
+		int col;
+
+		col = ethi_find_col_by_x (ethi, x);
+
+		if (col != -1){
+			ethi_remove_destroy_marker (ethi);
+			ethi_add_drop_marker (ethi, col);
+		} else {
+			ethi_remove_drop_marker (ethi);
+			ethi_add_destroy_marker (ethi);
+		}
+	} else {
+		ethi_remove_drop_marker (ethi);
+		ethi_add_destroy_marker (ethi);
+	}
+	
+	gdk_drag_status (context, context->suggested_action, time);
+
+	return TRUE;
+}
+
+static void
+ethi_drag_end (GtkWidget *canvas, GdkDragContext *context, ETableHeaderItem *ethi)
+{
+	printf ("Ending\n");
+	
+	ethi_remove_drop_marker (ethi);
+	ethi_remove_destroy_marker (ethi);
+	ethi->drag_col = -1;
+}
+
+static void
+ethi_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, ETableHeaderItem *ethi)
+{
+	ethi_remove_drop_marker (ethi);
+	ethi_add_destroy_marker (ethi);
+}
+
 static void
 ethi_realize (GnomeCanvasItem *item)
 {
@@ -171,19 +368,47 @@ ethi_realize (GnomeCanvasItem *item)
 
 	if (!ethi->font)
 		ethi_font_load (ethi, "fixed");
+
+	/*
+	 * Now, configure DnD
+	 */
+	gtk_drag_dest_set (GTK_WIDGET (item->canvas), GTK_DEST_DEFAULT_ALL,
+			   ethi_drop_types, ELEMENTS (ethi_drop_types),
+			   GDK_ACTION_MOVE);
+
+	ethi->drag_motion_id = gtk_signal_connect (
+		GTK_OBJECT (item->canvas), "drag_motion",
+		GTK_SIGNAL_FUNC (ethi_drag_motion), ethi);
+
+	ethi->drag_leave_id = gtk_signal_connect (
+		GTK_OBJECT (item->canvas), "drag_leave",
+		GTK_SIGNAL_FUNC (ethi_drag_leave), ethi);
+
+	ethi->drag_end_id = gtk_signal_connect (
+		GTK_OBJECT (item->canvas), "drag_end",
+		GTK_SIGNAL_FUNC (ethi_drag_end), ethi);
 }
 
 static void
 ethi_unrealize (GnomeCanvasItem *item)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
-	
+
 	gdk_gc_unref (ethi->gc);
 	ethi->gc = NULL;
 
 	gdk_cursor_destroy (ethi->normal_cursor);
 	ethi->normal_cursor = NULL;
 
+	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_motion_id);
+	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_end_id);
+	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_leave_id);
+
+	if (ethi->stipple){
+		gdk_bitmap_unref (ethi->stipple);
+		ethi->stipple = NULL;
+	}
+	
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->unrealize)(item);
 }
@@ -228,25 +453,21 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 }
 
 static void
-ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x1, int y1, int width, int height)
+ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
 	GnomeCanvas *canvas = item->canvas;
 	GdkGC *gc;
 	const int cols = e_table_header_count (ethi->eth);
-	int x2 = x1 + width;
-	int col, total;
-	int x;
-
-	total = 0;
-	x = -x1;
+	int x1, x2;
+	int col;
 
 #if 0
 	printf ("My coords are: %g %g %g %g\n",
 		item->x1, item->y1, item->x2, item->y2);
 #endif
-	
-	for (col = 0; col < cols; col++){
+	x1 = x2 = ethi->x1;
+	for (col = 0; col < cols; col++, x1 = x2){
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 		int col_width;
 
@@ -255,23 +476,19 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x1, int y1, int wid
 		else
 			col_width = ecol->width;
 				
-		if (x1 > total + col_width){
-			total += col_width;
-			x += col_width;
+		x2 += col_width;
+		
+		if (x1 > (x + width))
+			break;
+
+		if (x2 < x)
 			continue;
-		}
-
-		if (x2 < total)
-			return;
-
+		
 		gc = GTK_WIDGET (canvas)->style->bg_gc [GTK_STATE_ACTIVE];
 
 		draw_button (ethi, ecol, drawable, gc,
 			     GTK_WIDGET (canvas)->style,
-			     x, ethi->y1 - y1, col_width, ethi->height);
-
-		x += col_width;
-		total += col_width;
+			     x1 - x, ethi->y1 - y, col_width, ethi->height);
 	}
 }
 
@@ -356,6 +573,35 @@ ethi_end_resize (ETableHeaderItem *ethi, int new_size)
 	ethi_request_redraw (ethi);
 }
 
+static gboolean
+ethi_maybe_start_drag (ETableHeaderItem *ethi, GdkEventMotion *event)
+{
+	if (!ethi->maybe_drag)
+		return FALSE;
+
+	if (MAX (abs (ethi->click_x - event->x),
+		 abs (ethi->click_y - event->y)) <= 3)
+		return FALSE;
+
+	return TRUE;
+}
+
+static void
+ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
+{
+	GtkWidget *widget = GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas);
+	GtkTargetList *list;
+	GdkDragContext *context;
+
+	ethi->drag_col = ethi_find_col_by_x (ethi, event->motion.x);
+	if (ethi->drag_col == -1)
+		return;
+
+	list = gtk_target_list_new (ethi_drag_types, ELEMENTS (ethi_drag_types));
+	context = gtk_drag_begin (widget, list, GDK_ACTION_MOVE, 1, event);
+	ethi->maybe_drag = FALSE;
+}
+
 /*
  * Handles the events on the ETableHeaderItem, particularly it handles resizing
  */
@@ -405,6 +651,8 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			e_table_header_set_size (ethi->eth, ethi->resize_col, ethi->resize_width);
 
 			ethi_request_redraw (ethi);
+		} else if (ethi_maybe_start_drag (ethi, &e->motion)){
+			ethi_start_drag (ethi, e);
 		} else
 			set_cursor (ethi, x);
 		break;
@@ -430,6 +678,12 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			ethi->resize_width = ecol->width;
 			ethi->resize_start_pos = start - ecol->width;
 			ethi->resize_min_width = ecol->min_width;
+		} else {
+			if (e->button.button == 1){
+				ethi->click_x = e->button.x;
+				ethi->click_y = e->button.y;
+				ethi->maybe_drag = TRUE;
+			}
 		}
 		break;
 
@@ -439,8 +693,6 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		if (e->button.button != 1)
 			break;
-
-		printf ("Resize this guy\n");
 		break;
 		
 	case GDK_BUTTON_RELEASE: {
@@ -453,6 +705,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (needs_ungrab)
 			gnome_canvas_item_ungrab (item, e->button.time);
 
+		ethi->maybe_drag = FALSE;
 		break;
 	}
 	
@@ -487,6 +740,18 @@ ethi_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_TABLE_Y);
 	gtk_object_add_arg_type ("ETableHeaderItem::fontset", GTK_TYPE_STRING,
 				 GTK_ARG_WRITABLE, ARG_TABLE_FONTSET);
+
+	/*
+	 * Create our pixmaps for DnD
+	 */
+	dnd_colormap = gtk_widget_get_default_colormap ();
+	remove_col_pixmap = gdk_pixmap_colormap_create_from_xpm_d (
+		NULL, dnd_colormap,
+		&remove_col_mask, NULL, remove_col_xpm);
+
+	add_col_pixmap = gdk_pixmap_colormap_create_from_xpm_d (
+		NULL, dnd_colormap,
+		&add_col_mask, NULL, add_col_xpm);
 }
 
 static void
@@ -500,6 +765,9 @@ ethi_init (GnomeCanvasItem *item)
 	item->y1 = 0;
 	item->x2 = 0;
 	item->y2 = 0;
+
+	ethi->drag_col = -1;
+	ethi->drag_mark = -1;
 }
 
 GtkType

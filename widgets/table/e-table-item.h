@@ -27,6 +27,7 @@ typedef struct {
 	int              header_dim_change_id;
 	int              header_structure_change_id;
 	int              table_model_change_id;
+	int              table_model_row_change_id;
 	
 	GdkGC           *fill_gc;
 	GdkGC           *grid_gc;
@@ -36,6 +37,7 @@ typedef struct {
 	unsigned int     draw_grid:1;
 	unsigned int     draw_focus:1;
 	unsigned int     mode_spreadsheet:1;
+	unsigned int     renderers_can_change_size:1;
 	
 	int              focused_col, focused_row;
 

@@ -34,6 +34,17 @@ typedef struct {
 	 * Ids
 	 */
 	int structure_change_id, dimension_change_id;
+
+	/*
+	 * For dragging columns
+	 */
+	guint            maybe_drag:1;
+	guint            dnd_ready:1;
+	int              click_x, click_y;
+	int              drag_col, drag_mark;
+	guint            drag_motion_id, drag_end_id, drag_leave_id;
+	GnomeCanvasItem *drag_mark_item, *remove_item;
+	GdkBitmap       *stipple;
 } ETableHeaderItem;
 
 typedef struct {

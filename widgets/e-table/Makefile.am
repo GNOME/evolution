@@ -51,5 +51,7 @@ table_test_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
 EXTRA_DIST =			\
 	sample.table		\
+	add-col.xpm		\
 	check-empty.xpm		\
-	check-filled.xpm
+	check-filled.xpm	\
+	remove-col.xpm

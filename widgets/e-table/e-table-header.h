@@ -55,6 +55,9 @@ void        e_table_header_set_size      (ETableHeader *eth, int idx, int size);
 void        e_table_header_set_selection (ETableHeader *eth,
 					  gboolean allow_selection);
 
+int         e_table_header_col_diff      (ETableHeader *eth,
+					  int start_col, int end_col);
+
 GList      *e_table_header_get_selected_indexes(ETableHeader *eth);
 
 

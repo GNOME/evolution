@@ -58,7 +58,16 @@ e_table_model_set_value_at (ETableModel *e_table_model, int col, int row, const 
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
-	return ETM_CLASS (e_table_model)->set_value_at (e_table_model, col, row, data);
+	ETM_CLASS (e_table_model)->set_value_at (e_table_model, col, row, data);
+
+	gtk_signal_emit (GTK_OBJECT (e_table_model),
+			 e_table_model_signals [MODEL_ROW_CHANGED], row);
+	gtk_signal_emit (GTK_OBJECT (e_table_model),
+			 e_table_model_signals [MODEL_CELL_CHANGED], col, row);
+
+	/*
+	 * Notice that "model_changed" is not emitted
+	 */
 }
 
 gboolean

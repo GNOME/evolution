@@ -18,8 +18,6 @@ static ETableModelClass *ets_parent_class;
 static void
 ets_class_init (GtkObjectClass *klass)
 {
-	ETableModelClass *table_class = (ETableModelClass *) klass;
-	
 	ets_parent_class = gtk_type_class (PARENT_TYPE);
 }
 

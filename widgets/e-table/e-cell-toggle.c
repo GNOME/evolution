@@ -29,9 +29,9 @@ typedef struct {
 static ECellClass *parent_class;
 
 static void
-etog_queue_redraw (ECellToggleView *text_view, int col, int row)
+etog_queue_redraw (ECellToggleView *text_view, int view_col, int view_row)
 {
-	e_table_item_redraw_range (text_view->eti, col, row, col, row);
+	e_table_item_redraw_range (text_view->eti, view_col, view_row, view_col, view_row);
 }
 
 /*
@@ -40,7 +40,6 @@ etog_queue_redraw (ECellToggleView *text_view, int col, int row)
 static ECellView *
 etog_realize (ECell *ecell, void *view)
 {
-	ECellToggle *eccb = E_CELL_TOGGLE (ecell);
 	ECellToggleView *toggle_view = g_new0 (ECellToggleView, 1);
 	ETableItem *eti = E_TABLE_ITEM (view);
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (eti)->canvas;
@@ -72,7 +71,7 @@ etog_unrealize (ECellView *ecv)
  */
 static void
 etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	  int col, int row, gboolean selected,
+	  int model_col, int view_col, int row, gboolean selected,
 	  int x1, int y1, int x2, int y2)
 {
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
@@ -80,9 +79,8 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	GdkPixbuf *image;
 	ArtPixBuf *art;
 	int x, y, width, height;
-	gboolean free_image;
 	const int value = GPOINTER_TO_INT (
-		e_table_model_value_at (ecell_view->ecell->table_model, col, row));
+		e_table_model_value_at (ecell_view->ecell->table_model, model_col, row));
 
 	if (value >= toggle->n_states){
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
@@ -166,7 +164,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 }
 
 static void
-etog_set_value (ECellToggleView *toggle_view, int col, int row, int value)
+etog_set_value (ECellToggleView *toggle_view, int model_col, int view_col, int row, int value)
 {
 	ECell *ecell = toggle_view->cell_view.ecell;
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell);
@@ -174,29 +172,28 @@ etog_set_value (ECellToggleView *toggle_view, int col, int row, int value)
 	if (value >= toggle->n_states)
 		value = 0;
 
-	e_table_model_set_value_at (ecell->table_model, col, row, GINT_TO_POINTER (value));
-	etog_queue_redraw (toggle_view, col, row);
+	e_table_model_set_value_at (ecell->table_model, model_col, row, GINT_TO_POINTER (value));
+	etog_queue_redraw (toggle_view, view_col, row);
 }
 
 /*
  * ECell::event method
  */
 static gint
-etog_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
+etog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row)
 {
-	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
-	void *_value = e_table_model_value_at (ecell_view->ecell->table_model, col, row);
+	void *_value = e_table_model_value_at (ecell_view->ecell->table_model, model_col, row);
 	const int value = GPOINTER_TO_INT (_value);
 	
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:
-		etog_set_value (toggle_view, col, row, value + 1);
+		etog_set_value (toggle_view, model_col, view_col, row, value + 1);
 		return TRUE;
 
 	case GDK_KEY_PRESS:
 		if (event->key.keyval == GDK_space){
-			etog_set_value (toggle_view, col, row, value + 1);
+			etog_set_value (toggle_view, model_col, view_col, row, value + 1);
 			return TRUE;
 		}
 		return FALSE;
@@ -211,7 +208,7 @@ etog_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
  * ECell::height method
  */
 static int
-etog_height (ECellView *ecell_view, int col, int row)
+etog_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
 

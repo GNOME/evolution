@@ -28,6 +28,12 @@ typedef struct {
 	/*
 	 * Signals
 	 */
+
+	/*
+	 * Major structural changes: model_changed
+	 * Changes only in a row: row_changed
+	 * Only changes in a cell: cell_changed
+	 */
 	void        (*model_changed)      (ETableModel *etm);
 	void        (*model_row_changed)  (ETableModel *etm, int row);
 	void        (*model_cell_changed) (ETableModel *etm, int col, int row);

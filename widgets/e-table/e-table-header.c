@@ -172,8 +172,6 @@ e_table_header_count (ETableHeader *eth)
 int
 e_table_header_index (ETableHeader *eth, int col)
 {
-	int i;
-	
 	g_return_val_if_fail (eth != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), -1);
 	g_return_val_if_fail (col < eth->col_count, -1);
@@ -315,4 +313,27 @@ e_table_header_set_size (ETableHeader *eth, int idx, int size)
 
 	eth->columns [idx]->width = size;
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE], idx);
+}
+
+int
+e_table_header_col_diff (ETableHeader *eth, int start_col, int end_col)
+{
+	int total, col;
+	
+	g_return_val_if_fail (eth != NULL, 0);
+	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
+
+	{
+		const int max_col = eth->col_count;
+		
+		total = 0;
+		for (col = start_col; col < end_col; col++){
+			
+			if (col == max_col)
+				break;
+			total += eth->columns [col]->width;
+		}
+	}
+
+	return total;
 }

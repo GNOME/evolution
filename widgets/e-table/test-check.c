@@ -90,7 +90,6 @@ check_test (void)
 	ETableHeader *e_table_header;
 	ETableCol *col_0, *col_1;
 	ECell *cell_left_just, *cell_image_check;
-	int i;
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());

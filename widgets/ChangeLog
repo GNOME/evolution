@@ -1,3 +1,36 @@
+1999-12-09  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-header.c (e_table_header_col_diff): fix this routine.
+
+1999-12-04  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-header-item.c (ethi_event): Started drag and drop
+	support. 
+
+	* e-table-item.c (eti_table_model_changed): The columns are
+	controled by the Header, not by the TableModel.
+
+	* e-table-header-item.c (ethi_draw): Fixed redraw logic to support
+	arbitrary header positioning.
+
+	* e-cell.h: Revamped e-cell interface.  We now provide the model
+	column and the view column to all methods (so that the methods can
+	talk to the view and to the model at the same time).
+
+	* e-table-item.c: Update to new API
+	* e-cell-test.c: Update to new API
+
+1999-12-03  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-cell.c (e_cell_class_init): Provide emtpy methods for
+	enter_edit, and leave_edit.
+
+	* e-table-item.c: Killed draw cell.
+	(eti_draw): Perform column mapping here.
+	(e_table_item_leave_edit): ditto.
+	(e_table_item_enter_edit): ditto.
+	(eti_event): ditto.
+
 1999-12-02  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-header.c (e_table_header_index): fixed api.

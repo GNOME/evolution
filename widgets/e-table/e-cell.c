@@ -25,30 +25,30 @@ ec_unrealize (ECellView *e_cell)
 
 static void
 ec_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	 int col, int row, gboolean selected,
+	 int model_col, int view_col, int row, gboolean selected,
 	 int x1, int y1, int x2, int y2)
 {
 	g_error ("e-cell-draw invoked\n");
 }
 
 static gint
-ec_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
+ec_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row)
 {
 	g_error ("e-cell-event invoked\n");
 	return 0;
 }
 
 static gint
-ec_height (ECellView *ecell_view, int col, int row)
+ec_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
 	g_error ("e-cell-event invoked\n");
 	return 0;
 }
 
 static void
-ec_focus (ECellView *ecell_view, int col, int row, int x1, int y1, int x2, int y2)
+ec_focus (ECellView *ecell_view, int model_col, int view_col, int row, int x1, int y1, int x2, int y2)
 {
-	ecell_view->focus_col = col;
+	ecell_view->focus_col = view_col; 
 	ecell_view->focus_row = row;
 	ecell_view->focus_x1 = x1;
 	ecell_view->focus_y1 = y1;
@@ -67,6 +67,17 @@ ec_unfocus (ECellView *ecell_view)
 	ecell_view->focus_y2 = -1;
 }
 
+static void *
+ec_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
+{
+	return NULL;
+}
+
+static void
+ec_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void *context)
+{
+}
+
 static void
 e_cell_class_init (GtkObjectClass *object_class)
 {
@@ -79,22 +90,23 @@ e_cell_class_init (GtkObjectClass *object_class)
 	ecc->focus = ec_focus;
 	ecc->unfocus = ec_unfocus;
 	ecc->height = ec_height;
+	ecc->enter_edit = ec_enter_edit;
+	ecc->leave_edit = ec_leave_edit;
 }
 
 static void
 e_cell_init (GtkObject *object)
 {
-	ECell *e_cell = E_CELL (object);
 }
 
 E_MAKE_TYPE(e_cell, "ECell", ECell, e_cell_class_init, e_cell_init, PARENT_TYPE);
 
 	
 void
-e_cell_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
+e_cell_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row)
 {
 	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->event (
-		ecell_view, event, col, row);
+		ecell_view, event, model_col, view_col, row);
 }
 
 ECellView *
@@ -112,29 +124,29 @@ e_cell_unrealize (ECellView *ecell_view)
 	
 void
 e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	     int col, int row, gboolean selected, int x1, int y1, int x2, int y2)
+	     int model_col, int view_col, int row, gboolean selected, int x1, int y1, int x2, int y2)
 {
 	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->draw (
-		ecell_view, drawable, col, row, selected, x1, y1, x2, y2);
+		ecell_view, drawable, model_col, view_col, row, selected, x1, y1, x2, y2);
 }
 
 int
-e_cell_height (ECellView *ecell_view, int col, int row)
+e_cell_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
 	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->height (
-		ecell_view, col, row);
+		ecell_view, model_col, view_col, row);
 }
 
 void *
-e_cell_enter_edit (ECellView *ecell_view, int col, int row)
+e_cell_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 {
 	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->enter_edit (
-		ecell_view, col, row);
+		ecell_view, model_col, view_col, row);
 }
 
 void
-e_cell_leave_edit (ECellView *ecell_view, int col, int row, void *edit_context)
+e_cell_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context)
 {
 	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->leave_edit (
-		ecell_view, col, row, edit_context);
+		ecell_view, model_col, view_col, row, edit_context);
 }
