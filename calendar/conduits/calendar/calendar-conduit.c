@@ -1594,7 +1594,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	    ECalConduitContext *ctxt)
 {
 	CalComponent *comp;
-	const char *uid;
+	char *uid;
 	int retval = 0;
 	
 	g_return_val_if_fail (remote != NULL, -1);
@@ -1602,10 +1602,15 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	LOG ("add_record: adding %s to desktop\n", print_remote (remote));
 
 	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->timezone);
-	update_comp (conduit, comp, ctxt);
 
-	cal_component_get_uid (comp, &uid);
+	/* Give it a new UID otherwise it will be the uid of the default comp */
+	uid = cal_component_gen_uid ();
+	cal_component_set_uid (comp, uid);
+
+	update_comp (conduit, comp, ctxt);
 	e_pilot_map_insert (ctxt->map, remote->ID, uid, FALSE);
+
+	g_free (uid);	
 
 	gtk_object_unref (GTK_OBJECT (comp));
 	

@@ -1,3 +1,10 @@
+2003-01-27  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/todo/todo-conduit.c (add_record): make sure to create a
+	unique uid for the record
+
+	* conduits/calendar/calendar-conduit.c (add_record): ditto
+
 2003-01-24  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/todo/todo-conduit.c (e_todo_context_new): init default
